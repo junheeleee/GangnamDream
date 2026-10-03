@@ -6335,6 +6335,206 @@
           "batch_id": "d5191e5b1a91f9e6b224788aa47ac3233ef0e0e34b074930a38ce11535e7ec3b"
         }
       }
+    },
+    {
+      "order": "ORDER-400",
+      "group": "ui",
+      "roots": [
+        "사람 · 관계",
+        "인맥·휴식",
+        "전화드리기",
+        "전화하기",
+        "전화 걸어보기",
+        "한 잔 하기",
+        "만나기",
+        "안부 묻기",
+        "닿지 않음",
+        "선물로 마음을 전한다",
+        "%d주 뒤에 다시 선물할 수 있다",
+        "선물하기",
+        "인맥 넓히기",
+        "모르는 사람들 사이로 섞인다",
+        "VIP 인맥",
+        "더 높은 곳의 사람들을 만난다"
+      ],
+      "source_leaves": 16,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 16,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct people-menu contact, gift, rest and relationship guidance. Independent full source comparison; existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "a08aca10a0b67a3a742993c75302fc95107de084b0f067624683e62f3e44cd2f"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "28b3ebb9d96596f8bfc59bac4c9d7fd8605dc7ad",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "22cbbeb2b84f05223c42b2d329e414f96dcb5822986e484ff028c6a43b7d4c11",
+          "selection_sha256": "a489acbaae333b662c8d367f8a7904d15ae32542efc3d835b801bebee8e4d33e",
+          "count": 16,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2431b2fbb305b320a52e8251c81170a480d9d63ed18473ef8e8ce950e0b42d9e"
+        }
+      }
+    },
+    {
+      "order": "ORDER-400",
+      "group": "ui",
+      "roots": [
+        "사람 · 관계",
+        "인맥·휴식",
+        "전화드리기",
+        "전화하기",
+        "전화 걸어보기",
+        "한 잔 하기",
+        "만나기",
+        "안부 묻기",
+        "닿지 않음",
+        "선물로 마음을 전한다",
+        "%d주 뒤에 다시 선물할 수 있다",
+        "선물하기",
+        "인맥 넓히기",
+        "모르는 사람들 사이로 섞인다",
+        "VIP 인맥",
+        "더 높은 곳의 사람들을 만난다"
+      ],
+      "source_leaves": 16,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 16
+      },
+      "source_review": "Korean-direct people-menu contact, gift, rest and relationship guidance. Independent full source comparison; existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "58f58d15273fd730611cfb0f62594aa953ef434ca4fdb513489b0047348d4b1b"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "28b3ebb9d96596f8bfc59bac4c9d7fd8605dc7ad",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "22cbbeb2b84f05223c42b2d329e414f96dcb5822986e484ff028c6a43b7d4c11",
+          "selection_sha256": "58bfe4dc7baff92a51336145b0e444283ac314c816276d9abafdef57c8c7697a",
+          "count": 16,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "31e9ac3325b659e3c5e718be7eac29bf69b218b334a6bdfce8984befe6707ab2"
+        }
+      }
+    },
+    {
+      "order": "ORDER-400",
+      "group": "ui",
+      "roots": [
+        "자유시간",
+        "한강을 걷거나 그냥 쉰다",
+        "만난 사람",
+        "행동력",
+        "곁에 있는 사람을 챙긴다",
+        "새 인맥과 회복 행동",
+        "아직 연락할 사람이 없습니다.",
+        "행동 없음",
+        "[b]패드[/b]  LB/RB 페이지 · ↑↓ 행동 · %s 선택 · %s 뒤로  —  %s",
+        "%s와의 대화가 더 미뤄지고 있다.",
+        "혼자 강남에 가는 사람은 없다.",
+        "끊어지기 직전",
+        "멀어지는 중",
+        "알아가는 중",
+        "서먹한 편",
+        "아직 낯선"
+      ],
+      "source_leaves": 16,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 16,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct people-menu contact, gift, rest and relationship guidance. Independent full source comparison; existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "673c2bbcbcedd1a4ec843bd8a17c7381aac6bd49cdfcf349a787cea3ed3f21ad"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "28b3ebb9d96596f8bfc59bac4c9d7fd8605dc7ad",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "22cbbeb2b84f05223c42b2d329e414f96dcb5822986e484ff028c6a43b7d4c11",
+          "selection_sha256": "b205390ad125ad24250d1ca8969eb6d50c269838c807cdde26b951ecb27e9b73",
+          "count": 16,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "5c90974d6b1983afc653ddbb8b93beb8a3101634b62e08fe4c0ddd3a5d70ec9b"
+        }
+      }
+    },
+    {
+      "order": "ORDER-400",
+      "group": "ui",
+      "roots": [
+        "자유시간",
+        "한강을 걷거나 그냥 쉰다",
+        "만난 사람",
+        "행동력",
+        "곁에 있는 사람을 챙긴다",
+        "새 인맥과 회복 행동",
+        "아직 연락할 사람이 없습니다.",
+        "행동 없음",
+        "[b]패드[/b]  LB/RB 페이지 · ↑↓ 행동 · %s 선택 · %s 뒤로  —  %s",
+        "%s와의 대화가 더 미뤄지고 있다.",
+        "혼자 강남에 가는 사람은 없다.",
+        "끊어지기 직전",
+        "멀어지는 중",
+        "알아가는 중",
+        "서먹한 편",
+        "아직 낯선"
+      ],
+      "source_leaves": 16,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 16
+      },
+      "source_review": "Korean-direct people-menu contact, gift, rest and relationship guidance. Independent full source comparison; existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "52c1c6649817bbd846c87ca3046521d214cf47de2b5531e474f30ec2422b24da"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "28b3ebb9d96596f8bfc59bac4c9d7fd8605dc7ad",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "22cbbeb2b84f05223c42b2d329e414f96dcb5822986e484ff028c6a43b7d4c11",
+          "selection_sha256": "4860c1bee9a01974aad9afff013436ffd7434d3ae89434297a31bb46b4974ef7",
+          "count": 16,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7142d53d7841de2e1022c9382f944a461c0d6aa0e0f61c1bff5da46295f2d424"
+        }
+      }
     }
   ],
   "accepted": {
@@ -114572,6 +114772,134 @@
       "ui:거래 불가:/거래 불가": {
         "source_sha256": "820e16c4b0118c5f892e0c3d5831433bd270df8237fae40da3fa19271e231872",
         "target_sha256": "ed417ebabfcde352e7e7cc8da5ebd319f0e55433a6dceaaea3f6dfad81363655"
+      },
+      "ui:%d주 뒤에 다시 선물할 수 있다:/%d주 뒤에 다시 선물할 수 있다": {
+        "source_sha256": "b0ed9cf6b9454c54e957636e2e7130d91ef5d457f4614aad6c18cf971852562b",
+        "target_sha256": "6991f4cbebe8837d0489492f6094431a6cf06be7ea89d507a5ddb9498ac44e85"
+      },
+      "ui:VIP 인맥:/VIP 인맥": {
+        "source_sha256": "5b9fded76426ebd2509c514197ea02f38955ff208f951d25d34e21f90d655f9c",
+        "target_sha256": "c796ef67446a0c62051309c999dd41a362d75bd025efb185604ba31641d0f3b7"
+      },
+      "ui:닿지 않음:/닿지 않음": {
+        "source_sha256": "21d9583d926f6b39d7bc02273707e733b374bef943e0f0fb059fca1fcb191f3e",
+        "target_sha256": "9d60322faf4116627d8506b64f9b4190fcf927c95fd1429c6669c01a17097802"
+      },
+      "ui:더 높은 곳의 사람들을 만난다:/더 높은 곳의 사람들을 만난다": {
+        "source_sha256": "1c303e4c0c7572e7cd75b90a39c1ddd8c636df31c139ba6ab6667c08cdd36961",
+        "target_sha256": "481dc1d47c35d66eccd074e18768af5a3d674a1fe60252220698c5a541b0f84e"
+      },
+      "ui:만나기:/만나기": {
+        "source_sha256": "30e4dfdbd2784d7b2cf5979d369a86964a3eae8155ca2e26ed12a976b6e68c84",
+        "target_sha256": "5d4360a9885d3a1e5ef37bda5a99a23dababe40ab850e4c7a52451b4f7f93bb5"
+      },
+      "ui:모르는 사람들 사이로 섞인다:/모르는 사람들 사이로 섞인다": {
+        "source_sha256": "0b05b2e118e9e29d6033f330cab707f6343196e9abdca1ccb7effc2e4edf9718",
+        "target_sha256": "c3a3efe379ab0ab7f50e0e4f4b57ded96391cc925129ff114395b6bc58f119be"
+      },
+      "ui:사람 · 관계:/사람 · 관계": {
+        "source_sha256": "279a693d784add70a736e244f40c6ad5a91bdab16bae1685142414e5773cf3e7",
+        "target_sha256": "6df12d10b33eb97954ce8c230c26d29536b91d0b59290c8754938aaf50509021"
+      },
+      "ui:선물로 마음을 전한다:/선물로 마음을 전한다": {
+        "source_sha256": "27e508a5faa8b06a1387c0c5abda3605f106027ccaa4188975f955cc1dc4285b",
+        "target_sha256": "fcaf5bbdca6185f0498083d7b20fa579b4c6aca8e7ea27fea46f78566640b3a6"
+      },
+      "ui:선물하기:/선물하기": {
+        "source_sha256": "bd4f249d361336a0ddfa777ae7c0b54e75a2ad073a964b6f68b152b6d72bcfe4",
+        "target_sha256": "a6a8bfe821cb942ae4fea572eb1101d5316854ecdb280d39d968ad872adf71f9"
+      },
+      "ui:안부 묻기:/안부 묻기": {
+        "source_sha256": "90c1449abb364682f194ba24f7ddbaaeebbbc89bed3176c4004955bce7219eae",
+        "target_sha256": "1f264d5497f2af24b908fec0a0834f35d434629b20f5ba3fa1c0b08398588fcc"
+      },
+      "ui:인맥 넓히기:/인맥 넓히기": {
+        "source_sha256": "ab277c43c59dcd2aeddd61d245dec075f3e463b35c19d86279427ead64b5fab6",
+        "target_sha256": "993814379f27bb7f4a6342e463f65327e1120f1c868281abc4f4bb2abfad4847"
+      },
+      "ui:인맥·휴식:/인맥·휴식": {
+        "source_sha256": "a1bedcd0d90bff949131d98ddc11cdb3377cc596bd96ab3321b106d493cfc1f8",
+        "target_sha256": "e33230e6fa932807c4a7c248323a82125b8499a0b25a0d7f950a811fec86dbf9"
+      },
+      "ui:전화 걸어보기:/전화 걸어보기": {
+        "source_sha256": "01da69151d34975679c9df07af476ed0e88d0fa727cc458717617ed300f0d287",
+        "target_sha256": "4986160a3b9a0e6c17c5511dea092078c3e0b0a99943edd111aed05d15c4bc19"
+      },
+      "ui:전화드리기:/전화드리기": {
+        "source_sha256": "3b1f9f1ca2272d5c35b841e8da0b8427ceef762543cf7c24ea82e21f311ee3a5",
+        "target_sha256": "442856a0440a90c9f8a13cfe52a1de4981ec670ae74d446583dc258688c82dbb"
+      },
+      "ui:전화하기:/전화하기": {
+        "source_sha256": "716dafb6ccf2ce9105f7ae0abac58693f3b70712c960fffb2f41a7cb2640b166",
+        "target_sha256": "f937a9d12eaffee84c9e973f7ac0abfbc3bff396f0bd8a2acd88870941cdebca"
+      },
+      "ui:한 잔 하기:/한 잔 하기": {
+        "source_sha256": "e70f710f42775a95803ef10fa35e091cefe672958d0cd28a28d6d2a14d7ce3e6",
+        "target_sha256": "7c829c708a41f2a5eb3118ac45ee0f28b4b2241154cabd7a17f42faa5343d31e"
+      },
+      "ui:%s와의 대화가 더 미뤄지고 있다.:/%s와의 대화가 더 미뤄지고 있다.": {
+        "source_sha256": "49a5345a5d23c109ca414e54d347681a375603fda131b6072762504bf13b614b",
+        "target_sha256": "776736f858ea4148ca58c0e15d7fae92f0e50c5194099fba3257c12a594770c2"
+      },
+      "ui:[b]패드[/b]  LB/RB 페이지 · ↑↓ 행동 · %s 선택 · %s 뒤로  —  %s:/[b]패드[~1b]  LB~1RB 페이지 · ↑↓ 행동 · %s 선택 · %s 뒤로  —  %s": {
+        "source_sha256": "aed2cdddea6f249e22fae86d84d4834c9f9a41a7ef2c474b9aa1d46ed3063c65",
+        "target_sha256": "81976936784c90532fdc3fd120052f2cdd6d2c995a1a5790b558cff933e11d7e"
+      },
+      "ui:곁에 있는 사람을 챙긴다:/곁에 있는 사람을 챙긴다": {
+        "source_sha256": "b6d89cb1a9734dc72b498ffe7b547c932f7600a15c4d6ed1decc391e2ca98bb3",
+        "target_sha256": "c4008ddb24bf1bd92aff3012928b64a1ae5b5172d96dc552a00049a24a5757fc"
+      },
+      "ui:끊어지기 직전:/끊어지기 직전": {
+        "source_sha256": "77a64c34a73ee33edf6060e45712d43ad58670942bf03eef9ba2c8743529d163",
+        "target_sha256": "7a9aed2ba804a5bf3a5d07cbae678462525016fcabb5ff9d4771a5bc7a93462a"
+      },
+      "ui:만난 사람:/만난 사람": {
+        "source_sha256": "fc8be71317e8e1e890c4002facb91ef84b000a19114998aaa69332e99b7a615f",
+        "target_sha256": "9fe598a4512ed990bea5e7ab8b0e781e2558f152a0b7263f6b4d462daf68fdef"
+      },
+      "ui:멀어지는 중:/멀어지는 중": {
+        "source_sha256": "e44be2553b90b75bc83b74e65d217d303f154d590b84a82f6e5f853cc233f22b",
+        "target_sha256": "c31f8132ce43ab8e3db1f9bca4a7ba8363da497500b34a272e9f0aa5df8c5a0a"
+      },
+      "ui:새 인맥과 회복 행동:/새 인맥과 회복 행동": {
+        "source_sha256": "a45cf920f356529d39defe2d1ad96eb3dbe036dae5c483d4d6c76c1059067170",
+        "target_sha256": "93130c0679bfd284f3adf25704ab7019ed25d5601d3825094808b3689c62752a"
+      },
+      "ui:서먹한 편:/서먹한 편": {
+        "source_sha256": "1634b3e06c8a978ce6ba69b844ed08dc3fa6ed3649155e485628807006fccff7",
+        "target_sha256": "2465cb839c3ca3d4e4ab62d91a960fcd2d1cc8e6dde09990e983fbb5c6d1b774"
+      },
+      "ui:아직 낯선:/아직 낯선": {
+        "source_sha256": "8f763f2e2738791bd27a3c8aef15f73590f98095b8ca0769d0b01d06e36b3406",
+        "target_sha256": "5243a4f7f23852681db7a49262971f7fd787ba0279455d895c357eebee85c781"
+      },
+      "ui:아직 연락할 사람이 없습니다.:/아직 연락할 사람이 없습니다.": {
+        "source_sha256": "94f6e8ef3dfc32d00a8b0fd232bd41d4d3cbd5129c925d6e49a7c173d3c7094f",
+        "target_sha256": "06cde66cd99aec2390fcdd2395d929d2d7882ac9d9812ae2374eb0fcfa9742bf"
+      },
+      "ui:알아가는 중:/알아가는 중": {
+        "source_sha256": "fd963080b80ce0770f84de8ead075ecc7f8d0ecc4300c698297edda0ca929e8a",
+        "target_sha256": "c647ac0258343134d8609e1932679cecc6da3ced1d09e85d34671e7c6ff0fe23"
+      },
+      "ui:자유시간:/자유시간": {
+        "source_sha256": "0cf4da75e85a714e13722e55ab53a5726d935c45919dac893d756461224ecd01",
+        "target_sha256": "4c61796c6510e58fced1d67d23cf46017c2ffa5e54b6a7186115cc01a0e1bdb7"
+      },
+      "ui:한강을 걷거나 그냥 쉰다:/한강을 걷거나 그냥 쉰다": {
+        "source_sha256": "68c520e1b24629121447c922b51af8c9169b05a3a01b0b094822e250d7dd7e37",
+        "target_sha256": "b445a5bc93510645a82384d6cf67a2633fb5f6a99e96356661040c4e1a0f6de9"
+      },
+      "ui:행동 없음:/행동 없음": {
+        "source_sha256": "14b494701a79c6dd3ee95889d2603ed29e88638bd7f11395a5360776d128bd00",
+        "target_sha256": "8c96dfb56196c6016bff0ac83de61db62a74f19b439fd250a622cf8bab7e6a75"
+      },
+      "ui:행동력:/행동력": {
+        "source_sha256": "1b1455a249a38998364c3127817257be6020a396c9712c13eda7b2abfa2df5d9",
+        "target_sha256": "e9bfdca7559e4a2a2d937bc5892bbf2084a10d24934082b00123abc04a4b5360"
+      },
+      "ui:혼자 강남에 가는 사람은 없다.:/혼자 강남에 가는 사람은 없다.": {
+        "source_sha256": "4075ce7f7bc062960bd63a0b2e005e265e732fb42978d36b76c60e9454491ab9",
+        "target_sha256": "c2b7e6cfe8b04597c907ffb0f92d8784d5db9cf5970c2c867da1172c3710ae8d"
       }
     },
     "zh-TW": {
@@ -170298,10 +170626,138 @@
       "ui:거래 불가:/거래 불가": {
         "source_sha256": "820e16c4b0118c5f892e0c3d5831433bd270df8237fae40da3fa19271e231872",
         "target_sha256": "1f4235b0d0b593ffba6936beef00e896a8b6e2138934a9a5c196c5794e45ec0d"
+      },
+      "ui:%d주 뒤에 다시 선물할 수 있다:/%d주 뒤에 다시 선물할 수 있다": {
+        "source_sha256": "b0ed9cf6b9454c54e957636e2e7130d91ef5d457f4614aad6c18cf971852562b",
+        "target_sha256": "4f672e7c209ed620a6ff4f8d4a396c6e430544f046574d5596721953a8366be3"
+      },
+      "ui:VIP 인맥:/VIP 인맥": {
+        "source_sha256": "5b9fded76426ebd2509c514197ea02f38955ff208f951d25d34e21f90d655f9c",
+        "target_sha256": "b57ce3b4fb16c51a6fb603f12894260d71ddaf16e9f86e6cabd7fd9aa7aef17d"
+      },
+      "ui:닿지 않음:/닿지 않음": {
+        "source_sha256": "21d9583d926f6b39d7bc02273707e733b374bef943e0f0fb059fca1fcb191f3e",
+        "target_sha256": "23835c5abbc5198d6287da43d5324341cd7b7fb0b67c4c412652245b3658de9a"
+      },
+      "ui:더 높은 곳의 사람들을 만난다:/더 높은 곳의 사람들을 만난다": {
+        "source_sha256": "1c303e4c0c7572e7cd75b90a39c1ddd8c636df31c139ba6ab6667c08cdd36961",
+        "target_sha256": "fe0e37b8b065f5a84db1aba4550e5b2ed9bda09a980de9ca6291af8564ecd25d"
+      },
+      "ui:만나기:/만나기": {
+        "source_sha256": "30e4dfdbd2784d7b2cf5979d369a86964a3eae8155ca2e26ed12a976b6e68c84",
+        "target_sha256": "8b1851e0559109e74855da53ee494c01edc9b79196eebcb9415e70f934ad2d0b"
+      },
+      "ui:모르는 사람들 사이로 섞인다:/모르는 사람들 사이로 섞인다": {
+        "source_sha256": "0b05b2e118e9e29d6033f330cab707f6343196e9abdca1ccb7effc2e4edf9718",
+        "target_sha256": "99a019de769abb5d0a028203ee1238ecfcbfe6e1787e45cfd519ebca98e7faa5"
+      },
+      "ui:사람 · 관계:/사람 · 관계": {
+        "source_sha256": "279a693d784add70a736e244f40c6ad5a91bdab16bae1685142414e5773cf3e7",
+        "target_sha256": "ebc5072717bbf0b1e03f8dc4cd4fe445f84282f90ce12bf8e9528299d0524d80"
+      },
+      "ui:선물로 마음을 전한다:/선물로 마음을 전한다": {
+        "source_sha256": "27e508a5faa8b06a1387c0c5abda3605f106027ccaa4188975f955cc1dc4285b",
+        "target_sha256": "106bf692bffa6be9f8ed5199d615c20a63acc73146ef39694966163eae61c29c"
+      },
+      "ui:선물하기:/선물하기": {
+        "source_sha256": "bd4f249d361336a0ddfa777ae7c0b54e75a2ad073a964b6f68b152b6d72bcfe4",
+        "target_sha256": "1075ca0629c754ab102d07de57ca3cfd37da30c0e353c05f6e9056c38052f3f6"
+      },
+      "ui:안부 묻기:/안부 묻기": {
+        "source_sha256": "90c1449abb364682f194ba24f7ddbaaeebbbc89bed3176c4004955bce7219eae",
+        "target_sha256": "fbeeb7c46e9facb71fb387bb41d01b954d61ae1fee23f3d2ee70d0d0f33351dd"
+      },
+      "ui:인맥 넓히기:/인맥 넓히기": {
+        "source_sha256": "ab277c43c59dcd2aeddd61d245dec075f3e463b35c19d86279427ead64b5fab6",
+        "target_sha256": "f7f3c584cef4974939559300bca49f42517a4f53559f7a24576d9e18619c4ec5"
+      },
+      "ui:인맥·휴식:/인맥·휴식": {
+        "source_sha256": "a1bedcd0d90bff949131d98ddc11cdb3377cc596bd96ab3321b106d493cfc1f8",
+        "target_sha256": "170a3a52e82fae3ba6959bff8f5eebf69f009b7a02a7fee7b037b2ba07c19be3"
+      },
+      "ui:전화 걸어보기:/전화 걸어보기": {
+        "source_sha256": "01da69151d34975679c9df07af476ed0e88d0fa727cc458717617ed300f0d287",
+        "target_sha256": "adc3bf908950a5fcdfd5d8672b3e9d8b22d7c641053b92b0da7bf54a54ab1f16"
+      },
+      "ui:전화드리기:/전화드리기": {
+        "source_sha256": "3b1f9f1ca2272d5c35b841e8da0b8427ceef762543cf7c24ea82e21f311ee3a5",
+        "target_sha256": "9b879c576ea1d229447facca23a4bded42fee172edacf1182910a3d3b80afbaa"
+      },
+      "ui:전화하기:/전화하기": {
+        "source_sha256": "716dafb6ccf2ce9105f7ae0abac58693f3b70712c960fffb2f41a7cb2640b166",
+        "target_sha256": "ae69071c6dec5ab7035dc9459e37e2b31e834019de33e2562ee5034c30a5645a"
+      },
+      "ui:한 잔 하기:/한 잔 하기": {
+        "source_sha256": "e70f710f42775a95803ef10fa35e091cefe672958d0cd28a28d6d2a14d7ce3e6",
+        "target_sha256": "7c829c708a41f2a5eb3118ac45ee0f28b4b2241154cabd7a17f42faa5343d31e"
+      },
+      "ui:%s와의 대화가 더 미뤄지고 있다.:/%s와의 대화가 더 미뤄지고 있다.": {
+        "source_sha256": "49a5345a5d23c109ca414e54d347681a375603fda131b6072762504bf13b614b",
+        "target_sha256": "8ee6e5398223fac2dfa70db64e9faeec83412d9e1687c0b24642dc556d149e16"
+      },
+      "ui:[b]패드[/b]  LB/RB 페이지 · ↑↓ 행동 · %s 선택 · %s 뒤로  —  %s:/[b]패드[~1b]  LB~1RB 페이지 · ↑↓ 행동 · %s 선택 · %s 뒤로  —  %s": {
+        "source_sha256": "aed2cdddea6f249e22fae86d84d4834c9f9a41a7ef2c474b9aa1d46ed3063c65",
+        "target_sha256": "4beef90e805a8c494d135c662ea221d074c5a23eb3d892f8972a7087628a57b6"
+      },
+      "ui:곁에 있는 사람을 챙긴다:/곁에 있는 사람을 챙긴다": {
+        "source_sha256": "b6d89cb1a9734dc72b498ffe7b547c932f7600a15c4d6ed1decc391e2ca98bb3",
+        "target_sha256": "547bb1989e455679b3d4af683e26577b99ec6bce9c9b648742c27e9bf56e43be"
+      },
+      "ui:끊어지기 직전:/끊어지기 직전": {
+        "source_sha256": "77a64c34a73ee33edf6060e45712d43ad58670942bf03eef9ba2c8743529d163",
+        "target_sha256": "3c077cba2e6c598dc52f18b57718e9f4739663e946dfaf1b963f6c09bb799dc6"
+      },
+      "ui:만난 사람:/만난 사람": {
+        "source_sha256": "fc8be71317e8e1e890c4002facb91ef84b000a19114998aaa69332e99b7a615f",
+        "target_sha256": "584d82de6f5d5a0deceb356b9d380b8cf90aea68a5f04b1412459f7f2340b2ca"
+      },
+      "ui:멀어지는 중:/멀어지는 중": {
+        "source_sha256": "e44be2553b90b75bc83b74e65d217d303f154d590b84a82f6e5f853cc233f22b",
+        "target_sha256": "97997ad6f9750cd218894128ded81ba4ae3afb127e3839bc353b29d2a6e63259"
+      },
+      "ui:새 인맥과 회복 행동:/새 인맥과 회복 행동": {
+        "source_sha256": "a45cf920f356529d39defe2d1ad96eb3dbe036dae5c483d4d6c76c1059067170",
+        "target_sha256": "68a2ca7cdd0a9b3a96dda7f7c0d4519986ecc066519caf6f71e45e6d4690c87a"
+      },
+      "ui:서먹한 편:/서먹한 편": {
+        "source_sha256": "1634b3e06c8a978ce6ba69b844ed08dc3fa6ed3649155e485628807006fccff7",
+        "target_sha256": "2465cb839c3ca3d4e4ab62d91a960fcd2d1cc8e6dde09990e983fbb5c6d1b774"
+      },
+      "ui:아직 낯선:/아직 낯선": {
+        "source_sha256": "8f763f2e2738791bd27a3c8aef15f73590f98095b8ca0769d0b01d06e36b3406",
+        "target_sha256": "10fa6f6242b551eafbf3fdf3286a202418254f16fb36004fd72646cf35d820af"
+      },
+      "ui:아직 연락할 사람이 없습니다.:/아직 연락할 사람이 없습니다.": {
+        "source_sha256": "94f6e8ef3dfc32d00a8b0fd232bd41d4d3cbd5129c925d6e49a7c173d3c7094f",
+        "target_sha256": "e8bb21e1ff78ce9a7083dd3417fc08d0890fdc01a144de6b75b1af35076f13c3"
+      },
+      "ui:알아가는 중:/알아가는 중": {
+        "source_sha256": "fd963080b80ce0770f84de8ead075ecc7f8d0ecc4300c698297edda0ca929e8a",
+        "target_sha256": "07288031bd9611e21859b168ff0eb3ab0c78ddf30b9932e5425ad6f17cd7a62b"
+      },
+      "ui:자유시간:/자유시간": {
+        "source_sha256": "0cf4da75e85a714e13722e55ab53a5726d935c45919dac893d756461224ecd01",
+        "target_sha256": "9072043e088933a001e59ed5e22db23c29b8dc9bf47a2d57b87149cb12f12b6a"
+      },
+      "ui:한강을 걷거나 그냥 쉰다:/한강을 걷거나 그냥 쉰다": {
+        "source_sha256": "68c520e1b24629121447c922b51af8c9169b05a3a01b0b094822e250d7dd7e37",
+        "target_sha256": "1b4e720cf953da8b7a1d39104a37b31a2e316d664122e3e181ed3cf8fdd7fac3"
+      },
+      "ui:행동 없음:/행동 없음": {
+        "source_sha256": "14b494701a79c6dd3ee95889d2603ed29e88638bd7f11395a5360776d128bd00",
+        "target_sha256": "116fabbad0c8f3c474fce2089b43c7db7060789e2d45774069d9789b5e9bba87"
+      },
+      "ui:행동력:/행동력": {
+        "source_sha256": "1b1455a249a38998364c3127817257be6020a396c9712c13eda7b2abfa2df5d9",
+        "target_sha256": "7ab5b4d3b35db8bc0f6d54ce0b24e08ee4762a3d9d1bdbd81fe9a7e6470a5396"
+      },
+      "ui:혼자 강남에 가는 사람은 없다.:/혼자 강남에 가는 사람은 없다.": {
+        "source_sha256": "4075ce7f7bc062960bd63a0b2e005e265e732fb42978d36b76c60e9454491ab9",
+        "target_sha256": "092964d0c07e9c78e7cb2e5fa8c8770f505afd8c40c1a7c00a953987309dde36"
       }
     }
   },
-  "accepted_sha256": "49cc37da0df5a86e1dce236dd42c5be8de6d4cd296f6a5f18acfce81a6d03817",
+  "accepted_sha256": "d825710d0c9cee1fabec3fe2c3bc2f28a8badcf682e216bdf9947826658347dd",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
