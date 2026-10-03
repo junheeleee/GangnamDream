@@ -3130,6 +3130,223 @@ def gift_price_badge_self_test() -> tuple[list[str], int]:
 # END_GIFT_PRICE_BADGE_SELF_TEST_412
 
 
+# BEGIN_JA_GIFT_COPY_SELF_TEST_414
+def ja_gift_copy_self_test() -> tuple[list[str], int]:
+    """One real414 transition and narrow faults; no older suite/history replay."""
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("JA gift copy: " + label)
+    def reject(action, label, message=None):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
+            check(message is None or message in str(exc), label + " rejection boundary: " + str(exc))
+        else:
+            check(False, label + " was accepted")
+
+    ja, ledger = append.LEGACY_GIFT_PATH, append.LEDGER_PATH
+    keys = append.LEGACY_GIFT_KEYS
+    leaves = sorted([append.exchange.Leaf("ui", key, "runtime:static_ui", (key,), key, "ui_static_context")
+                     for key in keys], key=lambda leaf: leaf.id)
+    # Explicit two-leaf fixture and real historical source census. The normal
+    # admission owns current full collection/history/HEAD, not this focused run.
+    inventory = {"leaves": leaves, "source_manifest_sha256": append._source_manifest(ROOT, append.LEGACY_GIFT_BEFORE_COMMIT)}
+    observed = {path: (ROOT / path).read_bytes() for path in (*append.CURRENT_PATHS, "scenes/MainGame.gd")}
+    real_objects, real_git = append._objects, append._git
+    with mock.patch.object(append, "_objects", wraps=real_objects) as objects:
+        before, after, change = append._legacy_ja_gift_proof(ROOT, inventory)
+    requests = [request for call in objects.call_args_list for request in call.args[1]]
+    check(len(requests) == 13 and [r[2] for r in requests].count("commit") == 2
+          and [r[2] for r in requests].count("tree") == 2 and [r[2] for r in requests].count("blob") == 9,
+          "actual thirteen immutable objects including legacy origin")
+    check((append.LEGACY_GIFT_ORIGIN_COMMIT + ":" + ja, append.LEGACY_GIFT_ORIGIN_BLOB, "blob") in requests,
+          "legacy source is an actual pinned origin blob, not an invented prior receipt")
+    check(set(before) == set(after) == set(append.CURRENT_PATHS), "four observed snapshots")
+    check(change["ui_by_locale"] == {locale: 0 for locale in append.CURRENT_LOCALES}
+          and change["receipts"] == change["batches"] == 0 and change["corrections"] == 2
+          and change["correction_batches"] == 1 and change["first_receipts"] == 2,
+          "zero new UI keys, two corrected values, two first receipts, one correction batch")
+    check(append._legacy_ja_gift_comparison(after, before, after) == before, "exact four-file raw inverse")
+    check(all(before[p] == after[p] for p in append.UI_PATHS), "Chinese dictionaries byte-identical")
+    docs = {p: append._Document(raw) for p, raw in after.items()}
+    old = {p: append._Document(raw).value for p, raw in before.items()}
+    index = append.LEGACY_GIFT_BATCH_INDEX
+    batch = docs[ledger].value["batches"][index]
+    check(index == 184 and len(old[ledger]["batches"]) == 184 and len(docs[ledger].value["batches"]) == 185,
+          "one actual tail batch")
+    check(sum(map(len, old[ledger]["accepted"].values())) == 41250
+          and sum(map(len, docs[ledger].value["accepted"].values())) == 41252, "first acceptance population, not new UI coverage")
+    check(list(old[ja]) == list(docs[ja].value) and len(old[ja]) == len(docs[ja].value), "existing dictionary keys/order unchanged")
+    for leaf in leaves:
+        check(leaf.id not in old[ledger]["accepted"]["ja"] and docs[ledger].value["accepted"]["ja"][leaf.id]
+              == {"source_sha256": leaf.source_sha256, "target_sha256": append.exchange.digest(append.LEGACY_GIFT_TEXTS[leaf.owner][1])},
+              "actual first receipt " + leaf.owner)
+    official = append.exchange.make_batch(inventory, "ja", leaves, append.LEGACY_GIFT_BEFORE_COMMIT, {ja: old[ja]}, {})
+    check(batch[append.HEADERS_FIELD]["ja"] == official[0] and all(row["previous_target_sha256"]
+          == append.exchange.digest(old[ja][row["owner"]]) for row in official[1:]), "official selection binds real legacy target values")
+    reject(lambda: append.validate_append(before, after, inventory), "generic append still rejects existing JA edits", "old UI member/order/value changed: ja")
+
+    def edit(snapshot, path, field, value):
+        doc = append._Document(snapshot[path])
+        start, end = doc.spans[field]
+        changes = [(start, end, append._ordered(value).decode())]
+        if path == ledger and field[0] == "accepted":
+            payload = copy.deepcopy(doc.value)
+            target = payload
+            for part in field[:-1]: target = target[part]
+            target[field[-1]] = value
+            start, end = doc.spans[("accepted_sha256",)]
+            changes.append((start, end, append._ordered(append.exchange.digest(payload["accepted"])).decode()))
+        text = doc.text
+        for start, end, value in sorted(changes, reverse=True): text = text[:start] + value + text[end:]
+        return {**snapshot, path: text.encode()}
+
+    validate = append._validate_legacy_ja_gift_correction
+    inverse = append._legacy_ja_gift_comparison
+    for path in append.CURRENT_PATHS:
+        reject(lambda p=path: validate(before, {**after, p: after[p] + b"\n"}, inventory), "neighbor raw whitespace " + path)
+        reject(lambda p=path: validate({k: raw for k, raw in before.items() if k != p}, after, inventory), "missing snapshot " + path)
+    reject(lambda: validate(before, {**after, "outside.json": b"{}"}, inventory), "extra snapshot path")
+    for path in (ja, ledger):
+        reject(lambda p=path: validate(before, {**after, p: before[p]}, inventory), "partial rollback " + path)
+    for key in keys:
+        for value in (append.LEGACY_GIFT_TEXTS[key][0], "勝手に変えた説明", "", None):
+            reject(lambda k=key, v=value: validate(before, edit(after, ja, (k,), v), inventory), "wrong exact target " + key + repr(value))
+        quoted = json.dumps(key, ensure_ascii=False).encode() + b":"
+        duplicate = after[ja].replace(quoted, quoted + b' "duplicate", ' + quoted, 1)
+        reject(lambda raw=duplicate: validate(before, {**after, ja: raw}, inventory), "raw duplicate target " + key)
+    for path in append.CURRENT_UI_PATHS:
+        neighbor = next(key for key in docs[path].value if key not in keys)
+        reject(lambda p=path, k=neighbor: validate(before, edit(after, p, (k,), "neighbor"), inventory), "unowned locale/neighbor " + path)
+    reordered = dict(reversed(list(docs[ja].value.items())))
+    reject(lambda: validate(before, {**after, ja: _raw(reordered)}, inventory), "dictionary reorder")
+    for leaf in leaves:
+        for field in ("source_sha256", "target_sha256"):
+            mutant = edit(after, ledger, ("accepted", "ja", leaf.id, field), "0" * 64)
+            check(append._loads(mutant[ledger])["accepted_sha256"] == append.exchange.digest(append._loads(mutant[ledger])["accepted"]),
+                  "mutant checksum is fresh " + leaf.owner + field)
+            reject(lambda v=mutant: validate(before, v, inventory), "checksum-valid false receipt " + leaf.owner + field,
+                   "legacy JA gift changed an old receipt/batch or ledger field")
+        accepted = dict(docs[ledger].value["accepted"]["ja"])
+        accepted.pop(leaf.id)
+        reject(lambda v=accepted: validate(before, edit(after, ledger, ("accepted", "ja"), v), inventory), "missing first receipt " + leaf.owner)
+    first = leaves[0]
+    prior = dict(old[ledger]["accepted"]["ja"])
+    prior.pop(next(iter(prior)))  # Keep the total fixed: absence must be checked, not only count.
+    prior[first.id] = {"source_sha256": first.source_sha256, "target_sha256": append.exchange.digest(old[ja][first.owner])}
+    reject(lambda: validate(edit(before, ledger, ("accepted", "ja"), prior), after, inventory), "fabricated prior accepted receipt",
+           "legacy JA gift falsely claims absent prior acceptance")
+    fake_history = copy.deepcopy(old[ledger]["batches"][-1])
+    fake_history.update(roots=list(keys), target_leaves_by_locale={"ja": 2, "zh-CN": 0, "zh-TW": 0})
+    reject(lambda: validate(edit(before, ledger, ("batches", index - 1), fake_history), after, inventory), "fabricated prior Japanese batch",
+           "legacy JA gift falsely claims absent prior acceptance")
+    accepted = dict(docs[ledger].value["accepted"]["ja"])
+    accepted["ui:orphan:/orphan"] = accepted[first.id]
+    reject(lambda: validate(before, edit(after, ledger, ("accepted", "ja"), accepted), inventory), "orphan added receipt")
+    neighbor = next(key for key in docs[ledger].value["accepted"]["ja"] if key not in {leaf.id for leaf in leaves})
+    reject(lambda: validate(before, edit(after, ledger, ("accepted", "ja", neighbor, "target_sha256"), "0" * 64), inventory), "old neighboring receipt")
+
+    for label, field, value in (
+        ("old metadata", ("native_review",), "GO"), ("old batch", ("batches", 0, "order"), "forged"),
+        ("count bool", ("batches", index, "source_leaves"), True),
+        ("JA count bool", ("batches", index, "target_leaves_by_locale", "ja"), True),
+        ("wrong locale", ("batches", index, "target_leaves_by_locale", "zh-CN"), 2),
+        ("wrong roots", ("batches", index, "roots"), list(reversed(keys))),
+        ("wrong group", ("batches", index, "group"), "ui"),
+        ("fake old acceptance", ("batches", index, "prior_acceptance"), "accepted"),
+        ("fake origin", ("batches", index, "legacy_origin_commit"), "0" * 40),
+        ("false previous value", ("batches", index, "before_target_sha256_by_locale", "ja", first.id), "0" * 64),
+        ("official digest", ("batches", index, "receipt_sha256_by_locale", "ja"), "0" * 64),
+        ("header count bool", ("batches", index, append.HEADERS_FIELD, "ja", "count"), True),
+        ("header selection", ("batches", index, append.HEADERS_FIELD, "ja", "selection_sha256"), "0" * 64),
+        ("header revision", ("batches", index, append.HEADERS_FIELD, "ja", "source_revision"), "0" * 40),
+        ("header manifest", ("batches", index, append.HEADERS_FIELD, "ja", "source_manifest_sha256"), "0" * 64),
+        ("header locale", ("batches", index, append.HEADERS_FIELD, "ja", "locale"), "zh-CN"),
+        ("missing header", ("batches", index, append.HEADERS_FIELD), {}),
+        ("native claim", ("batches", index, "native_review"), "GO")):
+        reject(lambda f=field, v=value: validate(before, edit(after, ledger, f, v), inventory), label)
+    wrong_header = append.exchange.make_batch(inventory, "ja", leaves, append.LEGACY_GIFT_BEFORE_COMMIT, {}, {})[0]
+    forged_batch = copy.deepcopy(batch)
+    forged_batch[append.HEADERS_FIELD]["ja"] = wrong_header
+    forged_batch["receipt_sha256_by_locale"]["ja"] = append.exchange.digest({"batch": wrong_header, "state": "accepted_machine_validated",
+        "native_review": "OPEN", "translations": {leaf.id: docs[ledger].value["accepted"]["ja"][leaf.id] for leaf in leaves}})
+    reject(lambda: validate(before, edit(after, ledger, ("batches", index), forged_batch), inventory), "re-signed None previous-target selection",
+           "legacy JA gift official previous-target selection differs")
+    batches = docs[ledger].value["batches"]
+    for label, value in (("missing batch", batches[:-1]), ("duplicate batch", [*batches, batch]),
+                         ("reordered batch", [*batches[:-2], batches[-1], batches[-2]])):
+        reject(lambda v=value: validate(before, edit(after, ledger, ("batches",), v), inventory), label)
+    for field, value in (("source", "changed KO"), ("protected", True), ("runtime_support", "unverified_consumer")):
+        reject(lambda f=field, v=value: validate(before, after, {**inventory, "leaves": [replace(first, **{f: v}), leaves[1]]}), "current leaf " + field)
+    reject(lambda: validate(before, after, {**inventory, "leaves": leaves + [first]}), "duplicate current leaf")
+    start, end = docs[ja].spans[(keys[0],)]
+    token = docs[ja].text[start:end]
+    escaped = token[:1] + "\\u%04x" % ord(token[1]) + token[2:]
+    raw_escape = {**after, ja: (docs[ja].text[:start] + escaped + docs[ja].text[end:]).encode()}
+    reject(lambda: inverse(raw_escape, before, after), "same-value target raw escape is not exact inverse")
+
+    def forged_stream(where, *args, **kwargs):
+        raw = real_git(where, *args, **kwargs)
+        return raw + b"forged" if args[:2] == ("cat-file", "--batch") else raw
+    def wrong_paths(where, *args, **kwargs):
+        return b"M\0locale/ui_ja.json\0M\0outside.json\0" if args and args[0] == "diff" else real_git(where, *args, **kwargs)
+    def wrong_parent(root, requests):
+        result = real_objects(root, requests)
+        for i, request in enumerate(requests):
+            if request[1:] == (append.LEGACY_GIFT_AFTER_COMMIT, "commit"):
+                result[i] = result[i].replace(("parent " + append.LEGACY_GIFT_BEFORE_COMMIT).encode(), b"parent " + b"0" * 40, 1)
+        return result
+    for label, fault in (
+        ("fresh Git loss", mock.patch.object(append, "_git", side_effect=OSError("Git unavailable after success"))),
+        ("forged object stream", mock.patch.object(append, "_git", side_effect=forged_stream)),
+        ("wrong product paths", mock.patch.object(append, "_git", side_effect=wrong_paths)),
+        ("post-object direct-parent fault", mock.patch.object(append, "_objects", side_effect=wrong_parent)),
+        ("wrong origin blob", mock.patch.object(append, "LEGACY_GIFT_ORIGIN_BLOB", "0" * 40))):
+        with fault: reject(lambda: append._legacy_ja_gift_proof(ROOT, inventory), label)
+    check(append._legacy_ja_gift_proof(ROOT, inventory) == (before, after, change), "fresh actual proof after faults, no successful cross-call cache")
+
+    # One synthetic JA append tail, using the production comparison and ordinary
+    # append checker directly. Do not re-run 380/384/392 or widen their baseline.
+    extra = append.exchange.Leaf("ui", "합성 후속 선물 문구", "runtime:static_ui", ("합성 후속 선물 문구",), "합성 후속 선물 문구", "ui_static_context")
+    extended = {**inventory, "leaves": [*leaves, extra]}
+    target = "次の贈り物の文言"
+    row = {"source_sha256": extra.source_sha256, "target_sha256": append.exchange.digest(target)}
+    header = append.exchange.make_batch(extended, "ja", [extra], append.LEGACY_GIFT_AFTER_COMMIT, {}, {})[0]
+    new_batch = {"order": "synthetic after414", "group": "ui", "roots": [extra.owner], "source_leaves": 1,
+                 "target_leaves_by_locale": {"ja": 1, "zh-CN": 0, "zh-TW": 0}, "machine_validation": "PASS", "native_review": "OPEN",
+                 append.HEADERS_FIELD: {"ja": header}, "receipt_sha256_by_locale": {"ja": append.exchange.digest({
+                     "batch": header, "state": "accepted_machine_validated", "native_review": "OPEN", "translations": {extra.id: row}})}}
+    future = dict(after)
+    end = docs[ja].spans[(list(docs[ja].value)[-1],)][1]
+    future[ja] = (docs[ja].text[:end] + ",\n  " + append._ordered(extra.owner).decode() + ": " + append._ordered(target).decode() + docs[ja].text[end:]).encode()
+    accepted = copy.deepcopy(docs[ledger].value["accepted"])
+    accepted["ja"][extra.id] = row
+    tail = docs[ledger].spans[("accepted", "ja", list(docs[ledger].value["accepted"]["ja"])[-1])][1]
+    batch_tail = docs[ledger].spans[("batches", index)][1]
+    checksum = docs[ledger].spans[("accepted_sha256",)]
+    changes = [(tail, tail, ",\n      " + append._ordered(extra.id).decode() + ": " + append._ordered(row).decode()),
+               (batch_tail, batch_tail, ",\n    " + append._ordered(new_batch).decode()),
+               (*checksum, append._ordered(append.exchange.digest(accepted)).decode())]
+    text = docs[ledger].text
+    for start, end, replacement in sorted(changes, reverse=True): text = text[:start] + replacement + text[end:]
+    future[ledger] = text.encode()
+    tail_change = append.validate_append(after, future, extended)
+    comparison = inverse(future, before, after)
+    check(tail_change["receipts"] == tail_change["batches"] == 1 and append.validate_append(before, comparison, extended) == tail_change,
+          "normal subsequent JA append survives exact correction inverse")
+    for key in keys:
+        rollback = edit(future, ja, (key,), append.LEGACY_GIFT_TEXTS[key][0])
+        reject(lambda value=rollback: inverse(value, before, after), "following target rollback " + key)
+        reject(lambda value=rollback: append.validate_append(future, value, extended), "generic subsequent rollback " + key)
+    reject(lambda: inverse(before, before, after), "complete correction rollback")
+    check(all((ROOT / path).read_bytes() == raw for path, raw in observed.items()), "source and all product bytes unchanged")
+    return failures, cases
+# END_JA_GIFT_COPY_SELF_TEST_414
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
@@ -3147,7 +3364,14 @@ def main() -> int:
     parser.add_argument("--promotion-review", action="store_true", help="current406 pair, actual collector, retained JA and three receipts only; no historical suites")
     parser.add_argument("--career-tenure", action="store_true", help="current409 tenure width/English pair and unchanged receipt identity only; no historical suites")
     parser.add_argument("--gift-price-badge", action="store_true", help="current412 gift-only price fit/source and unchanged collector/receipt identities; no historical suites")
+    parser.add_argument("--ja-gift-copy", action="store_true", help="exact414 legacy Japanese two-value correction and first receipts only; no older suites")
     args = parser.parse_args()
+    if args.ja_gift_copy:
+        errors, cases = ja_gift_copy_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"UI_TRANSLATION_APPEND_JA_GIFT_COPY_{'FAIL' if errors else 'OK'} cases={cases} historical_cases=0")
+        return int(bool(errors))
     if args.gift_price_badge:
         errors, cases = gift_price_badge_self_test()
         for error in errors:
@@ -3248,11 +3472,11 @@ def main() -> int:
         cases += correction_cases
         print(f"UI_TRANSLATION_APPEND_CORRECTION cases={correction_cases}")
         # Earlier source bodies and explicit options remain historical. The
-        # default current source check follows actual412's gift-only badge repair.
-        modal_errors, modal_cases = gift_price_badge_self_test()
+        # default current transition check follows414's exact legacy JA repair.
+        modal_errors, modal_cases = ja_gift_copy_self_test()
         errors.extend(modal_errors)
         cases += modal_cases
-        print(f"UI_TRANSLATION_APPEND_GIFT_PRICE_BADGE cases={modal_cases}")
+        print(f"UI_TRANSLATION_APPEND_JA_GIFT_COPY cases={modal_cases}")
         fee_errors, fee_cases = investment_fee_correction_self_test()
         errors.extend(fee_errors)
         cases += fee_cases

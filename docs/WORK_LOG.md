@@ -2,6 +2,19 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 일본어 선물 설명 의미 수리 후보)
+
+- [414](queue_active/ORDER-414.md): 에세이집은 앞으로 밑줄을 그을 만한 대목,
+  향수는 추상적 가치가 아니라 먼저 눈에 띄는 가격으로 JA2값을 교정했다.
+  KO직접 비저자 의미대조 PASS, 공식export/check 각9.705/9.698초 PASS,
+  --replace-existing 수용 및 JA/원장 전체raw 역상 확인. 제품2path commit88cf816.
+- 신규 UI키0·수정값2·첫공식receipt2·batch1. accepted41250/b184→41252/b185,
+  JA3044키 및 이전값·타언어·게임조건·공개demo·인간원장 보존.
+- 정확 교정 proof·새 focused·검사차선만 추가한다. 기존 일반append는 기존값
+  수정을 계속 거부하고 이전380/384/392/412 helper는 그대로 둔다.
+- 최종후보의 JA2PNG·4표시 및 새교정focused/영향검수 전이며 최종GO 아님.
+  준비표면만 관측하며 원어민/인간/물리·본편/새packageHOLD를 보존한다.
+
 ## 2026-10-04 (Codex — 선물 중국어 마감·일본어 의미 교정 착수)
 
 - [413 완료](queue_archive/ORDER-413.md): source483b188/treecdcd11e,

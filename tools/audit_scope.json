@@ -14,6 +14,39 @@
   ],
   "fast_lanes": [
     {
+      "id": "ja-gift-copy",
+      "paths": [],
+      "owned_paths": [
+        "locale/ui_ja.json",
+        "content/meta/full_game_localization.json",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-414.json",
+        "docs/queue_active/ORDER-414.md",
+        "docs/queue_archive/ORDER-414.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --ja-gift-copy",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact414 two legacy Japanese gift-description corrections, zero new UI keys and two first official receipts. Fresh pinned two-path Git transition, old-target-bound export/header/digest and four-file raw inverse; synthetic following append/rollback controls only. Actual whole-history admission and two prepared Japanese consumer screens remain separate; no older focused suite or whole audit."
+    },
+    {
       "id": "gift-price-badge",
       "paths": [],
       "owned_paths": [
@@ -2507,6 +2540,15 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/ui_translation_append_self_test.py --ja-gift-copy",
+      "paths": [
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py"
+      ],
+      "why": "Declared414 existing Japanese two-target repair plus first receipts: actual immutable transition/origin, checksum-valid semantic faults, raw inverse, exact previous-target header selection and subsequent append/rollback. Does not invoke historical focused bodies or replay prior history.",
+      "godot": false
+    },
     {
       "tool": "tools/ui_translation_append_self_test.py --gift-price-badge",
       "paths": [

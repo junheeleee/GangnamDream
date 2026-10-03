@@ -815,6 +815,11 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
         change = split_receipts.step(commit, previous, successor)
         if change is not None:
             pass
+        elif commit == LEGACY_GIFT_AFTER_COMMIT:
+            before, after, change = _legacy_ja_gift_proof(root, inventory)
+            require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
+                    "legacy JA gift lineage or protected locale differs")
+            corrections.append((_legacy_ja_gift_comparison, before, after))
         elif commit in exact:
             proof, inverse = exact[commit]
             before, after, change = proof(root, inventory)
@@ -830,7 +835,7 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
                 manifests[revision] = _source_manifest(root, revision)
             require(manifests[revision] == expected, "receipt source manifest differs from actual Git census")
         transitions.append({"commit": commit, **change})
-        totals.update({k: change.get(k, 0) for k in ("receipts", "batches", "corrections", "correction_batches")})
+        totals.update({k: change.get(k, 0) for k in ("receipts", "batches", "corrections", "correction_batches", "first_receipts")})
         previous = successor
     split_receipts.finish()
     require(previous == candidate and FEE_AFTER_COMMIT in commits, "fee history does not reconstruct current candidate")
@@ -839,7 +844,9 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
     require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head, "Git candidate changed during validation")
     return {"head": head, "transitions": transitions, **combined, "append_batches": combined["batches"],
             "batches": combined["batches"] + totals["correction_batches"],
-            "corrections": totals["corrections"], "correction_batches": totals["correction_batches"]}
+            "corrections": totals["corrections"], "correction_batches": totals["correction_batches"],
+            "append_receipts": combined["receipts"], "first_receipts": totals["first_receipts"],
+            "receipts": combined["receipts"] + totals["first_receipts"]}
 
 
 # Exact386 adds a comparison for official headers exported after382/before386.
@@ -1239,3 +1246,183 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
                   ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
     return expected == exchange.digest(comparison)
 # END_GIFT_PRICE_BADGE_MANIFEST_412
+
+
+# BEGIN_LEGACY_JA_GIFT_CORRECTION_414
+# These two legacy values had no official receipts. This is not an append waiver.
+LEGACY_GIFT_PATH = "locale/ui_ja.json"
+LEGACY_GIFT_PRODUCT_PATHS = (LEGACY_GIFT_PATH, LEDGER_PATH)
+LEGACY_GIFT_KEYS = ("밑줄 그을 자리가 많은 책", "값이 먼저 보이는 선물")
+LEGACY_GIFT_TEXTS = {
+    LEGACY_GIFT_KEYS[0]: ("下線が引かれすぎた本", "線を引きたい箇所がたくさんある本"),
+    LEGACY_GIFT_KEYS[1]: ("価値が先に見える贈り物", "値段が先に目に入る贈り物"),
+}
+LEGACY_GIFT_ORIGIN_COMMIT = "aaeba142d08278c310505000bcc126a699493479"
+LEGACY_GIFT_ORIGIN_BLOB = "53e3610ead0fdcaae7c7c4b787b27f9fdcb4fc67"
+LEGACY_GIFT_ORIGIN_SHA256 = "550378458bee465a4d89a0be9ba6e2d18029fd8fbbeb8982b3c99a961708b0fc"
+LEGACY_GIFT_BEFORE_COMMIT = "04da1afdf956cad72ffb6641871d4bafa420e82d"
+LEGACY_GIFT_AFTER_COMMIT = "88cf816dfa5f2430ae0f4bde574ba90f23e1956f"
+LEGACY_GIFT_TREES = ("500f75061182268e0b4725060b920f6b2c7a0f6f", "d9da30a8b96db6f64566acba6f37b1e82496b7ef")
+LEGACY_GIFT_BLOBS = {
+    LEGACY_GIFT_PATH: ("b8ffd3fdcdd3fb0d8d45fccb3d461372886d9732", "750f9692b662082d93214318c743d3eccd102249"),
+    "locale/ui_zh-CN.json": ("f22e96aab6131f05f1f4707fd5703671dcc67ede",) * 2,
+    "locale/ui_zh-TW.json": ("5f80fc39b38e2f599d8b1fad4253773b808a001a",) * 2,
+    LEDGER_PATH: ("70efc0392c6ca52de156b1774b77de0f6df5733f", "d2cf934e9b905a25729b25bff151aa3afd313e3f"),
+}
+LEGACY_GIFT_HASHES = {
+    LEGACY_GIFT_PATH: ("3c258973361f5438c1c06aeedcfd686b2aedbc910eca8909032908cc1ad50f14", "3c1c9c6c4a566e2b2d5cebb9fabe2f6525f95eb431c212b66c90296b09401f51"),
+    "locale/ui_zh-CN.json": ("7b695b4cee8607d2800d0cc5782e33e2b6cb0f03353b4b65b703f8f63005fddb",) * 2,
+    "locale/ui_zh-TW.json": ("bbe8eeecb6474b3af757b54915d79a80c7dde5f8729b6beb955737c6722ba318",) * 2,
+    LEDGER_PATH: ("2eb983a3973f4e264f008381acd60af5ab030bedab4971ec96a241dff67af715", "4eb354b671126237ff07a1e9724c7cbebde91d1f5be6bfa854e2aaad6e51f484"),
+}
+LEGACY_GIFT_BATCH_INDEX = 184
+LEGACY_GIFT_REVIEW = (
+    "Korean-direct repair of two legacy Japanese gift descriptions: prospective underline-worthy passages, "
+    "not an already overmarked book; price comes into view first, not abstract value. Two existing values "
+    "corrected, zero new UI keys, two first official receipts. Gameplay, other locales and public demo "
+    "unchanged; agent review is not native or release approval.")
+
+
+def _legacy_ja_gift_comparison(snapshot: Mapping[str, bytes], before: Mapping[str, bytes],
+                               after: Mapping[str, bytes]) -> dict[str, bytes]:
+    """Undo only the proved targets/first receipts/batch; retain later appends."""
+    require(set(snapshot) == set(before) == set(after) == set(CURRENT_PATHS),
+            "legacy JA gift comparison requires four paths")
+    result = dict(snapshot)
+    a, b, doc = (_Document(raw) for raw in (before[LEGACY_GIFT_PATH], after[LEGACY_GIFT_PATH], snapshot[LEGACY_GIFT_PATH]))
+    edits = []
+    for key in LEGACY_GIFT_KEYS:
+        require(doc.value.get(key) == LEGACY_GIFT_TEXTS[key][1], "legacy JA gift corrected target rolled back/changed")
+        start, end = doc.spans[(key,)]
+        bs, be = b.spans[(key,)]
+        require(doc.text[start:end] == b.text[bs:be], "legacy JA gift corrected target raw token changed")
+        first, last = a.spans[(key,)]
+        edits.append((start, end, a.text[first:last]))
+    text = doc.text
+    for start, end, replacement in sorted(edits, reverse=True):
+        text = text[:start] + replacement + text[end:]
+    result[LEGACY_GIFT_PATH] = text.encode()
+    a, b, doc = (_Document(raw) for raw in (before[LEDGER_PATH], after[LEDGER_PATH], snapshot[LEDGER_PATH]))
+    value = doc.value
+    require(value["accepted_sha256"] == exchange.digest(value["accepted"]), "legacy JA gift accepted checksum")
+    index = LEGACY_GIFT_BATCH_INDEX
+    require(len(value["batches"]) > index and _ordered(value["batches"][index]) == _ordered(b.value["batches"][index]),
+            "legacy JA gift batch missing/changed/reordered")
+    start, end = doc.spans[("batches", index - 1)][1], doc.spans[("batches", index)][1]
+    bs, be = b.spans[("batches", index - 1)][1], b.spans[("batches", index)][1]
+    require(doc.text[start:end] == b.text[bs:be], "legacy JA gift batch raw changed")
+    edits = [(start, end, "")]
+    old_keys = list(a.value["accepted"]["ja"])
+    added = list(b.value["accepted"]["ja"])[len(old_keys):]
+    require(bool(old_keys) and added == sorted(receipt_id(key) for key in LEGACY_GIFT_KEYS)
+            and list(value["accepted"]["ja"])[len(old_keys):len(old_keys) + 2] == added,
+            "legacy JA gift first receipt order/population differs")
+    for identifier in added:
+        require(_ordered(value["accepted"]["ja"].get(identifier)) == _ordered(b.value["accepted"]["ja"][identifier]),
+                "legacy JA gift first receipt changed")
+    start, end = doc.spans[("accepted", "ja", old_keys[-1])][1], doc.spans[("accepted", "ja", added[-1])][1]
+    bs, be = b.spans[("accepted", "ja", old_keys[-1])][1], b.spans[("accepted", "ja", added[-1])][1]
+    require(doc.text[start:end] == b.text[bs:be], "legacy JA gift first receipt raw changed")
+    edits.append((start, end, ""))
+    accepted = {**value["accepted"], "ja": {k: v for k, v in value["accepted"]["ja"].items() if k not in added}}
+    start, end = doc.spans[("accepted_sha256",)]
+    edits.append((start, end, _ordered(exchange.digest(accepted)).decode()))
+    text = doc.text
+    for start, end, replacement in sorted(edits, reverse=True):
+        text = text[:start] + replacement + text[end:]
+    result[LEDGER_PATH] = text.encode()
+    return result
+
+
+def _validate_legacy_ja_gift_correction(before: Mapping[str, bytes], after: Mapping[str, bytes],
+                                        inventory: dict[str, Any]) -> dict[str, Any]:
+    require(set(before) == set(after) == set(CURRENT_PATHS), "legacy JA gift requires four paths")
+    old, new = ({p: _loads(raw) for p, raw in snapshot.items()} for snapshot in (before, after))
+    require(all(before[p] == after[p] for p in UI_PATHS), "legacy JA gift changed another locale")
+    require(_ordered(new[LEGACY_GIFT_PATH]) == _ordered({**old[LEGACY_GIFT_PATH],
+                **{key: texts[1] for key, texts in LEGACY_GIFT_TEXTS.items()}})
+            and all(old[LEGACY_GIFT_PATH].get(key) == texts[0] for key, texts in LEGACY_GIFT_TEXTS.items()),
+            "legacy JA gift exact old/new targets differ")
+    a, b = old[LEDGER_PATH], new[LEDGER_PATH]
+    require(len(a["batches"]) == LEGACY_GIFT_BATCH_INDEX and len(b["batches"]) == LEGACY_GIFT_BATCH_INDEX + 1
+            and sum(map(len, a["accepted"].values())) == 41250
+            and sum(map(len, b["accepted"].values())) == 41252, "legacy JA gift first receipt/batch census differs")
+    require(all(v["accepted_sha256"] == exchange.digest(v["accepted"]) for v in (a, b)),
+            "legacy JA gift accepted checksum mismatch")
+    leaves = [exchange.Leaf("ui", key, "runtime:static_ui", (key,), key, "ui_static_context") for key in LEGACY_GIFT_KEYS]
+    ids = {leaf.id for leaf in leaves}
+    selected = [leaf for leaf in inventory["leaves"] if leaf.id in ids]
+    require(len(selected) == 2 and _ordered({leaf.id: vars(leaf) for leaf in selected})
+            == _ordered({leaf.id: vars(leaf) for leaf in leaves}), "legacy JA gift current Korean leaf/protection/support differs")
+    require(not ids.intersection(a["accepted"]["ja"])
+            and not any(ids.intersection(receipt_id(key) for key in row.get("roots", []))
+                        and row.get("target_leaves_by_locale", {}).get("ja", 0) for row in a["batches"]),
+            "legacy JA gift falsely claims absent prior acceptance")
+    corrected = {leaf.id: {"source_sha256": leaf.source_sha256,
+                           "target_sha256": exchange.digest(LEGACY_GIFT_TEXTS[leaf.owner][1])}
+                 for leaf in sorted(leaves, key=lambda row: row.id)}
+    previous = {leaf.id: exchange.digest(LEGACY_GIFT_TEXTS[leaf.owner][0]) for leaf in leaves}
+    for leaf in leaves:
+        require(not exchange.translation_errors(leaf, "ja", LEGACY_GIFT_TEXTS[leaf.owner][1]),
+                "legacy JA gift translation contract failed")
+    batch = b["batches"][LEGACY_GIFT_BATCH_INDEX]
+    expected = {"order": "ORDER-414", "group": "ui_correction", "roots": list(LEGACY_GIFT_KEYS), "source_leaves": 2,
+                "legacy_origin_commit": LEGACY_GIFT_ORIGIN_COMMIT, "prior_acceptance": "absent",
+                "before_target_sha256_by_locale": {"ja": previous},
+                "target_leaves_by_locale": {"ja": 2, "zh-CN": 0, "zh-TW": 0},
+                "source_review": LEGACY_GIFT_REVIEW, "machine_validation": "PASS", "rendered_review": "OPEN", "native_review": "OPEN"}
+    maps = (HEADERS_FIELD, "receipt_sha256_by_locale")
+    require(isinstance(batch, dict) and set(batch) == set(expected) | set(maps)
+            and all(_ordered(batch[k]) == _ordered(v) for k, v in expected.items())
+            and all(isinstance(batch[k], dict) and set(batch[k]) == {"ja"} for k in maps),
+            "legacy JA gift batch identity/population differs")
+    header = batch[HEADERS_FIELD]["ja"]
+    require(header.get("source_revision") == LEGACY_GIFT_BEFORE_COMMIT
+            and re.fullmatch(r"[0-9a-f]{64}", str(header.get("source_manifest_sha256", ""))),
+            "legacy JA gift export revision/manifest malformed")
+    rebuilt = exchange.make_batch({**inventory, "source_manifest_sha256": header["source_manifest_sha256"]},
+                                  "ja", sorted(selected, key=lambda leaf: leaf.id), LEGACY_GIFT_BEFORE_COMMIT,
+                                  {LEGACY_GIFT_PATH: old[LEGACY_GIFT_PATH]}, {})[0]
+    require(_ordered(header) == _ordered(rebuilt), "legacy JA gift official previous-target selection differs")
+    receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN", "translations": corrected}
+    require(batch["receipt_sha256_by_locale"]["ja"] == exchange.digest(receipt), "legacy JA gift official receipt digest differs")
+    accepted = {**a["accepted"], "ja": {**a["accepted"]["ja"], **corrected}}
+    require(_ordered(b) == _ordered({**a, "accepted": accepted, "accepted_sha256": exchange.digest(accepted),
+                                    "batches": [*a["batches"], batch]}), "legacy JA gift changed an old receipt/batch or ledger field")
+    require(_legacy_ja_gift_comparison(after, before, after) == before, "legacy JA gift whole raw inverse differs")
+    return {"ui_by_locale": {loc: 0 for loc in CURRENT_LOCALES}, "receipts": 0, "batches": 0,
+            "corrections": 2, "correction_batches": 1, "first_receipts": 2,
+            "source_manifests": {header["source_revision"]: header["source_manifest_sha256"]}}
+
+
+def _legacy_ja_gift_proof(root: Path, inventory: dict[str, Any]) -> tuple[dict, dict, dict]:
+    """Fresh exact product and legacy provenance; never a cached current admission."""
+    require(set(LEGACY_GIFT_BLOBS) == set(LEGACY_GIFT_HASHES) == set(CURRENT_PATHS), "legacy JA gift pin population differs")
+    revisions = (LEGACY_GIFT_BEFORE_COMMIT, LEGACY_GIFT_AFTER_COMMIT)
+    requests = [(c, c, "commit") for c in revisions] + [(t, t, "tree") for t in LEGACY_GIFT_TREES]
+    requests += [(c + ":" + p, LEGACY_GIFT_BLOBS[p][i], "blob") for p in CURRENT_PATHS for i, c in enumerate(revisions)]
+    requests.append((LEGACY_GIFT_ORIGIN_COMMIT + ":" + LEGACY_GIFT_PATH, LEGACY_GIFT_ORIGIN_BLOB, "blob"))
+    values = _objects(root, requests)
+    for index in range(2):
+        headers = values[index].split(b"\n\n", 1)[0].splitlines()
+        require([h for h in headers if h.startswith(b"tree ")] == [b"tree " + LEGACY_GIFT_TREES[index].encode()],
+                "legacy JA gift exact tree mismatch")
+        if index:
+            require([h for h in headers if h.startswith(b"parent ")] == [b"parent " + revisions[0].encode()],
+                    "legacy JA gift direct parent mismatch")
+    require(_git(root, "diff", "--name-status", "-z", *revisions).split(b"\0")
+            == [v for p in sorted(LEGACY_GIFT_PRODUCT_PATHS) for v in (b"M", p.encode())] + [b""],
+            "legacy JA gift product path population differs")
+    before, after = {}, {}
+    for index, path in enumerate(CURRENT_PATHS):
+        old, new = values[4 + index * 2:6 + index * 2]
+        require(tuple(hashlib.sha256(v).hexdigest() for v in (old, new)) == LEGACY_GIFT_HASHES[path],
+                "legacy JA gift immutable whole raw differs")
+        before[path], after[path] = old, new
+    origin = values[-1]
+    require(hashlib.sha256(origin).hexdigest() == LEGACY_GIFT_ORIGIN_SHA256
+            and all(_loads(origin).get(key) == texts[0] for key, texts in LEGACY_GIFT_TEXTS.items()),
+            "legacy JA gift original target provenance differs")
+    _git(root, "merge-base", "--is-ancestor", LEGACY_GIFT_ORIGIN_COMMIT, LEGACY_GIFT_BEFORE_COMMIT)
+    return before, after, _validate_legacy_ja_gift_correction(before, after, inventory)
+# END_LEGACY_JA_GIFT_CORRECTION_414
