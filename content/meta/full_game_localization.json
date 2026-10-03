@@ -7310,6 +7310,50 @@
           "batch_id": "38539a08000002a83a02335ace8330c60804f0cbf97caa75ed15070f6d6112b2"
         }
       }
+    },
+    {
+      "order": "ORDER-414",
+      "group": "ui_correction",
+      "roots": [
+        "밑줄 그을 자리가 많은 책",
+        "값이 먼저 보이는 선물"
+      ],
+      "source_leaves": 2,
+      "legacy_origin_commit": "aaeba142d08278c310505000bcc126a699493479",
+      "prior_acceptance": "absent",
+      "before_target_sha256_by_locale": {
+        "ja": {
+          "ui:값이 먼저 보이는 선물:/값이 먼저 보이는 선물": "b162f320bdeb5cad0b61e79fc481d323fd6031bf8129a28adb25adb9bf0933d9",
+          "ui:밑줄 그을 자리가 많은 책:/밑줄 그을 자리가 많은 책": "e875ca2038ba88a4385f6ee16be93e047055ca62927a91518166b38cce57a447"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct repair of two legacy Japanese gift descriptions: prospective underline-worthy passages, not an already overmarked book; price comes into view first, not abstract value. Two existing values corrected, zero new UI keys, two first official receipts. Gameplay, other locales and public demo unchanged; agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "0ea54561d6f8f0603b1d60fc7a421b0ee60168ee03df3f856e63b6c5e36c78c2"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "04da1afdf956cad72ffb6641871d4bafa420e82d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "2dcad242e99f1a1403d736948872c1b09c353d08d416395c93a189dbc492b108",
+          "selection_sha256": "47863a60701dd10b49637005399e5bd9af4303d866097b18ade21617c0249de9",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "63acfad29ab579c5b730d5a7059de72892a31b8bda44d6af872160728e3ca9fc"
+        }
+      }
     }
   ],
   "accepted": {
@@ -59825,6 +59869,14 @@
       "ui:이번 달 승진 판정 대상!:/이번 달 승진 판정 대상!": {
         "source_sha256": "74f01d12ff1dcaef86bb618a9443a640b1b59e79d2a89c0545c87b840ef7438a",
         "target_sha256": "a4cff79acc4067ac4031c3c271e87e0128b593512ca019f7ccc195c6aff1a398"
+      },
+      "ui:값이 먼저 보이는 선물:/값이 먼저 보이는 선물": {
+        "source_sha256": "51bd582e25aa592c3be914d971807d586e8b28f8055bc7f2341f6653edcb886a",
+        "target_sha256": "0b0b1220913a158eeeec58b18650b7df4e02c823eea4da5320125274df5c2ca1"
+      },
+      "ui:밑줄 그을 자리가 많은 책:/밑줄 그을 자리가 많은 책": {
+        "source_sha256": "a3124254ea5e8bcc71f236317da1187111c31ef1f4c30fc788073abd0a223580",
+        "target_sha256": "d53209ed8c5dd1483cebd3b8930d81e1084a7acbca88c9a07e1b62f3896dc30a"
       }
     },
     "zh-CN": {
@@ -172320,7 +172372,7 @@
       }
     }
   },
-  "accepted_sha256": "01c3a6b32c9c31a80687e0730c331b5e89653e3702955d119d31a1a484c43d97",
+  "accepted_sha256": "51f13e6258d70b51622387bf9610314470bd6b4ae27674194065c823b002fdd5",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
