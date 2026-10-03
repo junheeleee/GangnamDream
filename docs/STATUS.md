@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-10-03 21:27 UTC · e2e31133`
+> 생성 시각 · 커밋: `2026-10-03 22:09 UTC · 871e8137`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -115,7 +115,7 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
-| `ORDER-413` | 선물 진열대·전달 전 준비 안내 중국어 소비자 마감 | 진행 | 착수 · 만지는 파일: CN/TW15키씩·공식receipt30/2batch·14화면helper·기록 |
+| `ORDER-414` | 일본어 선물 설명 두 의미 교정 | 진행 | 착수 · 만지는 파일: JA2값·첫receipt2/1batch·append교정proof/self_test/audit_scope·2화면helper·기록 |
 | `ORDER-302` | 체험판 대본 사실·영어 정합 수리 | 진행 | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
 | `ORDER-352` | 본편 5장 대본 이름·시간·회수 정합 | 미착수 | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 | `ORDER-212` | 선택의 나비효과·친절의 연쇄 번역 | 진행 | 432번역 L1/L2 · L3 OPEN |
