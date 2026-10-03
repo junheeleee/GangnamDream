@@ -21,7 +21,7 @@
 - **1장(배치11):** F6(`arc_goshiwon_goodbye` 변형의 "30개월"→"고시원의 요령")만 5언어에 반영했다. F1·F3·F4·F7은 데모 고정 파일 `arc_events.json` 안이다. F2(KTX 회상이 `told_dad_okay` 경로의 실제 대사와 다름)는 회상 변형 추가가 노출 상태 계약(`exposed_event_state_contracts`)과 번역 장부 배치 구조를 함께 건드려 Codex 몫으로 남겼다. F5(도달 불가 변형)는 삭제 판정이 필요하다. 등급 sexuality 축 지문만 갱신했다.
 - **사용자 판정 3건("권고 3건 진행해"):** DECISIONS 2026-10-01에 기록했다. `instant_legend`의 개발자 목소리 문장은 5언어에서 지웠다(엔딩 corpus 지문 갱신). 지연 변형 author_only 전환과 `later_echo` 선택 조건은 각각 검사 도구 승격 목록·lifecycle 원장·코드 분기와 데모 고정 파일 계약을 함께 바꿔야 해 Codex 복귀 계획 7k로 넘겼다.
 - **3장 도덕 해설(사용자 "응"):** `arc_y3_cost_of_knowing`의 선택지 나열·"출처가 깨끗해지는 것은 아니었다", `arc_y3_sangchul_deeper_room`의 자기 승인 문장을 지우고, `arc_35_orthodox_weight`·`_unorthodox_weight`를 분류어("정석의 무게")와 격언 없이 적금 자동이체 알림·새벽 3시 7분의 매도 버튼으로 다시 썼다. 하드코딩 "민준/Minjun" 2곳도 `{name}`으로 바꿨다. 9잎×5언어. 비정석 장면에서 "불안"이 빠져 등급 fear·violence 후보에서 빠졌으므로(사실 항목 참조 없음, violence는 원래 검색 잡음) 두 축의 수·목록 지문과 gambling·sexuality 지문을 갱신했다. `arc_jaehyuk_04b_counter`는 데모 고정 파일이라 7k에 넣었다. CI 대조 실패 집합은 기존 29개 그대로다.
-- **남김:** 4장 `_person_deal` 대상만 사용자 판정이 필요하다. 지연 변형·`later_echo`는 7k 구현 대기다. 결정 기록(DECISIONS)에 위임을 적는 일은 자동 승인 정책이 막아 하지 않았다.
+- **남김:** 4장 `_person_deal`은 2026-10-03 사용자 위임으로 판정했다(DECISIONS 2026-10-03: 합치지 않고 다은 경로 DIK·야간 진료 기본 본문·중립 선택문). 구현은 지연 변형·`later_echo`와 함께 Codex 7k다.
 
 ## 2026-09-29 (Claude — Codex 인계: 투자 패드 안내 중국어 8값)
 
