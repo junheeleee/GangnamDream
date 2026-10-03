@@ -6705,6 +6705,106 @@
           "batch_id": "8f17826343c71c6d1c6e7f495b3a0b0dffa66aebe4590c50c2ae54c956aa2e25"
         }
       }
+    },
+    {
+      "order": "ORDER-405",
+      "group": "ui",
+      "roots": [
+        "돈 · 투자",
+        "월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.",
+        "투자 집중  —  차트를 들여다본다",
+        "시장 분석  —  다음 달 방향을 무료로 예측한다",
+        "잠금: 투자는 상철과의 대화 후 가능하다.",
+        "잠금: 투자는 첫 월급을 받은 뒤 가능하다.",
+        "%s  —  %s+ (끝난 뒤 몸이 무거워진다)",
+        "저축/절약  —  이번 달 지출을 줄인다",
+        "추가 야간 시프트",
+        "추가 배달",
+        "단기 알바",
+        "주말 부업",
+        "자산별 위험 1~5 · 거래 확정 AP 1 · 1~3주: 결산 변동",
+        "중간 위험 · AP 1 · 현금 %s+ · 건강 기본 -3 · 1~3주: 피로",
+        "낮은 위험 · AP 1 · 현금 +3만~10만 · 스트레스 +2 · 1~3주: 월세 여유",
+        "이후  이번 주가 지나도 남는다"
+      ],
+      "source_leaves": 16,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 16,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct money modal investment locks, side-shift titles and pay, saving and market-analysis guidance. Independent full source comparison; existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "9e0147012fb4a74987f0de271e5c66cfc3eb6b959a3f391d5f2f40005f077c12"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "d90f2c801f7e7306010b3fb790f623d1cc896550",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c260482830bc0c76ca6986b89c6e4c5b1c9f964025706dad478e1f23eaecb661",
+          "selection_sha256": "cceab1736cb83cf71f2594727191842c948cf72318aa69e1293efe19eac56432",
+          "count": 16,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "92fa124a35f6657b055416a1824ddd7fb86bfcb2ccea1e69fe66804e54d8f75c"
+        }
+      }
+    },
+    {
+      "order": "ORDER-405",
+      "group": "ui",
+      "roots": [
+        "돈 · 투자",
+        "월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.",
+        "투자 집중  —  차트를 들여다본다",
+        "시장 분석  —  다음 달 방향을 무료로 예측한다",
+        "잠금: 투자는 상철과의 대화 후 가능하다.",
+        "잠금: 투자는 첫 월급을 받은 뒤 가능하다.",
+        "%s  —  %s+ (끝난 뒤 몸이 무거워진다)",
+        "저축/절약  —  이번 달 지출을 줄인다",
+        "추가 야간 시프트",
+        "추가 배달",
+        "단기 알바",
+        "주말 부업",
+        "자산별 위험 1~5 · 거래 확정 AP 1 · 1~3주: 결산 변동",
+        "중간 위험 · AP 1 · 현금 %s+ · 건강 기본 -3 · 1~3주: 피로",
+        "낮은 위험 · AP 1 · 현금 +3만~10만 · 스트레스 +2 · 1~3주: 월세 여유",
+        "이후  이번 주가 지나도 남는다"
+      ],
+      "source_leaves": 16,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 16
+      },
+      "source_review": "Korean-direct money modal investment locks, side-shift titles and pay, saving and market-analysis guidance. Independent full source comparison; existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "d49d924724d47659f99dcf377fc9b162cb5a61468f5c92239d966314a44cb503"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "d90f2c801f7e7306010b3fb790f623d1cc896550",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c260482830bc0c76ca6986b89c6e4c5b1c9f964025706dad478e1f23eaecb661",
+          "selection_sha256": "a4006d158fd0cc2298ac0e3a07dd57b3eb2bf7416e7baffe050b7251fdc75376",
+          "count": 16,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "170fbd76af2683fc4e1c94ab7c6538249f7ea2dce9f810a25feb86f64b3ac5b9"
+        }
+      }
     }
   ],
   "accepted": {
@@ -115138,6 +115238,70 @@
       "ui:지원 계속  —  마포 면접 이후 다음 지원처를 고른다:/지원 계속  —  마포 면접 이후 다음 지원처를 고른다": {
         "source_sha256": "3dd40766aa055772525970168afed48fba6d046fad2ae8631d7d7999709af766",
         "target_sha256": "65920ffe85cd4f3354b25a0548b827da545a6c8a6c77a73bf3d77158bc922019"
+      },
+      "ui:%s  —  %s+ (끝난 뒤 몸이 무거워진다):/%s  —  %s+ (끝난 뒤 몸이 무거워진다)": {
+        "source_sha256": "8dd6796a58a34f23285157c56e00f2e9f59d85fbfefd8894054613db51ff1984",
+        "target_sha256": "37f2e11d2408bce59bf19e30842e643a91623aba07499753ea155f852d421225"
+      },
+      "ui:낮은 위험 · AP 1 · 현금 +3만~10만 · 스트레스 +2 · 1~3주: 월세 여유:/낮은 위험 · AP 1 · 현금 +3만~010만 · 스트레스 +2 · 1~03주: 월세 여유": {
+        "source_sha256": "d678a80afeb108e52e2ddbe7b81a2b99a879e65bdf1114110d2e9fa188a5d5f7",
+        "target_sha256": "6c0b171a2f7c6055fe1372749118fb6c82252d30926c633765a56cfffb712a8c"
+      },
+      "ui:단기 알바:/단기 알바": {
+        "source_sha256": "372d826644e293e01e2c6cc10adbcaaf7c9a50b263cef3c7406daab9d2552631",
+        "target_sha256": "5d2043c38a856debe2b3ae329c254318d6f9152eb3a713f203b1c28ebfbf210d"
+      },
+      "ui:돈 · 투자:/돈 · 투자": {
+        "source_sha256": "59120288f309d77ef90ed58124cf2c4f25627d1fb11de7b82cba2b8b694cdb76",
+        "target_sha256": "11b3e182f3269015891caddd78d0ab5637728bf0cb4c220bd47ffe39aaf94591"
+      },
+      "ui:시장 분석  —  다음 달 방향을 무료로 예측한다:/시장 분석  —  다음 달 방향을 무료로 예측한다": {
+        "source_sha256": "a8b43a7da33fe40e538ce5cb596688bb051faa05bdc9bd3439ed73078470da38",
+        "target_sha256": "24d2407e457a159fa4ec513873c3a26546288ce5d0fb9f966af8aff489f85dde"
+      },
+      "ui:월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.:/월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.": {
+        "source_sha256": "5b49e34629171dbdb574b5765616c8be5ae2ef0c1411ebfd5c594228404766a9",
+        "target_sha256": "199f7702aededf40dca65ff0d654099fa1ac66fd63960b434b67994590cabd33"
+      },
+      "ui:이후  이번 주가 지나도 남는다:/이후  이번 주가 지나도 남는다": {
+        "source_sha256": "504789cfd262e0dd77095f7e5ef29075c0fc2e2444590990a2bf52d8c7b3d79c",
+        "target_sha256": "918c2bd51fa7b608fb04262d0804ea406735d976f540797c055cab5efe2bcb48"
+      },
+      "ui:자산별 위험 1~5 · 거래 확정 AP 1 · 1~3주: 결산 변동:/자산별 위험 1~05 · 거래 확정 AP 1 · 1~03주: 결산 변동": {
+        "source_sha256": "6faa289f17058436e4cedf09f631cf193fd4c7593d022733dd2213f03b7141a7",
+        "target_sha256": "e56cb38c34c01329956815017cb520ec5a8618401514c0201299fb6759850947"
+      },
+      "ui:잠금: 투자는 상철과의 대화 후 가능하다.:/잠금: 투자는 상철과의 대화 후 가능하다.": {
+        "source_sha256": "dd7d943bab55b7d77a07cba1aa8a771330bd4e865b7a269e47fb6e2468437cb4",
+        "target_sha256": "a30b0a944f813050a722e6afbf2d8281f8c2de3c7d019d37608fede099e708c8"
+      },
+      "ui:잠금: 투자는 첫 월급을 받은 뒤 가능하다.:/잠금: 투자는 첫 월급을 받은 뒤 가능하다.": {
+        "source_sha256": "35e3df1ca10672fa80da344abcb2073efcdc90deded5e37017f92d16e29405ac",
+        "target_sha256": "d4a1c8610115fadd589ce7389764736d1254806fe1198fb85cfe3e67113ee18a"
+      },
+      "ui:저축/절약  —  이번 달 지출을 줄인다:/저축~1절약  —  이번 달 지출을 줄인다": {
+        "source_sha256": "413fc823f1cc1f55f7239aaa0427225461cd9438e6dc03c401f9f61eb50393d0",
+        "target_sha256": "73f88ce0e1727f325aca90e40ccc4fa4b81dff79280f89af2e2d5421d491da52"
+      },
+      "ui:주말 부업:/주말 부업": {
+        "source_sha256": "243ccde3455fc3da1ccbaceea45ec8c7e28c34a5a7731b27f610f706062caaab",
+        "target_sha256": "7a412540abf7be4baec7913d86a4ef3bf015feaa3045e7d441392e4a2d82cf7c"
+      },
+      "ui:중간 위험 · AP 1 · 현금 %s+ · 건강 기본 -3 · 1~3주: 피로:/중간 위험 · AP 1 · 현금 %s+ · 건강 기본 -3 · 1~03주: 피로": {
+        "source_sha256": "55d25ac96372fdae458119f27757a165046849ba251542a122dcfe9aeef38d62",
+        "target_sha256": "27b398555d91dfad27d9047b053efc4b57276b780ef12ba910980a290abeac18"
+      },
+      "ui:추가 배달:/추가 배달": {
+        "source_sha256": "dbe9617869de8f536ddd8d9a70d4763858685f43c22505ced5bb7a2fc9b4f848",
+        "target_sha256": "5b595d615cc88c50608ab522959819028b7c70f93e951fbe04f514f930c98e45"
+      },
+      "ui:추가 야간 시프트:/추가 야간 시프트": {
+        "source_sha256": "a83623bd176c69a3d17b419e6d615fe0891334e5cd83de842a09d4e869dbf253",
+        "target_sha256": "f89106d9d1257bd42fc4882d0114e4c4f7d1a5bd35a7a21eea5ad0bbc04b8345"
+      },
+      "ui:투자 집중  —  차트를 들여다본다:/투자 집중  —  차트를 들여다본다": {
+        "source_sha256": "339854da9032cbbdc5fe75dc1555239762d1ba1ad6e3e3e4373624017c61233a",
+        "target_sha256": "274a2a1f369d63b2cae852b8458e04b5590967b13a71759654822364f3133279"
       }
     },
     "zh-TW": {
@@ -171060,10 +171224,74 @@
       "ui:지원 계속  —  마포 면접 이후 다음 지원처를 고른다:/지원 계속  —  마포 면접 이후 다음 지원처를 고른다": {
         "source_sha256": "3dd40766aa055772525970168afed48fba6d046fad2ae8631d7d7999709af766",
         "target_sha256": "0aa17db4bab645c67540b6f5890bf57c5d4e948e338e1470532e73515ef0ae1c"
+      },
+      "ui:%s  —  %s+ (끝난 뒤 몸이 무거워진다):/%s  —  %s+ (끝난 뒤 몸이 무거워진다)": {
+        "source_sha256": "8dd6796a58a34f23285157c56e00f2e9f59d85fbfefd8894054613db51ff1984",
+        "target_sha256": "0cdc195755ce549c49d984ae83bee81f48d4a27efb310dc298323f2463d50383"
+      },
+      "ui:낮은 위험 · AP 1 · 현금 +3만~10만 · 스트레스 +2 · 1~3주: 월세 여유:/낮은 위험 · AP 1 · 현금 +3만~010만 · 스트레스 +2 · 1~03주: 월세 여유": {
+        "source_sha256": "d678a80afeb108e52e2ddbe7b81a2b99a879e65bdf1114110d2e9fa188a5d5f7",
+        "target_sha256": "22239b745987adc6f057c9dd9e6d8693b795470ca13d5392a16e8f4839efb42c"
+      },
+      "ui:단기 알바:/단기 알바": {
+        "source_sha256": "372d826644e293e01e2c6cc10adbcaaf7c9a50b263cef3c7406daab9d2552631",
+        "target_sha256": "410cd63a90b7c374092551be433004fe8f9d48d59d86049c88a6dff9a06dd3ec"
+      },
+      "ui:돈 · 투자:/돈 · 투자": {
+        "source_sha256": "59120288f309d77ef90ed58124cf2c4f25627d1fb11de7b82cba2b8b694cdb76",
+        "target_sha256": "c21c994bab1e78370ecac28afcfbe390a613e8b2559cb14666bfbdf057f0e9a3"
+      },
+      "ui:시장 분석  —  다음 달 방향을 무료로 예측한다:/시장 분석  —  다음 달 방향을 무료로 예측한다": {
+        "source_sha256": "a8b43a7da33fe40e538ce5cb596688bb051faa05bdc9bd3439ed73078470da38",
+        "target_sha256": "2a964e8a03d23de55f8f72bfedf47382370e4f8a4153ddfd8d07ddc7263d979d"
+      },
+      "ui:월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.:/월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.": {
+        "source_sha256": "5b49e34629171dbdb574b5765616c8be5ae2ef0c1411ebfd5c594228404766a9",
+        "target_sha256": "374e52f6362212aad1f49604bb09c48a6d0f4f959dd38d31711b6a89512a3f2e"
+      },
+      "ui:이후  이번 주가 지나도 남는다:/이후  이번 주가 지나도 남는다": {
+        "source_sha256": "504789cfd262e0dd77095f7e5ef29075c0fc2e2444590990a2bf52d8c7b3d79c",
+        "target_sha256": "7eb714322f7f95e7ba41ded541ab9af0e08265052199f6d16a7ae4a27f6a411e"
+      },
+      "ui:자산별 위험 1~5 · 거래 확정 AP 1 · 1~3주: 결산 변동:/자산별 위험 1~05 · 거래 확정 AP 1 · 1~03주: 결산 변동": {
+        "source_sha256": "6faa289f17058436e4cedf09f631cf193fd4c7593d022733dd2213f03b7141a7",
+        "target_sha256": "728c3a4d7d58335dd7e8df81fd002b4ee0e0a4d746ab8384ead5779aa572874d"
+      },
+      "ui:잠금: 투자는 상철과의 대화 후 가능하다.:/잠금: 투자는 상철과의 대화 후 가능하다.": {
+        "source_sha256": "dd7d943bab55b7d77a07cba1aa8a771330bd4e865b7a269e47fb6e2468437cb4",
+        "target_sha256": "bf8200f7a1544cf18b6d1fac944a5306618e2bf873395f117547fc0623cced06"
+      },
+      "ui:잠금: 투자는 첫 월급을 받은 뒤 가능하다.:/잠금: 투자는 첫 월급을 받은 뒤 가능하다.": {
+        "source_sha256": "35e3df1ca10672fa80da344abcb2073efcdc90deded5e37017f92d16e29405ac",
+        "target_sha256": "9db404b448d215583a2002145c5bb56ce2b7849712d2a133d8b9183f8c883880"
+      },
+      "ui:저축/절약  —  이번 달 지출을 줄인다:/저축~1절약  —  이번 달 지출을 줄인다": {
+        "source_sha256": "413fc823f1cc1f55f7239aaa0427225461cd9438e6dc03c401f9f61eb50393d0",
+        "target_sha256": "d8ca766dd0be4245dc99a82225475d6d1ba4aa03921898f6f204739944811e70"
+      },
+      "ui:주말 부업:/주말 부업": {
+        "source_sha256": "243ccde3455fc3da1ccbaceea45ec8c7e28c34a5a7731b27f610f706062caaab",
+        "target_sha256": "32f0f6ef9d4bbc354f2e33c75e49ace0c8c92fb5bce85b798a406a76414f6831"
+      },
+      "ui:중간 위험 · AP 1 · 현금 %s+ · 건강 기본 -3 · 1~3주: 피로:/중간 위험 · AP 1 · 현금 %s+ · 건강 기본 -3 · 1~03주: 피로": {
+        "source_sha256": "55d25ac96372fdae458119f27757a165046849ba251542a122dcfe9aeef38d62",
+        "target_sha256": "2acaf9a5de7ed059ae7e7d3cb41329e1b4d48a0d1fca130d94f288537dd3869e"
+      },
+      "ui:추가 배달:/추가 배달": {
+        "source_sha256": "dbe9617869de8f536ddd8d9a70d4763858685f43c22505ced5bb7a2fc9b4f848",
+        "target_sha256": "93d4a02d27847419bc372e88d5a97f7ff51587fd51a8cc7db60ca490a6369240"
+      },
+      "ui:추가 야간 시프트:/추가 야간 시프트": {
+        "source_sha256": "a83623bd176c69a3d17b419e6d615fe0891334e5cd83de842a09d4e869dbf253",
+        "target_sha256": "88d92b9bfa2e1b1a9a83774bd58e050e54d94f7a9949f34b079bc32e53fda9f5"
+      },
+      "ui:투자 집중  —  차트를 들여다본다:/투자 집중  —  차트를 들여다본다": {
+        "source_sha256": "339854da9032cbbdc5fe75dc1555239762d1ba1ad6e3e3e4373624017c61233a",
+        "target_sha256": "0f8ea8e13f3f7b3fc49f594bb3c85ab0231fe30af6ca2402cddca49c797437da"
       }
     }
   },
-  "accepted_sha256": "c30abb19d84de08f7add4e1dc3011f3be24e657ed5ee81de439cef5b8d1ee0fd",
+  "accepted_sha256": "3ab59faed7676164271f3e7973578fd2e6ebfe2eba6d63e0160cfc1d98729fe4",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
