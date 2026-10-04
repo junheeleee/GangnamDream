@@ -2,9 +2,16 @@
 
 이전 원문 전체는 [홀덤 비동기 수리 전 기록](history/WORK_LOG_2026-10-04_pre_order438.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 홀덤 행동·단계 배너 현지화 완료 (447)
+
+- 코드 `8a18431`·지원 `5ac51c9`·번역 `739e64b`·검수 후보 `fc1c1c2`를 main에 커밋·푸시했다. 플레이어/상대 행동과 단계 배너·쇼다운 요약 제목을 선택 언어로 읽는다. 기존 번역은 재사용하고 새 핸드1키·3값만 수용해 accepted41740/b220·JA3049/CN·TW1772다.
+- JA/CN/TW 실제9PNG·39배너·요약제목3·39준비표시와3그룹 typed/Meta/RNG/semantic focus 복원 PASS(62.544초). 입력/딜/AI/정산0·player34 불변이며 저자와 독립 검수자가9원본을 전수로 읽었다. 배너18bold의 최장폭은 JA189px/CN·TW135px로 실제356px 내부에 든다.
+- fresh9검증+조회1 PASS(528.598초), 신규focused67/과거0·등록184. [독립 보고](agent_reviews/ORDER-447.json)와 [일회성 사양](queue_archive/ORDER-447.md)으로 이 범위만 닫는다. 이전207판정185보고·인간OPEN45/공개GO1과 본편/새package HOLD는 보존한다.
+- 공식 전 HEAD 문자열 사전조건 실패와 response 생성기의 null prior 가정 실패는 공식 실행 전 차단했다. helper의 source hash 가정도 실행 전에 바로잡았으며 실제 공식9회·runtime·normal은 각 첫 실행 PASS다. 남은 커피 제목3과 JA 회상1의 동일 오독을 다음 수리로 분리하고 POT/BOARD/STACK/BET 등 다른 잔여는 미완료로 둔다.
+
 ## 2026-10-05 — 홀덤 행동·단계 배너 현지화 착수 (447)
 
-- [새 범위](queue_active/ORDER-447.md)는 직접 영어 배너13종과 같은 SHOWDOWN 요약 제목이다. 기존 액션/단계 번역을 재사용하고 첫 판에도 맞는 새 핸드1키·JA/CN/TW3값만 추가한다. POT/BOARD/STACK은 별도 잔여다.
+- [새 범위](queue_archive/ORDER-447.md)는 직접 영어 배너13종과 같은 SHOWDOWN 요약 제목이다. 기존 액션/단계 번역을 재사용하고 첫 판에도 맞는 새 핸드1키·JA/CN/TW3값만 추가한다. POT/BOARD/STACK은 별도 잔여다.
 - 내부 단계 토큰/new_cards 조건은 보존하고 표시 인자·EOF helper만 바꾼다. 기존61 UiCall의 좌표는 유지하며 새5호출/1leaf를 정직하게 수집한다. root 제품/교환/normal, claude 정확 전이/collector/검사, receipt 화면/scope, independent 최종 검수로 분리한다.
 - 완료446 제품/검수/마감은 main에 정리했다. 현재 accepted41737/b217·207판정185보고·인간/공개 이력·본편/새package HOLD를 보존한다. 아직447 제품 수정·신규수용·runtime PASS는0이다. 이전 배너 lifecycle/베팅 회귀를 반복하지 않고 3언어 전 문구 측정과 대표9PNG를 표적으로 한다.
 

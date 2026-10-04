@@ -4228,8 +4228,7 @@
         "path": "docs/agent_reviews/ORDER-302.json",
         "sha256": "a5b342d3c4311111210300ae4da6dfbd24e78f77698a8773be1de870b8244473"
       }
-    }
-    ,
+    },
     {
       "id": "order-303-source-7a69b426-agent-final",
       "delegation_id": "user-2026-09-09-codex-game-quality",
@@ -4269,8 +4268,7 @@
         "path": "docs/agent_reviews/ORDER-303.json",
         "sha256": "f8be3f61db78601ebd68d8c34617270bd1e488a58cd9d1b8f56a7dc4f657a87d"
       }
-    }
-    ,
+    },
     {
       "id": "order-354-source-2d3fb7a-agent-final",
       "delegation_id": "user-2026-09-09-codex-game-quality",
@@ -4311,8 +4309,7 @@
         "path": "docs/agent_reviews/ORDER-354.json",
         "sha256": "8ddcdb7cdb8d4cd27f8939d56b1a7c8a15de2b60f6844e5c331ba06b9188b71b"
       }
-    }
-    ,
+    },
     {
       "id": "order-303-source-2d3fb7a-agent-followup",
       "delegation_id": "user-2026-09-09-codex-game-quality",
@@ -4478,8 +4475,7 @@
         "path": "docs/agent_reviews/ORDER-309-followup.json",
         "sha256": "aaaf02826f38412e818cc3ed7ce0aa3189574129f97a1127b9f386fbad3e4d49"
       }
-    }
-    ,
+    },
     {
       "id": "order-313-source-496142d-agent-review",
       "delegation_id": "user-2026-09-09-codex-game-quality",
@@ -6833,8 +6829,7 @@
         "path": "docs/agent_reviews/ORDER-414.json",
         "sha256": "70ecc08d8e1faa63dcbdcc0a51b226aa037009c828715416228fb4868fa9de52"
       }
-    }
-    ,
+    },
     {
       "id": "order-415-source-ae51a7d-agent-final",
       "delegation_id": "user-2026-09-09-codex-game-quality",
@@ -6868,8 +6863,7 @@
         "path": "docs/agent_reviews/ORDER-415.json",
         "sha256": "58aba6d6ff44923df12f947a2570b47ad346e36a4990942ba3aa9a44a335d516"
       }
-    }
-    ,
+    },
     {
       "id": "order-416-source-ae51a7d-agent-final",
       "delegation_id": "user-2026-09-09-codex-game-quality",
@@ -6904,8 +6898,7 @@
         "path": "docs/agent_reviews/ORDER-416.json",
         "sha256": "3b12f5ca48adfceb4ad557a855b240aba8ae36840f09ba273e63fb8e6cbf784d"
       }
-    }
-    ,
+    },
     {
       "id": "order-417-source-ae51a7d-agent-final",
       "delegation_id": "user-2026-09-09-codex-game-quality",
@@ -6939,8 +6932,7 @@
         "path": "docs/agent_reviews/ORDER-417.json",
         "sha256": "2ee2b11253f1dd5f451103c2fefb109405f89f826ae9c083e7ad71d909ad1a74"
       }
-    }
-    ,
+    },
     {
       "id": "order-418-source-b8ff97a-agent-final",
       "delegation_id": "user-2026-09-09-codex-game-quality",
@@ -6974,8 +6966,7 @@
         "path": "docs/agent_reviews/ORDER-418.json",
         "sha256": "4b38ed83009d5147ea8dde31082955f7169aa8cbec35bf08b8340c2656b4b715"
       }
-    }
-    ,
+    },
     {
       "id": "order-419-source-b8ff97a-agent-final",
       "delegation_id": "user-2026-09-09-codex-game-quality",
@@ -7009,8 +7000,7 @@
         "path": "docs/agent_reviews/ORDER-419.json",
         "sha256": "fb85c1e4bf2bc224f0d5513689ae8e218c1d4e10ef6846d093fe8af0e49463c4"
       }
-    }
-    ,
+    },
     {
       "id": "order-420-source-c52ddc1-agent-final",
       "delegation_id": "user-2026-09-09-codex-game-quality",
@@ -7397,8 +7387,7 @@
         "path": "docs/agent_reviews/ORDER-428.json",
         "sha256": "b5e2fd760f53d8b654cabd688c5f21fa8d48993e5538cefed59db5dcc12a93e4"
       }
-    }
-    ,
+    },
     {
       "id": "order-429-source-e3c76c6-agent-rework",
       "delegation_id": "user-2026-09-09-codex-game-quality",
@@ -7450,8 +7439,7 @@
         "path": "docs/agent_reviews/ORDER-429-REWORK.json",
         "sha256": "4d003b35d6a2b5f638bf90b16bfe9a154422ea5b616d37e072b1fa81acef0ce1"
       }
-    }
-    ,
+    },
     {
       "id": "order-429-source-927d6f5-agent-final",
       "delegation_id": "user-2026-09-09-codex-game-quality",
@@ -8459,6 +8447,56 @@
       "record": {
         "path": "docs/agent_reviews/ORDER-446.json",
         "sha256": "ddcb402e71ef83fd89a06dd7ec4125f85c4eb25a4dfa54491364cdd977dd0ca5"
+      }
+    },
+    {
+      "id": "order-447-source-fc1c1c2-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-05",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-447",
+      "subject": {
+        "kind": "source",
+        "commit": "fc1c1c280b5eeb68a84f245e1f220717da18fa77",
+        "tree": "09e1dc76a25d010bebb16f9433fe1f9918bea0ee",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-447.json",
+          "sha256": "6eedc01f3ca4fbc8465302f9dd1f4c4ac12305d1c7b1427e3ced769fd4476666"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-447.json",
+          "sha256": "6eedc01f3ca4fbc8465302f9dd1f4c4ac12305d1c7b1427e3ced769fd4476666"
+        },
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/agent_reviews/ORDER-447.json",
+          "sha256": "6eedc01f3ca4fbc8465302f9dd1f4c4ac12305d1c7b1427e3ced769fd4476666"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-447.json",
+          "sha256": "6eedc01f3ca4fbc8465302f9dd1f4c4ac12305d1c7b1427e3ced769fd4476666"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_ingress",
+        "whole_game_release",
+        "new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-447.json",
+        "sha256": "6eedc01f3ca4fbc8465302f9dd1f4c4ac12305d1c7b1427e3ced769fd4476666"
       }
     }
   ]

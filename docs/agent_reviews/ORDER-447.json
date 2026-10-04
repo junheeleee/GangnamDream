@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-447",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "fc1c1c280b5eeb68a84f245e1f220717da18fa77",
+    "tree": "09e1dc76a25d010bebb16f9433fe1f9918bea0ee",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "Holdem 배너·summary kicker의 기존 지역어 표시 연결과 새 핸드 1키×JA/CN/TW 3값의 공식 수용, 선언된 준비 화면만 GO. 게임 진행·출고·전체 현지화 승인이 아니다.",
+  "method": {
+    "direct": "gangnamdream-dev의 정본·보존 규칙에 따라 한국어·기존 지역어·실제 소비자, 제품/support/focused/runtime/normal 원문을 읽었다. 공식 source/response/receipt, 실제 PNG9장·관측·로그·typed 복원, 정상10행 stdout/stderr와 최종 집계를 직접 확인했다.",
+    "assistance": "실제 하위 검수자 /root/independent392/ab_readonly428가 제품·데이터 raw 역상과 기록 보존, runtime184 artifact 및 관련4681개 고유 경로를 읽기 재해시했다. 최종에는 새 normal12 artifact와 helper153/current13/player34/기존 기록187파일을 대조하고, 이미 검증한 tracked3082/runtime185/prior5구조 맵의 동일성을 재사용했다.",
+    "execution": "독립 검수자의 프로젝트 import·collector·감사·focused·엔진 실행0. Git/stdlib JSON·바이트·SHA 읽기만 했고 snapshot 종료 뒤 허용된 이 보고서 하나만 작성했다."
+  },
+  "source_and_acceptance": {
+    "baseline": "3eb2fccf3c41246d3c374d6c1de5274b1567a7d1",
+    "display_commit": "8a184316012c6d7856f8fe5dcd47be703bd834ca",
+    "data_commit": "739e64b1fed4d8f080707823224ff0cf526e6b97",
+    "source_result": "Holdem 12개 표시행 교체+EOF9행의 whole-file 역상이 기준과 일치한다. player/AI action4종, phase5종 및 kicker는 지역어 getter를 사용하고 EN 대문자·AI 이름 뒤 공백2개를 보존한다. 내부 phase/new_cards 분기·게임/RNG/금액·입력/async·폰트·배너 geometry와 duration은 불변이다. 현재 UI call66은 이전61+새5이며 고유 키 증가는1이다.",
+    "meaning": "새 핸드→JA 新しいハンド/CN 新一手牌/TW 新一手牌는 처음 또는 새로 시작되는 hand를 뜻하며 기존 다음 핸드와 구분된다. 한국어 직접 의미·기존 용어와 맞고 토큰·개행·금액 변형은 없다. 원어민 승인 주장은 하지 않는다.",
+    "receipts": "새 leaf ui:새 핸드:/새 핸드의 source hash7311645d36f4342a46fcc6baf229f9719829ac0b2b014ec7adbc70c67d81189f, null prior 및 세 target/header/accepted digest를 대조했다. 공식 source revision은5ac51c9b437147f95363d1ceaf86b05b7d0a8266이며 header manifest1890a6c44865da19f0095d9efe8569fb7f33fcb49975ecb30762c224727a48b9이다. UI3+원장에서 추가분을 제거한 네 파일 전체 bytes가 부모와 같다. 기존 JA 탭·키 순서·값은 보존됐다.",
+    "counts": "accepted41737→41740, batches217→220, JA3048→3049, CN/TW1771→1772씩. 새로운 공식 receipt3개이며 native_review는 OPEN이다.",
+    "official_result_sha256": {
+      "export": "32200b7295c7f830d7ffcf175900381695b6c3d69ea69fd873ee8f1eeac8864d",
+      "check": "acbbcfee9afd8b83b3bd31298d1c604985d64d0031145998347952c77e38c496",
+      "import": "fd66d00aa4ee496cbe9e9829bb59b8cef1c671566730d8bcf7d5a155d43fbaa4"
+    },
+    "proof_boundary": "새 history8단계는48요청행/41고유 객체를 사용한다. 기존 prefix와 실제 stage/collector/retirement 관계를 보존하며 focused의 captured Git replay·합성23manifest/51phantom fault를 실제 역사 실행으로 부르지 않는다."
+  },
+  "runtime": {
+    "path": ".git/full-game-localization/order447-screen-first/result.json",
+    "sha256": "388f94f57a8b81956542eaa8215465d5fbbdd03723ed506db4ead0c01a7f3742",
+    "entry_sha256": "48078de8f531aeb465c204f59cbf94c6cdd14f8a4fb2999f138b7742a029849a",
+    "seconds": 62.544,
+    "population": "JA/CN/TW 격리 process3, 준비 그룹·전체 복원3, 배너13×3=39와 kicker3, 원본 PNG9. prepared_fixtures39는 개별 배너 reader 수이지 독립 복원 그룹39개가 아니다. raw/tap/deal/첫 손/player·AI action/showdown dispatcher/정산/Close/통계·로그/거래·튜토리얼은 모두0이다.",
+    "visual": "1280×800 원본9장을 직접 열었다. 새 hand/실측 최장 AI 문구/showdown의 표적이 잘림·누락·겹침 없이 보인다. 실제18px bold700 배너360×54/글자 영역356px에서 최장 AI 폭은 JA189/CN135/TW135px이고 kicker는10px bold다. 지역별 대표 표면74개와 배너13개를 대조했으며 실제 shared JP/SC/TC 폰트·fit/bounds/clip 및 인쇄 glyph 누락0을 확인했다. 기존 LF probe의 legacy missing flag와 정확한 비인쇄 LF 분리는 구별한다.",
+    "lifecycle_restore": "각13개 준비/실제 typed 상태, 그룹 before/restored, core·신호0·RNG·pending·Meta 원래 부재·teardown을 대조했다. 생성→측정107–122ms, 생성→자연 free679–980ms이며 각 이전 배너 free 뒤 다음 표본을 만들었다. AP focus는 새 Main node의 유일 semantic identity로 복원되며 절대 raw path/ID 보존은 아니다. 세 process exit0/stderr0, errors/report_error 빈 값 및 source/player 불변이다."
+  },
+  "normal": {
+    "path": ".git/full-game-localization/order447-static-final/result.json",
+    "sha256": "47c2f38e07de30aae493cc155f5b9181410bd13308b2350f41a7f78975ede941",
+    "entry_sha256": "c2e41931eaf63628e69644fd78505c5507e759eb51dcc098a65a1d4ae0b56d5c",
+    "seconds": 528.598,
+    "result": "동일 후보의9검증+조회1, 원본10행=집계=entry command이며 전부 exit0·빈 stderr·all_pass=true. focused67/historical0(18.584초), fresh receipt41740/b220(527.630초), JA UI beta·ZH skeleton/shipping0·EN/context/queue/diff/차선조회/등록184를 확인했다. artifact12개의 SHA·크기가 일치한다.",
+    "not_run": "불변 full-body(ORDER442 참조), 서사4검사, 과거 focused/runtime suite, whole audit, 240주, 성능 A/B는 이번에 실행하지 않았다. 과거 PASS를 새 실행으로 승격하지 않는다."
+  },
+  "preflight_history": "order447-exchange-preflight-failure.json SHA faae99d22da1188945ef27096103ff5a07a3ca4d49dd8fa02fb1096a11132592는 literal HEAD 인수 때문에 공식 subprocess·export 생성 전에 차단된 호출 오류다. response 생성기의 previous_target 부재 가정은 patch 전 중단 후 null hash로 정정됐고, oracle leaf digest/10필드 shape는 엔진 실행 전에 실제 path/field/ko 계약으로 수리됐다. 이를 공식 check 또는 실제 runtime 실패로 세지 않는다. 최종 공식9행·첫 runtime·normal은 성공했다.",
+  "preservation": {
+    "result": "runtime184 artifact/결과 포함185파일과 normal12 artifact/결과 포함13파일이 결속된다. 동결 종료 시 entry.before=before=after, tracked3082/helper153/current13/player34/runtime185 및 prior5구조/1226파일 기록이 검수한 원본과 같다. 기존207판정·185보고·인간 원장 bytes를 기준/후보/현재에서 확인했다. 이후 root의 queue/archive/WORK_LOG 마감 편집은 그 종료 시점과 별개이며 제품 바이트는 불변이다. 이 보고서는 snapshot 이후 생성돼 그 맵에 포함되지 않는다.",
+    "translation_ledger_sha256": "06c1f4c48ca1c81ee3d72a7dee62c07df4a1eeaba63321045ce0dd1a08035d80",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "한 해상도·한 실행의 준비 표시 관측이다. 카드·pot/stack/승패는 준비값이며 자연 ingress·실제 게임 진행/AI/정산·KO/EN runtime·물리 키보드/패드·원어민·인간·새 패키지·출시는 미관측이다.",
+    "TextServer 측정과 대표 PNG는 모든 raster glyph·연속 프레임·전체 HUD를 보장하지 않는다. 작은10–13px 글자, POT/BOARD/STACK 등 영어 잔여와 다른 번역 부채는 남는다.",
+    "논리 typed/Meta/RNG/semantic focus 복원을 전역 시각 RNG·모든 transient node identity·음원 playhead의 완전 복원으로 확대하지 않는다."
+  ],
+  "final_boundary": "fc1c1c2 후보의 ORDER-447 표시 연결·새1키3값·선언된 준비 관측만 GO. 기존 공개·인간 판정과 제품 전체 HOLD를 변경하지 않는다."
+}
