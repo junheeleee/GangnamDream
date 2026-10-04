@@ -1,6 +1,16 @@
 # ORDER-444 — 홀덤 규칙 설명 두 화면을 일본어·중국어로 읽는다
 
-#### [~] ORDER-444 [P1·현지화] 동적 제목·본문 4키의 일본어·간체·번체 12값
+#### [x] ORDER-444 [P1·현지화] 동적 제목·본문 4키의 일본어·간체·번체 12값
+
+**완료 — 2026-10-05.** source `f054337`의 12값·공유 provider와 actual
+JA/ZH 검사 연결, 공식 check/import3·raw4파일 역상 PASS. accepted41736/b216,
+JA3048·CN/TW1771이다. 실제3언어6PNG·18raw/9tap·Next/완료/취소와6그룹
+typed/Meta/focus 복원 PASS(42.143초), fresh9검증+조회1 PASS(450.357초),
+focused192/historical0이다. [독립 보고](../agent_reviews/ORDER-444.json)가
+이 범위의 원문·화면·근거를 결속한다. 최초 실패는 별도 원본으로 보존한다.
+승격: `docs/I18N_INFRASTRUCTURE.md` UI Contract의 공유 동적 설명 provider 절.
+나머지 실행·파일 소유·수용 목표는 일회성이다. 자동 PASS는 계약 증거이며
+원어민·인간·물리패드·본편/새package GO가 아니다. 아래 착수 이력을 보존한다.
 
 **[~] 착수 — 2026-10-05.** 442 실제 화면에서 영어 fallback인 두 설명 슬라이드를
 확인했다. 최신 계속 개발·main 커밋/푸시 위임에 따라 정확한4키만 별도 처리한다.

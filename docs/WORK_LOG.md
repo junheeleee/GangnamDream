@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [홀덤 비동기 수리 전 기록](history/WORK_LOG_2026-10-04_pre_order438.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 홀덤 규칙 일본어·중국어 두 화면 완료 (444)
+
+- 제품 `f054337`를 main에 커밋·푸시했다. 두 설명 화면의 제목/본문12값과 공유 추출·검증을 연결해 일본어·간체·번체로 규칙과 패 순위를 읽을 수 있다. accepted41736/b216, JA3048·CN/TW1771이다.
+- 실제3언어6PNG·18raw/9tap·Next/완료/취소와6그룹 typed/Meta/focus 복원 PASS(42.143초). 베팅·첫딜·AI·정산0이며 실제player34는 불변이다. 저자와 독립 검수자가6원본 화면을 모두 직접 읽었다.
+- 같은 source에서 fresh9검증+조회1 PASS(450.357초), 신규focused192/과거0. [독립 보고](agent_reviews/ORDER-444.json)와 [일회성 사양](queue_archive/ORDER-444.md)에 범위·실패 원본·미관찰 한계를 남긴다. 공유 provider 계약만 I18N_INFRASTRUCTURE에 승격했다.
+- 이전204판정/182보고·인간OPEN45/공개GO1을 보존한다. 원어민·인간·물리패드·본편/새package HOLD는 그대로다. 다음은 확인된 배너/POT 겹침 수리이며 CLAUDE 현재 상태는 그 선언에서 갱신한다.
+
 ## 2026-10-05 — 홀덤 규칙 일본어·중국어 공식 수용·검수 후보 (444)
 
 - 기존 두 설명 화면의 동적 제목/본문4키를 한국어에서 직접3언어12값으로 작성·비저자 전수 검토하고 공식 check/import 각3을 통과했다. accepted41736/b216, JA3048·CN/TW1771이며 기존 문장·게임 원문·demo701·UiCall·source manifest는 보존한다.
@@ -10,7 +17,7 @@
 
 ## 2026-10-05 — 홀덤 규칙 설명 일본어·중국어 4키 착수 (444)
 
-- [별도 사양](queue_active/ORDER-444.md)의2슬라이드 title/body를3언어12값으로 번역한다. 기존 동적 demo701·UiCall·제품/manifest를 바꾸지 않는 공유 provider를 연결한다. 아직 신규 수용·실제화면 PASS0이다.
+- [별도 사양](queue_archive/ORDER-444.md)의2슬라이드 title/body를3언어12값으로 번역한다. 기존 동적 demo701·UiCall·제품/manifest를 바꾸지 않는 공유 provider를 연결한다. 아직 신규 수용·실제화면 PASS0이다.
 - root CN/TW·공식 교환/Python runner, claude provider/3소비자, receipt JA·focused/GD·scope, independent 비저자 검수로 파일 소유를 나눴다. 3언어×2페이지6PNG만 표적으로 삼고 완료 베팅 회귀·fullbody·전체감사는 반복하지 않는다.
 - 기존 JA 포카드가 폴드로 잘못 번역된 행을 읽기 검수에서 발견했다. 새 본문에 승계하지 않으며 중앙 배너/POT 겹침과 함께 별도 후속으로 남긴다. 기존204판정182보고·공개/인간 이력과 본편HOLD 보존.
 
