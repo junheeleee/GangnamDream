@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 — 값 파싱 중복 축소와 회귀 검사 후보 준비 (433)
+
+- 제품64303b4는 validate_append의 값 전용2식만 동일 strict parser로 바꿨다. 새 집중검사는 실제 raw inverse·Document를 추적하며 기존/신규 결과와 단독 malformed·순서·원문 보존 실패를 대조한다. 실제 실행 전이므로 PASS나 시간 개선은 아직 주장하지 않는다.
+- 사전 독립 검수에서 private normal의 짧은 substring 계수가 다른 기존 호출까지 센다는 오류를 발견했다. 두 comprehension 전체 행으로 좁혀 정확2행 역상은 유지한다. 검사 실행 전 수리이며 과거 증거/제품 구현은 바꾸지 않는다.
+- 정상후보 한 번의13검증+조회1에 새 집중검사를 포함한다. 변경 전432 row01을 재사용하고 새 동일CLI 결과만 비교한다. 실제 실행 중 tracked·private 선행증거·실제player34를 동결한다.
+
 ## 2026-10-04 — 번역 검수 값 파싱 중복 축소 착수 (433)
 
 - 값만 읽는 append의 두 _Document(raw).value를 같은 strict _loads로 바꾼다. 원래 최종raw역상/Git/HEAD/collector는 보존한다. 성공4파일의 전체span 생성16→8, 실제역상8→8이며 실행시간50% 주장은 아니다.

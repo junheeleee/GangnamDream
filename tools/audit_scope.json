@@ -14,6 +14,37 @@
   ],
   "fast_lanes": [
     {
+      "id": "ui-append-value-parse",
+      "paths": [],
+      "owned_paths": [
+        "tools/ui_translation_append.py",
+        "tools/ui_append_value_parse_check.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-433.json",
+        "docs/queue_active/ORDER-433.md",
+        "docs/queue_archive/ORDER-433.md"
+      ],
+      "tools": [
+        "tools/ui_append_value_parse_check.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit433 two value-only parser expressions: retain the identical strict parser, exact raw inverse and fresh Git/HEAD/source/receipt checks while removing discarded span construction. Focused old/new fixture and call-boundary evidence plus current normal consumers once; reuse432 before observation without repeating its focused suite, runtime, full audit or 240-week checks. Timing is a single paired observation, not an isolated causal claim or speed guarantee."
+    },
+    {
       "id": "log-body-font",
       "paths": [],
       "owned_paths": [
@@ -2807,6 +2838,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/ui_append_value_parse_check.py",
+      "paths": ["tools/ui_translation_append.py", "tools/ui_append_value_parse_check.py"],
+      "why": "Exact433 value-only strict parsing: parser identity and malformed JSON rejection, old/new append fixture outcomes, and no span construction before retained whole-byte inverse. Existing proof, collector and historical focused bodies stay unchanged; normal timing comparison is separate evidence.",
+      "godot": false
+    },
     {
       "tool": "tools/log_body_font_receipt_check.py",
       "paths": ["scenes/MainGame.gd", "tools/main_game_locale_history.py", "tools/ui_translation_append.py", "tools/log_body_font_receipt_check.py"],
