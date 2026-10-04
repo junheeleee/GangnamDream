@@ -1786,3 +1786,48 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
                   ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
     return expected == exchange.digest(comparison)
 # END_LOG_BODY_FONT_MANIFEST_432
+
+
+# BEGIN_HOLDEM_WHOLE_WON_MANIFEST_434
+# Holdem follows the fifteen real MainGame/Scalping/Aruba states. It is not
+# interchangeable with an earlier state of any of those source files.
+_HOLDEM_MONEY_OLD_MANIFEST_MATCHES = _source_manifest_matches
+_HOLDEM_MONEY_OLD_CURRENT_PROOF = current_proof
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_MONEY_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_money_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem whole-won current source census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    predecessor_inventory = {**inventory, "source_hashes": comparison,
+                             "source_manifest_sha256": exchange.digest(comparison)}
+    # Check the actual predecessor through the complete prior proof, including
+    # its real MainGame/Scalping/Aruba tuple, before admitting the one new tuple.
+    if expected == inventory["source_manifest_sha256"]:
+        return _HOLDEM_MONEY_OLD_MANIFEST_MATCHES(
+            root, predecessor_inventory, predecessor_inventory["source_manifest_sha256"])
+    return _HOLDEM_MONEY_OLD_MANIFEST_MATCHES(root, predecessor_inventory, expected)
+
+
+def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:
+    import holdem_money_history as history
+    head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    history.holdem_money_predecessor(raw, root)
+    result = _HOLDEM_MONEY_OLD_CURRENT_PROOF(root, baseline_commit, baseline)
+    require(result["source_hashes"].get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest()
+            and exchange.digest(result["source_hashes"]) == result["source_manifest_sha256"]
+            and (root / history.HOLDEM_PATH).read_bytes() == raw,
+            "Holdem whole-won source changed during current admission")
+    require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head
+            and result["evidence"]["head"] == head,
+            "Git candidate changed during Holdem whole-won admission")
+    return result
+# END_HOLDEM_WHOLE_WON_MANIFEST_434

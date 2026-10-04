@@ -15,12 +15,14 @@
   `_signed_fmt`, 베팅·승패·덱·AI·정산·AP·저장·수치는 바꾸지 않는다.
 - claude_handoff_review: 새 `tools/holdem_money_history.py`의 독립 Git 전이 증명,
   `tools/ja_translation_pipeline.py`와 `tools/ja_translation_audit.py`의
-  정확한 소스 3키 퇴역/기존 JA 3값 보존 경계만 소유한다.
+  정확한 소스 3키 퇴역/기존 JA 3값 보존 경계와 새
+  `tools/holdem_money_receipt_check.py`만 소유한다.
 - root: `tools/ui_translation_append.py`의 EOF successor 증명만 추가한다.
   기존 15개 실제 Main/Scalp/Aruba 조합과 새 현재 Holdem 조합 하나만 허용한다.
   가상 조합·임의 raw/HEAD·비소유 경로 변경은 거부한다. 원래 본문/pin 불변.
-- receipt_tests392: 새 `tools/holdem_money_receipt_check.py`,
-  `tools/audit_scope.json`의 새 명시 차선, private434 격리 화면 helper만.
+- receipt_tests392: `tools/audit_scope.json`의 새 명시 차선,
+  private434 격리 화면 helper만. 집중검사는 화면 helper와 병렬화를 위해
+  선언 후 claude_handoff_review로 소유만 이관했으며 파일 범위는 같다.
   private434 normal helper와 실제 실행은 root가 맡는다.
   independent392는 비저자 전수/원본 최종 검수다.
 - 기록: CLAUDE, 큐/L3, active/archive434, WORK_LOG, 생성STATUS, agent 보고/판정.

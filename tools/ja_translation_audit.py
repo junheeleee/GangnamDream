@@ -470,5 +470,69 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
     return _PROMOTION_OLD_CHECK_UI_SCOPE(actual, errors)
 # END_PROMOTION_REVIEW_RETAINED_JA_406
 
+# BEGIN_HOLDEM_MONEY_RETAINED_JA_434
+_HOLDEM_MONEY_OLD_RETIRED_ENTRIES = retired_relationship_ui_entries
+_HOLDEM_MONEY_OLD_CHECK_UI_SCOPE = check_ui_scope
+HOLDEM_RETAINED_JA_BLOB = "750f9692b662082d93214318c743d3eccd102249"
+HOLDEM_RETAINED_JA = {
+    "%.1f억": "%.1f億",
+    "%d만": "%d万",
+    "%d원": "%dウォン",
+}
+
+
+def holdem_money_retained_ja_entries(inventory: UiInventory, actual: Any) -> tuple[dict[str, Entry], list[str]]:
+    """Retain exactly three immutable targets, never live sources or receipts."""
+    import ja_translation_pipeline as pipeline
+    import holdem_money_history as history
+    try:
+        raw = (ROOT / history.HOLDEM_PATH).read_bytes()
+        _before, calls = pipeline._holdem_money_call_views(raw)
+        if inventory.errors or tuple(c for c in inventory.calls if c.path == history.HOLDEM_PATH) != calls:
+            raise ValueError("supplied current inventory differs")
+        keys = set(HOLDEM_RETAINED_JA)
+        if any(c.korean in keys for c in inventory.calls) or keys.intersection(inventory.blueprint):
+            raise ValueError("retired money source remains live")
+        previous = history._git(ROOT, "show", history.BEFORE_COMMIT + ":locale/ui_ja.json")
+        if hashlib.sha1(b"blob " + str(len(previous)).encode() + b"\0" + previous).hexdigest() != HOLDEM_RETAINED_JA_BLOB:
+            raise ValueError("immutable Japanese blob differs")
+        original = json.loads(previous)
+        if (not isinstance(original, dict) or not isinstance(actual, dict)
+                or any(original.get(key) != value or actual.get(key) != value
+                       for key, value in HOLDEM_RETAINED_JA.items())):
+            raise ValueError("retained Japanese money target changed/missing")
+        ledger = read_json(ROOT / "content/meta/full_game_localization.json")
+        accepted = ledger.get("accepted") if isinstance(ledger, dict) else None
+        if not isinstance(accepted, dict) or not accepted or any(not isinstance(rows, dict) for rows in accepted.values()):
+            raise ValueError("accepted receipt locale map malformed")
+        for key in keys:
+            leaf_id = "ui:" + key + ":/" + key.replace("~", "~0").replace("/", "~1")
+            if any(leaf_id in rows for rows in accepted.values()):
+                raise ValueError("retired money source unexpectedly has an accepted receipt")
+        if (ROOT / history.HOLDEM_PATH).read_bytes() != raw:
+            raise ValueError("Holdem source changed during retained admission")
+        entries = {
+            key: Entry("retained-ui::holdem-money::" + hashlib.sha1(key.encode()).hexdigest()[:12],
+                       key, "scenes/HoldemClub.gd::_fmt (retired exact source)")
+            for key in HOLDEM_RETAINED_JA
+        }
+        return entries, []
+    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
+        return {}, ["Holdem money retained JA: " + str(exc)]
+
+
+def retired_relationship_ui_entries(inventory: UiInventory) -> tuple[dict[str, Entry], list[str]]:
+    entries, errors = _HOLDEM_MONEY_OLD_RETIRED_ENTRIES(inventory)
+    retained, extra_errors = holdem_money_retained_ja_entries(inventory, read_json(ROOT / "locale/ui_ja.json"))
+    return ({}, [*errors, *extra_errors]) if errors or extra_errors else ({**entries, **retained}, [])
+
+
+def check_ui_scope(actual: Any, errors: list[str]) -> int:
+    # Bind the supplied dictionary as well as the disk dictionary used above.
+    if not isinstance(actual, dict) or any(actual.get(key) != value for key, value in HOLDEM_RETAINED_JA.items()):
+        errors.append("ui: exact retained Holdem money targets changed/missing")
+    return _HOLDEM_MONEY_OLD_CHECK_UI_SCOPE(actual, errors)
+# END_HOLDEM_MONEY_RETAINED_JA_434
+
 if __name__ == "__main__":
     sys.exit(main())

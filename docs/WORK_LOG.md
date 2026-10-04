@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 — 홀덤 금액 수리와 소스 퇴역 증명 후보 준비 (434)
+
+- 선언373aef4를 main에 푸시한 뒤 제품265119c는 Holdem `_fmt` 한 함수만 교체했다. 기존 whole-won formatter를 재사용하며 int(amount)·부호·베팅·정산은 보존한다. 런타임 PASS는 아직 미발급이다.
+- 새 공유Git증명·실제콜3개 퇴역/잔여ID 보존·JA3값 보존·실제manifest16조합을 작성했다. 비저자 읽기검수는 실제6객체/직접부모/단독제품diff·원래append/pipeline/audit 본문과 pin의 exact보존을 대조했다. 새focused와 실제 화면/normal 전에는 최종GO가 아니다.
+- 집중검사를 claude_handoff_review로 이관해 receipt_tests392의 화면 helper와 병렬화했다. root는 append와 private normal을 소유하며 선언한7파일 범위는 그대로다. normal은14검증+조회1이며 기존focused/전체감사/240주/성능A·B 재실행은 없다.
+- 테이블 칩 아래의 직접 canvas 금액도48px/10px에서 실측한다. 버튼은 선택테두리를 뺀 내부영역을 확인하며 준비사례의 UI/입력/저장 복원과 실제player34 보존을 검수한다. 새 결함은 숨기거나 범위를 줄여 PASS시키지 않는다.
+
 ## 2026-10-04 — 홀덤 원 단위 금액 표시 수리 착수 (434)
 
 - 실제 formatter는12,500원을 KO1만·준비 CN/TW ₩1K로 표시한다. 같은 정수화 뒤 기존 whole-won 공통 formatter를 사용해 단위/정밀도만 고친다. 베팅·승패·정산·AP 변경0이다.

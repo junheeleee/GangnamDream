@@ -14,6 +14,42 @@
   ],
   "fast_lanes": [
     {
+      "id": "holdem-money",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd",
+        "tools/holdem_money_history.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/ja_translation_audit.py",
+        "tools/ui_translation_append.py",
+        "tools/holdem_money_receipt_check.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-434.json",
+        "docs/queue_active/ORDER-434.md",
+        "docs/queue_archive/ORDER-434.md"
+      ],
+      "tools": [
+        "tools/holdem_money_receipt_check.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit434 Holdem whole-won formatter only: fresh exact Git transition, actual collector retirement of three calls/keys with remaining identities and immutable retained JA values, sixteen real source manifests and rejected phantom combinations. Current receipt/translation consumers once; no historical focused suite, full audit, 240-week or old runtime repetition. Five-locale actual first-hand display/input is separately isolated."
+    },
+    {
       "id": "ui-append-value-parse",
       "paths": [],
       "owned_paths": [
@@ -2838,6 +2874,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/holdem_money_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ja_translation_pipeline.py", "tools/ja_translation_audit.py", "tools/ui_translation_append.py", "tools/holdem_money_receipt_check.py"],
+      "why": "Exact434 one-function whole-won transition, fresh immutable Git proof and replayed faults, real current collector -3 with remaining IDs, retained JA three values/accepted absence and sixteen exact source combinations without phantom histories. Does not replay historical focused or engine suites.",
+      "godot": false
+    },
     {
       "tool": "tools/ui_append_value_parse_check.py",
       "paths": ["tools/ui_translation_append.py", "tools/ui_append_value_parse_check.py"],

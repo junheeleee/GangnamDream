@@ -6785,5 +6785,156 @@ def modal_rebind_inventory(inventory, raw):
     return _gift_replace(result, legacy_entries=entries, legacy_blueprint=blueprint)
 # END_CAREER_TENURE_COLLECTOR_409
 
+# BEGIN_HOLDEM_MONEY_COLLECTOR_434
+import holdem_money_history as _holdem_money_history
+
+HOLDEM_MONEY_PIPELINE_APPEND_SHA = "0b576ffb00fd2fbf78b0810445ca663cafb7e199f22df2cefedf00e464d65ad9"
+HOLDEM_MONEY_PIPELINE_BEFORE_SHA = "55a3b65670765fdf8aedb75e78fbbd94b0306e97f873c5e4a8580b9e171e9e27"
+HOLDEM_MONEY_PIPELINE_BEFORE_BLOB = "5d644d0bb6ba2d58501f3a964094bd46b85cbeff"
+_HOLDEM_MONEY_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
+_HOLDEM_MONEY_OLD_COLLECT = collect_ui_inventory
+_HOLDEM_MONEY_OLD_CHECKS = _last11_meta_title_historical_checks
+
+
+def holdem_money_pipeline_predecessor(raw):
+    """Strip only this sealed successor before the unchanged collector proof."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("holdem-money code raw/import identity differs")
+    start, end = b"# BEGIN_HOLDEM_MONEY_COLLECTOR_434\n", b"# END_HOLDEM_MONEY_COLLECTOR_434\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("holdem-money appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    span = raw[a:z]
+    binding = ('HOLDEM_MONEY_PIPELINE_APPEND_SHA = "' + HOLDEM_MONEY_PIPELINE_APPEND_SHA + '"').encode()
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'HOLDEM_MONEY_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != HOLDEM_MONEY_PIPELINE_APPEND_SHA:
+        raise ValueError("holdem-money appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != HOLDEM_MONEY_PIPELINE_BEFORE_SHA:
+        raise ValueError("holdem-money whole predecessor differs")
+    blob = _holdem_money_history._git(ROOT, "show", _holdem_money_history.BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != HOLDEM_MONEY_PIPELINE_BEFORE_BLOB:
+        raise ValueError("holdem-money immutable code blob differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _HOLDEM_MONEY_OLD_MODAL_PIPELINE_PREDECESSOR(holdem_money_pipeline_predecessor(raw))
+
+
+def _holdem_money_call_views(raw):
+    """The live view has exactly three fewer calls, never a dead formatter."""
+    previous = _holdem_money_history.holdem_money_predecessor(raw, ROOT)
+    path = _holdem_money_history.HOLDEM_PATH
+    before, old_errors = parse_ui_calls(path, previous.decode("utf-8"))
+    actual, errors = parse_ui_calls(path, raw.decode("utf-8"))
+    before.sort(key=lambda c: (c.path, c.line, c.api))
+    actual.sort(key=lambda c: (c.path, c.line, c.api))
+    selectors = {(path, "_fmt", "legacy", ko, en, "") for ko, en in _holdem_money_history.RETIRED_PAIRS}
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    retired = {ko for ko, _en in _holdem_money_history.RETIRED_PAIRS}
+    if (old_errors or errors or len(selectors) != 3 or len(retired) != 3
+            or any(sum(semantic(c) == row for c in before) != 1 for row in selectors)
+            or any(c.korean in retired for c in actual)
+            or [c for c in before if semantic(c) not in selectors] != actual):
+        raise ValueError("holdem-money exact three retired selectors or unowned calls differ")
+    return tuple(before), tuple(actual)
+
+
+@contextmanager
+def _holdem_money_previous_reads(raw):
+    """Only old comparison readers see old text; raw/Git reads stay current."""
+    from unittest.mock import patch
+    previous = _holdem_money_history.holdem_money_predecessor(raw, ROOT)
+    owner = ROOT / _holdem_money_history.HOLDEM_PATH
+    text0 = Path.read_text
+
+    def read_text(path, *args, **kwargs):
+        if path == owner:
+            return previous.decode(kwargs.get("encoding") or (args[0] if args else None) or "utf-8",
+                                   errors=kwargs.get("errors") or "strict")
+        return text0(path, *args, **kwargs)
+
+    with patch.object(Path, "read_text", read_text):
+        yield
+    if owner.read_bytes() != raw:
+        raise ValueError("holdem-money runtime changed during historical comparison")
+
+
+def holdem_money_rebind_inventory(inventory, raw, contract=None):
+    before, actual = _holdem_money_call_views(raw)
+    path = _holdem_money_history.HOLDEM_PATH
+    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
+        raise ValueError("holdem-money supplied predecessor inventory differs")
+    calls = tuple(c for c in inventory.calls if c.path != path) + actual
+    result = _new_run_log_inventory(inventory, calls, contract)
+    retired = {ko for ko, _en in _holdem_money_history.RETIRED_PAIRS}
+    old_entries = {e.source: e for e in inventory.legacy_entries}
+    new_entries = {e.source: e for e in result.legacy_entries}
+    if (set(old_entries) - set(new_entries) != retired or set(new_entries) - set(old_entries)
+            or len(inventory.calls) - len(result.calls) != 3
+            or any(c.korean in retired for c in result.calls)):
+        raise ValueError("holdem-money current source retirement population differs")
+    entries = tuple(_gift_replace(old_entries[e.source], context=e.context) for e in result.legacy_entries)
+    if any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source] for e in entries):
+        raise ValueError("holdem-money remaining translation identity changed")
+    for field in ("planned_context_entries", "planned_context_blueprint", "observed_context_entries", "observed_context_blueprint"):
+        if getattr(result, field) != getattr(inventory, field):
+            raise ValueError("holdem-money unowned context inventory changed")
+    changed = {"source_calls", "legacy_calls", "legacy_api_calls", "legacy_keys",
+               "parameter_total_ui_call_occurrences", "parameter_legacy_pair_call_occurrences",
+               "parameter_legacy_korean_source_keys", "parameter_legacy_korean_source_keys_sha256"}
+    if any(value != inventory.stats.get(key) for key, value in result.stats.items() if key not in changed):
+        raise ValueError("holdem-money unowned source census changed")
+    for key in changed - {"parameter_legacy_korean_source_keys_sha256"}:
+        if result.stats[key] != inventory.stats[key] - 3:
+            raise ValueError("holdem-money current census is not exact minus3")
+    # The old registry still owns its two migrations. The returned current
+    # census also includes this exact new owner; observations are never patched.
+    if inventory.stats.get("parameter_money_formatter_migrations") != 2:
+        raise ValueError("holdem-money predecessor money formatter census differs")
+    stats = dict(result.stats)
+    stats.update(parameter_money_formatter_migrations=3, holdem_money_retired_calls=3,
+                 holdem_money_retired_keys=3, holdem_money_added_formatter_owners=1)
+    return _gift_replace(result, legacy_entries=entries,
+                         legacy_blueprint={e.source: {"$entry": e.key} for e in entries}, stats=stats)
+
+
+def _holdem_money_collect(contract=None):
+    try:
+        raw = (ROOT / _holdem_money_history.HOLDEM_PATH).read_bytes()
+        _holdem_money_call_views(raw)
+        with _holdem_money_previous_reads(raw):
+            baseline = _HOLDEM_MONEY_OLD_COLLECT(contract)
+        if baseline.errors:
+            return baseline
+        result = holdem_money_rebind_inventory(baseline, raw, contract)
+        if (ROOT / _holdem_money_history.HOLDEM_PATH).read_bytes() != raw:
+            raise ValueError("holdem-money runtime changed during collection")
+        return result
+    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
+        return UiInventory((), (), {}, (), {}, (), {}, ("holdem-money admission: " + str(exc),), {})
+
+
+def _holdem_money_historical_checks(inventory):
+    try:
+        raw = (ROOT / _holdem_money_history.HOLDEM_PATH).read_bytes()
+        _holdem_money_call_views(raw)
+        with _holdem_money_previous_reads(raw):
+            baseline = _HOLDEM_MONEY_OLD_COLLECT()
+            current = holdem_money_rebind_inventory(baseline, raw)
+            if inventory != current:
+                raise ValueError("holdem-money supplied current inventory differs")
+            result = _HOLDEM_MONEY_OLD_CHECKS(baseline)
+        return result
+    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
+        errors = ["holdem-money comparison: " + str(exc)]
+        return _gift_replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
+
+
+collect_ui_inventory = _holdem_money_collect
+_last11_meta_title_historical_checks = _holdem_money_historical_checks
+# END_HOLDEM_MONEY_COLLECTOR_434
+
 if __name__ == "__main__":
     sys.exit(main())
