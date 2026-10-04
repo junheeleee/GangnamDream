@@ -2,6 +2,28 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 실제 선택 카드에서 사라진 위험도 수리)
+
+- [421](queue_active/ORDER-421.md) sourcebb73a66 최초runtime24.431초 FAIL·HOLD.
+  risk24개 모두 실제12px/SC·TC400·glyph정상인데 폭1px, 필요36~48px라 글자가 숨었다.
+  raw의24실패가 stdout/Godot 로그에 중복돼 aggregate48줄이며 폰트 기대 오탐이 아니다.
+  원본8PNG/250binding/76lookup·32taps/64raw·typed8복원·player34불변을 보존했다.
+  나머지 카드192텍스트행은 font/fit정상. 새 대상 외 기존 Job Hunt/HUD 혼합은 별도 잔여다.
+- [423](queue_active/ORDER-423.md)을 별도 선언8e6608f. Main단독2321723은
+  risk의 actual resolved font/12px·uppercase문구 측정폭 ceil+2px만 추가한다.
+  fixed36/48·글자축소·clip/ellipsis 완화·게임플레이/번역 수정0.
+  저자와 별도검수자 모두 실제 폭결함 및 이 국소수리 방향에 동의했다.
+- exact13단계 source역상/공식collector 불변과 새focused·등록, 동일8화면 재검수 및
+  KO/EN/JA 실제A3화면·ASSET RISK 1–5/HIGH/UNCERTAIN 보조3종×5언어15카드를
+  별도 검수한다. 범위표기의1~5는 고정한문구이며 개별5종으로 늘리지 않는다.
+  보조카드는 같은 실제builder의 격리 부착실험이며 자연스토리도달/실행효과 증거가 아니다.
+  새 도구의 저자focused141건/57.46초 최초PASS, 이전 proof/검사 본문과 사전·원장은 불변이다.
+- 미실행421 normal helper는 원본 그대로 보존한다. 새423 정상runner에서 검증14+
+  차선조회1을 최대3병렬1회 공유하며 421·422·423 최종판정은 실제결과 뒤 분리한다.
+  실제수리·표적검수 완료 전 원격제품 푸시는 보류하고 main 로컬 커밋은 계속한다.
+- 일회성/상시규범추가0. 자동PASS는 계약증거이지 문체·재미·출시GO가 아니다.
+  공개GO1·인간OPEN45·본편/새packageHOLD·B3/B4·원어민/인간/물리미관측 유지.
+
 ## 2026-10-04 (Codex — 구직 판단 중국어와 정확 수량검사 후보)
 
 - [421](queue_active/ORDER-421.md): 같은 실제 구직화면의 A17/B21 KO키를 간체·번체

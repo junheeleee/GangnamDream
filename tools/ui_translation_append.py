@@ -1458,3 +1458,34 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
                   ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
     return expected == exchange.digest(comparison)
 # END_REACTION_BODY_FONT_MANIFEST_417
+
+
+# BEGIN_DECISION_RISK_WIDTH_MANIFEST_423
+_DECISION_RISK_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _DECISION_RISK_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    predecessors = history._decision_risk_width_proof(raw, root)
+    require(isinstance(predecessors, tuple) and len(predecessors) == 11,
+            "decision risk width exact predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "decision risk width current source census/raw mismatch")
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "Aruba source census not bound to current raw")
+    # The original twelve manifests plus this current raw; failed402 stays excluded.
+    for main_raw in (raw, *predecessors):
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    previous_font = aruba_font_predecessor(root, font_raw)
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(predecessors[-1]).hexdigest(),
+                  ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
+    return expected == exchange.digest(comparison)
+# END_DECISION_RISK_WIDTH_MANIFEST_423

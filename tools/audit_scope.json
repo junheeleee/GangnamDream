@@ -14,6 +14,51 @@
   ],
   "fast_lanes": [
     {
+      "id": "decision-risk-width",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/decision_risk_width_self_test.py",
+        "tools/zh_translation_audit.py",
+        "tools/employment_choice_number_self_test.py",
+        "tools/audit_scope.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-421.json",
+        "docs/queue_active/ORDER-421.md",
+        "docs/queue_archive/ORDER-421.md",
+        "docs/agent_reviews/ORDER-422.json",
+        "docs/queue_active/ORDER-422.md",
+        "docs/queue_archive/ORDER-422.md",
+        "docs/agent_reviews/ORDER-423.json",
+        "docs/queue_active/ORDER-423.md",
+        "docs/queue_archive/ORDER-423.md"
+      ],
+      "tools": [
+        "tools/decision_risk_width_self_test.py",
+        "tools/employment_choice_number_self_test.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact423 measured risk-label width: thirteen-stage fresh source proof, current collector and preserved receipts; same421 translations and422 numeric repair share normal consumers and the two new focused checks once. Runtime five-language risk fit remains separate; no old focused, whole audit or 240-week run."
+    },
+    {
       "id": "employment-choice-number",
       "paths": [],
       "owned_paths": [
@@ -2655,6 +2700,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/decision_risk_width_self_test.py",
+      "paths": ["scenes/MainGame.gd", "tools/main_game_locale_history.py", "tools/ui_translation_append.py", "tools/decision_risk_width_self_test.py"],
+      "why": "Exact423 two measured-width lines: fresh thirteen-stage Git proof, pure inverse and semantic mutations, unchanged full collector/source identities and receipt bytes, thirteen exact manifests and next-call freshness failures.",
+      "godot": false
+    },
     {
       "tool": "tools/employment_choice_number_self_test.py",
       "paths": ["tools/zh_translation_audit.py", "tools/employment_choice_number_self_test.py"],
