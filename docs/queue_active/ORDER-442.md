@@ -70,6 +70,11 @@ fallback 소비자를 이어 번역한다. 사용자의 계속 개발·main 커�
   CN/TW 별도15값·비저자30값 전수 의미/토큰 검수 PASS, 공식 check/import 각2 PASS.
   accepted41724/b213·CN/TW1767·JA3044. `.git/full-game-localization/order442-append-precommit.json`
   의4파일 역상·공식 헤더 보존에 결속한다. 화면/입력/정산·최종GO는 아직 미완료다.
+- source0253803의 실제 두 지역 실행은 콜 문구 확대 잘림으로 FAIL이다.
+  첫 원본 `order442-screen-first/result.json` SHA
+  `2dc7dcb19da7edd0009466d8e6dd9a457bd03542f9a771930fca734cd23cd07b`를
+  보존한다. 소스/player34 불변, 관측26·PNG12·raw48을 남겼으나 PASS로 세지 않는다.
+  [별도443 수리](ORDER-443.md) 뒤 같은 문구/입력 묶음을 재검수한다.
 
 ## 깊이·한계·일회성
 

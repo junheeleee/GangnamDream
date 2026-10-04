@@ -50,9 +50,10 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-442 · 홀덤 베팅·힌트 중국어 | [442](queue_active/ORDER-442.md) | 착수 — 만지는 파일: CN/TW·수용원장·private442·scope·기록 |
-| 2 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
-| 3 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
+| 1 | [~] | ORDER-443 · 홀덤 강조 메시지 잘림 수리 | [443](queue_active/ORDER-443.md) | 착수 — 만지는 파일: Holdem·history/append·새검사·private442/443·scope·기록 |
+| 2 | [~] | ORDER-442 · 홀덤 베팅·힌트 중국어 | [442](queue_active/ORDER-442.md) | 실제 콜 확대 잘림 — 443 수리 후 묶음 재검수 |
+| 3 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
+| 4 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 
 
 
