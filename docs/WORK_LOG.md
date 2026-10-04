@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [홀덤 비동기 수리 전 기록](history/WORK_LOG_2026-10-04_pre_order438.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 홀덤 순손익 표시 수리 착수 (452)
+
+- [별도452](queue_active/ORDER-452.md)는 손 시작 stack을 캡처하고 SHOWDOWN/history.net·승리 메시지의 숫자만 실제 잔액 차이로 바꾸는5줄 수리다. gross POT 상세·지급/승자/AI·RESULT 실제현금·71 UiCall·사전/원장은 유지한다. 아직 새 제품·검수 PASS0이다.
+- root 제품/normal, claude exact12번째 proof/새focused, receipt private KO두손/3PNG·전체 복원/scope, independent 최종검수로 나눈다. 승→다음손 패→RESULT+중복가드 한 세션으로 손별 기준과 street reset을 함께 검수하며 과거 다국어/베팅 suite·whole audit는 반복하지 않는다.
+- 451을 `7e9b03d`로 마감·푸시했고 clean wrapper 현황을 `07da271`로 갱신해 DASHBOARD_FRESH를 확인했다. accepted41755/b228·212판정190보고·인간/공개 이력·본편/새package HOLD를 보존한다.
+
 ## 2026-10-05 — 폴드·일본어 정산/판돈 선택 표시 수리 완료 (451)
 
 - 검수 후보 `f17579c`를 main에 커밋·푸시했다. 일본어·간체·번체의 폴드 상태와 JA 정산/단타 판돈 선택을 올바르게 읽는다. 새 키0·정정2·첫receipt2·batch1, accepted41755/b228·사전3053/1776/1776이다.
