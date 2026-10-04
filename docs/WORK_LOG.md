@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [홀덤 비동기 수리 전 기록](history/WORK_LOG_2026-10-04_pre_order438.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 홀덤 테이블 라벨 현지화 착수 (449)
+
+- [새 범위](queue_active/ORDER-449.md)는 POT/BOARD/STACK/BET 표시5곳·고유4키다. 팟·공개 카드·보유 칩·베팅을 세 언어12값으로 수용하며 `_fmt`·기존 공백·베팅 양수 조건·게임 규칙은 보존한다. 실제 소비자와 기존 tutorial 용어를 비저자와 읽어 맞췄다.
+- root 제품/교환/normal, claude 정확5줄/현재71호출/manifest·새focused, receipt3PNG/고액 폭 표본/scope, independent 최종검수로 나눈다. 딜/AI/정산·이전 배너/규칙 화면·fullbody는 반복하지 않는다. 아직449 제품 수정·새수용·runtime PASS0이다.
+- 완료448을 마감 `22437d3`까지 main에 커밋·푸시했다. accepted41741/b224·209판정187보고·인간OPEN45/공개GO1·본편/새package HOLD를 보존한다. FOLDED/정산 POT와 JA 판돈 선택 오역은 별도 후속이다.
+
 ## 2026-10-05 — 두 번째 커피 만남의 잔 수 오독 수리 완료 (448)
 
 - 제품 `5ff1e8e`·검수 후보 `cd47a70`을 main에 커밋·푸시했다. JA/CN/TW 사건 제목과 JA 회상 첫 표현만 정정해 두 잔째가 아니라 두 번째 만남으로 읽는다. 새 키/coverage0·정정4·기존receipt3 정정/JA 첫receipt1로 accepted41741/b224이며 본문·선택·게임 규칙은 불변이다.
