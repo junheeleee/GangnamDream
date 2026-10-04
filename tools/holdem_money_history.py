@@ -753,3 +753,164 @@ def holdem_money_predecessor(current: bytes, root: Path | None = None) -> bytes:
         return _holdem_message_pulse_proof(current, root)[5]
     return _HOLDEM_MESSAGE_PULSE_OLD_MONEY_PREDECESSOR(current, root)
 # END_HOLDEM_MESSAGE_PULSE_HISTORY_443
+
+
+# BEGIN_HOLDEM_BANNER_HISTORY_445
+# One new whole-function transition; all earlier proof bodies/pins stay intact.
+BANNER_BEFORE_COMMIT = "c0035fbf68e5435ddb94a7d5a290ee0879a4aef5"
+BANNER_AFTER_COMMIT = "ddece4ce18fa811b7ed7d9130f82d81c4cd757e1"
+BANNER_TREES = ("89793593195acf1dca7e5f2ddb3401d8976a1b30", "c8acad6105c808e8f4a97f2f075d9b96d48c3736")
+BANNER_BLOBS = ("6b1e43f4547be5aa8f2aae54b3f730c40f7d437c", "6a878a78adb2c02a902a09b33ccde0bba1eb0fe6")
+BANNER_HASHES = ("cfc4987793e22738d8d7474f8cb821c072276e6d8c9390cf05ff5f1ef2a68ee4",
+                 "634d8a603ba4e38263696523963c2f2ad040adaeccec781a82f682977c02a721")
+BANNER_REPLACEMENT = (
+    'func _show_table_banner(text: String, color: Color, duration: float = 0.55) -> void:\n'
+    '\tif text.is_empty():\n'
+    '\t\treturn\n'
+    '\tvar root_size := size\n'
+    '\tif root_size.x <= 1.0 or root_size.y <= 1.0:\n'
+    '\t\troot_size = get_viewport_rect().size\n'
+    '\tvar panel := PanelContainer.new()\n'
+    '\tpanel.mouse_filter = Control.MOUSE_FILTER_IGNORE\n'
+    '\tpanel.z_index = 75\n'
+    '\tpanel.size = Vector2(minf(360.0, root_size.x - 48.0), 54.0)\n'
+    '\tpanel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(86.0, root_size.y * 0.30))\n'
+    '\tpanel.modulate = Color(1, 1, 1, 0.0)\n'
+    '\tvar st := StyleBoxFlat.new()\n'
+    '\tst.bg_color = Color(0.02, 0.03, 0.04, 0.82)\n'
+    '\tst.border_color = color\n'
+    '\tst.set_border_width_all(2)\n'
+    '\tst.set_corner_radius_all(8)\n'
+    '\tpanel.add_theme_stylebox_override("panel", st)\n'
+    '\tadd_child(panel)\n'
+    '\tvar lbl := Label.new()\n'
+    '\tlbl.text = text\n'
+    '\tlbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER\n'
+    '\tlbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER\n'
+    '\tlbl.add_theme_font_size_override("font_size", 18)\n'
+    '\tlbl.add_theme_color_override("font_color", color)\n'
+    '\t_f(lbl, true)\n'
+    '\tlbl.set_anchors_preset(Control.PRESET_FULL_RECT)\n'
+    '\tpanel.add_child(lbl)\n'
+    '\tvar tw := create_tween()\n'
+    '\ttw.tween_property(panel, "modulate:a", 1.0, 0.08)\n'
+    '\ttw.tween_interval(duration)\n'
+    '\ttw.tween_property(panel, "modulate:a", 0.0, 0.18)\n'
+    '\ttw.tween_callback(panel.queue_free)\n',
+    'func _show_table_banner(text: String, color: Color, duration: float = 0.55) -> void:\n'
+    '\tif text.is_empty():\n'
+    '\t\treturn\n'
+    '\tfor child in get_children():\n'
+    '\t\tif child is Control and child.get_meta(&"holdem_table_banner", false) == true:\n'
+    '\t\t\tchild.hide()\n'
+    '\tvar root_size := size\n'
+    '\tif root_size.x <= 1.0 or root_size.y <= 1.0:\n'
+    '\t\troot_size = get_viewport_rect().size\n'
+    '\tvar panel := PanelContainer.new()\n'
+    '\tpanel.set_meta(&"holdem_table_banner", true)\n'
+    '\tpanel.mouse_filter = Control.MOUSE_FILTER_IGNORE\n'
+    '\tpanel.z_index = 75\n'
+    '\tpanel.size = Vector2(minf(360.0, root_size.x - 48.0), 54.0)\n'
+    '\tpanel.position = Vector2((root_size.x - panel.size.x) * 0.5, root_size.y - panel.size.y - 24.0)\n'
+    '\tpanel.modulate = Color(1, 1, 1, 0.0)\n'
+    '\tvar st := StyleBoxFlat.new()\n'
+    '\tst.bg_color = Color(0.02, 0.03, 0.04, 0.82)\n'
+    '\tst.border_color = color\n'
+    '\tst.set_border_width_all(2)\n'
+    '\tst.set_corner_radius_all(8)\n'
+    '\tpanel.add_theme_stylebox_override("panel", st)\n'
+    '\tadd_child(panel)\n'
+    '\tvar lbl := Label.new()\n'
+    '\tlbl.text = text\n'
+    '\tlbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER\n'
+    '\tlbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER\n'
+    '\tlbl.add_theme_font_size_override("font_size", 18)\n'
+    '\tlbl.add_theme_color_override("font_color", color)\n'
+    '\t_f(lbl, true)\n'
+    '\tlbl.set_anchors_preset(Control.PRESET_FULL_RECT)\n'
+    '\tpanel.add_child(lbl)\n'
+    '\tvar tw := create_tween()\n'
+    '\ttw.tween_property(panel, "modulate:a", 1.0, 0.08)\n'
+    '\ttw.tween_interval(duration)\n'
+    '\ttw.tween_property(panel, "modulate:a", 0.0, 0.18)\n'
+    '\ttw.tween_callback(panel.queue_free)\n',
+)
+_HOLDEM_BANNER_OLD_MESSAGE_PULSE_PREDECESSOR = holdem_message_pulse_predecessor
+_HOLDEM_BANNER_OLD_CARD_COLOR_PREDECESSOR = holdem_card_color_predecessor
+_HOLDEM_BANNER_OLD_ASYNC_PREDECESSOR = holdem_async_predecessor
+_HOLDEM_BANNER_OLD_BETTING_PREDECESSOR = holdem_betting_predecessor
+_HOLDEM_BANNER_OLD_CANVAS_PREDECESSOR = holdem_canvas_predecessor
+_HOLDEM_BANNER_OLD_MONEY_PREDECESSOR = holdem_money_predecessor
+
+
+def holdem_banner_inverse(current: bytes, before: bytes) -> bytes:
+    """Undo one entire banner function; reject every edit outside that inverse."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(BANNER_REPLACEMENT, tuple) or len(BANNER_REPLACEMENT) != 2
+            or any(not isinstance(part, str) for part in BANNER_REPLACEMENT)):
+        raise ValueError("ORDER-445: inverse population/type differs")
+    old, new = (part.encode("utf-8") for part in BANNER_REPLACEMENT)
+    if (not old or old == new or not old.endswith(b"\n") or not new.endswith(b"\n")
+            or new.count(b"\n") != old.count(b"\n") + 4
+            or before.count(old) != 1 or before.count(new) != 0
+            or current.count(new) != 1 or current.count(old) != 0):
+        raise ValueError("ORDER-445: whole banner function inverse is not exact1")
+    recovered = current.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-445: change outside exact banner repair")
+    return recovered
+
+
+def _holdem_banner_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    """Seven stages/42 requests; the last six entries describe the added stage."""
+    stages = (
+        (BEFORE_COMMIT, AFTER_COMMIT, TREES, BLOBS, HASHES, holdem_money_inverse),
+        (CANVAS_BEFORE_COMMIT, CANVAS_AFTER_COMMIT, CANVAS_TREES, CANVAS_BLOBS, CANVAS_HASHES, holdem_canvas_inverse),
+        (BETTING_BEFORE_COMMIT, BETTING_AFTER_COMMIT, BETTING_TREES, BETTING_BLOBS, BETTING_HASHES, holdem_betting_inverse),
+        (ASYNC_BEFORE_COMMIT, ASYNC_AFTER_COMMIT, ASYNC_TREES, ASYNC_BLOBS, ASYNC_HASHES, holdem_async_inverse),
+        (CARD_COLOR_BEFORE_COMMIT, CARD_COLOR_AFTER_COMMIT, CARD_COLOR_TREES, CARD_COLOR_BLOBS, CARD_COLOR_HASHES, holdem_card_color_inverse),
+        (MESSAGE_PULSE_BEFORE_COMMIT, MESSAGE_PULSE_AFTER_COMMIT, MESSAGE_PULSE_TREES, MESSAGE_PULSE_BLOBS, MESSAGE_PULSE_HASHES, holdem_message_pulse_inverse),
+        (BANNER_BEFORE_COMMIT, BANNER_AFTER_COMMIT, BANNER_TREES, BANNER_BLOBS, BANNER_HASHES, holdem_banner_inverse),
+    )
+    return _holdem_exact_stage_chain(current, root, stages)
+
+
+def holdem_banner_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _holdem_banner_proof(current, root)[0]
+
+
+def holdem_message_pulse_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == BANNER_HASHES[1]:
+        return _holdem_banner_proof(current, root)[1]
+    return _HOLDEM_BANNER_OLD_MESSAGE_PULSE_PREDECESSOR(current, root)
+
+
+def holdem_card_color_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == BANNER_HASHES[1]:
+        return _holdem_banner_proof(current, root)[2]
+    return _HOLDEM_BANNER_OLD_CARD_COLOR_PREDECESSOR(current, root)
+
+
+def holdem_async_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == BANNER_HASHES[1]:
+        return _holdem_banner_proof(current, root)[3]
+    return _HOLDEM_BANNER_OLD_ASYNC_PREDECESSOR(current, root)
+
+
+def holdem_betting_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == BANNER_HASHES[1]:
+        return _holdem_banner_proof(current, root)[4]
+    return _HOLDEM_BANNER_OLD_BETTING_PREDECESSOR(current, root)
+
+
+def holdem_canvas_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == BANNER_HASHES[1]:
+        return _holdem_banner_proof(current, root)[5]
+    return _HOLDEM_BANNER_OLD_CANVAS_PREDECESSOR(current, root)
+
+
+def holdem_money_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == BANNER_HASHES[1]:
+        return _holdem_banner_proof(current, root)[6]
+    return _HOLDEM_BANNER_OLD_MONEY_PREDECESSOR(current, root)
+# END_HOLDEM_BANNER_HISTORY_445

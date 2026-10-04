@@ -14,6 +14,22 @@
   ],
   "fast_lanes": [
     {
+      "id": "holdem-banner",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_banner_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-445.json",
+        "docs/queue_active/ORDER-445.md", "docs/queue_archive/ORDER-445.md"
+      ],
+      "tools": [
+        "tools/holdem_banner_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit445 visual-only Holdem banner bottom placement and direct tagged predecessor hiding; original timer lifetimes,61 UiCalls and localization receipts unchanged. New focused/receipt/EN plus context/queue always and separate diff/registration give seven validations and one query. Two locales/two prepared table readers observe overlap, empty/foreign behavior and old/new natural frees without input/deal/AI/settlement. JA/ZH/fullbody, historical focused/runtime, four narratives/full/240-week suites NOT_RUN."
+    },
+    {
       "id": "holdem-tutorial-ui",
       "paths": [],
       "owned_paths": [
@@ -3065,6 +3081,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/holdem_banner_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_banner_receipt_check.py"],
+      "why": "Exact445 banner-function inverse, fresh seven-transition Git/source admission, unchanged61 UiCalls and receipts; no historical focused or engine replay.",
+      "godot": false
+    },
     {
       "tool": "tools/holdem_tutorial_ui_self_test.py",
       "paths": ["tools/holdem_tutorial_ui.py", "tools/holdem_tutorial_ui_self_test.py", "tools/full_game_localization.py", "tools/ja_translation_audit.py", "tools/zh_translation_audit.py", "scenes/TutorialOverlay.gd", "scenes/HoldemClub.gd"],
