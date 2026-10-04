@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 첫 주의 방향과 수첩 동기 중문22값 착수)
+
+- [427](queue_active/ORDER-427.md): 실제 W1 pressure/action_copy8과 수첩 가족/증명/생존3의 KO11키를 CN/TW 각각 직접 저작한다. 목표 accepted41572/b203·CN/TW1691·JA3044불변.
+- 지역별 목표언어→새게임→Main생성의 pre-autoload 격리 프로세스2개, 각3동기/총6PNG를 준비한다. 실제기본AP2/건강65/정신60과 chapter_intent_id 키부재를 유지하고 실제 route+goalbar 소비자를 본다. 수첩 선언10→실제12px/최소330px과 W1 action_copy를 기대값에 결속하며 426의 Hyunsu 추가효과를 잘못 상속하지 않는다.
+- rootTW/bridgeCN/helper/독립검수 소유분리, 합성24taps/48raw와 같은후보normal13행1회 계획. 초기화 설정쓰기/RNG/투자로그를 case선택효과와 구분한다. 기존helper/실패/성공증거 변경0·전체/240주 반복0.
+- Main상단 정보/저장은 이미번역됐고426의KO생성후전환 fixture잔류였다. 새번역수량에 넣지 않는다. 하드코딩 MARKET TICKER는별도source수리대상이며 이번범위밖이다. 본편/새packageHOLD·공개GO1/인간OPEN45 보존.
+
 ## 2026-10-04 (Codex — 경력·마지막 결산과 미룬 선택의 대가 중문26값 완료)
 
 - [426](queue_archive/ORDER-426.md)은 source456f865/tree94d50a9 독립 범위한정GO다. CN/TW13값씩·공식receipt26/batch2, accepted41550/b201·CN/TW1680·JA3044불변.
