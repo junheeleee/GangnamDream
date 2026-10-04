@@ -47,7 +47,8 @@
   A oneroom → body_capacity/rest-study-side_shift;
   B health45·실제 father fallback → condition/rest-side_shift-contact;
   C gosiwon → home_margin/save-side_shift-rest;
-  D 실제고정비보다 cash+income 부족·직업유지 → rent/side_shift-save-rest;
+  D 실제 job_05(base_salary3170000) 유지·cash0/monthly_income0을 별도 준비하여
+    고시원 고정비650000 부족 → rent/side_shift-save-rest(자연 무급 상태 주장0);
   E grind2·만난Daeun최고affinity → relationship/contact-side_shift-rest;
   F villa·실제closest 존재 → human_debt/contact-rest-side_shift.
 - 실제 rent/family/closest/pressure predicates를 검증한다. B father와 E Daeun,

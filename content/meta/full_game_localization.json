@@ -7990,6 +7990,118 @@
           "batch_id": "5d26006a6885aa50b90da63b1f9dab95ce2be278ff3434d25b359c9035992098"
         }
       }
+    },
+    {
+      "order": "ORDER-425",
+      "group": "ui",
+      "roots": [
+        "이번 달도 {home}에서 버틴다",
+        "지출을 줄일까, 한 번 더 벌까, 방 안에서 숨을 돌릴까?",
+        "{name}에게 가지 않은 시간이 남았다",
+        "연락할까, 내 몸부터 돌볼까, 이번 주도 돈으로 바꿀까?",
+        "달력보다 몸이 먼저 기억한다",
+        "멈출까, 체력을 쌓을까, 현금을 더 만들까?",
+        "몸이 먼저 멈추려 한다",
+        "이번 주에도 밀어붙일까, 숨을 돌릴까?",
+        "이번 달 고정비가 잔고보다 크다",
+        "현금을 더 만들까, 덜 쓸까, 몸을 지킬까?",
+        "{name}에게 가지 않은 {weeks}주",
+        "{name}에게 이번 주를 내줄까, 다시 돈을 좇을까?",
+        "오늘은 멈춘다",
+        "한 번 멈춰 몸과 마음이 따라오게 한다",
+        "{name}에게 연락한다",
+        "이번 주의 한 번을 돈이 아닌 사람에게 건넨다",
+        "정신을 회복하고 몸을 멈춘다",
+        "현금과 경력은 이번 주 그대로",
+        "1~3주 · 회복 효과가 이어지고 일정의 무리가 줄어든다",
+        "{name}에게 이번 주의 시간을 건넨다",
+        "수입과 준비는 다음 주로 미룬다",
+        "1~3주 · 관계 장면이 열리고 다음 연락의 반응이 달라진다"
+      ],
+      "source_leaves": 22,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 22,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct body, condition, housing, rent and relationship pressure titles/questions12, rest/contact action descriptions4 and now/cost/later6. Separate regional authors preserve home/name/weeks tokens, weeks1-3, one action opportunity, recovery and deferred cash/career/preparation. Contact later replaces observed English overflow without shrinking fonts or removing meaning. No detail, delayed-cost, gameplay, JA or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "986dd3c7be6c09ac6abb955027a6348eec3027affee87828eed002ec85099a83"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "3802c3725059f6835a819dd5fee8be61382fecf5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fa8ac9a96889f4fa4f8fbc91edbf6c041ca4a0cef2f637cd1e8aa911caa38250",
+          "selection_sha256": "5e662a8fa3033875fc5f4f67f59faae926a098212e3551696879516e7464fae5",
+          "count": 22,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "eec3334934d802de6dc9fb0b739c6a137145bc1eb25477e7fc75423b0ad111e9"
+        }
+      }
+    },
+    {
+      "order": "ORDER-425",
+      "group": "ui",
+      "roots": [
+        "이번 달도 {home}에서 버틴다",
+        "지출을 줄일까, 한 번 더 벌까, 방 안에서 숨을 돌릴까?",
+        "{name}에게 가지 않은 시간이 남았다",
+        "연락할까, 내 몸부터 돌볼까, 이번 주도 돈으로 바꿀까?",
+        "달력보다 몸이 먼저 기억한다",
+        "멈출까, 체력을 쌓을까, 현금을 더 만들까?",
+        "몸이 먼저 멈추려 한다",
+        "이번 주에도 밀어붙일까, 숨을 돌릴까?",
+        "이번 달 고정비가 잔고보다 크다",
+        "현금을 더 만들까, 덜 쓸까, 몸을 지킬까?",
+        "{name}에게 가지 않은 {weeks}주",
+        "{name}에게 이번 주를 내줄까, 다시 돈을 좇을까?",
+        "오늘은 멈춘다",
+        "한 번 멈춰 몸과 마음이 따라오게 한다",
+        "{name}에게 연락한다",
+        "이번 주의 한 번을 돈이 아닌 사람에게 건넨다",
+        "정신을 회복하고 몸을 멈춘다",
+        "현금과 경력은 이번 주 그대로",
+        "1~3주 · 회복 효과가 이어지고 일정의 무리가 줄어든다",
+        "{name}에게 이번 주의 시간을 건넨다",
+        "수입과 준비는 다음 주로 미룬다",
+        "1~3주 · 관계 장면이 열리고 다음 연락의 반응이 달라진다"
+      ],
+      "source_leaves": 22,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 22
+      },
+      "source_review": "Korean-direct body, condition, housing, rent and relationship pressure titles/questions12, rest/contact action descriptions4 and now/cost/later6. Separate regional authors preserve home/name/weeks tokens, weeks1-3, one action opportunity, recovery and deferred cash/career/preparation. Contact later replaces observed English overflow without shrinking fonts or removing meaning. No detail, delayed-cost, gameplay, JA or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "197ee47b4d23b8f4b6ef4cf2948814592445469464f5fcfb7ab32b2a07c37e96"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "3802c3725059f6835a819dd5fee8be61382fecf5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fa8ac9a96889f4fa4f8fbc91edbf6c041ca4a0cef2f637cd1e8aa911caa38250",
+          "selection_sha256": "d134ab4026c2b28b12809617c1bf4adc61d6e92c6ec2d4c5edd8ef649d46d8a4",
+          "count": 22,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "86facd30e5116b2f440f6db417fcc0c5ed5b9782ee64c0916c1e0a3ab539808e"
+        }
+      }
     }
   ],
   "accepted": {
@@ -117215,6 +117327,94 @@
       "ui:투자할까, 승부를 걸까, 현금을 지킬까?:/투자할까, 승부를 걸까, 현금을 지킬까?": {
         "source_sha256": "c3f1ff4889779ed3dbefff2cee09adf17bce3ee4572c716d582ffa52f90246c4",
         "target_sha256": "285419c3a8754cf0d41510135c6278f86ca03c60f8742e5ff0feabcf17d1f607"
+      },
+      "ui:1~3주 · 관계 장면이 열리고 다음 연락의 반응이 달라진다:/1~03주 · 관계 장면이 열리고 다음 연락의 반응이 달라진다": {
+        "source_sha256": "f390452b9bf1b0a88837a1038b922bc2090d2c34c979f26e19e68a71ce849185",
+        "target_sha256": "8bbe31f3d3a00f2443123b1439476117224b60dd5de2293df89b0e6c3e024453"
+      },
+      "ui:1~3주 · 회복 효과가 이어지고 일정의 무리가 줄어든다:/1~03주 · 회복 효과가 이어지고 일정의 무리가 줄어든다": {
+        "source_sha256": "456ad16c9b212d114e8cac8df7ab23b00c160c861800e2b5089b117891acce37",
+        "target_sha256": "431a364cb73bd0440ad651308ef8a0a5ec14da96032e7c8e3ea953ad679b1dd7"
+      },
+      "ui:{name}에게 가지 않은 {weeks}주:/{name}에게 가지 않은 {weeks}주": {
+        "source_sha256": "70162e8f035df366d6932480ea74d47db07a47fd68b3b5776c728fd0d8f2ab28",
+        "target_sha256": "dd7bfd6846546507198122831e8e38265a2302f58cf83f657c634a8c576524a4"
+      },
+      "ui:{name}에게 가지 않은 시간이 남았다:/{name}에게 가지 않은 시간이 남았다": {
+        "source_sha256": "2a27d86248bb1507717eb73dde29bf963c2be5726ac321353f7d57355567ad05",
+        "target_sha256": "48242c867b73e47b3a3e739e95371ed1aefbc19d1e642fde43e52b86ae26e514"
+      },
+      "ui:{name}에게 연락한다:/{name}에게 연락한다": {
+        "source_sha256": "11dc8fa430dec3e7fc11593e16c520642fc08db2ac7f9b249018cce3561aa99b",
+        "target_sha256": "765dd827e62c70f424d2e792001d4c77f4a7770b9c7931294fef66d6780cafd0"
+      },
+      "ui:{name}에게 이번 주를 내줄까, 다시 돈을 좇을까?:/{name}에게 이번 주를 내줄까, 다시 돈을 좇을까?": {
+        "source_sha256": "80a638395ddcf839169549d381cfe6c056961af878e8dcaa19ae9e57a2bee41b",
+        "target_sha256": "8c90b838594ceaf55fdfed458e56fae27cfed81a1b4273f3ebd1d43cfc927681"
+      },
+      "ui:{name}에게 이번 주의 시간을 건넨다:/{name}에게 이번 주의 시간을 건넨다": {
+        "source_sha256": "9fa84f4f4314ace7aebbc013d10e9c0f106cb57c503196bac09a047bb6a3637d",
+        "target_sha256": "e255e2bf966043493489fc3d97206f646a642b1645b947013ead15936e4b6327"
+      },
+      "ui:달력보다 몸이 먼저 기억한다:/달력보다 몸이 먼저 기억한다": {
+        "source_sha256": "b5396de78a8428e9f1f23c4d546bf91783d7d0a62c239bbdc20a34d5d2546692",
+        "target_sha256": "0308d382d9f4cb7989d8fb2478a39983b66c3da27f8095b48235025e1ba6aaba"
+      },
+      "ui:멈출까, 체력을 쌓을까, 현금을 더 만들까?:/멈출까, 체력을 쌓을까, 현금을 더 만들까?": {
+        "source_sha256": "220795ea952fc1abf4bc5e445a88146267d812094394feb15ec5242642ebf2ed",
+        "target_sha256": "42ed894282ca2bc3414689004b0e469ddb2918e049d9c9d18be73320cb7a5931"
+      },
+      "ui:몸이 먼저 멈추려 한다:/몸이 먼저 멈추려 한다": {
+        "source_sha256": "59fd16547152b389940a0242aab329ac5f30f03da002cece8e3471a8d68c6c49",
+        "target_sha256": "29cf1435a31c3e13a26138a79637be53c9ccdb94245a97e0481700ffab7ea5f8"
+      },
+      "ui:수입과 준비는 다음 주로 미룬다:/수입과 준비는 다음 주로 미룬다": {
+        "source_sha256": "8b464e48a1b2fc82d1fa6289a488f2f10a83559d81b921dfd41c08e1c2bc8a54",
+        "target_sha256": "4dcd0a8785d08179c0b10d96aca27e145ec9660e30adf47bb615a39412513c5c"
+      },
+      "ui:연락할까, 내 몸부터 돌볼까, 이번 주도 돈으로 바꿀까?:/연락할까, 내 몸부터 돌볼까, 이번 주도 돈으로 바꿀까?": {
+        "source_sha256": "dd510381d3332bb3c55bb2b3eda77df95bb595d91a178a4f2a4df4271beeacaf",
+        "target_sha256": "f6da4336d579eb470e8cd7261b9e3b9baade1fcece50a69c2c9cc1ef12f66886"
+      },
+      "ui:오늘은 멈춘다:/오늘은 멈춘다": {
+        "source_sha256": "c3905692506300b6745478b70088afdd40a1bad4184746e9398b367a82f954ed",
+        "target_sha256": "0f9ba85e65c2c1eff43663d948982ed87c44b40c5ccab5ed4b79f605a5ee89c4"
+      },
+      "ui:이번 달 고정비가 잔고보다 크다:/이번 달 고정비가 잔고보다 크다": {
+        "source_sha256": "45170cab9e4a83f5187de65b155a481ad48faeb4df959b2671f07610ff4ffee1",
+        "target_sha256": "42701148892738c4dc53e1ff3e2ad372e82f767ae757787e0f37077509b290d9"
+      },
+      "ui:이번 달도 {home}에서 버틴다:/이번 달도 {home}에서 버틴다": {
+        "source_sha256": "09d9b5bb0faad77c63e31938a7a269364db7f783febc1caa1dd352fddcd6f486",
+        "target_sha256": "70e392911c1dafc2e65f18025fa8e47cc9c79da60456d82dd9c67785e0dd284d"
+      },
+      "ui:이번 주에도 밀어붙일까, 숨을 돌릴까?:/이번 주에도 밀어붙일까, 숨을 돌릴까?": {
+        "source_sha256": "4d8df0e40902808f1ba1f57691bc720fe1e0b65471bf8020ce7b43fb4c88dace",
+        "target_sha256": "5a2d7caecd889098b9593b40be59c8a1a0c0db9fa2180ffa5211f4a5fcd011f1"
+      },
+      "ui:이번 주의 한 번을 돈이 아닌 사람에게 건넨다:/이번 주의 한 번을 돈이 아닌 사람에게 건넨다": {
+        "source_sha256": "68cac8b5007ade3d5ca4bde2aab1c9e789cbdd36a808e36295c69b183067ddf5",
+        "target_sha256": "a7132f18493765bdf6a0c59aa3f07524b6854e54fd5d460401c280aaf96a14c7"
+      },
+      "ui:정신을 회복하고 몸을 멈춘다:/정신을 회복하고 몸을 멈춘다": {
+        "source_sha256": "35bbcf8ae0d24451522d01fe508f17238d262ffcd880e3197d52976c307055c0",
+        "target_sha256": "10599b9562ceccd453e7938da40c721a3b58a3e75f924699141d2ce1be653548"
+      },
+      "ui:지출을 줄일까, 한 번 더 벌까, 방 안에서 숨을 돌릴까?:/지출을 줄일까, 한 번 더 벌까, 방 안에서 숨을 돌릴까?": {
+        "source_sha256": "935cbe609e016b2c5d3436d8dfe49d6f692c02346a0a8f62c0c946813b67a0f7",
+        "target_sha256": "4e6a9e709ecc014e1023bc80194b5ad0390815156a6ee44999828cf9eef19196"
+      },
+      "ui:한 번 멈춰 몸과 마음이 따라오게 한다:/한 번 멈춰 몸과 마음이 따라오게 한다": {
+        "source_sha256": "d673014f52b62ff7f3d1265acee080d4950c27ecc6c89c8d33fff5ebb95dad09",
+        "target_sha256": "0ead5090b3cdf08c62c58ade853d20e6f10c4752a70942a6999c01b2daa0832f"
+      },
+      "ui:현금과 경력은 이번 주 그대로:/현금과 경력은 이번 주 그대로": {
+        "source_sha256": "bc6c16e9e3e46aa11e71f0c6557d6e8ed839490d41f2be89117bc50936156272",
+        "target_sha256": "4385a0afb98b71bca057dcbdb3adc5fcb7560510d1c591d1172aaab5817be8c3"
+      },
+      "ui:현금을 더 만들까, 덜 쓸까, 몸을 지킬까?:/현금을 더 만들까, 덜 쓸까, 몸을 지킬까?": {
+        "source_sha256": "6cd7ae61972e63aeeb09072fae97e115a1fb8d1412ae76d7d8bef6380f1a1bde",
+        "target_sha256": "bd659043e9f58a6b95d564cd7398d1a5db3321bd0bb7162182a0adcc008168c9"
       }
     },
     "zh-TW": {
@@ -173917,10 +174117,98 @@
       "ui:투자할까, 승부를 걸까, 현금을 지킬까?:/투자할까, 승부를 걸까, 현금을 지킬까?": {
         "source_sha256": "c3f1ff4889779ed3dbefff2cee09adf17bce3ee4572c716d582ffa52f90246c4",
         "target_sha256": "6bcdf70e9fec81bc4618d132d8a1e6fbed6d10654ea5000dad683c5f38a354bf"
+      },
+      "ui:1~3주 · 관계 장면이 열리고 다음 연락의 반응이 달라진다:/1~03주 · 관계 장면이 열리고 다음 연락의 반응이 달라진다": {
+        "source_sha256": "f390452b9bf1b0a88837a1038b922bc2090d2c34c979f26e19e68a71ce849185",
+        "target_sha256": "896af502c4d25a360fa6e60f062e0bb707bc199359bc544ad796940ece6c9b15"
+      },
+      "ui:1~3주 · 회복 효과가 이어지고 일정의 무리가 줄어든다:/1~03주 · 회복 효과가 이어지고 일정의 무리가 줄어든다": {
+        "source_sha256": "456ad16c9b212d114e8cac8df7ab23b00c160c861800e2b5089b117891acce37",
+        "target_sha256": "38be97a3ac01af62bde7e03581080e4c4591cb2ba182e1fca6db5eb6a4496441"
+      },
+      "ui:{name}에게 가지 않은 {weeks}주:/{name}에게 가지 않은 {weeks}주": {
+        "source_sha256": "70162e8f035df366d6932480ea74d47db07a47fd68b3b5776c728fd0d8f2ab28",
+        "target_sha256": "d34be7f486778d15d9de369aebd86bf2e872f2c71e05ac6136874402816696ed"
+      },
+      "ui:{name}에게 가지 않은 시간이 남았다:/{name}에게 가지 않은 시간이 남았다": {
+        "source_sha256": "2a27d86248bb1507717eb73dde29bf963c2be5726ac321353f7d57355567ad05",
+        "target_sha256": "b7b3474b5c67855c978f2a94d8d151945dbd250c880a413fe3614a4436d2ab0e"
+      },
+      "ui:{name}에게 연락한다:/{name}에게 연락한다": {
+        "source_sha256": "11dc8fa430dec3e7fc11593e16c520642fc08db2ac7f9b249018cce3561aa99b",
+        "target_sha256": "e161c8fad8b88a9b1dd7a42fbb795c96aabe5f10958f1bb0734ac3293dbab1a2"
+      },
+      "ui:{name}에게 이번 주를 내줄까, 다시 돈을 좇을까?:/{name}에게 이번 주를 내줄까, 다시 돈을 좇을까?": {
+        "source_sha256": "80a638395ddcf839169549d381cfe6c056961af878e8dcaa19ae9e57a2bee41b",
+        "target_sha256": "abfcdc2e88aefeab2ad3d85a6c6339d4cf058baf2aa215ea2c10c352126358f2"
+      },
+      "ui:{name}에게 이번 주의 시간을 건넨다:/{name}에게 이번 주의 시간을 건넨다": {
+        "source_sha256": "9fa84f4f4314ace7aebbc013d10e9c0f106cb57c503196bac09a047bb6a3637d",
+        "target_sha256": "a686266673f26f647123f660ff2e006eed7251723429c1c9c6b9c4b90c629e6a"
+      },
+      "ui:달력보다 몸이 먼저 기억한다:/달력보다 몸이 먼저 기억한다": {
+        "source_sha256": "b5396de78a8428e9f1f23c4d546bf91783d7d0a62c239bbdc20a34d5d2546692",
+        "target_sha256": "3c492937937dbe8d8fe7d6b51dee61698c6ec2fe39cbc54d20a341fa15851226"
+      },
+      "ui:멈출까, 체력을 쌓을까, 현금을 더 만들까?:/멈출까, 체력을 쌓을까, 현금을 더 만들까?": {
+        "source_sha256": "220795ea952fc1abf4bc5e445a88146267d812094394feb15ec5242642ebf2ed",
+        "target_sha256": "598093cadc9d26e5c671c0211e69c55f0dea6c8b21eeba4695f437300d679eee"
+      },
+      "ui:몸이 먼저 멈추려 한다:/몸이 먼저 멈추려 한다": {
+        "source_sha256": "59fd16547152b389940a0242aab329ac5f30f03da002cece8e3471a8d68c6c49",
+        "target_sha256": "e5d8e92cc45d4f1409c5f095e63a3777b563649224a129205ec1a97c2a1e3e97"
+      },
+      "ui:수입과 준비는 다음 주로 미룬다:/수입과 준비는 다음 주로 미룬다": {
+        "source_sha256": "8b464e48a1b2fc82d1fa6289a488f2f10a83559d81b921dfd41c08e1c2bc8a54",
+        "target_sha256": "92c77a29b1fcaf29d015e77c8eedfa39943c84d46e493c9847c46171f945782c"
+      },
+      "ui:연락할까, 내 몸부터 돌볼까, 이번 주도 돈으로 바꿀까?:/연락할까, 내 몸부터 돌볼까, 이번 주도 돈으로 바꿀까?": {
+        "source_sha256": "dd510381d3332bb3c55bb2b3eda77df95bb595d91a178a4f2a4df4271beeacaf",
+        "target_sha256": "509f3e2cd7534f8f3093c04494cc19818e283530324b44eb29d9863d829ace75"
+      },
+      "ui:오늘은 멈춘다:/오늘은 멈춘다": {
+        "source_sha256": "c3905692506300b6745478b70088afdd40a1bad4184746e9398b367a82f954ed",
+        "target_sha256": "b60ff7605e23b9da7e7ef8c767d904c210c0311a0c8be11a44c0ed987814e901"
+      },
+      "ui:이번 달 고정비가 잔고보다 크다:/이번 달 고정비가 잔고보다 크다": {
+        "source_sha256": "45170cab9e4a83f5187de65b155a481ad48faeb4df959b2671f07610ff4ffee1",
+        "target_sha256": "9416b03bc2c46246664418cee0e2c45b28512281e706735c47d576ff15e75a97"
+      },
+      "ui:이번 달도 {home}에서 버틴다:/이번 달도 {home}에서 버틴다": {
+        "source_sha256": "09d9b5bb0faad77c63e31938a7a269364db7f783febc1caa1dd352fddcd6f486",
+        "target_sha256": "8256e14757e2e02ca8ee36f04189dd9b7f8ee513c0ff6772a0a4d5d8bad1bf8a"
+      },
+      "ui:이번 주에도 밀어붙일까, 숨을 돌릴까?:/이번 주에도 밀어붙일까, 숨을 돌릴까?": {
+        "source_sha256": "4d8df0e40902808f1ba1f57691bc720fe1e0b65471bf8020ce7b43fb4c88dace",
+        "target_sha256": "7fef9bbe8166851fc876c8d3c6f81bcd3f5cd81dfb93faea61aca78b89c1b22e"
+      },
+      "ui:이번 주의 한 번을 돈이 아닌 사람에게 건넨다:/이번 주의 한 번을 돈이 아닌 사람에게 건넨다": {
+        "source_sha256": "68cac8b5007ade3d5ca4bde2aab1c9e789cbdd36a808e36295c69b183067ddf5",
+        "target_sha256": "e3a4ccf6aa10540a0b21f9abc88f907aaf64c8e5d5ab8f89091bdbc9b479b936"
+      },
+      "ui:정신을 회복하고 몸을 멈춘다:/정신을 회복하고 몸을 멈춘다": {
+        "source_sha256": "35bbcf8ae0d24451522d01fe508f17238d262ffcd880e3197d52976c307055c0",
+        "target_sha256": "1746365c64d8f2d400d670bbf7df859d4ba7cb03851587f69c66e65a38266eea"
+      },
+      "ui:지출을 줄일까, 한 번 더 벌까, 방 안에서 숨을 돌릴까?:/지출을 줄일까, 한 번 더 벌까, 방 안에서 숨을 돌릴까?": {
+        "source_sha256": "935cbe609e016b2c5d3436d8dfe49d6f692c02346a0a8f62c0c946813b67a0f7",
+        "target_sha256": "87a1aa02dc317d64a4a705da7ec1966940dde4454c3027e60737a7094ea7e152"
+      },
+      "ui:한 번 멈춰 몸과 마음이 따라오게 한다:/한 번 멈춰 몸과 마음이 따라오게 한다": {
+        "source_sha256": "d673014f52b62ff7f3d1265acee080d4950c27ecc6c89c8d33fff5ebb95dad09",
+        "target_sha256": "44f0d4763b11e6644216d95ce522b9036bc61cfb6e850ebb1a0a4afb97e6e1c7"
+      },
+      "ui:현금과 경력은 이번 주 그대로:/현금과 경력은 이번 주 그대로": {
+        "source_sha256": "bc6c16e9e3e46aa11e71f0c6557d6e8ed839490d41f2be89117bc50936156272",
+        "target_sha256": "8c6192136e36122ecaa1d76c8dbd3d423a00c54e089e6aea79b6db4072183076"
+      },
+      "ui:현금을 더 만들까, 덜 쓸까, 몸을 지킬까?:/현금을 더 만들까, 덜 쓸까, 몸을 지킬까?": {
+        "source_sha256": "6cd7ae61972e63aeeb09072fae97e115a1fb8d1412ae76d7d8bef6380f1a1bde",
+        "target_sha256": "d4544d75c49679592ce0afabc8b430ee4b068780bd39a51a1989a61f24911139"
       }
     }
   },
-  "accepted_sha256": "f94b47e10ba562e7525c4ddf3812b1c9e97351fff707840d8b220ceef5714d02",
+  "accepted_sha256": "0bfe297a493287786e31de1d7dbadf69e6ddab524fe56585ddee2a2055966101",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
