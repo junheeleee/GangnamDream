@@ -800,10 +800,12 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
     exact = {CORRECTION_AFTER_COMMIT: (_correction_proof, _correction_comparison),
              FEE_AFTER_COMMIT: (_fee_correction_proof, _fee_comparison)}
     corrections, transitions, manifests, totals = [], [], {}, Counter()
+    residual_pending = None  # Exact ORDER-451 two-commit delivery only.
     split_receipts = _SplitReceiptHistory(root, inventory)
     comparison = _comparison_memo(paths, corrections)
     previous = dict(baseline)
     for commit in commits:
+        require(residual_pending is None or commit == LEGACY_RESIDUAL_AFTER_COMMIT, "legacy JA residual delivery interrupted")
         raw = _objects(root, [(commit, commit, "commit")])[0]
         parents = [h[7:].decode() for h in raw.split(b"\n\n", 1)[0].splitlines() if h.startswith(b"parent ")]
         require(bool(parents) and parents[0] in lineage and _snapshot(root, parents[0], paths) == previous,
@@ -822,6 +824,21 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
             require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
                     "legacy JA rank lineage or protected locale differs")
             corrections.append((_legacy_ja_rank_comparison, before, after))
+        elif commit == LEGACY_RESIDUAL_INTERMEDIATE_COMMIT:
+            before, after, change = _legacy_ja_residual_proof(root, inventory)
+            middle = _snapshot(root, LEGACY_RESIDUAL_INTERMEDIATE_COMMIT, CURRENT_PATHS)
+            require(residual_pending is None and set(paths) == set(CURRENT_PATHS)
+                    and previous == before and successor == middle,
+                    "legacy JA residual intermediate lineage differs")
+            residual_pending = (before, middle, after, change)
+            change = {"ui_by_locale": {loc: 0 for loc in CURRENT_LOCALES}, "receipts": 0, "batches": 0, "source_manifests": {}}
+        elif commit == LEGACY_RESIDUAL_AFTER_COMMIT:
+            require(residual_pending is not None, "legacy JA residual final lacks its exact intermediate")
+            before, middle, after, change = residual_pending
+            require(parents == [LEGACY_RESIDUAL_INTERMEDIATE_COMMIT] and previous == middle and successor == after,
+                    "legacy JA residual lineage or protected locale differs")
+            corrections.append((_legacy_ja_residual_comparison, before, after))
+            residual_pending = None
         elif commit == _coffee_history.COFFEE_AFTER_COMMIT:
             before, after, change = _coffee_history.coffee_encounter_proof(root, inventory)
             require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
@@ -844,6 +861,7 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
         transitions.append({"commit": commit, **change})
         totals.update({k: change.get(k, 0) for k in ("receipts", "batches", "corrections", "correction_batches", "first_receipts")})
         previous = successor
+    require(residual_pending is None, "legacy JA residual intermediate cannot be a final candidate")
     split_receipts.finish()
     require(previous == candidate and FEE_AFTER_COMMIT in commits, "fee history does not reconstruct current candidate")
     combined = validate_append(baseline, comparison(candidate), inventory)
@@ -2252,3 +2270,208 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
             root, inventory, inventory["source_manifest_sha256"])
     return _HOLDEM_FOLDED_LOCALE_OLD_MANIFEST_MATCHES(root, inventory, expected)
 # END_HOLDEM_FOLDED_LOCALE_APPEND_451
+
+
+# BEGIN_LEGACY_JA_RESIDUAL_CORRECTION_451
+# Actual two-value correction and two first receipts; not new source coverage.
+LEGACY_RESIDUAL_PATH = "locale/ui_ja.json"
+LEGACY_RESIDUAL_PRODUCT_PATHS = (LEGACY_RESIDUAL_PATH, LEDGER_PATH)
+LEGACY_RESIDUAL_KEYS = ("%s · POT %s 정산", "판돈 선택")
+LEGACY_RESIDUAL_TEXTS = {
+    LEGACY_RESIDUAL_KEYS[0]: ("%s · POT %s 精算", "%s · ポット %s 精算"),
+    LEGACY_RESIDUAL_KEYS[1]: ("ポットオッズ選択", "ベット金額を選択"),
+}
+LEGACY_RESIDUAL_ORIGIN_COMMIT = "aaeba142d08278c310505000bcc126a699493479"
+LEGACY_RESIDUAL_ORIGIN_BLOB = "53e3610ead0fdcaae7c7c4b787b27f9fdcb4fc67"
+LEGACY_RESIDUAL_ORIGIN_SHA256 = "550378458bee465a4d89a0be9ba6e2d18029fd8fbbeb8982b3c99a961708b0fc"
+LEGACY_RESIDUAL_BEFORE_COMMIT = "33b9d28243e581b74ed12fc1a1d1eb23e004705c"
+LEGACY_RESIDUAL_INTERMEDIATE_COMMIT = "7aa0cd22d0b03b4b76a16c3445d70af30acad812"
+LEGACY_RESIDUAL_AFTER_COMMIT = "2fdf4353d4769dfb40f35da1added7de27aff354"
+LEGACY_RESIDUAL_TREES = ("77bcc73b16e6c034ecf1e031b9fc973af63152cf", "af910858c761bde8009cec082a2b673222f95c46", "778a4223e9098fc71cd0ced78bb252fdb7904905")
+LEGACY_RESIDUAL_BLOBS = {
+    LEGACY_RESIDUAL_PATH: ("f2570f43bec46dec1f3c77d1a4ba2910d7a060a6", "c1b6060f79854125fa08364fc7eea16497066922"),
+    "locale/ui_zh-CN.json": ("043da5ab11a40ba5d337530a340706b6a3f6fb78",) * 2,
+    "locale/ui_zh-TW.json": ("654e86adc00d942bce29f929e834cb53c6502c9f",) * 2,
+    LEDGER_PATH: ("d5abc5a2ff099ddbda3f7a6f2c8f71fb55812ea8", "fddbaa537c335fa2be0f71ed8010833143673090"),
+}
+LEGACY_RESIDUAL_HASHES = {
+    LEGACY_RESIDUAL_PATH: ("5f0c05425a5ddd11de4138002e18a9808d6174ced146954f40b274d7a09d5108", "c056e24b20ad6e9711bce82eaaface23edc49d62d4598d397baf08ed5a7b2816"),
+    "locale/ui_zh-CN.json": ("56aa8c8320624223159f6d0034121aef0b8699ec51788c095b96627be2b3e863",) * 2,
+    "locale/ui_zh-TW.json": ("b589d1887d3660c9f3122e371ef5b28d06c258c23ddad18bfa6d8f5bef312ce0",) * 2,
+    LEDGER_PATH: ("c74abb2c2c760855ac5fa794096ea89b9383dbbd0a2f567b3eff26794b65464b", "095d5e46dca4c4ddabcfde1f255565ff18f6cc913997238ca22ea812c102f53d"),
+}
+LEGACY_RESIDUAL_INTERMEDIATE_BLOBS = {path: pair[1] for path, pair in LEGACY_RESIDUAL_BLOBS.items()}
+LEGACY_RESIDUAL_INTERMEDIATE_BLOBS[LEDGER_PATH] = "0ea1d930f9e4bad73a74e29917fb1c9396e25085"
+LEGACY_RESIDUAL_INTERMEDIATE_HASHES = {path: pair[1] for path, pair in LEGACY_RESIDUAL_HASHES.items()}
+LEGACY_RESIDUAL_INTERMEDIATE_HASHES[LEDGER_PATH] = "c39560d8974c645e35904eaab1910343951165007d0b1c19dd864ccbde74b1ff"
+LEGACY_RESIDUAL_BATCH_INDEX = 227
+LEGACY_RESIDUAL_REVIEW = (
+    "Korean-direct repair of two legacy Japanese money labels: Holdem pot settlement and Scalping stake selection, "
+    "not pot odds. Two existing values corrected, zero new UI keys, two first official receipts. Gameplay, "
+    "other locales and public demo unchanged; agent review is not native or release approval.")
+
+
+def _legacy_ja_residual_comparison(snapshot: Mapping[str, bytes], before: Mapping[str, bytes],
+                                   after: Mapping[str, bytes]) -> dict[str, bytes]:
+    """Undo only the two proved legacy targets, first receipts and one batch."""
+    require(set(snapshot) == set(before) == set(after) == set(CURRENT_PATHS),
+            "legacy JA residual comparison requires four paths")
+    result = dict(snapshot)
+    a, b, doc = (_Document(raw) for raw in
+                 (before[LEGACY_RESIDUAL_PATH], after[LEGACY_RESIDUAL_PATH], snapshot[LEGACY_RESIDUAL_PATH]))
+    edits = []
+    for key, (_old, target) in LEGACY_RESIDUAL_TEXTS.items():
+        require(doc.value.get(key) == target, "legacy JA residual target rolled back/changed")
+        start, end = doc.spans[(key,)]
+        bs, be = b.spans[(key,)]
+        require(doc.text[start:end] == b.text[bs:be], "legacy JA residual target raw token changed")
+        first, last = a.spans[(key,)]
+        edits.append((start, end, a.text[first:last]))
+    text = doc.text
+    for start, end, replacement in sorted(edits, reverse=True):
+        text = text[:start] + replacement + text[end:]
+    result[LEGACY_RESIDUAL_PATH] = text.encode()
+    a, b, doc = (_Document(raw) for raw in
+                 (before[LEDGER_PATH], after[LEDGER_PATH], snapshot[LEDGER_PATH]))
+    value, index = doc.value, LEGACY_RESIDUAL_BATCH_INDEX
+    require(value["accepted_sha256"] == exchange.digest(value["accepted"]), "legacy JA residual accepted checksum")
+    require(len(value["batches"]) > index and _ordered(value["batches"][index]) == _ordered(b.value["batches"][index]),
+            "legacy JA residual batch missing/changed/reordered")
+    start, end = doc.spans[("batches", index - 1)][1], doc.spans[("batches", index)][1]
+    bs, be = b.spans[("batches", index - 1)][1], b.spans[("batches", index)][1]
+    require(doc.text[start:end] == b.text[bs:be], "legacy JA residual batch raw changed")
+    edits = [(start, end, "")]
+    old_keys = list(a.value["accepted"]["ja"])
+    identifiers = [receipt_id(key) for key in LEGACY_RESIDUAL_KEYS]
+    require(bool(old_keys) and list(b.value["accepted"]["ja"]) == old_keys + identifiers
+            and list(value["accepted"]["ja"])[:len(old_keys) + 2] == old_keys + identifiers,
+            "legacy JA residual first receipt order/population differs")
+    require(all(_ordered(value["accepted"]["ja"].get(key)) == _ordered(b.value["accepted"]["ja"][key])
+                for key in identifiers), "legacy JA residual first receipt changed")
+    start, end = doc.spans[("accepted", "ja", old_keys[-1])][1], doc.spans[("accepted", "ja", identifiers[-1])][1]
+    bs, be = b.spans[("accepted", "ja", old_keys[-1])][1], b.spans[("accepted", "ja", identifiers[-1])][1]
+    require(doc.text[start:end] == b.text[bs:be], "legacy JA residual first receipt raw changed")
+    edits.append((start, end, ""))
+    accepted = {**value["accepted"], "ja": {k: v for k, v in value["accepted"]["ja"].items() if k not in identifiers}}
+    start, end = doc.spans[("accepted_sha256",)]
+    edits.append((start, end, _ordered(exchange.digest(accepted)).decode()))
+    text = doc.text
+    for start, end, replacement in sorted(edits, reverse=True):
+        text = text[:start] + replacement + text[end:]
+    result[LEDGER_PATH] = text.encode()
+    return result
+
+
+def _validate_legacy_ja_residual_correction(before: Mapping[str, bytes], after: Mapping[str, bytes],
+                                           inventory: dict[str, Any]) -> dict[str, Any]:
+    require(set(before) == set(after) == set(CURRENT_PATHS), "legacy JA residual requires four paths")
+    old, new = ({p: _loads(raw) for p, raw in snapshot.items()} for snapshot in (before, after))
+    require(all(before[p] == after[p] for p in UI_PATHS), "legacy JA residual changed another locale")
+    require(tuple(LEGACY_RESIDUAL_TEXTS) == LEGACY_RESIDUAL_KEYS and len(LEGACY_RESIDUAL_KEYS) == 2,
+            "legacy JA residual key population differs")
+    targets = {key: pair[1] for key, pair in LEGACY_RESIDUAL_TEXTS.items()}
+    require(all(old[LEGACY_RESIDUAL_PATH].get(key) == pair[0] for key, pair in LEGACY_RESIDUAL_TEXTS.items())
+            and _ordered(new[LEGACY_RESIDUAL_PATH]) == _ordered({**old[LEGACY_RESIDUAL_PATH], **targets})
+            and len(old[LEGACY_RESIDUAL_PATH]) == len(new[LEGACY_RESIDUAL_PATH]) == 3053,
+            "legacy JA residual exact old/new targets or key census differs")
+    a, b = old[LEDGER_PATH], new[LEDGER_PATH]
+    require(len(a["batches"]) == LEGACY_RESIDUAL_BATCH_INDEX and len(b["batches"]) == LEGACY_RESIDUAL_BATCH_INDEX + 1
+            and sum(map(len, a["accepted"].values())) == 41753
+            and sum(map(len, b["accepted"].values())) == 41755
+            and len(a["accepted"]["ja"]) == 13141 and len(b["accepted"]["ja"]) == 13143,
+            "legacy JA residual first receipts/batch census differs")
+    require(all(v["accepted_sha256"] == exchange.digest(v["accepted"]) for v in (a, b)),
+            "legacy JA residual accepted checksum mismatch")
+    leaves = [exchange.Leaf("ui", key, "runtime:static_ui", (key,), key, "ui_static_context") for key in LEGACY_RESIDUAL_KEYS]
+    selected = [row for row in inventory["leaves"] if row.id in {leaf.id for leaf in leaves}]
+    require(len(selected) == 2 and _ordered({row.id: vars(row) for row in sorted(selected, key=lambda row: row.id)})
+            == _ordered({row.id: vars(row) for row in leaves}), "legacy JA residual current Korean leaf/protection/support differs")
+    require(all(leaf.id not in a["accepted"]["ja"] for leaf in leaves)
+            and not any(set(LEGACY_RESIDUAL_KEYS).intersection(row.get("roots", []))
+                        and row.get("target_leaves_by_locale", {}).get("ja", 0) for row in a["batches"]),
+            "legacy JA residual falsely claims absent prior acceptance")
+    require(all(not exchange.translation_errors(leaf, "ja", targets[leaf.source]) for leaf in leaves),
+            "legacy JA residual translation contract failed")
+    corrected = {leaf.id: {"source_sha256": leaf.source_sha256, "target_sha256": exchange.digest(targets[leaf.source])}
+                 for leaf in leaves}
+    previous = {leaf.id: exchange.digest(LEGACY_RESIDUAL_TEXTS[leaf.source][0]) for leaf in leaves}
+    batch = b["batches"][LEGACY_RESIDUAL_BATCH_INDEX]
+    expected = {"order": "ORDER-451", "group": "ui_correction", "roots": list(LEGACY_RESIDUAL_KEYS), "source_leaves": 2,
+                "legacy_origin_commit": LEGACY_RESIDUAL_ORIGIN_COMMIT, "prior_acceptance": "absent",
+                "before_target_sha256_by_locale": {"ja": previous},
+                "target_leaves_by_locale": {"ja": 2, "zh-CN": 0, "zh-TW": 0},
+                "source_review": LEGACY_RESIDUAL_REVIEW, "machine_validation": "PASS", "rendered_review": "OPEN", "native_review": "OPEN"}
+    maps = (HEADERS_FIELD, "receipt_sha256_by_locale")
+    require(isinstance(batch, dict) and set(batch) == set(expected) | set(maps)
+            and all(_ordered(batch[k]) == _ordered(v) for k, v in expected.items())
+            and all(isinstance(batch[k], dict) and set(batch[k]) == {"ja"} for k in maps),
+            "legacy JA residual batch identity/population differs")
+    header = batch[HEADERS_FIELD]["ja"]
+    require(header.get("source_revision") == LEGACY_RESIDUAL_BEFORE_COMMIT
+            and re.fullmatch(r"[0-9a-f]{64}", str(header.get("source_manifest_sha256", ""))),
+            "legacy JA residual export revision/manifest malformed")
+    rebuilt = exchange.make_batch({**inventory, "source_manifest_sha256": header["source_manifest_sha256"]},
+                                  "ja", selected, LEGACY_RESIDUAL_BEFORE_COMMIT,
+                                  {LEGACY_RESIDUAL_PATH: old[LEGACY_RESIDUAL_PATH]}, {})[0]
+    require(_ordered(header) == _ordered(rebuilt), "legacy JA residual official previous-target selection differs")
+    receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN", "translations": corrected}
+    require(batch["receipt_sha256_by_locale"]["ja"] == exchange.digest(receipt), "legacy JA residual official receipt digest differs")
+    accepted = {**a["accepted"], "ja": {**a["accepted"]["ja"], **corrected}}
+    require(_ordered(b) == _ordered({**a, "accepted": accepted, "accepted_sha256": exchange.digest(accepted),
+                                    "batches": [*a["batches"], batch]}), "legacy JA residual changed old receipt/batch or ledger field")
+    require(_legacy_ja_residual_comparison(after, before, after) == before, "legacy JA residual whole raw inverse differs")
+    return {"ui_by_locale": {loc: 0 for loc in CURRENT_LOCALES}, "receipts": 0, "batches": 0,
+            "corrections": 2, "correction_batches": 1, "first_receipts": 2,
+            "source_manifests": {header["source_revision"]: header["source_manifest_sha256"]}}
+
+
+def _legacy_ja_residual_proof(root: Path, inventory: dict[str, Any]) -> tuple[dict, dict, dict]:
+    """Fresh exact two-step delivery, canonical final receipt and legacy origin."""
+    require(set(LEGACY_RESIDUAL_BLOBS) == set(LEGACY_RESIDUAL_HASHES)
+            == set(LEGACY_RESIDUAL_INTERMEDIATE_BLOBS) == set(LEGACY_RESIDUAL_INTERMEDIATE_HASHES) == set(CURRENT_PATHS),
+            "legacy JA residual pin population differs")
+    head = _git(root, "rev-parse", "--verify", "HEAD^{commit}")
+    revisions = (LEGACY_RESIDUAL_BEFORE_COMMIT, LEGACY_RESIDUAL_INTERMEDIATE_COMMIT, LEGACY_RESIDUAL_AFTER_COMMIT)
+    requests = [(c, c, "commit") for c in revisions] + [(t, t, "tree") for t in LEGACY_RESIDUAL_TREES]
+    requests += [(c + ":" + p, blob, "blob") for p in CURRENT_PATHS for c, blob in zip(revisions,
+                 (LEGACY_RESIDUAL_BLOBS[p][0], LEGACY_RESIDUAL_INTERMEDIATE_BLOBS[p], LEGACY_RESIDUAL_BLOBS[p][1]))]
+    requests.append((LEGACY_RESIDUAL_ORIGIN_COMMIT + ":" + LEGACY_RESIDUAL_PATH, LEGACY_RESIDUAL_ORIGIN_BLOB, "blob"))
+    values = _objects(root, requests)
+    for index in range(3):
+        headers = values[index].split(b"\n\n", 1)[0].splitlines()
+        require([h for h in headers if h.startswith(b"tree ")] == [b"tree " + LEGACY_RESIDUAL_TREES[index].encode()],
+                "legacy JA residual exact tree mismatch")
+        if index:
+            require([h for h in headers if h.startswith(b"parent ")] == [b"parent " + revisions[index - 1].encode()],
+                    "legacy JA residual direct parent mismatch")
+    require(_git(root, "diff", "--name-status", "-z", *revisions[:2]).split(b"\0")
+            == [v for p in sorted(LEGACY_RESIDUAL_PRODUCT_PATHS) for v in (b"M", p.encode())] + [b""],
+            "legacy JA residual product path population differs")
+    require(_git(root, "diff", "--name-status", "-z", *revisions[1:]) == b"M\0" + LEDGER_PATH.encode() + b"\0",
+            "legacy JA residual canonical fix path differs")
+    before, middle, after = {}, {}, {}
+    for index, path in enumerate(CURRENT_PATHS):
+        old, intermediate, new = values[6 + index * 3:9 + index * 3]
+        require(tuple(hashlib.sha256(v).hexdigest() for v in (old, intermediate, new))
+                == (LEGACY_RESIDUAL_HASHES[path][0], LEGACY_RESIDUAL_INTERMEDIATE_HASHES[path], LEGACY_RESIDUAL_HASHES[path][1]),
+                "legacy JA residual immutable whole raw differs")
+        before[path], middle[path], after[path] = old, intermediate, new
+    require(all(middle[path] == after[path] for path in CURRENT_UI_PATHS), "legacy JA residual fix changed a UI dictionary")
+    a, b = _Document(middle[LEDGER_PATH]), _Document(after[LEDGER_PATH])
+    field = ("batches", LEGACY_RESIDUAL_BATCH_INDEX, "receipt_sha256_by_locale", "ja")
+    first, last = a.spans[field]
+    start, end = b.spans[field]
+    require(a.text[first:last] == '"28700c5841712ecba8487f1f8060de2955ee3c85b55efa9684b013bcfccf8165"'
+            and b.text[start:end] == '"6012dda18bc67c32603dc6fcf4a4ce631fe4a2bee62d35c90ca9b06b8b977109"'
+            and (b.text[:start] + a.text[first:last] + b.text[end:]).encode() == middle[LEDGER_PATH],
+            "legacy JA residual fix exceeds the exact canonical receipt field")
+    origin = values[-1]
+    require(hashlib.sha256(origin).hexdigest() == LEGACY_RESIDUAL_ORIGIN_SHA256
+            and all(_loads(origin).get(key) == pair[0] for key, pair in LEGACY_RESIDUAL_TEXTS.items()),
+            "legacy JA residual original target provenance differs")
+    _git(root, "merge-base", "--is-ancestor", LEGACY_RESIDUAL_ORIGIN_COMMIT, LEGACY_RESIDUAL_BEFORE_COMMIT)
+    _git(root, "merge-base", "--is-ancestor", LEGACY_RESIDUAL_AFTER_COMMIT, "HEAD")
+    change = _validate_legacy_ja_residual_correction(before, after, inventory)
+    require(_git(root, "rev-parse", "--verify", "HEAD^{commit}") == head, "legacy JA residual candidate changed during proof")
+    return before, after, change
+# END_LEGACY_JA_RESIDUAL_CORRECTION_451

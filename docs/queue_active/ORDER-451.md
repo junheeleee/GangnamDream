@@ -33,6 +33,9 @@
   정정2·첫receipt2를 구분한다. 새 키/coverage0, 예상accepted41755/b228이며 실제 수용 후
   확정한다. 사전3개수3053/1776/1776·기존receipt/배치·원어민/표시 원장OPEN은 보존한다.
   제품JA/원장의 정확 두 값/추가분 역상만 허용하고 미래 핀을 발명하지 않는다.
+- 수용 후 기록 수리: 중간 `7aa0cd2`의 새receipt 필드에 raw 파일SHA를 넣은 root 오류를
+  `2fdf435`에서 canonical unsigned digest로만 전진 수리했다. 두 실제 commit과 parent/tree/
+  경로·바이트를 모두 증명하고 중간 후보 단독은 거부한다. 공식 교환·번역 재실행0이다.
 
 ## 표적 검수·완료 경계
 

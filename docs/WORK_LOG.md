@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [홀덤 비동기 수리 전 기록](history/WORK_LOG_2026-10-04_pre_order438.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 폴드·일본어 두 금액 문구 제품 반영 (451)
+
+- 폴드 제품 `85f5483`은 exact KO/JA/CN/TW에서 기존 번역을 사용하며 EN/community의 FOLDED를 보존한다. 소스 지원 `33b9d28`은 기존71 UiCall/Entry ID와 collector를 유지한다.
+- JA 정정 제품 `7aa0cd2`를 main에 커밋·푸시했다. 공식 export/check/import는 각각12.061/11.903/12.067초 PASS이며 실제 두 값만 정정했다. 새 키0·첫receipt2·batch1로 accepted41755/b228, 사전3053/1776/1776과 기존 수용 기록은 불변이다.
+- root가 새 원장의 receipt 필드에 raw 파일SHA를 넣은 오류를 코드/기존446 기록 대조로 발견했다. `2fdf435`는 그 한 필드만 공식 canonical unsigned digest로 바로잡는 전진 수리다. 잘못된 중간 커밋을 삭제하지 않고33b9→7aa0→2fdf 정확 두 단계에 결속하며 공식3명령·실제 번역·원래 수용 파일은 재실행/변경하지 않는다.
+- 준비형 SHOWDOWN3+JA SETUP1의 실제4화면·완전 복원과 fresh8검증/조회1·독립 판정은 아직 미완료다. 기존211판정189보고·원449REWORK·인간/공개 이력·본편/새package HOLD를 보존한다.
+
 ## 2026-10-05 — 폴드 상태·일본어 정산/판돈 선택 수리 착수 (451)
 
 - [별도451](queue_active/ORDER-451.md)은 Holdem folded prefix1줄과 JA 정산/단타 판돈 선택2값만 고친다. 기존 폴드 번역을 재사용하고 EN/community의 FOLDED·71 UiCall·게임 규칙은 보존한다. JA 새 키0·정정2·첫receipt2를 구분하며 아직 제품 수정/수용/화면PASS0이다.
