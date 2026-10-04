@@ -1147,3 +1147,67 @@ def holdem_canvas_predecessor(current: bytes, root: Path | None = None) -> bytes
 def holdem_money_predecessor(current: bytes, root: Path | None = None) -> bytes:
     return _table_labels_previous(current, root, 7)
 # END_HOLDEM_TABLE_LABELS_HISTORY_449
+
+
+# BEGIN_HOLDEM_SEAT_HEIGHT_HISTORY_450
+# A layout-only successor. Keep the old nine-predecessor public view intact.
+SEAT_HEIGHT_BEFORE_COMMIT = "9c27eee1bd6e7d58647858467b63b8ce6dab0f01"
+SEAT_HEIGHT_AFTER_COMMIT = "138caec7c696b8da4a037a833a0a6dafbfeafa5d"
+SEAT_HEIGHT_TREES = ("53c9a4f2af63652c12b44636e61e06b887191bbc", "31227138d1ef021d2f5c839ceecebbb9d536baf0")
+SEAT_HEIGHT_BLOBS = ("76726b4709e14088b6c724a3279cf2cd3b0a54ab", "21629ab8c05c2f59ed60399ac40d961ffc9d5781")
+SEAT_HEIGHT_HASHES = ("0696814bcc6cf561b98b27eb342afaa50c25fbb25e85eab7e0b887eefc00e8d5",
+                      "822649f2d8db329c834591fb568424fbacda25be21640ed04f88775429e9a9d9")
+SEAT_HEIGHT_REPLACEMENT = ("\ttable.custom_minimum_size = Vector2(0, 360)\n",
+                           "\ttable.custom_minimum_size = Vector2(0, 420)\n")
+_SEAT_HEIGHT_OLD_TABLE_LABELS_PROOF = _holdem_table_labels_proof
+_SEAT_HEIGHT_OLD_TABLE_LABELS_PREVIOUS = _table_labels_previous
+
+
+def holdem_seat_height_inverse(current: bytes, before: bytes) -> bytes:
+    """Undo the exact minimum-height line, not any other layout or game byte."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(SEAT_HEIGHT_REPLACEMENT, tuple) or len(SEAT_HEIGHT_REPLACEMENT) != 2
+            or any(not isinstance(value, str) for value in SEAT_HEIGHT_REPLACEMENT)):
+        raise ValueError("ORDER-450: exact inverse population/type differs")
+    old, new = (value.encode("utf-8") for value in SEAT_HEIGHT_REPLACEMENT)
+    if (not old or old == new or old.count(b"\n") != 1 or new.count(b"\n") != 1
+            or before.count(old) != 1 or before.count(new) != 0 or current.count(new) != 1):
+        raise ValueError("ORDER-450: exact table-height line differs")
+    recovered = current.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-450: bytes outside table minimum height changed")
+    return recovered
+
+
+def _holdem_seat_height_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    """Ten stages/60 request entries; the last six describe the added transition."""
+    stages = (
+        (BEFORE_COMMIT, AFTER_COMMIT, TREES, BLOBS, HASHES, holdem_money_inverse),
+        (CANVAS_BEFORE_COMMIT, CANVAS_AFTER_COMMIT, CANVAS_TREES, CANVAS_BLOBS, CANVAS_HASHES, holdem_canvas_inverse),
+        (BETTING_BEFORE_COMMIT, BETTING_AFTER_COMMIT, BETTING_TREES, BETTING_BLOBS, BETTING_HASHES, holdem_betting_inverse),
+        (ASYNC_BEFORE_COMMIT, ASYNC_AFTER_COMMIT, ASYNC_TREES, ASYNC_BLOBS, ASYNC_HASHES, holdem_async_inverse),
+        (CARD_COLOR_BEFORE_COMMIT, CARD_COLOR_AFTER_COMMIT, CARD_COLOR_TREES, CARD_COLOR_BLOBS, CARD_COLOR_HASHES, holdem_card_color_inverse),
+        (MESSAGE_PULSE_BEFORE_COMMIT, MESSAGE_PULSE_AFTER_COMMIT, MESSAGE_PULSE_TREES, MESSAGE_PULSE_BLOBS, MESSAGE_PULSE_HASHES, holdem_message_pulse_inverse),
+        (BANNER_BEFORE_COMMIT, BANNER_AFTER_COMMIT, BANNER_TREES, BANNER_BLOBS, BANNER_HASHES, holdem_banner_inverse),
+        (BANNER_LOCALE_BEFORE_COMMIT, BANNER_LOCALE_AFTER_COMMIT, BANNER_LOCALE_TREES, BANNER_LOCALE_BLOBS, BANNER_LOCALE_HASHES, holdem_banner_locale_inverse),
+        (TABLE_LABELS_BEFORE_COMMIT, TABLE_LABELS_AFTER_COMMIT, TABLE_LABELS_TREES, TABLE_LABELS_BLOBS, TABLE_LABELS_HASHES, holdem_table_labels_inverse),
+        (SEAT_HEIGHT_BEFORE_COMMIT, SEAT_HEIGHT_AFTER_COMMIT, SEAT_HEIGHT_TREES, SEAT_HEIGHT_BLOBS, SEAT_HEIGHT_HASHES, holdem_seat_height_inverse),
+    )
+    return _holdem_exact_stage_chain(current, root, stages)
+
+
+def holdem_seat_height_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _holdem_seat_height_proof(current, root)[0]
+
+
+def _holdem_table_labels_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == SEAT_HEIGHT_HASHES[1]:
+        return _holdem_seat_height_proof(current, root)[1:]
+    return _SEAT_HEIGHT_OLD_TABLE_LABELS_PROOF(current, root)
+
+
+def _table_labels_previous(current, root, index):
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == SEAT_HEIGHT_HASHES[1]:
+        return _holdem_seat_height_proof(current, root)[index + 2]
+    return _SEAT_HEIGHT_OLD_TABLE_LABELS_PREVIOUS(current, root, index)
+# END_HOLDEM_SEAT_HEIGHT_HISTORY_450

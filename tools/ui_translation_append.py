@@ -2206,3 +2206,26 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
             root, inventory, inventory["source_manifest_sha256"])
     return _HOLDEM_TABLE_LABELS_OLD_MANIFEST_MATCHES(root, inventory, expected)
 # END_HOLDEM_TABLE_LABELS_APPEND_449
+
+
+# BEGIN_HOLDEM_SEAT_HEIGHT_APPEND_450
+# Admit the one actual pre-height tuple without changing the current census.
+_HOLDEM_SEAT_HEIGHT_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_SEAT_HEIGHT_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_seat_height_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem seat height current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_SEAT_HEIGHT_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_SEAT_HEIGHT_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_SEAT_HEIGHT_APPEND_450

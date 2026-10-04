@@ -14,6 +14,24 @@
   ],
   "fast_lanes": [
     {
+      "id": "holdem-seat-height",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_seat_height_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-449.json", "docs/agent_reviews/ORDER-450.json",
+        "docs/queue_active/ORDER-449.md", "docs/queue_archive/ORDER-449.md",
+        "docs/queue_active/ORDER-450.md", "docs/queue_archive/ORDER-450.md"
+      ],
+      "tools": [
+        "tools/holdem_seat_height_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/ja_translation_audit.py --scope ui", "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit450 repairs table minimum height360 to420 only; current71 UiCalls, dictionaries and449 receipts remain exact. New focused/receipt/JA-UI/ZH/EN plus context/queue always and separate diff/registration give nine validations and one query. Three prepared300k PREFLOP screens retain strict label/synthetic widths and add seat anchor height plus actual action-panel/message nonoverlap. No input/deal/AI/settlement/Close, old focused/runtime, fullbody/four narratives/full/240-week or performance reruns. Original449 failed evidence is immutable, not prior success."
+    },
+    {
       "id": "holdem-table-labels",
       "paths": [],
       "owned_paths": [
@@ -3151,6 +3169,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/holdem_seat_height_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_seat_height_receipt_check.py"],
+      "why": "Exact450 one-line height inverse and ten-stage immutable proof; unchanged71 calls, dictionaries and accepted receipts. No historical suite replay.",
+      "godot": false
+    },
     {
       "tool": "tools/holdem_table_labels_receipt_check.py",
       "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/ja_translation_pipeline.py", "tools/holdem_table_labels_receipt_check.py", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "content/meta/full_game_localization.json"],
