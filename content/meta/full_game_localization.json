@@ -8286,6 +8286,104 @@
           "batch_id": "2a3ce5de55a0b45488a540b6457168ccd45083296c9c6c683cb78820a755d56a"
         }
       }
+    },
+    {
+      "order": "ORDER-429",
+      "group": "ui",
+      "roots": [
+        "높은 수익, 더 높은 위험. 중독에 주의하라.",
+        "  —  60초 실시간 매매",
+        "스캘핑 트레이딩",
+        "진입 %.2f",
+        "%d초",
+        "가격  %.2f",
+        "포지션: 보유중 (%s)",
+        "포지션: 없음",
+        "추세 감지: %s",
+        "상승",
+        "하락",
+        "60초 안에 저점 매수 / 고점 매도\n투자감각 %d  ( %s )",
+        "노이즈 낮음 · 추세 힌트 있음",
+        "노이즈 높음",
+        "판돈 선택"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 15,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct scalping venue caution and exact em-dash subtitle, shared game title, entry/timer/price/position/trend status and setup description/skill/noise/stake heading. Separate regional authors preserve 60 seconds, placeholder types and precision, line breaks, ownership and rising/falling contrast. Existing MainGame and ScalpingGame consumers only; no RESULT/settlement, gameplay, JA, catalog or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "3549f07f6b9f60daec806831418b09742b36ffbaf2c648c148979030b2347550"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "2d5beebe4745c1c6baec8d9ee6648e8c6d419e5c",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fa8ac9a96889f4fa4f8fbc91edbf6c041ca4a0cef2f637cd1e8aa911caa38250",
+          "selection_sha256": "ff2d4b45af6178d1cff34cd87b0ac4460c5517433d7ff3c1b69b538fe85d7330",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "ec85e0bc9fd2cd335075ef7575d52742d9c6c6d472d55440dcd7b1d230d254e4"
+        }
+      }
+    },
+    {
+      "order": "ORDER-429",
+      "group": "ui",
+      "roots": [
+        "높은 수익, 더 높은 위험. 중독에 주의하라.",
+        "  —  60초 실시간 매매",
+        "스캘핑 트레이딩",
+        "진입 %.2f",
+        "%d초",
+        "가격  %.2f",
+        "포지션: 보유중 (%s)",
+        "포지션: 없음",
+        "추세 감지: %s",
+        "상승",
+        "하락",
+        "60초 안에 저점 매수 / 고점 매도\n투자감각 %d  ( %s )",
+        "노이즈 낮음 · 추세 힌트 있음",
+        "노이즈 높음",
+        "판돈 선택"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 15
+      },
+      "source_review": "Korean-direct scalping venue caution and exact em-dash subtitle, shared game title, entry/timer/price/position/trend status and setup description/skill/noise/stake heading. Separate regional authors preserve 60 seconds, placeholder types and precision, line breaks, ownership and rising/falling contrast. Existing MainGame and ScalpingGame consumers only; no RESULT/settlement, gameplay, JA, catalog or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "8e6e9d41de8b1817ce6a19a825f1e6c51f6494c89773310301178e89b61c2eca"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "2d5beebe4745c1c6baec8d9ee6648e8c6d419e5c",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fa8ac9a96889f4fa4f8fbc91edbf6c041ca4a0cef2f637cd1e8aa911caa38250",
+          "selection_sha256": "76652b32a60c4f9cca922cf037131b69952fa7733bbd571c06deb5e6ebabed49",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8c1e6ab365ede22af9a0e5e8811c039602497d044f11aaa04e14f80806ead7b9"
+        }
+      }
     }
   ],
   "accepted": {
@@ -117695,6 +117793,66 @@
       "ui:현금부터 지킨다:/현금부터 지킨다": {
         "source_sha256": "399a91a4d1366f8754a9aabadf9afd2580f3becd330e16157a77ba0e650451d3",
         "target_sha256": "880642b8cb9a94c5bdc1352f56a9d4598bd17fd408aa56fefac76153c94f1948"
+      },
+      "ui:  —  60초 실시간 매매:/  —  60초 실시간 매매": {
+        "source_sha256": "c10ad48cc0a1bf35f9460d728d5317e14d8dbda0c26a8eab452972b5aaa1a377",
+        "target_sha256": "e06f2bb6afeb4c2d897bbec6662d4b22cd4c5182f9d860b90c301af3ccdbbd1a"
+      },
+      "ui:%d초:/%d초": {
+        "source_sha256": "ecd0cfa4751232774dd681df3a1336382230e4d18c2572e8f1e1b94e8dc30186",
+        "target_sha256": "3ebb47ea76eecb02a87674b6892760e9b4ebd59b83316eac849d93e3d6ee08e1"
+      },
+      "ui:60초 안에 저점 매수 / 고점 매도\n투자감각 %d  ( %s ):/60초 안에 저점 매수 ~1 고점 매도\n투자감각 %d  ( %s )": {
+        "source_sha256": "acc68aece1dad87490ac5f92ddfdfe63e42dc79ef9afa4a57b1949fb807b2729",
+        "target_sha256": "fc98b5e68fdf70dbdb7024e94c134de59a58898ea6089ad4856bbb5d13c38b9d"
+      },
+      "ui:가격  %.2f:/가격  %.2f": {
+        "source_sha256": "f6f4cfe878647aa38299d918b1319c4580a102f128ce8675f84fabb02caf8272",
+        "target_sha256": "bf724345ae0d7ac9769270eae585e3f68d77201832be3ddf665a73f151a78501"
+      },
+      "ui:노이즈 낮음 · 추세 힌트 있음:/노이즈 낮음 · 추세 힌트 있음": {
+        "source_sha256": "8d68dac7cbc1b160aacdefa905691e8374a91ef9952c45dda3679259df14d794",
+        "target_sha256": "9414e7ecbeff8c428dca156a85b3d1a92a319dec6af03ad9d420217ba4dddaf2"
+      },
+      "ui:노이즈 높음:/노이즈 높음": {
+        "source_sha256": "0e62e3a0253788e04a9320937527673e13cfad3f81f7d4c2c5683950ec07b6e1",
+        "target_sha256": "c559d836387dc3e9bcda6ea62ec40299ed95dcdd52461d0b2bcc264729d4f12c"
+      },
+      "ui:높은 수익, 더 높은 위험. 중독에 주의하라.:/높은 수익, 더 높은 위험. 중독에 주의하라.": {
+        "source_sha256": "39a8dfee74b2a6cfe68513abfd8dee1e2f3250d138ca6353a3d9322683c9e7f2",
+        "target_sha256": "fe2c3fe8aa29a3cbf71ac7dad26d176118d4ccb3b8fec22c8e6f8f01a99d40e2"
+      },
+      "ui:상승:/상승": {
+        "source_sha256": "1f1adf184d9db932e512b383167b3eec5e6b3f034eecea3e2697d6e023153bc9",
+        "target_sha256": "904542b66f45e8a14ffd5191c77df9549dce14d720fe24c9848bde480ae8e2a6"
+      },
+      "ui:스캘핑 트레이딩:/스캘핑 트레이딩": {
+        "source_sha256": "b24aaf5afcd2d0a8ee71b82d8569414180dea65ff3080d42d25ef10a2b1939be",
+        "target_sha256": "3f90052022a520ddc3307bb3e6700c4ac7a788c593ced1bdb0db26cfa8423984"
+      },
+      "ui:진입 %.2f:/진입 %.2f": {
+        "source_sha256": "13bde86867724f4070143f7c03ec2036e766c55c29e4dbea0ee8791a8e0ed9f3",
+        "target_sha256": "e839586c30fb4bf4e0e6d50c21a4f7977d833ad16ccafa04ed4c36df2eac1130"
+      },
+      "ui:추세 감지: %s:/추세 감지: %s": {
+        "source_sha256": "8f9efbf7106f32985b8474ec8adf01ae8cc31126ddd31761688db1b97025376e",
+        "target_sha256": "d8b334271a86521a8ec0508e40d71f8436ef224c7ee1a8ae57d9d3705af566fe"
+      },
+      "ui:판돈 선택:/판돈 선택": {
+        "source_sha256": "435aa7525bfa7549ad6ed62c001d1e105d590b5f60284434ddacdfa0ddd52689",
+        "target_sha256": "425859688b399b9c93627d06379a3d0751385889a04d3abc5d8d585a654de18c"
+      },
+      "ui:포지션: 보유중 (%s):/포지션: 보유중 (%s)": {
+        "source_sha256": "fb2cec86ca9a464e414dc559d88ad94586d36beccfa7c0c8d3be1876e822b587",
+        "target_sha256": "475b6611ffe71cd59eb9008a4eb712b4c1bb132c457313e1cff6d65c2c8ee807"
+      },
+      "ui:포지션: 없음:/포지션: 없음": {
+        "source_sha256": "230387478ee5e4a96b43a007791539a82fb11dc1a8575dad7edeae5afffee0be",
+        "target_sha256": "8ba9652077f9fef46bf17309c6d171c990c0a2647aac7a74e198c9c603bb80fe"
+      },
+      "ui:하락:/하락": {
+        "source_sha256": "2493f838b612d9e49336873c4f94d1c86df423c04bd2fd41f989c595e6fe6ceb",
+        "target_sha256": "3b1901d8879fb7d2d18249f9116124dc956b38f40fa908fcf9d4a2813dd6b6a6"
       }
     },
     "zh-TW": {
@@ -174581,10 +174739,70 @@
       "ui:현금부터 지킨다:/현금부터 지킨다": {
         "source_sha256": "399a91a4d1366f8754a9aabadf9afd2580f3becd330e16157a77ba0e650451d3",
         "target_sha256": "990280cbaab6950dbf5741f05be0effadb53496962f75b27115a421706a3e351"
+      },
+      "ui:  —  60초 실시간 매매:/  —  60초 실시간 매매": {
+        "source_sha256": "c10ad48cc0a1bf35f9460d728d5317e14d8dbda0c26a8eab452972b5aaa1a377",
+        "target_sha256": "821c42bfd96248bf94cb2ac13485fe3105e60c79473d3c07f1082d9f03596533"
+      },
+      "ui:%d초:/%d초": {
+        "source_sha256": "ecd0cfa4751232774dd681df3a1336382230e4d18c2572e8f1e1b94e8dc30186",
+        "target_sha256": "3ebb47ea76eecb02a87674b6892760e9b4ebd59b83316eac849d93e3d6ee08e1"
+      },
+      "ui:60초 안에 저점 매수 / 고점 매도\n투자감각 %d  ( %s ):/60초 안에 저점 매수 ~1 고점 매도\n투자감각 %d  ( %s )": {
+        "source_sha256": "acc68aece1dad87490ac5f92ddfdfe63e42dc79ef9afa4a57b1949fb807b2729",
+        "target_sha256": "a35e6c6a1f38bfa71e84f700eac0e7ed778f547073a7bd2e30918312252f6b09"
+      },
+      "ui:가격  %.2f:/가격  %.2f": {
+        "source_sha256": "f6f4cfe878647aa38299d918b1319c4580a102f128ce8675f84fabb02caf8272",
+        "target_sha256": "692f1fbc9d7502d264a7a46a8a3da064b5ab2941939d8927df84e6aacf9de5df"
+      },
+      "ui:노이즈 낮음 · 추세 힌트 있음:/노이즈 낮음 · 추세 힌트 있음": {
+        "source_sha256": "8d68dac7cbc1b160aacdefa905691e8374a91ef9952c45dda3679259df14d794",
+        "target_sha256": "0c3d3262158774685d00fcf935a8dfde18993ba8db2894a9cedd937aea935784"
+      },
+      "ui:노이즈 높음:/노이즈 높음": {
+        "source_sha256": "0e62e3a0253788e04a9320937527673e13cfad3f81f7d4c2c5683950ec07b6e1",
+        "target_sha256": "cf2a29cab3ec4c313556a043cba977adb71683736d1d3fad64ff9f972fc7b57d"
+      },
+      "ui:높은 수익, 더 높은 위험. 중독에 주의하라.:/높은 수익, 더 높은 위험. 중독에 주의하라.": {
+        "source_sha256": "39a8dfee74b2a6cfe68513abfd8dee1e2f3250d138ca6353a3d9322683c9e7f2",
+        "target_sha256": "1ce1871a4466e5822f115a7ec205effb86f4be901b7259ecf07518be5dcb60f1"
+      },
+      "ui:상승:/상승": {
+        "source_sha256": "1f1adf184d9db932e512b383167b3eec5e6b3f034eecea3e2697d6e023153bc9",
+        "target_sha256": "923f28986d4f909820ddc8c56f536e236c301ee26108c3564c4bb5647ab78032"
+      },
+      "ui:스캘핑 트레이딩:/스캘핑 트레이딩": {
+        "source_sha256": "b24aaf5afcd2d0a8ee71b82d8569414180dea65ff3080d42d25ef10a2b1939be",
+        "target_sha256": "d9cbde42a89028e5d13f86f7f6ffce0136aa068cb8aa0d1b92993f7a53a2eeec"
+      },
+      "ui:진입 %.2f:/진입 %.2f": {
+        "source_sha256": "13bde86867724f4070143f7c03ec2036e766c55c29e4dbea0ee8791a8e0ed9f3",
+        "target_sha256": "5f51a13397715bc8ea9c78fd617f397b4aec95a053717c9d2b46a93aaa93b4c4"
+      },
+      "ui:추세 감지: %s:/추세 감지: %s": {
+        "source_sha256": "8f9efbf7106f32985b8474ec8adf01ae8cc31126ddd31761688db1b97025376e",
+        "target_sha256": "06e25348f4a6bfa52c47249db35a5d89a27b8ac479b643402aae16177f88abd5"
+      },
+      "ui:판돈 선택:/판돈 선택": {
+        "source_sha256": "435aa7525bfa7549ad6ed62c001d1e105d590b5f60284434ddacdfa0ddd52689",
+        "target_sha256": "227c28bd698d8267d909b2c51635723c6b31715a6a73f06da6f6b171ad802c63"
+      },
+      "ui:포지션: 보유중 (%s):/포지션: 보유중 (%s)": {
+        "source_sha256": "fb2cec86ca9a464e414dc559d88ad94586d36beccfa7c0c8d3be1876e822b587",
+        "target_sha256": "e5799f1bb94e508992e1f99bfdea011cc5af4cbd51fb116e5390591127c94b1a"
+      },
+      "ui:포지션: 없음:/포지션: 없음": {
+        "source_sha256": "230387478ee5e4a96b43a007791539a82fb11dc1a8575dad7edeae5afffee0be",
+        "target_sha256": "fe52aaf733952d563c5e2cddc9e26429828eafba0695903812cdd798aa3e0a2d"
+      },
+      "ui:하락:/하락": {
+        "source_sha256": "2493f838b612d9e49336873c4f94d1c86df423c04bd2fd41f989c595e6fe6ceb",
+        "target_sha256": "3b1901d8879fb7d2d18249f9116124dc956b38f40fa908fcf9d4a2813dd6b6a6"
       }
     }
   },
-  "accepted_sha256": "a0f72137b2c048138bbfb84c726ff5c39340a2a52e1e4eb324834a8c6a127d17",
+  "accepted_sha256": "b80cfa05f01687d7ce3826a31bc00b07833c661aab555fd8bc7a1cb4eeddf878",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
