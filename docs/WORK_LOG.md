@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [홀덤 비동기 수리 전 기록](history/WORK_LOG_2026-10-04_pre_order438.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 폴드 상태·일본어 정산/판돈 선택 수리 착수 (451)
+
+- [별도451](queue_active/ORDER-451.md)은 Holdem folded prefix1줄과 JA 정산/단타 판돈 선택2값만 고친다. 기존 폴드 번역을 재사용하고 EN/community의 FOLDED·71 UiCall·게임 규칙은 보존한다. JA 새 키0·정정2·첫receipt2를 구분하며 아직 제품 수정/수용/화면PASS0이다.
+- root 제품/공식 교환/normal, claude 정확 source/정정 proof·새focused, receipt 홀덤3+JA단타1 실제PNG/격리복원·scope, independent 비저자 검수로 나눈다. Scalp focus 이웃/모드와 Main semantic focus는 별도로 복원하며 입력·실제정산·과거 suite·whole audit를 반복하지 않는다.
+- 이전449/450은 `cda8f3b`로 마감했다. accepted41753/b227·211판정189보고·원449REWORK·인간/공개 이력·본편HOLD를 보존한다. receipt622.073초의 반복 고정원장 파싱/중첩proof는 읽기 진단 후보일 뿐 병목 확정이나 성능 향상 주장이 아니며 최적화는 이 범위에 섞지 않는다.
+
 ## 2026-10-05 — 홀덤 테이블 번역·좌석 경계 수리 완료 (449·450)
 
 - 번역제품 `3090b03`과 높이수리 `138caec`, 최종 검수 후보 `7afed5a`를 main에 커밋·푸시했다. 팟/공개 카드/보유 칩/베팅4키12값과 accepted41753/b227은 유지하고, 플레이어 좌석은 최소107px 대비109.2px 할당으로 테이블 안에 든다.
