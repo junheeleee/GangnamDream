@@ -6936,5 +6936,108 @@ collect_ui_inventory = _holdem_money_collect
 _last11_meta_title_historical_checks = _holdem_money_historical_checks
 # END_HOLDEM_MONEY_COLLECTOR_434
 
+# BEGIN_HOLDEM_BANNER_LOCALE_COLLECTOR_447
+# Keep historical64/retired3 contracts intact; publish all66 current calls.
+HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA = "e6defde38efbcf917343a5265b916ae2ccb3dc05235d3428fea129e74d2ce392"
+HOLDEM_BANNER_LOCALE_PIPELINE_BEFORE_SHA = "a16971c199dd2deeb76abb786a7eace97a1eaf31c89349bae7108b1d2249ec8b"
+HOLDEM_BANNER_LOCALE_PIPELINE_BEFORE_BLOB = "ffd47f4f7c7d6d9c12f751c5211c205cfeb022ae"
+HOLDEM_BANNER_LOCALE_PAIRS = (("새 핸드", "New Hand"), ("플랍", "Flop"), ("턴", "Turn"),
+                             ("리버", "River"), ("쇼다운", "Showdown"))
+_HOLDEM_BANNER_LOCALE_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
+_HOLDEM_BANNER_LOCALE_OLD_REBIND = holdem_money_rebind_inventory
+
+
+def holdem_banner_locale_pipeline_predecessor(raw):
+    """Remove only the new sealed appendix before all unchanged old seals."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("holdem-banner-locale code raw/import identity differs")
+    start, end = b"# BEGIN_HOLDEM_BANNER_LOCALE_COLLECTOR_447\n", b"# END_HOLDEM_BANNER_LOCALE_COLLECTOR_447\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("holdem-banner-locale appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    span = raw[a:z]
+    binding = ('HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA = "' + HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA + '"').encode()
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA:
+        raise ValueError("holdem-banner-locale appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != HOLDEM_BANNER_LOCALE_PIPELINE_BEFORE_SHA:
+        raise ValueError("holdem-banner-locale whole predecessor differs")
+    blob = _holdem_money_history._git(ROOT, "show", _holdem_money_history.BANNER_LOCALE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != HOLDEM_BANNER_LOCALE_PIPELINE_BEFORE_BLOB:
+        raise ValueError("holdem-banner-locale immutable code blob differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _HOLDEM_BANNER_LOCALE_OLD_MODAL_PIPELINE_PREDECESSOR(holdem_banner_locale_pipeline_predecessor(raw))
+
+
+def _holdem_banner_locale_call_views(raw):
+    predecessors = _holdem_money_history._holdem_banner_locale_proof(raw, ROOT)
+    path = _holdem_money_history.HOLDEM_PATH
+    views = [parse_ui_calls(path, value.decode("utf-8")) for value in (predecessors[-1], predecessors[0], raw)]
+    if any(errors for _calls, errors in views):
+        raise ValueError("holdem-banner-locale call parse differs")
+    before, retained, actual = (tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
+                                for calls, _errors in views)
+    selectors = {(path, "_fmt", "legacy", ko, en, "") for ko, en in _holdem_money_history.RETIRED_PAIRS}
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    added = tuple(UiCall(path, "_phase_banner_label", 1784 + index, "legacy", ko, en)
+                  for index, (ko, en) in enumerate(HOLDEM_BANNER_LOCALE_PAIRS))
+    retired = {ko for ko, _en in _holdem_money_history.RETIRED_PAIRS}
+    if (len(before) != 64 or len(retained) != 61 or len(actual) != 66 or len(selectors) != 3
+            or len(retired) != 3 or len(added) != 5
+            or any(sum(semantic(c) == selector for c in before) != 1 for selector in selectors)
+            or tuple(c for c in before if semantic(c) not in selectors) != retained
+            or actual != (*retained, *added) or any(c.korean in retired for c in actual)
+            or any(c.korean == "새 핸드" for c in before)):
+        raise ValueError("holdem-banner-locale exact old61/new5 or retired3 calls differ")
+    return before, actual
+
+
+# Retained-JA readers need the honest current66, not the comparison-only61.
+_holdem_money_call_views = _holdem_banner_locale_call_views
+
+
+def holdem_money_rebind_inventory(inventory, raw, contract=None):
+    from unittest.mock import patch
+    before, actual = _holdem_banner_locale_call_views(raw)
+    path = _holdem_money_history.HOLDEM_PATH
+    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
+        raise ValueError("holdem-banner-locale supplied predecessor inventory differs")
+    # Invoke the unchanged pure retirement rebind only with the proved old61.
+    # The collector returned below always includes all five real new calls.
+    with patch.object(sys.modules[__name__], "_holdem_money_call_views", return_value=(before, actual[:-5])):
+        previous = _HOLDEM_BANNER_LOCALE_OLD_REBIND(inventory, raw, contract)
+    calls = tuple(c for c in previous.calls if c.path != path) + actual
+    result = _new_run_log_inventory(previous, calls, contract)
+    old_entries = {e.source: e for e in previous.legacy_entries}
+    new_entries = {e.source: e for e in result.legacy_entries}
+    if set(old_entries) - set(new_entries) or set(new_entries) - set(old_entries) != {"새 핸드"}:
+        raise ValueError("holdem-banner-locale unique Korean source population differs")
+    entries = tuple(_gift_replace(old_entries[e.source], context=e.context) if e.source in old_entries
+                    else _gift_replace(e, key="ui::holdem-banner::" + hashlib.sha1(e.source.encode()).hexdigest())
+                    for e in result.legacy_entries)
+    if (len({e.key for e in entries}) != len(entries)
+            or any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
+                   for e in entries if e.source in old_entries)):
+        raise ValueError("holdem-banner-locale existing Entry identity changed")
+    for field in ("planned_context_entries", "planned_context_blueprint", "observed_context_entries", "observed_context_blueprint"):
+        if getattr(result, field) != getattr(previous, field):
+            raise ValueError("holdem-banner-locale unowned context inventory changed")
+    deltas = {"source_calls": 5, "legacy_calls": 5, "legacy_api_calls": 5, "legacy_keys": 1,
+              "parameter_total_ui_call_occurrences": 5, "parameter_legacy_pair_call_occurrences": 5,
+              "parameter_legacy_korean_source_keys": 1}
+    changed = {*deltas, "parameter_legacy_korean_source_keys_sha256"}
+    if (any(result.stats.get(key) != value + deltas[key] for key, value in previous.stats.items() if key in deltas)
+            or any(result.stats.get(key) != value for key, value in previous.stats.items() if key not in changed)
+            or set(result.stats) != set(previous.stats)):
+        raise ValueError("holdem-banner-locale call/key census or unowned statistic differs")
+    stats = {**result.stats, "holdem_banner_locale_added_calls": 5, "holdem_banner_locale_added_keys": 1}
+    return _gift_replace(result, legacy_entries=entries,
+                         legacy_blueprint={e.source: {"$entry": e.key} for e in entries}, stats=stats)
+# END_HOLDEM_BANNER_LOCALE_COLLECTOR_447
+
 if __name__ == "__main__":
     sys.exit(main())

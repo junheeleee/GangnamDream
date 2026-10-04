@@ -914,3 +914,133 @@ def holdem_money_predecessor(current: bytes, root: Path | None = None) -> bytes:
         return _holdem_banner_proof(current, root)[6]
     return _HOLDEM_BANNER_OLD_MONEY_PREDECESSOR(current, root)
 # END_HOLDEM_BANNER_HISTORY_445
+
+
+# BEGIN_HOLDEM_BANNER_LOCALE_HISTORY_447
+# Eight pinned same-source stages use the unchanged common Git reader.
+BANNER_LOCALE_BEFORE_COMMIT = "3eb2fccf3c41246d3c374d6c1de5274b1567a7d1"
+BANNER_LOCALE_AFTER_COMMIT = "8a184316012c6d7856f8fe5dcd47be703bd834ca"
+BANNER_LOCALE_TREES = ("9492b89eeacc70303620ad693d4a2889de0b06e0", "fea431e3281dbbaf79ac831176f7e2a2b846e17b")
+BANNER_LOCALE_BLOBS = ("6a878a78adb2c02a902a09b33ccde0bba1eb0fe6", "6b62466601cf2b7f5473a44ed3654e3fd10c5a2a")
+BANNER_LOCALE_HASHES = ("634d8a603ba4e38263696523963c2f2ad040adaeccec781a82f682977c02a721",
+                        "766070551b1d23b9f1c70e74dc7419994b38c2b9c9911e449a649417bbb1d273")
+BANNER_LOCALE_REPLACEMENTS = (
+    ("\t_show_table_banner(\"NEW HAND\", Color(\"#c9a227\"), 0.65)\n",
+     "\t_show_table_banner(_phase_banner_label(\"NEW HAND\"), Color(\"#c9a227\"), 0.65)\n"),
+    ("\tkicker.text = \"SHOWDOWN\"\n",
+     "\tkicker.text = _phase_banner_label(\"SHOWDOWN\")\n"),
+    ("\t\t\t_show_table_banner(\"FOLD\", Color(\"#d73a49\"), 0.48)\n",
+     "\t\t\t_show_table_banner(_action_label(action).to_upper(), Color(\"#d73a49\"), 0.48)\n"),
+    ("\t\t\t_show_table_banner(\"CHECK\", Color(\"#7a8a9a\"), 0.42)\n",
+     "\t\t\t_show_table_banner(_action_label(action).to_upper(), Color(\"#7a8a9a\"), 0.42)\n"),
+    ("\t\t\t_show_table_banner(\"CALL\", Color(\"#5de89c\"), 0.45)\n",
+     "\t\t\t_show_table_banner(_action_label(action).to_upper(), Color(\"#5de89c\"), 0.45)\n"),
+    ("\t\t\t_show_table_banner(\"RAISE\", Color(\"#f0b429\"), 0.58)\n",
+     "\t\t\t_show_table_banner(_action_label(action).to_upper(), Color(\"#f0b429\"), 0.58)\n"),
+    ("\t\t\t_show_table_banner(\"%s  FOLD\" % _opp_name(opp_idx), Color(\"#8a5a5a\"), 0.46)\n",
+     "\t\t\t_show_table_banner(\"%s  %s\" % [_opp_name(opp_idx), _action_label(decision[\"action\"]).to_upper()], Color(\"#8a5a5a\"), 0.46)\n"),
+    ("\t\t\t_show_table_banner(\"%s  CHECK\" % _opp_name(opp_idx), Color(\"#7a8a9a\"), 0.42)\n",
+     "\t\t\t_show_table_banner(\"%s  %s\" % [_opp_name(opp_idx), _action_label(decision[\"action\"]).to_upper()], Color(\"#7a8a9a\"), 0.42)\n"),
+    ("\t\t\t_show_table_banner(\"%s  CALL\" % _opp_name(opp_idx), Color(\"#5de89c\"), 0.45)\n",
+     "\t\t\t_show_table_banner(\"%s  %s\" % [_opp_name(opp_idx), _action_label(decision[\"action\"]).to_upper()], Color(\"#5de89c\"), 0.45)\n"),
+    ("\t\t\t_show_table_banner(\"%s  RAISE\" % _opp_name(opp_idx), Color(\"#f0b429\"), 0.55)\n",
+     "\t\t\t_show_table_banner(\"%s  %s\" % [_opp_name(opp_idx), _action_label(decision[\"action\"]).to_upper()], Color(\"#f0b429\"), 0.55)\n"),
+    ("\t_show_table_banner(banner, Color(\"#c9a227\"), 0.62)\n",
+     "\t_show_table_banner(_phase_banner_label(banner), Color(\"#c9a227\"), 0.62)\n"),
+    ("\t_show_table_banner(\"SHOWDOWN\", Color(\"#f0b429\"), 0.70)\n",
+     "\t_show_table_banner(_phase_banner_label(\"SHOWDOWN\"), Color(\"#f0b429\"), 0.70)\n"),
+)
+BANNER_LOCALE_APPENDIX = "\nfunc _phase_banner_label(token: String) -> String:\n\tmatch token:\n\t\t\"NEW HAND\": return _tr(\"새 핸드\", \"New Hand\").to_upper()\n\t\t\"FLOP\": return _tr(\"플랍\", \"Flop\").to_upper()\n\t\t\"TURN\": return _tr(\"턴\", \"Turn\").to_upper()\n\t\t\"RIVER\": return _tr(\"리버\", \"River\").to_upper()\n\t\t\"SHOWDOWN\": return _tr(\"쇼다운\", \"Showdown\").to_upper()\n\treturn token\n"
+_HOLDEM_BANNER_LOCALE_OLD_BANNER_PREDECESSOR = holdem_banner_predecessor
+_HOLDEM_BANNER_LOCALE_OLD_MESSAGE_PULSE_PREDECESSOR = holdem_message_pulse_predecessor
+_HOLDEM_BANNER_LOCALE_OLD_CARD_COLOR_PREDECESSOR = holdem_card_color_predecessor
+_HOLDEM_BANNER_LOCALE_OLD_ASYNC_PREDECESSOR = holdem_async_predecessor
+_HOLDEM_BANNER_LOCALE_OLD_BETTING_PREDECESSOR = holdem_betting_predecessor
+_HOLDEM_BANNER_LOCALE_OLD_CANVAS_PREDECESSOR = holdem_canvas_predecessor
+_HOLDEM_BANNER_LOCALE_OLD_MONEY_PREDECESSOR = holdem_money_predecessor
+
+
+def holdem_banner_locale_inverse(current: bytes, before: bytes) -> bytes:
+    """Undo twelve display-only lines and the nine-line literal helper."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(BANNER_LOCALE_REPLACEMENTS, tuple) or len(BANNER_LOCALE_REPLACEMENTS) != 12
+            or any(not isinstance(pair, tuple) or len(pair) != 2
+                   or any(not isinstance(value, str) for value in pair) for pair in BANNER_LOCALE_REPLACEMENTS)
+            or not isinstance(BANNER_LOCALE_APPENDIX, str)):
+        raise ValueError("ORDER-447: inverse population/type differs")
+    suffix = BANNER_LOCALE_APPENDIX.encode("utf-8")
+    if (suffix.count(b"\n") != 9 or not current.endswith(suffix)
+            or current.count(suffix) != 1 or before.count(suffix)):
+        raise ValueError("ORDER-447: exact EOF display helper differs")
+    recovered = current[:-len(suffix)]
+    for old_text, new_text in reversed(BANNER_LOCALE_REPLACEMENTS):
+        old, new = old_text.encode("utf-8"), new_text.encode("utf-8")
+        if (not old or old == new or old.count(b"\n") != 1 or new.count(b"\n") != 1
+                or before.count(old) != 1 or before.count(new) != 0 or recovered.count(new) != 1):
+            raise ValueError("ORDER-447: exact display-only line inverse differs")
+        recovered = recovered.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-447: game rules or bytes outside banner display changed")
+    return recovered
+
+
+def _holdem_banner_locale_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    """Eight stages/48 request entries, not 48 distinct Git objects."""
+    stages = (
+        (BEFORE_COMMIT, AFTER_COMMIT, TREES, BLOBS, HASHES, holdem_money_inverse),
+        (CANVAS_BEFORE_COMMIT, CANVAS_AFTER_COMMIT, CANVAS_TREES, CANVAS_BLOBS, CANVAS_HASHES, holdem_canvas_inverse),
+        (BETTING_BEFORE_COMMIT, BETTING_AFTER_COMMIT, BETTING_TREES, BETTING_BLOBS, BETTING_HASHES, holdem_betting_inverse),
+        (ASYNC_BEFORE_COMMIT, ASYNC_AFTER_COMMIT, ASYNC_TREES, ASYNC_BLOBS, ASYNC_HASHES, holdem_async_inverse),
+        (CARD_COLOR_BEFORE_COMMIT, CARD_COLOR_AFTER_COMMIT, CARD_COLOR_TREES, CARD_COLOR_BLOBS, CARD_COLOR_HASHES, holdem_card_color_inverse),
+        (MESSAGE_PULSE_BEFORE_COMMIT, MESSAGE_PULSE_AFTER_COMMIT, MESSAGE_PULSE_TREES, MESSAGE_PULSE_BLOBS, MESSAGE_PULSE_HASHES, holdem_message_pulse_inverse),
+        (BANNER_BEFORE_COMMIT, BANNER_AFTER_COMMIT, BANNER_TREES, BANNER_BLOBS, BANNER_HASHES, holdem_banner_inverse),
+        (BANNER_LOCALE_BEFORE_COMMIT, BANNER_LOCALE_AFTER_COMMIT, BANNER_LOCALE_TREES, BANNER_LOCALE_BLOBS, BANNER_LOCALE_HASHES, holdem_banner_locale_inverse),
+    )
+    return _holdem_exact_stage_chain(current, root, stages)
+
+
+def holdem_banner_locale_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _holdem_banner_locale_proof(current, root)[0]
+
+
+def holdem_banner_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == BANNER_LOCALE_HASHES[1]:
+        return _holdem_banner_locale_proof(current, root)[1]
+    return _HOLDEM_BANNER_LOCALE_OLD_BANNER_PREDECESSOR(current, root)
+
+
+def holdem_message_pulse_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == BANNER_LOCALE_HASHES[1]:
+        return _holdem_banner_locale_proof(current, root)[2]
+    return _HOLDEM_BANNER_LOCALE_OLD_MESSAGE_PULSE_PREDECESSOR(current, root)
+
+
+def holdem_card_color_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == BANNER_LOCALE_HASHES[1]:
+        return _holdem_banner_locale_proof(current, root)[3]
+    return _HOLDEM_BANNER_LOCALE_OLD_CARD_COLOR_PREDECESSOR(current, root)
+
+
+def holdem_async_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == BANNER_LOCALE_HASHES[1]:
+        return _holdem_banner_locale_proof(current, root)[4]
+    return _HOLDEM_BANNER_LOCALE_OLD_ASYNC_PREDECESSOR(current, root)
+
+
+def holdem_betting_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == BANNER_LOCALE_HASHES[1]:
+        return _holdem_banner_locale_proof(current, root)[5]
+    return _HOLDEM_BANNER_LOCALE_OLD_BETTING_PREDECESSOR(current, root)
+
+
+def holdem_canvas_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == BANNER_LOCALE_HASHES[1]:
+        return _holdem_banner_locale_proof(current, root)[6]
+    return _HOLDEM_BANNER_LOCALE_OLD_CANVAS_PREDECESSOR(current, root)
+
+
+def holdem_money_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == BANNER_LOCALE_HASHES[1]:
+        return _holdem_banner_locale_proof(current, root)[7]
+    return _HOLDEM_BANNER_LOCALE_OLD_MONEY_PREDECESSOR(current, root)
+# END_HOLDEM_BANNER_LOCALE_HISTORY_447
