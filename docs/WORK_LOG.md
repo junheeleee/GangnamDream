@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 — 중국어 스캘핑 결과·손익 기록과 본문 서체 검수 완료
+
+- [431](queue_archive/ORDER-431.md)·[432](queue_archive/ORDER-432.md): source31f6751/treef570ca 비저자 범위한정GO. 결과/기록 CN/TW10값과 Main normal font1줄을 검수했다. accepted41612/b207·CN/TW1711·JA3044이며 게임 수치·정산 구현은 불변이다.
+- 실제8PNG/39.533초·56raw/28taps·정산4회 PASS. 로그4곳은 SC/TC stable regular400·13px, glyph123개 owned/비0·전체fit다. 승리/손실 typed·Meta·UI 복원과 실제player34 불변을 확인했다. prepared reader/합성입력 관측을 자연플레이·물리패드 증거로 바꾸지 않는다.
+- 같은clean후보 공통13검증+조회1 PASS/874.151초, 새focused118case/1.610초 PASS. 전체tracked3035·선행증거·player34 전후불변. 원431 첫FAIL·REWORK와 기존189+1판정을 보존하고 현재2판정을 추가한다.
+- 공유Holdem결과·자연매매·Retry/Leave실행·전체HUD갱신·bold소비·원어민/인간/물리 관측은 미완료다. 손실 typed56/준비된readerHUD60은 구분한다. 본편/새packageHOLD·공개GO1·인간OPEN45/DONE1 유지.
+- 다음은 검수의 버려지는 JSON span 분석2식을 없애는 별도433 선언이다. 이번 receipt행을 변경 전 비교로 재사용해 같은 검사를 불필요하게 반복하지 않는다. 일회성 수리/검수이며 새 상시규범0, 자동PASS는 계약증거이지 재미·문체·출시GO가 아니다.
+
 ## 2026-10-04 — 기록창 실제 기본서체 누락 수리 착수 (432)
 
 - Main log normal_font 1줄은 제품732394c에 분리했다. 새 영수증 검증은 기존 본문/pin을
@@ -19,13 +27,13 @@
 
 ## 2026-10-04 (Codex — 스캘핑 결과·수익/손실 기록 중문10값 수용 후보)
 
-- [431](queue_active/ORDER-431.md): CN/TW 각5값을 한국어에서 별도 저작하고 비저자 전수 의미 대조했다. 중립 세션종료·실제SETUP 복귀 버튼·수익/손실 극성과 거래횟수를 보존했다. TW 로그의 용어를 봉인 전에 기존 極短線交易와 맞췄다.
+- [431](queue_archive/ORDER-431.md): CN/TW 각5값을 한국어에서 별도 저작하고 비저자 전수 의미 대조했다. 중립 세션종료·실제SETUP 복귀 버튼·수익/손실 극성과 거래횟수를 보존했다. TW 로그의 용어를 봉인 전에 기존 極短線交易와 맞췄다.
 - 공식 export5×2/10.783초·첫check5×2/10.793초 PASS, 공식수입과 기존4파일 raw역상도 PASS다. accepted41602/b205→41612/b207·CN/TW1706→1711·JA3044불변. KO/EN/게임조건·효과·폰트·공개데모·인간원장 변경0.
 - 실제8PNG·정산 생성자/기록창·입력/완전복원과 공통normal은 다음 clean후보에서 확인한다. 아직 화면·정산 회귀 GO는 아니며 본편/새packageHOLD·원어민/인간/물리 미관측을 유지한다.
 
 ## 2026-10-04 (Codex — 스캘핑 결과·수익/손실 기록 중문 착수)
 
-- [431](queue_active/ORDER-431.md): 결과제목/거래횟수/재시도3키와 수익/손실로그2키를 CN/TW에서 별도 저작한다. 목표10값/2batch·accepted41612/b207·CN/TW1711·JA3044불변이다.
+- [431](queue_archive/ORDER-431.md): 결과제목/거래횟수/재시도3키와 수익/손실로그2키를 CN/TW에서 별도 저작한다. 목표10값/2batch·accepted41612/b207·CN/TW1711·JA3044불변이다.
 - 실제 _end_game 생산자와 Main 기록창 reader를 지역별 승리/손실2case·8PNG로 확인한다. 거래결과는 prepared fixture, 실제정산은case1회이며 전체typed·Meta파일bytes·UI 상태를 각각 복원한다. 자연BUY/SELL·Leave/AP정산·공유Holdem결과는 관측범위밖이다.
 - rootTW/공식통합·CN초안·새runtime helper·비저자전수검수로 파일소유 분리. 실제normal은 최종후보1회, 기존429/430완료화면·과거focused/full/240주 반복0. 본편/새packageHOLD·공개GO1/인간OPEN45 보존.
 

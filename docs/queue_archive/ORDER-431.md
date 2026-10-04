@@ -1,8 +1,8 @@
 # ORDER-431 — 스캘핑 결과와 수익·손실 기록을 중국어로 읽는다
 
-#### [~] ORDER-431 [P1·현지화] 결과3·정산로그2의 CN/TW10값
+#### [x] ORDER-431 [P1·현지화] 결과3·정산로그2의 CN/TW10값
 
-**[~] 착수 — 2026-10-04.** 사용자 계속 개발·효율적 검수·main 커밋/푸시 위임.
+**[x] 완료 — 2026-10-04.** (착수·실패 기록은 아래 보존.) 사용자 계속 개발·효율적 검수·main 커밋/푸시 위임.
 429/430의 준비·거래 표면 다음으로 확인된 결과/로그 누락만 처리한다.
 정산을 관측하는 이 묶음과 Holdem 입장/첫 테이블11은 서로 독립이며 별도 선언한다.
 
@@ -70,3 +70,21 @@
   Python fail-fast 결과이며 실제 캡처8개를 지웠다는 뜻이 아니다.
 - source/player34 불변. common normal은 아직 실행0. first 폴더/봉인helper는 그대로
   두고, 새 432가 Main의 font 연결1줄과 exact 영수증 successor를 소유한다.
+
+## 최종 범위한정 판정 — 2026-10-04
+
+- source31f6751b2bea7fb0155d24eb953e3200e6f09145 / treef570ca6214c99e1bb29121c0b3a8b6d761530738의 독립 판정은
+  ../agent_reviews/ORDER-431.json에 결속한다. 원75a4661 첫 FAIL과 REWORK는 보존했다.
+- CN/TW10값·accepted41612/b207·CN/TW1711·JA3044를 유지한 채432 서체 수리 뒤
+  실제8PNG·56raw/28taps·정산4회·39.533초 PASS. 결과4/기록4 모두 전체문구가 보이고
+  Main 기록 normal은 SC/TC regular400·13px다. 실제 glyph123개가 소유서체에서 확인됐다.
+- 준비된 ±10만 원/거래2회에서 실제 _end_game 각1회: 승리510만/skill16/gambling2,
+  손실490만/mental56. 전체typed·Meta·UI 복원4회/격리종료2회, 실제player34 불변.
+- 같은 후보 공통13검증+차선조회1 PASS/874.151초. 새432 focused118case/1.610초 PASS.
+  공통normal SHA71ccbad7f9966223c1605b7db26445c0daf02e4ebbb612ed28180c3e866ed5ca,
+  runtime SHA9386160d55a55d5f3967373e492557cf2401cd229e370836dd21dd42e270e4be.
+- reader는 prepared 진입이다. 자연매매/Leave·Retry실행/공유Holdem결과/물리pad·원어민·
+  인간 관측은 없다. 손실 typed56과 준비된 readerHUD60의 차이를 HUD갱신 검증으로
+  확대하지 않는다. bold는 조회만 했고 사용하지 않았다. 본편/새packageHOLD.
+- 규범 검토: 이번 교환·화면·판정 절차는 일회성, 새 상시규범0. 기존 WORK_UNIT의
+  위임/실제관측 분리를 따른다. 자동PASS는 계약증거이며 재미·문체·출시GO가 아니다.

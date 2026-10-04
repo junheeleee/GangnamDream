@@ -7610,6 +7610,116 @@
         "path": "docs/agent_reviews/ORDER-431-REWORK.json",
         "sha256": "532cd3687998c21fe4af78646c8bb6e4f16f10aa478b08832e84684a90e5f89b"
       }
+    },
+    {
+      "id": "order-431-source-31f6751-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-431",
+      "subject": {
+        "kind": "source",
+        "commit": "31f6751b2bea7fb0155d24eb953e3200e6f09145",
+        "tree": "f570ca6214c99e1bb29121c0b3a8b6d761530738",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-431.json",
+          "sha256": "e7190d54e6d4c4a80294c8b778175ac3a548a353969328c878dfd81eb90853f9"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-431.json",
+          "sha256": "e7190d54e6d4c4a80294c8b778175ac3a548a353969328c878dfd81eb90853f9"
+        },
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/agent_reviews/ORDER-431.json",
+          "sha256": "e7190d54e6d4c4a80294c8b778175ac3a548a353969328c878dfd81eb90853f9"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-431.json",
+          "sha256": "e7190d54e6d4c4a80294c8b778175ac3a548a353969328c878dfd81eb90853f9"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_ingress",
+        "live_trading",
+        "retry_and_leave_activation",
+        "holdem_shared_result",
+        "full_hud_refresh",
+        "bold_font_render",
+        "whole_game_release",
+        "new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-431.json",
+        "sha256": "e7190d54e6d4c4a80294c8b778175ac3a548a353969328c878dfd81eb90853f9"
+      }
+    },
+    {
+      "id": "order-432-source-31f6751-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-432",
+      "subject": {
+        "kind": "source",
+        "commit": "31f6751b2bea7fb0155d24eb953e3200e6f09145",
+        "tree": "f570ca6214c99e1bb29121c0b3a8b6d761530738",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-432.json",
+          "sha256": "bddd664f12e4c3a086f1058cc7270e768cb234b976120aef5781384f714a0acc"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-432.json",
+          "sha256": "bddd664f12e4c3a086f1058cc7270e768cb234b976120aef5781384f714a0acc"
+        },
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/agent_reviews/ORDER-432.json",
+          "sha256": "bddd664f12e4c3a086f1058cc7270e768cb234b976120aef5781384f714a0acc"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-432.json",
+          "sha256": "bddd664f12e4c3a086f1058cc7270e768cb234b976120aef5781384f714a0acc"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_ingress",
+        "live_trading",
+        "retry_and_leave_activation",
+        "holdem_shared_result",
+        "full_hud_refresh",
+        "bold_font_render",
+        "whole_game_release",
+        "new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-432.json",
+        "sha256": "bddd664f12e4c3a086f1058cc7270e768cb234b976120aef5781384f714a0acc"
+      }
     }
   ]
 }
