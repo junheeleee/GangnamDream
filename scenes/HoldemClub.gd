@@ -1465,7 +1465,7 @@ func _card_label(card: Dictionary, highlight := false) -> Control:
 	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
 	lbl.add_theme_font_size_override("font_size", 13)
-	lbl.add_theme_color_override("font_color", Color(TH.card_color(card)))
+	lbl.add_theme_color_override("font_color", Color("#b4232c") if int(card["suit"]) in [1, 2] else Color("#141827"))
 	if _font_bold: lbl.add_theme_font_override("font", _font_bold)
 	root.add_child(lbl)
 	return root
