@@ -14,6 +14,43 @@
   ],
   "fast_lanes": [
     {
+      "id": "employment-choice-number",
+      "paths": [],
+      "owned_paths": [
+        "tools/zh_translation_audit.py",
+        "tools/employment_choice_number_self_test.py",
+        "tools/audit_scope.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-421.json",
+        "docs/queue_active/ORDER-421.md",
+        "docs/queue_archive/ORDER-421.md",
+        "docs/agent_reviews/ORDER-422.json",
+        "docs/queue_active/ORDER-422.md",
+        "docs/queue_archive/ORDER-422.md"
+      ],
+      "tools": [
+        "tools/employment_choice_number_self_test.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact422 employment footer choice1/remaining2 and avoided-expense30000–100000won: numeric-only source/key/locale adapters, shared/repeated currency equivalence, direct/full Leaf negatives. Same421 responses and fresh receipts use normal consumers once; runtime is separate. No old focused suite, whole audit or 240-week run."
+    },
+    {
       "id": "contact-coffee-number",
       "paths": [],
       "owned_paths": [
@@ -2618,6 +2655,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/employment_choice_number_self_test.py",
+      "paths": ["tools/zh_translation_audit.py", "tools/employment_choice_number_self_test.py"],
+      "why": "Exact422 employment UI leaves: selected1/remaining2/week ownership and shared/repeated30000–100000won interval, independent original diagnostics, unchanged source/key/group/locale boundaries through direct and full Leaf validators.",
+      "godot": false
+    },
     {
       "tool": "tools/contact_coffee_number_self_test.py",
       "paths": ["tools/zh_translation_audit.py", "tools/contact_coffee_number_self_test.py"],

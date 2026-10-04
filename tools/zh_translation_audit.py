@@ -8732,6 +8732,96 @@ def _ui_contact_coffee_numbers(lang: str, key: str, source: str, target: str):
     return source.replace("두 번째 커피", "두 번째 대화", 1), target, []
 
 
+def _ui_choice_paths_numbers(lang: str, key: str, source: str, target: str):
+    """Bind one chosen road and two other roads in this week's exact footer.
+
+    This is a numeric view, not replacement prose or a generic 길 classifier.
+    Keep the original text for every independent check in validate_text.
+    """
+    expected = "하나를 택하면 다른 두 길은 이번 주에 닫힌다."
+    if lang not in LANGUAGES or source != expected or key != f"ui:{expected}:/{expected}":
+        return None
+    chosen = list(re.finditer(
+        rf"[选選](?:[择擇中定])?(?:了)?[ \t]*(?P<n>{CHINESE_CARDINAL})[ \t]*[条條]路", target,
+    ))
+    others = list(re.finditer(
+        rf"(?:另外|其[余餘]|其他|剩下(?:的)?)[ \t]*(?P<n>{CHINESE_CARDINAL})[ \t]*[条條](?:路)?", target,
+    ))
+    error = "source-bound choice paths quantity/role/week mismatch"
+    if len(chosen) != 1 or len(others) != 1 or chosen[0].end() > others[0].start():
+        return source, target, [error]
+    first, rest = chosen[0], others[0]
+    weeks = list(re.finditer(r"(?:本|这|這)(?:个|個)?[周週]", target))
+    # The closure belongs to the remaining paths, not a later correct phrase.
+    tail = target[rest.end():].split("。", 1)[0].split(".", 1)[0]
+    closed = re.match(
+        r"[ \t]*(?:(?:在)?(?:本|这|這)(?:个|個)?[周週])?"
+        r"[ \t]*(?:就|都|便|会|會|将|將)*"
+        r"(?:[关關][闭閉]|走不了|(?:无法|無法)[选選][择擇]|不能走)(?=$|[，,。.!！ \t])", tail,
+    )
+    counts = list(re.finditer(CHINESE_CARDINAL, target))
+    owned = {first.span("n"), rest.span("n")}
+    # 一旦 is a conditional conjunction, not a third road or occurrence.
+    extra = [m for m in counts if m.span() not in owned and not (
+        m.group() == "一" and target[m.end():].startswith("旦") and m.end() < first.start()
+    )]
+    if any(
+        _chinese_cardinal_value(unicodedata.normalize("NFKC", m.group("n"))) != value
+        or "," in m.group("n") or _has_numeric_sign_prefix(target, m.start("n"))
+        for m, value in ((first, 1), (rest, 2))
+    ) or len(weeks) != 1 or closed is None or extra \
+            or re.search(r"(?:不|未|没|沒|没有|沒有|无需|無需|不能|不要)[ \t]*$", target[:first.start()]):
+        return source, target, [error]
+    closure_end = rest.end() + closed.end()
+    if not (first.end() <= weeks[0].start() < weeks[0].end() <= closure_end) \
+            or re.search(r"[。.!！?？;；]", target[first.end():closure_end]):
+        return source, target, [error]
+    return source.replace("하나", "한 개", 1).replace("두 길", "두 개", 1), target, []
+
+
+def _ui_expense_range_numbers(lang: str, key: str, source: str, target: str):
+    """Read both won endpoints of one exact avoided-expense UI range.
+
+    Shared and repeated currency labels have the same two amounts. Normalize
+    only this witnessed interval for numeric comparison; original regional
+    currency, script, tokens and prose still undergo their own checks.
+    """
+    expected = "지출 3만~10만원을 막는다"
+    if lang not in LANGUAGES or source != expected or \
+            key != "ui:" + expected + ":/" + expected.replace("~", "~0"):
+        return None
+    number = r"(?:[0-9０-９]+(?:[,，][0-9０-９]{3})*|[零〇○一二两兩三四五六七八九十百千]+)"
+    matches = list(re.finditer(
+        rf"(?P<low>{number})[ \t]*(?P<low_unit>[万萬])?[ \t]*(?P<low_won>韩元|韓元)?"
+        rf"[ \t]*(?:[~～–—-]|至|到)[ \t]*(?P<high>{number})[ \t]*(?P<high_unit>[万萬])?"
+        r"[ \t]*(?P<high_won>韩元|韓元)", target,
+    ))
+    error = "source-bound expense range endpoint/unit/role mismatch"
+    if len(matches) != 1:
+        return source, target, [error]
+    match = matches[0]
+    before, after = target[:match.start()], target[match.end():]
+    expense = r"(?:支出|[开開][销銷支])"
+    saving = re.search(rf"(?:省下|[节節]省|[减減]少|避免)(?:了)?(?:的)?(?:{expense})?[ \t]*$", before)
+    owner = re.search(expense + r"[ \t]*$", before) or re.match(rf"[ \t]*(?:的)?{expense}(?=$|[，,。.!！ \t])", after)
+    values = []
+    for part in ("low", "high"):
+        raw = unicodedata.normalize("NFKC", match.group(part))
+        value = _chinese_cardinal_value(raw)
+        values.append(None if value is None else value * (10000 if match.group(part + "_unit") else 1))
+    if values != [30000, 100000] or saving is None or owner is None \
+            or _has_numeric_sign_prefix(target, match.start()) \
+            or re.search(r"(?:不|未|没|沒|无需|無需|约|約|大约|大約|至少|至多|最多|最少|超过|超過|不到)[ \t]*$", before[:saving.start()]) \
+            or re.match(r"[ \t]*(?:[/／%％‰倍]|以上|以下|左右|多|余|餘|每)", after):
+        return source, target, [error]
+    if any(not (match.start() <= numeral.start() < numeral.end() <= match.end())
+           for numeral in re.finditer(CHINESE_CARDINAL, target)):
+        return source, target, [error]
+    won = match.group("high_won")
+    normalized = target[:match.start()] + f"30000{won}~100000{won}" + target[match.end():]
+    return source.replace("3만~", "3만원~", 1), normalized, []
+
+
 def _ui_two_paths_title_numbers(lang: str, key: str, source: str, target: str):
     """Bind two roads/between in one exact title, not generic entity counts.
 
@@ -9015,6 +9105,12 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     contact_coffee_numbers = _ui_contact_coffee_numbers(lang, key, source, target)
     if contact_coffee_numbers is not None:
         notice_numbers = contact_coffee_numbers
+    choice_paths_numbers = _ui_choice_paths_numbers(lang, key, source, target)
+    if choice_paths_numbers is not None:
+        notice_numbers = choice_paths_numbers
+    expense_range_numbers = _ui_expense_range_numbers(lang, key, source, target)
+    if expense_range_numbers is not None:
+        notice_numbers = expense_range_numbers
     # ORDER-252: reuse the exact-leaf contract only for numeric comparison.
     # Keep the original key and prose for every independent check below.
     from full_game_localization import _ui_dice_title_numbers
