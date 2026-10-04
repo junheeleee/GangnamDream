@@ -7761,6 +7761,54 @@
         "path": "docs/agent_reviews/ORDER-433.json",
         "sha256": "13ef439ce69238bb1eb5265f65a660782d4985f62fdc0847f927b4bb6f25cad6"
       }
+    },
+    {
+      "id": "order-434-source-28aeb90-agent-rework",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-434",
+      "subject": {
+        "kind": "source",
+        "commit": "28aeb902bf33a20f45cb7b7ab2756fc665b6832b",
+        "tree": "f0983fa200e1cab74aec2480f23857c4dae11b84",
+        "manifest_sha256": null
+      },
+      "verdict": "REWORK",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-434.json",
+          "sha256": "6b6cee19ef0afa13b3d689520eb3f4983799d09ebb22af965c826e48cc231e97"
+        },
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/agent_reviews/ORDER-434.json",
+          "sha256": "6b6cee19ef0afa13b3d689520eb3f4983799d09ebb22af965c826e48cc231e97"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-434.json",
+          "sha256": "6b6cee19ef0afa13b3d689520eb3f4983799d09ebb22af965c826e48cc231e97"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_ingress",
+        "later_streets",
+        "settlement",
+        "all_possible_amounts",
+        "whole_game_release",
+        "new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-434.json",
+        "sha256": "6b6cee19ef0afa13b3d689520eb3f4983799d09ebb22af965c826e48cc231e97"
+      }
     }
   ]
 }

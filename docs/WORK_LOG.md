@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 — 홀덤 exact 금액의 실제 잘림 발견·별도 수리 착수 (434→436)
+
+- 434 source28aeb902의5지역 실제10PNG에서 canvas48px에 EN52·JA61/55·CN/TW51px 문자열이 잘리는5건을 비저자가 확인했다. [독립 보고](agent_reviews/ORDER-434.json)는 REWORK이며 KO 외4지역 Python validator는 첫 실패에서 중단했다. 기록상 나머지 상태가 같다는 사실을 전체 validator PASS로 올리지 않았다.
+- 최초 화면 helper는 Node에서 get_viewport_rect 두 호출로 parse 실패했다. root/저자/독립 사전검수가 놓친 검사 결함이다. 두 호출을 올바른 viewport API로 고치고 본인 process만 조기 중단하도록 보강했다. first119파일·root 종료143/4지역 NOT_RUN과 r1의 실패161파일을 그대로 보존했다.
+- 동일후보의 정적14검증+조회1 PASS/776.762초, 새focused49/11.708초. accepted41612/b207·JA3044·CN/TW1711 유지, tracked3043/prior2795/private4/runtime161/player34 불변. runtime_quality_pass=false·unitREWORK와 정적 all_pass를 분리했다.
+- 새436은 draw2행/글자 폭만 수리하며 root 제품·append, claude_handoff_review 새2단계Git증명/집중검사, receipt_tests392 격리화면/scope, independent392 독립 판정으로 소유한다. fresh source admission과5지역 재관측은 수행하되 변경 없는4종 서사 검사는434원본 재사용·436 NOT_RUN으로 명시한다. 과거 source 실패·공개GO1·인간OPEN45·본편/새packageHOLD를 보존한다.
+
 ## 2026-10-04 — 홀덤 금액 수리와 소스 퇴역 증명 후보 준비 (434)
 
 - 선언373aef4를 main에 푸시한 뒤 제품265119c는 Holdem `_fmt` 한 함수만 교체했다. 기존 whole-won formatter를 재사용하며 int(amount)·부호·베팅·정산은 보존한다. 런타임 PASS는 아직 미발급이다.

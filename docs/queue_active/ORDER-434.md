@@ -67,6 +67,16 @@
 
 ## 경계·다음 작업
 
+- actual source28aeb902/tree f0983fa는 독립 REWORK다. 최초 helper parse 실패는
+  원본119파일·root 종료 기록으로 보존했다. 수리한 r1은5지역 실제10PNG/130raw/65tap/
+  첫손5를 남겼으나 canvas48px에서 접미사5개가 잘려 KO 외4지역 strict validator 실패다.
+- 정적14검증+조회1은776.762초 PASS, focused49case/11.708초다. 원본 normal
+  SHA199073014eee6c428689591a20a8010e074554847143e6dbe5d500395aaf7b6e의
+  all_pass는 L1 한정이며 runtime_quality_pass=false/REWORK를 바꾸지 않는다.
+  tracked3043·선행2795·private4·r1증거161·실제player34 전후 불변이다.
+- [별도436](ORDER-436.md)이 canvas draw 폭을 수리한 뒤 새 후보/실제 재관측으로
+  이 잘림을 해소한다. 과거434 후보 판정·실패 원본을 덮어쓰지 않는다.
+
 - 이 수리를 지우면 같은 금액이 다른 값으로 보인다. 새로운 선택/24주 상태/
   경쟁을 추가하는 작업이 아니라 기존 경제 표시의 사실성을 고치는 작업이다.
 - 기존 소스의 상대 블라인드 주석, direct POT/BOARD/STACK/BET/NEW HAND,
