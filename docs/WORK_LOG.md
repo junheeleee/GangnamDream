@@ -2,9 +2,37 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 인물·새벽 연락 중국어 마감, 구직 화면 이어쓰기)
+
+- [420](queue_archive/ORDER-420.md): sourcec52ddc1/tree1604cd7 범위한정 독립 GO.
+  CN/TW44값·receipt44/batch2, accepted41366/b191·CN/TW1588·JA3044불변.
+  대화 관계·분기·시간·수량과 최종 TW ‘兩人’ 교정을 전수 대조했다.
+- 최초 runtime84.739초 FAIL은 새벽deep2개의 LF를 glyph0 누락으로 센 관측기 오탐이다.
+  원본은 false로 보존한다. 실제인쇄글자·SC/TC소유·19px·전체fit 엄격성은 유지하고
+  source-bound 정확LF2span만 별도 분리한 새 r1이28.778초PASS했다.
+  기존연락6/getter28의34본문은 재실행0, 새벽10만 재실행(선행8+오탐대상2).
+  최종44본문·lookup/binding44·대표4화면은 원본truth2+새deep2로 결속한다.
+  최초4PNG와 새2PNG, 전체typed44/복원32 및 새벽추가10/복원2를 모두 보존했다.
+- 실제연락 AP/mental/aff/contact/log 효과와 새벽카운터1→5·5번째 업적 두배열/
+  격리메타파일 쓰기·원본바이트복원, 실제사용자34파일 불변을 확인했다.
+  LF flags의 hard-break 여부는 raw관측값이며 get_glyphs만으로 필수비트라 가정하지 않는다.
+- normal13(검증12+차선조회1) 최초1회/839.024초PASS, source3004/helper113/
+  input17/prior568 불변. 기존focused·전체감사·240주0. 제품c52ddc1 원격main 반영.
+  Chapter1 debt8/blocked3/gap24와 Year5 reference_only/invalidated/r1bfalse는 잔여다.
+- [421](queue_active/ORDER-421.md)은 실제 구직4상태의 제목·질문·선택지17와
+  같은화면 base preview21을 묶어 CN/TW76값으로 선언한다. 저작·독립검수 분리,
+  화면8/합성좌우32taps를 공유하고 delayed-cost5키·미사용detail4는 별도 잔여다.
+  수첩 후보는 현재240주 버튼 진입0으로 제외했다. 준비상태를 자연도달로 세지 않는다.
+- 검수비용 후보는 validate_history의 호출지역 comparison1슬롯 재사용이다.
+  정확bytes/path/correction epoch만 키로 삼고 모든 fresh Git/proof/append검사는 유지하는
+  방향을 읽기전용 검토했다. 아직 구현·실측0, 번역보다 앞세우지 않는다.
+- 일회성/신규상시규범0. 자동PASS는 계약증거이지 문체·재미·출시GO가 아니다.
+  과거판정177/보고155·공개GO1/인간OPEN45를 보존하고 본편/새packageHOLD,
+  B3/B4·원어민/인간/물리미관측을 유지한다.
+
 ## 2026-10-04 (Codex — 남은 인물·새벽 연락 중국어 후보)
 
-- [420](queue_active/ORDER-420.md): 지연5/다은4/재혁7/default1·새벽5의 기존 KO22키를
+- [420](queue_archive/ORDER-420.md): 지연5/다은4/재혁7/default1·새벽5의 기존 KO22키를
   CN/TW 별도 저작·독립 전수대조했다. 조건·관계·KO/EN/JA·게임플레이 변경0.
 - 공식 export22×2/10.591초PASS. 최초 check10.991초는 CN22PASS, TW의
   원문 ‘둘 다’를 암묵적 복수로 옮긴 한 문장에서 entity2 누락FAIL이다.

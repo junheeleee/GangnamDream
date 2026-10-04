@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-420 · 지연·다은·재혁과 새벽 연락 중국어 | [420](queue_active/ORDER-420.md) | 착수 · 만지는 파일: CN/TW 각22값·공식원장44/2batch·private helper·기록 |
+| 1 | [~] | ORDER-421 · 구직 선택과 대가의 중국어 | [421](queue_active/ORDER-421.md) | 착수 · 만지는 파일: CN/TW 각38값·공식원장76/4batch·private 화면입력 helper·기록 |
 | 2 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
 | 3 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 

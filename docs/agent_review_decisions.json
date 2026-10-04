@@ -7010,5 +7010,40 @@
         "sha256": "fb85c1e4bf2bc224f0d5513689ae8e218c1d4e10ef6846d093fe8af0e49463c4"
       }
     }
+    ,
+    {
+      "id": "order-420-source-c52ddc1-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-420",
+      "subject": {
+        "kind": "source",
+        "commit": "c52ddc18067965b299f87072c6d073ad7eb12a4c",
+        "tree": "1604cd7edcc5b713ad2b520347ce4f4a294be692",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-420.json",
+          "sha256": "657551488a8160209a54bc38dd095567647a7ec783a109137339b3af7685ea8e"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural ingress/confirmation/time progression",
+        "whole-game translation/package/release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-420.json",
+        "sha256": "657551488a8160209a54bc38dd095567647a7ec783a109137339b3af7685ea8e"
+      }
+    }
   ]
 }
