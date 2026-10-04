@@ -1,8 +1,8 @@
 # ORDER-435 — 홀덤 준비와 첫 선택을 중국어로 읽는다
 
-#### [~] ORDER-435 [P1·현지화] SETUP·첫 PREFLOP 22키의 간체·번체 44값
+#### [x] ORDER-435 [P1·현지화] SETUP·첫 PREFLOP 22키의 간체·번체 44값
 
-**[~] 착수 — 2026-10-04.** 434·436에서 원 단위 금액과 표시 폭 수리를 마쳤다.
+**[x] 완료 — 2026-10-04.** 434·436에서 원 단위 금액과 표시 폭 수리를 마쳤다.
 사용자 계속 개발·효율적 검수·main 커밋/푸시 위임으로 남은 해당 화면 번역을 진행한다.
 공개 데모·출시 언어 claim은 바꾸지 않는다.
 
@@ -76,3 +76,13 @@ SETUP의 제목·부제·보유현금·3줄 안내·바이인 제목·규칙·�
   모든 거액/해상도·자연진입·물리패드/원어민/인간 관측은 이 작업으로 닫지 않는다.
 - 저작·검수 절차는 일회성, 상시 규범0. 자동PASS는 계약 증거다. 과거434 REWORK와
   새538e1318의434·436 GO를 보존하고 공개GO1·인간OPEN45·본편/새package HOLD를 유지한다.
+
+## 완료 증거 — source 0feadbfb
+
+- source `0feadbfbfac2e9b1922df41b3f8f25cdcff50e44`, tree `61bec873dbbceb436d84f844eecb0bbb9eb5b530`; main commit/push 완료.
+- 공식22값×2batch 수용44, accepted41656/b209·CN/TW1733·JA3044. 기존4파일 raw 역상 PASS.
+- 실제8PNG·88key bindings·68raw/34tap·첫손6·정산0,39.789초. 두 지역 actual SETUP와 +EV/−EV/중립 PREFLOP를 직접 읽었다.
+- fresh8검증+조회1 PASS,371.91초. receipt/fullbody/ZH/EN/context/queue/diff/등록이며 이전4서사는434 증거 참조/NOT_RUN. 기존focused·JA감사·전체·240주 반복0.
+- 결과: `.git/full-game-localization/order435-screen-first/result.json` SHA `88c2f00d277669c4bc48e205b446a20738634a3482a2d9543257ab1b17175bf2`, `order435-static-final/result.json` SHA `4b66d18ff4a7642bf4e224452944f9055da0ba3b41822adbafe59801b73f50c7`.
+- 비저자 [최종 보고](../agent_reviews/ORDER-435.json)로 이 범위 GO. 자동PASS는 계약 증거이지 작품·출시GO가 아니다. 규범 판정: 저작·검수 지시는 **일회성**, 상시 정본 규칙 추가0.
+- 신규44값의 가독성/입력만 닫는다. 직접 영어 라벨·10px 금액·크림 카드 위 어두운 문양의 낮은 대비, 후속 street/정산·자연진입·native/human/physical 미관측은 남긴다. 실제 인간 OPEN45·공개GO1·본편/새package HOLD 보존.
