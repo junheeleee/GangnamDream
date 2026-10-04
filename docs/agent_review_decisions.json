@@ -7304,6 +7304,58 @@
         "path": "docs/agent_reviews/ORDER-426.json",
         "sha256": "a1f5cfb1a6ecde391bb8a954613f3013b7a13223affce308d6af8f0dd6fcea25"
       }
+    },
+    {
+      "id": "order-427-source-5b7a5b2-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-427",
+      "subject": {
+        "kind": "source",
+        "commit": "5b7a5b2195be8413a129f3218652cf1f39d44a98",
+        "tree": "891972ab4f9aeea41800775433d2ec1e1765fac8",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-427.json",
+          "sha256": "f2352a015dc8e671f4aab70d410249939258033eac3e4b9722be18ba2f99344d"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-427.json",
+          "sha256": "f2352a015dc8e671f4aab70d410249939258033eac3e4b9722be18ba2f99344d"
+        },
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/agent_reviews/ORDER-427.json",
+          "sha256": "f2352a015dc8e671f4aab70d410249939258033eac3e4b9722be18ba2f99344d"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-427.json",
+          "sha256": "f2352a015dc8e671f4aab70d410249939258033eac3e4b9722be18ba2f99344d"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_ingress",
+        "card_activation_and_commitment_effects",
+        "whole_hud_localization",
+        "whole_game_release",
+        "new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-427.json",
+        "sha256": "f2352a015dc8e671f4aab70d410249939258033eac3e4b9722be18ba2f99344d"
+      }
     }
   ]
 }

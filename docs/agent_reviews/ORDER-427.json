@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-427",
+  "verdict": "GO",
+  "decision_scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "5b7a5b2195be8413a129f3218652cf1f39d44a98",
+    "tree": "891972ab4f9aeea41800775433d2ec1e1765fac8",
+    "manifest_sha256": null
+  },
+  "reviewer": {
+    "agent": "/root/independent392",
+    "independent_of_translation_and_helper_authorship": true,
+    "product_edits": 0,
+    "engine_or_audit_reruns": 0,
+    "method": "KO 및 실제 두 owner/소비자를 직접 읽고 최종 22값 전수 의미 검수; 공식 source/response/receipt/raw 역상 대조; runtime helper·집계 runner 읽기; 원본 6PNG 직접 열람, 전체 상태·입력·계측 및 로그 검토; 완료된 13행 원문과 최종 4,881개 보존 해시 대조."
+  },
+  "source_review": {
+    "baseline": "6c3138a380352f91cf228582d5d1fe3fda81ae64",
+    "changed_paths": [
+      "locale/ui_zh-CN.json",
+      "locale/ui_zh-TW.json",
+      "content/meta/full_game_localization.json",
+      "CLAUDE.md",
+      "docs/WORK_LOG.md",
+      "docs/STATUS.md",
+      "docs/queue_active/ORDER-427.md"
+    ],
+    "population": {
+      "korean_keys": 11,
+      "cn_values": 11,
+      "tw_values": 11,
+      "opening_pressure_and_action_copy_keys": 8,
+      "notebook_motive_keys": 3
+    },
+    "semantic_result": "첫 두 달/한 공고/한 번 더/이번 주 수입을 포기하고 다음 기회 준비/아버지에게 다시 집 마련/자기 이름으로 서기/돈 앞에 무릎 꿇지 않기 의미를 전수 대조했다. 매입·취업·수익 확정이나 추가 친족/관계 사실을 만들지 않았다. 마지막 TW r1까지 22값 전량 재검수했다.",
+    "consumer_result": "_opening_chapter_intent_pressure의 title/question 및 action_copy가 실제 카드 기본 title/subtitle를 덮는 경로와 GameState.notebook_motive_sentence→_refresh_goal_bar의 Label·tooltip 소비를 구별했다. W1 chapter_intent_id는 false가 아니라 키 부재다. 해당 W1/SceneFirst/moral 조기 return 때문에 _closest_person의 Hyunsu lazy 생성 경로는 실행되지 않으며 실제 초기 상태도 absent였다.",
+    "unchanged": "MainGame/GameState/FontKit/검사도구/JA 및 KO·EN 원문은 변경하지 않았다."
+  },
+  "official_exchange": {
+    "export": {
+      "pass": true,
+      "seconds": 10.701,
+      "locales": 2,
+      "keys_per_locale": 11
+    },
+    "first_check": {
+      "pass": false,
+      "seconds": 10.724,
+      "cn_pass": true,
+      "tw_failed_keys": 1,
+      "cause": "한 번 더를 再耗一份體力로 옮긴 최초 TW 값은 occurrence 1을 명시하지 않았다. 의미 preflight에서 저자·root·독립검수자가 놓쳤고 공식 검사가 검출했다.",
+      "preserved": true
+    },
+    "repair": "TW 원본을 보존한 별도 r1에서 해당 1값만 為了撐過今天，再多耗一次體力로 수정했다. CN 값은 그대로이고 양지역 response-r1 및 공식 검사 22값을 다시 실행했다. validator 완화나 최초 FAIL의 PASS 재명명은 없다.",
+    "r1_check": {
+      "pass": true,
+      "seconds": 10.805,
+      "values": 22
+    },
+    "acceptance": {
+      "official_imports": 2,
+      "new_receipts": 22,
+      "new_batches": 2,
+      "accepted_before": 41550,
+      "accepted_after": 41572,
+      "batches_before": 201,
+      "batches_after": 203,
+      "cn_ui_before": 1680,
+      "cn_ui_after": 1691,
+      "tw_ui_before": 1680,
+      "tw_ui_after": 1691,
+      "ja_ui_unchanged": 3044
+    },
+    "provenance": "동일 6c3138a export header/manifest의 source 12행 및 response 12행씩을 읽었다. 각 11개 source 지문·target digest·batch ID·receipt logical digest·draft/r1·live dictionary를 대조했다. UI 새 11개 tail씩 역삭제 및 ledger 새 22 accepted/2 batch와 accepted checksum만 역상하면 baseline 전체 raw가 정확히 복원된다. 기존 수용 이력·JA raw 변경0.",
+    "source_manifest_sha256": "fa8ac9a96889f4fa4f8fbc91edbf6c041ca4a0cef2f637cd1e8aa911caa38250"
+  },
+  "runtime_review": {
+    "pass": true,
+    "first_execution": true,
+    "seconds": 33.558,
+    "source": "5b7a5b2195be8413a129f3218652cf1f39d44a98",
+    "processes": 2,
+    "process_languages": [
+      "zh-CN",
+      "zh-TW"
+    ],
+    "screens": 6,
+    "viewport": [
+      1280,
+      800
+    ],
+    "lookups": 22,
+    "actual_bindings": 54,
+    "measured_text_rows_including_existing_context": 186,
+    "setup": "각 지역은 별도 pre-autoload 격리 프로세스에서 언어를 먼저 적용한 뒤 new_game/Main을 만들었다. 이후 W1/AP2·max2/health65/mental60를 그대로 두고 family/proof/survival 동기만 준비했다. 초기화의 설정·RNG·market·log 변화는 case 효과와 구별했다.",
+    "actual_route": "실제 static_surface director/render를 통과했고 action_copy 6값·title/question 2값과 실제 수첩 동기 Label/tooltip을 각각 결속했다. 자연 prologue나 자연 진입을 관측한 것은 아니다.",
+    "visual": "6개 원본 PNG를 모두 직접 열었다. 표적 잘림·겹침·누락·tofu를 관측하지 않았다. title36px/question19px bold/action title18px/subtitle14px, 수첩 실제12px·최소/배정330px에서 한 줄 전체가 들어갔다. 수첩 최대 측정폭 CN270px/TW294px. 기존 clip_text=true/ELLIPSIS 설정은 보존하되 실제 문자열 전체폭 fit을 요구했다. goal row 5개 자식 경계·배치도 유지됐다.",
+    "fonts": "실제 resolved SC/TC font·weight·fallback ownership 및 glyph nonzero/primary CJK를 검토했다. 별도 TextServer shaping probe이며 RichTextLabel 내부 shaped RID나 원어민 품질 관측은 아니다.",
+    "state_and_input": "6case 준비/route/최종 expected-observed와 before-restored typed 구조가 정확히 같았다. 준비 동기 flags 및 재생성되는 memo2, 수첩 표시·수첩/진행bar/돈 tooltip 변경 외 예상 밖 효과0. 현금/AP/통계/진행/commitment/debt/메타·파일 변경0. 24 synthetic arrow taps/48 press-release 이벤트는 각 0→1→2→1→0 포커스를 만들고 controller 기대와 일치했다. pressed/stat/log/trade/item/finalize 신호0; confirm/advance 없음은 helper call graph와 구별해서 판단했다.",
+    "preservation": {
+      "tracked_files": 3021,
+      "helper_files": 101,
+      "current_inputs": 26,
+      "runtime_artifacts": 122,
+      "real_player_files": 34,
+      "prior_artifact_hashes_directly_compared": 1395,
+      "case_restorations": 6,
+      "process_teardown_state_restorations": 2
+    },
+    "logs": "양지역 exit0, stdout/godot 각504bytes에 정확한 ORDER427_UI_OK marker 1개, parse/script/engine 오류0, stderr0. 서로 다른 격리 경로가 pre-autoload와 실제 user_data에서 일치했다."
+  },
+  "normal_review": {
+    "pass": true,
+    "commands": 13,
+    "validators": 12,
+    "list_queries": 1,
+    "wall_seconds": 1094.42,
+    "workers": 3,
+    "result_binding": "00~12 개별 원문을 전부 읽고 aggregate rows·entry command 순서·runner SHA·runtime result SHA를 대조했다. 모든 exit0/stderr0. before=after, preservation_error=null. tracked3021/prior1711/current149 합계4,881개 해시를 현재 파일에 전량 다시 대조했다.",
+    "markers": "Chapter1 553.374초 SNAPSHOT_VALID debt8/blocked3 및 coverage gap24 유지. receipt accepted41572/b203·historical_cases0. fullbody SOURCE_INVENTORY_ONLY/runtime0/native0. Year5 reference_only/topology invalidated/r1b_allowed=false. ZH skeleton/shipping0/direct English bypass11. registry169.",
+    "not_execution": "차선 --list가 제시한 10검사는 실행 증거가 아니다. 이전 runtime/focused/JA-only/전체감사/240-week를 재실행하지 않았다."
+  },
+  "preservation": {
+    "prior_decisions": 184,
+    "prior_reports": 162,
+    "prior_raw_bytes_unchanged": true,
+    "decision_ledger_sha256": "e7c615205e2de3ceb26a5e2127e8006abf618ba49eedd323669288bc194292b6",
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "human_ledger_changed": false,
+    "prior_report426_sha256": "c6fe708022c590b12e8b474ae2603ffcf26532c07f3f0548c7809410de0ed600"
+  },
+  "evidence": [
+    {
+      "path": ".git/full-game-localization/order427-static-export.json",
+      "sha256": "98f28249bcfaf87fced7a0c454e7d6b979b65d0afdfa981ae348cb042062c03b"
+    },
+    {
+      "path": ".git/full-game-localization/order427-static-check.json",
+      "sha256": "778ace96ceacb486f039e4367bf0a173c817371c3e790ce509155e1a26a1ad14"
+    },
+    {
+      "path": ".git/full-game-localization/order427-r1-static-check.json",
+      "sha256": "061036e92a541784d6f377e2b5140ec68e068fbd266e0b1f8df11b3a8f666f79"
+    },
+    {
+      "path": ".git/full-game-localization/order427-r1-append-precommit.json",
+      "sha256": "a5c4e68bf893a0942bd6972fe8a87ec49f0df0e250bcb31dae6876facd73de4c"
+    },
+    {
+      "path": ".git/full-game-localization/order427-screen-final/entry.json",
+      "sha256": "f5591b51632e38cf9859427e1941c6f3238417dd3e4d01f78e71597daf6ad03e"
+    },
+    {
+      "path": ".git/full-game-localization/order427-screen-final/result.json",
+      "sha256": "9641bf067bc9dac171ef9d216ebe22147fccf13717c23b16bc87d343bd8d6dab"
+    },
+    {
+      "path": ".git/full-game-localization/order427-screen-final/zh-CN/order427-observations.json",
+      "sha256": "4d88c5c4a3503798cfc11ba13e13c4e2040479add9cc66254fb959bf3761479e"
+    },
+    {
+      "path": ".git/full-game-localization/order427-screen-final/zh-TW/order427-observations.json",
+      "sha256": "cb367ce1cd8c8274a8605eb00c8abefa6efcbf08fd9f193864dcb6fe3afdda22"
+    },
+    {
+      "path": ".git/full-game-localization/order427-static-final/entry.json",
+      "sha256": "5d51b782d541ce17be4a5e3f3fb0c1c2f201a3375ec7d4583955a5fac07ee603"
+    },
+    {
+      "path": ".git/full-game-localization/order427-static-final/result.json",
+      "sha256": "d86a480cc8a6a662508dc965f1b604e8d6ad462ad59074113446f39cfe143750"
+    }
+  ],
+  "unobserved": [
+    "전체 게임·완역·출시 GO가 아니다. 본 11키와 실제 6 fixture 표면만 승인한다.",
+    "원어민/사람 감상·물리 패드·OS 실제 키보드 조작·자연 prologue/confirm·행동실행/주차진행은 관측하지 않았다.",
+    "초기화된 언어별 W1 준비 화면이며 다른 HUD 전체, 다른 해상도, 다른 동기 조합/키 부재 외 경계, 긴 플레이를 승인하지 않는다.",
+    "별도 shaping probe와 실제 PNG/노드 계측을 결합한 범위이며 내부 엔진 glyph RID 검사나 사람의 가독성 판정으로 승격하지 않는다.",
+    "기존 Chapter1 debt8/blocked3/gap24, Year5 무효 reference-only, ZH skeleton/shipping0와 다른 full-game/B3/B4/human HOLD를 해제하지 않는다."
+  ],
+  "independent": true,
+  "status": "completed",
+  "private_review": {
+    "path": ".git/full-game-localization/order427-independent-review.json",
+    "sha256": "98f4816448b8e73354fcb1a601352eda18c7bffbda9f55763f0cac4c4f372ec5"
+  },
+  "unit_evidence": {
+    "도달 경로": "Two processes: ORDER427_UI_OK screens=3 keys=11 locales=1 raw=24 taps=12 actions=0",
+    "생산자 ↔ 독자": "locale/ui_zh-CN.json + locale/ui_zh-TW.json (11 keys each) ↔ scenes/MainGame.gd:12610 / scenes/MainGame.gd:5944 / autoloads/GameState.gd:4000",
+    "바꾸는 상태": "accepted41550/b201 → 41572/b203; CN/TW1680 → 1691; JA3044 unchanged",
+    "포기 시 잃는 것": "W1 opening title/question/action_copy8 and notebook motives3 revert to English fallback",
+    "서사 위치": "N/A: existing UI/localization validation",
+    "장면 계층": "N/A: non-scene task",
+    "닫는 것": "ORDER-427 work_unit only; full-game/new-package HOLD"
+  },
+  "private_decision_scope": "선언된 KO 11키의 CN/TW 22값 공식 수용, 실제 W1 opening action_copy 및 수첩 3동기 표면에 한정한 독립 agent GO"
+}

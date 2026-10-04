@@ -1,6 +1,6 @@
 # ORDER-427 — 첫 주의 방향과 수첩에 남긴 이유를 중국어로 읽는다
 
-#### [~] ORDER-427 [P1·현지화] 첫 주 방향8키와 수첩 동기3키
+#### [x] ORDER-427 [P1·현지화] 첫 주 방향8키와 수첩 동기3키
 
 **[~] 착수 — 2026-10-04.** 사용자 계속 개발·검수 효율·main 커밋/푸시 위임.
 426의 실제 지연비용 검수 다음 확인된 미수용 중국어 소비자만 선언한다.
@@ -69,3 +69,19 @@
 - export10.701초/check10.805초, receipt22/batch2·raw역상 PASS, accepted41572/b203·CN/TW1691·JA3044불변.
 - 최초check는 TW `一份體力`가 한 번(occurrence1)을 명시하지 않아 FAIL이었다. 원본을 보존하고 `再多耗一次體力`로 수리, 같은22값 전량 r1check를 통과했다.
 - 실제6화면/수첩 fullfit/합성48raw·공통normal·독립 최종판정은 아직 미실행이다. 원어민/인간/물리 미관측·본편HOLD를 유지한다.
+
+## 완료 — 2026-10-04
+
+- 동일 후보 source5b7a5b2/tree891972a 독립 범위한정GO: [봉인 보고](../agent_reviews/ORDER-427.json).
+- KO11키·CN/TW22값·공식receipt22/batch2, accepted41572/b203·CN/TW1691·JA3044불변.
+- 첫 실제 지역별 격리2프로세스/1280×800 6PNG/22lookup/54binding PASS33.558초.
+  첫 주 action_copy8와 가족/증명/생존 수첩3의 전체표시를 검수했다. 실제수첩12px/330px,
+  최장CN270px/TW294px이며 clip/ellipsis·폰트 설정은 바꾸지 않았다.
+- 합성24taps/48raw·typed6복원·실제player34파일 보존. 초기화 언어/설정/RNG/투자로그는
+  case효과와 구분했고 Hyunsu 추가0, 방향입력 외 선택확정/행동/다음턴/거래0이다.
+- 최초 TW 횟수1 공식check FAIL을 보존하고 같은22값의 r1수용·전수대조를 완료했다.
+  helper의 tooltip/geometry·W1 schedule 사전기대를 바로잡았으며 엔진 첫 실행은 PASS다.
+- 공통normal13행(검증12+조회1) 단1회/1094.42초 PASS. 과거focused/full/240주
+  재실행0, 기존판정184/보고162·공개GO1/인간OPEN45 불변.
+- 일회성/새 상시규범0. 자동PASS는 계약증거이지 문체·재미·출시GO가 아니다.
+  본편/새packageHOLD·B3/B4·자연진입·원어민/인간/물리 미관측 유지.
