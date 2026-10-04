@@ -104,7 +104,7 @@ func _player_display_name() -> String:
 	return LocaleManager.ui("김민준", "Kim Minjun")
 
 # ── 진입 ──────────────────────────────────────────────────────────
-func open() -> void:
+func _open_session() -> void:
 	BGMPlayer.enter_activity_ambience("casino")
 	_net_session = 0
 	_hands_played = 0
@@ -346,7 +346,7 @@ func _show_buyin_screen() -> void:
 	])
 
 # ── 핸드 시작 ─────────────────────────────────────────────────────
-func _start_hand() -> void:
+func _deal_next_hand() -> void:
 	_hands_played += 1
 	_player_stack = _buy_in if _hands_played == 1 else _player_stack
 	if _player_stack < BIG_BLIND:
@@ -428,7 +428,7 @@ func _sync_buyin_to_affordable() -> void:
 		_buy_in = int(options[0])
 
 func _is_player_action_waiting() -> bool:
-	if _phase not in [Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER]:
+	if not visible or _action_busy or _phase not in [Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER]:
 		return false
 	if _player_folded or _player_stack <= 0:
 		return false
@@ -889,7 +889,7 @@ func _draw_bet_stack(ctrl: Control, pos: Vector2, amount: int, color: Color) -> 
 
 # ── 행동 순서 처리 ─────────────────────────────────────────────────
 func _process_action_turn() -> void:
-	# 남은 플레이어가 1명이면 즉시 쇼다운
+	if not _can_process_betting(): return
 	var active := _count_active()
 	if active <= 1:
 		_do_showdown()
@@ -1038,7 +1038,7 @@ func _show_player_actions() -> void:
 	])
 
 func _player_action(action: String, amount: int) -> void:
-	AudioManager.play("click")
+	if not _begin_player_action(): return
 	for ch in _action_panel.get_children():
 		ch.queue_free()
 	var previous_max := _max_bet
@@ -1078,12 +1078,12 @@ func _player_action(action: String, amount: int) -> void:
 			_shake_node(_content_root, 4.0, 0.16)
 	_record_round_action(0, _max_bet > previous_max)
 	_action_idx += 1
-	await get_tree().create_timer(0.3).timeout
+	if not (await _finish_action_after(0.3)): return
 	_render_table()
 	_process_action_turn()
 
 # ── AI 행동 ───────────────────────────────────────────────────────
-func _do_ai_action(opp_idx: int) -> void:
+func _commit_ai_action(opp_idx: int) -> void:
 	var o = _opp[opp_idx]
 	var to_call: int = _max_bet - int(_opp_bets[opp_idx])
 	var decision := TH.ai_decide(o["hole"], _community, _pot, to_call, o["stack"],
@@ -1117,7 +1117,7 @@ func _do_ai_action(opp_idx: int) -> void:
 			_screen_flash(Color("#f0b429"), 0.08, 0.16)
 	_record_round_action(opp_idx + 1, _max_bet > previous_max)
 	_action_idx += 1
-	await get_tree().create_timer(0.6).timeout
+	if not (await _finish_action_after(0.6)): return
 	_render_table()
 	_process_action_turn()
 
@@ -1180,7 +1180,7 @@ func _advance_phase() -> void:
 	_process_action_turn()
 
 func _do_showdown() -> void:
-	_phase = Phase.SHOWDOWN
+	if not _enter_showdown_phase(): return
 
 	# 승자 결정
 	var winner_idx := -1   # -1=플레이어 1등, 0,1=AI index
@@ -1284,7 +1284,7 @@ func _show_showdown_buttons() -> void:
 
 # ── 결과 화면 ─────────────────────────────────────────────────────
 func _show_result_screen() -> void:
-	_phase = Phase.RESULT
+	if not _enter_result_phase(): return
 	_clear_content()
 	var vb := _content_vbox()
 
@@ -1344,7 +1344,7 @@ func _show_result_screen() -> void:
 func _leave_mid() -> void:
 	_show_result_screen()
 
-func _leave() -> void:
+func _close_session() -> void:
 	BGMPlayer.leave_activity_ambience("casino")
 	visible = false
 	AudioManager.play("click")
@@ -1716,3 +1716,61 @@ func _round_actions_complete() -> bool:
 		if _round_pending.has(who):
 			return false
 	return true
+
+# 각 비동기 행동은 자기 세대만 이어간다. 저장 상태가 아닌 overlay 수명 상태다.
+var _action_generation: int = 0
+var _action_busy: bool = false
+
+func _invalidate_action_flow() -> void:
+	_action_generation += 1
+	_action_busy = false
+
+func _can_process_betting() -> bool:
+	return visible and not _action_busy and _phase in [Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER]
+
+func open() -> void:
+	if visible: return
+	_invalidate_action_flow()
+	_open_session()
+
+func _start_hand() -> void:
+	if not visible or _action_busy or _phase not in [Phase.SETUP, Phase.SHOWDOWN]: return
+	_invalidate_action_flow()
+	_deal_next_hand()
+
+func _begin_player_action() -> bool:
+	if not _is_player_action_waiting(): return false
+	_action_busy = true
+	AudioManager.play("click")
+	return true
+
+func _do_ai_action(opp_idx: int) -> void:
+	if not _can_process_betting() or opp_idx < 0 or opp_idx >= _opp.size(): return
+	if _turn_order.is_empty() or _turn_order[_action_idx % _turn_order.size()] != opp_idx + 1: return
+	if not _seat_can_bet(opp_idx + 1): return
+	_action_busy = true
+	_commit_ai_action(opp_idx)
+
+func _finish_action_after(seconds: float) -> bool:
+	var generation := _action_generation
+	await get_tree().create_timer(seconds).timeout
+	if generation != _action_generation or not visible or _phase not in [Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER]: return false
+	_action_busy = false
+	return true
+
+func _enter_showdown_phase() -> bool:
+	if not _can_process_betting(): return false
+	_invalidate_action_flow()
+	_phase = Phase.SHOWDOWN
+	return true
+
+func _enter_result_phase() -> bool:
+	if not visible or _phase == Phase.RESULT: return false
+	_invalidate_action_flow()
+	_phase = Phase.RESULT
+	return true
+
+func _leave() -> void:
+	if not visible or _phase not in [Phase.SETUP, Phase.RESULT]: return
+	_invalidate_action_flow()
+	_close_session()
