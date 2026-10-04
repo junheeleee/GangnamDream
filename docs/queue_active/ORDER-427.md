@@ -62,3 +62,10 @@
 
 일회성 번역/표적사양이며 새 상시규범0. 자동PASS는 계약증거이지 문체·재미·출시GO가 아니다.
 공개GO1·인간OPEN45·본편/새packageHOLD·B3/B4·원어민/인간/물리 미관측 유지.
+
+## 수용 후보 — 2026-10-04
+
+- CN/TW11값씩 KO직접 저작·독립 전수 의미검수와 공식 export/check 각각11×2 PASS.
+- export10.701초/check10.805초, receipt22/batch2·raw역상 PASS, accepted41572/b203·CN/TW1691·JA3044불변.
+- 최초check는 TW `一份體力`가 한 번(occurrence1)을 명시하지 않아 FAIL이었다. 원본을 보존하고 `再多耗一次體力`로 수리, 같은22값 전량 r1check를 통과했다.
+- 실제6화면/수첩 fullfit/합성48raw·공통normal·독립 최종판정은 아직 미실행이다. 원어민/인간/물리 미관측·본편HOLD를 유지한다.

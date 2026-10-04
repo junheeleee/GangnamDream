@@ -8196,6 +8196,96 @@
           "batch_id": "a3ddb63997f4fe308e10358175dee051500f49fbfadc141ec8fd043850542b13"
         }
       }
+    },
+    {
+      "order": "ORDER-427",
+      "group": "ui",
+      "roots": [
+        "첫 두 달의 방향",
+        "서울에서 무엇부터 지킬까?",
+        "일자리부터 잡는다",
+        "이번 주는 하나의 공고에 나를 건다",
+        "현금부터 지킨다",
+        "오늘 버티기 위해 몸을 한 번 더 쓴다",
+        "다음 기회를 준비한다",
+        "수입 대신 다음 문을 열 하나를 쌓는다",
+        "아버지에게 다시 집을 마련해 드린다",
+        "우리를 무너뜨린 세계에 내 이름으로 선다",
+        "다시는 돈 앞에 무릎 꿇지 않는다"
+      ],
+      "source_leaves": 11,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 11,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct first-week pressure title/question2 and action-copy title/subtitle6, notebook family/proof/survival motives3. Separate regional authors preserve the two-month direction, one job opening, effort for today, foregone income for preparation, a home again for father, own-name stance and refusal to kneel before money. Existing consumers only; no detail, gameplay, JA, catalog or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "b33af2407302d1311954ca4d8958782442d14ed16a679a54d81a3aeadbd31e50"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "6c3138a380352f91cf228582d5d1fe3fda81ae64",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fa8ac9a96889f4fa4f8fbc91edbf6c041ca4a0cef2f637cd1e8aa911caa38250",
+          "selection_sha256": "c80462af9651c4d224366f46e9f64c3e2a9e7d35834eea59af9ff4746c1d5f87",
+          "count": 11,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9b16bddc8ce1ff22d6d8dbdf2e49a7006f5e9dcf2e96723719527fdee8ab16c5"
+        }
+      }
+    },
+    {
+      "order": "ORDER-427",
+      "group": "ui",
+      "roots": [
+        "첫 두 달의 방향",
+        "서울에서 무엇부터 지킬까?",
+        "일자리부터 잡는다",
+        "이번 주는 하나의 공고에 나를 건다",
+        "현금부터 지킨다",
+        "오늘 버티기 위해 몸을 한 번 더 쓴다",
+        "다음 기회를 준비한다",
+        "수입 대신 다음 문을 열 하나를 쌓는다",
+        "아버지에게 다시 집을 마련해 드린다",
+        "우리를 무너뜨린 세계에 내 이름으로 선다",
+        "다시는 돈 앞에 무릎 꿇지 않는다"
+      ],
+      "source_leaves": 11,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 11
+      },
+      "source_review": "Korean-direct first-week pressure title/question2 and action-copy title/subtitle6, notebook family/proof/survival motives3. Separate regional authors preserve the two-month direction, one job opening, effort for today, foregone income for preparation, a home again for father, own-name stance and refusal to kneel before money. Existing consumers only; no detail, gameplay, JA, catalog or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "c8498edbed0d14b0ec2e0c56e6db97c3cf789ef616ff6c06617b7233334d1a74"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "6c3138a380352f91cf228582d5d1fe3fda81ae64",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fa8ac9a96889f4fa4f8fbc91edbf6c041ca4a0cef2f637cd1e8aa911caa38250",
+          "selection_sha256": "54370b4c29e4db07aef7dd4daf732bc13d6b7bfb9a091561ee8fec0b4e671fcb",
+          "count": 11,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2a3ce5de55a0b45488a540b6457168ccd45083296c9c6c683cb78820a755d56a"
+        }
+      }
     }
   ],
   "accepted": {
@@ -117561,6 +117651,50 @@
       "ui:휴식 미룸 {count}회 · 회복 후 건강 {health} / 정신 {mental}:/휴식 미룸 {count}회 · 회복 후 건강 {health} ~1 정신 {mental}": {
         "source_sha256": "cb78a2f76de5bcd009764253d77103721391c7c5daec384928d4eb60455dcb33",
         "target_sha256": "4db97daac9f0d7b45e2f4048acbd105fa9dbd9d74fecc4d79ea775b922b43d45"
+      },
+      "ui:다시는 돈 앞에 무릎 꿇지 않는다:/다시는 돈 앞에 무릎 꿇지 않는다": {
+        "source_sha256": "6c7f338385461a943930cd9629fabce81f00af2d12ce72fd82dd12c0dc9651a8",
+        "target_sha256": "a15dad0da851a89fd8fbc2e70e197b0046fb494dcf5328b4d2d41771ceaa2700"
+      },
+      "ui:다음 기회를 준비한다:/다음 기회를 준비한다": {
+        "source_sha256": "86ff4d9652e7fb8571b7b9d7cdf6edcb2b54f4f99667c5353c63a31f4e34f06a",
+        "target_sha256": "a1371f6f497ccaf3e6f7d2a388af3d01794c68514ce9902e297e79d2ba576ff0"
+      },
+      "ui:서울에서 무엇부터 지킬까?:/서울에서 무엇부터 지킬까?": {
+        "source_sha256": "6d1b0384461c8e7dcd7ecf1fe5bb3ce2f22999a18047dca18533053d27364511",
+        "target_sha256": "4f803ccc0a9b4430c7ebcdb7f9942b2da0d9f206b9929d7c865c8627ab6ca3a7"
+      },
+      "ui:수입 대신 다음 문을 열 하나를 쌓는다:/수입 대신 다음 문을 열 하나를 쌓는다": {
+        "source_sha256": "a497509ab0da088dfd8e775da826bd7ba98b9f987b90a987d68cd2b85a9d5cc6",
+        "target_sha256": "10dbeb52dcabb786b3e9bf8795b51c34ff8d3262e7bfa64ede8cd067eb9393ad"
+      },
+      "ui:아버지에게 다시 집을 마련해 드린다:/아버지에게 다시 집을 마련해 드린다": {
+        "source_sha256": "22b65fd5b68168afb844bc122855f4c5180a86e1c5195023c3ff68ca3338d157",
+        "target_sha256": "3040f7f42b6140e7bcb03e1c1a3eb0099f3be19c71f0689ff97dc8f9de85c60a"
+      },
+      "ui:오늘 버티기 위해 몸을 한 번 더 쓴다:/오늘 버티기 위해 몸을 한 번 더 쓴다": {
+        "source_sha256": "39ef9fa9df9730d30b6aea0893c7c72856a2c52f9c39693bc642ae57f550d2ae",
+        "target_sha256": "9b92db4b2d901b2fc137f8dc0e2ea85673f29dad98e73c4b872137b390e9548e"
+      },
+      "ui:우리를 무너뜨린 세계에 내 이름으로 선다:/우리를 무너뜨린 세계에 내 이름으로 선다": {
+        "source_sha256": "15f2532b66456c652b4e16c3b0b7ca9e166362c04bd8e477c00739ca9d198a68",
+        "target_sha256": "38303066745639afc4b20cc6f80aa7909faa47dc5223e6a51a8f79b9f65e5243"
+      },
+      "ui:이번 주는 하나의 공고에 나를 건다:/이번 주는 하나의 공고에 나를 건다": {
+        "source_sha256": "fb70fe47d9681ccbbd63764aeda77bbd51576ff0c3612f2b672e3c9f3f6333dd",
+        "target_sha256": "91e5b3e038176db55365731ecff4623f44e18455415ec1434817b1bf9006b0dd"
+      },
+      "ui:일자리부터 잡는다:/일자리부터 잡는다": {
+        "source_sha256": "73db79ccb5c2803c5561ec7f00a2f0be32291f5f33d3eead15c89cc3652e5019",
+        "target_sha256": "4287ea19a43f4f17166900b172cf2436c6975635d849d67f3d443a61f6afa02f"
+      },
+      "ui:첫 두 달의 방향:/첫 두 달의 방향": {
+        "source_sha256": "5eae4771dab5cf89215d0a5a0049a5660a45338d30075f795ee57e42daf723e4",
+        "target_sha256": "dd228cd816bf582e3d01fa01b3ad4bdc9de2bd30fc96fe8a73a3c2ac031c0986"
+      },
+      "ui:현금부터 지킨다:/현금부터 지킨다": {
+        "source_sha256": "399a91a4d1366f8754a9aabadf9afd2580f3becd330e16157a77ba0e650451d3",
+        "target_sha256": "880642b8cb9a94c5bdc1352f56a9d4598bd17fd408aa56fefac76153c94f1948"
       }
     },
     "zh-TW": {
@@ -174403,10 +174537,54 @@
       "ui:휴식 미룸 {count}회 · 회복 후 건강 {health} / 정신 {mental}:/휴식 미룸 {count}회 · 회복 후 건강 {health} ~1 정신 {mental}": {
         "source_sha256": "cb78a2f76de5bcd009764253d77103721391c7c5daec384928d4eb60455dcb33",
         "target_sha256": "e814a62dbe9dbca14c6a3c09215f5eec4426cdd668be9dff960db7838a2f6663"
+      },
+      "ui:다시는 돈 앞에 무릎 꿇지 않는다:/다시는 돈 앞에 무릎 꿇지 않는다": {
+        "source_sha256": "6c7f338385461a943930cd9629fabce81f00af2d12ce72fd82dd12c0dc9651a8",
+        "target_sha256": "13f785a20a5ffdd560df8e4aa0ead73df63cf275e25a384f390a2ff7f58c4450"
+      },
+      "ui:다음 기회를 준비한다:/다음 기회를 준비한다": {
+        "source_sha256": "86ff4d9652e7fb8571b7b9d7cdf6edcb2b54f4f99667c5353c63a31f4e34f06a",
+        "target_sha256": "145be920e67fac3044470479f935031817d8ee1f31b066f1b868a4987c6dc051"
+      },
+      "ui:서울에서 무엇부터 지킬까?:/서울에서 무엇부터 지킬까?": {
+        "source_sha256": "6d1b0384461c8e7dcd7ecf1fe5bb3ce2f22999a18047dca18533053d27364511",
+        "target_sha256": "5ae991bbb244844d8284396e8254ebdc9e2bb6def41c4b2a118c054f532b252a"
+      },
+      "ui:수입 대신 다음 문을 열 하나를 쌓는다:/수입 대신 다음 문을 열 하나를 쌓는다": {
+        "source_sha256": "a497509ab0da088dfd8e775da826bd7ba98b9f987b90a987d68cd2b85a9d5cc6",
+        "target_sha256": "13eeb721c99bc6fcb7dc107b5d83f9eec91be3b5cd362f3da32ea36685b464db"
+      },
+      "ui:아버지에게 다시 집을 마련해 드린다:/아버지에게 다시 집을 마련해 드린다": {
+        "source_sha256": "22b65fd5b68168afb844bc122855f4c5180a86e1c5195023c3ff68ca3338d157",
+        "target_sha256": "805d185f8c6a29fd0df2aba49fd1270fce86c8b970f1b89d5a0c0c3552e22513"
+      },
+      "ui:오늘 버티기 위해 몸을 한 번 더 쓴다:/오늘 버티기 위해 몸을 한 번 더 쓴다": {
+        "source_sha256": "39ef9fa9df9730d30b6aea0893c7c72856a2c52f9c39693bc642ae57f550d2ae",
+        "target_sha256": "f0f9b4a963b7e94937d67d4872da85d9491bd0b79182a56a0fe59098af05cb9e"
+      },
+      "ui:우리를 무너뜨린 세계에 내 이름으로 선다:/우리를 무너뜨린 세계에 내 이름으로 선다": {
+        "source_sha256": "15f2532b66456c652b4e16c3b0b7ca9e166362c04bd8e477c00739ca9d198a68",
+        "target_sha256": "837e594454d4f10b9e8573f234d2564c50a8e4c9809787f1f0fc1a50852a7751"
+      },
+      "ui:이번 주는 하나의 공고에 나를 건다:/이번 주는 하나의 공고에 나를 건다": {
+        "source_sha256": "fb70fe47d9681ccbbd63764aeda77bbd51576ff0c3612f2b672e3c9f3f6333dd",
+        "target_sha256": "37f8923b475a57d1b9ab4bf578bf860f12845514bf157f70b1cd186837e5dee5"
+      },
+      "ui:일자리부터 잡는다:/일자리부터 잡는다": {
+        "source_sha256": "73db79ccb5c2803c5561ec7f00a2f0be32291f5f33d3eead15c89cc3652e5019",
+        "target_sha256": "4287ea19a43f4f17166900b172cf2436c6975635d849d67f3d443a61f6afa02f"
+      },
+      "ui:첫 두 달의 방향:/첫 두 달의 방향": {
+        "source_sha256": "5eae4771dab5cf89215d0a5a0049a5660a45338d30075f795ee57e42daf723e4",
+        "target_sha256": "e5f2d28534653d386b6f48be7c34683ed287de816157f3b36c18815074f1fc1a"
+      },
+      "ui:현금부터 지킨다:/현금부터 지킨다": {
+        "source_sha256": "399a91a4d1366f8754a9aabadf9afd2580f3becd330e16157a77ba0e650451d3",
+        "target_sha256": "990280cbaab6950dbf5741f05be0effadb53496962f75b27115a421706a3e351"
       }
     }
   },
-  "accepted_sha256": "b4aee18d3fc2ceff0cf81fd2fc9a362784f444c8aa5994b49189caa2e3120bfe",
+  "accepted_sha256": "a0f72137b2c048138bbfb84c726ff5c39340a2a52e1e4eb324834a8c6a127d17",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
