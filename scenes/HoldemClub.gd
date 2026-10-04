@@ -545,7 +545,7 @@ func _render_table() -> void:
 		chip.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		pot_box.add_child(chip)
 	_pot_lbl = Label.new()
-	_pot_lbl.text = "POT  %s" % _fmt(_pot)
+	_pot_lbl.text = "%s  %s" % [_tr("팟", "POT"), _fmt(_pot)]
 	_pot_lbl.add_theme_font_size_override("font_size", 18)
 	_pot_lbl.add_theme_color_override("font_color", Color("#f0b429"))
 	_f(_pot_lbl, true)
@@ -608,7 +608,7 @@ func _build_table_surface(parent: VBoxContainer) -> void:
 	table.add_child(pot_center)
 
 	var pot_title := Label.new()
-	pot_title.text = "POT"
+	pot_title.text = _tr("팟", "POT")
 	pot_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	pot_title.add_theme_font_size_override("font_size", 10)
 	pot_title.add_theme_color_override("font_color", Color("#8b7650"))
@@ -636,7 +636,7 @@ func _build_table_surface(parent: VBoxContainer) -> void:
 	table.add_child(comm_box)
 
 	var comm_lbl := Label.new()
-	comm_lbl.text = "BOARD"
+	comm_lbl.text = _tr("공개 카드", "BOARD")
 	comm_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	comm_lbl.add_theme_font_size_override("font_size", 10)
 	comm_lbl.add_theme_color_override("font_color", Color("#7d8ea0"))
@@ -780,9 +780,9 @@ func _build_holdem_seat(parent: Control, seat_idx: int, title: String, cards: Ar
 			card_row.add_child(_card_label(c, seat_idx == -1) if reveal_cards else _card_back())
 
 	var stack_lbl := Label.new()
-	stack_lbl.text = "STACK %s" % _fmt(stack)
+	stack_lbl.text = "%s %s" % [_tr("보유 칩", "STACK"), _fmt(stack)]
 	if bet > 0:
-		stack_lbl.text += "   BET %s" % _fmt(bet)
+		stack_lbl.text += "   %s %s" % [_tr("베팅", "BET"), _fmt(bet)]
 	stack_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	stack_lbl.add_theme_font_size_override("font_size", 11)
 	stack_lbl.add_theme_color_override("font_color", Color("#92c98c") if not folded else Color("#4c5a4c"))
