@@ -101,7 +101,7 @@ def main():
                 return result
             return git_stub(root, *args)
         with patch.object(bridge, "_objects", return_value=values), patch.object(bridge, "_git", side_effect=fault_git):
-            rejects("synthetic Git " + message, lambda: bridge.scalping_phase_predecessor(ROOT, after), message)
+            rejects("synthetic Git " + message + " " + repr(output), lambda: bridge.scalping_phase_predecessor(ROOT, after), message)
 
     actual = inventory({PATH: bridge.SCALPING_PHASE_HASHES[1], "scenes/MainGame.gd": "main-0", "other.gd": "fixed"})
     old = inventory({**actual["source_hashes"], PATH: bridge.SCALPING_PHASE_HASHES[0]})
