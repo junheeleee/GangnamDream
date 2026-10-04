@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 — 홀덤 후속 베팅 차례 수리 착수 (437)
+
+- `_betting_complete`가 금액 일치만 읽고 `_advance_phase`가 베팅0→즉시 재검사하므로 후속3단계가 선택 없이 생략된다. 매 라운드 미행동 좌석·raise 재응답·fold/잔액0 제외를 기존 게임 안에서 수리한다.
+- root 게임/append/normal·claude history/newfocused·receipt 새격리runtime/scope·independent 비저자 검수로 분리했다. 선언 후 제품 단독commit으로 before/after를 결속하고 기존 문자열/UiCall좌표·번역41656/b209와 과거 증거는 보존한다.
+- KO 실제 첫패→Call/FLOP→Check/TURN와 준비 all-in/raise 경계를 구분해 관측할 예정이며 아직437 엔진/검사 PASS0이다. 공개GO1·인간OPEN45·본편HOLD 유지. 후속 번역·카드대비·mid-action퇴장은 별도다.
+
 ## 2026-10-04 — 홀덤 준비·첫 선택 중국어 화면 검수 완료 (435)
 
 - source0feadbf/tree61bec873의 신규22키×2지역44값을 독립 검수자가 전수 읽고 범위 한정GO했다. 실제8PNG·88key bindings·68raw/34tap·첫손6·정산0/39.789초, fresh8검증+조회1/371.91초 PASS. 제품은 원격main까지 push했다.
