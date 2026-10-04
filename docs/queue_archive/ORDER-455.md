@@ -1,6 +1,6 @@
 # ORDER-455 — 홀덤 한국어 승리 문구의 조사를 바로잡는다
 
-#### [~] ORDER-455 [P1·표면 정합] 기존 번역 키를 보존한 한국어 승리 표시
+#### [x] ORDER-455 [P1·표면 정합] 기존 번역 키를 보존한 한국어 승리 표시
 
 **[~] 착수 — 2026-10-05.** 현재 실제 승리 메시지의 `%s으로 승리! +%s`는
 족보9종에 `하이카드으로`·`스트레이트으로`·`트리플으로`를 만든다. 기본 족보는
@@ -56,3 +56,24 @@
 승리 피드백의 문법 결함을 제거한다. 새 플레이 동사·서사·수치·장기 선택은 없고,
 기존 번역을 끊지 않는 좁은 호환 처리로 판단했다. 위 범위·샘플·실행 예산은
 **일회성**이며 일반 조사 엔진이나 새 정본 규칙으로 승격하지 않는다.
+
+## 완료 — 2026-10-05
+
+- 선언 `b768cf3` → 제품 `a8fc6a3` → 검수 후보
+  `3ede74c63c68baddacba844df605ef4a78ba4bbc`, tree
+  `8d50a4c76b9eb2669148caacd20f7d8e6c0f3a43`. 기존1210행 감싸기/EOF4행만
+  제품 변경이며 source/manifest 변화는 새13번째 exact 전이로 결속했다.
+- 격리 KO1 process 13.273초 PASS: 실제 rank9·비KO 순수 template4,
+  준비 RIVER2→실제 SHOWDOWN2·PNG2/8노드·typed/RNG/Meta/semantic focus 복원1.
+  stack120k/140k·각 net+20k·gambling23/26이며 현금5M/AP2는 불변이다.
+  deal/베팅/AI/RESULT/Close/raw입력0, 인간·물리패드·자연플레이는 미관찰이다.
+- 새 focused61/10.303초, 실제365 기본617.686초·accepted41755/b228/live47/과거0,
+  EN/context/queue/diff/등록192·조회1까지 8행 모두 exit0/빈stderr다.
+  전체628.584초, tracked3110/player34/helper5 불변. 이전 실행과 정밀 성능 A/B로 비교하지 않는다.
+- runtime result SHA `c097ae12149ced110b92957139020ba88f6d0f24834c590ad4c774be4937ff30`,
+  normal result SHA `7a439d111ad0000cf1d943885ee38d8e97b792bba38665802b8e84439bf36403`.
+  원본과 개별 실행은 `.git/full-game-localization/order455-{screen,normal}-first/`에 보존했다.
+  저자·비저자가 실제 PNG2장과 source/결과를 읽었고 [한정GO](../agent_reviews/ORDER-455.json)로 닫는다.
+- 기존215판정193보고 뒤216/194로 추가하며 인간OPEN45/DONE1·공개GO1·본편/새package HOLD를 유지한다.
+  자동 PASS는 계약 증거이며 인간·원어민·물리패드·출시 GO가 아니다.
+  규범 소유권은 위 작업의 **일회성**이다. 새 상시 정본 규칙은 없다.
