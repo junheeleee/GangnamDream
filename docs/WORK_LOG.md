@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 스캘핑 단계 창·포커스 수리 후보)
+
+- [430](queue_active/ORDER-430.md): 제품 단독 `3db5dc8`에서 준비/결과 창을 직접 소유·즉시 분리하고 활성 단계의 enabled 버튼만 기본 포커스·방향·Tab 대상으로 둔다. Tutorial 우선권과 유효 기존 포커스는 유지한다.
+- 별도 exact Git 전이 bridge와 새 focused를 추가했다. 이전 원본/receipt는 바꾸지 않고 현재 Scalp와 과거 Main을 섞은 가상 manifest를 거부한다. 기존 검사본문·역사 pin은 보존했다.
+- 429의 원본 REWORK 독립 보고/판정만 추가한다. 새 runtime helper는 지역별5상태·4방향·전체Tab·합성Dpad를 검수하며 실제player34와 모든 과거 실패를 보호한다.
+- 현재 AST/읽기 검수만 완료했고 실제 화면·focused·normal은 다음 clean 후보에서 각1회 수행한다. 거래/정산/RESULT·hover·자연진입·원어민/인간/물리 관측을 주장하지 않는다. 본편/새packageHOLD 유지.
+
 ## 2026-10-04 (Codex — 스캘핑 실제 화면 결함 확인·국소수리 착수)
 
 - [429](queue_active/ORDER-429.md) r2 실제10PNG에서 준비 재개방 후 창이 거래 차트를 가리고 초기 포커스가 없는 기존 결함을 확인했다. 의미/공식수입30값은 통과했지만 화면·입력은 REWORK다.

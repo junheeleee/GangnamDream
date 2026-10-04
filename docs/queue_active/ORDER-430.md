@@ -21,8 +21,9 @@
   생성 STATUS·agent 보고/판정. 게임 파일만의 작은 제품 commit을 먼저 만든다.
 - claude_handoff_review: `tools/ui_translation_append.py`의 새 exact Scalp 전이 검증과
   manifest/current_proof 연결만. 기존 함수 본문·pin·receipt·기존 교정은 그대로 둔다.
-- receipt_tests392: `tools/scalping_phase_focus_receipt_check.py`, `tools/audit_scope.json`,
-  새 `.git/full-game-localization/order430-*` 격리 runtime·normal helper.
+- receipt_tests392: `tools/audit_scope.json`, 새 `.git/full-game-localization/order430-*`
+  격리 runtime helper. focused `tools/scalping_phase_focus_receipt_check.py`와 normal
+  helper는 root로 인계하여 병렬 작성한다. 새 focused는 최종 normal 안에서 단1회 실행한다.
 - independent392: 비저자 제품/검사/원본화면·입력·receipt 최종 검수. 제품·helper 저작0.
 - 번역 41602/b205·CN/TW1706·JA3044, Main/Tutorial/Font/게임 수치·정산·save,
   과거 성공/실패/helper·인간 원장·공개 데모·출시 manifest 변경0.
@@ -51,3 +52,12 @@
 일회성 수리 절차다. 상시 입력 규칙은 기존 CONTROLLER_UX_STRATEGY Acceptance Gates와
 CLAUDE의 입력 계약을 따른다. 자동PASS는 계약증거이지 문체·재미·출시GO가 아니다.
 본편/새package HOLD·원어민/인간/물리 미관측·공개GO1/인간OPEN45를 유지한다.
+
+## 구현 후보
+
+- 제품 단독 commit `3db5dc8862c10d41c652c1363f3e2dbf8c31e0d7`, 직접 부모
+  `ce44987987376323bb0bfc7b9053435f55d92294`; Scalp 한 파일만 62추가/7삭제.
+- 직접 overlay 소유·이전 창 즉시 detach, 활성 단계/비활성 버튼 focus_mode 격리,
+  단계 기본 focus·Tab 순환·실제 grid 방향 탐색·hover 동기화. Tutorial 우선권 보존.
+- 429 실패의 독립 판정은 `docs/agent_reviews/ORDER-429-REWORK.json`에 결속한다.
+  새 후보의 runtime·focused/normal 최종검수는 아직 미실행이다.

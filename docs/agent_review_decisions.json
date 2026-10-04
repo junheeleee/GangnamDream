@@ -7398,5 +7398,58 @@
         "sha256": "b5e2fd760f53d8b654cabd688c5f21fa8d48993e5538cefed59db5dcc12a93e4"
       }
     }
+    ,
+    {
+      "id": "order-429-source-e3c76c6-agent-rework",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-429",
+      "subject": {
+        "kind": "source",
+        "commit": "e3c76c6fea14e4027ebeb91c6b7d564db13e5c3b",
+        "tree": "7de0783170e2c5ca5e3fec6d29b73238b9294254",
+        "manifest_sha256": null
+      },
+      "verdict": "REWORK",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-429-REWORK.json",
+          "sha256": "4d003b35d6a2b5f638bf90b16bfe9a154422ea5b616d37e072b1fa81acef0ce1"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-429-REWORK.json",
+          "sha256": "4d003b35d6a2b5f638bf90b16bfe9a154422ea5b616d37e072b1fa81acef0ce1"
+        },
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/agent_reviews/ORDER-429-REWORK.json",
+          "sha256": "4d003b35d6a2b5f638bf90b16bfe9a154422ea5b616d37e072b1fa81acef0ce1"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-429-REWORK.json",
+          "sha256": "4d003b35d6a2b5f638bf90b16bfe9a154422ea5b616d37e072b1fa81acef0ce1"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "normal_validation_on_this_source",
+        "unoccluded_trading_screen",
+        "natural_ingress_and_settlement",
+        "whole_game_release",
+        "new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-429-REWORK.json",
+        "sha256": "4d003b35d6a2b5f638bf90b16bfe9a154422ea5b616d37e072b1fa81acef0ce1"
+      }
+    }
   ]
 }

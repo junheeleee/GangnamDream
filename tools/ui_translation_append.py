@@ -1520,3 +1520,224 @@ def _comparison_memo(paths, corrections):
 
     return comparison
 # END_LOCAL_COMPARISON_MEMO
+
+
+# BEGIN_SCALPING_PHASE_FOCUS_430
+# One exact product-only successor. Historical headers, MainGame/Aruba proofs,
+# corrections and append verification remain unchanged; this is comparison-only.
+SCALPING_PHASE_PATH = "scenes/ScalpingGame.gd"
+SCALPING_PHASE_BEFORE_COMMIT = "ce44987987376323bb0bfc7b9053435f55d92294"
+SCALPING_PHASE_AFTER_COMMIT = "3db5dc8862c10d41c652c1363f3e2dbf8c31e0d7"
+SCALPING_PHASE_TREES = ("53e05abc0b5a2b3707e8b92a97d3de748904111d", "2d05cd0dd599b06a8d7b479c06b9deb38fdf9494")
+SCALPING_PHASE_BLOBS = ("1205b9d63838cb126b6556a7ded05e6b2f96ef55", "5231d6057835579d9c4e9c982dc905023d421ab1")
+SCALPING_PHASE_HASHES = ("90fdad208a04acaec27c3d9904382ed891e3ea5647a6a1db4273be034617c65f",
+                         "cee55102af731f4357d77bfc57f95438f4cfbc9036f9877fab7777218a7398e0")
+SCALPING_PHASE_REPLACEMENTS = (
+    ("var _font_bold: Font\n", "var _font_bold: Font\nvar _phase_overlay: Control\n"),
+    ('\tvisible = true\n\tTutorialOverlay.maybe_show("scalping", self)\n',
+     '\tvisible = true\n\t_sync_phase_focus()\n\tTutorialOverlay.maybe_show("scalping", self)\n'),
+    ("\t\t_sell_btn.disabled = not _in_position\n", "\t\t_sell_btn.disabled = not _in_position\n\t_sync_phase_focus()\n"),
+    ('''func _clear_phase_overlay() -> void:
+\tvar overlay := get_node_or_null("setup_overlay")
+\tif is_instance_valid(overlay) and not overlay.is_queued_for_deletion():
+\t\toverlay.queue_free()
+
+func _show_setup() -> void:
+\t# 새 오버레이 패널로 설정 화면 표시
+\tif has_node("setup_overlay"):
+\t\tget_node("setup_overlay").queue_free()
+\tvar overlay := ColorRect.new()
+\toverlay.name = "setup_overlay"
+\toverlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+\toverlay.color = Color("#070a10ee")
+\toverlay.mouse_filter = Control.MOUSE_FILTER_STOP
+\tadd_child(overlay)
+''', '''func _clear_phase_overlay() -> void:
+\tvar overlay: Control = _phase_overlay
+\t_phase_overlay = null
+\tif is_instance_valid(overlay):
+\t\toverlay.hide()
+\t\t# Release the name and focus tree before a same-frame replacement is added.
+\t\tif overlay.get_parent() == self:
+\t\t\tremove_child(overlay)
+\t\toverlay.queue_free()
+
+func _show_setup() -> void:
+\t# 새 오버레이 패널로 설정 화면 표시
+\t_clear_phase_overlay()
+\tvar overlay := ColorRect.new()
+\toverlay.name = "setup_overlay"
+\toverlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+\toverlay.color = Color("#070a10ee")
+\toverlay.mouse_filter = Control.MOUSE_FILTER_STOP
+\tadd_child(overlay)
+\t_phase_overlay = overlay
+'''),
+    ('''\tvb.add_child(leave_btn)
+
+func _show_result() -> void:
+\tif has_node("setup_overlay"):
+\t\tget_node("setup_overlay").queue_free()
+\tvar overlay := ColorRect.new()
+\toverlay.name = "setup_overlay"
+\toverlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+\toverlay.color = Color("#070a10ee")
+\toverlay.mouse_filter = Control.MOUSE_FILTER_STOP
+\tadd_child(overlay)
+''', '''\tvb.add_child(leave_btn)
+\t_sync_phase_focus()
+
+func _show_result() -> void:
+\t_clear_phase_overlay()
+\tvar overlay := ColorRect.new()
+\toverlay.name = "setup_overlay"
+\toverlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+\toverlay.color = Color("#070a10ee")
+\toverlay.mouse_filter = Control.MOUSE_FILTER_STOP
+\tadd_child(overlay)
+\t_phase_overlay = overlay
+'''),
+    ('\tvar again_btn := _btn(_tr("다시하기", "Retry"), func():\n\t\toverlay.queue_free()\n',
+     '\tvar again_btn := _btn(_tr("다시하기", "Retry"), func():\n'),
+    ('''\t_f(leave_btn)
+\tbtn_row.add_child(leave_btn)
+''', '''\t_f(leave_btn)
+\tbtn_row.add_child(leave_btn)
+\t_sync_phase_focus()
+
+# Only the current phase owns navigation. TutorialOverlay keeps its own focus trap.
+func _phase_buttons(node: Node) -> Array[Button]:
+\tvar buttons: Array[Button] = []
+\tfor child in node.get_children():
+\t\tif child is TutorialOverlay or child.is_queued_for_deletion():
+\t\t\tcontinue
+\t\tif child is Button:
+\t\t\tbuttons.append(child)
+\t\tbuttons.append_array(_phase_buttons(child))
+\treturn buttons
+
+func _tutorial_owns_focus() -> bool:
+\tfor child in get_children():
+\t\tif child is TutorialOverlay and not child.is_queued_for_deletion() and child.is_visible_in_tree():
+\t\t\treturn true
+\treturn false
+
+func _sync_phase_focus() -> void:
+\tvar surface: Control = _phase_overlay if is_instance_valid(_phase_overlay) else self
+\tvar active: Array[Button] = []
+\tfor button in _phase_buttons(self):
+\t\tvar eligible: bool = surface.is_ancestor_of(button) and not button.disabled
+\t\tbutton.focus_mode = Control.FOCUS_ALL if eligible else Control.FOCUS_NONE
+\t\tif eligible and button.is_visible_in_tree():
+\t\t\tactive.append(button)
+\tif active.is_empty():
+\t\treturn
+\t# Directional navigation follows the actual grid geometry; Tab stays in this phase.
+\tfor index in range(active.size()):
+\t\tvar button: Button = active[index]
+\t\tbutton.focus_next = button.get_path_to(active[(index + 1) % active.size()])
+\t\tbutton.focus_previous = button.get_path_to(active[(index + active.size() - 1) % active.size()])
+\tif _tutorial_owns_focus():
+\t\treturn
+\tvar owner: Control = get_viewport().gui_get_focus_owner()
+\tif active.has(owner):
+\t\treturn
+\tvar preferred: Button = _sell_btn if _in_position else _buy_btn
+\tif _phase == Phase.PLAYING and active.has(preferred):
+\t\tpreferred.grab_focus()
+\telse:
+\t\tactive[0].grab_focus()
+'''),
+    ("\tb.pressed.connect(cb)\n\treturn b\n",
+     "\tb.pressed.connect(cb)\n\tb.mouse_entered.connect(func():\n"
+     "\t\tif b.is_visible_in_tree() and not b.disabled and b.focus_mode == Control.FOCUS_ALL and not _tutorial_owns_focus():\n"
+     "\t\t\tb.grab_focus())\n\treturn b\n"),
+)
+
+
+def _scalping_phase_inverse(raw: bytes) -> bytes:
+    """Recover only the exact predecessor; never expose it as current source."""
+    require(isinstance(raw, bytes), "Scalping phase inverse requires immutable raw bytes")
+    require(len(SCALPING_PHASE_REPLACEMENTS) == 8, "Scalping phase inverse population differs")
+    recovered = raw
+    for old, new in reversed(SCALPING_PHASE_REPLACEMENTS):
+        old, new = old.encode(), new.encode()
+        require(bool(old) and bool(new) and old != new and recovered.count(new) == 1,
+                "Scalping phase inverse is not exact1")
+        recovered = recovered.replace(new, old, 1)
+    require(hashlib.sha256(recovered).hexdigest() == SCALPING_PHASE_HASHES[0],
+            "Scalping source changed outside exact phase/focus repair")
+    return recovered
+
+
+def scalping_phase_predecessor(root: Path, raw: bytes) -> bytes:
+    """Bind the one-file phase/focus repair to immutable Git and actual HEAD."""
+    require(isinstance(raw, bytes) and hashlib.sha256(raw).hexdigest() == SCALPING_PHASE_HASHES[1],
+            "Scalping current runtime differs from exact phase/focus successor")
+    commits = (SCALPING_PHASE_BEFORE_COMMIT, SCALPING_PHASE_AFTER_COMMIT)
+    requests = [(commit, commit, "commit") for commit in commits]
+    requests += [(tree, tree, "tree") for tree in SCALPING_PHASE_TREES]
+    requests += [(commit + ":" + SCALPING_PHASE_PATH, blob, "blob")
+                 for commit, blob in zip(commits, SCALPING_PHASE_BLOBS)]
+    values = _objects(root, requests)
+    for index in range(2):
+        headers = values[index].split(b"\n\n", 1)[0].splitlines()
+        require([line for line in headers if line.startswith(b"tree ")]
+                == [b"tree " + SCALPING_PHASE_TREES[index].encode()],
+                "Scalping exact phase/focus tree mismatch")
+        if index:
+            require([line for line in headers if line.startswith(b"parent ")]
+                    == [b"parent " + SCALPING_PHASE_BEFORE_COMMIT.encode()],
+                    "Scalping exact phase/focus direct parent mismatch")
+    require(_git(root, "diff", "--name-status", "-z", *commits).split(b"\0")
+            == [b"M", SCALPING_PHASE_PATH.encode(), b""],
+            "Scalping phase/focus transition is not exactly one modified file")
+    _git(root, "merge-base", "--is-ancestor", SCALPING_PHASE_AFTER_COMMIT, "HEAD")
+    require(_git(root, "rev-parse", "HEAD:" + SCALPING_PHASE_PATH).decode().strip() == SCALPING_PHASE_BLOBS[1],
+            "actual Git candidate does not retain exact Scalping phase/focus successor")
+    before, after = values[4:]
+    require(tuple(hashlib.sha256(value).hexdigest() for value in (before, after)) == SCALPING_PHASE_HASHES
+            and after == raw, "Scalping phase/focus Git blobs/current raw mismatch")
+    require(_scalping_phase_inverse(after) == before, "Scalping exact phase/focus inverse differs from Git predecessor")
+    return before
+
+
+_SCALPING_PHASE_OLD_MANIFEST_MATCHES = _source_manifest_matches
+_SCALPING_PHASE_OLD_CURRENT_PROOF = current_proof
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        # Preserve isolated legacy fixtures, never production supplied inventory.
+        return _SCALPING_PHASE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    raw = (root / SCALPING_PHASE_PATH).read_bytes()
+    previous = scalping_phase_predecessor(root, raw)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(SCALPING_PHASE_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Scalping phase/focus current source census/raw mismatch")
+    if expected == inventory["source_manifest_sha256"]:
+        return _SCALPING_PHASE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    # Only the old Scalping hash may accompany an earlier MainGame/Aruba state.
+    # Passing the actual successor to the whole old matcher would admit phantom
+    # new-Scalping x old-MainGame combinations that never existed in Git history.
+    comparison = {**hashes, SCALPING_PHASE_PATH: hashlib.sha256(previous).hexdigest()}
+    return _SCALPING_PHASE_OLD_MANIFEST_MATCHES(
+        root, {**inventory, "source_hashes": comparison,
+               "source_manifest_sha256": exchange.digest(comparison)}, expected)
+
+
+def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:
+    head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+    raw = (root / SCALPING_PHASE_PATH).read_bytes()
+    scalping_phase_predecessor(root, raw)
+    result = _SCALPING_PHASE_OLD_CURRENT_PROOF(root, baseline_commit, baseline)
+    require(result["source_hashes"].get(SCALPING_PHASE_PATH) == hashlib.sha256(raw).hexdigest()
+            and exchange.digest(result["source_hashes"]) == result["source_manifest_sha256"]
+            and (root / SCALPING_PHASE_PATH).read_bytes() == raw,
+            "Scalping phase/focus source changed during current admission")
+    require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head
+            and result["evidence"]["head"] == head,
+            "Git candidate changed during Scalping phase/focus admission")
+    return result
+# END_SCALPING_PHASE_FOCUS_430
