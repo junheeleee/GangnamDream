@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 남은 시간과 미룬 선택의 대가 중문26값 착수)
+
+- [426](queue_active/ORDER-426.md): 실제 career/final_reckoning4와 return8+wrapper1의 KO13키를 CN/TW 각각 직접 번역한다. 목표 accepted41550/b201·CN/TW1680, JA3044와 기존제품조건은 유지한다.
+- A W193 career, B/C/E W229 최종12주와 양/무변동/음시장, D W25 구직의 실제5상태×2지역10PNG·합성40taps/80raw를 검수한다. 두 줄 비용의 전체문장·긴 catalog명·최대count12·3자리기간이 실제12px/366px에 온전히 들어오는지 본다. prepared fixture이며 자연진입·행동실행 증거가 아니다.
+- 이전425의 분기별제목 기대 오류를 피하도록 actual job/person source predicate를 각fixture에 결속한다. 저작/새helper/독립검수 파일 소유를 나누고 공통normal13행은 최종후보1회만 실행한다. 도구병목의 읽기진단은 별도이며 이 범위에서 최적화/전체감사/240주 재실행0.
+- 사용자 main 동기화 지시에 따라 검증된424/425 제품70ba2b8·완료e0e3086·현황b3cb994를 푸시했다. 본편/새packageHOLD·공개GO1/인간OPEN45·원어민/물리미관측을 보존한다.
+
 ## 2026-10-04 (Codex — 투자·회복·생활비·관계 중문82값 검수 완료)
 
 - [424](queue_archive/ORDER-424.md)·[425](queue_archive/ORDER-425.md)은 source70ba2b8/tree2a5dada의 독립 범위한정GO다. CN/TW41값씩·공식receipt82/batch4, accepted41442/b195→41524/b199·CN/TW1626→1667·JA3044불변.
