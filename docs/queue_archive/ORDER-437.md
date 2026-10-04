@@ -1,8 +1,8 @@
 # ORDER-437 — 홀덤 후속 베팅의 선택 기회를 보존한다
 
-#### [~] ORDER-437 [P1·게임 흐름] 라운드별 행동 완료·올인 제외
+#### [x] ORDER-437 [P1·게임 흐름] 라운드별 행동 완료·올인 제외
 
-**[~] 착수 — 2026-10-04.** 435 후속 읽기에서 `_betting_complete()`가 금액 일치만
+**[x] 완료 — 2026-10-04.** 435 후속 읽기에서 `_betting_complete()`가 금액 일치만
 확인해 0원으로 초기화된 FLOP/TURN/RIVER를 플레이어 선택 없이 연속 통과하는 결함을 확인했다.
 사용자 계속 개발·내부 검수·main 커밋/푸시 위임 안의 기존 게임 수리다.
 
@@ -56,3 +56,13 @@
 - 규범은 이번 수리·검수의 일회성 지시, 상시 정본 추가0. 자동PASS는 계약 증거다.
   중문 후속 street/정산19키 후보, 직접 영어·카드 저대비·10px·mid-action 퇴장 타이머 문제는
   본 작업으로 닫지 않는다. 공개GO1·인간OPEN45·본편/새package HOLD를 유지한다.
+
+## 완료 증거 — source cb648d9
+
+- source `cb648d9f799890a5c1377b6eefa9063abc7af7ab`, tree `4687d2512dc64fe7d6db5cbe14a5df20785207fe`; 제품f42861e·검사cb648d9 원격main 반영.
+- KO 실제 첫패1·Call/Check·10raw/5tap·2PNG, prepared7 query/3runout/실제owed Call. 5그룹 typed복원·player34 보존. runtime28.451초(엔진26.045초), RESULT/현금정산0.
+- fresh10검증+조회1 PASS382.54초, focused50/historical0. 기존4서사는434참조/NOT_RUN; 과거focused·전체·240주 반복0. accepted41656/b209·JA3044/CN/TW1733 불변.
+- runtime 결과 SHA `ba6a8177e2171a9b768bda97e451ed24b240f9bfea9007110ee894bfb73a5c04`, normal SHA `5d5295b28f5b1e2242174aad2a973695f9bf170fc8ce92354309266b61c35ea7`; 원본은 `.git/full-game-localization/order437-screen-first/`와 `order437-static-final/`.
+- 비저자 [최종 보고](../agent_reviews/ORDER-437.json) GO. source13줄+EOF26줄과61UiCall좌표·18객체3전이·18실제manifest 조합을 대조했다. 이전197판정/175보고·인간원장 원문 보존.
+- 규범 판정: 본 수리·검수 지시는 **일회성**, 상시 정본 추가0. 자동PASS는 계약 증거이지 작품·출시GO가 아니다.
+- 3runout은 모두AI0승리이며 플레이어 승리 성향분기 미관측. 실제AI끝 대기약0.6초의 waiting=true와 mid-action퇴장 위험은 다음 별도수리로 남긴다. 카드저대비·후속번역·native/human/physical·본편/새package HOLD도 그대로다.
