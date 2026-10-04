@@ -6,6 +6,12 @@
 EN 10,000 won=52px, JA 10,000/5,000ウォン=61/55px, CN/TW 10,000韩元/韓元=51px가
 기존 draw 폭48px를 넘는다. 10PNG에서 접미사 잘림5건을 독립 확인해 434는 REWORK다.
 
+선언dc9bc1e 뒤 제품단독bd573a4는 draw2행만 교체했다. 현재 문자열 폭을 실제 font10에서
+구해 최소48px를 유지하며 중앙 정렬한다. 새 source admission·화면·normal은 작성 중이며
+아직436 PASS/GO는 발급하지 않았다. 434 정적 보충 독립 보고는
+`.git/full-game-localization/order434-review/static-l1.json`
+SHA2cb813065660187f829925393f2a43ab8b6cb55026422fd1a2248ebbb4d3013c다.
+
 ## 범위·소유
 
 - root: `scenes/HoldemClub.gd::_draw_bet_stack`의 마지막 draw2행만 바꾼다.

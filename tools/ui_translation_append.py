@@ -1831,3 +1831,29 @@ def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes
             "Git candidate changed during Holdem whole-won admission")
     return result
 # END_HOLDEM_WHOLE_WON_MANIFEST_434
+
+
+# BEGIN_HOLDEM_CANVAS_WIDTH_MANIFEST_436
+# Keep the real whole-won intermediate tuple as well as the prior fifteen
+# tuples and the current canvas repair. Never mix new Holdem with old peers.
+_HOLDEM_CANVAS_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_CANVAS_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    intermediate = history.holdem_canvas_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem canvas current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(intermediate).hexdigest()}
+    if expected == exchange.digest(comparison):
+        # Admit the intermediate only through the actual current tuple's full
+        # predecessor proof. A projected census is not a current raw binding.
+        return _HOLDEM_CANVAS_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_CANVAS_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_CANVAS_WIDTH_MANIFEST_436

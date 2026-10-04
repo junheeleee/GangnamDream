@@ -14,6 +14,39 @@
   ],
   "fast_lanes": [
     {
+      "id": "holdem-canvas",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd",
+        "tools/holdem_money_history.py",
+        "tools/ui_translation_append.py",
+        "tools/holdem_canvas_width_check.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-434.json",
+        "docs/agent_reviews/ORDER-436.json",
+        "docs/queue_active/ORDER-434.md",
+        "docs/queue_archive/ORDER-434.md",
+        "docs/queue_active/ORDER-436.md",
+        "docs/queue_archive/ORDER-436.md"
+      ],
+      "tools": [
+        "tools/holdem_canvas_width_check.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit436 exact canvas-width two-line successor: two real Holdem transitions, seventeen genuine source manifests, unchanged current collector and retained JA/data. Fresh receipt/fullbody and language consumers once. ORDER434 storygraph/Chapter1/Chapter5/Year5 original rows are referenced, NOT_RUN here; old focused, full audit and 240-week repetition remain excluded. Original434 runtime REWORK is not changed by its static L1 PASS."
+    },
+    {
       "id": "holdem-money",
       "paths": [],
       "owned_paths": [
@@ -2874,6 +2907,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/holdem_canvas_width_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_canvas_width_check.py"],
+      "why": "Exact436 two-line canvas measure/center repair: fresh twelve-object two-transition proof, pure inverse and synthetic fault rejection, seventeen actual manifests without phantom combinations, current raw/HEAD/census and collector/retained JA identity. Separate actual first-hand runtime and no old focused replay.",
+      "godot": false
+    },
     {
       "tool": "tools/holdem_money_receipt_check.py",
       "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ja_translation_pipeline.py", "tools/ja_translation_audit.py", "tools/ui_translation_append.py", "tools/holdem_money_receipt_check.py"],
