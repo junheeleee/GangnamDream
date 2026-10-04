@@ -14,6 +14,43 @@
   ],
   "fast_lanes": [
     {
+      "id": "log-body-font",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/log_body_font_receipt_check.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-431.json",
+        "docs/agent_reviews/ORDER-431-REWORK.json",
+        "docs/agent_reviews/ORDER-432.json",
+        "docs/queue_active/ORDER-431.md",
+        "docs/queue_archive/ORDER-431.md",
+        "docs/queue_active/ORDER-432.md",
+        "docs/queue_archive/ORDER-432.md"
+      ],
+      "tools": [
+        "tools/log_body_font_receipt_check.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit432 exact Main log normal-font one-line successor: one real fourteen-stage Git proof, pure inverse faults, fifteen Main/Scalp/Aruba manifest combinations and rejected phantom histories, current raw/census/HEAD binding and next-call freshness. Current receipt consumers run once; old focused suites, engine suites, full audit and 240-week repetition remain excluded. Actual431 result/log font and restoration evidence is separately observed."
+    },
+    {
       "id": "scalping-phase-focus",
       "paths": [],
       "owned_paths": [
@@ -2770,6 +2807,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/log_body_font_receipt_check.py",
+      "paths": ["scenes/MainGame.gd", "tools/main_game_locale_history.py", "tools/ui_translation_append.py", "tools/log_body_font_receipt_check.py"],
+      "why": "Exact432 one-line log font binding: one real fourteen-stage Main proof, replayed Git faults, pure inverse, fifteen actual-source hash combinations without phantom Main/Scalp histories, current census/raw/HEAD and fresh-call boundaries. Full collection and visual quality are separate normal/runtime evidence.",
+      "godot": false
+    },
     {
       "tool": "tools/scalping_phase_focus_receipt_check.py",
       "paths": ["scenes/ScalpingGame.gd", "tools/ui_translation_append.py", "tools/scalping_phase_focus_receipt_check.py"],

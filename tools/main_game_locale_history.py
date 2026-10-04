@@ -2283,3 +2283,176 @@ def modal_font_predecessor(current, root=None):
     return _decision_risk_width_proof(current, root)[10]
 
 # END_DECISION_RISK_WIDTH_HISTORY_423
+
+# BEGIN_LOG_BODY_FONT_HISTORY_432
+# The original proof bodies/pins remain unchanged; only the log normal font is new.
+LOG_BODY_FONT_BEFORE_COMMIT = "807fb8296f6c03ae7c0f8c6ceed105c3a23128ae"
+LOG_BODY_FONT_AFTER_COMMIT = "732394c73e67feef5752fe867ad32c67c2ee73e5"
+LOG_BODY_FONT_TREES = ("17f28437b651790e7b3e3689008ea749dcf60556", "127046505d810e59233076e0f26a1f2751da449a")
+LOG_BODY_FONT_BLOBS = ("4feb1e52e951e946dd5ef898979468ee7e233d61", "41cac5e35d12b2ec4f37e8e7aa55bd0413276022")
+LOG_BODY_FONT_HASHES = ("3682f25888c78ab0bcc5a10c61d4d0701f8fd49b95dc9dc780be1e18a050f2cf",
+                        "d06af65bdc278220bbcd862a343584422dbd73f09f2630b64199442ded9a7054")
+LOG_BODY_FONT_REPLACEMENT = (
+    '\tlog_box.fit_content = true\n\tlog_box.add_theme_font_size_override("normal_font_size", 13)\n',
+    '\tlog_box.fit_content = true\n\tlog_box.add_theme_font_override("normal_font", _font_regular)\n\tlog_box.add_theme_font_size_override("normal_font_size", 13)\n',
+)
+
+
+def _log_body_font_inverse(current, before):
+    """Undo only the unique normal-font insertion, independently of hash gates."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(LOG_BODY_FONT_REPLACEMENT, tuple) or len(LOG_BODY_FONT_REPLACEMENT) != 2
+            or any(not isinstance(part, str) for part in LOG_BODY_FONT_REPLACEMENT)):
+        raise ValueError("ORDER-432: inverse population/type differs")
+    old, new = (part.encode() for part in LOG_BODY_FONT_REPLACEMENT)
+    if (not old or old == new or before.count(old) != 1 or before.count(new) != 0
+            or current.count(new) != 1):
+        raise ValueError("ORDER-432: local inverse is not exact1")
+    recovered = current.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-432: changes outside exact log body font repair")
+    return recovered
+
+
+def _log_body_font_proof(current, root=None):
+    """Fresh fourteen-stage proof; twelve comparison-only predecessors, never a cache."""
+    from pathlib import Path
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != LOG_BODY_FONT_HASHES[1]:
+        raise ValueError("ORDER-432: unapproved current MainGame raw")
+    stages = (
+        (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
+        (JOB_STATUS_BEFORE_COMMIT, JOB_STATUS_AFTER_COMMIT, JOB_STATUS_TREES, JOB_STATUS_BLOBS, JOB_STATUS_HASHES),
+        (INVESTMENT_BEFORE_COMMIT, INVESTMENT_AFTER_COMMIT, INVESTMENT_TREES, INVESTMENT_BLOBS, INVESTMENT_HASHES),
+        (TUTORIAL_BEFORE_COMMIT, TUTORIAL_AFTER_COMMIT, TUTORIAL_TREES, TUTORIAL_BLOBS, TUTORIAL_HASHES),
+        (PAD_HINT_BEFORE_COMMIT, PAD_HINT_AFTER_COMMIT, PAD_HINT_TREES, PAD_HINT_BLOBS, PAD_HINT_HASHES),
+        (PEOPLE_CARD_BEFORE_COMMIT, PEOPLE_CARD_AFTER_COMMIT, PEOPLE_CARD_TREES, PEOPLE_CARD_BLOBS, PEOPLE_CARD_HASHES),
+        (PEOPLE_CARD_REPAIR_BEFORE_COMMIT, PEOPLE_CARD_REPAIR_AFTER_COMMIT, PEOPLE_CARD_REPAIR_TREES,
+         PEOPLE_CARD_REPAIR_BLOBS, PEOPLE_CARD_REPAIR_HASHES),
+        (AXIS_BADGE_BEFORE_COMMIT, AXIS_BADGE_AFTER_COMMIT, AXIS_BADGE_TREES, AXIS_BADGE_BLOBS, AXIS_BADGE_HASHES),
+        (PROMOTION_BEFORE_COMMIT, PROMOTION_AFTER_COMMIT, PROMOTION_TREES, PROMOTION_BLOBS, PROMOTION_HASHES),
+        (TENURE_BEFORE_COMMIT, TENURE_AFTER_COMMIT, TENURE_TREES, TENURE_BLOBS, TENURE_HASHES),
+        (GIFT_PRICE_BEFORE_COMMIT, GIFT_PRICE_AFTER_COMMIT, GIFT_PRICE_TREES, GIFT_PRICE_BLOBS, GIFT_PRICE_HASHES),
+        (REACTION_FONT_BEFORE_COMMIT, REACTION_FONT_AFTER_COMMIT, REACTION_FONT_TREES, REACTION_FONT_BLOBS, REACTION_FONT_HASHES),
+        (DECISION_RISK_BEFORE_COMMIT, DECISION_RISK_AFTER_COMMIT, DECISION_RISK_TREES, DECISION_RISK_BLOBS, DECISION_RISK_HASHES),
+        (LOG_BODY_FONT_BEFORE_COMMIT, LOG_BODY_FONT_AFTER_COMMIT, LOG_BODY_FONT_TREES, LOG_BODY_FONT_BLOBS, LOG_BODY_FONT_HASHES),
+    )
+    requests = []
+    for before, after, trees, blobs, _hashes in stages:
+        requests.extend((c, c, "commit") for c in (before, after))
+        requests.extend((t, t, "tree") for t in trees)
+        requests.extend((c + ":" + MAIN_GAME_PATH, oid, "blob") for c, oid in zip((before, after), blobs))
+    proof = _modal_git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = proof.index(b"\n", cursor)
+        oid, actual_kind, size = proof[cursor:end].decode().split()
+        size = int(size)
+        value = proof[end + 1:end + 1 + size]
+        if (size < 0 or oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or proof[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-432: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(proof):
+        raise ValueError("ORDER-432: trailing immutable proof bytes")
+    for stage, (before, after, trees, _blobs, hashes) in enumerate(stages):
+        offset = stage * 6
+        for index in range(2):
+            headers = values[offset + index].split(b"\n\n", 1)[0].splitlines()
+            if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + trees[index].encode()]:
+                raise ValueError("ORDER-432: immutable tree differs")
+            if index and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + before.encode()]:
+                raise ValueError("ORDER-432: direct parent differs")
+        if tuple(hashlib.sha256(v).hexdigest() for v in values[offset + 4:offset + 6]) != hashes:
+            raise ValueError("ORDER-432: immutable whole raw differs")
+        if _modal_git(root, "diff", "--name-status", "-z", before, after) != b"M\0" + MAIN_GAME_PATH.encode() + b"\0":
+            raise ValueError("ORDER-432: product path population differs")
+        if stage:
+            _modal_git(root, "merge-base", "--is-ancestor", stages[stage - 1][1], before)
+            if values[offset + 4] != values[offset - 1]:
+                raise ValueError("ORDER-432: nonconsecutive raw history")
+    _modal_git(root, "merge-base", "--is-ancestor", LOG_BODY_FONT_AFTER_COMMIT, "HEAD")
+    if _modal_git(root, "rev-parse", "HEAD:" + MAIN_GAME_PATH).decode().strip() != LOG_BODY_FONT_BLOBS[1]:
+        raise ValueError("ORDER-432: current Git MainGame differs")
+    if values[83] != current:
+        raise ValueError("ORDER-432: current/blob binding differs")
+    pre432 = _log_body_font_inverse(current, values[82])
+    pre423 = _decision_risk_width_inverse(pre432, values[76])
+    pre416 = _reaction_body_font_inverse(pre423, values[70])
+    pre412 = _gift_price_badge_inverse(pre416, values[64])
+    pre409 = _career_tenure_inverse(pre412, values[58])
+    pre406 = _promotion_review_copy_inverse(pre409, values[52])
+    pre403 = _axis_badge_fit_inverse(pre406, values[46])
+    recovered = _people_card_height_inverse(pre403, values[34])
+    intermediate = _people_card_height_step_inverse(pre403, values[40], PEOPLE_CARD_REPAIR_REPLACEMENT)
+    if _people_card_height_step_inverse(intermediate, values[34], PEOPLE_CARD_INITIAL_REPLACEMENT) != recovered:
+        raise ValueError("ORDER-432: stagewise and combined inverses differ")
+    recovered = _pad_hint_font_inverse(recovered, values[28])
+    inverse_stages = (((TUTORIAL_REPLACEMENT,), values[22]),
+                      (INVESTMENT_REPLACEMENTS, values[16]),
+                      ((tuple(v.decode() for v in JOB_STATUS_REPLACEMENT),), values[10]),
+                      (MODAL_REPLACEMENTS, values[4]))
+    if tuple(len(parts) for parts, _ in inverse_stages) != (1, 3, 1, 3):
+        raise ValueError("ORDER-432: prior inverse population differs")
+    for replacements, before in inverse_stages:
+        for old, new in reversed(replacements):
+            old, new = old.encode(), new.encode()
+            if not old or old == new or recovered.count(new) != 1:
+                raise ValueError("ORDER-432: prior inverse is not exact1")
+            recovered = recovered.replace(new, old, 1)
+        if recovered != before:
+            raise ValueError("ORDER-432: changes outside prior exact copy/rendering repairs")
+    return pre432, pre423, pre416, pre412, pre409, pre406, pre403, values[34], values[28], values[22], values[16], recovered
+
+
+
+def log_body_font_predecessor(current, root=None):
+    return _log_body_font_proof(current, root)[0]
+
+
+def decision_risk_width_predecessor(current, root=None):
+    return _log_body_font_proof(current, root)[1]
+
+
+def reaction_body_font_predecessor(current, root=None):
+    return _log_body_font_proof(current, root)[2]
+
+
+def gift_price_badge_predecessor(current, root=None):
+    return _log_body_font_proof(current, root)[3]
+
+
+def career_tenure_predecessor(current, root=None):
+    return _log_body_font_proof(current, root)[4]
+
+
+def promotion_review_predecessor(current, root=None):
+    return _log_body_font_proof(current, root)[5]
+
+
+def axis_badge_fit_predecessor(current, root=None):
+    return _log_body_font_proof(current, root)[6]
+
+
+def people_card_height_predecessor(current, root=None):
+    return _log_body_font_proof(current, root)[7]
+
+
+def pad_hint_font_predecessor(current, root=None):
+    return _log_body_font_proof(current, root)[8]
+
+
+def tutorial_copy_predecessor(current, root=None):
+    return _log_body_font_proof(current, root)[9]
+
+
+def investment_footer_predecessor(current, root=None):
+    return _log_body_font_proof(current, root)[10]
+
+
+def modal_font_predecessor(current, root=None):
+    return _log_body_font_proof(current, root)[11]
+
+# END_LOG_BODY_FONT_HISTORY_432

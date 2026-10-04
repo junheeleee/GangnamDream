@@ -1741,3 +1741,48 @@ def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes
             "Git candidate changed during Scalping phase/focus admission")
     return result
 # END_SCALPING_PHASE_FOCUS_430
+
+
+# BEGIN_LOG_BODY_FONT_MANIFEST_432
+# Current MainGame now follows the Scalping repair. Keep the two actual later
+# states separate from the thirteen states before Scalping changed.
+_LOG_BODY_FONT_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _LOG_BODY_FONT_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    predecessors = history._log_body_font_proof(raw, root)
+    require(isinstance(predecessors, tuple) and len(predecessors) == 12,
+            "log body font exact predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "log body font current source census/raw mismatch")
+    scalp_raw = (root / SCALPING_PHASE_PATH).read_bytes()
+    require(hashes.get(SCALPING_PHASE_PATH) == hashlib.sha256(scalp_raw).hexdigest(),
+            "Scalping source census not bound to current raw")
+    previous_scalp = scalping_phase_predecessor(root, scalp_raw)
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "Aruba source census not bound to current raw")
+    # The actual latest state and the state after Scalping/before the log font.
+    # No other earlier MainGame bytes may accompany the new Scalping bytes.
+    for main_raw in (raw, predecessors[0]):
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    # Exactly the pre-Scalping MainGame/Aruba history; never new Main x old Scalp.
+    for main_raw in predecessors:
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest(),
+                      SCALPING_PHASE_PATH: hashlib.sha256(previous_scalp).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    previous_font = aruba_font_predecessor(root, font_raw)
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(predecessors[-1]).hexdigest(),
+                  SCALPING_PHASE_PATH: hashlib.sha256(previous_scalp).hexdigest(),
+                  ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
+    return expected == exchange.digest(comparison)
+# END_LOG_BODY_FONT_MANIFEST_432
