@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 스캘핑 결과·수익/손실 기록 중문 착수)
+
+- [431](queue_active/ORDER-431.md): 결과제목/거래횟수/재시도3키와 수익/손실로그2키를 CN/TW에서 별도 저작한다. 목표10값/2batch·accepted41612/b207·CN/TW1711·JA3044불변이다.
+- 실제 _end_game 생산자와 Main 기록창 reader를 지역별 승리/손실2case·8PNG로 확인한다. 거래결과는 prepared fixture, 실제정산은case1회이며 전체typed·Meta파일bytes·UI 상태를 각각 복원한다. 자연BUY/SELL·Leave/AP정산·공유Holdem결과는 관측범위밖이다.
+- rootTW/공식통합·CN초안·새runtime helper·비저자전수검수로 파일소유 분리. 실제normal은 최종후보1회, 기존429/430완료화면·과거focused/full/240주 반복0. 본편/새packageHOLD·공개GO1/인간OPEN45 보존.
+
 ## 2026-10-04 (Codex — 스캘핑 중국어 준비·거래 화면과 단계 포커스 검수 완료)
 
 - [429](queue_archive/ORDER-429.md)·[430](queue_archive/ORDER-430.md): source927d6f5/tree921356a 비저자 범위한정GO. 준비창 재개방 후 차트 차폐와 초기 포커스 누락을 수리했다. 중국어30값·accepted41602/b205·CN/TW1706·JA3044는 그대로다.
