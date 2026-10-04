@@ -1,6 +1,23 @@
 # ORDER-448 — 두 번째 커피 만남을 두 잔째로 오독하지 않는다
 
-#### [~] ORDER-448 [P1·오역 수리] 사건 제목3과 일본어 회상1
+#### [x] ORDER-448 [P1·오역 수리] 사건 제목3과 일본어 회상1
+
+**완료 — 2026-10-05.** 제품 `5ff1e8e`·검수 후보 `cd47a70`을 main에 커밋·푸시했다.
+새 키0·정정4·사건 기존receipt3 갱신/JA 첫receipt1로 accepted41741/b224다.
+공식 export/check/import 각4행 PASS. 실제 JA/CN/TW 제목3PNG·JA 회상1PNG,
+기본/진실인지 reader6·전체 typed/Meta/RNG·semantic focus 복원4 PASS(27.960초).
+입력/연락/AP소비/자연story진입0·실제player34 불변이며 원본4장을 저자와 비저자가
+직접 읽었다. 제목은 actual builder/getter와 source-bound 대입을 사용한 준비 표시다.
+StoryMode 정상 ready/render_current/exit 전체 실행이나 자연 노출의 증거가 아니다.
+JA 회상은 실제 getter/display·자연 typing을 실행했고 배경용 presentation RNG2회와
+논리 BGM 변경을 관측한 뒤 복원했다. 모든 시각 상태·음원 playhead 복원 주장은 없다.
+동일 후보의 fresh8검증+조회1 PASS(552.929초), focused112/과거0·등록185다.
+fullbody가 fresh current47/receipt/history를 실행해 중복 standalone365는 생략했다.
+[독립 보고](../agent_reviews/ORDER-448.json)가 source/tree·증거·한계를 결속한다.
+실행 전 glyph LF schema·서식 역상 helper를 수리했으며 공식12행/runtime/normal은
+첫 실행 PASS다. 기존 인간/공개 이력과 본편/새package HOLD는 그대로다.
+지시는 일회성·새 정본 규칙0. 자동 PASS는 계약 증거이며 원어민·인간·물리패드·
+전체 출시 GO가 아니다. 아래 착수 이력을 보존한다.
 
 **[~] 착수 — 2026-10-05.** `arc_sangchul_02_coffee`의 재방문을 사건 제목
 JA/CN/TW가 잔 수로 오독하고, 같은 사건을 회상하는 JA 연락 문구도 `二杯目`다.

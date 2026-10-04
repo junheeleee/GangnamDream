@@ -2,9 +2,16 @@
 
 이전 원문 전체는 [홀덤 비동기 수리 전 기록](history/WORK_LOG_2026-10-04_pre_order438.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 두 번째 커피 만남의 잔 수 오독 수리 완료 (448)
+
+- 제품 `5ff1e8e`·검수 후보 `cd47a70`을 main에 커밋·푸시했다. JA/CN/TW 사건 제목과 JA 회상 첫 표현만 정정해 두 잔째가 아니라 두 번째 만남으로 읽는다. 새 키/coverage0·정정4·기존receipt3 정정/JA 첫receipt1로 accepted41741/b224이며 본문·선택·게임 규칙은 불변이다.
+- 공식12행 PASS, 실제 준비형 제목3PNG/JA회상1PNG·reader6·typed/Meta/RNG/semantic focus 복원4 PASS(27.960초). 저자와 비저자가 원본4장을 직접 읽었다. JA 회상은 실제 display/자연 typing과 presentation RNG2회 후 복원이며 Story 전체 renderer/자연진입·연락/AP소비·입력은0이다. 실제player34·과거 증거를 보존했다.
+- 동일 후보에서 fresh8검증+조회1 PASS(552.929초), focused112/과거0·등록185. fullbody가 동일 fresh current47/receipt/history를 실행하므로 standalone365 중복검사는 생략했다. [일회성 사양](queue_archive/ORDER-448.md)과 [독립 보고](agent_reviews/ORDER-448.json)에 범위·한계를 결속한다. 인간OPEN45/공개GO1·본편/새package HOLD는 그대로다.
+- 실행 전 font glyph LF schema 및 raw 서식 역상 helper를 바로잡았고 공식12행/runtime/normal은 첫 실행에 통과했다. 다음은 POT/BOARD/STACK/BET 표시5곳·고유4키의 현지화이며 게임 금액/조건은 바꾸지 않는다.
+
 ## 2026-10-05 — 두 번째 커피 만남의 잔 수 오독 수리 착수 (448)
 
-- [새 범위](queue_active/ORDER-448.md)는 사건 제목3과 JA 연락 회상1의 같은 오독이다. 정상 UI 제목을 사건에도 맞추고 JA 회상은 `二杯目`→`二度目`만 정정한다. 본문·선택·효과·KO/EN·다른 실제 두 잔째 문맥은 그대로다.
+- [새 범위](queue_archive/ORDER-448.md)는 사건 제목3과 JA 연락 회상1의 같은 오독이다. 정상 UI 제목을 사건에도 맞추고 JA 회상은 `二杯目`→`二度目`만 정정한다. 본문·선택·효과·KO/EN·다른 실제 두 잔째 문맥은 그대로다.
 - 새 키/coverage0·기존값 정정4·사건 기존receipt3 정정·JA 첫receipt1로 accepted41741/b224를 목표로 한다. 기존 batch/receipt를 덮어쓰지 않고 exact5제품파일과 새4배치에 결속한다. 아직448 제품 수정·새 수용·실제 화면 PASS0이다.
 - root 제품/교환/4PNG/normal, claude 주소별 의미·수량 계약/새focused, receipt 정확 교정 proof/current47/scope, independent 최종 검수로 나눴다. fullbody normal이 standalone365와 같은 fresh current_source_errors를 실제 실행함을 원문으로 확인해 중복검사1회를 제외한다. 실제입력/연락/AP소비·자연story진입은 새 주장이 아니다.
 - 완료447은 마감 `a9d1d7d`까지 main에 커밋·푸시했다. 기존208판정186보고·공개/인간 이력·본편/새package HOLD를 보존한다.
