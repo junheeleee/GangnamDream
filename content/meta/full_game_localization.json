@@ -8384,6 +8384,84 @@
           "batch_id": "8c1e6ab365ede22af9a0e5e8811c039602497d044f11aaa04e14f80806ead7b9"
         }
       }
+    },
+    {
+      "order": "ORDER-431",
+      "group": "ui",
+      "roots": [
+        "세션 종료",
+        "거래 %d회",
+        "다시하기",
+        "스캘핑으로 %s 벌었다. (%d회 거래)",
+        "스캘핑에서 %s 잃었다."
+      ],
+      "source_leaves": 5,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 5,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct scalping session result title, trade count, retry and signed win/loss log messages. Independent CN/TW authoring preserves existing regional game terminology, currency placeholder and trade-count order. Actual settlement producer and Main log consumer are separately scoped; prepared outcomes are not natural live trading. Shared Holdem session-title consumer remains unobserved. No gameplay, JA, font or public-demo changes. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "c0c2e8a578b89c3e9f83cad8a2e47519c8e94c4d3a5cef2afaad315751b9b4f0"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "fc3535b7baf9fca43fde2405cbcfcad21c88b0d8",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fd00629c34226a7986f5397177ff7ea3b1e42ce43f220c0e9037aa64e7a117a0",
+          "selection_sha256": "ff22382ede46847c0b28063d7a230abb634266f4aff9b50e5f8c86489d462499",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a78c734beabbd54c5c6679f037ff56c007c28168be322dc4e8d6c54702efe543"
+        }
+      }
+    },
+    {
+      "order": "ORDER-431",
+      "group": "ui",
+      "roots": [
+        "세션 종료",
+        "거래 %d회",
+        "다시하기",
+        "스캘핑으로 %s 벌었다. (%d회 거래)",
+        "스캘핑에서 %s 잃었다."
+      ],
+      "source_leaves": 5,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 5
+      },
+      "source_review": "Korean-direct scalping session result title, trade count, retry and signed win/loss log messages. Independent CN/TW authoring preserves existing regional game terminology, currency placeholder and trade-count order. Actual settlement producer and Main log consumer are separately scoped; prepared outcomes are not natural live trading. Shared Holdem session-title consumer remains unobserved. No gameplay, JA, font or public-demo changes. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "aa677e50617b106ce9a82f4a7e3d6f7727c802682c7e93cfa136dbd251708195"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "fc3535b7baf9fca43fde2405cbcfcad21c88b0d8",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fd00629c34226a7986f5397177ff7ea3b1e42ce43f220c0e9037aa64e7a117a0",
+          "selection_sha256": "5d9a8a08a5579245bdb771e97ea95257bd5e3ee11d577532170ac6d3cb2fed33",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "996da43dee4951c9dd7dc2b162cd3e5c7d444c5f8c945666970e9cbf4c4ffd72"
+        }
+      }
     }
   ],
   "accepted": {
@@ -117853,6 +117931,26 @@
       "ui:하락:/하락": {
         "source_sha256": "2493f838b612d9e49336873c4f94d1c86df423c04bd2fd41f989c595e6fe6ceb",
         "target_sha256": "3b1901d8879fb7d2d18249f9116124dc956b38f40fa908fcf9d4a2813dd6b6a6"
+      },
+      "ui:거래 %d회:/거래 %d회": {
+        "source_sha256": "abe8635d653e2c06492b985964d0d9e0f5654bc0290ef6f0921e29c8db3110eb",
+        "target_sha256": "d2c25310d684b7cca2c9743d1d6f7ff047f1d1d8b33f6b6bee3f6f4558a33c05"
+      },
+      "ui:다시하기:/다시하기": {
+        "source_sha256": "a8e878a92527793eb5178dcf9b03ae083ef70da9641f5c7aefbdcafa1d014672",
+        "target_sha256": "a5223d6942b5133dc9c8001e569cad742b2a1aaa2f3609146ecbfa5df230e41b"
+      },
+      "ui:세션 종료:/세션 종료": {
+        "source_sha256": "dd8c9fceff87f61824133a76b36601e30292bd70c28b7b26176aaab672cf25e6",
+        "target_sha256": "210aefd590f30f3030c3c3ee899dfd08db91dbd8458c357fad278ae08cb3c629"
+      },
+      "ui:스캘핑에서 %s 잃었다.:/스캘핑에서 %s 잃었다.": {
+        "source_sha256": "716fcff7e83c3bbd3510833b7210ba62fa2de7332aad7761d5afa2309236ea9b",
+        "target_sha256": "7bee8358b2570e59e33675f30a01259e8a36e83357643a9ec74620604f72aaaf"
+      },
+      "ui:스캘핑으로 %s 벌었다. (%d회 거래):/스캘핑으로 %s 벌었다. (%d회 거래)": {
+        "source_sha256": "c8e228da103ab2c8c1a44ec4173723afa66cbd4cb958ecc95b519f9ef019db7e",
+        "target_sha256": "b96d6a8c312e1cdf51782d4e626e029ff353d986b99e67c35779622e1336fed7"
       }
     },
     "zh-TW": {
@@ -174799,10 +174897,30 @@
       "ui:하락:/하락": {
         "source_sha256": "2493f838b612d9e49336873c4f94d1c86df423c04bd2fd41f989c595e6fe6ceb",
         "target_sha256": "3b1901d8879fb7d2d18249f9116124dc956b38f40fa908fcf9d4a2813dd6b6a6"
+      },
+      "ui:거래 %d회:/거래 %d회": {
+        "source_sha256": "abe8635d653e2c06492b985964d0d9e0f5654bc0290ef6f0921e29c8db3110eb",
+        "target_sha256": "090eabc4df547255af7cec745cb035dbec4ac62cb336f9776cb5c1974839b985"
+      },
+      "ui:다시하기:/다시하기": {
+        "source_sha256": "a8e878a92527793eb5178dcf9b03ae083ef70da9641f5c7aefbdcafa1d014672",
+        "target_sha256": "35e6e5e11b5bfac0d2fe9f7b78ce7f744761740545bb5a2fbbe0179143adfa72"
+      },
+      "ui:세션 종료:/세션 종료": {
+        "source_sha256": "dd8c9fceff87f61824133a76b36601e30292bd70c28b7b26176aaab672cf25e6",
+        "target_sha256": "3b60c097c3ea7d8438a07852ec12ce51567059f8672c5817cabc77f9696d7963"
+      },
+      "ui:스캘핑에서 %s 잃었다.:/스캘핑에서 %s 잃었다.": {
+        "source_sha256": "716fcff7e83c3bbd3510833b7210ba62fa2de7332aad7761d5afa2309236ea9b",
+        "target_sha256": "b678c6940b6045c358f5a41ecc71008ea878520fd8be5f536884f9b9250afc1b"
+      },
+      "ui:스캘핑으로 %s 벌었다. (%d회 거래):/스캘핑으로 %s 벌었다. (%d회 거래)": {
+        "source_sha256": "c8e228da103ab2c8c1a44ec4173723afa66cbd4cb958ecc95b519f9ef019db7e",
+        "target_sha256": "6cf2b875a0b7a002870827c5e712c5281bffc81c49e79f74b1e40ed6164a87de"
       }
     }
   },
-  "accepted_sha256": "b80cfa05f01687d7ce3826a31bc00b07833c661aab555fd8bc7a1cb4eeddf878",
+  "accepted_sha256": "70a3f6472e6ea149238ebc13f3eb877d6537f8e8a6fa1d2977cab88169c247ba",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
