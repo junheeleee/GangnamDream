@@ -1,8 +1,8 @@
 # ORDER-438 — 홀덤의 행동 중복과 이전 타이머 재진입을 막는다
 
-#### [~] ORDER-438 [P1·입력] 비동기 행동 소유권·종료 무효화
+#### [x] ORDER-438 [P1·입력] 비동기 행동 소유권·종료 무효화
 
-**[~] 착수 — 2026-10-04.** 437 실제 trace에서 마지막 AI가 인덱스를 넘긴 뒤
+**[x] 완료 — 2026-10-04.** 437 실제 trace에서 마지막 AI가 인덱스를 넘긴 뒤
 0.6초 기다리는 동안 waiting=true가 되는 구간을 확인했다. 소스의 두 await는
 Leave/RESULT/재진입 뒤에도 무조건 렌더·진행한다. 사용자 계속 개발·main 커밋 위임의 기존 결함 수리다.
 
@@ -56,3 +56,12 @@ Leave/RESULT/재진입 뒤에도 무조건 렌더·진행한다. 사용자 계�
 - 규범은 일회성 수리·검수 지시다. 실제 번역 accepted41656/b209·JA3044/CN/TW1733 불변.
   저대비 카드·직접 영어/후속번역·side-pot/승패 산식·원어민/인간/물리패드 및 장기 플레이는 별도다.
   과거198판정/176보고·인간원장·공개GO1 보존, 본편/새package HOLD. 자동PASS는 계약 증거다.
+
+## 완료 증거
+
+- source `3c242a5caa3e037f705b03639470d42a1c213879`, tree `5d3512b6861dc0a0828b982692cafaea080f756d`. 제품 단독 `aa21f0b`와 검사 commit main push 완료.
+- KO 실제2PNG·26raw/13tap·첫손3·정산2·Close1·prepared token1 PASS(26.712초). 두 실제 대기 창의 추가 Enter 무효와 RESULT/재진입 뒤 옛 timer 차단, 정상 후속 FLOP 및 typed3복원을 확인했다. 실제 player34 불변.
+- 첫 시도는 재생성 Main AP 버튼의 옛 absolute 경로로 focus를 복원하려다 FAIL했다. 첫 FAIL138파일을 보존하고 새438 helper만 의미동일 AP 버튼으로 복원했다. raw path/ID는 별도 보존하며 노드 신원 불변으로 주장하지 않는다.
+- fresh10검증+조회1 모두 PASS(389.657초), 신규focused50/과거case0. runtime SHA `457e89d58cd2b5c8ff914fae59a297cde7c0a864e015540451b968f84017812c`, normal SHA `9cdd34c5ab12b25d478bfa2a72104395588ce40225ad003d7ff99949d28237c2`.
+- [독립 보고](../agent_reviews/ORDER-438.json) SHA `643658f25ec0811e50f59f7ce45ee18442056dfd6b133f1a25e6058f81c5f7da`로 이 source·작업 범위 GO. 199판정/177보고가 되며 역사·인간 원장과 번역 수는 불변이다.
+- 규범 판정: 이 오더의 저작·검수 지시는 **일회성**. 새 상시 규칙0. 자동PASS는 계약 증거이며 작품·출시GO가 아니다. helper 복원 입구가 busy 위반 시 즉시 중단하지 않는 실패경로 보강은 후속 helper에서 분리한다. 이번 실제 위반0이며 범용 실패복원 안전성으로 확대하지 않는다.

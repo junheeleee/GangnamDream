@@ -8017,6 +8017,58 @@
         "path": "docs/agent_reviews/ORDER-437.json",
         "sha256": "37ab7bb733b06ca5b0d66f42797b31a86a09859a06be831776531fb350105fa5"
       }
+    },
+    {
+      "id": "order-438-source-3c242a5-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-438",
+      "subject": {
+        "kind": "source",
+        "commit": "3c242a5caa3e037f705b03639470d42a1c213879",
+        "tree": "5d3512b6861dc0a0828b982692cafaea080f756d",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-438.json",
+          "sha256": "643658f25ec0811e50f59f7ce45ee18442056dfd6b133f1a25e6058f81c5f7da"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-438.json",
+          "sha256": "643658f25ec0811e50f59f7ce45ee18442056dfd6b133f1a25e6058f81c5f7da"
+        },
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/agent_reviews/ORDER-438.json",
+          "sha256": "643658f25ec0811e50f59f7ce45ee18442056dfd6b133f1a25e6058f81c5f7da"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-438.json",
+          "sha256": "643658f25ec0811e50f59f7ce45ee18442056dfd6b133f1a25e6058f81c5f7da"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_ingress",
+        "long_repeated_sessions",
+        "all_timer_interleavings",
+        "whole_game_release",
+        "new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-438.json",
+        "sha256": "643658f25ec0811e50f59f7ce45ee18442056dfd6b133f1a25e6058f81c5f7da"
+      }
     }
   ]
 }
