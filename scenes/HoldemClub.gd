@@ -582,7 +582,7 @@ func _render_table() -> void:
 
 func _build_table_surface(parent: VBoxContainer) -> void:
 	var table := Control.new()
-	table.custom_minimum_size = Vector2(0, 360)
+	table.custom_minimum_size = Vector2(0, 420)
 	table.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	table.draw.connect(func(): _draw_holdem_surface(table))
 	parent.add_child(table)
