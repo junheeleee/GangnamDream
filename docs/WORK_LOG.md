@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [홀덤 비동기 수리 전 기록](history/WORK_LOG_2026-10-04_pre_order438.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 — 중국어 홀덤 결과·패 이름 화면 검수 완료 (439)
+
+- source9ffc90c를 main에 커밋·푸시했다. 간체/번체38값·공식19×2 receipt/raw 역상, 실제12PNG·24raw/12tap·정산4/Close4·추가rank reader14를 독립 검수했다. 승패 팟30,000과 실제 순익+20,000/−10,000을 구분해 읽을 수 있다.
+- runtime49.006초, fresh8검증+조회1 normal405.352초 PASS. 6 fixture typed복원·player34 불변. [독립 보고](agent_reviews/ORDER-439.json), [일회성 사양](queue_archive/ORDER-439.md). scoped GO 후201판정/179보고이며 기존 인간OPEN45/공개GO1·본편/새package HOLD는 그대로다.
+- 최초 공식check 실패는 보존했다. 준비형 RIVER/별도rank reader이지 자연 첫손·물리패드·원어민 관측이 아니다. 다음은 크림 카드에 밝은 무늬색을 쓴 확인된 가독성 결함부터 별도 선언한다. CLAUDE 갱신은 다음 선언에서 수행해 품질판정 metadata 마감과 분리한다.
+
 ## 2026-10-04 — 홀덤 승패·패순위 중국어 공식 수용 (439)
 
 - CN19/TW19를 공식 import하고 원장에38값/2batch를 append했다. raw4파일 역상 PASS, accepted41694/b211·CN/TW1752·JA3044. 원래 source5bca6fd 헤더를 보존하고 검사수리 마감b8e118d를 통합 기준으로 구분했다.
@@ -20,7 +26,7 @@
 
 ## 2026-10-04 — 홀덤 패·승패·정산 중국어 19키 착수 (439)
 
-- [선언 사양](queue_active/ORDER-439.md)의19키만 간체/번체 독립 저작한다. 기존JA19는 사전에 있어 재저작하지 않는다. 현재 accepted41656/b209·CN/TW1733·JA3044, 목표+38값/2batch다.
+- [선언 사양](queue_archive/ORDER-439.md)의19키만 간체/번체 독립 저작한다. 기존JA19는 사전에 있어 재저작하지 않는다. 현재 accepted41656/b209·CN/TW1733·JA3044, 목표+38값/2batch다.
 - root TW/공식교환/통합, claude CN, receipt 새 격리helper/명시차선, independent 비저자38값/실제소비자 검수로 파일 소유를 나눴다. 실제 승/패4회 및 별도14rank reader·12PNG·typed복원을 표적으로 삼는다. 아직 새 수용·runtime PASS0.
 - 438 source3c242a5의 수리·표적검사·독립보고를 main에 정리했다. 다음은 확인된 영어fallback 결과 소비자를 고친다. 카드 저대비·직접 영문/규칙 collector 및 실제 인간/원어민/물리패드·본편HOLD는 유지한다.
 

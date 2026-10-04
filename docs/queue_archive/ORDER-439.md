@@ -1,8 +1,8 @@
 # ORDER-439 — 홀덤의 패와 승패·정산을 중국어로 읽는다
 
-#### [~] ORDER-439 [P1·현지화] SHOWDOWN·RESULT·패순위 19키의 간체·번체 38값
+#### [x] ORDER-439 [P1·현지화] SHOWDOWN·RESULT·패순위 19키의 간체·번체 38값
 
-**[~] 착수 — 2026-10-04.** 비동기 입력 수리를 마친 같은 게임 소스에서 남은
+**[x] 완료 — 2026-10-04.** 비동기 입력 수리를 마친 같은 게임 소스에서 남은
 승패·정산·패 이름 소비자를 번역한다. 사용자 계속 개발·main 커밋/푸시 위임이다.
 
 ## 범위·소유
@@ -80,3 +80,11 @@
 - 440 오탐 수리를 `f411887`에서 검증하고 `b8e118d`로 독립GO 마감했다. 원래439 export 기준 `5bca6fd`와 새 통합 기준을 구분하며 원헤더·실패 증거를 덮어쓰지 않는다. 두 기준의 번역4파일 원문은 동일하다.
 - CN19/TW19 공식 check/import와 raw4파일 append 역상 PASS. accepted41694/b211·CN/TW1752·JA3044, 기존 번역/게임 소스 불변. 아직 실제화면·입력 PASS는 아니다.
 - 최초 실행 전 비저자 helper 검수에서 normal 집계필드 누락과 기준커밋 오류를 수리했다. 새 helper만 실제관측 tutorial 집계를 전달하며, 완료440 증거·검사기를 그대로 결속한다. 과거 runtime/focused 반복0.
+
+## 완료 증거
+
+- source `9ffc90c70fa05651d1e517faaefeb13e177e4532`, tree `3e872bcaeadcbed91acb50df3d8b96c608a52686`를 main에 커밋·푸시했다. 신규38값/2batch, accepted41694/b211·CN/TW1752·JA3044다.
+- 실제 지역별2프로세스/12PNG/24raw·12tap/SHOWDOWN4·RESULT정산4·Close4, 별도 prepared rank reader14 PASS(49.006초). 자연 첫손0·table action0. 6 fixture typed 복원·실제 player34 불변.
+- runtime `.git/full-game-localization/order439-screen-first/result.json` SHA `3311a3e7eee2ac13ac1b51f97302fa2bc0fef4419877211c20ea8dec9ccb3f27`; fresh8검증+차선조회1 normal405.352초 PASS, SHA `ccc2f6a4f7cb50fb377e13f265196bb7075a9e972f8b83efdf1e5da33b883b77`.
+- [독립 보고](../agent_reviews/ORDER-439.json)로 이 범위만 GO. 기존200판정/178보고 보존 후201/179. 최초 수량오탐 FAIL·440 수리는 별도 증거로 유지한다. 자동PASS는 계약 증거이며 전체 제품·출시 GO가 아니다.
+- 지시는 일회성, 정본 추가0. 남은 영문·규칙 collector·카드 저대비·원어민/인간/물리패드·본편/새package HOLD를 유지한다. 다음은 확인된 카드 가독성 수리다.
