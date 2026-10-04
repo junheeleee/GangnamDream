@@ -1570,18 +1570,7 @@ func _sep() -> HSeparator:
 	return s
 
 func _fmt(amount) -> String:
-	var a := int(amount)
-	if LocaleManager.is_english():
-		if abs(a) >= 1_000_000_000:
-			return "₩%.1fB" % (float(a) / 1_000_000_000.0)
-		if abs(a) >= 1_000_000:
-			return "₩%.1fM" % (float(a) / 1_000_000.0)
-		if abs(a) >= 1_000:
-			return "₩%dK" % int(a / 1_000)
-		return "₩%d" % a
-	if abs(a) >= 100_000_000: return _tr("%.1f억", "₩%.1fB") % (float(a) / 100_000_000.0)
-	if abs(a) >= 10_000:      return _tr("%d만", "₩%dK") % (a / 10_000)
-	return _tr("%d원", "₩%d") % a
+	return LocaleManager.format_whole_won(int(amount))
 
 func _signed_fmt(amount: int) -> String:
 	if amount >= 0:
