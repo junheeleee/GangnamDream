@@ -9203,6 +9203,120 @@
       "receipt_sha256_by_locale": {
         "ja": "689efe7f0314baf7ac2b90651c2c302aff06d1c6d5e0b627b2f4963d371d7fa6"
       }
+    },
+    {
+      "order": "ORDER-449",
+      "group": "ui",
+      "roots": [
+        "팟",
+        "공개 카드",
+        "보유 칩",
+        "베팅"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 4,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct localization of existing Holdem table labels: pot total, shared board cards, uncommitted stack and amount already bet this round. Four new bare UI keys across three locales; unchanged money formatting, spacing, bet-positive condition and game rules. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "7e84de58d6857c47cd3edd0343c715c26b61dadf",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e5033187efce408aacaa5945e210ae66d0554dadf64eb2ca720153d25cec6224",
+          "selection_sha256": "f56316d74540657cb128f5ebb352f805ccdb5f06627cd53db3e4fa2ff7544f03",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e15be9d8c101ec3f00542eef63f703db64057b83a052ae58f3ff89b95efe3747"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "42d6ce7032a37e767854010d8ab3b06ac1e9cc57b65d54ea45d11dc107106e51"
+      }
+    },
+    {
+      "order": "ORDER-449",
+      "group": "ui",
+      "roots": [
+        "팟",
+        "공개 카드",
+        "보유 칩",
+        "베팅"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 4,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct localization of existing Holdem table labels: pot total, shared board cards, uncommitted stack and amount already bet this round. Four new bare UI keys across three locales; unchanged money formatting, spacing, bet-positive condition and game rules. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "7e84de58d6857c47cd3edd0343c715c26b61dadf",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e5033187efce408aacaa5945e210ae66d0554dadf64eb2ca720153d25cec6224",
+          "selection_sha256": "dfe54337c7081884a2af16a31efc74daa36c467103bf09047d542d220ca743cd",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6c4f3001b4fa75a520d2206883c0a7966dc26353652910c0d407c9ef4cf523eb"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "60ed26231b91092a2ba0b12cb9f6ef2e09bab4a9ada344783d00556f504f5877"
+      }
+    },
+    {
+      "order": "ORDER-449",
+      "group": "ui",
+      "roots": [
+        "팟",
+        "공개 카드",
+        "보유 칩",
+        "베팅"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 4
+      },
+      "source_review": "Korean-direct localization of existing Holdem table labels: pot total, shared board cards, uncommitted stack and amount already bet this round. Four new bare UI keys across three locales; unchanged money formatting, spacing, bet-positive condition and game rules. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "7e84de58d6857c47cd3edd0343c715c26b61dadf",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e5033187efce408aacaa5945e210ae66d0554dadf64eb2ca720153d25cec6224",
+          "selection_sha256": "d813ea5f2ccf8327d68d0bbac5366bfbb3b377463bd3bc8fe4a8ee83cb3cde6f",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6d0b1cabd0bf0b1ef61f91c557d1efa3bb963ed911559d39fa2aff3d1c716b6c"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-TW": "49ef05a78f3dfbaecd153f426446aa09f9f180e1f666f7541b195fdb9bb61329"
+      }
     }
   ],
   "accepted": {
@@ -61754,6 +61868,22 @@
       "ui:두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들.:/두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들.": {
         "source_sha256": "05ec1e8e01d2c43391cf4a676452f58b712adb3137dd4b326a8e0ee8eba4a52b",
         "target_sha256": "054deb5c61423df33d8b0f5f10b2cb4ec1724d4200b2c966826d400334089bad"
+      },
+      "ui:공개 카드:/공개 카드": {
+        "source_sha256": "d5a814321ef33db085ec881bcd39dc0d0c2242ff44aef656d3cac454a68cc2b5",
+        "target_sha256": "97c0740ebfd5904eda195220ba4ac549f9bfad0ec8bf9b6b30c901f1f9eb710a"
+      },
+      "ui:베팅:/베팅": {
+        "source_sha256": "edc8b56768ab1884649b84b52bb19b5dcfd237c7db2e7200e4b389a367525e93",
+        "target_sha256": "a6fec450fd15d3118eb085e4422d94e40f4e60073375341035ea6acd59c4e72e"
+      },
+      "ui:보유 칩:/보유 칩": {
+        "source_sha256": "dcba8fb909593d2d1c03fe4d1d84bf931fc58c4be06844b91ec59955eecf898a",
+        "target_sha256": "1749c40adc30e836b9395620e281862aaeb1b705b35ebb625d2aabe3b30e64fc"
+      },
+      "ui:팟:/팟": {
+        "source_sha256": "00992201bc5665aca4151143ef16b0d2601f10b4c19ae38ff964799a2cc6c18b",
+        "target_sha256": "df78e716a45965f01c08791cb7ace250c7aa13a15a56f71c0f5de379fcb11fb0"
       }
     },
     "zh-CN": {
@@ -118964,6 +119094,22 @@
       "ui:새 핸드:/새 핸드": {
         "source_sha256": "7311645d36f4342a46fcc6baf229f9719829ac0b2b014ec7adbc70c67d81189f",
         "target_sha256": "5a0e6d794e25d86e22a945a888ab0132b82f4659f1a85cca1456115d28775a2f"
+      },
+      "ui:공개 카드:/공개 카드": {
+        "source_sha256": "d5a814321ef33db085ec881bcd39dc0d0c2242ff44aef656d3cac454a68cc2b5",
+        "target_sha256": "fd4d0982d427e2bb232c94182fa3b9a3a85ad5236b73a3d5e1351d580c04dc1d"
+      },
+      "ui:베팅:/베팅": {
+        "source_sha256": "edc8b56768ab1884649b84b52bb19b5dcfd237c7db2e7200e4b389a367525e93",
+        "target_sha256": "4cd5b2a630830f001157585787fc67b3f99dd6e945a2ed2c3b9140cd837fe82f"
+      },
+      "ui:보유 칩:/보유 칩": {
+        "source_sha256": "dcba8fb909593d2d1c03fe4d1d84bf931fc58c4be06844b91ec59955eecf898a",
+        "target_sha256": "0c099146a3f14a7c8c6199f4b0ecba59c1c387e0afab6f574c70f40890521fab"
+      },
+      "ui:팟:/팟": {
+        "source_sha256": "00992201bc5665aca4151143ef16b0d2601f10b4c19ae38ff964799a2cc6c18b",
+        "target_sha256": "4141e31658d3ac7a73c28f7cbbfb21b3acdfa6fa546157da63942492d94cf431"
       }
     },
     "zh-TW": {
@@ -176174,10 +176320,26 @@
       "ui:새 핸드:/새 핸드": {
         "source_sha256": "7311645d36f4342a46fcc6baf229f9719829ac0b2b014ec7adbc70c67d81189f",
         "target_sha256": "5a0e6d794e25d86e22a945a888ab0132b82f4659f1a85cca1456115d28775a2f"
+      },
+      "ui:공개 카드:/공개 카드": {
+        "source_sha256": "d5a814321ef33db085ec881bcd39dc0d0c2242ff44aef656d3cac454a68cc2b5",
+        "target_sha256": "fd4d0982d427e2bb232c94182fa3b9a3a85ad5236b73a3d5e1351d580c04dc1d"
+      },
+      "ui:베팅:/베팅": {
+        "source_sha256": "edc8b56768ab1884649b84b52bb19b5dcfd237c7db2e7200e4b389a367525e93",
+        "target_sha256": "4cd5b2a630830f001157585787fc67b3f99dd6e945a2ed2c3b9140cd837fe82f"
+      },
+      "ui:보유 칩:/보유 칩": {
+        "source_sha256": "dcba8fb909593d2d1c03fe4d1d84bf931fc58c4be06844b91ec59955eecf898a",
+        "target_sha256": "990dafe994020be5882877e2598d69e67ac15b1c613526226048e438c05235b8"
+      },
+      "ui:팟:/팟": {
+        "source_sha256": "00992201bc5665aca4151143ef16b0d2601f10b4c19ae38ff964799a2cc6c18b",
+        "target_sha256": "4141e31658d3ac7a73c28f7cbbfb21b3acdfa6fa546157da63942492d94cf431"
       }
     }
   },
-  "accepted_sha256": "564e7ee81e2f87b62bbde95228cec973251e8e71db43787cf60d4b506b348107",
+  "accepted_sha256": "56e20cd70dfe7f69d6c7a0880559025b88a478b80348226f604d5184e9817222",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
