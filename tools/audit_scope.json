@@ -14,6 +14,33 @@
   ],
   "fast_lanes": [
     {
+      "id": "holdem-zh",
+      "paths": [],
+      "owned_paths": [
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-435.json",
+        "docs/queue_active/ORDER-435.md",
+        "docs/queue_archive/ORDER-435.md"
+      ],
+      "tools": [
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit435 append-only CN/TW Holdem setup and three actual first-preflop EV branches: twenty-two Korean keys, forty-four accepted values, unchanged game/JA/font sources. Fresh receipt/fullbody and changed-language consumers once; context/queue always and diff separately complete eight validations. Four434 narrative originals are referenced NOT_RUN; no old focused, five-locale runtime, full audit or 240-week repetition."
+    },
+    {
       "id": "holdem-canvas",
       "paths": [],
       "owned_paths": [

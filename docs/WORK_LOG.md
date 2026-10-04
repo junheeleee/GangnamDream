@@ -2,6 +2,11 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 — 홀덤 준비·첫 선택 중문44값 수용 후보 (435)
+
+- 한국어22키에서 CN/TW44값을 지역별로 저작하고 비저자가 전수 의미·태그·줄바꿈·EV 인자 순서를 대조했다. 공식 source54d0682 export/check/import 22×2와4파일 raw 역상 PASS, accepted41612→41656/b207→209·CN/TW1711→1733·JA3044 불변이다.
+- 게임 코드·돈·덱·AI·EN/JA·과거 증거는 바꾸지 않았다. 실제8PNG/6첫손/입력과 fresh8검증+조회1이 남아 있으며 수용량을 화면·원어민·출시GO로 승격하지 않는다.
+
 ## 2026-10-04 — 홀덤 준비·첫 선택의 간체·번체 번역 착수 (435)
 
 - 선언 범위는 CN/TW UI22키44값·수용원장 append와 새 private 교환/8PNG/normal·명시scope뿐이다. root가 TW/통합, claude가 CN초안, receipt_tests가 새helper/scope, independent가 비저자 전수검수를 맡는다.

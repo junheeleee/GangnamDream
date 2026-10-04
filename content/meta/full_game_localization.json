@@ -8462,6 +8462,118 @@
           "batch_id": "996da43dee4951c9dd7dc2b162cd3e5c7d444c5f8c945666970e9cbf4c4ffd72"
         }
       }
+    },
+    {
+      "order": "ORDER-435",
+      "group": "ui",
+      "roots": [
+        "지하 홀덤 클럽",
+        "No-Limit Texas Hold'em  ·  5,000 / 10,000 블라인드",
+        "보유 현금: %s",
+        "[color=#7a8a9a]• 상대방 2명과 1:1:1 대결\n• 상금은 모두 테이블 위로\n• 언제든 자리를 뜰 수 있습니다[/color]",
+        "바이인 금액 선택",
+        "게임 규칙 보기",
+        "자리를 뜬다",
+        "[%s] 시작  [%s/%s] 바이인 −/+  [%s] 바이인 +  [%s] 규칙  [%s] 나가기",
+        "조용한 남자",
+        "소란스러운 여자",
+        "프리플랍",
+        "[b][color=#f0b429]지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]%s",
+        "당신의 차례",
+        " — [color=#5de89c]+EV 콜 (승률%d%% > 팟오즈%d%%)[/color]",
+        " — [color=#e85d5d]-EV 폴드 권장 (승률%d%% < 팟오즈%d%%)[/color]",
+        " — [color=#e8c45d]팟오즈 %d%% / 핸드강도 %d%%[/color]",
+        "폴드",
+        "콜  %s",
+        "하프팟\n%s",
+        "팟\n%s",
+        "올인\n%s",
+        "자리를\n뜬다"
+      ],
+      "source_leaves": 22,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 22,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct HoldemClub SETUP and first PREFLOP title, blinds, cash, three-line table-stacks explanation, buy-in, rules/leave, setup hint, two opponent names, phase/header, turn, three EV branches and six action labels. Separate regional authors preserve numbers, BBCode, exact line breaks, leading dash, percentage placeholder ordering and existing whole-won amounts. Existing table hint is regression-only. No game, deck, AI, money, AP, JA, later street, settlement or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "47477fa5d615972a23e84ef5cb7b1c95cfede70638b05c479bd79eb5a4387d07"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "54d0682af29c29e6a23bd30c246fe474e679eef8",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3d5b4ad826325fa4ba09f8cd650e355cf4db21e59622d0ed341d73c1248bf8e8",
+          "selection_sha256": "cd4c20d008daa9378f2ad4078495f013f4ea996a4f4d5801648d958b00d41e9e",
+          "count": 22,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "523687e7529fd1bf29c5d6e4e48d9822906975d772255345e9c1f3b7a4d16e16"
+        }
+      }
+    },
+    {
+      "order": "ORDER-435",
+      "group": "ui",
+      "roots": [
+        "지하 홀덤 클럽",
+        "No-Limit Texas Hold'em  ·  5,000 / 10,000 블라인드",
+        "보유 현금: %s",
+        "[color=#7a8a9a]• 상대방 2명과 1:1:1 대결\n• 상금은 모두 테이블 위로\n• 언제든 자리를 뜰 수 있습니다[/color]",
+        "바이인 금액 선택",
+        "게임 규칙 보기",
+        "자리를 뜬다",
+        "[%s] 시작  [%s/%s] 바이인 −/+  [%s] 바이인 +  [%s] 규칙  [%s] 나가기",
+        "조용한 남자",
+        "소란스러운 여자",
+        "프리플랍",
+        "[b][color=#f0b429]지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]%s",
+        "당신의 차례",
+        " — [color=#5de89c]+EV 콜 (승률%d%% > 팟오즈%d%%)[/color]",
+        " — [color=#e85d5d]-EV 폴드 권장 (승률%d%% < 팟오즈%d%%)[/color]",
+        " — [color=#e8c45d]팟오즈 %d%% / 핸드강도 %d%%[/color]",
+        "폴드",
+        "콜  %s",
+        "하프팟\n%s",
+        "팟\n%s",
+        "올인\n%s",
+        "자리를\n뜬다"
+      ],
+      "source_leaves": 22,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 22
+      },
+      "source_review": "Korean-direct HoldemClub SETUP and first PREFLOP title, blinds, cash, three-line table-stacks explanation, buy-in, rules/leave, setup hint, two opponent names, phase/header, turn, three EV branches and six action labels. Separate regional authors preserve numbers, BBCode, exact line breaks, leading dash, percentage placeholder ordering and existing whole-won amounts. Existing table hint is regression-only. No game, deck, AI, money, AP, JA, later street, settlement or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "e074bc316ec23f93daf3947001682e8e505c6c9a070d11ad3549aae2ff3e54a5"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "54d0682af29c29e6a23bd30c246fe474e679eef8",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3d5b4ad826325fa4ba09f8cd650e355cf4db21e59622d0ed341d73c1248bf8e8",
+          "selection_sha256": "65fe7b7d0d4c7702b9480a6eae752a19a3f8cbb3d34d2004236ee0f25a75961f",
+          "count": 22,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2935342376897b2c8149a35883d0a1fff65425452effce5fd7da5a616a660dbe"
+        }
+      }
     }
   ],
   "accepted": {
@@ -117951,6 +118063,94 @@
       "ui:스캘핑으로 %s 벌었다. (%d회 거래):/스캘핑으로 %s 벌었다. (%d회 거래)": {
         "source_sha256": "c8e228da103ab2c8c1a44ec4173723afa66cbd4cb958ecc95b519f9ef019db7e",
         "target_sha256": "b96d6a8c312e1cdf51782d4e626e029ff353d986b99e67c35779622e1336fed7"
+      },
+      "ui: — [color=#5de89c]+EV 콜 (승률%d%% > 팟오즈%d%%)[/color]:/ — [color=#5de89c]+EV 콜 (승률%d%% > 팟오즈%d%%)[~1color]": {
+        "source_sha256": "9d7405224b77300db3b6ebd2cc6ae4edbff8f4001baba6c959fa64cb9e49c806",
+        "target_sha256": "04edcb9f8d9c6a551ef7bb0e10be1280f6dc5617a3b4046e05750e9e0073315a"
+      },
+      "ui: — [color=#e85d5d]-EV 폴드 권장 (승률%d%% < 팟오즈%d%%)[/color]:/ — [color=#e85d5d]-EV 폴드 권장 (승률%d%% < 팟오즈%d%%)[~1color]": {
+        "source_sha256": "387a40c7958ede04141ffd83aab0a7dda0342e1bede9f4486e1feaa8c24baa11",
+        "target_sha256": "276f543364949eb6c6c9063a6532c0b9da1ad6c6b8c037d87142011fbcf97e22"
+      },
+      "ui: — [color=#e8c45d]팟오즈 %d%% / 핸드강도 %d%%[/color]:/ — [color=#e8c45d]팟오즈 %d%% ~1 핸드강도 %d%%[~1color]": {
+        "source_sha256": "5ed58e12df7d954bf443d08edb7d382cba6073e646353a8adf2a4517ffbe20e5",
+        "target_sha256": "5ace60187c656c2c2674ee19f47ead5aa565d428237cacc74fac6b26552d7a0f"
+      },
+      "ui:No-Limit Texas Hold'em  ·  5,000 / 10,000 블라인드:/No-Limit Texas Hold'em  ·  5,000 ~1 10,000 블라인드": {
+        "source_sha256": "c0b16f05d2f8a45a03a5794b3a3dbdb6b1c25ece93b9972f954d046745549fa8",
+        "target_sha256": "eab52a80078530d4864b97fa62d66523c3173b52ff953ad23626318e90cd50c1"
+      },
+      "ui:[%s] 시작  [%s/%s] 바이인 −/+  [%s] 바이인 +  [%s] 규칙  [%s] 나가기:/[%s] 시작  [%s~1%s] 바이인 −~1+  [%s] 바이인 +  [%s] 규칙  [%s] 나가기": {
+        "source_sha256": "4defdfafbf97b1db2a3e46b41be78c9cd11f7cb58c34f10b6d73c346f0d0dab6",
+        "target_sha256": "1c0d1393d3b647bb45fae2035029d497b6bd3d4c9be6696bc3b40144b32189c0"
+      },
+      "ui:[b][color=#f0b429]지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]%s:/[b][color=#f0b429]지하 홀덤 클럽[~1color][~1b]   [color=#3a4a5a]%s[~1color]%s": {
+        "source_sha256": "db2d363e4cb3822820c691d0b1a2ee1da1f2b876f37e3b2490cef5c50fb7dffe",
+        "target_sha256": "3179aa3e5b0e7ccd71b8c92ab85fcd46e17fd48d7f6914b856240da1b042ae3c"
+      },
+      "ui:[color=#7a8a9a]• 상대방 2명과 1:1:1 대결\n• 상금은 모두 테이블 위로\n• 언제든 자리를 뜰 수 있습니다[/color]:/[color=#7a8a9a]• 상대방 2명과 1:1:1 대결\n• 상금은 모두 테이블 위로\n• 언제든 자리를 뜰 수 있습니다[~1color]": {
+        "source_sha256": "235a06708b0d7445f0d6dcc5329b4ec54b30dbd77c6ffef09bc796247c34ef45",
+        "target_sha256": "fc6e6f0b275a7fae6ea69da156d2d3eca1a737bfdf5987fb27d70833cff8a402"
+      },
+      "ui:게임 규칙 보기:/게임 규칙 보기": {
+        "source_sha256": "1d84d5a96fd84ca33614ff2f42d8fde36b02ec23c8988f73d739bb2e8ea730d4",
+        "target_sha256": "48a36404e1be53529b75f4b5049c61bac69bc2a3be538f5c167a4a61135093d1"
+      },
+      "ui:당신의 차례:/당신의 차례": {
+        "source_sha256": "7e5b106b0902712b9edb0db6d464447ba65dfec360e2b2c5898baa69d333c435",
+        "target_sha256": "2f707e3933b9e14c60e5bfb190a84a19dd3172b5c33755cecc6168629eb481b6"
+      },
+      "ui:바이인 금액 선택:/바이인 금액 선택": {
+        "source_sha256": "7151e024a71a3a5b903c61386b7ff555e716e337bacb0f3fad052e5635f54926",
+        "target_sha256": "be28dc0d02dd327ced4735aae2343ec480c54d76e32e8839f370cbb7c433d1f5"
+      },
+      "ui:보유 현금: %s:/보유 현금: %s": {
+        "source_sha256": "4017b9f8b5a182e308a2496bfea37cd2b5724d8a68c9d48475ea0a956173d4cd",
+        "target_sha256": "3ddbc0d982af4c3c68f22752c7af99fd51dd019a53a701199af61f495a38bc79"
+      },
+      "ui:소란스러운 여자:/소란스러운 여자": {
+        "source_sha256": "65ef4a39981e82c3d989b9db1af76aaa86060400e7775b13aac8c5f673134de2",
+        "target_sha256": "dcea3fea0325da01f1fe3bb9139538fdcf0e77b40d59583dda11ad89b49b52fc"
+      },
+      "ui:올인\n%s:/올인\n%s": {
+        "source_sha256": "a264ef9d69f6700c221f159e71b66493bee73ea56d64776a7122d42c0e0f3a30",
+        "target_sha256": "f2bbfb35466c91e95bba183149a512d707567eb7586413dea649cef398391260"
+      },
+      "ui:자리를\n뜬다:/자리를\n뜬다": {
+        "source_sha256": "b5f2ed2eba27630b538e0fdff2e4fd0d06bd919daa6766119e6f5e590bce3563",
+        "target_sha256": "2ae52a36d1ca6d924475f650643839d5fd3bd9f27dcd28bc8e126dab4bc59f9e"
+      },
+      "ui:자리를 뜬다:/자리를 뜬다": {
+        "source_sha256": "f348c38e665624deb47fd267fae23ed4f8abfaaa4935aeef7f7b8e589785ee2a",
+        "target_sha256": "3bd3d46a5639a4a7591da9eaf2e23900a8f187a72eeda778c63317f5b3ae39b9"
+      },
+      "ui:조용한 남자:/조용한 남자": {
+        "source_sha256": "112345e8a05a5cd67dd5c3720adb19b2c63938bbad36a6b4b190fad7d05d1232",
+        "target_sha256": "78fbd7f6fbf5602ad1301dd1beed97007b88cf7387ee2dc8c1303fe7af356623"
+      },
+      "ui:지하 홀덤 클럽:/지하 홀덤 클럽": {
+        "source_sha256": "8a2f23ad7a6f76baa82d376f6e0a3e62d4bd7482ccfc8a4fe077f024a0253786",
+        "target_sha256": "a566ffd01159aa87ffc292f6ab69885e2031a19eaaf8d53edeb05c04469ac068"
+      },
+      "ui:콜  %s:/콜  %s": {
+        "source_sha256": "8591f5c1332f4b4ae905beddc87439bcf119b94382f18ed10051b76fa0aafe64",
+        "target_sha256": "7d5f0015d2d45f6e4f955928f23ce31ea92162b2b5ec193da4d2ca38bb41805b"
+      },
+      "ui:팟\n%s:/팟\n%s": {
+        "source_sha256": "58c4e7f7a55dd7340bc0c81fbf93ee641c93b636c58cd418036ed88168132ec2",
+        "target_sha256": "e05bba52870f3440c80ef7432fbbef1f0440058be0afc4dce6649834dcc4fcf6"
+      },
+      "ui:폴드:/폴드": {
+        "source_sha256": "8f9fd198140b89ca14b5bfdae30d797bbc4b4a76dd9f1340233b2409a75a1f45",
+        "target_sha256": "f07e29f86209ae84730cd41a3da895d72510295739cb2032b48453b0d610802f"
+      },
+      "ui:프리플랍:/프리플랍": {
+        "source_sha256": "e8e563e66a1198a7c147fceb610446041d7318a76441658dee83cc2c478a53c7",
+        "target_sha256": "818f625b0deae02b0ef1af1d9135a4d52bcf2c0dc21e37191ed4206c8cf99a46"
+      },
+      "ui:하프팟\n%s:/하프팟\n%s": {
+        "source_sha256": "295074808489d77fa84b8da6001874277e3d88fe1215b0fb24daf10caee54d84",
+        "target_sha256": "579b969678d6824f58c5dfc0dea93b07f75218070afdc2f48e5873907daf3ed2"
       }
     },
     "zh-TW": {
@@ -174917,10 +175117,98 @@
       "ui:스캘핑으로 %s 벌었다. (%d회 거래):/스캘핑으로 %s 벌었다. (%d회 거래)": {
         "source_sha256": "c8e228da103ab2c8c1a44ec4173723afa66cbd4cb958ecc95b519f9ef019db7e",
         "target_sha256": "6cf2b875a0b7a002870827c5e712c5281bffc81c49e79f74b1e40ed6164a87de"
+      },
+      "ui: — [color=#5de89c]+EV 콜 (승률%d%% > 팟오즈%d%%)[/color]:/ — [color=#5de89c]+EV 콜 (승률%d%% > 팟오즈%d%%)[~1color]": {
+        "source_sha256": "9d7405224b77300db3b6ebd2cc6ae4edbff8f4001baba6c959fa64cb9e49c806",
+        "target_sha256": "81f50c6785f592c01dd21cd8f1412965170e729176def8964315be0b215537e1"
+      },
+      "ui: — [color=#e85d5d]-EV 폴드 권장 (승률%d%% < 팟오즈%d%%)[/color]:/ — [color=#e85d5d]-EV 폴드 권장 (승률%d%% < 팟오즈%d%%)[~1color]": {
+        "source_sha256": "387a40c7958ede04141ffd83aab0a7dda0342e1bede9f4486e1feaa8c24baa11",
+        "target_sha256": "c411dd0f9ad79ff787f03e8d3988114fefff3c1805d41991cde505c8c1ccb55a"
+      },
+      "ui: — [color=#e8c45d]팟오즈 %d%% / 핸드강도 %d%%[/color]:/ — [color=#e8c45d]팟오즈 %d%% ~1 핸드강도 %d%%[~1color]": {
+        "source_sha256": "5ed58e12df7d954bf443d08edb7d382cba6073e646353a8adf2a4517ffbe20e5",
+        "target_sha256": "c567948fc8f1e446e3b9fb9c7825ef1b504fa6eb20df071126fc4032d0e7971e"
+      },
+      "ui:No-Limit Texas Hold'em  ·  5,000 / 10,000 블라인드:/No-Limit Texas Hold'em  ·  5,000 ~1 10,000 블라인드": {
+        "source_sha256": "c0b16f05d2f8a45a03a5794b3a3dbdb6b1c25ece93b9972f954d046745549fa8",
+        "target_sha256": "23881df1fa9c92a92e380f03b1180631a3861cfbb5f8bbac124b49cf0ca7fe0b"
+      },
+      "ui:[%s] 시작  [%s/%s] 바이인 −/+  [%s] 바이인 +  [%s] 규칙  [%s] 나가기:/[%s] 시작  [%s~1%s] 바이인 −~1+  [%s] 바이인 +  [%s] 규칙  [%s] 나가기": {
+        "source_sha256": "4defdfafbf97b1db2a3e46b41be78c9cd11f7cb58c34f10b6d73c346f0d0dab6",
+        "target_sha256": "ef03620509b1a651d051a178218ff964d7cb06cdb5708bd529f13e32c4f24d4b"
+      },
+      "ui:[b][color=#f0b429]지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]%s:/[b][color=#f0b429]지하 홀덤 클럽[~1color][~1b]   [color=#3a4a5a]%s[~1color]%s": {
+        "source_sha256": "db2d363e4cb3822820c691d0b1a2ee1da1f2b876f37e3b2490cef5c50fb7dffe",
+        "target_sha256": "e504951b66dabeb5a89a2a8d87fda95432a1db870136911402b8b00ef48f3d03"
+      },
+      "ui:[color=#7a8a9a]• 상대방 2명과 1:1:1 대결\n• 상금은 모두 테이블 위로\n• 언제든 자리를 뜰 수 있습니다[/color]:/[color=#7a8a9a]• 상대방 2명과 1:1:1 대결\n• 상금은 모두 테이블 위로\n• 언제든 자리를 뜰 수 있습니다[~1color]": {
+        "source_sha256": "235a06708b0d7445f0d6dcc5329b4ec54b30dbd77c6ffef09bc796247c34ef45",
+        "target_sha256": "01a27e76e68d762475d7af306fccd9c123163e2686595188e4879e0ef79c11ca"
+      },
+      "ui:게임 규칙 보기:/게임 규칙 보기": {
+        "source_sha256": "1d84d5a96fd84ca33614ff2f42d8fde36b02ec23c8988f73d739bb2e8ea730d4",
+        "target_sha256": "ace8d6c6e19e2423c3f94b0505ce43491d3e777f8ce7ab2d1a072991ac5e103d"
+      },
+      "ui:당신의 차례:/당신의 차례": {
+        "source_sha256": "7e5b106b0902712b9edb0db6d464447ba65dfec360e2b2c5898baa69d333c435",
+        "target_sha256": "5b54d2b1a9b4edc8fa60c4a5f9b262a9691510da29354ebd9b86af15b08f782d"
+      },
+      "ui:바이인 금액 선택:/바이인 금액 선택": {
+        "source_sha256": "7151e024a71a3a5b903c61386b7ff555e716e337bacb0f3fad052e5635f54926",
+        "target_sha256": "3544aaf3728797f3951d9f8740ecdb24972b2d633279fd6128f5afa821de7572"
+      },
+      "ui:보유 현금: %s:/보유 현금: %s": {
+        "source_sha256": "4017b9f8b5a182e308a2496bfea37cd2b5724d8a68c9d48475ea0a956173d4cd",
+        "target_sha256": "ec63a19b5506b405cebbb16638bb3c233dad974eed6ce652574a2f1cc40421bd"
+      },
+      "ui:소란스러운 여자:/소란스러운 여자": {
+        "source_sha256": "65ef4a39981e82c3d989b9db1af76aaa86060400e7775b13aac8c5f673134de2",
+        "target_sha256": "287cd9e049d1a10a81c3bc5744253003a63dc967b468df9221833ed226769fcd"
+      },
+      "ui:올인\n%s:/올인\n%s": {
+        "source_sha256": "a264ef9d69f6700c221f159e71b66493bee73ea56d64776a7122d42c0e0f3a30",
+        "target_sha256": "e9d668161aefc3d763f79b75cf72d3229b0182d3bb1b21cb388c4f6bbc2b8184"
+      },
+      "ui:자리를\n뜬다:/자리를\n뜬다": {
+        "source_sha256": "b5f2ed2eba27630b538e0fdff2e4fd0d06bd919daa6766119e6f5e590bce3563",
+        "target_sha256": "47f8564c3ac423901dc371e919e3b63bf312a763ee3f9fa7016b607c67f3356e"
+      },
+      "ui:자리를 뜬다:/자리를 뜬다": {
+        "source_sha256": "f348c38e665624deb47fd267fae23ed4f8abfaaa4935aeef7f7b8e589785ee2a",
+        "target_sha256": "f1c649188c07d7ac87fedbd3546d8065cfa84925edf639f1bc4f3948cf620361"
+      },
+      "ui:조용한 남자:/조용한 남자": {
+        "source_sha256": "112345e8a05a5cd67dd5c3720adb19b2c63938bbad36a6b4b190fad7d05d1232",
+        "target_sha256": "0504a0bc8cc7ce4bcfaee82dad2b96f6b3dcf8088c6f40ad0f54c46174f6d748"
+      },
+      "ui:지하 홀덤 클럽:/지하 홀덤 클럽": {
+        "source_sha256": "8a2f23ad7a6f76baa82d376f6e0a3e62d4bd7482ccfc8a4fe077f024a0253786",
+        "target_sha256": "2e3c9b3d27feca87753e7d859f0396f6b28c629ffe05482565885e8ad84ab665"
+      },
+      "ui:콜  %s:/콜  %s": {
+        "source_sha256": "8591f5c1332f4b4ae905beddc87439bcf119b94382f18ed10051b76fa0aafe64",
+        "target_sha256": "7d5f0015d2d45f6e4f955928f23ce31ea92162b2b5ec193da4d2ca38bb41805b"
+      },
+      "ui:팟\n%s:/팟\n%s": {
+        "source_sha256": "58c4e7f7a55dd7340bc0c81fbf93ee641c93b636c58cd418036ed88168132ec2",
+        "target_sha256": "e05bba52870f3440c80ef7432fbbef1f0440058be0afc4dce6649834dcc4fcf6"
+      },
+      "ui:폴드:/폴드": {
+        "source_sha256": "8f9fd198140b89ca14b5bfdae30d797bbc4b4a76dd9f1340233b2409a75a1f45",
+        "target_sha256": "f1a06f6d9916c29465d3deb6441788b28ea1de6d0e83d7f18daf237ac1cd8e65"
+      },
+      "ui:프리플랍:/프리플랍": {
+        "source_sha256": "e8e563e66a1198a7c147fceb610446041d7318a76441658dee83cc2c478a53c7",
+        "target_sha256": "818f625b0deae02b0ef1af1d9135a4d52bcf2c0dc21e37191ed4206c8cf99a46"
+      },
+      "ui:하프팟\n%s:/하프팟\n%s": {
+        "source_sha256": "295074808489d77fa84b8da6001874277e3d88fe1215b0fb24daf10caee54d84",
+        "target_sha256": "579b969678d6824f58c5dfc0dea93b07f75218070afdc2f48e5873907daf3ed2"
       }
     }
   },
-  "accepted_sha256": "70a3f6472e6ea149238ebc13f3eb877d6537f8e8a6fa1d2977cab88169c247ba",
+  "accepted_sha256": "dc0d3a6c2b428a970092719f41f74c9985b9a198587b9d0d0354fac469c1d32e",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
