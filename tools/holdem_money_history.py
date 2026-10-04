@@ -366,3 +366,214 @@ def holdem_money_predecessor(current: bytes, root: Path | None = None) -> bytes:
         return _holdem_betting_proof(current, root)[2]
     return _HOLDEM_BETTING_OLD_MONEY_PREDECESSOR(current, root)
 # END_HOLDEM_BETTING_TURN_HISTORY_437
+
+
+# BEGIN_HOLDEM_ASYNC_ACTION_HISTORY_438
+# Earlier proof bodies/pins remain immutable. The private stage loop below
+# checks the fixed current chain without projecting disk reads or Git replies.
+ASYNC_BEFORE_COMMIT = "031c3c2f8639e5c03f569e6f1509aee8ad38dcda"
+ASYNC_AFTER_COMMIT = "aa21f0b08a21f839194fc2147869534c8c6b4ec2"
+ASYNC_TREES = ("081c1926783f2c58d22f568d7b403f89f30a7d7c", "87007677e516ac1a79a39b53dccc0cd030b42a37")
+ASYNC_BLOBS = ("ae11e6b873bd621649803637f43d79bc7e89b1d4", "bf36544000f94319b32ea6b299694a9644c8ebf4")
+ASYNC_HASHES = ("4a8ae2c046e59ab4c2425bbb2270a552c73fbc76398c75079d45179f8748114f",
+                "35c2a7124160bfbab0e9b039aad496d2059131d83222f87eeb12ef344e5a0e5c")
+ASYNC_REPLACEMENTS = (
+    ('func open() -> void:\n', 'func _open_session() -> void:\n'),
+    ('func _start_hand() -> void:\n', 'func _deal_next_hand() -> void:\n'),
+    ('\tif _phase not in [Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER]:\n',
+     '\tif not visible or _action_busy or _phase not in [Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER]:\n'),
+    ('\t# 남은 플레이어가 1명이면 즉시 쇼다운\n', '\tif not _can_process_betting(): return\n'),
+    ('func _player_action(action: String, amount: int) -> void:\n\tAudioManager.play("click")\n',
+     'func _player_action(action: String, amount: int) -> void:\n\tif not _begin_player_action(): return\n'),
+    ('\tawait get_tree().create_timer(0.3).timeout\n', '\tif not (await _finish_action_after(0.3)): return\n'),
+    ('func _do_ai_action(opp_idx: int) -> void:\n', 'func _commit_ai_action(opp_idx: int) -> void:\n'),
+    ('\tawait get_tree().create_timer(0.6).timeout\n', '\tif not (await _finish_action_after(0.6)): return\n'),
+    ('\t_phase = Phase.SHOWDOWN\n', '\tif not _enter_showdown_phase(): return\n'),
+    ('\t_phase = Phase.RESULT\n', '\tif not _enter_result_phase(): return\n'),
+    ('func _leave() -> void:\n', 'func _close_session() -> void:\n'),
+)
+ASYNC_APPENDIX = (
+    '\n# 각 비동기 행동은 자기 세대만 이어간다. 저장 상태가 아닌 overlay 수명 상태다.\n'
+    'var _action_generation: int = 0\n'
+    'var _action_busy: bool = false\n'
+    '\nfunc _invalidate_action_flow() -> void:\n'
+    '\t_action_generation += 1\n'
+    '\t_action_busy = false\n'
+    '\nfunc _can_process_betting() -> bool:\n'
+    '\treturn visible and not _action_busy and _phase in [Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER]\n'
+    '\nfunc open() -> void:\n'
+    '\tif visible: return\n'
+    '\t_invalidate_action_flow()\n'
+    '\t_open_session()\n'
+    '\nfunc _start_hand() -> void:\n'
+    '\tif not visible or _action_busy or _phase not in [Phase.SETUP, Phase.SHOWDOWN]: return\n'
+    '\t_invalidate_action_flow()\n'
+    '\t_deal_next_hand()\n'
+    '\nfunc _begin_player_action() -> bool:\n'
+    '\tif not _is_player_action_waiting(): return false\n'
+    '\t_action_busy = true\n'
+    '\tAudioManager.play("click")\n'
+    '\treturn true\n'
+    '\nfunc _do_ai_action(opp_idx: int) -> void:\n'
+    '\tif not _can_process_betting() or opp_idx < 0 or opp_idx >= _opp.size(): return\n'
+    '\tif _turn_order.is_empty() or _turn_order[_action_idx % _turn_order.size()] != opp_idx + 1: return\n'
+    '\tif not _seat_can_bet(opp_idx + 1): return\n'
+    '\t_action_busy = true\n'
+    '\t_commit_ai_action(opp_idx)\n'
+    '\nfunc _finish_action_after(seconds: float) -> bool:\n'
+    '\tvar generation := _action_generation\n'
+    '\tawait get_tree().create_timer(seconds).timeout\n'
+    '\tif generation != _action_generation or not visible or _phase not in [Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER]: return false\n'
+    '\t_action_busy = false\n'
+    '\treturn true\n'
+    '\nfunc _enter_showdown_phase() -> bool:\n'
+    '\tif not _can_process_betting(): return false\n'
+    '\t_invalidate_action_flow()\n'
+    '\t_phase = Phase.SHOWDOWN\n'
+    '\treturn true\n'
+    '\nfunc _enter_result_phase() -> bool:\n'
+    '\tif not visible or _phase == Phase.RESULT: return false\n'
+    '\t_invalidate_action_flow()\n'
+    '\t_phase = Phase.RESULT\n'
+    '\treturn true\n'
+    '\nfunc _leave() -> void:\n'
+    '\tif not visible or _phase not in [Phase.SETUP, Phase.RESULT]: return\n'
+    '\t_invalidate_action_flow()\n'
+    '\t_close_session()\n'
+)
+_HOLDEM_ASYNC_OLD_BETTING_PREDECESSOR = holdem_betting_predecessor
+_HOLDEM_ASYNC_OLD_CANVAS_PREDECESSOR = holdem_canvas_predecessor
+_HOLDEM_ASYNC_OLD_MONEY_PREDECESSOR = holdem_money_predecessor
+
+
+def holdem_async_inverse(current: bytes, before: bytes) -> bytes:
+    """Undo only the eleven exact line edits and the58-line ownership helper."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(ASYNC_REPLACEMENTS, tuple) or len(ASYNC_REPLACEMENTS) != 11
+            or any(not isinstance(pair, tuple) or len(pair) != 2
+                   or any(not isinstance(value, str) for value in pair) for pair in ASYNC_REPLACEMENTS)
+            or not isinstance(ASYNC_APPENDIX, str)):
+        raise ValueError("ORDER-438: inverse population/type differs")
+    suffix = ASYNC_APPENDIX.encode("utf-8")
+    if (suffix.count(b"\n") != 58 or not current.endswith(suffix)
+            or current.count(suffix) != 1 or before.count(suffix)):
+        raise ValueError("ORDER-438: exact EOF helper differs")
+    recovered = current[:-len(suffix)]
+    changed_lines = 0
+    for old_text, new_text in reversed(ASYNC_REPLACEMENTS):
+        old, new = old_text.encode("utf-8"), new_text.encode("utf-8")
+        if (not old or old == new or old.count(b"\n") != new.count(b"\n")
+                or before.count(old) != 1 or before.count(new) != 0 or recovered.count(new) != 1):
+            raise ValueError("ORDER-438: local inverse is not exact1 with preserved lines")
+        changed_lines += sum(a != b for a, b in zip(old.splitlines(), new.splitlines()))
+        recovered = recovered.replace(new, old, 1)
+    if changed_lines != 11 or recovered != before:
+        raise ValueError("ORDER-438: change outside exact async repair")
+    return recovered
+
+
+def _holdem_exact_stage_chain(current, root, stages):
+    """Private same-path loop; pinned callers supply descriptors, never input data."""
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if (not isinstance(stages, tuple) or not stages
+            or any(not isinstance(stage, tuple) or len(stage) != 6 for stage in stages)):
+        raise ValueError("ORDER-438: immutable stage population differs")
+    for before, after, trees, blobs, hashes, inverse in stages:
+        if (not all(isinstance(v, str) and len(v) == 40 for v in (before, after))
+                or any(not isinstance(pair, tuple) or len(pair) != 2 for pair in (trees, blobs, hashes))
+                or not all(isinstance(v, str) and len(v) == width
+                           for pair, width in ((trees, 40), (blobs, 40), (hashes, 64)) for v in pair)
+                or not callable(inverse)):
+            raise ValueError("ORDER-438: immutable descriptor differs")
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != stages[-1][4][1]:
+        raise ValueError("ORDER-438: unapproved current Holdem raw")
+    head = _git(root, "rev-parse", "HEAD")
+    if (root / HOLDEM_PATH).read_bytes() != current:
+        raise ValueError("ORDER-438: current raw/read binding differs")
+    requests = []
+    for before, after, trees, blobs, _hashes, _inverse in stages:
+        requests.extend((c, c, "commit") for c in (before, after))
+        requests.extend((t, t, "tree") for t in trees)
+        requests.extend((c + ":" + HOLDEM_PATH, blob, "blob") for c, blob in zip((before, after), blobs))
+    if len(requests) != 6 * len(stages):
+        raise ValueError("ORDER-438: immutable object population differs")
+    proof = _git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = proof.index(b"\n", cursor)
+        oid, actual_kind, size = proof[cursor:end].decode().split()
+        size = int(size)
+        value = proof[end + 1:end + 1 + size]
+        if (size < 0 or oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or proof[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-438: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(proof):
+        raise ValueError("ORDER-438: trailing immutable proof bytes")
+    for index, (before, after, trees, _blobs, hashes, _inverse) in enumerate(stages):
+        offset = index * 6
+        for side in range(2):
+            headers = values[offset + side].split(b"\n\n", 1)[0].splitlines()
+            if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + trees[side].encode()]:
+                raise ValueError("ORDER-438: immutable tree differs")
+            if side and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + before.encode()]:
+                raise ValueError("ORDER-438: direct parent differs")
+        if tuple(hashlib.sha256(v).hexdigest() for v in values[offset + 4:offset + 6]) != hashes:
+            raise ValueError("ORDER-438: immutable whole raw differs")
+        if _git(root, "diff", "--name-status", "-z", before, after) != b"M\0" + HOLDEM_PATH.encode() + b"\0":
+            raise ValueError("ORDER-438: product path population differs")
+        if index:
+            _git(root, "merge-base", "--is-ancestor", stages[index - 1][1], before)
+            if values[offset + 4] != values[offset - 1]:
+                raise ValueError("ORDER-438: nonconsecutive Holdem raw history")
+    _git(root, "merge-base", "--is-ancestor", stages[-1][1], "HEAD")
+    if _git(root, "rev-parse", "HEAD:" + HOLDEM_PATH).decode().strip() != stages[-1][3][1] or values[-1] != current:
+        raise ValueError("ORDER-438: current Git/blob binding differs")
+    predecessors, recovered = [], current
+    for index in range(len(stages) - 1, -1, -1):
+        before = values[index * 6 + 4]
+        recovered = stages[index][5](recovered, before)
+        if not isinstance(recovered, bytes) or recovered != before:
+            raise ValueError("ORDER-438: stage inverse differs from actual Git before")
+        predecessors.append(recovered)
+    if (root / HOLDEM_PATH).read_bytes() != current or _git(root, "rev-parse", "HEAD") != head:
+        raise ValueError("ORDER-438: current source/HEAD changed during proof")
+    return tuple(predecessors)
+
+
+def _holdem_async_proof(current: bytes, root: Path | None = None) -> tuple[bytes, bytes, bytes, bytes]:
+    """Fixed four transitions/24 objects per call; return437,436,434,373."""
+    stages = (
+        (BEFORE_COMMIT, AFTER_COMMIT, TREES, BLOBS, HASHES, holdem_money_inverse),
+        (CANVAS_BEFORE_COMMIT, CANVAS_AFTER_COMMIT, CANVAS_TREES, CANVAS_BLOBS, CANVAS_HASHES, holdem_canvas_inverse),
+        (BETTING_BEFORE_COMMIT, BETTING_AFTER_COMMIT, BETTING_TREES, BETTING_BLOBS, BETTING_HASHES, holdem_betting_inverse),
+        (ASYNC_BEFORE_COMMIT, ASYNC_AFTER_COMMIT, ASYNC_TREES, ASYNC_BLOBS, ASYNC_HASHES, holdem_async_inverse),
+    )
+    if len(stages) != 4:
+        raise ValueError("ORDER-438: fixed four-transition population differs")
+    return _holdem_exact_stage_chain(current, root, stages)
+
+
+def holdem_async_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _holdem_async_proof(current, root)[0]
+
+
+def holdem_betting_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == ASYNC_HASHES[1]:
+        return _holdem_async_proof(current, root)[1]
+    return _HOLDEM_ASYNC_OLD_BETTING_PREDECESSOR(current, root)
+
+
+def holdem_canvas_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == ASYNC_HASHES[1]:
+        return _holdem_async_proof(current, root)[2]
+    return _HOLDEM_ASYNC_OLD_CANVAS_PREDECESSOR(current, root)
+
+
+def holdem_money_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == ASYNC_HASHES[1]:
+        return _holdem_async_proof(current, root)[3]
+    return _HOLDEM_ASYNC_OLD_MONEY_PREDECESSOR(current, root)
+# END_HOLDEM_ASYNC_ACTION_HISTORY_438

@@ -14,6 +14,23 @@
   ],
   "fast_lanes": [
     {
+      "id": "holdem-async",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_async_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-438.json",
+        "docs/queue_active/ORDER-438.md", "docs/queue_archive/ORDER-438.md"
+      ],
+      "tools": [
+        "tools/holdem_async_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py", "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py", "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit438 transient asynchronous action ownership and generation invalidation: fresh four-transition/24-object source proof, unchanged61 UiCall tuples and localization data. Two actual timed cancel/reopen cases plus separately prepared token ownership and normal completion. Ten validations with context/queue always and diff separately; four434 narrative originals referenced NOT_RUN, no historical focused/full audit/240-week replay."
+    },
+    {
       "id": "holdem-betting",
       "paths": [],
       "owned_paths": [
@@ -2951,6 +2968,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/holdem_async_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_async_receipt_check.py"],
+      "why": "Exact438 transient busy/generation source transition, fresh24 Git objects, immutable manifest admission and unchanged UiCall/data; no historical focused or engine suite replay.",
+      "godot": false
+    },
     {
       "tool": "tools/holdem_betting_receipt_check.py",
       "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_betting_receipt_check.py"],

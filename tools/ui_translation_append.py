@@ -1881,3 +1881,26 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
             root, inventory, inventory["source_manifest_sha256"])
     return _HOLDEM_BETTING_OLD_MANIFEST_MATCHES(root, inventory, expected)
 # END_HOLDEM_BETTING_TURN_MANIFEST_437
+
+
+# BEGIN_HOLDEM_ASYNC_ACTION_MANIFEST_438
+# Admit the actual pre-async tuple without combining new Holdem with old peers.
+_HOLDEM_ASYNC_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_ASYNC_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_async_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem async current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_ASYNC_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_ASYNC_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_ASYNC_ACTION_MANIFEST_438
