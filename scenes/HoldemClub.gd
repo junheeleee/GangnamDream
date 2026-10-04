@@ -884,8 +884,8 @@ func _draw_bet_stack(ctrl: Control, pos: Vector2, amount: int, color: Color) -> 
 		ctrl.draw_circle(p, 7.0, chip_col)
 		ctrl.draw_circle(p, 3.6, Color(0.02, 0.025, 0.03, 0.45))
 	var f := ThemeDB.fallback_font
-	ctrl.draw_string(f, pos + Vector2(-24.0, 24.0), _fmt(amount),
-		HORIZONTAL_ALIGNMENT_CENTER, 48.0, 10, Color(0.86, 0.90, 0.80, 0.78))
+	var text_width := maxf(48.0, f.get_string_size(_fmt(amount), HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x)
+	ctrl.draw_string(f, pos + Vector2(-text_width * 0.5, 24.0), _fmt(amount), HORIZONTAL_ALIGNMENT_CENTER, text_width, 10, Color(0.86, 0.90, 0.80, 0.78))
 
 # ── 행동 순서 처리 ─────────────────────────────────────────────────
 func _process_action_turn() -> void:
