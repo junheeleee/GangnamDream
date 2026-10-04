@@ -9039,6 +9039,170 @@
           "batch_id": "4190a9ef40cd8ffc6b8df1f0718e775cf7727f094393a597c3a118bffb251008"
         }
       }
+    },
+    {
+      "order": "ORDER-448",
+      "group": "events_correction",
+      "roots": [
+        "arc_sangchul_02_coffee"
+      ],
+      "source_leaves": 1,
+      "prior_acceptance": "existing",
+      "before_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_sangchul_02_coffee:/title": "23d4f84c9cec7dc593018eb29c49f5d660bce3e1e95c65d8b763c8079cafefed"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct repair of the second coffee encounter, not a second cup: three event titles and the existing Japanese contact recollection. Four existing targets corrected; three prior event receipts retain their source hashes and one Japanese UI leaf gains its first official receipt. No new source keys, gameplay or public-demo changes. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "f4e44326b56cb76188de6278625f14181ed190e6",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "1890a6c44865da19f0095d9efe8569fb7f33fcb49975ecb30762c224727a48b9",
+          "selection_sha256": "51bf2921f226f31c50f8a7fbbe0308bac78d5657f8c1a3e89aad8a85aaa2d207",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "cf3e15c87dc062c1a7fa76629e59bc97e9771d99cb11dbd416f0230473cf5dbc"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "6d4facc36f4a14600f711e762e424bfa47dabc58e6caf7a46883e3d152f70757"
+      }
+    },
+    {
+      "order": "ORDER-448",
+      "group": "events_correction",
+      "roots": [
+        "arc_sangchul_02_coffee"
+      ],
+      "source_leaves": 1,
+      "prior_acceptance": "existing",
+      "before_target_sha256_by_locale": {
+        "zh-CN": {
+          "events:arc_sangchul_02_coffee:/title": "8d05a124ed2c5c59b6205650de2087be76a6c0180e7dded9a6865ace5ead0921"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct repair of the second coffee encounter, not a second cup: three event titles and the existing Japanese contact recollection. Four existing targets corrected; three prior event receipts retain their source hashes and one Japanese UI leaf gains its first official receipt. No new source keys, gameplay or public-demo changes. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "f4e44326b56cb76188de6278625f14181ed190e6",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "1890a6c44865da19f0095d9efe8569fb7f33fcb49975ecb30762c224727a48b9",
+          "selection_sha256": "bc50156268277e70895da9d3fc70d2d17beea5ea97ffca35ec14cc06dea1717a",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "385cf3a6eb1c6f23b3e53c163e436a143116ac38d8d36610cc6a21f0a53d4f82"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "e224bbd5043965607f063c7dcc57455766b002b81abcb48d3fb3c14f7d92247d"
+      }
+    },
+    {
+      "order": "ORDER-448",
+      "group": "events_correction",
+      "roots": [
+        "arc_sangchul_02_coffee"
+      ],
+      "source_leaves": 1,
+      "prior_acceptance": "existing",
+      "before_target_sha256_by_locale": {
+        "zh-TW": {
+          "events:arc_sangchul_02_coffee:/title": "8d05a124ed2c5c59b6205650de2087be76a6c0180e7dded9a6865ace5ead0921"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 1
+      },
+      "source_review": "Korean-direct repair of the second coffee encounter, not a second cup: three event titles and the existing Japanese contact recollection. Four existing targets corrected; three prior event receipts retain their source hashes and one Japanese UI leaf gains its first official receipt. No new source keys, gameplay or public-demo changes. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "f4e44326b56cb76188de6278625f14181ed190e6",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "1890a6c44865da19f0095d9efe8569fb7f33fcb49975ecb30762c224727a48b9",
+          "selection_sha256": "9135952caa2a6883cf2f4e36993c5a41104bc3eca224ca13d9ff180f529a55f3",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "cafc97da22a5d5c27573df1753108422363d5512f430edb7c1b5c988f159a07f"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-TW": "5da14f76ced574963161e087c69b04f8d6d095ec0add71de7c74606f8004e455"
+      }
+    },
+    {
+      "order": "ORDER-448",
+      "group": "ui_correction",
+      "roots": [
+        "두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들."
+      ],
+      "source_leaves": 1,
+      "prior_acceptance": "absent",
+      "before_target_sha256_by_locale": {
+        "ja": {
+          "ui:두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들.:/두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들.": "50d8d7748a3d88ec8715bf5d59a3d4d2a5f896432fad942d30280f3e8ecd8bd2"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct repair of the second coffee encounter, not a second cup: three event titles and the existing Japanese contact recollection. Four existing targets corrected; three prior event receipts retain their source hashes and one Japanese UI leaf gains its first official receipt. No new source keys, gameplay or public-demo changes. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "f4e44326b56cb76188de6278625f14181ed190e6",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "1890a6c44865da19f0095d9efe8569fb7f33fcb49975ecb30762c224727a48b9",
+          "selection_sha256": "167ef949c057a6a2593ae8e56c773ef3b17e0d82b3612a2787e3a16d8219b307",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "4b57303f3a44deeb6188f06315ce2a15069e284f7f0fcfb2788fe7b0a62a4a9e"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "689efe7f0314baf7ac2b90651c2c302aff06d1c6d5e0b627b2f4963d371d7fa6"
+      }
     }
   ],
   "accepted": {
@@ -55593,7 +55757,7 @@
       },
       "events:arc_sangchul_02_coffee:/title": {
         "source_sha256": "a10464294daad385d8ffc075dd038fbb8b9d9ddae141e10ba54c50a18b3bb6b4",
-        "target_sha256": "23d4f84c9cec7dc593018eb29c49f5d660bce3e1e95c65d8b763c8079cafefed"
+        "target_sha256": "6e1277934c5004fa18026400a2d6388585a1dd4b42d7b2eddcaddad3fcfedb59"
       },
       "events:arc_sangchul_casino_arrival:/choices/0/result_text": {
         "source_sha256": "eb0b188279657f0351f7d188a4cef2ffb603d18e15664208eabb6ad365ab2799",
@@ -61586,6 +61750,10 @@
       "ui:새 핸드:/새 핸드": {
         "source_sha256": "7311645d36f4342a46fcc6baf229f9719829ac0b2b014ec7adbc70c67d81189f",
         "target_sha256": "191d47a6b6e2ddeeea3bd5442b15d945cc2bfbf1ea36d6f47d4ca2c1b884bb5c"
+      },
+      "ui:두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들.:/두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들.": {
+        "source_sha256": "05ec1e8e01d2c43391cf4a676452f58b712adb3137dd4b326a8e0ee8eba4a52b",
+        "target_sha256": "054deb5c61423df33d8b0f5f10b2cb4ec1724d4200b2c966826d400334089bad"
       }
     },
     "zh-CN": {
@@ -108139,7 +108307,7 @@
       },
       "events:arc_sangchul_02_coffee:/title": {
         "source_sha256": "a10464294daad385d8ffc075dd038fbb8b9d9ddae141e10ba54c50a18b3bb6b4",
-        "target_sha256": "8d05a124ed2c5c59b6205650de2087be76a6c0180e7dded9a6865ace5ead0921"
+        "target_sha256": "cda98861a0bd40bfc7daeeca62331a5f3f56416367170e33253b4ffc45d86d0e"
       },
       "events:arc_sangchul_casino_arrival:/choices/0/result_text": {
         "source_sha256": "eb0b188279657f0351f7d188a4cef2ffb603d18e15664208eabb6ad365ab2799",
@@ -165349,7 +165517,7 @@
       },
       "events:arc_sangchul_02_coffee:/title": {
         "source_sha256": "a10464294daad385d8ffc075dd038fbb8b9d9ddae141e10ba54c50a18b3bb6b4",
-        "target_sha256": "8d05a124ed2c5c59b6205650de2087be76a6c0180e7dded9a6865ace5ead0921"
+        "target_sha256": "5e1417c5241fd51be894a0b80dfacf4da0f65d86775ced270ff4bcea327d908f"
       },
       "events:arc_sangchul_casino_arrival:/choices/0/result_text": {
         "source_sha256": "eb0b188279657f0351f7d188a4cef2ffb603d18e15664208eabb6ad365ab2799",
@@ -176009,7 +176177,7 @@
       }
     }
   },
-  "accepted_sha256": "cdaae11cd83300cf9fb7ee1cab939af425fe76ead02f1a2874c5df354b5dd0bb",
+  "accepted_sha256": "564e7ee81e2f87b62bbde95228cec973251e8e71db43787cf60d4b506b348107",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
