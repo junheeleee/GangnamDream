@@ -45,8 +45,9 @@
   없음·process=false를 확인하고 Scalping 전체필드/RNG/process·배경버튼focus_mode/이웃과
   실제 semantic focus를 각각 복원한다. 원래 UI를 지우는 무조건 재빌드는 금지한다.
 - 기존 격리 pre-autoload를 사용하고 wholetyped/RNG/Meta bytes/existence·semantic focus와
-  실제player34를 보존한다. 원본4PNG 저자/비저자 직접 읽기, KO/EN/community prefix 및
-  folded/unfolded 직접 reader, 기존역사 suite나 이전 액션 입력 재실행0이다.
+  실제player34를 보존한다. 원본4PNG 저자/비저자 직접 읽기, 실제3지역 folded/unfolded
+  reader와 KO/EN/community의 exact조건 소스/순수표본을 구분한다. 미등록community의
+  runtime/폰트 주입0이며 기존역사 suite나 이전 액션 입력 재실행0이다.
 - 새 focused·receipt normal·JA UI·EN·context·queue·diff·등록8검증+차선조회1을 같은 clean
   후보에서 실행한다. CN/TW 사전 불변은 byte-exact·actual화면으로 확인한다. fullbody·ZH전체·
   과거 suite·whole audit·240주·새package는 NOT_RUN이다. 검사성능 변경은 별도 범위다.

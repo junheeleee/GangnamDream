@@ -2229,3 +2229,26 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
             root, inventory, inventory["source_manifest_sha256"])
     return _HOLDEM_SEAT_HEIGHT_OLD_MANIFEST_MATCHES(root, inventory, expected)
 # END_HOLDEM_SEAT_HEIGHT_APPEND_450
+
+
+# BEGIN_HOLDEM_FOLDED_LOCALE_APPEND_451
+# Add exactly the actual pre-prefix source tuple; retain fresh current admission.
+_HOLDEM_FOLDED_LOCALE_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_FOLDED_LOCALE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_folded_locale_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem folded locale current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_FOLDED_LOCALE_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_FOLDED_LOCALE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_FOLDED_LOCALE_APPEND_451

@@ -1211,3 +1211,77 @@ def _table_labels_previous(current, root, index):
         return _holdem_seat_height_proof(current, root)[index + 2]
     return _SEAT_HEIGHT_OLD_TABLE_LABELS_PREVIOUS(current, root, index)
 # END_HOLDEM_SEAT_HEIGHT_HISTORY_450
+
+
+# BEGIN_HOLDEM_FOLDED_LOCALE_HISTORY_451
+# Reuse the existing action lookup for four exact locales, not a new UI call.
+FOLDED_LOCALE_BEFORE_COMMIT = "ea29309512066d5eb16452d1669b9f1b9389fe66"
+FOLDED_LOCALE_AFTER_COMMIT = "85f54835ae63aa2f0ec728594fbf699fd0eca07c"
+FOLDED_LOCALE_TREES = ("ccf89ba9c4960cf2b525c50b66848c88c5af4184", "45ac823cca51eb9a365208b1053a048723ed2287")
+FOLDED_LOCALE_BLOBS = ("21629ab8c05c2f59ed60399ac40d961ffc9d5781", "8567df0f9c02a969b08bf49d2415d349e0e14ab1")
+FOLDED_LOCALE_HASHES = ("822649f2d8db329c834591fb568424fbacda25be21640ed04f88775429e9a9d9",
+                        "680c36f92b2d6d6615c24fa0bb1b36d0f51c59436004eb58170d370d481783b7")
+FOLDED_LOCALE_REPLACEMENT = (
+    '\ttitle_lbl.text = ("FOLDED  " if folded else "") + title\n',
+    '\ttitle_lbl.text = ((_action_label("fold") if LocaleManager.language in ["ko", "ja", "zh-CN", "zh-TW"] else "FOLDED") + "  " if folded else "") + title\n',
+)
+_FOLDED_LOCALE_OLD_SEAT_HEIGHT_PROOF = _holdem_seat_height_proof
+_FOLDED_LOCALE_OLD_TABLE_LABELS_PROOF = _holdem_table_labels_proof
+_FOLDED_LOCALE_OLD_TABLE_LABELS_PREVIOUS = _table_labels_previous
+
+
+def holdem_folded_locale_inverse(current: bytes, before: bytes) -> bytes:
+    """Undo only the exact same-line four-locale prefix expression."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(FOLDED_LOCALE_REPLACEMENT, tuple) or len(FOLDED_LOCALE_REPLACEMENT) != 2
+            or any(not isinstance(value, str) for value in FOLDED_LOCALE_REPLACEMENT)):
+        raise ValueError("ORDER-451: exact inverse population/type differs")
+    old, new = (value.encode("utf-8") for value in FOLDED_LOCALE_REPLACEMENT)
+    if (not old or old == new or old.count(b"\n") != 1 or new.count(b"\n") != 1
+            or before.count(old) != 1 or before.count(new) != 0 or current.count(new) != 1):
+        raise ValueError("ORDER-451: exact folded locale line differs")
+    recovered = current.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-451: bytes outside folded locale prefix changed")
+    return recovered
+
+
+def _holdem_folded_locale_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    """Eleven stages/66 request entries, preserving every prior descriptor."""
+    stages = (
+        (BEFORE_COMMIT, AFTER_COMMIT, TREES, BLOBS, HASHES, holdem_money_inverse),
+        (CANVAS_BEFORE_COMMIT, CANVAS_AFTER_COMMIT, CANVAS_TREES, CANVAS_BLOBS, CANVAS_HASHES, holdem_canvas_inverse),
+        (BETTING_BEFORE_COMMIT, BETTING_AFTER_COMMIT, BETTING_TREES, BETTING_BLOBS, BETTING_HASHES, holdem_betting_inverse),
+        (ASYNC_BEFORE_COMMIT, ASYNC_AFTER_COMMIT, ASYNC_TREES, ASYNC_BLOBS, ASYNC_HASHES, holdem_async_inverse),
+        (CARD_COLOR_BEFORE_COMMIT, CARD_COLOR_AFTER_COMMIT, CARD_COLOR_TREES, CARD_COLOR_BLOBS, CARD_COLOR_HASHES, holdem_card_color_inverse),
+        (MESSAGE_PULSE_BEFORE_COMMIT, MESSAGE_PULSE_AFTER_COMMIT, MESSAGE_PULSE_TREES, MESSAGE_PULSE_BLOBS, MESSAGE_PULSE_HASHES, holdem_message_pulse_inverse),
+        (BANNER_BEFORE_COMMIT, BANNER_AFTER_COMMIT, BANNER_TREES, BANNER_BLOBS, BANNER_HASHES, holdem_banner_inverse),
+        (BANNER_LOCALE_BEFORE_COMMIT, BANNER_LOCALE_AFTER_COMMIT, BANNER_LOCALE_TREES, BANNER_LOCALE_BLOBS, BANNER_LOCALE_HASHES, holdem_banner_locale_inverse),
+        (TABLE_LABELS_BEFORE_COMMIT, TABLE_LABELS_AFTER_COMMIT, TABLE_LABELS_TREES, TABLE_LABELS_BLOBS, TABLE_LABELS_HASHES, holdem_table_labels_inverse),
+        (SEAT_HEIGHT_BEFORE_COMMIT, SEAT_HEIGHT_AFTER_COMMIT, SEAT_HEIGHT_TREES, SEAT_HEIGHT_BLOBS, SEAT_HEIGHT_HASHES, holdem_seat_height_inverse),
+        (FOLDED_LOCALE_BEFORE_COMMIT, FOLDED_LOCALE_AFTER_COMMIT, FOLDED_LOCALE_TREES, FOLDED_LOCALE_BLOBS, FOLDED_LOCALE_HASHES, holdem_folded_locale_inverse),
+    )
+    return _holdem_exact_stage_chain(current, root, stages)
+
+
+def holdem_folded_locale_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _holdem_folded_locale_proof(current, root)[0]
+
+
+def _holdem_seat_height_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == FOLDED_LOCALE_HASHES[1]:
+        return _holdem_folded_locale_proof(current, root)[1:]
+    return _FOLDED_LOCALE_OLD_SEAT_HEIGHT_PROOF(current, root)
+
+
+def _holdem_table_labels_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == FOLDED_LOCALE_HASHES[1]:
+        return _holdem_folded_locale_proof(current, root)[2:]
+    return _FOLDED_LOCALE_OLD_TABLE_LABELS_PROOF(current, root)
+
+
+def _table_labels_previous(current, root, index):
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == FOLDED_LOCALE_HASHES[1]:
+        return _holdem_folded_locale_proof(current, root)[index + 3]
+    return _FOLDED_LOCALE_OLD_TABLE_LABELS_PREVIOUS(current, root, index)
+# END_HOLDEM_FOLDED_LOCALE_HISTORY_451
