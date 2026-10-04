@@ -7454,6 +7454,112 @@
           "batch_id": "d8e665d72e312ce1dfa2f91d6da299c47c614283737693b7337cc1806c37b6f9"
         }
       }
+    },
+    {
+      "order": "ORDER-418",
+      "group": "ui",
+      "roots": [
+        "통화를 마친 뒤에도 {name}의 이름이 화면에 남았다.",
+        "연결되지 않는다는 안내가 끝난 뒤에도 {name}의 번호가 화면에 남았다.",
+        "자리에서 일어난 뒤에도 {name}의 마지막 말이 오래 남았다.",
+        "헤어진 뒤에도 {name}의 말이 오래 남았다.",
+        "이야기를 마친 뒤에도 {name}이 오래 마음에 남았다.",
+        "✓ %s에게 전화했다",
+        "✓ %s에게 전화를 걸어봤다",
+        "✓ %s와 한 잔 했다",
+        "✓ %s를 만났다",
+        "✓ %s의 안부를 물었다",
+        "아버지와의 통화가 더 이상 어색하지 않다. 시시콜콜한 동네 이야기가 이렇게 좋을 줄 몰랐다.",
+        "병원에서 본 아버지의 야윈 손이 자꾸 떠오른다. 목소리라도 자주 들어야겠다.",
+        "'밥은 먹었냐.' 그 말 뒤에 숨긴 것들이 들리는 것 같았다.",
+        "아버지는 여전히 돈 얘기를 먼저 꺼내지 않는다. '몸 상하면서 벌지 마라'는 말만 반복하신다.",
+        "아버지의 목소리는 늘 그대로다. 별일 없냐는 말에 괜히 코끝이 시큰하다.",
+        "임상철은 지연 이야기를 묻지 않았다. 다만 '네 판단을 믿어라'고만 했다.",
+        "그의 네트워크 안에 들어온 뒤로, 임상철의 한 마디 한 마디가 다르게 들린다.",
+        "두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들.",
+        "임상철은 소주잔을 기울이며 동네 부동산 돌아가는 얘기를 흘린다."
+      ],
+      "source_leaves": 19,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 19,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct contact result5, action-log5, father5 and Sangchul4 keys, authored separately for Chinese regions. Prior hospital/reconciliation/network/Jiyeon facts and failed-call versus successful contact retained; parting is not romantic separation. Roman names, 30-year meaning, placeholders and check mark preserved. Gameplay and public demo unchanged; not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "e9b46421380fb8a86f290c6864c8262a8a4e96fabc62adaff3c29f6d5a22ecea"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "96fb139a64125b215efdf1c4c4f8f92ec019a072",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "2ec6835b6196cb51b19cd164ce8b3f5238e13a1e92c2d17ceefb26b01f5b96b7",
+          "selection_sha256": "37bb6eac4941759961842db4ec2fb61b3f3e461aabffcf46344505ef12fa17c7",
+          "count": 19,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "447e555b6a61331a370959059ad71e14817482c3dc296a3eb1f0d4b3d78d85dd"
+        }
+      }
+    },
+    {
+      "order": "ORDER-418",
+      "group": "ui",
+      "roots": [
+        "통화를 마친 뒤에도 {name}의 이름이 화면에 남았다.",
+        "연결되지 않는다는 안내가 끝난 뒤에도 {name}의 번호가 화면에 남았다.",
+        "자리에서 일어난 뒤에도 {name}의 마지막 말이 오래 남았다.",
+        "헤어진 뒤에도 {name}의 말이 오래 남았다.",
+        "이야기를 마친 뒤에도 {name}이 오래 마음에 남았다.",
+        "✓ %s에게 전화했다",
+        "✓ %s에게 전화를 걸어봤다",
+        "✓ %s와 한 잔 했다",
+        "✓ %s를 만났다",
+        "✓ %s의 안부를 물었다",
+        "아버지와의 통화가 더 이상 어색하지 않다. 시시콜콜한 동네 이야기가 이렇게 좋을 줄 몰랐다.",
+        "병원에서 본 아버지의 야윈 손이 자꾸 떠오른다. 목소리라도 자주 들어야겠다.",
+        "'밥은 먹었냐.' 그 말 뒤에 숨긴 것들이 들리는 것 같았다.",
+        "아버지는 여전히 돈 얘기를 먼저 꺼내지 않는다. '몸 상하면서 벌지 마라'는 말만 반복하신다.",
+        "아버지의 목소리는 늘 그대로다. 별일 없냐는 말에 괜히 코끝이 시큰하다.",
+        "임상철은 지연 이야기를 묻지 않았다. 다만 '네 판단을 믿어라'고만 했다.",
+        "그의 네트워크 안에 들어온 뒤로, 임상철의 한 마디 한 마디가 다르게 들린다.",
+        "두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들.",
+        "임상철은 소주잔을 기울이며 동네 부동산 돌아가는 얘기를 흘린다."
+      ],
+      "source_leaves": 19,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 19
+      },
+      "source_review": "Korean-direct contact result5, action-log5, father5 and Sangchul4 keys, authored separately for Chinese regions. Prior hospital/reconciliation/network/Jiyeon facts and failed-call versus successful contact retained; parting is not romantic separation. Roman names, 30-year meaning, placeholders and check mark preserved. Gameplay and public demo unchanged; not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "b65b3f2ce631d5d8608431ce43933f0f1e1aa39079f5931df745b493196bc33e"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "96fb139a64125b215efdf1c4c4f8f92ec019a072",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "2ec6835b6196cb51b19cd164ce8b3f5238e13a1e92c2d17ceefb26b01f5b96b7",
+          "selection_sha256": "0ba9a9ce058eb5b7f72e7ae0eba271ad55d16caaff8d237d31b2dc21cc042864",
+          "count": 19,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d43c66f23db2e3059833fcac12e7363a60d4acb7600e1cbbaf594f15e49098bb"
+        }
+      }
     }
   ],
   "accepted": {
@@ -116287,6 +116393,82 @@
       "ui:🎁 선물 — :/🎁 선물 — ": {
         "source_sha256": "78e3ae80597110f2ec6b95be694d9ff4ae54a6302fbc0569a933d24cac116d12",
         "target_sha256": "ba7f4185f9f64b2769d2b06440966bd1c300f2f214d1453f9a29594e7a6c3304"
+      },
+      "ui:'밥은 먹었냐.' 그 말 뒤에 숨긴 것들이 들리는 것 같았다.:/'밥은 먹었냐.' 그 말 뒤에 숨긴 것들이 들리는 것 같았다.": {
+        "source_sha256": "7740568ccffea10a70b29009f97b6e5e2b6945cab6cbeb70804cbbe4b3a9fc16",
+        "target_sha256": "240310142afabdbd35795cddf0abe36068a2ee682d5591d6affa2e6d99d22cf3"
+      },
+      "ui:✓ %s를 만났다:/✓ %s를 만났다": {
+        "source_sha256": "22fbc1064e8c9f797ba5f12993cfbb9ff5a562cb1ea22b31c7ca5dd43d604b4e",
+        "target_sha256": "695fd01b088a3f9a921df1e2e43eaaa7bfaff4bd812923185005d1529c7e3b0f"
+      },
+      "ui:✓ %s에게 전화를 걸어봤다:/✓ %s에게 전화를 걸어봤다": {
+        "source_sha256": "2b2faa71338511193ad738150ee9ae042abeb9303c063694f5932f387d0ac272",
+        "target_sha256": "23f3e2941f01c77f443a591e4acb5e9bfcad37ad9fca638d03a18a7e0e30b6df"
+      },
+      "ui:✓ %s에게 전화했다:/✓ %s에게 전화했다": {
+        "source_sha256": "c46c76d45b3acec2abe8258d29b2ffea521ae69acb6ba907ca68650e864fdeee",
+        "target_sha256": "a3e70744769a53254d0e0f22cf46d715db651059919ae4ebd8e9e70eb25c8026"
+      },
+      "ui:✓ %s와 한 잔 했다:/✓ %s와 한 잔 했다": {
+        "source_sha256": "5578ac23f5f26c03016ec0c8101507ea7de1eb909b7db2c78d7e9daa64f8a2f1",
+        "target_sha256": "7c89688928e958aabb0c98512098443b406a5a970cbfce12c2eb10f8d76115d9"
+      },
+      "ui:✓ %s의 안부를 물었다:/✓ %s의 안부를 물었다": {
+        "source_sha256": "68f23c7e9bfedf1c3437bafbe8ffac53e850d99ac024cee630df2cff788ca6f8",
+        "target_sha256": "63533307df957257ed8d9049b1005009f9e24a8d51e92b6fab2e290f50cb0cd4"
+      },
+      "ui:그의 네트워크 안에 들어온 뒤로, 임상철의 한 마디 한 마디가 다르게 들린다.:/그의 네트워크 안에 들어온 뒤로, 임상철의 한 마디 한 마디가 다르게 들린다.": {
+        "source_sha256": "6e7103813dee72f43e4f5bae220d456ae5884bf4d48567594d0fc7191877e7f2",
+        "target_sha256": "c47c76c04e158deffa6541234948866b4e5d730a3e2680f64b6c13e5aa46aed7"
+      },
+      "ui:두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들.:/두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들.": {
+        "source_sha256": "05ec1e8e01d2c43391cf4a676452f58b712adb3137dd4b326a8e0ee8eba4a52b",
+        "target_sha256": "c3ffb8d3529c92007a2edd595c70ec7f53831894a8731d1a1365a0e636b032c5"
+      },
+      "ui:병원에서 본 아버지의 야윈 손이 자꾸 떠오른다. 목소리라도 자주 들어야겠다.:/병원에서 본 아버지의 야윈 손이 자꾸 떠오른다. 목소리라도 자주 들어야겠다.": {
+        "source_sha256": "4728bb1afb1d082db0798c3f67901c9593f28bbd87a31400b6145e142b01cbeb",
+        "target_sha256": "7154c5e8ff5efe1f191c7d5633f30e9fea151dbda0b9b6f4240bdb6809ea1d22"
+      },
+      "ui:아버지는 여전히 돈 얘기를 먼저 꺼내지 않는다. '몸 상하면서 벌지 마라'는 말만 반복하신다.:/아버지는 여전히 돈 얘기를 먼저 꺼내지 않는다. '몸 상하면서 벌지 마라'는 말만 반복하신다.": {
+        "source_sha256": "48daddc01f4483180ad3b9de76e1ba2739b58f8a5a35cd1a887a603488b3e0f9",
+        "target_sha256": "5ef2ea0e10b19131a5c525595a603614a15fba74f7b4a383992011c06367207f"
+      },
+      "ui:아버지와의 통화가 더 이상 어색하지 않다. 시시콜콜한 동네 이야기가 이렇게 좋을 줄 몰랐다.:/아버지와의 통화가 더 이상 어색하지 않다. 시시콜콜한 동네 이야기가 이렇게 좋을 줄 몰랐다.": {
+        "source_sha256": "2a8095ac4cccbd74c31fe99b8d4b632c71db0a3b0b117e0ee83da57c6699f994",
+        "target_sha256": "e71e9c4987d529f48d2edf8c4572cbbca76ab5f36c91b48040d68852b8044e17"
+      },
+      "ui:아버지의 목소리는 늘 그대로다. 별일 없냐는 말에 괜히 코끝이 시큰하다.:/아버지의 목소리는 늘 그대로다. 별일 없냐는 말에 괜히 코끝이 시큰하다.": {
+        "source_sha256": "14820066345cc0ac4840ecfb312d83f67cf2eee229c7d7e4bad3e8bbced6844a",
+        "target_sha256": "e5c956aab354ebffabfab2e91a413f34a52b476639c0b9337e23751c368bcc54"
+      },
+      "ui:연결되지 않는다는 안내가 끝난 뒤에도 {name}의 번호가 화면에 남았다.:/연결되지 않는다는 안내가 끝난 뒤에도 {name}의 번호가 화면에 남았다.": {
+        "source_sha256": "a30646b0a69d7202a9b8709dc71afae62990a2efa08386426dd6c4a57529338d",
+        "target_sha256": "d17b1f03e24c9dc49128ea21eb96d8b002c9532b71b6f40eecf4b360aa621a0f"
+      },
+      "ui:이야기를 마친 뒤에도 {name}이 오래 마음에 남았다.:/이야기를 마친 뒤에도 {name}이 오래 마음에 남았다.": {
+        "source_sha256": "2fded1a1c5e16483465714272e95c9b994ffef11f0f41268a2cc8fa7263652b0",
+        "target_sha256": "00b30d08b9d2010c99f7af66b5f520476288879f4c4b3b97ae1629acc7760cfb"
+      },
+      "ui:임상철은 소주잔을 기울이며 동네 부동산 돌아가는 얘기를 흘린다.:/임상철은 소주잔을 기울이며 동네 부동산 돌아가는 얘기를 흘린다.": {
+        "source_sha256": "073fda8b3074a6404b1bb8ea6a8049164a91ee30cdc024229638d5ee5bd1e85f",
+        "target_sha256": "0027c510f81344a7ca2e66eb51de9d3c1e412fad8a9bb3737ed9fe92b82e32b2"
+      },
+      "ui:임상철은 지연 이야기를 묻지 않았다. 다만 '네 판단을 믿어라'고만 했다.:/임상철은 지연 이야기를 묻지 않았다. 다만 '네 판단을 믿어라'고만 했다.": {
+        "source_sha256": "98e30f432ebe628cd0a8d886febdb66dc2e6386f24701a5e41e4b00a4303cb09",
+        "target_sha256": "5b591a59a79de1de9720c6612625aa33344e95890a95bc9d24a6d75570cbde00"
+      },
+      "ui:자리에서 일어난 뒤에도 {name}의 마지막 말이 오래 남았다.:/자리에서 일어난 뒤에도 {name}의 마지막 말이 오래 남았다.": {
+        "source_sha256": "4ce61623ba0e7930cfbf03d96e2eb9e37065cd2c699290981d9da3e34dd4e5c2",
+        "target_sha256": "c6836ffcd87ad3e57c9541aee23c55855e270d62845f50015b2b90c79b7905c6"
+      },
+      "ui:통화를 마친 뒤에도 {name}의 이름이 화면에 남았다.:/통화를 마친 뒤에도 {name}의 이름이 화면에 남았다.": {
+        "source_sha256": "ffd6fd165b83f715decc126a6efbf675c2dcbee8aefd3f851d6b646bcf103775",
+        "target_sha256": "e66373caae4789147f8684e5da5ba61d8473a8dd939ea8f73b0144e25ca0bba8"
+      },
+      "ui:헤어진 뒤에도 {name}의 말이 오래 남았다.:/헤어진 뒤에도 {name}의 말이 오래 남았다.": {
+        "source_sha256": "3aecb5a95d3abe40716b703c7b0c7f863a6aad2c15d8e1522eb89fa0e7dde09b",
+        "target_sha256": "5857d99f629e7a8873faab3bf48fe304a95ad92c811d10c50bba5b6cbf8c73c1"
       }
     },
     "zh-TW": {
@@ -172597,10 +172779,86 @@
       "ui:🎁 선물 — :/🎁 선물 — ": {
         "source_sha256": "78e3ae80597110f2ec6b95be694d9ff4ae54a6302fbc0569a933d24cac116d12",
         "target_sha256": "819f9f379c7361ed66a22aa9a50106ca585a0e2214c31ca1ea23543cbff27d70"
+      },
+      "ui:'밥은 먹었냐.' 그 말 뒤에 숨긴 것들이 들리는 것 같았다.:/'밥은 먹었냐.' 그 말 뒤에 숨긴 것들이 들리는 것 같았다.": {
+        "source_sha256": "7740568ccffea10a70b29009f97b6e5e2b6945cab6cbeb70804cbbe4b3a9fc16",
+        "target_sha256": "88569bf17663bf74a7c0ddd70f7808ed1883d783ca18e5e51de4896e4c63a4e6"
+      },
+      "ui:✓ %s를 만났다:/✓ %s를 만났다": {
+        "source_sha256": "22fbc1064e8c9f797ba5f12993cfbb9ff5a562cb1ea22b31c7ca5dd43d604b4e",
+        "target_sha256": "10e312170591d87251ed1b6772febe5caed6f562c9791949cf84024cc561e9d2"
+      },
+      "ui:✓ %s에게 전화를 걸어봤다:/✓ %s에게 전화를 걸어봤다": {
+        "source_sha256": "2b2faa71338511193ad738150ee9ae042abeb9303c063694f5932f387d0ac272",
+        "target_sha256": "12dbeba5752b02197c01da83b6736fa25c0c5c52c1f966cc44dd3e34325898f9"
+      },
+      "ui:✓ %s에게 전화했다:/✓ %s에게 전화했다": {
+        "source_sha256": "c46c76d45b3acec2abe8258d29b2ffea521ae69acb6ba907ca68650e864fdeee",
+        "target_sha256": "cfc73581b1326ca61c42d72adabffddfce08edaed7fb9394cc8bfec13065b786"
+      },
+      "ui:✓ %s와 한 잔 했다:/✓ %s와 한 잔 했다": {
+        "source_sha256": "5578ac23f5f26c03016ec0c8101507ea7de1eb909b7db2c78d7e9daa64f8a2f1",
+        "target_sha256": "7c89688928e958aabb0c98512098443b406a5a970cbfce12c2eb10f8d76115d9"
+      },
+      "ui:✓ %s의 안부를 물었다:/✓ %s의 안부를 물었다": {
+        "source_sha256": "68f23c7e9bfedf1c3437bafbe8ffac53e850d99ac024cee630df2cff788ca6f8",
+        "target_sha256": "83f3b814849289f2cdcab7bc931630e0cb09fd1de09803e5a2ff85576257129a"
+      },
+      "ui:그의 네트워크 안에 들어온 뒤로, 임상철의 한 마디 한 마디가 다르게 들린다.:/그의 네트워크 안에 들어온 뒤로, 임상철의 한 마디 한 마디가 다르게 들린다.": {
+        "source_sha256": "6e7103813dee72f43e4f5bae220d456ae5884bf4d48567594d0fc7191877e7f2",
+        "target_sha256": "7c99d6ae6cf43a293b6742b8b3bc42b04ad8cbf946350997bc49ede1899abd6a"
+      },
+      "ui:두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들.:/두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들.": {
+        "source_sha256": "05ec1e8e01d2c43391cf4a676452f58b712adb3137dd4b326a8e0ee8eba4a52b",
+        "target_sha256": "f98e06d69b2d70679ffeec3f8060e363f6b7be762f5367364edec87abcab3fdc"
+      },
+      "ui:병원에서 본 아버지의 야윈 손이 자꾸 떠오른다. 목소리라도 자주 들어야겠다.:/병원에서 본 아버지의 야윈 손이 자꾸 떠오른다. 목소리라도 자주 들어야겠다.": {
+        "source_sha256": "4728bb1afb1d082db0798c3f67901c9593f28bbd87a31400b6145e142b01cbeb",
+        "target_sha256": "35dedb6dce9412f1e18afcad8c145019de6b0f45ae3e847a6148cb467483aebd"
+      },
+      "ui:아버지는 여전히 돈 얘기를 먼저 꺼내지 않는다. '몸 상하면서 벌지 마라'는 말만 반복하신다.:/아버지는 여전히 돈 얘기를 먼저 꺼내지 않는다. '몸 상하면서 벌지 마라'는 말만 반복하신다.": {
+        "source_sha256": "48daddc01f4483180ad3b9de76e1ba2739b58f8a5a35cd1a887a603488b3e0f9",
+        "target_sha256": "85eaa64b9c79b64c22a218b4290657412c065374a9c7cc19a83f426e58a890a6"
+      },
+      "ui:아버지와의 통화가 더 이상 어색하지 않다. 시시콜콜한 동네 이야기가 이렇게 좋을 줄 몰랐다.:/아버지와의 통화가 더 이상 어색하지 않다. 시시콜콜한 동네 이야기가 이렇게 좋을 줄 몰랐다.": {
+        "source_sha256": "2a8095ac4cccbd74c31fe99b8d4b632c71db0a3b0b117e0ee83da57c6699f994",
+        "target_sha256": "3d9c208d75ee8f82706dd5dcc82daa020f0996f90917cb0a76ea000ae94e1a89"
+      },
+      "ui:아버지의 목소리는 늘 그대로다. 별일 없냐는 말에 괜히 코끝이 시큰하다.:/아버지의 목소리는 늘 그대로다. 별일 없냐는 말에 괜히 코끝이 시큰하다.": {
+        "source_sha256": "14820066345cc0ac4840ecfb312d83f67cf2eee229c7d7e4bad3e8bbced6844a",
+        "target_sha256": "3632798ef7a100810252652bed89ac3809df99b656627fc46d940fa9b5317016"
+      },
+      "ui:연결되지 않는다는 안내가 끝난 뒤에도 {name}의 번호가 화면에 남았다.:/연결되지 않는다는 안내가 끝난 뒤에도 {name}의 번호가 화면에 남았다.": {
+        "source_sha256": "a30646b0a69d7202a9b8709dc71afae62990a2efa08386426dd6c4a57529338d",
+        "target_sha256": "83dac6e3c744a69320600e4ff91cd6a409c3db272884206e99b1f004d13074e3"
+      },
+      "ui:이야기를 마친 뒤에도 {name}이 오래 마음에 남았다.:/이야기를 마친 뒤에도 {name}이 오래 마음에 남았다.": {
+        "source_sha256": "2fded1a1c5e16483465714272e95c9b994ffef11f0f41268a2cc8fa7263652b0",
+        "target_sha256": "9488c310768a0e13d9aad501f0ed067ad8a089d437c7a07cb7198babb7e93d85"
+      },
+      "ui:임상철은 소주잔을 기울이며 동네 부동산 돌아가는 얘기를 흘린다.:/임상철은 소주잔을 기울이며 동네 부동산 돌아가는 얘기를 흘린다.": {
+        "source_sha256": "073fda8b3074a6404b1bb8ea6a8049164a91ee30cdc024229638d5ee5bd1e85f",
+        "target_sha256": "263dac3b3d7f1ee0168c0dc3cba738e38b982308626457f87132d3a7e72f081d"
+      },
+      "ui:임상철은 지연 이야기를 묻지 않았다. 다만 '네 판단을 믿어라'고만 했다.:/임상철은 지연 이야기를 묻지 않았다. 다만 '네 판단을 믿어라'고만 했다.": {
+        "source_sha256": "98e30f432ebe628cd0a8d886febdb66dc2e6386f24701a5e41e4b00a4303cb09",
+        "target_sha256": "5afd29b09b752d25910eb145fd009f48ae22b8b456a1c94dfe29aeace6a54b7d"
+      },
+      "ui:자리에서 일어난 뒤에도 {name}의 마지막 말이 오래 남았다.:/자리에서 일어난 뒤에도 {name}의 마지막 말이 오래 남았다.": {
+        "source_sha256": "4ce61623ba0e7930cfbf03d96e2eb9e37065cd2c699290981d9da3e34dd4e5c2",
+        "target_sha256": "98e19dc40096b0face81c4f046e699cc1b13de07625ea1b35d521cb27b9c4940"
+      },
+      "ui:통화를 마친 뒤에도 {name}의 이름이 화면에 남았다.:/통화를 마친 뒤에도 {name}의 이름이 화면에 남았다.": {
+        "source_sha256": "ffd6fd165b83f715decc126a6efbf675c2dcbee8aefd3f851d6b646bcf103775",
+        "target_sha256": "02bd56999e94495558471d982ed5606d7761597a9ef3834f3c8d468ad4c17d7f"
+      },
+      "ui:헤어진 뒤에도 {name}의 말이 오래 남았다.:/헤어진 뒤에도 {name}의 말이 오래 남았다.": {
+        "source_sha256": "3aecb5a95d3abe40716b703c7b0c7f863a6aad2c15d8e1522eb89fa0e7dde09b",
+        "target_sha256": "2d7c1c824e1d2d57d64c7f0f008032d722c7e0c7a56e618e282036c70742b5b0"
       }
     }
   },
-  "accepted_sha256": "f320edf8cf94465700e2dc5b00c76f57457e3293f5e0aeb2534ebf7e5961995d",
+  "accepted_sha256": "d37b3d0f8419ae7c9430f366c5af8be1527e970a7874800f758fa677ab2acf70",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

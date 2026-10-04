@@ -18,7 +18,9 @@
 - 교환 helper의19잎 source20행 길이 assertion은 response 생성 전 수정했다.
   export 당시 helper는 별도 원본으로 보존했으며 공식 export 재실행0.
   실패 후에는 동일38초안/response와 원래 export를 새 checker에서 재검수한다.
-- 수용·실제연락10/getter표시14·4PNG·새focused 및 공통normal은 아직 최종 전이다.
+- checker2a04d01에서 동일38값 공식재검사11.073초PASS. 두지역 공식수용과
+  raw역상보존: CN/TW1547→1566씩, accepted41284/b187→41322/b189, JA3044불변.
+  실제연락10/getter표시14·4PNG·새focused78 및 공통normal은 아직 최종 전이다.
   공개GO1·인간OPEN45·본편/새packageHOLD·원어민/인간/물리미관측 유지.
   자동PASS는 계약증거이지 문체·재미·출시GO가 아니다. 일회성/상시규범추가0.
 
