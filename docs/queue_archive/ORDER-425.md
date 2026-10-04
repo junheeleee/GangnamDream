@@ -1,6 +1,6 @@
 # ORDER-425 — 몸·생활비·관계의 선택을 중국어로 읽는다
 
-#### [~] ORDER-425 [P1·현지화] 실제 SceneFirst pressure 12키와 휴식·연락 카드10키
+#### [x] ORDER-425 [P1·현지화] 실제 SceneFirst pressure 12키와 휴식·연락 카드10키
 
 **[~] 착수 — 2026-10-04.** 사용자 계속 개발·효율적 검수·main 커밋/푸시 위임.
 424 첫8화면에서 기존 연락 later 영어가 CN390/TW414px로 366px를 넘어
@@ -70,3 +70,11 @@
 
 일회성 번역/표적사양·상시규범추가0. 자동PASS는 계약증거이지 재미·출시GO가 아니다.
 공개GO1·인간OPEN45·본편/새packageHOLD·원어민/인간/물리미관측 및 B3/B4 유지.
+
+## 완료 — 2026-10-04
+
+- 동일 후보 source70ba2b8/tree2a5dada 독립 범위한정 GO: [봉인 보고](../agent_reviews/ORDER-425.json).
+- KO22키·CN/TW44값 정식 수용; ORDER425_R1_UI_OK screens=12 keys=22 locales=2 raw=96 taps=48 actions=0.
+- 첫12화면의 주말부업 기대값 오류24조건/로그48은 원본FAIL로 보존했다. 실제job05 분기만 결속한 새helper의 전12화면34.708초 PASS; 제품문구/조건/폰트 수정0.
+- 공통normal13행(검증12+차선조회1) 단1회/993.438초 PASS. 실제20PNG·합성80taps/160raw·typed20복원, 원본실패·과거판정·인간원장 보존.
+- 일회성/새 상시규범0. 자동PASS는 계약증거이지 문체·재미·출시GO가 아니다. 본편/새packageHOLD·B3/B4·원어민/인간/물리 미관측 유지.
