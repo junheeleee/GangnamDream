@@ -1,6 +1,6 @@
 # ORDER-423 — 선택 카드의 위험도를 다시 보이게 한다
 
-#### [~] ORDER-423 [P1·UI] SceneFirst 위험도 최소폭 수리
+#### [x] ORDER-423 [P1·UI] SceneFirst 위험도 최소폭 수리
 
 **[~] 착수 — 2026-10-04.** 421 최초 actual24.431초 FAIL을 보존한다.
 CN/TW 8화면의 risk24개는 실제12px/SC·TC폰트·높이18px 정상이나 폭1px으로
@@ -48,3 +48,10 @@ CN/TW 8화면의 risk24개는 실제12px/SC·TC폰트·높이18px 정상이나 �
 
 일회성 제품결함수리/상시규범추가0. 자동PASS는 계약증거이지 문체·재미·출시GO가 아니다.
 공개GO1·인간OPEN45·본편/새packageHOLD·B3/B4와 실제관찰 한계는 유지한다.
+
+## 완료 — 2026-10-04
+
+- 동일 후보 source1d0753c/tree3db905b 독립 범위한정 GO: [봉인 보고](../agent_reviews/ORDER-423.json).
+- ORDER423_UI_OK screens=3 actual_cards=9 auxiliary_cards=15 locales=5 raw=0 actions=0; ORDER421_R1_UI_OK screens=8.
+- 공통 normal15행(검증14+차선조회1) 단1회/903.372초 PASS. 원본 FAIL·과거 판정·인간 원장은 보존한다.
+- 일회성/새 상시규범0. 자동PASS는 계약증거이지 문체·재미·출시GO가 아니다. 본편/새packageHOLD·B3/B4·원어민/인간/물리 미관측 유지.

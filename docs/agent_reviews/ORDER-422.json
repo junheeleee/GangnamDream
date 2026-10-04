@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "reviewer": {
+    "agent": "/root/independent392",
+    "role": "비저자 독립 검수자",
+    "authored_product_translation_tools_or_runtime": false
+  },
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "1d0753c01f2dd7d7973ca823b6e080a686fafbc9",
+    "tree": "3db905b287082842351cfea85ad76d4101cee284",
+    "manifest_sha256": null
+  },
+  "method": "한국어 정본·실제 consumer·선언 사양·최종 diff·관측 helper를 직접 읽었다. 실행자가 저장한 원본 로그/JSON/PNG를 검수하고 표준 라이브러리/Git으로 해시·raw inverse·보존맵을 대조했다. 독립 검수자는 엔진·감사·focused 검사를 실행하지 않았다.",
+  "normal": {
+    "result": ".git/full-game-localization/order423-static-final/result.json",
+    "sha256": "d75fa649757d838df109fa1eddfc13f2cbb71b31b19d3ea8852639243cf6e7e5",
+    "entry_sha256": "6ee098a778b5eda3e4ae0a9ca9d9063e72bbb706f6cb46f7323a04b20a6e92cd",
+    "result_summary": "같은 clean 후보에서 15행 모두 exit0/stderr0, all_pass=true, 903.372초. 14검증(새 focused 2개 포함)+차선 조회1이며 조회 목록13개를 추가 실행으로 세지 않았다.",
+    "direct_review": "00–14 원문 전량, entry의 command 순서, 각 row와 aggregate의 완전 일치, runner SHA, 현재 파일/원본 pin을 직접 확인했다.",
+    "before_after": {
+      "tracked": 3010,
+      "helpers": 128,
+      "inputs": 28,
+      "prior": 882,
+      "equal": true
+    },
+    "remaining_limits": "Chapter1 SNAPSHOT_VALID는 debt8/blocked3/gap24 유지. Year5는 reference_only/topology invalidated/r1b_allowed=false. Full-body는 SOURCE_INVENTORY_ONLY, runtime/native claim0. ZH는 skeleton/shipping0이며 legacy1423/2951·context11/29·dynamic150/701·direct English bypass11. 등록169는 출시 승인 수치가 아니다."
+  },
+  "preservation": {
+    "prior_decisions": 178,
+    "prior_reports": 156,
+    "all_prior_report_and_decision_bytes_unchanged": true,
+    "decision_ledger_sha256": "038656662124b7a946b7d1027ea8b8e61c3cc9626185cd1119ab1071fa4ad44c",
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "human_ledger_unchanged": true,
+    "ja_dictionary_sha256": "3c1c9c6c4a566e2b2d5cebb9fabe2f6525f95eb431c212b66c90296b09401f51",
+    "ja_dictionary_collector_audit_old_self_test_unchanged": true,
+    "receipt_total": 41442,
+    "batches": 195,
+    "original_421_runtime_failure_artifacts_preserved": 92,
+    "current_source_clean_at_seal": true
+  },
+  "limitations": [
+    "정확히 명시된 단위와 후보에 대한 내부 GO이며 전체 게임·전면 UI·출시·B3/B4·사람 승인/HOLD를 해제하지 않는다.",
+    "실제 PNG의 기존 Job Hunt 영어, 한국어 정보/저장/브랜드 및 준비 fixture 이전 HUD 날짜·건강·현금은 미수리·비표적이다. EN 정적 clean으로 이 잔여를 부정하지 않는다.",
+    "폰트 glyph 근거는 실제 resolved font/size의 별도 TextServer probe이며 RichTextLabel 내부 shaped RID 직접 관측은 아니다."
+  ],
+  "unobserved": [
+    "native_language_review",
+    "human_playtest",
+    "physical_controller",
+    "natural_ingress",
+    "whole_game_release",
+    "full_240_week_playthrough"
+  ],
+  "blockers": [],
+  "evidence_root": ".git/full-game-localization",
+  "sealing": "최종 집계 후 새 파일을 단 한 번 생성했다. 원문과 SHA 봉인 후 재작성하지 않는다.",
+  "unit_id": "ORDER-422",
+  "verdict_scope": "정확한 취업 UI 두 원문의 숫자 비교 view 보정과 좁은 반례 검사",
+  "summary": "번역 우회 없이 원문의 선택1/나머지2·이번주 폐쇄와 30000~100000원 절약 범위를 정확히 비교하도록 제한된 adapter2개가 작동한다.",
+  "source_review": {
+    "spec_sha256": "e2c28788c497491a2ff6c5b54fa13895a610c25812baa5701d32f2727164dd9f",
+    "checker_checkpoint": "a3029a49046336df488cff112a8a39bd8071ace5",
+    "files": "zh_translation_audit.py에96행, 신규 employment_choice_number_self_test.py, audit_scope 차선 등록을 전량 검토했다.",
+    "zh_sha256": "9fac31d3e70be2f75ea2f0ef555f9debbc75269083250dbc31c7138054be6c9e",
+    "focused_sha256": "171431e679fd3af6cc28956ec929e74ddfdc7b5de887b9899cc6111616536c65",
+    "boundary": "locale/key/group/source가 정확히 맞는 두 leaf만 numeric view를 정규화한다. generic extractor, 기존 adapter/검사본문, 원문 기반 script/token/newline/money/terminology 진단은 불변. 선택 부정·빌려온 주차/숫자·역할 바꿈·틀린 단위·범위·금액·추가 숫자를 거부한다."
+  },
+  "failures_and_repairs": [
+    {
+      "original_check": "order421-static-check.json",
+      "sha256": "77505779bfff4e718f10178c70c00459f9f7e640850ccd7f5cea43a4f5ed49c8",
+      "seconds": 21.036,
+      "cause": "A17 양지역의 '다른 두 길'을 source extractor가 누락했다. B21 TW의 양끝 원화30000/100000을 source의 하한 생략형 '3만~10만원'과 잘못 비교했다. CN 공유단위형의 최초 PASS도 하한의 정합성을 증명하지 못했다.",
+      "correction": "문장/번역은 불변. 선택1·나머지2·같은 절의 이번주 폐쇄 및 절약30000~100000의 소유관계를 먼저 확인한 뒤 비교 view만 좁게 보정했다. 사전검수에서 부정 선택 및 뒤 문장 주차 차용 경계를 강화했다."
+    }
+  ],
+  "focused": {
+    "author_first": "130 PASS/historical0,0.72초; stdout ad59eee39b6815766e2e37dd3724996d30210d565dc6bac607d11a5c43488ca3. stderr76adc1aa356a286d160f4803ccc9865b4fb47bc3445f8b4a4f894f2080b2d995는 time 출력이다.",
+    "final_row": "order423-static-final/11.json",
+    "final_row_sha256": "d4227bde3362450653aef76e1480852ca08e894825e810084f22403f9957dfec",
+    "final": "같은 최종후보130 PASS/historical0,0.645초,exit0/stderr0. 원문130행을 모두 읽었으며 direct/full Leaf 검사와 exact 경계/음성 반례를 구분했다.",
+    "limit": "bounded fixture population이며 모든 자연어 숫자 문장의 의미를 증명하거나 generic parser를 완성했다는 주장이 아니다."
+  },
+  "official_recheck": {
+    "result": "order421-static-check-r1.json",
+    "sha256": "c0fcb42df8fb16c6edd6198fe4e6397064aea8370bdb012a87ccf7e78d865716",
+    "result_summary": "원래76응답4배치 그대로20.739초 PASS, 이후4 official receipt와76값의 source/target/header/raw inverse를 독립 대조했다."
+  },
+  "runtime_boundary": "421-r1의8PNG와423의3PNG는 독립적으로 직접 열람했으나 이 checker 단위의 별도 플레이/입력 증거로 중복 산정하지 않는다.",
+  "final_decision": "ORDER-422 exact two-source checker repair 내부 GO. 번역·전체게임·원어민 품질 GO와 분리한다.",
+  "independent": true,
+  "status": "completed",
+  "decision_scope": "work_unit",
+  "private_review": {
+    "path": ".git/full-game-localization/order422-independent-review.json",
+    "sha256": "e7fc7112294977af31a402e13b8cdbe8a21ce651533d04aaa8768259dce0d1c8"
+  },
+  "unit_evidence": {
+    "도달 경로": "EMPLOYMENT_CHOICE_NUMBER_OK cases=130 historical_cases=0; official4 PASS20.739s",
+    "생산자 ↔ 독자": "zh_translation_audit exact source/key2 ↔ official Leaf checks",
+    "바꾸는 상태": "numeric comparison views2; product strings0",
+    "포기 시 잃는 것": "choice1/closed paths2 and 30000–100000 KRW bounds lose exact comparison",
+    "서사 위치": "N/A: existing UI/localization validation",
+    "장면 계층": "N/A: non-scene task",
+    "닫는 것": "ORDER-422 work_unit only; full-game/new-package HOLD"
+  }
+}

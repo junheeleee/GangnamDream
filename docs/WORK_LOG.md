@@ -2,14 +2,23 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 중국어 구직과 위험도 표시 검수 완료·main 반영)
+
+- [421](queue_archive/ORDER-421.md)·[422](queue_archive/ORDER-422.md)·[423](queue_archive/ORDER-423.md)은 동일 source1d0753c/tree3db905b 독립 범위한정 GO다.
+- 구직76값·receipt76/공식batch4·accepted41442/b195. 실제 CN/TW8화면/24카드/250binding·76lookup, 합성32taps/64raw·typed8 복원 PASS24.796초.
+- 위험도 폭1px을 실제 글꼴 측정폭+2로 수리했다. KO/EN/JA 실제3화면/9카드와 명시적 보조15카드 PASS18.429초. 크기12px·clip/ellipsis·게임플레이 불변.
+- exact 수량검사130·위험도증명141을 포함한 공통 normal15행(검증14+조회1) 단1회903.372초 PASS. 소스3010/helper128/input28/prior882 보존, 과거focused/full/240주0.
+- 최초 공식check FAIL·risk24 실패/8PNG를 보존했다. 과거판정178/보고156는 불변이며 새 단위판정3개만 추가한다. 검증된5커밋을 원격main1d0753c로 푸시했다.
+- 일회성/상시규범0. 자동PASS는 계약증거이지 문체·재미·출시GO가 아니다. delayed-cost5키·영어 Job Hunt/HUD 혼합·B3/B4·본편/새packageHOLD·원어민/인간/물리 미관측은 남는다.
+
 ## 2026-10-04 (Codex — 실제 선택 카드에서 사라진 위험도 수리)
 
-- [421](queue_active/ORDER-421.md) sourcebb73a66 최초runtime24.431초 FAIL·HOLD.
+- [421](queue_archive/ORDER-421.md) sourcebb73a66 최초runtime24.431초 FAIL·HOLD.
   risk24개 모두 실제12px/SC·TC400·glyph정상인데 폭1px, 필요36~48px라 글자가 숨었다.
   raw의24실패가 stdout/Godot 로그에 중복돼 aggregate48줄이며 폰트 기대 오탐이 아니다.
   원본8PNG/250binding/76lookup·32taps/64raw·typed8복원·player34불변을 보존했다.
   나머지 카드192텍스트행은 font/fit정상. 새 대상 외 기존 Job Hunt/HUD 혼합은 별도 잔여다.
-- [423](queue_active/ORDER-423.md)을 별도 선언8e6608f. Main단독2321723은
+- [423](queue_archive/ORDER-423.md)을 별도 선언8e6608f. Main단독2321723은
   risk의 actual resolved font/12px·uppercase문구 측정폭 ceil+2px만 추가한다.
   fixed36/48·글자축소·clip/ellipsis 완화·게임플레이/번역 수정0.
   저자와 별도검수자 모두 실제 폭결함 및 이 국소수리 방향에 동의했다.
@@ -26,12 +35,12 @@
 
 ## 2026-10-04 (Codex — 구직 판단 중국어와 정확 수량검사 후보)
 
-- [421](queue_active/ORDER-421.md): 같은 실제 구직화면의 A17/B21 KO키를 간체·번체
+- [421](queue_archive/ORDER-421.md): 같은 실제 구직화면의 A17/B21 KO키를 간체·번체
   각각 직접저작·독립 전수대조했다. CN 건강 ‘기본 -3’ 표현만 원본초안 보존 후 명확히
   교정했다. 선택 경쟁1/2·0원·1회·1~3주·3만~10만원·건강-3·정신-2·%s1은 유지한다.
 - 공식export4/20.354초PASS. 최초check4/21.036초FAIL은 ‘두 길’과 공유 원화단위
   하한3만원을 검사기가 놓친 결과다. CN B21의 우연한 PASS도 하한 검증으로 세지 않는다.
-  원래 source/response76과 실패를 보존하고 [422](queue_active/ORDER-422.md)를 별도 선언했다.
+  원래 source/response76과 실패를 보존하고 [422](queue_archive/ORDER-422.md)를 별도 선언했다.
 - 422는 exact UI source/key2·CN/TW에서만 선택1/닫힌길2 및 절약30000~100000원을
   수량비교에 결속한다. generic/과거제목·원문 script/token/currency 검사는 불변이다.
   저자 focused130건/0.72초PASS·독립 사전검수 blocker0, 수리 checkpoint a3029a4.
@@ -62,7 +71,7 @@
 - normal13(검증12+차선조회1) 최초1회/839.024초PASS, source3004/helper113/
   input17/prior568 불변. 기존focused·전체감사·240주0. 제품c52ddc1 원격main 반영.
   Chapter1 debt8/blocked3/gap24와 Year5 reference_only/invalidated/r1bfalse는 잔여다.
-- [421](queue_active/ORDER-421.md)은 실제 구직4상태의 제목·질문·선택지17와
+- [421](queue_archive/ORDER-421.md)은 실제 구직4상태의 제목·질문·선택지17와
   같은화면 base preview21을 묶어 CN/TW76값으로 선언한다. 저작·독립검수 분리,
   화면8/합성좌우32taps를 공유하고 delayed-cost5키·미사용detail4는 별도 잔여다.
   수첩 후보는 현재240주 버튼 진입0으로 제외했다. 준비상태를 자연도달로 세지 않는다.

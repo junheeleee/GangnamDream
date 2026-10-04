@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "reviewer": {
+    "agent": "/root/independent392",
+    "role": "비저자 독립 검수자",
+    "authored_product_translation_tools_or_runtime": false
+  },
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "1d0753c01f2dd7d7973ca823b6e080a686fafbc9",
+    "tree": "3db905b287082842351cfea85ad76d4101cee284",
+    "manifest_sha256": null
+  },
+  "method": "한국어 정본·실제 consumer·선언 사양·최종 diff·관측 helper를 직접 읽었다. 실행자가 저장한 원본 로그/JSON/PNG를 검수하고 표준 라이브러리/Git으로 해시·raw inverse·보존맵을 대조했다. 독립 검수자는 엔진·감사·focused 검사를 실행하지 않았다.",
+  "normal": {
+    "result": ".git/full-game-localization/order423-static-final/result.json",
+    "sha256": "d75fa649757d838df109fa1eddfc13f2cbb71b31b19d3ea8852639243cf6e7e5",
+    "entry_sha256": "6ee098a778b5eda3e4ae0a9ca9d9063e72bbb706f6cb46f7323a04b20a6e92cd",
+    "result_summary": "같은 clean 후보에서 15행 모두 exit0/stderr0, all_pass=true, 903.372초. 14검증(새 focused 2개 포함)+차선 조회1이며 조회 목록13개를 추가 실행으로 세지 않았다.",
+    "direct_review": "00–14 원문 전량, entry의 command 순서, 각 row와 aggregate의 완전 일치, runner SHA, 현재 파일/원본 pin을 직접 확인했다.",
+    "before_after": {
+      "tracked": 3010,
+      "helpers": 128,
+      "inputs": 28,
+      "prior": 882,
+      "equal": true
+    },
+    "remaining_limits": "Chapter1 SNAPSHOT_VALID는 debt8/blocked3/gap24 유지. Year5는 reference_only/topology invalidated/r1b_allowed=false. Full-body는 SOURCE_INVENTORY_ONLY, runtime/native claim0. ZH는 skeleton/shipping0이며 legacy1423/2951·context11/29·dynamic150/701·direct English bypass11. 등록169는 출시 승인 수치가 아니다."
+  },
+  "preservation": {
+    "prior_decisions": 178,
+    "prior_reports": 156,
+    "all_prior_report_and_decision_bytes_unchanged": true,
+    "decision_ledger_sha256": "038656662124b7a946b7d1027ea8b8e61c3cc9626185cd1119ab1071fa4ad44c",
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "human_ledger_unchanged": true,
+    "ja_dictionary_sha256": "3c1c9c6c4a566e2b2d5cebb9fabe2f6525f95eb431c212b66c90296b09401f51",
+    "ja_dictionary_collector_audit_old_self_test_unchanged": true,
+    "receipt_total": 41442,
+    "batches": 195,
+    "original_421_runtime_failure_artifacts_preserved": 92,
+    "current_source_clean_at_seal": true
+  },
+  "limitations": [
+    "정확히 명시된 단위와 후보에 대한 내부 GO이며 전체 게임·전면 UI·출시·B3/B4·사람 승인/HOLD를 해제하지 않는다.",
+    "실제 PNG의 기존 Job Hunt 영어, 한국어 정보/저장/브랜드 및 준비 fixture 이전 HUD 날짜·건강·현금은 미수리·비표적이다. EN 정적 clean으로 이 잔여를 부정하지 않는다.",
+    "폰트 glyph 근거는 실제 resolved font/size의 별도 TextServer probe이며 RichTextLabel 내부 shaped RID 직접 관측은 아니다."
+  ],
+  "unobserved": [
+    "native_language_review",
+    "human_playtest",
+    "physical_controller",
+    "natural_ingress",
+    "whole_game_release",
+    "full_240_week_playthrough"
+  ],
+  "blockers": [],
+  "evidence_root": ".git/full-game-localization",
+  "sealing": "최종 집계 후 새 파일을 단 한 번 생성했다. 원문과 SHA 봉인 후 재작성하지 않는다.",
+  "unit_id": "ORDER-423",
+  "verdict_scope": "결정카드 위험도 Label의 실제 글꼴·대문자 폭 기반 최소너비2줄 수리와 현행 소스증명",
+  "summary": "실제 폭1px 압축을 font metric ceil(width)+2로 해결했다. 글꼴 크기·clip·ellipsis·문구·행동 규칙을 바꾸지 않았고 5언어의 실제/명시적 보조 모집단을 분리해 검증했다.",
+  "source_review": {
+    "spec_sha256": "5fc278aa48dbe7bab43835324d95d30800c22a4ee281ced1313613b6da987f03",
+    "main_checkpoint": "2321723be023bcc342f6afd2424bb0da1e8094b3",
+    "parent": "8e6608fb90791acc86561bc24fb2790b17fd38ed",
+    "main_sha256": "3682f25888c78ab0bcc5a10c61d4d0701f8fd49b95dc9dc780be1e18a050f2cf",
+    "inverse": "실제 _make_demo_decision_card의 get_theme_font/get_theme_font_size 및 risk_text.to_upper() 폭 계산, ceilf(width)+2.0의 두 행만 추가. Git Main-only 전이와 whole raw 역삭제를 직접 대조했다.",
+    "tools": "history167행·manifest31행 append-only와 새 focused264행·차선 등록을 전량 읽었다. 이전 body/pin/JA collector/old suite는 불변이다.",
+    "tool_sha256": {
+      "history": "97bacaf4bcf23763bb82a3f9794411fdcafa774d36f69ec17c1cfee3d153e5fa",
+      "manifest": "2731c630a25af19474a45b8ab7d86250ec27759be91bde3ff897bb7a933a940c",
+      "focused": "c9cafd2933baa918926130b29038d3202827468d53f82d691cd8215ba45d5241",
+      "audit_scope": "453c59c48ff1cae2453b11cebb09b2ead1228101788bbeac78eda1d01fe7b31d"
+    },
+    "proof": "13 immutable stages/78 objects, exact parent/tree/blob/Main-only paths, actual HEAD/raw, 11 전임자와13 manifest view를 결속한다. fresh call의 raw/HEAD/Git 고장·wrong font·neighbor 변화는 거부하고 실패402는 승인 view에 포함하지 않는다. 실제 collector의 좌표+2 외 identity/receipts 변화0."
+  },
+  "failures_and_repairs": [
+    {
+      "result": "order421-screen-final/result.json",
+      "sha256": "6fd15ec3abc54981815bc375568050fe53f904a32a161e29098b3ffd1da95178",
+      "observations_sha256": "a48ae91e85e4114d60d09076c392fec0383bb86ad1bc51de7796610cb675546e",
+      "source": "bb73a6669bb49f1c73ecd53814b65ef452a18c45",
+      "seconds": 24.431,
+      "diagnosis": "24개 risk Label의 실제 폭1px, 측정36~48px. font/12px/bounds는 정상이나 full_fit=false인 진짜 제품 결함이다. 로그48건은 동일24건의 stdout/Godot 중복이며 원본 FAIL을 PASS로 바꾸지 않았다. 저자·부모·독립 사전검수에서 실제 압축 결함을 미리 발견하지 못했다."
+    },
+    {
+      "population_correction": "초기 '자산별 위험1~5'를5개 별도 문구로 오독한35보조 표본 계획을 실제 Main 원문 확인 후 철회했다. 독립 검수자도 최초35 전달을 성급히 확인했으나 수정했다. 실행 전 실제 고정 range1종/HIGH/UNCERTAIN3종×5언어=15로 바로잡았고 가짜5단계 표본은 생성하지 않았다."
+    }
+  ],
+  "runtime": {
+    "cn_tw": {
+      "result": "order421-r1-screen-final/result.json",
+      "sha256": "1fdaca87fbdccd387d8d597942c8d64da4cd0779ec3340de8360b7f2276e14ba",
+      "observations_sha256": "2c004dcd748552ee42ea8f8fc3d81fde54ee6285d24420f869081dee7eac6c12",
+      "seconds": 24.796,
+      "pass": true,
+      "population": "CN/TW 각각 A고용/B준비/C후속/D생존 4화면; 실제8PNG/24카드/76lookup/250binding. 원래8행 전체를 재관측했으며 옛 FAIL의 PASS 재사용이 아니다.",
+      "observed": "8PNG를 모두 직접 열었다. risk는 CN38/50px·TW50px로 복구되어 대상의 잘림/두부/겹침을 관측하지 않았다. regular12px, 기존 clip/ellipsis, actual ceil(width)+2, 19px bold 질문과 나머지 원래 strict font/fit 조건을 유지한다.",
+      "input": "Input.parse_input_event 원시64개(32tap)의 고유ID를 수신 기록과 전량 대조했다. 화면마다 RIGHT RIGHT LEFT LEFT로 focus0→1→2→1→0. 물리패드나 자연진입 증거가 아니다. 카드실행/확정/턴진행은0.",
+      "state": "8개 full typed 효과/복원, 메타파일·UI/controller 캐시 복원, actual signal0, 플레이어34파일 및 source3010/helper80 전후 동일. entry/oracle/artifact/helper 복사 SHA와 원본 FAIL92파일을 직접 대조했다."
+    },
+    "ko_en_ja_and_auxiliary": {
+      "result": "order423-screen-final/result.json",
+      "sha256": "ff614967c7156036d822bf331558335b5d91bb79960767b756a8dbcf4af3cb0b",
+      "observations_sha256": "b05c9fef33b19d1e24123a4a0698aa184d79f76555ad0a44fe5acd044529fe51",
+      "seconds": 18.429,
+      "pass": true,
+      "population": "KO/EN/JA A 각1 실제 화면=3PNG/9카드. 별도로 실제 risk getter의 고정 ASSET RISK1–5/HIGH/UNCERTAIN3종×5언어를 apply 기본 spec/preview에 붙인15개 component; 자연 조합이나 PNG15장이라고 주장하지 않는다.",
+      "results": "3PNG 직접 열람, 81lookup/108binding/24 risk 측정과 typed3+aux5 복원을 전량 대조했다. actual 위험폭 KO47/EN56·77/JA50, aux 최대JA102px. 모든 실제 risk/font12/ceil(width)+2/clip/ellipsis/인접텍스트 비겹침 PASS. raw0/action0; source3010/helper83/player34 불변.",
+      "auxiliary_limit": "CN/TW 보조3종은 실제 영어 fallback이며 중국어 신규 수용이 아니다. 보조는 화면에 부착한 실측 노드 증거이고 대표3PNG에 포함되지 않는다."
+    }
+  },
+  "focused": {
+    "author_stdout_sha256": "3d25782215b602455793a4d602b2fa8e49a7b03c55579909c7868ef6f3001fc6",
+    "author_stderr_sha256": "c266dcc00ddbdf6e1460319b75b48a70bcbd5b06dd128be0bd706968e0474f52",
+    "author": "첫141 PASS/historical0,57.46초; stderr는 time3행이다.",
+    "final_row": "order423-static-final/14.json",
+    "final_row_sha256": "ce753ef09c5bea74c9b82015c8ea621e72cc1374b0f8c831c51d4695ce5a2a62",
+    "final": "동일 최종후보141 PASS/historical0,62.219초,exit0/stderr0. 실제 immutable/collector 검증과 Git-output mock 음성 제어를 구분했다."
+  },
+  "final_decision": "ORDER-423 위험도 최소너비 수리와 exact source admission 내부 GO. 421 번역·422 checker·전체게임 승인과 각각 분리한다.",
+  "independent": true,
+  "status": "completed",
+  "decision_scope": "work_unit",
+  "private_review": {
+    "path": ".git/full-game-localization/order423-independent-review.json",
+    "sha256": "7bc47bc095e265e03d85a155058517dcd30279f5a8cda8a578e3e7775453931f"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER423_UI_OK screens=3 actual_cards=9 auxiliary_cards=15 locales=5 raw=0 actions=0; ORDER421_R1_UI_OK screens=8",
+    "생산자 ↔ 독자": "MainGame::_make_demo_decision_card font metric ↔ risk_label.custom_minimum_size.x",
+    "바꾸는 상태": "risk24 width1px → CN38/50px,TW50px; font12 unchanged; focused141 PASS",
+    "포기 시 잃는 것": "risk labels become visually hidden at width1px",
+    "서사 위치": "N/A: existing UI/localization validation",
+    "장면 계층": "N/A: non-scene task",
+    "닫는 것": "ORDER-423 work_unit only; full-game/new-package HOLD"
+  }
+}
