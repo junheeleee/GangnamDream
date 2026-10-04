@@ -5705,6 +5705,7 @@ func _build_info_panel():
 	log_box = RichTextLabel.new()
 	log_box.bbcode_enabled = true
 	log_box.fit_content = true
+	log_box.add_theme_font_override("normal_font", _font_regular)
 	log_box.add_theme_font_size_override("normal_font_size", 13)
 	log_box.add_theme_color_override("default_color", Color("#5a6075"))
 	stat_box.add_child(log_box)
