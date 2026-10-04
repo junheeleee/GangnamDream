@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [홀덤 비동기 수리 전 기록](history/WORK_LOG_2026-10-04_pre_order438.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 폴드·일본어 정산/판돈 선택 표시 수리 완료 (451)
+
+- 검수 후보 `f17579c`를 main에 커밋·푸시했다. 일본어·간체·번체의 폴드 상태와 JA 정산/단타 판돈 선택을 올바르게 읽는다. 새 키0·정정2·첫receipt2·batch1, accepted41755/b228·사전3053/1776/1776이다.
+- 실제4PNG·13표적 노드·복원4 PASS(30.940초). 원본4장을 저자/비저자가 직접 읽었고 raw/딜/AI/실제정산/Close0·player34 불변이다. fresh8검증+조회1 PASS(687.894초), focused64/과거0·등록188. 원장 검사는686.527초이며 실행 중5초 OS passive sample은 병목 확정이나 성능 A/B가 아니다.
+- [독립 한정 GO](agent_reviews/ORDER-451.json)·[일회성 사양](queue_archive/ORDER-451.md)으로 닫는다. 기존211판정189보고 보존 후212/190이며 root의raw 체크섬 오기/전진수리·원449 REWORK·인간OPEN45/DONE1·공개GO1·본편/새package HOLD를 보존한다. 자동 PASS는 계약 증거이지 재미·깊이·문체·사람 관찰·출시 GO가 아니다.
+- 다음 별도 수리 후보는 SHOWDOWN이 내 순손익 대신 ±전체팟을 표시하는 결함이다. 읽기 진단상 100k 시작/내출자10k/팟30k에서 승리+30k→실제+20k, 패배−30k→실제−10k다. RESULT의 실제현금 계산은 별도이며 이 범위에서 변경/재검수하지 않았다.
+
 ## 2026-10-05 — 폴드·일본어 두 금액 문구 제품 반영 (451)
 
 - 폴드 제품 `85f5483`은 exact KO/JA/CN/TW에서 기존 번역을 사용하며 EN/community의 FOLDED를 보존한다. 소스 지원 `33b9d28`은 기존71 UiCall/Entry ID와 collector를 유지한다.
@@ -11,7 +18,7 @@
 
 ## 2026-10-05 — 폴드 상태·일본어 정산/판돈 선택 수리 착수 (451)
 
-- [별도451](queue_active/ORDER-451.md)은 Holdem folded prefix1줄과 JA 정산/단타 판돈 선택2값만 고친다. 기존 폴드 번역을 재사용하고 EN/community의 FOLDED·71 UiCall·게임 규칙은 보존한다. JA 새 키0·정정2·첫receipt2를 구분하며 아직 제품 수정/수용/화면PASS0이다.
+- [별도451](queue_archive/ORDER-451.md)은 Holdem folded prefix1줄과 JA 정산/단타 판돈 선택2값만 고친다. 기존 폴드 번역을 재사용하고 EN/community의 FOLDED·71 UiCall·게임 규칙은 보존한다. JA 새 키0·정정2·첫receipt2를 구분하며 아직 제품 수정/수용/화면PASS0이다.
 - root 제품/공식 교환/normal, claude 정확 source/정정 proof·새focused, receipt 홀덤3+JA단타1 실제PNG/격리복원·scope, independent 비저자 검수로 나눈다. Scalp focus 이웃/모드와 Main semantic focus는 별도로 복원하며 입력·실제정산·과거 suite·whole audit를 반복하지 않는다.
 - 이전449/450은 `cda8f3b`로 마감했다. accepted41753/b227·211판정189보고·원449REWORK·인간/공개 이력·본편HOLD를 보존한다. receipt622.073초의 반복 고정원장 파싱/중첩proof는 읽기 진단 후보일 뿐 병목 확정이나 성능 향상 주장이 아니며 최적화는 이 범위에 섞지 않는다.
 

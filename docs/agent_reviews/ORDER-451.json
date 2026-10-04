@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-451",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "f17579c95e8856125d6e55cc5fbbf739fd0944ac",
+    "tree": "247b5cf9fc37145bad517b3511f9a24b3a3700c3",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "Holdem folded 좌석 접두사의 기존 KO/JA/CN/TW 번역 재사용 한 줄, 기존 JA 정산 POT·판돈 선택 두 값 정정과 최초 receipt2의 한정 검수. 새 키·번역 coverage 추가0이며 실제 게임 정산을 검증한 단위가 아니다.",
+  "method": {
+    "direct": "gangnamdream-dev 지침·451 사양·한국어 및 실제 소비자, 제품과 history/append/focused, private GD/oracle/runner/normal을 읽었다. 원본1280×800 PNG4장을 전부 직접 열고 세 지역 관측·stdout/stderr/Godot 로그·typed 복원·정상9행 원문과 최종 집계를 대조했다.",
+    "assistance": "비저자 하위 /root/independent392/ab_readonly428가 Git/stdlib 읽기로 공식 원문과4파일 whole-byte 역상, runtime195·normal11 artifact의 bytes/SHA, 현재 맵과 기존 기록 보존을 대조했다. 프로젝트 검사 실행이나 과거 성공자료의 새 실행으로 부르지 않는다.",
+    "execution": "독립 검수자의 프로젝트 import·collector·검사·엔진 실행0. 최종 snapshot 해제 후 이 보고서 하나만 작성했다."
+  },
+  "source_and_acceptance": {
+    "declaration": "ea29309512066d5eb16452d1669b9f1b9389fe66",
+    "display_product": "85f54835ae63aa2f0ec728594fbf699fd0eca07c",
+    "source": "HoldemClub.gd758행에서 folded일 때만 기존 _action_label(fold)을 정확 ko/ja/zh-CN/zh-TW에 사용한다. EN·그 밖의 지역은 FOLDED, 공백2개·미폴드 제목·폰트·조건·금액·게임 동작은 유지된다. 실제 한 줄 역상과71 UiCall의 위치/소유자/문자열 불변,11단계66 Git 요청과56고유 객체를 구분해 확인했다.",
+    "ja_values": {"%s · POT %s 정산": "%s · ポット %s 精算", "판돈 선택": "ベット金額を選択"},
+    "meaning": "정산의 두 %s 순서·중점·공백과 총팟 의미를 보존한다. Scalping의 실제 베팅 금액 선택을 뜻하며 pot odds가 아니다. 기존 JA3053/CN1776/TW1776 키 수와 CN/TW 원문은 불변이다.",
+    "official": "source33b9d28243e581b74ed12fc1a1d1eb23e004705c의 JA2 공식 export/check/import 각1행 PASS 원문과 동일 header·previous-target·source/target hash를 확인했다. 기존값2 정정·first receipt2·batch1로 accepted41753/b227→41755/b228이며 new coverage0이다.",
+    "receipt_file_sha256": "28700c5841712ecba8487f1f8060de2955ee3c85b55efa9684b013bcfccf8165",
+    "receipt_canonical_sha256": "6012dda18bc67c32603dc6fcf4a4ce631fe4a2bee62d35c90ca9b06b8b977109",
+    "translation_ledger_sha256": "095d5e46dca4c4ddabcfde1f255565ff18f6cc913997238ca22ea812c102f53d",
+    "forward_fix": "root가 중간7aa0cd22d0b03b4b76a16c3445d70af30acad812의 receipt_sha256_by_locale에 파일 raw SHA를 잘못 기록했다. 원본을 보존하고2fdf4353d4769dfb40f35da1added7de27aff354에서 해당 한 토큰만 canonical unsigned receipt digest로 정정했다. 공식 receipt 파일은 불변이며 공식검사/엔진 실패로 바꾸어 기록하지 않는다. proof는 실제3commit·19객체 요청·정확 부모와2단계 raw 역상을 검증하고, dispatcher는 중간 후보/누락/끼어든 전이를 거부하며 최종 정정을 한 번만 계산한다. oracle의 같은 raw/canonical 혼동과 작성 중 focused 미정의 함수도 실제 실행 전에 수정됐다."
+  },
+  "runtime": {
+    "path": ".git/full-game-localization/order451-screen-first/result.json",
+    "sha256": "a725f1e98e6b74a6036347f49432a7b810dcc42031b66237a22e770298a6ddc9",
+    "entry_sha256": "87b4ed445ea9d1bea81131f0c2e404169cc41f9f4924e0fe48177442143c8f96",
+    "seconds": 30.94,
+    "population": "첫 실행 격리3 process·준비 SHOWDOWN3 및 JA SETUP1,4PNG/4group·표적13노드다. raw/tap·딜·플레이어/AI 행동·showdown dispatcher·정산·Close·통계/금액/로그·거래·튜토리얼0. 세 process exit0, errors/report_error[], prior_error=null, all_pass=true다.",
+    "visible": "JA フォールド/ポット 정산문구/ベット金額を選択, CN弃牌/TW棄牌가 원본4PNG에서 전부 보이며 표적 누락·잘림·겹침을 발견하지 않았다. 좌석3×3은 실제 bold12, 정산detail3은 regular12, JA heading1은 bold13으로 공유 JP/SC/TC 폰트·glyph/fit/bounds를 만족했다. 이름 둘의 실측 폭은 모든 지역60px 동률이므로 source tie-rule로 상대0을 folded로 선택한 표본이다.",
+    "geometry": "table[24,105,1232,420], player 명목높이109.2≥최소109, 상대126≥최소107이며 좌석/제목/summary가 부모와 viewport 안에 있다. summary 원래0.32초 pulse는 자연 종료 후 scale[1,1]로 관측했고 detail·좌석제목 겹침0이다. JA SETUP의340×20px heading과 실제 첫 금액 버튼 포커스를 확인했다.",
+    "effects_and_restore": "합법52장 분할은 사용11/남은41이며 독립 rank 비교상 준비 플레이어 A-high straight다. prepared==actual4, warmup/core/gameplay delta[], 전체 group before==restored4·teardown3 불변을 직접 대조했다. JA Scalp의 fields/RNG/process/metadata/sibling/기존 버튼 ID·mode·Tab 경로를 별도로 정확 복원했고, 우리 신규 overlay만 제거했다. Main AP focus는 유일한 같은 action identity로 복원되며 재생성 raw node ID까지 같다고 주장하지 않는다. 준비 summary의+30,000은 표시 fixture이며 실제 수익·정산 관측이 아니다."
+  },
+  "normal": {
+    "path": ".git/full-game-localization/order451-static-final/result.json",
+    "sha256": "ca78117cb262cfa0b4f81d5074d21e196f02f0417870e290df18903f9bdc3df9",
+    "entry_sha256": "83f83fbd82e12a0429dc48615655e92142cb8ad54ec716d5796d159638ef9237",
+    "result": "같은 clean 후보에서8검증+차선조회1,9행 전부 exit0/빈 stderr, all_pass=true,687.894초다. focused64/historical_cases0(38.902초), receipt686.527초 accepted41755/b228/live47/historical_cases0, JA UI beta/errors0·EN·context·queue·diff·등록188을 원문으로 확인했다.",
+    "timing_limit": "root가 이 실행 중 receipt PID에5초/10ms passive OS sample을 별도 경로에 수집했다고 보고했다. 이 wall time은 그 수집이 있었던 단일 실행 관측값이며 함수별 병목·성능 개선·A/B 인과를 주장하지 않는다.",
+    "not_run": "CN/TW 전체감사, 변경 없는 사건 본문(448 참조), 네 서사 검사, 과거 focused/runtime suite, whole audit,240주,성능 A/B는 NOT_RUN이다. 이전 PASS를 이 후보의 새 실행으로 승격하지 않는다."
+  },
+  "preservation": {
+    "maps": "runtime195 artifact/결과 포함196파일과 normal11 artifact/결과 포함12파일의 bytes/SHA 일치. 동결 before=after tracked3096/helpers169/current8/player34/runtime196 및 prior5그룹이 결속됐다. prior2115 파일리프 중 추가223개는 재해시, older1892개는 기존450 맵과 동일성 확인으로 재사용했다. 이 보고서는 snapshot 이후 생성되어 해당 맵의 일부가 아니다.",
+    "records": "기존211판정·189보고·human의 ea293→후보→현재 raw bytes 불변을 확인했다. 원449 REWORK와450 GO, 공식3폴더 각4파일·receipt1 및 실제 player34를 보존했다. source/player_unchanged=true이며 공개·인간 판정을 변경하지 않았다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": ["한 해상도·준비4화면이다. 자연 진입/플레이·실제 입력·물리 패드·원어민/인간·다른 배치·새 package·전체 게임/출시는 미관측이다. KO/EN/community 분기는 source-bound focused 근거이지 추가 실화면 관측이 아니다.", "기존 작은 라벨·folded 좌석의 어두운 표현 및 범위 밖 UI는 유지된다. 별도 발견된 SHOWDOWN의 전체팟 대 순손익 표시는 이번 번역·접두사 범위 밖 미수리 부채이며 이 보고서는 그 정확성을 승인하지 않는다.", "focused의 captured Git 재생·합성 pending/phantom 검사는 선언된 결함 모델에 한정된다. font probe는 실제 노드 resolved font에 연결되지만 내부 raster glyph 전체를 가로챈 관측은 아니다."],
+  "final_boundary": "현재 f17579c95e8856125d6e55cc5fbbf739fd0944ac에서 ORDER-451 한정 GO. 원장 중간 오류 이력은 보존되며 전체 제품·출고·원어민·인간 GO는 아니다."
+}
