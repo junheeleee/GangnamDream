@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 투자·시장 선택과 구직 제목 중국어 착수)
+
+- [424](queue_active/ORDER-424.md): 실제 pressure 제목/질문6·투자/승부 설명4·risk/now/cost/later8·구직 제목1. CN/TW 각각 KO직접19값, 목표41480/b197·CN/TW1645다.
+- 실제4상태×2지역8화면과 합성32taps를 공유한다. 조건·거래·폰트·JA불변, 미사용 detail2/누적포기5/HUD는 제외. 저작·관측helper·독립검수 파일 소유를 분리한다.
+- 새저작을 우선하며 변경하지 않은 과거focused/전체감사/240주를 반복하지 않는다. 선언·검증 완료 결과를 main에 커밋·푸시한다. 본편/새packageHOLD·인간45OPEN·공개GO1 보존.
+
 ## 2026-10-04 (Codex — 중국어 구직과 위험도 표시 검수 완료·main 반영)
 
 - [421](queue_archive/ORDER-421.md)·[422](queue_archive/ORDER-422.md)·[423](queue_archive/ORDER-423.md)은 동일 source1d0753c/tree3db905b 독립 범위한정 GO다.
