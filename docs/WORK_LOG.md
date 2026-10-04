@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 스캘핑 준비·거래 상태 중문 착수)
+
+- [429](queue_active/ORDER-429.md): 한국어15키를 간체·번체에서 독립 저작하는30값/2batch다. CN초안·TW저작·새격리helper·독립검수 파일 소유를 나눴다.
+- 실제 venue 제목/부제 분리와 setup 두 skill분기, 거래중 비보유/상승·보유/하락 및 draw 진입가를1280×800 지역별5화면으로 본다. 시장 상태 준비와 자연 story ingress는 구분한다.
+- 스코프는 새 UI값·수용원장뿐이다. 엔진/입력/거래정산 구현은 변경하지 않는다. 초기focus 누락이나 뒤층누출은 증거를 보존하고 별도 수리한다.
+- 목표 accepted41572/b203→41602/b205·CN/TW1691→1706. JA3044·기존증거/실제player34·공개GO1/인간OPEN45를 보존한다. 본편/새packageHOLD·원어민/인간/물리 미관측 유지.
+
 ## 2026-10-04 (Codex — 번역 검수 중복계산 축소 검증 완료)
 
 - [428](queue_archive/ORDER-428.md): source9bfc307/treeac58d5f 비저자 범위한정GO. 실제현재 public CLI fresh A/B각1회에서 출력·proof·census·Git조회/외부검증흔적은 exact동치였다.

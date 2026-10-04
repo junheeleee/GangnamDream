@@ -1,0 +1,68 @@
+# ORDER-429 — 스캘핑 준비·거래 상태를 중국어로 읽는다
+
+#### [~] ORDER-429 [P1·현지화] KO15키의 CN/TW30값과 실제 소비자17자리
+
+**[~] 착수 — 2026-10-04.** 사용자 계속 개발·검수 효율·main 커밋/푸시 위임.
+한국어 원문에서 지역별로 직접 저작하고 해당 소비자만 검수한다.
+
+## 소유·범위
+
+- root: locale/ui_zh-TW.json 15키, 최종 양지역/수용원장 append 통합, 기록.
+- claude_handoff_review: private429 CN response 초안만; locale/ui_zh-CN.json 수입은 root.
+- receipt_tests392: 새 private429 격리 화면/helper·공식 교환·normal runner만.
+- independent392: 비저자 전수 의미·실제10PNG/상태/입력·normal 원본 최종검수.
+- 추적 제품은 locale/ui_zh-CN.json, locale/ui_zh-TW.json,
+  content/meta/full_game_localization.json만. 큐·active/archive429·CLAUDE·WORK_LOG·
+  생성STATUS·agent 보고/판정은 기록 범위다. 기존 helper/실패/성공 증거 비소유.
+- KO/EN/JA·Scalping/Main/Tutorial/Font/게임 조건·효과·save·인간원장·public demo 변경0.
+  RESULT3/정산log2/직접영문 MARKET OPEN·BUY·SELL·P&L은 미완료 범위로 남긴다.
+
+## 증거 설계
+
+- 공식 source-bound export/check/import 지역별15값×2batch. 원래 header/digest 보존.
+  raw역상으로 기존4파일 전체를 복원하고 accepted41572/b203→41602/b205,
+  CN/TW1691→1706·JA3044불변을 확인한다.
+- 1280×800 지역별5상태 총10PNG: A 실제venue 메뉴, B skill15/mastery0 setup,
+  C skill100/mastery0 setup, D actual_start+prepared 비보유/상승, E prepared 보유/하락.
+  부모/Main의 함수 소비와 자연 story unlock을 구분한다.
+- A actual 별도title15px/subtitle12px·경고13px; exact em dash 분리 유지, 부제full-fit.
+  제목은 A venue/B setup/D visible header3곳. B/C description12px와 실제340px
+  wrap·hint11px·timer16px·price13px·position12px를 실제 node/FontKit에 결속한다.
+  E entry10px는 Label 대용 없이 실제 draw/PNG·70px 오른쪽폭·Y범위로 확인한다.
+- 게임언어를 먼저 설정한 pre-autoload 격리2프로세스, 실제player34파일 불변.
+  Tutorial 첫실제표시→SETUP 정상cancel; seen/포커스/문자열/폰트 결과를 주입하지 않는다.
+  _start_game 직후 첫await 전에 set_process(false); 시장/보유/history 준비는 fixture로 표시.
+  B/C는 mastery보정 후 skill분기, D/E는 최근최소3개와 ±0.3초과 추세를 확인한다.
+- 실제 초기focus와 안전한 방향입력만 관측한다. SETUP은 활성setup 자식만,
+  PLAYING은 보이는활성버튼만 허용. 초기focus누락/뒤층누출은 FAIL로 보존하며
+  helper grab_focus/neighbors 주입으로 통과시키지 않는다. 합성입력은 물리pad아님.
+  입력횟수는 실제 수행량을 기록하고 예정숫자를 채우려고 위험입력을 보내지 않는다.
+- 거래확정/매수/매도/다음턴/시간만료0. PLAYING close는 정산이므로 teardown에 쓰지 않는다.
+  prepared state와 초기화·BGM/튜토리얼·종료효과를 분리해 typed 비교/복원한다.
+  자연unlock·실시간매매·정산·전체미니게임 입력GO는 이 범위 증거가 아니다.
+- 공식check+표적화면 후 같은clean후보 공통 normal1회만. 기존 focused/전체/240주0.
+  실패는 원본을 보존하고 원인 한정수리한다. 제품입력결함이면 별도 범위를 선언한다.
+
+본편/새packageHOLD·B3/B4·원어민/인간/물리 미관측·공개GO1/인간OPEN45 유지.
+일회성 배치 지시이며 새 상시규범0; 자동PASS는 계약증거이지 문체·재미·출시GO가 아니다.
+
+## 원문 모집단
+
+```text
+높은 수익, 더 높은 위험. 중독에 주의하라.
+  —  60초 실시간 매매
+스캘핑 트레이딩
+진입 %.2f
+%d초
+가격  %.2f
+포지션: 보유중 (%s)
+포지션: 없음
+추세 감지: %s
+상승
+하락
+60초 안에 저점 매수 / 고점 매도
+투자감각 %d  ( %s )
+노이즈 낮음 · 추세 힌트 있음
+노이즈 높음
+판돈 선택
+```
