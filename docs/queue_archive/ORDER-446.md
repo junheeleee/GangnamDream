@@ -1,6 +1,17 @@
 # ORDER-446 — 일본어 포카드를 폴드와 구분한다
 
-#### [~] ORDER-446 [P1·오역 수리] 기존 일본어 패 이름 한 값 정정
+#### [x] ORDER-446 [P1·오역 수리] 기존 일본어 패 이름 한 값 정정
+
+**완료 — 2026-10-05.** 제품 `063d7db`·검수 후보 `313ea28`을 main에 반영했다.
+기존 JA 한 값을 정정하고 첫 receipt1/batch1을 추가해 accepted41737/b217,
+JA accepted13135다. 사전3048키·정상 Fold·과거 수용/게임/다른 언어는 보존했다.
+실제 JA3PNG·86표면·준비그룹 typed/Meta/RNG/focus 복원1 PASS(11.019초),
+입력/딜/AI/정산0·player34 불변. fresh8검증+조회1 PASS(486.382초), focused48/과거0.
+[독립 보고](../agent_reviews/ORDER-446.json)가 정확한 source/tree와 근거를 결속한다.
+공식 export 전 clean 조건 경합 실패1은 원문 보존했고 공식3회와 실제 runtime은
+각 첫 실행에서 통과했다. 신규coverage0·정정1·첫receipt1을 구분한다.
+지시는 일회성·새 정본 규칙0. 자동 PASS는 계약 증거이며 원어민·인간·물리패드·
+자연 진행·본편/새package GO가 아니다. 아래 착수 이력을 보존한다.
 
 **[~] 착수 — 2026-10-05.** 실제 `TexasHoldem.rank_name(7)`이 읽는
 `locale/ui_ja.json`의 `포카드` 값이 `フォールド`여서 행동 Fold와 혼동된다.

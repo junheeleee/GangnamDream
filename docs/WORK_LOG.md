@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [홀덤 비동기 수리 전 기록](history/WORK_LOG_2026-10-04_pre_order438.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 일본어 포카드 오역 정정 완료 (446)
+
+- 제품 `063d7db`·검수 후보 `313ea28`을 main에 커밋·푸시했다. 현재 패와 승패/요약에 `フォーカード`가 표시되며 정상 폴드 `フォールド`는 유지한다. 기존값 정정1·최초 receipt1이고 새 UI키/coverage0이다.
+- 실제 JA3PNG·86표면·typed/Meta/RNG/focus 복원1 PASS(11.019초), 입력/딜/AI/정산0·실제player34 불변. 저자와 독립 검수자가 원본3장을 직접 확인했다. history 원값과 기존3자 축약 표시를 구분한다.
+- 같은 후보의 fresh8검증+조회1 PASS(486.382초), focused48/과거0·accepted41737/b217이다. [독립 보고](agent_reviews/ORDER-446.json)와 [일회성 사양](queue_archive/ORDER-446.md)에 범위와 한계를 결속했다. 이전206판정184보고 보존, 새207판정185보고다.
+- 공식 전 clean 경합 실패는 실행 전 차단 기록으로 보존했다. 정상 Fold font 기대는 실행 전 actual regular13으로 정렬했다. 원어민·인간·물리패드·공개 GO1/인간OPEN45 및 본편/새package HOLD는 불변이다. 다음은 직접 영어 배너와 쇼다운 요약 제목의 현지화다.
+
 ## 2026-10-05 — 일본어 포카드 정정 제품·검수 후보 (446)
 
 - 제품 `063d7db`는 JA `포카드` 한 값을 `フォーカード`로 정정하고 최초 official receipt1/batch1을 추가했다. 정상 Fold와 다른 언어·게임 코드·과거 receipt는 불변이며 accepted41737/b217·JA13135다. 새 UI키/새 번역 coverage0과 기존값 정정1을 구분한다.
@@ -10,7 +17,7 @@
 
 ## 2026-10-05 — 일본어 포카드와 폴드 혼동 정정 착수 (446)
 
-- [새 범위](queue_active/ORDER-446.md)는 기존 JA `포카드:フォールド` 한 값을 `フォーカード`로 바로잡는 것이다. 새 키0·정정1·첫 official receipt1을 구분하고 정상 Fold 버튼/문구와 과거 수용 기록은 보존한다.
+- [새 범위](queue_archive/ORDER-446.md)는 기존 JA `포카드:フォールド` 한 값을 `フォーカード`로 바로잡는 것이다. 새 키0·정정1·첫 official receipt1을 구분하고 정상 Fold 버튼/문구와 과거 수용 기록은 보존한다.
 - root 공식 교환/수용·normal, claude exact정정/새focused, receipt JA3화면 helper/scope, independent 비저자 검수로 분리했다. 준비 current·플레이어/상대 승리의 실제 표시3PNG와 복원1회만 새로 검수한다. 실제 정산·입력·베팅/완료 배너 반복0이다.
 - 배너 source `dbc0ede`와 마감 `aef1f5d`는 main에 정리했다. 기존206판정184보고·accepted41736/b216·인간/공개 기록 및 본편HOLD를 보존하며 아직446 제품 정정·새 수용·새 PASS는0이다.
 
