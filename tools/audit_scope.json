@@ -14,6 +14,43 @@
   ],
   "fast_lanes": [
     {
+      "id": "contact-coffee-number",
+      "paths": [],
+      "owned_paths": [
+        "tools/zh_translation_audit.py",
+        "tools/contact_coffee_number_self_test.py",
+        "tools/audit_scope.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-418.json",
+        "docs/queue_active/ORDER-418.md",
+        "docs/queue_archive/ORDER-418.md",
+        "docs/agent_reviews/ORDER-419.json",
+        "docs/queue_active/ORDER-419.md",
+        "docs/queue_archive/ORDER-419.md"
+      ],
+      "tools": [
+        "tools/contact_coffee_number_self_test.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact419 contact recollection counts the second coffee encounter, not cups: numeric-only source/key/locale adapter and direct/full Leaf negatives. Same418 translations and fresh receipts use normal consumers; runtime is separate. No older focused suite, whole audit or 240-week run."
+    },
+    {
       "id": "reaction-body-font",
       "paths": [],
       "owned_paths": [
@@ -2581,6 +2618,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/contact_coffee_number_self_test.py",
+      "paths": ["tools/zh_translation_audit.py", "tools/contact_coffee_number_self_test.py"],
+      "why": "Exact419 long contact-coffee UI leaf: actual two targets, local second-occasion/coffee/after binding, thirty-year and nonnumeric checks, boundary rejection and old title/cup behavior unchanged through both validators.",
+      "godot": false
+    },
     {
       "tool": "tools/reaction_body_font_self_test.py",
       "paths": ["scenes/MainGame.gd", "tools/main_game_locale_history.py", "tools/ui_translation_append.py", "tools/reaction_body_font_self_test.py"],

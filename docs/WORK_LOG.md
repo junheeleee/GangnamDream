@@ -2,6 +2,26 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 연락 중국어와 커피 만남 차수 오탐 수리 후보)
+
+- [418](queue_active/ORDER-418.md) CN/TW 각19값을 한국어 직접저작·독립 전수대조했다.
+  최초 공식 export10.563초PASS, check10.737초 두지역FAIL 원본을 보존한다.
+  긴 회상문장의 두 번째 커피를 ordinal_cup으로 오독했으며, arc_events의 재방문
+  대화와 기존 제목 예외를 대조해 번역은 유지한다. 잔 수로 번역을 바꾸지 않는다.
+- [419](queue_active/ORDER-419.md) 별도 선언: exact UI source/key/locale에만
+  numeric 보정·새focused·등록. 기존 제목/generic 수사/역사검사 수정0.
+  author-focused72 첫시도는68행+실제2행PASS, 후미 중복차수2행FAIL(0.504초).
+  generic 숫자 집합의 중복제거를 발견해 새 exact adapter에서만 보강한다.
+  보강 subset8에서 중복4·금액2PASS, 이름2는 실제거부 문구의 test기대만 달라
+  FAIL(0.267초). 실제 Roman 이름손실 거부를 완화하지 않고 기대문구를 고친다.
+  이후 이름2만0.242초PASS. 최종모집단78의 frozen 공식검사는 별도로 남긴다.
+- 교환 helper의19잎 source20행 길이 assertion은 response 생성 전 수정했다.
+  export 당시 helper는 별도 원본으로 보존했으며 공식 export 재실행0.
+  실패 후에는 동일38초안/response와 원래 export를 새 checker에서 재검수한다.
+- 수용·실제연락10/getter표시14·4PNG·새focused 및 공통normal은 아직 최종 전이다.
+  공개GO1·인간OPEN45·본편/새packageHOLD·원어민/인간/물리미관측 유지.
+  자동PASS는 계약증거이지 문체·재미·출시GO가 아니다. 일회성/상시규범추가0.
+
 ## 2026-10-04 (Codex — 선물·본문서체·정확원문 검수 마감)
 
 - [415](queue_archive/ORDER-415.md)·[416](queue_archive/ORDER-416.md)·

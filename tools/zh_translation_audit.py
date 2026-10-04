@@ -8710,6 +8710,28 @@ def _ui_story_coffee_numbers(lang: str, key: str, source: str, target: str):
     return "두 번째 대화", target, []
 
 
+def _ui_contact_coffee_numbers(lang: str, key: str, source: str, target: str):
+    """Count the exact Sangchul contact recollection's second coffee meeting.
+
+    Its opening refers to arc_sangchul_02_coffee, not a second cup. Bind the
+    occasion, coffee and subsequent time locally; keep the thirty-year tail
+    and the entire target in numeric comparison. Other checks use originals.
+    """
+    expected = "두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들."
+    if lang not in LANGUAGES or source != expected or key != f"ui:{expected}:/{expected}":
+        return None
+    match = re.match(
+        rf"(?:喝[过過][ \t]*)?第[ \t]*(?P<number>{CHINESE_CARDINAL})[ \t]*(?:次|回)[ \t]*"
+        r"(?:喝[ \t]*)?咖啡[ \t]*(?:以|之)?[后後](?=[，,])", target,
+    )
+    if match is None or "," in match.group("number") \
+            or _chinese_cardinal_value(match.group("number")) != 2 \
+            or target.count("咖啡") != 1 \
+            or len(re.findall(rf"第[ \t]*{CHINESE_CARDINAL}[ \t]*(?:次|回)", target)) != 1:
+        return source, target, ["source-bound contact coffee occasion/time mismatch"]
+    return source.replace("두 번째 커피", "두 번째 대화", 1), target, []
+
+
 def _ui_two_paths_title_numbers(lang: str, key: str, source: str, target: str):
     """Bind two roads/between in one exact title, not generic entity counts.
 
@@ -8990,6 +9012,9 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     coffee_numbers = _ui_story_coffee_numbers(lang, key, source, target)
     if coffee_numbers is not None:
         notice_numbers = coffee_numbers
+    contact_coffee_numbers = _ui_contact_coffee_numbers(lang, key, source, target)
+    if contact_coffee_numbers is not None:
+        notice_numbers = contact_coffee_numbers
     # ORDER-252: reuse the exact-leaf contract only for numeric comparison.
     # Keep the original key and prose for every independent check below.
     from full_game_localization import _ui_dice_title_numbers
