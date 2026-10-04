@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [홀덤 비동기 수리 전 기록](history/WORK_LOG_2026-10-04_pre_order438.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 홀덤 한 판 손익·두 판 최종 정산 확인 완료 (452)
+
+- 검수 후보 `1bfc7b9`를 main에 커밋·푸시했다. 이제 팟30,000원과 내 순손익을 구분한다. 실제 시작/블라인드2회 뒤 준비 RIVER2개를 실제 SHOWDOWN으로 진행해 승+20,000원·패−10,000원, 최종+10,000원/cash5,010,000을 확인했다. 지급 규칙 자체는 바꾸지 않았다.
+- 실제3PNG·11표적 노드와 typed/RNG/새int/Meta/semantic focus 복원1 PASS(16.312초), 실제player34 불변이다. 중복 RESULT1회 무효와 신호1회도 확인했으며 raw/tap·베팅·AI·Close0, 자연 플레이나 물리 패드 관측은 아니다.
+- 같은 clean 후보에서7검증+조회1 PASS(726.422초): focused42/과거0·receipt723.222초·EN/context/queue/diff/등록189. accepted41755/b228·사전3053/1776/1776을 보존했고 공식 교환0이다. [독립 한정GO](agent_reviews/ORDER-452.json)·[일회성 사양](queue_archive/ORDER-452.md)으로 닫으며213판정191보고가 된다. 기존 이력·인간OPEN45/DONE1·공개GO1·본편/새package HOLD를 유지한다. 자동 PASS는 계약 증거이지 재미·깊이·문체·사람 관찰·출시 GO가 아니다.
+- 검수 읽기 진단에서 고정 교정 JSON의 반복 파싱과 manifest별 반복 source proof를 확인했다. 시간 기여율은 아직 미계측이다. full Document 캐시는 메모리 위험이 있어 적용하지 않았으며, 표적 계측과 불변 토큰 재사용 검토를 별도 후속으로 남긴다.
+
 ## 2026-10-05 — 홀덤 순손익 제품 반영·표적 검수 준비 (452)
 
 - 선언 `1a31721` 뒤 제품 `ffc99a1`을 main에 커밋·푸시했다. 변경은49/355/1207/1210/1218 정확5줄이며 손별 블라인드 전 stack과 지급 후 stack 차이를 summary/history·승리 메시지에 연결했다. 실제 지급·RESULT·71 UiCall/행수·다국어 사전/원장은 그대로다.
@@ -9,7 +16,7 @@
 
 ## 2026-10-05 — 홀덤 순손익 표시 수리 착수 (452)
 
-- [별도452](queue_active/ORDER-452.md)는 손 시작 stack을 캡처하고 SHOWDOWN/history.net·승리 메시지의 숫자만 실제 잔액 차이로 바꾸는5줄 수리다. gross POT 상세·지급/승자/AI·RESULT 실제현금·71 UiCall·사전/원장은 유지한다. 아직 새 제품·검수 PASS0이다.
+- [별도452](queue_archive/ORDER-452.md)는 손 시작 stack을 캡처하고 SHOWDOWN/history.net·승리 메시지의 숫자만 실제 잔액 차이로 바꾸는5줄 수리다. gross POT 상세·지급/승자/AI·RESULT 실제현금·71 UiCall·사전/원장은 유지한다. 아직 새 제품·검수 PASS0이다.
 - root 제품/normal, claude exact12번째 proof/새focused, receipt private KO두손/3PNG·전체 복원/scope, independent 최종검수로 나눈다. 승→다음손 패→RESULT+중복가드 한 세션으로 손별 기준과 street reset을 함께 검수하며 과거 다국어/베팅 suite·whole audit는 반복하지 않는다.
 - 451을 `7e9b03d`로 마감·푸시했고 clean wrapper 현황을 `07da271`로 갱신해 DASHBOARD_FRESH를 확인했다. accepted41755/b228·212판정190보고·인간/공개 이력·본편/새package HOLD를 보존한다.
 
