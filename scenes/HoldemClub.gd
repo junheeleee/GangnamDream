@@ -46,7 +46,7 @@ var _hand_history: Array = []     # [{won, net, hand_rank, desc}]
 var _session_won: int = 0
 var _session_lost: int = 0
 var _custom_raise_amount: int = 0  # 커스텀 레이즈 입력값 (0이면 미입력)
-
+var _hand_start_stack: int = 0    # 이번 손 블라인드 차감 전 보유 칩
 # UI 노드
 var _header_lbl: RichTextLabel
 var _pot_lbl: Label
@@ -352,7 +352,7 @@ func _deal_next_hand() -> void:
 	if _player_stack < BIG_BLIND:
 		_show_result_screen()
 		return
-
+	_hand_start_stack = _player_stack
 	for o in _opp:
 		if _hands_played == 1:
 			o["stack"] = _buy_in
@@ -1204,10 +1204,10 @@ func _do_showdown() -> void:
 	if winner_idx == -1:
 		# 플레이어 승
 		_player_stack += _pot
-		hand_net = _pot
+		hand_net = _player_stack - _hand_start_stack
 		_net_session += _pot - _buy_in if _hands_played == 1 else _pot
 		_session_won += 1
-		msg_parts.append(_tr("%s으로 승리! +%s", "Won with %s! +%s") % [TH.rank_name(best_hand[0]), _fmt(_pot)])
+		msg_parts.append(_tr("%s으로 승리! +%s", "Won with %s! +%s") % [TH.rank_name(best_hand[0]), _fmt(hand_net)])
 		GameState.modify_hidden_stat("gambling_tendency", 3)
 		AudioManager.play("chip_collect")
 		AudioManager.play_casino_result(float(_pot), maxf(float(_buy_in), 1.0), _pot >= 1_000_000)
@@ -1215,7 +1215,7 @@ func _do_showdown() -> void:
 	else:
 		# AI 승
 		_opp[winner_idx]["stack"] += _pot
-		hand_net = -_pot
+		hand_net = _player_stack - _hand_start_stack
 		_net_session -= _pot if _hands_played == 1 else 0
 		_session_lost += 1
 		msg_parts.append(_tr("%s가 이겼습니다 (%s)", "%s wins (%s)") % [_opp_name(winner_idx), TH.rank_name(best_hand[0])])
