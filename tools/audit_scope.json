@@ -14,6 +14,24 @@
   ],
   "fast_lanes": [
     {
+      "id": "coffee-encounter-locale",
+      "paths": [],
+      "owned_paths": [
+        "content/events_ja/arc_events.json", "content/events_zh-CN/arc_events.json", "content/events_zh-TW/arc_events.json",
+        "locale/ui_ja.json", "content/meta/full_game_localization.json", "tools/coffee_encounter_locale_contract.py",
+        "tools/coffee_encounter_locale_check.py", "tools/coffee_encounter_receipt_history.py", "tools/full_game_localization.py",
+        "tools/zh_translation_audit.py", "tools/ui_translation_append.py", "tools/order365_ui_receipt_compat.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-448.json",
+        "docs/queue_active/ORDER-448.md", "docs/queue_archive/ORDER-448.md"
+      ],
+      "tools": [
+        "tools/coffee_encounter_locale_check.py", "tools/full_body_translation_scope.py",
+        "tools/ja_translation_audit.py --scope ui", "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit448 corrects three event titles and one existing JA recollection from second cup to second encounter; exact five-product-file proof preserves old batches, replaces three existing target receipt hashes and adds one first JA receipt. New focused/fullbody/JA-UI/EN plus context/queue always and separate diff/registration give eight validations and one query. Fullbody invokes the fresh whole47 current receipt/history/Git/raw admission and current event-target digest checks, so identical standalone365 normal is NOT_RUN. Four prepared reader PNG do not claim natural story entry. Old historical self-tests/screens, four narratives, full audit and240-week suites NOT_RUN."
+    },
+    {
       "id": "holdem-banner-locale",
       "paths": [],
       "owned_paths": [
@@ -3115,6 +3133,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/coffee_encounter_locale_check.py",
+      "paths": ["tools/coffee_encounter_locale_check.py", "tools/coffee_encounter_locale_contract.py", "tools/coffee_encounter_receipt_history.py", "tools/full_game_localization.py", "tools/zh_translation_audit.py", "tools/ui_translation_append.py", "tools/order365_ui_receipt_compat.py", "content/events_ja/arc_events.json", "content/events_zh-CN/arc_events.json", "content/events_zh-TW/arc_events.json", "locale/ui_ja.json", "content/meta/full_game_localization.json"],
+      "why": "Exact448 address-bound encounter semantics, four official corrections/one first receipt, five-file inverse and fresh current event/UI admission; no historical suite replay.",
+      "godot": false
+    },
     {
       "tool": "tools/holdem_banner_locale_receipt_check.py",
       "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/ja_translation_pipeline.py", "tools/holdem_banner_locale_receipt_check.py", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "content/meta/full_game_localization.json"],

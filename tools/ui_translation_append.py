@@ -822,6 +822,11 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
             require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
                     "legacy JA rank lineage or protected locale differs")
             corrections.append((_legacy_ja_rank_comparison, before, after))
+        elif commit == _coffee_history.COFFEE_AFTER_COMMIT:
+            before, after, change = _coffee_history.coffee_encounter_proof(root, inventory)
+            require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
+                    "coffee encounter lineage or protected locale differs")
+            corrections.append((_coffee_history.coffee_encounter_comparison, before, after))
         elif commit in exact:
             proof, inverse = exact[commit]
             before, after, change = proof(root, inventory)
@@ -2171,3 +2176,10 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
             root, inventory, inventory["source_manifest_sha256"])
     return _HOLDEM_BANNER_LOCALE_OLD_MANIFEST_MATCHES(root, inventory, expected)
 # END_HOLDEM_BANNER_LOCALE_APPEND_447
+
+
+# BEGIN_COFFEE_ENCOUNTER_CORRECTION_448
+# Exact target-only product proof. No source manifest or historical UI seal is
+# replaced; the history loop admits only its separately observed commit.
+import coffee_encounter_receipt_history as _coffee_history
+# END_COFFEE_ENCOUNTER_CORRECTION_448

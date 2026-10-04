@@ -9227,6 +9227,10 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     contact_coffee_numbers = _ui_contact_coffee_numbers(lang, key, source, target)
     if contact_coffee_numbers is not None:
         notice_numbers = contact_coffee_numbers
+    from coffee_encounter_locale_contract import coffee_encounter_numbers
+    encounter_numbers = coffee_encounter_numbers(lang, key, source, target)
+    if encounter_numbers is not None:
+        notice_numbers = encounter_numbers
     choice_paths_numbers = _ui_choice_paths_numbers(lang, key, source, target)
     if choice_paths_numbers is not None:
         notice_numbers = choice_paths_numbers

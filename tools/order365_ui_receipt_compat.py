@@ -21,6 +21,7 @@ from typing import Any, Mapping
 
 import order351_source_compat as previous
 import ui_translation_append as ui_append
+import coffee_encounter_receipt_history as coffee_history
 
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER_PATH = "content/meta/full_game_localization.json"
@@ -341,6 +342,10 @@ def fresh_validation_proof():
         baseline[ja_path] = ja_raw
         current = ui_append.current_proof(ROOT, AFTER_COMMIT, baseline)
         current["baseline_raw"] = baseline
+        if coffee_history.COFFEE_AFTER_COMMIT is not None:
+            current["coffee_event_raw"] = coffee_history.coffee_encounter_current_events(ROOT)
+            _require(ui_append._git(ROOT, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+                     == current["evidence"]["head"], "coffee/UI current proofs observed different Git candidates")
         token = _ACTIVE_PROOF.set(proof)
         current_token = _ACTIVE_CURRENT.set(current)
         try:
@@ -359,6 +364,10 @@ def source_errors(raw: bytes, relative: str) -> list[str]:
         with fresh_validation_proof():
             if relative in ui_append.CURRENT_PATHS:
                 _require(raw == _ACTIVE_CURRENT.get()["raw"][relative], "current raw differs from Git " + relative)
+                return []
+            if relative in coffee_history.EVENT_PATHS and "coffee_event_raw" in _ACTIVE_CURRENT.get():
+                _require(raw == _ACTIVE_CURRENT.get()["coffee_event_raw"][relative],
+                         "current coffee event raw differs from exact Git successor " + relative)
                 return []
             return previous.source_errors(raw, relative)
     except (OSError, ValueError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
