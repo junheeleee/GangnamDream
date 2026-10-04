@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 — 홀덤 원 단위 금액 표시 수리 착수 (434)
+
+- 실제 formatter는12,500원을 KO1만·준비 CN/TW ₩1K로 표시한다. 같은 정수화 뒤 기존 whole-won 공통 formatter를 사용해 단위/정밀도만 고친다. 베팅·승패·정산·AP 변경0이다.
+- root 제품1+append EOF, claude_handoff_review 공유Git증명+JA pipeline/audit, receipt_tests392 새focused+scope/private검수, independent392 비저자 검수로7파일 소유를 분리한다. 현재 소스3키 퇴역/나머지ID 보존·JA기존3값/수용원장 바이트 보존·실제이력16조합 경계를 검수한다.
+- 선언 후 제품단독 commit을 실제 before/after 증명으로 고정한다.5언어 SETUP/첫 PREFLOP 총10PNG·실제첫손/semantic입력·완전복원 뒤 현재collector 영향 검사를 각각1회 실행할 계획이며 아직 실행0이다. 과거focused/전체감사/240주 재실행0, player34/공개GO1/인간OPEN45/본편HOLD 보존.
+- 다음435는 신규22키/중문44값이며 별도 선언한다. 번역-only 때는 바뀌지 않은 서사 검사를 명시 NOT_RUN으로 두되 fresh receipt/fullbody와 실제 화면을 유지한다.
+
 ## 2026-10-04 — 번역 검수의 불필요한 값 위치 분석 제거 완료
 
 - [433](queue_archive/ORDER-433.md): source781674e/tree09cdd0f의 두 값 파싱식과 새 회귀검사를 비저자가 범위 한정GO했다. 동일 strict parser·실제 raw 역상·Git/HEAD 증명은 보존한다. 정상4파일의 전체 Document 생성16→8, 역상용8→8이다.
