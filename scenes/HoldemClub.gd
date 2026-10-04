@@ -1624,14 +1624,18 @@ func _pulse_node(node: Node, scale_to: float = 1.08, duration: float = 0.28) -> 
 func _show_table_banner(text: String, color: Color, duration: float = 0.55) -> void:
 	if text.is_empty():
 		return
+	for child in get_children():
+		if child is Control and child.get_meta(&"holdem_table_banner", false) == true:
+			child.hide()
 	var root_size := size
 	if root_size.x <= 1.0 or root_size.y <= 1.0:
 		root_size = get_viewport_rect().size
 	var panel := PanelContainer.new()
+	panel.set_meta(&"holdem_table_banner", true)
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.z_index = 75
 	panel.size = Vector2(minf(360.0, root_size.x - 48.0), 54.0)
-	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(86.0, root_size.y * 0.30))
+	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, root_size.y - panel.size.y - 24.0)
 	panel.modulate = Color(1, 1, 1, 0.0)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(0.02, 0.03, 0.04, 0.82)
