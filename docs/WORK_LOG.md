@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [홀덤 비동기 수리 전 기록](history/WORK_LOG_2026-10-04_pre_order438.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 홀덤 베팅·단계·힌트 중국어 15키 착수 (442)
+
+- [별도 범위](queue_active/ORDER-442.md)의15키만 CN/TW에서 한국어 직접 저작한다. JA 기존값은 보존하고 accepted41694/b211→41724/b213·CN/TW1752→1767을 목표로 한다. 아직 새 수용/검증/GO0이다.
+- root TW·공식교환/통합, claude CN, receipt 격리helper/scope, independent 비저자 전수/실제검수로 나눈다. 실제 player/AI transient와 TURN/RIVER·거부·Tutorial·정산footer를 묶어 기존 검사를 반복하지 않는다.
+- 카드 source020b1a2·마감986299c를 main에 정리했다. 기존202판정180보고·player34·공개GO1/인간OPEN45·본편/새package HOLD 보존. 규칙 본문 collector와 직접 영어 배너는 새 범위 밖이다.
+
 ## 2026-10-05 — 홀덤 카드 앞면 가독성 수리 완료 (441)
 
 - 제품99aee1b·검사020b1a2를 main에 커밋·푸시했다. 크림 카드의 숫자/무늬만 진한 검정·빨강으로 바꾸고 61 UiCall·번역41694/b211·게임 규칙·폰트/자산을 보존했다.
