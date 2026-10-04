@@ -8,11 +8,12 @@ No private receipts, cached validation verdicts, or historical consumer are used
 from __future__ import annotations
 
 import hashlib
+import contextvars
 import re
 import subprocess
 from collections import Counter
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Mapping, NamedTuple
 
 import full_game_localization as exchange
 from order351_source_compat import _Document, _loads, _ordered
@@ -358,30 +359,38 @@ def _correction_comparison(snapshot: Mapping[str, bytes], before: Mapping[str, b
         require(doc.text[start:end] == b.text[bs:be], "corrected UI token formatting changed: " + locale)
         first, last = a.spans[(CORRECTION_KEY,)]
         result[path] = (doc.text[:start] + a.text[first:last] + doc.text[end:]).encode()
-    a, b = _Document(before[LEDGER_PATH]), _Document(after[LEDGER_PATH])
-    doc = b if snapshot[LEDGER_PATH] == after[LEDGER_PATH] else _Document(snapshot[LEDGER_PATH])
+    fixed = _fixed_ledger_projection("correction", before, after)
+    if fixed is None:
+        a, b = _Document(before[LEDGER_PATH]), _Document(after[LEDGER_PATH])
+        doc = b if snapshot[LEDGER_PATH] == after[LEDGER_PATH] else _Document(snapshot[LEDGER_PATH])
+    else:
+        doc = _Document(snapshot[LEDGER_PATH])
     value = doc.value
     require(value["accepted_sha256"] == exchange.digest(value["accepted"]), "corrected accepted checksum")
     require(len(value["batches"]) >= 149
-            and _ordered(value["batches"][148]) == _ordered(b.value["batches"][148]),
+            and _ordered(value["batches"][148]) == (fixed.batch_ordered if fixed else _ordered(b.value["batches"][148])),
             "correction batch missing/changed/reordered")
     start, end = doc.spans[("batches", 147)][1], doc.spans[("batches", 148)][1]
-    bs, be = b.spans[("batches", 147)][1], b.spans[("batches", 148)][1]
-    require(doc.text[start:end] == b.text[bs:be], "correction batch raw formatting changed")
+    if fixed is None:
+        bs, be = b.spans[("batches", 147)][1], b.spans[("batches", 148)][1]
+    require(doc.text[start:end] == (fixed.batch_raw if fixed else b.text[bs:be]), "correction batch raw formatting changed")
     replacements = [(start, end, "")]
     restored_accepted = dict(value["accepted"])
     for locale in LOCALES:
-        require(_ordered(value["accepted"][locale][receipt]) == _ordered(b.value["accepted"][locale][receipt]),
+        row = fixed.receipts[LOCALES.index(locale)] if fixed else None
+        require(_ordered(value["accepted"][locale][receipt]) == (row.after_ordered if row else _ordered(b.value["accepted"][locale][receipt])),
                 "corrected source/target receipt changed: " + locale)
         path = ("accepted", locale, receipt, "target_sha256")
         start, end = doc.spans[path]
-        bs, be = b.spans[path]
-        require(doc.text[start:end] == b.text[bs:be], "corrected receipt token formatting changed: " + locale)
-        first, last = a.spans[path]
-        replacements.append((start, end, a.text[first:last]))
+        if row is None:
+            bs, be = b.spans[path]
+        require(doc.text[start:end] == (row.after_target_raw if row else b.text[bs:be]), "corrected receipt token formatting changed: " + locale)
+        if row is None:
+            first, last = a.spans[path]
+        replacements.append((start, end, row.before_target_raw if row else a.text[first:last]))
         restored_accepted[locale] = {**value["accepted"][locale], receipt: {
             **value["accepted"][locale][receipt],
-            "target_sha256": a.value["accepted"][locale][receipt]["target_sha256"]}}
+            "target_sha256": row.before_target if row else a.value["accepted"][locale][receipt]["target_sha256"]}}
     start, end = doc.spans[("accepted_sha256",)]
     replacements.append((start, end, _ordered(exchange.digest(restored_accepted)).decode()))
     text = doc.text
@@ -656,27 +665,35 @@ def _fee_comparison(snapshot: Mapping[str, bytes], before: Mapping[str, bytes],
         require(doc.text[start:end] == b.text[bs:be], "corrected fee raw token changed")
         first, last = a.spans[(FEE_KEY,)]
         result[path] = (doc.text[:start] + a.text[first:last] + doc.text[end:]).encode()
-    a, b = _Document(before[LEDGER_PATH]), _Document(after[LEDGER_PATH])
-    doc = b if snapshot[LEDGER_PATH] == after[LEDGER_PATH] else _Document(snapshot[LEDGER_PATH])
+    fixed = _fixed_ledger_projection("fee", before, after)
+    if fixed is None:
+        a, b = _Document(before[LEDGER_PATH]), _Document(after[LEDGER_PATH])
+        doc = b if snapshot[LEDGER_PATH] == after[LEDGER_PATH] else _Document(snapshot[LEDGER_PATH])
+    else:
+        doc = _Document(snapshot[LEDGER_PATH])
     value = doc.value
     require(value["accepted_sha256"] == exchange.digest(value["accepted"]), "corrected fee accepted checksum")
-    require(len(value["batches"]) >= 152 and _ordered(value["batches"][151]) == _ordered(b.value["batches"][151]),
+    require(len(value["batches"]) >= 152 and _ordered(value["batches"][151]) == (fixed.batch_ordered if fixed else _ordered(b.value["batches"][151])),
             "fee correction batch missing/changed/reordered")
     start, end = doc.spans[("batches", 150)][1], doc.spans[("batches", 151)][1]
-    bs, be = b.spans[("batches", 150)][1], b.spans[("batches", 151)][1]
-    require(doc.text[start:end] == b.text[bs:be], "fee correction batch raw changed")
+    if fixed is None:
+        bs, be = b.spans[("batches", 150)][1], b.spans[("batches", 151)][1]
+    require(doc.text[start:end] == (fixed.batch_raw if fixed else b.text[bs:be]), "fee correction batch raw changed")
     edits = [(start, end, "")]
     accepted = dict(value["accepted"])
     for locale in LOCALES:
-        require(_ordered(value["accepted"][locale][receipt]) == _ordered(b.value["accepted"][locale][receipt]),
+        row = fixed.receipts[LOCALES.index(locale)] if fixed else None
+        require(_ordered(value["accepted"][locale][receipt]) == (row.after_ordered if row else _ordered(b.value["accepted"][locale][receipt])),
                 "corrected fee receipt changed: " + locale)
         field = ("accepted", locale, receipt, "target_sha256")
         start, end = doc.spans[field]
-        bs, be = b.spans[field]
-        require(doc.text[start:end] == b.text[bs:be], "corrected fee receipt raw token changed")
-        first, last = a.spans[field]
-        edits.append((start, end, a.text[first:last]))
-        accepted[locale] = {**value["accepted"][locale], receipt: a.value["accepted"][locale][receipt]}
+        if row is None:
+            bs, be = b.spans[field]
+        require(doc.text[start:end] == (row.after_target_raw if row else b.text[bs:be]), "corrected fee receipt raw token changed")
+        if row is None:
+            first, last = a.spans[field]
+        edits.append((start, end, row.before_target_raw if row else a.text[first:last]))
+        accepted[locale] = {**value["accepted"][locale], receipt: _loads(row.before_ordered) if row else a.value["accepted"][locale][receipt]}
     start, end = doc.spans[("accepted_sha256",)]
     edits.append((start, end, _ordered(exchange.digest(accepted)).decode()))
     text = doc.text
@@ -849,7 +866,7 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
             before, after, change = proof(root, inventory)
             require({p: previous[p] for p in PATHS} == before and {p: successor[p] for p in PATHS} == after
                     and all(previous[p] == successor[p] for p in paths if p not in PATHS), "fee lineage or protected JA differs")
-            corrections.append((inverse, before, after))
+            corrections.append((_bind_fixed_ledger_comparison(inverse, before, after), before, after))
         else:
             change = validate_append(comparison(previous), comparison(successor), inventory)
         for revision, expected in change["source_manifests"].items():
@@ -2498,3 +2515,108 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
             root, inventory, inventory["source_manifest_sha256"])
     return _HOLDEM_HAND_NET_OLD_MANIFEST_MATCHES(root, inventory, expected)
 # END_HOLDEM_HAND_NET_APPEND_452
+
+
+# BEGIN_FIXED_LEDGER_PROJECTION_454
+class _FixedLedgerReceipt(NamedTuple):
+    locale: str
+    after_ordered: bytes
+    after_target_raw: str
+    before_target_raw: str
+    before_target: str
+    before_ordered: bytes
+
+
+class _FixedLedgerProjection(NamedTuple):
+    kind: str
+    path: str
+    before_raw: bytes
+    after_raw: bytes
+    batch_ordered: bytes
+    batch_raw: str
+    receipts: tuple[_FixedLedgerReceipt, ...]
+
+
+# This holds one transient call context, never a process-wide success cache.
+_ACTIVE_FIXED_LEDGER_PROJECTION = contextvars.ContextVar("fixed_ledger_projection", default=None)
+_FIXED_LEDGER_REAL_COMPARISONS = ((_correction_comparison, "correction"), (_fee_comparison, "fee"))
+
+
+def _project_fixed_ledger(kind: str, path: str, before_raw: bytes,
+                          after_raw: bytes) -> _FixedLedgerProjection:
+    """Extract small immutable tokens, not a verdict or retained Document.
+
+    Only the history caller admits these fixed bytes through the actual Git
+    correction proof. Calling this pure helper is not repository admission.
+    """
+    require(kind in ("correction", "fee") and path == LEDGER_PATH,
+            "fixed ledger projection kind/path differs")
+    require(isinstance(before_raw, bytes) and isinstance(after_raw, bytes),
+            "fixed ledger projection requires immutable bytes")
+    index, key = (148, CORRECTION_KEY) if kind == "correction" else (151, FEE_KEY)
+    identifier = receipt_id(key)
+    a, b = _Document(before_raw), _Document(after_raw)
+    batch_start, batch_end = b.spans[("batches", index - 1)][1], b.spans[("batches", index)][1]
+    receipts = []
+    for locale in LOCALES:
+        field = ("accepted", locale, identifier, "target_sha256")
+        first, last = a.spans[field]
+        start, end = b.spans[field]
+        old = a.value["accepted"][locale][identifier]
+        new = b.value["accepted"][locale][identifier]
+        require(isinstance(old["target_sha256"], str), "fixed ledger target must be an immutable string")
+        receipts.append(_FixedLedgerReceipt(locale, _ordered(new), b.text[start:end],
+                                            a.text[first:last], old["target_sha256"], _ordered(old)))
+    return _FixedLedgerProjection(kind, path, before_raw, after_raw,
+                                  _ordered(b.value["batches"][index]),
+                                  b.text[batch_start:batch_end], tuple(receipts))
+
+
+def _fixed_ledger_projection(kind: str, before: Mapping[str, bytes],
+                             after: Mapping[str, bytes]) -> _FixedLedgerProjection | None:
+    fixed = _ACTIVE_FIXED_LEDGER_PROJECTION.get()
+    if fixed is None:
+        return None
+    require(fixed.kind == kind and fixed.path == LEDGER_PATH
+            and isinstance(before[LEDGER_PATH], bytes) and isinstance(after[LEDGER_PATH], bytes)
+            and before[LEDGER_PATH] == fixed.before_raw and after[LEDGER_PATH] == fixed.after_raw,
+            "fixed ledger comparison kind/path/raw binding differs")
+    return fixed
+
+
+def _bind_fixed_ledger_comparison(function, before: Mapping[str, bytes], after: Mapping[str, bytes]):
+    """Bind only the two real inverses after their fresh proof/lineage checks.
+
+    The closure belongs to validate_history's local corrections list. Direct
+    three-argument calls and unrelated/synthetic inverses keep their old path.
+    A cold successful call parses two fixed ledgers and one dynamic ledger;
+    subsequent calls parse only the dynamic ledger, including exact-after.
+    """
+    kind = next((label for original, label in _FIXED_LEDGER_REAL_COMPARISONS if function is original), None)
+    if kind is None:
+        return function
+    require(set(before) == set(after) == set(PATHS), "fixed ledger binding path population differs")
+    before_raw, after_raw = before[LEDGER_PATH], after[LEDGER_PATH]
+    require(isinstance(before_raw, bytes) and isinstance(after_raw, bytes),
+            "fixed ledger binding requires immutable bytes")
+    saved = None
+
+    def comparison(snapshot, current_before, current_after):
+        nonlocal saved
+        require(set(current_before) == set(current_after) == set(PATHS),
+                "fixed ledger comparison path population differs")
+        require(isinstance(current_before[LEDGER_PATH], bytes) and isinstance(current_after[LEDGER_PATH], bytes)
+                and current_before[LEDGER_PATH] == before_raw and current_after[LEDGER_PATH] == after_raw,
+                "fixed ledger comparison raw binding differs")
+        candidate = saved if saved is not None else _project_fixed_ledger(kind, LEDGER_PATH, before_raw, after_raw)
+        token = _ACTIVE_FIXED_LEDGER_PROJECTION.set(candidate)
+        try:
+            result = function(snapshot, current_before, current_after)
+        finally:
+            _ACTIVE_FIXED_LEDGER_PROJECTION.reset(token)
+        # Failed inverses never publish a new projection or cache their result.
+        saved = candidate
+        return result
+
+    return comparison
+# END_FIXED_LEDGER_PROJECTION_454

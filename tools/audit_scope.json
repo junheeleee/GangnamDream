@@ -14,6 +14,18 @@
   ],
   "fast_lanes": [
     {
+      "id": "ui-fixed-ledger-projection",
+      "paths": [],
+      "owned_paths": [
+        "tools/ui_translation_append.py", "tools/ui_fixed_ledger_projection_check.py", "tools/audit_scope.json",
+        "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-454.json",
+        "docs/queue_active/ORDER-454.md", "docs/queue_archive/ORDER-454.md"
+      ],
+      "tools": ["tools/ui_fixed_ledger_projection_check.py", "tools/order365_ui_receipt_compat.py", "tools/audit_select.py --verify"],
+      "why": "Explicit454 two initial correction fixed-ledger projections only: new equivalence/parse-count/immutable-state focused reuses only the old memo synthetic_history/uncached_factory helpers, never its historical standalone seal. One fresh365 default admission plus context/queue always and separate diff/registration give six validations and one query. Dynamic snapshot, UI parsing, Git/proof/HEAD/source checks remain; no cache verdict, profiler rerun, engine, locale/narrative/old full suites/whole audit/240-week or official exchange."
+    },
+    {
       "id": "ui-receipt-cost-profile",
       "paths": [],
       "owned_paths": [
@@ -3210,6 +3222,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/ui_fixed_ledger_projection_check.py",
+      "paths": ["tools/ui_translation_append.py", "tools/ui_fixed_ledger_projection_check.py"],
+      "why": "Sealed453 two-function oracle, actual fixed blob pairs and bounded synthetic faults: exact raw inverse, correction/fee asymmetry, binding/context/freshness, parse counts including setup and lightweight immutable retention.",
+      "godot": false
+    },
     {
       "tool": "tools/ui_receipt_cost_profile_check.py",
       "paths": ["tools/ui_receipt_cost_profile.py", "tools/ui_receipt_cost_profile_check.py"],

@@ -44,8 +44,12 @@
 - 반복 fixed ledger Document 생성 수 감소와 남는 projection의 경량 불변성으로
   최적화를 입증한다. 초기 준비 비용·추가 dynamic parse를 포함하며 시간만으로
   성공을 판정하지 않는다. 합성 fixture는 실제 repository admission 증거가 아니다.
-- 같은 clean 후보에서 새 focused와 관련 기존 `ui_comparison_memo_self_test.py`,
-  실제365 기본검사1회·context/queue/diff/등록·차선조회1을 실행한다. 이전 전체
+- 기존 memo 검사의 파일전체/EOF 봉인은 옛428 시점에 고정돼 현재430~452 추가를
+  이미 거부하므로 standalone 전체는 실행하지 않는다. 그 도구의 `synthetic_history`와
+  `uncached_factory`를 새 focused에서 호출해 fresh proof/HEAD/trace·epoch 회귀만
+  검수한다. 옛 봉인을 완화하거나 과거 전체검사 PASS로 부르지 않는다.
+- 같은 clean 후보에서 이 회귀를 포함한 새 focused와 실제365 기본검사1회·
+  context/queue/diff/등록·차선조회1을 실행한다. 이전 전체
   receipt를 비교 목적으로 재실행하지 않는다. 단일 실제 wall과453 계측 관측은
   계측/환경 조건이 달라 정밀 A/B나 확정 백분율 향상으로 부르지 않는다.
 - 엔진/화면/입력/전체언어/이야기/과거 전체suite/whole audit/240주/공식교환/새package
