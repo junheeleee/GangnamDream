@@ -6,6 +6,10 @@
 메시지 사각형이 x<0·폭>1280이 되어 ScrollContainer에 잘렸다. 원문 관측
 `order442-screen-first`는 실패로 보존하고 번역 30값의 최종 GO는 보류한다.
 
+제품 후보 `9dc812d`: 두 호출만 치환·61 UiCall/줄 좌표 보존. 새 focused
+사전검사57 PASS·비저자 제품/EOF/격리 collector 코드 검토 차단0. 실제 두 지역
+묶음16PNG와 정상 차선9검증+조회1 대기이며 품질 GO는 아직 미발급이다.
+
 ## 범위·소유
 
 - root: `scenes/HoldemClub.gd`의 콜/쇼다운 `_msg_lbl` 확대 호출 두 줄만 주석화,

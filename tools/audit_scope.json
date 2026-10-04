@@ -14,6 +14,24 @@
   ],
   "fast_lanes": [
     {
+      "id": "holdem-message-pulse",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_message_pulse_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-442.json", "docs/agent_reviews/ORDER-442-REWORK.json",
+        "docs/agent_reviews/ORDER-443.json", "docs/queue_active/ORDER-442.md", "docs/queue_archive/ORDER-442.md",
+        "docs/queue_active/ORDER-443.md", "docs/queue_archive/ORDER-443.md"
+      ],
+      "tools": [
+        "tools/holdem_message_pulse_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py", "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit443 comments only the two full-width message pulse calls, preserving line count,61 UiCalls and all localization receipts. New exact source/history focused plus442 receipt/fullbody/ZH/EN/context/queue/diff/registration give nine validations and one lane query. Actual early Call180ms/SHOWDOWN300ms post-draw windows add four PNG to the preserved442 input/effect population; first failed evidence retained. Historical focused,JA,four narratives,full and240-week suites NOT_RUN."
+    },
+    {
       "id": "holdem-betting-zh",
       "paths": [],
       "owned_paths": [
@@ -3029,6 +3047,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/holdem_message_pulse_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_message_pulse_receipt_check.py"],
+      "why": "Exact443 two same-line message-pulse removals, fresh six-transition Git/source admission and unchanged UiCalls/dictionaries/receipts; no historical focused or engine replay.",
+      "godot": false
+    },
     {
       "tool": "tools/holdem_card_color_receipt_check.py",
       "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_card_color_receipt_check.py"],

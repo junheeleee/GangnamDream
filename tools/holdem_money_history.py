@@ -658,3 +658,98 @@ def holdem_money_predecessor(current: bytes, root: Path | None = None) -> bytes:
         return _holdem_card_color_proof(current, root)[4]
     return _HOLDEM_CARD_COLOR_OLD_MONEY_PREDECESSOR(current, root)
 # END_HOLDEM_CARD_COLOR_HISTORY_441
+
+
+# BEGIN_HOLDEM_MESSAGE_PULSE_HISTORY_443
+# Keep all earlier proofs/pins intact. Only the two full-width label pulses
+# are replaced; every literal, line coordinate and other visual cue survives.
+MESSAGE_PULSE_BEFORE_COMMIT = "251f5d98af29b7e2864864ca28a28eacaf17a9e2"
+MESSAGE_PULSE_AFTER_COMMIT = "9dc812d11e54cd34ed45376513753d0cda8b12fa"
+MESSAGE_PULSE_TREES = ("cbdf176f8c41b13db861205beb330400652f616f", "2a7669b34c72b8ef614d1aa3e878a7b133247885")
+MESSAGE_PULSE_BLOBS = ("1485a4e883457e45ae7dd9f2b9d0905265dc5dd0", "6b1e43f4547be5aa8f2aae54b3f730c40f7d437c")
+MESSAGE_PULSE_HASHES = ("5529f970bd5f9a494d048ebc10a3440dffdc388e93f25777d6e4d5c5b70c9bdb",
+                        "cfc4987793e22738d8d7474f8cb821c072276e6d8c9390cf05ff5f1ef2a68ee4")
+MESSAGE_PULSE_REPLACEMENTS = (
+    ('\t\t\t_pulse_node(_msg_lbl, 1.04, 0.18)\n',
+     '\t\t\t# Keep full-width action text inside the clipping viewport.\n'),
+    ('\t_pulse_node(_msg_lbl, 1.08, 0.30)\n',
+     '\t# Keep full-width showdown text inside the clipping viewport.\n'),
+)
+_HOLDEM_MESSAGE_PULSE_OLD_CARD_COLOR_PREDECESSOR = holdem_card_color_predecessor
+_HOLDEM_MESSAGE_PULSE_OLD_ASYNC_PREDECESSOR = holdem_async_predecessor
+_HOLDEM_MESSAGE_PULSE_OLD_BETTING_PREDECESSOR = holdem_betting_predecessor
+_HOLDEM_MESSAGE_PULSE_OLD_CANVAS_PREDECESSOR = holdem_canvas_predecessor
+_HOLDEM_MESSAGE_PULSE_OLD_MONEY_PREDECESSOR = holdem_money_predecessor
+
+
+def holdem_message_pulse_inverse(current: bytes, before: bytes) -> bytes:
+    """Recover the whole predecessor by undoing exactly two complete lines."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(MESSAGE_PULSE_REPLACEMENTS, tuple) or len(MESSAGE_PULSE_REPLACEMENTS) != 2
+            or any(not isinstance(pair, tuple) or len(pair) != 2
+                   or any(not isinstance(part, str) for part in pair) for pair in MESSAGE_PULSE_REPLACEMENTS)):
+        raise ValueError("ORDER-443: inverse population/type differs")
+    recovered = current
+    for pair in reversed(MESSAGE_PULSE_REPLACEMENTS):
+        old, new = (part.encode("utf-8") for part in pair)
+        if (not old or old == new or old.count(b"\n") != 1 or new.count(b"\n") != 1
+                or not old.endswith(b"\n") or not new.endswith(b"\n")
+                or before.count(old) != 1 or before.count(new) != 0
+                or recovered.count(new) != 1 or recovered.count(old) != 0):
+            raise ValueError("ORDER-443: message-pulse line inverse is not exact1")
+        recovered = recovered.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-443: change outside exact message-pulse repair")
+    return recovered
+
+
+def _holdem_message_pulse_proof(
+    current: bytes, root: Path | None = None,
+) -> tuple[bytes, bytes, bytes, bytes, bytes, bytes]:
+    """Fixed six transitions/36 objects; return441,438,437,436,434,373."""
+    stages = (
+        (BEFORE_COMMIT, AFTER_COMMIT, TREES, BLOBS, HASHES, holdem_money_inverse),
+        (CANVAS_BEFORE_COMMIT, CANVAS_AFTER_COMMIT, CANVAS_TREES, CANVAS_BLOBS, CANVAS_HASHES, holdem_canvas_inverse),
+        (BETTING_BEFORE_COMMIT, BETTING_AFTER_COMMIT, BETTING_TREES, BETTING_BLOBS, BETTING_HASHES, holdem_betting_inverse),
+        (ASYNC_BEFORE_COMMIT, ASYNC_AFTER_COMMIT, ASYNC_TREES, ASYNC_BLOBS, ASYNC_HASHES, holdem_async_inverse),
+        (CARD_COLOR_BEFORE_COMMIT, CARD_COLOR_AFTER_COMMIT, CARD_COLOR_TREES, CARD_COLOR_BLOBS, CARD_COLOR_HASHES, holdem_card_color_inverse),
+        (MESSAGE_PULSE_BEFORE_COMMIT, MESSAGE_PULSE_AFTER_COMMIT, MESSAGE_PULSE_TREES, MESSAGE_PULSE_BLOBS, MESSAGE_PULSE_HASHES, holdem_message_pulse_inverse),
+    )
+    if len(stages) != 6:
+        raise ValueError("ORDER-443: fixed six-transition population differs")
+    return _holdem_exact_stage_chain(current, root, stages)
+
+
+def holdem_message_pulse_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _holdem_message_pulse_proof(current, root)[0]
+
+
+def holdem_card_color_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == MESSAGE_PULSE_HASHES[1]:
+        return _holdem_message_pulse_proof(current, root)[1]
+    return _HOLDEM_MESSAGE_PULSE_OLD_CARD_COLOR_PREDECESSOR(current, root)
+
+
+def holdem_async_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == MESSAGE_PULSE_HASHES[1]:
+        return _holdem_message_pulse_proof(current, root)[2]
+    return _HOLDEM_MESSAGE_PULSE_OLD_ASYNC_PREDECESSOR(current, root)
+
+
+def holdem_betting_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == MESSAGE_PULSE_HASHES[1]:
+        return _holdem_message_pulse_proof(current, root)[3]
+    return _HOLDEM_MESSAGE_PULSE_OLD_BETTING_PREDECESSOR(current, root)
+
+
+def holdem_canvas_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == MESSAGE_PULSE_HASHES[1]:
+        return _holdem_message_pulse_proof(current, root)[4]
+    return _HOLDEM_MESSAGE_PULSE_OLD_CANVAS_PREDECESSOR(current, root)
+
+
+def holdem_money_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == MESSAGE_PULSE_HASHES[1]:
+        return _holdem_message_pulse_proof(current, root)[5]
+    return _HOLDEM_MESSAGE_PULSE_OLD_MONEY_PREDECESSOR(current, root)
+# END_HOLDEM_MESSAGE_PULSE_HISTORY_443
