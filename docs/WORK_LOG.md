@@ -2,15 +2,24 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 경력·마지막 결산과 미룬 선택의 대가 중문26값 완료)
+
+- [426](queue_archive/ORDER-426.md)은 source456f865/tree94d50a9 독립 범위한정GO다. CN/TW13값씩·공식receipt26/batch2, accepted41550/b201·CN/TW1680·JA3044불변.
+- 첫 실제10PNG/26lookup/76binding/30카드 두 줄 비용 PASS28.473초. 최장CN투자348/367px·TW투자312/367px, font12px 그대로. 실제8행동/8return·남은12주와 지연기간·±25%/무변동을 확인했다.
+- 합성40taps/80raw·typed10복원·실제player34파일 보존. 행동확정/비용소비/다음턴/거래0. 초기HUD 혼합과 자연진입·과거선택 trace는 이번 검수 밖이다.
+- 사전oracle의 D W25 일정 기대만 실제quiet+crisis→decision으로 교정했고 첫 엔진 실행은 PASS. 이전424/425 FAIL/PASS·기존판정183/보고161·인간원장은 불변이다.
+- 공통normal13행(검증12+조회1) 단1회/1042.099초 PASS. 과거focused/full/240주 반복0. 다음은 실제 첫 주 방향8키와 수첩 동기3키의 남은 중국어 소비자다.
+- 일회성/상시규범0. 자동PASS는 계약증거이지 문체·재미·출시GO가 아니다. 본편/새packageHOLD·B3/B4·원어민/인간/물리 미관측 유지.
+
 ## 2026-10-04 (Codex — 경력·결산·지연비용 중문26값 수용 후보)
 
-- [426](queue_active/ORDER-426.md): CN/TW 각13값을 한국어에서 따로 저작하고 독립 전수 의미 대조했다. 기수용명·게임효과·토큰을 그대로 쓰며 남은12주와 지연기간을 구분한다. 두 초안 모두 의미수리 없이 공식 수용했다.
+- [426](queue_archive/ORDER-426.md): CN/TW 각13값을 한국어에서 따로 저작하고 독립 전수 의미 대조했다. 기수용명·게임효과·토큰을 그대로 쓰며 남은12주와 지연기간을 구분한다. 두 초안 모두 의미수리 없이 공식 수용했다.
 - export13×2/10.863초, 첫 check13×2/10.942초 PASS. 공식 receipt26/batch2와 raw역상으로 accepted41524/b199→41550/b201·CN/TW1667→1680·JA3044불변. source manifest fa8ac9a9… 불변이다.
 - 실제화면/두 줄 fullfit/입력/공통normal은 아직 미실행이다. candidate를 먼저 로컬main에 결속하고 해당 검수·독립 최종 판정 후 원격에 올린다. 조건·금액·폰트·공개demo·인간원장을 바꾸지 않았다.
 
 ## 2026-10-04 (Codex — 남은 시간과 미룬 선택의 대가 중문26값 착수)
 
-- [426](queue_active/ORDER-426.md): 실제 career/final_reckoning4와 return8+wrapper1의 KO13키를 CN/TW 각각 직접 번역한다. 목표 accepted41550/b201·CN/TW1680, JA3044와 기존제품조건은 유지한다.
+- [426](queue_archive/ORDER-426.md): 실제 career/final_reckoning4와 return8+wrapper1의 KO13키를 CN/TW 각각 직접 번역한다. 목표 accepted41550/b201·CN/TW1680, JA3044와 기존제품조건은 유지한다.
 - A W193 career, B/C/E W229 최종12주와 양/무변동/음시장, D W25 구직의 실제5상태×2지역10PNG·합성40taps/80raw를 검수한다. 두 줄 비용의 전체문장·긴 catalog명·최대count12·3자리기간이 실제12px/366px에 온전히 들어오는지 본다. prepared fixture이며 자연진입·행동실행 증거가 아니다.
 - 이전425의 분기별제목 기대 오류를 피하도록 actual job/person source predicate를 각fixture에 결속한다. 저작/새helper/독립검수 파일 소유를 나누고 공통normal13행은 최종후보1회만 실행한다. 도구병목의 읽기진단은 별도이며 이 범위에서 최적화/전체감사/240주 재실행0.
 - 사용자 main 동기화 지시에 따라 검증된424/425 제품70ba2b8·완료e0e3086·현황b3cb994를 푸시했다. 본편/새packageHOLD·공개GO1/인간OPEN45·원어민/물리미관측을 보존한다.
