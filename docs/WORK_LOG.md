@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [홀덤 비동기 수리 전 기록](history/WORK_LOG_2026-10-04_pre_order438.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 — 홀덤 패·승패·정산 중국어 19키 착수 (439)
+
+- [선언 사양](queue_active/ORDER-439.md)의19키만 간체/번체 독립 저작한다. 기존JA19는 사전에 있어 재저작하지 않는다. 현재 accepted41656/b209·CN/TW1733·JA3044, 목표+38값/2batch다.
+- root TW/공식교환/통합, claude CN, receipt 새 격리helper/명시차선, independent 비저자38값/실제소비자 검수로 파일 소유를 나눴다. 실제 승/패4회 및 별도14rank reader·12PNG·typed복원을 표적으로 삼는다. 아직 새 수용·runtime PASS0.
+- 438 source3c242a5의 수리·표적검사·독립보고를 main에 정리했다. 다음은 확인된 영어fallback 결과 소비자를 고친다. 카드 저대비·직접 영문/규칙 collector 및 실제 인간/원어민/물리패드·본편HOLD는 유지한다.
+
 ## 2026-10-04 — 홀덤 연속 입력·퇴장 뒤 타이머의 실제 회귀 통과 (438)
 
 - 제품 `aa21f0b`와 신규 검사 `3c242a5`를 main에 커밋·푸시했다. 실제 player 0.3초/AI 0.6초 창의 추가 Enter를 막고, RESULT·Close·재진입 뒤 옛 callback이 새 판을 바꾸지 않는 것을 확인했다.
