@@ -14176,6 +14176,8 @@ func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
 	risk_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	risk_label.clip_text = true
 	risk_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	var risk_width := risk_label.get_theme_font("font").get_string_size(risk_text.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, risk_label.get_theme_font_size("font_size")).x
+	risk_label.custom_minimum_size.x = ceilf(risk_width) + 2.0
 	meta_row.add_child(risk_label)
 	var meta_spacer := Control.new()
 	meta_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
