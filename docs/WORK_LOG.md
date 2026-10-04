@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 — 홀덤 준비·첫 선택의 간체·번체 번역 착수 (435)
+
+- 선언 범위는 CN/TW UI22키44값·수용원장 append와 새 private 교환/8PNG/normal·명시scope뿐이다. root가 TW/통합, claude가 CN초안, receipt_tests가 새helper/scope, independent가 비저자 전수검수를 맡는다.
+- 원문은 상금이 스택에 남는 뜻, EV 두 branch와 중립의 인자 순서, 원화 값/태그/LF를 보존한다. seed만 준비해 actual 첫손6개로 두 지역의 SETUP/+EV/−EV/중립을 관측할 예정이다. 아직 새 번역·화면 수용0이다.
+- 기존39e8997 metadata wrapper는 source538e1318로 해석되며434와436 각각 GO, 제품HOLD를 실제 resolver로 확인했다. 이전 판정/실패 원본·공개GO1·인간OPEN45·player34를 계속 보존한다.
+
 ## 2026-10-04 — 홀덤 원 단위 금액·접미사 잘림 수리 완료 (434·436)
 
 - source538e1318/tree9fe2a756에서 두 작업을 각각 비저자 GO로 닫았다. 실제5언어10PNG/130raw/65tap/첫손5·61.175초와10검증+조회1/359.373초 PASS, focused45case/12.185초. 수정하면12,500원을 절삭 없이 읽고 긴 지역 통화명도 끝까지 보인다.
