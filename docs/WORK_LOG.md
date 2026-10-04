@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 번역 검수의 순수 역상 중복계산 축소 착수)
+
+- [428](queue_active/ORDER-428.md): 연속전이 successor/previous의 동일 snapshot을 역변환하는 확인된 중복만 호출local1슬롯으로 줄인다. raw전체모집단/교정epoch가 같은 성공값만 재사용하며 Git·HEAD·source·판정결과는 캐시하지 않는다.
+- append.py 최소연결+helper/root, 새표적검사/bridge, private A/B·normal/tests, 비저자검수/independent로 소유를 나눈다. 기존 self_test·역사 pin·교정함수·public proof 본문/게임/번역/원장 변경0.
+- 같은 clean후보 fresh A/B1회, 판정·전이·Git/proof동치와 호출수/시간을 계측한다. B를 normal행으로 재사용하고 나머지만 각1회, 과거focused·engine·full·240주0. 속도개선율은 측정 전 주장하지 않는다.
+- accepted41572/b203·CN/TW1691·JA3044·공개GO1/인간OPEN45·본편/새packageHOLD 유지. 실제 다음 번역 소비자 조사는 읽기만 병행하며 범위선언 전에 구현하지 않는다.
+
 ## 2026-10-04 (Codex — 첫 주 방향·수첩 동기 중문22값 검수 완료)
 
 - [427](queue_archive/ORDER-427.md)은 source5b7a5b2/tree891972a 독립 범위한정GO다. CN/TW11값씩·공식receipt22/batch2, accepted41572/b203·CN/TW1691·JA3044불변.
