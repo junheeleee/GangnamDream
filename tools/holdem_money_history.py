@@ -577,3 +577,84 @@ def holdem_money_predecessor(current: bytes, root: Path | None = None) -> bytes:
         return _holdem_async_proof(current, root)[3]
     return _HOLDEM_ASYNC_OLD_MONEY_PREDECESSOR(current, root)
 # END_HOLDEM_ASYNC_ACTION_HISTORY_438
+
+
+# BEGIN_HOLDEM_CARD_COLOR_HISTORY_441
+# Preserve every prior proof and pin. Only the one card-face ink line is new.
+CARD_COLOR_BEFORE_COMMIT = "fe418e336e7296962686949536711a2e6230bd71"
+CARD_COLOR_AFTER_COMMIT = "99aee1b0dc7db01edd2efe33349bc5570847c011"
+CARD_COLOR_TREES = ("e030d0d5ef3c836dcfc426519cdb97fde77954eb", "2c8b3b8691e9cd53e92aaf340e86f6be234413b8")
+CARD_COLOR_BLOBS = ("bf36544000f94319b32ea6b299694a9644c8ebf4", "1485a4e883457e45ae7dd9f2b9d0905265dc5dd0")
+CARD_COLOR_HASHES = ("35c2a7124160bfbab0e9b039aad496d2059131d83222f87eeb12ef344e5a0e5c",
+                     "5529f970bd5f9a494d048ebc10a3440dffdc388e93f25777d6e4d5c5b70c9bdb")
+CARD_COLOR_REPLACEMENT = (
+    '\tlbl.add_theme_color_override("font_color", Color(TH.card_color(card)))\n',
+    '\tlbl.add_theme_color_override("font_color", Color("#b4232c") if int(card["suit"]) in [1, 2] else Color("#141827"))\n',
+)
+_HOLDEM_CARD_COLOR_OLD_ASYNC_PREDECESSOR = holdem_async_predecessor
+_HOLDEM_CARD_COLOR_OLD_BETTING_PREDECESSOR = holdem_betting_predecessor
+_HOLDEM_CARD_COLOR_OLD_CANVAS_PREDECESSOR = holdem_canvas_predecessor
+_HOLDEM_CARD_COLOR_OLD_MONEY_PREDECESSOR = holdem_money_predecessor
+
+
+def holdem_card_color_inverse(current: bytes, before: bytes) -> bytes:
+    """Recover the entire predecessor by undoing exactly one complete line."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(CARD_COLOR_REPLACEMENT, tuple) or len(CARD_COLOR_REPLACEMENT) != 2
+            or any(not isinstance(part, str) for part in CARD_COLOR_REPLACEMENT)):
+        raise ValueError("ORDER-441: inverse population/type differs")
+    old, new = (part.encode("utf-8") for part in CARD_COLOR_REPLACEMENT)
+    if (not old or old == new or old.count(b"\n") != 1 or new.count(b"\n") != 1
+            or not old.endswith(b"\n") or not new.endswith(b"\n")
+            or before.count(old) != 1 or before.count(new) != 0
+            or current.count(new) != 1 or current.count(old) != 0):
+        raise ValueError("ORDER-441: card-face line inverse is not exact1")
+    recovered = current.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-441: change outside exact card-face ink repair")
+    return recovered
+
+
+def _holdem_card_color_proof(
+    current: bytes, root: Path | None = None,
+) -> tuple[bytes, bytes, bytes, bytes, bytes]:
+    """Fixed five transitions/30 objects; return438,437,436,434,373."""
+    stages = (
+        (BEFORE_COMMIT, AFTER_COMMIT, TREES, BLOBS, HASHES, holdem_money_inverse),
+        (CANVAS_BEFORE_COMMIT, CANVAS_AFTER_COMMIT, CANVAS_TREES, CANVAS_BLOBS, CANVAS_HASHES, holdem_canvas_inverse),
+        (BETTING_BEFORE_COMMIT, BETTING_AFTER_COMMIT, BETTING_TREES, BETTING_BLOBS, BETTING_HASHES, holdem_betting_inverse),
+        (ASYNC_BEFORE_COMMIT, ASYNC_AFTER_COMMIT, ASYNC_TREES, ASYNC_BLOBS, ASYNC_HASHES, holdem_async_inverse),
+        (CARD_COLOR_BEFORE_COMMIT, CARD_COLOR_AFTER_COMMIT, CARD_COLOR_TREES, CARD_COLOR_BLOBS, CARD_COLOR_HASHES, holdem_card_color_inverse),
+    )
+    if len(stages) != 5:
+        raise ValueError("ORDER-441: fixed five-transition population differs")
+    return _holdem_exact_stage_chain(current, root, stages)
+
+
+def holdem_card_color_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _holdem_card_color_proof(current, root)[0]
+
+
+def holdem_async_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == CARD_COLOR_HASHES[1]:
+        return _holdem_card_color_proof(current, root)[1]
+    return _HOLDEM_CARD_COLOR_OLD_ASYNC_PREDECESSOR(current, root)
+
+
+def holdem_betting_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == CARD_COLOR_HASHES[1]:
+        return _holdem_card_color_proof(current, root)[2]
+    return _HOLDEM_CARD_COLOR_OLD_BETTING_PREDECESSOR(current, root)
+
+
+def holdem_canvas_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == CARD_COLOR_HASHES[1]:
+        return _holdem_card_color_proof(current, root)[3]
+    return _HOLDEM_CARD_COLOR_OLD_CANVAS_PREDECESSOR(current, root)
+
+
+def holdem_money_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == CARD_COLOR_HASHES[1]:
+        return _holdem_card_color_proof(current, root)[4]
+    return _HOLDEM_CARD_COLOR_OLD_MONEY_PREDECESSOR(current, root)
+# END_HOLDEM_CARD_COLOR_HISTORY_441
