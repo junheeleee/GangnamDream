@@ -1379,3 +1379,103 @@ def _table_labels_previous(current, root, index):
         return _holdem_hand_net_proof(current, root)[index + 4]
     return _HAND_NET_OLD_TABLE_LABELS_PREVIOUS(current, root, index)
 # END_HOLDEM_HAND_NET_HISTORY_452
+
+
+# BEGIN_HOLDEM_VICTORY_PARTICLE_HISTORY_455
+VICTORY_PARTICLE_BEFORE_COMMIT = "b768cf325099463b17a7717b084ae846c367389a"
+VICTORY_PARTICLE_AFTER_COMMIT = "a8fc6a3ac1d5e444c01ec6f1ed1b33c67b4cf418"
+VICTORY_PARTICLE_TREES = ("d02bdd7efb32ef031ba3f92aad723a781364084f", "abec89f88b2de6b25279af08401249f5a4a60c6b")
+VICTORY_PARTICLE_BLOBS = ("5ef770fb2f05653ef4203038ed01826173e98858", "577184e702939b292343a9ebbdd4734087787ddf")
+VICTORY_PARTICLE_HASHES = ("be542f9f6f583a6a2bb2cf849a8d5b56bcd4ec306912a3465fbb9e0a87467e75",
+                           "3a00cdfad92a5e86e951d7fbffac7cc34919d0dfb4b61561b926e0ee626938a8")
+VICTORY_PARTICLE_REPLACEMENT = (
+    '\t\tmsg_parts.append(_tr("%s으로 승리! +%s", "Won with %s! +%s") % [TH.rank_name(best_hand[0]), _fmt(hand_net)])\n',
+    '\t\tmsg_parts.append(_victory_template(_tr("%s으로 승리! +%s", "Won with %s! +%s")) % [TH.rank_name(best_hand[0]), _fmt(hand_net)])\n',
+)
+VICTORY_PARTICLE_APPENDIX = (
+    '\nfunc _victory_template(template: String) -> String:\n'
+    '\t# Preserve the translation lookup key; all built-in KO ranks take 로, including 트리플.\n'
+    '\treturn template.replace("%s으로", "%s로") if LocaleManager.is_korean() else template\n'
+)
+_VICTORY_PARTICLE_OLD_HAND_NET_PROOF = _holdem_hand_net_proof
+_VICTORY_PARTICLE_OLD_FOLDED_LOCALE_PROOF = _holdem_folded_locale_proof
+_VICTORY_PARTICLE_OLD_SEAT_HEIGHT_PROOF = _holdem_seat_height_proof
+_VICTORY_PARTICLE_OLD_TABLE_LABELS_PROOF = _holdem_table_labels_proof
+_VICTORY_PARTICLE_OLD_TABLE_LABELS_PREVIOUS = _table_labels_previous
+
+
+def holdem_victory_particle_inverse(current: bytes, before: bytes) -> bytes:
+    """Undo one same-line call wrapper and the exact four-line EOF helper."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(VICTORY_PARTICLE_REPLACEMENT, tuple) or len(VICTORY_PARTICLE_REPLACEMENT) != 2
+            or any(not isinstance(value, str) for value in VICTORY_PARTICLE_REPLACEMENT)
+            or not isinstance(VICTORY_PARTICLE_APPENDIX, str)):
+        raise ValueError("ORDER-455: exact inverse population/type differs")
+    suffix = VICTORY_PARTICLE_APPENDIX.encode("utf-8")
+    if (suffix.count(b"\n") != 4 or not current.endswith(suffix)
+            or current.count(suffix) != 1 or before.count(suffix)):
+        raise ValueError("ORDER-455: exact EOF victory helper differs")
+    old, new = (value.encode("utf-8") for value in VICTORY_PARTICLE_REPLACEMENT)
+    recovered = current[:-len(suffix)]
+    if (not old or old == new or old.count(b"\n") != 1 or new.count(b"\n") != 1
+            or before.count(old) != 1 or before.count(new) != 0 or recovered.count(new) != 1):
+        raise ValueError("ORDER-455: exact victory call wrapper differs")
+    recovered = recovered.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-455: bytes outside victory display repair changed")
+    return recovered
+
+
+def _holdem_victory_particle_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    """Thirteen stages/78 request entries; six entries describe the new stage."""
+    stages = (
+        (BEFORE_COMMIT, AFTER_COMMIT, TREES, BLOBS, HASHES, holdem_money_inverse),
+        (CANVAS_BEFORE_COMMIT, CANVAS_AFTER_COMMIT, CANVAS_TREES, CANVAS_BLOBS, CANVAS_HASHES, holdem_canvas_inverse),
+        (BETTING_BEFORE_COMMIT, BETTING_AFTER_COMMIT, BETTING_TREES, BETTING_BLOBS, BETTING_HASHES, holdem_betting_inverse),
+        (ASYNC_BEFORE_COMMIT, ASYNC_AFTER_COMMIT, ASYNC_TREES, ASYNC_BLOBS, ASYNC_HASHES, holdem_async_inverse),
+        (CARD_COLOR_BEFORE_COMMIT, CARD_COLOR_AFTER_COMMIT, CARD_COLOR_TREES, CARD_COLOR_BLOBS, CARD_COLOR_HASHES, holdem_card_color_inverse),
+        (MESSAGE_PULSE_BEFORE_COMMIT, MESSAGE_PULSE_AFTER_COMMIT, MESSAGE_PULSE_TREES, MESSAGE_PULSE_BLOBS, MESSAGE_PULSE_HASHES, holdem_message_pulse_inverse),
+        (BANNER_BEFORE_COMMIT, BANNER_AFTER_COMMIT, BANNER_TREES, BANNER_BLOBS, BANNER_HASHES, holdem_banner_inverse),
+        (BANNER_LOCALE_BEFORE_COMMIT, BANNER_LOCALE_AFTER_COMMIT, BANNER_LOCALE_TREES, BANNER_LOCALE_BLOBS, BANNER_LOCALE_HASHES, holdem_banner_locale_inverse),
+        (TABLE_LABELS_BEFORE_COMMIT, TABLE_LABELS_AFTER_COMMIT, TABLE_LABELS_TREES, TABLE_LABELS_BLOBS, TABLE_LABELS_HASHES, holdem_table_labels_inverse),
+        (SEAT_HEIGHT_BEFORE_COMMIT, SEAT_HEIGHT_AFTER_COMMIT, SEAT_HEIGHT_TREES, SEAT_HEIGHT_BLOBS, SEAT_HEIGHT_HASHES, holdem_seat_height_inverse),
+        (FOLDED_LOCALE_BEFORE_COMMIT, FOLDED_LOCALE_AFTER_COMMIT, FOLDED_LOCALE_TREES, FOLDED_LOCALE_BLOBS, FOLDED_LOCALE_HASHES, holdem_folded_locale_inverse),
+        (HAND_NET_BEFORE_COMMIT, HAND_NET_AFTER_COMMIT, HAND_NET_TREES, HAND_NET_BLOBS, HAND_NET_HASHES, holdem_hand_net_inverse),
+        (VICTORY_PARTICLE_BEFORE_COMMIT, VICTORY_PARTICLE_AFTER_COMMIT, VICTORY_PARTICLE_TREES, VICTORY_PARTICLE_BLOBS, VICTORY_PARTICLE_HASHES, holdem_victory_particle_inverse),
+    )
+    return _holdem_exact_stage_chain(current, root, stages)
+
+
+def holdem_victory_particle_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _holdem_victory_particle_proof(current, root)[0]
+
+
+def _holdem_hand_net_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == VICTORY_PARTICLE_HASHES[1]:
+        return _holdem_victory_particle_proof(current, root)[1:]
+    return _VICTORY_PARTICLE_OLD_HAND_NET_PROOF(current, root)
+
+
+def _holdem_folded_locale_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == VICTORY_PARTICLE_HASHES[1]:
+        return _holdem_victory_particle_proof(current, root)[2:]
+    return _VICTORY_PARTICLE_OLD_FOLDED_LOCALE_PROOF(current, root)
+
+
+def _holdem_seat_height_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == VICTORY_PARTICLE_HASHES[1]:
+        return _holdem_victory_particle_proof(current, root)[3:]
+    return _VICTORY_PARTICLE_OLD_SEAT_HEIGHT_PROOF(current, root)
+
+
+def _holdem_table_labels_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == VICTORY_PARTICLE_HASHES[1]:
+        return _holdem_victory_particle_proof(current, root)[4:]
+    return _VICTORY_PARTICLE_OLD_TABLE_LABELS_PROOF(current, root)
+
+
+def _table_labels_previous(current, root, index):
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == VICTORY_PARTICLE_HASHES[1]:
+        return _holdem_victory_particle_proof(current, root)[index + 5]
+    return _VICTORY_PARTICLE_OLD_TABLE_LABELS_PREVIOUS(current, root, index)
+# END_HOLDEM_VICTORY_PARTICLE_HISTORY_455

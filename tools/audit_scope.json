@@ -14,6 +14,19 @@
   ],
   "fast_lanes": [
     {
+      "id": "holdem-victory-particle",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_victory_particle_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-455.json",
+        "docs/queue_active/ORDER-455.md", "docs/queue_archive/ORDER-455.md"
+      ],
+      "tools": ["tools/holdem_victory_particle_receipt_check.py", "tools/order365_ui_receipt_compat.py", "tools/en_coverage_check.py", "tools/audit_select.py --verify"],
+      "why": "Explicit455 KO-only victory particle display repair preserves the lookup literal, all71 UiCalls, dictionaries and ledger. New focused/receipt/EN plus context/queue always and separate diff/registration give seven validations and one query. One KO process checks nine rank strings, two prepared legal RIVER actual SHOWDOWN wins/two PNG and typed restoration; non-KO getter branch is not a translated screen. No deal/betting/AI/RESULT/Close/raw input, old suites/runtime, profiler/whole audit/240-week or official exchange replay."
+    },
+    {
       "id": "ui-fixed-ledger-projection",
       "paths": [],
       "owned_paths": [
@@ -3222,6 +3235,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/holdem_victory_particle_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_victory_particle_receipt_check.py"],
+      "why": "Exact KO-only victory-template source successor, unchanged71 UiCalls/receipts/payout and non-KO identity; synthetic faults are not runtime evidence.",
+      "godot": false
+    },
     {
       "tool": "tools/ui_fixed_ledger_projection_check.py",
       "paths": ["tools/ui_translation_append.py", "tools/ui_fixed_ledger_projection_check.py"],
