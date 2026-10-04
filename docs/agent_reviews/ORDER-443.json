@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-443",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "957c449ac9aa1a25269cd0e03cad29a3d3f1ac8b",
+    "tree": "0464622b3a738e6732c5e43f77c991f8c0f6955f",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "HoldemClub의 전체폭 _msg_lbl에 적용하던 Call/SHOWDOWN 확대 두 호출 제거만 GO. 최초 Call 경계 이탈을 수리하고 동일 구조의 SHOWDOWN 확대를 예방 제거한 범위다.",
+  "method": "사양·실제 소비자와 두 줄 제품 diff, history/append/focused/scope·runtime/normal helper를 비저자로 직접 읽었다. 공유 실제16PNG, 모든 시간창56표본·원문 로그·typed/입력/효과와 정상10행을 직접 대조했다. ab_readonly428는 별도 읽기 전용 SHA/바이트 보존 대조를 보조했다. 검수자의 프로젝트 import/collector/검사/엔진 실행은0이며 gangnamdream-dev의 증거 보존 규칙을 적용했다.",
+  "source_review": {
+    "declaration": "251f5d98af29b7e2864864ca28a28eacaf17a9e2",
+    "product_commit": "9dc812d11e54cd34ed45376513753d0cda8b12fa",
+    "holdem_sha256": "cfc4987793e22738d8d7474f8cb821c072276e6d8c9390cf05ff5f1ef2a68ee4",
+    "result": "제품 커밋은 HoldemClub 한 경로의 두 완전한 행만 같은 줄 주석으로 치환한다. 1065행 Call1.04/0.18초와1244행 SHOWDOWN1.08/0.30초 호출의 역상으로 부모 raw bytes가 정확히 복원되며1776줄·61 UiCall/좌표는 유지된다. 공통 pulse, 카드/칩/배너 강조·content shake·AI/타이머/돈/승패/덱·번역/폰트는 바꾸지 않았다.",
+    "admission": "history660행·append1930행의 기존 prefix는 byte-exact 보존된다. 새6실제 전이의36 Git 요청 행과 정확한 raw 역상·현재HEAD/collector 결속을 검토했다. 36을 서로 다른36객체라고 세지 않는다. focused57/historical0은 실제 collector와21실제 manifest/306synthetic phantom 경계 및 포착된 Git 응답의 변이 재생을 포함하며 독립 재서명 Git 객체 실험이나 역사 focused 재실행이 아니다."
+  },
+  "failures_preserved": [
+    {
+      "path": ".git/full-game-localization/order442-screen-first/result.json",
+      "sha256": "2dc7dcb19da7edd0009466d8e6dd9a457bd03542f9a771930fca734cd23cd07b",
+      "meaning": "source0253803의 Call 직후31~35ms rect≈[-2.112,501.618,1284.225,18.763], font/full-fit true이나 bounds/clip containment false인 실제 제품 결함이다. Call 순간 PNG가 없어 잘린 glyph 픽셀의 직접 관측으로 확대하지 않는다. 준비 witness deck alias 결함은 별도 계측 문제이며 후속 deep copy로만 고쳤다. 원본 false/12PNG/raw48은 불변이다. 원래 SHOWDOWN 확대의 불량 peak geometry는 측정하지 않았으므로 예방 수리로 구분한다."
+    },
+    {
+      "path": ".git/full-game-localization/order442-screen-pulse-repair/result.json",
+      "sha256": "07be3361569506b0801ad2b205bae4d3a11215d188f6684de7492b61704bfff4",
+      "meaning": "새계측의 _v402 미정의3호출 parse FAIL,6.566초·한 process·화면/입력0. 작성자/root/독립 사전 검토의 누락을 인정한다. GD2행의3표현을 [x,y]로 교체한 뒤 별도 pulse-repair2 실행으로 확인했으며 실패 원본/helper는 덮어쓰지 않았다."
+    }
+  ],
+  "runtime": {
+    "path": ".git/full-game-localization/order442-screen-pulse-repair2/result.json",
+    "sha256": "3475512713fb873b2e02d558853c8442d7f2f890573f5442161fe493871d3eb6",
+    "entry_sha256": "25b72984e7fbb015cde587226438e9f9cf36e2b35e40fb93ed98d237b42a584f",
+    "observations_sha256": {
+      "zh-CN": "2c770f735266bc32d64af5fb52903f0fce73dd1badcda996c222c9968e30de5a",
+      "zh-TW": "5169484fe262273830528cb2c8422561c7468e8d2dc4de93efbd6556abe98cd8"
+    },
+    "seconds": 101.068,
+    "result": "두 격리 process exit0/오류0,16PNG/26관측/48raw24tap/실제 player10·AI34·SHOWDOWN2·정산2·Close2. 최초 딜0·prepared fixture16이며 ORDER-442와 같은 실행을 공유한다. 양지역8복원+teardown과 효과3씩 모두 exact, 실제player34와source도 불변이다.",
+    "call_window": "CN9표본34~169ms, TW9표본34~170ms. 모든 actual rect=[24,502,1232,18], scale=[1,1], 실제12px·glyph/font/full-fit/bounds/visible true. 전체 문구와 첫 글자가 원본 pulse PNG에서 보인다.",
+    "showdown_window": "CN19표본2~298ms, TW19표본2~299ms. 모든 width1232/height18/scale1이며 실제 text/font/full-fit/bounds true. 기존 shake에 따라 x는 CN16.4544~30.8851/TW20.1042~26.7351로 움직이나 표적은 경계 안에 있다. 별도 중앙 SHOWDOWN 배너의 POT 겹침은 남아 있다.",
+    "peak_boundary": "네 창의 sample0은 같은 최대 폭 표본 중 최초값이다. 각 post-draw에 저장한 Image와 index/tick/PNG를 결속했으며 나중의 settled 화면으로 바꾸지 않았다. Call 최초34ms·SHOWDOWN 최초2ms 이전이나 모든 연속 frame/pixel·다른장치/해상도까지 측정했다고 하지 않는다. 최대 표본 간격은 gate60ms 이내이며 총56표본의 일회성 관측이다.",
+    "restoration_boundary": "합법 준비 상태에서 실제 입력/AI·취소하지 않은 타이머를 관측했다. AP 재생성은 raw 경로/ID를 보존하며 유일한 action identity로만 focus 복원한다. 다른 typed/RNG/pending/generation·GameState/Meta bytes/원래 존재는 exact다. 음원 playhead/전역 시각 RNG/모든 transient identity의 완전 복원은 주장하지 않는다."
+  },
+  "normal": {
+    "path": ".git/full-game-localization/order442-static-pulse-final/result.json",
+    "sha256": "d3c6b554c9d02ed09d16a85e2507eeb3588cb11fe5c9cdcdf9457d4131cfc753",
+    "entry_sha256": "13575f5da3e03ab138cdb58678a7c191b4e5a0f59376c722aa902ccaeed7a84e",
+    "seconds": 477.33,
+    "result": "같은 clean 후보9검증+조회1의 원본10행 exit0/빈stderr/all_pass=true. fresh focused57/historical0(13.213초), receipt41724/b213, fullbody SOURCE_INVENTORY_ONLY, ZH skeleton/shipping0, EN/context/queue/diff/등록180. 차선 목록은 실행 수를 추가하지 않는다.",
+    "not_run": "기존 JA audit·역사 focused/runtime·ORDER434 서사4종·whole audit/240주/성능 A/B는 NOT_RUN 참조다."
+  },
+  "preservation": {
+    "runtime": "before=after=entry 및 tracked3068/helper137/copies137/inputs21/player34 결속, artifact168 SHA·크기 일치. 실제 folder169는 result 자체를 포함한다. 원래 실패165파일과 parse 실패145파일을 그대로 보존했다. prior2878 최상위 맵은 전후 동일하되 전체 역사 중첩 자료의 재귀 재검수를 새로 했다고 하지 않는다.",
+    "normal": "entry.before=before=after, tracked3068/prior4589/current21/runtime169/player34; 원본10행=집계=명령과 artifact12 SHA·크기 일치. 보고는 종료 후 새로 작성되어 그 snapshot에 없으며 이후 queue/archive/WORK_LOG 마감은 별도metadata다.",
+    "history": "기존202판정·180보고·인간 원장 및41724/b213·CN/TW1767·JA3044를 유지한다. 이 수리의 수용 번역 추가는0이며30값은 ORDER-442 소유다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "중앙 RAISE/SHOWDOWN·AI 배너가 POT 금액과 겹치는 기존 시각 잔여를 실제16PNG에서 확인했다. 하단 _msg_lbl 두 호출 밖이므로 해결 주장하지 않는다.",
+    "영어 Tutorial 동적 본문/직접 배너·작은 기존 글자크기·전체 상용 UI 및 접근성은 별개다.",
+    "일회성 준비 fixture의 자동 증거다. 원어민·인간·물리패드·자연 ingress/첫 딜·모든 AI/승패 경로 및 새출시 승인은 미관측이다. 사전 읽기를 엔진 문법검증이나 모든 malformed helper 실패 경로의 안전성 보장으로 확대하지 않는다."
+  ],
+  "final_boundary": "정확한 현재 source의 메시지 확대 잘림 수리만 GO. 원본442 실패와 계측 parse 실패를 보존하고 sampled-frame 관측을 전역/연속 증명으로 승격하지 않는다. 공개 GO1·인간 OPEN45·본편/새 package HOLD는 그대로다."
+}

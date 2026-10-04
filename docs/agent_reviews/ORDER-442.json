@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-442",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "957c449ac9aa1a25269cd0e03cad29a3d3f1ac8b",
+    "tree": "0464622b3a738e6732c5e43f77c991f8c0f6955f",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "홀덤 베팅·진행 단계·힌트 15개 한국어 키의 간체/번체 30값만 GO. ORDER-443 메시지 수리 뒤의 정확한 현재 후보에서 판정하며 최초 442 실패를 성공으로 바꾸지 않는다.",
+  "method": {
+    "direct": "한국어와 실제 소비자에 따른 30값 의미·숫자·토큰·LF·공백을 전수 검토하고 공식 source/response/accepted receipt/import 및 4파일 raw 역상을 읽기 전용으로 대조했다. helper 원문, 양지역 전체 관측·입력·효과·복원·로그, 원본 PNG16장과 정상검사10행 stdout/stderr를 직접 읽었다.",
+    "assistance": "/root/independent392/ab_readonly428가 새 runtime artifact·보존 맵 및 기존 판정/보고/인간 원장 바이트를 읽기 전용으로 대조했다. 직접 관측과 보조 해시 대조의 역할을 구분한다.",
+    "execution": "검수자의 프로젝트 import/collector/검사/엔진 실행 0. Git·JSON·바이트·SHA 읽기 대조만 수행했다. gangnamdream-dev의 범위와 원본 증거 보존 규칙을 적용했다."
+  },
+  "acceptance": {
+    "baseline": "b6c85b1c38c1ce266923b911c4365035787cbe4e",
+    "append_proof": ".git/full-game-localization/order442-append-precommit.json",
+    "append_proof_sha256": "4e81efcda661832213afeab484cfe1fe93b92b688bf53787e3008cbeeeff7cd6",
+    "result": "양지역 각15값/합30 receipt·2batch 추가만 제거하면 기준선의 CN/TW/JA/ledger 4파일 raw bytes가 정확히 복원된다. 기존 header/receipt 및 JA3044는 유지된다. accepted41694/b211→41724/b213, CN/TW1752→1767. 1/3·원화·%s 순서, 실제 LF1, footer 가운데 공백2, 힌트 뒤 공백과 ›를 유지하며 지역별 기존 용어와 일치한다. 원어민 판정은 아니다."
+  },
+  "runtime": {
+    "path": ".git/full-game-localization/order442-screen-pulse-repair2/result.json",
+    "sha256": "3475512713fb873b2e02d558853c8442d7f2f890573f5442161fe493871d3eb6",
+    "entry_sha256": "25b72984e7fbb015cde587226438e9f9cf36e2b35e40fb93ed98d237b42a584f",
+    "observations_sha256": {
+      "zh-CN": "2c770f735266bc32d64af5fb52903f0fce73dd1badcda996c222c9968e30de5a",
+      "zh-TW": "5169484fe262273830528cb2c8422561c7468e8d2dc4de93efbd6556abe98cd8"
+    },
+    "seconds": 101.068,
+    "population": "격리2지역·lookup30·실제binding34·관측26·PNG16. 합법 prepared fixture16에서 synthetic raw48/tap24, 실제 player action10(지역별 prerequisite Check 포함5)·AI action34·SHOWDOWN2·정산2·Close2·stats6. 실제 첫 딜은0이며 prepared hands를 first hand로 세지 않는다. Tutorial Next pressed2와 취소2는 실제 입력이나 Tutorial 전체 완료는0이다.",
+    "observed": "양 process exit0, 오류/보고오류 없음, stdout와 Godot 로그의 정확한 성공 marker 및 빈 stderr를 확인했다. 15키의 버튼/단계/플레이어·AI 문구와 현금 부족·hint/Next·footer를 직접 대조했고 대상 글자·폰트·완전 fit·bounds에 결함이 없다. 16장 모두 직접 열람했다. Tutorial은 힌트 접두사와 Next만 새 번역이며 영어 동적 본문까지 번역됐다고 주장하지 않는다.",
+    "effects_and_restore": "지역별 전체 typed 그룹8·복원8·teardown1과 독립 기대 효과3이 모두 exact다. Fold 손실−10,000원과 Close의 mental/AP/로그·Main 효과, RNG/pending/generation, Tutorial seen, Meta 원래 bytes/존재를 구분해 대조했다. 각 fixture의 deck witness는 준비43장과 동일한 독립 deep copy다. AP 재생성의 raw 경로/instance 변경은 그대로 남고 유일한 action identity에 한해서만 focus를 정규화했으며 전체 노드 identity 복원을 주장하지 않는다."
+  },
+  "preserved_failures": [
+    {
+      "path": ".git/full-game-localization/order442-screen-first/result.json",
+      "sha256": "2dc7dcb19da7edd0009466d8e6dd9a457bd03542f9a771930fca734cd23cd07b",
+      "result": "source0253803의 최초 실제 실행은 FAIL 그대로다. Call 직후 양지역 rect x≈−2.112/width≈1284.225로1280 viewport와 ScrollContainer를 벗어났다. font/full-fit은 true여도 bounds는 false였다. 원래12PNG에는 Call 순간 캡처가 없어 잘린 첫 글자 픽셀을 직접 봤다고 하지 않는다. 별도 witness 배열 공유로 실제 deck pop이 준비 기록을 바꾼 계측 결함도 보존한다. Python fail-fast를 Call 단언만의 실패로 단정하지 않는다."
+    },
+    {
+      "path": ".git/full-game-localization/order442-screen-pulse-repair/result.json",
+      "sha256": "07be3361569506b0801ad2b205bae4d3a11215d188f6684de7492b61704bfff4",
+      "result": "추가 계측의 미정의 _v402 호출로 생긴 helper parse FAIL. 한 process·PNG0/raw0이며 제품 관측 실패와 구분한다. 작성자/root/독립 사전 읽기에서 놓친 결함이다. 세 표현을 명시 [x,y]로 바꾼 뒤 새 label로 실행했고 원본은 수정하지 않았다."
+    }
+  ],
+  "normal": {
+    "path": ".git/full-game-localization/order442-static-pulse-final/result.json",
+    "sha256": "d3c6b554c9d02ed09d16a85e2507eeb3588cb11fe5c9cdcdf9457d4131cfc753",
+    "entry_sha256": "13575f5da3e03ab138cdb58678a7c191b4e5a0f59376c722aa902ccaeed7a84e",
+    "seconds": 477.33,
+    "result": "같은 clean 후보의9검증+조회1, 원본10행 모두 exit0/빈 stderr/all_pass=true. 새443 focused57/historical0, receipt41724/b213, fullbody SOURCE_INVENTORY_ONLY, ZH skeleton/shipping0, EN/context/queue/diff/등록180을 확인했다. 차선 목록8개는 별도 추가 실행이 아니다.",
+    "not_run": "ORDER434의 Chapter1/story graph/Chapter5/Year54종은 불변 역사 참조다. JA audit·이전 focused/runtime·whole audit·240주·성능 A/B를 새 실행/PASS로 세지 않는다."
+  },
+  "preservation": {
+    "runtime": "기록 before=after=entry, tracked3068/helpers137/copies137/current inputs21/player34 및 artifact168의 SHA·크기 결속을 확인했다. 실제 folder169에는 result 자체가 추가된다. 첫 실패165파일과 parse 실패145파일은 그대로다. prior2878은 최상위 맵 항목 수이며 이 두 실패 외 모든 역사 중첩 자료를 이번에 재귀 재검수했다고 주장하지 않는다.",
+    "normal": "entry.before=before=after, tracked3068/prior4589/current21/runtime169/player34. 원본10행=집계=entry 명령과 artifact12의 SHA/크기를 직접 대조했다. 이 보고는 정상 종료 후 작성되어 그 snapshot에 포함되지 않는다. 판정 대상은 기록된957c449이며 뒤따르는 queue/archive/WORK_LOG 마감 변경은 별도 metadata다.",
+    "history": "기준선의 기존202판정 원장 전체299706bytes(SHA e609b8f0ea562c874b1cc3f9467c662754eda484d950e1978ab702ac1537f1ca), 기존180보고와 인간 원장 바이트가 그대로다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "별도 중앙 RAISE/SHOWDOWN 배너와 POT 금액의 겹침을 실제 PNG에서 관찰했다. 이번 번역/하단 메시지 수리로 해결됐다고 하지 않는다.",
+    "Tutorial 동적 영어 본문·직접 영어 배너/POT/BOARD/STACK/BET/FOLDED/LOSS/Kim Minjun 등 비표적 잔여와 작은 기존 글자 크기는 유지된다.",
+    "선택된 합법 fixture와 일회성 자동 관측이다. 자연 ingress/첫 딜·모든 AI/승패 경로·물리 패드·원어민·인간·전역 접근성·출시 판정은 NOT_RUN/미관측이다. 논리 typed 복원은 음원 playhead·전역 시각 RNG·모든 transient node identity의 복원을 뜻하지 않는다."
+  ],
+  "final_boundary": "현재 source에서 새30값의 의미·선언된 실제 소비자/입력·효과·화면 범위만 GO. ORDER-443와 공유한 실제 실행은 중복 모집단으로 합산하지 않는다. 공개 GO1·인간 OPEN45 및 본편/새 package HOLD를 유지한다."
+}
