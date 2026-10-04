@@ -8069,6 +8069,47 @@
         "path": "docs/agent_reviews/ORDER-438.json",
         "sha256": "643658f25ec0811e50f59f7ce45ee18442056dfd6b133f1a25e6058f81c5f7da"
       }
+    },
+    {
+      "id": "order-440-source-f411887-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-440",
+      "subject": {
+        "kind": "source",
+        "commit": "f41188737e7cf2d2ae3943cab238cd514881ac9b",
+        "tree": "14bdf76c2c0902e0a05b61c56740a9cc99e5d747",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-440.json",
+          "sha256": "2599de663abe5cbe267675ef158fdf9e9fd598662ff4f8bc1eef730f1fc5ed1e"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-440.json",
+          "sha256": "2599de663abe5cbe267675ef158fdf9e9fd598662ff4f8bc1eef730f1fc5ed1e"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "runtime_screen",
+        "natural_ingress",
+        "whole_game_release",
+        "new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-440.json",
+        "sha256": "2599de663abe5cbe267675ef158fdf9e9fd598662ff4f8bc1eef730f1fc5ed1e"
+      }
     }
   ]
 }
