@@ -114,8 +114,8 @@ def validate_append(before: Mapping[str, bytes], after: Mapping[str, bytes],
             "exact three- or four-path snapshot required")
     locales = CURRENT_LOCALES if set(before) == set(CURRENT_PATHS) else LOCALES
     ui_paths = tuple(f"locale/ui_{locale}.json" for locale in locales)
-    old = {path: _Document(before[path]).value for path in before}
-    new = {path: _Document(after[path]).value for path in after}
+    old = {path: _loads(before[path]) for path in before}
+    new = {path: _loads(after[path]) for path in after}
     additions = {}
     for locale, path in zip(locales, ui_paths):
         a, b = old[path], new[path]
