@@ -1062,7 +1062,7 @@ func _player_action(action: String, amount: int) -> void:
 			AudioManager.play_haptic(&"commit_wager")
 			_show_table_banner("CALL", Color("#5de89c"), 0.45)
 			_spawn_chip_burst(Color("#5de89c"), Vector2(0.50, 0.56), 4)
-			_pulse_node(_msg_lbl, 1.04, 0.18)
+			# Keep full-width action text inside the clipping viewport.
 		"raise":
 			var actual := mini(amount, _player_stack)
 			_player_stack -= actual
@@ -1241,7 +1241,7 @@ func _do_showdown() -> void:
 	_play_card_flip_sequence(4, 0.08)
 	_show_table_banner("SHOWDOWN", Color("#f0b429"), 0.70)
 	_set_msg(" ".join(msg_parts))
-	_pulse_node(_msg_lbl, 1.08, 0.30)
+	# Keep full-width showdown text inside the clipping viewport.
 	_pulse_node(_community_row, 1.05, 0.28)
 	_pulse_node(_hole_row, 1.07, 0.30)
 	_pulse_node(_table_surface, 1.015, 0.34)
