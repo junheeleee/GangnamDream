@@ -2,13 +2,35 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 연락 중국어와 커피 차수 수리 마감)
+
+- [418](queue_archive/ORDER-418.md)·[419](queue_archive/ORDER-419.md):
+  sourceb8ff97a/tree7ec013f 독립 범위한정 GO. 38값·공식수용41322/b189,
+  실제연락10/getter표시14·4PNG와 focused78, 공통normal13을 마감한다.
+- 최초runtime51.335초 FAIL은 close→static director→scene-first pressure→closest
+  →cast_has_met의 미등록 Hyunsu 기본값 생성 기대를 저자/root/독립 사전검수에서
+  빠뜨린 결과다. 두 typed alias의 literal만 독립 기대하고 live 사전삽입0,
+  getter14무변화/전체24복원 유지. 새 r1 51.948초PASS, 원본 실패·player34 보존.
+- frozen focused78 1.075초, normal13 788.415초PASS. 기존 focused/화면/전체감사/
+  240주 반복0. normal은 Chapter1 debt8/blocked3/missing24, Year5 reference_only/
+  invalidated/product_consumers0/r1bfalse, ZH skeleton/shipping0 한계를 그대로 보고한다.
+- 검증된 제품커밋2a04d01·b8ff97a main push 완료. 독립보고2/판정175→177,
+  기존153보고·인간원장 바이트 보존. CLAUDE 현재 범위는 같은 제품후보에 이미 갱신했다.
+- 다음은 연락22키 CN/TW 직접저작. 검수비용 분석상 comparison의 연속 successor/
+  previous 재역변환에 호출지역 재사용 후보가 있으나 성능 미측정/구현0이며
+  새 검사 확장으로 남은 번역을 미루지 않는다.
+- 자동PASS는 계약증거이지 문체·재미·출시GO가 아니다. 일회성/상시규범추가0.
+  공개GO1·인간OPEN45·본편/새packageHOLD·원어민/인간/물리미관측 보존.
+
+
+
 ## 2026-10-04 (Codex — 연락 중국어와 커피 만남 차수 오탐 수리 후보)
 
-- [418](queue_active/ORDER-418.md) CN/TW 각19값을 한국어 직접저작·독립 전수대조했다.
+- [418](queue_archive/ORDER-418.md) CN/TW 각19값을 한국어 직접저작·독립 전수대조했다.
   최초 공식 export10.563초PASS, check10.737초 두지역FAIL 원본을 보존한다.
   긴 회상문장의 두 번째 커피를 ordinal_cup으로 오독했으며, arc_events의 재방문
   대화와 기존 제목 예외를 대조해 번역은 유지한다. 잔 수로 번역을 바꾸지 않는다.
-- [419](queue_active/ORDER-419.md) 별도 선언: exact UI source/key/locale에만
+- [419](queue_archive/ORDER-419.md) 별도 선언: exact UI source/key/locale에만
   numeric 보정·새focused·등록. 기존 제목/generic 수사/역사검사 수정0.
   author-focused72 첫시도는68행+실제2행PASS, 후미 중복차수2행FAIL(0.504초).
   generic 숫자 집합의 중복제거를 발견해 새 exact adapter에서만 보강한다.
@@ -20,7 +42,7 @@
   실패 후에는 동일38초안/response와 원래 export를 새 checker에서 재검수한다.
 - checker2a04d01에서 동일38값 공식재검사11.073초PASS. 두지역 공식수용과
   raw역상보존: CN/TW1547→1566씩, accepted41284/b187→41322/b189, JA3044불변.
-  실제연락10/getter표시14·4PNG·새focused78 및 공통normal은 아직 최종 전이다.
+  이 후보 기록 당시 실제연락10/getter표시14·4PNG·새focused78 및 공통normal은 최종 전이었다. 위 마감 기록이 최종 결과다.
   공개GO1·인간OPEN45·본편/새packageHOLD·원어민/인간/물리미관측 유지.
   자동PASS는 계약증거이지 문체·재미·출시GO가 아니다. 일회성/상시규범추가0.
 
@@ -31,7 +53,7 @@
   독립보고3개와 판정172→175개, 과거150보고/인간원장 바이트 보존.
 - 중국어32값·실제24전달 상태/복원·5언어 본문 font 연결·focused131을 마감했다.
   최초runtime FAIL과 queue 음수/연속성 두 FAIL은 보존하며 수리한 범위만 재검수했다.
-- [418](queue_active/ORDER-418.md) 연락19키 CN/TW저작·helper를 이어간다.
+- [418](queue_archive/ORDER-418.md) 연락19키 CN/TW저작·helper를 이어간다.
   CLAUDE는 metadata 허용경로가 아니므로 다음418 제품후보에서 상태를 갱신한다.
 - 일회성/상시규범승격0. 자동PASS는 계약증거이지 재미·문체·출시GO가 아니다.
   본편/새packageHOLD·공개GO1·인간OPEN45·원어민/인간/물리미관측 유지.
@@ -45,7 +67,7 @@
   첫순번수리도 이어보기 연속성 FAIL을 보존했다. 전체80행 순번만 정렬한
   metadata20afb17에서 queue/context/diff0.606초PASS. 비싼PASS/화면 재실행0.
   author/root/독립 사전검수 누락을 기록한다. main20afb17 push 완료.
-- [418](queue_active/ORDER-418.md) 선언: 기존연락19키 CN/TW각19값·38receipt/2batch.
+- [418](queue_archive/ORDER-418.md) 선언: 기존연락19키 CN/TW각19값·38receipt/2batch.
   한국어직접 저작/실제소비helper/독립검수 소유분리. 기존 선물키와 중복0.
   contact의 stress(-3)는 별도필드가 아니라 mental(+3)로 합산됨을 사전확인했다.
 - 반복검사 비용 원인으로 validate_history의 연속append에서 같은 comparison을
