@@ -755,7 +755,7 @@ func _build_holdem_seat(parent: Control, seat_idx: int, title: String, cards: Ar
 	panel.add_child(box)
 
 	var title_lbl := Label.new()
-	title_lbl.text = ("FOLDED  " if folded else "") + title
+	title_lbl.text = ((_action_label("fold") if LocaleManager.language in ["ko", "ja", "zh-CN", "zh-TW"] else "FOLDED") + "  " if folded else "") + title
 	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title_lbl.add_theme_font_size_override("font_size", 12)
 	title_lbl.add_theme_color_override("font_color", Color("#5a5a5a") if folded else Color("#d7dde8"))
