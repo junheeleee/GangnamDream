@@ -1,8 +1,8 @@
 # ORDER-441 — 밝은 홀덤 카드의 숫자와 무늬를 읽는다
 
-#### [~] ORDER-441 [P1·화면] 카드 앞면 잉크 대비 수리
+#### [x] ORDER-441 [P1·화면] 카드 앞면 잉크 대비 수리
 
-**[~] 착수 — 2026-10-04.** 439 실제 화면에서 검은 패의 밝은 글자가 크림색
+**[x] 완료 — 2026-10-05.** 439 실제 화면에서 검은 패의 밝은 글자가 크림색
 카드와 거의 구분되지 않는 것을 확인했다. 사용자의 계속 개발·main 커밋/푸시 위임이다.
 
 ## 범위·소유
@@ -52,3 +52,11 @@
 - 이 지시는 **일회성**, 정본 추가0. 기존13px 크기·나머지 영어와 번역·규칙 collector
   잔여는 이번에 고치지 않는다. 자동PASS는 계약 증거이며 실제 품질은 독립 관찰한다.
 - 원어민/인간/물리패드 미관측·공개GO1·인간OPEN45·본편/새package HOLD를 유지한다.
+
+## 완료 증거
+
+- 제품 `99aee1b0dc7db01edd2efe33349bc5570847c011`, 최종 source `020b1a212377d1f9ad7e4afc7dbaddc2a9c8c408`, tree `3e04371988401793c01e0e047377426d54a8fd70`를 main에 커밋·푸시했다.
+- 실제 CN/TW 208 factory 노드·준비형 table/SHOWDOWN4PNG PASS(21.036초). 실제 입력/첫손/SHOWDOWN dispatcher/정산/Close0, typed2복원·player34 불변이다.
+- runtime `.git/full-game-localization/order441-screen-first/result.json` SHA `8a361b112fa7e328f36a2690646894ad958495e6859f7efc9c95a40081d9bac5`.
+- fresh7검증+차선조회1 PASS(398.468초), 신규50case/과거0; normal SHA `31ba23619630f7f65f6e456c092803752965fa8ef0c4f730efd9df32469e6786`. 이전 검사는 참조/NOT_RUN이다.
+- [독립 보고](../agent_reviews/ORDER-441.json)의 이 범위만 GO. 기존201판정/179보고 보존 후202/180, 지시는 일회성·정본 추가0. 선택 팔레트 대비는 실제 모든 픽셀의 접근성 인증이 아니다. 기존13px/나머지영문/규칙 collector·원어민/인간/물리패드·본편/새package HOLD 유지.
