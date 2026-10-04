@@ -388,7 +388,7 @@ func _deal_next_hand() -> void:
 	AudioManager.play_varied("chip_place")
 	_play_card_sound_sequence(2, 0.12)
 	AudioManager.play_haptic(&"commit_wager")
-	_show_table_banner("NEW HAND", Color("#c9a227"), 0.65)
+	_show_table_banner(_phase_banner_label("NEW HAND"), Color("#c9a227"), 0.65)
 	_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.47), 6)
 	_screen_flash(Color("#c9a227"), 0.10, 0.22)
 	# 홀 카드 딜 애니메이션 — 카드 2장 순서대로 scale 팝
@@ -697,7 +697,7 @@ func _add_showdown_panel(parent: Control) -> void:
 	row.add_child(text_box)
 
 	var kicker := Label.new()
-	kicker.text = "SHOWDOWN"
+	kicker.text = _phase_banner_label("SHOWDOWN")
 	kicker.add_theme_font_size_override("font_size", 10)
 	kicker.add_theme_color_override("font_color", Color("#8e98ad"))
 	_f(kicker, true)
@@ -1047,11 +1047,11 @@ func _player_action(action: String, amount: int) -> void:
 		"fold":
 			_player_folded = true
 			_set_msg(_tr("폴드했습니다.", "You folded."))
-			_show_table_banner("FOLD", Color("#d73a49"), 0.48)
+			_show_table_banner(_action_label(action).to_upper(), Color("#d73a49"), 0.48)
 			_screen_flash(Color("#d73a49"), 0.08, 0.18)
 		"check":
 			_set_msg(_tr("체크.", "Check."))
-			_show_table_banner("CHECK", Color("#7a8a9a"), 0.42)
+			_show_table_banner(_action_label(action).to_upper(), Color("#7a8a9a"), 0.42)
 		"call":
 			var actual := mini(to_call, _player_stack)
 			_player_stack -= actual
@@ -1060,7 +1060,7 @@ func _player_action(action: String, amount: int) -> void:
 			_set_msg(_tr("콜 (%s).", "Call (%s).") % _fmt(actual))
 			AudioManager.play_varied("chip_place")
 			AudioManager.play_haptic(&"commit_wager")
-			_show_table_banner("CALL", Color("#5de89c"), 0.45)
+			_show_table_banner(_action_label(action).to_upper(), Color("#5de89c"), 0.45)
 			_spawn_chip_burst(Color("#5de89c"), Vector2(0.50, 0.56), 4)
 			# Keep full-width action text inside the clipping viewport.
 		"raise":
@@ -1072,7 +1072,7 @@ func _player_action(action: String, amount: int) -> void:
 			_set_msg(_tr("레이즈 → %s", "Raise to %s") % _fmt(_player_bet))
 			AudioManager.play_varied("chip_place", 1.5 if actual >= 200_000 else 0.0, 0.91, 1.03)
 			AudioManager.play_haptic(&"commit_wager")
-			_show_table_banner("RAISE", Color("#f0b429"), 0.58)
+			_show_table_banner(_action_label(action).to_upper(), Color("#f0b429"), 0.58)
 			_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.56), 8)
 			_screen_flash(Color("#f0b429"), 0.13, 0.22)
 			_shake_node(_content_root, 4.0, 0.16)
@@ -1094,16 +1094,16 @@ func _commit_ai_action(opp_idx: int) -> void:
 	match decision["action"]:
 		"fold":
 			o["folded"] = true
-			_show_table_banner("%s  FOLD" % _opp_name(opp_idx), Color("#8a5a5a"), 0.46)
+			_show_table_banner("%s  %s" % [_opp_name(opp_idx), _action_label(decision["action"]).to_upper()], Color("#8a5a5a"), 0.46)
 		"check":
-			_show_table_banner("%s  CHECK" % _opp_name(opp_idx), Color("#7a8a9a"), 0.42)
+			_show_table_banner("%s  %s" % [_opp_name(opp_idx), _action_label(decision["action"]).to_upper()], Color("#7a8a9a"), 0.42)
 		"call":
 			var actual := mini(to_call, o["stack"])
 			o["stack"] -= actual
 			_opp_bets[opp_idx] += actual
 			_pot += actual
 			AudioManager.play_varied("chip_place", -4.0)
-			_show_table_banner("%s  CALL" % _opp_name(opp_idx), Color("#5de89c"), 0.45)
+			_show_table_banner("%s  %s" % [_opp_name(opp_idx), _action_label(decision["action"]).to_upper()], Color("#5de89c"), 0.45)
 			_spawn_chip_burst(Color("#5de89c"), Vector2(0.50, 0.40), 3)
 		"raise":
 			var actual := mini(int(decision["amount"]), o["stack"])
@@ -1112,7 +1112,7 @@ func _commit_ai_action(opp_idx: int) -> void:
 			_pot += actual
 			_max_bet = maxi(_max_bet, _opp_bets[opp_idx])
 			AudioManager.play_varied("chip_place", -2.0, 0.91, 1.03)
-			_show_table_banner("%s  RAISE" % _opp_name(opp_idx), Color("#f0b429"), 0.55)
+			_show_table_banner("%s  %s" % [_opp_name(opp_idx), _action_label(decision["action"]).to_upper()], Color("#f0b429"), 0.55)
 			_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.40), 6)
 			_screen_flash(Color("#f0b429"), 0.08, 0.16)
 	_record_round_action(opp_idx + 1, _max_bet > previous_max)
@@ -1161,7 +1161,7 @@ func _advance_phase() -> void:
 	var new_cards := 1 if banner in ["TURN", "RIVER"] else 3
 	_render_table()
 	_play_card_flip_sequence(new_cards, 0.10)
-	_show_table_banner(banner, Color("#c9a227"), 0.62)
+	_show_table_banner(_phase_banner_label(banner), Color("#c9a227"), 0.62)
 	_screen_flash(Color("#c9a227"), 0.09, 0.20)
 	# 새로 공개된 카드들 scale 0→1 순차 팝인
 	if is_instance_valid(_community_row):
@@ -1239,7 +1239,7 @@ func _do_showdown() -> void:
 
 	_render_table()
 	_play_card_flip_sequence(4, 0.08)
-	_show_table_banner("SHOWDOWN", Color("#f0b429"), 0.70)
+	_show_table_banner(_phase_banner_label("SHOWDOWN"), Color("#f0b429"), 0.70)
 	_set_msg(" ".join(msg_parts))
 	# Keep full-width showdown text inside the clipping viewport.
 	_pulse_node(_community_row, 1.05, 0.28)
@@ -1778,3 +1778,12 @@ func _leave() -> void:
 	if not visible or _phase not in [Phase.SETUP, Phase.RESULT]: return
 	_invalidate_action_flow()
 	_close_session()
+
+func _phase_banner_label(token: String) -> String:
+	match token:
+		"NEW HAND": return _tr("새 핸드", "New Hand").to_upper()
+		"FLOP": return _tr("플랍", "Flop").to_upper()
+		"TURN": return _tr("턴", "Turn").to_upper()
+		"RIVER": return _tr("리버", "River").to_upper()
+		"SHOWDOWN": return _tr("쇼다운", "Showdown").to_upper()
+	return token
