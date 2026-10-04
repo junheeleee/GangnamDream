@@ -817,6 +817,11 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
             require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
                     "legacy JA gift lineage or protected locale differs")
             corrections.append((_legacy_ja_gift_comparison, before, after))
+        elif commit == LEGACY_RANK_AFTER_COMMIT:
+            before, after, change = _legacy_ja_rank_proof(root, inventory)
+            require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
+                    "legacy JA rank lineage or protected locale differs")
+            corrections.append((_legacy_ja_rank_comparison, before, after))
         elif commit in exact:
             proof, inverse = exact[commit]
             before, after, change = proof(root, inventory)
@@ -1975,3 +1980,171 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
             root, inventory, inventory["source_manifest_sha256"])
     return _HOLDEM_BANNER_OLD_MANIFEST_MATCHES(root, inventory, expected)
 # END_HOLDEM_BANNER_APPEND_445
+
+
+# BEGIN_LEGACY_JA_RANK_CORRECTION_446
+# One legacy rank correction with a first receipt; never new UI coverage.
+LEGACY_RANK_PATH = "locale/ui_ja.json"
+LEGACY_RANK_PRODUCT_PATHS = (LEGACY_RANK_PATH, LEDGER_PATH)
+LEGACY_RANK_KEY = "포카드"
+LEGACY_RANK_TEXTS = ("フォールド", "フォーカード")
+LEGACY_RANK_ORIGIN_COMMIT = "aaeba142d08278c310505000bcc126a699493479"
+LEGACY_RANK_ORIGIN_BLOB = "53e3610ead0fdcaae7c7c4b787b27f9fdcb4fc67"
+LEGACY_RANK_ORIGIN_SHA256 = "550378458bee465a4d89a0be9ba6e2d18029fd8fbbeb8982b3c99a961708b0fc"
+LEGACY_RANK_BEFORE_COMMIT = "248813a14021a37407195d59cf3e6334551df2de"
+LEGACY_RANK_AFTER_COMMIT = "063d7db3fdb463295b050688f46c701d77b31acb"
+LEGACY_RANK_TREES = ("35447d82b8f73e94205fc7d047b2862308d6f9c5", "057e6b8aca586a19b2945a687c94c7c9ec92f7f5")
+LEGACY_RANK_BLOBS = {
+    LEGACY_RANK_PATH: ("9846aa5a55cbb8a584a4bea8269aea2dcf0246a6", "87ad090c928f1195826fddaa05901f1fb73a67c3"),
+    "locale/ui_zh-CN.json": ("e2a2f660c43005116a6f491bb2cd11b5247aa73b",) * 2,
+    "locale/ui_zh-TW.json": ("44ad7f4c6f1b9a79e20007e5bb6262d3a5250841",) * 2,
+    LEDGER_PATH: ("c4a70963e453923d021213c0f335612d4ccb358f", "18c0eb564eed8f5e8fdbd9c13aa1cbdb8ba2846f"),
+}
+LEGACY_RANK_HASHES = {
+    LEGACY_RANK_PATH: ("04fa4cbf9c0a9b9355142d782b4c8d34bb924e9a7378233e9005c3aacc82e1a2", "4e36e13606f483779d8551c14b8900e7c7518ea37f4083f495007d654dc17c8c"),
+    "locale/ui_zh-CN.json": ("052b59ab75a827354111d3c09de53e9d85e46611ab7b050691e1257a330c8152",) * 2,
+    "locale/ui_zh-TW.json": ("99395844a6a301263cf92925194076e222eeea3569452696a689639df814700c",) * 2,
+    LEDGER_PATH: ("3317d981e97ac0d7ce25434601b7c89f8d698d3e1d46e62d8a31394b5d119b76", "599da71c72b7e159c2bbf668fd2eba963ccd9f5195e06827ca9514f8802b73cb"),
+}
+LEGACY_RANK_BATCH_INDEX = 216
+LEGACY_RANK_REVIEW = (
+    "Korean-direct repair of the legacy Japanese four-of-a-kind name, not the Fold action. "
+    "One existing value corrected, zero new UI keys, one first official receipt. Gameplay, "
+    "other locales and public demo unchanged; agent review is not native or release approval.")
+
+
+def _legacy_ja_rank_comparison(snapshot: Mapping[str, bytes], before: Mapping[str, bytes],
+                               after: Mapping[str, bytes]) -> dict[str, bytes]:
+    """Undo the proved rank/first receipt/batch only; retain later appends."""
+    require(set(snapshot) == set(before) == set(after) == set(CURRENT_PATHS),
+            "legacy JA rank comparison requires four paths")
+    result = dict(snapshot)
+    a, b, doc = (_Document(raw) for raw in
+                 (before[LEGACY_RANK_PATH], after[LEGACY_RANK_PATH], snapshot[LEGACY_RANK_PATH]))
+    key = LEGACY_RANK_KEY
+    require(doc.value.get(key) == LEGACY_RANK_TEXTS[1], "legacy JA rank corrected target rolled back/changed")
+    start, end = doc.spans[(key,)]
+    bs, be = b.spans[(key,)]
+    require(doc.text[start:end] == b.text[bs:be], "legacy JA rank corrected target raw token changed")
+    first, last = a.spans[(key,)]
+    result[LEGACY_RANK_PATH] = (doc.text[:start] + a.text[first:last] + doc.text[end:]).encode()
+    a, b, doc = (_Document(raw) for raw in
+                 (before[LEDGER_PATH], after[LEDGER_PATH], snapshot[LEDGER_PATH]))
+    value, index = doc.value, LEGACY_RANK_BATCH_INDEX
+    require(value["accepted_sha256"] == exchange.digest(value["accepted"]), "legacy JA rank accepted checksum")
+    require(len(value["batches"]) > index and _ordered(value["batches"][index]) == _ordered(b.value["batches"][index]),
+            "legacy JA rank batch missing/changed/reordered")
+    start, end = doc.spans[("batches", index - 1)][1], doc.spans[("batches", index)][1]
+    bs, be = b.spans[("batches", index - 1)][1], b.spans[("batches", index)][1]
+    require(doc.text[start:end] == b.text[bs:be], "legacy JA rank batch raw changed")
+    edits = [(start, end, "")]
+    old_keys, identifier = list(a.value["accepted"]["ja"]), receipt_id(key)
+    require(bool(old_keys) and list(b.value["accepted"]["ja"])[len(old_keys):] == [identifier]
+            and list(value["accepted"]["ja"])[len(old_keys):len(old_keys) + 1] == [identifier],
+            "legacy JA rank first receipt order/population differs")
+    require(_ordered(value["accepted"]["ja"].get(identifier)) == _ordered(b.value["accepted"]["ja"][identifier]),
+            "legacy JA rank first receipt changed")
+    start, end = doc.spans[("accepted", "ja", old_keys[-1])][1], doc.spans[("accepted", "ja", identifier)][1]
+    bs, be = b.spans[("accepted", "ja", old_keys[-1])][1], b.spans[("accepted", "ja", identifier)][1]
+    require(doc.text[start:end] == b.text[bs:be], "legacy JA rank first receipt raw changed")
+    edits.append((start, end, ""))
+    accepted = {**value["accepted"], "ja": {k: v for k, v in value["accepted"]["ja"].items() if k != identifier}}
+    start, end = doc.spans[("accepted_sha256",)]
+    edits.append((start, end, _ordered(exchange.digest(accepted)).decode()))
+    text = doc.text
+    for start, end, replacement in sorted(edits, reverse=True):
+        text = text[:start] + replacement + text[end:]
+    result[LEDGER_PATH] = text.encode()
+    return result
+
+
+def _validate_legacy_ja_rank_correction(before: Mapping[str, bytes], after: Mapping[str, bytes],
+                                       inventory: dict[str, Any]) -> dict[str, Any]:
+    require(set(before) == set(after) == set(CURRENT_PATHS), "legacy JA rank requires four paths")
+    old, new = ({p: _loads(raw) for p, raw in snapshot.items()} for snapshot in (before, after))
+    require(all(before[p] == after[p] for p in UI_PATHS), "legacy JA rank changed another locale")
+    key = LEGACY_RANK_KEY
+    require(old[LEGACY_RANK_PATH].get(key) == LEGACY_RANK_TEXTS[0]
+            and _ordered(new[LEGACY_RANK_PATH]) == _ordered({**old[LEGACY_RANK_PATH], key: LEGACY_RANK_TEXTS[1]})
+            and len(old[LEGACY_RANK_PATH]) == len(new[LEGACY_RANK_PATH]) == 3048,
+            "legacy JA rank exact old/new target or key census differs")
+    a, b = old[LEDGER_PATH], new[LEDGER_PATH]
+    require(len(a["batches"]) == LEGACY_RANK_BATCH_INDEX and len(b["batches"]) == LEGACY_RANK_BATCH_INDEX + 1
+            and sum(map(len, a["accepted"].values())) == 41736
+            and sum(map(len, b["accepted"].values())) == 41737
+            and len(a["accepted"]["ja"]) == 13134 and len(b["accepted"]["ja"]) == 13135,
+            "legacy JA rank first receipt/batch census differs")
+    require(all(v["accepted_sha256"] == exchange.digest(v["accepted"]) for v in (a, b)),
+            "legacy JA rank accepted checksum mismatch")
+    leaf = exchange.Leaf("ui", key, "runtime:static_ui", (key,), key, "ui_static_context")
+    selected = [row for row in inventory["leaves"] if row.id == leaf.id]
+    require(len(selected) == 1 and _ordered(vars(selected[0])) == _ordered(vars(leaf)),
+            "legacy JA rank current Korean leaf/protection/support differs")
+    require(leaf.id not in a["accepted"]["ja"]
+            and not any(key in row.get("roots", []) and row.get("target_leaves_by_locale", {}).get("ja", 0)
+                        for row in a["batches"]), "legacy JA rank falsely claims absent prior acceptance")
+    corrected = {leaf.id: {"source_sha256": leaf.source_sha256, "target_sha256": exchange.digest(LEGACY_RANK_TEXTS[1])}}
+    previous = {leaf.id: exchange.digest(LEGACY_RANK_TEXTS[0])}
+    require(not exchange.translation_errors(leaf, "ja", LEGACY_RANK_TEXTS[1]),
+            "legacy JA rank translation contract failed")
+    batch = b["batches"][LEGACY_RANK_BATCH_INDEX]
+    expected = {"order": "ORDER-446", "group": "ui_correction", "roots": [key], "source_leaves": 1,
+                "legacy_origin_commit": LEGACY_RANK_ORIGIN_COMMIT, "prior_acceptance": "absent",
+                "before_target_sha256_by_locale": {"ja": previous},
+                "target_leaves_by_locale": {"ja": 1, "zh-CN": 0, "zh-TW": 0},
+                "source_review": LEGACY_RANK_REVIEW, "machine_validation": "PASS", "rendered_review": "OPEN", "native_review": "OPEN"}
+    maps = (HEADERS_FIELD, "receipt_sha256_by_locale")
+    require(isinstance(batch, dict) and set(batch) == set(expected) | set(maps)
+            and all(_ordered(batch[k]) == _ordered(v) for k, v in expected.items())
+            and all(isinstance(batch[k], dict) and set(batch[k]) == {"ja"} for k in maps),
+            "legacy JA rank batch identity/population differs")
+    header = batch[HEADERS_FIELD]["ja"]
+    require(header.get("source_revision") == LEGACY_RANK_BEFORE_COMMIT
+            and re.fullmatch(r"[0-9a-f]{64}", str(header.get("source_manifest_sha256", ""))),
+            "legacy JA rank export revision/manifest malformed")
+    rebuilt = exchange.make_batch({**inventory, "source_manifest_sha256": header["source_manifest_sha256"]},
+                                  "ja", selected, LEGACY_RANK_BEFORE_COMMIT,
+                                  {LEGACY_RANK_PATH: old[LEGACY_RANK_PATH]}, {})[0]
+    require(_ordered(header) == _ordered(rebuilt), "legacy JA rank official previous-target selection differs")
+    receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN", "translations": corrected}
+    require(batch["receipt_sha256_by_locale"]["ja"] == exchange.digest(receipt), "legacy JA rank official receipt digest differs")
+    accepted = {**a["accepted"], "ja": {**a["accepted"]["ja"], **corrected}}
+    require(_ordered(b) == _ordered({**a, "accepted": accepted, "accepted_sha256": exchange.digest(accepted),
+                                    "batches": [*a["batches"], batch]}), "legacy JA rank changed an old receipt/batch or ledger field")
+    require(_legacy_ja_rank_comparison(after, before, after) == before, "legacy JA rank whole raw inverse differs")
+    return {"ui_by_locale": {loc: 0 for loc in CURRENT_LOCALES}, "receipts": 0, "batches": 0,
+            "corrections": 1, "correction_batches": 1, "first_receipts": 1,
+            "source_manifests": {header["source_revision"]: header["source_manifest_sha256"]}}
+
+
+def _legacy_ja_rank_proof(root: Path, inventory: dict[str, Any]) -> tuple[dict, dict, dict]:
+    """Fresh exact product and legacy provenance; no cached current admission."""
+    require(set(LEGACY_RANK_BLOBS) == set(LEGACY_RANK_HASHES) == set(CURRENT_PATHS), "legacy JA rank pin population differs")
+    revisions = (LEGACY_RANK_BEFORE_COMMIT, LEGACY_RANK_AFTER_COMMIT)
+    requests = [(c, c, "commit") for c in revisions] + [(t, t, "tree") for t in LEGACY_RANK_TREES]
+    requests += [(c + ":" + p, LEGACY_RANK_BLOBS[p][i], "blob") for p in CURRENT_PATHS for i, c in enumerate(revisions)]
+    requests.append((LEGACY_RANK_ORIGIN_COMMIT + ":" + LEGACY_RANK_PATH, LEGACY_RANK_ORIGIN_BLOB, "blob"))
+    values = _objects(root, requests)
+    for index in range(2):
+        headers = values[index].split(b"\n\n", 1)[0].splitlines()
+        require([h for h in headers if h.startswith(b"tree ")] == [b"tree " + LEGACY_RANK_TREES[index].encode()],
+                "legacy JA rank exact tree mismatch")
+        if index:
+            require([h for h in headers if h.startswith(b"parent ")] == [b"parent " + revisions[0].encode()],
+                    "legacy JA rank direct parent mismatch")
+    require(_git(root, "diff", "--name-status", "-z", *revisions).split(b"\0")
+            == [v for p in sorted(LEGACY_RANK_PRODUCT_PATHS) for v in (b"M", p.encode())] + [b""],
+            "legacy JA rank product path population differs")
+    before, after = {}, {}
+    for index, path in enumerate(CURRENT_PATHS):
+        old, new = values[4 + index * 2:6 + index * 2]
+        require(tuple(hashlib.sha256(v).hexdigest() for v in (old, new)) == LEGACY_RANK_HASHES[path],
+                "legacy JA rank immutable whole raw differs")
+        before[path], after[path] = old, new
+    origin = values[-1]
+    require(hashlib.sha256(origin).hexdigest() == LEGACY_RANK_ORIGIN_SHA256
+            and _loads(origin).get(LEGACY_RANK_KEY) == LEGACY_RANK_TEXTS[0],
+            "legacy JA rank original target provenance differs")
+    _git(root, "merge-base", "--is-ancestor", LEGACY_RANK_ORIGIN_COMMIT, LEGACY_RANK_BEFORE_COMMIT)
+    return before, after, _validate_legacy_ja_rank_correction(before, after, inventory)
+# END_LEGACY_JA_RANK_CORRECTION_446

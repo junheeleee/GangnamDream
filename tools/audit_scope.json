@@ -14,6 +14,22 @@
   ],
   "fast_lanes": [
     {
+      "id": "holdem-rank-ja",
+      "paths": [],
+      "owned_paths": [
+        "locale/ui_ja.json", "content/meta/full_game_localization.json", "tools/ui_translation_append.py",
+        "tools/holdem_rank_ja_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-446.json",
+        "docs/queue_active/ORDER-446.md", "docs/queue_archive/ORDER-446.md"
+      ],
+      "tools": [
+        "tools/holdem_rank_ja_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/ja_translation_audit.py --scope ui", "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit446 corrects one existing Japanese rank7 value and adds its first official receipt; normal Fold, game sources and static UiCalls unchanged. New focused/receipt/JA-UI/EN plus context/queue always and separate diff/registration give eight validations and one query. Three prepared JA readers verify current hand, player/AI winner messages, summary and full-history versus existing three-character display; no input/deal/dispatcher/settlement. CN/TW/fullbody, completed tutorial/banner/betting, historical focused/runtime and four narratives/full/240-week suites NOT_RUN."
+    },
+    {
       "id": "holdem-banner",
       "paths": [],
       "owned_paths": [
@@ -3081,6 +3097,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/holdem_rank_ja_receipt_check.py",
+      "paths": ["locale/ui_ja.json", "content/meta/full_game_localization.json", "tools/ui_translation_append.py", "tools/holdem_rank_ja_receipt_check.py"],
+      "why": "Exact446 legacy Japanese rank7 correction and first official receipt; immutable Git/provenance/raw inverse and narrow mutation boundaries, no historical suite replay.",
+      "godot": false
+    },
     {
       "tool": "tools/holdem_banner_receipt_check.py",
       "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_banner_receipt_check.py"],
