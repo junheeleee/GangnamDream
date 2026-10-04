@@ -1,6 +1,6 @@
 # ORDER-434 — 홀덤의 잔액·팟·베팅 금액을 원 단위로 정확히 표시
 
-#### [~] ORDER-434 [P1·숫자 표시] 홀덤 formatter 절삭·중국어 폴백 단위 수리
+#### [x] ORDER-434 [P1·숫자 표시] 홀덤 formatter 절삭·중국어 폴백 단위 수리
 
 **[~] 착수 — 2026-10-04.** 사용자 위임의 내부 개발·품질 수리다.
 다음 홀덤 번역 화면을 준비하다 실제 `_fmt`의 기존 결함을 확인했다.
@@ -87,3 +87,13 @@
   차선을 쓰고 fresh receipt/fullbody와 실제 바뀐 화면은 유지한다.
 - 일회성 수리·검수. 새 상시 규범0. 원어민/인간/물리 패드 관측은 미발급,
   공개GO1/인간OPEN45와 본편/새package HOLD를 보존한다. 외부 출시 권한은 아니다.
+
+## 최종 범위한정 판정 — 2026-10-04
+
+- 새 source `538e1318eb9dcf92cc46699a04a26c5375639892`, tree `9fe2a7567b711fa6617890a7d7d84d76b87c8dd5`에서 독립 GO. 옛434 source28aeb902의 REWORK는 그대로다.
+- actual 5언어10PNG·130raw/65synthetic taps·첫손5·정산0, 61.175초 PASS. 70개 금액 노드와10개 canvas의 값·서체·폭·중앙 정렬을 확인하고 typed/player34를 보존했다.
+- fresh10검증+조회1 PASS/359.373초, focused45case/12.185초. Chapter1/storygraph/Chapter5/Year5는434 원본 재사용이며436에서 NOT_RUN이다.
+- runtime SHA `56346938769f81a910584f3abcf92e1155cb9e9661eefa13781d992b310d8bf9`; normal SHA `5116f33788ab482f2e45757266322ef68c0862f4438a3f279fafdb505122dc09`.
+- tracked3046/prior3099/current4/runtime164/player34 전후 불변. accepted41612/b207·JA3044/CN/TW1711 및 공개GO1·인간OPEN45 보존.
+- [독립 보고](../agent_reviews/ORDER-434-successor.json). 기존434 보고 경로/SHA를 보존하기 위해 후속 보고만 별도 파일로 추가했다.
+- 규범 검토: 이 수리·검수 절차는 일회성, 새 상시 규범0. 10px 가독성·비금액 영어 잔여·후속라운드/정산·자연진입/원어민/인간/물리패드 미관측, 본편/새package HOLD.

@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-10-04 11:41 UTC · bd573a48`
+> 생성 시각 · 커밋: `2026-10-04 12:06 UTC · 538e1318`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -115,8 +115,6 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
-| `ORDER-436` | 홀덤 베팅 금액 잘림 수리 | 진행 | 착수 — 만지는 파일: Holdem draw2행·Git증명 EOF·append EOF·새focused·scope·private검수/기록 · 기존434 REWORK 보존 |
-| `ORDER-434` | 홀덤 원 단위 금액 표시 | 진행 | L1 정적14검증 PASS · 5언어 canvas 잘림5건 REWORK · 후속436 수리/재관측 |
 | `ORDER-302` | 체험판 대본 사실·영어 정합 수리 | 진행 | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
 | `ORDER-352` | 본편 5장 대본 이름·시간·회수 정합 | 미착수 | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 | `ORDER-212` | 선택의 나비효과·친절의 연쇄 번역 | 진행 | 432번역 L1/L2 · L3 OPEN |

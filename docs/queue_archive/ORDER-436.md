@@ -1,6 +1,6 @@
 # ORDER-436 — 홀덤 베팅 칩의 원 단위 금액 잘림 수리
 
-#### [~] ORDER-436 [P1·숫자 가독성] 실제 글자 폭으로 베팅 금액 중앙 정렬
+#### [x] ORDER-436 [P1·숫자 가독성] 실제 글자 폭으로 베팅 금액 중앙 정렬
 
 **[~] 착수 — 2026-10-04.** 434의 실제 5언어 첫 패에서 확인한 별도 표시 결함이다.
 EN 10,000 won=52px, JA 10,000/5,000ウォン=61/55px, CN/TW 10,000韩元/韓元=51px가
@@ -62,3 +62,13 @@ SHA2cb813065660187f829925393f2a43ab8b6cb55026422fd1a2248ebbb4d3013c다.
 - 준비 두 화면/금액/1280×800만 관측한다. 모든 거액/후속 street·승패·정산·자연진입,
   native_reader/human_playtest/physical_controller_feel은 미관찰이다. 공개GO1·인간OPEN45,
   본편/새package HOLD·외부 출시 권한 경계를 보존한다.
+
+## 최종 범위한정 판정 — 2026-10-04
+
+- 새 source `538e1318eb9dcf92cc46699a04a26c5375639892`, tree `9fe2a7567b711fa6617890a7d7d84d76b87c8dd5`에서 독립 GO. 옛434 source28aeb902의 REWORK는 그대로다.
+- actual 5언어10PNG·130raw/65synthetic taps·첫손5·정산0, 61.175초 PASS. 70개 금액 노드와10개 canvas의 값·서체·폭·중앙 정렬을 확인하고 typed/player34를 보존했다.
+- fresh10검증+조회1 PASS/359.373초, focused45case/12.185초. Chapter1/storygraph/Chapter5/Year5는434 원본 재사용이며436에서 NOT_RUN이다.
+- runtime SHA `56346938769f81a910584f3abcf92e1155cb9e9661eefa13781d992b310d8bf9`; normal SHA `5116f33788ab482f2e45757266322ef68c0862f4438a3f279fafdb505122dc09`.
+- tracked3046/prior3099/current4/runtime164/player34 전후 불변. accepted41612/b207·JA3044/CN/TW1711 및 공개GO1·인간OPEN45 보존.
+- [독립 보고](../agent_reviews/ORDER-436.json). 기존434 보고 경로/SHA를 보존하기 위해 후속 보고만 별도 파일로 추가했다.
+- 규범 검토: 이 수리·검수 절차는 일회성, 새 상시 규범0. 10px 가독성·비금액 영어 잔여·후속라운드/정산·자연진입/원어민/인간/물리패드 미관측, 본편/새package HOLD.
