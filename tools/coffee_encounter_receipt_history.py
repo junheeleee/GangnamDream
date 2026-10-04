@@ -34,13 +34,28 @@ COFFEE_REVIEW = (
     "retain their source hashes and one Japanese UI leaf gains its first official receipt. No new source "
     "keys, gameplay or public-demo changes. Agent review is not native or release approval.")
 
-# Filled only after the root observes the actual five-file product commit.
-# Calling the proof before that observation must fail, not guess future pins.
-COFFEE_BEFORE_COMMIT: str | None = None
-COFFEE_AFTER_COMMIT: str | None = None
-COFFEE_TREES: tuple[str, ...] = ()
-COFFEE_BLOBS: dict[str, tuple[str, str]] = {}
-COFFEE_HASHES: dict[str, tuple[str, str]] = {}
+# Observed from the actual five-file product commit after official acceptance.
+COFFEE_BEFORE_COMMIT = "f4e44326b56cb76188de6278625f14181ed190e6"
+COFFEE_AFTER_COMMIT = "5ff1e8e72e7de5ef11212bd84d682a94c39e8487"
+COFFEE_TREES = ("283a54d359f62e86584695197accbfa0309bae3a", "82b9b8c4e251e594b3f94f0a130522caef8190ee")
+COFFEE_BLOBS = {
+    "content/events_ja/arc_events.json": ("8624315b55ebc0f88f57283be4f9cba5b8b7f2f0", "627658059d5a71dbd813079df20a5ddb1a74a3ed"),
+    "content/events_zh-CN/arc_events.json": ("6f0f7ba26c4fb8bd0a60372287083a6e0482b2b7", "85a5ebea37ab1a576a82b17809a2a53afc20318e"),
+    "content/events_zh-TW/arc_events.json": ("19b2577426474282975d2456045858f73566190f", "1d0d0c38a69ed49c90e625f3b299c03d26850176"),
+    "locale/ui_ja.json": ("7c77a2870f47c213de28a0f22eae7018bd8cf92b", "e5ab43b2129ffa11196fe0c7681da1740947ca99"),
+    "locale/ui_zh-CN.json": ("eb289cf95bb7f288825cd889dfcaf2b4b1181bbf", "eb289cf95bb7f288825cd889dfcaf2b4b1181bbf"),
+    "locale/ui_zh-TW.json": ("75cbd88ff7c3af529dba2f4c7d5780486bb60b78", "75cbd88ff7c3af529dba2f4c7d5780486bb60b78"),
+    "content/meta/full_game_localization.json": ("5c83b5c6deada067c4c6ce36bce5ee86eb6c4cd3", "c1115b36de0373882cbcb5c640786ec6141d998d"),
+}
+COFFEE_HASHES = {
+    "content/events_ja/arc_events.json": ("807db30f15b0bdcee0cc4cd4d3ea73de5db28f22cdb9958f5416dccabbcf9a99", "90170751c5f6e87ca38594e2d17f9560e30ed650cad1eb2daeb79bb281a30a82"),
+    "content/events_zh-CN/arc_events.json": ("366a883fe87eb5b2a4d01c8a19ec6d23ceba2a8e69fb4f4e336cae388016bfdd", "cf430c7267a3bad35249505e3e958eada5822500b64fad74764c15c2f720df0e"),
+    "content/events_zh-TW/arc_events.json": ("6f3d348350779de92d9ca226314ce19f4cdbe1dd0e3f4d83b40d9b086f3cb7f1", "8078010d7601695302a61d6864338d21041dc656610a6d94d1ccec02b7c8ecd5"),
+    "locale/ui_ja.json": ("ef4cb956fe532886f0a3af4e0d5ac06c660b6d821ed4acdf6d005816ea6d5a0b", "dfe4a83473850ec1bb61a8b3300cbc3ee7630fefb136979777221e77971ac463"),
+    "locale/ui_zh-CN.json": ("844edfd0638e0123b26530d3b46094819d5cbf1748bbd674bf36ca5147ea98bd", "844edfd0638e0123b26530d3b46094819d5cbf1748bbd674bf36ca5147ea98bd"),
+    "locale/ui_zh-TW.json": ("30bd5b069601c00fcf0a68c49eb547f765d041153d36d2db58d4e8a7fc14721c", "30bd5b069601c00fcf0a68c49eb547f765d041153d36d2db58d4e8a7fc14721c"),
+    "content/meta/full_game_localization.json": ("06c1f4c48ca1c81ee3d72a7dee62c07df4a1eeaba63321045ce0dd1a08035d80", "6186aaa75eb4c796ece79b066a12705d2cd28bfdbc70a237bef2b5db533f017b"),
+}
 
 
 def require(ok: bool, message: str) -> None:
