@@ -1207,7 +1207,7 @@ func _do_showdown() -> void:
 		hand_net = _player_stack - _hand_start_stack
 		_net_session += _pot - _buy_in if _hands_played == 1 else _pot
 		_session_won += 1
-		msg_parts.append(_tr("%s으로 승리! +%s", "Won with %s! +%s") % [TH.rank_name(best_hand[0]), _fmt(hand_net)])
+		msg_parts.append(_victory_template(_tr("%s으로 승리! +%s", "Won with %s! +%s")) % [TH.rank_name(best_hand[0]), _fmt(hand_net)])
 		GameState.modify_hidden_stat("gambling_tendency", 3)
 		AudioManager.play("chip_collect")
 		AudioManager.play_casino_result(float(_pot), maxf(float(_buy_in), 1.0), _pot >= 1_000_000)
@@ -1787,3 +1787,7 @@ func _phase_banner_label(token: String) -> String:
 		"RIVER": return _tr("리버", "River").to_upper()
 		"SHOWDOWN": return _tr("쇼다운", "Showdown").to_upper()
 	return token
+
+func _victory_template(template: String) -> String:
+	# Preserve the translation lookup key; all built-in KO ranks take 로, including 트리플.
+	return template.replace("%s으로", "%s로") if LocaleManager.is_korean() else template
