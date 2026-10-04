@@ -1285,3 +1285,97 @@ def _table_labels_previous(current, root, index):
         return _holdem_folded_locale_proof(current, root)[index + 3]
     return _FOLDED_LOCALE_OLD_TABLE_LABELS_PREVIOUS(current, root, index)
 # END_HOLDEM_FOLDED_LOCALE_HISTORY_451
+
+
+# BEGIN_HOLDEM_HAND_NET_HISTORY_452
+# Display-only hand accounting; all earlier proofs and source coordinates stay sealed.
+HAND_NET_BEFORE_COMMIT = "1a31721cb583586c8a4649a4c4950e82ab02fbe1"
+HAND_NET_AFTER_COMMIT = "ffc99a1f7ee19f6f8de36eed4729395a83dbdf65"
+HAND_NET_TREES = ("9c356359cc6a50f40bd6e98994908313f47d0ec9", "23214ad2801ac7af00644fc8e341803b989beecd")
+HAND_NET_BLOBS = ("8567df0f9c02a969b08bf49d2415d349e0e14ab1", "5ef770fb2f05653ef4203038ed01826173e98858")
+HAND_NET_HASHES = ("680c36f92b2d6d6615c24fa0bb1b36d0f51c59436004eb58170d370d481783b7",
+                   "be542f9f6f583a6a2bb2cf849a8d5b56bcd4ec306912a3465fbb9e0a87467e75")
+HAND_NET_REPLACEMENTS = (
+    ('\n# UI 노드\nvar _header_lbl: RichTextLabel\n',
+     'var _hand_start_stack: int = 0    # 이번 손 블라인드 차감 전 보유 칩\n# UI 노드\nvar _header_lbl: RichTextLabel\n'),
+    ('\t\t_show_result_screen()\n\t\treturn\n\n\tfor o in _opp:\n',
+     '\t\t_show_result_screen()\n\t\treturn\n\t_hand_start_stack = _player_stack\n\tfor o in _opp:\n'),
+    ('\t\t_player_stack += _pot\n\t\thand_net = _pot\n',
+     '\t\t_player_stack += _pot\n\t\thand_net = _player_stack - _hand_start_stack\n'),
+    ('\t\tmsg_parts.append(_tr("%s으로 승리! +%s", "Won with %s! +%s") % [TH.rank_name(best_hand[0]), _fmt(_pot)])\n',
+     '\t\tmsg_parts.append(_tr("%s으로 승리! +%s", "Won with %s! +%s") % [TH.rank_name(best_hand[0]), _fmt(hand_net)])\n'),
+    ('\t\t_opp[winner_idx]["stack"] += _pot\n\t\thand_net = -_pot\n',
+     '\t\t_opp[winner_idx]["stack"] += _pot\n\t\thand_net = _player_stack - _hand_start_stack\n'),
+)
+_HAND_NET_OLD_FOLDED_LOCALE_PROOF = _holdem_folded_locale_proof
+_HAND_NET_OLD_SEAT_HEIGHT_PROOF = _holdem_seat_height_proof
+_HAND_NET_OLD_TABLE_LABELS_PROOF = _holdem_table_labels_proof
+_HAND_NET_OLD_TABLE_LABELS_PREVIOUS = _table_labels_previous
+
+
+def holdem_hand_net_inverse(current: bytes, before: bytes) -> bytes:
+    """Undo five uniquely anchored lines, including two former blank lines."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(HAND_NET_REPLACEMENTS, tuple) or len(HAND_NET_REPLACEMENTS) != 5
+            or any(not isinstance(pair, tuple) or len(pair) != 2
+                   or any(not isinstance(value, str) for value in pair) for pair in HAND_NET_REPLACEMENTS)):
+        raise ValueError("ORDER-452: exact inverse population/type differs")
+    recovered, changed = current, 0
+    for old_text, new_text in reversed(HAND_NET_REPLACEMENTS):
+        old, new = old_text.encode("utf-8"), new_text.encode("utf-8")
+        if (not old or old == new or old.count(b"\n") != new.count(b"\n")
+                or before.count(old) != 1 or before.count(new) != 0 or recovered.count(new) != 1):
+            raise ValueError("ORDER-452: anchored hand-net inverse is not exact1")
+        changed += sum(a != b for a, b in zip(old.splitlines(), new.splitlines()))
+        recovered = recovered.replace(new, old, 1)
+    if changed != 5 or recovered != before:
+        raise ValueError("ORDER-452: bytes outside five hand-net lines changed")
+    return recovered
+
+
+def _holdem_hand_net_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    """Twelve stages/72 request entries; only the last descriptor is added."""
+    stages = (
+        (BEFORE_COMMIT, AFTER_COMMIT, TREES, BLOBS, HASHES, holdem_money_inverse),
+        (CANVAS_BEFORE_COMMIT, CANVAS_AFTER_COMMIT, CANVAS_TREES, CANVAS_BLOBS, CANVAS_HASHES, holdem_canvas_inverse),
+        (BETTING_BEFORE_COMMIT, BETTING_AFTER_COMMIT, BETTING_TREES, BETTING_BLOBS, BETTING_HASHES, holdem_betting_inverse),
+        (ASYNC_BEFORE_COMMIT, ASYNC_AFTER_COMMIT, ASYNC_TREES, ASYNC_BLOBS, ASYNC_HASHES, holdem_async_inverse),
+        (CARD_COLOR_BEFORE_COMMIT, CARD_COLOR_AFTER_COMMIT, CARD_COLOR_TREES, CARD_COLOR_BLOBS, CARD_COLOR_HASHES, holdem_card_color_inverse),
+        (MESSAGE_PULSE_BEFORE_COMMIT, MESSAGE_PULSE_AFTER_COMMIT, MESSAGE_PULSE_TREES, MESSAGE_PULSE_BLOBS, MESSAGE_PULSE_HASHES, holdem_message_pulse_inverse),
+        (BANNER_BEFORE_COMMIT, BANNER_AFTER_COMMIT, BANNER_TREES, BANNER_BLOBS, BANNER_HASHES, holdem_banner_inverse),
+        (BANNER_LOCALE_BEFORE_COMMIT, BANNER_LOCALE_AFTER_COMMIT, BANNER_LOCALE_TREES, BANNER_LOCALE_BLOBS, BANNER_LOCALE_HASHES, holdem_banner_locale_inverse),
+        (TABLE_LABELS_BEFORE_COMMIT, TABLE_LABELS_AFTER_COMMIT, TABLE_LABELS_TREES, TABLE_LABELS_BLOBS, TABLE_LABELS_HASHES, holdem_table_labels_inverse),
+        (SEAT_HEIGHT_BEFORE_COMMIT, SEAT_HEIGHT_AFTER_COMMIT, SEAT_HEIGHT_TREES, SEAT_HEIGHT_BLOBS, SEAT_HEIGHT_HASHES, holdem_seat_height_inverse),
+        (FOLDED_LOCALE_BEFORE_COMMIT, FOLDED_LOCALE_AFTER_COMMIT, FOLDED_LOCALE_TREES, FOLDED_LOCALE_BLOBS, FOLDED_LOCALE_HASHES, holdem_folded_locale_inverse),
+        (HAND_NET_BEFORE_COMMIT, HAND_NET_AFTER_COMMIT, HAND_NET_TREES, HAND_NET_BLOBS, HAND_NET_HASHES, holdem_hand_net_inverse),
+    )
+    return _holdem_exact_stage_chain(current, root, stages)
+
+
+def holdem_hand_net_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _holdem_hand_net_proof(current, root)[0]
+
+
+def _holdem_folded_locale_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == HAND_NET_HASHES[1]:
+        return _holdem_hand_net_proof(current, root)[1:]
+    return _HAND_NET_OLD_FOLDED_LOCALE_PROOF(current, root)
+
+
+def _holdem_seat_height_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == HAND_NET_HASHES[1]:
+        return _holdem_hand_net_proof(current, root)[2:]
+    return _HAND_NET_OLD_SEAT_HEIGHT_PROOF(current, root)
+
+
+def _holdem_table_labels_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == HAND_NET_HASHES[1]:
+        return _holdem_hand_net_proof(current, root)[3:]
+    return _HAND_NET_OLD_TABLE_LABELS_PROOF(current, root)
+
+
+def _table_labels_previous(current, root, index):
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == HAND_NET_HASHES[1]:
+        return _holdem_hand_net_proof(current, root)[index + 4]
+    return _HAND_NET_OLD_TABLE_LABELS_PREVIOUS(current, root, index)
+# END_HOLDEM_HAND_NET_HISTORY_452

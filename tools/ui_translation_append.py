@@ -2475,3 +2475,26 @@ def _legacy_ja_residual_proof(root: Path, inventory: dict[str, Any]) -> tuple[di
     require(_git(root, "rev-parse", "--verify", "HEAD^{commit}") == head, "legacy JA residual candidate changed during proof")
     return before, after, change
 # END_LEGACY_JA_RESIDUAL_CORRECTION_451
+
+
+# BEGIN_HOLDEM_HAND_NET_APPEND_452
+# One real pre-hand-net tuple; no dictionary or receipt mutation is admitted here.
+_HOLDEM_HAND_NET_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_HAND_NET_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_hand_net_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem hand net current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_HAND_NET_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_HAND_NET_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_HAND_NET_APPEND_452

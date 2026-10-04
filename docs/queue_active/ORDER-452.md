@@ -19,6 +19,12 @@
 
 ## 제품 계약
 
+- 실제 선언 `1a31721cb583586c8a4649a4c4950e82ab02fbe1`·tree
+  `9c356359cc6a50f40bd6e98994908313f47d0ec9`, 제품
+  `ffc99a1f7ee19f6f8de36eed4729395a83dbdf65`·tree
+  `23214ad2801ac7af00644fc8e341803b989beecd`를 main에 커밋·푸시했다.
+  제품 변경은49/355/1207/1210/1218 다섯 줄이며 새 검수는 아직 미실행이다.
+
 - 기존 빈줄49에 `_hand_start_stack: int = 0`을 선언하고, 첫손 buy-in 초기화와
   잔액 부족 종료 검사 뒤/블라인드 차감 전의 빈줄355에서 현재 stack을 캡처한다.
 - 승/패 branch의 hand_net을 각각 지급 후 `_player_stack - _hand_start_stack`으로
