@@ -9317,6 +9317,50 @@
       "receipt_sha256_by_locale": {
         "zh-TW": "49ef05a78f3dfbaecd153f426446aa09f9f180e1f666f7541b195fdb9bb61329"
       }
+    },
+    {
+      "order": "ORDER-451",
+      "group": "ui_correction",
+      "roots": [
+        "%s · POT %s 정산",
+        "판돈 선택"
+      ],
+      "source_leaves": 2,
+      "legacy_origin_commit": "aaeba142d08278c310505000bcc126a699493479",
+      "prior_acceptance": "absent",
+      "before_target_sha256_by_locale": {
+        "ja": {
+          "ui:%s · POT %s 정산:/%s · POT %s 정산": "56ec731bb5225df5d4a4cc09c11cc3c9fb9beb8194b9dae827864f6bcfe92100",
+          "ui:판돈 선택:/판돈 선택": "15e8d14f98cc65fdb82c54ed145ff85693e88c8cc13a386276f8b06c72859523"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct repair of two legacy Japanese money labels: Holdem pot settlement and Scalping stake selection, not pot odds. Two existing values corrected, zero new UI keys, two first official receipts. Gameplay, other locales and public demo unchanged; agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "33b9d28243e581b74ed12fc1a1d1eb23e004705c",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b591702ee74ccae1063950c6e08748fd58997eeaba74d20c281c45a873fdfe6f",
+          "selection_sha256": "bc4e28de52fa560817ed3bae18b8b286858909ed5754cb3184c312a95f5dc71c",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "09b43fc8615f71e7d9341b11eb3ec19a8d253ecbcdf45c58f9b1dbc81c6eed3f"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "28700c5841712ecba8487f1f8060de2955ee3c85b55efa9684b013bcfccf8165"
+      }
     }
   ],
   "accepted": {
@@ -61884,6 +61928,14 @@
       "ui:팟:/팟": {
         "source_sha256": "00992201bc5665aca4151143ef16b0d2601f10b4c19ae38ff964799a2cc6c18b",
         "target_sha256": "df78e716a45965f01c08791cb7ace250c7aa13a15a56f71c0f5de379fcb11fb0"
+      },
+      "ui:%s · POT %s 정산:/%s · POT %s 정산": {
+        "source_sha256": "1698ed181235df376c2035a7a818d4d3b75338e7269653244d2b47998658284b",
+        "target_sha256": "1e5025013cbb8a7074a91802b4f09364100a7fa29ae78636244d2e433f8e6eac"
+      },
+      "ui:판돈 선택:/판돈 선택": {
+        "source_sha256": "435aa7525bfa7549ad6ed62c001d1e105d590b5f60284434ddacdfa0ddd52689",
+        "target_sha256": "3278afb87dc8b2a8b19ca22e35ed0dca569bf30804f46eb2b4f891489ffa48e1"
       }
     },
     "zh-CN": {
@@ -176339,7 +176391,7 @@
       }
     }
   },
-  "accepted_sha256": "56e20cd70dfe7f69d6c7a0880559025b88a478b80348226f604d5184e9817222",
+  "accepted_sha256": "707e378c078851a1d75135fc659a16eae7f6b5e8d13ca447d4b385cead3a8e27",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
