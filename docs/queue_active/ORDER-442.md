@@ -62,6 +62,13 @@ fallback 소비자를 이어 번역한다. 사용자의 계속 개발·main 커�
   새 표적 화면만 fresh 실행한다. 441 카드/438 비동기/439 승패·과거 focused·
   434서사4종·JA audit·전체감사/240주/성능 A/B는 참조/NOT_RUN이다.
 
+## 진행 증거
+
+- 선언 `b6c85b1c38c1ce266923b911c4365035787cbe4e` main push 후 저작.
+  CN/TW 별도15값·비저자30값 전수 의미/토큰 검수 PASS, 공식 check/import 각2 PASS.
+  accepted41724/b213·CN/TW1767·JA3044. `.git/full-game-localization/order442-append-precommit.json`
+  의4파일 역상·공식 헤더 보존에 결속한다. 화면/입력/정산·최종GO는 아직 미완료다.
+
 ## 깊이·한계·일회성
 
 - 이 번역이 없으면 베팅 행동과 진행 단계·거부 이유가 영어 fallback으로 남는다.

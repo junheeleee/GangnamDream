@@ -8680,6 +8680,104 @@
           "batch_id": "5c8fc6231e7cd292a132cccd751be807abf62eafeda4e0726fc2bdf48b2a8835"
         }
       }
+    },
+    {
+      "order": "ORDER-442",
+      "group": "ui",
+      "roots": [
+        "플랍",
+        "턴",
+        "리버",
+        "체크",
+        "1/3팟\n%s",
+        "폴드했습니다.",
+        "체크.",
+        "콜 (%s).",
+        "레이즈 → %s",
+        "콜",
+        "레이즈",
+        "[%s] 돌아가기  [%s] 나가기",
+        "바이인할 현금이 부족합니다.",
+        "힌트: ",
+        "다음 ›"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 15,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean-to-region Chinese translation of 15 static UI keys: Flop/Turn/River, Check button, one-third-pot amount, four player action messages, three AI action labels, result input footer, insufficient buy-in feedback, tutorial hint prefix and Next button. Independent CN and TW authors preserve placeholders, LF, exact spacing, arrows and Korean-won quantities. No KO/EN/JA, rules, AI, deck, money, timing, AP, save or public-demo change. Dynamic tutorial bodies and direct English action banners remain outside this slice. Machine acceptance is not rendered/native/release approval",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "6d0fc94d6abc44447cdd4d5270268df3cbd26f475a10fb1724178aa7ea9e4e21"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "b6c85b1c38c1ce266923b911c4365035787cbe4e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "05ce5dd476a89cc366546f2d13005e30ebca6d5b53adbebc2d419fa48f2a867d",
+          "selection_sha256": "57a26a4ee0c96835c2284d8a028a493d167a92beb4a269f7ddb13df728929c67",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "271f2923201d29a26bf7991a3a8bade0407cb537de7396d3a6517b8ad6b552d6"
+        }
+      }
+    },
+    {
+      "order": "ORDER-442",
+      "group": "ui",
+      "roots": [
+        "플랍",
+        "턴",
+        "리버",
+        "체크",
+        "1/3팟\n%s",
+        "폴드했습니다.",
+        "체크.",
+        "콜 (%s).",
+        "레이즈 → %s",
+        "콜",
+        "레이즈",
+        "[%s] 돌아가기  [%s] 나가기",
+        "바이인할 현금이 부족합니다.",
+        "힌트: ",
+        "다음 ›"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 15
+      },
+      "source_review": "Direct Korean-to-region Chinese translation of 15 static UI keys: Flop/Turn/River, Check button, one-third-pot amount, four player action messages, three AI action labels, result input footer, insufficient buy-in feedback, tutorial hint prefix and Next button. Independent CN and TW authors preserve placeholders, LF, exact spacing, arrows and Korean-won quantities. No KO/EN/JA, rules, AI, deck, money, timing, AP, save or public-demo change. Dynamic tutorial bodies and direct English action banners remain outside this slice. Machine acceptance is not rendered/native/release approval",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "89ef266e24cabfcdf3ca332863afb48329344b5cf07af15a0dd91db866f5e4b4"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "b6c85b1c38c1ce266923b911c4365035787cbe4e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "05ce5dd476a89cc366546f2d13005e30ebca6d5b53adbebc2d419fa48f2a867d",
+          "selection_sha256": "fa8ac1c92fb868ddcede8c521b48fa72ae77e6b7e7048cd487895c01520bf084",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "677358c14db6eaa6a3b361889a900cc64f973abd4510041ae04d4556b9926471"
+        }
+      }
     }
   ],
   "accepted": {
@@ -118333,6 +118431,66 @@
       "ui:홀덤 클럽에서 %s 잃었다.:/홀덤 클럽에서 %s 잃었다.": {
         "source_sha256": "33b561760a9fc335c22a138841cb37196d79673dc117d54764c7b1d48d5afd9c",
         "target_sha256": "c9eddc14af4962967caa04900dfd94f455fcfb8eb428e4c16805f058714074c5"
+      },
+      "ui:1/3팟\n%s:/1~13팟\n%s": {
+        "source_sha256": "09bc051e8122e5a907006314718577b645e84098c8a2e5dfd02e363deb20d3d6",
+        "target_sha256": "b351e41d67c53b95441f5b9d2f2cc16d2a7c7de09909e1ba0cc8c8d99e316ecc"
+      },
+      "ui:[%s] 돌아가기  [%s] 나가기:/[%s] 돌아가기  [%s] 나가기": {
+        "source_sha256": "f0bece3251380e58b25af3c762cf6d8040cd9771be8fd78463a2b6f8660cccc8",
+        "target_sha256": "8f30c5f4e40e53f3764ca5efc3c221504200e1e43928fc7e7925723fc7c9852d"
+      },
+      "ui:다음 ›:/다음 ›": {
+        "source_sha256": "91e807b7a76368cdae7b1f43f7ec622c4c95647469121f2ae37971830e75c830",
+        "target_sha256": "2cdf1a4759c20eec8eb403f96737049da1dc7fc3acc144c52f8f0b1b23883752"
+      },
+      "ui:레이즈 → %s:/레이즈 → %s": {
+        "source_sha256": "cac8a0af1794e73d778c402546b7fe93aba820edf3c17ce56c7360eed09415cc",
+        "target_sha256": "7e4ea5cc6afce55c86dd1cd3e8532d24fe445a6f7171b55b059a90fb2c07652c"
+      },
+      "ui:레이즈:/레이즈": {
+        "source_sha256": "bc59b90adaa95b2528af5385ddb6235ffaa5cae3fec631fa8f3c05f324f1febf",
+        "target_sha256": "0a18e02ad41c4b75b93ad8957b877fcd8953f2ff188313f1bdb9b7b7ae8bc3cc"
+      },
+      "ui:리버:/리버": {
+        "source_sha256": "aa0e141943a43938442690efc3ee8a2c1a88823a3db59b5862b54a447207b2f8",
+        "target_sha256": "337814ac97d461e1f24ee26f17c3d7a2b49fb303f0056c81a465ac65d804b1ca"
+      },
+      "ui:바이인할 현금이 부족합니다.:/바이인할 현금이 부족합니다.": {
+        "source_sha256": "172706859a407fca795345c2e1e6c1443d0cc833d0d43ddddda680eb00c889f1",
+        "target_sha256": "2dc7644f12570c20f0cc22daba6ad54a3e0b1afc2b6a0b2cf8dd0aff49ed912a"
+      },
+      "ui:체크.:/체크.": {
+        "source_sha256": "6c724cb2a052cfd723f74c0825d4a23f7d53a8593df88d10fe8b6f48b244dab0",
+        "target_sha256": "7d8b1b67994d703f55dc861eb57cb759a2c26cbf7335cd5e5aa7aea9c70ac308"
+      },
+      "ui:체크:/체크": {
+        "source_sha256": "2cbfe7f46196b7e329b4e88a9a024df07e23ada1f63a3826aaf685db3c5a2fef",
+        "target_sha256": "269cc8e24ac671b66e6aba1c6ad8231485d219b66ae3e75e0a1d586e0a037908"
+      },
+      "ui:콜 (%s).:/콜 (%s).": {
+        "source_sha256": "9db78fd954980bd43d506cd2a83df7ae82f6e838b6cfa67486b77b1328bfe3a4",
+        "target_sha256": "7e2b5da66fc80be06ab3c00792731bde038518229a6e43eb22fdd6c152b1e0d7"
+      },
+      "ui:콜:/콜": {
+        "source_sha256": "0e7e1a2da539de937a99cfabbcdc51f52f2eb715f653b7047382dde76d2a4b05",
+        "target_sha256": "a0e0e62d254df2617e2f49fe86a3186027f3a8878f9592399280bdaa09473db3"
+      },
+      "ui:턴:/턴": {
+        "source_sha256": "69ef4b73164c1dadf5b5142090db9d54dbdb89e3c76e6cf2a778d1ad51a6a8c6",
+        "target_sha256": "47157c26a6415244cc6b520f474c2cff4c4a7c781b351c121c55157340d755f5"
+      },
+      "ui:폴드했습니다.:/폴드했습니다.": {
+        "source_sha256": "70ebfc52b71e1ab23571f372326e3a8a9913b78c8c3b6b00695ebc0d0b4e6de1",
+        "target_sha256": "076d8fc5b30d88dd3c5167954e78a3ffa6b977c645eb96ac9406f151213cbc9f"
+      },
+      "ui:플랍:/플랍": {
+        "source_sha256": "f31a5074ce4db3ecd28c5dafac9b3aea812aa0f988e677ba65820406afb35831",
+        "target_sha256": "536030e24b279e5baf9049403c259fb8f92dea2257d2496a1873e9a52927ec2c"
+      },
+      "ui:힌트: :/힌트: ": {
+        "source_sha256": "7cfccf36f01cfed4ea2f2963be5a344a2b1d731b35debe1455f9af536c97da63",
+        "target_sha256": "6dec5722a23e87ef0dcba58fac26317491d97ea9ff563c11aa7a19072f87f7a0"
       }
     },
     "zh-TW": {
@@ -175463,10 +175621,70 @@
       "ui:홀덤 클럽에서 %s 잃었다.:/홀덤 클럽에서 %s 잃었다.": {
         "source_sha256": "33b561760a9fc335c22a138841cb37196d79673dc117d54764c7b1d48d5afd9c",
         "target_sha256": "16b4d648ca8bbbb86142fcfb2d235b11b465551e2bb3deb6c3c03872b0c7ddb7"
+      },
+      "ui:1/3팟\n%s:/1~13팟\n%s": {
+        "source_sha256": "09bc051e8122e5a907006314718577b645e84098c8a2e5dfd02e363deb20d3d6",
+        "target_sha256": "b351e41d67c53b95441f5b9d2f2cc16d2a7c7de09909e1ba0cc8c8d99e316ecc"
+      },
+      "ui:[%s] 돌아가기  [%s] 나가기:/[%s] 돌아가기  [%s] 나가기": {
+        "source_sha256": "f0bece3251380e58b25af3c762cf6d8040cd9771be8fd78463a2b6f8660cccc8",
+        "target_sha256": "98b5eb7c8cf84576a687f9d82848b4008e91cf89a1d568ffc1ebbbcedc177c67"
+      },
+      "ui:다음 ›:/다음 ›": {
+        "source_sha256": "91e807b7a76368cdae7b1f43f7ec622c4c95647469121f2ae37971830e75c830",
+        "target_sha256": "2485b45e0c810bdf9fc2af5b4f24784564508b764f521852958f4cd3eefb6bf5"
+      },
+      "ui:레이즈 → %s:/레이즈 → %s": {
+        "source_sha256": "cac8a0af1794e73d778c402546b7fe93aba820edf3c17ce56c7360eed09415cc",
+        "target_sha256": "7e4ea5cc6afce55c86dd1cd3e8532d24fe445a6f7171b55b059a90fb2c07652c"
+      },
+      "ui:레이즈:/레이즈": {
+        "source_sha256": "bc59b90adaa95b2528af5385ddb6235ffaa5cae3fec631fa8f3c05f324f1febf",
+        "target_sha256": "0a18e02ad41c4b75b93ad8957b877fcd8953f2ff188313f1bdb9b7b7ae8bc3cc"
+      },
+      "ui:리버:/리버": {
+        "source_sha256": "aa0e141943a43938442690efc3ee8a2c1a88823a3db59b5862b54a447207b2f8",
+        "target_sha256": "337814ac97d461e1f24ee26f17c3d7a2b49fb303f0056c81a465ac65d804b1ca"
+      },
+      "ui:바이인할 현금이 부족합니다.:/바이인할 현금이 부족합니다.": {
+        "source_sha256": "172706859a407fca795345c2e1e6c1443d0cc833d0d43ddddda680eb00c889f1",
+        "target_sha256": "5203e60ba5806e36c88ed6b7681b2e8dc0ba71c744c8ff53844ad6b3c4982476"
+      },
+      "ui:체크.:/체크.": {
+        "source_sha256": "6c724cb2a052cfd723f74c0825d4a23f7d53a8593df88d10fe8b6f48b244dab0",
+        "target_sha256": "f60b4a905ee7758c40c0c560ab89642118304d1468a016712b7ab847017f1f43"
+      },
+      "ui:체크:/체크": {
+        "source_sha256": "2cbfe7f46196b7e329b4e88a9a024df07e23ada1f63a3826aaf685db3c5a2fef",
+        "target_sha256": "b637c5baccf8da5ef43444f88e277431ace0f5e94bf84b71c47ef3b9d3ea40e0"
+      },
+      "ui:콜 (%s).:/콜 (%s).": {
+        "source_sha256": "9db78fd954980bd43d506cd2a83df7ae82f6e838b6cfa67486b77b1328bfe3a4",
+        "target_sha256": "7e2b5da66fc80be06ab3c00792731bde038518229a6e43eb22fdd6c152b1e0d7"
+      },
+      "ui:콜:/콜": {
+        "source_sha256": "0e7e1a2da539de937a99cfabbcdc51f52f2eb715f653b7047382dde76d2a4b05",
+        "target_sha256": "a0e0e62d254df2617e2f49fe86a3186027f3a8878f9592399280bdaa09473db3"
+      },
+      "ui:턴:/턴": {
+        "source_sha256": "69ef4b73164c1dadf5b5142090db9d54dbdb89e3c76e6cf2a778d1ad51a6a8c6",
+        "target_sha256": "2d2e797a1bbad9e12ecfeb95e9ad70bce89462de0143714b4268c552cf58d3a9"
+      },
+      "ui:폴드했습니다.:/폴드했습니다.": {
+        "source_sha256": "70ebfc52b71e1ab23571f372326e3a8a9913b78c8c3b6b00695ebc0d0b4e6de1",
+        "target_sha256": "3a5332a7577e4f3a624d86dc2a18a925439dd9b2529eb3a0e1e2f4067213e9ac"
+      },
+      "ui:플랍:/플랍": {
+        "source_sha256": "f31a5074ce4db3ecd28c5dafac9b3aea812aa0f988e677ba65820406afb35831",
+        "target_sha256": "536030e24b279e5baf9049403c259fb8f92dea2257d2496a1873e9a52927ec2c"
+      },
+      "ui:힌트: :/힌트: ": {
+        "source_sha256": "7cfccf36f01cfed4ea2f2963be5a344a2b1d731b35debe1455f9af536c97da63",
+        "target_sha256": "6dec5722a23e87ef0dcba58fac26317491d97ea9ff563c11aa7a19072f87f7a0"
       }
     }
   },
-  "accepted_sha256": "12985fa2fd862da3d4740675ce3f7691b0e69dba189268a9ea8e4417252550e2",
+  "accepted_sha256": "5c70f6417cef40e2a246aa8028e0684812f02003857ef74e1d046e59a925bb17",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
