@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-450",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "7afed5ad107854baba298087bd1e5cef62aa9f4e",
+    "tree": "d168e2b690b217bee33e21e42d8e856d5143d147",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "홀덤 테이블 최소 높이360→420 한 줄 수리와 수리 후 JA/CN/TW의449 라벨4키·12값, 실제 액션 패널 표시의 한정 검수. 이 후보에서는 GO이며 최초449 후보의 REWORK·실패 원문·normal NOT_RUN을 소급 변경하지 않는다.",
+  "method": {
+    "direct": "gangnamdream-dev 지침과450 사양, 실제 제품 한 줄·소비자·history/append/focused 및 private oracle/GD/runner/normal을 읽었다. 원본1280×800 PNG3장 전부를 직접 열고 관측3개·stdout/stderr/Godot 로그·typed 복원·액션 표시 효과 및 정상10행 원문과 집계를 대조했다.",
+    "assistance": "비저자 하위 /root/independent392/ab_readonly428가 Git/stdlib 읽기로 runtime artifact190·normal artifact12의 bytes/SHA, 현재 동결 맵과 최초449 실패·기존 기록 보존을 대조했다. 프로젝트 collector 실행이나 과거 성공검사 재실행으로 부르지 않는다.",
+    "execution": "독립 검수자의 프로젝트 import·collector·검사·엔진 실행0. 동결 해제 후 허용된 이 보고서 하나만 새 작성했다."
+  },
+  "source_and_acceptance": {
+    "declaration": "9c27eee1bd6e7d58647858467b63b8ce6dab0f01",
+    "height_product": "138caec7c696b8da4a037a833a0a6dafbfeafa5d",
+    "source": "HoldemClub.gd585행 table.custom_minimum_size의360→420만 바뀐다. 실제 전이 역상, 기존71 UiCall·문자열 위치, 앵커·폰트·_fmt·금액/공백/조건·게임/RNG/입력의 불변 경계를 확인했다. 새 proof10단계는60 Git 요청이며51고유 객체/신규5고유 객체와 구분한다. 기존9단계 별칭과 현재 수집·영수증 경로가 연결된다.",
+    "translations": "449의 JA ポット/共通カード/持ちチップ/ベット, CN 底池/公共牌/持有筹码/下注, TW 底池/公共牌/持有籌碼/下注12값의 KO·소비자 의미 검수와 공식 수용 원문을 유지한다. 이번3화면에서12lookup·18Label·중복 포함24binding으로 다시 확인했다. STACK은 남은 칩, BET은 이번 라운드 기납액이며 콜 비용·순익과 구분된다.",
+    "receipts": "450에서 사전3파일/번역 원장 및 기존12receipt·3batch는 바뀌지 않았다. 새 수용·재수입0, accepted41753/b227 및 UI JA3053/CN1776/TW1776 유지다. 최초449의 공식9행·4파일 raw 역상 근거는 보존된449보고에 결속되며, 새 정상 receipt 검사는 현재 후보에서 별도로 PASS했다.",
+    "translation_ledger_sha256": "c74abb2c2c760855ac5fa794096ea89b9383dbbd0a2f567b3eff26794b65464b"
+  },
+  "runtime": {
+    "path": ".git/full-game-localization/order450-screen-first/result.json",
+    "sha256": "728e5fe39038130c58ab6782b371a9b43971ba98ea3b786513e30dad3e93c5d1",
+    "entry_sha256": "ff6714e1524358258d2fb05ae69b5912275d6083c0f04ca851bc15715f56f013",
+    "seconds": 27.829,
+    "population": "격리3 process·준비 PREFLOP3그룹/3PNG, lookup12/Label18/binding24/합성 고액폭9, actual _show_player_actions 표시3회·버튼18·semantic15·메시지3다. raw/tap·deal·게임/AI행동·showdown·정산·Close·통계/금액/로그0이며 자연 플레이가 아니다. process3 모두 exit0, errors/report_error[], prior_error=null, all_pass=true다.",
+    "geometry": "세 지역 모두 table[24,105,1232,420], player panel[467.5200,407.4000,344.9600,109.2000]으로 아래516.6<부모 아래525(8.4px 여유)다. player 명목 높이109.2≥실제 최소107, 상대 좌석126≥107이다. 원449의 부모 경계6.2px 초과가 이 후보에서 해소됐다. 좌석 명목 폭·실제 내부폭·부모/viewport 포함·좌석/카드/라벨/액션 간 겹침을 대조했고 실제3PNG에서 표적 잘림·누락·겹침을 발견하지 않았다.",
+    "text_and_actions": "좌석 글자 실제 폭 최대 JA234/CN190/TW190px와 합성 폭 최대255/211/211px가 available342px 및 명목 내부폭 약342.96px 안에 든다. 각 지역 실제13px 버튼6개, 정확 LF 버튼4개와12px turn 메시지가 font/full_fit/bounds 조건을 만족한다. Fold/Call5000/raise12500·20000·95000의 semantic5와 Leave 표시를 확인했지만 버튼을 누르지는 않았다. 화면의 기존83%/25% +EV 문구는 준비 패와 실제 표시 함수 결과이며 전략·전체 게임 확률의 새 검증이 아니다.",
+    "effects_and_restore": "실제 액션 표시의 expected==after 및 delta[]를 직접 대조했다. 준비 패6/deck46/board0은52장 분할이고 pot15000+남은 stack285000=300000이다. 화면 prepared==actual3, 보호 core·warmup core 불변3, 전체 group before==restored3·teardown 불변3·복원 delta[]다. AP focus는 유일하고 활성인 동일 action identity로 복원되며 재생성 raw node ID까지 동일하다고 주장하지 않는다."
+  },
+  "normal": {
+    "path": ".git/full-game-localization/order450-static-final/result.json",
+    "sha256": "0fa7a5314f8f33048bea9b5af6bd93c206113fb859867d8fd3e9d1eb34c7e66f",
+    "entry_sha256": "da934873e3567f16fe6134e1c415dbd8d74ec8d2c610c770fbe4ec64f0066cb5",
+    "result": "같은 clean 후보에서9검증+차선조회1, 전10행 exit0/빈 stderr, all_pass=true,623.32초다. 새 focused42/historical_cases0(16.778초), receipt622.073초 accepted41753/b227/live47/historical_cases0, JA UI·ZH·EN·context·queue·diff·등록187을 원문으로 확인했다. ZH skeleton/shipping0과 JA beta는 여전히 한계다.",
+    "not_run": "변경 없는 사건 본문(448 fullbody 참조), 네 서사 검사, 과거 focused/runtime suite, whole audit,240주,성능 A/B는 NOT_RUN이다. 기존 PASS를 이 후보에서 새 실행한 결과로 승격하지 않는다."
+  },
+  "preservation": {
+    "maps": "runtime artifact190개(결과 포함 실파일191)와 normal artifact12개(결과 포함13)의 bytes/SHA 일치. 동결 before=after의 tracked3093/helper165/current6/player34와 normal runtime_evidence191가 결속됐다. 원449 실패187파일·flat44913파일도 재해시 일치다. 이전 성공자료1692개는 기존449 보존 맵과 동일함을 확인했으며 새 재해시·실행은 하지 않았다. 이 보고서는 최종 snapshot 이후 생성돼 그 맵의 일부가 아니다.",
+    "records": "기존209판정·187보고·human 및 새449보고의 후보 Git/현재 바이트 불변을 대조했다. source/player_unchanged=true, 실제 player34 전후 일치. 공개·인간 판정은 변경하지 않았다.",
+    "original449_result_sha256": "fce0c2df547c277fe4b1d9f34ca89b7a92931a1909ab22f85ea645e13804de60",
+    "original449_report_sha256": "412eb841d274ebb145775fa97e78e0f915b7ce1bac1f0d5c3447cdaa494fc2c4",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": ["한 해상도·세 준비 화면과 고액 합성 문자열 표본이다. 자연 진입/플레이·실제 입력·물리 패드·다른 금액/해상도/배치·원어민/인간·새 package·전체 게임/출시는 미관측이다.", "10/11px 작은 라벨은 유지됐고 FOLDED·정산 POT·JA 판돈 선택 등 다른 부채는 범위 밖이다. 별도 shaping probe는 실제 노드 resolved font를 사용하지만 내부 raster glyph 전체를 가로챈 검증은 아니다.", "새 focused의 captured Git 재생·합성 phantom 검사는 그 선언된 결함 모델에 한정되며 독립 재서명 객체 모든 경우의 증명이 아니다."],
+  "final_boundary": "현재7afed5ad에서 ORDER-450 한정 GO. 450 수리 후449의12번역값·표시도 함께 검수한 후속 마감 근거이나, 원래74aeeb0의 ORDER-449 REWORK/최초FAIL/normal NOT_RUN은 그대로 남긴다. 두 범위 후속 마감은 전체 제품·출고·원어민·인간 GO를 뜻하지 않는다."
+}
