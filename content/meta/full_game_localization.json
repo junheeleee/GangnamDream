@@ -8934,6 +8934,111 @@
       "receipt_sha256_by_locale": {
         "ja": "cc2cf38d3c8e10bfaa58d1b4dd4aea5ee558699fe96a31db98f2743487946cf0"
       }
+    },
+    {
+      "order": "ORDER-447",
+      "group": "ui",
+      "roots": [
+        "새 핸드"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean-source translation of the new-hand banner used on the first and later hands. One new UI key per locale; existing action and phase translations are reused without reacceptance. Exact display-only source transition preserves game tokens, card counts, betting, settlement, input and public demo. Machine acceptance is not rendered/native/release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "0bd44187785c53f1617b227ae917a2801b48b9f0896a6f5c0eda208959494c66"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "5ac51c9b437147f95363d1ceaf86b05b7d0a8266",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "1890a6c44865da19f0095d9efe8569fb7f33fcb49975ecb30762c224727a48b9",
+          "selection_sha256": "ab14ee47fbf38d97793802873e86eb8dd2e03b5360e1486f1656b6221dc94d3e",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "4b203d84ea2353efb9c97da0f6599d78953a234d509293ba4deec48c94276e12"
+        }
+      }
+    },
+    {
+      "order": "ORDER-447",
+      "group": "ui",
+      "roots": [
+        "새 핸드"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean-source translation of the new-hand banner used on the first and later hands. One new UI key per locale; existing action and phase translations are reused without reacceptance. Exact display-only source transition preserves game tokens, card counts, betting, settlement, input and public demo. Machine acceptance is not rendered/native/release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "7c07e6d38ccecc12d5f3113ce613ba9b2b77a1bc9f2e1450300d7b36707c5276"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "5ac51c9b437147f95363d1ceaf86b05b7d0a8266",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "1890a6c44865da19f0095d9efe8569fb7f33fcb49975ecb30762c224727a48b9",
+          "selection_sha256": "67060d779b2f6a27c043dc839f688bc804be8548153888afebe20dc51efbd923",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "184bcdaff93536149513d87534f1034c64f5daa880415afdae6f9588fe619731"
+        }
+      }
+    },
+    {
+      "order": "ORDER-447",
+      "group": "ui",
+      "roots": [
+        "새 핸드"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 1
+      },
+      "source_review": "Direct Korean-source translation of the new-hand banner used on the first and later hands. One new UI key per locale; existing action and phase translations are reused without reacceptance. Exact display-only source transition preserves game tokens, card counts, betting, settlement, input and public demo. Machine acceptance is not rendered/native/release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "cb2e740bcb9adbcf41eba5b38b1ec61bd0b4c48b6b49dc314eaf4d8aaaa654fb"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "5ac51c9b437147f95363d1ceaf86b05b7d0a8266",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "1890a6c44865da19f0095d9efe8569fb7f33fcb49975ecb30762c224727a48b9",
+          "selection_sha256": "6e6057e3088a284c5cbeeb97a9873b75d0af6d0b234802c464eeb6bdf8a182d7",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "4190a9ef40cd8ffc6b8df1f0718e775cf7727f094393a597c3a118bffb251008"
+        }
+      }
     }
   ],
   "accepted": {
@@ -61477,6 +61582,10 @@
       "ui:포카드:/포카드": {
         "source_sha256": "716497231f8017ee52030a1f12267c8f9c3202aae0e27c98c64e188d4f662338",
         "target_sha256": "194518d12801428c4b0a8b7965ce094e36914dbe0aec999957a679748deecc09"
+      },
+      "ui:새 핸드:/새 핸드": {
+        "source_sha256": "7311645d36f4342a46fcc6baf229f9719829ac0b2b014ec7adbc70c67d81189f",
+        "target_sha256": "191d47a6b6e2ddeeea3bd5442b15d945cc2bfbf1ea36d6f47d4ca2c1b884bb5c"
       }
     },
     "zh-CN": {
@@ -118683,6 +118792,10 @@
       "ui:홀덤 — 패 순위 (강한 순):/홀덤 — 패 순위 (강한 순)": {
         "source_sha256": "83483ec8cb89957d967f6361769adead585da9ee734a3e81520fb912dce24f5f",
         "target_sha256": "b90f078536123b865853c14397228b1128e7812d319a9cdd194cc6f505fe2428"
+      },
+      "ui:새 핸드:/새 핸드": {
+        "source_sha256": "7311645d36f4342a46fcc6baf229f9719829ac0b2b014ec7adbc70c67d81189f",
+        "target_sha256": "5a0e6d794e25d86e22a945a888ab0132b82f4659f1a85cca1456115d28775a2f"
       }
     },
     "zh-TW": {
@@ -175889,10 +176002,14 @@
       "ui:홀덤 — 패 순위 (강한 순):/홀덤 — 패 순위 (강한 순)": {
         "source_sha256": "83483ec8cb89957d967f6361769adead585da9ee734a3e81520fb912dce24f5f",
         "target_sha256": "c22f1276d13f0ce61a283d28ece4e1005d26be37b46bd0ce6c7388f6f1b8072d"
+      },
+      "ui:새 핸드:/새 핸드": {
+        "source_sha256": "7311645d36f4342a46fcc6baf229f9719829ac0b2b014ec7adbc70c67d81189f",
+        "target_sha256": "5a0e6d794e25d86e22a945a888ab0132b82f4659f1a85cca1456115d28775a2f"
       }
     }
   },
-  "accepted_sha256": "c76174ca02257f9069a7db7c960e452875480875ef164d5a48788ba780bdb9c7",
+  "accepted_sha256": "cdaae11cd83300cf9fb7ee1cab939af425fe76ead02f1a2874c5df354b5dd0bb",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
