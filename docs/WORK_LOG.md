@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [홀덤 비동기 수리 전 기록](history/WORK_LOG_2026-10-04_pre_order438.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 두 번째 커피 만남의 잔 수 오독 수리 착수 (448)
+
+- [새 범위](queue_active/ORDER-448.md)는 사건 제목3과 JA 연락 회상1의 같은 오독이다. 정상 UI 제목을 사건에도 맞추고 JA 회상은 `二杯目`→`二度目`만 정정한다. 본문·선택·효과·KO/EN·다른 실제 두 잔째 문맥은 그대로다.
+- 새 키/coverage0·기존값 정정4·사건 기존receipt3 정정·JA 첫receipt1로 accepted41741/b224를 목표로 한다. 기존 batch/receipt를 덮어쓰지 않고 exact5제품파일과 새4배치에 결속한다. 아직448 제품 수정·새 수용·실제 화면 PASS0이다.
+- root 제품/교환/4PNG/normal, claude 주소별 의미·수량 계약/새focused, receipt 정확 교정 proof/current47/scope, independent 최종 검수로 나눴다. fullbody normal이 standalone365와 같은 fresh current_source_errors를 실제 실행함을 원문으로 확인해 중복검사1회를 제외한다. 실제입력/연락/AP소비·자연story진입은 새 주장이 아니다.
+- 완료447은 마감 `a9d1d7d`까지 main에 커밋·푸시했다. 기존208판정186보고·공개/인간 이력·본편/새package HOLD를 보존한다.
+
 ## 2026-10-05 — 홀덤 행동·단계 배너 현지화 완료 (447)
 
 - 코드 `8a18431`·지원 `5ac51c9`·번역 `739e64b`·검수 후보 `fc1c1c2`를 main에 커밋·푸시했다. 플레이어/상대 행동과 단계 배너·쇼다운 요약 제목을 선택 언어로 읽는다. 기존 번역은 재사용하고 새 핸드1키·3값만 수용해 accepted41740/b220·JA3049/CN·TW1772다.
