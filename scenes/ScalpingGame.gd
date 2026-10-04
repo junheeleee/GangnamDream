@@ -47,6 +47,7 @@ var _buy_btn: Button
 var _sell_btn: Button
 var _font: Font
 var _font_bold: Font
+var _phase_overlay: Control
 
 func _ready() -> void:
 	_rng.randomize()
@@ -82,6 +83,7 @@ func open() -> void:
 	set_process(false)
 	_rebuild()
 	visible = true
+	_sync_phase_focus()
 	TutorialOverlay.maybe_show("scalping", self)
 
 func _start_game() -> void:
@@ -418,6 +420,7 @@ func _refresh_ui() -> void:
 		_buy_btn.disabled = _in_position
 	if is_instance_valid(_sell_btn):
 		_sell_btn.disabled = not _in_position
+	_sync_phase_focus()
 
 # ── 재빌드 (Setup/Result 화면 전환 포함) ─────────────────────────
 func _rebuild() -> void:
@@ -432,20 +435,25 @@ func _rebuild() -> void:
 			_refresh_ui()
 
 func _clear_phase_overlay() -> void:
-	var overlay := get_node_or_null("setup_overlay")
-	if is_instance_valid(overlay) and not overlay.is_queued_for_deletion():
+	var overlay: Control = _phase_overlay
+	_phase_overlay = null
+	if is_instance_valid(overlay):
+		overlay.hide()
+		# Release the name and focus tree before a same-frame replacement is added.
+		if overlay.get_parent() == self:
+			remove_child(overlay)
 		overlay.queue_free()
 
 func _show_setup() -> void:
 	# 새 오버레이 패널로 설정 화면 표시
-	if has_node("setup_overlay"):
-		get_node("setup_overlay").queue_free()
+	_clear_phase_overlay()
 	var overlay := ColorRect.new()
 	overlay.name = "setup_overlay"
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
 	overlay.color = Color("#070a10ee")
 	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(overlay)
+	_phase_overlay = overlay
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	overlay.add_child(center)
@@ -493,16 +501,17 @@ func _show_setup() -> void:
 	vb.add_child(_sep())
 	var leave_btn := _btn(_tr("나가기", "Leave"), func(): _on_close_pressed(), "#2a1818")
 	vb.add_child(leave_btn)
+	_sync_phase_focus()
 
 func _show_result() -> void:
-	if has_node("setup_overlay"):
-		get_node("setup_overlay").queue_free()
+	_clear_phase_overlay()
 	var overlay := ColorRect.new()
 	overlay.name = "setup_overlay"
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
 	overlay.color = Color("#070a10ee")
 	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(overlay)
+	_phase_overlay = overlay
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	overlay.add_child(center)
@@ -537,7 +546,6 @@ func _show_result() -> void:
 	btn_row.add_theme_constant_override("separation", 8)
 	vb.add_child(btn_row)
 	var again_btn := _btn(_tr("다시하기", "Retry"), func():
-		overlay.queue_free()
 		_phase = Phase.SETUP
 		_show_setup()
 	, "#1a3a2a")
@@ -548,6 +556,50 @@ func _show_result() -> void:
 	leave_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_f(leave_btn)
 	btn_row.add_child(leave_btn)
+	_sync_phase_focus()
+
+# Only the current phase owns navigation. TutorialOverlay keeps its own focus trap.
+func _phase_buttons(node: Node) -> Array[Button]:
+	var buttons: Array[Button] = []
+	for child in node.get_children():
+		if child is TutorialOverlay or child.is_queued_for_deletion():
+			continue
+		if child is Button:
+			buttons.append(child)
+		buttons.append_array(_phase_buttons(child))
+	return buttons
+
+func _tutorial_owns_focus() -> bool:
+	for child in get_children():
+		if child is TutorialOverlay and not child.is_queued_for_deletion() and child.is_visible_in_tree():
+			return true
+	return false
+
+func _sync_phase_focus() -> void:
+	var surface: Control = _phase_overlay if is_instance_valid(_phase_overlay) else self
+	var active: Array[Button] = []
+	for button in _phase_buttons(self):
+		var eligible: bool = surface.is_ancestor_of(button) and not button.disabled
+		button.focus_mode = Control.FOCUS_ALL if eligible else Control.FOCUS_NONE
+		if eligible and button.is_visible_in_tree():
+			active.append(button)
+	if active.is_empty():
+		return
+	# Directional navigation follows the actual grid geometry; Tab stays in this phase.
+	for index in range(active.size()):
+		var button: Button = active[index]
+		button.focus_next = button.get_path_to(active[(index + 1) % active.size()])
+		button.focus_previous = button.get_path_to(active[(index + active.size() - 1) % active.size()])
+	if _tutorial_owns_focus():
+		return
+	var owner: Control = get_viewport().gui_get_focus_owner()
+	if active.has(owner):
+		return
+	var preferred: Button = _sell_btn if _in_position else _buy_btn
+	if _phase == Phase.PLAYING and active.has(preferred):
+		preferred.grab_focus()
+	else:
+		active[0].grab_focus()
 
 # ── 매매 ─────────────────────────────────────────────────────────
 func _on_buy() -> void:
@@ -645,6 +697,9 @@ func _btn(text: String, cb: Callable, bg: String) -> Button:
 	b.add_theme_font_size_override("font_size", 13)
 	if _font: b.add_theme_font_override("font", _font)
 	b.pressed.connect(cb)
+	b.mouse_entered.connect(func():
+		if b.is_visible_in_tree() and not b.disabled and b.focus_mode == Control.FOCUS_ALL and not _tutorial_owns_focus():
+			b.grab_focus())
 	return b
 
 func _sep() -> HSeparator:
