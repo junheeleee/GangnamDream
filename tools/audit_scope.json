@@ -14,6 +14,18 @@
   ],
   "fast_lanes": [
     {
+      "id": "ui-receipt-cost-profile",
+      "paths": [],
+      "owned_paths": [
+        "tools/ui_receipt_cost_profile.py", "tools/ui_receipt_cost_profile_check.py", "tools/audit_scope.json",
+        "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/history/WORK_LOG_2026-10-05_pre_order453.md", "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-453.json",
+        "docs/queue_active/ORDER-453.md", "docs/queue_archive/ORDER-453.md"
+      ],
+      "tools": ["tools/ui_receipt_cost_profile_check.py", "tools/audit_select.py --verify"],
+      "why": "Explicit453 measurement only: one separately orchestrated profiled365 default main invocation, never self-test or duplicate receipt execution. New synthetic delegate/classification/restoration focused plus context/queue always and separate diff/registration give five validations and one query. Existing append/parser/history/game/data remain unchanged; no caching/optimization, engine, old suites, whole audit, 240-week or official exchange. Inclusive timing is not additive and process peak RSS is not per-function memory."
+    },
+    {
       "id": "holdem-hand-net",
       "paths": [],
       "owned_paths": [
@@ -3198,6 +3210,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/ui_receipt_cost_profile_check.py",
+      "paths": ["tools/ui_receipt_cost_profile.py", "tools/ui_receipt_cost_profile_check.py"],
+      "why": "Synthetic453 delegate return/exception identity, alias and argv restoration, nested contexts, exact site/ordinal before-after-dynamic roles and failed-call accounting; no actual receipt main or historical suite.",
+      "godot": false
+    },
     {
       "tool": "tools/holdem_hand_net_receipt_check.py",
       "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_hand_net_receipt_check.py"],
