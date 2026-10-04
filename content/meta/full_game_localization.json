@@ -7672,6 +7672,218 @@
           "batch_id": "5b2050b582c5516ee4f8e45dd5ae6f4e702cf61d5471adb977cc65fa7897ea6a"
         }
       }
+    },
+    {
+      "order": "ORDER-421",
+      "group": "ui",
+      "roots": [
+        "준비만으로는 월급이 생기지 않는다",
+        "다시 지원할까, 더 쌓을까, 당장 벌까?",
+        "지원서는 아직 나를 설명하지 못한다",
+        "먼저 다듬을까, 실력을 쌓을까, 그래도 지원할까?",
+        "합격을 기다리는 동안에도 돈은 나간다",
+        "단기 알바로 버틸까, 지출을 줄일까, 다시 지원할까?",
+        "수입 0원",
+        "지원, 준비, 당장 현금 중 무엇을 먼저 택할까?",
+        "조건에 맞는 공고를 골라 직접 지원한다",
+        "지원서 다듬기",
+        "지원서 평가를 통과해 다음 지원을 준비한다",
+        "이번 주 현금을 위해 몸을 한 번 더 쓴다",
+        "지출을 깎는다",
+        "생활비를 줄여 다음 고정비 앞의 여유를 만든다",
+        "하나를 쌓는다",
+        "독서·운동·명상·투자공부 중 하나를 고른다",
+        "하나를 택하면 다른 두 길은 이번 주에 닫힌다."
+      ],
+      "source_leaves": 17,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 17,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct employment decision labels/questions/action descriptions and same-screen base risk/now/cost/later previews, independent regional authors. Existing choice competition, income and won ranges, health/mental signs, time windows and one/two counts retained. No delayed-cost debt branch, source, gameplay, JA or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "41819b99b0259e6d2d1e82de3521a79aa9a422e9b24006c9b00f2e0ff8ee2f65"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "a7aa19597af59bf921ea77437056c3fb6667c35a",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "2ec6835b6196cb51b19cd164ce8b3f5238e13a1e92c2d17ceefb26b01f5b96b7",
+          "selection_sha256": "6e555f4284a4f4e8096a64b5146168dc042e27dfce19efdb9067c953332c694c",
+          "count": 17,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "612ad5947ff1879c2d8d93de8818d950897c0ddf0b97464b9625f652165223eb"
+        }
+      }
+    },
+    {
+      "order": "ORDER-421",
+      "group": "ui",
+      "roots": [
+        "준비만으로는 월급이 생기지 않는다",
+        "다시 지원할까, 더 쌓을까, 당장 벌까?",
+        "지원서는 아직 나를 설명하지 못한다",
+        "먼저 다듬을까, 실력을 쌓을까, 그래도 지원할까?",
+        "합격을 기다리는 동안에도 돈은 나간다",
+        "단기 알바로 버틸까, 지출을 줄일까, 다시 지원할까?",
+        "수입 0원",
+        "지원, 준비, 당장 현금 중 무엇을 먼저 택할까?",
+        "조건에 맞는 공고를 골라 직접 지원한다",
+        "지원서 다듬기",
+        "지원서 평가를 통과해 다음 지원을 준비한다",
+        "이번 주 현금을 위해 몸을 한 번 더 쓴다",
+        "지출을 깎는다",
+        "생활비를 줄여 다음 고정비 앞의 여유를 만든다",
+        "하나를 쌓는다",
+        "독서·운동·명상·투자공부 중 하나를 고른다",
+        "하나를 택하면 다른 두 길은 이번 주에 닫힌다."
+      ],
+      "source_leaves": 17,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 17
+      },
+      "source_review": "Korean-direct employment decision labels/questions/action descriptions and same-screen base risk/now/cost/later previews, independent regional authors. Existing choice competition, income and won ranges, health/mental signs, time windows and one/two counts retained. No delayed-cost debt branch, source, gameplay, JA or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "771b51004037d9c86acc566b271d6926627077a3282bcfccac4762a3ff1a0a89"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "a7aa19597af59bf921ea77437056c3fb6667c35a",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "2ec6835b6196cb51b19cd164ce8b3f5238e13a1e92c2d17ceefb26b01f5b96b7",
+          "selection_sha256": "942da0d093f603d85593ad771e7fd3aad61c9553024929d1bb1f0065595659dd",
+          "count": 17,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "bf733dce6832126984528feec5248935121437d21b9dabfc4bb42ed711d44424"
+        }
+      }
+    },
+    {
+      "order": "ORDER-421",
+      "group": "ui",
+      "roots": [
+        "지금",
+        "대가",
+        "후속",
+        "1회",
+        "중간 위험",
+        "낮은 위험",
+        "조건에 맞는 공고 하나에 지원한다",
+        "이번 주 현금과 준비 시간은 포기",
+        "1~3주 · 합격 여부와 첫 월급",
+        "평가를 거쳐 지원서를 다시 쓴다",
+        "이번 주 수입과 실제 지원은 포기",
+        "1~3주 · 다음 지원의 준비 보너스",
+        "현금 %s 이상을 번다",
+        "건강 기본 -3 · 지원과 휴식은 포기",
+        "1~3주 · 피로와 생계의 여유",
+        "지출 3만~10만원을 막는다",
+        "정신 -2 · 더 벌 기회는 포기",
+        "1~3주 · 다음 고정비 앞의 현금 여유",
+        "독서·운동·명상·투자공부 중 하나",
+        "이번 주 현금과 실제 지원은 포기",
+        "1~3주 · 반복 기록과 다음 자격"
+      ],
+      "source_leaves": 21,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 21,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct employment decision labels/questions/action descriptions and same-screen base risk/now/cost/later previews, independent regional authors. Existing choice competition, income and won ranges, health/mental signs, time windows and one/two counts retained. No delayed-cost debt branch, source, gameplay, JA or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "3b5b05ea152f4a0dc6e78984d772163128b060dfceffcdb95b9f659cf9d8ccc0"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "a7aa19597af59bf921ea77437056c3fb6667c35a",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "2ec6835b6196cb51b19cd164ce8b3f5238e13a1e92c2d17ceefb26b01f5b96b7",
+          "selection_sha256": "f9d5806d75d853a83fe1e760c33e3327cfef739ede5d0f4a25d48bf0f2460e4f",
+          "count": 21,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "54039bde9d7654f3fb03b7d4c82076c9b2ddbe8bacd4ee205b48f19dd40d4a74"
+        }
+      }
+    },
+    {
+      "order": "ORDER-421",
+      "group": "ui",
+      "roots": [
+        "지금",
+        "대가",
+        "후속",
+        "1회",
+        "중간 위험",
+        "낮은 위험",
+        "조건에 맞는 공고 하나에 지원한다",
+        "이번 주 현금과 준비 시간은 포기",
+        "1~3주 · 합격 여부와 첫 월급",
+        "평가를 거쳐 지원서를 다시 쓴다",
+        "이번 주 수입과 실제 지원은 포기",
+        "1~3주 · 다음 지원의 준비 보너스",
+        "현금 %s 이상을 번다",
+        "건강 기본 -3 · 지원과 휴식은 포기",
+        "1~3주 · 피로와 생계의 여유",
+        "지출 3만~10만원을 막는다",
+        "정신 -2 · 더 벌 기회는 포기",
+        "1~3주 · 다음 고정비 앞의 현금 여유",
+        "독서·운동·명상·투자공부 중 하나",
+        "이번 주 현금과 실제 지원은 포기",
+        "1~3주 · 반복 기록과 다음 자격"
+      ],
+      "source_leaves": 21,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 21
+      },
+      "source_review": "Korean-direct employment decision labels/questions/action descriptions and same-screen base risk/now/cost/later previews, independent regional authors. Existing choice competition, income and won ranges, health/mental signs, time windows and one/two counts retained. No delayed-cost debt branch, source, gameplay, JA or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "04764ff65b344b9aca510303fb0603f566f983407a3dbd7bf560cbfe4c5469c1"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "a7aa19597af59bf921ea77437056c3fb6667c35a",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "2ec6835b6196cb51b19cd164ce8b3f5238e13a1e92c2d17ceefb26b01f5b96b7",
+          "selection_sha256": "f0473414c39d102812e0a49632bd34d241394fe50275a3a306efbe973328f427",
+          "count": 21,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "04d0f462f3fd70a77be30ac36b0fd87645aecb1c57cede3da094ec5430e56949"
+        }
+      }
     }
   ],
   "accepted": {
@@ -116669,6 +116881,158 @@
       "ui:한지연이 먼저 연락해오는 일이 잦아졌다. 다른 세계였던 그녀가, 조금씩 가까워진다.:/한지연이 먼저 연락해오는 일이 잦아졌다. 다른 세계였던 그녀가, 조금씩 가까워진다.": {
         "source_sha256": "83b22c171abf0fa10189d8f32b8d19214a222da1fd6e16759bbbe52441000fae",
         "target_sha256": "e6328510ec165cac1cfe851ba4189f34b0b8bb5a39957b956dcdbe3914b45cda"
+      },
+      "ui:다시 지원할까, 더 쌓을까, 당장 벌까?:/다시 지원할까, 더 쌓을까, 당장 벌까?": {
+        "source_sha256": "42199285f512569fdb69fafc8e726ab3909d757961615a742d725b78435d3b33",
+        "target_sha256": "5c657d1feb1432ffff8ac3d61e27e8aea8a6125628d597dd2f8c64a22c55c34f"
+      },
+      "ui:단기 알바로 버틸까, 지출을 줄일까, 다시 지원할까?:/단기 알바로 버틸까, 지출을 줄일까, 다시 지원할까?": {
+        "source_sha256": "a28b56ddd544ae91e26fa8b2692a83e9e89c5b8c5d0141c3eb47574170877a42",
+        "target_sha256": "801b302b5fa0b60b11abecc984ca0b11d75167c19b56b78b1444a3b67fbb46c3"
+      },
+      "ui:독서·운동·명상·투자공부 중 하나를 고른다:/독서·운동·명상·투자공부 중 하나를 고른다": {
+        "source_sha256": "56d7de598c6c4eb9fd815a554bb0cc2ece1bc4c56b872433ad1ab49bb26268f8",
+        "target_sha256": "d60ddffb63887cad0923f48ba95698850d1608517a4f1b71fe42e1f5fc68423b"
+      },
+      "ui:먼저 다듬을까, 실력을 쌓을까, 그래도 지원할까?:/먼저 다듬을까, 실력을 쌓을까, 그래도 지원할까?": {
+        "source_sha256": "ed63e8ad7d73c3a672ac769545c5558bc0fe4e33b0d20c5ef908678b4487922a",
+        "target_sha256": "966dc1a23e846b28a0cf92827ccfba4327e2f9cc16849caf01b105d9d392da0c"
+      },
+      "ui:생활비를 줄여 다음 고정비 앞의 여유를 만든다:/생활비를 줄여 다음 고정비 앞의 여유를 만든다": {
+        "source_sha256": "6f8e5e8d3bf7db25981913a05b78e95d7eb1af135e87c27743f34768ef1a9ecb",
+        "target_sha256": "2c4f498e29f883101fc37caf7935d29ef6ae1737be665cd079635e5196559437"
+      },
+      "ui:수입 0원:/수입 0원": {
+        "source_sha256": "5940696029c7a9a55f96d5cf74f6c0a9fb91ee9e3d75f3394180f4a35951f483",
+        "target_sha256": "d8d6831affb553e22c8480c001720436026489322bb30e3ced7f8e0cda938f14"
+      },
+      "ui:이번 주 현금을 위해 몸을 한 번 더 쓴다:/이번 주 현금을 위해 몸을 한 번 더 쓴다": {
+        "source_sha256": "f347e26a030607a20c51ff3d0e4084220cac05151b4c75ccc820f8cd41a9f6e6",
+        "target_sha256": "bd17e594b7680187582da92a2e8322fcd590657479d48d28f78572d8cd9923a1"
+      },
+      "ui:조건에 맞는 공고를 골라 직접 지원한다:/조건에 맞는 공고를 골라 직접 지원한다": {
+        "source_sha256": "732cb48224c4234905ab995931f7a9742d3ecd9a757ed6052d07d4e494740acc",
+        "target_sha256": "bbe086adcea9adc664929a48d425b4c8a32cc0f94bb9ca0624e249a2709fa383"
+      },
+      "ui:준비만으로는 월급이 생기지 않는다:/준비만으로는 월급이 생기지 않는다": {
+        "source_sha256": "da02339c0b8d422a1f405ec8ae0401f94195efab7ac5051ae6c5792c8be0057b",
+        "target_sha256": "75a532df07f38dab93336ea3e5aad190399bf824882306514c31e7680c4f8ba8"
+      },
+      "ui:지원, 준비, 당장 현금 중 무엇을 먼저 택할까?:/지원, 준비, 당장 현금 중 무엇을 먼저 택할까?": {
+        "source_sha256": "90cc15790f29889d89b51b4daa8a99d257e018f1b7f33b4c3850c88559581fef",
+        "target_sha256": "0817d9b1c2ee28fb64b01157eae3fa7934ded7996b07a68a412e316543432fd3"
+      },
+      "ui:지원서 다듬기:/지원서 다듬기": {
+        "source_sha256": "21a6e5b6237226dc007e67db490ebbb0319ffb545ad39658e5bd21b847882605",
+        "target_sha256": "63dc54fab3a25cd442cfbff50a6e0a0ff875bb83ae25e9c5c4797a477bb869ff"
+      },
+      "ui:지원서 평가를 통과해 다음 지원을 준비한다:/지원서 평가를 통과해 다음 지원을 준비한다": {
+        "source_sha256": "4c37809c655dbdfdf6b1db15eefaaeafc75f690d6efe1c5f5b58e793e3ce7320",
+        "target_sha256": "dd68b24edcf7025339da10c184de20e2c18449857eea99388816a4566fc2bf4a"
+      },
+      "ui:지원서는 아직 나를 설명하지 못한다:/지원서는 아직 나를 설명하지 못한다": {
+        "source_sha256": "6d57bde47750510900ab2b8bc66435dc7ba9c8498ecacc25b2f960bba0e78ea0",
+        "target_sha256": "8c2e100630da20e7a406ba8a64e4d72fc83669ce512fd45c4162904e29061ff5"
+      },
+      "ui:지출을 깎는다:/지출을 깎는다": {
+        "source_sha256": "decc23d011faa8389c289164c3fae0649a2fd63955bd2d68eb9185e3cdbefc50",
+        "target_sha256": "5bc1a1e8a8ed9f87cb91ebd66a2310ee00422878a1f89e76731f6e651c90f3be"
+      },
+      "ui:하나를 쌓는다:/하나를 쌓는다": {
+        "source_sha256": "ecba267918550aaa3d80af879b92ea3ad7c5c412642c9de4d13039a8f2795ed6",
+        "target_sha256": "b8a4fb9eea64bc63a7f1c07b7c9cf0e28de561d05a7cfcfe937881032ae5488c"
+      },
+      "ui:하나를 택하면 다른 두 길은 이번 주에 닫힌다.:/하나를 택하면 다른 두 길은 이번 주에 닫힌다.": {
+        "source_sha256": "8a551a9b08783f372a745907bf0b3bea50acbaffe689156e691ab16a488cb110",
+        "target_sha256": "9de2f7dbd1a2e6b1ba7a54ed56421d04d5f534a97d0e4022fa795621074397a5"
+      },
+      "ui:합격을 기다리는 동안에도 돈은 나간다:/합격을 기다리는 동안에도 돈은 나간다": {
+        "source_sha256": "7fc5f19611ae9ca5acbd38ad04f00d1c84702759ca48829253dc11136372e166",
+        "target_sha256": "b43f28f48033425d6e5a1e41fd853fa7484110ca72f0eb41bf1161d6bf9570d4"
+      },
+      "ui:1~3주 · 다음 고정비 앞의 현금 여유:/1~03주 · 다음 고정비 앞의 현금 여유": {
+        "source_sha256": "8e6bf0e04f2b2bae0e8c12a307f7929da972dd950efe7e64911df0718e05e5ad",
+        "target_sha256": "3b872e6d0bdeaf86a0ca6e7be723c8b229738ab16b10b013cd31e60035ae2a68"
+      },
+      "ui:1~3주 · 다음 지원의 준비 보너스:/1~03주 · 다음 지원의 준비 보너스": {
+        "source_sha256": "c64d9276c5d6f247e8e27a45c7a1622cb81a99f6a5558e1fcb845e041d4c25f3",
+        "target_sha256": "c233d0106e02f6738c44aadf79a4f400c9389710987071615bacecfe1c838085"
+      },
+      "ui:1~3주 · 반복 기록과 다음 자격:/1~03주 · 반복 기록과 다음 자격": {
+        "source_sha256": "381c28cf5d382a814cb4c35e0be636c83cb0be6966966b457e41681be2f00def",
+        "target_sha256": "d514f58195ebfc5c9a5b46efa304a9dd7a33c4195053f76654d0269067ddaec2"
+      },
+      "ui:1~3주 · 피로와 생계의 여유:/1~03주 · 피로와 생계의 여유": {
+        "source_sha256": "34cb92e7d48803cf99013a935cfb0187d91cb0d2a283295b7fb59ba2a96f1872",
+        "target_sha256": "809ac6eb1c83416d876482f34966fed1eeeb6fbd97fb0fee9bac46d44a511caf"
+      },
+      "ui:1~3주 · 합격 여부와 첫 월급:/1~03주 · 합격 여부와 첫 월급": {
+        "source_sha256": "24055e01f72119ee51fc08aad5c24bf8cfd3a90950b11ad4a998c79028fada75",
+        "target_sha256": "66e857b36f6fd602e4e22b6c1ec61e058350e73d859b55632e318a80b83b045c"
+      },
+      "ui:1회:/1회": {
+        "source_sha256": "5ba21ff58fd636c115674cfdf50b4ad36aac7a5c84da611b8bfcffa508f6c931",
+        "target_sha256": "e044fbcc98f5de4a9deb966e606a574c0a931f1eb31c499cdaa93b8f3788df7e"
+      },
+      "ui:건강 기본 -3 · 지원과 휴식은 포기:/건강 기본 -3 · 지원과 휴식은 포기": {
+        "source_sha256": "82f5bb628a2163fd1cf1d872b961069bbcc04a24b9077772c3cc337e05233da1",
+        "target_sha256": "1cf9f90821514fe12742abdab4aaa51d85b48e50c0e2b04d0b14347e43243ecd"
+      },
+      "ui:낮은 위험:/낮은 위험": {
+        "source_sha256": "63513da3e9c9113875129fdc4eda4e0f6940cff7c0b60f45f2915414d68f15a2",
+        "target_sha256": "faec2b3ba4f3c7eeaaaf3318d5af4e0ee20d792ab85c938c16183a4b7f3e9b28"
+      },
+      "ui:대가:/대가": {
+        "source_sha256": "fcfbbda6becab01ee917a17a6d2052d4ad83f7da3009af6c3cefa0602ab6a15c",
+        "target_sha256": "bb3ef17d70f3f16ea7c9d4e7e8db2406f56fb9dac9eae4d41337511e910cdd8b"
+      },
+      "ui:독서·운동·명상·투자공부 중 하나:/독서·운동·명상·투자공부 중 하나": {
+        "source_sha256": "ec52d692ad70fec7cd6e846ba62f331505f71b33f0c0308006b81a7db7604fba",
+        "target_sha256": "f2cf7278a83898fc07eb74e463da37469ae65fad78fc8514ceb5ee571a5a0edf"
+      },
+      "ui:이번 주 수입과 실제 지원은 포기:/이번 주 수입과 실제 지원은 포기": {
+        "source_sha256": "34544a1f96b09fdcccfeb1f8aa3657130a9f66d9193c0e16dae46933af8f6118",
+        "target_sha256": "ec94c2fa613ec606687b52a49533c7104a0c0df282c7983ca98a2cb66d97b0b9"
+      },
+      "ui:이번 주 현금과 실제 지원은 포기:/이번 주 현금과 실제 지원은 포기": {
+        "source_sha256": "df8c56fcbb1c9debd478dff25043b72734727135ab81d39d6fbba366d9fb1323",
+        "target_sha256": "03f049114505b3c4a7ef9a878c65ab1a63a0f41d217c07d6a15591e9fd57d22a"
+      },
+      "ui:이번 주 현금과 준비 시간은 포기:/이번 주 현금과 준비 시간은 포기": {
+        "source_sha256": "d20b391a6aafe7c8c8ff48460a07be77058ef6c976ee78a79a61d631975ee51e",
+        "target_sha256": "a1cb6c40d24a163c94b781a2bd3ecb57f8d8f7a665c4a96826bb00ac03f81c4a"
+      },
+      "ui:정신 -2 · 더 벌 기회는 포기:/정신 -2 · 더 벌 기회는 포기": {
+        "source_sha256": "6c2415f030d0d1b550653d470893f9517c9acd19d3a5e7971b70af405b0c9caf",
+        "target_sha256": "8175e3f06319d14a9f3c2625eb5eecb81a90d696cf6955b805e0a8228a59647f"
+      },
+      "ui:조건에 맞는 공고 하나에 지원한다:/조건에 맞는 공고 하나에 지원한다": {
+        "source_sha256": "0149107a44a42cf818a60d9e3a0d2bac166c9e914924cda3dbbf3c47e829d6b8",
+        "target_sha256": "3307317ac1dee94d442bd062c0c2a49c804a3380c3613af37e9bf783742102ce"
+      },
+      "ui:중간 위험:/중간 위험": {
+        "source_sha256": "f6bd53541f15bcebcf81e618c92a00af26885f4dab63e4a9dccb84e7dade1b39",
+        "target_sha256": "d088f1f971ea0183e493b71182a55c96bc101419a19f5798e82aaca0f0dd66d2"
+      },
+      "ui:지금:/지금": {
+        "source_sha256": "c265478295f5c7e108f2a99e2ed16077c4ca07a6b6fd5e9a3fcedf1db914b01d",
+        "target_sha256": "7a027153325d2deafdde191519234a03d069f62a84844f2c2b56e2bb38f46469"
+      },
+      "ui:지출 3만~10만원을 막는다:/지출 3만~010만원을 막는다": {
+        "source_sha256": "185ed47cc6b09ddba1a0a1fa2d64855743f4d61ba942fb50d57ae0fa7a2ce4e6",
+        "target_sha256": "db4a53abaefa366ac956fb523c41784cd23508d19c668ae5af65d82c3b6ab86b"
+      },
+      "ui:평가를 거쳐 지원서를 다시 쓴다:/평가를 거쳐 지원서를 다시 쓴다": {
+        "source_sha256": "a3502df29c68bbd2597bf5d6fb03d24c5bfa8c2781604a9d0fc0666b60de666c",
+        "target_sha256": "5e098882fdd6e6db31bdb3a97dc9dfce104f1b4ad7388ae80162f1ef1e31708c"
+      },
+      "ui:현금 %s 이상을 번다:/현금 %s 이상을 번다": {
+        "source_sha256": "6a6fe2ed54749d521957782467108fe7ec61fedc43387ce0d6e5982b66c7ce67",
+        "target_sha256": "389b7598e900eefe709e579ebd4352b243afc66b8bf52ce5aa6829dd6fe1abf1"
+      },
+      "ui:후속:/후속": {
+        "source_sha256": "6e3dbf20a2baa3c2fac4e8784e01c199c0742eaf2228d3ab89a987add869d08f",
+        "target_sha256": "99f74d0833b0a30f4ad066826c7d631c42219a7b960bc5d57520f48a3d5bfb08"
       }
     },
     "zh-TW": {
@@ -173143,10 +173507,162 @@
       "ui:한지연이 먼저 연락해오는 일이 잦아졌다. 다른 세계였던 그녀가, 조금씩 가까워진다.:/한지연이 먼저 연락해오는 일이 잦아졌다. 다른 세계였던 그녀가, 조금씩 가까워진다.": {
         "source_sha256": "83b22c171abf0fa10189d8f32b8d19214a222da1fd6e16759bbbe52441000fae",
         "target_sha256": "64aa0b29bde43d3fb2c745e2562f24cb286827a839965da20b2324ff2b77e2d3"
+      },
+      "ui:다시 지원할까, 더 쌓을까, 당장 벌까?:/다시 지원할까, 더 쌓을까, 당장 벌까?": {
+        "source_sha256": "42199285f512569fdb69fafc8e726ab3909d757961615a742d725b78435d3b33",
+        "target_sha256": "c68da1e79932796a5afae14816c6c15ade710f6b1ec26465fc62c85cdd0468c8"
+      },
+      "ui:단기 알바로 버틸까, 지출을 줄일까, 다시 지원할까?:/단기 알바로 버틸까, 지출을 줄일까, 다시 지원할까?": {
+        "source_sha256": "a28b56ddd544ae91e26fa8b2692a83e9e89c5b8c5d0141c3eb47574170877a42",
+        "target_sha256": "9c0cc48b521c2386fcc1bcd30721a80e79a5ac9ba32bb5a0ab6a0b6e98be2169"
+      },
+      "ui:독서·운동·명상·투자공부 중 하나를 고른다:/독서·운동·명상·투자공부 중 하나를 고른다": {
+        "source_sha256": "56d7de598c6c4eb9fd815a554bb0cc2ece1bc4c56b872433ad1ab49bb26268f8",
+        "target_sha256": "12d34d10a6f3ef9479c0cdfbb726989e9c9ab93f109775d2e39dd35830f7b7f9"
+      },
+      "ui:먼저 다듬을까, 실력을 쌓을까, 그래도 지원할까?:/먼저 다듬을까, 실력을 쌓을까, 그래도 지원할까?": {
+        "source_sha256": "ed63e8ad7d73c3a672ac769545c5558bc0fe4e33b0d20c5ef908678b4487922a",
+        "target_sha256": "9c14c4ab4886a4c5ed372c5915afd79d9a6138dea1d8fc33887dd7562f6f00c1"
+      },
+      "ui:생활비를 줄여 다음 고정비 앞의 여유를 만든다:/생활비를 줄여 다음 고정비 앞의 여유를 만든다": {
+        "source_sha256": "6f8e5e8d3bf7db25981913a05b78e95d7eb1af135e87c27743f34768ef1a9ecb",
+        "target_sha256": "3b3c957e78d7bf155ad8fa31e66cc4b3c49b936a2546aba29629037de2c80908"
+      },
+      "ui:수입 0원:/수입 0원": {
+        "source_sha256": "5940696029c7a9a55f96d5cf74f6c0a9fb91ee9e3d75f3394180f4a35951f483",
+        "target_sha256": "a0ea808414b837115824f27906322c2bc14d5d37fe40a49090c2215e785253e4"
+      },
+      "ui:이번 주 현금을 위해 몸을 한 번 더 쓴다:/이번 주 현금을 위해 몸을 한 번 더 쓴다": {
+        "source_sha256": "f347e26a030607a20c51ff3d0e4084220cac05151b4c75ccc820f8cd41a9f6e6",
+        "target_sha256": "ff91d0b583d920cf79adef11bc1cfcaf1c2f8aeffc8db7212e61606afb4b0b50"
+      },
+      "ui:조건에 맞는 공고를 골라 직접 지원한다:/조건에 맞는 공고를 골라 직접 지원한다": {
+        "source_sha256": "732cb48224c4234905ab995931f7a9742d3ecd9a757ed6052d07d4e494740acc",
+        "target_sha256": "6e2f526656df9250b7f6c2b5faf3873dd5977574c156a998daa6325f622f9e7e"
+      },
+      "ui:준비만으로는 월급이 생기지 않는다:/준비만으로는 월급이 생기지 않는다": {
+        "source_sha256": "da02339c0b8d422a1f405ec8ae0401f94195efab7ac5051ae6c5792c8be0057b",
+        "target_sha256": "86bd0b27fc7a0d3388e6322fa82a5dd3e7787f3f7d492a2aacd5821e239f243e"
+      },
+      "ui:지원, 준비, 당장 현금 중 무엇을 먼저 택할까?:/지원, 준비, 당장 현금 중 무엇을 먼저 택할까?": {
+        "source_sha256": "90cc15790f29889d89b51b4daa8a99d257e018f1b7f33b4c3850c88559581fef",
+        "target_sha256": "d051af5c08b8f013d0a8c1c2f7c942e0a0d2ca416d74a98335bb54d5e3af4017"
+      },
+      "ui:지원서 다듬기:/지원서 다듬기": {
+        "source_sha256": "21a6e5b6237226dc007e67db490ebbb0319ffb545ad39658e5bd21b847882605",
+        "target_sha256": "a6b784831983f2a7acc20941d42bd2c484c09f62863f654fdc8f781b92e40419"
+      },
+      "ui:지원서 평가를 통과해 다음 지원을 준비한다:/지원서 평가를 통과해 다음 지원을 준비한다": {
+        "source_sha256": "4c37809c655dbdfdf6b1db15eefaaeafc75f690d6efe1c5f5b58e793e3ce7320",
+        "target_sha256": "877be426ae464d0a411b020a381958f00964b3db0a4d8f81581e68fbe2484bbe"
+      },
+      "ui:지원서는 아직 나를 설명하지 못한다:/지원서는 아직 나를 설명하지 못한다": {
+        "source_sha256": "6d57bde47750510900ab2b8bc66435dc7ba9c8498ecacc25b2f960bba0e78ea0",
+        "target_sha256": "e2ec2db540776df123d11f234fb82341b0c740659960d3dd1d1de28d2970aef3"
+      },
+      "ui:지출을 깎는다:/지출을 깎는다": {
+        "source_sha256": "decc23d011faa8389c289164c3fae0649a2fd63955bd2d68eb9185e3cdbefc50",
+        "target_sha256": "d4a215b33b37361e33cd68215f24bc15935f5c4a40211877ceea4f79ebd3ab9a"
+      },
+      "ui:하나를 쌓는다:/하나를 쌓는다": {
+        "source_sha256": "ecba267918550aaa3d80af879b92ea3ad7c5c412642c9de4d13039a8f2795ed6",
+        "target_sha256": "eca23c08ec92aafd805a3e36c9689a6521ab4646cecc74dde1d4313b14f78487"
+      },
+      "ui:하나를 택하면 다른 두 길은 이번 주에 닫힌다.:/하나를 택하면 다른 두 길은 이번 주에 닫힌다.": {
+        "source_sha256": "8a551a9b08783f372a745907bf0b3bea50acbaffe689156e691ab16a488cb110",
+        "target_sha256": "392b1688bbbf644ed40cdb106da70b112b3526d8ad33d0a5ab32806d0e920a74"
+      },
+      "ui:합격을 기다리는 동안에도 돈은 나간다:/합격을 기다리는 동안에도 돈은 나간다": {
+        "source_sha256": "7fc5f19611ae9ca5acbd38ad04f00d1c84702759ca48829253dc11136372e166",
+        "target_sha256": "e70d1c5808f209ee120a10347b5320c57ab205ebd0181bd0ac9d42eef5f00a0d"
+      },
+      "ui:1~3주 · 다음 고정비 앞의 현금 여유:/1~03주 · 다음 고정비 앞의 현금 여유": {
+        "source_sha256": "8e6bf0e04f2b2bae0e8c12a307f7929da972dd950efe7e64911df0718e05e5ad",
+        "target_sha256": "19af6b5dc18404e58e5c5a1baf8b8e59d7dfaa02227b3eb409545795f5c10f57"
+      },
+      "ui:1~3주 · 다음 지원의 준비 보너스:/1~03주 · 다음 지원의 준비 보너스": {
+        "source_sha256": "c64d9276c5d6f247e8e27a45c7a1622cb81a99f6a5558e1fcb845e041d4c25f3",
+        "target_sha256": "b41faf7e1f2fafe744eb1991e20df9910006c47701e9208967d9714f6357f15c"
+      },
+      "ui:1~3주 · 반복 기록과 다음 자격:/1~03주 · 반복 기록과 다음 자격": {
+        "source_sha256": "381c28cf5d382a814cb4c35e0be636c83cb0be6966966b457e41681be2f00def",
+        "target_sha256": "0136ebb67d1df2fd7ef397f9eaca7250d5f3dbdbcdfee0ed563faa51e80fd68c"
+      },
+      "ui:1~3주 · 피로와 생계의 여유:/1~03주 · 피로와 생계의 여유": {
+        "source_sha256": "34cb92e7d48803cf99013a935cfb0187d91cb0d2a283295b7fb59ba2a96f1872",
+        "target_sha256": "88c07edeb05eb4a4f87381a8ebd9472001761360d734b07a1d8d66e7c5c24762"
+      },
+      "ui:1~3주 · 합격 여부와 첫 월급:/1~03주 · 합격 여부와 첫 월급": {
+        "source_sha256": "24055e01f72119ee51fc08aad5c24bf8cfd3a90950b11ad4a998c79028fada75",
+        "target_sha256": "c004fe635e8be276d21b5520fe9076c1436dbde428e6e1d0603a7dca4885daa1"
+      },
+      "ui:1회:/1회": {
+        "source_sha256": "5ba21ff58fd636c115674cfdf50b4ad36aac7a5c84da611b8bfcffa508f6c931",
+        "target_sha256": "e044fbcc98f5de4a9deb966e606a574c0a931f1eb31c499cdaa93b8f3788df7e"
+      },
+      "ui:건강 기본 -3 · 지원과 휴식은 포기:/건강 기본 -3 · 지원과 휴식은 포기": {
+        "source_sha256": "82f5bb628a2163fd1cf1d872b961069bbcc04a24b9077772c3cc337e05233da1",
+        "target_sha256": "d2a298f6079556ff780b538411dc9534905049a64bf47e7d850f9a7133157312"
+      },
+      "ui:낮은 위험:/낮은 위험": {
+        "source_sha256": "63513da3e9c9113875129fdc4eda4e0f6940cff7c0b60f45f2915414d68f15a2",
+        "target_sha256": "c101eff142b6c751596bc703a0fb205ad21bc362b7d8e15087082753cbfb087d"
+      },
+      "ui:대가:/대가": {
+        "source_sha256": "fcfbbda6becab01ee917a17a6d2052d4ad83f7da3009af6c3cefa0602ab6a15c",
+        "target_sha256": "93c5506ec1c33a3899e0ad029f53b5cb8ffc3738fbaa467ebd1056ab871a9213"
+      },
+      "ui:독서·운동·명상·투자공부 중 하나:/독서·운동·명상·투자공부 중 하나": {
+        "source_sha256": "ec52d692ad70fec7cd6e846ba62f331505f71b33f0c0308006b81a7db7604fba",
+        "target_sha256": "12d34d10a6f3ef9479c0cdfbb726989e9c9ab93f109775d2e39dd35830f7b7f9"
+      },
+      "ui:이번 주 수입과 실제 지원은 포기:/이번 주 수입과 실제 지원은 포기": {
+        "source_sha256": "34544a1f96b09fdcccfeb1f8aa3657130a9f66d9193c0e16dae46933af8f6118",
+        "target_sha256": "7c19748ec76e6974557a39d143ac67299a672ff11c4ff8d66678ee18a57d16b7"
+      },
+      "ui:이번 주 현금과 실제 지원은 포기:/이번 주 현금과 실제 지원은 포기": {
+        "source_sha256": "df8c56fcbb1c9debd478dff25043b72734727135ab81d39d6fbba366d9fb1323",
+        "target_sha256": "2903e600ce3963b95dd31c0bc38074d8627e8f884df5b03833044e35795119d6"
+      },
+      "ui:이번 주 현금과 준비 시간은 포기:/이번 주 현금과 준비 시간은 포기": {
+        "source_sha256": "d20b391a6aafe7c8c8ff48460a07be77058ef6c976ee78a79a61d631975ee51e",
+        "target_sha256": "e201293e66fc5a675f6ed4d7f15b8c406cf98e613b5361ae7d46cfdd690d0e63"
+      },
+      "ui:정신 -2 · 더 벌 기회는 포기:/정신 -2 · 더 벌 기회는 포기": {
+        "source_sha256": "6c2415f030d0d1b550653d470893f9517c9acd19d3a5e7971b70af405b0c9caf",
+        "target_sha256": "a782a764c838bd2ae6702af2793c06a24674c79c0c22959255ed038e984427ae"
+      },
+      "ui:조건에 맞는 공고 하나에 지원한다:/조건에 맞는 공고 하나에 지원한다": {
+        "source_sha256": "0149107a44a42cf818a60d9e3a0d2bac166c9e914924cda3dbbf3c47e829d6b8",
+        "target_sha256": "1ea1a1276da1655a37940a037c23601e4f582488c61d4169d754c84b353c37e5"
+      },
+      "ui:중간 위험:/중간 위험": {
+        "source_sha256": "f6bd53541f15bcebcf81e618c92a00af26885f4dab63e4a9dccb84e7dade1b39",
+        "target_sha256": "c02222f4faa62d6b002ff82455c53e26980ec70011b9f37cebe8f0eab049fbfe"
+      },
+      "ui:지금:/지금": {
+        "source_sha256": "c265478295f5c7e108f2a99e2ed16077c4ca07a6b6fd5e9a3fcedf1db914b01d",
+        "target_sha256": "6eb9ddf4d20d8527abfc9191f54391c14d0711419068c66cec9b762d3488fa09"
+      },
+      "ui:지출 3만~10만원을 막는다:/지출 3만~010만원을 막는다": {
+        "source_sha256": "185ed47cc6b09ddba1a0a1fa2d64855743f4d61ba942fb50d57ae0fa7a2ce4e6",
+        "target_sha256": "764dbed909838b45b67023738886772967fd7c6d6a480085d9c742460be0c5f1"
+      },
+      "ui:평가를 거쳐 지원서를 다시 쓴다:/평가를 거쳐 지원서를 다시 쓴다": {
+        "source_sha256": "a3502df29c68bbd2597bf5d6fb03d24c5bfa8c2781604a9d0fc0666b60de666c",
+        "target_sha256": "24ac00011e807e00960e2152601e44a8345b9d966e52f4e98b87d23fc4966121"
+      },
+      "ui:현금 %s 이상을 번다:/현금 %s 이상을 번다": {
+        "source_sha256": "6a6fe2ed54749d521957782467108fe7ec61fedc43387ce0d6e5982b66c7ce67",
+        "target_sha256": "94deb1945f191c6f273a82fe4cb1c5ff2aeec0f9b065d6a2e332930d1bccd959"
+      },
+      "ui:후속:/후속": {
+        "source_sha256": "6e3dbf20a2baa3c2fac4e8784e01c199c0742eaf2228d3ab89a987add869d08f",
+        "target_sha256": "d9858d99a00961907dd7021f215b43be4429c34d2939d21bc80c6f47f2b52596"
       }
     }
   },
-  "accepted_sha256": "00b26d8821a0068572bf3ffed2befc2ddc35cc2702ace211a9eade0cd97ccf8c",
+  "accepted_sha256": "4ab720d230976d25c2f08282cc7e8613df7b50d46d0154b3207fb61640ef613c",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

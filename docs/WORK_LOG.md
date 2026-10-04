@@ -2,6 +2,27 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 구직 판단 중국어와 정확 수량검사 후보)
+
+- [421](queue_active/ORDER-421.md): 같은 실제 구직화면의 A17/B21 KO키를 간체·번체
+  각각 직접저작·독립 전수대조했다. CN 건강 ‘기본 -3’ 표현만 원본초안 보존 후 명확히
+  교정했다. 선택 경쟁1/2·0원·1회·1~3주·3만~10만원·건강-3·정신-2·%s1은 유지한다.
+- 공식export4/20.354초PASS. 최초check4/21.036초FAIL은 ‘두 길’과 공유 원화단위
+  하한3만원을 검사기가 놓친 결과다. CN B21의 우연한 PASS도 하한 검증으로 세지 않는다.
+  원래 source/response76과 실패를 보존하고 [422](queue_active/ORDER-422.md)를 별도 선언했다.
+- 422는 exact UI source/key2·CN/TW에서만 선택1/닫힌길2 및 절약30000~100000원을
+  수량비교에 결속한다. generic/과거제목·원문 script/token/currency 검사는 불변이다.
+  저자 focused130건/0.72초PASS·독립 사전검수 blocker0, 수리 checkpoint a3029a4.
+- 동일76응답 공식r1 check4/20.739초PASS, 새export0. 공식import와 raw역상으로
+  receipt76/batch4, accepted41366/b191→41442/b195·CN/TW1588→1626·JA3044불변 후보를 만든다.
+- 다음은 동일 clean 후보의 pre-autoload 격리 actual MainGame4상태×2지역/8PNG,
+  합성키보드32taps/64이벤트·실제focus0→1→2→1→0과 자동확정0·상태복원 확인이다.
+  준비상태를 자연 ingress로 세지 않으며 forgone debt 기본빈값 외 delayed-cost5키는 잔여다.
+  같은후보 normal14행(검증13+차선조회1)은 최대3병렬1회 예정, 과거focused/full/240주0.
+- 420 제품c52ddc1 독립GO와 과거판정178/보고156·공개GO1/인간OPEN45를 보존한다.
+  자동PASS는 계약증거이지 문체·재미·출시GO가 아니다. 일회성/상시규범추가0.
+  본편/새packageHOLD·B3/B4·원어민/인간/물리미관측 유지.
+
 ## 2026-10-04 (Codex — 인물·새벽 연락 중국어 마감, 구직 화면 이어쓰기)
 
 - [420](queue_archive/ORDER-420.md): sourcec52ddc1/tree1604cd7 범위한정 독립 GO.
