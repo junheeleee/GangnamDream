@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 — 번역 검수 값 파싱 중복 축소 착수 (433)
+
+- 값만 읽는 append의 두 _Document(raw).value를 같은 strict _loads로 바꾼다. 원래 최종raw역상/Git/HEAD/collector는 보존한다. 성공4파일의 전체span 생성16→8, 실제역상8→8이며 실행시간50% 주장은 아니다.
+- root2식·receipt_tests392 새focused·claude_handoff_review 새normal/lane·independent392 비저자 최종검수로 소유를 분리한다. 새 범위는 active433이며 제품게임/번역/원장/과거증거 변경0이다.
+- 432normal receipt행을 A로 보존하고433 동일CLI B1회를 새normal행으로 쓴다. stdout exact와 실제 시간만 비교하며 OS캐시/순서/경쟁부하 미분리다. A/세번째receipt·과거focused·화면/engine/full/240주 재실행0. 본편/새packageHOLD·공개GO1/인간OPEN45 보존.
+
 ## 2026-10-04 — 중국어 스캘핑 결과·손익 기록과 본문 서체 검수 완료
 
 - [431](queue_archive/ORDER-431.md)·[432](queue_archive/ORDER-432.md): source31f6751/treef570ca 비저자 범위한정GO. 결과/기록 CN/TW10값과 Main normal font1줄을 검수했다. accepted41612/b207·CN/TW1711·JA3044이며 게임 수치·정산 구현은 불변이다.
