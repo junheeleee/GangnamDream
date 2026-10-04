@@ -62,3 +62,11 @@
   accepted41602/b205→41612/b207·CN/TW1706→1711·JA3044 및 기존수용값 불변.
 - 실제8PNG/정산·기록창 소비·입력/완전복원·공통normal은 아직 미실행이다.
   새 helper 준비 뒤 같은 clean 후보를 확인하며 본편/새packageHOLD를 유지한다.
+
+## 첫 실제 관측 — 실패 보존
+
+- source75a4661에서 실제8PNG·56raw/28taps·정산4회. 결과창/정산 typed·기록 내용은
+  맞지만 기록 normal font가 Open Sans SemiBold이므로 FAIL. aggregate screens0은
+  Python fail-fast 결과이며 실제 캡처8개를 지웠다는 뜻이 아니다.
+- source/player34 불변. common normal은 아직 실행0. first 폴더/봉인helper는 그대로
+  두고, 새 432가 Main의 font 연결1줄과 exact 영수증 successor를 소유한다.

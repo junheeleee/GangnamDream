@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 — 기록창 실제 기본서체 누락 수리 착수 (432)
+
+- 431 source75a4661 첫 실제8PNG·정산4회·56raw/28taps에서 텍스트/typed정산은 일치하나
+  기록 normal은 Open Sans SemiBold로 확인되어 FAIL. ThemeDB fallback만으로 충분하다는
+  사전 가정이 틀렸으며 검사 완화 없이 실제 Main normal_font 연결1줄을 별도 선언한다.
+- locale/수용원장 수입은41612/b207 그대로. 원본 first/helper 보존·normal실행0·player34불변.
+  파일 소유·영수증 후속·검수는 active432. 사용자 main commit/push 흐름을 유지한다.
+
 ## 2026-10-04 (Codex — 스캘핑 결과·수익/손실 기록 중문10값 수용 후보)
 
 - [431](queue_active/ORDER-431.md): CN/TW 각5값을 한국어에서 별도 저작하고 비저자 전수 의미 대조했다. 중립 세션종료·실제SETUP 복귀 버튼·수익/손실 극성과 거래횟수를 보존했다. TW 로그의 용어를 봉인 전에 기존 極短線交易와 맞췄다.
