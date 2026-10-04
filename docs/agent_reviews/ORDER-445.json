@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-445",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "dbc0ede8af2f887a6b4348535ac7d2261726582d",
+    "tree": "030893ce85317d0a49a09fe3411bdccd58b41c90",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "ORDER-445의 Holdem 표 배너 하단 배치와 같은 소유자의 이전 배너 숨김·자연 tween 종료만 GO. 준비된 CN/TW FLOP/SHOWDOWN 표면의 관측이며 전체 게임·출고·자연 플레이 승인이 아니다.",
+  "method": {
+    "direct": "gangnamdream-dev의 정본·범위·기존 증거 보존 규칙에 따라 사양, 제품 diff와 실제 소비자, history/append/focused 및 private helper를 읽었다. 최종 원본 PNG 4장, 두 locale 관측·로그·typed 복원과 정상 8행 stdout/stderr를 직접 확인했다. 최종 집계 SHA와 실패 세 폴더 실파일 맵을 대조했다.",
+    "assistance": "실제 하위 검수자 /root/independent392/ab_readonly428가 정상 entry/result·10 artifact·현재 helper145/current5/player34/runtime165 및 prior3개 중첩 맵의 352파일을 재해시했다. 앞서 직접 대조한 tracked3076과 기존 판정·보고·인간 원장 검수 결과는 동일 맵·HEAD·tree·clean 상태를 확인하여 재사용했다.",
+    "execution": "검수자의 프로젝트 import·collector·focused·감사·엔진 실행 0. Git/stdlib JSON·바이트·SHA 읽기만 했으며 집계 완료 후 허용된 이 파일 하나를 작성했다."
+  },
+  "source_review": {
+    "product_commit": "ddece4ce18fa811b7ed7d9130f82d81c4cd757e1",
+    "baseline": "c0035fbf68e5435ddb94a7d5a290ee0879a4aef5",
+    "holdem_sha256": "634d8a603ba4e38263696523963c2f2ad040adaeccec781a82f682977c02a721",
+    "result": "제품은 _show_table_banner의 5삽입·1삭제뿐이다. 빈 문자열 조기 반환 뒤 같은 Holdem의 직접 Control 자식 중 정확한 true 태그만 숨기고 새 panel을 태그한다. 폭360·높이54·가로 중앙을 유지하며 아래 여백24로 옮겼다. 기존 0.08초 등장·지정 유지·0.18초 소멸·queue_free는 그대로다. 전체 raw 역상과 기존 61 UI 호출이 일치하며 게임·경제·문자열·폰트·다른 pulse는 바뀌지 않았다.",
+    "proof_boundary": "7 descriptor의 42 Git 요청행은 36개 고유 객체이며, 새 descriptor의 6요청 중 새 고유 ID는 5개다. 현재 disk/HEAD·부모/tree·한 경로 diff·원문 역상·freshness를 결속한다. focused는 실제 proof/collector와 관측 Git 응답 재생 fault를 구분한다. 22개 역사 hash tuple은 합성 census 표본이고 51 phantom은 새 Holdem을 고정한 조합이다. 과거 suite나 독립 재서명 객체 실험을 실행했다는 주장이 아니다."
+  },
+  "runtime": {
+    "path": ".git/full-game-localization/order445-screen-final/result.json",
+    "sha256": "729be3cc2a21f98fc17fb248b63db5185447e2b9e3cf5916953b5a15fb9e9ae6",
+    "entry_sha256": "c2cf2aa533cd500f460f740418661d3546879b417ba8c54933afbc5b9a2d6db1",
+    "seconds": 22.017,
+    "population": "격리 CN/TW 2 process, 준비 그룹2·복원2·준비 phase4·관측4·PNG4. locale마다 FLOP 표면24개와 SHOWDOWN 표면30개, 합54개씩 총108개를 읽었다. raw/tap/첫 손/플레이어·AI 행동/showdown dispatcher/정산/Close/stats/trade/finalized/tutorial은 모두0이다. 표시된 패·pot·stack은 준비된 reader 값이지 실행된 손이나 지급액이 아니다.",
+    "visual": "1280×800 원본4장에서 표적 배너 잘림·겹침·누락이 보이지 않는다. 배너 [460,722,360,54], 글자 영역 [462,735,356,27], 하단24를 실제 측정했다. CN/TW 18px bold의 resolved SC/TC 폰트와 글자 fit가 일치한다. 원문 obstacle12/13행은 고유10/11경로이며 중복은 같은 class/rect이고 충돌 검사에서 제외하지 않았다.",
+    "lifecycle": "새 배너 생성 때 옛 배너는 살아 있고 숨김 상태이며 queued-for-deletion이 아니다. 원래 tween의 alpha 변화 뒤 자연 free를 관측했다. CN65/TW66 샘플에서 두 배너의 free 시점은 각각 CN821/958ms, TW844/972ms였다. 빈 호출은 생성·숨김을 일으키지 않고 직접 untagged/false-tag 및 중첩 true-tag 외부 표본3개는 불변이다. 이는 유한 샘플이지 연속 곡선 최대치나 지연시간 보장이 아니다.",
+    "effects_restore": "각 prepared/observed whole typed 상태와 before/restored가 일치하며 core·RNG·Meta 원래 bytes/existence·teardown을 보존했다. 재생성된 Main AP 노드는 raw path/ID를 따로 남기고 동일한 유일 semantic identity로 focus를 복원했다. 실제 사용자34파일 SHA·크기 불변이다. 두 process exit0, stderr0, errors/report_error 빈 값, prior_error null, 정확한 marker를 확인했다."
+  },
+  "normal": {
+    "path": ".git/full-game-localization/order445-static-final/result.json",
+    "sha256": "0a3554c7f6f3f5f2328727c52dbffc1d98b91f48cae8fa6b48e31b1cec189df0",
+    "entry_sha256": "df71e754407c5e291dea215990d33db7b6d1602ecadc81fdbb2f76b7ddd44dba",
+    "seconds": 462.286,
+    "result": "동일 후보에서 7검증+조회1, 8행 모두 exit0/빈 stderr/all_pass=true. 새 focused54/historical0(11.079초), fresh receipt41736/b216(461.466초), EN/context/queue/diff/등록182와 차선조회다. 원본 row=집계=entry command이며 artifact10개의 SHA·크기가 일치한다.",
+    "not_run": "불변 JA/ZH(444 참조), full-body(442 참조), 4서사 검사, 과거 focused/runtime suite, whole audit, 240주, 성능 A/B는 이번에 실행하지 않았다. 과거 PASS를 새 실행으로 승격하지 않는다."
+  },
+  "preservation": {
+    "runtime": "before=after tracked3076/helper145, current5와 player34 불변. runtime artifact164 SHA·크기 대조가 일치한다.",
+    "normal": "entry.before=before=after. tracked3076/helper145/current5/player34와 runtime_evidence165(164 artifact+result)가 결속된다. prior는 최상위 중첩3맵, 실제352파일(444 runtime170+normal13, 442 runtime169)이다. 이 보고는 snapshot 종료 뒤 생성됐으므로 그 맵에 포함됐다고 주장하지 않는다.",
+    "failed_folders": "first155/lifecycle-repair165/obstacle-repair165 파일의 현재 SHA·크기가 정상 before/after 맵과 전량 일치한다. 앞의 두 폴더는 최종 실행 전 독립 메모리 맵과도 동일하다. 세 원본 FAIL을 PASS로 바꾸지 않았다.",
+    "records": "기준 c0035fb 대비 기존205판정·183tracked 보고의 경로와 raw bytes, 인간 원장, JA3048/CN1771/TW1771 및 accepted41736/b216 원장은 불변이다. 공개·인간 게이트의 판정을 바꾸지 않는다.",
+    "decision_ledger_sha256": "a66c66cd889eda934870f740df5e13cb861e67e0a419183774d65571b01bbfc7",
+    "translation_ledger_sha256": "3317d981e97ac0d7ce25434601b7c89f8d698d3e1d46e62d8a31394b5d119b76",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "retained_failures": [
+    {
+      "path": ".git/full-game-localization/order445-screen-first/root-failure.json",
+      "sha256": "c72f67731f1cd0889ee6f77102e72d5ad1da7aab424c14d4c519d3c3b259bd14",
+      "finding": "CN만 실행해2PNG를 남겼다. freed PanelContainer 인수가 guard 전에 거부되어 ScriptError29와 free 샘플 누락이 발생했다. 출력 marker/helper pass는 성공 근거가 아니다. Python3.9의 traceback.format_exception(exc) 추가 TypeError로 locale/root result가 발급되지 않았다. 이 Python 예외의 파일 근거는 root-failure 서술이며 부모의 원 tool 관측과 구분한다. 별도 Python traceback 원본 파일을 직접 읽었다고 주장하지 않는다. Variant 인수와 type/value/traceback 3인수 수리만 했다."
+    },
+    {
+      "path": ".git/full-game-localization/order445-screen-lifecycle-repair/result.json",
+      "sha256": "acee07c3f25463d40aa20c0f60bd17f60a5534c0bfa692fe3aa7ae0ed973fbcd",
+      "finding": "21.688초, 실제4PNG·engine errors0이나 Python obstacle 경로 유일성 가정으로 FAIL. 같은 노드를 두 소비 경로로 읽은 정확한 중복만 허용하고 모든 실제 rect 충돌 검사는 유지했다. 집계 screens0은 검증 실패이지 실제 이미지0이라는 뜻이 아니다."
+    },
+    {
+      "path": ".git/full-game-localization/order445-screen-obstacle-repair/result.json",
+      "sha256": "e946fb04e0eafd7cbceb202f14f779cb60523cab2be51da663059306ad2da68b",
+      "finding": "22.102초, 실제4PNG·engine errors0이나 기존 SHOWDOWN summary TRANS_BACK pulse의 local/global 크기 동일 가정으로 FAIL. 정확한 summary Label4개에만 local glyph/fullfit·공유 폰트와 실제 global bounds/clip·양의 uniform scale를 각각 검사했다. TRANS_BACK endpoint1.04를 최대치로 가정하지 않으며 원 관측값을 조작하지 않는다. 저장된 결과의 diagnostic 재검사는 새 runtime PASS가 아니다."
+    }
+  ],
+  "remaining_limits": [
+    "세 실패는 helper/oracle 결함이고 저자·root·독립 사전검수에서 놓쳤다. 원문은 보존하며 최종 실제 재실행의 PASS와 분리한다.",
+    "준비된 두 locale·한 해상도·두 phase만 확인했다. 자연 ingress, 실제 베팅/AI/정산, 모든 배너 호출 종류, 다른 언어·해상도·긴 문자열, 물리 키보드/패드, 원어민·인간·전체 출시 승인은 미관측이다.",
+    "finite PNG/샘플과 TextServer 폰트 probe는 연속 프레임·실제 raster glyph 전수·tween 최대치 보장이 아니다. 논리 typed 복원이 전역 시각 RNG·모든 transient node identity·음원 playhead의 완전 복원을 뜻하지 않는다.",
+    "RAISE/SHOWDOWN/POT/BOARD/STACK/Kim Minjun 등 기존 영어 잔여와 범위 밖 UI·글자 크기·번역 부채는 그대로다. 자동 scoped GO를 제품 전체 또는 기존 인간 게이트 GO로 확대하지 않는다."
+  ],
+  "final_boundary": "정확한 dbc0ede8 후보의 ORDER-445 선언 범위만 GO. 기존 실패·공개/인간 판정과 미관찰 범위를 보존한다."
+}

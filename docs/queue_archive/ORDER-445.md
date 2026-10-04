@@ -1,6 +1,16 @@
 # ORDER-445 — 홀덤 행동 배너가 팟과 이전 배너를 가리지 않는다
 
-#### [~] ORDER-445 [P1·UI 수리] 중앙 배너/POT 및 연속 배너 겹침
+#### [x] ORDER-445 [P1·UI 수리] 중앙 배너/POT 및 연속 배너 겹침
+
+**완료 — 2026-10-05.** 제품 `ddece4c`·검수 후보 `dbc0ede`를 main에 반영했다.
+실제 CN/TW4PNG·108표면·준비2그룹 typed/Meta/RNG/focus 복원 PASS(22.017초),
+입력/AI/첫딜/정산0·player34 불변이다. fresh7검증+조회1 PASS(462.286초),
+focused54/historical0·accepted41736/b216 불변. [독립 보고](../agent_reviews/ORDER-445.json)가
+정확한 source/tree·원본·세 실패·미관찰 한계를 결속하며 이 수리만 GO다.
+첫 freed 인수/예외 기록, 중복 obstacle, summary pulse local/global 가정의 검수
+결함 세 번은 원본 FAIL로 보존하고 helper만 수리했다. 제품 변경 추가0이다.
+지시는 일회성·새 정본 규칙0. 자동 PASS는 계약 증거이며 원어민·인간·물리패드·
+자연 진행·본편/새package GO가 아니다. 아래 착수 이력을 보존한다.
 
 **[~] 착수 — 2026-10-05.** 442 실제 CN/TW RAISE·SHOWDOWN PNG에서 중앙
 배너가 POT과 겹치고 이전 AI 배너도 남는 것을 확인했다. 최신 main 커밋/푸시·
