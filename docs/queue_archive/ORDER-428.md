@@ -1,6 +1,6 @@
 # ORDER-428 — 번역 검수의 중복 역변환 계산을 줄인다
 
-#### [~] ORDER-428 [P1·QA 효율] 호출 내부의 순수 비교 결과 한 개만 재사용
+#### [x] ORDER-428 [P1·QA 효율] 호출 내부의 순수 비교 결과 한 개만 재사용
 
 **[~] 착수 — 2026-10-04.** 사용자 검수 효율·계속 개발·main 커밋/푸시 위임.
 같은 snapshot이 연속 전이의 successor/previous로 다시 역변환되는 확인된 병목만 고친다.
@@ -53,3 +53,19 @@
 - 사전 결과는 원래 PTY 출력에서 apply_patch로 전사했음을 명시해 보존했다.
   clean 같은후보의 최종focused/실제A/B/공통normal·독립 최종판정은 아직 미실행이다.
   속도 개선이나 기존GO 재사용을 주장하지 않고 번역/게임/원장 바이트를 유지한다.
+
+## 완료 — 2026-10-04
+
+- source9bfc307/treeac58d5f 비저자 범위한정GO: [봉인 보고](../agent_reviews/ORDER-428.json).
+- 첫 실제 fresh A/B각1회 PASS. public CLI전체출력·현재proof·census·Git조회·외부검증
+  호출흔적은 exact동치다. pure역상 호출108→62, A 493.921초 → B 356.380초.
+  A→B 단1회 실측이며 OS캐시/순서 영향을 분리한 통계적 속도보장은 아니다.
+- 새 focused 최종120case PASS. 사전전사 기록과 최종runner 직접 원문을 구분한다.
+  원래inverse3·검증본문·역사self_test/pin·게임/번역/원장 바이트는 보존한다.
+- 공통normal14행(검증13+조회1) PASS/776.716초. B를 receipt행1개로 재사용하고
+  다른13프로세스만 실행했다. 세번째receipt/과거focused/engine/full/240주0.
+- source/이전증거/실제player34 보존, 기존판정185/보고163·공개GO1/인간OPEN45불변.
+- 호출local·정확raw/epoch·성공값1슬롯 계약은 helper docstring/표적검사가 소유한다.
+  속도수치·배치검수절차는 일회성. 새 게임 정본규범0.
+- 자동PASS는 계약증거이지 문체·재미·출시GO가 아니다. 본편/새packageHOLD·B3/B4·
+  원어민/인간/물리 미관측 유지. 다음은 별도선언 스캘핑15키 중문번역이다.

@@ -2,15 +2,23 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 번역 검수 중복계산 축소 검증 완료)
+
+- [428](queue_archive/ORDER-428.md): source9bfc307/treeac58d5f 비저자 범위한정GO. 실제현재 public CLI fresh A/B각1회에서 출력·proof·census·Git조회/외부검증흔적은 exact동치였다.
+- pure역상 호출108→62, A 493.921초 → B 356.380초. 호출 내부 성공값 한 개만 재사용한다. 단1회/OS캐시·순서 영향 미분리이므로 일반 속도보장으로 확대하지 않는다.
+- 최종focused120case·normal14행(검증13+조회1) PASS/776.716초. B를 receipt행으로 재사용해 다른13프로세스만 실행했고 세번째receipt/과거focused/engine/full/240주0이다.
+- 기존검증본문/역사pin/번역·수용41572/b203·CN/TW1691·JA3044·실제player34·공개GO1/인간OPEN45불변. 새 화면관측은 없다.
+- 다음은 스캘핑15키/CN·TW30값의 별도번역·실제소비자검수다. 호출local계약은 helper/표적검사에 소유하고 성능/절차는 일회성이다. 자동PASS는 계약증거이며 본편/새packageHOLD·원어민/인간/물리 미관측을 유지한다.
+
 ## 2026-10-04 (Codex — 호출local 비교 재사용 구현 후보)
 
-- [428](queue_active/ORDER-428.md): 순수역상 연결1개+EOF33줄·모듈설명1개만 수정, 새 표적검사와 명시차선을 추가했다. 기존 Git/교정/manifest/HEAD/receipt 함수와 게임·번역·원장 바이트는 보존한다.
+- [428](queue_archive/ORDER-428.md): 순수역상 연결1개+EOF33줄·모듈설명1개만 수정, 새 표적검사와 명시차선을 추가했다. 기존 Git/교정/manifest/HEAD/receipt 함수와 게임·번역·원장 바이트는 보존한다.
 - 새 focused120case 첫실행14.304초 PASS. raw/epoch/alias/실패복구와 합성 public-history8오류, 실제고정20blob/3역상을 확인했다. 원본 PTY를 apply_patch로 전사한 기록방식을 명시하며 검사를 반복하지 않았다.
 - 다음은 clean 같은후보 A/B각1회·최종focused/공통normal 및 비저자 최종검수다. B를normal receipt행으로 재사용하며 실제 시간은 아직 주장하지 않는다. 공개GO1/인간OPEN45·본편HOLD 유지.
 
 ## 2026-10-04 (Codex — 번역 검수의 순수 역상 중복계산 축소 착수)
 
-- [428](queue_active/ORDER-428.md): 연속전이 successor/previous의 동일 snapshot을 역변환하는 확인된 중복만 호출local1슬롯으로 줄인다. raw전체모집단/교정epoch가 같은 성공값만 재사용하며 Git·HEAD·source·판정결과는 캐시하지 않는다.
+- [428](queue_archive/ORDER-428.md): 연속전이 successor/previous의 동일 snapshot을 역변환하는 확인된 중복만 호출local1슬롯으로 줄인다. raw전체모집단/교정epoch가 같은 성공값만 재사용하며 Git·HEAD·source·판정결과는 캐시하지 않는다.
 - append.py 최소연결+helper/root, 새표적검사/bridge, private A/B·normal/tests, 비저자검수/independent로 소유를 나눈다. 기존 self_test·역사 pin·교정함수·public proof 본문/게임/번역/원장 변경0.
 - 같은 clean후보 fresh A/B1회, 판정·전이·Git/proof동치와 호출수/시간을 계측한다. B를 normal행으로 재사용하고 나머지만 각1회, 과거focused·engine·full·240주0. 속도개선율은 측정 전 주장하지 않는다.
 - accepted41572/b203·CN/TW1691·JA3044·공개GO1/인간OPEN45·본편/새packageHOLD 유지. 실제 다음 번역 소비자 조사는 읽기만 병행하며 범위선언 전에 구현하지 않는다.
