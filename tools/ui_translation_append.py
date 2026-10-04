@@ -3,7 +3,7 @@
 
 The caller owns and verifies the historical base. This module admits actual
 current bytes; its inverse is an internal preservation proof, never a UI view.
-No private receipts, mutable success cache, or historical consumer are used.
+No private receipts, cached validation verdicts, or historical consumer are used.
 """
 from __future__ import annotations
 
@@ -801,10 +801,7 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
              FEE_AFTER_COMMIT: (_fee_correction_proof, _fee_comparison)}
     corrections, transitions, manifests, totals = [], [], {}, Counter()
     split_receipts = _SplitReceiptHistory(root, inventory)
-    def comparison(snapshot):
-        for function, before, after in reversed(corrections):
-            snapshot = function(snapshot, before, after)
-        return snapshot
+    comparison = _comparison_memo(paths, corrections)
     previous = dict(baseline)
     for commit in commits:
         raw = _objects(root, [(commit, commit, "commit")])[0]
@@ -1489,3 +1486,37 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
                   ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
     return expected == exchange.digest(comparison)
 # END_DECISION_RISK_WIDTH_MANIFEST_423
+
+# BEGIN_LOCAL_COMPARISON_MEMO
+def _comparison_memo(paths, corrections):
+    """Reuse one successful inverse inside a single validate_history invocation.
+
+    The private corrections list is append-only; its length is the epoch.
+    Exact path population and immutable raw bytes, not parsed values or verdicts,
+    identify a snapshot. New invocations still perform every Git/proof/HEAD check.
+    Copies isolate caller dictionaries, including the zero-correction case.
+    """
+    ordered_paths = tuple(sorted(paths))
+    require(len(ordered_paths) == len(set(ordered_paths)), "comparison path population")
+    population = set(ordered_paths)
+    cached_key = None
+    cached_result = None
+
+    def comparison(snapshot):
+        nonlocal cached_key, cached_result
+        raw = dict(snapshot)
+        require(set(raw) == population, "comparison snapshot population")
+        require(all(isinstance(raw[path], bytes) for path in ordered_paths),
+                "comparison snapshot must contain immutable bytes")
+        key = (len(corrections), tuple((path, raw[path]) for path in ordered_paths))
+        if key != cached_key:
+            result = raw
+            for function, before, after in reversed(corrections):
+                result = function(result, before, after)
+            # Do not cache a failed inverse or expose its mutable dictionary.
+            result = dict(result)
+            cached_key, cached_result = key, result
+        return dict(cached_result)
+
+    return comparison
+# END_LOCAL_COMPARISON_MEMO

@@ -42,3 +42,14 @@
 범위는 검사 구현의 동치·효율뿐이다. accepted41572/b203·CN/TW1691·JA3044 및
 공개GO1·인간OPEN45·본편/새packageHOLD를 유지한다. 원어민·인간·물리 관측0.
 성능 수치는 일회성이며 호출-local 계약은 helper docstring/표적검사가 소유한다.
+
+## 구현 후보 — 2026-10-04
+
+- production은 기존 nested comparison1개를 호출local factory로 연결하고 EOF33줄
+  helper만 추가했다. 모듈 설명은 판정결과 캐시 금지를 정확히 구별했다.
+- 새 focused120case 첫실행14.304초 PASS. 슬롯/epoch/raw/alias/실패·새 public 호출의
+  합성모델과 실제20고정blob/3역상 표본을 구별했다. 기존 module의 허용2치환 외
+  전체바이트·기존self_test·교정원문은 보존했다. 현재 전체history실행0이다.
+- 사전 결과는 원래 PTY 출력에서 apply_patch로 전사했음을 명시해 보존했다.
+  clean 같은후보의 최종focused/실제A/B/공통normal·독립 최종판정은 아직 미실행이다.
+  속도 개선이나 기존GO 재사용을 주장하지 않고 번역/게임/원장 바이트를 유지한다.
