@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 — 번역 검수의 불필요한 값 위치 분석 제거 완료
+
+- [433](queue_archive/ORDER-433.md): source781674e/tree09cdd0f의 두 값 파싱식과 새 회귀검사를 비저자가 범위 한정GO했다. 동일 strict parser·실제 raw 역상·Git/HEAD 증명은 보존한다. 정상4파일의 전체 Document 생성16→8, 역상용8→8이다.
+- 공통13검증+조회1 최초 실행 PASS/771.210초, 새 집중검사180case/0.500초 PASS. receipt stdout은 이전432와 exact 동일하며41612/b207·JA3044·CN/TW1711을 유지했다. tracked3039·선행증거2775·private1·실제player34 전후 불변이다.
+- receipt A406.469초→B352.972초는 서로 다른 후보의 단1쌍 비통제 관측이다. OS캐시·순서·3worker경쟁·외부부하를 분리하지 않아 인과적 속도 향상이나50% 시간 단축을 주장하지 않는다. 원래A·과거focused·engine/화면/full/240주 재실행0.
+- 독립 보고SHA4ce1a979c14e9f82623eca6c07e6af5d57c28bc92cf50808e7973292e50bb85f. 기존192판정·170보고·인간원장·431FAIL/432PASS는 보존한다. 일회성 검수 효율 수리이며 자동PASS는 작품·출시GO가 아니다. 본편/새packageHOLD·공개GO1/인간OPEN45 유지.
+
 ## 2026-10-04 — 값 파싱 중복 축소와 회귀 검사 후보 준비 (433)
 
 - 제품64303b4는 validate_append의 값 전용2식만 동일 strict parser로 바꿨다. 새 집중검사는 실제 raw inverse·Document를 추적하며 기존/신규 결과와 단독 malformed·순서·원문 보존 실패를 대조한다. 실제 실행 전이므로 PASS나 시간 개선은 아직 주장하지 않는다.
