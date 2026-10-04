@@ -5,6 +5,10 @@
 **[~] 착수 — 2026-10-04.** 사용자 계속 개발·효율적 검수·main 커밋/푸시 위임.
 실제 같은 화면의 KO38키를 17+21 두 소스 배치로 나눠 CN/TW 각각 직접 저작한다.
 
+현재 sourcebb73a66 공식76값 수용 후 최초runtime24.431초 FAIL·HOLD.
+위험도24라벨 폭1px 실제결함은 [423](ORDER-423.md)에서 별도 수리한다.
+원본8PNG/32taps/64raw/typed복원은 보존하고, 완료 판정은 수리 후 같은8화면을 따른다.
+
 ## 판정 단위·모집단
 
 - A17: MainGame::_demo_employment_pressure의 title/question8,
