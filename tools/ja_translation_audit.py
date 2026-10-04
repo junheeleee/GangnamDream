@@ -249,9 +249,36 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
             # The JA validator uses its existing UI marker for newline parity;
             # full exchange IDs remain owned by the source provider.
             check_text(Entry("ui::" + pair.source, pair.source, pair.owner), actual[key], errors)
+    from holdem_tutorial_ui import (
+        HoldemTutorialSourceError, collect_holdem_tutorial_ui_entries,
+        holdem_tutorial_ui_additions,
+    )
+    tutorial_entries = {}
+    try:
+        tutorial_entries = holdem_tutorial_ui_additions(
+            collect_holdem_tutorial_ui_entries(ROOT),
+            static_keys | {entry.source for entry in rows}, dynamic_keys, story_demo_keys,
+            allow_partial_static=True)
+    except HoldemTutorialSourceError as exc:
+        errors.append(f"ui Holdem tutorial source: {exc}")
+    for key, pair in tutorial_entries.items():
+        if key not in actual:
+            errors.append(f"ui: missing Holdem tutorial source key {key!r}")
+        else:
+            check_text(Entry("ui::" + pair.source, pair.source, pair.owner), actual[key], errors)
+            # Use the same actual leaf as official exchange, including its
+            # Arabic-digit quantity guard in addition to the UI-specific
+            # forbidden-output rules above (neither replaces the other).
+            from full_game_localization import Leaf, translation_errors
+            from holdem_tutorial_ui import CATEGORY
+            leaf = Leaf("ui", pair.source, pair.source_path, (pair.source,),
+                        pair.source, CATEGORY)
+            errors.extend(f"{pair.owner}: {error}"
+                          for error in translation_errors(leaf, "ja", actual[key]))
     unknown_extra = (
         extra_keys - dynamic_keys - story_demo_exclusive_keys
         - premature_context - set(retired_entries) - set(notice_entries)
+        - set(tutorial_entries)
     )
     if unknown_extra:
         errors.append(
@@ -291,6 +318,7 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
         f"story_demo_extra={story_demo_exclusive_present}/"
         f"{len(story_demo_exclusive_keys)} "
         f"notice_chrome={len(set(notice_entries) & set(actual))}/{len(notice_entries)} "
+        f"holdem_tutorial={len(set(tutorial_entries) & set(actual))}/{len(tutorial_entries)} "
         f"errors={len(errors)-before}"
     )
     return len(rows)

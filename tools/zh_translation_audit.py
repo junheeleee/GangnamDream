@@ -9096,6 +9096,95 @@ def _ui_holdem_rank_numbers(
     return str(rank), str(rank), []
 
 
+def _ui_holdem_tutorial_rank_numbers(
+    lang: str, key: str, source: str, target: Any,
+) -> tuple[str, Any, list[str]] | None:
+    """The exact tutorial heading ordinals/names are not entity quantities.
+
+    This source includes Royal Flush as rank 1; it is not the nine-value hand
+    evaluator's rank-name surface. Only verified rank labels and the exact
+    Full House composition receive nonnumeric labels for numeric comparison;
+    all card counts and the originals for other validators remain untouched.
+    """
+    if not isinstance(lang, str) or lang not in LANGUAGES \
+            or not isinstance(source, str) or not isinstance(key, str) \
+            or not source.startswith("[b]1위[/b]"):
+        return None
+    escaped = source.replace("~", "~0").replace("/", "~1")
+    if key != f"ui:{source}:/{escaped}":
+        return None
+    identity = {"path": "scenes/TutorialOverlay.gd", "field": [source], "ko": source}
+    source_hash = hashlib.sha256(json.dumps(identity, ensure_ascii=False, sort_keys=True,
+                                           separators=(",", ":")).encode()).hexdigest()
+    # Exact source leaf from the official four-row tutorial export.
+    if source_hash != "b020d3e89020a9f5f0e520e05711fb4732010244484c5ef4b77f9bbdab7b19db":
+        return None
+    names = {
+        "zh-CN": ("皇家同花顺", "同花顺", "四条", "葫芦", "同花", "顺子", "三条", "两对", "一对", "高牌"),
+        "zh-TW": ("皇家同花順", "同花順", "四條", "葫蘆", "同花", "順子", "三條", "兩對", "一對", "高牌"),
+    }[lang]
+    if not isinstance(target, str):
+        return source, target, ["source-bound Holdem tutorial rank target is not text"]
+    lines = target.split("\n")
+    if len(lines) < 10:
+        return source, target, ["source-bound Holdem tutorial rank lines missing"]
+    for index, name in enumerate(names, 1):
+        prefix = f"[b]第{index}位[/b]"
+        heading = re.match(re.escape(prefix) + r"[ \t]+" + re.escape(name) + r"[ \t]+—[ \t]+",
+                           lines[index - 1])
+        if heading is None:
+            return source, target, ["source-bound Holdem tutorial rank ordinal/name/position mismatch"]
+        rest = lines[index - 1][len(prefix):]
+        if index in (3, 7):
+            # Only these already-verified heading tokens (四条/三条, or
+            # their traditional forms), not the following 4张/3张 card count.
+            rest = rest.replace(name, "hand_rank", 1)
+        elif index == 4:
+            # The source's 쓰리카드 + 원페어 is a composition of two named
+            # hands, not three invented entities. Admit only this complete
+            # regional tail at this exact rank; do not hide added quantities.
+            tail = lines[index - 1][heading.end():]
+            if tail != f"{names[6]} + {names[8]}":
+                return source, target, ["source-bound Holdem tutorial Full House composition mismatch"]
+            rest = rest[:heading.end() - len(prefix)] + "three_kind + pair_kind"
+        lines[index - 1] = f"[b]{index}[/b]" + rest
+    return source, "\n".join(lines), []
+
+
+def _ui_holdem_tutorial_card_numbers(
+    lang: str, key: str, source: str, target: Any,
+) -> tuple[str, Any, list[str]] | None:
+    """Expose the three exact bold card counts to the existing unit matcher.
+
+    Korean 장 immediately followed by [/b] is outside its generic counter
+    suffix grammar. Only this leaf's first-line 2/5/5 roles lose those tags for
+    numeric comparison; the target counts, other quantities and original
+    BBCode checks remain intact.
+    """
+    if not isinstance(lang, str) or lang not in LANGUAGES \
+            or not isinstance(source, str) or not isinstance(key, str) \
+            or not source.startswith("내 [b]2장[/b]"):
+        return None
+    escaped = source.replace("~", "~0").replace("/", "~1")
+    if key != f"ui:{source}:/{escaped}":
+        return None
+    identity = {"path": "scenes/TutorialOverlay.gd", "field": [source], "ko": source}
+    source_hash = hashlib.sha256(json.dumps(identity, ensure_ascii=False, sort_keys=True,
+                                           separators=(",", ":")).encode()).hexdigest()
+    if source_hash != "1a44ab080fc3cd9293700c38231ad806ba2cf07c7aade184bba9cc02d775cbd6":
+        return None
+    if not isinstance(target, str):
+        return source, target, ["source-bound Holdem tutorial card target is not text"]
+    expected = (("2张底牌", "5张公共牌", "5张牌") if lang == "zh-CN"
+                else ("2張底牌", "5張公共牌", "5張牌"))
+    bold_slots = re.findall(r"\[b\]([^\[\]\n]*)\[/b\]", target.split("\n")[0])
+    if tuple(bold_slots) != expected:
+        return source, target, ["source-bound Holdem tutorial card count/role/position mismatch"]
+    first, remainder = source.split("\n", 1)
+    first = re.sub(r"\[b\]([25]장)\[/b\]", r"\1", first)
+    return first + "\n" + remainder, target, []
+
+
 def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     """Validate one Korean-source Chinese target without generating content."""
     if lang not in LANGUAGES:
@@ -9162,6 +9251,12 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     holdem_rank_numbers = _ui_holdem_rank_numbers(lang, key, source, target)
     if holdem_rank_numbers is not None:
         notice_numbers = holdem_rank_numbers
+    holdem_tutorial_numbers = _ui_holdem_tutorial_rank_numbers(lang, key, source, target)
+    if holdem_tutorial_numbers is not None:
+        notice_numbers = holdem_tutorial_numbers
+    holdem_tutorial_cards = _ui_holdem_tutorial_card_numbers(lang, key, source, target)
+    if holdem_tutorial_cards is not None:
+        notice_numbers = holdem_tutorial_cards
     if notice_numbers is None:
         errors.extend(_numeric_errors(source, target))
     else:
@@ -10180,6 +10275,18 @@ def static_ui_coverage(
             allow_partial_static=True)
     except NoticeSourceError as exc:
         errors.append(f"{lang}:notice-ui source: {exc}")
+    from holdem_tutorial_ui import (
+        HoldemTutorialSourceError, collect_holdem_tutorial_ui_entries,
+        holdem_tutorial_ui_additions,
+    )
+    tutorial_entries = {}
+    try:
+        tutorial_entries = holdem_tutorial_ui_additions(
+            collect_holdem_tutorial_ui_entries(ROOT),
+            expected_legacy | expected_context | {entry.source for entry in inventory.entries},
+            dynamic_keys, set(story_demo_pairs), allow_partial_static=True)
+    except HoldemTutorialSourceError as exc:
+        errors.append(f"{lang}:Holdem tutorial UI source: {exc}")
     if not isinstance(actual, dict):
         return (
             0, len(expected_legacy), 0, len(expected_context),
@@ -10189,7 +10296,7 @@ def static_ui_coverage(
 
     allowed = (
         expected_legacy | expected_context | dynamic_keys
-        | story_demo_exclusive_keys | set(notice_entries)
+        | story_demo_exclusive_keys | set(notice_entries) | set(tutorial_entries)
     )
     unknown = sorted(set(actual) - allowed)
     if unknown:
@@ -10205,6 +10312,17 @@ def static_ui_coverage(
         target = actual[source]
         if not isinstance(target, str) or not target.strip():
             errors.append(f"{lang}:notice-ui:{source!r}: empty/non-string translation")
+            continue
+        for error in validate_text(lang, pair.key, source, target):
+            errors.append(f"{lang}:{pair.key}: {error}")
+    for source, pair in tutorial_entries.items():
+        if source not in actual:
+            if strict:
+                errors.append(f"{lang}: strict Holdem tutorial UI missing {source!r}")
+            continue
+        target = actual[source]
+        if not isinstance(target, str) or not target.strip():
+            errors.append(f"{lang}:Holdem tutorial UI:{source!r}: empty/non-string translation")
             continue
         for error in validate_text(lang, pair.key, source, target):
             errors.append(f"{lang}:{pair.key}: {error}")

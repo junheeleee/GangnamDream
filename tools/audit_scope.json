@@ -14,6 +14,24 @@
   ],
   "fast_lanes": [
     {
+      "id": "holdem-tutorial-ui",
+      "paths": [],
+      "owned_paths": [
+        "tools/holdem_tutorial_ui.py", "tools/holdem_tutorial_ui_self_test.py", "tools/full_game_localization.py",
+        "tools/ja_translation_audit.py", "tools/zh_translation_audit.py", "tools/audit_scope.json",
+        "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "content/meta/full_game_localization.json",
+        "docs/I18N_INFRASTRUCTURE.md", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-444.json",
+        "docs/queue_active/ORDER-444.md", "docs/queue_archive/ORDER-444.md"
+      ],
+      "tools": [
+        "tools/holdem_tutorial_ui_self_test.py", "tools/order365_ui_receipt_compat.py",
+        "tools/ja_translation_audit.py --scope ui", "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit444 shared source provider for only two Holdem tutorial slides, four raw KO title/body keys and twelve JA/CN/TW values. Literal parser reuse preserves static UiCall identities, demo701 denominator and game source manifests. Focused/receipt/JA-UI/ZH/EN plus context/queue always and separate diff/registration give nine validations and one query. Three locales/two actual pages retain input, seen/focus and typed/player restoration; betting, historical focused/runtime, fullbody/four narratives/full/240-week suites NOT_RUN."
+    },
+    {
       "id": "holdem-message-pulse",
       "paths": [],
       "owned_paths": [
@@ -3047,6 +3065,11 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/holdem_tutorial_ui_self_test.py",
+      "paths": ["tools/holdem_tutorial_ui.py", "tools/holdem_tutorial_ui_self_test.py", "tools/full_game_localization.py", "tools/ja_translation_audit.py", "tools/zh_translation_audit.py", "scenes/TutorialOverlay.gd", "scenes/HoldemClub.gd"],
+      "why": "Shared literal Holdem tutorial source population, strict adapters and existing static/demo identity preservation."
+    },
     {
       "tool": "tools/holdem_message_pulse_receipt_check.py",
       "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_message_pulse_receipt_check.py"],

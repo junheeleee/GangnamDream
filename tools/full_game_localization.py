@@ -506,6 +506,25 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
             protected=key in protected_ui, format_template="%" in key)
         ui_seen.add(key)
 
+    from holdem_tutorial_ui import (
+        CATEGORY as HOLDEM_TUTORIAL_CATEGORY, SOURCE_PATH as HOLDEM_TUTORIAL_PATH,
+        HoldemTutorialSourceError, collect_holdem_tutorial_ui_entries,
+        holdem_tutorial_ui_additions,
+    )
+    try:
+        tutorial_entries = holdem_tutorial_ui_additions(
+            collect_holdem_tutorial_ui_entries(root),
+            {entry.source for entry in ui.entries} | {entry.context_id for entry in ui.entries
+                                                    if entry.context_id},
+            demo_keys, set(public_pairs))
+    except HoldemTutorialSourceError as exc:
+        raise ContractError(f"Holdem tutorial UI source: {exc}") from exc
+    if set(tutorial_entries) & ui_seen:
+        raise ContractError("Holdem tutorial UI overlaps an existing UI provider")
+    for key in tutorial_entries:
+        add("ui", key, HOLDEM_TUTORIAL_PATH, (key,), key, HOLDEM_TUTORIAL_CATEGORY)
+        ui_seen.add(key)
+
     # Literal pairs outside the old demo are candidates until their runtime
     # consumer is proven. Counting them does not declare the lookup supported.
     candidates: dict[str, list[str]] = defaultdict(list)
@@ -557,6 +576,7 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
             "source_counts": {"packaged_events": len(source_events), "shipping_events": len(source_events) - len(author_only),
                               "author_only_events": len(author_only), "endings": len(source_endings),
                               "ui_static_context": len(ui.entries), "ui_notice_chrome": len(notice_leaves),
+                              "ui_holdem_tutorial": len(tutorial_entries),
                               "demo_dynamic_unique": len(demo_keys),
                               "demo_dynamic_overlap_static": len(demo_keys & {e.source for e in ui.entries})}}
 

@@ -8778,6 +8778,120 @@
           "batch_id": "677358c14db6eaa6a3b361889a900cc64f973abd4510041ae04d4556b9926471"
         }
       }
+    },
+    {
+      "order": "ORDER-444",
+      "group": "ui",
+      "roots": [
+        "텍사스 홀덤 — 기본 규칙",
+        "내 [b]2장[/b] + 공개 [b]5장[/b] 중 최강 [b]5장[/b] 조합!\n\n[b][콜][/b]  상대방 베팅에 맞추기\n[b][레이즈][/b]  더 많이 베팅하기\n[b][체크][/b]  그냥 넘기기 (베팅 없을 때만)\n[b][폴드][/b]  포기 (베팅금 포기)\n\n[color=#aaffaa]💡 팟 오즈 힌트를 확인해보세요.\n   [b]+EV[/b]가 표시되면 콜/레이즈가 유리해요![/color]",
+        "홀덤 — 패 순위 (강한 순)",
+        "[b]1위[/b]  로열 플러시  — A K Q J 10 같은 무늬\n[b]2위[/b]  스트레이트 플러시  — 연속 숫자 + 같은 무늬\n[b]3위[/b]  포카드  — 같은 숫자 4장\n[b]4위[/b]  풀하우스  — 쓰리카드 + 원페어\n[b]5위[/b]  플러시  — 같은 무늬 5장\n[b]6위[/b]  스트레이트  — 연속 숫자 5장\n[b]7위[/b]  쓰리카드  — 같은 숫자 3장\n[b]8위[/b]  투페어  — 페어 2쌍\n[b]9위[/b]  원페어  — 같은 숫자 2장\n[b]10위[/b]  하이카드  — 아무것도 없을 때 가장 높은 카드\n\n[color=#aaffaa]💡 처음엔 페어 이상이 나오면 레이즈해보세요![/color]"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 4,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean-source translation of the two reached Holdem tutorial titles and bodies. Four raw UI lookups, exact 2/5/5 card roles, ten ranked hands including Royal Flush, action meanings, LF, BBCode and +EV preserved. Shared source provider retains static UiCall identities and demo701 population. Existing hint cleanup is a later display step, not the lookup key. No Korean/English/gameplay/save/public-demo change. Machine acceptance is not rendered/native/release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "c2431bc9acc9a4da8fd12cdbdef5378bd356b6491ca4a0a2d7d48b1e4fface30"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "9fdf875c9767ed8b94a8d4dfb24163e5ffaeac89",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "066f5ff0c1a51ab9ee4536adfc86c133b59972422e241240ea8cec1542697569",
+          "selection_sha256": "b2d162879331279b320a492a832090b7e62f56b233532722067670970a5bdac7",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "248541ccaf6f1f66e20b83d5ec4ad71f4c362c771b9e3b7db5b6eafc05f83091"
+        }
+      }
+    },
+    {
+      "order": "ORDER-444",
+      "group": "ui",
+      "roots": [
+        "텍사스 홀덤 — 기본 규칙",
+        "내 [b]2장[/b] + 공개 [b]5장[/b] 중 최강 [b]5장[/b] 조합!\n\n[b][콜][/b]  상대방 베팅에 맞추기\n[b][레이즈][/b]  더 많이 베팅하기\n[b][체크][/b]  그냥 넘기기 (베팅 없을 때만)\n[b][폴드][/b]  포기 (베팅금 포기)\n\n[color=#aaffaa]💡 팟 오즈 힌트를 확인해보세요.\n   [b]+EV[/b]가 표시되면 콜/레이즈가 유리해요![/color]",
+        "홀덤 — 패 순위 (강한 순)",
+        "[b]1위[/b]  로열 플러시  — A K Q J 10 같은 무늬\n[b]2위[/b]  스트레이트 플러시  — 연속 숫자 + 같은 무늬\n[b]3위[/b]  포카드  — 같은 숫자 4장\n[b]4위[/b]  풀하우스  — 쓰리카드 + 원페어\n[b]5위[/b]  플러시  — 같은 무늬 5장\n[b]6위[/b]  스트레이트  — 연속 숫자 5장\n[b]7위[/b]  쓰리카드  — 같은 숫자 3장\n[b]8위[/b]  투페어  — 페어 2쌍\n[b]9위[/b]  원페어  — 같은 숫자 2장\n[b]10위[/b]  하이카드  — 아무것도 없을 때 가장 높은 카드\n\n[color=#aaffaa]💡 처음엔 페어 이상이 나오면 레이즈해보세요![/color]"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 4,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean-source translation of the two reached Holdem tutorial titles and bodies. Four raw UI lookups, exact 2/5/5 card roles, ten ranked hands including Royal Flush, action meanings, LF, BBCode and +EV preserved. Shared source provider retains static UiCall identities and demo701 population. Existing hint cleanup is a later display step, not the lookup key. No Korean/English/gameplay/save/public-demo change. Machine acceptance is not rendered/native/release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "a219cec51728c70c48b8253928d1e98219588c7cc91dc8c8b0ef4240960eee0e"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "9fdf875c9767ed8b94a8d4dfb24163e5ffaeac89",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "066f5ff0c1a51ab9ee4536adfc86c133b59972422e241240ea8cec1542697569",
+          "selection_sha256": "b34f89dc69a435d31af77daa9c8cb9235c69793014780ca3dc700d361b418a50",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c21a3dced4841f8f155037dc3a4250cd3943230e064409c18a04b22ce3d3f33b"
+        }
+      }
+    },
+    {
+      "order": "ORDER-444",
+      "group": "ui",
+      "roots": [
+        "텍사스 홀덤 — 기본 규칙",
+        "내 [b]2장[/b] + 공개 [b]5장[/b] 중 최강 [b]5장[/b] 조합!\n\n[b][콜][/b]  상대방 베팅에 맞추기\n[b][레이즈][/b]  더 많이 베팅하기\n[b][체크][/b]  그냥 넘기기 (베팅 없을 때만)\n[b][폴드][/b]  포기 (베팅금 포기)\n\n[color=#aaffaa]💡 팟 오즈 힌트를 확인해보세요.\n   [b]+EV[/b]가 표시되면 콜/레이즈가 유리해요![/color]",
+        "홀덤 — 패 순위 (강한 순)",
+        "[b]1위[/b]  로열 플러시  — A K Q J 10 같은 무늬\n[b]2위[/b]  스트레이트 플러시  — 연속 숫자 + 같은 무늬\n[b]3위[/b]  포카드  — 같은 숫자 4장\n[b]4위[/b]  풀하우스  — 쓰리카드 + 원페어\n[b]5위[/b]  플러시  — 같은 무늬 5장\n[b]6위[/b]  스트레이트  — 연속 숫자 5장\n[b]7위[/b]  쓰리카드  — 같은 숫자 3장\n[b]8위[/b]  투페어  — 페어 2쌍\n[b]9위[/b]  원페어  — 같은 숫자 2장\n[b]10위[/b]  하이카드  — 아무것도 없을 때 가장 높은 카드\n\n[color=#aaffaa]💡 처음엔 페어 이상이 나오면 레이즈해보세요![/color]"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 4
+      },
+      "source_review": "Direct Korean-source translation of the two reached Holdem tutorial titles and bodies. Four raw UI lookups, exact 2/5/5 card roles, ten ranked hands including Royal Flush, action meanings, LF, BBCode and +EV preserved. Shared source provider retains static UiCall identities and demo701 population. Existing hint cleanup is a later display step, not the lookup key. No Korean/English/gameplay/save/public-demo change. Machine acceptance is not rendered/native/release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "84cdadc9a63bf5ea4b951a689daf7b268ed3132abb0f39bdae3bf09407483069"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "9fdf875c9767ed8b94a8d4dfb24163e5ffaeac89",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "066f5ff0c1a51ab9ee4536adfc86c133b59972422e241240ea8cec1542697569",
+          "selection_sha256": "593c44aab5a92a5de56e644438801265001e132c0517a95080d068052262ece7",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6194ffaa0f07f30b79bb0f15e104dea83d7baee661ae366af1fbfa6217ce62ee"
+        }
+      }
     }
   ],
   "accepted": {
@@ -61301,6 +61415,22 @@
       "ui:밑줄 그을 자리가 많은 책:/밑줄 그을 자리가 많은 책": {
         "source_sha256": "a3124254ea5e8bcc71f236317da1187111c31ef1f4c30fc788073abd0a223580",
         "target_sha256": "d53209ed8c5dd1483cebd3b8930d81e1084a7acbca88c9a07e1b62f3896dc30a"
+      },
+      "ui:[b]1위[/b]  로열 플러시  — A K Q J 10 같은 무늬\n[b]2위[/b]  스트레이트 플러시  — 연속 숫자 + 같은 무늬\n[b]3위[/b]  포카드  — 같은 숫자 4장\n[b]4위[/b]  풀하우스  — 쓰리카드 + 원페어\n[b]5위[/b]  플러시  — 같은 무늬 5장\n[b]6위[/b]  스트레이트  — 연속 숫자 5장\n[b]7위[/b]  쓰리카드  — 같은 숫자 3장\n[b]8위[/b]  투페어  — 페어 2쌍\n[b]9위[/b]  원페어  — 같은 숫자 2장\n[b]10위[/b]  하이카드  — 아무것도 없을 때 가장 높은 카드\n\n[color=#aaffaa]💡 처음엔 페어 이상이 나오면 레이즈해보세요![/color]:/[b]1위[~1b]  로열 플러시  — A K Q J 10 같은 무늬\n[b]2위[~1b]  스트레이트 플러시  — 연속 숫자 + 같은 무늬\n[b]3위[~1b]  포카드  — 같은 숫자 4장\n[b]4위[~1b]  풀하우스  — 쓰리카드 + 원페어\n[b]5위[~1b]  플러시  — 같은 무늬 5장\n[b]6위[~1b]  스트레이트  — 연속 숫자 5장\n[b]7위[~1b]  쓰리카드  — 같은 숫자 3장\n[b]8위[~1b]  투페어  — 페어 2쌍\n[b]9위[~1b]  원페어  — 같은 숫자 2장\n[b]10위[~1b]  하이카드  — 아무것도 없을 때 가장 높은 카드\n\n[color=#aaffaa]💡 처음엔 페어 이상이 나오면 레이즈해보세요![~1color]": {
+        "source_sha256": "b020d3e89020a9f5f0e520e05711fb4732010244484c5ef4b77f9bbdab7b19db",
+        "target_sha256": "b230bf20ca26f69e5a887070dc42bccb2001bf5fd74cb72b3c59c2f4c0c475b8"
+      },
+      "ui:내 [b]2장[/b] + 공개 [b]5장[/b] 중 최강 [b]5장[/b] 조합!\n\n[b][콜][/b]  상대방 베팅에 맞추기\n[b][레이즈][/b]  더 많이 베팅하기\n[b][체크][/b]  그냥 넘기기 (베팅 없을 때만)\n[b][폴드][/b]  포기 (베팅금 포기)\n\n[color=#aaffaa]💡 팟 오즈 힌트를 확인해보세요.\n   [b]+EV[/b]가 표시되면 콜/레이즈가 유리해요![/color]:/내 [b]2장[~1b] + 공개 [b]5장[~1b] 중 최강 [b]5장[~1b] 조합!\n\n[b][콜][~1b]  상대방 베팅에 맞추기\n[b][레이즈][~1b]  더 많이 베팅하기\n[b][체크][~1b]  그냥 넘기기 (베팅 없을 때만)\n[b][폴드][~1b]  포기 (베팅금 포기)\n\n[color=#aaffaa]💡 팟 오즈 힌트를 확인해보세요.\n   [b]+EV[~1b]가 표시되면 콜~1레이즈가 유리해요![~1color]": {
+        "source_sha256": "1a44ab080fc3cd9293700c38231ad806ba2cf07c7aade184bba9cc02d775cbd6",
+        "target_sha256": "4555611236dd21d4f82afe8257ff2caa471782692713366ede5edb2dde03e1ef"
+      },
+      "ui:텍사스 홀덤 — 기본 규칙:/텍사스 홀덤 — 기본 규칙": {
+        "source_sha256": "a01bfde49aefc2b3a3139a2b218c6042b38aa2f2daed7df9d4487137c36f8cb0",
+        "target_sha256": "a4d0affbef21599dfb734690d4ff8be0877373f6fd00fd1e750e7d33ec234b72"
+      },
+      "ui:홀덤 — 패 순위 (강한 순):/홀덤 — 패 순위 (강한 순)": {
+        "source_sha256": "83483ec8cb89957d967f6361769adead585da9ee734a3e81520fb912dce24f5f",
+        "target_sha256": "93184291addc7a88511a6bca8b52c388d4a4a0f5cfb8ea7fac56637cbc9823ab"
       }
     },
     "zh-CN": {
@@ -118491,6 +118621,22 @@
       "ui:힌트: :/힌트: ": {
         "source_sha256": "7cfccf36f01cfed4ea2f2963be5a344a2b1d731b35debe1455f9af536c97da63",
         "target_sha256": "6dec5722a23e87ef0dcba58fac26317491d97ea9ff563c11aa7a19072f87f7a0"
+      },
+      "ui:[b]1위[/b]  로열 플러시  — A K Q J 10 같은 무늬\n[b]2위[/b]  스트레이트 플러시  — 연속 숫자 + 같은 무늬\n[b]3위[/b]  포카드  — 같은 숫자 4장\n[b]4위[/b]  풀하우스  — 쓰리카드 + 원페어\n[b]5위[/b]  플러시  — 같은 무늬 5장\n[b]6위[/b]  스트레이트  — 연속 숫자 5장\n[b]7위[/b]  쓰리카드  — 같은 숫자 3장\n[b]8위[/b]  투페어  — 페어 2쌍\n[b]9위[/b]  원페어  — 같은 숫자 2장\n[b]10위[/b]  하이카드  — 아무것도 없을 때 가장 높은 카드\n\n[color=#aaffaa]💡 처음엔 페어 이상이 나오면 레이즈해보세요![/color]:/[b]1위[~1b]  로열 플러시  — A K Q J 10 같은 무늬\n[b]2위[~1b]  스트레이트 플러시  — 연속 숫자 + 같은 무늬\n[b]3위[~1b]  포카드  — 같은 숫자 4장\n[b]4위[~1b]  풀하우스  — 쓰리카드 + 원페어\n[b]5위[~1b]  플러시  — 같은 무늬 5장\n[b]6위[~1b]  스트레이트  — 연속 숫자 5장\n[b]7위[~1b]  쓰리카드  — 같은 숫자 3장\n[b]8위[~1b]  투페어  — 페어 2쌍\n[b]9위[~1b]  원페어  — 같은 숫자 2장\n[b]10위[~1b]  하이카드  — 아무것도 없을 때 가장 높은 카드\n\n[color=#aaffaa]💡 처음엔 페어 이상이 나오면 레이즈해보세요![~1color]": {
+        "source_sha256": "b020d3e89020a9f5f0e520e05711fb4732010244484c5ef4b77f9bbdab7b19db",
+        "target_sha256": "6c4f252dab7c95a639bb9e97c2b04f86cbeb91db88bfa1daeb578533a1079db3"
+      },
+      "ui:내 [b]2장[/b] + 공개 [b]5장[/b] 중 최강 [b]5장[/b] 조합!\n\n[b][콜][/b]  상대방 베팅에 맞추기\n[b][레이즈][/b]  더 많이 베팅하기\n[b][체크][/b]  그냥 넘기기 (베팅 없을 때만)\n[b][폴드][/b]  포기 (베팅금 포기)\n\n[color=#aaffaa]💡 팟 오즈 힌트를 확인해보세요.\n   [b]+EV[/b]가 표시되면 콜/레이즈가 유리해요![/color]:/내 [b]2장[~1b] + 공개 [b]5장[~1b] 중 최강 [b]5장[~1b] 조합!\n\n[b][콜][~1b]  상대방 베팅에 맞추기\n[b][레이즈][~1b]  더 많이 베팅하기\n[b][체크][~1b]  그냥 넘기기 (베팅 없을 때만)\n[b][폴드][~1b]  포기 (베팅금 포기)\n\n[color=#aaffaa]💡 팟 오즈 힌트를 확인해보세요.\n   [b]+EV[~1b]가 표시되면 콜~1레이즈가 유리해요![~1color]": {
+        "source_sha256": "1a44ab080fc3cd9293700c38231ad806ba2cf07c7aade184bba9cc02d775cbd6",
+        "target_sha256": "7e74f5939d806bec0ffd240642103b211d0329564d4dd515465f41d4b28cc1fd"
+      },
+      "ui:텍사스 홀덤 — 기본 규칙:/텍사스 홀덤 — 기본 규칙": {
+        "source_sha256": "a01bfde49aefc2b3a3139a2b218c6042b38aa2f2daed7df9d4487137c36f8cb0",
+        "target_sha256": "a37345141fb179540ca3e537be281b1c376df0451e1200b73c9973793035daf8"
+      },
+      "ui:홀덤 — 패 순위 (강한 순):/홀덤 — 패 순위 (강한 순)": {
+        "source_sha256": "83483ec8cb89957d967f6361769adead585da9ee734a3e81520fb912dce24f5f",
+        "target_sha256": "b90f078536123b865853c14397228b1128e7812d319a9cdd194cc6f505fe2428"
       }
     },
     "zh-TW": {
@@ -175681,10 +175827,26 @@
       "ui:힌트: :/힌트: ": {
         "source_sha256": "7cfccf36f01cfed4ea2f2963be5a344a2b1d731b35debe1455f9af536c97da63",
         "target_sha256": "6dec5722a23e87ef0dcba58fac26317491d97ea9ff563c11aa7a19072f87f7a0"
+      },
+      "ui:[b]1위[/b]  로열 플러시  — A K Q J 10 같은 무늬\n[b]2위[/b]  스트레이트 플러시  — 연속 숫자 + 같은 무늬\n[b]3위[/b]  포카드  — 같은 숫자 4장\n[b]4위[/b]  풀하우스  — 쓰리카드 + 원페어\n[b]5위[/b]  플러시  — 같은 무늬 5장\n[b]6위[/b]  스트레이트  — 연속 숫자 5장\n[b]7위[/b]  쓰리카드  — 같은 숫자 3장\n[b]8위[/b]  투페어  — 페어 2쌍\n[b]9위[/b]  원페어  — 같은 숫자 2장\n[b]10위[/b]  하이카드  — 아무것도 없을 때 가장 높은 카드\n\n[color=#aaffaa]💡 처음엔 페어 이상이 나오면 레이즈해보세요![/color]:/[b]1위[~1b]  로열 플러시  — A K Q J 10 같은 무늬\n[b]2위[~1b]  스트레이트 플러시  — 연속 숫자 + 같은 무늬\n[b]3위[~1b]  포카드  — 같은 숫자 4장\n[b]4위[~1b]  풀하우스  — 쓰리카드 + 원페어\n[b]5위[~1b]  플러시  — 같은 무늬 5장\n[b]6위[~1b]  스트레이트  — 연속 숫자 5장\n[b]7위[~1b]  쓰리카드  — 같은 숫자 3장\n[b]8위[~1b]  투페어  — 페어 2쌍\n[b]9위[~1b]  원페어  — 같은 숫자 2장\n[b]10위[~1b]  하이카드  — 아무것도 없을 때 가장 높은 카드\n\n[color=#aaffaa]💡 처음엔 페어 이상이 나오면 레이즈해보세요![~1color]": {
+        "source_sha256": "b020d3e89020a9f5f0e520e05711fb4732010244484c5ef4b77f9bbdab7b19db",
+        "target_sha256": "8a721e73cc8aeb65ea0686a4394044c240756506c989aa09c15d1aad89c65364"
+      },
+      "ui:내 [b]2장[/b] + 공개 [b]5장[/b] 중 최강 [b]5장[/b] 조합!\n\n[b][콜][/b]  상대방 베팅에 맞추기\n[b][레이즈][/b]  더 많이 베팅하기\n[b][체크][/b]  그냥 넘기기 (베팅 없을 때만)\n[b][폴드][/b]  포기 (베팅금 포기)\n\n[color=#aaffaa]💡 팟 오즈 힌트를 확인해보세요.\n   [b]+EV[/b]가 표시되면 콜/레이즈가 유리해요![/color]:/내 [b]2장[~1b] + 공개 [b]5장[~1b] 중 최강 [b]5장[~1b] 조합!\n\n[b][콜][~1b]  상대방 베팅에 맞추기\n[b][레이즈][~1b]  더 많이 베팅하기\n[b][체크][~1b]  그냥 넘기기 (베팅 없을 때만)\n[b][폴드][~1b]  포기 (베팅금 포기)\n\n[color=#aaffaa]💡 팟 오즈 힌트를 확인해보세요.\n   [b]+EV[~1b]가 표시되면 콜~1레이즈가 유리해요![~1color]": {
+        "source_sha256": "1a44ab080fc3cd9293700c38231ad806ba2cf07c7aade184bba9cc02d775cbd6",
+        "target_sha256": "21310cc1e6b327142ab8556e07127871519b72358652ea085f90675c7acc38e6"
+      },
+      "ui:텍사스 홀덤 — 기본 규칙:/텍사스 홀덤 — 기본 규칙": {
+        "source_sha256": "a01bfde49aefc2b3a3139a2b218c6042b38aa2f2daed7df9d4487137c36f8cb0",
+        "target_sha256": "773c5b7d439ddcef86dbb43287abc2e899713408eb9f434cd67aaaf15abd31d5"
+      },
+      "ui:홀덤 — 패 순위 (강한 순):/홀덤 — 패 순위 (강한 순)": {
+        "source_sha256": "83483ec8cb89957d967f6361769adead585da9ee734a3e81520fb912dce24f5f",
+        "target_sha256": "c22f1276d13f0ce61a283d28ece4e1005d26be37b46bd0ce6c7388f6f1b8072d"
       }
     }
   },
-  "accepted_sha256": "5c70f6417cef40e2a246aa8028e0684812f02003857ef74e1d046e59a925bb17",
+  "accepted_sha256": "ad2a26e94c5a6733c598700a0187d988cf3e89436317716182af79b95704c4d0",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

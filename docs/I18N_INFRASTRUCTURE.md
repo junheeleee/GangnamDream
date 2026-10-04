@@ -228,6 +228,19 @@ texts are not translation sources admitted by this provider. Localizing an
 existing distribution statement does not certify its legal accuracy or package
 compliance. Rendered layout and native-language approval remain separate.
 
+### Full-game Holdem tutorial
+
+The two Holdem rule slides use four raw Korean lookup keys: a title and body
+per slide. `tools/holdem_tutorial_ui.py` reads the literal positional arguments
+and verifies the existing lookup and display consumers. Full-game inventory and
+the Japanese/Chinese UI audits share that provider; they do not add these slides
+to the legacy demo's 701-key denominator. The raw body is translated before the
+existing surface cleanup replaces the hint icon, so acceptance binds the raw
+BBCode/newlines while rendered checks compare the cleaned text separately.
+Unknown keys and malformed or overlapping sources are errors, not permission
+to enlarge an extra-key allowlist. This source contract supplies neither native
+quality approval nor a new shipping-language claim.
+
 ## Content Contract
 
 Localized content is an ID overlay, never a second gameplay database.
