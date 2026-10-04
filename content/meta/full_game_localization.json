@@ -8892,6 +8892,48 @@
           "batch_id": "6194ffaa0f07f30b79bb0f15e104dea83d7baee661ae366af1fbfa6217ce62ee"
         }
       }
+    },
+    {
+      "order": "ORDER-446",
+      "group": "ui_correction",
+      "roots": [
+        "포카드"
+      ],
+      "source_leaves": 1,
+      "legacy_origin_commit": "aaeba142d08278c310505000bcc126a699493479",
+      "prior_acceptance": "absent",
+      "before_target_sha256_by_locale": {
+        "ja": {
+          "ui:포카드:/포카드": "71511be994ec4813fe746b6b342e3a161c1c894b8a70267085ae9f4fed7642d0"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct repair of the legacy Japanese four-of-a-kind name, not the Fold action. One existing value corrected, zero new UI keys, one first official receipt. Gameplay, other locales and public demo unchanged; agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "248813a14021a37407195d59cf3e6334551df2de",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b9ce4501f2322d1fd16f1a12ff796e37b67f0817b25728b8fc4bc4bc3a880870",
+          "selection_sha256": "6376bc43dd59e47b3fa0008ec9f6a3014486a4138ef32ae9c4e03e03c40f450b",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b3b7fb698f14926ab68b5d1e39623c9cea94ca11de9b37266680b1bfcf67a797"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "cc2cf38d3c8e10bfaa58d1b4dd4aea5ee558699fe96a31db98f2743487946cf0"
+      }
     }
   ],
   "accepted": {
@@ -61431,6 +61473,10 @@
       "ui:홀덤 — 패 순위 (강한 순):/홀덤 — 패 순위 (강한 순)": {
         "source_sha256": "83483ec8cb89957d967f6361769adead585da9ee734a3e81520fb912dce24f5f",
         "target_sha256": "93184291addc7a88511a6bca8b52c388d4a4a0f5cfb8ea7fac56637cbc9823ab"
+      },
+      "ui:포카드:/포카드": {
+        "source_sha256": "716497231f8017ee52030a1f12267c8f9c3202aae0e27c98c64e188d4f662338",
+        "target_sha256": "194518d12801428c4b0a8b7965ce094e36914dbe0aec999957a679748deecc09"
       }
     },
     "zh-CN": {
@@ -175846,7 +175892,7 @@
       }
     }
   },
-  "accepted_sha256": "ad2a26e94c5a6733c598700a0187d988cf3e89436317716182af79b95704c4d0",
+  "accepted_sha256": "c76174ca02257f9069a7db7c960e452875480875ef164d5a48788ba780bdb9c7",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
