@@ -1,8 +1,8 @@
 # ORDER-430 — 스캘핑 준비 창과 조작 포커스를 단계 안에 둔다
 
-#### [~] ORDER-430 [P1·UI/입력] 준비 창 재생성 잔류·초기 포커스 누락 수리
+#### [x] ORDER-430 [P1·UI/입력] 준비 창 재생성 잔류·초기 포커스 누락 수리
 
-**[~] 착수 — 2026-10-04.** 사용자 계속 개발·main 커밋/푸시 위임.
+**[x] 완료 — 2026-10-04.** (착수 선언·실패 기록은 아래 보존.) 사용자 계속 개발·main 커밋/푸시 위임.
 429의 실제 r2에서 발견한 기존 제품 결함만 수리한다. 새 게임 규칙은 만들지 않는다.
 
 ## 확인된 결함과 의미
@@ -61,3 +61,19 @@ CLAUDE의 입력 계약을 따른다. 자동PASS는 계약증거이지 문체·�
   단계 기본 focus·Tab 순환·실제 grid 방향 탐색·hover 동기화. Tutorial 우선권 보존.
 - 429 실패의 독립 판정은 `docs/agent_reviews/ORDER-429-REWORK.json`에 결속한다.
   새 후보의 runtime·focused/normal 최종검수는 아직 미실행이다.
+
+## 최종 범위한정 판정 — 2026-10-04
+
+- source927d6f52591f656eaf1f55045cc672b45b33658a / tree921356a92df99fb9a5424ad9609b5f3be315617b 독립GO.
+- da1a015 실제10PNG·196raw/98taps·32.82초 PASS. 준비 B/C overlay1, 거래 D/E0,
+  초기 유효 포커스와 disabled BUY→SELL 실제 이동을 확인했다. typed/player34 보존,
+  매수/매도/정산0. 현재30번역값·accepted41602/b205·CN/TW1706·JA3044 불변.
+- 최초normal841.526초는 focused 중복항목명 때문에 FAIL이며 원본 유지. 통과12검사+
+  조회1은 그대로 보존, test 이름인수1줄만 고친 successor의 새74case/1.051초 PASS.
+  제품·bridge·사전·helper·기존증거 exact불변으로 통과행/runtime을 재사용했다.
+  원래 후보 실행을 새후보에서 재실행한 것으로 재명명하지 않는다.
+- normal 사전 player-map SHA/object 비교실패(검사0)와 수정runner, 429 first/r1/r2 및
+  옛 REWORK를 모두 보존한다. 판정·전체증거 hash는 ../agent_reviews/ORDER-430.json.
+- RESULT/hover/실시간매매/자연진입·원어민/인간/물리 미관측, 본편/새packageHOLD.
+  규범 검토: 이 배치의 실행·검수 절차는 일회성. 기존 WORK_UNIT의 위임/실제관측 분리와
+  CONTROLLER_UX_STRATEGY 입력계약을 따르며 새 상시규범0. 자동PASS는 계약증거다.

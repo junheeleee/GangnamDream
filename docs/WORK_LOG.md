@@ -2,29 +2,37 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 스캘핑 중국어 준비·거래 화면과 단계 포커스 검수 완료)
+
+- [429](queue_archive/ORDER-429.md)·[430](queue_archive/ORDER-430.md): source927d6f5/tree921356a 비저자 범위한정GO. 준비창 재개방 후 차트 차폐와 초기 포커스 누락을 수리했다. 중국어30값·accepted41602/b205·CN/TW1706·JA3044는 그대로다.
+- 실제 runtime은 da1a015의 CN/TW10PNG/32.82초·196raw/98taps PASS다. 준비창 B/C1개·거래 D/E0개, 비활성 BUY→SELL 포커스 이동을 직접 관측했다. 4방향·전체Tab·합성Dpad를 확인했고 거래/정산0·typed10/완전복원2·실제player34파일 불변이다.
+- 공통normal 최초 aggregate는 841.526초 FAIL이다. 통과12검사+조회1을 보존하고 새 focused의 마지막 중복항목명만 실패했다. 927d6f5에서 test name 인수1줄만 고쳐 74case/1.051초 PASS. 제품/bridge/사전/helper/원본증거 불변의 exact 단일diff로 통과행·runtime을 재사용했으며 새후보에서 전부 재실행했다고 쓰지 않는다.
+- normal 이전 player-map 비교 스키마 실패도 0검사 실행의 별도 원본기록으로 보존했다. 기존429의 first/r1/r2 및 sourcee3c76c6 REWORK를 성공으로 덮지 않았다. test 항목명은 기대 오류문구가 같아도 입력으로 구분하도록 수리했다.
+- RESULT·hover·실시간 매매·자연진입·원어민/인간/물리 관측은 미완료다. 다음은 결과3·정산로그2 중문과 실제 생성자→기록창 소비자다. 이번 수리/절차는 일회성, 상시 입력규칙은 기존 CONTROLLER_UX_STRATEGY다. 자동PASS는 계약증거이지 재미·문체·출시GO가 아니며 본편/새packageHOLD·공개GO1/인간OPEN45를 유지한다.
+
 ## 2026-10-04 (Codex — 스캘핑 단계 창·포커스 수리 후보)
 
-- [430](queue_active/ORDER-430.md): 제품 단독 `3db5dc8`에서 준비/결과 창을 직접 소유·즉시 분리하고 활성 단계의 enabled 버튼만 기본 포커스·방향·Tab 대상으로 둔다. Tutorial 우선권과 유효 기존 포커스는 유지한다.
+- [430](queue_archive/ORDER-430.md): 제품 단독 `3db5dc8`에서 준비/결과 창을 직접 소유·즉시 분리하고 활성 단계의 enabled 버튼만 기본 포커스·방향·Tab 대상으로 둔다. Tutorial 우선권과 유효 기존 포커스는 유지한다.
 - 별도 exact Git 전이 bridge와 새 focused를 추가했다. 이전 원본/receipt는 바꾸지 않고 현재 Scalp와 과거 Main을 섞은 가상 manifest를 거부한다. 기존 검사본문·역사 pin은 보존했다.
 - 429의 원본 REWORK 독립 보고/판정만 추가한다. 새 runtime helper는 지역별5상태·4방향·전체Tab·합성Dpad를 검수하며 실제player34와 모든 과거 실패를 보호한다.
 - 현재 AST/읽기 검수만 완료했고 실제 화면·focused·normal은 다음 clean 후보에서 각1회 수행한다. 거래/정산/RESULT·hover·자연진입·원어민/인간/물리 관측을 주장하지 않는다. 본편/새packageHOLD 유지.
 
 ## 2026-10-04 (Codex — 스캘핑 실제 화면 결함 확인·국소수리 착수)
 
-- [429](queue_active/ORDER-429.md) r2 실제10PNG에서 준비 재개방 후 창이 거래 차트를 가리고 초기 포커스가 없는 기존 결함을 확인했다. 의미/공식수입30값은 통과했지만 화면·입력은 REWORK다.
+- [429](queue_archive/ORDER-429.md) r2 실제10PNG에서 준비 재개방 후 창이 거래 차트를 가리고 초기 포커스가 없는 기존 결함을 확인했다. 의미/공식수입30값은 통과했지만 화면·입력은 REWORK다.
 - first/r1 검사 helper의 이름/타입 선언 실패를 보존하고 명시타입으로 수리했다. r2는 엔진 parse 오류 없이 실제 표면에 도달했다. 지역별 Esc·Right 각1쌍 뒤 안전중단; 매수/매도/정산0·source/실제player34 불변이다.
-- [430](queue_active/ORDER-430.md)을 별도 선언했다. root 제품 창/포커스·bridge exact receipt전이·새focused/helper·독립검수로 소유를 분리한다. 기존 번역/조건/수치/정산/공개데모는 바꾸지 않는다.
+- [430](queue_archive/ORDER-430.md)을 별도 선언했다. root 제품 창/포커스·bridge exact receipt전이·새focused/helper·독립검수로 소유를 분리한다. 기존 번역/조건/수치/정산/공개데모는 바꾸지 않는다.
 - 429normal을 실패 후보에서 중복 실행하지 않고 수리 후 clean successor에서1회 수행한다. 실패 화면을 GO로 바꾸지 않으며 본편/새packageHOLD·원어민/인간/물리 미관측을 유지한다.
 
 ## 2026-10-04 (Codex — 스캘핑 준비·거래 상태 중문30값 구현 후보)
 
-- [429](queue_active/ORDER-429.md): 한국어15키의 CN15/TW15를 지역별 저작했다. 높은수익/더높은위험/중독 경고,60초 실시간매매,준비 안내·가격·진입·보유·상승/하락 상태를 해당 언어로 읽는다.
+- [429](queue_archive/ORDER-429.md): 한국어15키의 CN15/TW15를 지역별 저작했다. 높은수익/더높은위험/중독 경고,60초 실시간매매,준비 안내·가격·진입·보유·상승/하락 상태를 해당 언어로 읽는다.
 - 비저자30값 의미 전수검수와 공식 source-bound export/check/import·raw4파일 역상 PASS. accepted41572/b203→41602/b205·CN/TW1691→1706; JA3044·KO/EN·게임 구현·기존수용값·공개 데모 불변이다.
 - 다음은 clean 후보의 실제 화면/입력·공통normal·최종독립검수다. 아직 rendered/input/원어민/인간/물리 GO는 아니며 본편/새packageHOLD를 유지한다.
 
 ## 2026-10-04 (Codex — 스캘핑 준비·거래 상태 중문 착수)
 
-- [429](queue_active/ORDER-429.md): 한국어15키를 간체·번체에서 독립 저작하는30값/2batch다. CN초안·TW저작·새격리helper·독립검수 파일 소유를 나눴다.
+- [429](queue_archive/ORDER-429.md): 한국어15키를 간체·번체에서 독립 저작하는30값/2batch다. CN초안·TW저작·새격리helper·독립검수 파일 소유를 나눴다.
 - 실제 venue 제목/부제 분리와 setup 두 skill분기, 거래중 비보유/상승·보유/하락 및 draw 진입가를1280×800 지역별5화면으로 본다. 시장 상태 준비와 자연 story ingress는 구분한다.
 - 스코프는 새 UI값·수용원장뿐이다. 엔진/입력/거래정산 구현은 변경하지 않는다. 초기focus 누락이나 뒤층누출은 증거를 보존하고 별도 수리한다.
 - 목표 accepted41572/b203→41602/b205·CN/TW1691→1706. JA3044·기존증거/실제player34·공개GO1/인간OPEN45를 보존한다. 본편/새packageHOLD·원어민/인간/물리 미관측 유지.
