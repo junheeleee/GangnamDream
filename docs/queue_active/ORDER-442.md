@@ -7,11 +7,12 @@ fallback 소비자를 이어 번역한다. 사용자의 계속 개발·main 커�
 
 ## 범위·소유
 
-- root: private442 KO 목록·TW 직접 초안·공식 export/check/import·append/normal 증거,
+- root: private442 KO 목록·TW 직접 초안·공식 export/check/import·append/normal 증거 및 runtime Python runner,
   `locale/ui_zh-CN.json`, `locale/ui_zh-TW.json`, `content/meta/full_game_localization.json`,
   CLAUDE·큐/L3·이 사양/보관본·WORK_LOG·생성STATUS·새 agent 보고/판정.
-- claude_handoff_review: private442 CN 초안만. 한국어에서 직접 저작하며 지역 변환0.
-- receipt_tests392: 새 private442 격리 Python/GD/scene helper와
+- claude_handoff_review: private442 CN 초안과 runtime oracle helper. 한국어에서 직접
+  저작하며 지역 변환0. Python runner와 oracle 파일을 분리해 병렬 작성한다.
+- receipt_tests392: 새 private442 격리 GD/scene helper와
   `tools/audit_scope.json`의 명시 `holdem-betting-zh` 차선만.
 - independent392: 비저자 30값 전수·실제 소비자·helper·화면/입력·최종 근거 검수.
   모든 공식 교환·collector·검사·engine 실행은 root만 한다. 기존 증거/helper 불변.
@@ -44,7 +45,8 @@ fallback 소비자를 이어 번역한다. 사용자의 계속 개발·main 커�
 - 공식15×2 export/check/import·4파일 raw 역상으로 목표 accepted41724/b213,
   CN/TW1767·JA3044를 결속한다. 이전 수용/receipt/header/source는 다시 쓰지 않는다.
 - proven pre-autoload CN/TW 각1프로세스. 각15고유키·버튼/AI 공유 체크의 별도
-  consumer를 기록한다. [첫 실행 재조정] 계획12관측·6PNG/지역, 실제 수는 원본에 남긴다.
+  consumer를 기록한다. 사전 검수에서 FLOP 버튼과 입력 뒤 Check transient를 분리해
+  13관측·6PNG/지역으로 조정했다. 두 번째 Check는 별도 prerequisite 단계로 기록한다.
 - 실제 Tutorial 첫 장의 힌트/Next와 다음 장 이동·취소, 준비49,999원 SETUP의
   실제 입력 거부, 준비 FLOP의 체크·1/3팟 버튼, 실제 Check로 TURN/RIVER 진행,
   별도 Fold/Call/Raise와 AI Check/Call/Raise transient, 실제 RESULT footer를 읽는다.
