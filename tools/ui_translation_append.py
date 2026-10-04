@@ -2183,3 +2183,26 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
 # replaced; the history loop admits only its separately observed commit.
 import coffee_encounter_receipt_history as _coffee_history
 # END_COFFEE_ENCOUNTER_CORRECTION_448
+
+
+# BEGIN_HOLDEM_TABLE_LABELS_APPEND_449
+# Add the single real pre-label tuple; never project current source admission.
+_HOLDEM_TABLE_LABELS_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_TABLE_LABELS_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_table_labels_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem table labels current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_TABLE_LABELS_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_TABLE_LABELS_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_TABLE_LABELS_APPEND_449

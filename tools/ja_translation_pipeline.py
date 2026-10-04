@@ -7039,5 +7039,116 @@ def holdem_money_rebind_inventory(inventory, raw, contract=None):
                          legacy_blueprint={e.source: {"$entry": e.key} for e in entries}, stats=stats)
 # END_HOLDEM_BANNER_LOCALE_COLLECTOR_447
 
+# BEGIN_HOLDEM_TABLE_LABELS_COLLECTOR_449
+# Publish current71 while retaining historical64/retired3/banner66 contracts.
+HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA = "0cd58173d241f756c6661616d155e8c9d6e43bd6e7dedbe9c2836c08e70d90ab"
+HOLDEM_TABLE_LABELS_PIPELINE_BEFORE_SHA = "1a2878b702867a4baa22f0ce2480a749af4cb0c48ee070bba0e4396c8062ef32"
+HOLDEM_TABLE_LABELS_PIPELINE_BEFORE_BLOB = "40894d482d977a18a7c42846904830183b4224c8"
+HOLDEM_TABLE_LABELS_SITES = (
+    ("_render_table", 548, "팟", "POT"),
+    ("_build_table_surface", 611, "팟", "POT"),
+    ("_build_table_surface", 639, "공개 카드", "BOARD"),
+    ("_build_holdem_seat", 783, "보유 칩", "STACK"),
+    ("_build_holdem_seat", 785, "베팅", "BET"),
+)
+_HOLDEM_TABLE_LABELS_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
+_HOLDEM_TABLE_LABELS_OLD_REBIND = holdem_money_rebind_inventory
+
+
+def holdem_table_labels_pipeline_predecessor(raw):
+    """Remove this exact sealed successor before entering every unchanged seal."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("holdem-table-labels code raw/import identity differs")
+    start, end = b"# BEGIN_HOLDEM_TABLE_LABELS_COLLECTOR_449\n", b"# END_HOLDEM_TABLE_LABELS_COLLECTOR_449\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("holdem-table-labels appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    span = raw[a:z]
+    binding = ('HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA = "' + HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA + '"').encode()
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA:
+        raise ValueError("holdem-table-labels appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != HOLDEM_TABLE_LABELS_PIPELINE_BEFORE_SHA:
+        raise ValueError("holdem-table-labels whole predecessor differs")
+    blob = _holdem_money_history._git(ROOT, "show", _holdem_money_history.TABLE_LABELS_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != HOLDEM_TABLE_LABELS_PIPELINE_BEFORE_BLOB:
+        raise ValueError("holdem-table-labels immutable code blob differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _HOLDEM_TABLE_LABELS_OLD_MODAL_PIPELINE_PREDECESSOR(holdem_table_labels_pipeline_predecessor(raw))
+
+
+def _holdem_table_labels_call_views(raw):
+    predecessors = _holdem_money_history._holdem_table_labels_proof(raw, ROOT)
+    path = _holdem_money_history.HOLDEM_PATH
+    views = [parse_ui_calls(path, value.decode("utf-8")) for value in (predecessors[-1], predecessors[0], raw)]
+    if any(errors for _calls, errors in views):
+        raise ValueError("holdem-table-labels call parse differs")
+    ordered = lambda calls: tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
+    before, retained, actual = (ordered(calls) for calls, _errors in views)
+    selectors = {(path, "_fmt", "legacy", ko, en, "") for ko, en in _holdem_money_history.RETIRED_PAIRS}
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    banner_calls = tuple(UiCall(path, "_phase_banner_label", 1784 + index, "legacy", ko, en)
+                         for index, (ko, en) in enumerate(HOLDEM_BANNER_LOCALE_PAIRS))
+    added = tuple(UiCall(path, function, line, "legacy", ko, en)
+                  for function, line, ko, en in HOLDEM_TABLE_LABELS_SITES)
+    new_keys = {row[2] for row in HOLDEM_TABLE_LABELS_SITES}
+    if (len(before) != 64 or len(retained) != 66 or len(actual) != 71 or len(selectors) != 3
+            or len(added) != 5 or len(new_keys) != 4
+            or any(sum(semantic(c) == selector for c in before) != 1 for selector in selectors)
+            or ordered((*tuple(c for c in before if semantic(c) not in selectors), *banner_calls)) != retained
+            or ordered((*retained, *added)) != actual or any(c.korean in new_keys for c in retained)
+            or any(c.korean in {ko for ko, _en in _holdem_money_history.RETIRED_PAIRS} for c in actual)):
+        raise ValueError("holdem-table-labels exact old66/new5 or historical calls differ")
+    return before, retained, actual
+
+
+def _holdem_money_call_views(raw):
+    before, _retained, actual = _holdem_table_labels_call_views(raw)
+    return before, actual
+
+
+def holdem_money_rebind_inventory(inventory, raw, contract=None):
+    from unittest.mock import patch
+    before, retained, actual = _holdem_table_labels_call_views(raw)
+    path = _holdem_money_history.HOLDEM_PATH
+    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
+        raise ValueError("holdem-table-labels supplied predecessor inventory differs")
+    # Reuse the unchanged 447 rebind with its exact proved 66-call input only.
+    with patch.object(sys.modules[__name__], "_holdem_banner_locale_call_views", return_value=(before, retained)):
+        previous = _HOLDEM_TABLE_LABELS_OLD_REBIND(inventory, raw, contract)
+    calls = tuple(c for c in previous.calls if c.path != path) + actual
+    result = _new_run_log_inventory(previous, calls, contract)
+    old_entries = {e.source: e for e in previous.legacy_entries}
+    new_entries = {e.source: e for e in result.legacy_entries}
+    new_keys = {row[2] for row in HOLDEM_TABLE_LABELS_SITES}
+    if set(old_entries) - set(new_entries) or set(new_entries) - set(old_entries) != new_keys:
+        raise ValueError("holdem-table-labels unique Korean source population differs")
+    entries = tuple(_gift_replace(old_entries[e.source], context=e.context) if e.source in old_entries
+                    else _gift_replace(e, key="ui::holdem-table::" + hashlib.sha1(e.source.encode()).hexdigest())
+                    for e in result.legacy_entries)
+    if (len({e.key for e in entries}) != len(entries)
+            or any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
+                   for e in entries if e.source in old_entries)):
+        raise ValueError("holdem-table-labels existing Entry identity changed")
+    for field in ("planned_context_entries", "planned_context_blueprint", "observed_context_entries", "observed_context_blueprint"):
+        if getattr(result, field) != getattr(previous, field):
+            raise ValueError("holdem-table-labels unowned context inventory changed")
+    deltas = {"source_calls": 5, "legacy_calls": 5, "legacy_api_calls": 5, "legacy_keys": 4,
+              "parameter_total_ui_call_occurrences": 5, "parameter_legacy_pair_call_occurrences": 5,
+              "parameter_legacy_korean_source_keys": 4}
+    changed = {*deltas, "parameter_legacy_korean_source_keys_sha256"}
+    if (any(result.stats.get(key) != value + deltas[key] for key, value in previous.stats.items() if key in deltas)
+            or any(result.stats.get(key) != value for key, value in previous.stats.items() if key not in changed)
+            or set(result.stats) != set(previous.stats)):
+        raise ValueError("holdem-table-labels call/key census or unowned statistic differs")
+    stats = {**result.stats, "holdem_table_labels_added_calls": 5, "holdem_table_labels_added_keys": 4}
+    return _gift_replace(result, legacy_entries=entries,
+                         legacy_blueprint={e.source: {"$entry": e.key} for e in entries}, stats=stats)
+# END_HOLDEM_TABLE_LABELS_COLLECTOR_449
+
 if __name__ == "__main__":
     sys.exit(main())

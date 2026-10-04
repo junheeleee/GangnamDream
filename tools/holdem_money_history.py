@@ -1044,3 +1044,106 @@ def holdem_money_predecessor(current: bytes, root: Path | None = None) -> bytes:
         return _holdem_banner_locale_proof(current, root)[7]
     return _HOLDEM_BANNER_LOCALE_OLD_MONEY_PREDECESSOR(current, root)
 # END_HOLDEM_BANNER_LOCALE_HISTORY_447
+
+
+# BEGIN_HOLDEM_TABLE_LABELS_HISTORY_449
+# One additional same-path display transition; the common reader is unchanged.
+TABLE_LABELS_BEFORE_COMMIT = "6608fc8a77ab4eeeb62cd909a67540a219fb4027"
+TABLE_LABELS_AFTER_COMMIT = "bf26b99fda084d90992fd4ac7f81349237eb3add"
+TABLE_LABELS_TREES = ("3a8d3789988daea794d45e503ca42e27c6020cb2", "81c9f7eb08ba8815b0debf68fd8d0d08e26b24d8")
+TABLE_LABELS_BLOBS = ("6b62466601cf2b7f5473a44ed3654e3fd10c5a2a", "76726b4709e14088b6c724a3279cf2cd3b0a54ab")
+TABLE_LABELS_HASHES = ("766070551b1d23b9f1c70e74dc7419994b38c2b9c9911e449a649417bbb1d273",
+                       "0696814bcc6cf561b98b27eb342afaa50c25fbb25e85eab7e0b887eefc00e8d5")
+TABLE_LABELS_REPLACEMENTS = (
+    ('\t_pot_lbl.text = "POT  %s" % _fmt(_pot)\n',
+     '\t_pot_lbl.text = "%s  %s" % [_tr("팟", "POT"), _fmt(_pot)]\n'),
+    ('\tpot_title.text = "POT"\n', '\tpot_title.text = _tr("팟", "POT")\n'),
+    ('\tcomm_lbl.text = "BOARD"\n', '\tcomm_lbl.text = _tr("공개 카드", "BOARD")\n'),
+    ('\tstack_lbl.text = "STACK %s" % _fmt(stack)\n',
+     '\tstack_lbl.text = "%s %s" % [_tr("보유 칩", "STACK"), _fmt(stack)]\n'),
+    ('\t\tstack_lbl.text += "   BET %s" % _fmt(bet)\n',
+     '\t\tstack_lbl.text += "   %s %s" % [_tr("베팅", "BET"), _fmt(bet)]\n'),
+)
+_TABLE_LABELS_OLD_PREDECESSORS = (
+    holdem_banner_locale_predecessor, holdem_banner_predecessor, holdem_message_pulse_predecessor,
+    holdem_card_color_predecessor, holdem_async_predecessor, holdem_betting_predecessor,
+    holdem_canvas_predecessor, holdem_money_predecessor,
+)
+
+
+def holdem_table_labels_inverse(current: bytes, before: bytes) -> bytes:
+    """Undo only five same-line display expressions, preserving every other byte."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(TABLE_LABELS_REPLACEMENTS, tuple) or len(TABLE_LABELS_REPLACEMENTS) != 5
+            or any(not isinstance(pair, tuple) or len(pair) != 2
+                   or any(not isinstance(value, str) for value in pair) for pair in TABLE_LABELS_REPLACEMENTS)):
+        raise ValueError("ORDER-449: exact inverse population/type differs")
+    recovered = current
+    for old_text, new_text in reversed(TABLE_LABELS_REPLACEMENTS):
+        old, new = old_text.encode("utf-8"), new_text.encode("utf-8")
+        if (not old or old == new or old.count(b"\n") != 1 or new.count(b"\n") != 1
+                or before.count(old) != 1 or before.count(new) != 0 or recovered.count(new) != 1):
+            raise ValueError("ORDER-449: exact table-label line differs")
+        recovered = recovered.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-449: amount, condition or bytes outside table labels changed")
+    return recovered
+
+
+def _holdem_table_labels_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    """Nine stages/54 request entries, not 54 distinct Git objects."""
+    stages = (
+        (BEFORE_COMMIT, AFTER_COMMIT, TREES, BLOBS, HASHES, holdem_money_inverse),
+        (CANVAS_BEFORE_COMMIT, CANVAS_AFTER_COMMIT, CANVAS_TREES, CANVAS_BLOBS, CANVAS_HASHES, holdem_canvas_inverse),
+        (BETTING_BEFORE_COMMIT, BETTING_AFTER_COMMIT, BETTING_TREES, BETTING_BLOBS, BETTING_HASHES, holdem_betting_inverse),
+        (ASYNC_BEFORE_COMMIT, ASYNC_AFTER_COMMIT, ASYNC_TREES, ASYNC_BLOBS, ASYNC_HASHES, holdem_async_inverse),
+        (CARD_COLOR_BEFORE_COMMIT, CARD_COLOR_AFTER_COMMIT, CARD_COLOR_TREES, CARD_COLOR_BLOBS, CARD_COLOR_HASHES, holdem_card_color_inverse),
+        (MESSAGE_PULSE_BEFORE_COMMIT, MESSAGE_PULSE_AFTER_COMMIT, MESSAGE_PULSE_TREES, MESSAGE_PULSE_BLOBS, MESSAGE_PULSE_HASHES, holdem_message_pulse_inverse),
+        (BANNER_BEFORE_COMMIT, BANNER_AFTER_COMMIT, BANNER_TREES, BANNER_BLOBS, BANNER_HASHES, holdem_banner_inverse),
+        (BANNER_LOCALE_BEFORE_COMMIT, BANNER_LOCALE_AFTER_COMMIT, BANNER_LOCALE_TREES, BANNER_LOCALE_BLOBS, BANNER_LOCALE_HASHES, holdem_banner_locale_inverse),
+        (TABLE_LABELS_BEFORE_COMMIT, TABLE_LABELS_AFTER_COMMIT, TABLE_LABELS_TREES, TABLE_LABELS_BLOBS, TABLE_LABELS_HASHES, holdem_table_labels_inverse),
+    )
+    return _holdem_exact_stage_chain(current, root, stages)
+
+
+def holdem_table_labels_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _holdem_table_labels_proof(current, root)[0]
+
+
+def _table_labels_previous(current, root, index):
+    if isinstance(current, bytes) and hashlib.sha256(current).hexdigest() == TABLE_LABELS_HASHES[1]:
+        return _holdem_table_labels_proof(current, root)[index + 1]
+    return _TABLE_LABELS_OLD_PREDECESSORS[index](current, root)
+
+
+def holdem_banner_locale_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _table_labels_previous(current, root, 0)
+
+
+def holdem_banner_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _table_labels_previous(current, root, 1)
+
+
+def holdem_message_pulse_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _table_labels_previous(current, root, 2)
+
+
+def holdem_card_color_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _table_labels_previous(current, root, 3)
+
+
+def holdem_async_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _table_labels_previous(current, root, 4)
+
+
+def holdem_betting_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _table_labels_previous(current, root, 5)
+
+
+def holdem_canvas_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _table_labels_previous(current, root, 6)
+
+
+def holdem_money_predecessor(current: bytes, root: Path | None = None) -> bytes:
+    return _table_labels_previous(current, root, 7)
+# END_HOLDEM_TABLE_LABELS_HISTORY_449
