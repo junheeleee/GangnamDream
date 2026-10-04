@@ -9063,6 +9063,39 @@ def _ui_race_finish_numbers(
     return source, numeric_target, []
 
 
+def _ui_holdem_rank_numbers(
+    lang: str, key: str, source: str, target: Any,
+) -> tuple[str, Any, list[str]] | None:
+    """Compare nine exact poker rank names as their source-owned rank indices.
+
+    TexasHoldem.rank_name owns ranks 0 through 8, not entity quantities in
+    words such as 三条. Only numeric comparison receives the normalized pair;
+    every other validator still reads the complete original source and target.
+    """
+    if not isinstance(lang, str) or lang not in LANGUAGES \
+            or not isinstance(source, str) or not isinstance(key, str) \
+            or key != f"ui:{source}:/{source}":
+        return None
+    owned = {
+        "하이카드": (0, "高牌", "高牌"),
+        "원페어": (1, "一对", "一對"),
+        "투페어": (2, "两对", "兩對"),
+        "트리플": (3, "三条", "三條"),
+        "스트레이트": (4, "顺子", "順子"),
+        "플러시": (5, "同花", "同花"),
+        "풀하우스": (6, "葫芦", "葫蘆"),
+        "포카드": (7, "四条", "四條"),
+        "스트레이트 플러시": (8, "同花顺", "同花順"),
+    }
+    if source not in owned:
+        return None
+    rank, simplified, traditional = owned[source]
+    expected = simplified if lang == "zh-CN" else traditional
+    if not isinstance(target, str) or target != expected:
+        return source, target, ["source-bound Holdem rank locale/name mismatch"]
+    return str(rank), str(rank), []
+
+
 def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     """Validate one Korean-source Chinese target without generating content."""
     if lang not in LANGUAGES:
@@ -9126,6 +9159,9 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     race_finish_numbers = _ui_race_finish_numbers(lang, key, source, target)
     if race_finish_numbers is not None:
         notice_numbers = race_finish_numbers
+    holdem_rank_numbers = _ui_holdem_rank_numbers(lang, key, source, target)
+    if holdem_rank_numbers is not None:
+        notice_numbers = holdem_rank_numbers
     if notice_numbers is None:
         errors.extend(_numeric_errors(source, target))
     else:

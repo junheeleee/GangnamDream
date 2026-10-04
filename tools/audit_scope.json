@@ -14,6 +14,36 @@
   ],
   "fast_lanes": [
     {
+      "id": "holdem-rank-locale",
+      "paths": [],
+      "owned_paths": [
+        "tools/zh_translation_audit.py", "tools/holdem_rank_locale_check.py", "tools/audit_scope.json",
+        "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-440.json",
+        "docs/queue_active/ORDER-440.md", "docs/queue_archive/ORDER-440.md"
+      ],
+      "tools": [
+        "tools/holdem_rank_locale_check.py", "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit440 exact nine standalone UI poker-rank numeric comparison only: same KO owner/address and full standard regional name, preserving all surrounding numeric and text validation. Fresh focused/ZH/EN plus context/queue always and separate diff/registration; original439 official failures preserved. No accepted translation/game/collector change, receipt/fullbody/JA/engine or historical suite rerun."
+    },
+    {
+      "id": "holdem-result-zh",
+      "paths": [],
+      "owned_paths": [
+        "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "content/meta/full_game_localization.json",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-439.json", "docs/queue_active/ORDER-439.md", "docs/queue_archive/ORDER-439.md"
+      ],
+      "tools": [
+        "tools/order365_ui_receipt_compat.py", "tools/full_body_translation_scope.py",
+        "tools/zh_translation_audit.py", "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit439 append-only nineteen Holdem SHOWDOWN/RESULT/rank keys and thirty-eight CN/TW values; game sources and JA unchanged. Four prepared-RIVER actual dispatch/RESULT/Close cases and fourteen prepared rank readers are separate evidence. Receipt/fullbody/ZH/EN plus context/queue always and separate diff/registration complete eight validations. Prior438/focused/four434 narratives referenced NOT_RUN; no historical runtime, full audit or 240-week replay."
+    },
+    {
       "id": "holdem-async",
       "paths": [],
       "owned_paths": [
@@ -2968,6 +2998,11 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/holdem_rank_locale_check.py",
+      "paths": ["tools/zh_translation_audit.py", "tools/holdem_rank_locale_check.py", "systems/TexasHoldem.gd"],
+      "why": "Exact regional UI poker-rank quantity contract and source rank mapping; rejects wrong rank/address/source and numeric neighbors."
+    },
     {
       "tool": "tools/holdem_async_receipt_check.py",
       "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_async_receipt_check.py"],
