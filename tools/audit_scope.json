@@ -14,6 +14,23 @@
   ],
   "fast_lanes": [
     {
+      "id": "holdem-betting",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_betting_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-437.json",
+        "docs/queue_active/ORDER-437.md", "docs/queue_archive/ORDER-437.md"
+      ],
+      "tools": [
+        "tools/holdem_betting_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py", "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py", "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit437 per-round betting-action repair: fresh eighteen-object/three-transition source proof and unchanged whole UiCall tuples/data. One isolated actual hand plus prepared response/runout boundaries. Ten validations with context/queue always and separate diff; four434 narrative originals referenced NOT_RUN, no historical focused/full audit/240-week replay."
+    },
+    {
       "id": "holdem-zh",
       "paths": [],
       "owned_paths": [
@@ -2934,6 +2951,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/holdem_betting_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_betting_receipt_check.py"],
+      "why": "Exact437 fresh betting-round transition and whole inverse, immutable Git/source-manifest admission, unchanged collector coordinates and localization data; no historical focused or engine suite replay.",
+      "godot": false
+    },
     {
       "tool": "tools/holdem_canvas_width_check.py",
       "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_canvas_width_check.py"],
