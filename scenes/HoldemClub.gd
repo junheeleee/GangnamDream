@@ -40,7 +40,7 @@ var _rng := RandomNumberGenerator.new()
 var _pad_navigation_active: bool = false
 var _pad_action_idx: int = 0
 var _pad_action_signature: String = ""
-
+var _round_pending: Array[int] = []  # 블라인드는 행동이 아니며 매 라운드 응답을 기다린다.
 # 핸드 히스토리 (최근 8핸드)
 var _hand_history: Array = []     # [{won, net, hand_rank, desc}]
 var _session_won: int = 0
@@ -377,10 +377,10 @@ func _start_hand() -> void:
 	_showdown_net = 0
 	_pad_action_idx = 0
 	_pad_action_signature = ""
-
-	# 포스트 블라인드 (플레이어=SB, opp0=BB)
+	_reset_round_actions()
+	# 포스트 블라인드 (플레이어=SB, opp1=BB)
 	_post_blind(0, SMALL_BLIND, true)   # 플레이어 SB
-	_post_blind(1, BIG_BLIND, false)    # opp0 BB
+	_post_blind(1, BIG_BLIND, false)    # opp1 BB
 
 	_phase = Phase.PREFLOP
 	_action_idx = 0  # 플레이어 먼저 (SB acts first preflop in simplified version)
@@ -430,7 +430,7 @@ func _sync_buyin_to_affordable() -> void:
 func _is_player_action_waiting() -> bool:
 	if _phase not in [Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER]:
 		return false
-	if _player_folded:
+	if _player_folded or _player_stack <= 0:
 		return false
 	if _turn_order.is_empty():
 		return false
@@ -900,11 +900,11 @@ func _process_action_turn() -> void:
 		_advance_phase()
 		return
 
-	# 차례 찾기 (folded 건너뜀)
+	# 차례 찾기 (folded·all-in 건너뜀)
 	while true:
 		_action_idx = _action_idx % 3
 		var who: int = _turn_order[_action_idx]
-		if (who == 0 and _player_folded) or (who != 0 and _opp[who - 1]["folded"]):
+		if not _seat_can_bet(who):
 			_action_idx += 1
 			continue
 		break
@@ -918,7 +918,7 @@ func _process_action_turn() -> void:
 func _betting_complete() -> bool:
 	if _player_folded and _opp[0]["folded"] and _opp[1]["folded"]:
 		return true
-	# 액티브 플레이어 모두 max_bet에 맞췄거나 all-in인지 확인
+	if not _round_actions_complete(): return false
 	if not _player_folded:
 		if _player_bet < _max_bet and _player_stack > 0:
 			return false
@@ -1041,7 +1041,7 @@ func _player_action(action: String, amount: int) -> void:
 	AudioManager.play("click")
 	for ch in _action_panel.get_children():
 		ch.queue_free()
-
+	var previous_max := _max_bet
 	var to_call: int = _max_bet - _player_bet
 	match action:
 		"fold":
@@ -1076,7 +1076,7 @@ func _player_action(action: String, amount: int) -> void:
 			_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.56), 8)
 			_screen_flash(Color("#f0b429"), 0.13, 0.22)
 			_shake_node(_content_root, 4.0, 0.16)
-
+	_record_round_action(0, _max_bet > previous_max)
 	_action_idx += 1
 	await get_tree().create_timer(0.3).timeout
 	_render_table()
@@ -1088,7 +1088,7 @@ func _do_ai_action(opp_idx: int) -> void:
 	var to_call: int = _max_bet - int(_opp_bets[opp_idx])
 	var decision := TH.ai_decide(o["hole"], _community, _pot, to_call, o["stack"],
 			float(o["aggression"]), _rng)
-
+	var previous_max := _max_bet
 	_set_msg("%s: %s" % [_opp_name(opp_idx), _action_label(decision["action"])])
 
 	match decision["action"]:
@@ -1115,7 +1115,7 @@ func _do_ai_action(opp_idx: int) -> void:
 			_show_table_banner("%s  RAISE" % _opp_name(opp_idx), Color("#f0b429"), 0.55)
 			_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.40), 6)
 			_screen_flash(Color("#f0b429"), 0.08, 0.16)
-
+	_record_round_action(opp_idx + 1, _max_bet > previous_max)
 	_action_idx += 1
 	await get_tree().create_timer(0.6).timeout
 	_render_table()
@@ -1138,7 +1138,7 @@ func _advance_phase() -> void:
 	_action_idx = 0
 	_pad_action_signature = ""
 	var banner := ""
-
+	_reset_round_actions()
 	match _phase:
 		Phase.PREFLOP:
 			_community.append(_deck.pop_back())
@@ -1690,3 +1690,29 @@ func _play_card_sound_sequence(count: int, gap: float = 0.08) -> void:
 func _play_card_flip_sequence(count: int, gap: float = 0.08) -> void:
 	for i in range(count):
 		AudioManager.play_delayed_varied("card_flip", float(i) * gap, -1.5, 0.95, 1.06)
+
+func _seat_can_bet(who: int) -> bool:
+	if who == 0:
+		return not _player_folded and _player_stack > 0
+	return not _opp[who - 1]["folded"] and int(_opp[who - 1]["stack"]) > 0
+
+func _reset_round_actions() -> void:
+	_round_pending.assign([0, 1, 2])
+
+func _record_round_action(who: int, raised_max: bool) -> void:
+	if raised_max:
+		_reset_round_actions()
+	_round_pending.erase(who)
+
+func _round_actions_complete() -> bool:
+	var actionable: Array[int] = []
+	for who in range(3):
+		if _seat_can_bet(who):
+			actionable.append(who)
+	# 응답할 상대 잔액이 없으면 추가 베팅하지 않는다. 미납 콜은 기존 금액 검사에서 기다린다.
+	if actionable.size() <= 1:
+		return true
+	for who in actionable:
+		if _round_pending.has(who):
+			return false
+	return true
