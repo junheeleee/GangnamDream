@@ -4,6 +4,9 @@
 
 ## 2026-10-04 — 기록창 실제 기본서체 누락 수리 착수 (432)
 
+- 비저자 독립 검수는 원후보75a4661의 431을 REWORK로 봉인했다. 보고는
+  `docs/agent_reviews/ORDER-431-REWORK.json`, private SHA a089cf57a42eaf3f25e932e942e6c600d4d161431b181d33f8a900db0f420590.
+  기존189판정을 보존하고190번째 기록만 추가했다. 후속432나 새 후보의 판정으로 재사용하지 않는다.
 - 431 source75a4661 첫 실제8PNG·정산4회·56raw/28taps에서 텍스트/typed정산은 일치하나
   기록 normal은 Open Sans SemiBold로 확인되어 FAIL. ThemeDB fallback만으로 충분하다는
   사전 가정이 틀렸으며 검사 완화 없이 실제 Main normal_font 연결1줄을 별도 선언한다.

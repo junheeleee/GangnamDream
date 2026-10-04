@@ -7557,6 +7557,59 @@
         "path": "docs/agent_reviews/ORDER-430.json",
         "sha256": "9c183146ad9251f62b856f1b77ee43fae567f3a37b30568fd7c2023d45b7d5f7"
       }
+    },
+    {
+      "id": "order-431-source-75a4661-agent-rework",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-431",
+      "subject": {
+        "kind": "source",
+        "commit": "75a4661f2604c550d478c65094387f0479f637da",
+        "tree": "f0c5ecf41567e2357d8bcb2ad03cd54af9c1cd14",
+        "manifest_sha256": null
+      },
+      "verdict": "REWORK",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-431-REWORK.json",
+          "sha256": "532cd3687998c21fe4af78646c8bb6e4f16f10aa478b08832e84684a90e5f89b"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-431-REWORK.json",
+          "sha256": "532cd3687998c21fe4af78646c8bb6e4f16f10aa478b08832e84684a90e5f89b"
+        },
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/agent_reviews/ORDER-431-REWORK.json",
+          "sha256": "532cd3687998c21fe4af78646c8bb6e4f16f10aa478b08832e84684a90e5f89b"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-431-REWORK.json",
+          "sha256": "532cd3687998c21fe4af78646c8bb6e4f16f10aa478b08832e84684a90e5f89b"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_ingress",
+        "live_trading",
+        "retry_and_leave_activation",
+        "holdem_shared_result",
+        "whole_game_release",
+        "new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-431-REWORK.json",
+        "sha256": "532cd3687998c21fe4af78646c8bb6e4f16f10aa478b08832e84684a90e5f89b"
+      }
     }
   ]
 }
