@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [2026-10-04 투자 선택 번역 전 기록](history/WORK_LOG_2026-10-04_pre_order424.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 경력·결산·지연비용 중문26값 수용 후보)
+
+- [426](queue_active/ORDER-426.md): CN/TW 각13값을 한국어에서 따로 저작하고 독립 전수 의미 대조했다. 기수용명·게임효과·토큰을 그대로 쓰며 남은12주와 지연기간을 구분한다. 두 초안 모두 의미수리 없이 공식 수용했다.
+- export13×2/10.863초, 첫 check13×2/10.942초 PASS. 공식 receipt26/batch2와 raw역상으로 accepted41524/b199→41550/b201·CN/TW1667→1680·JA3044불변. source manifest fa8ac9a9… 불변이다.
+- 실제화면/두 줄 fullfit/입력/공통normal은 아직 미실행이다. candidate를 먼저 로컬main에 결속하고 해당 검수·독립 최종 판정 후 원격에 올린다. 조건·금액·폰트·공개demo·인간원장을 바꾸지 않았다.
+
 ## 2026-10-04 (Codex — 남은 시간과 미룬 선택의 대가 중문26값 착수)
 
 - [426](queue_active/ORDER-426.md): 실제 career/final_reckoning4와 return8+wrapper1의 KO13키를 CN/TW 각각 직접 번역한다. 목표 accepted41550/b201·CN/TW1680, JA3044와 기존제품조건은 유지한다.

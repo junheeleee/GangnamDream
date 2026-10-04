@@ -8102,6 +8102,100 @@
           "batch_id": "86facd30e5116b2f440f6db417fcc0c5ed5b9782ee64c0916c1e0a3ab539808e"
         }
       }
+    },
+    {
+      "order": "ORDER-426",
+      "group": "ui",
+      "roots": [
+        "{job}에서 시간이 쌓였다",
+        "이 자리를 키울까, 다음 문을 볼까, 사람에게 시간을 남길까?",
+        "남은 {weeks}주는 다시 오지 않는다",
+        "돈을 움직일까, 사람을 붙잡을까, 현금을 지킬까?",
+        "{weeks}주 늦은 연락 · {name} 호감 {delta}",
+        "휴식 미룸 {count}회 · 회복 후 건강 {health} / 정신 {mental}",
+        "놓친 지원 {count}회 · 새 직장 업무성과 {delta}",
+        "{weeks}주 만의 재시동 · 정신 {delta}",
+        "기다린 {weeks}주 · {asset} 가격 {change}",
+        "기다린 {weeks}주 · 그 시장 창은 이미 지나갔다",
+        "지나간 알바 {count}회분의 현금은 돌아오지 않는다",
+        "줄이지 못한 지출 {count}회분은 이미 빠져나갔다",
+        "{base}\n미뤄 둔 대가 · {cost}"
+      ],
+      "source_leaves": 13,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 13,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct career/final reckoning titles/questions4 and deferred choice costs8 plus one newline wrapper. Separate regional authors preserve job/name/weeks/count/health/mental/delta/asset/change/base/cost tokens, missed opportunities, elapsed weeks versus final weeks, signed changes and market percentages. Actual existing consumers only; no detail, opening, HUD, gameplay, JA, catalog or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "b4d9d9117716e62b25d3896d05ad99393bbd896ff9f11acf39d80f5ff0af6962"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "e46482d27cd7de8da1567b0d32c32b4a320097dc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fa8ac9a96889f4fa4f8fbc91edbf6c041ca4a0cef2f637cd1e8aa911caa38250",
+          "selection_sha256": "69248287eb4d6462e02a9613a6d751e1596c2e6311d1945c674e3933dc1ba1f8",
+          "count": 13,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "381127203e0f722757350216e3b564d2a7e81398cf9cade64f4bfdbf307add12"
+        }
+      }
+    },
+    {
+      "order": "ORDER-426",
+      "group": "ui",
+      "roots": [
+        "{job}에서 시간이 쌓였다",
+        "이 자리를 키울까, 다음 문을 볼까, 사람에게 시간을 남길까?",
+        "남은 {weeks}주는 다시 오지 않는다",
+        "돈을 움직일까, 사람을 붙잡을까, 현금을 지킬까?",
+        "{weeks}주 늦은 연락 · {name} 호감 {delta}",
+        "휴식 미룸 {count}회 · 회복 후 건강 {health} / 정신 {mental}",
+        "놓친 지원 {count}회 · 새 직장 업무성과 {delta}",
+        "{weeks}주 만의 재시동 · 정신 {delta}",
+        "기다린 {weeks}주 · {asset} 가격 {change}",
+        "기다린 {weeks}주 · 그 시장 창은 이미 지나갔다",
+        "지나간 알바 {count}회분의 현금은 돌아오지 않는다",
+        "줄이지 못한 지출 {count}회분은 이미 빠져나갔다",
+        "{base}\n미뤄 둔 대가 · {cost}"
+      ],
+      "source_leaves": 13,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 13
+      },
+      "source_review": "Korean-direct career/final reckoning titles/questions4 and deferred choice costs8 plus one newline wrapper. Separate regional authors preserve job/name/weeks/count/health/mental/delta/asset/change/base/cost tokens, missed opportunities, elapsed weeks versus final weeks, signed changes and market percentages. Actual existing consumers only; no detail, opening, HUD, gameplay, JA, catalog or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "c0b28448348516d92c27cff9607f99f3f10c0119e8111dc83012733543cd43a5"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "e46482d27cd7de8da1567b0d32c32b4a320097dc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fa8ac9a96889f4fa4f8fbc91edbf6c041ca4a0cef2f637cd1e8aa911caa38250",
+          "selection_sha256": "b7231c331bbebb0ea57a6f4a033ccb83fbac51b8cbe389c083640a81471779b5",
+          "count": 13,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a3ddb63997f4fe308e10358175dee051500f49fbfadc141ec8fd043850542b13"
+        }
+      }
     }
   ],
   "accepted": {
@@ -117415,6 +117509,58 @@
       "ui:현금을 더 만들까, 덜 쓸까, 몸을 지킬까?:/현금을 더 만들까, 덜 쓸까, 몸을 지킬까?": {
         "source_sha256": "6cd7ae61972e63aeeb09072fae97e115a1fb8d1412ae76d7d8bef6380f1a1bde",
         "target_sha256": "bd659043e9f58a6b95d564cd7398d1a5db3321bd0bb7162182a0adcc008168c9"
+      },
+      "ui:{base}\n미뤄 둔 대가 · {cost}:/{base}\n미뤄 둔 대가 · {cost}": {
+        "source_sha256": "df2fc1cfd1543b4c7e4e1c56d793ff6033e7e8ab955b9d69f5eb535cf9bf9c3a",
+        "target_sha256": "603cacdccefb99d142684eb7398b68986c065e143478a78ac826e63dd58eb84d"
+      },
+      "ui:{job}에서 시간이 쌓였다:/{job}에서 시간이 쌓였다": {
+        "source_sha256": "37d41e22ea201d79a469b49e2acc7a720792ca8a4a8e57093994344d9dd6ca2d",
+        "target_sha256": "3cd58e4f1e0bd98a73238969759a505c891f68f0d2b7423e9692e6ee38bdcba8"
+      },
+      "ui:{weeks}주 늦은 연락 · {name} 호감 {delta}:/{weeks}주 늦은 연락 · {name} 호감 {delta}": {
+        "source_sha256": "3265cc0d1b95a4b548fa257df3fb3009de7203953344eac6726c4653e22acda6",
+        "target_sha256": "5f31cd8710c8060b8aa17489653765d38b9e06f662d8c42ca40024708bbb4572"
+      },
+      "ui:{weeks}주 만의 재시동 · 정신 {delta}:/{weeks}주 만의 재시동 · 정신 {delta}": {
+        "source_sha256": "7538374174f06e435581d6cbe26474494ffae6647326345d7c17cfd76222cf41",
+        "target_sha256": "7d7cc1eed61ec7b4d2fce2f373d63427ef4dd81fd325747623b2622590ada041"
+      },
+      "ui:기다린 {weeks}주 · {asset} 가격 {change}:/기다린 {weeks}주 · {asset} 가격 {change}": {
+        "source_sha256": "6c84d1f6a080d6f732d6c76755fa176e5980e562b23e5ca56082a6840956f091",
+        "target_sha256": "4fe49040083af10edbf8cf872b9af3e92a2b3777249d8fc45e91f215118a71d7"
+      },
+      "ui:기다린 {weeks}주 · 그 시장 창은 이미 지나갔다:/기다린 {weeks}주 · 그 시장 창은 이미 지나갔다": {
+        "source_sha256": "5d215ee64ac48971613962ba025746e5ad8aef27a997935c5a59d4732898bed2",
+        "target_sha256": "ac301f75cc9178ef5fbd0e9d9f3be87fccb70c1ce3a6389febc1c9192e21da3a"
+      },
+      "ui:남은 {weeks}주는 다시 오지 않는다:/남은 {weeks}주는 다시 오지 않는다": {
+        "source_sha256": "1eb095c932912322514638b9ced243638ae12ad8146355949d2c4c93518facbe",
+        "target_sha256": "d15a0f23ca49d16a6130999abfe2e8e8b8c9a1337ce32dcea540ed0512342788"
+      },
+      "ui:놓친 지원 {count}회 · 새 직장 업무성과 {delta}:/놓친 지원 {count}회 · 새 직장 업무성과 {delta}": {
+        "source_sha256": "f82aae4631f8e7bda3e3e129cc6c8a57ca60a29f79b4058510152afcc37c089b",
+        "target_sha256": "a63b2a17bc9721623c1612089e05fcefbb31f1922c18fd822b4302d274b5be01"
+      },
+      "ui:돈을 움직일까, 사람을 붙잡을까, 현금을 지킬까?:/돈을 움직일까, 사람을 붙잡을까, 현금을 지킬까?": {
+        "source_sha256": "afdaee996e1362c07d8d61aa6e6e66372617ef9063da7b5a7d7c567c971d8e86",
+        "target_sha256": "753e865dd7af40f50e4021eb5e6f41e13d2b4c8b455b542548a735d1c48a1c45"
+      },
+      "ui:이 자리를 키울까, 다음 문을 볼까, 사람에게 시간을 남길까?:/이 자리를 키울까, 다음 문을 볼까, 사람에게 시간을 남길까?": {
+        "source_sha256": "a36546157797bd0c219a93a564888bffb5c6740b2d640500122f4d8502e15a12",
+        "target_sha256": "8fb3137b9b02764824f2214a18b2019ba0cfc5985d3e22af7756cc648fa4e8d1"
+      },
+      "ui:줄이지 못한 지출 {count}회분은 이미 빠져나갔다:/줄이지 못한 지출 {count}회분은 이미 빠져나갔다": {
+        "source_sha256": "c542b5b8c24ac5d91d2b1856f58a88aff9e6237b5109a3e47ad6971cfeb8acbc",
+        "target_sha256": "e13ba80c7e0f144daa5fd4058d5094c0c91d701bda1ed4c6d14e9f1ee23029e9"
+      },
+      "ui:지나간 알바 {count}회분의 현금은 돌아오지 않는다:/지나간 알바 {count}회분의 현금은 돌아오지 않는다": {
+        "source_sha256": "62b83c374fc33094fae0f1793da4d1c97376c1ba8c1da78ccb1f0af77ec50656",
+        "target_sha256": "8fbd3bbcb5d90d00ac730be34c352015b274b4e11b77b3f80f955d0132f55c5e"
+      },
+      "ui:휴식 미룸 {count}회 · 회복 후 건강 {health} / 정신 {mental}:/휴식 미룸 {count}회 · 회복 후 건강 {health} ~1 정신 {mental}": {
+        "source_sha256": "cb78a2f76de5bcd009764253d77103721391c7c5daec384928d4eb60455dcb33",
+        "target_sha256": "4db97daac9f0d7b45e2f4048acbd105fa9dbd9d74fecc4d79ea775b922b43d45"
       }
     },
     "zh-TW": {
@@ -174205,10 +174351,62 @@
       "ui:현금을 더 만들까, 덜 쓸까, 몸을 지킬까?:/현금을 더 만들까, 덜 쓸까, 몸을 지킬까?": {
         "source_sha256": "6cd7ae61972e63aeeb09072fae97e115a1fb8d1412ae76d7d8bef6380f1a1bde",
         "target_sha256": "d4544d75c49679592ce0afabc8b430ee4b068780bd39a51a1989a61f24911139"
+      },
+      "ui:{base}\n미뤄 둔 대가 · {cost}:/{base}\n미뤄 둔 대가 · {cost}": {
+        "source_sha256": "df2fc1cfd1543b4c7e4e1c56d793ff6033e7e8ab955b9d69f5eb535cf9bf9c3a",
+        "target_sha256": "504c9705a4b8473b5da7e217f6501532208da8095710deb78c13c0e5bb74a31e"
+      },
+      "ui:{job}에서 시간이 쌓였다:/{job}에서 시간이 쌓였다": {
+        "source_sha256": "37d41e22ea201d79a469b49e2acc7a720792ca8a4a8e57093994344d9dd6ca2d",
+        "target_sha256": "49a08b06f903ce837b37d92a5b663cf24c4b81136a45918ab8d55784e5b9c612"
+      },
+      "ui:{weeks}주 늦은 연락 · {name} 호감 {delta}:/{weeks}주 늦은 연락 · {name} 호감 {delta}": {
+        "source_sha256": "3265cc0d1b95a4b548fa257df3fb3009de7203953344eac6726c4653e22acda6",
+        "target_sha256": "367d621ca9fe2afd40d95d34e981b4b89b2f9c60b67d2714f107588af485e376"
+      },
+      "ui:{weeks}주 만의 재시동 · 정신 {delta}:/{weeks}주 만의 재시동 · 정신 {delta}": {
+        "source_sha256": "7538374174f06e435581d6cbe26474494ffae6647326345d7c17cfd76222cf41",
+        "target_sha256": "b4d0260744b9633d32a2e413cc71edddff990b93dab2686436bfeeb4862f73e5"
+      },
+      "ui:기다린 {weeks}주 · {asset} 가격 {change}:/기다린 {weeks}주 · {asset} 가격 {change}": {
+        "source_sha256": "6c84d1f6a080d6f732d6c76755fa176e5980e562b23e5ca56082a6840956f091",
+        "target_sha256": "35d6e887a16237b50312947fa04247a376a386b90899ba068e3de4d2be2e7a8e"
+      },
+      "ui:기다린 {weeks}주 · 그 시장 창은 이미 지나갔다:/기다린 {weeks}주 · 그 시장 창은 이미 지나갔다": {
+        "source_sha256": "5d215ee64ac48971613962ba025746e5ad8aef27a997935c5a59d4732898bed2",
+        "target_sha256": "51a1c73925a54465c0bb9443bb9165ff27ce8935fd9b6764a4518cf9ac5ed9f2"
+      },
+      "ui:남은 {weeks}주는 다시 오지 않는다:/남은 {weeks}주는 다시 오지 않는다": {
+        "source_sha256": "1eb095c932912322514638b9ced243638ae12ad8146355949d2c4c93518facbe",
+        "target_sha256": "12562c05a443df2c7b7799913b29992b4f72333e7c89eb3228a3d9f0e97906de"
+      },
+      "ui:놓친 지원 {count}회 · 새 직장 업무성과 {delta}:/놓친 지원 {count}회 · 새 직장 업무성과 {delta}": {
+        "source_sha256": "f82aae4631f8e7bda3e3e129cc6c8a57ca60a29f79b4058510152afcc37c089b",
+        "target_sha256": "f393d8205e0dc3344a151e8dd8ea9316815593b8971fd4ae761bee998ce0015e"
+      },
+      "ui:돈을 움직일까, 사람을 붙잡을까, 현금을 지킬까?:/돈을 움직일까, 사람을 붙잡을까, 현금을 지킬까?": {
+        "source_sha256": "afdaee996e1362c07d8d61aa6e6e66372617ef9063da7b5a7d7c567c971d8e86",
+        "target_sha256": "ae37df112be115550236e33fc21ba08c52932b3d72d91dd7fdf598e1d2a4d020"
+      },
+      "ui:이 자리를 키울까, 다음 문을 볼까, 사람에게 시간을 남길까?:/이 자리를 키울까, 다음 문을 볼까, 사람에게 시간을 남길까?": {
+        "source_sha256": "a36546157797bd0c219a93a564888bffb5c6740b2d640500122f4d8502e15a12",
+        "target_sha256": "20c475754aee2e4b8e4b6a803cca142440471821232b2e0a34360163250c218c"
+      },
+      "ui:줄이지 못한 지출 {count}회분은 이미 빠져나갔다:/줄이지 못한 지출 {count}회분은 이미 빠져나갔다": {
+        "source_sha256": "c542b5b8c24ac5d91d2b1856f58a88aff9e6237b5109a3e47ad6971cfeb8acbc",
+        "target_sha256": "6a742ada48665620bc29136677ac1bd7cba74b6635de1867718d159abb618bd5"
+      },
+      "ui:지나간 알바 {count}회분의 현금은 돌아오지 않는다:/지나간 알바 {count}회분의 현금은 돌아오지 않는다": {
+        "source_sha256": "62b83c374fc33094fae0f1793da4d1c97376c1ba8c1da78ccb1f0af77ec50656",
+        "target_sha256": "83c1f0304288d37995178c75bb84431bdaa473f227018e14434477b878474592"
+      },
+      "ui:휴식 미룸 {count}회 · 회복 후 건강 {health} / 정신 {mental}:/휴식 미룸 {count}회 · 회복 후 건강 {health} ~1 정신 {mental}": {
+        "source_sha256": "cb78a2f76de5bcd009764253d77103721391c7c5daec384928d4eb60455dcb33",
+        "target_sha256": "e814a62dbe9dbca14c6a3c09215f5eec4426cdd668be9dff960db7838a2f6663"
       }
     }
   },
-  "accepted_sha256": "0bfe297a493287786e31de1d7dbadf69e6ddab524fe56585ddee2a2055966101",
+  "accepted_sha256": "b4aee18d3fc2ceff0cf81fd2fc9a362784f444c8aa5994b49189caa2e3120bfe",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
