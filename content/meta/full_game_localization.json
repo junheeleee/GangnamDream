@@ -8574,6 +8574,112 @@
           "batch_id": "2935342376897b2c8149a35883d0a1fff65425452effce5fd7da5a616a660dbe"
         }
       }
+    },
+    {
+      "order": "ORDER-439",
+      "group": "ui",
+      "roots": [
+        "쇼다운",
+        "   [color=#5a6a7a]승률 %d%% (%dW/%dL)[/color]",
+        "현재: %s",
+        "%s으로 승리! +%s",
+        "%s가 이겼습니다 (%s)",
+        "%s 승리",
+        "%s · POT %s 정산",
+        "%d핸드 플레이",
+        "홀덤 클럽에서 %s 땄다.",
+        "홀덤 클럽에서 %s 잃었다.",
+        "하이카드",
+        "원페어",
+        "투페어",
+        "트리플",
+        "스트레이트",
+        "플러시",
+        "풀하우스",
+        "포카드",
+        "스트레이트 플러시"
+      ],
+      "source_leaves": 19,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 19,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct Holdem SHOWDOWN, completed-hand win rate, current hand, winning/losing message, winner title, pot-settlement detail, played hand count, positive/negative session logs and nine exact TexasHoldem rank names. Separate Chinese regional authors preserve placeholders in order, leading three spaces, BBCode, newlines, signs and unchanged whole-won amounts. Showdown pot display is not session net cash. Existing JA, rules, betting messages, direct English banners and all game/AI/deck/AP/save code are unchanged. Actual consumers and prepared rank readers remain separate from native, natural-ingress or release approval",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "ebd45814202a4064617bd26031b5b47ad0373fe8b50ae9d16fd01acbcb87b790"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "5bca6fdea7f1dcb269d20e4af19a0cc1343374fc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "0d9b97248eb806d2b138c3a66ec0574b53ce36eee7330d0efd0c7691c519dd67",
+          "selection_sha256": "86b8e39a21438f329e115910ee3a0be9412d4b49f984d7f824c395f761fa248a",
+          "count": 19,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "97e348482f34ee5184f54159f4944cbe88382f382ad6e073913d2dd882d97add"
+        }
+      }
+    },
+    {
+      "order": "ORDER-439",
+      "group": "ui",
+      "roots": [
+        "쇼다운",
+        "   [color=#5a6a7a]승률 %d%% (%dW/%dL)[/color]",
+        "현재: %s",
+        "%s으로 승리! +%s",
+        "%s가 이겼습니다 (%s)",
+        "%s 승리",
+        "%s · POT %s 정산",
+        "%d핸드 플레이",
+        "홀덤 클럽에서 %s 땄다.",
+        "홀덤 클럽에서 %s 잃었다.",
+        "하이카드",
+        "원페어",
+        "투페어",
+        "트리플",
+        "스트레이트",
+        "플러시",
+        "풀하우스",
+        "포카드",
+        "스트레이트 플러시"
+      ],
+      "source_leaves": 19,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 19
+      },
+      "source_review": "Korean-direct Holdem SHOWDOWN, completed-hand win rate, current hand, winning/losing message, winner title, pot-settlement detail, played hand count, positive/negative session logs and nine exact TexasHoldem rank names. Separate Chinese regional authors preserve placeholders in order, leading three spaces, BBCode, newlines, signs and unchanged whole-won amounts. Showdown pot display is not session net cash. Existing JA, rules, betting messages, direct English banners and all game/AI/deck/AP/save code are unchanged. Actual consumers and prepared rank readers remain separate from native, natural-ingress or release approval",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "eae58dd11a3cb1a9d4adb022179c3613765971700c90fe87ab567a97aa010f7e"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "5bca6fdea7f1dcb269d20e4af19a0cc1343374fc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "0d9b97248eb806d2b138c3a66ec0574b53ce36eee7330d0efd0c7691c519dd67",
+          "selection_sha256": "cfa27c9b735bade724400b4bd2e955bcd4a91a73ec4c055b0689dd7beaeaff32",
+          "count": 19,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "5c8fc6231e7cd292a132cccd751be807abf62eafeda4e0726fc2bdf48b2a8835"
+        }
+      }
     }
   ],
   "accepted": {
@@ -118151,6 +118257,82 @@
       "ui:하프팟\n%s:/하프팟\n%s": {
         "source_sha256": "295074808489d77fa84b8da6001874277e3d88fe1215b0fb24daf10caee54d84",
         "target_sha256": "579b969678d6824f58c5dfc0dea93b07f75218070afdc2f48e5873907daf3ed2"
+      },
+      "ui:   [color=#5a6a7a]승률 %d%% (%dW/%dL)[/color]:/   [color=#5a6a7a]승률 %d%% (%dW~1%dL)[~1color]": {
+        "source_sha256": "3c3cb0aff0e836e28c591dc228f04d676b8728a5c521da27946bdbb85733369d",
+        "target_sha256": "bb667ad91a9ed2939bbd8d004855073f086925009aeb1f13325dbc93a3fa3f63"
+      },
+      "ui:%d핸드 플레이:/%d핸드 플레이": {
+        "source_sha256": "1f485cd8b7623445eb5fb0dadff74ba7efb2adbf1695d095323180e00f1bb858",
+        "target_sha256": "a5743e4c96c0723e58a8727fff4766af4b3b4b2d716ffa1132381cb8bdde4b1e"
+      },
+      "ui:%s · POT %s 정산:/%s · POT %s 정산": {
+        "source_sha256": "1698ed181235df376c2035a7a818d4d3b75338e7269653244d2b47998658284b",
+        "target_sha256": "b57edd0c455430cdeb45fcb52861dc618dfbd7276fcefde29e55726cb4a232d2"
+      },
+      "ui:%s 승리:/%s 승리": {
+        "source_sha256": "59c7abbd4f0e1bc4bc097593ed85bad2c303b657591375fcbf60b17dbd8c083e",
+        "target_sha256": "b2bc49f43f2a54b76a2ec0c53596985ff2838e5dee105eaa4ec646a970f5039e"
+      },
+      "ui:%s가 이겼습니다 (%s):/%s가 이겼습니다 (%s)": {
+        "source_sha256": "bd380e75adea373f05bf95a2a022d71b5dffcb00c2499b766746640b827dac73",
+        "target_sha256": "7aa1d6e68ee0678c8274c4e4ad831296cd38c029c9bb80678b30c54aa979aa74"
+      },
+      "ui:%s으로 승리! +%s:/%s으로 승리! +%s": {
+        "source_sha256": "a4d0bd1b6927fe85e8476cda8af0cdce7e0ca8b101f45f6727ad9a3632b47c4d",
+        "target_sha256": "b5d0578ebcc177ca776b5f183e361b67740e43b3bb7f4b2c08b794cf1d4859ed"
+      },
+      "ui:쇼다운:/쇼다운": {
+        "source_sha256": "2859e3dae87c9350648d255d74fda4fa464f0448d56e43129fce169955b4f119",
+        "target_sha256": "5353dacbba42984a26657f1ecfeba20a8254be5d8a2d99cec45ac25128e2b873"
+      },
+      "ui:스트레이트 플러시:/스트레이트 플러시": {
+        "source_sha256": "c8aa1d8a087ba139b916105073a7448c581fefda902c2797618f8f26938657d4",
+        "target_sha256": "b69812546c04963b71807f481ddbd1791289f7852017de9f0b6c6c390928e085"
+      },
+      "ui:스트레이트:/스트레이트": {
+        "source_sha256": "5fb01807bab5ae96ca791093c9bd77921b5d8286a743e47b1305978344cbc531",
+        "target_sha256": "578b1f425681ac7ad6df26bf2767e099cf3d6088c3fb5d77a1097f5569232850"
+      },
+      "ui:원페어:/원페어": {
+        "source_sha256": "c368a6c67f619e03618e29c8e55300d2fce83605925b49e02d31b6c793b62d4f",
+        "target_sha256": "f39c6747f9c5b1dc1c1cdc4ac59571ab3a162d51ff68e8eaa895059245733a1b"
+      },
+      "ui:투페어:/투페어": {
+        "source_sha256": "10b3248b0eb9bf97c4703c4a3a1c1da74ae7a25df5e25b642666ad76cf2b8f16",
+        "target_sha256": "59021e4224ebcec980dfcada7739e8f7b12cc7f5ce48dcd3d109d3908da99de4"
+      },
+      "ui:트리플:/트리플": {
+        "source_sha256": "023c9d48553c35716d9d837f8433488184dedf99816b4ad5b9274a561a2799d3",
+        "target_sha256": "71f5bd0c1006eb1b2a10bcc23f1d7dbc232f595713082bd81c1fb627255feca8"
+      },
+      "ui:포카드:/포카드": {
+        "source_sha256": "716497231f8017ee52030a1f12267c8f9c3202aae0e27c98c64e188d4f662338",
+        "target_sha256": "4730c322e4d07c36cadcd03fb40da7a5759380e331500d6aa4dc9a1ba03c040a"
+      },
+      "ui:풀하우스:/풀하우스": {
+        "source_sha256": "f61a96ad39adb20af879021a9265eaf69ebfe40218c55bea832ad08240fa37f5",
+        "target_sha256": "c004fdfdb8848a298061919e201c25d93f332f551490324af82aab73088e2211"
+      },
+      "ui:플러시:/플러시": {
+        "source_sha256": "fe6c8a61243d111993151c195e2ed0b30eb2146cf3886557d03d5d8c0fab1b02",
+        "target_sha256": "9f458a96c144aae2957ac2ba57aaf9099bb67d8610845cb2660ff8ff63c65fee"
+      },
+      "ui:하이카드:/하이카드": {
+        "source_sha256": "bc468c042e85314180d1263815869b0a6d0bddeb1c1280ce0bb569614d5f8259",
+        "target_sha256": "6fad5ce9f590b7d5cfe3aa2fbf6caaa79bb04b2b53f22e6d2ba778f16cc9b7c4"
+      },
+      "ui:현재: %s:/현재: %s": {
+        "source_sha256": "a9f2aa90769ab7c753a7fc3e91f2b2f9e8170d565a774886d96c7f9962d27885",
+        "target_sha256": "a8980832e3596f32479a1e6c09e6bfdc792944f4358413bb3d7fc1b793eadc42"
+      },
+      "ui:홀덤 클럽에서 %s 땄다.:/홀덤 클럽에서 %s 땄다.": {
+        "source_sha256": "1df0203e718b2ed72659735c74bd254c89c19928e5c03ceb31e67fd5ff9aee4a",
+        "target_sha256": "4b86d3e9790949d46c1bc22c826bc6c96385c9b4b01ebae27d43d59c670c3e2d"
+      },
+      "ui:홀덤 클럽에서 %s 잃었다.:/홀덤 클럽에서 %s 잃었다.": {
+        "source_sha256": "33b561760a9fc335c22a138841cb37196d79673dc117d54764c7b1d48d5afd9c",
+        "target_sha256": "c9eddc14af4962967caa04900dfd94f455fcfb8eb428e4c16805f058714074c5"
       }
     },
     "zh-TW": {
@@ -175205,10 +175387,86 @@
       "ui:하프팟\n%s:/하프팟\n%s": {
         "source_sha256": "295074808489d77fa84b8da6001874277e3d88fe1215b0fb24daf10caee54d84",
         "target_sha256": "579b969678d6824f58c5dfc0dea93b07f75218070afdc2f48e5873907daf3ed2"
+      },
+      "ui:   [color=#5a6a7a]승률 %d%% (%dW/%dL)[/color]:/   [color=#5a6a7a]승률 %d%% (%dW~1%dL)[~1color]": {
+        "source_sha256": "3c3cb0aff0e836e28c591dc228f04d676b8728a5c521da27946bdbb85733369d",
+        "target_sha256": "9c2043020e81e523107b03cadaa365300011deb62e5ccc5e33d1dc4abd1d4d0f"
+      },
+      "ui:%d핸드 플레이:/%d핸드 플레이": {
+        "source_sha256": "1f485cd8b7623445eb5fb0dadff74ba7efb2adbf1695d095323180e00f1bb858",
+        "target_sha256": "6d22faf7fb8e3865f26ccc38e4e2088fcb5d99e6a315342b4a6f8981e44d44fd"
+      },
+      "ui:%s · POT %s 정산:/%s · POT %s 정산": {
+        "source_sha256": "1698ed181235df376c2035a7a818d4d3b75338e7269653244d2b47998658284b",
+        "target_sha256": "67e6f67ade38bcede3f8c4a7b5eca7732ef32e4b3b4253d330a85be7ba70cc25"
+      },
+      "ui:%s 승리:/%s 승리": {
+        "source_sha256": "59c7abbd4f0e1bc4bc097593ed85bad2c303b657591375fcbf60b17dbd8c083e",
+        "target_sha256": "1f637d61c8f0348b38112f5e98dfdb2076d7131ea7520e275276b59ecd1aaa5d"
+      },
+      "ui:%s가 이겼습니다 (%s):/%s가 이겼습니다 (%s)": {
+        "source_sha256": "bd380e75adea373f05bf95a2a022d71b5dffcb00c2499b766746640b827dac73",
+        "target_sha256": "770bf1e8ffe77527479072f3c49315e9df43d1937104fec4bfa5dc3cd9c31046"
+      },
+      "ui:%s으로 승리! +%s:/%s으로 승리! +%s": {
+        "source_sha256": "a4d0bd1b6927fe85e8476cda8af0cdce7e0ca8b101f45f6727ad9a3632b47c4d",
+        "target_sha256": "4820252d42e55a017542530d5c6f0f3d19df28e97815d4dd82bd1b3a0458bcb2"
+      },
+      "ui:쇼다운:/쇼다운": {
+        "source_sha256": "2859e3dae87c9350648d255d74fda4fa464f0448d56e43129fce169955b4f119",
+        "target_sha256": "f2a1fba75799c78640c26579c8dee9ca0a64eb6a4de8868675c04b50e69f76f3"
+      },
+      "ui:스트레이트 플러시:/스트레이트 플러시": {
+        "source_sha256": "c8aa1d8a087ba139b916105073a7448c581fefda902c2797618f8f26938657d4",
+        "target_sha256": "9b57afb542927de1695c41df02d511730f97fbe62209d6233c5867d7b4a46ad1"
+      },
+      "ui:스트레이트:/스트레이트": {
+        "source_sha256": "5fb01807bab5ae96ca791093c9bd77921b5d8286a743e47b1305978344cbc531",
+        "target_sha256": "3a19f62d34a181481d57203e63b3f2debd5f51b68bf35406c4582c6e4ebea856"
+      },
+      "ui:원페어:/원페어": {
+        "source_sha256": "c368a6c67f619e03618e29c8e55300d2fce83605925b49e02d31b6c793b62d4f",
+        "target_sha256": "3f2c10718bfee405e454e28ceeb0dc7cd9f73f65d856ad115a7dd5455c74f8f5"
+      },
+      "ui:투페어:/투페어": {
+        "source_sha256": "10b3248b0eb9bf97c4703c4a3a1c1da74ae7a25df5e25b642666ad76cf2b8f16",
+        "target_sha256": "e3987b68a95c66cf06cda6bec931ef6f0b995961082516b899da008e0f2961da"
+      },
+      "ui:트리플:/트리플": {
+        "source_sha256": "023c9d48553c35716d9d837f8433488184dedf99816b4ad5b9274a561a2799d3",
+        "target_sha256": "b9ce86069fff0e870a23a6da6e31d619c8b37437ef82cf400c34e71eb6daf6fb"
+      },
+      "ui:포카드:/포카드": {
+        "source_sha256": "716497231f8017ee52030a1f12267c8f9c3202aae0e27c98c64e188d4f662338",
+        "target_sha256": "3ec07d149d7f74780d633d94ac9df6af8a5bae338e9ac007621d5500dc9d9ea2"
+      },
+      "ui:풀하우스:/풀하우스": {
+        "source_sha256": "f61a96ad39adb20af879021a9265eaf69ebfe40218c55bea832ad08240fa37f5",
+        "target_sha256": "e213c2cfb6c90dc5c3d91fa64a9efefa5b1ec8dcd21d9507afcf6b58faf538a9"
+      },
+      "ui:플러시:/플러시": {
+        "source_sha256": "fe6c8a61243d111993151c195e2ed0b30eb2146cf3886557d03d5d8c0fab1b02",
+        "target_sha256": "9f458a96c144aae2957ac2ba57aaf9099bb67d8610845cb2660ff8ff63c65fee"
+      },
+      "ui:하이카드:/하이카드": {
+        "source_sha256": "bc468c042e85314180d1263815869b0a6d0bddeb1c1280ce0bb569614d5f8259",
+        "target_sha256": "6fad5ce9f590b7d5cfe3aa2fbf6caaa79bb04b2b53f22e6d2ba778f16cc9b7c4"
+      },
+      "ui:현재: %s:/현재: %s": {
+        "source_sha256": "a9f2aa90769ab7c753a7fc3e91f2b2f9e8170d565a774886d96c7f9962d27885",
+        "target_sha256": "d809ba101af60366b99cadf128a8696a4bb515060bbc4e267b7e4990c7c76c7a"
+      },
+      "ui:홀덤 클럽에서 %s 땄다.:/홀덤 클럽에서 %s 땄다.": {
+        "source_sha256": "1df0203e718b2ed72659735c74bd254c89c19928e5c03ceb31e67fd5ff9aee4a",
+        "target_sha256": "ada7577b7c556eb7510ba51a8d10468c57f88600218a4fede7b8c44eeee9613c"
+      },
+      "ui:홀덤 클럽에서 %s 잃었다.:/홀덤 클럽에서 %s 잃었다.": {
+        "source_sha256": "33b561760a9fc335c22a138841cb37196d79673dc117d54764c7b1d48d5afd9c",
+        "target_sha256": "16b4d648ca8bbbb86142fcfb2d235b11b465551e2bb3deb6c3c03872b0c7ddb7"
       }
     }
   },
-  "accepted_sha256": "dc0d3a6c2b428a970092719f41f74c9985b9a198587b9d0d0354fac469c1d32e",
+  "accepted_sha256": "12985fa2fd862da3d4740675ce3f7691b0e69dba189268a9ea8e4417252550e2",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
