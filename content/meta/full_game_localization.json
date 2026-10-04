@@ -7884,6 +7884,112 @@
           "batch_id": "04d0f462f3fd70a77be30ac36b0fd87645aecb1c57cede3da094ec5430e56949"
         }
       }
+    },
+    {
+      "order": "ORDER-424",
+      "group": "ui",
+      "roots": [
+        "통장 밖의 돈도 시간을 먹는다",
+        "투자할까, 승부를 걸까, 현금을 지킬까?",
+        "움직일까, 현금으로 남길까, 판단부터 가다듬을까?",
+        "돈이 처음으로 선택을 요구한다",
+        "{year}년 {month}월, 돈을 어디에 둘지 정할 시각이다",
+        "불릴까, 지킬까, 사람에게 시간을 남길까?",
+        "돈을 움직인다",
+        "자산별 위험 1~5를 보고 직접 거래한다",
+        "승부를 건다",
+        "갈 수 있는 장소 하나에서 실제 세션을 끝낸다",
+        "자산별 위험 1~5",
+        "자산 하나를 골라 실제 거래한다",
+        "원금 손실 가능 · 거래 전엔 취소 가능",
+        "1~3주 · 시장 결산과 보유 자산의 변동",
+        "높은 위험",
+        "경마·홀덤·스캘핑·카지노 중 한 세션",
+        "원금 손실 가능 · 플레이 전엔 취소 가능",
+        "1~3주 · 세션 손익과 통제의 여파",
+        "구직활동"
+      ],
+      "source_leaves": 19,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 19,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct market/capital decision titles and questions6, invest/gamble action descriptions4, risk/now/cost/later8 and Job Hunt title1, separate regional authors. Asset risk1-5, weeks1-3, year/month placeholders, one venue/asset/session, principal loss risk and cancellation before trading versus playing preserved. No unused pressure details, delayed-cost branches, source, gameplay, JA or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "c2fcda3bbafa6eb6a23adb7c7bb6884aa3191195ed8295c818733592aacf6339"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "3e5a7e8434f9bc157075846c4012180ad8233457",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fa8ac9a96889f4fa4f8fbc91edbf6c041ca4a0cef2f637cd1e8aa911caa38250",
+          "selection_sha256": "97502e029d4e13f177de63f966e3c4d349ba9c5c6a9cec80710799e106436012",
+          "count": 19,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "fc19b9d710cb7c02387870315689871f1167dfc182b6367545d189efd3fa42d2"
+        }
+      }
+    },
+    {
+      "order": "ORDER-424",
+      "group": "ui",
+      "roots": [
+        "통장 밖의 돈도 시간을 먹는다",
+        "투자할까, 승부를 걸까, 현금을 지킬까?",
+        "움직일까, 현금으로 남길까, 판단부터 가다듬을까?",
+        "돈이 처음으로 선택을 요구한다",
+        "{year}년 {month}월, 돈을 어디에 둘지 정할 시각이다",
+        "불릴까, 지킬까, 사람에게 시간을 남길까?",
+        "돈을 움직인다",
+        "자산별 위험 1~5를 보고 직접 거래한다",
+        "승부를 건다",
+        "갈 수 있는 장소 하나에서 실제 세션을 끝낸다",
+        "자산별 위험 1~5",
+        "자산 하나를 골라 실제 거래한다",
+        "원금 손실 가능 · 거래 전엔 취소 가능",
+        "1~3주 · 시장 결산과 보유 자산의 변동",
+        "높은 위험",
+        "경마·홀덤·스캘핑·카지노 중 한 세션",
+        "원금 손실 가능 · 플레이 전엔 취소 가능",
+        "1~3주 · 세션 손익과 통제의 여파",
+        "구직활동"
+      ],
+      "source_leaves": 19,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 19
+      },
+      "source_review": "Korean-direct market/capital decision titles and questions6, invest/gamble action descriptions4, risk/now/cost/later8 and Job Hunt title1, separate regional authors. Asset risk1-5, weeks1-3, year/month placeholders, one venue/asset/session, principal loss risk and cancellation before trading versus playing preserved. No unused pressure details, delayed-cost branches, source, gameplay, JA or public-demo change. Not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "6d8c488bd1f7fbe236912338223dd5f4fd5e7c45d140806977577078e92db632"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "3e5a7e8434f9bc157075846c4012180ad8233457",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fa8ac9a96889f4fa4f8fbc91edbf6c041ca4a0cef2f637cd1e8aa911caa38250",
+          "selection_sha256": "177febd96aaad2ba75d439eb5ec4b2faa8053ff0883a4d668d5c0f58b5b7be50",
+          "count": 19,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "5d26006a6885aa50b90da63b1f9dab95ce2be278ff3434d25b359c9035992098"
+        }
+      }
     }
   ],
   "accepted": {
@@ -117033,6 +117139,82 @@
       "ui:후속:/후속": {
         "source_sha256": "6e3dbf20a2baa3c2fac4e8784e01c199c0742eaf2228d3ab89a987add869d08f",
         "target_sha256": "99f74d0833b0a30f4ad066826c7d631c42219a7b960bc5d57520f48a3d5bfb08"
+      },
+      "ui:1~3주 · 세션 손익과 통제의 여파:/1~03주 · 세션 손익과 통제의 여파": {
+        "source_sha256": "a137e120bdcc49aa82db8b099291f7d10edf496ceb91d0e1bda06d99efaf1c17",
+        "target_sha256": "ea81f219c6331910bc880f187c4ed7ac56a93e73099edd29ed9b3d349668d0d1"
+      },
+      "ui:1~3주 · 시장 결산과 보유 자산의 변동:/1~03주 · 시장 결산과 보유 자산의 변동": {
+        "source_sha256": "64b7ee8d8dff9b87f38b60f33b493f8b3890713a1a25292e189c2205043cd0aa",
+        "target_sha256": "e7625fafc8987a0833bc121b2fbf951c4043290390f3eda4935e0118aab76d6c"
+      },
+      "ui:{year}년 {month}월, 돈을 어디에 둘지 정할 시각이다:/{year}년 {month}월, 돈을 어디에 둘지 정할 시각이다": {
+        "source_sha256": "1fc789350eb93ccc3b0e5b003a8bb165bee7530bc43b976a15bb8e7e73a60da4",
+        "target_sha256": "8c0e3f698a6c5018d6530e8161e975c01a0410758e36b0579fb307d7c5694da6"
+      },
+      "ui:갈 수 있는 장소 하나에서 실제 세션을 끝낸다:/갈 수 있는 장소 하나에서 실제 세션을 끝낸다": {
+        "source_sha256": "7e07eafbf858f5882fa58ed9cfa76fcf00edd31b4ded345a20ac8a014f490292",
+        "target_sha256": "d695302fc3e7634e4d7402c262e37002030ebdb17f61756bb6e3908ef2581b30"
+      },
+      "ui:경마·홀덤·스캘핑·카지노 중 한 세션:/경마·홀덤·스캘핑·카지노 중 한 세션": {
+        "source_sha256": "da9303529229400776fa15f90e6ba7e68bf52f2d69a57e3d8978659deb4f765c",
+        "target_sha256": "0e1a8768b30f3ad81d2f0f1ea3fdea62fbcb98af189d687b48fe1b33fdeff1aa"
+      },
+      "ui:구직활동:/구직활동": {
+        "source_sha256": "6a22537065aecef511cf11c3f64d5da98f4d94c3129fde2a27d8120181e834eb",
+        "target_sha256": "e890016b5620f1725af62d4fb9dc5b1ecaca180442729790956285364834de56"
+      },
+      "ui:높은 위험:/높은 위험": {
+        "source_sha256": "95bd38967bc88bcf0f4b266ec73d31cce24c4a4d54b7b49df745d0b91d8131ce",
+        "target_sha256": "04a5abc13796b9333aa5aa60ce7ec19e7e38c910efa017e23fac8347be9a700f"
+      },
+      "ui:돈을 움직인다:/돈을 움직인다": {
+        "source_sha256": "bb8babe384d34dd7dfc9e2fbb0d89e737f840471e86b571be16ecda7cae9ebb1",
+        "target_sha256": "32cb26168b873b3de341510a3f672b3707cc9f9b5e51b10d5122292ce4c67473"
+      },
+      "ui:돈이 처음으로 선택을 요구한다:/돈이 처음으로 선택을 요구한다": {
+        "source_sha256": "200f5d85f9f0169d4b2f6ec3522b6eb5eb78700a0e4ccdcff7e6ead515cca662",
+        "target_sha256": "cec0e366c1012c423a2f60f20079d4f6818a8a32e9459fd22912f2e646c0e43c"
+      },
+      "ui:불릴까, 지킬까, 사람에게 시간을 남길까?:/불릴까, 지킬까, 사람에게 시간을 남길까?": {
+        "source_sha256": "6ce9b39f76bd876fa025a65ca1cebc949dd52a4fc2faa04e6befa247c02d34b6",
+        "target_sha256": "491ef87e9068579803416dcc2341f1e8364239aae355da3dd33724c190043344"
+      },
+      "ui:승부를 건다:/승부를 건다": {
+        "source_sha256": "282ac11acc138a38e96928c04dfb69d4e75eb0c2b6d8ea2530ef9566f5583b26",
+        "target_sha256": "8f821bfe0310907f85f8164dde5ab60af552638bf1b30bbce3c88dcc2dac7c37"
+      },
+      "ui:움직일까, 현금으로 남길까, 판단부터 가다듬을까?:/움직일까, 현금으로 남길까, 판단부터 가다듬을까?": {
+        "source_sha256": "fdd69f87192b73108444ceddb53494ac9700de62ce01ebffe5f986c0022c6d15",
+        "target_sha256": "5769d2940709196c6a5711afe10cc8f5c486d26b93ca7a01ffade04c9e528b15"
+      },
+      "ui:원금 손실 가능 · 거래 전엔 취소 가능:/원금 손실 가능 · 거래 전엔 취소 가능": {
+        "source_sha256": "4557e51fd4a502ffe3d3089410876d640c7ff4d0bce8988eb8da4bf13399ad27",
+        "target_sha256": "54cdbaf45c257b2f23462b11d49132a7905a4eb243d6004b7661e833b0cc98f3"
+      },
+      "ui:원금 손실 가능 · 플레이 전엔 취소 가능:/원금 손실 가능 · 플레이 전엔 취소 가능": {
+        "source_sha256": "fb9d8143817e68d6f0892aa0c7ef0b4a0cbfd6a3d1100566b6f6574e68fae51c",
+        "target_sha256": "ab97ee8aa8fa4375ab583164c47456965658a9282d20ded476be4057f7587fde"
+      },
+      "ui:자산 하나를 골라 실제 거래한다:/자산 하나를 골라 실제 거래한다": {
+        "source_sha256": "68d0dc59d9f4f4ad6da8cdba922d37f6918d721220bbc1e0b72983881bdc8243",
+        "target_sha256": "a559f53370665f7505439330c2aceace6bdaa2a6760b26eb3b5e040cbd30dcec"
+      },
+      "ui:자산별 위험 1~5:/자산별 위험 1~05": {
+        "source_sha256": "5dcb1f462f7926c6d57da82434f4986c5bfa375fac969e4696b127285cc899d5",
+        "target_sha256": "41a1181b517ae95d31fd202cd78c5a46a3340a3c682202595b04e7a1a09d49b5"
+      },
+      "ui:자산별 위험 1~5를 보고 직접 거래한다:/자산별 위험 1~05를 보고 직접 거래한다": {
+        "source_sha256": "6cadea57f30f36e44b14a9d4447638c2c43aeeb8669933bb7923c3c3392303dc",
+        "target_sha256": "8d9035297dfb2049088e1237ae9de264847987e344aa5e831ba64bf43e8ed55f"
+      },
+      "ui:통장 밖의 돈도 시간을 먹는다:/통장 밖의 돈도 시간을 먹는다": {
+        "source_sha256": "646865d658be9b80d6397814dd4426bd8a4e7cadb4f1a06a9b60d2f7cc30b2cc",
+        "target_sha256": "9448ffe5147562fd42bb7521b9a4edb67011ba7970525cba068c83e8c4795c02"
+      },
+      "ui:투자할까, 승부를 걸까, 현금을 지킬까?:/투자할까, 승부를 걸까, 현금을 지킬까?": {
+        "source_sha256": "c3f1ff4889779ed3dbefff2cee09adf17bce3ee4572c716d582ffa52f90246c4",
+        "target_sha256": "285419c3a8754cf0d41510135c6278f86ca03c60f8742e5ff0feabcf17d1f607"
       }
     },
     "zh-TW": {
@@ -173659,10 +173841,86 @@
       "ui:후속:/후속": {
         "source_sha256": "6e3dbf20a2baa3c2fac4e8784e01c199c0742eaf2228d3ab89a987add869d08f",
         "target_sha256": "d9858d99a00961907dd7021f215b43be4429c34d2939d21bc80c6f47f2b52596"
+      },
+      "ui:1~3주 · 세션 손익과 통제의 여파:/1~03주 · 세션 손익과 통제의 여파": {
+        "source_sha256": "a137e120bdcc49aa82db8b099291f7d10edf496ceb91d0e1bda06d99efaf1c17",
+        "target_sha256": "3e29f887cdd3af63d8a609fdd25c695e69922467f9ff04d3efb1ac46fb3e13a5"
+      },
+      "ui:1~3주 · 시장 결산과 보유 자산의 변동:/1~03주 · 시장 결산과 보유 자산의 변동": {
+        "source_sha256": "64b7ee8d8dff9b87f38b60f33b493f8b3890713a1a25292e189c2205043cd0aa",
+        "target_sha256": "c85df202db648bb79ddf8c10537175081c23cccd77bde39addc77be23458b1e7"
+      },
+      "ui:{year}년 {month}월, 돈을 어디에 둘지 정할 시각이다:/{year}년 {month}월, 돈을 어디에 둘지 정할 시각이다": {
+        "source_sha256": "1fc789350eb93ccc3b0e5b003a8bb165bee7530bc43b976a15bb8e7e73a60da4",
+        "target_sha256": "e017ae86a31fdc3d48d9085a18c84f72b2d89c7fca72637c35aa2c61cb817059"
+      },
+      "ui:갈 수 있는 장소 하나에서 실제 세션을 끝낸다:/갈 수 있는 장소 하나에서 실제 세션을 끝낸다": {
+        "source_sha256": "7e07eafbf858f5882fa58ed9cfa76fcf00edd31b4ded345a20ac8a014f490292",
+        "target_sha256": "f13bec5564b5b2434dded29cb59c02bf143c949fe1c1c484e953103e368baaf8"
+      },
+      "ui:경마·홀덤·스캘핑·카지노 중 한 세션:/경마·홀덤·스캘핑·카지노 중 한 세션": {
+        "source_sha256": "da9303529229400776fa15f90e6ba7e68bf52f2d69a57e3d8978659deb4f765c",
+        "target_sha256": "9edfc6b915386a08fc06258951fa2421b9d10222da57c84ce6d27422a8aab8e5"
+      },
+      "ui:구직활동:/구직활동": {
+        "source_sha256": "6a22537065aecef511cf11c3f64d5da98f4d94c3129fde2a27d8120181e834eb",
+        "target_sha256": "004828a27bc7b0311b8a94d5e792539547293d5cd39386711f1e7fd63a3bd726"
+      },
+      "ui:높은 위험:/높은 위험": {
+        "source_sha256": "95bd38967bc88bcf0f4b266ec73d31cce24c4a4d54b7b49df745d0b91d8131ce",
+        "target_sha256": "d6ce38681c57f328a2a9ed45902c9c8fd5973077c1883c0bd5ec90f2135ec3a4"
+      },
+      "ui:돈을 움직인다:/돈을 움직인다": {
+        "source_sha256": "bb8babe384d34dd7dfc9e2fbb0d89e737f840471e86b571be16ecda7cae9ebb1",
+        "target_sha256": "86fc064cd61833f7e0b3501c1ed0479e0654af0a0d7dad3a4e9f973868f84647"
+      },
+      "ui:돈이 처음으로 선택을 요구한다:/돈이 처음으로 선택을 요구한다": {
+        "source_sha256": "200f5d85f9f0169d4b2f6ec3522b6eb5eb78700a0e4ccdcff7e6ead515cca662",
+        "target_sha256": "125e3ae1b8bcd3deb80954624bb88cf7c25bc994324ed95425f506c556ac0960"
+      },
+      "ui:불릴까, 지킬까, 사람에게 시간을 남길까?:/불릴까, 지킬까, 사람에게 시간을 남길까?": {
+        "source_sha256": "6ce9b39f76bd876fa025a65ca1cebc949dd52a4fc2faa04e6befa247c02d34b6",
+        "target_sha256": "ef74f823b44e031660dc403801562dc9996920fe78cf5561c6179146aa396a72"
+      },
+      "ui:승부를 건다:/승부를 건다": {
+        "source_sha256": "282ac11acc138a38e96928c04dfb69d4e75eb0c2b6d8ea2530ef9566f5583b26",
+        "target_sha256": "4d38a435e464addc04ec5c8f327887559dfc15fd2b7c0fd4b864f5fd5f4472d5"
+      },
+      "ui:움직일까, 현금으로 남길까, 판단부터 가다듬을까?:/움직일까, 현금으로 남길까, 판단부터 가다듬을까?": {
+        "source_sha256": "fdd69f87192b73108444ceddb53494ac9700de62ce01ebffe5f986c0022c6d15",
+        "target_sha256": "0c8c6602410ffba552347618e1d88e7501aeadee2087ea354ce1fe8a3cadff65"
+      },
+      "ui:원금 손실 가능 · 거래 전엔 취소 가능:/원금 손실 가능 · 거래 전엔 취소 가능": {
+        "source_sha256": "4557e51fd4a502ffe3d3089410876d640c7ff4d0bce8988eb8da4bf13399ad27",
+        "target_sha256": "ff6f0390cea9b71558bbfc5cbdf200f4397ae604d5240eacd54748feaa137e75"
+      },
+      "ui:원금 손실 가능 · 플레이 전엔 취소 가능:/원금 손실 가능 · 플레이 전엔 취소 가능": {
+        "source_sha256": "fb9d8143817e68d6f0892aa0c7ef0b4a0cbfd6a3d1100566b6f6574e68fae51c",
+        "target_sha256": "3799716c6832af8713c7dfec595757ca33432664feb101ac3eecb8ad8332e1fa"
+      },
+      "ui:자산 하나를 골라 실제 거래한다:/자산 하나를 골라 실제 거래한다": {
+        "source_sha256": "68d0dc59d9f4f4ad6da8cdba922d37f6918d721220bbc1e0b72983881bdc8243",
+        "target_sha256": "7b01067f8e7a7534d81fcd6af161f3b09116abf002b5ee70aa9e9c2ebad4251b"
+      },
+      "ui:자산별 위험 1~5:/자산별 위험 1~05": {
+        "source_sha256": "5dcb1f462f7926c6d57da82434f4986c5bfa375fac969e4696b127285cc899d5",
+        "target_sha256": "cf110456f236923ec1b0186131b0d521424517e9e451d94c0c5526496fe973ce"
+      },
+      "ui:자산별 위험 1~5를 보고 직접 거래한다:/자산별 위험 1~05를 보고 직접 거래한다": {
+        "source_sha256": "6cadea57f30f36e44b14a9d4447638c2c43aeeb8669933bb7923c3c3392303dc",
+        "target_sha256": "b3f0b9f3bb2b15d60ce6823ced9b2e4f248415353db52437b23c65c362665a02"
+      },
+      "ui:통장 밖의 돈도 시간을 먹는다:/통장 밖의 돈도 시간을 먹는다": {
+        "source_sha256": "646865d658be9b80d6397814dd4426bd8a4e7cadb4f1a06a9b60d2f7cc30b2cc",
+        "target_sha256": "fa2b0bee7a455e84e307195378405cf48b27beb26ca44683f69b96e207f1c38e"
+      },
+      "ui:투자할까, 승부를 걸까, 현금을 지킬까?:/투자할까, 승부를 걸까, 현금을 지킬까?": {
+        "source_sha256": "c3f1ff4889779ed3dbefff2cee09adf17bce3ee4572c716d582ffa52f90246c4",
+        "target_sha256": "6bcdf70e9fec81bc4618d132d8a1e6fbed6d10654ea5000dad683c5f38a354bf"
       }
     }
   },
-  "accepted_sha256": "4ab720d230976d25c2f08282cc7e8613df7b50d46d0154b3207fb61640ef613c",
+  "accepted_sha256": "f94b47e10ba562e7525c4ddf3812b1c9e97351fff707840d8b220ceef5714d02",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
