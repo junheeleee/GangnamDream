@@ -7286,5 +7286,93 @@ _tutorial_copy_call_views = _investment_ap_call_views
 _promotion_review_call_views = _investment_ap_call_views
 # END_INVESTMENT_AP_COPY_COLLECTOR_467
 
+# BEGIN_ENDING_FATHER_COLLECTOR_468
+ENDING_FATHER_PIPELINE_APPEND_SHA = "795dcaac2481dfeb4e3135ed64c1265dbece825a59faf0a394f35f71b24eb4eb"
+ENDING_FATHER_PIPELINE_BEFORE_SHA = "2a8628235bebcfe167829aa02938d7e27a1c56cbd54e6c942374bca1f0d10834"
+ENDING_FATHER_PIPELINE_BEFORE_BLOB = "be25f8de2c5a5487900c2a27fec7553fd8d3ffdf"
+_ENDING_FATHER_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
+
+
+def ending_father_pipeline_predecessor(raw):
+    """Preserve the complete sealed collector prefix while adding call offsets."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("ending-Father collector code raw/import identity differs")
+    start, end = b"# BEGIN_ENDING_FATHER_COLLECTOR_468\n", b"# END_ENDING_FATHER_COLLECTOR_468\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("ending-Father collector appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    binding = ('ENDING_FATHER_PIPELINE_APPEND_SHA = "' + ENDING_FATHER_PIPELINE_APPEND_SHA + '"').encode()
+    span = raw[a:z]
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'ENDING_FATHER_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != ENDING_FATHER_PIPELINE_APPEND_SHA:
+        raise ValueError("ending-Father collector appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != ENDING_FATHER_PIPELINE_BEFORE_SHA:
+        raise ValueError("ending-Father collector whole predecessor differs")
+    blob = _current_demo_git("show", _gift_history.ENDING_FATHER_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
+            != ENDING_FATHER_PIPELINE_BEFORE_BLOB):
+        raise ValueError("ending-Father collector immutable blob differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _ENDING_FATHER_OLD_MODAL_PIPELINE_PREDECESSOR(ending_father_pipeline_predecessor(raw))
+
+
+def _investment_ap_stage_call_views(raw):
+    """One current Git proof supplies both immutable comparison views."""
+    predecessors = _gift_history._ending_father_proof(raw, ROOT)
+    if (not isinstance(predecessors, tuple) or len(predecessors) != 14
+            or any(not isinstance(value, bytes) for value in predecessors)):
+        raise ValueError("investment-AP predecessor population differs")
+    path = _gift_history.MAIN_GAME_PATH
+    parsed = [parse_ui_calls(path, value.decode("utf-8"))
+              for value in (predecessors[-1], predecessors[1], predecessors[0], raw)]
+    if any(errors for _calls, errors in parsed):
+        raise ValueError("investment-AP MainGame call parse differs")
+    before, retained, pre468, actual = (tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
+                                for calls, _errors in parsed)
+    added = _gift_history.ENDING_FATHER_INSERTION.encode()
+    offset = predecessors[0].index(_gift_history.ENDING_FATHER_ANCHOR.encode())
+    offset += len(_gift_history.ENDING_FATHER_ANCHOR.encode())
+    inserted_after_line = predecessors[0][:offset].count(b"\n")
+    if (added.count(b"\n") != 6
+            or tuple(_gift_replace(c, line=c.line + 6) if c.line > inserted_after_line else c
+                     for c in pre468) != actual):
+        raise ValueError("ending-Father exact six-line call offset or UI semantics differ")
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    # Preserve the established pre381 -> pre467 tutorial/promotion/tenure view.
+    historical_pairs = tuple(((path, owner, "legacy", old_ko, old_en, ""),
+                              (path, owner, "legacy", new_ko, new_en, ""))
+                             for owner, old_ko, old_en, new_ko, new_en in (
+        ("_show_tutorial", _gift_history.TUTORIAL_OLD_KO, _gift_history.TUTORIAL_OLD_EN,
+         _gift_history.TUTORIAL_NEW_KO, _gift_history.TUTORIAL_NEW_EN),
+        ("_open_cat_work", _gift_history.PROMOTION_OLD_KO, _gift_history.PROMOTION_OLD_EN,
+         _gift_history.PROMOTION_NEW_KO, _gift_history.PROMOTION_NEW_EN),
+        ("_open_cat_work", _gift_history.TENURE_KO, _gift_history.TENURE_OLD_EN,
+         _gift_history.TENURE_KO, _gift_history.TENURE_NEW_EN)))
+    old_semantic, retained_semantic = list(map(semantic, before)), list(map(semantic, retained))
+    replacements = dict(historical_pairs)
+    if (len(replacements) != 3
+            or any(old_semantic.count(old) != 1 or retained_semantic.count(new) != 1
+                   or old in retained_semantic for old, new in historical_pairs)
+            or [replacements.get(row, row) for row in old_semantic] != retained_semantic):
+        raise ValueError("investment-AP preserved historical MainGame selectors differ")
+    selectors = {(path, owner, "legacy", *AP_COPY_OLD_PAIR, "") for owner in AP_COPY_OWNERS}
+    if (len(selectors) != 3 or any(retained_semantic.count(row) != 1 for row in selectors)
+            or sum(c.korean == AP_COPY_OLD_PAIR[0] for c in retained) != 3
+            or any(c.korean == AP_COPY_OLD_PAIR[0] for c in pre468)
+            or tuple(_gift_replace(c, korean=AP_COPY_NEW_PAIR[0], english=AP_COPY_NEW_PAIR[1])
+                     if semantic(c) in selectors else c for c in retained) != pre468
+            or sum(c.korean == AP_COPY_NEW_PAIR[0] for c in pre468)
+            != sum(c.korean == AP_COPY_NEW_PAIR[0] for c in retained) + 3):
+        raise ValueError("investment-AP exact three current selectors or unowned calls differ")
+    return before, retained, actual
+
+# The existing AP rebinder keeps all surviving Entry IDs/statistics and uses
+# the actual current call coordinates returned by the successor view above.
+# END_ENDING_FATHER_COLLECTOR_468
+
 if __name__ == "__main__":
     sys.exit(main())

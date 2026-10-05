@@ -47,7 +47,7 @@
 - PR B1 근거 문서: DECISIONS·I18N_GLOSSARY의 PR 변경, PR의 queue_backlog 문서와
   역사 기록. 기존 WORK_LOG는 덮어쓰지 않고 이력 링크/이번 항목만 보탠다.
   `tools/prose_signal_report.py`는 제품 들이기에 필요하지 않으므로 제외한다.
-- root 기록: 이 사양/큐/CLAUDE 현재행/WORK_LOG/생성STATUS 및 독립 판정 원장.
+- root 기록: 이 사양/큐(이어보기 `CODEX_QUEUE_L3_PENDING.md`의 순번 포함)/CLAUDE 현재행/WORK_LOG/생성STATUS 및 독립 판정 원장.
   비저자 검수 보고 `docs/agent_reviews/ORDER-468.json`; private 증거 `.git/pr31-intake-*`.
 - 이전467 미완료 변경4도구와 InvestmentAPCopyCheck2파일은 지우지 않는다.
   AP3문구 수리와 실제 Git 핀을 보존하고 이번 Main6줄과 연결한다.
@@ -64,6 +64,10 @@ source가 낡아짐을 확인했다. 원래 B3 안의 총8잎×3언어24영수�
 선행구만 추가한다. pr31_main_compat가 해당 분기와 신규
 `tools/pr31_quantity_check.py` 양성/음성 표적 검사를 소유한다.
 값·단위·초과/미만·중복 수량 검사는 보존하며 범용 예외는 추가하지 않는다.
+동일24잎 전수 기계검사에서 `십 년이 넘은 보증인 칸`과 `十多年前`도
+같은 종류의 초과기간 오탐으로 확인했다. 같은 두 도구에서 보증인 칸의
+정확한 한국어 후행구에 한해 초과 연수 분류와 기존 초과기간 부정/단위 방어를
+함께 연결한다. 일반 연수 패턴은 넓히지 않으며 원래 번역은 그대로 둔다.
 
 **금지:** 모든 언어의 `arc_events.json`, `project.godot`, 공개 데모/사용자 저장,
 과거 인간 판정과 실제 GO를 변경하지 않는다. 7k·수첩/5년 초안은 후속 별도 오더다.

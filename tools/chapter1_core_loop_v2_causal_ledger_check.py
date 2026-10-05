@@ -39,7 +39,7 @@ import order305_demo_source_compat as demo_source
 import order310_demo_source_compat as latest_demo_source
 import order316_header_source_compat as header_source
 import order350_source_compat as chapter3_source
-import order351_source_compat as current_source
+import pr31_intake_history as current_source
 import order365_ui_receipt_compat as ui_receipts
 
 
@@ -4759,6 +4759,47 @@ def order363_inventory_history_self_test() -> tuple[list[str], int]:
         path, current_hash, after, current_admitted=True)
     check(actual == old_hash and not errors, "fresh valid proof still works after failures")
     return failures, cases
+
+
+# PR31 adds one current inventory observation. The original two ORDER-363
+# transitions and their bounded negative corpus remain exact comparison data.
+_PR31_OLD_INVENTORY_OBSERVATION = _order363_inventory_observation
+_PR31_OLD_INVENTORY_SELF_TEST = order363_inventory_history_self_test
+
+
+def _order363_inventory_observation(
+        relative: str, observed: str, raw: bytes, *, current_admitted: bool) -> tuple[str, list[str]]:
+    if relative != ORDER363_INVENTORY_PATH:
+        return _PR31_OLD_INVENTORY_OBSERVATION(relative, observed, raw, current_admitted=current_admitted)
+    try:
+        if not current_admitted or not isinstance(raw, bytes) or hashlib.sha256(raw).hexdigest() != observed:
+            raise ValueError("whole-current admission/raw observation differs")
+        previous = current_source.release_inventory_predecessor(raw, ROOT)
+        result, errors = _PR31_OLD_INVENTORY_OBSERVATION(
+            relative, hashlib.sha256(previous).hexdigest(), previous, current_admitted=True)
+        if errors:
+            raise ValueError("; ".join(errors))
+        return result, []
+    except (OSError, ValueError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
+        return observed, ["PR31 inventory history rejected: " + str(exc)]
+
+
+def order363_inventory_history_self_test() -> tuple[list[str], int]:
+    """Current intake delta, plus the unchanged historical bounded corpus."""
+    from pr31_intake_history_self_test import inventory_cases
+    failures, cases = inventory_cases(sys.modules[__name__])
+    # Explicit comparison fixture for the pre-intake original 363 corpus; this
+    # never substitutes for the real current observation tested above.
+    _old, legacy = _order363_inventory_verified_history()
+    original_read = Path.read_bytes
+
+    def comparison_read(path):
+        return legacy if path == ROOT / ORDER363_INVENTORY_PATH else original_read(path)
+
+    with patch.object(Path, "read_bytes", comparison_read), \
+            patch(f"{__name__}._order363_inventory_observation", _PR31_OLD_INVENTORY_OBSERVATION):
+        old_failures, old_cases = _PR31_OLD_INVENTORY_SELF_TEST()
+    return failures + old_failures, cases + old_cases
 
 
 def _order243_history_byte_hash(current_hash: str, relative: str) -> str:

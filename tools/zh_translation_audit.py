@@ -1591,8 +1591,12 @@ def _source_counter_kind(
         return "tentative_greeting_once"
     if counter == "번" and preceding.endswith("지하 ") and following == "출구":
         return "underground_exit"
-    if counter == "달" and preceding.endswith("생각해보니 ") and following.startswith("이 넘었다"):
+    if counter == "달" and preceding.endswith(
+        ("생각해보니 ", "아버지가 떠난 지 ")
+    ) and following.startswith("이 넘었다"):
         return "duration_month_over"
+    if counter == "년" and following.startswith("이 넘은 보증인 칸"):
+        return "duration_year_over"
     if counter == "번" and preceding.endswith("부재중 ") and re.match(r"\.(?:\s|$)", following):
         return "missed_call"
     if counter == "차" and (
@@ -3128,6 +3132,8 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
         return re.compile(rf"每[個个]?月(?:總會發作|总会发作)?(?:(?P<number>一[兩两])|(?P<range_start>{CHINESE_CARDINAL})\s*[~～至到-]\s*(?P<range_end>{CHINESE_CARDINAL}))次")
     if kind == "duration_month_over":
         return re.compile(rf"超[過过](?P<over_month>{CHINESE_CARDINAL})(?:個|个)?月|(?P<number>{CHINESE_CARDINAL})(?:個|个)?多月")
+    if kind == "duration_year_over":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})多年前")
     if kind == "video_duration_minute":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?:分鐘|分钟|分(?={CHINESE_CARDINAL}秒))")
     if kind in {"soup_sip", "tea_sip"}:
@@ -4296,11 +4302,11 @@ def _match_target_counter_quantities(
                 r'(?:不是|並非|并非|不|非)\s*$', target[:match.start()],
             ):
                 continue
-            if expected.kind == 'duration_month_over' and re.search(
-                r'(?:不|未|沒|没|沒有|没有|不曾|並非|并非|不到|少於|少于)\s*$', target[:match.start()],
+            if expected.kind in {'duration_month_over', 'duration_year_over'} and re.search(
+                r'(?:不是|不|未|沒|没|沒有|没有|不曾|並非|并非|不到|少於|少于)\s*$', target[:match.start()],
             ):
                 continue
-            if expected.kind in {'duration_month_over', 'missed_call'} and re.match(
+            if expected.kind in {'duration_month_over', 'duration_year_over', 'missed_call'} and re.match(
                 r"(?:[秒歲岁米年月日天元度人位]|公里|小時|小时|分鐘|分钟|韓元|韩元)",
                 target[match.end():].lstrip(),
             ):
@@ -4352,7 +4358,7 @@ def _match_target_counter_quantities(
                 "outing_round",
                 "story_pair",
                 "rice_bowl", "age_decade_unspecified",
-                "duration_month_over", "missed_call",
+                "duration_month_over", "duration_year_over", "missed_call",
                 "soup_sip", "tea_sip",
                 "petal_count", "turned_look_count",
                 "laughter_once", "small_coffee_can", "stay_night", "ordinal_meeting", "never_sea_entry",

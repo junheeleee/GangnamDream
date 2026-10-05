@@ -816,6 +816,9 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
     require(len(set(commits)) == len(commits) and commits == [c for c in order if c in commits], "fee history order/population")
     exact = {CORRECTION_AFTER_COMMIT: (_correction_proof, _correction_comparison),
              FEE_AFTER_COMMIT: (_fee_correction_proof, _fee_comparison)}
+    pr31 = ({row[0]: row[1:] for row in _pr31_history.receipt_transitions(root, inventory)}
+            if _pr31_history.INTAKE_COMMIT in commits else {})
+    require(set(pr31) <= set(commits), "PR31 receipt transition omitted from actual history")
     corrections, transitions, manifests, totals = [], [], {}, Counter()
     residual_pending = None  # Exact ORDER-451 two-commit delivery only.
     split_receipts = _SplitReceiptHistory(root, inventory)
@@ -866,6 +869,11 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
             require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
                     "coin call lineage or protected UI locale differs")
             corrections.append((_coin_history.coin_call_comparison, before, after))
+        elif commit in pr31:
+            before, after, change, inverse = pr31[commit]
+            require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
+                    "PR31 lineage or protected UI locale differs")
+            corrections.append((inverse, before, after))
         elif commit in exact:
             proof, inverse = exact[commit]
             before, after, change = proof(root, inventory)
@@ -2847,3 +2855,82 @@ def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes
             "Git candidate changed during investment AP admission")
     return result
 # END_INVESTMENT_AP_COPY_SOURCE_467
+
+
+# BEGIN_ENDING_FATHER_SOURCE_468
+_ENDING_FATHER_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _ENDING_FATHER_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    history = _investment_ap_history
+    binding = history._investment_ap_current_binding(root)
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    hashes = inventory["source_hashes"]
+    require(binding[2] == history.ENDING_FATHER_BLOBS[1]
+            and hashlib.sha256(raw).hexdigest() == history.ENDING_FATHER_HASHES[1]
+            and hashes.get(history.MAIN_GAME_PATH) == history.ENDING_FATHER_HASHES[1]
+            and exchange.digest(hashes) == inventory["source_manifest_sha256"],
+            "ending-Father current source census/HEAD/raw mismatch")
+    pre468 = {**hashes, history.MAIN_GAME_PATH: history.ENDING_FATHER_HASHES[0]}
+    pre467 = {**hashes, history.MAIN_GAME_PATH: history.AP_COPY_HASHES[0]}
+    predecessor_inventory = {**inventory, "source_hashes": pre467,
+                             "source_manifest_sha256": exchange.digest(pre467)}
+    # Add only the actual current tuple and its exact pre468 tuple. Older
+    # Main/Holdem/Opening combinations remain owned by their earlier wrappers;
+    # the rebound432 boundary runs the fresh sixteen-stage Main proof once.
+    historical_expected = (predecessor_inventory["source_manifest_sha256"]
+                           if expected in (inventory["source_manifest_sha256"], exchange.digest(pre468))
+                           else expected)
+    result = _INVESTMENT_AP_OLD_MANIFEST_MATCHES(root, predecessor_inventory, historical_expected)
+    require(history._investment_ap_current_binding(root) == binding
+            and (root / history.MAIN_GAME_PATH).read_bytes() == raw,
+            "ending-Father current source changed during manifest comparison")
+    return result
+# END_ENDING_FATHER_SOURCE_468
+
+
+# BEGIN_PR31_CONTENT_AND_RECEIPT_468
+import pr31_intake_history as _pr31_history
+
+_PR31_OLD_MANIFEST_MATCHES = _source_manifest_matches
+_PR31_OLD_CURRENT_PROOF = current_proof
+_PR31_OLD_VALIDATE_HISTORY = validate_history
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _PR31_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    predecessor = _pr31_history.source_predecessor_inventory(root, inventory)
+    # The helper proves only the exact imported Korean event/ending changes.
+    # MainGame retains its actual current hash for the six-line adapter above.
+    historical_expected = (predecessor["source_manifest_sha256"]
+                           if expected == inventory["source_manifest_sha256"] else expected)
+    return _PR31_OLD_MANIFEST_MATCHES(root, predecessor, historical_expected)
+
+
+def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, bytes],
+                     current: Mapping[str, bytes], inventory: dict[str, Any]) -> dict[str, Any]:
+    if "source_hashes" not in inventory:
+        return _PR31_OLD_VALIDATE_HISTORY(root, baseline_commit, baseline, current, inventory)
+    # Scoped immutable reads are shared only within this invocation; the helper
+    # and existing history verifier still bind actual current Git/disk bytes.
+    with _pr31_history.fresh_validation_proof(root):
+        return _PR31_OLD_VALIDATE_HISTORY(root, baseline_commit, baseline, current, inventory)
+
+
+def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:
+    with _pr31_history.fresh_validation_proof(root) as proof:
+        raw = _pr31_history.current_content_raw(root)
+        result = _PR31_OLD_CURRENT_PROOF(root, baseline_commit, baseline)
+        require(all(result["source_hashes"].get(path) == hashlib.sha256(raw[path]).hexdigest()
+                    for path in _pr31_history.SOURCE_PATHS)
+                and exchange.digest(result["source_hashes"]) == result["source_manifest_sha256"],
+                "PR31 current content source census/raw binding differs")
+        require(all((root / path).read_bytes() == value for path, value in raw.items())
+                and _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == proof["head"]
+                and result["evidence"]["head"] == proof["head"],
+                "PR31 content or Git candidate changed during admission")
+        return result
+# END_PR31_CONTENT_AND_RECEIPT_468

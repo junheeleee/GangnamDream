@@ -45,7 +45,7 @@ import order310_demo_source_compat as latest_demo_source  # noqa: E402
 import order309_source_compat as prior_source  # noqa: E402
 import order313_source_compat as chapter2_source  # noqa: E402
 import order350_source_compat as chapter3_source  # noqa: E402
-import order351_source_compat as current_source  # noqa: E402
+import pr31_intake_history as current_source  # noqa: E402
 import order365_ui_receipt_compat as ui_receipts  # noqa: E402
 
 
@@ -818,8 +818,11 @@ def _baseline_target_errors(
 
 def _order305_historical_events(events: Mapping[str, SourceEvent]) -> dict[str, SourceEvent]:
     """Copy only exact successor objects; current inventory/receipts stay raw."""
-    return {eid: replace(event, row=current_source.project_payload(
-        [event.row], event.source_file)[0]) for eid, event in events.items()}
+    # One fresh invocation-bound proof for this vector, not one full Git/ledger
+    # read per event. The context verifies Git/disk again before returning.
+    with current_source.fresh_validation_proof():
+        return {eid: replace(event, row=current_source.project_payload(
+            [event.row], event.source_file)[0]) for eid, event in events.items()}
 
 
 def current_target_acceptance(
@@ -1189,8 +1192,14 @@ def _admitted_source_history_observations(report: Mapping[str, Any]) -> tuple[di
     errors: list[str] = []
     live: list[TextLeaf] = []
     historical: list[TextLeaf] = []
+    # PR31 also edits dormant author-only prose. Bind the report population to
+    # the independently evaluated lifecycle, never to the submitted report.
+    lifecycle = evaluate_author_only(collect_lifecycle_inputs(ROOT))
+    errors.extend("event lifecycle: " + message for message in lifecycle.errors)
+    shipping_ids = set(lifecycle.product_event_ids)
     expected_paths = {eid: relative for relative, changes in current_source.HISTORICAL_JSON_LEAVES.items()
-                      if relative.startswith("content/events/") for eid, _path in changes}
+                      if relative.startswith("content/events/") for eid, _path in changes
+                      if eid in shipping_ids}
     # Reuse proof only within this observation, not across calls or mutations.
     proof_rows: dict[str, tuple[dict[str, Any], dict[str, Any]]] = {}
     for relative in sorted(set(expected_paths.values())):
@@ -1656,8 +1665,9 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         forged[SCOPE_M07_M60_STATIC]["deferred_added_leaf_count"] = sum(leaf.event_id in deferred_ids for leaf in static_leaves)
         forged[SCOPE_M07_M60_STATIC]["immediate_closure_leaf_count"] = sum(leaf.event_id not in deferred_ids for leaf in static_leaves)
 
-    # Preserve preceding mutations (including 350/359 leaf removal) and add 351.
-    for relative, changes in current_source.HISTORICAL_JSON_LEAVES.items():
+    # Preserve the existing bounded351 corpus. PR31's independent delta corpus
+    # checks all71 raw files; do not multiply every old fixture by every PR row.
+    for relative, changes in current_source.previous.HISTORICAL_JSON_LEAVES.items():
         if not relative.startswith("content/events/"):
             continue
         before, _after = current_source.historical_blobs(relative)

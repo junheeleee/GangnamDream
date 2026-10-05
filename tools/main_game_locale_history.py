@@ -2620,3 +2620,151 @@ def _log_body_font_proof(current, root=None):
     # Original getters keep their exact twelve-result meaning, including pre381.
     return _investment_ap_proof(current, root)[1:]
 # END_INVESTMENT_AP_COPY_HISTORY_467
+
+
+# BEGIN_ENDING_FATHER_HISTORY_468
+# The alive-Father empty_house guard adds no UI call; retain every earlier
+# immutable stage and compare all current bytes without replacing disk or Git.
+ENDING_FATHER_BEFORE_COMMIT = "e97e2cd2f1b2172c0794ca9943e267f0efd6fd0a"
+ENDING_FATHER_AFTER_COMMIT = "e88742ca337cce13e26beca6639071ac488c3244"
+ENDING_FATHER_TREES = ("0f3e784623a15816b596f5d2892ddc148ec84e67", "a55e5f82b5f7ce97bde750d5a999a3247151abc9")
+ENDING_FATHER_BLOBS = ("2fd638fb6c03d5518512d68fbc476af226811d16", "6641222287ecbfc6ca2eeb974e23eea56b83b4b1")
+ENDING_FATHER_HASHES = ("ceb0553a5b58363c0014fc6c563ea0d8a5167f4eedc655e265220979ed6e8ac6",
+                        "83a0c10c2c5878d13afd511c5ebc494dc570380617aedf1dc86151d00ed932e4")
+ENDING_FATHER_ANCHOR = (
+    'func _resolved_ending_description(ending: Dictionary) -> String:\n'
+    '\tvar ending_desc := str(ending.get("description", ""))\n'
+    '\tvar ending_know = ending.get("description_if_known", null)\n'
+)
+ENDING_FATHER_INSERTION = (
+    '\t# empty_house also closes a run whose Father is alive but unreconciled\n'
+    '\t# (GameState finish_run). Its variants all remember his death, so a living\n'
+    '\t# Father keeps the base text, which never kills him.\n'
+    '\tif str(ending.get("id", "")) == "empty_house" \\\n'
+    '\t\t\tand not _father_death_is_monotonic(GameState.flags, false):\n'
+    '\t\tending_know = null\n'
+)
+
+
+def ending_father_inverse(current, before):
+    """Recover the complete predecessor only for the exact owner-local6 lines."""
+    if not isinstance(current, bytes) or not isinstance(before, bytes):
+        raise ValueError("ORDER-468: ending inverse requires raw bytes")
+    anchor, added = ENDING_FATHER_ANCHOR.encode(), ENDING_FATHER_INSERTION.encode()
+    if (before.count(anchor) != 1 or current.count(anchor) != 1
+            or added.count(b"\n") != 6 or before.count(added) != 0
+            or current.count(added) != 1
+            or before.replace(anchor, anchor + added, 1) != current):
+        raise ValueError("ORDER-468: changes outside exact alive-Father6 lines")
+    return before
+
+
+def _ending_father_proof(current, root=None):
+    """Fresh sixteen-stage proof: pre468 followed by all thirteen prior views."""
+    from pathlib import Path
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != ENDING_FATHER_HASHES[1]:
+        raise ValueError("ORDER-468: unapproved current MainGame raw")
+    binding = _investment_ap_current_binding(root)
+    if binding[2] != ENDING_FATHER_BLOBS[1] or (root / MAIN_GAME_PATH).read_bytes() != current:
+        raise ValueError("ORDER-468: current HEAD/disk MainGame differs")
+    stages = (
+        (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
+        (JOB_STATUS_BEFORE_COMMIT, JOB_STATUS_AFTER_COMMIT, JOB_STATUS_TREES, JOB_STATUS_BLOBS, JOB_STATUS_HASHES),
+        (INVESTMENT_BEFORE_COMMIT, INVESTMENT_AFTER_COMMIT, INVESTMENT_TREES, INVESTMENT_BLOBS, INVESTMENT_HASHES),
+        (TUTORIAL_BEFORE_COMMIT, TUTORIAL_AFTER_COMMIT, TUTORIAL_TREES, TUTORIAL_BLOBS, TUTORIAL_HASHES),
+        (PAD_HINT_BEFORE_COMMIT, PAD_HINT_AFTER_COMMIT, PAD_HINT_TREES, PAD_HINT_BLOBS, PAD_HINT_HASHES),
+        (PEOPLE_CARD_BEFORE_COMMIT, PEOPLE_CARD_AFTER_COMMIT, PEOPLE_CARD_TREES, PEOPLE_CARD_BLOBS, PEOPLE_CARD_HASHES),
+        (PEOPLE_CARD_REPAIR_BEFORE_COMMIT, PEOPLE_CARD_REPAIR_AFTER_COMMIT, PEOPLE_CARD_REPAIR_TREES,
+         PEOPLE_CARD_REPAIR_BLOBS, PEOPLE_CARD_REPAIR_HASHES),
+        (AXIS_BADGE_BEFORE_COMMIT, AXIS_BADGE_AFTER_COMMIT, AXIS_BADGE_TREES, AXIS_BADGE_BLOBS, AXIS_BADGE_HASHES),
+        (PROMOTION_BEFORE_COMMIT, PROMOTION_AFTER_COMMIT, PROMOTION_TREES, PROMOTION_BLOBS, PROMOTION_HASHES),
+        (TENURE_BEFORE_COMMIT, TENURE_AFTER_COMMIT, TENURE_TREES, TENURE_BLOBS, TENURE_HASHES),
+        (GIFT_PRICE_BEFORE_COMMIT, GIFT_PRICE_AFTER_COMMIT, GIFT_PRICE_TREES, GIFT_PRICE_BLOBS, GIFT_PRICE_HASHES),
+        (REACTION_FONT_BEFORE_COMMIT, REACTION_FONT_AFTER_COMMIT, REACTION_FONT_TREES, REACTION_FONT_BLOBS, REACTION_FONT_HASHES),
+        (DECISION_RISK_BEFORE_COMMIT, DECISION_RISK_AFTER_COMMIT, DECISION_RISK_TREES, DECISION_RISK_BLOBS, DECISION_RISK_HASHES),
+        (LOG_BODY_FONT_BEFORE_COMMIT, LOG_BODY_FONT_AFTER_COMMIT, LOG_BODY_FONT_TREES, LOG_BODY_FONT_BLOBS, LOG_BODY_FONT_HASHES),
+        (AP_COPY_BEFORE_COMMIT, AP_COPY_AFTER_COMMIT, AP_COPY_TREES, AP_COPY_BLOBS, AP_COPY_HASHES),
+        (ENDING_FATHER_BEFORE_COMMIT, ENDING_FATHER_AFTER_COMMIT, ENDING_FATHER_TREES, ENDING_FATHER_BLOBS, ENDING_FATHER_HASHES),
+    )
+    requests = []
+    for before, after, trees, blobs, _hashes in stages:
+        requests.extend((c, c, "commit") for c in (before, after))
+        requests.extend((t, t, "tree") for t in trees)
+        requests.extend((c + ":" + MAIN_GAME_PATH, oid, "blob") for c, oid in zip((before, after), blobs))
+    proof = _modal_git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = proof.index(b"\n", cursor)
+        oid, actual_kind, size = proof[cursor:end].decode().split()
+        size = int(size)
+        value = proof[end + 1:end + 1 + size]
+        if (size < 0 or oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or proof[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-468: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(proof):
+        raise ValueError("ORDER-468: trailing immutable proof bytes")
+    for stage, (before, after, trees, _blobs, hashes) in enumerate(stages):
+        offset = stage * 6
+        for index in range(2):
+            headers = values[offset + index].split(b"\n\n", 1)[0].splitlines()
+            if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + trees[index].encode()]:
+                raise ValueError("ORDER-468: immutable tree differs")
+            if index and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + before.encode()]:
+                raise ValueError("ORDER-468: direct parent differs")
+        if tuple(hashlib.sha256(v).hexdigest() for v in values[offset + 4:offset + 6]) != hashes:
+            raise ValueError("ORDER-468: immutable whole raw differs")
+        if _modal_git(root, "diff", "--name-status", "-z", before, after) != b"M\0" + MAIN_GAME_PATH.encode() + b"\0":
+            raise ValueError("ORDER-468: product path population differs")
+        if stage:
+            _modal_git(root, "merge-base", "--is-ancestor", stages[stage - 1][1], before)
+            if values[offset + 4] != values[offset - 1]:
+                raise ValueError("ORDER-468: nonconsecutive raw history")
+    _modal_git(root, "merge-base", "--is-ancestor", ENDING_FATHER_AFTER_COMMIT, "HEAD")
+    if values[95] != current:
+        raise ValueError("ORDER-468: current/blob binding differs")
+    pre468 = ending_father_inverse(current, values[94])
+    pre467 = investment_ap_inverse(pre468, values[88])
+    pre432 = _log_body_font_inverse(pre467, values[82])
+    pre423 = _decision_risk_width_inverse(pre432, values[76])
+    pre416 = _reaction_body_font_inverse(pre423, values[70])
+    pre412 = _gift_price_badge_inverse(pre416, values[64])
+    pre409 = _career_tenure_inverse(pre412, values[58])
+    pre406 = _promotion_review_copy_inverse(pre409, values[52])
+    pre403 = _axis_badge_fit_inverse(pre406, values[46])
+    recovered = _people_card_height_inverse(pre403, values[34])
+    intermediate = _people_card_height_step_inverse(pre403, values[40], PEOPLE_CARD_REPAIR_REPLACEMENT)
+    if _people_card_height_step_inverse(intermediate, values[34], PEOPLE_CARD_INITIAL_REPLACEMENT) != recovered:
+        raise ValueError("ORDER-468: stagewise and combined inverses differ")
+    recovered = _pad_hint_font_inverse(recovered, values[28])
+    inverse_stages = (((TUTORIAL_REPLACEMENT,), values[22]),
+                      (INVESTMENT_REPLACEMENTS, values[16]),
+                      ((tuple(v.decode() for v in JOB_STATUS_REPLACEMENT),), values[10]),
+                      (MODAL_REPLACEMENTS, values[4]))
+    if tuple(len(parts) for parts, _ in inverse_stages) != (1, 3, 1, 3):
+        raise ValueError("ORDER-468: prior inverse population differs")
+    for replacements, before in inverse_stages:
+        for old, new in reversed(replacements):
+            old, new = old.encode(), new.encode()
+            if not old or old == new or recovered.count(new) != 1:
+                raise ValueError("ORDER-468: prior inverse is not exact1")
+            recovered = recovered.replace(new, old, 1)
+        if recovered != before:
+            raise ValueError("ORDER-468: changes outside prior exact copy/rendering repairs")
+    if _investment_ap_current_binding(root) != binding or (root / MAIN_GAME_PATH).read_bytes() != current:
+        raise ValueError("ORDER-468: current Git/disk changed during proof")
+    return (pre468, pre467, pre432, pre423, pre416, pre412, pre409, pre406, pre403,
+            values[34], values[28], values[22], values[16], recovered)
+
+
+def ending_father_predecessor(current, root=None):
+    return _ending_father_proof(current, root)[0]
+
+
+def _investment_ap_proof(current, root=None):
+    # Every pre468 consumer keeps the original thirteen-result meaning.
+    return _ending_father_proof(current, root)[1:]
+# END_ENDING_FATHER_HISTORY_468

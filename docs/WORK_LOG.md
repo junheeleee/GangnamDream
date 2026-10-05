@@ -4,6 +4,10 @@
 
 ## 2026-10-05 — 사용자 우선 PR31 문장 수리 들이기 선언 (468)
 
+- 실제 통합4b26792(부모8a2c9a9/b9284e3), Main6 e88742c, 공식24영수증 db4de2f. 기존 main66신규 UI잎/6배치 보존, accepted41830/b240. arc_events5·project·과거 인간/공개/사용자 저장 불변.
+- 기본 EN/EN한글18, JA_UI/JA pipeline, ZH기본/자체12623, inventory history82, 새source역상167 통과. 현재 PR변경 accepted687 전수 기계오류0. 초과월수/연수 오탐2종은 원문 분류만 좁혀 수리하고 비저자가 찾은 `不是` 누락을 포함한68사례 PASS. ZH전체 자체검사는 연수추가 전 증거이며 이후 변경은 새표적검사로 구분한다.
+- `.git/pr31-intake-20261005.Kz8A4y/runtime2/result.json`: prepared 엔딩235/5언어·투자AP30/주복원5 PASS, 보호57/11그룹·제품697 전후동일. runtime1의10실패는 fixture가 생존+사망flag를 동시에 만든 기대값 오류였고 보존한다. 실제렌더/자연입력/원어민/인간 관찰이 아니다.
+- 공식 CN/TW 검사에서 확인한2오탐의 실패출력은 보존했다. 원래 번역을 고치지 않고 공식check/import 각8 changed_files0. 서로 다른 consumer가 전체 현재 이력을 중복 읽지 않도록 한 호출 내 fresh proof를 공유해 최종검사한다. 별도시작한 content1 중 inventory82 PASS만 채택, graph/ch5 실행은 중단·미판정으로 기록한다.
 - 최신 지시에 따라 B3/B4와 후처리3종을 먼저 진행한다. PR runbook은 로컬 미존재로 원격 브랜치에서 직접 읽었고, 최신 b9284e3의 추가분은 심의목록2지문 보정뿐이다.
 - 진행 중467의 Main3쌍/도구4파일/새fixture2파일을 보존한다. 467 검수 미완료를 완료로 올리지 않으며 Main6줄의 새 역사 전이에 연결한다.
 - 선언 후 EN_HANGUL 오탐부터 수리한다. arc_events.json·project.godot·공개/사용자 저장과 인간 판정은 불변, 7k/수첩·5년은 별도다.

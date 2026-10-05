@@ -23,6 +23,7 @@ import order351_source_compat as previous
 import ui_translation_append as ui_append
 import coffee_encounter_receipt_history as coffee_history
 import coin_call_receipt_history as coin_history
+import pr31_intake_history as pr31_history
 
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER_PATH = "content/meta/full_game_localization.json"
@@ -30,7 +31,7 @@ LOCALES = ("zh-CN", "zh-TW")
 UI_PATHS = tuple(f"locale/ui_{locale}.json" for locale in LOCALES)
 CURRENT_PATHS = (*UI_PATHS, LEDGER_PATH)
 LIVE_PATHS = tuple(dict.fromkeys((*previous.LIVE_PATHS, *ui_append.CURRENT_UI_PATHS,
-                                *coin_history.EVENT_PATHS)))
+                                *coin_history.EVENT_PATHS, *pr31_history.CONTENT_PATHS)))
 # An additional current dictionary, not part of the immutable three-file365 delta.
 JA_BASELINE_BLOB = "11cdf6beae26d2eb2174af79253cfe802254079e"
 JA_BASELINE_SHA256 = "9881e43fc34ac67241dc4819068f0dcda8ee714119778d059ddd7088fce75f1d"
@@ -333,7 +334,7 @@ def fresh_validation_proof():
         yield
         return
     proof = _read_proof()
-    with previous.fresh_validation_proof():
+    with pr31_history.fresh_validation_proof(), previous.fresh_validation_proof():
         _verify_transition(tuple((path, *proof[path]) for path in CURRENT_PATHS))
         _require(not previous.source_errors(proof[LEDGER_PATH][0], LEDGER_PATH),
                  "predecessor ledger does not bind to immutable351")
@@ -349,6 +350,7 @@ def fresh_validation_proof():
             _require(ui_append._git(ROOT, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
                      == current["evidence"]["head"], "coffee/UI current proofs observed different Git candidates")
         current["coin_event_raw"] = coin_history.coin_call_current_events(ROOT)
+        current["pr31_event_raw"] = pr31_history.current_content_raw(ROOT)
         _require(ui_append._git(ROOT, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
                  == current["evidence"]["head"], "coin/UI current proofs observed different Git candidates")
         token = _ACTIVE_PROOF.set(proof)
@@ -378,16 +380,20 @@ def source_errors(raw: bytes, relative: str) -> list[str]:
                 _require(raw == _ACTIVE_CURRENT.get()["coin_event_raw"][relative],
                          "current coin event raw differs from exact Git successor " + relative)
                 return []
+            if relative in pr31_history.CONTENT_PATHS:
+                _require(raw == _ACTIVE_CURRENT.get()["pr31_event_raw"][relative],
+                         "current PR31 content raw differs from exact Git successor " + relative)
+                return []
             return previous.source_errors(raw, relative)
     except (OSError, ValueError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
         return ["ORDER-365: current proof rejected: " + str(exc)]
 
 
 def snapshot_errors(snapshot: Mapping[str, bytes]) -> list[str]:
-    """Admit the submitted whole50 snapshot, including the exact coin targets."""
+    """Admit the whole registered snapshot, including PR31's exact content."""
     errors = []
     if set(snapshot) != set(LIVE_PATHS):
-        errors.append("ORDER-365: exact50 current snapshot paths drifted")
+        errors.append(f"ORDER-365: exact{len(LIVE_PATHS)} current snapshot paths drifted")
     try:
         with fresh_validation_proof():
             for relative in LIVE_PATHS:
@@ -703,7 +709,7 @@ def consumer_boundary_self_test() -> tuple[list[str], int]:
         return any("ORDER-365" in error and relative in error for error in errors)
 
     for module in (body, graph, chapter5, year5, chapter1):
-        check(module.current_source is previous
+        check(module.current_source is pr31_history and pr31_history.previous is previous
               and Path(module.ui_receipts.__file__).resolve() == Path(__file__).resolve(),
               module.__name__ + " historical/current import separation")
     with mutated_current(UI_PATHS[0]), \
@@ -711,7 +717,7 @@ def consumer_boundary_self_test() -> tuple[list[str], int]:
         _empty, errors = body._source_history_observations({})
         check(rejected(errors, UI_PATHS[0]) and not history.called, "full-body fail before historical observation")
     data = graph.load_inputs()
-    check(set(data.source_bytes) == set(LIVE_PATHS), "graph submits all46 raw snapshots")
+    check(set(data.source_bytes) == set(LIVE_PATHS), "graph submits the complete registered raw snapshot")
     data.source_bytes[UI_PATHS[1]] += b"\n"
     check(rejected(graph.validate(data), UI_PATHS[1]), "graph rejects submitted UI snapshot")
     model = chapter5._load_model()
