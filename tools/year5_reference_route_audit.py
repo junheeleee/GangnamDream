@@ -5295,8 +5295,18 @@ def run_ending_translation_transition_self_test(
             failures.append(f"{relative}: historical empty fixture drifted")
         if byte_sha256(blob) != current_hash:
             failures.append(f"{relative}: ORDER-160 pinned fixture drifted")
-        if (ROOT / relative).read_bytes() != blob:
-            failures.append(f"{relative}: working blob differs from pinned ORDER-160")
+        try:
+            current_raw = (ROOT / relative).read_bytes()
+            projected_hash, source_errors = current_source.observed_byte_hash(
+                relative, byte_sha256(current_raw), current_raw)
+        except (OSError, ValueError) as exc:
+            failures.append(f"{relative}: current ending source unavailable ({exc})")
+            continue
+        if source_errors:
+            failures.extend(f"{relative}: current ending source: {error}"
+                            for error in source_errors)
+        elif projected_hash != current_hash:
+            failures.append(f"{relative}: current ending source does not restore pinned ORDER-160")
         blobs[relative] = blob
     if len(blobs) != 3 or failures:
         return failures, cases
