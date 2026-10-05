@@ -14,6 +14,20 @@
   ],
   "fast_lanes": [
     {
+      "id": "opening-rhythm-source",
+      "paths": [],
+      "owned_paths": [
+        "scenes/OpeningCinematic.gd", "tools/OpeningRhythmCheck.gd", "tools/OpeningRhythmCheck.tscn", "tools/OpeningRhythmCheck.gd.uid",
+        "tools/opening_rhythm_history.py", "tools/opening_rhythm_history_self_test.py", "tools/ui_translation_append.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/PROPOSALS.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-149.json", "docs/agent_reviews/ORDER-463.json",
+        "docs/queue_active/ORDER-149.md", "docs/queue_active/ORDER-463.md", "docs/queue_archive/ORDER-463.md"
+      ],
+      "tools": ["tools/opening_rhythm_history_self_test.py", "tools/audit_select.py --verify"],
+      "why": "Exact one-file prologue timing successor and bounded negative fixtures; root separately runs baseline/current natural autoplay in both motion settings using the proven pre-autoload namespace bootstrap, raw skip input, and one current full-body admission. Frozen copy/assets/inputs/old receipts/public packages remain unchanged. Existing autoplay-disabled checks do not substitute for timing, and locked-Mac rendering/legibility/rhythm judgement stays NOT_RUN. No old whole-suite,240-week or package rebuild."
+    },
+    {
       "id": "story-demo-successor-export",
       "paths": [],
       "owned_paths": [
@@ -3274,6 +3288,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/opening_rhythm_history_self_test.py",
+      "paths": ["scenes/OpeningCinematic.gd", "tools/OpeningRhythmCheck.gd", "tools/OpeningRhythmCheck.tscn", "tools/OpeningRhythmCheck.gd.uid", "tools/opening_rhythm_history.py", "tools/opening_rhythm_history_self_test.py", "tools/ui_translation_append.py"],
+      "why": "One immutable prologue timing transition, whole-byte inverse, current source census and retained localization IDs; actual animation remains a separate isolated Godot check, not a synthetic claim.",
+      "godot": false
+    },
     {
       "tool": "tools/story_demo_successor_package_audit.py --self-test",
       "paths": ["tools/build_story_demo_successor_macos.py", "tools/story_demo_successor_package_audit.py"],

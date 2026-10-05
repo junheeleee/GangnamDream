@@ -18,6 +18,27 @@ hold3.10/3.10/3.00을 확인했다. 462 export 마감 뒤, Mac잠금 때문에45
 명목합계는 전후10.76로 동일하고, 처지 비트는3.62→4.26초가 되어50만원/고시원
 조건을 오래 읽는다. 목표는3.52→3.26초로 더 빠르게 드러난다. 실측 시간은 별도다.
 
+최초 `build/qa_order149/baseline1`은 제품 수정 전 실패로 보존한다. 첫 KO 비트의
+tween 진행과 벽시계가 어긋났고 camera endpoint의 정규화 오차도 있었다. 같은
+실행의 뒤 비트/EN은 정상이다. 검사 준비 시간을 t0 밖에 분리하고 실제 Vector2
+endpoint를 읽어 다시 측정한다. 후속 PASS는 warmed fixture의 시간 계약이지
+콜드 부팅·실제 렌더 품질의 증거가 아니다. 허용오차0.045초는 넓히지 않는다.
+
+## 현재 source 표적 결과 (2026-10-05)
+
+- 제품 `0afd81c8f702c1b792970f85cd864b6312774fa4`는 이 GD 하나만16추가/9삭제다.
+  3개 fade/hold블록·getter·local값·6소비자의11개 치환 외 문안/자산/음향/입력은
+  불변이다. `_beat_fade_seconds`는 값 없는 beat에0.52를 돌려준다.
+- 동일 checker의 `build/qa_order149/baseline2` / `current1`에서 정상KO
+  10.864439→10.840767초(0.997821배), ReduceMotion EN10.863720→10.832778초
+  (0.997152배). 전후±15%·각curve±0.045초를 통과했다. 준비 대기는 t0 밖이다.
+- 각 실행에서 두 번째 fade 중 release/echo는 전환0, 실제 synthetic key down과
+  반복 down/up은 전환1·generation+1·다음beat0이다. physical 입력 증거가 아니다.
+  실제저장34·공개저장9·seed3·462앱/manifest·원본project와9입력은 전후 동일하다.
+- source 계측은 PASS지만 실제12PNG/가독성/검은프레임/강조체감은 NOT_RUN이다.
+  camera `completed_at`은 endpoint 관측시각이며 최초완료시각으로 읽지 않는다.
+  463의 정확한 현재 번역manifest 수용과 독립 최종판정은 별도 실행 중이다.
+
 ## 판정 증거
 
 `83d3f350`에서 재실측했고 `P-18`의 수치가 그대로 유효하다.
@@ -82,7 +103,7 @@ hold3.10/3.10/3.00을 확인했다. 462 export 마감 뒤, Mac잠금 때문에45
 
 **런타임/root:** `scenes/OpeningCinematic.gd` 하나. baseline 계측이 끝난 뒤만 수정한다.
 
-**표적 검사/receipt_tests392:** 새 `tools/OpeningRhythmCheck.gd`,
+**표적 검사/receipt_tests392 초안·root 후속 수리:** 새 `tools/OpeningRhythmCheck.gd`,
 `tools/OpeningRhythmCheck.tscn`(필요시 생성 `.gd.uid`만).
 기존 StoryNameplateBootstrap의 pre-autoload 격리를 재사용하며 새 범용 runner0.
 root만 프로젝트/검사/엔진을 실행한다. 기존First30Seconds/Screenshot의

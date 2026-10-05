@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | source/자연타이밍 수리 착수 · 새 문안0·렌더 별도 |
+| 1 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | source/전후시간 PASS · Mac잠금·렌더/체감 미관찰 |
 | 2 | [~] | ORDER-463 · 프롤로그 타이밍 source 전이 수용 | [463](queue_active/ORDER-463.md) | 착수 — 단일경로 역상/현재manifest · 번역값 보존 |
 | 3 | [~] | ORDER-457 · 5장 일반 경로 정상 재플레이 | [457](queue_active/ORDER-457.md) | W193→W195 관찰 · Mac잠금으로 이어보기 메뉴미실행 |
 | 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor export GO/실제 재생6항목 HOLD |

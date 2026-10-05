@@ -2706,3 +2706,46 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
     with history._holdem_manifest_proof_scope():
         return _HOLDEM_PROOF_SCOPE_OLD_MANIFEST_MATCHES(root, inventory, expected)
 # END_HOLDEM_MANIFEST_PROOF_SCOPE_461
+
+
+# BEGIN_OPENING_RHYTHM_SOURCE_463
+import opening_rhythm_history as _opening_history
+
+_OPENING_RHYTHM_OLD_MANIFEST_MATCHES = _source_manifest_matches
+_OPENING_RHYTHM_OLD_CURRENT_PROOF = current_proof
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _OPENING_RHYTHM_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    raw = (root / _opening_history.OPENING_PATH).read_bytes()
+    previous = _opening_history.opening_rhythm_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(_opening_history.OPENING_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Opening rhythm current census/raw mismatch")
+    comparison = {**hashes, _opening_history.OPENING_PATH: hashlib.sha256(previous).hexdigest()}
+    predecessor_inventory = {**inventory, "source_hashes": comparison,
+                             "source_manifest_sha256": exchange.digest(comparison)}
+    # Admit only the new Opening state above the proved prior source tuple.
+    # The original matcher (including its461 scope) retains all earlier rules.
+    if expected == inventory["source_manifest_sha256"]:
+        return _OPENING_RHYTHM_OLD_MANIFEST_MATCHES(
+            root, predecessor_inventory, predecessor_inventory["source_manifest_sha256"])
+    return _OPENING_RHYTHM_OLD_MANIFEST_MATCHES(root, predecessor_inventory, expected)
+
+
+def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:
+    binding = _opening_history._current_binding(root)
+    raw = (root / _opening_history.OPENING_PATH).read_bytes()
+    _opening_history.opening_rhythm_predecessor(raw, root)
+    result = _OPENING_RHYTHM_OLD_CURRENT_PROOF(root, baseline_commit, baseline)
+    require(result["source_hashes"].get(_opening_history.OPENING_PATH) == hashlib.sha256(raw).hexdigest()
+            and exchange.digest(result["source_hashes"]) == result["source_manifest_sha256"]
+            and (root / _opening_history.OPENING_PATH).read_bytes() == raw,
+            "Opening rhythm source changed during current admission")
+    require(_opening_history._current_binding(root) == binding
+            and result["evidence"]["head"] == binding[0],
+            "Git candidate changed during Opening rhythm admission")
+    return result
+# END_OPENING_RHYTHM_SOURCE_463
