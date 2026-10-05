@@ -468,6 +468,9 @@ def is_paired_localized_data_line(lines: list[str], index: int) -> bool:
 
 
 def internal_only_runtime_line(target: str, line: str) -> bool:
+    if target == "scenes/HoldemClub.gd":
+        return line.strip() == ('return template.replace("%s으로", "%s로") '
+                                'if LocaleManager.is_korean() else template')
     if target == "scenes/MainGame.gd":
         return (
             "lower_body.find(" in line
@@ -633,6 +636,34 @@ func valid() -> String:
             failures.append(f"{label} ui_format was incorrectly accepted")
 
     internal_id_cases = {
+        "holdem_korean_particle": (
+            'scenes/HoldemClub.gd',
+            'return template.replace("%s으로", "%s로") if LocaleManager.is_korean() else template',
+            True,
+        ),
+        "holdem_unguarded_particle": (
+            'scenes/HoldemClub.gd', 'return template.replace("%s으로", "%s로")', False,
+        ),
+        "holdem_english_particle": (
+            'scenes/HoldemClub.gd',
+            'return template.replace("%s으로", "%s로") if LocaleManager.is_english() else template',
+            False,
+        ),
+        "holdem_else_leak": (
+            'scenes/HoldemClub.gd',
+            'return template.replace("%s으로", "%s로") if LocaleManager.is_korean() else "누출"',
+            False,
+        ),
+        "holdem_inline_leak": (
+            'scenes/HoldemClub.gd',
+            'return template.replace("%s으로", "%s로") if LocaleManager.is_korean() else template; print("누출")',
+            False,
+        ),
+        "holdem_wrong_file": (
+            'scenes/StoryMode.gd',
+            'return template.replace("%s으로", "%s로") if LocaleManager.is_korean() else template',
+            False,
+        ),
         "exact": ('scenes/MainGame.gd', 'if theme_id != "자유런":', True),
         "inline_leak": (
             'scenes/MainGame.gd',
@@ -667,7 +698,7 @@ func valid() -> String:
         for failure in failures:
             print(f"  {failure}")
         return 1
-    print("ENGLISH_HANGUL_SELF_TEST_OK cases=12")
+    print("ENGLISH_HANGUL_SELF_TEST_OK cases=18")
     return 0
 
 
