@@ -32,8 +32,8 @@ VISUAL_PATH = ROOT / "assets" / "event_visual_contracts.json"
 AUDIO_PATH = ROOT / "assets" / "scene_audio_manifest.json"
 EVENT_EN_DIR = ROOT / "content" / "events_en"
 
-EXPECTED_ROOT_COUNT = 386
-EXPECTED_EXPOSED_COUNT = 537
+EXPECTED_ROOT_COUNT = 380
+EXPECTED_EXPOSED_COUNT = 531
 ALLOWED_DOMAINS = {
     "employment",
     "housing",

@@ -88,7 +88,11 @@ def run():
 
     with history.fresh_validation_proof() as proof:
         check(len(history.CONTENT_PATHS) == 71 and len(set(history.CONTENT_PATHS)) == 71, "exact71 content files")
-        check(all(proof["current"][p] == proof["before"][p] for p in history.PROTECTED_PATHS), "protected raw population")
+        check(all(proof["pre_source_successor"][p] == proof["before"][p] for p in history.PROTECTED_PATHS),
+              "PR31 protected raw population before exact source-only successor")
+        check(all(proof["current"][p] == proof["pre_source_successor"][p]
+                  for p in proof["current"] if p not in history.source_successor.PRODUCT_PATHS),
+              "source-only successor preserves all prose and receipts")
         check(all(not history.source_errors(proof["current"][p], p) for p in history.CONTENT_PATHS), "all71 current raw admitted")
         for path in history.CONTENT_PATHS:
             check(bool(history.source_errors(proof["current"][path] + b"\n", path)), "current raw mutation " + path)
@@ -160,14 +164,16 @@ def run():
         from full_game_localization import collect
         full_inventory = collect(history.ROOT)
         stages = history.source_stage_manifest_digests(history.ROOT, full_inventory)
+        source_only_predecessor = history.source_successor.source_predecessor_inventory(history.ROOT, full_inventory)
         expected_stages = {
-            history._digest({**full_inventory["source_hashes"],
+            history._digest({**source_only_predecessor["source_hashes"],
                              **{path: history._sha(proof[stage][path]) for path in history.SOURCE_PATHS}})
             for stage in ("before", "after", "second", "third_source") if proof[stage] is not None
         }
-        check(stages == expected_stages and full_inventory["source_manifest_sha256"] in stages,
-              "exact immutable source-stage manifests retain actual Main hash")
-        check(len(stages) == 3, "before/intake/corrected source populations only")
+        expected_stages.add(full_inventory["source_manifest_sha256"])
+        check(stages == expected_stages and history.CURRENT_SOURCE_MANIFEST_SHA256 in stages,
+              "exact immutable source stages preserve e300 and actual source-only successor")
+        check(len(stages) == 4, "before/intake/corrected plus exact source-only population")
         check(history.source_stage_manifest_digests(history.ROOT, full_inventory) is stages,
               "same-invocation source proof is reused only after actual verification")
         for label, path, value in (
@@ -266,8 +272,10 @@ def run():
             forged = {**after, history.LEDGER_PATH: after[history.LEDGER_PATH] + b"\n"}
             reject(lambda: history._validate_third_source(before, forged), "source-only stage cannot change receipts")
             path = history.INVENTORY_PATH
-            check(history.release_inventory_predecessor(after[path]) == proof["before"][path],
-                  "third inventory -> intake inventory -> original raw")
+            check(history.release_inventory_predecessor(proof["current"][path]) == proof["before"][path],
+                  "source-only inventory -> third -> intake -> original raw")
+            reject(lambda: history.release_inventory_predecessor(after[path]),
+                   "pre-retirement inventory cannot claim current admission")
             for locale in history.LOCALES:
                 receipt = history._leaf_receipt(after, locale, history.THIRD_ENDING_IDS[0])
                 row = history._rows(after["content/endings.json"])["stable_success"]

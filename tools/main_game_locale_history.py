@@ -2659,14 +2659,30 @@ def ending_father_inverse(current, before):
     return before
 
 
+def _ending_father_current_view(current, root):
+    """Admit only the fixed ORDER-469 successor; retain the complete PR31 raw."""
+    if type(current) is not bytes:
+        raise ValueError("ORDER-468: unapproved current MainGame raw")
+    if hashlib.sha256(current).hexdigest() == ENDING_FATHER_HASHES[1]:
+        return current
+    from order469_source_compat import main_predecessor
+    previous = main_predecessor(current, root)
+    if hashlib.sha256(previous).hexdigest() != ENDING_FATHER_HASHES[1]:
+        raise ValueError("ORDER-469: Main successor does not recover the PR31 raw")
+    return previous
+
+
 def _ending_father_proof(current, root=None):
     """Fresh sixteen-stage proof: pre468 followed by all thirteen prior views."""
     from pathlib import Path
     root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    disk_current = current
+    current = _ending_father_current_view(current, root)
     if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != ENDING_FATHER_HASHES[1]:
         raise ValueError("ORDER-468: unapproved current MainGame raw")
     binding = _investment_ap_current_binding(root)
-    if binding[2] != ENDING_FATHER_BLOBS[1] or (root / MAIN_GAME_PATH).read_bytes() != current:
+    current_blob = hashlib.sha1(b"blob " + str(len(disk_current)).encode() + b"\0" + disk_current).hexdigest()
+    if binding[2] != current_blob or (root / MAIN_GAME_PATH).read_bytes() != disk_current:
         raise ValueError("ORDER-468: current HEAD/disk MainGame differs")
     stages = (
         (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
@@ -2754,7 +2770,9 @@ def _ending_father_proof(current, root=None):
             recovered = recovered.replace(new, old, 1)
         if recovered != before:
             raise ValueError("ORDER-468: changes outside prior exact copy/rendering repairs")
-    if _investment_ap_current_binding(root) != binding or (root / MAIN_GAME_PATH).read_bytes() != current:
+    if (_investment_ap_current_binding(root) != binding
+            or (root / MAIN_GAME_PATH).read_bytes() != disk_current
+            or _ending_father_current_view(disk_current, root) != current):
         raise ValueError("ORDER-468: current Git/disk changed during proof")
     return (pre468, pre467, pre432, pre423, pre416, pre412, pre409, pre406, pre403,
             values[34], values[28], values[22], values[16], recovered)
@@ -2844,10 +2862,12 @@ def _main_scope_live_binding(root, current, module_raw, configuration):
     if _main_scope_configuration() != configuration:
         raise ValueError("ORDER-468: Main proof configuration changed during invocation")
     if (type(current) is not bytes
-            or hashlib.sha256(current).hexdigest() != ENDING_FATHER_HASHES[1]):
+            or hashlib.sha256(_ending_father_current_view(current, root)).hexdigest()
+            != ENDING_FATHER_HASHES[1]):
         raise ValueError("ORDER-468: Main proof scoped current raw differs")
     binding = _investment_ap_current_binding(root)
-    if (binding[2] != ENDING_FATHER_BLOBS[1]
+    current_blob = hashlib.sha1(b"blob " + str(len(current)).encode() + b"\0" + current).hexdigest()
+    if (binding[2] != current_blob
             or (root / MAIN_GAME_PATH).read_bytes() != current
             or module.read_bytes() != module_raw):
         raise ValueError("ORDER-468: Main proof scoped Git/disk/module differs")

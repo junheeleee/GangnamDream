@@ -7374,5 +7374,108 @@ def _investment_ap_stage_call_views(raw):
 # the actual current call coordinates returned by the successor view above.
 # END_ENDING_FATHER_COLLECTOR_468
 
+# BEGIN_CHAPTER_FOUR_COLLECTOR_469
+CHAPTER_FOUR_PIPELINE_APPEND_SHA = "ace75e6c791fa72840892fd817c87d35ade0d4f54c9ae664460971b460786f54"
+CHAPTER_FOUR_PIPELINE_BEFORE_SHA = "dff4fd3c54473fc2cab8aca497abb09d55929facd7659fc647ea122eceb027dd"
+CHAPTER_FOUR_PIPELINE_BEFORE_BLOB = "3b12e2b696d77a5b02c3638a238affaad5c56341"
+CHAPTER_FOUR_PIPELINE_BEFORE_COMMIT = "9766e70a8652c0c82e07176468542af831b3b644"
+_CHAPTER_FOUR_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
+
+
+def chapter_four_pipeline_predecessor(raw):
+    """Unwrap only this sealed source-coordinate appendix, never translation."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("chapter-four collector code raw/import identity differs")
+    start, end = b"# BEGIN_CHAPTER_FOUR_COLLECTOR_469\n", b"# END_CHAPTER_FOUR_COLLECTOR_469\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("chapter-four collector appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    binding = ('CHAPTER_FOUR_PIPELINE_APPEND_SHA = "' + CHAPTER_FOUR_PIPELINE_APPEND_SHA + '"').encode()
+    span = raw[a:z]
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'CHAPTER_FOUR_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != CHAPTER_FOUR_PIPELINE_APPEND_SHA:
+        raise ValueError("chapter-four collector appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != CHAPTER_FOUR_PIPELINE_BEFORE_SHA:
+        raise ValueError("chapter-four collector whole predecessor differs")
+    blob = _current_demo_git("show", CHAPTER_FOUR_PIPELINE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
+            != CHAPTER_FOUR_PIPELINE_BEFORE_BLOB):
+        raise ValueError("chapter-four collector immutable blob differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _CHAPTER_FOUR_OLD_MODAL_PIPELINE_PREDECESSOR(chapter_four_pipeline_predecessor(raw))
+
+
+def _chapter_four_call_offsets(before_raw, current_raw, before_calls, actual_calls):
+    """Check every current call against its unchanged predecessor source line."""
+    from difflib import SequenceMatcher
+    before_lines, current_lines = before_raw.splitlines(True), current_raw.splitlines(True)
+    if len(before_lines) - len(current_lines) != 8:
+        raise ValueError("chapter-four exact eight-line source delta differs")
+    lines = {}
+    for tag, a, z, b, end in SequenceMatcher(None, before_lines, current_lines, autojunk=False).get_opcodes():
+        if tag == "equal":
+            lines.update((old + 1, b + old - a + 1) for old in range(a, z))
+    if (any(call.line not in lines for call in before_calls)
+            or tuple(_gift_replace(call, line=lines[call.line]) for call in before_calls) != actual_calls):
+        raise ValueError("chapter-four UI calls or exact source coordinates differ")
+
+
+def _investment_ap_stage_call_views(raw):
+    """Retain all historical selectors and bind their exact current coordinates."""
+    from order469_source_compat import main_predecessor
+    pre469_raw = main_predecessor(raw, ROOT)
+    predecessors = _gift_history._ending_father_proof(raw, ROOT)
+    if (not isinstance(predecessors, tuple) or len(predecessors) != 14
+            or any(not isinstance(value, bytes) for value in predecessors)):
+        raise ValueError("investment-AP predecessor population differs")
+    path = _gift_history.MAIN_GAME_PATH
+    parsed = [parse_ui_calls(path, value.decode("utf-8"))
+              for value in (predecessors[-1], predecessors[1], predecessors[0], pre469_raw, raw)]
+    if any(errors for _calls, errors in parsed):
+        raise ValueError("investment-AP MainGame call parse differs")
+    before, retained, pre468, pre469, actual = (
+        tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api))) for calls, _errors in parsed)
+    added = _gift_history.ENDING_FATHER_INSERTION.encode()
+    offset = predecessors[0].index(_gift_history.ENDING_FATHER_ANCHOR.encode())
+    offset += len(_gift_history.ENDING_FATHER_ANCHOR.encode())
+    inserted_after_line = predecessors[0][:offset].count(b"\n")
+    if (added.count(b"\n") != 6
+            or tuple(_gift_replace(c, line=c.line + 6) if c.line > inserted_after_line else c
+                     for c in pre468) != pre469):
+        raise ValueError("ending-Father exact six-line call offset or UI semantics differ")
+    _chapter_four_call_offsets(pre469_raw, raw, pre469, actual)
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    historical_pairs = tuple(((path, owner, "legacy", old_ko, old_en, ""),
+                              (path, owner, "legacy", new_ko, new_en, ""))
+                             for owner, old_ko, old_en, new_ko, new_en in (
+        ("_show_tutorial", _gift_history.TUTORIAL_OLD_KO, _gift_history.TUTORIAL_OLD_EN,
+         _gift_history.TUTORIAL_NEW_KO, _gift_history.TUTORIAL_NEW_EN),
+        ("_open_cat_work", _gift_history.PROMOTION_OLD_KO, _gift_history.PROMOTION_OLD_EN,
+         _gift_history.PROMOTION_NEW_KO, _gift_history.PROMOTION_NEW_EN),
+        ("_open_cat_work", _gift_history.TENURE_KO, _gift_history.TENURE_OLD_EN,
+         _gift_history.TENURE_KO, _gift_history.TENURE_NEW_EN)))
+    old_semantic, retained_semantic = list(map(semantic, before)), list(map(semantic, retained))
+    replacements = dict(historical_pairs)
+    if (len(replacements) != 3
+            or any(old_semantic.count(old) != 1 or retained_semantic.count(new) != 1
+                   or old in retained_semantic for old, new in historical_pairs)
+            or [replacements.get(row, row) for row in old_semantic] != retained_semantic):
+        raise ValueError("investment-AP preserved historical MainGame selectors differ")
+    selectors = {(path, owner, "legacy", *AP_COPY_OLD_PAIR, "") for owner in AP_COPY_OWNERS}
+    if (len(selectors) != 3 or any(retained_semantic.count(row) != 1 for row in selectors)
+            or sum(c.korean == AP_COPY_OLD_PAIR[0] for c in retained) != 3
+            or any(c.korean == AP_COPY_OLD_PAIR[0] for c in pre468)
+            or tuple(_gift_replace(c, korean=AP_COPY_NEW_PAIR[0], english=AP_COPY_NEW_PAIR[1])
+                     if semantic(c) in selectors else c for c in retained) != pre468
+            or sum(c.korean == AP_COPY_NEW_PAIR[0] for c in pre468)
+            != sum(c.korean == AP_COPY_NEW_PAIR[0] for c in retained) + 3):
+        raise ValueError("investment-AP exact three current selectors or unowned calls differ")
+    return before, retained, actual
+# END_CHAPTER_FOUR_COLLECTOR_469
+
 if __name__ == "__main__":
     sys.exit(main())

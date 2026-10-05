@@ -48,7 +48,6 @@ CHAPTER_PHASE_REQUIRED = {
             "arc_36_reality_check",
             "arc_year_three_crossroads",
             "arc_y4_three_promises",
-            "arc_y4_three_promises_jiyeon_and_deal",
             "arc_y4_three_promises_deal_only",
         },
         "escalation": {
@@ -71,7 +70,6 @@ CHAPTER_PHASE_REQUIRED = {
             "arc_y4_father_crisis_stabilized",
             "arc_y4_father_outcome_unknown",
             "arc_y4_year_close_daeun",
-            "arc_y4_year_close_jiyeon",
             "arc_y4_year_close_unattached",
         },
         "aftermath": {"arc_year4_close"},

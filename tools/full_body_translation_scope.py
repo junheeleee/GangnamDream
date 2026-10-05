@@ -1180,6 +1180,72 @@ def _source_history_observations(report: Mapping[str, Any]) -> tuple[dict[str, A
         return empty, [f"ORDER-365 current source proof unavailable: {exc}"]
 
 
+def _retirement_comparison_report(report: Mapping[str, Any], errors: list[str]) -> dict[str, Any]:
+    """Restore classification only for old ratchets, never the emitted report.
+
+    Both scope populations and every current event vector are independently
+    rebuilt before restoring the exact six still-packaged reference events.
+    No new receipt or target-translation claim is derived from this view.
+    """
+    successor = current_source.source_successor
+    with successor.fresh_validation_proof(ROOT) as proof:
+        old_author = set(json.loads(proof["before"][successor.LIFECYCLE_PATH])["author_only_event_ids"])
+        new_author = set(json.loads(proof["after"][successor.LIFECYCLE_PATH])["author_only_event_ids"])
+        if new_author - old_author != set(successor.RETIRED_IDS) or old_author - new_author:
+            raise ValueError("ORDER-469 lifecycle inverse population differs")
+        if report.get("source_files", {}).get("event_lifecycle_sha256") != successor._sha(
+                proof["after"][successor.LIFECYCLE_PATH]):
+            errors.append("ORDER-469 current report lifecycle raw binding differs")
+        events = load_source_events(ROOT, errors)
+        leaves = collect_leaf_index(events, errors)
+        refs = collect_map_root_refs(load_json(ROOT / STORY_MAP_PATH, errors), errors)
+        views = []
+        for author in (new_author, old_author):
+            shipping = set(events) - author
+            classified = classify_m07_m60_refs(refs, set(events), shipping, author, errors)
+            seeds = set(classified["shipping_seed_ids"])
+            immediate = static_translation_closure(seeds, events, shipping, author, False, errors)
+            static = static_translation_closure(seeds, events, shipping, author, True, errors)
+            deferred = static - immediate
+            def selected(ids):
+                return [leaf for eid in ids for leaf in leaves[eid]]
+            shipping_leaves, static_leaves = selected(shipping), selected(static)
+            views.append({
+                SCOPE_LIFECYCLE_SHIPPING: {
+                    "packaged_event_count": len(events), "event_count": len(shipping),
+                    "leaf_count": len(shipping_leaves),
+                    "standard_leaf_count": sum(not leaf.chapter5_reader for leaf in shipping_leaves),
+                    "chapter5_reader_leaf_count": sum(leaf.chapter5_reader for leaf in shipping_leaves),
+                    "event_ids_sha256": event_id_digest(shipping),
+                    "source_leaves_sha256": leaves_sha(shipping_leaves),
+                    "author_only_excluded_event_count": len(author), "author_only_overlap_event_count": 0,
+                    "events": [_event_inventory(eid, events, leaves) for eid in sorted(shipping)],
+                },
+                SCOPE_M07_M60_STATIC: {
+                    "map_root_ref_count": len(classified["all"]),
+                    "lifecycle_shipping_root_ref_count": len(classified["shipping"]),
+                    "lifecycle_shipping_seed_event_count": len(seeds),
+                    "author_only_root_ref_count": len(classified["author_only"]),
+                    "planned_missing_root_ref_count": len(classified["planned_missing"]),
+                    "immediate_closure_event_count": len(immediate),
+                    "immediate_closure_leaf_count": len(selected(immediate)),
+                    "event_count": len(static), "leaf_count": len(static_leaves),
+                    "event_ids_sha256": event_id_digest(static), "source_leaves_sha256": leaves_sha(static_leaves),
+                    "deferred_added_event_count": len(deferred), "deferred_added_leaf_count": len(selected(deferred)),
+                    "author_only_overlap_event_count": 0, "event_ids": sorted(static),
+                    "deferred_added_event_ids": sorted(deferred),
+                    "excluded_author_only_event_ids": sorted({ref.event_id for ref in classified["author_only"]}),
+                    "excluded_planned_missing_event_ids": sorted({ref.event_id for ref in classified["planned_missing"]}),
+                },
+            })
+        current, historical = views
+        for scope, values in current.items():
+            for key, value in values.items():
+                if report.get(scope, {}).get(key) != value:
+                    errors.append(f"ORDER-469 current report is not the actual scope: {scope}.{key}")
+        return {**report, **historical}
+
+
 def _admitted_source_history_observations(report: Mapping[str, Any]) -> tuple[dict[str, Any], list[str]]:
     """Compare old pins without relabeling the current inventory or receipts.
 
@@ -1190,13 +1256,14 @@ def _admitted_source_history_observations(report: Mapping[str, Any]) -> tuple[di
     the current report. The new ghost leaf exists only in the current vector.
     """
     errors: list[str] = []
+    report = _retirement_comparison_report(report, errors)
     live: list[TextLeaf] = []
     historical: list[TextLeaf] = []
     # PR31 also edits dormant author-only prose. Bind the report population to
     # the independently evaluated lifecycle, never to the submitted report.
     lifecycle = evaluate_author_only(collect_lifecycle_inputs(ROOT))
     errors.extend("event lifecycle: " + message for message in lifecycle.errors)
-    shipping_ids = set(lifecycle.product_event_ids)
+    shipping_ids = set(lifecycle.product_event_ids) | set(current_source.source_successor.RETIRED_IDS)
     expected_paths = {eid: relative for relative, changes in current_source.HISTORICAL_JSON_LEAVES.items()
                       if relative.startswith("content/events/") for eid, _path in changes
                       if eid in shipping_ids}
@@ -1238,7 +1305,8 @@ def _admitted_source_history_observations(report: Mapping[str, Any]) -> tuple[di
     if seen != set(expected_paths):
         errors.append("ORDER-309 current report is missing an admitted source event")
     static_ids = set(report.get(SCOPE_M07_M60_STATIC, {}).get("event_ids", []))
-    result: dict[str, Any] = {"denominators": {}}
+    result: dict[str, Any] = {"denominators": {}, "scope_observations": {
+        scope: report[scope] for scope in (SCOPE_LIFECYCLE_SHIPPING, SCOPE_M07_M60_STATIC)}}
     for scope, ids in ((SCOPE_LIFECYCLE_SHIPPING, None), (SCOPE_M07_M60_STATIC, static_ids)):
         selected_live = [leaf for leaf in live if ids is None or leaf.event_id in ids]
         selected_history = [leaf for leaf in historical if ids is None or leaf.event_id in ids]
@@ -1271,6 +1339,10 @@ def _expected_observation_errors(report: Mapping[str, Any]) -> list[str]:
     targets = report.get("target_structure_inventory", {})
     historical, binding_errors = _source_history_observations(report)
     errors.extend(binding_errors)
+    # Only EXPECTED comparisons use the restored classification. Caller report,
+    # target acceptance, and emitted 1702/111 corpus remain the actual product.
+    shipping = historical.get("scope_observations", {}).get(SCOPE_LIFECYCLE_SHIPPING, shipping)
+    static = historical.get("scope_observations", {}).get(SCOPE_M07_M60_STATIC, static)
     historical_shipping = historical["denominators"].get(SCOPE_LIFECYCLE_SHIPPING, {})
     historical_static = historical["denominators"].get(SCOPE_M07_M60_STATIC, {})
 
@@ -1368,13 +1440,37 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
 
     shipping = report.get(SCOPE_LIFECYCLE_SHIPPING, {})
     static = report.get(SCOPE_M07_M60_STATIC, {})
+    # The retirement inverse is comparison-only: exercise it separately from
+    # prose history, including forged current populations and omitted rows.
+    untouched_report = copy.deepcopy(report)
+    retirement_errors: list[str] = []
+    retirement_view = _retirement_comparison_report(report, retirement_errors)
+    retired = set(current_source.source_successor.RETIRED_IDS)
+    require("ORDER-469 report remains current after inverse", report == untouched_report
+            and not retirement_errors and shipping.get("event_count") == 1702
+            and shipping.get("author_only_excluded_event_count") == 111
+            and retirement_view[SCOPE_LIFECYCLE_SHIPPING]["event_count"] == 1708
+            and retirement_view[SCOPE_LIFECYCLE_SHIPPING]["author_only_excluded_event_count"] == 105)
+    require("ORDER-469 exact six events restored only for comparison",
+            {row["id"] for row in retirement_view[SCOPE_LIFECYCLE_SHIPPING]["events"]}
+            - {row["id"] for row in shipping.get("events", [])} == retired
+            and not retired & {row["id"] for row in shipping.get("events", [])})
+    for label, field, value in (("old count", "event_count", 1708),
+                                ("old author count", "author_only_excluded_event_count", 105),
+                                ("omitted event", "events", shipping.get("events", [])[1:]),
+                                ("old IDs hash", "event_ids_sha256", EXPECTED["shipping_event_ids_sha256"])):
+        forged = copy.deepcopy(report)
+        forged[SCOPE_LIFECYCLE_SHIPPING][field] = value
+        rejected: list[str] = []
+        _retirement_comparison_report(forged, rejected)
+        require("ORDER-469 inverse rejects " + label, bool(rejected))
     source_history, source_binding_errors = _source_history_observations(report)
     historical_shipping = source_history["denominators"].get(SCOPE_LIFECYCLE_SHIPPING, {})
     historical_static = source_history["denominators"].get(SCOPE_M07_M60_STATIC, {})
     require(
         "shipping exact event and leaf denominator",
         (shipping.get("event_count"), historical_shipping.get("leaf_count"))
-        == (1708, 11680),
+        == (1702, 11680),
     )
     require(
         "Chapter 5 nested reader leaves included",
@@ -1383,23 +1479,26 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     )
     require(
         "M07-M60 static exact event and leaf denominator",
-        (static.get("event_count"), historical_static.get("leaf_count")) == (192, 1751),
+        (source_history.get("scope_observations", {}).get(SCOPE_M07_M60_STATIC, {}).get("event_count"),
+         historical_static.get("leaf_count")) == (192, 1751),
     )
     require(
         "ORDER-350 current inventory retains the added ghost leaf",
         not source_binding_errors
-        and (shipping.get("leaf_count"), shipping.get("standard_leaf_count"), static.get("leaf_count"))
+        and (source_history["scope_observations"][SCOPE_LIFECYCLE_SHIPPING].get("leaf_count"),
+             source_history["scope_observations"][SCOPE_LIFECYCLE_SHIPPING].get("standard_leaf_count"),
+             source_history["scope_observations"][SCOPE_M07_M60_STATIC].get("leaf_count"))
         == (11681, 11548, 1752),
     )
     require(
         "deferred follow-up expands static closure",
-        static.get("immediate_closure_event_count") == 168
+        source_history.get("scope_observations", {}).get(SCOPE_M07_M60_STATIC, {}).get("immediate_closure_event_count") == 168
         and static.get("deferred_added_event_count") == 24
         and static.get("deferred_added_leaf_count") == 165,
     )
     require(
         "author-only excluded from both source scopes",
-        shipping.get("author_only_excluded_event_count") == 105
+        shipping.get("author_only_excluded_event_count") == 111
         and shipping.get("author_only_overlap_event_count") == 0
         and static.get("author_only_overlap_event_count") == 0,
     )

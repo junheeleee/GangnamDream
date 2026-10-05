@@ -29,17 +29,14 @@ SANGCHUL_PASSED_ID = "arc_sangchul_year3_father_passed"
 GROUPS = {
     "m39": (
         "arc_y4_three_promises",
-        "arc_y4_three_promises_jiyeon_and_deal",
         "arc_y4_three_promises_deal_only",
     ),
     "m41": (
         "arc_y4_body_witness",
-        "arc_y4_body_witness_jiyeon",
         "arc_y4_body_witness_hyunsu",
     ),
     "m42": (
         "arc_y4_family_partner_collision",
-        "arc_y4_family_partner_collision_jiyeon",
         "arc_y4_family_commitment_none",
         "arc_y4_family_table_missed",
     ),
@@ -49,13 +46,11 @@ GROUPS = {
     ),
     "m45": (
         "arc_y4_borrowed_name",
-        "arc_y4_borrowed_name_jiyeon",
         "arc_y4_borrowed_name_self",
         "arc_y4_borrowed_name_document_gap",
     ),
     "m46": (
         "arc_y4_bill_night",
-        "arc_y4_bill_night_jiyeon",
         "arc_y4_bill_night_unattached",
     ),
     "m47": (
@@ -65,7 +60,6 @@ GROUPS = {
     ),
     "m48": (
         "arc_y4_year_close_daeun",
-        "arc_y4_year_close_jiyeon",
         "arc_y4_year_close_unattached",
     ),
 }
@@ -537,8 +531,8 @@ def validate_model(
     errors.extend(validate_story_queue_hard_state(ko, story_source))
     errors.extend(validate_event_manager_hard_state_source(event_manager_source))
     errors.extend(validate_w193_handoff_source(source))
-    if len(PROMOTED) != 25 or len(set(PROMOTED)) != 25:
-        errors.append("promoted population must be exactly 25 unique events")
+    if len(PROMOTED) != 19 or len(set(PROMOTED)) != 19:
+        errors.append("promoted population must be exactly 19 unique events")
 
     for event_id in (*PROMOTED, *NEW_EVENTS):
         if event_id not in ko or event_id not in en:
@@ -881,7 +875,8 @@ def validate_model(
     }:
         errors.append(f"father death writer set drifted: {sorted(death_writers)}")
 
-    jiyeon_text = json.dumps(
+    # Preserved author-only manuscripts, not a live Chapter 4 romance route.
+    jiyeon_reference_text = json.dumps(
         [ko[event_id] for event_id in (
             "arc_y4_three_promises_jiyeon_and_deal",
             "arc_y4_body_witness_jiyeon",
@@ -890,8 +885,8 @@ def validate_model(
             "arc_y4_year_close_jiyeon",
         )], ensure_ascii=False,
     )
-    if "부산" not in jiyeon_text:
-        errors.append("Jiyeon Chapter 4 route lost its Busan long-distance fact")
+    if "부산" not in jiyeon_reference_text:
+        errors.append("Jiyeon reference manuscripts lost their Busan long-distance fact")
     document_gap = json.dumps(ko.get("arc_y4_borrowed_name_document_gap", {}), ensure_ascii=False)
     for term in ("대주", "원금", "만기", "담보"):
         if term not in document_gap:
@@ -1355,7 +1350,7 @@ def main() -> int:
         return 1
     print(
         "CHAPTER4_CAUSAL_ROUTE_AUDIT_OK "
-        "promoted_events=25 direct=15 owners=12 "
+        "promoted_events=19 direct=15 owners=12 "
         "medical=2-of-3 contact_life_writers=0"
     )
     return 0

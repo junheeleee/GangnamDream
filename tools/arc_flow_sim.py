@@ -986,23 +986,18 @@ def apply_immediate_choice_state(S, event_id, choice_indices, stack=()):
 
 
 def chapter_four_partner_id(S):
-    if any(S.flags.get(flag) for flag in (
-        "daeun_married", "daeun_romance_started", "daeun_together_path",
-    )):
+    # Match MainGame._romance_partner_id, including its Daeun precedence.
+    if S.flags.get("daeun_romance_started") and not S.flags.get("daeun_divorced"):
         return "daeun"
-    if any(S.flags.get(flag) for flag in (
-        "jiyeon_romance_started", "jiyeon_committed", "jiyeon_together",
-    )):
+    if S.flags.get("jiyeon_romance_started") and not S.flags.get("jiyeon_left"):
         return "jiyeon"
     return ""
 
 
-def chapter_four_relationship_event(S, daeun_id, jiyeon_id, unattached_id):
+def chapter_four_relationship_event(S, daeun_id, unattached_id):
     partner_id = chapter_four_partner_id(S)
     if partner_id == "daeun":
         return daeun_id
-    if partner_id == "jiyeon":
-        return jiyeon_id
     return unattached_id
 
 
@@ -1190,7 +1185,6 @@ def chapter_four_causal_event(S):
             and not f.get("arc_y4_three_promises_seen"):
         return chapter_four_relationship_event(
             S, "arc_y4_three_promises",
-            "arc_y4_three_promises_jiyeon_and_deal",
             "arc_y4_three_promises_deal_only")
     if t == 157 and f.get("arc_y4_three_promises_seen") \
             and not f.get("arc_36_unexpected_hand_seen"):
@@ -1211,7 +1205,7 @@ def chapter_four_causal_event(S):
     if t == 164 and f.get("arc_36_body_signal_seen") \
             and not f.get("arc_y4_body_witness_seen"):
         return chapter_four_relationship_event(
-            S, "arc_y4_body_witness", "arc_y4_body_witness_jiyeon",
+            S, "arc_y4_body_witness",
             "arc_y4_body_witness_hyunsu")
     if t == 167 and not father_death_is_monotonic(S) \
             and f.get("arc_y4_body_witness_seen") \
@@ -1220,8 +1214,7 @@ def chapter_four_causal_event(S):
         if f.get("arc_y4_three_promises_missed_father"):
             unattached_id = "arc_y4_family_table_missed"
         return chapter_four_relationship_event(
-            S, "arc_y4_family_partner_collision",
-            "arc_y4_family_partner_collision_jiyeon", unattached_id)
+            S, "arc_y4_family_partner_collision", unattached_id)
     if t == 169 and f.get("arc_y4_family_table_seen") \
             and not f.get("arc_year_three_half_seen"):
         return "arc_year_three_half"
@@ -1237,12 +1230,11 @@ def chapter_four_causal_event(S):
         if f.get("arc_y4_three_promises_missed_deal"):
             unattached_id = "arc_y4_borrowed_name_document_gap"
         return chapter_four_relationship_event(
-            S, "arc_y4_borrowed_name", "arc_y4_borrowed_name_jiyeon",
-            unattached_id)
+            S, "arc_y4_borrowed_name", unattached_id)
     if t == 181 and not father_death_is_monotonic(S) \
             and not f.get("arc_y4_bill_night_seen"):
         return chapter_four_relationship_event(
-            S, "arc_y4_bill_night", "arc_y4_bill_night_jiyeon",
+            S, "arc_y4_bill_night",
             "arc_y4_bill_night_unattached")
     if t == 185 and f.get("arc_y4_bill_night_seen") \
             and not father_death_is_monotonic(S) \
@@ -1252,7 +1244,7 @@ def chapter_four_causal_event(S):
         return chapter_four_father_outcome(S)
     if t == 190 and not f.get("arc_y4_year_close_boundary_seen"):
         return chapter_four_relationship_event(
-            S, "arc_y4_year_close_daeun", "arc_y4_year_close_jiyeon",
+            S, "arc_y4_year_close_daeun",
             "arc_y4_year_close_unattached")
     return ""
 

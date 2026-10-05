@@ -14,6 +14,36 @@
   ],
   "fast_lanes": [
     {
+      "id": "chapter4-jiyeon-reference",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd", "content/meta/event_director.json",
+        "content/meta/event_lifecycle.json", "content/meta/narrative_spine.json",
+        "content/meta/exposed_event_state_contracts.json", "content/meta/release_content_inventory.json",
+        "docs/CONTENT_RATING_INVENTORY.md", "tools/chapter4_causal_route_audit.py",
+        "tools/exposed_state_consistency_audit.py", "tools/narrative_spine_audit.py",
+        "tools/event_lifecycle.py", "tools/event_director_audit.py", "tools/arc_flow_sim.py",
+        "tools/ChapterFourRelationshipCheck.gd", "tools/ChapterFourRelationshipCheck.tscn",
+        "tools/order469_source_compat.py", "tools/order469_source_compat_self_test.py",
+        "tools/pr31_intake_history.py", "tools/pr31_intake_history_self_test.py",
+        "tools/main_game_locale_history.py", "tools/ja_translation_pipeline.py",
+        "tools/ui_translation_append.py", "tools/full_body_translation_scope.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/WORK_LOG.md",
+        "docs/STATUS.md", "docs/agent_reviews/ORDER-469.json", "docs/agent_review_decisions.json",
+        "docs/queue_active/ORDER-469.md", "docs/queue_archive/ORDER-469.md"
+      ],
+      "tools": [
+        "tools/order469_source_compat_self_test.py", "tools/pr31_intake_history_self_test.py",
+        "tools/event_lifecycle.py", "tools/event_lifecycle.py --self-test", "tools/event_director_audit.py",
+        "tools/chapter4_causal_route_audit.py", "tools/chapter4_causal_route_audit.py --self-test",
+        "tools/narrative_spine_audit.py", "tools/exposed_state_consistency_audit.py",
+        "tools/arc_flow_sim.py", "tools/release_content_inventory.py",
+        "tools/ja_translation_audit.py --scope ui", "tools/ja_translation_pipeline.py --self-test",
+        "tools/zh_translation_audit.py", "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Exact six Chapter4 Jiyeon ingress removals, unchanged manuscripts/translations/receipts and current lifecycle census. Root separately runs isolated prepared64 real-Main cases and one fresh shared365 proof for dependent body/story/chapter/inventory consumers. Existing exposed/YEAR5 failures are compared, not suppressed. No public build, human/native/physical input or release GO."
+    },
+    {
       "id": "pr31-intake",
       "paths": [],
       "owned_paths": [
@@ -3434,6 +3464,20 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/order469_source_compat_self_test.py",
+      "paths": ["tools/order469_source_compat.py", "tools/order469_source_compat_self_test.py",
+        "tools/pr31_intake_history.py", "tools/main_game_locale_history.py",
+        "tools/ja_translation_pipeline.py", "tools/ui_translation_append.py",
+        "tools/full_body_translation_scope.py", "content/meta/event_lifecycle.json", "scenes/MainGame.gd"],
+      "why": "Exact source-only transition and malformed/rollback/extra ingress rejection; no receipt or native review issuance."
+    },
+    {
+      "tool": "tools/ChapterFourRelationshipCheck.tscn",
+      "godot": true,
+      "paths": ["scenes/MainGame.gd", "tools/ChapterFourRelationshipCheck.gd", "tools/ChapterFourRelationshipCheck.tscn"],
+      "why": "Prepared64 real-Main selectors only; requires pre-autoload StoryNameplateBootstrap isolation, run separately from the source lane."
+    },
     {
       "tool": "tools/pr31_main_proof_scope_check.py",
       "paths": [

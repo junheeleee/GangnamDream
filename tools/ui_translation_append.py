@@ -2868,9 +2868,12 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
     binding = history._investment_ap_current_binding(root)
     raw = (root / history.MAIN_GAME_PATH).read_bytes()
     hashes = inventory["source_hashes"]
-    require(binding[2] == history.ENDING_FATHER_BLOBS[1]
-            and hashlib.sha256(raw).hexdigest() == history.ENDING_FATHER_HASHES[1]
-            and hashes.get(history.MAIN_GAME_PATH) == history.ENDING_FATHER_HASHES[1]
+    predecessor_raw = history._ending_father_current_view(raw, root)
+    current_hash = hashlib.sha256(raw).hexdigest()
+    current_blob = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+    require(binding[2] == current_blob
+            and hashlib.sha256(predecessor_raw).hexdigest() == history.ENDING_FATHER_HASHES[1]
+            and hashes.get(history.MAIN_GAME_PATH) == current_hash
             and exchange.digest(hashes) == inventory["source_manifest_sha256"],
             "ending-Father current source census/HEAD/raw mismatch")
     pre468 = {**hashes, history.MAIN_GAME_PATH: history.ENDING_FATHER_HASHES[0]}
@@ -2885,7 +2888,8 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
                            else expected)
     result = _INVESTMENT_AP_OLD_MANIFEST_MATCHES(root, predecessor_inventory, historical_expected)
     require(history._investment_ap_current_binding(root) == binding
-            and (root / history.MAIN_GAME_PATH).read_bytes() == raw,
+            and (root / history.MAIN_GAME_PATH).read_bytes() == raw
+            and history._ending_father_current_view(raw, root) == predecessor_raw,
             "ending-Father current source changed during manifest comparison")
     return result
 # END_ENDING_FATHER_SOURCE_468
@@ -2904,8 +2908,9 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
         return _PR31_OLD_MANIFEST_MATCHES(root, inventory, expected)
     predecessor = _pr31_history.source_predecessor_inventory(root, inventory)
     source_stages = _pr31_history.source_stage_manifest_digests(root, inventory)
-    # The helper proves only the exact imported Korean event/ending changes.
-    # MainGame retains its actual current hash for the six-line adapter above.
+    # The helper preserves the PR31 e300 stage and admits only the separately
+    # pinned source-only retirement. MainGame stays actual in this comparison;
+    # its exact routing inverse belongs to the Main history consumer above.
     historical_expected = (predecessor["source_manifest_sha256"]
                            if expected in source_stages else expected)
     return _PR31_OLD_MANIFEST_MATCHES(root, predecessor, historical_expected)

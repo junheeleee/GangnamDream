@@ -16,6 +16,7 @@ import subprocess
 from pathlib import Path
 
 import order351_source_compat as previous
+import order469_source_compat as source_successor
 
 ROOT = Path(__file__).resolve().parents[1]
 INTAKE_PARENT = "8a2c9a9e5cc61c05c9f58b238d59bbbe7a3ce39b"
@@ -442,6 +443,15 @@ def _read_proof(root=ROOT):
                                      head, third_receipts, (LEDGER_PATH,))
         _validate_fourth_first_receipts(third_receipts, fourth, root)
         current = fourth
+    # Source-only retirement is not another receipt stage. Keep every PR31
+    # historical snapshot and census pin intact, then admit the exact successor.
+    pre_source_successor = current
+    with source_successor.fresh_validation_proof(root) as successor:
+        _require(successor["head"] == head, "source successor HEAD differs")
+        successor_before, _ = _snapshot(root, source_successor.PRODUCT_PARENT, paths)
+        _require(successor_before == pre_source_successor, "source successor predecessor differs from PR31")
+        current = {**current, **{path: successor["after"][path]
+                   for path in paths if path in source_successor.PRODUCT_PATHS}}
     actual, _ = _snapshot(root, head, paths)
     _require(actual == current, "current HEAD product differs from approved intake/receipt repair")
     for path in paths:
@@ -449,7 +459,8 @@ def _read_proof(root=ROOT):
     _require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head, "HEAD changed during proof")
     return {"root": root.resolve(), "head": head, "before": before, "after": after, "current": current,
             "repair": repair, "second": second, "third_source": third_source,
-            "third_receipts": third_receipts, "fourth": fourth, "changes": changes, "branch": branch}
+            "third_receipts": third_receipts, "fourth": fourth, "changes": changes, "branch": branch,
+            "pre_source_successor": pre_source_successor}
 
 
 def _successor_snapshot(root, predecessor, commit, head, before, changed_paths):
@@ -507,22 +518,30 @@ def source_predecessor_inventory(root, inventory):
         _require(all(hashes.get(path) == _sha(proof["current"][path]) for path in SOURCE_PATHS),
                  "current source census/content raw binding")
         comparison = {**hashes, **{path: _sha(proof["before"][path]) for path in SOURCE_PATHS}}
+        with source_successor.fresh_validation_proof(root) as successor:
+            for path in source_successor.SOURCE_PATHS:
+                if path != source_successor.MAIN_PATH and path in hashes:
+                    _require(hashes[path] == _sha(successor["after"][path]), "current classification census raw binding")
+                    comparison[path] = _sha(successor["before"][path])
         return {**inventory, "source_hashes": comparison, "source_manifest_sha256": _digest(comparison)}
 
 
 def source_stage_manifest_digests(root, inventory):
-    """Actual full source digests for four fixed stages; never a current claim.
+    """Historical PR31 stages plus the exact source-only successor census.
 
-    Only Korean content hashes are projected. Every other source, including
-    MainGame, remains actual and is matched against each immutable stage. The
-    invocation-local proof shares these object reads across receipt rows and
-    rechecks its current Git/disk census when the outer proof scope exits.
+    Current admission proves the actual complete Git/disk population. Only
+    the historical comparison restores the three ORDER-469 source hashes
+    (Main/lifecycle/spine), then the approved Korean content stage hashes.
+    The original e300 pin and receipt headers remain unchanged. The scoped
+    proof rechecks its actual current census when the outer scope exits.
     """
     with fresh_validation_proof(root) as proof:
         hashes = inventory["source_hashes"]
+        predecessor_inventory = source_successor.source_predecessor_inventory(root, inventory)
+        historical_hashes = predecessor_inventory["source_hashes"]
         _require(isinstance(hashes, dict)
                  and _digest(hashes) == inventory["source_manifest_sha256"]
-                 == CURRENT_SOURCE_MANIFEST_SHA256,
+                 and predecessor_inventory["source_manifest_sha256"] == CURRENT_SOURCE_MANIFEST_SHA256,
                  "complete current source census differs from official source pin")
         _require(all(hashes.get(path) == _sha(proof["current"][path]) for path in SOURCE_PATHS)
                  and hashes.get("scenes/MainGame.gd") == _sha(proof["current"]["scenes/MainGame.gd"]),
@@ -533,13 +552,13 @@ def source_stage_manifest_digests(root, inventory):
                      "complete source census differs from current Git")
             _require(all((Path(root) / path).read_bytes() == raw for path, raw in actual.items()),
                      "complete source census differs from current disk")
-            manifests = set()
+            manifests = {inventory["source_manifest_sha256"]}
             for stage, revision in (("before", INTAKE_PARENT), ("after", INTAKE_COMMIT),
                                     ("second", SECOND_COMMIT), ("third_source", THIRD_SOURCE_COMMIT)):
                 if revision is None:
                     continue
                 _require(proof[stage] is not None, "source stage lacks product proof")
-                candidate = {**hashes, **{path: _sha(proof[stage][path]) for path in SOURCE_PATHS}}
+                candidate = {**historical_hashes, **{path: _sha(proof[stage][path]) for path in SOURCE_PATHS}}
                 stage_raw, _ = _snapshot(root, revision, tuple(hashes))
                 _require({path: _sha(raw) for path, raw in stage_raw.items()} == candidate,
                          "fixed stage source census differs outside approved Korean content")
@@ -554,6 +573,7 @@ def source_stage_manifest_digests(root, inventory):
 def release_inventory_predecessor(raw, root=ROOT):
     with fresh_validation_proof(root) as proof:
         _require(raw == proof["current"][INVENTORY_PATH], "current inventory raw differs")
+        raw = source_successor.product_inverse(proof["pre_source_successor"][INVENTORY_PATH], raw, INVENTORY_PATH)
         if INVENTORY_PATH in THIRD_PRODUCT_SHA256:
             raw = third_product_inverse(proof["second"][INVENTORY_PATH], raw, INVENTORY_PATH)
         return inventory_inverse(proof["before"][INVENTORY_PATH], raw)
