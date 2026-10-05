@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 사용자 우선 PR31 문장 수리 들이기 선언 (468)
+
+- 최신 지시에 따라 B3/B4와 후처리3종을 먼저 진행한다. PR runbook은 로컬 미존재로 원격 브랜치에서 직접 읽었고, 최신 b9284e3의 추가분은 심의목록2지문 보정뿐이다.
+- 진행 중467의 Main3쌍/도구4파일/새fixture2파일을 보존한다. 467 검수 미완료를 완료로 올리지 않으며 Main6줄의 새 역사 전이에 연결한다.
+- 선언 후 EN_HANGUL 오탐부터 수리한다. arc_events.json·project.godot·공개/사용자 저장과 인간 판정은 불변, 7k/수첩·5년은 별도다.
+
 ## 2026-10-05 — 거래 결과 번역 검증 완료·AP 안내 후속 선언 (466 완료/467 착수)
 
 - 실제 clean ae28a8b/tree3679f0의 tracked3146·보호57 전후동일. normal1 result `1f50a10cefca0a7eb187dc7799988a419bd7e1cbf6442553ac7f443f844a93d9`, delta `84d54fbaf7dd486174ed61c233206907123b0f18613660b8db3e1561aa39d167`; delta17.943166459초/ZH34.348521초/exit0/stderr0. 후속7b3bee3은CLAUDE3행만이며 두커밋 main push 완료.
