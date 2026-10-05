@@ -2,7 +2,12 @@
 
 이전 원문 전체는 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md)에 바이트 그대로 보존했다. Claude PR #31 기록은 [별도 보관본](history/WORK_LOG_2026-10-05_claude_pr31.md)에 있다.
 
-## 2026-10-05 — 사용자 우선 PR31 문장 수리 들이기 선언 (468)
+## 2026-10-05 — 사용자 우선 PR31 문장 수리 들이기 검증 (468)
+
+- 최종 c9682f3 동결 shared3에서 fresh365 proof538.201940초, 전체580.899861초·tracked/HEAD 전후동일·오류없음. 365/fullbody/story_graph/ch5/inventory 정상 PASS. YEAR5 실제exit1/33은 기존32개 source/history+로컬 QA/build 토큰 스캔1이며, shared2의 새ending hash5건만 정확히 소멸했다. Git/AST 동등성 귀속이지 baseline 감사 재실행은 아니다. 결과SHA `81172022734419085a792069b138609daf7b24fd4520b6e0de6ee0c12d25a311`.
+- 민서 arrival 조건부2잎×3언어가 PR에서 신설됐지만 최초수용이 빠졌음을 fullbody가 검출했다. 독립10문장 대조 후 공식check/import 모두PASS·target파일변경0. 1b9bd16 원장단독6신규/3배치로 accepted41836/b252, 기존41830/249prefix 불변. 기수용 stale0만으로 누락을 판단하지 않고 실제 target 미수용 검사도 함께 읽는다.
+- c9682f3 exact PR/수용/역상355 사례 PASS84.275275초·stderr0, 사건·엔딩11818/언어 source/target stale0. YEAR5 ending fixture는 실제 현재source 증명→옛 ORDER160 해시 비교로만 연결하고 기존 raw핀·반례를 보존했다. 실제40사례+음성3그룹 PASS7.378767초·stderr0, 결과SHA `e378013fe7cb09f4c3307caa816b4d9b52529dd55d27fa3347629e70bb2b2d44`. 해당 self-test 외 normal AST는 c9682f3와 같다. 전체audit/240주/원어민/실제화면은 이번 표적 증거로 대체하지 않는다.
+- 비저자 KO/EN474변경잎 및 추가 사실120문자열을 직접 읽고, 원PR687수용변경 중 이미 직접본69를 뺀618에서 언어별206→독립 층화31씩93표본을 추가로 읽었다. 명백한 새 의미 결함0이며618전수·원어민 GO가 아니다. seed/정확ID/실제 표본은 독립 보고에 결속한다.
 
 - 독립 KO/EN PR수정부29파일474잎 검수에서 새 기간2건/포괄금액1종을 확인했다. 24d02ae의24잎×5언어120문자열은 기간 단정 제거·실제>=경계만 수리했고 비저자가 전수대조했다. 같은 원문제품을 공식export한6a324be에서 events4/endings20×3언어 check/import 모두 PASS/changed_files0, b41adec은72영수증/6배치만 반영했다. 총105갱신·accepted41830/b249·사건/엔딩11816잎/언어 source/target stale0.
 - runtime3 prepared resolver335·실제 inherited selector60(기준액±1/정확값·37세 비종료) PASS,4.206686초/exit0/stderr0/engine오류0, 보호57/11그룹·제품697동일. 결과SHA `407b019e06ae5badcc1237b6190dbe7949b7aa8598d0ac65205a56ed25c0623d`; 실제렌더/자연플레이가 아니다. 바뀌지 않은AP30은runtime2증거만 재사용한다.
