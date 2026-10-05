@@ -3351,6 +3351,279 @@ def ja_gift_copy_self_test() -> tuple[list[str], int]:
 # END_JA_GIFT_COPY_SELF_TEST_414
 
 
+def source_plan_self_test() -> tuple[list[str], int]:
+    """Bounded in-memory plan/scope faults; no Git or product writes."""
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append(label)
+
+    def reject(action, label):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, AttributeError, subprocess.TimeoutExpired):
+            check(True, label)
+        else:
+            check(False, label)
+
+    terminal = (("source.gd", "1" * 64),)
+    oldest = append.exchange.digest(dict(terminal))
+    middle, newest = "2" * 64, "3" * 64
+    plan = append._HistorySourcePlan((((newest,), middle), ((middle,), oldest)), (terminal,))
+    for expected in (newest, middle, oldest):
+        check(plan.matches(expected), "ordered source plan accepts real stage " + expected[:8])
+    check(not plan.matches("4" * 64), "unknown expected is not a known-stage grant")
+    check(not append._HistorySourcePlan(tuple(reversed(plan.rewrites)), (terminal,)).matches(newest),
+          "rewrites cannot be commuted")
+    mixed = append.exchange.digest({"source.gd": "9" * 64})
+    check(not plan.matches(mixed), "unproved source tuple rejected")
+    for value in (True, None, 3, [], "bad"):
+        reject(lambda value=value: plan.matches(value), "expected type/shape rejected " + repr(value))
+    reject(lambda: setattr(plan, "rewrites", ()), "plan tuple is immutable")
+    leaf = append.exchange.Leaf("ui", "test", "source.gd", ("test",), "검사", "ui_static_context")
+    inventory = {"source_hashes": {"source.gd": "1" * 64},
+                 "source_manifest_sha256": oldest, "leaves": [leaf], "unsupported": []}
+    baseline = {"ui.json": b"old"}
+    current = {"ui.json": b"current"}
+    binding = {"modules": ("module",), "live": ("head", "tree", b"raw"), "plan": plan}
+    counts = {"collect": 0, "prepare": 0, "live": 0}
+    object_raw = b"immutable predecessor"
+    object_id = hashlib.sha1(b"blob " + str(len(object_raw)).encode() + b"\0" + object_raw).hexdigest()
+    object_response = object_id.encode() + b" blob " + str(len(object_raw)).encode() + b"\n" + object_raw + b"\n"
+
+    def collect(root):
+        counts["collect"] += 1
+        return copy.deepcopy(inventory)
+
+    def prepare(root, supplied):
+        counts["prepare"] += 1
+        if "object_response" in binding:
+            with mock.patch.object(append, "_git", return_value=binding["object_response"]):
+                append._objects(root, [("old:source.gd", object_id, "blob")])
+        value = binding["plan"]
+        if isinstance(value, Exception):
+            raise value
+        return value
+
+    def live(*args):
+        counts["live"] += 1
+        return binding["live"]
+
+    def scope():
+        return append._history_source_comparison(ROOT, "base", baseline, current, inventory)
+
+    with mock.patch.object(append, "_git", side_effect=AssertionError("injected comparison reached Git")):
+        reject(lambda: append._PR31_OLD_VALIDATE_HISTORY(ROOT, "base", baseline, current, inventory,
+               _source_comparison=lambda expected: True), "captured fee alias rejects injected callable before Git")
+
+    with mock.patch.object(append.exchange, "collect", side_effect=collect), \
+            mock.patch.object(append, "_prepare_history_source_plan", side_effect=prepare), \
+            mock.patch.object(append, "_source_plan_live", side_effect=live), \
+            mock.patch.object(append, "_source_plan_modules", side_effect=lambda root: binding["modules"]):
+        with scope() as matches:
+            for _ in range(24):
+                check(matches(newest), "pure repeated current comparison")
+            leaked = matches
+        check(counts == {"collect": 2, "prepare": 2, "live": 3}, "proof count independent of loop24")
+        reject(lambda: leaked(newest), "closed scope cannot publish a reused comparison")
+        check(append._SOURCE_PLAN_ACTIVE.get() is None, "scope cleared after success")
+        with scope() as matches:
+            check(append._history_source_matcher(ROOT, "base", baseline, current, inventory, matches) is matches,
+                  "private fee seam binds its one active consumer")
+        for label, changed in (("callable", {"comparison": lambda expected: True}),
+                               ("root", {"root": ROOT / "other"}),
+                               ("baseline revision", {"baseline_commit": "other"}),
+                               ("baseline raw", {"baseline": {"ui.json": b"forged"}}),
+                               ("current raw", {"current": {"ui.json": b"forged"}}),
+                               ("census", {"inventory": {**inventory, "source_hashes": {}}})):
+            def injected(changed=changed):
+                with scope() as matches:
+                    args = dict(root=ROOT, baseline_commit="base", baseline=baseline, current=current,
+                                inventory=inventory, comparison=matches)
+                    args.update(changed)
+                    try:
+                        append._history_source_matcher(**args)
+                    except ValueError:
+                        pass
+            reject(injected, "caught private seam " + label + " mismatch poisons final result")
+
+        def duplicate_consumer():
+            with scope() as matches:
+                append._history_source_matcher(ROOT, "base", baseline, current, inventory, matches)
+                try:
+                    append._history_source_matcher(ROOT, "base", baseline, current, inventory, matches)
+                except ValueError:
+                    pass
+        reject(duplicate_consumer, "captured alias cannot enter the same plan twice")
+        with mock.patch.object(append, "_source_manifest_matches", return_value=False) as fresh:
+            with scope():
+                check(append._history_source_matcher(ROOT, "base", baseline, current, inventory, None)(newest) is False,
+                      "standalone seam still calls fresh public matcher inside a scope")
+                check(fresh.call_count == 1, "standalone matcher was not replaced by current plan")
+
+        def poisoned():
+            with scope() as matches:
+                check(matches("4" * 64) is False, "unknown expected remains False")
+        reject(poisoned, "caught mismatch poisons final result")
+
+        def caught():
+            with scope() as matches:
+                try:
+                    matches(None)
+                except ValueError:
+                    pass
+        reject(caught, "caught malformed expected poisons final result")
+
+        def nested(other_root, other_inventory):
+            with scope():
+                try:
+                    with append._history_source_comparison(other_root, "base", baseline, current, other_inventory):
+                        pass
+                except ValueError:
+                    pass
+        reject(lambda: nested(ROOT, inventory), "same-root nested invocation cannot borrow plan")
+        reject(lambda: nested(ROOT / "other", inventory), "different-root nested invocation poisons outer")
+        reject(lambda: nested(ROOT, {**inventory, "source_hashes": {}}), "different-census nested invocation poisons outer")
+
+        for label, response in (("missing", object_id.encode() + b" missing\n"),
+                                ("type", object_response.replace(b" blob ", b" tree ", 1)),
+                                ("bytes", object_response.replace(object_raw, b"X" * len(object_raw), 1))):
+            binding["object_response"] = object_response
+            def lost_object(response=response):
+                with scope() as matches:
+                    check(matches(newest), "actual typed reader admitted before final " + label)
+                    binding["object_response"] = response
+            reject(lost_object, "exit actual typed reader rejects final " + label)
+            del binding["object_response"]
+
+        for label, key, mutated in (("disk/head/tree drift", "live", ("other",)),
+                                     ("module/code/default/config drift", "modules", ("changed",)),
+                                     ("typed object loss", "plan", ValueError("missing typed object")),
+                                     ("typed object kind", "plan", ValueError("wrong object kind")),
+                                     ("typed object bytes", "plan", ValueError("wrong object bytes")),
+                                     ("predecessor tuple drift", "plan", plan._replace(terminal_censuses=()))):
+            old = binding[key]
+            def mutate(key=key, mutated=mutated):
+                with scope() as matches:
+                    check(matches(newest), "admission before " + label)
+                    binding[key] = mutated
+            reject(mutate, "exit rejects " + label)
+            binding[key] = old
+            check(append._SOURCE_PLAN_ACTIVE.get() is None, "failed exit clears scope " + label)
+
+        def alias():
+            with scope() as matches:
+                inventory["leaves"].append(leaf)
+                try:
+                    matches(newest)
+                except ValueError:
+                    inventory["leaves"].pop()
+        reject(alias, "restored caller alias cannot clear poison")
+        for field in ("source_hashes", "leaves", "unsupported"):
+            old = copy.deepcopy(inventory[field])
+            def mutate_input(field=field):
+                with scope():
+                    inventory[field] = ["mutated"]
+            reject(mutate_input, "final rejects changed collector input " + field)
+            inventory[field] = old
+        with scope() as matches:
+            check(matches(newest), "new invocation recovers after failed scope")
+        check(counts["prepare"] > 2, "later invocation rebuilds, no process cache")
+
+    # Exercise the real configuration reader without running historical suites.
+    config = append._source_plan_modules(ROOT)
+    with mock.patch.object(append, "_SOURCE_PLAN_HOLDEM_STAGES", ("forged",)):
+        check(append._source_plan_modules(ROOT) != config, "real pin/config mutation is bound")
+    old_code = append._HistorySourcePlan.matches.__code__
+    try:
+        append._HistorySourcePlan.matches.__code__ = (lambda self, expected: True).__code__
+        check(append._source_plan_modules(ROOT) != config, "in-place function code mutation is bound")
+    finally:
+        append._HistorySourcePlan.matches.__code__ = old_code
+    check(append._source_plan_modules(ROOT) == config, "configuration restored after in-memory fixtures")
+    with mock.patch.object(append.exchange, "ROOT", ROOT / "forged"):
+        check(append._source_plan_modules(ROOT) != config, "Path configuration is bound")
+    property_function = append.exchange.Leaf.source_sha256.fget
+    old_code = property_function.__code__
+    try:
+        property_function.__code__ = (lambda self: "forged").__code__
+        check(append._source_plan_modules(ROOT) != config, "collector property code is bound")
+    finally:
+        property_function.__code__ = old_code
+    mutable_config = {"pin": "before"}
+    def captured():
+        return mutable_config["pin"]
+    before_closure = append._source_plan_function(captured)
+    mutable_config["pin"] = "after"
+    check(append._source_plan_function(captured) != before_closure, "mutable closure configuration is bound by value")
+    pr31 = append._pr31_history
+    outer = {"root": ROOT, "source_stage_manifests": frozenset(("forged warm census",))}
+    fresh = {"root": ROOT}
+    def predecessor(root, supplied):
+        check(pr31._ACTIVE.get() is fresh, "private PR31 source helper sees fresh typed proof")
+        return supplied
+    def stages(root, supplied):
+        check(pr31._ACTIVE.get() is fresh and "source_stage_manifests" not in fresh,
+              "private PR31 stage helper cannot use warm census")
+        return frozenset((oldest,))
+    token = pr31._ACTIVE.set(outer)
+    try:
+        with mock.patch.object(pr31, "_read_proof", return_value=fresh) as read, \
+                mock.patch.object(pr31, "source_predecessor_inventory", side_effect=predecessor), \
+                mock.patch.object(pr31, "source_stage_manifest_digests", side_effect=stages):
+            check(append._source_plan_pr31(ROOT, inventory) == (inventory, frozenset((oldest,))),
+                  "warm PR31 comparison rebuilt through original helpers")
+            check(read.call_count == 1 and pr31._ACTIVE.get() is outer, "outer PR31 scope restored after fresh proof")
+            with mock.patch.object(pr31, "source_stage_manifest_digests", side_effect=ValueError("lost stage object")):
+                reject(lambda: append._source_plan_pr31(ROOT, inventory), "fresh stage failure propagates")
+            check(pr31._ACTIVE.get() is outer, "outer PR31 scope restored after stage failure")
+    finally:
+        pr31._ACTIVE.reset(token)
+    return failures, cases
+
+
+def source_plan_current_self_test() -> tuple[list[str], int]:
+    """One real plan invocation and one original comparison, never full history."""
+    import time
+    failures, cases = source_plan_self_test()
+    original_run = subprocess.run
+    calls = {"git": 0}
+
+    def counted(*args, **kwargs):
+        command = args[0] if args else kwargs.get("args", ())
+        if command and command[0] == "git":
+            calls["git"] += 1
+        return original_run(*args, **kwargs)
+
+    with mock.patch.object(subprocess, "run", side_effect=counted):
+        started = time.monotonic()
+        inventory = append.exchange.collect(ROOT)
+        head = append._git(ROOT, "rev-parse", "HEAD").decode().strip()
+        current = append._snapshot(ROOT, head, append.CURRENT_PATHS)
+        print("UI_SOURCE_PLAN_CURRENT_COLLECT", time.monotonic() - started, calls["git"], flush=True)
+        started, previous_calls = time.monotonic(), calls["git"]
+        expected = inventory["source_manifest_sha256"]
+        original = append._source_manifest_matches(ROOT, inventory, expected)
+        print("UI_SOURCE_PLAN_ORIGINAL_ONE", time.monotonic() - started, calls["git"] - previous_calls, original, flush=True)
+        started, previous_calls = time.monotonic(), calls["git"]
+        # Production365 owns an outer Main scope. The plan must still re-read
+        # immutable Main objects before it exits that already-warm scope.
+        with append._investment_ap_history.fresh_main_validation_proof(ROOT), \
+                append._pr31_history.fresh_validation_proof(ROOT):
+            with append._history_source_comparison(ROOT, head, current, current, inventory) as matches:
+                loop_started, loop_calls = time.monotonic(), calls["git"]
+                results = [matches(expected) for _ in range(24)]
+                print("UI_SOURCE_PLAN_LOOP24", time.monotonic() - loop_started, calls["git"] - loop_calls, flush=True)
+        cases += 1
+        if results != [original] * 24 or not original:
+            failures.append("real current24 differs from original current matcher")
+        print("UI_SOURCE_PLAN_INVOCATION24", time.monotonic() - started, calls["git"] - previous_calls, flush=True)
+    return failures, cases
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
@@ -3369,7 +3642,15 @@ def main() -> int:
     parser.add_argument("--career-tenure", action="store_true", help="current409 tenure width/English pair and unchanged receipt identity only; no historical suites")
     parser.add_argument("--gift-price-badge", action="store_true", help="current412 gift-only price fit/source and unchanged collector/receipt identities; no historical suites")
     parser.add_argument("--ja-gift-copy", action="store_true", help="exact414 legacy Japanese two-value correction and first receipts only; no older suites")
+    parser.add_argument("--source-plan", action="store_true", help="in-memory invocation source-plan boundaries only")
+    parser.add_argument("--source-plan-current", action="store_true", help="one actual source-plan invocation and original comparison; no history loop")
     args = parser.parse_args()
+    if args.source_plan or args.source_plan_current:
+        errors, cases = (source_plan_current_self_test() if args.source_plan_current else source_plan_self_test())
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"UI_TRANSLATION_APPEND_SOURCE_PLAN_{'FAIL' if errors else 'OK'} cases={cases} historical_cases=0")
+        return int(bool(errors))
     if args.ja_gift_copy:
         errors, cases = ja_gift_copy_self_test()
         for error in errors:

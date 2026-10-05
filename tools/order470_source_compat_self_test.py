@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import contextlib
 import json
 import sys
 import time
@@ -321,11 +322,133 @@ def run_receipt_consumer_checks():
     return failures, cases
 
 
+def run_coffee_consumer_checks():
+    """Exercise448's real current boundary without the expensive365 admission.
+
+    The historical448 pair is read and proved once, then reused only as an
+    explicit fixture in negative cases. The470 scope and current Git objects
+    remain real except at the particular adversarial edge named by each case.
+    """
+    import coffee_encounter_receipt_history as coffee
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER470 coffee consumer: " + label)
+
+    def reject(operation, label):
+        try:
+            operation()
+        except (OSError, ValueError, TypeError, KeyError, IndexError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    before, after = coffee._read_pair(history.ROOT)
+    real_scope, real_git, read, source_git = (history.fresh_validation_proof, coffee._git,
+                                             Path.read_bytes, history._git)
+    mode = {"value": "good", "head_reads": 0, "raws": None}
+
+    def coffee_git(root, *args, **kwargs):
+        result = real_git(root, *args, **kwargs)
+        if args[:2] == ("cat-file", "--batch"):
+            if mode["value"] == "missing":
+                return b"missing missing\n"
+            if mode["value"] == "type":
+                return result.replace(b" blob ", b" tree ", 1)
+            if mode["value"] == "bytes":
+                return result[:-2] + b"X\n"
+        if args[:2] == ("rev-parse", "--verify"):
+            mode["head_reads"] += 1
+            if mode["value"] == "final HEAD" and mode["head_reads"] == 2:
+                return ("0" * 40 + "\n").encode()
+        if args[0] == "rev-parse" and len(args) == 4 and mode["raws"] is not None:
+            return b"".join((history.hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+                              + "\n").encode() for raw in mode["raws"])
+        return result
+
+    def live_source_git(root, *args, **kwargs):
+        if mode["value"] == "470 missing" and args[:2] == ("cat-file", "--batch"):
+            return b"missing missing\n"
+        return source_git(root, *args, **kwargs)
+
+    with mock.patch.object(history, "_git", live_source_git), mock.patch.object(coffee, "_git", coffee_git):
+        with real_scope() as proof, coffee.previous.fresh_validation_proof():
+            expected = {p: proof["current"][p] for p in coffee.EVENT_PATHS}
+            actual = coffee.coffee_encounter_current_events()
+            check(actual == expected, "real448/470 admission returns actual current3")
+            check(set(actual) == set(coffee.EVENT_PATHS), "exact current3 return population")
+            for path in coffee.EVENT_PATHS:
+                check(actual[path] != after[path] == proof["before"][path], "comparison is not returned " + path)
+                old, current = (json.loads(raw) for raw in (after[path], actual[path]))
+                row = lambda values: next(r for r in values if r["id"] == coffee.contract.EVENT_ID)
+                check(row(old) == row(current), "complete coffee event remains unchanged " + path)
+
+            with mock.patch.object(coffee, "_read_pair", return_value=(before, after)):
+                with mock.patch.object(history, "fresh_validation_proof", return_value=contextlib.nullcontext(dict(proof))):
+                    reject(coffee.coffee_encounter_current_events, "detached forged successor proof")
+                for label, paths in (("wrong path", (*coffee.EVENT_PATHS[:2], history.KO_PATH)),
+                                     ("aliased path", (*coffee.EVENT_PATHS[:2], "./" + coffee.EVENT_PATHS[2]))):
+                    with mock.patch.object(coffee, "EVENT_PATHS", paths):
+                        reject(coffee.coffee_encounter_current_events, label)
+
+                # Alter a yielded active view only after its real entry proof;
+                # restore before exit to isolate this consumer's own guards.
+                @contextlib.contextmanager
+                def changed_view(path, field, raw):
+                    @contextlib.contextmanager
+                    def scope(root):
+                        with real_scope(root) as live:
+                            saved = live[field][path]
+                            live[field][path] = raw
+                            try:
+                                yield live
+                            finally:
+                                live[field][path] = saved
+                    with mock.patch.object(history, "fresh_validation_proof", scope):
+                        yield
+
+                for path in coffee.EVENT_PATHS:
+                    with changed_view(path, "before", after[path] + b"\n"):
+                        reject(coffee.coffee_encounter_current_events, "forged comparison " + path)
+                    with changed_view(path, "current", after[path]):
+                        reject(coffee.coffee_encounter_current_events, "historical rollback " + path)
+                    rows = json.loads(expected[path])
+                    rows[0]["title"] += "!"
+                    mutant = (json.dumps(rows, ensure_ascii=False, indent=2) + "\n").encode()
+                    mode["raws"] = [mutant if p == path else expected[p] for p in coffee.EVENT_PATHS]
+                    try:
+                        with changed_view(path, "current", mutant):
+                            reject(coffee.coffee_encounter_current_events, "rehashed neighbor/HEAD claim " + path)
+                    finally:
+                        mode["raws"] = None
+                    def changed_disk(candidate, p=path):
+                        return expected[p] + b"\n" if candidate == history.ROOT / p else read(candidate)
+                    with mock.patch.object(Path, "read_bytes", changed_disk):
+                        reject(coffee.coffee_encounter_current_events, "current disk mutation " + path)
+                for label in ("missing", "type", "bytes", "final HEAD", "470 missing"):
+                    mode["value"], mode["head_reads"] = label, 0
+                    reject(coffee.coffee_encounter_current_events, "warm " + label)
+                    mode["value"] = "good"
+                check(not history._SEMANTIC_MEMO.get()[1], "caught warm failure clears semantic memo")
+                check(coffee.coffee_encounter_current_events() == expected, "fresh recovery after negative fixtures")
+            mode["value"] = "missing"
+            reject(coffee.coffee_encounter_current_events, "original448 typed objects remain mandatory")
+            mode["value"] = "good"
+    check(history._ACTIVE.get() is None and history._SEMANTIC_MEMO.get() is None,
+          "no proof/cache survives the dedicated invocation")
+    return failures, cases
+
+
 def main():
-    failures, cases = run()
+    coffee_only = sys.argv[1:] == ["--coffee-self-test"]
+    failures, cases = run_coffee_consumer_checks() if coffee_only else run()
     for failure in failures:
         print(failure, file=sys.stderr)
-    print(f"ORDER470_SOURCE_COMPAT_{'FAIL' if failures else 'OK'} cases={cases} source_paths=9")
+    label = "COFFEE_CONSUMER" if coffee_only else "SOURCE_COMPAT"
+    print(f"ORDER470_{label}_{'FAIL' if failures else 'OK'} cases={cases} source_paths=9")
     return int(bool(failures))
 
 

@@ -295,6 +295,9 @@ def coffee_encounter_proof(root: Path, inventory: dict[str, Any]) -> tuple[dict,
 
 def coffee_encounter_current_events(root: Path = ROOT) -> dict[str, bytes]:
     """Fresh exact event3 HEAD/disk bytes; no old/new mixtures or inverse view."""
+    import order470_source_compat as successor
+
+    root = Path(root).resolve()
     head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
     require(re.fullmatch(r"[0-9a-f]{40}", head) is not None, "invalid current Git candidate")
     before, after = _read_pair(root)
@@ -303,11 +306,23 @@ def coffee_encounter_current_events(root: Path = ROOT) -> dict[str, bytes]:
             require(not previous.source_errors(before[path], path),
                     "event predecessor is not the unchanged historical current source: " + path)
     _git(root, "merge-base", "--is-ancestor", COFFEE_AFTER_COMMIT, head)
-    ids = _git(root, "rev-parse", *(head + ":" + p for p in EVENT_PATHS)).decode().splitlines()
-    require(ids == [COFFEE_BLOBS[p][1] for p in EVENT_PATHS], "current event HEAD blobs differ")
-    actual = _objects(root, [(head + ":" + p, oid, "blob") for p, oid in zip(EVENT_PATHS, ids)])
-    result = {p: raw for p, raw in zip(EVENT_PATHS, actual)}
-    require(all(result[p] == after[p] == (root / p).read_bytes() for p in EVENT_PATHS), "current event raw differs from Git")
-    require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head,
-            "Git candidate changed during current event admission")
+    with successor.fresh_validation_proof(root) as proof:
+        require(proof is successor._ACTIVE.get() and proof["root"] == root and proof["head"] == head,
+                "successor proof is not the active current candidate")
+        require(EVENT_PATHS == successor.ARC_PATHS[2:]
+                and all(proof["before"][p] == after[p] for p in EVENT_PATHS),
+                "successor comparison differs from immutable coffee events")
+        # The old448 blobs remain historical pins. Only a separately proved
+        # exact470 current image may replace them at this current-only boundary.
+        current = {p: proof["current"][p] for p in EVENT_PATHS}
+        ids = _git(root, "rev-parse", *(head + ":" + p for p in EVENT_PATHS)).decode().splitlines()
+        expected = [hashlib.sha1(b"blob " + str(len(current[p])).encode() + b"\0" + current[p]).hexdigest()
+                    for p in EVENT_PATHS]
+        require(ids == expected, "current event HEAD blobs differ")
+        actual = _objects(root, [(head + ":" + p, oid, "blob") for p, oid in zip(EVENT_PATHS, ids)])
+        result = {p: raw for p, raw in zip(EVENT_PATHS, actual)}
+        require(all(result[p] == current[p] == (root / p).read_bytes() for p in EVENT_PATHS),
+                "current event raw differs from Git")
+        require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head,
+                "Git candidate changed during current event admission")
     return result

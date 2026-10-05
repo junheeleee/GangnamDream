@@ -796,8 +796,11 @@ _FEE_OLD_VALIDATE_HISTORY = validate_history
 
 
 def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, bytes],
-                     current: Mapping[str, bytes], inventory: dict[str, Any]) -> dict[str, Any]:
+                     current: Mapping[str, bytes], inventory: dict[str, Any], *,
+                     _source_comparison=None) -> dict[str, Any]:
     """Current append history with two pinned corrections and one split delivery."""
+    source_matches = _history_source_matcher(root, baseline_commit, baseline, current,
+                                             inventory, _source_comparison)
     head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
     require(re.fullmatch(r"[0-9a-f]{40}", head) is not None, "invalid current Git candidate")
     lineage = _git(root, "rev-list", "--first-parent", head).decode().splitlines()
@@ -884,7 +887,7 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
             change = validate_append(comparison(previous), comparison(successor), inventory)
         for revision, expected in change["source_manifests"].items():
             _git(root, "merge-base", "--is-ancestor", revision, parents[0])
-            require(_source_manifest_matches(root, inventory, expected), "KO/runtime source changed outside reviewed boundary")
+            require(source_matches(expected), "KO/runtime source changed outside reviewed boundary")
             if revision not in manifests:
                 manifests[revision] = _source_manifest(root, revision)
             require(manifests[revision] == expected, "receipt source manifest differs from actual Git census")
@@ -2923,7 +2926,9 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
     # Scoped immutable reads are shared only within this invocation; the helper
     # and existing history verifier still bind actual current Git/disk bytes.
     with _pr31_history.fresh_validation_proof(root):
-        return _PR31_OLD_VALIDATE_HISTORY(root, baseline_commit, baseline, current, inventory)
+        with _history_source_comparison(root, baseline_commit, baseline, current, inventory) as matches:
+            return _PR31_OLD_VALIDATE_HISTORY(root, baseline_commit, baseline, current, inventory,
+                                            _source_comparison=matches)
 
 
 def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:
@@ -2940,3 +2945,301 @@ def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes
                 "PR31 content or Git candidate changed during admission")
         return result
 # END_PR31_CONTENT_AND_RECEIPT_468
+
+
+# BEGIN_INVOCATION_SOURCE_COMPARISON_470
+# Private to the fee-history loop. Public matchers and historical aliases still
+# perform their original fresh proofs; this is not a process-level proof cache.
+import contextlib as _plan_contextlib
+import dataclasses as _plan_dataclasses
+import sys as _plan_sys
+import types as _plan_types
+
+_SOURCE_PLAN_ACTIVE = contextvars.ContextVar("ui_history_source_plan", default=None)
+_SOURCE_PLAN_HOLDEM_STAGES = (
+    "victory_particle", "hand_net", "folded_locale", "seat_height", "table_labels",
+    "banner_locale", "banner", "message_pulse", "card_color", "async", "betting", "canvas",
+)
+
+
+class _HistorySourcePlan(NamedTuple):
+    rewrites: tuple
+    terminal_censuses: tuple
+
+    def matches(self, expected):
+        require(type(expected) is str and re.fullmatch(r"[0-9a-f]{64}", expected),
+                "source comparison expected manifest is malformed")
+        # Preserve the wrapper order. A newer tuple is never accepted on its
+        # own: its expected value must traverse the remaining predecessor path.
+        for incoming, predecessor in self.rewrites:
+            if expected in incoming:
+                expected = predecessor
+        for census in self.terminal_censuses:
+            if expected == exchange.digest(dict(census)):
+                return True
+        return False
+
+
+def _prepare_history_source_plan(root, inventory):
+    """Prove the exact active wrapper chain, then retain only pure operands."""
+    import holdem_money_history as holdem
+    history = _investment_ap_history
+    steps = []
+    source, stages = _source_plan_pr31(root, inventory)
+    steps.append((tuple(sorted(stages)), source["source_manifest_sha256"]))
+    hashes = dict(source["source_hashes"])
+
+    def replace(path, raw):
+        nonlocal hashes
+        hashes = {**hashes, path: hashlib.sha256(raw).hexdigest()}
+
+    def current(path):
+        raw = (root / path).read_bytes()
+        require(hashes.get(path) == hashlib.sha256(raw).hexdigest(),
+                "source plan census/raw differs: " + path)
+        return raw
+
+    # Ending-Father468 projects Main before467, exactly as its public wrapper.
+    raw = current(history.MAIN_GAME_PATH)
+    binding = history._investment_ap_current_binding(root)
+    previous = history._ending_father_current_view(raw, root)
+    require(binding[2] == hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+            and hashlib.sha256(previous).hexdigest() == history.ENDING_FATHER_HASHES[1],
+            "source plan ending-Father current proof differs")
+    pre468 = {**hashes, history.MAIN_GAME_PATH: history.ENDING_FATHER_HASHES[0]}
+    pre467 = {**hashes, history.MAIN_GAME_PATH: history.AP_COPY_HASHES[0]}
+    steps.append(((exchange.digest(hashes), exchange.digest(pre468)), exchange.digest(pre467)))
+    hashes = pre467
+
+    # Opening463 and Coin459 each move both the census and (only for the
+    # actual incoming tuple) expected. The other expected values are unchanged.
+    incoming = exchange.digest(hashes)
+    opening = current(_opening_history.OPENING_PATH)
+    replace(_opening_history.OPENING_PATH, _opening_history.opening_rhythm_predecessor(opening, root))
+    steps.append(((incoming,), exchange.digest(hashes)))
+    incoming = exchange.digest(hashes)
+    predecessors = _coin_history.coin_source_predecessor(
+        root, {**inventory, "source_hashes": hashes, "source_manifest_sha256": incoming})
+    require(set(predecessors) == set(_coin_history.SOURCE_PATHS), "source plan coin population differs")
+    for path, prior in predecessors.items():
+        replace(path, prior)
+    steps.append(((incoming,), exchange.digest(hashes)))
+
+    # The twelve Holdem intermediate wrappers change expected, not census.
+    holdem_raw = current(holdem.HOLDEM_PATH)
+    with holdem._holdem_manifest_proof_scope():
+        for stage in _SOURCE_PLAN_HOLDEM_STAGES:
+            prior = getattr(holdem, "holdem_" + stage + "_predecessor")(holdem_raw, root)
+            intermediate = {**hashes, holdem.HOLDEM_PATH: hashlib.sha256(prior).hexdigest()}
+            steps.append(((exchange.digest(intermediate),), exchange.digest(hashes)))
+        incoming = exchange.digest(hashes)
+        replace(holdem.HOLDEM_PATH, holdem.holdem_money_predecessor(holdem_raw, root))
+        steps.append(((incoming,), exchange.digest(hashes)))
+
+    # The rebound pre467 oracle has precisely 2+12+1 tuples, not the Cartesian
+    # product of Main, Scalping and Aruba histories.
+    # An outer365 Main scope may already hold predecessor bytes. Re-enter the
+    # original typed proof here so even that caller cannot hide object loss at
+    # this plan's exit; public Main functions and their scope remain unchanged.
+    rows = history._MAIN_SCOPE_ORIGINAL_PROOF((root / history.MAIN_GAME_PATH).read_bytes(), root)[1:]
+    require(type(rows) is tuple and len(rows) == 13
+            and hashlib.sha256(rows[0]).hexdigest() == hashes[history.MAIN_GAME_PATH]
+            == history.AP_COPY_HASHES[0], "source plan Main predecessor population/binding differs")
+    scalp = current(SCALPING_PHASE_PATH)
+    prior_scalp = scalping_phase_predecessor(root, scalp)
+    font = current(ARUBA_FONT_PATH)
+    prior_font = aruba_font_predecessor(root, font)
+    terminal = []
+    for main in rows[:2]:
+        terminal.append({**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main).hexdigest()})
+    for main in rows[1:]:
+        terminal.append({**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main).hexdigest(),
+                         SCALPING_PHASE_PATH: hashlib.sha256(prior_scalp).hexdigest()})
+    terminal.append({**terminal[-1], ARUBA_FONT_PATH: hashlib.sha256(prior_font).hexdigest()})
+    require(history._investment_ap_current_binding(root) == binding
+            and (root / history.MAIN_GAME_PATH).read_bytes() == raw,
+            "source plan Main changed during preparation")
+    return _HistorySourcePlan(tuple(steps), tuple(tuple(sorted(row.items())) for row in terminal))
+
+
+def _source_plan_pr31(root, inventory):
+    # The public PR31 scope retains both product bytes and derived historical
+    # censuses. Isolate a freshly typed proof for this preparation only: every
+    # stage census is reread too, without altering the caller's outer scope.
+    outer = _pr31_history._ACTIVE.get()
+    require(outer is None or outer["root"] == Path(root).resolve(),
+            "source plan PR31 outer scope belongs to another repository")
+    fresh = _pr31_history._read_proof(root)
+    token = _pr31_history._ACTIVE.set(fresh)
+    try:
+        return (_pr31_history.source_predecessor_inventory(root, inventory),
+                _pr31_history.source_stage_manifest_digests(root, inventory))
+    finally:
+        _pr31_history._ACTIVE.reset(token)
+
+
+def _source_plan_value(value):
+    """Detach caller containers, retaining types, field metadata and ordering."""
+    if type(value) in (str, bytes, int, float, bool, type(None)):
+        return (type(value), value)
+    if isinstance(value, Path):
+        return (type(value), str(value))
+    if isinstance(value, type):
+        return (type, value)
+    if isinstance(value, re.Pattern):
+        return (re.Pattern, value.pattern, value.flags)
+    if type(value) is _plan_types.FunctionType:
+        return _source_plan_function(value)
+    if type(value) in (tuple, list):
+        return (type(value), tuple(_source_plan_value(v) for v in value))
+    if type(value) in (set, frozenset):
+        return (type(value), frozenset(_source_plan_value(v) for v in value))
+    if type(value) is dict:
+        return (dict, tuple((_source_plan_value(k), _source_plan_value(v)) for k, v in value.items()))
+    if _plan_dataclasses.is_dataclass(value) and not isinstance(value, type):
+        return (type(value), _source_plan_value(vars(value)))
+    raise ValueError("source plan unsupported supplied value: " + str(type(value)))
+
+
+def _source_plan_function(function):
+    # Binding code/defaults as well as identity catches in-place __code__ edits.
+    def closure(value):
+        if (type(value) in (str, bytes, int, float, bool, type(None), tuple, list, dict, set, frozenset)
+                or isinstance(value, (Path, re.Pattern, type))
+                or type(value) is _plan_types.FunctionType):
+            return _source_plan_value(value)
+        return (type(value), id(value))
+    return (function, function.__code__, _source_plan_value(function.__defaults__),
+            _source_plan_value(function.__kwdefaults__),
+            tuple(closure(cell.cell_contents) for cell in (function.__closure__ or ())))
+
+
+def _source_plan_modules(root):
+    result = []
+    tools = root / "tools"
+    for name, module in sorted(tuple(_plan_sys.modules.items())):
+        file = getattr(module, "__file__", None)
+        if not file or Path(file).resolve().parent != tools or name.endswith("_self_test"):
+            continue
+        bindings = []
+        for key, value in sorted(vars(module).items()):
+            if type(value) is _plan_types.FunctionType:
+                bindings.append((key, _source_plan_function(value)))
+            elif isinstance(value, type) and value.__module__ == name:
+                methods = []
+                for method, descriptor in vars(value).items():
+                    if type(descriptor) is _plan_types.FunctionType:
+                        methods.append((method, _source_plan_function(descriptor)))
+                    elif isinstance(descriptor, (classmethod, staticmethod)):
+                        methods.append((method, type(descriptor), _source_plan_function(descriptor.__func__)))
+                    elif isinstance(descriptor, property):
+                        methods.append((method, property, tuple(_source_plan_function(fn) if fn else None
+                                                               for fn in (descriptor.fget, descriptor.fset, descriptor.fdel))))
+                bindings.append((key, value, tuple(methods)))
+            elif type(value) is _plan_types.ModuleType:
+                bindings.append((key, value))
+            elif key.isupper() and (type(value) in (str, bytes, int, float, bool, type(None), tuple, list, dict, set, frozenset)
+                                   or isinstance(value, (Path, re.Pattern))):
+                bindings.append((key, _source_plan_value(value)))
+        with open(file, "rb") as stream:
+            physical = stream.read()
+        result.append((name, module, str(Path(file).resolve()), physical, tuple(bindings)))
+    return (tuple(result), hashlib.sha1, hashlib.sha256,
+            _source_plan_function(Path.read_bytes), _source_plan_function(Path.read_text), subprocess.run)
+
+
+def _history_source_matcher(root, baseline_commit, baseline, current, inventory, comparison):
+    if comparison is None:
+        return lambda expected: _source_manifest_matches(root, inventory, expected)
+    active = _SOURCE_PLAN_ACTIVE.get()
+    try:
+        require(active is not None and active["open"] and not active["poisoned"]
+                and comparison is active.get("matches") and not active.get("consumer_started")
+                and Path(root).resolve() == active["root"]
+                and _source_plan_value((baseline_commit, baseline, current, inventory)) == active["supplied"],
+                "private source comparison is not bound to this history invocation")
+        active["consumer_started"] = True
+        return comparison
+    except BaseException:
+        if active is not None:
+            active["poisoned"] = True
+        raise
+
+
+def _source_plan_live(root, baseline_commit, baseline, current, inventory):
+    head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+    tree = _git(root, "rev-parse", "--verify", "HEAD^{tree}").decode().strip()
+    identities = tuple(_objects(root, [(head, head, "commit"), (tree, tree, "tree")]))
+    require(_snapshot(root, baseline_commit, tuple(baseline)) == baseline,
+            "source plan caller baseline differs from Git")
+    paths = tuple(sorted(set(inventory["source_hashes"]) | set(current)))
+    actual = _snapshot(root, head, paths)
+    require(all(actual[p] == current[p] for p in current)
+            and all(hashlib.sha256(actual[p]).hexdigest() == value
+                    for p, value in inventory["source_hashes"].items()),
+            "source plan caller/current census differs from Git")
+    for path, raw in actual.items():
+        with open(root / path, "rb") as stream:
+            require(stream.read() == raw, "source plan actual disk differs: " + path)
+    require(_source_manifest(root, head) == inventory["source_manifest_sha256"],
+            "source plan actual full Git census differs")
+    return (head, tree, identities, tuple(actual.items()))
+
+
+@_plan_contextlib.contextmanager
+def _history_source_comparison(root, baseline_commit, baseline, current, inventory):
+    """No result escapes the history call before all exit proofs have passed."""
+    active = _SOURCE_PLAN_ACTIVE.get()
+    if active is not None:
+        active["poisoned"] = True
+        raise ValueError("nested history source comparison is not a new invocation")
+    root = Path(root).resolve()
+    state = {"poisoned": False, "open": True}
+    token = _SOURCE_PLAN_ACTIVE.set(state)
+    try:
+        supplied = _source_plan_value((baseline_commit, baseline, current, inventory))
+        state.update(root=root, supplied=supplied)
+        # Collect before sealing modules so lazy collector imports are included.
+        require(_source_plan_value(exchange.collect(root)) == _source_plan_value(inventory),
+                "source plan supplied inventory differs from actual collector")
+        modules = _source_plan_modules(root)
+        live = _source_plan_live(root, baseline_commit, baseline, current, inventory)
+        plan = _prepare_history_source_plan(root, inventory)
+        require(_source_plan_modules(root) == modules, "source plan modules changed during preparation")
+
+        def matches(expected):
+            try:
+                require(state["open"] and not state["poisoned"] and _SOURCE_PLAN_ACTIVE.get() is state,
+                        "source comparison used outside its healthy invocation")
+                require(_source_plan_value((baseline_commit, baseline, current, inventory)) == supplied,
+                        "source comparison caller inputs changed")
+                result = plan.matches(expected)
+                if not result:
+                    state["poisoned"] = True
+                return result
+            except BaseException:
+                state["poisoned"] = True
+                raise
+
+        state["matches"] = matches
+        yield matches
+        require(not state["poisoned"] and _SOURCE_PLAN_ACTIVE.get() is state,
+                "source comparison invocation was poisoned")
+        require(_source_plan_modules(root) == modules, "source comparison module/code/configuration changed")
+        require(_source_plan_value((baseline_commit, baseline, current, inventory)) == supplied,
+                "source comparison caller inputs changed at exit")
+        require(_source_plan_live(root, baseline_commit, baseline, current, inventory) == live,
+                "source comparison Git/disk/census changed at exit")
+        # This is a fresh reconstruction through the original typed-object
+        # helpers, not equality against cached success or a known-manifest set.
+        require(_prepare_history_source_plan(root, inventory) == plan,
+                "source comparison predecessor evidence changed at exit")
+        require(_source_plan_value(exchange.collect(root)) == _source_plan_value(inventory),
+                "source comparison collector changed at exit")
+        require(_source_plan_modules(root) == modules
+                and _source_plan_live(root, baseline_commit, baseline, current, inventory) == live,
+                "source comparison changed during final proof")
+    finally:
+        state["open"] = False
+        _SOURCE_PLAN_ACTIVE.reset(token)
+# END_INVOCATION_SOURCE_COMPARISON_470
