@@ -2,8 +2,14 @@
 
 이전 원문 전체는 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md)에 바이트 그대로 보존했다. Claude PR #31 기록은 [별도 보관본](history/WORK_LOG_2026-10-05_claude_pr31.md)에 있다.
 
+## 2026-10-06 — 재혁 경로명(P0)·다은 선택 사실 후속 선언 (470)
+
+- 사용자 최신 A를 [470](queue_active/ORDER-470.md) 하나로 선언한다.5언어 arc_events의 세 장면만 수리하고 legacy72/467·공개14/100 본문은 보존한다. 실제 GameState 생산자 기준으로 took_high_road/재혁 구체 사실을 쓰며 광역 crossed_line만으로 과거를 발명하지 않는다. B의4장 DIK와 수첩/기간은 별도다.
+- read-only에서 counter 정상 진입이 미투자 거절자임을 확인했다. 기존 '내 돈 세 배' 선택과 콜백의 원금/피해자 표기는 후속 사실 결함으로 남기며, 최신 지시가 보존한 counter 선택/효과/플래그를 이번에 바꾸지 않는다. 산문 신고 결과의 미환급/추가23억 피해 방지 단정은 같은 소유 잎에서 정렬한다.
+
 ## 2026-10-06 — 4장 지연 변형6개 비도달 정렬 최종 검증 (469)
 
+- 비저자 [독립 보고](agent_reviews/ORDER-469.json)는 source899ffa2/tree52e4fbc의 비도달·분류·유한 이력 수리에 한정 GO했다. 보고SHA `5e004da5e741619fe45ef22ca9b0b10c5b7deffcf2669e06fe0c4e836ec543e5`. [완료 사양](queue_archive/ORDER-469.md)으로 이동하고 사용자 우선470을 선언한다. 기존 YEAR5 33·노출5 실패와 인간 미관찰을 보존하며 본편 출시 GO로 확대하지 않는다. 새 규범승격0, 실제 전이의 한정 증명이다.
 - 동결62f9ecd/tree d877916의 delta1 실제 fresh695.847초·전체947.259초·HEAD/tracked 전후동일, 오류없음. 본문 정상/253자체검사·YEAR5 메타18 PASS. YEAR5는 기존468 shared3의33줄과 순서까지 동일하며 새0/소멸0, 전체 PASS가 아니다. 앞 shared2의 새4 및 본문5실패만 수리했고 나머지 동일 소비자는 이유 없이 재실행하지 않았다. 실제 로그는 `.git/order469-20261005.2KYo5D/delta1`에 보존한다.
 - 647개 사건·엔딩·수용원장 경로의 Gitblob 집합이 선언9766e70과 동일하다. 준비64사례는 실제 Main selector만 검증했으며 자연 경로/화면/입력/원어민 판정이 아니다. source60·PR31이력357·JA UI2981/자체146·ZH skeleton과 인과/목록/흐름 정상 증거는 입력 불변 범위에서 재사용한다.
 
@@ -18,13 +24,13 @@
 - exposed 검사5실패는 기준9766e70의 원함수/Main/director/계약을 직접 대조해 같은5·새0 확인했다. 이전 예상3과 달랐으므로5로 기록한다. 세 사건 employment분류와 현수의 방 KO/EN문구2가 남아 있으며 실패를 삭제하지 않았다.
 - 실행 로그는 `.git/order469-20261005.2KYo5D`에 보존한다. source후속 이력/소비자 검증은 진행 중이며 아직 전체완료 판정·최종 push는 하지 않았다.
 - 기준 main `2f06da6`, 깨끗한 작업 폴더에서 사용자 후속7k 첫 단위를 선언한다. 실제6슬롯153/164/167/177/181/190의 Main/director ingress만 제거하고 원고·5언어 번역·수용 영수증은 보존한다.
-- 런타임/이력 지원/독립 검수 소유를 [469](queue_active/ORDER-469.md)에 분리했다. 다은 실제 predicate·W167/W177 우선순위를 prepared64사례로 검증할 계획이며 아직 결과는 없다. 원어민·인간·자연 플레이·실제 입력 관찰을 발급하지 않는다.
+- 런타임/이력 지원/독립 검수 소유를 [469](queue_archive/ORDER-469.md)에 분리했다. 착수 당시에는 다은 실제 predicate·W167/W177 우선순위 prepared64사례가 미실행이었다. 최종 결과는 위 단락에 결속하며 원어민·인간·자연 플레이·실제 입력 관찰을 발급하지 않는다.
 
 ## 2026-10-05 — 사용자 우선 PR31 문장 수리 들이기 완료 (468)
 
 - 비저자 [독립 보고](agent_reviews/ORDER-468.json)가 source c50d9cb/tree2d0149ad의 들이기·확인된 새 결함·유한 이력승인에 한정 GO했다. 보고SHA `9dcbd068fb5d85a89f91c05c1d574f6479c5afc0ba6abba55d6e2c7ed2ea0cbe`. [완료 사양](queue_archive/ORDER-468.md)으로 이동한다. 새로운 규범승격0, 이번 exact 전이와 검증은 일회성이다. 본편/출시 HOLD와 인간 원장은 불변이다.
 - 완료 문서 검증 중 보고서 subject 표기를 source로 정렬하면서 원장SHA가 잠깐 달라져 metadata self-test의 CLI-contract가1회 실패했다. 원문/제품 변화는 없으며 최종SHA 정렬 뒤 같은검사222사례와 queue25fixture/4fence사례 PASS, 인간 원형불변을 확인했다.
-- 다음 [469](queue_active/ORDER-469.md)는 사용자7k의4장 지연6변형 비도달 정렬이다. 독립 read-only 조사에서 실제 슬롯153/164/167/177/181/190·director owner·spine/live노출 원장의 연결을 확인했다.6원고는 이미 dormant 메타이며 HiddenFeatureCheck의 지연 주입은5장용이므로 원고/번역/해당fixture는 보존하는 최소 전이를 사양에 선언했다. 구현/도달 검사는 아직 하지 않았다.
+- 당시 다음 [469](queue_archive/ORDER-469.md)는 사용자7k의4장 지연6변형 비도달 정렬이었다. 독립 read-only 조사에서 실제 슬롯153/164/167/177/181/190·director owner·spine/live노출 원장의 연결을 확인했다.6원고는 이미 dormant 메타이며 HiddenFeatureCheck의 지연 주입은5장용이므로 원고/번역/해당fixture를 보존하는 최소 전이를 선언했다. 당시 구현/도달 검사는 미실행이었다.
 
 - 최종 c9682f3 동결 shared3에서 fresh365 proof538.201940초, 전체580.899861초·tracked/HEAD 전후동일·오류없음. 365/fullbody/story_graph/ch5/inventory 정상 PASS. YEAR5 실제exit1/33은 기존32개 source/history+로컬 QA/build 토큰 스캔1이며, shared2의 새ending hash5건만 정확히 소멸했다. Git/AST 동등성 귀속이지 baseline 감사 재실행은 아니다. 결과SHA `81172022734419085a792069b138609daf7b24fd4520b6e0de6ee0c12d25a311`.
 - 민서 arrival 조건부2잎×3언어가 PR에서 신설됐지만 최초수용이 빠졌음을 fullbody가 검출했다. 독립10문장 대조 후 공식check/import 모두PASS·target파일변경0. 1b9bd16 원장단독6신규/3배치로 accepted41836/b252, 기존41830/249prefix 불변. 기수용 stale0만으로 누락을 판단하지 않고 실제 target 미수용 검사도 함께 읽는다.

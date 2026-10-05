@@ -1,10 +1,34 @@
 # ORDER-469 — 4장 지연 연인 변형6개의 비도달 정렬
 
-#### [~] ORDER-469 [P1·사용자 지시] 자연 경로에 없는 지연 연인 변형을 author_only로 보존한다
+#### [x] ORDER-469 [P1·사용자 지시] 자연 경로에 없는 지연 연인 변형을 author_only로 보존한다
 
 **착수 — 2026-10-05.** PR31 들이기 [468](../queue_archive/ORDER-468.md) 뒤 실행하는
 사용자 후속7k의 첫 독립 단위다. 기준 main `2f06da6`에서 read-only 영향 조사를 마쳤다.
-아래 소유 범위를 선언 커밋으로 먼저 고정하고 구현한다. 아직 실행 검증 결과는 없다.
+아래 소유 범위를 선언 커밋으로 먼저 고정하고 구현했다. 2026-10-06 표적 검증 완료.
+
+## 완료 증거
+
+```text
+도달 경로      : CHAPTER_FOUR_RELATIONSHIP_CHECK_OK normal_cases=48 missed_cases=16 prepared_component_only=true
+생산자 ↔ 독자   : content/meta/event_lifecycle.json:37 ↔ scenes/MainGame.gd:6709
+바꾸는 상태     : shipping1708→1702; author_only105→111; packaged1813→1813; product ingress6→0
+포기 시 잃는 것 : _jiyeon6 IDs; W153/164/167/177/181/190; manuscripts deleted0
+서사 위치       : chapter4.setup/escalation/reversal/boss; root386→380; exposed537→531
+장면 계층       : T1/T2 기존 변형의 진입 정렬; 신규 장면0
+닫는 것         : 자연 생산자 없는4장 지연 연인6변형의 제품 진입;5장/출시 GO 없음
+```
+
+- 실제 제품 `589a0f6`7파일, prepared64/source60/PR31history357/fullbody253/YEAR5메타18 PASS.
+  최종 delta1은 frozen62f9ecd/tree d877916의 fresh695.847초/total947.259초이며
+  HEAD/tracked 전후동일·error null. resultSHA
+  `57842c27863fd1e774650cf70883cdab521adb0b08a86286de332ac1e28082db`.
+- YEAR5 실제 FAIL33은468 shared3와 출력줄/순서 동일·새0, exposed 실제 FAIL5는 선언9766e70
+  함수/입력 직접 대조 기존5·새0. 실패 삭제/전체 PASS 주장0. shared1/shared2 실패는 WORK_LOG에 보존.
+- JA UI2981/자체146·ZH skeleton·365/서사/5장/현지화목록 정상은 각각 실제 실행된 입력 범위에만
+  결속했다. corpus/영수증647경로 불변, 새 번역 수용0. 실제 렌더/입력/원어민/인간 플레이 미관찰.
+- 독립 판정은 `docs/agent_reviews/ORDER-469.json`과 판정 원장이 source를 결속한다.
+  자동 검사는 계약의 증거이며 재미·깊이·문체나 인간 관찰의 대체가 아니다.
+- 승격: 신규 규범0. lifecycle·관계 정본의 기존 규칙을 적용했으며 exact469증명·소유·검증 지시는 일회성.
 
 ## 근거와 완결 경계
 

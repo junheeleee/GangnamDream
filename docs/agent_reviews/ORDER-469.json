@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-469",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "reviewed_at": "2026-10-06",
+  "subject": {
+    "kind": "source",
+    "commit": "899ffa2b04a8c414712cdbdeb4a8ef84773e6154",
+    "tree": "52e4fbcfd71f4e5b1eb35230f8b682ca9e220a32",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/order469_review",
+  "scope": "4장 지연 연인 변형6개의 제품 진입 제거, 기존 원고의 author_only 보존, Main/배정/생명주기/현재 심의 목록과 한정 이력 관측 경계 정렬에 대한 GO다. 전체 CI·본편·출시·번역 품질 GO가 아니다. YEAR5 기존33실패와 노출계약 기존5실패, 인간 미관찰과 현지화 INCOMPLETE를 보존한다.",
+  "method": {
+    "skill": "gangnamdream-dev의 단일 정본·선언된 소유·표적 검사·독립 판정 기준을 적용했다. CLAUDE, 전체 스킬, 큐/작업 단위와 ORDER-469, 관련 관계/서사 정본을 읽고 자연 경로와 준비 주입을 구분했다.",
+    "direct": "대상6개 KO 원고 전문, 실제 Main/시뮬레이터/메타 diff, 이력 지원 코드와 음성 검사, 실제 Git 객체/부모/경로 집합 및 root 실행 로그/result를 읽었다. Git 조회와 Python stdlib JSON/AST/해시 대조만 수행했으며 프로젝트 모듈 import, 제품 검사 또는 Godot 실행은 하지 않았다.",
+    "authorship": "root 및 order469_main/order469_history가 구현·검사했다. 본 검수자는 비저자 읽기 검수와 이 보고서 한 파일만 소유한다. 이전 pr31_intake_review 역할을 인계했으며 저자의 자체 GO를 독립 검수로 대체하지 않았다.",
+    "source_boundary": "최종 실제 delta 실행 source는 62f9ecd442b0a40664041be9c77b5b0364b99df1/tree d877916b65a932539a74661715b8fe2ec858070f다. 이 source에서 subject까지 실제 Git diff는 CLAUDE.md와 docs/WORK_LOG.md뿐이다. 최종 문서 후속 commit에서 모든 검사를 재실행했다고 주장하지 않는다. 보고 작성 중 root의 큐 이동/다음 단위 선언/원장 마감은 subject 밖의 별도 메타 작업이다."
+  },
+  "product_review": {
+    "declaration": "9766e70a8652c0c82e07176468542af831b3b644",
+    "product_commit": "589a0f60eb29069c68628a39134ea1e68de4e3e0",
+    "product_tree": "a1eacdfa0a5be2aef6505bc6fba84938ffee4588",
+    "retired_ids": [
+      "arc_y4_three_promises_jiyeon_and_deal",
+      "arc_y4_body_witness_jiyeon",
+      "arc_y4_family_partner_collision_jiyeon",
+      "arc_y4_borrowed_name_jiyeon",
+      "arc_y4_bill_night_jiyeon",
+      "arc_y4_year_close_jiyeon"
+    ],
+    "slots": [153, 164, 167, 177, 181, 190],
+    "ingress": "대상6개는 이미 weight=0/hidden=true/conditions={min_turn:9999}였다. 실제 제품 진입인 Main6호출의 지연 인자와 director commitment owner6개를 제거했다. 비제품 story_map needs_rule 참조와 원고는 보존했다. lifecycle의 표적 product ingress는0이다.",
+    "relationship": "Main은 기존 _romance_partner_id의 daeun_romance_started && !daeun_divorced 조건을 그대로 사용한다. 지연-only 주입은 기존 unattached 변형, 혼합 상태는 기존 다은 우선, married flag만 있는 상태는 비연인이다. W167 아버지 약속 누락과 W177 거래 약속 누락 fallback 및 다은 우선순위를 보존했다. 시뮬레이터도 실제 Main 조건에 맞췄다. 193주 이후 arc_jiyeon_year5_return/arc_jiyeon_y5_feelings 자연 생산자는 변경하지 않았다.",
+    "metadata": "lifecycle ledger-only6개 추가, spine live anchor6개와 노출계약6행 제거 및 현재 release/rating 집계를 정렬했다. shipping1708→1702, author_only105→111, ledger-only8→14이며 packaged1813/tagged97은 동일하다. exposed root386→380/exposed537→531을 독립 집계와 실제 검사로 확인했다. 현재 집계와 고정 데모 집계를 섞지 않았다.",
+    "unrelated_fixtures": "HiddenFeatureCheck에는 표적6개가 없으며 지연 주입은5장 엔딩 fixture다. EventDirectorCheck/CoreChoiceSliceCheck의 지연 참조는 아버지 음성 fixture다. 세 파일을 불필요하게 바꾸지 않았음을 Git으로 확인했다."
+  },
+  "content_preservation": {
+    "population": 647,
+    "paths": "content/events* 및 content/endings* 전체 tracked 파일과 content/meta/full_game_localization.json",
+    "comparison": "선언9766e70과 최종 subject의 정렬 [path,Git blob] 목록이 완전히 같고 최종 디스크 hash-object 불일치도0이다.",
+    "digest_method": "정렬된 [path,blob] 목록의 ensure_ascii=False,separators=(',',':') UTF-8 compact JSON SHA256",
+    "path_blob_census_sha256": "c40a89b141a8c994a82ea6b9a2a0f54cfa73eb9ce068d6b74bbcaa77d2ac2f1f",
+    "localization_ledger_blob": "aaa9c0d3bbc4c8a118ada806f23c2a0ea9136989",
+    "meaning": "KO/EN/JA/zh-CN/zh-TW 원문과 번역, 선택/효과/플래그/조건 및 수용 원장이 바이트 그대로다. 새 번역 수용이나 새 원어민 판정을 발급하지 않는다.",
+    "protected": "project.godot, 인간 원장, 5언어 arc_events.json, 공개 데모의 고정 계약 및 무관한 fixture를 변경하지 않았다. 사용자 저장·공개 artifact·seed는 준비 실행의 보호 관측 대상이며 삭제/변경 권한으로 확대하지 않았다."
+  },
+  "support_review": {
+    "strict_successor": "order469_source_compat는 실제589a 제품 commit/직접 부모9766/정확7경로/typed Git 객체/raw 핀/의미 역상/현재 HEAD와 disk를 결속한다. 중첩 진입·정상 종료와 바깥 종료에 실제 proof를 다시 읽으며 과거 성공을 호출 사이에 재사용하지 않는다. 누락 Git, wrong path, 이웃 변경, raw 공백, 핀 재서명 및 warm 후 proof 거절 음성을 확인했다.",
+    "source_census": "현재 Main/lifecycle/spine의 정확3경로 역상만 immutable PR31 e300 census와 비교한다. 실제 현재 census와 disk를 먼저 검증하며 e300 핀을 새 값으로 덮지 않는다. 실제 Main과 비교용 predecessor를 구분하고 기존16단계/14반환 이력을 유지했다.",
+    "ja": "기존 JA 파일 전체 SHA dff4fd3c54473fc2cab8aca497abb09d55929facd7659fc647ea122eceb027dd 및9766의 blob을 봉인한 appendix로 UI 호출 내용 전체와 줄 대응을 검증한다. Main의 정확 -8줄 이동을 처리하되 UI 문구·키·기존 PR31 위치 이력은 유지한다.",
+    "fullbody": "실제 현재1702/11622 및 static186/1693을 먼저 검증하고 역사 비교 복사본에만 retired6개를 복구한다. live5종 음성과 retired6×5종(current raw/history raw/wrong path/neighbor/wrong hash) 침입 음성, 원본 raw 개행 변조 거절을 보존했다. 기존 EXPECTED와 ORDER305 지문은 선언 대비 AST가 동일하다.",
+    "historical_three_leaves": "이전632f88babba781e639157e33ac1a06744b987c1b의 amb_scenarios2 전화/목표3잎을 역사 비교에서 빠뜨린 문제는 실제 직접 부모 f9b4337caeb6e634538c49ab00323c2b9111eea2, 정확7경로, 이전/현재 raw SHA, 현재 HEAD/disk와 정확3 string span 역상으로 결속했다. 다른 경로/행/이웃/재해시 변경은 수용하지 않는다. 현재 산문이나 영수증을 바꾼 수리가 아니다.",
+    "pr31_added_four": "민서2사건의 minseo_real_talk 및 contacted_minseo&minseo_real_talk4잎은 immutable PR31 전후 raw vector의 실제 추가 집합으로 증명한다. ghost 양성 기대의 빠진 +4만 바로잡고 원래 historical 핀은 보존했다. source-only27사례는 receipt admission 대체물이 아니며 최종 전체253사례에 다시 포함됐다. 마지막 previous351 context는 한 self-test 안의 immutable proof 공유이고 바깥469/PR31 및 전체 KO 전후 검증을 제거하지 않는다.",
+    "year5": "현재 exposed/spine 두 경로만 정확469 proof의 after raw hash와 맞춘 뒤 before hash로 역사 관측한다. 다른 hash/경로는 그대로 보이며 기존 registry/raw핀을 바꾸지 않는다. order150/151 live hash의 성공 캐시를 제거하여 warm 후 proof 실패를 숨기지 않는다. 직접 역사 체인과 거절18사례를 읽었다."
+  },
+  "prepared_runtime": {
+    "path": ".git/order469-20261005.2KYo5D/runtime2/result.json",
+    "sha256": "95d993930a55ecb9665085ac5de5bb19dbaa613da9db116b59273fca9faaaab1",
+    "actual_source": "ff97aed63a5c7dce9ca13720f31b5f92f1c0a644/tree c77b0e09371a821acbbc6c854bacf5621afe56ba와 당시 dirty 지원 파일/신규 fixture. 최종 clean subject에서 실행한 것으로 바꾸지 않는다.",
+    "fixture_sha256": "3fae701d0aa9b02d5ef139a6cce0e0f962a6ec89bc0c451fae631c8889195034",
+    "stdout_sha256": "ee996214ac2eab74e480cf3990e4d38587484197072681b19302622fab78ef09",
+    "result": "실제 Main selector를 호출한48정상+16우선분기=64사례가 모두 expected==actual/passed/state_unchanged다. Godot4.6.2 headless, exit0,2.759185초, stderr0, 실제 stdout/Godot log의 오류 토큰0 및 성공 marker를 확인했다.",
+    "preservation": "StoryNameplateBootstrap pre-autoload QA namespace GangnamDream_StoryNameplateQA_6bc8515aee95492d9a4ac3e4a875aa4c에서 실행했다. protected 및 product 전후 집합이 동일하다. 캡처 product695경로 전부를 최종 subject Git 및 disk와 다시 대조하여 불일치0을 확인했다.",
+    "boundary": "준비 컴포넌트 회귀다. 자연적으로 해당 저장에 도달했다거나 화면/연출/오디오/물리 입력/패드/인간 감각을 관찰했다는 증거가 아니다."
+  },
+  "automated_evidence": {
+    "final_delta": {
+      "path": ".git/order469-20261005.2KYo5D/delta1/result.json",
+      "sha256": "57842c27863fd1e774650cf70883cdab521adb0b08a86286de332ac1e28082db",
+      "actual_source": "62f9ecd442b0a40664041be9c77b5b0364b99df1",
+      "result": "root의 실제 fresh365/469 proof에695.846733458초, 전체947.2591175초. 원래 main을 호출한 fullbody normal과253 자체검사 exit0, YEAR5 메타18 exit0. YEAR5 normal 자체는 exit1/기존33실패다. 검사별 error 및 전체 error=null, 모든 stderr0, tracked3177의 before==after와 HEAD 전후 동일을 직접 확인했다. wrapper exit0을 YEAR5 전체 PASS로 부르지 않는다.",
+      "fullbody_stdout_sha256": "aba8e8a6f8c4bb8f4262a1d8213d40d52e73542e76acb7da8894513e84d9482d",
+      "fullbody_negative_stdout_sha256": "3ce432af5a2de80ce772c3f45c3577c711bfa38666ab7dc5c1362db258c0fc3c",
+      "year5_metadata_stdout_sha256": "a849a2ca2e3aa72bfb7042a9d0afee9229d54c83a7f5ddfe3c5753b7fede35c6",
+      "year5_stdout_sha256": "4f1aa63bad173c44c1261441a0c861b1d36a67adbf01628aea06299be8585c08",
+      "inventory_boundary": "SOURCE_INVENTORY_ONLY, shipping1702/11622잎, chapter5 reader133잎, M07-M60 static186/1693잎이며 runtime_claim=0/native_quality_claim=0이다."
+    },
+    "reused_shared2": {
+      "path": ".git/order469-20261005.2KYo5D/shared2/result.json",
+      "sha256": "27c736838a8e1238211238f733f9c1368331840e4005c14ce7261e3d0d7ea577",
+      "actual_source": "3b0f979ae24e190ea6064c0f5ca6a08bf706c375",
+      "result": "전체 실행은 실패였지만 실제 receipts/storygraph/chapter5/inventory normal은 각각 exit0였다. 입력 불변인 이 소비자 결과만 재사용하고 delta1에서 재실행했다고 세지 않는다. receipts는 accepted41836/batches252, storygraph는 overlaps8/forbidden6/closure13이며 Chapter5 human gate는 pending이다.",
+      "inventory_stdout_sha256": "3f88afdb77ee1ef40d515f1a83e3e6a4dcdc66a83beac3268999516cf37865cc",
+      "inventory_status": "full_game_status=INCOMPLETE, human_gate=OPEN, source_manifest_sha256=76557c1ba11ce4ef8f3a3b1ba80cc3b79f9cc8e5f1f6459db3a0c3fd92f73973"
+    },
+    "focused_history": {
+      "directory": ".git/order469-20261005.2KYo5D",
+      "source_self2": "source-self2.stdout.log의60 PASS/retired6/receipts0; SHA615eb0eb2b8639db7b6fe2a4715d0ca63cb2904e12cd2668970975fbdde78658",
+      "pr31_self": "pr31-self.stdout.log의357 PASS/current_files71/native_review OPEN; SHA053d9e6c0522a82905b0971c3b5b3cd0733585367873474df18dcd007801c22b",
+      "provenance": "지원54ed6e8 봉인 과정의 root 실제 로그다. 로그 자체에 실행 HEAD가 없어 최종899ffa2 실행이라고 재명명하지 않는다. 이후 해당 도구의 제품/이력 입력이 유지된 범위에서만 사용한다.",
+      "source_history_preflight": "source-history1.stdout.log의27 PASS/translation_receipt_claim0/runtime_claim0, SHA8e440d42bcca5b15831c6fac8ccb513bd8c280c3caed5400644c0d1d22c585e1. 실제 HEAD0a50fa8+dirty support에서 실행됐고 마지막 proof 공유 절 이전이다. 수정 후 동일27은 최종 fullbody253 안에서 다시 검증됐다."
+    },
+    "focused_product": "실제 lifecycle normal111/meta111/exempt111/ingress0/packaged1813/shipping1702 및 repaired negative27 PASS; chapter4 causal normal19/direct15/owners12와 negative35 PASS; spine 정상 PASS, director repaired1702 PASS(휴면 설계 경고는 보존), arc_flow_sim PASS를 읽었다. 이 표적 검사를 전체240주 자연 플레이로 부르지 않는다.",
+    "language": "실제54ed6e8의 JA UI clean2981/errors0(SHA334472e339e88c0dc5dac2aa0be9b1af2dad0ba891a4d87407f17d1ccbd1c5b5), JA pipeline146사례 PASS(SHA5f7534fc6887b71115299014a0036c002652895e5633b7ad2eb74cb7b413c94c), ZH skeleton/shipping0(SHA36b55e5f467f1ab01ed5b5e03af8027f8a72727e0bd2b11bdc6c531f863b33c0), EN coverage clean(SHA3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b)을 읽었다. JA/ZH 실행 당시 병행 변경은 fullbody self-test뿐이며 해당 검사 입력과 무관하다. 원어민 품질 판정이 아니다."
+  },
+  "failed_attempts_preserved": [
+    "첫 lifecycle 자체검사의105/1708 고정 기대와 director1708 기대가 실패했다. 지원 소유를 먼저 선언한 뒤 현재111/1702 한 줄 기대만 고쳤고 기존 음성27사례를 유지했다.",
+    "runtime1은 MetaProgression._new_this_run이 Dictionary인데 fixture가 Array로 선언한 오류로 실패했다. fixture 타입만 Dictionary로 바로잡고 동일 상태 복구/전후 비교를 유지한 runtime2를 따로 실행했다. 최초 실패를 성공으로 덮지 않았다.",
+    "source-self 최초 실패는 현재 source census를 Main 한 경로만의 전이로 잘못 가정한 데서 나왔다. 실제 Main/lifecycle/spine3경로로 좁혀 증명했으며 immutable e300 핀은 유지했다. 리뷰에서 지적한 중첩 proof stale 재사용 가능성도 entry/exit fresh 검증과 warm 실패 음성으로 닫았다.",
+    "shared1(54ed6e8, resultSHA89845b7418fdb436bde9a9e01df3dc694fe0b241add7596f67e5356c5d1690b4)은 fresh707.299초/전체824.665초 후 fullbody 자체검사가 새 retired 행을 shipping에서 찾는 StopIteration으로 중단됐다. 뒤 소비자는 미실행이었다. 해당 selector와 새 retired 침입 음성을 수리한3b0f979에서 정상 함수 외 AST 불변을 확인했다.",
+    "shared2(3b0f979)는 fullbody226사례 중5실패와 YEAR5 기존33+새4=37실패였다. fresh680.439초/전체901.758초, tracked/HEAD 보존이지만 전체 실패다. 본문5실패는 과거 coin3잎 비교 누락과 PR31 추가4잎 기대 누락, YEAR5 새4는 실제 exposed/spine 후속 raw를 옛 경계에서 비교한 결함이었다. 선언0a50fa8 뒤 한정 증명으로 수리했고 최종 delta1이 실제로 새 실패를 닫았다."
+  ],
+  "remaining_failures": {
+    "year5": "최종 delta1 stdout은 ORDER-468 shared3/year5_reference_route_audit.stdout.log와 바이트까지 동일한33실패다. 새0/소멸0이며 baseline을 다시 실행한 것은 아니다. 역사 승인/기존 QA 스캔 부채를 이번 GO로 숨기지 않는다.",
+    "exposed": {
+      "path": ".git/order469-20261005.2KYo5D/exposed-comparison.json",
+      "sha256": "7bbde2d6cce2db7facdbcfc7a93b5ea32543ca41899bdb1e2dcce94f98092edb",
+      "result": "9766의 실제 함수·old Main/director/contract와 불변 content/visual/audio/rules로 baseline/current를 비교했다. arc_35_orthodox_weight, arc_father_06_confession, arc_minjun_first_call의 미선언 employment3건 및 hyunsu_result_pass의 방 문맥 KO/EN2건, 총5건이 그대로며 새0이다. 기존3이라는 초기 추정을 최종 사실로 사용하지 않는다."
+    }
+  },
+  "remaining_limits": [
+    "실제 렌더·자연 입력·240주 자연 플레이·물리 패드·원어민/인간 관찰은 없다. 준비64사례와 자동 검사는 이를 대신하지 않는다.",
+    "본편과 프롤로그/Chapter5 HOLD, 전체 현지화 INCOMPLETE, 인간 OPEN 및 기존 엔딩 사실 결함2건을 유지한다. 공개 데모의 과거 GO와 역사 판정도 별도다.",
+    "전체 역사 자체검사 및 전체 suite를 무차별 재실행한 것은 아니다. 실제 실행한 정상 소비자와 표적60/357/253/18·준비64의 범위만 근거로 삼는다.",
+    "경로명 노출·재혁/다은 선택 사실·사람/야간진료 문장·수첩/기간 초안은 다음 독립 단위다. 이6개 비도달 정렬의 GO로 후속 결함을 승인하지 않는다.",
+    "private .git 실행 자료는 로컬 증거이며 배포 artifact나 인간 인증이 아니다. 스토어·공개 출시·지출·법률 인증은 수행하지 않았다."
+  ],
+  "final_boundary": "899ffa2 subject의 ORDER-469 제품 진입6개 제거와 원고 보존 및 필요한 유한 이력 관측 수리만 GO다. 실제 새 실패0과 기존 실패/미관찰을 분리하며 게임 전체 출시 준비 완료를 주장하지 않는다."
+}
