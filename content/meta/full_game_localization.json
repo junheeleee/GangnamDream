@@ -9579,6 +9579,106 @@
           "batch_id": "a7bf560a96eea07d51c853af0353794766e4102307686586bef8beeb7c482801"
         }
       }
+    },
+    {
+      "order": "ORDER-465",
+      "group": "ui",
+      "roots": [
+        "상승장",
+        "하락장",
+        "횡보장",
+        "급락 경보 켜짐",
+        "급락 경보 없음",
+        "공포",
+        "탐욕",
+        "내 계좌",
+        "평가 %s",
+        "수익률 %+.1f%%",
+        "보유 자산 없음",
+        "소액 분산부터",
+        "시장 움직임",
+        "변동폭이 큰 자산 4개",
+        "가격 기록 축적 중입니다.",
+        "보유 %s"
+      ],
+      "source_leaves": 16,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 16,
+        "zh-TW": 0
+      },
+      "source_review": "Independent Korean-direct Chinese market UI: bull/bear/sideways, crash alert, fear/greed, account, current portfolio value, signed one-decimal return, empty holdings, small diversified start, market moves, top four absolute percentage movers, accumulating history and current held value. Preserve placeholders and numeral 4. No principal, quantity, positive-only or currency-difference reinterpretation. No JA, Korean/English source, rules, prices, input, save, public or history change. Source review and machine acceptance are not rendered/native/release approval",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "c794a4db39692348ff6b4fc4e06e39211acfb60d1b56b3a7175178ee30aa2c42"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "1a8ab275be50dc593284ec31f70ecd098c8716d9",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9f4e35c51dd343febaf93695100974487664758fbc449d2ef3feb75786477b6c",
+          "selection_sha256": "e86dd3b23a848623d00c419c59b0125afe6639a48931545009d67ba06fe1d22b",
+          "count": 16,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "1a4b3f7816f83fd825daadeb70787a3d1c3fc31b90c1d56635fa317ca7888f9f"
+        }
+      }
+    },
+    {
+      "order": "ORDER-465",
+      "group": "ui",
+      "roots": [
+        "상승장",
+        "하락장",
+        "횡보장",
+        "급락 경보 켜짐",
+        "급락 경보 없음",
+        "공포",
+        "탐욕",
+        "내 계좌",
+        "평가 %s",
+        "수익률 %+.1f%%",
+        "보유 자산 없음",
+        "소액 분산부터",
+        "시장 움직임",
+        "변동폭이 큰 자산 4개",
+        "가격 기록 축적 중입니다.",
+        "보유 %s"
+      ],
+      "source_leaves": 16,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 16
+      },
+      "source_review": "Independent Korean-direct Chinese market UI: bull/bear/sideways, crash alert, fear/greed, account, current portfolio value, signed one-decimal return, empty holdings, small diversified start, market moves, top four absolute percentage movers, accumulating history and current held value. Preserve placeholders and numeral 4. No principal, quantity, positive-only or currency-difference reinterpretation. No JA, Korean/English source, rules, prices, input, save, public or history change. Source review and machine acceptance are not rendered/native/release approval",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "35c4ff820081cf24117ca08e25251f107dddcb8aab5ab5c89419e5656048b5b0"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "1a8ab275be50dc593284ec31f70ecd098c8716d9",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9f4e35c51dd343febaf93695100974487664758fbc449d2ef3feb75786477b6c",
+          "selection_sha256": "01091197789b3ca59c137d73c1b7d7bea156932326df039d78aa0b1310001eb9",
+          "count": 16,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "376827a77964530226f249781fc66a26f5cbd4e87d6376bb5cb21dac5f84c098"
+        }
+      }
     }
   ],
   "accepted": {
@@ -119416,6 +119516,70 @@
       "ui:처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 정선 카지노입니다.:/처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 정선 카지노입니다.": {
         "source_sha256": "b019aa29d4eb8d73b0d92b4cd0d0b73b128f64857190fa026ccabd1f3b17396a",
         "target_sha256": "7eba84610cf6ae93fdaa74da74e3f9d494d3e3849a8ed6ff0037aa5f794040e0"
+      },
+      "ui:가격 기록 축적 중입니다.:/가격 기록 축적 중입니다.": {
+        "source_sha256": "4e6583e389a8d41acd020fc0e7d9dba754f7598960bd4d6a9c9839520fcc930f",
+        "target_sha256": "1eafbedc9029adfb7824e287d4a3b590fd6d90aa90dac21c1c00c2bc10d58d9a"
+      },
+      "ui:공포:/공포": {
+        "source_sha256": "23e09e1c3db076e496e41cb97f9d67cae87555c875cbe422c0848f137343827c",
+        "target_sha256": "1288144e5ea622a30dd3857ef6a8bd0c3ceb7e33ecd73c8afb6c2e4844318f88"
+      },
+      "ui:급락 경보 없음:/급락 경보 없음": {
+        "source_sha256": "8d13928fac438d6cba70e31964bb330fd5d0aae6abeae69ed0c6535e8227c374",
+        "target_sha256": "69e127f28e173aa0d85ca5f1b42a39312f5eaf85b175fa23979bef914ac047a8"
+      },
+      "ui:급락 경보 켜짐:/급락 경보 켜짐": {
+        "source_sha256": "ee055462f8f99b590635e443a809778224821b7ba49ee144f3290c62c7f1fa89",
+        "target_sha256": "394bfdc56cbcd02756e0d3be2117d87854f32a5c04489d94924cbf71980819dc"
+      },
+      "ui:내 계좌:/내 계좌": {
+        "source_sha256": "0e51d1b6a337f326bbd3d200cfb0f588e206b94f3af1d27c3601f0b0c45c08b3",
+        "target_sha256": "e2e76e8421a97ca8b0614068bcf5978b68e2c465ef4b96e26f06386a56fae966"
+      },
+      "ui:변동폭이 큰 자산 4개:/변동폭이 큰 자산 4개": {
+        "source_sha256": "80b412251e405ce9d70db58b29bde265a8f75abaddb34859149a18b3f39646b5",
+        "target_sha256": "5237ce2096e33f18d81dfdca776753bf8425d9ad2ec04cfef6ed0e33741ea8ba"
+      },
+      "ui:보유 %s:/보유 %s": {
+        "source_sha256": "67014a8ac0cfd0f58d81e6890e39750dbeb4b904876cff87ecea1932d5cab971",
+        "target_sha256": "73eeb1b6f13a3919d83946e43a69155e28f2fde23102e21f2ce874eb1f0d91db"
+      },
+      "ui:보유 자산 없음:/보유 자산 없음": {
+        "source_sha256": "a40a5c9937059579a72ff772c11a84113ed7805a9e6a2227a871ecf923dff87a",
+        "target_sha256": "52ff65ee2fabbeb7b1bd1c5509df5350354ea5e5759abe47933e6c972b3412e3"
+      },
+      "ui:상승장:/상승장": {
+        "source_sha256": "adcc54bf2d368b64af59f83a4f40759a72cf3e989e56f52a7f16bcaa1f9c2f6d",
+        "target_sha256": "77652189e9ad09e47a1ecad02f07bbee4bddc5241cdbb9df16e1bacad5903f06"
+      },
+      "ui:소액 분산부터:/소액 분산부터": {
+        "source_sha256": "233c36000ec40688a41d4aac64b4770c52a85a1945e42cda3a0837aa76c1c811",
+        "target_sha256": "2bf8a71884f899fafdbe625b2ea45f5607cf267e02c340316c07a1872e9c6134"
+      },
+      "ui:수익률 %+.1f%%:/수익률 %+.1f%%": {
+        "source_sha256": "a3d6e694e0e099154d3f0fbc043a62bd1d3c9c408826613e55cd0f92236c6c0c",
+        "target_sha256": "c5e19cd70bae1492e26d230640b408ba430316bd296531e3e9eea7ea648a7abb"
+      },
+      "ui:시장 움직임:/시장 움직임": {
+        "source_sha256": "5410137a082a2093fb881ac87ed2e9e407c95d4a1492e25cf887e2d83f6be99c",
+        "target_sha256": "abd715fa1ffc63f94b7b1256a03cfd47d72ec292365ae5e689b0aabe382232cd"
+      },
+      "ui:탐욕:/탐욕": {
+        "source_sha256": "ea675218852bb311a07679601d7a104275c4417f629a7fbaaedbb791cc3b27d2",
+        "target_sha256": "8dd52481aaab5b3465b4d3c6ced1f46d0c09bcad366298f9d93a3d11ea6cf278"
+      },
+      "ui:평가 %s:/평가 %s": {
+        "source_sha256": "80b527df40033cde0f26d4923ecdbe0398ffe0ef5754738c18ad3ac851180730",
+        "target_sha256": "24c4e8222c6f92b160bdbaca7cb22826cb1ef3d4fc659fdc22dbd107fc8e8d3a"
+      },
+      "ui:하락장:/하락장": {
+        "source_sha256": "7464ba85c3878c6c06ccec86604d60bbf5e6c25a64f616d83f6ffe7d28c7fba6",
+        "target_sha256": "dea6210e4baae0f5d4439c47c3328fa78332260736410b9768ee7c18200ea671"
+      },
+      "ui:횡보장:/횡보장": {
+        "source_sha256": "a5307c81bee5984b24f703bd7402babf3dc3b78604b83988fa0d0c763a2c7da6",
+        "target_sha256": "6d295137fbe3d2fd63a0e8790491b3aa18d45022d3bf232e249b23300b6cf006"
       }
     },
     "zh-TW": {
@@ -176678,10 +176842,74 @@
       "ui:처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 정선 카지노입니다.:/처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 정선 카지노입니다.": {
         "source_sha256": "b019aa29d4eb8d73b0d92b4cd0d0b73b128f64857190fa026ccabd1f3b17396a",
         "target_sha256": "d7f331c9ae1ae05ee9f7e0978cbdc55a9e1f6c1cefbb80a316e8ed560e798ce1"
+      },
+      "ui:가격 기록 축적 중입니다.:/가격 기록 축적 중입니다.": {
+        "source_sha256": "4e6583e389a8d41acd020fc0e7d9dba754f7598960bd4d6a9c9839520fcc930f",
+        "target_sha256": "fd9a2d740a6436fb2758ae27cdc2e000a2e4d2038751ffa8ec608e48f9a32b0f"
+      },
+      "ui:공포:/공포": {
+        "source_sha256": "23e09e1c3db076e496e41cb97f9d67cae87555c875cbe422c0848f137343827c",
+        "target_sha256": "a0cd7e1cbf9c55eeee5e6a83112c7a2bcaf6d78de12dd65dd126654bf95c906c"
+      },
+      "ui:급락 경보 없음:/급락 경보 없음": {
+        "source_sha256": "8d13928fac438d6cba70e31964bb330fd5d0aae6abeae69ed0c6535e8227c374",
+        "target_sha256": "c7ca04a62f02f1529428573c39d84159ede1db17cc9918cbf7d16805de6fec2e"
+      },
+      "ui:급락 경보 켜짐:/급락 경보 켜짐": {
+        "source_sha256": "ee055462f8f99b590635e443a809778224821b7ba49ee144f3290c62c7f1fa89",
+        "target_sha256": "c9a64d84b3153e628408aee53105958d272ca04583436e116d29501cea8c980e"
+      },
+      "ui:내 계좌:/내 계좌": {
+        "source_sha256": "0e51d1b6a337f326bbd3d200cfb0f588e206b94f3af1d27c3601f0b0c45c08b3",
+        "target_sha256": "402bbefdfaa4b17c9debf11db27172c5d8b113b2c60e64daaebb66aacca363fd"
+      },
+      "ui:변동폭이 큰 자산 4개:/변동폭이 큰 자산 4개": {
+        "source_sha256": "80b412251e405ce9d70db58b29bde265a8f75abaddb34859149a18b3f39646b5",
+        "target_sha256": "3c41a1cdd4fcd46beee5c8295b5f65a0db947eaf43f4b24bd665fbac3959479a"
+      },
+      "ui:보유 %s:/보유 %s": {
+        "source_sha256": "67014a8ac0cfd0f58d81e6890e39750dbeb4b904876cff87ecea1932d5cab971",
+        "target_sha256": "7bba373016a07b70691397cd1b55a9b3644e604bb715a056571f4ef4c5eb21ab"
+      },
+      "ui:보유 자산 없음:/보유 자산 없음": {
+        "source_sha256": "a40a5c9937059579a72ff772c11a84113ed7805a9e6a2227a871ecf923dff87a",
+        "target_sha256": "91f0e248de18b1e2358a989a7c146faa12529787639299560c932e4d0a53c7eb"
+      },
+      "ui:상승장:/상승장": {
+        "source_sha256": "adcc54bf2d368b64af59f83a4f40759a72cf3e989e56f52a7f16bcaa1f9c2f6d",
+        "target_sha256": "05263ca81903300bb177ccc6c0702a1f1c347defbdf32a6bf642c859ff7e1d4d"
+      },
+      "ui:소액 분산부터:/소액 분산부터": {
+        "source_sha256": "233c36000ec40688a41d4aac64b4770c52a85a1945e42cda3a0837aa76c1c811",
+        "target_sha256": "bef09874affef1fadd306dd2baf0f9d15667211b7b79edc7137046d99dc99c14"
+      },
+      "ui:수익률 %+.1f%%:/수익률 %+.1f%%": {
+        "source_sha256": "a3d6e694e0e099154d3f0fbc043a62bd1d3c9c408826613e55cd0f92236c6c0c",
+        "target_sha256": "d272c4391edf2cc9c9b9cc58fbb06d067843b6d0ac8cf81cb00c44070ea40a70"
+      },
+      "ui:시장 움직임:/시장 움직임": {
+        "source_sha256": "5410137a082a2093fb881ac87ed2e9e407c95d4a1492e25cf887e2d83f6be99c",
+        "target_sha256": "abc7901b515a2695e47b0ed519f588212d22a63dab51fdd8f1724c3f87497596"
+      },
+      "ui:탐욕:/탐욕": {
+        "source_sha256": "ea675218852bb311a07679601d7a104275c4417f629a7fbaaedbb791cc3b27d2",
+        "target_sha256": "09a46050094ece189cae1e4eda1452f97832eedbc47fca37faf41ab6f70b8b80"
+      },
+      "ui:평가 %s:/평가 %s": {
+        "source_sha256": "80b527df40033cde0f26d4923ecdbe0398ffe0ef5754738c18ad3ac851180730",
+        "target_sha256": "24c4e8222c6f92b160bdbaca7cb22826cb1ef3d4fc659fdc22dbd107fc8e8d3a"
+      },
+      "ui:하락장:/하락장": {
+        "source_sha256": "7464ba85c3878c6c06ccec86604d60bbf5e6c25a64f616d83f6ffe7d28c7fba6",
+        "target_sha256": "d91b3a39298ee06d0950e9f9624e1edf219bcdac0a9a7b3062d899db496b4536"
+      },
+      "ui:횡보장:/횡보장": {
+        "source_sha256": "a5307c81bee5984b24f703bd7402babf3dc3b78604b83988fa0d0c763a2c7da6",
+        "target_sha256": "f66ddcd32c98ce72a86aa01b71dff5859b2ab36736146e7d96ac379216b2cbe1"
       }
     }
   },
-  "accepted_sha256": "316bc9557ef693edad27f6d29011c6f5a32a47bb82ccb638641f0b1c93acc1ab",
+  "accepted_sha256": "94bbe48f5d0b7a09b30910627aaa89fff03eee7cff86ad0a7036ce14efcee914",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
