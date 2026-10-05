@@ -1,0 +1,252 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-470",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "reviewed_at": "2026-10-06",
+  "subject": {
+    "kind": "source",
+    "commit": "3641b31d23c564fd25e3268f3a596c71c4737a98",
+    "tree": "b49c85b360e406d6f2c1dee23e1982466caa67a5",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/order469_review",
+  "scope": "재혁 aftermath/counter와 다은 later_echo 세 사건의 실제 생산자에 맞는 선택 가용성·회수 문장, 5언어 변경 잎, 공식42잎 수용 및 필요한 정확한 이력 소비자 수리에 한정한 GO다. 전체 재혁/연애 시스템, 전체 장면 계층, 본편·출시·원어민 품질 GO가 아니다. 기존 보존 라벨·인접 callback·T3 상태변경 부채와 미관찰은 남긴다.",
+  "method": {
+    "skill": "gangnamdream-dev의 단일 정본, 선언된 파일 소유, 독립 비저자 검수, 실제 표적 증거와 미관찰 한계 구분을 적용했다. CLAUDE, 전체 스킬, WORK_UNIT, ORDER-470와 관련 장면·관계·선택·현지화 정본을 읽었다.",
+    "direct_review": "KO14/EN15 변경 문장 잎과 JA/zh-CN/zh-TW42잎을 전수 읽었다. 표본 검수가 아니다. 실제 생산자/후속 독자, runtime/schema/simulator/mod/fixture 및 새 이력·비교계획 코드의 관련 diff와 반례를 읽고, readonly Git·Python stdlib JSON/AST/해시로 원문·receipt·로그를 대조했다.",
+    "non_author": "root 및 order469_main/order469_history가 제품·지원 코드를 작성하고 검사했다. 본 검수자는 제품 저작, 프로젝트 모듈 import, 프로젝트 검사, Godot 실행 또는 Git 변경을 하지 않았다. 보고서만 소유하며 사설 초안은 root 요청에 따라 작성했다.",
+    "observation_attribution": "준비 화면의 픽셀·포커스·키보드 관찰자는 root agent다. 본 검수자는 저장된 로그·관찰 메모와 source 귀속만 독립 확인했으며 자신이 화면을 직접 보았다고 주장하지 않는다.",
+    "final_source_binding": "최종 실제 final1 실행 source는18b04a91ae3b2a4aaa4e08b808dbc747bfbcef55/tree655bae1ecc199972aec0792bbcd52b37c1992cab다. shared4의 f278050부터는 full_body_translation_scope.py1파일의 자체검사 수리만 바뀌었고, final1 실행 뒤 subject3641b31까지는 CLAUDE.md와 docs/WORK_LOG.md뿐임을 실제 Git diff로 확인했다. final1 tracked3184개의 실제 hash와 최종 disk의 차이도 정확히 이2문서뿐이다. subject에서 모든 검사를 다시 실행했다고 주장하지 않는다. 후속 큐/원장/보고서 메타 마감은 subject 밖이다."
+  },
+  "product_review": {
+    "baseline": "653d3070771e75d805fc7940c7446ecdd92fc5fe",
+    "declaration": "7fc9002048a4c83401c497a0116d3688a44c152b",
+    "source9_commit": "d52287cec17ba55a6e4035e0566c06e6704a2cc2",
+    "source9_parent": "7fc9002048a4c83401c497a0116d3688a44c152b",
+    "receipt4_commit": "f16da92274058d1e391f695f178df01ba7454a61",
+    "receipt4_parent": "1817f87969165c73255f05a448f007318f54910d",
+    "events": [
+      "arc_jaehyuk_aftermath",
+      "arc_daeun_later_echo",
+      "arc_jaehyuk_04b_counter"
+    ],
+    "aftermath": "기존0은 jaehyuk_reported 또는 took_high_road, 1은 jaehyuk_exploited 또는 jaehyuk_partnered, 2는 jaehyuk_scammed 실제 bool 사실에만 열린다. 일반 crossed_line은 근거가 아니다. 기존 인덱스·효과·flags·mirror 지연은 보존한다. 새3은5사실 모두 없는 저장에서만 열리고 보상/도덕/관계 과거를 만들지 않으며 aftermath_seen과 mirror T+1 한 번만 이어 준다.",
+    "daeun": "0의 양성은 daeun_romance_started이며 명시 단절10개가 우선한다. married/close/together/affinity 단독으로 확대하지 않는다. 양 경로에서 생산되는 daeun_ended는 단절로 오인하지 않는다. 중립1은 답장·daeun_reason_confirmed를 생산하지 않는다. additive flags 때문에 다른 Y5 고백이 다시 열릴 수 있는 기존 시스템 결함은 이번 수리 밖이다.",
+    "counter": "description/result0/result2만 사실·행동 중심으로 수리했다. 기존 선택 라벨 전체와 effects/flags, 결과1은 사용자 보존 지시에 따라 그대로다. '내 돈 세 배' 및 인접 callback의 원금/피해자 오인을 고쳤다고 주장하지 않는다.",
+    "prose": "F9 회상은 실제 첫 만남의 편의점 직원이 삼각김밥1+1을 알린 대사로 정렬했다. used 결과는 실제 돈 수령을 단정하지 않는 이전 대화 회수다. 피해액23억, 등장 장소/인물, 문단/큐 시점, 비용·효과를 보존했다. KO/EN/JA/CN/TW 각 변경 잎을 실제 생산자와 대조했다. 삼각김밥 용어는 JA 三角キンパ, CN 三角紫菜包饭, TW 三角飯捲을 사용한다.",
+    "runtime": "GameState 공통 choice_available와 apply_choice가 같은 닫힌5enum을 소비한다. DataRegistry 소유2사건의 정확 선택 슬롯과 객체 identity를 요구하며 marker 누락/위조/타입/잘못된 슬롯/detached·동일값 복제/모호한 중복/나쁜 구조를 실패 닫힘으로 거절한다. 관련 flags의 비불리언은 중립으로 변환하지 않는다. 비대상 선택, item/opportunity/fallback 의미는 유지한다.",
+    "gallery_and_mod": "갤러리는 저장된 visible_choice_indices를 현재 flags로 재심사하지 않는다. text-only mod는 원래 gate를 보존하며 예전 aftermath3선택을 읽을 때만 base의 중립3을 붙인다. 소유2사건 override의 requires_item/opportunity/opportunity_unavailable_fallback 키는 추가 교착을 막기 위해 거절하여 base를 보존한다. Python mod/schema와 실제 DataRegistry 정책을 대조했다.",
+    "fixture_boundary": "fixture는5언어 facts32조합·단절10개·잘못된 bool/marker/identity·직접 적용 상태불변·원래 효과·neutral mirror·갤러리·mod·기존 item/opportunity 회귀와 복구를 검사한다. 임의로 손상된 typed StoryMode 배열을 복구하는 기능이나 자연 플레이 경로 전체를 증명하지 않는다.",
+    "tier_and_l2": "ORDER-470의 L2 표와 실제 상태 수치를 읽었다. 세 사건은 명시 tier 선언이 없어 정본상 기본 T3다. spine의 counter escalation/aftermath reversal과 기존 감사의 배경·라우팅 보호는 T1/T2 승격 선언이 아니다. 기존 수치/flags 변경과 T3 상태불변 계약 사이의 부채를 남기며, 원래 효과 보존을 전체 장면 계층 계약 GO로 바꾸지 않는다."
+  },
+  "preservation": {
+    "baseline_population": 647,
+    "population_scope": "content/events* 및 content/endings* tracked 파일과 full_game_localization 원장; 644 JSON과 locale gitkeep3 포함",
+    "baseline_path_blob_compact_json_sha256": "c40a89b141a8c994a82ea6b9a2a0f54cfa73eb9ce068d6b74bbcaa77d2ac2f1f",
+    "comparison": "기존647 모집단에서 변경 경로는 arc_events5와 원장1뿐이고 나머지641경로의 blob은 불변이다. baseline compact path/blob SHA, subject의647 Git blob↔실제 disk, 기존 counter 라벨·효과·flags 보호 vector5언어를 최종3641 subject에서 다시 대조했다.",
+    "protected_contracts": "StoryMode/EventManager/MetaProgression, 공개14사건100잎 및 legacy72사건467잎, 기존 역사 핀, project.godot와 인간 원장을 이 수리로 재작성하지 않는다. 실제 준비 실행에서 저장/seed/공개 산출물 보호 snapshot을 별도로 검증한다."
+  },
+  "official_acceptance": {
+    "draft_path": ".git/order470-20261006.tIKLVc/translation-drafts-v3.json",
+    "draft_sha256": "1f7efb10e9d76ef7f3a0d8cd56992de7a9970d30942b4eee868f4201624cf24f",
+    "coverage": "KO 실제 변경14잎 × JA/CN/TW=42잎. index3 선기입은 초안이며 공식 export/check/import 후만 수용으로 센다. 기존0~2 대상12잎씩 교정36 + 신규2잎씩 최초수용6이다.",
+    "source_manifest_sha256": "900b842779fda24e42d93fcc484c1ded47dae43bbe0a198919feee6a5c9b500c",
+    "export": {
+      "path": ".git/order470-20261006.tIKLVc/export1/result.json",
+      "sha256": "e3bb7f8a8e9efdb8492106fd9c7a60c3017d95029787b2ea6bc3e7ed2bbd5927",
+      "result": "1817f879 실제3언어14개씩 exit0/stderr0/HEAD·tracked 보존. 이 초기 runner에는 private inputs_sha256 봉인이 없었으므로 그 보장이 이미 있었다고 재명명하지 않는다. 이후 check/import가 실제 export 파일을 고정한다."
+    },
+    "check": {
+      "path": ".git/order470-20261006.tIKLVc/check1/result.json",
+      "sha256": "8899ceeae1d75b79da668eb7898044bd50e73accd3e11220cf02ec216b71b86d",
+      "result": "1817f879 실제3언어14개씩 exit0/stderr0, private 입력과 HEAD·tracked 보존."
+    },
+    "import": {
+      "path": ".git/order470-20261006.tIKLVc/import-three-result.json",
+      "sha256": "a16ecaa4143f349eb82de26a295e214affb102151aad5c02819b12804f830ac0",
+      "result": "1817f879 같은 호출의 공식 main3회/각14개 수용, error=null/exit0. current target 전체 parsed JSON을 official raw 결과와 대조한 뒤 형식만 보존했다."
+    },
+    "receipt_sha256": {
+      "ja": "e18aceae174f7567fb8f58763c2a01ec29cd369f9e67ba4fd4780b94b0ad98ae",
+      "zh-CN": "3e59d5ecc2d33e5fb070d9bd58e2d38d225ed9a87e783cc8109804ee5ac2acb5",
+      "zh-TW": "eec2407c328f83badd9a1809e50cf8c9e369066e2be090de1fe9d298ef4128c5"
+    },
+    "ledger": "R4 actual accepted41842/batches255. 기존252배치 prefix와 대상 밖 수용은 불변이다. 42개 각각 current target=draft=official receipt=ledger, 현재 KO source digest, receipt 자체 digest 및 target 전체 JSON 보존을 stdlib로 대조했다. native_review는 OPEN이다.",
+    "runner_repairs": [
+      "private ID/source/response/v3 입력 drift 틈을 지적했다. exact14 IDs, 고정 v3 SHA와 accepted=draft 전수,8 private input hash 및 공식 main 직전 guard가 추가됐다.",
+      "원장 자체 hash만으로 과거 receipt를 수용할 위험을 지적했다. 실제 import 성공/HEAD/42수용/receipt SHA/current KO source digest/current target=draft+digest/native OPEN/기타 tracked 불변을 연결했다.",
+      "선택하지 않은 target 잎의 format 단계 변경 위험을 지적했다. official-import.raw.json SHA=run.after[target]와 current target 전체 parsed JSON 동등성을 추가했다."
+    ],
+    "authority": "공식 validation/check/merge/serializer는 우회하지 않았다. collector 재사용은 같은 import 호출의 동결 입력에 한정하며 변경 전후 source/HEAD/모듈/target을 결속한다."
+  },
+  "support_review": {
+    "exact_successor": "실제 SOURCE9 직접 부모/정확9경로/typed Git commit-tree-blob/raw와 hunk seal/의미 역상, R4 직접 부모/정확4경로/target12literal×3/원장6first+36correction/header 재구성을 검증한다. 실제 current HEAD/disk와 역사 비교용 predecessor를 구분하며 기존 e300·469·351 핀을 새 값으로 덮지 않는다.",
+    "consumer_boundaries": "PR31 actual source와 R4 단계, Main/JA collector 좌표,365 current-content 관측, fullbody 역사 비교 복사본, demo 고정 모집단을 정확 후속에 연결했다. shared4에서 실제 receipt25, fullbody273중272 및 legacy demo16+86가 성공했다. fullbody의3사건×5 intrusion을 포함한 나머지272 predicate는 수리 전후 AST가 불변이며 실패1은 final1의 actual15표적으로 별도 재검증했다.",
+    "semantic_memo": "470 outer fresh 호출 수명에만 성공한 immutable bytes/tuple 의미 결과를 저장한다. key는 exact raw tuple와 root/config/module binding이며 소비자 alias를 노출하지 않는다. 매 entry/exit의 typed 객체/parent/path/ancestor/current HEAD/disk 및 receipt export Git 검증은 유지한다. 오류·KeyboardInterrupt·중첩실패는 clear, outer finally는 reset하며 호출간 성공 재사용이 없다.",
+    "coffee": "기존448 read_pair/351 predecessor/역사 핀을 유지하고470 actual current3를 exact path·before3==448after3·active root/HEAD에 결속했다. current3 blob ID를 실제 HEAD typed 객체와 disk로 다시 대조한 뒤 현재 raw만 반환한다. 옛448 raw를 현재값처럼 반환하지 않는다.",
+    "private_source_plan": "한 validate_history 내부에서 원래 wrapper 순서의 expected→predecessor 변환과 정확15 terminal census만 순수 재사용한다. public standalone matcher와 역사 alias 경계는 유지한다. 개별 revision ancestor와 실제 historical manifest 검사는 loop에 남는다. private callable identity·모든 args·root·1회 consumer를 결속하고 중첩/실패를 poison하며 종료 전에 실제 collector 전체, HEAD/tree/typed source/disk, module/code/default/config를 재검증한다.",
+    "warm_proof": "원래 Main typed proof를 직접 호출하고 PR31의 private fresh child에서 source 및 stage census 전체를 새로 구성해 외부 warm scope의 오래된 객체 성공을 쓰지 않는다. finally outer proof를 복원한다. terminal15는 Main/Scalp/Aruba의 실제2+12+1 조합이지 임의 Cartesian 조합이 아니다.",
+    "module_seal_repair": "shared3의 정상 classifier 지연초기화가 seal을 바꾸는 결함은 기존 zh._script_forbidden_sets를 entry seal 전에 호출하여 수리했다. pinned data/license SHA/schema/count 검증과 cache 내용/핀/함수 seal을 그대로 유지한다. cache 이름 제외나 사후 None→dict 허용은 없다. 진단은 변한 module/key만 출력한다.",
+    "deferred_selftest_repair": "shared4의 유일한 자체검사 실패는 current deferred leaf 수를 역사165로 고정한 기대였다. 새 helper는 historical165/immediate168/deferred24를 보존하며 exact aftermath choices3 text/result_text2잎이 실제 deferred IDs에 포함되고 classification inverse의 IDs가 같음을 요구해 current167만 설명한다. 새15표적은 actual build_scope+source_history 관측 뒤 stale165/166/168·이벤트수·IDs·불완전/추가/타사건/중복 잎·소유자 교체·역사값 변조 음성을 검사한다. final1에서 실제 fresh source/receipt 관측을 사용한15표적이 PASS했고 정상 fullbody도 다시 PASS했다. 전체273 재실행은 아니다.",
+    "deferred_ast_preservation": {
+      "baseline": "f278050b202edcaa48b1b32290f113a7b20f224c",
+      "repair_commit": "18b04a91ae3b2a4aaa4e08b808dbc747bfbcef55",
+      "repair_tree": "655bae1ecc199972aec0792bbcd52b37c1992cab",
+      "file_sha256": "b281c9bea943570b72ff5abbf0669fcf148c488d017bbb531877218bfcf4e6e1",
+      "method": "프로젝트 import 없이 stdlib ast.parse로 비교했다. 추가 _deferred_scope_observation_errors/run_deferred_scope_self_test2함수를 제외하고 run_self_test body[29]의 해당 require1을 baseline AST로 환원하면 모듈 전체 ast.dump(include_attributes=False)가 정확히 동일하다. 정상build_scope/EXPECTED 및 나머지 실행 코드·272개 통과 predicate를 바꾸지 않았다.",
+      "normalized_ast_sha256": "c4719aa568a9fee6e79fbb3c216410f20693f1d21f1ce62f7ff52d066e43151e",
+      "execution_limit": "AST 보존은 새273전수실행 PASS가 아니다. 실제 shared4의272성공과 실패1의 별도15표적 재검증을 구분한다."
+    },
+    "trust_limit": "module seal은 입장 시 로드된 코드·설정의 호출 중 불변성을 보장한다. 검증기와 collector를 실행 전에 함께 임의 monkeypatch한 프로세스의 코드 원본성을 인증하는 체계는 아니다. caller inventory만의 위조와 호출 중 변조를 이 한계와 혼동하지 않는다."
+  },
+  "evidence": {
+    "final_fresh_proof": {
+      "status": "PASS",
+      "path": ".git/order470-20261006.tIKLVc/final1/result.json",
+      "sha256": "e14b7accae343bf8b8ca6e385bb8a343835f880e3a8a447f950cbffb417dcc91",
+      "actual_source": "18b04a91ae3b2a4aaa4e08b808dbc747bfbcef55",
+      "actual_tree": "655bae1ecc199972aec0792bbcd52b37c1992cab",
+      "runner_sha256": "8bef4b59d46c3563a44d123fece4f2901f7cf125a988506f50c2aad2b6320f42",
+      "result": "root 실제 terminal exit0. saved passed=true/intended_exit_code0/error=null/finalization_errors=[]이며15표적8.189083958초·정상본문2.559507917초, 전체806.65521225초다. 두 소비자 stdout/빈stderr와 실제 receipt365_exited_normally→source470_exited_normally→both_outer_contexts_exited 순서의 durable events를 직접 확인했다.",
+      "preservation": "프로젝트 import 전 before와 실제 context 종료 후 after가 HEAD/tree/clean status/3184 tracked hashes까지 동일하다. tracked manifestSHA37d89c1843ba92d984b1b54d0c464a3c73f5b498e426ce9f231bb4f3faefd186. runner 전후 및 shared4 28증거파일/12checkpoint와 story-demo 재사용 전후도 동일하다. 저장 result와 개별before/after/events,33개 실행기·로그 artifact hash를 직접 대조했다.",
+      "deferred_stdout_sha256": "c00ac05e1283f3234646fc195c076f5bec20cd18648d7a5b4a3f5f6489916cf2",
+      "fullbody_stdout_sha256": "5592ddcfd5c03f094dd6b82f511ff0804e7befc00b3967603307eafae2d9749a",
+      "distinction": "별도 fresh 정상종료·현재 보존 증거다. original_shared_pass_claim=false를 유지하며 원래 shared4 wrapper/outer exit/before-after를 복구했다고 주장하지 않는다. 수리된1관측+15반례와 기존272 AST불변을 결합한 판정이지273전체 신규 PASS가 아니다."
+    },
+    "shared4_completed_consumers": {
+      "path": ".git/order470-20261006.tIKLVc/shared4/progress.json",
+      "sha256": "eaed9ffcf1130288070c3fe037c470451547af473b86452d974149be1e942d30",
+      "actual_source": "f278050b202edcaa48b1b32290f113a7b20f224c",
+      "result": "fresh admission792.225267초 후12 consumer checkpoint:11 exit0 및 fullbody273 자체검사1실패/exit1. 모든 consumer error=null/stderr0이다. 원래 shared wrapper는 PASS가 아니며 result.json도 없다. 입장·완료한 개별 consumer와 저장 로그만 인정한다.",
+      "receipt25": "25 current/R4 관측 failures=[]; stdoutSHA2f133aee26b8aa346de91b41c2a10e1180b4615d699afa7ef2b80d9a1a4bfbe9",
+      "accepted_binding": "JA/CN/TW 각 기수용 events+endings11820개의 current source_stale/target_stale 모두0, sourceManifest900b8427…; stdoutSHA11a125af68a8709bdefa9eab95eb73a20b3ac47796e35e99a6823cba2ceb5bda",
+      "fullbody_normal": "SOURCE_INVENTORY_ONLY/shipping1702·11624잎/static186·1695잎/chapter5reader133/runtime_claim0/native_quality_claim0; stdoutSHA5592ddcfd5c03f094dd6b82f511ff0804e7befc00b3967603307eafae2d9749a",
+      "fullbody_negative": "실제273 cases/1failure: deferred follow-up expands static closure. stdout exact2줄 SHAe07d206910a56c48f676bfb0f926a3baebba8766f4db3bd012363a7471947854. 수리 뒤 전체273을 다시 실행/통과했다고 주장하지 않는다. 나머지272의 predicate AST 보존과 실패1의 actual15표적 새 증명을 독립 확인해 별도로 결속했다.",
+      "demo": "legacy72/467 정상과 자체16+현재source86 PASS, shipping0; 정상stdoutSHAb1f3e64e72b8184eac5a4591ce2ec250c4d5588f196d7b5b2f11aac1060d6af7, 자체977479e187ccf8462157401dff9599f6c906b6aa2fbb729028b70d419a83870b",
+      "ja": "demo clean1172/errors0, inventory1172/467event+701dynamic+4catalog, pipeline146 PASS/ui2952/context34/34; stdoutSHA6ed04c74866309324c16c5af50b5382800bf0e9d92bf60f41c6801c6d9c45e1b/f34a0e8c3d1974e855c65b7465c28de7d6c039f15a915621a01f0dabd0bd72df/5f7534fc6887b71115299014a0036c002652895e5633b7ad2eb74cb7b413c94c",
+      "zh": "normal skeleton PASS, self12623 PASS. CN/TW demo72/467, UI1602/2952, direct English bypass11, shipping0를 그대로 노출한다. stdoutSHA36b55e5f467f1ab01ed5b5e03af8027f8a72727e0bd2b11bdc6c531f863b33c0/aea5bdaec6051f839541145b91735e89738bb0c302ac3500848789027ad574fa",
+      "rating": "presets10/current1813/story_demo1806/shipping1696/author_only110/axes9/networkAPIs0, decisions=user_required; stdoutSHA9bca145d3db7bb10745ec0c7deaa709ced89d47c09dbb8de9021c097de5ac516",
+      "reuse_limit": "progress는 원래 in-memory before map과 원로그 hash를 담지 않는다. root의 clean f278 동결 관측과 완료 로그를 별도 fresh proof·현재 단일 fullbody 수리 delta와 결합한다. 나중 runner에서 새로 봉인할 로그 hash를 과거부터 봉인된 값으로 재명명하지 않는다."
+    },
+    "runtime4": {
+      "path": ".git/order470-20261006.tIKLVc/runtime4/result.json",
+      "sha256": "f26406a6d1547a92374dabcd1656cea37efc38ea83068188bcafb84edf8acff3",
+      "actual_source": "f16da92274058d1e391f695f178df01ba7454a61",
+      "result": "clean source actual Godot5언어6851assertions PASS/exit0/3.703612초, pre-autoload namespace 격리, product/protected 전후동일. stderr49115bytes·115개 의도한 mod 거절 경고이며 ERROR/FAIL0이다. stderr0라고 쓰지 않는다. 준비 컴포넌트 회귀이며 자연 플레이가 아니다. 최종 subject에서 product695경로 hash가 실행 후 snapshot과 전부 같음을 재확인했다."
+    },
+    "fast1": {
+      "path": ".git/order470-20261006.tIKLVc/fast1/result.json",
+      "sha256": "1853bbec25999383bc13845ccaf20b5509f9450faab95ee965bb7056a7f12117",
+      "actual_source": "f16da92274058d1e391f695f178df01ba7454a61",
+      "result": "EN coverage/EN Hangul/narrative continuity/scene audio/speech register/arc flow/story fact199/mod validator8개 실제 exit0/stderr0,20.905780초, tracked·HEAD 전후동일. 입력 불변 범위에서만 재사용한다."
+    },
+    "schema1": {
+      "path": ".git/order470-20261006.tIKLVc/schema1/result.json",
+      "sha256": "9edbec8aac679d4712dd4f015c21b1fb4874bc512bd7eeaeed61aa2597a00d87",
+      "actual_source": "b751312a94936ec4d3e0a7f5860ec651a8964ea8",
+      "result": "actual audit exit0/ERROR0/WARNING0/stderr0,4.686640초. audit/GS/DR/content 선택 입력 snapshot 보존이며 모든 tools의 전후 snapshot이라고 확대하지 않는다. 최종 subject의678개 선택 입력 hash도 동일하다."
+    },
+    "source_final_before_memo": {
+      "path": ".git/order470-20261006.tIKLVc/source-final/result.json",
+      "sha256": "9d5fba6610d785665fb7a9006313a3b54a3a822c4ba2f9694de70240b9539dab",
+      "result": "b751312 실제99 PASS/exit0/stderr0,22.571787초, full tracked before=after. 이후 memo/coffee 추가 수리의 최종 검사로 대신 세지 않는다."
+    },
+    "memo143": {
+      "path": ".git/order470-memo-20261006.pBx3sY/result.json",
+      "sha256": "cadbeb80cba59dc7449655ef6d919eb8e9aa1a4b4d53e45464372e7c6597340a",
+      "result": "actual143 PASS/exit0/57.70초. scoped/unscoped Git128·typed72 동일, pure product36→9/receipt4→1. stderr는 시간 통계32bytes다. before는 b751312 committed blob이고 별도 pre-run dirty snapshot은 없다. test 후 handoff file hashes가8802f0c commit과 동일함을 대조했으며 이를 실행 전후 전체 파일 봉인으로 확대하지 않는다."
+    },
+    "coffee32": {
+      "path": ".git/order470-coffee-20261006.M2hBI7/result.json",
+      "sha256": "f85f5aa4cac9f86737c47e889c65f08b2b165a16953b79255dc1523c400f2e56",
+      "result": "actual32 PASS/exit0/34.55초. HEAD2da67ac과 소유2 dirty 파일 전후 hash 동일. actual positive/448 loss는 원래 read_pair, 나머지 반례는 이미 증명한448 pair를 명시적 fixture로 재사용하며 해당 공격 외470/current Git은 실제다. 전체143나fresh365 재실행이 아니다."
+    },
+    "source_plan_current100": {
+      "path": ".git/order470-20261006.tIKLVc/ui-source-plan-current3.log",
+      "sha256": "ed16996be748a0a4ef78a8e83bf139353390ffd89d4ac9e7165b1458c19c75e8",
+      "result": "actual100 PASS/historical_cases0. old current1=72.938827초/Git1945; Main+PR31 outer의 새 invocation24=336.766307초/Git8158, loop24=9.703114초/Git0. append26c1a3…/self1c4068…는 a1af764 committed bytes와 동일하다. current expected 반복만 실제 비교했으며 전체 history loop PASS나 전체 suite 성능 개선의 증거는 아니다."
+    },
+    "classifier111": {
+      "path": ".git/order470-20261006.tIKLVc/ui-source-plan-validator2.log",
+      "sha256": "1eb9d7270c89e9f1c7e1a88255148abb8a4ff232c399ea95d576dcd8ec07a41c",
+      "result": "actual111 PASS/exit0, 기존99+새12. exact ORDER384 fee proof2회에서 cold cache1키 변화 재현 후 사전초기화의 결과동등/seal PASS. CN/TW cache내용·data/license pin 변조를 거절하고 무관 static cache 불변. fee2=5.804060초/전체6.191676초. 소유2 before=after append98bbbe366149a4e5262e2ea23bf98866a656fe637a9cef543dcc1c2d44f567ce/self145cda978985c2f4a7bffd5cdd06d54d90cdecff658230833964d6ee4c7f6dda를 직접 확인했다."
+    },
+    "story_demo_reuse": {
+      "path": ".git/order470-story-demo-20261006.j9MQJF/result.json",
+      "sha256": "5fce0e454b0dbaad8c62cbe9c907fdfe8f017ad4736c6d57a67f5d694581279f",
+      "actual_source": "2da67ac4cc1b310765947979e1f5ae2b75802560와 동시 지원 작업",
+      "result": "normal14사건100잎/5locales PASS1.619479초, self55 PASS0.399340초, 둘 다 exit0/stderr0. harness의 open 관측+loaded module union normal280/self18 실제 입력 hash가 before=after=검수 시 current다. 당시 동시작성 UIplan2파일은 미사용이며 event file population도 동일하다. shared가 이 완료2검사의 입력 hash를 재검증해 재사용하며 새 실행2회로 세지 않는다."
+    }
+  },
+  "prepared_render": {
+    "derived_path": ".git/order470-render-20261006.fTHXcF/run2-derived-final.json",
+    "derived_sha256": "52f6e8e2b88f97133986b83e39a85496d9c9ec7caf10b2896f27c1f8efee0293",
+    "validator_sha256": "29e85748cceb85d28ce42d4484d2eae52b056452a76b23b97a3290064ed0a88e",
+    "observer_memo_sha256": "9d4ee84ae1c5e9b3c08f53fdd34d50bee18b37c1c647a56883bb8aa5538c853c",
+    "original_result_sha256": "d7a6f77e0f390804341fedbd65a4f89301155101156457977301a860d17ca8ea",
+    "actual_source": "HEAD2da67ac4cc1b310765947979e1f5ae2b75802560/tree9cfb654babf07bf796249d44a381a0cd0146995b 및 당시 dirty 지원 파일",
+    "machine_evidence": "실제 engine exit0/558.352006초, stdout/Godot full exact marker 각1, READY12와 선택 결과시작/typing완료12쌍, engine 오류0/stderr0. saved 입력755·보호331roots/515entries·HEAD/tree/status 전후동일을 원본6파일 hash와 대조했다. 선택 index와 typing 상태 증거이지 결과문 픽셀의 기계검증은 아니다. 최종 subject에서도 render 입력755개의 저장 hash와 실제 파일이 전부 같음을 재확인했다.",
+    "root_observation": "root는 준비12개 선택/선택한 결과를1280×800 viewport에서 CUA로 직접 보고 Return을 입력했다. JA Daeun1과 EN counter1은 Down으로 초점 이동 후 Return했다. readable glyph/no clipping/no internal route suffix는 이 화면과 viewport에서만의 root 관찰이다. 소개는 자동 진행했고 screenshots는 대화에만 존재해 저장 PNG hash는 없다.",
+    "wrapper_failure": "원본 wrapper가 prefix만 exact line으로 기대하여 FAIL했다. 실제 full marker를 읽는 별도 offline validator만 한정 PASS이며 원본 FAIL을 덮지 않았다. run1 parse 실패도 보존한다. 단순 marker 오류를 고치기 위한 화면 재실행은 하지 않았다.",
+    "preexisting_english": "EN counter choices0 label 'Turn him in — do the right thing.'와 choices1 result의 'you won't report you…'는 pre470/source470/R4/render HEAD에서 exact-value 동일하고 StoryMode 전체 raw도 동일함을 직접 Git 대조했다. 다른 인물 nameplate 관찰은 root 메모에 귀속한다. 이 기존 도덕 라벨/대명사/화자 표현 문제를 이번 변경 잎의 품질로 승인하거나 보존 지시 밖에서 고치지 않았다.",
+    "limits": "prepared state+agent keyboard이며 자연 플레이, 인간/원어민 독해, physical controller, 오디오 품질 또는 모든 해상도/모든 결과 branch 검수가 아니다. unrelated dirty Python support 파일의 raw까지 saved status만으로 보존했다고 주장하지 않는다."
+  },
+  "defects_repaired_during_review": [
+    "첫 만남에 없던 김밥 전달/인사 회상을 실제1+1 안내로, used의 무조건 돈 수령을 공통 대화 사실로, EN의 새 귀가 장소를 with him으로, JA의 범죄 유형을 baseline 표현으로 바로잡았다.",
+    "중립 effects:{}를 원래 없음 계약에 맞추고, mod 추가 gate의 교착 가능성을 exact 소유2사건에 한해 거절/base 보존으로 닫았다.",
+    "공식수용 private 입력 drift·과거 receipt 오수용·비선택 target 변조 틈3개를 수용 전에 보강했다.",
+    "UI private callable 직접 주입/다른 args/재진입, outer Main/PR31의 warm 역사 객체 성공 재사용 틈을 exact identity·fresh typed 재구성·scope poison으로 닫았다.",
+    "실제 shared2가 드러낸 coffee whole-file 고정 경계를470 exact current successor로 연결하고, shared3의 정상 classifier cold 초기화 오탐을 검증 제외 없이 사전초기화로 수리했다.",
+    "shared4 자체검사의 오래된 deferred165 current 기대를 실제 neutral2잎만의 정확167로 설명하도록 바꿨다. 역사165/168/24와 다른272 predicate AST는 보존했고 actual15표적으로 새 기대·반례를 검증했다."
+  ],
+  "failed_attempts_preserved": [
+    {
+      "attempt": "runtime1",
+      "result": "DataRegistry legacy_aftermath 타입 추론 parse 실패. explicit bool로 수리했으며 최초 실패는 실패다."
+    },
+    {
+      "attempt": "runtime2",
+      "result": "engine exit0/6851이지만 wrapper의 prefix-only marker 기대가 잘못되어 실패. 별도 runtime3 및 clean runtime4를 실행했다. runtime2 wrapper를 PASS로 바꾸지 않는다."
+    },
+    {
+      "attempt": "shared1",
+      "result_sha256": "af167ebb4d044f07c2d8ef323bdfffb354fff189531d498814034d499bbae7df",
+      "result": "b751312 fresh admission964.963319초 뒤 exact PID SIGINT/KeyboardInterrupt, checks=[],HEAD/tracked 보존. 미완료 비용 증거이며 품질 PASS나 품질 FAIL로 바꾸지 않는다."
+    },
+    {
+      "attempt": "shared2",
+      "result_sha256": "dc1424f2c56c094480352c0b50c00cc7dcac461baf5292ac6a5c442838f4af6e",
+      "result": "8802f0c admission1807.425318초 뒤 coffee current event HEAD blobs differ로 실패. checks=[],HEAD/tracked 보존. 제품/42수용이 바뀐 것이 아니라448 소비자 후속 결속 누락이었다."
+    },
+    {
+      "attempt": "shared3",
+      "result_sha256": "034d08339623546c13b68a2cc8d58e986d702d6ba6f538658ede99a6c6856981",
+      "result": "a1af764 admission699.552869초 뒤 UI source plan 최종 module equality에서 실패. checks=[],HEAD/tracked 동일. focused100은 history loop 전체를 실행하지 않아 이 실패를 대신하지 못했다."
+    },
+    {
+      "attempt": "shared4",
+      "progress_sha256": "eaed9ffcf1130288070c3fe037c470451547af473b86452d974149be1e942d30",
+      "result": "12 checkpoint/11PASS+fullbody273중1실패 후 종료 단계가 멈췄다. 실제 OS90표본 모두 main lock wait와 diagnostic _Py_DumpTracebackThreads/_PyTrash_begin을 보였다. root가 자기 PID22340 명령을 확인 후 TERM하여 terminal exit143으로 끝냈다고 기록했다. 원래 outer 정상종료·before/after·wrapper PASS는 미증명이다.",
+      "termination_memo_sha256": "8451081df9fe22a94e3bcb85278952173c56a488e56c8eeffe92d8da7f0c5dff",
+      "process_sample_sha256": "c27b9f103d8496f2a897b77b7614317d23427612f69bdc699c3c4a5c2db56cd5"
+    },
+    {
+      "attempt": "module_probe2",
+      "result": "실제 ORDER384 fee correction2개는 통과한 뒤 zh._SCRIPT_FORBIDDEN_CACHE None→dict 정확1키를 진단하며 의도한 exit1. validator111의 실제 cold/warm 회귀와 구분한다."
+    },
+    {
+      "attempt": "render_run1_and_run2",
+      "result": "사설 fixture parse 실패와 원본 wrapper exact-marker 실패를 모두 보존한다. run2의 준비 화면/input 한정 derived 결과만 별도로 인정한다."
+    }
+  ],
+  "remaining_limits": [
+    "원래 shared4는 consumer11PASS+fullbody273중1실패 및 종료중단 기록이다. 단위 판정은 그 실제272성공·불변 AST와 final1의 수리된15표적/정상본문 및 별도 fresh outer 정상종료·보존 증거를 결합한다. 원래 wrapper 또는273전체 신규 PASS를 발급하지 않는다.",
+    "native_review OPEN이며 실제 원어민/인간/물리패드 관찰을 새로 발급하지 않는다. 준비 runtime6851/렌더12와 자동 검사는240주 자연플레이를 대신하지 않는다.",
+    "미선언 T3의 기존 상태변경 부채, counter 보존 라벨/결과1·인접 callback의 원금/피해자 오인, 연애 additive flags의 Y5 재진입 결함은 미해결이다. 이전 YEAR5/노출계약 부채와 본편/프롤로그/Chapter5 HOLD를 이번 사실 수리로 닫지 않는다.",
+    "초기 history85/99/source-history28/demo16+86 일부는 저자의 terminal 출력만 있었으며 별도 .git/order470-history 로그를 발명하지 않는다. 기록된 후속99/143/coffee32와 최종 공유 actual 결과만 각 실행 범위로 결속한다.",
+    "private .git 증거는 로컬 실행 자료다. 저장된 로그/입력 hash의 범위를 넘어 공개 배포 artifact나 인간 인증으로 사용하지 않는다. 보고 뒤에도 private 자료 보존/이동은 별도 관리 사항이다.",
+    "모든 역사 자체검사 또는 전체 CI를 반복한 것이 아니다. 완료하고 입력이 유지된 검사는 재사용하며 현재 변경된 소비자의 실제 결과만 새로 센다. 전체 현지화/전체 게임 출시 완료를 주장하지 않는다."
+  ],
+  "final_boundary": "3641b31 subject의 세 사건 사실·문장·선택 가능성과42잎 공식수용 및 필요한 유한 지원 증명에 한정해 GO다. 원문71변경잎 전수검수, 준비6851·root 준비화면/키보드12, 완료 소비자/실패보존/AST불변과 별도 final1 fresh 종료를 함께 판단했다. 기존 보존 라벨·인접 사실·연애/T3 부채, 인간 OPEN과 본편 HOLD는 별도이며 사용자 후속 B의 사람/야간진료 문장은 아직 구현하지 않았다."
+}
