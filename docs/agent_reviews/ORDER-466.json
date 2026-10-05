@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-466",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "7b3bee35736c709a3d68ec59e74f4ef0b7b62a99",
+    "tree": "8dd0bd4b33a00c944a02a8ef1070587fa18a8f28",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "일반 투자 매수·매도의 기존 한국어8키에 추가한 CN8/TW8값의 의미·공식 수용 및 선언된 두 append 전이 결속만 GO다. 거래 실행·화면 전체 현지화·렌더·원어민·출시 승인이 아니다.",
+  "method": "gangnamdream-dev의 localization 경계에 따라 선언·Main/InvestmentSystem 실제 소비자·기존 용어·16값·공식 source/response/receipt·private normal helper와 결과 원문을 직접 읽었다. Git/stdlib로 전체4raw 역상, header/Leaf/selection/receipt hash와 최종 후보를 독립 대조했다. 보조 /root/independent392/ab_readonly428가 이전 결과 schema·최종 보호파일/증거맵을 별도 읽기 대조했다. 프로젝트 collector/import/검사 실행은 root만 수행했다.",
+  "source_review": {
+    "population": "매수·매도 기본실패2, 성공 action log2, nonpending 행동완료 표시2, 성공toast2의 8키×2지역16값 전수 의미·형식 PASS.",
+    "binding": "매수 로그의 두 %s는 자산명→실제 cash_committed이며 매수 완료의 %s도 투입금이다. CN 投入은 수수료 차감 후 net_invested나 주식 수량이 아니다. 매도 로그는 자산명1개이고 매도 완료에는 금액·수량을 새로 넣지 않았다. 성공/실패 극성, %s 개수·순서, ✓/→와 LF0를 보존했다. 공유 InvestmentSystem의 매수할 수 없습니다/매도할 수 없습니다/매도 완료 소비자에도 의미가 맞는다.",
+    "draft_sha256": {
+      "zh-CN": "8b00489992de98f00567ddf48bc9c664a650b7ed7144edbf971a1344697099f4",
+      "zh-TW": "f867376c02d52d6458907d70f68a583cefbb737d8f81d2c80a913a1499bbbfaf"
+    },
+    "consumer_limits": "상세 result.message/transaction.error가 기본 실패문구보다 우선한다. 행동완료 표시는 nonpending 경로만이며 로그는 cleanup/34자 절단을 거친다. ✓/→/전문이 실제 화면에 그대로 표시된다는 판정은 아니다. 기존 '이번 달 거래 불가' AP 문구는 별도 수리 대상이며 이 배치에 넣지 않았다."
+  },
+  "official_acceptance": {
+    "source_revision": "052d29d325d990bbcdd198e74c4bb6aa62e9a395",
+    "source_manifest_sha256": "9f4e35c51dd343febaf93695100974487664758fbc449d2ef3feb75786477b6c",
+    "check_path": ".git/full-game-localization/order466-check1/result.json",
+    "check_sha256": "492bc7b1503d5f9ad9d345def957967040f5005a1ce6b5a816e0235575513f64",
+    "result": "최초 check 두 지역 모두 exit0/빈stderr·leaves8/changed_files1이며 import 원문 두 개도 leaves8 action=import이다. full_status=INCOMPLETE/human_gate=OPEN이다. source header/selection/Leaf hash/previous-null, response·초안·최종사전16값, accepted 및 unsigned canonical receipt를 직접 대조했다.",
+    "source_response_sha256": {
+      "zh-CN": {"source": "b738606b39501e32080b16a3faf8e0e825e39062225ed7ff388e2e34a9f57b54", "response": "13edd059392d2016936683b9121ee788ff73cfa645a98d7091b4ccb1913cf3dd"},
+      "zh-TW": {"source": "b6a349aca58c088505f659b9f65bdc01b74f5d2dc211d83954926c74d739b263", "response": "460a9235957a4c395e23d29ba836f4fd90c18882adcd9e081682b0159bcf468f"}
+    },
+    "receipt_sha256": {
+      "zh-CN": {"file": "8c257b62580e55cd813cf0381652cddf959058c83e0a113ccef4d3bf5a2052d4", "unsigned_canonical": "f66055c4db022312f5763332522b83d6176b3c3446962e2d89f77980557d36b6"},
+      "zh-TW": {"file": "d55889ad907cf5195264ca125f85efee67f88518c3e1c69c0f2d9ae378934037", "unsigned_canonical": "55b02d3fdf132249faa36c2270c7794af56324213a4e7b281f1ab2e3900ea9a6"}
+    },
+    "raw_inverse": "신규 UI8+8·accepted16·batch2의 정확한 member span을 제거하고 checksum 원토큰을 복원한 전체4파일 bytes가 실제 export Git과 일치했다. JA 전체 불변; 기존 UI/receipt/member/order 보존. CN/TW1801→1809, accepted41805→41821, batches235→237만 추가했다. JA8키는 기존 사전값이며 이번 공식 수용0이다.",
+    "append_proof_path": ".git/full-game-localization/order466-append-precommit.json",
+    "append_proof_sha256": "3bde7998e78234f420a8431b1ae9048df3672e80653a342a3b4fa4b629f9681a"
+  },
+  "automated_contract": {
+    "result_path": ".git/full-game-localization/order466-normal1/result.json",
+    "result_sha256": "1f50a10cefca0a7eb187dc7799988a419bd7e1cbf6442553ac7f443f844a93d9",
+    "entry_sha256": "8861be8abf3c1512aabd091de48d2879417aceb2e21a78137c1781b9b0190656",
+    "delta_sha256": "84d54fbaf7dd486174ed61c233206907123b0f18613660b8db3e1561aa39d167",
+    "runner_sha256": "391cb01ce162fe6a89f831d035b489d3bc9b9d5a8a236c8c21ac29ee6dd7f7a6",
+    "new_delta": "fresh collect213 source hash/digest와 두 export revision의 실제 Git census가 같은 manifest에 결속된다. BASE464 이후 데이터 전이는 실제465·466 두 commit뿐이며 각각 parent4raw→제품4raw를 변경 없는 validate_append로 검증했다(32/16값·2/2batch). 최종4raw=Git/disk이며 source/code/비소유 경로 불변과 선언된 metadata 계보를 결속했다. collector 이후 manifest/append 구간 관측17.943166459초다.",
+    "new_zh": "ZH 기본 --lang all 1회 exit0/34.348521초·stdout702B/stderr0·정확 marker1회. 양지역 ui_legacy1602/2953·context11/29·dynamic150/701·직접영어우회11·shipping0이고 결과는 mode=skeleton이다.",
+    "zh_stdout_sha256": "285bf083a2f74c54ca6423340b05023867e835aa6dd54ea6b40ff8fd06a010d2",
+    "reused_evidence": "ORDER-464 normal1 result SHA32cac4131de86ecb8b5b3b1cc0f83fb3b98c457a98ced7ee4fa773ab56aa446b의 실제 dd1c3915 당시365 PASS(470.767761초·accepted41773/b233/live50/historical_cases0)와 ORDER-465 result SHAde1fccb26eb47da078362f930a227dcaccd529a08f0855fb2dfab9b4936bdf04 및 delta35074cc8…를 원문·로그·계보에 결속해 재사용했다. 현재 후보 전체검사 재실행으로 부르지 않는다.",
+    "current365": "NOT_RUN",
+    "current_whole_history": "NOT_RUN",
+    "result": "all_pass/preserved=true, error=null; entry=before=after 및 private 입력 전후가 일치한다. 과거 immutable PASS+현재 두 append 전이+새 ZH의 합성 근거이며 기준 완화나 새 전체이력 PASS 발급이 아니다."
+  },
+  "execution_subject": {
+    "commit": "ae28a8bc9e8a2b1afba8fc019f2a6bdbf572c4f7",
+    "tree": "3679f0daf4262787f2dbcbb04ddb06cd65e1b183",
+    "successor": "실제 정상검사는 clean ae28a8b에서 수행됐다. 최종 subject7b3bee35/tree8dd0bd4를 Git으로 관측했고 committed diff는 CLAUDE.md 상태3행뿐이다. 제품·사전·원장·검사코드는 동일하며 후속 HEAD에서 검사를 재실행한 것은 아니다. 이후 root의 마감metadata 편집은 동결 실행맵과 별개다."
+  },
+  "preservation": {
+    "observed": "normal tracked3146·private 입력16·보호11그룹57파일 전후동일. export→제품은 CN/TW·원장3개와 STATUS/WORK_LOG2개만 변경했다. 선언 이후 기존226판정/204보고·manifest사본1·human46 원문 불변을 확인했다. 보호57은 player34·공개저장9·seed3·462앱7/manifest1·project/preset/human3이며 없던 공개 build는 missing→missing이다.",
+    "work_log_archive_sha256": "af5ef7db8f6f08d134ab070c9aa3e45588d3870bf9925e3392429b490f7758b1",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "실제 toast/log/잘림·가독성·자연 거래진입·금액정산·물리입력·인간·원어민·renderer/PNG는 NOT_RUN이다. 동적 자산명과 구체 오류 및 전체 투자화면 중국어 완료를 승인하지 않는다.",
+    "current365/wholehistory/selftest/full-body/JA·EN/엔진·패키지는 이번에 실행하지 않았다. 관측 시간은 통제된 A/B나 속도향상 증거가 아니다. 자동 수용과 ZH skeleton PASS는 shipping 또는 native GO가 아니다.",
+    "AP 부족의 월 단위 문구는 별도 수리 대상으로 남긴다. 149 렌더/체감·457 이어보기·302/462 runtime·M60/후일담·Property·Chapter5·본편/출시 HOLD를 유지한다."
+  ],
+  "final_boundary": "기존 한국어8키의 중국어16값 의미·공식 수용과 기준선 및 정확한 두 제품전이 결속만 ORDER-466 GO다."
+}

@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 거래 결과 번역 검증 완료·AP 안내 후속 선언 (466 완료/467 착수)
+
+- 실제 clean ae28a8b/tree3679f0의 tracked3146·보호57 전후동일. normal1 result `1f50a10cefca0a7eb187dc7799988a419bd7e1cbf6442553ac7f443f844a93d9`, delta `84d54fbaf7dd486174ed61c233206907123b0f18613660b8db3e1561aa39d167`; delta17.943166459초/ZH34.348521초/exit0/stderr0. 후속7b3bee3은CLAUDE3행만이며 두커밋 main push 완료.
+- 실제464/465의 원문결과·로그·Git 객체와 전체계보를 결속했다. 두 제품commit의 실제parent→commit4raw를 각각32/16값·2/2batch로 검증했고 source213hash·두export census·기존226판정/보고·player/public/seed가 불변이다. 전체history/current365를 다시 실행한 것은 아니다.
+- 비저자16값 전수 및 공식수용 한정GO([보고](agent_reviews/ORDER-466.json)). 실제toast·log잘림·렌더/원어민/물리입력·본편/출시HOLD. 기존 규범 적용, 새규범승격0·이번 proof는 일회성이다.
+- 다음467은 확인된 AP부족 오안내3쌍을 기존 짧은 한영/다국어 문구로 통일한다. 게임규칙·사전·원장은 불변이다. 원문 변경에 필요한 exact collector/역사증명 지원과 별도 표적 회귀를 선언했으며 선언push 전 구현하지 않는다.
+
 ## 2026-10-05 — 투자 매수·매도 결과 중국어16값 수용 (466)
 
 - 052d29d main 선언·push 뒤 한국어8키를 간체/번체 저자가 각각 직접 작성하고 비저자가16값 전수·실제 소비자를 읽었다. 기본실패/매수·매도 기록/행동완료/성공toast의 자산명→투입금 순서와 %s·✓·→를 보존했다. InvestmentSystem의 같은 기본실패·매도완료 키도 공유 소비자다.

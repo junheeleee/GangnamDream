@@ -1,6 +1,18 @@
 # ORDER-466 — 일반 투자 매수·매도 결과의 중국어 안내
 
-#### [~] ORDER-466 [P1·현지화] 성공·기본실패·행동기록8키를 읽는다
+#### [x] ORDER-466 [P1·현지화] 성공·기본실패·행동기록8키를 읽는다
+
+**완료 — 2026-10-05.** CN8/TW8 의미·공식수용 및 불변기준선/두제품전이 한정GO.
+사전1809/1809·accepted41821/b237. 독립 검수 [466](../agent_reviews/ORDER-466.json).
+actual clean ae28a8b/tree3679f0: tracked3146/protected57 전후동일, delta17.943166459초·
+ZH34.348521초 exit0/stderr0. result SHA
+`1f50a10cefca0a7eb187dc7799988a419bd7e1cbf6442553ac7f443f844a93d9`, delta SHA
+`84d54fbaf7dd486174ed61c233206907123b0f18613660b8db3e1561aa39d167`.
+그뒤7b3bee3/tree8dd0bd4는CLAUDE3행만변경했으며 후속HEAD재실행으로세지않는다.
+current365/wholehistory/렌더/원어민/물리입력 NOT_RUN. 본편·출시HOLD.
+승격: 새규범0·이8키의 선언/검증은일회성, 기존I18N/WORK_UNIT을그대로적용했다.
+
+## 당시 선언
 
 **[~] 착수 — 2026-10-05.** 부모157, 직전465와교집합0. 한국어8키는JA에있고
 CN/TW사전·accepted에는없다. 주변은행/보유/거래카드/패드안내는기수용이므로
