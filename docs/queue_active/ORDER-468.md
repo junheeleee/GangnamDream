@@ -123,6 +123,16 @@ PR 전체 파일을 덮어써 main의 새 번역·AP 수리를 되돌리지 않�
 
 ## 검증과 완료 경계
 
+최종 실제 full-body consumer에서 PR이 추가한 민서 arrival의
+`description_if_known/minseo_real_talk`와
+`description_if_known/contacted_minseo&minseo_real_talk`가 JA/CN/TW 모두
+수용되지 않았음을 확인했다. 기존 accepted 행의 stale0만으로 새 잎 누락을
+검출할 수 없었다. 기존249배치·41830영수증과 번역문은 보존하고, 이2잎×3언어만
+독립 원문 대조 뒤 공식 export/check/import로 처음 수용한다(총41836).
+원장 단독 전이와 위 소유 helper/self-test의 exact6 추가 증명만 연결한다.
+같이 실패한 year5 검사는 기존 실패와 PR 엔딩5파일의 새 hash 영향을 분리하고,
+이전 실패를 PASS로 승격하지 않는다. 새 콘텐츠/7k 범위 추가가 아니다.
+
 - 실제 merge-base/두 부모/제품 경로·전후 원문을 기록한다. 영어 한글 오탐 수리부터
   확인하고, JSON 의미 diff와 main 신규 영수증 보존을 검증한다.
 - 기본 JA_UI, JA_DEMO_PIPELINE_SELF_TEST, ZH_DEMO_AUDIT/SELF_TEST,
