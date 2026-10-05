@@ -616,7 +616,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 145, "expected_file_count": 51, "expected_ids_sha256": "a6a6ec729442836b7328d965a645391fc8d5c8750c22535ff2e6928a5750c2da", "expected_content_sha256": "75313d3d1bc4ed16e94e521f2cebbedbd05e54990acd8cd4226dd7b51e83aa13"
+        "expected_event_count": 145, "expected_file_count": 51, "expected_ids_sha256": "a6a6ec729442836b7328d965a645391fc8d5c8750c22535ff2e6928a5750c2da", "expected_content_sha256": "0ce0b943d537d2b1162ebb6e2fce63be66002c713fd9a3eed691cc5ee7d826c9"
       },
       "facts": [
         {
@@ -658,7 +658,7 @@
         "categories": [], "tags": [],
         "tokens_ko": ["씨발", "개새끼", "좆", "미친놈", "미친년"],
         "tokens_en": ["fuck", "fucking", "shit", "bastard", "asshole"],
-        "expected_event_count": 2, "expected_file_count": 2, "expected_ids_sha256": "09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1", "expected_content_sha256": "fc1a0465f31a6a2df2deb4559825e67c7f762fa2ebfdbaa45ae63e2fb75131c3"
+        "expected_event_count": 2, "expected_file_count": 2, "expected_ids_sha256": "09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1", "expected_content_sha256": "b7018e341076ee7951da874c3fe6cadd4f34d7f0c996feb2b67e83c0a44e98c2"
       },
       "facts": [
         {
@@ -686,7 +686,7 @@
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
         "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
-        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "f4fd635402ca61ce5632576a11b5d461a7e3cd32ed85f7a5eea80ba4e1e834dd"
+        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "bc586dad652822b52c8cc1fa09be1ce0d54b95fb376bc3a336fb2852744f56aa"
       },
       "facts": [
         {

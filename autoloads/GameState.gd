@@ -1849,6 +1849,52 @@ func _opportunity_choice_available(choice: Dictionary) -> bool:
 		raw_opportunity as Dictionary, _projected_choice_cash(choice)) >= 1.0
 
 
+const JAEHYUK_CHOICE_FACT_FLAGS := [
+	"jaehyuk_reported", "took_high_road", "jaehyuk_exploited",
+	"jaehyuk_partnered", "jaehyuk_scammed",
+]
+const DAEUN_CHOICE_SEPARATION_FLAGS := [
+	"daeun_let_her_go", "daeun_breakup_accepted", "daeun_breakup_begged",
+	"daeun_let_drift", "daeun_asked_finally", "daeun_romance_blocked",
+	"daeun_divorced", "arc_daeun_year3_apart_seen", "arc_daeun_ghost_seen",
+	"arc_daeun_year5_apart_seen",
+]
+
+
+func _story_choice_fact_available(event: Dictionary, choice: Dictionary) -> bool:
+	if not DataRegistry.STORY_FACT_SLOTS.has(event.get("id", "")):
+		return not choice.has("requires_story_fact")
+	if DataRegistry.story_choice_fact_index(event, choice) < 0:
+		return false
+	var marker: String = choice.get("requires_story_fact", "")
+	if marker.is_empty():
+		return true
+	if marker == "daeun_together":
+		if not flags.get("daeun_romance_started", false) is bool:
+			return false
+		for flag_id: String in DAEUN_CHOICE_SEPARATION_FLAGS:
+			if not flags.get(flag_id, false) is bool or flags.get(flag_id, false):
+				return false
+		return flags.get("daeun_romance_started", false)
+	# A malformed known history is not evidence that no history exists.
+	for flag_id: String in JAEHYUK_CHOICE_FACT_FLAGS:
+		if not flags.get(flag_id, false) is bool:
+			return false
+	match marker:
+		"jaehyuk_reported":
+			return flags.get("jaehyuk_reported", false) or flags.get("took_high_road", false)
+		"jaehyuk_used":
+			return flags.get("jaehyuk_exploited", false) or flags.get("jaehyuk_partnered", false)
+		"jaehyuk_victim":
+			return flags.get("jaehyuk_scammed", false)
+		"jaehyuk_unknown":
+			for flag_id: String in JAEHYUK_CHOICE_FACT_FLAGS:
+				if flags.get(flag_id, false):
+					return false
+			return true
+	return false
+
+
 ## Single pure availability contract for authored choice exposure and commit.
 ## The fallback marker belongs to a separate, state-free choice and appears
 ## only when every opportunity sibling is unfunded. This preserves original
@@ -1857,6 +1903,8 @@ func choice_available(event: Variant, choice: Variant) -> bool:
 	if not event is Dictionary or not choice is Dictionary:
 		return false
 	var authored: Dictionary = choice
+	if not _story_choice_fact_available(event, authored):
+		return false
 	var required_item := str(authored.get("requires_item", ""))
 	if not required_item.is_empty() and not has_item(required_item):
 		return false

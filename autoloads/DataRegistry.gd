@@ -180,7 +180,7 @@ const MOD_CHOICE_KEYS := [
 	"tendency", "route", "grant_job", "grant_job_display",
 	"first_paycheck_ratio", "replace_current_job", "conditions_note", "deferred_follow_up",
 	"deferred_delay", "foreshadow", "bridge_summary", "clues", "give_items",
-	"requires_item", "housing_keepsake", "year_scene",
+	"requires_item", "requires_story_fact", "housing_keepsake", "year_scene",
 	"opportunity_unavailable_fallback",
 ]
 const MOD_EVENT_SCHEDULE_KEYS := [
@@ -191,8 +191,15 @@ const MOD_EVENT_SCHEDULE_KEYS := [
 const MOD_CHOICE_SCHEDULE_KEYS := [
 	"follow_up_event", "deferred_follow_up", "deferred_delay", "choice_kind",
 	"v2_obligation_id", "v2_player_initiated_character",
-	"opportunity_unavailable_fallback",
+	"opportunity_unavailable_fallback", "requires_story_fact",
 ]
+## Source-owned, closed slots; not a mod-authored flag expression language.
+const STORY_FACT_SLOTS := {
+	"arc_jaehyuk_aftermath": [
+		"jaehyuk_reported", "jaehyuk_used", "jaehyuk_victim", "jaehyuk_unknown",
+	],
+	"arc_daeun_later_echo": ["daeun_together", ""],
+}
 const MOD_EXPRESSION_STATEFUL_KEYS := [
 	"effects", "flags", "cast_effects", "relationship_effects",
 	"investment_effects", "tendency", "route", "grant_job",
@@ -754,6 +761,44 @@ func _mod_opportunity_topology_valid(choices: Array) -> bool:
 		return false
 	return true
 
+func story_choice_fact_layout_valid(event: Dictionary) -> bool:
+	var event_id: Variant = event.get("id", "")
+	if not event_id is String or not STORY_FACT_SLOTS.has(event_id):
+		return false
+	var raw_choices: Variant = event.get("choices", null)
+	var slots: Array = STORY_FACT_SLOTS[event_id]
+	if not raw_choices is Array or (raw_choices as Array).size() != slots.size():
+		return false
+	var choices: Array = raw_choices
+	for index in range(choices.size()):
+		if not choices[index] is Dictionary:
+			return false
+		var choice: Dictionary = choices[index]
+		var expected: String = slots[index]
+		if expected.is_empty():
+			if choice.has("requires_story_fact"):
+				return false
+		else:
+			var marker: Variant = choice.get("requires_story_fact", null)
+			if not marker is String or marker != expected:
+				return false
+		for earlier in range(index):
+			if choices[earlier] == choice:
+				return false
+	return true
+
+
+func story_choice_fact_index(event: Dictionary, choice: Dictionary) -> int:
+	if not story_choice_fact_layout_valid(event):
+		return -1
+	var choices: Array = event["choices"]
+	for index in range(choices.size()):
+		# Equality alone would admit a detached or forged choice at commit.
+		if is_same(choices[index], choice):
+			return index
+	return -1
+
+
 func _merge_mod_event_override(
 		base: Dictionary,
 		source: Dictionary,
@@ -762,8 +807,19 @@ func _merge_mod_event_override(
 		return {}
 	var base_choices: Variant = base.get("choices", [])
 	var source_choices: Variant = source.get("choices", [])
-	if not base_choices is Array or not source_choices is Array \
-			or (base_choices as Array).size() != (source_choices as Array).size():
+	if not base_choices is Array or not source_choices is Array:
+		return {}
+	if STORY_FACT_SLOTS.has(base.get("id", "")) \
+			and not story_choice_fact_layout_valid(base):
+		return {}
+	# The sole count migration: retain the source-owned neutral fourth option
+	# when a pre-repair three-choice aftermath text mod is loaded.
+	var legacy_aftermath: bool = base.get("id", "") == "arc_jaehyuk_aftermath" \
+		and story_choice_fact_layout_valid(base) \
+		and (base_choices as Array).size() == 4 \
+		and (source_choices as Array).size() == 3
+	if (base_choices as Array).size() != (source_choices as Array).size() \
+			and not legacy_aftermath:
 		push_warning("Skipping event override with changed choice count: %s" % base.get("id", ""))
 		return {}
 	var merged := base.duplicate(true)
@@ -779,6 +835,13 @@ func _merge_mod_event_override(
 			push_warning("Skipping event override with a non-object choice: %s" % base.get("id", ""))
 			return {}
 		var choice := ((source_choices as Array)[index] as Dictionary).duplicate(true)
+		if STORY_FACT_SLOTS.has(base.get("id", "")):
+			# A second gate could hide the only factually true response. Reject
+			# this override (the loader retains base), not the player's history.
+			for gate_key in ["requires_item", "opportunity", "opportunity_unavailable_fallback"]:
+				if choice.has(gate_key):
+					push_warning("Skipping story fact override with an extra choice gate: %s" % path)
+					return {}
 		if str(base_choice.get("choice_kind", "")).strip_edges().to_lower() \
 				== "expression":
 			for raw_key in choice.keys():
@@ -791,7 +854,8 @@ func _merge_mod_event_override(
 		if not _mod_choice_valid(
 				choice, allowed_core, {}, path,
 				bool(base_choice.get(
-					"opportunity_unavailable_fallback", false))):
+					"opportunity_unavailable_fallback", false)),
+				str(base_choice.get("requires_story_fact", ""))):
 			return {}
 		for schedule_key in MOD_CHOICE_SCHEDULE_KEYS:
 			if base_choice.has(schedule_key):
@@ -803,6 +867,8 @@ func _merge_mod_event_override(
 			choice["flags"] = _merged_choice_flags(base_choice, choice)
 			_preserve_nested_choice_flags(base_choice, choice)
 		merged_choices.append(choice)
+	if legacy_aftermath:
+		merged_choices.append((base_choices[3] as Dictionary).duplicate(true))
 	if not _mod_opportunity_topology_valid(merged_choices):
 		push_warning(
 			"Skipping event override with invalid opportunity exit topology: %s" % path)
@@ -822,10 +888,17 @@ func _mod_choice_valid(
 		allowed_core_flags: Dictionary,
 		pack_ids: Dictionary,
 		path: String,
-		inherited_opportunity_fallback: bool = false) -> bool:
+		inherited_opportunity_fallback: bool = false,
+		inherited_story_fact: String = "") -> bool:
 	for key in choice.keys():
 		if not str(key) in MOD_CHOICE_KEYS:
 			push_warning("Skipping event mod with unsupported choice key '%s': %s" % [key, path])
+			return false
+	if choice.has("requires_story_fact"):
+		var marker: Variant = choice["requires_story_fact"]
+		if inherited_story_fact.is_empty() or not marker is String \
+				or marker != inherited_story_fact:
+			push_warning("Skipping event mod with forged story fact: %s" % path)
 			return false
 	if str(choice.get("text", "")).strip_edges().is_empty() \
 			or str(choice.get("result_text", "")).strip_edges().is_empty():

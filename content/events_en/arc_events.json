@@ -467,11 +467,11 @@
   {
     "id": "arc_jaehyuk_04b_counter",
     "title": "Counter",
-    "description": "{name} spent a month quietly gathering.\nJaehyuk's investment product structure. Money flow. Testimony from other victims.\n\nIt was a textbook Ponzi scheme. New money covering old payouts.\nOnce the structure was understood, the weak points appeared.\n\nMet Jaehyuk again. This time {name} called the meeting.\n'Jaehyuk. I know everything. The company structure. The victims.'\nJaehyuk's face goes white.\n'...What are you going to do.'\n\nA moment of decision. What kind of person will {name} become?",
+    "description": "{name} spent a month quietly gathering.\nJaehyuk's investment product structure. Money flow. Testimony from other victims.\n\nIt was a textbook Ponzi scheme. New money covering old payouts.\nOnce the structure was understood, the weak points appeared.\n\nMet Jaehyuk again. This time {name} called the meeting.\n'Jaehyuk. I know everything. The company structure. The victims.'\nJaehyuk's face goes white.\n'...What are you going to do.'\n\nJaehyuk looked down at the papers {name} had placed on the table.\nHis fingertips touched a corner, then pulled away.",
     "choices": [
       {
         "text": "Turn him in — do the right thing.",
-        "result_text": "Handed the evidence to the police. Along with victim statements.\nJaehyuk was arrested. {name} didn't get the money back.\nBut at least stopped more people from being hurt.\n\nIm Sangchul said: 'Good. You protected something more important than money.'\n{name} had empty hands — but could look in the mirror."
+        "result_text": "He handed the evidence to the police, along with the victims' statements.\nJaehyuk was arrested. {name} put copies of the papers he had submitted\nin an envelope and took them with him.\n\nIm Sangchul said, 'Good. You protected something more important than money.'\n{name} folded the envelope closed. A corner of the paper pressed into his palm."
       },
       {
         "text": "Hold the leverage and negotiate — get my money back, and then some.",
@@ -479,7 +479,7 @@
       },
       {
         "text": "Pull him in and run a bigger scheme — turn fraud into business.",
-        "result_text": "'Instead of reporting — let's work together. But this time, properly.'\nIn Jaehyuk's eyes: relief and fear mixed.\n\n{name} crossed the line. Gangnam will get closer.\nFast. Dirty.\nIs the apartment Dad never got — supposed to be bought with this money?\nThat question, {name} decided not to ask. For now."
+        "result_text": "'Instead of reporting you, let's work together. But this time, properly.'\nRelief and fear mingled in Jaehyuk's eyes.\n\n{name} slid the papers toward Jaehyuk.\nWhen Jaehyuk set his hand on them, they shifted slightly askew.\n{name} looked at the deposit notification on his phone.\nThe hand he had taken off the papers closed around it."
       }
     ]
   },
@@ -940,33 +940,37 @@
   {
     "id": "arc_jaehyuk_aftermath",
     "title": "What Came After",
-    "description": "He saw the name in the news.\nChoi Jaehyuk.\n\nHeadline: \"Pyramid investment fraud ring arrested, 2.3 billion won in damages.\"\n\n{name} didn't open the article.\nBecause opening it felt like he already knew.\n\nThe choice from back then came to mind.\nWhether he'd turned it over to the police, held leverage over him, or schemed the whole thing together —\nthat choice came back now, along with this news.\n\n{name} looked out the window for a long time.",
+    "description": "He saw the name in the news.\nChoi Jaehyuk.\n\nHeadline: \"Pyramid investment fraud ring arrested, 2.3 billion won in damages.\"\n\n{name} read the headline again.\nHis eyes stopped at the number following the name.\n\nHis finger hovered over the screen.\nThe article was short, with more headlines below it.\n{name} did not scroll any further.\n\nA car passed outside the window.",
     "choices": [
       {
-        "text": "Turning it over to the police was right — this news proves it  [take_high_road path]",
-        "result_text": "The evidence {name} submitted contributed to this outcome.\nNot getting his money back was still the case.\nBut an additional 2.3 billion won in damage was stopped.\nGangnam is still far off. Even so, he wasn't ashamed to look in the mirror."
+        "text": "Remember the evidence I handed to the police",
+        "result_text": "{name} took out copies of the papers he had submitted.\nHe set the phone beside the creased paper.\n2.3 billion won. His finger stopped beside the amount of the losses.\nHe folded the papers again and put them in the envelope."
       },
       {
-        "text": "Back then I saved only myself — maybe that was the way to Gangnam  [crossed_line path]",
-        "result_text": "He closed the article.\nWhether what {name} had done stopped some of that 2.3 billion or added to it, there was no telling.\nWhat kind of person he'd become on the road to Gangnam —\na day was coming when he could no longer dodge that question."
+        "text": "Remember what Jaehyuk and I said to each other",
+        "result_text": "He closed the article.\n{name} held the darkened screen for a while.\nHe thought of the words he and Jaehyuk had exchanged back then.\nWhen he set the phone down, its warmth lingered in his palm."
       },
       {
-        "text": "Read it as a victim — so he got caught in the end after all  [jaehyuk_scammed path]",
+        "text": "Read the whole article as one of the victims",
         "result_text": "2.3 billion won. {name}'s money is in there somewhere too.\nHe won't get it all back. He won't know until the trial's over.\nBut strangely, closing the article, he could breathe a little easier.\nThat bastard got caught in the end. That's enough. For now."
+      },
+      {
+        "text": "Close the article and return to the day at hand",
+        "result_text": "{name} closed the article.\nThe window was reflected in the dark screen.\nHe set the phone down and stayed in his seat for a while."
       }
     ]
   },
   {
     "id": "arc_daeun_later_echo",
     "title": "Memory of the Starting Line",
-    "description": "Gangnam had drawn close.\n\nThrough this whole journey, Daeun had been at his side — or at some point they'd each gone a different way.\n\nThat hand sliding a coffee across the convenience-store counter.\nThe words she'd said: \"You did well today too.\"\n\nEntering the final stretch, he thought of her.\nHowever things had gone — the fact that she was there at the starting line doesn't change.",
+    "description": "Gangnam had drawn close.\n\n{name} slowed his steps. His hand went to the phone in his pocket.\n\nThat hand pointing to the red 1+1 sign on the triangle gimbap shelf.\nHer words: \"That one’s two-for-one today. You can grab another one.\"\n\nEntering the final stretch, he thought of her.\nHe took the phone out of his pocket, and the screen lit up.",
     "choices": [
       {
-        "text": "She's still here — at the end of this road too",
-        "result_text": "He sent Daeun a text.\n\"Almost there.\"\nA reply came. \"I'm right here.\"\n\n{name} slipped the phone into his pocket and kept walking.\nThis Gangnam dream wasn't being run alone. That was the clearest thing right now."
+        "text": "Send Daeun a text: \"Almost there.\"",
+        "result_text": "He sent Daeun a text.\n\"Almost there.\"\nA reply came. \"I'm here too, Minjun.\"\n\n{name} slipped the phone into his pocket and kept walking.\nHis hand lingered over that pocket once more."
       },
       {
-        "text": "We went our separate ways — but she was the beginning",
+        "text": "Keep walking, holding onto the memory that began at the convenience store",
         "result_text": "Daeun is living her life, in her own way.\n{name} made it this far, in his.\n\nTogether or not —\nthe fact that she was at the starting line isn't something that gets erased.\n\nHe held onto that as he walked toward the final stretch."
       }
     ]
