@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 코인 통화5언어 수리와 원장 연결 마감 (458·459·460)
+
+- main source `be89b7f`/tree `ccf14176`에서 원문3×5언어·후속phone 수리와 기존9번역 교정의 정확 전이/현재50경로 소비자를 각각 독립 한정GO로 닫았다. accepted41755 그대로·batch228→231·coverage증량0이다. 선택/경제/경로와 사용자 저장은 바꾸지 않았다.
+- 기본 full-body1회가688.315초/exit0/빈 stderr로 통과했다. shipping1708/11681leaf, reader133, static192/1752leaf, SOURCE_INVENTORY_ONLY/runtime0/native0이다. 결과 SHA `a7f694c3aa94f6b0d93de41b1284fe1d329968ee3869076d253d6896692592ec`, 입력16/player34/seed2+W195/clean신원 전후 일치다. 공동focused151 PASS와 최초136FAIL·사전검수 누락은 별도 보존한다.
+- source49124fd의 KO/EN24페이지/16PNG/8선택과 최종 제품9파일 동일성을 결속했다. 독립 전수화면 한정GO이며 새 후보 재촬영·자연 이어보기·JA/CN/TW렌더·원어민·인간·물리 관찰을 주장하지 않는다. 첫 helper오류·중단1315.966초차선·기본원장 실패도 유지한다.
+- 독립보고3개로 기존217판정195보고를 보존한220판정198보고다. 메타데이터가드 후 main에 마감한다. 457실제 W195이어보기는 Mac잠금/메뉴0, M60/후일담/6/6·Property·본편/새package/출시HOLD다. 자동PASS는 계약 증거이지 재미·깊이·문체 승인 아님.
+- 다음 비용 결함 조사: 한 source matcher 안에서 동일 Holdem13단계 증명을13회 반복한다(정적 계수169단계/390Git호출/1014객체요청). 실제688초의 기여분은 미계측이다. 새 범위 선언 전에는 검사 의미/코드를 바꾸지 않는다. 옛 데모 빌더는 공개 저장/산출물을 교체하므로 그대로 실행하지 않고,302 successor는 별도identity·staging/manifest·실제boot/resume 차선으로 남긴다.
+
 ## 2026-10-05 — 코인 원문·교정 기록·현재 소비자 연결 구현 (459·460)
 
 - 정확한 source5/receipt4 역상과 실제 두 Git 전이,현재제품8/HEAD/disk·source2 manifest 결속을 구현했다. 과거UI3·228batch·41755수용/다른본문을 보존하고 이번9교정/3batch만 비교역상으로 복원한다. 제품데이터는49124fd 그대로다.
@@ -11,12 +19,12 @@
 ## 2026-10-05 — 코인 교정 사건의 마지막 소비자 연결 선언 (460)
 
 - 459 구현 중 비저자가365의현재사건 분기가 커피3경로만 소유함을 발견했다. 코인3파일은 이전원장으로넘어가므로459원문/receipt증명만으로는 실제소비자수용이 끝나지 않는다.
-- [460](queue_active/ORDER-460.md)은365의exact현재raw3분기와같은focused등록만 추가한다. 원459의365변경0경계를 조용히 넓히지 않는다. 기본full-body/focused는459와합동1회,제품/과거pin/collector변경0이다.
+- [460](queue_archive/ORDER-460.md)은365의exact현재raw3분기와같은focused등록만 추가한다. 원459의365변경0경계를 조용히 넓히지 않는다. 기본full-body/focused는459와합동1회,제품/과거pin/collector변경0이다.
 
 ## 2026-10-05 — 코인 원문 수리의 현재 번역원장 결속 선언 (459)
 
 - 축소한 실제 데이터 검사에서 full-body28.980초가 `KO/runtime source changed outside reviewed boundary`로 실패했다. audit4.444초 ERROR0/WARNING0과 i18n0.206초 KO외4언어 coverage는 통과했다. 실패는 과거 UI원장에 새KO/runtime 변경을 허용하지 않는 경계이며 화면PASS로 덮지 않는다.
-- [459](queue_active/ORDER-459.md)는 현재 제품을 바꾸지 않고632f88b의정확한source2전이·49124fd의기존9event receipt/3batch 역상을 기존consumer에 연결한다. 일반append/UI사전/과거판정/수용41755는 보존한다. 새공통프레임워크 없이 한정adapter/focused/기존연결만 소유를 나눴다.
+- [459](queue_archive/ORDER-459.md)는 현재 제품을 바꾸지 않고632f88b의정확한source2전이·49124fd의기존9event receipt/3batch 역상을 기존consumer에 연결한다. 일반append/UI사전/과거판정/수용41755는 보존한다. 새공통프레임워크 없이 한정adapter/focused/기존연결만 소유를 나눴다.
 - 실제 현재 기본경로와 작은변이를 검수하며 역사 대형selftest/standalone365/화면 재실행을 중복하지 않는다. 458은 의존해소 전미완료,457은Mac잠금/실제메뉴0 상태로 남긴다.
 
 ## 2026-10-05 — 변경 데이터 중심 검수 재선언 (458 중간)
@@ -44,7 +52,7 @@
 ## 2026-10-05 — 실제 일반 경로 W195 관찰·코인 통화 수리 선언 (458)
 
 - source a83b0e4의 실제 메뉴 불러오기→W193 정산/다음 날→절약→부산 소식→코인 경고 통화→W195를 자연 타이핑·개별 GUI 입력으로 읽었다.706.120초/exit0/errors0·source19inputs/seed2/player34 불변이다. M60/후일담/6/6은 미도달로457을 열어 둔다.
-- 29.3억/97%에서 `30억까지 까마득`한 거리, 전화 상대의 표정/얼굴 지문과 후속 통화 배지 소실을 확인했다. [458](queue_active/ORDER-458.md)은3문구×5언어와 후속presentation만 수리한다. 수치/분기/자산/오디오를 늘리지 않는다.
+- 29.3억/97%에서 `30억까지 까마득`한 거리, 전화 상대의 표정/얼굴 지문과 후속 통화 배지 소실을 확인했다. [458](queue_archive/ORDER-458.md)은3문구×5언어와 후속presentation만 수리한다. 수치/분기/자산/오디오를 늘리지 않는다.
 - 실제 Save 버튼으로 W195 checkpoint153359B/SHA d34ab880…를 격리namespace에 보존했다. root CUA 화면 관찰을 `.git/chapter5-replay/order457-first/observations.md`에 결속하며 독립 이미지/인간 관찰로 바꾸지 않는다.217판정195보고와 본편/새package HOLD 유지다.
 
 ## 2026-10-05 — 보존된 5장 일반 경로의 정상 재플레이 착수 (457)

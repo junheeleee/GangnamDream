@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-459",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "be89b7f86cc40d07145610353fab5d427c920821",
+    "tree": "ccf14176b3cc7015bfd0d8f8cd33cc462a75010f",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "실제 코인 통화 source/phone 전이와 기존9receipt 교정을 기존 UI 원장 역사 비교에 연결한다. 현재 원고·번역·원장·게임 동작의 추가 변경이나 일반 원문 변경 허용은 아니다.",
+  "method": {
+    "direct": "사양, 새 adapter384행, uiappend dispatch/EOF, 공동 focused510행과 현재 소비자 연결을 전부 읽었다. 실제 성공/실패 로그와 최종 full-body 원문·보존 맵을 확인했다.",
+    "assistance": "비저자 하위 /root/independent392/ab_readonly428의 Git/stdlib 비교로 기존9receipt와 공식 canonical header, 현재 SHA/bytes 및 역사 기록 보존을 교차 확인했다. 프로젝트 import·collector·검사·엔진은 실행하지 않았다."
+  },
+  "source_review": {
+    "adapter_sha256": "fa1f645d9fee89b60ab7d6efad1bd60e38d900e1edac36a59c5de2ee56e2fae6",
+    "append_sha256": "a64997852f3b93b7cde3067870e30755ca251afb93d73f034ed96c7528cddb3d",
+    "source_transition": "f9b4337caeb6e634538c49ab00323c2b9111eea2→632f88babba781e639157e33ac1a06744b987c1b",
+    "receipt_transition": "632f88babba781e639157e33ac1a06744b987c1b→49124fd03067fc5f57d6f617610f82776f5e89e2",
+    "proof": "실제 commit/tree/blob의 직접 부모·전체 변경 경로·whole raw를 검증한다. source5의 정확15leaf/phone·visual·direction 역상과 target3+ledger의9개 전체 receipt·3batch·checksum 역상이 이전 bytes와 일치한다. accepted41755·기존228batch·UI3는 보존하며 coverage 증가0이다.",
+    "manifest_boundary": "오직 KO사건파일/story_rules2의 입증된 이전 bytes를 역사 header 비교에 투영한다. 실제 source census와 반환 current evidence는 현재 값으로 유지하고 product8 Git/disk/HEAD를 다시 결속한다. 미래 source 변경·혼합 manifest·wildcard 허용 및 성공 캐시는 없다.",
+    "receipt_boundary": "기존 source hash는 path/field/ko Leaf 규약이고, 새 header는 실제 선택3·이전 target·source revision으로 재구성한다. 비교용 역상은 뒤의 비소유 append를 보존하되 실제 admission과 구분한다. 기존 도구 prefix와 기존 검증 조건은 해당 dispatch 외 유지된다."
+  },
+  "automated_contract": {
+    "focused": {
+      "path": ".git/chapter5-replay/order459-focused-second.log",
+      "sha256": "414b78c6f0fa4784e901e72a69bcca81a55e69e1902fbc8e9d8b79fca9136a3a",
+      "code_sha256": "12aa55e8698a5678d7b4f1a1dc16b8cad6f7b8625f78dacf9e921321cd97f31f",
+      "result": "151 PASS/historical_cases0/collector_calls0. 실제 immutable 전이2와 current product8 admission1을 관측했다. 나머지 raw/receipt/selector/manifest/HEAD/위임 반례는 작은 합성 또는 캡처 replay이며 독립 재서명 Git 객체 실험이나 과거 suite 재실행이 아니다."
+    },
+    "current_full_body": {
+      "path": ".git/chapter5-replay/order459-current-first/result.json",
+      "sha256": "a7f694c3aa94f6b0d93de41b1284fe1d329968ee3869076d253d6896692592ec",
+      "stdout_sha256": "e5d81bc8c06eb3c594ef7518b2c055bc1b5ada6ddebf438e6b4ff9ae6731ba87",
+      "result": "python3 -B tools/full_body_translation_scope.py, exit0/빈 stderr/688.315초. exact FULL_BODY_TRANSLATION_SCOPE_OK, SOURCE_INVENTORY_ONLY, runtime_claim0/native_quality_claim0. 새460 소비자를 포함한 현재50경로 전체 원장 검증이 통과했다."
+    }
+  },
+  "preserved_failure": {
+    "path": ".git/chapter5-replay/order459-focused-first.log",
+    "sha256": "3e9ece74a3fcf5fa34b75effeb48527c9b7f3d11ae639f843f4538f1f3d43b49",
+    "meaning": "136개 확인 후 coin3가 LIVE_PATHS47에 없는 결함으로 실패했다. 저자와 초기 독립 읽기 모두 이를 놓쳤다. 별도460 범위에서 old47+coin3 exact50으로 수리했으며 최초 실패를 PASS로 바꾸지 않는다."
+  },
+  "preservation": {
+    "current": "최종 result.before=result.after: clean 후보, 입력16(제품9·검증코드5·project.godot·human), 실제player34, seed2+W195 checkpoint3. stdout297bytes와 stderr0 및 focused 원본 SHA를 대조했다. 최종 whole-tracked 재해시라고 확대하지 않는다.",
+    "render_reuse": "현재 제품9파일은 렌더 ancestor49124fd와 byte-exact다. 458 화면/공식 교환·원래 실패는 재실행 없이 유지한다. 전체 Git diff는 docs/CLAUDE와 tools에 한정된다.",
+    "history": "기존217판정·195보고, 공개 이력 및 human bytes를 보존했다. 이 보고서는 실행 후 새로 생성됐다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "이 단위의 증거는 source review와 자동 계약이다. 새로운 엔진·화면·자연 플레이·인간·원어민·물리 입력 관측은0이다.",
+    "기존 대형 변이 차선은 중단/NOT_PASS이고 나머지는 NOT_RUN이다. 기본 full-body688.315초는 관측 비용이지 최적화 또는 통제된 성능 A/B가 아니다.",
+    "현재의 입증된 전이만 허용한다. 다음 원문/번역 변경의 admission이나 전체 언어 품질을 선승인하지 않는다."
+  ],
+  "final_boundary": "ORDER-459 역사 전이/whole-byte 증명 연결 한정 GO. 458 제품 관측과460 소비자 판정은 별도이며 Chapter5·본편·새 package·출시 및 인간/원어민 HOLD를 유지한다."
+}

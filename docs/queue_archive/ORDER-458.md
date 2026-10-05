@@ -1,8 +1,8 @@
 # ORDER-458 — 코인 권유 통화의 자산·원격 지식 정합 수리
 
-#### [~] ORDER-458 [P1·사실 수리] 두 사건·3문구·5언어
+#### [x] ORDER-458 [P1·사실 수리] 두 사건·3문구·5언어
 
-현재 게이트: 현재원장 기본검사가 source변경 미등록으로 실패했다.
+착수 당시 게이트: 현재원장 기본검사가 source변경 미등록으로 실패했다.
 게임구조/i18n coverage·화면·의미검토 PASS와 구분하며,
 필수 의존 [459](ORDER-459.md)의 정확한 source/receipt 전이 연결 전에는 완료하지 않는다.
 
@@ -78,3 +78,22 @@ KO/EN24페이지·16PNG·8선택과 비저자 전수 독해는 그대로 결속�
 새 선택을 만들지 않으므로24주 후 상태·선택 경쟁은 기존 그대로다. 서사 위치는
 ambient coin warning2root, 계층 증량0, 닫는 선택0이다. 기존 통화 정합 규칙 적용이며
 범위·파일 소유·표적 절차는 **일회성**이다.
+
+## 완료 — 2026-10-05
+
+- source `be89b7f86cc40d07145610353fab5d427c920821`, tree
+  `ccf14176b3cc7015bfd0d8f8cd33cc462a75010f`에 459/460 의존을 결속했다.
+  3문구×5언어/phone·local presentation 수리, 기존9receipt 교정/3batch추가,
+  accepted41755 그대로·coverage 증량0·선택/경제/경로 변화0이다.
+- 원래 source49124fd의 KO/EN 실제 준비화면24페이지/16PNG/8선택을 저자와 비저자가
+  전수 관찰했다. 지역별19.737/37.528초·exit0·오류0이다. 현재 제품9파일 불변을
+  대조했으며 현재 후보의 새 화면 실행이나 실제457 정상 이어보기로 바꾸지 않는다.
+  render result SHA `63efaa0b3dc21961a68cec275f29f91fa5b5f1bf4db77e8c6ea28e9435a9c991`.
+- 정확15leaf 역상·공식9교정·story/visual/direction/EN·audit/i18n와 공동 focused151,
+  현재 기본full-body688.315초 PASS. 입력16·player34·원본seed2/W195 불변이다.
+  첫 helper 파싱 실패,1315.966초 중단 self-test, 기본원장 실패, focused136FAIL은 보존했다.
+- [독립 보고](../agent_reviews/ORDER-458.json) SHA
+  `db2a13e9bf7f36d7cb6d4e78adbd832f1984328361a54ee8da4e66d29533db95`, 한정GO.
+  JA/CN/TW렌더·인간·원어민·물리패드·M60/후일담/Property 미관측 및
+  457/Chapter5/본편/새package/출시HOLD를 유지한다. 자동PASS는 재미/깊이/문체 승인 아님.
+- 규범 판정: 기존 통화 정합·WORK_UNIT/I18N/P-9 적용. 범위·파일·표적 계획은 일회성, 새 정본 승격0.

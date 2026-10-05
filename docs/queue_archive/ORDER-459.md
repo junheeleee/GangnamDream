@@ -1,6 +1,6 @@
 # ORDER-459 — 코인 통화 수리의 정확한 번역 원장 전이 연결
 
-#### [~] ORDER-459 [P1·수리 의존] 원문2파일·기존9receipt·3교정batch
+#### [x] ORDER-459 [P1·수리 의존] 원문2파일·기존9receipt·3교정batch
 
 **[~] 착수 — 2026-10-05.** 458 기본 full-body 검사가
 `ORDER-365: whole current proof rejected: UI append: KO/runtime source changed outside reviewed boundary`
@@ -49,3 +49,19 @@ UI3사전·기존228batch·수용41755·비소유 원문/receipt를 그대로 �
 원장 진입 없이 원문만 고치면 이후 UI번역 수용이 매번 거부된다. 선택·경제·정본은
 추가하지 않는다. 이 source/receipt전이와 파일 소유·검증은 **일회성**이며 자동PASS는
 재미·깊이·문체·원어민·인간 플레이·물리패드 또는 출시GO가 아니다.
+
+## 완료 — 2026-10-05
+
+- exact source `be89b7f86cc40d07145610353fab5d427c920821`, tree
+  `ccf14176b3cc7015bfd0d8f8cd33cc462a75010f`에서 공동 focused151 PASS,
+  기본 full-body1회 exit0/빈 stderr/688.315초 PASS다. 현재50경로를 거친
+  SOURCE_INVENTORY_ONLY이며 shipping1708/11681leaf·runtime/native claim0이다.
+- `.git/chapter5-replay/order459-current-first/result.json` SHA
+  `a7f694c3aa94f6b0d93de41b1284fe1d329968ee3869076d253d6896692592ec`:
+  입력16·player34·seed2+W195·HEAD/tree/status 전후 동일. 제품9파일은
+  렌더 source49124fd 그대로이며 화면/공식수용을 다시 실행하지 않았다.
+- [독립 보고](../agent_reviews/ORDER-459.json) SHA
+  `25c8b11e0ede9e4ce0cb7efafb22369d3d0e95b5a75ca985ee35235cdef780ea`, 한정GO.
+  최초136FAIL과 저자/초기 독립읽기의 경로 누락, 중단된 대형차선은 보존한다.
+  460 연결은 별도판정이며 자연457/본편/새package/출시HOLD 유지다.
+- 규범 판정: 위 전이·소유·검증 지시는 일회성. 기존 WORK_UNIT/I18N 적용, 새 정본 승격0.

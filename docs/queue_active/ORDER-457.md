@@ -47,8 +47,9 @@ root가 개별 GUI 입력으로 문장을 읽고 자연 타이핑·전환을 기
 진행했다. result SHA `bf7e7380361d06cc42f215c5aa1bfe605a465867c30dc3e8e97de9cb03354a2b`,
 원본seed2·player34 불변이다. `.git/chapter5-replay/order457-first/observations.md`에
 root GUI 독해/선택 기록을 보존하며 별도 PNG/독립 화면 관찰은 주장하지 않는다.
-코인 통화의 확인 결함은 [458](ORDER-458.md)로 수리 중이며 5언어 교정과
-KO/EN 준비화면24페이지/16PNG는 통과했다. 지정차선/독립최종은 아직 진행 중이다.
+코인 통화의 확인 결함은 [458](../queue_archive/ORDER-458.md)에서 5언어로 수리했고,
+KO/EN 준비화면24페이지/16PNG와459/460 현재원장 연결을 be89b7f 한정GO로 닫았다.
+준비화면은 이 정상 경로의 이어보기 완료가 아니다.
 2026-10-05 이어보기 실행기 소유를 위와 같이 먼저 선언하며 실제 저장한 W195 slot1은
 QA namespace `GangnamDream_StoryNameplateQA_ae795aef7ab833fa7381c3d03ba445be`,
 153359B/SHA `d34ab88092821d0c6df4c37c520047bb0142097a60be94762337ed66be88cb12`다.
@@ -64,7 +65,7 @@ source3118/helper5/player34/seed2/W195 불변이다. Mac 해제 뒤 새 label로
 실행기 문법/안전 경계 읽기, context/queue/diff와 이 실제 경로만 수행한다.
 기존32callback/456/302/365·whole audit·240주·Property·JA/ZH 전체 검사는 반복하지 않는다.
 정상 속도 한 경로 완료와 독립 관찰 판단까지 이 단위는 진행 중이다. 도구 완성이나
-메뉴 진입만으로 완료하지 않는다. 217판정195보고·인간OPEN45/DONE1·공개GO1 및
+메뉴 진입만으로 완료하지 않는다. 코인 수리 마감 후220판정198보고·인간OPEN45/DONE1·공개GO1 및
 본편/새package HOLD를 보존한다. 새 제품 수리 필요 시 별도 파일 선언부터 한다.
 
 이 단위가 없으면 준비 fixture와 실제 연속 독해 사이 공백이 남는다. 선택/경제/정본을
