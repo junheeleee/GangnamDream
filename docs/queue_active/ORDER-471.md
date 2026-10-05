@@ -31,6 +31,9 @@ divorced 값은 기본 야간진료 본문과 동일해 두 flag가 동시에 �
   야간진료는 본인 도착·신분 확인 뒤 접수되는 원래 조건을 보존한다. 달력의 재방문 시각을
   정한 것을 진료 예약이나 접수 완료로 바꾸어 쓰지 않는다.
 - 기존 두 문단, 식은 커피/버스/환불 불가/경쟁 일정, 실제 가능한 한 자리의 비용을 유지한다.
+- 초기 독립 사실 검수: 실제 W153→W157은4턴 간격이므로 수정 잎의 '지난 주말'은
+  '그날 놓친 일정'으로 정렬한다. 토요일의 원래 시각은 회상으로 보존하며
+  주차·라우팅은 바꾸지 않는다. 사용자 지시의 중립화 범위 안 시간 오인 수리다.
 
 ## 선언 파일·역할
 
@@ -45,7 +48,9 @@ divorced 값은 기본 야간진료 본문과 동일해 두 flag가 동시에 �
   `tools/full_body_translation_scope.py`.
   새 프레임워크 없이 기존 typed Git/JSON span/fresh 경계를 재사용한다.
   470 R4의 42수용 끝점을 보존하고 이번 18수용은 별도 단계로 검증한다.
-  제품 source 단계는 themes5+inventory+rating7경로, 공식 수용은 목표어3+ledger4경로다.
+  제품 source 단계는 themes5경로, 공식 수용은 목표어3+ledger4경로다.
+  초기 계획의 inventory/rating2경로는 실제 지문·정상 검사에서 변화가 없어 보존한다.
+  사건수/분류/모든 축 지문이 같으므로 새 해시나 임의 메타를 만들어7경로를 채우지 않는다.
   실제 commit/부모/changed-set/현재 디스크로 봉인하며 과거 핀을 덮어쓰지 않는다.
 - root 운영: `tools/audit_scope.json`, CLAUDE현재, CODEX_QUEUE, 이 사양/완료 보관본,
   WORK_LOG, 생성STATUS, agent_review_decisions 및 `docs/agent_reviews/ORDER-471.json`.
@@ -64,7 +69,7 @@ KO/EN 기존4잎 수정+DIK2잎 추가. JA/zh-CN/zh-TW는 각6잎, 합계18잎�
 - 실제 Main 선택기/StoryMode 본문·5언어: 기본/started/divorced/둘 다/지연 중첩/married-only/
   기존 truthiness, DIK순서 역전·키 누락/추가·기본≠divorced 음성. 기존 준비64사례 보존.
 - 대상 외 raw와 모든 선택 gameplay 불변, 공개14/legacy72·467잎 불변.
-- exact7 source/4 receipt 전이, 이전 원문·이웃 잎·위조 영수증/census·warm후변경 거절.
+- exact5 source/4 receipt 전이, 이전 원문·이웃 잎·위조 영수증/census·warm후변경 거절.
 - en_coverage, english_hangul, narrative_continuity, scene_audio_contract, speech_register,
   chapter4_causal_route, release inventory 및 새 이력 자체검사.
 - 실제 본문/UI collector·365/469/470 후속 소비, fullbody 정상/변경 음성 및 데모 표적 검사.

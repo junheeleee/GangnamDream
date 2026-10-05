@@ -3533,8 +3533,8 @@
     {
       "tool": "tools/ChapterFourRelationshipCheck.tscn",
       "godot": true,
-      "paths": ["scenes/MainGame.gd", "tools/ChapterFourRelationshipCheck.gd", "tools/ChapterFourRelationshipCheck.tscn"],
-      "why": "Prepared64 real-Main selectors only; requires pre-autoload StoryNameplateBootstrap isolation, run separately from the source lane."
+      "paths": ["scenes/MainGame.gd", "scenes/StoryMode.gd", "autoloads/DataRegistry.gd", "content/events/arc_chapter_themes.json", "content/events_en/arc_chapter_themes.json", "content/events_ja/arc_chapter_themes.json", "content/events_zh-CN/arc_chapter_themes.json", "content/events_zh-TW/arc_chapter_themes.json", "tools/ChapterFourRelationshipCheck.gd", "tools/ChapterFourRelationshipCheck.tscn"],
+      "why": "Prepared64 real-Main selectors plus localized person-deal DIK65; requires pre-autoload StoryNameplateBootstrap isolation, run separately from the source lane."
     },
     {
       "tool": "tools/pr31_main_proof_scope_check.py",
@@ -5037,13 +5037,17 @@
     },
     {
       "tool": "tools/chapter4_causal_route_audit.py",
-      "why": "4장 M39~M48의 실제 선택·한영 동형성·direct ingress·연락/생사 분리 계약",
+      "why": "4장 M39~M48의 실제 선택·한영 동형성·direct ingress·연락/생사 및5언어 person_deal DIK 실제 조건 계약",
       "paths": [
         "content/events/**",
         "content/events_en/**",
+        "content/events_ja/arc_chapter_themes.json",
+        "content/events_zh-CN/arc_chapter_themes.json",
+        "content/events_zh-TW/arc_chapter_themes.json",
         "content/meta/event_director.json",
         "content/meta/event_lifecycle.json",
         "scenes/MainGame.gd",
+        "scenes/StoryMode.gd",
         "tools/chapter4_causal_route_audit.py"
       ]
     },

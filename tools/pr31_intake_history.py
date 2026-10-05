@@ -459,6 +459,11 @@ def _read_proof(root=ROOT):
         _require(successor["head"] == head, "fact successor HEAD differs")
         predecessor, _ = _snapshot(root, fact_successor.PRODUCT_PARENT, paths)
         _require(predecessor == pre_fact_successor, "fact successor predecessor differs from PR31/469")
+        fact_raw = successor["receipts"] if successor["receipts"] is not None else successor["after"]
+        fact_current = {**current, **{path: fact_raw[path] for path in paths if path in fact_raw}}
+        person_source = (None if successor["person_source"] is None else
+                         {**fact_current, **{path: successor["person_source"][path]
+                          for path in paths if path in successor["person_source"]}})
         current = {**current, **{path: successor["current"][path]
                    for path in paths if path in successor["current"]}}
     actual, _ = _snapshot(root, head, paths)
@@ -469,7 +474,8 @@ def _read_proof(root=ROOT):
     return {"root": root.resolve(), "head": head, "before": before, "after": after, "current": current,
             "repair": repair, "second": second, "third_source": third_source,
             "third_receipts": third_receipts, "fourth": fourth, "changes": changes, "branch": branch,
-            "pre_source_successor": pre_source_successor, "pre_fact_successor": pre_fact_successor}
+            "pre_source_successor": pre_source_successor, "pre_fact_successor": pre_fact_successor,
+            "fact_current": fact_current, "person_source": person_source}
 
 
 def _successor_snapshot(root, predecessor, commit, head, before, changed_paths):
@@ -568,6 +574,10 @@ def source_stage_manifest_digests(root, inventory):
                      "complete source census differs from current disk")
             manifests = {inventory["source_manifest_sha256"],
                          fact_successor.PREDECESSOR_SOURCE_MANIFEST_SHA256}
+            if proof["person_source"] is not None:
+                # The preceding source_successor call proved the entire471
+                # predecessor census against its typed immutable snapshot.
+                manifests.add(fact_successor.RECEIPT_SOURCE_MANIFEST_SHA256)
             for stage, revision in (("before", INTAKE_PARENT), ("after", INTAKE_COMMIT),
                                     ("second", SECOND_COMMIT), ("third_source", THIRD_SOURCE_COMMIT)):
                 if revision is None:
@@ -861,7 +871,8 @@ def receipt_transitions(root, inventory):
                              (SECOND_COMMIT, proof["repair"], proof["second"]),
                              (THIRD_LEDGER_COMMIT, proof["third_source"], proof["third_receipts"]),
                              (FOURTH_COMMIT, proof["third_receipts"], proof["fourth"]),
-                             (fact_successor.RECEIPT_COMMIT, proof["pre_fact_successor"], proof["current"])):
+                             (fact_successor.RECEIPT_COMMIT, proof["pre_fact_successor"], proof["fact_current"]),
+                             (fact_successor.PERSON_RECEIPT_COMMIT, proof["person_source"], proof["current"])):
             if commit is None:
                 continue
             before = {path: a[path] for path in CURRENT_UI_PATHS}
@@ -892,12 +903,19 @@ def __getattr__(name):
                     changes = fact_successor.changed_text_selectors(
                         proof["pre_fact_successor"][path], proof["current"][path])
                     result[path] = tuple(dict.fromkeys((*result.get(path, ()), *changes)))
+                if proof["person_source"] is not None:
+                    for path in fact_successor.PERSON_PATHS[:2]:
+                        result[path] = tuple(dict.fromkeys((*result.get(path, ()),
+                                                           *fact_successor.PERSON_TEXT_LEAVES)))
                 return result
             result = dict(previous.LIVE_EVENT_IDS)
             for path in HISTORY_CONTENT_PATHS:
                 result[path] = frozenset(result.get(path, ())) | frozenset(eid for eid, _ in proof["changes"][path])
             for path in fact_successor.ARC_PATHS[:2]:
                 result[path] = frozenset(result.get(path, ())) | frozenset(fact_successor.EVENT_IDS)
+            if proof["person_source"] is not None:
+                for path in fact_successor.PERSON_PATHS[:2]:
+                    result[path] = frozenset(result.get(path, ())) | {fact_successor.PERSON_EVENT_ID}
             return result
     return getattr(previous, name)
 

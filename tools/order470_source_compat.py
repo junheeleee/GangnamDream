@@ -201,6 +201,107 @@ RECEIPT_BATCH_SHA256 = {
 RECEIPT_SOURCE_MANIFEST_SHA256 = "900b842779fda24e42d93fcc484c1ded47dae43bbe0a198919feee6a5c9b500c"
 LOCALES = ("ja", "zh-CN", "zh-TW")
 RECEIPT_PATHS = (*ARC_PATHS[2:], LEDGER_PATH)
+# The following authored/accepted transition is separate from the immutable
+# three-scene product and its42 receipts above. Unbound stages admit nothing.
+PERSON_EVENT_ID = "arc_36_unexpected_hand_person_deal"
+PERSON_PATHS = tuple(path.replace("arc_events.json", "arc_chapter_themes.json") for path in ARC_PATHS)
+PERSON_KO_PATH = PERSON_PATHS[0]
+PERSON_DIK_KEYS = ("daeun_divorced", "daeun_romance_started")
+PERSON_EDITED_TEXT_LEAVES = tuple((PERSON_EVENT_ID, keys) for keys in (
+    ("description",), ("choices", 0, "text"), ("choices", 0, "result_text"),
+    ("choices", 1, "result_text")))
+PERSON_ADDED_TEXT_LEAVES = tuple((PERSON_EVENT_ID, ("description_if_known", key))
+                               for key in PERSON_DIK_KEYS)
+PERSON_TEXT_LEAVES = (*PERSON_EDITED_TEXT_LEAVES, *PERSON_ADDED_TEXT_LEAVES)
+PERSON_PRODUCT_PATHS = PERSON_PATHS
+PERSON_PRODUCT_PARENT = "332ece024a4e7ce57dd91e9cb852ef8b45234c98"
+PERSON_PRODUCT_COMMIT = "e459b1d02727e21679c25a35288b2ff39b628ac5"
+PERSON_RAW_SHA256 = {'content/events/arc_chapter_themes.json': ('f1e40587bb4edad0e84aec9bc8a2493852742baf5d150cbe1c9854f6395ba068',
+                                            'f91cfe36428eeace5b88668952e8eb1ca677f6151852f3d14e24d2118bdb6f6a'),
+ 'content/events_en/arc_chapter_themes.json': ('cd1d32537e0fe9c98c6c293c15846fd5a9dced415678158a2491f39d6a20c120',
+                                               '31de3b24f02da2c9bc1ead6f3005df946b9885603f665aefcfb51d9569abb5c6'),
+ 'content/events_ja/arc_chapter_themes.json': ('2f775853f223ebc9a5c418603838fb01a19a845237f04b5ebe68b28d1873a0e6',
+                                               'c0987ebba354d196d49588ac593d309281adc7a72b0843bff7ca59eca14b2ab1'),
+ 'content/events_zh-CN/arc_chapter_themes.json': ('b70b77595820517baafd5101a8df39e65535b7b616fff4b8e71ec52d68b058ff',
+                                                  '1656cfa01aef3346fd9aa2ba5f52bd9c6bc59b4d7f84e3370ac4585269af27a5'),
+ 'content/events_zh-TW/arc_chapter_themes.json': ('9403b110d5b4aff9c2eb321e8fb7b87ac25af5bb11dd8da9fe32de4adc1d501e',
+                                                  'c15124d8d763957a26eb95f914a39c34511b1634336e4bb7dc4bdb94b8954b04')}
+PERSON_RAW_PATCHES = {'content/events/arc_chapter_themes.json': (('replace',
+                                             348,
+                                             349,
+                                             348,
+                                             353,
+                                             '235f53903f7ac95967966b496d7451418f4b9641dac97fa07f44898d1899ec5a',
+                                             '714526a99f27192aa9b93a2cae209c9a09d59f932a4b78106892a80beb54851b'),
+                                            ('replace',
+                                             351,
+                                             352,
+                                             355,
+                                             356,
+                                             '4595666814193662e3e475edf526968ebb982de993aaa528d8ff727896a5ee55',
+                                             '8106f34b7dd7ed4ec74db31f6a3cf099051a23f33c6aa26f00e73ff3979e0544'),
+                                            ('replace',
+                                             354,
+                                             355,
+                                             358,
+                                             359,
+                                             '8832ddbbf7dea43cf8708be60f24ae0ab78fc5b8b2e89793fedda8c816408ee1',
+                                             '5565fba71f58fd89aeb3c9700240c27f57e1585bbfa1ae937a56c16e0b9efcd5'),
+                                            ('replace',
+                                             360,
+                                             361,
+                                             364,
+                                             365,
+                                             '874b52442944b85dea5cac4f1ea1ca7ea7f362993b67dd5213f9ca856fd3fbb3',
+                                             'cf50a3a546f892fe160ccd917944553fdfd88408ed757eac806b3063dd29bfbc')),
+ 'content/events_en/arc_chapter_themes.json': (('replace',
+                                                113,
+                                                114,
+                                                113,
+                                                118,
+                                                'ffa439ac1997d6c5369eddab9de6971b9fd1b2dad57e79c0a2b271026aeba6e0',
+                                                'ef94b09f5e4de282254200277992638f8ea8c664f3730e4acd97fa8b6b1cfd4b'),
+                                               ('replace',
+                                                116,
+                                                118,
+                                                120,
+                                                122,
+                                                'b34a1ec9b37a77becaf0401ed131edf0feab9c801d43b354d8c6c03bde98cabe',
+                                                'd66193e56729a64890a4ad6f862a072e8f26febd284691ee881799be4979d48a'),
+                                               ('replace',
+                                                121,
+                                                122,
+                                                125,
+                                                126,
+                                                'a7965116a2b612ed12e7109df760f3431c67f19712951194aa508a6e07e6782f',
+                                                'a4cddc0fd0fa087e1112c769eb870ee1859d23777eb2720401161794cd64bbd9')),
+ 'content/events_ja/arc_chapter_themes.json': (('insert',
+                                                190,
+                                                190,
+                                                190,
+                                                194,
+                                                'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+                                                '363f4eb82738942db56dce61bae3fe08e25da472d34f0aff1efd44d5b2bcfda1'),),
+ 'content/events_zh-CN/arc_chapter_themes.json': (('insert',
+                                                   190,
+                                                   190,
+                                                   190,
+                                                   194,
+                                                   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+                                                   '35e84cb153ea6f41fbddea661cfa75cc65a974f00339506e5d6a8fe345d9a3d9'),),
+ 'content/events_zh-TW/arc_chapter_themes.json': (('insert',
+                                                   190,
+                                                   190,
+                                                   190,
+                                                   194,
+                                                   'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+                                                   'c33d991bcc3a4b97f50bd6c749a7e97f7e3905c7a144bacc4c5422337810e538'),)}
+PERSON_RECEIPT_PATHS = (*PERSON_PATHS[2:], LEDGER_PATH)
+PERSON_RECEIPT_PARENT = None
+PERSON_RECEIPT_COMMIT = None
+PERSON_RECEIPT_RAW_SHA256 = {}
+PERSON_RECEIPT_BATCH_SHA256 = {}
+PERSON_RECEIPT_SOURCE_MANIFEST_SHA256 = None
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
 _SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
 
@@ -359,9 +460,9 @@ def _arc_inverse(before, after, path):
     return before
 
 
-def product_inverse(before, after, path):
-    _require(path in PRODUCT_PATHS and type(before) is bytes and type(after) is bytes
-             and (_sha(before), _sha(after)) == RAW_SHA256.get(path), "unapproved raw pair: " + path)
+def _raw_inverse(before, after, path, pins, hunks):
+    _require(path in pins and type(before) is bytes and type(after) is bytes
+             and (_sha(before), _sha(after)) == pins.get(path), "unapproved raw pair: " + path)
     from difflib import SequenceMatcher
     old_lines, new_lines = before.splitlines(True), after.splitlines(True)
     patches = []
@@ -371,11 +472,17 @@ def product_inverse(before, after, path):
         if tag != "equal":
             patches.append((tag, a, z, b, end, _sha(b"".join(old_lines[a:z])),
                             _sha(b"".join(new_lines[b:end]))))
-    _require(tuple(patches) == RAW_PATCHES.get(path), "exact raw hunk coordinates/bytes: " + path)
+    _require(tuple(patches) == hunks.get(path), "exact raw hunk coordinates/bytes: " + path)
     for tag, a, z, b, end in reversed(opcodes):
         if tag != "equal":
             restored[b:end] = old_lines[a:z]
     _require(b"".join(restored) == before, "whole raw inverse: " + path)
+    return before
+
+
+def product_inverse(before, after, path):
+    _require(path in PRODUCT_PATHS, "unowned product path: " + path)
+    _raw_inverse(before, after, path, RAW_SHA256, RAW_PATCHES)
     if path in ARC_PATHS:
         return _arc_inverse(before, after, path)
     if path == INVENTORY_PATH:
@@ -400,6 +507,49 @@ def product_inverse(before, after, path):
     return before
 
 
+def _person_arc_inverse(before, after, path):
+    _require(path in PERSON_PATHS, "unowned person-deal path")
+    old, new = _loads(before), _loads(after)
+    _require(type(old) is list and type(new) is list
+             and [row["id"] for row in old] == [row["id"] for row in new]
+             and len({row["id"] for row in old}) == len(old), "person-deal event order/population")
+    expected = copy.deepcopy(old)
+    index = next((i for i, row in enumerate(old) if row["id"] == PERSON_EVENT_ID), None)
+    _require(index is not None, "person-deal owner missing")
+    a, b = expected[index], new[index]
+    _require("description_if_known" not in a and type(b.get("description_if_known")) is dict
+             and tuple(b["description_if_known"]) == PERSON_DIK_KEYS,
+             "person-deal exact divorced-first two-key addition")
+    _require(all(type(value) is str and value.strip() for value in b["description_if_known"].values()),
+             "person-deal nonempty conditional prose")
+    a["description_if_known"] = copy.deepcopy(b["description_if_known"])
+    if path in PERSON_PATHS[:2]:
+        for _eid, keys in PERSON_EDITED_TEXT_LEAVES:
+            left, right = a, b
+            for key in keys[:-1]:
+                left, right = left[key], right[key]
+            _require(type(right[keys[-1]]) is str and right[keys[-1]].strip()
+                     and left[keys[-1]] != right[keys[-1]], "person-deal exact four authored edits")
+            left[keys[-1]] = right[keys[-1]]
+        _require(b["description"] == b["description_if_known"][PERSON_DIK_KEYS[0]],
+                 "person-deal divorced prose must equal the neutral default")
+    # Placement of the new member is covered by exact raw hunks; all old key
+    # orders, gameplay, other labels and neighboring events stay unchanged.
+    actual_without_dik = copy.deepcopy(new)
+    expected_without_dik = copy.deepcopy(expected)
+    for rows in (actual_without_dik, expected_without_dik):
+        rows[index].pop("description_if_known")
+    _require(_ordered(expected_without_dik) == _ordered(actual_without_dik),
+             "person-deal source exceeds four text edits and exact DIK pair")
+    return before
+
+
+def person_product_inverse(before, after, path):
+    _require(path in PERSON_PRODUCT_PATHS, "unowned person-deal product path")
+    _raw_inverse(before, after, path, PERSON_RAW_SHA256, PERSON_RAW_PATCHES)
+    return _person_arc_inverse(before, after, path)
+
+
 def _configuration():
     return (PRODUCT_PARENT, PRODUCT_COMMIT, PRODUCT_PATHS, SOURCE_PATHS,
             copy.deepcopy(RAW_SHA256), copy.deepcopy(RAW_PATCHES), RECEIPT_PARENT,
@@ -407,8 +557,19 @@ def _configuration():
             RECEIPT_SOURCE_MANIFEST_SHA256, ARC_PATHS, KO_PATH, RUNTIME_PATHS, INVENTORY_PATH,
             RATING_PATH, LEDGER_PATH, EVENT_IDS, ADDED_TEXT_LEAVES, LOCALES, RECEIPT_PATHS,
             PREDECESSOR_SOURCE_MANIFEST_SHA256, ROOT, __file__,
-            _git, _objects, _snapshot, _disk_bytes, product_inverse, _arc_inverse,
+            PERSON_EVENT_ID, PERSON_PATHS, PERSON_KO_PATH, PERSON_DIK_KEYS,
+            PERSON_EDITED_TEXT_LEAVES, PERSON_ADDED_TEXT_LEAVES, PERSON_TEXT_LEAVES,
+            PERSON_PRODUCT_PATHS, PERSON_PRODUCT_PARENT, PERSON_PRODUCT_COMMIT,
+            copy.deepcopy(PERSON_RAW_SHA256), copy.deepcopy(PERSON_RAW_PATCHES),
+            PERSON_RECEIPT_PATHS, PERSON_RECEIPT_PARENT, PERSON_RECEIPT_COMMIT,
+            copy.deepcopy(PERSON_RECEIPT_RAW_SHA256), copy.deepcopy(PERSON_RECEIPT_BATCH_SHA256),
+            PERSON_RECEIPT_SOURCE_MANIFEST_SHA256,
+            _git, _objects, _snapshot, _disk_bytes, product_inverse, _arc_inverse, _raw_inverse,
             _validate_receipts, _receipt_semantics, _receipt_exports, receipt_overlay_inverse,
+            _receipt_overlay_inverse, _event_receipt_semantics, person_product_inverse,
+            _person_arc_inverse, person_receipt_overlay_inverse, _person_receipt_semantics,
+            _person_receipt_exports, _validate_person_receipts, _person_stages,
+            _person_source_comparison,
             changed_text_selectors, _Document, _Document.walk, _Document.ws,
             _loads, _ordered, _leaf, _sha, _digest, _require, _read_proof, _read_proof_current,
             _memoized_semantics, _semantic_binding, _configuration,
@@ -484,15 +645,25 @@ def _leaf(row, keys):
 
 
 def receipt_overlay_inverse(before, after, path, selectors):
-    _require(path in ARC_PATHS[2:] and (_sha(before), _sha(after)) == RECEIPT_RAW_SHA256.get(path),
+    return _receipt_overlay_inverse(before, after, path, selectors, ARC_PATHS[2:],
+                                    RECEIPT_RAW_SHA256, ADDED_TEXT_LEAVES, 12)
+
+
+def person_receipt_overlay_inverse(before, after, path):
+    return _receipt_overlay_inverse(before, after, path, PERSON_TEXT_LEAVES, PERSON_PATHS[2:],
+                                    PERSON_RECEIPT_RAW_SHA256, PERSON_ADDED_TEXT_LEAVES, 4)
+
+
+def _receipt_overlay_inverse(before, after, path, selectors, paths, pins, additions, count):
+    _require(path in paths and (_sha(before), _sha(after)) == pins.get(path),
              "target receipt raw pair")
     old, new = _Document(before), _Document(after)
     _require([r["id"] for r in old.value] == [r["id"] for r in new.value], "target event order/population")
     indices = {r["id"]: i for i, r in enumerate(old.value)}
     _require(len(indices) == len(old.value), "target duplicate event")
     expected, replacements = copy.deepcopy(old.value), []
-    selected = set(selectors) - set(ADDED_TEXT_LEAVES)
-    _require(len(selected) == 12, "exact twelve existing target corrections")
+    selected = set(selectors) - set(additions)
+    _require(len(selected) == count, "exact existing target correction population")
     for eid, keys in selected:
         i = indices[eid]
         before_text, after_text = _leaf(old.value[i], keys), _leaf(new.value[i], keys)
@@ -509,27 +680,54 @@ def receipt_overlay_inverse(before, after, path, selectors):
     restored = new.text
     for a, z, old_text in sorted(replacements, reverse=True):
         restored = restored[:a] + old_text + restored[z:]
-    _require(restored.encode("utf-8") == before, "target raw changed outside twelve exact JSON strings")
+    _require(restored.encode("utf-8") == before, "target raw changed outside exact owned JSON strings")
     return before
 
 
 def _receipt_semantics(before, after, source_before):
     selectors = changed_text_selectors(source_before[KO_PATH], before[KO_PATH])
     _require(len(selectors) == 14 and set(ADDED_TEXT_LEAVES) <= set(selectors), "exact14 receipt selectors")
-    _require(set(RECEIPT_RAW_SHA256) == set(RECEIPT_PATHS)
-             and set(RECEIPT_BATCH_SHA256) == set(LOCALES), "receipt pin populations")
+    return _event_receipt_semantics(before, after, selectors, person=False)
+
+
+def _person_receipt_semantics(before, after):
+    for path in PERSON_PATHS:
+        row = next(row for row in _loads(after[path]) if row["id"] == PERSON_EVENT_ID)
+        _require(tuple(row.get("description_if_known", {})) == PERSON_DIK_KEYS
+                 and row["description"] == row["description_if_known"][PERSON_DIK_KEYS[0]],
+                 "accepted person-deal default/divorced text and key order")
+    return _event_receipt_semantics(before, after, PERSON_TEXT_LEAVES, person=True)
+
+
+def _event_receipt_semantics(before, after, selectors, *, person):
+    # Only these two named transitions use the shared official-header grammar.
+    # Their path, count, source census, raw and batch pins remain independent.
+    _require(type(person) is bool and set(before) == set(after), "receipt stage/snapshot shape")
+    paths = PERSON_PATHS if person else ARC_PATHS
+    ko_path = paths[0]
+    receipt_paths = PERSON_RECEIPT_PATHS if person else RECEIPT_PATHS
+    pins = PERSON_RECEIPT_RAW_SHA256 if person else RECEIPT_RAW_SHA256
+    batches = PERSON_RECEIPT_BATCH_SHA256 if person else RECEIPT_BATCH_SHA256
+    source_manifest = PERSON_RECEIPT_SOURCE_MANIFEST_SHA256 if person else RECEIPT_SOURCE_MANIFEST_SHA256
+    added = PERSON_ADDED_TEXT_LEAVES if person else ADDED_TEXT_LEAVES
+    count, order = (6, "ORDER-471") if person else (14, "ORDER-470")
+    _require(len(selectors) == count and set(pins) == set(receipt_paths)
+             and set(batches) == set(LOCALES), "receipt pin/selector populations")
     for path in before:
-        if path in RECEIPT_PATHS:
-            _require((_sha(before[path]), _sha(after[path])) == RECEIPT_RAW_SHA256[path], "receipt raw " + path)
+        if path in receipt_paths:
+            _require((_sha(before[path]), _sha(after[path])) == pins[path], "receipt raw " + path)
         else:
             _require(before[path] == after[path], "receipt changed a source/protected file")
-    for path in ARC_PATHS[2:]:
-        receipt_overlay_inverse(before[path], after[path], path, selectors)
+    for path in paths[2:]:
+        if person:
+            person_receipt_overlay_inverse(before[path], after[path], path)
+        else:
+            receipt_overlay_inverse(before[path], after[path], path, selectors)
     old, new = _loads(before[LEDGER_PATH]), _loads(after[LEDGER_PATH])
     expected = copy.deepcopy(old)
-    ko = {row["id"]: row for row in _loads(after[KO_PATH])}
+    ko = {row["id"]: row for row in _loads(after[ko_path])}
     ids = {"events:" + eid + ":/" + "/".join(map(str, keys)): (eid, keys) for eid, keys in selectors}
-    new_ids = {"events:" + eid + ":/" + "/".join(map(str, keys)) for eid, keys in ADDED_TEXT_LEAVES}
+    new_ids = {"events:" + eid + ":/" + "/".join(map(str, keys)) for eid, keys in added}
     _require(new["batches"][:len(old["batches"])] == old["batches"]
              and len(new["batches"]) == len(old["batches"]) + 3, "exact old batch prefix plus three official imports")
     seen, revisions = set(), []
@@ -537,23 +735,23 @@ def _receipt_semantics(before, after, source_before):
         headers = batch.get("official_receipt_headers_by_locale", {})
         _require(type(headers) is dict and len(headers) == 1, "one official locale per batch")
         locale = next(iter(headers))
-        _require(locale in LOCALES and locale not in seen and _digest(batch) == RECEIPT_BATCH_SHA256[locale],
+        _require(locale in LOCALES and locale not in seen and _digest(batch) == batches[locale],
                  "exact official receipt batch")
         seen.add(locale)
-        path = "content/events_" + locale + "/arc_events.json"
+        path = paths[2 + LOCALES.index(locale)]
         targets_before, targets_after = ({row["id"]: row for row in _loads(snapshot[path])}
                                          for snapshot in (before, after))
         rows, receipts = [], {}
         for identifier, (eid, keys) in sorted(ids.items()):
             source, target = _leaf(ko[eid], keys), _leaf(targets_after[eid], keys)
-            source_hash = _digest({"path": KO_PATH, "field": keys, "ko": source})
+            source_hash = _digest({"path": ko_path, "field": keys, "ko": source})
             receipts[identifier] = {"source_sha256": source_hash, "target_sha256": _digest(target)}
             _require((identifier not in old["accepted"][locale]) == (identifier in new_ids),
-                     "exact two first receipts and twelve corrections per locale")
+                     "exact two first receipts and owned corrections per locale")
             if identifier not in new_ids:
                 _require(old["accepted"][locale][identifier] != receipts[identifier], "correction was already current")
             expected["accepted"][locale][identifier] = receipts[identifier]
-            rows.append({"group": "events", "owner": eid, "source_path": KO_PATH, "path": list(keys),
+            rows.append({"group": "events", "owner": eid, "source_path": ko_path, "path": list(keys),
                          "source": source, "category": "event_standard", "lifecycle": "shipping",
                          "protected": False, "runtime_support": "builtin_overlay_static_only",
                          "format_template": False, "id": identifier, "source_sha256": source_hash,
@@ -562,16 +760,16 @@ def _receipt_semantics(before, after, source_before):
         header = headers[locale]
         rebuilt = {"kind": "full_game_localization_batch", "schema_version": 1, "locale": locale,
                    "source_revision": header.get("source_revision"), "prompt_version": old["prompt_version"],
-                   "source_manifest_sha256": RECEIPT_SOURCE_MANIFEST_SHA256,
-                   "selection_sha256": _digest(rows), "count": 14, "source_language": "ko", "native_review": "OPEN"}
+                   "source_manifest_sha256": source_manifest,
+                   "selection_sha256": _digest(rows), "count": count, "source_language": "ko", "native_review": "OPEN"}
         rebuilt["batch_id"] = _digest(rebuilt)
         _require(header == rebuilt, "official export source/selection/old target binding")
-        _require(batch.get("group") == "events" and batch.get("order") == "ORDER-470"
-                 and batch.get("source_leaves") == 14 and batch.get("machine_validation") == "PASS"
+        _require(batch.get("group") == "events" and batch.get("order") == order
+                 and batch.get("source_leaves") == count and batch.get("machine_validation") == "PASS"
                  and batch.get("native_review") == batch.get("rendered_review") == "OPEN",
                  "machine acceptance is not human approval")
         counts = batch.get("target_leaves_by_locale", {})
-        _require(set(counts) <= set(LOCALES) and all(counts.get(loc, 0) == (14 if loc == locale else 0)
+        _require(set(counts) <= set(LOCALES) and all(counts.get(loc, 0) == (count if loc == locale else 0)
                                                    for loc in LOCALES), "receipt exact locale leaf census")
         receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN",
                    "translations": receipts}
@@ -580,7 +778,7 @@ def _receipt_semantics(before, after, source_before):
     _require(seen == set(LOCALES), "complete official locale acceptance")
     expected["accepted_sha256"] = _digest(expected["accepted"])
     expected["batches"] = new["batches"]
-    _require(_ordered(new) == _ordered(expected), "receipt successor exceeds exact6 first and36 corrected leaves")
+    _require(_ordered(new) == _ordered(expected), "receipt successor exceeds exact first/corrected leaves: " + order)
     return tuple(dict.fromkeys(revisions))
 
 
@@ -601,6 +799,68 @@ def _validate_receipts(before, after, source_before, root):
         if memo is not None:
             memo[1].clear()
         raise
+
+
+def _person_receipt_exports(before, revisions, root):
+    for revision in revisions:
+        export, _ = _snapshot(root, revision, tuple(before))
+        _require(export == before, "person-deal export source/draft/ledger differs")
+        _git(root, "merge-base", "--is-ancestor", revision, PERSON_RECEIPT_COMMIT)
+
+
+def _validate_person_receipts(before, after, root):
+    try:
+        _person_receipt_exports(before, _person_receipt_semantics(before, after), root)
+    except BaseException:
+        memo = _SEMANTIC_MEMO.get()
+        if memo is not None:
+            memo[1].clear()
+        raise
+
+
+def _person_stages(root, head, prior):
+    """Exact source5 then receipt4, retaining the original470 receipt endpoint."""
+    if PERSON_PRODUCT_COMMIT is None:
+        _require(PERSON_RECEIPT_COMMIT is None, "person-deal receipts lack authored source")
+        return None, None, None
+    _require(RECEIPT_COMMIT is not None, "person-deal source requires completed470 receipts")
+    paths = tuple(dict.fromkeys((*prior, *PERSON_PRODUCT_PATHS)))
+    before, _ = _snapshot(root, PERSON_PRODUCT_PARENT, paths)
+    source, headers = _snapshot(root, PERSON_PRODUCT_COMMIT, paths)
+    _require({path: before[path] for path in prior} == prior,
+             "person-deal predecessor must preserve exact470 R4")
+    _require([h[7:].decode() for h in headers if h.startswith(b"parent ")] == [PERSON_PRODUCT_PARENT],
+             "person-deal exact source direct parent")
+    expected = b"".join(b"M\0" + path.encode() + b"\0" for path in sorted(PERSON_PRODUCT_PATHS))
+    _require(_git(root, "diff", "--name-status", "-z", PERSON_PRODUCT_PARENT, PERSON_PRODUCT_COMMIT)
+             == expected, "person-deal exact five source paths")
+    _git(root, "merge-base", "--is-ancestor", RECEIPT_COMMIT, PERSON_PRODUCT_COMMIT)
+    _git(root, "merge-base", "--is-ancestor", PERSON_PRODUCT_COMMIT, head)
+    _require(set(PERSON_RAW_SHA256) == set(PERSON_RAW_PATCHES) == set(PERSON_PRODUCT_PATHS),
+             "person-deal complete source pins")
+    for path in paths:
+        if path in PERSON_PRODUCT_PATHS:
+            _memoized_semantics("person-product:" + path, (before[path], source[path]),
+                                lambda p=path: person_product_inverse(before[p], source[p], p))
+        else:
+            _require(before[path] == source[path], "person-deal source changed protected file or receipts")
+    accepted = None
+    if PERSON_RECEIPT_COMMIT is not None:
+        receipt_before, _ = _snapshot(root, PERSON_RECEIPT_PARENT, paths)
+        accepted, headers = _snapshot(root, PERSON_RECEIPT_COMMIT, paths)
+        _require(receipt_before == source, "person-deal receipt parent differs from source5/draft")
+        _require([h[7:].decode() for h in headers if h.startswith(b"parent ")] == [PERSON_RECEIPT_PARENT],
+                 "person-deal exact receipt direct parent")
+        expected = b"".join(b"M\0" + path.encode() + b"\0" for path in sorted(PERSON_RECEIPT_PATHS))
+        _require(_git(root, "diff", "--name-status", "-z", PERSON_RECEIPT_PARENT, PERSON_RECEIPT_COMMIT)
+                 == expected, "person-deal exact four receipt paths")
+        _git(root, "merge-base", "--is-ancestor", PERSON_PRODUCT_COMMIT, PERSON_RECEIPT_COMMIT)
+        _git(root, "merge-base", "--is-ancestor", PERSON_RECEIPT_COMMIT, head)
+        inputs = tuple((path, source[path], accepted[path]) for path in paths)
+        revisions = _memoized_semantics("person-receipts", inputs,
+                                       lambda: _person_receipt_semantics(source, accepted))
+        _person_receipt_exports(source, revisions, root)
+    return before, source, accepted
 
 
 def _read_proof(root):
@@ -651,7 +911,10 @@ def _read_proof_current(root):
             _require((_sha(receipt_before[path]), _sha(receipts[path])) == RECEIPT_RAW_SHA256[path],
                      "receipt raw pin " + path)
         current = receipts
-    actual, _ = _snapshot(root, head, (*PRODUCT_PATHS, LEDGER_PATH))
+    person_before, person_source, person_receipts = _person_stages(root, head, current)
+    if person_source is not None:
+        current = person_receipts if person_receipts is not None else person_source
+    actual, _ = _snapshot(root, head, tuple(current))
     _require(actual == current, "current HEAD differs from exact source/receipt product")
     _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "current disk differs from Git")
     for path in PRODUCT_PATHS:
@@ -668,7 +931,9 @@ def _read_proof_current(root):
              "HEAD changed during proof")
     _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "disk changed during proof")
     return {"root": root, "head": head, "before": before, "after": after,
-            "current": actual, "receipts": receipts, "binding": _configuration()}
+            "current": actual, "receipts": receipts, "person_before": person_before,
+            "person_source": person_source, "person_receipts": person_receipts,
+            "binding": _configuration()}
 
 
 @contextlib.contextmanager
@@ -713,7 +978,8 @@ def source_predecessor_inventory(root, inventory):
                  "actual source census digest")
         _require(all(hashes.get(p) == _sha(proof["current"][p]) for p in SOURCE_PATHS),
                  "actual three-source census binding")
-        comparison = {**hashes, **{p: _sha(proof["before"][p]) for p in SOURCE_PATHS}}
+        comparison = {**_person_source_comparison(root, proof, hashes),
+                      **{p: _sha(proof["before"][p]) for p in SOURCE_PATHS}}
         _require(_digest(comparison) == PREDECESSOR_SOURCE_MANIFEST_SHA256,
                  "exact pre470 complete source census")
         actual, _ = _snapshot(root, proof["head"], tuple(hashes))
@@ -721,3 +987,17 @@ def source_predecessor_inventory(root, inventory):
                  and all(_disk_bytes(Path(root) / p) == raw for p, raw in actual.items()),
                  "complete actual Git/disk source census")
         return {**inventory, "source_hashes": comparison, "source_manifest_sha256": _digest(comparison)}
+
+
+def _person_source_comparison(root, proof, hashes):
+    """Current complete census -> exact470 census before its own source inverse."""
+    if proof["person_before"] is None:
+        return dict(hashes)
+    path = PERSON_KO_PATH
+    _require(hashes.get(path) == _sha(proof["current"][path]), "person-deal actual source census binding")
+    comparison = {**hashes, path: _sha(proof["person_before"][path])}
+    _require(_digest(comparison) == RECEIPT_SOURCE_MANIFEST_SHA256, "exact pre471 complete source census")
+    prior, _ = _snapshot(root, PERSON_PRODUCT_PARENT, tuple(hashes))
+    _require({p: _sha(raw) for p, raw in prior.items()} == comparison,
+             "person-deal predecessor census differs outside exact Korean theme source")
+    return comparison

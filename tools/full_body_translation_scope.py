@@ -912,7 +912,7 @@ def _pr31_added_source_leaves() -> set[tuple[str, str]]:
     errors: list[str] = []
     with current_source.fresh_validation_proof() as proof:
         vectors = []
-        for stage in ("before", "current"):
+        for stage in ("before", "pre_fact_successor"):
             vectors.append({(row["id"], leaf.path)
                             for path in current_source.SOURCE_PATHS if path.startswith("content/events/")
                             for row in json.loads(proof[stage][path])
@@ -920,6 +920,25 @@ def _pr31_added_source_leaves() -> set[tuple[str, str]]:
         current_source.source_successor._require(not errors and not vectors[0] - vectors[1],
                                                  "PR31 added-leaf comparison is malformed")
         return vectors[1] - vectors[0]
+
+
+def _person_added_source_leaves() -> set[tuple[str, str]]:
+    """Measure the separate471 DIK pair without attributing it to PR31."""
+    errors: list[str] = []
+    with current_source.fresh_validation_proof() as proof:
+        if proof["person_source"] is None:
+            return set()
+        successor = current_source.fact_successor
+        vectors = []
+        for stage in ("fact_current", "current"):
+            vectors.append({(row["id"], leaf.path)
+                            for row in json.loads(proof[stage][successor.PERSON_KO_PATH])
+                            for leaf in collect_event_leaves(row["id"], row, errors)})
+        added = {(successor.PERSON_EVENT_ID, "description_if_known." + key)
+                 for key in successor.PERSON_DIK_KEYS}
+        successor._require(not errors and not vectors[0] - vectors[1]
+                           and vectors[1] - vectors[0] == added, "exact person-deal two-leaf addition")
+        return added
 
 
 def current_target_acceptance(
@@ -1615,6 +1634,87 @@ def run_deferred_scope_self_test(root: Path | str = ROOT) -> tuple[list[str], in
     return failures, cases
 
 
+def _rehash_source_observation(forged: dict[str, Any]) -> None:
+    """Rehash a mutant report so source-identity negatives cannot fail cheaply."""
+    all_leaves = []
+    for event in forged[SCOPE_LIFECYCLE_SHIPPING]["events"]:
+        for row in event["leaves"]:
+            row["source_text_sha256"] = hashlib.sha256(row["source"].encode("utf-8")).hexdigest()
+        leaves = tuple(TextLeaf(event["id"], row["path"], row["source"], row["chapter5_reader"])
+                       for row in event["leaves"])
+        event["source_leaves_sha256"] = leaves_sha(leaves)
+        all_leaves.extend(leaves)
+    forged[SCOPE_LIFECYCLE_SHIPPING]["source_leaves_sha256"] = leaves_sha(all_leaves)
+    forged[SCOPE_LIFECYCLE_SHIPPING]["leaf_count"] = len(all_leaves)
+    forged[SCOPE_LIFECYCLE_SHIPPING]["standard_leaf_count"] = sum(not leaf.chapter5_reader for leaf in all_leaves)
+    forged[SCOPE_LIFECYCLE_SHIPPING]["chapter5_reader_leaf_count"] = sum(leaf.chapter5_reader for leaf in all_leaves)
+    static_ids = set(forged[SCOPE_M07_M60_STATIC]["event_ids"])
+    static_leaves = [leaf for leaf in all_leaves if leaf.event_id in static_ids]
+    forged[SCOPE_M07_M60_STATIC]["source_leaves_sha256"] = leaves_sha(static_leaves)
+    forged[SCOPE_M07_M60_STATIC]["leaf_count"] = len(static_leaves)
+    deferred_ids = set(forged[SCOPE_M07_M60_STATIC]["deferred_added_event_ids"])
+    forged[SCOPE_M07_M60_STATIC]["deferred_added_leaf_count"] = sum(leaf.event_id in deferred_ids for leaf in static_leaves)
+    forged[SCOPE_M07_M60_STATIC]["immediate_closure_leaf_count"] = sum(leaf.event_id not in deferred_ids for leaf in static_leaves)
+
+
+def run_person_scope_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
+    """Changed471 report boundary only; share the caller's fresh365 admission."""
+    failures: list[str] = []
+    cases = 0
+
+    def require(name: str, condition: bool, detail: str = "") -> None:
+        nonlocal cases
+        cases += 1
+        if not condition:
+            failures.append(f"person-deal scope {name}: {detail or 'assertion failed'}")
+
+    report, errors = build_scope(root)
+    observations = _expected_observation_errors(report)
+    require("actual report is bound before mutations", not errors and not observations,
+            "; ".join((errors + observations)[:3]))
+    successor = current_source.fact_successor
+    added = _person_added_source_leaves()
+    require("exact added DIK pair is measured separately", added == {
+        (successor.PERSON_EVENT_ID, "description_if_known." + key) for key in successor.PERSON_DIK_KEYS})
+    require("PR31 four additions stay separate", len(_pr31_added_source_leaves()) == 4)
+    static = report[SCOPE_M07_M60_STATIC]
+    require("person pair is immediate/static, not deferred", successor.PERSON_EVENT_ID in static["event_ids"]
+            and successor.PERSON_EVENT_ID not in static["deferred_added_event_ids"])
+    original = copy.deepcopy(report)
+    with current_source.fresh_validation_proof() as proof:
+        prior = next(row for row in json.loads(proof["fact_current"][successor.PERSON_KO_PATH])
+                     if row["id"] == successor.PERSON_EVENT_ID)
+    for kind in ("rollback", "wrong-path", "neighbor", "missing-DIK", "reversed-DIK-leaf-order", "extra-DIK", "wrong-hash"):
+        forged = copy.deepcopy(report)
+        event = next(row for row in forged[SCOPE_LIFECYCLE_SHIPPING]["events"]
+                     if row["id"] == successor.PERSON_EVENT_ID)
+        if kind == "rollback":
+            event["leaves"] = [{"path": leaf.path, "source": leaf.source,
+                "source_text_sha256": hashlib.sha256(leaf.source.encode()).hexdigest(),
+                "chapter5_reader": leaf.chapter5_reader}
+                for leaf in collect_event_leaves(successor.PERSON_EVENT_ID, prior, [])]
+        elif kind == "wrong-path":
+            event["source_file"] = "content/events/unapproved.json"
+        elif kind == "neighbor":
+            event["leaves"][0]["source"] += " mutation"
+        elif kind in {"missing-DIK", "reversed-DIK-leaf-order", "extra-DIK"}:
+            indices = [i for i, leaf in enumerate(event["leaves"])
+                       if leaf["path"].startswith("description_if_known.")]
+            if kind == "missing-DIK":
+                event["leaves"].pop(indices[0])
+            elif kind == "reversed-DIK-leaf-order":
+                a, b = indices
+                event["leaves"][a], event["leaves"][b] = event["leaves"][b], event["leaves"][a]
+            else:
+                event["leaves"].append({**event["leaves"][indices[0]], "path": "description_if_known.unowned"})
+        _rehash_source_observation(forged)
+        if kind == "wrong-hash":
+            event["source_leaves_sha256"] = "0" * 64
+        require("rejects rehashed " + kind, bool(_expected_observation_errors(forged)))
+    require("mutants leave the actual report unchanged", report == original)
+    return failures, cases
+
+
 def run_source_history_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     """Focused source-only regression; does not admit UI/translation receipts.
 
@@ -1724,8 +1824,13 @@ def run_source_history_self_test(root: Path | str = ROOT) -> tuple[list[str], in
         require("fact successor adds exactly neutral text and result",
                 set(facts) == {("arc_jaehyuk_aftermath", ("choices", 3, key))
                                for key in ("text", "result_text")})
+        person_added = _person_added_source_leaves()
+        require("person-deal adds only its separately proven two conditional leaves",
+                person_added == {(current_source.fact_successor.PERSON_EVENT_ID,
+                                  "description_if_known." + key)
+                                 for key in ("daeun_divorced", "daeun_romance_started")})
         require("ghost plus PR31 variants and fact-neutral leaves explain current source denominator",
-                live_count == len(history) + 1 + len(added) + len(facts))
+                live_count == len(history) + 1 + len(added) + len(facts) + len(person_added))
         ghost = ("arc_year3_close", "description_if_known.arc_jaehyuk_ghost_seen")
         require("exact ghost leaf remains current but not historical",
                 ghost in {(leaf.event_id, leaf.path) for leaf in live[ghost[0]]}
@@ -1789,10 +1894,12 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     historical_static = source_history["denominators"].get(SCOPE_M07_M60_STATIC, {})
     fact_added = current_source.fact_successor.ADDED_TEXT_LEAVES
     fact_static_added = sum(eid in static.get("event_ids", []) for eid, _ in fact_added)
+    person_added = _person_added_source_leaves()
+    person_static_added = sum(eid in static.get("event_ids", []) for eid, _ in person_added)
     require(
         "shipping exact event and leaf denominator",
         (shipping.get("event_count"), shipping.get("leaf_count"), historical_shipping.get("leaf_count"))
-        == (1702, 11622 + len(fact_added), 11680),
+        == (1702, 11622 + len(fact_added) + len(person_added), 11680),
     )
     require(
         "Chapter 5 nested reader leaves included",
@@ -1803,7 +1910,7 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         "M07-M60 static exact event and leaf denominator",
         (static.get("event_count"), static.get("leaf_count"),
          source_history.get("scope_observations", {}).get(SCOPE_M07_M60_STATIC, {}).get("event_count"),
-         historical_static.get("leaf_count")) == (186, 1693 + fact_static_added, 192, 1751),
+         historical_static.get("leaf_count")) == (186, 1693 + fact_static_added + person_static_added, 192, 1751),
     )
     pr31_added = _pr31_added_source_leaves()
     require(
@@ -1815,9 +1922,9 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         and (source_history["scope_observations"][SCOPE_LIFECYCLE_SHIPPING].get("leaf_count"),
              source_history["scope_observations"][SCOPE_LIFECYCLE_SHIPPING].get("standard_leaf_count"),
              source_history["scope_observations"][SCOPE_M07_M60_STATIC].get("leaf_count"))
-        == (EXPECTED["shipping_leaves"] + 1 + len(pr31_added) + len(fact_added),
-            EXPECTED["shipping_standard_leaves"] + 1 + len(pr31_added) + len(fact_added),
-            EXPECTED["m07_m60_leaves"] + 1 + len(pr31_added) + fact_static_added),
+        == (EXPECTED["shipping_leaves"] + 1 + len(pr31_added) + len(fact_added) + len(person_added),
+            EXPECTED["shipping_standard_leaves"] + 1 + len(pr31_added) + len(fact_added) + len(person_added),
+            EXPECTED["m07_m60_leaves"] + 1 + len(pr31_added) + fact_static_added + person_static_added),
     )
     require(
         "deferred follow-up expands static closure",
@@ -2086,23 +2193,7 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
 
     # Recompute forged hashes and counts: self-consistency is not source identity.
     def rehash_observation(forged: dict[str, Any]) -> None:
-        all_leaves = []
-        for event in forged[SCOPE_LIFECYCLE_SHIPPING]["events"]:
-            leaves = tuple(TextLeaf(event["id"], row["path"], row["source"], row["chapter5_reader"])
-                           for row in event["leaves"])
-            event["source_leaves_sha256"] = leaves_sha(leaves)
-            all_leaves.extend(leaves)
-        forged[SCOPE_LIFECYCLE_SHIPPING]["source_leaves_sha256"] = leaves_sha(all_leaves)
-        forged[SCOPE_LIFECYCLE_SHIPPING]["leaf_count"] = len(all_leaves)
-        forged[SCOPE_LIFECYCLE_SHIPPING]["standard_leaf_count"] = sum(not leaf.chapter5_reader for leaf in all_leaves)
-        forged[SCOPE_LIFECYCLE_SHIPPING]["chapter5_reader_leaf_count"] = sum(leaf.chapter5_reader for leaf in all_leaves)
-        static_ids = set(forged[SCOPE_M07_M60_STATIC]["event_ids"])
-        static_leaves = [leaf for leaf in all_leaves if leaf.event_id in static_ids]
-        forged[SCOPE_M07_M60_STATIC]["source_leaves_sha256"] = leaves_sha(static_leaves)
-        forged[SCOPE_M07_M60_STATIC]["leaf_count"] = len(static_leaves)
-        deferred_ids = set(forged[SCOPE_M07_M60_STATIC]["deferred_added_event_ids"])
-        forged[SCOPE_M07_M60_STATIC]["deferred_added_leaf_count"] = sum(leaf.event_id in deferred_ids for leaf in static_leaves)
-        forged[SCOPE_M07_M60_STATIC]["immediate_closure_leaf_count"] = sum(leaf.event_id not in deferred_ids for leaf in static_leaves)
+        _rehash_source_observation(forged)
 
     # All six remain packaged and retain PR31's immutable raw admission. They
     # are no longer live rollback fixtures: even an exact current/raw-approved

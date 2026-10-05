@@ -4,6 +4,9 @@
 
 ## 2026-10-06 — 세 장면 수리 마감·4장 약속/진료 수리 착수 (470→471)
 
+- 471 원문5경로 `e459b1d`는 한·영4잎 수리+조건부2잎, 목표어3은 공식 수용 전2잎 초안만 포함한다. 실제 W153→W157 간격 때문에 '지난 주말'을 '그날'로 정렬했으며 기본/이혼은 야간진료, 다은 started&&!divorced만 편의점 약속이다. 선택·효과·라우팅은 보존한다. 이 중간 단계의 목표어 기존4잎은 아직 교정 전이며 완료나 원어민 판정이 아니다.
+- source 전이 표적59 PASS/3.297528초와 PR31 단일 source-state 확인6 PASS/21.340257초를 따로 보존했다. `.git/order471-20261006.nA5vxa/source-compat1/result.json` SHA `69b9bcceb83fae92a7481f1a6a90faf04cdfa6c2fcd6fbfe29628ec423b9fdbe`, `source-state1/result.json` SHA `a10356da05cb58128860b88b0750d62b39ed8020102abea7cb41652b850ef30d`; 소유 입력·HEAD 전후동일/stderr0. 지원5와 검사2의 독립 읽기 검수 차단 결함0, 공식18수용/최종fresh/준비런타임은 아직 미실행이다.
+- release inventory의 모든 축 지문과 정상 검사 결과가 기존과 같아 inventory/rating 원문은 보존한다. 계획7경로를 채우기 위한 임의변경 없이 실제 source5/receipt4만 증명한다.
 - 비저자 [최종 보고](agent_reviews/ORDER-470.json) SHA `7d2e55920b55ff79d789b331b19dd86ffc9366045412b39bd3decdb32ac730be`가 source3641b31/treeb49c85의 세 사건 사실·문장·선택 가능성만 GO했다. [470 완료 사양](queue_archive/ORDER-470.md)으로 이동하며 인간 OPEN·본편 HOLD·기존 결함과 원래 실패 기록은 유지한다.
 - 사용자 B를 [471](queue_active/ORDER-471.md)로 별도 선언한다. person_deal 한 장면의 본문은 Main의 실제 started&&!divorced와 같은 DIK 우선순위를 사용하고, 공통 결과는 약속/진료 모두에 맞는 재방문 시각으로 수리한다. 진료의 본인 도착·신분 확인을 예약 완료로 바꾸지 않는다. 선언 시점 구현/수용/검증0; 공식18잎·동작 불변·독립 전수검수가 남았다.
 - 게임 개발 스킬의 단일 큐/파일 소유·표적 QA 절차에 따라 원문(root), 검사2파일, 이력지원5파일, 독립 보고1파일을 분리한다.471은 새 판정 단위이며470 GO를 대신 쓰지 않는다.

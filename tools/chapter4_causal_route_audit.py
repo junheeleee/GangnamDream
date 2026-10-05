@@ -22,6 +22,9 @@ STORY_MODE = ROOT / "scenes" / "StoryMode.gd"
 EVENT_MANAGER = ROOT / "autoloads" / "EventManager.gd"
 YEAR3_KO = KO_DIR / "arc_year3_drama.json"
 YEAR3_EN = EN_DIR / "arc_year3_drama.json"
+PERSON_DEAL_ID = "arc_36_unexpected_hand_person_deal"
+PERSON_DEAL_LOCALES = ("ko", "en", "ja", "zh-CN", "zh-TW")
+PERSON_DEAL_KEYS = ("daeun_divorced", "daeun_romance_started")
 
 SANGCHUL_LIVE_ID = "arc_sangchul_year3"
 SANGCHUL_PASSED_ID = "arc_sangchul_year3_father_passed"
@@ -192,6 +195,92 @@ def source_return_guard_blocks(
 
 def compact_source(source: str) -> str:
     return re.sub(r"\s+", " ", source.replace("\\", " ")).strip()
+
+
+def load_person_deal_events() -> dict[str, dict[str, Any]]:
+    """Read only the five owning files; overlay fallback must not hide a missing key."""
+    result = {}
+    for locale in PERSON_DEAL_LOCALES:
+        directory = "events" if locale == "ko" else "events_" + locale
+        path = ROOT / "content" / directory / "arc_chapter_themes.json"
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        rows = payload.get("events", []) if isinstance(payload, dict) else payload
+        if not isinstance(rows, list):
+            raise ValueError(f"{locale}: themes event root is not a list")
+        targets = [row for row in rows if isinstance(row, dict) and row.get("id") == PERSON_DEAL_ID]
+        if len(targets) != 1:
+            raise ValueError(f"{locale}: expected one {PERSON_DEAL_ID}")
+        result[locale] = targets[0]
+    return result
+
+
+def validate_person_deal_content(events: dict[str, Any]) -> list[str]:
+    """The one authored first-match map, not a new relationship interpreter."""
+    errors = []
+    if set(events) != set(PERSON_DEAL_LOCALES):
+        errors.append("person_deal: exact five-locale population required")
+    reference = events.get("ko", {})
+    reference_text = reference.get("description", "") if isinstance(reference, dict) else ""
+    reference_tokens = sorted(PLACEHOLDER_RE.findall(reference_text)) if isinstance(reference_text, str) else []
+    for locale in PERSON_DEAL_LOCALES:
+        event = events.get(locale)
+        if not isinstance(event, dict) or event.get("id") != PERSON_DEAL_ID:
+            errors.append(f"person_deal/{locale}: missing target event")
+            continue
+        description = event.get("description")
+        known = event.get("description_if_known")
+        if not isinstance(known, dict) or tuple(known) != PERSON_DEAL_KEYS:
+            errors.append(f"person_deal/{locale}: DIK must order divorced before started, with no other keys")
+            continue
+        values = (description, known[PERSON_DEAL_KEYS[0]], known[PERSON_DEAL_KEYS[1]])
+        if any(not isinstance(value, str) or not value.strip() for value in values):
+            errors.append(f"person_deal/{locale}: empty/nontext body variant")
+            continue
+        if known["daeun_divorced"] != description:
+            errors.append(f"person_deal/{locale}: divorced must equal the default clinic body")
+        if known["daeun_romance_started"] == description:
+            errors.append(f"person_deal/{locale}: started must have its distinct Daeun body")
+        for field, value in zip(("description", *PERSON_DEAL_KEYS), values):
+            if value.count("\n") != 2 or value.count("\n\n") != 1 \
+                    or not all(part.strip() for part in value.split("\n\n")):
+                errors.append(f"person_deal/{locale}/{field}: exact two paragraphs required")
+            if sorted(PLACEHOLDER_RE.findall(value)) != reference_tokens:
+                errors.append(f"person_deal/{locale}/{field}: source token population differs")
+    return errors
+
+
+def validate_person_deal_source(source: str, story_source: str) -> list[str]:
+    errors = []
+
+    def body(text: str, name: str) -> str:
+        block = source_function_block(text, name)
+        lines = block.splitlines()[1:]
+        return compact_source("\n".join(line for line in lines if not line.lstrip().startswith("#")))
+
+    partner = ('var f = GameState.flags '
+               'if f.get("daeun_romance_started", false) and not f.get("daeun_divorced", false): '
+               'return "daeun" '
+               'if f.get("jiyeon_romance_started", false) and not f.get("jiyeon_left", false): '
+               'return "jiyeon" return ""')
+    if body(source, "_romance_partner_id") != partner:
+        errors.append("person_deal: actual Main Daeun-first started&&!divorced predicate changed")
+    live = ('for raw_flag_id in condition_key.split("&", false): '
+            'var flag_id := str(raw_flag_id).strip_edges() '
+            'if flag_id.is_empty() or not GameState.flags.get(flag_id, false): '
+            'return false return true')
+    if body(story_source, "_live_known_flag_condition_matches") != live:
+        errors.append("person_deal: live StoryMode flag truthiness changed")
+    dispatch = compact_source(source_function_block(story_source, "_known_flag_condition_matches"))
+    if 'return _live_known_flag_condition_matches(condition_key)' not in dispatch:
+        errors.append("person_deal: StoryMode no longer dispatches to the live flag consumer")
+    first_match = ('var know_map = event.get("description_if_known", null) '
+                   'if know_map is Dictionary: for condition_key in know_map.keys(): '
+                   'if _known_flag_condition_matches(str(condition_key)): '
+                   'know_variant = str(know_map[condition_key]) break')
+    resolver = compact_source(source_function_block(story_source, "_resolved_story_description"))
+    if first_match not in resolver:
+        errors.append("person_deal: StoryMode DIK insertion-order first-match consumer changed")
+    return errors
 
 
 def validate_death_recovery_source(source: str) -> list[str]:
@@ -903,6 +992,115 @@ def validate_model(
     return errors
 
 
+def run_person_deal_self_test() -> int:
+    """Pure fixtures: no project import, disk read, Godot, or source mutation."""
+    cases = 0
+
+    def check(condition: bool, message: str) -> None:
+        nonlocal cases
+        cases += 1
+        if not condition:
+            raise AssertionError(message)
+
+    clinic = "{name}, the clinic deadline has passed.\n\nThe review seat is cancelled."
+    daeun = "{name}, Daeun's refrigerator photo is on the phone.\n\nThe review seat is cancelled."
+    event = {"id": PERSON_DEAL_ID, "description": clinic,
+             "description_if_known": {"daeun_divorced": clinic, "daeun_romance_started": daeun}}
+    events = {locale: copy.deepcopy(event) for locale in PERSON_DEAL_LOCALES}
+    check(not validate_person_deal_content(events), "valid five-locale person_deal fixture rejected")
+    mutations = (
+        ("map missing", lambda row: row.pop("description_if_known")),
+        ("map non-dictionary", lambda row: row.update(description_if_known=[])),
+        ("reversed precedence", lambda row: row.update(description_if_known={
+            "daeun_romance_started": daeun, "daeun_divorced": clinic})),
+        ("divorce key missing", lambda row: row["description_if_known"].pop("daeun_divorced")),
+        ("started key missing", lambda row: row["description_if_known"].pop("daeun_romance_started")),
+        ("unrelated gate", lambda row: row["description_if_known"].update(daeun_romance_blocked=clinic)),
+        ("divorce body differs", lambda row: row["description_if_known"].update(daeun_divorced=daeun)),
+        ("started body empty", lambda row: row["description_if_known"].update(daeun_romance_started=" ")),
+        ("started body nontext", lambda row: row["description_if_known"].update(daeun_romance_started=1)),
+        ("started body equals clinic", lambda row: row["description_if_known"].update(daeun_romance_started=clinic)),
+        ("default body missing", lambda row: row.pop("description")),
+        ("default body nontext", lambda row: row.update(description=False)),
+        ("wrong event", lambda row: row.update(id="arc_36_unexpected_hand_father_deal")),
+        ("missing token", lambda row: row["description_if_known"].update(
+            daeun_romance_started=daeun.replace("{name}", "Minjun"))),
+        ("duplicated token", lambda row: row["description_if_known"].update(
+            daeun_romance_started=daeun.replace("{name}", "{name} {name}"))),
+        ("paragraph removed", lambda row: row["description_if_known"].update(
+            daeun_romance_started=daeun.replace("\n\n", " "))),
+        ("paragraph added", lambda row: row["description_if_known"].update(
+            daeun_romance_started=daeun + "\n\nExtra.")),
+    )
+    for label, mutate in mutations:
+        changed = copy.deepcopy(events)
+        mutate(changed["ko"])
+        check(bool(validate_person_deal_content(changed)), "person_deal mutation not detected: " + label)
+    for locale in PERSON_DEAL_LOCALES[1:]:
+        changed = copy.deepcopy(events)
+        changed[locale]["description_if_known"].pop("daeun_divorced")
+        check(bool(validate_person_deal_content(changed)), locale + " overlay missing-key mutation not detected")
+        changed = copy.deepcopy(events)
+        changed[locale]["description_if_known"] = dict(reversed(list(event["description_if_known"].items())))
+        check(bool(validate_person_deal_content(changed)), locale + " overlay order mutation not detected")
+    changed = copy.deepcopy(events)
+    changed.pop("zh-TW")
+    check(bool(validate_person_deal_content(changed)), "missing target locale not detected")
+
+    source = '''
+func _romance_partner_id() -> String:
+    var f = GameState.flags
+    if f.get("daeun_romance_started", false) and not f.get("daeun_divorced", false):
+        return "daeun"
+    if f.get("jiyeon_romance_started", false) and not f.get("jiyeon_left", false):
+        return "jiyeon"
+    return ""
+func next(): pass
+'''
+    story = '''
+func _known_flag_condition_matches(condition_key: String) -> bool:
+    if _read_only_replay:
+        return _gallery_selector_matches(str(_current.get("id", "")), condition_key)
+    return _live_known_flag_condition_matches(condition_key)
+func _live_known_flag_condition_matches(condition_key: String) -> bool:
+    for raw_flag_id in condition_key.split("&", false):
+        var flag_id := str(raw_flag_id).strip_edges()
+        if flag_id.is_empty() or not GameState.flags.get(flag_id, false):
+            return false
+    return true
+func _resolved_story_description(event: Dictionary) -> String:
+    var know_map = event.get("description_if_known", null)
+    if know_map is Dictionary:
+        for condition_key in know_map.keys():
+            if _known_flag_condition_matches(str(condition_key)):
+                know_variant = str(know_map[condition_key])
+                break
+func next(): pass
+'''
+    check(not validate_person_deal_source(source, story), "valid Main/StoryMode source fixtures rejected")
+    source_mutations = (
+        source.replace(' and not f.get("daeun_divorced", false)', ''),
+        source.replace('f.get("daeun_romance_started", false)', 'f.get("daeun_married", false)'),
+        source.replace('f.get("daeun_romance_started", false)',
+                       '(f.get("daeun_romance_started", false) or f.get("daeun_married", false))'),
+        source.replace('and not f.get("daeun_divorced", false)',
+                       'and not f.get("daeun_divorced", false) and not f.get("daeun_romance_blocked", false)'),
+        source.replace('var f = GameState.flags', 'var f = saved_flags'),
+        source.replace('return "daeun"', 'return "jiyeon"'),
+    )
+    for changed_source in source_mutations:
+        check(bool(validate_person_deal_source(changed_source, story)), "Main predicate mutation not detected")
+    story_mutations = (
+        story.replace('break', 'continue'),
+        story.replace('know_map.keys()', 'sorted_keys'),
+        story.replace('GameState.flags.get(flag_id, false)', 'GameState.flags.get(flag_id, false) == true'),
+        story.replace('return _live_known_flag_condition_matches(condition_key)', 'return true'),
+    )
+    for changed_story in story_mutations:
+        check(bool(validate_person_deal_source(source, changed_story)), "StoryMode first-match/truthiness mutation not detected")
+    return cases
+
+
 def run_self_test() -> int:
     cases = 0
 
@@ -1312,13 +1510,23 @@ func resolve_narrative_bridge(event_id, choice_index):
         bool(validate_event_manager_hard_state_source(unsafe_bridge)),
         "EventManager direct bridge hard-state mutation was not detected",
     )
-    return cases
+    return cases + run_person_deal_self_test()
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--self-test", action="store_true")
+    parser.add_argument("--self-test-person-deal", action="store_true",
+                        help="pure person-deal DIK/source mutation fixtures only")
     args = parser.parse_args()
+    if args.self_test_person_deal:
+        try:
+            cases = run_person_deal_self_test()
+        except AssertionError as exc:
+            print(f"CHAPTER4_PERSON_DEAL_SELF_TEST_FAIL {exc}", file=sys.stderr)
+            return 1
+        print(f"CHAPTER4_PERSON_DEAL_SELF_TEST_OK cases={cases}")
+        return 0
     if args.self_test:
         try:
             cases = run_self_test()
@@ -1340,6 +1548,8 @@ def main() -> int:
         errors = validate_model(
             ko, en, director, lifecycle, source, story_source,
             event_manager_source, ko_year3_order, en_year3_order)
+        errors.extend(validate_person_deal_content(load_person_deal_events()))
+        errors.extend(validate_person_deal_source(source, story_source))
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"CHAPTER4_CAUSAL_ROUTE_AUDIT_FAIL {exc}", file=sys.stderr)
         return 1
@@ -1351,7 +1561,7 @@ def main() -> int:
     print(
         "CHAPTER4_CAUSAL_ROUTE_AUDIT_OK "
         "promoted_events=19 direct=15 owners=12 "
-        "medical=2-of-3 contact_life_writers=0"
+        "medical=2-of-3 contact_life_writers=0 person_deal_locales=5"
     )
     return 0
 

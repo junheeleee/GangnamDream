@@ -93,9 +93,9 @@ def run():
         check(all(proof["pre_fact_successor"][p] == proof["pre_source_successor"][p]
                   for p in proof["pre_fact_successor"] if p not in history.source_successor.PRODUCT_PATHS),
               "source-only successor preserves all prose and receipts")
-        check(all(proof["current"][p] == proof["pre_fact_successor"][p]
-                  for p in proof["current"] if p not in (*history.fact_successor.PRODUCT_PATHS,
-                                                         history.LEDGER_PATH)),
+        check(all(proof["fact_current"][p] == proof["pre_fact_successor"][p]
+                  for p in proof["fact_current"] if p not in (*history.fact_successor.PRODUCT_PATHS,
+                                                              history.LEDGER_PATH)),
               "fact successor preserves every unrelated PR31 product")
         for path in history.fact_successor.ARC_PATHS:
             check(not history.source_errors(proof["current"][path], path), "actual fact source admitted " + path)
@@ -185,9 +185,12 @@ def run():
         }
         expected_stages.add(full_inventory["source_manifest_sha256"])
         expected_stages.add(history.fact_successor.PREDECESSOR_SOURCE_MANIFEST_SHA256)
+        if proof["person_source"] is not None:
+            expected_stages.add(history.fact_successor.RECEIPT_SOURCE_MANIFEST_SHA256)
         check(stages == expected_stages and history.CURRENT_SOURCE_MANIFEST_SHA256 in stages,
               "exact immutable source stages preserve e300 and actual source-only successor")
-        check(len(stages) == 5, "before/intake/corrected plus exact469 and470 source populations")
+        check(len(stages) == 5 + int(proof["person_source"] is not None),
+              "before/intake/corrected plus separately proven469/470/471 source populations")
         check(history.source_stage_manifest_digests(history.ROOT, full_inventory) is stages,
               "same-invocation source proof is reused only after actual verification")
         for label, path, value in (
@@ -413,11 +416,77 @@ def run():
     return failures, cases
 
 
+def run_person_checks():
+    """471 current admission/projection and distinct42/18 receipt endpoints."""
+    failures, cases = [], 0
+
+    def check(value, name):
+        nonlocal cases
+        cases += 1
+        if not value:
+            failures.append("PR31 person-deal successor: " + name)
+
+    with history.fresh_validation_proof() as proof, history.previous.fresh_validation_proof():
+        successor = history.fact_successor
+        check(proof["person_source"] is not None, "actual person source stage is present")
+        if proof["person_source"] is None:
+            return failures, cases
+        changed = set(successor.PERSON_PATHS) | {history.LEDGER_PATH}
+        check(all(proof["current"][path] == proof["fact_current"][path]
+                  for path in proof["current"] if path not in changed),
+              "only person themes and later receipts follow immutable470")
+        check(proof["person_source"][history.LEDGER_PATH] == proof["fact_current"][history.LEDGER_PATH],
+              "source stage contributes no acceptance")
+        for path in successor.PERSON_PATHS:
+            raw = proof["current"][path]
+            check(not history.source_errors(raw, path), "actual theme admitted " + path)
+            check(bool(history.source_errors(proof["fact_current"][path], path)), "pre471 raw is not current " + path)
+            check(bool(history.source_errors(raw + b"\n", path)), "theme neighboring raw rejected " + path)
+        for path in successor.PERSON_PATHS[:2]:
+            before, after = history.historical_blobs(path)
+            check(after == proof["current"][path], "historical API retains actual current bytes " + path)
+            check("description_if_known" not in history._rows(before)[successor.PERSON_EVENT_ID],
+                  "comparison restores predecessor without new DIK " + path)
+            check(set(successor.PERSON_TEXT_LEAVES) <= set(history.HISTORICAL_JSON_LEAVES[path]),
+                  "exact six person selectors are accounted " + path)
+            row = history._rows(after)[successor.PERSON_EVENT_ID]
+            expected = history.previous.project_payload(
+                [history._rows(proof["before"][path])[successor.PERSON_EVENT_ID]], path)
+            check(history.project_payload([row], path) == expected, "exact current row projects " + path)
+            mutated = copy.deepcopy(row)
+            mutated["title"] += " unowned"
+            check(history.project_payload([mutated], path) == [mutated], "neighbor cannot borrow projection " + path)
+        hashes = {path: history._sha(proof["current"][path]) for path in history.SOURCE_PATHS}
+        partial = {"source_hashes": hashes, "source_manifest_sha256": history._digest(hashes)}
+        projected = history.source_predecessor_inventory(history.ROOT, partial)
+        check(projected["source_hashes"] == {path: history._sha(proof["before"][path])
+                                            for path in history.SOURCE_PATHS}, "original partial15 comparison stays exact")
+        if successor.PERSON_RECEIPT_COMMIT is not None:
+            transitions = history.receipt_transitions(history.ROOT, {})
+            fact, person = transitions[-2:]
+            check(fact[0] == successor.RECEIPT_COMMIT and fact[2][history.LEDGER_PATH]
+                  == proof["fact_current"][history.LEDGER_PATH], "original42 endpoint remains exact470 R4")
+            check((fact[3]["first_receipts"], fact[3]["corrections"]) == (6, 36),
+                  "original470 acceptance remains42, not merged60")
+            check(person[0] == successor.PERSON_RECEIPT_COMMIT
+                  and person[1][history.LEDGER_PATH] == proof["person_source"][history.LEDGER_PATH]
+                  and person[2][history.LEDGER_PATH] == proof["current"][history.LEDGER_PATH],
+                  "person18 transition binds source/accepted ledger separately")
+            check((person[3]["first_receipts"], person[3]["corrections"], person[3]["correction_batches"]) == (6, 12, 3),
+                  "person acceptance is six first and twelve corrected")
+            check(all(row[3]["receipts"] == row[3]["batches"] == 0
+                      and not any(row[3]["ui_by_locale"].values()) for row in (fact, person)),
+                  "text receipts never become UI coverage")
+    return failures, cases
+
+
 def main():
-    failures, cases = run()
+    person_only = sys.argv[1:] == ["--person-self-test"]
+    failures, cases = run_person_checks() if person_only else run()
     for error in failures:
         print(error, file=sys.stderr)
-    print(f"PR31_INTAKE_HISTORY_{'FAIL' if failures else 'OK'} cases={cases} current_files=71 native_review=OPEN")
+    label = "PR31_PERSON_SUCCESSOR" if person_only else "PR31_INTAKE_HISTORY"
+    print(f"{label}_{'FAIL' if failures else 'OK'} cases={cases} current_files=71 native_review=OPEN")
     return int(bool(failures))
 
 

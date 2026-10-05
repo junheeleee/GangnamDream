@@ -442,13 +442,126 @@ def run_coffee_consumer_checks():
     return failures, cases
 
 
+def run_person_checks():
+    """Actual471 source/receipt deltas; no replay of the unrelated470 corpus."""
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER471: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    with history.fresh_validation_proof() as proof:
+        before, source = proof["person_before"], proof["person_source"]
+        check(before is not None and source is not None, "actual authored source stage is bound")
+        if before is None or source is None:
+            return failures, cases
+        check(set(history.PERSON_PRODUCT_PATHS) == set(history.PERSON_PATHS)
+              and len(history.PERSON_PRODUCT_PATHS) == 5, "actual source5, not planned metadata edits")
+        check(all(before[p] == proof["receipts"][p] for p in proof["receipts"]),
+              "person predecessor preserves original470 R4 endpoint")
+        check(all(before[p] == source[p] for p in before if p not in history.PERSON_PATHS),
+              "source5 leaves ledger, runtime, arcs and inventory/rating unchanged")
+        for path in history.PERSON_PATHS:
+            check(history.person_product_inverse(before[path], source[path], path) == before[path],
+                  "exact whole source inverse " + path)
+            for label, raw, claimed_path in (
+                ("rollback", before[path], path), ("whitespace", source[path] + b"\n", path),
+                ("wrong path", source[path], "./" + path), ("nonbytes", source[path].decode(), path),
+            ):
+                reject(lambda r=raw, p=claimed_path, old=before[path]: history.person_product_inverse(old, r, p),
+                       label + " " + path)
+            neighbor = source[path] + b"\n"
+            with mock.patch.dict(history.PERSON_RAW_SHA256,
+                                 {path: (history._sha(before[path]), history._sha(neighbor))}):
+                reject(lambda p=path: history.person_product_inverse(before[p], neighbor, p),
+                       "independent raw hunks reject repinned whitespace " + path)
+            rows = json.loads(source[path])
+            for label, mutate in (
+                ("DIK order", lambda row: row.update(description_if_known=dict(reversed(list(row["description_if_known"].items()))))),
+                ("DIK missing", lambda row: row["description_if_known"].pop("daeun_divorced")),
+                ("DIK extra", lambda row: row["description_if_known"].update(unowned="not admitted")),
+                ("old label", lambda row: row["choices"][1].update(text="not admitted")),
+            ):
+                changed = copy.deepcopy(rows)
+                mutate(next(row for row in changed if row["id"] == history.PERSON_EVENT_ID))
+                raw = json.dumps(changed, ensure_ascii=False).encode()
+                reject(lambda r=raw, p=path: history._person_arc_inverse(before[p], r, p),
+                       "structural " + label + " " + path)
+        path = history.PERSON_KO_PATH
+        for label, mutate in (
+            ("gameplay", lambda row: row["choices"][0].update(effects={"money": 1})),
+            ("default differs from divorced", lambda row: row["description_if_known"].update(daeun_divorced="not the default")),
+        ):
+            changed = json.loads(source[path])
+            mutate(next(row for row in changed if row["id"] == history.PERSON_EVENT_ID))
+            reject(lambda r=json.dumps(changed, ensure_ascii=False).encode():
+                   history._person_arc_inverse(before[path], r, path), label)
+        if proof["person_receipts"] is not None:
+            accepted = proof["person_receipts"]
+            history._validate_person_receipts(source, accepted, history.ROOT)
+            check(True, "actual18 official leaves are separate from original42")
+            old, new = (json.loads(snapshot[history.LEDGER_PATH]) for snapshot in (source, accepted))
+            check(sum(map(len, new["accepted"].values())) - sum(map(len, old["accepted"].values())) == 6
+                  and len(new["batches"]) - len(old["batches"]) == 3, "six first receipts and three official batches")
+            for path in history.PERSON_PATHS[2:]:
+                check(history.person_receipt_overlay_inverse(source[path], accepted[path], path) == source[path],
+                      "four literal-only target corrections " + path)
+                raw = accepted[path] + b"\n"
+                with mock.patch.dict(history.PERSON_RECEIPT_RAW_SHA256,
+                                     {path: (history._sha(source[path]), history._sha(raw))}):
+                    reject(lambda r=raw, p=path: history.person_receipt_overlay_inverse(source[p], r, p),
+                           "repinned receipt target neighboring raw " + path)
+            for label, mutate in (
+                ("old batch prefix", lambda doc: doc["batches"].pop(0)),
+                ("old accepted row", lambda doc: doc["accepted"]["ja"].pop(next(iter(doc["accepted"]["ja"])))),
+                ("new accepted source", lambda doc: doc["accepted"]["ja"]["events:" + history.PERSON_EVENT_ID
+                    + ":/description_if_known/daeun_divorced"].update(source_sha256="0" * 64)),
+                ("new accepted target", lambda doc: doc["accepted"]["ja"]["events:" + history.PERSON_EVENT_ID
+                    + ":/description_if_known/daeun_divorced"].update(target_sha256="0" * 64)),
+            ):
+                document = copy.deepcopy(new)
+                mutate(document)
+                document["accepted_sha256"] = history._digest(document["accepted"])
+                raw = (json.dumps(document, ensure_ascii=False, indent=2) + "\n").encode()
+                with mock.patch.dict(history.PERSON_RECEIPT_RAW_SHA256,
+                                     {history.LEDGER_PATH: (history._sha(source[history.LEDGER_PATH]), history._sha(raw))}):
+                    reject(lambda r=raw: history._person_receipt_semantics(source, {**accepted, history.LEDGER_PATH: r}),
+                           "rehashed " + label)
+        # Stable reader identity, changing real observations after warm success.
+        snapshot = history._snapshot
+        def missing_person(root, revision, paths):
+            if revision == history.PERSON_PRODUCT_COMMIT:
+                raise ValueError("fixture lost person product")
+            return snapshot(root, revision, paths)
+        with mock.patch.object(history, "_snapshot", missing_person):
+            reject(lambda: history.predecessor_bytes(proof["current"][history.KO_PATH], history.KO_PATH),
+                   "warm scope refuses changed reader/object availability")
+        check(not history._SEMANTIC_MEMO.get()[1], "failed nested proof clears successful semantic work")
+    check(history._ACTIVE.get() is None and history._SEMANTIC_MEMO.get() is None,
+          "person test leaves no invocation cache")
+    return failures, cases
+
+
 def main():
     coffee_only = sys.argv[1:] == ["--coffee-self-test"]
-    failures, cases = run_coffee_consumer_checks() if coffee_only else run()
+    person_only = sys.argv[1:] == ["--person-self-test"]
+    failures, cases = (run_person_checks() if person_only else
+                       run_coffee_consumer_checks() if coffee_only else run())
     for failure in failures:
         print(failure, file=sys.stderr)
     label = "COFFEE_CONSUMER" if coffee_only else "SOURCE_COMPAT"
-    print(f"ORDER470_{label}_{'FAIL' if failures else 'OK'} cases={cases} source_paths=9")
+    prefix = "ORDER471_PERSON" if person_only else "ORDER470_" + label
+    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={5 if person_only else 9}")
     return int(bool(failures))
 
 
