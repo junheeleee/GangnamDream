@@ -52,6 +52,8 @@ read-only 조사에서 모두 이미 `weight=0`, `hidden=true`, `conditions={min
   `tools/narrative_spine_audit.py`, `tools/audit_scope.json` 등록.
   첫 표적 실행에서 `tools/event_lifecycle.py` 자체검사의105/1708 고정 기대값이 검출됐다.
   실제 검증된111/1702와 맞추는 한 줄만 root 소유로 추가 선언한다. 기존 음성27사례는 보존한다.
+  `tools/event_director_audit.py`의 shipping 기대값1708도 실제1702로 맞추는 한 줄을
+  추가 선언한다. 수집·도달 로직은 바꾸지 않는다.
 - pr31_history_plan: 신규 `tools/order469_source_compat.py`,
   `tools/order469_source_compat_self_test.py`, 기존 `tools/pr31_intake_history.py`,
   `tools/pr31_intake_history_self_test.py`, `tools/ui_translation_append.py`,
