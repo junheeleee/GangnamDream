@@ -297,11 +297,28 @@ PERSON_RAW_PATCHES = {'content/events/arc_chapter_themes.json': (('replace',
                                                    'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
                                                    'c33d991bcc3a4b97f50bd6c749a7e97f7e3905c7a144bacc4c5422337810e538'),)}
 PERSON_RECEIPT_PATHS = (*PERSON_PATHS[2:], LEDGER_PATH)
-PERSON_RECEIPT_PARENT = None
-PERSON_RECEIPT_COMMIT = None
-PERSON_RECEIPT_RAW_SHA256 = {}
-PERSON_RECEIPT_BATCH_SHA256 = {}
-PERSON_RECEIPT_SOURCE_MANIFEST_SHA256 = None
+PERSON_RECEIPT_PARENT = "53a8737e911eb9f321c5e84a06d798a95597a76b"
+PERSON_RECEIPT_COMMIT = "01846e8a69a146cfd23865aaad83fd76d6c7a83c"
+PERSON_RECEIPT_RAW_SHA256 = {
+    "content/events_ja/arc_chapter_themes.json": (
+        "c0987ebba354d196d49588ac593d309281adc7a72b0843bff7ca59eca14b2ab1",
+        "6ccb5ced67aa95cedc7d1fe0580e78dc8660ebdd245a2e2f88a46612fd881e6f"),
+    "content/events_zh-CN/arc_chapter_themes.json": (
+        "1656cfa01aef3346fd9aa2ba5f52bd9c6bc59b4d7f84e3370ac4585269af27a5",
+        "3ce8ee7a0085353dcfde29f8e5d9df874f22a81514d4c3d58602a3f8c840b07f"),
+    "content/events_zh-TW/arc_chapter_themes.json": (
+        "c15124d8d763957a26eb95f914a39c34511b1634336e4bb7dc4bdb94b8954b04",
+        "9ba764405279738ffd34c596d034aa599f96614e6bb42e0909ff10f170c4bd1e"),
+    "content/meta/full_game_localization.json": (
+        "c687b60588d76875f80c4c2b4681b971ccd2b99cdb53e51774dc0f3145f18c0f",
+        "30f095de89a1d00e436147c57606f644dfd2a4b99f13cc2bc432749bdc0a996d"),
+}
+PERSON_RECEIPT_BATCH_SHA256 = {
+    "ja": "8c1388ccec38a1d4dfc5b6fd5aa5f2f7ed855f0bdab32edaa2b2739e090b30a4",
+    "zh-CN": "78e153e5f323b5f8e9853763eeedd509b62ebb6d78c1ea8d631a4dd9b80f60fb",
+    "zh-TW": "c9de4e695f265baaeb353308c12367f94e10aac732f9786ccfde5b4e44a6be40",
+}
+PERSON_RECEIPT_SOURCE_MANIFEST_SHA256 = "a23c35a674df1932d1299735cde17260914a60c09a00e7617fe61c1fb5f93545"
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
 _SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
 

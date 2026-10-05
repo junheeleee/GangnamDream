@@ -4,6 +4,7 @@
 
 ## 2026-10-06 — 세 장면 수리 마감·4장 약속/진료 수리 착수 (470→471)
 
+- 471 공식 pipeline2는3언어18잎 export/check/import9단계 PASS/131.969274초·원문보존이다. 결과 `.git/order471-20261006.nA5vxa/pipeline2/result.json` SHA `8074d6ea905285f18044ec9080249bb4c864e6dbab6405459753a43672c2c331`; 실제 receipt4커밋 `01846e8`에 교정12/최초6을 수용했다. 서식 복원 후에도 세 파일 모두 공식 import raw와 그대로 같았다. 수용 단계 핀의 표적8 PASS/4.394290초, result SHA `438155da7d4296ba8ea82a5c7ea06cb4ba3fdad4dccd02ad4afa8f851d71f7f5`. 목표어 관찰은 독립 에이전트 읽기이며 원어민/렌더 판정이 아니다. 이후 최종 clean 후보에서 조건 런타임·표적 소비자를 검증한다.
 - 471 공식 pipeline1은 JA export/check 뒤 CN '两边'의 장소2 수량 검사에서 import0으로 중단(123.059782초)했다. 원본 실패를 보존하고 목표어 표현을 `两处/兩處`·TW `先後兩次`로 명확히 했다. 검사 완화0, 새 초안의 순수 번역검사18 오류0; 이는 공식 수용 증거가 아니다. source5 초안을 재작성하지 않아 CN/TW 조건부2잎도 공식 import 때 달라지며 exact 문자열4/6/6만 허용한다. 지원 표적71 PASS/3.363956초의 result SHA `cb03850091bda0c2f54dfae568d41257b2dce754e3f78ccf65879dfc0797e7fd`, 외부 증명 안 자체검사의 종료 상태도 호출 전 identity로 복귀시켰다.
 - 471 원문5경로 `e459b1d`는 한·영4잎 수리+조건부2잎, 목표어3은 공식 수용 전2잎 초안만 포함한다. 실제 W153→W157 간격 때문에 '지난 주말'을 '그날'로 정렬했으며 기본/이혼은 야간진료, 다은 started&&!divorced만 편의점 약속이다. 선택·효과·라우팅은 보존한다. 이 중간 단계의 목표어 기존4잎은 아직 교정 전이며 완료나 원어민 판정이 아니다.
 - source 전이 표적59 PASS/3.297528초와 PR31 단일 source-state 확인6 PASS/21.340257초를 따로 보존했다. `.git/order471-20261006.nA5vxa/source-compat1/result.json` SHA `69b9bcceb83fae92a7481f1a6a90faf04cdfa6c2fcd6fbfe29628ec423b9fdbe`, `source-state1/result.json` SHA `a10356da05cb58128860b88b0750d62b39ed8020102abea7cb41652b850ef30d`; 소유 입력·HEAD 전후동일/stderr0. 지원5와 검사2의 독립 읽기 검수 차단 결함0, 공식18수용/최종fresh/준비런타임은 아직 미실행이다.
