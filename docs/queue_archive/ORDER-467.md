@@ -1,6 +1,18 @@
 # ORDER-467 — 투자 AP 부족 안내의 잘못된 월 단위 제한 수리
 
-#### [~] ORDER-467 [P1·정합] 현재 행동력 부족을 월간 거래 금지로 안내하지 않는다
+#### [x] ORDER-467 [P1·정합] 현재 행동력 부족을 월간 거래 금지로 안내하지 않는다
+
+## 2026-10-06 완료 — 기존 수리의 누락 표적 검수
+
+- 제품3쌍은 `621f559` 그대로다. 이번 변경은 focused 검사1개·안전한 검사 등록·운영 기록뿐이다. 사전/수용원장·GameState·거래규칙·project·저장·공개·과거 판정 변경0.
+- private `.git/order467-20261006.TvAKAz/runtime1/result.json` SHA `332fa036f6094cb3200c12556d3126bf667dfeaac99b19dbf31b9b50f5615083`: clean `c53acfc`/tree `ac315ea1`에서 fresh pre-autoload 준비30+주복원5, 실제 exit0/7.030720375초. 두 로그 exact 모집단/오류0·보호57·tracked3194 전후동일.
+- `checks2/result.json` SHA `e4a077c9c5344037cabc8ef3031fcc334386d7532908718df15d2bec465e7f66`: clean `1d03209`/tree `f331f4cc`, actual7/7 exit0/stderr0/714.8963725초. focused80/0·JA UI2981 beta 오류0·EN/한글누출0·scope208·context·queue. 실제 fresh 종료와 source/runner/log/보호/재사용원본 전후동일이다.
+- 472 final1의 실제 fresh365/현재 UI수용결속/ZH는 입력3181개와 결과·원로그30의 SHA 동일성을 확인해 재사용했다. 472의 JA demo를 JA UI로 바꾸지 않았으며 위 JA UI는 이번 실제 실행이다. 전체365/240주 재실행 주장은 없다.
+- 최초 `checks1`은80중2 실패/실제exit1이며 result SHA `ecee1a665aaf436016761fa400673ff62259f2bf122fbd0162b7362e0370db77`로 보존한다. CN/TW 영수증의 raw UTF8 기대값을 기존 canonical JSON digest로 맞췄다. 전체 과거행 equality/검사 모집단은 유지했다. 비격리 `.tscn` 자동등록1개를 제거하고 root 사전격리 실행만 남겼다. 긴 부팅 주석의 예산 실패도 짧은 현재행으로 수리했다.
+- 독립 [보고](../agent_reviews/ORDER-467.json)의 한정 GO는 source `1f4a84d91bc1f2de2fd6bcf6409a101f585d4f8d`/tree `19c6f1b2fec0fd84730f0b33a3ef278d83a046d0`다. 마지막 검사 후보 이후 CLAUDE 현재행 외 제품/검사 입력 변경0. 이후 고정 metadata wrapper만 붙인다.
+- L2 도달: `INVESTMENT_AP_COPY_CHECK_OK cases=30 locales=5 weekly_restores=5`; 생산자 `GameState:2397`↔독자 `MainGame:18279,19821,19867`; AP0 거부15/상태7 불변→같은2026/M03 W1→W2/AP0→2 복원5→거래 probe 도달15. 새 선택·포기 비용·서사 장면/계층은 N/A(UI 피드백), 닫는 것은 월간 금지 오안내3쌍이다.
+- TradeProbe는 실제 체결이 아니며 toast/modal도 관찰용 대체다. fixture는 언어만 되돌리며 전체 GameState 복원을 주장하지 않는다. 새 격리 공간에서만 실행했다. 자연진입/화면/원어민/물리패드/본편 출시 GO는 아니다. 472 화면0/6·기존 인간 HOLD는 보존한다. 자동 통과는 재미·깊이·문체·사람 승인이 아니다.
+- 규범 승격0: 기존 WORK_UNIT/I18N/격리 계약 적용, 본 오더의 선언·증거 재사용·마감 절차는 일회성이다. 아래는 원래 착수/계획 이력이다.
 
 **[~] 착수 — 2026-10-05.** 466 소비자 검수에서 확인한 별도 결함이다.
 제품은 `scenes/MainGame.gd`의 일반매수·매도·레버리지 매수 안내3쌍만 바꾼다.
