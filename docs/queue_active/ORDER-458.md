@@ -16,6 +16,7 @@
 - root: 공식 export/check/import를 통한 `content/events_ja/amb_scenarios2.json`,
   `content/events_zh-CN/amb_scenarios2.json`, `content/events_zh-TW/amb_scenarios2.json`
   같은3문구와 `content/meta/full_game_localization.json`의 새 교정 receipt9개,
+  `assets/event_visual_contracts.json`의 amb_coin_warn 기존 background/portrait 고정1행,
   파생 `assets/scene_direction_manifest.json`, 큐/L3·CLAUDE·이 사양/보관·457진행·
   WORK_LOG·생성STATUS·agent_review_decisions를 소유한다.
 - receipt_tests392: 비제품 `.git/chapter5-replay/order458*` 표적 준비 fixture/실행기만
@@ -33,6 +34,10 @@ hash에 결속한 공식 `--replace-existing` 교정으로 기록하며 coverage
 공개 데모·인간 원장·원본seed2·실제player34·457의 새W195checkpoint는 변경하지 않는다.
 
 ## 검증과 완료
+
+첫 story-consistency 검사에서 새 expected_background의 대응 visual계약 누락1건을
+확인했다. 기존자산을 고정하는 위1행은 phone수리의 필수 의존이며 별도 선언커밋 뒤
+추가한다. 검사완화/신규자산/오디오변경은 하지 않는다.
 
 1. 3leaf×5언어 exact semantic diff, gameplay불변, story-consistency/scene-direction,
    영어 coverage, 공식 export/check/import와 지정 full-game-localization-overlays 차선.
