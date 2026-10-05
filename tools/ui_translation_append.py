@@ -3166,6 +3166,43 @@ def _history_source_matcher(root, baseline_commit, baseline, current, inventory,
         raise
 
 
+def _source_plan_module_changes(before, after):
+    """Identify the sealed module/key, without dumping source or config values."""
+    try:
+        old, new = ({row[0]: row for row in seal[0]} for seal in (before, after))
+        changes = [name + ": added" for name in sorted(new.keys() - old.keys())]
+        changes += [name + ": removed" for name in sorted(old.keys() - new.keys())]
+        for name in sorted(old.keys() & new.keys()):
+            for index, label in ((1, "module identity"), (2, "physical path"), (3, "physical bytes")):
+                if old[name][index] != new[name][index]:
+                    changes.append(name + ": " + label)
+            a, b = ({row[0]: row[1:] for row in value[name][4]} for value in (old, new))
+            for key in sorted(a.keys() | b.keys()):
+                if a.get(key) != b.get(key):
+                    changes.append(name + "." + key + ": binding/code/default/config")
+        for index, label in enumerate(("hashlib.sha1", "hashlib.sha256", "Path.read_bytes", "Path.read_text", "subprocess.run"), 1):
+            if before[index] != after[index]:
+                changes.append(label + ": binding")
+        return "; ".join(changes[:16]) or "seal structure differs"
+    except (IndexError, TypeError, KeyError):
+        return "seal structure differs"
+
+
+def _require_source_plan_modules(root, modules, phase):
+    actual = _source_plan_modules(root)
+    if actual != modules:
+        require(False, "source comparison modules changed " + phase + ": "
+                + _source_plan_module_changes(modules, actual))
+
+
+def _source_plan_translation_ready():
+    # Receipt validation lazily initializes this pinned classifier. Do that
+    # before the seal, then protect its complete contents like other config.
+    # No cache-name exemption and no validator result is retained by this plan.
+    import zh_translation_audit as zh
+    zh._script_forbidden_sets()
+
+
 def _source_plan_live(root, baseline_commit, baseline, current, inventory):
     head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
     tree = _git(root, "rev-parse", "--verify", "HEAD^{tree}").decode().strip()
@@ -3199,13 +3236,14 @@ def _history_source_comparison(root, baseline_commit, baseline, current, invento
     try:
         supplied = _source_plan_value((baseline_commit, baseline, current, inventory))
         state.update(root=root, supplied=supplied)
+        _source_plan_translation_ready()
         # Collect before sealing modules so lazy collector imports are included.
         require(_source_plan_value(exchange.collect(root)) == _source_plan_value(inventory),
                 "source plan supplied inventory differs from actual collector")
         modules = _source_plan_modules(root)
         live = _source_plan_live(root, baseline_commit, baseline, current, inventory)
         plan = _prepare_history_source_plan(root, inventory)
-        require(_source_plan_modules(root) == modules, "source plan modules changed during preparation")
+        _require_source_plan_modules(root, modules, "during preparation")
 
         def matches(expected):
             try:
@@ -3225,7 +3263,7 @@ def _history_source_comparison(root, baseline_commit, baseline, current, invento
         yield matches
         require(not state["poisoned"] and _SOURCE_PLAN_ACTIVE.get() is state,
                 "source comparison invocation was poisoned")
-        require(_source_plan_modules(root) == modules, "source comparison module/code/configuration changed")
+        _require_source_plan_modules(root, modules, "after history loop")
         require(_source_plan_value((baseline_commit, baseline, current, inventory)) == supplied,
                 "source comparison caller inputs changed at exit")
         require(_source_plan_live(root, baseline_commit, baseline, current, inventory) == live,
@@ -3236,8 +3274,8 @@ def _history_source_comparison(root, baseline_commit, baseline, current, invento
                 "source comparison predecessor evidence changed at exit")
         require(_source_plan_value(exchange.collect(root)) == _source_plan_value(inventory),
                 "source comparison collector changed at exit")
-        require(_source_plan_modules(root) == modules
-                and _source_plan_live(root, baseline_commit, baseline, current, inventory) == live,
+        _require_source_plan_modules(root, modules, "during final proof")
+        require(_source_plan_live(root, baseline_commit, baseline, current, inventory) == live,
                 "source comparison changed during final proof")
     finally:
         state["open"] = False

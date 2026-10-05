@@ -3585,6 +3585,80 @@ def source_plan_self_test() -> tuple[list[str], int]:
     return failures, cases
 
 
+def source_plan_validator_self_test() -> tuple[list[str], int]:
+    """Two actual fee-loop proofs; cold initialization is not configuration drift."""
+    import time
+    import zh_translation_audit as zh
+    failures, cases = source_plan_self_test()
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append(label)
+
+    def rejected(seal, key):
+        try:
+            append._require_source_plan_modules(ROOT, seal, "targeted validator regression")
+        except ValueError as exc:
+            check(key in str(exc), "diagnostic identifies exact changed key " + key)
+        else:
+            check(False, "changed validator binding accepted " + key)
+
+    leaf = append.exchange.Leaf("ui", append.FEE_KEY, "runtime:static_ui",
+                                (append.FEE_KEY,), append.FEE_KEY, "ui_static_context")
+    inventory = {"leaves": [leaf]}
+    saved_cache, saved_static = zh._SCRIPT_FORBIDDEN_CACHE, zh._STATIC_UI_CACHE
+    started = time.monotonic()
+    try:
+        zh._SCRIPT_FORBIDDEN_CACHE = None
+        cold = append._source_plan_modules(ROOT)
+        original = append._fee_correction_proof(ROOT, inventory)
+        delta = append._source_plan_module_changes(cold, append._source_plan_modules(ROOT))
+        check(delta == "zh_translation_audit._SCRIPT_FORBIDDEN_CACHE: binding/code/default/config",
+              "actual cold fee loop has exactly one legitimate cache transition")
+        print("UI_SOURCE_PLAN_COLD_FEE_DIFF", delta, flush=True)
+        rejected(cold, "zh_translation_audit._SCRIPT_FORBIDDEN_CACHE")
+
+        zh._SCRIPT_FORBIDDEN_CACHE = None
+        append._source_plan_translation_ready()
+        check(type(zh._SCRIPT_FORBIDDEN_CACHE) is dict
+              and set(zh._SCRIPT_FORBIDDEN_CACHE) == {"zh-CN", "zh-TW"}
+              and all(len(zh._SCRIPT_FORBIDDEN_CACHE[loc]) == zh.SCRIPT_VARIANT_DATA_COUNTS[loc]
+                      for loc in ("zh-CN", "zh-TW")),
+              "existing pinned initializer prepares both complete regional sets")
+        sealed = append._source_plan_modules(ROOT)
+        prepared = append._fee_correction_proof(ROOT, inventory)
+        check(prepared == original and prepared[2]["corrections"] == 2,
+              "actual fee loop results unchanged after pre-initialization")
+        append._require_source_plan_modules(ROOT, sealed, "after prepared actual fee loop")
+        check(zh._STATIC_UI_CACHE is saved_static, "unrelated static UI cache was not initialized")
+
+        for locale in ("zh-CN", "zh-TW"):
+            original_set = zh._SCRIPT_FORBIDDEN_CACHE[locale]
+            zh._SCRIPT_FORBIDDEN_CACHE[locale] = original_set | frozenset(("A",))
+            rejected(sealed, "zh_translation_audit._SCRIPT_FORBIDDEN_CACHE")
+            zh._SCRIPT_FORBIDDEN_CACHE[locale] = original_set
+        for pin in ("SCRIPT_VARIANT_DATA_SHA256", "SCRIPT_VARIANT_LICENSE_SHA256"):
+            with mock.patch.object(zh, pin, "0" * 64):
+                rejected(sealed, "zh_translation_audit." + pin)
+                zh._SCRIPT_FORBIDDEN_CACHE = None
+                try:
+                    append._source_plan_translation_ready()
+                except ValueError:
+                    check(True, "cold original reader rejects forged pin " + pin)
+                else:
+                    check(False, "cold original reader accepted forged pin " + pin)
+            append._source_plan_translation_ready()
+        append._require_source_plan_modules(ROOT, sealed, "after restored validator regression")
+        check(True, "restored cache contents and pins remain completely sealed")
+        print("UI_SOURCE_PLAN_VALIDATOR_LOOP_OK actual_fee_proofs=2 seconds="
+              + str(time.monotonic() - started), flush=True)
+    finally:
+        zh._SCRIPT_FORBIDDEN_CACHE = saved_cache
+    return failures, cases
+
+
 def source_plan_current_self_test() -> tuple[list[str], int]:
     """One real plan invocation and one original comparison, never full history."""
     import time
@@ -3644,9 +3718,11 @@ def main() -> int:
     parser.add_argument("--ja-gift-copy", action="store_true", help="exact414 legacy Japanese two-value correction and first receipts only; no older suites")
     parser.add_argument("--source-plan", action="store_true", help="in-memory invocation source-plan boundaries only")
     parser.add_argument("--source-plan-current", action="store_true", help="one actual source-plan invocation and original comparison; no history loop")
+    parser.add_argument("--source-plan-validator", action="store_true", help="source-plan boundaries and two actual fee-loop classifier proofs only")
     args = parser.parse_args()
-    if args.source_plan or args.source_plan_current:
-        errors, cases = (source_plan_current_self_test() if args.source_plan_current else source_plan_self_test())
+    if args.source_plan or args.source_plan_current or args.source_plan_validator:
+        errors, cases = (source_plan_validator_self_test() if args.source_plan_validator
+                         else source_plan_current_self_test() if args.source_plan_current else source_plan_self_test())
         for error in errors:
             print("UI_TRANSLATION_APPEND_ERROR " + error)
         print(f"UI_TRANSLATION_APPEND_SOURCE_PLAN_{'FAIL' if errors else 'OK'} cases={cases} historical_cases=0")

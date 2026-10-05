@@ -134,3 +134,19 @@ index3 완성 초안 구조를 먼저 맞추되 기존 목표어0~2는 보존한
   원어민/물리패드 관찰은 구분하고 미관찰을 숨기지 않는다. 전체240주/출시 GO는 아니다.
 
 그다음 별도 단위: `_person_deal`의 다은/야간진료 DIK, 준비된2장 수첩·5장 기간 초안.
+
+## L2 — 실제 확인 범위 (공통 검증·최종 판정은 별도)
+
+| 증거 칸 | 관측값 또는 위치 |
+|---|---|
+| 도달 경로 | `STORY_CHOICE_FACT_CHECK_OK locales=5 assertions=6851 prepared_component_only=true`; `.git/order470-20261006.tIKLVc/runtime4/result.json` |
+| 생산자 ↔ 독자 | `content/events/arc_events.json:1576` ↔ `autoloads/GameState.gd:1869`; `tools/StoryChoiceFactCheck.gd:90` |
+| 바꾸는 상태 | 준비 화면 신고 mental70→90, 협박70→60, 피해70→83, 무이력70→70; 다은 응답70→95/중립70→84; `.git/order470-render-20261006.fTHXcF/run2-derived-final.json` |
+| 포기 시 잃는 것 | 다은 중립 선택은 `daeun_reason_confirmed`와 답장을 생산하지 않음; 재혁 무이력 선택은 보상0이며 `arc_jaehyuk_mirror` T+1 한 번만 생산; `tools/StoryChoiceFactCheck.gd:131` |
+| 서사 위치 | 재혁 counter=Chapter3 escalation, aftermath=Chapter3 reversal; later_echo=마지막 구간 관계 회수; `content/meta/narrative_spine.json`, `content/events/arc_events.json:3067` |
+| 장면 계층 | 미선언 기본 T3. 기존 수치·플래그 변화와 T3 상태불변 계약의 부채는 미해결; 사실 수리만 판정하며 장면 전체 계층 GO로 확대하지 않음 |
+| 닫는 것 | 과거 사실 없는 기존0~2, 이별 사실 있는 다은0, 잘못된 계약/직접 적용 우회; 저장된 갤러리 인덱스는 보존 |
+
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+지속 규범은 `docs/CHOICE_CONSEQUENCE_SYSTEM.md`의 「과거 사실을 회수하는 선택의 가용성」에
+승격했다. 이 오더의 exact Git 전이·핀·소유권·검증 실행 절차는 일회성이다.
