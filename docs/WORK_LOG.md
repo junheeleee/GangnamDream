@@ -1,6 +1,6 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
-이전 원문 전체는 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md)에 바이트 그대로 보존했다.
+이전 원문 전체는 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md)에 바이트 그대로 보존했다. Claude PR #31 기록은 [별도 보관본](history/WORK_LOG_2026-10-05_claude_pr31.md)에 있다.
 
 ## 2026-10-05 — 사용자 우선 PR31 문장 수리 들이기 선언 (468)
 

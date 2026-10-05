@@ -137,7 +137,7 @@
   {
     "id": "arc_daeun_03b_date",
     "title": "First Time Out",
-    "description": "She asked: \"Want to go somewhere with me today?\"\n\nFirst time. Daeun outside the convenience store.\n\nThey ended up at a nearby tent bar — pojangmacha.\nOne bottle of soju. One serving of kimchi pancake.\n\nShe was different away from the counter.\nA little more relaxed. A little more laughing.\n\nHe said \"they should sell triangular kimbap here\" and she burst out laughing.\nA real laugh.",
+    "description": "She asked: \"Want to go somewhere with me today?\"\n\nFirst time. Daeun, on plans they had actually made.\n\nThey ended up at a nearby tent bar — pojangmacha.\nOne bottle of soju. One serving of kimchi pancake.\n\nShe was different away from the counter.\nA little more relaxed. A little more laughing.\n\nHe said \"they should sell triangular kimbap here\" and she burst out laughing.\nA real laugh.",
     "choices": [
       {
         "text": "\"Today is enough.\" — Gangnam forgotten for a moment",
@@ -167,7 +167,7 @@
   {
     "id": "arc_daeun_04b_future",
     "title": "You and Gangnam",
-    "description": "Late. The sound of {name} clicking at a calculator woke Daeun.\n\nShe watched for a long time, then spoke quietly.\n\"...I get anxious sometimes.\"\n\n{name} looked up, and she kept going.\n\"When you get to Gangnam... what happens to me?\nYou're the reason I stayed here,\nbut I don't know if the person who gets there will still want me.\"\n\nThe words hung in the air a long time.\n\n{name} didn't know what to say.\nThere were things that couldn't be said yet — not until the right moment.",
+    "description": "Late. Dozing on the convenience store's rest bench, Daeun lifted her head at the sound of {name} clicking at a calculator.\n\nShe watched for a long time, then spoke quietly.\n\"...I get anxious sometimes.\"\n\n{name} looked up, and she kept going.\n\"When you get to Gangnam... what happens to me?\nYou're the reason I stayed here,\nbut I don't know if the person who gets there will still want me.\"\n\nThe words hung in the air a long time.\n\n{name} didn't know what to say.\nThere were things that couldn't be said yet — not until the right moment.",
     "choices": [
       {
         "text": "\"Even there, I won't forget the person who's here. Let's hold on together.\" — that was all",
@@ -183,7 +183,7 @@
       },
       {
       "text": "\"Forget Gangnam — I need you here, now. Let's be together.\"",
-        "result_text": "Daeun's eyes widened. The numbers on the calculator stayed still, but their light trembled faintly between them.\n\n\"...Do you mean it?\"\n\"I do. Gangnam will still be there in five years. But you — you're here now.\"\n\nDaeun did not smile right away. She looked at {name}'s hand resting on the calculator and pressed her lips together. Only after touching the reddened corner of one eye with the back of her hand did she nod.\n\n\"Then you don't get to say you weren't sure later.\"\n\"I won't.\"\n\nShe smiled. Neither of them hurried to fill the silence before it was finished.\n\nThat night, the distance that had lingered since the convenience-store counter disappeared. It was the first day they chose to walk the remaining four years together."
+        "result_text": "Daeun's eyes widened. The numbers on the calculator stayed still, but their light trembled faintly between them.\n\n\"...Do you mean it?\"\n\"I do. Gangnam will still be there in five years. But you — you're here now.\"\n\nDaeun did not smile right away. She looked at {name}'s hand resting on the calculator and pressed her lips together. Only after touching the reddened corner of one eye with the back of her hand did she nod.\n\n\"Then you don't get to say you weren't sure later.\"\n\"I won't.\"\n\nShe smiled. Neither of them hurried to fill the silence before it was finished.\n\nThat night, the distance that had lingered since the convenience-store counter disappeared. It was the first day they chose to walk the time that remained together."
       }
     ]
   },

@@ -19,16 +19,16 @@
   {
     "id": "arc_pre_ending_winter",
     "title": "The Fifth Winter",
-    "description": "The fifth winter came.\n\n{name} opened the assets screen. Closed it. Didn't open it again.\n\nNot 3 billion. That much was clear now.\nNot a number you flip in the weeks remaining.\n\nThe goal he'd set five years ago — Gangnam. Those words felt far away now.\nWas it failure? The question rose, and strangely didn't linger long.\n\nSnow began to fall beyond the window of the room where he now lived.\nThe room and the view had changed more than once, but tonight this place was unmistakably {name}'s own.\n\nIt was the same winter as five years ago. The person watching it was not the same.",
+    "description": "The fifth winter came.\n\n{name} opened the assets screen. Closed it. Didn't open it again.\n\nIt wasn't 3 billion. That much was clear now.\nIt wasn't a number the remaining weeks could turn around.\n\nThe goal he'd set five years ago — Gangnam. Those words felt far away now.\nWas it failure? The question rose, and strangely didn't linger long.\n\nSnow began to fall beyond the window of the room where he now lived.\nThe room and the view had changed more than once, but tonight this place was unmistakably {name}'s own.\n\nIt was the same winter as five years ago. The person watching it was not the same.",
     "description_low_mental": "The fifth winter.\n\n{name} didn't even have the strength to open the assets screen.\n\nNot 3 billion. Gangnam was far.\nThe fact pressed on his chest — and what scared him more was how used to the weight he'd become.\n\nWhen did it get like this.\nA life where just getting up burned all of the day's energy.\n\nOutside, snow fell.\n{name} watched it for a long time. Thinking nothing.",
     "choices": [
       {
         "text": "Write down what these five years left you",
-        "result_text": "He opened the notebook.\n\nGangnam: didn't make it.\nUnder that, slowly, he wrote other things.\n\nFive years survived. Debt paid off. People he'd come to know. Things he'd learned.\nNo longer fooled. The number of times he fell and got back up.\n\nIn numbers it wasn't 3 billion.\nBut what was written in the notebook — those were things 3 billion couldn't buy.\n\n{name} closed the notebook. The snow kept falling."
+        "result_text": "He opened the notebook.\n\nGangnam: didn't make it.\nUnder that, slowly, he wrote other things.\n\nFive years survived. People he'd come to know. Things he'd learned.\nNo longer fooled. The number of times he fell and got back up.\n\n{name} closed the notebook. The snow kept falling."
       },
       {
         "text": "Just watch the snow — sort nothing out",
-        "result_text": "He decided not to sort it out.\n\nWhether it was five years well-lived or poorly-lived — there was no need to conclude it now.\nThat only comes into view later, from further away.\n\nFor now, snow was simply falling.\n{name} sat by the window and watched.\n\nNeither warm nor cold, a strangely peaceful night."
+        "result_text": "He decided not to sort it out.\n\nWhether it was five years well-lived or poorly-lived — there was no need to conclude it now.\n\nFor now, snow was simply falling.\n{name} sat by the window and watched."
       }
     ]
   },
@@ -39,11 +39,11 @@
     "choices": [
       {
         "text": "\"Dad, I never said it — but it was okay. All of it.\"",
-        "result_text": "The other end went quiet.\n\nFor a long time.\n\nThen Father said something he'd never said in his life.\n\"...Thank you. And I'm sorry. Both.\"\n\n{name} looked at the ceiling. His eyes burned.\nThe six years of debt, the five years of struggle — all of it grew small before this one call.\n\n\"Dad. Gangnam or not, I'm coming down soon. Let's eat together.\"\n\"...Yeah. Let's do that.\""
+        "result_text": "The other end went quiet.\n\nFor a long time.\n\nThen Father said something he'd never said in his life.\n\"...Thank you. And I'm sorry. Both.\"\n\n{name} looked at the ceiling. His eyes burned.\n\n\"Dad. Gangnam or not, I'm coming down soon. Let's eat together.\"\n\"...Yeah. Let's do that.\""
       },
       {
         "text": "\"Is something wrong? Your voice sounds...\"",
-        "result_text": "\"No. I just... wanted to hear your voice.\"\n\nIt was the first time Father had said that.\n\n{name} held the phone to his ear for a long while.\nThere was so much to say, but none of it came out.\n\nIn the end, all he said was \"...Me too, Dad.\"\n\nThere are nights when that's enough.\nAfter hanging up, {name} watched out the window a long time. Gangnam far or near, tonight that didn't matter."
+        "result_text": "\"No. I just... wanted to hear your voice.\"\n\nIt was the first time Father had said that.\n\n{name} held the phone to his ear for a long while.\nThere was so much to say, but none of it came out.\n\nIn the end, all he said was \"...Me too, Dad.\"\n\nAfter hanging up, {name} watched out the window a long time."
       }
     ]
   },
@@ -178,7 +178,7 @@
       },
       {
         "text": "Send Daeun the original again. Do not file until her own scope and deadline return.",
-        "result_text": "From a chair beside the counter, {name} sent one image containing both the name field and the addendum. Daeun did not reply with permission to write for her. She returned one sheet bearing the permitted scope and end date in her own hand. At the bottom: I DO NOT CONSENT BEYOND THESE TERMS. HAN DAEUN.\n\nThe clerk checked her hand and date, then ruled through every field outside that scope. {name} added not one mark. Even after the filing stamp landed, a clear clip kept the consent sheet separate, dividing what Daeun had permitted from what she had not."
+        "result_text": "From a chair beside the counter, {name} sent one image containing both the name field and the addendum. Daeun did not reply with permission to write for her. She returned one sheet bearing the permitted scope and end date in her own hand. At the bottom: I DO NOT CONSENT BEYOND THESE TERMS. KIM DAEUN.\n\nThe clerk checked her hand and date, then ruled through every field outside that scope. {name} added not one mark. Even after the filing stamp landed, a clear clip kept the consent sheet separate, dividing what Daeun had permitted from what she had not."
       },
       {
         "text": "Fill the field from an old identity copy that is not current consent.",
@@ -212,7 +212,7 @@
   {
     "id": "arc_y5_general_name_boundary_exact",
     "title": "Someone Else's Name",
-    "description": "At 6:17 on Thursday evening, {name} called an agent to ask about one of three saved listings around 2.5 billion won.\n\n‘Should I treat this as a single buyer? No one will join as a co-owner? I also need to know whether you'll use a co-borrower or guarantor in the loan consultation. Without either, we'll have to redraw the feasible range.’\n\nA copy of the final repayment confirmation from Year One lay beneath the phone. It bore the date when {name} finished six years of payments after Father trusted someone else and signed his own name. No new co-owner or guarantor had been written into any document.",
+    "description": "At 6:17 on Thursday evening, {name} called an agent to ask about one of three saved listings around 2.5 billion won.\n\n\"Should I treat this as a single buyer? No one will join as a co-owner? I also need to know whether you'll use a co-borrower or guarantor in the loan consultation. Without either, we'll have to redraw the feasible range.\"\n\nA copy of the final repayment confirmation lay beneath the phone. It bore the date when {name} finished six years of payments after Father trusted someone else and signed his own name. No new co-owner or guarantor had been written into any document.",
     "description_memory_if_known": {
       "chapter5_general_minseo_arrival_0": "Earlier, {name} had told Minseo, ‘I think I'm starting to get it.’ She said arrival would bring the next question. The question returned not after he obtained a home, but in the blank name field before any contract.\n\nThe agent asked, ‘What rule should I use when I recalculate?’ Between narrowing the possible range and putting someone else's name in the blank, only {name}'s own rule could be settled now.",
       "chapter5_general_minseo_arrival_1": "Earlier, {name} had told Minseo, ‘I haven't arrived yet.’ She did not declare arrival for him. The agent's question today was whose name he would pull in before arriving.\n\nThe agent asked, ‘What rule should I use when I recalculate?’ Between narrowing the possible range and putting someone else's name in the blank, only {name}'s own rule could be settled now."
@@ -231,7 +231,7 @@
   {
     "id": "arc_y5_general_debt_memory_reconnect",
     "title": "After Repayment, Before Arrival",
-    "description": "With twenty weeks left in the final year, {name} set a copy of the final repayment confirmation from Year One beside the notebook page from the week he answered Minseo's message. Three saved addresses remained on his phone.\n\nNo line yet joined the date the repayment ended to the answer he had actually sent Minseo. He would invent no answer Minseo had not given, no answer Father was no longer there to give, and no home he did not own.",
+    "description": "With twenty weeks left in the final year, {name} set a copy of the final repayment confirmation beside the notebook page from the week he answered Minseo's message. Three saved addresses remained on his phone.\n\nNo line yet joined the date the repayment ended to the answer he had actually sent Minseo. He would invent no answer Minseo had not given, no answer Father was no longer there to give, and no home he did not own.",
     "description_memory_if_known": {
       "chapter5_general_name_boundary_0": "Nine weeks earlier, {name} asked to see only the range possible with his name and his money. The cost of using no other name was a narrower range.\n\nTonight he would carry that rule into a private record sent to no one. Between the record button and the folded copy, {name} had to choose one medium on his side.",
       "chapter5_general_name_boundary_1": "Nine weeks earlier, {name} ended the consultation without adding another name. No new listing sheet or viewing time appeared.\n\nTonight he would carry that stop into a private record sent to no one. Between the record button and the folded copy, {name} had to choose one medium on his side."
@@ -239,7 +239,7 @@
     "choices": [
       {
         "text": "Put the repayment date and that day's answer into one private voice memo",
-      "result_text": "{name} started recording and read the final repayment-confirmation date from Year One. Then he spoke only the answer he had actually sent in reply to Minseo's message. He stopped after thirty-one seconds and put both dates in the title.\n\nThe memo stayed on his phone. He sent it to no one, and no read receipt or reply appeared. The three saved addresses remained comparison information."
+      "result_text": "{name} started recording and read the final repayment-confirmation date. Then he spoke only the answer he had actually sent in reply to Minseo's message. He stopped after thirty-one seconds and put both dates in the title.\n\nThe memo stayed on his phone. He sent it to no one, and no read receipt or reply appeared. The three saved addresses remained comparison information."
       },
       {
         "text": "Carry the repayment copy and a note bearing that day's answer to the cafe, and sit alone",
@@ -462,7 +462,7 @@
   {
     "id": "arc_y5_room_consent_receipt",
     "title": "The Clear Clip",
-    "description": "Even after the meeting ended, Daeun's handwritten sheet was not attached to the contract. In black ink it held the permitted scope, its end date, and the sentence, 'I do not consent beyond this range.' Sangchul's unverified clauses appeared below in a different hand. Jaehyuk's guarantee PDF lay in a separate stack.\n\nDaeun picked up a clear clip. 'Don't merge them, Minjun. This isn't part of the contract. It records exactly how far I spoke.'\n\n{name} matched the page counts on the four copies. One original remained at the center of the table, the rounded back of the clip catching the ceiling light.",
+    "description": "Even after the meeting ended, Daeun's handwritten sheet was not attached to the contract. In black ink it held the permitted scope, its end date, and the sentence, 'I do not consent beyond this range.' Sangchul's unverified clauses appeared below in a different hand. Jaehyuk's guarantee PDF lay in a separate stack.\n\nDaeun picked up a clear clip. \"Don't merge them, Minjun. This isn't part of the contract. It records exactly how far I spoke.\"\n\n{name} matched the page counts on the four copies. One original remained at the center of the table, the rounded back of the clip catching the ceiling light.",
     "choices": [
       {
         "text": "Keep the handwritten original separate from the contract, preserved by its own clip and capture time.",
