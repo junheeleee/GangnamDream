@@ -67,6 +67,8 @@
   order469_history가 tools/zh_translation_audit.py와 새 tools/prose_counter_self_test.py를 소유한다.
   새 정확 KO 현수 원문에서도 기존 ‘한 뼘 더 조용’ 비유와 두 사람의 서로 다른 지도 지원을
   유지하고, 눈송이 두 개의 자연스러운 两片雪花/兩片雪花를 인식한다. 값·단위·횟수·source
+  경계로 ‘딸깍 두 번’의 两声咔哒/兩聲喀噠와 ‘셋은’의 这三项/三者도 같은 정확 원문
+  슬롯에서 인식한다. 일반 片/声/项 카운터 전체의 허용 범위는 넓히지 않는다. 다른 source
   경계 음성 사례는 계속 거절한다. target 문장을 검사 편의로 어색하게 바꾸지 않는다.
   root는 audit_scope 등록만 소유하며 별도 선언 커밋 뒤 구현한다.
 - root 운영: CLAUDE현재, CODEX_QUEUE와 CODEX_QUEUE_L3_PENDING의 순번만,
