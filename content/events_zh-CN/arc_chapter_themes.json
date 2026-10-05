@@ -209,7 +209,7 @@
     "description": "凌晨两点十二分，门铃第三次响了。{name}打开门，Daeun 看见汗湿的衬衫、颤抖的手和地上的水杯，在一步之外停下。“Minjun，我能扶你的胳膊吗？还是先打119？”\n\n笔记本电脑上，客户文件的发送截止时间是两点三十分。坐出租车去夜间门诊挂号窗口，要十一分钟；做完文件，还剩十八分钟。两件事无法都做。\n\nDaeun 站在玄关，只看着{name}的手腕。",
     "description_memory_if_known": {
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_father": "刚才重新打到病区，确定了星期二核对父亲用药的时间。那通电话没有决定病情如何发展。到了今晚，又得决定实际守住自己的身体，还是期限。",
-      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "刚才向 Daeun 发去实际能腾出的两个时间，把确认的那一格锁进了日历。过去的等待没有被抹去，今晚，自己身体的窗口也不能由谁代为打开。",
+      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "那时，他连路上所需的时间也算了进去，把再次前往的时刻记在日历上。今晚，他交替看着笔记本电脑上的截止时间和夜间门诊说明。面对那只颤抖的手腕，Daeun 还在等着。",
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_deal": "刚才确定了重新查看合同原文的座位，以及额外保证金。找回的审核时间，让这次的期限更加鲜明，却代替不了为颤抖的手就诊。"
     },
     "choices": [
@@ -257,7 +257,7 @@
     "description": "凌晨两点十二分，{name}坐在玄关地上，打开夜间门诊的说明页面。指尖在抖，从左侧太阳穴到脖子，都绷得发紧。屏幕上，同时显示着119联络、两点三十分的客户文件截止时间，以及最后夜间挂号时间。\n\n走廊的感应灯灭了又亮。地砖的凉意透过裤子往上爬，握着手机的掌心直打滑。只有笔记本电脑的风扇声，在房间深处匀速转着。\n\n如果{name}不说，此刻没有人知道他的身体怎么了。",
     "description_memory_if_known": {
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_father": "刚才重新打到病区，确定了星期二核对父亲用药的时间。那通电话没有决定病情如何发展，也没有让今晚能代替自己去就诊的人出现。",
-      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "刚才向自己的门诊挂号窗口发去实际可行的两个时间，把确认的那一格锁进了日历。预约没有让身体痊愈。今天是否开门走进去，又成了自己的行动。",
+      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "那时，他连路上所需的时间也算了进去，把再次前往的时刻记在日历上。今天屏幕上显示的，是2点30分的截止时间和最后的挂号时间。指尖发颤，他又读了一遍同一行。",
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_deal": "刚才确定了重新查看合同原文的座位，以及额外保证金。找回的审核时间，让这次的期限更加鲜明，却代替不了为颤抖的手就诊。"
     },
     "description_if_known": {
