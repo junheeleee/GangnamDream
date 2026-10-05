@@ -69,6 +69,14 @@ source가 낡아짐을 확인했다. 원래 B3 안의 총8잎×3언어24영수�
 수정 범위는 해당 세 언어 `arc_year_close.json`의 결과문 한 문장씩과 원장,
 위 소유 history helper/self-test의 exact 역상뿐이다. 원문 KO/EN은 불변이다.
 
+검증 중 한 consumer 호출 안에서도 Main의 같은96객체 증명을 반복하는 것을
+코드로 확인했다. `main_game_locale_history.py`에 호출 범위로만 살아 있는
+증명 공유를 추가하고 root가 `order365_ui_receipt_compat.py`의 바깥 문맥에 연결한다.
+독립 호출은 새로 검증하며 매 재사용 시 HEAD/tree/blob/실제 Main·모듈 바이트를
+확인하고 정상 종료 때 전체96객체 증명을 다시 확인한다. 전역 성공 캐시나
+manifest 판정 재사용은 금지한다. pr31_main_compat는 이 도구와 신규
+`tools/pr31_main_proof_scope_check.py`만 소유하고 root는 검사 등록/실행을 맡는다.
+
 공식 CN check에서 `아버지가 떠난 지 여덟 달이 넘었다`를 일반 월수로 분류해
 정확한 `八个多月/八個多月`를 거부하는 오탐을 확인했다. PR 번역을 바꾸지 않고
 `tools/zh_translation_audit.py`의 기존 duration_month_over 분류에 이 정확한
