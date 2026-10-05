@@ -1,6 +1,6 @@
 # ORDER-456 — 생활 장면 선택의 실제 키보드 전달 경로를 확인한다
 
-#### [~] ORDER-456 [P1·입력 QA] 준비된 집밥·공원 휴식 4경로
+#### [x] ORDER-456 [P1·입력 QA] 준비된 집밥·공원 휴식 4경로
 
 **[~] 착수 — 2026-10-05.** 기존156의 결과 배경 검사는 실제 버튼의
 `pressed.emit()`을 사용한다. 방향키/Enter가 GUI를 거쳐 그 버튼을 한 번만
@@ -58,3 +58,12 @@ NOT_RUN이다. 제품/원고/번역/원장/입력 매핑/기존 QA/사용자 pro
 지우면 callback 회귀가 못 보는 GUI 입력 누락/중복을 놓친다. 새 선택이나24주 효과는
 만들지 않고 기존 선택의 실제 전달을 검사한다. 이미 확인한 배경 회귀를 반복하는 대신
 입력 공백4건에 검수 시간을 쓴다. 위 파일·모집단·절차는 이 작업의 **일회성**이다.
+
+## 완료 — 2026-10-05
+
+- 후보 `5d67f66c76c5f4ca1deef1a0515a9d81e1f4bb2c`, tree `b8bee44b684b691d85816d01cd723d59538bb7eb`의 첫 실제4경로가 통과했다. KO19.312초/EN21.777초, 24raw/12tap/4pressed/4receipt/4PNG, 경계 버튼0이다.
+- SAVE 실제50188원·mental−2/career+4와 REST mental+9/free_time_count+1, AP1→0·달력 불변을 확인했다. 준비/초기화와 입력 후 효과를 분리했으며 원본4PNG를 저자와 비저자가 직접 읽었다.
+- 같은 후보의 합성17·context/queue/diff/등록193·차선조회 PASS. 잘못 지정한 lane+files 조회의 CLI 오류는 증거에 보존하고 lane-only로 정정했다. 런타임 실패·기존 검사 재실행은 아니다.
+- 결과 `.git/full-game-localization/order456-first/result.json` SHA `17badc640d4315af9f7c0e0dc907ac9e5da1f6e01dc1c99e41ff7052aaa7072c`; 정적 증거 `static-checks.json` SHA `c2a21fac75994d285dff739236ebb0639a2473d1a0a45a3de7e3c8b5fbf2e9d6`.
+- [독립 한정GO](../agent_reviews/ORDER-456.json), 보고 SHA `4620f2eb58fa6aaecece28414bf228563ecce85d040c4dfe1ee2017eb6606c7c`. 입력22·실제player34·기존216판정194보고와 인간 이력을 보존하고217판정195보고로 마감한다.
+- 규범은 위 일회성 지시뿐이며 새 정본 규칙0이다. 자동 PASS는 계약 증거이지 자연 플레이·물리패드·인간/원어민·156전체·5장/출시 GO가 아니다. 본편/새package HOLD를 유지한다.
