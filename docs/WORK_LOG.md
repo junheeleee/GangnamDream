@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 프롤로그 리듬과 정확한 source 수용을 분리 선언 (149·463)
+
+- 별도macOS export462를 b6d49ce로 main마감·푸시했다. Mac잠금으로457/302실제화면은 막혔지만, 클로드149 지시의 단일0.52·hold3.10/3.10/3.00 결함은 현재도남아 있다. P18 1층만 진행한다.
+- fade0.44/0.76/0.36·hold2.80/3.50/2.90으로 명목10.76초를 유지하면서 처지비트3.62→4.26초를 배정한다. 실제시간은 기존/current×모션2경로의4자연재생으로 별도계측한다. 문안/자산/오디오/카메라강도/입력/첫5분흐름 변경0, 현재구현0이다.
+- 문안6키불변이어도 scenes raw manifest가 달라지므로 별도463에 단일GD Git전이/wholebyte역상과EOF adapter·작은반례·실제전체수용1회만 선언했다. 제품단독commit과adapter를검증한뒤같이push한다. 기존대형suite/240주/462export반복0, Mac잠금중12PNG/가독성/검은전환/체감은NOT_RUN이며149전체완료/출시GO로올리지 않는다.
+
 ## 2026-10-05 — 수정 체험판 별도 macOS 산출물의 독립 마감 (462)
 
 - clean05747c92/treea867b41a·BUILD2026.10.05.1/third의16명령 전부exit0. 실제 배달앱 서명·ZIP/PCK·현재rawJSON675/entry1877/app7파일 PASS다. 결과 SHAb338d2669831fbc0958cdc253960987407c509271e3282e56ac5243b6819ae6a, sourceclean/보호전후동일·오류0. 이전first/second 실패물·원본project/preset·실제player34·seed2/W195·공개저장9를 보존했다. 옛 build/story_demo는 부재→부재이며 실물재검증이 아니다.

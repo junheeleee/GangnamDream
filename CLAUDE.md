@@ -13,7 +13,7 @@
 | 현재 범위 | 1턴=1주, 240주·60개월(5년). **출시 데모는 M01~M06에서 끝나는** `story_demo_rc` BUILD `2026.08.31.1`이고 사용자 GO다. 본편은 M01~M60 전체의 장면·선택·회수·정점 상승을 한 작품으로 관리한다. 반복 행동판은 0이며 저장 호환 AP 데이터·엔진 삭제 GO는 아니다. |
 | 품질 게이트 | [`docs/MASTER_RELEASE_AUDIT.md`](docs/MASTER_RELEASE_AUDIT.md). 콘텐츠 수량보다 블랙박스 플레이, 한영 패리티, 패드 과업, 사람 기억·전환 증거로 판정한다. |
 | 최근 완료 | 수정 체험판 별도 로컬 macOS 후보가 export 한정 독립 GO다. 실제 앱 서명·ZIP/PCK/currentJSON675 검증과 과거 실패2건·실제저장 보존을 결속했다. 222판정200보고+manifest사본1이며 runtime/출시 GO가 아니다. 번역검수 중복 제거·코인3문구×5언어·phone 수리도 보존한다. |
-| 바로 다음 | 실행 순서는 단일 CODEX_QUEUE를 따른다. 수정 체험판 clean05747c9/BUILD2026.10.05.1-third의 실제 export·배달 앱 서명·ZIP/PCK 검사 PASS, 두 실패물도 보존했다. 무인자 부팅·저장·cold resume·복귀입력·5언어 화면·옛 저장 복사본의6항목은 미실행이다. Mac잠금·seed2/player34/W195 및 M60/후일담/6/6·Property·본편/새package 플레이·출시 HOLD를 보존한다. |
+| 바로 다음 | 실행 순서는 단일 CODEX_QUEUE를 따른다. Mac잠금 동안 클로드가 지시한 프롤로그 리듬의 source/자연타이밍 수리와 정확한 번역manifest전이를 분리 착수한다. 명목길이10.76초/문안·자산 불변이며 렌더·체감은 별도다. 새 macOS 후보의 runtime6항목·W195/M60/후일담/Property·본편/출시HOLD와 실제player34·seed2/W195를 보존한다. |
 | 열려 있는 사람 게이트 | 실제 인간 관찰은 [`docs/human_gates.json`](docs/human_gates.json), 위임된 내부 판정은 [`docs/agent_review_decisions.json`](docs/agent_review_decisions.json)이 각각 소유한다. 역사 판정·공개 GO1·인간 OPEN45를 보존하며 현 본편은 HOLD다. 사용자 재판정을 기다리는 대신 남은 검수·수리를 Codex가 계속한다. |
 | 그다음 | 후속라운드/전체 정산의 더 넓은 경로와 Chapter5·종막·프롤로그·실제관찰은 남아 있다. 휴면route4·역사CI243 한정GO·종료resource/ObjectDB 잔여를 보존한다. 검수 도구의 한정GO를 게임 출시 GO로 확대하지 않는다. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |
