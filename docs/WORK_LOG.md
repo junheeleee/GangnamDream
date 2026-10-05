@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 코인 원문 수리의 현재 번역원장 결속 선언 (459)
+
+- 축소한 실제 데이터 검사에서 full-body28.980초가 `KO/runtime source changed outside reviewed boundary`로 실패했다. audit4.444초 ERROR0/WARNING0과 i18n0.206초 KO외4언어 coverage는 통과했다. 실패는 과거 UI원장에 새KO/runtime 변경을 허용하지 않는 경계이며 화면PASS로 덮지 않는다.
+- [459](queue_active/ORDER-459.md)는 현재 제품을 바꾸지 않고632f88b의정확한source2전이·49124fd의기존9event receipt/3batch 역상을 기존consumer에 연결한다. 일반append/UI사전/과거판정/수용41755는 보존한다. 새공통프레임워크 없이 한정adapter/focused/기존연결만 소유를 나눴다.
+- 실제 현재 기본경로와 작은변이를 검수하며 역사 대형selftest/standalone365/화면 재실행을 중복하지 않는다. 458은 의존해소 전미완료,457은Mac잠금/실제메뉴0 상태로 남긴다.
+
 ## 2026-10-05 — 변경 데이터 중심 검수 재선언 (458 중간)
 
 - inherited overlay11행의 첫 변경 없는 도구 self-test는1315.966초 뒤에도 미완료였다. 역사event마다5개 변이가 fresh source 증명을 반복하는 유한 고비용 구조를 읽기 검토했고, root가SIGINT/exit−2로 중단했다. 원문을 보존하며 첫검사미완료/뒤10미실행이다. 완료/PASS로 세지 않는다.
