@@ -50,6 +50,8 @@ read-only 조사에서 모두 이미 `weight=0`, `hidden=true`, `conditions={min
   생성 `docs/CONTENT_RATING_INVENTORY.md`.
 - root 검사: `tools/chapter4_causal_route_audit.py`, `tools/exposed_state_consistency_audit.py`,
   `tools/narrative_spine_audit.py`, `tools/audit_scope.json` 등록.
+  첫 표적 실행에서 `tools/event_lifecycle.py` 자체검사의105/1708 고정 기대값이 검출됐다.
+  실제 검증된111/1702와 맞추는 한 줄만 root 소유로 추가 선언한다. 기존 음성27사례는 보존한다.
 - pr31_history_plan: 신규 `tools/order469_source_compat.py`,
   `tools/order469_source_compat_self_test.py`, 기존 `tools/pr31_intake_history.py`,
   `tools/pr31_intake_history_self_test.py`, `tools/ui_translation_append.py`,
@@ -57,6 +59,8 @@ read-only 조사에서 모두 이미 `weight=0`, `hidden=true`, `conditions={min
   기존 PR31 raw pin/e300 census/번역 수용 원장을 덮어쓰지 않는다.
 - pr31_intake_review: 비저자 read-only 검수 및 `docs/agent_reviews/ORDER-469.json`만 소유.
   root만 프로젝트 도구·Godot를 실행한다. 에이전트는 소유 파일 수정과 stdlib/Git 조회만 한다.
+  세션 중단 뒤 같은 소유를 각각 `order469_main`, `order469_history`, `order469_review`가
+  인계했다. 파일 경계와 비저자 분리는 그대로다.
 - `tools/HiddenFeatureCheck.gd`에는 현재 목표6개 ID가 없으며 지연 연애 주입은5장 엔딩용이다.
   이 파일은 read-only 보존한다. 사용자 작업표의 당시 예상과 현재 실물이 다르므로
   무관한5장 주입을 없애지 않는다. 같은 이유로 목표 원고/오버레이도 재작성하지 않는다.
