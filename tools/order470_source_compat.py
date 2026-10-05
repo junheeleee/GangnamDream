@@ -202,6 +202,7 @@ RECEIPT_SOURCE_MANIFEST_SHA256 = "900b842779fda24e42d93fcc484c1ded47dae43bbe0a19
 LOCALES = ("ja", "zh-CN", "zh-TW")
 RECEIPT_PATHS = (*ARC_PATHS[2:], LEDGER_PATH)
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
+_SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
 
 
 def _require(ok, detail):
@@ -403,7 +404,36 @@ def _configuration():
     return (PRODUCT_PARENT, PRODUCT_COMMIT, PRODUCT_PATHS, SOURCE_PATHS,
             copy.deepcopy(RAW_SHA256), copy.deepcopy(RAW_PATCHES), RECEIPT_PARENT,
             RECEIPT_COMMIT, copy.deepcopy(RECEIPT_RAW_SHA256), copy.deepcopy(RECEIPT_BATCH_SHA256),
-            RECEIPT_SOURCE_MANIFEST_SHA256, _git, _disk_bytes, product_inverse, _validate_receipts)
+            RECEIPT_SOURCE_MANIFEST_SHA256, ARC_PATHS, KO_PATH, RUNTIME_PATHS, INVENTORY_PATH,
+            RATING_PATH, LEDGER_PATH, EVENT_IDS, ADDED_TEXT_LEAVES, LOCALES, RECEIPT_PATHS,
+            PREDECESSOR_SOURCE_MANIFEST_SHA256, ROOT, __file__,
+            _git, _objects, _snapshot, _disk_bytes, product_inverse, _arc_inverse,
+            _validate_receipts, _receipt_semantics, _receipt_exports, receipt_overlay_inverse,
+            changed_text_selectors, _Document, _Document.walk, _Document.ws,
+            _loads, _ordered, _leaf, _sha, _digest, _require, _read_proof, _read_proof_current,
+            _memoized_semantics, _semantic_binding, _configuration,
+            hashlib.sha256, hashlib.sha1, json.loads, json.dumps, copy.deepcopy)
+
+
+def _semantic_binding(root):
+    root = Path(root).resolve()
+    module = Path(__file__).resolve()
+    _require(module == root / "tools/order470_source_compat.py", "proof module/root identity changed")
+    return root, _configuration(), _disk_bytes(module)
+
+
+def _memoized_semantics(label, inputs, calculate):
+    """Cache successful pure calculations only; no Git/disk admission is cached."""
+    memo = _SEMANTIC_MEMO.get()
+    if memo is None:
+        return calculate()
+    key = (label, inputs)  # Exact immutable raw bytes, not a digest-only claim.
+    if key not in memo[1]:
+        result = calculate()
+        _require(type(result) is bytes or (type(result) is tuple
+                 and all(type(value) is str for value in result)), "mutable semantic result")
+        memo[1][key] = result
+    return memo[1][key]
 
 
 class _Document:
@@ -483,7 +513,7 @@ def receipt_overlay_inverse(before, after, path, selectors):
     return before
 
 
-def _validate_receipts(before, after, source_before, root):
+def _receipt_semantics(before, after, source_before):
     selectors = changed_text_selectors(source_before[KO_PATH], before[KO_PATH])
     _require(len(selectors) == 14 and set(ADDED_TEXT_LEAVES) <= set(selectors), "exact14 receipt selectors")
     _require(set(RECEIPT_RAW_SHA256) == set(RECEIPT_PATHS)
@@ -502,7 +532,7 @@ def _validate_receipts(before, after, source_before, root):
     new_ids = {"events:" + eid + ":/" + "/".join(map(str, keys)) for eid, keys in ADDED_TEXT_LEAVES}
     _require(new["batches"][:len(old["batches"])] == old["batches"]
              and len(new["batches"]) == len(old["batches"]) + 3, "exact old batch prefix plus three official imports")
-    seen = set()
+    seen, revisions = set(), []
     for batch in new["batches"][len(old["batches"]):]:
         headers = batch.get("official_receipt_headers_by_locale", {})
         _require(type(headers) is dict and len(headers) == 1, "one official locale per batch")
@@ -546,16 +576,50 @@ def _validate_receipts(before, after, source_before, root):
         receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN",
                    "translations": receipts}
         _require(batch.get("receipt_sha256_by_locale") == {locale: _digest(receipt)}, "actual official receipt digest")
-        export, _ = _snapshot(root, header["source_revision"], tuple(before))
-        _require(export == before, "export revision source/draft/ledger differs")
-        _git(root, "merge-base", "--is-ancestor", header["source_revision"], RECEIPT_COMMIT)
+        revisions.append(header["source_revision"])
     _require(seen == set(LOCALES), "complete official locale acceptance")
     expected["accepted_sha256"] = _digest(expected["accepted"])
     expected["batches"] = new["batches"]
     _require(_ordered(new) == _ordered(expected), "receipt successor exceeds exact6 first and36 corrected leaves")
+    return tuple(dict.fromkeys(revisions))
+
+
+def _receipt_exports(before, revisions, root):
+    """Typed export objects and ancestry stay fresh on every admission edge."""
+    for revision in revisions:
+        export, _ = _snapshot(root, revision, tuple(before))
+        _require(export == before, "export revision source/draft/ledger differs")
+        _git(root, "merge-base", "--is-ancestor", revision, RECEIPT_COMMIT)
+
+
+def _validate_receipts(before, after, source_before, root):
+    # Preserve the direct API's complete immutable proof (including negatives).
+    try:
+        _receipt_exports(before, _receipt_semantics(before, after, source_before), root)
+    except BaseException:
+        memo = _SEMANTIC_MEMO.get()
+        if memo is not None:
+            memo[1].clear()
+        raise
 
 
 def _read_proof(root):
+    """Fresh current/immutable admission, with invocation-local pure reuse."""
+    memo = _SEMANTIC_MEMO.get()
+    try:
+        binding = _semantic_binding(root)
+        if memo is not None:
+            _require(binding == memo[0], "semantic scope root/config/module identity changed")
+        proof = _read_proof_current(root)
+        _require(_semantic_binding(root) == binding, "proof configuration/module changed during read")
+        return proof
+    except BaseException:
+        if memo is not None:
+            memo[1].clear()
+        raise
+
+
+def _read_proof_current(root):
     root = Path(root).resolve()
     head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
     before, _ = _snapshot(root, PRODUCT_PARENT, (*PRODUCT_PATHS, LEDGER_PATH))
@@ -569,7 +633,7 @@ def _read_proof(root):
     _require(set(RAW_SHA256) == set(PRODUCT_PATHS), "complete source raw pins")
     _require(before[LEDGER_PATH] == after[LEDGER_PATH], "source draft is not translation acceptance")
     for path in PRODUCT_PATHS:
-        product_inverse(before[path], after[path], path)
+        _require((_sha(before[path]), _sha(after[path])) == RAW_SHA256.get(path), "source raw pin " + path)
     current, receipts = after, None
     if RECEIPT_COMMIT is not None:
         receipt_before, _ = _snapshot(root, RECEIPT_PARENT, tuple(after))
@@ -582,11 +646,27 @@ def _read_proof(root):
                  "exact four receipt/target paths")
         _git(root, "merge-base", "--is-ancestor", PRODUCT_COMMIT, RECEIPT_COMMIT)
         _git(root, "merge-base", "--is-ancestor", RECEIPT_COMMIT, head)
-        _validate_receipts(receipt_before, receipts, before, root)
+        _require(set(RECEIPT_RAW_SHA256) == set(RECEIPT_PATHS), "receipt raw pin population")
+        for path in RECEIPT_PATHS:
+            _require((_sha(receipt_before[path]), _sha(receipts[path])) == RECEIPT_RAW_SHA256[path],
+                     "receipt raw pin " + path)
         current = receipts
     actual, _ = _snapshot(root, head, (*PRODUCT_PATHS, LEDGER_PATH))
     _require(actual == current, "current HEAD differs from exact source/receipt product")
     _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "current disk differs from Git")
+    for path in PRODUCT_PATHS:
+        _memoized_semantics("product:" + path, (before[path], after[path]),
+                            lambda p=path: product_inverse(before[p], after[p], p))
+    if receipts is not None:
+        inputs = tuple((p, before[p], receipt_before[p], receipts[p]) for p in before)
+        revisions = _memoized_semantics("receipts", inputs,
+                                       lambda: _receipt_semantics(receipt_before, receipts, before))
+        _receipt_exports(receipt_before, revisions, root)
+    # A failure after successful pure work must clear that work too. Observe
+    # the actual HEAD/disk again before returning, without historical views.
+    _require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head,
+             "HEAD changed during proof")
+    _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "disk changed during proof")
     return {"root": root, "head": head, "before": before, "after": after,
             "current": actual, "receipts": receipts, "binding": _configuration()}
 
@@ -595,18 +675,28 @@ def _read_proof(root):
 def fresh_validation_proof(root=ROOT):
     active = _ACTIVE.get()
     if active is not None:
-        _require(Path(root).resolve() == active["root"] and _read_proof(root) == active,
-                 "nested proof Git/disk/configuration changed")
-        yield active
-        _require(_read_proof(root) == active, "nested proof changed during use")
+        try:
+            _require(Path(root).resolve() == active["root"] and _read_proof(root) == active,
+                     "nested proof Git/disk/configuration changed")
+            yield active
+            _require(_read_proof(root) == active, "nested proof changed during use")
+        except BaseException:
+            _SEMANTIC_MEMO.get()[1].clear()
+            raise
         return
-    proof = _read_proof(root)
-    token = _ACTIVE.set(proof)
+    memo = (_semantic_binding(root), {})
+    memo_token = _SEMANTIC_MEMO.set(memo)
     try:
-        yield proof
-        _require(_read_proof(root) == proof, "Git/disk/configuration changed inside proof")
+        proof = _read_proof(root)
+        token = _ACTIVE.set(proof)
+        try:
+            yield proof
+            _require(_read_proof(root) == proof, "Git/disk/configuration changed inside proof")
+        finally:
+            _ACTIVE.reset(token)
     finally:
-        _ACTIVE.reset(token)
+        memo[1].clear()
+        _SEMANTIC_MEMO.reset(memo_token)
 
 
 def predecessor_bytes(raw, path, root=ROOT):

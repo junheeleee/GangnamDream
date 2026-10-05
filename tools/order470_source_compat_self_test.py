@@ -5,6 +5,7 @@ from __future__ import annotations
 import copy
 import json
 import sys
+import time
 from pathlib import Path
 from unittest import mock
 
@@ -147,7 +148,145 @@ def run():
                   mock.patch.dict(history.RECEIPT_BATCH_SHA256, {locale: history._digest(batch)})):
                 reject(lambda r=raw: history._validate_receipts(after, {**accepted, history.LEDGER_PATH: r}, before, history.ROOT),
                        "repinned official batch " + label)
+    memo_failures, memo_cases, profile = run_memo_checks()
+    failures.extend(memo_failures)
+    cases += memo_cases
+    print("ORDER470_SEMANTIC_MEMO_PROFILE " + json.dumps(profile, sort_keys=True))
     return failures, cases
+
+
+def run_memo_checks():
+    """Real-object reuse measurements plus failures after a warmed proof."""
+    failures, cases, profile = [], 0, {}
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER470 semantic memo: " + label)
+
+    def reject(operation, label):
+        try:
+            operation()
+        except (OSError, ValueError, TypeError, KeyError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    product, receipt, git, disk = history.product_inverse, history._receipt_semantics, history._git, history._disk_bytes
+    for scoped in (False, True):
+        with (mock.patch.object(history, "product_inverse", wraps=product) as products,
+              mock.patch.object(history, "_receipt_semantics", wraps=receipt) as receipts,
+              mock.patch.object(history, "_git", wraps=git) as git_calls):
+            started = time.perf_counter()
+            if scoped:
+                with history.fresh_validation_proof() as proof:
+                    raw = proof["current"][history.KO_PATH]
+                    check(history.predecessor_bytes(raw, history.KO_PATH) == proof["before"][history.KO_PATH],
+                          "nested actual result equals immutable predecessor")
+                    saved_memo = history._SEMANTIC_MEMO.get()
+                    check(all(type(v) is bytes or (type(v) is tuple and all(type(s) is str for s in v))
+                              for v in saved_memo[1].values()), "memo values expose no mutable aliases")
+            else:
+                for _ in range(4):
+                    history._read_proof(history.ROOT)
+            profile["scoped" if scoped else "unscoped"] = {
+                "seconds": round(time.perf_counter() - started, 6), "proof_edges": 4,
+                "product_semantic_calls": products.call_count, "receipt_semantic_calls": receipts.call_count,
+                "git_calls": git_calls.call_count,
+                "typed_batches": sum(c.args[1:3] == ("cat-file", "--batch") for c in git_calls.call_args_list),
+            }
+            check(products.call_count == (9 if scoped else 36), "exact pure product calculation count " + str(scoped))
+            check(receipts.call_count == (1 if scoped else 4), "exact pure receipt calculation count " + str(scoped))
+        check(history._ACTIVE.get() is None and history._SEMANTIC_MEMO.get() is None,
+              "no active state between invocations " + str(scoped))
+    check(profile["scoped"]["git_calls"] == profile["unscoped"]["git_calls"]
+          and profile["scoped"]["typed_batches"] == profile["unscoped"]["typed_batches"],
+          "every Git and typed-object edge remains fresh")
+    check(not saved_memo[1], "successful outer exit erases retained memo reference")
+
+    # Install stable reader identities before entry. Toggling their responses
+    # exercises actual warm evidence checks, not merely function-identity drift.
+    mode = {"value": "good", "ko_reads": 0}
+    def live_git(root, *args, **kwargs):
+        result = git(root, *args, **kwargs)
+        if args[:2] == ("cat-file", "--batch"):
+            if mode["value"] == "objects missing":
+                return b"missing missing\n"
+            if mode["value"] == "object bytes":
+                return result[:-2] + b"X\n"
+            if mode["value"] == "object type":
+                return result.replace(b" commit ", b" blob ", 1)
+        if mode["value"] == "HEAD" and args[:2] == ("rev-parse", "--verify"):
+            return ("0" * 40 + "\n").encode()
+        return result
+    def live_disk(path):
+        result = disk(path)
+        if path == history.ROOT / history.KO_PATH:
+            mode["ko_reads"] += 1
+            if mode["value"] == "disk" or (mode["value"] == "final disk" and mode["ko_reads"] == 2):
+                return result + b"\n"
+        if mode["value"] == "module" and path == Path(history.__file__).resolve():
+            return result + b"\n"
+        return result
+    with (mock.patch.object(history, "_git", live_git), mock.patch.object(history, "_disk_bytes", live_disk),
+          mock.patch.object(history, "_receipt_semantics", wraps=receipt) as receipts):
+        with history.fresh_validation_proof() as proof:
+            raw = proof["current"][history.KO_PATH]
+            memo = history._SEMANTIC_MEMO.get()
+            for label in ("objects missing", "object bytes", "object type", "HEAD", "disk", "module"):
+                mode["value"], mode["ko_reads"] = label, 0
+                reject(lambda: history.predecessor_bytes(raw, history.KO_PATH), "warm " + label)
+                check(not memo[1], "failed warm guard erases success " + label)
+                mode["value"] = "good"
+                before_count = receipts.call_count
+                check(history.predecessor_bytes(raw, history.KO_PATH) == proof["before"][history.KO_PATH]
+                      and receipts.call_count == before_count + 1, "fresh calculation after caught failure " + label)
+            with mock.patch.object(history, "PRODUCT_PARENT", history.PRODUCT_COMMIT):
+                reject(lambda: history.predecessor_bytes(raw, history.KO_PATH), "warm pin configuration")
+            check(not memo[1], "configuration failure clears success")
+            history.predecessor_bytes(raw, history.KO_PATH)
+            reject(lambda: history.predecessor_bytes(raw + b"\n", history.KO_PATH), "warm forged raw claim")
+            check(not memo[1], "claim rejection clears success")
+            # The next attempt computes pure semantics successfully, then
+            # fails the final physical-disk guard. A caught failure cannot keep it.
+            mode["value"], mode["ko_reads"] = "final disk", 0
+            before_count = receipts.call_count
+            reject(lambda: history.predecessor_bytes(raw, history.KO_PATH), "failure after successful semantics")
+            check(receipts.call_count == before_count + 1 and not memo[1], "late guard clears newly successful semantics")
+            mode["value"] = "good"
+            history.predecessor_bytes(raw, history.KO_PATH)
+            reject(lambda: history.predecessor_bytes(raw, history.KO_PATH, history.ROOT / "unowned"), "warm wrong root")
+            check(not memo[1], "wrong root clears success")
+            history.predecessor_bytes(raw, history.KO_PATH)
+            old = proof["before"][history.KO_PATH]
+            proof["before"][history.KO_PATH] = old + b"\n"
+            reject(lambda: history.predecessor_bytes(raw, history.KO_PATH), "mutated returned proof alias")
+            check(not memo[1], "returned alias cannot alter immutable memo evidence")
+            proof["before"][history.KO_PATH] = old
+            history.predecessor_bytes(raw, history.KO_PATH)
+            mode["value"] = "objects missing"
+            reject(lambda: history._validate_receipts(proof["after"], proof["receipts"], proof["before"], history.ROOT),
+                   "direct receipt API still reads typed export objects")
+            check(not memo[1], "direct receipt Git failure clears success")
+            mode["value"] = "good"
+        check(history._SEMANTIC_MEMO.get() is None and not memo[1], "warm scope has no surviving cache")
+    for exception in (ValueError, KeyboardInterrupt):
+        retained = None
+        try:
+            with history.fresh_validation_proof():
+                retained = history._SEMANTIC_MEMO.get()
+                raise exception("fixture consumer escape")
+        except exception:
+            pass
+        check(retained is not None and not retained[1] and history._SEMANTIC_MEMO.get() is None
+              and history._ACTIVE.get() is None, "exception escape clears state " + exception.__name__)
+    with mock.patch.object(history, "_receipt_semantics", wraps=receipt) as receipts:
+        for _ in range(2):
+            with history.fresh_validation_proof():
+                pass
+        check(receipts.call_count == 2, "separate invocations never reuse success")
+    return failures, cases, profile
 
 
 def run_receipt_consumer_checks():
