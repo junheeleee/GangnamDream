@@ -164,9 +164,13 @@ fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거�
 - 규범 판정: source 결속·표본·소유·실행 지시는 일회성. 기존 WORK_UNIT/I18N/P-9를
   적용하며 새 정본 승격0. 변하지 않은720·전체 회귀·검사기 self-test를 반복하지 않는다.
 
-### 2026-10-05 별도 로컬 successor 생성 착수
+### 2026-10-05 별도 로컬 successor export 완료 / 실제 package 재생 HOLD
 
-[462](ORDER-462.md)에서 새 builder/audit·BUILD2026.10.05.1 로컬 export를 선언했다.
+[462](../queue_archive/ORDER-462.md)의 clean05747c9·BUILD2026.10.05.1/third는
+실제 배달 앱 서명·ZIP/PCK/currentJSON 무결성을 통과했다. manifest SHA
+`02f2a3973b496df52bd71e8d1b0abe81e75fbe768221671ca9bff68016f16d49`,
+상태는 EXPORTED_NOT_RUNTIME_VERIFIED/runtime NOT_RUN이다.
 기존 공개 source/pin/사용자 GO·build/story_demo/저장 namespace를 보존한다.
 실제 export/서명/ZIP/PCK 무결성과 실제 GUI 부팅·저장·복귀는 다른 판정이다.
-전자가 끝나도 후자 미실행이면 이 부모·새 package/본편/출시는 HOLD다.
+무인자 부팅·신규 저장·cold resume·StoryMode 복귀/입력·5언어 화면·옛 공개저장
+복사본 호환6항목은 미실행이다. 이 부모·새 package 플레이/본편/출시는 HOLD다.

@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 수정 체험판 별도 macOS 산출물의 독립 마감 (462)
+
+- clean05747c92/treea867b41a·BUILD2026.10.05.1/third의16명령 전부exit0. 실제 배달앱 서명·ZIP/PCK·현재rawJSON675/entry1877/app7파일 PASS다. 결과 SHAb338d2669831fbc0958cdc253960987407c509271e3282e56ac5243b6819ae6a, sourceclean/보호전후동일·오류0. 이전first/second 실패물·원본project/preset·실제player34·seed2/W195·공개저장9를 보존했다. 옛 build/story_demo는 부재→부재이며 실물재검증이 아니다.
+- 최종MANIFEST171751byte SHA02f2a3973b496df52bd71e8d1b0abe81e75fbe768221671ca9bff68016f16d49와 추적사본은byte-exact다. 독립보고 SHA1f89b2dfa4ac33eabc092ca7aaa3d76752824cc97c7982ad5c19e6011229b554의 export범위 work_unit GO를 추가해222판정/200보고다. 사본1개는 보고서·재실행으로 세지 않는다.
+- 현재52합성/4표적 PASS 및 최종CLI PASS를 원시로그로 남겼다. 실제export/엔진 반복0, 의도된i18n거부·중첩project ignored외 engine/script/parse오류0. artifact저장공간은 빈디렉토리 존재/파일0이며 actualruntime NOT_RUN·user GO비상속이다.
+- 무인자 부팅·새저장·cold resume·복귀입력·5언어 화면·옛 공개저장 복사본 호환6항목은 그대로 남았다. CUA 신선조회도 Mac잠금으로 앱접근 불가여서 수동해제 요청·우회0이다. 302/457·M60/후일담/Property·본편/출시HOLD와 인간OPEN45/DONE1·공개GO1을 유지한다.
+- 승격: BUILD_PIPELINE의 로컬 successor 후보 절. BUILD/attempt·파일소유·이번 반례/실행순서는 일회성이다. 자동PASS는 계약 증거이지 재미·깊이·문체 승인 아님.
+
 ## 2026-10-05 — 실제 배달 앱을 비동기화 전용 경로에 결속 (462)
 
 - builder545/감사708행의 최소diff를 비저자가 전수읽기했다. repo ZIP/로그는 유지하고 앱만 fixed Application Support/LocalCandidates/BUILD/attempt로 직접 재추출한다. 양목적지 fresh·ancestor symlink 차단·실제앱 xattr읽기/서명/ZIP/PCK 결속이며 속성제거코드는 전량철회했다.
@@ -34,7 +42,7 @@
 ## 2026-10-05 — 수정 체험판의 별도 로컬 export 선언 (462)
 
 - read-only source census에서 UID없는GD3개를 확인했다. 새 import의 생성 sidecar는 정확3경로만 사양에 선언하고 유무/형식/SHA를 기록한다. source4치환·all_resources와 원본 저장소 불변, 다른새파일 허용0이다. 현재 oldpublic build/story_demo는 부재여서 missing→missing만 확인하며 옛artifact 실물 재검증으로 쓰지 않는다.
-- 검수 중복 제거461을 main4d00f31로 마감했다. [462](queue_active/ORDER-462.md)는302 source 수리가 담긴 새 clean main을 별도 앱/저장/출력으로 묶는다. 원 공개 builder의 고정제품·공개저장 이동·출력교체는 재사용하지 않는다.
+- 검수 중복 제거461을 main4d00f31로 마감했다. [462](queue_archive/ORDER-462.md)는302 source 수리가 담긴 새 clean main을 별도 앱/저장/출력으로 묶는다. 원 공개 builder의 고정제품·공개저장 이동·출력교체는 재사용하지 않는다.
 - 두 신규 Python파일과 등록/문서만 소유를 분리했다. staging-only exact identity변경, 첫 엔진 전 RuntimeQA 격리, 실제export/서명/ZIP/PCK/currentJSON 및 보호대상 전후 대조가 범위다. 새후보를 EXPORTED_NOT_RUNTIME_VERIFIED로 표시하며 GUI/정상저장복귀·302package/457/본편/출시HOLD를 남긴다.
 - BUILD2026.10.05.1/새 attempt를 선언하며 구현/새엔진/export0이다. 제품/원고/번역/과거pin/human/project 변경0, 검사효율을 위해 완료된 full-body/기존 self-test 전량은 반복하지 않는다.
 

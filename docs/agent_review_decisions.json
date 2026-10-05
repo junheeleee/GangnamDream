@@ -9108,6 +9108,52 @@
         "path": "docs/agent_reviews/ORDER-461.json",
         "sha256": "f4659e61993a845cc6323a9345b811ab6261ccba7c15acd44e29975d596e72ee"
       }
+    },
+    {
+      "id": "order-462-package-05747c9-third-export-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-05",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-462",
+      "subject": {
+        "kind": "package",
+        "commit": "05747c92de6b590c5f0456376f2210a4e422b182",
+        "tree": "a867b41a90f59f5dcedafe9bb171e39b82aa2100",
+        "manifest_sha256": "02f2a3973b496df52bd71e8d1b0abe81e75fbe768221671ca9bff68016f16d49"
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-462.json",
+          "sha256": "1f89b2dfa4ac33eabc092ca7aaa3d76752824cc97c7982ad5c19e6011229b554"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-462-manifest.json",
+          "sha256": "02f2a3973b496df52bd71e8d1b0abe81e75fbe768221671ca9bff68016f16d49"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "no_argument_boot",
+        "new_save",
+        "cold_resume",
+        "story_return_input",
+        "five_locale_screens",
+        "old_public_save_copy_compatibility",
+        "normal_speed_chapter5_replay",
+        "order302_package_play_acceptance",
+        "whole_game_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-462.json",
+        "sha256": "1f89b2dfa4ac33eabc092ca7aaa3d76752824cc97c7982ad5c19e6011229b554"
+      }
     }
   ]
 }

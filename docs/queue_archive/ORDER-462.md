@@ -1,6 +1,6 @@
 # ORDER-462 — 수정된 체험판의 별도 로컬 macOS 후보를 만든다
 
-#### [~] ORDER-462 [P0·출시 준비] 공개본을 보존하는 successor export
+#### [x] ORDER-462 [P0·출시 준비] 공개본을 보존하는 successor export
 
 **[~] 착수 — 2026-10-05.** 302의 대본7항목은 source GO이나 옛 공개 빌더는
 4e80a63/BUILD2026.08.31.1과 공개 저장·출력 경로에 고정돼 있다. 그 핀을 바꾸거나
@@ -141,3 +141,46 @@ GUI 자연 부팅·신규 저장/별도 프로세스 재개·StoryMode 복귀/�
 - builder545/감사708행의 최소 변경을 비저자 전수읽기했고 새 차선52반례/4검사
   PASS다. 철회한 속성제거16반례를 성공으로 누적하지 않고 새 경로/읽기10개로
   교체했다. 새 clean commit의 고정16명령 actual third가 다음 단계다.
+
+## 실제 산출물 — 2026-10-05
+
+- clean source `05747c92de6b590c5f0456376f2210a4e422b182`, tree
+  `a867b41a90f59f5dcedafe9bb171e39b82aa2100`의 third 실제16명령 전부exit0.
+  APP7파일/PCK1877entry/current raw JSON675의 동일성을 검사했다.
+- ZIP427928192byte SHA
+  `22cadef5eb023669e67cdf7a44648ff3e369b744d594172e391a3d88217b58aa`,
+  PCK389386440byte SHA
+  `cd3b0d1b92a3aa47531c25d1a09e2ca25f6d65eabf8a542cfb7d6ae7b45f7351`.
+  실제앱은 Application Support/GangnamDream_LocalCandidates/2026.10.05.1/third,
+  ZIP/로그/결과는 build/story_demo_successor/2026.10.05.1/third다.
+- result SHA `b338d2669831fbc0958cdc253960987407c509271e3282e56ac5243b6819ae6a`,
+  all_pass=true·preservation_errors=[]·sourceclean전후일치·보호대상동일.
+  공개 build/story_demo는 missing→missing이며 옛artifact 실물 재검증이 아니다.
+  artifact namespace는 빈디렉토리로 존재하며 실행저장파일0이다.
+- 최종MANIFEST171751byte SHA
+  `02f2a3973b496df52bd71e8d1b0abe81e75fbe768221671ca9bff68016f16d49`와
+  [추적 사본](../agent_reviews/ORDER-462-manifest.json)이 byte-exact다.
+  status EXPORTED_NOT_RUNTIME_VERIFIED/runtime NOT_RUN/user_go NOT_INHERITED.
+- 최종 CLI PASS log SHA
+  `b3e72857d7f7184ee9ba1b1c4e03e2c7aa0aa8ad39aa87ac6dbd9f3ab33548d5`.
+  clean 구현 후보의52합성/4검사 raw log SHA
+  `5badc45b951cedeb2cc6e9257f1251a6cc8390b434d2b39663d4d367a268ba95`.
+  기존차선 stdout만 남았으므로 최종원시로그 확보1회이며 실제export/engine 재실행0.
+- import/export의 nested103 project ignored 및 의도된 i18n 거부warning만 확인했다.
+  engine/script/parse오류0. 새 GUI/입력0, no_argument_boot·new_save·cold_resume·
+  story_return_input·five_locale_screens·old_public_save_copy_compatibility는 미실행.
+  CUA 현재조회도 Mac locked로 자동해제실패. 사용자 수동해제를 요청했으며 우회0.
+
+## 완료 — 2026-10-05 · export 범위 한정
+
+- [독립 보고](../agent_reviews/ORDER-462.json)는 위 package subject/manifest에
+  결속한 work_unit GO다. 보고 SHA
+  `1f89b2dfa4ac33eabc092ca7aaa3d76752824cc97c7982ad5c19e6011229b554`.
+  비저자99고유파일 재해시와 실제 로그/코드 읽기를
+  저작·실행과 구분한다. 기존221판정/199보고를 보존한222판정/200보고이며,
+  manifest 사본1개는 보고서 수에 넣지 않는다.
+- 규범 승격: `docs/BUILD_PIPELINE.md`의 `로컬 successor 후보 — 공개본 미교체`.
+  별도identity/저장격리/실제배달앱 서명/미관측runtime 표식만 지속 규칙이다.
+  BUILD/attempt·소유·52반례·두 실패와 배달 위치 수리의 실행 순서는 일회성이다.
+- 자동PASS는 계약 증거이지 재미·깊이·문체 승인 아님. 실제runtime6·302·457·
+  M60/후일담/Property·본편/출시HOLD, 공개 GO1·인간OPEN45/DONE1은 보존한다.
