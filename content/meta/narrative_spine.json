@@ -707,7 +707,6 @@
         "arc_36_reality_check",
         "arc_year_three_crossroads",
         "arc_y4_three_promises",
-        "arc_y4_three_promises_jiyeon_and_deal",
         "arc_y4_three_promises_deal_only"
       ],
       "escalation": [
@@ -715,10 +714,8 @@
         "arc_36_unexpected_hand",
         "arc_36_body_signal",
         "arc_y4_body_witness",
-        "arc_y4_body_witness_jiyeon",
         "arc_y4_body_witness_hyunsu",
         "arc_y4_family_partner_collision",
-        "arc_y4_family_partner_collision_jiyeon",
         "arc_y4_family_commitment_none",
         "arc_y4_family_table_missed",
         "arc_year_three_half"
@@ -729,12 +726,10 @@
         "arc_y4_father_call_answered_on_ktx",
         "arc_y4_father_call_missed_on_ktx",
         "arc_y4_borrowed_name",
-        "arc_y4_borrowed_name_jiyeon",
         "arc_y4_borrowed_name_self",
         "arc_y4_borrowed_name_document_gap",
         "arc_36_night_doubt",
         "arc_y4_bill_night",
-        "arc_y4_bill_night_jiyeon",
         "arc_y4_bill_night_unattached",
         "arc_y4_father_crisis_contact",
         "arc_y4_father_final_contact_present",
@@ -746,7 +741,6 @@
         "arc_y4_father_crisis_stabilized",
         "arc_y4_father_outcome_unknown",
         "arc_y4_year_close_daeun",
-        "arc_y4_year_close_jiyeon",
         "arc_y4_year_close_unattached"
       ],
       "aftermath": [

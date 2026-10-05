@@ -5,17 +5,17 @@
   "hash_semantics": "sha256(UTF-8 sorted unique IDs joined by LF with one trailing LF)",
   "counts": {
     "packaged_events": 1813,
-    "shipping_events": 1708,
-    "author_only_events": 105,
+    "shipping_events": 1702,
+    "author_only_events": 111,
     "tagged_author_only_events": 97,
-    "ledger_only_author_only_events": 8
+    "ledger_only_author_only_events": 14
   },
   "sha256": {
     "packaged_event_ids": "42943b7141acb9223943235640116f12b6d5b3313ad20f993a786c13103a9507",
-    "shipping_event_ids": "0254f6d7938d7e281204b5b730d6b59e179efbe12595ef16fa72d3b378b6a6de",
-    "author_only_event_ids": "875d518e73ed35fcbbe7af9378d9a06d2a86a8e290ec7cf4bdb3e78c74cd2b05",
+    "shipping_event_ids": "3da33a2402b5fd6201e916dbaec4c5a530b93e9297c1be74cc8e20068e1401d5",
+    "author_only_event_ids": "ee832b66c79917acb427f37a90b37243b14f638c0de82ceeecd5c466ebbe570b",
     "tagged_author_only_event_ids": "402702eea994c73bbae61a590e73e32f6cd0c5df3b843a4d28d897a54582148c",
-    "ledger_only_author_only_event_ids": "66a71ee46d7941f4d697c25544bd44c752b98cca88e8cf81308a3a432dee76ed"
+    "ledger_only_author_only_event_ids": "5feeb2cbad7a07cbd0f5f84a9dcc3c43f5442488a1856c45b71eae0dc9fd4461"
   },
   "contract": {
     "weight": 0,
@@ -83,6 +83,12 @@
     "arc_y3_truth_heard_by_hyunsu",
     "arc_y3_truth_heard_by_none",
     "arc_y3_truth_unproven",
+    "arc_y4_bill_night_jiyeon",
+    "arc_y4_body_witness_jiyeon",
+    "arc_y4_borrowed_name_jiyeon",
+    "arc_y4_family_partner_collision_jiyeon",
+    "arc_y4_three_promises_jiyeon_and_deal",
+    "arc_y4_year_close_jiyeon",
     "arc_y5_after_goal_hyunsu_career",
     "arc_y5_career_reviewer_receipt_minseo",
     "arc_y5_contract_cover_career",

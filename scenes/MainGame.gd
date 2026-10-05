@@ -6707,12 +6707,10 @@ func _deferred_foreground_event_id(
 	return ""
 
 func _chapter_four_relationship_event_id(
-		daeun_id: String, jiyeon_id: String, unattached_id: String) -> String:
+		daeun_id: String, unattached_id: String) -> String:
 	var partner_id := _romance_partner_id()
 	if partner_id == "daeun":
 		return daeun_id
-	if partner_id == "jiyeon":
-		return jiyeon_id
 	return unattached_id
 
 func _father_death_is_monotonic(
@@ -7071,7 +7069,6 @@ func _chapter_four_causal_arc_id(
 			and not f.get("arc_y4_three_promises_seen", false):
 		return _chapter_four_relationship_event_id(
 			"arc_y4_three_promises",
-			"arc_y4_three_promises_jiyeon_and_deal",
 			"arc_y4_three_promises_deal_only")
 	if t == 157 and f.get("arc_y4_three_promises_seen", false) \
 			and not f.get("arc_36_unexpected_hand_seen", false):
@@ -7099,7 +7096,6 @@ func _chapter_four_causal_arc_id(
 			and not f.get("arc_y4_body_witness_seen", false):
 		return _chapter_four_relationship_event_id(
 			"arc_y4_body_witness",
-			"arc_y4_body_witness_jiyeon",
 			"arc_y4_body_witness_hyunsu")
 	if t == 167 and not father_is_passed \
 			and f.get("arc_y4_body_witness_seen", false) \
@@ -7109,7 +7105,6 @@ func _chapter_four_causal_arc_id(
 			unattached_family_id = "arc_y4_family_table_missed"
 		return _chapter_four_relationship_event_id(
 			"arc_y4_family_partner_collision",
-			"arc_y4_family_partner_collision_jiyeon",
 			unattached_family_id)
 	if t == 169 and f.get("arc_y4_family_table_seen", false) \
 			and not f.get("arc_year_three_half_seen", false):
@@ -7127,13 +7122,11 @@ func _chapter_four_causal_arc_id(
 			unattached_name_id = "arc_y4_borrowed_name_document_gap"
 		return _chapter_four_relationship_event_id(
 			"arc_y4_borrowed_name",
-			"arc_y4_borrowed_name_jiyeon",
 			unattached_name_id)
 	if t == 181 and not father_is_passed \
 			and not f.get("arc_y4_bill_night_seen", false):
 		return _chapter_four_relationship_event_id(
 			"arc_y4_bill_night",
-			"arc_y4_bill_night_jiyeon",
 			"arc_y4_bill_night_unattached")
 	if t == 185 and f.get("arc_y4_bill_night_seen", false) \
 			and not father_is_passed \
@@ -7144,7 +7137,6 @@ func _chapter_four_causal_arc_id(
 	if t == 190 and not f.get("arc_y4_year_close_boundary_seen", false):
 		return _chapter_four_relationship_event_id(
 			"arc_y4_year_close_daeun",
-			"arc_y4_year_close_jiyeon",
 			"arc_y4_year_close_unattached")
 	return ""
 

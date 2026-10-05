@@ -220,7 +220,6 @@
     "commitment_event_owners": {
       "153": [
         { "id": "arc_y4_three_promises", "axis": "human" },
-        { "id": "arc_y4_three_promises_jiyeon_and_deal", "axis": "human" },
         { "id": "arc_y4_three_promises_deal_only", "axis": "human" }
       ],
       "157": [
@@ -233,12 +232,10 @@
       ],
       "164": [
         { "id": "arc_y4_body_witness", "axis": "human" },
-        { "id": "arc_y4_body_witness_jiyeon", "axis": "human" },
         { "id": "arc_y4_body_witness_hyunsu", "axis": "human" }
       ],
       "167": [
         { "id": "arc_y4_family_partner_collision", "axis": "human" },
-        { "id": "arc_y4_family_partner_collision_jiyeon", "axis": "human" },
         { "id": "arc_y4_family_commitment_none", "axis": "human" },
         { "id": "arc_y4_family_table_missed", "axis": "human" }
       ],
@@ -247,13 +244,11 @@
       ],
       "177": [
         { "id": "arc_y4_borrowed_name", "axis": "money" },
-        { "id": "arc_y4_borrowed_name_jiyeon", "axis": "money" },
         { "id": "arc_y4_borrowed_name_self", "axis": "money" },
         { "id": "arc_y4_borrowed_name_document_gap", "axis": "money" }
       ],
       "181": [
         { "id": "arc_y4_bill_night", "axis": "human" },
-        { "id": "arc_y4_bill_night_jiyeon", "axis": "human" },
         { "id": "arc_y4_bill_night_unattached", "axis": "human" }
       ],
       "185": [
@@ -265,7 +260,6 @@
       ],
       "190": [
         { "id": "arc_y4_year_close_daeun", "axis": "human" },
-        { "id": "arc_y4_year_close_jiyeon", "axis": "human" },
         { "id": "arc_y4_year_close_unattached", "axis": "human" }
       ],
       "192": [

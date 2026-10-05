@@ -117,7 +117,7 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 ## 현재 개발 소스 코퍼스 (공개 후보 아님)
 
 - KO/EN 사건: 각각 127파일 · 1813건, ID 일치
-- 패키지 사건: 1813건 · 현재 shipping 사건: 1708건 · author-only reference 원고: 105건
+- 패키지 사건: 1813건 · 현재 shipping 사건: 1702건 · author-only reference 원고: 111건
 - KO/EN 엔딩: 각각 35건
 - 활성 스토리 이미지: 257장 · source raster: 313장
 - 게임 pack 대상 raster: 305장 · ImageRegistry 외부 pack 대상: 48장
@@ -299,11 +299,11 @@ M01~M06 fresh-start 도달은 아래 세 프로필의 도달 판정으로 대신
   - `story_demo_rc`: frozen 후보에도 동일 사실이 적용됨 / M01~M06 도달은 전용 route audit 소유 — exact source 근거와 1,806사건·PCK JSON/import roster를 분리 대조했다.
 - **tobacco_and_medicine_references · mild** — 담배는 경마장 냄새·편의점 진열 같은 배경 언급이며 흡연 행동은 확인되지 않았다. 처방약·복용은 건강 서사로 나오고 불법 약물 플레이는 확인되지 않았다.
   - 소유: `content/events/racetrack_events.json`, `content/events/core_loop_v2_events.json`, `content/events/life_events.json`, `content/events/arc_chapter_themes.json`
-  - 사건: `race_first_visit`, `v2_convenience_trial_shift`, `v2_father_health_signal`, `arc_y4_three_promises`, `arc_y4_three_promises_deal_only`, `arc_y4_three_promises_jiyeon_and_deal`
+  - 사건: `race_first_visit`, `v2_convenience_trial_shift`, `v2_father_health_signal`, `arc_y4_three_promises`, `arc_y4_three_promises_deal_only`
   - `retail_full`: 패키지 포함 / 부팅 등록 / fresh-start 정적 가능 — Background tobacco and health-medicine references exist in full routes.
   - `legacy_demo`: 패키지 포함 / 부팅 등록 / fresh-start 정적 가능 — Early health/background references may be scheduled; no smoking action is owned.
   - `v2_playtest`: 패키지 포함 / 부팅 등록 / fresh-start 명시 계약 — Convenience-store tobacco display and the week-21 medicine signal are explicit V2 roots.
-  - `story_demo_rc`: frozen 후보에도 동일 사실이 적용됨 / M01~M06 도달은 전용 route audit 소유 — exact source 근거와 1,806사건·PCK JSON/import roster를 분리 대조했다.
+  - `story_demo_rc`: 동일 ID의 frozen 후보 정의만 적용 — 현재 개발 정의를 공개 후보에 소급하지 않는다.
 
 ### 생성형 AI
 

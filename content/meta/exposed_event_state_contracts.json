@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "scope": {
-    "root_count": 386,
-    "exposed_count": 537,
-    "root_ids_sha256": "a91998950487f82aebf800da4a39b9bc00380843b01cd8c05f2e035daee696d2",
-    "exposed_ids_sha256": "82cb338878b506736fd4009abcf15082274115b77f2e6c247236e1bcf4246cc6"
+    "root_count": 380,
+    "exposed_count": 531,
+    "root_ids_sha256": "6a21c7452a07d317d4ba1f964881e9dc0b6f0151dca0404452e9a3180301876e",
+    "exposed_ids_sha256": "6c401705db2b8762b74831bfd8825d3d395c2fe39c3a08467dac4b62dff28fb0"
   },
   "state_sensitive": {
     "amb_coin_00": [
@@ -1320,12 +1320,6 @@
       "location",
       "relationship"
     ],
-    "arc_y4_bill_night_jiyeon": [
-      "father_life",
-      "housing",
-      "location",
-      "relationship"
-    ],
     "arc_y4_bill_night_unattached": [
       "father_life",
       "housing",
@@ -1343,12 +1337,6 @@
       "location",
       "relationship"
     ],
-    "arc_y4_body_witness_jiyeon": [
-      "father_life",
-      "housing",
-      "location",
-      "relationship"
-    ],
     "arc_y4_borrowed_name": [
       "location",
       "relationship"
@@ -1356,10 +1344,6 @@
     "arc_y4_borrowed_name_document_gap": [
       "housing",
       "location"
-    ],
-    "arc_y4_borrowed_name_jiyeon": [
-      "location",
-      "relationship"
     ],
     "arc_y4_borrowed_name_self": [
       "location"
@@ -1369,11 +1353,6 @@
       "location"
     ],
     "arc_y4_family_partner_collision": [
-      "father_life",
-      "location",
-      "relationship"
-    ],
-    "arc_y4_family_partner_collision_jiyeon": [
       "father_life",
       "location",
       "relationship"
@@ -1439,17 +1418,7 @@
       "father_life",
       "location"
     ],
-    "arc_y4_three_promises_jiyeon_and_deal": [
-      "father_life",
-      "location",
-      "relationship"
-    ],
     "arc_y4_year_close_daeun": [
-      "location",
-      "relationship"
-    ],
-    "arc_y4_year_close_jiyeon": [
-      "housing",
       "location",
       "relationship"
     ],
