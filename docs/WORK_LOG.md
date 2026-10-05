@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 수정 체험판의 별도 로컬 export 선언 (462)
+
+- 검수 중복 제거461을 main4d00f31로 마감했다. [462](queue_active/ORDER-462.md)는302 source 수리가 담긴 새 clean main을 별도 앱/저장/출력으로 묶는다. 원 공개 builder의 고정제품·공개저장 이동·출력교체는 재사용하지 않는다.
+- 두 신규 Python파일과 등록/문서만 소유를 분리했다. staging-only exact identity변경, 첫 엔진 전 RuntimeQA 격리, 실제export/서명/ZIP/PCK/currentJSON 및 보호대상 전후 대조가 범위다. 새후보를 EXPORTED_NOT_RUNTIME_VERIFIED로 표시하며 GUI/정상저장복귀·302package/457/본편/출시HOLD를 남긴다.
+- BUILD2026.10.05.1/새 attempt를 선언하며 구현/새엔진/export0이다. 제품/원고/번역/과거pin/human/project 변경0, 검사효율을 위해 완료된 full-body/기존 self-test 전량은 반복하지 않는다.
+
 ## 2026-10-05 — 중복 이력 증명 제거의 실제 수용·독립 마감 (461)
 
 - clean main `178a9d151181284b8b040b862dd249597b74c8d7`/tree `ae952fa70a690e3d6124cf81fccda47f9ca8fb14`의 기본 full-body1회가446.304초/exit0/빈stderr PASS다. 입력20/player34/seed2+W195와 신원 전후 동일, 현재50수용·shipping1708/11681leaf·reader133·static192/1752leaf의 SOURCE_INVENTORY_ONLY/runtime0/native0다.

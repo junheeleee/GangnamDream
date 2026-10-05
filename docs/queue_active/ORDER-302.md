@@ -163,3 +163,10 @@ fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거�
   복사하지 않는다. 최신 signed-int64 ObjectID 수리와 pre-autoload 격리 선례를 보존한다.
 - 규범 판정: source 결속·표본·소유·실행 지시는 일회성. 기존 WORK_UNIT/I18N/P-9를
   적용하며 새 정본 승격0. 변하지 않은720·전체 회귀·검사기 self-test를 반복하지 않는다.
+
+### 2026-10-05 별도 로컬 successor 생성 착수
+
+[462](ORDER-462.md)에서 새 builder/audit·BUILD2026.10.05.1 로컬 export를 선언했다.
+기존 공개 source/pin/사용자 GO·build/story_demo/저장 namespace를 보존한다.
+실제 export/서명/ZIP/PCK 무결성과 실제 GUI 부팅·저장·복귀는 다른 판정이다.
+전자가 끝나도 후자 미실행이면 이 부모·새 package/본편/출시는 HOLD다.
