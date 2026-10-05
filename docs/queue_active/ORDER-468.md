@@ -58,6 +58,17 @@ debt_memory_reconnect description/result0, final_father_answer_alive description
 source가 낡아짐을 확인했다. 원래 B3 안의 총8잎×3언어24영수증을 fresh 수용한다.
 이는 새 사건·번역 확대가 아니며 기존 미수용 name_on_line 결과1은 이번에 추가하지 않는다.
 
+현재 수용 사건 전체의 source를 다시 대조해 PR이 바꾼 조건부 결과 3잎도
+낡은 영수증으로 남았음을 확인했다: `arc_minseo_03_arrival`의
+`description_if_known/contacted_minseo`, `arc_jiyeon_wedding_gap_father_passed`와
+`arc_year4_close_father_passed`의 `choices/1/result_text`.
+앞 두 잎은 번역문을 보존하고 영수증만 갱신한다. 마지막 잎은 JA/CN/TW의
+낡은 옥상 회색 문장을 현재 KO/EN의 종이 한 장 문장으로만 바로잡는다.
+같은 PR 들이기의 잔여 결함이며 총11잎×3언어33영수증이다. 앞선24 수용은
+보존하고 추가9를 공식 export/check/import한 별도 실제 Git 전이로 결속한다.
+수정 범위는 해당 세 언어 `arc_year_close.json`의 결과문 한 문장씩과 원장,
+위 소유 history helper/self-test의 exact 역상뿐이다. 원문 KO/EN은 불변이다.
+
 공식 CN check에서 `아버지가 떠난 지 여덟 달이 넘었다`를 일반 월수로 분류해
 정확한 `八个多月/八個多月`를 거부하는 오탐을 확인했다. PR 번역을 바꾸지 않고
 `tools/zh_translation_audit.py`의 기존 duration_month_over 분류에 이 정확한
