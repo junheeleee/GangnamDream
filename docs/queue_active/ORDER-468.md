@@ -83,10 +83,18 @@ manifest 판정 재사용은 금지한다. pr31_main_compat는 이 도구와 신
 다르게 부른다. 실제 입구는 test182주 이후·finale228주 또는30억 달성이므로
 고정 연도는 보장되지 않는다. 지연 year5_return `choices/1/result_text`도
 부산 출발110~135주→귀환193주 이후라 PR의2년을 보장하지 않는다.
-이미 소유한 `arc_daeun_married.json`, `arc_new_characters.json`의 5언어에서
+이미 소유한 `arc_daeun_married.json`, `arc_year3_drama.json`의 5언어에서
 해당4잎만 기간 단정을 없는 과거 회상으로 정렬한다. 관계·효과·분기·일정과
-남산10년 약속은 보존한다. 공식수용12영수증과 실제 원문전이/원장전이를
-분리해 Git에 결속하고, 총45갱신을 기존 이력 helper/self-test로 검증한다.
+남산10년 약속은 보존한다.
+같은 검수에서 `stable_success` 1잎·`orthodox_pinnacle` 12잎·
+`unorthodox_legend` 7잎의 새 금액 표현이 실제 `>=` 엔딩 입구를
+`넘었다/over`로 잘못 좁힘을 확인했다. 5언어의 이20잎만 `이상/at least`로
+고친다. 금액·조건·게임플레이·다른 문장은 바꾸지 않는다.
+합계24원문잎×5언어120문자열의 실제 source-only 전이와 이후
+events4/endings20×3언어72영수증·6배치의 ledger-only 전이를 분리한다.
+기존33갱신을 보존한 총105갱신이며, 원문 변경에 따른 release inventory의
+실제 corpus/axis 지문과 필요시 rating 문서만 같은 source 전이에 정렬한다.
+두 실제 Git 전이를 기존 이력 helper/self-test의 exact 역상으로 검증한다.
 이는 새 장면이나7k가 아닌 들이기에서 확인한 새 사실 오류 수리다.
 
 공식 CN check에서 `아버지가 떠난 지 여덟 달이 넘었다`를 일반 월수로 분류해
