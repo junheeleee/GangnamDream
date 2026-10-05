@@ -9679,6 +9679,90 @@
           "batch_id": "376827a77964530226f249781fc66a26f5cbd4e87d6376bb5cb21dac5f84c098"
         }
       }
+    },
+    {
+      "order": "ORDER-466",
+      "group": "ui",
+      "roots": [
+        "매수할 수 없습니다",
+        "✓ 투자 → %s 매수 %s",
+        "투자 매수",
+        "매수 완료 %s",
+        "매도할 수 없습니다",
+        "✓ 투자 → %s 매도",
+        "투자 매도",
+        "매도 완료"
+      ],
+      "source_leaves": 8,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 8,
+        "zh-TW": 0
+      },
+      "source_review": "Independent Korean-direct Chinese trade feedback: buy/sell fallback errors, successful action log and nonpending action commit, bought cash-committed amount and sold confirmation. Keep tick, arrow, placeholders and asset-name then committed-money order; no share quantity, sale price or error cause invented. No current-month no-AP copy, Japanese, Korean/English source, transaction/AP rules, prices, input, saves or public/history change. Source acceptance is not actual trade, screen/native or release approval",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "f66055c4db022312f5763332522b83d6176b3c3446962e2d89f77980557d36b6"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "052d29d325d990bbcdd198e74c4bb6aa62e9a395",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9f4e35c51dd343febaf93695100974487664758fbc449d2ef3feb75786477b6c",
+          "selection_sha256": "fe93bec402ccc4fab8e10fbfed246e774d7e4cf3d4c216e193a5ee51c081b929",
+          "count": 8,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "224b81b9b625de0c52b951831226d5dc867f73bc72d213fcea804e11f9c16db9"
+        }
+      }
+    },
+    {
+      "order": "ORDER-466",
+      "group": "ui",
+      "roots": [
+        "매수할 수 없습니다",
+        "✓ 투자 → %s 매수 %s",
+        "투자 매수",
+        "매수 완료 %s",
+        "매도할 수 없습니다",
+        "✓ 투자 → %s 매도",
+        "투자 매도",
+        "매도 완료"
+      ],
+      "source_leaves": 8,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 8
+      },
+      "source_review": "Independent Korean-direct Chinese trade feedback: buy/sell fallback errors, successful action log and nonpending action commit, bought cash-committed amount and sold confirmation. Keep tick, arrow, placeholders and asset-name then committed-money order; no share quantity, sale price or error cause invented. No current-month no-AP copy, Japanese, Korean/English source, transaction/AP rules, prices, input, saves or public/history change. Source acceptance is not actual trade, screen/native or release approval",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "55b02d3fdf132249faa36c2270c7794af56324213a4e7b281f1ab2e3900ea9a6"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "052d29d325d990bbcdd198e74c4bb6aa62e9a395",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9f4e35c51dd343febaf93695100974487664758fbc449d2ef3feb75786477b6c",
+          "selection_sha256": "5eacd5f205313a28ecfab7224e0339795887a3c556acd5f78e5ee15220ada41e",
+          "count": 8,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8368407c801f92e57300b6f3da747efdd3be1e66773bf15c41364fe3a3fcc911"
+        }
+      }
     }
   ],
   "accepted": {
@@ -119580,6 +119664,38 @@
       "ui:횡보장:/횡보장": {
         "source_sha256": "a5307c81bee5984b24f703bd7402babf3dc3b78604b83988fa0d0c763a2c7da6",
         "target_sha256": "6d295137fbe3d2fd63a0e8790491b3aa18d45022d3bf232e249b23300b6cf006"
+      },
+      "ui:✓ 투자 → %s 매도:/✓ 투자 → %s 매도": {
+        "source_sha256": "ffe6651e12641dcc5ddbd0b8c837170701a2a62f65102fd71e41add42b093783",
+        "target_sha256": "0de04291f5a772d9f05af932de63b4b2ccb78361664fa69aaed625f6b72297ea"
+      },
+      "ui:✓ 투자 → %s 매수 %s:/✓ 투자 → %s 매수 %s": {
+        "source_sha256": "a855af2a11172c106c1f2971888ccb46060e5ffb12d7af1461b8b99af241dbd2",
+        "target_sha256": "e8bf42cb2d90e86b5352063db9feaf2d242db79d1d723a1aef1ff2ec8022563a"
+      },
+      "ui:매도 완료:/매도 완료": {
+        "source_sha256": "f3964700c76be4bbf8c9f523baa957a28e4511973ba0960c4fb553ae34cf0a80",
+        "target_sha256": "b5ae837f8ba76bc6ae8d243483232d1c69f633cb901a45b2c014ac6f56554cfc"
+      },
+      "ui:매도할 수 없습니다:/매도할 수 없습니다": {
+        "source_sha256": "f94fa80d0cc4ed78198968a614106e53296469dc8a6592cb144b6d49e78d24f5",
+        "target_sha256": "23cd1d5e9a35e71547eb07685bdfcad5fbf57093542daeaa31b987fb62d2e965"
+      },
+      "ui:매수 완료 %s:/매수 완료 %s": {
+        "source_sha256": "29295d6b6ba70f527ee1906710de20f86a472094b0de0455f4aa420a61656571",
+        "target_sha256": "0a88fd33c68b4ea22e0453eecea012f1e9f2f865fcb6a688718152984fcf0af7"
+      },
+      "ui:매수할 수 없습니다:/매수할 수 없습니다": {
+        "source_sha256": "176e9f4b57a5798293bd4af9c184a995d8fe465ef75f1f14cc029571bb78dd00",
+        "target_sha256": "104708f53d71c231496b3772988699106ce9b0707136a9d2757c82b11c4ff40e"
+      },
+      "ui:투자 매도:/투자 매도": {
+        "source_sha256": "15c5b15eab91cc9b53741e482a142b5a16cdf1cad9c85975206d2d18f81ba6b7",
+        "target_sha256": "eed95ce7bda5772cfa536872ea14112b647d70c5ef9e58010264806e1a616f53"
+      },
+      "ui:투자 매수:/투자 매수": {
+        "source_sha256": "a653c916328fec8657cb5af6c1bbdbe5862eb2d771faef7a79cab8a7548cc456",
+        "target_sha256": "87e56975ed1aac38744b4b4fe22de9437a3c8bac6af752533849130232620189"
       }
     },
     "zh-TW": {
@@ -176906,10 +177022,42 @@
       "ui:횡보장:/횡보장": {
         "source_sha256": "a5307c81bee5984b24f703bd7402babf3dc3b78604b83988fa0d0c763a2c7da6",
         "target_sha256": "f66ddcd32c98ce72a86aa01b71dff5859b2ab36736146e7d96ac379216b2cbe1"
+      },
+      "ui:✓ 투자 → %s 매도:/✓ 투자 → %s 매도": {
+        "source_sha256": "ffe6651e12641dcc5ddbd0b8c837170701a2a62f65102fd71e41add42b093783",
+        "target_sha256": "8c6d0178f06690517c5a2acdff59dca9a4119f393e464f922cec9ec7ffcbf9d1"
+      },
+      "ui:✓ 투자 → %s 매수 %s:/✓ 투자 → %s 매수 %s": {
+        "source_sha256": "a855af2a11172c106c1f2971888ccb46060e5ffb12d7af1461b8b99af241dbd2",
+        "target_sha256": "4c73551c2367f6c4cadebe674d6f844dbb59c1979ef20add044891a2cb42b3f6"
+      },
+      "ui:매도 완료:/매도 완료": {
+        "source_sha256": "f3964700c76be4bbf8c9f523baa957a28e4511973ba0960c4fb553ae34cf0a80",
+        "target_sha256": "0dbbb5c04ef2ffc17c849bbb48a9834b10157135e15e5998a0858c3918cf3cd8"
+      },
+      "ui:매도할 수 없습니다:/매도할 수 없습니다": {
+        "source_sha256": "f94fa80d0cc4ed78198968a614106e53296469dc8a6592cb144b6d49e78d24f5",
+        "target_sha256": "84bb4a60a7d3bd521554e72ba4fc724e62ec8b835bc8b0d9bf47f2f0dd4baa81"
+      },
+      "ui:매수 완료 %s:/매수 완료 %s": {
+        "source_sha256": "29295d6b6ba70f527ee1906710de20f86a472094b0de0455f4aa420a61656571",
+        "target_sha256": "f5b42fb9f440dd496d562ca39115ba2709b455599c4ced33bb2b5faf75fa1d83"
+      },
+      "ui:매수할 수 없습니다:/매수할 수 없습니다": {
+        "source_sha256": "176e9f4b57a5798293bd4af9c184a995d8fe465ef75f1f14cc029571bb78dd00",
+        "target_sha256": "f9fbd7402e27211786796c5688474e219bc508c227d3198f9872a59ff56b11b2"
+      },
+      "ui:투자 매도:/투자 매도": {
+        "source_sha256": "15c5b15eab91cc9b53741e482a142b5a16cdf1cad9c85975206d2d18f81ba6b7",
+        "target_sha256": "5ee28da52c7234acd4a0d347ca7bafb2f34e2f09c63165da7dc4712c8e59b999"
+      },
+      "ui:투자 매수:/투자 매수": {
+        "source_sha256": "a653c916328fec8657cb5af6c1bbdbe5862eb2d771faef7a79cab8a7548cc456",
+        "target_sha256": "30dd1bf5c026fd12d75d3d3ea4316afbfb1c4291296f5efa5ce8d85d69caef63"
       }
     }
   },
-  "accepted_sha256": "94bbe48f5d0b7a09b30910627aaa89fff03eee7cff86ad0a7036ce14efcee914",
+  "accepted_sha256": "e6581f60319c66a1912703f954c968917c5e6e9a247e727757368dbe3d9fcfff",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
