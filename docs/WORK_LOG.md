@@ -4,6 +4,7 @@
 
 ## 2026-10-05 — 수정 체험판의 별도 로컬 export 선언 (462)
 
+- read-only source census에서 UID없는GD3개를 확인했다. 새 import의 생성 sidecar는 정확3경로만 사양에 선언하고 유무/형식/SHA를 기록한다. source4치환·all_resources와 원본 저장소 불변, 다른새파일 허용0이다. 현재 oldpublic build/story_demo는 부재여서 missing→missing만 확인하며 옛artifact 실물 재검증으로 쓰지 않는다.
 - 검수 중복 제거461을 main4d00f31로 마감했다. [462](queue_active/ORDER-462.md)는302 source 수리가 담긴 새 clean main을 별도 앱/저장/출력으로 묶는다. 원 공개 builder의 고정제품·공개저장 이동·출력교체는 재사용하지 않는다.
 - 두 신규 Python파일과 등록/문서만 소유를 분리했다. staging-only exact identity변경, 첫 엔진 전 RuntimeQA 격리, 실제export/서명/ZIP/PCK/currentJSON 및 보호대상 전후 대조가 범위다. 새후보를 EXPORTED_NOT_RUNTIME_VERIFIED로 표시하며 GUI/정상저장복귀·302package/457/본편/출시HOLD를 남긴다.
 - BUILD2026.10.05.1/새 attempt를 선언하며 구현/새엔진/export0이다. 제품/원고/번역/과거pin/human/project 변경0, 검사효율을 위해 완료된 full-body/기존 self-test 전량은 반복하지 않는다.

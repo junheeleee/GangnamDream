@@ -45,6 +45,11 @@ GUI 자연 부팅·신규 저장/별도 프로세스 재개·StoryMode 복귀/�
   PUBLIC_CUSTOM_USER_DIR, 전용 check의 기대 BUILD를 정확 치환한다. 전후 hash와
   허용 key/횟수·그 외 원문 보존을 검사한다. export_filter=all_resources 및 기존
   include/exclude filter·게임플레이·profile/save format은 보존한다.
+- 사전 Git census에서 UID가 없는 tracked GD3개를 확인했다. fresh import가 만드는
+  `tools/RoutineBackgroundInputCheck.gd.uid`,
+  `tools/order103_export/AudioManagerStub.gd.uid`, `tools/order103_export/Entry.gd.uid`만
+  staging 생성 sidecar로 허용하고 실제 유무/형식/SHA를 별도 기록한다.
+  `.godot` 캐시 외 다른 추가 파일은 거부한다. 원본 저장소에 UID를 추가하지 않는다.
 - 첫 엔진 시작 전부터 새 RuntimeQA namespace를 application에 지정한다. 각 검사
   환경/namespace를 명시하고 늦은 Node override에 격리를 의존하지 않는다.
   export 전에 artifact 고유 namespace로 전환하여 검사 저장을 후보의 시작 저장으로
