@@ -10429,6 +10429,111 @@
           "batch_id": "7c480e608b2fe39c0cfd6f3d4910efa9d997f280a1fc197b5d154bf2973e874e"
         }
       }
+    },
+    {
+      "order": "ORDER-471",
+      "group": "events",
+      "roots": [
+        "arc_36_unexpected_hand_person_deal"
+      ],
+      "source_leaves": 6,
+      "target_leaves_by_locale": {
+        "ja": 6,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Independent complete Korean-direct review of six changed leaves per locale: clinic default and divorce-first/Daeun conditional recollection, neutral revisit choice/results, original missed Saturday rather than last weekend. Official bounded export/check/import; format-only restoration retains identical full JSON and unrelated bytes. Not native, rendered, human-play, physical-input or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "12ec80bd19592a12804fb917ec1fff1717eb6f1cf1aa1882d644ef59b50457a1"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "53a8737e911eb9f321c5e84a06d798a95597a76b",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "a23c35a674df1932d1299735cde17260914a60c09a00e7617fe61c1fb5f93545",
+          "selection_sha256": "41b9848330787ffd5c672ca865edecb40cec8a426ddcd5acb9e59513a5b4d7af",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "04c7ec728182811750d7a24a37d1132d6049d570ac87ce8adfcc5214a27921c2"
+        }
+      }
+    },
+    {
+      "order": "ORDER-471",
+      "group": "events",
+      "roots": [
+        "arc_36_unexpected_hand_person_deal"
+      ],
+      "source_leaves": 6,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 6,
+        "zh-TW": 0
+      },
+      "source_review": "Independent complete Korean-direct review of six changed leaves per locale: clinic default and divorce-first/Daeun conditional recollection, neutral revisit choice/results, original missed Saturday rather than last weekend. Official bounded export/check/import; format-only restoration retains identical full JSON and unrelated bytes. Not native, rendered, human-play, physical-input or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "df4c2fde0f9630f5425e99858beb47c0892026ce23b355208254c034bca1d500"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "53a8737e911eb9f321c5e84a06d798a95597a76b",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "a23c35a674df1932d1299735cde17260914a60c09a00e7617fe61c1fb5f93545",
+          "selection_sha256": "882c59afef229c07e2ebb328000897f59c7428fcfe461b6b1bc5a230808c0866",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "495e8ada0789a8f0c7c1751fe165a4cbd585092ee270fcaa186043a106ef1258"
+        }
+      }
+    },
+    {
+      "order": "ORDER-471",
+      "group": "events",
+      "roots": [
+        "arc_36_unexpected_hand_person_deal"
+      ],
+      "source_leaves": 6,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 6
+      },
+      "source_review": "Independent complete Korean-direct review of six changed leaves per locale: clinic default and divorce-first/Daeun conditional recollection, neutral revisit choice/results, original missed Saturday rather than last weekend. Official bounded export/check/import; format-only restoration retains identical full JSON and unrelated bytes. Not native, rendered, human-play, physical-input or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "8d500ea103f84c18c50dada751bc257366110d2c747287a399fe41b487ad07c7"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "53a8737e911eb9f321c5e84a06d798a95597a76b",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "a23c35a674df1932d1299735cde17260914a60c09a00e7617fe61c1fb5f93545",
+          "selection_sha256": "842730b37ac362b3ea2faafdcd26c01a50fc9b2eabbe4958a998ff13e27e4310",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "338c35b41ac7b98a3f6b5284b17f0f4907799cf6abe6dc520da1e883b2a58d7a"
+        }
+      }
     }
   ],
   "accepted": {
@@ -17702,24 +17807,24 @@
         "target_sha256": "c214515d5bbf94e57dc5919cf67586fdfebd218acf4038aab15cec9734cda300"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/0/result_text": {
-        "source_sha256": "49b08e85f0e9ad35e7c2ebc9596034fe38b62435e138570e74fce4f67ca9b34e",
-        "target_sha256": "34efab30d16fe34b1131439ca8dde51231321e50f93d6efd194e9f4e97653982"
+        "source_sha256": "17f2f7e2a709eb8d27ae160bc40600d4651e7dba2e07b7549670fa5668b6f098",
+        "target_sha256": "a9fc0b6f987652bace93b83d3858f97d544d1639dfc4a0fc709aa17c85d037ae"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/0/text": {
-        "source_sha256": "9d3173946e44ee32c695cce85a14b43cc5e7a2b313d5ad7250c08a81d2666979",
-        "target_sha256": "7b6d0f95d0decac435b680067fb1c1bbb7c177b2cc86e87aac84fe42754d6c76"
+        "source_sha256": "9c072dcbf5c2cbe3e7cc6ab58f1356f57a16a6296fcaa644903d2108bdcaaaf0",
+        "target_sha256": "a6f6b3787fe7cf4ee656d884c9cae0f1c4b6ce5afb2d9805794192d2a52f6a28"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/1/result_text": {
-        "source_sha256": "b83b0f9b8fb32dec7967d71b14ae269b03306a2415ae71ba71c25186e8dd9b85",
-        "target_sha256": "a36c393fd6e411568b50a63390d31bfaad7ecc64d8b5fb53fe4de67f9f0ecec7"
+        "source_sha256": "3386d524838d874fcb4c1f3f41faa4578c11c34ce5122acfa6c3aa4909340f48",
+        "target_sha256": "f0e3b01febd136254c524a02e2705aeb37e3e54b3f14586c067004e58d964205"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/1/text": {
         "source_sha256": "b9f93ed905dbe2d35a83eb057b12cf76e7057b35aded1b2bef48549184df0209",
         "target_sha256": "a89038b83410c9d43a3a1926c4515a283b1d079fb2b6b60f11edce16c7645367"
       },
       "events:arc_36_unexpected_hand_person_deal:/description": {
-        "source_sha256": "ad5a6d0eac47f5e5f4d0fcd1905c8f9a414ec0aea8a4d9b7e289c317597fab0f",
-        "target_sha256": "941db974002f2ccab2c9f9f07bdc47ce727c060b49dd04a7839548a070770337"
+        "source_sha256": "3f8d0adffe3a51da2e54e8b6a675997cc99714cc4fa3ac7353a6e61207b43968",
+        "target_sha256": "e1a583ac8511cd407caf84bfe7397b54b85c51239b0aad02ed3e1bb8017643c8"
       },
       "events:arc_36_unexpected_hand_person_deal:/title": {
         "source_sha256": "512c6ff29b708f8fbe2f537da988dbed80f0735a0aeced6c301b8fd3e6a17f1a",
@@ -63032,6 +63137,14 @@
       "events:arc_jaehyuk_aftermath:/choices/3/text": {
         "source_sha256": "6832bab549642d54e7d4697b4bfa7b2d2ef0fecff23d0bc4db01448f2682c5c0",
         "target_sha256": "79d7f7f05d49892678dc4d3a318e228de5cfaa8ba30bb95a21f475e925dfd2f2"
+      },
+      "events:arc_36_unexpected_hand_person_deal:/description_if_known/daeun_divorced": {
+        "source_sha256": "f74eba7e4fe7ab6ac37575dec418ecee0c6b9ef3f7c2f456f67d93ff20905d29",
+        "target_sha256": "e1a583ac8511cd407caf84bfe7397b54b85c51239b0aad02ed3e1bb8017643c8"
+      },
+      "events:arc_36_unexpected_hand_person_deal:/description_if_known/daeun_romance_started": {
+        "source_sha256": "58bd2291107c8532a0e7056036e099c1a7a2ed6f78b443fe6178133a3f8b4a8b",
+        "target_sha256": "ecc1eb793975301abf3f9b650bcd270a1a3bbd405f04614501354ab2e7f8bb48"
       }
     },
     "zh-CN": {
@@ -70304,24 +70417,24 @@
         "target_sha256": "b6851eebc95d17d5f184be872d3979a3cb573b0b4c8772206e80135c0f2f388b"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/0/result_text": {
-        "source_sha256": "49b08e85f0e9ad35e7c2ebc9596034fe38b62435e138570e74fce4f67ca9b34e",
-        "target_sha256": "6245bc955466bb6f645929b90001f8a36585837d33875106156489ec4cac3c30"
+        "source_sha256": "17f2f7e2a709eb8d27ae160bc40600d4651e7dba2e07b7549670fa5668b6f098",
+        "target_sha256": "e01715be2838f258083f171586dd602f1d259b60708e6bda0aaf480f250749c6"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/0/text": {
-        "source_sha256": "9d3173946e44ee32c695cce85a14b43cc5e7a2b313d5ad7250c08a81d2666979",
-        "target_sha256": "456382e924ab00da206c956918a3f1f603efbbdc5deca4696cff51aa2d1c4451"
+        "source_sha256": "9c072dcbf5c2cbe3e7cc6ab58f1356f57a16a6296fcaa644903d2108bdcaaaf0",
+        "target_sha256": "4ba58618f057345fb0c08eb48878fdef930de77f12c19f33f56f6f6818d82ad5"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/1/result_text": {
-        "source_sha256": "b83b0f9b8fb32dec7967d71b14ae269b03306a2415ae71ba71c25186e8dd9b85",
-        "target_sha256": "436ca6bcaa516d27953f0af31faae8afa1fc194c1726e947e41865df6e7bd36f"
+        "source_sha256": "3386d524838d874fcb4c1f3f41faa4578c11c34ce5122acfa6c3aa4909340f48",
+        "target_sha256": "c556bdc01560715e2432f1d6159797d41206db6e8b851633abbb262e562d525c"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/1/text": {
         "source_sha256": "b9f93ed905dbe2d35a83eb057b12cf76e7057b35aded1b2bef48549184df0209",
         "target_sha256": "ec32ea79be3d63de2a79819a243f6c820d0e20a3ed319b1635012a96a5b9a944"
       },
       "events:arc_36_unexpected_hand_person_deal:/description": {
-        "source_sha256": "ad5a6d0eac47f5e5f4d0fcd1905c8f9a414ec0aea8a4d9b7e289c317597fab0f",
-        "target_sha256": "2cc4baf1db33dc07c784a7a9eeaca0dfb739db8304cadc15d5990ce17988783d"
+        "source_sha256": "3f8d0adffe3a51da2e54e8b6a675997cc99714cc4fa3ac7353a6e61207b43968",
+        "target_sha256": "05fc1c80b1a2c1d2e7a3a7b0df6ce93f2f28657202a01c6e3716c88a39480462"
       },
       "events:arc_36_unexpected_hand_person_deal:/title": {
         "source_sha256": "512c6ff29b708f8fbe2f537da988dbed80f0735a0aeced6c301b8fd3e6a17f1a",
@@ -120418,6 +120531,14 @@
       "events:arc_jaehyuk_aftermath:/choices/3/text": {
         "source_sha256": "6832bab549642d54e7d4697b4bfa7b2d2ef0fecff23d0bc4db01448f2682c5c0",
         "target_sha256": "509d581b81338fd06fa04090e511b6466320833a4fa7cccdfff51d6d90554a93"
+      },
+      "events:arc_36_unexpected_hand_person_deal:/description_if_known/daeun_divorced": {
+        "source_sha256": "f74eba7e4fe7ab6ac37575dec418ecee0c6b9ef3f7c2f456f67d93ff20905d29",
+        "target_sha256": "05fc1c80b1a2c1d2e7a3a7b0df6ce93f2f28657202a01c6e3716c88a39480462"
+      },
+      "events:arc_36_unexpected_hand_person_deal:/description_if_known/daeun_romance_started": {
+        "source_sha256": "58bd2291107c8532a0e7056036e099c1a7a2ed6f78b443fe6178133a3f8b4a8b",
+        "target_sha256": "10cacd9f59dc7e5a28c8333d49cc068fd2902f39515d68a532ba1b652504ecc3"
       }
     },
     "zh-TW": {
@@ -127690,24 +127811,24 @@
         "target_sha256": "6e55fabe604ac42758c180e5ed3c669f38424b447ca3a98e166f972be0b0fc88"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/0/result_text": {
-        "source_sha256": "49b08e85f0e9ad35e7c2ebc9596034fe38b62435e138570e74fce4f67ca9b34e",
-        "target_sha256": "c0bdf0c11343acc1f41d8b806eff9dbb129406f78ea5fa5c473275783dbb8401"
+        "source_sha256": "17f2f7e2a709eb8d27ae160bc40600d4651e7dba2e07b7549670fa5668b6f098",
+        "target_sha256": "7b3d7acde864e3dbb72c4ae1dfe658d83f855d1a4b258ab1c782846025de122d"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/0/text": {
-        "source_sha256": "9d3173946e44ee32c695cce85a14b43cc5e7a2b313d5ad7250c08a81d2666979",
-        "target_sha256": "4a1f24eac37e4163e8fe3b524da293492d73267d3430a9e566180047d04dae2d"
+        "source_sha256": "9c072dcbf5c2cbe3e7cc6ab58f1356f57a16a6296fcaa644903d2108bdcaaaf0",
+        "target_sha256": "9cb9ab6bac48a71e2b2e022e6826c90ebf503f9b4ce28a83025ebbe8bbdb712e"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/1/result_text": {
-        "source_sha256": "b83b0f9b8fb32dec7967d71b14ae269b03306a2415ae71ba71c25186e8dd9b85",
-        "target_sha256": "66b1a18f72f583a3e0c4bae0606ee2fef904c3d7678e520c75c92739c40ae6d4"
+        "source_sha256": "3386d524838d874fcb4c1f3f41faa4578c11c34ce5122acfa6c3aa4909340f48",
+        "target_sha256": "0c6dd588bcdaba4f7a710ac679063797cb1fa3f3bf80d6d1066a01519fa11610"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/1/text": {
         "source_sha256": "b9f93ed905dbe2d35a83eb057b12cf76e7057b35aded1b2bef48549184df0209",
         "target_sha256": "390778e7b23c64d313f9a8a99b5984fd6277e84f4a610d6c2133182aa6acf7cd"
       },
       "events:arc_36_unexpected_hand_person_deal:/description": {
-        "source_sha256": "ad5a6d0eac47f5e5f4d0fcd1905c8f9a414ec0aea8a4d9b7e289c317597fab0f",
-        "target_sha256": "9cf49485e1734d0d2bbe497d00d96ee6434c47ead8def2524795e8caeeb5dea7"
+        "source_sha256": "3f8d0adffe3a51da2e54e8b6a675997cc99714cc4fa3ac7353a6e61207b43968",
+        "target_sha256": "04c468324b0ea06541b96d52c95573cc3296f62a77bc9816680d8113857f4167"
       },
       "events:arc_36_unexpected_hand_person_deal:/title": {
         "source_sha256": "512c6ff29b708f8fbe2f537da988dbed80f0735a0aeced6c301b8fd3e6a17f1a",
@@ -177804,10 +177925,18 @@
       "events:arc_jaehyuk_aftermath:/choices/3/text": {
         "source_sha256": "6832bab549642d54e7d4697b4bfa7b2d2ef0fecff23d0bc4db01448f2682c5c0",
         "target_sha256": "9ddea183cd1415486fdae300a8037b5766302aa61202f3e7e5c5d7fd0636c117"
+      },
+      "events:arc_36_unexpected_hand_person_deal:/description_if_known/daeun_divorced": {
+        "source_sha256": "f74eba7e4fe7ab6ac37575dec418ecee0c6b9ef3f7c2f456f67d93ff20905d29",
+        "target_sha256": "04c468324b0ea06541b96d52c95573cc3296f62a77bc9816680d8113857f4167"
+      },
+      "events:arc_36_unexpected_hand_person_deal:/description_if_known/daeun_romance_started": {
+        "source_sha256": "58bd2291107c8532a0e7056036e099c1a7a2ed6f78b443fe6178133a3f8b4a8b",
+        "target_sha256": "c6a6967f3933d8c6464bb3f12199176f0c02f204fe8bc416ebbc10ad50e8fce9"
       }
     }
   },
-  "accepted_sha256": "693d12ddb57bfd94c2123d210e8767c3e46f58f31a271a82c616a3967cc9ab96",
+  "accepted_sha256": "96afed52057f99101734ad0d096d9522d06e60ded9e2b74e557c9f5b34cd1d67",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
