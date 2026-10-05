@@ -2,6 +2,11 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 코인 교정 사건의 마지막 소비자 연결 선언 (460)
+
+- 459 구현 중 비저자가365의현재사건 분기가 커피3경로만 소유함을 발견했다. 코인3파일은 이전원장으로넘어가므로459원문/receipt증명만으로는 실제소비자수용이 끝나지 않는다.
+- [460](queue_active/ORDER-460.md)은365의exact현재raw3분기와같은focused등록만 추가한다. 원459의365변경0경계를 조용히 넓히지 않는다. 기본full-body/focused는459와합동1회,제품/과거pin/collector변경0이다.
+
 ## 2026-10-05 — 코인 원문 수리의 현재 번역원장 결속 선언 (459)
 
 - 축소한 실제 데이터 검사에서 full-body28.980초가 `KO/runtime source changed outside reviewed boundary`로 실패했다. audit4.444초 ERROR0/WARNING0과 i18n0.206초 KO외4언어 coverage는 통과했다. 실패는 과거 UI원장에 새KO/runtime 변경을 허용하지 않는 경계이며 화면PASS로 덮지 않는다.
