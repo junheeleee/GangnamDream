@@ -90,3 +90,20 @@ GUI 자연 부팅·신규 저장/별도 프로세스 재개·StoryMode 복귀/�
 - 현재 actual export/런타임0이다. 깨끗한 구현 후보를 먼저 main에 커밋/푸시하고
   actual 생성1회를 진행한다. 초기 출력 생성 뒤 entry 기록 전 OS실패는 result가
   없을 수 있으나 그 구간 엔진·공개본 변경0이며 잔여를 삭제하지 않는다.
+
+### 첫 실제 실패와 동일 생성 경로의 제한 수리
+
+- clean a717c442의 first는15명령 중 verify_final만 exit1이다. first/result SHA
+  `04562493f15de4f1eee540a09f4a280f5c06b9186953f4ab7ca69731154e908c`,
+  source/protected 전후 동일·preservation_errors0·최종manifest0이다.
+- 같은 ZIP을 별도 `/private/tmp/gangnamdream-successor-first-verify.SLTTWy`에
+  재추출한 서명검사0(exit0)와 Documents의 앱 루트 FinderInfo 추가를 확인했다.
+  ZIP앱루트 metadata0·서명 전 앱은 해당속성0이며 첫 실패물은 변경하지 않는다.
+- 같은 두 코드 소유에서 다음 fresh attempt의 **생성한 final_app 루트 하나**만
+  `com.apple.FinderInfo` 값 `0000000000000000200000000000000000000000000000000000000000000000`
+  관측 시 기록하고 제거할 수 있다. 값이 다르면 실패한다. before/read/remove/after
+  명령·로그를 manifest와 독립감사에 결속하고 실제 배달 앱 codesign을 계속 요구한다.
+  absent이면 제거0이다. recursiveclear·다른속성·quarantine·first·사용자 파일 변경0.
+- 새로운 깨끗한 빌더 신원으로 second를 발급한다. 실패 원인을 고친 새 파이프라인
+  검증이며 과거first의 계약PASS는 runtimeGO로 바꾸지 않는다. 새 정본규칙이 아닌
+  이 후보의 관측된 패키징 결함 수리다.

@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 첫 실제 후보의 목적지 FinderInfo 서명 실패 (462)
+
+- main a717c442의 first는 localization/notices/import/font/i18n/5언어/export/서명/ZIP까지 통과했으나 최종재추출 앱 서명에서 실패했다(15명령 중 마지막exit1). 결과 SHA04562493f15de4f1eee540a09f4a280f5c06b9186953f4ab7ca69731154e908c, source/보호전후동일·최종manifest0이다. 실패물은 그대로 보존한다.
+- 정확한 ZIP을 private/tmp에 재추출하면 서명exit0이며 Documents 목적지 앱루트에만 FinderInfo32byte/0x2000이 붙었다. ZIP옵션을 추측으로 바꾸지 않고 다음freshapp 루트의 그 exact attr만 before/read/remove/after로 기록·처리하도록 좁게 선언했다. 다른metadata/quarantine/하위파일·사용자 저장은 변경0이다.
+- MacPython3.9에는 os.listxattr가 없어 진단 읽기1회 AttributeError 뒤 xattr CLI읽기로 정정했다. 이 실패는 게임/패키지 검증 성공으로 세지 않는다. 실제candidate배달위치의 서명검사를 계속 요구하며 private/tmp PASS로 대체하지 않는다.
+
 ## 2026-10-05 — 공개본을 덮지 않는 후보 빌더·독립 감사 구현 (462)
 
 - 새 builder530행·감사676행을 파일별 분리 저작하고 root/비저자가 전수 사전읽기했다. stage4치환·공개저장/실제player34/seed2+W195 전후 보호·첫 엔진 전 namespace 분리·app/ZIP/PCK/currentJSON 무결성을 결속한다. 마지막 보호검사를 통과해야 최종 MANIFEST를 발급한다.
