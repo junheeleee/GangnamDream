@@ -21245,6 +21245,12 @@ var _drawer_truth_tween: Tween
 func _resolved_ending_description(ending: Dictionary) -> String:
 	var ending_desc := str(ending.get("description", ""))
 	var ending_know = ending.get("description_if_known", null)
+	# empty_house also closes a run whose Father is alive but unreconciled
+	# (GameState finish_run). Its variants all remember his death, so a living
+	# Father keeps the base text, which never kills him.
+	if str(ending.get("id", "")) == "empty_house" \
+			and not _father_death_is_monotonic(GameState.flags, false):
+		ending_know = null
 	if ending_know is Dictionary:
 		for flag_id in ending_know.keys():
 			# Reconciliation remains a historical fact after Father dies. Most
