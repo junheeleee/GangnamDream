@@ -2063,9 +2063,15 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         checked_retired.add(event_id)
     require("ORDER-469 non-live negative coverage is exactly all six", checked_retired == retired)
 
-    # Preserve the existing bounded351 corpus. PR31's independent delta corpus
-    # checks all71 raw files; do not multiply every old fixture by every PR row.
-    for relative, changes in current_source.previous.HISTORICAL_JSON_LEAVES.items():
+    # Preserve every bounded351 case and explicitly add all three fact-repair
+    # events. Each begins with the valid current report, not an invalid old view.
+    # PR31's independent delta corpus continues to check all71 original files.
+    report_cases = dict(current_source.previous.HISTORICAL_JSON_LEAVES)
+    fact_path = current_source.fact_successor.KO_PATH
+    report_cases[fact_path] = tuple(dict.fromkeys((*report_cases.get(fact_path, ()),
+        *((eid, ("description",)) for eid in current_source.fact_successor.EVENT_IDS))))
+    checked_fact_cases: set[tuple[str, str]] = set()
+    for relative, changes in report_cases.items():
         if not relative.startswith("content/events/"):
             continue
         before, _after = current_source.historical_blobs(relative)
@@ -2103,6 +2109,11 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
                 ) if event_id in {eid for eid, _path in source.JSON_LEAVES.get(relative, ())}), "ORDER-351")
                 require(f"{owner} report rejects {kind}: {event_id}",
                         bool(_expected_observation_errors(forged)))
+                if event_id in current_source.fact_successor.EVENT_IDS:
+                    checked_fact_cases.add((event_id, kind))
+    require("ORDER-470 report intrusion coverage is exactly three events by five mutations",
+            checked_fact_cases == {(eid, kind) for eid in current_source.fact_successor.EVENT_IDS
+                                  for kind in ("rollback", "wrong-path-rollback", "neighbor", "wrong-hash", "missing")})
 
     for scope, field in ((SCOPE_LIFECYCLE_SHIPPING, "leaf_count"),
                          (SCOPE_LIFECYCLE_SHIPPING, "standard_leaf_count"),

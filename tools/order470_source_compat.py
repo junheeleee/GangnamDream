@@ -178,11 +178,27 @@ RAW_PATCHES = {'content/events/arc_events.json': (('replace', 1558, 1559, 1558, 
                                        '6f793ca9efccfaf3971e3ea480ca46bb22ec95834aa04db10b335aa7f648a9f2',
                                        'f1a4ce158a6959e4915210d5c7f89d4a9dc2ea6f4b6961a9134e32a6413be89b'),)}
 PREDECESSOR_SOURCE_MANIFEST_SHA256 = "76557c1ba11ce4ef8f3a3b1ba80cc3b79f9cc8e5f1f6459db3a0c3fd92f73973"
-RECEIPT_PARENT = None
-RECEIPT_COMMIT = None
-RECEIPT_RAW_SHA256 = {}
-RECEIPT_BATCH_SHA256 = {}
-RECEIPT_SOURCE_MANIFEST_SHA256 = None
+RECEIPT_PARENT = "1817f87969165c73255f05a448f007318f54910d"
+RECEIPT_COMMIT = "f16da92274058d1e391f695f178df01ba7454a61"
+RECEIPT_RAW_SHA256 = {
+    "content/events_ja/arc_events.json": (
+        "eca76302a36de547cb8aa3a3f09ac6fc05bccce915e80fe2052274410887e884",
+        "5e9d27828ed39c8b51be920c97018860f3efa778f0e2581ff688d200db235458"),
+    "content/events_zh-CN/arc_events.json": (
+        "ed637e00b9362cc6617e0d3e864776b33aadf83242938c62f04b9c26d429e790",
+        "856936d9d1753f6c758804eac6686a588657c5862acd981f9c19cd72f5a3924c"),
+    "content/events_zh-TW/arc_events.json": (
+        "1a68415a994cb28e02cbdb60687f5ab32a95dc58ee5765131128a5aa51719e16",
+        "f516faece5978d4c6b90e4e59b878fb23387a72a57b6a720de99b6c0cc7f8079"),
+    LEDGER_PATH: ("821474ec3c178acf16a0c3a80b17ed5bb8d7c49b81e63512f86a7647283d9fdf",
+                  "c687b60588d76875f80c4c2b4681b971ccd2b99cdb53e51774dc0f3145f18c0f"),
+}
+RECEIPT_BATCH_SHA256 = {
+    "ja": "7724d1842b86b17a2408e7aec2345b52cc71cce2dd038ddddbd8b19e2642d7fe",
+    "zh-CN": "3f298eef8c6e770dac1e799f8a7987c581e7a0cb2b9e7b502dc237c2336dc65b",
+    "zh-TW": "010e3e364bf613ee694f76fc6f4c2e8e3cf7f9c1b36fcab11cd6427e7392457f",
+}
+RECEIPT_SOURCE_MANIFEST_SHA256 = "900b842779fda24e42d93fcc484c1ded47dae43bbe0a198919feee6a5c9b500c"
 LOCALES = ("ja", "zh-CN", "zh-TW")
 RECEIPT_PATHS = (*ARC_PATHS[2:], LEDGER_PATH)
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)

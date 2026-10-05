@@ -104,6 +104,11 @@ def run():
               "fresh recovery after adversarial fixtures")
         reject(lambda: history.predecessor_bytes(before[history.KO_PATH], history.KO_PATH),
                "historical raw cannot claim current")
+    import main_game_locale_history as ui_history
+    for method, path in ((ui_history.new_run_log_project_byte_hash, history.RUNTIME_PATHS[0]),
+                         (ui_history.inventory_display_project_byte_hash, history.RUNTIME_PATHS[1])):
+        check(method("forged", "unowned.gd", after[path]) == "forged",
+              "unowned UI hash claim is never replaced " + path)
     if proof["receipts"] is not None:
         accepted = proof["receipts"]
         selectors = history.changed_text_selectors(before[history.KO_PATH], after[history.KO_PATH])
@@ -142,6 +147,38 @@ def run():
                   mock.patch.dict(history.RECEIPT_BATCH_SHA256, {locale: history._digest(batch)})):
                 reject(lambda r=raw: history._validate_receipts(after, {**accepted, history.LEDGER_PATH: r}, before, history.ROOT),
                        "repinned official batch " + label)
+    return failures, cases
+
+
+def run_receipt_consumer_checks():
+    """Use the real365 boundary; callers may share its fresh outer proof.
+
+    This is deliberately separate from the cheap source test. It neither mocks
+    admission nor labels a source-only result as global translation proof.
+    """
+    import order365_ui_receipt_compat as receipts
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER470 receipt consumer: " + label)
+
+    with history.fresh_validation_proof() as proof, receipts.fresh_validation_proof():
+        for path in history.ARC_PATHS:
+            raw = proof["current"][path]
+            claim = history._sha(raw)
+            check(receipts.observed_byte_hash(path, claim, raw) == (claim, []),
+                  "actual current hash retained " + path)
+            observed, errors = receipts.observed_byte_hash(path, "0" * 64, raw)
+            check(observed == "0" * 64 and bool(errors), "forged hash claim stays rejected " + path)
+            mutant = raw + b"\n"
+            observed, errors = receipts.observed_byte_hash(path, history._sha(mutant), mutant)
+            check(observed == history._sha(mutant) and bool(errors), "rehashed raw mutation " + path)
+            old = proof["before"][path]
+            check(bool(receipts.source_errors(old, path)), "comparison rollback cannot be current " + path)
+            check(bool(receipts.source_errors(raw, "unowned/" + path)), "unowned current path " + path)
     return failures, cases
 
 
