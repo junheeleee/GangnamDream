@@ -77,6 +77,18 @@ source가 낡아짐을 확인했다. 원래 B3 안의 총8잎×3언어24영수�
 manifest 판정 재사용은 금지한다. pr31_main_compat는 이 도구와 신규
 `tools/pr31_main_proof_scope_check.py`만 소유하고 root는 검사 등록/실행을 맡는다.
 
+독립 KO/EN 수정부 검수에서 PR이 만든 기간 불일치2건을 확인했다.
+다은 최종선택의 `description`·`description_if_known/namsan_lock_daeun`과
+바로 잇는 kitchen의 `description`은 같은 명의 거래를 지난해/몇 년 전으로
+다르게 부른다. 실제 입구는 test182주 이후·finale228주 또는30억 달성이므로
+고정 연도는 보장되지 않는다. 지연 year5_return `choices/1/result_text`도
+부산 출발110~135주→귀환193주 이후라 PR의2년을 보장하지 않는다.
+이미 소유한 `arc_daeun_married.json`, `arc_new_characters.json`의 5언어에서
+해당4잎만 기간 단정을 없는 과거 회상으로 정렬한다. 관계·효과·분기·일정과
+남산10년 약속은 보존한다. 공식수용12영수증과 실제 원문전이/원장전이를
+분리해 Git에 결속하고, 총45갱신을 기존 이력 helper/self-test로 검증한다.
+이는 새 장면이나7k가 아닌 들이기에서 확인한 새 사실 오류 수리다.
+
 공식 CN check에서 `아버지가 떠난 지 여덟 달이 넘었다`를 일반 월수로 분류해
 정확한 `八个多月/八個多月`를 거부하는 오탐을 확인했다. PR 번역을 바꾸지 않고
 `tools/zh_translation_audit.py`의 기존 duration_month_over 분류에 이 정확한
