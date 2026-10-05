@@ -9880,6 +9880,117 @@
           "batch_id": "777f2d5f4682972b45c69d7a58fed7a5dbf4e75da23fc34638864077ee0256d5"
         }
       }
+    },
+    {
+      "order": "ORDER-468",
+      "group": "events",
+      "roots": [
+        "arc_jiyeon_wedding_gap_father_passed",
+        "arc_minseo_03_arrival",
+        "arc_year4_close_father_passed"
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "ja": 3,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Independent Korean-direct review of three PR31 conditional leaves. Minseo contact and Jiyeon wedding prose remain unchanged; only the Year4 final sentence is corrected from rooftop gray to the whole plan on one sheet of paper. Official bounded export/check/import changed one target file. Not native, rendered, physical-input, human-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "1b58e8d440d60e4c788226cc19ea9b6fbf086a291f5c46220c638252e119a5a9"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "a65d1c6bd94e574b8e19cab866d3d2143dd362cf",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "7999b4c92c699ca81f1001b8b301cd37a6fff9f0888e2ccccd96b829501ffecb",
+          "selection_sha256": "10d532cb7f3a04fa7995c45898dc0ff8f6b087d04262014ad315e70e0b790a88",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8fe0daa00bfa1022d3ea5ee125f9e29607a0979ebc9b4b0a75de20a2ec66c78e"
+        }
+      }
+    },
+    {
+      "order": "ORDER-468",
+      "group": "events",
+      "roots": [
+        "arc_jiyeon_wedding_gap_father_passed",
+        "arc_minseo_03_arrival",
+        "arc_year4_close_father_passed"
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 3,
+        "zh-TW": 0
+      },
+      "source_review": "Independent Korean-direct review of three PR31 conditional leaves. Minseo contact and Jiyeon wedding prose remain unchanged; only the Year4 final sentence is corrected from rooftop gray to the whole plan on one sheet of paper. Official bounded export/check/import changed one target file. Not native, rendered, physical-input, human-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "7e999e1c1c0567a2095eb4660bad74d076b847361000eca090e8c3789514b741"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "a65d1c6bd94e574b8e19cab866d3d2143dd362cf",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "7999b4c92c699ca81f1001b8b301cd37a6fff9f0888e2ccccd96b829501ffecb",
+          "selection_sha256": "6223e98ad08f59d76f0669b9256113de2a83f914d57bf71d2d7c3c7038f276a0",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "57ba71ec4c14892c6aacce965916bf13811fbd7bc60af96be9d428477ea77570"
+        }
+      }
+    },
+    {
+      "order": "ORDER-468",
+      "group": "events",
+      "roots": [
+        "arc_jiyeon_wedding_gap_father_passed",
+        "arc_minseo_03_arrival",
+        "arc_year4_close_father_passed"
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 3
+      },
+      "source_review": "Independent Korean-direct review of three PR31 conditional leaves. Minseo contact and Jiyeon wedding prose remain unchanged; only the Year4 final sentence is corrected from rooftop gray to the whole plan on one sheet of paper. Official bounded export/check/import changed one target file. Not native, rendered, physical-input, human-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "c3c22c5007c49f2fe52e0567775dfd8f1592ff3c279271399f8a40db9784bf6e"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "a65d1c6bd94e574b8e19cab866d3d2143dd362cf",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "7999b4c92c699ca81f1001b8b301cd37a6fff9f0888e2ccccd96b829501ffecb",
+          "selection_sha256": "4bb9b6381cdeeb2055f6806238bb628e0cb69f92dc3bbf58ec8b7b92b51da555",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "bafa14a9f927683a330eff32a6736ab2034958932eceb620ee90c0b0e00a4754"
+        }
+      }
     }
   ],
   "accepted": {
@@ -18961,8 +19072,8 @@
         "target_sha256": "7df1ce7099861431a6b78d81b92f8fd3e77d1ae8e6a647d31b8fc92abadd11f3"
       },
       "events:arc_minseo_03_arrival:/description_if_known/contacted_minseo": {
-        "source_sha256": "04c4e580174f2c25257fe8b5b5ea0c07b65965b4a9dc144ea2cdcc21c3efa1d8",
-        "target_sha256": "84b31c35f97ec5ea049e6436a6091c7830cc9f704b3a48f03b2312e319c9c6c1"
+        "source_sha256": "1fa00284ca49d403e97f5a1e5198f2ad93f95a1da37aae4ee9b3a7332e784137",
+        "target_sha256": "9d2e8d7e1249bbb194efedd0e0998d72df538b59d5c8e07c375dbb08b549c23f"
       },
       "events:arc_minseo_03_arrival:/description_if_known/thought_about_after": {
         "source_sha256": "2810ce7c817b7db605ead1c66a71044124512a51d7881f85a872617376cff23b",
@@ -22449,7 +22560,7 @@
         "target_sha256": "2127f69b722b9c2140abc7d77d3221fbb7be72ba220e5746b134c7e8b89605c2"
       },
       "events:arc_jiyeon_wedding_gap_father_passed:/choices/1/result_text": {
-        "source_sha256": "8d38bce1df6512e7c3b174ec76e5619e1b99df8aaa3e398f662c25849a1f3f00",
+        "source_sha256": "2c367f47e6825968a9fd96fc279993521bfea71bc44e6407800fdb4b761ecb10",
         "target_sha256": "f69f50e8e02868fc3511a4259cca3953696768685e5be73c1a41046b3d6357e4"
       },
       "events:arc_jiyeon_wedding_gap_father_passed:/choices/1/text": {
@@ -57661,8 +57772,8 @@
         "target_sha256": "d3871d66ec2b871c6a742c76b9b2d672284f0bba2c39b74bfb6020d09c2275e4"
       },
       "events:arc_year4_close_father_passed:/choices/1/result_text": {
-        "source_sha256": "aebc5abe8efeaad24a96f235bf8b4d4b4da1b7540967c358e4bf6b6e3cbd6f15",
-        "target_sha256": "7f1d1b14f60e078d6447c4c82c0c5513bfd6070a188547e41e531c801b9d3483"
+        "source_sha256": "203383fd0cd556503a0e1d2b81728211af6f62a36da2dc4d31fa1cff449e7e9a",
+        "target_sha256": "3051e6c8909c096a5d8e4f4d585d2c9a8e6c104702a9e11ddc4674ba5dba0823"
       },
       "events:arc_year4_close_father_passed:/choices/1/text": {
         "source_sha256": "3a7c794d51013cb9e272cc882e5c371fe86bbf98a91443204d3347d529fec228",
@@ -71547,8 +71658,8 @@
         "target_sha256": "02270d4394ca9fc8cfde29b0eee6cf34861586e55e75e81db87b5fbb6c555740"
       },
       "events:arc_minseo_03_arrival:/description_if_known/contacted_minseo": {
-        "source_sha256": "04c4e580174f2c25257fe8b5b5ea0c07b65965b4a9dc144ea2cdcc21c3efa1d8",
-        "target_sha256": "6da5a64ff1ac20a3ac8bb21dc831e1d870dc5394b8908515f1b4040b5d0122ad"
+        "source_sha256": "1fa00284ca49d403e97f5a1e5198f2ad93f95a1da37aae4ee9b3a7332e784137",
+        "target_sha256": "0d428b8734f1a4c4246a0a2db35846455048ddd1341a4a4c22eb20a365a431e4"
       },
       "events:arc_minseo_03_arrival:/description_if_known/thought_about_after": {
         "source_sha256": "2810ce7c817b7db605ead1c66a71044124512a51d7881f85a872617376cff23b",
@@ -75035,7 +75146,7 @@
         "target_sha256": "10a6be2b5a5874eb59ba37e695dc00b4cea38f6188386b54ad8a66583d314cc9"
       },
       "events:arc_jiyeon_wedding_gap_father_passed:/choices/1/result_text": {
-        "source_sha256": "8d38bce1df6512e7c3b174ec76e5619e1b99df8aaa3e398f662c25849a1f3f00",
+        "source_sha256": "2c367f47e6825968a9fd96fc279993521bfea71bc44e6407800fdb4b761ecb10",
         "target_sha256": "5b4dd197cf4e6a61393e3037584fe45efee070fb69fe59f2a15fc8055e18ce10"
       },
       "events:arc_jiyeon_wedding_gap_father_passed:/choices/1/text": {
@@ -110247,8 +110358,8 @@
         "target_sha256": "a1e71998709e8ed6b07ddf0482599af410d6130d2eeee85c5ffa657618150b3f"
       },
       "events:arc_year4_close_father_passed:/choices/1/result_text": {
-        "source_sha256": "aebc5abe8efeaad24a96f235bf8b4d4b4da1b7540967c358e4bf6b6e3cbd6f15",
-        "target_sha256": "b19b21c54db650e7a1aa1410f312f8e4ee6ef8ebddf61790a4b2f4874c953c20"
+        "source_sha256": "203383fd0cd556503a0e1d2b81728211af6f62a36da2dc4d31fa1cff449e7e9a",
+        "target_sha256": "3d121f3195d6e7e92624d0b029195e7169c791a80e706fdee6929f2cb23f8ab5"
       },
       "events:arc_year4_close_father_passed:/choices/1/text": {
         "source_sha256": "3a7c794d51013cb9e272cc882e5c371fe86bbf98a91443204d3347d529fec228",
@@ -128917,8 +129028,8 @@
         "target_sha256": "5262ae59c62ea1a21d39cac6293a31083ae0e4d35699d9ead78fb66ddeab2908"
       },
       "events:arc_minseo_03_arrival:/description_if_known/contacted_minseo": {
-        "source_sha256": "04c4e580174f2c25257fe8b5b5ea0c07b65965b4a9dc144ea2cdcc21c3efa1d8",
-        "target_sha256": "76f82ba44a7643b1fa489b89bb9e57b4920cca355a19619b22029e7c04b9b1e1"
+        "source_sha256": "1fa00284ca49d403e97f5a1e5198f2ad93f95a1da37aae4ee9b3a7332e784137",
+        "target_sha256": "91e612e02a304cc5f7dba1d1a67d67fe8da8d9b987937a404bee64c37c18bcd3"
       },
       "events:arc_minseo_03_arrival:/description_if_known/thought_about_after": {
         "source_sha256": "2810ce7c817b7db605ead1c66a71044124512a51d7881f85a872617376cff23b",
@@ -132405,7 +132516,7 @@
         "target_sha256": "ca5bda1c1eb5745f86b2bacd0691e4b8e8912a07cdbd773aaa4222ff28bdf75a"
       },
       "events:arc_jiyeon_wedding_gap_father_passed:/choices/1/result_text": {
-        "source_sha256": "8d38bce1df6512e7c3b174ec76e5619e1b99df8aaa3e398f662c25849a1f3f00",
+        "source_sha256": "2c367f47e6825968a9fd96fc279993521bfea71bc44e6407800fdb4b761ecb10",
         "target_sha256": "d8a495dfb1d688b034adcbff177fb8fb1304bdf5b96c23956e313cd48be05fed"
       },
       "events:arc_jiyeon_wedding_gap_father_passed:/choices/1/text": {
@@ -167617,8 +167728,8 @@
         "target_sha256": "8b1f321c499b1d03f3e6161757a530bff3575710d593e05eb7411fefe4601398"
       },
       "events:arc_year4_close_father_passed:/choices/1/result_text": {
-        "source_sha256": "aebc5abe8efeaad24a96f235bf8b4d4b4da1b7540967c358e4bf6b6e3cbd6f15",
-        "target_sha256": "59f5803266ed9228140c54cb9d94aa5bc972fc7cd2ab60c14f081a9a0dbc5903"
+        "source_sha256": "203383fd0cd556503a0e1d2b81728211af6f62a36da2dc4d31fa1cff449e7e9a",
+        "target_sha256": "3a8cb18e33d95cc1d80f1dc4b188b2d7566b9ce5de03a744c5fa8e18ac59dc25"
       },
       "events:arc_year4_close_father_passed:/choices/1/text": {
         "source_sha256": "3a7c794d51013cb9e272cc882e5c371fe86bbf98a91443204d3347d529fec228",
@@ -177210,7 +177321,7 @@
       }
     }
   },
-  "accepted_sha256": "460f2f8744c2b2904c6ee961a0bd7a249655f6c0d3a53aa2f265c5e19833deb6",
+  "accepted_sha256": "534501d284da8f94b76ef5f928685c0388005e17dcd7c3ad97103f1ce935ef4f",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
