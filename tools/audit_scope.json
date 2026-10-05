@@ -7333,6 +7333,16 @@
       ]
     },
     {
+      "tool": "tools/prose_recall_audit.py",
+      "why": "지정8장면·40잎의 실제 교체만 허용하고 gameplay·선택·조건순서·이웃 바이트를 보존한다; 품질/런타임 판정은 별도",
+      "paths": [
+        "tools/prose_recall_audit.py", "tools/ProseRecallCheck.gd", "tools/ProseRecallCheck.tscn",
+        "content/events*/arc_midgame.json", "content/events*/arc_year_close.json",
+        "content/events*/arc_hyunsu.json", "content/events*/arc_daeun_extension.json",
+        "content/events*/arc_chapter_themes.json"
+      ]
+    },
+    {
       "tool": "tools/run_relationship_panel_locale_qa.sh",
       "godot": true,
       "why": "Fresh pre-autoload isolated relationship panel labels and fixed type/affinity/hint/fallback cases in five locales; not rendered or human play.",

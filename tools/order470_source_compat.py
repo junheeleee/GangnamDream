@@ -319,6 +319,392 @@ PERSON_RECEIPT_BATCH_SHA256 = {
     "zh-TW": "c9de4e695f265baaeb353308c12367f94e10aac732f9786ccfde5b4e44a6be40",
 }
 PERSON_RECEIPT_SOURCE_MANIFEST_SHA256 = "a23c35a674df1932d1299735cde17260914a60c09a00e7617fe61c1fb5f93545"
+PROSE_SELECTORS = (
+    ("arc_midgame", "arc_year_one_mark", (
+        ("description",),
+        *(("description_memory_if_known", key) for key in (
+            "m4_housing_priority_runway", "m4_housing_priority_privacy", "m4_housing_priority_time")),
+        *(("choices", index, key) for index in (0, 1) for key in ("text", "result_text")))),
+    ("arc_year_close", "arc_year2_close", (
+        ("description",),
+        *(("description_if_known", key) for key in (
+            "y2_lease_renewed_one_year", "y2_lease_renewed_six_months", "y2_lease_move_out_scheduled",
+            "year1_resolve", "year1_numb", "jaehyuk_stood_up", "chose_money_over_father", "crossed_line")),
+        *(("choices", index, key) for index in (0, 1, 2) for key in ("text", "result_text")))),
+    *(("arc_hyunsu", eid, (("title",), ("description",),
+        ("description_if_known", "crossed_line"), ("description_if_known", "called_hyunsu_first"),
+        ("choices", 1, "result_text"))) for eid in ("hyunsu_year5_call", "hyunsu_year5_call_father_passed")),
+    ("arc_daeun_extension", "arc_daeun_year5_apart", (("description",),)),
+    ("arc_daeun_extension", "arc_daeun_year5_ending", (("description",),
+        *(("description_if_known", key) for key in ("daeun_married", "daeun_year4_close", "daeun_romance_started")))),
+    *(("arc_chapter_themes", eid, (("description_memory_if_known",
+        "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person"),))
+        for eid in ("arc_y4_body_witness", "arc_y4_body_witness_hyunsu")),
+)
+PROSE_TEXT_LEAVES = tuple((eid, keys) for _name, eid, paths in PROSE_SELECTORS for keys in paths)
+PROSE_NAMES = tuple(dict.fromkeys(name for name, _eid, _keys in PROSE_SELECTORS))
+PROSE_PATHS = tuple("content/events" + suffix + "/" + name + ".json"
+                    for suffix in ("", "_en", "_ja", "_zh-CN", "_zh-TW") for name in PROSE_NAMES)
+PROSE_KO_PATHS = PROSE_PATHS[:5]
+PROSE_PRODUCT_PATHS = PROSE_PATHS[:10]
+PROSE_RECEIPT_PATHS = (*PROSE_PATHS[10:], LEDGER_PATH)
+PROSE_PRODUCT_PARENT = '629452e7650bdfb9f20fc547c7d4696481cf239b'
+PROSE_PRODUCT_COMMIT = '8510be2210e3bb0715f9f8131d0bc9ac61379b46'
+PROSE_RAW_SHA256 = {'content/events/arc_chapter_themes.json': ('f91cfe36428eeace5b88668952e8eb1ca677f6151852f3d14e24d2118bdb6f6a',
+                                            '5d5f59092ee46e4c890ad561a9636680351f5f3388a7b60771e227455011a00e'),
+ 'content/events/arc_daeun_extension.json': ('73368ac994c998c32ba07b7e04453bcc703993287773cb657f624b53984e3934',
+                                             'a8b8a729f55129def68361d71e212fb763399d939a1e04039b737e6915817b39'),
+ 'content/events/arc_hyunsu.json': ('2449594b27187c761db5d94784c5caa0b57c61fa6eb1bdc3e619fc62971a49ca',
+                                    'a093d3c4f7fc1a6b673e0ca309321bd917881d9dad5bc83e863df7ca40fbb025'),
+ 'content/events/arc_midgame.json': ('b6fba397214aa8eaf2356e8fd5f70937add3451a8c3256759edf0c98d214b4d6',
+                                     'db1874fca6073b1aeba546448f37630311adb3b2f4b03c556c5c3739dfc46a41'),
+ 'content/events/arc_year_close.json': ('7e30ee4323fa363331ae6cd0f4426eae175b482871dc229f654701be39ff1503',
+                                        '62a97419d8e2fa0b3f0ef0e91da58b68bfabfa965fc058c22119d9ebb59c5c35'),
+ 'content/events_en/arc_chapter_themes.json': ('31de3b24f02da2c9bc1ead6f3005df946b9885603f665aefcfb51d9569abb5c6',
+                                               '132fb945b8ae01981186f03137bb391394f67ce7e1983ebb8ade5ce36e902b11'),
+ 'content/events_en/arc_daeun_extension.json': ('3940f61e24f23f82a33572bc3e8aaa0dca18f42e501163fb2fac7aae4bc03f08',
+                                                'e681709a594ab3be167bb7fece69f5ca8f4a286a7ba43723ce8f56045687f112'),
+ 'content/events_en/arc_hyunsu.json': ('3df4481d5e00fd578019d99dbb23e58821a27c665e4ffd7e1ec6db8b47611069',
+                                       'bd5f6895a8b41fc5c4fc6ae27eab89145d95ecfe9aec981fff1903022e032ed4'),
+ 'content/events_en/arc_midgame.json': ('860e4692ea4f4513a86ca345d3c389c1ea74f644dc01643278a541faf51de6fe',
+                                        '964bff4c15d39beb9de58d2bbd5081264373967113846142bdb9d97bb53d0d28'),
+ 'content/events_en/arc_year_close.json': ('671ba0020d4dd9a74d5d4fcd86b73b4d883fb9301ea947d771f2146ea1499806',
+                                           '1d38ea243fb22bcf1ffc83be42068652488e04e555e7b7e0115f7a283a1e2ef2')}
+PROSE_RAW_PATCHES = {'content/events/arc_chapter_themes.json': (('replace',
+                                             1072,
+                                             1073,
+                                             1072,
+                                             1073,
+                                             '34024686001e44c8056db5511326fb94b2a11872bdc513554433414cd0ab614d',
+                                             '151b0c2153b2cf5b96fd444008767949f90468df718ec4187778e6c629dbe3d2'),
+                                            ('replace',
+                                             1182,
+                                             1183,
+                                             1182,
+                                             1183,
+                                             '1c70cfb59969b98042e657a515c44049f2a846d4ec6cddf0411db588d1ce097d',
+                                             'a0f24a7d592e7a417b2c0fd9be67040c3fcfe9f74e499a411045652c5a03e748')),
+ 'content/events/arc_daeun_extension.json': (('replace',
+                                              220,
+                                              221,
+                                              220,
+                                              221,
+                                              '7fe59468bd321a54411e29acc90a1358c315a7b4bbe6f2c814c6a294f5702e6f',
+                                              '63e5611c32a50cdf0111674775017c79c38d335c137c4d691e1661ffa0b7cd90'),
+                                             ('replace',
+                                              258,
+                                              261,
+                                              258,
+                                              261,
+                                              '3d63a497768a9c7ab0fd048d48935cea27f6be6b6680310d8b4bce77f804d1d2',
+                                              '9a975ffcc5fe5cee3cfa151811d55812a12d84138edb53e0fa15583e59ed820e'),
+                                             ('replace',
+                                              281,
+                                              282,
+                                              281,
+                                              282,
+                                              '5140717e8cdc39aba9c9fba21a594cf812d5af7b69f7ed6cd2da6efab289ece4',
+                                              'a781b872b2afc812989e645ec158abdaedd78400faa4fab4dfa598fbe6528d66')),
+ 'content/events/arc_hyunsu.json': (('replace',
+                                     486,
+                                     487,
+                                     486,
+                                     487,
+                                     'beb237def71f4fc5f3116ad1e77732166d20a87523519262686b11b95a49ed03',
+                                     'c730375f8354bb965fd1915e655c7210ed87bf586a6d62445db23c3c74618c97'),
+                                    ('replace',
+                                     505,
+                                     506,
+                                     505,
+                                     506,
+                                     '0d775e58bdec640720bdb748d401a8f12ba14c58d0d37de6f1b80d6b970a3731',
+                                     '52ad26965358df4172549ce4d6a4d26d1ec9abb3ffa08d931148b12aaa4887f9'),
+                                    ('replace',
+                                     507,
+                                     509,
+                                     507,
+                                     509,
+                                     'e4d4021df84bab43e8d0dd69b812c13c7de85fe222fedd1ab1eb6c5a13ff52de',
+                                     '323ea380b40009738f1b4b908597a9c470d51c988b809143069360234cd03330'),
+                                    ('replace',
+                                     529,
+                                     530,
+                                     529,
+                                     530,
+                                     'cbee57b22cdebdf8083bc6436358b0ffdec9bfbe94ac3caa829cc892bd6db869',
+                                     '89cc4d62ab19053b72e3ac0bd1052acb5446f6218b89616af3e8e324bb231ce6'),
+                                    ('replace',
+                                     535,
+                                     536,
+                                     535,
+                                     536,
+                                     'beb237def71f4fc5f3116ad1e77732166d20a87523519262686b11b95a49ed03',
+                                     'c730375f8354bb965fd1915e655c7210ed87bf586a6d62445db23c3c74618c97'),
+                                    ('replace',
+                                     554,
+                                     555,
+                                     554,
+                                     555,
+                                     'ab1bc82613464478a63c9a59521d49855816401a7f5be9482bd79f5055e8a1a4',
+                                     '6287c078de2a4aaab44b9d15f32e58307423fa02e5d6546b026c712eaf40db90'),
+                                    ('replace',
+                                     556,
+                                     558,
+                                     556,
+                                     558,
+                                     'e4d4021df84bab43e8d0dd69b812c13c7de85fe222fedd1ab1eb6c5a13ff52de',
+                                     '323ea380b40009738f1b4b908597a9c470d51c988b809143069360234cd03330'),
+                                    ('replace',
+                                     578,
+                                     579,
+                                     578,
+                                     579,
+                                     'cbee57b22cdebdf8083bc6436358b0ffdec9bfbe94ac3caa829cc892bd6db869',
+                                     '89cc4d62ab19053b72e3ac0bd1052acb5446f6218b89616af3e8e324bb231ce6')),
+ 'content/events/arc_midgame.json': (('replace',
+                                      2451,
+                                      2452,
+                                      2451,
+                                      2452,
+                                      'b1a2cd42fc7c2667c0102329fb7494241527edc0e510a90585df6e12d8524be9',
+                                      '9e144fa75794c1d4ac34c20550af791707061353b6a8087420fb36c45f136c8a'),
+                                     ('replace',
+                                      2453,
+                                      2456,
+                                      2453,
+                                      2456,
+                                      '93fd171ac83e37ed485faa2035300b1cb59abed9446f9898df92fc9d04f88b41',
+                                      '1f969dd41b1c5e9b43c10a80699f0942078785b0dd9968e24f8f79c76d9867d2'),
+                                     ('replace',
+                                      2469,
+                                      2470,
+                                      2469,
+                                      2470,
+                                      '92762baf7083e9fe6b9b98ee105b24b7d2067923d0ca25c78f23481053660720',
+                                      'a9e8c9f15e4e5c5f6ec77c2db7c23c3e98451799f9236efd52e9d19ff20e7af5'),
+                                     ('replace',
+                                      2479,
+                                      2480,
+                                      2479,
+                                      2480,
+                                      '5c392a3113c409a075332e84e90d11ce8fa2c1ddb3433dc9d6c1115e138d0e4a',
+                                      'a3b0235402a97d012bbd39b8219c17cbe21ae360edbd0146db5bf8a2cd440dc0'),
+                                     ('replace',
+                                      2482,
+                                      2483,
+                                      2482,
+                                      2483,
+                                      'a1fd3f84c8873fed90ad0c0834527f0968076fb88a8f9580f3d75ba938920428',
+                                      '15e16be923480b5a1ef81627d37e69c56d45e190949e9fa0d35fc48ad17f8b20'),
+                                     ('replace',
+                                      2490,
+                                      2491,
+                                      2490,
+                                      2491,
+                                      'c6948494109dbd43caae2c9aa7e00c3a7eae399f78be3da3c7a2e24fee603361',
+                                      '3bd930774ad5ddb65012b695b2376b7ea2fa8e85bdb4139881677633051d4d96')),
+ 'content/events/arc_year_close.json': (('replace',
+                                         104,
+                                         105,
+                                         104,
+                                         105,
+                                         'cc000b81c584ffb90de2d85623c0d1f1e2f726d57e36fe625399dac3b9142e47',
+                                         '46a61feef8a83e4131fe354d7a55015e55072ea4d88e36299be3c2e9068deeb9'),
+                                        ('replace',
+                                         106,
+                                         114,
+                                         106,
+                                         114,
+                                         '39c35c09fc5fbdaf3707efc4fc2f89ba4c3f6a566a4c7efaf213165668fcdd4b',
+                                         'eb8be092c6919b926a94b5484ed1d7e892a514429b5e4c3a4d7c0f9abdb0cad6'),
+                                        ('replace',
+                                         117,
+                                         118,
+                                         117,
+                                         118,
+                                         '8051f989bfea23ab976b8ab5f95d76e2320e8a96574d3313d07ef57e84d401cd',
+                                         '2a8fcaa7d36847fc8a44eb19f1d74491b97546ed949e76eea453b4e1dde6dd76'),
+                                        ('replace',
+                                         125,
+                                         126,
+                                         125,
+                                         126,
+                                         'c22a0f5c01869590f59c20a44a20745351a63cea4ecd72caace3eed134ddbcb3',
+                                         '052ee042686f9686bfe55c40dabd29fcfa2b8c5d6875fa5c4d53eaa0925f6ddd'),
+                                        ('replace',
+                                         128,
+                                         129,
+                                         128,
+                                         129,
+                                         '8a4fbd686cb028df6e865c7bb3eab677cceef0ea30c1f27f6da7f58610d63f26',
+                                         '1277bd94bb2f3b0437bc7ff2c34ce76b20924c39fea2e7c212d3116e92087099'),
+                                        ('replace',
+                                         136,
+                                         137,
+                                         136,
+                                         137,
+                                         '19e8b2560217e44f2454d7292e6509e3ae373809d68c37b8e5887faf8722db79',
+                                         '2e4262f90e96711462415fcc2197092dd8c27280ae91c307bf82de3a5356cab8'),
+                                        ('replace',
+                                         139,
+                                         140,
+                                         139,
+                                         140,
+                                         'cb1ec106ff0c164e3150049fc35c9916703513695b6501d816600e813524bc84',
+                                         '768cd37e187d9d6a556aed8d45931afbd6693c734b3fe27469c23ed849555e04'),
+                                        ('replace',
+                                         144,
+                                         145,
+                                         144,
+                                         145,
+                                         '29b2331fbfe56ef8793f15f736ff29648634c43a74e6e31b22091f94a90491dd',
+                                         '81d53fcb0f13c9a96d6578cd185d1d68fcbcc2ca1ec309fc8dae0ec1ba149108')),
+ 'content/events_en/arc_chapter_themes.json': (('replace',
+                                                439,
+                                                440,
+                                                439,
+                                                440,
+                                                '83538b521ac548425c80a66a8660b6e9d48eb7ad511473df585cb7af8ad24355',
+                                                'f1f5642d19ab454400a9bccafe6f864fd127db7b720003ebc1503093c34cbf54'),
+                                               ('replace',
+                                                487,
+                                                488,
+                                                487,
+                                                488,
+                                                '455f7c6ae6c1e07a091c0d05c0c8f66a8c29f182df699fcb1d8b5b487235e7e6',
+                                                'de37125fc1d4234453f218bda837c4e6e8c67f26ce12f2b8aa22b4273abdccb7')),
+ 'content/events_en/arc_daeun_extension.json': (('replace',
+                                                 59,
+                                                 60,
+                                                 59,
+                                                 60,
+                                                 'f12dd5dbf1c9dbf8dbc06f973d49d6c3d3ba1aa64bc33396b9c741f9fe6b587b',
+                                                 '8e49dd7252f77b004edbeb32351a00ff11ba6a2c3c8c70edfe35b9eeb78b7b54'),
+                                                ('replace',
+                                                 71,
+                                                 74,
+                                                 71,
+                                                 74,
+                                                 '3c8ec9149e2988ed1d96987e09119b86a1ff384fbca2ccd904bd2b2240625045',
+                                                 '5c6eb14828907f2d24606690c89e9cc476bba4d40d51f764c097115b7ba74730'),
+                                                ('replace',
+                                                 79,
+                                                 80,
+                                                 79,
+                                                 80,
+                                                 'f982e043a81cdf5a340a3e3be04a9d7cc8de88d48766a7a3065e254847851fc4',
+                                                 'a1db0e579508be0a01af95f973292496a1e77aff87afe6f5952cef2e1fcb3ad5')),
+ 'content/events_en/arc_hyunsu.json': (('replace',
+                                        202,
+                                        204,
+                                        202,
+                                        204,
+                                        '40dee0003748ae8b178307e70d4b1d30eddd95f2c64848100e5b7f22afc95134',
+                                        'd2cd72cb26d25f651fb4b3bdd3a3146a8e258b9ee8c2a56d1b4e9049911b3737'),
+                                       ('replace',
+                                        205,
+                                        207,
+                                        205,
+                                        207,
+                                        'e4c926fae3f4091f7b7cbc107964f490be705271dd408b6eb1df7cc440db58e2',
+                                        '27233099d73c8f983527e393b92ed800f72c343ebf653bb2e03b09eb2c95c34d'),
+                                       ('replace',
+                                        215,
+                                        216,
+                                        215,
+                                        216,
+                                        'dd36e0342f97a0b95b415d1a0ad938997a4377135bc7880b390dd02cc1e7ea0d',
+                                        'f7c39414c42eea367cd4f71ed6f547a0f95d3830f3606ef4ec88f890f0ca09a6'),
+                                       ('replace',
+                                        221,
+                                        223,
+                                        221,
+                                        223,
+                                        '8662ef759c27909459240be3fe63365b4d6fb3b729c0dda834369a540cff0dd6',
+                                        '6a3e65a8c3dd8f9abac4b6277f65b3874c3774bb9967c4a8c5d29072e15827b9'),
+                                       ('replace',
+                                        224,
+                                        226,
+                                        224,
+                                        226,
+                                        'e4c926fae3f4091f7b7cbc107964f490be705271dd408b6eb1df7cc440db58e2',
+                                        '27233099d73c8f983527e393b92ed800f72c343ebf653bb2e03b09eb2c95c34d'),
+                                       ('replace',
+                                        234,
+                                        235,
+                                        234,
+                                        235,
+                                        'dd36e0342f97a0b95b415d1a0ad938997a4377135bc7880b390dd02cc1e7ea0d',
+                                        'f7c39414c42eea367cd4f71ed6f547a0f95d3830f3606ef4ec88f890f0ca09a6')),
+ 'content/events_en/arc_midgame.json': (('replace',
+                                         799,
+                                         800,
+                                         799,
+                                         800,
+                                         '672f3990578240a572d4d73bcf69b00a50f80a6067e6c19b9ddef38f623af596',
+                                         'f2bb98018a25d0b9a4606a9fe217a003e9a234c7694892e971ca08bf84019bbc'),
+                                        ('replace',
+                                         801,
+                                         804,
+                                         801,
+                                         804,
+                                         '7fb787e54f08023a04ab2bbb50d3216f1736e6e5a3a50872879e63b4a466ce53',
+                                         'a125c33aa10cb331ad1b7546fd5fe18934f0913003d14499e8a4d7fe1f7a0be1'),
+                                        ('replace',
+                                         807,
+                                         809,
+                                         807,
+                                         809,
+                                         '631770171e60821d9397a936de77c312d29808dd264abf187a542722d14efbda',
+                                         '13941bc6dea176008e57c63d05f4a7b404ac98f38960d4b928e02debb5588087'),
+                                        ('replace',
+                                         811,
+                                         813,
+                                         811,
+                                         813,
+                                         'e9f13d812d12d114128eed146d468cc8973162eb6dd83c4ed2e7d5611d3dabd6',
+                                         '44cd55c6d26e6b29bd40be5b52ad0cebd50d27e9912bc8dc55ee237c410d35a0')),
+ 'content/events_en/arc_year_close.json': (('replace',
+                                            52,
+                                            53,
+                                            52,
+                                            53,
+                                            '247ca8651ab1f0b6ba01850adc0d109c0b4f5bacb4610f83726ac98429910813',
+                                            'fb696b1805bf09edf01cfe1edba7082e1f87695a765295c5f276897ebcca8311'),
+                                           ('replace',
+                                            54,
+                                            62,
+                                            54,
+                                            62,
+                                            '6d2dd28455e2b18bac5ea2b3f87bf82a9f5e1130ad4ce8745e580383e4fdad92',
+                                            '80a85c670155c1050c660699f6509b90c56886b2ea53ce36dbe2b6e5eb81126b'),
+                                           ('replace',
+                                            65,
+                                            67,
+                                            65,
+                                            67,
+                                            '62278195457b4724fac368e19ffa003e2210337e0b81a5800d8f96fdaf16146b',
+                                            '121e990435c73a7a07d41c5ee87ccedeefe73b8cde8dca6128c1e9b1599e5f3f'),
+                                           ('replace',
+                                            69,
+                                            71,
+                                            69,
+                                            71,
+                                            '5394b929ed772868178d46a40f6b56b14af302f9ebe3ea42c6b3155c17d8579b',
+                                            '8a723ff3e111b859924539426b9cca55fab2190b5020f161847fe8bbcfcab4f9'),
+                                           ('replace',
+                                            73,
+                                            75,
+                                            73,
+                                            75,
+                                            'effce79d010859d1a7789f77c0060bc70155bb10179a72562d94916e11585202',
+                                            '3b91ed39a4a4ef0bfa8f25bf8b791b32add00986a0a0b02a3446eca51ee05c83'))}
+PROSE_RECEIPT_PARENT = None
+PROSE_RECEIPT_COMMIT = None
+PROSE_RECEIPT_RAW_SHA256 = {}
+PROSE_RECEIPT_CHANGED_LEAVES = {}
+PROSE_RECEIPT_BATCH_SHA256 = {}
+PROSE_RECEIPT_SOURCE_MANIFEST_SHA256 = None
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
 _SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
 
@@ -567,6 +953,20 @@ def person_product_inverse(before, after, path):
     return _person_arc_inverse(before, after, path)
 
 
+def prose_selectors(path):
+    _require(path in PROSE_PATHS, "unowned recall prose path")
+    name = Path(path).stem
+    return tuple((eid, keys) for owner, eid, paths in PROSE_SELECTORS if owner == name for keys in paths)
+
+
+def prose_product_inverse(before, after, path):
+    _require(path in PROSE_PRODUCT_PATHS, "unowned recall source path")
+    _raw_inverse(before, after, path, PROSE_RAW_SHA256, PROSE_RAW_PATCHES)
+    selected = prose_selectors(path)
+    return _receipt_overlay_inverse(before, after, path, selected, PROSE_PRODUCT_PATHS,
+                                    PROSE_RAW_SHA256, (), len(selected))
+
+
 def _configuration():
     return (PRODUCT_PARENT, PRODUCT_COMMIT, PRODUCT_PATHS, SOURCE_PATHS,
             copy.deepcopy(RAW_SHA256), copy.deepcopy(RAW_PATCHES), RECEIPT_PARENT,
@@ -581,12 +981,21 @@ def _configuration():
             PERSON_RECEIPT_PATHS, PERSON_RECEIPT_PARENT, PERSON_RECEIPT_COMMIT,
             copy.deepcopy(PERSON_RECEIPT_RAW_SHA256), copy.deepcopy(PERSON_RECEIPT_BATCH_SHA256),
             PERSON_RECEIPT_SOURCE_MANIFEST_SHA256,
+            PROSE_SELECTORS, PROSE_TEXT_LEAVES, PROSE_NAMES, PROSE_PATHS, PROSE_KO_PATHS,
+            PROSE_PRODUCT_PATHS, PROSE_PRODUCT_PARENT, PROSE_PRODUCT_COMMIT,
+            copy.deepcopy(PROSE_RAW_SHA256), copy.deepcopy(PROSE_RAW_PATCHES),
+            PROSE_RECEIPT_PATHS, PROSE_RECEIPT_PARENT, PROSE_RECEIPT_COMMIT,
+            copy.deepcopy(PROSE_RECEIPT_RAW_SHA256), copy.deepcopy(PROSE_RECEIPT_CHANGED_LEAVES),
+            copy.deepcopy(PROSE_RECEIPT_BATCH_SHA256), PROSE_RECEIPT_SOURCE_MANIFEST_SHA256,
             _git, _objects, _snapshot, _disk_bytes, product_inverse, _arc_inverse, _raw_inverse,
             _validate_receipts, _receipt_semantics, _receipt_exports, receipt_overlay_inverse,
             _receipt_overlay_inverse, _event_receipt_semantics, person_product_inverse,
             _person_arc_inverse, person_receipt_overlay_inverse, _person_receipt_semantics,
             _person_receipt_exports, _validate_person_receipts, _person_stages,
             _person_source_comparison,
+            prose_selectors, prose_product_inverse, prose_receipt_overlay_inverse,
+            _prose_receipt_semantics, _prose_receipt_exports, _validate_prose_receipts,
+            _prose_stages, _prose_source_comparison,
             changed_text_selectors, _Document, _Document.walk, _Document.ws,
             _loads, _ordered, _leaf, _sha, _digest, _require, _read_proof, _read_proof_current,
             _memoized_semantics, _semantic_binding, _configuration,
@@ -676,6 +1085,15 @@ def person_receipt_overlay_inverse(before, after, path):
                                     PERSON_RECEIPT_RAW_SHA256, unchanged, count)
 
 
+def prose_receipt_overlay_inverse(before, after, path):
+    _require(path in PROSE_PATHS[10:], "unowned recall receipt target")
+    selected = PROSE_RECEIPT_CHANGED_LEAVES.get(path, ())
+    _require(selected and len(selected) == len(set(selected)) and set(selected) <= set(prose_selectors(path)),
+             "recall receipt exact changed-string selectors")
+    return _receipt_overlay_inverse(before, after, path, selected, PROSE_PATHS[10:],
+                                    PROSE_RECEIPT_RAW_SHA256, (), len(selected))
+
+
 def _receipt_overlay_inverse(before, after, path, selectors, paths, pins, additions, count):
     _require(path in paths and (_sha(before), _sha(after)) == pins.get(path),
              "target receipt raw pair")
@@ -721,10 +1139,18 @@ def _person_receipt_semantics(before, after):
     return _event_receipt_semantics(before, after, PERSON_TEXT_LEAVES, person=True)
 
 
-def _event_receipt_semantics(before, after, selectors, *, person):
-    # Only these two named transitions use the shared official-header grammar.
+def _prose_receipt_semantics(before, after):
+    _require(len(PROSE_TEXT_LEAVES) == len(set(PROSE_TEXT_LEAVES)) == 40
+             and set(PROSE_RECEIPT_CHANGED_LEAVES) == set(PROSE_PATHS[10:]),
+             "recall exact40 receipt selectors and fifteen target paths")
+    return _event_receipt_semantics(before, after, PROSE_TEXT_LEAVES, person=False, prose=True)
+
+
+def _event_receipt_semantics(before, after, selectors, *, person, prose=False):
+    # Only these three named transitions use the shared official-header grammar.
     # Their path, count, source census, raw and batch pins remain independent.
-    _require(type(person) is bool and set(before) == set(after), "receipt stage/snapshot shape")
+    _require(type(person) is bool and type(prose) is bool and not (person and prose)
+             and set(before) == set(after), "receipt stage/snapshot shape")
     paths = PERSON_PATHS if person else ARC_PATHS
     ko_path = paths[0]
     receipt_paths = PERSON_RECEIPT_PATHS if person else RECEIPT_PATHS
@@ -733,6 +1159,10 @@ def _event_receipt_semantics(before, after, selectors, *, person):
     source_manifest = PERSON_RECEIPT_SOURCE_MANIFEST_SHA256 if person else RECEIPT_SOURCE_MANIFEST_SHA256
     added = PERSON_ADDED_TEXT_LEAVES if person else ADDED_TEXT_LEAVES
     count, order = (6, "ORDER-471") if person else (14, "ORDER-470")
+    if prose:
+        paths, ko_path, added, count, order = PROSE_PATHS, None, (), 40, "ORDER-472"
+        receipt_paths, pins = PROSE_RECEIPT_PATHS, PROSE_RECEIPT_RAW_SHA256
+        batches, source_manifest = PROSE_RECEIPT_BATCH_SHA256, PROSE_RECEIPT_SOURCE_MANIFEST_SHA256
     _require(len(selectors) == count and set(pins) == set(receipt_paths)
              and set(batches) == set(LOCALES), "receipt pin/selector populations")
     for path in before:
@@ -740,14 +1170,18 @@ def _event_receipt_semantics(before, after, selectors, *, person):
             _require((_sha(before[path]), _sha(after[path])) == pins[path], "receipt raw " + path)
         else:
             _require(before[path] == after[path], "receipt changed a source/protected file")
-    for path in paths[2:]:
-        if person:
+    for path in (PROSE_PATHS[10:] if prose else paths[2:]):
+        if prose:
+            prose_receipt_overlay_inverse(before[path], after[path], path)
+        elif person:
             person_receipt_overlay_inverse(before[path], after[path], path)
         else:
             receipt_overlay_inverse(before[path], after[path], path, selectors)
     old, new = _loads(before[LEDGER_PATH]), _loads(after[LEDGER_PATH])
     expected = copy.deepcopy(old)
-    ko = {row["id"]: row for row in _loads(after[ko_path])}
+    ko = {row["id"]: row for path in (PROSE_KO_PATHS if prose else (ko_path,)) for row in _loads(after[path])}
+    source_paths = ({eid: "content/events/" + name + ".json" for name, eid, _keys in PROSE_SELECTORS}
+                    if prose else {})
     ids = {"events:" + eid + ":/" + "/".join(map(str, keys)): (eid, keys) for eid, keys in selectors}
     new_ids = {"events:" + eid + ":/" + "/".join(map(str, keys)) for eid, keys in added}
     _require(new["batches"][:len(old["batches"])] == old["batches"]
@@ -760,11 +1194,15 @@ def _event_receipt_semantics(before, after, selectors, *, person):
         _require(locale in LOCALES and locale not in seen and _digest(batch) == batches[locale],
                  "exact official receipt batch")
         seen.add(locale)
-        path = paths[2 + LOCALES.index(locale)]
-        targets_before, targets_after = ({row["id"]: row for row in _loads(snapshot[path])}
-                                         for snapshot in (before, after))
+        target_paths = (tuple("content/events_" + locale + "/" + name + ".json" for name in PROSE_NAMES)
+                        if prose else (paths[2 + LOCALES.index(locale)],))
+        targets_before, targets_after = ({row["id"]: row for path in target_paths for row in _loads(snapshot[path])}
+                                        for snapshot in (before, after))
         rows, receipts = [], {}
         for identifier, (eid, keys) in sorted(ids.items()):
+            ko_path = source_paths[eid] if prose else ko_path
+            path = (ko_path.replace("content/events/", "content/events_" + locale + "/")
+                    if prose else target_paths[0])
             source, target = _leaf(ko[eid], keys), _leaf(targets_after[eid], keys)
             source_hash = _digest({"path": ko_path, "field": keys, "ko": source})
             receipts[identifier] = {"source_sha256": source_hash, "target_sha256": _digest(target)}
@@ -838,6 +1276,70 @@ def _validate_person_receipts(before, after, root):
         if memo is not None:
             memo[1].clear()
         raise
+
+
+def _prose_receipt_exports(before, revisions, root):
+    for revision in revisions:
+        export, _ = _snapshot(root, revision, tuple(before))
+        _require(export == before, "recall export source/target/ledger differs")
+        _git(root, "merge-base", "--is-ancestor", revision, PROSE_RECEIPT_COMMIT)
+
+
+def _validate_prose_receipts(before, after, root):
+    try:
+        _prose_receipt_exports(before, _prose_receipt_semantics(before, after), root)
+    except BaseException:
+        memo = _SEMANTIC_MEMO.get()
+        if memo is not None:
+            memo[1].clear()
+        raise
+
+
+def _prose_stages(root, head, prior):
+    """Exact source10 then receipt16; earlier42/18 endpoints remain immutable."""
+    if PROSE_PRODUCT_COMMIT is None:
+        _require(PROSE_RECEIPT_COMMIT is None, "recall receipts lack authored source")
+        return None, None, None
+    _require(PERSON_RECEIPT_COMMIT is not None, "recall source requires completed471 receipts")
+    paths = tuple(dict.fromkeys((*prior, *PROSE_PATHS)))
+    before, _ = _snapshot(root, PROSE_PRODUCT_PARENT, paths)
+    source, headers = _snapshot(root, PROSE_PRODUCT_COMMIT, paths)
+    _require({path: before[path] for path in prior} == prior,
+             "recall predecessor must preserve exact471 receipt endpoint")
+    _require([h[7:].decode() for h in headers if h.startswith(b"parent ")] == [PROSE_PRODUCT_PARENT],
+             "recall exact source direct parent")
+    expected = b"".join(b"M\0" + path.encode() + b"\0" for path in sorted(PROSE_PRODUCT_PATHS))
+    _require(_git(root, "diff", "--name-status", "-z", PROSE_PRODUCT_PARENT, PROSE_PRODUCT_COMMIT)
+             == expected, "recall exact ten source paths")
+    _git(root, "merge-base", "--is-ancestor", PERSON_RECEIPT_COMMIT, PROSE_PRODUCT_COMMIT)
+    _git(root, "merge-base", "--is-ancestor", PROSE_PRODUCT_COMMIT, head)
+    _require(len(PROSE_TEXT_LEAVES) == len(set(PROSE_TEXT_LEAVES)) == 40
+             and len(PROSE_SELECTORS) == 8 and len(PROSE_PRODUCT_PATHS) == 10
+             and set(PROSE_RAW_SHA256) == set(PROSE_RAW_PATCHES) == set(PROSE_PRODUCT_PATHS),
+             "recall exact scene/leaf/path/pin populations")
+    for path in paths:
+        if path in PROSE_PRODUCT_PATHS:
+            _memoized_semantics("prose-product:" + path, (before[path], source[path]),
+                                lambda p=path: prose_product_inverse(before[p], source[p], p))
+        else:
+            _require(before[path] == source[path], "recall source changed target/protected file or receipts")
+    accepted = None
+    if PROSE_RECEIPT_COMMIT is not None:
+        receipt_before, _ = _snapshot(root, PROSE_RECEIPT_PARENT, paths)
+        accepted, headers = _snapshot(root, PROSE_RECEIPT_COMMIT, paths)
+        _require(receipt_before == source, "recall receipt parent differs from exact source10")
+        _require([h[7:].decode() for h in headers if h.startswith(b"parent ")] == [PROSE_RECEIPT_PARENT],
+                 "recall exact receipt direct parent")
+        expected = b"".join(b"M\0" + path.encode() + b"\0" for path in sorted(PROSE_RECEIPT_PATHS))
+        _require(_git(root, "diff", "--name-status", "-z", PROSE_RECEIPT_PARENT, PROSE_RECEIPT_COMMIT)
+                 == expected, "recall exact sixteen receipt paths")
+        _git(root, "merge-base", "--is-ancestor", PROSE_PRODUCT_COMMIT, PROSE_RECEIPT_COMMIT)
+        _git(root, "merge-base", "--is-ancestor", PROSE_RECEIPT_COMMIT, head)
+        inputs = tuple((path, source[path], accepted[path]) for path in paths)
+        revisions = _memoized_semantics("prose-receipts", inputs,
+                                       lambda: _prose_receipt_semantics(source, accepted))
+        _prose_receipt_exports(source, revisions, root)
+    return before, source, accepted
 
 
 def _person_stages(root, head, prior):
@@ -936,6 +1438,9 @@ def _read_proof_current(root):
     person_before, person_source, person_receipts = _person_stages(root, head, current)
     if person_source is not None:
         current = person_receipts if person_receipts is not None else person_source
+    prose_before, prose_source, prose_receipts = _prose_stages(root, head, current)
+    if prose_source is not None:
+        current = prose_receipts if prose_receipts is not None else prose_source
     actual, _ = _snapshot(root, head, tuple(current))
     _require(actual == current, "current HEAD differs from exact source/receipt product")
     _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "current disk differs from Git")
@@ -955,6 +1460,7 @@ def _read_proof_current(root):
     return {"root": root, "head": head, "before": before, "after": after,
             "current": actual, "receipts": receipts, "person_before": person_before,
             "person_source": person_source, "person_receipts": person_receipts,
+            "prose_before": prose_before, "prose_source": prose_source, "prose_receipts": prose_receipts,
             "binding": _configuration()}
 
 
@@ -1000,7 +1506,7 @@ def source_predecessor_inventory(root, inventory):
                  "actual source census digest")
         _require(all(hashes.get(p) == _sha(proof["current"][p]) for p in SOURCE_PATHS),
                  "actual three-source census binding")
-        comparison = {**_person_source_comparison(root, proof, hashes),
+        comparison = {**_person_source_comparison(root, proof, _prose_source_comparison(root, proof, hashes)),
                       **{p: _sha(proof["before"][p]) for p in SOURCE_PATHS}}
         _require(_digest(comparison) == PREDECESSOR_SOURCE_MANIFEST_SHA256,
                  "exact pre470 complete source census")
@@ -1016,10 +1522,26 @@ def _person_source_comparison(root, proof, hashes):
     if proof["person_before"] is None:
         return dict(hashes)
     path = PERSON_KO_PATH
-    _require(hashes.get(path) == _sha(proof["current"][path]), "person-deal actual source census binding")
+    endpoint = proof["person_receipts"] if proof["person_receipts"] is not None else proof["person_source"]
+    _require(hashes.get(path) == _sha(endpoint[path]), "person-deal actual source census binding")
     comparison = {**hashes, path: _sha(proof["person_before"][path])}
     _require(_digest(comparison) == RECEIPT_SOURCE_MANIFEST_SHA256, "exact pre471 complete source census")
     prior, _ = _snapshot(root, PERSON_PRODUCT_PARENT, tuple(hashes))
     _require({p: _sha(raw) for p, raw in prior.items()} == comparison,
              "person-deal predecessor census differs outside exact Korean theme source")
+    return comparison
+
+
+def _prose_source_comparison(root, proof, hashes):
+    """Actual complete census -> the separately preserved471 source census."""
+    if proof["prose_before"] is None:
+        return dict(hashes)
+    _require(all(hashes.get(path) == _sha(proof["current"][path]) for path in PROSE_KO_PATHS),
+             "recall actual five-source census binding")
+    comparison = {**hashes, **{path: _sha(proof["prose_before"][path]) for path in PROSE_KO_PATHS}}
+    _require(_digest(comparison) == PERSON_RECEIPT_SOURCE_MANIFEST_SHA256,
+             "exact pre472 complete source census")
+    prior, _ = _snapshot(root, PROSE_PRODUCT_PARENT, tuple(hashes))
+    _require({path: _sha(raw) for path, raw in prior.items()} == comparison,
+             "recall predecessor census differs outside exact five Korean sources")
     return comparison

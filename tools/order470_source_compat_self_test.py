@@ -585,16 +585,129 @@ def run_person_checks():
     return failures, cases
 
 
+def run_prose_checks():
+    """472 actual source10/receipt16 only; previous42/18 are separate endpoints."""
+    failures, cases = [], 0
+    active_before, memo_before = history._ACTIVE.get(), history._SEMANTIC_MEMO.get()
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER472: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    with history.fresh_validation_proof() as proof:
+        before, source = proof["prose_before"], proof["prose_source"]
+        check(before is not None and source is not None, "actual authored source stage is bound")
+        if before is None or source is None:
+            return failures, cases
+        check(len(history.PROSE_SELECTORS) == 8 and len(set(history.PROSE_TEXT_LEAVES)) == 40
+              and len(history.PROSE_PRODUCT_PATHS) == 10 and len(history.PROSE_RECEIPT_PATHS) == 16,
+              "exact eight scenes/forty selectors/ten source/sixteen receipt paths")
+        check(all(before[path] == proof["person_receipts"][path] for path in proof["person_receipts"]),
+              "recall predecessor preserves immutable471 acceptance")
+        check(all(before[path] == source[path] for path in before if path not in history.PROSE_PRODUCT_PATHS),
+              "source stage changes no targets/ledger/runtime/inventory/rating")
+        for path in history.PROSE_PRODUCT_PATHS:
+            check(history.prose_product_inverse(before[path], source[path], path) == before[path],
+                  "exact whole source inverse " + path)
+            for label, raw, claimed in (("rollback", before[path], path),
+                    ("raw neighbor", source[path] + b"\n", path),
+                    ("nonbytes", source[path].decode(), path), ("path alias", source[path], "./" + path)):
+                reject(lambda r=raw, p=claimed, old=before[path]: history.prose_product_inverse(old, r, p),
+                       label + " " + path)
+            mutant = source[path] + b"\n"
+            with mock.patch.dict(history.PROSE_RAW_SHA256,
+                                 {path: (history._sha(before[path]), history._sha(mutant))}):
+                reject(lambda p=path, r=mutant: history.prose_product_inverse(before[p], r, p),
+                       "raw hunk proof rejects repinned whitespace " + path)
+            # Exercise the independent JSON-span boundary without relying on
+            # the immutable whole-file hash to reject the structural mutant.
+            selected = history.prose_selectors(path)
+            document = history._Document(source[path])
+            eid, keys = selected[0]
+            index = next(i for i, row in enumerate(document.value) if row["id"] == eid)
+            old_row = next(row for row in json.loads(before[path]) if row["id"] == eid)
+            a, z = document.spans[(index, *keys)]
+            rollback = (document.text[:a] + json.dumps(history._leaf(old_row, keys), ensure_ascii=False)
+                        + document.text[z:]).encode()
+            rows = copy.deepcopy(document.value)
+            rows[index]["unowned_field"] = "mutation"
+            neighbor = json.dumps(rows, ensure_ascii=False).encode()
+            for label, raw in (("missing owned edit", rollback), ("extra field", neighbor),
+                               ("raw layout", source[path] + b"\n")):
+                pins = {path: (history._sha(before[path]), history._sha(raw))}
+                reject(lambda r=raw, p=path, pins=pins, chosen=selected:
+                       history._receipt_overlay_inverse(before[p], r, p, chosen,
+                           history.PROSE_PRODUCT_PATHS, pins, (), len(chosen)), "repinned " + label + " " + path)
+        if proof["prose_receipts"] is not None:
+            accepted = proof["prose_receipts"]
+            history._validate_prose_receipts(source, accepted, history.ROOT)
+            check(True, "actual120 official corrections have fresh export/ancestor proof")
+            old, new = (json.loads(snapshot[history.LEDGER_PATH]) for snapshot in (source, accepted))
+            check(all(set(old["accepted"][locale]) == set(new["accepted"][locale]) for locale in history.LOCALES)
+                  and sum(sum(value != new["accepted"][locale][key] for key, value in old["accepted"][locale].items())
+                          for locale in history.LOCALES) == 120,
+                  "exact120 corrections and zero first receipts")
+            for path in history.PROSE_PATHS[10:]:
+                check(history.prose_receipt_overlay_inverse(source[path], accepted[path], path) == source[path],
+                      "exact literal-only target inverse " + path)
+                raw = accepted[path] + b"\n"
+                with mock.patch.dict(history.PROSE_RECEIPT_RAW_SHA256,
+                                     {path: (history._sha(source[path]), history._sha(raw))}):
+                    reject(lambda p=path, r=raw: history.prose_receipt_overlay_inverse(source[p], r, p),
+                           "repinned target layout rejected " + path)
+            identifier = "events:" + history.PROSE_TEXT_LEAVES[0][0] + ":/description"
+            for label, mutate in (
+                ("old batch prefix", lambda doc: doc["batches"].pop(0)),
+                ("first receipt invention", lambda doc: doc["accepted"]["ja"].update(unowned={})),
+                ("accepted source", lambda doc: doc["accepted"]["ja"][identifier].update(source_sha256="0" * 64)),
+                ("accepted target", lambda doc: doc["accepted"]["ja"][identifier].update(target_sha256="0" * 64)),
+            ):
+                doc = copy.deepcopy(new)
+                mutate(doc)
+                doc["accepted_sha256"] = history._digest(doc["accepted"])
+                raw = (json.dumps(doc, ensure_ascii=False, indent=2) + "\n").encode()
+                with mock.patch.dict(history.PROSE_RECEIPT_RAW_SHA256,
+                                     {history.LEDGER_PATH: (history._sha(source[history.LEDGER_PATH]), history._sha(raw))}):
+                    reject(lambda r=raw: history._prose_receipt_semantics(source, {**accepted, history.LEDGER_PATH: r}),
+                           "rehashed " + label)
+        # Existing admission edges still reobserve typed Git/config/disk, even
+        # when all pure semantic results have already been warmed in this scope.
+        snapshot = history._snapshot
+        def missing_source(root, revision, paths):
+            if revision == history.PROSE_PRODUCT_COMMIT:
+                raise ValueError("fixture lost recall source")
+            return snapshot(root, revision, paths)
+        with mock.patch.object(history, "_snapshot", missing_source):
+            reject(lambda: history._read_proof(history.ROOT), "warm typed-object/reader change rejected")
+        check(not history._SEMANTIC_MEMO.get()[1], "failed nested proof clears semantic success entries")
+        with mock.patch.object(history, "PROSE_PRODUCT_PARENT", "0" * 40):
+            reject(lambda: history._read_proof(history.ROOT), "warm parent/config change rejected")
+    check(history._ACTIVE.get() is active_before and history._SEMANTIC_MEMO.get() is memo_before,
+          "restores outer proof identity or leaves no standalone cache")
+    return failures, cases
+
+
 def main():
     coffee_only = sys.argv[1:] == ["--coffee-self-test"]
     person_only = sys.argv[1:] == ["--person-self-test"]
-    failures, cases = (run_person_checks() if person_only else
+    prose_only = sys.argv[1:] == ["--prose-self-test"]
+    failures, cases = (run_prose_checks() if prose_only else run_person_checks() if person_only else
                        run_coffee_consumer_checks() if coffee_only else run())
     for failure in failures:
         print(failure, file=sys.stderr)
     label = "COFFEE_CONSUMER" if coffee_only else "SOURCE_COMPAT"
-    prefix = "ORDER471_PERSON" if person_only else "ORDER470_" + label
-    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={5 if person_only else 9}")
+    prefix = "ORDER472_PROSE" if prose_only else "ORDER471_PERSON" if person_only else "ORDER470_" + label
+    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={10 if prose_only else 5 if person_only else 9}")
     return int(bool(failures))
 
 

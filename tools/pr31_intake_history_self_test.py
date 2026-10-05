@@ -187,9 +187,11 @@ def run():
         expected_stages.add(history.fact_successor.PREDECESSOR_SOURCE_MANIFEST_SHA256)
         if proof["person_source"] is not None:
             expected_stages.add(history.fact_successor.RECEIPT_SOURCE_MANIFEST_SHA256)
+        if proof["prose_source"] is not None:
+            expected_stages.add(history.fact_successor.PERSON_RECEIPT_SOURCE_MANIFEST_SHA256)
         check(stages == expected_stages and history.CURRENT_SOURCE_MANIFEST_SHA256 in stages,
               "exact immutable source stages preserve e300 and actual source-only successor")
-        check(len(stages) == 5 + int(proof["person_source"] is not None),
+        check(len(stages) == 5 + int(proof["person_source"] is not None) + int(proof["prose_source"] is not None),
               "before/intake/corrected plus separately proven469/470/471 source populations")
         check(history.source_stage_manifest_digests(history.ROOT, full_inventory) is stages,
               "same-invocation source proof is reused only after actual verification")
@@ -432,8 +434,8 @@ def run_person_checks():
         if proof["person_source"] is None:
             return failures, cases
         changed = set(successor.PERSON_PATHS) | {history.LEDGER_PATH}
-        check(all(proof["current"][path] == proof["fact_current"][path]
-                  for path in proof["current"] if path not in changed),
+        check(all(proof["person_current"][path] == proof["fact_current"][path]
+                  for path in proof["person_current"] if path not in changed),
               "only person themes and later receipts follow immutable470")
         check(proof["person_source"][history.LEDGER_PATH] == proof["fact_current"][history.LEDGER_PATH],
               "source stage contributes no acceptance")
@@ -463,14 +465,15 @@ def run_person_checks():
                                             for path in history.SOURCE_PATHS}, "original partial15 comparison stays exact")
         if successor.PERSON_RECEIPT_COMMIT is not None:
             transitions = history.receipt_transitions(history.ROOT, {})
-            fact, person = transitions[-2:]
+            fact = next(row for row in transitions if row[0] == successor.RECEIPT_COMMIT)
+            person = next(row for row in transitions if row[0] == successor.PERSON_RECEIPT_COMMIT)
             check(fact[0] == successor.RECEIPT_COMMIT and fact[2][history.LEDGER_PATH]
                   == proof["fact_current"][history.LEDGER_PATH], "original42 endpoint remains exact470 R4")
             check((fact[3]["first_receipts"], fact[3]["corrections"]) == (6, 36),
                   "original470 acceptance remains42, not merged60")
             check(person[0] == successor.PERSON_RECEIPT_COMMIT
                   and person[1][history.LEDGER_PATH] == proof["person_source"][history.LEDGER_PATH]
-                  and person[2][history.LEDGER_PATH] == proof["current"][history.LEDGER_PATH],
+                  and person[2][history.LEDGER_PATH] == proof["person_current"][history.LEDGER_PATH],
                   "person18 transition binds source/accepted ledger separately")
             check((person[3]["first_receipts"], person[3]["corrections"], person[3]["correction_batches"]) == (6, 12, 3),
                   "person acceptance is six first and twelve corrected")
@@ -480,12 +483,72 @@ def run_person_checks():
     return failures, cases
 
 
+def run_prose_checks():
+    """472 current25/projection10 and three immutable receipt endpoints."""
+    failures, cases = [], 0
+
+    def check(value, name):
+        nonlocal cases
+        cases += 1
+        if not value:
+            failures.append("PR31 recall successor: " + name)
+
+    with history.fresh_validation_proof() as proof, history.previous.fresh_validation_proof():
+        successor = history.fact_successor
+        check(proof["prose_source"] is not None, "actual recall source stage is present")
+        if proof["prose_source"] is None:
+            return failures, cases
+        check(len(history.CONTENT_PATHS) == 71 and len(history.SOURCE_PATHS) == 15,
+              "immutable intake71 and partial-source15 populations remain original")
+        check(all(proof["current"][path] == proof["person_current"][path]
+                  for path in proof["current"] if path not in (*successor.PROSE_PATHS, history.LEDGER_PATH)),
+              "only declared recall paths/receipts follow immutable471")
+        check(proof["prose_source"][history.LEDGER_PATH] == proof["person_current"][history.LEDGER_PATH],
+              "source10 adds zero receipts")
+        for path in successor.PROSE_PATHS:
+            raw = proof["current"][path]
+            check(not history.source_errors(raw, path), "actual source/target raw admitted " + path)
+            check(bool(history.source_errors(raw + b"\n", path)), "neighbor raw rejected " + path)
+            if raw != proof["person_current"][path]:
+                check(bool(history.source_errors(proof["person_current"][path], path)),
+                      "pre472 comparison is not current " + path)
+        historical = history.HISTORICAL_JSON_LEAVES
+        for path in successor.PROSE_PRODUCT_PATHS:
+            before, after = history.historical_blobs(path)
+            check(after == proof["current"][path]
+                  and before == history.previous.project_bytes(proof["before"][path], path),
+                  "actual current and composed comparison stay separate " + path)
+            check(set(successor.prose_selectors(path)) <= set(historical[path]), "all owned leaves accounted " + path)
+            check(history.project_bytes(after, path) == before, "exact raw projection " + path)
+            claim, errors = history.observed_byte_hash(path, "0" * 64, after)
+            check(claim == "0" * 64 and bool(errors), "forged read claim rejected " + path)
+        hashes = {path: history._sha(proof["current"][path]) for path in history.SOURCE_PATHS}
+        partial = {"source_hashes": hashes, "source_manifest_sha256": history._digest(hashes)}
+        check(history.source_predecessor_inventory(history.ROOT, partial)["source_hashes"]
+              == {path: history._sha(proof["before"][path]) for path in history.SOURCE_PATHS},
+              "partial15 inverse does not invent Hyunsu census membership")
+        transitions = {row[0]: row for row in history.receipt_transitions(history.ROOT, {})}
+        for commit, stage, counts in ((successor.RECEIPT_COMMIT, "fact_current", (6, 36)),
+                                     (successor.PERSON_RECEIPT_COMMIT, "person_current", (6, 12)),
+                                     (successor.PROSE_RECEIPT_COMMIT, "current", (0, 120))):
+            if commit is None:
+                continue
+            row = transitions[commit]
+            check(row[2][history.LEDGER_PATH] == proof[stage][history.LEDGER_PATH]
+                  and (row[3]["first_receipts"], row[3]["corrections"]) == counts,
+                  "separate immutable receipt endpoint " + stage)
+            check(row[3]["receipts"] == row[3]["batches"] == 0 and not any(row[3]["ui_by_locale"].values()),
+                  "prose acceptance cannot extend UI coverage " + stage)
+    return failures, cases
+
+
 def main():
     person_only = sys.argv[1:] == ["--person-self-test"]
-    failures, cases = run_person_checks() if person_only else run()
+    prose_only = sys.argv[1:] == ["--prose-self-test"]
+    failures, cases = run_prose_checks() if prose_only else run_person_checks() if person_only else run()
     for error in failures:
         print(error, file=sys.stderr)
-    label = "PR31_PERSON_SUCCESSOR" if person_only else "PR31_INTAKE_HISTORY"
+    label = "PR31_PROSE_SUCCESSOR" if prose_only else "PR31_PERSON_SUCCESSOR" if person_only else "PR31_INTAKE_HISTORY"
     print(f"{label}_{'FAIL' if failures else 'OK'} cases={cases} current_files=71 native_review=OPEN")
     return int(bool(failures))
 

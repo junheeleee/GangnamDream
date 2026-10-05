@@ -930,7 +930,7 @@ def _person_added_source_leaves() -> set[tuple[str, str]]:
             return set()
         successor = current_source.fact_successor
         vectors = []
-        for stage in ("fact_current", "current"):
+        for stage in ("fact_current", "person_current"):
             vectors.append({(row["id"], leaf.path)
                             for row in json.loads(proof[stage][successor.PERSON_KO_PATH])
                             for leaf in collect_event_leaves(row["id"], row, errors)})
@@ -1712,6 +1712,65 @@ def run_person_scope_self_test(root: Path | str = ROOT) -> tuple[list[str], int]
             event["source_leaves_sha256"] = "0" * 64
         require("rejects rehashed " + kind, bool(_expected_observation_errors(forged)))
     require("mutants leave the actual report unchanged", report == original)
+    return failures, cases
+
+
+def run_prose_scope_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
+    """472 observed forty-leaf boundary; no replay of the old273 corpus."""
+    failures: list[str] = []
+    cases = 0
+
+    def require(name: str, condition: bool) -> None:
+        nonlocal cases
+        cases += 1
+        if not condition:
+            failures.append("recall scope " + name + ": assertion failed")
+
+    report, errors = build_scope(root)
+    require("actual report admitted before mutation", not errors and not _expected_observation_errors(report))
+    original = copy.deepcopy(report)
+    successor = current_source.fact_successor
+    require("forty existing leaves across eight scenes", len(successor.PROSE_TEXT_LEAVES) == 40
+            and len(successor.PROSE_SELECTORS) == 8)
+    with current_source.fresh_validation_proof(root) as proof:
+        require("actual source stage bound", proof["prose_source"] is not None)
+        if proof["prose_source"] is None:
+            return failures, cases
+        for ordinal, (name, eid, selectors) in enumerate(successor.PROSE_SELECTORS):
+            path = "content/events/" + name + ".json"
+            prior = next(row for row in json.loads(proof["person_current"][path]) if row["id"] == eid)
+            current = next(row for row in json.loads(proof["current"][path]) if row["id"] == eid)
+            old_leaves, new_leaves = (collect_event_leaves(eid, row, []) for row in (prior, current))
+            require("no new or removed leaves " + eid,
+                    [leaf.path for leaf in old_leaves] == [leaf.path for leaf in new_leaves])
+            event = next(row for row in report[SCOPE_LIFECYCLE_SHIPPING]["events"] if row["id"] == eid)
+            require("exact current observed prose " + eid,
+                    event["source_file"] == path
+                    and [(leaf["path"], leaf["source"]) for leaf in event["leaves"]]
+                    == [(leaf.path, leaf.source) for leaf in new_leaves])
+            forged = copy.deepcopy(report)
+            event = next(row for row in forged[SCOPE_LIFECYCLE_SHIPPING]["events"] if row["id"] == eid)
+            kind = ("rollback", "wrong-path", "neighbor", "missing-leaf", "extra-leaf", "wrong-hash",
+                    "reversed-leaf-order", "rollback")[ordinal]
+            if kind == "rollback":
+                event["leaves"] = [{"path": leaf.path, "source": leaf.source,
+                    "source_text_sha256": hashlib.sha256(leaf.source.encode()).hexdigest(),
+                    "chapter5_reader": leaf.chapter5_reader} for leaf in old_leaves]
+            elif kind == "wrong-path":
+                event["source_file"] = "content/events/unapproved.json"
+            elif kind == "neighbor":
+                event["leaves"][0]["source"] += " mutation"
+            elif kind == "missing-leaf":
+                event["leaves"].pop()
+            elif kind == "extra-leaf":
+                event["leaves"].append({**event["leaves"][0], "path": "description_if_known.unowned"})
+            elif kind == "reversed-leaf-order":
+                event["leaves"].reverse()
+            _rehash_source_observation(forged)
+            if kind == "wrong-hash":
+                event["source_leaves_sha256"] = "0" * 64
+            require("rejects rehashed " + kind + " " + eid, bool(_expected_observation_errors(forged)))
+    require("mutants leave original report unchanged", report == original)
     return failures, cases
 
 
