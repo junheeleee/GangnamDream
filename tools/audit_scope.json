@@ -14,6 +14,22 @@
   ],
   "fast_lanes": [
     {
+      "id": "investment-ap-copy",
+      "paths": [],
+      "owned_paths": [
+        "tools/investment_ap_copy_self_test.py", "tools/InvestmentAPCopyCheck.gd",
+        "tools/InvestmentAPCopyCheck.tscn", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/queue_active/ORDER-467.md", "docs/queue_archive/ORDER-467.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_reviews/ORDER-467.json",
+        "docs/agent_review_decisions.json"
+      ],
+      "tools": [
+        "tools/investment_ap_copy_self_test.py", "tools/ja_translation_audit.py --scope ui",
+        "tools/en_coverage_check.py", "tools/english_hangul_audit.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Close the already-implemented exact three AP-denial pairs with focused inverse/negative and current Japanese UI checks. Root separately runs prepared30 handler probes and five same-month restores in fresh pre-autoload isolation. Reuse unchanged source-bound 472 admission/ZH evidence, not an executed trade, rendered input or release claim."
+    },
+    {
       "id": "story-choice-facts",
       "paths": [],
       "owned_paths": [
@@ -3500,6 +3516,21 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/investment_ap_copy_self_test.py",
+      "paths": ["tools/investment_ap_copy_self_test.py", "tools/InvestmentAPCopyCheck.gd",
+        "tools/InvestmentAPCopyCheck.tscn", "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py", "tools/ja_translation_pipeline.py",
+        "tools/ja_translation_audit.py", "scenes/MainGame.gd"],
+      "why": "Exact AP-denial copy history, owner-local inverse, current selectors/retained Japanese key and negative fixtures. Does not change trading rules or issue translation/native evidence."
+    },
+    {
+      "tool": "tools/InvestmentAPCopyCheck.tscn",
+      "godot": true,
+      "paths": ["tools/InvestmentAPCopyCheck.gd", "tools/InvestmentAPCopyCheck.tscn",
+        "scenes/MainGame.gd", "autoloads/GameState.gd", "autoloads/LocaleManager.gd"],
+      "why": "Prepared30 AP0/restored handler probes plus five same-month restores; requires root-run fresh StoryNameplateBootstrap pre-autoload isolation, never unisolated audit execution."
+    },
     {
       "tool": "tools/story_choice_fact_audit.py",
       "paths": ["autoloads/GameState.gd", "autoloads/DataRegistry.gd", "content/events*/arc_events.json",
