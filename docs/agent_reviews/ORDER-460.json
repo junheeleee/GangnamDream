@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-460",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "be89b7f86cc40d07145610353fab5d427c920821",
+    "tree": "ccf14176b3cc7015bfd0d8f8cd33cc462a75010f",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "기존365 현재 파일 소비자에 입증된 JA/CN/TW 코인 사건3경로만 추가한다. old47 경로와 순서를 보존한 exact50 snapshot admission이며 기존 과거 원장·제품·collector 변경이 아니다.",
+  "method": "365 전체 변경부·실제 호출자와 공동 focused를 직접 읽고, 최초 실패/수리 성공 원문 및 최종 기본 full-body 결과·입력 보존을 확인했다. 비저자 하위 ab_readonly428의 Git/stdlib 대조를 함께 사용했으며 프로젝트 검사·collector·엔진 실행0이다.",
+  "source_review": {
+    "path": "tools/order365_ui_receipt_compat.py",
+    "sha256": "741b61d48d53dd56fdfb1039472ffa18ac6d0c8f3e40e954c053d8e85796c05a",
+    "population": "LIVE_PATHS는 기존 previous.LIVE_PATHS+UI 목록의47개를 그대로 앞에 유지하고 exactcoin3를 뒤에 추가한다. 임의 개수 하한이나 경로 wildcard를 쓰지 않는다.",
+    "admission": "fresh proof에서459 API의 current product8 raw를 읽고 UI proof와 actual HEAD를 결속한다. source_errors는 정확coin3만 해당 raw와 byte-equality로 검사한다. 기존 UI/coffee 분기와 다른 경로의 previous 위임, byte-only/unknown-path 거부를 유지한다.",
+    "whole_snapshot": "snapshot_errors/current_source_errors는 동일50경로 전체를 사용하고 missing/extra path를 거부한다. full-body는 이 진입을 직접 호출한다. 과거 source bytes를 현재 입력으로 반환하거나 검증을 건너뛰는 캐시를 추가하지 않았다."
+  },
+  "automated_contract": {
+    "focused_path": ".git/chapter5-replay/order459-focused-second.log",
+    "focused_sha256": "414b78c6f0fa4784e901e72a69bcca81a55e69e1902fbc8e9d8b79fca9136a3a",
+    "focused_result": "459/460 공동151 PASS/historical_cases0/collector_calls0. consumer 반례는 active-context 합성 replay로서 exact old47 prefix+coin3 suffix, 제출 raw 불일치, 기존/새 path 누락, 증명의 target 누락, unknown path와 비소유 위임을 확인한다. 이 부분을 fresh history 전체 실행이라고 부르지 않는다.",
+    "current_path": ".git/chapter5-replay/order459-current-first/result.json",
+    "current_sha256": "a7f694c3aa94f6b0d93de41b1284fe1d329968ee3869076d253d6896692592ec",
+    "current_result": "동일 be89b7f 후보의 기본 full-body 실제1회가 exact50 current admission을 거쳐 exit0/빈 stderr/688.315초 PASS했다. SOURCE_INVENTORY_ONLY이고 runtime_claim0/native_quality_claim0이다. 오더 수만큼 검사를 중복 실행하지 않았다."
+  },
+  "preserved_failure": {
+    "path": ".git/chapter5-replay/order459-focused-first.log",
+    "sha256": "3e9ece74a3fcf5fa34b75effeb48527c9b7f3d11ae639f843f4538f1f3d43b49",
+    "meaning": "최초136 FAIL에서 기존47 목록에 coin3가 없어 새 분기 앞의 unregistered guard가 차단함을 확인했다. 저자·초기 독립 사전읽기 모두 놓쳤다. 분기 기준을 완화하지 않고 exact3를 목록에 추가했으며 성공151과 원본 실패를 분리한다."
+  },
+  "preservation": {
+    "current": "result.before=after의 source HEAD/tree/clean status, 입력16·player34·seed2+W195 checkpoint3와 원본 로그 SHA를 확인했다. 제품9는49124fd와 동일하며 렌더 재실행0이다.",
+    "history": "기존217판정/195보고·공개 이력·human 원문을 보존했다. 기존 standalone의 오래된 self-test 모집단 하드코딩은 수정·재실행하지 않았으며 새 PASS로 승격하지 않는다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "현재 파일 허용 경계의 source/automated 계약 한정이다. 새로운 렌더·자연 플레이·인간·원어민·물리 입력 관측은0이다.",
+    "공동 full-body688.315초와 중단된 과거 차선의 비용을 보존한다. 속도 향상·통제된 A/B·전체 parser coverage를 주장하지 않는다.",
+    "457의 정상 이어보기는 Mac 잠금으로 메뉴/로드 미실행이며 Chapter5·M60·후일담·본편·새 package/출시 HOLD는 그대로다."
+  ],
+  "final_boundary": "ORDER-460 exact50 현재 소비자 연결 한정 GO. 458 제품 수리와459 전이 증명은 각 독립 범위로 결속하며 전역 품질·출시 승인으로 확대하지 않는다."
+}

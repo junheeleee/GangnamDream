@@ -9361,6 +9361,138 @@
       "receipt_sha256_by_locale": {
         "ja": "6012dda18bc67c32603dc6fcf4a4ce631fe4a2bee62d35c90ca9b06b8b977109"
       }
+    },
+    {
+      "order": "ORDER-458",
+      "group": "events_correction",
+      "roots": [
+        "amb_coin_00",
+        "amb_coin_warn"
+      ],
+      "source_leaves": 3,
+      "prior_acceptance": "existing",
+      "before_target_sha256_by_locale": {
+        "ja": {
+          "events:amb_coin_00:/choices/2/result_text": "33386d9bde778f1355d1fff544e80cc888a1193b372e9a720961d12774cb79c3",
+          "events:amb_coin_00:/description": "20056e7c4c99f0312a9aa14d10b1df11515a7c507f895d3220f63bc8b2ccd20a",
+          "events:amb_coin_warn:/description": "45104c2859f7f24cc34bbe01f0edaac1ed57583f910b79eca8d6a136a3a00357"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 3,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct correction of three existing coin-call leaves: recall the original 3 billion won goal without assuming distance from current assets; hear Taeho's hardening/sharpening voice rather than seeing his face during a phone call. No new leaves or gameplay changes. Original receipts and public-demo binary history retained. Agent source review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "632f88babba781e639157e33ac1a06744b987c1b",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c7ffc9740e4eedbb8c456f7a7288a7c5ad71e51e8f2e1c67486f9f8db703e39d",
+          "selection_sha256": "713449fc4187bcb43b6a998c4c596cb26b205893a95ad656c3b7fa25ae423275",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "bd4f2f4f23ba453b4bfdb144900453b522eac3d51dff38a428e93bebac83f7c0"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "2920f9747986ebe93a5938bca39a2ea1cc92dae91b1e3a0dc5711b3f203cffbf"
+      }
+    },
+    {
+      "order": "ORDER-458",
+      "group": "events_correction",
+      "roots": [
+        "amb_coin_00",
+        "amb_coin_warn"
+      ],
+      "source_leaves": 3,
+      "prior_acceptance": "existing",
+      "before_target_sha256_by_locale": {
+        "zh-CN": {
+          "events:amb_coin_00:/choices/2/result_text": "32f73cc496bb22d330869f849664775fddc889391ba8ff20809d236bbc05c9c0",
+          "events:amb_coin_00:/description": "7063cf0b43c4d4839fc60d34ada633db5060c6934e0fe0f576a25f52da6722fa",
+          "events:amb_coin_warn:/description": "9eaebe1351e8e253aea4e0707db784d717afd40a64b604e4f5380687bfc691cf"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 3,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct correction of three existing coin-call leaves: recall the original 3 billion won goal without assuming distance from current assets; hear Taeho's hardening/sharpening voice rather than seeing his face during a phone call. No new leaves or gameplay changes. Original receipts and public-demo binary history retained. Agent source review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "632f88babba781e639157e33ac1a06744b987c1b",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c7ffc9740e4eedbb8c456f7a7288a7c5ad71e51e8f2e1c67486f9f8db703e39d",
+          "selection_sha256": "2a811ebc7002f89485d8666a4e2ac770e8f621085c132bdba96cb80da3e7c418",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "82cf29f9f9283dc85fd52bdb4606d8d9307baaf55ceda0cab4894820e3d66963"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "d45df8c16f98ee8b5091588c348ea3855dd86deab592c4cc9df8d9a02db75b04"
+      }
+    },
+    {
+      "order": "ORDER-458",
+      "group": "events_correction",
+      "roots": [
+        "amb_coin_00",
+        "amb_coin_warn"
+      ],
+      "source_leaves": 3,
+      "prior_acceptance": "existing",
+      "before_target_sha256_by_locale": {
+        "zh-TW": {
+          "events:amb_coin_00:/choices/2/result_text": "d0fcc8758adf5a60a476f209758b08013093e49bc0a437fa35d48342cbbaa5b3",
+          "events:amb_coin_00:/description": "f0a26a3f1ccef35ec7c84a5a11db7b4f87c4e3e82e70ee53fbc421098720df46",
+          "events:amb_coin_warn:/description": "36cf5ca7adbbdf6a9b67b20f335e25293357491ce3838083010bb01030511b7f"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 3
+      },
+      "source_review": "Korean-direct correction of three existing coin-call leaves: recall the original 3 billion won goal without assuming distance from current assets; hear Taeho's hardening/sharpening voice rather than seeing his face during a phone call. No new leaves or gameplay changes. Original receipts and public-demo binary history retained. Agent source review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "632f88babba781e639157e33ac1a06744b987c1b",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c7ffc9740e4eedbb8c456f7a7288a7c5ad71e51e8f2e1c67486f9f8db703e39d",
+          "selection_sha256": "0ba6ff358da523e51d0da6f7ba34605151dfec765c6b77573ac978bc13ecf2d8",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d5ed3ff8fa11e30be47c96037e70ad6deb68bbc447d6f5da6d9ca72051a3cd78"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-TW": "8ee724e32d9f537c6c27fe322fae67c8eebe7fa5939b135d9359ddfc341725aa"
+      }
     }
   ],
   "accepted": {
@@ -52694,16 +52826,16 @@
         "target_sha256": "75a65638382b5bd22f048d65ce0d942d5a44b8a10379cdcbf7f1406ef552892b"
       },
       "events:amb_coin_00:/choices/2/result_text": {
-        "source_sha256": "ea6b1507ef6d3b4daca3215e88bd230af110c84eddd4279bde2bf4b7e3b97380",
-        "target_sha256": "33386d9bde778f1355d1fff544e80cc888a1193b372e9a720961d12774cb79c3"
+        "source_sha256": "b0dccb1573fb3f2616bd220678c09585c87fad45fc76f9c64ba6e6bb228a1439",
+        "target_sha256": "862d2114202edddf5528e5a023845cd766fb09dedc0f9aa4a906d4ed9820de99"
       },
       "events:amb_coin_00:/choices/2/text": {
         "source_sha256": "12a639d35b37d5f73f7a60c75f449eb01a862945db2449cf28d47d826da786ca",
         "target_sha256": "bd66b612fb3d8741a35e3c269e70f4ee1b81e4f3b7880fd17b4a10de2163b289"
       },
       "events:amb_coin_00:/description": {
-        "source_sha256": "2c2dc66c5625b1848a19ff5a7c026d6100477bc4b3dc331aa4bb5e1d3843d541",
-        "target_sha256": "20056e7c4c99f0312a9aa14d10b1df11515a7c507f895d3220f63bc8b2ccd20a"
+        "source_sha256": "0feb2067278ae1e3615d07ae287315e84f0cce4994ecc9a582e5ded84b45a8ab",
+        "target_sha256": "ea5bbdafe363fa5c196f885be2dd01ae6a01ff954e51bb37e76789a8b977862a"
       },
       "events:amb_coin_00:/title": {
         "source_sha256": "14c797f70530d2ffa1f113ca30d22a59d5b83764589f979ca651c7a532f06395",
@@ -52726,8 +52858,8 @@
         "target_sha256": "5f60d35c5bd36fa9c3e1e9d588ee47b291b05b7a8203ee65209bb699bb1c1d7d"
       },
       "events:amb_coin_warn:/description": {
-        "source_sha256": "3ab04789537dffdff362cb10a2d2a38fd9e426468ab3185493ce54616e738694",
-        "target_sha256": "45104c2859f7f24cc34bbe01f0edaac1ed57583f910b79eca8d6a136a3a00357"
+        "source_sha256": "6602a3cbf698f05f80ddaf83f6fc0649e33bd54064f3bc9eba65412c7076e0c6",
+        "target_sha256": "0b654243194ab193fbe8c005a2583ce1773ef7500ab911bd292de143712c7d17"
       },
       "events:amb_coin_warn:/title": {
         "source_sha256": "1b8ba9b974d903e5e27c8c116994e19cacb1345c6673729614ee8b23772bb305",
@@ -105280,16 +105412,16 @@
         "target_sha256": "3dfd08fb55e4d75b42cfec5ca21d5efec399ddb4d4b4304680ef7ce2311fe02a"
       },
       "events:amb_coin_00:/choices/2/result_text": {
-        "source_sha256": "ea6b1507ef6d3b4daca3215e88bd230af110c84eddd4279bde2bf4b7e3b97380",
-        "target_sha256": "32f73cc496bb22d330869f849664775fddc889391ba8ff20809d236bbc05c9c0"
+        "source_sha256": "b0dccb1573fb3f2616bd220678c09585c87fad45fc76f9c64ba6e6bb228a1439",
+        "target_sha256": "0e9e1ea040a71dccea641684b98cc2efd847b7338cb7ae3dd1e80c88c9ed91fc"
       },
       "events:amb_coin_00:/choices/2/text": {
         "source_sha256": "12a639d35b37d5f73f7a60c75f449eb01a862945db2449cf28d47d826da786ca",
         "target_sha256": "f3499313f376389095fbeb95ad1ae925763f7d470d9edf63cd5e3a422e362989"
       },
       "events:amb_coin_00:/description": {
-        "source_sha256": "2c2dc66c5625b1848a19ff5a7c026d6100477bc4b3dc331aa4bb5e1d3843d541",
-        "target_sha256": "7063cf0b43c4d4839fc60d34ada633db5060c6934e0fe0f576a25f52da6722fa"
+        "source_sha256": "0feb2067278ae1e3615d07ae287315e84f0cce4994ecc9a582e5ded84b45a8ab",
+        "target_sha256": "c40a82e9c4820a472f744bf8c84b9425dce302441d2c7351250bab018513f7ae"
       },
       "events:amb_coin_00:/title": {
         "source_sha256": "14c797f70530d2ffa1f113ca30d22a59d5b83764589f979ca651c7a532f06395",
@@ -105312,8 +105444,8 @@
         "target_sha256": "a0d34d39c5d232e23c2d4ad345208f5f9a7b041f0f38485c255007914e1a5c6e"
       },
       "events:amb_coin_warn:/description": {
-        "source_sha256": "3ab04789537dffdff362cb10a2d2a38fd9e426468ab3185493ce54616e738694",
-        "target_sha256": "9eaebe1351e8e253aea4e0707db784d717afd40a64b604e4f5380687bfc691cf"
+        "source_sha256": "6602a3cbf698f05f80ddaf83f6fc0649e33bd54064f3bc9eba65412c7076e0c6",
+        "target_sha256": "f868422de9d14cf49a8fe418af0f5bf4e5e5e272a5934df7ba1dbc2a19af8b53"
       },
       "events:amb_coin_warn:/title": {
         "source_sha256": "1b8ba9b974d903e5e27c8c116994e19cacb1345c6673729614ee8b23772bb305",
@@ -162518,16 +162650,16 @@
         "target_sha256": "5256c8c1d6a89c01c5ea20ed65ea538d2a1a908885beaf37813a63b24ace9a75"
       },
       "events:amb_coin_00:/choices/2/result_text": {
-        "source_sha256": "ea6b1507ef6d3b4daca3215e88bd230af110c84eddd4279bde2bf4b7e3b97380",
-        "target_sha256": "d0fcc8758adf5a60a476f209758b08013093e49bc0a437fa35d48342cbbaa5b3"
+        "source_sha256": "b0dccb1573fb3f2616bd220678c09585c87fad45fc76f9c64ba6e6bb228a1439",
+        "target_sha256": "4ba8e743cb32c306eda1dc3fc5f47eb5f7f56c09aa1b98c052321f727d57fed6"
       },
       "events:amb_coin_00:/choices/2/text": {
         "source_sha256": "12a639d35b37d5f73f7a60c75f449eb01a862945db2449cf28d47d826da786ca",
         "target_sha256": "140b6cfa7034ec4bf7cbe4d90c5f0a4185ec3418c3dfca7e1ea7f7bc4ae6833f"
       },
       "events:amb_coin_00:/description": {
-        "source_sha256": "2c2dc66c5625b1848a19ff5a7c026d6100477bc4b3dc331aa4bb5e1d3843d541",
-        "target_sha256": "f0a26a3f1ccef35ec7c84a5a11db7b4f87c4e3e82e70ee53fbc421098720df46"
+        "source_sha256": "0feb2067278ae1e3615d07ae287315e84f0cce4994ecc9a582e5ded84b45a8ab",
+        "target_sha256": "e682faf068bf162d7277ffbdf69ae0213f2f40963a3ea4b44699e7e4fd35aada"
       },
       "events:amb_coin_00:/title": {
         "source_sha256": "14c797f70530d2ffa1f113ca30d22a59d5b83764589f979ca651c7a532f06395",
@@ -162550,8 +162682,8 @@
         "target_sha256": "ec6b97207977d45b4553ead03e091c9f36c9cc938645b47986ae213d9a126563"
       },
       "events:amb_coin_warn:/description": {
-        "source_sha256": "3ab04789537dffdff362cb10a2d2a38fd9e426468ab3185493ce54616e738694",
-        "target_sha256": "36cf5ca7adbbdf6a9b67b20f335e25293357491ce3838083010bb01030511b7f"
+        "source_sha256": "6602a3cbf698f05f80ddaf83f6fc0649e33bd54064f3bc9eba65412c7076e0c6",
+        "target_sha256": "4febf00dffc43cf1d7d4b604e81a0f18ae479628da21786e5159decc22290297"
       },
       "events:amb_coin_warn:/title": {
         "source_sha256": "1b8ba9b974d903e5e27c8c116994e19cacb1345c6673729614ee8b23772bb305",
@@ -176427,7 +176559,7 @@
       }
     }
   },
-  "accepted_sha256": "f8b4f6b0cd5a1cbee32420f29967ed12a8658978d082605a66633f8010506f5b",
+  "accepted_sha256": "9197ed6816a1776a32a2016480110438dcefcd3f4887b0ea94e82fdd2358f442",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

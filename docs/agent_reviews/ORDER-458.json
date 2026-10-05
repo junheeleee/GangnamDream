@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-458",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "be89b7f86cc40d07145610353fab5d427c920821",
+    "tree": "ccf14176b3cc7015bfd0d8f8cd33cc462a75010f",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "코인 통화의 현재 자산과 원래30억원 목표를 혼동하는 문구, 원격 상대의 얼굴을 보는 문구를 정확3leaf×5언어에서 정정하고 amb_coin_warn의 phone/local portrait 배선을 맞춘 범위다. 선택·경제·조건·경로 수리가 아니다.",
+  "method": {
+    "direct": "KO/EN 및 JA/CN/TW 원문·실제 StoryMode 소비자·격리 helper를 읽고, KO/EN 원본16PNG를 모두 직접 열었다. 실제 페이지/선택 효과/로그와 공식 교정 자료를 검토했으며 마지막 current full-body 원문과 보존 결속을 확인했다.",
+    "assistance": "비저자 하위 /root/independent392/ab_readonly428가 Git/stdlib로 공식 header·canonical receipt·전체 raw 역상과 artifact/보존 SHA를 대조했다. 프로젝트 collector·검사·엔진은 root만 실행했다.",
+    "authorship": "동결 해제 후 허용된458/459/460 보고서만 작성했다."
+  },
+  "source_and_acceptance": {
+    "render_ancestor": "49124fd03067fc5f57d6f617610f82776f5e89e2",
+    "render_tree": "a0212289915ca112998aa7cc715c6034d5161eca",
+    "selectors": ["amb_coin_00/choices/2/result_text", "amb_coin_00/description", "amb_coin_warn/description"],
+    "meaning": "원래 세운30억원 목표를 떠올리며, 통화 상대의 굳거나 날카로워지는 목소리를 듣는다. 새 잔고 단정·시각 지식·선택 효과를 만들지 않는다. EN 현재 시제는 진행 중 장면의 기존 P-9 기준과 맞는다.",
+    "receipts": "JA/CN/TW 기존9receipt를 교정하고3batch를 추가했다. accepted41755는 그대로이며 batches228→231, UI3사전·이전228batch·비소유 bytes가 유지됐다. canonical receipt와 실제 Leaf의 path/field/ko source hash를 대조했다. 신규 coverage0이다.",
+    "semantic_delta": {
+      "path": ".git/chapter5-replay/order458-semantic-delta.json",
+      "sha256": "db9c983002b6a469e26dd029d1955e789f24838be2f694fbad962c0061ee5877"
+    },
+    "successor_binding": "렌더 ancestor→현재 후보 차이는 docs/CLAUDE와 검증 tools뿐이다. 원고5·story_rules·번역원장·visual contract·파생 direction의 제품9파일은 정확히 같다. 현재 후보에서 화면을 다시 실행한 것으로 주장하지 않는다."
+  },
+  "runtime": {
+    "path": ".git/chapter5-replay/order458-second/result.json",
+    "sha256": "63efaa0b3dc21961a68cec275f29f91fa5b5f1bf4db77e8c6ea28e9435a9c991",
+    "result": "KO19.737초/EN37.528초, 각 exit0·오류0·빈 stderr·정확한 성공 marker. 지역별 low/near 준비2case로 총24페이지·16PNG·직접 선택8회다. raw/tap/강제 typing완료0이다.",
+    "screen_findings": "16원본 모두 표적 잘림·겹침·누락 glyph 발견0이다. phone badge, 로컬 player 초상과 investment_phone 배경이 실제 관측과 맞는다. low500000/0%와 near2926904114/97% 모두 원래 목표 문구가 성립한다. 동일 페이지의 재사용 캡처는 별도24PNG로 세지 않는다.",
+    "effects": "root 선택2는 mental80→76·tint0→5. warn low 선택0은 mental76→73·현수 affinity20→30·coin_warned_friend, near 선택1은 mental76→74·affinity20→18·coin_let_go다. 실제 event_log 증가·기존 prefix·선택 flag와 관측 상태를 소스에 대조했다. 현금·보유자산·대출·W195/날짜/AP2는 유지됐고 Meta는 불변이다.",
+    "preparation": "격리 새 상태에서 실제 StoryMode 페이지/선택 소비자를 직접 호출하고 자연 typing을 기다렸다. 정상 진입·raw 입력·W195 이후 플레이가 아니며 프로세스 종료를 전체 게임 상태 복원으로 부르지 않는다."
+  },
+  "current_contract": {
+    "path": ".git/chapter5-replay/order459-current-first/result.json",
+    "sha256": "a7f694c3aa94f6b0d93de41b1284fe1d329968ee3869076d253d6896692592ec",
+    "result": "459/460 연결 후 같은 최종 후보의 기본 full_body_translation_scope.py가 exit0·빈 stderr·688.315초로 PASS했다. SOURCE_INVENTORY_ONLY: shipping1708/11681leaf, reader133, M07~M60 static192/1752leaf, runtime_claim0/native_quality_claim0이다. 공동 focused151 PASS는 별도 합성·전이 계약 증거다."
+  },
+  "preserved_failures": [
+    "첫 helper의 예약어 namespace ParseError는 제품 관측 전 KO 실패/PNG0·EN 미실행이었다. .git/chapter5-replay/order458-first/result.json SHA850624ccad368c8a2de633f80da4d85c79c778d642030abe715470e5856b6fdf를 보존했고 변수명3참조만 수리했다.",
+    "기존 대형11행 차선은 첫 self-test를1315.966초에 중단했다. PASS가 아니며 나머지10행은 NOT_RUN이다. 원본 localization-lane.log SHA c44ad331965b62cd8fbbc58617ac9d06fb0f456c41ac7d632aab21bbcdcceb64를 보존한다.",
+    "앞선 기본 full-body28.980초 실패는 미등록 원문 전이의 정상 차단이었다. targeted-checks.json SHA aa446c064d9d6d86e58a236156d466be87436ca3272726b1acd86edad81b78af의 실패와 audit/i18n PASS를 그대로 보존한다. 별도459/460 수리와 최초 focused136 실패를 후속 성공으로 덮지 않는다."
+  ],
+  "preservation": {
+    "runtime": "원래 런타임 before=after, helper3·실제player34·seed2와 W195 checkpoint 및 artifact30/원본PNG16을 결속했다. 첫 실패 artifact7도 보존했다.",
+    "current": "최종 before=after의 입력16(제품9·검증코드5·project.godot·human), player34, seed2+checkpoint3과 clean HEAD/tree를 확인했다. 이는 최종 전체 tracked 재해시 주장과 구분한다. 기존217판정/195보고·공개 이력·human bytes는 유지됐다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "JA/CN/TW 렌더0, 인간·원어민·물리 입력·자연 진입·오디오 청취 미관찰이다. 새 번역9값의 의미 검토를 언어 전체 승인으로 확대하지 않는다.",
+    "기존 결과 문구의 더 넓은 시제·문체, 정상457 이어보기·M60·후일담·Property·Chapter5 전체는 이 보고서의 완료 범위가 아니다. 실제457 이어보기는 Mac 잠금으로 메뉴/로드 미실행이다.",
+    "688.315초는 이 실행의 비용이며 최적화나 통제된 성능 A/B 증거가 아니다. 기존 대형 suite·화면을 최종 후보에서 재실행했다고 주장하지 않는다."
+  ],
+  "final_boundary": "현재 be89b7f의 ORDER-458 source/acceptance 및 바이트 동일 렌더 ancestor의 KO/EN 준비 소비자 한정 GO. Chapter5·본편·새 package·출시 및 인간/원어민 GO는 HOLD로 유지한다."
+}

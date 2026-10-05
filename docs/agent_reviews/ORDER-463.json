@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-463",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "5b096f36ac892b96aefcf7288655edbbfa186de7",
+    "tree": "e5be8301aba2f46294d8469cb2fc4d7fb8d3a5b6",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "OpeningCinematic의 단일 시간 수리 전이를 원 번역 source/receipt 검수에 정확하게 연결하는 source admission만 승인한다. 번역값 재수용·렌더·프롤로그 전체 품질·출시 승인이 아니다.",
+  "method": "선언·실제 제품11개 치환·새 history134행·append EOF43행·focused189행·실제 Opening collector/Leaf ID·root runner를 전부 읽었다. 실제 원문 로그와 결과/소스 SHA, current Git commit/tree 및 metadata-only successor diff를 직접 대조했다. 프로젝트 import·collector·검사·엔진은 root만 실행했다. 비저자 보조 /root/independent392/ab_readonly428는 최종 보존맵을 Git/stdlib로 읽기 대조했다.",
+  "source_review": {
+    "history_sha256": "3b166764ba82e3b4190d05a93c46f04ede24b013370ee3f555a9bb9c0e27df64",
+    "append_sha256": "e64a58dc3aff290f6f18c1e9381c9bc0b3b95bb877a8d343e284f453dbe31e71",
+    "old_append_prefix_sha256": "58b9d7347d4cf85eacbebab3aad878cc58c59052ad9db366ee60ba2be6b42588",
+    "transition": "실제5bf7a8eb→0afd81c8의 commit2/tree2/blob2를 매 호출 새로 읽는다. object type/길이/Git SHA1·commit tree/직접parent·diff 단일경로·ancestor·전후 Opening raw SHA를 검증하고11개 치환의 전체 bytes 역상을 요구한다. 시작/종료 HEAD/tree/blob/disk를 재확인하며 cache0이다.",
+    "admission": "실제 현재 source_hashes/digest와 Opening disk를 먼저 결속한다. 비교용 사본에서 Opening 하나만 증명된 이전 hash로 투영하고 원 matcher와461 scope에 위임한다. current_proof 결과는 원본 identity 그대로이며 current raw/census/digest/evidence HEAD를 다시 검증한다. legacy source_hashes 없는 입력은 새 I/O 없이 원 경로로 위임한다.",
+    "unchanged": "기존 append prefix 전체·원 pin/inverse·collector/365 current50·receipt 검수 의미는 보존한다. source 변경을 무시하거나 receipt를 새로 발급하지 않는다."
+  },
+  "automated_contract": {
+    "focused": {
+      "path": "build/qa_order149/focused1/focused.stdout.log",
+      "sha256": "a1fc9f1f1fe68e8cbee0aa1fada501430448cb61655d8b8a3fa7ea41d895bfbc",
+      "code_sha256": "1861c07505c182693167e0590da07d1ea064a2b2521c0447996e6f7b5043d0f0",
+      "result": "56 PASS, actual_git_proofs1/actual_objects6/opening_collectors1/synthetic_replays15/historical_cases0. 실제 typed packet을 별도 decode해 whole before/current bytes를 대조하고 실제 작은 Opening collector6쌍·동적 Leaf ID 불변을 확인했다.",
+      "limits": "나머지는 inverse·captured Git replay·adapter stub 반례다. replay는 연산 앞2개 인수를 확인하며 모든 argv/input 변이 검사가 아니다. 합성 old matcher 위임과 proof identity 사례를 실제 전체 원장 admission으로 부르지 않는다."
+    },
+    "retained_lane_failure": {
+      "path": "build/qa_order149/focused1/result.json",
+      "sha256": "dd84b44fdec179438831b3fbdfd2657dbc7f63031963d8f002dea2f8e724e379",
+      "result": "lane exit1/all_pass=false 원본 보존. focused56·등록197·queue PASS지만 WORK_LOG40346>40000으로 context1건 실패했다. root가 새 draft 기록을 줄인 뒤 context-only PASS를 tool 원문으로 보고했다. 별도 후속 파일은 없으며 처음 lane 전체가 PASS였다고 주장하지 않는다."
+    },
+    "current_full_body": {
+      "path": "build/qa_order149/fullbody1/result.json",
+      "sha256": "67392ba8ba001073a2f3d2960d03144402458b798b83f668b9253b34cc4381e7",
+      "entry_sha256": "6a581e35ae2d74b126057d28400108916aea03b3c2531396fc7fd0a28289daa2",
+      "stdout_sha256": "e5d81bc8c06eb3c594ef7518b2c055bc1b5ada6ddebf438e6b4ff9ae6731ba87",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "199b87beb016213b3e2e67aac25de77f7c74b47bc9bf41d03e008c9b507d36bf",
+      "result": "실제 기본 full_body_translation_scope.py1회, exit0·453.09081초·stdout297bytes·stderr0·all_pass/preserved=true. 정확 SOURCE_INVENTORY_ONLY marker는 shipping1708/11681leaf·chapter5 reader133·M07–M60 static192/1752leaf·runtime_claim0/native_quality_claim0이다."
+    }
+  },
+  "execution_subject": {
+    "commit": "b565ffe4f15cbee0ff92ac5d4d164014970a2f89",
+    "tree": "a84e916689a927d769d971d06c0f516bcac7b4c7",
+    "successor": "실제 full-body 전후는 clean b565ffe다. 최종 subject5b096f36까지의 committed diff는 CLAUDE.md 상태3행뿐이며 코드·제품·사전·원장·검사 입력은 불변이다. 새 HEAD에서 명령을 재실행했다고 주장하지 않는다. 동결 해제 뒤 root의 STATUS·사양·WORK_LOG 마감은 실행 당시 맵과 별개다."
+  },
+  "preservation": {
+    "observed": "full-body before=after의 전체 tracked3138 SHA·보호11그룹을 확인했다. 비저자 보조의 현재 재해시에서3133개가 같고5개 차이는 committed CLAUDE와 동결후 root의 STATUS/WORK_LOG/active149/active463 마감뿐이며 제품·도구 차이0이다. 보호57파일의 SHA/크기/목록은 일치한다: 실제player34·공개저장9·seed3·462앱7/manifest1·project/preset/human3. 원공개 build/story_demo가 없던 상태는 missing→missing이며 그 artifact 실물을 새로 검증했다는 뜻이 아니다.",
+    "history": "기존 accepted41755/231batch·UI3·제품의 비소유 bytes·공개 이력·222판정/200보고(+462 manifest사본1)·human을 유지한다. 149의 cold baseline1 실패와 warmed baseline2/current1 결과도 보존하며 재실행하지 않는다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "이 GO는 source review/자동 현재 수용 한정이다. 이전 대형 self-test·standalone365·240주·새 빌더·엔진을463에서 실행하지 않았다.",
+    "453.09081초는 이번 기본검사의 관측 비용일 뿐 통제된 성능 A/B나 최적화 증거가 아니다.",
+    "149의 headless warmed 시간 계약은 별도 근거이며 실제12PNG·가독성·검은 프레임·강조 체감·사람·원어민·물리 입력은 미관찰이다. 149 전체 HOLD를 닫지 않는다.",
+    "Mac 잠금으로457 이어보기·462 package runtime6항목·M60/후일담·Property·Chapter5·본편/출시 HOLD는 그대로다."
+  ],
+  "final_boundary": "현재 subject의 정확한 Opening source 전이 및 원 검증기로의 현재 수용 연결만 ORDER-463 GO. ORDER-149 전체 HOLD와 공개·인간·출시 판정은 별개다."
+}

@@ -1479,3 +1479,102 @@ def _table_labels_previous(current, root, index):
         return _holdem_victory_particle_proof(current, root)[index + 5]
     return _VICTORY_PARTICLE_OLD_TABLE_LABELS_PREVIOUS(current, root, index)
 # END_HOLDEM_VICTORY_PARTICLE_HISTORY_455
+
+
+# BEGIN_HOLDEM_MANIFEST_PROOF_SCOPE_461
+# Share only the successful455 predecessor bytes within one outer matcher.
+# All earlier proofs, pins and inverse bodies remain the uncached authority.
+from contextlib import contextmanager as _holdem_contextmanager
+from contextvars import ContextVar as _HoldemContextVar
+
+
+_HOLDEM_MANIFEST_UNSCOPED_PROOF = _holdem_victory_particle_proof
+_HOLDEM_MANIFEST_PROOF_SCOPE = _HoldemContextVar(
+    "holdem_manifest_proof_scope_461", default=None)
+# The fixed455 proof names all thirteen descriptors. Include each inverse's
+# literal configuration too: changing an APPENDIX/REPLACEMENT must not reuse an
+# earlier verdict even when that inverse function object itself is unchanged.
+_HOLDEM_MANIFEST_BINDING_NAMES = tuple(sorted(
+    {name for name in _HOLDEM_MANIFEST_UNSCOPED_PROOF.__code__.co_names
+     if name in globals()}
+    | {"HOLDEM_PATH", "_git"}
+    | {name
+       for inverse_name in _HOLDEM_MANIFEST_UNSCOPED_PROOF.__code__.co_names
+       if inverse_name.startswith("holdem_") and inverse_name.endswith("_inverse")
+       for name in globals()[inverse_name].__code__.co_names
+       if name.isupper() and name in globals()}))
+
+
+def _holdem_manifest_binding_value(value):
+    """Retain only immutable literals and exact function/code identities."""
+    if type(value) in (str, bytes):
+        return value
+    if type(value) is tuple:
+        return tuple(_holdem_manifest_binding_value(part) for part in value)
+    if callable(value) and hasattr(value, "__code__"):
+        return (value, id(value.__code__), value.__code__)
+    raise ValueError("ORDER-461: mutable or unsupported proof binding")
+
+
+def _holdem_manifest_stage_binding():
+    """Snapshot the existing455 descriptors, inverse literals and delegates."""
+    return (
+        tuple((name, _holdem_manifest_binding_value(globals()[name]))
+              for name in _HOLDEM_MANIFEST_BINDING_NAMES),
+        _holdem_manifest_binding_value(_HOLDEM_MANIFEST_UNSCOPED_PROOF),
+        _holdem_manifest_binding_value(_holdem_victory_particle_proof),
+    )
+
+
+@_holdem_contextmanager
+def _holdem_manifest_proof_scope():
+    """One matcher, fresh even when nested; never leak a success to its caller."""
+    token = _HOLDEM_MANIFEST_PROOF_SCOPE.set(())
+    try:
+        yield
+    finally:
+        _HOLDEM_MANIFEST_PROOF_SCOPE.reset(token)
+
+
+def _holdem_manifest_live_binding(root, current):
+    """Fresh HEAD/blob/disk reads on every use, not another immutable Git proof."""
+    if type(current) is not bytes or hashlib.sha256(current).hexdigest() != VICTORY_PARTICLE_HASHES[1]:
+        raise ValueError("ORDER-461: current Holdem raw differs")
+    head = _git(root, "rev-parse", "HEAD")
+    if (root / HOLDEM_PATH).read_bytes() != current:
+        raise ValueError("ORDER-461: current Holdem disk differs")
+    if _git(root, "rev-parse", "HEAD:" + HOLDEM_PATH).decode().strip() != VICTORY_PARTICLE_BLOBS[1]:
+        raise ValueError("ORDER-461: current Holdem HEAD blob differs")
+    if (root / HOLDEM_PATH).read_bytes() != current or _git(root, "rev-parse", "HEAD") != head:
+        raise ValueError("ORDER-461: current source/HEAD changed during reuse guard")
+    return head
+
+
+def _holdem_victory_particle_proof(current: bytes, root: Path | None = None) -> tuple[bytes, ...]:
+    scope = _HOLDEM_MANIFEST_PROOF_SCOPE.get()
+    if scope is None:
+        return _HOLDEM_MANIFEST_UNSCOPED_PROOF(current, root)
+    resolved = (Path(root) if root is not None else Path(__file__).resolve().parents[1]).resolve()
+    binding = _holdem_manifest_stage_binding()
+    if scope:
+        saved_root, saved_raw, saved_binding, saved_head, predecessors = scope
+        if resolved != saved_root or current != saved_raw or binding != saved_binding:
+            raise ValueError("ORDER-461: matcher proof root/raw/configuration changed")
+        if _holdem_manifest_live_binding(resolved, current) != saved_head:
+            raise ValueError("ORDER-461: matcher proof HEAD changed")
+        if _holdem_manifest_stage_binding() != binding:
+            raise ValueError("ORDER-461: proof configuration changed during reuse")
+        return predecessors
+    head = _holdem_manifest_live_binding(resolved, current)
+    predecessors = _HOLDEM_MANIFEST_UNSCOPED_PROOF(current, resolved)
+    if (type(predecessors) is not tuple or len(predecessors) != 13
+            or any(type(raw) is not bytes for raw in predecessors)):
+        raise ValueError("ORDER-461: successful proof must return thirteen immutable raws")
+    if (_holdem_manifest_live_binding(resolved, current) != head
+            or _holdem_manifest_stage_binding() != binding):
+        raise ValueError("ORDER-461: proof binding changed before reuse admission")
+    # Store only after the complete original proof and all fresh guards succeed.
+    # Failures do not replace a slot; a changed warm binding cannot auto-refresh.
+    _HOLDEM_MANIFEST_PROOF_SCOPE.set((resolved, current, binding, head, predecessors))
+    return predecessors
+# END_HOLDEM_MANIFEST_PROOF_SCOPE_461

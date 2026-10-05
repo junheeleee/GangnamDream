@@ -861,6 +861,11 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
             require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
                     "coffee encounter lineage or protected locale differs")
             corrections.append((_coffee_history.coffee_encounter_comparison, before, after))
+        elif commit == _coin_history.COIN_AFTER_COMMIT:
+            before, after, change = _coin_history.coin_call_proof(root, inventory)
+            require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
+                    "coin call lineage or protected UI locale differs")
+            corrections.append((_coin_history.coin_call_comparison, before, after))
         elif commit in exact:
             proof, inverse = exact[commit]
             before, after, change = proof(root, inventory)
@@ -2643,3 +2648,104 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
             root, inventory, inventory["source_manifest_sha256"])
     return _HOLDEM_VICTORY_PARTICLE_OLD_MANIFEST_MATCHES(root, inventory, expected)
 # END_HOLDEM_VICTORY_PARTICLE_APPEND_455
+
+
+# BEGIN_COIN_CALL_SOURCE_AND_RECEIPT_459
+import coin_call_receipt_history as _coin_history
+
+_COIN_CALL_OLD_MANIFEST_MATCHES = _source_manifest_matches
+_COIN_CALL_OLD_CURRENT_PROOF = current_proof
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _COIN_CALL_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    predecessors = _coin_history.coin_source_predecessor(root, inventory)
+    require(set(predecessors) == set(_coin_history.SOURCE_PATHS), "coin source predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"], "coin current source census digest differs")
+    comparison = {**hashes, **{path: hashlib.sha256(raw).hexdigest()
+                             for path, raw in predecessors.items()}}
+    predecessor_inventory = {**inventory, "source_hashes": comparison,
+                             "source_manifest_sha256": exchange.digest(comparison)}
+    # Only the proved source successor is new. The original matcher still
+    # verifies the actual earlier runtime tuples; no new-source/old-runtime mix.
+    if expected == inventory["source_manifest_sha256"]:
+        return _COIN_CALL_OLD_MANIFEST_MATCHES(
+            root, predecessor_inventory, predecessor_inventory["source_manifest_sha256"])
+    return _COIN_CALL_OLD_MANIFEST_MATCHES(root, predecessor_inventory, expected)
+
+
+def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:
+    head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+    actual = _coin_history.coin_call_current_events(root)
+    result = _COIN_CALL_OLD_CURRENT_PROOF(root, baseline_commit, baseline)
+    require(all(result["source_hashes"].get(path) == hashlib.sha256(actual[path]).hexdigest()
+                for path in _coin_history.SOURCE_PATHS)
+            and exchange.digest(result["source_hashes"]) == result["source_manifest_sha256"],
+            "coin current source census/raw binding differs")
+    require(all((root / path).read_bytes() == raw for path, raw in actual.items()),
+            "coin current product bytes changed during admission")
+    require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head
+            and result["evidence"]["head"] == head,
+            "Git candidate changed during coin call admission")
+    return result
+# END_COIN_CALL_SOURCE_AND_RECEIPT_459
+
+
+# BEGIN_HOLDEM_MANIFEST_PROOF_SCOPE_461
+_HOLDEM_PROOF_SCOPE_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_PROOF_SCOPE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    # Reuse only the immutable history proof inside this one comparison. Each
+    # manifest, including a nested comparison, receives a fresh lazy scope.
+    with history._holdem_manifest_proof_scope():
+        return _HOLDEM_PROOF_SCOPE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_MANIFEST_PROOF_SCOPE_461
+
+
+# BEGIN_OPENING_RHYTHM_SOURCE_463
+import opening_rhythm_history as _opening_history
+
+_OPENING_RHYTHM_OLD_MANIFEST_MATCHES = _source_manifest_matches
+_OPENING_RHYTHM_OLD_CURRENT_PROOF = current_proof
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _OPENING_RHYTHM_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    raw = (root / _opening_history.OPENING_PATH).read_bytes()
+    previous = _opening_history.opening_rhythm_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(_opening_history.OPENING_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Opening rhythm current census/raw mismatch")
+    comparison = {**hashes, _opening_history.OPENING_PATH: hashlib.sha256(previous).hexdigest()}
+    predecessor_inventory = {**inventory, "source_hashes": comparison,
+                             "source_manifest_sha256": exchange.digest(comparison)}
+    # Admit only the new Opening state above the proved prior source tuple.
+    # The original matcher (including its461 scope) retains all earlier rules.
+    if expected == inventory["source_manifest_sha256"]:
+        return _OPENING_RHYTHM_OLD_MANIFEST_MATCHES(
+            root, predecessor_inventory, predecessor_inventory["source_manifest_sha256"])
+    return _OPENING_RHYTHM_OLD_MANIFEST_MATCHES(root, predecessor_inventory, expected)
+
+
+def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:
+    binding = _opening_history._current_binding(root)
+    raw = (root / _opening_history.OPENING_PATH).read_bytes()
+    _opening_history.opening_rhythm_predecessor(raw, root)
+    result = _OPENING_RHYTHM_OLD_CURRENT_PROOF(root, baseline_commit, baseline)
+    require(result["source_hashes"].get(_opening_history.OPENING_PATH) == hashlib.sha256(raw).hexdigest()
+            and exchange.digest(result["source_hashes"]) == result["source_manifest_sha256"]
+            and (root / _opening_history.OPENING_PATH).read_bytes() == raw,
+            "Opening rhythm source changed during current admission")
+    require(_opening_history._current_binding(root) == binding
+            and result["evidence"]["head"] == binding[0],
+            "Git candidate changed during Opening rhythm admission")
+    return result
+# END_OPENING_RHYTHM_SOURCE_463

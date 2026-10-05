@@ -383,6 +383,7 @@
     {"id": "callback_cafe_honest_trust_return", "portrait": "cafe_investor"},
 
     {"id": "amb_coin_00", "background": "investment_phone", "portrait": "player_determined"},
+    {"id": "amb_coin_warn", "background": "investment_phone", "portrait": "player_tired"},
     {"id": "amb_hoesik_00", "background": "company_dinner_restaurant", "portrait": "player_tired"},
     {"id": "amb_hoesik_drink", "background": "current_housing", "portrait": "player_shocked"},
     {"id": "amb_credit_steal_00", "background": "office", "portrait": "player_determined"},

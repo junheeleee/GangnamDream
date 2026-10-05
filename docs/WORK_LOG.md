@@ -2,6 +2,138 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 정선 허브 중국어 안내 선언 (464)
+
+- 9키/18값, 지역별 저작과 비저자 검수를 분리한다. 사전2개·수용원장만 변경하며 공식교환/append역상/365·ZH표적검사로 검증한다. 실제화면·원어민·출시 미승인.
+
+## 2026-10-05 — 프롤로그의 처지 비트에 읽기 시간 배정 (149·463)
+
+- 제품0afd81c는 처지3.62→4.26초, 명목합10.76초/문안/자산/입력불변. baseline2→current1 정상KO10.864439→10.840767초·ReduceMotion EN10.863720→10.832778초·skip PASS. 최초baseline실패보존; warmed계측이며149렌더/체감HOLD.
+- 463 focused56·전체수용453.09081초 PASS. focused1문맥예산실패는새기록축약후context단독수리. 실행b565ffe전후3138파일/보호상태동일, 이후5b096f3는CLAUDE3행만변경. 상세는사양·독립보고. 원어민/물리/출시GO아님.
+
+## 2026-10-05 — 프롤로그 리듬과 정확한 source 수용을 분리 선언 (149·463)
+
+- 별도macOS export462를 b6d49ce로 main마감·푸시했다. Mac잠금으로457/302실제화면은 막혔지만, 클로드149 지시의 단일0.52·hold3.10/3.10/3.00 결함은 현재도남아 있다. P18 1층만 진행한다.
+- fade0.44/0.76/0.36·hold2.80/3.50/2.90으로 명목10.76초를 유지하면서 처지비트3.62→4.26초를 배정한다. 실제시간은 기존/current×모션2경로의4자연재생으로 별도계측한다. 문안/자산/오디오/카메라강도/입력/첫5분흐름 변경0, 현재구현0이다.
+- 문안6키불변이어도 scenes raw manifest가 달라지므로 별도463에 단일GD Git전이/wholebyte역상과EOF adapter·작은반례·실제전체수용1회만 선언했다. 제품단독commit과adapter를검증한뒤같이push한다. 기존대형suite/240주/462export반복0, Mac잠금중12PNG/가독성/검은전환/체감은NOT_RUN이며149전체완료/출시GO로올리지 않는다.
+
+## 2026-10-05 — 수정 체험판 별도 macOS 산출물의 독립 마감 (462)
+
+- clean05747c92/treea867b41a·BUILD2026.10.05.1/third의16명령 전부exit0. 실제 배달앱 서명·ZIP/PCK·현재rawJSON675/entry1877/app7파일 PASS다. 결과 SHAb338d2669831fbc0958cdc253960987407c509271e3282e56ac5243b6819ae6a, sourceclean/보호전후동일·오류0. 이전first/second 실패물·원본project/preset·실제player34·seed2/W195·공개저장9를 보존했다. 옛 build/story_demo는 부재→부재이며 실물재검증이 아니다.
+- 최종MANIFEST171751byte SHA02f2a3973b496df52bd71e8d1b0abe81e75fbe768221671ca9bff68016f16d49와 추적사본은byte-exact다. 독립보고 SHA1f89b2dfa4ac33eabc092ca7aaa3d76752824cc97c7982ad5c19e6011229b554의 export범위 work_unit GO를 추가해222판정/200보고다. 사본1개는 보고서·재실행으로 세지 않는다.
+- 현재52합성/4표적 PASS 및 최종CLI PASS를 원시로그로 남겼다. 실제export/엔진 반복0, 의도된i18n거부·중첩project ignored외 engine/script/parse오류0. artifact저장공간은 빈디렉토리 존재/파일0이며 actualruntime NOT_RUN·user GO비상속이다.
+- 무인자 부팅·새저장·cold resume·복귀입력·5언어 화면·옛 공개저장 복사본 호환6항목은 그대로 남았다. CUA 신선조회도 Mac잠금으로 앱접근 불가여서 수동해제 요청·우회0이다. 302/457·M60/후일담/Property·본편/출시HOLD와 인간OPEN45/DONE1·공개GO1을 유지한다.
+- 승격: BUILD_PIPELINE의 로컬 successor 후보 절. BUILD/attempt·파일소유·이번 반례/실행순서는 일회성이다. 자동PASS는 계약 증거이지 재미·깊이·문체 승인 아님.
+
+## 2026-10-05 — 실제 배달 앱을 비동기화 전용 경로에 결속 (462)
+
+- builder545/감사708행의 최소diff를 비저자가 전수읽기했다. repo ZIP/로그는 유지하고 앱만 fixed Application Support/LocalCandidates/BUILD/attempt로 직접 재추출한다. 양목적지 fresh·ancestor symlink 차단·실제앱 xattr읽기/서명/ZIP/PCK 결속이며 속성제거코드는 전량철회했다.
+- source/출력 검증42개에 새경로/readonly10개를 더한 현재52·차선4검사 PASS다. 이전속성제거16개를 현재검증으로 누적하지 않는다. 같은 firstZIP의 Support 진단 JAQAlh는 속성삭제없이 provenance만·서명exit0였으나 third actual 검증을 대신하지 않는다. 실제16명령 third는 다음 clean main에서 실행한다.
+
+## 2026-10-05 — 배달 위치가 재생성한 FinderInfo와 후속 수리 선언 (462)
+
+- e5d9b846의 second도19명령 중 마지막verify_final만 exit1이다. after 로그에서 없어진 앱루트 FinderInfo가 후속읽기에서 다시 존재한다. 결과 SHAc04fb710e0cc97f1bd7c31df7d5b0cac6dfbc00c56d8b9144dac44af4ee2319c, source/보호전후동일·최종manifest0. 첫두 실패는 변경하지 않는다.
+- 속성삭제를 반복하거나 시스템 동기화/보안설정을 바꾸지 않는다. 같은 로컬 후보의 실제 배달 앱 위치를 현재부재인 Application Support/GangnamDream_LocalCandidates로 선언하고 ZIP/증거는 repo에 둔다. 실제배달앱의 재추출서명·byte inventory를 계속 요구하며 tmp PASS대체0이다. 제거기능/그 반례는 철회하고 속성읽기+서명을 요구한다.
+- 최종 actual manifest의 exact 추적사본 경로도 선언했다. package 판정의 manifest 증거가 ignored build 폴더에만 있으면 fresh clone의 원장 검증이 깨지므로, 사본을 실제증거와 같은SHA로 결속한다. 사본은 보고서나 재실행으로 세지 않는다.
+
+## 2026-10-05 — 새 앱 루트의 exact FinderInfo만 처리 (462)
+
+- builder557/감사737행의 최소diff를 비저자가 전수읽기했다. 조건부19/17명령의 경로·argv·로그SHA·exit0·exacthex·후속서명과 manifest를 결속했다. 제거대상은 새 final_app 루트1개/단일키뿐이며 absent이면 제거0, 다른 값은 실패한다. 다른속성은 이름집합 보존검사이지 값 전량 재계측이 아니다.
+- 실제 parser와 metadata 계약의 반례16개를 더한 합성58/actual_exports0·표적4검사 PASS, 등록196/context548/queue79·76이다. root의 첫 실패물 추가읽기에서 app7/PCK1877/currentJSON675 bytes·staging 전후 보존을 확인했지만 최종서명 실패는 닫지 않았다. 제품 변경0/첫 실패물 보존, 다음 clean main의 second 후보로 파이프라인을 확인한다.
+
+## 2026-10-05 — 첫 실제 후보의 목적지 FinderInfo 서명 실패 (462)
+
+- main a717c442의 first는 localization/notices/import/font/i18n/5언어/export/서명/ZIP까지 통과했으나 최종재추출 앱 서명에서 실패했다(15명령 중 마지막exit1). 결과 SHA04562493f15de4f1eee540a09f4a280f5c06b9186953f4ab7ca69731154e908c, source/보호전후동일·최종manifest0이다. 실패물은 그대로 보존한다.
+- 정확한 ZIP을 private/tmp에 재추출하면 서명exit0이며 Documents 목적지 앱루트에만 FinderInfo32byte/0x2000이 붙었다. ZIP옵션을 추측으로 바꾸지 않고 다음freshapp 루트의 그 exact attr만 before/read/remove/after로 기록·처리하도록 좁게 선언했다. 다른metadata/quarantine/하위파일·사용자 저장은 변경0이다.
+- MacPython3.9에는 os.listxattr가 없어 진단 읽기1회 AttributeError 뒤 xattr CLI읽기로 정정했다. 이 실패는 게임/패키지 검증 성공으로 세지 않는다. 실제candidate배달위치의 서명검사를 계속 요구하며 private/tmp PASS로 대체하지 않는다.
+
+## 2026-10-05 — 공개본을 덮지 않는 후보 빌더·독립 감사 구현 (462)
+
+- 새 builder530행·감사676행을 파일별 분리 저작하고 root/비저자가 전수 사전읽기했다. stage4치환·공개저장/실제player34/seed2+W195 전후 보호·첫 엔진 전 namespace 분리·app/ZIP/PCK/currentJSON 무결성을 결속한다. 마지막 보호검사를 통과해야 최종 MANIFEST를 발급한다.
+- 실행 전 Python3.9 tar API·PCK flags2·UID3 row schema·player JSON외8파일 누락·오류로그·preset 경로 기대 불일치를 수리했다. existing-output 반례도 상수false가 아니라 실제 builder의 쓰기 없는 fresh-path guard를 호출한다. 출력 생성 뒤 entry 기록 전의 OS 실패는 상세 result 없이 남을 수 있으나 엔진/공개본 쓰기를 하지 않는다.
+- 명시 차선4검사 PASS: 합성42/actual_exports0, 등록196/context548/queue79·76. 첫 CLI는 lane과 파일목록을 함께 줘 exit2(검사0)였고 lane 단독으로 정정했다. 엔진/실제export는 아직0이며 clean 구현 commit/push 뒤 별도 실행한다. full-body/과거 self-test/240주 반복0이다.
+- 지속 사용법은 BUILD_PIPELINE의 로컬 successor 절에 승격한다. 검사 통과는 실제 부팅·저장/복귀·5언어 화면·원어민·물리 조작/출시GO가 아니며 기존 공개GO·인간 원장을 보존한다.
+
+## 2026-10-05 — 수정 체험판의 별도 로컬 export 선언 (462)
+
+- read-only source census에서 UID없는GD3개를 확인했다. 새 import의 생성 sidecar는 정확3경로만 사양에 선언하고 유무/형식/SHA를 기록한다. source4치환·all_resources와 원본 저장소 불변, 다른새파일 허용0이다. 현재 oldpublic build/story_demo는 부재여서 missing→missing만 확인하며 옛artifact 실물 재검증으로 쓰지 않는다.
+- 검수 중복 제거461을 main4d00f31로 마감했다. [462](queue_archive/ORDER-462.md)는302 source 수리가 담긴 새 clean main을 별도 앱/저장/출력으로 묶는다. 원 공개 builder의 고정제품·공개저장 이동·출력교체는 재사용하지 않는다.
+- 두 신규 Python파일과 등록/문서만 소유를 분리했다. staging-only exact identity변경, 첫 엔진 전 RuntimeQA 격리, 실제export/서명/ZIP/PCK/currentJSON 및 보호대상 전후 대조가 범위다. 새후보를 EXPORTED_NOT_RUNTIME_VERIFIED로 표시하며 GUI/정상저장복귀·302package/457/본편/출시HOLD를 남긴다.
+- BUILD2026.10.05.1/새 attempt를 선언하며 구현/새엔진/export0이다. 제품/원고/번역/과거pin/human/project 변경0, 검사효율을 위해 완료된 full-body/기존 self-test 전량은 반복하지 않는다.
+
+## 2026-10-05 — 중복 이력 증명 제거의 실제 수용·독립 마감 (461)
+
+- clean main `178a9d151181284b8b040b862dd249597b74c8d7`/tree `ae952fa70a690e3d6124cf81fccda47f9ca8fb14`의 기본 full-body1회가446.304초/exit0/빈stderr PASS다. 입력20/player34/seed2+W195와 신원 전후 동일, 현재50수용·shipping1708/11681leaf·reader133·static192/1752leaf의 SOURCE_INVENTORY_ONLY/runtime0/native0다.
+- 결과 SHA `2195b7e6cfab256b61eac81e0421fff5e64743a5b59d5f662c0e50bfb138ce97`. 이전688.315초보다242.011초 짧은 별도실행 관측이며 통제된 A/B나13배 개선 주장은 아니다. 새 focused221·실제chain1/78객체요청과 나머지 합성 반례를 구분했다.
+- 비저자 보고 SHA `f4659e61993a845cc6323a9345b811ab6261ccba7c15acd44e29975d596e72ee`로 작업한정 GO, 기존220/198을 보존한221판정199보고다. 원장·공개 이력·human 원문 보존, 엔진/화면/원어민/물리입력 새관측0이다. 다음302 별도후보 준비는 기존 공개 산출물/저장/핀을 덮지 않는다. 457 Mac잠금·본편/출시HOLD는 유지한다.
+- 규범은 일회성 단일scope/검증/소유 지시이며 새 정본 승격0이다. 자동PASS는 계약 증거이지 재미·깊이·문체 승인 아님.
+
+## 2026-10-05 — 단일 비교의 홀덤 증명 재사용 구현 (461)
+
+- 기존 history91,237바이트와 append 전체 prefix를 보존하고 EOF99/15행만 추가했다. 한 matcher의13개 소비자는 검증된 immutable predecessor tuple을 공유하되 다음 matcher/외부 호출/중첩은 fresh이며 성공·실패 boolean을 저장하지 않는다. 매 hit의 root/raw/HEAD/blob/disk·pin/inverse literal·함수/code identity를 계속 검사한다.
+- 비저자 사전읽기에서 inverse 함수가 같아도 APPENDIX/REPLACEMENT 전역이 바뀌는 반례를 추가했다. 새 focused 저작 중 root가 Git guard 기대값·tuple 실패 방식·보호경로 오기를 실행 전에 수리 요청했다. 저자와 root/비저자 읽기를 분리했다.
+- 명시 차선4검사 PASS: 새 focused221/historical0, 실제13단계 증명1회/78객체요청/13before-blob 동치, 나머지는 source-preservation/합성 boundary이며 현재50 수용 증거가 아니다. 등록195·context/queue79/76 통과, 엔진/원문/번역/receipt/사람원장 변경0이다.
+- 깨끗한 구현 후보를 main에 먼저 올린 뒤 기본full-body1회로 현재50 수용·입력/실제player34/seed2+W195 전후 보존과 비용을 확인한다. 이 실제검사·독립최종판정은 아직미실행이며 과거688.315초와 비교할 때 통제된 A/B라고 부르지 않는다. 실제457/본편/새package/출시HOLD를 유지한다.
+
+## 2026-10-05 — 단일 원문 비교의13중복 증명 수리 선언 (461)
+
+- 코인5언어 수리/원장/소비자458~460을 main `4c901a4`로 마감·푸시했다. 현재 source 수용 기본검사688.315초의 정적 비용 분석에서 동일 Holdem13단계의 한 matcher 내13회 재증명을 확인했다.
+- [461](queue_archive/ORDER-461.md)은 한 matcher 호출의 검증된 immutable predecessor tuple만 공유한다. 매호출fresh/매재사용HEAD·disk·raw·root·stage결속/실패미저장/finally복원을 표적으로 검증하며 boolean 또는 whole-run 캐시를 넣지 않는다. 원체인/pin/inverse/현재50/제품/receipt변경0, 새 focused와 기본full-body1회만 실행한다.
+- 구현/실행은 아직0이다. 302 새 패키지는 옛 공개 빌더를 덮지 않는 successor 차선으로 남기고, Mac 잠금 중 실제457 이어보기/출시를 완료로 바꾸지 않는다.
+
+## 2026-10-05 — 코인 통화5언어 수리와 원장 연결 마감 (458·459·460)
+
+- main source `be89b7f`/tree `ccf14176`에서 원문3×5언어·후속phone 수리와 기존9번역 교정의 정확 전이/현재50경로 소비자를 각각 독립 한정GO로 닫았다. accepted41755 그대로·batch228→231·coverage증량0이다. 선택/경제/경로와 사용자 저장은 바꾸지 않았다.
+- 기본 full-body1회가688.315초/exit0/빈 stderr로 통과했다. shipping1708/11681leaf, reader133, static192/1752leaf, SOURCE_INVENTORY_ONLY/runtime0/native0이다. 결과 SHA `a7f694c3aa94f6b0d93de41b1284fe1d329968ee3869076d253d6896692592ec`, 입력16/player34/seed2+W195/clean신원 전후 일치다. 공동focused151 PASS와 최초136FAIL·사전검수 누락은 별도 보존한다.
+- source49124fd의 KO/EN24페이지/16PNG/8선택과 최종 제품9파일 동일성을 결속했다. 독립 전수화면 한정GO이며 새 후보 재촬영·자연 이어보기·JA/CN/TW렌더·원어민·인간·물리 관찰을 주장하지 않는다. 첫 helper오류·중단1315.966초차선·기본원장 실패도 유지한다.
+- 독립보고3개로 기존217판정195보고를 보존한220판정198보고다. 메타데이터가드 후 main에 마감한다. 457실제 W195이어보기는 Mac잠금/메뉴0, M60/후일담/6/6·Property·본편/새package/출시HOLD다. 자동PASS는 계약 증거이지 재미·깊이·문체 승인 아님.
+- 다음 비용 결함 조사: 한 source matcher 안에서 동일 Holdem13단계 증명을13회 반복한다(정적 계수169단계/390Git호출/1014객체요청). 실제688초의 기여분은 미계측이다. 새 범위 선언 전에는 검사 의미/코드를 바꾸지 않는다. 옛 데모 빌더는 공개 저장/산출물을 교체하므로 그대로 실행하지 않고,302 successor는 별도identity·staging/manifest·실제boot/resume 차선으로 남긴다.
+
+## 2026-10-05 — 코인 원문·교정 기록·현재 소비자 연결 구현 (459·460)
+
+- 정확한 source5/receipt4 역상과 실제 두 Git 전이,현재제품8/HEAD/disk·source2 manifest 결속을 구현했다. 과거UI3·228batch·41755수용/다른본문을 보존하고 이번9교정/3batch만 비교역상으로 복원한다. 제품데이터는49124fd 그대로다.
+- 첫 focused는136개 뒤 실패했다. 사전읽기에서 놓친 LIVE_PATHS 미등록 때문에 새코인3분기가 도달불가능했다. 기존47경로 순서를 유지해 exact3를 연결한 뒤 두번째 focused151/historical_cases0·collector_calls0 PASS다. 최초실패로그는 보존한다.
+- 구문·등록194·context·queue·diff PASS, 새파일 표적조회4검사다. 존재하지 않는 queue_index_check.py를 부른 CLI exit2를 실제 queue_consistency_check.py로 정정했고 게임검사는 실행되지 않았다. 현재후보 기본full-body와 비저자최종판정은 아직미실행이다. 옛대형self-test·화면·엔진은 반복하지 않는다.
+
+## 2026-10-05 — 코인 교정 사건의 마지막 소비자 연결 선언 (460)
+
+- 459 구현 중 비저자가365의현재사건 분기가 커피3경로만 소유함을 발견했다. 코인3파일은 이전원장으로넘어가므로459원문/receipt증명만으로는 실제소비자수용이 끝나지 않는다.
+- [460](queue_archive/ORDER-460.md)은365의exact현재raw3분기와같은focused등록만 추가한다. 원459의365변경0경계를 조용히 넓히지 않는다. 기본full-body/focused는459와합동1회,제품/과거pin/collector변경0이다.
+
+## 2026-10-05 — 코인 원문 수리의 현재 번역원장 결속 선언 (459)
+
+- 축소한 실제 데이터 검사에서 full-body28.980초가 `KO/runtime source changed outside reviewed boundary`로 실패했다. audit4.444초 ERROR0/WARNING0과 i18n0.206초 KO외4언어 coverage는 통과했다. 실패는 과거 UI원장에 새KO/runtime 변경을 허용하지 않는 경계이며 화면PASS로 덮지 않는다.
+- [459](queue_archive/ORDER-459.md)는 현재 제품을 바꾸지 않고632f88b의정확한source2전이·49124fd의기존9event receipt/3batch 역상을 기존consumer에 연결한다. 일반append/UI사전/과거판정/수용41755는 보존한다. 새공통프레임워크 없이 한정adapter/focused/기존연결만 소유를 나눴다.
+- 실제 현재 기본경로와 작은변이를 검수하며 역사 대형selftest/standalone365/화면 재실행을 중복하지 않는다. 458은 의존해소 전미완료,457은Mac잠금/실제메뉴0 상태로 남긴다.
+
+## 2026-10-05 — 변경 데이터 중심 검수 재선언 (458 중간)
+
+- inherited overlay11행의 첫 변경 없는 도구 self-test는1315.966초 뒤에도 미완료였다. 역사event마다5개 변이가 fresh source 증명을 반복하는 유한 고비용 구조를 읽기 검토했고, root가SIGINT/exit−2로 중단했다. 원문을 보존하며 첫검사미완료/뒤10미실행이다. 완료/PASS로 세지 않는다.
+- 이 문구 교정은 검사도구 변경0이므로 458에 현재full-body 기본1회·audit·i18n coverage와 마감가드를 먼저 재선언한다. 이미 통과한9공식교정·15leaf역상·기존표적정합·24페이지/16PNG 및 독립전수 증거를 유지한다. 새인프라/검사완화/과거변이 재실행0이다.
+- 실제457 이어보기는c973c55에서 격리준비까지만 실행했다. Mac잠금으로 CUA메뉴/로드/입력0,59.301초 후 자신의 실행기만 중단했다. source3118/helper5/player34/seed2/W195checkpoint 불변이며 M60/후일담/6/6은 미도달이다.
+
+## 2026-10-05 — 실제 W195 저장 이어보기 준비 선언 (457 중간)
+
+- 458의 source49124fd에서 KO/EN 준비화면24페이지/16PNG/8선택과 source/player34/seed2/checkpoint 불변을 확인했다. 지정11검사 차선과 비저자 최종검수는 아직 진행 중이며 완료로 세지 않는다. 첫 일회성 helper의 예약어 파싱 실패0PNG도 별도 보존한다.
+- 원래 W193 실행기를 고치지 않고 receipt_tests392가 비제품 `.git/chapter5-replay/order457-continue.py`만 작성하도록 선언한다. W195 실제 저장 바이트를 새 격리에 복사하고 root의 실제 메뉴 불러오기·개별 GUI 입력으로 계속한다. 자동 선택·상태 주입·원본metadata 수정0이며 M60/후일담/6/6은 아직 미도달이다.
+
+## 2026-10-05 — 코인 통화 세 준비 언어 교정 수용 (458 중간)
+
+- KO/EN source632f88b를 main에 푸시한 뒤 일본어·간체·번체를 한국어에서 직접 대조해3leaf씩 교정했다. 공식 export/check/import `--replace-existing`3회가 통과했고 기존target hash와 새source/target receipt9개를 결속했다. 기존228batch를 보존해231batch, 수용41755/증량0이다.
+- 비저자9문구 전수 의미 검토 차단0이다. 지정overlay 차선11검사는 진행 중이며 prepared KO/EN 낮은자산/97% 화면검수도 남아 있다. 독립최종판정·원어민·전체재플레이 완료로 세지 않는다.
+
+## 2026-10-05 — 코인 통화 한국어·영어 사실 수리 (458 중간)
+
+- 기존 목표를 떠올리되 목표까지의 거리는 단정하지 않도록 KO/EN각3leaf를 고쳤다. 얼굴/표정 대신 들리는 목소리를 쓰고 후속에도 phone/local-player를 선언했다. 선택·수치·플래그·후속·기존 자산/오디오 변화0이다.
+- 첫 정합 검사에서 expected_background 대응visual계약 누락1건을 확인했다. f9b4337 별도선언 뒤 기존 투자화면/player_tired를 고정하는1행을 추가해 story-consistency277/remote84·ENclean·scene-direction1708/192/remote74를 통과했다. 실패는 숨기지 않는다.
+- 이 source를 공식3언어 교정export에 결속한다. 번역receipt/실제표적화면/독립최종검수는 아직 미완료이며458/457·본편HOLD 유지다.
+
+## 2026-10-05 — 실제 일반 경로 W195 관찰·코인 통화 수리 선언 (458)
+
+- source a83b0e4의 실제 메뉴 불러오기→W193 정산/다음 날→절약→부산 소식→코인 경고 통화→W195를 자연 타이핑·개별 GUI 입력으로 읽었다.706.120초/exit0/errors0·source19inputs/seed2/player34 불변이다. M60/후일담/6/6은 미도달로457을 열어 둔다.
+- 29.3억/97%에서 `30억까지 까마득`한 거리, 전화 상대의 표정/얼굴 지문과 후속 통화 배지 소실을 확인했다. [458](queue_archive/ORDER-458.md)은3문구×5언어와 후속presentation만 수리한다. 수치/분기/자산/오디오를 늘리지 않는다.
+- 실제 Save 버튼으로 W195 checkpoint153359B/SHA d34ab880…를 격리namespace에 보존했다. root CUA 화면 관찰을 `.git/chapter5-replay/order457-first/observations.md`에 결속하며 독립 이미지/인간 관찰로 바꾸지 않는다.217판정195보고와 본편/새package HOLD 유지다.
+
 ## 2026-10-05 — 보존된 5장 일반 경로의 정상 재플레이 착수 (457)
 
 - 456을 `09683ec`로 마감·푸시하고 [457](queue_active/ORDER-457.md)을 선언한다. 준비 입력4건을 전체 독해로 확대하지 않고, 기존151/150/146 의무 중 General W193→M60·후일담·6/6 한 경로를 실제 메뉴와 개별 GUI 입력으로 읽는다.

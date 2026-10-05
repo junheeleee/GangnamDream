@@ -1,0 +1,4030 @@
+{
+  "schema_version": 1,
+  "unit": "ORDER-462",
+  "status": "EXPORTED_NOT_RUNTIME_VERIFIED",
+  "identity": {
+    "build_id": "2026.10.05.1",
+    "attempt": "third",
+    "app_stem": "GangnamDream-StoryDemo-Successor-2026.10.05.1-third",
+    "bundle_id": "dev.junheelee.gangnamdream.storydemo.successor.third",
+    "app_version": "2026.10.5",
+    "preset_name": "macOS StoryDemo Successor",
+    "artifact_namespace": "GangnamDream_StoryDemo_Successor_2026_10_05_1_third",
+    "output_rel": "build/story_demo_successor/2026.10.05.1/third",
+    "entry_scene": "res://playtests/order124/StoryChoiceM1M6Playtest.tscn",
+    "profile": "story_demo_rc"
+  },
+  "source": {
+    "commit": "05747c92de6b590c5f0456376f2210a4e422b182",
+    "tree": "a867b41a90f59f5dcedafe9bb171e39b82aa2100",
+    "commit_date": "2026-10-05",
+    "before": {
+      "head": "05747c92de6b590c5f0456376f2210a4e422b182",
+      "tree": "a867b41a90f59f5dcedafe9bb171e39b82aa2100",
+      "status": ""
+    },
+    "after": {
+      "head": "05747c92de6b590c5f0456376f2210a4e422b182",
+      "tree": "a867b41a90f59f5dcedafe9bb171e39b82aa2100",
+      "status": ""
+    }
+  },
+  "builder": {
+    "path": "/Users/junheelee/Documents/GitHub/GangnamDream/tools/build_story_demo_successor_macos.py",
+    "sha256": "d68efdab1916b9e9a2cf2d8600c2c9d55ba962d1b04869ff9ff083873d643937",
+    "source_commit": "05747c92de6b590c5f0456376f2210a4e422b182"
+  },
+  "staging": {
+    "root": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source",
+    "source": "05747c92de6b590c5f0456376f2210a4e422b182",
+    "git_archive_sha256": "ab0c7e6051547fa72bfd37f9b3783a6edea3b9f515cf7894a9804810dcd74a54",
+    "changes": [
+      {
+        "path": "project.godot",
+        "before_sha256": "78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5",
+        "qa_sha256": "9ec6ab8eec2183de740d6412ed15f28e1618db31c0af4aeedfe7cf9e248342a4",
+        "artifact_sha256": "bca3f1c64596bb0af3a79ff84fb5120612ebf7272c980cb6ef4c3b44600e5b82"
+      },
+      {
+        "path": "export_presets.cfg",
+        "before_sha256": "891a9be108137df120e0b91082b43a73e65c524c423465a88fe580050bc91f7f",
+        "qa_sha256": "afe88af6641796391b2e5c09aa8ea4565f96c3a2e9c8dd534ea656fdbf7de329",
+        "artifact_sha256": "afe88af6641796391b2e5c09aa8ea4565f96c3a2e9c8dd534ea656fdbf7de329"
+      },
+      {
+        "path": "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "before_sha256": "feb2f8a20bd8db91579062b1c7449f28f4d0146674c043d262107f1ea53913c2",
+        "qa_sha256": "fb3429e960a322ea371337ccddeaaaff364e31ec612a2557da27dad903fe074a",
+        "artifact_sha256": "fb3429e960a322ea371337ccddeaaaff364e31ec612a2557da27dad903fe074a"
+      },
+      {
+        "path": "tools/StoryDemoFourLanguageCheck.gd",
+        "before_sha256": "df12e1dd57eb768c40ac5beec563b845a03bac9639a4b9506050e14278f1d7eb",
+        "qa_sha256": "6d22f48f895d8a16144087439d9d2a41718cde70fffa03a348b2a8c88861ce31",
+        "artifact_sha256": "6d22f48f895d8a16144087439d9d2a41718cde70fffa03a348b2a8c88861ce31"
+      }
+    ],
+    "generated_uid_files": [
+      {
+        "path": "tools/RoutineBackgroundInputCheck.gd.uid",
+        "exists": true,
+        "sha256": "821be55e12840977babc6d711b7910496e188394f513dcf30baf0473fc585290",
+        "size": 20
+      },
+      {
+        "path": "tools/order103_export/AudioManagerStub.gd.uid",
+        "exists": false
+      },
+      {
+        "path": "tools/order103_export/Entry.gd.uid",
+        "exists": false
+      }
+    ]
+  },
+  "commands": [
+    {
+      "name": "godot_version",
+      "argv": [
+        "/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot",
+        "--version"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh",
+      "namespace": null,
+      "expected_marker": "4.6.2.stable.official.71f334935",
+      "exit_code": 0,
+      "elapsed_seconds": 0.148769,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/godot_version.stdout.log",
+        "sha256": "8b570452076a3beaada3b29f37a58f1a3e3b17c728ddaee783cfad998c508768",
+        "size": 32
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/godot_version.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "godot_log": null
+    },
+    {
+      "name": "archive",
+      "argv": [
+        "git",
+        "--no-replace-objects",
+        "-C",
+        "/Users/junheelee/Documents/GitHub/GangnamDream",
+        "archive",
+        "--format=tar",
+        "--output=/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source.tar",
+        "05747c92de6b590c5f0456376f2210a4e422b182"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh",
+      "namespace": null,
+      "expected_marker": null,
+      "exit_code": 0,
+      "elapsed_seconds": 1.393241,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/archive.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/archive.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "godot_log": null
+    },
+    {
+      "name": "localization",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+        "-B",
+        "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source/tools/story_demo_localization_audit.py"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source",
+      "namespace": null,
+      "expected_marker": "STORY_DEMO_LOCALIZATION_OK locales=5 source_events=14 leaves=100 controller_ui=38 story_ui=82 target_ui=121",
+      "exit_code": 0,
+      "elapsed_seconds": 1.78469,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/localization.stdout.log",
+        "sha256": "a99e3d2981750a415a713bf9292c56abe2c65a0eab43dbe25b03c119c0c0dce8",
+        "size": 345
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/localization.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "godot_log": null
+    },
+    {
+      "name": "third_party",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+        "-B",
+        "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source/tools/third_party_notice_audit.py"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source",
+      "namespace": null,
+      "expected_marker": "THIRD_PARTY_NOTICE_OK components=1 font_families=5 font_files=8 audio_sources=21 audio_assets=139 attribution_required_audio=1 presets=10",
+      "exit_code": 0,
+      "elapsed_seconds": 0.200608,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/third_party.stdout.log",
+        "sha256": "47fc9fd88d161e225d6d7f9532709a7fdabc93da24e1c764701a95298b0c72f9",
+        "size": 138
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/third_party.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "godot_log": null
+    },
+    {
+      "name": "import",
+      "argv": [
+        "/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source",
+        "--log-file",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/import.godot.log",
+        "--import"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source",
+      "namespace": "GangnamDream_StoryDemo_RuntimeQA_successor_third_27cb149af2f34333a0821a9abc0706f3",
+      "expected_marker": null,
+      "exit_code": 0,
+      "elapsed_seconds": 18.263572,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/import.stdout.log",
+        "sha256": "f685bacd359fb25101054f688cb4a77b7bcfd5ddc066a4391a5655221326a361",
+        "size": 126798
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/import.stderr.log",
+        "sha256": "7708f0ea13b737263fb44b1d8b9076ce7a457f605cd7b4ef74d7f274ef3434d1",
+        "size": 181
+      },
+      "godot_log": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/import.godot.log",
+        "sha256": "195d1dee2c64b018c41c9cdc4a62992233623d123934653c2057a4939ce93d27",
+        "size": 87992
+      }
+    },
+    {
+      "name": "font",
+      "argv": [
+        "/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source",
+        "--log-file",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/font.godot.log",
+        "res://tools/FontRoutingCheck.tscn"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source",
+      "namespace": "GangnamDream_StoryDemo_RuntimeQA_successor_third_27cb149af2f34333a0821a9abc0706f3",
+      "expected_marker": "FONT_ROUTING_CHECK_OK ko_en=Pretendard ja=NotoSansJP zh_cn=NotoSansSC zh_tw=NotoSansTC weights=400,600,700 emoji=last",
+      "exit_code": 0,
+      "elapsed_seconds": 1.905897,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/font.stdout.log",
+        "sha256": "0c3856979faecdb5793a5b4451359e0f14311d4f8e2c1a97b3e5c9b83cd886e8",
+        "size": 191
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/font.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "godot_log": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/font.godot.log",
+        "sha256": "0c3856979faecdb5793a5b4451359e0f14311d4f8e2c1a97b3e5c9b83cd886e8",
+        "size": 191
+      }
+    },
+    {
+      "name": "i18n",
+      "argv": [
+        "/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source",
+        "--log-file",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/i18n.godot.log",
+        "res://tools/I18nInfrastructureCheck.tscn"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source",
+      "namespace": "GangnamDream_StoryDemo_RuntimeQA_successor_third_27cb149af2f34333a0821a9abc0706f3",
+      "expected_marker": "I18N_INFRASTRUCTURE_CHECK_OK targets=3 ui_fallback=en content_fallback=en",
+      "exit_code": 0,
+      "elapsed_seconds": 7.648312,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/i18n.stdout.log",
+        "sha256": "bcd9c2435ab08c64c7eb6640be2d77e9046f21a68b6e4904a89f60784c4de5ae",
+        "size": 6631
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/i18n.stderr.log",
+        "sha256": "8c6747dd2cc05efa74fe60ce9e9cf3aad6e5f960d50207da1a58e16128ec7e48",
+        "size": 9574
+      },
+      "godot_log": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/i18n.godot.log",
+        "sha256": "01e74be7b147988f1d40437f8df6d2ee1615df7f6789ad8721f045283e52667a",
+        "size": 15977
+      }
+    },
+    {
+      "name": "five_locale",
+      "argv": [
+        "/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source",
+        "--log-file",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/five_locale.godot.log",
+        "res://tools/StoryDemoFourLanguageCheck.tscn"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source",
+      "namespace": "GangnamDream_StoryDemo_RuntimeQA_successor_third_27cb149af2f34333a0821a9abc0706f3",
+      "expected_marker": "STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=5 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=10 build=2026.10.05.1",
+      "exit_code": 0,
+      "elapsed_seconds": 7.763573,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/five_locale.stdout.log",
+        "sha256": "5d7a53d26559004aebc9951b0e1a7a8beb018472517727963019284e2b6fff43",
+        "size": 4301
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/five_locale.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "godot_log": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/five_locale.godot.log",
+        "sha256": "5d7a53d26559004aebc9951b0e1a7a8beb018472517727963019284e2b6fff43",
+        "size": 4301
+      }
+    },
+    {
+      "name": "export",
+      "argv": [
+        "/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source",
+        "--log-file",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/export.godot.log",
+        "--export-release",
+        "macOS StoryDemo Successor",
+        "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/raw.zip"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/source",
+      "namespace": "GangnamDream_StoryDemo_Successor_2026_10_05_1_third",
+      "expected_marker": null,
+      "exit_code": 0,
+      "elapsed_seconds": 25.068292,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/export.stdout.log",
+        "sha256": "22de404eab3f0a049ee2bd65ba0a6ac912d064f832c52fc567737dfa9fdf5e48",
+        "size": 224819
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/export.stderr.log",
+        "sha256": "7708f0ea13b737263fb44b1d8b9076ce7a457f605cd7b4ef74d7f274ef3434d1",
+        "size": 181
+      },
+      "godot_log": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/export.godot.log",
+        "sha256": "ee5679ee5ed70fd81174f244a720f12f6cc2c4ff182818bae7bd39552401ab9f",
+        "size": 181459
+      }
+    },
+    {
+      "name": "extract_raw",
+      "argv": [
+        "/usr/bin/ditto",
+        "-x",
+        "-k",
+        "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/raw.zip",
+        "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/unpacked"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh",
+      "namespace": null,
+      "expected_marker": null,
+      "exit_code": 0,
+      "elapsed_seconds": 0.730202,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/extract_raw.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/extract_raw.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "godot_log": null
+    },
+    {
+      "name": "sign",
+      "argv": [
+        "/usr/bin/codesign",
+        "--force",
+        "--deep",
+        "--sign",
+        "-",
+        "--options",
+        "runtime",
+        "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/unpacked/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.app"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh",
+      "namespace": null,
+      "expected_marker": null,
+      "exit_code": 0,
+      "elapsed_seconds": 0.619461,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/sign.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/sign.stderr.log",
+        "sha256": "8af1be90d3f5d33b8a90a5219f8fd440cefe3c45cda480926cd31a45534f6696",
+        "size": 151
+      },
+      "godot_log": null
+    },
+    {
+      "name": "verify_signed",
+      "argv": [
+        "/usr/bin/codesign",
+        "--verify",
+        "--deep",
+        "--strict",
+        "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/unpacked/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.app"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh",
+      "namespace": null,
+      "expected_marker": null,
+      "exit_code": 0,
+      "elapsed_seconds": 0.35789,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/verify_signed.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/verify_signed.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "godot_log": null
+    },
+    {
+      "name": "zip",
+      "argv": [
+        "/usr/bin/ditto",
+        "-c",
+        "-k",
+        "--sequesterRsrc",
+        "--keepParent",
+        "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh/unpacked/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.app",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/macos/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.zip"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh",
+      "namespace": null,
+      "expected_marker": null,
+      "exit_code": 0,
+      "elapsed_seconds": 12.8003,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/zip.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/zip.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "godot_log": null
+    },
+    {
+      "name": "extract_final",
+      "argv": [
+        "/usr/bin/ditto",
+        "-x",
+        "-k",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/macos/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.zip",
+        "/Users/junheelee/Library/Application Support/GangnamDream_LocalCandidates/2026.10.05.1/third"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh",
+      "namespace": null,
+      "expected_marker": null,
+      "exit_code": 0,
+      "elapsed_seconds": 0.753843,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/extract_final.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/extract_final.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "godot_log": null
+    },
+    {
+      "name": "app_attributes",
+      "argv": [
+        "/usr/bin/xattr",
+        "/Users/junheelee/Library/Application Support/GangnamDream_LocalCandidates/2026.10.05.1/third/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.app"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh",
+      "namespace": null,
+      "expected_marker": null,
+      "exit_code": 0,
+      "elapsed_seconds": 0.006964,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/app_attributes.stdout.log",
+        "sha256": "aacae6d7f20ecc718526220d315bd6ab0a28e8aa5da91934df496b54c45908c5",
+        "size": 21
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/app_attributes.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "godot_log": null
+    },
+    {
+      "name": "verify_final",
+      "argv": [
+        "/usr/bin/codesign",
+        "--verify",
+        "--deep",
+        "--strict",
+        "/Users/junheelee/Library/Application Support/GangnamDream_LocalCandidates/2026.10.05.1/third/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.app"
+      ],
+      "cwd": "/private/tmp/gangnamdream-story-demo-successor-3jhn1uhh",
+      "namespace": null,
+      "expected_marker": null,
+      "exit_code": 0,
+      "elapsed_seconds": 0.356211,
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/verify_final.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/logs/verify_final.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "godot_log": null
+    }
+  ],
+  "artifacts": {
+    "app_files": {
+      "Contents/Info.plist": {
+        "sha256": "aa9827b312b9c8f54d239bbe4c213d1c504612a6131348e5ea59ade918ee0b0f",
+        "bytes": 1948
+      },
+      "Contents/MacOS/GangnamDream-StoryDemo-Successor-2026.10.05.1-third": {
+        "sha256": "ee8c5621a93678342fd645892dcda2b4ad364f86c50e302cfc091e1d254a7bd9",
+        "bytes": 184222336
+      },
+      "Contents/PkgInfo": {
+        "sha256": "7e50a30efad50208a173203ced60818d693bb61266b75aa10927d1a2adce80cb",
+        "bytes": 9
+      },
+      "Contents/Resources/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.pck": {
+        "sha256": "cd3b0d1b92a3aa47531c25d1a09e2ca25f6d65eabf8a542cfb7d6ae7b45f7351",
+        "bytes": 389386440
+      },
+      "Contents/Resources/PrivacyInfo.xcprivacy": {
+        "sha256": "0535353bb08c25b8ce5ed9ac7e442a5994f402e0f6cbc4bed668cfc63c2ceac3",
+        "bytes": 229
+      },
+      "Contents/Resources/icon.icns": {
+        "sha256": "14ccaeef56a52d52af211adce6d6c5b330cafa6c29dc928659b4369ebcef0a28",
+        "bytes": 2550174
+      },
+      "Contents/_CodeSignature/CodeResources": {
+        "sha256": "53adc11677985988e5edbfd0ce0b77c4896d067eb80fa70a2587e3fa825923d5",
+        "bytes": 3004
+      }
+    },
+    "app_tree_sha256": "428c887fd15549caa67308287cc06eda59a0c323be01b649669fa57561d8f172",
+    "zip": {
+      "sha256": "22cadef5eb023669e67cdf7a44648ff3e369b744d594172e391a3d88217b58aa",
+      "bytes": 427928192
+    },
+    "launcher": {
+      "path": "/Users/junheelee/Library/Application Support/GangnamDream_LocalCandidates/2026.10.05.1/third/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.app/Contents/MacOS/GangnamDream-StoryDemo-Successor-2026.10.05.1-third",
+      "sha256": "ee8c5621a93678342fd645892dcda2b4ad364f86c50e302cfc091e1d254a7bd9",
+      "bytes": 184222336
+    },
+    "plist": {
+      "path": "/Users/junheelee/Library/Application Support/GangnamDream_LocalCandidates/2026.10.05.1/third/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.app/Contents/Info.plist",
+      "sha256": "aa9827b312b9c8f54d239bbe4c213d1c504612a6131348e5ea59ade918ee0b0f",
+      "bytes": 1948
+    },
+    "pck": {
+      "path": "/Users/junheelee/Library/Application Support/GangnamDream_LocalCandidates/2026.10.05.1/third/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.app/Contents/Resources/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.pck",
+      "sha256": "cd3b0d1b92a3aa47531c25d1a09e2ca25f6d65eabf8a542cfb7d6ae7b45f7351",
+      "bytes": 389386440,
+      "entries": 1877,
+      "entry_paths_sha256": "a2aeac59d309384004beccfd74267027fc98effa4a98772dd5683c5738aaaa77",
+      "content_json": {
+        "content/assets.json": {
+          "sha256": "65963a7009500503085e517afe670a0688ad278ca851ab7679af72ebb8c8c17a",
+          "bytes": 7384
+        },
+        "content/endings.json": {
+          "sha256": "e9dbf43ddc901cb4340f0ee1e7c41bbbbe5e2dad8c158b755524e1e4f9b36bff",
+          "bytes": 152274
+        },
+        "content/endings_en.json": {
+          "sha256": "9c702bdf88d8bf0f0b7d200b883394012dcafa0a94b9d835150501b8debaf7c4",
+          "bytes": 141317
+        },
+        "content/endings_ja.json": {
+          "sha256": "24a912608c75e43d9902c4334cfb6926d95647e40b20d3fafadc12f6b046cb7f",
+          "bytes": 174801
+        },
+        "content/endings_zh-CN.json": {
+          "sha256": "35ab6ba6a5a4b944e8e5f9b16beecdc3fe807dc792d046408d6f83180623f1e8",
+          "bytes": 133031
+        },
+        "content/endings_zh-TW.json": {
+          "sha256": "2b895ebe9b27ee4ac98ebe6612462c7d650ef6da19ec0e068ff8dff575f53ec8",
+          "bytes": 134709
+        },
+        "content/events/amb_scenarios.json": {
+          "sha256": "3ba038ca0bb9c9fedb513f4bc86386daa735ebce22b98ad9380307884bcb3c82",
+          "bytes": 10561
+        },
+        "content/events/amb_scenarios2.json": {
+          "sha256": "47d428b7d94593b4bc0558e0b8f1012442f8e3ecbee2957f9883ef965a25b058",
+          "bytes": 8462
+        },
+        "content/events/amb_scenarios3.json": {
+          "sha256": "33dc699d61e12463463e39384ad9591f459af81b1fdfcf7e0531e162bd62cae4",
+          "bytes": 10489
+        },
+        "content/events/amb_scenarios4.json": {
+          "sha256": "44695526805a196411ac75ac9adb4e38962bddd0ed8ffb0b54729242da7048e7",
+          "bytes": 8035
+        },
+        "content/events/amb_scenarios5.json": {
+          "sha256": "1943f5395347b7442dcdb211c7a0e5b00ff5b0178cb032c6ced0d299573f247f",
+          "bytes": 4952
+        },
+        "content/events/amb_scenarios6.json": {
+          "sha256": "2eaedc3d07b8152b43577df090e86368e6d0ae9b73a7f5b6098ddae1c771054b",
+          "bytes": 7538
+        },
+        "content/events/amb_scenarios7.json": {
+          "sha256": "552d31b86009ab9350281c6f17e2f1eedfec2cda62fa90920092960ab78e6c00",
+          "bytes": 17052
+        },
+        "content/events/anxiety_events.json": {
+          "sha256": "d7e0763064758b9c54f0f16e6be92519631d2bec0d3b03f850c80e4e4b6906d3",
+          "bytes": 10564
+        },
+        "content/events/arc_addiction_recovery.json": {
+          "sha256": "4f2fbc978d755fd2edf971bf1abe9293667eac7a7770166ba3da11174fb8a40e",
+          "bytes": 14121
+        },
+        "content/events/arc_chapter_themes.json": {
+          "sha256": "e36b903ed30e9e87ba96147f0a49b83c7c20b00f112a7b78d8563634147904c5",
+          "bytes": 120951
+        },
+        "content/events/arc_daeun.json": {
+          "sha256": "fd08c6df4566a3d8e5b1b40b9181addcfc7296d8f990bb4f54a2e1b419c01773",
+          "bytes": 42906
+        },
+        "content/events/arc_daeun_extension.json": {
+          "sha256": "0468c68cb4eb4e301d00498c6b00691566cc11ee2c969ccdb1f58ea219290553",
+          "bytes": 22296
+        },
+        "content/events/arc_daeun_married.json": {
+          "sha256": "34e88a64119eabd7444443b7493d007468f84ca15e57d4043f1a0fbbf6d80c46",
+          "bytes": 35688
+        },
+        "content/events/arc_daeun_romance.json": {
+          "sha256": "3161ca131ad407cc06cf5b8cad96148980fe3b0dbe1a107283a94569a56f5ddf",
+          "bytes": 16728
+        },
+        "content/events/arc_date_milestones.json": {
+          "sha256": "a34fcd4e4b888098a3d8497d1efc00ea6cd6594f97ad86e9ff72a130a50144bf",
+          "bytes": 36312
+        },
+        "content/events/arc_drama.json": {
+          "sha256": "b4ff30efc3847bd857d8d285dada49d97dad9a4e7b26833d24a8c5c412b629bd",
+          "bytes": 185750
+        },
+        "content/events/arc_events.json": {
+          "sha256": "4abc2a1e0b61ac4ba9d130aff5a47f696eea27dfdd841ec88f1f4449972768f6",
+          "bytes": 251077
+        },
+        "content/events/arc_h2_beats.json": {
+          "sha256": "247ca7913c039d026457238ffb84722f1e5eedae17fd7da9616f067875024d5b",
+          "bytes": 23682
+        },
+        "content/events/arc_housing_keepsake.json": {
+          "sha256": "0e0585862610e90654fdaf86812835cffdcb793b34d3d66ce781c79dc1af26bb",
+          "bytes": 1831
+        },
+        "content/events/arc_hyunsu.json": {
+          "sha256": "2449594b27187c761db5d94784c5caa0b57c61fa6eb1bdc3e619fc62971a49ca",
+          "bytes": 36203
+        },
+        "content/events/arc_jiyeon_married.json": {
+          "sha256": "cce51f9175b289f5d0a19a20b83808b1e1cd7e6ab755a133992fdce737587148",
+          "bytes": 26323
+        },
+        "content/events/arc_midgame.json": {
+          "sha256": "9f5e3c2d6401e4a0c52202f69bd5324af6b010af759b99e941e353f32725bfdf",
+          "bytes": 298291
+        },
+        "content/events/arc_new_characters.json": {
+          "sha256": "078d5dadd6de5a73dc907152dfb0b3017fdc4aa3348ca711027bca1cea7581c1",
+          "bytes": 35713
+        },
+        "content/events/arc_pre_ending.json": {
+          "sha256": "42c3ba6b7043d8b2b9ac708fbd3506fa51dded1e451f3a20ff102592a68d2bf0",
+          "bytes": 213370
+        },
+        "content/events/arc_romance_specials.json": {
+          "sha256": "7dce915eb86630ee189c462c19925cd43bc7b5ba722474ba8da9af15cfe95afe",
+          "bytes": 44076
+        },
+        "content/events/arc_romance_y5.json": {
+          "sha256": "a7ecb424955d9aa182720b6eb4bd3a40d9ef794d3f557149f111528db8e24e70",
+          "bytes": 8335
+        },
+        "content/events/arc_season_dates.json": {
+          "sha256": "b94d1b840ad4608afd9f152906f8389a0cee560cb2f945900280bada0b747aac",
+          "bytes": 46125
+        },
+        "content/events/arc_specialization.json": {
+          "sha256": "d5423a9c8a042b85e133e3973ea21f1268042465586419f0cb2ad45784bd1f3c",
+          "bytes": 20336
+        },
+        "content/events/arc_web_crossbeams.json": {
+          "sha256": "8dba4ce148958b99974e0c45dc08fb2883807fd0d117ffc7685e7edaf42fb258",
+          "bytes": 4886
+        },
+        "content/events/arc_year3_drama.json": {
+          "sha256": "815ab79cd6870a4e6976122232614427dd1817a534466dbd65d4092760536e2f",
+          "bytes": 102101
+        },
+        "content/events/arc_year_close.json": {
+          "sha256": "f81c88e06d0b96f3b22d42bc74adbab6e1366c030b6a29bb182df56dfb924855",
+          "bytes": 82560
+        },
+        "content/events/butterfly_events.json": {
+          "sha256": "155fa963fc64c1a582c445a1fb91920dc991c39829ad5d2b54e6332158f9efdb",
+          "bytes": 18039
+        },
+        "content/events/callback_chapter_themes.json": {
+          "sha256": "a69de24d21a18cb5b2ee5de597fc94357041767e4940e9f8988306486adb2676",
+          "bytes": 12721
+        },
+        "content/events/callback_events.json": {
+          "sha256": "9ae2a6e344b29f34271e073cecc983a9c7f893ee0104fae748e8303762b3bf4f",
+          "bytes": 24095
+        },
+        "content/events/callback_events_10.json": {
+          "sha256": "2a8cb928659dd9907179a5ecd4a4a6823293ee5f84a14518eca94c528e88e5ef",
+          "bytes": 23423
+        },
+        "content/events/callback_events_11.json": {
+          "sha256": "e1252479db20946ee4996d084b854031b7d3c9bbfd4f0ac9b27a0c2a148f7247",
+          "bytes": 23908
+        },
+        "content/events/callback_events_12.json": {
+          "sha256": "c42002f830aeb0c6e48b470cc94072d14e07f6f667cd4ea41f5484481fd6f9af",
+          "bytes": 18154
+        },
+        "content/events/callback_events_13.json": {
+          "sha256": "c716e9902885a7f4884a241cc9b6e0b8eacf4dc48457368a76292a44b7cf969e",
+          "bytes": 18413
+        },
+        "content/events/callback_events_14.json": {
+          "sha256": "7520de4c224b1e7b01bf6d03443527895729e3a981b41d33b5a6e4b14710ad24",
+          "bytes": 17534
+        },
+        "content/events/callback_events_15.json": {
+          "sha256": "86f1a5e13fb1606644c1c665f654d6d29f62fc875fdae8ccb3be4c5fce1c45b5",
+          "bytes": 13076
+        },
+        "content/events/callback_events_16.json": {
+          "sha256": "37e91c5a367d8d5819b7f2cc7149b1aa3cd6e6288d6490b9cbc6d76bb11fb244",
+          "bytes": 16762
+        },
+        "content/events/callback_events_17.json": {
+          "sha256": "585ecd32b325902145de02a9ac96633f8cb729b267ed8df3c36b7e4f5212ed8f",
+          "bytes": 16438
+        },
+        "content/events/callback_events_18.json": {
+          "sha256": "bf5cc3b330949d81578cb66884e0d755727d0bdab81caa3437b6a109e88a5338",
+          "bytes": 14174
+        },
+        "content/events/callback_events_19.json": {
+          "sha256": "c7ff8c3b338a26a05f3a97d04812b870224ade4bf6aa4d0333356a72be21d1e8",
+          "bytes": 13438
+        },
+        "content/events/callback_events_2.json": {
+          "sha256": "7b371fb33b3bd29cec55726013de0c63b309c0a0f764cad799ba3678bbc38627",
+          "bytes": 31531
+        },
+        "content/events/callback_events_20.json": {
+          "sha256": "0419fd75541b6b19ae98356d9c29f07c2ff175e44105d2a100930c69f33c9408",
+          "bytes": 12557
+        },
+        "content/events/callback_events_21.json": {
+          "sha256": "4a0374fecb76054fbd9afedfdb0049121b0279e00c55173f324eb53e6ed0be68",
+          "bytes": 13876
+        },
+        "content/events/callback_events_22.json": {
+          "sha256": "c39535d6e7d849089db2358bb9e6264e67ae51989699c9da677029c581e2e71c",
+          "bytes": 13769
+        },
+        "content/events/callback_events_23.json": {
+          "sha256": "8aedee725bdbdb22baaa184ec2bd55d7ccd483afc79512a8a14c516b8cec0dd9",
+          "bytes": 14039
+        },
+        "content/events/callback_events_24.json": {
+          "sha256": "67abd617c28c0c472163c1703268c350b650d1a63ee6d833ff26a29030791a6e",
+          "bytes": 14279
+        },
+        "content/events/callback_events_25.json": {
+          "sha256": "b3860d74c9446954bf1ba502df4b71cdfb4fc87065f979a21fecab328c8a1944",
+          "bytes": 13309
+        },
+        "content/events/callback_events_26.json": {
+          "sha256": "1537f56c3aa5486be1d3b1c706fc1836edc9de98199be54fddeaf63e9db5267e",
+          "bytes": 4157
+        },
+        "content/events/callback_events_27.json": {
+          "sha256": "4a5a26752558c957e21a3d6018a9eff2bba29fda75684d5447cf2d4863cc030e",
+          "bytes": 10000
+        },
+        "content/events/callback_events_28.json": {
+          "sha256": "e9bca87344ad353021f4a377e2c88f3938b3a7fa445d2e28de1020c951ac184a",
+          "bytes": 4222
+        },
+        "content/events/callback_events_29.json": {
+          "sha256": "da38750869177a358dc418ccea8240cc4fc35e26289d4b90800175f1684d9818",
+          "bytes": 5177
+        },
+        "content/events/callback_events_3.json": {
+          "sha256": "2ee1b31027d4b8ba94763970617e63f614cb1be8937f69e819753197a924eba4",
+          "bytes": 23914
+        },
+        "content/events/callback_events_30.json": {
+          "sha256": "069f8690af899697d452a1642355d6cb25659c9080b326a06565ee0c35c85371",
+          "bytes": 4148
+        },
+        "content/events/callback_events_31.json": {
+          "sha256": "3da2e7593176e5723be85bfe99f7684b35ef8703dd6a9c41d8d6a368f2194f73",
+          "bytes": 4664
+        },
+        "content/events/callback_events_32.json": {
+          "sha256": "8c0e7a61ac3448676c0a05495c707c64770b4ce5dbfa2081d29953cf0d66e815",
+          "bytes": 6130
+        },
+        "content/events/callback_events_33.json": {
+          "sha256": "0bda82c90e603fe32ade2447de4c5e690c88e0e66ba6ec087726e5ed034950e2",
+          "bytes": 4770
+        },
+        "content/events/callback_events_34.json": {
+          "sha256": "e41a694747e0b4fcb1ad8292c6ed1f5b9566a9c132d144f0fdca71210e016099",
+          "bytes": 7850
+        },
+        "content/events/callback_events_35.json": {
+          "sha256": "51614fe7e20a9edcac30554dc488582a0e172ed7c82801d437d0d1ef5145f6ef",
+          "bytes": 9497
+        },
+        "content/events/callback_events_36.json": {
+          "sha256": "0aec7a80bf1777dff9848204d18cb3cf29fdd69ff71803a99668876bb88774ce",
+          "bytes": 6913
+        },
+        "content/events/callback_events_37.json": {
+          "sha256": "6bd394ed64881a42d67fde1a5e310df60431b52567798f6c0335bd0453a21ba9",
+          "bytes": 10575
+        },
+        "content/events/callback_events_38.json": {
+          "sha256": "9c2f17fbb793fcbb9ddf8b5e408b073b253d2d8a8c5734441600b88e4c9b123b",
+          "bytes": 3341
+        },
+        "content/events/callback_events_39.json": {
+          "sha256": "0d47c8746ab2667cf43417d98f597c008b74830a1e2e17357f36f9a9bf572195",
+          "bytes": 10279
+        },
+        "content/events/callback_events_4.json": {
+          "sha256": "2c0cdab1b3d12193f6266941bf56998a0a715f5a726963683aa2aa61fffdbd87",
+          "bytes": 26034
+        },
+        "content/events/callback_events_40.json": {
+          "sha256": "ab87af7750558fd28b457127b10f4898315051ef58d717f6ba98a2bd72492a34",
+          "bytes": 9962
+        },
+        "content/events/callback_events_41.json": {
+          "sha256": "44ec3af3a440d1973aeea9cfcb2ed993f2d4204e5dacbcfd76e8a5954662763b",
+          "bytes": 6567
+        },
+        "content/events/callback_events_42.json": {
+          "sha256": "026c73a28fe3ddf589d6e484de7b905ea0f9859971ed5a7bb3736a6c148a1fb3",
+          "bytes": 10230
+        },
+        "content/events/callback_events_43.json": {
+          "sha256": "352650c87e014dc5c52048a21715d1eedf30ea1c7d40bd2d6d9a6c854a49159d",
+          "bytes": 21936
+        },
+        "content/events/callback_events_44.json": {
+          "sha256": "3360daa81e613b91d12ce3df476e327dcdce90bf798831a3a19110fec3f457e8",
+          "bytes": 22087
+        },
+        "content/events/callback_events_45.json": {
+          "sha256": "d1b96dbf4314fbee0b9e76a3b5c73a22fcac631ebd00df59241c1569c30dad0b",
+          "bytes": 21103
+        },
+        "content/events/callback_events_46.json": {
+          "sha256": "6bdf27f88604c9b5316e281a0c6ff06fe2e95a38baab8a3e649237ff77814d6c",
+          "bytes": 20745
+        },
+        "content/events/callback_events_47.json": {
+          "sha256": "3e0029b691eb3bfbe72c7dadf333a02c1c977746b359ee48877588ec84036afa",
+          "bytes": 19760
+        },
+        "content/events/callback_events_48.json": {
+          "sha256": "3a950bd7cb33ab5333baa129fd590f3fe94794371262331e941b0a08a725c729",
+          "bytes": 20379
+        },
+        "content/events/callback_events_49.json": {
+          "sha256": "11c46797a6782a96c2184939fad44b3538e881856edb91bc88bb85954a114d7b",
+          "bytes": 21065
+        },
+        "content/events/callback_events_5.json": {
+          "sha256": "22e1f17160a37e367868508f8f4dd3d4c1d21286cb444b5ef3a78d9d03947993",
+          "bytes": 29726
+        },
+        "content/events/callback_events_50.json": {
+          "sha256": "7885d12603d64a17541338cbc178abeeb6803500fb7938c4525af5db7cf0fd84",
+          "bytes": 21496
+        },
+        "content/events/callback_events_51.json": {
+          "sha256": "2331353b47cb2259dfbaf7389753adf19d1b147b96575f2f6698113f31e2aee4",
+          "bytes": 20094
+        },
+        "content/events/callback_events_52.json": {
+          "sha256": "ba7b2f385f2bc4e4908ee4bf1f264a55b7642c2ec26c3d4ae577623f819d5b9c",
+          "bytes": 21342
+        },
+        "content/events/callback_events_53.json": {
+          "sha256": "032c5a02fc89e08505ec3884dfc8b185fc826f6ea7d58c4fc7ff00f5cced4476",
+          "bytes": 20705
+        },
+        "content/events/callback_events_54.json": {
+          "sha256": "ee554615d7e61006d97de2e3d768f416f8e2bd439af0dd8b534eba33462e7b3e",
+          "bytes": 20283
+        },
+        "content/events/callback_events_55.json": {
+          "sha256": "99b8b97c12ce1448f673fbbd6c608047c69f780017f394a1522ef9221cbc7495",
+          "bytes": 8512
+        },
+        "content/events/callback_events_6.json": {
+          "sha256": "556ad104268f52f8449006324555e506dd6603aa4f2f5ddeafe1e22a41231610",
+          "bytes": 25440
+        },
+        "content/events/callback_events_7.json": {
+          "sha256": "5667df0ba68116a4bc03ee54668a71fb0eccaeeffe04f61389646b8b949fa896",
+          "bytes": 17307
+        },
+        "content/events/callback_events_8.json": {
+          "sha256": "32f5d034dcd05a25274f76c3add50f595b4ca70289d2cc8cd0631aa92e45dfe2",
+          "bytes": 22328
+        },
+        "content/events/callback_events_9.json": {
+          "sha256": "3624f386f577471849964e53ab7f3505ac07d19502778fbc3dac40eaff5f41dd",
+          "bytes": 21004
+        },
+        "content/events/chain_events.json": {
+          "sha256": "c6cfd30506bab0ac544b0d4c1291e9d812be03c53765d3e978d42c26523088bc",
+          "bytes": 26254
+        },
+        "content/events/chapter_cards.json": {
+          "sha256": "527a014af14eb5e9bbd518dca4c0f31bc42a9f713a89609bcb08948141ea54c5",
+          "bytes": 4037
+        },
+        "content/events/core_loop_v2_events.json": {
+          "sha256": "30ce137faf06437e131d297efa7ab3fc82806534e77c53bea33af0b01a750b87",
+          "bytes": 82380
+        },
+        "content/events/drama_events.json": {
+          "sha256": "05050759599c85b29c5649d0460f600b3cf8d3241ef3df29ed5f24a16727caa3",
+          "bytes": 64438
+        },
+        "content/events/drama_events2.json": {
+          "sha256": "e2112b9be910c98e2f0d1c17dbc8c1a47b58560bc8633ad3855bedf041c531ef",
+          "bytes": 21590
+        },
+        "content/events/easter_eggs.json": {
+          "sha256": "1eb47d19cd81a75e2722a234f0009d85597e2a6ca5fb819d2324187df7827a4c",
+          "bytes": 18505
+        },
+        "content/events/friendship_events.json": {
+          "sha256": "e2549cf1046c5040e0bee000d152f151e39f868b783265419f90c5b5c2cfc7de",
+          "bytes": 8120
+        },
+        "content/events/gambling_narrative.json": {
+          "sha256": "76030ac7b6a2b24d2d875ae64cc77044e976fdf2be97f05a1e798f3b7e0cb5a6",
+          "bytes": 16109
+        },
+        "content/events/hidden_events.json": {
+          "sha256": "7990af20e1fce6a1fba24a452f3ef0741b5b1fffd170ae9778e48950c9dee6d7",
+          "bytes": 37142
+        },
+        "content/events/holdem_events.json": {
+          "sha256": "1eeb1e5af81c5ff3ad9d6e3d25cfdc8f34ee409d0a1dd1133b7bb1831d451a3e",
+          "bytes": 10858
+        },
+        "content/events/identity_events.json": {
+          "sha256": "b5adc84b14759a4706d9d134ac5d096ebfcf82d3ef34605f5637f2c312d0e925",
+          "bytes": 6401
+        },
+        "content/events/investment_events.json": {
+          "sha256": "8807bb5b1e6ac6b06885065d6473083eaf60079bccd060dcbc09535680ac8e8f",
+          "bytes": 90059
+        },
+        "content/events/korea_admin.json": {
+          "sha256": "e7316783940bdaeee4ef81a757b572690840d726259c72641c0fa6b197150118",
+          "bytes": 7471
+        },
+        "content/events/korea_climate.json": {
+          "sha256": "d38197dff44d7c136e45b5cbe16db30c04976326eeb6b984de3e49c8ff0d0733",
+          "bytes": 7085
+        },
+        "content/events/korea_digital.json": {
+          "sha256": "fdc351bca5ee41a44ebe120136f88a01e68f3a53e075cf3d675cde26b54b1a83",
+          "bytes": 6246
+        },
+        "content/events/korea_education.json": {
+          "sha256": "e54a12680988aab84a159bd0ea17aaede77dc2d757200051607e4e2797444e8c",
+          "bytes": 5438
+        },
+        "content/events/korea_experience.json": {
+          "sha256": "898c7f474af3787c04b9a1373f433eca6435e84083c1bd76d3de70f1056e77ba",
+          "bytes": 7787
+        },
+        "content/events/korea_fandom.json": {
+          "sha256": "dc36c6b5695f56fc180463600f84da6bea05c70b9ad1a7862a6de43424ab9044",
+          "bytes": 5449
+        },
+        "content/events/korea_food.json": {
+          "sha256": "f620c5231532ecc4d6d230343c40b5ef499dfd20e51a28ac4620404355884e72",
+          "bytes": 7414
+        },
+        "content/events/korea_fortune.json": {
+          "sha256": "4364a573f682e01d2d0df6a77c71872f05535a2d2dd68a8f95ba1d80244ec5a1",
+          "bytes": 4143
+        },
+        "content/events/korea_geopolitics.json": {
+          "sha256": "9215000d7f0e9835fca109747872eb52097308c9af83d582133276adb2edebd6",
+          "bytes": 7435
+        },
+        "content/events/korea_holidays.json": {
+          "sha256": "826f211d93a12bc48dd8c9c2a4310fd5f5f049ec3af8294c37fd6b7aa48c0d8b",
+          "bytes": 4093
+        },
+        "content/events/korea_leisure.json": {
+          "sha256": "fae237bfca98070e544f21a2f5d5119fb84c43066f3253aba8cff6e0b35016ed",
+          "bytes": 5524
+        },
+        "content/events/korea_survival.json": {
+          "sha256": "f2bf7b4223cb64f23190eab27f4f4d4036a436b1616383c7cf9eea08e077c85a",
+          "bytes": 7111
+        },
+        "content/events/korea_workplace.json": {
+          "sha256": "f996fdc3ddddb8de37df4d886dde37632c3be823f0915813f96ea51b8712aa55",
+          "bytes": 6692
+        },
+        "content/events/life_events.json": {
+          "sha256": "dff256fdafa21574015461d47eb2826a51ed7f2315d1515ed605cd2abd370024",
+          "bytes": 200166
+        },
+        "content/events/life_events2.json": {
+          "sha256": "bf783c8f424b34aaa5fa03563560a30b0f4e325981fb5f2bd590f6f95edc263e",
+          "bytes": 34015
+        },
+        "content/events/ng_plus_events.json": {
+          "sha256": "a53307670ad46de744a16e3ab6cf40974ba54bb49a75aa20135f92195c62bcbc",
+          "bytes": 13268
+        },
+        "content/events/racetrack_events.json": {
+          "sha256": "647bee4f84d98a5eb1ddc38c7d4b501ac38ba86bfd5e7cfbeb68156161087fec",
+          "bytes": 16749
+        },
+        "content/events/rare_encounter_events.json": {
+          "sha256": "4e7a69c9276b30feb7c284cb4b8747906bd23d9c500e0141798f0dca537b7086",
+          "bytes": 22604
+        },
+        "content/events/relationship_events.json": {
+          "sha256": "e42c75c2c4aafd7fe611fb313e3f6edb9f30c744c17a01ce2a1e2ee9e1ca7362",
+          "bytes": 99085
+        },
+        "content/events/relationship_events2.json": {
+          "sha256": "eb0ba835f705c3a275ef491961540df730a8dd760335de18bc29beaab8c6bea3",
+          "bytes": 15838
+        },
+        "content/events/scenario_cafe.json": {
+          "sha256": "748fa21586b928419a7e7cf336b7c737ba3f09ecfdddafdbb38bff1698ebbe85",
+          "bytes": 14702
+        },
+        "content/events/scenario_cafe_callback.json": {
+          "sha256": "69875d3387ad337f2d611e571bfc8d709fd034a9cb66e56aabb24954ff763199",
+          "bytes": 13451
+        },
+        "content/events/shadow_events.json": {
+          "sha256": "f8e298abf3034b52d2c2998440173bc1dd536908ee7e4671d80fe9250b00cea1",
+          "bytes": 10794
+        },
+        "content/events/social_independence.json": {
+          "sha256": "78f09f39a62aa83036e0feb16745cc5cb92d62454a74a0b46a1db7838d8467e6",
+          "bytes": 29402
+        },
+        "content/events/story_events.json": {
+          "sha256": "25675b3ec0b92aad87f501cedfb84ee57eba380fc5e021e41ef1c5cc858b5f68",
+          "bytes": 70759
+        },
+        "content/events/viral_events.json": {
+          "sha256": "453c950aa7001e26682ee693eba3960d2ba37a1bcd762ffe82959150a84816bc",
+          "bytes": 14664
+        },
+        "content/events/work_events.json": {
+          "sha256": "f61b3d54cfa86546065d29d2a3ab8cc0e0fe57d801007bdf126b9df441f96975",
+          "bytes": 9742
+        },
+        "content/events_en/amb_scenarios.json": {
+          "sha256": "fed6c919ea2e536e4136602366e958483bb3a6c07ae0735096ce719c38f77902",
+          "bytes": 6337
+        },
+        "content/events_en/amb_scenarios2.json": {
+          "sha256": "c77a6b7949a6e541ef0adc6014ebade9d2f3178c8ae2a7bf53fcd2d791032e5f",
+          "bytes": 4620
+        },
+        "content/events_en/amb_scenarios3.json": {
+          "sha256": "72c692f725144337a225b5452802f97b42b5999b1e83054f4eea7404b50516f1",
+          "bytes": 6517
+        },
+        "content/events_en/amb_scenarios4.json": {
+          "sha256": "d34c3366b2981000560601dfbb929f32c524c0ec11de22b52e2e2c16df7fcf56",
+          "bytes": 4959
+        },
+        "content/events_en/amb_scenarios5.json": {
+          "sha256": "81ed622f42159e6d762755ba28344679a0515970f813186636787681f1cb97f5",
+          "bytes": 2925
+        },
+        "content/events_en/amb_scenarios6.json": {
+          "sha256": "d9aeb551e96cff8490a9ca2d4405705837e6e36140bbc747a3fc8244f790ca1a",
+          "bytes": 4888
+        },
+        "content/events_en/amb_scenarios7.json": {
+          "sha256": "2c4996cf99a278e9f3aef1545bb15c6ffd82955971f557344c2cd27112c09294",
+          "bytes": 9935
+        },
+        "content/events_en/anxiety_events.json": {
+          "sha256": "2f4c336221950c47371ba3bb2ced05957975238fd229b71f5e34781f43dca2ba",
+          "bytes": 6572
+        },
+        "content/events_en/arc_addiction_recovery.json": {
+          "sha256": "593c19eebdefed3df9ca7c98a35a82217e5933a48f85c95e14c8611d906e29c2",
+          "bytes": 9305
+        },
+        "content/events_en/arc_chapter_themes.json": {
+          "sha256": "c39b2ba2eb934d860db2bf27c7d425922479ae4454f0a6e4bed063ec9ee74f7a",
+          "bytes": 85076
+        },
+        "content/events_en/arc_daeun.json": {
+          "sha256": "0294a462856e7e884789adc27398a245f6cb5aa981ec4af8e6566a4ed25175ca",
+          "bytes": 25855
+        },
+        "content/events_en/arc_daeun_extension.json": {
+          "sha256": "1c394914495ea38a35e56942ab8459a644110d206f36f18306852ac2d7a5f330",
+          "bytes": 14888
+        },
+        "content/events_en/arc_daeun_married.json": {
+          "sha256": "2646240a57d975c83f3e29bde230cad565ddd535dc4b4d6893aa70469755d7e0",
+          "bytes": 23880
+        },
+        "content/events_en/arc_daeun_romance.json": {
+          "sha256": "06d7179593bbbb7f2158f8d89453e62bbbc04c6671b714fb6bbdb1c94fa509ba",
+          "bytes": 11508
+        },
+        "content/events_en/arc_date_milestones.json": {
+          "sha256": "8a399c3cc5d9e563b66d50c560b3d4dde39cc1360d0d3ebdf943f22eac71cdf3",
+          "bytes": 21568
+        },
+        "content/events_en/arc_drama.json": {
+          "sha256": "7df4cc14ecc46331c373cacd6c8629362a3c1fb8bbdf6c93cf49edaaf662679d",
+          "bytes": 135115
+        },
+        "content/events_en/arc_events.json": {
+          "sha256": "a598057e745ddef838e3cbd4c468f6c1bb25f5cb092514bb0b42c418471775fc",
+          "bytes": 165818
+        },
+        "content/events_en/arc_h2_beats.json": {
+          "sha256": "b8a8dd2649dc789e2b67e3cb51bdf4447ce154667384279c36e199478afadaef",
+          "bytes": 17026
+        },
+        "content/events_en/arc_housing_keepsake.json": {
+          "sha256": "0a1f71f4b7a7256731869df2e7187afe4667d924a8cc52a9a28c9556ce7ee6a3",
+          "bytes": 1161
+        },
+        "content/events_en/arc_hyunsu.json": {
+          "sha256": "3df4481d5e00fd578019d99dbb23e58821a27c665e4ffd7e1ec6db8b47611069",
+          "bytes": 26860
+        },
+        "content/events_en/arc_jiyeon_married.json": {
+          "sha256": "7286151a4a8d40fa6ad15e8bddf3bf0bc4b09a2a6ede07228c1e46d10f5f3efb",
+          "bytes": 19469
+        },
+        "content/events_en/arc_midgame.json": {
+          "sha256": "5ad6715943c969c33df7496838c63fa62041801335aba1cdb8a3b31e5edbcc47",
+          "bytes": 219240
+        },
+        "content/events_en/arc_new_characters.json": {
+          "sha256": "7ca1f00c1bb3993847c298b9ec828a416b5f3a90bf45093e0469253d11261184",
+          "bytes": 26987
+        },
+        "content/events_en/arc_pre_ending.json": {
+          "sha256": "5a7da0bafc36cceac68b4b173c790fed8d255664eeb6bbbe30b1b8327efac7e6",
+          "bytes": 165470
+        },
+        "content/events_en/arc_romance_specials.json": {
+          "sha256": "165628bb1bda6fe1be825c61a380f1d86b1e7685bcdaedcbda30912d45957114",
+          "bytes": 28833
+        },
+        "content/events_en/arc_romance_y5.json": {
+          "sha256": "dd2a09349bc80dbadd1d99b4fb33fc0da0a4bb8850fef9bc63cf1b805511dac7",
+          "bytes": 5795
+        },
+        "content/events_en/arc_season_dates.json": {
+          "sha256": "b9a87b7e1e3c2c57e8e7051e3a678b13b480eee0967d0f2c522407cc50a095b8",
+          "bytes": 30041
+        },
+        "content/events_en/arc_specialization.json": {
+          "sha256": "4b5d93d22d8866c156597829a658f99819310b86661c97ea5d171810f2ce89e1",
+          "bytes": 12852
+        },
+        "content/events_en/arc_web_crossbeams.json": {
+          "sha256": "979cf41e5b48b058826231c1ffbde3e60f5cfcc3fc4a79cef82767434f8b1d3b",
+          "bytes": 3146
+        },
+        "content/events_en/arc_year3_drama.json": {
+          "sha256": "3a40e704205559b0f2185b6b0102d14645cc5f398141d3935e62829e703f5188",
+          "bytes": 71297
+        },
+        "content/events_en/arc_year_close.json": {
+          "sha256": "7e8809cb61be9d99c5df4bdf4b12da762a57502cbf5113fda943f179c92b5921",
+          "bytes": 67163
+        },
+        "content/events_en/butterfly_events.json": {
+          "sha256": "a1082e1cd552ecc75a0cb4d25a5085d59443baab55d865f8dff1f69af6810bd0",
+          "bytes": 10122
+        },
+        "content/events_en/callback_chapter_themes.json": {
+          "sha256": "4a6b12a3c6a8f9dde002e12a2e9ad2d9e8990a0d8bf3acbaf069d9d9870c525f",
+          "bytes": 7897
+        },
+        "content/events_en/callback_events.json": {
+          "sha256": "3539bc8e7ffe7bbc514deedadeff330e946886db0c51ac31a451ff70e1b97ae6",
+          "bytes": 15360
+        },
+        "content/events_en/callback_events_10.json": {
+          "sha256": "9019e27687ae28e29bdb6b71294666a8329660a1217da84dfe8913e681b5c9bc",
+          "bytes": 12785
+        },
+        "content/events_en/callback_events_11.json": {
+          "sha256": "38b4d5048989129cfaa879e5a2b28817c6b1171a30d644f6ce5bdaac452005bb",
+          "bytes": 13415
+        },
+        "content/events_en/callback_events_12.json": {
+          "sha256": "f1a9f346be1da512f4966501fc4e2ff38ee40d30ffaeb9138cd02906dc3bdba0",
+          "bytes": 9113
+        },
+        "content/events_en/callback_events_13.json": {
+          "sha256": "fa2c320ee1357f5467f3783b40581ed84618761178c36396deef571a040b33c5",
+          "bytes": 9328
+        },
+        "content/events_en/callback_events_14.json": {
+          "sha256": "2a42af70b089a93c9e46b55c26dac7e9f0033d31ab7a178d5765bc33aa13233c",
+          "bytes": 8983
+        },
+        "content/events_en/callback_events_15.json": {
+          "sha256": "5da21e8eb10f6555a8ca8fdef7fa1503f81dae817ff3132feec73dbfea388081",
+          "bytes": 6418
+        },
+        "content/events_en/callback_events_16.json": {
+          "sha256": "1dc792a0b203dce809af7d88a7158c72dc67e21897ec3d422332fbaa8464ab5c",
+          "bytes": 8505
+        },
+        "content/events_en/callback_events_17.json": {
+          "sha256": "d1bc928c8d2c3c38404da1dac352b7f6a2286e76738062e76698d5286865a818",
+          "bytes": 8215
+        },
+        "content/events_en/callback_events_18.json": {
+          "sha256": "027c0a365ae257f3024cf67ada783951b67afbe70e56f1b5dbd1fea9d24e1bf7",
+          "bytes": 8643
+        },
+        "content/events_en/callback_events_19.json": {
+          "sha256": "5c7b73be086511467a014b78d030d06d5b9671519e6072ce3a51edaa2409d1f0",
+          "bytes": 9020
+        },
+        "content/events_en/callback_events_2.json": {
+          "sha256": "c26ee0f97504f617ff856ea189170170761579489239978e58f86e8d68415780",
+          "bytes": 17097
+        },
+        "content/events_en/callback_events_20.json": {
+          "sha256": "148e6abc6868d3395a10a4732a630a78a390fb8cf237bb97415e5270b101a4d0",
+          "bytes": 8695
+        },
+        "content/events_en/callback_events_21.json": {
+          "sha256": "799b4b9abfd484c9c43b996e26338ae7a13e890852e7baa6027ffb2d16b1a0a9",
+          "bytes": 8860
+        },
+        "content/events_en/callback_events_22.json": {
+          "sha256": "1bc931cae9e0844c3215f9631e298205f755401248eaf228fb633e2f6d191b7a",
+          "bytes": 8787
+        },
+        "content/events_en/callback_events_23.json": {
+          "sha256": "81d902888e40f8d75a0e1f0029c1bbdf774f30215cc3f7d0b463b516c940d89d",
+          "bytes": 8757
+        },
+        "content/events_en/callback_events_24.json": {
+          "sha256": "a44a6a7e20625380b95c4e4f9bdfe08a1b49a86720975298888ca1081ec7376a",
+          "bytes": 8943
+        },
+        "content/events_en/callback_events_25.json": {
+          "sha256": "884b25ea90d2e134c9af28eabea99c2a5326518c11154aa3944fb28906241a01",
+          "bytes": 9413
+        },
+        "content/events_en/callback_events_26.json": {
+          "sha256": "61bf123882daaca2a2d1611d1165e654ae85f5e2898d4b7fe7a6e0da34426d11",
+          "bytes": 3227
+        },
+        "content/events_en/callback_events_27.json": {
+          "sha256": "9b5a562b519f1e56c8fb8e6baa39509112c5da7f3840117398cab23d9c64dce5",
+          "bytes": 5640
+        },
+        "content/events_en/callback_events_28.json": {
+          "sha256": "afa14d7439630bc4b56dbbb2b00bf590eac06b52e3251bbfe697b11973840e0e",
+          "bytes": 2940
+        },
+        "content/events_en/callback_events_29.json": {
+          "sha256": "806a35fbe5f13644cfd23c2501abaf3899e395a95a7454cfa3fb09f1696c8b8b",
+          "bytes": 3035
+        },
+        "content/events_en/callback_events_3.json": {
+          "sha256": "2ac0d1baf4cf27d8e0b383884a28ba8d75cb277464bb02ce8b8ca99197bfa952",
+          "bytes": 12657
+        },
+        "content/events_en/callback_events_30.json": {
+          "sha256": "2af13fae22b867058e37a045f16f4578102d60bf1122682567c86dd851b6cb7f",
+          "bytes": 2584
+        },
+        "content/events_en/callback_events_31.json": {
+          "sha256": "09a6be1bcf63b8f98e19e979f3f14d9ba9432886d1f67da4c861d1c5be7ad136",
+          "bytes": 2623
+        },
+        "content/events_en/callback_events_32.json": {
+          "sha256": "7ad1d8742e6311afccf30a44de49054c57bad2c6c77d74571662eefaaf3d659d",
+          "bytes": 4256
+        },
+        "content/events_en/callback_events_33.json": {
+          "sha256": "89de5f2bc442a5b84a6ba6ac1559e44e0fccdf8668835ea07b3812f68ac6ceb6",
+          "bytes": 2720
+        },
+        "content/events_en/callback_events_34.json": {
+          "sha256": "b38b3202570a9d55131e9e5de4b4e5167aea726f57fcf67d45f5d18ea4dec4d2",
+          "bytes": 4811
+        },
+        "content/events_en/callback_events_35.json": {
+          "sha256": "2ca574e0875b3124f5b67d273dcfa8bdfa5c23951bf11afc240fc33ff5e6b910",
+          "bytes": 4788
+        },
+        "content/events_en/callback_events_36.json": {
+          "sha256": "e8a687ef133e7c215bab5c6ebcca854bd1fec46f0688e51374ead83cdc592453",
+          "bytes": 3409
+        },
+        "content/events_en/callback_events_37.json": {
+          "sha256": "ae545452e1fbe8510defa9375238cd39ccd9c6d11766778cdc8dfdd6af094bcf",
+          "bytes": 5231
+        },
+        "content/events_en/callback_events_38.json": {
+          "sha256": "5573b5cc31ad93a4e734714c992985257bede5e99f41726a1f72cd5ea26fdea9",
+          "bytes": 1695
+        },
+        "content/events_en/callback_events_39.json": {
+          "sha256": "1bccf2e52afb0ea4e97186d7ff04f416cd1cfdee5f336b3fc932c963c624456c",
+          "bytes": 4894
+        },
+        "content/events_en/callback_events_4.json": {
+          "sha256": "11eb5ccfd081c952e26c35c678112721470c5d7cf197171320ce83d2af579b79",
+          "bytes": 13428
+        },
+        "content/events_en/callback_events_40.json": {
+          "sha256": "cdc6dba31e5dad248e33e90c16a6c447ce8ce63d5c7b80cbb03978a7b7406350",
+          "bytes": 5115
+        },
+        "content/events_en/callback_events_41.json": {
+          "sha256": "2bed08fffa40077afeb82a982b492df322907ecc39d3af6b5bf137343eb84894",
+          "bytes": 3501
+        },
+        "content/events_en/callback_events_42.json": {
+          "sha256": "a72b4658db3cb417c2dc6841825ebdbfc946bce5f144cf099fd10981b1d357ba",
+          "bytes": 5200
+        },
+        "content/events_en/callback_events_43.json": {
+          "sha256": "01c780f33fbfa6210770a85c515814967f058f23c27cb201a38beeffecab3e52",
+          "bytes": 11817
+        },
+        "content/events_en/callback_events_44.json": {
+          "sha256": "22e6e16cc80b0a84da324b8224cc4d1c4334c0f84a548e2455c0248e21b545f6",
+          "bytes": 11943
+        },
+        "content/events_en/callback_events_45.json": {
+          "sha256": "db7e5f92f92816d1d23fa11f9731d32fb086265bffade728586dd791420f1be4",
+          "bytes": 11507
+        },
+        "content/events_en/callback_events_46.json": {
+          "sha256": "2fc2ee4f89c62d9f3df810613f104eeaa83080246028ab8ed8e747f5ca17f085",
+          "bytes": 10810
+        },
+        "content/events_en/callback_events_47.json": {
+          "sha256": "487439687d04f61d59851e20f0a6f9263e576a5d82b40c9af46adb0eb9625c46",
+          "bytes": 11053
+        },
+        "content/events_en/callback_events_48.json": {
+          "sha256": "93edb5159cae7bbbfbcaef4c971a21a410fa33d879079ea0421b1b82602062f2",
+          "bytes": 11380
+        },
+        "content/events_en/callback_events_49.json": {
+          "sha256": "48082d902cdd187192dbe88f18460de94d23bbcc0da70f4d6334406cc653936c",
+          "bytes": 11330
+        },
+        "content/events_en/callback_events_5.json": {
+          "sha256": "f6610325031d3712edc2e8a91697cd0c52de56eb2923d9848a0f9ad523ee9014",
+          "bytes": 16966
+        },
+        "content/events_en/callback_events_50.json": {
+          "sha256": "edcd8f559d907dacb0fbcb07442158e6aba19e77243aa167500d0bec07f70572",
+          "bytes": 12175
+        },
+        "content/events_en/callback_events_51.json": {
+          "sha256": "40e22313fb89dc30dbda9ed2d698edfd8c19d056a5f29106fe8eb9e3d898de9d",
+          "bytes": 10865
+        },
+        "content/events_en/callback_events_52.json": {
+          "sha256": "13cf96dd42b3b6f25b9014ff05f6ba64c8d9c4d74bddfb6ea7c0205613c4c4c6",
+          "bytes": 11682
+        },
+        "content/events_en/callback_events_53.json": {
+          "sha256": "c4a30f135046ce81719c9d3a3df809b2a51ac88ffb496666d39184f222f48872",
+          "bytes": 10667
+        },
+        "content/events_en/callback_events_54.json": {
+          "sha256": "0e9322b0e342a4f4076faa76344351207569775cb579a6c6cdf700dcd2c9dd7a",
+          "bytes": 10902
+        },
+        "content/events_en/callback_events_55.json": {
+          "sha256": "12a84af8bda698e03019126a2bdfe85efbca26e104abd1409cf30723c692ed72",
+          "bytes": 4360
+        },
+        "content/events_en/callback_events_6.json": {
+          "sha256": "8ad56fc25155a8bd2ac6cf66becf1f16f4a2771468af3a7dce9e490d32e9e8c3",
+          "bytes": 13766
+        },
+        "content/events_en/callback_events_7.json": {
+          "sha256": "a9ad496325142370a7d81a69d75f829ae4608ccde691b44e33336a7f77a75f5e",
+          "bytes": 9428
+        },
+        "content/events_en/callback_events_8.json": {
+          "sha256": "88a7567a6977390a76a1e2167f5f1cbbe6bb79bf7458eb3f65dc5a9695597120",
+          "bytes": 12442
+        },
+        "content/events_en/callback_events_9.json": {
+          "sha256": "2a7fffa61f11685734d286d845bde8c0fcfe0e9671480d36c4961e12974ff7e9",
+          "bytes": 11204
+        },
+        "content/events_en/chain_events.json": {
+          "sha256": "2c459d9988b3a8331558991510042a4dfe0bfdad6c157309c9d548a38c3fbabe",
+          "bytes": 15503
+        },
+        "content/events_en/chapter_cards.json": {
+          "sha256": "9727479cf6179b22052a067ddd55a9ed51389a93705ffe90237eff2c705b175c",
+          "bytes": 2177
+        },
+        "content/events_en/core_loop_v2_events.json": {
+          "sha256": "0f87d6f554563c776a5922e7126d5c3cd95f6924f1ad774b871c9fb0d5e5657a",
+          "bytes": 57380
+        },
+        "content/events_en/drama_events.json": {
+          "sha256": "b25b3cf260fb35e4085a21b74594be79b8e66fc14a277d48feae4c83efa66636",
+          "bytes": 35165
+        },
+        "content/events_en/drama_events2.json": {
+          "sha256": "87fdf17440a2c7e36422449e6838aee2c015fd9fc64aabf8676879d03276719c",
+          "bytes": 12679
+        },
+        "content/events_en/easter_eggs.json": {
+          "sha256": "b6e33db0b367289970e11541d50a0d1d99f42a86e7339b9f70ed0889046f74d3",
+          "bytes": 10956
+        },
+        "content/events_en/friendship_events.json": {
+          "sha256": "747dbc9f51c8919fa326bd6b06062400c867a71037caa49d6ffe16d17335b55c",
+          "bytes": 5742
+        },
+        "content/events_en/gambling_narrative.json": {
+          "sha256": "0f6379a15a2706989ef054d94861cebd0c2f27d61deef3e50c3ad2942b93ecb4",
+          "bytes": 10019
+        },
+        "content/events_en/hidden_events.json": {
+          "sha256": "667a125d145a4e47cf98673c27d651a31a2b23a07906c075dc5909c0b9fcf01d",
+          "bytes": 23900
+        },
+        "content/events_en/holdem_events.json": {
+          "sha256": "ee36ae26a6e9eb0f5aafc2def8ad13aa6a8bedaf97aceef945de08e1b68b5e8a",
+          "bytes": 6161
+        },
+        "content/events_en/identity_events.json": {
+          "sha256": "b21a80a995f3cc0fd6225de7a8e7988aedb6c7c44bb9773ba089263dce41ace4",
+          "bytes": 4355
+        },
+        "content/events_en/investment_events.json": {
+          "sha256": "58b4cb3bf23bb6fb8adfb129bcde67114ee0f5a7437ff88f289b96bcde67ab12",
+          "bytes": 50824
+        },
+        "content/events_en/korea_admin.json": {
+          "sha256": "59ffeabf24a89a95849de35b23af54932c1201ada86ab83dbac1e99d4519afd8",
+          "bytes": 5554
+        },
+        "content/events_en/korea_climate.json": {
+          "sha256": "eb4eb3644c420284432ca8c68fa9cdaca7942ca070147f789c1cbd8272750402",
+          "bytes": 4642
+        },
+        "content/events_en/korea_digital.json": {
+          "sha256": "c104414907cd4e0ddb263c57bad51bc17a223bc435b2f65872528e9bd8f27dba",
+          "bytes": 4266
+        },
+        "content/events_en/korea_education.json": {
+          "sha256": "0d33f6d35bc7d5bbde334708134d99cfbc08d38f4113cf28cb9c221d3407e740",
+          "bytes": 3583
+        },
+        "content/events_en/korea_experience.json": {
+          "sha256": "775fdafa1f9bd94965603f8cdfb050edc72fa8b004156132199b5b26b85a2b20",
+          "bytes": 5683
+        },
+        "content/events_en/korea_fandom.json": {
+          "sha256": "3c3aae9990d40c0704dae0d81f763647ec02d2173fafb0cc0ea5225fab10f476",
+          "bytes": 3996
+        },
+        "content/events_en/korea_food.json": {
+          "sha256": "f03775f6fce11bdc4a4be04dccaab9720985a7d028b30021d36793587b11d1ae",
+          "bytes": 4855
+        },
+        "content/events_en/korea_fortune.json": {
+          "sha256": "c4a90520d59dd7633b9e7a32b113887d37279671bf182c9f4b1d06d7b8c76f2f",
+          "bytes": 2885
+        },
+        "content/events_en/korea_geopolitics.json": {
+          "sha256": "da107bb48e350aa9948206a519da4274d21d938849412a56b07fc60cc1d2f3bd",
+          "bytes": 5145
+        },
+        "content/events_en/korea_holidays.json": {
+          "sha256": "eea94231558126074942cf31e66f9a660a3b8b519cfd6fc851a50620ce5727fa",
+          "bytes": 2500
+        },
+        "content/events_en/korea_leisure.json": {
+          "sha256": "ae7f753f3b17662ac9d7c92752b35919faf4f260df235786e37277bbb7eaed59",
+          "bytes": 3969
+        },
+        "content/events_en/korea_survival.json": {
+          "sha256": "8a01d3e6f326b029e36343f9cf8d6f6cb8a038bcbd94765eafe0bb7c40b5da15",
+          "bytes": 5047
+        },
+        "content/events_en/korea_workplace.json": {
+          "sha256": "014e8aedaa49a3d3050c73959e6bb2bdf511627b45cf56acd6b8c0e9e5ab8dad",
+          "bytes": 4916
+        },
+        "content/events_en/life_events.json": {
+          "sha256": "3a1f777a40df4243c4952ad1840b41e378c4b3752093e90bca27a0201ee6884f",
+          "bytes": 124533
+        },
+        "content/events_en/life_events2.json": {
+          "sha256": "d0725250410058542f423a41419a92b2bb7afbb77886c5f62e82e0b9360dcb2e",
+          "bytes": 21356
+        },
+        "content/events_en/ng_plus_events.json": {
+          "sha256": "0761a17db4e3eef8ef0dd06bea83219966762da4590c34564532e1e13e0adbe0",
+          "bytes": 7526
+        },
+        "content/events_en/racetrack_events.json": {
+          "sha256": "baf1f16bd58895ce05f4fa436a53fc32be5da7e55a8ee37b737575518cec3eeb",
+          "bytes": 9863
+        },
+        "content/events_en/rare_encounter_events.json": {
+          "sha256": "4b2ae97d39cf7608a30d06152eac13eed9eb1aea7c5c373895b2123d8c3dd565",
+          "bytes": 12759
+        },
+        "content/events_en/relationship_events.json": {
+          "sha256": "7f1af4c21c0ccdf63ee825dca07fd506fbf01bfc89088b6509fe65f3528558c4",
+          "bytes": 56694
+        },
+        "content/events_en/relationship_events2.json": {
+          "sha256": "79a7e0affbf6c49f2532c2d0c8a27a196681ab3f5f5a2fadd6c80aaaf96684e4",
+          "bytes": 8624
+        },
+        "content/events_en/scenario_cafe.json": {
+          "sha256": "d9d41e7344c8446ca880b2b85f7c5e9e545a4d5a3f1fc6370382ec7831d47c52",
+          "bytes": 8594
+        },
+        "content/events_en/scenario_cafe_callback.json": {
+          "sha256": "adddda5555d67fc22d777ee0f5aad218abd0edfddf70ab7cf83012b1d5bb9693",
+          "bytes": 7506
+        },
+        "content/events_en/shadow_events.json": {
+          "sha256": "f9cab61a5c07a47cd32218906206b2561e652c21e9108d1efc56a3e55fddb026",
+          "bytes": 6647
+        },
+        "content/events_en/social_independence.json": {
+          "sha256": "bf60cc619a7bbbcc501800438053ca6e7412afa0ebb370c59e70ce87ad5a4a34",
+          "bytes": 17883
+        },
+        "content/events_en/story_events.json": {
+          "sha256": "cec87135bc0c1962c05511b936d20509eb7a651c98e44e867702074a6a330cd9",
+          "bytes": 50640
+        },
+        "content/events_en/viral_events.json": {
+          "sha256": "1511b63ce272fa552eedc5854047ef37878f372a479eab7eb77ca960c0860e13",
+          "bytes": 9230
+        },
+        "content/events_en/work_events.json": {
+          "sha256": "fff8b00db725694e34ef994baddd399159a86239cba0554cf0f18b343961e186",
+          "bytes": 6388
+        },
+        "content/events_ja/amb_scenarios.json": {
+          "sha256": "69dedcf6b11ca40e332da48cef71d6451dfcbc9e42a695eb1e4b0b1d33a18746",
+          "bytes": 7465
+        },
+        "content/events_ja/amb_scenarios2.json": {
+          "sha256": "efe2cecba9034885653a2ae6f49d4933ba9dca7a7b1a43ccc923dcbbb385126b",
+          "bytes": 5472
+        },
+        "content/events_ja/amb_scenarios3.json": {
+          "sha256": "db7e1f9fb5d0ec7487e1895d62f8dedfbf5d4a36e50ddda286843895a7485e92",
+          "bytes": 7847
+        },
+        "content/events_ja/amb_scenarios4.json": {
+          "sha256": "ab6e7a9aab13f9516f2d44210521c60c7cfacb2a96a685a307944eab7202c982",
+          "bytes": 5834
+        },
+        "content/events_ja/amb_scenarios5.json": {
+          "sha256": "fbe557146b257b056ab66db7c2b68ed0fe6fad6d8cb3ed149a968ffb5b2bc109",
+          "bytes": 3441
+        },
+        "content/events_ja/amb_scenarios6.json": {
+          "sha256": "d54bbc5c5cadef65ba42516a72018f6af3e605898e44477a365f940a66a36112",
+          "bytes": 5954
+        },
+        "content/events_ja/amb_scenarios7.json": {
+          "sha256": "024aa8604f4fa0c35753dd7cfa7d54ef99be2b76c08b173802009f222606c773",
+          "bytes": 12554
+        },
+        "content/events_ja/anxiety_events.json": {
+          "sha256": "14da59cae523878e53d73e8533bca182ab71baf75707df21c8dbf8981d249a7a",
+          "bytes": 7921
+        },
+        "content/events_ja/arc_addiction_recovery.json": {
+          "sha256": "42cbd69c232997784e551e724c22fef03c4eea0ea92350cc7d6b8384634a7887",
+          "bytes": 12048
+        },
+        "content/events_ja/arc_chapter_themes.json": {
+          "sha256": "185465f5b1f0a92bd6d1f12255700893466d4954225a2ae967da5bd00a12adb4",
+          "bytes": 79246
+        },
+        "content/events_ja/arc_daeun.json": {
+          "sha256": "78135a5fe007cf5595344a0a912b4b566612e28ea86867fc8b1a83febad61903",
+          "bytes": 24947
+        },
+        "content/events_ja/arc_daeun_extension.json": {
+          "sha256": "8716db7dc6d5c0284e9b632c102f6241712bb1aa394b39de1ca237fbb85df1f4",
+          "bytes": 16048
+        },
+        "content/events_ja/arc_daeun_married.json": {
+          "sha256": "ef566f3672e4582f5a4092cf12f83241328f384591d5ad1dbfbeacde6023d176",
+          "bytes": 27724
+        },
+        "content/events_ja/arc_daeun_romance.json": {
+          "sha256": "20779e72c66fc9e2ba19d2dfbbcc2118758c2fb8f80d73b7bcc717296cb2c158",
+          "bytes": 14277
+        },
+        "content/events_ja/arc_date_milestones.json": {
+          "sha256": "2f4033a1c3cceadab109d44c8dac03047503487706f744dc246118502b067c83",
+          "bytes": 28499
+        },
+        "content/events_ja/arc_drama.json": {
+          "sha256": "809a523a8a88eaa8fc928b62b0de9d8c54595cf10e586e60dfd074c7782b0687",
+          "bytes": 152135
+        },
+        "content/events_ja/arc_events.json": {
+          "sha256": "90170751c5f6e87ca38594e2d17f9560e30ed650cad1eb2daeb79bb281a30a82",
+          "bytes": 149751
+        },
+        "content/events_ja/arc_h2_beats.json": {
+          "sha256": "9596737dcc76702d3eac4fbcc21b9a9339fd179fd053082303112a64c8d69a18",
+          "bytes": 20218
+        },
+        "content/events_ja/arc_housing_keepsake.json": {
+          "sha256": "25c6a5233ec960d5653d2d26dc7fa007decfdffd51f4626ec339f20410c09af2",
+          "bytes": 1375
+        },
+        "content/events_ja/arc_hyunsu.json": {
+          "sha256": "852d611078d624ae8fd0c5f06cc7fe883ec83ba8a06c127cddf3cc0e8454c57f",
+          "bytes": 26843
+        },
+        "content/events_ja/arc_jiyeon_married.json": {
+          "sha256": "a69fb581afef7e9f9360756f0865ce0cb810290a4f09486b4a1248d96198a067",
+          "bytes": 23519
+        },
+        "content/events_ja/arc_midgame.json": {
+          "sha256": "3490522bbcbc58795d6cd2adc7fa48142c647ddb5db638d5af3df78c2e73cd4c",
+          "bytes": 229841
+        },
+        "content/events_ja/arc_new_characters.json": {
+          "sha256": "de853987301815dcea3083906c0ce9ebaea976cf4733b09d263f519e6c9ad6e0",
+          "bytes": 21756
+        },
+        "content/events_ja/arc_pre_ending.json": {
+          "sha256": "35b1761eb6869b493805aa9fed511f571a78eee35853960a8b01f36842cd8f7c",
+          "bytes": 78438
+        },
+        "content/events_ja/arc_romance_specials.json": {
+          "sha256": "3b1d75465367f0a65f014e1d2b6e0f7081423498486cad6abb5ff0496dd5e265",
+          "bytes": 34250
+        },
+        "content/events_ja/arc_romance_y5.json": {
+          "sha256": "1dca147b1c97897185fe7e3f7e467ba3c62ded6c8bbedabb8aea198c62f1b15c",
+          "bytes": 7588
+        },
+        "content/events_ja/arc_season_dates.json": {
+          "sha256": "53befa91266959aa32af4499eb119d6461c08f8236d7813fb7f3e2af71b3e3af",
+          "bytes": 35561
+        },
+        "content/events_ja/arc_specialization.json": {
+          "sha256": "cf36ae987747dc8bc20c1f8cb5371fabee4cec2a8a309919cca5203d534e2337",
+          "bytes": 15047
+        },
+        "content/events_ja/arc_web_crossbeams.json": {
+          "sha256": "67fc3442210224225ff25d37534f5963fe1061e0b46e619bb97f4ae29bacf798",
+          "bytes": 4032
+        },
+        "content/events_ja/arc_year3_drama.json": {
+          "sha256": "c1ef551cbf7b06c3793ac1daa81adc0047860fad62d2a7cefd26ac389aac4e98",
+          "bytes": 53294
+        },
+        "content/events_ja/arc_year_close.json": {
+          "sha256": "2acdf5e3987af3ecf0aa568c0e75597240d2436d5939047f815dfa7c05c441b0",
+          "bytes": 74294
+        },
+        "content/events_ja/butterfly_events.json": {
+          "sha256": "849b72aff34748ddf1e09e756e5d6bf6bc1f6414d214bc1f336b7acb67589b4d",
+          "bytes": 12882
+        },
+        "content/events_ja/callback_chapter_themes.json": {
+          "sha256": "4db57cea18362a936acd7409ebdace2aebbccab5565de9f3d5cbd4b56fabe08b",
+          "bytes": 9814
+        },
+        "content/events_ja/callback_events.json": {
+          "sha256": "dffcade663cfee70989876ba5a4388f2552f883b76dc6529871e501fab28d3a7",
+          "bytes": 18943
+        },
+        "content/events_ja/callback_events_10.json": {
+          "sha256": "5deb03db7756c1738dcd29544550e670e17e8e20b8e4ad9dc88d500b207d6916",
+          "bytes": 15880
+        },
+        "content/events_ja/callback_events_11.json": {
+          "sha256": "1fe072be54e3bd6217e4d6bcc49905894798512c558e69a9f0ff763ee1fa8e21",
+          "bytes": 15619
+        },
+        "content/events_ja/callback_events_12.json": {
+          "sha256": "99031b7ac24ffe32bbd9e06e1100b88c64943e31a218564aacce2be06c97ff51",
+          "bytes": 10664
+        },
+        "content/events_ja/callback_events_13.json": {
+          "sha256": "b5963f32364476cd65a482ffc848108b45a2021ea290aebdce67d15227015a34",
+          "bytes": 11683
+        },
+        "content/events_ja/callback_events_14.json": {
+          "sha256": "7dd3e8777ea88abccdfd8efbdd90eec9103b1b55102337c39f131863907c9e8a",
+          "bytes": 11003
+        },
+        "content/events_ja/callback_events_15.json": {
+          "sha256": "2d08be41e159d82c6f04270e7f5872d613a2fc819e0fddef9a1fc9628aa7abb7",
+          "bytes": 7972
+        },
+        "content/events_ja/callback_events_16.json": {
+          "sha256": "0945bb963de72489a3ef3a6944147da446e0a381a86d60b84d25e0e17d6129fa",
+          "bytes": 10443
+        },
+        "content/events_ja/callback_events_17.json": {
+          "sha256": "97147d73f48fd386513c3bcbc3cb886135029742d13c81538eafda4403faff76",
+          "bytes": 10098
+        },
+        "content/events_ja/callback_events_18.json": {
+          "sha256": "d6b8307f419f48f02a9ba8fd77db566a962f68a7c00203297ae26497ddff797d",
+          "bytes": 9929
+        },
+        "content/events_ja/callback_events_19.json": {
+          "sha256": "890345f7dd5731fb763b019b8a8a4f0f779994c772cc22602d4e067f8a2151c3",
+          "bytes": 10101
+        },
+        "content/events_ja/callback_events_2.json": {
+          "sha256": "005b3b63156ecac1432f631e21ee956025a69bd4a9f911804f185de56fb83e6e",
+          "bytes": 21384
+        },
+        "content/events_ja/callback_events_20.json": {
+          "sha256": "d1e87d4bac2ef74b56c93809d7190a6d67d6dda30f9976bccb7ea1bd942f9e29",
+          "bytes": 9799
+        },
+        "content/events_ja/callback_events_21.json": {
+          "sha256": "fb538b508b5dbb4c002a41354e616c8c2a869c78d04c25c1b08c54a9e29b5584",
+          "bytes": 10164
+        },
+        "content/events_ja/callback_events_22.json": {
+          "sha256": "b034403c7fc86df55139f9b1c82773b87224031cc96c6dd63c2849187825d6e9",
+          "bytes": 9914
+        },
+        "content/events_ja/callback_events_23.json": {
+          "sha256": "b0d3105064a3d8c45c33e63979a74b66f4bc5d54295ead90b57d3541a3357879",
+          "bytes": 10040
+        },
+        "content/events_ja/callback_events_24.json": {
+          "sha256": "271ac0207dbc77a11fab53d232a7b99c6de9fb4e57f642dbb11bbc36c7fe1401",
+          "bytes": 10111
+        },
+        "content/events_ja/callback_events_25.json": {
+          "sha256": "3191590d0c5cca8eb1e7fe098250d352ee170775db9ea96716ff321ac3fcf08e",
+          "bytes": 10211
+        },
+        "content/events_ja/callback_events_26.json": {
+          "sha256": "464ab8ab50c88a454922260da86ef686139c5631e5c616b5549f0c30491ae421",
+          "bytes": 3519
+        },
+        "content/events_ja/callback_events_27.json": {
+          "sha256": "140cb3a2900b47da37ac64884f73956ef0164bc46f776d7b0830afbb3385a8dd",
+          "bytes": 6512
+        },
+        "content/events_ja/callback_events_28.json": {
+          "sha256": "b30f3c5124dd3de8b66ccc25d5e529311218a1081c4c8958c74d32a1a6c264cf",
+          "bytes": 3205
+        },
+        "content/events_ja/callback_events_29.json": {
+          "sha256": "d46057b5c3dafcdbf95ad338d9c40052d8987f1b42f1fd179697b766d7a312aa",
+          "bytes": 3668
+        },
+        "content/events_ja/callback_events_3.json": {
+          "sha256": "23f396ff799de1f704272afc43353edc0bc5861a4c44c7eba7aa3973fa636c5d",
+          "bytes": 15780
+        },
+        "content/events_ja/callback_events_30.json": {
+          "sha256": "e2568e8951591a8c6bc608911671f8f23557a839e3d7dff478b91a5a052c4dea",
+          "bytes": 3389
+        },
+        "content/events_ja/callback_events_31.json": {
+          "sha256": "464717fb47d23ec06cffc0936c2530785751235029577e8cd2c6b75cb9415f45",
+          "bytes": 3353
+        },
+        "content/events_ja/callback_events_32.json": {
+          "sha256": "efc0da176815e818de622981435a280a4289da716b7237be8bac888d69afb9e8",
+          "bytes": 5237
+        },
+        "content/events_ja/callback_events_33.json": {
+          "sha256": "235cfee62c6ffd744146f1a9882a0e165167928c7c9fac3c07164532e84b5677",
+          "bytes": 3434
+        },
+        "content/events_ja/callback_events_34.json": {
+          "sha256": "36bf512c1c61e1ae71eba2cc79728490f8624f0ca2a3de09b37820c082519aad",
+          "bytes": 5610
+        },
+        "content/events_ja/callback_events_35.json": {
+          "sha256": "b8915e7b043a2cf64541a9fb560ac514600b9f9f98c2d2ccc861cab0a27ddf40",
+          "bytes": 6518
+        },
+        "content/events_ja/callback_events_36.json": {
+          "sha256": "e0011d7061c62ed7b8ede24e70e9919dd2fb08ecc4205be979aaf6bcf1583cf1",
+          "bytes": 4247
+        },
+        "content/events_ja/callback_events_37.json": {
+          "sha256": "a51fd3233865851252390d41f64f0e3520d491643b5b1b4e13c57bc248f21bf1",
+          "bytes": 7730
+        },
+        "content/events_ja/callback_events_38.json": {
+          "sha256": "ac114509e490c4cda4385f6be3e488ead230b5a1531b3033d11101a694de8c2f",
+          "bytes": 2323
+        },
+        "content/events_ja/callback_events_39.json": {
+          "sha256": "60453a66eeb953001950806de9f119f8ee36e979f3ffd777d75656c5279dbb8d",
+          "bytes": 7066
+        },
+        "content/events_ja/callback_events_4.json": {
+          "sha256": "5a1a639e769749a224a2069ef92ce703e3771455a0d86f66f3c995683e29b5d8",
+          "bytes": 17132
+        },
+        "content/events_ja/callback_events_40.json": {
+          "sha256": "389fefb181ba9f3334c7d8915519173b1bf3a914a59caa9fe25cf5bd8affd2b0",
+          "bytes": 7296
+        },
+        "content/events_ja/callback_events_41.json": {
+          "sha256": "d4bc2e5df2b5e576b4247f46ca7fee8bfa02d0271c2c33cc34928c3702f42d9e",
+          "bytes": 4739
+        },
+        "content/events_ja/callback_events_42.json": {
+          "sha256": "6f2c1bdf6eb8f82cc48545b7bd3fc3bfe5c446cbddee4020feb1fd6ba08db557",
+          "bytes": 7213
+        },
+        "content/events_ja/callback_events_43.json": {
+          "sha256": "3271cf6f7edc44ed0cfcdd5ffdf87ec52f739ae6b47cdc58906cdd855aeb411e",
+          "bytes": 14666
+        },
+        "content/events_ja/callback_events_44.json": {
+          "sha256": "bf9d6dbc5c178e2be2ca62b842f25bbf7a14b9281b1f17ba69c260130618ab02",
+          "bytes": 15144
+        },
+        "content/events_ja/callback_events_45.json": {
+          "sha256": "f3f68673251343749ddc3c0d247100e700cdaac3505c598f4dbfd04e6fd6bd40",
+          "bytes": 13697
+        },
+        "content/events_ja/callback_events_46.json": {
+          "sha256": "b3a7d32a8f580b3b858c45da4a4d91eac3cdb5b09bfa536fc8ec4bbe44bd0a7f",
+          "bytes": 13789
+        },
+        "content/events_ja/callback_events_47.json": {
+          "sha256": "3fd56b73fa9f36023480c6d6f1bb0a27353f1167fe158a58c99710e3ecbe788e",
+          "bytes": 12849
+        },
+        "content/events_ja/callback_events_48.json": {
+          "sha256": "ccecb8e32f0f6ab99abe77e6d12b6aee7a7aac882dfde68c232d75eedeea2750",
+          "bytes": 14708
+        },
+        "content/events_ja/callback_events_49.json": {
+          "sha256": "1a3b9299942b2acd0e5ac4e791a7da27612587728b42ef59f32d68d04ac80722",
+          "bytes": 14938
+        },
+        "content/events_ja/callback_events_5.json": {
+          "sha256": "5881f1304f6e8cd03fb1dae7c732bc70f51ac755b6a11d3b8c2207e3b84f1c68",
+          "bytes": 21182
+        },
+        "content/events_ja/callback_events_50.json": {
+          "sha256": "0feae56f168b8ebada365847c47901f880a3e1bda86c652df443fb76136c7dd6",
+          "bytes": 15660
+        },
+        "content/events_ja/callback_events_51.json": {
+          "sha256": "c1cea6e225917e0ffba50b0762b90316aa4367d2cb975a77c4d42202b03fe2db",
+          "bytes": 14112
+        },
+        "content/events_ja/callback_events_52.json": {
+          "sha256": "2376b837bf1656d2eb5ba40865f4359255c2d3b7d89d16aa64a7473c047af6ac",
+          "bytes": 14964
+        },
+        "content/events_ja/callback_events_53.json": {
+          "sha256": "68b5e00afc2184784f6f2e774b88b344a510baf806b192b423c045217c386a86",
+          "bytes": 13716
+        },
+        "content/events_ja/callback_events_54.json": {
+          "sha256": "2df9c418eb7f8aca9fb5af0bb6334bfd95da9fabb4f45a0a1b494937c9d7405c",
+          "bytes": 14096
+        },
+        "content/events_ja/callback_events_55.json": {
+          "sha256": "07420b8259c04862d187bc6d6e8158dee542bfacec3ab5e0fd9c5d0efd45965d",
+          "bytes": 6087
+        },
+        "content/events_ja/callback_events_6.json": {
+          "sha256": "81df376b95778591c7f811f498f181f3b8c21824526cc39012239d5378dacb40",
+          "bytes": 16237
+        },
+        "content/events_ja/callback_events_7.json": {
+          "sha256": "c00798ddba5f9a21ab05ff883b8e234c13b0689055d2af97ed185dd80b6717d5",
+          "bytes": 11632
+        },
+        "content/events_ja/callback_events_8.json": {
+          "sha256": "e0e0e2b53d397e7fc595e0e9d481959479f4ac2fb62c19033b64b82502b9d10a",
+          "bytes": 14865
+        },
+        "content/events_ja/callback_events_9.json": {
+          "sha256": "ed7bf4c27508f8c5f004acef61e813ea3f639e6870257d52beabacfdddda1505",
+          "bytes": 13625
+        },
+        "content/events_ja/chain_events.json": {
+          "sha256": "1104df8d502c2d140f9c06b8a1bcec2181390c88b6c4a4730ff697490698122d",
+          "bytes": 19717
+        },
+        "content/events_ja/chapter_cards.json": {
+          "sha256": "ed65079145e19f0094d611eaebe2e422b7a984309d385f4d0d2a1b5c5a22ee77",
+          "bytes": 2570
+        },
+        "content/events_ja/core_loop_v2_events.json": {
+          "sha256": "db043028a6d8b5b391603bfca0959b5bbdb0723c155bf3429f13c0fee8380984",
+          "bytes": 56049
+        },
+        "content/events_ja/drama_events.json": {
+          "sha256": "98403bdf9c9f3e3b5530734b69629e30b973bcd836766444b5792bebc6d87898",
+          "bytes": 43486
+        },
+        "content/events_ja/drama_events2.json": {
+          "sha256": "3b41520b0c3a9d9e09d2fedd959d0972e6d06e92fce3642313325165c3a1fe45",
+          "bytes": 16852
+        },
+        "content/events_ja/easter_eggs.json": {
+          "sha256": "3389438bc4adb28913ac486a6f56fb16f6ffb7f553532113a89b8a798eca54b2",
+          "bytes": 13971
+        },
+        "content/events_ja/friendship_events.json": {
+          "sha256": "a052d23d0bd679558c610c9e11383875ce564e7890444b6de32499f4bd16a586",
+          "bytes": 6695
+        },
+        "content/events_ja/gambling_narrative.json": {
+          "sha256": "fb41a27d93bad4a40c19c95ad11699bd5345a28043e4443665753b964d736255",
+          "bytes": 11744
+        },
+        "content/events_ja/hidden_events.json": {
+          "sha256": "5608b60492eda1b7592d4c0932c7f7bd05bd3d554c00f6acd9f587dcc0867c1a",
+          "bytes": 28497
+        },
+        "content/events_ja/holdem_events.json": {
+          "sha256": "4c390e887d04ad4b38111ef5b4123b580d3e6e42c82dfb0e5799bc134f954dc7",
+          "bytes": 7225
+        },
+        "content/events_ja/identity_events.json": {
+          "sha256": "d6ed90c7f1793fbabfddf0c5e6a5396ca7a18af312c409fffe98e4c9793f5458",
+          "bytes": 5189
+        },
+        "content/events_ja/investment_events.json": {
+          "sha256": "2d9c32bd661c8af5c1352acc4aebea6dbaae98d6abecff370ae47da1de8a4e47",
+          "bytes": 60276
+        },
+        "content/events_ja/korea_admin.json": {
+          "sha256": "8a5d254b40e197995b4a41d0e6cb9d3c1e782fd531abe41bc9da2dad0d966ff5",
+          "bytes": 5749
+        },
+        "content/events_ja/korea_climate.json": {
+          "sha256": "8b12f9403e9ba8c3d3e168d031cd08f10f65a16d7d95d3d32004975e10ac4b90",
+          "bytes": 4808
+        },
+        "content/events_ja/korea_digital.json": {
+          "sha256": "78e561bf3eca8798fe3b54fd66e51941d12920596bd8c169ac77b56147c6dc5f",
+          "bytes": 4799
+        },
+        "content/events_ja/korea_education.json": {
+          "sha256": "41b82339ac3dbf282e3041302505d84fc6ab5484954854b749271df5c7876cfc",
+          "bytes": 3721
+        },
+        "content/events_ja/korea_experience.json": {
+          "sha256": "09fa61c90ed795026557534e899235ea07e2eb29da5e5eb8594bfc7921dbbd0c",
+          "bytes": 6319
+        },
+        "content/events_ja/korea_fandom.json": {
+          "sha256": "ffb8cc6c69cab3bda5111096c32277c3912025561b2aa815eef63b5966a43aeb",
+          "bytes": 4238
+        },
+        "content/events_ja/korea_food.json": {
+          "sha256": "4e40a4b6b555ea33f08235da30fb099c18ef7096770ce5e2ed6054612bebabbc",
+          "bytes": 5416
+        },
+        "content/events_ja/korea_fortune.json": {
+          "sha256": "3fe7922c0c5f10aade0e7f3b866e3310005d7a027dc06c4265ac3e15f6e034ba",
+          "bytes": 3095
+        },
+        "content/events_ja/korea_geopolitics.json": {
+          "sha256": "218e4ef03e97d4a96119c272e8335aeec8471017840d09e6417825e8775917a0",
+          "bytes": 5360
+        },
+        "content/events_ja/korea_holidays.json": {
+          "sha256": "f87b6906e6bd41b0c0142476d64ad8a4313d99dab18486563d9271f85366e9ce",
+          "bytes": 2576
+        },
+        "content/events_ja/korea_leisure.json": {
+          "sha256": "2ceacff8d147081e603b3598706957959d5cf519a2e484789ae123c6f2593043",
+          "bytes": 4315
+        },
+        "content/events_ja/korea_survival.json": {
+          "sha256": "80b217b05ac522f1371231b4f93c2adc1e536eb81c96a36b508d50003c6b9af5",
+          "bytes": 5103
+        },
+        "content/events_ja/korea_workplace.json": {
+          "sha256": "4e60391c6a387f322d7e2edd8ea1305cf510e433f555765998e4bb1dc4aadb19",
+          "bytes": 5236
+        },
+        "content/events_ja/life_events.json": {
+          "sha256": "f20c2a50ecd1bdbe313ea6a1419afb7229765227efc8824bb9270fe3a15a510d",
+          "bytes": 147636
+        },
+        "content/events_ja/life_events2.json": {
+          "sha256": "b0bdf9c37cb5b99a72f9e8ca38ddc401f124f15e188f93ad7737c624b3de3797",
+          "bytes": 27819
+        },
+        "content/events_ja/ng_plus_events.json": {
+          "sha256": "d2de3e1111d6a9a4fcf2466a9c6d5cced3ff6f034ee27507d8b27e9aa361101b",
+          "bytes": 9294
+        },
+        "content/events_ja/racetrack_events.json": {
+          "sha256": "af4ff2fac560fded38a62d55f27726b27395ba6fb7191510026e62039da81349",
+          "bytes": 10919
+        },
+        "content/events_ja/rare_encounter_events.json": {
+          "sha256": "1b34fa080fa077b0079a5d7fa357938682577489fbcedbaf95d7da081cc4bfa0",
+          "bytes": 16093
+        },
+        "content/events_ja/relationship_events.json": {
+          "sha256": "d1e4133133962de4963d42d06d923e4fce485eca53ca0abfdab2bac938fe7757",
+          "bytes": 68876
+        },
+        "content/events_ja/relationship_events2.json": {
+          "sha256": "9920577626a941518eaf21590c3f3c7ef732ce5902c160654c6246ec09cc75d0",
+          "bytes": 11232
+        },
+        "content/events_ja/scenario_cafe.json": {
+          "sha256": "60a112f2bd5bbc39b73f4dc38692643b6472397c9dfd2e9fb7c9e99823ad1619",
+          "bytes": 10550
+        },
+        "content/events_ja/scenario_cafe_callback.json": {
+          "sha256": "05808ae2af73aa2fb2b3bff472ebf5c4aaf9540d47b84d5f1eb17eae08bdefd8",
+          "bytes": 9148
+        },
+        "content/events_ja/shadow_events.json": {
+          "sha256": "62fbb430520c422681cb96e47bec52519dc76e0cb8a060b3ad8adb4074b7dd47",
+          "bytes": 7340
+        },
+        "content/events_ja/social_independence.json": {
+          "sha256": "96a85d620f466d88ac896757e62badfcd29f91cc008c5198dde030330b070f22",
+          "bytes": 22852
+        },
+        "content/events_ja/story_demo_events.json": {
+          "sha256": "3ba992ecafbd5b31d00cb9c3630f4f6a9b37fefb41fbe6aba191d3d77076a10b",
+          "bytes": 35486
+        },
+        "content/events_ja/story_events.json": {
+          "sha256": "9c6ee1721eb3e184c9a53a494b2b7cf0fe97a3e216315d398df7a4644c417e31",
+          "bytes": 59342
+        },
+        "content/events_ja/viral_events.json": {
+          "sha256": "23508ef6a9650ee7450d8e593d8fc8365b0d4e818bb23b7d0d2a1028bddbe187",
+          "bytes": 11940
+        },
+        "content/events_ja/work_events.json": {
+          "sha256": "daf5314677e00c61006df1ea2cfc16566bdade43a1a8733dade0a19295096c5c",
+          "bytes": 7756
+        },
+        "content/events_zh-CN/amb_scenarios.json": {
+          "sha256": "668ae007d1a12e2cf632921823036233e27b8664b91f8b157260b1f2a5749ebc",
+          "bytes": 6103
+        },
+        "content/events_zh-CN/amb_scenarios2.json": {
+          "sha256": "4271106a8a398dc4b56b671e89010f95f6aad5b32da2caedccb015cc499917ef",
+          "bytes": 4387
+        },
+        "content/events_zh-CN/amb_scenarios3.json": {
+          "sha256": "b06426ba38709e146b099675dfafb7648e7293c73b9ca318aaccb54a02cf847c",
+          "bytes": 6394
+        },
+        "content/events_zh-CN/amb_scenarios4.json": {
+          "sha256": "74369c611f862a74261ec59db596ecbad8d2596b0c9da4cd8cf668d825caa94f",
+          "bytes": 4828
+        },
+        "content/events_zh-CN/amb_scenarios5.json": {
+          "sha256": "5801d516795600845396aad18291eec5e7c75324af3b4810440a788c3e93920e",
+          "bytes": 2825
+        },
+        "content/events_zh-CN/amb_scenarios6.json": {
+          "sha256": "b281deee18ba4795be74aeb96a836b87bef42eaad9dbe25d6aef85f46f288138",
+          "bytes": 4840
+        },
+        "content/events_zh-CN/amb_scenarios7.json": {
+          "sha256": "c0157f91848c5cf446471afa91dc5965de1a4ab0e701bf07e1f0abd9b85e42f3",
+          "bytes": 10304
+        },
+        "content/events_zh-CN/anxiety_events.json": {
+          "sha256": "56e51ad73a363a97896091173a0c2a4cce690e301244e7d671755a1550048e44",
+          "bytes": 6515
+        },
+        "content/events_zh-CN/arc_addiction_recovery.json": {
+          "sha256": "37328cfc3287c4f03a12ae7e40a187589fa61f45aac5d0c825e20d97499ed11c",
+          "bytes": 8967
+        },
+        "content/events_zh-CN/arc_chapter_themes.json": {
+          "sha256": "cfc2e4744ebd7bf80c923bb72b3c676490237b4404094ceececdefe4fd367650",
+          "bytes": 62097
+        },
+        "content/events_zh-CN/arc_daeun.json": {
+          "sha256": "905b0f2b75b1ac7099147dce8494687b5ca122f60d0182cb5591ef041ed296f9",
+          "bytes": 18073
+        },
+        "content/events_zh-CN/arc_daeun_extension.json": {
+          "sha256": "1c894a8ccb794d54c75e909ba3bae062ac8c6c87008eeebe5547b39470bb9816",
+          "bytes": 11696
+        },
+        "content/events_zh-CN/arc_daeun_married.json": {
+          "sha256": "036120337ebbf9c0fb95bef3ffe7983d0f530fd07cf38a0ca5e0f2300f625437",
+          "bytes": 21432
+        },
+        "content/events_zh-CN/arc_daeun_romance.json": {
+          "sha256": "d985dbbfb4b6bf3434a8c5e6593044790a4559576b4f593898475691bc308483",
+          "bytes": 10204
+        },
+        "content/events_zh-CN/arc_date_milestones.json": {
+          "sha256": "1e698e5cf996995e4f54530e445abef04f9387468fb9cc0fc87c6e4bac7a3870",
+          "bytes": 21701
+        },
+        "content/events_zh-CN/arc_drama.json": {
+          "sha256": "75b11ac9bcb1957b2cbdd4686895b2e5452dd1cae5be69588c30f91316d28c4e",
+          "bytes": 115604
+        },
+        "content/events_zh-CN/arc_events.json": {
+          "sha256": "cf430c7267a3bad35249505e3e958eada5822500b64fad74764c15c2f720df0e",
+          "bytes": 110248
+        },
+        "content/events_zh-CN/arc_h2_beats.json": {
+          "sha256": "7a87e026c28f6a650897bebfecfeb92c883d7c569a72dbbcfd3d28262a1a9dd4",
+          "bytes": 15034
+        },
+        "content/events_zh-CN/arc_housing_keepsake.json": {
+          "sha256": "17aa72665ebc951559490e5f1e79b1e5c3053cdb201781e6004c427413d2052c",
+          "bytes": 1111
+        },
+        "content/events_zh-CN/arc_hyunsu.json": {
+          "sha256": "92fb3f2f9fbd674d0d21d94441131336442fbd4a66f92baa9a473007c08a6832",
+          "bytes": 20138
+        },
+        "content/events_zh-CN/arc_jiyeon_married.json": {
+          "sha256": "48d656d511013b08f5e0ead49ea7f9b5d7f784ac6e2854ca75f52225e752529f",
+          "bytes": 18354
+        },
+        "content/events_zh-CN/arc_midgame.json": {
+          "sha256": "913350847ea2ec08de5c2a8e656629a8d24d825272857c8c661dddbe665f90b4",
+          "bytes": 178141
+        },
+        "content/events_zh-CN/arc_new_characters.json": {
+          "sha256": "546f994a82374167dac7ff22bea34a26753a3252b8df6dfc8ba053eab41520b8",
+          "bytes": 16541
+        },
+        "content/events_zh-CN/arc_pre_ending.json": {
+          "sha256": "f6a26eb5a1ff0fde6336f63e2781603fb8973803a08b34538eb61473d01ee4e8",
+          "bytes": 61022
+        },
+        "content/events_zh-CN/arc_romance_specials.json": {
+          "sha256": "50f4e24dca59410c67363ec14426b4902aad9fe51236ad48b67b3651b7d41908",
+          "bytes": 26010
+        },
+        "content/events_zh-CN/arc_romance_y5.json": {
+          "sha256": "1ee3ca1113e5588ef08f7305f410f90be917ccaf6ac1a8966414d5f4a40eaa5a",
+          "bytes": 5468
+        },
+        "content/events_zh-CN/arc_season_dates.json": {
+          "sha256": "4f01541b694223a364439d02884d46392801043207d572412d55d75602887187",
+          "bytes": 27970
+        },
+        "content/events_zh-CN/arc_specialization.json": {
+          "sha256": "7e3fa3222e5a67f2f7811e02bbe91adaec0a4b700f3eb9ef8e62a34a09b360cb",
+          "bytes": 11968
+        },
+        "content/events_zh-CN/arc_web_crossbeams.json": {
+          "sha256": "7bd86c85dc3c3cc18464339ccd975b186bee69fad0a75fb0a7bcc53417a5aa7c",
+          "bytes": 2983
+        },
+        "content/events_zh-CN/arc_year3_drama.json": {
+          "sha256": "3045c2eb3567bdec74636ab3e3eed60aad763c81a902da7934d6a8d0f10dee2b",
+          "bytes": 40708
+        },
+        "content/events_zh-CN/arc_year_close.json": {
+          "sha256": "53592dafae59623ed0a74c21657bf181f427a04e5fd0325c9745d929004e61aa",
+          "bytes": 57772
+        },
+        "content/events_zh-CN/butterfly_events.json": {
+          "sha256": "21eb6fa732d21996eaac8263ed47ddd01880d8d97c37df5bd4c1c08f66a915b1",
+          "bytes": 9604
+        },
+        "content/events_zh-CN/callback_chapter_themes.json": {
+          "sha256": "2b3fb3ae464aca76ea27e0a54f2b5007c40194fcf6bff4f69fbc974f24d6f5d4",
+          "bytes": 7720
+        },
+        "content/events_zh-CN/callback_events.json": {
+          "sha256": "450d71f35b607115a108d99ae855ae73d9463d81eddf2f3a57c4eb78d9a61ad3",
+          "bytes": 15249
+        },
+        "content/events_zh-CN/callback_events_10.json": {
+          "sha256": "17c94fb141641e5c6e4bfcad4d86f6c5530e2a1c56c804780367bb607039dcca",
+          "bytes": 12077
+        },
+        "content/events_zh-CN/callback_events_11.json": {
+          "sha256": "75d9734bf2938112ed04bf3124f5ca6a3f358b5cc2dc7a017466baa765a49f8b",
+          "bytes": 13164
+        },
+        "content/events_zh-CN/callback_events_12.json": {
+          "sha256": "ae6942c8afadb1c045407dd511d895d6987eadf4b58163b082b3d7f12c240407",
+          "bytes": 9046
+        },
+        "content/events_zh-CN/callback_events_13.json": {
+          "sha256": "3a38a005952b561ba7a926bede4198b6e0abebc0bf05950d259d9b570e082c35",
+          "bytes": 8854
+        },
+        "content/events_zh-CN/callback_events_14.json": {
+          "sha256": "15dae246c3c683ee882a8c393ced879589f8610175523893263fdce046bbf826",
+          "bytes": 8420
+        },
+        "content/events_zh-CN/callback_events_15.json": {
+          "sha256": "ec042295706e545e4f1857801aeb9f1324a5690abdb1db0cd7e6dff93df65f74",
+          "bytes": 5957
+        },
+        "content/events_zh-CN/callback_events_16.json": {
+          "sha256": "bdc7e21be8d8237f61cf5e3c866b9bb3c725a98934aeac85283278f1a1032567",
+          "bytes": 8476
+        },
+        "content/events_zh-CN/callback_events_17.json": {
+          "sha256": "3ba55b0af60fc264527042b72fe73bf98c7a6706edcbbbf86d81e0f84299262f",
+          "bytes": 8066
+        },
+        "content/events_zh-CN/callback_events_18.json": {
+          "sha256": "35539e7f094b03c569598726e892e5da264d91869042c1c05941de9657381137",
+          "bytes": 8209
+        },
+        "content/events_zh-CN/callback_events_19.json": {
+          "sha256": "a3a6879d23b8ffc39f1eccfbbdf55ff65719024d9c7cdc020187510f07742d1d",
+          "bytes": 7746
+        },
+        "content/events_zh-CN/callback_events_2.json": {
+          "sha256": "34a051e820f1c3e057ef7a864761cd3dae8d836d849a0d6c702f0f1418557f62",
+          "bytes": 16274
+        },
+        "content/events_zh-CN/callback_events_20.json": {
+          "sha256": "2e984601fcb3694a2467d7f8f3e722b27567e4850eb4b14cf63b4e21c4579b06",
+          "bytes": 7504
+        },
+        "content/events_zh-CN/callback_events_21.json": {
+          "sha256": "9171aa930ef0a867423d8246f7b51bacb29683ffce1bdc6a458898871f376cfd",
+          "bytes": 7566
+        },
+        "content/events_zh-CN/callback_events_22.json": {
+          "sha256": "cc1f3c799e5536044b2b0f4f5a1cea98d9cd3134ad07f8e55e972dcb530ff2f0",
+          "bytes": 7733
+        },
+        "content/events_zh-CN/callback_events_23.json": {
+          "sha256": "b1f3570dc58bbcdfc4beb4fc65d7c8b5f1c6e4b26cfd960fc5833f99f77afa4e",
+          "bytes": 7708
+        },
+        "content/events_zh-CN/callback_events_24.json": {
+          "sha256": "79db4a041badacf6aa23ff65ffa7985fc700c21e726df5367a2f32ccf083b81a",
+          "bytes": 8026
+        },
+        "content/events_zh-CN/callback_events_25.json": {
+          "sha256": "ef0a6e62f0c4e67f1c0b526df58b6b05f54c7cd0c294c2574535d5552eb5b01c",
+          "bytes": 8689
+        },
+        "content/events_zh-CN/callback_events_26.json": {
+          "sha256": "bb8134cde47804ad6edca0fdb284bd2d24b237ac8fcd7325a7143d0e56f145dd",
+          "bytes": 2956
+        },
+        "content/events_zh-CN/callback_events_27.json": {
+          "sha256": "96752c6966cb605292ea196e74b95e31b3376ab1dcdff3ebff086082c90d2a36",
+          "bytes": 5297
+        },
+        "content/events_zh-CN/callback_events_28.json": {
+          "sha256": "acb2188d9dd0bb02a55c57876c4e9ba56e38702c09db601c284d84b99762c214",
+          "bytes": 2543
+        },
+        "content/events_zh-CN/callback_events_29.json": {
+          "sha256": "a2db25456f1971ff4b6696ac6be6f663fb638d64251ba9bcc137aaccb929a9f1",
+          "bytes": 2936
+        },
+        "content/events_zh-CN/callback_events_3.json": {
+          "sha256": "d88ee213b4e2703c955518ec071bfa47fa757de7f6b15105e430c006166d119b",
+          "bytes": 11993
+        },
+        "content/events_zh-CN/callback_events_30.json": {
+          "sha256": "c427fc00a05670cae3a6782dc3591ad755a3250d3192bc0f67066da5809b3d40",
+          "bytes": 2748
+        },
+        "content/events_zh-CN/callback_events_31.json": {
+          "sha256": "5ebb3904b84348e221427b57a05f26aae0e3ab3529a86ccfefa81e3f22f3024c",
+          "bytes": 2645
+        },
+        "content/events_zh-CN/callback_events_32.json": {
+          "sha256": "9d58a2bda3248603a97aa5beeec11f88797869a0d7da2b2c3525602a70494d0e",
+          "bytes": 4058
+        },
+        "content/events_zh-CN/callback_events_33.json": {
+          "sha256": "138d41711605318470e8b84e53a28d9e072457c555a36552524c6b067a21ba9f",
+          "bytes": 2430
+        },
+        "content/events_zh-CN/callback_events_34.json": {
+          "sha256": "59f45d3aba12d7222efd7054e27f175e804d0085b3299eaacfb126a7613fc4e0",
+          "bytes": 4466
+        },
+        "content/events_zh-CN/callback_events_35.json": {
+          "sha256": "1caf835d9c1839711a036770c35ad054a444eafb24bf5cc9db4944e83052f2ef",
+          "bytes": 5018
+        },
+        "content/events_zh-CN/callback_events_36.json": {
+          "sha256": "7c33a29025c019d283afacc92a3d0d7fe2b36946fc073fa4f269702b5411b891",
+          "bytes": 3272
+        },
+        "content/events_zh-CN/callback_events_37.json": {
+          "sha256": "cf49fa676a0f93963c35f2a20171877d9460b370922cd265103b3cdac64b8be7",
+          "bytes": 5879
+        },
+        "content/events_zh-CN/callback_events_38.json": {
+          "sha256": "ae5753db91280261bcc2bff6d3dcdd9dcf38e53810f838e05166011671af1b33",
+          "bytes": 1785
+        },
+        "content/events_zh-CN/callback_events_39.json": {
+          "sha256": "55cf414109f78df38bc12870c326688a4ccd8e6042c0c7ad27aed150cb121cf7",
+          "bytes": 5373
+        },
+        "content/events_zh-CN/callback_events_4.json": {
+          "sha256": "544bd117ac8e90ee3a1c512c0b504449fe6ab4829cb8c47d5b8c5dc764d0baec",
+          "bytes": 12794
+        },
+        "content/events_zh-CN/callback_events_40.json": {
+          "sha256": "d884dd57b4419b21f4739ac48ecb8a80357373ff991c85f057dbf4116858de89",
+          "bytes": 5379
+        },
+        "content/events_zh-CN/callback_events_41.json": {
+          "sha256": "af67ea8eedb064d373d01c73a36477534256bebffd88691457739bdf649af70f",
+          "bytes": 3737
+        },
+        "content/events_zh-CN/callback_events_42.json": {
+          "sha256": "9f15316aa7b6c6eace3ef1fd32de22fb80c36120494697e71a6dc601737cc8e6",
+          "bytes": 5383
+        },
+        "content/events_zh-CN/callback_events_43.json": {
+          "sha256": "0109901d7e54876b8ebabe88f436c924ed52b78fd2fab39acd36539c60e34ba6",
+          "bytes": 11251
+        },
+        "content/events_zh-CN/callback_events_44.json": {
+          "sha256": "05f4347749d2afe9a0b15c3a65b8d74ef51c733b1a64d82dda4bd5564e40ba2b",
+          "bytes": 11436
+        },
+        "content/events_zh-CN/callback_events_45.json": {
+          "sha256": "fef8c26779871db83cec5f09abf8af033d3009bd5e8094d59126107910256d5b",
+          "bytes": 11932
+        },
+        "content/events_zh-CN/callback_events_46.json": {
+          "sha256": "a3371fcc52299422a3d7526b734f9ee326b245a7e6636b5e615ab8cd989aa3a1",
+          "bytes": 11431
+        },
+        "content/events_zh-CN/callback_events_47.json": {
+          "sha256": "052a8fde4ee589ba7068a0990dd1f84b16a5c03f9de1e1ba87711b3b6b52fd99",
+          "bytes": 11215
+        },
+        "content/events_zh-CN/callback_events_48.json": {
+          "sha256": "00d5af1e88bf8384693df0542af9f8a2968d25bece34cf7238864118c509369a",
+          "bytes": 11669
+        },
+        "content/events_zh-CN/callback_events_49.json": {
+          "sha256": "aae3e305e31cb4aae6880f39d0231368663f5b0a1177769917a95668cb6feb96",
+          "bytes": 11806
+        },
+        "content/events_zh-CN/callback_events_5.json": {
+          "sha256": "45d6cf270ba65edd359a724c02066b452b3f3c58a950892a07d90df1f6267e1c",
+          "bytes": 15770
+        },
+        "content/events_zh-CN/callback_events_50.json": {
+          "sha256": "33c9fcb5462821488318deaa60f9097eab000e084148a3e7978a0179b734deda",
+          "bytes": 12126
+        },
+        "content/events_zh-CN/callback_events_51.json": {
+          "sha256": "3df237640148f7446710e139b9660b74ca6d0d4f80c8840ec9e7e64e6c2a1555",
+          "bytes": 11282
+        },
+        "content/events_zh-CN/callback_events_52.json": {
+          "sha256": "3e92f50c7ed4dc12353207b23da77e902ad226a17d5190829fbd051a2b22bf5e",
+          "bytes": 11822
+        },
+        "content/events_zh-CN/callback_events_53.json": {
+          "sha256": "ed27c4f574f31c965eac67ee85727ef0b928cab9fc9d32ff7e561c4aeb876c14",
+          "bytes": 10912
+        },
+        "content/events_zh-CN/callback_events_54.json": {
+          "sha256": "15bbf58660bff117e27cdc023e586b2c14166fdbb219d3349e26d15538182272",
+          "bytes": 11214
+        },
+        "content/events_zh-CN/callback_events_55.json": {
+          "sha256": "5d9c90d217cb162dd44d280a195920f31ab15fa6c9805fc869ef4b22c83adb66",
+          "bytes": 4687
+        },
+        "content/events_zh-CN/callback_events_6.json": {
+          "sha256": "cd4c2bc4d540739f3d231cb761ddc0ee6d6c385ef12bf12ecb7c3346e6e3c9f6",
+          "bytes": 12701
+        },
+        "content/events_zh-CN/callback_events_7.json": {
+          "sha256": "10ef15bb6144b40475c60e29b0ca5cac45c95c214e8f78150233856ab5eacb64",
+          "bytes": 8884
+        },
+        "content/events_zh-CN/callback_events_8.json": {
+          "sha256": "f4e0f3d0126622752db9c9016afad69bde054f327f1f974c42ec7a2aee888a24",
+          "bytes": 11621
+        },
+        "content/events_zh-CN/callback_events_9.json": {
+          "sha256": "524c000d95c18c74d5a64ca1b9935b27ab1921db21fb953947a86ccfde1fc914",
+          "bytes": 10728
+        },
+        "content/events_zh-CN/chain_events.json": {
+          "sha256": "c57896a3c02a1175da7cb30c0e8c25383303b30c57fcdf64a152dffc3f84353d",
+          "bytes": 14326
+        },
+        "content/events_zh-CN/chapter_cards.json": {
+          "sha256": "d7b5ab5b32f272df4e21c43a3a9dd4d7d5ca3f53ea98355e941e9b75b2f05def",
+          "bytes": 2125
+        },
+        "content/events_zh-CN/core_loop_v2_events.json": {
+          "sha256": "4276c23c3355c30283ece761bbb36aeeadddd64e4ce745a3efc9e64da4de4cbd",
+          "bytes": 43799
+        },
+        "content/events_zh-CN/drama_events.json": {
+          "sha256": "758642d485f3e5e8e9b09cff049efd57941f866d3286b5e63fb3a6b187f522a6",
+          "bytes": 32483
+        },
+        "content/events_zh-CN/drama_events2.json": {
+          "sha256": "6d949cc77b9987c006d4afa2fa574cc446b38ba09038ece83a8e707dc24f3340",
+          "bytes": 13467
+        },
+        "content/events_zh-CN/easter_eggs.json": {
+          "sha256": "c27ad75b9f4c8200082f59899a2a174c7aca2318e9b12e54a92111825b3ca7a6",
+          "bytes": 10833
+        },
+        "content/events_zh-CN/friendship_events.json": {
+          "sha256": "fbf0ba49e0e03147458615a39903a7e0d013a2439c74c3ee658ae7fad344083b",
+          "bytes": 5606
+        },
+        "content/events_zh-CN/gambling_narrative.json": {
+          "sha256": "b71c0ed5d101c1c5a0bbd5d418e65d862cb18582aaf0f1180861977530d30269",
+          "bytes": 9531
+        },
+        "content/events_zh-CN/hidden_events.json": {
+          "sha256": "fab0cd6c83d35844977ca9950c942e9bd35d55f0a4b88d90ebf81f2cda943e7d",
+          "bytes": 22118
+        },
+        "content/events_zh-CN/holdem_events.json": {
+          "sha256": "07c9862cbb59dabffb2d111ac6bff976b954e637cb5ad6249faccda6c9ef4199",
+          "bytes": 6036
+        },
+        "content/events_zh-CN/identity_events.json": {
+          "sha256": "d71b55603c7098f1c6429770d82d06e82ca4f676821766ae6b032b7164475ec9",
+          "bytes": 4257
+        },
+        "content/events_zh-CN/investment_events.json": {
+          "sha256": "90ef3f62bf161e40752d7d3ce38b5766185e4810826096cf893c3f1bc4d9035d",
+          "bytes": 46830
+        },
+        "content/events_zh-CN/korea_admin.json": {
+          "sha256": "1dfc89c0c57a10ac0a24925844cfad8f824ddb8bfcc099f8ec3526a20bebbaf1",
+          "bytes": 4456
+        },
+        "content/events_zh-CN/korea_climate.json": {
+          "sha256": "bf1a87145b03bfa1c27dd2e7005cb9c4a70c4209e8e3051416b7bc5d2da0bb1e",
+          "bytes": 4115
+        },
+        "content/events_zh-CN/korea_digital.json": {
+          "sha256": "94639a430ac601bd8235b600cedc19b3e1b0adb307039ef4f50de5d5a30d22d9",
+          "bytes": 3978
+        },
+        "content/events_zh-CN/korea_education.json": {
+          "sha256": "cdf17f02fff5459a345af737ee0405ea7dcf0f7bace62704e08ae982c66c3815",
+          "bytes": 3223
+        },
+        "content/events_zh-CN/korea_experience.json": {
+          "sha256": "31e3ae958298ccf73c67cfa1d41256dafe201480eeae7fbc43b722240b32ec36",
+          "bytes": 5041
+        },
+        "content/events_zh-CN/korea_fandom.json": {
+          "sha256": "9b416fb6951ea88bf3ea96dfbac1909368aca95ecc9cc2181848106cfde7980b",
+          "bytes": 3714
+        },
+        "content/events_zh-CN/korea_food.json": {
+          "sha256": "970c22e8cb2e651198f47c79a376116cae6263854fbbca0db0c21502650c2106",
+          "bytes": 4409
+        },
+        "content/events_zh-CN/korea_fortune.json": {
+          "sha256": "280b3b73ccc741216c7be45d057eafa1fc70d2f3d876cbd10150ae6f0397915d",
+          "bytes": 2521
+        },
+        "content/events_zh-CN/korea_geopolitics.json": {
+          "sha256": "5965cc127cb20e04312592f1af324edffce35fa9c31ed3a5eabd60397758d096",
+          "bytes": 4552
+        },
+        "content/events_zh-CN/korea_holidays.json": {
+          "sha256": "f87f85bcb9c3b8601904aad4bdafd107db5bbe9014fe085a165aa3fad219b801",
+          "bytes": 2280
+        },
+        "content/events_zh-CN/korea_leisure.json": {
+          "sha256": "bd0d59dd2ebf5fad5f75e08bf841ae9246abf309068211bfc659019cc4afa8cf",
+          "bytes": 3962
+        },
+        "content/events_zh-CN/korea_survival.json": {
+          "sha256": "0dd5aae1bb3a4f76fd9240b320f533d9318d862e320dd6b921aaa232b329f6de",
+          "bytes": 4522
+        },
+        "content/events_zh-CN/korea_workplace.json": {
+          "sha256": "9d804b0f6ccbc1217bd7ac2fa8634667ae46c18a805e0afd33458375ae6967ef",
+          "bytes": 3876
+        },
+        "content/events_zh-CN/life_events.json": {
+          "sha256": "f36e91a9878e4b851e9f10adebd1facf909969747a43c32146ef9bc170c55e58",
+          "bytes": 115464
+        },
+        "content/events_zh-CN/life_events2.json": {
+          "sha256": "50c65e3cadf0823e23ee34ea2cdcf4386e45c8587f1100d3171dcad3c060b00d",
+          "bytes": 21497
+        },
+        "content/events_zh-CN/ng_plus_events.json": {
+          "sha256": "2777ae1b5a8325fe7a1590af4cc8ffc3ad320a16c322f178369f95647a360a05",
+          "bytes": 7092
+        },
+        "content/events_zh-CN/racetrack_events.json": {
+          "sha256": "10db42dcf490f8778526d8a39c6e5ec0010124e2f41df9ea457f01ab8f71487e",
+          "bytes": 9596
+        },
+        "content/events_zh-CN/rare_encounter_events.json": {
+          "sha256": "66821f3077e9dc0fd0a323e8c33d8fa0ed80924f3fc715bd62a8355f06bf81c2",
+          "bytes": 12580
+        },
+        "content/events_zh-CN/relationship_events.json": {
+          "sha256": "2bc86844b2f290fcbe9acc44ce27babd02224841ff46a8cd4dbbb18e3f6363db",
+          "bytes": 50086
+        },
+        "content/events_zh-CN/relationship_events2.json": {
+          "sha256": "9bf5c8c776b674ccbf8021e3aba9a695624626ca90579bacb305f05f0cdd519f",
+          "bytes": 9165
+        },
+        "content/events_zh-CN/scenario_cafe.json": {
+          "sha256": "1564f33d25eb37099f278cf41ce8d2b5eae5231b47ef56a32f91c4f39d1a9b4d",
+          "bytes": 8496
+        },
+        "content/events_zh-CN/scenario_cafe_callback.json": {
+          "sha256": "ca996d6f49a8377cb077e00fde159db2e904107db79e4e9d55e973743b125f5e",
+          "bytes": 7315
+        },
+        "content/events_zh-CN/shadow_events.json": {
+          "sha256": "0bc5c95bd2055854344202f902bfc99896ce0e48cf248b83649e75f49479ab27",
+          "bytes": 6030
+        },
+        "content/events_zh-CN/social_independence.json": {
+          "sha256": "d9f91807419c4237af9ff2490f62d13fabc88e339b91384954c5bb0297beb7ad",
+          "bytes": 17619
+        },
+        "content/events_zh-CN/story_demo_events.json": {
+          "sha256": "b8ff12758d29a02fd07fdad5f8d3931b805afcbe8e18f1d02db5dfa575c0f05e",
+          "bytes": 27120
+        },
+        "content/events_zh-CN/story_events.json": {
+          "sha256": "0e1a6e1726830caa96e9190e32ab23c4dc0deaa12687c836ca5ff1fcbeda3bb2",
+          "bytes": 46190
+        },
+        "content/events_zh-CN/viral_events.json": {
+          "sha256": "d33cb48e1db90f4a0e62742e8fa2b7060924c03d4b4ac56e054e20c28bbcce0f",
+          "bytes": 8853
+        },
+        "content/events_zh-CN/work_events.json": {
+          "sha256": "54b1176cf3285cc41815c03d8b7bbb9b4e014d04935f7b5028a49da5852c71cb",
+          "bytes": 6329
+        },
+        "content/events_zh-TW/amb_scenarios.json": {
+          "sha256": "fa79870f0051b5858358722f8b680941f57a50238ce6f66259e30a4b6e4b8b1c",
+          "bytes": 6168
+        },
+        "content/events_zh-TW/amb_scenarios2.json": {
+          "sha256": "0d627f023e0630682453d5e130aac2ce01a3cf088d89c2eb2b49f35953011ef7",
+          "bytes": 4421
+        },
+        "content/events_zh-TW/amb_scenarios3.json": {
+          "sha256": "cd225a2251ce1b0ccda7f7625a672c4da1844f99fb356d0a547d0ffc4ffa8888",
+          "bytes": 6279
+        },
+        "content/events_zh-TW/amb_scenarios4.json": {
+          "sha256": "633755da3233f5dd27e2b90281987bd4bab1f61e6c4d63a78c54283aa3b8cb40",
+          "bytes": 4804
+        },
+        "content/events_zh-TW/amb_scenarios5.json": {
+          "sha256": "f9fa8a2da0802065f36da0b03b368b370abf79e3c6e9a0b22d02ea69f11e667b",
+          "bytes": 2873
+        },
+        "content/events_zh-TW/amb_scenarios6.json": {
+          "sha256": "5d528dbb2b8fce96d13af6f4d73fbfadb52c49e752112ccb6aa791766d8b7e85",
+          "bytes": 4957
+        },
+        "content/events_zh-TW/amb_scenarios7.json": {
+          "sha256": "1fd40736a8e9a22afa79b4b3f3464fa9d91c25edcfb1bfa30bb103fb96fb2be8",
+          "bytes": 10164
+        },
+        "content/events_zh-TW/anxiety_events.json": {
+          "sha256": "946de260ae99cdfcdd835b362b8b57026d6a1f105cb1586a5e3804736a46ac32",
+          "bytes": 6495
+        },
+        "content/events_zh-TW/arc_addiction_recovery.json": {
+          "sha256": "d055000b6658d4cd36045389bc9c2900bfa3361178d98df734532cde959883e2",
+          "bytes": 9192
+        },
+        "content/events_zh-TW/arc_chapter_themes.json": {
+          "sha256": "94eff438be2fa4c4b7a44cf178ca3e07db5d88162460b6f6b28a72b267ae66f0",
+          "bytes": 62459
+        },
+        "content/events_zh-TW/arc_daeun.json": {
+          "sha256": "0cb220409b39c6ff6c3212dae42017eb9f9873677090da78c9363774b2fcc43c",
+          "bytes": 18947
+        },
+        "content/events_zh-TW/arc_daeun_extension.json": {
+          "sha256": "0f289243ca1d5581ee9ab6f7715660cf63293c567ccdf44955bfc9bd97d8afb0",
+          "bytes": 12150
+        },
+        "content/events_zh-TW/arc_daeun_married.json": {
+          "sha256": "e65fcfc42cf2ecd1598f91992f56f379c3bc1cbf1d2b8c9c94aace5216257317",
+          "bytes": 21770
+        },
+        "content/events_zh-TW/arc_daeun_romance.json": {
+          "sha256": "4977259e74f63e6a2ac3e6a62521732bf466564202a724d8ad3c6812de7e93d4",
+          "bytes": 10604
+        },
+        "content/events_zh-TW/arc_date_milestones.json": {
+          "sha256": "a1bfb9a62520a0ad6b383d7c65c2f8c6c4115e913e47635d426beb40f72dc78e",
+          "bytes": 21774
+        },
+        "content/events_zh-TW/arc_drama.json": {
+          "sha256": "88c29c15e94c7aeb68051e62b4feb321ed9e7fdf1f1cd23621c133fa21d40aa4",
+          "bytes": 117396
+        },
+        "content/events_zh-TW/arc_events.json": {
+          "sha256": "8078010d7601695302a61d6864338d21041dc656610a6d94d1ccec02b7c8ecd5",
+          "bytes": 111090
+        },
+        "content/events_zh-TW/arc_h2_beats.json": {
+          "sha256": "fa800c8ebdb08cf846aef6af2bfb323a4a6832146e4cddbab8655c06bafbe84c",
+          "bytes": 15187
+        },
+        "content/events_zh-TW/arc_housing_keepsake.json": {
+          "sha256": "625b1c4dbc732940851dee3e7846c6b476a0ba325eae8e8af9cd44bfa50d1f8e",
+          "bytes": 1117
+        },
+        "content/events_zh-TW/arc_hyunsu.json": {
+          "sha256": "39ea586335494400eda3f98a8dea909893d3b59a901ef253ce57d9db0554c064",
+          "bytes": 20541
+        },
+        "content/events_zh-TW/arc_jiyeon_married.json": {
+          "sha256": "41207619717742f0072455b3d93b0c1e5c8d53274257510b53f9478888b96b04",
+          "bytes": 18269
+        },
+        "content/events_zh-TW/arc_midgame.json": {
+          "sha256": "59f35f3c3c42524947ca309918c9df01f32fa75a4b8cf2ecd40dd4cfb3a4e162",
+          "bytes": 177905
+        },
+        "content/events_zh-TW/arc_new_characters.json": {
+          "sha256": "81e8f0eed95611afde46283b0b444cd8ea61b43b3cc62108332ade0c7a1f6a51",
+          "bytes": 16723
+        },
+        "content/events_zh-TW/arc_pre_ending.json": {
+          "sha256": "17a8d2edb642bbf6f4797ceb84138396db553573b12be1a3767bf3359ca45d35",
+          "bytes": 61263
+        },
+        "content/events_zh-TW/arc_romance_specials.json": {
+          "sha256": "252b50254e4f9e25ab7e909bc0bfbcee4d9d4f31e2b48b2bae6176e5d362dd4a",
+          "bytes": 26555
+        },
+        "content/events_zh-TW/arc_romance_y5.json": {
+          "sha256": "c2c4c1b108aa615aafd970ddf23c707fa1033da00b4b5333710ee4ac6158baa0",
+          "bytes": 5611
+        },
+        "content/events_zh-TW/arc_season_dates.json": {
+          "sha256": "6bec796ed956d275302b6c91909211708043b735bcf063e2159ac025e1617978",
+          "bytes": 28218
+        },
+        "content/events_zh-TW/arc_specialization.json": {
+          "sha256": "2d856e4faa3153526dbc23e3e545a816bcd37c950938d0f91c93029fbf12b66a",
+          "bytes": 11665
+        },
+        "content/events_zh-TW/arc_web_crossbeams.json": {
+          "sha256": "b23be3304f3fd3c4ceb994d9857fd3381ac409eff7fea6801f57d064cae9824c",
+          "bytes": 3012
+        },
+        "content/events_zh-TW/arc_year3_drama.json": {
+          "sha256": "3e052c050f5955e08ef099460a388742caecd936f10d5df31ce390045eeb18cd",
+          "bytes": 41770
+        },
+        "content/events_zh-TW/arc_year_close.json": {
+          "sha256": "3c4df76b5c4afd8f9c5a0eef775a0a05b956d59a80dffa19400bc6263422c70c",
+          "bytes": 58418
+        },
+        "content/events_zh-TW/butterfly_events.json": {
+          "sha256": "7daa4c47d97920b1397968b2160c47754e990ff1555f83218a62e374534993e7",
+          "bytes": 8969
+        },
+        "content/events_zh-TW/callback_chapter_themes.json": {
+          "sha256": "cb5784f00d8a0e82486e1c86a3093bc3576f692ad1d3bb1f15b539f9a4d6c8fd",
+          "bytes": 7774
+        },
+        "content/events_zh-TW/callback_events.json": {
+          "sha256": "19d5a228c7715851ffce7954b391366abe7500e2a803c6d39d4058e1f04ebd54",
+          "bytes": 15057
+        },
+        "content/events_zh-TW/callback_events_10.json": {
+          "sha256": "e8a23770a244ec49785bcb2723d7ee624e89cf9fe6b087c94dada2fc269f166f",
+          "bytes": 12960
+        },
+        "content/events_zh-TW/callback_events_11.json": {
+          "sha256": "432f4023dba02c9d7ab12c6d00834e191d91051b596a8af4e7940c4f4122668f",
+          "bytes": 13388
+        },
+        "content/events_zh-TW/callback_events_12.json": {
+          "sha256": "080057220726f148783e69cce243b9db1d1b9cff1372c046c4cabb286bb700b1",
+          "bytes": 9216
+        },
+        "content/events_zh-TW/callback_events_13.json": {
+          "sha256": "c0ef1cd641806295cbdfd322afd9e3d2c881579b185ff79e4d8c7835cba0e6f8",
+          "bytes": 9520
+        },
+        "content/events_zh-TW/callback_events_14.json": {
+          "sha256": "69446e852188e57d811c8b0c6acb614fd41275f1424e31cea266b96ceb357e18",
+          "bytes": 9074
+        },
+        "content/events_zh-TW/callback_events_15.json": {
+          "sha256": "7c4ec8f391b450b54165d5b68f19995ecc90b2b8e3f3481b05e2e327bd5252fe",
+          "bytes": 6575
+        },
+        "content/events_zh-TW/callback_events_16.json": {
+          "sha256": "e217bb13ada316208dce793a813361b05e4488f1b73bf6d653b340874d603e6a",
+          "bytes": 8694
+        },
+        "content/events_zh-TW/callback_events_17.json": {
+          "sha256": "1f55bb6bc23854543e4093aa5a4d22f214887b1d94a1482575b75c26b43be216",
+          "bytes": 8305
+        },
+        "content/events_zh-TW/callback_events_18.json": {
+          "sha256": "4bc85d9c1efd84c95b2601aa3d6ca30009510b4b5a2e3bb4771cf5e0b95d87aa",
+          "bytes": 8462
+        },
+        "content/events_zh-TW/callback_events_19.json": {
+          "sha256": "0d0b83acc1607825f7c7c4e517bfcbec85dfb38af4564eb0afd6b8bf441485af",
+          "bytes": 8641
+        },
+        "content/events_zh-TW/callback_events_2.json": {
+          "sha256": "5a9881feed44c692cd8e002278c32c9633813a7e24bd51281e14a82922b41e54",
+          "bytes": 17251
+        },
+        "content/events_zh-TW/callback_events_20.json": {
+          "sha256": "7a1491a65ab00c0e558450963608fb110c3503b58cdfefbb2384a7ae43d24f84",
+          "bytes": 8396
+        },
+        "content/events_zh-TW/callback_events_21.json": {
+          "sha256": "c39ceb061693c5fa8203e2b6a60a72bc6a4fe14e125cfbb91c7624b9004d76ac",
+          "bytes": 8322
+        },
+        "content/events_zh-TW/callback_events_22.json": {
+          "sha256": "2a3f9ce336f8d0941179a9cea03c3a27753a7b39a406c5eeaca043e2cf64905d",
+          "bytes": 7579
+        },
+        "content/events_zh-TW/callback_events_23.json": {
+          "sha256": "1cef89e7ff778070e16c69a6c7fd21f1a27533b145afe40b3a246eabd3e8229a",
+          "bytes": 7663
+        },
+        "content/events_zh-TW/callback_events_24.json": {
+          "sha256": "6d483d500e7a498a2d78e6e1cbf4cde5300d7ede77052184e103d4f3b89db5b8",
+          "bytes": 7888
+        },
+        "content/events_zh-TW/callback_events_25.json": {
+          "sha256": "6adc60d25e8f0e327817614e7462831b8eea1008ccd6475ba0f67a6d2764138e",
+          "bytes": 8639
+        },
+        "content/events_zh-TW/callback_events_26.json": {
+          "sha256": "2c3cfa32e52b31e21da1bae350a998b09ee8c31ef5134782cfc31308e1ddea0f",
+          "bytes": 2893
+        },
+        "content/events_zh-TW/callback_events_27.json": {
+          "sha256": "293ac4f08a7921e758036bafef17848b34839915544dcebcdecce17ae663802c",
+          "bytes": 5375
+        },
+        "content/events_zh-TW/callback_events_28.json": {
+          "sha256": "2cc2f61fa67a24064e396fa95b365654dd1899e9e0a0d200939e6e2ca17a7d7b",
+          "bytes": 2612
+        },
+        "content/events_zh-TW/callback_events_29.json": {
+          "sha256": "6f1d238a986270e7403979689992b76c3cb3e34637b88522d455d27c98108528",
+          "bytes": 2945
+        },
+        "content/events_zh-TW/callback_events_3.json": {
+          "sha256": "6e9ac0cd8553ba30c2a1f94e7ed3691a3354434ee37a816107d7253cd383ea33",
+          "bytes": 12537
+        },
+        "content/events_zh-TW/callback_events_30.json": {
+          "sha256": "c244657af5a1debc6780274d16d211cfb4167b04c76f8763ac4218bec4442011",
+          "bytes": 2760
+        },
+        "content/events_zh-TW/callback_events_31.json": {
+          "sha256": "7828dc3b967bee2af8ce03d10d92a6500fef73f7a424de162a353830fb07d6e4",
+          "bytes": 2684
+        },
+        "content/events_zh-TW/callback_events_32.json": {
+          "sha256": "7afde37d417472b6a11ac5acb6baaa71ee411f5824e2ed56f4f8f0e7e6784741",
+          "bytes": 4160
+        },
+        "content/events_zh-TW/callback_events_33.json": {
+          "sha256": "dd8729be38022801baba61210d54fa44ccce63b2ccc424dd6862389bea6ce505",
+          "bytes": 2580
+        },
+        "content/events_zh-TW/callback_events_34.json": {
+          "sha256": "d6b5b8490bfa1145325dce7b2261a3fdebf7bb64d2b0ee0abd1350559abe07a6",
+          "bytes": 4495
+        },
+        "content/events_zh-TW/callback_events_35.json": {
+          "sha256": "348de570dc8c2a97c11db8449e8a0ab509eb65ccc072a545abed5ba5d29ac1bd",
+          "bytes": 5107
+        },
+        "content/events_zh-TW/callback_events_36.json": {
+          "sha256": "792e94add4c9896e328c82b1523db7cb33a74f67660648c2132f5789a6d4ff5e",
+          "bytes": 3363
+        },
+        "content/events_zh-TW/callback_events_37.json": {
+          "sha256": "9a324073689aebd08ba3625ecb78fcc9c4aab00cabedc3f1f36100e718d1a815",
+          "bytes": 6045
+        },
+        "content/events_zh-TW/callback_events_38.json": {
+          "sha256": "6bda89e47c9dccfbe413e0eaaf67e05a4e08bed595ca27794ddedf476d703f24",
+          "bytes": 1797
+        },
+        "content/events_zh-TW/callback_events_39.json": {
+          "sha256": "417dea05f36eaa836efee6723ce8c9c6f9e29a4a6bb2346d5e0c9e20f0347908",
+          "bytes": 5434
+        },
+        "content/events_zh-TW/callback_events_4.json": {
+          "sha256": "4dd0ea9ad76ad8cdeedaa30e0f39dfc1a44645f2c9d3c37e7479e93379808bd8",
+          "bytes": 13601
+        },
+        "content/events_zh-TW/callback_events_40.json": {
+          "sha256": "0315096aab7c2c66ac4f978481e9c8e9cd7381cd222ccc3056a9d49b289e3052",
+          "bytes": 5719
+        },
+        "content/events_zh-TW/callback_events_41.json": {
+          "sha256": "124c74de15230fbc6547a0a76380231a9e8002a2458f60ecb51619a7654c4e4c",
+          "bytes": 3980
+        },
+        "content/events_zh-TW/callback_events_42.json": {
+          "sha256": "9860ed0a5209bcdaf3e910e77664cde42ba2e5bc6f8e8ccddd07b30b4fc1b4dd",
+          "bytes": 5713
+        },
+        "content/events_zh-TW/callback_events_43.json": {
+          "sha256": "0c33b5cb3c2635120eb8d16c7218e5b0e307b8682d3280bf5742544cbdfbc973",
+          "bytes": 12157
+        },
+        "content/events_zh-TW/callback_events_44.json": {
+          "sha256": "87d9e00ad90a14efdef47fdf9629aaf2f7c4e1fe6ad41b14e87cc5a5b832e827",
+          "bytes": 12243
+        },
+        "content/events_zh-TW/callback_events_45.json": {
+          "sha256": "f78c56930078c88659157ee21f32eed6b0bd40125ea64f30f3478e223bead1a8",
+          "bytes": 11883
+        },
+        "content/events_zh-TW/callback_events_46.json": {
+          "sha256": "0a01d0bcab7f87fdf0cb8a36e3f854f8492a8c5f06d2a487a065bb2d19751e92",
+          "bytes": 11499
+        },
+        "content/events_zh-TW/callback_events_47.json": {
+          "sha256": "ef430f6487eb0e76333aa7572fc2368c2323ef65437675266e3177ebd208fa99",
+          "bytes": 11167
+        },
+        "content/events_zh-TW/callback_events_48.json": {
+          "sha256": "ed57b1ee66128d3bd056f7e65edc653abe2df35e453238eec7816f802403064f",
+          "bytes": 11540
+        },
+        "content/events_zh-TW/callback_events_49.json": {
+          "sha256": "64fa464eaa04a336b640ee3220e2d1e99c80baee3ae724c2452b4623e8496538",
+          "bytes": 11983
+        },
+        "content/events_zh-TW/callback_events_5.json": {
+          "sha256": "60c86734fcb54b33e5d525f8913654bba7e77fb8a706754208e21fcafbffd4fe",
+          "bytes": 16598
+        },
+        "content/events_zh-TW/callback_events_50.json": {
+          "sha256": "16da756c6693554f0dbec6cd615d54ac9baf258c97c94281bd6af601de3473f4",
+          "bytes": 12318
+        },
+        "content/events_zh-TW/callback_events_51.json": {
+          "sha256": "e635417d8155540bf342710275a6dbd76b910586ff537d13159c73a73b91b318",
+          "bytes": 11234
+        },
+        "content/events_zh-TW/callback_events_52.json": {
+          "sha256": "dc441266d8040800d5726748a9ae965519bce2b9fbd7a0ee94be434d126b9beb",
+          "bytes": 11300
+        },
+        "content/events_zh-TW/callback_events_53.json": {
+          "sha256": "e01c4ebc684d4b2155ddfedb4263656c02d177d832ee2d9f941764192121935e",
+          "bytes": 10405
+        },
+        "content/events_zh-TW/callback_events_54.json": {
+          "sha256": "25d4ad70ae2e44a1060c21e1c461510df7a3fea9e67c1f6ca1c7b0884722cc4d",
+          "bytes": 11145
+        },
+        "content/events_zh-TW/callback_events_55.json": {
+          "sha256": "dd5e6b2780ef4b02711eb776690d5dbe7be58774619cafff4a2d671fcd57dc3a",
+          "bytes": 4780
+        },
+        "content/events_zh-TW/callback_events_6.json": {
+          "sha256": "3e93abbbfb99ae0cd2e4664af794d83b95ee0ae504580842786c243cf4dfd968",
+          "bytes": 13741
+        },
+        "content/events_zh-TW/callback_events_7.json": {
+          "sha256": "6d3dd205ab30a6ef2e990b9841d5a8eacaff2f9ae7ee8c12f2814fc6fb4854e1",
+          "bytes": 9575
+        },
+        "content/events_zh-TW/callback_events_8.json": {
+          "sha256": "ed106eb9f5916d046b3f9b7fefa7c47fa5218550561d1f7b8029d3abefb4f9c3",
+          "bytes": 12739
+        },
+        "content/events_zh-TW/callback_events_9.json": {
+          "sha256": "51306afe1a40818ad38fabb071547abf72b06859b8f161a7c35d2373afda6f09",
+          "bytes": 11555
+        },
+        "content/events_zh-TW/chain_events.json": {
+          "sha256": "4cf473eb25d3c2397502e26fc4b91971b55ead9fc35c2bc27b9eefc7631251d9",
+          "bytes": 13796
+        },
+        "content/events_zh-TW/chapter_cards.json": {
+          "sha256": "40116324a35ff2d3cc5c74f5a44381df27d0fe7853c791c0af944601f3587def",
+          "bytes": 2143
+        },
+        "content/events_zh-TW/core_loop_v2_events.json": {
+          "sha256": "6a0c30a692598828769206316449566330975b60bcc9e18bda833ae7a694598c",
+          "bytes": 43842
+        },
+        "content/events_zh-TW/drama_events.json": {
+          "sha256": "4f683243ff1d728258a16c549be1db1772baa04033a4e459fdc347258e4b4d6c",
+          "bytes": 35702
+        },
+        "content/events_zh-TW/drama_events2.json": {
+          "sha256": "52b8815524a0ca8028959634e6c239b2182af3edb055da50b8ab4539a775ccc9",
+          "bytes": 13576
+        },
+        "content/events_zh-TW/easter_eggs.json": {
+          "sha256": "13e396334bd4b356f6c6ea325531896aa703c571927fb129e14db9e3c9ca7a17",
+          "bytes": 10847
+        },
+        "content/events_zh-TW/friendship_events.json": {
+          "sha256": "d0ef48d50185ade6f4124d0228c7582dd40d666608dcf869f04435be5f832f0c",
+          "bytes": 5436
+        },
+        "content/events_zh-TW/gambling_narrative.json": {
+          "sha256": "8faa9e64e1a06aa063e2368a94edefde449ae44fa56768c8b72b0bbb0d64c3a8",
+          "bytes": 9552
+        },
+        "content/events_zh-TW/hidden_events.json": {
+          "sha256": "adab8fa0b726e8f17cfb3348aac57151cbaa02456542f6aed95502140f5ef6f8",
+          "bytes": 22199
+        },
+        "content/events_zh-TW/holdem_events.json": {
+          "sha256": "887b0144bce5ecc5f592caf54a28e30b0da6212186f2ad137dcc6ac72dbc101e",
+          "bytes": 5935
+        },
+        "content/events_zh-TW/identity_events.json": {
+          "sha256": "3ad44ad8393a7f6251ca60b78be0a2ca0a979bc93bb244b554172a7409423900",
+          "bytes": 4371
+        },
+        "content/events_zh-TW/investment_events.json": {
+          "sha256": "f52bdc8b3b24a18d854d3f75bc34a55afb06e885c4f1c78b948467569d0afda8",
+          "bytes": 48826
+        },
+        "content/events_zh-TW/korea_admin.json": {
+          "sha256": "ebae054a373c01ec820a90f328968c7e27fa181a583b3492a1a392b1a3ecb5b6",
+          "bytes": 4737
+        },
+        "content/events_zh-TW/korea_climate.json": {
+          "sha256": "51b9bac0dbf11fef98938b6fd453df4da786e027920184dd608c15b18af6695e",
+          "bytes": 4242
+        },
+        "content/events_zh-TW/korea_digital.json": {
+          "sha256": "2cb4e4ed48c4c2d78d19c1250d520b7d299331aec869ccc78433e215d8ea89b3",
+          "bytes": 4163
+        },
+        "content/events_zh-TW/korea_education.json": {
+          "sha256": "f6113cee91a2542604562e25217ceb2dafcee2a4d08a0c719438571d2a4be6e9",
+          "bytes": 3390
+        },
+        "content/events_zh-TW/korea_experience.json": {
+          "sha256": "b2d420069111e6afe824b818fdefa3f09f3563250d6820f9c9616a04fd3dfc3d",
+          "bytes": 5408
+        },
+        "content/events_zh-TW/korea_fandom.json": {
+          "sha256": "967dd64249d26b0ac21f9a6f7e1798ec748a9be2f69dd52f4e6f84f172442d07",
+          "bytes": 3857
+        },
+        "content/events_zh-TW/korea_food.json": {
+          "sha256": "4761a03a58e5887c0a4a4f41246e4ea8d341ec9c4c3a636574ada14c645e9381",
+          "bytes": 4699
+        },
+        "content/events_zh-TW/korea_fortune.json": {
+          "sha256": "74ac125854a11b1a9de201cf2cb8da43217d04665b0b80d7cc930124c2a5481e",
+          "bytes": 2635
+        },
+        "content/events_zh-TW/korea_geopolitics.json": {
+          "sha256": "5774c5162bb5ef9ac2ed516828691210dc3f9fcf963bab30ef3408a307202e1c",
+          "bytes": 4794
+        },
+        "content/events_zh-TW/korea_holidays.json": {
+          "sha256": "c3fb9248792466fab1f35258d1d7e0f9eb8aa1d7abb0acc4533d44efa5f22758",
+          "bytes": 2382
+        },
+        "content/events_zh-TW/korea_leisure.json": {
+          "sha256": "94c53e60b9d83cf6b1c7c8f83c8b735cbbb546a293531ce6dfd4e7c57062ef43",
+          "bytes": 3968
+        },
+        "content/events_zh-TW/korea_survival.json": {
+          "sha256": "e1ba79c96ab8b41252f1ecba33ebc81147c4d9b2f5a3b7bd69e7e880ad6165de",
+          "bytes": 4525
+        },
+        "content/events_zh-TW/korea_workplace.json": {
+          "sha256": "4081379a4398e1f14f0c1ad9beb24a7868d1aca8f5ded5a1283719bb46066bcd",
+          "bytes": 4122
+        },
+        "content/events_zh-TW/life_events.json": {
+          "sha256": "c2807e8d49ca854d1f215035fe36074100cdd89936c093c302b6137c086c444e",
+          "bytes": 115038
+        },
+        "content/events_zh-TW/life_events2.json": {
+          "sha256": "602ff5d507035a41346e7913aa0bbd7a56dd32b52f1a16545f696c4b927d0d64",
+          "bytes": 21381
+        },
+        "content/events_zh-TW/ng_plus_events.json": {
+          "sha256": "556802fb0df51e7799fd59b987a7ff59a81230993ed637b2871e4eec4771e84b",
+          "bytes": 7402
+        },
+        "content/events_zh-TW/racetrack_events.json": {
+          "sha256": "f1bd1106281249014087051d994f86de15c5b52bd9c7b1d4d3718799cc74c616",
+          "bytes": 9306
+        },
+        "content/events_zh-TW/rare_encounter_events.json": {
+          "sha256": "6acb64b6ea6cdabf2ae523c4337432a0d3ff982de3cd110624e936716a4347d4",
+          "bytes": 12081
+        },
+        "content/events_zh-TW/relationship_events.json": {
+          "sha256": "1196a04ce8891634837ec0f25191ac1e2ed16b4860b4a0ee697c8c3a2551c2cb",
+          "bytes": 53913
+        },
+        "content/events_zh-TW/relationship_events2.json": {
+          "sha256": "93f74c5f5107b1fc7915aff19508b25edd47196f068c9102ef3feb81afedfbef",
+          "bytes": 9164
+        },
+        "content/events_zh-TW/scenario_cafe.json": {
+          "sha256": "5d915aa300775edc4abae008b58f5cd86103e8bf3df9bc840373c24e28f2ae4b",
+          "bytes": 8112
+        },
+        "content/events_zh-TW/scenario_cafe_callback.json": {
+          "sha256": "57c905f9970c32093ee2b9d29948bb3e3e4b0f7d3ea9b564faf6a3ef00d34f71",
+          "bytes": 7026
+        },
+        "content/events_zh-TW/shadow_events.json": {
+          "sha256": "b444c47ad0c3186b36431011fc1ed5e0b2e1b9502261d05fcc84aecadf99a9d6",
+          "bytes": 5931
+        },
+        "content/events_zh-TW/social_independence.json": {
+          "sha256": "2279e00732816f519016aef17c8c641c63590d9ce2de99fd3cb1fb8442ccb694",
+          "bytes": 17897
+        },
+        "content/events_zh-TW/story_demo_events.json": {
+          "sha256": "57929914f0b8c73e8865dd1dde9c45e240fcf0463d327fd32d2225ccf3dc9dca",
+          "bytes": 27564
+        },
+        "content/events_zh-TW/story_events.json": {
+          "sha256": "00d4a5521051794675290340342e168eb47a6801a3474967a8bb146c3340cf07",
+          "bytes": 45971
+        },
+        "content/events_zh-TW/viral_events.json": {
+          "sha256": "2a5d8111509c3dc0069dbf9afc2b9c0ab94908f89cc141043a1fe35d49b28afa",
+          "bytes": 8817
+        },
+        "content/events_zh-TW/work_events.json": {
+          "sha256": "629b36ba3af5862e16d630fbdfd9d5624742edca04a1d14d15a2919645c66f1d",
+          "bytes": 6449
+        },
+        "content/items.json": {
+          "sha256": "f750d18a6e139a57058d10b82e7a4efe9b757afef9a23c970c409d9f018300a6",
+          "bytes": 4451
+        },
+        "content/jobs.json": {
+          "sha256": "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
+          "bytes": 8603
+        },
+        "content/meta/achievements.json": {
+          "sha256": "96d8ba9b27d27b8902664124b2cd8623b9bbce710ca4b011d5d707d73b0a1fcd",
+          "bytes": 3493
+        },
+        "content/meta/cast_stages.json": {
+          "sha256": "e50e3df18306ec695f416982226c3c8fc460281f258aeff48c62d1a836f86fa4",
+          "bytes": 1734
+        },
+        "content/meta/cast_visual_years.json": {
+          "sha256": "6b728160383eeabb481cb3cecb26f2bd6d37aa9083d07a4176eb7c6cc15ed5a6",
+          "bytes": 8325
+        },
+        "content/meta/chapter1_core_loop_v2_causal_ledger.json": {
+          "sha256": "18edf907f78290b426049b9a9db4df922f03d5f7fb9121003ebbd46dd0b26855",
+          "bytes": 2941548
+        },
+        "content/meta/chapter5_causal_ledger.json": {
+          "sha256": "24dd0582ba29d0a00cdf5e5a6d969c0bd0b3dbfa577b21eaec2360c052bc1c3f",
+          "bytes": 16944
+        },
+        "content/meta/chapter5_finale_ledger.json": {
+          "sha256": "3f95aae492c7cc9076c190823d5f70bcedcfc63fa7e8d4f0dedd178c18c0b8cb",
+          "bytes": 13002
+        },
+        "content/meta/chapter5_general_finale_ledger.json": {
+          "sha256": "58b51b2352af044824a07dc3e7bcae3b05fbefeff1b2e6d78679199f7a14ab98",
+          "bytes": 10194
+        },
+        "content/meta/clues.json": {
+          "sha256": "070669cffb57bef603739854c1755cc384c3889d3d89429fd36847d1d9882d6f",
+          "bytes": 877
+        },
+        "content/meta/default_meta.json": {
+          "sha256": "903d46ec3f562b33940d7aa40d4137225bfb68fde438970453a97817947dfa11",
+          "bytes": 283
+        },
+        "content/meta/demo_core_loop_v2.json": {
+          "sha256": "f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3",
+          "bytes": 220856
+        },
+        "content/meta/demo_localization_scope.json": {
+          "sha256": "9d50b64e6bc09d8e3e8e670fc48163ed5a0a419263cd0ffc601aac45c7abc7b6",
+          "bytes": 75684
+        },
+        "content/meta/event_director.json": {
+          "sha256": "1603fd84db3f6f64535235e685b4ae3dcedda17a01ee8a6c059b1bde292b2891",
+          "bytes": 18386
+        },
+        "content/meta/event_lifecycle.json": {
+          "sha256": "db144848c87cd2d921cc6d27b3e57f7479e9a2567264322d8886dc140a929aa2",
+          "bytes": 5683
+        },
+        "content/meta/exposed_event_state_contracts.json": {
+          "sha256": "6fa54d253192172aa3eadbcf2c8016a03bd2b721940319e0f6324345b813cf88",
+          "bytes": 52366
+        },
+        "content/meta/full_game_localization.json": {
+          "sha256": "8de0b236d59eccd0f1b0a0c475a1fbf33ce3d32bf324e839148bc94f1a040661",
+          "bytes": 11216154
+        },
+        "content/meta/identity_signature.json": {
+          "sha256": "6999de96d1514f12d24647a0809ddf5c402d58b33c04cc480d645f213c019f40",
+          "bytes": 3347
+        },
+        "content/meta/narrative_spine.json": {
+          "sha256": "6ca02bab7dc3c39ae3a44cd89aafefd1d2d45e2b6cda479fa811678bc1f76a84",
+          "bytes": 32801
+        },
+        "content/meta/release_content_inventory.json": {
+          "sha256": "f46041343731f5cd64b680f778cff9ee77ea0c67fe114536f27a557fe5c1ead0",
+          "bytes": 58750
+        },
+        "content/meta/story_graph_contract.json": {
+          "sha256": "7abbbb2b4b333b43c24483aa9d6fc6e8935441ba61f4f63db06c14d85632fbaf",
+          "bytes": 12109
+        },
+        "content/meta/story_map.json": {
+          "sha256": "a5b5e7bc6f128c4f05b5b4d992aa046454a0a0c3836e2b4573f8bfa7c4814b86",
+          "bytes": 243804
+        },
+        "content/meta/story_map_m1m6_en.json": {
+          "sha256": "f250eeac5a987537f4382fd2e66c879f7310b4895d72b258401f216764a8bab1",
+          "bytes": 9387
+        },
+        "content/meta/story_rules.json": {
+          "sha256": "7ecb85c1fee8d26b8bdd24e3c0b51ff3aba150f132f53a4503286fbca4d022af",
+          "bytes": 178634
+        },
+        "content/meta/third_party_notices.json": {
+          "sha256": "df349fb33c8f856c36a0fc10e236afeff179d4468cb8d58b8bd0cbbff66f355a",
+          "bytes": 30408
+        },
+        "content/meta/thoughts.json": {
+          "sha256": "a4b2814d6dbea33e49ffbfdc7e0f27c438701a8c3398fbe10dbe2d7cd4804610",
+          "bytes": 1059
+        },
+        "content/meta/year5_reference_routes.json": {
+          "sha256": "07c814ea5ea3b7c82157b1aaa3a5bdf15ef251cbb1b2ceda902d1ccc54b3442a",
+          "bytes": 105761
+        },
+        "content/news_templates.json": {
+          "sha256": "9bede5a6800aacc5872f0217d0cc477d0d11110d7731c0dff1f185c57d962502",
+          "bytes": 33735
+        },
+        "content/themes/moral_ui_colorblind.json": {
+          "sha256": "5186f433c87202ac8be48f6b588cafaa5dd1b243df50d198f42dd3798038da0a",
+          "bytes": 1950
+        },
+        "content/themes/moral_ui_default.json": {
+          "sha256": "7692634e468d73e066b245be74837577c970a78426842a362d1601a71b095f08",
+          "bytes": 1935
+        },
+        "content/themes/moral_ui_high_contrast.json": {
+          "sha256": "50dc8f2c876ce7a51d4055fec253145351ea04cb59af3514aa0175edb6e06237",
+          "bytes": 1950
+        }
+      }
+    }
+  },
+  "artifact_paths": {
+    "app": "/Users/junheelee/Library/Application Support/GangnamDream_LocalCandidates/2026.10.05.1/third/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.app",
+    "zip": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo_successor/2026.10.05.1/third/macos/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.zip"
+  },
+  "protected": {
+    "before": [
+      {
+        "label": "product_project_godot",
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/project.godot",
+        "exists": true,
+        "entries": [
+          {
+            "path": ".",
+            "kind": "file",
+            "sha256": "78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5",
+            "size": 4699
+          }
+        ]
+      },
+      {
+        "label": "product_export_presets",
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/export_presets.cfg",
+        "exists": true,
+        "entries": [
+          {
+            "path": ".",
+            "kind": "file",
+            "sha256": "891a9be108137df120e0b91082b43a73e65c524c423465a88fe580050bc91f7f",
+            "size": 13201
+          }
+        ]
+      },
+      {
+        "label": "human_gates",
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/docs/human_gates.json",
+        "exists": true,
+        "entries": [
+          {
+            "path": ".",
+            "kind": "file",
+            "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+            "size": 103390
+          }
+        ]
+      },
+      {
+        "label": "public_story_demo_build",
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo",
+        "exists": false,
+        "entries": []
+      },
+      {
+        "label": "public_story_demo_user_data",
+        "path": "/Users/junheelee/Library/Application Support/GangnamDream_StoryDemo_v1",
+        "exists": true,
+        "entries": [
+          {
+            "path": "gangnam_dream_meta.json",
+            "kind": "file",
+            "sha256": "9064c55a105ff1be4cbb8591c8a0348ea801bfd405987f928c4eb8b29871ddb1",
+            "size": 306
+          },
+          {
+            "path": "gangnam_dream_settings.json",
+            "kind": "file",
+            "sha256": "fed6bd414638e288e8f89556601d78481d30bf7e7ae90c7b6e3ee36d0c58f8ea",
+            "size": 20
+          },
+          {
+            "path": "logs/godot.log",
+            "kind": "file",
+            "sha256": "1749d1871b9a4785d5085fe6c87de1b1f54463f808b2d8d04cb535910d579e29",
+            "size": 412
+          },
+          {
+            "path": "logs/godot2026-08-25T14.11.04.log",
+            "kind": "file",
+            "sha256": "2ba0894e677a9279f657f8b7835d4783cafbf693924afcc560916aca1760390b",
+            "size": 559
+          },
+          {
+            "path": "logs/godot2026-08-25T14.11.07.log",
+            "kind": "file",
+            "sha256": "f1456f111254bd72a4e9be372de49e21958a385bb9e685cc2579ff3f46648849",
+            "size": 523
+          },
+          {
+            "path": "logs/godot2026-08-25T14.11.09.log",
+            "kind": "file",
+            "sha256": "835e17830a5e12cb1aebdf0405b7bc4cbfc2b381b699197afc7fa0766b0e1679",
+            "size": 529
+          },
+          {
+            "path": "logs/godot2026-08-31T07.19.54.log",
+            "kind": "file",
+            "sha256": "5c81e61b36cb9c8fc43fb277b2490ee133341da72243b00aade5eb37d01b5f9a",
+            "size": 529
+          },
+          {
+            "path": "story_demo_save.json",
+            "kind": "file",
+            "sha256": "88869407b9b963ba0d2705d239692e25efdfd80eb248a5b9501e01923ecc9c97",
+            "size": 7546
+          },
+          {
+            "path": "story_demo_save.json.bak",
+            "kind": "file",
+            "sha256": "e551ea76c81c6edd93465442bf1ee473bd8d03a37ca8f2fd5005694ea54720a3",
+            "size": 7179
+          }
+        ]
+      },
+      {
+        "label": "retail_player_files",
+        "path": "/Users/junheelee/Library/Application Support/Godot/app_userdata/강남드림",
+        "exists": true,
+        "entries": [
+          {
+            "path": ".recovery_mode_lock",
+            "kind": "file",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size": 0
+          },
+          {
+            "path": "gangnam_dream_autosave.json",
+            "kind": "file",
+            "sha256": "c6386152b0df7fde85bd313c7a59dbbe27285ac17917c9f37c33af6c3065859f",
+            "size": 17611
+          },
+          {
+            "path": "gangnam_dream_autosave.json.bak",
+            "kind": "file",
+            "sha256": "24bad83609124e758f3935567543848e9e7f9d5666e7b44f2ec8c4794bec7653",
+            "size": 6523
+          },
+          {
+            "path": "gangnam_dream_meta.json",
+            "kind": "file",
+            "sha256": "2a57d5787c3c4ac9827439f0c30ca2369c956adc5e109ae1da2deb132dece214",
+            "size": 12272
+          },
+          {
+            "path": "gangnam_dream_settings.json",
+            "kind": "file",
+            "sha256": "365a364040a943566105addcb9ade2bd6c960b3ed4754db0a3607b29cf1f4f8e",
+            "size": 233
+          },
+          {
+            "path": "gangnam_dream_slot_10.json",
+            "kind": "file",
+            "sha256": "1b9377017ffb16b69469390a8f1e8213bec1466364934b03ea47582002c0b254",
+            "size": 141287
+          },
+          {
+            "path": "gangnam_dream_slot_3.json",
+            "kind": "file",
+            "sha256": "225a23face67bdc1871adb4c9d9062a4d796cd237634707aee0f731e87069357",
+            "size": 3416
+          },
+          {
+            "path": "gangnam_dream_slot_3.json.bak",
+            "kind": "file",
+            "sha256": "20e2c0a0e1a75e783e42cd60b917fe7e34213051025c046d2ab4184c72343748",
+            "size": 3416
+          },
+          {
+            "path": "gangnam_dream_slot_6.json",
+            "kind": "file",
+            "sha256": "d478a23d2611e00212753653eb8d0a7718778d84af6dbd9af465b810ee1694b7",
+            "size": 16683
+          },
+          {
+            "path": "gangnam_dream_slot_7.json",
+            "kind": "file",
+            "sha256": "3cb4b5ed84cac50cf3402d5d61202241aa2306bdd276ea7b898d946116fcb64a",
+            "size": 103281
+          },
+          {
+            "path": "gangnam_dream_slot_8.json",
+            "kind": "file",
+            "sha256": "c718ea640be7a556c43f4c9e332fac3fd6051774ee73d47ca40ccc9bcfad395b",
+            "size": 129175
+          },
+          {
+            "path": "gangnam_dream_slot_9.json",
+            "kind": "file",
+            "sha256": "395673c600dc1fbd69998c4a7842b5a26fef0447b3f9e2f455d9d0b137ca2821",
+            "size": 135626
+          },
+          {
+            "path": "gangnam_dream_v2_playtest_v1_autosave.json",
+            "kind": "file",
+            "sha256": "855879e1cc3c2e4ab70add3fd6b6297073b27b2278697e6b4e9229d8228bb65f",
+            "size": 23816
+          },
+          {
+            "path": "gangnam_dream_v2_playtest_v1_autosave.json.bak",
+            "kind": "file",
+            "sha256": "2ab45eccaf8d7282866e5aefc2babe1776248839cc2220fe91557cc665934b0a",
+            "size": 23421
+          },
+          {
+            "path": "gangnam_dream_v2_playtest_v1_meta.json",
+            "kind": "file",
+            "sha256": "04f4030ea56e0c1e1236302a8b5e09730bbc3e479c458062d85949c44bdd37d8",
+            "size": 1342
+          },
+          {
+            "path": "gangnam_dream_v2_playtest_v1_settings.json",
+            "kind": "file",
+            "sha256": "c83a47ea274cef3890ab46e22612e1ebef8016f038b52859eb690e89092faefb",
+            "size": 117
+          },
+          {
+            "path": "logs/godot.log",
+            "kind": "file",
+            "sha256": "53a48e3cd3d9793029e3d3e0ca409f5994494e6ccef801a9c0e94b1b73eaeb03",
+            "size": 167
+          },
+          {
+            "path": "logs/godot2026-09-07T12.49.18.log",
+            "kind": "file",
+            "sha256": "9ca5cfc2c88b9de97f5bc89b3a6e87e0d4306a74a02a3b499eaff98616cf6991",
+            "size": 181
+          },
+          {
+            "path": "logs/godot2026-09-07T12.49.22.log",
+            "kind": "file",
+            "sha256": "5927491c8b56d76930900c935c1083577fe549e81eb3018ee25aa4b74a2cad94",
+            "size": 194
+          },
+          {
+            "path": "logs/godot2026-09-07T12.49.23.log",
+            "kind": "file",
+            "sha256": "4d518f1ec79999b746b76a11f706ed46d36c2f9fbb7daa0882e5a629468288da",
+            "size": 164
+          },
+          {
+            "path": "logs/godot2026-09-07T12.49.34.log",
+            "kind": "file",
+            "sha256": "cc1276a2aec0dddadf3804fb824cede92307ce2fc5904419a0392863c53cecb2",
+            "size": 193
+          },
+          {
+            "path": "mod_layer_check/lang/en/events_en/qa.json",
+            "kind": "file",
+            "sha256": "39325c94fc8748b7ff16f12460e8a93171bb1b02ff665f71b023e1107a720d26",
+            "size": 88
+          },
+          {
+            "path": "mod_layer_check/lang/ja/ui_ja.json",
+            "kind": "file",
+            "sha256": "12acaa0474e5d0b38c4b393831c51217348839beca2c2a02b7a43ac40638ae8e",
+            "size": 362
+          },
+          {
+            "path": "mod_layer_check/lang/qx-Test/endings_qx-Test.json",
+            "kind": "file",
+            "sha256": "7eb447eafcb4a434b2c8eb651d770477219d7513ad3ddcaa7df8126e423dbba4",
+            "size": 133
+          },
+          {
+            "path": "mod_layer_check/lang/qx-Test/events_qx-Test/qa.json",
+            "kind": "file",
+            "sha256": "65be2830d34d29a9ce9d833eb9dfb02867c07a911d1a609dfc9b34c806e4879f",
+            "size": 364
+          },
+          {
+            "path": "mod_layer_check/lang/qx-Test/pack.json",
+            "kind": "file",
+            "sha256": "7c47fd315e4589d2f760b9883c0b4257cdc795650e4356c180795b1f29ac77c9",
+            "size": 92
+          },
+          {
+            "path": "mod_layer_check/lang/qx-Test/ui_qx-Test.json",
+            "kind": "file",
+            "sha256": "a6b0ad63110af0e2fbc76b9d949fd7498d22af9dd639da14f5976ca01312115b",
+            "size": 90
+          },
+          {
+            "path": "mod_layer_check/mods/assets/audio/sfx_click.wav",
+            "kind": "file",
+            "sha256": "d1e1aa952699749cfd66a79a6a4a7906577633cd500d3b6bb998955ce21660f2",
+            "size": 16016
+          },
+          {
+            "path": "mod_layer_check/mods/assets/evil.gd",
+            "kind": "file",
+            "sha256": "006c373933f8e49903c974a70b81864df932f34b72076a11916696e4577e804a",
+            "size": 13
+          },
+          {
+            "path": "mod_layer_check/mods/events/qa_events.json",
+            "kind": "file",
+            "sha256": "3a4528db57d80d6af2cfcf56541f33bb207b4b30bfcc96db65f160e504d5f804",
+            "size": 4020
+          },
+          {
+            "path": "mod_layer_check/mods/presets/qa_first.json",
+            "kind": "file",
+            "sha256": "72b78aaba83edfc867a82e0b16e35533bf9f9581aa85be22f9ea572e3f2172b1",
+            "size": 202
+          },
+          {
+            "path": "mod_layer_check/mods/presets/qa_second.json",
+            "kind": "file",
+            "sha256": "1bac4e32b38084bf40803a978855732aa05992258a0c9336f4e2fcde81ddce39",
+            "size": 230
+          },
+          {
+            "path": "mod_layer_check/mods/themes/qa_theme.json",
+            "kind": "file",
+            "sha256": "6aed2bb6851df260e6816e95ed7c6ec9d304d9bbe79b17f4af5b1ab657051003",
+            "size": 1937
+          },
+          {
+            "path": "mod_layer_check/settings.json",
+            "kind": "file",
+            "sha256": "d7d65621dc014bc8ee37ff4a3943ecd9aafe0044c38fb74bfd2a50ed0e5f1699",
+            "size": 249
+          }
+        ]
+      },
+      {
+        "label": "extra_0",
+        "path": "/Users/junheelee/Library/Application Support/GangnamDream_042f5ea_property.cLiXZm/gangnam_dream_slot_1.json",
+        "exists": true,
+        "entries": [
+          {
+            "path": ".",
+            "kind": "file",
+            "sha256": "7239040565920fcb2ffad0d606078ce9a436c8ae2ddd5fd2ed29542ff83bd3af",
+            "size": 155940
+          }
+        ]
+      },
+      {
+        "label": "extra_1",
+        "path": "/Users/junheelee/Library/Application Support/GangnamDream_042f5ea_general.AOm3lo/gangnam_dream_slot_2.json",
+        "exists": true,
+        "entries": [
+          {
+            "path": ".",
+            "kind": "file",
+            "sha256": "5f4b5a0f6842e8ac726ee45b3c361ad1a45dc6c665c89009fe812acec5cf6aa8",
+            "size": 153088
+          }
+        ]
+      },
+      {
+        "label": "extra_2",
+        "path": "/Users/junheelee/Library/Application Support/GangnamDream_StoryNameplateQA_ae795aef7ab833fa7381c3d03ba445be/gangnam_dream_slot_1.json",
+        "exists": true,
+        "entries": [
+          {
+            "path": ".",
+            "kind": "file",
+            "sha256": "d34ab88092821d0c6df4c37c520047bb0142097a60be94762337ed66be88cb12",
+            "size": 153359
+          }
+        ]
+      }
+    ],
+    "after": [
+      {
+        "label": "product_project_godot",
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/project.godot",
+        "exists": true,
+        "entries": [
+          {
+            "path": ".",
+            "kind": "file",
+            "sha256": "78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5",
+            "size": 4699
+          }
+        ]
+      },
+      {
+        "label": "product_export_presets",
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/export_presets.cfg",
+        "exists": true,
+        "entries": [
+          {
+            "path": ".",
+            "kind": "file",
+            "sha256": "891a9be108137df120e0b91082b43a73e65c524c423465a88fe580050bc91f7f",
+            "size": 13201
+          }
+        ]
+      },
+      {
+        "label": "human_gates",
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/docs/human_gates.json",
+        "exists": true,
+        "entries": [
+          {
+            "path": ".",
+            "kind": "file",
+            "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+            "size": 103390
+          }
+        ]
+      },
+      {
+        "label": "public_story_demo_build",
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/build/story_demo",
+        "exists": false,
+        "entries": []
+      },
+      {
+        "label": "public_story_demo_user_data",
+        "path": "/Users/junheelee/Library/Application Support/GangnamDream_StoryDemo_v1",
+        "exists": true,
+        "entries": [
+          {
+            "path": "gangnam_dream_meta.json",
+            "kind": "file",
+            "sha256": "9064c55a105ff1be4cbb8591c8a0348ea801bfd405987f928c4eb8b29871ddb1",
+            "size": 306
+          },
+          {
+            "path": "gangnam_dream_settings.json",
+            "kind": "file",
+            "sha256": "fed6bd414638e288e8f89556601d78481d30bf7e7ae90c7b6e3ee36d0c58f8ea",
+            "size": 20
+          },
+          {
+            "path": "logs/godot.log",
+            "kind": "file",
+            "sha256": "1749d1871b9a4785d5085fe6c87de1b1f54463f808b2d8d04cb535910d579e29",
+            "size": 412
+          },
+          {
+            "path": "logs/godot2026-08-25T14.11.04.log",
+            "kind": "file",
+            "sha256": "2ba0894e677a9279f657f8b7835d4783cafbf693924afcc560916aca1760390b",
+            "size": 559
+          },
+          {
+            "path": "logs/godot2026-08-25T14.11.07.log",
+            "kind": "file",
+            "sha256": "f1456f111254bd72a4e9be372de49e21958a385bb9e685cc2579ff3f46648849",
+            "size": 523
+          },
+          {
+            "path": "logs/godot2026-08-25T14.11.09.log",
+            "kind": "file",
+            "sha256": "835e17830a5e12cb1aebdf0405b7bc4cbfc2b381b699197afc7fa0766b0e1679",
+            "size": 529
+          },
+          {
+            "path": "logs/godot2026-08-31T07.19.54.log",
+            "kind": "file",
+            "sha256": "5c81e61b36cb9c8fc43fb277b2490ee133341da72243b00aade5eb37d01b5f9a",
+            "size": 529
+          },
+          {
+            "path": "story_demo_save.json",
+            "kind": "file",
+            "sha256": "88869407b9b963ba0d2705d239692e25efdfd80eb248a5b9501e01923ecc9c97",
+            "size": 7546
+          },
+          {
+            "path": "story_demo_save.json.bak",
+            "kind": "file",
+            "sha256": "e551ea76c81c6edd93465442bf1ee473bd8d03a37ca8f2fd5005694ea54720a3",
+            "size": 7179
+          }
+        ]
+      },
+      {
+        "label": "retail_player_files",
+        "path": "/Users/junheelee/Library/Application Support/Godot/app_userdata/강남드림",
+        "exists": true,
+        "entries": [
+          {
+            "path": ".recovery_mode_lock",
+            "kind": "file",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size": 0
+          },
+          {
+            "path": "gangnam_dream_autosave.json",
+            "kind": "file",
+            "sha256": "c6386152b0df7fde85bd313c7a59dbbe27285ac17917c9f37c33af6c3065859f",
+            "size": 17611
+          },
+          {
+            "path": "gangnam_dream_autosave.json.bak",
+            "kind": "file",
+            "sha256": "24bad83609124e758f3935567543848e9e7f9d5666e7b44f2ec8c4794bec7653",
+            "size": 6523
+          },
+          {
+            "path": "gangnam_dream_meta.json",
+            "kind": "file",
+            "sha256": "2a57d5787c3c4ac9827439f0c30ca2369c956adc5e109ae1da2deb132dece214",
+            "size": 12272
+          },
+          {
+            "path": "gangnam_dream_settings.json",
+            "kind": "file",
+            "sha256": "365a364040a943566105addcb9ade2bd6c960b3ed4754db0a3607b29cf1f4f8e",
+            "size": 233
+          },
+          {
+            "path": "gangnam_dream_slot_10.json",
+            "kind": "file",
+            "sha256": "1b9377017ffb16b69469390a8f1e8213bec1466364934b03ea47582002c0b254",
+            "size": 141287
+          },
+          {
+            "path": "gangnam_dream_slot_3.json",
+            "kind": "file",
+            "sha256": "225a23face67bdc1871adb4c9d9062a4d796cd237634707aee0f731e87069357",
+            "size": 3416
+          },
+          {
+            "path": "gangnam_dream_slot_3.json.bak",
+            "kind": "file",
+            "sha256": "20e2c0a0e1a75e783e42cd60b917fe7e34213051025c046d2ab4184c72343748",
+            "size": 3416
+          },
+          {
+            "path": "gangnam_dream_slot_6.json",
+            "kind": "file",
+            "sha256": "d478a23d2611e00212753653eb8d0a7718778d84af6dbd9af465b810ee1694b7",
+            "size": 16683
+          },
+          {
+            "path": "gangnam_dream_slot_7.json",
+            "kind": "file",
+            "sha256": "3cb4b5ed84cac50cf3402d5d61202241aa2306bdd276ea7b898d946116fcb64a",
+            "size": 103281
+          },
+          {
+            "path": "gangnam_dream_slot_8.json",
+            "kind": "file",
+            "sha256": "c718ea640be7a556c43f4c9e332fac3fd6051774ee73d47ca40ccc9bcfad395b",
+            "size": 129175
+          },
+          {
+            "path": "gangnam_dream_slot_9.json",
+            "kind": "file",
+            "sha256": "395673c600dc1fbd69998c4a7842b5a26fef0447b3f9e2f455d9d0b137ca2821",
+            "size": 135626
+          },
+          {
+            "path": "gangnam_dream_v2_playtest_v1_autosave.json",
+            "kind": "file",
+            "sha256": "855879e1cc3c2e4ab70add3fd6b6297073b27b2278697e6b4e9229d8228bb65f",
+            "size": 23816
+          },
+          {
+            "path": "gangnam_dream_v2_playtest_v1_autosave.json.bak",
+            "kind": "file",
+            "sha256": "2ab45eccaf8d7282866e5aefc2babe1776248839cc2220fe91557cc665934b0a",
+            "size": 23421
+          },
+          {
+            "path": "gangnam_dream_v2_playtest_v1_meta.json",
+            "kind": "file",
+            "sha256": "04f4030ea56e0c1e1236302a8b5e09730bbc3e479c458062d85949c44bdd37d8",
+            "size": 1342
+          },
+          {
+            "path": "gangnam_dream_v2_playtest_v1_settings.json",
+            "kind": "file",
+            "sha256": "c83a47ea274cef3890ab46e22612e1ebef8016f038b52859eb690e89092faefb",
+            "size": 117
+          },
+          {
+            "path": "logs/godot.log",
+            "kind": "file",
+            "sha256": "53a48e3cd3d9793029e3d3e0ca409f5994494e6ccef801a9c0e94b1b73eaeb03",
+            "size": 167
+          },
+          {
+            "path": "logs/godot2026-09-07T12.49.18.log",
+            "kind": "file",
+            "sha256": "9ca5cfc2c88b9de97f5bc89b3a6e87e0d4306a74a02a3b499eaff98616cf6991",
+            "size": 181
+          },
+          {
+            "path": "logs/godot2026-09-07T12.49.22.log",
+            "kind": "file",
+            "sha256": "5927491c8b56d76930900c935c1083577fe549e81eb3018ee25aa4b74a2cad94",
+            "size": 194
+          },
+          {
+            "path": "logs/godot2026-09-07T12.49.23.log",
+            "kind": "file",
+            "sha256": "4d518f1ec79999b746b76a11f706ed46d36c2f9fbb7daa0882e5a629468288da",
+            "size": 164
+          },
+          {
+            "path": "logs/godot2026-09-07T12.49.34.log",
+            "kind": "file",
+            "sha256": "cc1276a2aec0dddadf3804fb824cede92307ce2fc5904419a0392863c53cecb2",
+            "size": 193
+          },
+          {
+            "path": "mod_layer_check/lang/en/events_en/qa.json",
+            "kind": "file",
+            "sha256": "39325c94fc8748b7ff16f12460e8a93171bb1b02ff665f71b023e1107a720d26",
+            "size": 88
+          },
+          {
+            "path": "mod_layer_check/lang/ja/ui_ja.json",
+            "kind": "file",
+            "sha256": "12acaa0474e5d0b38c4b393831c51217348839beca2c2a02b7a43ac40638ae8e",
+            "size": 362
+          },
+          {
+            "path": "mod_layer_check/lang/qx-Test/endings_qx-Test.json",
+            "kind": "file",
+            "sha256": "7eb447eafcb4a434b2c8eb651d770477219d7513ad3ddcaa7df8126e423dbba4",
+            "size": 133
+          },
+          {
+            "path": "mod_layer_check/lang/qx-Test/events_qx-Test/qa.json",
+            "kind": "file",
+            "sha256": "65be2830d34d29a9ce9d833eb9dfb02867c07a911d1a609dfc9b34c806e4879f",
+            "size": 364
+          },
+          {
+            "path": "mod_layer_check/lang/qx-Test/pack.json",
+            "kind": "file",
+            "sha256": "7c47fd315e4589d2f760b9883c0b4257cdc795650e4356c180795b1f29ac77c9",
+            "size": 92
+          },
+          {
+            "path": "mod_layer_check/lang/qx-Test/ui_qx-Test.json",
+            "kind": "file",
+            "sha256": "a6b0ad63110af0e2fbc76b9d949fd7498d22af9dd639da14f5976ca01312115b",
+            "size": 90
+          },
+          {
+            "path": "mod_layer_check/mods/assets/audio/sfx_click.wav",
+            "kind": "file",
+            "sha256": "d1e1aa952699749cfd66a79a6a4a7906577633cd500d3b6bb998955ce21660f2",
+            "size": 16016
+          },
+          {
+            "path": "mod_layer_check/mods/assets/evil.gd",
+            "kind": "file",
+            "sha256": "006c373933f8e49903c974a70b81864df932f34b72076a11916696e4577e804a",
+            "size": 13
+          },
+          {
+            "path": "mod_layer_check/mods/events/qa_events.json",
+            "kind": "file",
+            "sha256": "3a4528db57d80d6af2cfcf56541f33bb207b4b30bfcc96db65f160e504d5f804",
+            "size": 4020
+          },
+          {
+            "path": "mod_layer_check/mods/presets/qa_first.json",
+            "kind": "file",
+            "sha256": "72b78aaba83edfc867a82e0b16e35533bf9f9581aa85be22f9ea572e3f2172b1",
+            "size": 202
+          },
+          {
+            "path": "mod_layer_check/mods/presets/qa_second.json",
+            "kind": "file",
+            "sha256": "1bac4e32b38084bf40803a978855732aa05992258a0c9336f4e2fcde81ddce39",
+            "size": 230
+          },
+          {
+            "path": "mod_layer_check/mods/themes/qa_theme.json",
+            "kind": "file",
+            "sha256": "6aed2bb6851df260e6816e95ed7c6ec9d304d9bbe79b17f4af5b1ab657051003",
+            "size": 1937
+          },
+          {
+            "path": "mod_layer_check/settings.json",
+            "kind": "file",
+            "sha256": "d7d65621dc014bc8ee37ff4a3943ecd9aafe0044c38fb74bfd2a50ed0e5f1699",
+            "size": 249
+          }
+        ]
+      },
+      {
+        "label": "extra_0",
+        "path": "/Users/junheelee/Library/Application Support/GangnamDream_042f5ea_property.cLiXZm/gangnam_dream_slot_1.json",
+        "exists": true,
+        "entries": [
+          {
+            "path": ".",
+            "kind": "file",
+            "sha256": "7239040565920fcb2ffad0d606078ce9a436c8ae2ddd5fd2ed29542ff83bd3af",
+            "size": 155940
+          }
+        ]
+      },
+      {
+        "label": "extra_1",
+        "path": "/Users/junheelee/Library/Application Support/GangnamDream_042f5ea_general.AOm3lo/gangnam_dream_slot_2.json",
+        "exists": true,
+        "entries": [
+          {
+            "path": ".",
+            "kind": "file",
+            "sha256": "5f4b5a0f6842e8ac726ee45b3c361ad1a45dc6c665c89009fe812acec5cf6aa8",
+            "size": 153088
+          }
+        ]
+      },
+      {
+        "label": "extra_2",
+        "path": "/Users/junheelee/Library/Application Support/GangnamDream_StoryNameplateQA_ae795aef7ab833fa7381c3d03ba445be/gangnam_dream_slot_1.json",
+        "exists": true,
+        "entries": [
+          {
+            "path": ".",
+            "kind": "file",
+            "sha256": "d34ab88092821d0c6df4c37c520047bb0142097a60be94762337ed66be88cb12",
+            "size": 153359
+          }
+        ]
+      }
+    ]
+  },
+  "namespaces": {
+    "artifact_before_exists": false,
+    "artifact_after_save_files": [],
+    "qa": [
+      "GangnamDream_StoryDemo_RuntimeQA_successor_third_27cb149af2f34333a0821a9abc0706f3"
+    ]
+  },
+  "runtime": {
+    "status": "NOT_RUN",
+    "pending": [
+      "no_argument_boot",
+      "new_save",
+      "cold_resume",
+      "story_return_input",
+      "five_locale_screens",
+      "old_public_save_copy_compatibility"
+    ]
+  },
+  "user_go": "NOT_INHERITED",
+  "codesign": "ad-hoc"
+}

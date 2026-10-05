@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-462",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "package",
+    "commit": "05747c92de6b590c5f0456376f2210a4e422b182",
+    "tree": "a867b41a90f59f5dcedafe9bb171e39b82aa2100",
+    "manifest_sha256": "02f2a3973b496df52bd71e8d1b0abe81e75fbe768221671ca9bff68016f16d49"
+  },
+  "reviewer": "/root/independent392",
+  "scope": "2026.10.05.1/third의 새 로컬 StoryDemo successor 내보내기·서명 검증·패키지 무결성 한정. EXPORTED_NOT_RUNTIME_VERIFIED이며 실제 배포 앱 실행이나 ORDER-302/본편/출시 GO가 아니다.",
+  "method": {
+    "direct": "선언·builder/auditor 원문과 수리 delta, 실제 entry/result/manifest·명령 로그·최종 CLI marker·실패 원본을 읽었다. import/export 진행 로그는 오류 토큰 전수 검색과 끝부분을 확인했다. Git으로 후보 HEAD/tree 및 실행 후 metadata 변경과의 경계를 직접 확인했다.",
+    "assistance": "비저자 하위 /root/independent392/ab_readonly428가 stdlib로 앱7파일·ZIP·16명령의37로그·보호49파일과 manifest 사본을 중복 없이99개 고유 파일로 재해시했다. bytes/SHA·목록·entry/result/before/after 불일치0이며 PCK 내부 재파싱이나 프로젝트 실행은 하지 않았다.",
+    "authorship": "root만 실제 검사/엔진/내보내기를 실행했다. 독립 검수자는 동결 종료 후 이 보고서 한 파일만 작성했다. manifest snapshot은 root가 별도로 원문 그대로 보존했다."
+  },
+  "source_review": {
+    "builder_sha256": "d68efdab1916b9e9a2cf2d8600c2c9d55ba962d1b04869ff9ff083873d643937",
+    "auditor_sha256": "088263f232a86055a01e4d5a14ede2cf7b02b6f8b0cee182906f0c63b5cd4d4c",
+    "isolation": "첫 엔진 호출 전에 별도 staging의 QA namespace를 설정한다. 기존 output/namespace·symlink를 거부하고 실제 배포 앱도 선언된 Application Support 하위의 새 attempt 경로만 허용한다. 기존 공개 builder/audit/pin과 제품 원문은 변경하지 않았다.",
+    "stage": "tracked staging 변경 허용은 project.godot·export_presets.cfg·StoryChoiceM1M6Playtest.gd·StoryDemoFourLanguageCheck.gd 네 파일뿐이며 다른 tracked bytes와 all_resources/include/exclude 설정을 보존한다. generated UID 허용3중 실제 생성1이며 나머지2는 부재로 기록됐다.",
+    "final_delivery": "repo에는 ZIP/로그/manifest를 남기고 실제 앱은 /Users/junheelee/Library/Application Support/GangnamDream_LocalCandidates/2026.10.05.1/third/GangnamDream-StoryDemo-Successor-2026.10.05.1-third.app에 전달했다. 최종본에는 xattr 삭제가 없고 읽기 전용 속성 검사와 그 실제 앱의 codesign 검증이 있다."
+  },
+  "automated_contract": {
+    "focused": {
+      "path": "build/story_demo_successor/2026.10.05.1/third/focused-final.log",
+      "sha256": "5badc45b951cedeb2cc6e9257f1251a6cc8390b434d2b39663d4d367a268ba95",
+      "result": "STORY_DEMO_SUCCESSOR_PACKAGE_SELF_TEST_OK cases=52 actual_exports=0. 새 합성/순수 helper 반례이며 실제 export 횟수나 runtime 관측으로 세지 않는다. root가 최종 후보의 로그를 남기기 위해 작은 self-test를 다시 실행했다."
+    },
+    "actual_export": "third의16명령 모두 exit0, all_pass=true/error=null/preservation_errors=[]. localization·third-party·font·i18n·five-locale source 검증, 실제 import/export·서명·ZIP 재추출·배포 앱 검증을 결속했다. 오류 토큰 검색에서 실제 엔진 오류0. i18n 잘못된 형식 거부 fixture 경고와 중첩 project 무시 경고가 있으므로 전 명령 stderr가 비었다고 주장하지 않는다.",
+    "source_five_locale": "실제 source headless fixture marker는 locales5/routes5/months30/weeks120/settlements30/save5/story10이다. 그 안의 NATIVE_ENTRY_OK 문구를 packaged 앱 무인자 boot 증거로 해석하지 않는다.",
+    "final_audit": {
+      "path": "build/story_demo_successor/2026.10.05.1/third/final-audit.log",
+      "sha256": "b3e72857d7f7184ee9ba1b1c4e03e2c7aa0aa8ad39aa87ac6dbd9f3ab33548d5",
+      "result": "STORY_DEMO_SUCCESSOR_PACKAGE_OK status=EXPORTED_NOT_RUNTIME_VERIFIED runtime=NOT_RUN. 실제 배포 앱 root 속성은 com.apple.provenance만 관측됐고 최종 codesign --verify --deep --strict는 exit0이다."
+    }
+  },
+  "artifacts": {
+    "manifest_path": "build/story_demo_successor/2026.10.05.1/third/MANIFEST.json",
+    "manifest_snapshot_path": "docs/agent_reviews/ORDER-462-manifest.json",
+    "manifest_snapshot": "두 파일171751bytes가 byte-exact이며 subject manifest SHA와 같다. snapshot은 기존 manifest의 추적용 사본이지 새 빌드나 portable 패키지 묶음이 아니다.",
+    "result_path": "build/story_demo_successor/2026.10.05.1/third/result.json",
+    "result_sha256": "b338d2669831fbc0958cdc253960987407c509271e3282e56ac5243b6819ae6a",
+    "entry_sha256": "368aac1ec44f3177887e97f68d45e70dae630b0393792abdf15891befe6581bd",
+    "app_files": 7,
+    "app_tree_sha256": "428c887fd15549caa67308287cc06eda59a0c323be01b649669fa57561d8f172",
+    "zip_bytes": 427928192,
+    "zip_sha256": "22cadef5eb023669e67cdf7a44648ff3e369b744d594172e391a3d88217b58aa",
+    "pck_bytes": 389386440,
+    "pck_sha256": "cd3b0d1b92a3aa47531c25d1a09e2ca25f6d65eabf8a542cfb7d6ae7b45f7351",
+    "population": "실제 auditor는 PCK1877 entries/current content JSON675와 모든 payload MD5·current JSON raw bytes를 검사했다. project.binary의 존재/비어있지 않음까지만 확인하며 그 Variant 내용의 namespace/entry 값을 decode하거나 전체 resource 도달성을 증명한 것은 아니다."
+  },
+  "preserved_failures": [
+    {
+      "attempt": "first",
+      "result_sha256": "04562493f15de4f1eee540a09f4a280f5c06b9186953f4ab7ca69731154e908c",
+      "fact": "repo Documents 하위 ZIP 재추출 앱의 verify_final에서 resource fork/Finder information 오류(exit1). 앞선 서명 검증은 통과했으나 MANIFEST 미발급이며 실패로 보존한다."
+    },
+    {
+      "attempt": "second",
+      "result_sha256": "c04fb710e0cc97f1bd7c31df7d5b0cac6dfbc00c56d8b9144dac44af4ee2319c",
+      "fact": "선언된 정확한 root FinderInfo 제거와 직후 부재 로그에도 같은 verify_final 오류(exit1). MANIFEST 미발급·실패 유지. 이 시도의 metadata mutation은 최종 구현에서 제거됐고 두 실패 artifact를 정리/덮어쓰기하지 않았다."
+    }
+  ],
+  "preservation": {
+    "source": "실제 third manifest의 before=after는 clean05747c92/treea867b41a다. 실행 종료 후 root의 manifest snapshot 및 CLAUDE/ORDER-302 metadata 편집은 이 동결 실행과 구분한다. 독립 검수 시에도 HEAD/tree는 같은 후보였다.",
+    "protected": "9그룹/49파일: 실제 player34·공개 저장9·seed2+W195 checkpoint3·human/project/preset3의 파일목록과 bytes/SHA가 entry/before/after 및 현재 대조에 일치했다. 새 artifact namespace는 사전 부재·사후 파일0이다.",
+    "old_public": "build/story_demo는 사전·사후 모두 부재였다. missing→missing만 검증했으며 존재하지 않는 옛 공개 artifact 실물을 재검증/보존했다고 주장하지 않는다. 과거 manifest/pin·221판정/199독립보고·human 이력은 후보에서 불변이다. 새 manifest evidence snapshot은 독립보고 개수에 넣지 않는다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "packaged runtime NOT_RUN: no_argument_boot, new_save, cold_resume, story_return_input, five_locale_screens, old_public_save_copy_compatibility 여섯 항목이 모두 남아 있다. staged 설정·실제 export·pack bytes의 결속은 packaged namespace/entry의 실제 동작 증거가 아니다.",
+    "실제 앱 GUI·화면·오디오·자연 플레이·물리 입력·인간·원어민 품질은 미관측이다. Mac 잠금 때문에 GUI 확인을 진행하지 못했으며 source headless fixture로 이를 대체하지 않는다.",
+    "ad-hoc 서명 검증은 notarization·스토어 배포·보안/법적 승인이나 전체 package 품질 승인이 아니다. 초기 entry 기록 전 OS/path 실패는 새 디렉터리만 남기고 result를 발급하지 못할 수 있는 도구 한계다.",
+    "새 export 외 과거 대형 suite·standalone365·240주·457 자연 이어보기는 재실행하지 않았다. ORDER-302 package 수용, 457/Chapter5·본편/출시는 계속 HOLD다."
+  ],
+  "final_boundary": "현재 package manifest02f2a397에 결속된 ORDER-462 로컬 내보내기 검증 한정 GO. first/second 실패를 소급 PASS로 바꾸지 않으며 EXPORTED_NOT_RUNTIME_VERIFIED 상태를 그대로 유지한다."
+}

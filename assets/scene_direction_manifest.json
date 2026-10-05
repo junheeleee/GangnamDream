@@ -1093,7 +1093,6 @@
       "work_overtime_bomb"
     ],
     "same_location": [
-      "amb_coin_warn",
       "amb_credit_confront",
       "amb_hoesik_dodge",
       "amb_jobswitch_in",
@@ -2430,6 +2429,7 @@
     ],
     "remote": [
       "amb_coin_00",
+      "amb_coin_warn",
       "arc_daeun_04_morning",
       "arc_father_01_call",
       "arc_father_02_signal",
@@ -2544,7 +2544,7 @@
   },
   "transition_edges": {
     "amb_coin_00->amb_coin_warn": {
-      "mode": "same_location",
+      "mode": "remote",
       "to_surface": "investment_phone",
       "audio_policy": "continue",
       "reduced_motion": "static_update",

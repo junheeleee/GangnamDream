@@ -1316,6 +1316,20 @@
         "expected_portrait": "player_determined"
       }
     },
+    "amb_coin_warn": {
+      "logic": {},
+      "presentation": {
+        "channel": "phone",
+        "scene_location": "investment_phone",
+        "remote_location": "taeho_current_location",
+        "remote_actor": "taeho",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "investment_phone",
+        "expected_portrait": "player_tired"
+      }
+    },
     "amb_hoesik_00": {
       "logic": {},
       "presentation": {
