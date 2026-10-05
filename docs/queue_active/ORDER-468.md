@@ -32,6 +32,13 @@
   `tools/chapter1_core_loop_v2_causal_ledger_check.py` 및 그 실제 inventory history 소유 도구,
   `tools/audit_scope.json`, 신규 `tools/pr31_intake_check.py`.
   소유 도구의 정확한 추가 경로는 실행 전 이 사양에 좁혀 기록한다.
+- 지원 소유 분리: pr31_main_compat는 Main history/pipeline/JA audit/ui append 4도구만,
+  pr31_history_plan은 신규 `tools/pr31_intake_history.py`,
+  `tools/pr31_intake_history_self_test.py` 및 기존 `tools/order365_ui_receipt_compat.py`,
+  `tools/chapter1_core_loop_v2_causal_ledger_check.py`, `tools/full_body_translation_scope.py`,
+  `tools/story_graph_contract_audit.py`, `tools/chapter5_human_reject_audit.py`,
+  `tools/year5_reference_route_audit.py`의 current admission 연결만 소유한다.
+  과거351/350/313/309 원문·핀은 불변이며 새 실제 제품 역상만 비교용으로 제공한다.
 - PR B1 근거 문서: DECISIONS·I18N_GLOSSARY의 PR 변경, PR의 queue_backlog 문서와
   역사 기록. 기존 WORK_LOG는 덮어쓰지 않고 이력 링크/이번 항목만 보탠다.
   `tools/prose_signal_report.py`는 제품 들이기에 필요하지 않으므로 제외한다.
@@ -40,6 +47,11 @@
 - 이전467 미완료 변경4도구와 InvestmentAPCopyCheck2파일은 지우지 않는다.
   AP3문구 수리와 실제 Git 핀을 보존하고 이번 Main6줄과 연결한다.
   기존467의 미실행 검사를 실행한 것으로 기록하지 않는다.
+
+실제 B3 원장 비교에서 father3 외 minseo_arrival description, name_boundary description,
+debt_memory_reconnect description/result0, final_father_answer_alive description 5잎도
+source가 낡아짐을 확인했다. 원래 B3 안의 총8잎×3언어24영수증을 fresh 수용한다.
+이는 새 사건·번역 확대가 아니며 기존 미수용 name_on_line 결과1은 이번에 추가하지 않는다.
 
 **금지:** 모든 언어의 `arc_events.json`, `project.godot`, 공개 데모/사용자 저장,
 과거 인간 판정과 실제 GO를 변경하지 않는다. 7k·수첩/5년 초안은 후속 별도 오더다.
