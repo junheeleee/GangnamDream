@@ -4,7 +4,7 @@
 
 **[~] 착수 — 2026-10-05.** 사용자 지시가 기존 순서보다 우선한다.
 정본 작업표는 PR31의 `docs/queue_backlog/PR31_INTAKE_RUNBOOK.md`이며
-2026-10-03 갱신부터 확인했다. 현재 로컬에는 없고 PR 브랜치에 있다.
+2026-10-03 갱신부터 확인했다. B1 근거 문서와 함께 현재 main에 들였다.
 관측 PR head `b9284e3`는 지시의 `fe2bb4c4`에 심의 목록 gambling/violence 지문
 보정 1커밋만 더했다. 새 출시·심의 인증을 뜻하지 않는다.
 
@@ -32,6 +32,11 @@
   `tools/chapter1_core_loop_v2_causal_ledger_check.py` 및 그 실제 inventory history 소유 도구,
   `tools/audit_scope.json`, 신규 `tools/pr31_intake_check.py`.
   소유 도구의 정확한 추가 경로는 실행 전 이 사양에 좁혀 기록한다.
+- root 준비된 엔딩 회귀: 신규 `tools/PR31EndingDescriptionCheck.gd`,
+  `tools/PR31EndingDescriptionCheck.tscn`, 생성 `.gd.uid`만 추가한다.
+  실제 Main resolver/5언어 DataRegistry를 headless로 읽되 Main을 트리에 넣지 않고,
+  pre-autoload 새 저장공간에서 생존/사망 증거3종과 기존 타 엔딩 분기를 검증한다.
+  실제 화면·입력·자연 플레이·원어민 판정은 아니다.
 - 지원 소유 분리: pr31_main_compat는 Main history/pipeline/JA audit/ui append 4도구만,
   pr31_history_plan은 신규 `tools/pr31_intake_history.py`,
   `tools/pr31_intake_history_self_test.py` 및 기존 `tools/order365_ui_receipt_compat.py`,
@@ -52,6 +57,13 @@
 debt_memory_reconnect description/result0, final_father_answer_alive description 5잎도
 source가 낡아짐을 확인했다. 원래 B3 안의 총8잎×3언어24영수증을 fresh 수용한다.
 이는 새 사건·번역 확대가 아니며 기존 미수용 name_on_line 결과1은 이번에 추가하지 않는다.
+
+공식 CN check에서 `아버지가 떠난 지 여덟 달이 넘었다`를 일반 월수로 분류해
+정확한 `八个多月/八個多月`를 거부하는 오탐을 확인했다. PR 번역을 바꾸지 않고
+`tools/zh_translation_audit.py`의 기존 duration_month_over 분류에 이 정확한
+선행구만 추가한다. pr31_main_compat가 해당 분기와 신규
+`tools/pr31_quantity_check.py` 양성/음성 표적 검사를 소유한다.
+값·단위·초과/미만·중복 수량 검사는 보존하며 범용 예외는 추가하지 않는다.
 
 **금지:** 모든 언어의 `arc_events.json`, `project.godot`, 공개 데모/사용자 저장,
 과거 인간 판정과 실제 GO를 변경하지 않는다. 7k·수첩/5년 초안은 후속 별도 오더다.
