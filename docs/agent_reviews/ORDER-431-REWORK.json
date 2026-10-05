@@ -1,0 +1,185 @@
+{
+  "unit_id": "ORDER-431",
+  "decision_scope": "work_unit",
+  "verdict": "REWORK",
+  "subject": {
+    "kind": "source",
+    "commit": "75a4661f2604c550d478c65094387f0479f637da",
+    "tree": "f0c5ecf41567e2357d8bcb2ad03cd54af9c1cd14",
+    "manifest_sha256": null
+  },
+  "reviewer": "independent392",
+  "independence": "번역·제품·교환·런타임 도구의 비저자. 실제 소스와 원문 증거를 읽고 원본 PNG 8장을 직접 열람했다. 재실행·제품 편집·증거 수정 없이 읽기 전용 해시/JSON/바이트 대조를 수행했다.",
+  "conclusion": "5개 한국어 키의 CN/TW 10값은 의미·공식 수용·실제 문구와 맞는다. 그러나 실제 로그 RichTextLabel 4곳의 normal 폰트가 FontKit SC/TC 역할이 아니라 Open Sans SemiBold로 해석되어 지역 폰트 결속 조건에 실패했다. 이 후보의 ORDER-431은 REWORK이며 정상검사는 실행되지 않았다. 후속 ORDER-432 수리나 전체 게임의 승인을 부여하지 않는다.",
+  "scope": {
+    "keys": [
+      "세션 종료",
+      "거래 %d회",
+      "다시하기",
+      "스캘핑으로 %s 벌었다. (%d회 거래)",
+      "스캘핑에서 %s 잃었다."
+    ],
+    "translations": 10,
+    "locales": [
+      "zh-CN",
+      "zh-TW"
+    ],
+    "actual_population": {
+      "isolated_processes": 2,
+      "settlements": 4,
+      "target_lookups": 10,
+      "target_bindings": 16,
+      "result_screens": 4,
+      "log_reader_screens": 4,
+      "actual_original_pngs": 8,
+      "synthetic_raw_edges": 56,
+      "synthetic_taps": 28
+    },
+    "aggregate_screens": 0,
+    "aggregate_explanation": "Godot은 실제 8장을 저장했다. 폰트 assertion 뒤 Python의 fail-fast 검증이 멈춰 집계 screens=0/pngs=[]/target_measurements=[]가 남았다. 이를 화면 미생성이나 검증된 8화면 PASS로 바꾸지 않는다."
+  },
+  "semantic_and_acceptance": {
+    "result": "전체 10값 KO 직접 대조 PASS. CN 超短线交易/TW 極短線交易의 기존 용례, 수익·손실 극성, %s→%d 순서, 횟수 및 원화 인수를 보존했다. 공유 Holdem 제목에도 중립적이며 Retry는 세션 재시작이지 게임 전체 초기화라고 번역하지 않았다.",
+    "draft_adjustment": "TW 제목의 기존 용례 정렬은 공식 export/check 및 봉인 전에 수행됐다. 공식 검사 실패로 기록하지 않는다.",
+    "official_exports": 2,
+    "official_checks": 2,
+    "official_imports": 2,
+    "export_seconds": 10.783,
+    "check_seconds": 10.793,
+    "raw_inverse": "새 CN/TW 5값씩 및 accepted 10행/배치2만 추가. source/header/response/draft/current dictionary/receipt digest를 대조했고 역삭제 후 baseline fc3535b7baf9fca43fde2405cbcfcad21c88b0d8의 원문 바이트와 일치했다.",
+    "accepted_before": 41602,
+    "accepted_after": 41612,
+    "batches_before": 205,
+    "batches_after": 207,
+    "ui_counts": {
+      "cn": 1711,
+      "tw": 1711,
+      "ja": 3044
+    },
+    "ja_unchanged": true,
+    "source_manifest_sha256": "fd00629c34226a7986f5397177ff7ea3b1e42ce43f220c0e9037aa64e7a117a0",
+    "approval_boundary": "기계 수용과 의미 대조는 rendered/native/human 승인으로 승격하지 않는다."
+  },
+  "runtime": {
+    "attempt": "order431-screen-first",
+    "duration_seconds": 39.402,
+    "pass_result": false,
+    "locale_exit_codes": [
+      1,
+      1
+    ],
+    "locale_report_errors": [
+      "AssertionError()",
+      "AssertionError()"
+    ],
+    "stderr_empty": true,
+    "parser_or_script_error_observed": false,
+    "unique_font_failure_observations": 4,
+    "aggregate_error_entries": 8,
+    "duplicate_explanation": "지역별 두 실패가 stdout와 동일 Godot 로그에서 각각 수집되어 총 8개 항목이 됐다. 별도의 8개 제품 결함이 아니다.",
+    "blocker": {
+      "consumer": "MainGame.gd:5705의 log_box RichTextLabel",
+      "observed_normal": "Open Sans SemiBold",
+      "normal_size": 13,
+      "observed_base_path": "",
+      "shared_role": false,
+      "configuration_ok": false,
+      "primary_cjk": false,
+      "no_os_fallback": false,
+      "glyph_missing": false,
+      "expected": "zh-CN NotoSansSC / zh-TW NotoSansTC 기반 FontKit.ui_regular() 역할",
+      "diagnosis": "고정75a 소스는 log_box에 normal_font_size만 설정하고 normal_font를 결속하지 않는다. UIStyle의 ThemeDB.fallback_font 설정은 존재하지만 실제 RichText normal은 그 역할 리소스와 다르다. 실제 기본 테마 폰트가 선택된 제품 결속 결함이며 helper parse 오류나 번역 수용 오류가 아니다. 관측되지 않은 OS 폰트의 구체 이름은 추정하지 않는다."
+    },
+    "scoped_positive_observations": {
+      "result_nodes": "4 RESULT × 5개 대상/인접 노드의 실제 폰트·크기·bounds·full_fit 일치. 제목/PNL은 bold700, 횟수/버튼은 regular400.",
+      "logs": "4개 로그의 실제 text=expected, normal13, visible/bounds/full_fit=true. CN 폭 319/248px, TW 327/251px가 384px 영역에 맞았다. 폰트 경로 실패는 이 맞춤 결과로 면제하지 않았다.",
+      "png_review": "1280×800 원본 8장 직접 열람. 대상 문구의 잘림·두부·겹침을 관찰하지 않았고 수익/손실 및 거래 횟수가 보였다.",
+      "effects": "4개 독립 expected settlement 및 signal payload, reader expected/observed, 상태/UI 복원이 exact. warmup4·teardown2도 일치. 5,000,000원에서 ±100,000원, 정산별 stats/log/money 신호1회, 거래수2의 실제 _end_game 호출을 검증했다.",
+      "meta": "독립 기대 Meta 자료의 Godot JSON.stringify 307바이트와 실제 파일이 exact; Python은 별도 typed 의미·경로·SHA를 확인했다. 원래 존재 여부/바이트와 상태를 복원했다.",
+      "zero_observed": "BUY/SELL 호출·closed·confirm·finalized·pressed·trade·threshold는 모두 0. 실제 거래 수행이나 Leave/Retry 활성화의 증거가 아니다."
+    }
+  },
+  "preservation": {
+    "original_runtime_before_after": {
+      "tracked": 3032,
+      "helpers": 110,
+      "player_files": 34,
+      "all_equal": true
+    },
+    "rehashed": {
+      "artifacts": 133,
+      "inputs": 20,
+      "helpers": 110,
+      "player_files": 34,
+      "prior_artifacts": 2603,
+      "mismatches": 0
+    },
+    "prior_artifact_breakdown": {
+      "flat": 1911,
+      "nested": 692
+    },
+    "frozen_source": "각 지역 oracle의 37개 소스 입력은 Git75a4661 원본과 모두 일치한다.",
+    "current_head_boundary": "검수 후반에는 별도432 후보732394c73e67feef5752fe867ad32c67c2ee73e5가 생겼다. MainGame 및 선언 메타데이터 변경은 이 보고의 대상이 아니며, 현재 전체 소스가75a와 같다고 주장하지 않는다.",
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "prior_review_boundary": "기존429 REWORK·429 successor·430 보고와 실패/성공 원본을 수정하지 않았다. 본 새 보고서는 이미 종료된 runtime census에 포함된 파일이라고 주장하지 않는다."
+  },
+  "evidence": {
+    "runtime_result": {
+      "path": ".git/full-game-localization/order431-screen-first/result.json",
+      "sha256": "552c8ae5cb053c62f5f9379e52af1e5583bd5f332d9ff7c0a794d433e5625328"
+    },
+    "runtime_entry": {
+      "path": ".git/full-game-localization/order431-screen-first/entry.json",
+      "sha256": "960a3d33f707c2f9aaafba8b74d3672c09bca746e395c447ce365836aa2fca29"
+    },
+    "cn_observations": {
+      "path": ".git/full-game-localization/order431-screen-first/zh-CN/order431-observations.json",
+      "sha256": "73f76122d5dff80e943ba3435edc96509b364a4e5f5778cc5e6aa4a5e3379540"
+    },
+    "tw_observations": {
+      "path": ".git/full-game-localization/order431-screen-first/zh-TW/order431-observations.json",
+      "sha256": "7aacfed83351e6f9efafb111c7ac4d1ab0a96fbcb582dcc7fc0a229cbca76b6b"
+    },
+    "official_export": {
+      "path": ".git/full-game-localization/order431-static-export.json",
+      "sha256": "e218ec01a26b067bf5cab41a59deeb173bf52b0d0ded62fa4049e2af1cc09142"
+    },
+    "official_check": {
+      "path": ".git/full-game-localization/order431-static-check.json",
+      "sha256": "72533e9fcfef1f2ffeeb0813fe1afeaade7aafa364d0ffe74861e0a836f7e04c"
+    },
+    "append_proof": {
+      "path": ".git/full-game-localization/order431-append-precommit.json",
+      "sha256": "b4d5e27e8b91cd8c2dd128cbb328903da8866d895d2b1f32345fdaaf63bf0490"
+    },
+    "helper_sha256": {
+      "runner": "4e6735fdab572b55f3a1f1e3b96d4a71c152096f0136368382f9fb2e38dc6630",
+      "gd": "766f3a3f81c084a7f7e98ed494362b40c5e1236630c442b31980ba77aade04c1",
+      "scene": "e3527a64c8956854c8194ea994759a93b0ba29f416ab55fab84e4585d4f98aed"
+    },
+    "original_pngs": [
+      "zh-CN/zh-CN-win-result.png",
+      "zh-CN/zh-CN-win-log.png",
+      "zh-CN/zh-CN-loss-result.png",
+      "zh-CN/zh-CN-loss-log.png",
+      "zh-TW/zh-TW-win-result.png",
+      "zh-TW/zh-TW-win-log.png",
+      "zh-TW/zh-TW-loss-result.png",
+      "zh-TW/zh-TW-loss-log.png"
+    ],
+    "png_and_log_base": ".git/full-game-localization/order431-screen-first",
+    "normal_status": "미실행; 정상검사 PASS 없음. 새432 수리 후보도 이 보고에서는 실행 검증하지 않았다."
+  },
+  "limitations": [
+    "native, human, physical controller 검수는 미관측이며 full-game/release GO가 아니다.",
+    "자연 진입·실시간 BUY/SELL·강제 청산·0손익·Retry/Leave 실제 활성화·Holdem 결과 화면·누적 cap/mastery 경계는 미관측이다.",
+    "원본 로그 bold는 리소스 조회만이며 강조 span 렌더 증거가 아니다. glyph 검사는 실제 resolved font를 사용한 별도 TextServer probe이지 RichText 내부 shaped RID 관측이 아니다.",
+    "배경 BUY/SELL/P&L 등 표적 밖 영어와 준비된 HUD 잔여는 전체 현지화/전체 HUD 승인에서 제외한다. 손실 후 reader의 mental 표시는 갱신 순서 잔여이며 실제 typed mental 효과와 구분했다.",
+    "폰트 실패를 관측했으므로 화면 가독성만으로 수용하지 않는다. 후속 수리의 동일 실제 소비자 재관측과 정상검사 증거가 필요하다."
+  ],
+  "schema_version": 1,
+  "private_review": {
+    "path": ".git/full-game-localization/order431-independent-review-rework.json",
+    "sha256": "a089cf57a42eaf3f25e932e942e6c600d4d161431b181d33f8a900db0f420590"
+  }
+}

@@ -14,6 +14,911 @@
   ],
   "fast_lanes": [
     {
+      "id": "routine-background-input",
+      "paths": [],
+      "owned_paths": [
+        "tools/RoutineBackgroundInputCheck.gd", "tools/RoutineBackgroundInputCheck.gd.uid",
+        "tools/RoutineBackgroundInputCheck.tscn", "tools/run_routine_background_input_check.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-456.json",
+        "docs/queue_active/ORDER-456.md", "docs/queue_archive/ORDER-456.md"
+      ],
+      "tools": ["tools/run_routine_background_input_check.py --self-test", "tools/audit_select.py --verify"],
+      "why": "Explicit456 new runner self-test plus context/queue always and separate diff/registration/query. Root separately runs the exact clean candidate with --run --expected-head and a fresh label: SAVE0/W230 and REST5/W216 times KO/EN, four prepared legacy Main routes,24 raw key edges/12 taps,4 pressed/receipts/PNG. Pre-autoload isolation and actual player34 preservation; typing/fade finish naturally. No old15632 callback/echo/resolver,302,365,old suites,whole audit,240-week,new package or product changes. This explicit lane never launches a duplicate engine run."
+    },
+    {
+      "id": "holdem-victory-particle",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_victory_particle_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-455.json",
+        "docs/queue_active/ORDER-455.md", "docs/queue_archive/ORDER-455.md"
+      ],
+      "tools": ["tools/holdem_victory_particle_receipt_check.py", "tools/order365_ui_receipt_compat.py", "tools/en_coverage_check.py", "tools/audit_select.py --verify"],
+      "why": "Explicit455 KO-only victory particle display repair preserves the lookup literal, all71 UiCalls, dictionaries and ledger. New focused/receipt/EN plus context/queue always and separate diff/registration give seven validations and one query. One KO process checks nine rank strings, two prepared legal RIVER actual SHOWDOWN wins/two PNG and typed restoration; non-KO getter branch is not a translated screen. No deal/betting/AI/RESULT/Close/raw input, old suites/runtime, profiler/whole audit/240-week or official exchange replay."
+    },
+    {
+      "id": "ui-fixed-ledger-projection",
+      "paths": [],
+      "owned_paths": [
+        "tools/ui_translation_append.py", "tools/ui_fixed_ledger_projection_check.py", "tools/audit_scope.json",
+        "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-454.json",
+        "docs/queue_active/ORDER-454.md", "docs/queue_archive/ORDER-454.md"
+      ],
+      "tools": ["tools/ui_fixed_ledger_projection_check.py", "tools/order365_ui_receipt_compat.py", "tools/audit_select.py --verify"],
+      "why": "Explicit454 two initial correction fixed-ledger projections only: new equivalence/parse-count/immutable-state focused reuses only the old memo synthetic_history/uncached_factory helpers, never its historical standalone seal. One fresh365 default admission plus context/queue always and separate diff/registration give six validations and one query. Dynamic snapshot, UI parsing, Git/proof/HEAD/source checks remain; no cache verdict, profiler rerun, engine, locale/narrative/old full suites/whole audit/240-week or official exchange."
+    },
+    {
+      "id": "ui-receipt-cost-profile",
+      "paths": [],
+      "owned_paths": [
+        "tools/ui_receipt_cost_profile.py", "tools/ui_receipt_cost_profile_check.py", "tools/audit_scope.json",
+        "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/history/WORK_LOG_2026-10-05_pre_order453.md", "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-453.json",
+        "docs/queue_active/ORDER-453.md", "docs/queue_archive/ORDER-453.md"
+      ],
+      "tools": ["tools/ui_receipt_cost_profile_check.py", "tools/audit_select.py --verify"],
+      "why": "Explicit453 measurement only: one separately orchestrated profiled365 default main invocation, never self-test or duplicate receipt execution. New synthetic delegate/classification/restoration focused plus context/queue always and separate diff/registration give five validations and one query. Existing append/parser/history/game/data remain unchanged; no caching/optimization, engine, old suites, whole audit, 240-week or official exchange. Inclusive timing is not additive and process peak RSS is not per-function memory."
+    },
+    {
+      "id": "holdem-hand-net",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_hand_net_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-452.json",
+        "docs/queue_active/ORDER-452.md", "docs/queue_archive/ORDER-452.md"
+      ],
+      "tools": ["tools/holdem_hand_net_receipt_check.py", "tools/order365_ui_receipt_compat.py", "tools/en_coverage_check.py", "tools/audit_select.py --verify"],
+      "why": "Explicit452 five-line hand-net display repair: pre-blind stack snapshot, payout difference and win message; gross POT and actual RESULT cash rule unchanged. New focused/receipt/EN plus context/queue always and separate diff/registration give seven validations and one query. One KO session, two actual starts/blinds, two prepared legal RIVER dispatchers, one RESULT and duplicate probe, three PNG; raw betting/Close zero. Dictionaries/ledger/71 UiCalls remain exact; JA/ZH/fullbody/old suites/runtime/full/240-week are NOT_RUN."
+    },
+    {
+      "id": "holdem-residual-locale",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "locale/ui_ja.json", "content/meta/full_game_localization.json",
+        "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_residual_locale_check.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-451.json",
+        "docs/queue_active/ORDER-451.md", "docs/queue_archive/ORDER-451.md"
+      ],
+      "tools": [
+        "tools/holdem_residual_locale_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/ja_translation_audit.py --scope ui", "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit451 one-line folded prefix uses existing four-locale Fold only; EN/community FOLDED and all71 calls stay exact. Two existing JA values receive corrections/first receipts, no new key or coverage. New focused/receipt/JA-UI/EN plus context/queue always and separate diff/registration give eight validations and one query. Three prepared SHOWDOWN and one JA Scalping SETUP reader, no input/deal/AI/settlement/Close. Fullbody/ZH/four narratives/old suites/full/240-week and old runtime replays are NOT_RUN."
+    },
+    {
+      "id": "holdem-seat-height",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_seat_height_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-449.json", "docs/agent_reviews/ORDER-450.json",
+        "docs/queue_active/ORDER-449.md", "docs/queue_archive/ORDER-449.md",
+        "docs/queue_active/ORDER-450.md", "docs/queue_archive/ORDER-450.md"
+      ],
+      "tools": [
+        "tools/holdem_seat_height_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/ja_translation_audit.py --scope ui", "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit450 repairs table minimum height360 to420 only; current71 UiCalls, dictionaries and449 receipts remain exact. New focused/receipt/JA-UI/ZH/EN plus context/queue always and separate diff/registration give nine validations and one query. Three prepared300k PREFLOP screens retain strict label/synthetic widths and add seat anchor height plus actual action-panel/message nonoverlap. No input/deal/AI/settlement/Close, old focused/runtime, fullbody/four narratives/full/240-week or performance reruns. Original449 failed evidence is immutable, not prior success."
+    },
+    {
+      "id": "holdem-table-labels",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/ja_translation_pipeline.py", "tools/holdem_table_labels_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-449.json",
+        "docs/queue_active/ORDER-449.md", "docs/queue_archive/ORDER-449.md"
+      ],
+      "tools": [
+        "tools/holdem_table_labels_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/ja_translation_audit.py --scope ui", "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit449 localizes five POT/BOARD/STACK/BET display sites with four new Korean keys and twelve accepted values; current71 and prior66 UiCalls retain exact identities. New focused/receipt/JA-UI/ZH/EN plus context/queue always and separate diff/registration give nine validations and one query. Three prepared300k PREFLOP screens with two positive and one zero BET; three explicitly synthetic high-chip width probes per locale. No input/deal/AI/settlement/Close, old focused/runtime, fullbody/four narratives/full/240-week or performance reruns."
+    },
+    {
+      "id": "coffee-encounter-locale",
+      "paths": [],
+      "owned_paths": [
+        "content/events_ja/arc_events.json", "content/events_zh-CN/arc_events.json", "content/events_zh-TW/arc_events.json",
+        "locale/ui_ja.json", "content/meta/full_game_localization.json", "tools/coffee_encounter_locale_contract.py",
+        "tools/coffee_encounter_locale_check.py", "tools/coffee_encounter_receipt_history.py", "tools/full_game_localization.py",
+        "tools/zh_translation_audit.py", "tools/ui_translation_append.py", "tools/order365_ui_receipt_compat.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-448.json",
+        "docs/queue_active/ORDER-448.md", "docs/queue_archive/ORDER-448.md"
+      ],
+      "tools": [
+        "tools/coffee_encounter_locale_check.py", "tools/full_body_translation_scope.py",
+        "tools/ja_translation_audit.py --scope ui", "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit448 corrects three event titles and one existing JA recollection from second cup to second encounter; exact five-product-file proof preserves old batches, replaces three existing target receipt hashes and adds one first JA receipt. New focused/fullbody/JA-UI/EN plus context/queue always and separate diff/registration give eight validations and one query. Fullbody invokes the fresh whole47 current receipt/history/Git/raw admission and current event-target digest checks, so identical standalone365 normal is NOT_RUN. Four prepared reader PNG do not claim natural story entry. Old historical self-tests/screens, four narratives, full audit and240-week suites NOT_RUN."
+    },
+    {
+      "id": "holdem-banner-locale",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/ja_translation_pipeline.py", "tools/holdem_banner_locale_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-447.json",
+        "docs/queue_active/ORDER-447.md", "docs/queue_archive/ORDER-447.md"
+      ],
+      "tools": [
+        "tools/holdem_banner_locale_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/ja_translation_audit.py --scope ui", "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit447 localizes only Holdem action/phase banner display arguments and summary kicker, preserving internal tokens and all game rules; one new KO key and three accepted values,66 actual UiCalls with prior61 preserved. New focused/receipt/JA-UI/ZH/EN plus context/queue always and separate diff/registration give nine validations and one query. Three locales/13 actual banner labels plus kicker and nine representative PNG are prepared display readers with zero deal/AI/input/settlement. Old lifecycle, betting, historical focused/runtime, fullbody/four narratives/full/240-week suites NOT_RUN."
+    },
+    {
+      "id": "holdem-rank-ja",
+      "paths": [],
+      "owned_paths": [
+        "locale/ui_ja.json", "content/meta/full_game_localization.json", "tools/ui_translation_append.py",
+        "tools/holdem_rank_ja_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-446.json",
+        "docs/queue_active/ORDER-446.md", "docs/queue_archive/ORDER-446.md"
+      ],
+      "tools": [
+        "tools/holdem_rank_ja_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/ja_translation_audit.py --scope ui", "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit446 corrects one existing Japanese rank7 value and adds its first official receipt; normal Fold, game sources and static UiCalls unchanged. New focused/receipt/JA-UI/EN plus context/queue always and separate diff/registration give eight validations and one query. Three prepared JA readers verify current hand, player/AI winner messages, summary and full-history versus existing three-character display; no input/deal/dispatcher/settlement. CN/TW/fullbody, completed tutorial/banner/betting, historical focused/runtime and four narratives/full/240-week suites NOT_RUN."
+    },
+    {
+      "id": "holdem-banner",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_banner_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-445.json",
+        "docs/queue_active/ORDER-445.md", "docs/queue_archive/ORDER-445.md"
+      ],
+      "tools": [
+        "tools/holdem_banner_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit445 visual-only Holdem banner bottom placement and direct tagged predecessor hiding; original timer lifetimes,61 UiCalls and localization receipts unchanged. New focused/receipt/EN plus context/queue always and separate diff/registration give seven validations and one query. Two locales/two prepared table readers observe overlap, empty/foreign behavior and old/new natural frees without input/deal/AI/settlement. JA/ZH/fullbody, historical focused/runtime, four narratives/full/240-week suites NOT_RUN."
+    },
+    {
+      "id": "holdem-tutorial-ui",
+      "paths": [],
+      "owned_paths": [
+        "tools/holdem_tutorial_ui.py", "tools/holdem_tutorial_ui_self_test.py", "tools/full_game_localization.py",
+        "tools/ja_translation_audit.py", "tools/zh_translation_audit.py", "tools/audit_scope.json",
+        "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "content/meta/full_game_localization.json",
+        "docs/I18N_INFRASTRUCTURE.md", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-444.json",
+        "docs/queue_active/ORDER-444.md", "docs/queue_archive/ORDER-444.md"
+      ],
+      "tools": [
+        "tools/holdem_tutorial_ui_self_test.py", "tools/order365_ui_receipt_compat.py",
+        "tools/ja_translation_audit.py --scope ui", "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit444 shared source provider for only two Holdem tutorial slides, four raw KO title/body keys and twelve JA/CN/TW values. Literal parser reuse preserves static UiCall identities, demo701 denominator and game source manifests. Focused/receipt/JA-UI/ZH/EN plus context/queue always and separate diff/registration give nine validations and one query. Three locales/two actual pages retain input, seen/focus and typed/player restoration; betting, historical focused/runtime, fullbody/four narratives/full/240-week suites NOT_RUN."
+    },
+    {
+      "id": "holdem-message-pulse",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_message_pulse_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-442.json", "docs/agent_reviews/ORDER-442-REWORK.json",
+        "docs/agent_reviews/ORDER-443.json", "docs/queue_active/ORDER-442.md", "docs/queue_archive/ORDER-442.md",
+        "docs/queue_active/ORDER-443.md", "docs/queue_archive/ORDER-443.md"
+      ],
+      "tools": [
+        "tools/holdem_message_pulse_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py", "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit443 comments only the two full-width message pulse calls, preserving line count,61 UiCalls and all localization receipts. New exact source/history focused plus442 receipt/fullbody/ZH/EN/context/queue/diff/registration give nine validations and one lane query. Actual early Call180ms/SHOWDOWN300ms post-draw windows add four PNG to the preserved442 input/effect population; first failed evidence retained. Historical focused,JA,four narratives,full and240-week suites NOT_RUN."
+    },
+    {
+      "id": "holdem-betting-zh",
+      "paths": [],
+      "owned_paths": [
+        "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "content/meta/full_game_localization.json",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-442.json", "docs/queue_active/ORDER-442.md", "docs/queue_archive/ORDER-442.md"
+      ],
+      "tools": [
+        "tools/order365_ui_receipt_compat.py", "tools/full_body_translation_scope.py",
+        "tools/zh_translation_audit.py", "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit442 append-only fifteen Holdem betting/phase/refusal and shared Tutorial hint/Next keys, thirty CN/TW values; JA/game/font/timer sources unchanged. Fresh prepared legal-card actual input/transient/AI chains and one real RESULT/Close per locale, distinct from prepared ingress. Receipt/fullbody/ZH/EN plus context/queue always and separate diff/registration give eight validations. 441/439/438 runtimes, JA/focused/four narratives/full/240-week suites remain referenced NOT_RUN."
+    },
+    {
+      "id": "holdem-card-contrast",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_card_color_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-441.json",
+        "docs/queue_active/ORDER-441.md", "docs/queue_archive/ORDER-441.md"
+      ],
+      "tools": [
+        "tools/holdem_card_color_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit441 one-expression Holdem face-ink contrast repair; unchanged game rules,61 UiCalls and localization receipts. New focused/receipt/EN plus context/queue always and separate diff/registration complete seven validations. Two locales each104 actual factory nodes and two prepared table renders; raw input/deal/settlement0. Fullbody/JA/ZH,439 runtime and historical suites referenced NOT_RUN."
+    },
+    {
+      "id": "holdem-rank-locale",
+      "paths": [],
+      "owned_paths": [
+        "tools/zh_translation_audit.py", "tools/holdem_rank_locale_check.py", "tools/audit_scope.json",
+        "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-440.json",
+        "docs/queue_active/ORDER-440.md", "docs/queue_archive/ORDER-440.md"
+      ],
+      "tools": [
+        "tools/holdem_rank_locale_check.py", "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit440 exact nine standalone UI poker-rank numeric comparison only: same KO owner/address and full standard regional name, preserving all surrounding numeric and text validation. Fresh focused/ZH/EN plus context/queue always and separate diff/registration; original439 official failures preserved. No accepted translation/game/collector change, receipt/fullbody/JA/engine or historical suite rerun."
+    },
+    {
+      "id": "holdem-result-zh",
+      "paths": [],
+      "owned_paths": [
+        "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "content/meta/full_game_localization.json",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-439.json", "docs/queue_active/ORDER-439.md", "docs/queue_archive/ORDER-439.md"
+      ],
+      "tools": [
+        "tools/order365_ui_receipt_compat.py", "tools/full_body_translation_scope.py",
+        "tools/zh_translation_audit.py", "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit439 append-only nineteen Holdem SHOWDOWN/RESULT/rank keys and thirty-eight CN/TW values; game sources and JA unchanged. Four prepared-RIVER actual dispatch/RESULT/Close cases and fourteen prepared rank readers are separate evidence. Receipt/fullbody/ZH/EN plus context/queue always and separate diff/registration complete eight validations. Prior438/focused/four434 narratives referenced NOT_RUN; no historical runtime, full audit or 240-week replay."
+    },
+    {
+      "id": "holdem-async",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_async_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-438.json",
+        "docs/queue_active/ORDER-438.md", "docs/queue_archive/ORDER-438.md"
+      ],
+      "tools": [
+        "tools/holdem_async_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py", "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py", "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit438 transient asynchronous action ownership and generation invalidation: fresh four-transition/24-object source proof, unchanged61 UiCall tuples and localization data. Two actual timed cancel/reopen cases plus separately prepared token ownership and normal completion. Ten validations with context/queue always and diff separately; four434 narrative originals referenced NOT_RUN, no historical focused/full audit/240-week replay."
+    },
+    {
+      "id": "holdem-betting",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_betting_receipt_check.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-437.json",
+        "docs/queue_active/ORDER-437.md", "docs/queue_archive/ORDER-437.md"
+      ],
+      "tools": [
+        "tools/holdem_betting_receipt_check.py", "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py", "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py", "tools/en_coverage_check.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit437 per-round betting-action repair: fresh eighteen-object/three-transition source proof and unchanged whole UiCall tuples/data. One isolated actual hand plus prepared response/runout boundaries. Ten validations with context/queue always and separate diff; four434 narrative originals referenced NOT_RUN, no historical focused/full audit/240-week replay."
+    },
+    {
+      "id": "holdem-zh",
+      "paths": [],
+      "owned_paths": [
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-435.json",
+        "docs/queue_active/ORDER-435.md",
+        "docs/queue_archive/ORDER-435.md"
+      ],
+      "tools": [
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit435 append-only CN/TW Holdem setup and three actual first-preflop EV branches: twenty-two Korean keys, forty-four accepted values, unchanged game/JA/font sources. Fresh receipt/fullbody and changed-language consumers once; context/queue always and diff separately complete eight validations. Four434 narrative originals are referenced NOT_RUN; no old focused, five-locale runtime, full audit or 240-week repetition."
+    },
+    {
+      "id": "holdem-canvas",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd",
+        "tools/holdem_money_history.py",
+        "tools/ui_translation_append.py",
+        "tools/holdem_canvas_width_check.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-434.json",
+        "docs/agent_reviews/ORDER-436.json",
+        "docs/queue_active/ORDER-434.md",
+        "docs/queue_archive/ORDER-434.md",
+        "docs/queue_active/ORDER-436.md",
+        "docs/queue_archive/ORDER-436.md"
+      ],
+      "tools": [
+        "tools/holdem_canvas_width_check.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit436 exact canvas-width two-line successor: two real Holdem transitions, seventeen genuine source manifests, unchanged current collector and retained JA/data. Fresh receipt/fullbody and language consumers once. ORDER434 storygraph/Chapter1/Chapter5/Year5 original rows are referenced, NOT_RUN here; old focused, full audit and 240-week repetition remain excluded. Original434 runtime REWORK is not changed by its static L1 PASS."
+    },
+    {
+      "id": "holdem-money",
+      "paths": [],
+      "owned_paths": [
+        "scenes/HoldemClub.gd",
+        "tools/holdem_money_history.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/ja_translation_audit.py",
+        "tools/ui_translation_append.py",
+        "tools/holdem_money_receipt_check.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-434.json",
+        "docs/queue_active/ORDER-434.md",
+        "docs/queue_archive/ORDER-434.md"
+      ],
+      "tools": [
+        "tools/holdem_money_receipt_check.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit434 Holdem whole-won formatter only: fresh exact Git transition, actual collector retirement of three calls/keys with remaining identities and immutable retained JA values, sixteen real source manifests and rejected phantom combinations. Current receipt/translation consumers once; no historical focused suite, full audit, 240-week or old runtime repetition. Five-locale actual first-hand display/input is separately isolated."
+    },
+    {
+      "id": "ui-append-value-parse",
+      "paths": [],
+      "owned_paths": [
+        "tools/ui_translation_append.py",
+        "tools/ui_append_value_parse_check.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-433.json",
+        "docs/queue_active/ORDER-433.md",
+        "docs/queue_archive/ORDER-433.md"
+      ],
+      "tools": [
+        "tools/ui_append_value_parse_check.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit433 two value-only parser expressions: retain the identical strict parser, exact raw inverse and fresh Git/HEAD/source/receipt checks while removing discarded span construction. Focused old/new fixture and call-boundary evidence plus current normal consumers once; reuse432 before observation without repeating its focused suite, runtime, full audit or 240-week checks. Timing is a single paired observation, not an isolated causal claim or speed guarantee."
+    },
+    {
+      "id": "log-body-font",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/log_body_font_receipt_check.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-431.json",
+        "docs/agent_reviews/ORDER-431-REWORK.json",
+        "docs/agent_reviews/ORDER-432.json",
+        "docs/queue_active/ORDER-431.md",
+        "docs/queue_archive/ORDER-431.md",
+        "docs/queue_active/ORDER-432.md",
+        "docs/queue_archive/ORDER-432.md"
+      ],
+      "tools": [
+        "tools/log_body_font_receipt_check.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit432 exact Main log normal-font one-line successor: one real fourteen-stage Git proof, pure inverse faults, fifteen Main/Scalp/Aruba manifest combinations and rejected phantom histories, current raw/census/HEAD binding and next-call freshness. Current receipt consumers run once; old focused suites, engine suites, full audit and 240-week repetition remain excluded. Actual431 result/log font and restoration evidence is separately observed."
+    },
+    {
+      "id": "scalping-phase-focus",
+      "paths": [],
+      "owned_paths": [
+        "scenes/ScalpingGame.gd",
+        "tools/ui_translation_append.py",
+        "tools/scalping_phase_focus_receipt_check.py",
+        "tools/audit_scope.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-429.json",
+        "docs/agent_reviews/ORDER-429-REWORK.json",
+        "docs/agent_reviews/ORDER-430.json",
+        "docs/queue_active/ORDER-429.md",
+        "docs/queue_archive/ORDER-429.md",
+        "docs/queue_active/ORDER-430.md",
+        "docs/queue_archive/ORDER-430.md"
+      ],
+      "tools": [
+        "tools/scalping_phase_focus_receipt_check.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit430 exact Scalping-only phase overlay/focus successor: immutable Git inverse, actual current census and non-phantom historical manifests, then current receipt consumers once. Actual CN/TW five-state raw navigation and strict visual/typed preservation are separately observed; all429 failures remain sealed. No old focused, engine suite, full audit, A/B or 240-week repetition."
+    },
+    {
+      "id": "ui-comparison-memo",
+      "paths": [],
+      "owned_paths": [
+        "tools/ui_translation_append.py",
+        "tools/ui_comparison_memo_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-428.json",
+        "docs/queue_active/ORDER-428.md",
+        "docs/queue_archive/ORDER-428.md"
+      ],
+      "tools": [
+        "tools/ui_comparison_memo_self_test.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit-only invocation-local inverse memo: bounded one-slot/epoch/raw/alias/failure regressions and actual current consumers. Fresh A/B binds identical proof/history/Git traces; reuse production B once as the receipt row. Old focused bodies/pins, engine, full audit and 240-week runs remain untouched."
+    },
+    {
+      "id": "decision-risk-width",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/decision_risk_width_self_test.py",
+        "tools/zh_translation_audit.py",
+        "tools/employment_choice_number_self_test.py",
+        "tools/audit_scope.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-421.json",
+        "docs/queue_active/ORDER-421.md",
+        "docs/queue_archive/ORDER-421.md",
+        "docs/agent_reviews/ORDER-422.json",
+        "docs/queue_active/ORDER-422.md",
+        "docs/queue_archive/ORDER-422.md",
+        "docs/agent_reviews/ORDER-423.json",
+        "docs/queue_active/ORDER-423.md",
+        "docs/queue_archive/ORDER-423.md"
+      ],
+      "tools": [
+        "tools/decision_risk_width_self_test.py",
+        "tools/employment_choice_number_self_test.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact423 measured risk-label width: thirteen-stage fresh source proof, current collector and preserved receipts; same421 translations and422 numeric repair share normal consumers and the two new focused checks once. Runtime five-language risk fit remains separate; no old focused, whole audit or 240-week run."
+    },
+    {
+      "id": "employment-choice-number",
+      "paths": [],
+      "owned_paths": [
+        "tools/zh_translation_audit.py",
+        "tools/employment_choice_number_self_test.py",
+        "tools/audit_scope.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-421.json",
+        "docs/queue_active/ORDER-421.md",
+        "docs/queue_archive/ORDER-421.md",
+        "docs/agent_reviews/ORDER-422.json",
+        "docs/queue_active/ORDER-422.md",
+        "docs/queue_archive/ORDER-422.md"
+      ],
+      "tools": [
+        "tools/employment_choice_number_self_test.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact422 employment footer choice1/remaining2 and avoided-expense30000–100000won: numeric-only source/key/locale adapters, shared/repeated currency equivalence, direct/full Leaf negatives. Same421 responses and fresh receipts use normal consumers once; runtime is separate. No old focused suite, whole audit or 240-week run."
+    },
+    {
+      "id": "contact-coffee-number",
+      "paths": [],
+      "owned_paths": [
+        "tools/zh_translation_audit.py",
+        "tools/contact_coffee_number_self_test.py",
+        "tools/audit_scope.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-418.json",
+        "docs/queue_active/ORDER-418.md",
+        "docs/queue_archive/ORDER-418.md",
+        "docs/agent_reviews/ORDER-419.json",
+        "docs/queue_active/ORDER-419.md",
+        "docs/queue_archive/ORDER-419.md"
+      ],
+      "tools": [
+        "tools/contact_coffee_number_self_test.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact419 contact recollection counts the second coffee encounter, not cups: numeric-only source/key/locale adapter and direct/full Leaf negatives. Same418 translations and fresh receipts use normal consumers; runtime is separate. No older focused suite, whole audit or 240-week run."
+    },
+    {
+      "id": "reaction-body-font",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/reaction_body_font_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-415.json",
+        "docs/queue_active/ORDER-415.md",
+        "docs/queue_archive/ORDER-415.md",
+        "docs/agent_reviews/ORDER-416.json",
+        "docs/queue_active/ORDER-416.md",
+        "docs/queue_archive/ORDER-416.md",
+        "docs/agent_reviews/ORDER-417.json",
+        "docs/queue_active/ORDER-417.md",
+        "docs/queue_archive/ORDER-417.md"
+      ],
+      "tools": [
+        "tools/reaction_body_font_self_test.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact416 normal/bold body FontKit binding and417 fresh twelve-stage proof, actual current collector and twelve manifests. Chinese415 append shares normal consumers; five-locale font and twenty-four delivery evidence stay separate. Old focused suites/full audit/240-week not repeated."
+    },
+    {
+      "id": "ja-gift-copy",
+      "paths": [],
+      "owned_paths": [
+        "locale/ui_ja.json",
+        "content/meta/full_game_localization.json",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-414.json",
+        "docs/queue_active/ORDER-414.md",
+        "docs/queue_archive/ORDER-414.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --ja-gift-copy",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact414 two legacy Japanese gift-description corrections, zero new UI keys and two first official receipts. Fresh pinned two-path Git transition, old-target-bound export/header/digest and four-file raw inverse; synthetic following append/rollback controls only. Actual whole-history admission and two prepared Japanese consumer screens remain separate; no older focused suite or whole audit."
+    },
+    {
+      "id": "gift-price-badge",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-412.json",
+        "docs/queue_active/ORDER-412.md",
+        "docs/queue_archive/ORDER-412.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --gift-price-badge",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact412 gift shop price clipping repair only: unchanged KO/EN keys, locale values, prices and accepted receipts; eleven-stage fresh Git proof/nine predecessors, current collector positions and exact11 manifests. Five-language before/after gift screens separately; no historical suite or whole audit."
+    },
+    {
+      "id": "career-tenure",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-409.json",
+        "docs/queue_active/ORDER-409.md",
+        "docs/queue_archive/ORDER-409.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --career-tenure",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact409 tenure clipping/inclusive60 English repair: same Korean leaves and accepted receipts, ten-stage fresh Git proof/eight inverses, three actual collector pairs and exact10 manifests. Five prepared work-menu screens separately; no historical suite or whole audit."
+    },
+    {
+      "id": "chapter1-ui-proof-reuse",
+      "paths": [],
+      "owned_paths": [
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/chapter1_ui_proof_reuse_check.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-408.json",
+        "docs/queue_active/ORDER-408.md",
+        "docs/queue_archive/ORDER-408.md"
+      ],
+      "tools": [
+        "tools/chapter1_ui_proof_reuse_check.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact408 tool-only appendix: share existing fresh UI proof within one Chapter1 snapshot, preserve prefix/267 delegation and all diagnostics, no cross-call cache. Focused control-flow probes plus one real normal admission; product/receipts/immutable proof unchanged."
+    },
+    {
+      "id": "promotion-review",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "locale/ui_ja.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/main_game_locale_history.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/ja_translation_audit.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-406.json",
+        "docs/queue_active/ORDER-406.md",
+        "docs/queue_archive/ORDER-406.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --promotion-review",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact406 promotion review KO/EN pair only: nine-stage fresh source proof, sealed two-pair actual collector, immutable retained JA row, exact9 manifest set and three fresh official receipts. Older bodies/pins remain byte-exact; no historical suite, cross-call cache or gameplay change."
+    },
+    {
+      "id": "axis-badge-fit",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-403.json",
+        "docs/queue_active/ORDER-403.md",
+        "docs/queue_archive/ORDER-403.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --axis-badge-fit",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact403 axis-label clip only: fresh actual Git/raw inverse, real collector identities and coordinates, and one fresh proof per exact8 manifest comparison. Original402/393 bodies and failed402 checkpoint remain intact. Same normal consumers; no cross-call cache, dictionary/ledger edits or engine claim."
+    },
+    {
       "id": "people-card-height",
       "paths": [],
       "owned_paths": [
@@ -2344,14 +3249,205 @@
   ],
   "checks": [
     {
-      "tool": "tools/ui_translation_append_self_test.py --people-card-height",
+      "tool": "tools/holdem_victory_particle_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_victory_particle_receipt_check.py"],
+      "why": "Exact KO-only victory-template source successor, unchanged71 UiCalls/receipts/payout and non-KO identity; synthetic faults are not runtime evidence.",
+      "godot": false
+    },
+    {
+      "tool": "tools/ui_fixed_ledger_projection_check.py",
+      "paths": ["tools/ui_translation_append.py", "tools/ui_fixed_ledger_projection_check.py"],
+      "why": "Sealed453 two-function oracle, actual fixed blob pairs and bounded synthetic faults: exact raw inverse, correction/fee asymmetry, binding/context/freshness, parse counts including setup and lightweight immutable retention.",
+      "godot": false
+    },
+    {
+      "tool": "tools/ui_receipt_cost_profile_check.py",
+      "paths": ["tools/ui_receipt_cost_profile.py", "tools/ui_receipt_cost_profile_check.py"],
+      "why": "Synthetic453 delegate return/exception identity, alias and argv restoration, nested contexts, exact site/ordinal before-after-dynamic roles and failed-call accounting; no actual receipt main or historical suite.",
+      "godot": false
+    },
+    {
+      "tool": "tools/holdem_hand_net_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_hand_net_receipt_check.py"],
+      "why": "Exact452 hand-start/net five-line inverse, twelve-stage current source proof and unchanged71 UiCall/receipt admission; new bounded cases only.",
+      "godot": false
+    },
+    {
+      "tool": "tools/holdem_residual_locale_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_residual_locale_check.py", "locale/ui_ja.json", "content/meta/full_game_localization.json"],
+      "why": "Exact451 folded source inverse/eleven-stage proof, preserved71 call identities, two JA corrections with first receipts and prior raw preservation; no historical suite replay.",
+      "godot": false
+    },
+    {
+      "tool": "tools/holdem_seat_height_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_seat_height_receipt_check.py"],
+      "why": "Exact450 one-line height inverse and ten-stage immutable proof; unchanged71 calls, dictionaries and accepted receipts. No historical suite replay.",
+      "godot": false
+    },
+    {
+      "tool": "tools/holdem_table_labels_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/ja_translation_pipeline.py", "tools/holdem_table_labels_receipt_check.py", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "content/meta/full_game_localization.json"],
+      "why": "Exact449 five-line table-label inverse, nine-stage proof, current71/prior66 call identities, four new keys and twelve official receipts; no old suites.",
+      "godot": false
+    },
+    {
+      "tool": "tools/coffee_encounter_locale_check.py",
+      "paths": ["tools/coffee_encounter_locale_check.py", "tools/coffee_encounter_locale_contract.py", "tools/coffee_encounter_receipt_history.py", "tools/full_game_localization.py", "tools/zh_translation_audit.py", "tools/ui_translation_append.py", "tools/order365_ui_receipt_compat.py", "content/events_ja/arc_events.json", "content/events_zh-CN/arc_events.json", "content/events_zh-TW/arc_events.json", "locale/ui_ja.json", "content/meta/full_game_localization.json"],
+      "why": "Exact448 address-bound encounter semantics, four official corrections/one first receipt, five-file inverse and fresh current event/UI admission; no historical suite replay.",
+      "godot": false
+    },
+    {
+      "tool": "tools/holdem_banner_locale_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/ja_translation_pipeline.py", "tools/holdem_banner_locale_receipt_check.py", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "content/meta/full_game_localization.json"],
+      "why": "Exact447 display-only transition and fresh current66/prior61 call binding, one new key and three official receipts; no historical suite replay.",
+      "godot": false
+    },
+    {
+      "tool": "tools/holdem_rank_ja_receipt_check.py",
+      "paths": ["locale/ui_ja.json", "content/meta/full_game_localization.json", "tools/ui_translation_append.py", "tools/holdem_rank_ja_receipt_check.py"],
+      "why": "Exact446 legacy Japanese rank7 correction and first official receipt; immutable Git/provenance/raw inverse and narrow mutation boundaries, no historical suite replay.",
+      "godot": false
+    },
+    {
+      "tool": "tools/holdem_banner_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_banner_receipt_check.py"],
+      "why": "Exact445 banner-function inverse, fresh seven-transition Git/source admission, unchanged61 UiCalls and receipts; no historical focused or engine replay.",
+      "godot": false
+    },
+    {
+      "tool": "tools/holdem_tutorial_ui_self_test.py",
+      "paths": ["tools/holdem_tutorial_ui.py", "tools/holdem_tutorial_ui_self_test.py", "tools/full_game_localization.py", "tools/ja_translation_audit.py", "tools/zh_translation_audit.py", "scenes/TutorialOverlay.gd", "scenes/HoldemClub.gd"],
+      "why": "Shared literal Holdem tutorial source population, strict adapters and existing static/demo identity preservation."
+    },
+    {
+      "tool": "tools/holdem_message_pulse_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_message_pulse_receipt_check.py"],
+      "why": "Exact443 two same-line message-pulse removals, fresh six-transition Git/source admission and unchanged UiCalls/dictionaries/receipts; no historical focused or engine replay.",
+      "godot": false
+    },
+    {
+      "tool": "tools/holdem_card_color_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_card_color_receipt_check.py"],
+      "why": "Exact441 card-ink expression inverse and fresh five-transition Git/source admission; unchanged whole collector/receipt population, no historical focused or engine replay.",
+      "godot": false
+    },
+    {
+      "tool": "tools/holdem_rank_locale_check.py",
+      "paths": ["tools/zh_translation_audit.py", "tools/holdem_rank_locale_check.py", "systems/TexasHoldem.gd"],
+      "why": "Exact regional UI poker-rank quantity contract and source rank mapping; rejects wrong rank/address/source and numeric neighbors."
+    },
+    {
+      "tool": "tools/holdem_async_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_async_receipt_check.py"],
+      "why": "Exact438 transient busy/generation source transition, fresh24 Git objects, immutable manifest admission and unchanged UiCall/data; no historical focused or engine suite replay.",
+      "godot": false
+    },
+    {
+      "tool": "tools/holdem_betting_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_betting_receipt_check.py"],
+      "why": "Exact437 fresh betting-round transition and whole inverse, immutable Git/source-manifest admission, unchanged collector coordinates and localization data; no historical focused or engine suite replay.",
+      "godot": false
+    },
+    {
+      "tool": "tools/holdem_canvas_width_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_canvas_width_check.py"],
+      "why": "Exact436 two-line canvas measure/center repair: fresh twelve-object two-transition proof, pure inverse and synthetic fault rejection, seventeen actual manifests without phantom combinations, current raw/HEAD/census and collector/retained JA identity. Separate actual first-hand runtime and no old focused replay.",
+      "godot": false
+    },
+    {
+      "tool": "tools/holdem_money_receipt_check.py",
+      "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ja_translation_pipeline.py", "tools/ja_translation_audit.py", "tools/ui_translation_append.py", "tools/holdem_money_receipt_check.py"],
+      "why": "Exact434 one-function whole-won transition, fresh immutable Git proof and replayed faults, real current collector -3 with remaining IDs, retained JA three values/accepted absence and sixteen exact source combinations without phantom histories. Does not replay historical focused or engine suites.",
+      "godot": false
+    },
+    {
+      "tool": "tools/ui_append_value_parse_check.py",
+      "paths": ["tools/ui_translation_append.py", "tools/ui_append_value_parse_check.py"],
+      "why": "Exact433 value-only strict parsing: parser identity and malformed JSON rejection, old/new append fixture outcomes, and no span construction before retained whole-byte inverse. Existing proof, collector and historical focused bodies stay unchanged; normal timing comparison is separate evidence.",
+      "godot": false
+    },
+    {
+      "tool": "tools/log_body_font_receipt_check.py",
+      "paths": ["scenes/MainGame.gd", "tools/main_game_locale_history.py", "tools/ui_translation_append.py", "tools/log_body_font_receipt_check.py"],
+      "why": "Exact432 one-line log font binding: one real fourteen-stage Main proof, replayed Git faults, pure inverse, fifteen actual-source hash combinations without phantom Main/Scalp histories, current census/raw/HEAD and fresh-call boundaries. Full collection and visual quality are separate normal/runtime evidence.",
+      "godot": false
+    },
+    {
+      "tool": "tools/scalping_phase_focus_receipt_check.py",
+      "paths": ["scenes/ScalpingGame.gd", "tools/ui_translation_append.py", "tools/scalping_phase_focus_receipt_check.py"],
+      "why": "Exact430 Scalp-only transition: fresh six-object Git admission, pure inverse boundary faults, current plus real pre-Scalp historical manifests only, current raw/HEAD census and next-call freshness. Old focused bodies and real UI inputs remain separate.",
+      "godot": false
+    },
+    {
+      "tool": "tools/decision_risk_width_self_test.py",
+      "paths": ["scenes/MainGame.gd", "tools/main_game_locale_history.py", "tools/ui_translation_append.py", "tools/decision_risk_width_self_test.py"],
+      "why": "Exact423 two measured-width lines: fresh thirteen-stage Git proof, pure inverse and semantic mutations, unchanged full collector/source identities and receipt bytes, thirteen exact manifests and next-call freshness failures.",
+      "godot": false
+    },
+    {
+      "tool": "tools/employment_choice_number_self_test.py",
+      "paths": ["tools/zh_translation_audit.py", "tools/employment_choice_number_self_test.py"],
+      "why": "Exact422 employment UI leaves: selected1/remaining2/week ownership and shared/repeated30000–100000won interval, independent original diagnostics, unchanged source/key/group/locale boundaries through direct and full Leaf validators.",
+      "godot": false
+    },
+    {
+      "tool": "tools/contact_coffee_number_self_test.py",
+      "paths": ["tools/zh_translation_audit.py", "tools/contact_coffee_number_self_test.py"],
+      "why": "Exact419 long contact-coffee UI leaf: actual two targets, local second-occasion/coffee/after binding, thirty-year and nonnumeric checks, boundary rejection and old title/cup behavior unchanged through both validators.",
+      "godot": false
+    },
+    {
+      "tool": "tools/reaction_body_font_self_test.py",
+      "paths": ["scenes/MainGame.gd", "tools/main_game_locale_history.py", "tools/ui_translation_append.py", "tools/reaction_body_font_self_test.py"],
+      "why": "Current416 two font overrides: exact12-stage Git proof, actual collector, retained receipts and twelve manifest views; old focused bodies stay unchanged.",
+      "godot": false
+    },
+    {
+      "tool": "tools/ui_translation_append_self_test.py --ja-gift-copy",
       "paths": [
-        "scenes/MainGame.gd",
-        "tools/main_game_locale_history.py",
         "tools/ui_translation_append.py",
         "tools/ui_translation_append_self_test.py"
       ],
-      "why": "Current402 exact local height successor, pure inverse controls and fresh Git/raw/current HEAD binding, real collector identity/coordinates and preserved official manifest composition. Only the new boundary is replayed for source changes.",
+      "why": "Declared414 existing Japanese two-target repair plus first receipts: actual immutable transition/origin, checksum-valid semantic faults, raw inverse, exact previous-target header selection and subsequent append/rollback. Does not invoke historical focused bodies or replay prior history.",
+      "godot": false
+    },
+    {
+      "tool": "tools/ui_translation_append_self_test.py --gift-price-badge",
+      "paths": [],
+      "why": "Current412 shop/forced-badge guard and intrinsic price width; immutable11 stages/nine inverses, same Korean and English leaves, actual collector coordinates, unchanged dictionaries/receipts and exact11 manifests.",
+      "godot": false
+    },
+    {
+      "tool": "tools/ui_translation_append_self_test.py --career-tenure",
+      "paths": [],
+      "why": "Historical409 explicit CLI and original focused body preserved. Current412 selection uses gift-price-badge instead of repeating the older HEAD-bound source test.",
+      "godot": false
+    },
+    {
+      "tool": "tools/chapter1_ui_proof_reuse_check.py",
+      "paths": [
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/chapter1_ui_proof_reuse_check.py"
+      ],
+      "why": "One-call UI proof lifetime, original prefix/267 delegation, first-error retention, exact diagnostics, exception/token restoration and fresh following-call rejection. Scoped spies are control-flow evidence, not a replacement for real immutable admission.",
+      "godot": false
+    },
+    {
+      "tool": "tools/ui_translation_append_self_test.py --promotion-review",
+      "paths": [],
+      "why": "Historical406 explicit CLI and original body retained. Current409 selection uses career-tenure rather than repeating the older HEAD-bound source test.",
+      "godot": false
+    },
+    {
+      "tool": "tools/ui_translation_append_self_test.py --axis-badge-fit",
+      "paths": [],
+      "why": "Historical403 explicit CLI and original focused body preserved. Current406 selection uses promotion-review rather than replaying an older HEAD-bound source test.",
+      "godot": false
+    },
+    {
+      "tool": "tools/ui_translation_append_self_test.py --people-card-height",
+      "paths": [],
+      "why": "Historical402 explicit CLI and original focused body preserved. Current403 selection uses axis-badge-fit rather than replaying an older HEAD-bound current-source test.",
       "godot": false
     },
     {
@@ -2406,6 +3502,14 @@
       "paths": [
         "tools/ja_translation_pipeline.py",
         "tools/first_start_notice_self_test.py"
+      ]
+    },
+    {
+      "tool": "tools/ui_comparison_memo_self_test.py",
+      "why": "Exact raw/epoch one-slot equivalence, alias/failure isolation, real pinned inverses and explicitly synthetic public-history freshness; preserves prior code except declared memo connection.",
+      "paths": [
+        "tools/ui_translation_append.py",
+        "tools/ui_comparison_memo_self_test.py"
       ]
     },
     {
@@ -4836,6 +5940,11 @@
         "assets/backgrounds/daeun_newlywed_home_night.png",
         "tools/routine_background_context_audit.py"
       ]
+    },
+    {
+      "tool": "tools/run_routine_background_input_check.py --self-test",
+      "why": "Prepared routine GUI runner rejects wrong markers, incomplete or contradictory observations, unsafe artifacts and wrong accounting; pure synthetic cases only, no engine or old checks.",
+      "paths": ["tools/run_routine_background_input_check.py", "tools/RoutineBackgroundInputCheck.gd", "tools/RoutineBackgroundInputCheck.tscn", "tools/RoutineBackgroundInputCheck.gd.uid"]
     },
     {
       "tool": "tools/run_routine_background_context_check.py --self-test",

@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-448",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "cd47a7059da5061c7987971e5935a0f587365ef9",
+    "tree": "36948cb680f4472f08ee5ffb049d4a4d791646e4",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "두 번째 커피 만남을 두 잔째로 오독한 사건 제목 JA/CN/TW 3값과 기존 JA 회상 1값의 정정·공식 수용·주소 한정 검사·선언된 준비 표시만 GO. 신규 키·coverage·게임 진행·전체 현지화·출고 승인이 아니다.",
+  "method": {
+    "direct": "gangnamdream-dev의 정본·보존 규칙에 따라 KO 사건 기본/진실인지 본문, Main 재방문·회상 우선순위, 실제 소비자와 지원 코드/focused/helper를 읽었다. 공식 12행 및 source/response8, 실제 원본 PNG4장·여섯 getter·네 typed 복원·3프로세스 로그, 정상9행 stdout/stderr와 최종 집계를 직접 대조했다.",
+    "assistance": "실제 하위 검수자 /root/independent392/ab_readonly428가 지원 코드와 제품5파일 whole raw 역상, 공식 header/accepted4/digest, 기존 기록 및 runtime 보존맵을 독립 읽기 검수했다. 중복 제거4920파일의 SHA/크기 대조 결과를 재사용하며 과거 검사를 재실행했다고 주장하지 않는다.",
+    "execution": "독립 검수자의 프로젝트 import·collector·공식검사·focused·엔진 실행0. Git/stdlib JSON·바이트·SHA 읽기만 했고 동결 종료 후 허용된 이 보고서 하나만 작성했다."
+  },
+  "source_and_acceptance": {
+    "declaration": "0987e966ee1843dff2fe0cfba6a624affe44721d",
+    "export_source": "f4e44326b56cb76188de6278625f14181ed190e6",
+    "product_commit": "5ff1e8e72e7de5ef11212bd84d682a94c39e8487",
+    "export_manifest_sha256": "1890a6c44865da19f0095d9efe8569fb7f33fcb49975ecb30762c224727a48b9",
+    "meaning": "사건 제목 二度目のコーヒー / 第二次咖啡闲谈 / 第二次喝咖啡는 KO의 재방문 맥락과 맞는다. JA 회상은 첫 二杯目→二度目만 바뀌며 이름·이후 시점·三十年·나머지 문체는 정확히 보존된다. 이미 정상인 동명 UI 제목3, CN/TW 회상2 및 다른 사건의 실제 두 번째 잔은 변경하지 않았다.",
+    "proof": "제품은 사건 overlay3·JA UI·원장 정확5파일이다. 네 text token과 원장 교정분을 역상한 전체 bytes가 실제 부모와 같다. 7경로/18객체 요청의 parent/tree/blob/raw 핀을 실제 Git과 독립 대조했다. 사건3의 현재 HEAD/disk 승인과 역사 비교용 UI4 역상을 구분하며 기존313/351 원문·47경로 경계는 유지한다.",
+    "receipts": "각1leaf씩 네 공식 export/check/import, 총12행은 모두 exit0·빈 stderr다. source/response header·previous-target·accepted digest가 정합하며 accepted41740→41741, batch220→224다. 기존 사건 receipt3의 target 정정과 JA 회상 첫 receipt1을 구분하고 기존220 batch·다른 accepted·원래 JA 탭/순서·본문을 보존했다. import의 포맷 정규화 뒤 원래 비소유 바이트 복구도 whole-file 역상으로 확인됐다. native_review는 OPEN이다.",
+    "official_result_sha256": {
+      "export": "39d5c7f663c62906f021fdd2059d287da9aee46b6d3e270355f7a64cd9c9574e",
+      "check": "1f19e72b47243dae723321cc0a39dd05e6341700161e012f42c85172b7a89b21",
+      "import": "d342a92be6ab762e7c4ddd43317ceac04fd7a30f2205994c897cf817819fbaaf"
+    }
+  },
+  "runtime": {
+    "path": ".git/full-game-localization/order448-screen-first/result.json",
+    "sha256": "e886d5e7d93f211fd0de82595d63c40914c5b45958fda228294942b027118c69",
+    "entry_sha256": "640676f2936efbdad8a1e1a696732c963c8da8f5491ab48e4f3296d1c0cbe0b3",
+    "seconds": 27.96,
+    "population": "JA/CN/TW 격리 process3, Story 실제 builder/getter의 준비 제목3PNG와 JA 실제 Main 회상 getter/reaction1PNG, default/known reader6·전체 typed 복원4. raw/tap·AP 연락·선택/확인·finish_typing·통계/금액/로그/거래는0이며 세 process exit0, errors/report_error 없음이다.",
+    "visual": "1280×800 원본4장을 직접 열어 표적 글자 누락·잘림이 없음을 확인했다. JP/SC/TC regular400 제목13px의 폭은134/121/108px≤1108px다. JA 회상은 actual normal19px, 실제 content836×29≤1192×29px이고 한 줄 전체가 보인다. TextServer glyph/공유 폰트·실제 bounds/clip/fit를 대조했다. RichText의 오래된 generic line_width 필드가 아니라 actual content_size를 사용했다.",
+    "effects_restore": "제목 default/known마다 prepared=actual, 네 before=restored typed 및 Meta bytes/existence·story queue/replay·EventManager current·AudioManager story fields·Holdem RNG를 확인했다. JA 자연타이핑0→1은1752ms이며 배경 변경에 따른 presentation RNG2회와 BGM season 논리키·focus 변화가 관측됐다. finite fade 완료 후 RNG와 전체 기록을 복원했고 AP focus는 재생성된 새 raw ID/path의 유일한 동일 semantic contract로 복원했다. 제목3은 원래 focus ID도 같다. teardown protected 상태가 보존됐다."
+  },
+  "normal": {
+    "path": ".git/full-game-localization/order448-static-final/result.json",
+    "sha256": "a4409976ac9879c9067cfd630b7dc364e98474f1f33cf813d1ac41ae98b52742",
+    "entry_sha256": "019c03366bf752d292910f9f7c1419e28b191b4fff014777a70937816b738128",
+    "seconds": 552.929,
+    "result": "동일 후보의8검증+조회1 원본9행은 모두 exit0·빈 stderr·all_pass=true이며 entry/aggregate와 일치한다. focused112/historical0(34.282초), fullbody551.698초, JA UI beta·EN/context/queue/diff/차선조회·등록185를 확인했다. fullbody는 SOURCE_INVENTORY_ONLY/runtime_claim0/native_quality_claim0이며 내부 fresh current-source/receipt 경계를 실행한다.",
+    "proof_limits": "focused의 한 실제 product proof와 current event admission 뒤 captured Git/decoded-object/디스크·receipt 변이와 호출 실패→복구는 합성 반례다. 새 역사 실행이나 새 암호학적 객체를 생성한 실험이 아니다.",
+    "not_run": "중복 standalone365 normal, 미지원 JA events scope, 과거 self-test/runtime, 불변 서사4종, whole audit·240주·성능 A/B·새 package는 NOT_RUN이다."
+  },
+  "preflight_history": "font LF/glyph schema 누락과 focused Git/receipt 실패·복구 반례 누락은 첫 엔진 실행 전에 보강됐다. Main background의 presentation RNG2회도 사전 source 추적으로 기대·복원에 포함했다. 미결 제품핀은 실제 제품 커밋 관측 뒤 결속했다. 이를 실제 runtime 실패나 추가 실행으로 세지 않는다. 공식12행·첫 runtime·normal은 성공했다.",
+  "preservation": {
+    "result": "runtime183 artifact/결과 포함184파일과 normal11 artifact/결과 포함12파일을 결속했다. 동결 종료 시 before=after이며 tracked3087/helper157/current17/player34/runtime184, prior 최상위7 구조(하위1458파일)는 검수된 원본과 같다. 기존208판정·186보고·인간 원장 bytes가 보존된다. 이후 root의 queue/archive/WORK_LOG 마감 편집은 봉인 시점과 별개다. 이 보고서는 snapshot 이후 생성되어 그 맵에 포함되지 않는다.",
+    "translation_ledger_sha256": "6186aaa75eb4c796ece79b066a12705d2cd28bfdbc70a237bef2b5db533f017b",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "제목은 실제 StoryMode builder/getter와 source-bound 동일 대입식을 사용한 준비 표시다. _ready/_exit_tree/_render_current·자연 Story 진입·gallery 인증·선택·AP 연락 실행은 관측하지 않았다. 기존 Main AP/HUD 위에 Story 준비 UI가 보이는 합성 배치를 전체 장면/HUD 품질로 승인하지 않는다.",
+    "한 해상도·한 실행·대표4PNG와 별도 TextServer shaping이다. 모든 raster glyph·연속 프레임·다른 배치, 음원 playhead·모든 transient 시각속성 복원을 보장하지 않는다.",
+    "원어민·인간·물리 입력/패드·자연 노출·새 패키지·전체 게임/출시는 미관측이다. 작은13px 제목과 기존 언어/표시 부채는 이번 수리 범위 밖이다."
+  ],
+  "final_boundary": "cd47a705 후보의 ORDER-448 네 오독 정정과 선언된 증거만 GO. 기존 공개·인간 판정 및 제품 전체 HOLD를 변경하지 않는다."
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-452",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "1bfc7b968e3184db33f4d5fe82432953a7412da6",
+    "tree": "d0bcae6e0c4a12ed305b38c2346778afe97f1ce5",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "Holdem 매손 blind 전 stack을 저장하고 SHOWDOWN 순손익·승리 메시지를 지급 후 stack 차이로 표시하는 정확5줄 수리. 실제 팟 지급·승패·RESULT의 세션 정산·현금 규칙과 기존 번역은 바꾸지 않는다.",
+  "method": {
+    "direct": "gangnamdream-dev 지침·452 사양·실제 소비자와 제품5줄, history/append/focused 및 private oracle/GD/runner/normal을 읽었다. 원본 PNG3장을 모두 직접 열고 actual observations·stdout/stderr/Godot 로그·typed 효과와 복원·정상8행 원문 및 최종 집계를 대조했다.",
+    "assistance": "비저자 하위 /root/independent392/ab_readonly428가 Git/stdlib 읽기로 신규 artifact의 bytes/SHA와 전후맵·기존 기록 보존을 대조했다. 이전에 확인한 맵의 동일성 재사용을 과거 검사의 새 실행으로 부르지 않는다.",
+    "execution": "독립 검수자의 프로젝트 import·collector·검사·엔진 실행0. snapshot 해제 후 이 보고서 하나만 작성했다."
+  },
+  "source": {
+    "declaration": "1a31721cb583586c8a4649a4c4950e82ab02fbe1",
+    "product": "ffc99a1f7ee19f6f8de36eed4729395a83dbdf65",
+    "boundary": "_hand_start_stack 새 int와 실제 _deal_next_hand의 insufficient-stack return 뒤·blind 앞 기록, 승리/패배 hand_net 두 식 및 승리 메시지 한 식이다. whole-file5줄 역상·기존 줄수와71 UiCall 위치/소유자/문자열 불변을 확인했다. summary/history는 hand_net을 소비하고 POT detail은 총팟, RESULT는 stack−buyin을 유지한다.",
+    "proof": "12단계72 Git 요청과61고유 객체를 구분했다. 실제 전이·whole-byte 역상 및 원래 inventory 검증을 유지하며 임의의 교차 조합을 허용하지 않는다. focused의 captured Git 결함 재생과 합성 phantom은 재서명된 역사 객체 실험이 아니다.",
+    "unchanged": "새 번역·import·coverage0. JA3053/CN1776/TW1776 및 accepted41755/b228 불변. _net_session의 기존 휴면 쓰기는 유지되며 실제 소비자0이다.",
+    "translation_ledger_sha256": "095d5e46dca4c4ddabcfde1f255565ff18f6cc913997238ca22ea812c102f53d"
+  },
+  "runtime": {
+    "path": ".git/full-game-localization/order452-screen-first/result.json",
+    "sha256": "26e5796d9de9610dedb80da0a855c9f38eb4503aca39de86d7cd6f5bf6bbc249",
+    "entry_sha256": "4653ed888f8f80a5488aec54633f197cad89c8bcf7e7a447554ab7505e020d28",
+    "observations_sha256": "3e74339d0aa624cada33f4a9f8a87067ce9c18bcf21194636faaf6ebe6858fcf",
+    "seconds": 16.312,
+    "population": "첫 실행 격리 KO1 process, 실제 start/deal/blind2(첫 손과 다음 손), 준비한 합법 RIVER2·실제 SHOWDOWN dispatcher2·RESULT 정산1·중복 RESULT 호출1·복원1·PNG3·표적11노드다. raw/tap·플레이어/AI 베팅 행동·Close0. exit0, errors/report_error[], prior_error=null, all_pass=true다.",
+    "visible": "원본3PNG에서 첫 손 +20,000원, 다음 손 −10,000원, RESULT +10,000원 및 두 총팟30,000원 표시를 직접 확인했다. 표적 누락·잘림·겹침 발견0. 실제 regular/bold12~24px의11노드·141glyph가 공유 폰트·fullfit·bounds를 만족했다. 기존 작은 글씨와 범위 밖 POT/WIN 영어·한국어 조사 표현은 그대로다.",
+    "hand_accounting": "실제 첫 시작100,000→준비 RIVER stack90,000/pot30,000→지급 후120,000으로 +20,000이다. 실제 다음 시작에서120,000을 새 기준으로 기록하고 준비 RIVER stack110,000/pot30,000→AI0 승리 후110,000으로 −10,000이다. 각 street의 bet reset 뒤에도 손 기준이 유지되며 RESULT110,000−buyin100,000=+10,000은 두 history net의 합과 같다. 합법52장 분할과 준비 손의 독립 rank 계산을 대조했다.",
+    "effects": "두 SHOWDOWN 동안 cash5,000,000/AP2를 유지하고 gambling23→23, addiction20→22를 관측했다. 실제 RESULT는 cash5,010,000/AP2·gambling28/addiction25·mental60, 로그1과 mg_plays_holdem1을 만든다. 날짜는 base save에서 독립 계산했고 Meta의 typed 의미와 GD expected JSON bytes를 실제 파일에 대조했다. 중복 호출은 whole typed state와 효과 카운터를 바꾸지 않았다. _net_session −70,000은 기존 휴면 값으로 남으며 새 순손익 근거로 쓰지 않는다.",
+    "restore": "각 독립 기대와 actual의 whole typed delta[], group before==restored 및 teardown 불변이다. 새 int는0으로, RNG·Meta 파일의 존재/원문 bytes도 복원됐다. Main AP focus는 유일한 같은 enabled/live action identity로 복원되며 재생성된 raw node ID까지 같다고 주장하지 않는다. 실제 player34 파일은 불변이다."
+  },
+  "normal": {
+    "path": ".git/full-game-localization/order452-static-final/result.json",
+    "sha256": "9aa88cf53cf5cb3e74fb91f41abacf516910d3db63e601f3c8d72b8fca4388f1",
+    "entry_sha256": "cfdfd2de9d4175b176bafb14dae5d345c4154730b34d8fef91cf19a5e3dad1f6",
+    "result": "같은 clean 후보에서7검증+차선조회1,8행 전부 exit0/빈 stderr, all_pass=true,726.422초다. focused42/historical_cases0(10.847초), receipt723.222초 accepted41755/b228/live47/historical_cases0, EN·context·queue·diff·등록189을 원문으로 확인했다. 시간은 단일 실행 관측값이며 성능 개선이나 인과를 주장하지 않는다.",
+    "not_run": "변경 없는 JA/ZH 전체감사·사건 본문·네 서사 검사·과거 focused/runtime·whole audit·240주·성능 A/B·새 package는 NOT_RUN이다. 이전 PASS를 새 실행으로 승격하지 않는다."
+  },
+  "preservation": {
+    "artifacts": "runtime184 artifact(결과 포함185파일)와 normal10 artifact(결과 포함11파일)의 bytes/SHA를 대조했다. entry·각 row·command·최종 집계가 결속된다.",
+    "maps": "동결 before=after tracked3099/helpers173/current5/player34/runtime185 및 prior4그룹2331 file leaf를 확인했다. prior의451 runtime196+normal12+flat8은 직접 재해시했고 older2115는 앞서 검수한451 맵과 동일성으로 재사용했다. 이 보고서는 snapshot 이후 생성되어 해당 맵의 일부가 아니다.",
+    "records": "선언→후보→검수 시점의 기존212판정·190보고·human raw bytes 불변을 확인했다. source/player_unchanged=true이며 기존451 raw→canonical forward fix와 원449 REWORK/450 GO 등 선행 증거를 보존한다. 공개·인간 판정은 변경하지 않았다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "KO 한 해상도의 준비된 두 RIVER 사례다. 실제 start/dispatcher/RESULT 호출은 관측했지만 자연 진입·자연 베팅·raw 입력·물리 패드·원어민/인간·다국어 화면·전체 게임·출시는 미관측이다.",
+    "플레이어 승리1/AI0 승리1만 관측했다. 동률·side pot·다른 승자·일반 게임 규칙 전체 및 휴면 _net_session 수리는 범위 밖이다. 폰트 크기·한국어 조사·나머지 UI 품질 개선을 주장하지 않는다.",
+    "실제 node resolved-font probe는 내부 raster glyph 전체를 가로챈 관측이 아니며, prepared state와 자동 검증 PASS는 인간 품질 승인을 대신하지 않는다."
+  ],
+  "final_boundary": "현재1bfc7b968e3184db33f4d5fe82432953a7412da6에서 ORDER-452 매손 순손익 표시 수리만 GO. 전체 제품·출고·원어민·인간 GO는 아니다."
+}

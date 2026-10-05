@@ -1,0 +1,105 @@
+{
+  "unit_id": "ORDER-426",
+  "reviewer": "/root/independent392",
+  "author_separation": "CN/TW 번역·제품·교환·런타임·정상 검사 helper의 비저자 독립 검수. 이 보고서만 작성했다.",
+  "subject": {
+    "kind": "source",
+    "commit": "456f8657f849c484a24be0954ee9bbca7e10b4a2",
+    "tree": "94d50a9a6006dc5b3c3bee140f082e91a88da208",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "scope": "career_ceiling/final_reckoning 제목·질문4, 지연비용 실제 return8, 개행 wrapper1: KO13키의 CN/TW 각13값과 준비된 실제 UI 소비자·합성 방향 입력에 한정한 내부 GO.",
+  "method": "선언 사양·KO 정본·지역 용어·실제 분기/계산/포맷 소비자와 새 helper를 직접 읽었다. 공식 source/response/receipt 및 raw inverse를 대조하고, 실행자가 보존한 원본 JSON/로그/10 PNG를 직접 검수했다. 표준 라이브러리/Git으로 해시·typed 상태·보존맵을 독립 대조했으며 엔진·감사·focused·oracle를 재실행하지 않았다.",
+  "source_and_acceptance": {
+    "baseline": "e46482d27cd7de8da1567b0d32c32b4a320097dc",
+    "semantic_review": "26값 전량 KO 직접 대조 PASS. 직업에서 쌓인 시간, 사람에게 남기는 시간, 이미 놓친 수입/절약, 정신·건강·업무성과·호감, 횟수/경과 주수, 가격의 signed 변화율과 실제 개행1을 보존했다. 수익·승진·관계 결과를 새로 보장하지 않는다. 원어민 검수 주장은 없다.",
+    "official_exchange": "첫 export/check 각각13×2 PASS(10.863/10.942초), 공식 import2 및 accepted26/batch2. header·source fingerprint·선택집합·response·accepted receipt·draft·현재 사전의 일치를 직접 확인했다.",
+    "raw_inverse": "CN/TW의 신규13 tail member씩과 원장 신규26 receipt/2 batch·해당 checksum만 역삭제하여 baseline 사전/원장 전체 원문 바이트를 복원했다. 기존41524 receipt/199 batch 및 JA는 불변이다.",
+    "counts": {
+      "new_keys": 13,
+      "new_values": 26,
+      "new_batches": 2,
+      "accepted_total": 41550,
+      "batch_total": 201,
+      "ui_zh_CN": 1680,
+      "ui_zh_TW": 1680,
+      "ui_ja": 3044
+    },
+    "product_delta": "7경로: CN/TW UI·원장과 CLAUDE/WORK_LOG/STATUS/활성 사양의 수용 후보 기록. MainGame/GameState/KO/EN/JA/기수용 catalog/폰트/검사 도구/공개 demo/project.godot/출시 manifest 변경0."
+  },
+  "runtime_review": {
+    "attempt": "동일 후보 첫 실제 실행 28.473초, exit0/errors0. 전용 pre-autoload StoryNameplate namespace에서 실제 MainGame 표면을 관찰했다.",
+    "population": "CN/TW × A/B/C/D/E = 10화면·원본 PNG10, lookup26, 실제 binding76, 카드30·전체 비용2줄30. 카드 Label270+제목/하단20+질문 본문10의 font/fit/bounds를 대조했다.",
+    "fixture_branches": "A W193의 career override study/apply/rest; B W229 final_reckoning의 invest/contact/save와 실제 officetel +25.0%; C 모든 실제 asset snapshot과 현재가 동일한 generic market; D W25 실제 scheduled quiet→cash crisis decision의 apply/resume/side_shift; E 실제 seed_startup -25.0%. 실제 localized job/person/asset catalog와 source 분기 제목을 사용했다.",
+    "cost_chain": "producer 형태의 준비 debt→실제 getter typed dict→formatter→wrapper→Label을 전량 연결했다. count12 및 A168/D24/시장194·연락200 경과 주수는 B/C/E의 남은12주와 구별된다. study/resume 공유 반환 문구는 서로 다른 실제 base와 각각 검수했다. 준비 debt는 자연 선택 trace나 비용 소비 증거가 아니다.",
+    "rendering": "PNG10개를 각각 직접 열어 대상26값과 30개 비용의 양쪽 줄에서 잘림·누락·두부·겹침을 발견하지 않았다. actual12px, SC/TC primary·owned fallback, 각 줄 폭·2 visible lines·높이·3카드 경계를 확인했다. 실제 카드별 가용폭은367/367/366px이며 선언의 예상366px와 구별한다. 최대 줄폭은 CN348px/367px, TW312px/367px다. 추가 자동줄바꿈·숨은3행·ellipsis 완화0.",
+    "glyph_boundary": "실제 resolved font/size를 사용하는 별도 TextServer probe다. source-built 전체 cost의 정확한 LF1 위치/span만 비인쇄 glyph0으로 분리하며 나머지 인쇄 glyph index·owned·CJK primary 검사는 유지한다. hard-break flag를 관측했지만 필수값으로 위조하지 않았다. 내부 Label shaped RID를 직접 관찰했다는 주장은 없다.",
+    "state_and_input": "full typed expected/observed와 before/restored 10세트 일치. source-derived route delta는 메모2·Hyunsu 기본 cast의 두 alias 및 focus tracking으로 제한됐고 나머지 변화0이다. market_prices·전체 catalog/snapshot·meta 파일·ControllerHints/mouse/UI tracking 복원 확인. 각 화면 focus0→1→2→1→0의40 taps/80 합성 raw press/release에서 controller 기대와 일치했다. confirm/pressed/action/next-turn/trade/item/purchase/finalization/stat/log 0이며 action 비용 소비는 하지 않았다.",
+    "isolation": "source tracked3019/helper98 전후 불변 및 실제 파일 재해시 일치. 사용자 player34의 존재/크기/SHA 불변. preserved_prior의1271개 파일 기록도 독립 재해시 일치. stdout/Godot 원문 각505bytes 오류0, stderr0, teardown 복원 일치."
+  },
+  "normal_review": {
+    "result": "동일 후보 normal13행(12검사+조회1) 최초1회 all_pass=true, 1042.099초, 전부 exit0/stderr0. entry·각00..12 원문·aggregate를 모두 읽었다.",
+    "preservation": "entry.before == result.before == result.after. tracked3019/prior1559/current135 총4713개 파일 해시를 현재 바이트와 재대조했고 runner snapshot SHA·runtime result 연결·clean HEAD/tree가 일치한다.",
+    "limits_in_output": "Chapter1 525.440초는 snapshot-valid debt8/blocked3/gap24(authoritative24/48)를 보존한다. Year5는 reference_only/topology invalidated/r1b false다. fullbody는 SOURCE_INVENTORY_ONLY/runtime0/native0, ZH는 skeleton/shipping0/direct English bypass11이다. EN 정적 clean을 전체 실제 HUD 완역 주장으로 확대하지 않는다. 등록169와 명시 차선 목록10은 읽었으나 목록의 검사10개를 추가 실행했다는 뜻이 아니다.",
+    "not_repeated": "기존421~425 runtime/focused, 역사 append/history focused, JA-only, whole audit, 240주 검사를 재실행하지 않았다."
+  },
+  "issues_and_corrections": [
+    "이번 번역 초안·공식 교환·실제 runtime·normal의 실행 실패나 제품 수리 없음.",
+    "작성 중 D25를 모든 scheduled decision으로 가정한 oracle assertion은 실제 quiet→crisis 분기에 맞춰 엔진 전에 수정됐다. 순수 oracle/preservation 사전확인1.940초와 최초 실제 runtime PASS를 구별한다.",
+    "검수자의 player/prior hash-record shape 가정으로 중간 read-only 대조 assertion이 중단된 뒤 sha256/bytes 구조를 바로잡아 전량 재대조했다. 제품·helper·원본 결과는 변경하지 않았고 실행 실패로 세지 않는다."
+  ],
+  "preserved_history": {
+    "prior_decisions": 183,
+    "prior_reports": 161,
+    "raw_bytes": "baseline의 판정 원장183개와 기존161개 보고 파일 전체 바이트 불변을 직접 Git 대조했다. 과거 최초 FAIL/수리 PASS/봉인 보고는 기존 근거 그대로 유지한다.",
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "evidence_sha256": {
+    "order426-keys.json": "fe9093f36ee5bda5da0bb131479b70f59ece38dea3a487d7e068840808023749",
+    "order426-zh-CN-draft.json": "b8b675049e19649baf080bd7f52030bde8351621a573cbb8368949bccfc68028",
+    "order426-zh-TW-draft.json": "61fcbeaa9acc72520cf85b9a469959e37db4db217cecf4a0b03696d8f4429659",
+    "order426-static-export.json": "4cb2859ca65170ac61d04be05c4c8f0bc935f627d34eaad4107eab4e1bebf729",
+    "order426-static-check.json": "139764acf48c711c2e42d1e0beef63af8e10eca814d6f3f773d47fae4a6eea8d",
+    "order426-append-precommit.json": "fe708b5ee8d4a482a246512154fc50e99f638f3be1bec8f994d58d62c9db1af1",
+    "order426-screen-final/result.json": "53d1ea1affa7abeebc4056ea64150215e84f60c160617d9af5bdc48d13658b3d",
+    "order426-screen-final/entry.json": "53131a48d38460607f9329a7745f021b63b20258406af80c98dcd5b6d38d0bda",
+    "order426-screen-final/oracle.json": "79f43e205bfdb561eb0c16681f697e6e6301c40a13037679ff3bae0ef4a8341c",
+    "order426-screen-final/order426-observations.json": "e7ea9d067f6e53dde0b7fbdd27b7271aafb9ebc9f20838fe16e9bbf6f29cd8b7",
+    "order426-static-final/entry.json": "668b4d190b6c2413e86db3a270083d1a480c3ea5024c8e793f0b5371d96ee7ed",
+    "order426-static-final/result.json": "93f631b587aa05eb5cd199bc98295d6572fb384246e44bde82f28ab841223b9d"
+  },
+  "evidence_base": ".git/full-game-localization/; runtime result의 artifacts가 원본 PNG10·로그·helper snapshot을, static entry/result가 원본13행 및 전체 보존맵을 결속한다.",
+  "limitations": [
+    "정확한 후보와 선언된 표적의 내부 GO이며 전체 게임·전체 UI·출시·B3/B4 승인이나 기존 HOLD 해제가 아니다. 공개 GO1·인간 OPEN45·본편/새 package HOLD 유지.",
+    "자연 진입/플레이 완주·행동 확정/실행·실제 지연비용 소비·장기 경제 효과·물리 패드 감각은 관찰하지 않았다. 입력은 Input.parse_input_event 합성 키보드 이벤트다.",
+    "초기 HUD 날짜·건강·현금 및 한국어 정보/저장 등은 KO로 초기화된 준비 fixture의 표적외 잔여다. 이미 수용된 해당 번역이 없다는 뜻이 아니며 전체 HUD 언어 갱신을 검증했다는 주장도 하지 않는다. 브랜드와 주변 비표적 표면은 별도 범위다.",
+    "count12/3자리 경과·실제 긴 자산명·양/음25%와 zero-market을 준비한5상태 범위다. 모든 이름/가격/해상도/폰트 크기 조합의 전역 fit을 보장하지 않는다.",
+    "원어민·인간 플레이테스트·240주 자연 플레이·전체 출시 검수는 수행하지 않았다."
+  ],
+  "unobserved": [
+    "native_language_review",
+    "human_playtest",
+    "physical_controller",
+    "natural_ingress",
+    "whole_game_release",
+    "full_240_week_playthrough",
+    "action_confirmation_and_execution"
+  ],
+  "independent": true,
+  "status": "completed",
+  "decision_scope": "work_unit",
+  "private_review": {
+    "path": ".git/full-game-localization/order426-independent-review.json",
+    "sha256": "c6fe708022c590b12e8b474ae2603ffcf26532c07f3f0548c7809410de0ed600"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER426_UI_OK screens=10 keys=13 locales=2 raw=80 taps=40 actions=0",
+    "생산자 ↔ 독자": "locale/ui_zh-CN.json + locale/ui_zh-TW.json (13 keys each) ↔ scenes/MainGame.gd:12439 / scenes/MainGame.gd:12498 / scenes/MainGame.gd:12706 / scenes/MainGame.gd:12776",
+    "바꾸는 상태": "accepted41524/b199 → 41550/b201; CN/TW1667 → 1680; JA3044 unchanged",
+    "포기 시 잃는 것": "career/final pressure4 and delayed-cost return8+wrapper1 revert to English fallback",
+    "서사 위치": "N/A: existing UI/localization validation",
+    "장면 계층": "N/A: non-scene task",
+    "닫는 것": "ORDER-426 work_unit only; full-game/new-package HOLD"
+  }
+}

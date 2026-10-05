@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-444",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "f054337136b66eefef90446e7c27a8ee14776712",
+    "tree": "5a017165615f2a63ba8faad6b5e03f2461588cfa",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "실제 Holdem 튜토리얼 2슬라이드의 한국어 4키, JA/CN/TW 신규 12값과 해당 순수 provider·검사 소비자 연결만 GO. 전체 게임·출고·원어민·인간 승인으로 확대하지 않는다.",
+  "method": {
+    "direct": "사양, 한국어 원문과 실제 표시 소비자, 12초안, provider/fullgame/JA/ZH/focused 및 runtime/normal helper를 직접 읽었다. 원본 1280×800 PNG 6장을 모두 열고 세 locale의 전체 관측 JSON에서 lookup/binding·입력·전이·typed 복원·로그를 대조했다. 정상검사 10행 stdout/stderr, entry/result와 12 artifact의 SHA·크기도 직접 확인했다.",
+    "assistance": "실제 하위 검수자 /root/independent392/ab_readonly428가 공식 source/response/header/receipt 및 4제품 raw 역상, 기존 기록과 현재 보존 맵을 Git/stdlib 읽기로 대조했다. 그 결과를 직접 읽은 집계와 현재 source에 결속했다.",
+    "execution": "검수자의 프로젝트 함수/import·collector·감사·focused·엔진 실행 0. JSON/Git/바이트 읽기만 수행했으며 정상 집계 완료 후 허용된 이 private 파일을 한 번 작성했다. gangnamdream-dev의 정본·범위·기존 증거 보존 규칙을 적용했다."
+  },
+  "source_and_semantics": {
+    "result": "두 실제 _localized_slide 호출의 literal 5인수에서 title/body 4키를 추출한다. 기존 static UI와 demo701을 대체하지 않으며 overlap·불완전 fixture·도달하지 않는 코드 경계를 fail-closed로 검사한다. JA 소비자는 기존 check_text 금지어 검사와 실제 Leaf를 통한 full.translation_errors를 모두 유지한다. ZH 수량 정규화는 exact UI ID/source hash와 지역별 rank/2장·공개5장·최강5장 역할이 일치하는 두 본문에만 적용하고 원문 script/token/BBCode/LF/money 검사는 유지한다.",
+    "meaning": "12값 모두 한국어에서 직접 대조했다. 2+5 중 최강5, 무베팅일 때만 Check, Fold 시 기투입 칩 포기, +EV의 유리함과 비보장성, 10단계 순위 및 각 장수·쌍수가 보존된다. LF 0/8/0/11과 BBCode·+EV를 유지한다. 신규 JA 본문의 포카드는 フォーカード이며 기존 별도 키의 フォールド 오역을 승계하지 않는다.",
+    "append": {
+      "baseline": "9fdf875c9767ed8b94a8d4dfb24163e5ffaeac89",
+      "path": ".git/full-game-localization/order444-append.json",
+      "sha256": "2c964ac2e0f2cb85cc3009c32d98208fce9ec99a5100d0f46e32a8c73395a1db",
+      "result": "UI 각4값·receipt12·batch3. accepted41724→41736, batches213→216, JA3044→3048, CN/TW1767→1771. 공식 header/digest/accepted receipt/draft/current 값이 일치하며, 추가분과 새 digest를 역상 처리한 4파일은 기준 raw bytes와 정확히 일치한다. 기존 JA 탭5행도 원문 그대로다.",
+      "ledger_sha256": "3317d981e97ac0d7ce25434601b7c89f8d698d3e1d46e62d8a31394b5d119b76"
+    }
+  },
+  "runtime": {
+    "path": ".git/full-game-localization/order444-screen-first/result.json",
+    "sha256": "8051192a53d45406af6830a638da4d2a53e81ffb58d95a6a24a3fdd58032af61",
+    "entry_sha256": "404f22a0a6b09e77172f084d2c73ef26f976b2fadca86b6a7fc3749597beb7d5",
+    "observations_sha256": {
+      "ja": "fd944d25f390fe6a7ef6c3c0bf14d0e936ad9c75ea1bed13347f24feaa8e52d5",
+      "zh-CN": "137c4f6c35c2accd6500c10f3d80a9c451d4d747d1a2343298eb6b65016c0f29",
+      "zh-TW": "bed38389dce14cc222f842a23bab43a15f0a0a8e62713adcd689573a97d1efe1"
+    },
+    "seconds": 42.143,
+    "population": "격리 3locale process, 실제 6PNG·12lookup/12신규binding·완료/취소 6그룹. synthetic 키 18edges/9taps로 Next·완료·Esc를 각 locale에서 관측했다. 완료3/dismiss6. 첫 손·베팅행동·AI·showdown·정산·Close·stats·trade·finalized는 모두0이다.",
+    "visual": "세 process exit0, errors/report_error 빈 값, stderr0, 정확한 완료 마커. 제목22px bold·본문16px regular/bold·페이지13px·Next16px가 실제 panel 안에 모두 들어간다. 본문 실제 584×310px 안에서 JA 최대504×288, CN 최대424×288, TW 최대424×288이며 9/12줄 전체 표시다. 원본6PNG에서 표적 잘림·겹침·글자 누락은 보이지 않는다. JP/SC/TC 실제 resolved 400/700 경로와 source LF8/11만 분리한 shaping probe에서 비LF 누락·소유경로 이탈0이다.",
+    "effects_and_restore": "각 그룹 prepared/opened/observed core와 각 입력 전후 Holdem/core가 동일하다. seen.holdem=true는 실제 show 효과이며 완료·취소 뒤 유지되고 fixture 종료 때 원래 값으로 복원된다. 6회 whole typed 복원·Meta 원래 bytes/existence·teardown이 일치하며 delta가 없다. AP 노드는 재생성되므로 원래 path/instance의 보존으로 주장하지 않는다. raw identity를 따로 남기고 동일 name/index/action_fn/action_id/pressure/Main ownership의 유일한 활성 후보로 복원했다. 실제 사용자 파일34개도 불변이다."
+  },
+  "normal": {
+    "path": ".git/full-game-localization/order444-static-final/result.json",
+    "sha256": "40fa4d364d957714c2011de322ec9b321f1830424ec12153de97f8020d458acc",
+    "entry_sha256": "0742200d2c235a9d226bc6de1226693e53250e326007b29810398f5d780028e7",
+    "seconds": 450.357,
+    "result": "동일 clean 후보의 9검증+조회1, 10행 모두 exit0/빈 stderr/all_pass=true. focused192/historical0(25.902초), fresh receipt41736/b216(449.645초), JA ui·ZH·EN·context·queue·diff·등록181과 차선조회를 확인했다. focused는 unittest6메서드 안의 표적192사례이며 과거 suite 재실행이 아니다.",
+    "not_run": "불변 full-body(ORDER442 참조), 4서사 검사, 과거 focused/runtime, whole audit, 240주, 성능 A/B는 이번에 실행하지 않았다. 조회가 출력한 차선8개는 별도 추가 실행이 아니다."
+  },
+  "preservation": {
+    "runtime": "entry=before=after, tracked3073/helper141/current24/player34. runtime artifact169 SHA·bytes 직접 대조 일치. prior는 최상위 nested4개에 실제492파일이며 SHA·bytes 일치한다. tracked 중 기존 검수184파일은 재사용하고 나머지2889파일을 보조 검수자가 재해시했다.",
+    "normal": "entry.before=before=after, 같은 tracked3073/helper141/current24/player34/prior4와 runtime_evidence170(169artifact+result)이 결속된다. 10개 원본 row=집계=entry command이며 artifact12 SHA·bytes 일치. 이 보고는 집계 종료 후 생성되어 그 snapshot에 포함됐다고 주장하지 않는다.",
+    "history": "기준9fdf875의 기존204판정·182tracked 보고·인간 원장 raw bytes를 보존했다. 이전 성공·실패 evidence와 helper는 재판정하지 않고 불변 참조한다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "retained_failures": [
+    "order444-preflight-first.json SHA03bf61a884344ce02b4a5b2e2f3272bd3bebbe7f3f6f3264d11ca05fa793cb82는 원 tool transcript 요약이다. 수용 전 dictionary 검사 실행과 잘못 들여쓴 positive fixture로 최초 focused가 실패했다. 실행 순서와 fixture를 수리했으며 원 실패를 PASS로 바꾸지 않는다.",
+    "order444-official-check-first.json SHAaa549db4c9c32839bb943bb96d8fa1b7cc64f21d2e0fc8659d4d2a25852996d2 및 official-recheck/recheck2 원문에 ordinal·rank 용어3/4·첫 문장2/5 numeric 오탐을 보존했다. 번역12값은 바꾸지 않았고 exact source-bound 검사 수리 후 final/import 각3건이 통과했다.",
+    "order444-append-first.json SHAd8dd52ef255da86425ecf253826022dae43ba34ab41e7dcef50b15a93c6053a5에 공식 import가 기존 JA 탭5행을 공백으로 정규화한 raw 역상 실패를 보존했다. 해당 leading tabs만 원복한 뒤 최종 raw 역상이 통과했다."
+  ],
+  "remaining_limits": [
+    "prepared 진입에서의 일회성 자동 관측이다. 자연 ingress·물리 키보드/패드·원어민·인간·모든 해상도/장치·베팅 회귀 및 전체 출시 승인은 미관측이다.",
+    "폰트 probe는 실제 resolved 폰트를 이용한 별도 TextServer shaping이며 RichText 내부 raster glyph를 직접 가로챈 검사가 아니다. 원본6PNG 시각 확인과 구분한다. typed/logical 복원이 모든 음원 playhead·transient node identity의 완전 복원을 뜻하지 않는다.",
+    "기존 JA 별도 포카드→フォールド 키와 범위 밖 영어·전역 UI/번역 부채는 남는다. JA 자동 숫자 multiset은 모든 순위 교환의 의미를 보장하지 않으므로 이번12값의 직접 한국어 대조와 구분한다. ZH는 skeleton/shipping0, JA는 beta이며 전체 인간 게이트 HOLD를 유지한다.",
+    "+EV와 초보자 페어 이상 raise 문장은 기존 한국어 교육문구의 번역이다. 이번 검수는 전략의 수익성 증명이나 새 게임 조언을 추가한 것이 아니다."
+  ],
+  "final_boundary": "정확한 source f0543371의 ORDER-444 선언 범위만 GO. 기존 실패는 원문 그대로 남기며 자동 PASS를 전체 제품·원어민·인간·물리·자연 플레이 GO로 승격하지 않는다."
+}

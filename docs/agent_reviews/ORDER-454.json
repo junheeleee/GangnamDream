@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-454",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "457c93727eb42a09bb7f480c3410baffe11c9e24",
+    "tree": "fc184a1feebfeec521c314251465ba81473bd42f",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "초기 correction/fee 두 비교 함수의 고정 원장 투영만 validate_history 호출지역에서 재사용한다. UI 파싱·현재 snapshot 파싱·전체 checksum·raw 역상·Git/proof/manifest/최종 HEAD 검증과 게임·번역·원장은 유지한다.",
+  "method": {
+    "direct": "gangnamdream-dev 지침·454 사양과 실행 전 계획 조정, append 전체diff·기존 소비자/memo, 새 focused388행·scope·private runner를 읽었다. 완료된7행 stdout/stderr와 entry/result를 모두 직접 읽고 실제 marker·parse count·원래365 출력의 결속을 확인했다.",
+    "assistance": "비저자 하위 /root/independent392/ab_readonly428가 closure/context의 소범위 검토와 Git/stdlib 기반 신규 artifact·현재 source/player·기존 기록 bytes/SHA 대조를 수행했다. 검수된 과거 맵의 동일성 재사용을 새 검사 실행으로 세지 않는다.",
+    "execution": "독립 검수자의 프로젝트 import·collector·검사·엔진 실행0. 동결 해제 뒤 이 보고서 한 파일만 작성했다."
+  },
+  "source_review": {
+    "declaration": "d4636091528f048ee55dc46034d74c086edcf7f9",
+    "append_sha256": "1bbdf4c1edc38ff8618ac9b783e39729bd8780bd5e526d42428e28a34124abc2",
+    "focused_sha256": "4f5e17a98eba65a1fdc30dc670cf72de712f290a9e7cc9607ba4d8e1fd887b9c",
+    "boundary": "기존3인자 직접 호출은 유지한다. 실제 proof와 previous/successor 일치 검증 뒤 원래 두 함수 identity만 bound closure로 등록한다. projection은 종류·원장 경로·정확한 before/after bytes와 ordered/raw 토큰에 결속된 NamedTuple이며 전체 Document/value/text/spans/keys나 가변 receipt를 보관하지 않는다.",
+    "lifetime": "saved는 해당 history의 corrections 목록에 속한 closure 지역 값이다. cold inverse 성공 뒤에만 공개하며 결과 dict·실패·verdict를 캐시하지 않는다. ContextVar는 실행 중 전달에만 쓰고 finally token reset으로 정상·예외·중첩 호출의 외부 context를 복원한다. 다음 admission은 새 closure와 fresh proof/HEAD를 거친다.",
+    "equivalence": "현재 원장 checksum·receipt와 batch 순서/내용·batch 선행 구분자·target raw token·현재 snapshot span 역상을 유지했다. correction의 target-only 복원과 fee의 이전 receipt 전체를 사용한 checksum 계산을 구분한다. fee는 작은 immutable receipt bytes를 매번 새 객체로 decode한다. UI 고정 Document4회와 기존 한칸 memo epoch/격리는 그대로다."
+  },
+  "automated_contract": {
+    "path": ".git/full-game-localization/order454-normal-first/result.json",
+    "sha256": "81072450f46c9caa169a80180171e7e2fce5910733896c1f06d886bb0b502aef",
+    "entry_sha256": "32bccc7dd9582a04a40b6ea2f27e47f72ee523f54128454304fed9f011de21fa",
+    "result": "같은 clean 후보의 첫 실행에서 focused 선행1·실제365 기본검사1·context/queue/diff/등록4·차선조회1, 총7행 모두 exit0/빈 stderr다. all_pass/source_unchanged=true, errors[], 전체631.567초다. 등록191을 확인했다.",
+    "focused": "181개 PASS 판정·historical_cases0·실패0(19.707초). 봉인453의 두 함수 정의를 oracle로 사용한다. 실제 두 교정의3경로 before/after 총12 blob 요청과 SHA·정확 역상을 확인하며, 3/4경로·후속 append·보호JA·escape/구분자/순서/누락/checksum·비소유 accepted·복원 방식 차이·오염·cold 실패·immutable retention·context 복원은 합성 표본과 구분한다.",
+    "construction_counts": "실제 고정 blob에서 각 종류의 bound3회는 ledger5회(준비2+cold dynamic1+warm dynamic2), UI12회, 총17회였다. 단일 직접 control은 ledger2/UI4였다. uncached3회 ledger6은 이 control과 소스의 고정 경로에서 산술 도출한 값이며 옛 함수를3회 재실행했다는 주장이 아니다. exact-after의 추가 dynamic1/호출과 최초 준비비용을 포함해 반복 생성 감소를 확인했다.",
+    "freshness": "옛 memo 도구의 synthetic_history/uncached_factory 두 utility만 소비했다. 실제 현재 history 본문을 합성 Git/proof로 실행한 결과·외부 trace 동치, epoch inverse9→6, fresh proof3 및 Git/objects/raw/proof/source/manifest/split/HEAD 8fault 거부·회복을 확인했다. 이 합성 trace는 실제 repository admission을 대신하지 않는다.",
+    "actual_admission": "별도 실제365 기본검사1회610.898초. 원문 ORDER365_UI_RECEIPT_OK의 accepted41755/b228/live47/historical_cases0 및 전체 stdout이 봉인453의 원 main stdout과 byte-equivalent이다. 현재 admission은 새로 실행했고 이전 전체 receipt를 비교용으로 재실행하지 않았다."
+  },
+  "preservation": {
+    "artifacts": "신규9 artifact(결과 포함10파일)의 bytes/SHA, entry·7개 row·commands·집계 결속이 일치했다.",
+    "maps": "봉인 before=after와 현재 tracked3107/player34/helper1의 bytes/SHA를 확인했다. prior10 top entries는 flat6+nested4의216 file leaf다. flat6은 재해시했고 nested452 runtime185/normal11 및453 profile4/normal10은 이미 검수한4result SHA·artifact맵 결속을 재사용했다. 이 보고서는 snapshot 이후 생성되어 그 맵에 포함되지 않는다.",
+    "records": "선언 대비 기존214판정·192보고·human raw bytes와 게임·사전·번역원장·parser/history/365·옛 memo/focused·453 profiler 원문을 보존했다. 새 번역·수용·coverage0이며 공개·인간 판정은 변경하지 않았다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "453은 계측된 실행이고454는 계측되지 않은 단일 실행이다. 두 wall time은 계측 오버헤드·환경·캐시·동시 작업이 통제된 A/B가 아니며 확정 속도 향상률·절감 시간이나 미귀속 병목을 주장하지 않는다.",
+    "옛 memo standalone은428 전체파일/EOF 봉인이 후속430~452와 이미 불일치함을 실행 전에 읽어 확인해 NOT_RUN으로 조정했다. 옛 도구를 완화하지 않았고 utility 회귀를 과거 전체 suite PASS로 부르지 않는다.",
+    "최적화는 두 고정 원장뿐이다. UI·gift/rank/residual/coffee·manifest/Git proof는 범위 밖이며 전체 parser 또는 모든 사적 API의 임의 입력 동등성을 포괄하지 않는다.",
+    "엔진·화면·입력·자연 진입·물리 패드·원어민/인간·전체언어/이야기·과거 전체suite·whole audit·240주·공식교환·새 package·출고 검증은 NOT_RUN이다."
+  ],
+  "final_boundary": "현재457c93727eb42a09bb7f480c3410baffe11c9e24에서 ORDER-454 고정 원장 투영 재사용의 source_review/automated_contract만 GO. 전체 제품·출고·원어민·인간 GO는 아니다."
+}

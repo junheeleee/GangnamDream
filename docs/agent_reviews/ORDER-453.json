@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-453",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "d6d7fc54f03382539e893d4ece33c0d4e47951ed",
+    "tree": "6b636b21a8573c3256c10146e66b7e9ad1b96aa1",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "기존 standalone365 기본 main을 한 번 호출하며 append의 선택된 Document 별칭·다섯 비교 함수·collector/current_proof/validate_history 비용을 기록하는 계측 도구다. 최적화·캐시·게임·번역·원장 변경은 없다.",
+  "method": {
+    "direct": "gangnamdream-dev 지침과453 사양, profiler430행·focused334행·private runner 및 scope 변경, 실제 계측 호출부를 읽었다. 신규7행 stdout/stderr와 main 원문,359개 Document 집계행을 읽고 합계·반복 bytes 산술·역할별 비용을 독립 재계산했다.",
+    "assistance": "비저자 하위 /root/independent392/ab_readonly428가 Git/stdlib 읽기로 새 artifact·현재 source/player와 기존 기록의 bytes/SHA 및 맵 결속을 대조했다. 기존에 검수한452 맵의 재사용은 검사를 다시 실행한 것이 아니다.",
+    "execution": "독립 검수자의 프로젝트 import·collector·검사·엔진 실행0. snapshot 해제 후 이 보고서 한 파일만 작성했다."
+  },
+  "source_review": {
+    "declaration": "e3f393540075d26a94e78c90d2b5edf432c3e17c",
+    "profiler_sha256": "c27ae55ea79fa4784b5535fa021caee3c4257fc76ba6f2d842f0f1ae305ee3d1",
+    "focused_sha256": "ed3854132f6f9a7af97607943e745d92369719e021b348abb9c4ed3c1e076088",
+    "contract": "원래 callable의 단일 호출·인수·반환 identity와 원 예외를 유지한다. ContextVar의 비교 호출별 site 순번과 source-bound 경로로 before/after/dynamic을 분류하며 raw bytes의 값 동일성으로 역할을 추측하지 않는다. finally에서 모든 별칭·argv·bytecode 설정 복원을 시도하고 계측/산출물 오류를 원 main 예외와 별도로 기록한다.",
+    "unchanged": "기존 append/history/parser/365 도구·게임·사전·원장 본문은 선언 대비 불변이다. accepted41755/b228·live47이며 새 번역/수용/coverage0이다."
+  },
+  "measurement": {
+    "path": ".git/full-game-localization/order453-cost-first/result.json",
+    "sha256": "de5c55d5bb926a51cd59cdcfa0d4afac6d8e32b75bbad28066cfe61aaa6fbde1",
+    "entry_sha256": "333982bcff98fff585d06a495cfd523cc0a351f197928fc5c23c31f00a1edb2f",
+    "outcome": "첫 계측 실행 main_calls1/main_exit0/main_exception=null, errors[]/metrics.errors[], restored=true, source_unchanged=true, all_pass=true다. 원 main stdout은 ORDER365_UI_RECEIPT_OK accepted41755/b228/historical_cases0 한 줄이며 stderr는 비었다. profile 성공 marker는 outer row01에 정확히 한 번 있고 원 main 로그와 구분된다.",
+    "seconds": {"main": 708.009880125, "subprocess": 709.311, "outer_workflow": 709.903},
+    "documents": {"aggregate_rows": 359, "calls": 1118, "failures": 0, "repeated_input_bytes": 4251296998, "seconds": 349.435113768},
+    "fixed_before_after": {"calls": 560, "seconds": 186.9281245},
+    "early_correction_and_fee_fixed": {"calls": 444, "seconds": 133.025475915, "observed_percent_of_main": 18.788646832373892},
+    "early_fixed_ledger_only": {"calls": 148, "seconds": 130.44623408, "repeated_input_bytes": 1593628750},
+    "early_fixed_ui_cn_tw": {"calls": 296, "seconds": 2.579241835},
+    "rss": "Darwin ru_maxrss 종료값2,286,370,816 bytes는 이 프로세스 생애 최고 RSS다. 함수별 사용량이나 메모리 증가량이 아니며 반복 입력 bytes와도 다르다."
+  },
+  "automated_contract": {
+    "path": ".git/full-game-localization/order453-normal-first/result.json",
+    "sha256": "d2fa87499dc9b6dbc40a9828df9419a7a3d7345315454e135165a4b3196f7efc",
+    "entry_sha256": "35e70a9a3256cc68df1355c6dacd7a19944b1f31bed817e9db9da1ee3d0d5ed9",
+    "population": "focused 선행1·실제 profile1·context/queue/diff/등록4·차선조회1의7행 전부 exit0/빈 stderr다. focused13 methods/historical_cases0(프로세스0.070초), 등록190, all_pass=true·profile_error=null을 원문으로 확인했다. 원 main 재실행이나 별도 중복365 검사는 없다.",
+    "synthetic_boundary": "focused는 합성 모듈로 반환/예외 identity·부분 설치·복원·중첩 context·동일 raw의 site 순번·drift/unknownsite·계측 기록/clock 실패·정해진 clock 비용을 검사한다. 실제 전체 repository 오류·모든 artifact failure를 주입한 실험은 아니다."
+  },
+  "preservation": {
+    "artifacts": "profile3 artifact(결과 포함4파일)와 normal9 artifact(결과 포함10파일)의 bytes/SHA가 모두 일치했다. entry·7개 원본 row·commands·최종 집계의 결속을 확인했다.",
+    "maps": "봉인 시점 양쪽 before=after 및 tracked3104/player34의 현재 bytes/SHA 일치를 확인했다. prior452201개는 기존 runtime185+normal11의 검수된 맵 동일성 및 flat5 재해시로 결속했다. 이 보고서는 snapshot 이후 작성되어 해당 입력 맵에 포함되지 않는다.",
+    "records": "선언 대비 기존213판정·191보고 및 human raw bytes 불변을 확인했다. 공개·인간 판정을 변경하지 않았다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "limits_and_followup": [
+    "단일 계측 실행이다. 계측 오버헤드·OS 캐시·동시 작업 영향을 분리하지 않았고 A/B·성능 개선·예상 절감 시간을 입증하지 않는다. 중첩 함수의 inclusive 시간은 서로 겹치므로 더하지 않는다.",
+    "append의 지정된 Document 별칭만 계측했다. 다른 모듈 별칭·strict loads 등 전체 parser 경로를 포괄하지 않으며 미귀속 시간을 Git 병목이라고 단정하지 않는다.",
+    "관측상 다음 별도 범위는 초기 correction/fee 두 함수의 고정 원장 투영만 검토할 근거가 있다. UI 파싱은 그대로 두는 최소화 제안이며 아직 구현하거나 절감 효과를 검증한 것은 아니다.",
+    "엔진·렌더·화면·입력·자연 진입·물리 패드·원어민/인간·전체 게임·새 package·출고 검증은 NOT_RUN이다. 기존 suite의 PASS를 새 실행으로 승격하지 않는다."
+  ],
+  "final_boundary": "현재d6d7fc54f03382539e893d4ece33c0d4e47951ed의 ORDER-453 계측 계약과 실제1회 결과만 GO. 최적화·전체 제품·출고·원어민·인간 GO는 아니다."
+}

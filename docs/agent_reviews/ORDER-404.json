@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-404",
+  "subject": {
+    "kind": "source",
+    "commit": "0dad800b98423a643dc8a5b4daddead7f01e927a",
+    "tree": "f76127215a43abb64b6e60b8354e371447b6d69b",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "reviewed_at": "2026-10-04",
+  "status": "reviewed",
+  "verdict": "GO",
+  "authority": "Delegated independent internal review, not native-reader, human, physical-device or release approval.",
+  "independence": "Reviewer authored no translations, product, tools, runtime helpers or acceptance records; read original code/evidence and directly viewed all four original PNGs. Only this private review is reviewer-owned. No engine or audit was rerun by reviewer.",
+  "scope": {
+    "population": "Nine declared Korean UI keys, independently reviewed in both Chinese locales: all 18 values; two official batches. Actual unemployed work menu initial and prepared post-Mapo branches only.",
+    "consumers": [
+      "_open_cat_work",
+      "_cat_modal_button",
+      "_split_action_label",
+      "_ap_action_preview",
+      "_make_essential_action_card"
+    ],
+    "screen_population": "zh-CN and zh-TW × initial two-card and after-Mapo three-card fixtures = four 1280×800 PNGs, ten cards. Initial six and after-Mapo eight source-key bindings yield nine distinct keys per locale.",
+    "prior_evidence_boundary": "ORDER-403 CN/TW work originals are only initial six-key English-fallback and unchanged-geometry comparison. They do not observe the three post-Mapo/mock-interview additions. No 403 ellipsis waiver or GO was inherited."
+  },
+  "decision_summary": "All 18 final values preserve the Korean meaning, register, region, quantities and conditions; official exchange/receipt freshness and byte-preserving append are correct. Four actual screens have fitting target text with appropriate regional fonts and restored protected state. Eleven bounded normal checks and one selection query passed on the exact source. No blocking defect remains within this unit.",
+  "source_review": {
+    "base": "39e1fdbbe0ab571b2cd9c468f62e42b7927af5f2",
+    "changed_paths": [
+      "CLAUDE.md",
+      "locale/ui_zh-CN.json",
+      "locale/ui_zh-TW.json",
+      "content/meta/full_game_localization.json"
+    ],
+    "main_game_sha256_unchanged": "4c86abe5880d49128a511da36ad361f76c4290c10103d976e1dd33d66294d6bf",
+    "method": "Read declared spec, applicable skill/WORK_UNIT/glossaries and real consumers. Re-read every final draft value against Korean, not the English pivot. Examined initial application submission and subsequent JobSystem qualification behavior before judging the conditional employment preview.",
+    "semantic_result": "AP 1, 0 won expressed as Korean won, Intelligence/Social 0~2, Luck 0~1, 1~3 weeks and first salary retained. Mapo remains 麻浦. Four full card labels preserve their em-dash title/subtitle split. 求职自述/求職自傳 remain distinct from 简历/履歷. No invented regional name, causal explanation, new probability or immediate-employment promise.",
+    "pre_acceptance_corrections": [
+      "CN 写求职信 was changed by its author to 撰写求职自述, matching the existing self-introduction document terminology; the original nine-value draft is preserved.",
+      "TW 符合條件即就業 was changed by its author to 符合條件可就業 because initial _ap_job_hunt only submits an application with no assured response. All nine corrected TW values and all nine CN values were re-read before accepted import."
+    ],
+    "draft_sha256": {
+      "order404-zh-CN-draft.json": "c90d13d5e72eacac1c058a74acb8a1f1e4e15b8e95e8207a47c2bb5f8c580c57",
+      "order404-zh-TW-draft.json": "f128e8f579fd07a79f963158a01b31d592e09f9624988b83e4f2012c508e48ec"
+    }
+  },
+  "exchange_review": {
+    "method": "Read official export/check/import originals and emitting helper. Compared all source/response/header/accepted target hashes and receipt digests. Source hashes use the actual Leaf path/field/ko schema. Independently removed exactly the appended UI members, accepted members and batches, and restored the previous accepted digest: all three complete raw files equal the base Git bytes.",
+    "counts": "CN/TW dictionaries 1441→1450 each; accepted 41069→41087; batches 169→171. Prior members, order, metadata and raw bytes preserved. Native/rendered receipt states remain OPEN.",
+    "source_manifest_sha256": "c260482830bc0c76ca6986b89c6e4c5b1c9f964025706dad478e1f23eaecb661",
+    "official_receipts": [
+      {
+        "path": ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/2c1178ce8b5c38522425512e00d4a54b0c1dcd15960da31aa17294e75355bad4.accepted.json",
+        "sha256": "770ae7ad6dec8f2f93cdc9fe22620feba942e9ed255febe1364366bdf3778efc"
+      },
+      {
+        "path": ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/8f17826343c71c6d1c6e7f495b3a0b0dffa66aebe4590c50c2ae54c956aa2e25.accepted.json",
+        "sha256": "e01ba62fbd2bbc06d864ba86dbce760a39a141a2b0d2370e52a967705b6438f1"
+      }
+    ],
+    "artifacts": {
+      ".git/full-game-localization/order404-static-export.json": "ea638be49ca18f46f7c8a56ebaf3c2d8709ddf714d55704daf4dd168247bf4fc",
+      ".git/full-game-localization/order404-static-check.json": "82faba9f38d8f7e94d41952d2172afea7bf25b8c2ffebf291d49cbc8b5e3fb97",
+      ".git/full-game-localization/order404-append-precommit.json": "9d6ef423fae8838d5f15c56672594c75421290b7e0b4e2ea1d1e9874571f0d16"
+    }
+  },
+  "runtime_review": {
+    "directory": ".git/full-game-localization/order404-screen-final",
+    "result_sha256": "c34498edfed9e81fae0411571c1dfe51445efd88460e6bd9c7d0bffce51508d7",
+    "observations_sha256": "ec1ea3675d181a3b8af744b3169cadb8edc7f8c86c4732ddbab4cadc555ba8c2",
+    "method": "Read all three new helpers before execution and the relevant inherited font/geometry/restoration contracts. Rehashed all ten original artifacts, all twenty helper copies/current files, all 2968 frozen tracked files and actual 34 player files. Read raw stdout/stderr/Godot log and measured observations; directly viewed all four original PNGs.",
+    "outcome": "One run, 11.022 seconds, exit 0, exact success marker once, no parse/script/engine errors in either stream/log. Four captures, 18 lookups and 28 actual-node bindings cover all nine accepted keys per locale. Ten 82px cards and seventy card text rows satisfy strict fit/containment; adjacent card gaps are 10px.",
+    "measurement": "New preview labels are 348px wide at actual 12px font. CN job/resume/interview text measures 261/293/313px; TW 285/293/313px. All target strings fit without inherited ellipsis exceptions. Actual SC/TC FontVariation routes, regular400/bold700, fallback paths/weights, nonzero glyphs and primary CJK ownership verified. Separate TextServer shaping probes are not internal Label glyph inspection.",
+    "state_and_provenance": "Fresh pre-autoload namespace; current_job deep copy, complete flags and protected typed state restored for all four fixtures. Four real AP-status warmups have zero delta. Source, twenty helpers and 34 real-player files unchanged. Dictionary/font/theme/cache injection absent. Callback identities are source-bound argument plus actual text/getter checks, not invoked callback observations. Pressed/trade/finalizer counters zero; raw/confirm/callback zero follows the helper call graph.",
+    "visual_result": "No target clipping, missing glyph boxes or overlap observed in any of the four original screenshots. Unrelated Korean background/HUD text, current styling, existing AP/glyph/axis badges and other menu states were not repaired or approved.",
+    "png_sha256": {
+      "zh-CN-initial.png": "ddb30f24b9c2d8d99c61969aa1be0ab24f6529d730d05590c73c810aa79fd00b",
+      "zh-CN-after-mapo.png": "4696d63f900d9e75fc7362389c582a60fd96ff5bc0c68aa155f59f2edeba25ea",
+      "zh-TW-initial.png": "5a6bdf9d91ced43a22467d5352d2bcb40f88e930497b35ca4fc1221d70e1efd2",
+      "zh-TW-after-mapo.png": "3ba0a7369211137f283c09f53574682962170b9b119e2dce805d0c636ccf1f09"
+    }
+  },
+  "normal_review": {
+    "directory": ".git/full-game-localization/order404-static-final",
+    "result_sha256": "7ca5be57da827638f99eaf326c88f575b899711a1557ad65fcdecfd7e3a9fc8b",
+    "entry_sha256": "008bafee189147e1c407795c0f793e537b07433ffbb805e3dede1444e79453e7",
+    "runner_sha256": "693ec6b2812705fe4490f27393816f06fb08e414a0d25580881b60dd70a61ba9",
+    "outcome": "All twelve original rows match aggregate and declared commands: eleven normal checks plus one audit_select list query, exit0/stderr0, 620.616 seconds. Before/after source and 21 helpers identical, workers3, Chapter1 timeout720. Selection query listed42 potential checks; these were not42 executions.",
+    "retained_limits": "Chapter1 snapshot debt8/blocked3, W25–48 gap24 and authoritative24/48 unchanged. Year5 remains reference_only/topology invalidated/r1b false. Full-body check is SOURCE_INVENTORY_ONLY, runtime/native claim0. Chapter5 human pending; graph self-tests0. ZH legacy1248/2951, context10/29, dynamic150/701, SC1550/TC1582 glyphs ready, shipping0/skeleton. No old focused/self/JA/full-audit/240-week rerun."
+  },
+  "preservation": {
+    "result": "Frozen candidate changes only the declared four paths. Game/source/FontKit/checkers/project.godot/JA/public-demo/human raw and previous 161 decisions/139 reports preserved. Product/old helper hashes remain unchanged after the observations.",
+    "human_raw_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "prior_decisions_sha256": "c8ff4fd94477afca37c2f9c6d766260570430d6d0a129af02bd39cf4890244b0",
+    "post_run_metadata": "Root began queue/worklog/archive/next-spec drafts only after normal execution ended. The report binds the frozen 0dad800 source, not the later dirty metadata wrapper; changed/moved metadata was compared with its frozen Git object."
+  },
+  "attempts_and_corrections": "No failed 404 engine or normal run. Two translation issues were corrected before acceptance. Reviewer-only read probes initially assumed a plain-text source digest and different JSON field names; actual schemas were read and corrected checks passed. Post-run metadata movement was likewise separated from immutable run evidence. These probes changed no files and were not product/helper/test failures.",
+  "remaining_blocks": [],
+  "unobserved": [
+    "Native-reader review and human playtest; no native/human gate closed.",
+    "Natural post-Mapo reachability, entry/Back/cancel, button presses, action outcomes, raw or physical controller input.",
+    "Employed/promotion/startup/creator branches, other shared consumers, other resolutions and complete localization/text-fit quality.",
+    "Fun/depth/accessibility/taste approval, whole-game/new-package/public release approval.",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel"
+  ],
+  "promotion": "ORDER-404 internal source-bound GO only; no inheritance to another unit or package.",
+  "release_boundary": "Public GO1 and human OPEN45 preserved. Full game/new package HOLD remains.",
+  "independent": true,
+  "private_review": {
+    "path": ".git/full-game-localization/order404-independent-review.json",
+    "sha256": "9f6aa5d4a52e249d9a986233e8301bba5a3f8fa084435d23f88467980965e3d1"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER404_UI_OK screens=4 keys=9 locales=2 raw=0 actions=0",
+    "생산자 ↔ 독자": "locale/ui_zh-CN.json + locale/ui_zh-TW.json new9 → scenes/MainGame.gd:15073 _open_cat_work / :13831 _ap_action_preview",
+    "바꾸는 상태": "UI keys1441→1450 each; accepted41069/b169→41087/b171; actual18lookup/28binding",
+    "포기 시 잃는 것": "_open_cat_work initial/post-Mapo CN/TW9keys English fallback; week N/A",
+    "서사 위치": "N/A: menu localization; story/gameplay unchanged",
+    "장면 계층": "N/A: UI",
+    "닫는 것": "ORDER-404 exact work_unit only; full-game/new-package HOLD"
+  }
+}

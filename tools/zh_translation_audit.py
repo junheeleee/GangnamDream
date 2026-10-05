@@ -8710,6 +8710,118 @@ def _ui_story_coffee_numbers(lang: str, key: str, source: str, target: str):
     return "두 번째 대화", target, []
 
 
+def _ui_contact_coffee_numbers(lang: str, key: str, source: str, target: str):
+    """Count the exact Sangchul contact recollection's second coffee meeting.
+
+    Its opening refers to arc_sangchul_02_coffee, not a second cup. Bind the
+    occasion, coffee and subsequent time locally; keep the thirty-year tail
+    and the entire target in numeric comparison. Other checks use originals.
+    """
+    expected = "두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들."
+    if lang not in LANGUAGES or source != expected or key != f"ui:{expected}:/{expected}":
+        return None
+    match = re.match(
+        rf"(?:喝[过過][ \t]*)?第[ \t]*(?P<number>{CHINESE_CARDINAL})[ \t]*(?:次|回)[ \t]*"
+        r"(?:喝[ \t]*)?咖啡[ \t]*(?:以|之)?[后後](?=[，,])", target,
+    )
+    if match is None or "," in match.group("number") \
+            or _chinese_cardinal_value(match.group("number")) != 2 \
+            or target.count("咖啡") != 1 \
+            or len(re.findall(rf"第[ \t]*{CHINESE_CARDINAL}[ \t]*(?:次|回)", target)) != 1:
+        return source, target, ["source-bound contact coffee occasion/time mismatch"]
+    return source.replace("두 번째 커피", "두 번째 대화", 1), target, []
+
+
+def _ui_choice_paths_numbers(lang: str, key: str, source: str, target: str):
+    """Bind one chosen road and two other roads in this week's exact footer.
+
+    This is a numeric view, not replacement prose or a generic 길 classifier.
+    Keep the original text for every independent check in validate_text.
+    """
+    expected = "하나를 택하면 다른 두 길은 이번 주에 닫힌다."
+    if lang not in LANGUAGES or source != expected or key != f"ui:{expected}:/{expected}":
+        return None
+    chosen = list(re.finditer(
+        rf"[选選](?:[择擇中定])?(?:了)?[ \t]*(?P<n>{CHINESE_CARDINAL})[ \t]*[条條]路", target,
+    ))
+    others = list(re.finditer(
+        rf"(?:另外|其[余餘]|其他|剩下(?:的)?)[ \t]*(?P<n>{CHINESE_CARDINAL})[ \t]*[条條](?:路)?", target,
+    ))
+    error = "source-bound choice paths quantity/role/week mismatch"
+    if len(chosen) != 1 or len(others) != 1 or chosen[0].end() > others[0].start():
+        return source, target, [error]
+    first, rest = chosen[0], others[0]
+    weeks = list(re.finditer(r"(?:本|这|這)(?:个|個)?[周週]", target))
+    # The closure belongs to the remaining paths, not a later correct phrase.
+    tail = target[rest.end():].split("。", 1)[0].split(".", 1)[0]
+    closed = re.match(
+        r"[ \t]*(?:(?:在)?(?:本|这|這)(?:个|個)?[周週])?"
+        r"[ \t]*(?:就|都|便|会|會|将|將)*"
+        r"(?:[关關][闭閉]|走不了|(?:无法|無法)[选選][择擇]|不能走)(?=$|[，,。.!！ \t])", tail,
+    )
+    counts = list(re.finditer(CHINESE_CARDINAL, target))
+    owned = {first.span("n"), rest.span("n")}
+    # 一旦 is a conditional conjunction, not a third road or occurrence.
+    extra = [m for m in counts if m.span() not in owned and not (
+        m.group() == "一" and target[m.end():].startswith("旦") and m.end() < first.start()
+    )]
+    if any(
+        _chinese_cardinal_value(unicodedata.normalize("NFKC", m.group("n"))) != value
+        or "," in m.group("n") or _has_numeric_sign_prefix(target, m.start("n"))
+        for m, value in ((first, 1), (rest, 2))
+    ) or len(weeks) != 1 or closed is None or extra \
+            or re.search(r"(?:不|未|没|沒|没有|沒有|无需|無需|不能|不要)[ \t]*$", target[:first.start()]):
+        return source, target, [error]
+    closure_end = rest.end() + closed.end()
+    if not (first.end() <= weeks[0].start() < weeks[0].end() <= closure_end) \
+            or re.search(r"[。.!！?？;；]", target[first.end():closure_end]):
+        return source, target, [error]
+    return source.replace("하나", "한 개", 1).replace("두 길", "두 개", 1), target, []
+
+
+def _ui_expense_range_numbers(lang: str, key: str, source: str, target: str):
+    """Read both won endpoints of one exact avoided-expense UI range.
+
+    Shared and repeated currency labels have the same two amounts. Normalize
+    only this witnessed interval for numeric comparison; original regional
+    currency, script, tokens and prose still undergo their own checks.
+    """
+    expected = "지출 3만~10만원을 막는다"
+    if lang not in LANGUAGES or source != expected or \
+            key != "ui:" + expected + ":/" + expected.replace("~", "~0"):
+        return None
+    number = r"(?:[0-9０-９]+(?:[,，][0-9０-９]{3})*|[零〇○一二两兩三四五六七八九十百千]+)"
+    matches = list(re.finditer(
+        rf"(?P<low>{number})[ \t]*(?P<low_unit>[万萬])?[ \t]*(?P<low_won>韩元|韓元)?"
+        rf"[ \t]*(?:[~～–—-]|至|到)[ \t]*(?P<high>{number})[ \t]*(?P<high_unit>[万萬])?"
+        r"[ \t]*(?P<high_won>韩元|韓元)", target,
+    ))
+    error = "source-bound expense range endpoint/unit/role mismatch"
+    if len(matches) != 1:
+        return source, target, [error]
+    match = matches[0]
+    before, after = target[:match.start()], target[match.end():]
+    expense = r"(?:支出|[开開][销銷支])"
+    saving = re.search(rf"(?:省下|[节節]省|[减減]少|避免)(?:了)?(?:的)?(?:{expense})?[ \t]*$", before)
+    owner = re.search(expense + r"[ \t]*$", before) or re.match(rf"[ \t]*(?:的)?{expense}(?=$|[，,。.!！ \t])", after)
+    values = []
+    for part in ("low", "high"):
+        raw = unicodedata.normalize("NFKC", match.group(part))
+        value = _chinese_cardinal_value(raw)
+        values.append(None if value is None else value * (10000 if match.group(part + "_unit") else 1))
+    if values != [30000, 100000] or saving is None or owner is None \
+            or _has_numeric_sign_prefix(target, match.start()) \
+            or re.search(r"(?:不|未|没|沒|无需|無需|约|約|大约|大約|至少|至多|最多|最少|超过|超過|不到)[ \t]*$", before[:saving.start()]) \
+            or re.match(r"[ \t]*(?:[/／%％‰倍]|以上|以下|左右|多|余|餘|每)", after):
+        return source, target, [error]
+    if any(not (match.start() <= numeral.start() < numeral.end() <= match.end())
+           for numeral in re.finditer(CHINESE_CARDINAL, target)):
+        return source, target, [error]
+    won = match.group("high_won")
+    normalized = target[:match.start()] + f"30000{won}~100000{won}" + target[match.end():]
+    return source.replace("3만~", "3만원~", 1), normalized, []
+
+
 def _ui_two_paths_title_numbers(lang: str, key: str, source: str, target: str):
     """Bind two roads/between in one exact title, not generic entity counts.
 
@@ -8951,6 +9063,128 @@ def _ui_race_finish_numbers(
     return source, numeric_target, []
 
 
+def _ui_holdem_rank_numbers(
+    lang: str, key: str, source: str, target: Any,
+) -> tuple[str, Any, list[str]] | None:
+    """Compare nine exact poker rank names as their source-owned rank indices.
+
+    TexasHoldem.rank_name owns ranks 0 through 8, not entity quantities in
+    words such as 三条. Only numeric comparison receives the normalized pair;
+    every other validator still reads the complete original source and target.
+    """
+    if not isinstance(lang, str) or lang not in LANGUAGES \
+            or not isinstance(source, str) or not isinstance(key, str) \
+            or key != f"ui:{source}:/{source}":
+        return None
+    owned = {
+        "하이카드": (0, "高牌", "高牌"),
+        "원페어": (1, "一对", "一對"),
+        "투페어": (2, "两对", "兩對"),
+        "트리플": (3, "三条", "三條"),
+        "스트레이트": (4, "顺子", "順子"),
+        "플러시": (5, "同花", "同花"),
+        "풀하우스": (6, "葫芦", "葫蘆"),
+        "포카드": (7, "四条", "四條"),
+        "스트레이트 플러시": (8, "同花顺", "同花順"),
+    }
+    if source not in owned:
+        return None
+    rank, simplified, traditional = owned[source]
+    expected = simplified if lang == "zh-CN" else traditional
+    if not isinstance(target, str) or target != expected:
+        return source, target, ["source-bound Holdem rank locale/name mismatch"]
+    return str(rank), str(rank), []
+
+
+def _ui_holdem_tutorial_rank_numbers(
+    lang: str, key: str, source: str, target: Any,
+) -> tuple[str, Any, list[str]] | None:
+    """The exact tutorial heading ordinals/names are not entity quantities.
+
+    This source includes Royal Flush as rank 1; it is not the nine-value hand
+    evaluator's rank-name surface. Only verified rank labels and the exact
+    Full House composition receive nonnumeric labels for numeric comparison;
+    all card counts and the originals for other validators remain untouched.
+    """
+    if not isinstance(lang, str) or lang not in LANGUAGES \
+            or not isinstance(source, str) or not isinstance(key, str) \
+            or not source.startswith("[b]1위[/b]"):
+        return None
+    escaped = source.replace("~", "~0").replace("/", "~1")
+    if key != f"ui:{source}:/{escaped}":
+        return None
+    identity = {"path": "scenes/TutorialOverlay.gd", "field": [source], "ko": source}
+    source_hash = hashlib.sha256(json.dumps(identity, ensure_ascii=False, sort_keys=True,
+                                           separators=(",", ":")).encode()).hexdigest()
+    # Exact source leaf from the official four-row tutorial export.
+    if source_hash != "b020d3e89020a9f5f0e520e05711fb4732010244484c5ef4b77f9bbdab7b19db":
+        return None
+    names = {
+        "zh-CN": ("皇家同花顺", "同花顺", "四条", "葫芦", "同花", "顺子", "三条", "两对", "一对", "高牌"),
+        "zh-TW": ("皇家同花順", "同花順", "四條", "葫蘆", "同花", "順子", "三條", "兩對", "一對", "高牌"),
+    }[lang]
+    if not isinstance(target, str):
+        return source, target, ["source-bound Holdem tutorial rank target is not text"]
+    lines = target.split("\n")
+    if len(lines) < 10:
+        return source, target, ["source-bound Holdem tutorial rank lines missing"]
+    for index, name in enumerate(names, 1):
+        prefix = f"[b]第{index}位[/b]"
+        heading = re.match(re.escape(prefix) + r"[ \t]+" + re.escape(name) + r"[ \t]+—[ \t]+",
+                           lines[index - 1])
+        if heading is None:
+            return source, target, ["source-bound Holdem tutorial rank ordinal/name/position mismatch"]
+        rest = lines[index - 1][len(prefix):]
+        if index in (3, 7):
+            # Only these already-verified heading tokens (四条/三条, or
+            # their traditional forms), not the following 4张/3张 card count.
+            rest = rest.replace(name, "hand_rank", 1)
+        elif index == 4:
+            # The source's 쓰리카드 + 원페어 is a composition of two named
+            # hands, not three invented entities. Admit only this complete
+            # regional tail at this exact rank; do not hide added quantities.
+            tail = lines[index - 1][heading.end():]
+            if tail != f"{names[6]} + {names[8]}":
+                return source, target, ["source-bound Holdem tutorial Full House composition mismatch"]
+            rest = rest[:heading.end() - len(prefix)] + "three_kind + pair_kind"
+        lines[index - 1] = f"[b]{index}[/b]" + rest
+    return source, "\n".join(lines), []
+
+
+def _ui_holdem_tutorial_card_numbers(
+    lang: str, key: str, source: str, target: Any,
+) -> tuple[str, Any, list[str]] | None:
+    """Expose the three exact bold card counts to the existing unit matcher.
+
+    Korean 장 immediately followed by [/b] is outside its generic counter
+    suffix grammar. Only this leaf's first-line 2/5/5 roles lose those tags for
+    numeric comparison; the target counts, other quantities and original
+    BBCode checks remain intact.
+    """
+    if not isinstance(lang, str) or lang not in LANGUAGES \
+            or not isinstance(source, str) or not isinstance(key, str) \
+            or not source.startswith("내 [b]2장[/b]"):
+        return None
+    escaped = source.replace("~", "~0").replace("/", "~1")
+    if key != f"ui:{source}:/{escaped}":
+        return None
+    identity = {"path": "scenes/TutorialOverlay.gd", "field": [source], "ko": source}
+    source_hash = hashlib.sha256(json.dumps(identity, ensure_ascii=False, sort_keys=True,
+                                           separators=(",", ":")).encode()).hexdigest()
+    if source_hash != "1a44ab080fc3cd9293700c38231ad806ba2cf07c7aade184bba9cc02d775cbd6":
+        return None
+    if not isinstance(target, str):
+        return source, target, ["source-bound Holdem tutorial card target is not text"]
+    expected = (("2张底牌", "5张公共牌", "5张牌") if lang == "zh-CN"
+                else ("2張底牌", "5張公共牌", "5張牌"))
+    bold_slots = re.findall(r"\[b\]([^\[\]\n]*)\[/b\]", target.split("\n")[0])
+    if tuple(bold_slots) != expected:
+        return source, target, ["source-bound Holdem tutorial card count/role/position mismatch"]
+    first, remainder = source.split("\n", 1)
+    first = re.sub(r"\[b\]([25]장)\[/b\]", r"\1", first)
+    return first + "\n" + remainder, target, []
+
+
 def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     """Validate one Korean-source Chinese target without generating content."""
     if lang not in LANGUAGES:
@@ -8990,6 +9224,19 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     coffee_numbers = _ui_story_coffee_numbers(lang, key, source, target)
     if coffee_numbers is not None:
         notice_numbers = coffee_numbers
+    contact_coffee_numbers = _ui_contact_coffee_numbers(lang, key, source, target)
+    if contact_coffee_numbers is not None:
+        notice_numbers = contact_coffee_numbers
+    from coffee_encounter_locale_contract import coffee_encounter_numbers
+    encounter_numbers = coffee_encounter_numbers(lang, key, source, target)
+    if encounter_numbers is not None:
+        notice_numbers = encounter_numbers
+    choice_paths_numbers = _ui_choice_paths_numbers(lang, key, source, target)
+    if choice_paths_numbers is not None:
+        notice_numbers = choice_paths_numbers
+    expense_range_numbers = _ui_expense_range_numbers(lang, key, source, target)
+    if expense_range_numbers is not None:
+        notice_numbers = expense_range_numbers
     # ORDER-252: reuse the exact-leaf contract only for numeric comparison.
     # Keep the original key and prose for every independent check below.
     from full_game_localization import _ui_dice_title_numbers
@@ -9005,6 +9252,15 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     race_finish_numbers = _ui_race_finish_numbers(lang, key, source, target)
     if race_finish_numbers is not None:
         notice_numbers = race_finish_numbers
+    holdem_rank_numbers = _ui_holdem_rank_numbers(lang, key, source, target)
+    if holdem_rank_numbers is not None:
+        notice_numbers = holdem_rank_numbers
+    holdem_tutorial_numbers = _ui_holdem_tutorial_rank_numbers(lang, key, source, target)
+    if holdem_tutorial_numbers is not None:
+        notice_numbers = holdem_tutorial_numbers
+    holdem_tutorial_cards = _ui_holdem_tutorial_card_numbers(lang, key, source, target)
+    if holdem_tutorial_cards is not None:
+        notice_numbers = holdem_tutorial_cards
     if notice_numbers is None:
         errors.extend(_numeric_errors(source, target))
     else:
@@ -10023,6 +10279,18 @@ def static_ui_coverage(
             allow_partial_static=True)
     except NoticeSourceError as exc:
         errors.append(f"{lang}:notice-ui source: {exc}")
+    from holdem_tutorial_ui import (
+        HoldemTutorialSourceError, collect_holdem_tutorial_ui_entries,
+        holdem_tutorial_ui_additions,
+    )
+    tutorial_entries = {}
+    try:
+        tutorial_entries = holdem_tutorial_ui_additions(
+            collect_holdem_tutorial_ui_entries(ROOT),
+            expected_legacy | expected_context | {entry.source for entry in inventory.entries},
+            dynamic_keys, set(story_demo_pairs), allow_partial_static=True)
+    except HoldemTutorialSourceError as exc:
+        errors.append(f"{lang}:Holdem tutorial UI source: {exc}")
     if not isinstance(actual, dict):
         return (
             0, len(expected_legacy), 0, len(expected_context),
@@ -10032,7 +10300,7 @@ def static_ui_coverage(
 
     allowed = (
         expected_legacy | expected_context | dynamic_keys
-        | story_demo_exclusive_keys | set(notice_entries)
+        | story_demo_exclusive_keys | set(notice_entries) | set(tutorial_entries)
     )
     unknown = sorted(set(actual) - allowed)
     if unknown:
@@ -10048,6 +10316,17 @@ def static_ui_coverage(
         target = actual[source]
         if not isinstance(target, str) or not target.strip():
             errors.append(f"{lang}:notice-ui:{source!r}: empty/non-string translation")
+            continue
+        for error in validate_text(lang, pair.key, source, target):
+            errors.append(f"{lang}:{pair.key}: {error}")
+    for source, pair in tutorial_entries.items():
+        if source not in actual:
+            if strict:
+                errors.append(f"{lang}: strict Holdem tutorial UI missing {source!r}")
+            continue
+        target = actual[source]
+        if not isinstance(target, str) or not target.strip():
+            errors.append(f"{lang}:Holdem tutorial UI:{source!r}: empty/non-string translation")
             continue
         for error in validate_text(lang, pair.key, source, target):
             errors.append(f"{lang}:{pair.key}: {error}")

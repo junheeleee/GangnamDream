@@ -40,13 +40,13 @@ var _rng := RandomNumberGenerator.new()
 var _pad_navigation_active: bool = false
 var _pad_action_idx: int = 0
 var _pad_action_signature: String = ""
-
+var _round_pending: Array[int] = []  # 블라인드는 행동이 아니며 매 라운드 응답을 기다린다.
 # 핸드 히스토리 (최근 8핸드)
 var _hand_history: Array = []     # [{won, net, hand_rank, desc}]
 var _session_won: int = 0
 var _session_lost: int = 0
 var _custom_raise_amount: int = 0  # 커스텀 레이즈 입력값 (0이면 미입력)
-
+var _hand_start_stack: int = 0    # 이번 손 블라인드 차감 전 보유 칩
 # UI 노드
 var _header_lbl: RichTextLabel
 var _pot_lbl: Label
@@ -104,7 +104,7 @@ func _player_display_name() -> String:
 	return LocaleManager.ui("김민준", "Kim Minjun")
 
 # ── 진입 ──────────────────────────────────────────────────────────
-func open() -> void:
+func _open_session() -> void:
 	BGMPlayer.enter_activity_ambience("casino")
 	_net_session = 0
 	_hands_played = 0
@@ -346,13 +346,13 @@ func _show_buyin_screen() -> void:
 	])
 
 # ── 핸드 시작 ─────────────────────────────────────────────────────
-func _start_hand() -> void:
+func _deal_next_hand() -> void:
 	_hands_played += 1
 	_player_stack = _buy_in if _hands_played == 1 else _player_stack
 	if _player_stack < BIG_BLIND:
 		_show_result_screen()
 		return
-
+	_hand_start_stack = _player_stack
 	for o in _opp:
 		if _hands_played == 1:
 			o["stack"] = _buy_in
@@ -377,10 +377,10 @@ func _start_hand() -> void:
 	_showdown_net = 0
 	_pad_action_idx = 0
 	_pad_action_signature = ""
-
-	# 포스트 블라인드 (플레이어=SB, opp0=BB)
+	_reset_round_actions()
+	# 포스트 블라인드 (플레이어=SB, opp1=BB)
 	_post_blind(0, SMALL_BLIND, true)   # 플레이어 SB
-	_post_blind(1, BIG_BLIND, false)    # opp0 BB
+	_post_blind(1, BIG_BLIND, false)    # opp1 BB
 
 	_phase = Phase.PREFLOP
 	_action_idx = 0  # 플레이어 먼저 (SB acts first preflop in simplified version)
@@ -388,7 +388,7 @@ func _start_hand() -> void:
 	AudioManager.play_varied("chip_place")
 	_play_card_sound_sequence(2, 0.12)
 	AudioManager.play_haptic(&"commit_wager")
-	_show_table_banner("NEW HAND", Color("#c9a227"), 0.65)
+	_show_table_banner(_phase_banner_label("NEW HAND"), Color("#c9a227"), 0.65)
 	_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.47), 6)
 	_screen_flash(Color("#c9a227"), 0.10, 0.22)
 	# 홀 카드 딜 애니메이션 — 카드 2장 순서대로 scale 팝
@@ -428,9 +428,9 @@ func _sync_buyin_to_affordable() -> void:
 		_buy_in = int(options[0])
 
 func _is_player_action_waiting() -> bool:
-	if _phase not in [Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER]:
+	if not visible or _action_busy or _phase not in [Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER]:
 		return false
-	if _player_folded:
+	if _player_folded or _player_stack <= 0:
 		return false
 	if _turn_order.is_empty():
 		return false
@@ -545,7 +545,7 @@ func _render_table() -> void:
 		chip.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		pot_box.add_child(chip)
 	_pot_lbl = Label.new()
-	_pot_lbl.text = "POT  %s" % _fmt(_pot)
+	_pot_lbl.text = "%s  %s" % [_tr("팟", "POT"), _fmt(_pot)]
 	_pot_lbl.add_theme_font_size_override("font_size", 18)
 	_pot_lbl.add_theme_color_override("font_color", Color("#f0b429"))
 	_f(_pot_lbl, true)
@@ -582,7 +582,7 @@ func _render_table() -> void:
 
 func _build_table_surface(parent: VBoxContainer) -> void:
 	var table := Control.new()
-	table.custom_minimum_size = Vector2(0, 360)
+	table.custom_minimum_size = Vector2(0, 420)
 	table.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	table.draw.connect(func(): _draw_holdem_surface(table))
 	parent.add_child(table)
@@ -608,7 +608,7 @@ func _build_table_surface(parent: VBoxContainer) -> void:
 	table.add_child(pot_center)
 
 	var pot_title := Label.new()
-	pot_title.text = "POT"
+	pot_title.text = _tr("팟", "POT")
 	pot_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	pot_title.add_theme_font_size_override("font_size", 10)
 	pot_title.add_theme_color_override("font_color", Color("#8b7650"))
@@ -636,7 +636,7 @@ func _build_table_surface(parent: VBoxContainer) -> void:
 	table.add_child(comm_box)
 
 	var comm_lbl := Label.new()
-	comm_lbl.text = "BOARD"
+	comm_lbl.text = _tr("공개 카드", "BOARD")
 	comm_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	comm_lbl.add_theme_font_size_override("font_size", 10)
 	comm_lbl.add_theme_color_override("font_color", Color("#7d8ea0"))
@@ -697,7 +697,7 @@ func _add_showdown_panel(parent: Control) -> void:
 	row.add_child(text_box)
 
 	var kicker := Label.new()
-	kicker.text = "SHOWDOWN"
+	kicker.text = _phase_banner_label("SHOWDOWN")
 	kicker.add_theme_font_size_override("font_size", 10)
 	kicker.add_theme_color_override("font_color", Color("#8e98ad"))
 	_f(kicker, true)
@@ -755,7 +755,7 @@ func _build_holdem_seat(parent: Control, seat_idx: int, title: String, cards: Ar
 	panel.add_child(box)
 
 	var title_lbl := Label.new()
-	title_lbl.text = ("FOLDED  " if folded else "") + title
+	title_lbl.text = ((_action_label("fold") if LocaleManager.language in ["ko", "ja", "zh-CN", "zh-TW"] else "FOLDED") + "  " if folded else "") + title
 	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title_lbl.add_theme_font_size_override("font_size", 12)
 	title_lbl.add_theme_color_override("font_color", Color("#5a5a5a") if folded else Color("#d7dde8"))
@@ -780,9 +780,9 @@ func _build_holdem_seat(parent: Control, seat_idx: int, title: String, cards: Ar
 			card_row.add_child(_card_label(c, seat_idx == -1) if reveal_cards else _card_back())
 
 	var stack_lbl := Label.new()
-	stack_lbl.text = "STACK %s" % _fmt(stack)
+	stack_lbl.text = "%s %s" % [_tr("보유 칩", "STACK"), _fmt(stack)]
 	if bet > 0:
-		stack_lbl.text += "   BET %s" % _fmt(bet)
+		stack_lbl.text += "   %s %s" % [_tr("베팅", "BET"), _fmt(bet)]
 	stack_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	stack_lbl.add_theme_font_size_override("font_size", 11)
 	stack_lbl.add_theme_color_override("font_color", Color("#92c98c") if not folded else Color("#4c5a4c"))
@@ -884,12 +884,12 @@ func _draw_bet_stack(ctrl: Control, pos: Vector2, amount: int, color: Color) -> 
 		ctrl.draw_circle(p, 7.0, chip_col)
 		ctrl.draw_circle(p, 3.6, Color(0.02, 0.025, 0.03, 0.45))
 	var f := ThemeDB.fallback_font
-	ctrl.draw_string(f, pos + Vector2(-24.0, 24.0), _fmt(amount),
-		HORIZONTAL_ALIGNMENT_CENTER, 48.0, 10, Color(0.86, 0.90, 0.80, 0.78))
+	var text_width := maxf(48.0, f.get_string_size(_fmt(amount), HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x)
+	ctrl.draw_string(f, pos + Vector2(-text_width * 0.5, 24.0), _fmt(amount), HORIZONTAL_ALIGNMENT_CENTER, text_width, 10, Color(0.86, 0.90, 0.80, 0.78))
 
 # ── 행동 순서 처리 ─────────────────────────────────────────────────
 func _process_action_turn() -> void:
-	# 남은 플레이어가 1명이면 즉시 쇼다운
+	if not _can_process_betting(): return
 	var active := _count_active()
 	if active <= 1:
 		_do_showdown()
@@ -900,11 +900,11 @@ func _process_action_turn() -> void:
 		_advance_phase()
 		return
 
-	# 차례 찾기 (folded 건너뜀)
+	# 차례 찾기 (folded·all-in 건너뜀)
 	while true:
 		_action_idx = _action_idx % 3
 		var who: int = _turn_order[_action_idx]
-		if (who == 0 and _player_folded) or (who != 0 and _opp[who - 1]["folded"]):
+		if not _seat_can_bet(who):
 			_action_idx += 1
 			continue
 		break
@@ -918,7 +918,7 @@ func _process_action_turn() -> void:
 func _betting_complete() -> bool:
 	if _player_folded and _opp[0]["folded"] and _opp[1]["folded"]:
 		return true
-	# 액티브 플레이어 모두 max_bet에 맞췄거나 all-in인지 확인
+	if not _round_actions_complete(): return false
 	if not _player_folded:
 		if _player_bet < _max_bet and _player_stack > 0:
 			return false
@@ -1038,20 +1038,20 @@ func _show_player_actions() -> void:
 	])
 
 func _player_action(action: String, amount: int) -> void:
-	AudioManager.play("click")
+	if not _begin_player_action(): return
 	for ch in _action_panel.get_children():
 		ch.queue_free()
-
+	var previous_max := _max_bet
 	var to_call: int = _max_bet - _player_bet
 	match action:
 		"fold":
 			_player_folded = true
 			_set_msg(_tr("폴드했습니다.", "You folded."))
-			_show_table_banner("FOLD", Color("#d73a49"), 0.48)
+			_show_table_banner(_action_label(action).to_upper(), Color("#d73a49"), 0.48)
 			_screen_flash(Color("#d73a49"), 0.08, 0.18)
 		"check":
 			_set_msg(_tr("체크.", "Check."))
-			_show_table_banner("CHECK", Color("#7a8a9a"), 0.42)
+			_show_table_banner(_action_label(action).to_upper(), Color("#7a8a9a"), 0.42)
 		"call":
 			var actual := mini(to_call, _player_stack)
 			_player_stack -= actual
@@ -1060,9 +1060,9 @@ func _player_action(action: String, amount: int) -> void:
 			_set_msg(_tr("콜 (%s).", "Call (%s).") % _fmt(actual))
 			AudioManager.play_varied("chip_place")
 			AudioManager.play_haptic(&"commit_wager")
-			_show_table_banner("CALL", Color("#5de89c"), 0.45)
+			_show_table_banner(_action_label(action).to_upper(), Color("#5de89c"), 0.45)
 			_spawn_chip_burst(Color("#5de89c"), Vector2(0.50, 0.56), 4)
-			_pulse_node(_msg_lbl, 1.04, 0.18)
+			# Keep full-width action text inside the clipping viewport.
 		"raise":
 			var actual := mini(amount, _player_stack)
 			_player_stack -= actual
@@ -1072,38 +1072,38 @@ func _player_action(action: String, amount: int) -> void:
 			_set_msg(_tr("레이즈 → %s", "Raise to %s") % _fmt(_player_bet))
 			AudioManager.play_varied("chip_place", 1.5 if actual >= 200_000 else 0.0, 0.91, 1.03)
 			AudioManager.play_haptic(&"commit_wager")
-			_show_table_banner("RAISE", Color("#f0b429"), 0.58)
+			_show_table_banner(_action_label(action).to_upper(), Color("#f0b429"), 0.58)
 			_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.56), 8)
 			_screen_flash(Color("#f0b429"), 0.13, 0.22)
 			_shake_node(_content_root, 4.0, 0.16)
-
+	_record_round_action(0, _max_bet > previous_max)
 	_action_idx += 1
-	await get_tree().create_timer(0.3).timeout
+	if not (await _finish_action_after(0.3)): return
 	_render_table()
 	_process_action_turn()
 
 # ── AI 행동 ───────────────────────────────────────────────────────
-func _do_ai_action(opp_idx: int) -> void:
+func _commit_ai_action(opp_idx: int) -> void:
 	var o = _opp[opp_idx]
 	var to_call: int = _max_bet - int(_opp_bets[opp_idx])
 	var decision := TH.ai_decide(o["hole"], _community, _pot, to_call, o["stack"],
 			float(o["aggression"]), _rng)
-
+	var previous_max := _max_bet
 	_set_msg("%s: %s" % [_opp_name(opp_idx), _action_label(decision["action"])])
 
 	match decision["action"]:
 		"fold":
 			o["folded"] = true
-			_show_table_banner("%s  FOLD" % _opp_name(opp_idx), Color("#8a5a5a"), 0.46)
+			_show_table_banner("%s  %s" % [_opp_name(opp_idx), _action_label(decision["action"]).to_upper()], Color("#8a5a5a"), 0.46)
 		"check":
-			_show_table_banner("%s  CHECK" % _opp_name(opp_idx), Color("#7a8a9a"), 0.42)
+			_show_table_banner("%s  %s" % [_opp_name(opp_idx), _action_label(decision["action"]).to_upper()], Color("#7a8a9a"), 0.42)
 		"call":
 			var actual := mini(to_call, o["stack"])
 			o["stack"] -= actual
 			_opp_bets[opp_idx] += actual
 			_pot += actual
 			AudioManager.play_varied("chip_place", -4.0)
-			_show_table_banner("%s  CALL" % _opp_name(opp_idx), Color("#5de89c"), 0.45)
+			_show_table_banner("%s  %s" % [_opp_name(opp_idx), _action_label(decision["action"]).to_upper()], Color("#5de89c"), 0.45)
 			_spawn_chip_burst(Color("#5de89c"), Vector2(0.50, 0.40), 3)
 		"raise":
 			var actual := mini(int(decision["amount"]), o["stack"])
@@ -1112,12 +1112,12 @@ func _do_ai_action(opp_idx: int) -> void:
 			_pot += actual
 			_max_bet = maxi(_max_bet, _opp_bets[opp_idx])
 			AudioManager.play_varied("chip_place", -2.0, 0.91, 1.03)
-			_show_table_banner("%s  RAISE" % _opp_name(opp_idx), Color("#f0b429"), 0.55)
+			_show_table_banner("%s  %s" % [_opp_name(opp_idx), _action_label(decision["action"]).to_upper()], Color("#f0b429"), 0.55)
 			_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.40), 6)
 			_screen_flash(Color("#f0b429"), 0.08, 0.16)
-
+	_record_round_action(opp_idx + 1, _max_bet > previous_max)
 	_action_idx += 1
-	await get_tree().create_timer(0.6).timeout
+	if not (await _finish_action_after(0.6)): return
 	_render_table()
 	_process_action_turn()
 
@@ -1138,7 +1138,7 @@ func _advance_phase() -> void:
 	_action_idx = 0
 	_pad_action_signature = ""
 	var banner := ""
-
+	_reset_round_actions()
 	match _phase:
 		Phase.PREFLOP:
 			_community.append(_deck.pop_back())
@@ -1161,7 +1161,7 @@ func _advance_phase() -> void:
 	var new_cards := 1 if banner in ["TURN", "RIVER"] else 3
 	_render_table()
 	_play_card_flip_sequence(new_cards, 0.10)
-	_show_table_banner(banner, Color("#c9a227"), 0.62)
+	_show_table_banner(_phase_banner_label(banner), Color("#c9a227"), 0.62)
 	_screen_flash(Color("#c9a227"), 0.09, 0.20)
 	# 새로 공개된 카드들 scale 0→1 순차 팝인
 	if is_instance_valid(_community_row):
@@ -1180,7 +1180,7 @@ func _advance_phase() -> void:
 	_process_action_turn()
 
 func _do_showdown() -> void:
-	_phase = Phase.SHOWDOWN
+	if not _enter_showdown_phase(): return
 
 	# 승자 결정
 	var winner_idx := -1   # -1=플레이어 1등, 0,1=AI index
@@ -1204,10 +1204,10 @@ func _do_showdown() -> void:
 	if winner_idx == -1:
 		# 플레이어 승
 		_player_stack += _pot
-		hand_net = _pot
+		hand_net = _player_stack - _hand_start_stack
 		_net_session += _pot - _buy_in if _hands_played == 1 else _pot
 		_session_won += 1
-		msg_parts.append(_tr("%s으로 승리! +%s", "Won with %s! +%s") % [TH.rank_name(best_hand[0]), _fmt(_pot)])
+		msg_parts.append(_victory_template(_tr("%s으로 승리! +%s", "Won with %s! +%s")) % [TH.rank_name(best_hand[0]), _fmt(hand_net)])
 		GameState.modify_hidden_stat("gambling_tendency", 3)
 		AudioManager.play("chip_collect")
 		AudioManager.play_casino_result(float(_pot), maxf(float(_buy_in), 1.0), _pot >= 1_000_000)
@@ -1215,7 +1215,7 @@ func _do_showdown() -> void:
 	else:
 		# AI 승
 		_opp[winner_idx]["stack"] += _pot
-		hand_net = -_pot
+		hand_net = _player_stack - _hand_start_stack
 		_net_session -= _pot if _hands_played == 1 else 0
 		_session_lost += 1
 		msg_parts.append(_tr("%s가 이겼습니다 (%s)", "%s wins (%s)") % [_opp_name(winner_idx), TH.rank_name(best_hand[0])])
@@ -1239,9 +1239,9 @@ func _do_showdown() -> void:
 
 	_render_table()
 	_play_card_flip_sequence(4, 0.08)
-	_show_table_banner("SHOWDOWN", Color("#f0b429"), 0.70)
+	_show_table_banner(_phase_banner_label("SHOWDOWN"), Color("#f0b429"), 0.70)
 	_set_msg(" ".join(msg_parts))
-	_pulse_node(_msg_lbl, 1.08, 0.30)
+	# Keep full-width showdown text inside the clipping viewport.
 	_pulse_node(_community_row, 1.05, 0.28)
 	_pulse_node(_hole_row, 1.07, 0.30)
 	_pulse_node(_table_surface, 1.015, 0.34)
@@ -1284,7 +1284,7 @@ func _show_showdown_buttons() -> void:
 
 # ── 결과 화면 ─────────────────────────────────────────────────────
 func _show_result_screen() -> void:
-	_phase = Phase.RESULT
+	if not _enter_result_phase(): return
 	_clear_content()
 	var vb := _content_vbox()
 
@@ -1344,7 +1344,7 @@ func _show_result_screen() -> void:
 func _leave_mid() -> void:
 	_show_result_screen()
 
-func _leave() -> void:
+func _close_session() -> void:
 	BGMPlayer.leave_activity_ambience("casino")
 	visible = false
 	AudioManager.play("click")
@@ -1465,7 +1465,7 @@ func _card_label(card: Dictionary, highlight := false) -> Control:
 	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
 	lbl.add_theme_font_size_override("font_size", 13)
-	lbl.add_theme_color_override("font_color", Color(TH.card_color(card)))
+	lbl.add_theme_color_override("font_color", Color("#b4232c") if int(card["suit"]) in [1, 2] else Color("#141827"))
 	if _font_bold: lbl.add_theme_font_override("font", _font_bold)
 	root.add_child(lbl)
 	return root
@@ -1570,18 +1570,7 @@ func _sep() -> HSeparator:
 	return s
 
 func _fmt(amount) -> String:
-	var a := int(amount)
-	if LocaleManager.is_english():
-		if abs(a) >= 1_000_000_000:
-			return "₩%.1fB" % (float(a) / 1_000_000_000.0)
-		if abs(a) >= 1_000_000:
-			return "₩%.1fM" % (float(a) / 1_000_000.0)
-		if abs(a) >= 1_000:
-			return "₩%dK" % int(a / 1_000)
-		return "₩%d" % a
-	if abs(a) >= 100_000_000: return _tr("%.1f억", "₩%.1fB") % (float(a) / 100_000_000.0)
-	if abs(a) >= 10_000:      return _tr("%d만", "₩%dK") % (a / 10_000)
-	return _tr("%d원", "₩%d") % a
+	return LocaleManager.format_whole_won(int(amount))
 
 func _signed_fmt(amount: int) -> String:
 	if amount >= 0:
@@ -1635,14 +1624,18 @@ func _pulse_node(node: Node, scale_to: float = 1.08, duration: float = 0.28) -> 
 func _show_table_banner(text: String, color: Color, duration: float = 0.55) -> void:
 	if text.is_empty():
 		return
+	for child in get_children():
+		if child is Control and child.get_meta(&"holdem_table_banner", false) == true:
+			child.hide()
 	var root_size := size
 	if root_size.x <= 1.0 or root_size.y <= 1.0:
 		root_size = get_viewport_rect().size
 	var panel := PanelContainer.new()
+	panel.set_meta(&"holdem_table_banner", true)
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.z_index = 75
 	panel.size = Vector2(minf(360.0, root_size.x - 48.0), 54.0)
-	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(86.0, root_size.y * 0.30))
+	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, root_size.y - panel.size.y - 24.0)
 	panel.modulate = Color(1, 1, 1, 0.0)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(0.02, 0.03, 0.04, 0.82)
@@ -1701,3 +1694,100 @@ func _play_card_sound_sequence(count: int, gap: float = 0.08) -> void:
 func _play_card_flip_sequence(count: int, gap: float = 0.08) -> void:
 	for i in range(count):
 		AudioManager.play_delayed_varied("card_flip", float(i) * gap, -1.5, 0.95, 1.06)
+
+func _seat_can_bet(who: int) -> bool:
+	if who == 0:
+		return not _player_folded and _player_stack > 0
+	return not _opp[who - 1]["folded"] and int(_opp[who - 1]["stack"]) > 0
+
+func _reset_round_actions() -> void:
+	_round_pending.assign([0, 1, 2])
+
+func _record_round_action(who: int, raised_max: bool) -> void:
+	if raised_max:
+		_reset_round_actions()
+	_round_pending.erase(who)
+
+func _round_actions_complete() -> bool:
+	var actionable: Array[int] = []
+	for who in range(3):
+		if _seat_can_bet(who):
+			actionable.append(who)
+	# 응답할 상대 잔액이 없으면 추가 베팅하지 않는다. 미납 콜은 기존 금액 검사에서 기다린다.
+	if actionable.size() <= 1:
+		return true
+	for who in actionable:
+		if _round_pending.has(who):
+			return false
+	return true
+
+# 각 비동기 행동은 자기 세대만 이어간다. 저장 상태가 아닌 overlay 수명 상태다.
+var _action_generation: int = 0
+var _action_busy: bool = false
+
+func _invalidate_action_flow() -> void:
+	_action_generation += 1
+	_action_busy = false
+
+func _can_process_betting() -> bool:
+	return visible and not _action_busy and _phase in [Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER]
+
+func open() -> void:
+	if visible: return
+	_invalidate_action_flow()
+	_open_session()
+
+func _start_hand() -> void:
+	if not visible or _action_busy or _phase not in [Phase.SETUP, Phase.SHOWDOWN]: return
+	_invalidate_action_flow()
+	_deal_next_hand()
+
+func _begin_player_action() -> bool:
+	if not _is_player_action_waiting(): return false
+	_action_busy = true
+	AudioManager.play("click")
+	return true
+
+func _do_ai_action(opp_idx: int) -> void:
+	if not _can_process_betting() or opp_idx < 0 or opp_idx >= _opp.size(): return
+	if _turn_order.is_empty() or _turn_order[_action_idx % _turn_order.size()] != opp_idx + 1: return
+	if not _seat_can_bet(opp_idx + 1): return
+	_action_busy = true
+	_commit_ai_action(opp_idx)
+
+func _finish_action_after(seconds: float) -> bool:
+	var generation := _action_generation
+	await get_tree().create_timer(seconds).timeout
+	if generation != _action_generation or not visible or _phase not in [Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER]: return false
+	_action_busy = false
+	return true
+
+func _enter_showdown_phase() -> bool:
+	if not _can_process_betting(): return false
+	_invalidate_action_flow()
+	_phase = Phase.SHOWDOWN
+	return true
+
+func _enter_result_phase() -> bool:
+	if not visible or _phase == Phase.RESULT: return false
+	_invalidate_action_flow()
+	_phase = Phase.RESULT
+	return true
+
+func _leave() -> void:
+	if not visible or _phase not in [Phase.SETUP, Phase.RESULT]: return
+	_invalidate_action_flow()
+	_close_session()
+
+func _phase_banner_label(token: String) -> String:
+	match token:
+		"NEW HAND": return _tr("새 핸드", "New Hand").to_upper()
+		"FLOP": return _tr("플랍", "Flop").to_upper()
+		"TURN": return _tr("턴", "Turn").to_upper()
+		"RIVER": return _tr("리버", "River").to_upper()
+		"SHOWDOWN": return _tr("쇼다운", "Showdown").to_upper()
+	return token
+
+func _victory_template(template: String) -> String:
+	# Preserve the translation lookup key; all built-in KO ranks take 로, including 트리플.
+	return template.replace("%s으로", "%s로") if LocaleManager.is_korean() else template

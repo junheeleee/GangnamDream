@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-410",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "bbda283b15d237706f456d29d02238c6a55c5926",
+    "tree": "c72935386020b127c9c2cc37b29e302fb9fb349e",
+    "manifest_sha256": null
+  },
+  "reviewer": {
+    "agent": "/root/independent392",
+    "role": "Independent non-author reviewer",
+    "authored_product": false,
+    "authored_translations": false,
+    "authored_helpers": false,
+    "executed_engine_or_audits": false,
+    "write_scope": "Only this private review"
+  },
+  "scope": "Fifteen existing Korean UI keys, thirty independently authored CN/TW values, two official batches; actual AP1/count12 self-development modal and AP0 real toast in each locale. This is bounded internal unit acceptance, not native, human, physical or release approval.",
+  "method": {
+    "instructions": "gangnamdream-dev skill, CLAUDE, WORK_UNIT, ORDER-410, localization profile and glossaries; direct Korean sources and shared consumers.",
+    "source": "Read _open_cat_dev, _ap_study, _study_count, _study_progress_label, shared card builder, toast ingress and NotificationToast. Reviewed complete new exchange/static/runtime helpers and applicable inherited contracts without rerunning them.",
+    "evidence": "Read original exchange outputs/receipts, raw append proof, runtime entry/oracle/observations/stdout/stderr/Godot log, all four original PNGs, and all twelve final normal/query rows. Independently rehashed artifacts, live protected files and before/after maps.",
+    "skill_effect": "Kept queue ownership and target-specific QA boundaries; required direct KO review, real regional-font observations, raw history preservation and separate human/public/full-game gates."
+  },
+  "translation_review": {
+    "population": 30,
+    "keys_per_locale": 15,
+    "locales": [
+      "zh-CN",
+      "zh-TW"
+    ],
+    "result": "ACCEPT",
+    "semantic_result": "All thirty final values directly compared with Korean and actual consumers. Book/week/session units, {n} placeholders, em dashes, study labels and AP exhaustion are preserved. Eye-training metaphor does not promise investment returns. Human-side time is not narrowed into a new relationship reward. CN self-time wording and TW human-time wording are acceptable contextual renderings, not a native-style certification.",
+    "regional_terms": "CN 自我提升/行动力 and TW 自我成長/行動力 preserve existing regional usage. No character-conversion authorship was used by the separately assigned writers.",
+    "draft_sha256": {
+      "zh-CN": "e09a4376aba03eaed9cd23a3e9de4d13e9c2d738876e33588e969162dc56897f",
+      "zh-TW": "bd0c6ef8518d4138fb25684df1026942ba571692c1918c52bf5215fa8d3000e0"
+    }
+  },
+  "source_and_exchange": {
+    "base": "92450c24c5597f82d6b8094ea0bd7003c3148718",
+    "main_unchanged_sha256": "9eb5c522e8be5f81ee56ba683f9d1db61d2625b38acf96b99169d7b7aed7c976",
+    "changed_paths": [
+      "CLAUDE.md",
+      "content/meta/full_game_localization.json",
+      "docs/WORK_LOG.md",
+      "locale/ui_zh-CN.json",
+      "locale/ui_zh-TW.json"
+    ],
+    "source_manifest_sha256": "a0c6f2c09b3d47c9f1b06652f71fc8c8640bd86209d9166a9e8744819c09afcd",
+    "accepted_before": 41152,
+    "accepted_after": 41182,
+    "batches_before": 178,
+    "batches_after": 180,
+    "ui_keys": {
+      "ja": 3044,
+      "zh-CN": 1497,
+      "zh-TW": 1497
+    },
+    "raw_inverse": "Independently parsed raw JSON spans, removed only appended15+15 values/30receipts/two batches and restored old checksum; both entire UI raw files and whole ledger equal baseline Git, JA raw unchanged. Recomputed all30 Korean leaf/source hashes and target hashes; draft=response=current dictionary=official receipts/header=ledger.",
+    "official_outputs": [
+      {
+        "path": ".git/full-game-localization/order410-static-export.json",
+        "sha256": "2f02b67a4458956d220933f1e268d8ed978277aa40b3bac2c48c6aa31c0a759e",
+        "seconds": 10.065
+      },
+      {
+        "path": ".git/full-game-localization/order410-static-check.json",
+        "sha256": "7075e964887e0e8a227bc2beb5a7749d5f7028c8e4114c48af1f1ac693313eab",
+        "seconds": 10.121
+      },
+      {
+        "path": ".git/full-game-localization/order410-append-precommit.json",
+        "sha256": "56133d622fea17d700deda62020d25b815d3bf76150f0d71e37da49c0935e84f"
+      }
+    ],
+    "receipts": [
+      {
+        "locale": "zh-CN",
+        "batch": "b4df8f797e3ee33613e489dab91619672efe1a81e07492801b86462df98789ba",
+        "path": ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/b4df8f797e3ee33613e489dab91619672efe1a81e07492801b86462df98789ba.accepted.json",
+        "sha256": "91f7fc90b2bd396358a384aef15e4791227c8f7d69fa8da3d548839bf9292faa",
+        "receipt_digest": "771cb775b525e17aeada22807149416d89c1b63f224529166be7ad40fc27df5f",
+        "count": 15
+      },
+      {
+        "locale": "zh-TW",
+        "batch": "a04624d2fd9b07c793ed56d679fd5feb7b9a46b094eab151acef2e09fb3b6ce4",
+        "path": ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/a04624d2fd9b07c793ed56d679fd5feb7b9a46b094eab151acef2e09fb3b6ce4.accepted.json",
+        "sha256": "93256432261f4f0cd21c00b896fa25780f17c3df231b5cae528428bf512aa89c",
+        "receipt_digest": "424b4674b2752dc8ed508a616a066233333359fb7607b803eeabb9eea1c5c244",
+        "count": 15
+      }
+    ]
+  },
+  "runtime": {
+    "path": ".git/full-game-localization/order410-screen-final",
+    "result_sha256": "de8185eb35b2d90e61300490ab11526afc9582dc0002d6c94e65bd1138bbff38",
+    "observations_sha256": "af75160a13630aef279b33a7b554bf0ca2057899819b7df801d460f762e0edc0",
+    "entry_sha256": "0a1811e45c7072cc5ec6835b40c5fce1d7b87583fe915e63b1155b9ebd78b5c2",
+    "oracle_sha256": "26bfc0e8f23aece8fbabe9bf082219c7478fdded0e622b21d438ece221586806",
+    "stdout_and_godot_log_sha256": "ed9b88c635fa87d184e54029bb5c19bfa2299dc4d4a23ce5b0723cf6a5c8c90b",
+    "pass_result": true,
+    "attempts": 1,
+    "duration_seconds": 16.177,
+    "exit_code": 0,
+    "errors": [],
+    "screens": 4,
+    "target_labels": 22,
+    "bindings": 30,
+    "lookups": 30,
+    "coverage": "15/15 actual-consumed keys per locale: AP1 fourteen keys in ten Labels, AP0 one key in one toast Label.",
+    "geometry": "Eight cards: actual/custom height72, margin combined minimum72, Atlas128x64, icon style minimum0; top/bottom margin4 each. All containment/sibling checks true, gaps10, scroll0 and bar hidden. Hypothetical 74px minimum was not reproduced; no exception or waiver.",
+    "text_and_fonts": "All22 target Labels one-line/full-fit. Header24, intro13, title15, combined subtitle14, toast13. Largest subtitle290/418px; each toast78/280px. Actual SC/TC primary, regular400/bold700, declared fallback route/weight and nonempty owned/nonzero glyph checks. AP1 non-CJK primary flag is vacuous; target Chinese has separate nonempty primary-CJK assertion.",
+    "visual_review": "Personally opened all four originals; no target tofu, truncation or overlap observed. Background Korean monthly board and unrelated HUD/menu text are outside this unit.",
+    "pngs": [
+      {
+        "file": "zh-CN-A.png",
+        "sha256": "8da073bfaf8f842140245fcd1803aed40372f7bad16eae8564d24c8ee75fd461"
+      },
+      {
+        "file": "zh-CN-B.png",
+        "sha256": "cc2226810218696d53d751b95d0ff0538666a1c07081aeff606452d9a417658e"
+      },
+      {
+        "file": "zh-TW-A.png",
+        "sha256": "62fd7e0584e2fd207350501028066698be372de6eb62f07b8e920e7abff578f4"
+      },
+      {
+        "file": "zh-TW-B.png",
+        "sha256": "9501cc33c265e4872401987c5d7032b7f6ac16604cbb13d1f488c2fc866805c7"
+      }
+    ],
+    "state": "Four full typed before/restored and prepared/observed comparisons equal, zero display/restoration deltas. AP/counts are integer2, counts array28, flag dictionary27. Actual prepared AP1/AP0 with all four count getters12. AP0 leaves modal hidden and old/current body node IDs equal.",
+    "toast": "Both actual NotificationToast instances fully shown, one dismissed signal each, naturally freed with container empty after2851/2839ms; no manual dismiss.",
+    "zero_claims": "Pressed/trade/finalization counters0. Raw-input/confirm/study-commit0 from reviewed helper call graph, not installed global interception. Prepared fixtures are not natural gameplay reachability or Back tests.",
+    "preservation": "Source2982/helper41 and real-player34 files unchanged; live hashes, copied helpers and all recorded artifacts match. Prior409 runtime/static complete file maps remain unchanged.",
+    "glyph_limit": "Separate TextServer shaping of actual resolved font/size, not inspection of each Label's internal shaped RID."
+  },
+  "normal": {
+    "folder": ".git/full-game-localization/order410-static-final-r1",
+    "result_sha256": "675670775b00277e9ac9b0d05448a9cf6ce2416473b09886a5435b201f59dca0",
+    "entry_sha256": "c99d4d3f6b8743b8c3abf92aacf5d5a0dadcf7aab5558149ba8d920a2ac538b9",
+    "runner_sha256": "68487a8dbaf643db271e5bb983c043b25240e8f100fb153c2ad8b6dc12a775eb",
+    "wall_seconds": 597.934,
+    "commands": 12,
+    "normal_commands": 11,
+    "query_commands": 1,
+    "source_files": 2982,
+    "helpers": 48,
+    "inputs": 10,
+    "prior": 4,
+    "chapter1": {
+      "seconds": 306.23,
+      "debt_codes": 8,
+      "blocked": 3,
+      "coverage_gap": 24,
+      "sha256": "6bd805ad10f6b1c5df2674b1c6aa74457e090c6ba897e2ec19a9983615e60c22"
+    },
+    "year5": {
+      "seconds": 291.227,
+      "activation": "reference_only",
+      "topology": "invalidated",
+      "sha256": "b70d7a819cda44a27629c7f18fc90b696db490e7e9589d13c00e6746ee5f83e4"
+    },
+    "all_pass": true,
+    "source_unchanged": true,
+    "exit_codes": "All12 zero; every stderr empty; aggregate rows equal original00..11 files; entry command list and copied runner hashes match.",
+    "scope": "11 normal commands plus one audit_select --list query. Its42 suggestions are not42 executions. Unchanged409 focused/JA-only/old screen/historical/whole/240-week suites were not rerun.",
+    "other_boundaries": "Full-body SOURCE_INVENTORY_ONLY/runtime0/native0; Chapter5 human pending; ZH skeleton/shipping0 and legacy UI1295/2951. Chapter1 debt8/blocked3/gap24 and Year5 reference_only/invalidated remain.",
+    "current_rehash": "All2982 source,48 helper,10 input and4 prior entries match original before/after; source clean and exact candidate/tree at execution."
+  },
+  "failures_and_repairs": [
+    {
+      "phase": "Static prelaunch",
+      "result": "SyntaxError before imports/commands; normal_commands_started=0",
+      "original_runner": ".git/full-game-localization/order410-static-run.py",
+      "original_sha256": "abb378defcfe95d6de385d18ec310150bb71cdc012576a5d974632a33a97d4be",
+      "record": ".git/full-game-localization/order410-static-prelaunch-failure.json",
+      "record_sha256": "ca1841fefe27010b3c9e70128a576bc662e8b31073b98571efeff1650789dfb5",
+      "record_kind": "Root transcription of original tool-result stderr/chunk f5e2ac; not a runner-created result artifact",
+      "repair": "New-r1 file only: close outer INPUTS bracket, retain both runners in48-helper census, bind new runner SHA. Original preserved, not relabeled PASS. Reviewer preflight also missed the bracket; final-r1 original results independently verified."
+    },
+    {
+      "phase": "Runtime preflight",
+      "result": "Root found texture region-field mismatch before engine; author corrected to actual atlas_region and froze new helpers. First and only engine attempt passed. No product fix or runtime rerun."
+    }
+  ],
+  "preservation": {
+    "old_decisions": 167,
+    "old_reports": 145,
+    "old_records_raw_unchanged": true,
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "public_go": 1,
+    "human_open": 45,
+    "full_game": "HOLD",
+    "new_package": "HOLD",
+    "unchanged": "MainGame/JobSystem/FontKit/NotificationToast, KO/EN/JA, tools, assets, gameplay, source inventory, public demo and human ledger. Entire old CN/TW dictionary raw and receipt history recover by exact inverse."
+  },
+  "limitations": [
+    "Not a complete Chinese UI, monthly board, shared-consumer screen or full-game translation approval.",
+    "Counts12/AP1 and AP0 prepared branches only; no count0 screenshot, study action/reward/threshold, natural ingress, controller/keyboard, Back or physical-device test.",
+    "No native-speaker/human review, fun/depth/style gate closure, fresh240-week route, package/store/release approval.",
+    "Existing Chapter1 snapshot debt and coverage gap, Year5 invalidated reference-only topology and unrelated fallback text remain."
+  ],
+  "conclusion": "GO only for ORDER-410 at the exact subject. No unresolved in-scope product defect or evidence blocker found; no broader approval inherited.",
+  "independent": true,
+  "status": "completed",
+  "private_review": {
+    "path": ".git/full-game-localization/order410-independent-review.json",
+    "sha256": "2a868e2c173704043aa5b685545c6f688062f5031ad3cbf9086c85c7893ebb49"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER410_UI_OK screens=4 keys=15 locales=2 raw=0 actions=0; normal11+query1 exit0",
+    "생산자 ↔ 독자": "locale/ui_zh-CN.json·ui_zh-TW.json → scenes/MainGame.gd:15797 _ap_study / :15859 _study_progress_label → NotificationToast",
+    "바꾸는 상태": "CN/TW15키씩 영어폴백→중국어; accepted41152/b178→41182/b180; gameplay unchanged",
+    "포기 시 잃는 것": "_open_cat_dev 선택설명·누적기록·AP소진 안내; week N/A",
+    "서사 위치": "N/A: existing self-development UI",
+    "장면 계층": "N/A: UI",
+    "닫는 것": "ORDER-410 exact work_unit only; full-game/new-package HOLD"
+  }
+}

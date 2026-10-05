@@ -6603,5 +6603,552 @@ def modal_rebind_inventory(inventory, raw):
     return _gift_replace(result, legacy_entries=entries, legacy_blueprint=blueprint)
 # END_TUTORIAL_COPY_390
 
+# BEGIN_PROMOTION_REVIEW_COLLECTOR_406
+PROMOTION_PIPELINE_APPEND_SHA = "fc731061e6c284d29ba46fca6db7ccf7de7e232b2e46249e531f492a62acdd4d"
+PROMOTION_PIPELINE_BEFORE_SHA = "6489aa667a5424de3af6524f170a88261358c442b883a9b52f5026a519df81d0"
+PROMOTION_PIPELINE_BEFORE_BLOB = "f12cf4351bb07a62bd47cbb6e6a8424200664006"
+_PROMOTION_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
+_PROMOTION_OLD_TUTORIAL_CALL_VIEWS = _tutorial_copy_call_views
+_PROMOTION_OLD_REBIND_INVENTORY = modal_rebind_inventory
+
+
+def promotion_pipeline_predecessor(raw):
+    """Remove only the sealed406 appendix, returning actual pre406 code bytes."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("promotion-review code raw/import identity differs")
+    start, end = b"# BEGIN_PROMOTION_REVIEW_COLLECTOR_406\n", b"# END_PROMOTION_REVIEW_COLLECTOR_406\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("promotion-review appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    span = raw[a:z]
+    binding = ('PROMOTION_PIPELINE_APPEND_SHA = "' + PROMOTION_PIPELINE_APPEND_SHA + '"').encode()
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'PROMOTION_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != PROMOTION_PIPELINE_APPEND_SHA:
+        raise ValueError("promotion-review appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != PROMOTION_PIPELINE_BEFORE_SHA:
+        raise ValueError("promotion-review whole predecessor differs")
+    blob = _current_demo_git("show", _gift_history.PROMOTION_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != PROMOTION_PIPELINE_BEFORE_BLOB:
+        raise ValueError("promotion-review immutable code blob differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _PROMOTION_OLD_MODAL_PIPELINE_PREDECESSOR(promotion_pipeline_predecessor(raw))
+
+
+def _promotion_review_call_views(raw):
+    """Current calls differ from pre381 in the two declared source pairs only."""
+    previous = _gift_history.modal_font_predecessor(raw, ROOT)
+    path = _gift_history.MAIN_GAME_PATH
+    before, old_errors = parse_ui_calls(path, previous.decode())
+    actual, errors = parse_ui_calls(path, raw.decode())
+    before.sort(key=lambda c: (c.path, c.line, c.api))
+    actual.sort(key=lambda c: (c.path, c.line, c.api))
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    pairs = tuple(((path, owner, "legacy", old_ko, old_en, ""),
+                   (path, owner, "legacy", new_ko, new_en, "")) for owner, old_ko, old_en, new_ko, new_en in (
+        ("_show_tutorial", _gift_history.TUTORIAL_OLD_KO, _gift_history.TUTORIAL_OLD_EN,
+         _gift_history.TUTORIAL_NEW_KO, _gift_history.TUTORIAL_NEW_EN),
+        ("_open_cat_work", _gift_history.PROMOTION_OLD_KO, _gift_history.PROMOTION_OLD_EN,
+         _gift_history.PROMOTION_NEW_KO, _gift_history.PROMOTION_NEW_EN)))
+    old_semantic, new_semantic = list(map(semantic, before)), list(map(semantic, actual))
+    replacements = dict(pairs)
+    if (old_errors or errors or len(replacements) != 2
+            or any(old_semantic.count(old) != 1 or new_semantic.count(new) != 1
+                   or any(c.korean == old[3] for c in actual) for old, new in pairs)
+            or [replacements.get(row, row) for row in old_semantic] != new_semantic):
+        raise ValueError("promotion-review exact two selectors or unowned semantics differ")
+    return tuple(before), tuple(actual)
+
+
+# The unchanged tutorial-retained audit must compare with actual current calls.
+# Its historical one-pair body remains above and saved for explicit comparisons.
+_tutorial_copy_call_views = _promotion_review_call_views
+
+
+def modal_rebind_inventory(inventory, raw):
+    before, actual = _promotion_review_call_views(raw)
+    path = _gift_history.MAIN_GAME_PATH
+    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
+        raise ValueError("promotion-review supplied predecessor inventory differs")
+    replacements = iter(actual)
+    calls = tuple(next(replacements) if c.path == path else c for c in inventory.calls)
+    result = _gift_caption_inventory_view(inventory, calls)
+    old_entries = {e.source: e for e in inventory.legacy_entries}
+    new_entries = {e.source: e for e in result.legacy_entries}
+    if (set(old_entries) - set(new_entries) != {_gift_history.TUTORIAL_OLD_KO, _gift_history.PROMOTION_OLD_KO}
+            or set(new_entries) - set(old_entries) != {_gift_history.TUTORIAL_NEW_KO, _gift_history.PROMOTION_NEW_KO}):
+        raise ValueError("promotion-review source identity changed outside its two keys")
+    entries = tuple(_gift_replace(old_entries[e.source], context=e.context)
+                    if e.source in old_entries else e for e in result.legacy_entries)
+    blueprint = {e.source: {"$entry": e.key} for e in entries}
+    if any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
+           for e in entries if e.source in old_entries):
+        raise ValueError("promotion-review unowned entry identity changed")
+    return _gift_replace(result, legacy_entries=entries, legacy_blueprint=blueprint)
+# END_PROMOTION_REVIEW_COLLECTOR_406
+
+# BEGIN_CAREER_TENURE_COLLECTOR_409
+TENURE_PIPELINE_APPEND_SHA = "d00d80e05b50d03a23a278ced47061b914565a3abfc26fddb089102247482cf5"
+TENURE_PIPELINE_BEFORE_SHA = "c26eff24e0c2d42ab00a0bf48c4b4d529814d9aa7973300349cc5d3bad303be7"
+TENURE_PIPELINE_BEFORE_BLOB = "c0a904cc61cb6945888cf80b840e4ea5940b3feb"
+_TENURE_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
+_TENURE_OLD_TUTORIAL_CALL_VIEWS = _tutorial_copy_call_views
+_TENURE_OLD_PROMOTION_CALL_VIEWS = _promotion_review_call_views
+_TENURE_OLD_REBIND_INVENTORY = modal_rebind_inventory
+
+
+def career_tenure_pipeline_predecessor(raw):
+    """Remove only this sealed appendix before invoking the preserved406 chain."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("career-tenure code raw/import identity differs")
+    start, end = b"# BEGIN_CAREER_TENURE_COLLECTOR_409\n", b"# END_CAREER_TENURE_COLLECTOR_409\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("career-tenure appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    span = raw[a:z]
+    binding = ('TENURE_PIPELINE_APPEND_SHA = "' + TENURE_PIPELINE_APPEND_SHA + '"').encode()
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'TENURE_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != TENURE_PIPELINE_APPEND_SHA:
+        raise ValueError("career-tenure appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != TENURE_PIPELINE_BEFORE_SHA:
+        raise ValueError("career-tenure whole predecessor differs")
+    blob = _current_demo_git("show", _gift_history.TENURE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != TENURE_PIPELINE_BEFORE_BLOB:
+        raise ValueError("career-tenure immutable code blob differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _TENURE_OLD_MODAL_PIPELINE_PREDECESSOR(career_tenure_pipeline_predecessor(raw))
+
+
+def _career_tenure_call_views(raw):
+    """Expose current English/locations while preserving every Korean identity."""
+    previous = _gift_history.modal_font_predecessor(raw, ROOT)
+    path = _gift_history.MAIN_GAME_PATH
+    before, old_errors = parse_ui_calls(path, previous.decode())
+    actual, errors = parse_ui_calls(path, raw.decode())
+    before.sort(key=lambda c: (c.path, c.line, c.api))
+    actual.sort(key=lambda c: (c.path, c.line, c.api))
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    pairs = tuple(((path, owner, "legacy", old_ko, old_en, ""),
+                   (path, owner, "legacy", new_ko, new_en, "")) for owner, old_ko, old_en, new_ko, new_en in (
+        ("_show_tutorial", _gift_history.TUTORIAL_OLD_KO, _gift_history.TUTORIAL_OLD_EN,
+         _gift_history.TUTORIAL_NEW_KO, _gift_history.TUTORIAL_NEW_EN),
+        ("_open_cat_work", _gift_history.PROMOTION_OLD_KO, _gift_history.PROMOTION_OLD_EN,
+         _gift_history.PROMOTION_NEW_KO, _gift_history.PROMOTION_NEW_EN),
+        ("_open_cat_work", _gift_history.TENURE_KO, _gift_history.TENURE_OLD_EN,
+         _gift_history.TENURE_KO, _gift_history.TENURE_NEW_EN)))
+    old_semantic, new_semantic = list(map(semantic, before)), list(map(semantic, actual))
+    replacements = dict(pairs)
+    retired = {_gift_history.TUTORIAL_OLD_KO, _gift_history.PROMOTION_OLD_KO}
+    if (old_errors or errors or len(replacements) != 3
+            or any(old_semantic.count(old) != 1 or new_semantic.count(new) != 1
+                   or old in new_semantic for old, new in pairs)
+            or any(c.korean in retired for c in actual)
+            or sum(c.korean == _gift_history.TENURE_KO for c in before) != 1
+            or sum(c.korean == _gift_history.TENURE_KO for c in actual) != 1
+            or [replacements.get(row, row) for row in old_semantic] != new_semantic):
+        raise ValueError("career-tenure exact three selectors or unowned semantics differ")
+    return tuple(before), tuple(actual)
+
+
+# Both retained-JA readers must see the current calls, not an earlier EN view.
+_tutorial_copy_call_views = _career_tenure_call_views
+_promotion_review_call_views = _career_tenure_call_views
+
+
+def modal_rebind_inventory(inventory, raw):
+    before, actual = _career_tenure_call_views(raw)
+    path = _gift_history.MAIN_GAME_PATH
+    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
+        raise ValueError("career-tenure supplied predecessor inventory differs")
+    replacements = iter(actual)
+    calls = tuple(next(replacements) if c.path == path else c for c in inventory.calls)
+    result = _gift_caption_inventory_view(inventory, calls)
+    old_entries = {e.source: e for e in inventory.legacy_entries}
+    new_entries = {e.source: e for e in result.legacy_entries}
+    if (set(old_entries) - set(new_entries) != {_gift_history.TUTORIAL_OLD_KO, _gift_history.PROMOTION_OLD_KO}
+            or set(new_entries) - set(old_entries) != {_gift_history.TUTORIAL_NEW_KO, _gift_history.PROMOTION_NEW_KO}
+            or _gift_history.TENURE_KO not in old_entries or _gift_history.TENURE_KO not in new_entries):
+        raise ValueError("career-tenure Korean source identities changed")
+    entries = tuple(_gift_replace(old_entries[e.source], context=e.context)
+                    if e.source in old_entries else e for e in result.legacy_entries)
+    blueprint = {e.source: {"$entry": e.key} for e in entries}
+    if any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
+           for e in entries if e.source in old_entries):
+        raise ValueError("career-tenure unowned entry identity changed")
+    return _gift_replace(result, legacy_entries=entries, legacy_blueprint=blueprint)
+# END_CAREER_TENURE_COLLECTOR_409
+
+# BEGIN_HOLDEM_MONEY_COLLECTOR_434
+import holdem_money_history as _holdem_money_history
+
+HOLDEM_MONEY_PIPELINE_APPEND_SHA = "0b576ffb00fd2fbf78b0810445ca663cafb7e199f22df2cefedf00e464d65ad9"
+HOLDEM_MONEY_PIPELINE_BEFORE_SHA = "55a3b65670765fdf8aedb75e78fbbd94b0306e97f873c5e4a8580b9e171e9e27"
+HOLDEM_MONEY_PIPELINE_BEFORE_BLOB = "5d644d0bb6ba2d58501f3a964094bd46b85cbeff"
+_HOLDEM_MONEY_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
+_HOLDEM_MONEY_OLD_COLLECT = collect_ui_inventory
+_HOLDEM_MONEY_OLD_CHECKS = _last11_meta_title_historical_checks
+
+
+def holdem_money_pipeline_predecessor(raw):
+    """Strip only this sealed successor before the unchanged collector proof."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("holdem-money code raw/import identity differs")
+    start, end = b"# BEGIN_HOLDEM_MONEY_COLLECTOR_434\n", b"# END_HOLDEM_MONEY_COLLECTOR_434\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("holdem-money appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    span = raw[a:z]
+    binding = ('HOLDEM_MONEY_PIPELINE_APPEND_SHA = "' + HOLDEM_MONEY_PIPELINE_APPEND_SHA + '"').encode()
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'HOLDEM_MONEY_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != HOLDEM_MONEY_PIPELINE_APPEND_SHA:
+        raise ValueError("holdem-money appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != HOLDEM_MONEY_PIPELINE_BEFORE_SHA:
+        raise ValueError("holdem-money whole predecessor differs")
+    blob = _holdem_money_history._git(ROOT, "show", _holdem_money_history.BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != HOLDEM_MONEY_PIPELINE_BEFORE_BLOB:
+        raise ValueError("holdem-money immutable code blob differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _HOLDEM_MONEY_OLD_MODAL_PIPELINE_PREDECESSOR(holdem_money_pipeline_predecessor(raw))
+
+
+def _holdem_money_call_views(raw):
+    """The live view has exactly three fewer calls, never a dead formatter."""
+    previous = _holdem_money_history.holdem_money_predecessor(raw, ROOT)
+    path = _holdem_money_history.HOLDEM_PATH
+    before, old_errors = parse_ui_calls(path, previous.decode("utf-8"))
+    actual, errors = parse_ui_calls(path, raw.decode("utf-8"))
+    before.sort(key=lambda c: (c.path, c.line, c.api))
+    actual.sort(key=lambda c: (c.path, c.line, c.api))
+    selectors = {(path, "_fmt", "legacy", ko, en, "") for ko, en in _holdem_money_history.RETIRED_PAIRS}
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    retired = {ko for ko, _en in _holdem_money_history.RETIRED_PAIRS}
+    if (old_errors or errors or len(selectors) != 3 or len(retired) != 3
+            or any(sum(semantic(c) == row for c in before) != 1 for row in selectors)
+            or any(c.korean in retired for c in actual)
+            or [c for c in before if semantic(c) not in selectors] != actual):
+        raise ValueError("holdem-money exact three retired selectors or unowned calls differ")
+    return tuple(before), tuple(actual)
+
+
+@contextmanager
+def _holdem_money_previous_reads(raw):
+    """Only old comparison readers see old text; raw/Git reads stay current."""
+    from unittest.mock import patch
+    previous = _holdem_money_history.holdem_money_predecessor(raw, ROOT)
+    owner = ROOT / _holdem_money_history.HOLDEM_PATH
+    text0 = Path.read_text
+
+    def read_text(path, *args, **kwargs):
+        if path == owner:
+            return previous.decode(kwargs.get("encoding") or (args[0] if args else None) or "utf-8",
+                                   errors=kwargs.get("errors") or "strict")
+        return text0(path, *args, **kwargs)
+
+    with patch.object(Path, "read_text", read_text):
+        yield
+    if owner.read_bytes() != raw:
+        raise ValueError("holdem-money runtime changed during historical comparison")
+
+
+def holdem_money_rebind_inventory(inventory, raw, contract=None):
+    before, actual = _holdem_money_call_views(raw)
+    path = _holdem_money_history.HOLDEM_PATH
+    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
+        raise ValueError("holdem-money supplied predecessor inventory differs")
+    calls = tuple(c for c in inventory.calls if c.path != path) + actual
+    result = _new_run_log_inventory(inventory, calls, contract)
+    retired = {ko for ko, _en in _holdem_money_history.RETIRED_PAIRS}
+    old_entries = {e.source: e for e in inventory.legacy_entries}
+    new_entries = {e.source: e for e in result.legacy_entries}
+    if (set(old_entries) - set(new_entries) != retired or set(new_entries) - set(old_entries)
+            or len(inventory.calls) - len(result.calls) != 3
+            or any(c.korean in retired for c in result.calls)):
+        raise ValueError("holdem-money current source retirement population differs")
+    entries = tuple(_gift_replace(old_entries[e.source], context=e.context) for e in result.legacy_entries)
+    if any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source] for e in entries):
+        raise ValueError("holdem-money remaining translation identity changed")
+    for field in ("planned_context_entries", "planned_context_blueprint", "observed_context_entries", "observed_context_blueprint"):
+        if getattr(result, field) != getattr(inventory, field):
+            raise ValueError("holdem-money unowned context inventory changed")
+    changed = {"source_calls", "legacy_calls", "legacy_api_calls", "legacy_keys",
+               "parameter_total_ui_call_occurrences", "parameter_legacy_pair_call_occurrences",
+               "parameter_legacy_korean_source_keys", "parameter_legacy_korean_source_keys_sha256"}
+    if any(value != inventory.stats.get(key) for key, value in result.stats.items() if key not in changed):
+        raise ValueError("holdem-money unowned source census changed")
+    for key in changed - {"parameter_legacy_korean_source_keys_sha256"}:
+        if result.stats[key] != inventory.stats[key] - 3:
+            raise ValueError("holdem-money current census is not exact minus3")
+    # The old registry still owns its two migrations. The returned current
+    # census also includes this exact new owner; observations are never patched.
+    if inventory.stats.get("parameter_money_formatter_migrations") != 2:
+        raise ValueError("holdem-money predecessor money formatter census differs")
+    stats = dict(result.stats)
+    stats.update(parameter_money_formatter_migrations=3, holdem_money_retired_calls=3,
+                 holdem_money_retired_keys=3, holdem_money_added_formatter_owners=1)
+    return _gift_replace(result, legacy_entries=entries,
+                         legacy_blueprint={e.source: {"$entry": e.key} for e in entries}, stats=stats)
+
+
+def _holdem_money_collect(contract=None):
+    try:
+        raw = (ROOT / _holdem_money_history.HOLDEM_PATH).read_bytes()
+        _holdem_money_call_views(raw)
+        with _holdem_money_previous_reads(raw):
+            baseline = _HOLDEM_MONEY_OLD_COLLECT(contract)
+        if baseline.errors:
+            return baseline
+        result = holdem_money_rebind_inventory(baseline, raw, contract)
+        if (ROOT / _holdem_money_history.HOLDEM_PATH).read_bytes() != raw:
+            raise ValueError("holdem-money runtime changed during collection")
+        return result
+    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
+        return UiInventory((), (), {}, (), {}, (), {}, ("holdem-money admission: " + str(exc),), {})
+
+
+def _holdem_money_historical_checks(inventory):
+    try:
+        raw = (ROOT / _holdem_money_history.HOLDEM_PATH).read_bytes()
+        _holdem_money_call_views(raw)
+        with _holdem_money_previous_reads(raw):
+            baseline = _HOLDEM_MONEY_OLD_COLLECT()
+            current = holdem_money_rebind_inventory(baseline, raw)
+            if inventory != current:
+                raise ValueError("holdem-money supplied current inventory differs")
+            result = _HOLDEM_MONEY_OLD_CHECKS(baseline)
+        return result
+    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
+        errors = ["holdem-money comparison: " + str(exc)]
+        return _gift_replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
+
+
+collect_ui_inventory = _holdem_money_collect
+_last11_meta_title_historical_checks = _holdem_money_historical_checks
+# END_HOLDEM_MONEY_COLLECTOR_434
+
+# BEGIN_HOLDEM_BANNER_LOCALE_COLLECTOR_447
+# Keep historical64/retired3 contracts intact; publish all66 current calls.
+HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA = "e6defde38efbcf917343a5265b916ae2ccb3dc05235d3428fea129e74d2ce392"
+HOLDEM_BANNER_LOCALE_PIPELINE_BEFORE_SHA = "a16971c199dd2deeb76abb786a7eace97a1eaf31c89349bae7108b1d2249ec8b"
+HOLDEM_BANNER_LOCALE_PIPELINE_BEFORE_BLOB = "ffd47f4f7c7d6d9c12f751c5211c205cfeb022ae"
+HOLDEM_BANNER_LOCALE_PAIRS = (("새 핸드", "New Hand"), ("플랍", "Flop"), ("턴", "Turn"),
+                             ("리버", "River"), ("쇼다운", "Showdown"))
+_HOLDEM_BANNER_LOCALE_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
+_HOLDEM_BANNER_LOCALE_OLD_REBIND = holdem_money_rebind_inventory
+
+
+def holdem_banner_locale_pipeline_predecessor(raw):
+    """Remove only the new sealed appendix before all unchanged old seals."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("holdem-banner-locale code raw/import identity differs")
+    start, end = b"# BEGIN_HOLDEM_BANNER_LOCALE_COLLECTOR_447\n", b"# END_HOLDEM_BANNER_LOCALE_COLLECTOR_447\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("holdem-banner-locale appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    span = raw[a:z]
+    binding = ('HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA = "' + HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA + '"').encode()
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA:
+        raise ValueError("holdem-banner-locale appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != HOLDEM_BANNER_LOCALE_PIPELINE_BEFORE_SHA:
+        raise ValueError("holdem-banner-locale whole predecessor differs")
+    blob = _holdem_money_history._git(ROOT, "show", _holdem_money_history.BANNER_LOCALE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != HOLDEM_BANNER_LOCALE_PIPELINE_BEFORE_BLOB:
+        raise ValueError("holdem-banner-locale immutable code blob differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _HOLDEM_BANNER_LOCALE_OLD_MODAL_PIPELINE_PREDECESSOR(holdem_banner_locale_pipeline_predecessor(raw))
+
+
+def _holdem_banner_locale_call_views(raw):
+    predecessors = _holdem_money_history._holdem_banner_locale_proof(raw, ROOT)
+    path = _holdem_money_history.HOLDEM_PATH
+    views = [parse_ui_calls(path, value.decode("utf-8")) for value in (predecessors[-1], predecessors[0], raw)]
+    if any(errors for _calls, errors in views):
+        raise ValueError("holdem-banner-locale call parse differs")
+    before, retained, actual = (tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
+                                for calls, _errors in views)
+    selectors = {(path, "_fmt", "legacy", ko, en, "") for ko, en in _holdem_money_history.RETIRED_PAIRS}
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    added = tuple(UiCall(path, "_phase_banner_label", 1784 + index, "legacy", ko, en)
+                  for index, (ko, en) in enumerate(HOLDEM_BANNER_LOCALE_PAIRS))
+    retired = {ko for ko, _en in _holdem_money_history.RETIRED_PAIRS}
+    if (len(before) != 64 or len(retained) != 61 or len(actual) != 66 or len(selectors) != 3
+            or len(retired) != 3 or len(added) != 5
+            or any(sum(semantic(c) == selector for c in before) != 1 for selector in selectors)
+            or tuple(c for c in before if semantic(c) not in selectors) != retained
+            or actual != (*retained, *added) or any(c.korean in retired for c in actual)
+            or any(c.korean == "새 핸드" for c in before)):
+        raise ValueError("holdem-banner-locale exact old61/new5 or retired3 calls differ")
+    return before, actual
+
+
+# Retained-JA readers need the honest current66, not the comparison-only61.
+_holdem_money_call_views = _holdem_banner_locale_call_views
+
+
+def holdem_money_rebind_inventory(inventory, raw, contract=None):
+    from unittest.mock import patch
+    before, actual = _holdem_banner_locale_call_views(raw)
+    path = _holdem_money_history.HOLDEM_PATH
+    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
+        raise ValueError("holdem-banner-locale supplied predecessor inventory differs")
+    # Invoke the unchanged pure retirement rebind only with the proved old61.
+    # The collector returned below always includes all five real new calls.
+    with patch.object(sys.modules[__name__], "_holdem_money_call_views", return_value=(before, actual[:-5])):
+        previous = _HOLDEM_BANNER_LOCALE_OLD_REBIND(inventory, raw, contract)
+    calls = tuple(c for c in previous.calls if c.path != path) + actual
+    result = _new_run_log_inventory(previous, calls, contract)
+    old_entries = {e.source: e for e in previous.legacy_entries}
+    new_entries = {e.source: e for e in result.legacy_entries}
+    if set(old_entries) - set(new_entries) or set(new_entries) - set(old_entries) != {"새 핸드"}:
+        raise ValueError("holdem-banner-locale unique Korean source population differs")
+    entries = tuple(_gift_replace(old_entries[e.source], context=e.context) if e.source in old_entries
+                    else _gift_replace(e, key="ui::holdem-banner::" + hashlib.sha1(e.source.encode()).hexdigest())
+                    for e in result.legacy_entries)
+    if (len({e.key for e in entries}) != len(entries)
+            or any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
+                   for e in entries if e.source in old_entries)):
+        raise ValueError("holdem-banner-locale existing Entry identity changed")
+    for field in ("planned_context_entries", "planned_context_blueprint", "observed_context_entries", "observed_context_blueprint"):
+        if getattr(result, field) != getattr(previous, field):
+            raise ValueError("holdem-banner-locale unowned context inventory changed")
+    deltas = {"source_calls": 5, "legacy_calls": 5, "legacy_api_calls": 5, "legacy_keys": 1,
+              "parameter_total_ui_call_occurrences": 5, "parameter_legacy_pair_call_occurrences": 5,
+              "parameter_legacy_korean_source_keys": 1}
+    changed = {*deltas, "parameter_legacy_korean_source_keys_sha256"}
+    if (any(result.stats.get(key) != value + deltas[key] for key, value in previous.stats.items() if key in deltas)
+            or any(result.stats.get(key) != value for key, value in previous.stats.items() if key not in changed)
+            or set(result.stats) != set(previous.stats)):
+        raise ValueError("holdem-banner-locale call/key census or unowned statistic differs")
+    stats = {**result.stats, "holdem_banner_locale_added_calls": 5, "holdem_banner_locale_added_keys": 1}
+    return _gift_replace(result, legacy_entries=entries,
+                         legacy_blueprint={e.source: {"$entry": e.key} for e in entries}, stats=stats)
+# END_HOLDEM_BANNER_LOCALE_COLLECTOR_447
+
+# BEGIN_HOLDEM_TABLE_LABELS_COLLECTOR_449
+# Publish current71 while retaining historical64/retired3/banner66 contracts.
+HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA = "0cd58173d241f756c6661616d155e8c9d6e43bd6e7dedbe9c2836c08e70d90ab"
+HOLDEM_TABLE_LABELS_PIPELINE_BEFORE_SHA = "1a2878b702867a4baa22f0ce2480a749af4cb0c48ee070bba0e4396c8062ef32"
+HOLDEM_TABLE_LABELS_PIPELINE_BEFORE_BLOB = "40894d482d977a18a7c42846904830183b4224c8"
+HOLDEM_TABLE_LABELS_SITES = (
+    ("_render_table", 548, "팟", "POT"),
+    ("_build_table_surface", 611, "팟", "POT"),
+    ("_build_table_surface", 639, "공개 카드", "BOARD"),
+    ("_build_holdem_seat", 783, "보유 칩", "STACK"),
+    ("_build_holdem_seat", 785, "베팅", "BET"),
+)
+_HOLDEM_TABLE_LABELS_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
+_HOLDEM_TABLE_LABELS_OLD_REBIND = holdem_money_rebind_inventory
+
+
+def holdem_table_labels_pipeline_predecessor(raw):
+    """Remove this exact sealed successor before entering every unchanged seal."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("holdem-table-labels code raw/import identity differs")
+    start, end = b"# BEGIN_HOLDEM_TABLE_LABELS_COLLECTOR_449\n", b"# END_HOLDEM_TABLE_LABELS_COLLECTOR_449\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("holdem-table-labels appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    span = raw[a:z]
+    binding = ('HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA = "' + HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA + '"').encode()
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA:
+        raise ValueError("holdem-table-labels appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != HOLDEM_TABLE_LABELS_PIPELINE_BEFORE_SHA:
+        raise ValueError("holdem-table-labels whole predecessor differs")
+    blob = _holdem_money_history._git(ROOT, "show", _holdem_money_history.TABLE_LABELS_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != HOLDEM_TABLE_LABELS_PIPELINE_BEFORE_BLOB:
+        raise ValueError("holdem-table-labels immutable code blob differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _HOLDEM_TABLE_LABELS_OLD_MODAL_PIPELINE_PREDECESSOR(holdem_table_labels_pipeline_predecessor(raw))
+
+
+def _holdem_table_labels_call_views(raw):
+    predecessors = _holdem_money_history._holdem_table_labels_proof(raw, ROOT)
+    path = _holdem_money_history.HOLDEM_PATH
+    views = [parse_ui_calls(path, value.decode("utf-8")) for value in (predecessors[-1], predecessors[0], raw)]
+    if any(errors for _calls, errors in views):
+        raise ValueError("holdem-table-labels call parse differs")
+    ordered = lambda calls: tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
+    before, retained, actual = (ordered(calls) for calls, _errors in views)
+    selectors = {(path, "_fmt", "legacy", ko, en, "") for ko, en in _holdem_money_history.RETIRED_PAIRS}
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    banner_calls = tuple(UiCall(path, "_phase_banner_label", 1784 + index, "legacy", ko, en)
+                         for index, (ko, en) in enumerate(HOLDEM_BANNER_LOCALE_PAIRS))
+    added = tuple(UiCall(path, function, line, "legacy", ko, en)
+                  for function, line, ko, en in HOLDEM_TABLE_LABELS_SITES)
+    new_keys = {row[2] for row in HOLDEM_TABLE_LABELS_SITES}
+    if (len(before) != 64 or len(retained) != 66 or len(actual) != 71 or len(selectors) != 3
+            or len(added) != 5 or len(new_keys) != 4
+            or any(sum(semantic(c) == selector for c in before) != 1 for selector in selectors)
+            or ordered((*tuple(c for c in before if semantic(c) not in selectors), *banner_calls)) != retained
+            or ordered((*retained, *added)) != actual or any(c.korean in new_keys for c in retained)
+            or any(c.korean in {ko for ko, _en in _holdem_money_history.RETIRED_PAIRS} for c in actual)):
+        raise ValueError("holdem-table-labels exact old66/new5 or historical calls differ")
+    return before, retained, actual
+
+
+def _holdem_money_call_views(raw):
+    before, _retained, actual = _holdem_table_labels_call_views(raw)
+    return before, actual
+
+
+def holdem_money_rebind_inventory(inventory, raw, contract=None):
+    from unittest.mock import patch
+    before, retained, actual = _holdem_table_labels_call_views(raw)
+    path = _holdem_money_history.HOLDEM_PATH
+    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
+        raise ValueError("holdem-table-labels supplied predecessor inventory differs")
+    # Reuse the unchanged 447 rebind with its exact proved 66-call input only.
+    with patch.object(sys.modules[__name__], "_holdem_banner_locale_call_views", return_value=(before, retained)):
+        previous = _HOLDEM_TABLE_LABELS_OLD_REBIND(inventory, raw, contract)
+    calls = tuple(c for c in previous.calls if c.path != path) + actual
+    result = _new_run_log_inventory(previous, calls, contract)
+    old_entries = {e.source: e for e in previous.legacy_entries}
+    new_entries = {e.source: e for e in result.legacy_entries}
+    new_keys = {row[2] for row in HOLDEM_TABLE_LABELS_SITES}
+    if set(old_entries) - set(new_entries) or set(new_entries) - set(old_entries) != new_keys:
+        raise ValueError("holdem-table-labels unique Korean source population differs")
+    entries = tuple(_gift_replace(old_entries[e.source], context=e.context) if e.source in old_entries
+                    else _gift_replace(e, key="ui::holdem-table::" + hashlib.sha1(e.source.encode()).hexdigest())
+                    for e in result.legacy_entries)
+    if (len({e.key for e in entries}) != len(entries)
+            or any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
+                   for e in entries if e.source in old_entries)):
+        raise ValueError("holdem-table-labels existing Entry identity changed")
+    for field in ("planned_context_entries", "planned_context_blueprint", "observed_context_entries", "observed_context_blueprint"):
+        if getattr(result, field) != getattr(previous, field):
+            raise ValueError("holdem-table-labels unowned context inventory changed")
+    deltas = {"source_calls": 5, "legacy_calls": 5, "legacy_api_calls": 5, "legacy_keys": 4,
+              "parameter_total_ui_call_occurrences": 5, "parameter_legacy_pair_call_occurrences": 5,
+              "parameter_legacy_korean_source_keys": 4}
+    changed = {*deltas, "parameter_legacy_korean_source_keys_sha256"}
+    if (any(result.stats.get(key) != value + deltas[key] for key, value in previous.stats.items() if key in deltas)
+            or any(result.stats.get(key) != value for key, value in previous.stats.items() if key not in changed)
+            or set(result.stats) != set(previous.stats)):
+        raise ValueError("holdem-table-labels call/key census or unowned statistic differs")
+    stats = {**result.stats, "holdem_table_labels_added_calls": 5, "holdem_table_labels_added_keys": 4}
+    return _gift_replace(result, legacy_entries=entries,
+                         legacy_blueprint={e.source: {"$entry": e.key} for e in entries}, stats=stats)
+# END_HOLDEM_TABLE_LABELS_COLLECTOR_449
+
 if __name__ == "__main__":
     sys.exit(main())

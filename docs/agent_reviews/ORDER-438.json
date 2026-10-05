@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-438",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "3c242a5caa3e037f705b03639470d42a1c213879",
+    "tree": "5d3512b6861dc0a0828b982692cafaea080f756d",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "Holdem 비동기 행동 busy/generation 소유권과 선언된 중복 Enter·busy Esc→RESULT·Close/reopen 이후 stale timer 차단만 GO. 본편·공개 패키지·포괄 비동기 안전성 GO가 아니다.",
+  "method": {
+    "independent": true,
+    "read": "선언, 실제 제품/소비자, history·append·focused·normal 및 새 runtime helper 전문/수리 diff, 실패·성공 원본, 정상 11행 stdout/stderr를 직접 읽었다. 성공 원본 PNG 2장을 직접 열고 정산/Close 효과·typed 복원·입력 시각을 대조했다.",
+    "preservation_assistance": "/root/independent392/ab_readonly428가 기록된 경로의 bytes/SHA, artifact/entry/row 결속과 기존 원장/보고/인간 파일만 독립 재해시했다. 프로젝트 코드 import, 검사·엔진 실행, 파일 쓰기 없음.",
+    "reviewer_execution": "엔진·focused·감사 재실행 0. 새 보고 파일만 한 번 작성한다."
+  },
+  "source_review": {
+    "product_commit": "aa21f0b08a21f839194fc2147869534c8c6b4ec2",
+    "declaration_parent": "031c3c2f8639e5c03f569e6f1509aee8ad38dcda",
+    "holdem_sha256": "35c2a7124160bfbab0e9b039aad496d2059131d83222f87eeb12ef344e5a0e5c",
+    "result": "기존 11줄 교체와 EOF 58줄의 정확한 역상, 실제 4전이/24 Git 객체, 기존 history/append prefix와 61 UiCall 튜플 보존을 확인했다. await 복귀는 generation·visible·betting phase를 먼저 확인하고 그 뒤에만 busy를 해제한다. RESULT 진입은 busy 중 허용하되 중복 RESULT/hidden deal 및 busy 행동 재진입은 차단한다.",
+    "unchanged": "금액·블라인드·AI 선택·deck/승패·Main/GameState/AP·번역·폰트의 기존 구현을 수정하지 않았다. 사전 JA3044/CN1733/TW1733 및 accepted41656/b209 불변."
+  },
+  "first_failure": {
+    "path": ".git/full-game-localization/order438-screen-first/result.json",
+    "sha256": "e4d88d9278a802a5c0ea11ae756f2f4ae5629d4541be9c81e1d192122ea0ee6a",
+    "observations_sha256": "3b51cfb7191269d0474a9db8df5478fbd446bd2e6dcb05e025110bd98ef6d754",
+    "seconds": 26.402,
+    "original_pass": false,
+    "result": "실제 2 PNG/26 raw 입력은 생성됐으나 첫 fixture 복원에서 Main이 재생성한 AP grid의 옛 절대 NodePath를 사용해 null grab_focus가 발생했다. sole typed delta는 ui.focus_path→빈 값이다. 첫 실패 뒤의 빈 focus baseline으로 이어진 후속 fixture를 독립 PASS로 재사용하지 않는다. aggregate screens0은 fail-fast 검증 집계이며 실제 캡처0을 뜻하지 않는다.",
+    "repair": "같은 제품 후보에서 helper만 수정했다. 원래 전체 typed 복원을 국소 유지하고 AP focus만 유일한 의미 identity로 다시 찾아 복원한다. 첫 실패와 helper 사본 138파일/137 artifacts를 그대로 보존했다. 저자·부모·독립 사전검수에서 재생성 NodePath 가정을 놓쳤다."
+  },
+  "runtime_review": {
+    "path": ".git/full-game-localization/order438-screen-focus-restored/result.json",
+    "sha256": "457e89d58cd2b5c8ff914fae59a297cde7c0a864e015540451b968f84017812c",
+    "entry_sha256": "d229f639e0a323770f8f962dfecf27b7f1831e44dcad91964159d2ef3a650b91",
+    "observations_sha256": "af5be889a4463af93afb28c507be69475b52b55828317ea06138320534c46925",
+    "oracle_sha256": "90245444836d8aa7b5c3323b09f5211112e602f990d06da2a71f63afe2d767fc",
+    "seconds": 26.712,
+    "population": "KO 1프로세스, PNG2, raw26/taps13, first hands3, table actions3, RESULT 정산2, Close1, prepared token 표본1, showdown0. exit0/errors[]/report_error[]/prior_error=null, actual assertion failure0.",
+    "timed_cases": [
+      "플레이어 Call 후 .3초 대기 중 새 Enter는 행동/round를 바꾸지 않았다. Esc 실제8953ms는 old deadline9173ms 이전이며 RESULT가 옛 deadline 뒤에도 유지됐다.",
+      "마지막 AI .6초 대기 중 새 Enter는 무효였다. Esc→Close→재open/deal 실제16529ms는 old deadline16940ms 이전이다. 새 hand의 whole Holdem/round/content child IDs가 old deadline 전후 동일했다. 이후 정상 Call은 FLOP/pot30000/stack90000/pending[0,1,2]/busyfalse로 진행했다.",
+      "별도 prepared 표본은 stale token의 false 반환과 새 세대 busy 유지, 소유한 token의 busy 해제만 확인했다. 이를 자연 입력으로 만든 새 busy 세대라고 주장하지 않는다."
+    ],
+    "effects_and_restoration": "독립 fixture별 정산2는 cash5,000,000→4,990,000/mental60→55/Meta mg_plays+1 및 기대 파일 raw bytes와 일치했다. Close1의 AP2→1·축/장소/행동 기록·로그·Main 반환 metadata도 기대 typed 값과 일치했다. stats4/money2/logs3, trades0/finalized0. 복원3의 모든 기타 typed 필드와 파일 존재/bytes는 동일했고 warm/teardown delta도 없다.",
+    "focus_boundary": "AP만 name+grid index+action_id+action_fn+pressure_id+live/enabled/visible/Main ownership의 유일 후보1개로 복원하고 grab 뒤 확인했다. raw path/instance ID 관측34개는 별도 보존했다. 첫 두 복원의 AP 경로·ID는 바뀌었고 세 번째는 같았다. 이는 semantic focus 복원이지 Node identity 보존이 아니다. AP 이외 focus는 기존 절대 경로 계약을 유지한다.",
+    "visual": "성공 원본 ko-result.png 및 ko-reopened.png를 직접 열었다. RESULT4개/재open18개 대상 text 측정의 font·full-fit·bounds와 화면이 정합하며 stale 화면 덮어쓰기/대상 잘림이 보이지 않는다. 첫 실패 PNG와 픽셀 SHA가 같은 것은 이미지 사실일 뿐, 실패한 복원을 PASS로 바꾸지 않는다."
+  },
+  "normal_review": {
+    "path": ".git/full-game-localization/order438-static-final/result.json",
+    "sha256": "9cdd34c5ab12b25d478bfa2a72104395588ce40225ad003d7ff99949d28237c2",
+    "entry_sha256": "a8036160c84f85552da7c2b9598e019e8dcb0a26dd4231f0d1350032dab551bf",
+    "seconds": 389.657,
+    "result": "같은 clean 후보에서 fresh 10검증+차선조회1의 11행 모두 exit0/빈 stderr. focused50/historical0, receipt accepted41656/b209, fullbody SOURCE_INVENTORY_ONLY, 등록177을 원문으로 확인했다. lane 목록9개는 추가 실행이 아니다.",
+    "limits": "JA beta, ZH skeleton/shipping0 그대로. ORDER434의 Chapter1/story graph/Chapter5/Year5 원본4개는 변경 없는 참조로 결속됐으며 이번 실행은 NOT_RUN이다. 기존 focused, whole audit, 240주, 성능 A/B도 미실행."
+  },
+  "preservation": {
+    "runtime": "성공 before=after=entry 결속, 기록된 tracked3056/helper127/player34와 artifacts137개 SHA·크기 일치. 첫 FAIL138파일의 실제 SHA 보존. 초기 source/player 불변은 첫 fixture 복원 실패를 부정하지 않는다.",
+    "normal": "before=after=entry.before, 기록된 tracked3056/prior3750/current flat4/runtime138/player34 전량 해시 일치. artifacts13개 SHA·크기와 11행/entry/aggregate 명령 결속 일치. 새 보고는 이 완료 후 생성하므로 기존 보존 맵에 포함됐다고 주장하지 않는다.",
+    "history": "선언 baseline031c3c2의 기존198판정·176보고와 인간 원장 bytes 불변.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "localization_ledger_sha256": "494338baaa82debfac61e837c026870215b4ffe1f62d802a57a66144823ab7ea"
+  },
+  "remaining_risks": [
+    "복원 입구의 not-busy 검사는 이번 실제 관측에서 모두 성립하고 assertion failure0이었다. 다만 helper의 해당 _expect는 위반 시 그 자리에서 즉시 return하지 않으므로 future failure-path hardening이 남는다. 이를 제품 결함 또는 검증된 모든 실패경로 안전성으로 확대하지 않는다.",
+    "두 timed case와 prepared token 하나의 일회성 KO 증거다. 모든 scheduler/frame-rate/장기 반복·다른 locale·물리 컨트롤러·자연 이야기 진입·모든 중복 입력 조합을 입증하지 않는다.",
+    "기존 크림 카드의 낮은 검정 패 대비, 영어 POT/BOARD/STACK/BET와 작은 10px 표시는 범위 밖 잔여다. 논리 BGM 필드/표적 UI 복원은 음원 playhead·전역 시각 RNG의 완전 복원이 아니다."
+  ],
+  "unobserved": [
+    "원어민 승인",
+    "인간 플레이테스트",
+    "실물 컨트롤러",
+    "자연 이야기 ingress",
+    "전체 게임/새 패키지 승인",
+    "통계적 성능 비교"
+  ],
+  "final_boundary": "현재 source의 ORDER-438 자동·독립 코드/실제 관측 범위만 GO. 최초 FAIL 및 선행 보고는 불변이고 인간 게이트와 제품 전체 HOLD는 유지한다."
+}

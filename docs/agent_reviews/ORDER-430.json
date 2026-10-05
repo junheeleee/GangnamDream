@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-430",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "927d6f52591f656eaf1f55045cc672b45b33658a",
+    "tree": "921356a92df99fb9a5424ad9609b5f3be315617b",
+    "manifest_sha256": null
+  },
+  "reviewer": {
+    "agent": "independent392",
+    "role": "비저자 독립 검수",
+    "method": "비저자 source/bridge/focused/helper 전문 읽기, KO 직접 의미검수 재사용, CN/TW PNG10 전량 직접 열람, 실제 phase/input/typed/log 및 normal14행·entry·aggregate·successor 단일diff 대조. 읽기 전용 보조검수의 전체 해시 대조와 교차 확인.",
+    "execution": "검수자가 engine/audit/import/focused를 실행하거나 제품·번역·helper를 작성하지 않았다. 최종 private 보고만 한 번 작성한다."
+  },
+  "decision_basis": "ScalpingGame 단계 overlay 잔류와 초기/disabled focus 복구 및 이를 허용하는 exact source successor 검증만 수용한다. 번역·거래 규칙·정산·게임 수치의 변경을 수용하는 판정이 아니다.",
+  "source_review": {
+    "product_commit": "3db5dc8862c10d41c652c1363f3e2dbf8c31e0d7",
+    "direct_parent": "ce44987987376323bb0bfc7b9053435f55d92294",
+    "product_tree": "2d05cd0dd599b06a8d7b479c06b9deb38fdf9494",
+    "product_path": "scenes/ScalpingGame.gd",
+    "before_sha256": "90fdad208a04acaec27c3d9904382ed891e3ea5647a6a1db4273be034617c65f",
+    "after_sha256": "cee55102af731f4357d77bfc57f95438f4cfbc9036f9877fab7777218a7398e0",
+    "result": "단독 제품diff 62추가/7삭제 전문 검수. 직접 overlay 참조·hide/remove_child 후 queue_free, 활성 단계 버튼만 FOCUS_ALL, 기본focus와 disabled-owner 복구, Tab 고리, 기존 Godot 방향 탐색/Tutorial 우선권 및 hover 연결이다. 거래·수치·번역·정산 변경0. RESULT/hover 구현은 source 읽기 증거만이며 실제 화면 관측으로 올리지 않는다."
+  },
+  "bridge_review": {
+    "result": "기존 ui_translation_append 본문/pin/memo/receipt/correction은 byte-exact prefix로 보존하고 새221행만 append. 실제6 Git objects, direct parent·단독path·tree/blob/raw SHA와 8hunk 전체 inverse를 결속한다.",
+    "admission": "현재 Scalp manifest 하나와 전이 이전 Scalp에 결속된 기존 역사만 허용한다. new Scalp×과거 Main phantom 조합은 거부한다. 실제 current census 결과를 반환하고 before/after raw·HEAD·inner evidence HEAD를 확인하며 다음 호출마다 proof를 새로 실행한다.",
+    "focused_population": "74 cases/historical_cases0. 실제 고정 Git 전이 admission과 pure inverse를 확인하고 나머지 Git faults·13old/1current/12phantom manifest·census/HEAD/next-call faults는 명시적 synthetic seam 검사다. 13old synthetic Main 변형을 실제 역사 quality 검수로 주장하지 않는다."
+  },
+  "runtime": {
+    "observed_commit": "da1a01565b8673137588f6ffa8766998c663905c",
+    "duration_seconds": 32.82,
+    "processes": 2,
+    "pngs": 10,
+    "raw_edges": 196,
+    "taps": 98,
+    "actual_result": "각 지역 B/C에 owned setup overlay1, D/E0; 초기focus 유효/visible/enabled/FOCUS_ALL, 활성개체5/5/3/3 정확. 전량10PNG에서 차트·entry 및 선택 테두리 가림 제거를 직접 확인했다.",
+    "navigation": "8 phase × keyboard4방향·Tab전체고리·synthetic D-pad4방향. 각 keyboard/D-pad 분류에서 실제 owner 이동을 관측하며 모든 step이 활성 집합 안에 남았다. Tutorial cancel 후 복귀와 D final BUY가 E에서 disabled되며 SELL로 복구되는 경계도 실제 관측했다.",
+    "state": "15키×2 lookup·48binding, 38실제Label+2entry draw font/fit 엄격검사 통과. 10display 불변·2 full typed 복원·player34 원본불변. focus setter/neighbor 주입0, 거래/pressed/stat/정산/finalization0. input ControllerHints 변화 및 open/start/BGM/Tutorial 초기화는 별도 계측했다."
+  },
+  "evidence": {
+    "runtime": {
+      "path": ".git/full-game-localization/order430-screen-final/result.json",
+      "sha256": "24834ac3dc9982db88db14d816fdb91e4374b3a704341791a2f12e0d22ec53a8"
+    },
+    "runtime_entry": {
+      "path": ".git/full-game-localization/order430-screen-final/entry.json",
+      "sha256": "4aba34f0888fa06100a25e0c283cc70ffcb91dcf934b72afe3768539c472be89"
+    },
+    "observations_cn": {
+      "path": ".git/full-game-localization/order430-screen-final/zh-CN/order430-observations.json",
+      "sha256": "c0029af8d2541ee2f25cdcec8e408480f4299aa2d672c91f9f59ccd680040f22"
+    },
+    "observations_tw": {
+      "path": ".git/full-game-localization/order430-screen-final/zh-TW/order430-observations.json",
+      "sha256": "f112db8558002077b01ceab63e39cb5b21f7524bf3329f00ea10ad0ae0ceefaf"
+    },
+    "normal": {
+      "path": ".git/full-game-localization/order430-static-final/result.json",
+      "sha256": "8b2071f428319002e75c6ac31192e101a25ce7fa71f70adc7fd1502dc3bd8a5d"
+    },
+    "normal_entry": {
+      "path": ".git/full-game-localization/order430-static-final/entry.json",
+      "sha256": "5333804f096b11f0ffae8567e67931b132f048f55b16b13921cfde7792c890eb"
+    },
+    "focused_repair": {
+      "path": ".git/full-game-localization/order430-focused-r1/result.json",
+      "sha256": "0d62ca6c55c55454be38b613a923c028619d988437418de65087b92731c413fc"
+    },
+    "prelaunch_failure": {
+      "path": ".git/full-game-localization/order430-static-preflight-failure.json",
+      "sha256": "9d9555ab905fa861b1e1cdc0ea13714652f66dc1809c546060e7e466882055d6"
+    },
+    "original_rework": {
+      "path": ".git/full-game-localization/order429-independent-review.json",
+      "sha256": "779e87972f8ed5dde5323f0a587681c2da0c60e4c57471e96803438bffc66067"
+    },
+    "repair_runner": {
+      "path": ".git/full-game-localization/order430-focused-r1-run.py",
+      "sha256": "9600dc539b8cae46729307e5b0dc2436a74442d8387c1e224173201edfd0f35d"
+    }
+  },
+  "successor_reuse": {
+    "observed_commit": "da1a01565b8673137588f6ffa8766998c663905c",
+    "observed_tree": "e77f60e65e114e0fc6a667bcd2fb4c13cccf9cc4",
+    "final_commit": "927d6f52591f656eaf1f55045cc672b45b33658a",
+    "exact_delta": "tools/scalping_phase_focus_receipt_check.py의 rejects name 인수에 공백+repr(output)를 추가한 1행만 변경. 검증 operation·기대 message·반례 모집단·중복이름 검사는 불변이다. 나머지 tracked 3028개는 byte-identical.",
+    "test_before_sha256": "3e901f6c5a8b1a8f324c45dbdd10ef1ef50f4db868861eb61bb3362ca26a5d22",
+    "test_after_sha256": "11d45efb5e75569118ce32015d7d130bdcca5139ce13db510449478bf2879576",
+    "conclusion": "runtime와 normal 00–12는 da1a015의 실제 관측을 재사용한다. 이를 927d6f5에서 다시 실행한 것으로 주장하지 않는다. 새 후보에서 focused만 별도 1회 관측했다."
+  },
+  "normal_gate": {
+    "original_all_pass": false,
+    "original_wall_seconds": 841.526,
+    "original_rows": 14,
+    "successful_original_indexes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "failed_original_index": 13,
+    "failure": "Git diff 두 반례의 같은 기대 오류문구가 같은 case 이름을 만들었다. 마지막 no duplicate case names assertion에서 실패했고 성공 marker는 없었다. 원본 FAIL을 유지한다.",
+    "repair": {
+      "exit": 0,
+      "stderr": "",
+      "seconds": 1.051,
+      "marker": "SCALPING_PHASE_FOCUS_RECEIPT_OK cases=74 historical_cases=0",
+      "all_pass": true
+    },
+    "composed_gate": "원 normal의 12검증+조회1 PASS와 새 focused 1 PASS를 결합한다. 조회가 출력한 12개 목록을 추가 실행으로 세지 않는다.",
+    "preserved_limits": "Chapter1 debt8/blocked3/gap24(authoritative24/48), Year5 reference_only/topology invalidated, full-body SOURCE_INVENTORY_ONLY, ZH skeleton/shipping0, human pending 유지.",
+    "prelaunch": "원 normal runner가 player SHA 문자열 map과 {sha256,bytes} map을 직접 비교해 출력폴더·검증명령 생성 전에 실패했다. 새 r1 runner는 현재 SHA와 크기를 같은 record 형식으로 만들어 exact 비교한다. 전사 기록은 원 stderr 파일이 아니며 검증명령0·runtime 재실행0이다.",
+    "accountability": "검사 이름 중복과 normal player-map schema 차이는 작성자/root 및 독립 사전검수에서 놓친 검수 결함이다. 제품 실패나 원 runtime 실패로 바꾸어 기록하지 않는다."
+  },
+  "preservation": {
+    "runtime": "원 runtime before=after, artifact132개와 두 locale 원본 result/observations/oracle/PNG/log 해시 일치. tracked3029/helper107/input4/player34 현재 bytes·SHA 대조 일치.",
+    "normal_and_repair": "normal before=after 및 entry.before 일치; artifact16개/폴더17개/14행이 aggregate와 일치. repair before=after; prior1917·old flat27·runtime499·normal17·player34 해시 대조 일치. repair는 별도 entry 없이 result 내부 행과 전체 보존map을 증거로 갖는다.",
+    "old_failures": "429 first/r1/r2 폴더 각각118/118/130파일, 원 artifacts117/117/129, 세 FAIL과 sealed REWORK 보고 불변.",
+    "old_records": "이전186판정의 raw prefix/semantic, 기존164보고 및 인간원장 bytes 보존. 현재는 429 REWORK 1판정/1wrapper만 추가된187판정/165보고이다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "report_timing": "이 보고는 모든 실행이 끝난 뒤 새로 생성한다. 이전 normal/runtime/focused 보존 snapshot에 본 보고가 들어 있었다고 주장하지 않는다."
+  },
+  "unchanged_translation": "CN/TW각1706·JA3044, accepted41602/b205; 429의 사전/원장/공식교환을 그대로 보존한다. Main/Tutorial/Font 및 인간/public 출시 기록도 변하지 않는다.",
+  "unobserved": [
+    "원어민·실제 인간의 문체/재미 승인, 물리 키보드·패드·마우스 hover는 미관측이다. 합성 raw 입력을 물리 관측으로 승격하지 않는다.",
+    "직접 Main 소유 consumer와 prepared 5상태 검수이며 자연 unlock/전체 ingress·시간 흐름·실시간 매매·BUY/SELL 실행·정산·RESULT·재시도·PLAYING close는 관측하지 않았다.",
+    "Glyph는 실제 resolved FontKit font로 별도 shaping한 probe이며 내부 draw/RichText shaped RID 전체를 검사했다는 주장이 아니다. BGM 논리 상태 복원만 확인하며 재생 위치는 미관측이다.",
+    "A의 Gambling Venues와 영문 위험/결과 요약, BUY/SELL/P&L 및 RESULT3·정산log2 등 제외 영역은 미완료로 남는다. 전체 미니게임 입력·전체 UI/게임·새 package·release GO가 아니다.",
+    "본편/B3/B4/새 package HOLD, 공개 GO1 및 인간 OPEN45/DONE1을 유지한다."
+  ],
+  "conclusion": "최종927d6f5에서 선언한 overlay/phase focus 및 exact receipt successor 범위만 GO. 새focused74 PASS는 원normal FAIL을 덮어쓰지 않으며 runtime/통과13행 재사용의 후보 차이를 명시했다.",
+  "private_review": {
+    "path": ".git/full-game-localization/order430-independent-review.json",
+    "sha256": "37037cfe9abd831bb7ee8c5154dce32e2e2ac6f3350ddef1e11b0c97ce86748c"
+  },
+  "integration_clarification": "runtime preservation의 tracked3029는 원da1a015 before=after 모집단이다. 최종927d6f5에서는 focused 이름수리1파일을 제외한3028파일이 불변이며, 해당1행 차이는 successor_reuse와 focused_repair exact proof가 소유한다."
+}

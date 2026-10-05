@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-439",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "9ffc90c70fa05651d1e517faaefeb13e177e4532",
+    "tree": "3e872bcaeadcbed91acb50df3d8b96c608a52686",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "한국어 19키에서 직접 작성한 CN/TW 38값과 선언된 Holdem SHOWDOWN·RESULT·세션 로그·rank reader 소비만 GO. 전체 게임, 자연 진입, 원어민 또는 인간 승인으로 확대하지 않는다.",
+  "method": {
+    "independent": true,
+    "read": "사양·한국어 및 실제 소비자·양지역 초안 38값·공식 source/response/receipt·제품 diff·새 runtime/normal helper를 직접 읽었다. 성공 원본 PNG 12장을 직접 열고 모든 정산/Close·rank reader·typed 복원·입력 관측과 정상 9행 stdout/stderr를 대조했다.",
+    "preservation_assistance": "/root/independent392/ab_readonly428가 기록된 runtime/normal 경로의 SHA·크기, entry/row/artifact 결속, 기존 판정·보고·인간 원장 바이트를 읽기 전용으로 재해시했다. 해당 보조 결과를 원본 집계와 결속했다.",
+    "execution": "검수자의 엔진·감사·focused·프로젝트 함수/import 실행 0. JSON/Git/바이트 대조만 수행했고 이 새 보고를 한 번 작성한다."
+  },
+  "acceptance": {
+    "export_source": "5bca6fdea7f1dcb269d20e4af19a0cc1343374fc",
+    "integration_baseline": "b8e118dfcbb00248c71e0b318abb15e07c41097d",
+    "source_manifest_sha256": "0d9b97248eb806d2b138c3a66ec0574b53ce36eee7330d0efd0c7691c519dd67",
+    "append_proof": ".git/full-game-localization/order439-append-precommit.json",
+    "append_proof_sha256": "3819468db3601108221356f3617a167e750e9a62e04260ac4554e8fc11249b64",
+    "receipt_digests": {
+      "zh-CN": "ebd45814202a4064617bd26031b5b47ad0373fe8b50ae9d16fd01acbcb87b790",
+      "zh-TW": "eae58dd11a3cb1a9d4adb022179c3613765971700c90fe87ab567a97aa010f7e"
+    },
+    "result": "두 지역 각 19 source leaf/response/accepted receipt/현재 사전을 전수 대조했다. 한국어 source와 target digest, header, batch, placeholder 순서, 선행 공백3개, BBCode, 승패·금액 극성을 보존한다. rank0..8의 정확한 지역 명칭과 POT 정산액/세션 순익의 차이를 확인했다. 사전별 신규 member 삭제 및 원장 신규38 receipt/2 batch 삭제·accepted digest 복원으로 baseline raw bytes가 정확히 재현된다. 이전41656/b209와 JA는 그대로이며 현재41694/b211, CN/TW1752, JA3044이다.",
+    "source_boundary": "원래 export source와 440 통합 baseline의 JA/CN/TW/원장 4파일은 byte-exact 동일하다. 최종 후보는 사전2·원장 및 선언된 metadata4의 7경로만 다르며 게임/정산/카드/폰트/JA 코드 변경은 없다."
+  },
+  "preserved_checker_failure": {
+    "path": ".git/full-game-localization/order439-check-first-failures.json",
+    "sha256": "3b5e053812eb2db2c20342409fe4bb5b2146cef90a8c3b4f37e2715ea72d9e82",
+    "result": "최초 양지역 공식 check는 정확한 三条/三條를 invented quantity 3으로 거부했다. 번역을 바꾸지 않았고 별도 ORDER-440의 source-bound rank 검사 수리 후 원래 source/response 각19가 통과했다. 최초 FAIL은 그대로 보존하며 439 성공으로 덮어쓰지 않는다.",
+    "repair_evidence": ".git/full-game-localization/order440-first/result.json",
+    "repair_evidence_sha256": "13823b5db21cf6a0670ca7274816c5f432c028f2a1ef5a5fb23b2bbeaa4cebba",
+    "boundary": "440 focused801 및 해당 검사 cycle은 이전 후보의 별도 증거이며 이번 normal에서 다시 실행했다고 주장하지 않는다."
+  },
+  "runtime": {
+    "path": ".git/full-game-localization/order439-screen-first/result.json",
+    "sha256": "3311a3e7eee2ac13ac1b51f97302fa2bc0fef4419877211c20ea8dec9ccb3f27",
+    "entry_sha256": "99630f0ab4819b7bd8b21604aca3503a4743a04ab63147d5eb97181255dc9084",
+    "observations_sha256": {
+      "zh-CN": "dc8be545b7734cc7b4c7a796bdf66fc3291c79d5647941d044758895f6c8f565",
+      "zh-TW": "7007468b296bd5f96d2d15d5d4e6567e57e64ccfa966eec69ade1b3ae70fa229"
+    },
+    "seconds": 49.006,
+    "population": "지역별 격리2프로세스, 원본12PNG, lookup38, 중복 포함 key binding72, raw24/taps12, SHOWDOWN4/RESULT 정산4/Close4, 추가 prepared rank reader14, tutorial dismissal4. first hands0/table actions0. 양 process exit0, errors[]/report_error[]/prior_error=null, source/player 불변.",
+    "visual": "CN/TW 승리·패배의 SHOWDOWN/RESULT/Main 로그 총12장을 직접 확인했다. 새 표적 텍스트·SC/TC 실제 font·full-fit·bounds와 원본 측정이 정합하며 표적 글자 누락/잘림/겹침이 보이지 않는다. SHOWDOWN pot30,000과 RESULT/로그의 순익+20,000 또는−10,000이 다르게 표시된다. history의 기존 11px 축약은 full rank reader와 구별했다. 나머지 rank1..7은 지역별 실제 노드 측정이며 개별 PNG14장이라고 세지 않는다.",
+    "effects": "합법 52장 partition을 가진 prepared RIVER 두 승패 fixture씩을 실제 dispatcher로 진행했다. 모든18 witness와 관측 카드 배열을 대조했다. 승리 cash5,000,000→5,020,000/mental60/gambling28/addiction23, 패배 cash→4,990,000/mental55/gambling20/addiction22가 독립 기대와 일치한다. 각 Close는 AP2→1, 장소·축·행동 family 기록, Main 반환 metadata, stats3/money1/log2 및 Meta plays+1/파일 bytes와 일치한다. reader의 protected/direct/meta/narrative 효과도 별도 기대와 같다.",
+    "restoration": "6 fixture의 before/restored 및 teardown, 모든 비허용 typed delta가 일치한다. Main 재생성 AP focus는 유일한 name/index/action/pressure/live-enabled-owner 의미 identity로 복원하며 raw 경로·instance ID는 따로 보존했다. 승패 후 AP node identity가 바뀐 사실을 숨기지 않으며 이를 동일 node 복원으로 주장하지 않는다. info tab/scroll/body와 Meta 원래 파일 존재·bytes도 복원됐다."
+  },
+  "normal": {
+    "path": ".git/full-game-localization/order439-static-final/result.json",
+    "sha256": "ccc2f6a4f7cb50fb377e13f265196bb7075a9e972f8b83efdf1e5da33b883b77",
+    "entry_sha256": "f349025d464965a9c3cdfef91758736f4859357d9cc18fa9bae60f773eb00133",
+    "seconds": 405.352,
+    "result": "동일 clean 후보의 fresh 8검증+차선조회1, 원본9행 모두 exit0/빈 stderr/all_pass=true. receipt41694/b211, fullbody SOURCE_INVENTORY_ONLY, EN clean, ZH skeleton/shipping0, 등록178을 확인했다. lane이 제안한7검사는 추가 실행이 아니다.",
+    "not_run": "ORDER434의 Chapter1/story graph/Chapter5/Year5 4원본은 불변 참조로만 결속되고 이번 실행은 NOT_RUN이다. JA UI audit, 이전 focused, whole audit, 240주, 성능 A/B도 새 실행이 아니다."
+  },
+  "preservation": {
+    "runtime": "before=after=entry, 기록된 tracked3061/helper130/current18/player34와 artifacts157의 SHA·기록 크기 일치. prior 최상위2848키는 flat2828와 nested20이며 중첩 내부1249파일도 결속됐다. 원본 runtime 결과 파일 자체를 더한 실제 folder는158파일이다.",
+    "normal": "before=after=entry.before, tracked3061/prior3921/current18/runtime158/player34 맵 전량 현재 해시 일치. artifacts11개 SHA·크기 및 원본9행=집계=entry 명령 일치. 새 보고는 종료 후 생성되어 이 보존 snapshot의 구성원이라고 주장하지 않는다.",
+    "history": "통합 baseline b8e118d의 기존200판정·178보고 및 인간 원장 raw bytes 불변. 이전 실패/성공 증거와 helper를 수정하지 않았다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "합법 prepared RIVER와 별도 rank reader의 일회성 자동 관측이다. 자연 플레이로 손을 처음부터 구성하거나 모든 AI/동점/장기 반복 경로를 검증한 것이 아니다.",
+    "기존 영어 SHOWDOWN/POT/BOARD/STACK/WIN/LOSS, Kim Minjun, 키보드 힌트와 Close event 로그 영문은 비표적 잔여다. 일부 규칙의 동적 collector gap, 작은 글자, 크림 카드 위 낮은 검정 패 대비도 미해결이며 신규 번역 GO와 분리한다.",
+    "원어민·인간 플레이·물리 컨트롤러·자연 ingress·전체 HUD/새 패키지·본편 출시 승인 미관측. 논리 필드/표적 UI 복원은 음원 playhead·전역 시각 RNG의 완전 복원이 아니다."
+  ],
+  "final_boundary": "정확한 현재 source의 ORDER-439 선언 범위만 GO. 최초 공식 FAIL과 별도440 판정은 보존하고 전체 제품 및 인간 게이트 HOLD를 유지한다."
+}

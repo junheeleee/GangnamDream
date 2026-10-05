@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "subject": {
+    "kind": "source",
+    "commit": "70ba2b898802df8c5deb990139d5c1e5071bb69d",
+    "tree": "2a5dada9984a314cc6de199221a7146d05317552",
+    "manifest_sha256": null
+  },
+  "reviewer": {
+    "agent": "/root/independent392",
+    "role": "비저자 독립 검수자",
+    "authored_product_translation_tools_or_runtime": false
+  },
+  "method": "한국어 정본·지역 용어집·실제 consumer·선언 사양·helper를 직접 읽고 공식 교환/receipt/raw inverse, 실행자가 저장한 원본 JSON/로그/PNG를 검수했다. 표준 라이브러리/Git으로 원문 해시·보존맵·typed 상태를 독립 대조했으며 엔진·감사·focused 검사는 실행하지 않았다.",
+  "evidence_root": ".git/full-game-localization",
+  "normal": {
+    "path": "order425-r1-static-final/result.json",
+    "sha256": "14b3b7bb770af4fb29326b671dd68162f11c84c2a98ef4ca84f375b762e9dae0",
+    "entry_path": "order425-r1-static-final/entry.json",
+    "entry_sha256": "33d6d78e20b569a6cc2849cb6ef3e3fff037c011801aaa3218dd75fd29be5ee8",
+    "runner_sha256": "7e675a66e503d464ee9465f6df45c1256379bddc33fcb63b3ad855c5b62e5563",
+    "commands": 13,
+    "validation_commands": 12,
+    "list_queries": 1,
+    "all_exit_zero": true,
+    "all_stderr_empty": true,
+    "wall_seconds": 993.438,
+    "read": "00..12 원본 stdout/stderr 전량을 읽었고 각 row=aggregate.rows, command=entry.commands 및 전체 before=after를 확인했다. 이번 후보의 공통 정상 실행은 한 번이며 미실행 원래 424/425 normal helper도 보존됐다.",
+    "limits": "Chapter1 503.642초: debt8/blocked3/coverage gap24, authoritative24/48 유지. Year5 488.666초: reference_only/topology invalidated 유지. ZH skeleton/shipping0, registered169. 차선 조회의 10개 제안은 별도 실행 주장으로 세지 않는다."
+  },
+  "preservation": {
+    "normal_maps": {
+      "tracked": 3016,
+      "prior_private": 1272,
+      "current_private": 270,
+      "before_equals_after": true,
+      "all_current_bytes_rehashed": true
+    },
+    "old_decisions": 181,
+    "old_reports": 159,
+    "old_reports_raw_unchanged": true,
+    "decisions_sha256": "eb38df6d155fd8216661a716fab7542b25777dcf89f51097cb0ba53b59910c2a",
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "main_sha256": "3682f25888c78ab0bcc5a10c61d4d0701f8fd49b95dc9dc780be1e18a050f2cf",
+    "ja_ui_sha256": "3c1c9c6c4a566e2b2d5cebb9fabe2f6525f95eb431c212b66c90296b09401f51",
+    "meaning": "이전 판정·보고·사람 원장, MainGame·JA 사전은 ORDER-424 선언 3e5a7e8 기준 raw 동일하다. 새 번역과 영수증 외 기존 사전/원장 값과 원래 실패·수정 성공 증거를 보존했다."
+  },
+  "limitations": [
+    "선언된 표적·정확한 후보에 대한 내부 GO이다. 전체 게임·전면 UI·출시·B3/B4·사람/원어민/물리 패드 승인을 부여하거나 기존 HOLD를 해제하지 않는다.",
+    "준비된 실제 SceneFirst 표면을 관찰했다. 자연 플레이 진입·카드 확정·후속 행동·주차 진행·장기 경제 효과는 실행하지 않았다. raw 입력은 Input.parse_input_event로 주입한 합성 키보드 press/release이며 물리 입력이 아니다.",
+    "한국어 브랜드/정보/저장 및 준비 이전 HUD 날짜·건강·현금, 지역별 Roman 이름 등 비표적 혼합은 남는다. 정적 EN clean이 이 실제 잔여를 없앴다는 뜻은 아니다.",
+    "glyph 근거는 실제 resolved font/size로 따로 수행한 TextServer probe다. RichTextLabel 내부 shaped RID 직접 관측이나 원어민 검수는 아니다.",
+    "delayed-cost 잔여는 실제 source상 wrapper1+return8=9키이며 이번 범위 밖이다. 이전 역사 문서의 5 표기는 수정하지 않았다. career/final_reckoning 후속 계획도 이번에 실행하지 않았다."
+  ],
+  "unobserved": [
+    "native_language_review",
+    "human_playtest",
+    "physical_controller",
+    "natural_ingress",
+    "whole_game_release",
+    "full_240_week_playthrough",
+    "action_confirmation_and_execution"
+  ],
+  "blockers": [],
+  "sealing": "최종 정상 집계와 원본 대조 후 새 파일을 단 한 번 생성했다. 원문/SHA 봉인 뒤 재작성하지 않는다.",
+  "unit_id": "ORDER-425",
+  "verdict": "GO",
+  "verdict_scope": "한국어 22키의 CN/TW 44값, 공식 2배치/44receipt 및 준비된 실제 12화면·96 raw 입력을 최종 후보에서 검수한 내부 GO.",
+  "summary": "body/housing/human 6준비 상태의 44값·114실제 binding이 적합하다. 최초 관측은 상속된 무직 부업 제목 oracle 때문에 실패했고, source/job_05 기본분기 기대만 고쳐 동일 strict 검사를 통과했다.",
+  "source_review": {
+    "population": "pressure12+rest/contact title·subtitle4+preview6=22 KO키 ×2지역=44값 전수. 424와 신규 키 교집합0.",
+    "base": "3802c3725059f6835a819dd5fee8be61382fecf5",
+    "semantic": "{home}/{name}/{weeks}, 1~3주, 한 번의 기회, 현금/경력/준비의 기회비용, 미할애 시간의 비유 및 다음 연락 반응의 변화(긍정 보장 없음)를 한국어·실제 소비자와 직접 대조했다. B는 실제 살아 있는 father fallback, E/F는 Daeun 관계 문맥이다.",
+    "draft_revision": "TW 최초 초안의 身體和心情를 원문 몸과 마음에 더 정확한 身心으로 별도 r1에서 한 값만 정리했다. 원본 보존; CN22값은 수정 없이 수용했다.",
+    "final_draft_sha256": {
+      "zh-CN": "2aff3df8b3730f75c870610dbe479a4b163683369510f136f9e9ce2c429b5fc2",
+      "zh-TW": "43f2c51374443410e1b711475fb06720baded850c41a4be7247568e67d0c653b"
+    },
+    "official_export": {
+      "path": "order425-static-export.json",
+      "sha256": "62810060f62951c6b132c89f83d1e95ad29d9247e5e691e42adfc2539ea578b0",
+      "seconds": 10.708
+    },
+    "official_check": {
+      "path": "order425-static-check.json",
+      "sha256": "f6397cd1948f3b70691c83a1cc1269cf4a639d57f5829ecb02c00c55786dcbff",
+      "seconds": 10.951
+    },
+    "append_proof": {
+      "path": "order425-append-precommit.json",
+      "sha256": "bbcf5c3957e952c762200bb2b7ca8d9886e5f4ee8921d316ae6a28bf079474d8",
+      "raw_inverse_verified": true,
+      "all_receipt_headers_and_digests_verified": 44
+    },
+    "receipt_sha256": {
+      "zh-CN": "2a2b8e3341c8cb388e2ba58d8d975fb702ab1138fb8cb4674b86f7a04b9d00d8",
+      "zh-TW": "50ee4041e50e4ee146b76bd04bb9c197653e97d289259137ea4a33772b2c054a"
+    },
+    "accounting": "각 사전1645→1667, accepted41480/b197→41524/b199. 공식 수용 원본/응답/Leaf source·target digest·header·원장44행을 전수 대조했다. 추가 token/row 역삭제 시 이전 사전·원장 raw 복귀 확인; JA3044/기존 영수증 불변.",
+    "ledger_sha256": "b21f20733733072da8de3b0b480adf1bf65e95e129459f4936224407542b6dca"
+  },
+  "failures_and_repairs": [
+    {
+      "path": "order425-screen-final/result.json",
+      "sha256": "405d6ff1d6d4c61e29296f223e556681d5b79839baf6370fdd4b128d9ebed9f1",
+      "observations_sha256": "f475c77fe869c42340061bfef03ccfd78afc012c5c0d9b887484dc0f48158e06",
+      "pass": false,
+      "seconds": 33.036,
+      "cause": "12화면 모두 실제 job_05는 _side_shift_title의 기본분기 주말 부업(周末副业/週末兼差)이다. oracle이 이전 무직 단기 알바 기대를 상속해 title 두 assertion×12=24조건, 양 로그 중복48행이 실패했다. 실제 제품/신규44값 결함은 아니며 저자·부모·독립 검수의 사전 분기 누락이다.",
+      "boundary": "실패 원본12 PNG도 직접 열었다. 324카드 text font/fit/bounds와12 typed 복원은 적합했으나 aggregate false는 그대로 유지한다.",
+      "repair": "새425-r1에서 함수 raw SHA·actual callsite·job_05 registry/default branch에 결속해 기대 제목만 교정하고 actual getter readback을 추가했다. 기존 full validator 그대로, 관측값으로 기대를 복사하지 않았다. 원본 summary gate를 메모리에서만 우회한 진단은 역사 PASS가 아니며 최종 GO는 새 실제12화면 PASS에 결속한다."
+    }
+  ],
+  "runtime": {
+    "path": "order425-r1-screen-final/result.json",
+    "sha256": "5d5e251fe1cf4e564f6cc1a28299bd2c3eb8d0387dcf0361f78f3d290a0076f0",
+    "observations": {
+      "path": "order425-r1-screen-final/order425-r1-observations.json",
+      "sha256": "515f30ab8fedc9be82621bd5ab838bd33f6c2d3ac91c0b86fd507f2ab68d1d59"
+    },
+    "entry_sha256": "e689365ff1853afee63e3305278b44dff0c6ef991d0fd4af0ae4cf90ace73354",
+    "oracle_sha256": "5488718d7e3510d00dbfa79351a2a38e0f4851fdf8154545f03419da65f55972",
+    "pass": true,
+    "seconds": 34.708,
+    "pngs_directly_viewed": 12,
+    "lookups": 44,
+    "bindings": 114,
+    "cards": 36,
+    "card_text_rows": 324,
+    "resolved_font_rows": 360,
+    "typed_restorations": 12,
+    "raw_events": 96,
+    "taps": 48,
+    "finding": "CN/TW A~F 원본12 PNG를 직접 열었다. 표적 누락·두부·겹침·잘림 없음, regional SC/TC regular400/bold700 및 모든 카드 text strict full fit 확인. 실제 source 제목 분기와 {home}/{name}/{weeks} 소비·father fallback·Daeun을 대조했다.",
+    "fixtures": "A body_capacity, B condition/실제 father fallback, C home_margin, D rent, E relationship/grind2, F human_debt. D는 registry job_05/base_salary3170000을 보존하면서 income0/cash0으로 준비한 예외 fixture이며 자연 소득·고용 상태 관측이 아니다.",
+    "state": "각 expected=observed/route_expected=route_observed/before=restored, memo2·lazy Hyunsu·controller/meta 포함 delta0. 48합성 arrow taps/96유일 raw press-release에서 focus0→1→2→1→0; action/confirm/pressed/stat/log/trade/item/finalize/advance0.",
+    "preservation": "tracked3016/helper95/player34, artifact18 및 prior1134파일 해시 재대조. 최초425 FAIL과424-r1 PASS 원본 보존. 424-r1은 재실행하지 않았다."
+  },
+  "final_decision": "ORDER-425의 명시된 44값/영수증/12화면은 최종70ba 후보에서 내부 GO. ORDER-424 회귀 성공과 별도 단위로 판정하며 전체게임·인간 게이트를 승계하지 않는다.",
+  "independent": true,
+  "status": "completed",
+  "decision_scope": "work_unit",
+  "private_review": {
+    "path": ".git/full-game-localization/order425-independent-review.json",
+    "sha256": "ae8340de44bf84f9951af13c820445aa518a600752975bbecfd0e7548add0af8"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER425_R1_UI_OK screens=12 keys=22 locales=2 raw=96 taps=48 actions=0",
+    "생산자 ↔ 독자": "locale/ui_zh-CN.json + locale/ui_zh-TW.json ↔ scenes/MainGame.gd:12454 / scenes/MainGame.gd:12524 / scenes/MainGame.gd:12647 / scenes/MainGame.gd:12791 / scenes/MainGame.gd:14217",
+    "바꾸는 상태": "accepted41480/b197 → 41524/b199; CN/TW1645 → 1667; JA3044 unchanged",
+    "포기 시 잃는 것": "22 UI keys per locale revert to English fallback",
+    "서사 위치": "N/A: existing UI/localization validation",
+    "장면 계층": "N/A: non-scene task",
+    "닫는 것": "ORDER-425 work_unit only; full-game/new-package HOLD"
+  }
+}

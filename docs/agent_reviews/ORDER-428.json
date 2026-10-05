@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-428",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "9bfc3077d4effd0e9cb09710d22b37d3d8e4ae6f",
+    "tree": "ac58d5fd8fab5ba92ab2cbadce5ee5cfc34cd9db",
+    "manifest_sha256": null
+  },
+  "scope": "한 validate_history 호출 내부의 순수 역변환 비교 결과 한 슬롯 재사용에 대한 동치·격리·관측 효율만 승인한다. 번역·게임·출시 GO가 아니다.",
+  "reviewer": {
+    "agent": "/root/independent392",
+    "independent_of_product_and_helper_authorship": true,
+    "auxiliary_readonly_review": "/root/independent392/ab_readonly428: 초기 A/B helper의 관측자·실제 결과 반환·프로세스 분리 경계. 최종 추가 hunk와 실제 증거는 본 검수자가 직접 확인했다.",
+    "method": "사양·실제 생산 diff·새 focused 전문·A/B 및 normal helper 전문을 읽었다. 실제 A/B 양쪽 process/log/worker/trace/Git/proof/census와 normal 14행 stdout/stderr를 검토하고, 원본 artifact·canonical trace·전체 보존 맵의 해시를 독립 재계산했다. 검사 함수 import·엔진·감사·focused 재실행 및 제품 편집은 하지 않았다.",
+    "product_edits": 0,
+    "engine_or_audit_reruns": 0
+  },
+  "source_review": {
+    "baseline": "4938b3322e22a04249ed0e4b3c4e77939e8c0903",
+    "changed_paths": [
+      "tools/ui_translation_append.py",
+      "tools/ui_comparison_memo_self_test.py",
+      "tools/audit_scope.json",
+      "CLAUDE.md",
+      "docs/WORK_LOG.md",
+      "docs/STATUS.md",
+      "docs/queue_active/ORDER-428.md"
+    ],
+    "contract": "현재 nested comparison 연결 하나를 호출-local factory로 바꾸고 EOF helper를 추가했다. 정렬된 전체 path 모집단·path별 정확한 immutable bytes·append-only corrections 길이를 key로 사용한다. 슬롯은 하나이며 입력/저장/반환 dict를 분리하고 성공한 역변환 결과만 저장한다. 실패는 원래 예외로 전파되고 이전 성공 슬롯을 덮지 않는다. 새 public 호출은 새 factory다.",
+    "preserved_checks": "기존 세 역변환, Git object/source proof, manifest, split step/finish, validate_append, current_proof와 종료 HEAD 검증 본문은 보존된다. 캐시 hit가 이 검증들의 실행을 대신하지 않는다. 새 explicit-only 차선과 새 standalone focused 등록 외 기존 등록을 바꾸지 않았다.",
+    "production_sha256": "4707d7e7f0bc06ac94f6c5d05bec1941ff7ffdff955a1af3ca7787ab51956a36",
+    "focused_source_sha256": "d7d7ffc9743b36231ef4369e6694f1b3e1913d2e4a71287c52f30d372f37f7f3",
+    "registry_sha256": "716205f7288df8c80aa86c56b90a4ac5033be6af5d69fb326a4c8290410783cb"
+  },
+  "focused_review": {
+    "final_cases": 120,
+    "historical_cases": 0,
+    "final_seconds": 15.006,
+    "coverage": "3/4 path의 epoch0→3·별도 dict 동일값 hit·각 path 1byte/누락/추가·비bytes·alias·한 슬롯 eviction·실패 반복/복구·새 호출 격리를 확인한다. 실제 고정20blob의 세 순수 역변환 표본과 raw escape 음성대조를 포함한다. public history 외부 검증의 보존 및 다음 호출 Git/raw/proof/source/manifest/split/HEAD 고장은 명시적 synthetic double이며 실제 현재 history 실행으로 세지 않았다.",
+    "original_byte_boundary": "선언 baseline의 정확한 loop 및 모듈 설명 두 치환과 새 EOF helper 외 전체 원문, 기존 self-test 전체 원문을 보존하는 검사를 확인했다.",
+    "precommit_provenance": "첫 120case/14.304초 결과는 PTY chunk4351dc를 apply_patch로 전사한 별도 기록이며 원본 stdout 파일 수집으로 주장하지 않는다. 최종 후보 normal02의 120case/15.006초는 runner가 직접 수집한 새 결과다. 과거 focused 본문 재실행은 없다."
+  },
+  "actual_ab_review": {
+    "method": "동일 clean 후보의 서로 다른 fresh Python 프로세스 A→B를 한 번씩 실행했다. A는 private 계측에서 factory만 기존 uncached loop로 바꾸고 B는 실제 memo를 사용했다. 양쪽 동일 observer는 원래 Git/proof/collector 반환값과 stdin을 변경하지 않고 기록했다. 생산 OFF 옵션은 없다.",
+    "calls": {
+      "comparison_each": 53,
+      "factory_each": 1,
+      "external_trace_rows_each": 727,
+      "git_calls_each": 1454,
+      "current_source_errors_each": 1,
+      "current_proof_each": 1,
+      "collector_each": 1,
+      "validate_append_each": 28,
+      "source_manifest_matches_each": 31,
+      "inverse_A": [
+        46,
+        44,
+        18
+      ],
+      "inverse_B": [
+        27,
+        25,
+        10
+      ],
+      "inverse_total_A": 108,
+      "inverse_total_B": 62
+    },
+    "equivalence": "두 process exit0/stderr0 및 동일 CLI stdout을 직접 확인했다. calls.json/Git/current-proofs/censuses 네 원본 파일은 A/B 바이트까지 동일하다. 실제 current_source_errors 결과는 []이고 context가 종료 후 비워졌다. 실제 proof HEAD와 213개 source hash 및 census가 일치한다. Git1454회 모두 exit0, trace 예외0이다.",
+    "current_census": "17491 leaves(catalog834/endings234/events12422/ui3684/ui_unverified317), 31 history transitions, 27 source manifests. accepted41572/b203 및 기존 미검증/unsupported 항목을 숨기거나 삭제하지 않았다.",
+    "timing": {
+      "cli_A_seconds": 493.920515208,
+      "cli_B_seconds": 356.379751208,
+      "observed_cli_seconds_saved": 137.540764,
+      "observed_cli_reduction_percent": 27.846740470393055,
+      "inverse_A_seconds": 318.389102794,
+      "inverse_B_seconds": 181.38532383,
+      "pair_wall_seconds": 854.763
+    },
+    "limitation": "한 번의 순차 A→B 계측이다. 동일 observer의 해시·기록 오버헤드가 포함되며 OS cache/실행 순서 효과를 분리하지 않았다. 반복·통계적 또는 모든 호출의 속도 보장이 아니다. 관측 가능한 확정 감소는 이 실제 후보에서 순수 역변환108→62회이며 외부 검증 trace는 보존됐다."
+  },
+  "normal_review": {
+    "all_pass": true,
+    "rows": 14,
+    "validation_rows": 13,
+    "query_rows": 1,
+    "new_subprocesses": 13,
+    "reused_indices": [
+      1
+    ],
+    "wall_seconds": 776.716,
+    "result": "전체 14행의 command/exit/stdout/stderr를 읽고 entry 및 aggregate와 동일함을 대조했다. 모두 exit0/stderr0이다. 01은 실제 B worker SHA와 원본 출력에 결속한 receipt 결과 재사용이며 세 번째 receipt CLI를 실행하지 않았다. 나머지 13개는 이번 후보에 각1회 실행했다. 12번 lane query의 12개 제안은 추가 실행이 아니다. registry170이다.",
+    "retained_limits": "Chapter1 408.360초의 SNAPSHOT_VALID는 debt8/blocked3/gap24를 그대로 남긴다. fullbody는 SOURCE_INVENTORY_ONLY/runtime0/native0, Year5는 reference_only/topology invalidated/r1b_allowed=false, ZH는 skeleton/shipping0/direct_english_bypass11이다. 이 PASS로 해당 보류를 해제하지 않는다."
+  },
+  "preservation": {
+    "entry_before_after_equal": true,
+    "current_hash_reconciliation": {
+      "tracked": 3024,
+      "prior_private": 1877,
+      "current_flat_helpers_and_precommit_record": 3,
+      "real_player_files": 34,
+      "ab_evidence_files": 19,
+      "normal_artifacts": 16
+    },
+    "previous_decisions": 185,
+    "previous_reports": 163,
+    "baseline_blob_comparison": "선언4938 대비 기존163보고와 판정원장·인간원장·JA/CN/TW사전·번역원장·Main·기존self-test·history 합172개 blob의 전체 bytes가 동일하다. 최종 source는 clean9bfc307/treeac58d5다. 앞으로의 closure metadata는 아직 검수한 것으로 세지 않는다.",
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "translation_state": "accepted41572/b203, CN/TW1691, JA3044와 게임/번역 원문 불변"
+  },
+  "defects_and_repairs": "검수된 최종 제품과 실제 A/B·normal에 실패나 미해결 차단점은 없다. 실행 전 helper의 stdin bytes/str 관측 구분·실제 current_source_errors/HEAD/census/player 결속 보강을 읽고 확인했다. precommit 전사와 최종 직접수집 증거를 구분한다. 기존 nested428 실패 폴더가 없는 최초 실행이며 이후 A/B19개 전체 파일은 normal에서 별도 보존했다.",
+  "evidence": [
+    {
+      "path": ".git/full-game-localization/order428-focused-precommit.json",
+      "sha256": "d9959e7b50f3044563c93d646ddcca3411b778019a04aeed328103b65ae29f6c"
+    },
+    {
+      "path": ".git/full-game-localization/order428-ab-run.py",
+      "sha256": "b28750f0d3c2547a439ab59ecfe609f89756a333ae5fe87af1d3ad77a6a477df"
+    },
+    {
+      "path": ".git/full-game-localization/order428-static-run.py",
+      "sha256": "be4b4ebb8df4901c7e0e91b8baae852e8217ebc593c190841001544423b71232"
+    },
+    {
+      "path": ".git/full-game-localization/order428-ab-final/entry.json",
+      "sha256": "c31fe51484f5da38ab44bd14a91e6f8daf6e3554b5e674076e2163216503afa0"
+    },
+    {
+      "path": ".git/full-game-localization/order428-ab-final/result.json",
+      "sha256": "b51e662912c9f22267a04a890084d6ba321b06570f4a17cba5b32f550c3ea98e"
+    },
+    {
+      "path": ".git/full-game-localization/order428-ab-final/A/worker-result.json",
+      "sha256": "5668cc3fa7776421754f645386cc384ddb11f14519a4123e6b8864cad8bf0ede"
+    },
+    {
+      "path": ".git/full-game-localization/order428-ab-final/B/worker-result.json",
+      "sha256": "196af874f10bf22b4f4d678bc6e44a8a028b32dc6cf1c90d70e309fd4e39f526"
+    },
+    {
+      "path": ".git/full-game-localization/order428-static-final/02.json",
+      "sha256": "f80eefd0ea8050a1d1d5e16c885364181356a0053e39dfe00502bb5a322b3d7b"
+    },
+    {
+      "path": ".git/full-game-localization/order428-static-final/entry.json",
+      "sha256": "d7969ddb2a3152ed810b5295f8c22b046d2ae32d305be9400ada70f598e3fd8f"
+    },
+    {
+      "path": ".git/full-game-localization/order428-static-final/result.json",
+      "sha256": "cc2bc7440fc91d4d7cdada0f0dc02b561f1180bdc8d198f3c9de17555c9c487a"
+    }
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "이번 단위의 새 Godot runtime·화면·PNG·입력·오디오 관측은 없다. 과거427 화면을 새428 화면 증거로 재명명하지 않는다.",
+    "통계적으로 통제된 반복 성능 벤치마크·메모리 상한 실측·다른 하드웨어/OS·모든 미래 history의 속도 보장은 없다.",
+    "focused의 synthetic 외부 fault 모델은 실제 Git 환경의 모든 고장을 실측한 증거가 아니다. 실제 A/B는 현재 후보의 성공 경로 관측이다.",
+    "전체게임·완역·B3/B4·새 package·외부 출시 GO가 아니며 기존 공개GO1/인간OPEN45와 본편·새package HOLD를 유지한다.",
+    "최종 보고 이후의 wrapper·큐마감·원장추가·대시보드·commit/push 검사는 이 보고에서 관측하지 않았다."
+  ],
+  "independent": true,
+  "status": "completed",
+  "private_review": {
+    "path": ".git/full-game-localization/order428-independent-review.json",
+    "sha256": "8a8f867c497eb4ca0b8afbd7a3536adfd4fec35817284cdc453ebf57ddca5650"
+  },
+  "unit_evidence": {
+    "도달 경로": "Actual order365_ui_receipt_compat.main default argv in two fresh serial processes; same clean source",
+    "생산자 ↔ 독자": "tools/ui_translation_append.py:_comparison_memo ↔ validate_history comparison; current_proof/Git/source verifiers unchanged",
+    "바꾸는 상태": "pure inverse calls 108 → 62; identical current proof/census/Git/output; accepted41572/b203 unchanged",
+    "포기 시 잃는 것": "Consecutive successor/previous snapshots repeat pure inverse parsing on each future localization validation",
+    "서사 위치": "N/A: validation infrastructure, no player story change",
+    "장면 계층": "N/A: non-scene task",
+    "닫는 것": "ORDER-428 work_unit only; no new runtime/render/native/release claim"
+  }
+}

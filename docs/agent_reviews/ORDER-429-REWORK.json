@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-429",
+  "decision_scope": "work_unit",
+  "verdict": "REWORK",
+  "subject": {
+    "kind": "source",
+    "commit": "e3c76c6fea14e4027ebeb91c6b7d564db13e5c3b",
+    "tree": "7de0783170e2c5ca5e3fec6d29b73238b9294254",
+    "manifest_sha256": null
+  },
+  "reviewer": {
+    "agent": "/root/independent392",
+    "role": "비저자 독립 검수",
+    "method": "KO 원문·실제 소비자·30값·공식 교환·raw 역상·helper 전문·실제 원본 10 PNG·관측 JSON·로그·typed 복원·SHA 보존맵 읽기 검수. 검사/엔진 재실행 및 제품 편집 0.",
+    "parallel_readonly_reconciliation": "/root/independent392/ab_readonly428가 artifact/prior/current 보존맵 재해시를 독립 지원했다. 번역·제품·helper 저작 및 실행 0."
+  },
+  "conclusion": "30개 번역의 의미·토큰과 공식 수용은 통과했으나, 선언된 실제 거래 화면 및 입력 회귀는 실패했다. C 재개방 준비 overlay가 D/E 거래 화면에 남고 B–E 초기 포커스가 없다. 번역 수용을 화면/입력 GO로 승격하지 않는다. 별도 ORDER-430 제품 수리 후 successor 증거가 필요하다.",
+  "population": {
+    "korean_keys": 15,
+    "chinese_values": 30,
+    "source_call_sites": 17,
+    "locales": [
+      "zh-CN",
+      "zh-TW"
+    ],
+    "prepared_states_per_locale": [
+      "A venue",
+      "B skill15/mastery0 setup",
+      "C skill100/mastery0 reopened setup",
+      "D playing/no position/up",
+      "E playing/held/down"
+    ],
+    "actual_pngs": 10,
+    "actual_lookup_rows": 30,
+    "actual_binding_rows": 48,
+    "actual_label_measurements": 38,
+    "separate_entry_draw_probes": 2,
+    "raw_key_edges": 8,
+    "taps": 4,
+    "normal_commands_executed": 0
+  },
+  "semantic_and_acceptance": {
+    "result": "PASS 한정: KO 직접 전수 비교, 기존 지역 용어·60초·%d/%s/%.2f·공백·em dash·실제 LF 보존. price noise를 음향으로 옮기지 않았으며 투자눈치/위험/포지션 의미를 임의 확장하지 않았다.",
+    "official_export": {
+      "locales": 2,
+      "values_each": 15,
+      "seconds": 10.695,
+      "exit_codes": [
+        0,
+        0
+      ],
+      "stderr_empty": true
+    },
+    "official_check": {
+      "locales": 2,
+      "values_each": 15,
+      "seconds": 10.808,
+      "exit_codes": [
+        0,
+        0
+      ],
+      "stderr_empty": true
+    },
+    "raw_inverse": "source/response header와 leaf ID·source hash·초안·현재 사전·official accepted_machine_validated receipt·ledger 30개를 직접 대조했다. CN/TW 신규 15개씩과 ledger 신규30/batch2를 역삭제하고 digest를 복구하면 선언 baseline2d5beeb의 원문 바이트와 일치한다.",
+    "counts": {
+      "accepted_before": 41572,
+      "accepted_after": 41602,
+      "batches_before": 203,
+      "batches_after": 205,
+      "cn_before": 1691,
+      "cn_after": 1706,
+      "tw_before": 1691,
+      "tw_after": 1706,
+      "ja": 3044
+    },
+    "product_delta": "선언 baseline 대비 제품/기록 7경로만 변경. MainGame/ScalpingGame/Tutorial/FontKit/JA/도구는 429 제품 후보에서 불변.",
+    "source_manifest_sha256": "fa8ac9a96889f4fa4f8fbc91edbf6c041ca4a0cef2f637cd1e8aa911caa38250"
+  },
+  "attempts": [
+    {
+      "label": "first",
+      "result_path": ".git/full-game-localization/order429-screen-first/result.json",
+      "sha256": "b5da09b9c3448a15c725e4ff221f151f3da4eeb3013806bb8c13d974059c0287",
+      "duration_seconds": 77.996,
+      "verdict": "FAIL",
+      "classification": "helper parse error: class variable/function _navigation429 이름 충돌. 실제 제품 화면/입력 0. 부모가 두 실제 프로세스를 SIGTERM 종료했으며 timeout 또는 제품 결함으로 분류하지 않는다.",
+      "repair": "변수 4참조만 _navigation_rows429로 변경; 함수·조건 불변."
+    },
+    {
+      "label": "r1",
+      "result_path": ".git/full-game-localization/order429-screen-r1/result.json",
+      "sha256": "32e506562c670d638da2fd874154ff82bf24bc0b2857b7f7d10141e2763a1a32",
+      "duration_seconds": 70.603,
+      "verdict": "FAIL",
+      "classification": "helper parse error: dynamic owner에서 active 타입 추론 실패. 실제 제품 화면/입력 0, 부모가 실제 프로세스 종료.",
+      "repair": "GD 68개 추론 선언을 값/조건 변경 없이 명시 타입으로 수정. first/r1 원본 폴더·helper를 새 runner 보존맵에 결속."
+    },
+    {
+      "label": "r2",
+      "result_path": ".git/full-game-localization/order429-screen-r2/result.json",
+      "sha256": "efe0ab7b4da6342b747b1416b9dd117f8d3d73e1c3d6d457a726c53f2b718c5f",
+      "duration_seconds": 26.281,
+      "exit_codes": [
+        1,
+        1
+      ],
+      "verdict": "FAIL",
+      "classification": "실제 제품 화면/입력 결함. 각 지역 5 PNG가 존재한다. Python visual 검증의 조기 assertion 때문에 aggregate validated screens=0/pngs=[]이며, 실제 화면 생성 0이라는 뜻은 아니다."
+    }
+  ],
+  "findings": [
+    {
+      "id": "429-overlay-retained",
+      "severity": "blocking",
+      "evidence": "양지역 C의 실제 setup overlay 경로가 /root/Order429Observer/MainGame/@Control@188/@ColorRect@827로 바뀐다. D/E 원본 PNG에서 준비창이 거래 차트를 가리고 실제 제목이 중복되어 one actual visible target 실패가 지역당2건이다.",
+      "source": "검수 subject의 scenes/ScalpingGame.gd _show_setup은 이름 setup_overlay인 이전 노드를 queue_free하고 같은 프레임에 같은 이름을 추가한다. _clear_phase_overlay는 이름 조회만 하므로 자동 변경된 새 이름을 찾지 못한다.",
+      "boundary": "38 label의 자체 font/bounds/full_fit 및 2 entry probe가 참이어도 다른 overlay의 가림을 제외하지 못한다. D/E 실제 가독성·entry 표시 PASS를 주장하지 않는다."
+    },
+    {
+      "id": "429-initial-focus",
+      "severity": "blocking",
+      "evidence": "각 지역 A의 초기 포커스는 활성 card 내부의 enabled visible Button이다. B/C/D/E 4상태씩은 owner가 없음. B에서 실제 tutorial Esc press/release 이후 안전 Right press/release 1회에도 owner가 없다. 이후 C/D/E 입력은 정지하고 초기 상태만 독립 기록했다.",
+      "boundary": "총8 raw key edges/4 taps, D-pad 실제 실행0. BUY/SELL/확인/PLAYING닫기/정산은 실행하지 않았다. 기존 코드의 back-layer focus 노출 위험은 읽었으나 r2에서 실제 외부 owner로의 이동 자체를 관측했다고 말하지 않는다."
+    },
+    {
+      "id": "429-helper-preflight-misses",
+      "severity": "process",
+      "evidence": "first 이름 충돌 및 r1 동적 타입 추론 오류를 저자/부모/독립 사전 읽기 검수에서 놓쳤다. AST 확인은 Python 구문만이며 GDScript parser 통과 증거가 아니었다. 두 실패를 제품 실패나 성공 화면으로 재명명하지 않았다."
+    }
+  ],
+  "runtime_partial_evidence": {
+    "actual_visual_read": "독립 검수자가 CN/TW A–E 원본 PNG 10장을 모두 직접 열었다. A/B/C 대상 중국어는 두부·잘림·겹침이 관측되지 않았고 준비 설명의 실제 두 줄이 읽힌다. D/E는 남은 준비창과 dimmer 때문에 거래 화면 전체 합격 불가다.",
+    "actual_sizes": "A subtitle는 requested12가 Main readable_font_size를 거쳐 실제14px다. B/C 설명은 12px/340px/실제 LF1, entry는 실제 draw_string10px와 별도 resolved-font probe/70px slot이다. surrogate Label 측정으로 entry를 대체하지 않았다.",
+    "state": "각 지역 5화면 prepared==observed 및 display_delta=[]; 입력 뒤 controller만 분리하면 prepared exact 일치. 실제 B delta는 _major_last_event_id 하나다. 독립 typed fixture 기대 계산과 restoration.before==restored를 두 지역 모두 재대조했다. 4회 open/start의 protected 상태는 전후 불변이고 초기화·BGM logical·tutorial seen 효과는 별도 기록이다.",
+    "restoration": "두 지역 full typed 복원 delta=[]; Main 폐기 전후 protected exact. 실제 사용자 파일34개 전후 exact. BGM logical field 증거이며 오디오 재생위치/청취 합격이 아니다.",
+    "counters": "pressed/closed/stat/trade/finalization 신호0, log0; helper call graph상 buy/sell/playing_close/settlement/focus setter0. 실제 tutorial dismissed1/completed0 및 seen=true는 지역별 분리 기록.",
+    "logs": "r2 양쪽 stderr0; stdout/Godot log에 지역당 시각 실패2건과 input fail marker1개가 있다. aggregate errors8은 시각 실패4개를 stdout와 Godot log 양쪽에서 수집한 값이며 8개의 별도 제품 결함이 아니다.",
+    "normal": "order429-static-run.py는 읽기 사전 검수만 완료했고 실행0이다. 13명령 PASS나 현 후보 source 전체검사 GO를 발급하지 않는다."
+  },
+  "preservation": {
+    "recorded_before_after_equal": true,
+    "recorded_tracked_files": 3026,
+    "recorded_helpers": 104,
+    "real_player_files": 34,
+    "rehashed_artifacts": 129,
+    "current_inputs": 20,
+    "prior_reconciliation": "prior flat1881 + 6개 recursive group411파일 모두 일치; first/r1 각각118 전체 파일과 own artifact117 보존. 추가파일/변경 없음.",
+    "historical_decisions": 186,
+    "historical_reports": 164,
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "history": "baseline2d5beeb와 검수 subject 및 검수 시점 사이에 기존 결정 원장·보고164개·인간 원문 exact 일치를 확인했다. 신규 번역2사전/ledger3개도 r2 기록과 일치한다.",
+    "successor_boundary": "검수 중 별도 ORDER-430의 선언 ce449879 및 제품3db5dc8862c10d41c652c1363f3e2dbf8c31e0d7이 생성됐다. 이 보고의 subject는 e3c76c6만이며 430 제품을 검수·수용한 보고가 아니다. 430 Scalping 변경을 recorded source unchanged로 주장하지 않는다."
+  },
+  "evidence": [
+    {
+      "path": ".git/full-game-localization/order429-static-export.json",
+      "sha256": "32441f80f43f6cd4ffdc26ff8e1dbc121e334b2380b563f32e31f290010fbed3"
+    },
+    {
+      "path": ".git/full-game-localization/order429-static-check.json",
+      "sha256": "263af7b4201fb733e3d1d2080c9976d04cdadfe9b1a3a0470c1a42803f1087bb"
+    },
+    {
+      "path": ".git/full-game-localization/order429-append-precommit.json",
+      "sha256": "8c22041e1f6a83aa47a8582836a03fcedb27f3f3ec5cd7c2ec3625b02a7a8b87"
+    },
+    {
+      "path": ".git/full-game-localization/order429-screen-r2/entry.json",
+      "sha256": "c68ddb71dfbb907d9b92377032052b302cafdd5bc42c7519d53f858ec874a371"
+    },
+    {
+      "path": ".git/full-game-localization/order429-screen-r2/zh-CN/order429-observations.json",
+      "sha256": "345e4ae8de037f5f1f1f6ca5660036f8616412ce089373c47c0947a58d499279"
+    },
+    {
+      "path": ".git/full-game-localization/order429-screen-r2/zh-TW/order429-observations.json",
+      "sha256": "12eb1b4e6ef74a9c420a5873f77a997935c5c056dd3eda096cffab67a1e1201a"
+    },
+    {
+      "path": ".git/full-game-localization/order429-screen-r2/zh-CN/oracle.json",
+      "sha256": "6cc9e69f8768ecd3469e28a9c0eb98b001fcf2a36ad4f40652639d7d49770d60"
+    },
+    {
+      "path": ".git/full-game-localization/order429-screen-r2/zh-TW/oracle.json",
+      "sha256": "5aad9baed64abce1aa3c10803a7d04128ae8d2a4f347dc4cd839fd028187c742"
+    }
+  ],
+  "evidence_completeness": "r2 result.artifacts와 각 observations.captures가 원본10PNG/로그/locale entry/result/helper의 경로·SHA·bytes를 전수 소유한다. 이 보고는 거대한 보존맵을 중복 전사하지 않는다.",
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "자연 unlock/진입·매매·수익·시간만료·정산·실제 D-pad 탐색·전체 HUD/venue/영어잔여의 완역 승인은 관측하지 않았다.",
+    "동일 후보 normal13은 미실행. source bridge 또는 successor 수리의 최종 검증은 별도 단위다.",
+    "전체게임·B3/B4·새 package·출시 GO가 아니다. 기존 공개GO1/인간OPEN45와 본편·새package HOLD를 유지한다."
+  ],
+  "private_review": {
+    "path": ".git/full-game-localization/order429-independent-review.json",
+    "sha256": "779e87972f8ed5dde5323f0a587681c2da0c60e4c57471e96803438bffc66067"
+  }
+}

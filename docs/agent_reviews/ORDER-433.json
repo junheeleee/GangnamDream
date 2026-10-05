@@ -1,0 +1,152 @@
+{
+  "unit_id": "ORDER-433",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "781674e537606444c8046b81ea59ccc3440c65f1",
+    "tree": "09cdd0f94fd46e56867ba9a1b46cbd1e659664f9",
+    "manifest_sha256": null
+  },
+  "reviewer": "independent392 (제품·focused·runner 비저자)",
+  "scope": "validate_append의 값 전용 JSON 파싱 두 식에서 버려지는 span 생성을 제거한 현재 소스만 승인. 새 번역·게임플레이·화면·출시 승인이 아니다.",
+  "method": "선언·관련 정본·두 식 전체 diff·strict parser 연결·raw inverse·새 focused/runner/lane를 직접 읽었다. 실제 normal 14행의 stdout/stderr와 entry/result/comparison을 읽고 Git/raw/hash 보존을 대조했다. 독립 검수자는 엔진·검사·repo helper를 실행하거나 기존 파일을 수정하지 않았다.",
+  "source_review": {
+    "product_commit": "64303b4d423ebece2a6a18675859f9d062f1fe79",
+    "parent_commit": "de5420a6f43a982464efd5266e15e1d65996491b",
+    "path": "tools/ui_translation_append.py",
+    "before_sha256": "ca8ada114064c62a2f1296c72f5d26f5d43ba893d9e9e79b5a46b960454783f5",
+    "after_sha256": "561b7b33092310a3ddbdcb14e9e9aafc9cf35711f142a38a64ac704830fbff40",
+    "exact_inverse": "old/new 두 comprehension 전체 행을 역치환하면 부모 파일 전체 바이트가 일치한다. 그 외 원도구·역사 pin/proof/collector/memo 본문 변경0.",
+    "strictness": "_loads는 order351→order350→order313의 동일 함수 별칭이며, _Document도 먼저 그 함수를 호출한다. 중복·escaped 중복키, 비정상 JSON/UTF-8, NaN/Infinity 및 지수 overflow 거부가 유지된다. 성공 반환 전 모든 snapshot path의 실제 _raw_inverse와 원문 전체바이트 비교가 남는다."
+  },
+  "focused": {
+    "path": "tools/ui_append_value_parse_check.py",
+    "sha256": "6baf66c2aadc8c7897f15b63dc21c1f9c2aa9c08c6b91eac0403558ba8711189",
+    "executions": 1,
+    "cases": 180,
+    "seconds": 0.5,
+    "marker": "UI_APPEND_VALUE_PARSE_OK cases=180",
+    "population": "4-path/3-path append, JA-only, no-op와 실패 후 fresh admission; strict JSON 21 payload; 값·순서·receipt/header/digest·중복/고아·원문 공백/escape/동값 float 표기 변이.",
+    "evidence_boundary": "명시적 synthetic Leaf와 실제 make_batch/digest를 쓴 old-value reference 대조다. reference는 append._loads만 scoped 교체하며 원 정의 모듈 parser는 바꾸지 않는다. Document와 raw_inverse는 실제 구현을 호출하고 trace를 비교한다. 실제 전체 current Git/source/receipt admission은 별도 normal row01의 증거다.",
+    "structural_result": "정상4파일 fixture 전체 Document16→8, 역상용8→8; 정상3파일12→6, 역상용6→6. _raw_inverse 함수 호출 자체는 각각4→4/3→3. 값 전용 단계 span0, 입력·inventory 불변과 patch 복원 PASS. 실행시간50% 주장이 아니다."
+  },
+  "normal": {
+    "directory": ".git/full-game-localization/order433-static-final",
+    "all_pass": true,
+    "validation_rows": 13,
+    "query_rows": 1,
+    "exit_zero_stderr_empty_rows": 14,
+    "wall_seconds": 771.21,
+    "workers": 3,
+    "focused_included_once": true,
+    "query_limit": "row11의 명시 차선 목록12개와 row12의 EXTRA 목록은 추가 실행이 아니다.",
+    "retained_limits": "Chapter1 debt8/blocked3/W25..48 gap24; fullbody SOURCE_INVENTORY_ONLY/runtime0/native0; Year5 reference_only/topology invalidated/product_consumers0; ZH skeleton/shipping0. 자동 계약 PASS는 전체 작품 품질 GO가 아니다."
+  },
+  "comparison": {
+    "a": {
+      "source_commit": "31f6751b2bea7fb0155d24eb953e3200e6f09145",
+      "seconds": 406.469,
+      "path": ".git/full-game-localization/order432-static-final/01.json",
+      "sha256": "12190ca923ee4b300dddc11168d8bc994769577ac72ba230b9ac6a6005f7a4bd"
+    },
+    "b": {
+      "source_commit": "781674e537606444c8046b81ea59ccc3440c65f1",
+      "seconds": 352.972,
+      "path": ".git/full-game-localization/order433-static-final/01.json",
+      "sha256": "01a7ed880e04505709f66425acdf2cf6017061aa5a7f32ca6bb110044140f820"
+    },
+    "cli": "python3 tools/order365_ui_receipt_compat.py",
+    "stdout_exact": true,
+    "both_exit_zero_stderr_empty": true,
+    "observed_pairs": 1,
+    "a_reexecutions": 0,
+    "b_executions": 1,
+    "b_minus_a_seconds": -53.497,
+    "causal_speedup_claim": false,
+    "limitations": "서로 다른 후보의 순차 단1쌍이다. OS 캐시·순서·3-worker 경쟁·외부 부하를 분리하지 않았으며 통계적 benchmark/속도보장으로 쓰지 않는다."
+  },
+  "defects_and_repairs": [
+    {
+      "kind": "실행 전 새 normal helper 범위 오류",
+      "finding": "부분문자열 _loads(before[path])의 count가 기존 다른 호출까지 셌다. 기존 before_new1/after_new2이므로 원래 gate가 실행 전에 실패할 구조였다.",
+      "repair": "count/replace를 old/new comprehension 전체 행으로 한정한3행만 수정. 수정 역치환 시 최초 runner SHA165e76225119e1ed3d7ce0a9d3563fda6e936ba5e8bac87997f1e7bf77e2d8b9 재현.",
+      "final_runner_sha256": "0bd18ccea73fb1aa2a1ac054a04e8aa9ef98668a2cf766897f27ca28127609a8",
+      "attribution": "독립 사전검수에서 발견하여 최초 명령 실행 전에 수리했다. 제품 결함·실패 normal 실행·재실행으로 세지 않는다."
+    }
+  ],
+  "evidence": {
+    "normal_result": {
+      "path": ".git/full-game-localization/order433-static-final/result.json",
+      "sha256": "a82902d2dbbe5eae997423e8d932773d40e0081889afc60800ddc67ce11dc1a5"
+    },
+    "normal_entry": {
+      "path": ".git/full-game-localization/order433-static-final/entry.json",
+      "sha256": "1cf1771bc7a1d4ca1597961e55e933f3f88ad2ab724eeaf66503ce7e1a6c1b35"
+    },
+    "focused_row": {
+      "path": ".git/full-game-localization/order433-static-final/13.json",
+      "sha256": "0ba828fe725b658d7e20f241b729740144fd1b4b7d6c31269d65b136738af345"
+    },
+    "comparison": {
+      "path": ".git/full-game-localization/order433-static-final/comparison.json",
+      "sha256": "c49e00efb52c5ea7bc534d433023fd36fb3f7d79037ede07ff8bb4a444f70708"
+    },
+    "historical_normal": {
+      "path": ".git/full-game-localization/order432-static-final/result.json",
+      "sha256": "71ccbad7f9966223c1605b7db26445c0daf02e4ebbb612ed28180c3e866ed5ca"
+    },
+    "historical_runtime": {
+      "path": ".git/full-game-localization/order432-screen-first/result.json",
+      "sha256": "9386160d55a55d5f3967373e492557cf2401cd229e370836dd21dd42e270e4be"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "new_runtime_on_ORDER-433",
+    "statistical_or_causal_performance_benchmark",
+    "full_game_or_new_package_release_approval"
+  ],
+  "limitations": "임의 복합 오류·극단 깊이의 최초 예외 종류/순서/시점까지 동일하다는 주장은 하지 않는다. 기존431 FAIL/REWORK와432 성공은 역사 그대로 보존하며 새433 runtime/화면 관측으로 재발급하지 않는다. 엔진·과거 focused·A/세번째 receipt·전체감사·240주 재실행0. 본편/새package HOLD 유지.",
+  "preservation": {
+    "method": "원문 행·소스는 주 검수자가 읽고, 보존맵 전량 SHA/모집단/Git 대조는 비저자 보조 검수 ab_readonly428의 읽기 전용 교차검증으로 확인했다. 불일치0.",
+    "before_after_entry_equal": true,
+    "current_map_counts": {
+      "tracked": 3039,
+      "prior": 2775,
+      "current_flat": 1,
+      "player_files": 34
+    },
+    "artifacts": {
+      "hashed_records": 17,
+      "sha256_and_bytes_match": true,
+      "actual_files_including_result": 18
+    },
+    "historical_boundaries": "A 입력 합집합2756개가 prior에 같은 SHA로 포함된다. 최초431 FAIL artifacts133 및432 runtime artifacts134·REWORK 원문/wrapper를 유지했다. A→B 변경16경로는 선언된3도구와 closure/선언 기록뿐이며 게임소스/content/locale/assets/project.godot 변경0.",
+    "ledger": {
+      "accepted": 41612,
+      "batches": 207,
+      "ui_ja": 3044,
+      "ui_zh_CN": 1711,
+      "ui_zh_TW": 1711,
+      "sha256": "86c40537f321ef852fb603ba8d52d45a3ae5b8320960000fd76cd867ee2dca0d"
+    },
+    "existing_decisions": {
+      "count": 192,
+      "sha256": "86fb06adbd15a13d4dac312b3b169911fbb6d267d59d02a766923d82d4a57d1b"
+    },
+    "existing_reports": {
+      "count": 170,
+      "all_bytes_unchanged": true
+    },
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "report_boundary": "이 보고서는 모든 실행 종료 후 새로 작성하며 위 실행 전후 current map1에 포함됐다고 주장하지 않는다."
+  },
+  "schema_version": 1,
+  "private_review": {
+    "path": ".git/full-game-localization/order433-independent-review.json",
+    "sha256": "4ce1a979c14e9f82623eca6c07e6af5d57c28bc92cf50808e7973292e50bb85f"
+  }
+}

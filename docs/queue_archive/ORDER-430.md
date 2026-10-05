@@ -1,0 +1,79 @@
+# ORDER-430 — 스캘핑 준비 창과 조작 포커스를 단계 안에 둔다
+
+#### [x] ORDER-430 [P1·UI/입력] 준비 창 재생성 잔류·초기 포커스 누락 수리
+
+**[x] 완료 — 2026-10-04.** (착수 선언·실패 기록은 아래 보존.) 사용자 계속 개발·main 커밋/푸시 위임.
+429의 실제 r2에서 발견한 기존 제품 결함만 수리한다. 새 게임 규칙은 만들지 않는다.
+
+## 확인된 결함과 의미
+
+- e3c76c6의 CN/TW 10PNG에서 준비 재개방 C의 새 창이 자동 이름으로 생성되고,
+  이름 기반 제거가 이를 놓쳐 D/E 거래 화면 위에 남았다. 재개방은 준비 fixture이며
+  자연 플레이 경로 전체를 관측했다고 주장하지 않는다.
+- 첫 튜토리얼 취소 후 B와 C/D/E의 초기 focus owner가 없었다. 지역별 Esc·Right
+  각 한 쌍만 보내고 이후 입력을 중단했다. 거래·정산·행동확정은 0이다.
+- 없애면 깨지는 것: 실제 단계 창 소유·키보드/패드 선택 접근성. 24주 상태차·선택
+  경쟁은 해당 없음: 기존 입력 결함 수리이고 비용·보상·조건·선택 자체는 변경0.
+
+## 파일 소유
+
+- root: `scenes/ScalpingGame.gd` 및 큐·430 active/archive·429 상태·CLAUDE·WORK_LOG·
+  생성 STATUS·agent 보고/판정. 게임 파일만의 작은 제품 commit을 먼저 만든다.
+- claude_handoff_review: `tools/ui_translation_append.py`의 새 exact Scalp 전이 검증과
+  manifest/current_proof 연결만. 기존 함수 본문·pin·receipt·기존 교정은 그대로 둔다.
+- receipt_tests392: `tools/audit_scope.json`, 새 `.git/full-game-localization/order430-*`
+  격리 runtime helper. focused `tools/scalping_phase_focus_receipt_check.py`와 normal
+  helper는 root로 인계하여 병렬 작성한다. 새 focused는 최종 normal 안에서 단1회 실행한다.
+- independent392: 비저자 제품/검사/원본화면·입력·receipt 최종 검수. 제품·helper 저작0.
+- 번역 41602/b205·CN/TW1706·JA3044, Main/Tutorial/Font/게임 수치·정산·save,
+  과거 성공/실패/helper·인간 원장·공개 데모·출시 manifest 변경0.
+
+## 구현과 증거 계약
+
+- 단계 창을 직접 참조해 재개방/전환 시 숨기고 제거한다. queue_free 이름 경쟁으로
+  새 창이 남지 않는다. 준비/결과 창과 거래 본문은 각각 활성 버튼만 포커스 대상이다.
+- 나타난 단계의 유효 기본 버튼에 포커스를 주고, 실제 튜토리얼의 우선권을 보존한다.
+  비활성 매수/매도 버튼에 남은 포커스를 유효 버튼으로 옮긴다. 방향·Tab·hover는
+  같은 활성 표면을 쓰며 새확정/취소 shortcut이나 거래/정산 효과는 추가하지 않는다.
+- 429의 첫 실패/타입 실패/r2 제품 실패 모두 원본 보존. 새 격리 프로세스에서 같은
+  15키·지역별5화면과 실제 초기 focus·안전 방향/Tab·합성 D-pad를 확인한다.
+  D/E에 준비 창이 0이고 표적 전체가 차폐 없이 보이며 비활성 버튼은 건너뛴다.
+- 실제 player34 byte 보호·pre-autoload 격리·typed 복원·actual Tutorial 취소·
+  start 직후 tick 전 동결을 유지한다. helper focus/neighbors 주입0·물리pad 관측0.
+- Scalp 단독 제품 commit의 direct parent/commit/tree/blob/raw SHA·전체diff 역상을
+  검증한다. 현재 manifest 하나와 실제 전이 전 manifest의 기존 역사만 허용하고,
+  새 Scalp×과거 Main의 존재하지 않은 조합은 거부한다. 반환 census는 실제 현재다.
+- 새 focused는 역상 extra edit/다른 source 변화/가상 manifest/HEAD raw mismatch/
+  성공 뒤 다음 호출 fault를 검사한다. 오래된 focused·A/B·전체/240주 반복0.
+- 최종 clean successor에서 새 focused·영향 입력/번역 표적·공통 normal 각1회.
+  429의 공통 normal을 수리 전 중복 실행하지 않는다. 해당 successor에서 429와430을
+  각각 판단하고 실패한 e3c76c6의 화면을 성공으로 재명명하지 않는다.
+
+일회성 수리 절차다. 상시 입력 규칙은 기존 CONTROLLER_UX_STRATEGY Acceptance Gates와
+CLAUDE의 입력 계약을 따른다. 자동PASS는 계약증거이지 문체·재미·출시GO가 아니다.
+본편/새package HOLD·원어민/인간/물리 미관측·공개GO1/인간OPEN45를 유지한다.
+
+## 구현 후보
+
+- 제품 단독 commit `3db5dc8862c10d41c652c1363f3e2dbf8c31e0d7`, 직접 부모
+  `ce44987987376323bb0bfc7b9053435f55d92294`; Scalp 한 파일만 62추가/7삭제.
+- 직접 overlay 소유·이전 창 즉시 detach, 활성 단계/비활성 버튼 focus_mode 격리,
+  단계 기본 focus·Tab 순환·실제 grid 방향 탐색·hover 동기화. Tutorial 우선권 보존.
+- 429 실패의 독립 판정은 `docs/agent_reviews/ORDER-429-REWORK.json`에 결속한다.
+  새 후보의 runtime·focused/normal 최종검수는 아직 미실행이다.
+
+## 최종 범위한정 판정 — 2026-10-04
+
+- source927d6f52591f656eaf1f55045cc672b45b33658a / tree921356a92df99fb9a5424ad9609b5f3be315617b 독립GO.
+- da1a015 실제10PNG·196raw/98taps·32.82초 PASS. 준비 B/C overlay1, 거래 D/E0,
+  초기 유효 포커스와 disabled BUY→SELL 실제 이동을 확인했다. typed/player34 보존,
+  매수/매도/정산0. 현재30번역값·accepted41602/b205·CN/TW1706·JA3044 불변.
+- 최초normal841.526초는 focused 중복항목명 때문에 FAIL이며 원본 유지. 통과12검사+
+  조회1은 그대로 보존, test 이름인수1줄만 고친 successor의 새74case/1.051초 PASS.
+  제품·bridge·사전·helper·기존증거 exact불변으로 통과행/runtime을 재사용했다.
+  원래 후보 실행을 새후보에서 재실행한 것으로 재명명하지 않는다.
+- normal 사전 player-map SHA/object 비교실패(검사0)와 수정runner, 429 first/r1/r2 및
+  옛 REWORK를 모두 보존한다. 판정·전체증거 hash는 ../agent_reviews/ORDER-430.json.
+- RESULT/hover/실시간매매/자연진입·원어민/인간/물리 미관측, 본편/새packageHOLD.
+  규범 검토: 이 배치의 실행·검수 절차는 일회성. 기존 WORK_UNIT의 위임/실제관측 분리와
+  CONTROLLER_UX_STRATEGY 입력계약을 따르며 새 상시규범0. 자동PASS는 계약증거다.

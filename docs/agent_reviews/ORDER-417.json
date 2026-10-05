@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-417",
+  "reviewer": "/root/independent392",
+  "scope": "Exact source-history successor and manifest admission for the two416 event_body font bindings; a separately registered focused checker. No dictionary, gameplay or historical proof-body modification.",
+  "independence": "Root authored the new bridge appendices, separate focused file, registry and execution runners. Reviewer read their complete diffs/new bodies and immutable/raw evidence independently, without authoring or executing tests.",
+  "source_review": {
+    "files": [
+      "tools/main_game_locale_history.py",
+      "tools/ui_translation_append.py",
+      "tools/reaction_body_font_self_test.py",
+      "tools/audit_scope.json"
+    ],
+    "result": "New append-only12-stage proof checks72 immutable Git objects, exact direct-parent/Main-only7ec1b40→a694321 transition, object type/size/envelope/SHA/tree/raw and currentHEAD/ancestry. Exact two-line inverse returns ten predecessors while preserving all historical public-return meanings. Old11-stage bodies/pins, JA pipeline and historical self-test remain unchanged.",
+    "manifest": "Exactly12 historical/current combinations: actual current Main plus ten predecessors with current Aruba, and the oldest Main with pre-Aruba. Failed402 checkpoint is excluded. Actual source census/Main/Aruba hashes are checked before acceptance; synthetic non-source fixtures delegate the unchanged historical matcher. Each new call reacquires proof; there is no cross-call stale cache.",
+    "inventory": "Actual whole collector and complete inventory roundtrip preserve KO/EN leaf semantics, source digests and accepted UI/receipt bytes; only observed source coordinates shift by the two product lines.",
+    "final_tool_sha256": {
+      "tools/main_game_locale_history.py": "d698077625f03648cc17a65bebf092bcd0a40cfce6cfd970ec98329e6343ca72",
+      "tools/ui_translation_append.py": "31b00d5632cf36e94065f7bd246eab3f0a16115dfcf31816bed85b8daf1df966",
+      "tools/reaction_body_font_self_test.py": "0d12f60e054b66597a8d39f07eecc0731a8db83174a8eb7912ba6385af55564f",
+      "tools/audit_scope.json": "6c956763fa9f830bae750617b6c004a9c978a4e30a50a53589d2bf3a962882ef"
+    }
+  },
+  "focused": {
+    "result": "PASS",
+    "cases": 131,
+    "historical_cases": 0,
+    "row_seconds": 54.745,
+    "aggregate_wall_seconds": 55.225,
+    "raw_marker": "REACTION_BODY_FONT_OK cases=131 historical_cases=0",
+    "coverage": "Actual current proof/public entrances/collector plus pure inverse partial/rollback/duplicate/moved/neighbor/font/size mutants; Git corruption/missing objects/wrong parent/HEAD/raw/ancestry faults; exact manifest positives and forged combinations; next-call freshness and byte preservation.",
+    "limits": "Counterexamples include explicit spies/mocked faults and are distinguished from real current Git/collector checks. Normal consumers are separately observed; no old historical suite rerun or broad performance claim.",
+    "preservation": "Focused before=after tracked2995/helpers80/inputs10/prior4; rawstdout/stderr and maps inspected and hashes rechecked."
+  },
+  "failure_provenance": {
+    "prior_rejection": "Root reported an earlier receipt command exit1: ORDER365_UI_RECEIPT_ERROR ... ORDER-412: unapproved current MainGame raw. This was tool-transcript-only, not a separately retained private raw file; reviewer does not claim an independent original-file re-read for that attempt. The new exact successor is independently reviewed against the actual current source.",
+    "prelaunch": "Root reported a focused launcher reference typo corrected before artifact creation or test execution. It is not counted as a failed focused run. First retained focused execution is the131-case PASS.",
+    "admission_boundary": "Existing exact history rejected the unproved font edit as designed; no historical admission pin was weakened."
+  },
+  "evidence": {
+    "focused": {
+      "path": ".git/full-game-localization/order417-focused-final/result.json",
+      "sha256": "939eef4b4df5ff1e57ec521a90f5ac4d21d95568dd2d47acbce76e2b77534344"
+    },
+    "shared415_runtime": {
+      "path": ".git/full-game-localization/order415-r1-screen-final/result.json",
+      "sha256": "3052bd9ec54562d74db2dac1d546283e14d92df5ef03b0ba182a50af41df5e9f"
+    },
+    "shared416_runtime": {
+      "path": ".git/full-game-localization/order416-screen-final/result.json",
+      "sha256": "4fa0ceca17a9bb262def6ab275fde5fb2575ae1c5a7591398c365ad7f3048f21"
+    }
+  },
+  "verdict": "GO",
+  "decision_scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "ae51a7d910055019a74be53d267f4a2f7d56cb5a",
+    "tree": "60356f31375ace07ff54fe4c6ae459053a1479b3",
+    "manifest_sha256": null
+  },
+  "final_static": {
+    "initial_run": {
+      "path": ".git/full-game-localization/order417-static-final/result.json",
+      "sha256": "56bce42f4432153dae31dd800c15c32b3de7b39ab7c1e48c2042265fadb69b12",
+      "wall_seconds": 742.036,
+      "all_pass": false,
+      "commands": 13,
+      "passed_rows": 12,
+      "failed_row": 9
+    },
+    "first_metadata_repair": {
+      "path": ".git/full-game-localization/order417-metadata-repair1/result.json",
+      "sha256": "f56ac358066fdbfd6fd10345db9447b1b2e4372f7803607e7bb44851dec3921c",
+      "wall_seconds": 0.593,
+      "all_pass": false
+    },
+    "final_metadata_repair": {
+      "path": ".git/full-game-localization/order417-metadata-repair2/result.json",
+      "sha256": "73dc494230a665aa20c89d28155be1c517fbd912382a937786f021fc548a0282",
+      "wall_seconds": 0.606,
+      "all_pass": true
+    },
+    "reviewed_result": "All 13 initial stdout/stderr rows and all six metadata-repair rows were read; each embedded row equals its original JSON. Final gate combines the twelve original successful rows with the repaired queue PASS; context/diff additionally pass after the metadata change. Initial aggregates remain false. No passing engine/focused/expensive normal command was repeated.",
+    "failures_and_repair": "Initial queue rejected ordinal -1. First repair changed only the five leading ordinals and still failed because the included continuation sequence was not adjusted. Final repair shifts all affected ordinals consistently; active80/in_progress77, with order, state, wording and targets unchanged. Author/root and independent preflight missed the queue ordering defect; initial independent acceptance of the first partial ordinal repair was incomplete.",
+    "source_identity": {
+      "tested_product": "ae51a7d910055019a74be53d267f4a2f7d56cb5a",
+      "observed_clean_metadata_head": "20afb17c090954313928a98d8850878bb87c7822",
+      "observed_metadata_tree": "e35e9ec2884d285743c962daa3d8dddf69b8e6f0",
+      "result": "Exact Git diff product→metadata HEAD contains only docs/CODEX_QUEUE.md and docs/CODEX_QUEUE_L3_PENDING.md. Removing ordinal tokens makes both whole files byte-identical. Both paths are fixed allowed metadata; product subject remains the tested ae51a7d/tree60356f31."
+    },
+    "preservation": "Initial normal before=after tracked2995/helpers85/inputs10/prior9. Repair1 before=after2995/86/10/10; repair2 before=after2995/87/10/11. Full maps rehashed against retained files, and final current tracked map matched repair2. Initial runtime/focused evidence remained unchanged.",
+    "retained_limits": "Chapter1 377.012s: debt8/blocked3 and W25..48 missing24, authoritative24/48. Year5 remains reference_only, topology invalidated, product_consumers0 and r1b_allowed=false. ZH audit is skeleton/shipping0; full-body inventory runtime_claim0/native_quality_claim0. Lane list proposes12 checks; listing itself is not their execution. Registered166. No whole audit, historical suites or240-week run."
+  },
+  "preservation": {
+    "comparison_base": "a5312df241f0d7db48494400c76953222cdfbfbe",
+    "existing_decisions": 172,
+    "existing_reports": 150,
+    "decision_file_sha256": "79b14ec2ed7a040eb7a82472a6224647d31c590f18d99d488185485538c2e16e",
+    "human_file_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "result": "Existing decision file, all 150 reports, human ledger, release inventory, project.godot, GameState, FontKit, JA dictionary, JA pipeline/audit and historical UI self-test are byte-identical to the base. Public GO1 and human OPEN45 retained.",
+    "full_game": "HOLD",
+    "new_package": "HOLD"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "external_release_or_store_approval",
+    "whole_game_or_new_package_GO"
+  ],
+  "remaining_gate": "No unresolved blocker inside this exact unit and tested source. Full game/new package remain HOLD; B3/B4, native/human/physical gates, unrelated UI/story/voice issues and external release remain outside this GO.",
+  "freeze": {
+    "method": "Created once after all retained evidence, failed attempts and final metadata repair were reviewed. Original evidence owns exhaustive node, screenshot, source/helper/player and row maps; this report binds those originals rather than duplicating their full census.",
+    "rewrite_allowed": false
+  },
+  "independent": true,
+  "status": "completed",
+  "private_review": {
+    "path": ".git/full-game-localization/order417-independent-review.json",
+    "sha256": "24e1758a353fd9fdb627975d09ef447df66f802eb33b648ffa0062841ef13143"
+  },
+  "unit_evidence": {
+    "도달 경로": "REACTION_BODY_FONT_OK cases=131 historical_cases=0; normal12 PASS + repaired queue PASS",
+    "생산자 ↔ 독자": "main_game_locale_history ↔ ui_translation_append/current consumers",
+    "바꾸는 상태": "Exact Main successor admitted; 12stages/72objects/10predecessors/12manifests; no content change",
+    "포기 시 잃는 것": "Current translation receipt/source consumers",
+    "서사 위치": "N/A: QA source proof",
+    "장면 계층": "N/A: infrastructure",
+    "닫는 것": "ORDER-417 work_unit only; full-game/new-package HOLD"
+  }
+}
+

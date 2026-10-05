@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-437",
+  "decision_scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "cb648d9f799890a5c1377b6eefa9063abc7af7ab",
+    "tree": "4687d2512dc64fe7d6db5cbe14a5df20785207fe",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "verdict": "GO",
+  "scope": "홀덤 라운드별 행동 완료, BB 선택 기회, fold/stack0 제외와 lone-actionable 미납·runout 경계의 선언된 수리만 GO. 본편·공개 패키지·일반 비동기 입력 안전성 GO가 아니다.",
+  "method": {
+    "independence": "제품·지원도구·runtime/normal helper 비저자. 사양과 실제 소비 소스, 전체 변경 본문 및 새 helper, 실제 관측·정상검사 원문을 읽었다. 엔진·감사·focused·oracle를 독립 재실행하지 않았다.",
+    "visual": "원본 ko/ko-flop.png와 ko/ko-turn.png 두 장을 직접 열었다. 금색 체크 선택, 실제 3장/4장 보드, 대기 메시지 및 행동 버튼을 확인했다.",
+    "preservation_assistance": "보조 /root/independent392/ab_readonly428은 이 단위의 완료 runtime/normal artifact와 맵을 읽기 전용 재해시했다. 의미·소스·상태·화면·11행 stdout/stderr의 독립 판정은 본 검수자가 수행했다. 보조의 테스트/import/파일 쓰기 0, 해시 불일치 0.",
+    "skill": "gangnamdream-dev의 정본·범위·표적 QA 및 플레이어 소유 데이터 보존 절차를 적용했다. 이 보고 외 파일 변경 0."
+  },
+  "source_review": {
+    "declaration": "8b47d6d6dfcffec9ade6fc5619a4358b9cc69462",
+    "product_commit": "f42861efaaa2f8a219bb7883925766e4ee0e9ce0",
+    "product_tree": "3848689148de0e84d967904e8bafb78c69cf2b55",
+    "holdem_before_sha256": "892e70e06b2c8ba584d1b37c661308c9aec0463c4674288f21279e8fc75c6bba",
+    "holdem_after_sha256": "4a8ae2c046e59ab4c2425bbb2270a552c73fbc76398c75079d45179f8748114f",
+    "result": "제품 단독 직접 전이는 HoldemClub.gd만 바꿨다. 기존 13줄을 10개 구간에서 교체하고 EOF 26줄을 추가했다. typed pending 좌석을 시작/새 라운드마다 재설정하고 실제 행동 후 제거하며 최고 베팅 상승 시 응답을 다시 연다. 금액 일치 검사 앞에 행동 완료 조건을 추가하고 fold/stack0를 차례에서 제외했다. AI 전략·블라인드·승패/경제/AP·원문은 변경하지 않았다. 전체 61 UiCall tuple의 좌표까지 동일하다.",
+    "support": "history EOF 160줄과 append EOF 24줄, 새 focused 및 lane을 전수 읽었다. 실제 3전이×6 Git 객체 요청 기록과 전체 raw 역상, 기존 prefix, 18개 실제 manifest 조합 및 153개 phantom 조합 거부 경계를 확인했다. focused의 Git fault는 실제 확보 응답 재생/변조이며 독립적으로 다시 서명한 Git 객체 실험으로 주장하지 않는다.",
+    "preflight_fix": "독립 검수에서 첫 overlay 진입 전 idle AP-commit tween/children 확인 누락을 지적했고 저자가 기존 idle guard를 추가했다. 최종 실제 실행 전 SHA 대조 완료. timeout 후 후속 fixture 중단 및 raw-key 직전 pressed observer도 확인했다.",
+    "changed_paths": [
+      "scenes/HoldemClub.gd",
+      "tools/holdem_money_history.py",
+      "tools/ui_translation_append.py",
+      "tools/holdem_betting_receipt_check.py",
+      "tools/audit_scope.json",
+      "docs/WORK_LOG.md",
+      "docs/STATUS.md"
+    ]
+  },
+  "runtime_review": {
+    "result": "PASS",
+    "execution": "root 최초 1회, KO 격리 프로세스 1개, 28.451초. exit0, parse/timeout/오류/복원 오류 0. 언어를 new_game/Main 전에 설정한 pre-autoload 격리 기록과 실제 플레이어 34파일 보존을 확인했다.",
+    "population": "실제 첫패 1, raw keyboard edge 10/tap 5, table action 3(Call·Check·별도 prepared owed Call), PNG 2. prepared bookkeeping 1그룹의 7 query와 prepared runout 3그룹은 자연 첫패 흐름과 분리한다. 총 5그룹의 전체 typed 상태가 각각 원상 복원됐다.",
+    "actual_flow": "임시 TH/RNG 탐색이 seed6만 준비했다. 실제 Enter→Call 이후 AI0 call 및 BB check가 pending [2]→[]/action_idx2→3 trace로 관측됐다. FLOP board3/deck43과 TURN board4/deck42에서 pending [0,1,2], pot30000, 각 stack90000, Check cursor1, waiting=true/complete=false였다. 각 화면은 추가 75프레임 동안 상태가 그대로였다. 6버튼×2 및 대기 메시지×2의 실제 font/full-fit/bounds가 통과했다.",
+    "prepared_boundaries": "블라인드 미행동·BB 미행동·전원 행동완료·raise 재응답·fold 제외/다른 좌석 미납·all-in 제외/lone matched·lone owed의 7개 실제 bookkeeping/query 결과를 읽었다. query 전후 typed 불변이다. all_in/one_owed/one_matched는 준비한 합법 52장 분할에서 실제 process/runout/showdown으로 진행했고 owed만 실제 Enter Call을 받았다.",
+    "effects_and_restoration": "3 runout 모두 AI0가 승리했다. board5/deck41, AI0 stack30000, 플레이어 stack0/85000/90000, history1·session_lost1·net_session -30000과 addiction20→22가 각각 기대와 일치했다. 승리 때 gambling+3 분기는 코드 기대에는 있으나 이번 실제 실행에는 관측되지 않았다. 현금/AP/closed/log/trade/finalization 신호 0은 showdown 부작용 0을 뜻하지 않는다. RESULT/Leave/현금 정산은 실행하지 않았다. pending의 Array[int] 타입·순서, RNG, flash, UI visibility/metadata/sibling/focus, Meta·namespace 파일 및 hidden stat까지 복원됐다. 입력에 따른 controller 원본 차이는 남기고 효과 비교에서만 분리했으며 최종 복원은 전체 typed exact였다.",
+    "visual_result": "두 실제 PNG에서 안정된 체크 선택·대기를 확인했으며 표적 버튼/메시지 잘림이나 누락을 발견하지 않았다. 크림 카드 위 검정 계열 숫자/문양의 낮은 대비는 여전히 보인다."
+  },
+  "normal_review": {
+    "result": "PASS",
+    "wall_seconds": 382.54,
+    "population": "동일 clean 후보에서 신규 10검증+차선조회1, 총 11행 원문을 전수 읽었다. 전부 exit0/stderr빈. receipt378.446초·fullbody381.501초·focused13.791초이며 새 focused는 실제 50 cases/historical_cases=0이다.",
+    "scope_limits": "receipt accepted41656/b209 유지. fullbody는 SOURCE_INVENTORY_ONLY/runtime_claim0/native_quality_claim0. JA UI beta, ZH skeleton/shipping0이며 미번역 잔여가 있다. 등록176. lane 목록9는 조회이지 추가 실행이 아니다. Chapter1·story graph·Chapter5·Year5 4종은 434 원본 참조이고 현재 후보에서는 NOT_RUN이다. 과거 focused·전체감사·240주·성능 A/B를 재실행하지 않았다.",
+    "preservation": "before=after=entry.before, 00~10 원본행=aggregate=entry 명령을 대조했다. tracked3052/prior3458/current4/runtime135/player34 및 artifacts13 경로·bytes·SHA 일치, preservation_error null."
+  },
+  "evidence": {
+    "runtime_result": {"path": ".git/full-game-localization/order437-screen-first/result.json", "sha256": "ba6a8177e2171a9b768bda97e451ed24b240f9bfea9007110ee894bfb73a5c04"},
+    "runtime_entry": {"path": ".git/full-game-localization/order437-screen-first/entry.json", "sha256": "bca2790111c266269c92eae2a710b4ec5c7ebda61b95f72c0c5113df6f0f130f"},
+    "observations": {"path": ".git/full-game-localization/order437-screen-first/ko/order437-observations.json", "sha256": "0fb788c7e7a80453cf7612a9130ff3e9949298c493f9c8d5adbfe8a14805af68"},
+    "oracle": {"path": ".git/full-game-localization/order437-screen-first/ko/oracle.json", "sha256": "61a1b056688b78ff355947927bb45f92154a9b7702f89e733a4565426c3a455d"},
+    "flop_png": {"path": ".git/full-game-localization/order437-screen-first/ko/ko-flop.png", "sha256": "d3fac3f22667e0bf24e0d9e571631616540d8d96bc2a8604578bef1eca73a264"},
+    "turn_png": {"path": ".git/full-game-localization/order437-screen-first/ko/ko-turn.png", "sha256": "a5a9142c083f0e8f50127cd95f3a9808030085daecf68c1c04d5161e503794e0"},
+    "normal_result": {"path": ".git/full-game-localization/order437-static-final/result.json", "sha256": "5d5295b28f5b1e2242174aad2a973695f9bf170fc8ce92354309266b61c35ea7"},
+    "normal_entry": {"path": ".git/full-game-localization/order437-static-final/entry.json", "sha256": "9b48ebad6443a78f62236fd534c4b100fbb4d0a407d009fdfad34c8513c8741c"},
+    "focused_row": {"path": ".git/full-game-localization/order437-static-final/10.json", "sha256": "4f0503521798b82490ec1b70393f69438c48eb2cea601667af9ef37e8149c2ec"},
+    "normal_runner": {"path": ".git/full-game-localization/order437-static-run.py", "sha256": "91d0eac8d232f2f39e4372580ee65477574567a4b12916691cf42a41f8fb9b85"}
+  },
+  "preservation": {
+    "runtime": "원본 before=after tracked3052/helper124/current4/player34. artifact134개(전체 폴더135파일) 현재 bytes·SHA 일치. preserved_prior2833은 flat2820+중첩13이며 중첩 참조808=직접맵3의170+files wrapper10의638이다. 과거434 실패·435/436 성공 및 원문 보고를 보존한 것이지 재실행 또는 새 품질 승격이 아니다.",
+    "historical_records": "선언 baseline 대비 기존 agent 결정197건 전체 파일과 기존 보고175파일에 변경 없음. 인간 원장 불변. locale JA3044/CN1733/TW1733 및 accepted41656/b209에 신규 수용 0.",
+    "agent_ledger_sha256": "1ad1c6ecdeea5418f87f3065544b657ae6e034932d2ba23ae4da087852194cf6",
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "localization_ledger_sha256": "494338baaa82debfac61e837c026870215b4ffe1f62d802a57a66144823ab7ea",
+    "ja_sha256": "3c1c9c6c4a566e2b2d5cebb9fabe2f6525f95eb431c212b66c90296b09401f51"
+  },
+  "remaining_risks": [
+    "실제 trace의 9061→9669ms 및 12949→13555ms에서 마지막 AI 행동 후 action_idx3/pending[]인데 waiting=true인 약0.6초가 보인다. 기존 modulo waiting 판정과 AI timer 소스로 연속 입력 재진입 위험을 확인했으나 그 구간의 추가 입력은 실행하지 않았다. 안정된 대기 수리 GO를 일반 비동기 입력 안전성 GO로 확대하지 않는다.",
+    "mid-action 퇴장/타이머 취소, 연속 입력, 반복 세션·장기 플레이, RIVER의 자연 플레이어 입력, 승리 성향 분기, side-pot·승패 산식의 포괄 정합성은 이번 관측 범위가 아니다.",
+    "낮은 카드 대비, 기존 직접 영어·미번역 후속 street/정산, 작은 10px 표시가 남아 있다. 논리 BGM 필드 복원은 음원 playhead나 전역 시각 RNG까지 복원했다는 뜻이 아니다.",
+    "prepared 상태와 seed를 사용한 일회성 KO 계약 증거이다. 자연 이야기 진입·실물 컨트롤러 감각·원어민 품질·인간 플레이테스트·전체 게임·새 패키지 GO로 승격하지 않는다."
+  ],
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "natural_ingress", "transient_window_input", "repeated_session", "whole_game_release", "new_package"],
+  "final_boundary": "ORDER-437 현재 source work-unit만 GO. 공개 GO1·인간 OPEN45·본편/새 패키지 HOLD 및 기존 역사 판정은 변경하지 않는다."
+}

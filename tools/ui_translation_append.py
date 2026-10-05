@@ -3,16 +3,17 @@
 
 The caller owns and verifies the historical base. This module admits actual
 current bytes; its inverse is an internal preservation proof, never a UI view.
-No private receipts, mutable success cache, or historical consumer are used.
+No private receipts, cached validation verdicts, or historical consumer are used.
 """
 from __future__ import annotations
 
 import hashlib
+import contextvars
 import re
 import subprocess
 from collections import Counter
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Mapping, NamedTuple
 
 import full_game_localization as exchange
 from order351_source_compat import _Document, _loads, _ordered
@@ -114,8 +115,8 @@ def validate_append(before: Mapping[str, bytes], after: Mapping[str, bytes],
             "exact three- or four-path snapshot required")
     locales = CURRENT_LOCALES if set(before) == set(CURRENT_PATHS) else LOCALES
     ui_paths = tuple(f"locale/ui_{locale}.json" for locale in locales)
-    old = {path: _Document(before[path]).value for path in before}
-    new = {path: _Document(after[path]).value for path in after}
+    old = {path: _loads(before[path]) for path in before}
+    new = {path: _loads(after[path]) for path in after}
     additions = {}
     for locale, path in zip(locales, ui_paths):
         a, b = old[path], new[path]
@@ -358,30 +359,38 @@ def _correction_comparison(snapshot: Mapping[str, bytes], before: Mapping[str, b
         require(doc.text[start:end] == b.text[bs:be], "corrected UI token formatting changed: " + locale)
         first, last = a.spans[(CORRECTION_KEY,)]
         result[path] = (doc.text[:start] + a.text[first:last] + doc.text[end:]).encode()
-    a, b = _Document(before[LEDGER_PATH]), _Document(after[LEDGER_PATH])
-    doc = b if snapshot[LEDGER_PATH] == after[LEDGER_PATH] else _Document(snapshot[LEDGER_PATH])
+    fixed = _fixed_ledger_projection("correction", before, after)
+    if fixed is None:
+        a, b = _Document(before[LEDGER_PATH]), _Document(after[LEDGER_PATH])
+        doc = b if snapshot[LEDGER_PATH] == after[LEDGER_PATH] else _Document(snapshot[LEDGER_PATH])
+    else:
+        doc = _Document(snapshot[LEDGER_PATH])
     value = doc.value
     require(value["accepted_sha256"] == exchange.digest(value["accepted"]), "corrected accepted checksum")
     require(len(value["batches"]) >= 149
-            and _ordered(value["batches"][148]) == _ordered(b.value["batches"][148]),
+            and _ordered(value["batches"][148]) == (fixed.batch_ordered if fixed else _ordered(b.value["batches"][148])),
             "correction batch missing/changed/reordered")
     start, end = doc.spans[("batches", 147)][1], doc.spans[("batches", 148)][1]
-    bs, be = b.spans[("batches", 147)][1], b.spans[("batches", 148)][1]
-    require(doc.text[start:end] == b.text[bs:be], "correction batch raw formatting changed")
+    if fixed is None:
+        bs, be = b.spans[("batches", 147)][1], b.spans[("batches", 148)][1]
+    require(doc.text[start:end] == (fixed.batch_raw if fixed else b.text[bs:be]), "correction batch raw formatting changed")
     replacements = [(start, end, "")]
     restored_accepted = dict(value["accepted"])
     for locale in LOCALES:
-        require(_ordered(value["accepted"][locale][receipt]) == _ordered(b.value["accepted"][locale][receipt]),
+        row = fixed.receipts[LOCALES.index(locale)] if fixed else None
+        require(_ordered(value["accepted"][locale][receipt]) == (row.after_ordered if row else _ordered(b.value["accepted"][locale][receipt])),
                 "corrected source/target receipt changed: " + locale)
         path = ("accepted", locale, receipt, "target_sha256")
         start, end = doc.spans[path]
-        bs, be = b.spans[path]
-        require(doc.text[start:end] == b.text[bs:be], "corrected receipt token formatting changed: " + locale)
-        first, last = a.spans[path]
-        replacements.append((start, end, a.text[first:last]))
+        if row is None:
+            bs, be = b.spans[path]
+        require(doc.text[start:end] == (row.after_target_raw if row else b.text[bs:be]), "corrected receipt token formatting changed: " + locale)
+        if row is None:
+            first, last = a.spans[path]
+        replacements.append((start, end, row.before_target_raw if row else a.text[first:last]))
         restored_accepted[locale] = {**value["accepted"][locale], receipt: {
             **value["accepted"][locale][receipt],
-            "target_sha256": a.value["accepted"][locale][receipt]["target_sha256"]}}
+            "target_sha256": row.before_target if row else a.value["accepted"][locale][receipt]["target_sha256"]}}
     start, end = doc.spans[("accepted_sha256",)]
     replacements.append((start, end, _ordered(exchange.digest(restored_accepted)).decode()))
     text = doc.text
@@ -656,27 +665,35 @@ def _fee_comparison(snapshot: Mapping[str, bytes], before: Mapping[str, bytes],
         require(doc.text[start:end] == b.text[bs:be], "corrected fee raw token changed")
         first, last = a.spans[(FEE_KEY,)]
         result[path] = (doc.text[:start] + a.text[first:last] + doc.text[end:]).encode()
-    a, b = _Document(before[LEDGER_PATH]), _Document(after[LEDGER_PATH])
-    doc = b if snapshot[LEDGER_PATH] == after[LEDGER_PATH] else _Document(snapshot[LEDGER_PATH])
+    fixed = _fixed_ledger_projection("fee", before, after)
+    if fixed is None:
+        a, b = _Document(before[LEDGER_PATH]), _Document(after[LEDGER_PATH])
+        doc = b if snapshot[LEDGER_PATH] == after[LEDGER_PATH] else _Document(snapshot[LEDGER_PATH])
+    else:
+        doc = _Document(snapshot[LEDGER_PATH])
     value = doc.value
     require(value["accepted_sha256"] == exchange.digest(value["accepted"]), "corrected fee accepted checksum")
-    require(len(value["batches"]) >= 152 and _ordered(value["batches"][151]) == _ordered(b.value["batches"][151]),
+    require(len(value["batches"]) >= 152 and _ordered(value["batches"][151]) == (fixed.batch_ordered if fixed else _ordered(b.value["batches"][151])),
             "fee correction batch missing/changed/reordered")
     start, end = doc.spans[("batches", 150)][1], doc.spans[("batches", 151)][1]
-    bs, be = b.spans[("batches", 150)][1], b.spans[("batches", 151)][1]
-    require(doc.text[start:end] == b.text[bs:be], "fee correction batch raw changed")
+    if fixed is None:
+        bs, be = b.spans[("batches", 150)][1], b.spans[("batches", 151)][1]
+    require(doc.text[start:end] == (fixed.batch_raw if fixed else b.text[bs:be]), "fee correction batch raw changed")
     edits = [(start, end, "")]
     accepted = dict(value["accepted"])
     for locale in LOCALES:
-        require(_ordered(value["accepted"][locale][receipt]) == _ordered(b.value["accepted"][locale][receipt]),
+        row = fixed.receipts[LOCALES.index(locale)] if fixed else None
+        require(_ordered(value["accepted"][locale][receipt]) == (row.after_ordered if row else _ordered(b.value["accepted"][locale][receipt])),
                 "corrected fee receipt changed: " + locale)
         field = ("accepted", locale, receipt, "target_sha256")
         start, end = doc.spans[field]
-        bs, be = b.spans[field]
-        require(doc.text[start:end] == b.text[bs:be], "corrected fee receipt raw token changed")
-        first, last = a.spans[field]
-        edits.append((start, end, a.text[first:last]))
-        accepted[locale] = {**value["accepted"][locale], receipt: a.value["accepted"][locale][receipt]}
+        if row is None:
+            bs, be = b.spans[field]
+        require(doc.text[start:end] == (row.after_target_raw if row else b.text[bs:be]), "corrected fee receipt raw token changed")
+        if row is None:
+            first, last = a.spans[field]
+        edits.append((start, end, row.before_target_raw if row else a.text[first:last]))
+        accepted[locale] = {**value["accepted"][locale], receipt: _loads(row.before_ordered) if row else a.value["accepted"][locale][receipt]}
     start, end = doc.spans[("accepted_sha256",)]
     edits.append((start, end, _ordered(exchange.digest(accepted)).decode()))
     text = doc.text
@@ -800,13 +817,12 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
     exact = {CORRECTION_AFTER_COMMIT: (_correction_proof, _correction_comparison),
              FEE_AFTER_COMMIT: (_fee_correction_proof, _fee_comparison)}
     corrections, transitions, manifests, totals = [], [], {}, Counter()
+    residual_pending = None  # Exact ORDER-451 two-commit delivery only.
     split_receipts = _SplitReceiptHistory(root, inventory)
-    def comparison(snapshot):
-        for function, before, after in reversed(corrections):
-            snapshot = function(snapshot, before, after)
-        return snapshot
+    comparison = _comparison_memo(paths, corrections)
     previous = dict(baseline)
     for commit in commits:
+        require(residual_pending is None or commit == LEGACY_RESIDUAL_AFTER_COMMIT, "legacy JA residual delivery interrupted")
         raw = _objects(root, [(commit, commit, "commit")])[0]
         parents = [h[7:].decode() for h in raw.split(b"\n\n", 1)[0].splitlines() if h.startswith(b"parent ")]
         require(bool(parents) and parents[0] in lineage and _snapshot(root, parents[0], paths) == previous,
@@ -815,12 +831,42 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
         change = split_receipts.step(commit, previous, successor)
         if change is not None:
             pass
+        elif commit == LEGACY_GIFT_AFTER_COMMIT:
+            before, after, change = _legacy_ja_gift_proof(root, inventory)
+            require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
+                    "legacy JA gift lineage or protected locale differs")
+            corrections.append((_legacy_ja_gift_comparison, before, after))
+        elif commit == LEGACY_RANK_AFTER_COMMIT:
+            before, after, change = _legacy_ja_rank_proof(root, inventory)
+            require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
+                    "legacy JA rank lineage or protected locale differs")
+            corrections.append((_legacy_ja_rank_comparison, before, after))
+        elif commit == LEGACY_RESIDUAL_INTERMEDIATE_COMMIT:
+            before, after, change = _legacy_ja_residual_proof(root, inventory)
+            middle = _snapshot(root, LEGACY_RESIDUAL_INTERMEDIATE_COMMIT, CURRENT_PATHS)
+            require(residual_pending is None and set(paths) == set(CURRENT_PATHS)
+                    and previous == before and successor == middle,
+                    "legacy JA residual intermediate lineage differs")
+            residual_pending = (before, middle, after, change)
+            change = {"ui_by_locale": {loc: 0 for loc in CURRENT_LOCALES}, "receipts": 0, "batches": 0, "source_manifests": {}}
+        elif commit == LEGACY_RESIDUAL_AFTER_COMMIT:
+            require(residual_pending is not None, "legacy JA residual final lacks its exact intermediate")
+            before, middle, after, change = residual_pending
+            require(parents == [LEGACY_RESIDUAL_INTERMEDIATE_COMMIT] and previous == middle and successor == after,
+                    "legacy JA residual lineage or protected locale differs")
+            corrections.append((_legacy_ja_residual_comparison, before, after))
+            residual_pending = None
+        elif commit == _coffee_history.COFFEE_AFTER_COMMIT:
+            before, after, change = _coffee_history.coffee_encounter_proof(root, inventory)
+            require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
+                    "coffee encounter lineage or protected locale differs")
+            corrections.append((_coffee_history.coffee_encounter_comparison, before, after))
         elif commit in exact:
             proof, inverse = exact[commit]
             before, after, change = proof(root, inventory)
             require({p: previous[p] for p in PATHS} == before and {p: successor[p] for p in PATHS} == after
                     and all(previous[p] == successor[p] for p in paths if p not in PATHS), "fee lineage or protected JA differs")
-            corrections.append((inverse, before, after))
+            corrections.append((_bind_fixed_ledger_comparison(inverse, before, after), before, after))
         else:
             change = validate_append(comparison(previous), comparison(successor), inventory)
         for revision, expected in change["source_manifests"].items():
@@ -830,8 +876,9 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
                 manifests[revision] = _source_manifest(root, revision)
             require(manifests[revision] == expected, "receipt source manifest differs from actual Git census")
         transitions.append({"commit": commit, **change})
-        totals.update({k: change.get(k, 0) for k in ("receipts", "batches", "corrections", "correction_batches")})
+        totals.update({k: change.get(k, 0) for k in ("receipts", "batches", "corrections", "correction_batches", "first_receipts")})
         previous = successor
+    require(residual_pending is None, "legacy JA residual intermediate cannot be a final candidate")
     split_receipts.finish()
     require(previous == candidate and FEE_AFTER_COMMIT in commits, "fee history does not reconstruct current candidate")
     combined = validate_append(baseline, comparison(candidate), inventory)
@@ -839,7 +886,9 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
     require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head, "Git candidate changed during validation")
     return {"head": head, "transitions": transitions, **combined, "append_batches": combined["batches"],
             "batches": combined["batches"] + totals["correction_batches"],
-            "corrections": totals["corrections"], "correction_batches": totals["correction_batches"]}
+            "corrections": totals["corrections"], "correction_batches": totals["correction_batches"],
+            "append_receipts": combined["receipts"], "first_receipts": totals["first_receipts"],
+            "receipts": combined["receipts"] + totals["first_receipts"]}
 
 
 # Exact386 adds a comparison for official headers exported after382/before386.
@@ -1111,3 +1160,1486 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
         return True
     return _PEOPLE_CARD_OLD_MANIFEST_MATCHES(root, inventory, expected)
 # END_PEOPLE_CARD_HEIGHT_MANIFEST_402
+
+
+# BEGIN_AXIS_BADGE_FIT_MANIFEST_403
+# One fresh proof per comparison call; no cross-call or mutable success cache.
+_AXIS_BADGE_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _AXIS_BADGE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    predecessors = history._axis_badge_fit_proof(raw, root)
+    require(isinstance(predecessors, tuple) and len(predecessors) == 6,
+            "axis badge exact predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "axis badge current source census/raw mismatch")
+    # Exact seven current-Aruba combinations: actual + pre403 + old five.
+    # The failed402 intermediate raw is deliberately absent.
+    for main_raw in (raw, *predecessors):
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    # Preserve the old chain's only eighth combination and its short circuit:
+    # pre381 MainGame with preAruba, proved freshly only after the above misses.
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "Aruba source census not bound to current raw")
+    previous_font = aruba_font_predecessor(root, font_raw)
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(predecessors[-1]).hexdigest(),
+                  ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
+    return expected == exchange.digest(comparison)
+# END_AXIS_BADGE_FIT_MANIFEST_403
+
+
+# BEGIN_PROMOTION_REVIEW_MANIFEST_406
+_PROMOTION_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _PROMOTION_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    predecessors = history._promotion_review_copy_proof(raw, root)
+    require(isinstance(predecessors, tuple) and len(predecessors) == 7,
+            "promotion review exact predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "promotion review current source census/raw mismatch")
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "Aruba source census not bound to current raw")
+    # Exactly eight current-Aruba views; failed402 remains excluded.
+    for main_raw in (raw, *predecessors):
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    previous_font = aruba_font_predecessor(root, font_raw)
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(predecessors[-1]).hexdigest(),
+                  ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
+    return expected == exchange.digest(comparison)
+# END_PROMOTION_REVIEW_MANIFEST_406
+
+
+# BEGIN_CAREER_TENURE_MANIFEST_409
+_TENURE_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _TENURE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    predecessors = history._career_tenure_proof(raw, root)
+    require(isinstance(predecessors, tuple) and len(predecessors) == 8,
+            "career tenure exact predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "career tenure current source census/raw mismatch")
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "Aruba source census not bound to current raw")
+    # The original nine manifests plus this current raw; failed402 stays excluded.
+    for main_raw in (raw, *predecessors):
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    previous_font = aruba_font_predecessor(root, font_raw)
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(predecessors[-1]).hexdigest(),
+                  ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
+    return expected == exchange.digest(comparison)
+# END_CAREER_TENURE_MANIFEST_409
+
+
+# BEGIN_GIFT_PRICE_BADGE_MANIFEST_412
+_GIFT_PRICE_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _GIFT_PRICE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    predecessors = history._gift_price_badge_proof(raw, root)
+    require(isinstance(predecessors, tuple) and len(predecessors) == 9,
+            "gift price badge exact predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "gift price badge current source census/raw mismatch")
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "Aruba source census not bound to current raw")
+    # The original ten manifests plus this current raw; failed402 stays excluded.
+    for main_raw in (raw, *predecessors):
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    previous_font = aruba_font_predecessor(root, font_raw)
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(predecessors[-1]).hexdigest(),
+                  ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
+    return expected == exchange.digest(comparison)
+# END_GIFT_PRICE_BADGE_MANIFEST_412
+
+
+# BEGIN_LEGACY_JA_GIFT_CORRECTION_414
+# These two legacy values had no official receipts. This is not an append waiver.
+LEGACY_GIFT_PATH = "locale/ui_ja.json"
+LEGACY_GIFT_PRODUCT_PATHS = (LEGACY_GIFT_PATH, LEDGER_PATH)
+LEGACY_GIFT_KEYS = ("밑줄 그을 자리가 많은 책", "값이 먼저 보이는 선물")
+LEGACY_GIFT_TEXTS = {
+    LEGACY_GIFT_KEYS[0]: ("下線が引かれすぎた本", "線を引きたい箇所がたくさんある本"),
+    LEGACY_GIFT_KEYS[1]: ("価値が先に見える贈り物", "値段が先に目に入る贈り物"),
+}
+LEGACY_GIFT_ORIGIN_COMMIT = "aaeba142d08278c310505000bcc126a699493479"
+LEGACY_GIFT_ORIGIN_BLOB = "53e3610ead0fdcaae7c7c4b787b27f9fdcb4fc67"
+LEGACY_GIFT_ORIGIN_SHA256 = "550378458bee465a4d89a0be9ba6e2d18029fd8fbbeb8982b3c99a961708b0fc"
+LEGACY_GIFT_BEFORE_COMMIT = "04da1afdf956cad72ffb6641871d4bafa420e82d"
+LEGACY_GIFT_AFTER_COMMIT = "88cf816dfa5f2430ae0f4bde574ba90f23e1956f"
+LEGACY_GIFT_TREES = ("500f75061182268e0b4725060b920f6b2c7a0f6f", "d9da30a8b96db6f64566acba6f37b1e82496b7ef")
+LEGACY_GIFT_BLOBS = {
+    LEGACY_GIFT_PATH: ("b8ffd3fdcdd3fb0d8d45fccb3d461372886d9732", "750f9692b662082d93214318c743d3eccd102249"),
+    "locale/ui_zh-CN.json": ("f22e96aab6131f05f1f4707fd5703671dcc67ede",) * 2,
+    "locale/ui_zh-TW.json": ("5f80fc39b38e2f599d8b1fad4253773b808a001a",) * 2,
+    LEDGER_PATH: ("70efc0392c6ca52de156b1774b77de0f6df5733f", "d2cf934e9b905a25729b25bff151aa3afd313e3f"),
+}
+LEGACY_GIFT_HASHES = {
+    LEGACY_GIFT_PATH: ("3c258973361f5438c1c06aeedcfd686b2aedbc910eca8909032908cc1ad50f14", "3c1c9c6c4a566e2b2d5cebb9fabe2f6525f95eb431c212b66c90296b09401f51"),
+    "locale/ui_zh-CN.json": ("7b695b4cee8607d2800d0cc5782e33e2b6cb0f03353b4b65b703f8f63005fddb",) * 2,
+    "locale/ui_zh-TW.json": ("bbe8eeecb6474b3af757b54915d79a80c7dde5f8729b6beb955737c6722ba318",) * 2,
+    LEDGER_PATH: ("2eb983a3973f4e264f008381acd60af5ab030bedab4971ec96a241dff67af715", "4eb354b671126237ff07a1e9724c7cbebde91d1f5be6bfa854e2aaad6e51f484"),
+}
+LEGACY_GIFT_BATCH_INDEX = 184
+LEGACY_GIFT_REVIEW = (
+    "Korean-direct repair of two legacy Japanese gift descriptions: prospective underline-worthy passages, "
+    "not an already overmarked book; price comes into view first, not abstract value. Two existing values "
+    "corrected, zero new UI keys, two first official receipts. Gameplay, other locales and public demo "
+    "unchanged; agent review is not native or release approval.")
+
+
+def _legacy_ja_gift_comparison(snapshot: Mapping[str, bytes], before: Mapping[str, bytes],
+                               after: Mapping[str, bytes]) -> dict[str, bytes]:
+    """Undo only the proved targets/first receipts/batch; retain later appends."""
+    require(set(snapshot) == set(before) == set(after) == set(CURRENT_PATHS),
+            "legacy JA gift comparison requires four paths")
+    result = dict(snapshot)
+    a, b, doc = (_Document(raw) for raw in (before[LEGACY_GIFT_PATH], after[LEGACY_GIFT_PATH], snapshot[LEGACY_GIFT_PATH]))
+    edits = []
+    for key in LEGACY_GIFT_KEYS:
+        require(doc.value.get(key) == LEGACY_GIFT_TEXTS[key][1], "legacy JA gift corrected target rolled back/changed")
+        start, end = doc.spans[(key,)]
+        bs, be = b.spans[(key,)]
+        require(doc.text[start:end] == b.text[bs:be], "legacy JA gift corrected target raw token changed")
+        first, last = a.spans[(key,)]
+        edits.append((start, end, a.text[first:last]))
+    text = doc.text
+    for start, end, replacement in sorted(edits, reverse=True):
+        text = text[:start] + replacement + text[end:]
+    result[LEGACY_GIFT_PATH] = text.encode()
+    a, b, doc = (_Document(raw) for raw in (before[LEDGER_PATH], after[LEDGER_PATH], snapshot[LEDGER_PATH]))
+    value = doc.value
+    require(value["accepted_sha256"] == exchange.digest(value["accepted"]), "legacy JA gift accepted checksum")
+    index = LEGACY_GIFT_BATCH_INDEX
+    require(len(value["batches"]) > index and _ordered(value["batches"][index]) == _ordered(b.value["batches"][index]),
+            "legacy JA gift batch missing/changed/reordered")
+    start, end = doc.spans[("batches", index - 1)][1], doc.spans[("batches", index)][1]
+    bs, be = b.spans[("batches", index - 1)][1], b.spans[("batches", index)][1]
+    require(doc.text[start:end] == b.text[bs:be], "legacy JA gift batch raw changed")
+    edits = [(start, end, "")]
+    old_keys = list(a.value["accepted"]["ja"])
+    added = list(b.value["accepted"]["ja"])[len(old_keys):]
+    require(bool(old_keys) and added == sorted(receipt_id(key) for key in LEGACY_GIFT_KEYS)
+            and list(value["accepted"]["ja"])[len(old_keys):len(old_keys) + 2] == added,
+            "legacy JA gift first receipt order/population differs")
+    for identifier in added:
+        require(_ordered(value["accepted"]["ja"].get(identifier)) == _ordered(b.value["accepted"]["ja"][identifier]),
+                "legacy JA gift first receipt changed")
+    start, end = doc.spans[("accepted", "ja", old_keys[-1])][1], doc.spans[("accepted", "ja", added[-1])][1]
+    bs, be = b.spans[("accepted", "ja", old_keys[-1])][1], b.spans[("accepted", "ja", added[-1])][1]
+    require(doc.text[start:end] == b.text[bs:be], "legacy JA gift first receipt raw changed")
+    edits.append((start, end, ""))
+    accepted = {**value["accepted"], "ja": {k: v for k, v in value["accepted"]["ja"].items() if k not in added}}
+    start, end = doc.spans[("accepted_sha256",)]
+    edits.append((start, end, _ordered(exchange.digest(accepted)).decode()))
+    text = doc.text
+    for start, end, replacement in sorted(edits, reverse=True):
+        text = text[:start] + replacement + text[end:]
+    result[LEDGER_PATH] = text.encode()
+    return result
+
+
+def _validate_legacy_ja_gift_correction(before: Mapping[str, bytes], after: Mapping[str, bytes],
+                                        inventory: dict[str, Any]) -> dict[str, Any]:
+    require(set(before) == set(after) == set(CURRENT_PATHS), "legacy JA gift requires four paths")
+    old, new = ({p: _loads(raw) for p, raw in snapshot.items()} for snapshot in (before, after))
+    require(all(before[p] == after[p] for p in UI_PATHS), "legacy JA gift changed another locale")
+    require(_ordered(new[LEGACY_GIFT_PATH]) == _ordered({**old[LEGACY_GIFT_PATH],
+                **{key: texts[1] for key, texts in LEGACY_GIFT_TEXTS.items()}})
+            and all(old[LEGACY_GIFT_PATH].get(key) == texts[0] for key, texts in LEGACY_GIFT_TEXTS.items()),
+            "legacy JA gift exact old/new targets differ")
+    a, b = old[LEDGER_PATH], new[LEDGER_PATH]
+    require(len(a["batches"]) == LEGACY_GIFT_BATCH_INDEX and len(b["batches"]) == LEGACY_GIFT_BATCH_INDEX + 1
+            and sum(map(len, a["accepted"].values())) == 41250
+            and sum(map(len, b["accepted"].values())) == 41252, "legacy JA gift first receipt/batch census differs")
+    require(all(v["accepted_sha256"] == exchange.digest(v["accepted"]) for v in (a, b)),
+            "legacy JA gift accepted checksum mismatch")
+    leaves = sorted((exchange.Leaf("ui", key, "runtime:static_ui", (key,), key, "ui_static_context")
+                     for key in LEGACY_GIFT_KEYS), key=lambda leaf: leaf.id)
+    ids = {leaf.id for leaf in leaves}
+    selected = sorted((leaf for leaf in inventory["leaves"] if leaf.id in ids), key=lambda leaf: leaf.id)
+    require(len(selected) == 2 and _ordered({leaf.id: vars(leaf) for leaf in selected})
+            == _ordered({leaf.id: vars(leaf) for leaf in leaves}), "legacy JA gift current Korean leaf/protection/support differs")
+    require(not ids.intersection(a["accepted"]["ja"])
+            and not any(ids.intersection(receipt_id(key) for key in row.get("roots", []))
+                        and row.get("target_leaves_by_locale", {}).get("ja", 0) for row in a["batches"]),
+            "legacy JA gift falsely claims absent prior acceptance")
+    corrected = {leaf.id: {"source_sha256": leaf.source_sha256,
+                           "target_sha256": exchange.digest(LEGACY_GIFT_TEXTS[leaf.owner][1])}
+                 for leaf in sorted(leaves, key=lambda row: row.id)}
+    previous = {leaf.id: exchange.digest(LEGACY_GIFT_TEXTS[leaf.owner][0]) for leaf in leaves}
+    for leaf in leaves:
+        require(not exchange.translation_errors(leaf, "ja", LEGACY_GIFT_TEXTS[leaf.owner][1]),
+                "legacy JA gift translation contract failed")
+    batch = b["batches"][LEGACY_GIFT_BATCH_INDEX]
+    expected = {"order": "ORDER-414", "group": "ui_correction", "roots": list(LEGACY_GIFT_KEYS), "source_leaves": 2,
+                "legacy_origin_commit": LEGACY_GIFT_ORIGIN_COMMIT, "prior_acceptance": "absent",
+                "before_target_sha256_by_locale": {"ja": previous},
+                "target_leaves_by_locale": {"ja": 2, "zh-CN": 0, "zh-TW": 0},
+                "source_review": LEGACY_GIFT_REVIEW, "machine_validation": "PASS", "rendered_review": "OPEN", "native_review": "OPEN"}
+    maps = (HEADERS_FIELD, "receipt_sha256_by_locale")
+    require(isinstance(batch, dict) and set(batch) == set(expected) | set(maps)
+            and all(_ordered(batch[k]) == _ordered(v) for k, v in expected.items())
+            and all(isinstance(batch[k], dict) and set(batch[k]) == {"ja"} for k in maps),
+            "legacy JA gift batch identity/population differs")
+    header = batch[HEADERS_FIELD]["ja"]
+    require(header.get("source_revision") == LEGACY_GIFT_BEFORE_COMMIT
+            and re.fullmatch(r"[0-9a-f]{64}", str(header.get("source_manifest_sha256", ""))),
+            "legacy JA gift export revision/manifest malformed")
+    rebuilt = exchange.make_batch({**inventory, "source_manifest_sha256": header["source_manifest_sha256"]},
+                                  "ja", sorted(selected, key=lambda leaf: leaf.id), LEGACY_GIFT_BEFORE_COMMIT,
+                                  {LEGACY_GIFT_PATH: old[LEGACY_GIFT_PATH]}, {})[0]
+    require(_ordered(header) == _ordered(rebuilt), "legacy JA gift official previous-target selection differs")
+    receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN", "translations": corrected}
+    require(batch["receipt_sha256_by_locale"]["ja"] == exchange.digest(receipt), "legacy JA gift official receipt digest differs")
+    accepted = {**a["accepted"], "ja": {**a["accepted"]["ja"], **corrected}}
+    require(_ordered(b) == _ordered({**a, "accepted": accepted, "accepted_sha256": exchange.digest(accepted),
+                                    "batches": [*a["batches"], batch]}), "legacy JA gift changed an old receipt/batch or ledger field")
+    require(_legacy_ja_gift_comparison(after, before, after) == before, "legacy JA gift whole raw inverse differs")
+    return {"ui_by_locale": {loc: 0 for loc in CURRENT_LOCALES}, "receipts": 0, "batches": 0,
+            "corrections": 2, "correction_batches": 1, "first_receipts": 2,
+            "source_manifests": {header["source_revision"]: header["source_manifest_sha256"]}}
+
+
+def _legacy_ja_gift_proof(root: Path, inventory: dict[str, Any]) -> tuple[dict, dict, dict]:
+    """Fresh exact product and legacy provenance; never a cached current admission."""
+    require(set(LEGACY_GIFT_BLOBS) == set(LEGACY_GIFT_HASHES) == set(CURRENT_PATHS), "legacy JA gift pin population differs")
+    revisions = (LEGACY_GIFT_BEFORE_COMMIT, LEGACY_GIFT_AFTER_COMMIT)
+    requests = [(c, c, "commit") for c in revisions] + [(t, t, "tree") for t in LEGACY_GIFT_TREES]
+    requests += [(c + ":" + p, LEGACY_GIFT_BLOBS[p][i], "blob") for p in CURRENT_PATHS for i, c in enumerate(revisions)]
+    requests.append((LEGACY_GIFT_ORIGIN_COMMIT + ":" + LEGACY_GIFT_PATH, LEGACY_GIFT_ORIGIN_BLOB, "blob"))
+    values = _objects(root, requests)
+    for index in range(2):
+        headers = values[index].split(b"\n\n", 1)[0].splitlines()
+        require([h for h in headers if h.startswith(b"tree ")] == [b"tree " + LEGACY_GIFT_TREES[index].encode()],
+                "legacy JA gift exact tree mismatch")
+        if index:
+            require([h for h in headers if h.startswith(b"parent ")] == [b"parent " + revisions[0].encode()],
+                    "legacy JA gift direct parent mismatch")
+    require(_git(root, "diff", "--name-status", "-z", *revisions).split(b"\0")
+            == [v for p in sorted(LEGACY_GIFT_PRODUCT_PATHS) for v in (b"M", p.encode())] + [b""],
+            "legacy JA gift product path population differs")
+    before, after = {}, {}
+    for index, path in enumerate(CURRENT_PATHS):
+        old, new = values[4 + index * 2:6 + index * 2]
+        require(tuple(hashlib.sha256(v).hexdigest() for v in (old, new)) == LEGACY_GIFT_HASHES[path],
+                "legacy JA gift immutable whole raw differs")
+        before[path], after[path] = old, new
+    origin = values[-1]
+    require(hashlib.sha256(origin).hexdigest() == LEGACY_GIFT_ORIGIN_SHA256
+            and all(_loads(origin).get(key) == texts[0] for key, texts in LEGACY_GIFT_TEXTS.items()),
+            "legacy JA gift original target provenance differs")
+    _git(root, "merge-base", "--is-ancestor", LEGACY_GIFT_ORIGIN_COMMIT, LEGACY_GIFT_BEFORE_COMMIT)
+    return before, after, _validate_legacy_ja_gift_correction(before, after, inventory)
+# END_LEGACY_JA_GIFT_CORRECTION_414
+
+
+# BEGIN_REACTION_BODY_FONT_MANIFEST_417
+_REACTION_FONT_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _REACTION_FONT_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    predecessors = history._reaction_body_font_proof(raw, root)
+    require(isinstance(predecessors, tuple) and len(predecessors) == 10,
+            "reaction body font exact predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "reaction body font current source census/raw mismatch")
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "Aruba source census not bound to current raw")
+    # The original eleven manifests plus this current raw; failed402 stays excluded.
+    for main_raw in (raw, *predecessors):
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    previous_font = aruba_font_predecessor(root, font_raw)
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(predecessors[-1]).hexdigest(),
+                  ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
+    return expected == exchange.digest(comparison)
+# END_REACTION_BODY_FONT_MANIFEST_417
+
+
+# BEGIN_DECISION_RISK_WIDTH_MANIFEST_423
+_DECISION_RISK_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _DECISION_RISK_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    predecessors = history._decision_risk_width_proof(raw, root)
+    require(isinstance(predecessors, tuple) and len(predecessors) == 11,
+            "decision risk width exact predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "decision risk width current source census/raw mismatch")
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "Aruba source census not bound to current raw")
+    # The original twelve manifests plus this current raw; failed402 stays excluded.
+    for main_raw in (raw, *predecessors):
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    previous_font = aruba_font_predecessor(root, font_raw)
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(predecessors[-1]).hexdigest(),
+                  ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
+    return expected == exchange.digest(comparison)
+# END_DECISION_RISK_WIDTH_MANIFEST_423
+
+# BEGIN_LOCAL_COMPARISON_MEMO
+def _comparison_memo(paths, corrections):
+    """Reuse one successful inverse inside a single validate_history invocation.
+
+    The private corrections list is append-only; its length is the epoch.
+    Exact path population and immutable raw bytes, not parsed values or verdicts,
+    identify a snapshot. New invocations still perform every Git/proof/HEAD check.
+    Copies isolate caller dictionaries, including the zero-correction case.
+    """
+    ordered_paths = tuple(sorted(paths))
+    require(len(ordered_paths) == len(set(ordered_paths)), "comparison path population")
+    population = set(ordered_paths)
+    cached_key = None
+    cached_result = None
+
+    def comparison(snapshot):
+        nonlocal cached_key, cached_result
+        raw = dict(snapshot)
+        require(set(raw) == population, "comparison snapshot population")
+        require(all(isinstance(raw[path], bytes) for path in ordered_paths),
+                "comparison snapshot must contain immutable bytes")
+        key = (len(corrections), tuple((path, raw[path]) for path in ordered_paths))
+        if key != cached_key:
+            result = raw
+            for function, before, after in reversed(corrections):
+                result = function(result, before, after)
+            # Do not cache a failed inverse or expose its mutable dictionary.
+            result = dict(result)
+            cached_key, cached_result = key, result
+        return dict(cached_result)
+
+    return comparison
+# END_LOCAL_COMPARISON_MEMO
+
+
+# BEGIN_SCALPING_PHASE_FOCUS_430
+# One exact product-only successor. Historical headers, MainGame/Aruba proofs,
+# corrections and append verification remain unchanged; this is comparison-only.
+SCALPING_PHASE_PATH = "scenes/ScalpingGame.gd"
+SCALPING_PHASE_BEFORE_COMMIT = "ce44987987376323bb0bfc7b9053435f55d92294"
+SCALPING_PHASE_AFTER_COMMIT = "3db5dc8862c10d41c652c1363f3e2dbf8c31e0d7"
+SCALPING_PHASE_TREES = ("53e05abc0b5a2b3707e8b92a97d3de748904111d", "2d05cd0dd599b06a8d7b479c06b9deb38fdf9494")
+SCALPING_PHASE_BLOBS = ("1205b9d63838cb126b6556a7ded05e6b2f96ef55", "5231d6057835579d9c4e9c982dc905023d421ab1")
+SCALPING_PHASE_HASHES = ("90fdad208a04acaec27c3d9904382ed891e3ea5647a6a1db4273be034617c65f",
+                         "cee55102af731f4357d77bfc57f95438f4cfbc9036f9877fab7777218a7398e0")
+SCALPING_PHASE_REPLACEMENTS = (
+    ("var _font_bold: Font\n", "var _font_bold: Font\nvar _phase_overlay: Control\n"),
+    ('\tvisible = true\n\tTutorialOverlay.maybe_show("scalping", self)\n',
+     '\tvisible = true\n\t_sync_phase_focus()\n\tTutorialOverlay.maybe_show("scalping", self)\n'),
+    ("\t\t_sell_btn.disabled = not _in_position\n", "\t\t_sell_btn.disabled = not _in_position\n\t_sync_phase_focus()\n"),
+    ('''func _clear_phase_overlay() -> void:
+\tvar overlay := get_node_or_null("setup_overlay")
+\tif is_instance_valid(overlay) and not overlay.is_queued_for_deletion():
+\t\toverlay.queue_free()
+
+func _show_setup() -> void:
+\t# 새 오버레이 패널로 설정 화면 표시
+\tif has_node("setup_overlay"):
+\t\tget_node("setup_overlay").queue_free()
+\tvar overlay := ColorRect.new()
+\toverlay.name = "setup_overlay"
+\toverlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+\toverlay.color = Color("#070a10ee")
+\toverlay.mouse_filter = Control.MOUSE_FILTER_STOP
+\tadd_child(overlay)
+''', '''func _clear_phase_overlay() -> void:
+\tvar overlay: Control = _phase_overlay
+\t_phase_overlay = null
+\tif is_instance_valid(overlay):
+\t\toverlay.hide()
+\t\t# Release the name and focus tree before a same-frame replacement is added.
+\t\tif overlay.get_parent() == self:
+\t\t\tremove_child(overlay)
+\t\toverlay.queue_free()
+
+func _show_setup() -> void:
+\t# 새 오버레이 패널로 설정 화면 표시
+\t_clear_phase_overlay()
+\tvar overlay := ColorRect.new()
+\toverlay.name = "setup_overlay"
+\toverlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+\toverlay.color = Color("#070a10ee")
+\toverlay.mouse_filter = Control.MOUSE_FILTER_STOP
+\tadd_child(overlay)
+\t_phase_overlay = overlay
+'''),
+    ('''\tvb.add_child(leave_btn)
+
+func _show_result() -> void:
+\tif has_node("setup_overlay"):
+\t\tget_node("setup_overlay").queue_free()
+\tvar overlay := ColorRect.new()
+\toverlay.name = "setup_overlay"
+\toverlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+\toverlay.color = Color("#070a10ee")
+\toverlay.mouse_filter = Control.MOUSE_FILTER_STOP
+\tadd_child(overlay)
+''', '''\tvb.add_child(leave_btn)
+\t_sync_phase_focus()
+
+func _show_result() -> void:
+\t_clear_phase_overlay()
+\tvar overlay := ColorRect.new()
+\toverlay.name = "setup_overlay"
+\toverlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+\toverlay.color = Color("#070a10ee")
+\toverlay.mouse_filter = Control.MOUSE_FILTER_STOP
+\tadd_child(overlay)
+\t_phase_overlay = overlay
+'''),
+    ('\tvar again_btn := _btn(_tr("다시하기", "Retry"), func():\n\t\toverlay.queue_free()\n',
+     '\tvar again_btn := _btn(_tr("다시하기", "Retry"), func():\n'),
+    ('''\t_f(leave_btn)
+\tbtn_row.add_child(leave_btn)
+''', '''\t_f(leave_btn)
+\tbtn_row.add_child(leave_btn)
+\t_sync_phase_focus()
+
+# Only the current phase owns navigation. TutorialOverlay keeps its own focus trap.
+func _phase_buttons(node: Node) -> Array[Button]:
+\tvar buttons: Array[Button] = []
+\tfor child in node.get_children():
+\t\tif child is TutorialOverlay or child.is_queued_for_deletion():
+\t\t\tcontinue
+\t\tif child is Button:
+\t\t\tbuttons.append(child)
+\t\tbuttons.append_array(_phase_buttons(child))
+\treturn buttons
+
+func _tutorial_owns_focus() -> bool:
+\tfor child in get_children():
+\t\tif child is TutorialOverlay and not child.is_queued_for_deletion() and child.is_visible_in_tree():
+\t\t\treturn true
+\treturn false
+
+func _sync_phase_focus() -> void:
+\tvar surface: Control = _phase_overlay if is_instance_valid(_phase_overlay) else self
+\tvar active: Array[Button] = []
+\tfor button in _phase_buttons(self):
+\t\tvar eligible: bool = surface.is_ancestor_of(button) and not button.disabled
+\t\tbutton.focus_mode = Control.FOCUS_ALL if eligible else Control.FOCUS_NONE
+\t\tif eligible and button.is_visible_in_tree():
+\t\t\tactive.append(button)
+\tif active.is_empty():
+\t\treturn
+\t# Directional navigation follows the actual grid geometry; Tab stays in this phase.
+\tfor index in range(active.size()):
+\t\tvar button: Button = active[index]
+\t\tbutton.focus_next = button.get_path_to(active[(index + 1) % active.size()])
+\t\tbutton.focus_previous = button.get_path_to(active[(index + active.size() - 1) % active.size()])
+\tif _tutorial_owns_focus():
+\t\treturn
+\tvar owner: Control = get_viewport().gui_get_focus_owner()
+\tif active.has(owner):
+\t\treturn
+\tvar preferred: Button = _sell_btn if _in_position else _buy_btn
+\tif _phase == Phase.PLAYING and active.has(preferred):
+\t\tpreferred.grab_focus()
+\telse:
+\t\tactive[0].grab_focus()
+'''),
+    ("\tb.pressed.connect(cb)\n\treturn b\n",
+     "\tb.pressed.connect(cb)\n\tb.mouse_entered.connect(func():\n"
+     "\t\tif b.is_visible_in_tree() and not b.disabled and b.focus_mode == Control.FOCUS_ALL and not _tutorial_owns_focus():\n"
+     "\t\t\tb.grab_focus())\n\treturn b\n"),
+)
+
+
+def _scalping_phase_inverse(raw: bytes) -> bytes:
+    """Recover only the exact predecessor; never expose it as current source."""
+    require(isinstance(raw, bytes), "Scalping phase inverse requires immutable raw bytes")
+    require(len(SCALPING_PHASE_REPLACEMENTS) == 8, "Scalping phase inverse population differs")
+    recovered = raw
+    for old, new in reversed(SCALPING_PHASE_REPLACEMENTS):
+        old, new = old.encode(), new.encode()
+        require(bool(old) and bool(new) and old != new and recovered.count(new) == 1,
+                "Scalping phase inverse is not exact1")
+        recovered = recovered.replace(new, old, 1)
+    require(hashlib.sha256(recovered).hexdigest() == SCALPING_PHASE_HASHES[0],
+            "Scalping source changed outside exact phase/focus repair")
+    return recovered
+
+
+def scalping_phase_predecessor(root: Path, raw: bytes) -> bytes:
+    """Bind the one-file phase/focus repair to immutable Git and actual HEAD."""
+    require(isinstance(raw, bytes) and hashlib.sha256(raw).hexdigest() == SCALPING_PHASE_HASHES[1],
+            "Scalping current runtime differs from exact phase/focus successor")
+    commits = (SCALPING_PHASE_BEFORE_COMMIT, SCALPING_PHASE_AFTER_COMMIT)
+    requests = [(commit, commit, "commit") for commit in commits]
+    requests += [(tree, tree, "tree") for tree in SCALPING_PHASE_TREES]
+    requests += [(commit + ":" + SCALPING_PHASE_PATH, blob, "blob")
+                 for commit, blob in zip(commits, SCALPING_PHASE_BLOBS)]
+    values = _objects(root, requests)
+    for index in range(2):
+        headers = values[index].split(b"\n\n", 1)[0].splitlines()
+        require([line for line in headers if line.startswith(b"tree ")]
+                == [b"tree " + SCALPING_PHASE_TREES[index].encode()],
+                "Scalping exact phase/focus tree mismatch")
+        if index:
+            require([line for line in headers if line.startswith(b"parent ")]
+                    == [b"parent " + SCALPING_PHASE_BEFORE_COMMIT.encode()],
+                    "Scalping exact phase/focus direct parent mismatch")
+    require(_git(root, "diff", "--name-status", "-z", *commits).split(b"\0")
+            == [b"M", SCALPING_PHASE_PATH.encode(), b""],
+            "Scalping phase/focus transition is not exactly one modified file")
+    _git(root, "merge-base", "--is-ancestor", SCALPING_PHASE_AFTER_COMMIT, "HEAD")
+    require(_git(root, "rev-parse", "HEAD:" + SCALPING_PHASE_PATH).decode().strip() == SCALPING_PHASE_BLOBS[1],
+            "actual Git candidate does not retain exact Scalping phase/focus successor")
+    before, after = values[4:]
+    require(tuple(hashlib.sha256(value).hexdigest() for value in (before, after)) == SCALPING_PHASE_HASHES
+            and after == raw, "Scalping phase/focus Git blobs/current raw mismatch")
+    require(_scalping_phase_inverse(after) == before, "Scalping exact phase/focus inverse differs from Git predecessor")
+    return before
+
+
+_SCALPING_PHASE_OLD_MANIFEST_MATCHES = _source_manifest_matches
+_SCALPING_PHASE_OLD_CURRENT_PROOF = current_proof
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        # Preserve isolated legacy fixtures, never production supplied inventory.
+        return _SCALPING_PHASE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    raw = (root / SCALPING_PHASE_PATH).read_bytes()
+    previous = scalping_phase_predecessor(root, raw)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(SCALPING_PHASE_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Scalping phase/focus current source census/raw mismatch")
+    if expected == inventory["source_manifest_sha256"]:
+        return _SCALPING_PHASE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    # Only the old Scalping hash may accompany an earlier MainGame/Aruba state.
+    # Passing the actual successor to the whole old matcher would admit phantom
+    # new-Scalping x old-MainGame combinations that never existed in Git history.
+    comparison = {**hashes, SCALPING_PHASE_PATH: hashlib.sha256(previous).hexdigest()}
+    return _SCALPING_PHASE_OLD_MANIFEST_MATCHES(
+        root, {**inventory, "source_hashes": comparison,
+               "source_manifest_sha256": exchange.digest(comparison)}, expected)
+
+
+def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:
+    head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+    raw = (root / SCALPING_PHASE_PATH).read_bytes()
+    scalping_phase_predecessor(root, raw)
+    result = _SCALPING_PHASE_OLD_CURRENT_PROOF(root, baseline_commit, baseline)
+    require(result["source_hashes"].get(SCALPING_PHASE_PATH) == hashlib.sha256(raw).hexdigest()
+            and exchange.digest(result["source_hashes"]) == result["source_manifest_sha256"]
+            and (root / SCALPING_PHASE_PATH).read_bytes() == raw,
+            "Scalping phase/focus source changed during current admission")
+    require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head
+            and result["evidence"]["head"] == head,
+            "Git candidate changed during Scalping phase/focus admission")
+    return result
+# END_SCALPING_PHASE_FOCUS_430
+
+
+# BEGIN_LOG_BODY_FONT_MANIFEST_432
+# Current MainGame now follows the Scalping repair. Keep the two actual later
+# states separate from the thirteen states before Scalping changed.
+_LOG_BODY_FONT_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _LOG_BODY_FONT_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    predecessors = history._log_body_font_proof(raw, root)
+    require(isinstance(predecessors, tuple) and len(predecessors) == 12,
+            "log body font exact predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "log body font current source census/raw mismatch")
+    scalp_raw = (root / SCALPING_PHASE_PATH).read_bytes()
+    require(hashes.get(SCALPING_PHASE_PATH) == hashlib.sha256(scalp_raw).hexdigest(),
+            "Scalping source census not bound to current raw")
+    previous_scalp = scalping_phase_predecessor(root, scalp_raw)
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "Aruba source census not bound to current raw")
+    # The actual latest state and the state after Scalping/before the log font.
+    # No other earlier MainGame bytes may accompany the new Scalping bytes.
+    for main_raw in (raw, predecessors[0]):
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    # Exactly the pre-Scalping MainGame/Aruba history; never new Main x old Scalp.
+    for main_raw in predecessors:
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest(),
+                      SCALPING_PHASE_PATH: hashlib.sha256(previous_scalp).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    previous_font = aruba_font_predecessor(root, font_raw)
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(predecessors[-1]).hexdigest(),
+                  SCALPING_PHASE_PATH: hashlib.sha256(previous_scalp).hexdigest(),
+                  ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
+    return expected == exchange.digest(comparison)
+# END_LOG_BODY_FONT_MANIFEST_432
+
+
+# BEGIN_HOLDEM_WHOLE_WON_MANIFEST_434
+# Holdem follows the fifteen real MainGame/Scalping/Aruba states. It is not
+# interchangeable with an earlier state of any of those source files.
+_HOLDEM_MONEY_OLD_MANIFEST_MATCHES = _source_manifest_matches
+_HOLDEM_MONEY_OLD_CURRENT_PROOF = current_proof
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_MONEY_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_money_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem whole-won current source census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    predecessor_inventory = {**inventory, "source_hashes": comparison,
+                             "source_manifest_sha256": exchange.digest(comparison)}
+    # Check the actual predecessor through the complete prior proof, including
+    # its real MainGame/Scalping/Aruba tuple, before admitting the one new tuple.
+    if expected == inventory["source_manifest_sha256"]:
+        return _HOLDEM_MONEY_OLD_MANIFEST_MATCHES(
+            root, predecessor_inventory, predecessor_inventory["source_manifest_sha256"])
+    return _HOLDEM_MONEY_OLD_MANIFEST_MATCHES(root, predecessor_inventory, expected)
+
+
+def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:
+    import holdem_money_history as history
+    head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    history.holdem_money_predecessor(raw, root)
+    result = _HOLDEM_MONEY_OLD_CURRENT_PROOF(root, baseline_commit, baseline)
+    require(result["source_hashes"].get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest()
+            and exchange.digest(result["source_hashes"]) == result["source_manifest_sha256"]
+            and (root / history.HOLDEM_PATH).read_bytes() == raw,
+            "Holdem whole-won source changed during current admission")
+    require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head
+            and result["evidence"]["head"] == head,
+            "Git candidate changed during Holdem whole-won admission")
+    return result
+# END_HOLDEM_WHOLE_WON_MANIFEST_434
+
+
+# BEGIN_HOLDEM_CANVAS_WIDTH_MANIFEST_436
+# Keep the real whole-won intermediate tuple as well as the prior fifteen
+# tuples and the current canvas repair. Never mix new Holdem with old peers.
+_HOLDEM_CANVAS_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_CANVAS_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    intermediate = history.holdem_canvas_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem canvas current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(intermediate).hexdigest()}
+    if expected == exchange.digest(comparison):
+        # Admit the intermediate only through the actual current tuple's full
+        # predecessor proof. A projected census is not a current raw binding.
+        return _HOLDEM_CANVAS_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_CANVAS_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_CANVAS_WIDTH_MANIFEST_436
+
+
+# BEGIN_HOLDEM_BETTING_TURN_MANIFEST_437
+# Add only the actual pre-betting tuple. The earlier width/money/history
+# wrappers still prove all earlier tuples against current peer source bytes.
+_HOLDEM_BETTING_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_BETTING_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_betting_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem betting current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_BETTING_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_BETTING_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_BETTING_TURN_MANIFEST_437
+
+
+# BEGIN_HOLDEM_ASYNC_ACTION_MANIFEST_438
+# Admit the actual pre-async tuple without combining new Holdem with old peers.
+_HOLDEM_ASYNC_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_ASYNC_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_async_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem async current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_ASYNC_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_ASYNC_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_ASYNC_ACTION_MANIFEST_438
+
+
+# BEGIN_HOLDEM_CARD_FACE_MANIFEST_441
+# Add only the real pre-contrast tuple. Do not combine the current Holdem raw
+# with older MainGame/Scalping/Aruba source bytes or rewrite prior receipts.
+_HOLDEM_CARD_COLOR_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_CARD_COLOR_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_card_color_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem card-face current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_CARD_COLOR_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_CARD_COLOR_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_CARD_FACE_MANIFEST_441
+
+
+# BEGIN_HOLDEM_MESSAGE_PULSE_APPEND_443
+# Add only the real pre-pulse tuple. Earlier Holdem/MainGame/Scalping/Aruba
+# combinations remain governed by their unchanged exact history proofs.
+_HOLDEM_MESSAGE_PULSE_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_MESSAGE_PULSE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_message_pulse_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem message-pulse current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_MESSAGE_PULSE_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_MESSAGE_PULSE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_MESSAGE_PULSE_APPEND_443
+
+
+# BEGIN_HOLDEM_BANNER_APPEND_445
+# Add the one real pre-banner tuple; prior readers keep the actual current raw.
+_HOLDEM_BANNER_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_BANNER_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_banner_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem banner current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_BANNER_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_BANNER_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_BANNER_APPEND_445
+
+
+# BEGIN_LEGACY_JA_RANK_CORRECTION_446
+# One legacy rank correction with a first receipt; never new UI coverage.
+LEGACY_RANK_PATH = "locale/ui_ja.json"
+LEGACY_RANK_PRODUCT_PATHS = (LEGACY_RANK_PATH, LEDGER_PATH)
+LEGACY_RANK_KEY = "포카드"
+LEGACY_RANK_TEXTS = ("フォールド", "フォーカード")
+LEGACY_RANK_ORIGIN_COMMIT = "aaeba142d08278c310505000bcc126a699493479"
+LEGACY_RANK_ORIGIN_BLOB = "53e3610ead0fdcaae7c7c4b787b27f9fdcb4fc67"
+LEGACY_RANK_ORIGIN_SHA256 = "550378458bee465a4d89a0be9ba6e2d18029fd8fbbeb8982b3c99a961708b0fc"
+LEGACY_RANK_BEFORE_COMMIT = "248813a14021a37407195d59cf3e6334551df2de"
+LEGACY_RANK_AFTER_COMMIT = "063d7db3fdb463295b050688f46c701d77b31acb"
+LEGACY_RANK_TREES = ("35447d82b8f73e94205fc7d047b2862308d6f9c5", "057e6b8aca586a19b2945a687c94c7c9ec92f7f5")
+LEGACY_RANK_BLOBS = {
+    LEGACY_RANK_PATH: ("9846aa5a55cbb8a584a4bea8269aea2dcf0246a6", "87ad090c928f1195826fddaa05901f1fb73a67c3"),
+    "locale/ui_zh-CN.json": ("e2a2f660c43005116a6f491bb2cd11b5247aa73b",) * 2,
+    "locale/ui_zh-TW.json": ("44ad7f4c6f1b9a79e20007e5bb6262d3a5250841",) * 2,
+    LEDGER_PATH: ("c4a70963e453923d021213c0f335612d4ccb358f", "18c0eb564eed8f5e8fdbd9c13aa1cbdb8ba2846f"),
+}
+LEGACY_RANK_HASHES = {
+    LEGACY_RANK_PATH: ("04fa4cbf9c0a9b9355142d782b4c8d34bb924e9a7378233e9005c3aacc82e1a2", "4e36e13606f483779d8551c14b8900e7c7518ea37f4083f495007d654dc17c8c"),
+    "locale/ui_zh-CN.json": ("052b59ab75a827354111d3c09de53e9d85e46611ab7b050691e1257a330c8152",) * 2,
+    "locale/ui_zh-TW.json": ("99395844a6a301263cf92925194076e222eeea3569452696a689639df814700c",) * 2,
+    LEDGER_PATH: ("3317d981e97ac0d7ce25434601b7c89f8d698d3e1d46e62d8a31394b5d119b76", "599da71c72b7e159c2bbf668fd2eba963ccd9f5195e06827ca9514f8802b73cb"),
+}
+LEGACY_RANK_BATCH_INDEX = 216
+LEGACY_RANK_REVIEW = (
+    "Korean-direct repair of the legacy Japanese four-of-a-kind name, not the Fold action. "
+    "One existing value corrected, zero new UI keys, one first official receipt. Gameplay, "
+    "other locales and public demo unchanged; agent review is not native or release approval.")
+
+
+def _legacy_ja_rank_comparison(snapshot: Mapping[str, bytes], before: Mapping[str, bytes],
+                               after: Mapping[str, bytes]) -> dict[str, bytes]:
+    """Undo the proved rank/first receipt/batch only; retain later appends."""
+    require(set(snapshot) == set(before) == set(after) == set(CURRENT_PATHS),
+            "legacy JA rank comparison requires four paths")
+    result = dict(snapshot)
+    a, b, doc = (_Document(raw) for raw in
+                 (before[LEGACY_RANK_PATH], after[LEGACY_RANK_PATH], snapshot[LEGACY_RANK_PATH]))
+    key = LEGACY_RANK_KEY
+    require(doc.value.get(key) == LEGACY_RANK_TEXTS[1], "legacy JA rank corrected target rolled back/changed")
+    start, end = doc.spans[(key,)]
+    bs, be = b.spans[(key,)]
+    require(doc.text[start:end] == b.text[bs:be], "legacy JA rank corrected target raw token changed")
+    first, last = a.spans[(key,)]
+    result[LEGACY_RANK_PATH] = (doc.text[:start] + a.text[first:last] + doc.text[end:]).encode()
+    a, b, doc = (_Document(raw) for raw in
+                 (before[LEDGER_PATH], after[LEDGER_PATH], snapshot[LEDGER_PATH]))
+    value, index = doc.value, LEGACY_RANK_BATCH_INDEX
+    require(value["accepted_sha256"] == exchange.digest(value["accepted"]), "legacy JA rank accepted checksum")
+    require(len(value["batches"]) > index and _ordered(value["batches"][index]) == _ordered(b.value["batches"][index]),
+            "legacy JA rank batch missing/changed/reordered")
+    start, end = doc.spans[("batches", index - 1)][1], doc.spans[("batches", index)][1]
+    bs, be = b.spans[("batches", index - 1)][1], b.spans[("batches", index)][1]
+    require(doc.text[start:end] == b.text[bs:be], "legacy JA rank batch raw changed")
+    edits = [(start, end, "")]
+    old_keys, identifier = list(a.value["accepted"]["ja"]), receipt_id(key)
+    require(bool(old_keys) and list(b.value["accepted"]["ja"])[len(old_keys):] == [identifier]
+            and list(value["accepted"]["ja"])[len(old_keys):len(old_keys) + 1] == [identifier],
+            "legacy JA rank first receipt order/population differs")
+    require(_ordered(value["accepted"]["ja"].get(identifier)) == _ordered(b.value["accepted"]["ja"][identifier]),
+            "legacy JA rank first receipt changed")
+    start, end = doc.spans[("accepted", "ja", old_keys[-1])][1], doc.spans[("accepted", "ja", identifier)][1]
+    bs, be = b.spans[("accepted", "ja", old_keys[-1])][1], b.spans[("accepted", "ja", identifier)][1]
+    require(doc.text[start:end] == b.text[bs:be], "legacy JA rank first receipt raw changed")
+    edits.append((start, end, ""))
+    accepted = {**value["accepted"], "ja": {k: v for k, v in value["accepted"]["ja"].items() if k != identifier}}
+    start, end = doc.spans[("accepted_sha256",)]
+    edits.append((start, end, _ordered(exchange.digest(accepted)).decode()))
+    text = doc.text
+    for start, end, replacement in sorted(edits, reverse=True):
+        text = text[:start] + replacement + text[end:]
+    result[LEDGER_PATH] = text.encode()
+    return result
+
+
+def _validate_legacy_ja_rank_correction(before: Mapping[str, bytes], after: Mapping[str, bytes],
+                                       inventory: dict[str, Any]) -> dict[str, Any]:
+    require(set(before) == set(after) == set(CURRENT_PATHS), "legacy JA rank requires four paths")
+    old, new = ({p: _loads(raw) for p, raw in snapshot.items()} for snapshot in (before, after))
+    require(all(before[p] == after[p] for p in UI_PATHS), "legacy JA rank changed another locale")
+    key = LEGACY_RANK_KEY
+    require(old[LEGACY_RANK_PATH].get(key) == LEGACY_RANK_TEXTS[0]
+            and _ordered(new[LEGACY_RANK_PATH]) == _ordered({**old[LEGACY_RANK_PATH], key: LEGACY_RANK_TEXTS[1]})
+            and len(old[LEGACY_RANK_PATH]) == len(new[LEGACY_RANK_PATH]) == 3048,
+            "legacy JA rank exact old/new target or key census differs")
+    a, b = old[LEDGER_PATH], new[LEDGER_PATH]
+    require(len(a["batches"]) == LEGACY_RANK_BATCH_INDEX and len(b["batches"]) == LEGACY_RANK_BATCH_INDEX + 1
+            and sum(map(len, a["accepted"].values())) == 41736
+            and sum(map(len, b["accepted"].values())) == 41737
+            and len(a["accepted"]["ja"]) == 13134 and len(b["accepted"]["ja"]) == 13135,
+            "legacy JA rank first receipt/batch census differs")
+    require(all(v["accepted_sha256"] == exchange.digest(v["accepted"]) for v in (a, b)),
+            "legacy JA rank accepted checksum mismatch")
+    leaf = exchange.Leaf("ui", key, "runtime:static_ui", (key,), key, "ui_static_context")
+    selected = [row for row in inventory["leaves"] if row.id == leaf.id]
+    require(len(selected) == 1 and _ordered(vars(selected[0])) == _ordered(vars(leaf)),
+            "legacy JA rank current Korean leaf/protection/support differs")
+    require(leaf.id not in a["accepted"]["ja"]
+            and not any(key in row.get("roots", []) and row.get("target_leaves_by_locale", {}).get("ja", 0)
+                        for row in a["batches"]), "legacy JA rank falsely claims absent prior acceptance")
+    corrected = {leaf.id: {"source_sha256": leaf.source_sha256, "target_sha256": exchange.digest(LEGACY_RANK_TEXTS[1])}}
+    previous = {leaf.id: exchange.digest(LEGACY_RANK_TEXTS[0])}
+    require(not exchange.translation_errors(leaf, "ja", LEGACY_RANK_TEXTS[1]),
+            "legacy JA rank translation contract failed")
+    batch = b["batches"][LEGACY_RANK_BATCH_INDEX]
+    expected = {"order": "ORDER-446", "group": "ui_correction", "roots": [key], "source_leaves": 1,
+                "legacy_origin_commit": LEGACY_RANK_ORIGIN_COMMIT, "prior_acceptance": "absent",
+                "before_target_sha256_by_locale": {"ja": previous},
+                "target_leaves_by_locale": {"ja": 1, "zh-CN": 0, "zh-TW": 0},
+                "source_review": LEGACY_RANK_REVIEW, "machine_validation": "PASS", "rendered_review": "OPEN", "native_review": "OPEN"}
+    maps = (HEADERS_FIELD, "receipt_sha256_by_locale")
+    require(isinstance(batch, dict) and set(batch) == set(expected) | set(maps)
+            and all(_ordered(batch[k]) == _ordered(v) for k, v in expected.items())
+            and all(isinstance(batch[k], dict) and set(batch[k]) == {"ja"} for k in maps),
+            "legacy JA rank batch identity/population differs")
+    header = batch[HEADERS_FIELD]["ja"]
+    require(header.get("source_revision") == LEGACY_RANK_BEFORE_COMMIT
+            and re.fullmatch(r"[0-9a-f]{64}", str(header.get("source_manifest_sha256", ""))),
+            "legacy JA rank export revision/manifest malformed")
+    rebuilt = exchange.make_batch({**inventory, "source_manifest_sha256": header["source_manifest_sha256"]},
+                                  "ja", selected, LEGACY_RANK_BEFORE_COMMIT,
+                                  {LEGACY_RANK_PATH: old[LEGACY_RANK_PATH]}, {})[0]
+    require(_ordered(header) == _ordered(rebuilt), "legacy JA rank official previous-target selection differs")
+    receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN", "translations": corrected}
+    require(batch["receipt_sha256_by_locale"]["ja"] == exchange.digest(receipt), "legacy JA rank official receipt digest differs")
+    accepted = {**a["accepted"], "ja": {**a["accepted"]["ja"], **corrected}}
+    require(_ordered(b) == _ordered({**a, "accepted": accepted, "accepted_sha256": exchange.digest(accepted),
+                                    "batches": [*a["batches"], batch]}), "legacy JA rank changed an old receipt/batch or ledger field")
+    require(_legacy_ja_rank_comparison(after, before, after) == before, "legacy JA rank whole raw inverse differs")
+    return {"ui_by_locale": {loc: 0 for loc in CURRENT_LOCALES}, "receipts": 0, "batches": 0,
+            "corrections": 1, "correction_batches": 1, "first_receipts": 1,
+            "source_manifests": {header["source_revision"]: header["source_manifest_sha256"]}}
+
+
+def _legacy_ja_rank_proof(root: Path, inventory: dict[str, Any]) -> tuple[dict, dict, dict]:
+    """Fresh exact product and legacy provenance; no cached current admission."""
+    require(set(LEGACY_RANK_BLOBS) == set(LEGACY_RANK_HASHES) == set(CURRENT_PATHS), "legacy JA rank pin population differs")
+    revisions = (LEGACY_RANK_BEFORE_COMMIT, LEGACY_RANK_AFTER_COMMIT)
+    requests = [(c, c, "commit") for c in revisions] + [(t, t, "tree") for t in LEGACY_RANK_TREES]
+    requests += [(c + ":" + p, LEGACY_RANK_BLOBS[p][i], "blob") for p in CURRENT_PATHS for i, c in enumerate(revisions)]
+    requests.append((LEGACY_RANK_ORIGIN_COMMIT + ":" + LEGACY_RANK_PATH, LEGACY_RANK_ORIGIN_BLOB, "blob"))
+    values = _objects(root, requests)
+    for index in range(2):
+        headers = values[index].split(b"\n\n", 1)[0].splitlines()
+        require([h for h in headers if h.startswith(b"tree ")] == [b"tree " + LEGACY_RANK_TREES[index].encode()],
+                "legacy JA rank exact tree mismatch")
+        if index:
+            require([h for h in headers if h.startswith(b"parent ")] == [b"parent " + revisions[0].encode()],
+                    "legacy JA rank direct parent mismatch")
+    require(_git(root, "diff", "--name-status", "-z", *revisions).split(b"\0")
+            == [v for p in sorted(LEGACY_RANK_PRODUCT_PATHS) for v in (b"M", p.encode())] + [b""],
+            "legacy JA rank product path population differs")
+    before, after = {}, {}
+    for index, path in enumerate(CURRENT_PATHS):
+        old, new = values[4 + index * 2:6 + index * 2]
+        require(tuple(hashlib.sha256(v).hexdigest() for v in (old, new)) == LEGACY_RANK_HASHES[path],
+                "legacy JA rank immutable whole raw differs")
+        before[path], after[path] = old, new
+    origin = values[-1]
+    require(hashlib.sha256(origin).hexdigest() == LEGACY_RANK_ORIGIN_SHA256
+            and _loads(origin).get(LEGACY_RANK_KEY) == LEGACY_RANK_TEXTS[0],
+            "legacy JA rank original target provenance differs")
+    _git(root, "merge-base", "--is-ancestor", LEGACY_RANK_ORIGIN_COMMIT, LEGACY_RANK_BEFORE_COMMIT)
+    return before, after, _validate_legacy_ja_rank_correction(before, after, inventory)
+# END_LEGACY_JA_RANK_CORRECTION_446
+
+
+# BEGIN_HOLDEM_BANNER_LOCALE_APPEND_447
+# One real pre-localized-banner tuple. Current source and old receipts stay raw.
+_HOLDEM_BANNER_LOCALE_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_BANNER_LOCALE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_banner_locale_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem banner locale current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_BANNER_LOCALE_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_BANNER_LOCALE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_BANNER_LOCALE_APPEND_447
+
+
+# BEGIN_COFFEE_ENCOUNTER_CORRECTION_448
+# Exact target-only product proof. No source manifest or historical UI seal is
+# replaced; the history loop admits only its separately observed commit.
+import coffee_encounter_receipt_history as _coffee_history
+# END_COFFEE_ENCOUNTER_CORRECTION_448
+
+
+# BEGIN_HOLDEM_TABLE_LABELS_APPEND_449
+# Add the single real pre-label tuple; never project current source admission.
+_HOLDEM_TABLE_LABELS_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_TABLE_LABELS_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_table_labels_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem table labels current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_TABLE_LABELS_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_TABLE_LABELS_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_TABLE_LABELS_APPEND_449
+
+
+# BEGIN_HOLDEM_SEAT_HEIGHT_APPEND_450
+# Admit the one actual pre-height tuple without changing the current census.
+_HOLDEM_SEAT_HEIGHT_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_SEAT_HEIGHT_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_seat_height_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem seat height current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_SEAT_HEIGHT_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_SEAT_HEIGHT_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_SEAT_HEIGHT_APPEND_450
+
+
+# BEGIN_HOLDEM_FOLDED_LOCALE_APPEND_451
+# Add exactly the actual pre-prefix source tuple; retain fresh current admission.
+_HOLDEM_FOLDED_LOCALE_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_FOLDED_LOCALE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_folded_locale_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem folded locale current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_FOLDED_LOCALE_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_FOLDED_LOCALE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_FOLDED_LOCALE_APPEND_451
+
+
+# BEGIN_LEGACY_JA_RESIDUAL_CORRECTION_451
+# Actual two-value correction and two first receipts; not new source coverage.
+LEGACY_RESIDUAL_PATH = "locale/ui_ja.json"
+LEGACY_RESIDUAL_PRODUCT_PATHS = (LEGACY_RESIDUAL_PATH, LEDGER_PATH)
+LEGACY_RESIDUAL_KEYS = ("%s · POT %s 정산", "판돈 선택")
+LEGACY_RESIDUAL_TEXTS = {
+    LEGACY_RESIDUAL_KEYS[0]: ("%s · POT %s 精算", "%s · ポット %s 精算"),
+    LEGACY_RESIDUAL_KEYS[1]: ("ポットオッズ選択", "ベット金額を選択"),
+}
+LEGACY_RESIDUAL_ORIGIN_COMMIT = "aaeba142d08278c310505000bcc126a699493479"
+LEGACY_RESIDUAL_ORIGIN_BLOB = "53e3610ead0fdcaae7c7c4b787b27f9fdcb4fc67"
+LEGACY_RESIDUAL_ORIGIN_SHA256 = "550378458bee465a4d89a0be9ba6e2d18029fd8fbbeb8982b3c99a961708b0fc"
+LEGACY_RESIDUAL_BEFORE_COMMIT = "33b9d28243e581b74ed12fc1a1d1eb23e004705c"
+LEGACY_RESIDUAL_INTERMEDIATE_COMMIT = "7aa0cd22d0b03b4b76a16c3445d70af30acad812"
+LEGACY_RESIDUAL_AFTER_COMMIT = "2fdf4353d4769dfb40f35da1added7de27aff354"
+LEGACY_RESIDUAL_TREES = ("77bcc73b16e6c034ecf1e031b9fc973af63152cf", "af910858c761bde8009cec082a2b673222f95c46", "778a4223e9098fc71cd0ced78bb252fdb7904905")
+LEGACY_RESIDUAL_BLOBS = {
+    LEGACY_RESIDUAL_PATH: ("f2570f43bec46dec1f3c77d1a4ba2910d7a060a6", "c1b6060f79854125fa08364fc7eea16497066922"),
+    "locale/ui_zh-CN.json": ("043da5ab11a40ba5d337530a340706b6a3f6fb78",) * 2,
+    "locale/ui_zh-TW.json": ("654e86adc00d942bce29f929e834cb53c6502c9f",) * 2,
+    LEDGER_PATH: ("d5abc5a2ff099ddbda3f7a6f2c8f71fb55812ea8", "fddbaa537c335fa2be0f71ed8010833143673090"),
+}
+LEGACY_RESIDUAL_HASHES = {
+    LEGACY_RESIDUAL_PATH: ("5f0c05425a5ddd11de4138002e18a9808d6174ced146954f40b274d7a09d5108", "c056e24b20ad6e9711bce82eaaface23edc49d62d4598d397baf08ed5a7b2816"),
+    "locale/ui_zh-CN.json": ("56aa8c8320624223159f6d0034121aef0b8699ec51788c095b96627be2b3e863",) * 2,
+    "locale/ui_zh-TW.json": ("b589d1887d3660c9f3122e371ef5b28d06c258c23ddad18bfa6d8f5bef312ce0",) * 2,
+    LEDGER_PATH: ("c74abb2c2c760855ac5fa794096ea89b9383dbbd0a2f567b3eff26794b65464b", "095d5e46dca4c4ddabcfde1f255565ff18f6cc913997238ca22ea812c102f53d"),
+}
+LEGACY_RESIDUAL_INTERMEDIATE_BLOBS = {path: pair[1] for path, pair in LEGACY_RESIDUAL_BLOBS.items()}
+LEGACY_RESIDUAL_INTERMEDIATE_BLOBS[LEDGER_PATH] = "0ea1d930f9e4bad73a74e29917fb1c9396e25085"
+LEGACY_RESIDUAL_INTERMEDIATE_HASHES = {path: pair[1] for path, pair in LEGACY_RESIDUAL_HASHES.items()}
+LEGACY_RESIDUAL_INTERMEDIATE_HASHES[LEDGER_PATH] = "c39560d8974c645e35904eaab1910343951165007d0b1c19dd864ccbde74b1ff"
+LEGACY_RESIDUAL_BATCH_INDEX = 227
+LEGACY_RESIDUAL_REVIEW = (
+    "Korean-direct repair of two legacy Japanese money labels: Holdem pot settlement and Scalping stake selection, "
+    "not pot odds. Two existing values corrected, zero new UI keys, two first official receipts. Gameplay, "
+    "other locales and public demo unchanged; agent review is not native or release approval.")
+
+
+def _legacy_ja_residual_comparison(snapshot: Mapping[str, bytes], before: Mapping[str, bytes],
+                                   after: Mapping[str, bytes]) -> dict[str, bytes]:
+    """Undo only the two proved legacy targets, first receipts and one batch."""
+    require(set(snapshot) == set(before) == set(after) == set(CURRENT_PATHS),
+            "legacy JA residual comparison requires four paths")
+    result = dict(snapshot)
+    a, b, doc = (_Document(raw) for raw in
+                 (before[LEGACY_RESIDUAL_PATH], after[LEGACY_RESIDUAL_PATH], snapshot[LEGACY_RESIDUAL_PATH]))
+    edits = []
+    for key, (_old, target) in LEGACY_RESIDUAL_TEXTS.items():
+        require(doc.value.get(key) == target, "legacy JA residual target rolled back/changed")
+        start, end = doc.spans[(key,)]
+        bs, be = b.spans[(key,)]
+        require(doc.text[start:end] == b.text[bs:be], "legacy JA residual target raw token changed")
+        first, last = a.spans[(key,)]
+        edits.append((start, end, a.text[first:last]))
+    text = doc.text
+    for start, end, replacement in sorted(edits, reverse=True):
+        text = text[:start] + replacement + text[end:]
+    result[LEGACY_RESIDUAL_PATH] = text.encode()
+    a, b, doc = (_Document(raw) for raw in
+                 (before[LEDGER_PATH], after[LEDGER_PATH], snapshot[LEDGER_PATH]))
+    value, index = doc.value, LEGACY_RESIDUAL_BATCH_INDEX
+    require(value["accepted_sha256"] == exchange.digest(value["accepted"]), "legacy JA residual accepted checksum")
+    require(len(value["batches"]) > index and _ordered(value["batches"][index]) == _ordered(b.value["batches"][index]),
+            "legacy JA residual batch missing/changed/reordered")
+    start, end = doc.spans[("batches", index - 1)][1], doc.spans[("batches", index)][1]
+    bs, be = b.spans[("batches", index - 1)][1], b.spans[("batches", index)][1]
+    require(doc.text[start:end] == b.text[bs:be], "legacy JA residual batch raw changed")
+    edits = [(start, end, "")]
+    old_keys = list(a.value["accepted"]["ja"])
+    identifiers = [receipt_id(key) for key in LEGACY_RESIDUAL_KEYS]
+    require(bool(old_keys) and list(b.value["accepted"]["ja"]) == old_keys + identifiers
+            and list(value["accepted"]["ja"])[:len(old_keys) + 2] == old_keys + identifiers,
+            "legacy JA residual first receipt order/population differs")
+    require(all(_ordered(value["accepted"]["ja"].get(key)) == _ordered(b.value["accepted"]["ja"][key])
+                for key in identifiers), "legacy JA residual first receipt changed")
+    start, end = doc.spans[("accepted", "ja", old_keys[-1])][1], doc.spans[("accepted", "ja", identifiers[-1])][1]
+    bs, be = b.spans[("accepted", "ja", old_keys[-1])][1], b.spans[("accepted", "ja", identifiers[-1])][1]
+    require(doc.text[start:end] == b.text[bs:be], "legacy JA residual first receipt raw changed")
+    edits.append((start, end, ""))
+    accepted = {**value["accepted"], "ja": {k: v for k, v in value["accepted"]["ja"].items() if k not in identifiers}}
+    start, end = doc.spans[("accepted_sha256",)]
+    edits.append((start, end, _ordered(exchange.digest(accepted)).decode()))
+    text = doc.text
+    for start, end, replacement in sorted(edits, reverse=True):
+        text = text[:start] + replacement + text[end:]
+    result[LEDGER_PATH] = text.encode()
+    return result
+
+
+def _validate_legacy_ja_residual_correction(before: Mapping[str, bytes], after: Mapping[str, bytes],
+                                           inventory: dict[str, Any]) -> dict[str, Any]:
+    require(set(before) == set(after) == set(CURRENT_PATHS), "legacy JA residual requires four paths")
+    old, new = ({p: _loads(raw) for p, raw in snapshot.items()} for snapshot in (before, after))
+    require(all(before[p] == after[p] for p in UI_PATHS), "legacy JA residual changed another locale")
+    require(tuple(LEGACY_RESIDUAL_TEXTS) == LEGACY_RESIDUAL_KEYS and len(LEGACY_RESIDUAL_KEYS) == 2,
+            "legacy JA residual key population differs")
+    targets = {key: pair[1] for key, pair in LEGACY_RESIDUAL_TEXTS.items()}
+    require(all(old[LEGACY_RESIDUAL_PATH].get(key) == pair[0] for key, pair in LEGACY_RESIDUAL_TEXTS.items())
+            and _ordered(new[LEGACY_RESIDUAL_PATH]) == _ordered({**old[LEGACY_RESIDUAL_PATH], **targets})
+            and len(old[LEGACY_RESIDUAL_PATH]) == len(new[LEGACY_RESIDUAL_PATH]) == 3053,
+            "legacy JA residual exact old/new targets or key census differs")
+    a, b = old[LEDGER_PATH], new[LEDGER_PATH]
+    require(len(a["batches"]) == LEGACY_RESIDUAL_BATCH_INDEX and len(b["batches"]) == LEGACY_RESIDUAL_BATCH_INDEX + 1
+            and sum(map(len, a["accepted"].values())) == 41753
+            and sum(map(len, b["accepted"].values())) == 41755
+            and len(a["accepted"]["ja"]) == 13141 and len(b["accepted"]["ja"]) == 13143,
+            "legacy JA residual first receipts/batch census differs")
+    require(all(v["accepted_sha256"] == exchange.digest(v["accepted"]) for v in (a, b)),
+            "legacy JA residual accepted checksum mismatch")
+    leaves = [exchange.Leaf("ui", key, "runtime:static_ui", (key,), key, "ui_static_context") for key in LEGACY_RESIDUAL_KEYS]
+    selected = [row for row in inventory["leaves"] if row.id in {leaf.id for leaf in leaves}]
+    require(len(selected) == 2 and _ordered({row.id: vars(row) for row in sorted(selected, key=lambda row: row.id)})
+            == _ordered({row.id: vars(row) for row in leaves}), "legacy JA residual current Korean leaf/protection/support differs")
+    require(all(leaf.id not in a["accepted"]["ja"] for leaf in leaves)
+            and not any(set(LEGACY_RESIDUAL_KEYS).intersection(row.get("roots", []))
+                        and row.get("target_leaves_by_locale", {}).get("ja", 0) for row in a["batches"]),
+            "legacy JA residual falsely claims absent prior acceptance")
+    require(all(not exchange.translation_errors(leaf, "ja", targets[leaf.source]) for leaf in leaves),
+            "legacy JA residual translation contract failed")
+    corrected = {leaf.id: {"source_sha256": leaf.source_sha256, "target_sha256": exchange.digest(targets[leaf.source])}
+                 for leaf in leaves}
+    previous = {leaf.id: exchange.digest(LEGACY_RESIDUAL_TEXTS[leaf.source][0]) for leaf in leaves}
+    batch = b["batches"][LEGACY_RESIDUAL_BATCH_INDEX]
+    expected = {"order": "ORDER-451", "group": "ui_correction", "roots": list(LEGACY_RESIDUAL_KEYS), "source_leaves": 2,
+                "legacy_origin_commit": LEGACY_RESIDUAL_ORIGIN_COMMIT, "prior_acceptance": "absent",
+                "before_target_sha256_by_locale": {"ja": previous},
+                "target_leaves_by_locale": {"ja": 2, "zh-CN": 0, "zh-TW": 0},
+                "source_review": LEGACY_RESIDUAL_REVIEW, "machine_validation": "PASS", "rendered_review": "OPEN", "native_review": "OPEN"}
+    maps = (HEADERS_FIELD, "receipt_sha256_by_locale")
+    require(isinstance(batch, dict) and set(batch) == set(expected) | set(maps)
+            and all(_ordered(batch[k]) == _ordered(v) for k, v in expected.items())
+            and all(isinstance(batch[k], dict) and set(batch[k]) == {"ja"} for k in maps),
+            "legacy JA residual batch identity/population differs")
+    header = batch[HEADERS_FIELD]["ja"]
+    require(header.get("source_revision") == LEGACY_RESIDUAL_BEFORE_COMMIT
+            and re.fullmatch(r"[0-9a-f]{64}", str(header.get("source_manifest_sha256", ""))),
+            "legacy JA residual export revision/manifest malformed")
+    rebuilt = exchange.make_batch({**inventory, "source_manifest_sha256": header["source_manifest_sha256"]},
+                                  "ja", selected, LEGACY_RESIDUAL_BEFORE_COMMIT,
+                                  {LEGACY_RESIDUAL_PATH: old[LEGACY_RESIDUAL_PATH]}, {})[0]
+    require(_ordered(header) == _ordered(rebuilt), "legacy JA residual official previous-target selection differs")
+    receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN", "translations": corrected}
+    require(batch["receipt_sha256_by_locale"]["ja"] == exchange.digest(receipt), "legacy JA residual official receipt digest differs")
+    accepted = {**a["accepted"], "ja": {**a["accepted"]["ja"], **corrected}}
+    require(_ordered(b) == _ordered({**a, "accepted": accepted, "accepted_sha256": exchange.digest(accepted),
+                                    "batches": [*a["batches"], batch]}), "legacy JA residual changed old receipt/batch or ledger field")
+    require(_legacy_ja_residual_comparison(after, before, after) == before, "legacy JA residual whole raw inverse differs")
+    return {"ui_by_locale": {loc: 0 for loc in CURRENT_LOCALES}, "receipts": 0, "batches": 0,
+            "corrections": 2, "correction_batches": 1, "first_receipts": 2,
+            "source_manifests": {header["source_revision"]: header["source_manifest_sha256"]}}
+
+
+def _legacy_ja_residual_proof(root: Path, inventory: dict[str, Any]) -> tuple[dict, dict, dict]:
+    """Fresh exact two-step delivery, canonical final receipt and legacy origin."""
+    require(set(LEGACY_RESIDUAL_BLOBS) == set(LEGACY_RESIDUAL_HASHES)
+            == set(LEGACY_RESIDUAL_INTERMEDIATE_BLOBS) == set(LEGACY_RESIDUAL_INTERMEDIATE_HASHES) == set(CURRENT_PATHS),
+            "legacy JA residual pin population differs")
+    head = _git(root, "rev-parse", "--verify", "HEAD^{commit}")
+    revisions = (LEGACY_RESIDUAL_BEFORE_COMMIT, LEGACY_RESIDUAL_INTERMEDIATE_COMMIT, LEGACY_RESIDUAL_AFTER_COMMIT)
+    requests = [(c, c, "commit") for c in revisions] + [(t, t, "tree") for t in LEGACY_RESIDUAL_TREES]
+    requests += [(c + ":" + p, blob, "blob") for p in CURRENT_PATHS for c, blob in zip(revisions,
+                 (LEGACY_RESIDUAL_BLOBS[p][0], LEGACY_RESIDUAL_INTERMEDIATE_BLOBS[p], LEGACY_RESIDUAL_BLOBS[p][1]))]
+    requests.append((LEGACY_RESIDUAL_ORIGIN_COMMIT + ":" + LEGACY_RESIDUAL_PATH, LEGACY_RESIDUAL_ORIGIN_BLOB, "blob"))
+    values = _objects(root, requests)
+    for index in range(3):
+        headers = values[index].split(b"\n\n", 1)[0].splitlines()
+        require([h for h in headers if h.startswith(b"tree ")] == [b"tree " + LEGACY_RESIDUAL_TREES[index].encode()],
+                "legacy JA residual exact tree mismatch")
+        if index:
+            require([h for h in headers if h.startswith(b"parent ")] == [b"parent " + revisions[index - 1].encode()],
+                    "legacy JA residual direct parent mismatch")
+    require(_git(root, "diff", "--name-status", "-z", *revisions[:2]).split(b"\0")
+            == [v for p in sorted(LEGACY_RESIDUAL_PRODUCT_PATHS) for v in (b"M", p.encode())] + [b""],
+            "legacy JA residual product path population differs")
+    require(_git(root, "diff", "--name-status", "-z", *revisions[1:]) == b"M\0" + LEDGER_PATH.encode() + b"\0",
+            "legacy JA residual canonical fix path differs")
+    before, middle, after = {}, {}, {}
+    for index, path in enumerate(CURRENT_PATHS):
+        old, intermediate, new = values[6 + index * 3:9 + index * 3]
+        require(tuple(hashlib.sha256(v).hexdigest() for v in (old, intermediate, new))
+                == (LEGACY_RESIDUAL_HASHES[path][0], LEGACY_RESIDUAL_INTERMEDIATE_HASHES[path], LEGACY_RESIDUAL_HASHES[path][1]),
+                "legacy JA residual immutable whole raw differs")
+        before[path], middle[path], after[path] = old, intermediate, new
+    require(all(middle[path] == after[path] for path in CURRENT_UI_PATHS), "legacy JA residual fix changed a UI dictionary")
+    a, b = _Document(middle[LEDGER_PATH]), _Document(after[LEDGER_PATH])
+    field = ("batches", LEGACY_RESIDUAL_BATCH_INDEX, "receipt_sha256_by_locale", "ja")
+    first, last = a.spans[field]
+    start, end = b.spans[field]
+    require(a.text[first:last] == '"28700c5841712ecba8487f1f8060de2955ee3c85b55efa9684b013bcfccf8165"'
+            and b.text[start:end] == '"6012dda18bc67c32603dc6fcf4a4ce631fe4a2bee62d35c90ca9b06b8b977109"'
+            and (b.text[:start] + a.text[first:last] + b.text[end:]).encode() == middle[LEDGER_PATH],
+            "legacy JA residual fix exceeds the exact canonical receipt field")
+    origin = values[-1]
+    require(hashlib.sha256(origin).hexdigest() == LEGACY_RESIDUAL_ORIGIN_SHA256
+            and all(_loads(origin).get(key) == pair[0] for key, pair in LEGACY_RESIDUAL_TEXTS.items()),
+            "legacy JA residual original target provenance differs")
+    _git(root, "merge-base", "--is-ancestor", LEGACY_RESIDUAL_ORIGIN_COMMIT, LEGACY_RESIDUAL_BEFORE_COMMIT)
+    _git(root, "merge-base", "--is-ancestor", LEGACY_RESIDUAL_AFTER_COMMIT, "HEAD")
+    change = _validate_legacy_ja_residual_correction(before, after, inventory)
+    require(_git(root, "rev-parse", "--verify", "HEAD^{commit}") == head, "legacy JA residual candidate changed during proof")
+    return before, after, change
+# END_LEGACY_JA_RESIDUAL_CORRECTION_451
+
+
+# BEGIN_HOLDEM_HAND_NET_APPEND_452
+# One real pre-hand-net tuple; no dictionary or receipt mutation is admitted here.
+_HOLDEM_HAND_NET_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_HAND_NET_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_hand_net_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem hand net current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_HAND_NET_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_HAND_NET_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_HAND_NET_APPEND_452
+
+
+# BEGIN_FIXED_LEDGER_PROJECTION_454
+class _FixedLedgerReceipt(NamedTuple):
+    locale: str
+    after_ordered: bytes
+    after_target_raw: str
+    before_target_raw: str
+    before_target: str
+    before_ordered: bytes
+
+
+class _FixedLedgerProjection(NamedTuple):
+    kind: str
+    path: str
+    before_raw: bytes
+    after_raw: bytes
+    batch_ordered: bytes
+    batch_raw: str
+    receipts: tuple[_FixedLedgerReceipt, ...]
+
+
+# This holds one transient call context, never a process-wide success cache.
+_ACTIVE_FIXED_LEDGER_PROJECTION = contextvars.ContextVar("fixed_ledger_projection", default=None)
+_FIXED_LEDGER_REAL_COMPARISONS = ((_correction_comparison, "correction"), (_fee_comparison, "fee"))
+
+
+def _project_fixed_ledger(kind: str, path: str, before_raw: bytes,
+                          after_raw: bytes) -> _FixedLedgerProjection:
+    """Extract small immutable tokens, not a verdict or retained Document.
+
+    Only the history caller admits these fixed bytes through the actual Git
+    correction proof. Calling this pure helper is not repository admission.
+    """
+    require(kind in ("correction", "fee") and path == LEDGER_PATH,
+            "fixed ledger projection kind/path differs")
+    require(isinstance(before_raw, bytes) and isinstance(after_raw, bytes),
+            "fixed ledger projection requires immutable bytes")
+    index, key = (148, CORRECTION_KEY) if kind == "correction" else (151, FEE_KEY)
+    identifier = receipt_id(key)
+    a, b = _Document(before_raw), _Document(after_raw)
+    batch_start, batch_end = b.spans[("batches", index - 1)][1], b.spans[("batches", index)][1]
+    receipts = []
+    for locale in LOCALES:
+        field = ("accepted", locale, identifier, "target_sha256")
+        first, last = a.spans[field]
+        start, end = b.spans[field]
+        old = a.value["accepted"][locale][identifier]
+        new = b.value["accepted"][locale][identifier]
+        require(isinstance(old["target_sha256"], str), "fixed ledger target must be an immutable string")
+        receipts.append(_FixedLedgerReceipt(locale, _ordered(new), b.text[start:end],
+                                            a.text[first:last], old["target_sha256"], _ordered(old)))
+    return _FixedLedgerProjection(kind, path, before_raw, after_raw,
+                                  _ordered(b.value["batches"][index]),
+                                  b.text[batch_start:batch_end], tuple(receipts))
+
+
+def _fixed_ledger_projection(kind: str, before: Mapping[str, bytes],
+                             after: Mapping[str, bytes]) -> _FixedLedgerProjection | None:
+    fixed = _ACTIVE_FIXED_LEDGER_PROJECTION.get()
+    if fixed is None:
+        return None
+    require(fixed.kind == kind and fixed.path == LEDGER_PATH
+            and isinstance(before[LEDGER_PATH], bytes) and isinstance(after[LEDGER_PATH], bytes)
+            and before[LEDGER_PATH] == fixed.before_raw and after[LEDGER_PATH] == fixed.after_raw,
+            "fixed ledger comparison kind/path/raw binding differs")
+    return fixed
+
+
+def _bind_fixed_ledger_comparison(function, before: Mapping[str, bytes], after: Mapping[str, bytes]):
+    """Bind only the two real inverses after their fresh proof/lineage checks.
+
+    The closure belongs to validate_history's local corrections list. Direct
+    three-argument calls and unrelated/synthetic inverses keep their old path.
+    A cold successful call parses two fixed ledgers and one dynamic ledger;
+    subsequent calls parse only the dynamic ledger, including exact-after.
+    """
+    kind = next((label for original, label in _FIXED_LEDGER_REAL_COMPARISONS if function is original), None)
+    if kind is None:
+        return function
+    require(set(before) == set(after) == set(PATHS), "fixed ledger binding path population differs")
+    before_raw, after_raw = before[LEDGER_PATH], after[LEDGER_PATH]
+    require(isinstance(before_raw, bytes) and isinstance(after_raw, bytes),
+            "fixed ledger binding requires immutable bytes")
+    saved = None
+
+    def comparison(snapshot, current_before, current_after):
+        nonlocal saved
+        require(set(current_before) == set(current_after) == set(PATHS),
+                "fixed ledger comparison path population differs")
+        require(isinstance(current_before[LEDGER_PATH], bytes) and isinstance(current_after[LEDGER_PATH], bytes)
+                and current_before[LEDGER_PATH] == before_raw and current_after[LEDGER_PATH] == after_raw,
+                "fixed ledger comparison raw binding differs")
+        candidate = saved if saved is not None else _project_fixed_ledger(kind, LEDGER_PATH, before_raw, after_raw)
+        token = _ACTIVE_FIXED_LEDGER_PROJECTION.set(candidate)
+        try:
+            result = function(snapshot, current_before, current_after)
+        finally:
+            _ACTIVE_FIXED_LEDGER_PROJECTION.reset(token)
+        # Failed inverses never publish a new projection or cache their result.
+        saved = candidate
+        return result
+
+    return comparison
+# END_FIXED_LEDGER_PROJECTION_454
+
+
+# BEGIN_HOLDEM_VICTORY_PARTICLE_APPEND_455
+# One real pre-particle tuple; dictionaries, receipts and fixed-ledger reuse stay unchanged.
+_HOLDEM_VICTORY_PARTICLE_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_VICTORY_PARTICLE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    raw = (root / history.HOLDEM_PATH).read_bytes()
+    previous = history.holdem_victory_particle_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.HOLDEM_PATH) == hashlib.sha256(raw).hexdigest(),
+            "Holdem victory particle current census/raw mismatch")
+    comparison = {**hashes, history.HOLDEM_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return _HOLDEM_VICTORY_PARTICLE_OLD_MANIFEST_MATCHES(
+            root, inventory, inventory["source_manifest_sha256"])
+    return _HOLDEM_VICTORY_PARTICLE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_VICTORY_PARTICLE_APPEND_455

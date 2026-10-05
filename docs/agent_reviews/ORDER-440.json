@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-440",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "f41188737e7cf2d2ae3943cab238cd514881ac9b",
+    "tree": "14bdf76c2c0902e0a05b61c56740a9cc99e5d747",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "정확한 9개 한국어 UI 포커 패명과 지역별 전체 표준 패명에 한정한 숫자 비교 오탐 수리. 번역 수용·게임·화면 품질 판정은 포함하지 않는다.",
+  "source_review": {
+    "declaration": "80a084a",
+    "changed_paths": [
+      "tools/zh_translation_audit.py",
+      "tools/holdem_rank_locale_check.py",
+      "tools/audit_scope.json"
+    ],
+    "sha256": {
+      "tools/zh_translation_audit.py": "7c6e3831472cc0815f3296391c740a5b2e844f7b3a997766168e9ff0a00d3a90",
+      "tools/holdem_rank_locale_check.py": "7feec1d8666f0241919bc409a87794758c30352d09e950f9fc94a3f5a97e5eb7",
+      "tools/audit_scope.json": "4c2a5fbe1d901427791f36150979ae5843292c0216e6aeb4ef299f668d96ba7f"
+    },
+    "finding": "새 코드와 focused 전체 및 실제 rank_name 0..8, 공식 translation_errors, static_ui_coverage의 legacy 호출을 직접 읽었다. 정확한 locale/key/source/전체 target 일치에만 같은 rank ordinal 쌍을 사용한다. 소유 주소의 틀린 rank·지역 표기·추가 문자는 명시 오류이며 범위 밖은 기존 검사 결과를 유지한다. 원문 money/script/token/BBCode/LF/Hangul/Kana 검사는 그대로다.",
+    "blockers": []
+  },
+  "evidence": {
+    "result": {
+      "path": ".git/full-game-localization/order440-first/result.json",
+      "sha256": "13823b5db21cf6a0670ca7274816c5f432c028f2a1ef5a5fb23b2bbeaa4cebba"
+    },
+    "entry": {
+      "path": ".git/full-game-localization/order440-first/entry.json",
+      "sha256": "722308fe97a2b32d70be76ae1043d5c9fbd2b16c6f4a5c1fb08d29dd87527208"
+    },
+    "runner_sha256": "c311ead832fda5e0d8a10ba7cc692028cbd9a1b444dda836e3b67dc299e01a5b",
+    "result_summary": "33.469초, 검증 9개와 차선 조회 1개 전부 exit 0 / stderr 빈 값. 00..09 원본 stdout/stderr를 전수 읽고 result 행·entry 명령·11개 artifact의 bytes/SHA를 대조했다. 조회는 나열된 검사의 추가 실행 증거가 아니다.",
+    "focused": {
+      "cases": 801,
+      "historical_cases": 0,
+      "seconds": 14.966,
+      "collector_calls": 1,
+      "source_manifest_sha256": "0d9b97248eb806d2b138c3a66ec0574b53ce36eee7330d0efd0c7691c519dd67",
+      "rank_source_sha256": "c1ddc88718a0b9f5738ec3ba089ae29ad69158015ab1ab621c6013ad71ba92b4",
+      "population": "양지역 정상 18쌍, 서로 다른 rank 치환 144쌍, 지역 표기·추가 수량/부호/퍼센트/LF/token/currency·비문자·주소/원문/locale 경계 및 주변 기존 수량 반례. 실제 collector Leaf를 직접 validate_text, 공식 translation_errors, 실제 legacy UI wrapper에 전달했다. 이는 세 독립 검사 엔진이나 static_ui_coverage 전체 순회를 focused에서 실행했다는 뜻은 아니다. 별도 ZH 행이 기존 전체 정적 UI 경로를 실행했다."
+    },
+    "official_recheck": "기존 ORDER-439 source/response bytes를 그대로 사용한 CN 19 / TW 19 check가 모두 PASS. action=check이며 import·수용은 하지 않았다.",
+    "initial_failure_preserved": {
+      "path": ".git/full-game-localization/order439-check-first-failures.json",
+      "sha256": "3b5e053812eb2db2c20342409fe4bb5b2146cef90a8c3b4f37e2715ea72d9e82",
+      "meaning": "양지역 첫 공식 check의 三条/三條 → invented entity 3 오탐 실패 기록은 실패로 보존한다. 번역 왜곡 없이 별도 검사 수리로 해소했다."
+    }
+  },
+  "preservation": {
+    "method": "검사 재실행 없이 JSON 원본 비교 및 파일 bytes/SHA 재해시만 수행했다.",
+    "before_equals_after": true,
+    "current_rehash_matched": {"tracked": 3060, "original439_inputs": 10, "real_player_files": 34, "artifacts": 11},
+    "prior_decisions": 199,
+    "prior_reports": 177,
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "localization_ledger_sha256": "494338baaa82debfac61e837c026870215b4ffe1f62d802a57a66144823ab7ea",
+    "unchanged": "선언 이후 실제 Git 차이는 검사 도구 3경로뿐이다. 기존 판정/보고/인간원장·게임·KO/EN/JA·CN/TW 사전·수용원장 accepted 41656/b209를 보존했다."
+  },
+  "limits": [
+    "새 Godot 실행·화면·입력·게임 승패/경제 검증은 이 단위에서 NOT_RUN. ORDER-439의 번역 수용과 실제 화면 판정은 별도다.",
+    "receipt/fullbody/JA/역사 focused/전체 서사·240주 검사를 반복하지 않았다.",
+    "ZH 결과는 skeleton, shipping=0이며 미번역 잔여와 direct English bypass 11을 유지한다.",
+    "원어민·인간 플레이·물리 컨트롤러·자연 진입은 미관측이다. 자동 검사 GO는 본편·새 package·출시 GO가 아니며 기존 HOLD와 인간 OPEN45를 유지한다."
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "unit_id": "ORDER-432",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "31f6751b2bea7fb0155d24eb953e3200e6f09145",
+    "tree": "f570ca6214c99e1bb29121c0b3a8b6d761530738",
+    "manifest_sha256": null
+  },
+  "reviewer": "independent392",
+  "conclusion": "현재31f6751 후보의 기록창 normal_font 결속1줄과 exact receipt successor 경계를 범위 한정 GO로 판정한다. 기존431 번역/정산/validator를 바꾸지 않고 실제 로그4곳의 지역 역할400·13px를 수리했다. 새 번역 수용 수량은0이다.",
+  "review_method": "제품·bridge·focused·runtime/normal helper의 비저자. 관련 새본문과 실제 Git 전이, 원본8PNG, 상태·Meta·입력과 정상14행을 검토했다. 읽기 전용 바이트/해시 대조 외 실행·제품 편집0.",
+  "product_transition": {
+    "path": "scenes/MainGame.gd",
+    "before_commit": "807fb8296f6c03ae7c0f8c6ceed105c3a23128ae",
+    "after_commit": "732394c73e67feef5752fe867ad32c67c2ee73e5",
+    "before_blob": "4feb1e52e951e946dd5ef898979468ee7e233d61",
+    "after_blob": "41cac5e35d12b2ec4f37e8e7aa55bd0413276022",
+    "before_sha256": "3682f25888c78ab0bcc5a10c61d4d0701f8fd49b95dc9dc780be1e18a050f2cf",
+    "after_sha256": "d06af65bdc278220bbcd862a343584422dbd73f09f2630b64199442ded9a7054",
+    "exact_addition": "log_box.add_theme_font_override(\"normal_font\", _font_regular)",
+    "inverse": "실제 Main 단일파일+1줄이고 이 유일 행의 역삭제가 이전 blob 전체 바이트를 복구한다. 크기13·문구·BBCode·입력·정산·숫자·save 및 FontKit 구현은 변경0.",
+    "stable_role": "Main._load_fonts의 _font_regular은 FontKit.ui_regular()의 stable400 역할이다. 기존 ThemeDB fallback 설정만으로 실제 RichText normal이 바뀌지 않던 결함을 직접 consumer에서 결속한다."
+  },
+  "receipt_boundary": {
+    "history": "기존137931bytes prefix exact 보존 후173줄 추가. 14단계84object 요청(고유71), 각 commit/tree/blob·직접부모·단일경로·raw연속성 및12전임자/public alias index0..11 정합.",
+    "manifest": "기존append본문 보존 후45줄 추가. 현재Main+현재Scalp, pre432Main+현재Scalp, 이전12Main+oldScalp 및 최초Main+oldAruba의 실제15조합만 허용. Cartesian phantom37과 failed402는 거부.",
+    "freshness": "매번 새 Git proof를 수행하며 기존 current_proof wrapper의 동적 public predecessor 조회가 새 proof를 사용한다. 현재raw/census 및 HEAD 전후검증을 보존한다.",
+    "focused_evidence_scope": "118case 중 실제14단계 Git proof와 raw 역상은 실물증거다. 이후 Git faults는 기록된 응답 replay, manifest와 current_proof core는 명시적 작은 synthetic census/대체함수 경계시험이다. 이를 전체 collector 실행으로 부르지 않는다. 실제 current receipt 통합은 별도 normal row01이 PASS했다.",
+    "unchanged": "CN/TW/JA 사전·수용원장·기존수정pins/비교memo·옛검사본문 불변. accepted41612/b207, JA3044/CN1711/TW1711 유지."
+  },
+  "runtime": {
+    "observer_unit": "ORDER-431",
+    "outer_unit": "ORDER-432",
+    "duration_seconds": 39.533,
+    "pass": true,
+    "original_observer_unchanged": true,
+    "original_validator_unchanged": true,
+    "actual_pngs_directly_viewed": 8,
+    "settlements": 4,
+    "raw_edges": 56,
+    "taps": 28,
+    "result_nodes": 20,
+    "log_nodes": 4,
+    "resolved_font": "실제 로그4곳에서 normal=FontKit regular=ThemeDB fallback, SC/TC primary400·13px, 공유역할/설정/owned glyph 통과. variable font 이름의 Thin 표기 대신 실제 variation400을 판정 근거로 삼았다.",
+    "glyphs": 123,
+    "missing": false,
+    "primary_cjk": true,
+    "no_os_fallback": true,
+    "fit": {
+      "cn_widths": [
+        346,
+        268
+      ],
+      "tw_widths": [
+        363,
+        278
+      ],
+      "container_width": 384,
+      "content_height": 20
+    },
+    "side_effects": "원래431의 독립 정산4·reader4·warmup4·group 상태/UI복원4·teardown2 exact를 그대로 충족한다. Meta 원문/존재 여부와 player34도 복원/불변이다.",
+    "original_failure_preserved": "75a4661의39.402초 FAIL 및 REWORK는 그대로 남긴다. 새 성공은 같은 실패 증거의 재명명이나 font assertion 면제가 아니다."
+  },
+  "normal": {
+    "all_pass": true,
+    "wall_seconds": 874.151,
+    "validation_rows": 13,
+    "query_rows": 1,
+    "exit_codes_all_zero": true,
+    "stderr_all_empty": true,
+    "row_artifact_binding": "00..13 원본이 집계 각 행 및 entry 명령과 exact이며 stdout/stderr 전문을 읽었다.",
+    "focused": {
+      "cases": 118,
+      "seconds": 1.61,
+      "marker": "LOG_BODY_FONT_RECEIPT_CHECK_OK cases=118"
+    },
+    "inherited_limits": "Chapter1 debt8/blocked3/gap24·authoritative24/48, Year5 reference_only/topology invalidated/r1b_allowed=false, full-body source inventory only, ZH skeleton/shipping0를 보존했다. lane의12개 출력은 조회이며 추가12회 실행이 아니다."
+  },
+  "preservation": {
+    "runtime_before_after": {
+      "tracked": 3035,
+      "helpers": 111,
+      "inputs": 2,
+      "player_files": 34,
+      "prior_artifacts": 2758,
+      "artifacts": 134,
+      "equal": true
+    },
+    "normal_before_after": {
+      "tracked": 3035,
+      "prior_artifacts": 2619,
+      "flat_current_inputs": 2,
+      "runtime_files": 135,
+      "player_files": 34,
+      "artifacts": 16,
+      "equal": true
+    },
+    "rehash_mismatches": 0,
+    "prior_decisions": {
+      "count": 190,
+      "sha256": "9112f2c101f1bcf0aade2d24cf3390986efc505fb8a3dfbba4f1fc4164905cc7",
+      "bytes_unchanged": true
+    },
+    "prior_reports": {
+      "count": 168,
+      "bytes_unchanged": true
+    },
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "boundary": "각 실행 원본의 before/after와 현재 고정 후보를 대조했다. 이 최종 보고서는 모든 실행이 끝난 뒤 새로 생성했으며 실행 당시 census에 포함되었다고 주장하지 않는다. 최초431 FAIL/REWORK와 모든 이전 실패·성공 자료를 수정하지 않았다."
+  },
+  "evidence": {
+    "runtime_result": {
+      "path": ".git/full-game-localization/order432-screen-first/result.json",
+      "sha256": "9386160d55a55d5f3967373e492557cf2401cd229e370836dd21dd42e270e4be"
+    },
+    "runtime_entry": {
+      "path": ".git/full-game-localization/order432-screen-first/entry.json",
+      "sha256": "281c1167b4efa6ee49781cfd5d1c0b0dccbc6593f574fe538030c5277277484d"
+    },
+    "cn_observations": {
+      "path": ".git/full-game-localization/order432-screen-first/zh-CN/order431-observations.json",
+      "sha256": "beb09df880cdcf3c19233a9077b9fc1bbb761bc57cb4343fed585cce941d648e"
+    },
+    "tw_observations": {
+      "path": ".git/full-game-localization/order432-screen-first/zh-TW/order431-observations.json",
+      "sha256": "5eaaeed7c0e90d686c24e173d16928efaf67156737cd76a3699c19d9d9ee9fa7"
+    },
+    "normal_result": {
+      "path": ".git/full-game-localization/order432-static-final/result.json",
+      "sha256": "71ccbad7f9966223c1605b7db26445c0daf02e4ebbb612ed28180c3e866ed5ca"
+    },
+    "normal_entry": {
+      "path": ".git/full-game-localization/order432-static-final/entry.json",
+      "sha256": "82be5495ae0dab44afacb3ecdfb8d32525a0f10c261f64663151192c089bfd46"
+    },
+    "first_failure": {
+      "path": ".git/full-game-localization/order431-screen-first/result.json",
+      "sha256": "552c8ae5cb053c62f5f9379e52af1e5583bd5f332d9ff7c0a794d433e5625328"
+    },
+    "sealed_rework": {
+      "path": ".git/full-game-localization/order431-independent-review-rework.json",
+      "sha256": "a089cf57a42eaf3f25e932e942e6c600d4d161431b181d33f8a900db0f420590"
+    },
+    "focused_row": {
+      "path": ".git/full-game-localization/order432-static-final/13.json",
+      "sha256": "aad5ef0c7a38dfa15ba93c8c779de4354c68315148fe6cc7b22d03f4bb021453",
+      "cases": 118,
+      "seconds": 1.61
+    },
+    "source_tools_sha256": {
+      "history": "5753278dec9969f48292dd7c0b67e14bb09657b23df02857b71650a4d978cf51",
+      "append": "ca8ada114064c62a2f1296c72f5d26f5d43ba893d9e9e79b5a46b960454783f5",
+      "focused": "2c404872f502120e84a05dacb3afed122d270cfe037f7bb45249b6e00cf761f5"
+    },
+    "private_helper_sha256": {
+      "runtime": "5955c0eb4d41fa36bae27672ea9a23f674d7f9e65d0ed82e014c00141a2b7e9d",
+      "normal": "7ffd9517467c7025a0b3676e20804b750b82b9704085ee06d74040d10e12ab5a"
+    }
+  },
+  "unobserved": [
+    "native/human/physical controller 미관측. 현재 두 작업 단위의 자동·독립 검수일 뿐 전체 게임/본편/새 package/release GO가 아니다.",
+    "실제 _end_game 정산을 준비된 상태에서 호출했다. 자연 진입·실시간 BUY/SELL·강제 청산·0손익·Retry/Leave 활성화·Holdem 공유 결과·cap/mastery 경계는 관측하지 않았다.",
+    "로그 bold는 리소스 조회뿐이고 강조 span 렌더가 아니다. glyph는 실제 resolved font를 이용한 별도 TextServer probe이며 RichText 내부 shaped RID 관측이 아니다.",
+    "배경 BUY/SELL/P&L 및 준비된 정보창의 손실 후 mental60 표시 등 표적 밖 HUD 잔여는 전체 HUD 승인에서 제외한다. 실제 정산의 mental56 typed 값과 표시 갱신 순서를 구별했다.",
+    "KO/EN/JA의 기록창 실제화면과 같은 세션 내 언어전환은 이번 CN/TW 두 프로세스의 직접 관측 범위에 포함되지 않는다. 새 성능/통계 벤치마크 주장도 없다."
+  ],
+  "schema_version": 1,
+  "private_review": {
+    "path": ".git/full-game-localization/order432-independent-review.json",
+    "sha256": "0e306a8782c9b9c27900e4b23ad60f14a53305864db476d21241910fb564d988"
+  }
+}

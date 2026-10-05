@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-420",
+  "reviewer": "independent392",
+  "verdict": "GO",
+  "verdict_scope": "work_unit_only",
+  "subject": {
+    "kind": "source",
+    "commit": "c52ddc18067965b299f87072c6d073ad7eb12a4c",
+    "tree": "1604cd7edcc5b713ad2b520347ce4f4a294be692",
+    "manifest_sha256": null
+  },
+  "summary": "Scoped independent GO for 22 Korean contact/dawn keys translated directly into zh-CN and zh-TW (44 values), official receipt append, and their bounded observed consumers. Not full-game, package, native-reader, human-playtest, or physical-input approval.",
+  "method": {
+    "role": "Non-author of translations, product, exchange, runtime helpers and static runner. Read-only source/helper/diff/receipt/evidence inspection, direct original PNG viewing, and independent JSON/Git/raw-byte/hash reconciliation; no engine, audit or test-suite execution by reviewer.",
+    "instructions": "Applied gangnamdream-dev preservation and bounded QA rules; read CLAUDE, WORK_UNIT/declared ORDER-420, relevant localization/glossary/canon instructions and actual consumers.",
+    "population": "All 44 final values, all 44 original body/state observations and 32 restoration groups; all 10 repaired dawn observations and 2 restoration groups; original 4 PNGs plus repaired 2 PNGs; all 13 normal stdout/stderr records.",
+    "final_file_policy": "This private report is created once after all evidence settled and then SHA-sealed; historical reports and failed evidence are not rewritten."
+  },
+  "source_review": {
+    "base_commit": "fb17b0e43c2f261457840dc95011ca2f0bb08d54",
+    "changed_paths": [
+      "locale/ui_zh-CN.json",
+      "locale/ui_zh-TW.json",
+      "content/meta/full_game_localization.json",
+      "CLAUDE.md",
+      "docs/WORK_LOG.md",
+      "docs/STATUS.md"
+    ],
+    "result": "Only 44 locale additions, 44 receipts/2 batches and declared records changed. Exact old-entry/order preservation and raw inverse to base were independently reconciled. MainGame, gameplay/conditions, KO/EN/JA, fonts, tools and public-demo sources remain unchanged.",
+    "semantic_result": "All 44 final values accepted against Korean and actual branches: Jiyeon truth/relationship distinctions, Daeun distance and dawn voice, Jaehyuk investigation versus guilt/unreachable-number distinctions, default sentiment, Roman names, numeric thresholds/time, two rice parcels versus one handed over, first bus, and two paragraph LFs preserved. No invented confession, death, romance confirmation or guilt.",
+    "cn_draft_sha256": "e3c3f60b50938aaddd2202f705755ab23fb43267c5073175981e736982be8512",
+    "tw_final_draft_sha256": "e8ba0e068c2e7a657fab01f75d9ab5ee57c879dd5f4e1a309831e98584a5c15f",
+    "keys_sha256": "8901715cadc3ccc1d702bab591a9fe04ce9f0a7740b109c98f58564d048ad759"
+  },
+  "acceptance": {
+    "source_manifest_sha256": "2ec6835b6196cb51b19cd164ce8b3f5238e13a1e92c2d17ceefb26b01f5b96b7",
+    "source_rows_per_locale": 23,
+    "source_row_interpretation": "One header plus 22 entries; headers bind the declared base. Responses/drafts/current values/receipt IDs, source hashes, target checksums and receipt digests reconciled.",
+    "counts": {
+      "accepted_before": 41322,
+      "accepted_after": 41366,
+      "batches_before": 189,
+      "batches_after": 191,
+      "cn_ui_after": 1588,
+      "tw_ui_after": 1588,
+      "ja_ui_unchanged": 3044
+    },
+    "export": {
+      "path": "order420-static-export.json",
+      "sha256": "9458008580cde7b47c7a39f9faee21a739dfad795ba0e288dc24cd735f04bc57",
+      "result": "Two 22-entry batches PASS; 10.591s"
+    },
+    "original_check": {
+      "path": "order420-static-check.json",
+      "sha256": "99ce23f679579d253b22b962761f56fbcd7813f0e775a0fea6f77059aae1a548",
+      "result": "Preserved FAIL: CN PASS; TW explicit entity2 omitted; 10.991s"
+    },
+    "tw_check_r1": {
+      "path": "order420-static-check-r1.json",
+      "sha256": "740de401a29fbe7866daa2526ff2d8523dc2a5e4b995f415888c2b175f7b0dea",
+      "result": "TW-only PASS 10.379s; original CN PASS reused"
+    },
+    "append_proof": {
+      "path": "order420-append-precommit.json",
+      "sha256": "854991109d6fbffe740d50f65635dc86f8f777f81b7ac657a619f1d273da24ca"
+    },
+    "receipt_file_sha256": {
+      "zh-CN": "555267308935a4e852bf0bc6ef3b0289c0098320bfbfc17b236aa4ccf65fd255",
+      "zh-TW": "21f15eabe6e4e8a394bd28fcfa0af3041e94242f5028520fd3144eb4276ae862"
+    },
+    "receipt_digest": {
+      "zh-CN": "dc34b1b46d8e7f5b303610e1be49b7a9f90e4f555767afd3a673211241b55d07",
+      "zh-TW": "aab2aec4edd61bed0fcc972a7a6e4c2f99ae6dba1e6ec6ac8a83db8e9c232da8"
+    }
+  },
+  "failures_and_repairs": [
+    "Original TW implicit plurality 我們誰也不問 missed explicit Korean 둘 다/entity2. Original draft/response/check remain immutable. Final 我們兩人都不問 preserves meaning and passes the unchanged checker. Earlier semantic review did not catch the explicit-count loss; the complete final 44-value population was rereviewed.",
+    "Original runtime remains FAIL, 84.739s/exit1. Exactly two logical dawn-5 font failures (duplicated across stdout/Godot logs) classified each text's two U+000A paragraph separators as missing glyphs. Actual text, fit, state effects and restoration passed. Author/root/independent preflight missed this inherited oracle assumption; no product repair was required.",
+    "New private r1 helpers classify only the exact accepted/source-bound dawn-5 LF spans at actual 19px as nonprinting. Ordinary glyph0, other controls, wrong spans/counts, nonowned/nonprimary LF still fail. Raw flags and legacy 11px missing verdict are retained; hard-break bit16 is not assumed. No generic control waiver or observed-state-to-expected copying.",
+    "Pre-engine helper repairs also removed Python/Godot JSON serialization equivalence assumptions and added immediate invalid meta-path guard return. Runtime expected meta bytes come from independently expected Godot data; Python separately checks typed semantic effects, path/SHA and actual-versus-expected raw bytes."
+  ],
+  "runtime": {
+    "original": {
+      "directory": "order420-screen-final",
+      "result_sha256": "dac5e947655eebe10f5d599ee7b4b568ba403f05df7360e4a47598781248c795",
+      "observations_sha256": "897a6405c22dfb5d2f7a9e65112d346b43a56d1419f3d6abf04d92cb38f6125d",
+      "pass_result": false,
+      "seconds": 84.739
+    },
+    "corrected": {
+      "directory": "order420-r1-screen-final",
+      "result_sha256": "9fbd2bdd24822a941f458ddacb5451a8bcc0097781be85c13860b8e16128b2cb",
+      "observations_sha256": "09cfaf51d540376d619d285afac8e3e360ec53e911d75a98dc363558bb28274c",
+      "entry_sha256": "edd83a77650ec955d8dac71bbf233bf55932f345b538ebec1ad78951fd5a6812",
+      "pass_result": true,
+      "seconds": 28.778
+    },
+    "coverage": "Original 34 successful contact/getter bodies (6 actual contacts + 28 getter displays), not rerun, combined with fresh dawn10. Eight dawn prerequisites are repeated; only two multiline bodies needed correction. This is 44 distinct target bodies, not 54 distinct targets or an original aggregate PASS.",
+    "effects": "Truth sequences per locale: AP3→2→1→0, mental40→48→56→64, affinity40→44→48→52, four stat signals and one log signal each; independently expected cumulative records and lazy cast default preserved. Getter28 state delta0. Dawn counters1..5; fifth adds dawn_people once to meta and new-this-run, with real isolated meta-file creation. All original32 and repaired2 full typed restorations match.",
+    "meta_file": "Observed isolated file SHA ade586a1a84e9544139ba6148faa29f538b816a5ac13c498950169be6fd5084f; actual JSON equals independent expected data/raw serialization. Original absent file restored to absent after each dawn group; real player34 files unchanged.",
+    "font_and_layout": "All final target bodies actual19px SC/TC primary fonts, owned fallback chain and nonempty glyph evidence; CJK primary, no OS fallback. Separate shaping probe, not RichTextLabel internal RID inspection. Deep CN LF spans26..27/45..46 and TW28..29/46..47 have glyph0/flags1 and only those spans are nonprinting. Deep body measures498×87 and521×87 within1192×87, visibly three lines. Longest dawn text1183/1192px; no observed target clipping/tofu/overlap.",
+    "visual_evidence": "Reviewer directly viewed all four original1280×800 PNGs and both repaired PNGs; all capture hashes were recomputed against immutable result artifacts.",
+    "restored_and_frozen": "Original source3004/helper71 and repaired source3004/helper74 maps unchanged; player34 unchanged; logs show identical pre-autoload/runtime isolated namespace and no errors in r1. Actual raw input/confirm/finish-typing/next-turn/trade/finalization counters0."
+  },
+  "normal": {
+    "directory": "order420-static-r1-final",
+    "result_sha256": "9419a64e9945398f1015f1fb4602f078e70819a983eb485db72fd9b2439872bd",
+    "entry_sha256": "db124a53b8fed826597738e43f55230dcffdbaa34dbc1457b56aa5532e234f37",
+    "runner_sha256": "a5928459c7eac1583d8fe24e1e9da5054a84511819218ac1c7a2dc1841679e2f",
+    "all_pass": true,
+    "commands": 13,
+    "interpretation": "12 validations plus one lane-list query, first normal execution for this unit. All exit0/stderr empty. Query lists10 proposals, not10 additional executions. Prior focused78/131, old runtime matrices, JA-only/whole/240-week audits were not repeated.",
+    "seconds": 839.024,
+    "preserved_maps": {
+      "tracked": 3004,
+      "helpers": 113,
+      "inputs": 17,
+      "prior": 568
+    },
+    "reconciliation": "Read all13 original stdout/stderr; individual00..12 JSON rows equal aggregate and entry commands. Full before=after maps independently rehashed against current files, including both runtime folders, original failures and prior sealed reports.",
+    "limits": "Chapter1 427.466s: debt8/blocked3 and W25..48 gap24, authoritative24/48 remain. Year5 reference_only/topology invalidated/r1b false remains. Full-body SOURCE_INVENTORY_ONLY/runtime0/native0; ZH skeleton/shipping0. Registry167; no release claim."
+  },
+  "preservation": {
+    "previous_decisions": 177,
+    "previous_reports": 155,
+    "previous_records_byte_identical_to_base": true,
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "public_go": 1,
+    "human_open": 45,
+    "full_game": "HOLD",
+    "new_package": "HOLD",
+    "result": "Current six-path Git delta and exact candidate identity checked; existing raw receipts/batches, JA, public demo, all old decisions/reports/human ledger, original TW failure and original runtime failure preserved."
+  },
+  "limitations": [
+    "Direct prepared contact/getter/dawn-producer calls are not natural player route or OS dawn ingress. Getter threshold fixtures and sequential dawn effects are bounded; no full playthrough or cap/reentry proof.",
+    "Prepared HUD date/mental/header and room background are outside the target-body claim; hardcoded Korean brand/info/save and unrelated fallback text remain. No whole-screen or whole-game translation approval.",
+    "Native-reader quality, human playtest, physical controller feel, natural input, full HUD refresh, gameplay enjoyment and new package shipping are unobserved. Existing B3/B4 and other deferred canon/localization gates remain separate.",
+    "Reviewer read-only reconciliation initially used incorrect JSON schema assumptions, then corrected to actual tracked_census and {sha256,bytes}; no evidence/helper/product writes or audit reruns resulted."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "natural_dawn_ingress",
+    "whole_game_release"
+  ],
+  "blockers": [],
+  "evidence_root": ".git/full-game-localization",
+  "final_decision": "GO only for declared ORDER-420 on the exact source subject above. Preserve failed originals and this report unchanged after sealing.",
+  "independent": true,
+  "status": "completed",
+  "decision_scope": "work_unit",
+  "private_review": {
+    "path": ".git/full-game-localization/order420-independent-review.json",
+    "sha256": "43f58314af0fd7f88e4842ea36b1c200276985e3acb31678fdf3e4cb75769ef1"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER420_R1_UI_OK screens=2 keys=5 locales=2 raw=0 contacts=0 getters=0 dawn=10; original34 reused",
+    "생산자 ↔ 독자": "CN/TW locale 22 keys each ↔ MainGame contact_flavor/daeun_dawn_line actual bodies",
+    "바꾸는 상태": "44 translations/receipts; accepted41366/b191; final44 target bodies and full typed restoration",
+    "포기 시 잃는 것": "Remaining contact and dawn bodies use English fallback",
+    "서사 위치": "N/A: existing contact UI",
+    "장면 계층": "N/A: localization/validation",
+    "닫는 것": "ORDER-420 work_unit only; full-game/new-package HOLD"
+  }
+}

@@ -5367,6 +5367,8 @@ func _build_story_panel(parent):
 	event_body.bbcode_enabled = true
 	event_body.fit_content = true
 	event_body.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	event_body.add_theme_font_override("normal_font", _font_regular)
+	event_body.add_theme_font_override("bold_font", _font_bold)
 	event_body.add_theme_font_size_override("normal_font_size", 18)
 	event_body.add_theme_color_override("default_color", Color("#c8d0df"))
 	layout.add_child(event_body)
@@ -5703,6 +5705,7 @@ func _build_info_panel():
 	log_box = RichTextLabel.new()
 	log_box.bbcode_enabled = true
 	log_box.fit_content = true
+	log_box.add_theme_font_override("normal_font", _font_regular)
 	log_box.add_theme_font_size_override("normal_font_size", 13)
 	log_box.add_theme_color_override("default_color", Color("#5a6075"))
 	stat_box.add_child(log_box)
@@ -14174,6 +14177,8 @@ func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
 	risk_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	risk_label.clip_text = true
 	risk_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	var risk_width := risk_label.get_theme_font("font").get_string_size(risk_text.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, risk_label.get_theme_font_size("font_size")).x
+	risk_label.custom_minimum_size.x = ceilf(risk_width) + 2.0
 	meta_row.add_child(risk_label)
 	var meta_spacer := Control.new()
 	meta_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -14434,6 +14439,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 		row.add_child(axis_badge)
 
 		var axis_lbl := _label(_axis_label(axis_tag), 10, _axis_color(axis_tag) if not disabled else "#5a6070")
+		axis_lbl.clip_text = false
 		axis_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		axis_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		axis_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -14462,6 +14468,8 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 
 	var badge_lbl := _label(badge_text, 11, "#a7f3d0" if free_action and not disabled else "#aab3c5")
 	badge_lbl.set_meta("moral_role", "choice_badge_text")
+	if icon_id == "shop" and not forced_badge.is_empty():
+		badge_lbl.clip_text = false
 	if forced_badge == _tr("잠금", "Locked"):
 		badge_lbl.add_theme_color_override("font_color", Color("#6d7282"))
 	badge_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -15099,6 +15107,7 @@ func _open_cat_work():
 			modal_body.add_child(tenure_row)
 			var tenure_lbl = _label(_tr("근속", "Tenure"), 12, "#7a8496")
 			tenure_lbl.custom_minimum_size = Vector2(36, 0)
+			tenure_lbl.clip_text = false
 			tenure_row.add_child(tenure_lbl)
 			tenure_row.add_child(_mini_progress_meter(tenure, threshold, "#8f98a8"))
 			var months_lbl = _label(_tr("%d / %d개월", "%d / %d mo") % [tenure, threshold], 12, "#aab3c5")
@@ -15109,9 +15118,9 @@ func _open_cat_work():
 			modal_body.add_child(_wrap_label(
 				_tr("업무 성과  %d / 100  [%s]  (기준: 60+)", "Performance  %d / 100  [%s]  (req: 60+)") % [perf, perf_gate], 12, perf_color))
 			if tenure >= threshold and perf >= 60:
-				modal_body.add_child(_wrap_label(_tr("이번 달 승진 판정 대상!  (35% 확률)", "Up for promotion this month!  (35% chance)"), 13, _info_text_hex("#f0b429", 0.02)))
+				modal_body.add_child(_wrap_label(_tr("이번 달 승진 판정 대상!", "Eligible for a promotion review this month!"), 13, _info_text_hex("#f0b429", 0.02)))
 			elif tenure >= threshold:
-				modal_body.add_child(_wrap_label(_tr("근속 기간 충족. 업무 성과를 60 이상으로 올리세요.", "Tenure met. Raise performance above 60."), 13, _info_text_hex("#f0b429", 0.02)))
+				modal_body.add_child(_wrap_label(_tr("근속 기간 충족. 업무 성과를 60 이상으로 올리세요.", "Tenure met. Raise performance to at least 60."), 13, _info_text_hex("#f0b429", 0.02)))
 			else:
 				var left = threshold - tenure
 				modal_body.add_child(_wrap_label(

@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-419",
+  "reviewer": "/root/independent392",
+  "verdict": "GO",
+  "decision_scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "b8ff97a121254a8e93c7c71c99837b1dffe98d28",
+    "tree": "7ec013fff6f73dc9d3c48066bcad51691e834906",
+    "manifest_sha256": null
+  },
+  "scope": "Repair the numeric classification of exactly one CN/TW contact-recollection UI leaf without changing its Korean source, Chinese targets or generic number validation. New standalone focused checker and explicitly owned audit lane. Implementation checkpoint2a04d010799d22bdd91e88b08212ff61c13da4c3 is included unchanged in the tested product candidate.",
+  "independence": "A separate bridge agent authored the three checker/registry files; root authored exchange/focused runners and another agent authored shared normal aggregation. Reviewer read complete new code/diffs, canonical event and actual contact consumer, private execution scripts, raw result/log files and immutable evidence independently. Reviewer authored none of these and executed no engine/audit/test command.",
+  "source_review": {
+    "exact_source": "두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들.",
+    "meaning": "arc_sangchul_02_coffee is a return visit and conversation at Sangchul's real-estate office, not a second cup/refill. MainGame._contact_flavor uses arc_sangchul_02_seen for this recollection. CN 第二次喝咖啡后 and TW 喝過第二次咖啡後 retain the second encounter and30 years. Event source reference does not prove natural current reachability.",
+    "adapter": "New _ui_contact_coffee_numbers activates only for CN/TW plus exact Korean source and exact full ui leaf ID. It requires a leading ordinal2 occasion attached locally to coffee and afterward, exactly one coffee mention and exactly one 第+CHINESE_CARDINAL+次/回 ordinal token across the target. This rejects wrong/missing/borrowed/duplicated occasion or coffee/cup/year-role forms including Arabic/fullwidth duplicate variants. Only the first Korean coffee phrase is changed to conversation in an internal numeric-comparison pair; original source/target remain inputs to independent token, BBCode, paragraphs, names, script and currency checks. Thirty-year tail remains unmasked and numerically checked.",
+    "boundaries": "Existing title-only coffee adapter, generic counter rules, historical test bodies, MainGame, dictionaries and source history bridges were not edited by419. No arbitrary prose acceptance list or diagnostic suppression was introduced. Registration provides contact-coffee-number ownership, not whole historical suite execution.",
+    "file_sha256": {
+      "tools/zh_translation_audit.py": "5520a2c7e0ce006bbb3d053bb0c64ae99221903d23d8b53a9b0e89147185b366",
+      "tools/contact_coffee_number_self_test.py": "3bbcb29b79eb472f25538640fbc6bf14bdcd360fed2c5d408977e57012d8a8c5",
+      "tools/audit_scope.json": "b9c9916a295bab5ba1ca36a8dfecb13db3336890c97d600cf87afb7deea0ec9d"
+    }
+  },
+  "failure_provenance": {
+    "official_trigger": "Original418 check failed both locales,10.737s, with expected ordinal_cup2/target candidates empty. Original aggregate remains false. Reviewer directly read that raw failure and independently traced the existing exact-title-only exception and canonical return-visit meaning. Semantic draft PASS was not official acceptance PASS.",
+    "development": "Author reported first72-case run failed only duplicate_occasion in both locales because generic numeric extraction deduplicated repeated ordinal values. Local ordinal cardinality was added. Reported targeted8 then passed duplicate4 and money2 but failed name2 because the test expected the wrong diagnostic wording; only that expectation was corrected and targeted name2 passed. These development attempts were delivered as author tool-output reports, not independently re-read private raw artifacts; they are not reclassified as whole-suite passes. Reviewer had not identified generic set deduplication before author execution and requested broad numeral/次回 token counting once the failure was known.",
+    "final": "Final immutable candidate has a separately retained complete78-case PASS. This full result supersedes neither the original official-check failure nor the reported development failures. No passing final focused command was repeated by shared normal."
+  },
+  "focused": {
+    "result": "PASS",
+    "cases": 78,
+    "historical_cases": 0,
+    "command_seconds": 0.566,
+    "aggregate_wall_seconds": 1.075,
+    "coverage": "Both actual unchanged targets and independent natural forms; first/third, cup/year, missing ordinal/coffee/after, before, signs/decimal/grouping, borrowed/duplicate tokens, altered/missing30 years, placeholder/BBCode/newline/paragraph/Hangul/kana/currency/name/regional-script failures; exact source/key/group/locale boundaries; original title and generic cup behavior. Each applicable row uses direct validate_text and official translation_errors Leaf path. Off-scope behavior is compared with the new adapter disabled; actual rows reproduce old ordinal_cup rejection when disabled.",
+    "limits": "Fixed counterexamples are bounded tests, not exhaustive language proof or native certification. The Leaf fixtures use actual source anchors but do not replay whole inventory/history. Same-candidate official acceptance and normal consumers supply separate integration evidence.",
+    "preservation": "Raw78 row markers and final marker read in full, exit0/stderr empty. Before/after maps match and were rehashed: tracked3001/helpers87/inputs24/prior9."
+  },
+  "integration": {
+    "official_exchange": "Same38 original418 response values checked with checker2a04d010,11.073s PASS. Export source96fb139 and both original headers preserved; current data and Main/GameState/LocaleManager matched that export base before import. Two official receipts bind19 values each. Independent four-file raw inverse preserved old41284 receipts/187 batches and all old UI bytes; current41322/b189 and JA3044/CN1566/TW1566. The adapter did not force translation to second cup.",
+    "shared_runtime": "Corrected418 observer ran once on b8ff97a:51.948s PASS,10 actual prepared contacts plus14 getter-body displays,38 lookups/bindings,24 typed restorations and four directly viewed1280x800 PNGs. Original51.335s observer FAIL is preserved; a source-explained lazy Hyunsu default was omitted by author/root/independent preflight. New observer independently expects its exact type/value without changing product, ignoring deltas or injecting live state. This is418 observer repair, not extra419 product scope.",
+    "shared_normal": "All13 originals read:12 validation commands plus one lane-list query, all exit0/stderr empty; wall788.415s. Each original row equals its aggregate row. Includes current receipt/fullbody/storygraph/Ch5/Year5/Ch1/ZH/EN/context/queue/diff/registry verification. Same candidate and all maps rehashed: tracked3001/helpers101/inputs14/prior371. Listed12 lane recommendations are not12 additional executions.",
+    "retained_limits": "Chapter1 snapshot debt8/blocked3 and24 missing W25..48 slots remain. Year5 is reference_only/topology invalidated/product_consumers0/r1b_allowed=false. Full-body inventory claims runtime0/native0; ZH skeleton/shipping0. No older focused suite, whole audit,240-week or additional engine run was performed by this normal aggregate."
+  },
+  "evidence": {
+    "paths_relative_to": ".git/full-game-localization",
+    "sha256": {
+      "order418-static-check.json": "6ea7598c4fc7e2e76851e6806e778354cf066a3bc60269ac79af1772598d89f4",
+      "order418-static-check-r1.json": "7d85786638762ef71cd257e835ad25dedb8c10eded9519316759355233c85e30",
+      "order418-append-precommit.json": "22481151a0c815779f27aca853de85eec0b1c8cb55cabc3569271be16ea8845b",
+      "order419-focused-final/result.json": "1616641bac41d1c24812d678db8faf0a6f8bd421900732d46067b0243771ae52",
+      "order419-focused-final/00.json": "40ba326c03625142581882130f79198a11326f66e710ffbe8c5960cefca639ce",
+      "order418-screen-final/result.json": "a86111db68affa5c9c9f2b0b5b9c088bb4019d3c8f091db196927fcf307341ee",
+      "order418-r1-screen-final/result.json": "efae97315470dd7955ab20089477239c0f6bc54940a614ccf4f1ffb6b8e7e888",
+      "order418-r1-screen-final/order418-r1-observations.json": "e952f3ca00170cc684500db07c64dfc911a17edb8dca404782553f5e2fb0e336",
+      "order419-static-r1-final/result.json": "4bfd5afafb8ba064a6d4e5b4c529c9449b8fffb7e063b24a10242dcc24e5055a",
+      "order419-static-r1-final/entry.json": "0f7339e80cfc99272b62a3712d01864a044971550655b60e66cd2533c7f2699f"
+    }
+  },
+  "preservation": "Clean final b8ff97a/tree7ec013 observed after all executions. Existing175 decisions and153 reports byte-identical to96fb139; human ledger SHA2566ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6 unchanged. Prior415/416/417 original reports, runtime/focused/static failures and successes preserved. Public-demo and all unrelated source remain unchanged.",
+  "unobserved": [
+    "Native-speaker, human, physical-controller/audio/accessibility and overall-release approval are not supplied by these tests.",
+    "Shared runtime fixtures do not prove natural story ingress;14 getter displays are not14 contacts. No confirmation/next-turn/finalization route was exercised.",
+    "Separate TextServer glyph probes are not internal RichTextLabel shaped-RID or bold-span inspection. Existing Korean HUD and English Jaehyuk/Jiyeon flavors remain outside418/419.",
+    "This GO applies only to the exact419 work unit at the named source. Full game/main/new package and existing B3/B4/human/native HOLD or OPEN gates remain unchanged; prior public M01-M06 approval is not broadened."
+  ],
+  "independent": true,
+  "status": "completed",
+  "private_review": {
+    "path": ".git/full-game-localization/order419-independent-review.json",
+    "sha256": "2b4118d7ca21151804377961aa090c055dbb91d6b812d2725bff0c5beaa89fc3"
+  },
+  "unit_evidence": {
+    "도달 경로": "CONTACT_COFFEE_NUMBER_OK cases=78 historical_cases=0",
+    "생산자 ↔ 독자": "_ui_contact_coffee_numbers ↔ validate_text/official Leaf validator",
+    "바꾸는 상태": "One exact CN/TW leaf numeric classification; no source/translation/generic change",
+    "포기 시 잃는 것": "Correct second-coffee encounter recollection rejected by cup classifier",
+    "서사 위치": "N/A: existing contact UI",
+    "장면 계층": "N/A: localization/validation",
+    "닫는 것": "ORDER-419 work_unit only; full-game/new-package HOLD"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-455",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "3ede74c63c68baddacba844df605ef4a78ba4bbc",
+    "tree": "8d50a4c76b9eb2669148caacd20f7d8e6c0f3a43",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "Holdem의 기존 한국어 승리 template을 lookup 뒤에만 ‘%s으로’→‘%s로’ 바꾸는 표시 수리. 기본9패명에 적용하며 번역 키·비한국어 template·지급·순손익·정산 규칙을 유지한다.",
+  "method": {
+    "direct": "gangnamdream-dev 지침·455 사양·실제 소비자·제품 diff와 history/append/focused·private oracle/GD/runner/normal을 읽었다. 원본 PNG2장을 직접 열고 관찰 JSON의9패명/4비한국어 getter·8노드·지급/효과/복원, stdout/stderr/Godot 로그 및 normal8행 원문과 최종 집계를 확인했다.",
+    "assistance": "비저자 하위 /root/independent392/ab_readonly428가 Git/stdlib 읽기로 runtime artifact·현재 source/helper/player·기존 기록의 bytes/SHA를 대조했다. 본 검수자는 normal10 artifact와 현재 source/helper/player 및 runtime과의 결속을 별도로 대조했다.",
+    "execution": "독립 검수자의 프로젝트 import·collector·검사·엔진 실행0. 동결 해제 뒤 이 보고서 하나만 작성했다."
+  },
+  "source_review": {
+    "declaration": "b768cf325099463b17a7717b084ae846c367389a",
+    "product": "a8fc6a3ac1d5e444c01ec6f1ed1b33c67b4cf418",
+    "boundary": "Holdem1210의 기존 호출을 감싸는1줄과 EOF4줄뿐이다. LocaleManager.is_korean()일 때만 치환하고 다른 언어는 입력 template 그대로 반환한다. 기본9패명은 모음 또는 ㄹ 종성이므로 ‘로’가 맞다. whole-file 역상과 기존71 UiCall의 소유자/줄/API/문자열을 확인했다. wrapper로 문자 열 위치는20→38로 이동하며 모든 좌표 불변을 주장하지 않는다.",
+    "proof": "13단계78 Git 요청 행과66고유 객체를 구분한다. 실제 전이·fresh HEAD·whole-byte 역상과 current inventory/manifest 검증을 유지한다. focused의 captured Git fault 재생과 합성 phantom은 독립 재서명 역사 객체 실험이나 엔진 실행이 아니다.",
+    "unchanged": "JA3053/CN1776/TW1776, accepted41755/b228 및 원장 SHA095d5e46dca4c4ddabcfde1f255565ff18f6cc913997238ca22ea812c102f53d를 보존했다. 새 번역·수용·coverage0이다. payout/hand_net/RESULT와 기존 휴면 _net_session 쓰기는 그대로다."
+  },
+  "runtime": {
+    "path": ".git/full-game-localization/order455-screen-first/result.json",
+    "sha256": "c097ae12149ced110b92957139020ba88f6d0f24834c590ad4c774be4937ff30",
+    "entry_sha256": "0a086ee168ef74638a06a298f07df04a98ee26490e3ca54fc753afebb0a693af",
+    "observations_sha256": "49e485e8355f5f185c671b8829047274b9ab56b4fb5501b95b14eaa27e09bb33",
+    "result": "첫 격리 KO1 process,13.273초, exit0/all_pass=true, errors/report_error[], prior_error=null이다. PNG2·표적8노드·실제9패명 template getter·비한국어4 template getter·준비 RIVER2·실제 SHOWDOWN dispatcher2·복원1을 관측했다. 실제 딜/시작·베팅·AI행동·RESULT·Close·raw/tap·현금/로그/정산 신호0이다.",
+    "visible": "두 원본 PNG에서 ‘스트레이트로 승리! +20,000원’과 ‘트리플로 승리! +20,000원’을 직접 확인했고 표적 잘림·겹침 발견0이다. 실제 Pretendard regular/bold12·18·24px의8노드는 공유 폰트·primary glyph·full_fit·bounds·부모 경계를 만족했다. 기존 작은 글씨와 POT 표기는 범위 밖이다.",
+    "prepared_and_actual": "각 준비 표본은 사용11장+남은41장=고유52장이고 독립 rank 계산에서도 플레이어가 엄격 승자다. hand_start100k/120k와 RIVER stack90k/110k는 준비값이며 실제 blind/deal 결과가 아니다. 실제 dispatcher는 pot30k를 지급해 stack120k/140k와 각 net+20k를 만들었다. gambling은20→23→26, cash5M/AP2/addiction20 및 Meta bytes는 그대로다. 기존 _net_session −70k→−40k는 휴면 값으로 보존했고 표시 순손익 근거로 쓰지 않는다.",
+    "restore": "whole typed 기대/actual과 effect delta[], group before==restored 및 teardown 불변을 확인했다. hand-start int·RNG·Meta 원문과 semantic AP focus를 복원했다. 실제 Main 재구축으로 raw node path/ID는 달라졌으므로 절대 identity 보존은 주장하지 않는다. 비한국어4개는 동기 language-field/pure-template getter만 관측했으며 설정 선택·폰트 재적용·다국어 화면은 실행하지 않았다.",
+    "preflight": "실행 전에 Python effect 비교의 typed 하위 dict와 untyped 기대 경계를 맞췄다. 이는 첫 실제 런타임 실패나 제품 수리가 아니며 첫 실행은 성공했다."
+  },
+  "normal": {
+    "path": ".git/full-game-localization/order455-normal-first/result.json",
+    "sha256": "7a439d111ad0000cf1d943885ee38d8e97b792bba38665802b8e84439bf36403",
+    "entry_sha256": "24bdd9f5d65bfb226cb70060477dd4a447807b4e5830ef22aee8aaad3c1299fe",
+    "result": "같은 clean 후보에서 새 focused·실제365·EN·context/queue/diff/등록·차선조회, 총8행 전부 exit0/빈 stderr, all_pass/source_unchanged=true, errors[],628.584초다. focused61/historical_cases0(10.303초), 실제365617.686초 accepted41755/b228/live47/historical_cases0, 등록192를 확인했다. 실제365 stdout은 봉인453 원 main 출력과 동일하다.",
+    "timing_limit": "시간은 해당 단일 실행 관측값이다. 이전454 또는 계측453과 통제된 A/B가 아니며 성능 향상·저하나 인과를 주장하지 않는다."
+  },
+  "preservation": {
+    "artifacts": "runtime187 artifact+result1=188파일과 normal10 artifact+result1=11파일의 bytes/SHA가 일치했다. entry·각 row·command·집계와 actual PNG를 결속했다.",
+    "maps": "runtime before=after의 tracked3110/helpers177와 복사본177/current_inputs5/player34를 확인했다. normal before=after의 tracked3110/player34/flat helpers5도 현재 bytes/SHA 및 runtime census와 일치했다. current_inputs5에는 normal 별도 flat 파일이 포함된다. runtime prior9 top groups/2558 file leaves 중227은 재해시했고 older2331은 앞서 검수한452 prior-map 동일성으로 재사용했다. 보고서는 snapshot 이후 생성되어 해당 맵에 포함되지 않는다.",
+    "records": "선언 대비 기존215판정·193보고·human raw bytes, 보호된 사전/원장·게임 로직·453/454 도구와 선행 증거를 보존했다. 공개·인간 판정을 변경하지 않는다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "KO1280×800 준비 SHOWDOWN2례와9기본패명 getter 범위다. 실제 지급 호출은 관측했지만 자연 진입·자연 베팅·딜·입력·물리 패드·원어민/인간·다국어 화면·전체 게임·출시는 미관측이다.",
+    "70프레임 뒤 안정 화면이며 transient tween peak 전체를 검증하지 않았다. resolved-font probe는 RichTextLabel 내부 raster glyph를 전부 가로챈 관측이 아니다. 기본9패명 외 임의 고유명사의 한국어 조사 일반화는 범위 밖이다.",
+    "과거 focused/runtime·JA/ZH 전체감사·서사 전체·whole audit·240주·공식교환·새 package는 NOT_RUN이다. 선행 PASS의 보존을 새 실행으로 승격하지 않는다."
+  ],
+  "final_boundary": "현재3ede74c63c68baddacba844df605ef4a78ba4bbc에서 ORDER-455 한국어 승리 조사 표시 수리의 source/automated/runtime/screen 범위만 GO. 전체 제품·공개/출고·원어민·인간 HOLD는 유지한다."
+}

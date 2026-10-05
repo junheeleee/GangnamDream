@@ -1,0 +1,194 @@
+{
+  "unit_id": "ORDER-431",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "31f6751b2bea7fb0155d24eb953e3200e6f09145",
+    "tree": "f570ca6214c99e1bb29121c0b3a8b6d761530738",
+    "manifest_sha256": null
+  },
+  "reviewer": "independent392",
+  "conclusion": "현재31f6751 후보에서 한국어5키의 CN/TW10값이 공식 수용·의미·실제 결과/손익 기록 소비와 일치한다. 별도432의 normal_font 수리 이후 동일한 strict431 관측·검증을 다시 통과했으므로 이 현재 범위만 GO다.",
+  "review_method": "번역·제품·helper 비저자. KO와 실제 Scalp/Holdem 공유 제목 소비자,10값·공식교환·raw inverse, 새 runtime8PNG 직접 열람, 원문 정산/복원/입력/로그, 정상14행과 전체 해시맵을 읽기 전용으로 검토했다. 직접 엔진/감사 재실행0.",
+  "resolution_of": {
+    "original_subject": {
+      "commit": "75a4661f2604c550d478c65094387f0479f637da",
+      "tree": "f0c5ecf41567e2357d8bcb2ad03cd54af9c1cd14"
+    },
+    "original_verdict": "REWORK",
+    "original_runtime_seconds": 39.402,
+    "failure": "실제8PNG·정산4가 생성됐으나 로그4곳 normal=Open Sans SemiBold/shared_role=false. stdout/Godot 중복수집8오류와 fail-fast 집계 screens0을 FALSE 그대로 보존했다.",
+    "repair_owner": "ORDER-432: MainGame log_box normal_font 1줄. 번역/정산/원래431 observer·validator 판정을 완화하지 않았다.",
+    "scope_boundary": "최초75a 후보를 소급 PASS로 변경하지 않으며 이 GO는 새 고정31f6751 후보만 대상으로 한다."
+  },
+  "translation": {
+    "ko_keys": 5,
+    "new_regional_values": 10,
+    "locales": [
+      "zh-CN",
+      "zh-TW"
+    ],
+    "semantic_result": "전체10값 KO 직접 대조: CN超短线交易/TW極短線交易 기존 용례, 손익 극성, 원화와 %s→%d 순서·횟수를 보존. session 제목은 공유 Holdem에도 중립적이며 Retry를 게임 전체 초기화라고 옮기지 않았다.",
+    "official": {
+      "exports": 2,
+      "checks": 2,
+      "imports": 2,
+      "first_check_pass": true,
+      "export_seconds": 10.783,
+      "check_seconds": 10.793
+    },
+    "raw_preservation": "baseline fc3535b7baf9fca43fde2405cbcfcad21c88b0d8에서 CN/TW 각각5값,accepted10·batch2만 추가했다. header/selection/digest·draft/response/current 값과 raw역상을 대조했다. 최종31f6751에서도 수용 당시3제품파일은 불변이다.",
+    "accepted_before": 41602,
+    "accepted_after": 41612,
+    "batches_before": 205,
+    "batches_after": 207,
+    "ui_counts": {
+      "ja": 3044,
+      "zh-CN": 1711,
+      "zh-TW": 1711
+    },
+    "ja_unchanged": true
+  },
+  "actual_runtime": {
+    "duration_seconds": 39.533,
+    "pass": true,
+    "locale_processes": 2,
+    "exit_codes": [
+      0,
+      0
+    ],
+    "stderr_empty": true,
+    "engine_errors": [],
+    "success_marker_per_process": "ORDER431_UI_OK screens=4 keys=5 locales=1 settlements=2 actions=0",
+    "captures": 8,
+    "lookups": 10,
+    "bindings": 16,
+    "actual_result_nodes": 20,
+    "actual_log_nodes": 4,
+    "settlements": 4,
+    "raw_edges": 56,
+    "taps": 28,
+    "direct_visual_review": "CN/TW 각 win/loss RESULT 및 기록8장을 직접 열람했다. 대상 문구의 잘림·두부·겹침을 관찰하지 않았다.",
+    "log_font": "4곳 actual normal=stable FontKit regular, SC/TC primary weight400·13px; normal_id=regular_id=ThemeDB fallback_id. 123 glyph 모두 비0/owned, CJK primary, missing=false/no_os_fallback=true.",
+    "log_fit": {
+      "cn_widths": [
+        346,
+        268
+      ],
+      "tw_widths": [
+        363,
+        278
+      ],
+      "container_width": 384,
+      "content_height": 20,
+      "all_fit": true
+    },
+    "effects_and_restoration": "정산4의 독립expected=observed, reader4, warmup4, 상태/UI복원4, teardown2 exact. 500만원→510/490만원, case별 stats/log/money신호1회; 승리 skill15→16·gambling0→2, 손실 mental60→56. Meta 저장307bytes 및 원래 바이트/존재 여부 복원 일치.",
+    "input_boundary": "튜토리얼 취소4tap+RESULT 탐색24tap. 생성/관측56edge exact, 탐색owner52개가 활성 결과버튼2개 안에 있었다. BUY/SELL·closed·confirm·finalized·pressed·trade·threshold0은 해당 경계만 증명한다."
+  },
+  "normal": {
+    "all_pass": true,
+    "wall_seconds": 874.151,
+    "validation_rows": 13,
+    "query_rows": 1,
+    "exit_codes_all_zero": true,
+    "stderr_all_empty": true,
+    "row_artifact_binding": "00..13 원본이 집계 각 행 및 entry 명령과 exact이며 stdout/stderr 전문을 읽었다.",
+    "focused": {
+      "cases": 118,
+      "seconds": 1.61,
+      "marker": "LOG_BODY_FONT_RECEIPT_CHECK_OK cases=118"
+    },
+    "inherited_limits": "Chapter1 debt8/blocked3/gap24·authoritative24/48, Year5 reference_only/topology invalidated/r1b_allowed=false, full-body source inventory only, ZH skeleton/shipping0를 보존했다. lane의12개 출력은 조회이며 추가12회 실행이 아니다."
+  },
+  "preservation": {
+    "runtime_before_after": {
+      "tracked": 3035,
+      "helpers": 111,
+      "inputs": 2,
+      "player_files": 34,
+      "prior_artifacts": 2758,
+      "artifacts": 134,
+      "equal": true
+    },
+    "normal_before_after": {
+      "tracked": 3035,
+      "prior_artifacts": 2619,
+      "flat_current_inputs": 2,
+      "runtime_files": 135,
+      "player_files": 34,
+      "artifacts": 16,
+      "equal": true
+    },
+    "rehash_mismatches": 0,
+    "prior_decisions": {
+      "count": 190,
+      "sha256": "9112f2c101f1bcf0aade2d24cf3390986efc505fb8a3dfbba4f1fc4164905cc7",
+      "bytes_unchanged": true
+    },
+    "prior_reports": {
+      "count": 168,
+      "bytes_unchanged": true
+    },
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "boundary": "각 실행 원본의 before/after와 현재 고정 후보를 대조했다. 이 최종 보고서는 모든 실행이 끝난 뒤 새로 생성했으며 실행 당시 census에 포함되었다고 주장하지 않는다. 최초431 FAIL/REWORK와 모든 이전 실패·성공 자료를 수정하지 않았다."
+  },
+  "evidence": {
+    "runtime_result": {
+      "path": ".git/full-game-localization/order432-screen-first/result.json",
+      "sha256": "9386160d55a55d5f3967373e492557cf2401cd229e370836dd21dd42e270e4be"
+    },
+    "runtime_entry": {
+      "path": ".git/full-game-localization/order432-screen-first/entry.json",
+      "sha256": "281c1167b4efa6ee49781cfd5d1c0b0dccbc6593f574fe538030c5277277484d"
+    },
+    "cn_observations": {
+      "path": ".git/full-game-localization/order432-screen-first/zh-CN/order431-observations.json",
+      "sha256": "beb09df880cdcf3c19233a9077b9fc1bbb761bc57cb4343fed585cce941d648e"
+    },
+    "tw_observations": {
+      "path": ".git/full-game-localization/order432-screen-first/zh-TW/order431-observations.json",
+      "sha256": "5eaaeed7c0e90d686c24e173d16928efaf67156737cd76a3699c19d9d9ee9fa7"
+    },
+    "normal_result": {
+      "path": ".git/full-game-localization/order432-static-final/result.json",
+      "sha256": "71ccbad7f9966223c1605b7db26445c0daf02e4ebbb612ed28180c3e866ed5ca"
+    },
+    "normal_entry": {
+      "path": ".git/full-game-localization/order432-static-final/entry.json",
+      "sha256": "82be5495ae0dab44afacb3ecdfb8d32525a0f10c261f64663151192c089bfd46"
+    },
+    "first_failure": {
+      "path": ".git/full-game-localization/order431-screen-first/result.json",
+      "sha256": "552c8ae5cb053c62f5f9379e52af1e5583bd5f332d9ff7c0a794d433e5625328"
+    },
+    "sealed_rework": {
+      "path": ".git/full-game-localization/order431-independent-review-rework.json",
+      "sha256": "a089cf57a42eaf3f25e932e942e6c600d4d161431b181d33f8a900db0f420590"
+    },
+    "official_export": {
+      "path": ".git/full-game-localization/order431-static-export.json",
+      "sha256": "e218ec01a26b067bf5cab41a59deeb173bf52b0d0ded62fa4049e2af1cc09142"
+    },
+    "official_check": {
+      "path": ".git/full-game-localization/order431-static-check.json",
+      "sha256": "72533e9fcfef1f2ffeeb0813fe1afeaade7aafa364d0ffe74861e0a836f7e04c"
+    },
+    "append_proof": {
+      "path": ".git/full-game-localization/order431-append-precommit.json",
+      "sha256": "b4d5e27e8b91cd8c2dd128cbb328903da8866d895d2b1f32345fdaaf63bf0490"
+    }
+  },
+  "unobserved": [
+    "native/human/physical controller 미관측. 현재 두 작업 단위의 자동·독립 검수일 뿐 전체 게임/본편/새 package/release GO가 아니다.",
+    "실제 _end_game 정산을 준비된 상태에서 호출했다. 자연 진입·실시간 BUY/SELL·강제 청산·0손익·Retry/Leave 활성화·Holdem 공유 결과·cap/mastery 경계는 관측하지 않았다.",
+    "로그 bold는 리소스 조회뿐이고 강조 span 렌더가 아니다. glyph는 실제 resolved font를 이용한 별도 TextServer probe이며 RichText 내부 shaped RID 관측이 아니다.",
+    "배경 BUY/SELL/P&L 및 준비된 정보창의 손실 후 mental60 표시 등 표적 밖 HUD 잔여는 전체 HUD 승인에서 제외한다. 실제 정산의 mental56 typed 값과 표시 갱신 순서를 구별했다."
+  ],
+  "schema_version": 1,
+  "private_review": {
+    "path": ".git/full-game-localization/order431-independent-review.json",
+    "sha256": "0afa701229a0dfe44176b3ac7661ca9f9736ef91af08d74fbb7c51b90394fa04"
+  }
+}

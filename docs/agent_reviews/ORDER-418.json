@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-418",
+  "reviewer": "/root/independent392",
+  "verdict": "GO",
+  "decision_scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "b8ff97a121254a8e93c7c71c99837b1dffe98d28",
+    "tree": "7ec013fff6f73dc9d3c48066bcad51691e834906",
+    "manifest_sha256": null
+  },
+  "scope": "Nineteen existing Korean contact keys translated independently into CN and TW: five result templates, five short action-log templates, five Father flavors and four Sangchul flavors. Thirty-eight new values and receipts, two official batches. No MainGame, gameplay, KO/EN/JA, font or public-demo product change in this unit.",
+  "independence": "Root authored both regional drafts, acceptance and execution; a separate agent authored the runtime observers. Reviewer authored no translations, product or helpers and ran no engine/audit/test commands. Review comprised complete Korean-direct meaning review, actual consumer/canon and helper reading, Git/raw-data reconciliation, all original result/log rows, direct viewing of both sets of four PNGs, and independent recomputation of all24 typed expected states from retained observations.",
+  "source_review": {
+    "population": "All19 Korean keys and both38 target values reviewed, not sampled. Actual consumers are MainGame._contact_result_text, _contact_action_log_text and _contact_flavor; contact channel is selected before the affinity effect.",
+    "semantic_result": "PASS. Failed call remains an attempted, unconnected call; parting is not a romantic breakup. Father hospital/reconciliation/rich predicates and Sangchul Jiyeon-reveal/network/second-coffee predicates retain their source facts. The second coffee means a second encounter, supported by arc_sangchul_02_coffee, not a second cup. Thirty years of seeing is rendered as accumulated experience, without invented investment guarantees. Roman names, five {name} templates, five %s templates, check marks and regional scripts are retained.",
+    "draft_sha256": {
+      "zh-CN": "c14c641cad1fe2011476c6e821636540bcd2ed9a7b56b41a441feacc9b481737",
+      "zh-TW": "7b94c35d703c6b6dda3ad4c99500a24406ac30f3c771b395e229fadc4fc47ea0"
+    },
+    "acceptance": "Original export source96fb139a64125b215efdf1c4c4f8f92ec019a072 and manifest2ec6835b6196cb51b19cd164ce8b3f5238e13a1e92c2d17ceefb26b01f5b96b7 remain in both official headers. New419 checker2a04d010799d22bdd91e88b08212ff61c13da4c3 checked the same unchanged38 response values. Both official import outputs report19 leaves and human_gate=OPEN. All source/response/header/private-receipt/ledger IDs and digests were reconciled against current dictionaries.",
+    "preservation": "Independent span-based inverse of the appended CN/TW members, accepted receipts and batch suffix plus restored accepted checksum reproduced all four baseline files byte-for-byte, including unchanged Japanese. Previous41284 receipts and187 batches preserved; current41322/b189, CN1566/TW1566/JA3044. Product418 commit changes only CN/TW dictionaries, ledger, CLAUDE and WORK_LOG.",
+    "receipt_file_sha256": {
+      "zh-CN/full-ko-direct-2026-09-07.1/447e555b6a61331a370959059ad71e14817482c3dc296a3eb1f0d4b3d78d85dd.accepted.json": "26ccdc68e3f7fc5f6d72151f15acc68f1204afe35cd8b2af977b8491e08b0957",
+      "zh-TW/full-ko-direct-2026-09-07.1/d43c66f23db2e3059833fcac12e7363a60d4acb7600e1cbbaf594f15e49098bb.accepted.json": "f63e4bd66742b5f7e18a23d0969e300052fb6bd78713baf41eef2b268056d49c"
+    }
+  },
+  "failure_and_repair": {
+    "official_check": "First two-region check failed after10.737s because the generic numeric classifier required ordinal_cup2 for the exact long coffee recollection. Semantic review had correctly retained the second encounter but did not anticipate the validator mismatch. Drafts/responses were not altered to claim a cup. Separate419 exact numeric adapter repaired validation; same38 check-r1 passed11.073s. Original failed aggregate remains false.",
+    "observer": "First runtime on the same b8ff97a failed51.335s: ten real contacts each added the exact previously absent Hyunsu placeholder to two snapshot aliases. Ten assertions appear twice across stdout/Godot logs, not twenty independent contact failures. All24 restorations and measured text/font fits passed. Root, helper author and independent preflight missed this source-side lazy initialization; first runtime remains FAIL.",
+    "cause": "Actual _ap_contact_person -> _close_modal -> static _demo_director_route_week -> scene-first _render_ap_actions -> _render_scene_first_decision -> _demo_week_pressure -> _closest_person -> cast_has_met(hyunsu) -> GameState._ensure_cast creates {stage:unknown, affinity:int0, met:false, flags:{}}. Existing product behavior, not a new translation effect.",
+    "repair": "New r1 files only. GD and Python independently add the literal to expected state, never to live fixture state and never by copying observed values or ignoring a delta. Source/function hashes and actual route predicates bind this expectation. Real10 require absent-to-exact-default creation; getter14 require no creation. Whole typed state equality and full restoration remain mandatory. Original helpers and failed artifacts are sealed and rehashed. Pre-export helper's17-versus20 source-row assertion was corrected before response processing; its export-version copy is preserved, not an official export rerun."
+  },
+  "runtime": {
+    "result": "PASS",
+    "seconds": 51.948,
+    "population": "Ten prepared direct _ap_contact_person calls: five channels per locale. Fourteen additional prior-story flavor getters displayed on the actual body. Twenty-four full typed observations,38 lookups,38 unique source bindings and four representative1280x800 PNGs. Eighteen newly translated flavor bodies measured; six Jaehyuk/Jiyeon body observations retain existing English fallback outside translation scope.",
+    "state": "All24 prepared/expected/observed and before/restored objects independently reconciled. Real10: AP1->0, affinity40->44, mental40->48, exact contact count/turn, human axis, home-or-city place/families/subject, one complete relationship log and short log, exact lazy Hyunsu default; stats4/log1 signals. Getter14: no effect or stat/log signal. Narrative queue, pending weekly owner and advance paths stay empty; all24 restore with delta0.",
+    "visual": "Both original-failure and corrected four-PNG sets directly viewed. Corrected target bodies are19px regular SC/TC, titles36px, complete natural typewriter, no observed target clipping/tofu/overlap. All24 body/title resolved-font routes, nonempty glyph probes, primary CJK glyphs, weights and owned fallback chains inspected. Target flavor width maximum758/1192px; largest measured out-of-scope English body1029/1192px.",
+    "preservation": "Corrected result/entry/oracle/logs/PNG hashes and all source3001/helper68/player34 maps match before/after. All artifacts in four preserved prior runtime folders, including original418 failure and415 failure, were rehashed unchanged. Teardown protected state unchanged."
+  },
+  "shared_normal": {
+    "result": "PASS",
+    "commands": 13,
+    "validation_commands": 12,
+    "query_commands": 1,
+    "wall_seconds": 788.415,
+    "method": "All13 original stdout/stderr JSON rows read, equal aggregate embedded rows, exit0/stderr empty. Same b8ff97a subject as both runtime and separately completed419 focused78. No passing focused/engine/history suite was replayed by normal. All before/after maps rehashed: tracked3001, helpers101, inputs14, prior371.",
+    "limits": "Chapter1 remains snapshot-valid debt8/blocked3, W25..48 missing24, authoritative24/48. Year5 remains reference_only/topology invalidated/product_consumers0/r1b_allowed=false. ZH mode=skeleton/shipping0. Full-body remains SOURCE_INVENTORY_ONLY/runtime_claim0/native_quality_claim0. Lane list12 is a query, not12 additional executions."
+  },
+  "evidence": {
+    "paths_relative_to": ".git/full-game-localization",
+    "sha256": {
+      "order418-static-export.json": "c27e7e77b61e635a3e9e883d17328f339854da40073aabad41472889ceb48cc1",
+      "order418-static-check.json": "6ea7598c4fc7e2e76851e6806e778354cf066a3bc60269ac79af1772598d89f4",
+      "order418-static-check-r1.json": "7d85786638762ef71cd257e835ad25dedb8c10eded9519316759355233c85e30",
+      "order418-append-precommit.json": "22481151a0c815779f27aca853de85eec0b1c8cb55cabc3569271be16ea8845b",
+      "order418-screen-final/result.json": "a86111db68affa5c9c9f2b0b5b9c088bb4019d3c8f091db196927fcf307341ee",
+      "order418-screen-final/order418-observations.json": "75c59c6504037627c7b4396102e2b9656b9a6ce09a89539522f7ba3173f715e8",
+      "order418-r1-screen-final/result.json": "efae97315470dd7955ab20089477239c0f6bc54940a614ccf4f1ffb6b8e7e888",
+      "order418-r1-screen-final/order418-r1-observations.json": "e952f3ca00170cc684500db07c64dfc911a17edb8dca404782553f5e2fb0e336",
+      "order418-r1-screen-final/oracle.json": "9d6d593384bbb46529592af6ddbe1fee57c4e5546dadc9c37f04aa5541aadd32",
+      "order419-focused-final/result.json": "1616641bac41d1c24812d678db8faf0a6f8bd421900732d46067b0243771ae52",
+      "order419-static-r1-final/result.json": "4bfd5afafb8ba064a6d4e5b4c529c9449b8fffb7e063b24a10242dcc24e5055a",
+      "order419-static-r1-final/entry.json": "0f7339e80cfc99272b62a3712d01864a044971550655b60e66cd2533c7f2699f"
+    }
+  },
+  "preservation": "Existing175 decisions and153 reports remain byte-identical to source96fb139. Human ledger SHA2566ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6 unchanged. Main/autoloads/events/JA/public-demo source unchanged. Prior415/416/417 reports and original failures retained.",
+  "unobserved": [
+    "Native-speaker certification, human playtest, physical input/controller/audio/accessibility and overall release approval were not observed.",
+    "Prepared fixtures are not natural story ingress;14 getter displays are not14 real contacts. No confirm, next-turn or weekly-finalization action was exercised.",
+    "Glyph probes use separately shaped TextServer text with actual node fonts, not internal RichTextLabel shaped RID inspection. Bold-span rendering is not claimed.",
+    "Existing Korean brand/info/save HUD and Jaehyuk/Jiyeon English flavor fallback are outside this unit; complete-screen or full-game translation is not claimed.",
+    "Public M01-M06 prior approval remains limited to its exact frozen package. Full game/main/new package, B3/B4 and existing human/native gates remain HOLD or OPEN as previously recorded."
+  ],
+  "independent": true,
+  "status": "completed",
+  "private_review": {
+    "path": ".git/full-game-localization/order418-independent-review.json",
+    "sha256": "927678b2e0aa5d8ceaf129434cb20f1abd01c1361a525d076b93decf63a6c177"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER418_R1_UI_OK screens=4 keys=19 locales=2 raw=0 contacts=10 getters=14",
+    "생산자 ↔ 독자": "locale/ui_zh-CN.json + ui_zh-TW.json ↔ MainGame contact result/log/flavor",
+    "바꾸는 상태": "38 values/receipts + 2 batches; 41322/b189; 24 typed state observations/restorations",
+    "포기 시 잃는 것": "19 contact UI keys per locale remain English fallback",
+    "서사 위치": "N/A: existing contact UI",
+    "장면 계층": "N/A: localization/validation",
+    "닫는 것": "ORDER-418 work_unit only; full-game/new-package HOLD"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-449",
+  "decision_scope": "work_unit",
+  "verdict": "REWORK",
+  "subject": {
+    "kind": "source",
+    "commit": "74aeeb0ab65e28b0d9c6311efb5d48da1c9c8bda",
+    "tree": "857de598b6970fcec4778dc2493a7ef808a46fbe",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "홀덤 POT/BOARD/STACK/BET 다섯 표시식과 JA/CN/TW 신규4키·12값의 최초 후보 검수. 번역 의미와 가로 맞춤은 적합하지만 플레이어 좌석의 테이블 부모 경계 초과로 이 후보는 REWORK다. 후속 ORDER-450의 수리·검증을 이 최초 후보의 GO로 소급하지 않는다.",
+  "method": {
+    "direct": "gangnamdream-dev 정본·범위 지침에 따라 실제 소비자와 다섯 줄 diff, 지원 history/pipeline/append 및 준비형 GD를 읽었다. 공식 export/check/import 원본9행, 실제1280×800 PNG3장 전부, 관측3개·stdout/stderr/Godot 로그·전체 typed 복원과 실패 집계를 직접 읽었다.",
+    "assistance": "하위 비저자 /root/independent392/ab_readonly428가 Git/stdlib로 다섯 줄 whole-file 역상·기존66 UiCall 위치 보존·지원 prefix/seal/실제 핀과 사전3/원장4파일 raw 역상을 대조했다. 프로젝트 collector를 실행한 결과로 부르지 않는다.",
+    "execution": "독립 검수자의 프로젝트 import·collector·검사·엔진 실행0. 읽기와 SHA/바이트 대조 후 허용된 이 보고서 하나만 작성했다."
+  },
+  "source_and_acceptance": {
+    "declaration": "6608fc8a77ab4eeeb62cd909a67540a219fb4027",
+    "display_product": "bf26b99fda084d90992fd4ac7f81349237eb3add",
+    "export_source": "7e84de58d6857c47cd3edd0343c715c26b61dadf",
+    "export_manifest_sha256": "e5033187efce408aacaa5945e210ae66d0554dadf64eb2ca720153d25cec6224",
+    "source": "548/611/639/783/785행 표시식만 바뀌고 _fmt·원화 정수·POT 두 공백·STACK 한 공백·BET 앞 세 공백/뒤 한 공백·bet>0 조건은 보존된다. 기존 UiCall66은 _tr64+ui1+context1이며 원문/위치를 유지하고 신규5호출·4키로71이 된다. 게임·입력·RNG·폰트·앵커·테이블 높이는 이 변경에서 불변이다.",
+    "meaning": "JA ポット/共通カード/持ちチップ/ベット, CN 底池/公共牌/持有筹码/下注, TW 底池/公共牌/持有籌碼/下注의12값을 KO·실제 소비자와 대조했다. STACK은 이미 낸 금액을 제외한 남은 칩, BET은 이번 라운드에 낸 금액이며 추가 콜 비용이나 순익으로 바꾸지 않았다. 기존 튜토리얼·금액 용어와도 정합한다. 원어민 승인은 아니다.",
+    "acceptance": "공식9행은 각각4leaf·exit0·빈 stderr다. 사전각4값과 원장12receipt/3batch만 추가됐고 whole raw 역상은 실제 부모와 일치한다. accepted41741→41753, batches224→227, UI JA3053/CN1776/TW1776이다. rendered_review/native_review는 OPEN이며 machine 수용은 화면 GO가 아니다.",
+    "official_result_sha256": {
+      "export": "1fe90f91e112168385f78ac1bc8eccc61410241dc0359f8575e109518c56e498",
+      "check": "fa39993e1b355a40d35902f2c8d6ee96c98e4fd4bfadc2d983c0f45dad59af61",
+      "import": "d59bc46b763fff5f38adf45260c3128209aa8541b3f750307b977a386d53a042"
+    }
+  },
+  "runtime": {
+    "path": ".git/full-game-localization/order449-screen-first/result.json",
+    "sha256": "fce0c2df547c277fe4b1d9f34ca89b7a92931a1909ab22f85ea645e13804de60",
+    "entry_sha256": "6e143d73566d7692484a92f44c1c727fa00548c7a03cf4f3fa3a4a01e57c0ac5",
+    "seconds": 27.771,
+    "population": "격리 JA/CN/TW3 process, 준비 PREFLOP3그룹·실제 PNG3·lookup12·Label18·중복 포함 binding24·합성 고액폭9다. pot15000+남은 stack285000=300000, hole6/deck46/board0 준비값이다. raw/tap·deal·플레이어/AI행동·showdown·정산·Close·통계/금액/로그는0이다.",
+    "failure": "세 원문 관측은 각각 seat inner/table containment 한 건으로 실패했다. errors6은 stdout와 Godot log의 중복 수집이며 독립 결함6개가 아니다. Python도 같은 부모 포함 assert에서 거부했다. process3 모두 exit1, parse_failure=false, stderr는 비어 있다. aggregate all_pass/pass_result=false, screens=0은 validator가 승인한 PNG 집계가0이라는 뜻이며 디스크의 실제3PNG를 부정하지 않는다.",
+    "geometry": "세 언어 모두 table[24,105,1232,360], player panel[467.5200,364.2000,344.9600,107]이다. panel 아래471.2000이 부모 아래465를 약6.2px 넘는다. 글자와 좌석이1280×800 viewport 밖으로 잘린 실패는 아니다. Label18의 font/full_fit/bounds는 모두 true이고 카드/표적 겹침 목록은 비어 있다. 실제3PNG에서 신규 글자의 가로 잘림·누락은 보이지 않았다.",
+    "width_and_restore": "좌석 글자 폭 최대 JA234/CN190/TW190px≤실제 available342px다. 합성3고액쌍은 JA최대255/CN211/TW211px로 실제/nominal 폭 안에 들지만 실제 고액 게임이나 최대값 전수 증거는 아니다. prepared=actual 및 세 before=restored typed, 복원 delta[], gameplay_delta[], teardown 보호 상태를 직접 대조했다. AP focus는 재생성 노드의 동일 semantic identity 복원이며 raw ID 보존 주장이 아니다.",
+    "cause_boundary": "449 diff가 기존360 높이·좌석0.72~0.98 앵커·폰트를 바꾸지 않았으므로 기존 최소 높이 배치 제약을 표적 검사에서 드러낸 것으로 판단한다. 변경 전 동일 화면을 새로 실행해 비교한 실측이나 번역이 원인이 아니라는 모든 환경의 증명은 아니다. 기준을 느슨하게 하거나 기다려 통과시키지 않고 별도450 수리 대상으로 남긴다."
+  },
+  "normal": {"status": "NOT_RUN", "scope": "최초449 정상검사는 실행되지 않았다. 향후450 후보의 fresh 검사 결과를 이 실패 후보의 성공으로 재표기하지 않는다."},
+  "preservation": {
+    "runtime": "원본 artifact186개의 bytes/SHA를 실제 재대조해 모두 일치했다. result의 동결 before=after는 tracked3090/helper161이며 source_unchanged=true다. player34 before=after 및 현재34파일 재해시도 일치한다. 이 보고서는 그 snapshot 이후 생성돼 원래 맵에 포함되지 않는다.",
+    "records": "기존209판정·187보고·human 파일에 후보 이후 변경이 없음을 확인했다. 이후450 선언/제품/지원 변경은 별도이며449 최초 원문은 수정하지 않았다.",
+    "translation_ledger_sha256": "c74abb2c2c760855ac5fa794096ea89b9383dbbd0a2f567b3eff26794b65464b",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": ["준비 표시·한 해상도·세 PNG의 검수다. 자연 진행, 실제 입력/물리 패드, 모든 금액·배치·해상도, 원어민·인간·새 package·전체 게임/출시는 미관측이다.", "10/11px 작은 라벨, FOLDED·정산 POT·JA 판돈 선택 등 범위 밖 부채를 닫지 않는다. 실패 이후 Python의 후속 gate 전부가 실행됐다고 주장하지 않는다."],
+  "final_boundary": "74aeeb0의 ORDER-449는 테이블 부모 경계 실패로 REWORK. 번역 수용이나 부분 맞춤·복원 관측을 단위 GO로 승격하지 않으며 기존 공개/인간 판정과 전체 제품 HOLD를 유지한다."
+}

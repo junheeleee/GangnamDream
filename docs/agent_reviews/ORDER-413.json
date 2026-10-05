@@ -1,0 +1,119 @@
+{
+  "unit_id": "ORDER-413",
+  "verdict": "GO",
+  "scope": "Internal source-bound acceptance of 15 existing gift-preparation UI keys translated directly from Korean into zh-CN and zh-TW (30 new values), their declared prepared runtime surfaces and bounded regression evidence. Not full-game, native, human, physical-input or release approval.",
+  "subject": {
+    "kind": "source",
+    "commit": "483b1887c455301619f320685d9c44e181241ab3",
+    "tree": "cdcd11e74e98a7418a9ab6554d6cd4ea8b29f83e",
+    "manifest_sha256": null
+  },
+  "reviewer": {
+    "agent": "/root/independent392",
+    "independent_non_author": true,
+    "product_translation_helper_authorship": false,
+    "engine_audit_reruns": 0,
+    "write_scope": "Only this private report, created once after evidence completion and then SHA-frozen."
+  },
+  "method": [
+    "Used gangnamdream-dev; read declared scope, localization contracts/glossaries and actual MainGame consumers. Independently compared all 30 draft and accepted values directly with Korean, not by script conversion or English pivot.",
+    "Read new exchange/static/runtime helpers and relevant inherited/new consumer boundaries; read original exchange, runtime and all 12 static stdout/stderr rows. Independently rehashed bound evidence and source/helper/player maps.",
+    "Directly opened all 14 original PNGs: zh-CN and zh-TW A-upper/A-lower, B-upper/B-lower, C, D and E. No product, draft or helper edits; no engine or audit execution by reviewer."
+  ],
+  "source_review": {
+    "base": "2660eaf84775f4d25159924a64dc3c647b2d567e",
+    "changed_paths": [
+      "CLAUDE.md",
+      "docs/WORK_LOG.md",
+      "locale/ui_zh-CN.json",
+      "locale/ui_zh-TW.json",
+      "content/meta/full_game_localization.json"
+    ],
+    "semantic_result": "All 30 values preserve actual 人/生活 menu references, care-versus-price contrast, prospective underline opportunities, exhibition memory, cold/standing image, conditional non-specialness and the costly wrong-answer condition. No hidden reaction, hit/delta or future relationship disclosure. %d remains weeks, next month remains month, and %s is the actual recipient name. Existing item names/catalog values were not rewritten.",
+    "accepted_dictionary_counts": {
+      "ja": 3044,
+      "zh-CN": 1531,
+      "zh-TW": 1531
+    },
+    "new_values": 30,
+    "draft_sha256": {
+      "zh-CN": "7cf14241e3f122310ec3f286e9876f28fcbb223f593913aaadf23649d33d824e",
+      "zh-TW": "a3f53974b6b140c27e1d189770c9d1d27c9b8770f5c3fb92cecca4a8d19f239c"
+    },
+    "raw_inverse": "Both dictionaries and ledger inverse hunks independently reconstructed exact base bytes in memory. Existing values, 41,220 accepted entries and 182 batch records retained; only 30 receipts/2 batches and accepted digest added. Current accepted=41,250; batches=184.",
+    "receipt_binding": "Recomputed selection/batch/receipt digests and all 30 source/target hashes using the actual source-leaf schema; official batch headers equal source exports, receipts and committed ledger headers. Current accepted text equals reviewed drafts.",
+    "receipt_file_sha256": {
+      "zh-CN": "7f9b2f726f5dee603211252ea0350107fb8b65f75e788f8070f07700f61bb36e",
+      "zh-TW": "d70f7b21201f5f8bef533366d58e92859a2d5509b4deaa18e0f2865eb047143a"
+    },
+    "receipt_sha256": {
+      "zh-CN": "44de2fec15bb7da4f7499be11a1ac0e3beba02fb25ec45e7647c86631749f102",
+      "zh-TW": "728374f253754d9c8154ee2a92ebe4c7b66008bc6ca3e169cd0efc233adebfbf"
+    },
+    "official_receipt_paths": [
+      ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/f22249820487d93b026b4893edc0c85fa031c6b0658017d4d6026ca101a4918a.accepted.json",
+      ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/38539a08000002a83a02335ace8330c60804f0cbf97caa75ed15070f6d6112b2.accepted.json"
+    ]
+  },
+  "runtime_review": {
+    "result": "PASS on first engine observation, 32.320 seconds, exit 0; stdout, stderr and Godot log contain no engine/script errors and exactly one expected marker.",
+    "population": "Two locales x five prepared states; 14 PNGs, 30 lookup rows, 46 actual-node bindings, 32 unique cards, 10 full typed restorations and six naturally dismissed guard toasts.",
+    "fixtures": "A: 500000 won, eight real item copies with quantity TYPE_INT 2, seven affordable shelf cards and one disabled necklace. B: actual eligible/reachable Kim Daeun, met, affinity 8, turn 145, AP 1, cooldown 0. C: AP 0. D: last gift at current turn, four-week cooldown. E: no gifts. Actual branch getters and typed values match the oracle.",
+    "visual_result": "All 46 target bindings are complete single lines with no observed target clipping, tofu, overlap or ellipsis waiver. Shelf cards remain 62px and picker cards 60px; 14px descriptions measure at most 266px. Shelf intro max392/728px, picker title204/631px, picker intro max286/728px; largest toast260/280px. Titles include quantity; existing prices remain complete; sibling gaps12px. Upper/lower union contains every card fully at least once; partial viewport-edge cards are not counted as fully observed.",
+    "fonts": "Actual nodes resolve to SC/TC regular400 for target copy, with exact owned weight-matched fallback configuration. Title/keycap bold700, existing price/AP badges and arrows retain their roles. Nonempty glyph probes report no missing glyphs and primary-owned CJK. Probes use a separately shaped TextServer string with actual node font/size, not the internal Label shaped RID.",
+    "toasts": "Each C/D/E case creates exactly one real NotificationToast, leaves modal hidden with identical body-node IDs, and dismisses/frees naturally once in 2836–2856ms; manual dismissal0.",
+    "state": "All 10 prepared==observed and before==restored typed snapshots match with empty deltas, including registry data and MainGame.turn_action_log. Teardown protected state also matches. 2,988 tracked files, 50 runtime helpers and 34 real-player files are unchanged; copied helpers/artifacts and all 146 files in three preserved ORDER-412 evidence folders were independently rehashed.",
+    "action_limit": "Pressed/purchased/used/trade/finalization counters are actual connected zero observations. Raw input/confirm/move/purchase/delivery zeros are helper-callgraph claims. Only real scroll properties were changed. Fixtures are prepared direct calls, not natural gameplay ingress.",
+    "development_note": "Before the first engine run, the author corrected the oracle's nonexistent icon_people.svg path to the actual MainGame people mapping icon_relationship.svg. Final helper SHA was reviewed before execution; no failed engine attempt or product fix was needed."
+  },
+  "static_review": {
+    "result": "PASS, 11 bounded normal commands plus one impact-list query; all 12 original rows exit0/stderr empty, exactly equal aggregate rows. Wall670.350s; source/helpers unchanged.",
+    "commands": "Chapter1 causal ledger, current receipt compatibility, full-body inventory, story graph, Chapter5 human-reject contract, Year5 reference route, ZH skeleton, EN coverage, context manifest, queue consistency, git diff --check, and audit_select --base 2660eaf --list.",
+    "limits": "Chapter1 343.876s retains debt8/blocked3 and W25–48 gap24 (authoritative24/48). Year5 325.991s remains reference_only/topology invalidated/product_consumers0/r1b false. Full body remains SOURCE_INVENTORY_ONLY/runtime0/native0. ZH is skeleton/shipping0 with legacy1328/2951 and context11/29, not full language approval. Query lists42 suggestions; these are not 42 executed checks.",
+    "preservation": "Aggregate before==after; current hashes independently match 2,988 tracked files, 64 helpers, ten exchange inputs and four prior artifacts. Frozen source/tree and runner copy match. Unchanged412 focused, JA-only, historical suites, whole audit and 240-week runtime were not rerun."
+  },
+  "evidence_sha256": {
+    ".git/full-game-localization/order413-static-export.json": "2f1504d1641c7c04ce0030b8ab0f5f1d03dfef4a614ee965ce3268882d9a525a",
+    ".git/full-game-localization/order413-static-check.json": "03760a7af1a8fed4ad951fb3de53471d3c83aabc6ab2f91390e0aae2d029bd45",
+    ".git/full-game-localization/order413-append-precommit.json": "1215b9817faf45afff03a93607ae4692bd1aaedc4a7610c96a7bee83a09bc86f",
+    ".git/full-game-localization/order413-screen-final/result.json": "fdee725f1af6d44b670bc6f162fb003bb77a349d77343271647a624a9f1290b9",
+    ".git/full-game-localization/order413-screen-final/order413-observations.json": "0c4d456c58235e00131b10c2172816bdeb5828309d73c2a9586844d933651139",
+    ".git/full-game-localization/order413-screen-final/entry.json": "71fe50d65b9b277b6641c3d6b0b3628b8b6c5e58d4fd34d1c673aaa5b1836b64",
+    ".git/full-game-localization/order413-screen-final/oracle.json": "ae8c1bb8aa9c19fc0e0d9419559c88a39bc256ac24114a5ad0269821c6ca8450",
+    ".git/full-game-localization/order413-static-final/result.json": "8be6171e0bca0c62eacfa1bf9a81b66bc3f24ffb41dfd3a438e4804247f85f52",
+    ".git/full-game-localization/order413-static-final/entry.json": "9bf270b20d97e97d47b16ab48d95e772924fe3dcae510294ffa5adecbf20b1fe",
+    ".git/full-game-localization/order413-static-final/runner.py": "cad6c3501f1dfecb90b4c3d3bef0c603dbfa907d6a2a8a4813c4b0d9abfc0903"
+  },
+  "preservation": {
+    "current_dictionary_sha256": {
+      "zh-CN": "7b695b4cee8607d2800d0cc5782e33e2b6cb0f03353b4b65b703f8f63005fddb",
+      "zh-TW": "bbe8eeecb6474b3af757b54915d79a80c7dde5f8729b6beb955737c6722ba318"
+    },
+    "ledger_sha256": "2eb983a3973f4e264f008381acd60af5ab030bedab4971ec96a241dff67af715",
+    "prior_records": "170 decisions and 148 reports unchanged against declared base; all 150 Git objects including decision/human ledgers identical. Source, prices, conditions, game state code, FontKit, tools, KO/EN/JA, catalog and public-demo assets unchanged.",
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "public_done": 1,
+    "human_open": 45
+  },
+  "limitations": [
+    "Only declared gift shelf/picker/pre-action guard surfaces and prepared states are approved. Purchase/delivery outcomes, relationship rewards, repeat dialogue, other shared consumers, natural entry/Back and physical controller behavior were not observed.",
+    "Background Korean monthly-board content, fixed AP1 labels and established Romanized recipient names remain outside the new-copy population; this is not a whole-menu or full-translation judgment.",
+    "Existing Japanese essay description invents already-excessive underlining and perfume description broadens price to value. Both remain unchanged and deferred to a separate existing-target correction after this unit.",
+    "Native-language, human taste/play, other-platform rendering, full-game, new-package and shipping gates remain unobserved/HOLD. Public GO1 and human OPEN45 are preserved; scoped agent GO does not close them."
+  ],
+  "independent": true,
+  "status": "completed",
+  "private_review": {
+    "path": ".git/full-game-localization/order413-independent-review.json",
+    "sha256": "0ebaa9e8fdbba2262ca613b357e27ccbd460e5d17e4044f3c8b2112d2eb89d52"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER413_UI_OK screens=14 keys=15 locales=2 raw=0 actions=0; normal11/query1 exit0",
+    "생산자 ↔ 독자": "MainGame::_gift_display_desc/_open_cat_life/_open_gift_picker ↔ zh-CN/zh-TW UI15 keys each",
+    "바꾸는 상태": "30 English fallbacks →30 Chinese values; 46/46 bindings fullfit; gameplay unchanged",
+    "포기 시 잃는 것": "gift shelf/picker/guard copy15 keys×2 locales; week N/A",
+    "서사 위치": "N/A: existing gift-preparation UI",
+    "장면 계층": "N/A: UI",
+    "닫는 것": "ORDER-413 work_unit only; full-game/new-package HOLD"
+  }
+}

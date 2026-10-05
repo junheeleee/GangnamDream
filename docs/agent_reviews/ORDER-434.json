@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-434",
+  "decision_scope": "work_unit",
+  "verdict": "REWORK",
+  "subject": {
+    "kind": "source",
+    "commit": "28aeb902bf33a20f45cb7b7ab2756fc665b6832b",
+    "tree": "f0983fa200e1cab74aec2480f23857c4dae11b84",
+    "manifest_sha256": null
+  },
+  "decision_reason": "원 단위 formatter는 준비 금액을 정확히 반환하지만, 실제 베팅 스택 canvas의 고정 48px draw_string 폭에서 EN/JA/CN/TW 단위 접미사가 잘린다. 실제 표시 수리 범위는 미완료다. 원본 runtime false를 유지하며 정적 검사 성공 여부와 단위 GO를 분리한다.",
+  "review_method": {
+    "reviewer": "/root/independent392",
+    "read_only_assistance": "/root/independent392/ab_readonly428: Git 객체·현재 파일·원본 artifact SHA/크기 대조. 저장된 원본만 읽었으며 테스트/엔진/collector import/파일 쓰기 없음.",
+    "direct_review": "사양, 실제 제품 diff와 소비자, 새 proof/collector/JA retained/manifest/focused 코드, runtime helper와 수리 delta, 실제 5지역 원문 observations·stdout·stderr·Godot log·typed 비교 및 원본 PNG 10장을 직접 읽었다. 검토 중 엔진/감사/집중검사를 재실행하지 않았다.",
+    "skill": "gangnamdream-dev: 선언된 표시 수리와 준비 입력 범위만 검토하고 플레이어 파일·기존 증거·인간 판정 및 후속 작업 경계를 보존했다."
+  },
+  "source_review": {
+    "product_commit": "265119c8ff87f3c3fe8d2d3d2a1692bea5bed4b1",
+    "direct_parent": "373aef46b10d3a39485b0f545618ae9da998b94b",
+    "path": "scenes/HoldemClub.gd",
+    "sha256": "247701a481721d1ec02672a83086ea8bc48da2b4d12ca34890c795c25ba87c1f",
+    "change": "_fmt 본문만 LocaleManager.format_whole_won(int(amount))로 교체(+1/-12). 정수화·_signed_fmt·거래/덱/AI/정산/AP 수치는 불변이다.",
+    "admission": "새 shared proof는 실제 6 Git 객체·직접 부모·단일 경로·함수 전체 역상·현재 raw/HEAD를 결속한다. collector의 실제 퇴역은 %.1f억/%d만/%d원 3개뿐이며 나머지 Entry ID를 보존한다. 기존 JA 3값은 immutable blob과 accepted 부재로 retained 처리한다. append는 기존 실제 15조합과 새 현재 Holdem 조합 1개만 허용한다.",
+    "focused_limit": "새 focused 코드는 읽었으나 본 보고 시점 실행 결과는 미판정이다. genuine Git pins/inverse와 replay fault·합성 manifest 반례를 구분하며 독립적으로 재서명한 Git 객체 실험으로 주장하지 않는다.",
+    "unchanged_translation_state": "JA/CN/TW 사전 및 수용 원장 변경 없음. accepted 41612 / batches 207. 신규 번역 수용 0."
+  },
+  "attempts": [
+    {
+      "name": "first",
+      "directory": ".git/full-game-localization/order434-screen-first",
+      "outcome": "HELPER_PARSE_FAILURE",
+      "cause": "Node 기반 helper에서 get_viewport_rect()를 호출한 2곳의 파싱 오류. 저자·root·독립 사전검수가 놓쳤다. 제품 결함으로 분류하지 않는다.",
+      "observed": "제품 화면 0, 관측 JSON 없음, 입력/첫 손 미관측. KO만 시작했고 나머지 4지역 NOT_RUN. root가 정확한 parent/child PID를 중단하여 exit 143; runner 성공 결과가 아니다.",
+      "repair": "두 호출을 get_viewport().get_visible_rect()로 교체. runner는 자신의 Popen 그룹만 대상으로 parse fault 조기 중단·ProcessLookupError 경합 처리·후속 지역 중단을 추가했다. strict 품질 기준은 완화하지 않았다.",
+      "termination_sha256": "f5403ef1c901496671fdf79f153a4470ca92461b8072dd97fddd86ea44623865",
+      "entry_sha256": "051644497e77770dbdd4c0e0b485aedde4d56c68541be2bdd27ec379b02c0a43",
+      "preservation": "원본 119파일(114 helper copies 포함)의 경로·SHA·크기 보존. 최초 실패를 덮어쓰거나 PASS로 재명명하지 않았다."
+    },
+    {
+      "name": "r1",
+      "directory": ".git/full-game-localization/order434-screen-r1",
+      "duration_seconds": 60.238,
+      "all_pass": false,
+      "pass_result": false,
+      "locale_processes": 5,
+      "actual_png_count": 10,
+      "aggregate_validated_screens": 2,
+      "raw_input_edges": 130,
+      "synthetic_taps": 65,
+      "actual_first_hands": 5,
+      "settlements": 0,
+      "interpretation": "KO만 exit 0/validator PASS, 나머지 4지역 exit 1. screens=2는 KO 검증 반환분이며 실제 PNG 누락이 아니다. 5개 고유 canvas 실패가 stdout/Godot log 양쪽에 기록되어 errors는 10개다. Python AssertionError 4개를 전체 validator PASS로 승격하지 않는다.",
+      "result_sha256": "e3833bd6c5c504c27dd1168bf7ef36aca1c05c5ceaca1959281423c2b3c5f26b",
+      "entry_sha256": "6b6e8f0e9917311b43730bf70ad6cc3399728c1818351a3f5b4933ae5a85e370"
+    }
+  ],
+  "runtime_findings": {
+    "canvas": {
+      "consumer": "실제 _draw_bet_stack draw_string, fallback FontKit 10px, 고정 폭 48px",
+      "widths_for_10000_and_5000": {
+        "ko": [39, 35],
+        "en": [52, 48],
+        "ja": [61, 55],
+        "zh-CN": [51, 45],
+        "zh-TW": [51, 45]
+      },
+      "failed_measurements": 5,
+      "total_measurements": 10,
+      "visual_confirmation": "EN 10,000 won, JA 10,000/5,000ウォン, CN/TW 10,000韩元/韓元의 오른쪽 접미사가 실제 PNG에서 잘린다. 일반 glyph 검사는 통과하여 missing glyph가 아닌 폭 결함이다."
+    },
+    "other_raw_observations": "5지역의 setup 5개 + preflop 9개 금액 Label/Button, 총 70개는 기록상 font/full-fit/bounds/visible true였다. locale당 27개씩 formatter 및 signed formatter 기대값(각 135개)이 일치했다. 이는 원문 필드 대조이며 실패한 4지역 전체 Python validator의 별도 PASS를 뜻하지 않는다.",
+    "prepared_hand": "seed 434, 5M cash/100k buy-in에서 실제 ui_accept 첫 손. player 95k/bet 5k, 상대 100k/90k, pot 15k, call 5k, raises 12.5k/20k/95k; 고유 52장=배분 6+잔여 46. setup/table semantic cursor와 키보드/합성 D-pad를 관측했다.",
+    "state": "각 지역의 실제 dealt comparison=independent expected, before=restored typed, protected GameState 및 teardown equality를 원문에서 확인했다. Meta bytes/existence, 논리적 Main UI/overlay·focus·sibling, Tutorial/ControllerHints, Holdem 필드와 flash RGBA/visible 복원을 포함한다. flash 누락은 최초 실행 전에 발견·보강되었다.",
+    "effects": "각 지역 tutorial dismissal 1/첫 손 1 외, table confirm/cancel/Leave·베팅·정산·AP 소비 0. pressed/closed/stats/log/trade/finalization counters 0. 실제 입력은 준비 경로에서 주입한 synthetic event이며 물리 장치 관측이 아니다."
+  },
+  "evidence": {
+    "observations": {
+      "ko": "e8a0730c86f1181549943c81df934ab40ebf2639c919cfc7250691a61c906c3d",
+      "en": "11e037a80687701fb99245a14bfed83a4f86aeb12e3d9f9bd6b26d973283497e",
+      "ja": "3f979be4b74a92e7715d40b1f83c8aa0e81c57f8dd690c69949e346a3684d78d",
+      "zh-CN": "2dc9bb9fdf26b7c4737be54c7182cd75d869cf09bbbd26b7461541b68fbb4ecb",
+      "zh-TW": "b2348b38819be564ecb6e8397eea989d63efcccc64f133890632674328653dfe"
+    },
+    "observation_path_pattern": ".git/full-game-localization/order434-screen-r1/<locale>/order434-observations.json",
+    "runtime_helpers": {
+      "order434-run.py": "7f6be7414218502921032df803558478dd2f19833b7dfc3c94b80f011efa5028",
+      "order434-check.gd": "6bcae67114909c414f60e86aea382b8621a56e0ed44f7be5aca0f992acb5eaa3",
+      "order434-check.tscn": "0872c44fe71925c742cdae73251dc25cef1b112c4962cdae4f653583d64078c0"
+    },
+    "artifact_binding": "r1 result의 160 artifacts 경로/SHA/크기 및 5지역 entry/oracle 결속을 재해시했다. 실제 디렉터리 161파일은 result 자체를 포함한다. PNG 10개의 개별 hash는 이 immutable artifact map에 있다."
+  },
+  "preservation": {
+    "runtime_maps": "원래 runtime before/after 및 entry는 동일하다. tracked 3043, helpers 114, player 34를 현재 파일과 대조했다. prior 2781개 최상위 항목/3066개 참조/2914개 고유 파일도 일치한다. 실제 소스 39개씩의 지역 oracle Git/current 결속을 확인했다.",
+    "authorized_later_exception": "runtime current_inputs의 order434-static-run.py만 runtime 종료 후 root가 L1 admission을 바꿨다: 기록 SHA 396606d595afa5b003c8715acefe77184d7a288c83dd2fdb36cd29b7cc7816f0 → 현재 7fbd4dfa2eee4d943c3282453e39b72ff88aec0ad65fcc9a6ae135cef158f2f6. runtime helper/artifacts 변경은 없으며 모든 flat current_inputs가 지금도 동일하다고 주장하지 않는다.",
+    "prior_decisions": 193,
+    "prior_reports": 171,
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "accepted_ledger_sha256": "86c40537f321ef852fb603ba8d52d45a3ae5b8320960000fd76cd867ee2dca0d"
+  },
+  "normal_review_status": {
+    "status": "RUNNING_UNJUDGED",
+    "runner_sha256": "7fbd4dfa2eee4d943c3282453e39b72ff88aec0ad65fcc9a6ae135cef158f2f6",
+    "preflight": "새 admission은 알려진 정확한 canvas 실패 집합·10 actual PNG·130 raw·첫 손 5·소스/플레이어 불변을 확인한다. entry/result의 runtime_quality_pass=false 및 work_unit_status=REWORK, static-only all_pass 구분을 읽었다. 14검증+조회1의 실제 종료 결과는 본 보고에 판정하지 않았다.",
+    "reuse_boundary": "이 후보에서 유효한 source/L1 원본을 얻는 것은 가능하나 UI REWORK를 닫지 않는다. 후속 canvas 수리는 별도 선언·정확 source delta·fresh source admission/focused/5지역 화면 증거가 필요하다. 변경 없는 서사 원본을 재사용한다면 이전 후보 관측임을 표시하고 새로운 실행으로 주장하지 않아야 한다."
+  },
+  "limitations": [
+    "ORDER-434 현재 UI 수리 GO 아님. 이후 정적 all_pass도 이 REWORK를 자동 변경하지 않는다.",
+    "원어민/native, 인간/human, 물리 패드/physical 및 자연 story ingress는 unobserved. 외부 출시·전체 게임·새 패키지 GO를 발급하지 않는다.",
+    "준비한 두 화면/금액/해상도만 관측했다. 모든 거액·후속 street·승패·AI·정산·AP 소비는 검증하지 않았다.",
+    "BGM은 논리 상태만 대조했다. 오디오 playhead, 전역 시각 RNG, AudioManager timer serial/pitch RNG 및 모든 autoload 완전 복원을 주장하지 않는다.",
+    "direct POT/BOARD/STACK/BET/NEW HAND와 비금액 영문 폴백·기존 JA 문구·작은 글자는 별도 채무다. 공개 GO 1/인간 OPEN 45 및 본편·새 package HOLD는 그대로다."
+  ]
+}

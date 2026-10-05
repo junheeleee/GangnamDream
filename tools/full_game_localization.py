@@ -506,6 +506,25 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
             protected=key in protected_ui, format_template="%" in key)
         ui_seen.add(key)
 
+    from holdem_tutorial_ui import (
+        CATEGORY as HOLDEM_TUTORIAL_CATEGORY, SOURCE_PATH as HOLDEM_TUTORIAL_PATH,
+        HoldemTutorialSourceError, collect_holdem_tutorial_ui_entries,
+        holdem_tutorial_ui_additions,
+    )
+    try:
+        tutorial_entries = holdem_tutorial_ui_additions(
+            collect_holdem_tutorial_ui_entries(root),
+            {entry.source for entry in ui.entries} | {entry.context_id for entry in ui.entries
+                                                    if entry.context_id},
+            demo_keys, set(public_pairs))
+    except HoldemTutorialSourceError as exc:
+        raise ContractError(f"Holdem tutorial UI source: {exc}") from exc
+    if set(tutorial_entries) & ui_seen:
+        raise ContractError("Holdem tutorial UI overlaps an existing UI provider")
+    for key in tutorial_entries:
+        add("ui", key, HOLDEM_TUTORIAL_PATH, (key,), key, HOLDEM_TUTORIAL_CATEGORY)
+        ui_seen.add(key)
+
     # Literal pairs outside the old demo are candidates until their runtime
     # consumer is proven. Counting them does not declare the lookup supported.
     candidates: dict[str, list[str]] = defaultdict(list)
@@ -557,6 +576,7 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
             "source_counts": {"packaged_events": len(source_events), "shipping_events": len(source_events) - len(author_only),
                               "author_only_events": len(author_only), "endings": len(source_endings),
                               "ui_static_context": len(ui.entries), "ui_notice_chrome": len(notice_leaves),
+                              "ui_holdem_tutorial": len(tutorial_entries),
                               "demo_dynamic_unique": len(demo_keys),
                               "demo_dynamic_overlap_static": len(demo_keys & {e.source for e in ui.entries})}}
 
@@ -3127,6 +3147,10 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         return ["unsupported locale"]
     if not isinstance(text, str) or not text.strip():
         return ["blank/non-string translation"]
+    from coffee_encounter_locale_contract import coffee_encounter_numbers
+    coffee_numbers = coffee_encounter_numbers(locale, leaf.id, leaf.source, text,
+                                              source_path=leaf.source_path,
+                                              source_sha256=leaf.source_sha256)
     literal_pair = None if leaf.format_template else _sector_literal_percent_pair(leaf.source, text)
     placeholder_source, placeholder_target = literal_pair or (leaf.source, text)
     if locale == "ja":
@@ -3781,6 +3805,8 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         if dice_numbers is not None:
             source_numbers, target_numbers, dice_errors = dice_numbers
             errors.extend(dice_errors)
+        if coffee_numbers is not None:
+            source_numbers, target_numbers, _coffee_errors = coffee_numbers
         if sorted(numeric.findall(source_numbers)) != sorted(numeric.findall(target_numbers)):
             errors.append("explicit numeric value/sign mismatch")
         if career_specialization is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
@@ -3823,6 +3849,8 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             errors.extend(_script_errors(locale, text))
         if leaf.format_template:
             errors.extend(ja.ui_placeholder_errors(leaf.source, text))
+    if coffee_numbers is not None:
+        errors.extend(coffee_numbers[2])
     # StoryMode replaces each indexed slot exactly once, in source order, then
     # rejects any leftover c5read prefix. Generic printf/BBCode audits do not
     # recognize this runtime-owned syntax.

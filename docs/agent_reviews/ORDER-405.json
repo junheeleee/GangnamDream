@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-405",
+  "subject": {
+    "kind": "source",
+    "commit": "595841756cf061af2f35781407ce8244b0026536",
+    "tree": "c168e5f97dc9f47a226b40c7de354e1ad07b47a8",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "reviewed_at": "2026-10-04",
+  "status": "complete",
+  "verdict": "GO",
+  "authority": "Delegated internal work-unit review under WORK_UNIT; not actual human, native-speaker, physical-input or release approval.",
+  "independence": "Non-author of product, translations, receipts and helpers; no engine/audit reruns. Root owns CN/acceptance, receipt_bridge392 KO-direct TW, receipt_tests392 runtime. Only this private report was written.",
+  "scope": {
+    "population": "Exactly 16 declared KO keys, independently reviewed against all 16 CN and 16 TW values and actual MainGame consumers; 32 accepted values in two batches.",
+    "method": "Read required instructions/spec, KO consumers, all32 values, raw delta/receipts and complete helpers/r1 diff; rehashed originals, checked node/state evidence and directly opened all8 corrected1 PNGs.",
+    "consumer_boundary": "_open_cat_money/_side_shift_title/_ap_action_preview/_cat_modal_button only; entrance previews, employed menu and other shared consumers not rendered."
+  },
+  "decision_summary": "Candidate-bound translation/receipt/prepared-screen GO. Original terminology and observer failures remain failures, not renamed PASS.",
+  "source_review": {
+    "base": "d90f2c801f7e7306010b3fb790f623d1cc896550",
+    "changed_paths": "Only CN/TW dictionaries, full_game_localization ledger, CLAUDE, WORK_LOG and declared new history.",
+    "semantic_result": "All32 final values accepted: first-salary/Sangchul prerequisites, 3 billion won, +30,000~100,000 won, risk1~5/AP1/1~3 weeks/base health-3/stress+2 and %s ordering preserved. Fatigue adds no immediate penalty. Four job-dependent titles, actual market fallback, approved Romanization and SC/TC register retained.",
+    "cn_draft_sha256": "90f454e60bba71660bd1b085789ffc84240e10993b433d6eaf7099107d860dca",
+    "tw_draft_sha256": "b92eef708dc847dd17de4931000fe0278e72817120a79c57054bc71405d0279d",
+    "raw_preservation": "Independent exact inverse of only32 UI/receipt and2 batch tails plus derived checksum restores all3 base Git raw files; old entries/headers untouched.",
+    "main_sha256_unchanged": "4c86abe5880d49128a511da36ad361f76c4290c10103d976e1dd33d66294d6bf",
+    "work_log_roll": {
+      "path": "docs/history/WORK_LOG_2026-10-04_pre_order405.md",
+      "bytes": 39038,
+      "sha256": "d25466f373f7d9f55e5246ce7e7d279daa42f9526f7df533f11a74676221445e",
+      "result": "Exact old WORK_LOG bytes; declared and included before freeze, not a metadata wrapper."
+    }
+  },
+  "exchange_review": {
+    "private_root": ".git/full-game-localization/",
+    "source_manifest_sha256": "c260482830bc0c76ca6986b89c6e4c5b1c9f964025706dad478e1f23eaecb661",
+    "counts": "UI1450->1466 per locale; accepted41087/b171->41119/b173; 32 new receipts/two batches.",
+    "checks": "Exports PASS. Original CN check FAIL/TW PASS; corrected CN-only r1 PASS, no TW rerun. Both official imports leaves16/INCOMPLETE/humanOPEN. All source/target/selection/self-digests, headers, ledger linkage and final values independently matched.",
+    "artifact_sha256": {
+      "order405-static-export.json": "01f74aeb05dc2cec9d669229bfe25806d674e4e8d436d5b2ec9ac2da2171ebd1",
+      "order405-static-check.json": "2f3cb710340faebc0c7c46b0fcc450121913dea1ab60c884ff8885877b76894f",
+      "order405-static-check-r1.json": "74cd45548a32fe9743a8955d4738e96a0780e98088adbcc223ebe602a0656768",
+      "order405-append-precommit.json": "425c8239d177c9330e78d61be6e195c7b8e2f5b71e17933d8e920ef734efe92c",
+      "zh-CN/full-ko-direct-2026-09-07.1/92fa124a35f6657b055416a1824ddd7fb86bfcb2ccea1e69fe66804e54d8f75c.accepted.json": "e6a62dccff2dde70cbba54c42d7167daeb49a81beffaf98c3aa71d63d344d2ed",
+      "zh-TW/full-ko-direct-2026-09-07.1/170fbd76af2683fc4e1c94ab7c6538249f7ea2dce9f810a25feb86f64b3ac5b9.accepted.json": "781b3edecf6a49b2d19af3ff2286b39140b093ba64f5a219e2c0cf60833693c8"
+    }
+  },
+  "runtime_review": {
+    "directory": ".git/full-game-localization/order405-screen-corrected1",
+    "result_sha256": "b3082d503eab9d54a8c2bc2a2bc9d016881be356ca1efc7264fb50993e9a25fa",
+    "observations_sha256": "ce8f745a6ed3f96468e42280604859acbea376461849f898edb990cc77098b95",
+    "result": "PASS14.857s; exit0; exact ORDER405_UI_OK marker; stdout and Godot log error0, stderr empty; matching pre-autoload and runtime isolated namespaces.",
+    "observed_population": "CN/TW x declared A/B/C/D, actual jobs empty/job_01/job_02/job_03 and skills0/0/49/50: 8 PNG1280x800,22 cards,32 lookups,72 actual-node bindings; union16 keys/locale, binding counts8/8/9/11 each.",
+    "visual_verdict": "Directly opened all8 zh-CN/TW-A/B/C/D.png: target clipping/tofu/overlap not observed. All190 modal text nodes fit;22 cards82px and containment/adjacency pass. Longest preview343/348px at this resolution, no ellipsis waiver.",
+    "font_boundary": "Actual SC/TC primary,400/700 variations, fallback routes/weights and nonempty owned glyphs checked. Separate TextServer shaping with node font/size found no OS fallback; not internal Label glyph-RID or native approval.",
+    "actual_consumers": "Actual branch readback; Aruba/Main pay90000 ->9万韩元/9萬韓元 bound to both formats. All cards money-axis; market separate free badge/AP1 count0, others AP1 count1. No callback execution.",
+    "preservation": "Rehashed14 artifacts including8 PNGs;2971 tracked files/26 helpers/34 player files unchanged. Typed8 prepared=observed and before=restored; warmup8 and teardown delta0. Frozen Git blobs match source census.",
+    "helper_sha256": {
+      "order405-run-r1.py": "3a2fc3a2acf480ebab3a2a6ee259785194f47de87e11eb4c81da2f356f5a9c7f",
+      "order405-check-r1.gd": "96b8a151ec699c5035fa5abd5e7c5ac442ecfac797883ceb883f027988fdd91a",
+      "order405-check-r1.tscn": "32c627d7ecdf543e1aed1c89e77009fbf016f319d2ca541080e38822e7516406"
+    },
+    "zero_claim_boundary": "Call graph: raw/confirm/callback0; connected counters: pressed/trade/finalization0. No side-job/prediction execution or dictionary/font/theme/cache injection."
+  },
+  "normal_review": {
+    "directory": ".git/full-game-localization/order405-static-final",
+    "result_sha256": "66980bc3c7085e2349584be589b52b0ddc918a75dc4603e34c2bc447fbeec8e6",
+    "entry_sha256": "3e392b6713ec332c6dfc81c090b7531014a5edc0ee85d70434c21405ba109b9f",
+    "runner_sha256": "45b42adbd540d58da0d5ee6e19f352d8451a2bc06174f8f7938f7a8140616a18",
+    "result": "11 normal + audit_select query1: all12 exit0/stderr0, wall666.615s. Original00..11 rows match aggregate; entry/runner match. Clean exact candidate before=after;2971 frozen Git blobs and27 helper hashes verified unchanged.",
+    "limits": "Chapter1666.143s debt8/blocked3/gap24; Year5229.351s reference_only/invalidated/r1bfalse. ZH skeleton legacy1264/2951/context10/29/dynamic150/701/shipping0; SC1551/TC1583 glyphs. Full-body SOURCE_INVENTORY_ONLY. Query lists42, not42 executed. No unchanged focused/historical/whole/JA/240-week reruns."
+  },
+  "attempts_and_corrections": [
+    "CN check rejected 房租余裕; only 月租余裕 corrected, all32 values rereviewed. Independent semantic preflight missed this locked term. Original draft/response/aggregate kept; original draft SHA37a658d71db7419eb7e6b262fe140125f7f5a2d7ccce55fa8a205d643a773cd0.",
+    "order405-screen-final FAIL14.817s: market axis was incorrectly expected empty in both D cases; actual tag getter returns money. Independent preflight also missed it. Product unchanged. Result SHA7a3d5c63b3ac6484ed7d107c507fcfd25ef26eac91105ab6de6ce2445fdfae8e; observations SHA6cd01b8dfbad89ac44a89d9d7c489ed1125ed5a65411fffdebd3581b4775f67d. All14 failed artifacts/23 helpers unchanged; reviewer viewed original2 D PNGs, not all failed8.",
+    "New r1 files repair only axis/free/AP expectation and preserve failure linkage/26-helper census. Full diff and Main13579/15000 reviewed before rerun. Author AST development error preceded engines; reviewer argument false alarm retracted without edit. Neither is another engine attempt."
+  ],
+  "preservation": {
+    "prior_review_records": "All162 existing decisions and140 existing reports unchanged at frozen candidate.",
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "protected_scope": "MainGame/FontKit/gameplay/KO-EN-JA/checkers/project/public demo/human ledger unchanged. Prior GO not inherited; later closure metadata is not this source subject."
+  },
+  "remaining_blocks": [],
+  "unobserved": [
+    "Actual human/native-speaker review",
+    "Physical controller or natural Back/cancel",
+    "Natural employment/story ingress or executed side job/trade/forecast",
+    "Other shared consumers, languages and resolutions",
+    "Employed promotion hidden35% display repair; separate scope",
+    "Full-game completion, full240-week play, fun/polish and new package/release approval",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel"
+  ],
+  "promotion": "No actual human/native/physical gate promotion; accepted receipt native/rendered history stays OPEN. Agent screen review is separate evidence.",
+  "release_boundary": "Existing public GO1 and human OPEN45 preserved; full-game/new-package HOLD remains. No external release, store action, spending or legal action.",
+  "independent": true,
+  "private_review": {
+    "path": ".git/full-game-localization/order405-independent-review-r1.json",
+    "sha256": "3e8839883f0a38cf6137b63efd93217e854d327ad564c20bccb74c9acfdd9216"
+  },
+  "report_correction": {
+    "original": ".git/full-game-localization/order405-independent-review.json",
+    "sha256": "e22dd0b0709aa7df1d9dacb5af87b7c2b2ef471e1d4d90e8bea909022d843b78",
+    "change": "Report-only amount wording 30 billion won → 3 billion won; original preserved, product/translation/verdict unchanged; no rerun."
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER405_UI_OK screens=8 keys=16 locales=2 raw=0 actions=0",
+    "생산자 ↔ 독자": "locale/ui_zh-CN.json + locale/ui_zh-TW.json new16 → scenes/MainGame.gd:15151 _open_cat_money / :15130 _side_shift_title / :13831 _ap_action_preview",
+    "바꾸는 상태": "UI1450→1466 each; accepted41087/b171→41119/b173; actual32lookup/72binding",
+    "포기 시 잃는 것": "_open_cat_money CN/TW16keys English fallback; week N/A",
+    "서사 위치": "N/A: menu localization; story/gameplay unchanged",
+    "장면 계층": "N/A: UI",
+    "닫는 것": "ORDER-405 exact work_unit only; full-game/new-package HOLD"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-441",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "020b1a212377d1f9ad7e4afc7dbaddc2a9c8c408",
+    "tree": "3e04371988401793c01e0e047377426d54a8fd70",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "Holdem 실제 카드 앞면의 rank/suit 잉크를 빨강 #b4232c·검정 #141827로 바꾼 선언 범위만 GO. 전체 게임·출고·접근성·원어민·인간 승인이 아니다.",
+  "method": {
+    "direct_review": "사양과 실제 카드 소비자, 제품 한 줄 diff, history/append/focused/scope 및 runtime/normal helper를 직접 읽었다. 원본 1280×800 PNG 4장을 모두 열고 양지역 전체 노드·typed 복원·로그와 정상검사 8행 stdout/stderr를 직접 대조했다.",
+    "preservation_assistance": "/root/independent392/ab_readonly428가 기록된 runtime/normal 맵·artifact의 실제 SHA/크기와 기존 판정·보고·인간 원장 바이트를 읽기 전용으로 재해시했다. 그 결과를 직접 읽은 집계·entry 및 현재 Git source와 결속했다.",
+    "execution": "검수자의 엔진·감사·focused·프로젝트 함수/import 실행 0. JSON/Git/바이트 읽기 대조만 수행했으며 정상 집계 종료 후 이 보고를 한 번 작성한다. gangnamdream-dev의 범위·기존 증거 보존 규칙을 적용했다."
+  },
+  "source_review": {
+    "baseline": "fe418e336e7296962686949536711a2e6230bd71",
+    "product_commit": "99aee1b0dc7db01edd2efe33349bc5570847c011",
+    "holdem_sha256": "5529f970bd5f9a494d048ebc10a3440dffdc388e93f25777d6e4d5c5b70c9bdb",
+    "result": "제품 커밋은 직접 부모 대비 scenes/HoldemClub.gd 한 경로·한 완전한 행만 변경하며 역상으로 원문이 정확히 재현된다. suit1/2만 빨강, suit0/3은 검정이다. card_str/44×60/13px bold/금색 링/뒷면/placeholder와 게임·AI·덱·타이머·금액·문자열·폰트·자산은 그대로다. 지원 후보의 변경은 제품과 선언된 4도구의 총5경로다.",
+    "admission": "history 기존579행과 append 기존1906행은 byte-exact 보존된다. 새5전이·30 Git 객체·20 실제 manifest 연결과 current freshness를 검토했다. focused의 Git 오류 반례는 포착한 실제 proof 응답의 재생 변이이며 새로 서명한 Git 객체 실험은 아니다. synthetic census는 실제 조합20과 phantom255의 경계이고 fresh receipt 명령과 구별한다."
+  },
+  "runtime": {
+    "path": ".git/full-game-localization/order441-screen-first/result.json",
+    "sha256": "8a361b112fa7e328f36a2690646894ad958495e6859f7efc9c95a40081d9bac5",
+    "entry_sha256": "cf834c34b904a7793ea85b6e6b025a5371f19248dfa2b8de2ff61b3a66f0c7a3",
+    "observations_sha256": {
+      "zh-CN": "e9e61e8584f221edb5977e0a39281febe3d16fe75e05fde19b02e123b7405992",
+      "zh-TW": "d6ab2c42e9296e5dbe08ccb1323add36166f43e2a6942c54ae1deae1f7799c72"
+    },
+    "seconds": 21.036,
+    "population": "격리 CN/TW 2프로세스. 지역마다 실제 factory 52장×일반/강조2=104노드, 합208. 합법 prepared table/SHOWDOWN reader 각2장씩 총4PNG. raw/tap/first hand/실제 SHOWDOWN dispatcher/table action/정산/Close/통계 signal은 모두0이다. prepared SHOWDOWN 화면을 실제 showdown 실행으로 세지 않는다.",
+    "observed": "양 process exit0, errors/report_error 빈 값, source/player 불변. 모든208 factory의 실제 shared bold13px·glyph·색·44×60 geometry·full-fit/bounds가 정합한다. 최대 측정 폭29/44px, 높이20/60px. 준비 table은 앞면5/뒷면4/빈칸2, SHOWDOWN은 앞면9/뒷면2/빈칸0이며 folded player 앞면·강조 링과 folded AI 뒷면의 기존 의미를 유지한다. 원본4PNG에서 표적 rank/suit 빨강·검정이 선명해지고 글자 누락·잘림·겹침은 보이지 않는다.",
+    "restoration": "지역별 before/restored 2쌍과 teardown, prepared/실제 전체 typed 상태가 일치하고 비허용 delta는 없다. RNG·pending·generation·GameState/Meta·Main UI와 focus·flash를 복원했다. flash는 준비 화면에서 숨김/alpha0이고 초기 visible=true/alpha0 상태도 복구했다. 이번 두 focus는 raw 경로/instance도 동일했으나 상속 계약 자체는 유일한 semantic identity 복원이다. Meta 파일의 원래 부재도 유지했다.",
+    "contrast_boundary": "종이색3+fallback색2 × 링 유무2 × 잉크2의 수학 비교20에서 빨강 최저4.937844819408804, 검정13.354039228207057을 기록했다. 이는 선택 팔레트의 수학값이며 모든 raster pixel/안티앨리어싱/장식선의 최저 대비 또는 접근성 인증이 아니다. 실제 노드는 SVG를 사용했고 fallback 표시는 실제 재현으로 주장하지 않는다."
+  },
+  "normal": {
+    "path": ".git/full-game-localization/order441-static-final/result.json",
+    "sha256": "31ba23619630f7f65f6e456c092803752965fa8ef0c4f730efd9df32469e6786",
+    "entry_sha256": "a4552b03c4ff5bcb57ddfb38a2f0634a12cf64a90382ac88f8630e6dffeab6bb",
+    "seconds": 398.468,
+    "result": "동일 clean 후보의 7검증+차선조회1, 원본8행 모두 exit0/빈 stderr/all_pass=true. 새 focused50/historical0(12.387초), fresh receipt41694/b211(397.363초), EN/context/queue/diff/등록179을 확인했다. 차선이 출력한6개 명령은 추가 실행이 아니다.",
+    "not_run": "이전 fullbody/JA/ZH·focused/runtime, ORDER434의 Chapter1/story graph/Chapter5/Year5 4원본은 불변 참조일 뿐 이번 실행이 아니다. whole audit/240주/성능 A/B도 NOT_RUN이다."
+  },
+  "preservation": {
+    "runtime": "기록된 before=after=entry, tracked3064/helper133/current4/player34 및 artifact152의 해시·크기가 일치한다. prior의 중첩 보존 맵도 재해시했고 불일치가 없다. 실제 folder153에는 result 자체가 추가된다.",
+    "normal": "before=after=entry.before. tracked3064/prior4110/current4/runtime153/player34 맵 전량과 artifact10의 SHA·기록 크기, 원본8행=집계=entry 명령이 일치한다. 이 보고는 종료 후 생성되어 해당 snapshot에 포함됐다고 주장하지 않는다.",
+    "history": "기준 fe418e3의 기존201판정·179보고·인간 원장 raw bytes는 그대로다. accepted41694/b211, CN/TW1752와 JA3044 및 모든 번역 원장/사전은 변경하지 않았다. 이전 실패·성공 증거와 helper도 보존됐다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "일회성 자동 prepared 화면/노드 관측이다. 자연 ingress·실제 손 진행·입력/정산 회귀를 이번에 새로 실행한 것이 아니며 원어민·인간·물리 컨트롤러·본편 출시 승인도 미관측이다.",
+    "기존13px 크기는 유지했으며 신규 핵심 UI 설계나 작은 글자 전역 문제의 해결로 확대하지 않는다. POT/BOARD/STACK/FOLDED/Kim Minjun 등 비표적 영어, 카드 텍스트 중심 표현과 전체 상용 UI 완성도는 별개 잔여다.",
+    "runner의 malformed observation에서 factory_nodes/rows가 null 또는 잘못된 scalar이면 guard 밖 len() 요약이 실패할 여지가 남는다. 이번 실제 schema는 정상이며 이 미실행 실패 경로를 일반 fail-safe 보장으로 주장하지 않는다.",
+    "typed/logical 복원은 음원 playhead·전역 시각 RNG·모든 transient node identity까지의 완전 복원이나 모든 장치/해상도 접근성 인증이 아니다."
+  ],
+  "final_boundary": "정확한 현재 source의 ORDER-441 카드 잉크 수리만 GO. 자동 PASS를 전역 품질·원어민·인간·물리·자연 플레이 GO로 승격하지 않고 전체 제품 및 기존 인간 게이트 HOLD를 유지한다."
+}

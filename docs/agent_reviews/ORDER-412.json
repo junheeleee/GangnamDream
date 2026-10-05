@@ -1,0 +1,156 @@
+{
+  "unit_id": "ORDER-412",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "916e51b980e70953b52c7fc4b433ee37a28ada5f",
+    "tree": "0f772c796b97e3b966aea75a1a61123ac8be72f3",
+    "manifest_sha256": null
+  },
+  "reviewer": {
+    "agent": "/root/independent392",
+    "independent_non_author": true,
+    "product_translation_helper_authorship": false,
+    "engine_audit_reruns": 0,
+    "write_scope": "Only this private review; created once after all evidence settled."
+  },
+  "scope": "Internal GO only for the guarded gift-shop price Label minimum-width repair, its exact source/receipt compatibility bridge, and five prepared 1280x800 life-modal gift shelves. Not whole-menu, language-quality, package or release approval.",
+  "population_and_method": {
+    "population": "Eight source-ordered gifts in each of KO/EN/JA/zh-CN/zh-TW; cash500000, gosiwon, each gift quantity=int2; seven affordable with South keycap and one disabled without keycap.",
+    "directly_reviewed": "Entire new runtime helpers and inherited functions they call; actual product two-line diff; both bridge appendices; entire new focused body/dispatch and audit registration/static runner; 40 unique price/title/quantity/description rows before and after; all original20 PNGs; runtime stdout/stderr/Godot logs, entry/oracle, full typed preservation comparisons; all15 static raw stdout/stderr rows and aggregate.",
+    "method": "Read-only source/Git inspection, raw artifact SHA-256 recomputation, exact before/after map comparison, actual-node geometry/font/formatter and source-bound identity review, and direct viewing of every upper/lower PNG. No test or engine rerun by reviewer.",
+    "provenance": "Root authored/committed product and executed observations/statics; bridge and focused work had separate author agents. Runtime helper collaboration was reviewed independently. Author PASS statements were checked against original files."
+  },
+  "source_review": {
+    "product_checkpoint": "50d5e3586d05e141439ce5e59d18466a9ffc523c",
+    "product_parent": "45386ccac552962e04ad377f3e92b263475a73ea",
+    "before_main_sha256": "9eb5c522e8be5f81ee56ba683f9d1db61d2625b38acf96b99169d7b7aed7c976",
+    "after_main_sha256": "2e4cb063d12de4b35abad634df1bdb8772c358b3eead7b030a781d3b86c43433",
+    "result": "Only icon_id==shop with nonempty forced_badge sets badge_lbl.clip_text=false. Unique two-line inverse restores the entire original MainGame bytes. Current matching caller is _build_gift_shelf_card. Prices, formatter, inventory/purchase rules, 62px badge floor, 8+8 padding,14px font,62px gift-card height, strings and global _label remain unchanged.",
+    "bridge": "Previous two modules are byte-exact prefixes. New proof admits eleven immutable stages/66 objects, direct parents, Main-only path populations, consecutive raw history, ancestry and fresh HEAD/raw. Nine predecessor meanings and existing stepwise inverses remain intact. Exact eleven manifests only, current Main/Aruba census bound before matches; failed402 excluded; no cross-call success cache. Unchanged JA collector uses the rebound public predecessor and actual current coordinates.",
+    "focused": "137 cases passed once, historical_cases=0. Actual immutable admission, whole collector/key/leaf/context/coordinate roundtrip, dictionary/ledger bytes and eleven manifest admissions are distinct from scoped mocked Git/HEAD/raw faults and comparison-only prior inventory. Pure guard/clip/neighbor mutations and re-signed wrong parent reject. Old focused bodies and explicit CLIs remain intact.",
+    "changed_paths": [
+      "scenes/MainGame.gd",
+      "tools/main_game_locale_history.py",
+      "tools/ui_translation_append.py",
+      "tools/ui_translation_append_self_test.py",
+      "tools/audit_scope.json",
+      "docs/WORK_LOG.md"
+    ]
+  },
+  "runtime_review": {
+    "before_source": "45386ccac552962e04ad377f3e92b263475a73ea",
+    "before_tree": "66dc86faf891a9cdccd23a35a855acced00499d7",
+    "before_seconds": 15.146,
+    "before_observation_pass": true,
+    "before_price_repair_pass": false,
+    "defect": "Label46px/Panel62px clipped all8 prices in EN,JA,CN,TW:32 unique defects,40 observations including duplicated cards. KO8 already fit. EN needed101–118px,JA64–74px,ZH50–60px.",
+    "after_seconds": 15.596,
+    "after_observation_pass": true,
+    "after_price_repair_pass": true,
+    "result": "All40 prices and full currency strings fit in one line, clip=false. KO Label46/Panel62 unchanged; EN101–118/117–134,JA64–74/80–90,ZH50–60/66–76. All40 titles including ×2 and all40 descriptions fit before and after. Actual strings/fonts/ellipsis configuration unchanged; description width contracts by at most72px without new truncation (smallest measured remaining margin46px).",
+    "geometry": "All40 gift cards62px; horizontal sibling gaps12px; title/subtitle nonoverlap, price/title/keycap/arrow contained; no target clipping,tofu or collision observed in after10 PNGs. Scroll0/305 gives upper3 plus lower7 complete cards, union8 per locale. Partial cards at viewport edges are not counted as complete coverage.",
+    "state_and_fonts": "Five full typed prepared==observed and before==restored records, empty deltas. Actual regional primary/font weight/fallback and nonempty owned glyph probes pass. Same frozen47 helpers,2986 tracked files and34 real-player files before/after; captured helpers and artifact hashes rechecked. Entire before artifact map preserved by after.",
+    "zero_actions": "Raw/confirm/move/purchase/delivery zeros are helper call-graph assertions; pressed/purchased/used/trade/finalization are connected runtime counters, all0. Scroll properties only, no physical input. Pre-autoload namespace isolation and engine exit0, exact marker, empty errors/stderr and clean Godot logs confirmed.",
+    "limitations": "Prepared surfaces only. Glyph probes separately shape with actual resolved font/size; they do not inspect Label internal shaped RIDs. Existing Chinese English descriptions/header and background monthly-board Korean are outside this repair."
+  },
+  "static_review": {
+    "result": "All15 original rows exit0 with empty stderr: focused1, normal13, list-query1. Aggregate all_pass=true/source_unchanged=true.",
+    "wall_seconds": 652.284,
+    "focused_seconds": 54.55,
+    "chapter1_seconds": 325.275,
+    "preservation": "Entry commands match raw rows and aggregate exactly; before==after2986 tracked/58 helpers/10 prior inputs/4 prior evidence files. Current file hashes matched every final map at review, and actual Git HEAD/tree was clean and matched subject.",
+    "retained_limits": "Chapter1 snapshot debt8/blocked3, W25..48 missing24, authoritative24/48. Year5 reference_only/topology invalidated/product_consumers0/R1b false. JA UI beta; ZH skeleton/shipping0; full-body SOURCE_INVENTORY_ONLY; Chapter5 human gates pending. The list printed13 proposed checks, not13 extra executions.",
+    "not_run": [
+      "previous focused suites",
+      "historical suites",
+      "whole audit",
+      "240-week",
+      "official re-export/reissue",
+      "previous completed screens"
+    ]
+  },
+  "preservation": {
+    "accepted": 41220,
+    "batches": 182,
+    "new_translation_values": 0,
+    "new_receipts": 0,
+    "ledger_sha256": "e2ce7b6de655401c37246fb0d1764a6c8f0cfef7f4c84102a644cac4f0c6bde1",
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "result": "Entire JA/CN/TW dictionaries and official header/receipt ledger byte-identical to before45386cc. JA pipeline/audit, FontKit, prices/items, all content/locale/autoload/font paths, project.godot and public release inventory unchanged. All147 prior reports and169 decisions byte-identical; human gates1 done/45 open unchanged. Sealed411 private report SHA e1f44aa6d4d491ca87c980040e43e46755670d690cf92a5dee995496b55b6d02 preserved.",
+    "gates": "Public GO1 retained; full game/new package HOLD; human/native/physical observation not supplied."
+  },
+  "defects_fixes_and_deferred": {
+    "repaired": "The observed32 unique price clipping defects are resolved by intrinsic minimum-width propagation; baseline was an intentional defect observation, not a failed engine run or repaired PASS. No runtime/static retry or waiver was needed.",
+    "deferred_ja": [
+      "Actual _gift_display_desc gift_essay_book KO 밑줄 그을 자리가 많은 책 vs JA 下線が引かれすぎた本 adds an already excessively underlined state.",
+      "Actual gift_perfume KO 값이 먼저 보이는 선물 / EN A gift whose price shows first vs JA 価値が先に見える贈り物 broadens price to value."
+    ],
+    "boundary": "Both JA issues were directly checked in unchanged source/ui_ja.json. They are pre-existing meaning issues for separate correction after413, not fixed or language-approved by412. No new CN regional-name defect is asserted."
+  },
+  "evidence": {
+    "base_path": ".git/full-game-localization/",
+    "before_result": {
+      "path": "order412-screen-before/result.json",
+      "sha256": "0665affa8c043f8c923a8fd9f78dd7a574778d58c88cb42a474648506435122b"
+    },
+    "before_observations": {
+      "path": "order412-screen-before/order412-observations.json",
+      "sha256": "9afee4c6ac0aefbd7db6931d4788d872bf46302f37f7c5a7b6da479e36471065"
+    },
+    "after_result": {
+      "path": "order412-screen-final/result.json",
+      "sha256": "b84e7ad4511ea559a0ff0f4050295175a399adff698b804a3f702dc0bf21aaac"
+    },
+    "after_observations": {
+      "path": "order412-screen-final/order412-observations.json",
+      "sha256": "a06a06fd5b5bec2a098f3fe84355a9a6436e6a8a2675448fa858e4297cf3f818"
+    },
+    "after_entry": {
+      "path": "order412-screen-final/entry.json",
+      "sha256": "ae0a4fffaa9e479bf3e5fd7df4ac2b5abdfbcc063a1223a791ad89917f3ff0c2"
+    },
+    "after_oracle": {
+      "path": "order412-screen-final/oracle.json",
+      "sha256": "443897354f15354448877e6a41620be91966f28379964f45d50844f79479b7d6"
+    },
+    "static_result": {
+      "path": "order412-static-final/result.json",
+      "sha256": "d45c33e25f1e593d484351a107ec7879c1cb71722170eca79f336ede66eb0148"
+    },
+    "static_entry": {
+      "path": "order412-static-final/entry.json",
+      "sha256": "843daabb872ceb9769e9211ee92091f50acb9abdef5ca5511ac5e073bbc62e72"
+    },
+    "focused_raw": {
+      "path": "order412-static-final/01.json",
+      "sha256": "8e80a20841f5d3d22f778962015db4eaff2354a55e757e78249bc9109d47f1ff"
+    },
+    "binding": "Results/entries contain exhaustive source/helper/player maps, original command outputs and artifact paths/SHA. Runtime results bind every PNG/log/oracle and copied helper; static aggregate exactly matches all15 numbered raw rows. Reviewer recomputed these bindings without re-executing checks."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "natural ingress/Back/reachability",
+    "purchase/gift delivery/confirmation/time progression",
+    "other resolutions/quantity widths/whole-menu regression",
+    "full-game translation/package/release"
+  ],
+  "conclusion": "GO for ORDER-412 only on the exact source subject above. Automated PASS is contract evidence, not evidence of fun, depth, literary quality or release approval. No remaining blocker within the declared price repair scope.",
+  "independent": true,
+  "status": "completed",
+  "private_review": {
+    "path": ".git/full-game-localization/order412-independent-review.json",
+    "sha256": "a08d07498c70a781078843f8abe8336f76c7ada15a0305304f913643409bef95"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER412_UI_OK screens=10 prices=40 locales=5 raw=0 actions=0 mode=after; focused137+normal/query15 exit0",
+    "생산자 ↔ 독자": "MainGame::_make_essential_action_card badge_lbl → _build_gift_shelf_card / _open_cat_life",
+    "바꾸는 상태": "가격 잘림32/40→0/40; 제목·수량·설명40/40 fit; gameplay unchanged",
+    "포기 시 잃는 것": "선물8가격×5언어의 숫자/통화 가독성; week N/A",
+    "서사 위치": "N/A: existing gift-shelf UI",
+    "장면 계층": "N/A: UI",
+    "닫는 것": "ORDER-412 exact work_unit only; full-game/new-package HOLD"
+  }
+}

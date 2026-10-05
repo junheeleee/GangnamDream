@@ -27070,5 +27070,33 @@ _audited_source_snapshot_errors = _new_run_chapter_snapshot_errors
 _order243_history_byte_hash = _new_run_chapter_observed_hash
 # END_NEW_RUN_LOG_CHAPTER_267
 
+# BEGIN_CHAPTER1_UI_PROOF_REUSE_408
+_UI_PROOF_REUSE_OLD_SNAPSHOT_ERRORS = _audited_source_snapshot_errors
+
+
+def _ui_proof_reuse_snapshot_errors(source_hashes: dict[str, str]) -> list[str]:
+    """Share only this snapshot's fresh proof; retain every admission/diagnostic."""
+    from contextlib import ExitStack
+
+    entry_error = None
+    with ExitStack() as scope:
+        try:
+            scope.enter_context(ui_receipts.fresh_validation_proof())
+        except (OSError, ValueError, KeyError, TypeError, IndexError,
+                subprocess.TimeoutExpired) as exc:
+            entry_error = "ORDER-365: whole current proof rejected: " + str(exc)
+        # Keep the complete 267 delegate once, including on failed entry. Its
+        # own exceptions propagate without a retry; ExitStack restores tokens.
+        errors = _UI_PROOF_REUSE_OLD_SNAPSHOT_ERRORS(source_hashes)
+        if entry_error is not None and entry_error not in errors:
+            # A transient first failure must not disappear if the old path's
+            # subsequent admission succeeds. Do not mutate its returned list.
+            return [entry_error, *errors]
+        return errors
+
+
+_audited_source_snapshot_errors = _ui_proof_reuse_snapshot_errors
+# END_CHAPTER1_UI_PROOF_REUSE_408
+
 if __name__ == "__main__":
     sys.exit(main())

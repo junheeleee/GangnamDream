@@ -1,3 +1,34 @@
+# ORDER-403 — 행동 축 배지 글자폭 수리 내부 검수 완료
+
+**[x] 완료 — 2026-10-04.** 비저자 /root/independent392의 work_unit GO.
+source12948992e3cb9331adb96a0b96928c3ee818dddd,
+tree5e30d8eea3375fbaabc767e1a7d152678027d4e0.
+[독립 보고](../agent_reviews/ORDER-403.json)·agent_review_decisions 소유.
+
+- 공용 action card의 axis Label만 clip_text=false 한 줄 수리.
+  EN6의 MONEY44/PEOPLE45 대 label42를 실제글자 최소폭으로 수용한다.
+  after label44/45·panel60/61, floor58·font12·여백8+8 유지. 35/35축배지 fit.
+- before10PNG18.855초는 측정완료/수리FAIL, after10PNG18.811초는 수리PASS.
+  실제people/work10PNG + cast5노드 + mixed5개 별도공유component, 5언어1280×800.
+  root·저자·독립검수자 전후20PNG 직접확인. Atlas72/초상60/work82/mixed56 유지.
+- 비축180행에서 기존fit→신규nonfit0. 기존resume preview4는 명시ellipsis로 남아
+  all_text_fits=false다. 전체UI 완전표시 승인으로 확대하지 않는다.
+  typed준비/표시/복원10·AP warmup5(delta0)·사용자34파일·tracked2966불변.
+- 새403wrapper 호출내 fresh proof 재사용, 정확8허용조합/원본census/이전body 보존.
+  focused107/historical0 PASS45.479초. 동일7manifest비교 실측25회8.516초→
+  7회2.446초. 합성3항목manifest 비용이며 전체감사 속도 수치가 아니다.
+  실패402 raw·부분역변환·HEAD/Git/census 소실은 허용하지 않는다.
+- normal13+영향조회1 PASS561.336초, 영향조회96목록은 실행96건이 아니다.
+  Chapter1 debt8/blocked3/gap24·year5 reference_only/invalidated 유지.
+  역사self/전체감사/240주 반복0. 기존160판정/138보고·인간원장·수용41,069/b169 보존.
+- 자연진입/Back/OS raw/confirm/행동/물리·다른해상도·원어민/인간 미관측.
+  CN/TW work 영어잔여는 다음404, 11px/포커스·B3/B4·본편/새packageHOLD 별도.
+  공개GO1·인간OPEN45 유지. 자동PASS는 출시GO가 아니다.
+- 상시규범0/일회성. 기존UI/I18N·WORK_UNIT·gangnamdream-dev 적용.
+  아래 최종 실행사양 원문을 보존한다.
+
+## 착수 사양 원문
+
 # ORDER-403 — 행동 축 배지의 영어 글자 잘림 수리
 
 #### [~] ORDER-403 [P1·UI] 행동 축 배지의 영어 글자 잘림 수리
