@@ -861,6 +861,11 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
             require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
                     "coffee encounter lineage or protected locale differs")
             corrections.append((_coffee_history.coffee_encounter_comparison, before, after))
+        elif commit == _coin_history.COIN_AFTER_COMMIT:
+            before, after, change = _coin_history.coin_call_proof(root, inventory)
+            require(set(paths) == set(CURRENT_PATHS) and previous == before and successor == after,
+                    "coin call lineage or protected UI locale differs")
+            corrections.append((_coin_history.coin_call_comparison, before, after))
         elif commit in exact:
             proof, inverse = exact[commit]
             before, after, change = proof(root, inventory)
@@ -2643,3 +2648,46 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
             root, inventory, inventory["source_manifest_sha256"])
     return _HOLDEM_VICTORY_PARTICLE_OLD_MANIFEST_MATCHES(root, inventory, expected)
 # END_HOLDEM_VICTORY_PARTICLE_APPEND_455
+
+
+# BEGIN_COIN_CALL_SOURCE_AND_RECEIPT_459
+import coin_call_receipt_history as _coin_history
+
+_COIN_CALL_OLD_MANIFEST_MATCHES = _source_manifest_matches
+_COIN_CALL_OLD_CURRENT_PROOF = current_proof
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _COIN_CALL_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    predecessors = _coin_history.coin_source_predecessor(root, inventory)
+    require(set(predecessors) == set(_coin_history.SOURCE_PATHS), "coin source predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"], "coin current source census digest differs")
+    comparison = {**hashes, **{path: hashlib.sha256(raw).hexdigest()
+                             for path, raw in predecessors.items()}}
+    predecessor_inventory = {**inventory, "source_hashes": comparison,
+                             "source_manifest_sha256": exchange.digest(comparison)}
+    # Only the proved source successor is new. The original matcher still
+    # verifies the actual earlier runtime tuples; no new-source/old-runtime mix.
+    if expected == inventory["source_manifest_sha256"]:
+        return _COIN_CALL_OLD_MANIFEST_MATCHES(
+            root, predecessor_inventory, predecessor_inventory["source_manifest_sha256"])
+    return _COIN_CALL_OLD_MANIFEST_MATCHES(root, predecessor_inventory, expected)
+
+
+def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:
+    head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+    actual = _coin_history.coin_call_current_events(root)
+    result = _COIN_CALL_OLD_CURRENT_PROOF(root, baseline_commit, baseline)
+    require(all(result["source_hashes"].get(path) == hashlib.sha256(actual[path]).hexdigest()
+                for path in _coin_history.SOURCE_PATHS)
+            and exchange.digest(result["source_hashes"]) == result["source_manifest_sha256"],
+            "coin current source census/raw binding differs")
+    require(all((root / path).read_bytes() == raw for path, raw in actual.items()),
+            "coin current product bytes changed during admission")
+    require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head
+            and result["evidence"]["head"] == head,
+            "Git candidate changed during coin call admission")
+    return result
+# END_COIN_CALL_SOURCE_AND_RECEIPT_459

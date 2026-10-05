@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 코인 원문·교정 기록·현재 소비자 연결 구현 (459·460)
+
+- 정확한 source5/receipt4 역상과 실제 두 Git 전이,현재제품8/HEAD/disk·source2 manifest 결속을 구현했다. 과거UI3·228batch·41755수용/다른본문을 보존하고 이번9교정/3batch만 비교역상으로 복원한다. 제품데이터는49124fd 그대로다.
+- 첫 focused는136개 뒤 실패했다. 사전읽기에서 놓친 LIVE_PATHS 미등록 때문에 새코인3분기가 도달불가능했다. 기존47경로 순서를 유지해 exact3를 연결한 뒤 두번째 focused151/historical_cases0·collector_calls0 PASS다. 최초실패로그는 보존한다.
+- 구문·등록194·context·queue·diff PASS, 새파일 표적조회4검사다. 존재하지 않는 queue_index_check.py를 부른 CLI exit2를 실제 queue_consistency_check.py로 정정했고 게임검사는 실행되지 않았다. 현재후보 기본full-body와 비저자최종판정은 아직미실행이다. 옛대형self-test·화면·엔진은 반복하지 않는다.
+
 ## 2026-10-05 — 코인 교정 사건의 마지막 소비자 연결 선언 (460)
 
 - 459 구현 중 비저자가365의현재사건 분기가 커피3경로만 소유함을 발견했다. 코인3파일은 이전원장으로넘어가므로459원문/receipt증명만으로는 실제소비자수용이 끝나지 않는다.

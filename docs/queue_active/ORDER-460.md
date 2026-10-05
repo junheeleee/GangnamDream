@@ -9,7 +9,8 @@
 ## 소유와 경계
 
 - root: `tools/order365_ui_receipt_compat.py`의 coin adapter import, fresh proof의
-  현재 raw 결속, `source_errors`의 exact JA/CN/TW 사건3경로 분기만 수정한다.
+  현재 raw 결속, `source_errors`의 exact JA/CN/TW 사건3경로 분기와
+  기존47경로를 보존한 LIVE_PATHS exact3추가(50경로)만 수정한다.
 - receipt_tests392: 이미459에서 소유한 `tools/coin_call_receipt_history_self_test.py`에
   이 소비자 분기의 제출 raw 불일치·누락·다른 경로 위임 반례를 함께 검증한다.
 - root: `tools/audit_scope.json`의 같은 focused 등록에 소비자 경로를 연결하며,
@@ -26,5 +27,10 @@
 제출된3파일이 exact current와 다르면 거부하고 다른 경로는 기존 증명을 따른다.
 458의 선행 화면은 제품 bytes 불변 대조 뒤 재사용하며 새 실제 플레이를 뜻하지 않는다.
 비저자 한정 GO 뒤 별도 마감한다. 인간/원어민/패드·공개 이력·전체 본편 HOLD 유지.
+
+첫 focused는136개 확인 뒤 `actual current47 path census`에서 실패했다.
+실제47경로에 코인3파일이 없어서 새 분기 앞의 미등록 검사가 거부하는 결함이다.
+`.git/chapter5-replay/order459-focused-first.log`를 보존하며, 같은 파일/정확3범위에서
+목록을 연결한다. 기존47경로를 지우거나 임의 개수 하한으로 검사하지 않는다.
 
 이 정확한 연결과 실행 계획은 **일회성**이며 새로운 규범이나 출시 GO가 아니다.

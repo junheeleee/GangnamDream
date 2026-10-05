@@ -22,13 +22,15 @@ from typing import Any, Mapping
 import order351_source_compat as previous
 import ui_translation_append as ui_append
 import coffee_encounter_receipt_history as coffee_history
+import coin_call_receipt_history as coin_history
 
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER_PATH = "content/meta/full_game_localization.json"
 LOCALES = ("zh-CN", "zh-TW")
 UI_PATHS = tuple(f"locale/ui_{locale}.json" for locale in LOCALES)
 CURRENT_PATHS = (*UI_PATHS, LEDGER_PATH)
-LIVE_PATHS = tuple(dict.fromkeys((*previous.LIVE_PATHS, *ui_append.CURRENT_UI_PATHS)))
+LIVE_PATHS = tuple(dict.fromkeys((*previous.LIVE_PATHS, *ui_append.CURRENT_UI_PATHS,
+                                *coin_history.EVENT_PATHS)))
 # An additional current dictionary, not part of the immutable three-file365 delta.
 JA_BASELINE_BLOB = "11cdf6beae26d2eb2174af79253cfe802254079e"
 JA_BASELINE_SHA256 = "9881e43fc34ac67241dc4819068f0dcda8ee714119778d059ddd7088fce75f1d"
@@ -346,6 +348,9 @@ def fresh_validation_proof():
             current["coffee_event_raw"] = coffee_history.coffee_encounter_current_events(ROOT)
             _require(ui_append._git(ROOT, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
                      == current["evidence"]["head"], "coffee/UI current proofs observed different Git candidates")
+        current["coin_event_raw"] = coin_history.coin_call_current_events(ROOT)
+        _require(ui_append._git(ROOT, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+                 == current["evidence"]["head"], "coin/UI current proofs observed different Git candidates")
         token = _ACTIVE_PROOF.set(proof)
         current_token = _ACTIVE_CURRENT.set(current)
         try:
@@ -369,16 +374,20 @@ def source_errors(raw: bytes, relative: str) -> list[str]:
                 _require(raw == _ACTIVE_CURRENT.get()["coffee_event_raw"][relative],
                          "current coffee event raw differs from exact Git successor " + relative)
                 return []
+            if relative in coin_history.EVENT_PATHS:
+                _require(raw == _ACTIVE_CURRENT.get()["coin_event_raw"][relative],
+                         "current coin event raw differs from exact Git successor " + relative)
+                return []
             return previous.source_errors(raw, relative)
     except (OSError, ValueError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
         return ["ORDER-365: current proof rejected: " + str(exc)]
 
 
 def snapshot_errors(snapshot: Mapping[str, bytes]) -> list[str]:
-    """Admit the submitted whole47 snapshot, including all UI files and ledger."""
+    """Admit the submitted whole50 snapshot, including the exact coin targets."""
     errors = []
     if set(snapshot) != set(LIVE_PATHS):
-        errors.append("ORDER-365: exact47 current snapshot paths drifted")
+        errors.append("ORDER-365: exact50 current snapshot paths drifted")
     try:
         with fresh_validation_proof():
             for relative in LIVE_PATHS:

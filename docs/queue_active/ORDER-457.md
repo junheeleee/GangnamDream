@@ -55,6 +55,12 @@ QA namespace `GangnamDream_StoryNameplateQA_ae795aef7ab833fa7381c3d03ba445be`,
 이어보기는 이 checkpoint를 새 격리에 복사하여 실제 메뉴에서 불러온다. 원래 W193
 seed/metadata는 보존하고 이 후속 저장을 원본으로 바꾸지 않는다. M60/후일담/6/6은 미도달이다.
 
+이어보기 `order457-continue-w195`는 source c973c55의 격리 준비·checkpoint 복사만
+마쳤다. Mac 잠금으로 실제 메뉴/불러오기/입력0이다. root가 자기 실행기를 중단해
+59.301초/exit−9/`KeyboardInterrupt`이며 준비 실패나 플레이 완료로 바꾸지 않는다.
+result SHA `f91cf64177b24a1cc08f48575949bd298ed79ee4445e74848f73216365db2533`,
+source3118/helper5/player34/seed2/W195 불변이다. Mac 해제 뒤 새 label로 계속한다.
+
 실행기 문법/안전 경계 읽기, context/queue/diff와 이 실제 경로만 수행한다.
 기존32callback/456/302/365·whole audit·240주·Property·JA/ZH 전체 검사는 반복하지 않는다.
 정상 속도 한 경로 완료와 독립 관찰 판단까지 이 단위는 진행 중이다. 도구 완성이나

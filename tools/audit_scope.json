@@ -3249,6 +3249,12 @@
   ],
   "checks": [
     {
+      "tool": "tools/coin_call_receipt_history_self_test.py",
+      "paths": ["tools/coin_call_receipt_history.py", "tools/coin_call_receipt_history_self_test.py", "tools/ui_translation_append.py", "tools/order365_ui_receipt_compat.py"],
+      "why": "Exact coin-call source/phone and nine receipt correction inverses, current three event consumers and bounded mutation checks; shared459/460 run with no historical-suite replay.",
+      "godot": false
+    },
+    {
       "tool": "tools/holdem_victory_particle_receipt_check.py",
       "paths": ["scenes/HoldemClub.gd", "tools/holdem_money_history.py", "tools/ui_translation_append.py", "tools/holdem_victory_particle_receipt_check.py"],
       "why": "Exact KO-only victory-template source successor, unchanged71 UiCalls/receipts/payout and non-KO identity; synthetic faults are not runtime evidence.",
