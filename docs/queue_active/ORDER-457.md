@@ -12,7 +12,10 @@ Property는 후속 별도 단위이며 기존 인간·공개 후보와 판정은
 - claude_handoff_review: 일회성 비제품 `.git/chapter5-replay/order457-launch.py`만 작성한다.
   기존 pre-autoload bootstrap·프로세스 안전 유틸을 재사용하는 얇은 실행기다.
   자동 선택·타이핑 생략·상태 주입·제품 또는 기존 검사 수정은 없다.
-- receipt_tests392: 저장 원본·실행기·실제 메뉴 진입의 읽기 전용 검토. 파일 소유0.
+- receipt_tests392: 원본 실행기를 보존한 일회성 비제품
+  `.git/chapter5-replay/order457-continue.py`만 작성한다. 실제 플레이로 저장한
+  W195 checkpoint의 바이트 복사와 전체tracked/원본seed2/checkpoint/player34
+  전후 보존을 확인하며 자동 입력·상태 편집·프로젝트 실행은 하지 않는다.
 - independent392: 원본 관찰과 source/저장/실행 증거를 읽고 마지막
   `docs/agent_reviews/ORDER-457.json`만 작성한다. 최종 전 작성하지 않는다.
 - 실제 프로젝트 실행은 root만 한다. 원본 seed 두 개와 실제player34는 읽기/해시만 한다.
@@ -44,7 +47,9 @@ root가 개별 GUI 입력으로 문장을 읽고 자연 타이핑·전환을 기
 진행했다. result SHA `bf7e7380361d06cc42f215c5aa1bfe605a465867c30dc3e8e97de9cb03354a2b`,
 원본seed2·player34 불변이다. `.git/chapter5-replay/order457-first/observations.md`에
 root GUI 독해/선택 기록을 보존하며 별도 PNG/독립 화면 관찰은 주장하지 않는다.
-코인 통화의 확인 결함은 [458](ORDER-458.md)로 수리한다. 실제 저장한 W195 slot1은
+코인 통화의 확인 결함은 [458](ORDER-458.md)로 수리 중이며 5언어 교정과
+KO/EN 준비화면24페이지/16PNG는 통과했다. 지정차선/독립최종은 아직 진행 중이다.
+2026-10-05 이어보기 실행기 소유를 위와 같이 먼저 선언하며 실제 저장한 W195 slot1은
 QA namespace `GangnamDream_StoryNameplateQA_ae795aef7ab833fa7381c3d03ba445be`,
 153359B/SHA `d34ab88092821d0c6df4c37c520047bb0142097a60be94762337ed66be88cb12`다.
 이어보기는 이 checkpoint를 새 격리에 복사하여 실제 메뉴에서 불러온다. 원래 W193

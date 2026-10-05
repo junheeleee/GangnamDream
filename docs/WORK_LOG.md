@@ -2,6 +2,11 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 실제 W195 저장 이어보기 준비 선언 (457 중간)
+
+- 458의 source49124fd에서 KO/EN 준비화면24페이지/16PNG/8선택과 source/player34/seed2/checkpoint 불변을 확인했다. 지정11검사 차선과 비저자 최종검수는 아직 진행 중이며 완료로 세지 않는다. 첫 일회성 helper의 예약어 파싱 실패0PNG도 별도 보존한다.
+- 원래 W193 실행기를 고치지 않고 receipt_tests392가 비제품 `.git/chapter5-replay/order457-continue.py`만 작성하도록 선언한다. W195 실제 저장 바이트를 새 격리에 복사하고 root의 실제 메뉴 불러오기·개별 GUI 입력으로 계속한다. 자동 선택·상태 주입·원본metadata 수정0이며 M60/후일담/6/6은 아직 미도달이다.
+
 ## 2026-10-05 — 코인 통화 세 준비 언어 교정 수용 (458 중간)
 
 - KO/EN source632f88b를 main에 푸시한 뒤 일본어·간체·번체를 한국어에서 직접 대조해3leaf씩 교정했다. 공식 export/check/import `--replace-existing`3회가 통과했고 기존target hash와 새source/target receipt9개를 결속했다. 기존228batch를 보존해231batch, 수용41755/증량0이다.
