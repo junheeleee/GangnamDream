@@ -79,3 +79,14 @@ GUI 자연 부팅·신규 저장/별도 프로세스 재개·StoryMode 복귀/�
 규범 판정: 후보ID·파일소유·이번 실행계획은 일회성. 지속될 별도 로컬후보 생성/격리/
 미검증 표식의 사용법만 BUILD_PIPELINE에 승격한다. 기존 WORK_UNIT 적용,
 자동PASS는 재미·인간·원어민·물리패드·출시 GO가 아니다.
+
+## 구현·실행 진입 증거
+
+- builder530행/감사676행 전수 사전읽기·합성42/actual_exports0·명시차선4검사 PASS.
+  등록196/context548/queue79·76. 처음 lane+파일목록 CLI exit2는 검사0으로 보존한다.
+- 실제 출력/namespace 입구의 pure guard와 반례를 연결했고 preset 기본경로는
+  staging 앱이름.zip, 실제 출력은 명시 CLI 경로로 결속한다. Python3.9 지원,
+  player34 전량·UID exact3·PCK flags2·최종보호 뒤 manifest 발급을 확인했다.
+- 현재 actual export/런타임0이다. 깨끗한 구현 후보를 먼저 main에 커밋/푸시하고
+  actual 생성1회를 진행한다. 초기 출력 생성 뒤 entry 기록 전 OS실패는 result가
+  없을 수 있으나 그 구간 엔진·공개본 변경0이며 잔여를 삭제하지 않는다.

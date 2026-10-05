@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 공개본을 덮지 않는 후보 빌더·독립 감사 구현 (462)
+
+- 새 builder530행·감사676행을 파일별 분리 저작하고 root/비저자가 전수 사전읽기했다. stage4치환·공개저장/실제player34/seed2+W195 전후 보호·첫 엔진 전 namespace 분리·app/ZIP/PCK/currentJSON 무결성을 결속한다. 마지막 보호검사를 통과해야 최종 MANIFEST를 발급한다.
+- 실행 전 Python3.9 tar API·PCK flags2·UID3 row schema·player JSON외8파일 누락·오류로그·preset 경로 기대 불일치를 수리했다. existing-output 반례도 상수false가 아니라 실제 builder의 쓰기 없는 fresh-path guard를 호출한다. 출력 생성 뒤 entry 기록 전의 OS 실패는 상세 result 없이 남을 수 있으나 엔진/공개본 쓰기를 하지 않는다.
+- 명시 차선4검사 PASS: 합성42/actual_exports0, 등록196/context548/queue79·76. 첫 CLI는 lane과 파일목록을 함께 줘 exit2(검사0)였고 lane 단독으로 정정했다. 엔진/실제export는 아직0이며 clean 구현 commit/push 뒤 별도 실행한다. full-body/과거 self-test/240주 반복0이다.
+- 지속 사용법은 BUILD_PIPELINE의 로컬 successor 절에 승격한다. 검사 통과는 실제 부팅·저장/복귀·5언어 화면·원어민·물리 조작/출시GO가 아니며 기존 공개GO·인간 원장을 보존한다.
+
 ## 2026-10-05 — 수정 체험판의 별도 로컬 export 선언 (462)
 
 - read-only source census에서 UID없는GD3개를 확인했다. 새 import의 생성 sidecar는 정확3경로만 사양에 선언하고 유무/형식/SHA를 기록한다. source4치환·all_resources와 원본 저장소 불변, 다른새파일 허용0이다. 현재 oldpublic build/story_demo는 부재여서 missing→missing만 확인하며 옛artifact 실물 재검증으로 쓰지 않는다.

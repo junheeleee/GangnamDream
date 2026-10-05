@@ -495,6 +495,32 @@ GODOT=/path/to/Godot_v4.6.2 ./tools/build_story_demo_desktop.sh \
 - 2026-09-26 현재 가짜 Godot으로 흐름(소스 검증·preset 파생·gate 순서·
   manifest)만 확인했다. 실제 Godot 실행 기록은 없다.
 
+## 로컬 successor 후보 — 공개본 미교체
+
+수정된 대본·코드로 만드는 로컬 후보는 기존 `build/story_demo` 및
+`GangnamDream_StoryDemo_v1` 저장 공간을 교체하지 않는다. 공개본의 exact source와
+사용자 GO도 상속하지 않는다. 별도 빌더/감사기는 다음과 같다.
+
+- `tools/build_story_demo_successor_macos.py`: 명시한 clean full source commit을
+  저장소 밖 Git archive로 풀고, staging의 앱/저장 identity·전용 진입만 바꾼다.
+  원본 `project.godot`·preset·controller와 기존 export filter는 보존한다.
+- `tools/story_demo_successor_package_audit.py --self-test`: 경로·치환·manifest와
+  산출물 반례 검사다. 이 실행 자체는 export나 실제 플레이 증거가 아니다.
+- 빌더의 `--source <full-commit> --build-id <supported-build-id> --attempt <fresh-label>
+  --godot <absolute-engine-path>`로 발급한다. 현재 지원 ID는 `2026.10.05.1`이며
+  날짜가 source commit과 같아야 한다. 기존 attempt/namespace 및 symlink 경로는
+  거절한다. 실패 staging과 로그는 삭제하지 않고 보존한다.
+- 출력은 `build/story_demo_successor/<build-id>/<attempt>/`이고, 첫 엔진 시작
+  전부터 고유 RuntimeQA 공간을 지정한다. export 때는 검사 저장과 분리된 후보
+  전용 공간을 쓴다. 보호할 두 경로 seed와 이어보기 체크포인트는 각각
+  `--protect <absolute-file-path>`로 지정한다(서로 다른 기존 파일 정확히 3개).
+
+후보 manifest의 `EXPORTED_NOT_RUNTIME_VERIFIED`는 export·ad-hoc 서명·app/ZIP/PCK
+무결성 증거만 뜻한다. 실제 무인자 부팅·새 저장·별도 프로세스 이어보기·StoryMode
+복귀와 입력 해제·5언어 화면·기존 공개 저장의 **복사본** 호환은 별도로 관측한다.
+이 잔여 항목이 미실행이면 package 및 출시 준비 판정은 HOLD다. ad-hoc 서명은
+notarization·스토어 제출·법률 인증이 아니며 도구에 외부 배포 단계는 없다.
+
 ## 4. legacy/internal V2 자동 스모크
 
 아래 `--demo-build`, V2 24주, W24 CTA 검사는 현재 공개 스토리 데모 검사가

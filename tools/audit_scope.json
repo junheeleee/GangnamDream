@@ -14,6 +14,19 @@
   ],
   "fast_lanes": [
     {
+      "id": "story-demo-successor-export",
+      "paths": [],
+      "owned_paths": [
+        "tools/build_story_demo_successor_macos.py", "tools/story_demo_successor_package_audit.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/BUILD_PIPELINE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-462.json",
+        "docs/queue_active/ORDER-462.md", "docs/queue_archive/ORDER-462.md", "docs/queue_active/ORDER-302.md"
+      ],
+      "tools": ["tools/story_demo_successor_package_audit.py --self-test", "tools/audit_select.py --verify"],
+      "why": "Explicit local successor export contracts and bounded synthetic failures only. Root separately runs one clean source archive, isolated import/three engine contracts, localization/notices, export/ad-hoc signature and app/ZIP/PCK verification. No old public builder, user-save relocation, old package replacement, inherited user GO, full-body/history-suite/240-week repeats or claimed GUI/native/physical observation. Export stays NOT_RUNTIME_VERIFIED until a separate actual runtime review."
+    },
+    {
       "id": "holdem-manifest-proof-scope",
       "paths": [],
       "owned_paths": [
@@ -3261,6 +3274,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/story_demo_successor_package_audit.py --self-test",
+      "paths": ["tools/build_story_demo_successor_macos.py", "tools/story_demo_successor_package_audit.py"],
+      "why": "Fresh local successor identity, exact staging-only transformations, protected output/save boundaries and tampered log/manifest/ZIP/PCK cases; synthetic fixtures do not stand for an exported or runtime-tested package.",
+      "godot": false
+    },
     {
       "tool": "tools/holdem_manifest_proof_scope_self_test.py",
       "paths": ["tools/holdem_manifest_proof_scope_self_test.py", "tools/holdem_money_history.py", "tools/ui_translation_append.py"],
