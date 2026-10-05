@@ -14,6 +14,19 @@
   ],
   "fast_lanes": [
     {
+      "id": "routine-background-input",
+      "paths": [],
+      "owned_paths": [
+        "tools/RoutineBackgroundInputCheck.gd", "tools/RoutineBackgroundInputCheck.gd.uid",
+        "tools/RoutineBackgroundInputCheck.tscn", "tools/run_routine_background_input_check.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-456.json",
+        "docs/queue_active/ORDER-456.md", "docs/queue_archive/ORDER-456.md"
+      ],
+      "tools": ["tools/run_routine_background_input_check.py --self-test", "tools/audit_select.py --verify"],
+      "why": "Explicit456 new runner self-test plus context/queue always and separate diff/registration/query. Root separately runs the exact clean candidate with --run --expected-head and a fresh label: SAVE0/W230 and REST5/W216 times KO/EN, four prepared legacy Main routes,24 raw key edges/12 taps,4 pressed/receipts/PNG. Pre-autoload isolation and actual player34 preservation; typing/fade finish naturally. No old15632 callback/echo/resolver,302,365,old suites,whole audit,240-week,new package or product changes. This explicit lane never launches a duplicate engine run."
+    },
+    {
       "id": "holdem-victory-particle",
       "paths": [],
       "owned_paths": [
@@ -5927,6 +5940,11 @@
         "assets/backgrounds/daeun_newlywed_home_night.png",
         "tools/routine_background_context_audit.py"
       ]
+    },
+    {
+      "tool": "tools/run_routine_background_input_check.py --self-test",
+      "why": "Prepared routine GUI runner rejects wrong markers, incomplete or contradictory observations, unsafe artifacts and wrong accounting; pure synthetic cases only, no engine or old checks.",
+      "paths": ["tools/run_routine_background_input_check.py", "tools/RoutineBackgroundInputCheck.gd", "tools/RoutineBackgroundInputCheck.tscn", "tools/RoutineBackgroundInputCheck.gd.uid"]
     },
     {
       "tool": "tools/run_routine_background_context_check.py --self-test",
