@@ -40,7 +40,7 @@ hash에 결속한 공식 `--replace-existing` 교정으로 기록하며 coverage
 추가한다. 검사완화/신규자산/오디오변경은 하지 않는다.
 
 1. 3leaf×5언어 exact semantic diff, gameplay불변, story-consistency/scene-direction,
-   영어 coverage, 공식 export/check/import와 지정 full-game-localization-overlays 차선.
+   영어 coverage, 공식 export/check/import와 현재 코퍼스 기본 검사를 사용한다.
    새 checker/인프라를 만들지 않고 기존검사/일회성 prepared fixture를 재사용한다.
 2. KO/EN 실제 StoryMode에서 두 root 설명·경고 결과·후속 두 결과를 표적으로 확인한다.
    낮은 자산과97% 상태 모두에서 목표 문구가 모순 없고 phone배지/local초상/같은배경을
@@ -48,6 +48,27 @@ hash에 결속한 공식 `--replace-existing` 교정으로 기록하며 coverage
 3. root 실제화면 관찰 + 비저자 원문/증거 한정판정, candidate/receipt/증거 SHA 결속,
    context/queue/diff. 456·302·whole audit·240주·Property를 반복하지 않는다.
    미관찰 경로/원어민/인간/물리패드·본편/새package HOLD를 그대로 남긴다.
+
+### 검사 비용 관측 뒤 표적 재선언 — 2026-10-05
+
+처음 선택한 `full-game-localization-overlays`11행은 변경하지 않은 검사 도구의
+역사 변이 self-test를 포함했다. 첫 `full_body_translation_scope.py --self-test`가
+1315.966초 동안 미완료여서 root가 SIGINT로 중단했다(exit−2). 원로그는
+`.git/chapter5-replay/order458-localization-lane.log`에 보존하며 PASS가 아니다.
+뒤10행은 미실행이다. 검사코드·정본·스키마를 바꾸지 않은 이번3문구 교정에서
+역사 변이의 반복 전체 증명을 재검증하는 대신, 다음 현재 데이터 검사를 먼저 선언한다.
+
+- `python3 -B tools/full_body_translation_scope.py` — 현재 source/closure/protection 기본 검사1회.
+- `python3 -B tools/audit.py` — 현재 사건/효과/플래그 구조.
+- `python3 -B tools/i18n_coverage_check.py` — 현재5언어 overlay 구조/토큰/수치.
+- 마감 metadata의 context/queue/판정원장/diff 검사.
+
+이미 통과한 공식9교정의 receipt/header/token/문단, 15leaf exact 변경 및
+비소유 전체바이트 역상, story-consistency/scene-direction/visual/EN,
+KO/EN24페이지·16PNG·8선택과 비저자 전수 독해는 그대로 결속한다.
+새 checker·새 차선·감사 완화0이며 미완료 self-test를 성공으로 바꾸지 않는다.
+이 일회성 범위 조정은 사용자가 위임한 효율적 검수에 따른 것이며,
+현재 데이터 검사에서 실패하면 수리/추가선언 전까지 완료하지 않는다.
 
 이 수리가 없으면 현재 자산과 음성 통화의 지식 범위가 매 재노출마다 모순된다.
 새 선택을 만들지 않으므로24주 후 상태·선택 경쟁은 기존 그대로다. 서사 위치는
