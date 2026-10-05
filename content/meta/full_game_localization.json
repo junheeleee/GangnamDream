@@ -10213,6 +10213,111 @@
           "batch_id": "5d54ced95c72dc86c2f0664885fb2ef6ea9d3ffa2b61f0467cfd2878271b11bc"
         }
       }
+    },
+    {
+      "order": "ORDER-468",
+      "group": "events",
+      "roots": [
+        "arc_minseo_03_arrival"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Independent Korean-direct review of both PR31 Minseo conditional selectors in all five languages. These two keys were absent from pre-intake main and their current targets match the PR. First acceptance only; no prose edits. Official bounded export/check/import changed zero target files. Not native, rendered, human-play, physical-input or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "d0a5790c119f63c1919672cb7ce2247c19c18b23d15883305ec772f889bff6f1"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "93d0fab05c5127d3bf31f5ba3451fd778b94e06f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e3005b54d6887c0d819b08c90d30496d32711b4b27dd3ccec15fc9e6dd3a954b",
+          "selection_sha256": "13ba91fe380f13a9f77b9f87ecd5afa96733a444743b74e024fee6d1bf3743e6",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "56f2c8b5417c5b4f8d19126bf5fc3243850677efb869b6518ff1c3aa84e94887"
+        }
+      }
+    },
+    {
+      "order": "ORDER-468",
+      "group": "events",
+      "roots": [
+        "arc_minseo_03_arrival"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 2,
+        "zh-TW": 0
+      },
+      "source_review": "Independent Korean-direct review of both PR31 Minseo conditional selectors in all five languages. These two keys were absent from pre-intake main and their current targets match the PR. First acceptance only; no prose edits. Official bounded export/check/import changed zero target files. Not native, rendered, human-play, physical-input or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "6d51262411c60da41e9b6d58126cde4af48649804e4714de6b52bee7abaf1ddd"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "93d0fab05c5127d3bf31f5ba3451fd778b94e06f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e3005b54d6887c0d819b08c90d30496d32711b4b27dd3ccec15fc9e6dd3a954b",
+          "selection_sha256": "151c4b0c3e72ba7809bc140da26d24c5d52180296ab9bef84cab70bb7e80041f",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2d86a72e4aac610fe5b3f89fe95a9f8dee8bd64e256a48d02b271155426e70a2"
+        }
+      }
+    },
+    {
+      "order": "ORDER-468",
+      "group": "events",
+      "roots": [
+        "arc_minseo_03_arrival"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 2
+      },
+      "source_review": "Independent Korean-direct review of both PR31 Minseo conditional selectors in all five languages. These two keys were absent from pre-intake main and their current targets match the PR. First acceptance only; no prose edits. Official bounded export/check/import changed zero target files. Not native, rendered, human-play, physical-input or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "dc02445e1c854160ad5ff5d8c08cc4871f6204147df427050c5d2a510eb49a32"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "93d0fab05c5127d3bf31f5ba3451fd778b94e06f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e3005b54d6887c0d819b08c90d30496d32711b4b27dd3ccec15fc9e6dd3a954b",
+          "selection_sha256": "e9d7e503863026aaa52b5e2a73860cdf3e3c778b9944897bc739ed6d23056388",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "f9b4aac0ac5840799a9e35b7b110e45caef17b52727257f91af85f9ab4783536"
+        }
+      }
     }
   ],
   "accepted": {
@@ -62800,6 +62905,14 @@
       "events:arc_minseo_03b_not_arrived:/description_if_known/minseo_real_talk": {
         "source_sha256": "d1e2be94350a9d09d2d7318828342cab03677ebdf6c5fe01e595f6eedac53c48",
         "target_sha256": "02bb7e3ff9ce934d3650a9c19c242e991139f271816441e6d72cfd6f9eb9c8df"
+      },
+      "events:arc_minseo_03_arrival:/description_if_known/minseo_real_talk": {
+        "source_sha256": "0e19e9ffb933beb971cc16f33f3279819cfddf6121b4aa771e4754fc17120cc2",
+        "target_sha256": "b62ff492628f92dc1a425ec9d851e4cad8c884c818fa63060c7aa7eb17c01c3d"
+      },
+      "events:arc_minseo_03_arrival:/description_if_known/contacted_minseo&minseo_real_talk": {
+        "source_sha256": "e33b15a4be6e33791d81665be4725a630a072e16218204d6fdb74ef06230adb2",
+        "target_sha256": "84b31c35f97ec5ea049e6436a6091c7830cc9f704b3a48f03b2312e319c9c6c1"
       }
     },
     "zh-CN": {
@@ -120170,6 +120283,14 @@
       "events:arc_minseo_03b_not_arrived:/description_if_known/minseo_real_talk": {
         "source_sha256": "d1e2be94350a9d09d2d7318828342cab03677ebdf6c5fe01e595f6eedac53c48",
         "target_sha256": "901533d76aa62c26e9273010babbdb5967022d30f1ab28d295bdf5ab9f4994e1"
+      },
+      "events:arc_minseo_03_arrival:/description_if_known/minseo_real_talk": {
+        "source_sha256": "0e19e9ffb933beb971cc16f33f3279819cfddf6121b4aa771e4754fc17120cc2",
+        "target_sha256": "94f01fe1256eb67c1d5539bfa57b3c5971bb957d5f3d43e2eef27bb70a523a4b"
+      },
+      "events:arc_minseo_03_arrival:/description_if_known/contacted_minseo&minseo_real_talk": {
+        "source_sha256": "e33b15a4be6e33791d81665be4725a630a072e16218204d6fdb74ef06230adb2",
+        "target_sha256": "6da5a64ff1ac20a3ac8bb21dc831e1d870dc5394b8908515f1b4040b5d0122ad"
       }
     },
     "zh-TW": {
@@ -177540,10 +177661,18 @@
       "events:arc_minseo_03b_not_arrived:/description_if_known/minseo_real_talk": {
         "source_sha256": "d1e2be94350a9d09d2d7318828342cab03677ebdf6c5fe01e595f6eedac53c48",
         "target_sha256": "13cb4b1315c9dacf200447135c02be6a20265b674b2b9584df873799f846e938"
+      },
+      "events:arc_minseo_03_arrival:/description_if_known/minseo_real_talk": {
+        "source_sha256": "0e19e9ffb933beb971cc16f33f3279819cfddf6121b4aa771e4754fc17120cc2",
+        "target_sha256": "9e9745463d29dca8e41ba16c770adfaf7e6e729b3debe135fe02fe5bad7cb6c1"
+      },
+      "events:arc_minseo_03_arrival:/description_if_known/contacted_minseo&minseo_real_talk": {
+        "source_sha256": "e33b15a4be6e33791d81665be4725a630a072e16218204d6fdb74ef06230adb2",
+        "target_sha256": "76f82ba44a7643b1fa489b89bb9e57b4920cca355a19619b22029e7c04b9b1e1"
       }
     }
   },
-  "accepted_sha256": "cc223abdec793f08c9a5f0d64cc0a7d4cd6aa8b056978a5b5b1c840f4b185a4f",
+  "accepted_sha256": "0156f11338dc06d91d89bc8a79c33a1bfc86652ad209b1d6c6f57347c255fe8a",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
