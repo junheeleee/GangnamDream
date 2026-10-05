@@ -10,7 +10,7 @@
 - 중국어 분류사 오탐은 정확 KO5슬롯만 수리했다. counter1의7실패는 보존, counter3은210/0 PASS·일반 카운터 확대0이다. receipt pin 표적13 PASS는 source/support98과 별도다. quick1은9 PASS/내용 목록1 FAIL 원본이며 전체 PASS가 아니다. 로그·SHA·실패 원문은 위 private 경로와 독립 보고에 결속한다.
 - 내용 목록124사건/26파일/ID불변·변경사건은 다은 ending1뿐이다. `3fcd2f4`가 inventory/생성 보고2파일의 지문1개만 `77467716…→c29603bb…`로 갱신했다. 정상 inventory2 exit0, 메타 후속30/0 PASS와 별도 PR31메타6 PASS다. 첫 메타 자체검사의 음성 fixture 전제1실패는 보존하고 유일한 최상위 키로 수리했다. 등급/강도/판정·공개 지문은 불변이다.
 - clean `c9130be`/tree `ad2c1990`의 final1은14검사 PASS/실제exit0/2467.672653초다. source134/PR31 126/본문28/분모4·수용결속·산문·데모 정상/음성·JA/ZH와 보호검사이며, 두 fresh 범위의 실제 정상 종료·HEAD/tracked/runner/log 전후동일이다. result SHA `cc8b7718f4625f623c8173c5ffa22b64fcef6feaf4b65b6be8f64c32691180de`. old273/146/12623 전체 재실행 주장은 없다. 이후 후보 갱신은 CLAUDE/WORK_LOG뿐이며 제품·검사 입력은 그대로다.
-- Mac잠금으로 실제 화면/키보드6건은0건·HOLD다(screen-blocker-recheck.json). 독립 최종은 해당 source 보고에 결속한다. gangnamdream-dev의 분리소유·표적 QA를 적용했다. 자동 통과는 재미·깊이·문체·인간/원어민/물리패드·출시 GO가 아니다. 새 규범0, 전이는 일회성이다.
+- 독립 [471](agent_reviews/ORDER-471.json) 한정GO/[472](agent_reviews/ORDER-472.json) HOLD를 source `8f28c3b`/tree `f3550e5f`에 결속했다. Mac잠금으로 실제 화면/키보드0/6이다(screen-blocker-recheck.json). gangnamdream-dev의 분리소유·표적 QA를 적용했다. 자동 통과는 재미·깊이·문체·인간/원어민/물리패드·출시 GO가 아니다. 새 규범0, 전이는 일회성이다.
 
 ## 2026-10-06 — 4장 표적 검증·직접 회상 보류·지정 후속 초안 착수 (471→472)
 
@@ -28,7 +28,7 @@
 - source 전이 표적59 PASS/3.297528초와 PR31 단일 source-state 확인6 PASS/21.340257초를 따로 보존했다. `.git/order471-20261006.nA5vxa/source-compat1/result.json` SHA `69b9bcceb83fae92a7481f1a6a90faf04cdfa6c2fcd6fbfe29628ec423b9fdbe`, `source-state1/result.json` SHA `a10356da05cb58128860b88b0750d62b39ed8020102abea7cb41652b850ef30d`; 소유 입력·HEAD 전후동일/stderr0. 지원5와 검사2의 독립 읽기 검수 차단 결함0, 공식18수용/최종fresh/준비런타임은 아직 미실행이다.
 - release inventory의 모든 축 지문과 정상 검사 결과가 기존과 같아 inventory/rating 원문은 보존한다. 계획7경로를 채우기 위한 임의변경 없이 실제 source5/receipt4만 증명한다.
 - 비저자 [최종 보고](agent_reviews/ORDER-470.json) SHA `7d2e55920b55ff79d789b331b19dd86ffc9366045412b39bd3decdb32ac730be`가 source3641b31/treeb49c85의 세 사건 사실·문장·선택 가능성만 GO했다. [470 완료 사양](queue_archive/ORDER-470.md)으로 이동하며 인간 OPEN·본편 HOLD·기존 결함과 원래 실패 기록은 유지한다.
-- 사용자 B를 [471](queue_active/ORDER-471.md)로 별도 선언한다. person_deal 한 장면의 본문은 Main의 실제 started&&!divorced와 같은 DIK 우선순위를 사용하고, 공통 결과는 약속/진료 모두에 맞는 재방문 시각으로 수리한다. 진료의 본인 도착·신분 확인을 예약 완료로 바꾸지 않는다. 선언 시점 구현/수용/검증0; 공식18잎·동작 불변·독립 전수검수가 남았다.
+- 사용자 B를 [471](queue_archive/ORDER-471.md)로 별도 선언한다. person_deal 한 장면의 본문은 Main의 실제 started&&!divorced와 같은 DIK 우선순위를 사용하고, 공통 결과는 약속/진료 모두에 맞는 재방문 시각으로 수리한다. 진료의 본인 도착·신분 확인을 예약 완료로 바꾸지 않는다. 선언 시점 구현/수용/검증0; 공식18잎·동작 불변·독립 전수검수가 남았다.
 - 게임 개발 스킬의 단일 큐/파일 소유·표적 QA 절차에 따라 원문(root), 검사2파일, 이력지원5파일, 독립 보고1파일을 분리한다.471은 새 판정 단위이며470 GO를 대신 쓰지 않는다.
 
 ## 2026-10-06 — 재혁 경로명(P0)·다은 선택 사실 수리·최종 검증 (470)

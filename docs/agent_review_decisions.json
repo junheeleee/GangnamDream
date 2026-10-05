@@ -9484,6 +9484,86 @@
         "path": "docs/agent_reviews/ORDER-470.json",
         "sha256": "7d2e55920b55ff79d789b331b19dd86ffc9366045412b39bd3decdb32ac730be"
       }
+    },
+    {
+      "id": "order-471-source-8f28c3b-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-06",
+      "decided_by": "/root/order469_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-471",
+      "subject": {
+        "kind": "source",
+        "commit": "8f28c3b0dbfb9319271ca9b50eb95d590647546c",
+        "tree": "f3550e5f07823c7b521d99108656238c2ac8b4d8",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-471.json",
+          "sha256": "33fe32b86fb757efdb96e206cb28ba54a8b835a371c03aa7bcf0cd62b3b10583"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-471.json",
+          "sha256": "33fe32b86fb757efdb96e206cb28ba54a8b835a371c03aa7bcf0cd62b3b10583"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "rendered_scene",
+        "normal_gameplay",
+        "whole_game_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-471.json",
+        "sha256": "33fe32b86fb757efdb96e206cb28ba54a8b835a371c03aa7bcf0cd62b3b10583"
+      }
+    },
+    {
+      "id": "order-472-source-8f28c3b-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-06",
+      "decided_by": "/root/order469_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-472",
+      "subject": {
+        "kind": "source",
+        "commit": "8f28c3b0dbfb9319271ca9b50eb95d590647546c",
+        "tree": "f3550e5f07823c7b521d99108656238c2ac8b4d8",
+        "manifest_sha256": null
+      },
+      "verdict": "HOLD",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-472.json",
+          "sha256": "400001fb2361f5f00bfaa9e04bb2fea40f56800f2bfcc880f09a93187fd0c477"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-472.json",
+          "sha256": "400001fb2361f5f00bfaa9e04bb2fea40f56800f2bfcc880f09a93187fd0c477"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "rendered_scene",
+        "normal_gameplay",
+        "whole_game_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-472.json",
+        "sha256": "400001fb2361f5f00bfaa9e04bb2fea40f56800f2bfcc880f09a93187fd0c477"
+      }
     }
   ]
 }

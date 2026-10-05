@@ -2,6 +2,30 @@
 
 #### [~] ORDER-472 [사용자 후속] 지정 초안 여섯 사건과 직접 회상 두 곳
 
+## 현재 결과 — 2026-10-06 · 실제 화면/입력 미관찰 HOLD
+
+- source `8510be2`의 KO40/EN40과 receipt `2670b2b`의 JA/CN/TW120교정은
+  공식 수용·독립 전수독해를 마쳤다. 신규 잎0, 이전258배치/41848키와 비소유 raw는 보존했다.
+- clean `ff8ed44`의 실제 격리 준비 소비자337 PASS/exit0/engine오류0다.
+  body185/memory50/loaded40은5언어, choice14/route36/father6/callback3/followup3은
+  KO 준비 상태이며 자연 플레이·화면·입력 관찰로 바꾸어 부르지 않는다.
+- clean `c9130be`/tree `ad2c1990`의 final1은14검사 PASS/exit0/2467.672653초다.
+  두 fresh 범위 정상 종료와 source/runner/log 전후동일을 확인했다. private 결과
+  `.git/order472-20261006.yw3Jwt/final1/result.json` SHA
+  `cc8b7718f4625f623c8173c5ffa22b64fcef6feaf4b65b6be8f64c32691180de`.
+  이후 source 후보 `8f28c3b`/tree `f3550e5f`는 CLAUDE/WORK_LOG2파일만 갱신했으며
+  제품·검사 입력은 같고14개를 새 후보에서 재실행한 것은 아니다.
+- quick1의 내용 목록 지문 실패는 실제 변경1곳의 metadata2커밋 `3fcd2f4`로 수리했다.
+  정상 inventory2·메타 표적30·별도 PR31메타6 PASS다. fixture의 타입 기대값13실패와
+  메타 음성 fixture 전제1실패도 각각 수리 후 검증하고 원래 실패 로그를 보존했다.
+- 현재 Mac잠금으로6준비 장면의 화면·키보드 관찰은0/6이다. 격리된 실제 StoryMode
+  6사례와 수동 입력 실행기는 준비했으나 실행하지 않았다. 잠금 해제 후 그 관찰부터
+  이어간다. 같은 입력의120수용/337/14검사를 재실행하는 것으로 화면 의무를 대신하지 않는다.
+- L2 전 칸·독립 판정·원문/로그 SHA는 [최종 source 보고](../agent_reviews/ORDER-472.json)에
+  결속했다. 비저자 판정은 HOLD, 보고 SHA는
+  `400001fb2361f5f00bfaa9e04bb2fea40f56800f2bfcc880f09a93187fd0c477`이다.
+  지정 밖 장면 계층·자연 경로·원어민·물리패드·기존 시제/밀도/엔딩 부채는 남으며 출시 GO가 아니다.
+
 **착수 선언 — 2026-10-06.** 사용자 지정 PROSE_DRAFT_CH2_CH5_2026-10-03의
 여섯 사건을 다음 별도 단위로 처리한다. 471 최종 읽기에서 확인한 직접 독자 두 잎을
 먼저 정렬한다. 471은 이 새 불일치를 범위 밖이라는 말로 완료하지 않고 연결 검증까지

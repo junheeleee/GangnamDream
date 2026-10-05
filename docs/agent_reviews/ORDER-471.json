@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-471",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "reviewed_at": "2026-10-06",
+  "subject": {
+    "kind": "source",
+    "commit": "8f28c3b0dbfb9319271ca9b50eb95d590647546c",
+    "tree": "f3550e5f07823c7b521d99108656238c2ac8b4d8",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/order469_review",
+  "scope": "arc_36_unexpected_hand_person_deal의 실제 관계 조건에 맞는 본문과 양 경로 공통 결과, 공식18잎 수용 및 ORDER-472가 수리한 직접 live memory2의 현재 연결에 한정한 GO다. 장 전체·장면 계층 전체·본편·외부 출시 판정이 아니다. ORDER-472의 별도 필수 화면6 HOLD를 닫지 않는다.",
+  "method": {
+    "skill": "gangnamdream-dev의 정본·선언 소유·비저자 독립 판정과 표적 증거/미관찰 분리를 적용했다. CLAUDE, 전체 스킬, WORK_UNIT, 471/472와 관련 canon을 읽었다.",
+    "direct_review": "KO/EN 각6 대상 잎과 JA/CN/TW18잎 전수, Main 관계 predicate·StoryMode 첫 일치, 양 repaired_person 생산자와 live reader2, 준비 fixture와 exact history/receipt 지원 diff 및 저장된 실행 결과를 직접 읽었다. 표본이 아니다. Git 읽기와 stdlib JSON/AST/해시 대조만 사용했다.",
+    "non_author": "root와 다른 저자가 제품·지원·실행기를 작성하고 실제 검사를 실행했다. 검수자는 제품 저작, 프로젝트 import/검사, Godot 실행, Git 변경을 하지 않았다. root 요청의 private 초안 및 최종 보고만 소유한다.",
+    "final_binding": "실제 최종 실행은 c9130be7a2d9af16426d0d86193627b5d6ed4d61/tree ad2c1990be280d5b2935203d6c1e05cb9d33bd65다. 그 뒤 subject8f28c3b까지 실제 Git diff는 CLAUDE.md와 docs/WORK_LOG.md2파일의8+/8-뿐이다. 실행 후3191 tracked hash와 후보 disk를 전수 대조해 차이도 이2문서뿐임을 확인했다. 후보 HEAD/tree와 clean 상태를 직접 관측한 뒤 보고한다. root의 후속 큐/원장/보고 메타는 subject 밖이다. 이전 검사를 이 subject에서 모두 재실행했다고 주장하지 않는다."
+  },
+  "product_review": {
+    "source_commit": "e459b1d02727e21679c25a35288b2ff39b628ac5",
+    "receipt_commit": "01846e8a69a146cfd23865aaad83fd76d6c7a83c",
+    "receipt_parent": "53a8737e911eb9f321c5e84a06d798a95597a76b",
+    "semantics": "Main의 daeun_romance_started && !daeun_divorced와 같은 분기다. DIK 정확2키는 divorced 먼저, started 다음이며 divorced 본문은 기본 진료 본문과 같다. married-only·다른 관계 flag·470의 단절10을 이 경로의 새 조건으로 가져오지 않았다. 기존 truthiness와 첫 일치 의미를 보존한다.",
+    "prose": "기본은 놓친 야간진료, started 경로는 실제 선행 편의점 약속이다. W153→157의4턴을 지난 주말로 압축하지 않고 그날로 정렬했다. 공통 결과는 가능 시각 확인·재방문 달력·이동 여유까지만 보장하며 연락 발송·예약·접수 완료를 만들지 않는다. 금요일 등 새 시각을 추가하지 않고 토요일5시·10/5/6 수치와 환불 불가/경쟁 비용을 유지한다.",
+    "preservation": "제목·선택1 라벨·선택 인덱스·effects/flags·조건·라우팅·자산·문단/토큰을 보존한다. source는 themes5, receipt는 목표어3+원장4이며 실제 지문이 같았던 inventory2를 억지로 변경하지 않았다. Main/StoryMode/GameState/공개14·legacy72/467 및 과거 인간 판정은 이 제품 수리로 바뀌지 않는다.",
+    "direct_reader_regression": "471 원문 수리 뒤 live body_witness와 _hyunsu memory가 미발생 두 시각 전송/확정을 회상하는 새 불일치를 독립 확인했다. 471을 범위 밖 부채라는 말로 닫지 않았다. 472의 두 잎×5언어는 base unexpected_hand choice1와 person_deal choice0의 공통 달력/이동 사실만 회수하고 현재 상대를 과거 수신인으로 소급하지 않는다. dormant Jiyeon reader는 author_only 그대로다. 현재120 공식수용·실제 memory50 및 최신14 정상으로 해당 새 불일치가 해소된 범위만 판정했다.",
+    "history": "470의42 및 471의18 끝점은 별도 불변 단계다. exact source5/receipt4·직접 부모·typed Git/raw·선택 잎 의미 역상·현재 HEAD/disk·entry/exit 봉인을 읽었다. CN/TW 공식 교정으로 실제 문자열 교체 JA4/CN6/TW6을 허용하지만 수용18의 최초6/교정12 의미를 바꾸지 않는다. 472 후속도 이전 핀을 덮어쓰지 않는다."
+  },
+  "official_acceptance": {
+    "path": ".git/order471-20261006.nA5vxa/pipeline2/result.json",
+    "sha256": "8074d6ea905285f18044ec9080249bb4c864e6dbab6405459753a43672c2c331",
+    "draft_sha256": "008d5ff3438898349ebcbf8a2c3d1b15525492baede2925999f582f23b748d06",
+    "source_manifest_sha256": "a23c35a674df1932d1299735cde17260914a60c09a00e7617fe61c1fb5f93545",
+    "result": "실제 공식 export/check/import9회, 각6잎, 총18 수용=최초6+교정12; 131.969273916초. 원장255배치 prefix→258, accepted41848, 대상 밖 기록 불변.18개 draft=공식 receipt=current target과 source/target digest를 전수 대조했다. native_review OPEN이다.",
+    "authority": "원래 공식 검증·merge·serializer를 호출한다. original collect1의 같은 호출 내 재사용만 입력/HEAD/tree/모듈/전체target guard로 제한했다. raw archive 전체 parsed JSON과 형식복원 결과를 대조했다."
+  },
+  "evidence": {
+    "previous_471_final": {
+      "path": ".git/order471-20261006.nA5vxa/final1/result.json",
+      "sha256": "6e638362c9823214c7d7dbac0b0397e624ac6e4ca572fc314260560224f8e066",
+      "actual_source": "19cab1c27a8c41b31d3a3bfa55a2230922b884ff",
+      "actual_tree": "4c07b64df5f30ddf39e516170c434fc8bcdf63b6",
+      "result": "13/13 exit0/error null/stderr0,1673.4383775초. 실제 fresh365/470 두 outer 정상 종료와3186 tracked/HEAD/tree/runner/log 보존. 당시 자동 PASS만으로 새 reader 불일치를 면제하지 않았다. 최신472 소비자의 대체 증거가 아니다."
+    },
+    "previous_471_runtime": {
+      "path": ".git/order471-20261006.nA5vxa/runtime1/result.json",
+      "sha256": "408e98f2df007d3488abd7cf4f0bbdfbc9e7bd86ccdd8f1638806dd66b5342c9",
+      "result": "7.538142375초, 실제 기존64(48normal+16missed) 및 새13관계×5언어65=129. stdout/Godot 동일·정확2marker·오류0·격리/복구/저장 보호. 이 실행은 reader choice 적용이나 화면 관찰이 아니다."
+    },
+    "previous_471_quick": {
+      "path": ".git/order471-20261006.nA5vxa/quick1/result.json",
+      "sha256": "03d444cdc2d6002a53dc9279ccb68252cd8330350d258bc4e214e930db6aa504",
+      "result": "실제11 PASS,24.271350042초, source/runner/log 보존."
+    },
+    "current_direct_readers": {
+      "path": ".git/order472-20261006.yw3Jwt/runtime2/result.json",
+      "sha256": "e3250d562bc1430945420ad09dc4a302f772338920393875e665400a832266bd",
+      "actual_source": "ff8ed4452b150a1e8d2df1aa27c79da255d2a1ba",
+      "result": "실제337 PASS 중 memory50=2생산자×2독자×5언어20+Hyunsu DIK10+필수 flag 누락20. W157 실제 choice 영수증/4flags→W164 실제 resolver, 과거/현재 관계를 반대로 준비하고 본문 hash·상태불변을 확인했다. 471의 기존129를 재실행한 것은 아니다."
+    },
+    "latest_472_final14": {
+      "status": "PASS",
+      "path": ".git/order472-20261006.yw3Jwt/final1/result.json",
+      "sha256": "cc8b7718f4625f623c8173c5ffa22b64fcef6feaf4b65b6be8f64c32691180de",
+      "actual_source": "c9130be7a2d9af16426d0d86193627b5d6ed4d61",
+      "actual_tree": "ad2c1990be280d5b2935203d6c1e05cb9d33bd65",
+      "runner_sha256": "5769bf43e388d2229364e1398a82202061151d03d18ac5ddb3af7fa794d20ffb",
+      "result": "실제14/14 exit0/error null/stderr0,2467.672652917초. source/receipt134·PR31126·fullbodyprose28·고정분모4·정적63·legacy16+86와 정상JA/ZH를 확인했다. 각언어 현재 기수용events/endings11822/recall40의source/target stale0. root의shell exit0 관측과 저장된 두outer정상종료·3191 tracked/runner/log보존을 직접 결속했다. 상세 check별원로그SHA는 ORDER-472 보고에 있다. 화면·원어민·전체273/146/12623신규PASS는 아니다."
+    },
+    "l2_reference": {
+      "path": ".git/order472-20261006.yw3Jwt/l2-evidence.md",
+      "sha256": "1a168a3db48c6977cf4e8259e2ccf80491ab9c23b707b68944ead293ead02659"
+    }
+  },
+  "l2": {
+    "도달 경로": "runtime2 memory/*/arc_36_unexpected_hand_person_deal/*: W157 choice0/receipt_ok=true→W164 selected_reader 일치; memory50 전체 PASS. 기존471 runtime129는 별도 실행.",
+    "생산자 ↔ 독자": "content/events/arc_chapter_themes.json:358 ↔ :1073/:1183; scenes/MainGame.gd:7073/:7095; 실제 started&&!divorced :13475; DIK :350 및 scenes/StoryMode.gd:4358/:4397.",
+    "바꾸는 상태": "choice0: missed_cost_seen/unexpected_hand_seen/repaired_person/accepted_grace false→true, 수치0. choice1: seen2/repaired_deal false→true, 수치0(source :364). 이번 제품 수리 추가 상태0.",
+    "포기 시 잃는 것": "W157 choice0→계약 검토 좌석 닫힘(:359), choice1→다른 일정의 그 주 빈칸 없음(:365). repaired_person 없으면 W164 해당 memory 없음(실제 음성). W153→157=4턴,→164=7턴.",
+    "서사 위치": "4.m40_unexpected_hand W157(content/meta/story_map.json:1864)→4.m41_body_witness W164(:1920).",
+    "장면 계층": "미선언 기본 T3(docs/SCENE_TIER.md:57); 기존 decision/flag 변경 부채. 계층 승격·전체 계약 충족 증거0.",
+    "닫는 것": "기존 seen→W157 재노출 닫힘(scenes/MainGame.gd:7074). 새 gameplay 폐쇄0; 진료 접수/예약/전송/관계 회복 보장0."
+  },
+  "depth_three": {
+    "제거 시 깨지는 것": "기본 진료와 started 약속 분기: arc_chapter_themes.json:349/:350; 잘못된 전송/확정 회수: :1073/:1183.",
+    "24주 뒤 상태 차이": "새 state0, 원래 repaired_person/repaired_deal 보존(:358/:364); W164 memory50 실제, W169 독자 source-only, 자연24주 비교 미실행.",
+    "같은 자리의 경쟁": "W157 재방문 가능 시각 vs 계약 검토 좌석, 원래 choice0/1 비용: arc_chapter_themes.json:359/:365."
+  },
+  "failures_preserved": [
+    {
+      "attempt": "471 pipeline1",
+      "sha256": "3d4914d42253b8806a56839a338c1ffda7a07750e333cdd65c74916eb28819df",
+      "result": "CN两边의 place_count2 미인식으로 import0에서 실패.123.059782458초. 실제 대상 before/after 불변이나 wrapper의 expected_after 미설정 때문에 saved preserved=false였다. 자연스러운数量를两处/兩處·先後兩次로 명확화한 뒤 pipeline2를 별도 실행했다. 검사 완화나 원실패 PASS 재명명0."
+    },
+    {
+      "attempt": "471 direct-reader review",
+      "result": "자동13 PASS 후 새 전송/확정 회상 불일치를 발견해471을 열어 두었다. 현재472 실제 연결 검수와 최신 최종 결과가 필요하다."
+    },
+    {
+      "attempt": "472 runtime1 / quick1 / metadata1",
+      "result": "reader 수리와 연결된 후속 실행의 실패 및 좁은 수리는 ORDER-472 보고에 별도 기록한다. 원실패를 지우거나 이전 PASS로 덮지 않는다."
+    }
+  ],
+  "remaining_limits": [
+    "471의 새 직접reader 불일치는 현재 공식수용·실제 연결·최종14로 해소됐다. 이 GO는471 사실/조건/회수 단위만이며472의 별도 화면6 요건을 승인하지 않는다.",
+    "471에 별도 화면6 요건은 없지만472의 화면 요건은0/6 HOLD다. headless/runtime를 화면·자연240주·원어민·인간 플레이·물리패드 관찰로 승격하지 않는다.",
+    "기존 T3 상태변경 부채·author_only Jiyeon 독자·전체4장/게임/출시 및 기존 인간 OPEN은 남는다.24주 자연 분기 비교와 W169 이후 전체 독자 실행은 미관찰이다.",
+    "private .git 증거는 로컬 자료이며 공개 배포 artifact나 인간 인증이 아니다. 모든 역사 자체검사/전체 CI를 반복한 것이 아니다."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel"
+  ],
+  "automation_boundary": "자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.",
+  "final_boundary": "8f28c3b subject의 person_deal 한 사건 조건·공통 결과·공식18수용과 두 live reader의 새 파급 수리에 한정해 GO다. 실제129/기존13검사와472의120수용 중해당reader10·memory50·현재14정상/종료/보존을 구분해 결합했다. 전체4장·장면계층·본편·출시·인간인증은 아니며,472의 화면0/6 HOLD는 유지한다."
+}

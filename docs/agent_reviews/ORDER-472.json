@@ -1,0 +1,318 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-472",
+  "decision_scope": "work_unit",
+  "verdict": "HOLD",
+  "reviewed_at": "2026-10-06",
+  "subject": {
+    "kind": "source",
+    "commit": "8f28c3b0dbfb9319271ca9b50eb95d590647546c",
+    "tree": "f3550e5f07823c7b521d99108656238c2ac8b4d8",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/order469_review",
+  "scope": "지정 C6사건과471의 직접 live memory2, KO/EN 각40잎 및 JA/CN/TW120 기존 수용 교정, 필요한 source/history/counter/fixture 수리를 독립 검수했다. 문장·기술 수리·공식수용·실제 준비337·최종14는 통과했으나 선언된 실제 화면/입력6건이0건이므로 ORDER-472 단위는 HOLD다. 장면 계층 전체·본편·출시 GO가 아니다.",
+  "method": {
+    "skill": "gangnamdream-dev의 정본·선언 소유·비저자 독립 검수·표적 QA·미관찰 분리를 적용했다. CLAUDE, 전체 스킬, WORK_UNIT, active472, 지정 C 초안과 관련 서사/계층/관계/현지화 정본을 읽었다.",
+    "direct_review": "실제 source10의 KO/EN80 변경 잎, 목표어3×40=120잎 전수, 두 repaired_person 생산자와 직접 독자, 실제 소비자·fixture·source/receipt/counter/metadata 지원 diff, 공식 영수증과 원로그를 읽었다. 표본이 아니다. readonly Git·stdlib JSON/AST/hash로 전체 target 동등성/대상 밖 raw/토큰/문단/로그를 대조했다.",
+    "non_author": "root 및 order469_main/order469_history가 제품·지원·실행기를 작성하고 검사를 실행했다. 검수자는 제품 저작·프로젝트 import/검사·Godot 실행·Git 변경0이며 root 요청의 private 검수 메모와 보고만 작성했다.",
+    "observation_attribution": "Mac잠금 확인은 root의 CUA 관찰 기록이다. 검수자는 저장된 기록만 읽었고 본편 픽셀/키보드를 직접 관찰했다고 하지 않는다.",
+    "final_binding": "실제 최종 실행은 c9130be7a2d9af16426d0d86193627b5d6ed4d61/tree ad2c1990be280d5b2935203d6c1e05cb9d33bd65다. 그 뒤 subject8f28c3b까지 실제 Git diff는 CLAUDE.md와 docs/WORK_LOG.md2파일의8+/8-뿐이다. 실행 후3191 tracked hash와 후보 disk를 전수 대조해 차이도 이2문서뿐임을 확인했다. 후보 HEAD/tree와 clean 상태를 직접 관측한 뒤 보고한다. root의 후속 큐/원장/보고 메타는 subject 밖이다. 이전 검사를 이 subject에서 모두 재실행했다고 주장하지 않는다."
+  },
+  "product_review": {
+    "declaration": "629452e7650bdfb9f20fc547c7d4696481cf239b",
+    "source10_commit": "8510be2210e3bb0715f9f8131d0bc9ac61379b46",
+    "receipt16_commit": "2670b2b841baa3877b1e6a3b9db7b689fe4dc613",
+    "receipt16_parent": "a88a54e34e7289b93be6a2135ffc962b4a1cb47c",
+    "population": "각언어 year_one8 + year2_close15 + Hyunsu 두변형5+5 + Daeun apart1/ending4 + body_witness 두 memory1+1 =40잎. 신규 잎0. source KO/EN10파일, 목표어15+원장1 receipt16.",
+    "year_one": "본문 뒤에 추가되는 housing memory3의 반복 새해 도입/출력지/달력 결말을 제거하고 고유 주거 사실만 남겼다. 선택0/1은 기록/수치 경쟁과 비용을 보존한다. privacy token1 및 기존 단락을 유지했다. 사용자 보존 지시의 index2 text/result와 gameplay를 바꾸지 않았고 EN 현재형 부채도 남긴다.",
+    "year_two": "겨울 골목 배경과 책상 행동 충돌을 제거하고 DIK8의 임대·결심·마비·아버지·crossed 사실을 보존했다. 영문 inscription은 실제 prefix와 일치하는 Next time: when to stop으로 고쳤다. 원문의 잘못된 글자 수는 제거하되 실제 남은 글을 보존했다. 아버지 우선/큐·선택 효과는 불변이다.",
+    "hyunsu_daeun": "현수 두 변형은 성공 자산·좋은 소식·다섯 해 완료를 새로 확정하지 않는다. 사망 기본 본문은 지정 첫 문단만, 다은 ending은 기간4잎·apart는 기간 본문1잎만 수리했다. 원래 ending의 얇음/내일/소유 단정 부채와 apart KO3/EN4문단 차이는 보존한다.",
+    "readers": "W157 두 생산자가 함께 보장하는 달력 재방문/이동 고려만 W164 두 live reader의 memory로 회수한다. 전송·예약/접수 확정·과거 상대·관계/치료 성공을 만들지 않는다.7턴을 직전으로 압축하지 않는다. Hyunsu memory는 실제2:30 마감과 일치한다. Jiyeon author_only와 타 memory 불변이다.",
+    "translations": "120잎을 확정 KO와 전수 대조했다. CN/TW 수첩은记事本/隨身筆記本, TW 컵라면은杯麵로 수정했고 TW 원문의 두 숫자를 명시하며 없던 명시적 소등을 제거했다. JA 기존 호칭은 baseline이었다. 시간·기간·위험·수량·원화·토큰·문단과 상대 발명 여부를 확인했다. 자연스러운中文 두 눈송이/두 사람/고요 비유를 검사 편의로 바꾸지 않았다. 원어민 인증은 아니다.",
+    "preservation": "대상40값 밖 ordered JSON·raw string mask와 모든 조건/선택/효과/flags/배열/DIK·memory 순서 불변을 확인했다. Main/StoryMode/GameState/EventManager·기존471 fixture·arc_events5·공개14/100·legacy72/467·project.godot·저장/seed·인간 판정을 제품 수리로 재작성하지 않는다."
+  },
+  "official_acceptance": {
+    "path": ".git/order472-20261006.yw3Jwt/pipeline1/result.json",
+    "sha256": "64ce99746be8ac1a882c9b9c5e9af6b0e49608909d1456add34141e322deb92d",
+    "actual_source": "a88a54e34e7289b93be6a2135ffc962b4a1cb47c",
+    "actual_tree": "5b05a629ca60e80e957beccb3c918e1e11c60969",
+    "source_manifest_sha256": "9025a17f96b308b22e232f246bf8b04589937ad0c19e911398e6b7c20ca59bf5",
+    "draft_sha256": {
+      "ja": "db04b442aba8d91214e9575035818dc3ee1f5e42183e1fddfd63169919c0e4eb",
+      "zh-CN": "a9714d3897f7290e25dba4e44999c0a7a3a471d9e6552b7185d9e3e96e7b0fab",
+      "zh-TW": "ae8ddcbdf532acf57ce45e3f653849a14d87ee143fb963f77df1b5a80cbab779"
+    },
+    "result": "saved passed/preserved=true,error=null. 실제 공식 main9회(export/check/import×3), 각40잎 모두 return0/stderr0; original collect1, 전체213.384824959초(collect196.07173675초). 모든 check 뒤 import한다. 외부 wrapper shell exit는 root의 tool sessionID 유실로 미포착이므로 exit0로 주장하지 않는다.",
+    "ledger_and_format": "258배치 prefix 불변→261, accepted41848 key 불변,120기존 교정/최초0. 대상 밖 원장 레코드/필드 보존. 각120 draft=official receipt=current target 및 source/target digest를 대조했다. 목표어15 전체 parsed JSON이 공식 pretty raw와 같고 restored raw는 receipt commit/current와 같다. 밖의 문자열/raw는 불변이다. 형식복원이 실제 필요했던 것은 Hyunsu3파일이며 모든15 archive를 남겼다.",
+    "authority": "원래 validation/check/merge/serializer를 호출한다. collector는 같은 호출의 정확 frozen source/current guard로만 공유한다. pipeline saved format_patch_applied=false/ledger_applied=false는 그 시점의 사실이며 이후 별도 적용·commit을 독립 검증했다. native_review OPEN이다."
+  },
+  "support_review": {
+    "history": "47042/47118/472120 수용은 각각 불변 끝점이다. source10/receipt16의 실제 direct parent·exact pathset·typed Git/raw/hunk·semantic inverse·export revision·current HEAD/disk·module/config entry/exit를 결속한다.472→471→470 역상 순서를 보존하고 PR31 기존71/partial15와 새 Hyunsu current5를 섞지 않는다. 현재 source와 역사 비교용 복사본을 구분한다. 새로운 proof framework/전역 성공 cache를 만들지 않았다.",
+    "counter": "새 정확KO5원문에 quiet/map/snow/click/list alias만 추가했다. 기존 SOURCE_NEXT_LIFE와 일반classifier는 불변이다. 눈송이两片雪花/兩片雪花,딸깍两声咔哒/兩聲喀噠,셋这三项/三者를 exact source line/order/slot/value/unit로 제한한다. source 동사 둘 오탐도 exact 맥락에서만 제외한다. 일반두/세 이름 미인식은 기존 parser 부채로 남으며 전역 오류 거절을 주장하지 않는다.",
+    "fixture": "실제 Main 선택기·StoryMode resolver·GameState.apply_choice를 호출하는 준비337이다. raw locale↔loaded 및 gameplay projection·실제 영수증·전체 typed 상태를 비교한다. exact337 IDs/필수 group fields/outcomes와 두 로그 marker/error를 실행기가 강제한다. pre-autoload 격리 namespace, GameState/EventManager/Meta/locale/transient 복구와 저장/seed/public 보호를 대조했다.",
+    "fixture_repair": "runtime1의13실패는 동일값 JSONfloat 기대와 actual int 상태만 달랐다. 실제 apply_effects int(value)→modify_stat clamp와 같게 기대값4stat clampi(int+int),tint clampf(float+float)로 수리했다. 값/타입 동등성·상태/receipt oracle은 유지했고 actual runtime2를 별도 실행했다.",
+    "metadata": "실제 source 원고 변경에 따른 sexuality 후보 본문hash1개만 inventory 및 생성문서에서 갱신했다.124사건/26파일/ID집합/분류/decision은 그대로다. exact metadata2commit/directparent/raw/hunk를 별도 stage로 봉인하고 prose_current는 immutable receipt 끝점으로 고정했다. current metadata를 receipt 전이로 오인하지 않으며 비지문 bytes 역상은 정확히 같다.",
+    "metadata_commit": "3fcd2f49f1fdb8ec4baf00cfcc3d4b9154ec974d",
+    "metadata_parent": "ff8ed4452b150a1e8d2df1aa27c79da255d2a1ba",
+    "metadata_hash_change": "774677165b00bebadf6b2208cc0a26e6fc7a956bcd2f668d72637e75c3f143b5→c29603bb29735d6b371fa63cccd56c5106ee31312d8ab0bf3afa29145f3820ed",
+    "render_preparation": "private render6 코드를 읽었으나 실행하지 않았다. 초기 auto_mode 허용 결함을 지적해 매 프레임 실제 auto를 먼저 관측하고 최초 위반을 영구 실패로 남기며 OBS/READY/FOLLOWUP/COMPLETE에서false를 요구하도록 수리했다. 사전 준비·읽기 PASS는 Godot parse나 화면 증거가 아니다."
+  },
+  "evidence": {
+    "source98": {
+      "path": ".git/order472-20261006.yw3Jwt/source-compat1/result.json",
+      "sha256": "28a2347047629ba41e57961b7148065527054aae2531b50adb48a4fe10c1c132",
+      "result": "98/0 exit0,6.435656959초, source8510와 당시 support5/product 보존. 후속 변경된 전체 지원5의 최종 실행 주장 아님."
+    },
+    "source_state": {
+      "path": ".git/order472-20261006.yw3Jwt/source-state1/result.json",
+      "sha256": "bfc91c6b645559d538abd29bb225a83b3a107b624716852fbde1ed39bcdcf7fd",
+      "result": "PR31 source 입장1회 PASS23.1346535초. 기존71/partial15와 새current endpoint 구분; 전체 collector/365 입장 아님."
+    },
+    "receipt13": {
+      "path": ".git/order472-20261006.yw3Jwt/receipt-compat1/result.json",
+      "sha256": "e00078e6a5ae144c910a7bf0b750ff0f5e749939295a7b61ffb71b230c947fe7",
+      "result": "13/0 exit0,11.212886208초. 실제 receipt stage/15raw inverse/120correction/prefix258→261·keys41848 및 rehash/exportmissing 음성. 당시 source/support 보존, 병렬 fixture는 명시적으로 snapshot 밖."
+    },
+    "counter210": {
+      "path": ".git/order472-20261006.yw3Jwt/counter3/result.json",
+      "sha256": "6829db177e3eeaf66617094562becb610a24afdbd4ebfc0f10d199de1933dafa",
+      "result": "210/0 exit0,0.617718584초. 소유2script/KO2/HEAD 보존·stderr0. snapshot은 import 후이며 durable pre-import 증거로 과장하지 않는다. quick1에서도210 PASS."
+    },
+    "runtime337": {
+      "path": ".git/order472-20261006.yw3Jwt/runtime2/result.json",
+      "sha256": "e3250d562bc1430945420ad09dc4a302f772338920393875e665400a832266bd",
+      "actual_source": "ff8ed4452b150a1e8d2df1aa27c79da255d2a1ba",
+      "actual_tree": "cdcbcd0f23896c29dc263e1a3348360eb02bc6bd",
+      "result": "실제 exit0,337 unique rows 전부 passed=true,error=null,finalization_errors=[]. 전체7.523827458초/엔진4.960446초. loaded40/body185/memory50/choice14/route36/father6/callback3/followup3. 처음3그룹은5언어, 나머지는KO 준비 상태.",
+      "stdout_and_godot_sha256": "9428da92901b367f885af88cd64a70cb8fea7589915f52bc7ce96f4da80efb39",
+      "preservation": "stdout=Godot177609bytes,stderr0·errorline0·정확성공marker1·restore=true. source/HEAD/tree/clean status/runner/engine/protected snapshots 전후 동일. namespace GangnamDream_StoryNameplateQA_5baf511706b74044b7835ba6e4494d95. 자연경로/화면/갤러리 미주장. ff8ed44→최종subject의 내용25/런타임소비자/fixture2/격리bootstrap/공통실행helper에는 Git diff가 없고, runtime2 private runner·공통helper·bootstrap·Godot실물SHA도 현재 동일함을 확인했다. 뒤의 inventory2/지원/문서 변경을 runtime 재실행으로 부르지 않는다."
+    },
+    "quick9_of10": {
+      "path": ".git/order472-20261006.yw3Jwt/quick1/result.json",
+      "sha256": "3f58d6dfb26f2e6dda715f05ddb78ab0192967b76acfa7f4a0adf6eae251e4c6",
+      "result": "실제 exit1,22.923657958초. ENcoverage/ENhangul/narrative/audio/speech/counter210/context/audit scope/diff9 PASS, inventory1 FAIL. 모두 stderr0/source·runner·로그 보존.10전체PASS로 재명명하지 않는다."
+    },
+    "inventory_repair": {
+      "path": ".git/order472-20261006.yw3Jwt/inventory2.stdout.log",
+      "sha256": "9bca145d3db7bb10745ec0c7deaa709ced89d47c09dbb8de9021c097de5ac516",
+      "result": "root 실제 단독 exit0/stderr0. presets10/current1813/story_demo1806/shipping1696/author_only110/axes9/networkAPIs0,decisions=user_required. quick 전체 재실행 아님."
+    },
+    "metadata30": {
+      "path": ".git/order472-20261006.yw3Jwt/metadata2/result.json",
+      "sha256": "1d22fa5c7c9e3eb403043611c51b960f386895c07a4f2660029741aac2778ee2",
+      "result": "30/0 PASS,total13.067436042초/target6.649254125초,stderr0/preservedtrue. metadata1의 fixture만 exact top-level decision_boundary로 수리. 원래6 PR31표적을 반복한 것이 아니다."
+    },
+    "pr31_metadata6": {
+      "path": ".git/order472-20261006.yw3Jwt/metadata1/result.json",
+      "sha256": "5c7290dbab88e0ecbd112f2b0655fc9df16294d524a8fb899cccdc30c26f7674",
+      "result": "이 실행의 별도 PR31 inventory6은 PASS30.390454459초. 같은 실행의 metadata30은 fixture사전조건1FAIL이므로 wrapper전체PASS 아님. helper/PR31 실제 pin/read 경계 및 단계 끝점은 이후 동일."
+    },
+    "final14": {
+      "status": "PASS",
+      "path": ".git/order472-20261006.yw3Jwt/final1/result.json",
+      "sha256": "cc8b7718f4625f623c8173c5ffa22b64fcef6feaf4b65b6be8f64c32691180de",
+      "actual_source": "c9130be7a2d9af16426d0d86193627b5d6ed4d61",
+      "actual_tree": "ad2c1990be280d5b2935203d6c1e05cb9d33bd65",
+      "runner_sha256": "5769bf43e388d2229364e1398a82202061151d03d18ac5ddb3af7fa794d20ffb",
+      "result": "root가 실제 session14680 shell exit0와 ORDER472_FINAL_OK checks=14를 관측했다. 저장 result의 passed=true/intended_exit_code0/error=null/finalization_errors=[] 및14체크 exit0·stderr0를 직접 확인했다. 총2467.672652917초다. 원래273/146/12623전체 재실행이나 이전 실패의 재분류는 false다.",
+      "preservation": "별도 before.json/after.json과 result 내 snapshot은3191 tracked 경로·hash·HEAD/tree/clean status까지 정확히 같다. tracked manifest SHA68713128cc31e941849ee385853a8ab6951e7bc5d12b7239459f258044c64763. 실제32결속항목(14체크의stdout/stderr,입장2로그,실행기전후)의 SHA/크기와 check_logs_after를 재대조했다. runner/source/log preserved=true다.",
+      "normal_exits": "events.jsonl과 result.events가 동일하다. before_saved_before_project_imports 0.562323333초, receipt365_entered1286.260947042초, receipt365_exited_normally2463.592066292초→source470_exited_normally2466.526834125초→both_outer_contexts_exited2466.532566917초의 실제 완료를 확인했다. 입장/종료 로그는 모두0byte다.",
+      "checks": [
+        {
+          "label": "protected_product",
+          "stdout_sha256": "b30063d9582d3c954c16e559a72ba7b81593590acf83d8bb01ecf9cac615db81",
+          "result": "정확28경로, public14/100·legacy raw 보존, inventory raw 보존은false/metadata 비지문bytes 보존true, 새public승인false."
+        },
+        {
+          "label": "prose_source_receipts",
+          "stdout_sha256": "57ddbd963dc7bbc77ca903cfcb0c758c535490dd43de299fe3992f55147a40d1",
+          "result": "134cases/failures[]"
+        },
+        {
+          "label": "pr31_prose",
+          "stdout_sha256": "7340ef4a8098720350ead23d01a4cdb978af370109a53485cd984de41b239239",
+          "result": "126cases/failures[]"
+        },
+        {
+          "label": "fullbody",
+          "stdout_sha256": "afdaa4080e1f891e0049b4d58fd8ba2b0b9d64aa2657658e23cf8a32c6913ad2",
+          "result": "SOURCE_INVENTORY_ONLY shipping1702/11626잎,chapter5reader133,static186/1697잎,deferred24,protectedreuse1/8잎,runtime/nativeclaim0"
+        },
+        {
+          "label": "fullbody_prose",
+          "stdout_sha256": "be6282a14251d88e9dec0b389dae8c6684a321ae1f057333f1687e8532834fdf",
+          "result": "28cases/failures[],124.714731541초"
+        },
+        {
+          "label": "fullbody_denominators4",
+          "stdout_sha256": "8b39f0095198b2539a8519864682c559469041ec38416b7e37db56bf8b3b818e",
+          "result": "기존 고정AST4predicate/failures[],full273_pass_claim=false"
+        },
+        {
+          "label": "accepted_binding",
+          "stdout_sha256": "6d0b8ac95745e336540d209fe99920790c833ed79b61a979626ff2d2e0c5f6ea",
+          "result": "JA/CN/TW각 current기수용events+endings11822,recall40,source_stale0/target_stale0;manifest9025a17…"
+        },
+        {
+          "label": "prose_static",
+          "stdout_sha256": "c837c78c3c46687cfd0b88eabbf3ab8b46aae2add4f3c8b7f6f0a9ae4d3acde0",
+          "result": "25files,5언어각40changedleaves,baseline629452e,unownedbytespreservedtrue,runtime/qualityclaimfalse"
+        },
+        {
+          "label": "prose_static_negative",
+          "stdout_sha256": "486b3799496d5f730ed2fa49b35a4c590c106e1e6bc65295265def93f08b96de",
+          "result": "63cases PASS"
+        },
+        {
+          "label": "demo_scope",
+          "stdout_sha256": "b1f3e64e72b8184eac5a4591ce2ec250c4d5588f196d7b5b2f11aac1060d6af7",
+          "result": "legacy72/467,endings0,dynamic730pairs/701keys,catalog4;skeleton·shipping0,JAtranslated21/CN·TW150"
+        },
+        {
+          "label": "demo_scope_negative",
+          "stdout_sha256": "977479e187ccf8462157401dff9599f6c906b6aa2fbb729028b70d419a83870b",
+          "result": "legacy16/current-source86 PASS,411.504829초;shipping0"
+        },
+        {
+          "label": "ja_demo",
+          "stdout_sha256": "6ed04c74866309324c16c5af50b5382800bf0e9d92bf60f41c6801c6d9c45e1b",
+          "result": "demo72/467,dynamic21/701,catalog4,errors0,clean1172,statusbeta/skeleton"
+        },
+        {
+          "label": "ja_demo_pipeline",
+          "stdout_sha256": "f34a0e8c3d1974e855c65b7465c28de7d6c039f15a915621a01f0dabd0bd72df",
+          "result": "inventory1172=events467+dynamic701+catalog4,endings0;새146전체실행아님"
+        },
+        {
+          "label": "zh",
+          "stdout_sha256": "36b55e5f467f1ab01ed5b5e03af8027f8a72727e0bd2b11bdc6c531f863b33c0",
+          "result": "338.643745917초,mode=skeleton/shipping0. CN/TW각demo72/467,UIlegacy1602/2952,context11/29,storydemo37/37,dynamic150/701,catalog4,directEnglishbypass11. glyphCN1593/1593·TW1624/1624/fontready. 전체12623 자체검사나shipping승인아님."
+        }
+      ]
+    },
+    "l2_reference": {
+      "path": ".git/order472-20261006.yw3Jwt/l2-evidence.md",
+      "sha256": "1a168a3db48c6977cf4e8259e2ccf80491ab9c23b707b68944ead293ead02659"
+    },
+    "screen_gate": {
+      "path": ".git/order472-20261006.yw3Jwt/screen-blocker-recheck.json",
+      "sha256": "e0d6f93d677c97e5d6414092b4bdb30f956403343cae4f70110c1a28f932b873",
+      "observer": "/root",
+      "result": "CUA 재확인에서 Mac locked/automatic unlock failed. render session0, required6 중 observed0, keyboard0. 사용자에게 비동기 잠금 해제를 요청했으며 우회하지 않았다. 화면 요건 HOLD."
+    },
+    "render_read_review": {
+      "path": ".git/order472-20261006.yw3Jwt/render-read-review2.md",
+      "sha256": "a13fe9f5ced2570cfcb085e1c8d24b5c64e0bdaf95ef98b97ad7eade3d068554",
+      "result": "private render.py SHA597efae0ee1729f87364caba1ddbaf97101c6a41537d4de2b0767f4be72029fc, render_prepared.gd SHA062f2fdc41d063dfd024ec7e5be6553be66058e8714ab38b6af4a40a1542ecc9, tscn SHA29d939ebec2dae05c33854c53c5330addfd8c79419182fc99690e0a502564034. 코드 읽기만, Godot parse/엔진/픽셀/키보드0."
+    }
+  },
+  "l2_units": [
+    {
+      "id": "direct_memory2",
+      "도달 경로": "R2 memory50=producer2×reader2×locale5의20+Hyunsu DIK10+missingflags20, 전부 PASS",
+      "생산자 ↔ 독자": "content/events/arc_chapter_themes.json:302/:358↔:1073/:1183;scenes/StoryMode.gd:4358/:4397",
+      "바꾸는 상태": "resolver 전후 serialize 동일; reader 선택 seen/care/deadline/alone은 source만(:1080/:1089/:1098/:1196/:1205/:1214); 추가state0",
+      "포기 시 잃는 것": "W16402:12→02:30; care=file미전송, deadline=02:28/02:29전송·진료종료, alone=둘다없음. W169 arc_year_three_half DIK(arc_midgame:2839/:2842/:2845)는 source-only",
+      "서사 위치": "4.m41_body_witness W164(content/meta/story_map.json:1920); W157부터7turn; W167가족은 Main:7100 조건부",
+      "장면 계층": "미선언T3(SCENE_TIER:57), 기존decision/state부채",
+      "닫는 것": "잘못된 과거recipient/전송/확정memory2 제거. 새gameplay폐쇄0, Jiyeon author_only불변(event_lifecycle:87)"
+    },
+    {
+      "id": "arc_year_one_mark",
+      "도달 경로": "R2 body30/choice3/route7/followup3/callback3; W49/52 yes,W48/53 no; callback W75true→false,W76true→true,W76false→false",
+      "생산자 ↔ 독자": "arc_midgame.json:2477↔callback_events_45.json:399;:2502↔:441(source-only);followup:2479/:2490/:2504↔MainGame:6822",
+      "바꾸는 상태": "idx0 mental50→54,intelligence50→51,seen/keeps_records; idx1mental49,seen; idx2mental48,investment51,luck51,seen/grind; actual=expected; 추가0",
+      "포기 시 잃는 것": "idx0미선택→keeps_records callback W≥76자격없음; idx2미선택→grind callback W≥76자격없음(기존flag없음 전제). 확률발화보장0",
+      "서사 위치": "2.m13_year_ledger W49–52(story_map:713,narrative_spine:546)",
+      "장면 계층": "미선언T3+기존수치/flag부채; chain규범 SCENE_TIER:26/:35/:57",
+      "닫는 것": "seen/money_seen→재노출금지, W53회복없음(MainGame:6821). idx2EN시제부채보존"
+    },
+    {
+      "id": "arc_year2_close",
+      "도달 경로": "R2 body80/choice3/route10; W96father_first=arc_father_04_visit; queue미본1/본0; W95/97 no",
+      "생산자 ↔ 독자": "arc_year_close.json:124/:135↔:213/:214 year3 DIK; MainGame:7181 W144(source-only); father우선:6949/queue:6409",
+      "바꾸는 상태": "idx0mental50→52,seen/confident; idx1mental51,seen/conflicted; idx2mental50,seen; actual=expected; 추가0",
+      "포기 시 잃는 것": "W96미선택 confident/conflicted 회상은 W144 대응flag없으면불가. 선행DIK우선있음, W144실행0",
+      "서사 위치": "2.m24_year_two_close W96(story_map:1188,narrative_spine:567)",
+      "장면 계층": "T1마감계약(SCENE_TIER:261); JSON명시tier없음/4단계전체미검증",
+      "닫는 것": "기존seen→중복queue/재노출금지(MainGame:6409/:6955); 새gameplay폐쇄0"
+    },
+    {
+      "id": "hyunsu_year5_call_and_father_passed",
+      "도달 경로": "R2body20+20/choice2+2/route5/father6; W199no,W200현금50만원yes,W23929억원yes; no_echo→year4echo; seenno",
+      "생산자 ↔ 독자": "arc_hyunsu.json:518/:528/:567/:577↔MainGame:7792; father변형 EventManager:42/:818; DIK:507/:556↔StoryMode:4358",
+      "바꾸는 상태": "각idx0mental50→53,idx1→51, 공통seenfalse→true; father_passed/stage불변; 추가0",
+      "포기 시 잃는 것": "W≥200idx1은 mental증가2적음; 선택고유 후속reader/발화주차없음. MainW≥200이 공통seen을읽음",
+      "서사 위치": "5장현수회수 W≥200/M50(narrative_spine:157,MainGame:7792); 전용story_mapbeat미지정",
+      "장면 계층": "미선언T3+기존mental/seen부채",
+      "닫는 것": "기존seen→재통화후보없음; 자산달성/성공/5년완료보장0"
+    },
+    {
+      "id": "arc_daeun_year5_ending",
+      "도달 경로": "R2body30/choice2/route9; W192no,W1932,899,999,999no/2,900,000,000yes; started/year4단독yes; neither/seen/locked239no",
+      "생산자 ↔ 독자": "arc_daeun_extension.json:230/:248↔MainGame:8252; final_together:231↔endings.json:54/MainGame:21237/GameState:232 OR(source-only)",
+      "바꾸는 상태": "idx0mental50→70,tint0→8,affinity0→15,stageunknown→together,seen/finaltogether; idx1mental65,tint3,affinity8,stageunknown,seen; actual=expected; 추가0",
+      "포기 시 잃는 것": "W≥193idx0미선택→final_together ending회상자격없음; married DIK우선/다른OR관계있음. 고정발화주차없음·ending미실행",
+      "서사 위치": "5장 W≥193/M49(MainGame:8249); 전용beat미지정",
+      "장면 계층": "미선언T3+기존수치/관계stage부채; 제목ending≠T1증거",
+      "닫는 것": "기존seen→재노출금지; 기간4잎만, 얇음/내일/소유단정부채보존"
+    },
+    {
+      "id": "arc_daeun_year5_apart",
+      "도달 경로": "R2body5/choice2/route5; W192no/W193yes; priorapart없음/seen있음no; hybrid→ending우선",
+      "생산자 ↔ 독자": "arc_daeun_extension.json:291/:302↔MainGame:8255; year3_apart_seen전제",
+      "바꾸는 상태": "idx0mental50→58,tint0→3; idx1mental53,tint2; 공통apart_seentrue, affinity/stage변화0; 추가0",
+      "포기 시 잃는 것": "W≥193idx1은 mental5/tint1적음; 양선택연락실행0/공통seen, 고유reader/발화주차없음",
+      "서사 위치": "5장 W≥193/M49(MainGame:8255); 전용beat미지정",
+      "장면 계층": "미선언T3+기존수치/seen부채",
+      "닫는 것": "seen→재노출금지; 기간본문1잎만, KO3/EN4문단보존"
+    }
+  ],
+  "depth_three": {
+    "제거 시 깨지는 것": "잘못된 repaired_person memory2(:1073/:1183), 첫해 append memory3(:2453), 연말 공간/DIK8, 현수/다은 기간 사실; source10의 exact40잎으로 제한.",
+    "24주 뒤 상태 차이": "새 state0; keeps_records/grind W≥76, year2_confident/conflicted W144 독자 보존. 실제 callback3·memory50·choice14, W144/W169/ending 및 자연24주 비교 미실행.",
+    "같은 자리의 경쟁": "첫해3·둘째해3·현수2×2·다은2×2=기존14선택; runtime2 실제 타입/값/영수증 동일. 선택고유 후속 없는 장면은 해당 L2칸에 없음으로 명시."
+  },
+  "failures_preserved": [
+    {
+      "attempt": "counter1",
+      "sha256": "049c2070c5dbc868e7ee1a816bd56228b2b40b3e861e28b529980b6ef4aaed41",
+      "result": "165 cases/7 failures,exit1,0.47310325초,입력보존. snow 동사 둘 오탐·pen 두번째 substring충돌과 generic test 가정을 좁게 수리한 뒤 counter3을 별도 실행했다."
+    },
+    {
+      "attempt": "runtime1",
+      "sha256": "5a5e9acb051624037a5664b40ecf3de34beaeb60632a12c811a98c7a22ee2986",
+      "result": "337중324PASS/13choiceFAIL,실제exit1,6.983229792초. type-aware raw log 재대조상13모두 stat값 동일/float기대 vs int실제만 달랐다. source/protected보존. 원본을PASS로 바꾸지 않았다."
+    },
+    {
+      "attempt": "quick1",
+      "sha256": "3f58d6dfb26f2e6dda715f05ddb78ab0192967b76acfa7f4a0adf6eae251e4c6",
+      "result": "10중9PASS,inventory의 sexuality본문 지문 및 생성문서 stale로exit1. 실제 변경1사건 지문만 갱신·별도inventory2 정상과metadata30/PR316으로 결속한다."
+    },
+    {
+      "attempt": "metadata1",
+      "sha256": "5c7290dbab88e0ecbd112f2b0655fc9df16294d524a8fb899cccdc30c26f7674",
+      "result": "metadata30의 fixture사전조건1실패와 별도PR316PASS가 공존한다. exact top-level decision_boundary target으로 fixture만 수리한 뒤metadata2 30표적을 새로 실행했다."
+    },
+    {
+      "attempt": "official wrapper provenance",
+      "result": "공식 main9회 실제return0와savedPASS는 확인했지만 외부shell exit는 미포착이다. 별도현재reader/receiptproof를 더해도 원외부exit0를 발급하지 않는다."
+    }
+  ],
+  "remaining_limits": [
+    "기술·문장·공식120·준비337·최종14는 정상이나 필수 실제 화면/키보드6은0/6이다. Mac잠금 해제 뒤 선언한6사례의 각 본문/결과·키보드와 보호상태를 실제 관찰하고, 변경이 생기면 그 입력을 다시 결속하기 전472완료를 선언하지 않는다.",
+    "year_one/year2/Hyunsu사망형 각KO/EN6장면의 실제 본문/결과 페이지·키보드 관찰 미실행. private render 코드 준비만 있으며 root CUA잠금 기록을 검수자의 픽셀 관찰로 부르지 않는다.",
+    "W144/W169/종료 독자 및24주 자연분기 비교는source-only/미실행. 원어민·인간플레이·물리패드·240주·갤러리·전체장면계층·본편/외부출시GO가 아니다.",
+    "T1연말4단계 및 기본T3 기존상태변경 부채,보존index2EN시제,다은ending 얇음/내일/소유단정,author_only지연과 기존인간OPEN을 상쇄하지 않는다.",
+    "old273/146/12623나 전체CI를 재실행한 것이 아니다. 변경된입력의 소비자만 새로 확인하고 이전완료증거는 입력불변범위로 제한한다. private.git 로그는 로컬증거이며 배포artifact/인간인증이 아니다."
+  ],
+  "unobserved": [
+    "required_prepared_screen_and_keyboard_6",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel"
+  ],
+  "automation_boundary": "자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.",
+  "final_boundary": "8f28c3b subject에서 지정80원문/120목표어 전수검수,공식120교정,실제준비337,최종14정상및실제outer종료/보존까지 확인했다. 추가 차단 문장·기술 결함은 발견하지 않았으나 선언된 화면/실제입력6건이0건이므로 ORDER-472는 HOLD다. 준비fixture와자동PASS로 화면관문을 채우지 않으며 원어민/인간플레이/물리패드/전체게임GO를 발급하지 않는다."
+}
