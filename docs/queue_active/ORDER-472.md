@@ -63,6 +63,12 @@
 - order469_main: 새 tools/ProseRecallCheck.gd, tools/ProseRecallCheck.tscn.
   기존 Main/StoryMode/EventManager 소비자를 부르는 준비 검사만 소유한다.
 - root: 새 tools/prose_recall_audit.py(--self-test), tools/audit_scope.json 등록.
+- 검수 중 확인한 중국어 수량 오탐 추가 범위(2026-10-06):
+  order469_history가 tools/zh_translation_audit.py와 새 tools/prose_counter_self_test.py를 소유한다.
+  새 정확 KO 현수 원문에서도 기존 ‘한 뼘 더 조용’ 비유와 두 사람의 서로 다른 지도 지원을
+  유지하고, 눈송이 두 개의 자연스러운 两片雪花/兩片雪花를 인식한다. 값·단위·횟수·source
+  경계 음성 사례는 계속 거절한다. target 문장을 검사 편의로 어색하게 바꾸지 않는다.
+  root는 audit_scope 등록만 소유하며 별도 선언 커밋 뒤 구현한다.
 - root 운영: CLAUDE현재, CODEX_QUEUE와 CODEX_QUEUE_L3_PENDING의 순번만,
   471상태/완료보관, 이 사양/완료보관,
   WORK_LOG, 생성STATUS, agent_review_decisions, 독립 보고 ORDER-471/472.json.
