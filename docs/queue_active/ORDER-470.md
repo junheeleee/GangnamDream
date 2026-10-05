@@ -74,6 +74,10 @@
   다음 release inventory 변화도 거부하므로 새 exact 전이를 역상하는 연결이 필요하다.
   기존 핀·음성검사를 덮어쓰지 않는다.
   GameState와 DataRegistry의 실제 raw/기존 UI collector 핀도 같은 exact 역상으로 잇는다.
+- 지원 후속 선언(2026-10-06): `tools/order365_ui_receipt_compat.py`도 history 소유로
+  추가한다. 기존 LIVE_PATHS/source_errors가 arc_events5를 바로351핀과 비교하므로,
+  실제470전이를 검증한 current-content 경계를 그 두 소비자에 연결한다. 기존 PR31
+  71경로·351핀은 보존하며 새5경로를 구분한 관측만 확장한다.
 - root: `docs/CHOICE_CONSEQUENCE_SYSTEM.md`의 지속 choice fact 규칙,
   `content/meta/release_content_inventory.json`, 생성 `docs/CONTENT_RATING_INVENTORY.md`,
   `tools/audit_scope.json`, 큐/사양/CLAUDE현재/WORK_LOG/생성STATUS/에이전트 판정 원장.
