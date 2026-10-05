@@ -52,7 +52,7 @@
 |---:|:---:|---|---|---|
 | 1 | [~] | ORDER-472 · 후속 회상·수첩 반복·마지막 해 기간 수리 | [472](queue_active/ORDER-472.md) | 공식120·준비337·표적14 PASS · 실제 화면/입력6 Mac잠금 HOLD |
 | 2 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | source/전후시간 PASS · Mac잠금·렌더/체감 미관찰 |
-| 3 | [~] | ORDER-467 · 투자 AP부족 월간금지 오안내 수리 | [467](queue_active/ORDER-467.md) | 착수 — 소비자3쌍 · 기존다국어 재사용/규칙불변 |
+| 3 | [~] | ORDER-467 · 투자 AP부족 월간금지 오안내 수리 | [467](queue_active/ORDER-467.md) | 제품3쌍 보존 · 누락 정적/준비35 검증 마감 |
 | 4 | [~] | ORDER-457 · 5장 일반 경로 정상 재플레이 | [457](queue_active/ORDER-457.md) | W193→W195 관찰 · Mac잠금으로 이어보기 메뉴미실행 |
 | 5 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor export GO/실제 재생6항목 HOLD |
 | 6 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |

@@ -6,6 +6,24 @@
 제품은 `scenes/MainGame.gd`의 일반매수·매도·레버리지 매수 안내3쌍만 바꾼다.
 동작·숫자·키/저장 스키마를 바꾸지 않고 기존 다국어 안내를 재사용한다.
 
+## 2026-10-06 재개 — 구현 보존, 누락 검증 마감
+
+현재 clean `7fa758b`에서 제품3쌍은 `621f559`에 이미 반영되어 있다. 뒤 PR31/469의
+Main 후계와 기존 지원4파일·준비 fixture2파일도 보존한다. 같은 수리를 다시 쓰지 않는다.
+이번 파일 소유는 root가 이 사양·큐·audit_scope·CLAUDE현재행·WORK_LOG·STATUS·판정원장,
+order469_main이 새 `tools/investment_ap_copy_self_test.py`, order469_review가 새
+`docs/agent_reviews/ORDER-467.json`이다. order469_history는 기존 이력/증거의 읽기 검수만 한다.
+기존 제품·지원·fixture·사전·수용원장의 변경은0이다. private runner/결과는 root만 작성/실행한다.
+
+이력 소비자 검증은 최근472의 실제 `c9130be` final1 기본365 입장·JA/ZH 결과를
+입력 집합과 원로그 SHA가 현재와 일치하는 범위에서 재사용한다. 새 검사/등록과 운영문서 외
+제품·collector 입력은 불변이어야 하며, 과거 결과를 현재 재실행이라고 부르지 않는다.
+일치하지 않는 검사는 좁혀 실제 실행한다. EN은 가벼운 현재 검사를 실행한다.
+누락 focused static/반례와 fresh pre-autoload 30거래 probe·5주복원은 이번에 직접 실행하고,
+기존 fixture의 고정 성공문구뿐 아니라 두 로그의 exact 모집단·실제 exit·보호57/입력 전후맵을
+확인한다. 실제화면/자연입력/체결·원어민·물리패드·출시 HOLD는 그대로다.
+이 절은 아래의 이전 담당명과 기본검사 재실행 계획만 갱신하는 일회성 마감 지시다.
+
 ## 원인과 정확한 범위
 
 - `_on_leverage_buy:18287`, `_on_buy_asset:19829`, `_on_sell_asset:19875`의
