@@ -2768,3 +2768,162 @@ def _investment_ap_proof(current, root=None):
     # Every pre468 consumer keeps the original thirteen-result meaning.
     return _ending_father_proof(current, root)[1:]
 # END_ENDING_FATHER_HISTORY_468
+
+
+# BEGIN_MAIN_INVOCATION_PROOF_SCOPE_468
+# The original proof remains the authority. Only an explicit outer invocation
+# may share its immutable predecessor bytes; standalone calls stay uncached.
+from contextlib import contextmanager as _main_scope_contextmanager
+from contextvars import ContextVar as _MainScopeContextVar
+from pathlib import Path as _MainScopePath
+from types import FunctionType as _MainScopeFunction
+
+_MAIN_SCOPE_ORIGINAL_PROOF = _ending_father_proof
+_MAIN_INVOCATION_SCOPE = _MainScopeContextVar("main_invocation_proof_468", default=None)
+
+
+def _main_scope_dependency_names():
+    pending, seen, names = [_MAIN_SCOPE_ORIGINAL_PROOF], set(), set()
+    while pending:
+        function = pending.pop()
+        if function in seen:
+            continue
+        seen.add(function)
+        for name in function.__code__.co_names:
+            if name not in globals():
+                continue
+            value = globals()[name]
+            if type(value) is _MainScopeFunction and value.__globals__ is globals():
+                names.add(name)
+                pending.append(value)
+            elif name.isupper():
+                names.add(name)
+    return tuple(sorted(names))
+
+
+_MAIN_SCOPE_DEPENDENCIES = _main_scope_dependency_names()
+
+
+def _main_scope_binding_value(value):
+    if type(value) in (str, bytes, int, float, bool, type(None)):
+        return value
+    if type(value) is tuple:
+        return tuple(_main_scope_binding_value(part) for part in value)
+    if type(value) is _MainScopeFunction:
+        if value.__globals__ is not globals() or value.__closure__:
+            raise ValueError("ORDER-468: unsupported Main proof function binding")
+        keyword_defaults = value.__kwdefaults__
+        if keyword_defaults is not None and (type(keyword_defaults) is not dict
+                or any(type(key) is not str for key in keyword_defaults)):
+            raise ValueError("ORDER-468: unsupported Main proof keyword defaults")
+        frozen_keywords = (None if keyword_defaults is None else
+                           tuple((key, _main_scope_binding_value(keyword_defaults[key]))
+                                 for key in sorted(keyword_defaults)))
+        return (value, value.__code__, _main_scope_binding_value(value.__defaults__),
+                frozen_keywords)
+    raise ValueError("ORDER-468: mutable/unsupported Main proof binding")
+
+
+def _main_scope_configuration():
+    return (
+        _MAIN_SCOPE_DEPENDENCIES,
+        tuple((name, _main_scope_binding_value(globals()[name]))
+              for name in _MAIN_SCOPE_DEPENDENCIES),
+        _main_scope_binding_value(_MAIN_SCOPE_ORIGINAL_PROOF),
+        _main_scope_binding_value(_ending_father_proof),
+        _main_scope_binding_value(_main_scope_live_binding),
+        hashlib, hashlib.sha1, hashlib.sha256,
+    )
+
+
+def _main_scope_live_binding(root, current, module_raw, configuration):
+    """Fresh identity/raw guards on every reuse, including nested scope edges."""
+    module = _MainScopePath(__file__).resolve()
+    if module != root / "tools/main_game_locale_history.py":
+        raise ValueError("ORDER-468: Main proof module/root identity changed")
+    if _main_scope_configuration() != configuration:
+        raise ValueError("ORDER-468: Main proof configuration changed during invocation")
+    if (type(current) is not bytes
+            or hashlib.sha256(current).hexdigest() != ENDING_FATHER_HASHES[1]):
+        raise ValueError("ORDER-468: Main proof scoped current raw differs")
+    binding = _investment_ap_current_binding(root)
+    if (binding[2] != ENDING_FATHER_BLOBS[1]
+            or (root / MAIN_GAME_PATH).read_bytes() != current
+            or module.read_bytes() != module_raw):
+        raise ValueError("ORDER-468: Main proof scoped Git/disk/module differs")
+    if (_investment_ap_current_binding(root) != binding
+            or (root / MAIN_GAME_PATH).read_bytes() != current
+            or module.read_bytes() != module_raw
+            or _main_scope_configuration() != configuration):
+        raise ValueError("ORDER-468: Main proof binding changed during reuse guard")
+    return binding
+
+
+def _main_scope_check_slot(root, slot):
+    current, module_raw, configuration, binding, predecessors = slot
+    if _main_scope_live_binding(root, current, module_raw, configuration) != binding:
+        raise ValueError("ORDER-468: Main proof candidate changed during invocation")
+    return predecessors
+
+
+@_main_scope_contextmanager
+def fresh_main_validation_proof(root=None):
+    """Share real Main evidence within one caller; fully reprove at its end."""
+    resolved = (_MainScopePath(root) if root is not None
+                else _MainScopePath(__file__).resolve().parents[1]).resolve()
+    active = _MAIN_INVOCATION_SCOPE.get()
+    if active is not None:
+        if active[0] != resolved:
+            raise ValueError("ORDER-468: nested Main proof changed repository")
+        if active[1] is not None:
+            _main_scope_check_slot(resolved, active[1])
+        yield
+        active = _MAIN_INVOCATION_SCOPE.get()
+        if active is None or active[0] != resolved:
+            raise ValueError("ORDER-468: nested Main proof lost its invocation")
+        if active[1] is not None:
+            _main_scope_check_slot(resolved, active[1])
+        return
+    token = _MAIN_INVOCATION_SCOPE.set((resolved, None))
+    try:
+        yield
+        active = _MAIN_INVOCATION_SCOPE.get()
+        if active is None or active[0] != resolved:
+            raise ValueError("ORDER-468: Main proof lost its invocation")
+        if active[1] is not None:
+            slot = active[1]
+            predecessors = _main_scope_check_slot(resolved, slot)
+            # Reread all original typed Git objects, ancestry, path deltas and
+            # exact inverses. Mid-invocation object loss cannot become a PASS.
+            final = _MAIN_SCOPE_ORIGINAL_PROOF(slot[0], resolved)
+            if final != predecessors:
+                raise ValueError("ORDER-468: Main predecessor evidence changed at exit")
+            _main_scope_check_slot(resolved, slot)
+    finally:
+        _MAIN_INVOCATION_SCOPE.reset(token)
+
+
+def _ending_father_proof(current, root=None):
+    active = _MAIN_INVOCATION_SCOPE.get()
+    if active is None:
+        return _MAIN_SCOPE_ORIGINAL_PROOF(current, root)
+    resolved = (_MainScopePath(root) if root is not None
+                else _MainScopePath(__file__).resolve().parents[1]).resolve()
+    if active[0] != resolved:
+        raise ValueError("ORDER-468: Main proof reuse changed repository")
+    if active[1] is not None:
+        if current != active[1][0] or type(current) is not bytes:
+            raise ValueError("ORDER-468: Main proof reuse changed current raw")
+        return _main_scope_check_slot(resolved, active[1])
+    module_raw = _MainScopePath(__file__).read_bytes()
+    configuration = _main_scope_configuration()
+    binding = _main_scope_live_binding(resolved, current, module_raw, configuration)
+    predecessors = _MAIN_SCOPE_ORIGINAL_PROOF(current, resolved)
+    if (type(predecessors) is not tuple or len(predecessors) != 14
+            or any(type(raw) is not bytes for raw in predecessors)):
+        raise ValueError("ORDER-468: Main proof must return fourteen immutable predecessors")
+    slot = (current, module_raw, configuration, binding, predecessors)
+    _main_scope_check_slot(resolved, slot)
+    _MAIN_INVOCATION_SCOPE.set((resolved, slot))
+    return predecessors
+# END_MAIN_INVOCATION_PROOF_SCOPE_468

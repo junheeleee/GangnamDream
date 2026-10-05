@@ -100,7 +100,8 @@ def run():
                       == history.previous.project_bytes(proof["before"][path], path),
                       "explicit historical comparison remains idempotent " + path)
         transitions = history.receipt_transitions(history.ROOT, {})
-        check(len(transitions) == (2 if history.REPAIR_COMMIT else 1), "exact product/repair receipt transitions")
+        check(len(transitions) == 1 + bool(history.REPAIR_COMMIT) + bool(history.SECOND_COMMIT),
+              "exact product/repair receipt transitions")
         for commit, before, after, delta, inverse in transitions:
             check(inverse(after, before, after) == before, "exact4 raw receipt inverse " + commit)
             altered = dict(after)
@@ -110,7 +111,8 @@ def run():
                   and delta["receipts"] == delta["batches"] == 0,
                   "comparison is not UI coverage/receipt reissue " + commit)
             check(delta["first_receipts"] == (9 if commit == history.INTAKE_COMMIT else 0)
-                  and delta["corrections"] == (678 if commit == history.INTAKE_COMMIT else 24),
+                  and delta["corrections"] == (678 if commit == history.INTAKE_COMMIT
+                                                else 24 if commit == history.REPAIR_COMMIT else 9),
                   "honest first/replaced receipt census " + commit)
         # Pure whole-union negatives exercise the same exact reviewed objects,
         # not a guessed normalized source or rewritten Git history.
@@ -161,6 +163,32 @@ def run():
                                    {**history.REPAIR_BATCH_SHA256, locale: history._digest(batch)}):
                 reject(lambda: history._validate_repair(proof["after"], repair_candidate(forged)),
                        "semantic OPEN boundary survives forged row pin")
+        if proof["second"] is not None:
+            before, after = proof["repair"], proof["second"]
+            history._validate_second_successor(before, after)
+            check(True, "actual conditional9 receipts and3 final sentences")
+            for path in history.SECOND_TARGET_PATHS:
+                check(history.second_overlay_inverse(before[path], after[path], path) == before[path],
+                      "conditional final sentence raw inverse " + path)
+                check(bool(history.source_errors(before[path], path)), "prior target is no longer current " + path)
+                reject(lambda p=path: history.second_overlay_inverse(before[p], after[p] + b"\n", p),
+                       "conditional target whitespace mutation " + path)
+                reject(lambda p=path: history.second_overlay_inverse(before[p], before[p], p),
+                       "conditional target rollback " + path)
+                neighbor = json.loads(after[path])
+                neighbor[0]["title"] += " changed neighbor"
+                raw = (json.dumps(neighbor, ensure_ascii=False, indent=2) + "\n").encode()
+                reject(lambda p=path, r=raw: history.second_overlay_inverse(before[p], r, p),
+                       "conditional target neighbor mutation " + path)
+            document = json.loads(after[history.LEDGER_PATH])
+            document["accepted"]["ja"][history.SECOND_IDS[0]]["source_sha256"] = "0" * 64
+            document["accepted_sha256"] = history._digest(document["accepted"])
+            forged = {**after, history.LEDGER_PATH:
+                      (json.dumps(document, ensure_ascii=False, indent=2) + "\n").encode()}
+            reject(lambda: history._validate_second_successor(before, forged),
+                   "conditional receipt forged source with recalculated checksum")
+            forged = {**after, history.SOURCE_PATHS[0]: after[history.SOURCE_PATHS[0]] + b"\n"}
+            reject(lambda: history._validate_second_successor(before, forged), "conditional repair cannot change Korean")
     check(history._ACTIVE.get() is None, "proof scope cleared")
     # Warm-success followed by an unavailable actual object must fail. No
     # cached verdict from the successful scope above may substitute for Git.

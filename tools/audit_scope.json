@@ -132,6 +132,7 @@
         "tools/order365_ui_receipt_compat.py",
         "tools/pr31_intake_history.py",
         "tools/pr31_intake_history_self_test.py",
+        "tools/pr31_main_proof_scope_check.py",
         "tools/pr31_quantity_check.py",
         "tools/story_graph_contract_audit.py",
         "tools/ui_translation_append.py",
@@ -141,6 +142,7 @@
       "tools": [
         "tools/pr31_quantity_check.py",
         "tools/pr31_intake_history_self_test.py",
+        "tools/pr31_main_proof_scope_check.py",
         "tools/chapter1_core_loop_v2_causal_ledger_check.py --inventory-history-self-test",
         "tools/ja_translation_audit.py --scope ui",
         "tools/ja_translation_pipeline.py --self-test",
@@ -155,7 +157,7 @@
         "tools/order365_ui_receipt_compat.py",
         "tools/audit_select.py --verify"
       ],
-      "why": "Explicit ORDER-468 B3/B4 intake: exact71-file source/receipt/inventory delta and Main6 UI compatibility plus bounded counter tests. Root separately preserves official24 receipt evidence and prepared5-locale resolver235/AP30 cases with pre-autoload isolation. Current full-body admission runs once; unchanged historical suites, public builds and human/native/render/physical claims are not repeated or substituted."
+      "why": "Explicit ORDER-468 B3/B4 intake: exact71-file source/receipt/inventory delta, Main6 compatibility,33 refreshed receipts and3 final-sentence corrections. Bounded counter and invocation-local Main proof tests retain freshness; prepared5-locale resolver235/AP30 uses pre-autoload isolation. Unchanged historical suites and public builds are not repeated; native/render/human/physical claims remain separate."
     },
     {
       "id": "opening-rhythm-source",
@@ -3432,6 +3434,16 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/pr31_main_proof_scope_check.py",
+      "paths": [
+        "tools/pr31_main_proof_scope_check.py",
+        "tools/main_game_locale_history.py",
+        "tools/order365_ui_receipt_compat.py"
+      ],
+      "why": "Same-invocation immutable Main proof reuse must retain real fresh outer proofs, root/HEAD/disk binding and rejection/cleanup; no cross-invocation verdict cache.",
+      "godot": false
+    },
     {
       "tool": "tools/pr31_intake_history_self_test.py",
       "paths": [

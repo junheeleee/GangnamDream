@@ -24,6 +24,7 @@ import ui_translation_append as ui_append
 import coffee_encounter_receipt_history as coffee_history
 import coin_call_receipt_history as coin_history
 import pr31_intake_history as pr31_history
+import main_game_locale_history as main_history
 
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER_PATH = "content/meta/full_game_localization.json"
@@ -334,7 +335,7 @@ def fresh_validation_proof():
         yield
         return
     proof = _read_proof()
-    with pr31_history.fresh_validation_proof(), previous.fresh_validation_proof():
+    with main_history.fresh_main_validation_proof(ROOT), pr31_history.fresh_validation_proof(), previous.fresh_validation_proof():
         _verify_transition(tuple((path, *proof[path]) for path in CURRENT_PATHS))
         _require(not previous.source_errors(proof[LEDGER_PATH][0], LEDGER_PATH),
                  "predecessor ledger does not bind to immutable351")

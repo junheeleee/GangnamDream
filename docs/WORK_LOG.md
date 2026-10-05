@@ -4,6 +4,8 @@
 
 ## 2026-10-05 — 사용자 우선 PR31 문장 수리 들이기 선언 (468)
 
+- 추가134a45b: 기수용 전체 대조에서 PRdiff의 accepted변경만 보면 놓치는 조건부3잎×3언어를 발견했다. 민서연락/지연결혼식6문장은 보존하고 year4마감3문장의 옥상 회색 묘사를 KO의 종이 한 장으로 바로잡았다. 공식check/import 각3/changed_files1, 총33영수증/추가6배치·accepted41830/b243. 사건·엔딩 기수용11816/언어의 source/target stale0(미번역·기계유효·원어민 완료와 별개).
+- shared1은 새 누락 발견으로 read-only 실행을 중단했다. 후속 history 자체검사 중 root가 선언commit을 만들어 HEAD변동 방어가 정상 거부했으며 PASS로 세지 않는다. 최종 후보를 동결한 뒤 같은 검사를 재실행한다. 동일 호출의 Main96객체 반복증명은 호출 한정 공유와 매 재사용·종료 재검증으로 줄인다.
 - 실제 통합4b26792(부모8a2c9a9/b9284e3), Main6 e88742c, 공식24영수증 db4de2f. 기존 main66신규 UI잎/6배치 보존, accepted41830/b240. arc_events5·project·과거 인간/공개/사용자 저장 불변.
 - 기본 EN/EN한글18, JA_UI/JA pipeline, ZH기본/자체12623, inventory history82, 새source역상167 통과. 현재 PR변경 accepted687 전수 기계오류0. 초과월수/연수 오탐2종은 원문 분류만 좁혀 수리하고 비저자가 찾은 `不是` 누락을 포함한68사례 PASS. ZH전체 자체검사는 연수추가 전 증거이며 이후 변경은 새표적검사로 구분한다.
 - `.git/pr31-intake-20261005.Kz8A4y/runtime2/result.json`: prepared 엔딩235/5언어·투자AP30/주복원5 PASS, 보호57/11그룹·제품697 전후동일. runtime1의10실패는 fixture가 생존+사망flag를 동시에 만든 기대값 오류였고 보존한다. 실제렌더/자연입력/원어민/인간 관찰이 아니다.

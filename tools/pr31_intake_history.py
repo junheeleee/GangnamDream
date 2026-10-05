@@ -30,6 +30,22 @@ REPAIR_BATCH_SHA256 = {
     "zh-CN": "beb3267f1a5d366898f2c6978b4ff003849069b93c416e12a65ce8cef90f622c",
     "zh-TW": "3373439863962a650c6c1afe1bda3e07c689d123a52fcdbdaeba9ec754039726",
 }
+SECOND_COMMIT = "134a45baa932e20c093262165a5c6599ff1625ed"
+SECOND_BATCH_SHA256 = {
+    "ja": "68ef2d15541a5f1295c8b2b0e84bbb892027ac21706c01c85994509f005dfa01",
+    "zh-CN": "ef583b9771e431c26bed6efac7bfe767b3a886813cb6e73de6c054045e975f6c",
+    "zh-TW": "c403cd7ce000128ce985b47f25b47ca1182fa984faa732a7d7c23de6398d4fd2",
+}
+SECOND_IDS = (
+    "events:arc_minseo_03_arrival:/description_if_known/contacted_minseo",
+    "events:arc_jiyeon_wedding_gap_father_passed:/choices/1/result_text",
+    "events:arc_year4_close_father_passed:/choices/1/result_text",
+)
+SECOND_SENTENCES = {
+    "ja": ("小さな空欄から、屋上の床の灰色が見えた。", "紙一枚にすべて収まった。"),
+    "zh-CN": ("从小小的空格间，能看见天台地面的灰色。", "全都写在一张纸上了。"),
+    "zh-TW": ("從小小的空格間，看得見屋頂地面的灰色。", "全都寫在一張紙上了。"),
+}
 LEDGER_PATH = "content/meta/full_game_localization.json"
 INVENTORY_PATH = "content/meta/release_content_inventory.json"
 INVENTORY_RAW_SHA256 = (
@@ -39,6 +55,7 @@ INVENTORY_RAW_SHA256 = (
 LOCALES = ("ja", "zh-CN", "zh-TW")
 UI_PATHS = tuple("locale/ui_" + locale + ".json" for locale in LOCALES)
 CURRENT_UI_PATHS = (*UI_PATHS, LEDGER_PATH)
+SECOND_TARGET_PATHS = tuple("content/events_" + locale + "/arc_year_close.json" for locale in LOCALES)
 _NAMES = ("arc_chapter_themes", "arc_daeun", "arc_daeun_extension", "arc_daeun_married",
           "arc_daeun_romance", "arc_drama", "arc_h2_beats", "arc_midgame",
           "arc_new_characters", "arc_pre_ending", "arc_web_crossbeams",
@@ -55,6 +72,7 @@ HISTORY_CONTENT_PATHS = tuple(path for path in CONTENT_PATHS
                              if path.startswith(("content/events/", "content/events_en/")))
 PRODUCT_PATHS = (*CONTENT_PATHS, LEDGER_PATH, INVENTORY_PATH, "docs/CONTENT_RATING_INVENTORY.md")
 PROTECTED_PATHS = (*UI_PATHS, "scenes/MainGame.gd", "project.godot", "docs/human_gates.json",
+                   *("content/events_" + locale + "/arc_jiyeon_married.json" for locale in LOCALES),
                    *("content/" + directory + "/arc_events.json" for directory in
                      ("events", "events_en", "events_ja", "events_zh-CN", "events_zh-TW")))
 REPAIR_IDS = (
@@ -278,13 +296,29 @@ def _read_proof(root=ROOT):
                  == b"M\0" + LEDGER_PATH.encode() + b"\0", "receipt repair path set")
         _validate_repair(after, repair, root)
         current = repair
+    second = None
+    if SECOND_COMMIT is not None:
+        _require(repair is not None, "conditional repair requires the original24 receipt successor")
+        second, second_headers = _snapshot(root, SECOND_COMMIT, paths)
+        _git(root, "merge-base", "--is-ancestor", REPAIR_COMMIT, SECOND_COMMIT)
+        _git(root, "merge-base", "--is-ancestor", SECOND_COMMIT, head)
+        second_parents = [line[7:].decode() for line in second_headers if line.startswith(b"parent ")]
+        _require(len(second_parents) == 1, "conditional repair is not a direct-parent product")
+        second_before, _ = _snapshot(root, second_parents[0], paths)
+        _require(second_before == repair, "conditional repair predecessor changed product bytes")
+        expected = b"".join(b"M\0" + path.encode() + b"\0"
+                            for path in sorted((*SECOND_TARGET_PATHS, LEDGER_PATH)))
+        _require(_git(root, "diff", "--name-status", "-z", second_parents[0], SECOND_COMMIT) == expected,
+                 "conditional repair exact4 path set")
+        _validate_second_successor(repair, second, root)
+        current = second
     actual, _ = _snapshot(root, head, paths)
     _require(actual == current, "current HEAD product differs from approved intake/receipt repair")
     for path in paths:
         _require((root / path).read_bytes() == current[path], "current disk differs from Git: " + path)
     _require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head, "HEAD changed during proof")
     return {"root": root.resolve(), "head": head, "before": before, "after": after, "current": current,
-            "repair": repair, "changes": changes, "branch": branch}
+            "repair": repair, "second": second, "changes": changes, "branch": branch}
 
 
 @contextlib.contextmanager
@@ -347,10 +381,15 @@ def _leaf_receipt(snapshot, locale, identifier):
 
 def _validate_repair(before, after, root=ROOT):
     _require(all(before[path] == after[path] for path in before if path != LEDGER_PATH), "receipt recovery changed content")
+    return _validate_receipt_recovery(before, after, REPAIR_IDS, REPAIR_BATCH_SHA256, REPAIR_COMMIT, root)
+
+
+def _validate_receipt_recovery(before, after, identifiers, batch_sha256, commit, root):
+    """One explicit pinned receipt correction, never an append exemption."""
     old, new = _loads(before[LEDGER_PATH]), _loads(after[LEDGER_PATH])
     expected = copy.deepcopy(old)
     for locale in LOCALES:
-        for identifier in REPAIR_IDS:
+        for identifier in identifiers:
             receipt = _leaf_receipt(after, locale, identifier)
             _require(identifier in old["accepted"][locale] and old["accepted"][locale][identifier] != receipt,
                      "recovery must correct an existing stale receipt")
@@ -358,15 +397,15 @@ def _validate_repair(before, after, root=ROOT):
     expected["accepted_sha256"] = _digest(expected["accepted"])
     _require(new["batches"][:len(old["batches"])] == old["batches"]
              and len(new["batches"]) == len(old["batches"]) + 3,
-             "receipt recovery must preserve all original237 batches and append exactly3")
-    _require(set(REPAIR_BATCH_SHA256) == set(LOCALES), "actual official receipt row pins are missing")
-    seen, source_snapshots = set(), {INTAKE_COMMIT: before}
+             "receipt recovery must preserve the exact original batch prefix and append exactly3")
+    _require(set(batch_sha256) == set(LOCALES), "actual official receipt row pins are missing")
+    seen, source_snapshots = set(), {}
     for batch in new["batches"][len(old["batches"]):]:
         headers = batch.get("official_receipt_headers_by_locale", {})
         _require(isinstance(headers, dict) and len(headers) == 1, "one official locale per recovery batch")
         locale = next(iter(headers))
         _require(locale in LOCALES and locale not in seen
-                 and _digest(batch) == REPAIR_BATCH_SHA256[locale], "exact official recovery batch row")
+                 and _digest(batch) == batch_sha256[locale], "exact official recovery batch row")
         seen.add(locale)
         header = headers[locale]
         _require(set(header) == {"kind", "schema_version", "locale", "source_revision", "prompt_version",
@@ -375,32 +414,64 @@ def _validate_repair(before, after, root=ROOT):
                  and header["kind"] == "full_game_localization_batch"
                  and header["schema_version"] == 1 and header["locale"] == locale
                  and header["prompt_version"] == old["prompt_version"]
-                 and header["count"] == len(REPAIR_IDS) and header["source_language"] == "ko"
+                 and header["count"] == len(identifiers) and header["source_language"] == "ko"
                  and header["native_review"] == "OPEN"
                  and header["batch_id"] == _digest({k: v for k, v in header.items() if k != "batch_id"}),
                  "official recovery header identity/count/state")
         _require(batch.get("order") == "ORDER-468" and batch.get("group") == "events"
-                 and batch.get("source_leaves") == len(REPAIR_IDS)
+                 and batch.get("source_leaves") == len(identifiers)
                  and batch.get("machine_validation") == "PASS"
                  and batch.get("native_review") == batch.get("rendered_review") == "OPEN",
                  "recovery row scope or machine/native distinction")
         counts = batch.get("target_leaves_by_locale", {})
         _require(set(counts) <= set(LOCALES)
-                 and all(counts.get(loc, 0) == (len(REPAIR_IDS) if loc == locale else 0) for loc in LOCALES),
-                 "recovery target census is not exact8 for its locale")
+                 and all(counts.get(loc, 0) == (len(identifiers) if loc == locale else 0) for loc in LOCALES),
+                 "recovery target census differs from the exact owned leaf count")
         receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN",
-                   "translations": {identifier: new["accepted"][locale][identifier] for identifier in REPAIR_IDS}}
+                   "translations": {identifier: new["accepted"][locale][identifier] for identifier in identifiers}}
         _require(batch.get("receipt_sha256_by_locale") == {locale: _digest(receipt)},
-                 "official accepted receipt does not match exact8 current leaves")
+                 "official accepted receipt does not match the exact current leaves")
         revision = header["source_revision"]
-        _git(root, "merge-base", "--is-ancestor", revision, REPAIR_COMMIT)
+        _git(root, "merge-base", "--is-ancestor", revision, commit)
         if revision not in source_snapshots:
             source_snapshots[revision], _ = _snapshot(root, revision, tuple(before))
         _require(source_snapshots[revision] == before,
                  "official export revision has a different product source/ledger")
     _require(seen == set(LOCALES), "official recovery locales are incomplete")
     expected["batches"] = new["batches"]
-    _require(_ordered(new) == _ordered(expected), "receipt recovery exceeds exact24 values/batch additions")
+    _require(_ordered(new) == _ordered(expected), "receipt recovery exceeds exact owned values/batch additions")
+
+
+def second_overlay_inverse(before, after, path):
+    """Restore one final sentence and require the entire original raw file."""
+    _require(path in SECOND_TARGET_PATHS, "unowned conditional target path")
+    locale = path.split("/")[1].removeprefix("events_")
+    old, new = _Document(before), _Document(after)
+    index = next((i for i, row in enumerate(old.value) if row.get("id") == "arc_year4_close_father_passed"), None)
+    _require(index is not None, "conditional target event missing")
+    pointer = (index, "choices", 1, "result_text")
+    changes = list(_changes(old.value, new.value))
+    _require(len(changes) == 1 and changes[0][0] == pointer, "conditional target changed outside exact result leaf")
+    _, old_text, new_text = changes[0]
+    old_sentence, new_sentence = SECOND_SENTENCES[locale]
+    _require(isinstance(old_text, str) and old_text.endswith(old_sentence)
+             and new_text == old_text[:-len(old_sentence)] + new_sentence,
+             "conditional target must change only the reviewed final sentence")
+    a, z = old.spans[pointer]
+    p, q = new.spans[pointer]
+    restored = (new.text[:p] + old.text[a:z] + new.text[q:]).encode()
+    _require(restored == before, "conditional target raw bytes outside owned literal changed")
+    return restored
+
+
+def _validate_second_successor(before, after, root=ROOT):
+    _require(set(before) == set(after), "conditional successor snapshot path population")
+    for path in before:
+        if path in SECOND_TARGET_PATHS:
+            second_overlay_inverse(before[path], after[path], path)
+        elif path != LEDGER_PATH:
+            _require(before[path] == after[path], "conditional successor changed protected product: " + path)
+    return _validate_receipt_recovery(before, after, SECOND_IDS, SECOND_BATCH_SHA256, SECOND_COMMIT, root)
 
 
 def _receipt_comparison(snapshot, before, after):
@@ -415,7 +486,8 @@ def receipt_transitions(root, inventory):
     with fresh_validation_proof(root) as proof:
         result = []
         for commit, a, b in ((INTAKE_COMMIT, proof["before"], proof["after"]),
-                             (REPAIR_COMMIT, proof["after"], proof["repair"])):
+                             (REPAIR_COMMIT, proof["after"], proof["repair"]),
+                             (SECOND_COMMIT, proof["repair"], proof["second"])):
             if commit is None:
                 continue
             before = {path: a[path] for path in CURRENT_UI_PATHS}
