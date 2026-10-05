@@ -2,6 +2,11 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 새 앱 루트의 exact FinderInfo만 처리 (462)
+
+- builder557/감사737행의 최소diff를 비저자가 전수읽기했다. 조건부19/17명령의 경로·argv·로그SHA·exit0·exacthex·후속서명과 manifest를 결속했다. 제거대상은 새 final_app 루트1개/단일키뿐이며 absent이면 제거0, 다른 값은 실패한다. 다른속성은 이름집합 보존검사이지 값 전량 재계측이 아니다.
+- 실제 parser와 metadata 계약의 반례16개를 더한 합성58/actual_exports0·표적4검사 PASS, 등록196/context548/queue79·76이다. root의 첫 실패물 추가읽기에서 app7/PCK1877/currentJSON675 bytes·staging 전후 보존을 확인했지만 최종서명 실패는 닫지 않았다. 제품 변경0/첫 실패물 보존, 다음 clean main의 second 후보로 파이프라인을 확인한다.
+
 ## 2026-10-05 — 첫 실제 후보의 목적지 FinderInfo 서명 실패 (462)
 
 - main a717c442의 first는 localization/notices/import/font/i18n/5언어/export/서명/ZIP까지 통과했으나 최종재추출 앱 서명에서 실패했다(15명령 중 마지막exit1). 결과 SHA04562493f15de4f1eee540a09f4a280f5c06b9186953f4ab7ca69731154e908c, source/보호전후동일·최종manifest0이다. 실패물은 그대로 보존한다.

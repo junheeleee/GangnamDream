@@ -13,7 +13,7 @@
 | 현재 범위 | 1턴=1주, 240주·60개월(5년). **출시 데모는 M01~M06에서 끝나는** `story_demo_rc` BUILD `2026.08.31.1`이고 사용자 GO다. 본편은 M01~M60 전체의 장면·선택·회수·정점 상승을 한 작품으로 관리한다. 반복 행동판은 0이며 저장 호환 AP 데이터·엔진 삭제 GO는 아니다. |
 | 품질 게이트 | [`docs/MASTER_RELEASE_AUDIT.md`](docs/MASTER_RELEASE_AUDIT.md). 콘텐츠 수량보다 블랙박스 플레이, 한영 패리티, 패드 과업, 사람 기억·전환 증거로 판정한다. |
 | 최근 완료 | 단일 번역 비교의 중복 이력 증명을 제거해 main 4d00f31로 마감했다. focused221·기본 수용446.304초 PASS, 이전688.315초와 별도실행 비교다. source/계약 한정 GO·221판정199보고이며 출시 GO가 아니다. 코인3문구×5언어·phone 수리도 보존한다. |
-| 바로 다음 | 실행 순서는 단일 CODEX_QUEUE를 따른다. 수정 체험판 별도 로컬 builder·독립감사 합성42가 통과했다. clean main 후보로 실제 export를 진행하며 부팅/저장/복귀 판정은 분리한다. W195 이어보기는 Mac잠금으로 메뉴미실행이며 seed2/player34/W195 및 M60/후일담/6/6·Property·본편/새package HOLD를 보존한다. |
+| 바로 다음 | 실행 순서는 단일 CODEX_QUEUE를 따른다. 수정 체험판 첫 export의 목적지 FinderInfo 서명실패를 보존하고 exact 수리·합성58을 통과했다. clean main의 새 second 후보를 검증하며 부팅/저장/복귀는 별도다. W195 이어보기는 Mac잠금으로 메뉴미실행이며 seed2/player34/W195 및 M60/후일담/6/6·Property·본편/새package HOLD를 보존한다. |
 | 열려 있는 사람 게이트 | 실제 인간 관찰은 [`docs/human_gates.json`](docs/human_gates.json), 위임된 내부 판정은 [`docs/agent_review_decisions.json`](docs/agent_review_decisions.json)이 각각 소유한다. 역사 판정·공개 GO1·인간 OPEN45를 보존하며 현 본편은 HOLD다. 사용자 재판정을 기다리는 대신 남은 검수·수리를 Codex가 계속한다. |
 | 그다음 | 후속라운드/전체 정산의 더 넓은 경로와 Chapter5·종막·프롤로그·실제관찰은 남아 있다. 휴면route4·역사CI243 한정GO·종료resource/ObjectDB 잔여를 보존한다. 검수 도구의 한정GO를 게임 출시 GO로 확대하지 않는다. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |

@@ -97,7 +97,7 @@ GUI 자연 부팅·신규 저장/별도 프로세스 재개·StoryMode 복귀/�
   `04562493f15de4f1eee540a09f4a280f5c06b9186953f4ab7ca69731154e908c`,
   source/protected 전후 동일·preservation_errors0·최종manifest0이다.
 - 같은 ZIP을 별도 `/private/tmp/gangnamdream-successor-first-verify.SLTTWy`에
-  재추출한 서명검사0(exit0)와 Documents의 앱 루트 FinderInfo 추가를 확인했다.
+  재추출한 서명검사 exit0와 Documents의 앱 루트 FinderInfo 추가를 확인했다.
   ZIP앱루트 metadata0·서명 전 앱은 해당속성0이며 첫 실패물은 변경하지 않는다.
 - 같은 두 코드 소유에서 다음 fresh attempt의 **생성한 final_app 루트 하나**만
   `com.apple.FinderInfo` 값 `0000000000000000200000000000000000000000000000000000000000000000`
@@ -107,3 +107,9 @@ GUI 자연 부팅·신규 저장/별도 프로세스 재개·StoryMode 복귀/�
 - 새로운 깨끗한 빌더 신원으로 second를 발급한다. 실패 원인을 고친 새 파이프라인
   검증이며 과거first의 계약PASS는 runtimeGO로 바꾸지 않는다. 새 정본규칙이 아닌
   이 후보의 관측된 패키징 결함 수리다.
+- 제한 수리의 builder557행/감사737행 최소diff를 비저자가 전수읽기했다.
+  합성58/actual_exports0·등록196/context/queue 명시차선4검사 PASS다.
+  제거19명령/속성부재17명령을 exact argv·로그·manifest에 결속한다.
+  다른속성은 이름 집합 보존 검사이며 값 전체 재계측을 주장하지 않는다.
+  첫 실패물의 별도 읽기진단은 app7/PCK1877/currentJSON675·staging 보존PASS이나
+  그 배달 앱의 서명 실패는 그대로다. second 실제검증은 다음 clean commit 후다.
