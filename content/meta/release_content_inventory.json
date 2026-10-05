@@ -457,7 +457,7 @@
         "expected_event_count": 137,
         "expected_file_count": 43,
         "expected_ids_sha256": "e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b",
-        "expected_content_sha256": "e900fa510a5e243e1efd47c1171584f9144937f08fd39b71f39fe7e81478193f"
+        "expected_content_sha256": "12e7bf3882c90259b96203829d3c1eeeba1e3636a1448ff4e154a0c6eed78781"
       },
       "facts": [
         {
@@ -589,7 +589,7 @@
         "tokens_ko": ["폭행", "폭력", "구타", "뺨", "주먹", "피투성이", "선혈", "살해", "칼로 찔", "목을 졸", "무릎에 피", "앞바퀴를 쳤", "충돌"],
         "tokens_en": ["assault", "violence", "beaten", "slapped", "punched", "bloodied", "murder", "stabbed", "strangled", "knee was bleeding", "clipped the front wheel"],
         "reviewed_search_noise_ids": ["amb_coin_00", "arc_daeun_first_night", "arc_sangchul_confrontation", "arc_year3_close", "cafe_bluff_caught", "callback_ignored_hyunsu_warning_echo", "callback_recommitted_to_job_echo", "inv_portfolio_review", "job_colleague_conflict", "kx_coin_noraebang", "startup_team_conflict", "story_knee_choice", "story_knee_witness"],
-        "expected_event_count": 17, "expected_file_count": 14, "expected_ids_sha256": "b036299411ccb065182412b7accbfaf66efdab32d05c81d8b6c6bb6a3d3dc125", "expected_content_sha256": "82510709a7eb6770b77e13b4a381dfb1fc225d02201d0e604ce127001a04ba9f"
+        "expected_event_count": 17, "expected_file_count": 14, "expected_ids_sha256": "b036299411ccb065182412b7accbfaf66efdab32d05c81d8b6c6bb6a3d3dc125", "expected_content_sha256": "d9e1a6e138286682473b7da01099ce326284eaa7844446a2f0adf6d6e8f28d26"
       },
       "facts": [
         {
