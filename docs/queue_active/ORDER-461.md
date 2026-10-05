@@ -27,7 +27,7 @@
 하나의 matcher 호출만 scope다. 다음 manifest/다음 호출은 반드시 새 증명을 한다.
 matcher boolean/성공·실패 판정의 캐시, whole-run/LRU/disk cache는 금지한다.
 성공한13단계의 immutable bytes tuple만 공유하고 매 재사용에서 root/exact raw/
-HEAD/disk/stage pin·함수 identity를 대조한다. 달라지면 fail-closed이며 자동 갱신하지
+HEAD/disk/stage pin·함수 identity·inverse 설정을 대조한다. 달라지면 fail-closed이며 자동 갱신하지
 않는다. 실패한 증명은 저장하지 않는다. 정상·예외 종료 모두 finally로 context를
 복원하고 중첩 호출은 바깥 값을 오염시키지 않는다. 현재원장 exact50·각 header와
 원문 census·원래 matcher 위임/허용/거부 의미는 유지한다.
@@ -41,7 +41,9 @@ HEAD/disk/stage pin·함수 identity를 대조한다. 달라지면 fail-closed�
 3. 깨끗한 새 후보에서 기본 full-body1회. source50와 원장/제품/실제player34/seed2+
    W195 checkpoint 전후 보존, 성공marker·exit·stderr·실행시간을 기록한다.
    선행688.315초와 현재값은 실행별 비용이며 통제된 속도 A/B나13배 향상으로 부르지 않는다.
-4. context/queue/판정원장/diff·생성STATUS, 비저자 한정판정 후 main 커밋/푸시.
+4. `holdem-manifest-proof-scope` 명시 차선은 새 focused/등록과 always context/queue만
+   고르며 기본 full-body는 위3의 별도1회로 중복하지 않는다. 판정원장/diff·생성STATUS,
+   비저자 한정판정 후 main 커밋/푸시.
    원458 화면·공식교정·과거 self-test 전량·standalone365·엔진·240주·302 빌드 반복0.
 
 없애면 검수 안전성이 아니라 불필요한 중복 비용이 줄어야 한다. 선택/경제·24주 뒤
@@ -49,3 +51,11 @@ HEAD/disk/stage pin·함수 identity를 대조한다. 달라지면 fail-closed�
 소유하고 실제457·M60/후일담/Property·302 successor·출시HOLD는 닫지 않는다.
 규범 판정: 파일·단일 scope·표적 실행 지시는 **일회성**. 기존 WORK_UNIT 적용,
 새 정본 승격0이며 자동PASS는 재미·인간·원어민·물리패드·출시 GO가 아니다.
+
+## 구현 증거 — 최종 수용 전
+
+- history/append 원prefix 보존, EOF99/15행. 비저자 사전읽기 차단0이며 inverse literal
+  전역변이 반례를 반영했다. 제품·번역·365·full-body·current_proof/validate_history 변경0.
+- 명시 차선4 PASS: focused221/historical0·실제chain1/78요청/13predecessor,
+  나머지 합성 또는 원문보존. 등록195·context·queue79/76 PASS다.
+- 기본 full-body 현재50 수용·비저자 최종판정은 구현 clean commit 뒤 실행한다.

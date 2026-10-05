@@ -2691,3 +2691,18 @@ def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes
             "Git candidate changed during coin call admission")
     return result
 # END_COIN_CALL_SOURCE_AND_RECEIPT_459
+
+
+# BEGIN_HOLDEM_MANIFEST_PROOF_SCOPE_461
+_HOLDEM_PROOF_SCOPE_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _HOLDEM_PROOF_SCOPE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import holdem_money_history as history
+    # Reuse only the immutable history proof inside this one comparison. Each
+    # manifest, including a nested comparison, receives a fresh lazy scope.
+    with history._holdem_manifest_proof_scope():
+        return _HOLDEM_PROOF_SCOPE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_HOLDEM_MANIFEST_PROOF_SCOPE_461

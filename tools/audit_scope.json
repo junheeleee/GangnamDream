@@ -14,6 +14,19 @@
   ],
   "fast_lanes": [
     {
+      "id": "holdem-manifest-proof-scope",
+      "paths": [],
+      "owned_paths": [
+        "tools/holdem_money_history.py", "tools/ui_translation_append.py",
+        "tools/holdem_manifest_proof_scope_self_test.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-461.json",
+        "docs/queue_active/ORDER-461.md", "docs/queue_archive/ORDER-461.md"
+      ],
+      "tools": ["tools/holdem_manifest_proof_scope_self_test.py", "tools/audit_select.py --verify"],
+      "why": "Explicit461 one matcher scope only: actual13-stage proof once with13 predecessor comparisons, plus bounded fresh-call, mutation, failure and nested-context cases. Basic full-body admission is separately orchestrated once on a clean candidate; this lane does not duplicate it. Old chain/pins/inverses, source50, receipts, product and player state stay unchanged. No historical suites, standalone365, engine,240-week or package build."
+    },
+    {
       "id": "routine-background-input",
       "paths": [],
       "owned_paths": [
@@ -3248,6 +3261,12 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/holdem_manifest_proof_scope_self_test.py",
+      "paths": ["tools/holdem_manifest_proof_scope_self_test.py", "tools/holdem_money_history.py", "tools/ui_translation_append.py"],
+      "why": "Per-matcher immutable Holdem predecessor proof reuse with live Git/disk/configuration boundaries; actual13-stage equivalence and separate bounded synthetic faults, no historical-suite replay.",
+      "godot": false
+    },
     {
       "tool": "tools/coin_call_receipt_history_self_test.py",
       "paths": ["tools/coin_call_receipt_history.py", "tools/coin_call_receipt_history_self_test.py", "tools/ui_translation_append.py", "tools/order365_ui_receipt_compat.py"],

@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 단일 비교의 홀덤 증명 재사용 구현 (461)
+
+- 기존 history91,237바이트와 append 전체 prefix를 보존하고 EOF99/15행만 추가했다. 한 matcher의13개 소비자는 검증된 immutable predecessor tuple을 공유하되 다음 matcher/외부 호출/중첩은 fresh이며 성공·실패 boolean을 저장하지 않는다. 매 hit의 root/raw/HEAD/blob/disk·pin/inverse literal·함수/code identity를 계속 검사한다.
+- 비저자 사전읽기에서 inverse 함수가 같아도 APPENDIX/REPLACEMENT 전역이 바뀌는 반례를 추가했다. 새 focused 저작 중 root가 Git guard 기대값·tuple 실패 방식·보호경로 오기를 실행 전에 수리 요청했다. 저자와 root/비저자 읽기를 분리했다.
+- 명시 차선4검사 PASS: 새 focused221/historical0, 실제13단계 증명1회/78객체요청/13before-blob 동치, 나머지는 source-preservation/합성 boundary이며 현재50 수용 증거가 아니다. 등록195·context/queue79/76 통과, 엔진/원문/번역/receipt/사람원장 변경0이다.
+- 깨끗한 구현 후보를 main에 먼저 올린 뒤 기본full-body1회로 현재50 수용·입력/실제player34/seed2+W195 전후 보존과 비용을 확인한다. 이 실제검사·독립최종판정은 아직미실행이며 과거688.315초와 비교할 때 통제된 A/B라고 부르지 않는다. 실제457/본편/새package/출시HOLD를 유지한다.
+
 ## 2026-10-05 — 단일 원문 비교의13중복 증명 수리 선언 (461)
 
 - 코인5언어 수리/원장/소비자458~460을 main `4c901a4`로 마감·푸시했다. 현재 source 수용 기본검사688.315초의 정적 비용 분석에서 동일 Holdem13단계의 한 matcher 내13회 재증명을 확인했다.
