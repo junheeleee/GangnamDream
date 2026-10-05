@@ -2,7 +2,7 @@
   {
     "id": "amb_coin_00",
     "title": "Inside Information",
-    "description": "Taeho gets in touch after a long silence. Voice buzzing with excitement.\n\"Hyung, this one is real. Inside info.\nThis coin's listing catalyst drops next week. I pulled my jeonse deposit.\nGet in now — let's change our lives together.\"\n\n{name}'s account balance surfaces in the mind. And beyond it — the impossible distance to 3 billion won.",
+    "description": "Taeho gets in touch after a long silence. Voice buzzing with excitement.\n\"Hyung, this one is real. Inside info.\nThis coin's listing catalyst drops next week. I pulled my jeonse deposit.\nGet in now — let's change our lives together.\"\n\n{name}'s account balance surfaces in the mind. And with it — the original goal of 3 billion won.",
     "choices": [
       {
         "text": "Trust Taeho. Bet what's on hand.  (jackpot or bust)",
@@ -14,14 +14,14 @@
       },
       {
         "text": "Try to stop Taeho. \"That's dangerous.\"  (friendship / conflict)",
-        "result_text": "Taeho's face hardened. \"You're always like this, hyung,\" he shot back."
+        "result_text": "Taeho's voice hardens. \"You're always like this, hyung,\" he shoots back."
       }
     ]
   },
   {
     "id": "amb_coin_warn",
     "title": "A Hand That Holds Back",
-    "description": "\"Taeho, you pulled your jeonse deposit? That's not right.\"\n{name} means every word. Taeho's face hardens.\n\"You're always like this, hyung. You can't see an opportunity when it's right there.\nDon't come crying when I'm in Gangnam.\"\n\nBetween friendship and money — what more is there to say?",
+    "description": "\"Taeho, you pulled your jeonse deposit? That's not right.\"\n{name} means every word. Taeho's voice turns sharp.\n\"You're always like this, hyung. You can't see an opportunity when it's right there.\nDon't come crying when I'm in Gangnam.\"\n\nBetween friendship and money — what more is there to say?",
     "choices": [
       {
         "text": "Keep trying to get through to him. Until the end.  (friendship / time + emotional cost)",
