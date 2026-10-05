@@ -111,15 +111,19 @@
   {
     "id": "arc_36_unexpected_hand_person_deal",
     "title": "The Waiting Place and the Review Room",
-    "description": "Monday morning, the contact window for the place {name} had failed to reach last weekend remained on the same screen as the canceled contract-review seat. One side carried an unanswered time; the other, a nonrefundable deposit. {name} took a sip of cold coffee and thumbed between the two screens. Outside, a Monday-morning bus stopped at the stop twice and pulled away.\n\nThe canceled deposit was not coming back, and both channels' next openings ended within the week. Before his hand could schedule anything, his chest tightened at the fact that either choice would close one door again.",
+    "description": "On Monday morning, {name} reopened the instructions for the evening clinic he had missed that day. Saturday, 5:10 p.m.: registration closed. He read the line requiring him to arrive in person and show his ID, then switched to the cancellation notice for the contract-review seat. His thumb stopped below the word \"nonrefundable.\" As he took a sip of cold coffee, buses stopped outside the window twice, then pulled away.\n\nThe forfeited deposit was not coming back. The next available times at both places ran out this week. When he put them in his calendar, the time blocks needed for the two visits overlapped. His hand stopped before he could tap either one.",
+    "description_if_known": {
+      "daeun_divorced": "On Monday morning, {name} reopened the instructions for the evening clinic he had missed that day. Saturday, 5:10 p.m.: registration closed. He read the line requiring him to arrive in person and show his ID, then switched to the cancellation notice for the contract-review seat. His thumb stopped below the word \"nonrefundable.\" As he took a sip of cold coffee, buses stopped outside the window twice, then pulled away.\n\nThe forfeited deposit was not coming back. The next available times at both places ran out this week. When he put them in his calendar, the time blocks needed for the two visits overlapped. His hand stopped before he could tap either one.",
+      "daeun_romance_started": "On Monday morning, {name} reopened the photo of the convenience-store refrigerator Daeun had sent. Saturday, 5 o'clock: they had arranged to meet outside the store where they first met. Beside the photo was the cancellation notice for the contract-review seat. His thumb stopped below the word \"nonrefundable.\" As he took a sip of cold coffee, buses stopped outside the window twice, then pulled away.\n\nThe forfeited deposit was not coming back. The next available times at both places ran out this week. When he put them in his calendar, the time blocks needed for the two visits overlapped. His hand stopped before he could tap either one."
+    },
     "choices": [
       {
-        "text": "Send the times he can get there this week",
-        "result_text": "{name} opened the contact window for the place he had missed over the weekend. He deleted 'any time,' sent two hours he could truly clear plus travel time, and locked only the confirmed slot into the calendar.\n\nThe contract seat closed. This week, he could finally get to the place he had missed last weekend."
+        "text": "Set aside a time this week for the visit he missed that day",
+        "result_text": "{name} checked the visit he had missed that day first. He looked for a time he could go this week and marked it in his calendar, leaving plenty of time for the journey.\n\nThis week's contract-review seat closed. An arrival time remained in his calendar, beside an earlier time to leave."
       },
       {
         "text": "Confirm a new time to read the source contract in the review room",
-        "result_text": "{name} asked the deal lead to send the issuer and shortfall table before they met again. He confirmed a Wednesday six o'clock seat and put the added deposit and liability-end-date check in the same note.\n\nHe sent no new time for the visit he had missed last weekend. The source-contract seat was the only place that actually reopened."
+        "result_text": "{name} asked the deal lead to send the document issuer's details and the shortfall table before they met again. He confirmed a Wednesday 6 o'clock seat and put the added deposit and liability-end-date check in the same note.\n\nOnly the Wednesday appointment and the journey remained in his calendar. There was no room left this week to reschedule the other visit."
       }
     ]
   },
