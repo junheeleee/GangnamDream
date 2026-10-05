@@ -32,8 +32,7 @@ PENDING = ["no_argument_boot", "new_save", "cold_resume", "story_return_input",
 ERRORS = re.compile(r"(?im)^.*(?:SCRIPT ERROR:|Parse Error:|Compile Error|Failed to load script|Failed loading resource|ERROR:|FATAL:|Traceback \(most recent call last\)|_FAIL(?:\s|:|$)).*$")
 GENERATED_UIDS = ("tools/RoutineBackgroundInputCheck.gd.uid", "tools/order103_export/AudioManagerStub.gd.uid",
                   "tools/order103_export/Entry.gd.uid")
-FINDERINFO_ATTRIBUTE = "com.apple.FinderInfo"
-FINDERINFO_HEX = "0000000000000000200000000000000000000000000000000000000000000000"
+DELIVERY_ROOT = Path("/Users/junheelee/Library/Application Support/GangnamDream_LocalCandidates")
 
 
 def require(condition, message):
@@ -368,34 +367,24 @@ def protected_snapshot(row):
     return {"label": row["label"], "path": str(path), "exists": path.exists(), "entries": entries}
 
 
-def metadata_contract(record, app, before_text, read_text, after_text):
-    """Bind only the declared app-root FinderInfo removal to observed xattr logs."""
-    require(type(record) is dict and set(record) == {"path", "attribute", "observed_hex", "removed"}
-            and record["path"] == str(app) and record["attribute"] == FINDERINFO_ATTRIBUTE
-            and type(record["removed"]) is bool, "metadata normalization identity differs")
-    require(type(before_text) is str and type(after_text) is str, "attribute lists are not text")
-    before, after = before_text.splitlines(), after_text.splitlines()
-    require(len(before) == len(set(before)) and all(before)
-            and len(after) == len(set(after)) and all(after), "invalid attribute listing")
-    require(set(after) == set(before) - {FINDERINFO_ATTRIBUTE}, "attribute names changed outside FinderInfo removal")
-    if record["removed"]:
-        require(FINDERINFO_ATTRIBUTE in before and type(read_text) is str
-                and "".join(read_text.split()).lower() == FINDERINFO_HEX
-                and record["observed_hex"] == FINDERINFO_HEX,
-                "FinderInfo removal lacks the exact observed value")
-    else:
-        require(FINDERINFO_ATTRIBUTE not in before and record["observed_hex"] is None and read_text is None,
-                "absent FinderInfo has a removal/read claim")
+def delivery_app(identity):
+    require(identity == expected_identity(identity["build_id"], identity["attempt"]), "delivery identity differs")
+    return DELIVERY_ROOT / identity["build_id"] / identity["attempt"] / (identity["app_stem"] + ".app")
 
 
-def command_contract(rows, stage, output, source_root, source, identity, qa, metadata):
-    require(type(metadata) is dict and type(metadata.get("removed")) is bool, "metadata removal type differs")
+def readonly_attributes(text):
+    require(type(text) is str, "attribute listing is not text")
+    names = text.splitlines()
+    require(len(names) == len(set(names)) and all(names), "invalid attribute listing")
+    require(not {"com.apple.FinderInfo", "com.apple.ResourceFork"}.intersection(names),
+            "delivered app has signature-incompatible attributes")
+    return names
+
+
+def command_contract(rows, stage, output, source_root, source, identity, qa):
     names = ["godot_version", "archive", "localization", "third_party", "import", "font", "i18n",
              "five_locale", "export", "extract_raw", "sign", "verify_signed", "zip", "extract_final",
-             "attributes_before"]
-    if metadata["removed"]:
-        names += ["finderinfo_read", "finderinfo_remove"]
-    names += ["attributes_after", "verify_final"]
+             "app_attributes", "verify_final"]
     require(type(rows) is list and [row.get("name") for row in rows] == names, "command population/order differs")
     notice = load_json(git(source_root, "show", source + ":content/meta/third_party_notices.json"))["summary"]
     markers = {
@@ -413,7 +402,7 @@ def command_contract(rows, stage, output, source_root, source, identity, qa, met
     raw_zip, unpacked = stage.parent / "raw.zip", stage.parent / "unpacked"
     named_app = unpacked / (identity["app_stem"] + ".app")
     final_zip = output / "macos" / (identity["app_stem"] + ".zip")
-    final_app = final_zip.with_suffix(".app")
+    final_app = delivery_app(identity)
     fixed = {
         "godot_version": [engine, "--version"],
         "archive": ["git", "--no-replace-objects", "-C", str(source_root), "archive", "--format=tar",
@@ -422,11 +411,8 @@ def command_contract(rows, stage, output, source_root, source, identity, qa, met
         "sign": ["/usr/bin/codesign", "--force", "--deep", "--sign", "-", "--options", "runtime", str(named_app)],
         "verify_signed": ["/usr/bin/codesign", "--verify", "--deep", "--strict", str(named_app)],
         "zip": ["/usr/bin/ditto", "-c", "-k", "--sequesterRsrc", "--keepParent", str(named_app), str(final_zip)],
-        "extract_final": ["/usr/bin/ditto", "-x", "-k", str(final_zip), str(output / "macos")],
-        "attributes_before": ["/usr/bin/xattr", str(final_app)],
-        "finderinfo_read": ["/usr/bin/xattr", "-px", FINDERINFO_ATTRIBUTE, str(final_app)],
-        "finderinfo_remove": ["/usr/bin/xattr", "-d", FINDERINFO_ATTRIBUTE, str(final_app)],
-        "attributes_after": ["/usr/bin/xattr", str(final_app)],
+        "extract_final": ["/usr/bin/ditto", "-x", "-k", str(final_zip), str(final_app.parent)],
+        "app_attributes": ["/usr/bin/xattr", str(final_app)],
         "verify_final": ["/usr/bin/codesign", "--verify", "--deep", "--strict", str(final_app)],
     }
     scenes = {"import": ["--import"], "font": ["res://tools/FontRoutingCheck.tscn"],
@@ -451,11 +437,9 @@ def command_contract(rows, stage, output, source_root, source, identity, qa, met
         else:
             wanted = fixed[name]
         require(row["argv"] == wanted, "command argv differs: " + name)
-        if name in ("attributes_before", "finderinfo_read", "finderinfo_remove", "attributes_after"):
+        if name == "app_attributes":
             require(row["godot_log"] is None, "attribute command has an unrelated Godot log")
-    logs = {row["name"]: Path(row["stdout"]["path"]).read_text(encoding="utf-8")
-            for row in rows if row["name"] in ("attributes_before", "finderinfo_read", "attributes_after")}
-    metadata_contract(metadata, final_app, logs["attributes_before"], logs.get("finderinfo_read"), logs["attributes_after"])
+            readonly_attributes(Path(row["stdout"]["path"]).read_text(encoding="utf-8"))
 
 
 def audit_manifest(path, source_root=ROOT):
@@ -494,10 +478,11 @@ def audit_manifest(path, source_root=ROOT):
         require(not any(item.is_file() or item.is_symlink() for item in artifact_user.rglob("*")), "artifact namespace contains runtime files")
         generated = tracked_stage(source_root, source["commit"], stage, staging["changes"], identity, qa)
         require(generated == staging["generated_uid_files"], "generated UID inventory differs")
-        command_contract(data["commands"], stage, output, source_root, source["commit"], identity, qa,
-                         data["metadata_normalization"])
-        app = output / "macos" / (identity["app_stem"] + ".app")
-        zip_path = app.with_suffix(".zip")
+        require("metadata_normalization" not in data, "withdrawn metadata mutation claim")
+        command_contract(data["commands"], stage, output, source_root, source["commit"], identity, qa)
+        app = delivery_app(identity)
+        zip_path = output / "macos" / (identity["app_stem"] + ".zip")
+        require(not os.path.lexists(zip_path.with_suffix(".app")), "repo output contains a loose delivered app")
         require(data["artifact_paths"] == {"app": str(app), "zip": str(zip_path)}, "artifact paths differ")
         artifacts = package_inventory(app, zip_path, stage)
         require(canonical(data["artifacts"]) == canonical(artifacts), "manifest artifacts differ from actual typed bytes")
@@ -556,30 +541,16 @@ def self_test():
 
     identity = expected_identity(BUILD, "synthetic")
     good("independent identity", builder.identity_for(BUILD, "synthetic") == identity)
-    observed_hex = " ".join(FINDERINFO_HEX[index:index + 2] for index in range(0, 64, 2)) + "\n"
-    good("actual builder exact FinderInfo parser", builder.parse_finderinfo_hex(observed_hex) == FINDERINFO_HEX)
-    for value in ("", FINDERINFO_HEX[:-1], "f" + FINDERINFO_HEX[1:], FINDERINFO_HEX.encode()):
-        bad("actual builder rejects unreviewed FinderInfo " + repr(value),
-            lambda value=value: builder.parse_finderinfo_hex(value))
-    app_path = Path("/synthetic/fresh.app")
-    metadata = {"path": str(app_path), "attribute": FINDERINFO_ATTRIBUTE,
-                "observed_hex": FINDERINFO_HEX, "removed": True}
-    before_attrs = FINDERINFO_ATTRIBUTE + "\ncom.apple.quarantine\n"
-    after_attrs = "com.apple.quarantine\n"
-    metadata_contract(metadata, app_path, before_attrs, observed_hex, after_attrs)
-    good("exact root removal preserves other attribute names", True)
-    absent = dict(metadata, observed_hex=None, removed=False)
-    metadata_contract(absent, app_path, after_attrs, None, after_attrs)
-    good("absent FinderInfo records no removal", True)
-    for field, value in (("path", str(app_path / "Contents")), ("attribute", "com.apple.quarantine"),
-                         ("observed_hex", "0" * 64), ("removed", 1)):
-        bad("metadata forged " + field, lambda field=field, value=value: metadata_contract(
-            dict(metadata, **{field: value}), app_path, before_attrs, observed_hex, after_attrs))
-    bad("FinderInfo remains after removal", lambda: metadata_contract(metadata, app_path, before_attrs, observed_hex, before_attrs))
-    bad("other attribute removed", lambda: metadata_contract(metadata, app_path, before_attrs, observed_hex, ""))
-    bad("removal without exact raw read", lambda: metadata_contract(metadata, app_path, before_attrs, "0" * 64, after_attrs))
-    bad("absent attribute falsely removed", lambda: metadata_contract(metadata, app_path, after_attrs, observed_hex, after_attrs))
-    bad("absent branch has read evidence", lambda: metadata_contract(absent, app_path, after_attrs, observed_hex, after_attrs))
+    good("independent delivered app location", delivery_app(identity) == Path(
+        "/Users/junheelee/Library/Application Support/GangnamDream_LocalCandidates/2026.10.05.1/synthetic/"
+        "GangnamDream-StoryDemo-Successor-2026.10.05.1-synthetic.app")
+        and builder.delivery_path(identity) == delivery_app(identity).parent)
+    bad("delivery identity path tamper", lambda: delivery_app(dict(identity, app_stem="../old")))
+    bad("actual builder delivery identity tamper", lambda: builder.delivery_path(dict(identity, attempt="../old")))
+    good("empty read-only attributes", readonly_attributes("") == [])
+    good("quarantine remains untouched", readonly_attributes("com.apple.quarantine\n") == ["com.apple.quarantine"])
+    for value in ("com.apple.FinderInfo\n", "com.apple.ResourceFork\n", "other\nother\n", "\n", b""):
+        bad("invalid read-only attributes " + repr(value), lambda value=value: readonly_attributes(value))
     for attempt in ("", "../old", "/absolute", "UPPER", "a" * 33, 1):
         bad("attempt rejected " + repr(attempt), lambda attempt=attempt: builder.identity_for(BUILD, attempt))
     bad("old BUILD rejected", lambda: builder.identity_for("2026.08.31.1", "first"))

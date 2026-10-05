@@ -25,7 +25,6 @@ sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = "2026.10.05.1"
 GODOT_VERSION = "4.6.2.stable.official.71f334935"
-FINDERINFO_HEX = "0000000000000000200000000000000000000000000000000000000000000000"
 ENTRY = "res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
 CHANGED = ("project.godot", "export_presets.cfg",
            "playtests/order124/StoryChoiceM1M6Playtest.gd", "tools/StoryDemoFourLanguageCheck.gd")
@@ -65,6 +64,12 @@ def identity_for(build_id, attempt):
 def _identity(identity):
     require(type(identity) is dict and identity == identity_for(identity.get("build_id"), identity.get("attempt")),
             "identity fields differ")
+
+
+def delivery_path(identity):
+    """Persistent actual app destination, separate from Documents/FileProvider."""
+    _identity(identity)
+    return SUPPORT / "GangnamDream_LocalCandidates" / identity["build_id"] / identity["attempt"]
 
 
 def _section_replace(raw, section, replacements):
@@ -164,14 +169,6 @@ def require_fresh_path(path):
     path = no_symlink(path)
     require(not os.path.lexists(path), "path already exists: " + str(path))
     return path
-
-
-def parse_finderinfo_hex(text):
-    """Only the exact observed candidate-root FinderInfo is removable."""
-    require(type(text) is str, "FinderInfo output is not text")
-    value = "".join(text.split()).lower()
-    require(value == FINDERINFO_HEX, "unreviewed FinderInfo value")
-    return value
 
 
 def file_record(path):
@@ -367,11 +364,13 @@ def build(args):
     require(player["exists"] and len(player["entries"]) == 34, "actual player file census is not 34")
     output = require_fresh_path(ROOT / identity["output_rel"])
     require(output.is_relative_to(ROOT / "build/story_demo_successor"), "output escaped")
+    delivery_root = require_fresh_path(delivery_path(identity))
     namespace_path = require_fresh_path(SUPPORT / identity["artifact_namespace"])
     builder = Path(__file__).resolve()
     require(builder.read_bytes() == git("show", args.source + ":tools/build_story_demo_successor_macos.py"),
             "running builder differs from source commit")
     output.mkdir(parents=True, exist_ok=False)
+    delivery_root.mkdir(parents=True, exist_ok=False)
     logs = output / "logs"
     logs.mkdir()
     work = Path(tempfile.mkdtemp(prefix="gangnamdream-story-demo-successor-", dir="/private/tmp")).resolve()
@@ -469,25 +468,15 @@ def build(args):
         run_command(rows, logs, "zip", ["/usr/bin/ditto", "-c", "-k", "--sequesterRsrc", "--keepParent", named_app, final_zip], work, env)
         safe_zip_members(final_zip)
         # The delivered app is the re-extracted finalized ZIP, not its input.
-        final_app = require_fresh_path(macos / (identity["app_stem"] + ".app"))
-        run_command(rows, logs, "extract_final", ["/usr/bin/ditto", "-x", "-k", final_zip, macos], work, env)
-        require(no_symlink(final_app).resolve() == output / "macos" / (identity["app_stem"] + ".app")
-                and final_app.is_dir(), "metadata target is not the newly extracted app root")
-        run_command(rows, logs, "attributes_before", ["/usr/bin/xattr", final_app], work, env)
-        before_attrs = (logs / "attributes_before.stdout.log").read_text(encoding="utf-8").splitlines()
-        require(len(before_attrs) == len(set(before_attrs)) and all(before_attrs), "invalid attribute listing")
-        metadata = {"path": str(final_app), "attribute": "com.apple.FinderInfo",
-                    "observed_hex": None, "removed": False}
-        if "com.apple.FinderInfo" in before_attrs:
-            run_command(rows, logs, "finderinfo_read", ["/usr/bin/xattr", "-px", "com.apple.FinderInfo", final_app], work, env)
-            metadata["observed_hex"] = parse_finderinfo_hex((logs / "finderinfo_read.stdout.log").read_text(encoding="utf-8"))
-            run_command(rows, logs, "finderinfo_remove", ["/usr/bin/xattr", "-d", "com.apple.FinderInfo", final_app], work, env)
-            metadata["removed"] = True
-        run_command(rows, logs, "attributes_after", ["/usr/bin/xattr", final_app], work, env)
-        after_attrs = (logs / "attributes_after.stdout.log").read_text(encoding="utf-8").splitlines()
-        require(len(after_attrs) == len(set(after_attrs)) and all(after_attrs)
-                and set(after_attrs) == set(before_attrs) - {"com.apple.FinderInfo"},
-                "FinderInfo remains or another attribute name changed")
+        final_app = require_fresh_path(delivery_root / (identity["app_stem"] + ".app"))
+        run_command(rows, logs, "extract_final", ["/usr/bin/ditto", "-x", "-k", final_zip, delivery_root], work, env)
+        require(no_symlink(final_app).resolve() == delivery_path(identity) / (identity["app_stem"] + ".app")
+                and final_app.is_dir(), "delivered app escaped its persistent destination")
+        run_command(rows, logs, "app_attributes", ["/usr/bin/xattr", final_app], work, env)
+        attributes = (logs / "app_attributes.stdout.log").read_text(encoding="utf-8").splitlines()
+        require(len(attributes) == len(set(attributes)) and all(attributes)
+                and not {"com.apple.FinderInfo", "com.apple.ResourceFork"}.intersection(attributes),
+                "delivered app has FinderInfo/resource fork or invalid attribute listing")
         run_command(rows, logs, "verify_final", ["/usr/bin/codesign", "--verify", "--deep", "--strict", final_app], work, env)
         artifacts = package_inventory(final_app, final_zip, stage)
         generated = validate_stage(stage, baseline, artifact_raw)
@@ -505,7 +494,6 @@ def build(args):
                                  "artifact_sha256": sha(artifact_raw[name])} for name in CHANGED],
                     "generated_uid_files": generated}, "commands": rows, "artifacts": artifacts,
                     "artifact_paths": {"app": str(final_app), "zip": str(final_zip)},
-                    "metadata_normalization": metadata,
                     "protected": {"before": protections, "after": protections_after},
                     "namespaces": {"artifact_before_exists": False, "artifact_after_save_files": [], "qa": [qa]},
                     "runtime": {"status": "NOT_RUN", "pending": PENDING}, "user_go": "NOT_INHERITED", "codesign": "ad-hoc"}

@@ -2,6 +2,11 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 실제 배달 앱을 비동기화 전용 경로에 결속 (462)
+
+- builder545/감사708행의 최소diff를 비저자가 전수읽기했다. repo ZIP/로그는 유지하고 앱만 fixed Application Support/LocalCandidates/BUILD/attempt로 직접 재추출한다. 양목적지 fresh·ancestor symlink 차단·실제앱 xattr읽기/서명/ZIP/PCK 결속이며 속성제거코드는 전량철회했다.
+- source/출력 검증42개에 새경로/readonly10개를 더한 현재52·차선4검사 PASS다. 이전속성제거16개를 현재검증으로 누적하지 않는다. 같은 firstZIP의 Support 진단 JAQAlh는 속성삭제없이 provenance만·서명exit0였으나 third actual 검증을 대신하지 않는다. 실제16명령 third는 다음 clean main에서 실행한다.
+
 ## 2026-10-05 — 배달 위치가 재생성한 FinderInfo와 후속 수리 선언 (462)
 
 - e5d9b846의 second도19명령 중 마지막verify_final만 exit1이다. after 로그에서 없어진 앱루트 FinderInfo가 후속읽기에서 다시 존재한다. 결과 SHAc04fb710e0cc97f1bd7c31df7d5b0cac6dfbc00c56d8b9144dac44af4ee2319c, source/보호전후동일·최종manifest0. 첫두 실패는 변경하지 않는다.

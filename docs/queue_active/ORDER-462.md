@@ -134,3 +134,10 @@ GUI 자연 부팅·신규 저장/별도 프로세스 재개·StoryMode 복귀/�
   속성이나 quarantine 변경0, 새 앱의 서명검사 완화0. 세 번째 repo 안에는 loose
   앱을 만들지 않는다. 이것은 같은 로컬 export의 확인된 목적지 결함 수리이며
   사용자 저장 namespace·공개 앱/ZIP·엔진/제품/외부 배포 범위를 늘리지 않는다.
+- 실제 지원경로 사전진단: first ZIP을 fresh
+  `/Users/junheelee/Library/Application Support/GangnamDream_SignatureDiagnostic.JAQAlh`에
+  풀고 root xattr provenance만·codesign exit0를 확인했다. first/second 변경0,
+  아직 third의 실제 검증이나 runtime 증거가 아니다.
+- builder545/감사708행의 최소 변경을 비저자 전수읽기했고 새 차선52반례/4검사
+  PASS다. 철회한 속성제거16반례를 성공으로 누적하지 않고 새 경로/읽기10개로
+  교체했다. 새 clean commit의 고정16명령 actual third가 다음 단계다.
