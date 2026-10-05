@@ -95,6 +95,9 @@ events4/endings20×3언어72영수증·6배치의 ledger-only 전이를 분리�
 기존33갱신을 보존한 총105갱신이며, 원문 변경에 따른 release inventory의
 실제 corpus/axis 지문과 필요시 rating 문서만 같은 source 전이에 정렬한다.
 두 실제 Git 전이를 기존 이력 helper/self-test의 exact 역상으로 검증한다.
+기존 준비된 엔딩 fixture에 실제 `>=` 경계의 상태·5언어20문장 표적 검증을
+추가한다. pr31_main_compat가 `tools/PR31EndingDescriptionCheck.gd`만 소유하고
+root가 격리 실행하며 실제 자연 플레이나 렌더 증거로 부르지 않는다.
 이는 새 장면이나7k가 아닌 들이기에서 확인한 새 사실 오류 수리다.
 
 공식 CN check에서 `아버지가 떠난 지 여덟 달이 넘었다`를 일반 월수로 분류해
