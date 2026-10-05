@@ -1,10 +1,10 @@
 # ORDER-469 — 4장 지연 연인 변형6개의 비도달 정렬
 
-#### [ ] ORDER-469 [P1·사용자 지시] 자연 경로에 없는 지연 연인 변형을 author_only로 보존한다
+#### [~] ORDER-469 [P1·사용자 지시] 자연 경로에 없는 지연 연인 변형을 author_only로 보존한다
 
-**대기 — 2026-10-05.** PR31 들이기 [468](../queue_archive/ORDER-468.md) 뒤 실행하는
-사용자 후속7k의 첫 독립 단위다. 지금까지는 read-only 영향 조사만 했고 제품 수정은 없다.
-착수 전에 이 사양/큐를 `[~]`로 바꾸고 정확한 지원 경로와 소유자를 확정·선언한다.
+**착수 — 2026-10-05.** PR31 들이기 [468](../queue_archive/ORDER-468.md) 뒤 실행하는
+사용자 후속7k의 첫 독립 단위다. 기준 main `2f06da6`에서 read-only 영향 조사를 마쳤다.
+아래 소유 범위를 선언 커밋으로 먼저 고정하고 구현한다. 아직 실행 검증 결과는 없다.
 
 ## 근거와 완결 경계
 
@@ -37,17 +37,26 @@ read-only 조사에서 모두 이미 `weight=0`, `hidden=true`, `conditions={min
    지연 연인을 전제하지 않는 기존 unattached 분기로 보내며5장 연애 생산자는 보존한다.
 3. 같은 월 슬롯에서 기존 다은/무연애 변형과 경쟁한다. 신규 선택·보상은 만들지 않는다.
 
-## 예상 파일 소유와 보존선
+## 선언 파일 소유와 보존선
 
-- root runtime: `scenes/MainGame.gd`의 `_chapter_four_relationship_event_id` 및6호출만.
+- pr31_main_compat: `scenes/MainGame.gd`의 `_chapter_four_relationship_event_id` 및6호출,
+  `tools/arc_flow_sim.py`의 같은 selector와6호출,
+  신규 `tools/ChapterFourRelationshipCheck.gd`, `tools/ChapterFourRelationshipCheck.tscn`.
+  런타임 동결 뒤 `tools/main_game_locale_history.py`, `tools/ja_translation_pipeline.py`의
+  정확한 Main/source 위치 후속 연결도 이 소유자가 맡는다.
 - root metadata: `content/meta/event_director.json`, `content/meta/event_lifecycle.json`,
   `content/meta/narrative_spine.json`, `content/meta/exposed_event_state_contracts.json`,
   `content/meta/release_content_inventory.json`,
   생성 `docs/CONTENT_RATING_INVENTORY.md`.
 - root 검사: `tools/chapter4_causal_route_audit.py`, `tools/exposed_state_consistency_audit.py`,
-  `tools/arc_flow_sim.py`, `tools/narrative_spine_audit.py`,
-  필요시 신규 전용 관계 분기 검사와 `tools/audit_scope.json` 등록. 신규 검사 이름·지원 이력
-  경로는 실제 영향 조사를 끝낸 뒤 착수 선언에 정확하게 적는다.
+  `tools/narrative_spine_audit.py`, `tools/audit_scope.json` 등록.
+- pr31_history_plan: 신규 `tools/order469_source_compat.py`,
+  `tools/order469_source_compat_self_test.py`, 기존 `tools/pr31_intake_history.py`,
+  `tools/pr31_intake_history_self_test.py`, `tools/ui_translation_append.py`,
+  `tools/full_body_translation_scope.py`. 실제 제품 커밋·부모·파일 집합·역상을 증명하며
+  기존 PR31 raw pin/e300 census/번역 수용 원장을 덮어쓰지 않는다.
+- pr31_intake_review: 비저자 read-only 검수 및 `docs/agent_reviews/ORDER-469.json`만 소유.
+  root만 프로젝트 도구·Godot를 실행한다. 에이전트는 소유 파일 수정과 stdlib/Git 조회만 한다.
 - `tools/HiddenFeatureCheck.gd`에는 현재 목표6개 ID가 없으며 지연 연애 주입은5장 엔딩용이다.
   이 파일은 read-only 보존한다. 사용자 작업표의 당시 예상과 현재 실물이 다르므로
   무관한5장 주입을 없애지 않는다. 같은 이유로 목표 원고/오버레이도 재작성하지 않는다.
@@ -61,8 +70,8 @@ read-only 조사에서 모두 이미 `weight=0`, `hidden=true`, `conditions={min
 - `arc_flow_sim`의 같은 관계 selector/6호출과 `narrative_spine`의4장 live anchor6개도
   실제 제품 분기에 맞춘다. spine 감사의 지연 setup/boss 강제항목2개는 이 사용자 승인에
   한정해 정렬한다. story_map의 해당6참조는 `needs_rule` 비제품 참고이므로 보존한다.
-- root 기록: 이 사양/큐·CLAUDE현재행·WORK_LOG·생성STATUS·독립 보고/판정행.
-- 현재 두 조사 에이전트는 read-only다. 구현과 비저자 검수의 파일 소유를 착수 때 분리한다.
+- root 기록: 이 사양/큐·CLAUDE현재행·WORK_LOG·생성STATUS·`docs/agent_review_decisions.json`.
+  제품/번역 원문 불변과 준비 컴포넌트64사례(6슬롯×8상태+우선분기16)를 표적 검증한다.
 - 기존 raw/history pin을 새 값으로 덮어쓰거나 범용 hash 우회를 만들지 않는다. 실제 전이만
   좁혀 결속하며 Main/source consumer 지원이 필요하면 소유 경로를 먼저 선언한다.
 - 금지: `project.godot`, 5언어 `arc_events.json`, 공개 패키지·사용자 저장·인간 원장.

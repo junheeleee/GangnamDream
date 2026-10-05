@@ -2,6 +2,11 @@
 
 이전 원문 전체는 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md)에 바이트 그대로 보존했다. Claude PR #31 기록은 [별도 보관본](history/WORK_LOG_2026-10-05_claude_pr31.md)에 있다.
 
+## 2026-10-05 — 4장 지연 변형6개 비도달 정렬 착수 (469)
+
+- 기준 main `2f06da6`, 깨끗한 작업 폴더에서 사용자 후속7k 첫 단위를 선언한다. 실제6슬롯153/164/167/177/181/190의 Main/director ingress만 제거하고 원고·5언어 번역·수용 영수증은 보존한다.
+- 런타임/이력 지원/독립 검수 소유를 [469](queue_active/ORDER-469.md)에 분리했다. 다은 실제 predicate·W167/W177 우선순위를 prepared64사례로 검증할 계획이며 아직 결과는 없다. 원어민·인간·자연 플레이·실제 입력 관찰을 발급하지 않는다.
+
 ## 2026-10-05 — 사용자 우선 PR31 문장 수리 들이기 완료 (468)
 
 - 비저자 [독립 보고](agent_reviews/ORDER-468.json)가 source c50d9cb/tree2d0149ad의 들이기·확인된 새 결함·유한 이력승인에 한정 GO했다. 보고SHA `9dcbd068fb5d85a89f91c05c1d574f6479c5afc0ba6abba55d6e2c7ed2ea0cbe`. [완료 사양](queue_archive/ORDER-468.md)으로 이동한다. 새로운 규범승격0, 이번 exact 전이와 검증은 일회성이다. 본편/출시 HOLD와 인간 원장은 불변이다.
