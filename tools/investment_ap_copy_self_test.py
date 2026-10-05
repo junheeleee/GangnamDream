@@ -65,6 +65,7 @@ def _owner_edit(raw: bytes, owner: str, old: bytes, new: bytes) -> bytes:
 
 
 def run_self_test(*, include_current: bool = True) -> tuple[list[str], int]:
+    import full_game_localization as exchange
     import ja_translation_audit as audit
     import ja_translation_pipeline as pipeline
     import main_game_locale_history as history
@@ -141,7 +142,7 @@ def run_self_test(*, include_current: bool = True) -> tuple[list[str], int]:
             rows, prior_rows = ledger["accepted"][locale], prior_ledger["accepted"][locale]
             check((leaf not in rows and leaf not in prior_rows) if locale == "ja" else
                   (leaf in rows and rows[leaf] == prior_rows[leaf]
-                   and rows[leaf]["target_sha256"] == _sha(current[short].encode())),
+                   and rows[leaf]["target_sha256"] == exchange.digest(current[short])),
                   "current.existing-short-receipt." + locale)
             check(retired_leaf not in rows, "current.no-retired-receipt." + locale)
 

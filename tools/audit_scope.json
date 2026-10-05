@@ -3525,13 +3525,6 @@
       "why": "Exact AP-denial copy history, owner-local inverse, current selectors/retained Japanese key and negative fixtures. Does not change trading rules or issue translation/native evidence."
     },
     {
-      "tool": "tools/InvestmentAPCopyCheck.tscn",
-      "godot": true,
-      "paths": ["tools/InvestmentAPCopyCheck.gd", "tools/InvestmentAPCopyCheck.tscn",
-        "scenes/MainGame.gd", "autoloads/GameState.gd", "autoloads/LocaleManager.gd"],
-      "why": "Prepared30 AP0/restored handler probes plus five same-month restores; requires root-run fresh StoryNameplateBootstrap pre-autoload isolation, never unisolated audit execution."
-    },
-    {
       "tool": "tools/story_choice_fact_audit.py",
       "paths": ["autoloads/GameState.gd", "autoloads/DataRegistry.gd", "content/events*/arc_events.json",
         "tools/audit.py", "tools/mod_pack_validator.py", "tools/convergence_sim.py", "tools/arc_flow_sim.py",
