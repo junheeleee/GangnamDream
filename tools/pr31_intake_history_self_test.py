@@ -90,9 +90,19 @@ def run():
         check(len(history.CONTENT_PATHS) == 71 and len(set(history.CONTENT_PATHS)) == 71, "exact71 content files")
         check(all(proof["pre_source_successor"][p] == proof["before"][p] for p in history.PROTECTED_PATHS),
               "PR31 protected raw population before exact source-only successor")
-        check(all(proof["current"][p] == proof["pre_source_successor"][p]
-                  for p in proof["current"] if p not in history.source_successor.PRODUCT_PATHS),
+        check(all(proof["pre_fact_successor"][p] == proof["pre_source_successor"][p]
+                  for p in proof["pre_fact_successor"] if p not in history.source_successor.PRODUCT_PATHS),
               "source-only successor preserves all prose and receipts")
+        check(all(proof["current"][p] == proof["pre_fact_successor"][p]
+                  for p in proof["current"] if p not in (*history.fact_successor.PRODUCT_PATHS,
+                                                         history.LEDGER_PATH)),
+              "fact successor preserves every unrelated PR31 product")
+        for path in history.fact_successor.ARC_PATHS:
+            check(not history.source_errors(proof["current"][path], path), "actual fact source admitted " + path)
+            check(bool(history.source_errors(proof["pre_fact_successor"][path], path)),
+                  "pre470 comparison is not current admission " + path)
+            check(bool(history.source_errors(proof["current"][path] + b"\n", path)),
+                  "fact source raw mutation " + path)
         check(all(not history.source_errors(proof["current"][p], p) for p in history.CONTENT_PATHS), "all71 current raw admitted")
         for path in history.CONTENT_PATHS:
             check(bool(history.source_errors(proof["current"][path] + b"\n", path)), "current raw mutation " + path)
@@ -120,7 +130,8 @@ def run():
                   "ending payload is never replaced with historical prose " + path)
         transitions = history.receipt_transitions(history.ROOT, {})
         check(len(transitions) == 1 + bool(history.REPAIR_COMMIT) + bool(history.SECOND_COMMIT)
-              + bool(history.THIRD_LEDGER_COMMIT) + bool(history.FOURTH_COMMIT),
+              + bool(history.THIRD_LEDGER_COMMIT) + bool(history.FOURTH_COMMIT)
+              + bool(history.fact_successor.RECEIPT_COMMIT),
               "exact product/repair receipt transitions")
         for commit, before, after, delta, inverse in transitions:
             check(inverse(after, before, after) == before, "exact4 raw receipt inverse " + commit)
@@ -131,11 +142,13 @@ def run():
                   and delta["receipts"] == delta["batches"] == 0,
                   "comparison is not UI coverage/receipt reissue " + commit)
             check(delta["first_receipts"] == (9 if commit == history.INTAKE_COMMIT
-                                               else 6 if commit == history.FOURTH_COMMIT else 0)
+                                               else 6 if commit in (history.FOURTH_COMMIT,
+                                                                      history.fact_successor.RECEIPT_COMMIT) else 0)
                   and delta["corrections"] == (678 if commit == history.INTAKE_COMMIT
                                                 else 24 if commit == history.REPAIR_COMMIT
                                                 else 9 if commit == history.SECOND_COMMIT
-                                                else 72 if commit == history.THIRD_LEDGER_COMMIT else 0),
+                                                else 72 if commit == history.THIRD_LEDGER_COMMIT
+                                                else 36 if commit == history.fact_successor.RECEIPT_COMMIT else 0),
                   "honest first/replaced receipt census " + commit)
         # Pure whole-union negatives exercise the same exact reviewed objects,
         # not a guessed normalized source or rewritten Git history.
@@ -171,9 +184,10 @@ def run():
             for stage in ("before", "after", "second", "third_source") if proof[stage] is not None
         }
         expected_stages.add(full_inventory["source_manifest_sha256"])
+        expected_stages.add(history.fact_successor.PREDECESSOR_SOURCE_MANIFEST_SHA256)
         check(stages == expected_stages and history.CURRENT_SOURCE_MANIFEST_SHA256 in stages,
               "exact immutable source stages preserve e300 and actual source-only successor")
-        check(len(stages) == 4, "before/intake/corrected plus exact source-only population")
+        check(len(stages) == 5, "before/intake/corrected plus exact469 and470 source populations")
         check(history.source_stage_manifest_digests(history.ROOT, full_inventory) is stages,
               "same-invocation source proof is reused only after actual verification")
         for label, path, value in (

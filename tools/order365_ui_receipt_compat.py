@@ -32,7 +32,7 @@ LOCALES = ("zh-CN", "zh-TW")
 UI_PATHS = tuple(f"locale/ui_{locale}.json" for locale in LOCALES)
 CURRENT_PATHS = (*UI_PATHS, LEDGER_PATH)
 LIVE_PATHS = tuple(dict.fromkeys((*previous.LIVE_PATHS, *ui_append.CURRENT_UI_PATHS,
-                                *coin_history.EVENT_PATHS, *pr31_history.CONTENT_PATHS)))
+                                *coin_history.EVENT_PATHS, *pr31_history.CURRENT_CONTENT_PATHS)))
 # An additional current dictionary, not part of the immutable three-file365 delta.
 JA_BASELINE_BLOB = "11cdf6beae26d2eb2174af79253cfe802254079e"
 JA_BASELINE_SHA256 = "9881e43fc34ac67241dc4819068f0dcda8ee714119778d059ddd7088fce75f1d"
@@ -381,7 +381,7 @@ def source_errors(raw: bytes, relative: str) -> list[str]:
                 _require(raw == _ACTIVE_CURRENT.get()["coin_event_raw"][relative],
                          "current coin event raw differs from exact Git successor " + relative)
                 return []
-            if relative in pr31_history.CONTENT_PATHS:
+            if relative in pr31_history.CURRENT_CONTENT_PATHS:
                 _require(raw == _ACTIVE_CURRENT.get()["pr31_event_raw"][relative],
                          "current PR31 content raw differs from exact Git successor " + relative)
                 return []

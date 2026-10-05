@@ -88,9 +88,11 @@ def run():
     result = history.source_predecessor_inventory(history.ROOT, inventory)
     check(result["source_manifest_sha256"] == history.PR31_SOURCE_MANIFEST_SHA256,
           "actual complete source maps to original e300")
-    check(result["source_hashes"] == {**inventory["source_hashes"],
+    import order470_source_compat as later
+    pre470 = later.source_predecessor_inventory(history.ROOT, inventory)
+    check(result["source_hashes"] == {**pre470["source_hashes"],
                                     **{path: history.RAW_SHA256[path][0] for path in history.SOURCE_PATHS}},
-          "only exact Main/lifecycle/spine source hashes change")
+          "only exact470 then Main/lifecycle/spine source hashes change")
     for label, path, value in (("Main", history.MAIN_PATH, "0" * 64),
                                ("neighbor", "systems/RelationshipSystem.gd", "0" * 64),
                                ("receipt inserted", "content/meta/full_game_localization.json", "0" * 64)):
@@ -117,6 +119,7 @@ def run():
         reject(lambda row=changed: pipeline._chapter_four_call_offsets(before[history.MAIN_PATH],
                after[history.MAIN_PATH], before_calls, (*actual_calls[:-1], row)), "UI call " + label + " drift")
     raw = (history.ROOT / "tools/ja_translation_pipeline.py").read_bytes()
+    raw = pipeline.story_fact_pipeline_predecessor(raw)
     pipeline.chapter_four_pipeline_predecessor(raw)
     check(True, "collector whole-prefix and appendix seal")
     reject(lambda: pipeline.chapter_four_pipeline_predecessor(b" " + raw), "collector prefix mutation")

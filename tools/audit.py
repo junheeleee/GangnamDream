@@ -18,6 +18,7 @@ import json, os, re, sys, glob
 
 from event_lifecycle import audit_author_only
 from event_schedule import DeferredFollowUpError, deferred_follow_ups
+from story_choice_fact_audit import story_fact_layout_errors
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -686,7 +687,7 @@ CHOICE_KEYS = {"text", "text_if_moral", "effects", "flags", "follow_up_event",
                "investment_effects", "tendency", "route", "grant_job",
                "grant_job_display", "first_paycheck_ratio", "replace_current_job",
                "conditions_note", "deferred_follow_up", "deferred_delay",
-               "foreshadow", "bridge_summary", "clues", "give_items", "requires_item", "housing_keepsake",
+               "foreshadow", "bridge_summary", "clues", "give_items", "requires_item", "requires_story_fact", "housing_keepsake",
                "year_scene", "choice_kind", "v2_obligation_id",
                "v2_player_initiated_character",
                "opportunity_unavailable_fallback"}
@@ -985,6 +986,8 @@ def check_event_keys():
                         err('%s  [%s] 조건 키 "%s" 를 EventManager가 처리하지 않음 — 조건이 조용히 무시돼 이벤트가 잘못 뜸'
                             % (rel(p), eid, k))
             event_choices = e.get("choices", [])
+            for fact_error in story_fact_layout_errors(e):
+                err('%s  [%s] %s' % (rel(p), eid, fact_error))
             fallback_choices = [
                 ch for ch in event_choices
                 if isinstance(ch, dict)

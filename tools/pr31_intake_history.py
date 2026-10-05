@@ -17,6 +17,7 @@ from pathlib import Path
 
 import order351_source_compat as previous
 import order469_source_compat as source_successor
+import order470_source_compat as fact_successor
 
 ROOT = Path(__file__).resolve().parents[1]
 INTAKE_PARENT = "8a2c9a9e5cc61c05c9f58b238d59bbbe7a3ce39b"
@@ -196,6 +197,7 @@ _Document = previous._Document
 _loads = previous._loads
 _ordered = previous._ordered
 HISTORICAL_PATHS = tuple(dict.fromkeys((*previous.HISTORICAL_PATHS, *HISTORY_CONTENT_PATHS)))
+CURRENT_CONTENT_PATHS = tuple(dict.fromkeys((*CONTENT_PATHS, *fact_successor.ARC_PATHS)))
 
 
 def _sha(raw):
@@ -452,6 +454,13 @@ def _read_proof(root=ROOT):
         _require(successor_before == pre_source_successor, "source successor predecessor differs from PR31")
         current = {**current, **{path: successor["after"][path]
                    for path in paths if path in source_successor.PRODUCT_PATHS}}
+    pre_fact_successor = current
+    with fact_successor.fresh_validation_proof(root) as successor:
+        _require(successor["head"] == head, "fact successor HEAD differs")
+        predecessor, _ = _snapshot(root, fact_successor.PRODUCT_PARENT, paths)
+        _require(predecessor == pre_fact_successor, "fact successor predecessor differs from PR31/469")
+        current = {**current, **{path: successor["current"][path]
+                   for path in paths if path in successor["current"]}}
     actual, _ = _snapshot(root, head, paths)
     _require(actual == current, "current HEAD product differs from approved intake/receipt repair")
     for path in paths:
@@ -460,7 +469,7 @@ def _read_proof(root=ROOT):
     return {"root": root.resolve(), "head": head, "before": before, "after": after, "current": current,
             "repair": repair, "second": second, "third_source": third_source,
             "third_receipts": third_receipts, "fourth": fourth, "changes": changes, "branch": branch,
-            "pre_source_successor": pre_source_successor}
+            "pre_source_successor": pre_source_successor, "pre_fact_successor": pre_fact_successor}
 
 
 def _successor_snapshot(root, predecessor, commit, head, before, changed_paths):
@@ -508,7 +517,7 @@ def fresh_validation_proof(root=ROOT):
 
 def current_content_raw(root=ROOT):
     with fresh_validation_proof(root) as proof:
-        return {path: proof["current"][path] for path in CONTENT_PATHS}
+        return {path: proof["current"][path] for path in CURRENT_CONTENT_PATHS}
 
 
 def source_predecessor_inventory(root, inventory):
@@ -518,6 +527,11 @@ def source_predecessor_inventory(root, inventory):
         _require(all(hashes.get(path) == _sha(proof["current"][path]) for path in SOURCE_PATHS),
                  "current source census/content raw binding")
         comparison = {**hashes, **{path: _sha(proof["before"][path]) for path in SOURCE_PATHS}}
+        with fact_successor.fresh_validation_proof(root) as successor:
+            for path in fact_successor.SOURCE_PATHS:
+                if path in hashes:
+                    _require(hashes[path] == _sha(successor["current"][path]), "current fact source census binding")
+                    comparison[path] = _sha(successor["before"][path])
         with source_successor.fresh_validation_proof(root) as successor:
             for path in source_successor.SOURCE_PATHS:
                 if path != source_successor.MAIN_PATH and path in hashes:
@@ -552,7 +566,8 @@ def source_stage_manifest_digests(root, inventory):
                      "complete source census differs from current Git")
             _require(all((Path(root) / path).read_bytes() == raw for path, raw in actual.items()),
                      "complete source census differs from current disk")
-            manifests = {inventory["source_manifest_sha256"]}
+            manifests = {inventory["source_manifest_sha256"],
+                         fact_successor.PREDECESSOR_SOURCE_MANIFEST_SHA256}
             for stage, revision in (("before", INTAKE_PARENT), ("after", INTAKE_COMMIT),
                                     ("second", SECOND_COMMIT), ("third_source", THIRD_SOURCE_COMMIT)):
                 if revision is None:
@@ -573,6 +588,7 @@ def source_stage_manifest_digests(root, inventory):
 def release_inventory_predecessor(raw, root=ROOT):
     with fresh_validation_proof(root) as proof:
         _require(raw == proof["current"][INVENTORY_PATH], "current inventory raw differs")
+        raw = fact_successor.predecessor_bytes(raw, INVENTORY_PATH, root)
         raw = source_successor.product_inverse(proof["pre_source_successor"][INVENTORY_PATH], raw, INVENTORY_PATH)
         if INVENTORY_PATH in THIRD_PRODUCT_SHA256:
             raw = third_product_inverse(proof["second"][INVENTORY_PATH], raw, INVENTORY_PATH)
@@ -844,7 +860,8 @@ def receipt_transitions(root, inventory):
                              (REPAIR_COMMIT, proof["after"], proof["repair"]),
                              (SECOND_COMMIT, proof["repair"], proof["second"]),
                              (THIRD_LEDGER_COMMIT, proof["third_source"], proof["third_receipts"]),
-                             (FOURTH_COMMIT, proof["third_receipts"], proof["fourth"])):
+                             (FOURTH_COMMIT, proof["third_receipts"], proof["fourth"]),
+                             (fact_successor.RECEIPT_COMMIT, proof["pre_fact_successor"], proof["current"])):
             if commit is None:
                 continue
             before = {path: a[path] for path in CURRENT_UI_PATHS}
@@ -871,16 +888,22 @@ def __getattr__(name):
                 result = dict(previous.HISTORICAL_JSON_LEAVES)
                 for path in HISTORY_CONTENT_PATHS:
                     result[path] = tuple(dict.fromkeys((*result.get(path, ()), *proof["changes"][path])))
+                for path in fact_successor.ARC_PATHS[:2]:
+                    changes = fact_successor.changed_text_selectors(
+                        proof["pre_fact_successor"][path], proof["current"][path])
+                    result[path] = tuple(dict.fromkeys((*result.get(path, ()), *changes)))
                 return result
             result = dict(previous.LIVE_EVENT_IDS)
             for path in HISTORY_CONTENT_PATHS:
                 result[path] = frozenset(result.get(path, ())) | frozenset(eid for eid, _ in proof["changes"][path])
+            for path in fact_successor.ARC_PATHS[:2]:
+                result[path] = frozenset(result.get(path, ())) | frozenset(fact_successor.EVENT_IDS)
             return result
     return getattr(previous, name)
 
 
 def source_errors(raw, relative):
-    if relative not in CONTENT_PATHS:
+    if relative not in CURRENT_CONTENT_PATHS:
         return previous.source_errors(raw, relative)
     try:
         with fresh_validation_proof() as proof:
@@ -891,6 +914,10 @@ def source_errors(raw, relative):
 
 
 def project_bytes(raw, relative):
+    if relative in fact_successor.ARC_PATHS:
+        with fresh_validation_proof() as proof:
+            compared = proof["pre_fact_successor"][relative] if raw == proof["current"][relative] else raw
+            return previous.project_bytes(compared, relative)
     if relative not in HISTORY_CONTENT_PATHS:
         return previous.project_bytes(raw, relative)
     with fresh_validation_proof() as proof:
@@ -901,6 +928,16 @@ def project_bytes(raw, relative):
 
 
 def project_payload(payload, relative):
+    if relative in fact_successor.ARC_PATHS:
+        with fresh_validation_proof() as proof:
+            old, current = _rows(proof["pre_fact_successor"][relative]), _rows(proof["current"][relative])
+            projected = copy.deepcopy(payload)
+            if isinstance(projected, list):
+                for index, row in enumerate(projected):
+                    eid = row.get("id") if isinstance(row, dict) else None
+                    if eid in current and _ordered(row) == _ordered(current[eid]):
+                        projected[index] = copy.deepcopy(old[eid])
+            return previous.project_payload(projected, relative)
     if relative not in HISTORY_CONTENT_PATHS:
         return previous.project_payload(payload, relative)
     with fresh_validation_proof() as proof:
@@ -916,6 +953,11 @@ def project_payload(payload, relative):
 
 
 def project_byte_hash(observed, relative):
+    if relative in fact_successor.ARC_PATHS:
+        with fresh_validation_proof() as proof:
+            if observed == _sha(proof["current"][relative]):
+                return previous.project_byte_hash(_sha(proof["pre_fact_successor"][relative]), relative)
+            return previous.project_byte_hash(observed, relative)
     if relative in ENDING_PATHS:
         # Ending text participates only in this raw-hash comparison. Do not
         # project its current payload or return old prose to runtime consumers.
@@ -932,6 +974,11 @@ def project_byte_hash(observed, relative):
 
 
 def historical_blobs(relative):
+    if relative in fact_successor.ARC_PATHS:
+        with fresh_validation_proof() as proof:
+            # Keep ORDER305 when constructing its post305 historical vector.
+            before = previous.inverse_current_bytes(proof["pre_fact_successor"][relative], relative)
+            return before, proof["current"][relative]
     if relative not in HISTORY_CONTENT_PATHS:
         return previous.historical_blobs(relative)
     with fresh_validation_proof() as proof:
@@ -939,7 +986,7 @@ def historical_blobs(relative):
 
 
 def verified_blobs(relative):
-    if relative not in CONTENT_PATHS:
+    if relative not in CURRENT_CONTENT_PATHS:
         return previous.verified_blobs(relative)
     with fresh_validation_proof() as proof:
         return proof["before"][relative], proof["current"][relative]

@@ -13,6 +13,9 @@ from pathlib import Path
 from typing import Any
 
 from event_schedule import DeferredFollowUpError, deferred_follow_ups
+from story_choice_fact_audit import (
+    STORY_FACT_SLOTS, legacy_aftermath_override, story_fact_layout_errors,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -39,7 +42,7 @@ CHOICE_KEYS = {
     "tendency", "route", "grant_job", "grant_job_display",
     "first_paycheck_ratio", "replace_current_job", "conditions_note", "deferred_follow_up",
     "deferred_delay", "foreshadow", "bridge_summary", "clues", "give_items",
-    "requires_item", "housing_keepsake", "year_scene",
+    "requires_item", "requires_story_fact", "housing_keepsake", "year_scene",
     "opportunity_unavailable_fallback",
 }
 THEME_KEYS = {
@@ -191,6 +194,7 @@ def validate_choice(
     allowed_core_flags: set[str],
     pack_ids: set[str],
     inherited_opportunity_fallback: bool = False,
+    inherited_story_fact: str = "",
 ) -> None:
     if not isinstance(choice, dict):
         report.error(f"{label}: choice must be an object")
@@ -198,6 +202,12 @@ def validate_choice(
     unknown = set(choice) - CHOICE_KEYS
     if unknown:
         report.error(f"{label}: unsupported choice keys {sorted(unknown)}")
+    if "requires_story_fact" in choice and (
+        not inherited_story_fact
+        or type(choice["requires_story_fact"]) is not str
+        or choice["requires_story_fact"] != inherited_story_fact
+    ):
+        report.error(f"{label}: forged story fact; only the source-owned slot may be inherited")
     if not str(choice.get("text", "")).strip():
         report.error(f"{label}: choice text is empty")
     if not str(choice.get("result_text", "")).strip():
@@ -345,10 +355,22 @@ def validate_event_file(path: Path, builtins: dict[str, dict[str, Any]], report:
                 report.error(f"{label}: built-in id collision requires override=true")
                 continue
             base_choices = base.get("choices", [])
-            if len(choices) != len(base_choices):
+            if event_id in STORY_FACT_SLOTS:
+                for fact_error in story_fact_layout_errors(base):
+                    report.error(f"{label}: invalid built-in story fact layout: {fact_error}")
+            legacy_aftermath = legacy_aftermath_override(base, choices)
+            if len(choices) != len(base_choices) and not legacy_aftermath:
                 report.error(f"{label}: override must preserve the built-in choice count")
             projected_choices: list[Any] = []
             for choice_index, choice in enumerate(choices):
+                if event_id in STORY_FACT_SLOTS and isinstance(choice, dict):
+                    added_gates = set(choice) & {
+                        "requires_item", "opportunity", "opportunity_unavailable_fallback",
+                    }
+                    if added_gates:
+                        report.error(
+                            f"{label}.choices[{choice_index}]: story fact override "
+                            f"cannot add a second choice gate {sorted(added_gates)}")
                 allowed = produced_flags(base_choices[choice_index]) if choice_index < len(base_choices) else set()
                 inherited_fallback = bool(
                     choice_index < len(base_choices)
@@ -357,6 +379,8 @@ def validate_event_file(path: Path, builtins: dict[str, dict[str, Any]], report:
                         "opportunity_unavailable_fallback", False
                     ) is True
                 )
+                inherited_fact = base_choices[choice_index].get("requires_story_fact", "") \
+                    if choice_index < len(base_choices) and isinstance(base_choices[choice_index], dict) else ""
                 validate_choice(
                     choice,
                     f"{label}.choices[{choice_index}]",
@@ -364,6 +388,7 @@ def validate_event_file(path: Path, builtins: dict[str, dict[str, Any]], report:
                     allowed,
                     set(),
                     inherited_fallback,
+                    inherited_fact,
                 )
                 if isinstance(choice, dict):
                     projected = dict(choice)
@@ -374,6 +399,8 @@ def validate_event_file(path: Path, builtins: dict[str, dict[str, Any]], report:
                     projected_choices.append(projected)
                 else:
                     projected_choices.append(choice)
+            if legacy_aftermath:
+                projected_choices.append(dict(base_choices[3]))
             validate_opportunity_topology(projected_choices, label, report)
         else:
             if not str(event.get("title", "")).strip() or not str(event.get("description", "")).strip():

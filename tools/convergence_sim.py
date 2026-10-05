@@ -21,6 +21,7 @@ from pathlib import Path
 from statistics import median
 
 from event_schedule import deferred_follow_ups
+from story_choice_fact_audit import story_fact_available
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -538,6 +539,8 @@ def _opportunity_stake_for_cash(opp: dict, cash: float) -> float:
 
 
 def _choice_available(state: SimState, event: dict, choice: dict) -> bool:
+    if not story_fact_available({flag: True for flag in state.flags}, event, choice):
+        return False
     if str(choice.get("requires_item", "")).strip():
         return False
     projected_cash = settle_cash(state.money) + settle_cash(

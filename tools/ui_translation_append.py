@@ -2908,8 +2908,8 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
         return _PR31_OLD_MANIFEST_MATCHES(root, inventory, expected)
     predecessor = _pr31_history.source_predecessor_inventory(root, inventory)
     source_stages = _pr31_history.source_stage_manifest_digests(root, inventory)
-    # The helper preserves the PR31 e300 stage and admits only the separately
-    # pinned source-only retirement. MainGame stays actual in this comparison;
+    # The helper preserves the PR31 e300 stage and separately proves the
+    # retirement and three-scene fact successors. MainGame stays actual here;
     # its exact routing inverse belongs to the Main history consumer above.
     historical_expected = (predecessor["source_manifest_sha256"]
                            if expected in source_stages else expected)

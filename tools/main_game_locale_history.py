@@ -2947,3 +2947,54 @@ def _ending_father_proof(current, root=None):
     _MAIN_INVOCATION_SCOPE.set((resolved, slot))
     return predecessors
 # END_MAIN_INVOCATION_PROOF_SCOPE_468
+
+# BEGIN_STORY_FACT_RUNTIME_HISTORY_470
+# The existing261/267 registries remain immutable comparison contracts.
+_FACT_OLD_INVENTORY = (inventory_display_source_errors, inventory_display_project_bytes,
+                       inventory_display_project_byte_hash)
+_FACT_OLD_NEW_RUN = (new_run_log_source_errors, new_run_log_project_bytes,
+                     new_run_log_project_byte_hash)
+
+
+def _fact_runtime_dispatch(functions, owned, mode, relative, current, claim=None, registered=None):
+    import order470_source_compat as successor
+    import subprocess
+    compared = current
+    if relative == owned:
+        if mode == 2 and (type(current) is not bytes or hashlib.sha256(current).hexdigest() != claim):
+            return claim
+        try:
+            compared = successor.predecessor_bytes(current, relative)
+        except (OSError, ValueError, TypeError, KeyError, subprocess.TimeoutExpired) as exc:
+            return [str(exc)] if mode == 0 else current if mode == 1 else claim
+    return (functions[0](relative, compared, registered) if mode == 0
+            else functions[1](compared, relative) if mode == 1
+            else functions[2](hashlib.sha256(compared).hexdigest() if relative == owned else claim,
+                              relative, compared))
+
+
+def inventory_display_source_errors(relative, current, registered_previous=None):
+    return _fact_runtime_dispatch(_FACT_OLD_INVENTORY, "autoloads/DataRegistry.gd", 0,
+                                  relative, current, registered=registered_previous)
+
+
+def inventory_display_project_bytes(current, relative):
+    return _fact_runtime_dispatch(_FACT_OLD_INVENTORY, "autoloads/DataRegistry.gd", 1, relative, current)
+
+
+def inventory_display_project_byte_hash(claim, relative, current):
+    return _fact_runtime_dispatch(_FACT_OLD_INVENTORY, "autoloads/DataRegistry.gd", 2, relative, current, claim)
+
+
+def new_run_log_source_errors(relative, current, registered_previous=None):
+    return _fact_runtime_dispatch(_FACT_OLD_NEW_RUN, NEW_RUN_LOG_GS, 0,
+                                  relative, current, registered=registered_previous)
+
+
+def new_run_log_project_bytes(current, relative):
+    return _fact_runtime_dispatch(_FACT_OLD_NEW_RUN, NEW_RUN_LOG_GS, 1, relative, current)
+
+
+def new_run_log_project_byte_hash(claim, relative, current):
+    return _fact_runtime_dispatch(_FACT_OLD_NEW_RUN, NEW_RUN_LOG_GS, 2, relative, current, claim)
+# END_STORY_FACT_RUNTIME_HISTORY_470

@@ -845,15 +845,18 @@ def _current_contract_proof() -> dict[str, Any]:
     sources = {relative: (ROOT / relative).read_bytes()
                for relative in manifest["source_contract"]["event_owner_counts"]}
     current = sources[CURRENT_CONTRACT_KO_PATH]
-    _contract_require(hashlib.sha256(current).hexdigest() == CURRENT_CONTRACT_KO_SHA256,
+    import order470_source_compat as successor
+    comparison = successor.predecessor_bytes(current, CURRENT_CONTRACT_KO_PATH, ROOT)
+    _contract_require(hashlib.sha256(comparison).hexdigest() == CURRENT_CONTRACT_KO_SHA256,
                       "current KO raw drifted or rolled back")
     before, after = _contract_305_blobs()
     with history.fresh_validation_proof():
-        _contract_require(not history.source_errors(current, CURRENT_CONTRACT_KO_PATH),
+        _contract_require(not history.source_errors(comparison, CURRENT_CONTRACT_KO_PATH),
                           "current KO admission failed")
-        _contract_require(history.inverse_current_bytes(current, CURRENT_CONTRACT_KO_PATH) == after,
+        _contract_require(history.inverse_current_bytes(comparison, CURRENT_CONTRACT_KO_PATH) == after,
                           "current KO does not bind to immutable post305")
-    return {"manifest": manifest_raw, "before": before, "after": after, "sources": sources}
+    return {"manifest": manifest_raw, "before": before, "after": after, "sources": sources,
+            "pre470": comparison}
 
 
 def _current_contract_view(
@@ -877,7 +880,10 @@ def _current_contract_view(
     new_rows = {row["id"]: row for row in original._loads(proof["after"])}
     sources = proof["sources"]
     _contract_require(set(sources) == set(expected["event_owner_counts"]), "source owner population drifted")
-    _contract_require(hashlib.sha256(sources[CURRENT_CONTRACT_KO_PATH]).hexdigest() == CURRENT_CONTRACT_KO_SHA256,
+    import order470_source_compat as successor
+    pre470 = successor.predecessor_bytes(sources[CURRENT_CONTRACT_KO_PATH], CURRENT_CONTRACT_KO_PATH, ROOT)
+    _contract_require(pre470 == proof["pre470"]
+                      and hashlib.sha256(pre470).hexdigest() == CURRENT_CONTRACT_KO_SHA256,
                       "current raw proof drifted or rolled back")
     disk_events, disk_owners = {}, {}
     for owner, raw in sources.items():
@@ -890,10 +896,14 @@ def _current_contract_view(
     ids = runtime["event_ids"]
     _contract_require(isinstance(ids, list) and ids == sorted(set(ids)) and len(ids) == 72
                       and sha_rows(ids) == expected["visible_event_ids_sha256"], "exact72 event identity drifted")
+    predecessor_rows = {row["id"]: row for row in original._loads(pre470)}
     for event_id in ids:
         _contract_require(runtime["owners"][event_id] == disk_owners[event_id]
                           and ordered(runtime["events"][event_id]) == ordered(disk_events[event_id]),
                           "runtime event is not bound to current raw " + event_id)
+        if disk_owners[event_id] == CURRENT_CONTRACT_KO_PATH:
+            _contract_require(ordered(disk_events[event_id]) == ordered(predecessor_rows[event_id]),
+                              "ORDER-470 changed a protected demo event " + event_id)
     leaves = event_text_leaves(ids, disk_events, disk_owners)
     _contract_require(len(leaves) == 467 and runtime["leaves"] == leaves, "exact467 leaf identity/order drifted")
     leaf_hash = lambda rows: sha_rows(f"{leaf.event_id}\0{leaf.path}\0{leaf.source}" for leaf in rows)

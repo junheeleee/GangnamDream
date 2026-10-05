@@ -214,8 +214,14 @@ def _read_proof(root):
     for path in PRODUCT_PATHS:
         product_inverse(before[path], after[path], path)
     actual, _ = _snapshot(root, head, PRODUCT_PATHS)
-    _require(actual == after, "current HEAD product differs from exact source successor")
-    _require(all((root / p).read_bytes() == raw for p, raw in after.items()), "current disk differs from Git")
+    import order470_source_compat as later
+    with later.fresh_validation_proof(root) as successor:
+        comparison = dict(actual)
+        for path in set(PRODUCT_PATHS) & set(later.PRODUCT_PATHS):
+            _require(actual[path] == successor["current"][path], "later actual product binding")
+            comparison[path] = successor["before"][path]
+    _require(comparison == after, "current HEAD product differs from exact source successors")
+    _require(all((root / p).read_bytes() == raw for p, raw in actual.items()), "current disk differs from Git")
     return {"root": root, "head": head, "before": before, "after": after,
             "binding": (PRODUCT_PARENT, PRODUCT_COMMIT, PRODUCT_PATHS, dict(RAW_SHA256))}
 
@@ -247,15 +253,18 @@ def main_predecessor(raw, root=ROOT):
 def source_predecessor_inventory(root, inventory):
     """Full actual current census -> immutable PR31 census; no new receipts."""
     with fresh_validation_proof(root) as proof:
-        hashes = inventory["source_hashes"]
-        _require(isinstance(hashes, dict) and _digest(hashes) == inventory["source_manifest_sha256"],
+        import order470_source_compat as later
+        actual_hashes = inventory["source_hashes"]
+        prior = later.source_predecessor_inventory(root, inventory)
+        hashes = prior["source_hashes"]
+        _require(isinstance(hashes, dict) and _digest(hashes) == prior["source_manifest_sha256"],
                  "current census digest")
         _require(all(hashes.get(path) == _sha(proof["after"][path]) for path in SOURCE_PATHS),
                  "current census source-only raw binding")
         comparison = {**hashes, **{path: _sha(proof["before"][path]) for path in SOURCE_PATHS}}
         _require(_digest(comparison) == PR31_SOURCE_MANIFEST_SHA256, "exact PR31 predecessor census")
-        actual, _ = _snapshot(root, proof["head"], tuple(hashes))
-        _require({p: _sha(raw) for p, raw in actual.items()} == hashes
+        actual, _ = _snapshot(root, proof["head"], tuple(actual_hashes))
+        _require({p: _sha(raw) for p, raw in actual.items()} == actual_hashes
                  and all((Path(root) / p).read_bytes() == raw for p, raw in actual.items()),
                  "complete current Git/disk source binding")
         return {**inventory, "source_hashes": comparison, "source_manifest_sha256": _digest(comparison)}

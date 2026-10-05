@@ -20,6 +20,9 @@
 import re, json, glob, sys, os
 
 from event_schedule import deferred_follow_ups
+from story_choice_fact_audit import (
+    STORY_FACT_SLOTS, representative_story_fact_index, story_fact_available,
+)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
@@ -774,7 +777,7 @@ def own_seen_flags(eid):
             if fl.endswith(("_seen", "_done", "_closed"))]
 
 
-def canonical_deferred_links(eid, choice_indices, stack=()):
+def canonical_deferred_links(eid, choice_indices, stack=(), flags=None):
     """Follow one representative immediate branch and collect its timed echoes."""
     if eid in stack or eid not in events:
         return []
@@ -785,11 +788,15 @@ def canonical_deferred_links(eid, choice_indices, stack=()):
     if index < 0 or index >= len(choices):
         index = 0
     choice = choices[index]
+    if eid in STORY_FACT_SLOTS and (
+            flags is None or not story_fact_available(flags, events[eid], choice)):
+        return []
     links = []
     links.extend(deferred_follow_ups(choice))
     follow_up = str(choice.get("follow_up_event", "")).strip()
     if follow_up:
-        links.extend(canonical_deferred_links(follow_up, choice_indices, stack + (eid,)))
+        links.extend(canonical_deferred_links(
+            follow_up, choice_indices, stack + (eid,), flags))
     return links
 
 
@@ -944,6 +951,8 @@ def apply_bridge_choice(S, event_id, choice_indices):
     if index < 0 or index >= len(choices):
         index = 0
     choice = choices[index]
+    if not story_fact_available(S.flags, event, choice):
+        return
     for flag in choice.get("flags", []):
         S.flags[str(flag)] = True
     effects = choice.get("effects", {})
@@ -957,7 +966,7 @@ def apply_bridge_choice(S, event_id, choice_indices):
     for cast_id, cast_effect in choice.get("cast_effects", {}).items():
         S.cast.setdefault(str(cast_id), {"aff": 0, "stage": "none"})
         S.cast[str(cast_id)]["aff"] += int(cast_effect.get("affinity", 0))
-    for deferred_id, delay in canonical_deferred_links(event_id, choice_indices):
+    for deferred_id, delay in canonical_deferred_links(event_id, choice_indices, flags=S.flags):
         S.add_deferred_event(deferred_id, delay)
 
 
@@ -972,6 +981,8 @@ def apply_immediate_choice_state(S, event_id, choice_indices, stack=()):
     if index < 0 or index >= len(choices):
         index = 0
     choice = choices[index]
+    if not story_fact_available(S.flags, events[event_id], choice):
+        return
     for flag in choice.get("flags", []):
         S.flags[str(flag)] = True
     for cast_id, cast_effect in choice.get("cast_effects", {}).items():
@@ -1326,6 +1337,18 @@ def run(spine, traj, cast_flag_hook, choice_indices):
             story_roots = story_mode_root_queue(S, [chosen])
             story_queue_log[t] = story_roots
             for root_id in story_roots:
+                effective_choice_indices = choice_indices
+                if root_id in STORY_FACT_SLOTS:
+                    # Pick only among currently factual options; keep the
+                    # original authored index for effects and delayed links.
+                    fact_index = representative_story_fact_index(
+                        S.flags, events[root_id], int(choice_indices.get(root_id, 0)))
+                    if fact_index < 0:
+                        repeats["story_fact_commit_rejected"] = \
+                            repeats.get("story_fact_commit_rejected", 0) + 1
+                        continue
+                    effective_choice_indices = {**choice_indices, root_id: fact_index}
+                    apply_immediate_choice_state(S, root_id, effective_choice_indices)
                 if root_id in fired:
                     repeats[root_id] = repeats.get(root_id, 1) + 1
                 fired[root_id] = t
@@ -1356,7 +1379,7 @@ def run(spine, traj, cast_flag_hook, choice_indices):
                     if same_turn_root and same_turn_root not in story_roots:
                         story_roots.append(same_turn_root)
                 for deferred_id, delay in canonical_deferred_links(
-                        root_id, choice_indices):
+                        root_id, effective_choice_indices, flags=S.flags):
                     S.add_deferred_event(deferred_id, delay)
             if protected_chapter_five_finale_action \
                     and S.chapter5_finale_ending_check == "ready" \

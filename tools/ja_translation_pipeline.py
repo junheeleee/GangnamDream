@@ -7477,5 +7477,75 @@ def _investment_ap_stage_call_views(raw):
     return before, retained, actual
 # END_CHAPTER_FOUR_COLLECTOR_469
 
+# BEGIN_STORY_FACT_COLLECTOR_470
+STORY_FACT_PIPELINE_APPEND_SHA = "637891648fb6793fa98811fc0e99cdfb596eab50db337ae1fa9b0ab5a183e5e6"
+STORY_FACT_PIPELINE_BEFORE_SHA = "19ff618264ac745fb7a1a14861d8b7f1501e1d8c79b7112011f699c54f740f23"
+STORY_FACT_PIPELINE_BEFORE_BLOB = "fd7e894b1a80afbe884ab05db8f8acd602298346"
+STORY_FACT_PIPELINE_BEFORE_COMMIT = "7fc9002048a4c83401c497a0116d3688a44c152b"
+_STORY_FACT_OLD_MODAL_PREDECESSOR = modal_pipeline_predecessor
+_STORY_FACT_OLD_NEW_RUN_RAW_VIEW = _new_run_log_raw_view
+
+
+def story_fact_pipeline_predecessor(raw):
+    if type(raw) is not bytes or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("story-fact collector raw/import identity differs")
+    start, end = b"# BEGIN_STORY_FACT_COLLECTOR_470\n", b"# END_STORY_FACT_COLLECTOR_470\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("story-fact collector appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    binding = ('STORY_FACT_PIPELINE_APPEND_SHA = "' + STORY_FACT_PIPELINE_APPEND_SHA + '"').encode()
+    span = raw[a:z]
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'STORY_FACT_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != STORY_FACT_PIPELINE_APPEND_SHA:
+        raise ValueError("story-fact collector appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != STORY_FACT_PIPELINE_BEFORE_SHA:
+        raise ValueError("story-fact collector whole predecessor differs")
+    blob = _current_demo_git("show", STORY_FACT_PIPELINE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
+            != STORY_FACT_PIPELINE_BEFORE_BLOB):
+        raise ValueError("story-fact collector immutable predecessor differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _STORY_FACT_OLD_MODAL_PREDECESSOR(story_fact_pipeline_predecessor(raw))
+
+
+def _story_fact_call_views(path, before, current):
+    from difflib import SequenceMatcher
+    old_calls, old_errors = parse_ui_calls(path, before.decode("utf-8"))
+    actual, errors = parse_ui_calls(path, current.decode("utf-8"))
+    if old_errors or errors:
+        raise ValueError("story-fact UI source parse failed")
+    lines = {}
+    for tag, a, z, b, end in SequenceMatcher(None, before.splitlines(True), current.splitlines(True),
+                                             autojunk=False).get_opcodes():
+        if tag == "equal":
+            lines.update((old + 1, b + old - a + 1) for old in range(a, z))
+    key = lambda call: (call.path, call.line, call.api)
+    old_calls, actual = tuple(sorted(old_calls, key=key)), tuple(sorted(actual, key=key))
+    if (any(call.line not in lines for call in old_calls)
+            or tuple(_gift_replace(call, line=lines[call.line]) for call in old_calls) != actual):
+        raise ValueError("story-fact UI semantics/order/exact coordinates differ")
+    return old_calls, actual
+
+
+def _new_run_log_raw_view(source=None):
+    import order470_source_compat as successor
+    import subprocess
+    current, errors = _STORY_FACT_OLD_NEW_RUN_RAW_VIEW(source)
+    if errors:
+        return current, errors
+    try:
+        for path in successor.RUNTIME_PATHS:
+            raw = current[path] if path in current else (ROOT / path).read_bytes()
+            previous = successor.predecessor_bytes(raw, path, ROOT)
+            _story_fact_call_views(path, previous, raw)
+        return current, []
+    except (OSError, ValueError, TypeError, KeyError, subprocess.TimeoutExpired) as exc:
+        return current, ["story-fact UI admission: " + str(exc)]
+# END_STORY_FACT_COLLECTOR_470
+
 if __name__ == "__main__":
     sys.exit(main())

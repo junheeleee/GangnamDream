@@ -1623,8 +1623,12 @@ def run_source_history_self_test(root: Path | str = ROOT) -> tuple[list[str], in
         require("PR31 exactly four known source variants were added", added == expected_added)
         live = collect_leaf_index(events, errors)
         live_count = sum(len(live[eid]) for eid in shipping_ids)
-        require("ghost plus PR31 variants explain current source denominator",
-                live_count == len(history) + 1 + len(added))
+        facts = current_source.fact_successor.ADDED_TEXT_LEAVES
+        require("fact successor adds exactly neutral text and result",
+                set(facts) == {("arc_jaehyuk_aftermath", ("choices", 3, key))
+                               for key in ("text", "result_text")})
+        require("ghost plus PR31 variants and fact-neutral leaves explain current source denominator",
+                live_count == len(history) + 1 + len(added) + len(facts))
         ghost = ("arc_year3_close", "description_if_known.arc_jaehyuk_ghost_seen")
         require("exact ghost leaf remains current but not historical",
                 ghost in {(leaf.event_id, leaf.path) for leaf in live[ghost[0]]}
@@ -1686,10 +1690,12 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     source_history, source_binding_errors = _source_history_observations(report)
     historical_shipping = source_history["denominators"].get(SCOPE_LIFECYCLE_SHIPPING, {})
     historical_static = source_history["denominators"].get(SCOPE_M07_M60_STATIC, {})
+    fact_added = current_source.fact_successor.ADDED_TEXT_LEAVES
+    fact_static_added = sum(eid in static.get("event_ids", []) for eid, _ in fact_added)
     require(
         "shipping exact event and leaf denominator",
         (shipping.get("event_count"), shipping.get("leaf_count"), historical_shipping.get("leaf_count"))
-        == (1702, 11622, 11680),
+        == (1702, 11622 + len(fact_added), 11680),
     )
     require(
         "Chapter 5 nested reader leaves included",
@@ -1700,7 +1706,7 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         "M07-M60 static exact event and leaf denominator",
         (static.get("event_count"), static.get("leaf_count"),
          source_history.get("scope_observations", {}).get(SCOPE_M07_M60_STATIC, {}).get("event_count"),
-         historical_static.get("leaf_count")) == (186, 1693, 192, 1751),
+         historical_static.get("leaf_count")) == (186, 1693 + fact_static_added, 192, 1751),
     )
     pr31_added = _pr31_added_source_leaves()
     require(
@@ -1712,9 +1718,9 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         and (source_history["scope_observations"][SCOPE_LIFECYCLE_SHIPPING].get("leaf_count"),
              source_history["scope_observations"][SCOPE_LIFECYCLE_SHIPPING].get("standard_leaf_count"),
              source_history["scope_observations"][SCOPE_M07_M60_STATIC].get("leaf_count"))
-        == (EXPECTED["shipping_leaves"] + 1 + len(pr31_added),
-            EXPECTED["shipping_standard_leaves"] + 1 + len(pr31_added),
-            EXPECTED["m07_m60_leaves"] + 1 + len(pr31_added)),
+        == (EXPECTED["shipping_leaves"] + 1 + len(pr31_added) + len(fact_added),
+            EXPECTED["shipping_standard_leaves"] + 1 + len(pr31_added) + len(fact_added),
+            EXPECTED["m07_m60_leaves"] + 1 + len(pr31_added) + fact_static_added),
     )
     require(
         "deferred follow-up expands static closure",
