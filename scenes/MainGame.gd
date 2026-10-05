@@ -18284,7 +18284,7 @@ func _on_leverage_buy(asset_id: String, amount: float):
 			return
 	else:
 		if not GameState.spend_ap():
-			_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
+			_show_toast(_tr("행동력이 없습니다", "No Action Points"), Color("#ff4444"))
 			_close_modal()
 			return
 		result = investment_system.buy_asset_leveraged(asset_id, amount)
@@ -19826,7 +19826,7 @@ func _on_buy_asset(asset_id, amount):
 			return
 	else:
 		if not GameState.spend_ap():
-			_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
+			_show_toast(_tr("행동력이 없습니다", "No Action Points"), Color("#ff4444"))
 			_close_modal()
 			return
 		result = investment_system.buy_asset(asset_id, float(amount))
@@ -19872,7 +19872,7 @@ func _on_sell_asset(asset_id, ratio):
 			return
 	else:
 		if not GameState.spend_ap():
-			_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
+			_show_toast(_tr("행동력이 없습니다", "No Action Points"), Color("#ff4444"))
 			_close_modal()
 			return
 		result = investment_system.sell_asset(asset_id, float(ratio))
