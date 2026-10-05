@@ -4,6 +4,7 @@
 
 ## 2026-10-06 — 재혁 경로명(P0)·다은 선택 사실 후속 선언 (470)
 
+- shared2는 clean8802f0c에서1807.425318초 뒤448 커피 관측자의 `current event HEAD blobs differ`로 admission 실패했다. 하위검사0, HEAD/tracked 전후동일이며 PASS가 아니다. 같은 파일의 다른 세 장면 변경을 인정하지 못한 기존 whole-file 경계에 exact470 후속을 연결하도록 커피 관측 파일을 먼저 추가 선언한다. 과거 pin과 실제 커피 문구는 보존한다. 이 실행의 이력 비교 반복 비용도 ui_append 한 호출 내부의 검증된 source plan 재사용으로 한정 수리한다. 현재 로컬 제품이 미완료라 선언은 로컬 커밋으로 봉인하고 원격은 최종 새 실패0 뒤 함께 올린다. 증거 `.git/order470-20261006.tIKLVc/shared2/result.json`.
 - 동일 호출 안의 순수 의미 계산만 공유하는 수리: source 자체143 PASS. 실제4회 증명 구간에서 제품 의미 계산36→9, 영수증4→1, Git128/typed batch72는 동일했다. 비공유5.147277초/공유3.627153초이며 전체 검사 속도 측정으로 확대하지 않는다. byte tuple·설정/모듈 신원 결속과 마지막 HEAD/disk 관측, 실패·예외·호출 종료 시 폐기를 독립 검수했다. 기록 `.git/order470-memo-20261006.pBx3sY/self.stdout.log`; 실제 실행은 `b751312`+이 두 지원 파일의 dirty 후보다.
 - `f16da92` 수용은 공식 export/check/import 각14×3 PASS·초기수용6/기존교정36, accepted41842/b255다. 공식 pretty 출력의 전체 JSON 값을 유지하며 바뀐12문자열/언어 외 원래 포맷을 복원했다. 비저자가 현재 문구=검수v3=공식 영수증=원장, 기존252배치·비선택 영수증·641콘텐츠 경로 및 counter 선택벡터 보존을 확인했다. 첫 export 실행은 tracked/HEAD만 봉인했고, 후속 check/import는 private 배치·응답·검수초안까지 봉인했다. 포맷 복원 뒤에도 전체 JSON과 공식 출력 SHA를 원장 입력에서 다시 대조했다.
 - clean `f16da92`의 fast1 실제8검사 PASS/20.905780초, runtime4 실제5언어6851 PASS·보호/제품 불변. 후속 `b751312` source-final99은 실제 clean후보 증거를 별도 저장했다(이전 저자99는 terminal 출력만 보존). 실행 stderr의 예상 mod거절 WARNING은 오류0과 구분하며 stderr0으로 세지 않는다.

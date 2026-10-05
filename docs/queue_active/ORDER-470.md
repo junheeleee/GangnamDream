@@ -81,6 +81,16 @@
 - root: `docs/CHOICE_CONSEQUENCE_SYSTEM.md`의 지속 choice fact 규칙,
   `content/meta/release_content_inventory.json`, 생성 `docs/CONTENT_RATING_INVENTORY.md`,
   `tools/audit_scope.json`, 큐/사양/CLAUDE현재/WORK_LOG/생성STATUS/에이전트 판정 원장.
+- shared2 실패 뒤 지원 후속 선언(2026-10-06): `tools/coffee_encounter_receipt_history.py`와
+  `tools/ui_translation_append_self_test.py`를 추가한다. 커피 관측자는 변경 없는 커피 잎을
+  가진 arc_events3 전체를448 raw와 직접 비교해470 후속을 거절했다. 실제470 현재 raw와
+  정확한 역상만 잇고448 핀/원문/영수증은 보존한다. coffee는 history, 기존
+  `tools/order470_source_compat_self_test.py`의 해당 반례도 history 소유다.
+  ui_translation_append 본체/자체검사는 별도 저자가 맡는다. 한 validate_history 호출에서
+  current source 비교 계획만 순수 재사용하고, 입장/최종 Git객체·HEAD·디스크·모듈·설정
+  관측과 개별 revision 조상/역사 census 검사를 유지한다. 공개 standalone 검증은 유지한다.
+  위조 tuple/collector/expected, loop중 변경·최종 객체소실, 예외·중첩·호출간 폐기와
+  기존 방식의 결과 동등성을 검사한다. 완료되지 않은 shared2는 PASS로 재분류하지 않는다.
 - 독립 검수자(order469_review에서 인계): `docs/agent_reviews/ORDER-470.json`만 작성. 저작과 검수 분리.
 - StoryMode/EventManager/MetaProgression/기존 demo manifest·모든 이전 핀은 read-only.
   project.godot·공개 패키지·사용자 저장·인간 원장·외부 출시/스토어/지출 금지.

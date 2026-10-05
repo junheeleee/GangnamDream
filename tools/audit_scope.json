@@ -25,6 +25,7 @@
         "tools/StoryChoiceFactCheck.gd", "tools/StoryChoiceFactCheck.tscn", "tools/story_choice_fact_audit.py",
         "tools/order470_source_compat.py", "tools/order470_source_compat_self_test.py",
         "tools/order365_ui_receipt_compat.py",
+        "tools/coffee_encounter_receipt_history.py", "tools/ui_translation_append_self_test.py",
         "tools/demo_localization_scope.py", "tools/main_game_locale_history.py",
         "tools/ja_translation_pipeline.py", "tools/pr31_intake_history.py", "tools/pr31_intake_history_self_test.py",
         "tools/ui_translation_append.py", "tools/full_body_translation_scope.py",
