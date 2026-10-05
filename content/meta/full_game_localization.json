@@ -9991,6 +9991,228 @@
           "batch_id": "bafa14a9f927683a330eff32a6736ab2034958932eceb620ee90c0b0e00a4754"
         }
       }
+    },
+    {
+      "order": "ORDER-468",
+      "group": "events",
+      "roots": [
+        "arc_daeun_final_choice",
+        "arc_daeun_final_choice_kitchen",
+        "arc_jiyeon_year5_return"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 4,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Independent Korean-direct review of all corrected PR31 factual prose: four elapsed-time leaves remove unsupported fixed durations; twenty ending leaves preserve the inclusive >= threshold. All five locales read. Existing bank-account versus net-assets and remaining-20억 baseline defects remain separately tracked; this is not whole-ending quality approval. Official bounded export/check/import changed zero target files. Not native, rendered, physical-input, human-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "5accb0039fc65b0ada26977fe98280a8b60c6ac98e2ee0ffb7cd70fa66359434"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "6a324be3f677e71e9bcee61be2a019e40059a1ce",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e3005b54d6887c0d819b08c90d30496d32711b4b27dd3ccec15fc9e6dd3a954b",
+          "selection_sha256": "74d2ce5531ee890defaee29773e4be587ff5289ea5efb61c998e3af036388d75",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "452c3247db633fed2be38c526295315f4558526e728a31fc68f838a8fbfc3722"
+        }
+      }
+    },
+    {
+      "order": "ORDER-468",
+      "group": "endings",
+      "roots": [
+        "orthodox_pinnacle",
+        "stable_success",
+        "unorthodox_legend"
+      ],
+      "source_leaves": 20,
+      "target_leaves_by_locale": {
+        "ja": 20,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Independent Korean-direct review of all corrected PR31 factual prose: four elapsed-time leaves remove unsupported fixed durations; twenty ending leaves preserve the inclusive >= threshold. All five locales read. Existing bank-account versus net-assets and remaining-20억 baseline defects remain separately tracked; this is not whole-ending quality approval. Official bounded export/check/import changed zero target files. Not native, rendered, physical-input, human-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "9928ec325f4dd9dfb1322d7bb65f63780da22c70e8f1283c95aad04880efe68b"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "6a324be3f677e71e9bcee61be2a019e40059a1ce",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e3005b54d6887c0d819b08c90d30496d32711b4b27dd3ccec15fc9e6dd3a954b",
+          "selection_sha256": "b8b90ef6b5b64346f001f634ceb3eb201fac263afdc8fa1a68faa542a0d50461",
+          "count": 20,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "950f1855a2f9de6a964fa83ddae4084a15c4bbed587955ca5e14d354f33fee87"
+        }
+      }
+    },
+    {
+      "order": "ORDER-468",
+      "group": "events",
+      "roots": [
+        "arc_daeun_final_choice",
+        "arc_daeun_final_choice_kitchen",
+        "arc_jiyeon_year5_return"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 4,
+        "zh-TW": 0
+      },
+      "source_review": "Independent Korean-direct review of all corrected PR31 factual prose: four elapsed-time leaves remove unsupported fixed durations; twenty ending leaves preserve the inclusive >= threshold. All five locales read. Existing bank-account versus net-assets and remaining-20억 baseline defects remain separately tracked; this is not whole-ending quality approval. Official bounded export/check/import changed zero target files. Not native, rendered, physical-input, human-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "04d900eb62f763c25e8b3ef42f1e6253fc83bf8525de4037f34c130643872911"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "6a324be3f677e71e9bcee61be2a019e40059a1ce",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e3005b54d6887c0d819b08c90d30496d32711b4b27dd3ccec15fc9e6dd3a954b",
+          "selection_sha256": "4a2888decb0e8a4572327c18f81cc0d39af384aaf833f333bdef5d565790ad35",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7422be917e47543dff92cc51ec0843e323b6ecd79d6e2aa3be830a9775f0f136"
+        }
+      }
+    },
+    {
+      "order": "ORDER-468",
+      "group": "endings",
+      "roots": [
+        "orthodox_pinnacle",
+        "stable_success",
+        "unorthodox_legend"
+      ],
+      "source_leaves": 20,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 20,
+        "zh-TW": 0
+      },
+      "source_review": "Independent Korean-direct review of all corrected PR31 factual prose: four elapsed-time leaves remove unsupported fixed durations; twenty ending leaves preserve the inclusive >= threshold. All five locales read. Existing bank-account versus net-assets and remaining-20억 baseline defects remain separately tracked; this is not whole-ending quality approval. Official bounded export/check/import changed zero target files. Not native, rendered, physical-input, human-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "193997447a94bef773b01c8346b4bd515351e5a1602cff1763ec140916ac684f"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "6a324be3f677e71e9bcee61be2a019e40059a1ce",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e3005b54d6887c0d819b08c90d30496d32711b4b27dd3ccec15fc9e6dd3a954b",
+          "selection_sha256": "82fe54a52c041d6c9e9f32e5255eb20d69efc2314f8e6fc4a4941e8962ca9ee3",
+          "count": 20,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "67dbc10b0f24068365062e94f5d9738d1c8952bf1d1e49426b76d4eb36171dee"
+        }
+      }
+    },
+    {
+      "order": "ORDER-468",
+      "group": "events",
+      "roots": [
+        "arc_daeun_final_choice",
+        "arc_daeun_final_choice_kitchen",
+        "arc_jiyeon_year5_return"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 4
+      },
+      "source_review": "Independent Korean-direct review of all corrected PR31 factual prose: four elapsed-time leaves remove unsupported fixed durations; twenty ending leaves preserve the inclusive >= threshold. All five locales read. Existing bank-account versus net-assets and remaining-20억 baseline defects remain separately tracked; this is not whole-ending quality approval. Official bounded export/check/import changed zero target files. Not native, rendered, physical-input, human-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "ed4cdca63cd4bc25c8a6deaaeda297790a5da4a98a3845df1b173eb8a918ad74"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "6a324be3f677e71e9bcee61be2a019e40059a1ce",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e3005b54d6887c0d819b08c90d30496d32711b4b27dd3ccec15fc9e6dd3a954b",
+          "selection_sha256": "285d1d616cf612e7bd657929b24ba7aec95603062c5f933b2e354564db89982f",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e1d3f320b85f496549fad272651fe9a8c7d3bf17cae3d1e3c12fa99e4c419859"
+        }
+      }
+    },
+    {
+      "order": "ORDER-468",
+      "group": "endings",
+      "roots": [
+        "orthodox_pinnacle",
+        "stable_success",
+        "unorthodox_legend"
+      ],
+      "source_leaves": 20,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 20
+      },
+      "source_review": "Independent Korean-direct review of all corrected PR31 factual prose: four elapsed-time leaves remove unsupported fixed durations; twenty ending leaves preserve the inclusive >= threshold. All five locales read. Existing bank-account versus net-assets and remaining-20억 baseline defects remain separately tracked; this is not whole-ending quality approval. Official bounded export/check/import changed zero target files. Not native, rendered, physical-input, human-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "9366da3bafc56e1dfe6dac14fb4badc14cd1fbb9e1e7b85fd2414837912c2158"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "6a324be3f677e71e9bcee61be2a019e40059a1ce",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e3005b54d6887c0d819b08c90d30496d32711b4b27dd3ccec15fc9e6dd3a954b",
+          "selection_sha256": "5e00726dc70db061903a3404630dc0d9d84f4de4060823f8a9440df8070d607d",
+          "count": 20,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "5d54ced95c72dc86c2f0664885fb2ef6ea9d3ffa2b61f0467cfd2878271b11bc"
+        }
+      }
     }
   ],
   "accepted": {
@@ -10608,8 +10830,8 @@
         "target_sha256": "353f2b8d920b34699f65f438126a6d640ebe596bb739da70d1b84e76fae768f8"
       },
       "endings:stable_success:/description": {
-        "source_sha256": "66041fae8f9511c7f4d6b8b19c11da5d3886f7fa89920d1934dec2102301cb40",
-        "target_sha256": "f01f28fe896cddbba3481634f4d604e050a7ff08fd9f0a0f96969e950ac1cb2c"
+        "source_sha256": "1923a5f7cbf166a891338844a0cc6c4845cb9f32875a937892696076bfe6ab8f",
+        "target_sha256": "ff410aa6d16f1f4e16ee6086e1525c80661896a7dcde64b193eb3670c07e188d"
       },
       "endings:stable_success:/description_if_known/called_at_1b_milestone": {
         "source_sha256": "7cc46fe2c3c8465838a1af2ba1e6f630d6aadc435cc456ce40ccea521963fd72",
@@ -11164,52 +11386,52 @@
         "target_sha256": "23b440e7eff30479596e819d7468c50987fb7f21a7e3411479b513a3be1d2077"
       },
       "endings:orthodox_pinnacle:/description": {
-        "source_sha256": "2ff15b662d17a58e45325cb952c9cf4074b442ff40e9127766d4ec87632f83a5",
-        "target_sha256": "0a14f42b88f464c69d55657170b8eb88db8dc5f03a6e8e4714a06b21082ff203"
+        "source_sha256": "9295a82e9361502106bebdbd6fc2883af15e4534fe7a350db5f69b12e6ba7fe6",
+        "target_sha256": "f365a045db00f478bd500cd11b4e83f470095b6ff0866b0b2292d1673737d8eb"
       },
       "endings:orthodox_pinnacle:/description_if_known/credit_asserted": {
-        "source_sha256": "5482d8cb81075bf42a15fd9203d6c0fad9d156c213d0fca6d097fb92ef8405d5",
-        "target_sha256": "beacdec627d2ab0738e82e92b6e70355328c2316f39b4be6acf361eba6511dc8"
+        "source_sha256": "bd240051aed3464793bbcf915e47bddf594a34804d2ffc32cd9c87a21e690b3b",
+        "target_sha256": "53989633153a3bc9dbb0355c0a73aa06bd9807114e88fa85c14f2484b9ac67a7"
       },
       "endings:orthodox_pinnacle:/description_if_known/credit_recognized": {
-        "source_sha256": "057c9b500b4af58c4261bf0c75c66aa2323d3821bf72f8e937fa165cc64869ad",
-        "target_sha256": "816892bdc092b85aaa964e4299439a5890d26a7919db5c5b103c0c2c101f7e95"
+        "source_sha256": "e391204ba633d512f112fb9c5b3763196930194d847c613c460476174ee765ed",
+        "target_sha256": "857b5f2d36e94abe1d0211ed480865e1df8ccbef0b8600c35e280f0ffec1412b"
       },
       "endings:orthodox_pinnacle:/description_if_known/declined_golf": {
-        "source_sha256": "059d9572e7161a3883b96f3bff15e386dfad8687ce22a249d2e5724a433fb00e",
-        "target_sha256": "176a5f4dade2a49d3538a9cc47c18fc3611593fccd90d62bfd073db485a6616b"
+        "source_sha256": "d673c4f00a2d358c489c130b43e6a53361bc5a9c25a05f6181cd2c7d0d69fa9c",
+        "target_sha256": "b06e0021971c97ef2c5c08fab555b6b57db73cf28f399dda25aebf70e4388d4b"
       },
       "endings:orthodox_pinnacle:/description_if_known/extreme_frugal": {
-        "source_sha256": "2f2c5dc4f7b665011704c0dde32f393c94809d31b0778ccb61c7cceef750d3ff",
-        "target_sha256": "e98d8a8b72e5f72ef934d27f7a0b2dc5534abfa0cffb3b331a04e9eb70083b9f"
+        "source_sha256": "77ca468a1dc11a008c9be02b53056b4ad6694ad17b256156a4c22239ad2544c8",
+        "target_sha256": "78f0453ef89c8e2c6447a114f68cb933acd7c2069ed31c8d9dc890ba7cfa4942"
       },
       "endings:orthodox_pinnacle:/description_if_known/frugal_quiet": {
-        "source_sha256": "9033915843b4370ad857d87d896cf450e4915821c94bad7a3d5bca77518afb5c",
-        "target_sha256": "64802e651bd7aaab6598adf289c812061a86ea4515ea1cbf7a799115e8bc2a92"
+        "source_sha256": "bebd23c0a9512479d1ce00fc2ac45fdf2d5a8095ce42073b83e9b2b0032d0a65",
+        "target_sha256": "5f3ef4d88b7d56d3f423b3dfa807d00c0650e3250b945fe3abf490c14fa17d57"
       },
       "endings:orthodox_pinnacle:/description_if_known/ignored_mystery_info": {
-        "source_sha256": "c599b7bf2f6515f96ad623ca910a026c1661490b790fb7955a744bed6fd88906",
-        "target_sha256": "4eed0154511f31e44be747d858c903fce85c84c11e14be1c174a262b46811cf4"
+        "source_sha256": "765692f91c2e91ff4b55b89d6ffcd346236064b4e2322a40cadab52beef4ccd7",
+        "target_sha256": "1149e507e42989123c15dcabb1b184e83b7325f2c234f33ade05341b71cf64d4"
       },
       "endings:orthodox_pinnacle:/description_if_known/jobswitch_reconnected": {
-        "source_sha256": "a9e4924395f6f4da7bf092285096cc2e38be680f8a0f134da8fb6e2e5bd5a772",
-        "target_sha256": "fd0932ecb696b484ec653841fb812dd04466db518aeb026320deaf8fe424ba24"
+        "source_sha256": "d4af47053ea52cc409a3f8b9f77feaeaaed78b20b419c138c134674fe4765e5d",
+        "target_sha256": "8560802ecb910d6beb42e3872f5f56465dd4501eb468fac29d482fd8c9231681"
       },
       "endings:orthodox_pinnacle:/description_if_known/orthodox_wavered": {
-        "source_sha256": "5069285c887eed03ad478165389d917fb850696be4fc78fe9f061640e967ebe6",
-        "target_sha256": "ef4f96dd953d6fdee37dad650c94a0143eb4907b649be708401568f76c561c85"
+        "source_sha256": "da87ae92dc546b4208a0eb0aba0e16ff78f2b2add3187c0b5244d2540ca9a6c4",
+        "target_sha256": "36729c58272ad6d11b43dda76babf6ed63b5400288e8a3528ee9d84dba88e6d2"
       },
       "endings:orthodox_pinnacle:/description_if_known/salary_denied": {
-        "source_sha256": "ce114b296b7f49577c100b678bb8335173fb4050fae48154be20b7083685d0b4",
-        "target_sha256": "373d0b67a5c3fab6880fe6d382cf2456968dfe7e31592265d040a92684e98743"
+        "source_sha256": "b51ee856d60fbdeb9e7e063e84b7b23e60277390b12dd678e3aaaa7af4349187",
+        "target_sha256": "5408c6e8146281b40e44081af733bdf2d59dff80ae40d558b16f3c184b43e101"
       },
       "endings:orthodox_pinnacle:/description_if_known/salary_raised": {
-        "source_sha256": "113ab997c886a2f83df5865db7439864ff5fc251a48706f8fbf7fa614617487c",
-        "target_sha256": "fd6d83323c2b03843ce63f1810e9aba0a7e97c424a9eded27c743d8e78c573a4"
+        "source_sha256": "1bd6a79db573b05f2cc92b8cb3b943b6d88cac16ad7f0ae1082e31027fe730fb",
+        "target_sha256": "47bd607d92773d1e8f221b44f989851666639e100a36d1905e1af0371f8db265"
       },
       "endings:orthodox_pinnacle:/description_if_known/skipped_staycation": {
-        "source_sha256": "ef2290e1330e2abfa7e88123b46ae0ff3329d7de7b4066f5052e313f80803b66",
-        "target_sha256": "2caa1101069ace0d75fd6408b789f8e620a6373619f3c35ba500f7bf1f310b34"
+        "source_sha256": "eebed86e8968d3c96aa61ba753395e84877170c6a8acc7aad706f749f2cfce4d",
+        "target_sha256": "fc2bd0979f28aa036985cf4217a367d7a793b3c2ba31ab97cec88f851cf8c579"
       },
       "endings:orthodox_pinnacle:/title": {
         "source_sha256": "f260487c853771f768726f0755ddffc91f15423f5e74b1e84cc474f693d5ad25",
@@ -11276,32 +11498,32 @@
         "target_sha256": "703f9cfdc75855ebc74093026d562f360d2dbea2b774c14039a340a3961bf9cd"
       },
       "endings:unorthodox_legend:/description": {
-        "source_sha256": "a37be2cd0d3ecb51287f9acc7f347e73cc17bb1575647c35e75868b5649e801a",
-        "target_sha256": "e5e41b62b35c5a8548257a518be82e63931fc8331e3adeb1f96e387ab2c857a6"
+        "source_sha256": "8adc01655cf5e3a603dee810f4dd3f2036a0044fdd9627f5e6af80b39e3fe4e0",
+        "target_sha256": "5933a42c2e0f369e36360d45ba509441ed6b04da73647391652a1813469ea0da"
       },
       "endings:unorthodox_legend:/description_if_known/cafe_double_jackpot": {
-        "source_sha256": "2cc9359ae13932e79ff2ebc925869175c36a86c610115fd3bb673cb9786fd45e",
-        "target_sha256": "845b3694514a0911f024b1c8285654ba96a17c457acdb5e482ef2a57573207a9"
+        "source_sha256": "1263f4969bea7bda5600772f5ab4f5b89b6770bec8a5287ac5f331d696af9e91",
+        "target_sha256": "b5897c7c786c61aa90cd1ddb7ebe68023ea23b8826037c87f0df65901ff25c1e"
       },
       "endings:unorthodox_legend:/description_if_known/coin_second_win": {
-        "source_sha256": "51add157fe328e0c98dbc311dd21276ad686de336b75abd454e0d4de3a95a502",
-        "target_sha256": "829ab8b15efeed54997b300ee341b15dcf97282ae68a9f6abbab29f3ca8a6311"
+        "source_sha256": "ea8e704c8465f9974b2d4d2930d3ab174a02c15a63afe3da30dbebec3601d770",
+        "target_sha256": "c83593715df12b25488a3c41ca484610d11c1ba1a464192c3c7de4a358b57826"
       },
       "endings:unorthodox_legend:/description_if_known/gray_tip_debt_paid": {
-        "source_sha256": "eba0ab4e3e42cf43d028485c451f1465a086618d336a467316c85e549854461d",
-        "target_sha256": "e60d39f909b5f7efe78a248389955cca3e9dc8c0147a30f04207467e2f1d8d42"
+        "source_sha256": "1c6bc57d2f8923c8a122eb9744777b2449c287a6a8ce77a32784e9ebb730b8d0",
+        "target_sha256": "fbc91dcb9abc6d4e91ae7485cd913951cac46669031e2c6f2ee0c77e1ac427fd"
       },
       "endings:unorthodox_legend:/description_if_known/holdem_high_stakes_win": {
-        "source_sha256": "4b8310d835c4c538ae5ce347ae24c849998993bc8ee5bdc8aca5fe2e2e5b2d55",
-        "target_sha256": "9f05969866daa1057e8b27eb5b275b861dc41acf1e1f77003e3914f2f867a813"
+        "source_sha256": "87e12fcf6b01bd25e9526d8f5f0859dd88134c07ad235a7c0564702b167bab0c",
+        "target_sha256": "ee0d6d5002c9f3241d34384339d4ce48c14040214ed990a4a5d9dbbda6d4c6b4"
       },
       "endings:unorthodox_legend:/description_if_known/investigating_gray_contact": {
-        "source_sha256": "cbbd1e0284bd3b131acd9f56592a714c935e06663ab975a8a65d47337f549e4f",
-        "target_sha256": "1ba0bad4b1fe75b0b1013177a65dbc43bdab0394217ac8f7ef0d5b3cb0f404ae"
+        "source_sha256": "3851bcb39f5f1ad97c5192c2099ee57aef14acb8c2dd44385a086014c5941f1f",
+        "target_sha256": "11d6cf1d4ffd9d71dd75dfaf363c000514e9d9b3bda851f6926713a35c197daa"
       },
       "endings:unorthodox_legend:/description_if_known/own_path_solidified": {
-        "source_sha256": "71aa288426f76263fd1bc11e7fc13126ffa6e6646793f1dc7f75ae311a1db9b3",
-        "target_sha256": "e7c50e6673ac63ee82727e072545aed158a6648f6bba5544686618860fc783be"
+        "source_sha256": "6d26873e56993bfc71a947de9efb76e4f57f9a0101206227527fa6e55f3f5657",
+        "target_sha256": "f1c7c715cd6028d9b516f33a2299ea496a71eec1cfc22c072b59d65a6440b41c"
       },
       "endings:unorthodox_legend:/title": {
         "source_sha256": "3b585e9d155d5ec17bb914ddfdcce5058fb93a36af349f8455ca15ed807c4d6a",
@@ -19788,12 +20010,12 @@
         "target_sha256": "ec24e9744825fdd1200344307dfe0e6786e4cdc5b3fbcee81f0a8135bc9c286e"
       },
       "events:arc_daeun_final_choice:/description": {
-        "source_sha256": "632ea4d79b9957dc450a43f4208f2c13046284bcb7da703f94f138a1db7f94c3",
-        "target_sha256": "eec7d2aabcb9b91aafa1dcd61fca1c7498e700ae5c9ad9a63f7060fa0f88ee14"
+        "source_sha256": "6653000c3dc2fd53c8b455dc0e5026c7cffde107f3a1502624caf30b204c2e16",
+        "target_sha256": "0aac448fee68747c3e966d08646992ec1720bcb8a9421adf8b25e93562546b0a"
       },
       "events:arc_daeun_final_choice:/description_if_known/namsan_lock_daeun": {
-        "source_sha256": "4e8a9a865a6f14ffb84194d7c9cf8f0de08abdbeaeadc2211bf80756860403ac",
-        "target_sha256": "c43cc004cede2f6091956a8069583ebe9970485e5f09820b2b08a6bee2510351"
+        "source_sha256": "b501fc9b5428eb3920498f87247ebee8679cd4286037f5af5f194022b114d7c2",
+        "target_sha256": "5a414db338f2a405947c8d6b2ea8ee4231f16ace0f3449b3fcf64890393ac1c6"
       },
       "events:arc_daeun_final_choice:/title": {
         "source_sha256": "fef52b287cb6127f1d76df1d7356d0f68978593abe0da6c0eda7f783f8582b7f",
@@ -19840,8 +20062,8 @@
         "target_sha256": "d4d20c3d58bc5e26c8321caad9b98c4ecb88d8d7fb4b4d7e433d40dffb28c2cd"
       },
       "events:arc_daeun_final_choice_kitchen:/description": {
-        "source_sha256": "cb705a8adcd8bfa27b621de03614165a4da0c84ab144c504fa7420ad8d69382f",
-        "target_sha256": "ebe97190f3a3fd65ad518ab459ec4005d3d2c1c18dcd812716b8ce78eff2698f"
+        "source_sha256": "5d015b6eebbcc1b5669c259062ef53e1dc7540b5d355aacd5406c2464512804c",
+        "target_sha256": "98bd49ed2d7a35cbf61cdde0b0d0c7b0580f98d7b621e6a3d07424c5d6881616"
       },
       "events:arc_daeun_final_choice_kitchen:/title": {
         "source_sha256": "cc84e7c17ae7f6d02a2a3326ffca50233cbf65b403edce66b07ed131d3dc2acb",
@@ -55908,8 +56130,8 @@
         "target_sha256": "9336cc2d53413be136b10752ceae2dfe9e8b71d2a82b5574bd75484a5cea9cb9"
       },
       "events:arc_jiyeon_year5_return:/choices/1/result_text": {
-        "source_sha256": "f34ae8a7f3c3e41013998e4f713e97f1649c5aec04a5931c1063c7a81fd7690a",
-        "target_sha256": "cc8f5da0bf11cb7078bd2b82b80e507082c3a9357a28f8125a20d955eaa00927"
+        "source_sha256": "0ff7063cbdcc406e860afe6a179fe873ab841115744dcacb97503455c4a4d121",
+        "target_sha256": "0509647daa428757b83ed9a9d8367eb5335bb10d2369645013d9d3bc562ce6c9"
       },
       "events:arc_jiyeon_year5_return:/choices/1/text": {
         "source_sha256": "d0c295e29765994f458a5f1cc15caf27cffc1f3ae389fa67993c842e0a48e889",
@@ -63194,8 +63416,8 @@
         "target_sha256": "75d9fb8b8147d42efd51b55cb6b1e59d0c59f9c1a3e2af79c83a7d8232261633"
       },
       "endings:stable_success:/description": {
-        "source_sha256": "66041fae8f9511c7f4d6b8b19c11da5d3886f7fa89920d1934dec2102301cb40",
-        "target_sha256": "034496780673e6bbe962af7e3d03b92a72de53232cc4dfc6bf8558f579723fcc"
+        "source_sha256": "1923a5f7cbf166a891338844a0cc6c4845cb9f32875a937892696076bfe6ab8f",
+        "target_sha256": "7965c2b69cfa16f849bd96acc4b21b541ebe1e5642319ded9d4e52403aa08531"
       },
       "endings:stable_success:/description_if_known/called_at_1b_milestone": {
         "source_sha256": "7cc46fe2c3c8465838a1af2ba1e6f630d6aadc435cc456ce40ccea521963fd72",
@@ -63750,52 +63972,52 @@
         "target_sha256": "09c0c50e8427e9b45d374d47b0c651cfc69574ff055b266b63949a2005607e29"
       },
       "endings:orthodox_pinnacle:/description": {
-        "source_sha256": "2ff15b662d17a58e45325cb952c9cf4074b442ff40e9127766d4ec87632f83a5",
-        "target_sha256": "eca780d8606bf3834fba16f93c56baaea66898a84837dfa8985f129a96ebfabc"
+        "source_sha256": "9295a82e9361502106bebdbd6fc2883af15e4534fe7a350db5f69b12e6ba7fe6",
+        "target_sha256": "3c79f061ca0f78962a74f3280365f960cd5bddb674a297367e222c1d2f33a6dd"
       },
       "endings:orthodox_pinnacle:/description_if_known/credit_asserted": {
-        "source_sha256": "5482d8cb81075bf42a15fd9203d6c0fad9d156c213d0fca6d097fb92ef8405d5",
-        "target_sha256": "3190341122c5684434ad67f56625ee16c75c81ba3db72265b56863a2034b5bf3"
+        "source_sha256": "bd240051aed3464793bbcf915e47bddf594a34804d2ffc32cd9c87a21e690b3b",
+        "target_sha256": "f5bf8a4b41d92e9b3675dc9cdc184977b0646d1676f772dc48e0e894eefa6d54"
       },
       "endings:orthodox_pinnacle:/description_if_known/credit_recognized": {
-        "source_sha256": "057c9b500b4af58c4261bf0c75c66aa2323d3821bf72f8e937fa165cc64869ad",
-        "target_sha256": "6e7d975e47943c1d580898297ba101c53f8ae481fcb80e1e31dbf697fbbfc135"
+        "source_sha256": "e391204ba633d512f112fb9c5b3763196930194d847c613c460476174ee765ed",
+        "target_sha256": "f39f454494d859bb2b51c6c5484d5650eddd1d881d0c46d3e68ea092d1aacd09"
       },
       "endings:orthodox_pinnacle:/description_if_known/declined_golf": {
-        "source_sha256": "059d9572e7161a3883b96f3bff15e386dfad8687ce22a249d2e5724a433fb00e",
-        "target_sha256": "51b09dff8caae1fd2c015bd453aa0365dd4cdb4234dda0073c45dad62eb1c1ff"
+        "source_sha256": "d673c4f00a2d358c489c130b43e6a53361bc5a9c25a05f6181cd2c7d0d69fa9c",
+        "target_sha256": "80c129db7422e2bfda336d0ac829db1f196f907c1187749c54af9f9d2a5204a9"
       },
       "endings:orthodox_pinnacle:/description_if_known/extreme_frugal": {
-        "source_sha256": "2f2c5dc4f7b665011704c0dde32f393c94809d31b0778ccb61c7cceef750d3ff",
-        "target_sha256": "776cc7479ddb8dff073aa3863cae12b3385a59e63214686f02c051c2c5ca7974"
+        "source_sha256": "77ca468a1dc11a008c9be02b53056b4ad6694ad17b256156a4c22239ad2544c8",
+        "target_sha256": "ac141ca29dc1476d79defe71facfa3c2ecda47bc0b7424c98f48815b576d1c1b"
       },
       "endings:orthodox_pinnacle:/description_if_known/frugal_quiet": {
-        "source_sha256": "9033915843b4370ad857d87d896cf450e4915821c94bad7a3d5bca77518afb5c",
-        "target_sha256": "7807d4c570b05a5c7a4f8526cdfe4e78139fb96f4863155f698e333d36b6ac03"
+        "source_sha256": "bebd23c0a9512479d1ce00fc2ac45fdf2d5a8095ce42073b83e9b2b0032d0a65",
+        "target_sha256": "7e3dac0df8c387dfd4ddff36f19b10e5f5edd5216e5fb181ff7804021f2dac8d"
       },
       "endings:orthodox_pinnacle:/description_if_known/ignored_mystery_info": {
-        "source_sha256": "c599b7bf2f6515f96ad623ca910a026c1661490b790fb7955a744bed6fd88906",
-        "target_sha256": "96c5e9af063936ac98e03fe82d8ad9f6febfc0c8a299014c5ee3eb73e995a793"
+        "source_sha256": "765692f91c2e91ff4b55b89d6ffcd346236064b4e2322a40cadab52beef4ccd7",
+        "target_sha256": "0ac6124c3f5a76e807d806bf28d51e4c3deb6fd8c59889e97cd557d36bd5dbf2"
       },
       "endings:orthodox_pinnacle:/description_if_known/jobswitch_reconnected": {
-        "source_sha256": "a9e4924395f6f4da7bf092285096cc2e38be680f8a0f134da8fb6e2e5bd5a772",
-        "target_sha256": "02c0e5ec1d308f218d82a9168b59c01da181f084e1c8bf4c3dcd72c8ae54803f"
+        "source_sha256": "d4af47053ea52cc409a3f8b9f77feaeaaed78b20b419c138c134674fe4765e5d",
+        "target_sha256": "da5ba8b799369f8294e8f3c7427b99bdaf7d0372d6bf5e599fc08b8ff3c511a8"
       },
       "endings:orthodox_pinnacle:/description_if_known/orthodox_wavered": {
-        "source_sha256": "5069285c887eed03ad478165389d917fb850696be4fc78fe9f061640e967ebe6",
-        "target_sha256": "783bae16d3053eb9b3434b340576202d623e74f9d08681ff397385a33c6057cc"
+        "source_sha256": "da87ae92dc546b4208a0eb0aba0e16ff78f2b2add3187c0b5244d2540ca9a6c4",
+        "target_sha256": "6107b78ee85d7e326fe69b24914d68395b491cc7219ac82a1fa8da2cbfc984f1"
       },
       "endings:orthodox_pinnacle:/description_if_known/salary_denied": {
-        "source_sha256": "ce114b296b7f49577c100b678bb8335173fb4050fae48154be20b7083685d0b4",
-        "target_sha256": "c9b0b5c580cedfb72ea64a0c53610a0464d1fd1f70fc476292bfcf3477e559c8"
+        "source_sha256": "b51ee856d60fbdeb9e7e063e84b7b23e60277390b12dd678e3aaaa7af4349187",
+        "target_sha256": "e0aa9aa9b7d6858b672805b5dbbf7abf6c4818db632d53ffa320cf82be568358"
       },
       "endings:orthodox_pinnacle:/description_if_known/salary_raised": {
-        "source_sha256": "113ab997c886a2f83df5865db7439864ff5fc251a48706f8fbf7fa614617487c",
-        "target_sha256": "eb709446747a4c819622a8e1d814bfacf9b234dfa3081c4f44248439679fb45f"
+        "source_sha256": "1bd6a79db573b05f2cc92b8cb3b943b6d88cac16ad7f0ae1082e31027fe730fb",
+        "target_sha256": "00855de98a8a8a610e212ad265e3c7313a6d42b976a1a34c1195f69906f5e1d4"
       },
       "endings:orthodox_pinnacle:/description_if_known/skipped_staycation": {
-        "source_sha256": "ef2290e1330e2abfa7e88123b46ae0ff3329d7de7b4066f5052e313f80803b66",
-        "target_sha256": "52dba9a155b4674f4c4337872c623fa8fa7307c778799546e54c0bd8a483c6be"
+        "source_sha256": "eebed86e8968d3c96aa61ba753395e84877170c6a8acc7aad706f749f2cfce4d",
+        "target_sha256": "3992031a62efd13c5429ed58584432ab1255bfea1f8b7c9e6736c8f5c2636499"
       },
       "endings:orthodox_pinnacle:/title": {
         "source_sha256": "f260487c853771f768726f0755ddffc91f15423f5e74b1e84cc474f693d5ad25",
@@ -63862,32 +64084,32 @@
         "target_sha256": "ba1825de36a3846470322643791ef2a75d38d87a2db5a43f5307b588e4053627"
       },
       "endings:unorthodox_legend:/description": {
-        "source_sha256": "a37be2cd0d3ecb51287f9acc7f347e73cc17bb1575647c35e75868b5649e801a",
-        "target_sha256": "6262bba61c8f868d5d5711dfb35290d1e9bd1f027a57f9c282ab65d665fbbdd3"
+        "source_sha256": "8adc01655cf5e3a603dee810f4dd3f2036a0044fdd9627f5e6af80b39e3fe4e0",
+        "target_sha256": "ef743cd49dc657e68c6759bcdc555c1e7846bbe48b99d968be50110951c24ed6"
       },
       "endings:unorthodox_legend:/description_if_known/cafe_double_jackpot": {
-        "source_sha256": "2cc9359ae13932e79ff2ebc925869175c36a86c610115fd3bb673cb9786fd45e",
-        "target_sha256": "013acbcf6f7f4371b00da23cf1fc39699dd7fafb1abb8d39014b8524ea3d3cf1"
+        "source_sha256": "1263f4969bea7bda5600772f5ab4f5b89b6770bec8a5287ac5f331d696af9e91",
+        "target_sha256": "b2e1f536a5ff880388aac5495296ec636c2c31e8359b249101ca48f3fbd49727"
       },
       "endings:unorthodox_legend:/description_if_known/coin_second_win": {
-        "source_sha256": "51add157fe328e0c98dbc311dd21276ad686de336b75abd454e0d4de3a95a502",
-        "target_sha256": "24f3b8585d03bca46762f70c36951223b1ba02e9783a1ecc279927c1334be415"
+        "source_sha256": "ea8e704c8465f9974b2d4d2930d3ab174a02c15a63afe3da30dbebec3601d770",
+        "target_sha256": "3f114d4efb5ef6f28ec7ff1c3ee165acc52ea2a0903bc5856f14cc7ce844ac46"
       },
       "endings:unorthodox_legend:/description_if_known/gray_tip_debt_paid": {
-        "source_sha256": "eba0ab4e3e42cf43d028485c451f1465a086618d336a467316c85e549854461d",
-        "target_sha256": "b3f4332eb71f07e93a193ac340a872c233796b436a10ccdd5a0d8a7f64ccf231"
+        "source_sha256": "1c6bc57d2f8923c8a122eb9744777b2449c287a6a8ce77a32784e9ebb730b8d0",
+        "target_sha256": "6e42ecd0c34135fae349531eae8cd1c82ef008793fe7c9ea0e5799616efea039"
       },
       "endings:unorthodox_legend:/description_if_known/holdem_high_stakes_win": {
-        "source_sha256": "4b8310d835c4c538ae5ce347ae24c849998993bc8ee5bdc8aca5fe2e2e5b2d55",
-        "target_sha256": "c933a97c59bbc192efc89e5cb2ce0fe7601333a511d0c73d20d2c36f8cb65816"
+        "source_sha256": "87e12fcf6b01bd25e9526d8f5f0859dd88134c07ad235a7c0564702b167bab0c",
+        "target_sha256": "95116e66d1661f6023b357c2efc8ea880e3a19a5ad75096b0c7dd9269a55fbf5"
       },
       "endings:unorthodox_legend:/description_if_known/investigating_gray_contact": {
-        "source_sha256": "cbbd1e0284bd3b131acd9f56592a714c935e06663ab975a8a65d47337f549e4f",
-        "target_sha256": "31ddf79b2b6be442313f724ce3073752bcdc5259f286b8a28edbcbf8a8c135d4"
+        "source_sha256": "3851bcb39f5f1ad97c5192c2099ee57aef14acb8c2dd44385a086014c5941f1f",
+        "target_sha256": "4ab9b2de86dde51cfdeb42f9ef7f22e240156fda8254e9a28c91c5ff37770c73"
       },
       "endings:unorthodox_legend:/description_if_known/own_path_solidified": {
-        "source_sha256": "71aa288426f76263fd1bc11e7fc13126ffa6e6646793f1dc7f75ae311a1db9b3",
-        "target_sha256": "e2eb3f58c125913df62b2897feb308ccd96dd16e2d0b667e1e172c8e91b321f9"
+        "source_sha256": "6d26873e56993bfc71a947de9efb76e4f57f9a0101206227527fa6e55f3f5657",
+        "target_sha256": "d94c554a41d2dc46bedc78a6fb8a11aa382febdef86029a5f058a1a9d4982a44"
       },
       "endings:unorthodox_legend:/title": {
         "source_sha256": "3b585e9d155d5ec17bb914ddfdcce5058fb93a36af349f8455ca15ed807c4d6a",
@@ -72374,12 +72596,12 @@
         "target_sha256": "9d8655db064a752351427742ba551929bd1f034eedecd40a5c5ca9a3bb385f9f"
       },
       "events:arc_daeun_final_choice:/description": {
-        "source_sha256": "632ea4d79b9957dc450a43f4208f2c13046284bcb7da703f94f138a1db7f94c3",
-        "target_sha256": "0ae41ab3258f38097cea9c2377f889ac537f624e8f87fd0b604f5ad85c5e706d"
+        "source_sha256": "6653000c3dc2fd53c8b455dc0e5026c7cffde107f3a1502624caf30b204c2e16",
+        "target_sha256": "d2c287468909a3fdcdd8b7464fd13bea7fd9dab2b9ad174f007fbb1af7343514"
       },
       "events:arc_daeun_final_choice:/description_if_known/namsan_lock_daeun": {
-        "source_sha256": "4e8a9a865a6f14ffb84194d7c9cf8f0de08abdbeaeadc2211bf80756860403ac",
-        "target_sha256": "3cd348acce29adde31373c2efb0dff7a7f72aafa739fa2f3c05c03538a1adf08"
+        "source_sha256": "b501fc9b5428eb3920498f87247ebee8679cd4286037f5af5f194022b114d7c2",
+        "target_sha256": "d29d0a83e155677491d12a15ed6879fef0d7a402e4c4e9748738925f202f4e1d"
       },
       "events:arc_daeun_final_choice:/title": {
         "source_sha256": "fef52b287cb6127f1d76df1d7356d0f68978593abe0da6c0eda7f783f8582b7f",
@@ -72426,8 +72648,8 @@
         "target_sha256": "e4f7015e11a524c8d2d0e5d09fa97e6fae330fea979450456789f53847c68b2f"
       },
       "events:arc_daeun_final_choice_kitchen:/description": {
-        "source_sha256": "cb705a8adcd8bfa27b621de03614165a4da0c84ab144c504fa7420ad8d69382f",
-        "target_sha256": "ecc284a99a42d99199f93e0d2c21bfd18cd3d863a92c88c08661b81f6372fd89"
+        "source_sha256": "5d015b6eebbcc1b5669c259062ef53e1dc7540b5d355aacd5406c2464512804c",
+        "target_sha256": "ea81bbf29adc438e655450d627182c9bb23f46745903bfd6e4d81b7f3108d349"
       },
       "events:arc_daeun_final_choice_kitchen:/title": {
         "source_sha256": "cc84e7c17ae7f6d02a2a3326ffca50233cbf65b403edce66b07ed131d3dc2acb",
@@ -108494,8 +108716,8 @@
         "target_sha256": "882c61234d5ed1db3cbbce6873b5c78e5941b5a49eeff5ebc2d10de85ef04765"
       },
       "events:arc_jiyeon_year5_return:/choices/1/result_text": {
-        "source_sha256": "f34ae8a7f3c3e41013998e4f713e97f1649c5aec04a5931c1063c7a81fd7690a",
-        "target_sha256": "ca0b48673f8152f666e8ec7d4b420915ae49e66f53d6cb7ff2cc92a101edfe10"
+        "source_sha256": "0ff7063cbdcc406e860afe6a179fe873ab841115744dcacb97503455c4a4d121",
+        "target_sha256": "56e7d843ab0db01483e024381f9f098f3366b84b09cfdccd433a356da200b5f3"
       },
       "events:arc_jiyeon_year5_return:/choices/1/text": {
         "source_sha256": "d0c295e29765994f458a5f1cc15caf27cffc1f3ae389fa67993c842e0a48e889",
@@ -120564,8 +120786,8 @@
         "target_sha256": "70eed8fb8d151fae8e99756eabb3fbe84a36901a68ff2a8ee24bf366191118eb"
       },
       "endings:stable_success:/description": {
-        "source_sha256": "66041fae8f9511c7f4d6b8b19c11da5d3886f7fa89920d1934dec2102301cb40",
-        "target_sha256": "7b2670110d93f070cbe52f68fb2ca97a49b16f6b3cd64c9ff61ccea99a8534e7"
+        "source_sha256": "1923a5f7cbf166a891338844a0cc6c4845cb9f32875a937892696076bfe6ab8f",
+        "target_sha256": "57c4313edb04e8fc100cb2a373ab8b3b2aec22fa20975fc38207cc1a0ebc1e35"
       },
       "endings:stable_success:/description_if_known/called_at_1b_milestone": {
         "source_sha256": "7cc46fe2c3c8465838a1af2ba1e6f630d6aadc435cc456ce40ccea521963fd72",
@@ -121120,52 +121342,52 @@
         "target_sha256": "feba9b5130b9bba2d6ecb0e858796d36b7c440070442cac25fcebce48a148e79"
       },
       "endings:orthodox_pinnacle:/description": {
-        "source_sha256": "2ff15b662d17a58e45325cb952c9cf4074b442ff40e9127766d4ec87632f83a5",
-        "target_sha256": "dfec34c000e4d0a8be2357b96ddc740954e44c8062d81911e18e99baeb25347e"
+        "source_sha256": "9295a82e9361502106bebdbd6fc2883af15e4534fe7a350db5f69b12e6ba7fe6",
+        "target_sha256": "4a4b54ecabddb2edc543a24bc7e5f95ee899bf56b6eb3eaa26b5787c863b97fb"
       },
       "endings:orthodox_pinnacle:/description_if_known/credit_asserted": {
-        "source_sha256": "5482d8cb81075bf42a15fd9203d6c0fad9d156c213d0fca6d097fb92ef8405d5",
-        "target_sha256": "8dd01efb6bb19f06b6eeacd34d9e39db9349461b1c9f96c2fd6a3b850210019c"
+        "source_sha256": "bd240051aed3464793bbcf915e47bddf594a34804d2ffc32cd9c87a21e690b3b",
+        "target_sha256": "95f2ce7f930a67e8addeab9f9684df0e0dd563e281b97163246fcbe8526d987c"
       },
       "endings:orthodox_pinnacle:/description_if_known/credit_recognized": {
-        "source_sha256": "057c9b500b4af58c4261bf0c75c66aa2323d3821bf72f8e937fa165cc64869ad",
-        "target_sha256": "18871657056ca3379b0b045e4600c0846b98cde374e36405b690650c44979975"
+        "source_sha256": "e391204ba633d512f112fb9c5b3763196930194d847c613c460476174ee765ed",
+        "target_sha256": "a273eac1f1a111efb32130f7a364d35d85bdea789af7b7ce2baf28e354e04cc9"
       },
       "endings:orthodox_pinnacle:/description_if_known/declined_golf": {
-        "source_sha256": "059d9572e7161a3883b96f3bff15e386dfad8687ce22a249d2e5724a433fb00e",
-        "target_sha256": "6ac0723573ae9e8050ea05c21a4bbb51fb9c18905d04f66fc24fb3d6482044df"
+        "source_sha256": "d673c4f00a2d358c489c130b43e6a53361bc5a9c25a05f6181cd2c7d0d69fa9c",
+        "target_sha256": "4478c4fdf80d000b0abf3a10de5e12f390ae41f752f7e45826e96a9b1104c574"
       },
       "endings:orthodox_pinnacle:/description_if_known/extreme_frugal": {
-        "source_sha256": "2f2c5dc4f7b665011704c0dde32f393c94809d31b0778ccb61c7cceef750d3ff",
-        "target_sha256": "2ca838943ae38cfa6d6285db66b6904770291cd061313b894730a2716e8350d0"
+        "source_sha256": "77ca468a1dc11a008c9be02b53056b4ad6694ad17b256156a4c22239ad2544c8",
+        "target_sha256": "644580b2dcfc46c09dfd99ed07247014084246b625b3aba3f0b7fc65a0fb52fc"
       },
       "endings:orthodox_pinnacle:/description_if_known/frugal_quiet": {
-        "source_sha256": "9033915843b4370ad857d87d896cf450e4915821c94bad7a3d5bca77518afb5c",
-        "target_sha256": "8d3e8c568953e1662ca024171b5d45630a5fe7b881e120ee017db1bdf71b9df8"
+        "source_sha256": "bebd23c0a9512479d1ce00fc2ac45fdf2d5a8095ce42073b83e9b2b0032d0a65",
+        "target_sha256": "226f9bdbf1039a3677ec6e1293eb2046010c56546d7a54aab9417bd97a7044cc"
       },
       "endings:orthodox_pinnacle:/description_if_known/ignored_mystery_info": {
-        "source_sha256": "c599b7bf2f6515f96ad623ca910a026c1661490b790fb7955a744bed6fd88906",
-        "target_sha256": "c3f6d9c866df1c088f558cfbec79d5eea74b728030b1a48873da3fdcd7e845f2"
+        "source_sha256": "765692f91c2e91ff4b55b89d6ffcd346236064b4e2322a40cadab52beef4ccd7",
+        "target_sha256": "72d10ebb5f351736b0229d6c5994139024b175ad1f662ffeaa80e057326c7c3c"
       },
       "endings:orthodox_pinnacle:/description_if_known/jobswitch_reconnected": {
-        "source_sha256": "a9e4924395f6f4da7bf092285096cc2e38be680f8a0f134da8fb6e2e5bd5a772",
-        "target_sha256": "bb7551cde51b3ce8eeea6ed0a4ef1b93f856bedfa4ccff7ac01705d65c13b231"
+        "source_sha256": "d4af47053ea52cc409a3f8b9f77feaeaaed78b20b419c138c134674fe4765e5d",
+        "target_sha256": "b003444eebea945dff6eb6f2af53391f737dd7cb29e9df0a00ba21d4261aeed3"
       },
       "endings:orthodox_pinnacle:/description_if_known/orthodox_wavered": {
-        "source_sha256": "5069285c887eed03ad478165389d917fb850696be4fc78fe9f061640e967ebe6",
-        "target_sha256": "bbf3d7fe93a2ee3091ac92e178ebc9002f6050ca3ef6feea8328a7a1879efef7"
+        "source_sha256": "da87ae92dc546b4208a0eb0aba0e16ff78f2b2add3187c0b5244d2540ca9a6c4",
+        "target_sha256": "036a2192f05552484542cf14bacb0713d33251c7886f88e34e7b9047423284f1"
       },
       "endings:orthodox_pinnacle:/description_if_known/salary_denied": {
-        "source_sha256": "ce114b296b7f49577c100b678bb8335173fb4050fae48154be20b7083685d0b4",
-        "target_sha256": "636c77d6ad8a7e246680c887616124ff55d8687a05c99748fb40296f82602c18"
+        "source_sha256": "b51ee856d60fbdeb9e7e063e84b7b23e60277390b12dd678e3aaaa7af4349187",
+        "target_sha256": "bfd8eb8926c587a8c211ddb99b2986b5106b79b84e3b88a6ecfeaeaf26c5bd79"
       },
       "endings:orthodox_pinnacle:/description_if_known/salary_raised": {
-        "source_sha256": "113ab997c886a2f83df5865db7439864ff5fc251a48706f8fbf7fa614617487c",
-        "target_sha256": "ddaaa9fd8f9e45b70d5e04606fab849cd03badbc00df5d5b9094c9f07456a3a8"
+        "source_sha256": "1bd6a79db573b05f2cc92b8cb3b943b6d88cac16ad7f0ae1082e31027fe730fb",
+        "target_sha256": "7e1c347466b4c2c2d62227d4f5b559b2fa0fc451faa1f99bd95c5b7591d37801"
       },
       "endings:orthodox_pinnacle:/description_if_known/skipped_staycation": {
-        "source_sha256": "ef2290e1330e2abfa7e88123b46ae0ff3329d7de7b4066f5052e313f80803b66",
-        "target_sha256": "57b91e7cc47a06a767f710a4c4d23d4841c013fdbe4b5e45def0352cc4546482"
+        "source_sha256": "eebed86e8968d3c96aa61ba753395e84877170c6a8acc7aad706f749f2cfce4d",
+        "target_sha256": "da892c58ff11ac270f7d212c04fcfa8727c687e065015033569e43a9fcaaef00"
       },
       "endings:orthodox_pinnacle:/title": {
         "source_sha256": "f260487c853771f768726f0755ddffc91f15423f5e74b1e84cc474f693d5ad25",
@@ -121232,32 +121454,32 @@
         "target_sha256": "9194067872b5034b6a7e1543754be568cb016ed13840e3ae3ee8226c78a4da22"
       },
       "endings:unorthodox_legend:/description": {
-        "source_sha256": "a37be2cd0d3ecb51287f9acc7f347e73cc17bb1575647c35e75868b5649e801a",
-        "target_sha256": "42e45b4624b98d21ebdc7a73f5d020547249320828cc04398825b4187f54f18a"
+        "source_sha256": "8adc01655cf5e3a603dee810f4dd3f2036a0044fdd9627f5e6af80b39e3fe4e0",
+        "target_sha256": "e5760f64e4a7dbe9f283ea599470bd4fe6bc741f6a31b5d20c1be30779f4b6ad"
       },
       "endings:unorthodox_legend:/description_if_known/cafe_double_jackpot": {
-        "source_sha256": "2cc9359ae13932e79ff2ebc925869175c36a86c610115fd3bb673cb9786fd45e",
-        "target_sha256": "71e3aecbe03f5e76574b8ec2af44fd902e2dd07ad1e6188e2ec951615122b254"
+        "source_sha256": "1263f4969bea7bda5600772f5ab4f5b89b6770bec8a5287ac5f331d696af9e91",
+        "target_sha256": "48e469900c22e4cc30baa74fe97df1f401be56384739020486feaf36cbdc75e8"
       },
       "endings:unorthodox_legend:/description_if_known/coin_second_win": {
-        "source_sha256": "51add157fe328e0c98dbc311dd21276ad686de336b75abd454e0d4de3a95a502",
-        "target_sha256": "f712f6b3938a7b62a6c5da3cb74ef1d5149a98efa80647c8fe0849af5aa13803"
+        "source_sha256": "ea8e704c8465f9974b2d4d2930d3ab174a02c15a63afe3da30dbebec3601d770",
+        "target_sha256": "457c572301730190f8219d089806cd6a21f7074373197448790cd8628405860e"
       },
       "endings:unorthodox_legend:/description_if_known/gray_tip_debt_paid": {
-        "source_sha256": "eba0ab4e3e42cf43d028485c451f1465a086618d336a467316c85e549854461d",
-        "target_sha256": "ab726c793ef23e41840e41427c9d125ae3abf24c6a820520118d7c6f69bdc969"
+        "source_sha256": "1c6bc57d2f8923c8a122eb9744777b2449c287a6a8ce77a32784e9ebb730b8d0",
+        "target_sha256": "00afa90a54063ea313277a9efffffc75dc9045d2e8575817f6b18adf7a676aa1"
       },
       "endings:unorthodox_legend:/description_if_known/holdem_high_stakes_win": {
-        "source_sha256": "4b8310d835c4c538ae5ce347ae24c849998993bc8ee5bdc8aca5fe2e2e5b2d55",
-        "target_sha256": "04becab91d6679e2c426c9a5fa238cb622b97cc329a96a39ab669def1c5d5e98"
+        "source_sha256": "87e12fcf6b01bd25e9526d8f5f0859dd88134c07ad235a7c0564702b167bab0c",
+        "target_sha256": "1d7f06a47899381cdf09a328ddda9cc768fea42b0a7f2dbd807887d248ede5ac"
       },
       "endings:unorthodox_legend:/description_if_known/investigating_gray_contact": {
-        "source_sha256": "cbbd1e0284bd3b131acd9f56592a714c935e06663ab975a8a65d47337f549e4f",
-        "target_sha256": "e525e17759b837095c12d27752d9c601d279bddf65a1e3deab85b0c81a35d1b9"
+        "source_sha256": "3851bcb39f5f1ad97c5192c2099ee57aef14acb8c2dd44385a086014c5941f1f",
+        "target_sha256": "e5b5b6ce451e85f5014341ced1971e023d788cc1a05ea85d870d731d2aff0cd1"
       },
       "endings:unorthodox_legend:/description_if_known/own_path_solidified": {
-        "source_sha256": "71aa288426f76263fd1bc11e7fc13126ffa6e6646793f1dc7f75ae311a1db9b3",
-        "target_sha256": "4415126946b008a32f8fbac7444829a9a6c7bbf69d8ecabe405c3f6b5fb36afd"
+        "source_sha256": "6d26873e56993bfc71a947de9efb76e4f57f9a0101206227527fa6e55f3f5657",
+        "target_sha256": "7189ce91d43b649de252e9e32051eca5d402c70a6cc89ed8b06cc2cf8d2c6b2c"
       },
       "endings:unorthodox_legend:/title": {
         "source_sha256": "3b585e9d155d5ec17bb914ddfdcce5058fb93a36af349f8455ca15ed807c4d6a",
@@ -129744,12 +129966,12 @@
         "target_sha256": "4767dee5a3694c950fe3e3d5911c685830b7af525dc70176c4fc6902abb7872c"
       },
       "events:arc_daeun_final_choice:/description": {
-        "source_sha256": "632ea4d79b9957dc450a43f4208f2c13046284bcb7da703f94f138a1db7f94c3",
-        "target_sha256": "8c5f5ce74c875f820934d1c75545f5e9e6363791b475ef6fbbcee28b94a46c1d"
+        "source_sha256": "6653000c3dc2fd53c8b455dc0e5026c7cffde107f3a1502624caf30b204c2e16",
+        "target_sha256": "3ae62024147169313be09021edd98d4a39edc1dd8cb60b0a371457a1e6ac4ee3"
       },
       "events:arc_daeun_final_choice:/description_if_known/namsan_lock_daeun": {
-        "source_sha256": "4e8a9a865a6f14ffb84194d7c9cf8f0de08abdbeaeadc2211bf80756860403ac",
-        "target_sha256": "793fffd4e3730b2df32dd204dcecef5d37a70aff01a14a1531a15c2a19e4c377"
+        "source_sha256": "b501fc9b5428eb3920498f87247ebee8679cd4286037f5af5f194022b114d7c2",
+        "target_sha256": "e53b46f3ae6cd43ba98b56f78fdedf9eb2f36ffeb15d8d6bbf85a9ca6689c5cd"
       },
       "events:arc_daeun_final_choice:/title": {
         "source_sha256": "fef52b287cb6127f1d76df1d7356d0f68978593abe0da6c0eda7f783f8582b7f",
@@ -129796,8 +130018,8 @@
         "target_sha256": "313f26619cdaada8a55d16e9c5eee911ca17ff229066241f73afc5984a82a5ce"
       },
       "events:arc_daeun_final_choice_kitchen:/description": {
-        "source_sha256": "cb705a8adcd8bfa27b621de03614165a4da0c84ab144c504fa7420ad8d69382f",
-        "target_sha256": "70a30d2e178540bb22693d74bf6f02335f3d2782823dd4cd3a868142b557382f"
+        "source_sha256": "5d015b6eebbcc1b5669c259062ef53e1dc7540b5d355aacd5406c2464512804c",
+        "target_sha256": "befccc1c59fbd98c76ee89d4ac11fca6bae077148deadaff6850393d7fdc5df9"
       },
       "events:arc_daeun_final_choice_kitchen:/title": {
         "source_sha256": "cc84e7c17ae7f6d02a2a3326ffca50233cbf65b403edce66b07ed131d3dc2acb",
@@ -165864,8 +166086,8 @@
         "target_sha256": "e80c016c7c130ca5baeef2f50a19e01a269a96c43a0cf33e0cb4cea05621e081"
       },
       "events:arc_jiyeon_year5_return:/choices/1/result_text": {
-        "source_sha256": "f34ae8a7f3c3e41013998e4f713e97f1649c5aec04a5931c1063c7a81fd7690a",
-        "target_sha256": "4c445bf397b5960182e171ca1bea0889bb9645666b89a2c6305e6d12e9ce1922"
+        "source_sha256": "0ff7063cbdcc406e860afe6a179fe873ab841115744dcacb97503455c4a4d121",
+        "target_sha256": "2f1a38be22df54228e9732e4fdffb8ac4ffb965ec38e80b870a5698657ec5d95"
       },
       "events:arc_jiyeon_year5_return:/choices/1/text": {
         "source_sha256": "d0c295e29765994f458a5f1cc15caf27cffc1f3ae389fa67993c842e0a48e889",
@@ -177321,7 +177543,7 @@
       }
     }
   },
-  "accepted_sha256": "534501d284da8f94b76ef5f928685c0388005e17dcd7c3ad97103f1ce935ef4f",
+  "accepted_sha256": "cc223abdec793f08c9a5f0d64cc0a7d4cd6aa8b056978a5b5b1c840f4b185a4f",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
