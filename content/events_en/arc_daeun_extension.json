@@ -57,7 +57,7 @@
   {
     "id": "arc_daeun_year5_ending",
     "title": "The Night Before 3 billion won",
-    "description": "The number is almost there.\n\nDaeun set out dinner. Rolled omelette — something {name} once said he liked.\n\nAn old friend. Someone who'd held on in the same city for five years.\n\n\"Something feels different today,\" Daeun said.\n\n{name} didn't answer. Tomorrow he'd know.\n\nFive years were in this dinner.",
+    "description": "The number is almost there.\n\nDaeun set out dinner. Rolled omelette — something {name} once said he liked.\n\nAn old friend. Someone who'd held on in the same city since that first year.\n\n\"Something feels different today,\" Daeun said.\n\n{name} didn't answer. Tomorrow he'd know.\n\nEverything since that convenience-store counter was in this dinner.",
     "choices": [
       {
         "text": "\"We got here together. Without you I'd have quit halfway.\" — said it for the first time",
@@ -69,15 +69,15 @@
       }
     ],
     "description_if_known": {
-      "daeun_married": "The number is almost there.\n\nDaeun set out dinner. Rolled omelette. Something {name} once said he liked.\n\nThe ring on her finger still felt a little unfamiliar. He'd put it there last year.\n\n\"So tomorrow you really become a Gangnam person?\" she asked, smiling.\n\"Yeah. Though I already feel like I have everything.\"\n\nDaeun poked him with her spoon. She never could take a sweet line without squirming.\n\nFive years — and every year still to come — all of it in this one dinner.",
-      "daeun_year4_close": "Numbers almost there.\n\nDaeun had made dinner. Rolled omelette. Something {name} had once mentioned liking.\n\n\"Today feels different somehow.\" Daeun said.\n\n{name} said nothing. Tomorrow would show it.\n\nThought of that promise from four years ago — the cafe in Gangnam, when you get there. Tomorrow, that promise could be kept.\n\nFive years lived in this one evening.",
-      "daeun_romance_started": "The number is almost there.\n\nDaeun set out dinner. Rolled omelette — something {name} once said he liked.\n\nIt had been a few months since the cafe, since 'let's go together.' These dinners had become theirs since then.\n\n\"Something feels different today,\" Daeun said.\n\n{name} didn't answer. Tomorrow he'd know.\n\nFive years were in this dinner."
+      "daeun_married": "The number is almost there.\n\nDaeun set out dinner. Rolled omelette. Something {name} once said he liked.\n\nThe ring on her finger still felt a little unfamiliar. He'd put it there.\n\n\"So tomorrow you really become a Gangnam person?\" she asked, smiling.\n\"Yeah. Though I already feel like I have everything.\"\n\nDaeun poked him with her spoon. She never could take a sweet line without squirming.\n\nEverything since that convenience-store counter — and every year still to come — all of it in this one dinner.",
+      "daeun_year4_close": "Numbers almost there.\n\nDaeun had made dinner. Rolled omelette. Something {name} had once mentioned liking.\n\n\"Today feels different somehow.\" Daeun said.\n\n{name} said nothing. Tomorrow would show it.\n\nThought of that promise from four years ago — the cafe in Gangnam, when you get there. Tomorrow, that promise could be kept.\n\nEverything since that convenience-store counter was in this dinner.",
+      "daeun_romance_started": "The number is almost there.\n\nDaeun set out dinner. Rolled omelette — something {name} once said he liked.\n\nIt had been a few months since the cafe, since 'let's go together.' These dinners had become theirs since then.\n\n\"Something feels different today,\" Daeun said.\n\n{name} didn't answer. Tomorrow he'd know.\n\nEverything since that convenience-store counter was in this dinner."
     }
   },
   {
     "id": "arc_daeun_year5_apart",
     "title": "Separate Arrivals",
-    "description": "When the light changed on Gangnam-daero, the crowd crossed all at once. Looking up at apartment lights reflected in a glass façade, {name} suddenly wondered what Daeun would say if she were here.\n\nThe voice that had offered him triangle kimbap across a convenience-store counter five years ago. The white dress in a Busan wedding photograph.\n\nThe time between belonged to each of them without explanation. Daeun was probably sharing a different dinner with someone else now.\n\nThe crossing signal ended. {name} stepped into the street half a beat after everyone else.",
+    "description": "When the light changed on Gangnam-daero, the crowd crossed all at once. Looking up at apartment lights reflected in a glass façade, {name} suddenly wondered what Daeun would say if she were here.\n\nThe voice that had offered him triangle kimbap across that convenience-store counter, years ago. The white dress in a Busan wedding photograph.\n\nThe time between belonged to each of them without explanation. Daeun was probably sharing a different dinner with someone else now.\n\nThe crossing signal ended. {name} stepped into the street half a beat after everyone else.",
     "choices": [
       {
         "text": "Each got there. Glad she's okay.",

@@ -437,7 +437,7 @@
     "description": "At 2:12 a.m., the bell rang for the third time. When {name} opened the door, Daeun saw his sweat-soaked shirt, shaking hand, and the cup on the floor. She stopped one step short. \"Minjun, may I hold your arm? Or should I call emergency services first?\"\n\nThe laptop showed a client-file deadline of 2:30. After-hours intake was an eleven-minute taxi ride away; eighteen minutes remained to finish the file. He could not do both.\n\nDaeun stood in the entryway, looking only at {name}'s wrist.",
     "description_memory_if_known": {
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_father": "Just before this, {name} had called the ward and confirmed Tuesday's medication-review time with Father. That call did not decide the medical outcome, and tonight still left a real choice between his own body and the deadline.",
-      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "Just before this, {name} had sent Daeun two hours he could truly clear and locked the confirmed one into his calendar. The earlier wait remained, and no one could open his own medical channel for him tonight.",
+      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "Earlier, {name} had allowed for travel time and set down a time to return in his calendar. Tonight he looked between the laptop's deadline and the late-night clinic information. Daeun was still waiting in front of him, watching his trembling wrist.",
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_deal": "Just before this, {name} had confirmed another source-contract review seat and its added deposit. The recovered review time sharpened tonight's deadline but did not examine his trembling hand."
     },
     "choices": [
@@ -485,7 +485,7 @@
     "description": "At 2:12 a.m., {name} sat on the entryway floor with an after-hours help page open. His fingertips shook, and a tight line ran from his left temple into his neck. The screen held an emergency-call button, a client-file deadline of 2:30, and the final intake time.\n\nThe corridor sensor light went off and on again. The cold of the floor tiles came up through his trousers, and the palm gripping his phone was slick. Only the laptop fan kept a steady hum deeper in the room.\n\nUnless {name} spoke, no one knew what was happening to his body.",
     "description_memory_if_known": {
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_father": "Just before this, {name} had called the ward and confirmed Tuesday's medication-review time with Father. The call did not decide the medical outcome, and no new person appeared to handle his own care tonight.",
-      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "Just before this, {name} had sent his clinic two workable times and locked the confirmed one into his calendar. The booking did not heal him, and walking through the door tonight remained his own action.",
+      "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "Earlier, {name} had allowed for travel time and set down a time to return in his calendar. Tonight the screen held a 2:30 deadline and the last intake time. His fingertips trembled as he read the same line again.",
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_deal": "Just before this, {name} had confirmed another source-contract review seat and its added deposit. The recovered review time sharpened tonight's deadline but did not examine his trembling hand."
     },
     "description_if_known": {
