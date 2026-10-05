@@ -9281,6 +9281,48 @@
         "path": "docs/agent_reviews/ORDER-464.json",
         "sha256": "e7dbbbbf73a6be0293992ea1318bab9555d5249eff0fe297aecb6a641bc6c330"
       }
+    },
+    {
+      "id": "order-465-source-56bfed7-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-05",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-465",
+      "subject": {
+        "kind": "source",
+        "commit": "56bfed7e23fe59ad531f95cf8c47ae570ee2d749",
+        "tree": "848a57b247664cd56f205717b3e778c59c663a17",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-465.json",
+          "sha256": "a11ebdeab8061f3b9a248b207efa2b7234c801ec50aa8d371502e46e63815a03"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-465.json",
+          "sha256": "a11ebdeab8061f3b9a248b207efa2b7234c801ec50aa8d371502e46e63815a03"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "rendered_market_tab",
+        "fear_greed_draw_string_glyphs",
+        "normal_gameplay",
+        "new_package_runtime",
+        "whole_game_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-465.json",
+        "sha256": "a11ebdeab8061f3b9a248b207efa2b7234c801ec50aa8d371502e46e63815a03"
+      }
     }
   ]
 }

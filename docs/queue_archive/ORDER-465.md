@@ -1,6 +1,22 @@
 # ORDER-465 — 투자 시장 탭의 중국어 안내
 
-#### [~] ORDER-465 [P1·현지화] 시장 상태·계좌·가격 움직임16키를 읽는다
+#### [x] ORDER-465 [P1·현지화] 시장 상태·계좌·가격 움직임16키를 읽는다
+
+## 완료 (2026-10-05)
+
+- 간체/번체 각16값 추가, 사전1801씩·accepted41805/b235·JA3053불변이다.
+  [독립32값 검수](../agent_reviews/ORDER-465.json)는 의미·공식수용만한정GO다.
+- 초기CN check1은분류사项 미인식으로FAIL, TW는NOT_RUN이었다. 원초안/response/
+  실패로그보존·저자/비저자전량재검수로同義 个/個 한글자씩만수정한check2/import PASS.
+  검증기/원문/규칙수정0, 두분류사의동일의미·자연스러움을별도로확인했다.
+- 실제clean `c3de816a35a9b0b1368cddb8382a96189b579146`/tree3bd9c338에서
+  `.git/full-game-localization/order465-normal1/result.json` SHA
+  `de1fccb26eb47da078362f930a227dcaccd529a08f0855fb2dfab9b4936bdf04`,
+  delta14.5050395초·ZH34.513431초/exit0·stderr0·tracked3144/보호57전후불변이다.
+  raw역상·exact1제품전이·기존기준선/로그/Git census·fresh원문결속을통과했다.
+- 후속56bfed7/tree848a57b는CLAUDE상태3행만이다. current365/wholehistory는
+  NOT_RUN이며464 actual PASS재사용과분리한다. 실제화면/11pxdraw_string글리프·
+  원어민·물리·새패키지·본편/출시HOLD. 이하16키·검증조건은일회성,새정본승격0.
 
 **[~] 착수 — 2026-10-05.** 부모157. JA16키는 존재하고 CN/TW 사전·accepted에는
 모두 없다. 한국어에서 간체·번체 각각 직접저작16값, 합32값의 한 배치다.

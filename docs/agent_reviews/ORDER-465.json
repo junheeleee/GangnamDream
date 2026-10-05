@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-465",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "56bfed7e23fe59ad531f95cf8c47ae570ee2d749",
+    "tree": "848a57b247664cd56f205717b3e778c59c663a17",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "투자 시장 탭의 기존 한국어16키에 추가한 CN16/TW16값의 의미·공식 수용과 정확한 append만 GO다. 과거365 재실행·시장 화면 전체 현지화·렌더·원어민·출시 승인이 아니다.",
+  "method": "gangnamdream-dev의 localization 경계에 따라 선언·실제 Main Market route/계산식·기존 용어·원초안32값·수정본32값·공식 source/response/receipt·새 private helper와 원문 로그를 읽었다. Git/stdlib로 header/hash·전체4raw 역상·최종증거 결속을 직접 대조했다. 보조 /root/independent392/ab_readonly428는 별도 계보·archive·보호맵 읽기 대조를 수행했다. 프로젝트 collector/import/검사 실행은 root만 수행했다.",
+  "source_review": {
+    "population": "시장 bull/bear/neutral·급락 경보2·공포/탐욕·계좌·평가액·수익률·빈보유·소액분산·시장 움직임·상위4·가격기록·보유평가액: 16키×2지역32값 전수 의미 PASS.",
+    "binding": "市值와持仓市值/持有市值는 수량×현재가격의 평가액이며 원금·수량이 아니다. 收益率/報酬率는 현재평가액 대 매입원가 수익률이다. 상위4는 최근 두 가격의 절대등락률 순서로 상승만 또는 가격차액으로 번역하지 않았다. %s·%+.1f%%의 부호/소수1자리/literal%와 숫자4를 보존했다.",
+    "revised_sha256": {
+      "zh-CN": "93f4db758804dbcdea49ee7ea304b55033f84b282e469e714f8d1a73cfa8bc18",
+      "zh-TW": "710dca3c0d6c2c365bafca2ff17131d044d951e0cadb711f5168d57048facc24"
+    },
+    "retained_failure": "첫 CN check는 기존 수량검사에 분류사项가 없어 exit1이었다. TW는 그 loop에서 NOT_RUN이다. 원초안·response·빈stdout/211Bstderr·failure.json을 보존했다. 원뜻은 유효하며 각 지역의 项→个/項→個 한 글자만 자연스러운 일반 분류사로 수정한32값을 다시 전수 검토했다. 검사코드/한국어/선택 모집단 변경0이다.",
+    "failure_path": ".git/full-game-localization/order465-check1/failure.json",
+    "failure_sha256": "3b9c81f05234f60170fe47bd5ac9e141b794e66011b5056200ede2d26c61a494"
+  },
+  "official_acceptance": {
+    "source_revision": "1a8ab275be50dc593284ec31f70ecd098c8716d9",
+    "source_manifest_sha256": "9f4e35c51dd343febaf93695100974487664758fbc449d2ef3feb75786477b6c",
+    "check_path": ".git/full-game-localization/order465-check2/result.json",
+    "check_sha256": "cb43a31453cc1970e33bf81bd0fda97a638555fe85dcd61d9e36a5edc1b49098",
+    "result": "수정본의 두 check와 두 import 원문은 각각 leaves16/changed_files1/FULL_LOCALIZATION_BATCH_VALID, full_status=INCOMPLETE/human_gate=OPEN이다. check2 exit0/각stderr0, CN11.764885초·TW11.846694초. source header/selection/Leaf hash/previous-null·response2·최종사전·32accepted·공식receipt를 직접 대조했다.",
+    "receipt_hashes": {
+      "zh-CN": {"file_sha256": "b4dd2dc7be5ac38287cb894d3b688114e7a08ce06899d769f2362d9f7bc163b0", "unsigned_canonical_sha256": "c794a4db39692348ff6b4fc4e06e39211acfb60d1b56b3a7175178ee30aa2c42"},
+      "zh-TW": {"file_sha256": "8369136648b724b9438ffa7e6ad250b4b47b00478ead962fd2c8dfa09ff0e1fc", "unsigned_canonical_sha256": "35c4ff820081cf24117ca08e25251f107dddcb8aab5ab5c89419e5656048b5b0"}
+    },
+    "raw_inverse": "독립 stdlib/Git 대조로 추가16+16 UI member·32accepted·2batch를 제거하고 checksum 원토큰을 복원한 전체4파일 bytes가 실제 export Git과 일치했다(JA 전체 불변). 기존 accepted41773→41805/batches233→235, CN/TW1785→1801 외 옛값·member/order·receipt를 보존했다.",
+    "append_proof_path": ".git/full-game-localization/order465-append-precommit.json",
+    "append_proof_sha256": "dbdbb635ed0a9f4dcd2e9202858a41501244540e5331650e140fabf1a2a9666c"
+  },
+  "automated_contract": {
+    "result_path": ".git/full-game-localization/order465-normal1/result.json",
+    "result_sha256": "de1fccb26eb47da078362f930a227dcaccd529a08f0855fb2dfab9b4936bdf04",
+    "entry_sha256": "1703ca0919e24bea12caccaaa7c16be88f6cc10a4bfc49dfa32226be53148669",
+    "delta_sha256": "35074cc8a96c8fe60ff9379edec6a4c7a90a52803691cdea9a37f01b346c2dba",
+    "runner_sha256": "417feb1f957e4edc3f9fb2aace0ba8cbd9764b2fdb285e0f02a9edc826a15071",
+    "new_delta": "실제 fresh collect의213 source hash/digest와 export revision의 실제 Git census를 동일 manifest에 결속했다. 선형 Git 계보의 데이터변경commit 정확1개·그parent4raw=baseline·그commit4raw=최종을 요구하고 원 validate_append로 신규32/2batch를 검증했다. collector 이후 manifest/append 구간 관측14.5050395초. result의 delta SHA·helper/keys 시작 및 종료SHA 결속과 entry=before=after를 직접 확인했다.",
+    "new_zh": "ZH 기본 --lang all 1회 exit0/34.513431초·stdout702B/stderr0·정확 ZH_TRANSLATION_AUDIT_OK mode=skeleton. 양지역 shipping0, ui_legacy1594/2953·context11/29·dynamic150/701·영어직접우회11이다.",
+    "zh_stdout_sha256": "61d3ee65c621836361aebbf37bcfb7489cd3d2796bf99b22b3d1e72b33d55477",
+    "reused_baseline": "ORDER-464 normal1/result.json SHA32cac4131de86ecb8b5b3b1cc0f83fb3b98c457a98ced7ee4fa773ab56aa446b의 실제 clean dd1c3915/treee5c7ba51 PASS를 재사용했다. 그때365는470.767761초·accepted41773/b233/live50/historical_cases0이었다. baseline원문·로그·3141 tracked지문 및 비소유code/source/50 admission 바이트 불변을 새 계보와 결속했으며 새 전체원장검사로 부르지 않는다.",
+    "current365": "NOT_RUN",
+    "current_whole_history": "NOT_RUN",
+    "result": "all_pass/preserved=true, error=null. 이번 표적검증은 과거 immutable PASS+새 append의 합성 근거이며 검증기 변경·기준 완화·새 current365 PASS 발급이 아니다."
+  },
+  "execution_subject": {
+    "commit": "c3de816a35a9b0b1368cddb8382a96189b579146",
+    "tree": "3bd9c33809bc6e1eb3b5d5f4fe4dee66dd471038",
+    "successor": "정상 실행 전후는 clean c3de816이다. 최종 subject56bfed7까지 committed diff는 CLAUDE.md 상태3행뿐임을 Git으로 직접 확인했다. 제품·사전·원장·검사코드는 동일하며 후속 HEAD에서 재실행했다고 주장하지 않는다. root의 이후 마감metadata는 동결 전후맵과 별개다."
+  },
+  "preservation": {
+    "observed": "normal tracked3144·보호11그룹57파일 전후동일. export→제품 변경은 사전CN/TW·원장3개와 STATUS/WORK_LOG/archive3개뿐이다. 선언 이후 기존464보고·225판정/203보고(+manifest사본1)·human 원문은 불변이다. 보호는 실제player34·공개저장9·seed3·462앱7/manifest1·project/preset/human3이며 없던 공개 build는 missing→missing이다.",
+    "work_log": "docs/history/WORK_LOG_2026-10-05_pre_order465.md는 export 시점 WORK_LOG39,915bytes의 exact 보존이며 SHAaf5ef7db8f6f08d134ab070c9aa3e45588d3870bf9925e3392429b490f7758b1이다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "renderer/PNG/가독성·자연 진입·물리입력·인간·원어민은 NOT_RUN이다. 특히 공포/탐욕은 fallback_font/11px draw_string 소비자로 Label 문자열 확인만으로 실제 글리프·fit을 승인할 수 없다.",
+    "MARKET BOARD/NEWS와 범위밖 공통문구는 남아 있다. ZH skeleton PASS는 화면 전체 또는 중국어 전체 완성·shipping GO가 아니다.",
+    "기본365/전체history/selftest/full-body/JA·EN/엔진·패키지를465에서 반복하지 않았다. 관측 시간은 통제된 A/B나 동일검사 속도향상 증거가 아니다.",
+    "149 렌더/체감·457 이어보기·302/462 runtime·M60/후일담·Property·Chapter5·본편/출시 HOLD를 유지한다."
+  ],
+  "final_boundary": "수정본32값의 의미·공식수용 및 선언된 불변기준선과 단일 append 결속만 ORDER-465 GO다."
+}
