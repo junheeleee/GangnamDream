@@ -113,6 +113,26 @@ ORDER305_SHIPPING_SOURCE_SHA256 = (
     "cb3dc8bdbbe3edbe1255d19ee3d68a6c55a04a9e2ebfc73e74f0aeff0ac1918e"
 )
 
+# An earlier three-leaf phone-presence repair was not part of the numbered
+# prose chain. Preserve its current prose; invert it only for the older ratchet.
+COIN_CALL_COMMIT = "632f88babba781e639157e33ac1a06744b987c1b"
+COIN_CALL_PARENT = "f9b4337caeb6e634538c49ab00323c2b9111eea2"
+COIN_CALL_PATH = "content/events/amb_scenarios2.json"
+COIN_CALL_PATHS = (
+    "assets/event_visual_contracts.json", "assets/scene_direction_manifest.json",
+    COIN_CALL_PATH, "content/events_en/amb_scenarios2.json",
+    "content/meta/story_rules.json", "docs/STATUS.md", "docs/WORK_LOG.md",
+)
+COIN_CALL_RAW_SHA256 = (
+    "37840cac7b72a1b4570dabf77316fef4ef7c9e0a0b630a883e2ece8e41ff3b43",
+    "47d428b7d94593b4bc0558e0b8f1012442f8e3ecbee2957f9883ef965a25b058",
+)
+COIN_CALL_LEAVES = (
+    ("amb_coin_00", ("description",)),
+    ("amb_coin_00", ("choices", 2, "result_text")),
+    ("amb_coin_warn", ("description",)),
+)
+
 # Preserve the original target baseline independently of later accepted batches.
 # These are the public-demo 14 roots (100 leaves), plus the existing JA-only
 # story_prologue_goal (8). One CN leaf's omitted explicit two was repaired under
@@ -821,8 +841,85 @@ def _order305_historical_events(events: Mapping[str, SourceEvent]) -> dict[str, 
     # One fresh invocation-bound proof for this vector, not one full Git/ledger
     # read per event. The context verifies Git/disk again before returning.
     with current_source.fresh_validation_proof():
-        return {eid: replace(event, row=current_source.project_payload(
-            [event.row], event.source_file)[0]) for eid, event in events.items()}
+        coin = _coin_call_historical_blobs()
+        return {eid: replace(event, row=_coin_call_project_row(
+            current_source.project_payload([event.row], event.source_file)[0],
+            event.source_file, coin)) for eid, event in events.items()}
+
+
+def _coin_call_inverse(before: bytes, after: bytes, relative: str) -> bytes:
+    """Exact raw/structural inverse; never a live-source admission fallback."""
+    guard = current_source.source_successor
+    guard._require(relative == COIN_CALL_PATH and isinstance(before, bytes)
+                   and isinstance(after, bytes)
+                   and (guard._sha(before), guard._sha(after)) == COIN_CALL_RAW_SHA256,
+                   "coin-call history raw/path binding differs")
+    old, new = current_source._Document(before), current_source._Document(after)
+    indices = {row["id"]: index for index, row in enumerate(old.value)}
+    allowed = {(indices[eid], *path) for eid, path in COIN_CALL_LEAVES}
+    changes = list(current_source._changes(old.value, new.value))
+    guard._require({keys for keys, _, _ in changes} == allowed
+                   and all(isinstance(a, str) and isinstance(b, str) for _, a, b in changes),
+                   "coin-call history exceeds exact three string leaves")
+    text, replacements = new.text, []
+    for keys, _, _ in changes:
+        a, z = old.spans[keys]
+        p, q = new.spans[keys]
+        replacements.append((p, q, old.text[a:z]))
+    for p, q, literal in sorted(replacements, reverse=True):
+        text = text[:p] + literal + text[q:]
+    guard._require(text.encode() == before, "coin-call history changed neighboring raw bytes")
+    return before
+
+
+def _coin_call_historical_blobs(root: Path | str = ROOT) -> tuple[bytes, bytes]:
+    """Read immutable identity and actual HEAD/disk anew on every invocation."""
+    root = Path(root).resolve()
+    guard = current_source.source_successor
+    head = guard._git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+    before, _ = guard._snapshot(root, COIN_CALL_PARENT, (COIN_CALL_PATH,))
+    after, headers = guard._snapshot(root, COIN_CALL_COMMIT, (COIN_CALL_PATH,))
+    guard._require([h[7:].decode() for h in headers if h.startswith(b"parent ")]
+                   == [COIN_CALL_PARENT], "coin-call exact parent differs")
+    expected = b"".join(b"M\0" + p.encode() + b"\0" for p in sorted(COIN_CALL_PATHS))
+    guard._require(guard._git(root, "diff", "--name-status", "-z", COIN_CALL_PARENT,
+                             COIN_CALL_COMMIT) == expected, "coin-call exact path set differs")
+    guard._git(root, "merge-base", "--is-ancestor", COIN_CALL_COMMIT, head)
+    pair = before[COIN_CALL_PATH], after[COIN_CALL_PATH]
+    _coin_call_inverse(*pair, COIN_CALL_PATH)
+    actual, _ = guard._snapshot(root, head, (COIN_CALL_PATH,))
+    guard._require(actual == after and (root / COIN_CALL_PATH).read_bytes() == pair[1],
+                   "coin-call current HEAD/disk differs")
+    guard._require(guard._git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+                   == head, "coin-call HEAD changed during proof")
+    return pair
+
+
+def _coin_call_project_row(row: dict[str, Any], relative: str,
+                           pair: tuple[bytes, bytes]) -> dict[str, Any]:
+    if relative != COIN_CALL_PATH:
+        return copy.deepcopy(row)
+    _coin_call_inverse(*pair, relative)
+    old, new = ({item["id"]: item for item in json.loads(raw)} for raw in pair)
+    eid = row.get("id")
+    if eid in {owner for owner, _ in COIN_CALL_LEAVES} and row == new[eid]:
+        return copy.deepcopy(old[eid])
+    return copy.deepcopy(row)
+
+
+def _pr31_added_source_leaves() -> set[tuple[str, str]]:
+    """Measure the four added Minseo variants from the immutable intake pair."""
+    errors: list[str] = []
+    with current_source.fresh_validation_proof() as proof:
+        vectors = []
+        for stage in ("before", "current"):
+            vectors.append({(row["id"], leaf.path)
+                            for path in current_source.SOURCE_PATHS if path.startswith("content/events/")
+                            for row in json.loads(proof[stage][path])
+                            for leaf in collect_event_leaves(row["id"], row, errors)})
+        current_source.source_successor._require(not errors and not vectors[0] - vectors[1],
+                                                 "PR31 added-leaf comparison is malformed")
+        return vectors[1] - vectors[0]
 
 
 def current_target_acceptance(
@@ -1269,9 +1366,11 @@ def _admitted_source_history_observations(report: Mapping[str, Any]) -> tuple[di
                       if eid in shipping_ids}
     # Reuse proof only within this observation, not across calls or mutations.
     proof_rows: dict[str, tuple[dict[str, Any], dict[str, Any]]] = {}
+    expected_paths.update({eid: COIN_CALL_PATH for eid, _ in COIN_CALL_LEAVES})
     for relative in sorted(set(expected_paths.values())):
         try:
-            before, after = current_source.historical_blobs(relative)
+            before, after = (_coin_call_historical_blobs() if relative == COIN_CALL_PATH
+                             else current_source.historical_blobs(relative))
             proof_rows[relative] = (
                 {row["id"]: row for row in json.loads(before)},
                 {row["id"]: row for row in json.loads(after)},
@@ -1291,7 +1390,7 @@ def _admitted_source_history_observations(report: Mapping[str, Any]) -> tuple[di
         if leaves_sha(leaves) != event["source_leaves_sha256"]:
             errors.append(f"current event observation is unbound: {eid}")
         replacement = leaves
-        if relative in current_source.HISTORICAL_PATHS:
+        if relative in current_source.HISTORICAL_PATHS or relative == COIN_CALL_PATH:
             if relative in proof_rows:
                 old = proof_rows[relative][0].get(eid)
                 new = proof_rows[relative][1].get(eid)
@@ -1419,6 +1518,123 @@ def _expected_observation_errors(report: Mapping[str, Any]) -> list[str]:
     return errors
 
 
+def run_source_history_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
+    """Focused source-only regression; does not admit UI/translation receipts.
+
+    Fresh PR31/469 proofs and a before/after whole Korean-file snapshot bind
+    this invocation. This target cannot replace the normal scope/receipt check.
+    """
+    from unittest import mock
+
+    root = Path(root).resolve()
+    guard = current_source.source_successor
+    failures: list[str] = []
+    cases = 0
+
+    def require(name: str, condition: bool, detail: str = "") -> None:
+        nonlocal cases
+        cases += 1
+        if not condition:
+            failures.append(f"{name}: {detail or 'assertion failed'}")
+
+    def rejected(name, operation):
+        try:
+            operation()
+        except (OSError, ValueError):
+            require(name, True)
+        else:
+            require(name, False)
+
+    with (guard.fresh_validation_proof(root) as source_proof,
+          current_source.fresh_validation_proof(root),
+          current_source.previous.fresh_validation_proof()):
+        errors: list[str] = []
+        events = load_source_events(root, errors)
+        paths = tuple(sorted({event.source_file for event in events.values()}))
+        raw, _ = guard._snapshot(root, source_proof["head"], paths)
+        require("source-only current Korean files bind to HEAD", not errors
+                and all((root / path).read_bytes() == data for path, data in raw.items()))
+        pair = _coin_call_historical_blobs(root)
+        require("coin-call exact three-leaf raw inverse", _coin_call_inverse(*pair, COIN_CALL_PATH) == pair[0])
+        for label, before, after, path in (
+            ("rollback", pair[0], pair[0], COIN_CALL_PATH),
+            ("raw whitespace", pair[0], pair[1] + b"\n", COIN_CALL_PATH),
+            ("wrong path", *pair, "content/events/arc_drama.json"),
+        ):
+            rejected("coin-call rejects " + label,
+                     lambda a=before, b=after, p=path: _coin_call_inverse(a, b, p))
+        old, current = ({row["id"]: row for row in json.loads(data)} for data in pair)
+        for eid, pointer in COIN_CALL_LEAVES:
+            changed = json.loads(pair[1])
+            owner = next(row for row in changed if row["id"] == eid)
+            for token in pointer[:-1]:
+                owner = owner[token]
+            owner[pointer[-1]] += " mutation"
+            mutant = json.dumps(changed, ensure_ascii=False).encode()
+            rejected("coin-call rejects changed owned leaf: " + eid + repr(pointer),
+                     lambda data=mutant: _coin_call_inverse(pair[0], data, COIN_CALL_PATH))
+        neighbor_raw = pair[1] + b"\n"
+        with mock.patch.dict(globals(), {"COIN_CALL_RAW_SHA256":
+                             (guard._sha(pair[0]), guard._sha(neighbor_raw))}):
+            rejected("coin-call structural inverse rejects rehashed neighboring bytes",
+                     lambda: _coin_call_inverse(pair[0], neighbor_raw, COIN_CALL_PATH))
+        for eid in dict.fromkeys(eid for eid, _ in COIN_CALL_LEAVES):
+            require("coin-call complete exact row projects: " + eid,
+                    _coin_call_project_row(current[eid], COIN_CALL_PATH, pair) == old[eid])
+            require("coin-call wrong path stays visible: " + eid,
+                    _coin_call_project_row(current[eid], "wrong.json", pair) == current[eid])
+            neighbor = copy.deepcopy(current[eid])
+            neighbor["title"] += " mutation"
+            require("coin-call neighboring mutation stays visible: " + eid,
+                    _coin_call_project_row(neighbor, COIN_CALL_PATH, pair) == neighbor)
+        # Mutants are in-memory and scoped. No cached success may outlive them.
+        with mock.patch.object(guard, "_git", side_effect=ValueError("missing coin history")):
+            rejected("coin-call missing immutable proof fails closed", lambda: _coin_call_historical_blobs(root))
+        with mock.patch.dict(globals(), {"COIN_CALL_PARENT": "0" * 40}):
+            rejected("coin-call wrong parent fails closed", lambda: _coin_call_historical_blobs(root))
+        with mock.patch.dict(globals(), {"COIN_CALL_PATHS": COIN_CALL_PATHS[:-1]}):
+            rejected("coin-call wrong path population fails closed", lambda: _coin_call_historical_blobs(root))
+        original_read = Path.read_bytes
+        with mock.patch.object(Path, "read_bytes", lambda path: pair[0]
+                               if path == root / COIN_CALL_PATH else original_read(path)):
+            rejected("coin-call disk rollback fails closed", lambda: _coin_call_historical_blobs(root))
+        require("coin-call fresh proof recovers after failed fixtures", _coin_call_historical_blobs(root) == pair)
+
+        author = set(json.loads(source_proof["before"][guard.LIFECYCLE_PATH])["author_only_event_ids"])
+        shipping_ids = set(events) - author
+        historical_index = collect_leaf_index(_order305_historical_events(events), errors)
+        history = [leaf for eid in shipping_ids for leaf in historical_index[eid]]
+        require("source-only pre305 fingerprint is preserved", not errors
+                and leaves_sha(history) == EXPECTED["shipping_source_leaves_sha256"])
+        require("source-only legacy foreshadow fingerprint is preserved",
+                leaves_sha(leaf for leaf in history if not leaf.path.endswith(".foreshadow"))
+                == "2f5e7a457f93d4e735b87d9a5e65f7dc01f467c6705bf33568fc76a7969a9184")
+        _before305, after305 = demo_source.verified_blobs(demo_source.KO_PATH)
+        post305_ids = {row["id"] for row in json.loads(after305)}
+        post305 = [leaf for leaf in history if leaf.event_id not in post305_ids]
+        post305.extend(leaf for row in json.loads(after305) if row["id"] in shipping_ids
+                       for leaf in collect_event_leaves(row["id"], row, errors))
+        require("source-only post305 fingerprint is preserved", not errors
+                and leaves_sha(post305) == ORDER305_SHIPPING_SOURCE_SHA256)
+        added = _pr31_added_source_leaves()
+        expected_added = {(eid, "description_if_known." + key)
+                          for eid in ("arc_minseo_03_arrival", "arc_minseo_03b_not_arrived")
+                          for key in ("minseo_real_talk", "contacted_minseo&minseo_real_talk")}
+        require("PR31 exactly four known source variants were added", added == expected_added)
+        live = collect_leaf_index(events, errors)
+        live_count = sum(len(live[eid]) for eid in shipping_ids)
+        require("ghost plus PR31 variants explain current source denominator",
+                live_count == len(history) + 1 + len(added))
+        ghost = ("arc_year3_close", "description_if_known.arc_jaehyuk_ghost_seen")
+        require("exact ghost leaf remains current but not historical",
+                ghost in {(leaf.event_id, leaf.path) for leaf in live[ghost[0]]}
+                and ghost not in {(leaf.event_id, leaf.path) for leaf in history})
+        require("source-only fixture leaves actual Korean bytes unchanged",
+                all((root / path).read_bytes() == data for path, data in raw.items())
+                and guard._snapshot(root, source_proof["head"], paths)[0] == raw)
+    return failures, cases
+
+
 def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     failures: list[str] = []
     cases = 0
@@ -1429,6 +1645,9 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         if not condition:
             failures.append(f"{name}: {detail or 'assertion failed'}")
 
+    source_failures, source_cases = run_source_history_self_test(root)
+    failures.extend(source_failures)
+    cases += source_cases
     report, errors = build_scope(root)
     require("current source is structurally clean", not errors, "; ".join(errors[:3]))
     observation_errors = _expected_observation_errors(report)
@@ -1483,13 +1702,19 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
          source_history.get("scope_observations", {}).get(SCOPE_M07_M60_STATIC, {}).get("event_count"),
          historical_static.get("leaf_count")) == (186, 1693, 192, 1751),
     )
+    pr31_added = _pr31_added_source_leaves()
     require(
-        "ORDER-350 current inventory retains the added ghost leaf",
+        "ORDER-350 ghost and exact PR31 variants remain in current inventory",
         not source_binding_errors
+        and pr31_added == {(eid, "description_if_known." + key)
+                           for eid in ("arc_minseo_03_arrival", "arc_minseo_03b_not_arrived")
+                           for key in ("minseo_real_talk", "contacted_minseo&minseo_real_talk")}
         and (source_history["scope_observations"][SCOPE_LIFECYCLE_SHIPPING].get("leaf_count"),
              source_history["scope_observations"][SCOPE_LIFECYCLE_SHIPPING].get("standard_leaf_count"),
              source_history["scope_observations"][SCOPE_M07_M60_STATIC].get("leaf_count"))
-        == (11681, 11548, 1752),
+        == (EXPECTED["shipping_leaves"] + 1 + len(pr31_added),
+            EXPECTED["shipping_standard_leaves"] + 1 + len(pr31_added),
+            EXPECTED["m07_m60_leaves"] + 1 + len(pr31_added)),
     )
     require(
         "deferred follow-up expands static closure",
@@ -2044,7 +2269,17 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="print the complete source inventory, including every Korean leaf",
     )
     parser.add_argument("--self-test", action="store_true")
+    parser.add_argument("--self-test-source-history", action="store_true",
+                        help="fresh source-only history regressions; not receipt/scope admission")
     args = parser.parse_args(argv)
+
+    if args.self_test_source_history:
+        failures, cases = run_source_history_self_test(ROOT)
+        for failure in failures:
+            print(f"ERROR full-body source history self-test: {failure}")
+        print(f"FULL_BODY_SOURCE_HISTORY_SELF_TEST_{'FAIL' if failures else 'OK'} "
+              f"cases={cases} failures={len(failures)} translation_receipt_claim=0 runtime_claim=0")
+        return int(bool(failures))
 
     if args.self_test:
         failures, cases = run_self_test(ROOT)

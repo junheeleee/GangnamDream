@@ -34,6 +34,7 @@ import order313_source_compat as chapter2_source
 import order350_source_compat as chapter3_source
 import pr31_intake_history as current_source
 import order365_ui_receipt_compat as ui_receipts
+import order469_source_compat as chapter4_retirement
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -6056,8 +6057,76 @@ def order156_project_payload(payload: Any, relative: str) -> Any:
     return projected
 
 
+def order469_metadata_project_byte_hash(current_hash: str, relative: str) -> str:
+    """Observe two retired-route metadata files through their proved raw inverse.
+
+    Do not advance the older registries or alter current runtime payloads.
+    Unknown hashes remain unknown; a matching hash alone is not admission.
+    """
+    if relative not in (chapter4_retirement.EXPOSED_PATH, chapter4_retirement.SPINE_PATH):
+        return current_hash
+    if current_hash != chapter4_retirement.RAW_SHA256[relative][1]:
+        return current_hash
+    with chapter4_retirement.fresh_validation_proof(ROOT) as proof:
+        if byte_sha256(proof["after"][relative]) != current_hash:
+            raise ValueError("ORDER-469 metadata observation differs from proved source")
+        return byte_sha256(proof["before"][relative])
+
+
+def order469_metadata_transition_self_test() -> tuple[list[str], int]:
+    """Run independently of the unrelated historical YEAR5 failures."""
+    from unittest.mock import patch
+    failures: list[str] = []
+    cases = 0
+
+    def check(label: str, condition: bool) -> None:
+        nonlocal cases
+        cases += 1
+        if not condition:
+            failures.append(label)
+
+    for relative in (chapter4_retirement.EXPOSED_PATH, chapter4_retirement.SPINE_PATH):
+        before, after = chapter4_retirement.RAW_SHA256[relative]
+        check(relative + " proved current inverse",
+              order469_metadata_project_byte_hash(after, relative) == before)
+        for label, value, path in (
+            ("old comparison", before, relative),
+            ("unknown hash", "0" * 64, relative),
+            ("wrong path", after, relative + ".other"),
+            ("unrelated product", chapter4_retirement.RAW_SHA256[chapter4_retirement.MAIN_PATH][1],
+             chapter4_retirement.MAIN_PATH),
+        ):
+            check(relative + " " + label,
+                  order469_metadata_project_byte_hash(value, path) == value)
+        for error in (ValueError("unapproved source"), OSError("unreadable source")):
+            with patch.object(chapter4_retirement, "fresh_validation_proof", side_effect=error):
+                refused = False
+                try:
+                    order469_metadata_project_byte_hash(after, relative)
+                except (OSError, ValueError):
+                    refused = True
+                check(relative + " refuses " + type(error).__name__, refused)
+    relative = chapter4_retirement.EXPOSED_PATH
+    for observe, expected in (
+        (order151_current_byte_hash, ORDER151_PRODUCT_FILE_TRANSITIONS[relative][1]),
+        (order150_current_byte_hash, ORDER150_PRODUCT_FILE_TRANSITIONS[relative][1]),
+    ):
+        check(observe.__name__ + " exact historical chain", observe(relative) == expected)
+        # A successful direct call must not mask later proof failure via cache.
+        with patch.object(chapter4_retirement, "fresh_validation_proof",
+                          side_effect=ValueError("changed after successful observation")):
+            refused = False
+            try:
+                observe(relative)
+            except ValueError:
+                refused = True
+            check(observe.__name__ + " warm proof failure", refused)
+    return failures, cases
+
+
 def order156_project_byte_hash(current_hash: str, relative: str) -> str:
     """Map only an exact ORDER-156 successor hash to its predecessor."""
+    current_hash = order469_metadata_project_byte_hash(current_hash, relative)
     current_hash = order304_reunion_project_byte_hash(
         current_source.project_byte_hash(current_hash, relative), relative)
     current_hash = _order243_history_byte_hash(current_hash, relative)
@@ -6878,7 +6947,6 @@ def order151_current_payload(relative: str) -> Any:
         relative)
 
 
-@functools.lru_cache(maxsize=None)
 def order151_current_byte_hash(relative: str) -> str:
     return order152_project_byte_hash(
         order153_project_byte_hash(
@@ -6983,7 +7051,6 @@ def order150_current_payload(relative: str) -> Any:
     return order151_project_payload(order151_current_payload(relative), relative)
 
 
-@functools.lru_cache(maxsize=None)
 def order150_current_byte_hash(relative: str) -> str:
     """Preserve ORDER-150 byte receipts through one exact successor inverse."""
     return order151_project_byte_hash(
@@ -13885,6 +13952,9 @@ def main() -> int:
         chapter4_failures, chapter4_cases = order309_transition_self_test(current_source)
         failures.extend(chapter4_failures)
         cases += chapter4_cases
+        retirement_failures, retirement_cases = order469_metadata_transition_self_test()
+        failures.extend(retirement_failures)
+        cases += retirement_cases
         if failures:
             for failure in failures:
                 print(f"YEAR5_REFERENCE_ROUTE_SELF_TEST_ERROR {failure}")

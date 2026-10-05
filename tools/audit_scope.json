@@ -28,12 +28,14 @@
         "tools/pr31_intake_history.py", "tools/pr31_intake_history_self_test.py",
         "tools/main_game_locale_history.py", "tools/ja_translation_pipeline.py",
         "tools/ui_translation_append.py", "tools/full_body_translation_scope.py",
+        "tools/year5_reference_route_audit.py",
         "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/WORK_LOG.md",
         "docs/STATUS.md", "docs/agent_reviews/ORDER-469.json", "docs/agent_review_decisions.json",
         "docs/queue_active/ORDER-469.md", "docs/queue_archive/ORDER-469.md"
       ],
       "tools": [
         "tools/order469_source_compat_self_test.py", "tools/pr31_intake_history_self_test.py",
+        "tools/full_body_translation_scope.py --self-test-source-history",
         "tools/event_lifecycle.py", "tools/event_lifecycle.py --self-test", "tools/event_director_audit.py",
         "tools/chapter4_causal_route_audit.py", "tools/chapter4_causal_route_audit.py --self-test",
         "tools/narrative_spine_audit.py", "tools/exposed_state_consistency_audit.py",
@@ -41,7 +43,7 @@
         "tools/ja_translation_audit.py --scope ui", "tools/ja_translation_pipeline.py --self-test",
         "tools/zh_translation_audit.py", "tools/en_coverage_check.py", "tools/audit_select.py --verify"
       ],
-      "why": "Exact six Chapter4 Jiyeon ingress removals, unchanged manuscripts/translations/receipts and current lifecycle census. Root separately runs isolated prepared64 real-Main cases and one fresh shared365 proof for dependent body/story/chapter/inventory consumers. Existing exposed/YEAR5 failures are compared, not suppressed. No public build, human/native/physical input or release GO."
+      "why": "Exact six Chapter4 Jiyeon ingress removals, unchanged manuscripts/translations/receipts and current lifecycle census. Root separately runs isolated prepared64 real-Main cases and one fresh shared365 proof for dependent body/story/chapter/inventory consumers. Repaired body/history and YEAR5 two-path metadata observers receive a fresh targeted delta run; unchanged consumers retain their actual evidence. Existing exposed/YEAR5 failures are compared, not suppressed. No public build, human/native/physical input or release GO."
     },
     {
       "id": "pr31-intake",
