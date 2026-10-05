@@ -9493,6 +9493,92 @@
       "receipt_sha256_by_locale": {
         "zh-TW": "8ee724e32d9f537c6c27fe322fae67c8eebe7fa5939b135d9359ddfc341725aa"
       }
+    },
+    {
+      "order": "ORDER-464",
+      "group": "ui",
+      "roots": [
+        "처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 정선 카지노입니다.",
+        "±0원",
+        "[%s] 입장  [D-pad/%s/%s] 게임 선택  [%s] 규칙  [%s] 용어집  [%s] 나가기",
+        "선택: %s",
+        "정선 카지노",
+        "원하는 게임을 선택하세요",
+        "도박은 중독성이 있습니다. 적정 한도 내에서 즐기세요.",
+        "용어 설명",
+        "입장"
+      ],
+      "source_leaves": 9,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 9,
+        "zh-TW": 0
+      },
+      "source_review": "Independent Korean-direct Chinese hub copy: first visit, zero-won session delta, six ordered controller glyph slots, selected game, shared Jeongseon title, choose-game prompt, addiction warning, glossary and entry button. Keep newline, spaces, units and placeholders. No added felt tables from English. No JA, Korean/English source, rules, gambling accounting, input, save, public or history change. Source review and machine acceptance are not rendered/native/release approval",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "1a34083fe7e1d23fb9ca73f90024d32e22ecde168a06a4f354af88b64e2126f4"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "366e0e621e266eeb1d260b9b614af8a92b38027d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9f4e35c51dd343febaf93695100974487664758fbc449d2ef3feb75786477b6c",
+          "selection_sha256": "92bac774e639a22b55aade0daded288c3549dbf0198adf2e7164e35587c3c8cf",
+          "count": 9,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b030622228047d129be6fc56e92536cc79d263b77a52a11f149d3ed6e295868e"
+        }
+      }
+    },
+    {
+      "order": "ORDER-464",
+      "group": "ui",
+      "roots": [
+        "처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 정선 카지노입니다.",
+        "±0원",
+        "[%s] 입장  [D-pad/%s/%s] 게임 선택  [%s] 규칙  [%s] 용어집  [%s] 나가기",
+        "선택: %s",
+        "정선 카지노",
+        "원하는 게임을 선택하세요",
+        "도박은 중독성이 있습니다. 적정 한도 내에서 즐기세요.",
+        "용어 설명",
+        "입장"
+      ],
+      "source_leaves": 9,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 9
+      },
+      "source_review": "Independent Korean-direct Chinese hub copy: first visit, zero-won session delta, six ordered controller glyph slots, selected game, shared Jeongseon title, choose-game prompt, addiction warning, glossary and entry button. Keep newline, spaces, units and placeholders. No added felt tables from English. No JA, Korean/English source, rules, gambling accounting, input, save, public or history change. Source review and machine acceptance are not rendered/native/release approval",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "e5058558314ae2aa2cac0046cfbeba5a5edcfbce4e34dbcca1a4a7f171baa7ba"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "366e0e621e266eeb1d260b9b614af8a92b38027d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9f4e35c51dd343febaf93695100974487664758fbc449d2ef3feb75786477b6c",
+          "selection_sha256": "71e5329db1b9ecf6d8c4acf4ca961d4857200dbad4250e00ff5ff727a2e7c096",
+          "count": 9,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a7bf560a96eea07d51c853af0353794766e4102307686586bef8beeb7c482801"
+        }
+      }
     }
   ],
   "accepted": {
@@ -119294,6 +119380,42 @@
       "ui:팟:/팟": {
         "source_sha256": "00992201bc5665aca4151143ef16b0d2601f10b4c19ae38ff964799a2cc6c18b",
         "target_sha256": "4141e31658d3ac7a73c28f7cbbfb21b3acdfa6fa546157da63942492d94cf431"
+      },
+      "ui:[%s] 입장  [D-pad/%s/%s] 게임 선택  [%s] 규칙  [%s] 용어집  [%s] 나가기:/[%s] 입장  [D-pad~1%s~1%s] 게임 선택  [%s] 규칙  [%s] 용어집  [%s] 나가기": {
+        "source_sha256": "8bd215406dace4fa5bbc45728b6c161e223bd1eef7579a8ba9eb989ca6882fc2",
+        "target_sha256": "f7c9b7ffa7622b91af7e5f3e598d665da3290e3384b9efdb4dfafbfc91c53b5b"
+      },
+      "ui:±0원:/±0원": {
+        "source_sha256": "75846457c980e181e634731d236d8730204c9a52070c157e79cf4dc87801fb3a",
+        "target_sha256": "b73b0a13e7f2ca138225eccd11460470b194ee998ce097d5c306ab1722a6cf62"
+      },
+      "ui:도박은 중독성이 있습니다. 적정 한도 내에서 즐기세요.:/도박은 중독성이 있습니다. 적정 한도 내에서 즐기세요.": {
+        "source_sha256": "9761719824ae9ade4dedc95a0e11a056aee2e6c4972974fcbe3cc4ff7144d1be",
+        "target_sha256": "e9de43b0c508454787214b89dd245614465773678b779f6c0fa210e13a3ffbac"
+      },
+      "ui:선택: %s:/선택: %s": {
+        "source_sha256": "c67ec2183f6d269f1173fe279c6ecd11884f6cd7c7418a3449c54e8754637d05",
+        "target_sha256": "e3c01017a06c720b2d0207970d7bd534c4f7c8ee46dddf6698e50af2cf9b56e6"
+      },
+      "ui:용어 설명:/용어 설명": {
+        "source_sha256": "fce87e27be4a005632f1bd23a2dc51bc16e757cb54e70ad09929ea7faa4f6521",
+        "target_sha256": "fba576ef87c530f88fddbdfb76683624e8950e80355bedd72034f8d16ddf1431"
+      },
+      "ui:원하는 게임을 선택하세요:/원하는 게임을 선택하세요": {
+        "source_sha256": "baf5533476296a54a831c8548a483dd595db8c0cb7eec10aff367bec502b542e",
+        "target_sha256": "5d863f3c4075b85bbeff2d1effe30a94276421b61d2108a7f82d403861f5695f"
+      },
+      "ui:입장:/입장": {
+        "source_sha256": "fdcc3406cd8e7b4ec5aebd0343973938a186d61861081f7d6161ec1dee3f06c2",
+        "target_sha256": "e3bd3fa3aade2566414cd8b5f0bcc76af1111f7089b497102923c887a41b4b5b"
+      },
+      "ui:정선 카지노:/정선 카지노": {
+        "source_sha256": "359fbbfe9b7db1b63c8ea4b1defb8ff4cd8f629026da5611e918c7b1c85ee60f",
+        "target_sha256": "9ea32aa0b352bb7cb407220f9fa0fff4ebb2c790867daeba1200c66a67bf4d1e"
+      },
+      "ui:처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 정선 카지노입니다.:/처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 정선 카지노입니다.": {
+        "source_sha256": "b019aa29d4eb8d73b0d92b4cd0d0b73b128f64857190fa026ccabd1f3b17396a",
+        "target_sha256": "7eba84610cf6ae93fdaa74da74e3f9d494d3e3849a8ed6ff0037aa5f794040e0"
       }
     },
     "zh-TW": {
@@ -176520,10 +176642,46 @@
       "ui:팟:/팟": {
         "source_sha256": "00992201bc5665aca4151143ef16b0d2601f10b4c19ae38ff964799a2cc6c18b",
         "target_sha256": "4141e31658d3ac7a73c28f7cbbfb21b3acdfa6fa546157da63942492d94cf431"
+      },
+      "ui:[%s] 입장  [D-pad/%s/%s] 게임 선택  [%s] 규칙  [%s] 용어집  [%s] 나가기:/[%s] 입장  [D-pad~1%s~1%s] 게임 선택  [%s] 규칙  [%s] 용어집  [%s] 나가기": {
+        "source_sha256": "8bd215406dace4fa5bbc45728b6c161e223bd1eef7579a8ba9eb989ca6882fc2",
+        "target_sha256": "14d095dfc2eb752686974b1e5c807a306b6206b8aaf90fa8f362be9e634c4f6d"
+      },
+      "ui:±0원:/±0원": {
+        "source_sha256": "75846457c980e181e634731d236d8730204c9a52070c157e79cf4dc87801fb3a",
+        "target_sha256": "100757d8a5e364866b2b520d3e6331600e40637777dae6365ca00aed93136701"
+      },
+      "ui:도박은 중독성이 있습니다. 적정 한도 내에서 즐기세요.:/도박은 중독성이 있습니다. 적정 한도 내에서 즐기세요.": {
+        "source_sha256": "9761719824ae9ade4dedc95a0e11a056aee2e6c4972974fcbe3cc4ff7144d1be",
+        "target_sha256": "c78f881dbcd03b78b67cf4f499b8f3e11b889a9f2a5929a02146686c29e82874"
+      },
+      "ui:선택: %s:/선택: %s": {
+        "source_sha256": "c67ec2183f6d269f1173fe279c6ecd11884f6cd7c7418a3449c54e8754637d05",
+        "target_sha256": "6d607622437a40af21233aa293539539bcf9b56cab79fb340febfc3496d797fb"
+      },
+      "ui:용어 설명:/용어 설명": {
+        "source_sha256": "fce87e27be4a005632f1bd23a2dc51bc16e757cb54e70ad09929ea7faa4f6521",
+        "target_sha256": "f1230dc70cc331c43f5b5aedface0485e18788b9c82b647a81d3f746dce2468b"
+      },
+      "ui:원하는 게임을 선택하세요:/원하는 게임을 선택하세요": {
+        "source_sha256": "baf5533476296a54a831c8548a483dd595db8c0cb7eec10aff367bec502b542e",
+        "target_sha256": "76276202c86453e6d49592dc19dd197798debce52998e23d7fef7e467faef31d"
+      },
+      "ui:입장:/입장": {
+        "source_sha256": "fdcc3406cd8e7b4ec5aebd0343973938a186d61861081f7d6161ec1dee3f06c2",
+        "target_sha256": "dd6df0fbca104d78fbbd69b8cdb5eeebcd248f6114a264653c05eba5a8a257f3"
+      },
+      "ui:정선 카지노:/정선 카지노": {
+        "source_sha256": "359fbbfe9b7db1b63c8ea4b1defb8ff4cd8f629026da5611e918c7b1c85ee60f",
+        "target_sha256": "37704940ec6d01c657af31bb4a0718c84f39ac3ea0c0e10a663e82373aae4494"
+      },
+      "ui:처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 정선 카지노입니다.:/처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 정선 카지노입니다.": {
+        "source_sha256": "b019aa29d4eb8d73b0d92b4cd0d0b73b128f64857190fa026ccabd1f3b17396a",
+        "target_sha256": "d7f331c9ae1ae05ee9f7e0978cbdc55a9e1f6c1cefbb80a316e8ed560e798ce1"
       }
     }
   },
-  "accepted_sha256": "842385df8efc6f377f118c8883457ae8c7ce7e225baadcaf8dad572ee11ca21b",
+  "accepted_sha256": "316bc9557ef693edad27f6d29011c6f5a32a47bb82ccb638641f0b1c93acc1ab",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
