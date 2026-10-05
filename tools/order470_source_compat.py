@@ -650,8 +650,13 @@ def receipt_overlay_inverse(before, after, path, selectors):
 
 
 def person_receipt_overlay_inverse(before, after, path):
+    # Japanese retains the two source-stage DIK drafts; the Chinese official
+    # responses also correct their quantity wording. All six remain owned
+    # receipt selectors, but the exact changed-string populations are 4/6/6.
+    unchanged = PERSON_ADDED_TEXT_LEAVES if path == PERSON_PATHS[2] else ()
+    count = 4 if path == PERSON_PATHS[2] else 6
     return _receipt_overlay_inverse(before, after, path, PERSON_TEXT_LEAVES, PERSON_PATHS[2:],
-                                    PERSON_RECEIPT_RAW_SHA256, PERSON_ADDED_TEXT_LEAVES, 4)
+                                    PERSON_RECEIPT_RAW_SHA256, unchanged, count)
 
 
 def _receipt_overlay_inverse(before, after, path, selectors, paths, pins, additions, count):

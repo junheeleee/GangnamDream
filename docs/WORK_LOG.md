@@ -4,6 +4,7 @@
 
 ## 2026-10-06 — 세 장면 수리 마감·4장 약속/진료 수리 착수 (470→471)
 
+- 471 공식 pipeline1은 JA export/check 뒤 CN '两边'의 장소2 수량 검사에서 import0으로 중단(123.059782초)했다. 원본 실패를 보존하고 목표어 표현을 `两处/兩處`·TW `先後兩次`로 명확히 했다. 검사 완화0, 새 초안의 순수 번역검사18 오류0; 이는 공식 수용 증거가 아니다. source5 초안을 재작성하지 않아 CN/TW 조건부2잎도 공식 import 때 달라지며 exact 문자열4/6/6만 허용한다. 지원 표적71 PASS/3.363956초의 result SHA `cb03850091bda0c2f54dfae568d41257b2dce754e3f78ccf65879dfc0797e7fd`, 외부 증명 안 자체검사의 종료 상태도 호출 전 identity로 복귀시켰다.
 - 471 원문5경로 `e459b1d`는 한·영4잎 수리+조건부2잎, 목표어3은 공식 수용 전2잎 초안만 포함한다. 실제 W153→W157 간격 때문에 '지난 주말'을 '그날'로 정렬했으며 기본/이혼은 야간진료, 다은 started&&!divorced만 편의점 약속이다. 선택·효과·라우팅은 보존한다. 이 중간 단계의 목표어 기존4잎은 아직 교정 전이며 완료나 원어민 판정이 아니다.
 - source 전이 표적59 PASS/3.297528초와 PR31 단일 source-state 확인6 PASS/21.340257초를 따로 보존했다. `.git/order471-20261006.nA5vxa/source-compat1/result.json` SHA `69b9bcceb83fae92a7481f1a6a90faf04cdfa6c2fcd6fbfe29628ec423b9fdbe`, `source-state1/result.json` SHA `a10356da05cb58128860b88b0750d62b39ed8020102abea7cb41652b850ef30d`; 소유 입력·HEAD 전후동일/stderr0. 지원5와 검사2의 독립 읽기 검수 차단 결함0, 공식18수용/최종fresh/준비런타임은 아직 미실행이다.
 - release inventory의 모든 축 지문과 정상 검사 결과가 기존과 같아 inventory/rating 원문은 보존한다. 계획7경로를 채우기 위한 임의변경 없이 실제 source5/receipt4만 증명한다.

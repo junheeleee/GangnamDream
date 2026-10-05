@@ -445,6 +445,7 @@ def run_coffee_consumer_checks():
 def run_person_checks():
     """Actual471 source/receipt deltas; no replay of the unrelated470 corpus."""
     failures, cases = [], 0
+    active_before, memo_before = history._ACTIVE.get(), history._SEMANTIC_MEMO.get()
 
     def check(ok, label):
         nonlocal cases
@@ -506,6 +507,38 @@ def run_person_checks():
             mutate(next(row for row in changed if row["id"] == history.PERSON_EVENT_ID))
             reject(lambda r=json.dumps(changed, ensure_ascii=False).encode():
                    history._person_arc_inverse(before[path], r, path), label)
+        for path in history.PERSON_PATHS[2:]:
+            selected = (history.PERSON_EDITED_TEXT_LEAVES if path == history.PERSON_PATHS[2]
+                        else history.PERSON_TEXT_LEAVES)
+            document = history._Document(source[path])
+            index = next(i for i, row in enumerate(document.value) if row["id"] == history.PERSON_EVENT_ID)
+
+            def rewritten(selectors, neighbor=False):
+                changes = []
+                for _eid, keys in selectors:
+                    a, z = document.spans[(index, *keys)]
+                    changes.append((a, z, json.dumps(history._leaf(document.value[index], keys)
+                                                    + " fixture", ensure_ascii=False)))
+                if neighbor:
+                    a, z = document.spans[(index, "choices", 1, "text")]
+                    changes.append((a, z, json.dumps("unowned fixture")))
+                text = document.text
+                for a, z, value in sorted(changes, reverse=True):
+                    text = text[:a] + value + text[z:]
+                return text.encode()
+
+            exact = rewritten(selected)
+            with mock.patch.dict(history.PERSON_RECEIPT_RAW_SHA256,
+                                 {path: (history._sha(source[path]), history._sha(exact))}):
+                check(history.person_receipt_overlay_inverse(source[path], exact, path) == source[path],
+                      "fixture exact changed-string count " + str(len(selected)) + " " + path)
+            for label, raw in (("missing owned edit", rewritten(selected[:-1])),
+                               ("unowned label", rewritten(selected, True)),
+                               ("neighboring whitespace", exact + b"\n")):
+                with mock.patch.dict(history.PERSON_RECEIPT_RAW_SHA256,
+                                     {path: (history._sha(source[path]), history._sha(raw))}):
+                    reject(lambda r=raw, p=path: history.person_receipt_overlay_inverse(source[p], r, p),
+                           "repinned fixture " + label + " " + path)
         if proof["person_receipts"] is not None:
             accepted = proof["person_receipts"]
             history._validate_person_receipts(source, accepted, history.ROOT)
@@ -515,7 +548,7 @@ def run_person_checks():
                   and len(new["batches"]) - len(old["batches"]) == 3, "six first receipts and three official batches")
             for path in history.PERSON_PATHS[2:]:
                 check(history.person_receipt_overlay_inverse(source[path], accepted[path], path) == source[path],
-                      "four literal-only target corrections " + path)
+                      "exact locale-specific literal-only target corrections " + path)
                 raw = accepted[path] + b"\n"
                 with mock.patch.dict(history.PERSON_RECEIPT_RAW_SHA256,
                                      {path: (history._sha(source[path]), history._sha(raw))}):
@@ -537,7 +570,7 @@ def run_person_checks():
                                      {history.LEDGER_PATH: (history._sha(source[history.LEDGER_PATH]), history._sha(raw))}):
                     reject(lambda r=raw: history._person_receipt_semantics(source, {**accepted, history.LEDGER_PATH: r}),
                            "rehashed " + label)
-        # Stable reader identity, changing real observations after warm success.
+        # A changed reader identity cannot borrow a warm proof.
         snapshot = history._snapshot
         def missing_person(root, revision, paths):
             if revision == history.PERSON_PRODUCT_COMMIT:
@@ -547,8 +580,8 @@ def run_person_checks():
             reject(lambda: history.predecessor_bytes(proof["current"][history.KO_PATH], history.KO_PATH),
                    "warm scope refuses changed reader/object availability")
         check(not history._SEMANTIC_MEMO.get()[1], "failed nested proof clears successful semantic work")
-    check(history._ACTIVE.get() is None and history._SEMANTIC_MEMO.get() is None,
-          "person test leaves no invocation cache")
+    check(history._ACTIVE.get() is active_before and history._SEMANTIC_MEMO.get() is memo_before,
+          "person test restores caller scope (or leaves no standalone invocation cache)")
     return failures, cases
 
 
