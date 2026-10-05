@@ -4,13 +4,13 @@
 
 ## 2026-10-06 — 실제 회상·연말 수첩·마지막 해 기간 수리와 번역 수용 (472)
 
-- source10 `8510be2`는8사건 KO40/EN40잎만 고친다. 두 회상은 생산자가 공통 보장하는 달력·이동 시간만 회수하고 W157→164 간격을 보존한다. 첫해 memory 반복, 둘째 해 배경/본문, 마지막 해 기간을 맞췄다. gameplay·순서·토큰·문단과 지정 밖 시제/밀도/도달 부채는 보존한다.
-- 공식 export/check/import9 main 각각 return0/stderr0·40잎, receipt16 `2670b2b`에 JA/CN/TW120교정(신규0/258→261배치/41848키불변). `.git/order472-20261006.yw3Jwt/pipeline1/result.json` SHA `64ce99746be8ac1a882c9b9c5e9af6b0e49608909d1456add34141e322deb92d`,213.384825초/savedPASS·보존true. 외부 shell exit은 미포착이다. 비저자가120전수독해·영수증·공식15target JSON과 원래서식 보존을 대조했다.
-- 중국어 분류사 오탐은 정확 KO5슬롯만 수리했다. counter1의165중7실패 보존, counter3은210/0 PASS(.617719초), SHA `6829db177e3eeaf66617094562becb610a24afdbd4ebfc0f10d199de1933dafa`. 일반 카운터 확대0, quick1도 해당 표적PASS다.
-- clean `ff8ed44`의 runtime2는5언어337 준비 소비자 PASS/exit0/7.523827초다. 로드40/본문185/회상50/선택14/라우팅36/아버지6/callback3/followup3, exact marker·stdout/Godot 오류0·저장/seed/공개·제품/입력 전후동일. result SHA `e3250d562bc1430945420ad09dc4a302f772338920393875e665400a832266bd`. runtime1은337중13선택 FAIL/exit1·보존true 원본 SHA `5a5e9acb051624037a5664b40ecf3de34beaeb60632a12c811a98c7a22ee2986`를 남긴다. 모두 기대값 float/실제 int 차이로, fixture 기대값만 실제 stat int/clamp 및 tint float/clamp 규칙으로 맞췄다. 엄격한 전체상태/타입/영수증 비교는 유지한다.
-- quick1은10명령 중9 PASS/내용 목록1 FAIL,22.923658초·전후동일이며 전체 PASS가 아니다. result SHA `3f58d6dfb26f2e6dda715f05ddb78ab0192967b76acfa7f4a0adf6eae251e4c6`. 실패는 sexuality 본문 지문과 생성 보고서의 낡은 값뿐이다. 실제124사건/26파일/ID모집단 불변, 해당 후보에서 바뀐 사건은 arc_daeun_year5_ending1뿐임을 대조했다. `3fcd2f4`는 원장·생성 보고2파일의 지문1개만 `77467716…→c29603bb…`로 갱신하고 --write-report 정상 exit0을 확인했다. 등급/강도/판정·공개 데모 지문은 바꾸지 않는다. 이 정확 메타 전이를 기존470/471/472 수용 끝점 뒤에 별도 연결한 후 정상 소비자를 검증한다.
-- receipt pin 표적13 PASS/11.212886초, SHA `e00078e6a5ae144c910a7bf0b750ff0f5e749939295a7b61ffb71b230c947fe7`. source/support98·source23.134654초와 별도다. 비저자가120수용·로그·수리diff를 읽었으며 이전273/146/12623 전수 재실행 주장은 없다.
-- Mac잠금으로 화면/실제키6건은0건이다(private screen-blocker.json). 최종14/독립 최종은 아직 미실행이다. gangnamdream-dev의 분리소유·표적 QA를 적용했다. 자동 통과는 재미·깊이·문체·인간/원어민/물리패드·출시 GO가 아니다. 새 규범0, 전이는 일회성이다.
+- source10 `8510be2`는8사건 KO40/EN40잎만 수리했다. 두 회상은 달력·이동 시간만 회수하고 W157→164 간격을 보존한다. 첫해 memory 반복·둘째 해 배경·마지막 해 기간을 맞췄으며 gameplay/순서/토큰/문단과 범위 밖 부채는 보존한다.
+- 공식9 main return0/stderr0·각40잎, receipt16 `2670b2b`에 JA/CN/TW120교정(신규0/258→261배치/41848키불변). private `.git/order472-20261006.yw3Jwt/pipeline1/result.json` SHA `64ce99746be8ac1a882c9b9c5e9af6b0e49608909d1456add34141e322deb92d`,213.384825초/savedPASS·보존true. 외부 shell exit은 미포착이다. 비저자가120전수·영수증·공식15target JSON·비소유 raw를 대조했다.
+- clean `ff8ed44`의 runtime2는5언어337 준비 소비자 PASS/exit0/7.523827초, 정확 marker·engine오류0·저장/seed/공개·제품/입력 전후동일이다. result SHA `e3250d562bc1430945420ad09dc4a302f772338920393875e665400a832266bd`. 원래 runtime1의13선택 FAIL/exit1은 보존하고 fixture의 JSON float 기대값만 실제 stat int/clamp와 tint float/clamp로 맞췄다. 전체상태/타입/영수증 비교는 그대로다.
+- 중국어 분류사 오탐은 정확 KO5슬롯만 수리했다. counter1의7실패는 보존, counter3은210/0 PASS·일반 카운터 확대0이다. receipt pin 표적13 PASS는 source/support98과 별도다. quick1은9 PASS/내용 목록1 FAIL 원본이며 전체 PASS가 아니다. 로그·SHA·실패 원문은 위 private 경로와 독립 보고에 결속한다.
+- 내용 목록124사건/26파일/ID불변·변경사건은 다은 ending1뿐이다. `3fcd2f4`가 inventory/생성 보고2파일의 지문1개만 `77467716…→c29603bb…`로 갱신했다. 정상 inventory2 exit0, 메타 후속30/0 PASS와 별도 PR31메타6 PASS다. 첫 메타 자체검사의 음성 fixture 전제1실패는 보존하고 유일한 최상위 키로 수리했다. 등급/강도/판정·공개 지문은 불변이다.
+- clean `c9130be`/tree `ad2c1990`의 final1은14검사 PASS/실제exit0/2467.672653초다. source134/PR31 126/본문28/분모4·수용결속·산문·데모 정상/음성·JA/ZH와 보호검사이며, 두 fresh 범위의 실제 정상 종료·HEAD/tracked/runner/log 전후동일이다. result SHA `cc8b7718f4625f623c8173c5ffa22b64fcef6feaf4b65b6be8f64c32691180de`. old273/146/12623 전체 재실행 주장은 없다. 이후 후보 갱신은 CLAUDE/WORK_LOG뿐이며 제품·검사 입력은 그대로다.
+- Mac잠금으로 실제 화면/키보드6건은0건·HOLD다(screen-blocker-recheck.json). 독립 최종은 해당 source 보고에 결속한다. gangnamdream-dev의 분리소유·표적 QA를 적용했다. 자동 통과는 재미·깊이·문체·인간/원어민/물리패드·출시 GO가 아니다. 새 규범0, 전이는 일회성이다.
 
 ## 2026-10-06 — 4장 표적 검증·직접 회상 보류·지정 후속 초안 착수 (471→472)
 
