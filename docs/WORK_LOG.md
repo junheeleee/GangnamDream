@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 단일 원문 비교의13중복 증명 수리 선언 (461)
+
+- 코인5언어 수리/원장/소비자458~460을 main `4c901a4`로 마감·푸시했다. 현재 source 수용 기본검사688.315초의 정적 비용 분석에서 동일 Holdem13단계의 한 matcher 내13회 재증명을 확인했다.
+- [461](queue_active/ORDER-461.md)은 한 matcher 호출의 검증된 immutable predecessor tuple만 공유한다. 매호출fresh/매재사용HEAD·disk·raw·root·stage결속/실패미저장/finally복원을 표적으로 검증하며 boolean 또는 whole-run 캐시를 넣지 않는다. 원체인/pin/inverse/현재50/제품/receipt변경0, 새 focused와 기본full-body1회만 실행한다.
+- 구현/실행은 아직0이다. 302 새 패키지는 옛 공개 빌더를 덮지 않는 successor 차선으로 남기고, Mac 잠금 중 실제457 이어보기/출시를 완료로 바꾸지 않는다.
+
 ## 2026-10-05 — 코인 통화5언어 수리와 원장 연결 마감 (458·459·460)
 
 - main source `be89b7f`/tree `ccf14176`에서 원문3×5언어·후속phone 수리와 기존9번역 교정의 정확 전이/현재50경로 소비자를 각각 독립 한정GO로 닫았다. accepted41755 그대로·batch228→231·coverage증량0이다. 선택/경제/경로와 사용자 저장은 바꾸지 않았다.
