@@ -4,6 +4,12 @@
 
 ## 2026-10-05 — 4장 지연 변형6개 비도달 정렬 착수 (469)
 
+- 동결54ed6e8의 shared1은 실제 fresh 수용증명707.299초 뒤365/전체본문 정상검사 PASS, 자체검사1778행에서 기존 shipping 반례가 비도달 전환된 행을 찾지 못해 중단됐다. total824.665초·HEAD/tracked 전후동일, resultSHA `89845b7418fdb436bde9a9e01df3dc694fe0b241add7596f67e5356c5d1690b4`. 이후 소비자는 미실행이며 정상 통과와 자체검사 실패를 구분한다. 같은 파일의 옛 개수/해시·live행 전제를 좁혀 수리 중이다.
+- PR31 이력357사례·469 source역상60사례 PASS/stderr0. 첫 source역상 시도는 Main만 바뀐다고 가정해 실패했고 실제 collector의 Main/lifecycle/spine3개 변화로 고쳤다. 현재 census76557c1b를 실제 Git/디스크에 결속한 뒤 과거 비교만 e300으로 복원한다. 영수증·원문을 과거 값으로 되돌리지 않는다.
+- 실제 제품 전이 `589a0f6`은 Main·목록·분류·현황7파일만 담는다. 패키지1813보존, shipping1702/author_only111·제품진입0. lifecycle27음성·Chapter4인과35음성·스파인·director·심의목록·흐름 시뮬레이션 PASS. 두 자체검사의 오래된105/1708 기대값을 실측111/1702로 좁혀 후속선언했다.
+- 새64사례 fixture 첫 실행은 MetaProgression 내부값Dictionary를 Array로 받은 테스트 코드 오류로 실패했다. 같은 비교를 Dictionary로 고친 뒤 새 pre-autoload namespace의 runtime2에서48관계+16우선분기 PASS·전체상태복원true·보호파일/제품 전후동일. 실제 화면·자연 플레이 증거는 아니다.
+- exposed 검사5실패는 기준9766e70의 원함수/Main/director/계약을 직접 대조해 같은5·새0 확인했다. 이전 예상3과 달랐으므로5로 기록한다. 세 사건 employment분류와 현수의 방 KO/EN문구2가 남아 있으며 실패를 삭제하지 않았다.
+- 실행 로그는 `.git/order469-20261005.2KYo5D`에 보존한다. source후속 이력/소비자 검증은 진행 중이며 아직 전체완료 판정·최종 push는 하지 않았다.
 - 기준 main `2f06da6`, 깨끗한 작업 폴더에서 사용자 후속7k 첫 단위를 선언한다. 실제6슬롯153/164/167/177/181/190의 Main/director ingress만 제거하고 원고·5언어 번역·수용 영수증은 보존한다.
 - 런타임/이력 지원/독립 검수 소유를 [469](queue_active/ORDER-469.md)에 분리했다. 다은 실제 predicate·W167/W177 우선순위를 prepared64사례로 검증할 계획이며 아직 결과는 없다. 원어민·인간·자연 플레이·실제 입력 관찰을 발급하지 않는다.
 

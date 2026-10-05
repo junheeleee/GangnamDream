@@ -1469,8 +1469,8 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     historical_static = source_history["denominators"].get(SCOPE_M07_M60_STATIC, {})
     require(
         "shipping exact event and leaf denominator",
-        (shipping.get("event_count"), historical_shipping.get("leaf_count"))
-        == (1702, 11680),
+        (shipping.get("event_count"), shipping.get("leaf_count"), historical_shipping.get("leaf_count"))
+        == (1702, 11622, 11680),
     )
     require(
         "Chapter 5 nested reader leaves included",
@@ -1479,8 +1479,9 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     )
     require(
         "M07-M60 static exact event and leaf denominator",
-        (source_history.get("scope_observations", {}).get(SCOPE_M07_M60_STATIC, {}).get("event_count"),
-         historical_static.get("leaf_count")) == (192, 1751),
+        (static.get("event_count"), static.get("leaf_count"),
+         source_history.get("scope_observations", {}).get(SCOPE_M07_M60_STATIC, {}).get("event_count"),
+         historical_static.get("leaf_count")) == (186, 1693, 192, 1751),
     )
     require(
         "ORDER-350 current inventory retains the added ghost leaf",
@@ -1732,13 +1733,25 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     )
 
     source_history, source_binding_errors = _source_history_observations(report)
+    comparison_shipping = source_history.get("scope_observations", {}).get(SCOPE_LIFECYCLE_SHIPPING, {})
+    comparison_static = source_history.get("scope_observations", {}).get(SCOPE_M07_M60_STATIC, {})
+    current_shipping_ids = {row["id"] for row in shipping.get("events", [])}
+    comparison_shipping_ids = {row["id"] for row in comparison_shipping.get("events", [])}
+    current_static_ids = set(static.get("event_ids", []))
+    comparison_static_ids = set(comparison_static.get("event_ids", []))
     require(
-        "source observations expose exact hashes",
-        shipping.get("event_ids_sha256") == EXPECTED["shipping_event_ids_sha256"]
+        "source observations separate current and proven historical ID hashes",
+        shipping.get("event_ids_sha256") == event_id_digest(current_shipping_ids)
+        and static.get("event_ids_sha256") == event_id_digest(current_static_ids)
+        and comparison_shipping_ids - current_shipping_ids == retired
+        and not current_shipping_ids - comparison_shipping_ids
+        and comparison_static_ids - current_static_ids == retired
+        and not current_static_ids - comparison_static_ids
+        and comparison_shipping.get("event_ids_sha256") == EXPECTED["shipping_event_ids_sha256"]
         and not source_binding_errors
         and source_history[SCOPE_LIFECYCLE_SHIPPING]
         == ORDER305_SHIPPING_SOURCE_SHA256
-        and static.get("event_ids_sha256")
+        and comparison_static.get("event_ids_sha256")
         == EXPECTED["m07_m60_event_ids_sha256"]
         and source_history[SCOPE_M07_M60_STATIC]
         == EXPECTED["m07_m60_source_leaves_sha256"],
@@ -1764,6 +1777,61 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         forged[SCOPE_M07_M60_STATIC]["deferred_added_leaf_count"] = sum(leaf.event_id in deferred_ids for leaf in static_leaves)
         forged[SCOPE_M07_M60_STATIC]["immediate_closure_leaf_count"] = sum(leaf.event_id not in deferred_ids for leaf in static_leaves)
 
+    # All six remain packaged and retain PR31's immutable raw admission. They
+    # are no longer live rollback fixtures: even an exact current/raw-approved
+    # row must be rejected if it is inserted into the current shipping report.
+    retired_rows = {row["id"]: row for row in comparison_shipping.get("events", []) if row["id"] in retired}
+    retired_sources: dict[str, tuple[dict[str, Any], dict[str, Any]]] = {}
+    with current_source.fresh_validation_proof() as proof:
+        for relative in sorted({row["source_file"] for row in retired_rows.values()}):
+            before, after = current_source.historical_blobs(relative)
+            retired_sources[relative] = (
+                {row["id"]: row for row in json.loads(before)},
+                {row["id"]: row for row in json.loads(after)},
+            )
+            require("ORDER-469 retained source binds to unchanged PR31 raw: " + relative,
+                    after == proof["current"][relative] == proof["pre_source_successor"][relative]
+                    and not current_source.source_errors(after, relative))
+            require("ORDER-469 retained source cannot borrow admission after raw mutation: " + relative,
+                    bool(current_source.source_errors(after + b"\n", relative)))
+    checked_retired: set[str] = set()
+    for event_id in sorted(retired):
+        template = retired_rows.get(event_id)
+        require("ORDER-469 retired event is packaged but absent from both live scopes: " + event_id,
+                template is not None and event_id not in current_shipping_ids and event_id not in current_static_ids)
+        if template is None:
+            continue  # The explicit missing-packaged-source assertion failed.
+        relative = template["source_file"]
+        old_events, current_events = retired_sources[relative]
+        require("ORDER-469 comparison row uses exact current packaged source: " + event_id,
+                template["source_leaves_sha256"] == leaves_sha(collect_event_leaves(
+                    event_id, current_events[event_id], [])))
+        for kind in ("current-raw", "historical-raw", "wrong-path", "neighbor", "wrong-hash"):
+            forged = copy.deepcopy(report)
+            event = copy.deepcopy(template)
+            if kind == "historical-raw":
+                event["leaves"] = [{"path": leaf.path, "source": leaf.source,
+                    "source_text_sha256": hashlib.sha256(leaf.source.encode("utf-8")).hexdigest(),
+                    "chapter5_reader": leaf.chapter5_reader}
+                    for leaf in collect_event_leaves(event_id, old_events[event_id], [])]
+            elif kind == "wrong-path":
+                event["source_file"] = "content/events/unapproved.json"
+            elif kind == "neighbor":
+                event["leaves"][0]["source"] += "!"
+            rows = forged[SCOPE_LIFECYCLE_SHIPPING]["events"]
+            rows.append(event)
+            rows.sort(key=lambda row: row["id"])
+            forged[SCOPE_LIFECYCLE_SHIPPING]["event_count"] = len(rows)
+            forged[SCOPE_LIFECYCLE_SHIPPING]["author_only_excluded_event_count"] -= 1
+            forged[SCOPE_LIFECYCLE_SHIPPING]["event_ids_sha256"] = event_id_digest(row["id"] for row in rows)
+            rehash_observation(forged)
+            if kind == "wrong-hash":
+                event["source_leaves_sha256"] = "0" * 64
+            require(f"ORDER-469 rejects retired {kind} population intrusion: {event_id}",
+                    bool(_expected_observation_errors(forged)))
+        checked_retired.add(event_id)
+    require("ORDER-469 non-live negative coverage is exactly all six", checked_retired == retired)
+
     # Preserve the existing bounded351 corpus. PR31's independent delta corpus
     # checks all71 raw files; do not multiply every old fixture by every PR row.
     for relative, changes in current_source.previous.HISTORICAL_JSON_LEAVES.items():
@@ -1772,6 +1840,14 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         before, _after = current_source.historical_blobs(relative)
         old_events = {event["id"]: event for event in json.loads(before)}
         for event_id in sorted({eid for eid, _path in changes}):
+            if event_id in retired:
+                require("historical retired selector has explicit non-live/raw controls: " + event_id,
+                        event_id in checked_retired and retired_rows[event_id]["source_file"] == relative)
+                continue
+            require("historical live selector remains in the current shipping population: " + event_id,
+                    event_id in current_shipping_ids)
+            if event_id not in current_shipping_ids:
+                continue  # Unexpected absence is a recorded failure, never a silent skip.
             for kind in ("rollback", "wrong-path-rollback", "neighbor", "wrong-hash", "missing"):
                 forged = copy.deepcopy(report)
                 rows = forged[SCOPE_LIFECYCLE_SHIPPING]["events"]
@@ -1810,8 +1886,8 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     history_errors: list[str] = []
     historical_index = collect_leaf_index(_order305_historical_events(
         load_source_events(Path(root), history_errors)), history_errors)
-    historical_shipping = [leaf for event in shipping.get("events", [])
-                           for leaf in historical_index.get(event["id"], ())]
+    historical_shipping = [leaf for event_id in comparison_shipping_ids
+                           for leaf in historical_index.get(event_id, ())]
     require("ORDER-305 preserves the exact preceding Korean leaf fingerprint",
             not history_errors and leaves_sha(historical_shipping)
             == EXPECTED["shipping_source_leaves_sha256"])
@@ -1820,11 +1896,10 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     # foreshadows. Removing only those leaves must reproduce both old source
     # fingerprints; target acceptance and public-demo baselines never change.
     for scope, old_hash in (
-        (shipping, "2f5e7a457f93d4e735b87d9a5e65f7dc01f467c6705bf33568fc76a7969a9184"),
-        (static, "682b871a66662b36f7f18e97c9c41623c558bd06d2b403b47c40e8ecadcc37a8"),
+        (comparison_shipping_ids, "2f5e7a457f93d4e735b87d9a5e65f7dc01f467c6705bf33568fc76a7969a9184"),
+        (comparison_static_ids, "682b871a66662b36f7f18e97c9c41623c558bd06d2b403b47c40e8ecadcc37a8"),
     ):
-        scope_ids = set(scope.get("event_ids", [event["id"] for event in shipping.get("events", [])]))
-        legacy = [leaf for event_id in scope_ids
+        legacy = [leaf for event_id in scope
                   for leaf in historical_index.get(event_id, ())
                   if not leaf.path.endswith(".foreshadow")]
         require("foreshadow addition preserves every legacy Korean leaf", leaves_sha(legacy) == old_hash)
