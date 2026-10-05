@@ -17,7 +17,8 @@ const BEATS: Array[Dictionary] = [
 		"intensity": 0.14,
 		"camera": "living_drift",
 		"ambience": "street",
-		"hold": 3.10,
+		"fade": 0.44,
+		"hold": 2.80,
 		"title_ko": "2026년, 서울.",
 		"body_ko": "강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.",
 		"title_en": "2026. Seoul.",
@@ -31,7 +32,8 @@ const BEATS: Array[Dictionary] = [
 		"intensity": 0.10,
 		"camera": "living_push",
 		"ambience": "room",
-		"hold": 3.10,
+		"fade": 0.76,
+		"hold": 3.50,
 		"title_ko": "김민준, 서른셋.",
 		"body_ko": "통장 50만원. 월세 65만원짜리 고시원.",
 		"title_en": "Kim Minjun, 33.",
@@ -45,7 +47,8 @@ const BEATS: Array[Dictionary] = [
 		"intensity": 0.09,
 		"camera": "living_drift",
 		"ambience": "street",
-		"hold": 3.00,
+		"fade": 0.36,
+		"hold": 2.90,
 		"title_ko": "목표 30억원. 남은 시간은 5년.",
 		"body_ko": "첫 주가 시작된다.",
 		"title_en": "KRW 3 billion. Five years left.",
@@ -189,6 +192,7 @@ func _show_beat(index: int, animate: bool = true) -> void:
 	if index < 0 or index >= BEATS.size():
 		return
 	var beat: Dictionary = BEATS[index]
+	var fade_seconds := _beat_fade_seconds(beat)
 	set_meta("opening_beat_index", index)
 	var next_image := TextureRect.new()
 	next_image.name = "OpeningImage%d" % (index + 1)
@@ -235,21 +239,24 @@ func _show_beat(index: int, animate: bool = true) -> void:
 	tween.set_parallel(true)
 	tween.set_trans(Tween.TRANS_SINE)
 	tween.set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(next_image, "modulate:a", 1.0, FADE_SECONDS)
-	tween.tween_property(_title_label, "modulate:a", 1.0, FADE_SECONDS * 0.85)
-	tween.tween_property(_body_label, "modulate:a", 1.0, FADE_SECONDS)
-	tween.tween_property(_beat_rule, "modulate:a", 1.0, FADE_SECONDS * 0.75)
+	tween.tween_property(next_image, "modulate:a", 1.0, fade_seconds)
+	tween.tween_property(_title_label, "modulate:a", 1.0, fade_seconds * 0.85)
+	tween.tween_property(_body_label, "modulate:a", 1.0, fade_seconds)
+	tween.tween_property(_beat_rule, "modulate:a", 1.0, fade_seconds * 0.75)
 	if not _reduced_motion:
 		var camera_tween := next_image.create_tween()
 		camera_tween.set_trans(Tween.TRANS_SINE)
 		camera_tween.set_ease(Tween.EASE_OUT)
 		camera_tween.tween_property(
-			next_image, "scale", Vector2.ONE, float(beat["hold"]) + FADE_SECONDS)
+			next_image, "scale", Vector2.ONE, float(beat["hold"]) + fade_seconds)
 	if is_instance_valid(old_image):
-		tween.tween_property(old_image, "modulate:a", 0.0, FADE_SECONDS)
+		tween.tween_property(old_image, "modulate:a", 0.0, fade_seconds)
 	await tween.finished
 	if is_instance_valid(old_image):
 		old_image.queue_free()
+
+func _beat_fade_seconds(beat: Dictionary) -> float:
+	return float(beat.get("fade", FADE_SECONDS))
 
 func _localized(beat: Dictionary, field: String) -> String:
 	return LocaleManager.ui(
