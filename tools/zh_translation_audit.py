@@ -6821,6 +6821,45 @@ SOURCE_NEXT_LIFE = {
 }
 
 
+# Exact ORDER472 replacements; earlier SOURCE_NEXT_LIFE leaves stay valid.
+# These aliases own local counter roles, not a global Chinese classifier.
+SOURCE_PROSE_RECALL = {'quiet_span': '"기대할게요, 형!"\n'
+               '\n'
+               '전화를 끊었다. 화면이 어두워지자 방이 한 뼘 더 조용해졌다.\n'
+               '\n'
+               '곧이라고 말한 건 자기였다. {name}은 다시 책상 앞에 앉았다. 어두워진 화면에 비친 얼굴이, 잠깐, 고시원 주방의 그 얼굴 같았다.',
+ 'map_pair': '마지막 해였다. 휴대폰 목표 화면의 남은 주가 눈에 띄게 줄어 있었다.\n'
+             '\n'
+             '현수에게서 전화가 왔다. 영상통화.\n'
+             '\n'
+             '"형! 진짜 오랜만이에요. 어떻게 지내요?"\n'
+             '\n'
+             '화면 속 현수 뒤로 사무실 형광등과 서류 더미가 보였다. 야근인 모양인데 얼굴은 편안했다. 자기 삶에 정착한 사람의 얼굴. 통화 중에 누가 부르자 "네, 금방 가요" '
+             '하고 답하는 목소리에도 군더더기가 없었다.\n'
+             '\n'
+             '{name}은 화면 구석에 뜬 자기 얼굴을 봤다. 고시원 시절부터의 시간이 거기 있었다.\n'
+             '\n'
+             '누가 더 멀리 왔는지는 재지 않기로 했다. 애초에 같은 지도를 걷고 있는 게 아니었다.',
+ 'snowflakes': '두 번째 12월의 마지막 밤, {name}은 귀갓길 골목의 가로등 아래에서 걸음을 멈췄다. 큰길 은행에서 뽑아 온 명세표가 외투 주머니 안에서 구겨져 있었다. '
+               '손바닥만 한 종이에는 통장 잔액 한 줄과 날짜, 시각만 찍혀 있었다. 휴대폰에는 올해 총자산 {assets}가 떠 있었고, 달력과 대화창에는 열두 달 동안 실제로 '
+               '보낸 답장과 잡았다 지운 일정이 날짜순으로 남아 있었다.\n'
+               '\n'
+               '명세표에는 금액만 찍혔다. 누구에게 답했고 누구를 기다리게 했는지는 종이 어디에도 없었다. 뒷면은 비어 있었다. {name}은 안주머니에서 볼펜을 꺼내 종이를 '
+               '전봇대에 대고 눌렀다. 눈송이 하나가 뒷면에 내려앉아 금방 작은 얼룩이 됐다.\n'
+               '\n'
+               '종이 한 장에 다 적을 수는 없었다. 새해 첫 주 달력에 옮길 일정 하나, 금액 옆에 나란히 둘 이름들, 목표까지 남은 숫자. 볼펜 끝이 명세표 뒷면 위에서 멈춰 '
+               '있는 사이, 눈이 종이 귀퉁이에 두 송이 더 내려앉았다.',
+ 'pen_click': '두 번째 12월의 마지막 밤, {name}은 귀갓길 골목의 가로등 아래에서 명세표를 한참 들고 서 있었다. 지난해 수첩의 마지막 장은 비워 둔 채였다. 잔액, 휴대폰의 '
+              '총자산 {assets}, 답장을 보낸 시각, 끝내 지운 일정. 기록은 있었지만 그것들을 한 문장으로 부를 말은 없었다.\n'
+              '\n'
+              '휴대폰 알림을 모두 지우면 화면은 깨끗해질 수 있었다. 명세표를 구겨 버리면 빈칸도 보이지 않았다. 그래도 손은 명세표를 구기지 않았다. {name}은 볼펜 뚜껑을 '
+              '열었다 닫았다. 딸깍 소리가 빈 골목에서 두 번 났다.',
+ 'list_three': '두 번째 12월의 마지막 밤, {name}은 귀갓길 골목의 가로등 아래에서 휴대폰의 재혁 이름을 지나 올해 총자산 {assets}를 열었다. 다시 일어선 뒤에도 '
+               '숫자는 이어졌지만, 사람을 믿기 전의 자신으로 돌아가지는 못했다. 그 사실은 주머니 속 명세표 어느 줄에도 찍히지 않았다.\n'
+               '\n'
+               '다시 믿을 일, 먼저 갚을 일, 내년에도 지킬 사람. 셋은 명세표 한 장 뒷면에 나란히 들어가지 않았다. {name}은 명세표를 쥔 채 가로등 불빛 속으로 떨어지는 '
+               '눈을 오래 봤다.'}
+
 def _next_life_slots(source: str, target: str) -> tuple[list[CounterQuantity], list[CounterQuantity], list[str]]:
     """Exact KO life-stage leaves own local roles, never complete CN sentences.
 
@@ -6829,6 +6868,8 @@ def _next_life_slots(source: str, target: str) -> tuple[list[CounterQuantity], l
     every other amount/counter still enters the unchanged numeric pipeline.
     """
     kind = next((k for k, v in SOURCE_NEXT_LIFE.items() if source == v), None)
+    if kind is None:
+        kind = next((k for k, v in SOURCE_PROSE_RECALL.items() if source == v), None)
     ss: list[CounterQuantity] = []
     ts: list[CounterQuantity] = []
     errors: list[str] = []
@@ -6992,6 +7033,26 @@ def _next_life_slots(source: str, target: str) -> tuple[list[CounterQuantity], l
                 r"(?:哥[，,]?\s*(?:你|您)?|你|您)也[會会].*?(?:[順顺]利|好|成功)",
                 lines[reply_line]):
             errors.append(label + " reciprocal encouragement recipient changed")
+    elif kind == "snowflakes":
+        source_lines = [source_slot("눈송이 하나", 1), source_slot("두 송이", 2)]
+        source_slot("둘 이름들", 0)  # 두다: names to place, not two names.
+        matches = list(re.finditer(rf"(?P<number>{n})片雪花", target))
+        values = [_chinese_cardinal_value(m.group("number")) for m in matches]
+        if (values != [Decimal(1), Decimal(2)]
+                or [target[:m.start()].count("\n") for m in matches] != source_lines
+                or any(_has_numeric_sign_prefix(target, m.start()) or re.match(
+                    r"\s*(?:[%％‰倍年月天日人位]|公斤|公里|公尺|米|分鐘|分钟|小時|小时|[/／])",
+                    target[m.end():]) for m in matches)):
+            errors.append(label + " snowflake value/unit/line/count changed")
+        else:
+            ts.extend(CounterQuantity(m.start(), m.end(), value, label)
+                      for m, value in zip(matches, values))
+    elif kind == "pen_click":
+        bind("두 번 났다.", rf"(?P<q>(?P<number>{n})[聲声](?:咔[嗒哒]|喀[噠嗒]))", 2,
+             role=r"(?:巷子|空巷).*?[響响]", state=True)
+    elif kind == "list_three":
+        bind("셋은", rf"(?P<q>(?P<number>{n})(?:[項项]|者))", 3,
+             role=r"(?:無法|无法|[沒没]法|不能).*?(?:[並并]排)")
     elif kind == "quiet_span":
         bind("한 뼘", r"(?P<q>(?:又[靜静]了[幾几]分|又多了一分寂[靜静]|"
              r"(?:更|又)(?:安)?[靜静]了一[點点]))", 1,

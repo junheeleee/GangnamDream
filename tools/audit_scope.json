@@ -7333,6 +7333,12 @@
       ]
     },
     {
+      "tool": "tools/prose_counter_self_test.py",
+      "why": "정확 원문에 묶인 눈송이·소리·항목·비유 수량의 자연스러운 중국어 표현과 값/단위/범위 음성을 검증한다",
+      "paths": ["tools/prose_counter_self_test.py", "tools/zh_translation_audit.py",
+        "content/events*/arc_year_close.json", "content/events*/arc_hyunsu.json"]
+    },
+    {
       "tool": "tools/prose_recall_audit.py",
       "why": "지정8장면·40잎의 실제 교체만 허용하고 gameplay·선택·조건순서·이웃 바이트를 보존한다; 품질/런타임 판정은 별도",
       "paths": [
