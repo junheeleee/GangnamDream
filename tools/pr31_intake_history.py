@@ -50,6 +50,16 @@ SECOND_SENTENCES = {
 # official receipt import. Pins are filled only from those actual commits.
 THIRD_SOURCE_COMMIT = "24d02ae8d7a8e357002b8103129b8bf22dd6a2ea"
 THIRD_LEDGER_COMMIT = "b41adeca25132f25daac6c9be76a22e614304c0d"
+FOURTH_COMMIT = "1b9bd164c501cad44ab061ba12d2a32b12db39ef"
+FOURTH_BATCH_SHA256 = {
+    "ja": "f1302879d8c0bbfd6a74aae123e4d13c7044ffef7a4714b556e57b76e5dd70b3",
+    "zh-CN": "ff8fff1a0455e6e5ffebe8c4201cd4169e95459ee52d7ae52bd965915c1f0e61",
+    "zh-TW": "5544ca22f2ec04af247062c2d9c30ef5b2032c09511d8786a9a985d3fce9cb74",
+}
+FOURTH_IDS = (
+    "events:arc_minseo_03_arrival:/description_if_known/minseo_real_talk",
+    "events:arc_minseo_03_arrival:/description_if_known/contacted_minseo&minseo_real_talk",
+)
 THIRD_PRODUCT_SHA256 = {
     "content/endings.json": (
         "25f1e5b7f3236454e19ceb452274a61737f098198d07598c7c36d5a69d7cae77",
@@ -162,6 +172,7 @@ CONTENT_PATHS = tuple(sorted(
     + ["content/endings" + suffix + ".json" for suffix in ("", "_en", "_ja", "_zh-CN", "_zh-TW")]))
 SOURCE_PATHS = tuple(path for path in CONTENT_PATHS
                      if path.startswith("content/events/") or path == "content/endings.json")
+ENDING_PATHS = tuple(path for path in CONTENT_PATHS if path.startswith("content/endings"))
 HISTORY_CONTENT_PATHS = tuple(path for path in CONTENT_PATHS
                              if path.startswith(("content/events/", "content/events_en/")))
 PRODUCT_PATHS = (*CONTENT_PATHS, LEDGER_PATH, INVENTORY_PATH, "docs/CONTENT_RATING_INVENTORY.md")
@@ -424,6 +435,13 @@ def _read_proof(root=ROOT):
                                              head, third_source, (LEDGER_PATH,))
         _validate_third_receipts(third_source, third_receipts, root)
         current = third_receipts
+    fourth = None
+    if FOURTH_COMMIT is not None:
+        _require(third_receipts is not None, "first receipt successor requires the prior72 corrections")
+        fourth = _successor_snapshot(root, THIRD_LEDGER_COMMIT, FOURTH_COMMIT,
+                                     head, third_receipts, (LEDGER_PATH,))
+        _validate_fourth_first_receipts(third_receipts, fourth, root)
+        current = fourth
     actual, _ = _snapshot(root, head, paths)
     _require(actual == current, "current HEAD product differs from approved intake/receipt repair")
     for path in paths:
@@ -431,7 +449,7 @@ def _read_proof(root=ROOT):
     _require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head, "HEAD changed during proof")
     return {"root": root.resolve(), "head": head, "before": before, "after": after, "current": current,
             "repair": repair, "second": second, "third_source": third_source,
-            "third_receipts": third_receipts, "changes": changes, "branch": branch}
+            "third_receipts": third_receipts, "fourth": fourth, "changes": changes, "branch": branch}
 
 
 def _successor_snapshot(root, predecessor, commit, head, before, changed_paths):
@@ -725,6 +743,72 @@ def _validate_third_receipts(before, after, root=ROOT):
                                       groups=THIRD_IDS_BY_GROUP)
 
 
+def _validate_fourth_first_receipts(before, after, root=ROOT):
+    """Six absent receipts only; deliberately separate from stale recovery."""
+    _require(set(before) == set(after)
+             and all(before[path] == after[path] for path in before if path != LEDGER_PATH),
+             "first receipt successor changed product content")
+    old, new = _loads(before[LEDGER_PATH]), _loads(after[LEDGER_PATH])
+    _require(set(FOURTH_BATCH_SHA256) == set(LOCALES), "first receipt row pins are incomplete")
+    expected = copy.deepcopy(old)
+    for locale in LOCALES:
+        _require(all(identifier not in old["accepted"][locale] for identifier in FOURTH_IDS),
+                 "first receipt successor cannot replace an existing receipt")
+        _require(set(new["accepted"][locale]) == set(old["accepted"][locale]) | set(FOURTH_IDS),
+                 "first receipt successor must add exactly2 absent IDs per locale")
+        # Preserve the actual official import's two-key insertion order while
+        # requiring every pre-existing key and its order to remain unchanged.
+        for identifier in new["accepted"][locale]:
+            if identifier in FOURTH_IDS:
+                expected["accepted"][locale][identifier] = _leaf_receipt(after, locale, identifier)
+    expected["accepted_sha256"] = _digest(expected["accepted"])
+    _require(new["batches"][:len(old["batches"])] == old["batches"]
+             and len(new["batches"]) == len(old["batches"]) + len(LOCALES),
+             "first receipt successor must preserve old batches and add exactly3")
+    seen, source_snapshots = set(), {}
+    for batch in new["batches"][len(old["batches"]):]:
+        headers = batch.get("official_receipt_headers_by_locale", {})
+        _require(isinstance(headers, dict) and len(headers) == 1, "one official locale per first receipt row")
+        locale = next(iter(headers))
+        _require(locale in LOCALES and locale not in seen and _digest(batch) == FOURTH_BATCH_SHA256[locale],
+                 "exact official first receipt row")
+        seen.add(locale)
+        header = headers[locale]
+        _require(set(header) == {"kind", "schema_version", "locale", "source_revision", "prompt_version",
+                                "source_manifest_sha256", "selection_sha256", "count", "source_language",
+                                "native_review", "batch_id"}
+                 and header["kind"] == "full_game_localization_batch"
+                 and header["schema_version"] == 1 and header["locale"] == locale
+                 and header["prompt_version"] == old["prompt_version"]
+                 and header["source_manifest_sha256"] == CURRENT_SOURCE_MANIFEST_SHA256
+                 and header["count"] == len(FOURTH_IDS) and header["source_language"] == "ko"
+                 and header["native_review"] == "OPEN"
+                 and header["batch_id"] == _digest({key: value for key, value in header.items() if key != "batch_id"}),
+                 "official first receipt header identity/count/state")
+        _require(batch.get("group") == "events" and batch.get("order") == "ORDER-468"
+                 and batch.get("source_leaves") == len(FOURTH_IDS)
+                 and batch.get("machine_validation") == "PASS"
+                 and batch.get("native_review") == batch.get("rendered_review") == "OPEN",
+                 "first receipt row scope or machine/native distinction")
+        counts = batch.get("target_leaves_by_locale", {})
+        _require(set(counts) <= set(LOCALES)
+                 and all(counts.get(loc, 0) == (len(FOURTH_IDS) if loc == locale else 0) for loc in LOCALES),
+                 "first receipt target census differs from exact2 leaves")
+        receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN",
+                   "translations": {identifier: expected["accepted"][locale][identifier] for identifier in FOURTH_IDS}}
+        _require(batch.get("receipt_sha256_by_locale") == {locale: _digest(receipt)},
+                 "official first receipt does not match exact current leaves")
+        revision = header["source_revision"]
+        _git(root, "merge-base", "--is-ancestor", revision, FOURTH_COMMIT)
+        if revision not in source_snapshots:
+            source_snapshots[revision], _ = _snapshot(root, revision, tuple(before))
+        _require(source_snapshots[revision] == before,
+                 "first receipt export revision has a different product source/ledger")
+    _require(seen == set(LOCALES), "official first receipt locales are incomplete")
+    expected["batches"] = new["batches"]
+    _require(_ordered(new) == _ordered(expected), "first receipt successor exceeds exact6 additions")
+
+
 def _receipt_comparison(snapshot, before, after):
     _require(set(snapshot) == set(before) == set(after) == set(CURRENT_UI_PATHS), "receipt comparison path population")
     _require(snapshot[LEDGER_PATH] == after[LEDGER_PATH], "receipt comparison is not exact approved ledger")
@@ -739,7 +823,8 @@ def receipt_transitions(root, inventory):
         for commit, a, b in ((INTAKE_COMMIT, proof["before"], proof["after"]),
                              (REPAIR_COMMIT, proof["after"], proof["repair"]),
                              (SECOND_COMMIT, proof["repair"], proof["second"]),
-                             (THIRD_LEDGER_COMMIT, proof["third_source"], proof["third_receipts"])):
+                             (THIRD_LEDGER_COMMIT, proof["third_source"], proof["third_receipts"]),
+                             (FOURTH_COMMIT, proof["third_receipts"], proof["fourth"])):
             if commit is None:
                 continue
             before = {path: a[path] for path in CURRENT_UI_PATHS}
@@ -811,6 +896,13 @@ def project_payload(payload, relative):
 
 
 def project_byte_hash(observed, relative):
+    if relative in ENDING_PATHS:
+        # Ending text participates only in this raw-hash comparison. Do not
+        # project its current payload or return old prose to runtime consumers.
+        with fresh_validation_proof() as proof:
+            if observed == _sha(proof["current"][relative]):
+                return previous.project_byte_hash(_sha(proof["before"][relative]), relative)
+            return previous.project_byte_hash(observed, relative)
     if relative not in HISTORY_CONTENT_PATHS:
         return previous.project_byte_hash(observed, relative)
     with fresh_validation_proof() as proof:

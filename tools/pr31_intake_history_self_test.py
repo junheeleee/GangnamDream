@@ -99,9 +99,24 @@ def run():
                 check(history.project_bytes(proof["before"][path], path)
                       == history.previous.project_bytes(proof["before"][path], path),
                       "explicit historical comparison remains idempotent " + path)
+        check(len(history.ENDING_PATHS) == 5, "exact5 endings hash-only comparison paths")
+        for path in history.ENDING_PATHS:
+            raw = proof["current"][path]
+            expected = history.previous.project_byte_hash(history._sha(proof["before"][path]), path)
+            observed, errors = history.observed_byte_hash(path, history._sha(raw), raw)
+            check(observed == expected and not errors, "ending actual hash-only predecessor " + path)
+            check(history.project_byte_hash("0" * 64, path) == "0" * 64,
+                  "ending unapproved hash cannot borrow predecessor " + path)
+            observed, errors = history.observed_byte_hash(path, "0" * 64, raw)
+            check(observed == "0" * 64 and bool(errors), "ending hash/raw mismatch fails closed " + path)
+            altered = raw + b"\n"
+            observed, errors = history.observed_byte_hash(path, history._sha(altered), altered)
+            check(observed == history._sha(altered) and bool(errors), "ending changed raw fails closed " + path)
+            check(history.project_bytes(raw, path) == history.previous.project_bytes(raw, path),
+                  "ending payload is never replaced with historical prose " + path)
         transitions = history.receipt_transitions(history.ROOT, {})
         check(len(transitions) == 1 + bool(history.REPAIR_COMMIT) + bool(history.SECOND_COMMIT)
-              + bool(history.THIRD_LEDGER_COMMIT),
+              + bool(history.THIRD_LEDGER_COMMIT) + bool(history.FOURTH_COMMIT),
               "exact product/repair receipt transitions")
         for commit, before, after, delta, inverse in transitions:
             check(inverse(after, before, after) == before, "exact4 raw receipt inverse " + commit)
@@ -111,10 +126,12 @@ def run():
             check((not delta["source_manifests"] if commit == history.INTAKE_COMMIT else bool(delta["source_manifests"]))
                   and delta["receipts"] == delta["batches"] == 0,
                   "comparison is not UI coverage/receipt reissue " + commit)
-            check(delta["first_receipts"] == (9 if commit == history.INTAKE_COMMIT else 0)
+            check(delta["first_receipts"] == (9 if commit == history.INTAKE_COMMIT
+                                               else 6 if commit == history.FOURTH_COMMIT else 0)
                   and delta["corrections"] == (678 if commit == history.INTAKE_COMMIT
                                                 else 24 if commit == history.REPAIR_COMMIT
-                                                else 9 if commit == history.SECOND_COMMIT else 72),
+                                                else 9 if commit == history.SECOND_COMMIT
+                                                else 72 if commit == history.THIRD_LEDGER_COMMIT else 0),
                   "honest first/replaced receipt census " + commit)
         # Pure whole-union negatives exercise the same exact reviewed objects,
         # not a guessed normalized source or rewritten Git history.
@@ -292,6 +309,56 @@ def run():
                        "third native boundary survives rehashed official row pin")
             forged = {**after, history.THIRD_CONTENT_PATHS[0]: after[history.THIRD_CONTENT_PATHS[0]] + b"\n"}
             reject(lambda: history._validate_third_receipts(before, forged), "third receipt-only stage cannot change prose")
+        if proof["fourth"] is not None:
+            before, after = proof["third_receipts"], proof["fourth"]
+            history._validate_fourth_first_receipts(before, after)
+            check(True, "actual6 first receipts with3 official rows and no prose changes")
+            original = json.loads(after[history.LEDGER_PATH])
+            old = json.loads(before[history.LEDGER_PATH])
+            check(sum(map(len, original["accepted"].values())) == sum(map(len, old["accepted"].values())) + 6,
+                  "fourth first receipts add exactly6 accepted values")
+
+            def fourth_candidate(document):
+                return {**after, history.LEDGER_PATH:
+                        (json.dumps(document, ensure_ascii=False, indent=2) + "\n").encode()}
+
+            for label, edit in (
+                    ("missing new leaf", lambda d: d["accepted"]["ja"].pop(history.FOURTH_IDS[0])),
+                    ("extra new leaf", lambda d: d["accepted"]["ja"].update({"events:unowned:/description":
+                        d["accepted"]["ja"][history.FOURTH_IDS[0]]})),
+                    ("existing receipt changed", lambda d: d["accepted"]["ja"][history.REPAIR_IDS[0]].update(
+                        {"target_sha256": "0" * 64})),
+                    ("new source drift", lambda d: d["accepted"]["ja"][history.FOURTH_IDS[0]].update(
+                        {"source_sha256": "0" * 64})),
+                    ("new target drift", lambda d: d["accepted"]["ja"][history.FOURTH_IDS[0]].update(
+                        {"target_sha256": "0" * 64}))):
+                forged = copy.deepcopy(original)
+                edit(forged)
+                forged["accepted_sha256"] = history._digest(forged["accepted"])
+                reject(lambda d=forged: history._validate_fourth_first_receipts(before, fourth_candidate(d)),
+                       "fourth rejects rehashed " + label)
+            for label, batches in (("missing locale row", original["batches"][:-1]),
+                                    ("extra row", [*original["batches"], original["batches"][-1]]),
+                                    ("old prefix deletion", original["batches"][1:])):
+                reject(lambda b=batches: history._validate_fourth_first_receipts(
+                    before, fourth_candidate({**original, "batches": b})), "fourth " + label)
+            forged = copy.deepcopy(original)
+            batch = forged["batches"][-1]
+            locale = next(iter(batch["official_receipt_headers_by_locale"]))
+            batch["native_review"] = "PASS"
+            with mock.patch.dict(history.FOURTH_BATCH_SHA256, {locale: history._digest(batch)}):
+                reject(lambda: history._validate_fourth_first_receipts(before, fourth_candidate(forged)),
+                       "fourth native boundary survives rehashed official row pin")
+            for path in ("content/events/arc_new_characters.json", "content/events_ja/arc_new_characters.json"):
+                forged = {**after, path: after[path] + b"\n"}
+                reject(lambda d=forged: history._validate_fourth_first_receipts(before, d),
+                       "fourth source/target prose remains unchanged " + path)
+            already = copy.deepcopy(old)
+            already["accepted"]["ja"][history.FOURTH_IDS[0]] = original["accepted"]["ja"][history.FOURTH_IDS[0]]
+            already["accepted_sha256"] = history._digest(already["accepted"])
+            invalid_before = {**before, history.LEDGER_PATH: json.dumps(already, ensure_ascii=False).encode()}
+            reject(lambda: history._validate_fourth_first_receipts(invalid_before, after),
+                   "fourth cannot reuse first-receipt authority for existing receipts")
     check(history._ACTIVE.get() is None, "proof scope cleared")
     # Warm-success followed by an unavailable actual object must fail. No
     # cached verdict from the successful scope above may substitute for Git.
