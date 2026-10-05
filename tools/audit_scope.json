@@ -157,7 +157,7 @@
         "tools/order365_ui_receipt_compat.py",
         "tools/audit_select.py --verify"
       ],
-      "why": "Explicit ORDER-468 B3/B4 intake: exact71-file source/receipt/inventory delta, Main6 compatibility,33 refreshed receipts and3 final-sentence corrections. Bounded counter and invocation-local Main proof tests retain freshness; prepared5-locale resolver235/AP30 uses pre-autoload isolation. Unchanged historical suites and public builds are not repeated; native/render/human/physical claims remain separate."
+      "why": "Explicit ORDER-468 B3/B4 intake: exact71-file source/receipt/inventory delta, Main6 compatibility,105 refreshed receipts,3 final-sentence corrections and24 factual prose leaves in5 locales. Bounded counter and invocation-local Main proof tests retain freshness; prepared5-locale resolver335/selector60 uses pre-autoload isolation, unchanged AP30 evidence is retained. Unchanged historical suites and public builds are not repeated; native/render/human/physical claims remain separate."
     },
     {
       "id": "opening-rhythm-source",

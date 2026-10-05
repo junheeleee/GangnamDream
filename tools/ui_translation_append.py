@@ -2903,10 +2903,11 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
     if "source_hashes" not in inventory:
         return _PR31_OLD_MANIFEST_MATCHES(root, inventory, expected)
     predecessor = _pr31_history.source_predecessor_inventory(root, inventory)
+    source_stages = _pr31_history.source_stage_manifest_digests(root, inventory)
     # The helper proves only the exact imported Korean event/ending changes.
     # MainGame retains its actual current hash for the six-line adapter above.
     historical_expected = (predecessor["source_manifest_sha256"]
-                           if expected == inventory["source_manifest_sha256"] else expected)
+                           if expected in source_stages else expected)
     return _PR31_OLD_MANIFEST_MATCHES(root, predecessor, historical_expected)
 
 

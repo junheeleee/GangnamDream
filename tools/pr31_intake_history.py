@@ -46,6 +46,100 @@ SECOND_SENTENCES = {
     "zh-CN": ("从小小的空格间，能看见天台地面的灰色。", "全都写在一张纸上了。"),
     "zh-TW": ("從小小的空格間，看得見屋頂地面的灰色。", "全都寫在一張紙上了。"),
 }
+# The third correction separates authored KO/EN/target prose from the later
+# official receipt import. Pins are filled only from those actual commits.
+THIRD_SOURCE_COMMIT = "24d02ae8d7a8e357002b8103129b8bf22dd6a2ea"
+THIRD_LEDGER_COMMIT = "b41adeca25132f25daac6c9be76a22e614304c0d"
+THIRD_PRODUCT_SHA256 = {
+    "content/endings.json": (
+        "25f1e5b7f3236454e19ceb452274a61737f098198d07598c7c36d5a69d7cae77",
+        "92fdbd1767de9b389e8a6416c9fba7f84260cf874e4f27d4f7ebcf964ab7e9a5"),
+    "content/endings_en.json": (
+        "34f9ed752d9d160bf51416a3ae6849e6a2d4a3ad94ce73f52e6014b30d5453d4",
+        "8f9eb23d08089e8ca90fc80b22fdccfc70caf4374b519b362b97da986a4330d8"),
+    "content/endings_ja.json": (
+        "3701abfa421c9b601b2eb9c5bf597f7a902f1e26d1a512704e6312efe7e7e41b",
+        "de27f165baefc6585a1125e85e5e402ce7bb612c23f1508cba075fcbacdb2ae7"),
+    "content/endings_zh-CN.json": (
+        "c4fc187548d582c2768af288b8af422dc002d33af7a5ca7236a02bcb6886298f",
+        "ca31a4300b1811f9799d4d93096483ad0ca0d62d921f5ad775c94a7c1b274898"),
+    "content/endings_zh-TW.json": (
+        "7055428cd8247a086412a8b3e5d1a0417241035ea0ab5997da6dc6d37dcb5ad0",
+        "511d191b67d1252aa306bc71acc53a6c47a97a725cc6cab072548bc98f86f546"),
+    "content/events/arc_daeun_married.json": (
+        "f935ae2990f34964cf130c9a7a08cc18b95ef862abfd255f824456d7b196d6c9",
+        "2da9d8190ba2efc04258f944e8b65c6d8bbc1983929acca2f866ae054a284d59"),
+    "content/events/arc_year3_drama.json": (
+        "db8d0f8c95db610d4ff2a7c7f89610c7f8a6a342513580aa1bc3d71bd958075f",
+        "df143e94f0997f47f92e027e5ee42d5c742f4e6e64db1486cc6bedf01cdccf30"),
+    "content/events_en/arc_daeun_married.json": (
+        "be62e408358861cad4ea0270fc6da8604372191e8cbe7a8ba7fdb44b78891a1a",
+        "366af0764c0a46ae545bf645b8015b4df2ecf57e8d8c0e183a4892d5ef7e43c5"),
+    "content/events_en/arc_year3_drama.json": (
+        "52465fa76b2540072d3788f11a9504accc6a482eff6e70fac7b990dfbca426ff",
+        "854eec5882ceb9659e62314f291d1abc0dd7655dff9e9c14de972e1b58aeae13"),
+    "content/events_ja/arc_daeun_married.json": (
+        "191c0419812e1b9a3189adeae75e2faaace056d1af7cb03c48d767b795500eb7",
+        "f8c7af2d815f6016f67534bf33c066162756e177ee9e7813beee1e05dbef6d69"),
+    "content/events_ja/arc_year3_drama.json": (
+        "8e469bf866c29df08c704ed3130a8bd4462d681817f59b81f5934081ea506ffb",
+        "81465a04d7904f3da09a2a516fb73b2ef48031983fd7eda5ed7c1fb2948a6781"),
+    "content/events_zh-CN/arc_daeun_married.json": (
+        "485b6de2eebe8d572501aedaa289790bbde247a8e6a5d32b15d6cea8d3b872ed",
+        "d078c1c388231d5194b49866dcf05a7b8b26fbbef956b669d11fe24c7fdb99a7"),
+    "content/events_zh-CN/arc_year3_drama.json": (
+        "d1fbe3c5af4a13a7e7addae6d2f2f8251ee85e69abecef9013a56a2bae67f633",
+        "e0596274a3d127ef4521a512266a98083bb5bceba35d5488165c57b220dfcdd7"),
+    "content/events_zh-TW/arc_daeun_married.json": (
+        "2aeb852be8fc7bd1d6494ef30bce674cd9fdcc3d4a62b2bf51bea7a900b26114",
+        "c609a07f1ceb99002347d47786b22c293ac4076897ff699fd4f9541a18a3bdad"),
+    "content/events_zh-TW/arc_year3_drama.json": (
+        "0eabfab2435f145a1b9bf157e275b0b3a527107cc7674ceb7feb69d5fd530132",
+        "75d5dfa962e3f53fd30d764ac3a2ef7c073a989ee04c05eb8d79edf34abdb054"),
+    "content/meta/release_content_inventory.json": (
+        "3ff3828edbd8146cbcf3d24e7ad8850945db8603f71b80f664c975dbabfb1e6b",
+        "0b1c8e86fbb8aa223a89bf9773ff5cdb94d1a3e48e64ecf1a677721ffc65e965"),
+    "docs/CONTENT_RATING_INVENTORY.md": (
+        "d1fba997c2b7543954e1eedeb0022d841882ce6e758ca1a615cf6c206339ea6f",
+        "85fb1e5c1d868b5b48bd5f750402e850d7485c3961eec196ed72682894e89ea2"),
+}
+THIRD_BATCH_SHA256 = {
+    ("events", "ja"): "bfe4ea41e831a07d35336e014c1f0025f8e3a2c82dd7a0dcd1c086e83f7e9c58",
+    ("endings", "ja"): "3b0859c333f0948efbd361681d026a47f23a5a8092310ba2311f60de3f9beb2a",
+    ("events", "zh-CN"): "1eafa957b02f2a4e01cba027153e722e1975909f89a5592bd05761ca219cd279",
+    ("endings", "zh-CN"): "cece368555640d2e967ece60eea3c5c0ee2300418de94c87b3153df276b5d209",
+    ("events", "zh-TW"): "5c7060f11fd6b5b4d91f6ff9800bcb626326007025abccc763f7abee77a45994",
+    ("endings", "zh-TW"): "998f17f1ed6e13414405ac41633cc656fa2bf7b4d68c5d2ab4e4abe8ddcd1ca5",
+}
+# This digest binds the complete actual collector path/hash population, not
+# just the fifteen changed Korean content files. It is the source census in
+# all six pinned third-stage official headers (export revision 6a324be...).
+CURRENT_SOURCE_MANIFEST_SHA256 = "e3005b54d6887c0d819b08c90d30496d32711b4b27dd3ccec15fc9e6dd3a954b"
+THIRD_INVENTORY_FIELDS = frozenset({("corpus_contract", "ending_content_sha256")})
+THIRD_EVENT_IDS = (
+    "events:arc_daeun_final_choice:/description",
+    "events:arc_daeun_final_choice:/description_if_known/namsan_lock_daeun",
+    "events:arc_daeun_final_choice_kitchen:/description",
+    "events:arc_jiyeon_year5_return:/choices/1/result_text",
+)
+THIRD_ENDING_IDS = (
+    "endings:stable_success:/description",
+    "endings:orthodox_pinnacle:/description",
+    *("endings:orthodox_pinnacle:/description_if_known/" + name for name in (
+        "salary_raised", "salary_denied", "credit_asserted", "credit_recognized",
+        "jobswitch_reconnected", "declined_golf", "extreme_frugal", "frugal_quiet",
+        "skipped_staycation", "ignored_mystery_info", "orthodox_wavered")),
+    "endings:unorthodox_legend:/description",
+    *("endings:unorthodox_legend:/description_if_known/" + name for name in (
+        "cafe_double_jackpot", "coin_second_win", "holdem_high_stakes_win",
+        "own_path_solidified", "investigating_gray_contact", "gray_tip_debt_paid")),
+)
+THIRD_IDS_BY_GROUP = {"events": THIRD_EVENT_IDS, "endings": THIRD_ENDING_IDS}
+THIRD_CONTENT_PATHS = tuple(sorted(
+    ["content/" + directory + "/" + name + ".json"
+     for directory in ("events", "events_en", "events_ja", "events_zh-CN", "events_zh-TW")
+     for name in ("arc_daeun_married", "arc_year3_drama")]
+    + ["content/endings" + suffix + ".json" for suffix in ("", "_en", "_ja", "_zh-CN", "_zh-TW")]))
 LEDGER_PATH = "content/meta/full_game_localization.json"
 INVENTORY_PATH = "content/meta/release_content_inventory.json"
 INVENTORY_RAW_SHA256 = (
@@ -312,13 +406,47 @@ def _read_proof(root=ROOT):
                  "conditional repair exact4 path set")
         _validate_second_successor(repair, second, root)
         current = second
+    third_source = None
+    if THIRD_SOURCE_COMMIT is not None:
+        _require(second is not None, "prose correction requires the conditional9 successor")
+        third_source = _successor_snapshot(root, SECOND_COMMIT, THIRD_SOURCE_COMMIT,
+                                           head, second, tuple(THIRD_PRODUCT_SHA256))
+        _validate_third_source(second, third_source)
+        for path in THIRD_CONTENT_PATHS:
+            old, new = _rows(second[path]), _rows(third_source[path])
+            added = ((eid, keys) for eid in old for keys, _, _ in _changes(old[eid], new[eid]))
+            changes[path] = tuple(dict.fromkeys((*changes[path], *added)))
+        current = third_source
+    third_receipts = None
+    if THIRD_LEDGER_COMMIT is not None:
+        _require(third_source is not None, "prose receipts require the authored source successor")
+        third_receipts = _successor_snapshot(root, THIRD_SOURCE_COMMIT, THIRD_LEDGER_COMMIT,
+                                             head, third_source, (LEDGER_PATH,))
+        _validate_third_receipts(third_source, third_receipts, root)
+        current = third_receipts
     actual, _ = _snapshot(root, head, paths)
     _require(actual == current, "current HEAD product differs from approved intake/receipt repair")
     for path in paths:
         _require((root / path).read_bytes() == current[path], "current disk differs from Git: " + path)
     _require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head, "HEAD changed during proof")
     return {"root": root.resolve(), "head": head, "before": before, "after": after, "current": current,
-            "repair": repair, "second": second, "changes": changes, "branch": branch}
+            "repair": repair, "second": second, "third_source": third_source,
+            "third_receipts": third_receipts, "changes": changes, "branch": branch}
+
+
+def _successor_snapshot(root, predecessor, commit, head, before, changed_paths):
+    """A pinned direct-parent transition after product-neutral support commits."""
+    after, headers = _snapshot(root, commit, tuple(before))
+    _git(root, "merge-base", "--is-ancestor", predecessor, commit)
+    _git(root, "merge-base", "--is-ancestor", commit, head)
+    parents = [line[7:].decode() for line in headers if line.startswith(b"parent ")]
+    _require(len(parents) == 1, "prose successor is not a direct-parent product")
+    actual_before, _ = _snapshot(root, parents[0], tuple(before))
+    _require(actual_before == before, "prose successor predecessor changed product bytes")
+    expected = b"".join(b"M\0" + path.encode() + b"\0" for path in sorted(changed_paths))
+    _require(_git(root, "diff", "--name-status", "-z", parents[0], commit) == expected,
+             "prose successor exact product path set")
+    return after
 
 
 @contextlib.contextmanager
@@ -339,6 +467,12 @@ def fresh_validation_proof(root=ROOT):
         _require(actual == proof["current"], "Git product changed inside proof scope")
         _require(all((Path(root) / path).read_bytes() == raw for path, raw in proof["current"].items()),
                  "disk product changed inside proof scope")
+        if "source_census" in proof:
+            census = proof["source_census"]
+            actual, _ = _snapshot(root, proof["head"], tuple(census))
+            _require(actual == census, "Git source census changed inside proof scope")
+            _require(all((Path(root) / path).read_bytes() == raw for path, raw in census.items()),
+                     "disk source census changed inside proof scope")
     finally:
         _ACTIVE.reset(token)
 
@@ -358,20 +492,65 @@ def source_predecessor_inventory(root, inventory):
         return {**inventory, "source_hashes": comparison, "source_manifest_sha256": _digest(comparison)}
 
 
+def source_stage_manifest_digests(root, inventory):
+    """Actual full source digests for four fixed stages; never a current claim.
+
+    Only Korean content hashes are projected. Every other source, including
+    MainGame, remains actual and is matched against each immutable stage. The
+    invocation-local proof shares these object reads across receipt rows and
+    rechecks its current Git/disk census when the outer proof scope exits.
+    """
+    with fresh_validation_proof(root) as proof:
+        hashes = inventory["source_hashes"]
+        _require(isinstance(hashes, dict)
+                 and _digest(hashes) == inventory["source_manifest_sha256"]
+                 == CURRENT_SOURCE_MANIFEST_SHA256,
+                 "complete current source census differs from official source pin")
+        _require(all(hashes.get(path) == _sha(proof["current"][path]) for path in SOURCE_PATHS)
+                 and hashes.get("scenes/MainGame.gd") == _sha(proof["current"]["scenes/MainGame.gd"]),
+                 "current source census/content/Main raw binding")
+        if "source_stage_manifests" not in proof:
+            actual, _ = _snapshot(root, proof["head"], tuple(hashes))
+            _require({path: _sha(raw) for path, raw in actual.items()} == hashes,
+                     "complete source census differs from current Git")
+            _require(all((Path(root) / path).read_bytes() == raw for path, raw in actual.items()),
+                     "complete source census differs from current disk")
+            manifests = set()
+            for stage, revision in (("before", INTAKE_PARENT), ("after", INTAKE_COMMIT),
+                                    ("second", SECOND_COMMIT), ("third_source", THIRD_SOURCE_COMMIT)):
+                if revision is None:
+                    continue
+                _require(proof[stage] is not None, "source stage lacks product proof")
+                candidate = {**hashes, **{path: _sha(proof[stage][path]) for path in SOURCE_PATHS}}
+                stage_raw, _ = _snapshot(root, revision, tuple(hashes))
+                _require({path: _sha(raw) for path, raw in stage_raw.items()} == candidate,
+                         "fixed stage source census differs outside approved Korean content")
+                manifests.add(_digest(candidate))
+            # Stored only after every immutable stage and the actual source
+            # have passed; none of these derived values survives this scope.
+            proof["source_census"] = actual
+            proof["source_stage_manifests"] = frozenset(manifests)
+        return proof["source_stage_manifests"]
+
+
 def release_inventory_predecessor(raw, root=ROOT):
     with fresh_validation_proof(root) as proof:
         _require(raw == proof["current"][INVENTORY_PATH], "current inventory raw differs")
+        if INVENTORY_PATH in THIRD_PRODUCT_SHA256:
+            raw = third_product_inverse(proof["second"][INVENTORY_PATH], raw, INVENTORY_PATH)
         return inventory_inverse(proof["before"][INVENTORY_PATH], raw)
 
 
 def _leaf_receipt(snapshot, locale, identifier):
     group, owner, pointer = identifier.split(":", 2)
-    _require(group == "events", "receipt recovery group")
-    source_path = next((path for path in SOURCE_PATHS if path.startswith("content/events/")
-                        and owner in _rows(snapshot[path])), None)
+    _require(group in {"events", "endings"}, "receipt recovery group")
+    source_path = "content/endings.json" if group == "endings" else next((
+        path for path in SOURCE_PATHS if path.startswith("content/events/")
+        and owner in _rows(snapshot[path])), None)
     _require(source_path is not None, "receipt recovery owner")
     tokens = tuple(int(k) if k.isdigit() else k.replace("~1", "/").replace("~0", "~") for k in pointer[1:].split("/"))
-    source, target = _rows(snapshot[source_path])[owner], _rows(snapshot[source_path.replace("/events/", "/events_" + locale + "/")])[owner]
+    target_path = "content/endings_" + locale + ".json" if group == "endings" else source_path.replace("/events/", "/events_" + locale + "/")
+    source, target = _rows(snapshot[source_path])[owner], _rows(snapshot[target_path])[owner]
     for key in tokens:
         source, target = source[key], target[key]
     _require(isinstance(source, str) and isinstance(target, str), "receipt text leaf shape")
@@ -384,8 +563,17 @@ def _validate_repair(before, after, root=ROOT):
     return _validate_receipt_recovery(before, after, REPAIR_IDS, REPAIR_BATCH_SHA256, REPAIR_COMMIT, root)
 
 
-def _validate_receipt_recovery(before, after, identifiers, batch_sha256, commit, root):
+def _validate_receipt_recovery(before, after, identifiers, batch_sha256, commit, root, *, groups=None):
     """One explicit pinned receipt correction, never an append exemption."""
+    if groups is None:
+        groups = {"events": identifiers}
+        _require(set(batch_sha256) == set(LOCALES), "actual official receipt row pins are missing")
+        batch_sha256 = {("events", locale): digest for locale, digest in batch_sha256.items()}
+    _require(tuple(identifier for ids in groups.values() for identifier in ids) == tuple(identifiers)
+             and all(identifier.startswith(group + ":") for group, ids in groups.items() for identifier in ids),
+             "receipt recovery exact group populations")
+    expected_batches = {(group, locale) for group in groups for locale in LOCALES}
+    _require(set(batch_sha256) == expected_batches, "actual grouped official receipt row pins are missing")
     old, new = _loads(before[LEDGER_PATH]), _loads(after[LEDGER_PATH])
     expected = copy.deepcopy(old)
     for locale in LOCALES:
@@ -396,17 +584,19 @@ def _validate_receipt_recovery(before, after, identifiers, batch_sha256, commit,
             expected["accepted"][locale][identifier] = receipt
     expected["accepted_sha256"] = _digest(expected["accepted"])
     _require(new["batches"][:len(old["batches"])] == old["batches"]
-             and len(new["batches"]) == len(old["batches"]) + 3,
-             "receipt recovery must preserve the exact original batch prefix and append exactly3")
-    _require(set(batch_sha256) == set(LOCALES), "actual official receipt row pins are missing")
+             and len(new["batches"]) == len(old["batches"]) + len(expected_batches),
+             "receipt recovery must preserve the exact original batch prefix and bounded additions")
     seen, source_snapshots = set(), {}
     for batch in new["batches"][len(old["batches"]):]:
         headers = batch.get("official_receipt_headers_by_locale", {})
         _require(isinstance(headers, dict) and len(headers) == 1, "one official locale per recovery batch")
         locale = next(iter(headers))
-        _require(locale in LOCALES and locale not in seen
-                 and _digest(batch) == batch_sha256[locale], "exact official recovery batch row")
-        seen.add(locale)
+        group = batch.get("group")
+        batch_key = (group, locale)
+        _require(batch_key in expected_batches and batch_key not in seen
+                 and _digest(batch) == batch_sha256[batch_key], "exact official recovery batch row")
+        seen.add(batch_key)
+        selected = groups[group]
         header = headers[locale]
         _require(set(header) == {"kind", "schema_version", "locale", "source_revision", "prompt_version",
                                 "source_manifest_sha256", "selection_sha256", "count", "source_language",
@@ -414,21 +604,21 @@ def _validate_receipt_recovery(before, after, identifiers, batch_sha256, commit,
                  and header["kind"] == "full_game_localization_batch"
                  and header["schema_version"] == 1 and header["locale"] == locale
                  and header["prompt_version"] == old["prompt_version"]
-                 and header["count"] == len(identifiers) and header["source_language"] == "ko"
+                 and header["count"] == len(selected) and header["source_language"] == "ko"
                  and header["native_review"] == "OPEN"
                  and header["batch_id"] == _digest({k: v for k, v in header.items() if k != "batch_id"}),
                  "official recovery header identity/count/state")
-        _require(batch.get("order") == "ORDER-468" and batch.get("group") == "events"
-                 and batch.get("source_leaves") == len(identifiers)
+        _require(batch.get("order") == "ORDER-468"
+                 and batch.get("source_leaves") == len(selected)
                  and batch.get("machine_validation") == "PASS"
                  and batch.get("native_review") == batch.get("rendered_review") == "OPEN",
                  "recovery row scope or machine/native distinction")
         counts = batch.get("target_leaves_by_locale", {})
         _require(set(counts) <= set(LOCALES)
-                 and all(counts.get(loc, 0) == (len(identifiers) if loc == locale else 0) for loc in LOCALES),
+                 and all(counts.get(loc, 0) == (len(selected) if loc == locale else 0) for loc in LOCALES),
                  "recovery target census differs from the exact owned leaf count")
         receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN",
-                   "translations": {identifier: new["accepted"][locale][identifier] for identifier in identifiers}}
+                   "translations": {identifier: new["accepted"][locale][identifier] for identifier in selected}}
         _require(batch.get("receipt_sha256_by_locale") == {locale: _digest(receipt)},
                  "official accepted receipt does not match the exact current leaves")
         revision = header["source_revision"]
@@ -437,7 +627,7 @@ def _validate_receipt_recovery(before, after, identifiers, batch_sha256, commit,
             source_snapshots[revision], _ = _snapshot(root, revision, tuple(before))
         _require(source_snapshots[revision] == before,
                  "official export revision has a different product source/ledger")
-    _require(seen == set(LOCALES), "official recovery locales are incomplete")
+    _require(seen == expected_batches, "official recovery group/locales are incomplete")
     expected["batches"] = new["batches"]
     _require(_ordered(new) == _ordered(expected), "receipt recovery exceeds exact owned values/batch additions")
 
@@ -474,6 +664,67 @@ def _validate_second_successor(before, after, root=ROOT):
     return _validate_receipt_recovery(before, after, SECOND_IDS, SECOND_BATCH_SHA256, SECOND_COMMIT, root)
 
 
+def third_product_inverse(before, after, path):
+    """Exact reviewed prose/metadata raw pair, with no other JSON leaf edit."""
+    _require(path in THIRD_PRODUCT_SHA256 and isinstance(before, bytes) and isinstance(after, bytes)
+             and (_sha(before), _sha(after)) == THIRD_PRODUCT_SHA256[path],
+             "prose correction raw pair differs: " + path)
+    if path == "docs/CONTENT_RATING_INVENTORY.md":
+        # Generated text is owned as an entire pinned artifact, not JSON prose.
+        return before
+    old, new = _Document(before), _Document(after)
+    if path == INVENTORY_PATH:
+        allowed = THIRD_INVENTORY_FIELDS
+        _require(bool(allowed), "prose inventory field pins are missing")
+    else:
+        _require(path in THIRD_CONTENT_PATHS, "unowned prose correction path")
+        identifiers = THIRD_ENDING_IDS if path.startswith("content/endings") else (
+            THIRD_EVENT_IDS[:3] if path.endswith("/arc_daeun_married.json") else THIRD_EVENT_IDS[3:])
+        _require(list(_rows(before)) == list(_rows(after)), "prose correction changed ID order")
+        indices = {row["id"]: index for index, row in enumerate(old.value)}
+        allowed = set()
+        for identifier in identifiers:
+            _, owner, pointer = identifier.split(":", 2)
+            tokens = tuple(int(key) if key.isdigit() else key.replace("~1", "/").replace("~0", "~")
+                           for key in pointer[1:].split("/"))
+            _require(owner in indices, "prose correction owner missing")
+            allowed.add((indices[owner], *tokens))
+    changes = list(_changes(old.value, new.value))
+    _require({keys for keys, _, _ in changes} == set(allowed), "prose correction exact owned JSON leaves")
+    _require(all(isinstance(a, str) and isinstance(b, str) for _, a, b in changes),
+             "prose correction touched non-string data")
+    text, replacements = new.text, []
+    for keys, _, _ in changes:
+        a, z = old.spans[keys]
+        p, q = new.spans[keys]
+        replacements.append((p, q, old.text[a:z]))
+    for p, q, literal in sorted(replacements, reverse=True):
+        text = text[:p] + literal + text[q:]
+    _require(text.encode() == before, "prose correction changed bytes outside exact owned literals")
+    return before
+
+
+def _validate_third_source(before, after):
+    _require(set(before) == set(after), "prose successor snapshot path population")
+    _require(set(THIRD_CONTENT_PATHS) <= set(THIRD_PRODUCT_SHA256)
+             <= set(THIRD_CONTENT_PATHS) | {INVENTORY_PATH, "docs/CONTENT_RATING_INVENTORY.md"},
+             "prose correction exact15 text files and bounded generated metadata")
+    for path in before:
+        if path in THIRD_PRODUCT_SHA256:
+            third_product_inverse(before[path], after[path], path)
+        else:
+            _require(before[path] == after[path], "prose correction changed protected product: " + path)
+
+
+def _validate_third_receipts(before, after, root=ROOT):
+    _require(set(before) == set(after)
+             and all(before[path] == after[path] for path in before if path != LEDGER_PATH),
+             "prose receipt successor changed product content")
+    return _validate_receipt_recovery(before, after, (*THIRD_EVENT_IDS, *THIRD_ENDING_IDS),
+                                      THIRD_BATCH_SHA256, THIRD_LEDGER_COMMIT, root,
+                                      groups=THIRD_IDS_BY_GROUP)
+
+
 def _receipt_comparison(snapshot, before, after):
     _require(set(snapshot) == set(before) == set(after) == set(CURRENT_UI_PATHS), "receipt comparison path population")
     _require(snapshot[LEDGER_PATH] == after[LEDGER_PATH], "receipt comparison is not exact approved ledger")
@@ -487,7 +738,8 @@ def receipt_transitions(root, inventory):
         result = []
         for commit, a, b in ((INTAKE_COMMIT, proof["before"], proof["after"]),
                              (REPAIR_COMMIT, proof["after"], proof["repair"]),
-                             (SECOND_COMMIT, proof["repair"], proof["second"])):
+                             (SECOND_COMMIT, proof["repair"], proof["second"]),
+                             (THIRD_LEDGER_COMMIT, proof["third_source"], proof["third_receipts"])):
             if commit is None:
                 continue
             before = {path: a[path] for path in CURRENT_UI_PATHS}

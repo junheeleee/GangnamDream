@@ -4,6 +4,9 @@
 
 ## 2026-10-05 — 사용자 우선 PR31 문장 수리 들이기 선언 (468)
 
+- 독립 KO/EN PR수정부29파일474잎 검수에서 새 기간2건/포괄금액1종을 확인했다. 24d02ae의24잎×5언어120문자열은 기간 단정 제거·실제>=경계만 수리했고 비저자가 전수대조했다. 같은 원문제품을 공식export한6a324be에서 events4/endings20×3언어 check/import 모두 PASS/changed_files0, b41adec은72영수증/6배치만 반영했다. 총105갱신·accepted41830/b249·사건/엔딩11816잎/언어 source/target stale0.
+- runtime3 prepared resolver335·실제 inherited selector60(기준액±1/정확값·37세 비종료) PASS,4.206686초/exit0/stderr0/engine오류0, 보호57/11그룹·제품697동일. 결과SHA `407b019e06ae5badcc1237b6190dbe7949b7aa8598d0ac65205a56ed25c0623d`; 실제렌더/자연플레이가 아니다. 바뀌지 않은AP30은runtime2증거만 재사용한다.
+- 기존main부터 남은 엔딩 사실 결함2건(고정 남은20억·순자산을 통장잔고로 표현)은 e97e2cd/PR/current 5언어 비교로 귀속해 별도후속으로 남긴다. 이번 PR수리와 엔딩전체GO는 구분한다. 현재 release inventory 기본 PASS이며 최종 소비자 이력검사는 아직 진행 중이다.
 - 추가134a45b: 기수용 전체 대조에서 PRdiff의 accepted변경만 보면 놓치는 조건부3잎×3언어를 발견했다. 민서연락/지연결혼식6문장은 보존하고 year4마감3문장의 옥상 회색 묘사를 KO의 종이 한 장으로 바로잡았다. 공식check/import 각3/changed_files1, 총33영수증/추가6배치·accepted41830/b243. 사건·엔딩 기수용11816/언어의 source/target stale0(미번역·기계유효·원어민 완료와 별개).
 - shared1은 새 누락 발견으로 read-only 실행을 중단했다. 후속 history 자체검사 중 root가 선언commit을 만들어 HEAD변동 방어가 정상 거부했으며 PASS로 세지 않는다. 최종 후보를 동결한 뒤 같은 검사를 재실행한다. 동일 호출의 Main96객체 반복증명은 호출 한정 공유와 매 재사용·종료 재검증으로 줄인다.
 - 실제 통합4b26792(부모8a2c9a9/b9284e3), Main6 e88742c, 공식24영수증 db4de2f. 기존 main66신규 UI잎/6배치 보존, accepted41830/b240. arc_events5·project·과거 인간/공개/사용자 저장 불변.

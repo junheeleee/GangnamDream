@@ -100,7 +100,8 @@ def run():
                       == history.previous.project_bytes(proof["before"][path], path),
                       "explicit historical comparison remains idempotent " + path)
         transitions = history.receipt_transitions(history.ROOT, {})
-        check(len(transitions) == 1 + bool(history.REPAIR_COMMIT) + bool(history.SECOND_COMMIT),
+        check(len(transitions) == 1 + bool(history.REPAIR_COMMIT) + bool(history.SECOND_COMMIT)
+              + bool(history.THIRD_LEDGER_COMMIT),
               "exact product/repair receipt transitions")
         for commit, before, after, delta, inverse in transitions:
             check(inverse(after, before, after) == before, "exact4 raw receipt inverse " + commit)
@@ -112,7 +113,8 @@ def run():
                   "comparison is not UI coverage/receipt reissue " + commit)
             check(delta["first_receipts"] == (9 if commit == history.INTAKE_COMMIT else 0)
                   and delta["corrections"] == (678 if commit == history.INTAKE_COMMIT
-                                                else 24 if commit == history.REPAIR_COMMIT else 9),
+                                                else 24 if commit == history.REPAIR_COMMIT
+                                                else 9 if commit == history.SECOND_COMMIT else 72),
                   "honest first/replaced receipt census " + commit)
         # Pure whole-union negatives exercise the same exact reviewed objects,
         # not a guessed normalized source or rewritten Git history.
@@ -136,6 +138,39 @@ def run():
         forged["source_hashes"][history.SOURCE_PATHS[0]] = "0" * 64
         forged["source_manifest_sha256"] = history._digest(forged["source_hashes"])
         reject(lambda: history.source_predecessor_inventory(history.ROOT, forged), "rehashed fake source census")
+        # Collect once, in the real test invocation, instead of preserving a
+        # private fixture or copying the collector's entire source grammar.
+        from full_game_localization import collect
+        full_inventory = collect(history.ROOT)
+        stages = history.source_stage_manifest_digests(history.ROOT, full_inventory)
+        expected_stages = {
+            history._digest({**full_inventory["source_hashes"],
+                             **{path: history._sha(proof[stage][path]) for path in history.SOURCE_PATHS}})
+            for stage in ("before", "after", "second", "third_source") if proof[stage] is not None
+        }
+        check(stages == expected_stages and full_inventory["source_manifest_sha256"] in stages,
+              "exact immutable source-stage manifests retain actual Main hash")
+        check(len(stages) == 3, "before/intake/corrected source populations only")
+        check(history.source_stage_manifest_digests(history.ROOT, full_inventory) is stages,
+              "same-invocation source proof is reused only after actual verification")
+        for label, path, value in (
+                ("fake changed source", history.SOURCE_PATHS[0], "0" * 64),
+                ("non-source metadata", history.LEDGER_PATH, history._sha(proof["current"][history.LEDGER_PATH])),
+                ("target UI inserted", history.UI_PATHS[0], history._sha(proof["current"][history.UI_PATHS[0]])),
+                ("Main mutation", "scenes/MainGame.gd", "0" * 64),
+                ("unchanged runtime mutation", "systems/RelationshipSystem.gd", "0" * 64)):
+            forged = {"source_hashes": {**full_inventory["source_hashes"], path: value}}
+            forged["source_manifest_sha256"] = history._digest(forged["source_hashes"])
+            reject(lambda d=forged: history.source_stage_manifest_digests(history.ROOT, d),
+                   "stage manifest rejects rehashed " + label)
+        forged = {"source_hashes": {k: v for k, v in full_inventory["source_hashes"].items()
+                                    if k != "scenes/MainGame.gd"}}
+        forged["source_manifest_sha256"] = history._digest(forged["source_hashes"])
+        reject(lambda: history.source_stage_manifest_digests(history.ROOT, forged),
+               "stage manifest rejects omitted actual Main source")
+        old_inventory = history.source_predecessor_inventory(history.ROOT, full_inventory)
+        reject(lambda: history.source_stage_manifest_digests(history.ROOT, old_inventory),
+               "comparison-only predecessor cannot claim current source admission")
         if proof["repair"] is not None:
             history._validate_repair(proof["after"], proof["repair"])
             check(True, "actual24 stale corrections with3 official receipt rows")
@@ -189,6 +224,74 @@ def run():
                    "conditional receipt forged source with recalculated checksum")
             forged = {**after, history.SOURCE_PATHS[0]: after[history.SOURCE_PATHS[0]] + b"\n"}
             reject(lambda: history._validate_second_successor(before, forged), "conditional repair cannot change Korean")
+        if proof["third_source"] is not None:
+            before, after = proof["second"], proof["third_source"]
+            history._validate_third_source(before, after)
+            check(True, "actual authored120 prose leaves and exact generated metadata")
+            for path in history.THIRD_PRODUCT_SHA256:
+                check(history.third_product_inverse(before[path], after[path], path) == before[path],
+                      "third source whole-raw inverse " + path)
+                reject(lambda p=path: history.third_product_inverse(before[p], after[p] + b"\n", p),
+                       "third source whitespace " + path)
+                reject(lambda p=path: history.third_product_inverse(before[p], before[p], p),
+                       "third source rollback " + path)
+                if path in history.THIRD_CONTENT_PATHS:
+                    check(bool(history.source_errors(before[path], path)), "pre-third prose is not current " + path)
+                    neighbor = json.loads(after[path])
+                    neighbor[0]["title"] += " unowned neighbor"
+                    raw = (json.dumps(neighbor, ensure_ascii=False, indent=2) + "\n").encode()
+                    # Independent selector guard still rejects a new neighbor
+                    # even when a fixture deliberately recomputes raw pins.
+                    with mock.patch.dict(history.THIRD_PRODUCT_SHA256,
+                                         {path: (history._sha(before[path]), history._sha(raw))}):
+                        reject(lambda p=path, r=raw: history.third_product_inverse(before[p], r, p),
+                               "third source selector survives rehashed neighbor " + path)
+            forged = {**after, history.LEDGER_PATH: after[history.LEDGER_PATH] + b"\n"}
+            reject(lambda: history._validate_third_source(before, forged), "source-only stage cannot change receipts")
+            path = history.INVENTORY_PATH
+            check(history.release_inventory_predecessor(after[path]) == proof["before"][path],
+                  "third inventory -> intake inventory -> original raw")
+            for locale in history.LOCALES:
+                receipt = history._leaf_receipt(after, locale, history.THIRD_ENDING_IDS[0])
+                row = history._rows(after["content/endings.json"])["stable_success"]
+                target = history._rows(after["content/endings_" + locale + ".json"])["stable_success"]
+                check(receipt == {"source_sha256": history._digest({"path": "content/endings.json",
+                                      "field": ("description",), "ko": row["description"]}),
+                                  "target_sha256": history._digest(target["description"])},
+                      "ending receipt binds actual source/target " + locale)
+            reject(lambda: history._leaf_receipt(after, "ja", "catalog:stable_success:/description"),
+                   "recovery does not widen to arbitrary groups")
+        if proof["third_receipts"] is not None:
+            before, after = proof["third_source"], proof["third_receipts"]
+            history._validate_third_receipts(before, after)
+            check(True, "actual72 existing receipt corrections and6 official group/locale rows")
+            original = json.loads(after[history.LEDGER_PATH])
+
+            def third_candidate(document):
+                return {**after, history.LEDGER_PATH:
+                        (json.dumps(document, ensure_ascii=False, indent=2) + "\n").encode()}
+
+            for field in ("source_sha256", "target_sha256"):
+                forged = copy.deepcopy(original)
+                forged["accepted"]["ja"][history.THIRD_ENDING_IDS[0]][field] = "0" * 64
+                forged["accepted_sha256"] = history._digest(forged["accepted"])
+                reject(lambda d=forged: history._validate_third_receipts(before, third_candidate(d)),
+                       "third forged ending receipt with rehashed checksum " + field)
+            for label, batches in (
+                    ("dropped original batch", original["batches"][1:]),
+                    ("missing group row", original["batches"][:-1]),
+                    ("duplicated group row", [*original["batches"], original["batches"][-1]])):
+                reject(lambda b=batches: history._validate_third_receipts(before, third_candidate({**original, "batches": b})),
+                       "third " + label)
+            forged = copy.deepcopy(original)
+            batch = forged["batches"][-1]
+            locale = next(iter(batch["official_receipt_headers_by_locale"]))
+            batch["native_review"] = "PASS"
+            with mock.patch.dict(history.THIRD_BATCH_SHA256, {(batch["group"], locale): history._digest(batch)}):
+                reject(lambda: history._validate_third_receipts(before, third_candidate(forged)),
+                       "third native boundary survives rehashed official row pin")
+            forged = {**after, history.THIRD_CONTENT_PATHS[0]: after[history.THIRD_CONTENT_PATHS[0]] + b"\n"}
+            reject(lambda: history._validate_third_receipts(before, forged), "third receipt-only stage cannot change prose")
     check(history._ACTIVE.get() is None, "proof scope cleared")
     # Warm-success followed by an unavailable actual object must fail. No
     # cached verdict from the successful scope above may substitute for Git.
