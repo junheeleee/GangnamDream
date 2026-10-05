@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-149",
+  "decision_scope": "work_unit",
+  "verdict": "HOLD",
+  "subject": {
+    "kind": "source",
+    "commit": "5b096f36ac892b96aefcf7288655edbbfa186de7",
+    "tree": "e5be8301aba2f46294d8469cb2fc4d7fb8d3a5b6",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "P-18 1층의 비트별 fade/hold 수리. 소스·warmed headless 시간/ReduceMotion/skip 계약은 PASS이나, 필요한 실제 화면·강조 체감이 미관찰이므로 ORDER-149 전체는 HOLD다.",
+  "method": "gangnamdream-dev 지침과 활성 사양, Opening 전체·제품 diff11개·새 checker/runner·463 adapter/focused를 직접 읽었다. 원본 실패/성공 로그·곡선·입력·결과 SHA와 Git 후보를 읽기 전용으로 확인했다. 프로젝트 검사·엔진은 root만 실행했고, 독립 검수자는 승인 뒤 이 보고서와 ORDER-463 보고서만 작성했다.",
+  "source_review": {
+    "product_commit": "0afd81c8f702c1b792970f85cd864b6312774fa4",
+    "opening_sha256": "cee056e40352561670079ca6a9469b751f745de332e3b6c31aa0a85e024ddf77",
+    "change": "OpeningCinematic.gd 하나의 16추가/9삭제, 정확11개 치환이다. 3개 fade/hold와 local getter·6개 tween 소비자를 바꿨다. 값 없는 beat는0.52를 유지하며 문안6쌍·자산·입력·shader/카메라 파라미터·기존 음향 코드는 불변이다.",
+    "timing": "도시 fade0.44/hold2.80, 처지0.76/3.50, 목표0.36/2.90. 명목합계10.76초는 동일하며 처지의 비중을 높였다. image/title/body/rule/camera/old_image가 모두 비트값을 소비한다.",
+    "successor_boundary": "전체 번역 검사는 clean b565ffe4f15cbee0ff92ac5d4d164014970a2f89/tree a84e916689a927d769d971d06c0f516bcac7b4c7에서 실행됐다. 현재 subject까지 committed diff는 CLAUDE.md 상태3행뿐이다. 현재 HEAD에서 엔진이나 full-body를 다시 실행했다고 주장하지 않는다. 동결 종료 후 root의 STATUS/사양/WORK_LOG 편집도 실행 당시 source와 구분한다."
+  },
+  "automated_timing": {
+    "checker_sha256": "e6662f2888804a3d026ab33e06c62d5ca527e2127f7e2ba163bce96b39e2d14c",
+    "scene_sha256": "4fde44bc0dec2b468c3d621a83b543d643a519d18aa5dc5e92e12e615053caca",
+    "runner_sha256": "1fd97334f3d33cbbe7222f1748ee3b3622928b6df64905f827b48804dbb359b3",
+    "baseline": {
+      "path": "build/qa_order149/baseline2/result.json",
+      "sha256": "5cb971328831edf50f861d8951c2d3537f169d75db84315912db5a0528143560",
+      "ko_normal_seconds": 10.864439,
+      "en_reduce_motion_seconds": 10.863720
+    },
+    "current": {
+      "path": "build/qa_order149/current1/result.json",
+      "sha256": "6ae756802802c83fc3ec6a8491e8e6587f8d17352166d9b35b073e0935a3c48c",
+      "ko_normal_seconds": 10.840767,
+      "en_reduce_motion_seconds": 10.832778,
+      "ko_ratio": 0.9978211484274521,
+      "en_ratio": 0.9971518043543095
+    },
+    "observed": "동일 checker의 전후4재생이 모두 ±15% 안이며 각 curve 허용오차0.045초를 통과했다. 원본 first/last 표본으로 재계산한62개 curve의 최대오차는 baseline0.009138초/current0.015620초다. fallback missing/empty0.52, authored0.44/0.76/0.36을 실제 읽었다. KO 카메라는1.045→1, EN ReduceMotion은 scale1·camera 없음이다.",
+    "skip": "전후 각각 두 번째 fade 중 synthetic keyboard6 edge. release/echo는 전환[0,0], accepted/repeated down/up 뒤 전환1·generation+1·beat1 유지다. current 입력 시 alpha0.138005/두 번째 beat 이후0.188994초를 관측했다. 실제 Main 진입은 억제했으며 물리 입력이나 모든 skip 시점의 증거는 아니다.",
+    "execution_binding": "baseline2/current1은 HEAD5bf7a8e의 명시적 dirty fixture에서 실행됐고 각 run의 동일 source 상태·9입력/보호맵이 보존됐다. current Opening bytes는 이후 제품0afd81c8 및 최종 subject와 정확히 같다. clean commit에서 엔진을 실행했다는 주장은 하지 않는다."
+  },
+  "retained_failures": {
+    "cold_baseline": {
+      "path": "build/qa_order149/baseline1/result.json",
+      "sha256": "d6c68cd6c09e6f9ec213f6dae45b6dc4529b000f36e2adba415ea9ffb4273c79",
+      "result": "exit1/all_pass=false를 보존한다. 첫 KO 비트의 벽시계/curve 및 camera endpoint 검사가 실패했다. 후속은 t0 밖15frame 이상·0.25초 이상 준비와 실제 Vector2 endpoint 판독을 추가한 warmed fixture이며, 허용오차를 넓히지 않았다. cold 부팅 문제가 해결됐다는 증거가 아니다."
+    },
+    "focused_lane": "build/qa_order149/focused1/result.json SHA dd84b44fdec179438831b3fbdfd2657dbc7f63031963d8f002dea2f8e724e379는 전체 exit1이다. focused56·등록197·queue는 PASS지만 WORK_LOG40346>40000으로 context가 실패했다. root가 자기 새 기록을 줄인 뒤 context만 재실행해 PASS했다고 보고했으며 그 후속 tool 원문은 별도 파일이 없다. 첫 실패를 소급 PASS로 바꾸지 않는다."
+  },
+  "source_acceptance": {
+    "path": "build/qa_order149/fullbody1/result.json",
+    "sha256": "67392ba8ba001073a2f3d2960d03144402458b798b83f668b9253b34cc4381e7",
+    "result": "별도463의 실제 기본 full-body exit0/453.09081초·빈 stderr·정확 SOURCE_INVENTORY_ONLY marker·before=after다. 번역 source 수용이며 렌더 승인으로 확대하지 않는다."
+  },
+  "preservation": {
+    "observed": "각 headless run의 원본 project·9입력·실제player34/공개저장9/seed3/462앱·manifest 보호맵을 확인했다. full-body의 clean 전후3138 tracked SHA와 보호맵은 정확히 같다. 기존 번역값/키/accepted41755·231batch, 공개 판정·과거222판정/200보고와 human 원문을 변경하지 않는다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "KO/EN×1280×800·1920×1080×3beat 실제12PNG, 글자 잘림·겹침·검은 프레임·연출 체감은 Mac 잠금으로 NOT_RUN이다. 사람의 비유도 강조 기억도 미관찰이다.",
+    "normal KO와 ReduceMotion EN만 전후 관측했으며 양언어×양설정 전체 조합을 실행한 것은 아니다. ReduceMotion의 기존 LivingScene 미세 shader 움직임까지0이라고 주장하지 않는다.",
+    "camera completed_at은 마지막 endpoint 관측시각이지 최초 완료시각이 아니다. curve는 frame 표본에서 추정했으며 렌더 시간·곡선의 연속 모든 순간을 증명하지 않는다.",
+    "직접 AudioManager 소스 접근0·표본 SFX active0은 청취 검수나 모든 음향0이라는 뜻이 아니다. 새 자산·오디오·P-18 2/3/4층은 열지 않았다.",
+    "원어민·물리 키보드/패드·자연 첫 진입·새 package runtime·본편/Chapter5·출시 승인은 미관찰/HOLD다."
+  ],
+  "final_boundary": "현재 subject의 소스/시간 계약은 PASS. 필요한 L2 실제 화면과 L3 사람 체감이 없어 ORDER-149 전체 HOLD를 유지한다."
+}

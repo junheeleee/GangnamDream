@@ -37,7 +37,8 @@ endpoint를 읽어 다시 측정한다. 후속 PASS는 warmed fixture의 시간 
   실제저장34·공개저장9·seed3·462앱/manifest·원본project와9입력은 전후 동일하다.
 - source 계측은 PASS지만 실제12PNG/가독성/검은프레임/강조체감은 NOT_RUN이다.
   camera `completed_at`은 endpoint 관측시각이며 최초완료시각으로 읽지 않는다.
-  463의 정확한 현재 번역manifest 수용과 독립 최종판정은 별도 실행 중이다.
+  463의 정확한 현재 번역manifest 수용도 PASS다. 독립 보고는
+  `docs/agent_reviews/ORDER-149.json`에 결속하며 이 오더 전체는 HOLD다.
 
 ## 판정 증거
 
