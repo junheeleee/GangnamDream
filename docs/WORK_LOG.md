@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md)에 바이트 그대로 보존했다. Claude PR #31 기록은 [별도 보관본](history/WORK_LOG_2026-10-05_claude_pr31.md)에 있다.
 
+## 2026-10-06 — 4장 표적 검증·직접 회상 보류·지정 후속 초안 착수 (471→472)
+
+- clean `19cab1c`/tree `4c07b64`의 final1은13검사 PASS/exit0/1673.438378초다. 실제365/470 fresh 입장과 두 outer 정상 종료, source/runner/log 전후동일. `.git/order471-20261006.nA5vxa/final1/result.json` SHA `6e638362c9823214c7d7dbac0b0397e624ac6e4ca572fc314260560224f8e066`. 83 source/receipt·34 PR31·정상본문·12 person·29 source history·분모4·현재수용 결속·데모 정상/음성·JA/JA pipeline/ZH와 보호검사다. old273/146/12623 전체 재실행이나 자연 플레이 PASS가 아니다.
+- 격리 런타임은 기존64+새65 준비 사례 PASS/exit0/7.538142초·engine4.939604초·정확 marker/stdout/Godot log 오류0·보호/제품/입력 전후동일. runtime1 SHA `408e98f2df007d3488abd7cf4f0bbdfbc9e7bd86ccdd8f1638806dd66b5342c9`. quick1은11명령 PASS/24.271350초, SHA `03d444cdc2d6002a53dc9279ccb68252cd8330350d258bc4e214e930db6aa504`. 두 결과 모두 위 private 경로에 원본 보존한다.
+- 읽기 검수에서 person_deal의 중립 결과 뒤 두 live 회상이 전송/확정을 발명함을 확인했다. 자동 새 실패0과 별개로471 완료는 보류한다. 야간진료 예약은 기존 부채, 전송/확정은 이번 생산자 수정의 새 파급으로 구분한다. 두 생산자가 공통 보장하는 달력의 재방문 시각과 이동 시간 고려만 남기고 관계/진료 성공을 보장하지 않는다.
+- [472](queue_active/ORDER-472.md)를 별도 선언한다. 위 직접 회상2잎을 먼저 맞추고 사용자 지정 수첩 반복·마지막 해 기간 초안6사건을 잇는다. KO/EN40잎·JA/zh120교정, source10/receipt16, 새 준비 검사2파일·정적 검사1파일·이력 지원5파일을 역할별 분리한다. 선언 시점 구현/수용0이며 기존471 검사2파일·게임 로직·arc_events·공개 데모 핀·사용자 저장은 불변이다.
+- gangnamdream-dev의 선언/소유/표적검증 절차를 적용한다. 같은 이력 입장을 묶되 실제 독자·아버지 변형·선택효과·화면3장면은 따로 검증한다. 두 단위 독립 판정 전 완료하지 않으며 인간/원어민/물리패드·본편 출시 GO는 아니다. 새로운 지속 규범0, 기존 정본 적용과 일회성 전이 증명이다.
+
 ## 2026-10-06 — 세 장면 수리 마감·4장 약속/진료 수리 착수 (470→471)
 
 - 471 공식 pipeline2는3언어18잎 export/check/import9단계 PASS/131.969274초·원문보존이다. 결과 `.git/order471-20261006.nA5vxa/pipeline2/result.json` SHA `8074d6ea905285f18044ec9080249bb4c864e6dbab6405459753a43672c2c331`; 실제 receipt4커밋 `01846e8`에 교정12/최초6을 수용했다. 서식 복원 후에도 세 파일 모두 공식 import raw와 그대로 같았다. 수용 단계 핀의 표적8 PASS/4.394290초, result SHA `438155da7d4296ba8ea82a5c7ea06cb4ba3fdad4dccd02ad4afa8f851d71f7f5`. 목표어 관찰은 독립 에이전트 읽기이며 원어민/렌더 판정이 아니다. 이후 최종 clean 후보에서 조건 런타임·표적 소비자를 검증한다.
