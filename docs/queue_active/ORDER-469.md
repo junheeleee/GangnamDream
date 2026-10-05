@@ -50,6 +50,10 @@ read-only 조사에서 모두 이미 `weight=0`, `hidden=true`, `conditions={min
   생성 `docs/CONTENT_RATING_INVENTORY.md`.
 - root 검사: `tools/chapter4_causal_route_audit.py`, `tools/exposed_state_consistency_audit.py`,
   `tools/narrative_spine_audit.py`, `tools/audit_scope.json` 등록.
+  shared2의 YEAR5 실제37실패 중 새4는 이 단위의 exposed/spine raw 변경을 과거와
+  바로 비교한 결함이다. `tools/year5_reference_route_audit.py`의 관측 해시 경계와
+  표적 자체검사를 root 소유로 추가 선언한다. 실제469 Git/디스크 역상 증명 후 두
+  메타 경로만 이전 관측값으로 연결하며, 이전 raw핀·기존33실패는 덮어쓰지 않는다.
   첫 표적 실행에서 `tools/event_lifecycle.py` 자체검사의105/1708 고정 기대값이 검출됐다.
   실제 검증된111/1702와 맞추는 한 줄만 root 소유로 추가 선언한다. 기존 음성27사례는 보존한다.
   `tools/event_director_audit.py`의 shipping 기대값1708도 실제1702로 맞추는 한 줄을
