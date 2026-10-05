@@ -1518,6 +1518,103 @@ def _expected_observation_errors(report: Mapping[str, Any]) -> list[str]:
     return errors
 
 
+def _deferred_scope_observation_errors(
+    static: Mapping[str, Any], historical_static: Mapping[str, Any],
+    comparison_static: Mapping[str, Any], added: Iterable[tuple[str, tuple[Any, ...]]],
+) -> list[str]:
+    """Keep the old closure pins; account only for the exact neutral text pair."""
+    errors: list[str] = []
+    exact_added = {("arc_jaehyuk_aftermath", ("choices", 3, key))
+                   for key in ("text", "result_text")}
+    try:
+        additions = tuple(added)
+        if len(additions) != 2 or set(additions) != exact_added:
+            return ["deferred successor must contain exactly the two neutral text leaves"]
+    except TypeError:
+        return ["deferred successor text selectors are malformed"]
+    ids = static.get("deferred_added_event_ids")
+    if (not isinstance(ids, list) or not all(isinstance(eid, str) for eid in ids)
+            or len(ids) != len(set(ids))):
+        return ["current deferred event IDs are missing or malformed"]
+    if ids != comparison_static.get("deferred_added_event_ids"):
+        errors.append("classification inverse changed the deferred event population")
+    deferred_additions = {leaf for leaf in additions if leaf[0] in ids}
+    if deferred_additions != exact_added:
+        errors.append("the exact neutral pair is not owned by the deferred closure")
+    for name, actual, expected in (
+        ("historical immediate events", comparison_static.get("immediate_closure_event_count"), 168),
+        ("current deferred events", static.get("deferred_added_event_count"), 24),
+        ("current deferred ID population", len(ids), 24),
+        ("historical deferred leaves", historical_static.get("deferred_added_leaf_count"), 165),
+        ("current deferred leaves", static.get("deferred_added_leaf_count"),
+         165 + len(deferred_additions)),
+    ):
+        if actual != expected:
+            errors.append(f"{name} drifted: expected={expected} actual={actual}")
+    return errors
+
+
+def run_deferred_scope_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
+    """One repaired observation and its negatives, not the full self-test.
+
+    Use the normal current-source/receipt admission; a caller may share its
+    fresh proof across this target and the unchanged normal scope check.
+    """
+    failures: list[str] = []
+    cases = 0
+
+    def require(name: str, condition: bool, detail: str = "") -> None:
+        nonlocal cases
+        cases += 1
+        if not condition:
+            failures.append(f"{name}: {detail or 'assertion failed'}")
+
+    report, errors = build_scope(root)
+    history, binding_errors = _source_history_observations(report)
+    require("deferred target uses the bound current scope", not errors and not binding_errors,
+            "; ".join((errors + binding_errors)[:3]))
+    static = report.get(SCOPE_M07_M60_STATIC, {})
+    historical = history.get("denominators", {}).get(SCOPE_M07_M60_STATIC, {})
+    comparison = history.get("scope_observations", {}).get(SCOPE_M07_M60_STATIC, {})
+    added = current_source.fact_successor.ADDED_TEXT_LEAVES
+    original = copy.deepcopy((static, historical, comparison, added))
+    observed = _deferred_scope_observation_errors(static, historical, comparison, added)
+    require("deferred follow-up expands static closure", not observed, "; ".join(observed))
+    for name, field, value in (
+        ("stale historical leaf count", "deferred_added_leaf_count", 165),
+        ("one missing neutral leaf", "deferred_added_leaf_count", 166),
+        ("one extra leaf", "deferred_added_leaf_count", 168),
+        ("changed deferred event count", "deferred_added_event_count", 25),
+        ("missing deferred IDs", "deferred_added_event_ids", None),
+    ):
+        mutant = {**static, field: value}
+        require("deferred target rejects " + name,
+                bool(_deferred_scope_observation_errors(mutant, historical, comparison, added)))
+    for name, changed in (
+        ("incomplete addition", added[:1]),
+        ("extra addition", (*added, ("arc_jaehyuk_aftermath", ("choices", 2, "text")))),
+        ("other event addition", tuple(("arc_jaehyuk_mirror", path) for _eid, path in added)),
+        ("duplicate addition", (added[0], added[0])),
+    ):
+        require("deferred target rejects " + name,
+                bool(_deferred_scope_observation_errors(static, historical, comparison, changed)))
+    off_target_ids = ["unapproved_deferred_owner" if eid == "arc_jaehyuk_aftermath" else eid
+                      for eid in static.get("deferred_added_event_ids", [])]
+    require("deferred target rejects off-target closure even with matching comparison IDs",
+            bool(_deferred_scope_observation_errors(
+                {**static, "deferred_added_event_ids": off_target_ids}, historical,
+                {**comparison, "deferred_added_event_ids": off_target_ids}, added)))
+    require("deferred target rejects changed historical leaves",
+            bool(_deferred_scope_observation_errors(static,
+                {**historical, "deferred_added_leaf_count": 167}, comparison, added)))
+    require("deferred target rejects changed historical immediate count",
+            bool(_deferred_scope_observation_errors(static, historical,
+                {**comparison, "immediate_closure_event_count": 167}, added)))
+    require("deferred target leaves observations unchanged",
+            (static, historical, comparison, added) == original)
+    return failures, cases
+
+
 def run_source_history_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     """Focused source-only regression; does not admit UI/translation receipts.
 
@@ -1724,9 +1821,8 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     )
     require(
         "deferred follow-up expands static closure",
-        source_history.get("scope_observations", {}).get(SCOPE_M07_M60_STATIC, {}).get("immediate_closure_event_count") == 168
-        and static.get("deferred_added_event_count") == 24
-        and static.get("deferred_added_leaf_count") == 165,
+        not _deferred_scope_observation_errors(static, historical_static,
+            source_history.get("scope_observations", {}).get(SCOPE_M07_M60_STATIC, {}), fact_added),
     )
     require(
         "author-only excluded from both source scopes",
