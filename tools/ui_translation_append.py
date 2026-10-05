@@ -2749,3 +2749,101 @@ def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes
             "Git candidate changed during Opening rhythm admission")
     return result
 # END_OPENING_RHYTHM_SOURCE_463
+
+
+# BEGIN_INVESTMENT_AP_COPY_SOURCE_467
+import main_game_locale_history as _investment_ap_history
+
+_INVESTMENT_AP_OLD_MANIFEST_MATCHES = _source_manifest_matches
+_INVESTMENT_AP_OLD_CURRENT_PROOF = current_proof
+_INVESTMENT_AP_OLD_432_MATCHES = _HOLDEM_MONEY_OLD_MANIFEST_MATCHES
+
+
+def _investment_ap_prior_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    """Keep the fifteen pre-Holdem tuples on the proved pre467 Main bytes.
+
+    Later source wrappers already project their own actual predecessors. This
+    exact432 boundary must not pair the new Main with any of those older states.
+    """
+    if "source_hashes" not in inventory:
+        return _INVESTMENT_AP_OLD_432_MATCHES(root, inventory, expected)
+    history = _investment_ap_history
+    actual = (root / history.MAIN_GAME_PATH).read_bytes()
+    rows = history._investment_ap_proof(actual, root)
+    require(isinstance(rows, tuple) and len(rows) == 13,
+            "investment AP exact predecessor population differs")
+    raw, predecessors = rows[0], rows[1:]
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashlib.sha256(raw).hexdigest() == history.AP_COPY_HASHES[0]
+            and hashes.get(history.MAIN_GAME_PATH) == history.AP_COPY_HASHES[0],
+            "investment AP historical census is not the exact pre467 Main")
+    scalp_raw = (root / SCALPING_PHASE_PATH).read_bytes()
+    require(hashes.get(SCALPING_PHASE_PATH) == hashlib.sha256(scalp_raw).hexdigest(),
+            "Scalping source census not bound to current raw")
+    previous_scalp = scalping_phase_predecessor(root, scalp_raw)
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "Aruba source census not bound to current raw")
+    for main_raw in (raw, predecessors[0]):
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    for main_raw in predecessors:
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest(),
+                      SCALPING_PHASE_PATH: hashlib.sha256(previous_scalp).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    previous_font = aruba_font_predecessor(root, font_raw)
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(predecessors[-1]).hexdigest(),
+                  SCALPING_PHASE_PATH: hashlib.sha256(previous_scalp).hexdigest(),
+                  ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
+    return expected == exchange.digest(comparison)
+
+
+# Only rebind the old432 consumer. Its source/pins/body and all later wrappers
+# remain intact, including the single-comparison Holdem proof scope from461.
+_HOLDEM_MONEY_OLD_MANIFEST_MATCHES = _investment_ap_prior_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _INVESTMENT_AP_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    history = _investment_ap_history
+    binding = history._investment_ap_current_binding(root)
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    hashes = inventory["source_hashes"]
+    require(binding[2] == history.AP_COPY_BLOBS[1]
+            and hashlib.sha256(raw).hexdigest() == history.AP_COPY_HASHES[1]
+            and hashes.get(history.MAIN_GAME_PATH) == history.AP_COPY_HASHES[1]
+            and exchange.digest(hashes) == inventory["source_manifest_sha256"],
+            "investment AP current source census/HEAD/raw mismatch")
+    comparison = {**hashes, history.MAIN_GAME_PATH: history.AP_COPY_HASHES[0]}
+    predecessor_inventory = {**inventory, "source_hashes": comparison,
+                             "source_manifest_sha256": exchange.digest(comparison)}
+    # Full fifteen-stage proof runs at the re-bound432 boundary, once per
+    # comparison. Only the one actual newest tuple is added here.
+    historical_expected = (predecessor_inventory["source_manifest_sha256"]
+                           if expected == inventory["source_manifest_sha256"] else expected)
+    result = _INVESTMENT_AP_OLD_MANIFEST_MATCHES(root, predecessor_inventory, historical_expected)
+    require(history._investment_ap_current_binding(root) == binding
+            and (root / history.MAIN_GAME_PATH).read_bytes() == raw,
+            "investment AP current source changed during manifest comparison")
+    return result
+
+
+def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:
+    history = _investment_ap_history
+    binding = history._investment_ap_current_binding(root)
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    history.investment_ap_predecessor(raw, root)
+    result = _INVESTMENT_AP_OLD_CURRENT_PROOF(root, baseline_commit, baseline)
+    require(result["source_hashes"].get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest()
+            and exchange.digest(result["source_hashes"]) == result["source_manifest_sha256"]
+            and (root / history.MAIN_GAME_PATH).read_bytes() == raw,
+            "investment AP current source census/raw binding differs")
+    require(history._investment_ap_current_binding(root) == binding
+            and result["evidence"]["head"] == binding[0],
+            "Git candidate changed during investment AP admission")
+    return result
+# END_INVESTMENT_AP_COPY_SOURCE_467

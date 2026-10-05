@@ -562,5 +562,60 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
     return _HOLDEM_MONEY_OLD_CHECK_UI_SCOPE(actual, errors)
 # END_HOLDEM_MONEY_RETAINED_JA_434
 
+# BEGIN_INVESTMENT_AP_RETAINED_JA_467
+_AP_COPY_OLD_RETIRED_ENTRIES = retired_relationship_ui_entries
+_AP_COPY_OLD_CHECK_UI_SCOPE = check_ui_scope
+AP_COPY_RETAINED_JA_BLOB = "c1b6060f79854125fa08364fc7eea16497066922"
+AP_COPY_RETAINED_JA = "行動力がありません。今月の取引はできません"
+
+
+def investment_ap_retained_ja_entries(inventory: UiInventory, actual: Any) -> tuple[dict[str, Entry], list[str]]:
+    """Retain one immutable legacy target, with zero current calls/receipts."""
+    import ja_translation_pipeline as pipeline
+    import main_game_locale_history as history
+    try:
+        raw = (ROOT / history.MAIN_GAME_PATH).read_bytes()
+        _before, calls = pipeline._investment_ap_call_views(raw)
+        if inventory.errors or tuple(c for c in inventory.calls if c.path == history.MAIN_GAME_PATH) != calls:
+            raise ValueError("supplied current MainGame inventory differs")
+        key = pipeline.AP_COPY_OLD_PAIR[0]
+        if (any(c.korean == key for c in inventory.calls) or key in inventory.blueprint
+                or pipeline.AP_COPY_NEW_PAIR[0] not in inventory.blueprint):
+            raise ValueError("retained/current AP source identities differ")
+        previous = history._modal_git(ROOT, "show", history.AP_COPY_BEFORE_COMMIT + ":locale/ui_ja.json")
+        if hashlib.sha1(b"blob " + str(len(previous)).encode() + b"\0" + previous).hexdigest() != AP_COPY_RETAINED_JA_BLOB:
+            raise ValueError("immutable Japanese blob differs")
+        original = json.loads(previous)
+        if (not isinstance(original, dict) or not isinstance(actual, dict)
+                or original.get(key) != AP_COPY_RETAINED_JA or actual.get(key) != AP_COPY_RETAINED_JA):
+            raise ValueError("retained Japanese AP target changed/missing")
+        ledger = read_json(ROOT / "content/meta/full_game_localization.json")
+        accepted = ledger.get("accepted") if isinstance(ledger, dict) else None
+        if not isinstance(accepted, dict) or not accepted or any(not isinstance(rows, dict) for rows in accepted.values()):
+            raise ValueError("accepted receipt locale map malformed")
+        leaf_id = "ui:" + key + ":/" + key.replace("~", "~0").replace("/", "~1")
+        if any(leaf_id in rows for rows in accepted.values()):
+            raise ValueError("retired AP source unexpectedly has an accepted receipt")
+        if (ROOT / history.MAIN_GAME_PATH).read_bytes() != raw:
+            raise ValueError("MainGame source changed during retained admission")
+        return {key: Entry("retained-ui::investment-ap", key,
+                           "scenes/MainGame.gd::_on_leverage_buy/_on_buy_asset/_on_sell_asset (retired exact source)")}, []
+    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
+        return {}, ["investment-AP retained JA: " + str(exc)]
+
+
+def retired_relationship_ui_entries(inventory: UiInventory) -> tuple[dict[str, Entry], list[str]]:
+    entries, errors = _AP_COPY_OLD_RETIRED_ENTRIES(inventory)
+    retained, extra_errors = investment_ap_retained_ja_entries(inventory, read_json(ROOT / "locale/ui_ja.json"))
+    return ({}, [*errors, *extra_errors]) if errors or extra_errors else ({**entries, **retained}, [])
+
+
+def check_ui_scope(actual: Any, errors: list[str]) -> int:
+    import ja_translation_pipeline as pipeline
+    if not isinstance(actual, dict) or actual.get(pipeline.AP_COPY_OLD_PAIR[0]) != AP_COPY_RETAINED_JA:
+        errors.append("ui: exact retained investment-AP target changed/missing")
+    return _AP_COPY_OLD_CHECK_UI_SCOPE(actual, errors)
+# END_INVESTMENT_AP_RETAINED_JA_467
+
 if __name__ == "__main__":
     sys.exit(main())

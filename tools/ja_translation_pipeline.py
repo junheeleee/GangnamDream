@@ -7150,5 +7150,141 @@ def holdem_money_rebind_inventory(inventory, raw, contract=None):
                          legacy_blueprint={e.source: {"$entry": e.key} for e in entries}, stats=stats)
 # END_HOLDEM_TABLE_LABELS_COLLECTOR_449
 
+# BEGIN_INVESTMENT_AP_COPY_COLLECTOR_467
+AP_COPY_PIPELINE_APPEND_SHA = "c5ba0f0e0d0a7b0f534ad62a48ec61c1b1a12e57fb80b74af53b62628b80704d"
+AP_COPY_PIPELINE_BEFORE_SHA = "f45887eb301871177cbd47d3c5013e4a5a68a3e578cdb1e1a3a6a42c81b621ca"
+AP_COPY_PIPELINE_BEFORE_BLOB = "61779000d885adc0041bf72e56de560c49dbdff3"
+AP_COPY_OWNERS = ("_on_leverage_buy", "_on_buy_asset", "_on_sell_asset")
+AP_COPY_OLD_PAIR = ("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month.")
+AP_COPY_NEW_PAIR = ("행동력이 없습니다", "No Action Points")
+_AP_COPY_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
+_AP_COPY_OLD_REBIND_INVENTORY = modal_rebind_inventory
+
+
+def investment_ap_pipeline_predecessor(raw):
+    """Strip only this sealed appendix; all earlier collector bytes stay exact."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("investment-AP collector code raw/import identity differs")
+    start, end = b"# BEGIN_INVESTMENT_AP_COPY_COLLECTOR_467\n", b"# END_INVESTMENT_AP_COPY_COLLECTOR_467\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("investment-AP collector appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    binding = ('AP_COPY_PIPELINE_APPEND_SHA = "' + AP_COPY_PIPELINE_APPEND_SHA + '"').encode()
+    span = raw[a:z]
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'AP_COPY_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != AP_COPY_PIPELINE_APPEND_SHA:
+        raise ValueError("investment-AP collector appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != AP_COPY_PIPELINE_BEFORE_SHA:
+        raise ValueError("investment-AP collector whole predecessor differs")
+    blob = _current_demo_git("show", _gift_history.AP_COPY_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
+            != AP_COPY_PIPELINE_BEFORE_BLOB):
+        raise ValueError("investment-AP collector immutable blob differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _AP_COPY_OLD_MODAL_PIPELINE_PREDECESSOR(investment_ap_pipeline_predecessor(raw))
+
+
+def _investment_ap_stage_call_views(raw):
+    """One current Git proof supplies both immutable comparison views."""
+    predecessors = _gift_history._investment_ap_proof(raw, ROOT)
+    if (not isinstance(predecessors, tuple) or len(predecessors) != 13
+            or any(not isinstance(value, bytes) for value in predecessors)):
+        raise ValueError("investment-AP predecessor population differs")
+    path = _gift_history.MAIN_GAME_PATH
+    parsed = [parse_ui_calls(path, value.decode("utf-8"))
+              for value in (predecessors[-1], predecessors[0], raw)]
+    if any(errors for _calls, errors in parsed):
+        raise ValueError("investment-AP MainGame call parse differs")
+    before, retained, actual = (tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
+                                for calls, _errors in parsed)
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    # Preserve the established pre381 -> pre467 tutorial/promotion/tenure view.
+    historical_pairs = tuple(((path, owner, "legacy", old_ko, old_en, ""),
+                              (path, owner, "legacy", new_ko, new_en, ""))
+                             for owner, old_ko, old_en, new_ko, new_en in (
+        ("_show_tutorial", _gift_history.TUTORIAL_OLD_KO, _gift_history.TUTORIAL_OLD_EN,
+         _gift_history.TUTORIAL_NEW_KO, _gift_history.TUTORIAL_NEW_EN),
+        ("_open_cat_work", _gift_history.PROMOTION_OLD_KO, _gift_history.PROMOTION_OLD_EN,
+         _gift_history.PROMOTION_NEW_KO, _gift_history.PROMOTION_NEW_EN),
+        ("_open_cat_work", _gift_history.TENURE_KO, _gift_history.TENURE_OLD_EN,
+         _gift_history.TENURE_KO, _gift_history.TENURE_NEW_EN)))
+    old_semantic, retained_semantic = list(map(semantic, before)), list(map(semantic, retained))
+    replacements = dict(historical_pairs)
+    if (len(replacements) != 3
+            or any(old_semantic.count(old) != 1 or retained_semantic.count(new) != 1
+                   or old in retained_semantic for old, new in historical_pairs)
+            or [replacements.get(row, row) for row in old_semantic] != retained_semantic):
+        raise ValueError("investment-AP preserved historical MainGame selectors differ")
+    selectors = {(path, owner, "legacy", *AP_COPY_OLD_PAIR, "") for owner in AP_COPY_OWNERS}
+    if (len(selectors) != 3 or any(retained_semantic.count(row) != 1 for row in selectors)
+            or sum(c.korean == AP_COPY_OLD_PAIR[0] for c in retained) != 3
+            or any(c.korean == AP_COPY_OLD_PAIR[0] for c in actual)
+            or tuple(_gift_replace(c, korean=AP_COPY_NEW_PAIR[0], english=AP_COPY_NEW_PAIR[1])
+                     if semantic(c) in selectors else c for c in retained) != actual
+            or sum(c.korean == AP_COPY_NEW_PAIR[0] for c in actual)
+            != sum(c.korean == AP_COPY_NEW_PAIR[0] for c in retained) + 3):
+        raise ValueError("investment-AP exact three current selectors or unowned calls differ")
+    return before, retained, actual
+
+
+def _investment_ap_call_views(raw):
+    before, _retained, actual = _investment_ap_stage_call_views(raw)
+    return before, actual
+
+
+def _investment_ap_rebind(inventory, retained, actual):
+    path = _gift_history.MAIN_GAME_PATH
+    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != retained:
+        raise ValueError("investment-AP supplied pre467 inventory differs")
+    replacements = iter(actual)
+    calls = tuple(next(replacements) if c.path == path else c for c in inventory.calls)
+    result = _gift_caption_inventory_view(inventory, calls)
+    old_entries = {e.source: e for e in inventory.legacy_entries}
+    new_entries = {e.source: e for e in result.legacy_entries}
+    if (set(old_entries) - set(new_entries) != {AP_COPY_OLD_PAIR[0]}
+            or set(new_entries) - set(old_entries) or AP_COPY_NEW_PAIR[0] not in old_entries
+            or len(result.calls) != len(inventory.calls)):
+        raise ValueError("investment-AP call/key population differs")
+    entries = tuple(_gift_replace(old_entries[e.source], context=e.context) for e in result.legacy_entries)
+    if (len({e.key for e in entries}) != len(entries)
+            or any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
+                   for e in entries)):
+        raise ValueError("investment-AP surviving Entry identity changed")
+    changed = {"legacy_keys", "parameter_legacy_korean_source_keys",
+               "parameter_legacy_korean_source_keys_sha256"}
+    if (set(result.stats) != set(inventory.stats)
+            or any(result.stats[key] != inventory.stats[key] - 1
+                   for key in changed - {"parameter_legacy_korean_source_keys_sha256"})
+            or any(result.stats[key] != value for key, value in inventory.stats.items() if key not in changed)):
+        raise ValueError("investment-AP exact minus1 key census or unowned statistic differs")
+    return _gift_replace(result, legacy_entries=entries,
+                         legacy_blueprint={e.source: {"$entry": e.key} for e in entries})
+
+
+def investment_ap_rebind_inventory(inventory, raw):
+    """Rebind an exact pre467 inventory without renumbering surviving entries."""
+    _before, retained, actual = _investment_ap_stage_call_views(raw)
+    return _investment_ap_rebind(inventory, retained, actual)
+
+
+def modal_rebind_inventory(inventory, raw):
+    from unittest.mock import patch
+    before, retained, actual = _investment_ap_stage_call_views(raw)
+    # The saved409 implementation receives its independently proved old view;
+    # neither the disk bytes nor the current source census are projected away.
+    with patch.object(sys.modules[__name__], "_career_tenure_call_views", return_value=(before, retained)):
+        previous = _AP_COPY_OLD_REBIND_INVENTORY(inventory, raw)
+    return _investment_ap_rebind(previous, retained, actual)
+
+
+# Earlier exact-retained JA checks must see the actual current MainGame calls.
+_tutorial_copy_call_views = _investment_ap_call_views
+_promotion_review_call_views = _investment_ap_call_views
+# END_INVESTMENT_AP_COPY_COLLECTOR_467
+
 if __name__ == "__main__":
     sys.exit(main())

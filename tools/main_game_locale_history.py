@@ -2456,3 +2456,167 @@ def modal_font_predecessor(current, root=None):
     return _log_body_font_proof(current, root)[11]
 
 # END_LOG_BODY_FONT_HISTORY_432
+
+
+# BEGIN_INVESTMENT_AP_COPY_HISTORY_467
+# Preserve the fourteen historical stages and their comparison-only API. The
+# fifteenth stage changes only three existing denial-copy pairs, not AP rules.
+AP_COPY_BEFORE_COMMIT = "1d742c758f413f7a77b9bb3b4093afc80f47e406"
+AP_COPY_AFTER_COMMIT = "621f559734787a3ef9f2d6d1fb204f4e143a096e"
+AP_COPY_TREES = ("ad31086a7a349ff131a85317040b6d728388a531", "afd96fe9f17fb00b2f0bdb69f29ac567fee3aa36")
+AP_COPY_BLOBS = ("41cac5e35d12b2ec4f37e8e7aa55bd0413276022", "2fd638fb6c03d5518512d68fbc476af226811d16")
+AP_COPY_HASHES = ("d06af65bdc278220bbcd862a343584422dbd73f09f2630b64199442ded9a7054",
+                  "ceb0553a5b58363c0014fc6c563ea0d8a5167f4eedc655e265220979ed6e8ac6")
+AP_COPY_OLD_KO = "행동력이 없습니다. 이번 달 거래 불가"
+AP_COPY_OLD_EN = "No Action Points. No trading this month."
+AP_COPY_NEW_KO = "행동력이 없습니다"
+AP_COPY_NEW_EN = "No Action Points"
+AP_COPY_OWNERS = ("_on_leverage_buy", "_on_buy_asset", "_on_sell_asset")
+AP_COPY_REPLACEMENT = (
+    '\t\t\t_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))\n',
+    '\t\t\t_show_toast(_tr("행동력이 없습니다", "No Action Points"), Color("#ff4444"))\n',
+)
+
+
+def investment_ap_inverse(current, before):
+    """Return whole pre467 bytes only for the exact three owner-local changes."""
+    import re
+    if not isinstance(current, bytes) or not isinstance(before, bytes):
+        raise ValueError("ORDER-467: inverse requires raw bytes")
+    old, new = (part.encode() for part in AP_COPY_REPLACEMENT)
+    if (not old or old == new or before.count(old) != 3 or current.count(old) != 0
+            or len(AP_COPY_OWNERS) != 3 or len(set(AP_COPY_OWNERS)) != 3):
+        raise ValueError("ORDER-467: inverse population differs")
+    functions = list(re.finditer(rb"(?m)^func ([A-Za-z_][A-Za-z_0-9]*)\(", before))
+    edits = []
+    for owner in AP_COPY_OWNERS:
+        matches = [(index, match) for index, match in enumerate(functions)
+                   if match.group(1) == owner.encode()]
+        if len(matches) != 1:
+            raise ValueError("ORDER-467: denial owner differs")
+        index, match = matches[0]
+        end = functions[index + 1].start() if index + 1 < len(functions) else len(before)
+        body = before[match.start():end]
+        if body.count(old) != 1 or body.count(new) != 0:
+            raise ValueError("ORDER-467: owner-local denial is not exact1")
+        edits.append((match.start(), end, body.replace(old, new, 1)))
+    expected = before
+    for start, end, body in sorted(edits, reverse=True):
+        expected = expected[:start] + body + expected[end:]
+    if expected != current:
+        raise ValueError("ORDER-467: bytes changed outside the exact three denial pairs")
+    return before
+
+
+def _investment_ap_current_binding(root):
+    return tuple(_modal_git(root, "rev-parse", "--verify", ref).decode().strip()
+                 for ref in ("HEAD^{commit}", "HEAD^{tree}", "HEAD:" + MAIN_GAME_PATH))
+
+
+def _investment_ap_proof(current, root=None):
+    """Fresh fifteen-stage proof: pre467 followed by the original twelve views."""
+    from pathlib import Path
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != AP_COPY_HASHES[1]:
+        raise ValueError("ORDER-467: unapproved current MainGame raw")
+    binding = _investment_ap_current_binding(root)
+    if binding[2] != AP_COPY_BLOBS[1] or (root / MAIN_GAME_PATH).read_bytes() != current:
+        raise ValueError("ORDER-467: current HEAD/disk MainGame differs")
+    stages = (
+        (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
+        (JOB_STATUS_BEFORE_COMMIT, JOB_STATUS_AFTER_COMMIT, JOB_STATUS_TREES, JOB_STATUS_BLOBS, JOB_STATUS_HASHES),
+        (INVESTMENT_BEFORE_COMMIT, INVESTMENT_AFTER_COMMIT, INVESTMENT_TREES, INVESTMENT_BLOBS, INVESTMENT_HASHES),
+        (TUTORIAL_BEFORE_COMMIT, TUTORIAL_AFTER_COMMIT, TUTORIAL_TREES, TUTORIAL_BLOBS, TUTORIAL_HASHES),
+        (PAD_HINT_BEFORE_COMMIT, PAD_HINT_AFTER_COMMIT, PAD_HINT_TREES, PAD_HINT_BLOBS, PAD_HINT_HASHES),
+        (PEOPLE_CARD_BEFORE_COMMIT, PEOPLE_CARD_AFTER_COMMIT, PEOPLE_CARD_TREES, PEOPLE_CARD_BLOBS, PEOPLE_CARD_HASHES),
+        (PEOPLE_CARD_REPAIR_BEFORE_COMMIT, PEOPLE_CARD_REPAIR_AFTER_COMMIT, PEOPLE_CARD_REPAIR_TREES,
+         PEOPLE_CARD_REPAIR_BLOBS, PEOPLE_CARD_REPAIR_HASHES),
+        (AXIS_BADGE_BEFORE_COMMIT, AXIS_BADGE_AFTER_COMMIT, AXIS_BADGE_TREES, AXIS_BADGE_BLOBS, AXIS_BADGE_HASHES),
+        (PROMOTION_BEFORE_COMMIT, PROMOTION_AFTER_COMMIT, PROMOTION_TREES, PROMOTION_BLOBS, PROMOTION_HASHES),
+        (TENURE_BEFORE_COMMIT, TENURE_AFTER_COMMIT, TENURE_TREES, TENURE_BLOBS, TENURE_HASHES),
+        (GIFT_PRICE_BEFORE_COMMIT, GIFT_PRICE_AFTER_COMMIT, GIFT_PRICE_TREES, GIFT_PRICE_BLOBS, GIFT_PRICE_HASHES),
+        (REACTION_FONT_BEFORE_COMMIT, REACTION_FONT_AFTER_COMMIT, REACTION_FONT_TREES, REACTION_FONT_BLOBS, REACTION_FONT_HASHES),
+        (DECISION_RISK_BEFORE_COMMIT, DECISION_RISK_AFTER_COMMIT, DECISION_RISK_TREES, DECISION_RISK_BLOBS, DECISION_RISK_HASHES),
+        (LOG_BODY_FONT_BEFORE_COMMIT, LOG_BODY_FONT_AFTER_COMMIT, LOG_BODY_FONT_TREES, LOG_BODY_FONT_BLOBS, LOG_BODY_FONT_HASHES),
+        (AP_COPY_BEFORE_COMMIT, AP_COPY_AFTER_COMMIT, AP_COPY_TREES, AP_COPY_BLOBS, AP_COPY_HASHES),
+    )
+    requests = []
+    for before, after, trees, blobs, _hashes in stages:
+        requests.extend((c, c, "commit") for c in (before, after))
+        requests.extend((t, t, "tree") for t in trees)
+        requests.extend((c + ":" + MAIN_GAME_PATH, oid, "blob") for c, oid in zip((before, after), blobs))
+    proof = _modal_git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = proof.index(b"\n", cursor)
+        oid, actual_kind, size = proof[cursor:end].decode().split()
+        size = int(size)
+        value = proof[end + 1:end + 1 + size]
+        if (size < 0 or oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or proof[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-467: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(proof):
+        raise ValueError("ORDER-467: trailing immutable proof bytes")
+    for stage, (before, after, trees, _blobs, hashes) in enumerate(stages):
+        offset = stage * 6
+        for index in range(2):
+            headers = values[offset + index].split(b"\n\n", 1)[0].splitlines()
+            if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + trees[index].encode()]:
+                raise ValueError("ORDER-467: immutable tree differs")
+            if index and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + before.encode()]:
+                raise ValueError("ORDER-467: direct parent differs")
+        if tuple(hashlib.sha256(v).hexdigest() for v in values[offset + 4:offset + 6]) != hashes:
+            raise ValueError("ORDER-467: immutable whole raw differs")
+        if _modal_git(root, "diff", "--name-status", "-z", before, after) != b"M\0" + MAIN_GAME_PATH.encode() + b"\0":
+            raise ValueError("ORDER-467: product path population differs")
+        if stage:
+            _modal_git(root, "merge-base", "--is-ancestor", stages[stage - 1][1], before)
+            if values[offset + 4] != values[offset - 1]:
+                raise ValueError("ORDER-467: nonconsecutive raw history")
+    _modal_git(root, "merge-base", "--is-ancestor", AP_COPY_AFTER_COMMIT, "HEAD")
+    if values[89] != current:
+        raise ValueError("ORDER-467: current/blob binding differs")
+    pre467 = investment_ap_inverse(current, values[88])
+    pre432 = _log_body_font_inverse(pre467, values[82])
+    pre423 = _decision_risk_width_inverse(pre432, values[76])
+    pre416 = _reaction_body_font_inverse(pre423, values[70])
+    pre412 = _gift_price_badge_inverse(pre416, values[64])
+    pre409 = _career_tenure_inverse(pre412, values[58])
+    pre406 = _promotion_review_copy_inverse(pre409, values[52])
+    pre403 = _axis_badge_fit_inverse(pre406, values[46])
+    recovered = _people_card_height_inverse(pre403, values[34])
+    intermediate = _people_card_height_step_inverse(pre403, values[40], PEOPLE_CARD_REPAIR_REPLACEMENT)
+    if _people_card_height_step_inverse(intermediate, values[34], PEOPLE_CARD_INITIAL_REPLACEMENT) != recovered:
+        raise ValueError("ORDER-467: stagewise and combined inverses differ")
+    recovered = _pad_hint_font_inverse(recovered, values[28])
+    inverse_stages = (((TUTORIAL_REPLACEMENT,), values[22]),
+                      (INVESTMENT_REPLACEMENTS, values[16]),
+                      ((tuple(v.decode() for v in JOB_STATUS_REPLACEMENT),), values[10]),
+                      (MODAL_REPLACEMENTS, values[4]))
+    if tuple(len(parts) for parts, _ in inverse_stages) != (1, 3, 1, 3):
+        raise ValueError("ORDER-467: prior inverse population differs")
+    for replacements, before in inverse_stages:
+        for old, new in reversed(replacements):
+            old, new = old.encode(), new.encode()
+            if not old or old == new or recovered.count(new) != 1:
+                raise ValueError("ORDER-467: prior inverse is not exact1")
+            recovered = recovered.replace(new, old, 1)
+        if recovered != before:
+            raise ValueError("ORDER-467: changes outside prior exact copy/rendering repairs")
+    if _investment_ap_current_binding(root) != binding or (root / MAIN_GAME_PATH).read_bytes() != current:
+        raise ValueError("ORDER-467: current Git/disk changed during proof")
+    return (pre467, pre432, pre423, pre416, pre412, pre409, pre406, pre403,
+            values[34], values[28], values[22], values[16], recovered)
+
+
+def investment_ap_predecessor(current, root=None):
+    return _investment_ap_proof(current, root)[0]
+
+
+def _log_body_font_proof(current, root=None):
+    # Original getters keep their exact twelve-result meaning, including pre381.
+    return _investment_ap_proof(current, root)[1:]
+# END_INVESTMENT_AP_COPY_HISTORY_467
