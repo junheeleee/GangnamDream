@@ -1,6 +1,6 @@
 # ORDER-461 — 한 번의 번역 원문 비교에서 홀덤 이력 증명 중복을 줄인다
 
-#### [~] ORDER-461 [P1·검수 비용] 동일 matcher 안13중복→1증명
+#### [x] ORDER-461 [P1·검수 비용] 동일 matcher 안13중복→1증명
 
 **[~] 착수 — 2026-10-05.** 사용자 효율적 검수 지시에 따라 실제 기본 full-body
 688.315초 비용을 조사했다. 한 source matcher에서 Holdem wrapper13개가 각각
@@ -59,3 +59,21 @@ HEAD/disk/stage pin·함수 identity·inverse 설정을 대조한다. 달라지�
 - 명시 차선4 PASS: focused221/historical0·실제chain1/78요청/13predecessor,
   나머지 합성 또는 원문보존. 등록195·context·queue79/76 PASS다.
 - 기본 full-body 현재50 수용·비저자 최종판정은 구현 clean commit 뒤 실행한다.
+
+## 완료 — 2026-10-05
+
+- clean source `178a9d151181284b8b040b862dd249597b74c8d7`, tree
+  `ae952fa70a690e3d6124cf81fccda47f9ca8fb14`. 기본 full-body1회446.304초/exit0/
+  빈stderr, 현재50 source admission·입력20/player34/seed2+W1953·clean신원 전후 동일.
+  `.git/chapter5-replay/order461-current-first/result.json` SHA
+  `2195b7e6cfab256b61eac81e0421fff5e64743a5b59d5f662c0e50bfb138ce97`.
+- shipping1708/11681leaf·reader133·static192/1752leaf의 SOURCE_INVENTORY_ONLY,
+  runtime0/native0. 이전688.315초와 stdout는 byte-exact이고242.011초 차이는
+  별도실행 관측이며 통제된 A/B·함수별 기여·13배 향상으로 부르지 않는다.
+- focused221/실제chain1/78객체/13predecessor, 나머지 합성·보존 반례. 로그 SHA
+  `bde722ce0d0481854fd31ef3cffa2ab6953915869a6f1f19a0ce20cf2722648c`.
+  [독립 보고](../agent_reviews/ORDER-461.json) SHA
+  `f4659e61993a845cc6323a9345b811ab6261ccba7c15acd44e29975d596e72ee`, 범위한정 GO.
+- 기존220판정198보고·인간·공개 이력을 보존한221/199다. 엔진/화면/새package0,
+  457 Mac잠금·M60/후일담/Property·본편/출시HOLD 유지. 자동PASS는 계약 증거이지
+  재미·깊이·문체 승인 아님. 규범은 위 단일scope·소유·실행의 일회성, 새 정본 승격0.

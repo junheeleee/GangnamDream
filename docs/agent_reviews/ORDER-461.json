@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-461",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "178a9d151181284b8b040b862dd249597b74c8d7",
+    "tree": "ae952fa70a690e3d6124cf81fccda47f9ca8fb14",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "한 source matcher 호출 안에서 현재455의 동일13단계 Holdem 증명으로 얻은 immutable predecessor tuple만 공유한다. matcher 판정·whole-run·현재 원장 admission의 캐시나 제품 최적화가 아니다.",
+  "method": {
+    "direct": "선언과 실제 원체인/13소비자, history EOF99행, 최외곽 matcher15행, focused421행 및 등록 차선을 전부 읽었다. 최종 clean main=origin/main·HEAD/tree를 Git으로 직접 관측하고 실제 로그·result·보존 경계를 확인했다.",
+    "assistance": "비저자 하위 /root/independent392/ab_readonly428가 inverse 전역 설정의 누락 위험을 별도로 읽고, 최종 입력·player·seed와 기존 기록의 bytes/SHA를 Git/stdlib로 대조했다. 프로젝트 import·collector·검사·엔진은 root만 실행했다.",
+    "authorship": "최종 동결 해제 뒤 이 보고서 한 파일만 작성했다."
+  },
+  "source_review": {
+    "history_sha256": "cc4df3be9379bed1568bd227d0fb5fedb4a8731ea049225333dbc8d6bf72ea33",
+    "append_sha256": "58b9d7347d4cf85eacbebab3aad878cc58c59052ad9db366ee60ba2be6b42588",
+    "preserved_core": "선언840b9f0의 history 원문91237bytes prefix가 정확히 보존됐다. 원 _holdem_exact_stage_chain·모든 pin/inverse와 역순 predecessor mapping, 이전 raw의 OLD_* 위임은 그대로다. current_proof/validate_history·365·full-body·collector 본문은 바뀌지 않았다.",
+    "scope_lifetime": "최외곽 matcher마다 lazy context를 새로 만들고 중첩도 별도 빈 scope를 사용한다. source_hashes 없는 legacy 경로는 새 I/O 없이 원 matcher로 위임한다. 정상/예외 종료 모두 finally token reset으로 외부 context를 복원한다.",
+    "reuse_guard": "성공한 원13단계 증명과 마지막 검증 뒤에만 immutable bytes tuple을 저장한다. 매 hit에서 root/exact raw·HEAD/blob/disk·stage 핀·함수/code identity·inverse replacement/appendix 설정을 확인한다. 변화를 발견하면 자동 갱신하지 않고 거부한다. 실패한 증명은 저장하지 않으며 다음 matcher는 반드시 fresh다.",
+    "configuration_boundary": "함수 identity만으로는 inverse가 읽는 전역 설정 변화를 놓칠 수 있다는 독립 지적을 반영했다. 실제13 inverse가 읽는 immutable replacement/appendix와 delegate를 signature에 포함하며 해당 변이 반례도 추가했다."
+  },
+  "automated_contract": {
+    "focused_lane": {
+      "path": ".git/chapter5-replay/order461-focused-first.log",
+      "sha256": "bde722ce0d0481854fd31ef3cffa2ab6953915869a6f1f19a0ce20cf2722648c",
+      "code_sha256": "4ef8e045d436cf30709ba12a19630d69dbf7ca8dc5320bdcb6c18c69f724fa64",
+      "result": "221 PASS/historical_cases0. 실제13 getter가 whole chain1회·78객체요청을 공유했고, packet을 독립 decode하여13개 실제 before blob과 각 반환값을 대조했다. 등록195·context·queue를 포함한 명시 차선4행도 PASS다.",
+      "population_limit": "나머지는 source 보존 또는 합성 seam이다. warm fresh-read·root/raw/HEAD/disk/blob/config/function/code 변이, cold 실패/복구, 중첩 reset과 결과 불변성을 검사한다. 원 matcher stub의 True/False/True 위임을 실제 전체 원장 수용 증거로 부르지 않는다. 과거 suite 실행0이다."
+    },
+    "current_full_body": {
+      "path": ".git/chapter5-replay/order461-current-first/result.json",
+      "sha256": "2195b7e6cfab256b61eac81e0421fff5e64743a5b59d5f662c0e50bfb138ce97",
+      "stdout_sha256": "e5d81bc8c06eb3c594ef7518b2c055bc1b5ada6ddebf438e6b4ff9ae6731ba87",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "result": "깨끗한 최종 후보에서 기본 full_body_translation_scope.py 실제1회, exit0·빈 stderr·446.304초·all_pass/preserved=true. 실제 current50 admission을 거쳤고 exact FULL_BODY_TRANSLATION_SCOPE_OK다. shipping1708/11681leaf·reader133·static192/1752leaf의 SOURCE_INVENTORY_ONLY이며 runtime_claim0/native_quality_claim0이다."
+    }
+  },
+  "observed_cost": {
+    "before_result_sha256": "a7f694c3aa94f6b0d93de41b1284fe1d329968ee3869076d253d6896692592ec",
+    "previous_seconds": 688.315,
+    "current_seconds": 446.304,
+    "interpretation": "두 독립 실행의 관측 비용이고 stdout는 byte-exact다. 캐시·시스템 부하·실행 순서 영향을 통제한 A/B가 아니므로 시간 차이를 전부 이 수리에 귀속하거나13배 향상을 주장하지 않는다. 1chain/78요청 계수는 focused 실제표본의 관측이며 전체 실행의 함수별 시간을 계측한 것은 아니다."
+  },
+  "preservation": {
+    "current": "result.before=after의 clean HEAD/tree, 입력20·실제player34·seed2+W195 checkpoint3를 확인했다. 원본 stdout297bytes/stderr0를 result에 대조했다. focused 로그1604bytes는 result의 해시 필드가 아니라 이 보고서의 별도 SHA로 결속했다. 이20입력 보존을 전체 tracked SHA census라고 확대하지 않는다.",
+    "product": "선언 대비 변경은 검증코드3·등록과 진행 문서뿐이다. 코인 제품9·Holdem source·UI3·번역원장·365/full-body·project.godot는 불변이다. accepted41755/b231·current50과 기존220판정/198보고·공개 이력·human 원문을 유지한다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "검수도구의 source review/automated contract 한정이다. 새로운 엔진·화면·오디오·자연 플레이·인간·원어민·물리 입력 관측은0이다.",
+    "458의 선행 화면·공식 교정과 원래 실패는 보존할 뿐 재실행하지 않았다. 기존 대형 self-test·standalone365·240주·새 package 실행0이다.",
+    "실제457은 Mac 잠금으로 이어보기 메뉴/로드 미실행이다. W195 이후·M60/후일담·Property·Chapter5·본편/새 package/출시 HOLD를 닫지 않는다."
+  ],
+  "final_boundary": "현재178a9d15의 ORDER-461 단일 matcher 증명 재사용 한정 GO. 기존 안전 계약을 보존한 관측 범위이며 제품 전역 품질·인간·원어민 또는 출시 승인으로 확대하지 않는다."
+}

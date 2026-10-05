@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 중복 이력 증명 제거의 실제 수용·독립 마감 (461)
+
+- clean main `178a9d151181284b8b040b862dd249597b74c8d7`/tree `ae952fa70a690e3d6124cf81fccda47f9ca8fb14`의 기본 full-body1회가446.304초/exit0/빈stderr PASS다. 입력20/player34/seed2+W195와 신원 전후 동일, 현재50수용·shipping1708/11681leaf·reader133·static192/1752leaf의 SOURCE_INVENTORY_ONLY/runtime0/native0다.
+- 결과 SHA `2195b7e6cfab256b61eac81e0421fff5e64743a5b59d5f662c0e50bfb138ce97`. 이전688.315초보다242.011초 짧은 별도실행 관측이며 통제된 A/B나13배 개선 주장은 아니다. 새 focused221·실제chain1/78객체요청과 나머지 합성 반례를 구분했다.
+- 비저자 보고 SHA `f4659e61993a845cc6323a9345b811ab6261ccba7c15acd44e29975d596e72ee`로 작업한정 GO, 기존220/198을 보존한221판정199보고다. 원장·공개 이력·human 원문 보존, 엔진/화면/원어민/물리입력 새관측0이다. 다음302 별도후보 준비는 기존 공개 산출물/저장/핀을 덮지 않는다. 457 Mac잠금·본편/출시HOLD는 유지한다.
+- 규범은 일회성 단일scope/검증/소유 지시이며 새 정본 승격0이다. 자동PASS는 계약 증거이지 재미·깊이·문체 승인 아님.
+
 ## 2026-10-05 — 단일 비교의 홀덤 증명 재사용 구현 (461)
 
 - 기존 history91,237바이트와 append 전체 prefix를 보존하고 EOF99/15행만 추가했다. 한 matcher의13개 소비자는 검증된 immutable predecessor tuple을 공유하되 다음 matcher/외부 호출/중첩은 fresh이며 성공·실패 boolean을 저장하지 않는다. 매 hit의 root/raw/HEAD/blob/disk·pin/inverse literal·함수/code identity를 계속 검사한다.
@@ -12,7 +19,7 @@
 ## 2026-10-05 — 단일 원문 비교의13중복 증명 수리 선언 (461)
 
 - 코인5언어 수리/원장/소비자458~460을 main `4c901a4`로 마감·푸시했다. 현재 source 수용 기본검사688.315초의 정적 비용 분석에서 동일 Holdem13단계의 한 matcher 내13회 재증명을 확인했다.
-- [461](queue_active/ORDER-461.md)은 한 matcher 호출의 검증된 immutable predecessor tuple만 공유한다. 매호출fresh/매재사용HEAD·disk·raw·root·stage결속/실패미저장/finally복원을 표적으로 검증하며 boolean 또는 whole-run 캐시를 넣지 않는다. 원체인/pin/inverse/현재50/제품/receipt변경0, 새 focused와 기본full-body1회만 실행한다.
+- [461](queue_archive/ORDER-461.md)은 한 matcher 호출의 검증된 immutable predecessor tuple만 공유한다. 매호출fresh/매재사용HEAD·disk·raw·root·stage결속/실패미저장/finally복원을 표적으로 검증하며 boolean 또는 whole-run 캐시를 넣지 않는다. 원체인/pin/inverse/현재50/제품/receipt변경0, 새 focused와 기본full-body1회만 실행한다.
 - 구현/실행은 아직0이다. 302 새 패키지는 옛 공개 빌더를 덮지 않는 successor 차선으로 남기고, Mac 잠금 중 실제457 이어보기/출시를 완료로 바꾸지 않는다.
 
 ## 2026-10-05 — 코인 통화5언어 수리와 원장 연결 마감 (458·459·460)
