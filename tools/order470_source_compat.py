@@ -742,6 +742,32 @@ PROSE_RECEIPT_BATCH_SHA256 = {'ja': '219387374abf37c6551250e28b872cf5778fd8a49e3
  'zh-CN': 'f18f49cc715805d0a83bcc30f0698500107f21b1b69dd085ea1a497aea442444',
  'zh-TW': '8d63e3a8e1d7db9851af27fa61fbc85efa24dd102073b95522733f23f3beb3a9'}
 PROSE_RECEIPT_SOURCE_MANIFEST_SHA256 = '9025a17f96b308b22e232f246bf8b04589937ad0c19e911398e6b7c20ca59bf5'
+# Separate factual fingerprint/report correction; no source or receipt change.
+PROSE_METADATA_PARENT = 'ff8ed4452b150a1e8d2df1aa27c79da255d2a1ba'
+PROSE_METADATA_COMMIT = '3fcd2f49f1fdb8ec4baf00cfcc3d4b9154ec974d'
+PROSE_METADATA_PATHS = (INVENTORY_PATH, RATING_PATH)
+PROSE_METADATA_FINGERPRINTS = (
+    "774677165b00bebadf6b2208cc0a26e6fc7a956bcd2f668d72637e75c3f143b5",
+    "c29603bb29735d6b371fa63cccd56c5106ee31312d8ab0bf3afa29145f3820ed",
+)
+PROSE_METADATA_RAW_SHA256 = {'content/meta/release_content_inventory.json': ('66f3f64a7d646f700745659d4ec1d58e7c9238aebb08ff3385b4da04e95a6280',
+                                                 'c8fdcc865c5a5ab06f177db50e9a1d5449cd9377781574a00c5f599194d25648'),
+ 'docs/CONTENT_RATING_INVENTORY.md': ('c717d354608c125fd12a79ad36f93db6c5c79d0423e10235d980d282b1aa81cb',
+                                      '42f9943dd0f785c98ff4d2447ffd9d1ef63a6b2fe0cf70f56e4323b910458124')}
+PROSE_METADATA_RAW_PATCHES = {'content/meta/release_content_inventory.json': (('replace',
+                                                  532,
+                                                  533,
+                                                  532,
+                                                  533,
+                                                  'a583f8ed315ba8f93fe7922f19f61a1f7c1d64cf654b27f28981491743021a34',
+                                                  '7ec89abb5f3ec7e0499b808a7b4ff4d77baa1ff40579482959c33dd9b5c6f928'),),
+ 'docs/CONTENT_RATING_INVENTORY.md': (('replace',
+                                       134,
+                                       135,
+                                       134,
+                                       135,
+                                       '53469357e79494fb880ff223e8a6da5a788b578379ed5cf460baef6ae325bd5b',
+                                       '18410c7181b2321b4dc7b47bae68888556d50914f95b568c7eca07884125d959'),)}
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
 _SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
 
@@ -1004,6 +1030,34 @@ def prose_product_inverse(before, after, path):
                                     PROSE_RAW_SHA256, (), len(selected))
 
 
+def _prose_metadata_semantics(before, after, path):
+    _require(path in PROSE_METADATA_PATHS and type(before) is bytes and type(after) is bytes,
+             "unowned recall metadata path/raw")
+    old_hash, new_hash = PROSE_METADATA_FINGERPRINTS
+    _require(before.count(old_hash.encode()) == after.count(new_hash.encode()) == 1
+             and after.replace(new_hash.encode(), old_hash.encode()) == before,
+             "recall metadata changes exactly one fingerprint literal and no neighboring bytes")
+    if path == INVENTORY_PATH:
+        old, new = _loads(before), _loads(after)
+        indices = [i for i, row in enumerate(old["content_axes"]) if row["id"] == "sexuality"]
+        _require(len(indices) == 1, "exact sexuality inventory owner")
+        index = indices[0]
+        expected = copy.deepcopy(old)
+        scan = expected["content_axes"][index]["candidate_scan"]
+        _require(scan["expected_content_sha256"] == old_hash
+                 and new["content_axes"][index]["candidate_scan"]["expected_content_sha256"] == new_hash,
+                 "recall fingerprint belongs to sexuality candidate content only")
+        scan["expected_content_sha256"] = new_hash
+        _require(_ordered(expected) == _ordered(new), "inventory population/classification/decision changed")
+    return before
+
+
+def prose_metadata_inverse(before, after, path):
+    _require(path in PROSE_METADATA_PATHS, "unowned recall metadata inverse")
+    _raw_inverse(before, after, path, PROSE_METADATA_RAW_SHA256, PROSE_METADATA_RAW_PATCHES)
+    return _prose_metadata_semantics(before, after, path)
+
+
 def _configuration():
     return (PRODUCT_PARENT, PRODUCT_COMMIT, PRODUCT_PATHS, SOURCE_PATHS,
             copy.deepcopy(RAW_SHA256), copy.deepcopy(RAW_PATCHES), RECEIPT_PARENT,
@@ -1024,6 +1078,9 @@ def _configuration():
             PROSE_RECEIPT_PATHS, PROSE_RECEIPT_PARENT, PROSE_RECEIPT_COMMIT,
             copy.deepcopy(PROSE_RECEIPT_RAW_SHA256), copy.deepcopy(PROSE_RECEIPT_CHANGED_LEAVES),
             copy.deepcopy(PROSE_RECEIPT_BATCH_SHA256), PROSE_RECEIPT_SOURCE_MANIFEST_SHA256,
+            PROSE_METADATA_PARENT, PROSE_METADATA_COMMIT, PROSE_METADATA_PATHS,
+            PROSE_METADATA_FINGERPRINTS, copy.deepcopy(PROSE_METADATA_RAW_SHA256),
+            copy.deepcopy(PROSE_METADATA_RAW_PATCHES),
             _git, _objects, _snapshot, _disk_bytes, product_inverse, _arc_inverse, _raw_inverse,
             _validate_receipts, _receipt_semantics, _receipt_exports, receipt_overlay_inverse,
             _receipt_overlay_inverse, _event_receipt_semantics, person_product_inverse,
@@ -1033,6 +1090,7 @@ def _configuration():
             prose_selectors, prose_product_inverse, prose_receipt_overlay_inverse,
             _prose_receipt_semantics, _prose_receipt_exports, _validate_prose_receipts,
             _prose_stages, _prose_source_comparison,
+            _prose_metadata_stage, prose_metadata_inverse, _prose_metadata_semantics,
             changed_text_selectors, _Document, _Document.walk, _Document.ws,
             _loads, _ordered, _leaf, _sha, _digest, _require, _read_proof, _read_proof_current,
             _memoized_semantics, _semantic_binding, _configuration,
@@ -1424,6 +1482,32 @@ def _person_stages(root, head, prior):
     return before, source, accepted
 
 
+def _prose_metadata_stage(root, head, prior):
+    """One pinned two-file metadata successor, not another receipt endpoint."""
+    if PROSE_METADATA_COMMIT is None:
+        return None
+    _require(PROSE_RECEIPT_COMMIT is not None, "recall metadata requires its completed receipt stage")
+    before, _ = _snapshot(root, PROSE_METADATA_PARENT, tuple(prior))
+    after, headers = _snapshot(root, PROSE_METADATA_COMMIT, tuple(prior))
+    _require(before == prior, "metadata predecessor differs from exact472 source/receipt endpoint")
+    _require([h[7:].decode() for h in headers if h.startswith(b"parent ")] == [PROSE_METADATA_PARENT],
+             "exact metadata direct parent")
+    expected = b"".join(b"M\0" + path.encode() + b"\0" for path in sorted(PROSE_METADATA_PATHS))
+    _require(_git(root, "diff", "--name-status", "-z", PROSE_METADATA_PARENT, PROSE_METADATA_COMMIT)
+             == expected, "exact two metadata paths")
+    _git(root, "merge-base", "--is-ancestor", PROSE_RECEIPT_COMMIT, PROSE_METADATA_COMMIT)
+    _git(root, "merge-base", "--is-ancestor", PROSE_METADATA_COMMIT, head)
+    _require(set(PROSE_METADATA_RAW_SHA256) == set(PROSE_METADATA_RAW_PATCHES) == set(PROSE_METADATA_PATHS),
+             "complete metadata raw/hunk pins")
+    for path in prior:
+        if path in PROSE_METADATA_PATHS:
+            _memoized_semantics("prose-metadata:" + path, (before[path], after[path]),
+                                lambda p=path: prose_metadata_inverse(before[p], after[p], p))
+        else:
+            _require(before[path] == after[path], "metadata changed source/target/receipt/protected raw")
+    return after
+
+
 def _read_proof(root):
     """Fresh current/immutable admission, with invocation-local pure reuse."""
     memo = _SEMANTIC_MEMO.get()
@@ -1478,6 +1562,10 @@ def _read_proof_current(root):
     prose_before, prose_source, prose_receipts = _prose_stages(root, head, current)
     if prose_source is not None:
         current = prose_receipts if prose_receipts is not None else prose_source
+    prose_current = current
+    prose_metadata = _prose_metadata_stage(root, head, current)
+    if prose_metadata is not None:
+        current = prose_metadata
     actual, _ = _snapshot(root, head, tuple(current))
     _require(actual == current, "current HEAD differs from exact source/receipt product")
     _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "current disk differs from Git")
@@ -1498,6 +1586,7 @@ def _read_proof_current(root):
             "current": actual, "receipts": receipts, "person_before": person_before,
             "person_source": person_source, "person_receipts": person_receipts,
             "prose_before": prose_before, "prose_source": prose_source, "prose_receipts": prose_receipts,
+            "prose_current": prose_current, "prose_metadata": prose_metadata,
             "binding": _configuration()}
 
 

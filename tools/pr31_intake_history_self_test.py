@@ -500,8 +500,8 @@ def run_prose_checks():
             return failures, cases
         check(len(history.CONTENT_PATHS) == 71 and len(history.SOURCE_PATHS) == 15,
               "immutable intake71 and partial-source15 populations remain original")
-        check(all(proof["current"][path] == proof["person_current"][path]
-                  for path in proof["current"] if path not in (*successor.PROSE_PATHS, history.LEDGER_PATH)),
+        check(all(proof["prose_current"][path] == proof["person_current"][path]
+                  for path in proof["prose_current"] if path not in (*successor.PROSE_PATHS, history.LEDGER_PATH)),
               "only declared recall paths/receipts follow immutable471")
         check(proof["prose_source"][history.LEDGER_PATH] == proof["person_current"][history.LEDGER_PATH],
               "source10 adds zero receipts")
@@ -530,7 +530,7 @@ def run_prose_checks():
         transitions = {row[0]: row for row in history.receipt_transitions(history.ROOT, {})}
         for commit, stage, counts in ((successor.RECEIPT_COMMIT, "fact_current", (6, 36)),
                                      (successor.PERSON_RECEIPT_COMMIT, "person_current", (6, 12)),
-                                     (successor.PROSE_RECEIPT_COMMIT, "current", (0, 120))):
+                                     (successor.PROSE_RECEIPT_COMMIT, "prose_current", (0, 120))):
             if commit is None:
                 continue
             row = transitions[commit]
@@ -542,13 +542,49 @@ def run_prose_checks():
     return failures, cases
 
 
+def run_prose_metadata_checks():
+    """The current metadata observation still reaches the original inventory."""
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("PR31 recall metadata: " + label)
+
+    with history.fresh_validation_proof() as proof:
+        successor, path = history.fact_successor, history.INVENTORY_PATH
+        check(proof["current"][path] != proof["prose_current"][path], "actual metadata is separate from receipt endpoint")
+        check(all(proof["current"][p] == proof["prose_current"][p] for p in proof["current"]
+                  if p not in successor.PROSE_METADATA_PATHS), "only exact two metadata files follow120")
+        check(history.release_inventory_predecessor(proof["current"][path]) == proof["before"][path],
+              "actual metadata composes through470/469/PR31 original inventory inverse")
+        for label, raw in (("rollback", proof["prose_current"][path]),
+                           ("neighbor", proof["current"][path] + b"\n")):
+            try:
+                history.release_inventory_predecessor(raw)
+            except (ValueError, TypeError, KeyError, IndexError, OSError):
+                check(True, label)
+            else:
+                check(False, label)
+        rows = history.receipt_transitions(history.ROOT, {})
+        receipt = next(row for row in rows if row[0] == successor.PROSE_RECEIPT_COMMIT)
+        check(receipt[2][history.LEDGER_PATH] == proof["prose_current"][history.LEDGER_PATH]
+              and (receipt[3]["first_receipts"], receipt[3]["corrections"]) == (0, 120),
+              "metadata does not create or extend the120 receipt transition")
+    return failures, cases
+
+
 def main():
     person_only = sys.argv[1:] == ["--person-self-test"]
     prose_only = sys.argv[1:] == ["--prose-self-test"]
-    failures, cases = run_prose_checks() if prose_only else run_person_checks() if person_only else run()
+    metadata_only = sys.argv[1:] == ["--prose-metadata-self-test"]
+    failures, cases = (run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
+                       else run_person_checks() if person_only else run())
     for error in failures:
         print(error, file=sys.stderr)
-    label = "PR31_PROSE_SUCCESSOR" if prose_only else "PR31_PERSON_SUCCESSOR" if person_only else "PR31_INTAKE_HISTORY"
+    label = ("PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
+             else "PR31_PERSON_SUCCESSOR" if person_only else "PR31_INTAKE_HISTORY")
     print(f"{label}_{'FAIL' if failures else 'OK'} cases={cases} current_files=71 native_review=OPEN")
     return int(bool(failures))
 

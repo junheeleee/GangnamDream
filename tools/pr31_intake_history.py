@@ -472,6 +472,8 @@ def _read_proof(root=ROOT):
         prose_source = (None if successor["prose_source"] is None else
                         {**person_current, **{path: successor["prose_source"][path]
                          for path in paths if path in successor["prose_source"]}})
+        prose_current = {**person_current, **{path: successor["prose_current"][path]
+                         for path in paths if path in successor["prose_current"]}}
         current = {**current, **{path: successor["current"][path]
                    for path in paths if path in successor["current"]}}
     actual, _ = _snapshot(root, head, paths)
@@ -484,7 +486,7 @@ def _read_proof(root=ROOT):
             "third_receipts": third_receipts, "fourth": fourth, "changes": changes, "branch": branch,
             "pre_source_successor": pre_source_successor, "pre_fact_successor": pre_fact_successor,
             "fact_current": fact_current, "person_source": person_source,
-            "person_current": person_current, "prose_source": prose_source}
+            "person_current": person_current, "prose_source": prose_source, "prose_current": prose_current}
 
 
 def _successor_snapshot(root, predecessor, commit, head, before, changed_paths):
@@ -891,7 +893,7 @@ def receipt_transitions(root, inventory):
                              (FOURTH_COMMIT, proof["third_receipts"], proof["fourth"]),
                              (fact_successor.RECEIPT_COMMIT, proof["pre_fact_successor"], proof["fact_current"]),
                              (fact_successor.PERSON_RECEIPT_COMMIT, proof["person_source"], proof["person_current"]),
-                             (fact_successor.PROSE_RECEIPT_COMMIT, proof["prose_source"], proof["current"])):
+                             (fact_successor.PROSE_RECEIPT_COMMIT, proof["prose_source"], proof["prose_current"])):
             if commit is None:
                 continue
             before = {path: a[path] for path in CURRENT_UI_PATHS}

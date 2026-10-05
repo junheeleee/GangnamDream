@@ -697,17 +697,82 @@ def run_prose_checks():
     return failures, cases
 
 
+def run_prose_metadata_checks():
+    """Actual separate metadata2 delta; never reclassifies source/receipts."""
+    failures, cases = [], 0
+    active_before, memo_before = history._ACTIVE.get(), history._SEMANTIC_MEMO.get()
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER472 metadata: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    with history.fresh_validation_proof() as proof:
+        before, after = proof["prose_current"], proof["prose_metadata"]
+        check(after is not None and after == proof["current"], "actual metadata stage is current")
+        if after is None:
+            return failures, cases
+        check(before == proof["prose_receipts"], "immutable472 receipt endpoint is not metadata")
+        check(all(before[path] == after[path] for path in before if path not in history.PROSE_METADATA_PATHS),
+              "every source/target/receipt/protected raw preserved")
+        for path in history.PROSE_METADATA_PATHS:
+            check(history.prose_metadata_inverse(before[path], after[path], path) == before[path],
+                  "exact raw/hunk/literal inverse " + path)
+            for label, raw, claimed in (("rollback", before[path], path), ("neighbor", after[path] + b"\n", path),
+                                        ("path alias", after[path], "./" + path), ("type", after[path].decode(), path)):
+                reject(lambda p=claimed, r=raw, old=before[path]: history.prose_metadata_inverse(old, r, p), label)
+            raw = after[path] + b"\n"
+            with mock.patch.dict(history.PROSE_METADATA_RAW_SHA256,
+                                 {path: (history._sha(before[path]), history._sha(raw))}):
+                reject(lambda p=path, r=raw: history.prose_metadata_inverse(before[p], r, p), "repinned raw neighbor")
+            reject(lambda p=path: history._prose_metadata_semantics(before[p], after[p] + b"\n", p),
+                   "independent literal boundary rejects layout " + path)
+        path = history.INVENTORY_PATH
+        for label, old, new in (("event census", b'"expected_event_count": 124', b'"expected_event_count": 125'),
+                                ("file census", b'"expected_file_count": 26', b'"expected_file_count": 27'),
+                                ("classification", b'"id": "sexuality"', b'"id": "unowned"'),
+                                ("legal decision", b'"decision_boundary":', b'"unowned_decision_boundary":')):
+            check(after[path].count(old) == 1, "fixture exact one field " + label)
+            raw = after[path].replace(old, new)
+            reject(lambda r=raw: history._prose_metadata_semantics(before[path], r, path), label)
+        path = history.RATING_PATH
+        raw = after[path].replace(b'124 / 26', b'125 / 26')
+        reject(lambda: history._prose_metadata_semantics(before[path], raw, path), "report population changed")
+        snapshot = history._snapshot
+        def unavailable(root, revision, paths):
+            if revision == history.PROSE_METADATA_COMMIT:
+                raise ValueError("fixture missing metadata object")
+            return snapshot(root, revision, paths)
+        with mock.patch.object(history, "_snapshot", unavailable):
+            reject(lambda: history._prose_metadata_stage(history.ROOT, proof["head"], before), "missing typed metadata object")
+            reject(lambda: history._read_proof(history.ROOT), "warm reader/object change")
+        check(not history._SEMANTIC_MEMO.get()[1], "failed warm admission clears semantic cache")
+    check(history._ACTIVE.get() is active_before and history._SEMANTIC_MEMO.get() is memo_before,
+          "outer context identity restored or standalone scope cleared")
+    return failures, cases
+
+
 def main():
     coffee_only = sys.argv[1:] == ["--coffee-self-test"]
     person_only = sys.argv[1:] == ["--person-self-test"]
     prose_only = sys.argv[1:] == ["--prose-self-test"]
-    failures, cases = (run_prose_checks() if prose_only else run_person_checks() if person_only else
+    metadata_only = sys.argv[1:] == ["--prose-metadata-self-test"]
+    failures, cases = (run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only else run_person_checks() if person_only else
                        run_coffee_consumer_checks() if coffee_only else run())
     for failure in failures:
         print(failure, file=sys.stderr)
     label = "COFFEE_CONSUMER" if coffee_only else "SOURCE_COMPAT"
-    prefix = "ORDER472_PROSE" if prose_only else "ORDER471_PERSON" if person_only else "ORDER470_" + label
-    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={10 if prose_only else 5 if person_only else 9}")
+    prefix = "ORDER472_METADATA" if metadata_only else "ORDER472_PROSE" if prose_only else "ORDER471_PERSON" if person_only else "ORDER470_" + label
+    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={0 if metadata_only else 10 if prose_only else 5 if person_only else 9}")
     return int(bool(failures))
 
 
