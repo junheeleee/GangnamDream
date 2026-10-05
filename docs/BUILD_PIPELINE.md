@@ -514,6 +514,10 @@ GODOT=/path/to/Godot_v4.6.2 ./tools/build_story_demo_desktop.sh \
   전부터 고유 RuntimeQA 공간을 지정한다. export 때는 검사 저장과 분리된 후보
   전용 공간을 쓴다. 보호할 두 경로 seed와 이어보기 체크포인트는 각각
   `--protect <absolute-file-path>`로 지정한다(서로 다른 기존 파일 정확히 3개).
+- ZIP과 검증 기록은 위 출력 폴더, 실제 실행 앱은 사용자 Application Support의
+  `GangnamDream_LocalCandidates/<build-id>/<attempt>/`에 둔다. 동기화 폴더가
+  앱에 FinderInfo를 재생성할 수 있으므로 실제 배달 위치의 재추출 앱에 서명을
+  검증한다. 앱 속성은 읽기만 하며 보안 격리 속성이나 시스템 설정을 지우지 않는다.
 
 후보 manifest의 `EXPORTED_NOT_RUNTIME_VERIFIED`는 export·ad-hoc 서명·app/ZIP/PCK
 무결성 증거만 뜻한다. 실제 무인자 부팅·새 저장·별도 프로세스 이어보기·StoryMode

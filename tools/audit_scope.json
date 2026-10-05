@@ -20,7 +20,7 @@
         "tools/build_story_demo_successor_macos.py", "tools/story_demo_successor_package_audit.py",
         "tools/audit_scope.json", "CLAUDE.md", "docs/BUILD_PIPELINE.md",
         "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
-        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-462.json",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-462.json", "docs/agent_reviews/ORDER-462-manifest.json",
         "docs/queue_active/ORDER-462.md", "docs/queue_archive/ORDER-462.md", "docs/queue_active/ORDER-302.md"
       ],
       "tools": ["tools/story_demo_successor_package_audit.py --self-test", "tools/audit_select.py --verify"],

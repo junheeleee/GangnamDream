@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [검수 비용 계측 전 기록](history/WORK_LOG_2026-10-05_pre_order453.md)에 바이트 그대로 보존했다.
 
+## 2026-10-05 — 배달 위치가 재생성한 FinderInfo와 후속 수리 선언 (462)
+
+- e5d9b846의 second도19명령 중 마지막verify_final만 exit1이다. after 로그에서 없어진 앱루트 FinderInfo가 후속읽기에서 다시 존재한다. 결과 SHAc04fb710e0cc97f1bd7c31df7d5b0cac6dfbc00c56d8b9144dac44af4ee2319c, source/보호전후동일·최종manifest0. 첫두 실패는 변경하지 않는다.
+- 속성삭제를 반복하거나 시스템 동기화/보안설정을 바꾸지 않는다. 같은 로컬 후보의 실제 배달 앱 위치를 현재부재인 Application Support/GangnamDream_LocalCandidates로 선언하고 ZIP/증거는 repo에 둔다. 실제배달앱의 재추출서명·byte inventory를 계속 요구하며 tmp PASS대체0이다. 제거기능/그 반례는 철회하고 속성읽기+서명을 요구한다.
+- 최종 actual manifest의 exact 추적사본 경로도 선언했다. package 판정의 manifest 증거가 ignored build 폴더에만 있으면 fresh clone의 원장 검증이 깨지므로, 사본을 실제증거와 같은SHA로 결속한다. 사본은 보고서나 재실행으로 세지 않는다.
+
 ## 2026-10-05 — 새 앱 루트의 exact FinderInfo만 처리 (462)
 
 - builder557/감사737행의 최소diff를 비저자가 전수읽기했다. 조건부19/17명령의 경로·argv·로그SHA·exit0·exacthex·후속서명과 manifest를 결속했다. 제거대상은 새 final_app 루트1개/단일키뿐이며 absent이면 제거0, 다른 값은 실패한다. 다른속성은 이름집합 보존검사이지 값 전량 재계측이 아니다.

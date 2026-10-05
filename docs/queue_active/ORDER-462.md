@@ -29,6 +29,9 @@ GUI 자연 부팅·신규 저장/별도 프로세스 재개·StoryMode 복귀/�
   BUILD_PIPELINE 절·WORK_LOG·생성STATUS·판정원장, 비추적 실행 증거.
 - independent392: 코드/실제 결과 비저자 검수와 마지막
   `docs/agent_reviews/ORDER-462.json`만. 프로젝트 import/검사/엔진은 root만 실행한다.
+- root 최종 package 증거 사본: `docs/agent_reviews/ORDER-462-manifest.json`.
+  실제 성공 MANIFEST와 byte/SHA가 같은 추적 사본만 생성한다. 별도 검수 보고나
+  새 실행이 아니며 ephemeral staging 경로는 역사 증거로 남긴다.
 - 제품/원고/번역/receipt/기존 builder·audit·density pins·human·원본 project/preset
   변경0. 기존 공개 package·실제 player34·seed2/W195를 이동·삭제·교체하지 않는다.
 
@@ -113,3 +116,21 @@ GUI 자연 부팅·신규 저장/별도 프로세스 재개·StoryMode 복귀/�
   다른속성은 이름 집합 보존 검사이며 값 전체 재계측을 주장하지 않는다.
   첫 실패물의 별도 읽기진단은 app7/PCK1877/currentJSON675·staging 보존PASS이나
   그 배달 앱의 서명 실패는 그대로다. second 실제검증은 다음 clean commit 후다.
+
+### 두 번째 실패 뒤 실제 배달 위치 수리 — 위 단일속성 제거 시도를 대체
+
+- e5d9b846의 second도 최종서명 exit1이다. result SHA
+  `c04fb710e0cc97f1bd7c31df7d5b0cac6dfbc00c56d8b9144dac44af4ee2319c`,
+  보호/source 전후동일·최종manifest0이다. 삭제 직후 로그는 FinderInfo 부재이나
+  후속 xattr 읽기에는 앱루트에 다시 존재한다. 삭제 반복·동기화/보안 설정 변경0.
+- 다음 fresh third부터 **실제로 배달할 앱**의 정본 위치는
+  `/Users/junheelee/Library/Application Support/GangnamDream_LocalCandidates/<BUILD>/<attempt>/<app>.app`
+  이다. 이 후보 폴더는 현재 부재다. ZIP·entry/result/log·manifest는 기존 repo의
+  attempt 경로를 유지한다. 깨끗한 첫 입구에서 두 목적지 모두 fresh/symlink없음을
+  확인하고 별도 source archive와 분리한다. 재추출·codesign·byte inventory·manifest
+  모두 이 실제 외부 앱을 결속하며 임시 폴더 검증으로 배달 앱을 대체하지 않는다.
+- FinderInfo 제거 코드와 해당 제거 self-test는 철회한다(앞 두 실패 이력은 보존).
+  새 앱 속성목록은 읽기만 하고 FinderInfo/ResourceFork가 있으면 실패한다. 다른
+  속성이나 quarantine 변경0, 새 앱의 서명검사 완화0. 세 번째 repo 안에는 loose
+  앱을 만들지 않는다. 이것은 같은 로컬 export의 확인된 목적지 결함 수리이며
+  사용자 저장 namespace·공개 앱/ZIP·엔진/제품/외부 배포 범위를 늘리지 않는다.
