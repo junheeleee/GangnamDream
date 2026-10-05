@@ -10,7 +10,7 @@
 
 현재 clean `7fa758b`에서 제품3쌍은 `621f559`에 이미 반영되어 있다. 뒤 PR31/469의
 Main 후계와 기존 지원4파일·준비 fixture2파일도 보존한다. 같은 수리를 다시 쓰지 않는다.
-이번 파일 소유는 root가 이 사양·큐·audit_scope·CLAUDE현재행·WORK_LOG·STATUS·판정원장,
+이번 파일 소유는 root가 이 사양·CODEX_QUEUE·CODEX_QUEUE_L3_PENDING(순번만)·audit_scope·CLAUDE현재행·WORK_LOG·STATUS·판정원장,
 order469_main이 새 `tools/investment_ap_copy_self_test.py`, order469_review가 새
 `docs/agent_reviews/ORDER-467.json`이다. order469_history는 기존 이력/증거의 읽기 검수만 한다.
 기존 제품·지원·fixture·사전·수용원장의 변경은0이다. private runner/결과는 root만 작성/실행한다.
