@@ -1,0 +1,252 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-468",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "c50d9cb838e612d794ca2bb91b7cd91e124a7947",
+    "tree": "2d0149ad2f3412f3ea60c13cac9091f005a515ea",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/pr31_intake_review",
+  "scope": "PR31 B3/B4 문장 들이기, 살아 있는 아버지의 empty_house resolver exact6줄, 같은 들이기의 번역 영수증·기간/포괄 금액 경계 수리 및 유한한 이력 승인 연결 한정 GO. 전체 CI·모든 산문·본편·출시·원어민 품질 GO가 아니다. YEAR5 기존33실패와 전체 현지화 INCOMPLETE를 그대로 보존한다.",
+  "method": {
+    "direct": "CLAUDE/작업 사양·권한·PR 작업표, 실제 Git 부모/원문/변경 경로, 지원 도구와 음성 검사 원문, 공식 번역 교환물, 실제 root 실행 로그/result를 읽었다. 독립 검수자는 Git 및 Python stdlib의 JSON/AST/해시 대조만 수행했고 프로젝트 모듈을 import하거나 제품 검사·Godot를 실행하지 않았다.",
+    "assistance": "PR 산문 비저자인 /root/pr31_history_plan이 KO/EN 변경29파일474잎을 직접 읽어 새 사실 결함3종을 찾아냈다. 최종 원PR 잔여 독립 표본은 /root/pr31_history_plan의 JA31, /root/pr31_main_compat의 zh-TW31, 본 검수자의 zh-CN31로 소유를 분리했다. 두 지원 도구 저자의 산문 검수와 본 검수자의 지원 코드 검수는 별도이며 코드 저자의 자기 GO로 대체하지 않았다.",
+    "authorship": "root가 제품 수리·공식 수용·실제 검사를 수행했다. 독립 검수자는 수리문 제안과 읽기 검수 후 이 보고서 한 파일만 작성했다. root의 검사 성공을 독립 검수자가 직접 실행한 것으로 기록하지 않는다.",
+    "observed_wrapper": "작성 직전 clean HEAD는 0512775e19ec5c0e67de741ab0b6475251dcd175/tree8bcb953c45c76fd423b2ffc51b536caa1518a85a이며 subject 이후 docs/WORK_LOG.md만 바뀐 wrapper임을 Git으로 확인했다. 실행별 실제 source는 아래에 별도로 기록한다."
+  },
+  "intake": {
+    "pr_head": "b9284e3d28116c93e441e12c346fe15ee2f69fef",
+    "main_before": "8a2c9a9e5cc61c05c9f58b238d59bbbe7a3ce39b",
+    "merge_base": "366e0e621e266eeb1d260b9b614af8a92b38027d",
+    "content_commit": "4b2679239bb76fdc7963f47ee25a505820efcca7",
+    "main_six_line_commit": "e88742ca337cce13e26beca6639071ac488c3244",
+    "finding": "관측 PR head는 사용자 지정 fe2bb4c4 뒤 release inventory 두 지문과 생성 rating 문서 보정만 추가했다. B3/B4의71 content raw를 들였으며 1178 JSON 변경 잎의 구조 비교에서 문자열/조건부 설명 외 gameplay 변경은 없었다. 원장 ordered3way union은 기존 main의 CN33/TW33 새 수용과 순서를 보존했다. B2·패드 폰트 중복 적용은 없다.",
+    "machine_translation_delta": {
+      "path": ".git/pr31-intake-20261005.Kz8A4y/pr-translation-delta.json",
+      "sha256": "75b1011e635fb8eaebec927ded2a373d38b32a04e922ff18ace8352ee8b57f4c",
+      "population": 687,
+      "errors": 0,
+      "boundary": "229개/언어의 원PR 변경 수용값에 대한 기계 검사다. 모든687개를 독립 의미 전수검수했다는 뜻은 아니다. 당시 source manifest7999b4c9와 최종 e3005b54는 구분한다."
+    }
+  },
+  "semantic_review": {
+    "full_repair_read": "원래 B3의8잎×3언어24값과 추가 조건부3잎×3언어9값을 KO와 전문 대조했다. 추가9 중 year4_close_father_passed의 낡은 옥상 회색 문장만 종이 한 장 문장으로 JA/CN/TW 각1개 바로잡았다. 기간/금액 수리24선택자×5언어120문자열은 KO/EN/JA/CN/TW 전문을 직접 읽었다. 마지막 민서2조건부×5언어10문자열도 PR 및 baseline과 직접 비교했다. 총105개 기존 영수증 갱신과6개 최초 수용에 해당하는111개 JA/CN/TW값은 모두 원문과 직접 대조했으며 새 의미 누락/역전은 발견하지 못했다.",
+    "repaired_findings": [
+      "다은 최종선택 두 설명과 kitchen 회상은 동일 거래를 지난해/몇 년 전으로 다르게 부르고, 실제 입구가 고정 연수를 보장하지 않았다. 해당3잎을 기간 단정 없는 과거로 정렬했고 남산10년 약속·관계·효과는 보존했다.",
+      "지연 귀환 결과1의 부산2년은 출발110~135주/귀환193주 이후 조건에서 보장되지 않았다. 해당1잎을 부산에서 보낸 시간으로 정렬했다.",
+      "stable_success1·orthodox_pinnacle12·unorthodox_legend7잎의 넘었다/over는 실제 >= 입구에서 정확한 경계값을 배제했다. 해당20잎만 이상/at least/以上/至少로 고쳐 금액·분기·다른 문장을 보존했다.",
+      "민서 arrival의 minseo_real_talk와 contacted_minseo&minseo_real_talk는 baseline5언어에 없고 PR에서 추가된 두 잎이다. 번역은 이미 원문과 맞았지만6영수증이 처음부터 없었다. stale 수리가 아니라 최초 수용으로 분리했다."
+    ],
+    "sample_population": {
+      "source_delta": "content/meta/full_game_localization.json accepted의 8a2c9a9→4b26792 변경 (locale,id)687개",
+      "already_read": "db4de2f/134a45b/b41adec/1b9bd16 각각의 부모 대비 accepted 변경 합집합111개 중 원687과 겹치는69개를 제외했다.",
+      "remaining": 618,
+      "remaining_per_locale": 206,
+      "remaining_id_list_sha256_each": "ef3e7bdceb0bd4623bf9b9fa6555f00413da0da230d9147703ef1b185f6932f1",
+      "sampling": "언어별 ID를 사전순 정렬한다. seed 문자열 PR31-independent-source-audit|b9284e3d28116c93e441e12c346fe15ee2f69fef|<locale>의 SHA256을 정수로 변환하여 random.Random을 만든다. 연속20개 묶음마다 ceil(len(block)*3/20)개를 비복원 추출하고 묶음 내 선택 ID를 정렬한다. 마지막6개에서는1개를 뽑아 언어별31개다. 작성자가 표본을 고르지 않았다.",
+      "actual_read": 93,
+      "finding": "JA/CN/TW 각31개(엔딩14·사건17)의 KO↔목표어 전문 및 관련 선택/조건을 직접 읽었다. 현재 표본의62문자열/언어는 PR b928와 동일하다. 명백한 새 오역·수치/부정/생사 역전·선택대가 의미손실은 발견하지 못했다.",
+      "boundary": "원PR 잔여618개의 전수 의미 판정이나 통계적 무결성 보장은 아니다. 표본에 weight0/min_turn9999 reference 원고가 포함되고 CN/TW의 pre_ending_winter는 weight0/conditions={}이므로 표본 사건 전체를 author_only로 일반화하지 않는다. 모든 도달 조합·실제 화면·원어민 감각은 판단하지 않았다.",
+      "digest_method": "ID 목록 및 전문쌍은 ensure_ascii=False,separators=(',',':')의 UTF-8 compact JSON을 SHA256했다."
+    },
+    "samples": {
+      "ja": {
+        "reviewer": "/root/pr31_history_plan",
+        "id_list_sha256": "8e0a90735bad08c14b86a0ec9c0c3d4df177006c3857c7c5e8a508160be6edc6",
+        "text_pair_sha256": "e59bb7bc2922fde31655bc89f7bb3acc057cc1cbc94ac386048f15689a46aacd",
+        "ids": [
+          "endings:bankruptcy:/description_if_known/cafe_greed_burned",
+          "endings:career_climber:/description_if_known/cafe_burned_recovered",
+          "endings:career_climber:/description_if_known/reported_credit_theft",
+          "endings:gambling_recovery:/description_if_known/bottom_documented",
+          "endings:gambling_recovery:/description_if_known/sangchul_reported",
+          "endings:gangnam_dream:/description_if_known/daeun_married",
+          "endings:late_call:/description",
+          "endings:late_call:/description_if_known/delayed_father_visit",
+          "endings:late_call:/description_if_known/parent_debt_acknowledged",
+          "endings:ordinary_life:/description_if_known/housing_subsidy_received",
+          "endings:ordinary_life:/description_if_known/shared_bihon_calc",
+          "endings:reputation_legend:/description_if_known/lucky_connection_built",
+          "endings:startup_exit:/description_if_known/first_user_connected",
+          "endings:with_daeun:/description_if_known/father_reconciled",
+          "events:arc_35_habit_check:/description_if_known/kept_routine",
+          "events:arc_35_unorthodox_weight:/description",
+          "events:arc_36_unexpected_hand_father_deal:/choices/0/result_text",
+          "events:arc_36_unexpected_hand_father_deal:/choices/1/result_text",
+          "events:arc_daeun_the_test:/choices/1/result_text",
+          "events:arc_father_06_confession:/choices/0/result_text",
+          "events:arc_late_game_push:/description",
+          "events:arc_minseo_03b_not_arrived:/choices/1/result_text",
+          "events:arc_sangchul_deduction_decision:/choices/0/result_text",
+          "events:arc_y3_hyunsu_verdict:/title",
+          "events:arc_y4_bill_night:/choices/0/result_text",
+          "events:arc_y4_body_witness_hyunsu:/description_if_known/hyunsu_reconnected",
+          "events:arc_y4_borrowed_name_document_gap:/choices/2/result_text",
+          "events:arc_y4_three_promises_deal_only:/choices/2/result_text",
+          "events:arc_y4_year_close_daeun:/choices/0/result_text",
+          "events:arc_y4_year_close_unattached:/choices/1/result_text",
+          "events:arc_year_three_half:/description"
+        ]
+      },
+      "zh-CN": {
+        "reviewer": "/root/pr31_intake_review",
+        "id_list_sha256": "fa35b431210ee55a8ffa077a0bd9e3df0155b931540b7a82598280dcdd983da5",
+        "text_pair_sha256": "d1b79768835c4c03317355890b38c46c3595496634b664f0b4bd48d1b89082a8",
+        "ids": [
+          "endings:bankruptcy:/description_if_known/cafe_greed_burned",
+          "endings:career_climber:/description_if_known/lie_corrected",
+          "endings:creator_success:/description",
+          "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth",
+          "endings:gambling_recovery:/description_if_known/ng_paid_it_forward",
+          "endings:guardian:/description",
+          "endings:jaehyuk_way:/description_if_known/sangchul_leverage_stopped",
+          "endings:jiyeon_man:/description",
+          "endings:late_call:/description_if_known/delayed_father_visit",
+          "endings:ordinary_life:/description_if_known/final_week_gratitude",
+          "endings:ordinary_life:/description_if_known/temptation_cooperated",
+          "endings:political_fix:/description",
+          "endings:startup_exit:/description",
+          "endings:writer:/description",
+          "events:arc_35_habit_check:/description_if_known/kept_routine",
+          "events:arc_35_orthodox_weight:/description",
+          "events:arc_35_unorthodox_weight:/choices/1/result_text",
+          "events:arc_daeun_proposal_answer:/choices/0/result_text",
+          "events:arc_daeun_year3_together:/description_if_known/daeun_romance_started",
+          "events:arc_daeun_year4_together:/description_if_known/daeun_romance_started",
+          "events:arc_jiyeon_wedding_gap:/choices/1/result_text",
+          "events:arc_minseo_03b_not_arrived:/description_if_known/minseo_real_talk",
+          "events:arc_pre_ending_winter:/choices/1/result_text",
+          "events:arc_y3_cost_of_knowing:/description",
+          "events:arc_y4_body_witness_hyunsu:/description_if_known/hyunsu_reconnected",
+          "events:arc_y4_borrowed_name_self:/choices/2/result_text",
+          "events:arc_y4_borrowed_name_self:/description",
+          "events:arc_y4_family_table_missed:/description",
+          "events:arc_y4_three_promises:/description",
+          "events:arc_y4_three_promises_deal_only:/choices/1/result_text",
+          "events:arc_year_three_half:/description_if_known/arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen"
+        ]
+      },
+      "zh-TW": {
+        "reviewer": "/root/pr31_main_compat",
+        "id_list_sha256": "acb9434a32ccc81fc6371fd777cc04c739efe64299848c176174ea199b9928c0",
+        "text_pair_sha256": "eaf4d920eab46470f009860e2a749dfbe756b72ee2bf0fd309dc9548c72ef585",
+        "ids": [
+          "endings:career_climber:/description_if_known/jobswitch_satisfied",
+          "endings:career_climber:/description_if_known/theft_documented",
+          "endings:creator_success:/description",
+          "endings:empty_house:/description",
+          "endings:gambling_recovery:/description_if_known/sangchul_reported",
+          "endings:gangnam_dream:/description_if_known/daeun_married",
+          "endings:guardian:/description_if_known/father_health_checked",
+          "endings:jiyeon_man:/description_if_known/beat_addiction",
+          "endings:late_call:/description_if_known/jaehyuk_trusted_fully",
+          "endings:ordinary_life:/description_if_known/final_week_gratitude",
+          "endings:ordinary_life:/description_if_known/friendship_renewed",
+          "endings:reputation_legend:/description_if_known/lucky_connection_built",
+          "endings:startup_exit:/description_if_known/startup_still_running",
+          "endings:with_daeun:/description_if_known/father_reconciled",
+          "events:arc_35_habit_check:/description_if_known/broke_routine",
+          "events:arc_36_unexpected_hand:/choices/0/result_text",
+          "events:arc_daeun_proposal:/description",
+          "events:arc_daeun_proposal_answer:/description",
+          "events:arc_daeun_the_test:/choices/1/text",
+          "events:arc_goshiwon_goodbye:/description_if_known/wants_out_of_gosiwon",
+          "events:arc_jiyeon_wedding_gap:/choices/1/result_text",
+          "events:arc_minseo_03b_not_arrived:/choices/0/result_text",
+          "events:arc_minseo_03b_not_arrived:/choices/1/result_text",
+          "events:arc_pre_ending_winter:/description",
+          "events:arc_y4_bill_night:/description",
+          "events:arc_y4_family_commitment_none:/description",
+          "events:arc_y4_family_partner_collision:/choices/1/result_text",
+          "events:arc_y4_father_crisis_stabilized:/choices/0/result_text",
+          "events:arc_y4_year_close_daeun:/choices/0/result_text",
+          "events:arc_y4_year_close_unattached:/choices/1/result_text",
+          "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_family"
+        ]
+      }
+    }
+  },
+  "official_receipts": {
+    "commits": {
+      "first_24": "db4de2f3ebbc87f60d6877fde0af4d23fbe27757",
+      "next_9_and_three_sentences": "134a45baa932e20c093262165a5c6599ff1625ed",
+      "factual_source_120": "24d02ae8d7a8e357002b8103129b8bf22dd6a2ea",
+      "factual_72": "b41adeca25132f25daac6c9be76a22e614304c0d",
+      "minseo_first_6": "1b9bd164c501cad44ab061ba12d2a32b12db39ef"
+    },
+    "verification": "각 공식 source/response JSONL과 .git/full-game-localization의 accepted artifact를 읽고 header identity/selfhash·선택 ID·현재 KO source/목표문 hash·이전 목표문·accepted digest·실제 Git batch row를 stdlib로 대조했다. 총111값/15배치의 공식 check/import와 새 실제 전이를 결속했다. 마지막6은 absent-only 최초수용이며 기존105 갱신과 구분했다.",
+    "counts": "원237배치 prefix→240→243→249→252. 기존41830 accepted 값은 승인된105 갱신 외 보존되고 마지막6 최초수용으로41836이 됐다. 기존 batch 순서/내용과 native OPEN을 보존했다.",
+    "census": "최종 현재 수용 사건·엔딩11818개/언어를 모두 source/target hash 대조하여 stale0. 아직 수용되지 않은 전체게임 문자열의 완성을 뜻하지 않으며, 민서6 누락은 앞선 accepted-only census만으로 찾을 수 없었다."
+  },
+  "support_source_review": {
+    "admission": "기존 immutable Git/byte/payload 핀을 바꾸지 않고71content exact raw 역상, ordered3way 원장 합집합, Main exact6 inverse, release inventory exact 전이, 실제105갱신+6최초수용 전이만 승인한다. 비교용 이전 투영과 현재 제품 수용을 분리하고 원문/목표문/옆잎/순서/공백/registry 재서명/인간승격 반례를 읽었다.",
+    "final_history_sha256": "bd05d70d003b3eb22338788f1fa441043ed6648e9740215e95c75fc3f3657eee",
+    "final_history_test_sha256": "a7de34a2ced3f5af511542a05ee23bb0fe660d92ff8c6e8c6e77d6497e8f4647",
+    "fresh_source_manifest": "현재 전체 source census e3005b54d6887c0d819b08c90d30496d32711b4b27dd3ccec15fc9e6dd3a954b를 Git/disk로 결속한다. KO15 소유 파일의 알려진 이전 지문만 투영하고 각 단계 전체 실제 Git census와 비교한다. 실제 Main은 그대로이며 빠진 Main/다른 UI/다른 원문/재해시 변조는 허용하지 않는다.",
+    "invocation_local_proof": "한 validator 호출 안의 ContextVar 증명 재사용만 허용한다. entry/정상 exit에 전체96객체 증명, 매 재사용에 root/HEAD/tree/blob/Main 및 모듈 bytes·함수 identity/code/defaults/kwdefaults/핀을 검증한다. 독립 호출은 fresh이며 전역 성공 판정/호출 간 캐시를 두지 않는다.",
+    "main_history_sha256": "685ade6372dc5775abe69e879a8b756aadb7523c3211e52f3d1e9bd8cfddf94a",
+    "english_and_quantity": "Holdem의 정확한 한국어-only 조사 교정 한 줄만 EN_HANGUL 오탐에서 제외하여 else영어 누출·다른 파일/표현을 허용하지 않는다. CN/TW의 아버지 여덟 달 초과/오래된 보증인 칸 연수 초과는 정확한 한국어 문맥으로만 분류하고 일반 연/월·값·단위·초과·부정 방어를 유지했다. 독립 지적한 不是 부정 누락도 수리했다.",
+    "year5_hash_boundary": "엔딩5 raw를 현재 Git/disk proof와 일치시킨 뒤에만 이전 hash로 비교한다. project_bytes/project_payload와 역사 핀은 바꾸지 않았다. 최종 self-test의 물리 raw==ORDER160 낡은 전제도 같은 observed_byte_hash 경계로만 연결하고 기존40 fixture는 보존했다.",
+    "year5_final_sha256": "a895fdb0a78547be6579aa9d8a64bf150a4d9faef63cf7892f9428bf8f06464e"
+  },
+  "automated_evidence": {
+    "minseo_final": {
+      "path": ".git/pr31-intake-20261005.Kz8A4y/minseo-final/result.json",
+      "sha256": "91628c5a231df35262ccf9473bc6bb6dc937658bda11f99a2823621b6b237214",
+      "result": "최종 history355 cases/current_files71 exit0·stderr0(84.275274958s), 실제 accepted 사건·엔딩 census11818×3/source·target stale0 exit0(.543105s)."
+    },
+    "shared3": {
+      "path": ".git/pr31-intake-20261005.Kz8A4y/shared3/result.json",
+      "sha256": "81172022734419085a792069b138609daf7b24fd4520b6e0de6ee0c12d25a311",
+      "source": "c9682f3f39e9f71e3cd99371c0db80c19a25abe2",
+      "result": "실제 order365/full_body/story_graph/chapter5 normal main 및 full_game inventory의5명령 exit0, YEAR5는 exit1·기존33실패 유지·new0. 한 invocation의 실제 fresh proof 안에서 원래 main을 호출했고 정상 outer exit 재검증 및 tracked before=after/HEAD 동일을 확인했다. 성공 verdict 재사용이나 main monkeypatch가 아니다.",
+      "inventory_boundary": "full_body는 SOURCE_INVENTORY_ONLY(1708 shipping events/11685 shipping leaves/133 chapter5 reader leaves), inventory는 실행 exit0이나 full_game_status=INCOMPLETE/human_gate=OPEN이다. 종료코드0을 번역/게임 완성으로 승격하지 않는다.",
+      "year5_stdout_sha256": "4f1aa63bad173c44c1261441a0c861b1d36a67adbf01628aea06299be8585c08",
+      "inventory_stdout_sha256": "9e2c86d1af7f273f86d64aa83bfa6772227045caf31fa705d286798d9c0ccd20"
+    },
+    "ending_fixture_delta": {
+      "path": ".git/pr31-intake-20261005.Kz8A4y/ending-fixture-final/result.json",
+      "sha256": "e378013fe7cb09f4c3307caa816b4d9b52529dd55d27fa3347629e70bb2b2d44",
+      "stdout_sha256": "5c484728f032a72241fdaa1c1a06c99594e4c8ae9cd95f88f90a22ca57e21e7e",
+      "result": "실제 historical40 cases와 admission error/wrong hash/read failure의3 observation 음성그룹 PASS, exit0·stderr0(7.378766958s). c968→subject에서 이 self-test 함수 외 전체 AST가 동일함을 독립 확인했다. 전체 YEAR5 --self-test 실행 PASS 주장은 아니다."
+    },
+    "main_scope": {
+      "path": ".git/pr31-intake-20261005.Kz8A4y/repair-final2/result.json",
+      "sha256": "b97ae5cfe04fc57f1e2fc8d072a312bbdd7149f702dd1ad3dfee906a4203ca50",
+      "result": "최종 Main module의26cases/9실제 full-proof calls,12명시적 mocked음성 확인, failures0·exit0."
+    },
+    "other_focused": "실제 factual-final의 inventoryhistory82·EN coverage·EN Hangul0를 읽었다. locale-main1/zh-main1의 JA UI/pipeline 및 ZH 기본검사·selftest도 직접 로그를 읽었으며 이후 불변인 해당 UI 지원부 근거로만 사용한다. final 전체 제품의 재실행으로 부르지 않는다.",
+    "quantity_68": "68cases PASS는 root의 당시 직접 실행 tool output 근거다. 저장된 zh-final 로그는 앞선50cases이며68로그로 고쳐 부르지 않는다. 최종 audit SHA ceeb6546cf797fcb8d8e3c532b3c5791a1d808121441e70ddd464aae0670aed5/test SHA eeb0b7af6bde8055bab54f3048cc716cf770c574344a3e78a4ac86b07e699b24를 결속했다."
+  },
+  "prepared_runtime": {
+    "path": ".git/pr31-intake-20261005.Kz8A4y/runtime3/result.json",
+    "sha256": "407b019e06ae5badcc1237b6190dbe7949b7aa8598d0ac65205a56ed25c0623d",
+    "actual_source": "6a324be3f677e71e9bcee61be2a019e40059a1ce와 당시 dirty support fixture. 나중 clean source에서 재실행한 것으로 바꾸지 않는다.",
+    "fixture_sha256": "5f2d0db5c0e2656da5a83a5f6b3aee9f738f807dd1a99f812ee546244f23ad77",
+    "result": "실제5언어 resolver335건(기존235+새 포괄 경계100) 및 실제 GameState check_game_over를 쓰는 선택 경계60건 모두 PASS,4.206686s/exit0/stderr0. stdout와 Godot log 원문·오류 토큰을 확인했고 실제 엔진 오류0이다. 이전 runtime2의 준비된AP30건 PASS는 별도 근거이며 이번에 다시 실행한 것으로 세지 않는다.",
+    "oracle": "실제 Main/DataRegistry를 읽되 Main을 트리에 넣지 않는다. 별도 off-tree GameState는 실제 check_game_over/자산 계산을 상속하고 finish_run 결과 포착만 대체한다. ±1/정확 경계·age37 대조와 실제 직업 카탈로그를 사용하고 singleton flags/cast 및 serialized state/Meta를 복구한다. 모든 자산 구성·대출·엔딩 우선순위 조합을 증명한 것은 아니다.",
+    "preservation": "pre-autoload 별도 QA namespace에서 protected57항목/11그룹·product697의 실행 전후 해시가 같았다. 실행 후 원장만 공식 수용으로 전이한 사실과 prose/runtime bytes 불변을 구분한다.",
+    "boundary": "headless 준비 컴포넌트 검증이다. 실제 화면·입력·패드·오디오·자연 플레이·인간 감각 관찰이 아니다."
+  },
+  "preserved_failures_and_debt": {
+    "earlier_attempts": "runtime1의10실패는 불가능한 alive+father_passed fixture와 death-default oracle 오류여서 fixture를 수리했고 원본 실패는 남겼다. Main scope 첫 실패는 unittest.mock의 function.__code__ cleanup 문제여서 테스트만 try/finally로 고쳤다. shared2의 민서6 미수용/새 엔딩5 hash 실패는 실제 결함으로 보존하고 후속 공식수용/유한 역상으로 닫았다. 옛 실패 기록을 PASS로 덮어쓰지 않았다.",
+    "year5_attribution": {
+      "path": ".git/pr31-intake-20261005.Kz8A4y/year5-attribution.json",
+      "sha256": "3a228b67d9951ab56c8580d1723e9675c8fc42175e279d470cfa3734144c3270",
+      "fact": "shared2의38에서 새 엔딩5 hash만 사라져 shared3에 정확한 기존33이 남았다.32는 baseline e97와 동일 source bytes·기존 AST 경계의 역사 승인 문제,1은 이미 존재한 build QA2파일8token+ORDER462 manifest2token의 스캔이다. baseline audit를 재실행하지 않았고 untracked artifact mtime을 불변 Git 증거로 쓰지 않는다. 실제 YEAR5 상태는 FAIL33이다."
+    },
+    "existing_ending_facts": "stable_success의 고정 남은20억과 세 엔딩의 통장/잔고=순자산 표현은 e97e2cd baseline·PR·수리본의5언어에 이미 존재한다. KO 문구의636b2acc78e78f5054f52e64a28e129f4816ea6e 최초 변경도 확인했다. 실제 현금+보유자산−대출 판정과 맞지 않을 수 있으므로 별도 후속 HOLD다. 이번120문자열 수리 GO를 이 두 사실 문제나 엔딩 전체 GO로 확대하지 않는다."
+  },
+  "preservation": "baseline e97e2cd→subject에서 project.godot·5언어 arc_events.json·docs/human_gates.json의 변경0을 Git으로 확인했다. 실제 공개/사용자 저장과 seed의 보호 관측, 역사 판정·native OPEN을 보존했다. 기존467 미완료 작업을 삭제하거나 그 미실행 검사를 실행한 것으로 바꾸지 않았다. 외부 출시·스토어·지출·법률 인증은 수행하지 않았다.",
+  "remaining_limits": [
+    "전체 현지화는 여전히 INCOMPLETE다. accepted 사건·엔딩의 stale0 및 이번111값의 의미 검수는 모든 UI 소비자·미수용 문자열·전체 일본어/중국어 품질 완료가 아니다.",
+    "기존 YEAR533실패와 기존 엔딩 사실 결함2건은 남아 있다. 기존 prologue 체감·Chapter5·본편 HOLD와 공개 데모의 과거 GO를 서로 바꾸지 않는다.",
+    "이번 실제 렌더·자연 플레이·물리 입력·원어민 관찰은 없다. Mac 잠금 중 미관찰을 자동 검사나 준비 fixture로 대체하지 않는다.",
+    "전체 역사 self-test/240주 전체 suite를 재실행하지 않았다. 정상 main·표적355·ending40+3·실제 준비 회귀를 그 범위대로만 사용한다.7k/수첩/5년 후속은 별도 오더다.",
+    "private .git 증거는 로컬 실행 추적 자료이며 스토어 배포 artifact나 인간 인증이 아니다."
+  ],
+  "final_boundary": "subject c50d9cb의 ORDER-468 들이기·확인된 새 결함 수리·유한 승인 경계 한정 GO. 실제 새 실패를 닫은 범위와 baseline 잔여 실패·미관찰을 분리한다. 게임 전체의 출시 준비 완료는 주장하지 않는다."
+}

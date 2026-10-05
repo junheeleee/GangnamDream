@@ -2,7 +2,11 @@
 
 이전 원문 전체는 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md)에 바이트 그대로 보존했다. Claude PR #31 기록은 [별도 보관본](history/WORK_LOG_2026-10-05_claude_pr31.md)에 있다.
 
-## 2026-10-05 — 사용자 우선 PR31 문장 수리 들이기 검증 (468)
+## 2026-10-05 — 사용자 우선 PR31 문장 수리 들이기 완료 (468)
+
+- 비저자 [독립 보고](agent_reviews/ORDER-468.json)가 source c50d9cb/tree2d0149ad의 들이기·확인된 새 결함·유한 이력승인에 한정 GO했다. 보고SHA `9dcbd068fb5d85a89f91c05c1d574f6479c5afc0ba6abba55d6e2c7ed2ea0cbe`. [완료 사양](queue_archive/ORDER-468.md)으로 이동한다. 새로운 규범승격0, 이번 exact 전이와 검증은 일회성이다. 본편/출시 HOLD와 인간 원장은 불변이다.
+- 완료 문서 검증 중 보고서 subject 표기를 source로 정렬하면서 원장SHA가 잠깐 달라져 metadata self-test의 CLI-contract가1회 실패했다. 원문/제품 변화는 없으며 최종SHA 정렬 뒤 같은검사222사례와 queue25fixture/4fence사례 PASS, 인간 원형불변을 확인했다.
+- 다음 [469](queue_active/ORDER-469.md)는 사용자7k의4장 지연6변형 비도달 정렬이다. 독립 read-only 조사에서 실제 슬롯153/164/167/177/181/190·director owner·spine/live노출 원장의 연결을 확인했다.6원고는 이미 dormant 메타이며 HiddenFeatureCheck의 지연 주입은5장용이므로 원고/번역/해당fixture는 보존하는 최소 전이를 사양에 선언했다. 구현/도달 검사는 아직 하지 않았다.
 
 - 최종 c9682f3 동결 shared3에서 fresh365 proof538.201940초, 전체580.899861초·tracked/HEAD 전후동일·오류없음. 365/fullbody/story_graph/ch5/inventory 정상 PASS. YEAR5 실제exit1/33은 기존32개 source/history+로컬 QA/build 토큰 스캔1이며, shared2의 새ending hash5건만 정확히 소멸했다. Git/AST 동등성 귀속이지 baseline 감사 재실행은 아니다. 결과SHA `81172022734419085a792069b138609daf7b24fd4520b6e0de6ee0c12d25a311`.
 - 민서 arrival 조건부2잎×3언어가 PR에서 신설됐지만 최초수용이 빠졌음을 fullbody가 검출했다. 독립10문장 대조 후 공식check/import 모두PASS·target파일변경0. 1b9bd16 원장단독6신규/3배치로 accepted41836/b252, 기존41830/249prefix 불변. 기수용 stale0만으로 누락을 판단하지 않고 실제 target 미수용 검사도 함께 읽는다.
@@ -11,7 +15,7 @@
 
 - 독립 KO/EN PR수정부29파일474잎 검수에서 새 기간2건/포괄금액1종을 확인했다. 24d02ae의24잎×5언어120문자열은 기간 단정 제거·실제>=경계만 수리했고 비저자가 전수대조했다. 같은 원문제품을 공식export한6a324be에서 events4/endings20×3언어 check/import 모두 PASS/changed_files0, b41adec은72영수증/6배치만 반영했다. 총105갱신·accepted41830/b249·사건/엔딩11816잎/언어 source/target stale0.
 - runtime3 prepared resolver335·실제 inherited selector60(기준액±1/정확값·37세 비종료) PASS,4.206686초/exit0/stderr0/engine오류0, 보호57/11그룹·제품697동일. 결과SHA `407b019e06ae5badcc1237b6190dbe7949b7aa8598d0ac65205a56ed25c0623d`; 실제렌더/자연플레이가 아니다. 바뀌지 않은AP30은runtime2증거만 재사용한다.
-- 기존main부터 남은 엔딩 사실 결함2건(고정 남은20억·순자산을 통장잔고로 표현)은 e97e2cd/PR/current 5언어 비교로 귀속해 별도후속으로 남긴다. 이번 PR수리와 엔딩전체GO는 구분한다. 현재 release inventory 기본 PASS이며 최종 소비자 이력검사는 아직 진행 중이다.
+- 기존main부터 남은 엔딩 사실 결함2건(고정 남은20억·순자산을 통장잔고로 표현)은 e97e2cd/PR/current 5언어 비교로 귀속해 별도후속으로 남긴다. 이번 PR수리와 엔딩전체GO는 구분한다. release inventory 기본 PASS, 최종 소비자 결과는 위 shared3으로 결속한다.
 - 추가134a45b: 기수용 전체 대조에서 PRdiff의 accepted변경만 보면 놓치는 조건부3잎×3언어를 발견했다. 민서연락/지연결혼식6문장은 보존하고 year4마감3문장의 옥상 회색 묘사를 KO의 종이 한 장으로 바로잡았다. 공식check/import 각3/changed_files1, 총33영수증/추가6배치·accepted41830/b243. 사건·엔딩 기수용11816/언어의 source/target stale0(미번역·기계유효·원어민 완료와 별개).
 - shared1은 새 누락 발견으로 read-only 실행을 중단했다. 후속 history 자체검사 중 root가 선언commit을 만들어 HEAD변동 방어가 정상 거부했으며 PASS로 세지 않는다. 최종 후보를 동결한 뒤 같은 검사를 재실행한다. 동일 호출의 Main96객체 반복증명은 호출 한정 공유와 매 재사용·종료 재검증으로 줄인다.
 - 실제 통합4b26792(부모8a2c9a9/b9284e3), Main6 e88742c, 공식24영수증 db4de2f. 기존 main66신규 UI잎/6배치 보존, accepted41830/b240. arc_events5·project·과거 인간/공개/사용자 저장 불변.
