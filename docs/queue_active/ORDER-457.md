@@ -40,6 +40,16 @@ root가 개별 GUI 입력으로 문장을 읽고 자연 타이핑·전환을 기
 
 ## 검증·마감 경계
 
+2026-10-05 첫 실행은 source `a83b0e4`에서706.120초/exit0, 실제 W193→W195까지
+진행했다. result SHA `bf7e7380361d06cc42f215c5aa1bfe605a465867c30dc3e8e97de9cb03354a2b`,
+원본seed2·player34 불변이다. `.git/chapter5-replay/order457-first/observations.md`에
+root GUI 독해/선택 기록을 보존하며 별도 PNG/독립 화면 관찰은 주장하지 않는다.
+코인 통화의 확인 결함은 [458](ORDER-458.md)로 수리한다. 실제 저장한 W195 slot1은
+QA namespace `GangnamDream_StoryNameplateQA_ae795aef7ab833fa7381c3d03ba445be`,
+153359B/SHA `d34ab88092821d0c6df4c37c520047bb0142097a60be94762337ed66be88cb12`다.
+이어보기는 이 checkpoint를 새 격리에 복사하여 실제 메뉴에서 불러온다. 원래 W193
+seed/metadata는 보존하고 이 후속 저장을 원본으로 바꾸지 않는다. M60/후일담/6/6은 미도달이다.
+
 실행기 문법/안전 경계 읽기, context/queue/diff와 이 실제 경로만 수행한다.
 기존32callback/456/302/365·whole audit·240주·Property·JA/ZH 전체 검사는 반복하지 않는다.
 정상 속도 한 경로 완료와 독립 관찰 판단까지 이 단위는 진행 중이다. 도구 완성이나
