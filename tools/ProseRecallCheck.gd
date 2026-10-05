@@ -361,8 +361,11 @@ func _check_choices() -> void:
 			for key: String in effects:
 				if not key in ["mental", "intelligence", "investment_skill", "luck", "tint"]:
 					failures.append("unexpected owned choice effect " + event_id + "/" + key)
+				elif key == "tint":
+					expected[key] = clampf(float(expected[key]) + float(effects[key]), -100.0, 100.0)
 				else:
-					expected[key] += effects[key]
+					# JSON numbers are floats; apply_effects sends int(value) to modify_stat.
+					expected[key] = clampi(int(expected[key]) + int(effects[key]), 0, 100)
 			for flag: String in choice.get("flags", []):
 				expected["flags"][flag] = true
 			for person: String in choice.get("cast_effects", {}):

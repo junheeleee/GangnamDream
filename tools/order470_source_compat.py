@@ -699,12 +699,49 @@ PROSE_RAW_PATCHES = {'content/events/arc_chapter_themes.json': (('replace',
                                             75,
                                             'effce79d010859d1a7789f77c0060bc70155bb10179a72562d94916e11585202',
                                             '3b91ed39a4a4ef0bfa8f25bf8b791b32add00986a0a0b02a3446eca51ee05c83'))}
-PROSE_RECEIPT_PARENT = None
-PROSE_RECEIPT_COMMIT = None
-PROSE_RECEIPT_RAW_SHA256 = {}
-PROSE_RECEIPT_CHANGED_LEAVES = {}
-PROSE_RECEIPT_BATCH_SHA256 = {}
-PROSE_RECEIPT_SOURCE_MANIFEST_SHA256 = None
+PROSE_RECEIPT_PARENT = 'a88a54e34e7289b93be6a2135ffc962b4a1cb47c'
+PROSE_RECEIPT_COMMIT = '2670b2b841baa3877b1e6a3b9db7b689fe4dc613'
+PROSE_RECEIPT_RAW_SHA256 = {'content/events_ja/arc_chapter_themes.json': ('6ccb5ced67aa95cedc7d1fe0580e78dc8660ebdd245a2e2f88a46612fd881e6f',
+                                               'd7a82c12adc665179511bd657ee51679017839b565dd9c397db3943d05ac3911'),
+ 'content/events_ja/arc_daeun_extension.json': ('b77dbac478759f1880fac8553161bb2eb55669c526255f46ff35dc0a49f08f32',
+                                                '556fc02a81965ff38aca4fc81a057c1476cf5c158f5c5ccc38dae98888914aa4'),
+ 'content/events_ja/arc_hyunsu.json': ('852d611078d624ae8fd0c5f06cc7fe883ec83ba8a06c127cddf3cc0e8454c57f',
+                                       'cfa2a09230a7186f23bc332793918913a018f80c100417874313789c6ba5a213'),
+ 'content/events_ja/arc_midgame.json': ('5b8113bfeb0946f40dcae3613a77fd3b55c7e7e645003443febac208657f16a9',
+                                        'e07b0f4ae333ad4e197e6d4fcd12b9e3be6190785032402c182a7478054788eb'),
+ 'content/events_ja/arc_year_close.json': ('cfa15c6fefcd990ba2d75861572367c17c39aad7c038646c75be9a7d7b43c8ab',
+                                           '0086ec261a2167444d587d1158b066bfd91e738da9d717ef344f25604a856b90'),
+ 'content/events_zh-CN/arc_chapter_themes.json': ('3ce8ee7a0085353dcfde29f8e5d9df874f22a81514d4c3d58602a3f8c840b07f',
+                                                  'e969eab707f68bc1587ff4b86c62b5772325b6c466e87d36334a91a31aa3a9a3'),
+ 'content/events_zh-CN/arc_daeun_extension.json': ('2b55f978a9517d445092e09a478360cd2fa2341a6ef8958f9ac6b5265601b296',
+                                                   'd440cc7f059844684e8c6382f5a20b0751d9b70da07c64376d58546b82c5fd4f'),
+ 'content/events_zh-CN/arc_hyunsu.json': ('92fb3f2f9fbd674d0d21d94441131336442fbd4a66f92baa9a473007c08a6832',
+                                          '2ff6c73a1b82fc5df0c1eaa56d084a0c6a8a37f74807725cdbfaeb69d661d50c'),
+ 'content/events_zh-CN/arc_midgame.json': ('3ff592dff7564a9e408538619e337fd9ab1230f7a6b719994e0e92a278cef126',
+                                           '89e36247f39ada6eda81d1b73f7468607359103d7505af08d93628b7d3656f49'),
+ 'content/events_zh-CN/arc_year_close.json': ('46eefc3f608a28066c88d20269c21df7b7f977fc0860cc143edf153f9cd572fd',
+                                              '00739ce3ff7c73eae5306ac21e87636e244c2739657311be63e8f655a651a572'),
+ 'content/events_zh-TW/arc_chapter_themes.json': ('9ba764405279738ffd34c596d034aa599f96614e6bb42e0909ff10f170c4bd1e',
+                                                  '7696e334aebf150e593a661f39ace7df0d19d8687086c61c59de26bc16942c64'),
+ 'content/events_zh-TW/arc_daeun_extension.json': ('b15bb1b702b8dbaba2c27116005a5f0796ffb1cf854776241060d07d3c6f4b5e',
+                                                   '646bce45668bbc296412cd7bca17cc04dd204125ac6dabd3fab92523f6274e92'),
+ 'content/events_zh-TW/arc_hyunsu.json': ('39ea586335494400eda3f98a8dea909893d3b59a901ef253ce57d9db0554c064',
+                                          '6e624e0f4d25a51d0b58420775ce2ee0e65ab08629e5236085e3c638a0a6ceed'),
+ 'content/events_zh-TW/arc_midgame.json': ('5ffbd340cb8219dac93cf8324f5b2aae20aa1ab80bcab39d96cce1011d3fa053',
+                                           'cb3f4b3be26f3192ae97bd7f8374d174281f20a37243a4a5d3baed7d2e5c2ed8'),
+ 'content/events_zh-TW/arc_year_close.json': ('114e7a9ec3b4de35ee4c8947dcea2096206e351bd3391975590216c224d3a588',
+                                              '520a1b2da8371cb78f0fedc86c606c2505dbad5c61c749d2970bf311ced3d958'),
+ 'content/meta/full_game_localization.json': ('30f095de89a1d00e436147c57606f644dfd2a4b99f13cc2bc432749bdc0a996d',
+                                              '6d1d899109d7dccff02a1819312cc97622d99c3464e9104eb6692124a4487a16')}
+PROSE_RECEIPT_CHANGED_LEAVES = {
+    path: tuple((eid, keys) for name, eid, selectors in PROSE_SELECTORS
+                if path.endswith("/" + name + ".json") for keys in selectors)
+    for path in PROSE_PATHS[10:]
+}
+PROSE_RECEIPT_BATCH_SHA256 = {'ja': '219387374abf37c6551250e28b872cf5778fd8a49e384a3624239f0ea8b65587',
+ 'zh-CN': 'f18f49cc715805d0a83bcc30f0698500107f21b1b69dd085ea1a497aea442444',
+ 'zh-TW': '8d63e3a8e1d7db9851af27fa61fbc85efa24dd102073b95522733f23f3beb3a9'}
+PROSE_RECEIPT_SOURCE_MANIFEST_SHA256 = '9025a17f96b308b22e232f246bf8b04589937ad0c19e911398e6b7c20ca59bf5'
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
 _SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
 
