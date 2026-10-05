@@ -1,6 +1,22 @@
 # ORDER-464 — 정선 카지노 허브의 중국어 안내·조작 문구
 
-#### [~] ORDER-464 [P1·현지화] 기존 허브9키를 간체·번체로 읽는다
+#### [x] ORDER-464 [P1·현지화] 기존 허브9키를 간체·번체로 읽는다
+
+## 완료 (2026-10-05)
+
+- source/공식수용 한정. [독립 전수 보고](../agent_reviews/ORDER-464.json).
+  제품`dd1c3915f7cb6c9e9c609ee35dc071269893ad99`는 사전2개/원장만 변경했다.
+  사전각1776→1785·accepted41755→41773·batch231→233·JA3053 불변이다.
+- 공식 export/check/import 각지역9값,4raw역상·3141중비소유3138바이트 동일이다.
+  실제12호출의 의미를 전수읽었고 source_revision/selection/원header/receipt SHA를
+  결속했다. 기존 규칙·정산·저장·공개·사람·224판정/202보고는 불변이다.
+- clean제품에서 `.git/full-game-localization/order464-normal1/result.json`
+  SHA `32cac4131de86ecb8b5b3b1cc0f83fb3b98c457a98ced7ee4fa773ab56aa446b`,
+  current365470.767761초·ZH skeleton34.427529초 모두exit0/정확marker/stderr0.
+  tracked3141/HEAD/tree/status·보호11그룹57파일은 전후동일이다.
+- 후속`ef16809f6af4a3606c8012498b293304d1fdb156`는 CLAUDE 상태3행뿐이다.
+  그후보에서 위명령을 다시돌렸다는 뜻이 아니다. 실제렌더/입력/원어민·본편/출시는
+  미관찰/HOLD, 전체중국어완료0이다. 자동통과는 계약 증거이고 새정본 승격0이다.
 
 **[~] 착수 — 2026-10-05.** 부모157. 149/463 source 수용 뒤 Mac잠금과 무관한
 기존 UI 누락을 수리한다. 정선 카지노의 아래9한국어키는 JA에 있고 CN/TW에는

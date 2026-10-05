@@ -51,7 +51,7 @@
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
 | 1 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | source/전후시간 PASS · Mac잠금·렌더/체감 미관찰 |
-| 2 | [~] | ORDER-464 · 정선 카지노 허브 중국어 안내 | [464](queue_active/ORDER-464.md) | 착수 — 9키×2지역 · 실제화면 미관찰 |
+| 2 | [~] | ORDER-465 · 투자 시장 탭 중국어 안내 | [465](queue_active/ORDER-465.md) | 착수 — 16키×2지역 · 기준선 결속/새추가분 표적검증 |
 | 3 | [~] | ORDER-457 · 5장 일반 경로 정상 재플레이 | [457](queue_active/ORDER-457.md) | W193→W195 관찰 · Mac잠금으로 이어보기 메뉴미실행 |
 | 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor export GO/실제 재생6항목 HOLD |
 | 5 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |

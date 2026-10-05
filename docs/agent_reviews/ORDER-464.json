@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-464",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "ef16809f6af4a3606c8012498b293304d1fdb156",
+    "tree": "fd7025f1f8ec4251ca58f64524cbdbfbe3e4ceb0",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/independent392",
+  "scope": "정선 카지노 허브의 기존 한국어9키에 추가한 zh-CN9/zh-TW9값의 의미·소스 문맥·공식 수용만 승인한다. 새 키·게임 규칙·렌더·중국어 전체 완성·출시 승인이 아니다.",
+  "method": "gangnamdream-dev의 localization 경계에 따라 원문·용어집·실제 Jeongseon/Main 공유 소비자·양지역18초안·공식 source/response/receipt·교환/normal helper와 최종 로그를 읽었다. Git/stdlib 읽기 전용 대조로 전체4파일 역상과 receipt 결속을 독립 확인했다. 프로젝트 collector/import/검사 실행은 root만 수행했다. 보조 /root/independent392/ab_readonly428는 별도 Git/stdlib 보호맵 대조를 수행했다.",
+  "source_review": {
+    "population": "첫방문 안내·±0·pad 안내·선택 prefix·정선 카지노·게임 선택·중독 경고·용어 설명·입장: 한국어9키×2지역18값 전수 의미 PASS. title의 Main 공유3호출도 같은 장소 의미다.",
+    "meaning": "±0은 입장시점 대비 손익0이며 잔액0이 아니다. 입장은 선택 게임 열기이며 베팅 실행이 아니다. 한국어의 빛/기계음·중독/한도·선택 의미를 유지하며 영어에만 있던 felt tables를 추가하지 않았다.",
+    "format": "첫 안내 LF1/em dash, ±0韩元/韓元, pad6개의 %s 순서와 D-pad/slash/두 칸 공백, 선택1개의 %s를 보존했다. 지역별 旌善赌场/旌善賭場과 기존 용어를 따른다.",
+    "draft_sha256": {
+      "zh-CN": "a309d69db6f0a117871cb080eed4a2c0e554815b27944fd7dce07ec59ca055f6",
+      "zh-TW": "0ce8cd9b43e918bbbc9bfa607457b5cc3f5adac3a2c1b7e2e9a0879d32bc01f5"
+    }
+  },
+  "official_acceptance": {
+    "source_revision": "366e0e621e266eeb1d260b9b614af8a92b38027d",
+    "source_manifest_sha256": "9f4e35c51dd343febaf93695100974487664758fbc449d2ef3feb75786477b6c",
+    "result": "두 지역 각9개 공식 check/import 원문4개 모두 FULL_LOCALIZATION_BATCH_VALID, changed_files=1, full_status=INCOMPLETE, human_gate=OPEN이다. 최종값=검토초안=response이고 공식 header/selection/source Leaf hash/previous-null 및18 target hash를 원장·receipt와 대조했다.",
+    "check_result_path": ".git/full-game-localization/order464-check-result.json",
+    "check_result_sha256": "f686c9b66a127c06669ffe515917187eb2cb1956763aaa00ded31e01818f5162",
+    "receipt_hashes": {
+      "zh-CN": {"file_sha256": "d2fa5666463c469f0263f83c7e2779495ac29e557203968c326e4beebe350ed5", "unsigned_canonical_sha256": "1a34083fe7e1d23fb9ca73f90024d32e22ecde168a06a4f354af88b64e2126f4"},
+      "zh-TW": {"file_sha256": "87b6732a8267e528595989f6db16a1fa145ae3742f9cfddc9b11c48ad93a507a", "unsigned_canonical_sha256": "e5058558314ae2aa2cac0046cfbeba5a5edcfbce4e34dbcca1a4a7f171baa7ba"}
+    },
+    "raw_inverse": "독립 stdlib/Git 대조에서 실제 추가9+9 UI member·18 accepted·2 batch를 제거하고 accepted checksum 원토큰을 복원한 전체 bytes가 선언 baseline과 일치했다. JA 전체 raw도 동일하다. accepted41755→41773/batches231→233 외 기존 member/order/value/receipt는 불변이다.",
+    "append_proof_path": ".git/full-game-localization/order464-append-precommit.json",
+    "append_proof_sha256": "1d35e6f79e121eb9f142f123c0262b09c9f016dce8b760c3390af01b173cfc61"
+  },
+  "automated_contract": {
+    "path": ".git/full-game-localization/order464-normal1/result.json",
+    "sha256": "32cac4131de86ecb8b5b3b1cc0f83fb3b98c457a98ced7ee4fa773ab56aa446b",
+    "entry_sha256": "b5eb7cec962c244036946ba872019443bc1618488220d3d3fe2764653d5a73d0",
+    "runner_sha256": "833b7c24cfe71351fde1edd824ff5f54a471bada45d44cb400337a6311cb59ab",
+    "ui_receipts": "기본 order365_ui_receipt_compat.py 실제1회 exit0/470.767761초. 정확 marker accepted41773/batch_total233/live_files50/historical_files17/historical_leaves107/historical_cases0, stdout210bytes/stderr0.",
+    "ui_receipts_stdout_sha256": "de69a13bf6ca6d6107e09ccb434da2424f78f8c27db111c10451cfeafc112843",
+    "zh": "기본 zh_translation_audit.py --lang all 실제1회 exit0/34.427529초·stdout702bytes/stderr0·ZH_TRANSLATION_AUDIT_OK mode=skeleton. 양지역 shipping0이며 UI legacy1578/2953·context11/29·dynamic150/701·direct_english_bypass11을 그대로 보고한다.",
+    "zh_stdout_sha256": "4dece9b97be1e39279e73b24dcbe41064b691aeb2d97885fc660275f73957ac2",
+    "result": "두 stdout/빈 stderr 원문과4로그 SHA/크기를 직접 확인했다. result all_pass/preserved=true, error=null, entry=before=after다."
+  },
+  "execution_subject": {
+    "commit": "dd1c3915f7cb6c9e9c609ee35dc071269893ad99",
+    "tree": "e5c7ba5114f8c30f7d89b47b3b027b38c80f5e16",
+    "successor": "두 검사는 clean dd1c3915에서 실행했다. 최종 subject ef16809f까지 committed diff는 CLAUDE.md 상태3행뿐임을 Git으로 직접 확인했다. 제품·사전·원장·runtime·도구 입력은 불변이며 새 HEAD에서 검사를 재실행했다고 주장하지 않는다. 이후 root의 마감 metadata는 실행 당시 전후맵과 별개다."
+  },
+  "preservation": {
+    "product_boundary_path": ".git/full-game-localization/order464-product-boundary.json",
+    "product_boundary_sha256": "52c7f0d0884ef4253ec48c501a83570c64a97f459dd90a0bfedcc0e077b88a0b",
+    "observed": "선언→제품은 tracked3141 중 CN/TW 사전·원장3파일만 변경하고 나머지3138 Git 객체/현재 SHA를 보존했다. normal의 tracked3141 및 보호11그룹 전후가 같다. 최종 보조 재해시에서도3140파일은 동일하고 CLAUDE만 후속 차이이며 보호57파일의 SHA/크기/목록은 일치한다. 보호에는 실제player34·공개저장9·seed3·462앱7/manifest1·project/preset/human3가 포함된다. 없던 공개 build/story_demo는 missing→missing으로만 기록한다.",
+    "history": "기존224판정·202보고(+462 manifest사본1)·human 원문과 공개 이력을 보존했다. 옛 receipt와 번역값은 전수 raw 역상으로 보존하며 새값을 원어민 승인으로 승격하지 않는다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "remaining_limits": [
+    "엔진·PNG·렌더/줄바꿈/가독성·자연 진입·물리 키보드/패드·사람·원어민 관측은 NOT_RUN이다. 소스의 폰트 크기/폭을 읽은 것은 실제 fit 증거가 아니다.",
+    "ZH skeleton PASS는 전체 중국어 완성이나 shipping 승인이 아니다. 새18값 외 잔여·JA/EN 전체 품질을 승인하지 않는다.",
+    "470.767761초는 이번365 기본검사의 실제 관측 비용이다. 향후 baseline으로 재사용하더라도 이 시점의 PASS이며 후속 후보에서 새로 실행한 PASS나 성능 A/B로 표현할 수 없다.",
+    "Mac 잠금에 따른149 렌더/체감·457 이어보기·462 package runtime·M60/후일담·Property·Chapter5·본편/출시 HOLD를 유지한다."
+  ],
+  "final_boundary": "ORDER-464는 한국어9키에 대한 CN/TW18값의 독립 의미 검수와 공식 source/receipt 수용 범위만 GO다."
+}
