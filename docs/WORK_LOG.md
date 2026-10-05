@@ -2,7 +2,12 @@
 
 이전 원문 전체는 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md)에 바이트 그대로 보존했다. Claude PR #31 기록은 [별도 보관본](history/WORK_LOG_2026-10-05_claude_pr31.md)에 있다.
 
-## 2026-10-06 — 재혁 경로명(P0)·다은 선택 사실 후속 선언 (470)
+## 2026-10-06 — 재혁 경로명(P0)·다은 선택 사실 수리·최종 검증 (470)
+
+- clean `18b04a9`의 별도 final1 PASS/exit0/806.655212초: 수리된 deferred 표적15(8.189084초)·정상본문(2.559508초), fresh365/470의 실제 정상 종료, HEAD/tree/tracked/status·재사용 증거 전후동일. 결과 `.git/order470-20261006.tIKLVc/final1/result.json`, SHA `e14b7accae343bf8b8ca6e385bb8a343835f880e3a8a447f950cbffb417dcc91`. 진단 thread를 쓰지 않고 입장 전·종료 후 상태와 각 정상 exit를 즉시 저장했다. 이후 이 후보에서 문서만 갱신한다.
+- shared4는 clean `f278050`에서 소비자12개를 끝냈다. 영수증25/기수용 각11820잎 stale0/정상본문/데모16+86/JA146/ZH12623/콘텐츠 목록 등11검사 PASS, 본문 자체273 중 deferred 잎 수 기대값1건 FAIL이다. 실제 추가된 중립 선택의2잎으로 현재165→167이 됐지만 역사165·사건24·즉시 연결168은 보존한다. 새2함수와 해당 require1 외 모듈 AST불변을 비저자가 확인했으며 기존272와 새표적15를 결속한다. 273 전체를 재실행해 통과했다고 쓰지 않는다.
+- shared4의12개 체크포인트 뒤 진단 thread 종료 대기에서 결과 저장이 멈췄다. OS표본90회 main lock대기/진단thread 위치를 확인하고 해당 실행기만 TERM 종료(exit143)했다. 원본 로그·progress SHA `eaed9ffcf1130288070c3fe037c470451547af473b86452d974149be1e942d30`와 `termination-observation.md`를 보존한다. 원래 wrapper/outer exit/before-after PASS가 아니며 위 별도 fresh 검증이 종료·현재 보존 증거를 공급한다.
+- 플레이어 수리 범위는 세 장면의 사실·문장·선택 가능성이다. 실제 준비 화면12건과6851항목 자동검사는 자연 플레이·원어민·물리패드·청취를 대신하지 않는다. counter의 보존 지시된 기존 선택 문구/원금·인접 호칭 결함과 기본T3의 기존 상태변화 부채는 별도 남긴다. 지속 규범 승격은 `CHOICE_CONSEQUENCE_SYSTEM.md`의 「과거 사실을 회수하는 선택의 가용성」, exact pin·실행 절차는 일회성이다.
 
 - shared3 원인은 실제 ORDER384 fee Git 증명으로2.740초 만에 재현한 중국어 `_SCRIPT_FORBIDDEN_CACHE`의 정상 None→dict 초기화였다. 기존 핀 검증 initializer를 모듈 봉인 전에 호출하고 전체 cache 내용·코드·data/license핀 검사는 유지했다. 소유2파일 전후SHA불변의 표적111사례 PASS/exit0(기존99+새12), 실제fee증명2회5.804060초·전체6.191676초이며 전체 이력 완료는 아니다. `.git/order470-20261006.tIKLVc/ui-source-plan-validator2.log`, SHA `1eb9d7270c89e9f1c7e1a88255148abb8a4ff232c399ea95d576dcd8ec07a41c`. 이후 동일 유형 실패는 값 덤프 없이 정확한 모듈/키를 보고한다.
 - clean `a1af764`의 shared3은699.552869초 뒤 source plan의 최종 module/code/configuration 동일성 검사에서 admission 실패했다. 하위검사0·HEAD/tracked 전후동일·스토리 데모 재사용 입력 불변이며 PASS가 아니다. 앞100사례는 실제 history loop 전체를 실행하지 않았으므로 이 실패를 대체하지 않는다. 원인별 binding 차이를 먼저 분리하고 같은 지원2파일에서 표적 수리·독립 검수 후 새 동결 후보로 재검증한다. `.git/order470-20261006.tIKLVc/shared3/result.json`, SHA `034d08339623546c13b68a2cc8d58e986d702d6ba6f538658ede99a6c6856981`.
