@@ -47,6 +47,25 @@ agent 관찰을 사람/원어민/물리패드·음질·콜드부팅·출시 GO�
 입력 probe를 수리한 뒤 자동 착수/종료로12GPU PNG를 검수한다. 이는 F6/F7 실제입력이나
 연속 창 전환/체감 관찰이 아니다. 잠금 중 연속 창·전환의 검은 프레임 의무는 HOLD다.
 
+### 후속 실제 산출물 — 2026-10-06
+
+render2는 clean692c157/tree027b6aaa의 실제 GPU 실행이다. 4회 정상 beat순서0/1/2·
+전환1·눌림입력0과 요청 크기의12PNG를 남겼다. 실제 engine/wrapper exit1을 보존한다.
+시간은 KO1280 11.528249/EN1280 11.499559/KO1920 12.349251/EN1920 12.401508초이며
+마지막이 private 상한12.374보다0.027508초 길어 errors=[render elapsed envelope]다.
+촬영 대기·readback·동기 PNG 저장/해시가 포함된 측정이다. 비용별 계측은 없으므로
+초과분을 빼거나 모두 캡처 탓으로 확정하지 않는다. 허용선을 넓히지 않았고 동일검사를
+반복하지 않는다. 기존 warmed 전후 시간과 별개이며 새 GPU 시간 PASS가 아니다.
+
+root가12PNG를 original로 직접 읽어 각 언어/해상도3장의 글자 잘림·겹침·누락과
+EN player text 한글 누출0을 관찰했다. 어두운 처지 배경도 settled black화면은 아니다.
+이는 정지산출물 한정이며 연속 검은전환0/리듬·최초인간 기억을 증명하지 않는다.
+result의 report=null/artifacts=[]는 exit1 선행 거절 때문이며 stdout REPORT행·실제PNG를
+별도 추출/크기·SHA 대조했다. 실행 PASS 영수증으로 재분류하지 않는다.
+private result SHA9d5ee3da…·extracted-report SHA7007313e…·root pixel SHA8163c5e2…,
+tracked3197·보호342·실행입력8의 before=after 및 원로그 동일이다. 이전 render1 case0/
+PNG0 parse FAIL과旧149 보고/HOLD 행은 불변이다. 전체149·본편은 HOLD다.
+
 - 제품 `0afd81c8f702c1b792970f85cd864b6312774fa4`는 이 GD 하나만16추가/9삭제다.
   3개 fade/hold블록·getter·local값·6소비자의11개 치환 외 문안/자산/음향/입력은
   불변이다. `_beat_fade_seconds`는 값 없는 beat에0.52를 돌려준다.
@@ -56,7 +75,7 @@ agent 관찰을 사람/원어민/물리패드·음질·콜드부팅·출시 GO�
 - 각 실행에서 두 번째 fade 중 release/echo는 전환0, 실제 synthetic key down과
   반복 down/up은 전환1·generation+1·다음beat0이다. physical 입력 증거가 아니다.
   실제저장34·공개저장9·seed3·462앱/manifest·원본project와9입력은 전후 동일하다.
-- source 계측은 PASS지만 실제12PNG/가독성/검은프레임/강조체감은 NOT_RUN이다.
+- 최초 source 계측은 PASS이며 당시 실제12PNG/가독성/검은프레임/강조체감은 NOT_RUN이다.
   camera `completed_at`은 endpoint 관측시각이며 최초완료시각으로 읽지 않는다.
   463의 정확한 현재 번역manifest 수용도 PASS다. 독립 보고는
   `docs/agent_reviews/ORDER-149.json`에 결속하며 이 오더 전체는 HOLD다.
@@ -135,7 +154,8 @@ autoplay=false를 실제 시간 검증으로 바꾸어 주장하지 않는다.
 `docs/PROPOSALS.md`(P-18 결정 기록), `docs/WORK_LOG.md`, 생성본 `docs/STATUS.md`,
 CLAUDE 현재행·`tools/audit_scope.json`·필요한 위임판정원장.
 **독립 판정/independent392:** 실제 증거 검수와 `docs/agent_reviews/ORDER-149.json`만.
-Mac잠금 중 실제12PNG/가독성/검은전환/강조체감은 NOT_RUN이며 이 오더를 닫지 않는다.
+최초 Mac잠금의12PNG/가독성 NOT_RUN은 위 후속 정지산출물 관찰로만 갱신한다.
+연속 검은전환/강조체감은 여전히 미관찰이며 이 오더를 닫지 않는다.
 기존 공개본/462 앱·manifest·핀·사용자 저장·번역 사전/키/receipt를 바꾸지 않는다.
 
 `project.godot`, 프롤로그 문안, 셰이더 등급, 켄번즈 파라미터, `AudioManager`,
