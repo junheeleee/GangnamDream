@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-472",
+  "decision_scope": "work_unit",
+  "verdict": "GO",
+  "reviewed_at": "2026-10-06",
+  "subject": {
+    "kind": "source",
+    "commit": "5d85c5b7b486eb417dcdfb15d4f043aa7af1dd20",
+    "tree": "64c1031a47059069c87532e48bfbd782353347ca",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/order469_review",
+  "scope": "ORDER-472의 지정8사건 원문/회상 수리·공식120교정·준비337·표적14와 남은 KO/EN 준비 화면/키보드6건을 결합한 작업 단위 한정 GO다. 새 제품 수리나 전체 장면계층·본편·출시·인간/원어민/물리패드 GO가 아니다. 실패한 render2 전체를 PASS로 바꾸지 않는다.",
+  "historical_review": {
+    "path": "docs/agent_reviews/ORDER-472.json",
+    "sha256": "400001fb2361f5f00bfaa9e04bb2fea40f56800f2bfcc880f09a93187fd0c477",
+    "subject_commit": "8f28c3b0dbfb9319271ca9b50eb95d590647546c",
+    "verdict": "HOLD",
+    "disposition": "이전 보고와 HOLD 판정 행은 그대로 보존한다. 당시 화면0/6은 사실이었다. 이 후속 보고는 새 후보의 누적 증거를 판정하며 과거 HOLD를 소급 GO로 고치지 않는다. 이전 전수 원문/번역/지원 검수와 L2·실패·기존 부채는 원보고를 SHA로 참조한다."
+  },
+  "method": {
+    "skill": "gangnamdream-dev 전체와 현재 CLAUDE/WORK_UNIT/472 사양, UI_ART_DIRECTION·CONTROLLER_UX_STRATEGY·INPUT_MATRIX를 읽고 독립 판정·pre-autoload 격리·실제 관찰과 자동계약의 구분을 적용했다.",
+    "non_author": "검수자는 제품/실행기 저작·프로젝트 import/검사·Godot·CUA 입력·Git 변경을 하지 않았다. readonly Git 및 stdlib로 원로그/JSON/해시/모집단/실행입력/보호 맵을 독립 대조하고 선언 c771e32의 이 새 보고 한 파일만 작성했다.",
+    "observation_attribution": "픽셀과 키보드를 실제 관찰·조작한 에이전트는 /root다. 검수자는 root의 상세 관찰 기록과 원로그를 읽었으며 root의 inline CUA 스크린샷을 직접 보았다고 주장하지 않는다. 저장 PNG가 없으므로 이미지 파일/해시를 발명하지 않는다. 로그의 본문·페이지 기록만으로 픽셀 품질을 증명하지 않는다.",
+    "source_binding": "실제 render1/2/3 실행은 clean4d1f6c1ed3f71d0f63d6759310534bb2c7f8ba34/tree72c8d6065d637c075f681e9741b67123fec02b14다. 이후 c771e32는 active472의 후속 보고 소유 선언1파일, 최종5d85c5b는 CLAUDE 현재행·WORK_LOG와 무손실 history 복사3문서뿐이다. 최종 HEAD/tree와 clean 상태를 직접 관측했다. 실행 후 새 후보에서 화면이나14검사를 재실행했다고 하지 않는다.",
+    "rollover": "c771e32의 docs/WORK_LOG.md 전체와 docs/history/WORK_LOG_2026-10-06_pre_order472_render.md가 byte-identical, SHA ce9f59dac20e8b4facee9205c3867e7b1d8dbd3efe9bda8dbb1cf7dd2eb6d2a3임을 직접 확인했다. 새 history 경로/CLAUDE는 단순 metadata wrapper 예외가 아니므로 최신5d85c5b를 subject로 결속했다."
+  },
+  "render_cases": [
+    {"case": 1, "locale": "ko", "event": "arc_year_one_mark", "turn": 49, "choice": 0, "body_pages": 4, "result_pages": 2, "followup_first_page": "arc_34_money_attracts_money", "source": "render2 prefix"},
+    {"case": 2, "locale": "en", "event": "arc_year_one_mark", "turn": 49, "choice": 0, "body_pages": 4, "result_pages": 2, "followup_first_page": "arc_34_money_attracts_money", "source": "render2 prefix"},
+    {"case": 3, "locale": "ko", "event": "arc_year2_close", "turn": 96, "choice": 1, "body_pages": 3, "result_pages": 2, "followup_first_page": null, "source": "render2 prefix"},
+    {"case": 4, "locale": "en", "event": "arc_year2_close", "turn": 96, "choice": 1, "body_pages": 3, "result_pages": 2, "followup_first_page": null, "source": "render2 prefix"},
+    {"case": 5, "locale": "ko", "event": "hyunsu_year5_call_father_passed", "turn": 200, "choice": 1, "body_pages": 7, "result_pages": 3, "followup_first_page": null, "source": "render2 prefix"},
+    {"case": 6, "locale": "en", "event": "hyunsu_year5_call_father_passed", "turn": 200, "choice": 1, "body_pages": 7, "result_pages": 3, "followup_first_page": null, "source": "render3 only"}
+  ],
+  "evidence": {
+    "root_pixel_observations": {
+      "path": ".git/order472-20261006.yw3Jwt/pixel-observations.md",
+      "sha256": "0eefcbd071c16eef1e31781ba258aad82a7570552b5b27932c2e82a0e11a7182",
+      "observer": "/root",
+      "scope": "실제 Downloads/Godot QA창,1280x800·standard text·AUTO off·fresh 준비 상태. 각6건의 본문/결과 전페이지와 첫해 후속첫페이지2건을 inline CUA로 관찰했다는 상세 기록이다. 파일로 저장된 screenshot은 없다.",
+      "findings": "root는 KO/EN 문장·이름표·안내·선택 전체가 잘림/겹침/누락 glyph 없이 보이고 EN에 보이는 한글 누출이 없음을 기록했다. 첫해의 주거 memory 추가, 겨울 골목/코트와 둘째 해 행동, 현수 사망형의 VIDEO CALL/영상통화 원격 표기를 확인했다. Down/Up 또는 Down의 실제 포커스 이동 후 Enter로 지정 선택, 마지막 case6은 F7 정상 종료다. 보고 내용은 아래 원로그의 사건/언어/본문/결과/입력·페이지와 일치한다.",
+      "limits": "이 관찰은 root의 에이전트 관찰이다. 전체 아트/연기 품질·청취·자연 플레이·JA/zh 렌더·다른 해상도/글자크기·Reduce Motion·사람/원어민/물리패드 승인으로 확대하지 않는다."
+    },
+    "render2_prefix_five": {
+      "result_path": ".git/order472-20261006.yw3Jwt/render2/result.json",
+      "result_sha256": "248be197d064e3b6173d7f3dace341d4c0b4e491bb7eb6056b1e8179fa241b73",
+      "whole_run_verdict": "FAIL",
+      "whole_engine_exit": 1,
+      "whole_wrapper_exit": 1,
+      "seconds": 808.8590033749999,
+      "stdout_path": ".git/order472-20261006.yw3Jwt/render2/render.stdout.log",
+      "godot_path": ".git/order472-20261006.yw3Jwt/render2/godot.log",
+      "stdout_and_godot_sha256": "31892e6e33a4d56c69303062c37b156a163fdae83087148be74599498c91bb68",
+      "prefix_boundary": "원 stdout의 첫 COMPLETE(index=5) 줄까지 포함한 첫146줄/180742bytes. 마지막 newline을 포함한 실제 raw prefix이며 별도 성공 실행이나 새 engine 로그가 아니다.",
+      "prefix_sha256": "962e53559dca04835b61691e29544776c7a2598ce3e73eac21bd1ad3f04b75fa",
+      "verified": "prefix CASE/VARIANT/READY/COMPLETE는 각각 exact[1,2,3,4,5], OBSERVATION73·KEY45·FOLLOWUP[1,2]·EXIT0. 모든 관측 auto=false. 각 본문/결과 페이지 집합·순서·전체 phase text 안정성·body==해당page·실제선택[0,0,1,1,1]과 실제 요청→사망형 변환을 독립 대조했다. stdout와Godot 전체 bytes 동일·stderr0·engine오류0,3195 tracked/HEAD/tree·보호522 entries·실행입력7·로그 전후 동일이다.",
+      "failure_attribution": "완료5 뒤 root가 F6 대신 Enter를 보내 StoryMode가 fixture scene으로 돌아가 CASE1/READY1을 다시 열었다. F7 종료 시 EXIT ready[1]/completed[]였으므로 전체 실패가 맞다. 실제 로그의 재시작 이후 구간을 첫5건 모집단에 섞지 않는다. 이 prefix 자체에는 정상 종료 증거가 없고, 외부 보존은 실패 실행의 최종 snapshots로 결속한다."
+    },
+    "render3_case_six": {
+      "result_path": ".git/order472-20261006.yw3Jwt/render3/result.json",
+      "result_sha256": "74ad7f7e116c042ced8f9a16a7e821745bda4b421f251c01ac6498a6672c11bc",
+      "verdict": "PASS — original case6 only",
+      "engine_exit": 0,
+      "wrapper_exit": 0,
+      "seconds": 193.567844625,
+      "engine_seconds": 190.055112,
+      "stdout_path": ".git/order472-20261006.yw3Jwt/render3/render.stdout.log",
+      "godot_path": ".git/order472-20261006.yw3Jwt/render3/godot.log",
+      "stdout_and_godot_sha256": "5a02bb437bbe6cc057bbd0fe265bb2e9f3bd72c224fa56f554db5441995ff6a1",
+      "marker": "ORDER472_RENDER_OK openings=1 locales=1 case=6 automatic_advance=0 automatic_choices=0 prepared_only=true",
+      "verified": "정확 marker1,CASE/VARIANT/READY/COMPLETE exact[6],EXIT ready[6]/completed[6]/failures0. KEY12=Enter10/Down1/F7 1,OBSERVATION21,followup0,모든auto=false. 본문7·결과3 전페이지/phase text/선택1/현재variant·flags가 고정 originalcase6과 일치한다. stdout=Godot37510bytes·stderr0·engine오류0,error null/finalization_errors[]. saved observed와 독립 파싱 전체가 같다.",
+      "preservation": "fresh namespace의 pre-autoload/fixture user_dir 동일,3195 tracked/HEAD/tree/clean 상태·보호342영역524 entries·실행입력9·로그 전후 동일이다. 입력9와 원로그 SHA를 현재 다시 계산해 일치 확인했다. render2와 namespace를 공유하지 않는다."
+    },
+    "render1_failure": {
+      "result_path": ".git/order472-20261006.yw3Jwt/render1/result.json",
+      "result_sha256": "edf1d3f2011db1ac2ef4218c5ae5a67491e59fb0e5890398107b2a394dc2be4e",
+      "result": "private gd의 예약어 namespace 로컬 선언에서 Parse Error. 관찰0건,62.767988458초. QA창 종료 후 engine exit0이나 실제 stderr/Godot 오류로 wrapper exit1/saved FAIL이었다. source·입력·보호·로그 보존true. 실패를 정상 화면 실행으로 부르지 않는다.",
+      "repair": "private 로컬명3곳만 qa_namespace472로 변경했다. 역상 SHA가 종전062f2fdc41d063dfd024ec7e5be6553be66058e8714ab38b6af4a40a1542ecc9와 정확히 같다. 새 parent gd SHA0bcd9fa2f70274e3a7b83f88c3f1c410ce5b5c86259b0c2837b8adbf560cb4df. 제품 변경0."
+    },
+    "private_execution_inputs": {
+      "render_py_sha256": "597efae0ee1729f87364caba1ddbaf97101c6a41537d4de2b0767f4be72029fc",
+      "render_prepared_gd_sha256": "0bcd9fa2f70274e3a7b83f88c3f1c410ce5b5c86259b0c2837b8adbf560cb4df",
+      "render_prepared_tscn_sha256": "29d939ebec2dae05c33854c53c5330addfd8c79419182fc99690e0a502564034",
+      "render_single_py_sha256": "89060831538504ad2b42a08ef878ff39a19497f0d187def29fc384d754b2d32b",
+      "render_single_gd_sha256": "6912dbae060f80669f36c2c9a6cee3075d6b5becca939df2f51bbb02cca28ab0",
+      "render_single_tscn_sha256": "e5deaf470b32ba42818fea95fa6dc5f9e976b70032c97d47786bdf2462dc1d81",
+      "oracle_review": "single은 기존 parent 그대로 시작 인덱스만 originalcase6으로 지정하고 종료 모집단을[6]으로 제한한다. 자동 전진/선택0,매 프레임 auto위반 영구기록,실제 상태/선택/전페이지/정상 종료·전체 보호 조건을 완화하지 않았다. 별도1건 성공을 원래6건 단일-run PASS로 합치지 않는다."
+    }
+  },
+  "prior_evidence_reuse": {
+    "official120": "기존 보고의 source10=8510be2210e3bb0715f9f8131d0bc9ac61379b46,receipt16=2670b2b841baa3877b1e6a3b9db7b689fe4dc613과 pipeline1/result SHA64ce99746be8ac1a882c9b9c5e9af6b0e49608909d1456add34141e322deb92d를 재사용한다. 기존 수용120교정/최초0와 원장41848keys/258→261 batches·공식 main9 return0는 바뀌지 않았다. 당시 외부 shell exit 미포착 한계도 그대로다. 재번역/재수용0.",
+    "runtime337": {
+      "path": ".git/order472-20261006.yw3Jwt/runtime2/result.json",
+      "sha256": "e3250d562bc1430945420ad09dc4a302f772338920393875e665400a832266bd",
+      "actual_source": "ff8ed4452b150a1e8d2df1aa27c79da255d2a1ba",
+      "reuse_basis": "해당 실제337 결과·3원로그·실행helper/engine SHA를 다시 확인했다. 내용25/실제 소비자/fixture2/bootstrap/helper/project의36개 경로는 당시 source snapshot과 현재 bytes가 동일하다. 이후 inventory2/지원/문서 수리는 기존 보고가 구분해 결속했다. 이번 화면 재개에서337을 재실행하지 않았다."
+    },
+    "final14": {
+      "path": ".git/order472-20261006.yw3Jwt/final1/result.json",
+      "sha256": "cc8b7718f4625f623c8173c5ffa22b64fcef6feaf4b65b6be8f64c32691180de",
+      "actual_source": "c9130be7a2d9af16426d0d86193627b5d6ed4d61",
+      "actual_tree": "ad2c1990be280d5b2935203d6c1e05cb9d33bd65",
+      "reuse_basis": "기존14 actual PASS·두 outer 정상 종료·before==after를 확인하고 result 및28check+2admission 로그30개 SHA를 재계산해 모두 일치했다. render 실행source와 공통3181경로 동일,차이는 운영문서/보고/467 신규 자체검사·audit등록16경로뿐이다. 기존 제품·원장·collector/history 입력 변화0. 현재 후보까지도 새 변경은 선언/운영문서뿐이다. 이번에14·fresh365·JA/ZH를 재실행한 것이 아니다. ZH shipping_ready0 및 이전 전체273/146/12623 신규PASS 미주장 경계는 유지한다."
+    }
+  },
+  "l2_carry_forward": {
+    "record": "docs/agent_reviews/ORDER-472.json#l2_units",
+    "record_sha256": "400001fb2361f5f00bfaa9e04bb2fea40f56800f2bfcc880f09a93187fd0c477",
+    "units": ["direct_memory2", "arc_year_one_mark", "arc_year2_close", "hyunsu_year5_call_and_father_passed", "arc_daeun_year5_ending", "arc_daeun_year5_apart"],
+    "fields": ["도달 경로", "생산자 ↔ 독자", "바꾸는 상태", "포기 시 잃는 것", "서사 위치", "장면 계층", "닫는 것"],
+    "disposition": "원보고의 위6묶음·7칸 전부를 읽고 변경되지 않은 원문/소비자/기존337 근거로 승계한다. 아래는 그중 남았던 실제 준비 화면 의무의 추가 관측이지 다른 경로의 실행 승격이 아니다."
+  },
+  "l2_render_delta": {
+    "도달 경로": "render2 prefix COMPLETE1..5 + render3 exact COMPLETE6/EXIT[6]; body28/result14/followup첫페이지2=44개 settled 본문 페이지와6선택 화면,root 실제 관찰 기록. render2 전체FAIL 유지.",
+    "생산자 ↔ 독자": "content/events{,_en}/arc_midgame.json·arc_year_close.json·arc_hyunsu.json → 실제 EventManager.live_event_variant_id/StoryMode.gd resolver·본문·선택·결과. render_prepared.gd의6행 고정 사례 및 CASE/VARIANT/OBSERVATION 로그.",
+    "바꾸는 상태": "새 제품state0. 실제 결과 flags: case1/2 keeps_records+arc_year_one_mark_seen,case3/4 year2_conflicted+arc_year2_close_seen,case5/6 hyunsu_year5_call_seen; father_passed 유지. root HUD 관찰 money50만원/500thousand won,mental70→74/71/71. 이 화면 실행을 전체 상태 직렬화 검사로 바꾸지 않는다.",
+    "포기 시 잃는 것": "원보고 idx0기록 vs 다른 첫해 선택,idx1conflicted vs confident,현수idx1의 기존효과 차이 보존. 미선택 경로·W76/144/169/종료 독자는 새 화면 실행0.",
+    "서사 위치": "첫해2.m13_year_ledger W49,둘째해2.m24_year_two_close W96,현수5장W200/M50 사망변형; 실제 요청hyunsu_year5_call→father_passed 확인.",
+    "장면 계층": "원보고의 첫해/현수 기본T3 상태변경 부채와 둘째해T1마감4단계 미검증 유지.3장면×2언어의 화면/입력 관찰은 전체tier 충족이 아니다.",
+    "닫는 것": "472의 필수 KO/EN 준비 화면/키보드0/6 HOLD 사유를 누적6건으로 닫는다. 기존 텍스트·번역·337·14 근거는 재사용하며 본편/출시·자연 경로·인간/원어민/물리패드 의무는 닫지 않는다."
+  },
+  "remaining_limits": [
+    "여섯 건은 하나의 성공 실행이 아니다. render1은 파싱 실패0건,render2는5건 관찰 뒤 operator/fixture 재시작으로 전체FAIL,render3는새namespace의 마지막1건만PASS다. 원래 result/log/오류·HOLD를 모두 보존한다.",
+    "픽셀 관찰은root의 inline CUA 관찰 기록이며 검수자의 직접 screenshot 독해가 아니다. 이미지 파일이 없어 독립 재렌더/재시각화 증거를 주장하지 않는다. 실제 키보드는 에이전트 입력이지 사람/물리패드 체감이 아니다.",
+    "준비 상태·1280x800·standard text·KO/EN만 관찰했다. 자연240주·W144/W169/종료 독자·갤러리·JA/zh픽셀·다른 해상도/글자크기·Reduce Motion·audio(Dummy)는 새 관찰0.",
+    "보존한 첫해index2 EN현재형,다은ending의얇음/내일/소유단정,author_only지연,기존T1/T3 계약 부채와본편/출시HOLD·인간OPEN은 남는다. 이 작업은 사실/문장 수리와 그 필수 표적 검수의 완료다.",
+    "private .git 증거는 로컬 자료이며 공개 배포artifact나 인간 인증이 아니다. 이전 자동 검사 전부를 새 후보에서 실행한 것처럼 쓰지 않는다."
+  ],
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "natural_gameplay", "whole_game_release"],
+  "automation_boundary": "자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.",
+  "final_boundary": "5d85c5b subject의 ORDER-472 한 단위는 기존 전수 원문/120수용/337/14와 새 실제 준비 관찰5+1의 결속으로 GO다. old8f28c3b HOLD와 render2 전체FAIL은 그대로다. 외부 출시·본편 전체·장면 계층 전체 및 인간 관찰 권한으로 확대하지 않는다."
+}
