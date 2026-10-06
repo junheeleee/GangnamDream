@@ -72,6 +72,18 @@
 
 ## 선언 파일과 소유
 
+### 실제 화면 의무 재개 — 2026-10-06
+
+잠금 해제 뒤 기존 여섯 준비 장면을 실제 화면·수동 키보드로 관찰했다. root가
+private 원로그와 관찰 기록을 소유하고, 비저자 order469_review는 새
+docs/agent_reviews/ORDER-472-render.json만 작성한다. 기존 ORDER-472.json과 그
+HOLD 원장 행은 바이트 그대로 보존한다. root는 별도 후속 원장 행·완료 보관·큐 순번·
+CLAUDE 현재·생성 STATUS를 소유하며, WORK_LOG 예산 때문에 기존 전체 원문을 새
+docs/history/WORK_LOG_2026-10-06_pre_order472_render.md로 무손실 이동한다.
+이 선언을 먼저 별도 커밋·push한다. 제품·공개 데모·사용자 저장·과거 인간 판정은 불변이며
+같은 입력의 공식120/준비337/표적14를 다시 실행하지 않는다. 첫 전체 실행 실패와
+재시작 전5건, 별도 마지막1건의 성공을 구분하며 여섯 관찰을 단일 전체 PASS로 재명명하지 않는다.
+
 - root 원문·공식 수용: content/events{,_en,_ja,_zh-CN,_zh-TW}/ 안의
   arc_midgame.json, arc_year_close.json, arc_hyunsu.json, arc_daeun_extension.json,
   arc_chapter_themes.json — 정확25경로. content/meta/full_game_localization.json 포함26.
