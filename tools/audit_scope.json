@@ -14,6 +14,34 @@
   ],
   "fast_lanes": [
     {
+      "id": "ending-money-facts",
+      "paths": [],
+      "owned_paths": [
+        "content/endings.json", "content/endings_en.json", "content/endings_ja.json",
+        "content/endings_zh-CN.json", "content/endings_zh-TW.json",
+        "content/meta/full_game_localization.json", "content/meta/release_content_inventory.json",
+        "docs/CONTENT_RATING_INVENTORY.md", "tools/PR31EndingDescriptionCheck.gd",
+        "tools/ending_money_fact_audit.py", "tools/order470_source_compat.py",
+        "tools/order470_source_compat_self_test.py", "tools/pr31_intake_history.py",
+        "tools/pr31_intake_history_self_test.py", "tools/audit_scope.json", "CLAUDE.md",
+        "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-473.json",
+        "docs/queue_active/ORDER-473.md", "docs/queue_archive/ORDER-473.md"
+      ],
+      "tools": [
+        "tools/ending_money_fact_audit.py --self-test",
+        "tools/order470_source_compat_self_test.py --ending-facts-only",
+        "tools/pr31_intake_history_self_test.py --ending-facts-only", "tools/en_coverage_check.py",
+        "tools/english_hangul_audit.py", "tools/narrative_continuity_audit.py",
+        "tools/scene_audio_contract_check.py", "tools/speech_register_audit.py",
+        "tools/ending_distinctness_audit.py", "tools/release_content_inventory.py",
+        "tools/ja_translation_audit.py --scope ui", "tools/ja_translation_audit.py --scope demo",
+        "tools/ja_translation_pipeline.py --scope demo --inventory", "tools/zh_translation_audit.py",
+        "tools/story_demo_localization_audit.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Exact21 ending leaves in five languages: net worth is not cash and the stable gap is not fixed20억. Preserve routing and old acceptance/history; root separately runs official63 corrections, finite source5/ENrepair1/receipt1/metadata2 negatives and fresh pre-autoload actual selector75/old boundary60. Not rendered/native/natural-play/release approval."
+    },
+    {
       "id": "investment-ap-copy",
       "paths": [],
       "owned_paths": [
@@ -5334,6 +5362,21 @@
       "paths": [
         "tools/property_ladder_audit.py"
       ]
+    },
+    {
+      "tool": "tools/ending_money_fact_audit.py --self-test",
+      "paths": ["content/endings*.json", "tools/ending_money_fact_audit.py", "tools/PR31EndingDescriptionCheck.gd"],
+      "why": "Exact105 net-worth facts and seven bounded rollback/token/layout/amount negatives; not all-ending prose approval."
+    },
+    {
+      "tool": "tools/order470_source_compat_self_test.py --ending-facts-only",
+      "paths": ["content/endings*.json", "tools/order470_source_compat.py", "tools/order470_source_compat_self_test.py"],
+      "why": "Only the new finite ending source/repair/receipt/metadata edges, including rehashed negative inputs."
+    },
+    {
+      "tool": "tools/pr31_intake_history_self_test.py --ending-facts-only",
+      "paths": ["content/endings*.json", "tools/pr31_intake_history.py", "tools/pr31_intake_history_self_test.py"],
+      "why": "Raw-hash admission of current authored endings; no historical runtime prose or first-coverage claim."
     },
     {
       "tool": "tools/ending_distinctness_audit.py",

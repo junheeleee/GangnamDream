@@ -554,8 +554,8 @@ def run_prose_metadata_checks():
 
     with history.fresh_validation_proof() as proof:
         successor, path = history.fact_successor, history.INVENTORY_PATH
-        check(proof["current"][path] != proof["prose_current"][path], "actual metadata is separate from receipt endpoint")
-        check(all(proof["current"][p] == proof["prose_current"][p] for p in proof["current"]
+        check(proof["pre_ending_successor"][path] != proof["prose_current"][path], "actual metadata is separate from receipt endpoint")
+        check(all(proof["pre_ending_successor"][p] == proof["prose_current"][p] for p in proof["pre_ending_successor"]
                   if p not in successor.PROSE_METADATA_PATHS), "only exact two metadata files follow120")
         check(history.release_inventory_predecessor(proof["current"][path]) == proof["before"][path],
               "actual metadata composes through470/469/PR31 original inventory inverse")
@@ -575,15 +575,92 @@ def run_prose_metadata_checks():
     return failures, cases
 
 
+def run_ending_facts_checks():
+    """Current ending admission stays distinct from event prose projection."""
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("PR31 ending facts: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    with history.fresh_validation_proof() as proof, history.previous.fresh_validation_proof():
+        successor = history.fact_successor
+        check(proof["ending_source"] is not None, "final source endpoint bound")
+        check(len(history.CONTENT_PATHS) == 71 and not set(successor.ENDING_PATHS) & set(history.CURRENT_HISTORY_PATHS),
+              "original71 population and event-only projection boundary preserved")
+        current_raw = history.current_content_raw()
+        for path in successor.ENDING_PATHS:
+            raw = proof["current"][path]
+            payload = json.loads(raw)
+            check(current_raw[path] == raw and not history.source_errors(raw, path), "actual current ending raw admitted")
+            check(history.project_bytes(raw, path) == raw and history.project_payload(payload, path) == payload,
+                  "runtime receives authored current prose, never historical ending text")
+            check(history.observed_byte_hash(path, history._sha(raw), raw)
+                  == (history.previous.project_byte_hash(history._sha(proof["before"][path]), path), []),
+                  "verified raw-hash-only legacy observation")
+            for label, candidate in (("prior source", proof["pre_ending_successor"][path]),
+                                      ("neighbor bytes", raw + b"\n")):
+                check(bool(history.source_errors(candidate, path)), label)
+                check(bool(history.observed_byte_hash(path, history._sha(candidate), candidate)[1]),
+                      "rehashed " + label)
+            claim, errors = history.observed_byte_hash(path, "0" * 64, raw)
+            check(claim == "0" * 64 and bool(errors), "forged observed hash")
+        check(all(proof["ending_source"][p] == proof["pre_ending_successor"][p]
+                  for p in proof["ending_source"] if p not in successor.ENDING_PATHS),
+              "source5 and EN repair preserve every nonending product raw")
+        hashes = {p: history._sha(proof["current"][p]) for p in history.SOURCE_PATHS}
+        inventory = {"source_hashes": hashes, "source_manifest_sha256": history._digest(hashes)}
+        compared = history.source_predecessor_inventory(history.ROOT, inventory)
+        check(set(compared["source_hashes"]) == set(hashes)
+              and all(compared["source_hashes"][p] == history._sha(proof["before"][p]) for p in hashes),
+              "partial15 source comparison keeps its exact population")
+        mutant = {**hashes, successor.ENDING_KO_PATH: "0" * 64}
+        reject(lambda: history.source_predecessor_inventory(history.ROOT,
+            {"source_hashes": mutant, "source_manifest_sha256": history._digest(mutant)}), "forged Korean ending census")
+        rows = history.receipt_transitions(history.ROOT, {})
+        for commit, first, corrected, endpoint in (
+            (successor.RECEIPT_COMMIT, 6, 36, "fact_current"),
+            (successor.PERSON_RECEIPT_COMMIT, 6, 12, "person_current"),
+            (successor.PROSE_RECEIPT_COMMIT, 0, 120, "prose_current")):
+            receipt = next(row for row in rows if row[0] == commit)
+            check(receipt[2][history.LEDGER_PATH] == proof[endpoint][history.LEDGER_PATH]
+                  and (receipt[3]["first_receipts"], receipt[3]["corrections"]) == (first, corrected),
+                  "prior immutable receipt endpoint " + endpoint)
+        ending = [row for row in rows if row[0] == successor.ENDING_RECEIPT_COMMIT]
+        if successor.ENDING_RECEIPT_COMMIT is None:
+            check(not ending and proof["ending_current"][history.LEDGER_PATH] == proof["ending_source"][history.LEDGER_PATH],
+                  "source-only state has no claimed63 acceptance")
+        else:
+            check(len(ending) == 1 and (ending[0][3]["first_receipts"], ending[0][3]["corrections"],
+                  ending[0][3]["correction_batches"]) == (0, 63, 3), "separate63 corrections and no first receipt")
+            check(ending[0][1][history.LEDGER_PATH] == proof["ending_source"][history.LEDGER_PATH]
+                  and ending[0][2][history.LEDGER_PATH] == proof["ending_current"][history.LEDGER_PATH],
+                  "ending correction never extends immutable120 endpoint")
+        check(history.release_inventory_predecessor(proof["current"][history.INVENTORY_PATH])
+              == proof["before"][history.INVENTORY_PATH], "actual inventory retains original comparison chain")
+    return failures, cases
+
+
 def main():
     person_only = sys.argv[1:] == ["--person-self-test"]
     prose_only = sys.argv[1:] == ["--prose-self-test"]
     metadata_only = sys.argv[1:] == ["--prose-metadata-self-test"]
-    failures, cases = (run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
+    ending_only = sys.argv[1:] == ["--ending-facts-only"]
+    failures, cases = (run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
                        else run_person_checks() if person_only else run())
     for error in failures:
         print(error, file=sys.stderr)
-    label = ("PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
+    label = ("PR31_ENDING_FACTS" if ending_only else "PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
              else "PR31_PERSON_SUCCESSOR" if person_only else "PR31_INTAKE_HISTORY")
     print(f"{label}_{'FAIL' if failures else 'OK'} cases={cases} current_files=71 native_review=OPEN")
     return int(bool(failures))

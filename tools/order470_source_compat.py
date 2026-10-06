@@ -768,6 +768,94 @@ PROSE_METADATA_RAW_PATCHES = {'content/meta/release_content_inventory.json': (('
                                        135,
                                        '53469357e79494fb880ff223e8a6da5a788b578379ed5cf460baef6ae325bd5b',
                                        '18410c7181b2321b4dc7b47bae68888556d50914f95b568c7eca07884125d959'),)}
+# Ending-money facts: source5, optional exact EN repair, ledger1, metadata2.
+# Earlier source and receipt endpoints above are never redefined.
+ENDING_PATHS = tuple("content/endings" + suffix + ".json"
+                     for suffix in ("", "_en", "_ja", "_zh-CN", "_zh-TW"))
+ENDING_KO_PATH = ENDING_PATHS[0]
+ENDING_SELECTORS = (
+    ("stable_success", ("cut_sangchul_network",)),
+    ("orthodox_pinnacle", ("salary_raised", "salary_denied", "credit_asserted", "credit_recognized",
+                          "jobswitch_reconnected", "declined_golf", "extreme_frugal", "frugal_quiet",
+                          "skipped_staycation", "ignored_mystery_info", "orthodox_wavered")),
+    ("unorthodox_legend", ("cafe_double_jackpot", "coin_second_win", "holdem_high_stakes_win",
+                          "own_path_solidified", "investigating_gray_contact", "gray_tip_debt_paid")),
+)
+ENDING_TEXT_LEAVES = tuple((eid, keys) for eid, flags in ENDING_SELECTORS
+                           for keys in (("description",), *(("description_if_known", flag) for flag in flags)))
+ENDING_PRODUCT_PARENT = "d6c1394fbf2a93f21179d7b7f9967cf9680fe449"
+ENDING_PRODUCT_COMMIT = "34bcb5eacd5e7bb8a97248e0a3e108dfbc65ef1b"
+ENDING_RAW_SHA256 = {'content/endings.json': ('92fdbd1767de9b389e8a6416c9fba7f84260cf874e4f27d4f7ebcf964ab7e9a5',
+                          '041112ff5354131e69b2a47aa947d97c0bab2615ba16c531389cd0552c3ee828'),
+ 'content/endings_en.json': ('8f9eb23d08089e8ca90fc80b22fdccfc70caf4374b519b362b97da986a4330d8',
+                             '58b7bdfd65cc9b348562bb202f774b710044f37ddc3fae30187962df62b39a47'),
+ 'content/endings_ja.json': ('de27f165baefc6585a1125e85e5e402ce7bb612c23f1508cba075fcbacdb2ae7',
+                             '25f402be24df62bbde4f2cc5d0f37ec4928d876628ef761e6542bbac31ab28db'),
+ 'content/endings_zh-CN.json': ('ca31a4300b1811f9799d4d93096483ad0ca0d62d921f5ad775c94a7c1b274898',
+                                '2712456cc62020ebad510aa11d0c5987e039a8f97b206eb8e740fd35b08fb6ea'),
+ 'content/endings_zh-TW.json': ('511d191b67d1252aa306bc71acc53a6c47a97a725cc6cab072548bc98f86f546',
+                                '1a8a86cb7340fc8a863f026878387b931059a4b4fc7ff7956605ffba3a278266')}
+ENDING_RAW_PATCHES = {
+    'content/endings.json': (
+        ('replace', 120, 121, 120, 121, '9a901a872b8171247cefef1bf1a67b3c8647fb61e80886663f7c61914fd79da1', 'db8ea397fa16e15cee5642d788c6360d616d1b2a68df88f68bd4695dcdba3a0b'),
+        ('replace', 122, 123, 122, 123, '80ecf9b0b322810dfaff14607e448eda2a48225a893c63ae1da7e00abe0c5e3f', '66e33c4cfe1d31a53c48c453da2862d2584835ba3dbfec5e262b53ad907ab23b'),
+        ('replace', 306, 307, 306, 307, 'ab2135126f471a027825c58fe3fabba6c0ffe145c12b63b9d03abfca23376523', 'db76941711f5d0be3956fd9a59ab6fdedf5ea85180a155a39f3666b6e707f665'),
+        ('replace', 309, 320, 309, 320, 'c868c136681f3ab35b9f6e2144cbb8006f771d9b38573d4e69956fd17e230769', '0c927e89906e1c209b48c35367f197a6ac339fab0c963d8a537ad1970417dff9'),
+        ('replace', 356, 357, 356, 357, 'a401f5f70f927e798635b51db49f20b4027037d25bdfc2117a9dec169626deec', '4f0c6be5a0c2020c9b54714edfddddc2723a35e3ead1e3c43f48969692ec8439'),
+        ('replace', 358, 364, 358, 364, '9eddf5e073906b50590055907eb3e98de3a3f0ceb6011bcf8ce6bebe17c79ce8', '51968ceab52bf5804c4f95159bea09d8c04432920e9bd30034965a9fddd48783'),
+    ),
+    'content/endings_en.json': (
+        ('replace', 94, 95, 94, 95, 'c0c2f4e68fa3cd23258c6cfc12091614703d7cffe52e1be6617cb2b74ad92bd6', '945a8949cbc24547c589096a22371313a09ec4e9649ff7c659ce183d607e3b16'),
+        ('replace', 96, 97, 96, 97, '4fcb8b5622e6999ef688e4ae3ae465e46b9fa67b99b9c123ea22abc238626859', '03d7db3aa68bef4dbe5320297d9b918fd685f31665f0b98781b91cb8db7e08c0'),
+        ('replace', 235, 236, 235, 236, '00b721ebdfe1949b230bf4d33563004a42ec87a518c88427e78cf63618dc6a39', '1e8223749bf5991c79ac6ee655cf8fb9753b431beee6257fbf56ab8742c59fed'),
+        ('replace', 237, 248, 237, 248, '0f5f69209705401f021b3c4f5c68149aa0298c8423673c2e565c8612601be79f', '7c188d64a45dd951830a838b1c1fa214c3f12d67370ba0b7b116c02889061701'),
+        ('replace', 275, 276, 275, 276, 'e96f8fedd78efd596b82041bd891ed8ea59cec7cfa38302edc873decfdc8d589', '19ba4fe99d24cf14d5f99be019d096b4206ad87c7a745a06ed58e1e7744a4308'),
+        ('replace', 277, 283, 277, 283, '4fe786343fadda6ebe901600b3e77d19cb19070c13cea3a4da13017e1003e496', 'cc2f12c7606c113b0a20b70996b041f218e943e337b7f68c5c2159a2d9b3f0ea'),
+    ),
+    'content/endings_ja.json': (
+        ('replace', 96, 97, 96, 97, '5f64a42f5f5324bf1b6c9989c4fc987defeaa510a6bf01db0b0b3143cacdd091', '36f7c93575abc783d3257098e00562f31964116b7e47418151fc6188c7cb8dfc'),
+        ('replace', 98, 99, 98, 99, '34b2221384ef728a4f54a0966bed32995ef9c046d0ddf9c32455edc01daba595', '7dad3927b2af88e26de6a98d7106cbeb3a2dc00083f1e73a686d314fdae3c1c4'),
+        ('replace', 237, 238, 237, 238, 'd1334ff09d61ee4d55c0c324e4880b3cb7f57d5a086e30fc2387539bf7490d56', '76b39473790eb96a76554dcf7ec3717500475aa2ffc579f8bc7756c6ba9c053a'),
+        ('replace', 239, 250, 239, 250, '98547ea1025f0a5de198aca247788b682ffae41df4883b42d2e8679ac29ba5f8', 'd9c0021c7e4176c0d857fd4518844831e7165d07700847abbdbeb2f83c03eb07'),
+        ('replace', 277, 278, 277, 278, 'cd16c2c2017cbb1ea1a121b6565b4d47d5ccd72d06af9877e2b864b184f55cc8', 'a1ec8114b64d28923c8be95b6cac401b8e48d46d3d64928ef1785c1be40d9907'),
+        ('replace', 279, 285, 279, 285, '9450289c2cd6c142df0e8976753dd508e26c67972bab0d8867a275c559cf829e', 'a5de3c63f0881acd675f0a6e171f6092cb8228ed60eba3b4cf4f4f7d36f4f260'),
+    ),
+    'content/endings_zh-CN.json': (
+        ('replace', 42, 43, 42, 43, '6d17f8fec15911382201d24ee55cf6b30ca52ac03a9cb9c2d4fe212505ac7e75', '9375c961841d835712b0372b0622cdd95c526c15306565cedeb79fe04828fc22'),
+        ('replace', 44, 45, 44, 45, '1ac00c3a318b1fe7cec3d02598aac96a80bb91744d7cab70a8fd448f1f650e42', 'c37865fad1a274ee9fa872a6f717ba6caf60a1da76417fd792c7211002eeeefc'),
+        ('replace', 337, 338, 337, 338, 'f0890853648d8278dbcb7978418fb0129b47df9a84812f23c095dc353e660a9d', '8f0fd7a5b8c4072e494dfc69e219457a116ea6bbb916fb1a254400ef4014bbd6'),
+        ('replace', 339, 350, 339, 350, '0955d902caed444b6b793e4aa9678527edbb1c6df3198d205cc0d901e565002f', 'af575e5299de8c92544b8a175b9b792da2e924f1fc1b2ddbfdee1d5ab7eab756'),
+        ('replace', 363, 364, 363, 364, 'a28e5de8e48e8394a692d6a7a51226c11c42e206580955338681d25894330714', '716d7e8bee25c5a8771a85924acfa278eacdf2b1639ac4f8ff1deb37b81211f7'),
+        ('replace', 365, 371, 365, 371, 'def7fd3cdc190090d88fc2673b7ffdf0f590ad568d4f23bf1b5811b9dc97c50c', 'b641037b680072984f340d1321d429ee8e720c2dcbbfb85b39b6db82c41e8166'),
+    ),
+    'content/endings_zh-TW.json': (
+        ('replace', 64, 65, 64, 65, '1acf3f988b5c0d2f857480448d2dbd415c3aa88ddbd2463e5bf140338219c0b6', '4705f6fe5bd15f509563f80b569532d82e41b4bf523d37fb7171f65585a1599b'),
+        ('replace', 66, 67, 66, 67, '52a75d2d9a3075e2aaca145c9322cb6b5df767724d13228b59ce8161291e7439', 'c6dca96d35fa9388d064868e4683c9545e19c4c33220bd10f6aab1e01be781ab'),
+        ('replace', 337, 338, 337, 338, '43c0974ebd549dc168ff444f15ebda6f94a1e7bb2095d818d8edbcd674f745fc', '08e631d23021b4156312d88e79bab04c45529c0f076dae22c03f45bd95873f90'),
+        ('replace', 339, 350, 339, 350, '8fc23bf925b2a3fba734024902304fb5bc7db55ed24022c1030e7f56cfb987a7', '8c7cfd2a12122fabf8d7b99d5709e8aa2cf8ca6f45b0dca220fe9282619ec4d9'),
+        ('replace', 363, 364, 363, 364, 'e94166114f4fed3360c588ffee7c4399541782ee2d62f785ff97bb67bc326352', 'c88bf74e0791299c46c7ef51aa358d44b7cf2b49c5f8cd1fca5ec4b246699434'),
+        ('replace', 365, 371, 365, 371, '505c94e1654a3d36e5ea0fd3be3f291e1635f62c1f8235657a289ca630176688', '584a5626ddc03be861506d86bf9dd678981e2ee61eb0ed430e2237ec216632e2'),
+    ),
+}
+ENDING_REPAIR_PARENT = ENDING_PRODUCT_COMMIT
+ENDING_REPAIR_COMMIT = '0356d316ffa7307724fad15e805b0ffdeb6d270f'
+ENDING_REPAIR_PATHS = (ENDING_PATHS[1],)
+ENDING_REPAIR_LEAVES = tuple((eid, keys) for eid, keys in ENDING_TEXT_LEAVES
+                             if len(keys) == 2 and eid in ("stable_success", "orthodox_pinnacle"))
+ENDING_REPAIR_RAW_SHA256 = {'content/endings_en.json': ('58b7bdfd65cc9b348562bb202f774b710044f37ddc3fae30187962df62b39a47', 'b9e49c321770d1b0f45f0e41449f6cd97038419859d2014bba09f7a67de935bf')}
+ENDING_REPAIR_RAW_PATCHES = {'content/endings_en.json': (('replace', 96, 97, 96, 97, '03d7db3aa68bef4dbe5320297d9b918fd685f31665f0b98781b91cb8db7e08c0', 'ffdad34f6823de5171e3a1df8966b3d1bf6f883103632b56088bcdf713dcda82'), ('replace', 237, 248, 237, 248, '7c188d64a45dd951830a838b1c1fa214c3f12d67370ba0b7b116c02889061701', 'd7795ab62a233d0ba3401557c5d7020b007382347894bddf58a503618481a97b'))}
+ENDING_RECEIPT_PARENT = None
+ENDING_RECEIPT_COMMIT = None
+ENDING_RECEIPT_PATHS = (LEDGER_PATH,)
+ENDING_RECEIPT_RAW_SHA256 = {}
+ENDING_RECEIPT_BATCH_SHA256 = {}
+ENDING_RECEIPT_SOURCE_MANIFEST_SHA256 = None
+ENDING_METADATA_PARENT = None
+ENDING_METADATA_COMMIT = None
+ENDING_METADATA_PATHS = (INVENTORY_PATH, RATING_PATH)
+ENDING_METADATA_FINGERPRINTS = ()
+ENDING_METADATA_RAW_SHA256 = {}
+ENDING_METADATA_RAW_PATCHES = {}
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
 _SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
 
@@ -1058,6 +1146,46 @@ def prose_metadata_inverse(before, after, path):
     return _prose_metadata_semantics(before, after, path)
 
 
+def ending_product_inverse(before, after, path, *, repair=False):
+    """Comparison only: exact21 strings, or the separately pinned EN12 repair."""
+    _require(type(repair) is bool, "ending source stage kind")
+    paths = ENDING_REPAIR_PATHS if repair else ENDING_PATHS
+    pins = ENDING_REPAIR_RAW_SHA256 if repair else ENDING_RAW_SHA256
+    hunks = ENDING_REPAIR_RAW_PATCHES if repair else ENDING_RAW_PATCHES
+    selectors = ENDING_REPAIR_LEAVES if repair else ENDING_TEXT_LEAVES
+    _require(path in paths and len(selectors) == len(set(selectors)) == (12 if repair else 21),
+             "ending exact path/selector population")
+    _raw_inverse(before, after, path, pins, hunks)
+    return _receipt_overlay_inverse(before, after, path, selectors, paths, pins, (), len(selectors))
+
+
+def _ending_metadata_semantics(before, after, path):
+    _require(path in ENDING_METADATA_PATHS and type(before) is bytes and type(after) is bytes
+             and type(ENDING_METADATA_FINGERPRINTS) is tuple and len(ENDING_METADATA_FINGERPRINTS) == 2,
+             "unbound ending metadata path/fingerprints")
+    old_hash, new_hash = ENDING_METADATA_FINGERPRINTS
+    _require(old_hash != new_hash and all(type(h) is str and re.fullmatch(r"[0-9a-f]{64}", h)
+             for h in (old_hash, new_hash)) and before.count(old_hash.encode()) == 1
+             and after.count(new_hash.encode()) == 1, "ending exact fingerprint literals")
+    _require(after.replace(new_hash.encode(), old_hash.encode()) == before,
+             "ending metadata neighboring bytes changed")
+    if path == INVENTORY_PATH:
+        expected, new = _loads(before), _loads(after)
+        corpus = expected["corpus_contract"]
+        _require(corpus["ending_content_sha256"] == old_hash
+                 and new["corpus_contract"]["ending_content_sha256"] == new_hash,
+                 "ending fingerprint belongs only to current KO/EN corpus content")
+        corpus["ending_content_sha256"] = new_hash
+        _require(_ordered(expected) == _ordered(new), "ending population/classification/decision changed")
+    return before
+
+
+def ending_metadata_inverse(before, after, path):
+    _require(path in ENDING_METADATA_PATHS, "unowned ending metadata inverse")
+    _raw_inverse(before, after, path, ENDING_METADATA_RAW_SHA256, ENDING_METADATA_RAW_PATCHES)
+    return _ending_metadata_semantics(before, after, path)
+
+
 def _configuration():
     return (PRODUCT_PARENT, PRODUCT_COMMIT, PRODUCT_PATHS, SOURCE_PATHS,
             copy.deepcopy(RAW_SHA256), copy.deepcopy(RAW_PATCHES), RECEIPT_PARENT,
@@ -1081,6 +1209,19 @@ def _configuration():
             PROSE_METADATA_PARENT, PROSE_METADATA_COMMIT, PROSE_METADATA_PATHS,
             PROSE_METADATA_FINGERPRINTS, copy.deepcopy(PROSE_METADATA_RAW_SHA256),
             copy.deepcopy(PROSE_METADATA_RAW_PATCHES),
+            ENDING_PATHS, ENDING_KO_PATH, ENDING_SELECTORS, ENDING_TEXT_LEAVES,
+            ENDING_PRODUCT_PARENT, ENDING_PRODUCT_COMMIT, copy.deepcopy(ENDING_RAW_SHA256),
+            copy.deepcopy(ENDING_RAW_PATCHES), ENDING_REPAIR_PARENT, ENDING_REPAIR_COMMIT,
+            ENDING_REPAIR_PATHS, ENDING_REPAIR_LEAVES, copy.deepcopy(ENDING_REPAIR_RAW_SHA256),
+            copy.deepcopy(ENDING_REPAIR_RAW_PATCHES), ENDING_RECEIPT_PARENT, ENDING_RECEIPT_COMMIT,
+            ENDING_RECEIPT_PATHS, copy.deepcopy(ENDING_RECEIPT_RAW_SHA256),
+            copy.deepcopy(ENDING_RECEIPT_BATCH_SHA256), ENDING_RECEIPT_SOURCE_MANIFEST_SHA256,
+            ENDING_METADATA_PARENT, ENDING_METADATA_COMMIT, ENDING_METADATA_PATHS,
+            copy.deepcopy(ENDING_METADATA_FINGERPRINTS), copy.deepcopy(ENDING_METADATA_RAW_SHA256),
+            copy.deepcopy(ENDING_METADATA_RAW_PATCHES), ending_product_inverse, ending_metadata_inverse,
+            _ending_metadata_semantics,
+            _ending_stages, _ending_snapshot, _ending_source_comparison, _ending_ledger_inverse,
+            _ending_receipt_semantics, _ending_receipt_exports, _validate_ending_receipts,
             _git, _objects, _snapshot, _disk_bytes, product_inverse, _arc_inverse, _raw_inverse,
             _validate_receipts, _receipt_semantics, _receipt_exports, receipt_overlay_inverse,
             _receipt_overlay_inverse, _event_receipt_semantics, person_product_inverse,
@@ -1241,10 +1382,11 @@ def _prose_receipt_semantics(before, after):
     return _event_receipt_semantics(before, after, PROSE_TEXT_LEAVES, person=False, prose=True)
 
 
-def _event_receipt_semantics(before, after, selectors, *, person, prose=False):
-    # Only these three named transitions use the shared official-header grammar.
+def _event_receipt_semantics(before, after, selectors, *, person, prose=False, ending=False):
+    # Only these four named transitions use the shared official-header grammar.
     # Their path, count, source census, raw and batch pins remain independent.
-    _require(type(person) is bool and type(prose) is bool and not (person and prose)
+    _require(all(type(flag) is bool for flag in (person, prose, ending))
+             and sum((person, prose, ending)) <= 1
              and set(before) == set(after), "receipt stage/snapshot shape")
     paths = PERSON_PATHS if person else ARC_PATHS
     ko_path = paths[0]
@@ -1258,6 +1400,10 @@ def _event_receipt_semantics(before, after, selectors, *, person, prose=False):
         paths, ko_path, added, count, order = PROSE_PATHS, None, (), 40, "ORDER-472"
         receipt_paths, pins = PROSE_RECEIPT_PATHS, PROSE_RECEIPT_RAW_SHA256
         batches, source_manifest = PROSE_RECEIPT_BATCH_SHA256, PROSE_RECEIPT_SOURCE_MANIFEST_SHA256
+    if ending:
+        paths, ko_path, added, count, order = ENDING_PATHS, ENDING_KO_PATH, (), 21, "ORDER-473"
+        receipt_paths, pins = ENDING_RECEIPT_PATHS, ENDING_RECEIPT_RAW_SHA256
+        batches, source_manifest = ENDING_RECEIPT_BATCH_SHA256, ENDING_RECEIPT_SOURCE_MANIFEST_SHA256
     _require(len(selectors) == count and set(pins) == set(receipt_paths)
              and set(batches) == set(LOCALES), "receipt pin/selector populations")
     for path in before:
@@ -1265,7 +1411,7 @@ def _event_receipt_semantics(before, after, selectors, *, person, prose=False):
             _require((_sha(before[path]), _sha(after[path])) == pins[path], "receipt raw " + path)
         else:
             _require(before[path] == after[path], "receipt changed a source/protected file")
-    for path in (PROSE_PATHS[10:] if prose else paths[2:]):
+    for path in (() if ending else PROSE_PATHS[10:] if prose else paths[2:]):
         if prose:
             prose_receipt_overlay_inverse(before[path], after[path], path)
         elif person:
@@ -1277,8 +1423,9 @@ def _event_receipt_semantics(before, after, selectors, *, person, prose=False):
     ko = {row["id"]: row for path in (PROSE_KO_PATHS if prose else (ko_path,)) for row in _loads(after[path])}
     source_paths = ({eid: "content/events/" + name + ".json" for name, eid, _keys in PROSE_SELECTORS}
                     if prose else {})
-    ids = {"events:" + eid + ":/" + "/".join(map(str, keys)): (eid, keys) for eid, keys in selectors}
-    new_ids = {"events:" + eid + ":/" + "/".join(map(str, keys)) for eid, keys in added}
+    group = "endings" if ending else "events"
+    ids = {group + ":" + eid + ":/" + "/".join(map(str, keys)): (eid, keys) for eid, keys in selectors}
+    new_ids = {group + ":" + eid + ":/" + "/".join(map(str, keys)) for eid, keys in added}
     _require(new["batches"][:len(old["batches"])] == old["batches"]
              and len(new["batches"]) == len(old["batches"]) + 3, "exact old batch prefix plus three official imports")
     seen, revisions = set(), []
@@ -1306,8 +1453,9 @@ def _event_receipt_semantics(before, after, selectors, *, person, prose=False):
             if identifier not in new_ids:
                 _require(old["accepted"][locale][identifier] != receipts[identifier], "correction was already current")
             expected["accepted"][locale][identifier] = receipts[identifier]
-            rows.append({"group": "events", "owner": eid, "source_path": ko_path, "path": list(keys),
-                         "source": source, "category": "event_standard", "lifecycle": "shipping",
+            rows.append({"group": group, "owner": eid, "source_path": ko_path, "path": list(keys),
+                         "source": source, "category": "ending" if ending else "event_standard",
+                         "lifecycle": "not_applicable" if ending else "shipping",
                          "protected": False, "runtime_support": "builtin_overlay_static_only",
                          "format_template": False, "id": identifier, "source_sha256": source_hash,
                          "locale": locale, "prompt_version": old["prompt_version"], "target_path": path,
@@ -1319,7 +1467,7 @@ def _event_receipt_semantics(before, after, selectors, *, person, prose=False):
                    "selection_sha256": _digest(rows), "count": count, "source_language": "ko", "native_review": "OPEN"}
         rebuilt["batch_id"] = _digest(rebuilt)
         _require(header == rebuilt, "official export source/selection/old target binding")
-        _require(batch.get("group") == "events" and batch.get("order") == order
+        _require(batch.get("group") == group and batch.get("order") == order
                  and batch.get("source_leaves") == count and batch.get("machine_validation") == "PASS"
                  and batch.get("native_review") == batch.get("rendered_review") == "OPEN",
                  "machine acceptance is not human approval")
@@ -1388,6 +1536,128 @@ def _validate_prose_receipts(before, after, root):
         if memo is not None:
             memo[1].clear()
         raise
+
+
+def _ending_ledger_inverse(before, after):
+    """Only63 existing receipt pairs and the three appended batches may move."""
+    old, new = _Document(before), _Document(after)
+    old_batches, new_batches = old.value["batches"], new.value["batches"]
+    _require(len(old_batches) == 261 and len(new_batches) == 264
+             and new_batches[:261] == old_batches, "ending original261 batch prefix")
+    start, _ = old.spans[("batches",)]
+    next_start, _ = new.spans[("batches",)]
+    _require(old.text[start:old.spans[("batches", 260)][1]]
+             == new.text[next_start:new.spans[("batches", 260)][1]], "ending raw batch prefix changed")
+    replacements = []
+    for locale in LOCALES:
+        _require(set(old.value["accepted"][locale]) == set(new.value["accepted"][locale]),
+                 "ending receipt key population changed")
+        for eid, keys in ENDING_TEXT_LEAVES:
+            identifier = "endings:" + eid + ":/" + "/".join(map(str, keys))
+            for field in ("source_sha256", "target_sha256"):
+                key = ("accepted", locale, identifier, field)
+                a, z = old.spans[key]
+                b, end = new.spans[key]
+                replacements.append((b, end, old.text[a:z]))
+    for key in (("accepted_sha256",), ("batches",)):
+        a, z = old.spans[key]
+        b, end = new.spans[key]
+        replacements.append((b, end, old.text[a:z]))
+    restored = new.text
+    for a, z, text in sorted(replacements, reverse=True):
+        restored = restored[:a] + text + restored[z:]
+    _require(restored.encode() == before, "ending ledger bytes changed outside owned receipts/append")
+    return before
+
+
+def _ending_receipt_semantics(before, after):
+    _require(ENDING_REPAIR_COMMIT is not None, "ending receipt requires final authored source")
+    revisions = _event_receipt_semantics(before, after, ENDING_TEXT_LEAVES,
+                                         person=False, ending=True)
+    _ending_ledger_inverse(before[LEDGER_PATH], after[LEDGER_PATH])
+    return revisions
+
+
+def _ending_receipt_exports(before, revisions, root):
+    for revision in revisions:
+        export, _ = _snapshot(root, revision, tuple(before))
+        _require(export == before, "ending export source/draft/ledger differs")
+        _git(root, "merge-base", "--is-ancestor", ENDING_REPAIR_COMMIT, revision)
+        _git(root, "merge-base", "--is-ancestor", revision, ENDING_RECEIPT_COMMIT)
+
+
+def _validate_ending_receipts(before, after, root):
+    try:
+        _ending_receipt_exports(before, _ending_receipt_semantics(before, after), root)
+    except BaseException:
+        memo = _SEMANTIC_MEMO.get()
+        if memo is not None:
+            memo[1].clear()
+        raise
+
+
+def _ending_snapshot(root, head, prior, parent, commit, changed, ancestor):
+    """Typed direct-parent edge for the four finite ending-fact stages only."""
+    before, _ = _snapshot(root, parent, tuple(prior))
+    after, headers = _snapshot(root, commit, tuple(prior))
+    _require(before == prior, "ending stage predecessor differs")
+    _require([h[7:].decode() for h in headers if h.startswith(b"parent ")] == [parent],
+             "ending exact direct parent")
+    expected = b"".join(b"M\0" + path.encode() + b"\0" for path in sorted(changed))
+    _require(_git(root, "diff", "--name-status", "-z", parent, commit) == expected,
+             "ending exact changed path population")
+    _git(root, "merge-base", "--is-ancestor", ancestor, commit)
+    _git(root, "merge-base", "--is-ancestor", commit, head)
+    _require(all(before[p] == after[p] for p in before if p not in changed),
+             "ending stage changed unowned source/target/receipt/metadata")
+    return after
+
+
+def _ending_stages(root, head, prior):
+    paths = tuple(dict.fromkeys((*prior, *ENDING_PATHS)))
+    before, _ = _snapshot(root, ENDING_PRODUCT_PARENT, paths)
+    _require({path: before[path] for path in prior} == prior,
+             "ending predecessor must preserve exact472 metadata endpoint")
+    if ENDING_PRODUCT_COMMIT is None:
+        _require(ENDING_REPAIR_COMMIT is ENDING_RECEIPT_COMMIT is ENDING_METADATA_COMMIT is None,
+                 "unbound ending source cannot have successors")
+        return before, None, None, None, None
+    initial = _ending_snapshot(root, head, before, ENDING_PRODUCT_PARENT, ENDING_PRODUCT_COMMIT,
+                               ENDING_PATHS, PROSE_METADATA_COMMIT)
+    _require(set(ENDING_RAW_SHA256) == set(ENDING_RAW_PATCHES) == set(ENDING_PATHS),
+             "ending complete source5 pins")
+    for path in ENDING_PATHS:
+        _memoized_semantics("ending-product:" + path, (before[path], initial[path]),
+                            lambda p=path: ending_product_inverse(before[p], initial[p], p))
+    source = initial
+    if ENDING_REPAIR_COMMIT is not None:
+        source = _ending_snapshot(root, head, initial, ENDING_REPAIR_PARENT, ENDING_REPAIR_COMMIT,
+                                  ENDING_REPAIR_PATHS, ENDING_PRODUCT_COMMIT)
+        _require(ENDING_REPAIR_PARENT == ENDING_PRODUCT_COMMIT
+                 and set(ENDING_REPAIR_RAW_SHA256) == set(ENDING_REPAIR_RAW_PATCHES) == set(ENDING_REPAIR_PATHS),
+                 "ending complete repair pins")
+        for path in ENDING_REPAIR_PATHS:
+            _memoized_semantics("ending-repair:" + path, (initial[path], source[path]),
+                                lambda p=path: ending_product_inverse(initial[p], source[p], p, repair=True))
+    accepted = metadata = None
+    if ENDING_RECEIPT_COMMIT is not None:
+        _require(ENDING_REPAIR_COMMIT is not None, "ending receipts lack source repair")
+        accepted = _ending_snapshot(root, head, source, ENDING_RECEIPT_PARENT, ENDING_RECEIPT_COMMIT,
+                                    ENDING_RECEIPT_PATHS, ENDING_REPAIR_COMMIT)
+        inputs = tuple((path, source[path], accepted[path]) for path in paths)
+        revisions = _memoized_semantics("ending-receipts", inputs,
+                                       lambda: _ending_receipt_semantics(source, accepted))
+        _ending_receipt_exports(source, revisions, root)
+    if ENDING_METADATA_COMMIT is not None:
+        _require(accepted is not None, "ending metadata requires completed63 receipts")
+        metadata = _ending_snapshot(root, head, accepted, ENDING_METADATA_PARENT, ENDING_METADATA_COMMIT,
+                                    ENDING_METADATA_PATHS, ENDING_RECEIPT_COMMIT)
+        _require(set(ENDING_METADATA_RAW_SHA256) == set(ENDING_METADATA_RAW_PATCHES) == set(ENDING_METADATA_PATHS),
+                 "ending complete metadata2 pins")
+        for path in ENDING_METADATA_PATHS:
+            _memoized_semantics("ending-metadata:" + path, (accepted[path], metadata[path]),
+                                lambda p=path: ending_metadata_inverse(accepted[p], metadata[p], p))
+    return before, initial, source, accepted, metadata
 
 
 def _prose_stages(root, head, prior):
@@ -1566,6 +1836,9 @@ def _read_proof_current(root):
     prose_metadata = _prose_metadata_stage(root, head, current)
     if prose_metadata is not None:
         current = prose_metadata
+    ending_before, ending_initial, ending_source, ending_receipts, ending_metadata = _ending_stages(root, head, current)
+    current = (ending_metadata if ending_metadata is not None else ending_receipts if ending_receipts is not None
+               else ending_source if ending_source is not None else ending_before)
     actual, _ = _snapshot(root, head, tuple(current))
     _require(actual == current, "current HEAD differs from exact source/receipt product")
     _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "current disk differs from Git")
@@ -1587,6 +1860,8 @@ def _read_proof_current(root):
             "person_source": person_source, "person_receipts": person_receipts,
             "prose_before": prose_before, "prose_source": prose_source, "prose_receipts": prose_receipts,
             "prose_current": prose_current, "prose_metadata": prose_metadata,
+            "ending_before": ending_before, "ending_initial": ending_initial, "ending_source": ending_source,
+            "ending_receipts": ending_receipts, "ending_metadata": ending_metadata,
             "binding": _configuration()}
 
 
@@ -1632,7 +1907,8 @@ def source_predecessor_inventory(root, inventory):
                  "actual source census digest")
         _require(all(hashes.get(p) == _sha(proof["current"][p]) for p in SOURCE_PATHS),
                  "actual three-source census binding")
-        comparison = {**_person_source_comparison(root, proof, _prose_source_comparison(root, proof, hashes)),
+        comparison = {**_person_source_comparison(root, proof, _prose_source_comparison(
+                          root, proof, _ending_source_comparison(root, proof, hashes))),
                       **{p: _sha(proof["before"][p]) for p in SOURCE_PATHS}}
         _require(_digest(comparison) == PREDECESSOR_SOURCE_MANIFEST_SHA256,
                  "exact pre470 complete source census")
@@ -1641,6 +1917,21 @@ def source_predecessor_inventory(root, inventory):
                  and all(_disk_bytes(Path(root) / p) == raw for p, raw in actual.items()),
                  "complete actual Git/disk source census")
         return {**inventory, "source_hashes": comparison, "source_manifest_sha256": _digest(comparison)}
+
+
+def _ending_source_comparison(root, proof, hashes):
+    """Current source census -> immutable472 census; never a runtime prose view."""
+    if proof["ending_source"] is None:
+        return dict(hashes)
+    path = ENDING_KO_PATH
+    _require(hashes.get(path) == _sha(proof["ending_source"][path]), "ending actual source census binding")
+    comparison = {**hashes, path: _sha(proof["ending_before"][path])}
+    _require(_digest(comparison) == PROSE_RECEIPT_SOURCE_MANIFEST_SHA256,
+             "exact pre473 complete source census")
+    prior, _ = _snapshot(root, ENDING_PRODUCT_PARENT, tuple(hashes))
+    _require({p: _sha(raw) for p, raw in prior.items()} == comparison,
+             "ending predecessor census differs outside exact Korean ending source")
+    return comparison
 
 
 def _person_source_comparison(root, proof, hashes):

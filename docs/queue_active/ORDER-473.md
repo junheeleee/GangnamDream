@@ -41,12 +41,14 @@ stable_success/cut_sangchul_network 한 잎만 수리한다. 화면 잠금과 �
   영어 중역·CN/TW 문자 변환 금지. 공식 수용은 root가 한다.
 - root 공식 수용·생성: content/meta/full_game_localization.json,
   content/meta/release_content_inventory.json, docs/CONTENT_RATING_INVENTORY.md.
-  source5커밋 → 공식63교정 원장1커밋 → 실제 변한 inventory2커밋으로 분리한다.
+  source5커밋 → 같은 소유 EN12 연결 수리1커밋 → 공식63교정 원장1커밋 →
+  실제 변한 inventory2커밋으로 분리한다. 최초 source5의 새 영어 predicate 결함을
+  독립 검수가 찾아 같은 범위에서 수리했고 두 실제 끝점을 보존한다.
   각21잎 exact export/check/import --replace-existing; 신규 커버리지로 세지 않는다.
 - order469_history: tools/order470_source_compat.py 및
   tools/order470_source_compat_self_test.py, tools/pr31_intake_history.py 및
   tools/pr31_intake_history_self_test.py만. 옛 핀·불변 Git끝점은 보존하고
-  source5/receipt1/metadata2의 실제 전이·원장 prefix·21/63·비소유 bytes를
+  source5/ENrepair1/receipt1/metadata2의 실제 전이·원장 prefix·21/63·비소유 bytes를
   닫힌 successor로 추가한다. 역사 역상은 비교용이며 runtime에 옛 산문 반환 금지.
 - root 검사: tools/PR31EndingDescriptionCheck.gd,
   새 tools/ending_money_fact_audit.py(--self-test), tools/audit_scope.json.

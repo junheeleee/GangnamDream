@@ -718,7 +718,8 @@ def run_prose_metadata_checks():
 
     with history.fresh_validation_proof() as proof:
         before, after = proof["prose_current"], proof["prose_metadata"]
-        check(after is not None and after == proof["current"], "actual metadata stage is current")
+        check(after is not None and all(after[p] == proof["ending_before"][p] for p in after),
+              "immutable metadata stage is the ending-source predecessor")
         if after is None:
             return failures, cases
         check(before == proof["prose_receipts"], "immutable472 receipt endpoint is not metadata")
@@ -761,18 +762,162 @@ def run_prose_metadata_checks():
     return failures, cases
 
 
+def run_ending_facts_checks():
+    """Only the changed473 source/receipt/metadata edges, never the old full suite."""
+    failures, cases = [], 0
+    active_before, memo_before = history._ACTIVE.get(), history._SEMANTIC_MEMO.get()
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER473 ending facts: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    with history.fresh_validation_proof() as proof:
+        before, initial, source = (proof[k] for k in ("ending_before", "ending_initial", "ending_source"))
+        check(initial is not None and source is not None, "actual source and repaired endpoint bound")
+        if initial is None or source is None:
+            return failures, cases
+        check(len(history.ENDING_PATHS) == 5 and len(history.ENDING_TEXT_LEAVES) == 21,
+              "exact5 source files and21 existing selectors")
+        check(all(before[p] == proof["prose_metadata"][p] for p in proof["prose_metadata"]),
+              "immutable472 metadata/source/120 receipts retained")
+        check(all(before[p] == source[p] for p in before if p not in history.ENDING_PATHS),
+              "source does not accept receipts or change runtime/other prose")
+        for path in history.ENDING_PATHS:
+            check(history.ending_product_inverse(before[path], initial[path], path) == before[path],
+                  "exact21 JSON literal/raw inverse " + path)
+            for label, raw, owner in (("rollback", before[path], path), ("layout", initial[path] + b"\n", path),
+                                      ("path alias", initial[path], "./" + path),
+                                      ("type", initial[path].decode(), path)):
+                reject(lambda a=before[path], b=raw, p=owner: history.ending_product_inverse(a, b, p), label)
+            mutant = initial[path] + b"\n"
+            pins = {path: (history._sha(before[path]), history._sha(mutant))}
+            with mock.patch.dict(history.ENDING_RAW_SHA256, pins):
+                reject(lambda p=path, r=mutant: history.ending_product_inverse(before[p], r, p),
+                       "rehash cannot waive independent hunk seal")
+                reject(lambda p=path, r=mutant: history._receipt_overlay_inverse(
+                    before[p], r, p, history.ENDING_TEXT_LEAVES, history.ENDING_PATHS,
+                    history.ENDING_RAW_SHA256, (), 21), "literal boundary rejects rehashed layout")
+            document = history._Document(initial[path])
+            index = next(i for i, row in enumerate(document.value) if row["id"] == "stable_success")
+            for label, keys, value in (("neighbor title", (index, "title"), "unowned"),
+                                       ("owned rollback", (index, "description"),
+                                        history._loads(before[path])[index]["description"])):
+                start, end = document.spans[keys]
+                raw = (document.text[:start] + json.dumps(value, ensure_ascii=False) + document.text[end:]).encode()
+                pins = {path: (history._sha(before[path]), history._sha(raw))}
+                reject(lambda p=path, r=raw, q=pins: history._receipt_overlay_inverse(
+                    before[p], r, p, history.ENDING_TEXT_LEAVES, history.ENDING_PATHS, q, (), 21),
+                       "rehashed semantic " + label)
+        path = history.ENDING_PATHS[1]
+        check(history.ending_product_inverse(initial[path], source[path], path, repair=True) == initial[path],
+              "separate EN12 grammar repair exact inverse")
+        reject(lambda: history.ending_product_inverse(initial[path], initial[path], path, repair=True),
+               "original EN defect cannot be current repair")
+        reject(lambda: history.ending_product_inverse(initial[path], source[path], history.ENDING_PATHS[0], repair=True),
+               "repair cannot claim Korean path")
+        path = history.ENDING_KO_PATH
+        physical = history._disk_bytes
+        with mock.patch.object(history, "_disk_bytes", lambda p: physical(p) + b"\n" if p == history.ROOT / path else physical(p)):
+            reject(lambda: history._read_proof_current(history.ROOT), "actual physical ending mutation")
+            reject(lambda: history._read_proof(history.ROOT), "warm disk reader identity change")
+        check(not history._SEMANTIC_MEMO.get()[1], "failed current observation clears pure successes")
+        snapshot = history._snapshot
+        def missing(root, revision, paths):
+            if revision == history.ENDING_PRODUCT_COMMIT:
+                raise ValueError("fixture unavailable typed ending object")
+            return snapshot(root, revision, paths)
+        with mock.patch.object(history, "_snapshot", missing):
+            reject(lambda: history._ending_stages(history.ROOT, proof["head"], proof["prose_metadata"]),
+                   "missing typed source object")
+            reject(lambda: history._read_proof(history.ROOT), "warm reader/config change")
+        with mock.patch.object(history, "ENDING_PRODUCT_PARENT", history.ENDING_PRODUCT_COMMIT):
+            reject(lambda: history._ending_stages(history.ROOT, proof["head"], proof["prose_metadata"]),
+                   "forged source direct parent")
+        with mock.patch.object(history, "ENDING_PATHS", history.ENDING_PATHS[:-1]):
+            reject(lambda: history._ending_stages(history.ROOT, proof["head"], proof["prose_metadata"]),
+                   "incomplete source path population")
+        receipts = proof["ending_receipts"]
+        if receipts is None:
+            check(history.ENDING_RECEIPT_COMMIT is None and proof["current"][history.LEDGER_PATH] == source[history.LEDGER_PATH],
+                  "source-only stage claims no63 acceptance")
+            reject(lambda: history._ending_receipt_semantics(source, source), "unbound receipts cannot pass")
+        else:
+            history._validate_ending_receipts(source, receipts, history.ROOT)
+            check(history._ending_ledger_inverse(source[history.LEDGER_PATH], receipts[history.LEDGER_PATH])
+                  == source[history.LEDGER_PATH], "raw261 batch prefix and nonowned ledger bytes unchanged")
+            for label, mutate in (
+                ("old batch prefix", lambda data: data["batches"][0].update(order="forged")),
+                ("native review", lambda data: data["batches"][-1].update(native_review="PASS")),
+                ("source manifest", lambda data: next(iter(data["batches"][-1]["official_receipt_headers_by_locale"].values())).update(source_manifest_sha256="0" * 64)),
+                ("first receipt", lambda data: data["accepted"]["ja"].pop(next(iter(data["accepted"]["ja"])))),
+            ):
+                data = history._loads(receipts[history.LEDGER_PATH])
+                mutate(data)
+                raw = (json.dumps(data, ensure_ascii=False, indent=2) + "\n").encode()
+                mutant = {**receipts, history.LEDGER_PATH: raw}
+                with mock.patch.dict(history.ENDING_RECEIPT_RAW_SHA256, {history.LEDGER_PATH:
+                    (history._sha(source[history.LEDGER_PATH]), history._sha(raw))}):
+                    reject(lambda r=mutant: history._ending_receipt_semantics(source, r), label)
+            reject(lambda: history._ending_ledger_inverse(source[history.LEDGER_PATH], receipts[history.LEDGER_PATH] + b"\n"),
+                   "rehash cannot waive ledger layout")
+            with mock.patch.object(history, "_snapshot", side_effect=ValueError("missing export object")):
+                reject(lambda: history._validate_ending_receipts(source, receipts, history.ROOT), "direct receipt API typed export loss")
+        metadata = proof["ending_metadata"]
+        if metadata is None:
+            check(history.ENDING_METADATA_COMMIT is None, "metadata is not claimed before actual pin")
+        else:
+            check(all(receipts[p] == metadata[p] for p in receipts if p not in history.ENDING_METADATA_PATHS),
+                  "metadata preserves source/target/receipt endpoint")
+            for path in history.ENDING_METADATA_PATHS:
+                check(history.ending_metadata_inverse(receipts[path], metadata[path], path) == receipts[path],
+                      "exact ending metadata inverse")
+                for label, raw in (("rollback", receipts[path]), ("neighbor", metadata[path] + b"\n")):
+                    reject(lambda p=path, r=raw: history.ending_metadata_inverse(receipts[p], r, p), label)
+                reject(lambda p=path: history._ending_metadata_semantics(receipts[p], metadata[p] + b"\n", p),
+                       "independent metadata literal boundary rejects layout")
+            path = history.INVENTORY_PATH
+            old = history._loads(receipts[path])
+            new = history._loads(metadata[path])
+            old_hash, new_hash = history.ENDING_METADATA_FINGERPRINTS
+            check(old["corpus_contract"]["ending_content_sha256"] == old_hash
+                  and new["corpus_contract"]["ending_content_sha256"] == new_hash
+                  and old["content_axes"] == new["content_axes"], "only current ending corpus content hash changes")
+            # Synthetic raw pairs independently defeat a wrong owner even if
+            # their sole changed literal and both outer raw hashes are valid.
+            wrong_owner = {"corpus_contract": {"ending_content_sha256": "unchanged"},
+                           "content_axes": [{"candidate_scan": {"expected_content_sha256": old_hash}}]}
+            wrong_raw = json.dumps(wrong_owner, ensure_ascii=False).encode()
+            reject(lambda: history._ending_metadata_semantics(
+                wrong_raw, wrong_raw.replace(old_hash.encode(), new_hash.encode()), path),
+                   "axis candidate hash is not the ending corpus field")
+    check(history._ACTIVE.get() is active_before and history._SEMANTIC_MEMO.get() is memo_before,
+          "outer identity restored; standalone has no success cache")
+    return failures, cases
+
+
 def main():
     coffee_only = sys.argv[1:] == ["--coffee-self-test"]
     person_only = sys.argv[1:] == ["--person-self-test"]
     prose_only = sys.argv[1:] == ["--prose-self-test"]
     metadata_only = sys.argv[1:] == ["--prose-metadata-self-test"]
-    failures, cases = (run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only else run_person_checks() if person_only else
+    ending_only = sys.argv[1:] == ["--ending-facts-only"]
+    failures, cases = (run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only else run_person_checks() if person_only else
                        run_coffee_consumer_checks() if coffee_only else run())
     for failure in failures:
         print(failure, file=sys.stderr)
     label = "COFFEE_CONSUMER" if coffee_only else "SOURCE_COMPAT"
-    prefix = "ORDER472_METADATA" if metadata_only else "ORDER472_PROSE" if prose_only else "ORDER471_PERSON" if person_only else "ORDER470_" + label
-    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={0 if metadata_only else 10 if prose_only else 5 if person_only else 9}")
+    prefix = "ORDER473_ENDING_FACTS" if ending_only else "ORDER472_METADATA" if metadata_only else "ORDER472_PROSE" if prose_only else "ORDER471_PERSON" if person_only else "ORDER470_" + label
+    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={5 if ending_only else 0 if metadata_only else 10 if prose_only else 5 if person_only else 9}")
     return int(bool(failures))
 
 

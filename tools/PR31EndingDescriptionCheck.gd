@@ -32,6 +32,72 @@ var failures: Array[String] = []
 var cases := 0
 var boundary_cases := 0
 var inclusive_leaves := 0
+var net_worth_cases := 0
+var money_fact_leaves := 0
+
+func _check_net_worth(game: Node, locale: String) -> void:
+	for index in range(THRESHOLD_ENDINGS.size()):
+		var ending_id: String = THRESHOLD_ENDINGS[index]
+		var threshold := 500_000_000.0 if ending_id == "unorthodox_legend" else 1_000_000_000.0
+		# Equal net worth must not require equal cash. Current market prices,
+		# not acquisition cost, and both loan principals enter the real selector.
+		for scenario: Array in [[threshold, 0.0, 0.0, threshold],
+			[50_000_000.0, threshold + 200_000_000.0, 250_000_000.0, threshold],
+			[threshold + 500_000_000.0, 0.0, 500_000_001.0, threshold - 1.0],
+			[50_000_000.0, threshold + 200_000_001.0, 250_000_000.0, threshold + 1.0],
+			[50_000_000.0, threshold * 2.0 + 200_000_000.0, 250_000_000.0, threshold * 2.0]]:
+			var probe := EndingSelectionProbe.new()
+			probe.age = 38
+			probe.turn = 240
+			probe.money = float(scenario[0])
+			probe.peak_asset = float(scenario[3])
+			probe.portfolio = {} if float(scenario[1]) == 0.0 else {
+				"fixture_asset": {"quantity": 2.0, "avg_price": 1.0}}
+			probe.market_prices = {"fixture_asset": float(scenario[1]) / 2.0}
+			probe.loans = {"bank": float(scenario[2]) / 2.0, "second": float(scenario[2]) / 2.0}
+			probe.flags = {}
+			probe.cast = {}
+			probe.relationships = []
+			probe.health = 50
+			probe.mental = 50
+			probe.reputation = 10
+			probe.investment_skill = 12
+			if DataRegistry.jobs.is_empty():
+				failures.append(locale + "/net-worth missing job catalog")
+			else:
+				probe.current_job = DataRegistry.jobs[0].duplicate(true)
+			probe.route_orthodox = 15 if ending_id == "orthodox_pinnacle" else 0
+			probe.route_unorthodox = 15 if ending_id == "unorthodox_legend" else 0
+			var assets: float = probe.get_total_asset_value()
+			var expected: String = "ordinary_life" if assets < threshold else ending_id
+			probe.check_game_over()
+			var passed: bool = assets == float(scenario[3]) and probe.selected_ending == expected
+			net_worth_cases += 1
+			if not passed:
+				failures.append(locale + "/" + ending_id + "/cash-vs-net-worth")
+			print("ENDING_NET_WORTH_CASE=" + JSON.stringify({"locale": locale, "ending": ending_id,
+				"cash": probe.money, "market_value": scenario[1], "loan_principal": scenario[2],
+				"net_worth": assets, "expected": expected, "selected": probe.selected_ending, "passed": passed}))
+			probe.free()
+		var ending: Dictionary = DataRegistry.get_ending(ending_id)
+		var known_flags: Array = THRESHOLD_VARIANTS[ending_id].duplicate()
+		if ending_id == "stable_success":
+			known_flags.append("cut_sangchul_network")
+		var net_word: String = {"ko": "순자산", "en": "net worth", "ja": "純資産",
+			"zh-CN": "净资产", "zh-TW": "淨資產"}[locale]
+		for known in [""] + known_flags:
+			var text: String = str(ending.get("description", "")) if str(known).is_empty() else str(
+				ending.get("description_if_known", {}).get(str(known), ""))
+			if not text.to_lower().contains(net_word.to_lower()):
+				failures.append(locale + "/" + ending_id + "/" + str(known) + "/net-worth subject missing")
+			if ending_id == "stable_success" and str(known).is_empty():
+				var stale_gap: String = {"ko": "20억", "en": "remaining two billion", "ja": "20億",
+					"zh-CN": "20亿", "zh-TW": "20億"}[locale]
+				if text.contains(stale_gap):
+					failures.append(locale + "/stable_success/fixed remainder")
+			if ending_id == "stable_success" and str(known) == "cut_sangchul_network":
+				_check(game, ending, locale, "alive", str(known), text)
+			money_fact_leaves += 1
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -164,7 +230,8 @@ func _run() -> void:
 					str(known["father_reconciled"]) if life == "alive" else str(ending.get("description", "")))
 				expected_cases += 1
 		_check_thresholds(game, locale)
-		expected_cases += 20
+		_check_net_worth(game, locale)
+		expected_cases += 21
 	game.free()
 	GameState.flags = old_flags
 	GameState.cast = old_cast
@@ -173,12 +240,14 @@ func _run() -> void:
 		failures.append("singleton GameState/MetaProgression changed by prepared fixture")
 	await get_tree().process_frame
 	if not failures.is_empty() or cases != expected_cases or cases < 100 \
-		or boundary_cases != 60 or inclusive_leaves != 100:
+		or boundary_cases != 60 or inclusive_leaves != 100 \
+		or net_worth_cases != 75 or money_fact_leaves != 105:
 		for failure: String in failures:
 			push_error("PR31_ENDING_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
 	print("PR31_ENDING_CHECK_OK locales=5 prepared_component_only=true")
 	print("PR31_ENDING_BOUNDARY_CHECK_OK locales=5 selector_cases=60 authored_leaves=100 prepared_component_only=true")
+	print("ENDING_NET_WORTH_CHECK_OK locales=5 selector_cases=75 authored_leaves=105 prepared_component_only=true")
 	print("PR31_ENDING_CASE_COUNT=" + str(cases))
 	get_tree().quit(0)
