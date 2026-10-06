@@ -844,18 +844,41 @@ ENDING_REPAIR_LEAVES = tuple((eid, keys) for eid, keys in ENDING_TEXT_LEAVES
                              if len(keys) == 2 and eid in ("stable_success", "orthodox_pinnacle"))
 ENDING_REPAIR_RAW_SHA256 = {'content/endings_en.json': ('58b7bdfd65cc9b348562bb202f774b710044f37ddc3fae30187962df62b39a47', 'b9e49c321770d1b0f45f0e41449f6cd97038419859d2014bba09f7a67de935bf')}
 ENDING_REPAIR_RAW_PATCHES = {'content/endings_en.json': (('replace', 96, 97, 96, 97, '03d7db3aa68bef4dbe5320297d9b918fd685f31665f0b98781b91cb8db7e08c0', 'ffdad34f6823de5171e3a1df8966b3d1bf6f883103632b56088bcdf713dcda82'), ('replace', 237, 248, 237, 248, '7c188d64a45dd951830a838b1c1fa214c3f12d67370ba0b7b116c02889061701', 'd7795ab62a233d0ba3401557c5d7020b007382347894bddf58a503618481a97b'))}
-ENDING_RECEIPT_PARENT = None
-ENDING_RECEIPT_COMMIT = None
+ENDING_RECEIPT_PARENT = "cb01c907f56d19521db448118d28a8db0b65e61f"
+ENDING_RECEIPT_COMMIT = "c5c38269f23bc996e2212c4bb77be89b4ed90b53"
 ENDING_RECEIPT_PATHS = (LEDGER_PATH,)
-ENDING_RECEIPT_RAW_SHA256 = {}
-ENDING_RECEIPT_BATCH_SHA256 = {}
-ENDING_RECEIPT_SOURCE_MANIFEST_SHA256 = None
-ENDING_METADATA_PARENT = None
-ENDING_METADATA_COMMIT = None
+ENDING_RECEIPT_RAW_SHA256 = {
+    LEDGER_PATH: ("6d1d899109d7dccff02a1819312cc97622d99c3464e9104eb6692124a4487a16",
+                  "9c540d3b5b4dc1ac5d3f28cbe96e6467bb9e6074266e7c01931e23b8fe49d191"),
+}
+ENDING_RECEIPT_BATCH_SHA256 = {
+    "ja": "026d5fff8cbc554638d2070b8e3dbf25960e9690004f56cdd3f7f3f1d73bee98",
+    "zh-CN": "eb174cc1d334cb0c9c9e7df710034e70a65e017b5208cc672c4f9e73d219ee59",
+    "zh-TW": "c93fcc0502280451fe4766ba3ad25dde32940e3839d78b3e6bb016b367cc0f1e",
+}
+ENDING_RECEIPT_SOURCE_MANIFEST_SHA256 = "63cafaf564ccd7201376f36b02da592ddff41a8c328e76ae139795da4d94b2be"
+ENDING_METADATA_PARENT = 'c5c38269f23bc996e2212c4bb77be89b4ed90b53'
+ENDING_METADATA_COMMIT = 'b7893e89be9331ec99cbfe3f116686b759e490d6'
 ENDING_METADATA_PATHS = (INVENTORY_PATH, RATING_PATH)
-ENDING_METADATA_FINGERPRINTS = ()
-ENDING_METADATA_RAW_SHA256 = {}
-ENDING_METADATA_RAW_PATCHES = {}
+ENDING_METADATA_FINGERPRINTS = ('1fd30dca3654f7b1f974a1822c98bbda82077d4063b4917bce755563a230c293', '5d7ffe209a97a17218a58f1a117f46bce80878fd927ad1772bc5d869e8504650')
+ENDING_METADATA_RAW_SHA256 = {'content/meta/release_content_inventory.json': ('c8fdcc865c5a5ab06f177db50e9a1d5449cd9377781574a00c5f599194d25648',
+                                                 '7ef8fbb45ba48afbd6509deaf3419d0cc6857e7abf046081724580a4234d0359'),
+ 'docs/CONTENT_RATING_INVENTORY.md': ('42f9943dd0f785c98ff4d2447ffd9d1ef63a6b2fe0cf70f56e4323b910458124',
+                                      '912d38b3b002292e9eed9d7164b4bdbc1feb0393186d015a02ff20b8ca020187')}
+ENDING_METADATA_RAW_PATCHES = {'content/meta/release_content_inventory.json': (('replace',
+                                                  265,
+                                                  266,
+                                                  265,
+                                                  266,
+                                                  '9bc670bb88b7680d5248dc5645da83ab4c3d75f541069dec06eb8ca83e8437e4',
+                                                  '18db4266d1bbeace29e8c685cb101c9151335015739d9d0bcfdd3ab4fbf449e6'),),
+ 'docs/CONTENT_RATING_INVENTORY.md': (('replace',
+                                       125,
+                                       126,
+                                       125,
+                                       126,
+                                       'd37d7411dd5beb0aedb921ef20680b2cd87d95598b5ad67f52113dba77ace25f',
+                                       '7785db6cd65eb800a9164e18a47704f710e285e24c58a308438e68fb120396f3'),)}
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
 _SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
 
