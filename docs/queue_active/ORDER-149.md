@@ -66,6 +66,11 @@ private result SHA9d5ee3da…·extracted-report SHA7007313e…·root pixel SHA81
 tracked3197·보호342·실행입력8의 before=after 및 원로그 동일이다. 이전 render1 case0/
 PNG0 parse FAIL과旧149 보고/HOLD 행은 불변이다. 전체149·본편은 HOLD다.
 
+비저자 [후속 보고](../agent_reviews/ORDER-149-render.json)는 sourcea7369ee/tree261acd47의
+이12장 정지 가독성·배치만 수용하고 전체149를 HOLD했다. 보고 SHAb890d882…를 새
+원장 행에 결속하며 옛 HOLD/보고는 그대로 둔다. 연속 전환은 Mac잠금 해제 뒤에만
+실제 창에서 관찰하고, 명시된 최초 인간의 강조 기억은 별개로 보존한다.
+
 - 제품 `0afd81c8f702c1b792970f85cd864b6312774fa4`는 이 GD 하나만16추가/9삭제다.
   3개 fade/hold블록·getter·local값·6소비자의11개 치환 외 문안/자산/음향/입력은
   불변이다. `_beat_fade_seconds`는 값 없는 beat에0.52를 돌려준다.

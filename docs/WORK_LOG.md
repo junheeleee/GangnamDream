@@ -8,6 +8,8 @@
 - .git/order149-render-20261006.elwY5j/render2의 실제 engine/wrapper exit1을 보존한다. 시간11.528249/11.499559/12.349251/12.401508초이며 마지막이 private 상한12.374보다0.027508초 초과했다. 촬영/저장 부하를 포함하지만 비용별 계측이 없어 제품 결함 또는 무결함을 확정하지 않는다. 허용선 확대·동일 시간검사 재실행0이다. 옛 warmed 전후 시간/fallback/ReduceMotion/skip은 원문으로 재사용하며 GPU 새 PASS로 바꾸지 않는다.
 - result SHA9d5ee3da716ea5bce4d42775e8ca0e2f7bfdde63be2b95f4bd04d04f193e2874. wrapper report=null/artifacts=[]는 명령 실패 뒤 처리 중단이며 원stdout의REPORT+12PNG SHA/IHDR를 별도로 결속했다. extracted-report SHA7007313e97d44a73e7b563159a61ac7fec8e85dfc7a70ffe626346be9e886d58, root pixel SHA8163c5e2a36ce9b2a2104eb990e27cf6dd345b0eca44787fef66c9412c9a7716. source3197·보호342·입력8 before=after 및 원로그 동일이다.
 - private render1 bool추론 parse 실패 case0/PNG0·exit1 원본과 자기 프로세스 종료 기록도 보존한다. unrelated Godot/player·seed·공개 GO·human 원문·옛149보고는 변경0이다. gangnamdream-dev의 자동/실제/인간 증거 분리와 표적 검수를 적용했고 새로운 제품·규범0, 이번 증거 전이는 일회성이다. 독립 후속 보고는 별도149-render 파일로만 결속한다. 전체149·본편 출시 HOLD, 최초 인간의 비유도 강조 기억 및 P-18 2~4층은 계속 OPEN/보류다.
+- 비저자 [149 후속 보고](agent_reviews/ORDER-149-render.json)가12PNG를 직접 전수 읽고 정지 가독성·배치만 수용했다. sourcea7369ee/tree261acd47·보고 SHAb890d882fbec23c08bcae6b43b9a2a7859def311a3b7d4459c372ae1645ad2a8·새 HOLD 원장 행으로 결속한다. 초안 JSON 중복key1은 경로/설명 분리 뒤 재귀 중복0으로 수리했으며 원실행FAIL과는 별개다. 큐/문서/원장/생성현황만 표적 검증하고 제품·동일 대형 검사는 반복하지 않는다.
+- 원장 정상·222반례·큐/25이어보기 fixture·문서 예산/links186은 실제 exit0·stderr0이다. 원로그는 같은 private 경로 metadata-*·final-*에 보존한다. source 후보가 dirty로 미확정인 정상검사 출력은 품질 실패가 아닌 당시 상태이며, commit 후 생성현황에서 sourcea7369ee를 다시 결속한다. human SHA6ab5c927…·옛149보고 SHAa0ced83b…·472후속보고 SHAb94e7878…는 불변이다.
 
 ## 2026-10-06 — 여섯 준비 장면 실제 화면·키보드 관찰 (472)
 

@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-149",
+  "decision_scope": "work_unit",
+  "verdict": "HOLD",
+  "reviewed_at": "2026-10-06",
+  "subject": {
+    "kind": "source",
+    "commit": "a7369ee22da92678c1d5b03273095a53853dce1d",
+    "tree": "261acd471269091ffffa7c91447d26204b45fda6",
+    "manifest_sha256": null
+  },
+  "reviewer": "/root/order469_review",
+  "scope": "P-18 1층의 후속 실제 GPU 정지 산출물 12장 검수. 이 모집단의 문안·가독성·배치는 수용하지만 render2 실행은 FAIL이며, 연속 전환·리듬과 최초 인간의 비유도 강조 기억은 미관찰이다. 전체 ORDER-149는 HOLD다.",
+  "method": "gangnamdream-dev, CLAUDE, WORK_UNIT, 활성149와 UI/입력 정본, 기존 보고·Opening/시간 fixture/역사 역상·private runner를 직접 읽었다. 원본 결과·전후 snapshot·로그·PNG의 SHA와 Git 차이를 읽기 전용으로 대조했고, 검수자 자신이 실제 PNG12를 view_image original로 각각 보았다. root의 별도 픽셀 기록은 그 관찰자의 증거로만 인용한다. 프로젝트 import/QA·Godot·CUA 재실행이나 제품 수정은 하지 않았다. 스킬의 실제 관찰/계약 분리 원칙에 따라 정지 화면 수용을 실행·인간 GO로 올리지 않았다.",
+  "historical_report": {
+    "path": "docs/agent_reviews/ORDER-149.json",
+    "sha256": "a0ced83b5885c0bdeee6ee1a7bb2918c954458e2b6a6212f24b8ca825ebc5cda",
+    "verdict": "HOLD",
+    "preserved": true,
+    "boundary": "기존 보고와 원장의 과거 HOLD 행을 수정하거나 소급 교체하지 않는다. 원래 cold baseline1 및 focused1 실패도 해당 보고의 근거로 보존한다."
+  },
+  "execution_binding": {
+    "commit": "692c15786ef085c09ea78ed0c1493da855935962",
+    "tree": "027b6aaa48d2139951a79a2eb6feb44dc538cde4",
+    "clean_at_execution": true,
+    "candidate_delta": ["CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/WORK_LOG.md", "docs/queue_active/ORDER-149.md"],
+    "boundary": "실행 source와 현재 subject 사이 실제 diff는 위 운영문서4뿐이다. 제품·렌더 입력은 동일하며 현재 subject에서 다시 실행했다는 주장은 없다.",
+    "renderer": "Godot 4.6.2 / OpenGL API 4.1 Metal compatibility / Apple M1 Max; headless 아님; Dummy audio",
+    "private_inputs": {
+      "render.py": "bf7a38ad88939faa6654ac06f5c462507ac6e01528fb4103ccc6339135c27de8",
+      "render.gd": "cd9da3db484647ce9c8c8fe4c9b1b315b290e5f6dfad4bfac4eaef34f64fe24f",
+      "render.tscn": "f630dfa6211d3cc47f88cce123592f4eb50b9ad4fc01db425bfe7ed4f212a448"
+    },
+    "base": ".git/order149-render-20261006.elwY5j"
+  },
+  "render2": {
+    "result": ".git/order149-render-20261006.elwY5j/render2/result.json",
+    "result_sha256": "9d5ee3da716ea5bce4d42775e8ca0e2f7bfdde63be2b95f4bd04d04f193e2874",
+    "engine_exit_code": 1,
+    "wrapper_exit_code_reported_by_root": 1,
+    "passed": false,
+    "error": "ValueError('command failed: render')",
+    "report_in_original_result": null,
+    "artifacts_in_original_result": [],
+    "engine_seconds": 52.281289,
+    "wrapper_recorded_seconds": 55.226664584,
+    "stdout_sha256": "689c7fdbdc83b0127a8b1f87de898824601406b3a68a621c86f55be1afb5bf3d",
+    "stderr_sha256": "2f860d09b2f18c62a19b4f959cc10ff64eefda55fcb6967f273dd2afde449867",
+    "godot_log_sha256": "af1d783aae61cbba3c1230ba6a58c325c607408694e83adf86330b882d728af0",
+    "log_observation": "원본 stdout13938 bytes·stderr239 bytes·Godot14177 bytes를 재해시했다. Godot bytes는 stdout+stderr와 일치한다. stderr는 ORDER149_RENDER_FAIL render elapsed envelope 명시 실패1건이다. READY1·BEAT12·PNG12·REPORT1·DONE1, 성공marker0이며 DONE은 성공 판정이 아니다.",
+    "raw_report_extraction": {
+      "path": ".git/order149-render-20261006.elwY5j/render2/extracted-report.json",
+      "sha256": "7007313e97d44a73e7b563159a61ac7fec8e85dfc7a70ffe626346be9e886d58",
+      "verified": "단일 stdout REPORT와 raw_report가 완전히 같다. PNG12의 정확한 이름/순서/실제파일 집합, 각 SHA, PNG IHDR 크기를 독립 재대조했다. exit1 선행 거절 때문에 원래 result가 담지 못한 실물을 따로 결속하며 실행 PASS receipt로 바꾸지 않는다."
+    },
+    "runs": [
+      {"locale": "ko", "output": [1280, 800], "seconds": 11.528249},
+      {"locale": "en", "output": [1280, 800], "seconds": 11.499559},
+      {"locale": "ko", "output": [1920, 1080], "seconds": 12.349251},
+      {"locale": "en", "output": [1920, 1080], "seconds": 12.401508}
+    ],
+    "observed_contracts": "4회 모두 normal autoplay, beat_order/captured=[0,1,2], transition_requests=1, reduce_motion=false, unexpected_pressed_inputs=[]다. 자동 시작/종료이며 F6/F7 실제 조작이 아니다. 실제 Main 진입은 fixture가 억제했다. 요청 Window/PNG 크기가 일치하고 content_scale_size=[1280,800]/mode1/aspect4/factor1.0은 전후 같다. 1920 출력의 logical viewport는1422×800이며 이미지 사후 리사이즈가 아니다.",
+    "timing_failure": "EN1920의12.401508초는 선언 상한10.76×1.15=12.374초보다0.027508초 길다. 허용선을 넓히지 않고 FAIL을 보존한다. 측정 구간에 각 capture의 frame 대기, readback, 동기 PNG 저장/SHA 취득이 포함되지만 비용별 실측은 없다. 초과분을 빼거나 전부 capture 비용 또는 제품 결함이라고 단정하지 않는다. 새 GPU 시간 PASS는 없다."
+  },
+  "independent_pixels": {
+    "observer": "/root/order469_review",
+    "method": "변경하지 않은 PNG12개 모두 original 상세로 각각 표시해 이미지 속 전문과 배경/여백/겹침을 직접 읽었다. 기계 rect 검사로 대신하지 않았다.",
+    "population": "KO/EN × 1280×800/1920×1080 × city/situation/goal = 12/12. 각 파일명·SHA는 위 extracted-report의 verified_pngs에 결속한다.",
+    "findings": [
+      {"files": ["ko_1280x800_beat1.png", "ko_1280x800_beat2.png", "ko_1280x800_beat3.png"], "observation": "도시의 두 줄 본문, 처지의 한 줄 본문, 목표의 전체 제목/본문을 확인했다. 왼쪽 아래 여백을 보존하고 잘림·겹침·누락 글리프가 없다. 거리, 조명/컵라면/수첩이 있는 어두운 방, 창이 있는 실내를 식별할 수 있다."},
+      {"files": ["en_1280x800_beat1.png", "en_1280x800_beat2.png", "en_1280x800_beat3.png"], "observation": "도시와 월세의 두 줄 본문, 목표 제목 한 줄이 전부 들어온다. 누락/겹침/잘림이 없고 player copy의 한글 누출도 없다."},
+      {"files": ["ko_1920x1080_beat1.png", "ko_1920x1080_beat2.png", "ko_1920x1080_beat3.png"], "observation": "넓은 출력에서도 제목/본문 아래·왼쪽 여백이 있고 전문을 읽을 수 있다. 목표30억원/5년과50만원/65만원을 확인했다. 누락/잘림/겹침이 없으며 어두운 처지 배경도 완전 검은 화면은 아니다."},
+      {"files": ["en_1920x1080_beat1.png", "en_1920x1080_beat2.png", "en_1920x1080_beat3.png"], "observation": "33세,500K,650K a month,3 billion/Five years의 전문을 확인했다. 두 줄 본문도 여백 안에 들어오며 잘림/겹침/누락 글리프/한글 누출이 없다."}
+    ],
+    "bounded_result": "PASS: 이 settled12이미지의 문안 표시·가독성·배치만. 완전 검은 정지이미지는 관찰0이다. 연속 전체 frame의 black-frame0, 시간적 강조, 실제 창 관찰의 증거는 아니다.",
+    "separate_root_observation": {
+      "path": ".git/order149-render-20261006.elwY5j/pixel-observations.md",
+      "sha256": "8163c5e2a36ce9b2a2104eb990e27cf6dd345b0eca44787fef66c9412c9a7716",
+      "attribution": "root 자신의12이미지 original 관찰 기록이다. root도 Mac 재잠금으로 live window는 미관찰이라고 명시했다. 독립 검수자의 직접 관찰과 혼동하지 않는다."
+    }
+  },
+  "preservation": {
+    "verified": "render1/2 모두 별도 before.json/after.json이 result의 snapshot과 일치하고 before==after다. render2의 clean HEAD/tree, tracked3197파일, 보호342영역/524entries, 실행입력8은 전후 같다. 입력8의 현물SHA도 현재 같다. 원로그6개와 PNG12개의 저장hash를 독립 재확인했다.",
+    "namespace": "GangnamDream_StoryNameplateQA_e8b75141109f4e218f85cf9be8a88437",
+    "boundary": "pre-autoload namespace와 선언 보호map 범위의 증거이며 기기 전체/임의의 저장 위치 감사는 아니다."
+  },
+  "retained_render1_failure": {
+    "result_path": ".git/order149-render-20261006.elwY5j/render1/result.json",
+    "sha256": "427141b858cf7d43e41283a40d6e0feceb7067d10191061863236f2852772692",
+    "execution_commit": "28bd97efa90f6923dcff6c6bc48712f5d9fc3ca4",
+    "disposition": "pressed149 타입추론 Parse Error, case0/PNG0이다. root가 그 격리process만 SIGTERM했고 기록된 engine exit=-15/전체FAIL, preserved=true다. 원래 실행py/gd/tscn의 보존 사본SHA를 당시 입력map과 대조했다.",
+    "repair_boundary": "private fixture의 명시bool과 입력probe 배치를 수리하고 Mac 재잠금 뒤 artifact-only 자동 시작/종료를 명시 추가했다. 제품 수정0이다. render1을 PASS로 바꾸지 않으며 render2도 별도 실패 시도로 취급한다."
+  },
+  "historical_reuse": {
+    "opening_sha256": "cee056e40352561670079ca6a9469b751f745de332e3b6c31aa0a85e024ddf77",
+    "checker_sha256": "e6662f2888804a3d026ab33e06c62d5ca527e2127f7e2ba163bce96b39e2d14c",
+    "baseline_result_sha256": "5cb971328831edf50f861d8951c2d3537f169d75db84315912db5a0528143560",
+    "current_result_sha256": "6ae756802802c83fc3ec6a8491e8e6587f8d17352166d9b35b073e0935a3c48c",
+    "verified": "기존 baseline1/2/current1 결과와 각 stdout/stderr/Godot9로그 SHA는 옛 보고와 같다. Opening gd/tscn, 시간fixture2, bootstrap, opening_rhythm_history, LivingScene, FontKit/폰트4, 배경3/shader2, Display/Locale/Save/Audio/BGM/SceneTransition/project는 옛subject와 현candidate에서 byte동일하다.",
+    "input_difference": "옛current1 입력9 중6동일, CN/TW UI사전과 full_game_localization 원장3은 후속 변경됐다. 전9입력 불변이라고 주장하지 않는다. LocaleManager.ui:150의 KO/EN 조기literal반환과 불변Opening에 한정해 과거 시간/fallback/skip 증거를 재사용한다.",
+    "boundary": "옛 warmed KO normal10.840767/EN ReduceMotion10.832778초, fallback0.52, 두 번째 fade의 synthetic skip1요청은 과거 실행 그대로다. 새 시간검사, 전언어×motion 조합, cold기동, 실제Main진입 또는 물리입력으로 확대하지 않는다."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "continuous_live_window_and_black_frame_transitions",
+    "first_time_human_unprompted_emphasis_memory",
+    "audio_quality_and_hearing",
+    "natural_title_entry_and_cold_boot",
+    "release_package_and_whole_game_quality"
+  ],
+  "final_boundary": "실물12PNG의 좁은 가독성/배치 증거는 수용하지만 GPU시간1건 FAIL은 미해결이며 연속 창·전환의 검은frame·리듬과 명시L3인 처음 보는 사람의 비유도 기억은 미관찰이다. 전체 ORDER-149는 HOLD, P-18 2/3/4층도 열지 않는다. 자동계약이나 내부위임으로 인간/본편/출시GO를 만들지 않는다."
+}

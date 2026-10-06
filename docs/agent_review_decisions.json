@@ -9654,6 +9654,53 @@
         "path": "docs/agent_reviews/ORDER-472-render.json",
         "sha256": "b94e78785f0c2936f4a41f174e80294fc55830a9404c4c0d0d6a6acde28ca168"
       }
+    },
+    {
+      "id": "order-149-source-a7369ee-render-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-06",
+      "decided_by": "/root/order469_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-149",
+      "subject": {
+        "kind": "source",
+        "commit": "a7369ee22da92678c1d5b03273095a53853dce1d",
+        "tree": "261acd471269091ffffa7c91447d26204b45fda6",
+        "manifest_sha256": null
+      },
+      "verdict": "HOLD",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-149-render.json",
+          "sha256": "b890d882fbec23c08bcae6b43b9a2a7859def311a3b7d4459c372ae1645ad2a8"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-149-render.json",
+          "sha256": "b890d882fbec23c08bcae6b43b9a2a7859def311a3b7d4459c372ae1645ad2a8"
+        },
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/agent_reviews/ORDER-149-render.json",
+          "sha256": "b890d882fbec23c08bcae6b43b9a2a7859def311a3b7d4459c372ae1645ad2a8"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_live_window_and_black_frame_transitions",
+        "first_time_human_unprompted_emphasis_memory",
+        "audio_quality_and_hearing",
+        "natural_title_entry_and_cold_boot",
+        "release_package_and_whole_game_quality"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-149-render.json",
+        "sha256": "b890d882fbec23c08bcae6b43b9a2a7859def311a3b7d4459c372ae1645ad2a8"
+      }
     }
   ]
 }
