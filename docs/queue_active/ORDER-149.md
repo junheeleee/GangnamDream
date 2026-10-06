@@ -26,6 +26,22 @@ endpoint를 읽어 다시 측정한다. 후속 PASS는 warmed fixture의 시간 
 
 ## 현재 source 표적 결과 (2026-10-05)
 
+### 실제 렌더 의무 재개 선언 — 2026-10-06
+
+472의 필수 관찰을 마감한 뒤 이 단위의 미관찰 화면을 잇는다. root는 private
+.git/order149-render-20261006.elwY5j/render.py·render.gd·render.tscn 및 그 실행 결과/
+PNG/관찰 기록만 작성·실행한다. 기존 OpeningRhythmCheck·ScreenshotQA의 장면 생성/
+completed-frame readback과 StoryNameplateBootstrap·build_story_demo_successor_macos
+보호 도우미를 재사용하며 새 범용 runner·tracked QA·제품 수정0이다. 정상 autoplay의
+KO/EN×1280×800/1920×1080×3비트 실제12PNG와 요청/실제 창·이미지 크기·원문/
+label경계·3비트→전환1을 결속한다. 창 크기만 바꾸며1280기준 content_scale 설정은
+입장값 그대로 유지하고 이미지 사후 리사이즈는 금지한다. root가 PNG와 실제창을 본다.
+기존 전후시간/fallback/ReduceMotion/skip 증거는 입력동일 검증 뒤 재사용한다.
+비저자 order469_review는 새 docs/agent_reviews/ORDER-149-render.json만 소유한다.
+기존149보고·HOLD 원장 행은 불변이다. root 운영 소유는 위 원래 선언과 같다.
+이 선언을 먼저 별도 커밋·push한다. L3 첫 관객의 비유도 강조 기억은 미관찰로 보존하며
+agent 관찰을 사람/원어민/물리패드·음질·콜드부팅·출시 GO로 바꾸지 않는다.
+
 - 제품 `0afd81c8f702c1b792970f85cd864b6312774fa4`는 이 GD 하나만16추가/9삭제다.
   3개 fade/hold블록·getter·local값·6소비자의11개 치환 외 문안/자산/음향/입력은
   불변이다. `_beat_fade_seconds`는 값 없는 beat에0.52를 돌려준다.

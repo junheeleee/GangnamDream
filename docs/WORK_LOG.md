@@ -4,6 +4,10 @@
 
 ## 2026-10-06 — 여섯 준비 장면 실제 화면·키보드 관찰 (472)
 
+다음 기존149의 실제12PNG·강조 관찰 범위를 별도 선언했다. 제품/문안/원본 project0수정,
+정상4재생의12PNG·창/이미지 크기·글자경계·정확 source/로그/저장 보존만 추가한다.
+기존149시간/fallback/ReduceMotion/skip은 입력동일 검증으로 재사용하며 사람의 첫 강조 기억은 OPEN이다.
+
 - clean main 4d1f6c1/tree72c8d606의 첫해·둘째 해·아버지 사망 현수 전화 KO/EN6건을 root가 실제 화면과 수동 키보드로 관찰했다. 모든 본문·추가 회상·선택·결과와 첫해 후속 첫 페이지를 확인했고 잘림·겹침·영문 한글 누출은 관찰되지 않았다. prepared1280×800·autooff이며 자연 플레이·원어민·사람·물리패드·소리 검수는 아니다.
 - render1은 private 실행기 예약어 parse 실패, render2는 root가 다섯째 마지막 결과 뒤 Enter를 한 번 더 보내 fixture가 처음으로 돌아간 전체 FAIL/exit1이다. 둘 다 원본을 보존한다. render2 COMPLETE5까지의5건과 아직 안 본 case6만 실행한 render3 PASS/exit0을 분리한다. 단일6건 실행 PASS로 재분류하지 않는다.
 - raw 결과·표적 보존·개별 입력/페이지·root pixel 기록은 .git/order472-20261006.yw3Jwt에 보존한다. render3 SHA74ad7f7e116c042ced8f9a16a7e821745bda4b421f251c01ac6498a6672c11bc, pixel기록 SHA0eefcbd071c16eef1e31781ba258aad82a7570552b5b27932c2e82a0e11a7182. 기존 HOLD 보고·원장 SHA는 불변이고 독립 후속 판정은 별도 보고로 남긴다. 공식120/준비337/표적14는 입력동일 재사용이며 이번 재실행이 아니다.
