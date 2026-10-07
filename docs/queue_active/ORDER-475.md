@@ -38,6 +38,9 @@ STORY_BIBLE.md:263과 narrative_spine.demo.bridge_roots가 생활 다리를 소�
   위2잎씩만. root 표적검사: 새 tools/night_routine_time_audit.py(--self-test),
   tools/NightRoutineTimeCheck.gd, tools/NightRoutineTimeCheck.tscn,
   tools/audit_scope.json의 등록/전용 fast lane.
+  기존 tools/first_win_fact_audit.py는 공유파일의 정확475 전이만 역사 비교로
+  역투영하는 adapter를 root가 소유한다. 실제 현재raw/typed proof를 먼저 검증하며
+  474 비용·거처 검사와 제품payload를 완화/롤백하지 않는다.
 - 직접KO 목표어 저자 order469_review: content/events_ja/arc_midgame.json,
   content/events_zh-CN/arc_midgame.json, content/events_zh-TW/arc_midgame.json의
   위2잎씩만. 영어 중역·간체→번체 자동변환0.
