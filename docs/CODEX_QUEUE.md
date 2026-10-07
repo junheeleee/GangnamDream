@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-482 · 10억 첫 기록의 가속 보장 제거 | [482](queue_active/ORDER-482.md) | source4/최초3·준비50·독립 검수 미실행 |
+| 1 | [~] | ORDER-482 · 10억 첫 기록의 가속 보장 제거 | [482](queue_active/ORDER-482.md) | source20·준비50·EN/Hangul PASS · 공식3/독립최종 대기 |
 | 2 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | source/옛 전후시간 PASS · 12PNG 글자관찰·캡처실행 FAIL·연속창 HOLD · L3 OPEN |
 | 3 | [~] | ORDER-457 · 5장 일반 경로 정상 재플레이 | [457](queue_active/ORDER-457.md) | W193→W195 관찰 · Mac잠금으로 이어보기 메뉴미실행 |
 | 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor export GO/실제 재생6항목 HOLD |

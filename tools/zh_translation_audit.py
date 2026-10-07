@@ -9252,6 +9252,40 @@ def _ui_holdem_tutorial_card_numbers(
     return first + "\n" + remainder, target, []
 
 
+def _ui_asset_one_billion_fraction_numbers(lang: str, key: str, source: str, target: str):
+    """Own only the new milestone's one-third fraction, never its won amounts.
+
+    The complete source and UI identity select this grammar. Parse numerator
+    and denominator separately; masking only their verified spans prevents the
+    generic Korean counter reader from treating ``3분`` as three minutes.
+    Script, markup, terminology and money checks still receive the originals.
+    """
+    expected = "💰 자산 10억 돌파 — 30억의 3분의 1."
+    if lang not in LANGUAGES or source != expected or \
+            key != "ui:" + expected + ":/" + expected:
+        return None
+    if not isinstance(target, str):
+        return source, target, ["source-bound milestone fraction target is not text"]
+    regional = {
+        "zh-CN": ("资产", "(?:万|亿)韩元"),
+        "zh-TW": ("資產", "(?:萬|億)韓元"),
+    }
+    asset, won = regional[lang]
+    # This finite role grammar owns the fraction of the goal following the
+    # reached-assets clause, not an unrelated fraction elsewhere in the log.
+    pattern = (rf"💰[ \t]*{asset}突破{CHINESE_CARDINAL}{won}[ \t]*"
+               rf"—{{1,2}}[ \t]*{CHINESE_CARDINAL}{won}的"
+               rf"(?P<fraction>(?P<den>{CHINESE_CARDINAL})分之(?P<num>{CHINESE_CARDINAL}))。")
+    match = re.fullmatch(pattern, target)
+    if match is None or _chinese_cardinal_value(match.group("den")) != 3 \
+            or _chinese_cardinal_value(match.group("num")) != 1:
+        return source, target, ["source-bound milestone fraction value/role/count/unit changed"]
+    start, end = match.span("fraction")
+    numeric_source = source.replace("3분의 1", " " * len("3분의 1"), 1)
+    numeric_target = target[:start] + " " * (end - start) + target[end:]
+    return numeric_source, numeric_target, []
+
+
 def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     """Validate one Korean-source Chinese target without generating content."""
     if lang not in LANGUAGES:
@@ -9276,6 +9310,9 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     if source.count("\n\n") != target.count("\n\n"):
         errors.append("paragraph mismatch")
     notice_numbers = _ui_third_party_notice_numbers(lang, key, source, target)
+    milestone_numbers = _ui_asset_one_billion_fraction_numbers(lang, key, source, target)
+    if milestone_numbers is not None:
+        notice_numbers = milestone_numbers
     record_numbers = _ui_ending_record_numbers(lang, key, source, target)
     if record_numbers is not None:
         notice_numbers = record_numbers

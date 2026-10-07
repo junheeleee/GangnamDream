@@ -14,6 +14,30 @@
   ],
   "fast_lanes": [
     {
+      "id": "asset-one-billion-log",
+      "paths": [],
+      "owned_paths": [
+        "autoloads/GameState.gd", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json", "tools/asset_one_billion_log_history.py",
+        "tools/wealth_milestone_log_history.py", "tools/wealth_milestone_log_history_self_test.py",
+        "tools/market_cycle_label_history.py", "tools/order470_source_compat.py",
+        "tools/pr31_intake_history.py", "tools/investment_loss_gate_audit.py",
+        "tools/ja_translation_pipeline.py", "tools/ja_translation_audit.py", "tools/zh_translation_audit.py",
+        "tools/asset_one_billion_log_audit.py", "tools/wealth_milestone_log_audit.py",
+        "tools/AssetOneBillionLogCheck.gd", "tools/AssetOneBillionLogCheck.tscn", "tools/audit_scope.json",
+        "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md",
+        "docs/STATUS.md", "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-482.json",
+        "docs/queue_active/ORDER-482.md", "docs/queue_archive/ORDER-482.md"
+      ],
+      "tools": [
+        "tools/asset_one_billion_log_audit.py --self-test",
+        "tools/wealth_milestone_log_history_self_test.py --one-billion-only",
+        "tools/en_coverage_check.py", "tools/english_hangul_audit.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "One unsupported acceleration clause removed in five languages. Actual typed source4/first receipts3 and focused successor/fraction negatives only; old pins, raw, gameplay, UI population and normal/exception fresh boundaries remain sealed. Prepared component50 observed separately with pre-autoload storage isolation. No old suite replay or native/render/input/release claim."
+    },
+    {
       "id": "ledger-whitespace",
       "paths": [],
       "owned_paths": [
@@ -5569,6 +5593,16 @@
       "tool": "tools/wealth_milestone_log_audit.py --self-test",
       "paths": ["autoloads/GameState.gd", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "tools/wealth_milestone_log_audit.py", "tools/WealthMilestoneLogCheck.gd", "tools/WealthMilestoneLogCheck.tscn"],
       "why": "Exact two source literals and three new UI values with bounded source/fixture mutation controls."
+    },
+    {
+      "tool": "tools/asset_one_billion_log_audit.py --self-test",
+      "paths": ["autoloads/GameState.gd", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "tools/asset_one_billion_log_audit.py", "tools/AssetOneBillionLogCheck.gd", "tools/AssetOneBillionLogCheck.tscn"],
+      "why": "Exact typed source4, unchanged gameplay/raw and prepared50 fixture with bounded new mutation controls."
+    },
+    {
+      "tool": "tools/wealth_milestone_log_history_self_test.py --one-billion-only",
+      "paths": ["tools/asset_one_billion_log_history.py", "tools/wealth_milestone_log_history.py", "tools/wealth_milestone_log_history_self_test.py", "tools/market_cycle_label_history.py", "tools/order470_source_compat.py", "tools/pr31_intake_history.py", "tools/investment_loss_gate_audit.py", "tools/ja_translation_pipeline.py", "tools/ja_translation_audit.py", "tools/zh_translation_audit.py"],
+      "why": "New exact one-billion current/receipt inverse, retained JA and original Chinese fraction validation with invalid-input and warm/exit controls, without rerunning old suites."
     },
     {
       "tool": "tools/wealth_milestone_log_history_self_test.py",

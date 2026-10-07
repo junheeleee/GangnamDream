@@ -274,8 +274,10 @@ def content_errors(before, current, *, comparison=None):
             # A historical comparison must not conceal a live economy, flag,
             # routing or adjacent-log edit. Only the sealed KO/EN pair differs.
             import wealth_milestone_log_history as wealth
+            import asset_one_billion_log_history as one_billion
             try:
-                if wealth.product_inverse(compared[path], current[path], path) != compared[path]:
+                pre_one_billion = one_billion.game_state_inverse(current[path])
+                if wealth.product_inverse(compared[path], pre_one_billion, path) != compared[path]:
                     failures.append("GameState comparison inverse differs")
             except (ValueError, TypeError, KeyError, IndexError):
                 failures.append("actual GameState exceeds exact wealth-log transition")

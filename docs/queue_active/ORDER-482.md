@@ -65,3 +65,23 @@
 project.godot·공개manifest/PCK·사용자save/seed·인간원장·과거agent판정·사건/효과/
 분모·release_content_inventory·Demo/ArcFlow/ScreenshotQA 변경0. 새규범0;
 exact 전이/모집단/실행계획은 일회성이다. 자동검사는 계약 증거이지 재미·문체 증거가 아니다.
+
+## 2026-10-08 실제 진행 — 아직 미완료
+
+- actual source4 `fedf0c71ac890d258322e2c0464d9f7989c61dcd`, directparent
+  `586bd23e7a6c5f2a7ebe67d94b00be30106787c4`, tree `b95498a1559397a9bfc47b0de2bd574b9cb4f191`.
+  전역변경4/KO·EN literal2/UI append3만, 기존행·순서·옛JA값 보존.
+- `.git/order482-20261008.hsSmNO/runtime1/result.json` SHA
+  `da597c4f382408e3131294e3f10e2b81abf595340f2923a662b47ec18f8db9eb`:
+  actual50/exit0/3.060466초·pre-autoload UUID. threshold40/debt5/restore5;
+  2227 resource/11 보호그룹/HEAD·engine·runner·원로그 보존, 전체serialize·signal·
+  legacy sentinel·대출·중복방지·ending 일치. stdout=Godot SHA
+  `2c56685d5dc99ed21723349163d75f8803f36861c94cc016c8ba0eb8cc72cd7e`, stderr/engine오류0.
+  자연·렌더·입력 관찰 아님. root static20 actual CLI는 `static1.json`에 원tool결과를
+  전사했다(SHA `3e25c46bda6743798b6b392eb4470ffc79f3d1cf69e7f38edf57a504fe45f805`);
+  typedsource/fixture는 검사하나 whole-input guard 주장0, 추가재실행0.
+- quick1 원CLI3 EN/Hangul/등록 exit0·입력/보호 보존, 새collect/engine0.
+  비저자 읽기 검수는 제품·준비50·fraction/JA seam만 중간검토이며 최종 GO 아니다.
+- 공식 원main9·actualcollect9/첫수용3·새역사 반례·독립 최종 판정은 남았다.
+  오래 걸리는 원검사 실행 중에는 tracked authoring/commit을 동결하고 기존 실패·
+  결과를 덮거나 새 성공으로 표시하지 않는다.

@@ -7837,5 +7837,85 @@ def _story_fact_call_views(path, before, current):
     return historical, actual
 # END_WEALTH_MILESTONE_COLLECTOR_480
 
+# BEGIN_ASSET_ONE_BILLION_COLLECTOR_482
+ASSET_ONE_BILLION_PIPELINE_APPEND_SHA = "358dd47c3d170d2d293f0ac4a7ec513f06ea7e35aa9b12fc71e568a0bf8627aa"
+ASSET_ONE_BILLION_PIPELINE_BEFORE_SHA = "4761cc821c37dfa061246277a6e22f25130e08c7fa57c4d61dd43801e4bd779a"
+ASSET_ONE_BILLION_PIPELINE_BEFORE_BLOB = "73628711c9dac15f7bf072e28912709883920d7b"
+ASSET_ONE_BILLION_PIPELINE_BEFORE_COMMIT = "fedf0c71ac890d258322e2c0464d9f7989c61dcd"
+_ONE_BILLION_OLD_WEALTH_PREDECESSOR = wealth_milestone_pipeline_predecessor
+_ONE_BILLION_OLD_STORY_FACT_CALL_VIEWS = _story_fact_call_views
+_ONE_BILLION_OLD_PARSE = parse_ui_calls
+
+
+def asset_one_billion_pipeline_predecessor(raw):
+    """Strip only482; the complete480 collector and its pins remain immutable."""
+    if type(raw) is not bytes or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("one-billion collector raw/import identity differs")
+    start, end = b"# BEGIN_ASSET_ONE_BILLION_COLLECTOR_482\n", b"# END_ASSET_ONE_BILLION_COLLECTOR_482\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("one-billion collector appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    binding = ('ASSET_ONE_BILLION_PIPELINE_APPEND_SHA = "' + ASSET_ONE_BILLION_PIPELINE_APPEND_SHA + '"').encode()
+    span = raw[a:z]
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'ASSET_ONE_BILLION_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != ASSET_ONE_BILLION_PIPELINE_APPEND_SHA:
+        raise ValueError("one-billion collector appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != ASSET_ONE_BILLION_PIPELINE_BEFORE_SHA:
+        raise ValueError("one-billion collector whole predecessor differs")
+    blob = _current_demo_git("show", ASSET_ONE_BILLION_PIPELINE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
+            != ASSET_ONE_BILLION_PIPELINE_BEFORE_BLOB):
+        raise ValueError("one-billion collector immutable predecessor differs")
+    return previous
+
+
+def wealth_milestone_pipeline_predecessor(raw):
+    return _ONE_BILLION_OLD_WEALTH_PREDECESSOR(asset_one_billion_pipeline_predecessor(raw))
+
+
+def _asset_one_billion_raw_call_views(before, current):
+    """Pure482 pair/order/coordinate inverse; current admission stays separate."""
+    import asset_one_billion_log_history as successor
+    path = successor.GAME_STATE_PATH
+    if successor.product_inverse(before, current, path) != before:
+        raise ValueError("one-billion GameState inverse differs")
+    parsed = [_ONE_BILLION_OLD_PARSE(path, raw.decode("utf-8")) for raw in (before, current)]
+    if any(errors for _calls, errors in parsed):
+        raise ValueError("one-billion GameState UI parse differs")
+    ordered = lambda rows: tuple(sorted(rows, key=lambda c: (c.path, c.line, c.api)))
+    previous, actual = (ordered(rows) for rows, _errors in parsed)
+    old = tuple(c for c in previous if c.korean == successor.OLD_KEY)
+    new = tuple(c for c in actual if c.korean == successor.NEW_KEY)
+    if (len(old) != 1 or len(new) != 1 or any(c.korean == successor.NEW_KEY for c in previous)
+            or any(c.korean == successor.OLD_KEY for c in actual)
+            or old[0].path != path or old[0].function != "check_game_over"
+            or old[0].api != "legacy" or old[0].context_id != ""
+            or old[0].english != successor.OLD_ENGLISH
+            or new[0] != _gift_replace(old[0], korean=successor.NEW_KEY, english=successor.NEW_ENGLISH)
+            or tuple(new[0] if c == old[0] else c for c in previous) != actual):
+        raise ValueError("one-billion exact old1/new1 UI payload/order/coordinates differ")
+    return previous, actual
+
+
+def _story_fact_call_views(path, before, current):
+    """Prove actual482, compare482→480→470, return the actual current calls."""
+    if path != _NEW_RUN_GS:
+        return _ONE_BILLION_OLD_STORY_FACT_CALL_VIEWS(path, before, current)
+    import asset_one_billion_log_history as successor
+    import wealth_milestone_log_history as wealth
+    with successor.fresh_validation_proof(ROOT) as proof, wealth.fresh_validation_proof(ROOT) as old:
+        if (type(current) is not bytes or current != proof["current"][path]
+                or current != old["current"][path] or proof["head"] != old["head"]
+                or proof["before"][path] != old["source"][path]):
+            raise ValueError("one-billion admission requires actual current GameState and480 endpoint")
+        previous, actual = _asset_one_billion_raw_call_views(proof["before"][path], current)
+        earlier, post480 = _wealth_milestone_raw_call_views(old["before"][path], proof["before"][path])
+        historical, compared = _WEALTH_MILESTONE_OLD_STORY_FACT_CALL_VIEWS(path, before, old["before"][path])
+        if compared != earlier or post480 != previous:
+            raise ValueError("one-billion old480/470 call comparison differs")
+    return historical, actual
+# END_ASSET_ONE_BILLION_COLLECTOR_482
+
 if __name__ == "__main__":
     sys.exit(main())

@@ -6,6 +6,7 @@
 
 - 실제 asset_1b_reached는 최초 로그 억제 flag뿐이며 가속 효과가 없다. [작은 사양](queue_active/ORDER-482.md)으로 KO/EN 보장절·새JA/CN/TW키1씩·최초3수용과 필요한 exact 역사 접속을 선언한다. 선언 전 구현/QA/collect/수용/engine0이다.
 - gangnamdream-dev의 소유·직접 번역·표적/격리·독립 검수 절차를 적용한다. 10억/30억/3분의1·임계/경제/엔딩·과거 저장로그·옛JA값을 보존하고 공개GO1/인간OPEN45/본편HOLD를 유지한다. 옛 성공 검사를 반복하지 않으며 화면잠금 재확인/사용자 재서명 요청0이다.
+- 선언 검증에서 없는 `queue_manifest_check.py` 이름을 추정해 사용법 이전 파일부재FAIL이 났다(제품검사0). 실물 검색 뒤 실제 `queue_consistency_check.py`/context/STATUS/diff를 통과해 선언586bd23을 push했다. 이후 source4 fedf0c7·준비50/3.060466초·source/fixture 반례20 실제PASS를 보존하며 공식수용/최종판정은 아직 미완료다.
 
 ## 2026-10-08 — 원장 공백 탐색의 비용만 줄였다 (481, 한정 GO)
 

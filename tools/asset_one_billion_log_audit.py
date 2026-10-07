@@ -7,23 +7,23 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-BASE = "209b79ec7df4e6e3a2bcc652f3371b1b24d862a5"
-SOURCE = "42d30615708ef3344a1cad8af0aad7cebe7e6ca7"
+BASE = "586bd23e7a6c5f2a7ebe67d94b00be30106787c4"
+SOURCE = "fedf0c71ac890d258322e2c0464d9f7989c61dcd"
 GAME = "autoloads/GameState.gd"
 UI = {locale: "locale/ui_" + locale + ".json" for locale in ("ja", "zh-CN", "zh-TW")}
-KEY = "🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다."
-OLD_KEY = KEY + " 남은 건 10억."
-EN = "🔥 Assets passed KRW 2B — Gangnam feels close."
-OLD_EN = EN + " KRW 1B left."
+KEY = "💰 자산 10억 돌파 — 30억의 3분의 1."
+OLD_KEY = KEY + " 이제부터 가속이 붙는다."
+EN = "💰 Assets passed KRW 1B — one third of the goal."
+OLD_EN = EN + " Acceleration starts now."
 TARGETS = {
-    "ja": "🔥 資産が20億ウォンを突破 — カンナムに手が届きそうだ。",
-    "zh-CN": "🔥 资产突破20亿韩元——江南仿佛触手可及。",
-    "zh-TW": "🔥 資產突破20億韓元——江南彷彿近在眼前。",
+    "ja": "💰 資産が10億ウォンを突破 — 30億ウォンの3分の1。",
+    "zh-CN": "💰 资产突破10亿韩元 — 30亿韩元的三分之一。",
+    "zh-TW": "💰 資產突破10億韓元 — 30億韓元的三分之一。",
 }
-FIXTURE = "tools/WealthMilestoneLogCheck.gd"
-SCENE = "tools/WealthMilestoneLogCheck.tscn"
-FIXTURE_SHA = "cf847aafc8a1c588aeb19da5e40cdb3ddbd76f4c35918cf42848639f4593858f"
-SCENE_SHA = "583b1a9701e11143224cd0c6791d0c4e4c541fed7addcd2075c9d050966cc3b9"
+FIXTURE = "tools/AssetOneBillionLogCheck.gd"
+SCENE = "tools/AssetOneBillionLogCheck.tscn"
+FIXTURE_SHA = "2962a159851943b81be97cf938159a7783e007648299f093938c0ffd1b520516"
+SCENE_SHA = "2f939f2a68f48da845e798ca254f50c874b2f934c6065e9e518a0b7e398067d1"
 
 
 def strict_json(raw):
@@ -78,8 +78,8 @@ def fixture_errors(script, scene):
 def self_test(before, after, script, scene):
     cases = 0
     mutations = [(GAME, before[GAME]), (GAME, after[GAME] + b"\n"),
-        (GAME, after[GAME].replace(b"total_now >= 2_000_000_000", b"total_now >= 1_900_000_000", 1)),
-        (GAME, after[GAME].replace(b'flags["asset_2b_reached"] = true', b'flags["asset_2b_reached"] = false', 1)),
+        (GAME, after[GAME].replace(b"total_now >= 1_000_000_000", b"total_now >= 900_000_000", 1)),
+        (GAME, after[GAME].replace(b'flags["asset_1b_reached"] = true', b'flags["asset_1b_reached"] = false', 1)),
         (GAME, after[GAME].replace(b"total += float", b"total -= float", 1))]
     for locale, path in UI.items():
         mutations.extend(((path, before[path]), (path, after[path] + b"\n"),
@@ -93,10 +93,10 @@ def self_test(before, after, script, scene):
     cases += 2
     for changed_script, changed_scene in ((script + b"\n", scene), (script, scene + b"\n"),
             (script.replace(b"GameState.check_game_over()", b"pass", 1), scene),
-            (script, scene.replace(b"WealthMilestoneLogCheck.gd", b"ProseRecallCheck.gd", 1))):
+            (script, scene.replace(b"AssetOneBillionLogCheck.gd", b"ProseRecallCheck.gd", 1))):
         assert fixture_errors(changed_script, changed_scene), "fixture mutation accepted"
         cases += 1
-    print("WEALTH_MILESTONE_LOG_SELF_TEST_OK cases=" + str(cases))
+    print("ASSET_ONE_BILLION_LOG_SELF_TEST_OK cases=" + str(cases))
 
 
 def main():
@@ -115,18 +115,13 @@ def main():
     before = {p: git("show", BASE + ":" + p) for p in paths}
     committed = {p: git("show", SOURCE + ":" + p) for p in paths}
     after = {p: (ROOT / p).read_bytes() for p in paths}
-    # Preserve the sealed 20억 proof; only the separate typed 10억 successor
-    # may project actual current bytes to this audit's immutable endpoint.
-    if after != committed:
-        import asset_one_billion_log_history as one_billion
-        after = one_billion.source_predecessor(after, ROOT)
     script, scene = ((ROOT / p).read_bytes() for p in (FIXTURE, SCENE))
     failures = errors(before, committed) + errors(before, after) + fixture_errors(script, scene)
     if after != committed: failures.append("current source4 differs from actual typed commit")
-    for failure in failures: print("WEALTH_MILESTONE_LOG_AUDIT_FAIL " + failure)
+    for failure in failures: print("ASSET_ONE_BILLION_LOG_AUDIT_FAIL " + failure)
     if failures: return 1
     if args.self_test: self_test(before, after, script, scene)
-    print("WEALTH_MILESTONE_LOG_AUDIT_OK source4=4 literal2=2 new_ui3=3 gameplay_raw=unchanged")
+    print("ASSET_ONE_BILLION_LOG_AUDIT_OK source4=4 literal2=2 new_ui3=3 gameplay_raw=unchanged")
     return 0
 
 

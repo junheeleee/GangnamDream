@@ -1,7 +1,7 @@
-"""Exact480 source4/first-three-receipt successor, never a runtime rollback.
+"""Exact482 source4/first-three-receipt successor, never a runtime rollback.
 
-The later482 stdlib leaf supplies only a separately proved current endpoint.
-Older owners consume comparison views without a recursive dependency. Every public entry
+This leaf proof imports no other project module. Older owners may consume its
+comparison views without a recursive history dependency. Every public entry
 revalidates actual typed Git objects, physical disk and configuration.
 """
 from __future__ import annotations
@@ -23,41 +23,33 @@ UI_PATHS = tuple("locale/ui_" + loc + ".json" for loc in LOCALES)
 CURRENT_UI_PATHS = (*UI_PATHS, LEDGER_PATH)
 SOURCE_PATHS = (GAME_STATE_PATH, *UI_PATHS)
 PATHS = (*SOURCE_PATHS, LEDGER_PATH)
-PREDECESSOR_COMMIT = "ae01837dc6cfc0a272534ed38e654513d21cc6e5"
-PRODUCT_PARENT = "209b79ec7df4e6e3a2bcc652f3371b1b24d862a5"
-PRODUCT_COMMIT = "42d30615708ef3344a1cad8af0aad7cebe7e6ca7"
-PREDECESSOR_SOURCE_MANIFEST_SHA256 = "877171e48c9d8b595d33144c3cc0c1e79cb4715e81236c1851eb368943d5832d"
-SOURCE_LEDGER_SHA256 = "0cbec03c72fbf4818fd9285bf66b95e8630af6a7396e461b9151421348900cf4"
-OLD_KEY = "🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다. 남은 건 10억."
-NEW_KEY = "🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다."
-OLD_ENGLISH = "🔥 Assets passed KRW 2B — Gangnam feels close. KRW 1B left."
-NEW_ENGLISH = "🔥 Assets passed KRW 2B — Gangnam feels close."
-TARGETS = {
-    "ja": "🔥 資産が20億ウォンを突破 — カンナムに手が届きそうだ。",
-    "zh-CN": "🔥 资产突破20亿韩元——江南仿佛触手可及。",
-    "zh-TW": "🔥 資產突破20億韓元——江南彷彿近在眼前。",
-}
-OLD_JA = "🔥 資産20億突破 — カンナムが手に掴めるようだ。残るは10億。"
+PREDECESSOR_COMMIT = '5503f68bfa009478da675e58ab5ffb0e37ecada7'
+PRODUCT_PARENT = '586bd23e7a6c5f2a7ebe67d94b00be30106787c4'
+PRODUCT_COMMIT = 'fedf0c71ac890d258322e2c0464d9f7989c61dcd'
+PREDECESSOR_SOURCE_MANIFEST_SHA256 = 'cf4f8f1221742440a4246e96763af707446684d99c69e43884c71d83f0ec7868'
+SOURCE_LEDGER_SHA256 = 'fa200e234491545d51e4d0395715eec274dc35cb04f3552003ab3729574cb027'
+OLD_KEY = '💰 자산 10억 돌파 — 30억의 3분의 1. 이제부터 가속이 붙는다.'
+NEW_KEY = '💰 자산 10억 돌파 — 30억의 3분의 1.'
+OLD_ENGLISH = '💰 Assets passed KRW 1B — one third of the goal. Acceleration starts now.'
+NEW_ENGLISH = '💰 Assets passed KRW 1B — one third of the goal.'
+TARGETS = {'ja': '💰 資産が10億ウォンを突破 — 30億ウォンの3分の1。', 'zh-CN': '💰 资产突破10亿韩元 — 30亿韩元的三分之一。', 'zh-TW': '💰 資產突破10億韓元 — 30億韓元的三分之一。'}
+OLD_JA = '💰 資産10億突破 — 30億の3分の1。ここから加速がつく。'
 RECEIPT_ID = "ui:" + NEW_KEY + ":/" + NEW_KEY
 OLD_RECEIPT_ID = "ui:" + OLD_KEY + ":/" + OLD_KEY
 # Actual acceptance is a separate ledger-only commit; no draft is a receipt.
-RECEIPT_PARENT = "2b7ed73b193488f961637d12dbc2173b0523998d"
-RECEIPT_COMMIT = "5503f68bfa009478da675e58ab5ffb0e37ecada7"
-RECEIPT_RAW_SHA256 = ("0cbec03c72fbf4818fd9285bf66b95e8630af6a7396e461b9151421348900cf4", "fa200e234491545d51e4d0395715eec274dc35cb04f3552003ab3729574cb027")
-RECEIPT_BATCH_SHA256 = {
-    "ja": "8a43c85ea7a43684b4338c72e1ec0e5ed99ff207bf952d186133c6c498da66e4",
-    "zh-CN": "a96ba48fe93ec788eafc50833dc8415b2acd33061829841ecc9ea1026e2f08e7",
-    "zh-TW": "e567baec03f92e2257d647e3c4b31aadf67ed7da315f9f10585bbb235e9e1b10",
-}
-RECEIPT_SOURCE_MANIFEST_SHA256 = "cf4f8f1221742440a4246e96763af707446684d99c69e43884c71d83f0ec7868"
-RAW_SHA256 = {'autoloads/GameState.gd': ('03ac214f4ad4fafe5f242c61df79eb89c09aca5b7a0a686a7c386df75a5ba978', 'dfa8c48596917c3b33eb1add4079b790c4bea8b09cc38c03a08165a2955b7bd1'), 'locale/ui_ja.json': ('9b450541a8d51be03f09f2a1f180cf1fb5e548e51a25648dacc9eddb055c32fb', '5a6a314b7fd4a82cf698bd86a832939e47596ece734c0edb4d006714393a8b2c'), 'locale/ui_zh-CN.json': ('5a36d9c19be5ad1dab97e420cdff4b39ad0cf29554213c765991fb7db834cb4f', 'b4b7c60cf82332ae1f58684aaab1ba46451c1e3a5abe6823e6802ec11180df99'), 'locale/ui_zh-TW.json': ('a46a54cf6642c22edae87e3be7b4a70517fe9434cf98437481ed3d07fd17b069', '5d8ca777bda61579b3b1ed44be60840c8984aebc6aaf47b1d545219b23f9fb82')}
-RAW_PATCHES = {'autoloads/GameState.gd': (('replace', 4331, 4332, 4331, 4332, '18078176d3dc68ce75bd84d8ff14c6dd99f18c1cc907564d32dbba2c4bdea0d1', 'dce6b917e6249ff93986bf44ee7d6a4bf2f766a5c064005dee8395b395d0adfe'),), 'locale/ui_ja.json': (('insert', 1818, 1818, 1818, 1819, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '017e4050f506ac183144779004940423d6d0bb6a0b0f4c78c5b292f24cb07ed9'),), 'locale/ui_zh-CN.json': (('insert', 1809, 1809, 1809, 1810, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '2a0b4c589840063a6e5ba37e82af5f53896ac461a3904cc4682fa2da835bbf58'),), 'locale/ui_zh-TW.json': (('insert', 1809, 1809, 1809, 1810, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '3adfdc4c7a7dc6e829176f75355fe3dba45b63362edd01f87bf6f1fc1a93b91e'),)}
-_ACTIVE = contextvars.ContextVar("wealth_milestone_log_proof", default=None)
+RECEIPT_PARENT = None
+RECEIPT_COMMIT = None
+RECEIPT_RAW_SHA256 = ()
+RECEIPT_BATCH_SHA256 = {}
+RECEIPT_SOURCE_MANIFEST_SHA256 = None
+RAW_SHA256 = {'autoloads/GameState.gd': ('dfa8c48596917c3b33eb1add4079b790c4bea8b09cc38c03a08165a2955b7bd1', '88182e54aef1138a867441c6261dd62548e0291715c4c985c893c1c2d680a694'), 'locale/ui_ja.json': ('5a6a314b7fd4a82cf698bd86a832939e47596ece734c0edb4d006714393a8b2c', '24f09bc604698bca7a4665ac9072cff8bae88b500770a321dccb37e8467d75b1'), 'locale/ui_zh-CN.json': ('b4b7c60cf82332ae1f58684aaab1ba46451c1e3a5abe6823e6802ec11180df99', '79b953c7cdb1a344fb35d34bcd5c4b78deb1660a4821d1af7767b713cbf8495c'), 'locale/ui_zh-TW.json': ('5d8ca777bda61579b3b1ed44be60840c8984aebc6aaf47b1d545219b23f9fb82', '36325c9dc6703a293c6f3a99d9c4598d1cb7142b96bcd838a5b5b1561bcd45de')}
+RAW_PATCHES = {'autoloads/GameState.gd': (('replace', 4328, 4329, 4328, 4329, '8786a9157d53e61ce4b4bfa46552b6b3a76de7d6d1d38b5229d7dd3d81cb4840', '5ad4af3a796e7889fce1fa7c95fdf75550244e55ac69f1b9e6d97b4c2207a361'),), 'locale/ui_ja.json': (('insert', 3054, 3054, 3054, 3055, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '6c07b2d7475b6f071a165f34acd4afbdfde9f956810ac2ed98d70d21ce2161bc'),), 'locale/ui_zh-CN.json': (('insert', 1810, 1810, 1810, 1811, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '95c3621c54b9efac2bf1d46ab734d2f5a32762b61e9cdfd10545e385541c7393'),), 'locale/ui_zh-TW.json': (('insert', 1810, 1810, 1810, 1811, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'ebb7e6f53e20f983f29d434d94b2116232b3603bc3c34977eb2d8fff7500578a'),)}
+_ACTIVE = contextvars.ContextVar("asset_one_billion_log_proof", default=None)
 
 
 def _require(ok, detail):
     if not ok:
-        raise ValueError("ORDER-480: " + detail)
+        raise ValueError("ORDER-482: " + detail)
 
 
 def _sha(raw):
@@ -233,11 +225,11 @@ def product_inverse(before, after, path):
 def _validated_ledger_documents(before, after):
     old, new = _Document(before), _Document(after)
     a, b = old.value, new.value
-    _require(len(a["batches"]) == 274 and len(b["batches"]) == 277
-             and b["batches"][:274] == a["batches"], "exact old274 batch prefix")
-    _require(old.text[old.spans[("batches",)][0]:old.spans[("batches", 273)][1]]
-             == new.text[new.spans[("batches",)][0]:new.spans[("batches", 273)][1]],
-             "original274 batch raw prefix changed")
+    _require(len(a["batches"]) == 277 and len(b["batches"]) == 280
+             and b["batches"][:277] == a["batches"], "exact old277 batch prefix")
+    _require(old.text[old.spans[("batches",)][0]:old.spans[("batches", 276)][1]]
+             == new.text[new.spans[("batches",)][0]:new.spans[("batches", 276)][1]],
+             "original277 batch raw prefix changed")
     _require(list(a["accepted"]) == list(b["accepted"]) == list(LOCALES), "exact accepted locales")
     expected = copy.deepcopy(a)
     replacements = []
@@ -250,7 +242,7 @@ def _validated_ledger_documents(before, after):
         replacements.append(_member_removal(new, ("accepted", locale, RECEIPT_ID)))
     expected["accepted_sha256"], expected["batches"] = _digest(expected["accepted"]), b["batches"]
     _require(expected == b and all(x["accepted_sha256"] == _digest(x["accepted"]) for x in (a, b))
-             and [sum(len(v) for v in x["accepted"].values()) for x in (a, b)] == [41849, 41852],
+             and [sum(len(v) for v in x["accepted"].values()) for x in (a, b)] == [41852, 41855],
              "exact first3/current population, checksum and unchanged old receipts")
     for key in (("accepted_sha256",), ("batches",)):
         p, q = old.spans[key]
@@ -281,7 +273,7 @@ def _receipt_semantics(before, after):
              "original receipt schema/native/prompt and three batch pins")
     source_hash = _digest({"path": "runtime:static_ui", "field": (NEW_KEY,), "ko": NEW_KEY})
     seen = set()
-    for batch in new["batches"][274:]:
+    for batch in new["batches"][277:]:
         headers = batch.get("official_receipt_headers_by_locale", {})
         _require(len(headers) == 1, "one portable locale header per batch")
         locale = next(iter(headers))
@@ -306,7 +298,7 @@ def _receipt_semantics(before, after):
         expected["batch_id"] = _digest(expected)
         _require(header == expected and header["source_revision"] == RECEIPT_PARENT,
                  "official source4 export selection/current target/revision")
-        _require(batch.get("order") == "ORDER-480" and batch.get("group") == "ui"
+        _require(batch.get("order") == "ORDER-482" and batch.get("group") == "ui"
                  and batch.get("source_leaves") == 1 and batch.get("machine_validation") == "PASS"
                  and batch.get("native_review") == batch.get("rendered_review") == "OPEN"
                  and set(batch.get("target_leaves_by_locale", {})) <= set(LOCALES)
@@ -343,7 +335,7 @@ def _transition(root, head, parent, commit, before, changed):
 def _read_proof(root):
     root = Path(root).resolve()
     module = Path(__file__).resolve()
-    _require(module == root / "tools/wealth_milestone_log_history.py", "module/root identity")
+    _require(module == root / "tools/asset_one_billion_log_history.py", "module/root identity")
     module_raw, binding = _disk_bytes(module), _configuration()
     head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
     before, _ = _snapshot(root, PREDECESSOR_COMMIT, PATHS)
@@ -352,7 +344,7 @@ def _read_proof(root):
     _require(set(RAW_SHA256) == set(RAW_PATCHES) == set(SOURCE_PATHS), "exact four source pins")
     for path in SOURCE_PATHS:
         product_inverse(before[path], source[path], path)
-    _require(_sha(source[LEDGER_PATH]) == SOURCE_LEDGER_SHA256, "source stage retains immutable478 ledger")
+    _require(_sha(source[LEDGER_PATH]) == SOURCE_LEDGER_SHA256, "source stage retains immutable480 ledger")
     current, receipts = source, None
     if RECEIPT_COMMIT is not None:
         _git(root, "merge-base", "--is-ancestor", PRODUCT_COMMIT, RECEIPT_PARENT)
@@ -365,17 +357,6 @@ def _read_proof(root):
     else:
         _require(RECEIPT_PARENT is RECEIPT_SOURCE_MANIFEST_SHA256 is None
                  and RECEIPT_BATCH_SHA256 == {} and RECEIPT_RAW_SHA256 == (), "partial unbound receipt configuration")
-    import asset_one_billion_log_history as one_billion
-    with one_billion.fresh_validation_proof(root) as successor:
-        _require(successor["head"] == head and successor["before"] == current,
-                 "one-billion predecessor differs from immutable480 endpoint")
-        one_billion_before, one_billion_source = dict(current), successor["source"]
-        one_billion_receipts = successor["receipts"]
-        for path in SOURCE_PATHS:
-            one_billion.product_inverse(current[path], one_billion_source[path], path)
-        _require(one_billion_source[LEDGER_PATH] == current[LEDGER_PATH], "one-billion source ledger unchanged")
-        current = one_billion_source if one_billion_receipts is None else one_billion_receipts
-        _require(current == successor["current"], "one-billion final stage differs from actual")
     actual, _ = _snapshot(root, head, PATHS)
     _require(actual == current and all(_disk_bytes(root / p) == raw for p, raw in actual.items()),
              "actual current Git/disk differs")
@@ -383,9 +364,7 @@ def _read_proof(root):
              and _disk_bytes(module) == module_raw and _configuration() == binding,
              "HEAD/module/function/config changed during proof")
     return {"root": root, "head": head, "before": before, "source": source, "receipts": receipts,
-            "current": actual, "binding": binding, "module_raw": module_raw,
-            "one_billion_before": one_billion_before, "one_billion_source": one_billion_source,
-            "one_billion_receipts": one_billion_receipts}
+            "current": actual, "binding": binding, "module_raw": module_raw}
 
 
 @contextlib.contextmanager
@@ -417,6 +396,24 @@ def game_state_predecessor(actual_raw, root=ROOT):
         return proof["before"][GAME_STATE_PATH]
 
 
+def game_state_inverse(actual_raw):
+    """Pure pinned482 -> post480 bytes; never admits a live Git claim."""
+    _require(type(actual_raw) is bytes, "GameState inverse requires raw bytes")
+    old = ('LocaleManager.ui("' + OLD_KEY + '", "' + OLD_ENGLISH + '")').encode()
+    new = ('LocaleManager.ui("' + NEW_KEY + '", "' + NEW_ENGLISH + '")').encode()
+    prior = actual_raw.replace(new, old, 1)
+    return product_inverse(prior, actual_raw, GAME_STATE_PATH)
+
+
+def source_predecessor(snapshot, root=ROOT):
+    """Actual source4 -> immutable post480 source4, for comparison only."""
+    with fresh_validation_proof(root) as proof:
+        _require(type(snapshot) is dict and set(snapshot) == set(SOURCE_PATHS)
+                 and all(type(raw) is bytes and raw == proof["current"][path]
+                         for path, raw in snapshot.items()), "actual source4 identity required")
+        return {path: proof["before"][path] for path in SOURCE_PATHS}
+
+
 def source_predecessor_inventory(root, inventory):
     with fresh_validation_proof(root) as proof:
         hashes = inventory["source_hashes"]
@@ -425,12 +422,10 @@ def source_predecessor_inventory(root, inventory):
         actual, _ = _snapshot(root, proof["head"], tuple(hashes))
         _require({p: _sha(raw) for p, raw in actual.items()} == hashes
                  and all(_disk_bytes(Path(root) / p) == raw for p, raw in actual.items()), "whole actual census Git/disk")
-        import asset_one_billion_log_history as one_billion
-        previous = one_billion.source_predecessor_inventory(root, inventory)["source_hashes"]
-        compared = {**previous, GAME_STATE_PATH: _sha(proof["before"][GAME_STATE_PATH])}
+        compared = {**hashes, GAME_STATE_PATH: _sha(proof["before"][GAME_STATE_PATH])}
         parent, _ = _snapshot(root, PRODUCT_PARENT, tuple(compared))
         _require({p: _sha(raw) for p, raw in parent.items()} == compared
-                 and _digest(compared) == PREDECESSOR_SOURCE_MANIFEST_SHA256, "exact whole pre480 census")
+                 and _digest(compared) == PREDECESSOR_SOURCE_MANIFEST_SHA256, "exact whole pre482 census")
         final, _ = _snapshot(root, proof["head"], tuple(hashes))
         _require(final == actual and all(_disk_bytes(Path(root) / p) == raw for p, raw in final.items()),
                  "whole census changed during comparison")
@@ -458,7 +453,7 @@ def ui_comparison(snapshot, before, after):
 
 
 def ui_predecessor(snapshot, root=ROOT):
-    """Actual four-raw only -> pre480 copy, never runtime values."""
+    """Actual four-raw only -> pre482 copy, never runtime values."""
     with fresh_validation_proof(root) as proof:
         current = {p: proof["current"][p] for p in CURRENT_UI_PATHS}
         _require(type(snapshot) is dict and set(snapshot) == set(CURRENT_UI_PATHS)

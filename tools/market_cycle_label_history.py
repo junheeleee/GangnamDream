@@ -385,6 +385,15 @@ def _read_proof(root):
                                  {p: wealth_source[p] for p in CURRENT_UI_PATHS},
                                  {p: wealth_receipts[p] for p in CURRENT_UI_PATHS})
         current = wealth_source if wealth_receipts is None else wealth_receipts
+        _require(all(current[p] == successor["one_billion_before"][p] for p in CURRENT_UI_PATHS),
+                 "one-billion predecessor differs from immutable480 four-raw")
+        one_billion_before = dict(current)
+        one_billion_source = {**current, **{p: successor["one_billion_source"][p] for p in CURRENT_UI_PATHS}}
+        one_billion_receipts = (None if successor["one_billion_receipts"] is None else
+                               {**current, **{p: successor["one_billion_receipts"][p] for p in CURRENT_UI_PATHS}})
+        current = one_billion_source if one_billion_receipts is None else one_billion_receipts
+        _require(all(current[p] == successor["current"][p] for p in CURRENT_UI_PATHS),
+                 "one-billion actual four-raw stage differs")
     actual, _ = _snapshot(root, head, PATHS)
     _require(actual == current and all(_disk_bytes(root / p) == raw for p, raw in actual.items()),
              "actual current Git/disk differs")
@@ -394,7 +403,9 @@ def _read_proof(root):
     return {"root": root, "head": head, "before": before, "source": source, "receipts": receipts,
             "current": actual, "binding": binding, "module_raw": module_raw,
             "wealth_before": wealth_before, "wealth_source": wealth_source,
-            "wealth_receipts": wealth_receipts}
+            "wealth_receipts": wealth_receipts,
+            "one_billion_before": one_billion_before, "one_billion_source": one_billion_source,
+            "one_billion_receipts": one_billion_receipts}
 
 
 @contextlib.contextmanager

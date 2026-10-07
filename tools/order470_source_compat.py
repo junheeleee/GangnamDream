@@ -2489,6 +2489,15 @@ def _read_proof_current(root):
         wealth.product_inverse(current[wealth.GAME_STATE_PATH], wealth_source[wealth.GAME_STATE_PATH],
                                wealth.GAME_STATE_PATH)
         current = wealth_source if wealth_receipts is None else wealth_receipts
+        _require(all(current[p] == wealth_proof["one_billion_before"][p] for p in owned),
+                 "one-billion predecessor differs from immutable480 GS/ledger")
+        one_billion_before = dict(current)
+        one_billion_source = {**current, **{p: wealth_proof["one_billion_source"][p] for p in owned}}
+        one_billion_receipts = (None if wealth_proof["one_billion_receipts"] is None else
+                               {**current, **{p: wealth_proof["one_billion_receipts"][p] for p in owned}})
+        current = one_billion_source if one_billion_receipts is None else one_billion_receipts
+        _require(all(current[p] == wealth_proof["current"][p] for p in owned),
+                 "one-billion actual GS/ledger differs")
     actual, _ = _snapshot(root, head, tuple(current))
     _require(actual == current, "current HEAD differs from exact source/receipt product")
     _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "current disk differs from Git")
@@ -2511,6 +2520,8 @@ def _read_proof_current(root):
             "loss_hold_receipts": loss_hold_receipts, "loss_hold_metadata": loss_hold_metadata,
             "market_before": market_before, "market_source": market_source, "market_receipts": market_receipts,
             "wealth_before": wealth_before, "wealth_source": wealth_source, "wealth_receipts": wealth_receipts,
+            "one_billion_before": one_billion_before, "one_billion_source": one_billion_source,
+            "one_billion_receipts": one_billion_receipts,
             "person_source": person_source, "person_receipts": person_receipts,
             "prose_before": prose_before, "prose_source": prose_source, "prose_receipts": prose_receipts,
             "prose_current": prose_current, "prose_metadata": prose_metadata,
