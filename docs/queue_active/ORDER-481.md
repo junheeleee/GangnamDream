@@ -84,4 +84,67 @@ project.godot·모든 게임 원문/번역/원장·공개 package·사용자 저
 - 마지막 후보는 exact `_Document`에서만 text/length local scalar와 공백0/1
   short-circuit을 쓴다. foreign/subclass getter는 원while로 읽기수·값·타입·예외를
   유지하며 새18 반례를 선언한다. proof/parsed/globalmemo0·원fallback/raw 보존이다.
-  마지막 actual AFTER/전용CLI/독립판정은 아직 미실행이며 효과없으면 최적화 미완료다.
+  이 행은 후보585fd7d까지의 진행 이력이다. 아래 실제 AFTER/전용CLI를 완료했고
+  비저자 최종 판정은 아직 대기한다.
+
+## 실제 완료 입력·L1/L2 — 2026-10-08
+
+```text
+도달 경로      : ORDER481_WHITESPACE_OK cases=181; exit=0; stderr=0; 186.151611초
+생산자 ↔ 독자   : tools/market_cycle_label_history.py:155 ↔ tools/market_cycle_label_history.py:171
+바꾸는 상태     : ws Python 순회 → exact Document/str/int 공백0·1 short-circuit/2+ Unicode 위치탐색; 원장 값·text·spans·members·수용 변화0
+포기 시 잃는 것 : fresh_validation_proof 검수 소비자; 발화주차 해당없음(비제품 QA), tools/market_cycle_label_history.py:171
+서사 위치       : 해당없음(원장 검수), tools/market_cycle_label_history.py:155
+장면 계층       : 해당없음(비장면 QA), tools/market_cycle_label_history.py:155
+닫는 것         : 공백탐색 동등성181·동일 fresh 입출구 한 쌍 비용 관측; 게임/전체pipeline/인간 GO0
+```
+
+- 실제 clean source `585fd7d9178e1a127f6c47b792b60cbbb92250ef` / tree
+  `88c202a259096ba39018e9d4328eeeed88ce3963`. helper SHA
+  `091aad99f6671d1532e38b20279208f130ab5d4fedf59308c356d6878c5f0dd7`,
+  self SHA `efeb573606e9b519f8a48a18953b4d4d94af571bed2b036a431510bc43dea4d1`.
+  actualafter4/checks1/remaining1의 tracked3239·보호6·runner 전후 동등,
+  actual proof5와 제품·번역·원장·인간 판정 변화0, collect/engine/수용0이다.
+- before2→after4 동일 원fresh 입장+정상종료: profile29.376291667→28.99850525초,
+  plain22.923183292→22.614496초. ws2198536회 그대로, self1.761034268→1.182207027초,
+  cumulative2.228073822→1.843377968초. Document8/walk553996/read_proof2/Git74 유지.
+  profile0.377786417/plain0.308687292초 감소는 **한 쌍 관측**이다. 통계적/전체pipeline
+  단축 보장0; after1/3의 불채택과 before1/after2 실패는 위 이력 그대로다.
+- 새181 실제 반례: 29 Unicode 공백·비공백/좌표·타입/예외·foreign/subclass getter18,
+  JSON 값/text/span/member·엄격 거절·actual478 raw inverse/export revision,
+  이웃/잎 재해시 거절·warm 함수/config/Git/disk/HEAD·정상/consumer exception·
+  late physical/ws 정상·예외와 ACTIVE 복원. 후자는 actual entered/armed와 exact
+  ValueError 메시지까지 확인한다. 원4함수 raw·생산 ws외 AST/raw·old scope 불변PASS.
+- checks1 전체는 **FAIL/preserved=true**다. 181CLI와 등록CLI만 exit0이고 root가
+  목록에 `--lane`과 파일목록을 겹쳐 exit2였다. remaining1은 동일 actual3239/보호6/
+  runner·원로그를 결속해 성공2만 재사용하고 수정 목록·context·queue3만 exit0으로
+  실행했다. 181/등록 재실행0, 단일5명령 묶음PASS로 재분류0.
+  context: boot_bytes30191/docs583/classified583/links187/invariants15/
+  archive_bytes743490/open_proposals1; queue: active79/in_progress77/max_batches2.
+- actualseal1은 결과8·pstats4·로그·runner·raw를 재해시한 PASS다. final3239와 proof5/
+  보호6 동등·측정변경5경로·after2 ownedhelper1 drift·실패归속을 확인했다.
+  seal 신규QA/collect/engine/수용0이며 원검사 실행을 대신하지 않는다.
+
+### 원시 증거 결속
+
+공통 private `.git/order481-20261008.sQUjjj/`, 원결과/실행기 덮어쓰기0:
+
+| 파일 | SHA256 |
+|---|---|
+| before1/result.json (FAIL) | 47538a1930cbe0b2ec2cac9515e7a3bc2273bfd21b76d1d3245b0dad567cb968 |
+| before2/result.json | 9df9e5a0c2b40200a4ba14cee20323e054ca21418af98b50058830e3de7b431b |
+| after1/result.json (불채택) | c20986c58f2d0d2e0487152834b59ece10f1aaa8df09d025a88b4bd6805455b1 |
+| after2/result.json (FAIL/입장0) | e249e93073da90aee98b315431779a808e19e028bbc2654c0ceed9b780090ab8 |
+| after3/result.json (불채택) | 0c7ed3202957fccff63d9cef49d4e6d935b256ed12e23a030f4cedcef149d9d0 |
+| after4/result.json | 7b3dac778d243a9eeeaab12364ecbb418afd94f630bf0891eb18c46f367740cb |
+| checks1/result.json (전체FAIL/성공2) | c94dd67cdd92ea54e708e2468804c84faf519f5d506685adf1595f8af579cdb2 |
+| remaining1/result.json (새3) | 91e6a510676cd1f7ead9e8c38e593dd12898f1db1b82dcb5409d009116f4e14e |
+| seal1.json (재해시만) | 52a73bc5f76b6778cbf7b126b3b45ab1d9426990a5c7475f9980e8bcadddc0a5 |
+| measure_fresh.py | e6d812878f42287a9bbc42f139f100725de57d5f0693f55cd76e3bc31f5662d4 |
+| seal.py | 2a9fcb7cd06094a4713e4effb0984b1d22cf3a69ae40b1a1a977740b39f07eb1 |
+
+자기개선(이 실제 실행의 사용법 기록): 목록 전용 `--list --lane ledger-whitespace`에
+파일목록을 겹치지 않는다. 측정 동결은 저자 ACK까지 받은 뒤 시작한다. 새 규범0/
+일회성이며 원 fresh 증명 생략·wholepipeline 속도 주장·제품 GO로 승격하지 않는다.
+자동 검사는 계약 증거이지 재미·깊이·문체의 증거가 아니다. 실제 렌더·자연 진행·
+원어민·인간 플레이·물리패드·본편 출시 품질은 미관찰/HOLD를 유지한다.
