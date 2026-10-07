@@ -60,11 +60,11 @@ func _cycle_display_name(cycle: String) -> String:
 \t\t\treturn cycle
 '''.encode()
 # No invented acceptance: filled only from the actual separate ledger commit.
-RECEIPT_PARENT = None
-RECEIPT_COMMIT = None
-RECEIPT_RAW_SHA256 = ()
-RECEIPT_BATCH_SHA256 = None
-RECEIPT_SOURCE_MANIFEST_SHA256 = None
+RECEIPT_PARENT = "d68bc66b228b0a908defef747d206e05ac66a0fc"
+RECEIPT_COMMIT = "ae01837dc6cfc0a272534ed38e654513d21cc6e5"
+RECEIPT_RAW_SHA256 = ("3902a0003fc48ca635510061d07fe6a1354bde5a46257c52de12164829b8f9cc", "0cbec03c72fbf4818fd9285bf66b95e8630af6a7396e461b9151421348900cf4")
+RECEIPT_BATCH_SHA256 = "d0025f2b84e0be33521ad38eabcdd09423336999249961e23913e229dc144f85"
+RECEIPT_SOURCE_MANIFEST_SHA256 = "877171e48c9d8b595d33144c3cc0c1e79cb4715e81236c1851eb368943d5832d"
 _ACTIVE = contextvars.ContextVar("market_cycle_label_proof", default=None)
 
 
