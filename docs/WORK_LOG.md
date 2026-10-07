@@ -2,11 +2,20 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-07 — 기다리기 결과의 회복 보장을 걷어냈다 (477, 한정 GO)
+
+- 첫 손실 결과1잎×5언어에서 실행되지 않은 사흘·손실 절반 회복·그 안도감을 지웠다. 앱 닫기·불안·판단 유보·팔지 않기로 한 기억, 세 문단/{name}/마지막 문단·비소유 raw/gameplay는 보존한다.
+- source04ed→공식3교정/최초0→ledger1 fb766fd→owner fear metadata2 d1ef3d2를 분리했다. 실제 main9/exit0·676.305925초·collect1/guard9, 270rawprefix·41848키 보존→273. 공개 pin/분류·강도·145/51/IDs는 불변이다. current census `cd3a8af9a4f972f4fea87ea1630b6d31013418d35e0b4b29f01c0a7cc67a314b`이며 역사 비교5잎만 역상/actual payload 현재다.
+- runtime1 실제0·준비40(5/5/5/5/20)·복원true·stdout/Godot동일·stderr/오류0·외부engine/전체tracked/보호11/runner/log 보존. skill50→53/mental50→47·seen/held·현재 결과기록을 확인했고 cash/보유/가격/달력은 변경0이다. 원문32 component-only 실제 CLI 관측은 그대로 남긴다.
+- final checks1 focused `[('ORDER477_LOSS_HOLD', 75), ('ORDER477_LOSS_HOLD_SOURCE', 17), ('PR31_LOSS_HOLD', 25)]`·원본검증15+목록1 실제0/오류0·3392.302005초·fresh4 정상종료/입력보존. source/receipt 전후 원문·함수·census·whole tracked 가드로 같은 actual collect를 재사용했다. 최종후보와 runtime 입력 3216개 동일성·변경 경로 전수검수로 runtime만 제한 재사용; final 재실행/actualrender/자연 발화 주장이 아니다. 기존430/대형UI/옛전체selftest 반복0이며 별도 arc_flow/240주 항목0이다. 다만 원본 narrative_continuity 내부 A/B1~240주 경로는 실제 실행했으므로 240주 전체 실행0으로 표시하지 않는다.
+- 비저자 [전수보고](agent_reviews/ORDER-477.json) SHA `342900d5c42cb936a284e12ddc791d7fcfcccc2c49d4d03cac7408f7f69ef6d1`가 candidate `0ec43c3efb255f4dd5f127377cf7523898fa913c`/tree `ded9cee5668f86d70d0a8464a86381d4851870ae`의 exact 결과5잎·수용/소비자만 GO했다. 상세SHA·L2전칸은 [완료사양](queue_archive/ORDER-477.md)에 결속한다. 선택0/2 매매 불일치·후속 회수 서사·실제 관찰은 별도 미완료다.
+- gangnamdream-dev의 소유·분리전이·격리·표적검수·독립/인간 증거 구분 적용, 새규범0/이번 결속 일회성. 공개GO1·인간OPEN45·과거판정·149captureFAIL을 보존하며 native/사람/물리패드·본편 출시 HOLD다. 자동 통과는 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-07 — 기다리기 결과문5잎의 회복 단정 (477, 착수)
 
 - 선택1은 사흘이나 손실 절반 회복을 실행하지 않는다. 정확 결과1잎×5언어에서
   그 확정 사실만 제거하고 앱 닫기·불안·팔지 않기로 한 기억·판단 유보를 남긴다.
-- [작은 사양](queue_active/ORDER-477.md)으로 KO/EN·목표어3·역사 지원·비저자
+- [작은 사양](queue_archive/ORDER-477.md)으로 KO/EN·목표어3·역사 지원·비저자
   파일 소유를 분리했다. 공식 기존3교정/최초0와 필요한 fear 지문을 별도 전이로
   결속한다. 기존476430·240주·대형UI를 반복하지 않고 바뀐5잎/소비자/수용을 검수한다.
 - gangnamdream-dev의 선언·소유·표적검수·증거분리를 적용한다. 새 거래/기능 완성0,
