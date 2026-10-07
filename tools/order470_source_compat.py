@@ -879,7 +879,7 @@ ENDING_METADATA_RAW_PATCHES = {'content/meta/release_content_inventory.json': ((
                                        126,
                                        'd37d7411dd5beb0aedb921ef20680b2cd87d95598b5ad67f52113dba77ace25f',
                                        '7785db6cd65eb800a9164e18a47704f710e285e24c58a308438e68fb120396f3'),)}
-# The two first-win result facts are a separate source5/receipt1 transition.
+# The two first-win facts use separate source5/KO-notation1/receipt1 transitions.
 # All five paths already belong to472; that earlier endpoint stays immutable.
 FIRST_WIN_PATHS = tuple("content/events" + suffix + "/arc_midgame.json"
                         for suffix in ("", "_en", "_ja", "_zh-CN", "_zh-TW"))
@@ -920,6 +920,25 @@ FIRST_WIN_RAW_PATCHES = {
         ('replace', 1027, 1028, 1027, 1028, '86e98f92ff875bfe0d9a2f6b06a0af5b16981ac645739ad8ac8117e449531e56', '3c812f5a4b306e982ba0fe32f1a2e317b01976348752b1adf43751e0b814abad'),
     ),
 }
+FIRST_WIN_REPAIR_PARENT = '1bf0585f8010a1af4e69bbe4355826c15527896f'
+FIRST_WIN_REPAIR_COMMIT = 'efacadafb59bb80c8fce10cb9d5937509ce22b1f'
+FIRST_WIN_REPAIR_PATHS = (FIRST_WIN_KO_PATH,)
+FIRST_WIN_REPAIR_RAW_SHA256 = {'content/events/arc_midgame.json': ('4edc95d3001a7e6df8b73c946f53855510305a9a464dbc1b75c5d26d4b309262',
+                                     '58fd1fdff64a2adad1fbc28b770c4a35d78dfcb1f4ad02ddc303b52d535d3f89')}
+FIRST_WIN_REPAIR_RAW_PATCHES = {'content/events/arc_midgame.json': (('replace',
+                                      344,
+                                      345,
+                                      344,
+                                      345,
+                                      'f4c413096072d5af8587c658fc869d4db097da0514f718eaa3e74b55fcd76c75',
+                                      '7d0f83dbbd1e2006a178762ea9037daa6f0b50d5341dc0bdd4009182616cdd68'),
+                                     ('replace',
+                                      4290,
+                                      4291,
+                                      4290,
+                                      4291,
+                                      'f4c413096072d5af8587c658fc869d4db097da0514f718eaa3e74b55fcd76c75',
+                                      '7d0f83dbbd1e2006a178762ea9037daa6f0b50d5341dc0bdd4009182616cdd68'))}
 FIRST_WIN_RECEIPT_PARENT = None
 FIRST_WIN_RECEIPT_COMMIT = None
 FIRST_WIN_RECEIPT_PATHS = (LEDGER_PATH,)
@@ -1256,11 +1275,26 @@ def ending_metadata_inverse(before, after, path):
     return _ending_metadata_semantics(before, after, path)
 
 
-def first_win_product_inverse(before, after, path):
+def _first_win_repair_semantics(before, after, path):
+    """Only the same two Korean price spellings change after the initial source."""
+    _require(path == FIRST_WIN_KO_PATH and isinstance(before, bytes) and isinstance(after, bytes),
+             "first-win repair is Korean raw bytes only")
+    old, new = "1만5천원짜리".encode(), "15,000원짜리".encode()
+    _require(before.count(old) == after.count(new) == 2 and new not in before and old not in after
+             and before.replace(old, new) == after, "first-win repair exact two price spellings")
+    return _receipt_overlay_inverse(before, after, path, FIRST_WIN_TEXT_LEAVES, FIRST_WIN_REPAIR_PATHS,
+                                    {path: (_sha(before), _sha(after))}, (), 2)
+
+
+def first_win_product_inverse(before, after, path, *, repair=False):
     """Comparison-only inverse of exactly the two existing result literals."""
-    _require(path in FIRST_WIN_PATHS and len(FIRST_WIN_TEXT_LEAVES) == len(set(FIRST_WIN_TEXT_LEAVES)) == 2,
+    _require(type(repair) is bool and path in (FIRST_WIN_REPAIR_PATHS if repair else FIRST_WIN_PATHS)
+             and len(FIRST_WIN_TEXT_LEAVES) == len(set(FIRST_WIN_TEXT_LEAVES)) == 2,
              "first-win exact source path/selector population")
-    _raw_inverse(before, after, path, FIRST_WIN_RAW_SHA256, FIRST_WIN_RAW_PATCHES)
+    _raw_inverse(before, after, path, FIRST_WIN_REPAIR_RAW_SHA256 if repair else FIRST_WIN_RAW_SHA256,
+                 FIRST_WIN_REPAIR_RAW_PATCHES if repair else FIRST_WIN_RAW_PATCHES)
+    if repair:
+        return _first_win_repair_semantics(before, after, path)
     return _receipt_overlay_inverse(before, after, path, FIRST_WIN_TEXT_LEAVES, FIRST_WIN_PATHS,
                                     FIRST_WIN_RAW_SHA256, (), 2)
 
@@ -1303,10 +1337,12 @@ def _configuration():
             _ending_receipt_semantics, _ending_receipt_exports, _validate_ending_receipts,
             FIRST_WIN_PATHS, FIRST_WIN_KO_PATH, FIRST_WIN_EVENT_IDS, FIRST_WIN_TEXT_LEAVES,
             FIRST_WIN_PRODUCT_PARENT, FIRST_WIN_PRODUCT_COMMIT, copy.deepcopy(FIRST_WIN_RAW_SHA256),
-            copy.deepcopy(FIRST_WIN_RAW_PATCHES), FIRST_WIN_RECEIPT_PARENT, FIRST_WIN_RECEIPT_COMMIT,
+            copy.deepcopy(FIRST_WIN_RAW_PATCHES), FIRST_WIN_REPAIR_PARENT, FIRST_WIN_REPAIR_COMMIT,
+            FIRST_WIN_REPAIR_PATHS, copy.deepcopy(FIRST_WIN_REPAIR_RAW_SHA256),
+            copy.deepcopy(FIRST_WIN_REPAIR_RAW_PATCHES), FIRST_WIN_RECEIPT_PARENT, FIRST_WIN_RECEIPT_COMMIT,
             FIRST_WIN_RECEIPT_PATHS, copy.deepcopy(FIRST_WIN_RECEIPT_RAW_SHA256),
             copy.deepcopy(FIRST_WIN_RECEIPT_BATCH_SHA256), FIRST_WIN_RECEIPT_SOURCE_MANIFEST_SHA256,
-            first_win_product_inverse, _first_win_stages, _first_win_receipt_semantics,
+            first_win_product_inverse, _first_win_repair_semantics, _first_win_stages, _first_win_receipt_semantics,
             _first_win_receipt_exports, _validate_first_win_receipts, _first_win_source_comparison,
             _correction_ledger_inverse,
             _git, _objects, _snapshot, _disk_bytes, product_inverse, _arc_inverse, _raw_inverse,
@@ -1670,7 +1706,7 @@ def _correction_ledger_inverse(before, after, group, selectors, prefix):
 
 
 def _first_win_receipt_semantics(before, after):
-    _require(FIRST_WIN_PRODUCT_COMMIT is not None, "first-win receipts require actual authored source")
+    _require(FIRST_WIN_REPAIR_COMMIT is not None, "first-win receipts require actual repaired source")
     revisions = _event_receipt_semantics(before, after, FIRST_WIN_TEXT_LEAVES,
                                          person=False, first_win=True)
     _correction_ledger_inverse(before[LEDGER_PATH], after[LEDGER_PATH], "events", FIRST_WIN_TEXT_LEAVES, 264)
@@ -1681,7 +1717,7 @@ def _first_win_receipt_exports(before, revisions, root):
     for revision in revisions:
         export, _ = _snapshot(root, revision, tuple(before))
         _require(export == before, "first-win export source/draft/ledger differs")
-        _git(root, "merge-base", "--is-ancestor", FIRST_WIN_PRODUCT_COMMIT, revision)
+        _git(root, "merge-base", "--is-ancestor", FIRST_WIN_REPAIR_COMMIT, revision)
         _git(root, "merge-base", "--is-ancestor", revision, FIRST_WIN_RECEIPT_COMMIT)
 
 
@@ -1696,27 +1732,39 @@ def _validate_first_win_receipts(before, after, root):
 
 
 def _first_win_stages(root, head, prior):
-    """Only source5 then ledger1 follow the immutable473 metadata endpoint."""
+    """Source5, exact Korean notation1, then ledger1 follow immutable473."""
     if FIRST_WIN_PRODUCT_COMMIT is None:
-        _require(FIRST_WIN_RECEIPT_COMMIT is None, "first-win receipts lack actual authored source")
-        return prior, None, None
+        _require(FIRST_WIN_REPAIR_COMMIT is FIRST_WIN_RECEIPT_COMMIT is None,
+                 "first-win repair/receipts lack actual authored source")
+        return prior, None, None, None
     _require(ENDING_METADATA_COMMIT is not None and set(FIRST_WIN_PATHS) <= set(prior)
              and set(FIRST_WIN_RAW_SHA256) == set(FIRST_WIN_RAW_PATCHES) == set(FIRST_WIN_PATHS),
              "first-win complete source5 pins and predecessor")
-    source = _ending_snapshot(root, head, prior, FIRST_WIN_PRODUCT_PARENT, FIRST_WIN_PRODUCT_COMMIT,
-                              FIRST_WIN_PATHS, ENDING_METADATA_COMMIT)
+    initial = _ending_snapshot(root, head, prior, FIRST_WIN_PRODUCT_PARENT, FIRST_WIN_PRODUCT_COMMIT,
+                               FIRST_WIN_PATHS, ENDING_METADATA_COMMIT)
     for path in FIRST_WIN_PATHS:
-        _memoized_semantics("first-win-product:" + path, (prior[path], source[path]),
-                            lambda p=path: first_win_product_inverse(prior[p], source[p], p))
+        _memoized_semantics("first-win-product:" + path, (prior[path], initial[path]),
+                            lambda p=path: first_win_product_inverse(prior[p], initial[p], p))
+    source = initial
+    if FIRST_WIN_REPAIR_COMMIT is not None:
+        _require(FIRST_WIN_REPAIR_PATHS == (FIRST_WIN_KO_PATH,)
+                 and set(FIRST_WIN_REPAIR_RAW_SHA256) == set(FIRST_WIN_REPAIR_RAW_PATCHES) == set(FIRST_WIN_REPAIR_PATHS),
+                 "first-win complete Korean repair1 pins")
+        source = _ending_snapshot(root, head, initial, FIRST_WIN_REPAIR_PARENT, FIRST_WIN_REPAIR_COMMIT,
+                                   FIRST_WIN_REPAIR_PATHS, FIRST_WIN_PRODUCT_COMMIT)
+        path = FIRST_WIN_KO_PATH
+        _memoized_semantics("first-win-repair:" + path, (initial[path], source[path]),
+                            lambda: first_win_product_inverse(initial[path], source[path], path, repair=True))
     accepted = None
     if FIRST_WIN_RECEIPT_COMMIT is not None:
+        _require(FIRST_WIN_REPAIR_COMMIT is not None, "first-win receipts lack actual Korean repair")
         accepted = _ending_snapshot(root, head, source, FIRST_WIN_RECEIPT_PARENT, FIRST_WIN_RECEIPT_COMMIT,
-                                    FIRST_WIN_RECEIPT_PATHS, FIRST_WIN_PRODUCT_COMMIT)
+                                    FIRST_WIN_RECEIPT_PATHS, FIRST_WIN_REPAIR_COMMIT)
         inputs = tuple((path, source[path], accepted[path]) for path in source)
         revisions = _memoized_semantics("first-win-receipts", inputs,
                                        lambda: _first_win_receipt_semantics(source, accepted))
         _first_win_receipt_exports(source, revisions, root)
-    return prior, source, accepted
+    return prior, initial, source, accepted
 
 
 def _ending_receipt_semantics(before, after):
@@ -1988,7 +2036,7 @@ def _read_proof_current(root):
     ending_before, ending_initial, ending_source, ending_receipts, ending_metadata = _ending_stages(root, head, current)
     current = (ending_metadata if ending_metadata is not None else ending_receipts if ending_receipts is not None
                else ending_source if ending_source is not None else ending_before)
-    first_win_before, first_win_source, first_win_receipts = _first_win_stages(root, head, current)
+    first_win_before, first_win_initial, first_win_source, first_win_receipts = _first_win_stages(root, head, current)
     current = (first_win_receipts if first_win_receipts is not None else first_win_source
                if first_win_source is not None else first_win_before)
     actual, _ = _snapshot(root, head, tuple(current))
@@ -2014,7 +2062,8 @@ def _read_proof_current(root):
             "prose_current": prose_current, "prose_metadata": prose_metadata,
             "ending_before": ending_before, "ending_initial": ending_initial, "ending_source": ending_source,
             "ending_receipts": ending_receipts, "ending_metadata": ending_metadata,
-            "first_win_before": first_win_before, "first_win_source": first_win_source,
+            "first_win_before": first_win_before, "first_win_initial": first_win_initial,
+            "first_win_source": first_win_source,
             "first_win_receipts": first_win_receipts,
             "binding": _configuration()}
 
@@ -2075,12 +2124,17 @@ def source_predecessor_inventory(root, inventory):
 
 
 def _first_win_source_comparison(root, proof, hashes):
-    """Undo only current Korean midgame before entering the immutable473 census."""
+    """Current Korean notation -> initial474 -> immutable473 comparison census."""
     if proof["first_win_source"] is None:
         return dict(hashes)
     path = FIRST_WIN_KO_PATH
     _require(hashes.get(path) == _sha(proof["first_win_source"][path]), "first-win actual source census binding")
-    comparison = {**hashes, path: _sha(proof["first_win_before"][path])}
+    # The fresh stage proof already typed the initial and repair snapshots;
+    # retain both identities without another complete-census Git walk here.
+    _require(_sha(proof["first_win_initial"][path]) == FIRST_WIN_RAW_SHA256[path][1],
+             "first-win initial source census binding")
+    initial = {**hashes, path: _sha(proof["first_win_initial"][path])}
+    comparison = {**initial, path: _sha(proof["first_win_before"][path])}
     _require(_digest(comparison) == ENDING_RECEIPT_SOURCE_MANIFEST_SHA256,
              "exact pre474 complete source census")
     prior, _ = _snapshot(root, FIRST_WIN_PRODUCT_PARENT, tuple(hashes))

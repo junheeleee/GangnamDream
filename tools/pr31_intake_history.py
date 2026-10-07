@@ -485,6 +485,9 @@ def _read_proof(root=ROOT):
                           {**pre_ending_successor, **{path: ending_raw[path] for path in paths if path in ending_raw}})
         pre_first_win_successor = {**ending_current, **{path: successor["first_win_before"][path]
                                    for path in paths if path in successor["first_win_before"]}}
+        first_win_initial = (None if successor["first_win_initial"] is None else
+                             {**pre_first_win_successor, **{path: successor["first_win_initial"][path]
+                              for path in paths if path in successor["first_win_initial"]}})
         first_win_source = (None if successor["first_win_source"] is None else
                             {**pre_first_win_successor, **{path: successor["first_win_source"][path]
                              for path in paths if path in successor["first_win_source"]}})
@@ -509,6 +512,7 @@ def _read_proof(root=ROOT):
             "pre_ending_successor": pre_ending_successor,
             "ending_source": ending_source, "ending_current": ending_current,
             "pre_first_win_successor": pre_first_win_successor,
+            "first_win_initial": first_win_initial,
             "first_win_source": first_win_source, "first_win_current": first_win_current}
 
 

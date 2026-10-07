@@ -925,9 +925,9 @@ def run_first_win_checks():
             check(False, label)
 
     with history.fresh_validation_proof() as proof:
-        before, source = proof["first_win_before"], proof["first_win_source"]
-        check(source is not None, "actual source5 is bound")
-        if source is None:
+        before, initial, source = (proof[key] for key in ("first_win_before", "first_win_initial", "first_win_source"))
+        check(initial is not None and source is not None, "actual source5 and repair1 are bound")
+        if initial is None or source is None:
             return failures, cases
         check(before == proof["ending_metadata"], "immutable473 endpoint precedes first-win source")
         check(len(history.FIRST_WIN_PATHS) == 5 and len(history.FIRST_WIN_TEXT_LEAVES) == 2,
@@ -935,17 +935,17 @@ def run_first_win_checks():
         check(all(before[p] == source[p] for p in before if p not in history.FIRST_WIN_PATHS),
               "source preserves receipts, metadata, runtime and all other product bytes")
         for path in history.FIRST_WIN_PATHS:
-            check(history.first_win_product_inverse(before[path], source[path], path) == before[path],
+            check(history.first_win_product_inverse(before[path], initial[path], path) == before[path],
                   "exact raw/hunk/two-literal inverse " + path)
-            for label, raw, owner in (("rollback", before[path], path), ("layout", source[path] + b"\n", path),
-                                      ("path alias", source[path], "./" + path),
-                                      ("type", source[path].decode(), path)):
+            for label, raw, owner in (("rollback", before[path], path), ("layout", initial[path] + b"\n", path),
+                                      ("path alias", initial[path], "./" + path),
+                                      ("type", initial[path].decode(), path)):
                 reject(lambda a=before[path], b=raw, p=owner: history.first_win_product_inverse(a, b, p), label)
-            raw = source[path] + b"\n"
+            raw = initial[path] + b"\n"
             with mock.patch.dict(history.FIRST_WIN_RAW_SHA256,
                                  {path: (history._sha(before[path]), history._sha(raw))}):
                 reject(lambda p=path, r=raw: history.first_win_product_inverse(before[p], r, p), "rehashed layout/hunk")
-            document = history._Document(source[path])
+            document = history._Document(initial[path])
             old_rows = {row["id"]: row for row in history._loads(before[path])}
             rows = {row["id"]: i for i, row in enumerate(document.value)}
             quiet = rows["arc_father_quiet_call"]
@@ -964,10 +964,57 @@ def run_first_win_checks():
                     before[p], r, p, history.FIRST_WIN_TEXT_LEAVES, history.FIRST_WIN_PATHS, q, (), 2),
                        "independent rehashed literal boundary " + label)
         path = history.FIRST_WIN_KO_PATH
+        check(history.FIRST_WIN_REPAIR_COMMIT is not None
+              and history.first_win_product_inverse(initial[path], source[path], path, repair=True) == initial[path],
+              "exact repair inverse retains immutable initial source")
+        check(all(initial[p] == source[p] for p in initial if p != path),
+              "repair preserves four locales, ledger, runtime and all other bytes")
+        for label, raw, owner in (("initial rollback", initial[path], path), ("pre474 rollback", before[path], path),
+                                  ("layout", source[path] + b"\n", path),
+                                  ("wrong path", source[path], history.FIRST_WIN_PATHS[1]),
+                                  ("type", source[path].decode(), path)):
+            reject(lambda r=raw, p=owner: history.first_win_product_inverse(initial[path], r, p, repair=True),
+                   "repair " + label)
+        reject(lambda: history.first_win_product_inverse(before[path], source[path], path),
+               "repaired current cannot replace initial source pin")
+        for label, raw in (
+            ("wrong value", source[path].replace(b"15,000", b"15,001")),
+            ("one correction", initial[path].replace("1만5천원짜리".encode(), "15,000원짜리".encode(), 1)),
+            ("extra amount", source[path].replace(b"15,000", b"15,000 15,000", 1)),
+            ("neighbor", source[path] + b"\n"),
+        ):
+            with mock.patch.dict(history.FIRST_WIN_REPAIR_RAW_SHA256,
+                                 {path: (history._sha(initial[path]), history._sha(raw))}):
+                reject(lambda r=raw: history.first_win_product_inverse(initial[path], r, path, repair=True),
+                       "rehashed repair " + label)
+                reject(lambda r=raw: history._first_win_repair_semantics(initial[path], r, path),
+                       "independent repair semantics " + label)
+        # Even repinning raw bytes cannot move an exact spelling change into an
+        # unowned string: the JSON span boundary is independent of price counts.
+        document = history._Document(initial[path])
+        rows = {row["id"]: i for i, row in enumerate(document.value)}
+        edits = []
+        for key, value in (
+            ((rows[history.FIRST_WIN_EVENT_IDS[0]], "choices", 0, "result_text"),
+             document.value[rows[history.FIRST_WIN_EVENT_IDS[0]]]["choices"][0]["result_text"].replace("1만5천원짜리", "표기")),
+            ((rows["arc_father_quiet_call"], "title"),
+             document.value[rows["arc_father_quiet_call"]]["title"] + " 1만5천원짜리"),
+        ):
+            a, z = document.spans[key]
+            edits.append((a, z, json.dumps(value, ensure_ascii=False)))
+        moved = document.text
+        for a, z, value in sorted(edits, reverse=True):
+            moved = moved[:a] + value + moved[z:]
+        moved = moved.encode()
+        reject(lambda: history._first_win_repair_semantics(moved,
+               moved.replace("1만5천원짜리".encode(), "15,000원짜리".encode()), path),
+               "exact spelling counts do not authorize unowned raw")
         check(proof["prose_current"][path] == before[path] != source[path],
               "472 midgame endpoint is immutable despite shared current path")
         reject(lambda: history._first_win_source_comparison(history.ROOT, proof, {path: history._sha(before[path])}),
                "old source cannot claim current474 census")
+        reject(lambda: history._first_win_source_comparison(history.ROOT, proof, {path: history._sha(initial[path])}),
+               "initial source cannot claim current repaired census")
         reject(lambda: history._prose_source_comparison(history.ROOT, proof,
             {p: history._sha(proof["current"][p]) for p in history.PROSE_KO_PATHS}),
                "474 current bytes cannot skip their inverse into472")
@@ -975,6 +1022,10 @@ def run_first_win_checks():
             reject(lambda: history._first_win_stages(history.ROOT, proof["head"], before), "forged direct parent")
         with mock.patch.object(history, "FIRST_WIN_PATHS", history.FIRST_WIN_PATHS[:-1]):
             reject(lambda: history._first_win_stages(history.ROOT, proof["head"], before), "incomplete path population")
+        with mock.patch.object(history, "FIRST_WIN_REPAIR_PARENT", history.FIRST_WIN_PRODUCT_COMMIT):
+            reject(lambda: history._first_win_stages(history.ROOT, proof["head"], before), "forged repair direct parent")
+        with mock.patch.object(history, "FIRST_WIN_REPAIR_PATHS", history.FIRST_WIN_PATHS):
+            reject(lambda: history._first_win_stages(history.ROOT, proof["head"], before), "expanded repair path population")
         snapshot = history._snapshot
         def missing(root, revision, paths):
             if revision == history.FIRST_WIN_PRODUCT_COMMIT:
@@ -983,6 +1034,13 @@ def run_first_win_checks():
         with mock.patch.object(history, "_snapshot", missing):
             reject(lambda: history._first_win_stages(history.ROOT, proof["head"], before), "missing typed source object")
             reject(lambda: history._read_proof(history.ROOT), "warm reader/config mutation")
+        def missing_repair(root, revision, paths):
+            if revision == history.FIRST_WIN_REPAIR_COMMIT:
+                raise ValueError("missing474 typed repair")
+            return snapshot(root, revision, paths)
+        with mock.patch.object(history, "_snapshot", missing_repair):
+            reject(lambda: history._first_win_stages(history.ROOT, proof["head"], before), "missing typed repair object")
+            reject(lambda: history._read_proof(history.ROOT), "warm repair reader/config mutation")
         check(not history._SEMANTIC_MEMO.get()[1], "failed warm proof clears pure successes")
         physical = history._disk_bytes
         with mock.patch.object(history, "_disk_bytes", lambda p: physical(p) + b"\n" if p == history.ROOT / path else physical(p)):

@@ -671,8 +671,9 @@ def run_first_win_checks():
 
     with history.fresh_validation_proof() as proof, history.previous.fresh_validation_proof():
         successor = history.fact_successor
-        check(proof["first_win_source"] is not None, "actual source5 endpoint bound")
-        if proof["first_win_source"] is None:
+        check(proof["first_win_initial"] is not None and proof["first_win_source"] is not None,
+              "actual initial source5 and repaired current endpoints bound")
+        if proof["first_win_initial"] is None or proof["first_win_source"] is None:
             return failures, cases
         check(len(history.CONTENT_PATHS) == 71 and len(history.SOURCE_PATHS) == 15,
               "original71/partial15 populations unchanged")
@@ -680,6 +681,15 @@ def run_first_win_checks():
                   for p in proof["first_win_source"] if p not in successor.FIRST_WIN_PATHS),
               "source5 does not create receipts or modify protected product")
         actual = history.current_content_raw()
+        ko = successor.FIRST_WIN_KO_PATH
+        check(proof["first_win_initial"][ko] != proof["first_win_source"][ko]
+              and all(proof["first_win_initial"][p] == proof["first_win_source"][p]
+                      for p in proof["first_win_source"] if p != ko),
+              "notation repair1 remains separate from initial5 and older product")
+        initial_raw = proof["first_win_initial"][ko]
+        check(bool(history.source_errors(initial_raw, ko)), "initial Korean text is no longer current")
+        claim, errors = history.observed_byte_hash(ko, history._sha(initial_raw), initial_raw)
+        check(claim == history._sha(initial_raw) and bool(errors), "rehashed initial raw cannot claim repaired current")
         historical = history.HISTORICAL_JSON_LEAVES
         live = history.LIVE_EVENT_IDS
         for path in successor.FIRST_WIN_PATHS:
@@ -712,6 +722,9 @@ def run_first_win_checks():
         mutant = {**hashes, successor.FIRST_WIN_KO_PATH: history._sha(proof["pre_first_win_successor"][successor.FIRST_WIN_KO_PATH])}
         reject(lambda: history.source_predecessor_inventory(history.ROOT,
             {"source_hashes": mutant, "source_manifest_sha256": history._digest(mutant)}), "rollback source census")
+        mutant = {**hashes, ko: history._sha(initial_raw)}
+        reject(lambda: history.source_predecessor_inventory(history.ROOT,
+            {"source_hashes": mutant, "source_manifest_sha256": history._digest(mutant)}), "initial source census after repair")
         transitions = {row[0]: row for row in history.receipt_transitions(history.ROOT, {})}
         for commit, endpoint, counts in (
             (successor.RECEIPT_COMMIT, "fact_current", (6, 36)),
