@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-476 · 실제 보유 손실에만 첫 투자 손실 진입 | [476](queue_active/ORDER-476.md) | pure 현재 보유 조건·준비 회귀·역사 비교 선언 |
+| 1 | [~] | ORDER-477 · 기다리기 결과의 회복 단정5잎 | [477](queue_active/ORDER-477.md) | 원문5잎·공식3교정·작은 소비자 검수 선언 |
 | 2 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | source/옛 전후시간 PASS · 12PNG 글자관찰·캡처실행 FAIL·연속창 HOLD · L3 OPEN |
 | 3 | [~] | ORDER-457 · 5장 일반 경로 정상 재플레이 | [457](queue_active/ORDER-457.md) | W193→W195 관찰 · Mac잠금으로 이어보기 메뉴미실행 |
 | 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor export GO/실제 재생6항목 HOLD |

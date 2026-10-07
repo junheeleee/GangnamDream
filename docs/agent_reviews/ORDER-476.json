@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-476",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-07",
+  "reviewer": "/root/order469_main",
+  "subject": {
+    "kind": "source",
+    "commit": "312433f8f9caf9b05fe71f9e71bc957800c64b18",
+    "tree": "aceebcfc6724800ac26d5186bcd8db5ae66df389",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "scope": "arc_invest_first_loss의 Main 진입에 실제 현재 보유 평가손실 전제를 추가한 범위만 GO. 현재 보유·명시 가격의 순수 판정, 기존 W15~18/안내/숙련5/미독해·경쟁 조건, source-only 역사 연결과 준비430 소비자 증거를 포함한다. 선택의 실제 종목 거래·3일 회복 서사·장면 전체 계층/품질·실제 입력/렌더·자연 플레이·본편 출시 GO가 아니다.",
+  "method": {
+    "independence": "root가 Main·fixture·simulator/Screenshot 기대·실행을, order469_history가 역사 지원4파일을, order469_review가 JA appendix·정적 감사/반례를 작성했다. 비저자는 제품1+지원13 전체 diff와 실제 생산자/소비자, 원로그, typed Git 단계, 전후 snapshot을 직접 읽고 read-only Git/stdlib JSON·해시로 전수 대조했다. 저자 선정 표본0, 이 보고서 외 작성0, 프로젝트 import/QA·엔진·공식 import·커밋0.",
+    "instructions": "CLAUDE.md, gangnamdream-dev 전체, WORK_UNIT, 선택 ORDER-476 및 해당 narrative/event 정본을 직접 읽었다. 스킬의 정확 소유·pre-autoload 격리·표적 검사·전수 독립검수·자동/실제/인간 증거 분리를 적용했다. 새 규범0이며 이번 exact 전이/adapter/검수 결속은 일회성이다.",
+    "population": "Main의 조건 한 줄과 EOF helper 전체, 지원13파일 전체, 보존14파일, fixture에서 독립 도출한 430개 ID 전수, checks1의 focused2 및 원본18 검증 entrypoint+목록 조회1의 모든 stdout/stderr를 대조했다. 런타임 count만으로 수용하지 않았다.",
+    "candidate_observation": "보고 작성 직전 실제 clean HEAD/tree가 subject와 일치했다. 실제 실행 subject는 a03f0bc/tree b81742c이며, 최종312433은 그 단일 부모에서 CLAUDE의 최근완료/마지막갱신 두 현재상태 행만 변경했다. 현재3216 tracked raw 전부를 reuse snapshot과 독립 재해시 대조했고 나머지3215는 원실행 입력과 동일했다. 새 실행으로 재분류하지 않는다."
+  },
+  "source_review": {
+    "product_stage": {
+      "parent": "53b885d66af93532b5c5a3117795be16cbe7e288",
+      "commit": "54bda08d1c0ec1472b3cf1805703f84e1f533428",
+      "tree": "8f03e21229710d7c21700229191921c5fca0e314",
+      "changed_paths": ["scenes/MainGame.gd"],
+      "raw_sha256": "c04f986d7fca16fa1e1023dc90801af373398ce4e94b3baca35ee19e2350bff1"
+    },
+    "predicate": "MainGame.gd:7661은 같은 줄에 _has_current_investment_loss()만 추가했다. :23916의 helper는 등록 자산의 Dictionary 보유에서 quantity/avg_price/명시 market_prices가 int 또는 float이며 유한·양수이고 price<avg_price인 항목 하나 이상일 때 true다. bool/문자열/누락/0/음수/NaN/Inf/미등록은 증거가 아니며, 다른 종목 이익과 상계하지 않는다. 투자 경험·순자산·초기 가격 fallback은 사용하지 않는다. 초기화·매매·월갱신·RNG·로그·저장 호출0이다.",
+    "actual_consumers": "systems/InvestmentSystem.gd:26–59의 실제 buy_asset가 quantity/avg_price를 생산하고 :71–98의 sell_asset가 부분 감소/전량 제거한다. MainGame.gd:18841–18843 등의 보유 표가 현재 가격/원가를 읽는다. Main._next_arc_id:7651의 월급 우선·bridge, :7665 이후 후보와 :7688 첫 수익 fallback은 순서 불변이다. preview :8375는 현재 상태로 미래 후보를 조회하고 실제 진입 때 helper를 다시 읽는다. 등록 조회 DataRegistry.gd:1347은 순수 조회다.",
+    "preservation": "source parent 대비 content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_midgame.json 및 callback_events_45.json의10 raw와 content/assets.json·GameState·DataRegistry·InvestmentSystem의4 raw가 byte-exact다. 효과/선택/플래그·원문5언어·번역원장·등급 inventory·공개 pin·project.godot 변경0이다. 등록 자산/초기화/거래 API는 수리하지 않았다.",
+    "support": "arc_flow_sim의 실제 State portfolio/market_prices·등록 자산 집합·수치 predicate/eval 연결 및 A/B W15 준비 보유만 추가했다. 기존 AST의 나머지240주 기대를 보존한다. ScreenshotQA는 옛 필수 W15 손실 기대만 optional W15~18로 바꾸며 실제 입력에 가짜 보유를 넣지 않는다. 실제 runtime은 Main/InvestmentSystem/GameState/EventManager를 호출하며 predicate stub을 쓰지 않는다.",
+    "pre_execution_review_corrections": "읽기 검수에서 InvestmentSystem을 autoload처럼 호출하던 fixture를 실제 preload 인스턴스로 정정하도록 요청했고 반영됐다. callback은 W15 실제 선택 생산 뒤 W35/36 조건 읽기로, 월급 bridge는 portfolio/quote/손실 기억 비소비까지 확인하도록 보강됐다. 이는 실행 전 저작 수리이며 실패 실행을 PASS로 소급한 기록이 아니다.",
+    "file_sha256": {
+      "tools/InvestmentLossGateCheck.gd": "88e11e6325a6a7c4a48500350c5232720a2d3488cef6de50a771fde2775f5e45",
+      "tools/InvestmentLossGateCheck.tscn": "5bd53f16d18a353390549e93b18cc053329ca4eef2ba82c965a3f97014f51347",
+      "tools/ScreenshotQA.gd": "7e030eb9c5670b852581e133434f8e7c16416e222cef19a4a9bae15d0d66f3a7",
+      "tools/arc_flow_sim.py": "1193d7afec923283574b762124cb2cf06164aa8160c426df0fb88f1192fc04d3",
+      "tools/audit_scope.json": "284f010afc27ed764b3066c0ee72c998cd80802f2d7efc4d79091686c5658856",
+      "tools/investment_ap_copy_self_test.py": "835265756efa867f9f14f4f0bb3eb95d7bb787565eaf67e1b5911b51104f1309",
+      "tools/investment_loss_gate_audit.py": "7de83c5acd37035c8a9956f618dba7edf3be4883cee8d9bb7833c30caa31df2c",
+      "tools/investment_loss_gate_self_test.py": "66db1977bc5fbd101c81c053f9318f7095a0bced1bbc482d2480952f88b7f428",
+      "tools/order469_source_compat.py": "20bc08acc61d96d65b44054aa13102024cba40d78c3f032c5bfd4cc343f2bcfd",
+      "tools/order469_source_compat_self_test.py": "d8e2f79b49fc3f11866c71a5cc3946e6b6cfa5214b5d8de1661928e43eed6b24",
+      "tools/pr31_intake_history.py": "56b8ee204774c011f65bdca5c6b50d170cae3086ae6eeef27d47c474ec8fd519",
+      "tools/pr31_intake_history_self_test.py": "6d6e96a98863a814b050b781d4a3d3a2049e99316d23824a23fb55ee51c95a21",
+      "tools/ja_translation_pipeline.py": "e1222d36ecf86a5a28caa10e51ecd4d2e915edb1427657433d39791ca60a89c1"
+    }
+  },
+  "history_review": {
+    "boundary": "469 proof는 immutable before/after와 actual current476을 분리한다. 실제 Main-only typed commit/parent/tree/blob와 현재 Git/disk를 먼저 검증한 뒤 exact 조건/EOF 역상으로 post469 Main을 복원한다. 전체 actual census를 검증한 뒤 Main 하나만 역투영하여 pre476의90d88 census와 일치시킨다. PR31의 모든 과거 stage Main은 old469 그대로이고 마지막 current만 actual476이다. actual payload를 역사 raw로 바꾸지 않는다.",
+    "actual_census": "defc3ee5e602220868859f88820fc023a24fc4750f54694d5333f0fef1dc0996",
+    "pre476_census": "90d88b6fe55939264625f49a36bfdc8ff7d10f93c7cd53b85a394f20f911cc05",
+    "ja": "기존469/470 등의 sealed whole prefix를 유지한 새476 appendix다. pre469→pre476의 기존 total-line -8을 검사하고, pre476→actual476의 전체 UI-call tuple/payload/order/정확 좌표 동일성을 별도 검사한다. Main EOF에는 UI call이 없다. investment_ap_copy_self_test는 새 appendix 역상 한 단계만 앞에 연결했다.",
+    "preserved": "기존 Main14/13 반환 의미, 469~475 typed/raw/receipt 핀과 PR31 역사 관측 경계를 덮지 않는다. order470_source_compat.py·main_game_locale_history.py·ui_translation_append.py 원문은 parent53b885와 동일하다. 실제 focused56/31 및 AP80/JA_UI 원본 검사로 current 소비 연결을 확인했다. 옛 전체 selftest를 새로 실행했다고 주장하지 않는다.",
+    "ledger": {"new_receipts": 0, "batches": 270, "accepted_keys": 41848, "raw_sha256": "2d609869aae88189f0c65dc0046f2585bc7b20e2df261115f4cb94f018f7a442", "boundary": "parent53b885와 전체 raw 동일. 번역 수용·native/rendered 증거를 새 발급하지 않았다."}
+  },
+  "runtime": {
+    "result": ".git/order476-20261007.y1V27I/runtime1/result.json",
+    "result_sha256": "389bd1ea2d3af341be0ad81b7b7d071c743d3e2d149e6253af39d4e6053c42ea",
+    "actual_subject": {"commit": "a03f0bc59229adfeb93ffea6935615d47fb14aff", "tree": "b81742c71178a677ada317ddeba4d87604296cb0"},
+    "runner_sha256": "ac0458091790b6b9b02e432cd7a05cbcf4ebed6902a1c93712c31f37e36a457d",
+    "engine_sha256_before_after": "e6b5cfdc226ffb7ec4f4950b0b12ddba4f040624724cff1acce9ae1241cf0034",
+    "namespace": "GangnamDream_StoryNameplateQA_fdf8a6e489a8483e970ce3e41056eadd",
+    "marker": "INVESTMENT_LOSS_GATE_CHECK_OK locales=5 cases=430 loaded=5 helper=210 route=90 competition=30 live=15 producer=20 callback=60 prepared_component_only=true",
+    "stdout_and_godot_log_sha256": "98d5a523eeaaebbddc7feed42b4aa7a32b254519d08ae65585426edb914e1a34",
+    "case_ids_sha256": "9ec9a91c943b73ed201466fd051460891d4ad97a910227768bddbbfb63636750",
+    "case_ids_encoding": "430 sorted unique IDs joined by LF plus final LF, UTF-8 SHA256",
+    "observed": "실제 engine/wrapper0, 5.315015초, error=null/passed/preserved=true. stdout와 Godot 전체83256bytes 동일, stderr0, engine/script 오류0, success/복원 marker 각각1. fixture에서 독립 생성한 정확430 ID 집합과 모든 실제 행을 대조했다. locale별86, 그룹5/210/90/30/15/20/60, 모든 passed와 상태 계약 true다. pre/post-autoload user_dir가 같은 새 UUID이며 전체3216 tracked/HEAD/tree/status·외부Godot·runner·로그·보호11그룹 전후 불변이다.",
+    "matrix": {
+      "loaded5": "5locale actual DataRegistry/source 본문 및 세 선택 flag 동일",
+      "helper210": "15 named states + quantity/avg_price/price 각각 invalid9 =42×5. 빈/quote-only/옛flag/손익0/이익/실손실/소수수량/정수/혼합순서2/미등록/가격없음/잘못된보유와 null/0/음수/string/bool/NaN/±Inf/array를 전수",
+      "route90": "before14/start15/end18/after19/no_guidance/skill4/seen/sold/profit × actual/preview ×5; 실제 selector 손실 여부와 serialize 불변",
+      "competition30": "paycheck_card/paycheck_preview/paycheck_bridge/profit_fallback/father_card/father_preview ×5. 기존 월급 우선·첫수익/아버지 후보 보존; bridge의 월급 seen/결과1은 허용하되 보유·가격·loss seen/세 기억은 비소비",
+      "live15": "recovered/became_loss/sold_after_preview ×5. preview 뒤 현재 가격/보유를 바꾸고 실제 진입을 재평가; 각 reader는 상태 불변",
+      "producer20": "실제 buy_asset(140000, quote70000, quantity1.834)→준비 quote63000→부분sell0.5→전량sell1.0 ×5. 손익0 false→손실 true→잔여손실 true→옛 경험flag가 남아도 보유없음 false",
+      "callback60": "선택0/1/2를 W15 apply_choice로 실제 생산 후 W35/36×해당flag 제거/유지×5. 실제 EventManager 조건 적격15·거절45이며 reader 상태 불변"
+    },
+    "boundary": "선행 후보를 닫은 준비 flags/가격/보유를 사용한다. producer의 가격 하락은 준비값이지 실제 시장 월갱신이나 UI 주문이 아니다. callback은 turn을35/36으로 준비해 flag/min_turn을 읽고 달력 자연 진행·scheduler 발화를 검증하지 않는다. singleton/transient/EventManager/MetaProgression/locale 복원은 확인하지만 전체 자연 플레이·모든 RNG 상태 복원을 주장하지 않는다."
+  },
+  "checks": {
+    "result": ".git/order476-20261007.y1V27I/checks1/result.json",
+    "result_sha256": "1e5ae0eee9e4ebd0151e97e219144e558b67d73a3bc296f27e8e2ef059d68f1f",
+    "runner_sha256": "017de09b215c179441c1e186b85e09a0ea4de0fbb43d8810f03e83ccd58ffd71",
+    "seconds": 3723.935388209,
+    "execution": "실제 clean a03f에서 한 full collector의17505잎/213 source census를 새 focused2 API에 공유했다. 470/PR31/469/Main fresh4 context 안에서 원본 API와 원본 CLI entrypoint(runpy)를 호출했으며 판정 함수/collector를 대체하지 않았다. 하위 CLI 자신의 수집까지 전역1회라고 주장하지 않는다. 정상 context 종료 뒤 error=null/passed/preserved=true, 전체3216/source/runner/log 전후 동일. 모든42 stdout/stderr 기록의 실제 size/SHA를 재계산했고 stderr 전부0이다.",
+    "collector_leaves_sha256": "a0ae7984bc079155324162404e373423fc19a89ab64a1ea7f02e4800adf3ca9a",
+    "focused": [
+      {"marker": "ORDER476_FIRST_LOSS_SOURCE_OK cases=56", "failures": 0, "stdout_sha256": "290bcc8c11ce3bc7f3d2eb2e856f9097e1a789e1f216a24a8a91dd10b7d5d193"},
+      {"marker": "PR31_FIRST_LOSS_OK cases=31", "failures": 0, "stdout_sha256": "a82ee8db64bf25642d9f4f945e8176a33f7270757464bfa4c73ff3c23392db23"}
+    ],
+    "negative_scope": "source/typed object missing·type·bytes·trailing·parent/path·disk/config/warm drift, rehashed rollback/neighbor/census 혼합, Main guard/숫자/polarity/registry/quote/창/skill/UI 변조, simulator 실제predicate/eval/trajectory/240주 기대 변조, fixture oracle/호출/복원 변조, JA tuple line/text/function/missing/duplicate/order 및 sealed prefix/appendix 변조를 실제 원본 focused와 self-test79사례의 음성 항목이 거절했다. 각 모집단은 양성·음성을 함께 포함한다.",
+    "validating_original_cli_exit0": [
+      {"label": "held_loss_audit", "observed": "INVESTMENT_LOSS_GATE_AUDIT_OK; isolated simulator52/protected14/text_changes0", "stdout_sha256": "e17e425a90b12ed131572a232f4d65604b6ef2e16eab35581df9f798bd27209d"},
+      {"label": "held_loss_negatives", "observed": "INVESTMENT_LOSS_GATE_SELF_TEST_OK cases=79 failures=0", "stdout_sha256": "5992b670d7564c5a0bca84c9fc7c7d506439bfd07a8479cb1ae5bb68927f78b3"},
+      {"label": "arc_flow", "observed": "원본 A/B240주 기대 유지; 흐름 무결·잼0. W15 손실 보유는 명시 준비이며 자연투자 이력이 아님", "stdout_sha256": "9ca2c90cb8afdb56b12a4574c16ba6591d54d817d86f01d04b614a6214b61f7a"},
+      {"label": "ja_ui", "observed": "legacy2952/context29; errors0, beta", "stdout_sha256": "334472e339e88c0dc5dac2aa0be9b1af2dad0ba891a4d87407f17d1ccbd1c5b5"},
+      {"label": "ja_demo_pipeline", "observed": "entries1172/events467/dynamic701/catalog4/endings0", "stdout_sha256": "f34a0e8c3d1974e855c65b7465c28de7d6c039f15a915621a01f0dabd0bd72df"},
+      {"label": "ja_demo", "observed": "72/72·467/467; skeleton errors0", "stdout_sha256": "6ed04c74866309324c16c5af50b5382800bf0e9d92bf60f41c6801c6d9c45e1b"},
+      {"label": "zh_demo", "observed": "CN/TW72/72·467/467; skeleton OK, shipping0/direct_english_bypass11 유지", "stdout_sha256": "36b55e5f467f1ab01ed5b5e03af8027f8a72727e0bd2b11bdc6c531f863b33c0"},
+      {"label": "ap_copy_consumer", "observed": "INVESTMENT_AP_COPY_SELF_TEST_OK cases=80 failures=0 actual_collectors=1", "stdout_sha256": "99b78fadade898358e074ecbf06ffa934bf3891d17fbe83e94104faca09b5bda"},
+      {"label": "en_coverage", "stdout_sha256": "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"},
+      {"label": "english_hangul", "stdout_sha256": "15ad7fcf86b374cacd08c98110654b04febf4b65210231e6a7b7fb237abe6c44"},
+      {"label": "narrative_continuity", "observed": "OK; 본편 agent HOLD/인간 open45 done1 원출력 유지", "stdout_sha256": "50fb37b91b7b1ad1fb7d25f2c7d2fffe1921a944de98518c20333b01d3949f26"},
+      {"label": "scene_audio_contract", "stdout_sha256": "b629eaab373ccfbd504686997f7cb04b8ebdc484fe4328ec4a6e67432d6b9132"},
+      {"label": "speech_register", "stdout_sha256": "43952f3918dd5c4d1a8b1002dcec7dad706502315a57d115d67195724324dc11"},
+      {"label": "release_inventory", "observed": "원본 지문/보고 검증 OK; decisions=user_required", "stdout_sha256": "9bca145d3db7bb10745ec0c7deaa709ced89d47c09dbb8de9021c097de5ac516"},
+      {"label": "demo_i18n", "observed": "각 목표어14/14·100/100·UI121/121", "stdout_sha256": "a99e3d2981750a415a713bf9292c56abe2c65a0eab43dbe25b03c119c0c0dce8"},
+      {"label": "context_manifest", "stdout_sha256": "566d7b4d3ae529bb4dc10d1c31b0106e6fe8bdd82cca57dbdaa05fd84ae6b422"},
+      {"label": "queue_consistency", "observed": "active79/in_progress77", "stdout_sha256": "591b8736de73337ab8bda79d4bb66a995e451ffc6b5eaf1382e5a91625bb9d23"},
+      {"label": "audit_scope_verify", "observed": "GODOT_GUARD6/registered211; EXTRA 안내는 그대로", "stdout_sha256": "1442a1ca89fa4dde39e6d3b1147deeb786c87fa37c15a4043da722427c9f5810"}
+    ],
+    "list_only": {"label": "declared_lane_plan", "argv_suffix": ["--lane", "investment-loss-gate", "--list"], "listed": 16, "exit_code": 0, "stdout_sha256": "0624d2ad78da0bee6e0747c662ec291ee811205cc9bf41b2a0bd740171fa885a", "boundary": "실행 목록 조회1이다. wrapper19 호출을19개 검증 통과나 목록16의 추가 실행으로 바꾸지 않는다."}
+  },
+  "input_reuse": {
+    "path": ".git/order476-20261007.y1V27I/input-reuse1.json",
+    "sha256": "38ab5289f739eb4d71507c44d1a1d41c9a98a19df5ca8a8f8b22c33c206808fb",
+    "runner_sha256": "5ce2747f30928db149cca45dc3035dfb772384e174f9bc91c5f3e8d4cc0b8538",
+    "changed_paths": ["CLAUDE.md"],
+    "changed_rows": ["recent_completion", "last_updated"],
+    "unchanged_tracked": 3215,
+    "assessment": "--no-replace-objects 실제 Git commit의 정확 단일 부모 a03f, CLAUDE-only diff와 HEAD raw=디스크, 정확 두 행 역치환을 직접 대조했다. 현재3216 파일은 reuse snapshot과 전수 동일하며 CLAUDE 두 상태 행을 제외한 제품/정본/소비자/fixture/검증코드3215는 runtime/checks 입력과 동일하다. 외부 엔진과 원로그·원결과 SHA도 일치한다. 이 제한 재사용은 충분하므로 추가 특정QA를 요구하지 않는다. 실제 실행은 a03f에 남고 최종312433에서 재실행했다고 주장하지 않는다."
+  },
+  "l2": [
+    {
+      "unit": "arc_invest_first_loss ingress",
+      "도달 경로": "Main._next_arc_id W15~18·안내·숙련≥5·미독해·현재 등록 보유 평가손실. 실제 marker430과 route90/competition30/live15/producer20이 준비 도달·거절을 확인한다. 부모/월급 등 앞선 후보가 없는 준비 상태이지 자연 루트가 아니다.",
+      "생산자 ↔ 독자": "systems/InvestmentSystem.gd:26–59,71–98의 quantity/avg_price/잔여 보유 + market_prices ↔ scenes/MainGame.gd:7661,23916. 선택 기억 생산은 content/events/arc_midgame.json:2418,2430,2443 + autoloads/GameState.gd:1950,2011 ↔ callback_events_45.json:218/261/304의 flag/min_turn36 + EventManager.gd:976.",
+      "바꾸는 상태": "guard 자체 상태변경0. 손실이 아니면 손실 seen/현금/보유/가격/기억을 소비하지 않고 기존 다음 후보로 간다. 기존 선택0 money−100000/mental+3/investment_skill+2, 선택1 money0/mental−3/skill+3, 선택2 money−200000/mental−2/skill+1 및 공통 seen+각 cut_loss_first/held_through_loss/averaged_down은 원문 그대로다. 이 효과 수치는 정적 보존이며 이번 수리의 거래효과 변경0이다.",
+      "포기 시 잃는 것": "해당 선택을 하지 않으면 그 선택 기억과 W36+ callback 조건 적격을 얻지 않는다. W15 실제 apply_choice 생산→W35/36 조건읽기60은 적격15·거절45다. 자연 callback 발화를 보장하지 않는다. 현재 손실이 없는 경우 손실 장면/그 기억의 허위 생산을 막는 것이 의도한 변경이다.",
+      "서사 위치": "첫해 Main 직접 아크, W15~18/M04~05. story_map/narrative_spine에 이 root의 명시항목 없음; 1.living_bridge로 발명하지 않는다. 기존 월급 W14~17 우선, 아버지 후보와 이후 첫수익 등 경쟁 순서는 불변이다.",
+      "장면 계층": "명시 tier가 없는 기본 T3(SCENE_TIER.md:56–58). 기존 상태변경·실제매매와 산문 불일치 부채를 유지하며 전체 tier 충족·장면 승격0이다.",
+      "닫는 것": "미매수·전량매도·손익0·이익·무효 가격/보유의 허위 손실 진입만 새로 차단한다. 기존 arc_invest_first_loss_seen 재진입 차단은 유지하며 새 선택/플래그/거래/콜백을 만들지 않는다."
+    }
+  ],
+  "limits": {
+    "global_verdict": "HOLD",
+    "remaining_scoped_failures": 0,
+    "remaining_debt": [
+      "기존 손실 선택의 현금−100000/−200000과 산문상 매도/추가매수는 실제 종목 거래가 아니다. 선택1의 사흘 뒤 손실 절반 회복 단정도 이번 scope 밖 원문 부채다.",
+      "ScreenshotQA.gd:11172의 hyunsu_study_together W18 기대는 그대로다. :10385 입력은 _ap_invest를 제외하고 실제 보유를 생산하지 않는다. 이번 optional loss 기대 수리·준비430·simulator로 legacy 전체 입력 경로의 W18 호환을 증명하지 않았다.",
+      "이번에는 전체 기존 selftest/전체 감사·실제 입력·시각적 렌더·자연240주·콜백 자연 발화·인간/원어민/물리패드 검수를 실행하거나 대체하지 않았다."
+    ],
+    "unobserved": ["actual_rendered_scene", "keyboard_or_button_trade_input", "legacy_ScreenshotQA_full_input", "natural_gameplay", "scheduled_callback_utterance", "native_reader", "human_playtest", "physical_controller_feel", "whole_product_quality_and_external_release"],
+    "historical_decisions": "human_gates raw SHA6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6 및 agent_review_decisions raw SHA9129b89c5553fabab298855ac12f40608d1efcc1acbb7d256f089fc602c3d243는 source parent와 동일하다. 공개GO1·인간OPEN45·과거HOLD/REJECT·149 captureFAIL·473~475 한정GO와 원실패 기록을 보존한다. 이번476 runtime1/checks1은 실제 PASS이며 옛 실패를 재분류하지 않는다.",
+    "fixed_statement": "자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다. 이 소스 진입 수리의 GO를 실제 화면149/457/302·사람/native/pad 또는 본편 출시 GO로 확대하지 않는다."
+  }
+}

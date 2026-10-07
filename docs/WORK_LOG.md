@@ -2,17 +2,24 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
-## 2026-10-07 — 첫 투자 손실 현재 보유 전제 (476, 착수)
+## 2026-10-07 — 기다리기 결과문5잎의 회복 단정 (477, 착수)
 
-- 미매수·전량매도·이익 저장의 false ingress를 pure 현재 보유 손실 조건으로
-  제한한다. 기존 W15~18/숙련/안내/seen과 선택·콜백·5언어는 보존한다.
-- [작은 사양](queue_active/ORDER-476.md)에 제품 한 줄+EOF helper, 준비 회귀,
-  역사 비교 지원·독립검수의 파일 소유를 분리했다. 실제입력 fixture에 손실을
-  몰래 주입하지 않으며 기존 현금효과/3일 회복 단정은 별도 부채로 남긴다.
-- gangnamdream-dev의 선언·소유·표적검수·증거분리를 적용한다. 화면 잠금 대기를
-  반복하지 않는다. 실제화면·자연플레이·원어민·패드·본편 출시 HOLD는 불변이다.
-- 지원 범위 추가: 기존 AP-copy selftest가 JA 봉인 역상 체인을 직접 읽으므로
-  root가 새476 appendix 역상 한 단계만 연결한다. 역사 기대/핀은 바꾸지 않는다.
+- 선택1은 사흘이나 손실 절반 회복을 실행하지 않는다. 정확 결과1잎×5언어에서
+  그 확정 사실만 제거하고 앱 닫기·불안·팔지 않기로 한 기억·판단 유보를 남긴다.
+- [작은 사양](queue_active/ORDER-477.md)으로 KO/EN·목표어3·역사 지원·비저자
+  파일 소유를 분리했다. 공식 기존3교정/최초0와 필요한 fear 지문을 별도 전이로
+  결속한다. 기존476430·240주·대형UI를 반복하지 않고 바뀐5잎/소비자/수용을 검수한다.
+- gangnamdream-dev의 선언·소유·표적검수·증거분리를 적용한다. 새 거래/기능 완성0,
+  project/사용자 저장·공개·과거 판정 불변, 실제화면·자연·native/pad·출시 HOLD다.
+
+## 2026-10-07 — 현재 보유 평가손실에서만 첫 손실 진입 (476, 한정 GO)
+
+- 미매수·전량매도·손익0·이익/잘못된 보유·가격의 false ingress를 막았다. Main 조건1줄+UI없는 EOF pure helper만 source54bda08/directparent53b885로 수리했다. 등록된 현재 보유 중 하나라도 양수·유한 수량/원가/명시 가격에서 price<avg_price면 진입하며 경험flag/순자산/초기가격은 근거가 아니다. 기존 W15~18·안내·숙련5·seen/월급 경쟁·세 선택/회수·5언어는 불변이다.
+- finalcandidate 312433f8f9caf9b05fe71f9e71bc957800c64b18/tree aceebcfc6724800ac26d5186bcd8db5ae66df389; prepared430 actual@a03f는 engine/wrapper0·5.315015초·복원true, loaded5/helper210/route90/competition30/live15/producer20/callback60이다. 실제 Main helper/selector·buy/부분sell/전량sell·apply_choice 생산→W35/36 조건reader를 확인했으며 UI입력·자연발화 증거는 아니다. stdout=Godot·stderr/오류0·engine SHA·전체3216/보호11/runner/log 보존이다. 최종에는 CLAUDE 현재상태2행만 달라졌고 input-reuse1 SHA 38ab5289f739eb4d71507c44d1a1d41c9a98a19df5ca8a8f8b22c33c206808fb의 나머지3215 입력/engine/log 동일성으로만 재사용한다.
+- checks1 actual 소스56/PR31 31 반례와 원본18 CLI+차선목록1 actualexit0/stderr0·3723.935388초·fresh4contexts 정상종료·전체source/runner/log 보존. 한 actualcollect 17505잎을 새 focused API에 공유했다. 원본 arc_flow240주는 trigger 영향 때문에1회만 실행/기대값 삭제·always-true proxy0. 옛469~475 seal/핀/영수증/14·13 반환·JA -8 역사경계는 보존하고 현재UI-call line 불변/actual payload 현source를 증명했다. 새 번역영수증0/텍스트·등급inventory·공개pin 변경0.
+- 비저자 [전수보고](agent_reviews/ORDER-476.json) SHA f763d7aeb4d0535250addb0a96ebe751875f41bf335376f6273daf864645faec의 해당source/단위만 GO. 상세SHA·L2 전칸은 [완료사양](queue_archive/ORDER-476.md)에 결속한다. 기존 cash효과는 실제매매가 아니며3일회복·legacy 실제입력 W18 기대는 별도 미검증 부채다. prepared430/시뮬레이터를 그 입력이나 렌더·자연·원어민·사람·물리패드 증거로 바꾸지 않는다.
+- gangnamdream-dev의 소유/전이/격리/표적검수/증거분리 적용, 새규범0/일회성이다. 공개GO1·인간OPEN45·과거판정·149captureFAIL·475GO 보존, 실제화면·본편 출시 HOLD다. 화면잠금 반복확인이나 사용자 재서명을 요청하지 않고 다음 확인된 안전 수리를 별도선언한다.
+- 검수 비용을 측정했다: 원본 JA_UI 663.896초·ZH_DEMO 787.332초·AP 소비자774.855초. 다음 결과문5잎은 Main/UI/guard 불변이므로 이 UI/guard 전수를 반복하지 않고 실제 변경된 원문·공식3교정·역사비교·결과/기록 소비자로 표적을 좁힌다. 기존 검증을 생략해 새 PASS라고 주장하는 방식은 아니다.
 
 ## 2026-10-07 — 심야 루틴 상대적 취침 순서10잎 (475, 한정 GO)
 
