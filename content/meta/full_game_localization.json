@@ -10879,6 +10879,111 @@
           "batch_id": "db14c7eaa48393eb29d8956727bf6daa15d9766497c0d6dec73973e25e01fbb4"
         }
       }
+    },
+    {
+      "order": "ORDER-475",
+      "group": "events",
+      "roots": [
+        "arc_night_routine"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Independent full10 Korean-source relative chronology review; actual official export/check/import of2 existing result/bridge leaves. Corrections only; no native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "c48121730374971418c4112371c8393620414c0e10eeb0c42f9d3e42b576ad45"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "2b30fb563a120a1001f8beee8e02f1228b8f4e8f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "90d88b6fe55939264625f49a36bfdc8ff7d10f93c7cd53b85a394f20f911cc05",
+          "selection_sha256": "e439b149eec5e8a497aa7ad50876ca3be4b35584bfcf733bb32abbff689b7c50",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "f2896ccabce39d4be8fcc6f9fb0c3a1c1390c4c0d2899279c616201d035d467b"
+        }
+      }
+    },
+    {
+      "order": "ORDER-475",
+      "group": "events",
+      "roots": [
+        "arc_night_routine"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 2,
+        "zh-TW": 0
+      },
+      "source_review": "Independent full10 Korean-source relative chronology review; actual official export/check/import of2 existing result/bridge leaves. Corrections only; no native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "65d17496018e547d493637fde83b94e2263b931a69e203b53e1a99681cfbdef1"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "2b30fb563a120a1001f8beee8e02f1228b8f4e8f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "90d88b6fe55939264625f49a36bfdc8ff7d10f93c7cd53b85a394f20f911cc05",
+          "selection_sha256": "a90c31edfe263330aaf5d2ca90ec5155826282f3576f5a545b20309f5cf8ba6d",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "0124ec1daf1be814e032f4081fa5086320a71fe1179371f3f72ffeb5db7f2bf7"
+        }
+      }
+    },
+    {
+      "order": "ORDER-475",
+      "group": "events",
+      "roots": [
+        "arc_night_routine"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 2
+      },
+      "source_review": "Independent full10 Korean-source relative chronology review; actual official export/check/import of2 existing result/bridge leaves. Corrections only; no native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "35f91330c326fb0e20dcc6e53d8cfebaac9b67d8f7be19db8f64378af935bd78"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "2b30fb563a120a1001f8beee8e02f1228b8f4e8f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "90d88b6fe55939264625f49a36bfdc8ff7d10f93c7cd53b85a394f20f911cc05",
+          "selection_sha256": "25971aed39699a0d0ab10c35210ba10dcb356658c94bed4f7e6d15651c67191d",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "69c7a3256572c6d556e906e0aacc5374fa4253c5d55e11e228e64c79b77c2558"
+        }
+      }
     }
   ],
   "accepted": {
@@ -59440,12 +59545,12 @@
         "target_sha256": "98cbbc04b98fde547e73b7b3944c55a6b9956f137ee00a88a5e842bf79f5d7de"
       },
       "events:arc_night_routine:/choices/1/bridge_summary": {
-        "source_sha256": "1d03bd7764896d0fb1a124a3778a398a1f759938463aa7c9f264d9bf5ca15f23",
-        "target_sha256": "1d0ba6224aad4e8ea6cf7292d5a5acb13b0246e917fc3d7fa002bbb2b936c85a"
+        "source_sha256": "8cdf0ddfe0b129b25aa6a2273d9ba0e524c7339008b4b5bc1a8b1549f759dc21",
+        "target_sha256": "4085b6ab3f8cf789867ca106fd3a1de7cd8fb4663c9df64113c151257491f3e9"
       },
       "events:arc_night_routine:/choices/1/result_text": {
-        "source_sha256": "c175f0fed4283c9ef62ac4b357c4ee09828612ac421ca77b156f31cb77f6b3fc",
-        "target_sha256": "bb0aa9b13e79df04f00387d5265de31b8503f745bfc9b7492150bc5b5bfd52d0"
+        "source_sha256": "c33f36f2ad7042e33dc4889843f356b18d3e5c3bc519d224d8846ae02d6a0e31",
+        "target_sha256": "0f433ac3b7bbb517a945367faa1552c2b5815eaf6df943d96ff620959964ae7f"
       },
       "events:arc_night_routine:/choices/1/text": {
         "source_sha256": "0ab4fc9da8f3c67859adb0b2d0d62e0989b05c09125682489bbbfeff69e9e094",
@@ -112058,12 +112163,12 @@
         "target_sha256": "c55dd2153944b15aad4889f4ec674e5688ad42808d7a28372e107d295828dfc2"
       },
       "events:arc_night_routine:/choices/1/bridge_summary": {
-        "source_sha256": "1d03bd7764896d0fb1a124a3778a398a1f759938463aa7c9f264d9bf5ca15f23",
-        "target_sha256": "b3d999090fe4d7fd1b82b9d259bfffc0ed54b486a07d440a1bf9fd4ae2b934f1"
+        "source_sha256": "8cdf0ddfe0b129b25aa6a2273d9ba0e524c7339008b4b5bc1a8b1549f759dc21",
+        "target_sha256": "f43ff31971c99747208fe884059be73107634f7f9d44921fbff7f9bf04f9b1c4"
       },
       "events:arc_night_routine:/choices/1/result_text": {
-        "source_sha256": "c175f0fed4283c9ef62ac4b357c4ee09828612ac421ca77b156f31cb77f6b3fc",
-        "target_sha256": "9cfce913871642d9273d4c08db5de630e0bd8552421a2a04082cd917c2559cd0"
+        "source_sha256": "c33f36f2ad7042e33dc4889843f356b18d3e5c3bc519d224d8846ae02d6a0e31",
+        "target_sha256": "1a392848d59e63bc4d8d8c4f96f794df2ee20b895683205fcac9916242191043"
       },
       "events:arc_night_routine:/choices/1/text": {
         "source_sha256": "0ab4fc9da8f3c67859adb0b2d0d62e0989b05c09125682489bbbfeff69e9e094",
@@ -169452,12 +169557,12 @@
         "target_sha256": "058ae8ec565f16d6c841988155e59dd6d799a07b2699ced3519e70091e87a63d"
       },
       "events:arc_night_routine:/choices/1/bridge_summary": {
-        "source_sha256": "1d03bd7764896d0fb1a124a3778a398a1f759938463aa7c9f264d9bf5ca15f23",
-        "target_sha256": "81d88a3c94aefc30cd51a5198b70b9afe94748f8d4d4e5c13b75cdf62d892c88"
+        "source_sha256": "8cdf0ddfe0b129b25aa6a2273d9ba0e524c7339008b4b5bc1a8b1549f759dc21",
+        "target_sha256": "e44036b071268d1d1acd05e54b2feb6454e405192224a4cb66026b010f67df47"
       },
       "events:arc_night_routine:/choices/1/result_text": {
-        "source_sha256": "c175f0fed4283c9ef62ac4b357c4ee09828612ac421ca77b156f31cb77f6b3fc",
-        "target_sha256": "3621029fe1c3878a7e76bab42ee80c5e236d76d3ba5a37333ea7dd013f54ae38"
+        "source_sha256": "c33f36f2ad7042e33dc4889843f356b18d3e5c3bc519d224d8846ae02d6a0e31",
+        "target_sha256": "f72a3772d52d476d4e3086207151f259cc299bfe121d81448bd886ca78c23a6a"
       },
       "events:arc_night_routine:/choices/1/text": {
         "source_sha256": "0ab4fc9da8f3c67859adb0b2d0d62e0989b05c09125682489bbbfeff69e9e094",
@@ -178281,7 +178386,7 @@
       }
     }
   },
-  "accepted_sha256": "d257f38c288f6f56cbee5817cc4eb9a6b5185f282b13fbfa302eda63709945af",
+  "accepted_sha256": "ff6e62582bf6c1705ea77726f7b53370b93cff22c5f38f77c7ef44f40a40cec8",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
