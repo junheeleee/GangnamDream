@@ -616,7 +616,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 145, "expected_file_count": 51, "expected_ids_sha256": "a6a6ec729442836b7328d965a645391fc8d5c8750c22535ff2e6928a5750c2da", "expected_content_sha256": "0ce0b943d537d2b1162ebb6e2fce63be66002c713fd9a3eed691cc5ee7d826c9"
+        "expected_event_count": 145, "expected_file_count": 51, "expected_ids_sha256": "a6a6ec729442836b7328d965a645391fc8d5c8750c22535ff2e6928a5750c2da", "expected_content_sha256": "ee8f545970fb8a44eb26c298e1932284e16227e20c26dde245c6503e75594554"
       },
       "facts": [
         {
