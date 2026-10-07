@@ -754,17 +754,102 @@ def run_first_win_checks():
     return failures, cases
 
 
+def run_night_routine_checks():
+    """Current475 observations and a separate six-correction receipt seam."""
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("PR31 night routine: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    with history.fresh_validation_proof() as proof, history.previous.fresh_validation_proof():
+        successor = history.fact_successor
+        check(proof["night_source"] is not None, "actual source5 bound")
+        if proof["night_source"] is None:
+            return failures, cases
+        check(len(history.CONTENT_PATHS) == 71 and len(history.SOURCE_PATHS) == 15,
+              "unchanged original71/partial15 populations")
+        check(proof["pre_night_successor"] == proof["first_win_current"], "immutable474 endpoint retained")
+        check(all(proof["night_source"][p] == proof["pre_night_successor"][p]
+                  for p in proof["night_source"] if p not in successor.NIGHT_PATHS), "source changes only five files")
+        actual = history.current_content_raw()
+        historical, live = history.HISTORICAL_JSON_LEAVES, history.LIVE_EVENT_IDS
+        for path in successor.NIGHT_PATHS:
+            raw = proof["current"][path]
+            check(actual[path] == raw and not history.source_errors(raw, path), "actual current payload " + path)
+            check(bool(history.source_errors(proof["pre_night_successor"][path], path)), "old474 raw is not current")
+            neighbor = raw + b"\n"
+            claim, errors = history.observed_byte_hash(path, history._sha(neighbor), neighbor)
+            check(claim == history._sha(neighbor) and bool(errors), "rehashed neighbor rejected")
+            claim, errors = history.observed_byte_hash(path, "0" * 64, raw)
+            check(claim == "0" * 64 and bool(errors), "forged current hash rejected")
+            current = history._rows(raw)[successor.NIGHT_EVENT_ID]["choices"][1]
+            expected = history._rows(proof["night_source"][path])[successor.NIGHT_EVENT_ID]["choices"][1]
+            check(all(current[key] == expected[key] for key in ("result_text", "bridge_summary")),
+                  "both runtime-facing text consumers keep authored current strings")
+            if path in successor.NIGHT_PATHS[:2]:
+                check(set(successor.NIGHT_TEXT_LEAVES) <= set(historical[path])
+                      and successor.NIGHT_EVENT_ID in live[path], "both selectors enter historical comparison population")
+                before, after = history.historical_blobs(path)
+                check(after == raw and before == history.previous.project_bytes(proof["before"][path], path)
+                      and history.project_bytes(raw, path) == before, "comparison-only prose and actual payload stay separate")
+        hashes = {p: history._sha(proof["current"][p]) for p in history.SOURCE_PATHS}
+        partial = {"source_hashes": hashes, "source_manifest_sha256": history._digest(hashes)}
+        check(history.source_predecessor_inventory(history.ROOT, partial)["source_hashes"]
+              == {p: history._sha(proof["before"][p]) for p in hashes}, "partial15 preserves exact historical inverse")
+        ko = successor.NIGHT_KO_PATH
+        mutant = {**hashes, ko: history._sha(proof["pre_night_successor"][ko])}
+        reject(lambda: history.source_predecessor_inventory(history.ROOT,
+            {"source_hashes": mutant, "source_manifest_sha256": history._digest(mutant)}), "old474 census cannot claim475")
+        transitions = {row[0]: row for row in history.receipt_transitions(history.ROOT, {})}
+        for commit, endpoint, counts in (
+            (successor.RECEIPT_COMMIT, "fact_current", (6, 36)),
+            (successor.PERSON_RECEIPT_COMMIT, "person_current", (6, 12)),
+            (successor.PROSE_RECEIPT_COMMIT, "prose_current", (0, 120)),
+            (successor.ENDING_RECEIPT_COMMIT, "ending_current", (0, 63)),
+            (successor.FIRST_WIN_RECEIPT_COMMIT, "first_win_current", (0, 6)),
+        ):
+            row = transitions[commit]
+            check(row[2][history.LEDGER_PATH] == proof[endpoint][history.LEDGER_PATH]
+                  and (row[3]["first_receipts"], row[3]["corrections"]) == counts, "old receipt endpoint " + endpoint)
+        if successor.NIGHT_RECEIPT_COMMIT is None:
+            check(proof["night_current"][history.LEDGER_PATH] == proof["pre_night_successor"][history.LEDGER_PATH]
+                  and None not in transitions, "source-only stage claims no acceptance")
+        else:
+            row = transitions[successor.NIGHT_RECEIPT_COMMIT]
+            check((row[3]["first_receipts"], row[3]["corrections"], row[3]["correction_batches"]) == (0, 6, 3),
+                  "separate six corrections with zero new keys")
+            check(row[1][history.LEDGER_PATH] == proof["night_source"][history.LEDGER_PATH]
+                  and row[2][history.LEDGER_PATH] == proof["night_current"][history.LEDGER_PATH], "night receipt endpoints separate")
+            check(row[3]["receipts"] == row[3]["batches"] == 0 and not any(row[3]["ui_by_locale"].values()),
+                  "night corrections add no UI coverage")
+        check(proof["current"][history.INVENTORY_PATH] == proof["pre_night_successor"][history.INVENTORY_PATH],
+              "unmeasured metadata changes remain inadmissible")
+    return failures, cases
+
+
 def main():
     person_only = sys.argv[1:] == ["--person-self-test"]
     prose_only = sys.argv[1:] == ["--prose-self-test"]
     metadata_only = sys.argv[1:] == ["--prose-metadata-self-test"]
     ending_only = sys.argv[1:] == ["--ending-facts-only"]
     first_win_only = sys.argv[1:] == ["--first-win-only"]
-    failures, cases = (run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
+    night_only = sys.argv[1:] == ["--night-routine-only"]
+    failures, cases = (run_night_routine_checks() if night_only else run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
                        else run_person_checks() if person_only else run())
     for error in failures:
         print(error, file=sys.stderr)
-    label = ("PR31_FIRST_WIN" if first_win_only else "PR31_ENDING_FACTS" if ending_only else "PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
+    label = ("PR31_NIGHT_ROUTINE" if night_only else "PR31_FIRST_WIN" if first_win_only else "PR31_ENDING_FACTS" if ending_only else "PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
              else "PR31_PERSON_SUCCESSOR" if person_only else "PR31_INTAKE_HISTORY")
     print(f"{label}_{'FAIL' if failures else 'OK'} cases={cases} current_files=71 native_review=OPEN")
     return int(bool(failures))

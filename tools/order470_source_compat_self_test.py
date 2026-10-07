@@ -1084,6 +1084,132 @@ def run_first_win_checks():
     return failures, cases
 
 
+def run_night_routine_checks():
+    """Only475 source/receipt and the bounded474 comparison adapter."""
+    failures, cases = [], 0
+    active_before, memo_before = history._ACTIVE.get(), history._SEMANTIC_MEMO.get()
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER475 night routine: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    with history.fresh_validation_proof() as proof:
+        before, source = proof["night_before"], proof["night_source"]
+        check(source is not None, "actual source5 is bound")
+        if source is None:
+            return failures, cases
+        check(before == proof["first_win_receipts"], "immutable474 receipt endpoint precedes475")
+        check(len(history.NIGHT_PATHS) == 5 and len(history.NIGHT_TEXT_LEAVES) == 2,
+              "one root, result and bridge summary, five locales")
+        check(all(before[p] == source[p] for p in before if p not in history.NIGHT_PATHS),
+              "source changes no receipts/metadata/runtime or other product")
+        for path in history.NIGHT_PATHS:
+            check(history.night_routine_product_inverse(before[path], source[path], path) == before[path],
+                  "exact raw/hunk/two-literal inverse " + path)
+            for label, raw, owner in (("rollback", before[path], path), ("layout", source[path] + b"\n", path),
+                                      ("alias", source[path], "./" + path), ("type", source[path].decode(), path)):
+                reject(lambda r=raw, p=owner: history.night_routine_product_inverse(before[path], r, p), label)
+            raw = source[path] + b"\n"
+            with mock.patch.dict(history.NIGHT_RAW_SHA256, {path: (history._sha(before[path]), history._sha(raw))}):
+                reject(lambda: history.night_routine_product_inverse(before[path], raw, path), "rehashed layout/hunk")
+            document = history._Document(source[path])
+            rows = {row["id"]: i for i, row in enumerate(document.value)}
+            old = {row["id"]: row for row in history._loads(before[path])}
+            for label, key, value in (
+                ("missing bridge", (rows[history.NIGHT_EVENT_ID], "choices", 1, "bridge_summary"),
+                 old[history.NIGHT_EVENT_ID]["choices"][1]["bridge_summary"]),
+                ("wrong choice", (rows[history.NIGHT_EVENT_ID], "choices", 0, "result_text"), "unowned"),
+                ("first-win result", (rows[history.FIRST_WIN_EVENT_IDS[0]], "choices", 0, "result_text"), "unowned"),
+                ("legacy demo", (rows["arc_father_quiet_call"], "title"), "unowned"),
+            ):
+                a, z = document.spans[key]
+                mutant = (document.text[:a] + json.dumps(value, ensure_ascii=False) + document.text[z:]).encode()
+                pins = {path: (history._sha(before[path]), history._sha(mutant))}
+                reject(lambda r=mutant, q=pins: history._receipt_overlay_inverse(before[path], r, path,
+                       history.NIGHT_TEXT_LEAVES, history.NIGHT_PATHS, q, (), 2), "independent rehashed " + label)
+        locales = ("ko", "en", *history.LOCALES)
+        actual = {locale: proof["current"][path] for locale, path in zip(locales, history.NIGHT_PATHS)}
+        compared = history.historical_first_win_comparison(actual)
+        check(compared == {locale: before[path] for locale, path in zip(locales, history.NIGHT_PATHS)},
+              "historical474 adapter returns only exact pre-night bytes")
+        compared["ko"] = b"mutated caller map"
+        check(proof["night_before"][history.NIGHT_KO_PATH] == before[history.NIGHT_KO_PATH], "comparison map does not alias proof")
+        for label, candidate in (
+            ("missing locale", {k: v for k, v in actual.items() if k != "ja"}),
+            ("extra locale", {**actual, "other": b""}),
+            ("old raw", {**actual, "ko": before[history.NIGHT_KO_PATH]}),
+            ("neighbor raw", {**actual, "ja": actual["ja"] + b"\n"}),
+            ("wrong type", {**actual, "en": actual["en"].decode()}),
+        ):
+            reject(lambda r=candidate: history.historical_first_win_comparison(r), "comparison " + label)
+        path = history.NIGHT_KO_PATH
+        reject(lambda: history._night_source_comparison(history.ROOT, proof, {path: history._sha(before[path])}),
+               "old census cannot claim current475")
+        reject(lambda: history._first_win_source_comparison(history.ROOT, proof, {path: history._sha(source[path])}),
+               "current475 cannot skip inverse into474")
+        with mock.patch.object(history, "NIGHT_PRODUCT_PARENT", history.NIGHT_PRODUCT_COMMIT):
+            reject(lambda: history._night_stages(history.ROOT, proof["head"], before), "forged direct parent")
+        with mock.patch.object(history, "NIGHT_PATHS", history.NIGHT_PATHS[:-1]):
+            reject(lambda: history._night_stages(history.ROOT, proof["head"], before), "incomplete source paths")
+        snapshot = history._snapshot
+        def missing(root, revision, paths):
+            if revision == history.NIGHT_PRODUCT_COMMIT:
+                raise ValueError("missing475 typed source")
+            return snapshot(root, revision, paths)
+        with mock.patch.object(history, "_snapshot", missing):
+            reject(lambda: history._night_stages(history.ROOT, proof["head"], before), "missing typed source")
+            reject(lambda: history.historical_first_win_comparison(actual), "warm comparison cannot retain missing proof")
+        check(not history._SEMANTIC_MEMO.get()[1], "failed warm proof clears pure successes")
+        physical = history._disk_bytes
+        with mock.patch.object(history, "_disk_bytes", lambda p: physical(p) + b"\n" if p == history.ROOT / path else physical(p)):
+            reject(lambda: history._read_proof_current(history.ROOT), "actual disk differs from Git")
+            reject(lambda: history.historical_first_win_comparison(actual), "warm comparison disk reader identity")
+        receipts = proof["night_receipts"]
+        if receipts is None:
+            check(history.NIGHT_RECEIPT_COMMIT is None and proof["current"][history.LEDGER_PATH] == before[history.LEDGER_PATH],
+                  "source stage claims no six receipts")
+            reject(lambda: history._night_receipt_semantics(source, source), "unbound receipt rejected")
+        else:
+            history._validate_night_receipts(source, receipts, history.ROOT)
+            check(history._correction_ledger_inverse(source[history.LEDGER_PATH], receipts[history.LEDGER_PATH],
+                  "events", history.NIGHT_TEXT_LEAVES, 267) == source[history.LEDGER_PATH], "exact old267 raw prefix")
+            old, new = (history._loads(stage[history.LEDGER_PATH]) for stage in (source, receipts))
+            check(sum(map(len, old["accepted"].values())) == sum(map(len, new["accepted"].values())) == 41848,
+                  "unchanged accepted key population")
+            for label, mutate in (
+                ("old batch", lambda data: data["batches"][0].update(order="forged")),
+                ("native approval", lambda data: data["batches"][-1].update(native_review="PASS")),
+                ("census", lambda data: next(iter(data["batches"][-1]["official_receipt_headers_by_locale"].values())).update(source_manifest_sha256="0" * 64)),
+                ("unowned key", lambda data: data["accepted"]["ja"].pop(next(iter(data["accepted"]["ja"])))),
+            ):
+                data = copy.deepcopy(new)
+                mutate(data)
+                raw = (json.dumps(data, ensure_ascii=False, indent=2) + "\n").encode()
+                with mock.patch.dict(history.NIGHT_RECEIPT_RAW_SHA256, {history.LEDGER_PATH:
+                    (history._sha(source[history.LEDGER_PATH]), history._sha(raw))}):
+                    reject(lambda r=raw: history._night_receipt_semantics(source, {**receipts, history.LEDGER_PATH: r}),
+                           "rehashed receipt " + label)
+            reject(lambda: history._correction_ledger_inverse(source[history.LEDGER_PATH], receipts[history.LEDGER_PATH] + b"\n",
+                   "events", history.NIGHT_TEXT_LEAVES, 267), "ledger layout rejected")
+            with mock.patch.object(history, "_snapshot", side_effect=ValueError("missing export")):
+                reject(lambda: history._validate_night_receipts(source, receipts, history.ROOT), "direct receipt export loss")
+        check(all(proof["current"][p] == before[p] for p in (*history.ENDING_PATHS, *history.ARC_PATHS,
+                  *history.RUNTIME_PATHS, history.INVENTORY_PATH, history.RATING_PATH)), "protected product remains474")
+    check(history._ACTIVE.get() is active_before and history._SEMANTIC_MEMO.get() is memo_before,
+          "context restored without cross-invocation cache")
+    return failures, cases
+
+
 def main():
     coffee_only = sys.argv[1:] == ["--coffee-self-test"]
     person_only = sys.argv[1:] == ["--person-self-test"]
@@ -1091,13 +1217,14 @@ def main():
     metadata_only = sys.argv[1:] == ["--prose-metadata-self-test"]
     ending_only = sys.argv[1:] == ["--ending-facts-only"]
     first_win_only = sys.argv[1:] == ["--first-win-only"]
-    failures, cases = (run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only else run_person_checks() if person_only else
+    night_only = sys.argv[1:] == ["--night-routine-only"]
+    failures, cases = (run_night_routine_checks() if night_only else run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only else run_person_checks() if person_only else
                        run_coffee_consumer_checks() if coffee_only else run())
     for failure in failures:
         print(failure, file=sys.stderr)
     label = "COFFEE_CONSUMER" if coffee_only else "SOURCE_COMPAT"
-    prefix = "ORDER474_FIRST_WIN" if first_win_only else "ORDER473_ENDING_FACTS" if ending_only else "ORDER472_METADATA" if metadata_only else "ORDER472_PROSE" if prose_only else "ORDER471_PERSON" if person_only else "ORDER470_" + label
-    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={5 if first_win_only or ending_only else 0 if metadata_only else 10 if prose_only else 5 if person_only else 9}")
+    prefix = "ORDER475_NIGHT_ROUTINE" if night_only else "ORDER474_FIRST_WIN" if first_win_only else "ORDER473_ENDING_FACTS" if ending_only else "ORDER472_METADATA" if metadata_only else "ORDER472_PROSE" if prose_only else "ORDER471_PERSON" if person_only else "ORDER470_" + label
+    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={5 if night_only or first_win_only or ending_only else 0 if metadata_only else 10 if prose_only else 5 if person_only else 9}")
     return int(bool(failures))
 
 

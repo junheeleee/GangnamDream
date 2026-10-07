@@ -496,6 +496,14 @@ def _read_proof(root=ROOT):
         first_win_current = (pre_first_win_successor if first_win_raw is None else
                              {**pre_first_win_successor, **{path: first_win_raw[path]
                               for path in paths if path in first_win_raw}})
+        pre_night_successor = {**first_win_current, **{path: successor["night_before"][path]
+                               for path in paths if path in successor["night_before"]}}
+        night_source = (None if successor["night_source"] is None else
+                        {**pre_night_successor, **{path: successor["night_source"][path]
+                         for path in paths if path in successor["night_source"]}})
+        night_raw = successor["night_receipts"] if successor["night_receipts"] is not None else successor["night_source"]
+        night_current = (pre_night_successor if night_raw is None else
+                         {**pre_night_successor, **{path: night_raw[path] for path in paths if path in night_raw}})
         current = {**current, **{path: successor["current"][path]
                    for path in paths if path in successor["current"]}}
     actual, _ = _snapshot(root, head, paths)
@@ -513,7 +521,8 @@ def _read_proof(root=ROOT):
             "ending_source": ending_source, "ending_current": ending_current,
             "pre_first_win_successor": pre_first_win_successor,
             "first_win_initial": first_win_initial,
-            "first_win_source": first_win_source, "first_win_current": first_win_current}
+            "first_win_source": first_win_source, "first_win_current": first_win_current,
+            "pre_night_successor": pre_night_successor, "night_source": night_source, "night_current": night_current}
 
 
 def _successor_snapshot(root, predecessor, commit, head, before, changed_paths):
@@ -629,6 +638,8 @@ def source_stage_manifest_digests(root, inventory):
                 manifests.add(fact_successor.PROSE_RECEIPT_SOURCE_MANIFEST_SHA256)
             if proof["first_win_source"] is not None:
                 manifests.add(fact_successor.ENDING_RECEIPT_SOURCE_MANIFEST_SHA256)
+            if proof["night_source"] is not None:
+                manifests.add(fact_successor.FIRST_WIN_RECEIPT_SOURCE_MANIFEST_SHA256)
             for stage, revision in (("before", INTAKE_PARENT), ("after", INTAKE_COMMIT),
                                     ("second", SECOND_COMMIT), ("third_source", THIRD_SOURCE_COMMIT)):
                 if revision is None:
@@ -926,7 +937,8 @@ def receipt_transitions(root, inventory):
                              (fact_successor.PERSON_RECEIPT_COMMIT, proof["person_source"], proof["person_current"]),
                              (fact_successor.PROSE_RECEIPT_COMMIT, proof["prose_source"], proof["prose_current"]),
                              (fact_successor.ENDING_RECEIPT_COMMIT, proof["ending_source"], proof["ending_current"]),
-                             (fact_successor.FIRST_WIN_RECEIPT_COMMIT, proof["first_win_source"], proof["first_win_current"])):
+                             (fact_successor.FIRST_WIN_RECEIPT_COMMIT, proof["first_win_source"], proof["first_win_current"]),
+                             (fact_successor.NIGHT_RECEIPT_COMMIT, proof["night_source"], proof["night_current"])):
             if commit is None:
                 continue
             before = {path: a[path] for path in CURRENT_UI_PATHS}
@@ -969,6 +981,9 @@ def __getattr__(name):
                     for path in fact_successor.FIRST_WIN_PATHS[:2]:
                         result[path] = tuple(dict.fromkeys((*result.get(path, ()),
                                                            *fact_successor.FIRST_WIN_TEXT_LEAVES)))
+                if proof["night_source"] is not None:
+                    for path in fact_successor.NIGHT_PATHS[:2]:
+                        result[path] = tuple(dict.fromkeys((*result.get(path, ()), *fact_successor.NIGHT_TEXT_LEAVES)))
                 return result
             result = dict(previous.LIVE_EVENT_IDS)
             for path in HISTORY_CONTENT_PATHS:
@@ -985,6 +1000,9 @@ def __getattr__(name):
             if proof["first_win_source"] is not None:
                 for path in fact_successor.FIRST_WIN_PATHS[:2]:
                     result[path] = frozenset(result.get(path, ())) | frozenset(fact_successor.FIRST_WIN_EVENT_IDS)
+            if proof["night_source"] is not None:
+                for path in fact_successor.NIGHT_PATHS[:2]:
+                    result[path] = frozenset(result.get(path, ())) | {fact_successor.NIGHT_EVENT_ID}
             return result
     return getattr(previous, name)
 

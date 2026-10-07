@@ -952,6 +952,66 @@ FIRST_WIN_RECEIPT_BATCH_SHA256 = {
     "zh-TW": "6db409be670659ff4706654a9dafab30d4b8fe172bdf729f84b7e65723843101",
 }
 FIRST_WIN_RECEIPT_SOURCE_MANIFEST_SHA256 = "673384fc1590f904c3f23e7e4688ca87a95eb60a71ce7f7f6dd564611f667a2c"
+# A separate475 source/receipt edge; the five shared files do not merge its
+# two night-routine literals with474's already accepted first-win results.
+NIGHT_PATHS = FIRST_WIN_PATHS
+NIGHT_KO_PATH = NIGHT_PATHS[0]
+NIGHT_EVENT_ID = "arc_night_routine"
+NIGHT_TEXT_LEAVES = tuple((NIGHT_EVENT_ID, ("choices", 1, field))
+                          for field in ("result_text", "bridge_summary"))
+NIGHT_PRODUCT_PARENT = 'd58583aaf7bb9dc53c249f7ad28def492e51e6aa'
+NIGHT_PRODUCT_COMMIT = 'abd8eb37ebf1dd8cd7967365780e2cc8a5a0c4fd'
+NIGHT_RAW_SHA256 = {'content/events/arc_midgame.json': ('58fd1fdff64a2adad1fbc28b770c4a35d78dfcb1f4ad02ddc303b52d535d3f89',
+                                     '1cc0dcab4379e00253f76ed8686e5fa466081bac565cab8ba2df7df80277d952'),
+ 'content/events_en/arc_midgame.json': ('b7237dda9c0d87a6cf8f8845775916e0b4ee3cbceb2dd0da2e847513baaa21da',
+                                        '5b2d2192d47cdb723cbd26a68bc9ef02bfb074d6134ed6e6f3b084243e2c81ed'),
+ 'content/events_ja/arc_midgame.json': ('63ebbdf7b91f4185789e06f66d84adec204c05118b99d0d0379e69dea85a20ad',
+                                        '256b6d7686343685fae07f4ae78018f24cb79f694ed7ea306048c0146c92732d'),
+ 'content/events_zh-CN/arc_midgame.json': ('017d3161eb743cde8c660407b3684e1c1f0ee2e83b8d882f332c1e1c7a8a6514',
+                                           'b45f0a4ac4da3bb98c291746c13ebc7caa90c138cdc2a90a381e754303619d2e'),
+ 'content/events_zh-TW/arc_midgame.json': ('dcc316943babc5293729c6bd07e20e25ca8e090975d4202a506b33d06e48a114',
+                                           'a5acbfaa01570a6f64855b86104d84a78db1e1220e4ec2233eab2ec417f47f00')}
+NIGHT_RAW_PATCHES = {'content/events/arc_midgame.json': (('replace',
+                                      2150,
+                                      2152,
+                                      2150,
+                                      2152,
+                                      '239bbb8cc025ec07048553b219e95f5c6780c743cbd079e6b8f8de79ef5a8696',
+                                      '615d2b7276991725393d00ce29043dd6c70300956a4710d7217e08b1db5c4c5b'),),
+ 'content/events_en/arc_midgame.json': (('replace',
+                                         685,
+                                         687,
+                                         685,
+                                         687,
+                                         '678c3d733e4cecb1ed8a67eaa690fb45fc2a946e5400ed5f7dab6f0ff032d03a',
+                                         '6149fe84838f433a0bb1ca18640ccc4324c9315355a5efbea39a32257e1c76cc'),),
+ 'content/events_ja/arc_midgame.json': (('replace',
+                                         890,
+                                         892,
+                                         890,
+                                         892,
+                                         'ed8d0351a5ece3b9b1c0cf1da889a652a7857db9b8e10bc55dbe9fe969cd4b2e',
+                                         '7766496fc78ecdff30b32837e63dc22e077e79aa87d42df4a28296cf3bb31a30'),),
+ 'content/events_zh-CN/arc_midgame.json': (('replace',
+                                            890,
+                                            892,
+                                            890,
+                                            892,
+                                            '28b2d3e441a885a6a2e8fb219c6a89528ebad4d7da408820c08be0b574bedf29',
+                                            '4212d77e92f6f94eb9aee2ac9c669c40ee05661bbd2bef8e482038044902cb8d'),),
+ 'content/events_zh-TW/arc_midgame.json': (('replace',
+                                            890,
+                                            892,
+                                            890,
+                                            892,
+                                            'd1e90e11c332b03158cb69176c7e35bc14a03dab4b2eadfe33f92f6d107af699',
+                                            '9fe3515b63db0a728a6c96d8e19e17f2da6efefe6f06aaeee49ca8e45e6815dc'),)}
+NIGHT_RECEIPT_PARENT = None
+NIGHT_RECEIPT_COMMIT = None
+NIGHT_RECEIPT_PATHS = (LEDGER_PATH,)
+NIGHT_RECEIPT_RAW_SHA256 = {}
+NIGHT_RECEIPT_BATCH_SHA256 = {}
+NIGHT_RECEIPT_SOURCE_MANIFEST_SHA256 = None
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
 _SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
 
@@ -1306,6 +1366,15 @@ def first_win_product_inverse(before, after, path, *, repair=False):
                                     FIRST_WIN_RAW_SHA256, (), 2)
 
 
+def night_routine_product_inverse(before, after, path):
+    """Comparison-only inverse of the result and bridge summary, not runtime."""
+    _require(path in NIGHT_PATHS and len(NIGHT_TEXT_LEAVES) == len(set(NIGHT_TEXT_LEAVES)) == 2,
+             "night-routine exact source path/selector population")
+    _raw_inverse(before, after, path, NIGHT_RAW_SHA256, NIGHT_RAW_PATCHES)
+    return _receipt_overlay_inverse(before, after, path, NIGHT_TEXT_LEAVES, NIGHT_PATHS,
+                                    NIGHT_RAW_SHA256, (), 2)
+
+
 def _configuration():
     return (PRODUCT_PARENT, PRODUCT_COMMIT, PRODUCT_PATHS, SOURCE_PATHS,
             copy.deepcopy(RAW_SHA256), copy.deepcopy(RAW_PATCHES), RECEIPT_PARENT,
@@ -1351,6 +1420,14 @@ def _configuration():
             copy.deepcopy(FIRST_WIN_RECEIPT_BATCH_SHA256), FIRST_WIN_RECEIPT_SOURCE_MANIFEST_SHA256,
             first_win_product_inverse, _first_win_repair_semantics, _first_win_stages, _first_win_receipt_semantics,
             _first_win_receipt_exports, _validate_first_win_receipts, _first_win_source_comparison,
+            NIGHT_PATHS, NIGHT_KO_PATH, NIGHT_EVENT_ID, NIGHT_TEXT_LEAVES,
+            NIGHT_PRODUCT_PARENT, NIGHT_PRODUCT_COMMIT, copy.deepcopy(NIGHT_RAW_SHA256),
+            copy.deepcopy(NIGHT_RAW_PATCHES), NIGHT_RECEIPT_PARENT, NIGHT_RECEIPT_COMMIT,
+            NIGHT_RECEIPT_PATHS, copy.deepcopy(NIGHT_RECEIPT_RAW_SHA256),
+            copy.deepcopy(NIGHT_RECEIPT_BATCH_SHA256), NIGHT_RECEIPT_SOURCE_MANIFEST_SHA256,
+            night_routine_product_inverse, _night_stages, _night_receipt_semantics,
+            _night_receipt_exports, _validate_night_receipts, _night_source_comparison,
+            historical_first_win_comparison,
             _correction_ledger_inverse,
             _git, _objects, _snapshot, _disk_bytes, product_inverse, _arc_inverse, _raw_inverse,
             _validate_receipts, _receipt_semantics, _receipt_exports, receipt_overlay_inverse,
@@ -1512,11 +1589,11 @@ def _prose_receipt_semantics(before, after):
     return _event_receipt_semantics(before, after, PROSE_TEXT_LEAVES, person=False, prose=True)
 
 
-def _event_receipt_semantics(before, after, selectors, *, person, prose=False, ending=False, first_win=False):
-    # Only these five named transitions use the shared official-header grammar.
+def _event_receipt_semantics(before, after, selectors, *, person, prose=False, ending=False, first_win=False, night=False):
+    # Only these six named transitions use the shared official-header grammar.
     # Their path, count, source census, raw and batch pins remain independent.
-    _require(all(type(flag) is bool for flag in (person, prose, ending, first_win))
-             and sum((person, prose, ending, first_win)) <= 1
+    _require(all(type(flag) is bool for flag in (person, prose, ending, first_win, night))
+             and sum((person, prose, ending, first_win, night)) <= 1
              and set(before) == set(after), "receipt stage/snapshot shape")
     paths = PERSON_PATHS if person else ARC_PATHS
     ko_path = paths[0]
@@ -1538,6 +1615,10 @@ def _event_receipt_semantics(before, after, selectors, *, person, prose=False, e
         paths, ko_path, added, count, order = FIRST_WIN_PATHS, FIRST_WIN_KO_PATH, (), 2, "ORDER-474"
         receipt_paths, pins = FIRST_WIN_RECEIPT_PATHS, FIRST_WIN_RECEIPT_RAW_SHA256
         batches, source_manifest = FIRST_WIN_RECEIPT_BATCH_SHA256, FIRST_WIN_RECEIPT_SOURCE_MANIFEST_SHA256
+    if night:
+        paths, ko_path, added, count, order = NIGHT_PATHS, NIGHT_KO_PATH, (), 2, "ORDER-475"
+        receipt_paths, pins = NIGHT_RECEIPT_PATHS, NIGHT_RECEIPT_RAW_SHA256
+        batches, source_manifest = NIGHT_RECEIPT_BATCH_SHA256, NIGHT_RECEIPT_SOURCE_MANIFEST_SHA256
     _require(len(selectors) == count and set(pins) == set(receipt_paths)
              and set(batches) == set(LOCALES), "receipt pin/selector populations")
     for path in before:
@@ -1545,7 +1626,7 @@ def _event_receipt_semantics(before, after, selectors, *, person, prose=False, e
             _require((_sha(before[path]), _sha(after[path])) == pins[path], "receipt raw " + path)
         else:
             _require(before[path] == after[path], "receipt changed a source/protected file")
-    for path in (() if ending or first_win else PROSE_PATHS[10:] if prose else paths[2:]):
+    for path in (() if ending or first_win or night else PROSE_PATHS[10:] if prose else paths[2:]):
         if prose:
             prose_receipt_overlay_inverse(before[path], after[path], path)
         elif person:
@@ -1678,9 +1759,10 @@ def _ending_ledger_inverse(before, after):
 
 
 def _correction_ledger_inverse(before, after, group, selectors, prefix):
-    """Literal-only inverse shared by the two named ledger-only corrections."""
+    """Literal-only inverse shared by the three named ledger-only corrections."""
     _require((group, selectors, prefix) in (("endings", ENDING_TEXT_LEAVES, 261),
-                                          ("events", FIRST_WIN_TEXT_LEAVES, 264)),
+                                          ("events", FIRST_WIN_TEXT_LEAVES, 264),
+                                          ("events", NIGHT_TEXT_LEAVES, 267)),
              "unowned correction literal contract")
     old, new = _Document(before), _Document(after)
     old_batches, new_batches = old.value["batches"], new.value["batches"]
@@ -1710,6 +1792,54 @@ def _correction_ledger_inverse(before, after, group, selectors, prefix):
         restored = restored[:a] + text + restored[z:]
     _require(restored.encode() == before, "ending ledger bytes changed outside owned receipts/append")
     return before
+
+
+def _night_receipt_semantics(before, after):
+    _require(NIGHT_PRODUCT_COMMIT is not None, "night receipts require actual authored source")
+    revisions = _event_receipt_semantics(before, after, NIGHT_TEXT_LEAVES, person=False, night=True)
+    _correction_ledger_inverse(before[LEDGER_PATH], after[LEDGER_PATH], "events", NIGHT_TEXT_LEAVES, 267)
+    return revisions
+
+
+def _night_receipt_exports(before, revisions, root):
+    for revision in revisions:
+        export, _ = _snapshot(root, revision, tuple(before))
+        _require(export == before, "night export source/draft/ledger differs")
+        _git(root, "merge-base", "--is-ancestor", NIGHT_PRODUCT_COMMIT, revision)
+        _git(root, "merge-base", "--is-ancestor", revision, NIGHT_RECEIPT_COMMIT)
+
+
+def _validate_night_receipts(before, after, root):
+    try:
+        _night_receipt_exports(before, _night_receipt_semantics(before, after), root)
+    except BaseException:
+        memo = _SEMANTIC_MEMO.get()
+        if memo is not None:
+            memo[1].clear()
+        raise
+
+
+def _night_stages(root, head, prior):
+    """Exactly source5 then ledger1, preserving474's completed receipt endpoint."""
+    if NIGHT_PRODUCT_COMMIT is None:
+        _require(NIGHT_RECEIPT_COMMIT is None, "night receipts lack actual authored source")
+        return prior, None, None
+    _require(FIRST_WIN_RECEIPT_COMMIT is not None and set(NIGHT_PATHS) <= set(prior)
+             and set(NIGHT_RAW_SHA256) == set(NIGHT_RAW_PATCHES) == set(NIGHT_PATHS),
+             "night complete source5 pins and predecessor")
+    source = _ending_snapshot(root, head, prior, NIGHT_PRODUCT_PARENT, NIGHT_PRODUCT_COMMIT,
+                              NIGHT_PATHS, FIRST_WIN_RECEIPT_COMMIT)
+    for path in NIGHT_PATHS:
+        _memoized_semantics("night-product:" + path, (prior[path], source[path]),
+                            lambda p=path: night_routine_product_inverse(prior[p], source[p], p))
+    accepted = None
+    if NIGHT_RECEIPT_COMMIT is not None:
+        accepted = _ending_snapshot(root, head, source, NIGHT_RECEIPT_PARENT, NIGHT_RECEIPT_COMMIT,
+                                    NIGHT_RECEIPT_PATHS, NIGHT_PRODUCT_COMMIT)
+        inputs = tuple((path, source[path], accepted[path]) for path in source)
+        revisions = _memoized_semantics("night-receipts", inputs, lambda: _night_receipt_semantics(source, accepted))
+        _night_receipt_exports(source, revisions, root)
+    return prior, source, accepted
 
 
 def _first_win_receipt_semantics(before, after):
@@ -2046,6 +2176,8 @@ def _read_proof_current(root):
     first_win_before, first_win_initial, first_win_source, first_win_receipts = _first_win_stages(root, head, current)
     current = (first_win_receipts if first_win_receipts is not None else first_win_source
                if first_win_source is not None else first_win_before)
+    night_before, night_source, night_receipts = _night_stages(root, head, current)
+    current = night_receipts if night_receipts is not None else night_source if night_source is not None else night_before
     actual, _ = _snapshot(root, head, tuple(current))
     _require(actual == current, "current HEAD differs from exact source/receipt product")
     _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "current disk differs from Git")
@@ -2072,6 +2204,7 @@ def _read_proof_current(root):
             "first_win_before": first_win_before, "first_win_initial": first_win_initial,
             "first_win_source": first_win_source,
             "first_win_receipts": first_win_receipts,
+            "night_before": night_before, "night_source": night_source, "night_receipts": night_receipts,
             "binding": _configuration()}
 
 
@@ -2119,7 +2252,8 @@ def source_predecessor_inventory(root, inventory):
                  "actual three-source census binding")
         comparison = {**_person_source_comparison(root, proof, _prose_source_comparison(
                           root, proof, _ending_source_comparison(
-                              root, proof, _first_win_source_comparison(root, proof, hashes)))),
+                              root, proof, _first_win_source_comparison(
+                                  root, proof, _night_source_comparison(root, proof, hashes))))),
                       **{p: _sha(proof["before"][p]) for p in SOURCE_PATHS}}
         _require(_digest(comparison) == PREDECESSOR_SOURCE_MANIFEST_SHA256,
                  "exact pre470 complete source census")
@@ -2128,6 +2262,36 @@ def source_predecessor_inventory(root, inventory):
                  and all(_disk_bytes(Path(root) / p) == raw for p, raw in actual.items()),
                  "complete actual Git/disk source census")
         return {**inventory, "source_hashes": comparison, "source_manifest_sha256": _digest(comparison)}
+
+
+def historical_first_win_comparison(raw_by_locale, root=ROOT):
+    """Exact current5 -> pre-night5 for the historical474 audit only."""
+    locales = ("ko", "en", *LOCALES)
+    with fresh_validation_proof(root) as proof:
+        _require(NIGHT_PRODUCT_COMMIT is not None and proof["night_source"] is not None,
+                 "historical first-win comparison requires actual night source")
+        _require(type(raw_by_locale) is dict and set(raw_by_locale) == set(locales),
+                 "historical first-win exact five-locale population")
+        _require(all(type(raw_by_locale[locale]) is bytes
+                     and raw_by_locale[locale] == proof["current"][path]
+                     for locale, path in zip(locales, NIGHT_PATHS)),
+                 "historical first-win comparison accepts current raw only")
+        return {locale: proof["night_before"][path] for locale, path in zip(locales, NIGHT_PATHS)}
+
+
+def _night_source_comparison(root, proof, hashes):
+    """Current KO -> immutable474 census; never used as a runtime payload."""
+    if proof["night_source"] is None:
+        return dict(hashes)
+    path = NIGHT_KO_PATH
+    _require(hashes.get(path) == _sha(proof["night_source"][path]), "night actual source census binding")
+    comparison = {**hashes, path: _sha(proof["night_before"][path])}
+    _require(_digest(comparison) == FIRST_WIN_RECEIPT_SOURCE_MANIFEST_SHA256,
+             "exact pre475 complete source census")
+    prior, _ = _snapshot(root, NIGHT_PRODUCT_PARENT, tuple(hashes))
+    _require({p: _sha(raw) for p, raw in prior.items()} == comparison,
+             "night predecessor census differs outside exact Korean midgame source")
+    return comparison
 
 
 def _first_win_source_comparison(root, proof, hashes):
