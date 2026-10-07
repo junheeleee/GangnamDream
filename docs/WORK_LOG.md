@@ -2,6 +2,15 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-07 — 엔딩 순자산·잔여액105잎 사실 수리 (473, 한정 GO)
+
+- stable/orthodox/unorthodox21잎×5언어의 현금·순자산 혼동과 stable 고정20억 잔여액을 고쳤다. 금액10억/5억 이상·토큰·문단·비소유raw·gameplay는 그대로다. EN12 새 predicate 결함을 비저자가 찾아 direct-parent repair로 닫았고 첫 source5도 보존했다.
+- source34bcb5e→repair0356d31→receiptc5c38269→metadata b7893e89를 실제분리했다. 공식63교정/최초0, 기존261raw배치·41848키 보존/현재264. owner 생성 inventory/report의 current ending지문1회만 갱신하고 공개 계약·축9는 바꾸지 않았다.
+- runtime1 actualexit0·prepared75(현금+평가투자−대출/경계±1/10억초과), old60·resolver340, stderr0·stdout=Godot오류0. 뒤5경로 변경과 engine 실행argv·제품5/소비자/fixture/preautoload 입력을 비저자가 직접 대조해 재사용했다. 외부 Godot 실행파일 자체의 전후 SHA는 미기록이며 바이너리 보존 인증·실제 화면·자연240주 실행은 아니다.
+- final090552d/tree587ed730의 source-proof2 actual78+51 및 quick1 완료15+별도zh2 완료1은 actualexit0·오류0·전후3200입력/runner/logs 보존. quick1 전체는 private600초 ZH context종료 timeout/exit−15·887.885476초 FAIL로 유지하고, 같은originalCLI/검사조건의 단독zh2에서 실제종료까지 확인했다. 과정 제한900초는 게임 latency/판정선 변경이 아니다. 단일16성공 실행은 미주장이다. 실제결과/로그 SHA·L2 21×7칸은 [완료 사양](queue_archive/ORDER-473.md)에 결속했다. source-proof1 단계 PASS와 official1 중단FAIL209.869285초(steps0)는 그대로 남기고 actualofficial2 main9/329.608447초만 공식수용PASS다.
+- 비저자 [전수 보고](agent_reviews/ORDER-473.json) SHA e56b92f1da026193573b9e6659c409fd71f0c1c22c6b3246b2e67a3136ccec45, candidate090552dd2df00a1e8c96e9cc693fb7ec284f54d3/tree587ed73025feaa811618d7e9c0451f4f99ae20a4의 엔딩 금액 사실 단위만 GO. humanSHA6ab5c927…·공개GO1/인간OPEN45·149captureFAIL/연속창HOLD·472GO 보존. 본편 출시·원어민·인간·물리패드·실제 엔딩 화면은 미관찰/HOLD다.
+- gangnamdream-dev의 전이분리·표적검수·pre-autoload·증거분리를 적용했다. 새규범0/이 exact배치 결속은 일회성. 자동 게이트는 계약 증거이지 재미·깊이·문체의 증거가 아니다. 다음 안전작업은 별도선언하는 첫5천만원 축하 결과문의 지출/거처 사실이다.
+
 ## 2026-10-06 — 프롤로그 정지 화면12장 한정 관찰 (149, HOLD)
 
 - clean692c157/tree027b6aaa의 normal KO/EN×실제1280×800/1920×1080×3비트12PNG를 root가 original로 전수 읽었다. 글자 잘림·겹침·누락·EN player text 한글 누출0을 관찰했다. 실제창/연속전환은 Mac 재잠금으로 미관찰이다. 정지 이미지가 강조체감·연속 검은프레임0을 증명하지 않는다.

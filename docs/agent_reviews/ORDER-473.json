@@ -1,0 +1,260 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-473",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-07",
+  "reviewer": "/root/order469_main",
+  "subject": {
+    "kind": "source",
+    "commit": "090552dd2df00a1e8c96e9cc693fb7ec284f54d3",
+    "tree": "587ed73025feaa811618d7e9c0451f4f99ae20a4",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "scope": "세 엔딩 stable_success·orthodox_pinnacle·unorthodox_legend의 소유21잎×5언어=105잎에서 현금/순자산 주체와 고정 잔여액을 기존 selector에 정렬한 사실 수리만 GO. 공식63 기존 교정·유한 역사 연결·준비 소비자 증거를 포함하며 엔딩 전체 문체/인과·화면·자연 플레이·전체 본편·출시 GO는 아니다.",
+  "method": {
+    "independence": "원문/검사/수용은 root, JA/CN/TW는 order469_review, 지원4는 order469_history가 작성했다. 비저자는 원문·코드·Git·원로그를 직접 읽고 stdlib JSON/AST/해시 대조만 수행했으며 이 보고서만 작성했다. 프로젝트 import/QA·Godot·커밋0.",
+    "skill": "CLAUDE·gangnamdream-dev 전체·WORK_UNIT·활성473·I18N/언어별 용어 정본을 읽고 파일 소유·전수검수·표적 QA·pre-autoload·자동/실제/인간 증거 분리를 적용했다.",
+    "population": "declaration d6c1394에서 저자 선택 표본 없이 아래 순서의105를 먼저 봉인했다. 각 locale에서 ending 순서대로 base 다음 DIK 나열 순서. [locale,file,ending_id,path_array]를 UTF-8 JSON ensure_ascii=false,separators=(',',':')로 직렬화한다.",
+    "population_sha256": "e3261d07996c0345f34247f38f3262194ca1fba70aaa4d42cdac3c3b0b7f81be",
+    "direct_review": "기준선105·수정105 전수 독해. 최초 EN12 predicate 결함 지적 뒤 EN21 재독해, 다른4언어 raw 불변 확인. 소유 JSON literal 역치환으로 이전 전체 raw 정확 복원, token/문단·이상 금액·비소유 gameplay 보존을 독립 확인했다. actual 로그 모집단·값·SHA도 대조했다.",
+    "candidate": "보고 쓰기 직전 HEAD/tree=subject 및 clean 상태를 실제 관측했다. runtime/official의 다른 실행 source와 최종 subject를 구분하며 뒤5경로 변경을 아래에 명시한다."
+  },
+  "population": {
+    "locales": [
+      "ko",
+      "en",
+      "ja",
+      "zh-CN",
+      "zh-TW"
+    ],
+    "files": [
+      "content/endings.json",
+      "content/endings_en.json",
+      "content/endings_ja.json",
+      "content/endings_zh-CN.json",
+      "content/endings_zh-TW.json"
+    ],
+    "per_locale": 21,
+    "total": 105,
+    "base_field": "description",
+    "variant_field": "description_if_known",
+    "ending_order_and_variants": {
+      "stable_success": [
+        "cut_sangchul_network"
+      ],
+      "orthodox_pinnacle": [
+        "salary_raised",
+        "salary_denied",
+        "credit_asserted",
+        "credit_recognized",
+        "jobswitch_reconnected",
+        "declined_golf",
+        "extreme_frugal",
+        "frugal_quiet",
+        "skipped_staycation",
+        "ignored_mystery_info",
+        "orthodox_wavered"
+      ],
+      "unorthodox_legend": [
+        "cafe_double_jackpot",
+        "coin_second_win",
+        "holdem_high_stakes_win",
+        "own_path_solidified",
+        "investigating_gray_contact",
+        "gray_tip_debt_paid"
+      ]
+    },
+    "final_raw_sha256": {
+      "content/endings.json": "041112ff5354131e69b2a47aa947d97c0bab2615ba16c531389cd0552c3ee828",
+      "content/endings_en.json": "b9e49c321770d1b0f45f0e41449f6cd97038419859d2014bba09f7a67de935bf",
+      "content/endings_ja.json": "25f402be24df62bbde4f2cc5d0f37ec4928d876628ef761e6542bbac31ab28db",
+      "content/endings_zh-CN.json": "2712456cc62020ebad510aa11d0c5987e039a8f97b206eb8e740fd35b08fb6ea",
+      "content/endings_zh-TW.json": "1a8a86cb7340fc8a863f026878387b931059a4b4fc7ff7956605ffba3a278266"
+    }
+  },
+  "product_review": {
+    "attribution": "기존 main의 고정20억 잔여/순자산을 통장잔고로 표현한 결함은 docs/agent_reviews/ORDER-468.json existing_ending_facts 및 docs/history/WORK_LOG_2026-10-06_pre_order472_render.md:97에 귀속돼 있다. 같은 사실의 stable/cut1을 포함한 exact21만 수리했다.",
+    "producer_reader": "GameState.gd:4119–4124는 money+수량×현재가격(없으면 avg_price)−대출원금이다. :4452의 total→:4479 정석≥10억/축차15, :4482 비정석≥5억/역축차15, :4497–4498 선행조건 미해당 안정≥10억. MainGame.gd:21237–21262는 기존 첫 참 DIK 또는 base를 읽는다. 이 계산/조건/우선순위·author condition 메모는 변경0.",
+    "meaning": "stable base는 은행잔액→순자산·고정20억→숫자 없는 목표 잔여액, cut은 순자산≥10억 과거 도달과 자산 지시, 정석12/비정석7은 각각 순자산≥10억/≥5억으로 정렬했다. CN/TW의 10亿韩元以上/10億韓元以上도 ≥로 정확하다. 목표/선택/새 성공 보장을 발명하지 않는다.",
+    "preservation": "105 밖 원문 raw·JSON 순서·효과·flags·routing 및 Main/GameState/EndingSystem/DataRegistry·arc_events5·project.godot 불변. JA/CN/TW63을 KO와 직접 전수 대조했고 단위·금액·대명사 연결·토큰·문단을 확인했다. 원어민 인증은 아니다."
+  },
+  "git_stages": [
+    {
+      "kind": "source5",
+      "parent": "d6c1394fbf2a93f21179d7b7f9967cf9680fe449",
+      "commit": "34bcb5eacd5e7bb8a97248e0a3e108dfbc65ef1b",
+      "tree": "5844fa36ad11bf6964641afc36a63068d0399756",
+      "changed_paths": 5,
+      "changed_strings": 105
+    },
+    {
+      "kind": "EN12 repair1",
+      "parent": "34bcb5eacd5e7bb8a97248e0a3e108dfbc65ef1b",
+      "commit": "0356d316ffa7307724fad15e805b0ffdeb6d270f",
+      "tree": "bd0cffad2e01bbb711657af51b13c59ceb3499a6",
+      "changed_paths": 1,
+      "changed_strings": 12
+    },
+    {
+      "kind": "official receipt1",
+      "parent": "cb01c907f56d19521db448118d28a8db0b65e61f",
+      "commit": "c5c38269f23bc996e2212c4bb77be89b4ed90b53",
+      "tree": "6ff8c46cb6abd7da7678f1ce043e82a149f995c6",
+      "changed_paths": 1,
+      "corrections": 63,
+      "first_receipts": 0
+    },
+    {
+      "kind": "metadata2",
+      "parent": "c5c38269f23bc996e2212c4bb77be89b4ed90b53",
+      "commit": "b7893e89be9331ec99cbfe3f116686b759e490d6",
+      "tree": "2fefff5d60eb2d5be9d1dd16463912116342ee4e",
+      "changed_paths": 2,
+      "changed_corpus_fields": 1
+    }
+  ],
+  "support_review": {
+    "typed_edges": "지원4의 전체 변경 diff와 연결 함수를 직접 읽고 4단계 direct-parent·exact5/1/1/2 paths·typed commit/tree/blob·raw쌍·line-hunk SHA를 독립 대조했다. 기존470/471/472/PR31 핀은 불변이다.",
+    "projection": "실제 current Git/disk/config 입장 뒤에만 ending KO census를 이전472로 비교한다. PR3171/partial15 및 event-only history 경계를 보존한다. ending project_bytes/payload는 현재 산문 그대로, 과거 raw hash 관측만 비교용이며 runtime 옛 산문 반환0.",
+    "receipts": "기존261 batch의 의미/raw prefix 불변→264, accepted41848키 그대로·63교정/최초0. 실제 official2 header/receipt/target을 재계산해 ledger와 일치. 126 소유 hash scalar+accepted digest+batches만 이전 literal로 복원하면 이전 ledger 전체 raw가 정확히 같다.",
+    "metadata": "corpus_contract.ending_content_sha256 하나와 보고 literal1회만 1fd30dca3654f7b1f974a1822c98bbda82077d4063b4917bce755563a230c293→5d7ffe209a97a17218a58f1a117f46bce80878fd927ad1772bc5d869e8504650. 실제 KO/EN35 canonical 재계산 일치·역치환 전체 raw 일치. content_axes9·public 계약·모집단·분류/판정 불변.",
+    "negatives": "current physical raw, rollback, alias/type/layout, rehash+hunk/비소유 title, 누락typed object, 위조parent/불완전paths, old batch/native/source census/최초receipt, export object loss, 잘못된 metadata 소유자를 거절한다. 입장/정상종료 freshness와 실패 시 invocation memo 폐기를 확인했다. 전체 역사 자체검사/모든 선행 monkeypatch 인증을 주장하지 않는다."
+  },
+  "evidence": {
+    "official2": {
+      "path": ".git/order473-20261007.FVf8ry/official2/result.json",
+      "sha256": "4f540604a17fd21f32530feffa91cd6feafb4156b62b023e7b343ee37be02a51",
+      "actual_source": "cb01c907f56d19521db448118d28a8db0b65e61f",
+      "actual_tree": "db2fadb5da341a6b5d2c618444234837d38de4ea",
+      "runner_sha256": "375e3bb79528f3edefb1d9a9f0a218b4d80cdf13388566c7aea79eabfa0187f4",
+      "source_manifest_sha256": "63cafaf564ccd7201376f36b02da592ddff41a8c328e76ae139795da4d94b2be",
+      "result": "329.608446834초, actual wrapper exit0, saved passed/preserved=true,error=null. 원본 main export/check/import×3 반환0/stderr0/check·import changed_files0, outer fresh contexts 정상 종료. 서로 다른 subprocess9개라는 뜻은 아니다.",
+      "guard": "original collect1회→같은 invocation deepcopy equality·root/HEAD/tree/clean·전체3200 raw/census·원본 함수7 identity를 매 호출 검증한 reuse9. Main/470/469/PR31 fresh scopes와 finally collect 복원. 다른 호출/중단된 official1 수집 재사용0. 실행 코드/helper7 Git blob 및63 source/header/target/private receipt digest 독립 일치.",
+      "receipt_sha256_by_locale": {
+        "ja": "9556040178f46337d078c34cf01344efa4f39f0fee746133fa2495f5fae6204c",
+        "zh-CN": "09562f54b49a44ea8c57b9c68f7a212e881d7eaa201dd43d44ca1565685d9516",
+        "zh-TW": "8a344fbc6f2e0d4d6d6cdba07bc581703a5d90f6e5b6064325b7612a0585eccc"
+      }
+    },
+    "runtime1": {
+      "path": ".git/order473-20261007.FVf8ry/runtime1/result.json",
+      "sha256": "7010bdda6183d1f4b84ec19287c738c39e7c991f5c1ed05b176498425c614801",
+      "before_sha256": "248c2e4f19631094e15f818e7065c703253c3a3408c2d2ea97634d3e08fe2e75",
+      "actual_source": "cb01c907f56d19521db448118d28a8db0b65e61f",
+      "actual_tree": "db2fadb5da341a6b5d2c618444234837d38de4ea",
+      "runner_sha256": "23838771fb369f05bd27ef93b182640d13505b6f6d773696880552ca5204390e",
+      "stdout_and_godot_sha256": "01bf505b982b719231a91a37afaf32b41f048cf92f88a31b60286533ad7e38cc",
+      "result": "actual engine/원wrapper exit0·engine4.516976초. 새75/75·기존selector60/60·resolver340/340 실제행과 단일OK markers 확인. stdout=Godot77922bytes, stderr/engine오류0, passed/preserved/logs_preserved=true.",
+      "matrix": "5언어×3엔딩×5상태=75 고유행·순서/값 독립 재계산. threshold T=안정/정석10억,비정석5억. (cash,market,debt,net)=(T,0,0,T),(5천만,T+2억,2.5억,T),(T+5억,0,5억+1,T−1),(5천만,T+2억+1,2.5억,T+1),(5천만,2T+2억,2.5억,2T). 실제 net=cash+market−debt, market≠acquisition cost, 대출2종 반영. 선행조건 비운 fixture에서 T−1만 ordinary_life, 나머지 목표엔딩.",
+      "body_and_isolation": "340은 소유105(기존100+cut5)와 기존아버지235의 합이다. actual DataRegistry 본문=Main resolver 및 flags/cast 불변. fresh pre-autoload UUID c83a2325cc6741b78d81c73ea6566c8d의 전후경로1회일치, tracked3200·보호11그룹57항목·runner/log 보존. GameState 직렬화/Meta/locale 복구실패는 OK 이전 거절.",
+      "limits": "off-tree 준비 실행이며 finish_run 기록부작용은 probe가 대체한다. 실제 엔딩화면·전체저장·자연경로·입력/픽셀 증거가 아니다. 외부 Godot 실행파일 자체 전후 SHA는 저장되지 않아 바이너리 보존 인증을 주장하지 않는다."
+    },
+    "reuse": {
+      "from": "cb01c907f56d19521db448118d28a8db0b65e61f",
+      "to": "090552dd2df00a1e8c96e9cc693fb7ec284f54d3",
+      "late_changed_paths": [
+        "CLAUDE.md",
+        "content/meta/full_game_localization.json",
+        "content/meta/release_content_inventory.json",
+        "docs/CONTENT_RATING_INVENTORY.md",
+        "tools/order470_source_compat.py"
+      ],
+      "binding": "실제 late diff는 이5경로뿐. 제품5·fixture/bootstrap·Main/GS/DR/project와 runtime project 입력은 원 runtime1/official2 before SHA=최종Git. 엔진 명령/프로젝트 입력 동일 범위에서 준비 증거를 재사용하며 최종에서 새 엔진실행/수용 재발급을 주장하지 않는다. ledger/meta/helper가 달라 전체 Python 입력 동일은 아니다. 최종 successor admission은 아래78+51 및15+별도1로 확인했다."
+    },
+    "source_proof2": {
+      "path": ".git/order473-20261007.FVf8ry/source-proof2/result.json",
+      "sha256": "a4e6e4cd8c898948320d5fa9206ab99bb2af0b95e21031cd091de0ac2a773e91",
+      "runner_sha256": "09caae06c37d4df9e78df6e0a913f40510c2770803b65f1df5f8db1bed50ea63",
+      "stdout_sha256": {
+        "ORDER473_ENDING_FACTS": "249730cdefd5c95c7902fac668df1f036aead2c2234475ec4b943ec463fcaf79",
+        "PR31_ENDING_FACTS": "27b7e11f9075ab1ff009b0a5961f7e64bef475f4a70e7672369dd4dbb60cebfc"
+      },
+      "result": "final090 clean actual wrapper exit0·123.380695375초·원본 두 함수78+51 cases/0 failures/stderr0. outer fresh 정상 종료·전체3200/HEAD/tree/runner/log 전후 동일. source-only 당시63+50을 최종 receipt/meta 증거로 대체하지 않는다."
+    },
+    "quick1_completed15": {
+      "path": ".git/order473-20261007.FVf8ry/quick1/result.json",
+      "sha256": "8585aee0711076b472e78407d3a0a421598f58cc55b013f2bc29e314e12528e8",
+      "runner_sha256": "1280fb85c6fbf954a74d8be11b9a2a7c8abadddecd3e5e78dc4ab569039609ed",
+      "entry_sha256": "6218e764eaf2dd88b6e8819fc722040acbd4f9426a414ce344efcb1f1410ef46",
+      "completed": [
+        "money_facts",
+        "en_coverage",
+        "english_hangul",
+        "narrative_continuity",
+        "scene_audio_contract",
+        "speech_register",
+        "ending_distinctness",
+        "release_inventory",
+        "ja_ui",
+        "ja_demo",
+        "ja_demo_inventory",
+        "demo_i18n",
+        "context_manifest",
+        "queue_consistency",
+        "audit_scope_verify"
+      ],
+      "result": "묶음 전체는 exit1/887.885476초/FAIL. 위15만 actual CLI0/errornull/stderr0·fresh4 정상종료. 모든 로그 SHA와 전체3200/HEAD/tree/runner/entry 전후 동일 확인. 문안105+음성7, EN누출0, ending35, inventory축9, 등록209, JA UI2952/29 오류0, public demo14/100·UI121·catalog1 보존.",
+      "money_facts_stdout_sha256": "b5e9dc6b52fa7b96deba8994db8bb4414ba49e3bd790ba517de943a20346d1c0",
+      "audit_population_sha256": "1e1e5fac9d5763c1e203559786bd23426b718f32bc3e51c25939701275a08baf",
+      "population_note": "감사 tuple 표현은 독립검수 [locale,file,id,path] 봉인과 달라 지문을 혼동하지 않는다."
+    },
+    "zh2_separate1": {
+      "path": ".git/order473-20261007.FVf8ry/zh2/result.json",
+      "sha256": "74a5d76681ceab2d6a9539a640ed755f63498e4bea5b32104bc602a4d7c056ef",
+      "runner_sha256": "48b5f90437f9cdc9e9b5a3aaba9a9e9cec80306336405c74909830a2f1ab4137",
+      "entry_sha256": "6218e764eaf2dd88b6e8819fc722040acbd4f9426a414ce344efcb1f1410ef46",
+      "stdout_sha256": "36b55e5f467f1ab01ed5b5e03af8027f8a72727e0bd2b11bdc6c531f863b33c0",
+      "result": "같은090·원본ZH1 actual wrapper/CLI0,전체638.887367208초/CLI638.269821초,passed/preserved true,errornull. quick1과3200 before/entry 동일·재검증 전후동일. stdout702bytes/정확marker1/stderr0·SHA확인·fresh4 정상종료.",
+      "boundary": "private process.wait만600→900초; 검사/판정/제품 latency 변경0. 인정 범위는 실패quick1의 완료15+별도zh2 완료1, 단일16성공 실행 아님. ZH skeleton/shipping0·glyph CN1593/TW1624, native OPEN."
+    }
+  },
+  "l2_each_of_21": {
+    "applies_to": "위 population의 base3+DIK18과 각5언어, 새 선택이 아닌 기존 엔딩 사실 수리.",
+    "도달 경로": "ENDING_NET_WORTH_CHECK_OK locales=5 selector_cases=75 authored_leaves=105 prepared_component_only=true; 기존60경계·PR31_ENDING_CASE_COUNT=340.",
+    "생산자 ↔ 독자": "GameState.gd:4119↔4452/4479/4482/4497 → content/endings.json 소유21/각locale → MainGame.gd:21237.",
+    "바꾸는 상태": "gameplay·효과·flags·조건0변경. 현금→순자산; stable base 고정20억→목표잔여; cut 정확금액반복→자산. selector≥10억/≥5억 전후동일.",
+    "포기 시 잃는 것": "새 선택 없음. 선행조건 비운 prepared W240의 T−1→ordinary_life. 해당/다른 DIK 전부false→base. 하나만 false면 항상base/자연경로 대안도 ordinary_life라는 주장은 하지 않는다.",
+    "서사 위치": "5.종막/W240·M60 준비상태. 실제 기존 나이/종막·우선순위 불변, 자연240주 미관찰.",
+    "장면 계층": "명시 scene_tier 없음→SCENE_TIER.md:56–58 미선언 기본T3. 새 tier승격/전체계약충족 미주장.",
+    "닫는 것": "새로 닫는 경로 없음. 해당21의 금액사실만 수리, 화면/전체품질/출시 게이트는 닫지 않는다."
+  },
+  "failures_and_repairs": [
+    {
+      "kind": "independent source finding",
+      "failed_source": "34bcb5eacd5e7bb8a97248e0a3e108dfbc65ef1b",
+      "finding": "새 EN 정석11은 His net worth was ... 뒤 but no Gangnam apartment로 주어와 술어 연결이 깨졌고, stable cut은 these assets 뒤 it's가 이어졌다.",
+      "repair": "0356d316ffa7307724fad15e805b0ffdeb6d270f의 같은 EN파일12잎에서 but he had no Gangnam apartment 및 they로 수리했다. 비저자가 EN21을 다시 읽고 비소유 raw/토큰/문단 보존을 확인했다. 원 source5는 삭제하거나 최종 양성으로 재분류하지 않는다."
+    },
+    {
+      "kind": "official1 interrupted",
+      "path": ".git/order473-20261007.FVf8ry/official1/result.json",
+      "sha256": "7af6b7f459dfd1f455abf4bae04f8b239e60f109f967769be92de4cc64bc781f",
+      "runner_sha256": "eb9a84d7149afa2dcccb36a426965ca69345125ed7be9c8a524271419a808bb1",
+      "result": "root 자기PID82223 SIGINT 귀속 및 actual KeyboardInterrupt/exit1·209.869284708초·steps[]/receipts{}·passedfalse/preservedtrue 확인. 수집 중단이며 공식단계성공0, PASS 재분류0. 원wrapper/결과/중단메모 보존 후 새official2 실제수용."
+    },
+    {
+      "kind": "quick1 ZH timeout",
+      "path": ".git/order473-20261007.FVf8ry/quick1/result.json",
+      "sha256": "8585aee0711076b472e78407d3a0a421598f58cc55b013f2bc29e314e12528e8",
+      "result": "stdout OK/stderr0이어도 fresh 종료 전 private600초 TimeoutExpired, actual−15/600.021223초. quick1전체 FAIL 유지. 같은검사/입력의 별도zh2에서 actual0까지 완료, 기존15완료만 승계."
+    }
+  ],
+  "limits": {
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "preserved": "공개GO1·인간OPEN45·역사REJECT/HOLD·149captureFAIL/연속창HOLD·457/302 관찰대기 유지. Mac잠금 우회/사용자저장 재생/가짜인간증거0.",
+    "outside_debt": "소유잎의 금액수리 밖 기존 회상·인물·문체·5장 부채는 판정밖이다. 예: EN unorthodox/cafe_double_jackpot의 기존 Deputy Kim 호칭은 보존했다. 다른 통장비유나 전체tier 부채를 지우지 않는다.",
+    "execution": "전체audit/240주·패키지/빌드·화면·청취·물리입력 새실행0. probe는 실제finish_run기록을 대체하며 외부 Godot 바이너리 전후SHA 미기록. private.git 자료는 로컬증거이지 외부배포/인간인증 아님.",
+    "normative": "새 규범0, WORK_UNIT/I18N/SCENE_TIER 기존규칙 적용. exact105·4전이·표적 증거결속은 일회성."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_rendered_ending",
+    "natural_gameplay",
+    "whole_product_quality_and_external_release"
+  ],
+  "automation_boundary": "자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.",
+  "final_boundary": "전수105의 금액사실 품질·공식63/4전이·최종78+51·입력동일 준비75와 기존60/340·quick1완료15+별도zh2완료1을 결합하여 ORDER-473만 GO. 원결함/중단/시간초과 보존, 최종 미해결 신규 실패0. 실제창·자연·원어민·인간·물리패드·전체본편·출시 승인은 아니다."
+}
