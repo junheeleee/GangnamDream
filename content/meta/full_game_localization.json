@@ -10771,6 +10771,114 @@
           "batch_id": "ff9b849f3149a9a58eb89208f898191eea318bcd2789f7182ac71dc89e31b36c"
         }
       }
+    },
+    {
+      "order": "ORDER-474",
+      "group": "events",
+      "roots": [
+        "arc_first_real_win",
+        "arc_first_real_win_father_passed"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Independent full10 Korean-source cost/home fact review; actual official export/check/import of2 existing result leaves. Corrections only; no native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "587b9ec2ac2c8b08a849c499270814ed6a8d9beea0e9a075260e5a4988d9fb68"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "037a858c4e70d7fa37d2950f22296b1669446308",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "673384fc1590f904c3f23e7e4688ca87a95eb60a71ce7f7f6dd564611f667a2c",
+          "selection_sha256": "c2be1248f624290468f20d11fc3610f44c2a0ebd5351bf5af0c4e99b51b050c4",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b6a81a9ca2b4d86d2f344512b137a44c0b89d5e87488c5371c61fe8ca7ef24bd"
+        }
+      }
+    },
+    {
+      "order": "ORDER-474",
+      "group": "events",
+      "roots": [
+        "arc_first_real_win",
+        "arc_first_real_win_father_passed"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 2,
+        "zh-TW": 0
+      },
+      "source_review": "Independent full10 Korean-source cost/home fact review; actual official export/check/import of2 existing result leaves. Corrections only; no native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "2366d9cbb281f7f7790473c2daecbdbc1e2cd9373818d85299f016eef8b8525b"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "037a858c4e70d7fa37d2950f22296b1669446308",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "673384fc1590f904c3f23e7e4688ca87a95eb60a71ce7f7f6dd564611f667a2c",
+          "selection_sha256": "efbae4ca8d748c814013df1121c62726952043fcce18b3e54d6b07291b2d4590",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "01fb35f35bdd102b5092b2614989cfa74f69f5b0e84e5426e1dc82b4dbc41126"
+        }
+      }
+    },
+    {
+      "order": "ORDER-474",
+      "group": "events",
+      "roots": [
+        "arc_first_real_win",
+        "arc_first_real_win_father_passed"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 2
+      },
+      "source_review": "Independent full10 Korean-source cost/home fact review; actual official export/check/import of2 existing result leaves. Corrections only; no native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "ca8f41792d9be861677b6a04b78cfc4158e0215ca1c30b68f09299c50fffb007"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "037a858c4e70d7fa37d2950f22296b1669446308",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "673384fc1590f904c3f23e7e4688ca87a95eb60a71ce7f7f6dd564611f667a2c",
+          "selection_sha256": "31c853fb41bb37bf3d147f2d6a3afbde6697dddf156d63660097489baa419e60",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "db14c7eaa48393eb29d8956727bf6daa15d9766497c0d6dec73973e25e01fbb4"
+        }
+      }
     }
   ],
   "accepted": {
@@ -58968,8 +59076,8 @@
         "target_sha256": "1c7789c7f308e81a284c37e86ed88a4f6935a1ac3c1af2bd3e6f282adb6562b5"
       },
       "events:arc_first_real_win:/choices/0/result_text": {
-        "source_sha256": "d45e55c81c3ac210093ef49a808e93c234b935ad9319c797a7271f71a3b9d361",
-        "target_sha256": "e3b6879aa030fa5de3c15f7bd5eea295bcf3694c912de051b1af30ec5fb2e199"
+        "source_sha256": "ebcafe0d330421d24b31f2873fbf61eeea4690f13c312e0a75b7802dfecdfd34",
+        "target_sha256": "bedb03a31044f687bb68652909a0cb4bab2c2b341b799c4025680b74c1b54660"
       },
       "events:arc_first_real_win:/choices/0/text": {
         "source_sha256": "f8fb17afd3870230b42f04b912f367211b5c52097afd6bd8daad15c7c127c59a",
@@ -59000,8 +59108,8 @@
         "target_sha256": "76003c76bbd91ee87c6fccfadefe6c2f422226af37e63a5015d3accee8e1fef9"
       },
       "events:arc_first_real_win_father_passed:/choices/0/result_text": {
-        "source_sha256": "5268b48732c7bd1243625f0ec860faf49a6c3d811f41d9610371d7db5d728b06",
-        "target_sha256": "1a9eaa9cbfbdae22bc251cdebe0b0220209bebcafc927db76da6f1f53d8c22e6"
+        "source_sha256": "ebcafe0d330421d24b31f2873fbf61eeea4690f13c312e0a75b7802dfecdfd34",
+        "target_sha256": "bedb03a31044f687bb68652909a0cb4bab2c2b341b799c4025680b74c1b54660"
       },
       "events:arc_first_real_win_father_passed:/choices/0/text": {
         "source_sha256": "f8fb17afd3870230b42f04b912f367211b5c52097afd6bd8daad15c7c127c59a",
@@ -111586,8 +111694,8 @@
         "target_sha256": "0f73a42242080d09cdb9c6e92fee823ccfe8132db34c002986ed2b7789926561"
       },
       "events:arc_first_real_win:/choices/0/result_text": {
-        "source_sha256": "d45e55c81c3ac210093ef49a808e93c234b935ad9319c797a7271f71a3b9d361",
-        "target_sha256": "261be27e54aec7c41c94ad1c0fd6cb75b9b32113cc94242da3f6c84967cfb148"
+        "source_sha256": "ebcafe0d330421d24b31f2873fbf61eeea4690f13c312e0a75b7802dfecdfd34",
+        "target_sha256": "2b604cd8e205b0f7fbdb1c90e7a1257dbe269e8bbcc4aa7ed04c8f611f7544e4"
       },
       "events:arc_first_real_win:/choices/0/text": {
         "source_sha256": "f8fb17afd3870230b42f04b912f367211b5c52097afd6bd8daad15c7c127c59a",
@@ -111618,8 +111726,8 @@
         "target_sha256": "9d46678dd8337ff7421bf71988adfcb51421905a99fc4e25eab2c94669e8105a"
       },
       "events:arc_first_real_win_father_passed:/choices/0/result_text": {
-        "source_sha256": "5268b48732c7bd1243625f0ec860faf49a6c3d811f41d9610371d7db5d728b06",
-        "target_sha256": "58dae893f2a4a21029a6c02e2680aa0e1e9826c743381365fa07d0c6bd13ea93"
+        "source_sha256": "ebcafe0d330421d24b31f2873fbf61eeea4690f13c312e0a75b7802dfecdfd34",
+        "target_sha256": "2b604cd8e205b0f7fbdb1c90e7a1257dbe269e8bbcc4aa7ed04c8f611f7544e4"
       },
       "events:arc_first_real_win_father_passed:/choices/0/text": {
         "source_sha256": "f8fb17afd3870230b42f04b912f367211b5c52097afd6bd8daad15c7c127c59a",
@@ -168980,8 +169088,8 @@
         "target_sha256": "8048f9008cfd933f430feb3c306fac16f40b7302df5d175999ba6ed78b8105ef"
       },
       "events:arc_first_real_win:/choices/0/result_text": {
-        "source_sha256": "d45e55c81c3ac210093ef49a808e93c234b935ad9319c797a7271f71a3b9d361",
-        "target_sha256": "f42c66e0922b57fb37bfdcd177e3f09e48dfb0148c4c7f70607b39501eae5727"
+        "source_sha256": "ebcafe0d330421d24b31f2873fbf61eeea4690f13c312e0a75b7802dfecdfd34",
+        "target_sha256": "e690a65ae63c03a21189238e79c352335e3ff7a0d4d977b10f3f02bc94e8c122"
       },
       "events:arc_first_real_win:/choices/0/text": {
         "source_sha256": "f8fb17afd3870230b42f04b912f367211b5c52097afd6bd8daad15c7c127c59a",
@@ -169012,8 +169120,8 @@
         "target_sha256": "bc2466dd8c25ff16cd54eec330d73e8ea27fd21a50c1d3d7f4c711fa0cd0d61a"
       },
       "events:arc_first_real_win_father_passed:/choices/0/result_text": {
-        "source_sha256": "5268b48732c7bd1243625f0ec860faf49a6c3d811f41d9610371d7db5d728b06",
-        "target_sha256": "22ab05af400fe809d39f7ebb9ad263e66d3060639f794c673bee58be253f2ced"
+        "source_sha256": "ebcafe0d330421d24b31f2873fbf61eeea4690f13c312e0a75b7802dfecdfd34",
+        "target_sha256": "e690a65ae63c03a21189238e79c352335e3ff7a0d4d977b10f3f02bc94e8c122"
       },
       "events:arc_first_real_win_father_passed:/choices/0/text": {
         "source_sha256": "f8fb17afd3870230b42f04b912f367211b5c52097afd6bd8daad15c7c127c59a",
@@ -178173,7 +178281,7 @@
       }
     }
   },
-  "accepted_sha256": "0d1c3cfb951a4640b90f5362afe29541871be40ec6e8736a8bbc0d7152930c42",
+  "accepted_sha256": "d257f38c288f6f56cbee5817cc4eb9a6b5185f282b13fbfa302eda63709945af",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
