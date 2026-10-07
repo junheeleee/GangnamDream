@@ -833,8 +833,42 @@ def run_night_routine_checks():
                   and row[2][history.LEDGER_PATH] == proof["night_current"][history.LEDGER_PATH], "night receipt endpoints separate")
             check(row[3]["receipts"] == row[3]["batches"] == 0 and not any(row[3]["ui_by_locale"].values()),
                   "night corrections add no UI coverage")
-        check(proof["current"][history.INVENTORY_PATH] == proof["pre_night_successor"][history.INVENTORY_PATH],
-              "unmeasured metadata changes remain inadmissible")
+        path = history.INVENTORY_PATH
+        check((successor.night_metadata_inverse(proof["night_current"][path], proof["current"][path], path)
+               == proof["night_current"][path] if proof["night_metadata"] is not None
+               else proof["current"][path] == proof["pre_night_successor"][path]),
+              "only measured exact metadata changes become admissible")
+    return failures, cases
+
+
+def run_night_metadata_checks():
+    """Current475 inventory admission without repeating source/receipt cases."""
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("PR31 night metadata: " + label)
+
+    with history.fresh_validation_proof() as proof:
+        successor, path = history.fact_successor, history.INVENTORY_PATH
+        check(proof["night_metadata"] is not None and proof["current"][path] != proof["night_current"][path],
+              "actual metadata separate from immutable six-receipt endpoint")
+        check(all(proof["current"][p] == proof["night_current"][p] for p in proof["current"]
+                  if p not in successor.NIGHT_METADATA_PATHS), "only exact two metadata files follow receipts")
+        check(history.release_inventory_predecessor(proof["current"][path]) == proof["before"][path],
+              "current inventory composes through all old exact inverses")
+        for label, raw in (("rollback", proof["night_current"][path]), ("neighbor", proof["current"][path] + b"\n")):
+            try:
+                history.release_inventory_predecessor(raw)
+            except (ValueError, TypeError, KeyError, IndexError, OSError):
+                check(True, label)
+            else:
+                check(False, label)
+        row = next(row for row in history.receipt_transitions(history.ROOT, {}) if row[0] == successor.NIGHT_RECEIPT_COMMIT)
+        check(row[2][history.LEDGER_PATH] == proof["night_current"][history.LEDGER_PATH]
+              and (row[3]["first_receipts"], row[3]["corrections"]) == (0, 6), "metadata cannot extend receipt transition")
     return failures, cases
 
 
@@ -845,11 +879,12 @@ def main():
     ending_only = sys.argv[1:] == ["--ending-facts-only"]
     first_win_only = sys.argv[1:] == ["--first-win-only"]
     night_only = sys.argv[1:] == ["--night-routine-only"]
-    failures, cases = (run_night_routine_checks() if night_only else run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
+    night_metadata_only = sys.argv[1:] == ["--night-metadata-only"]
+    failures, cases = (run_night_metadata_checks() if night_metadata_only else run_night_routine_checks() if night_only else run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
                        else run_person_checks() if person_only else run())
     for error in failures:
         print(error, file=sys.stderr)
-    label = ("PR31_NIGHT_ROUTINE" if night_only else "PR31_FIRST_WIN" if first_win_only else "PR31_ENDING_FACTS" if ending_only else "PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
+    label = ("PR31_NIGHT_METADATA" if night_metadata_only else "PR31_NIGHT_ROUTINE" if night_only else "PR31_FIRST_WIN" if first_win_only else "PR31_ENDING_FACTS" if ending_only else "PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
              else "PR31_PERSON_SUCCESSOR" if person_only else "PR31_INTAKE_HISTORY")
     print(f"{label}_{'FAIL' if failures else 'OK'} cases={cases} current_files=71 native_review=OPEN")
     return int(bool(failures))

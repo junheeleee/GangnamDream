@@ -504,6 +504,9 @@ def _read_proof(root=ROOT):
         night_raw = successor["night_receipts"] if successor["night_receipts"] is not None else successor["night_source"]
         night_current = (pre_night_successor if night_raw is None else
                          {**pre_night_successor, **{path: night_raw[path] for path in paths if path in night_raw}})
+        night_metadata = (None if successor["night_metadata"] is None else
+                          {**night_current, **{path: successor["night_metadata"][path]
+                           for path in paths if path in successor["night_metadata"]}})
         current = {**current, **{path: successor["current"][path]
                    for path in paths if path in successor["current"]}}
     actual, _ = _snapshot(root, head, paths)
@@ -522,7 +525,8 @@ def _read_proof(root=ROOT):
             "pre_first_win_successor": pre_first_win_successor,
             "first_win_initial": first_win_initial,
             "first_win_source": first_win_source, "first_win_current": first_win_current,
-            "pre_night_successor": pre_night_successor, "night_source": night_source, "night_current": night_current}
+            "pre_night_successor": pre_night_successor, "night_source": night_source, "night_current": night_current,
+            "night_metadata": night_metadata}
 
 
 def _successor_snapshot(root, predecessor, commit, head, before, changed_paths):

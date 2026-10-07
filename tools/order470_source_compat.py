@@ -1019,6 +1019,47 @@ NIGHT_RECEIPT_BATCH_SHA256 = {
     "zh-TW": "da80ac671e476f512a47791c1ee8896d13f85dd3da297c28c5371f1c454be850",
 }
 NIGHT_RECEIPT_SOURCE_MANIFEST_SHA256 = "90d88b6fe55939264625f49a36bfdc8ff7d10f93c7cd53b85a394f20f911cc05"
+NIGHT_METADATA_PARENT = '170c5024b3e985980bc56f466537046cd6aa2c3c'
+NIGHT_METADATA_COMMIT = 'aae4446cca8a48b55571e76ebcdd41fc0056de8b'
+NIGHT_METADATA_PATHS = (INVENTORY_PATH, RATING_PATH)
+NIGHT_METADATA_FINGERPRINTS = (
+    ("sexuality", "c29603bb29735d6b371fa63cccd56c5106ee31312d8ab0bf3afa29145f3820ed",
+     "d0dd2b37a6bab08ce17cebfe19ebacaf6170acccd56d4e0f110653704ade7a8f"),
+    ("alcohol_tobacco_drugs", "7726b07a2373f4a97b43a077524e856702e68defa15c8c8492bb67b7c79a7fb6",
+     "19836be587ee24a1561736047c5da80cd4f18262b175b1d66adde28aa6ebcda9"),
+)
+NIGHT_METADATA_RAW_SHA256 = {'content/meta/release_content_inventory.json': ('7ef8fbb45ba48afbd6509deaf3419d0cc6857e7abf046081724580a4234d0359',
+                                                 '12a855c9d8770cc900e0d4aee042b691664a1ae43f51ac76693b89d51b89444c'),
+ 'docs/CONTENT_RATING_INVENTORY.md': ('912d38b3b002292e9eed9d7164b4bdbc1feb0393186d015a02ff20b8ca020187',
+                                      '068bd504c03f7476126104d05ab0864e1721e1ca9839a1e2794e62dc1e283e40')}
+NIGHT_METADATA_RAW_PATCHES = {'content/meta/release_content_inventory.json': (('replace',
+                                                  532,
+                                                  533,
+                                                  532,
+                                                  533,
+                                                  '7ec89abb5f3ec7e0499b808a7b4ff4d77baa1ff40579482959c33dd9b5c6f928',
+                                                  '565d8f79e508da0c0faf25b20196f3f894f6fd221f9aeb12b33f274706d8f16a'),
+                                                 ('replace',
+                                                  746,
+                                                  747,
+                                                  746,
+                                                  747,
+                                                  '2e3fde49be7078025c175810bc5ea0bd491973a8d9041dc2ee605d07c915e51c',
+                                                  'e118c1d9796634b20af374518d03a2a473099fab1bc06d7ecc1760a06daa273b')),
+ 'docs/CONTENT_RATING_INVENTORY.md': (('replace',
+                                       134,
+                                       135,
+                                       134,
+                                       135,
+                                       '18410c7181b2321b4dc7b47bae68888556d50914f95b568c7eca07884125d959',
+                                       '598fe02930f2ed3d9064ec5202b8fae4c6d48b8272a66f72fa466f023b114d9d'),
+                                      ('replace',
+                                       139,
+                                       140,
+                                       139,
+                                       140,
+                                       'addac52662d75a849958f3e5e169fc14b96d5686c2a03046b8c55a9b229c0847',
+                                       '02ed30844d82ac1c8b80bcbd88baf930b8901b0e0f1adf2bbe1ea2bf210bc9b8'))}
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
 _SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
 
@@ -1382,6 +1423,49 @@ def night_routine_product_inverse(before, after, path):
                                     NIGHT_RAW_SHA256, (), 2)
 
 
+def _night_metadata_semantics(before, after, path):
+    """Only the two measured current candidate-content fingerprints may move."""
+    _require(path in NIGHT_METADATA_PATHS and type(before) is bytes and type(after) is bytes
+             and type(NIGHT_METADATA_FINGERPRINTS) is tuple
+             and tuple(row[0] for row in NIGHT_METADATA_FINGERPRINTS) == ("sexuality", "alcohol_tobacco_drugs")
+             and all(type(row) is tuple and len(row) == 3 for row in NIGHT_METADATA_FINGERPRINTS),
+             "night metadata exact path/raw/two-axis population")
+    restored = after
+    for _axis, old, new in NIGHT_METADATA_FINGERPRINTS:
+        _require(old != new and all(type(h) is str and re.fullmatch(r"[0-9a-f]{64}", h) for h in (old, new))
+                 and before.count(old.encode()) == after.count(new.encode()) == 1
+                 and new.encode() not in before and old.encode() not in after,
+                 "night metadata exact fingerprint literals")
+        restored = restored.replace(new.encode(), old.encode())
+    _require(restored == before, "night metadata changes neighboring raw bytes")
+    if path == INVENTORY_PATH:
+        old, new = _Document(before), _Document(after)
+        expected, replacements = copy.deepcopy(old.value), []
+        for axis, old_hash, new_hash in NIGHT_METADATA_FINGERPRINTS:
+            indices = [i for i, row in enumerate(old.value["content_axes"]) if row["id"] == axis]
+            _require(len(indices) == 1, "night metadata exact candidate owner")
+            index = indices[0]
+            keys = ("content_axes", index, "candidate_scan", "expected_content_sha256")
+            _require(_leaf(old.value, keys) == old_hash and _leaf(new.value, keys) == new_hash,
+                     "night fingerprint belongs to current candidate content only")
+            expected["content_axes"][index]["candidate_scan"]["expected_content_sha256"] = new_hash
+            a, z = old.spans[keys]
+            b, end = new.spans[keys]
+            replacements.append((b, end, old.text[a:z]))
+        _require(_ordered(expected) == _ordered(new.value), "night inventory census/classification/decision changed")
+        restored = new.text
+        for a, z, literal in sorted(replacements, reverse=True):
+            restored = restored[:a] + literal + restored[z:]
+        _require(restored.encode() == before, "night inventory literal-only inverse")
+    return before
+
+
+def night_metadata_inverse(before, after, path):
+    _require(path in NIGHT_METADATA_PATHS, "unowned night metadata inverse")
+    _raw_inverse(before, after, path, NIGHT_METADATA_RAW_SHA256, NIGHT_METADATA_RAW_PATCHES)
+    return _night_metadata_semantics(before, after, path)
+
+
 def _configuration():
     return (PRODUCT_PARENT, PRODUCT_COMMIT, PRODUCT_PATHS, SOURCE_PATHS,
             copy.deepcopy(RAW_SHA256), copy.deepcopy(RAW_PATCHES), RECEIPT_PARENT,
@@ -1434,6 +1518,10 @@ def _configuration():
             copy.deepcopy(NIGHT_RECEIPT_BATCH_SHA256), NIGHT_RECEIPT_SOURCE_MANIFEST_SHA256,
             night_routine_product_inverse, _night_stages, _night_receipt_semantics,
             _night_receipt_exports, _validate_night_receipts, _night_source_comparison,
+            NIGHT_METADATA_PARENT, NIGHT_METADATA_COMMIT, NIGHT_METADATA_PATHS,
+            NIGHT_METADATA_FINGERPRINTS, copy.deepcopy(NIGHT_METADATA_RAW_SHA256),
+            copy.deepcopy(NIGHT_METADATA_RAW_PATCHES), _night_metadata_stage,
+            _night_metadata_semantics, night_metadata_inverse,
             historical_first_win_comparison,
             _correction_ledger_inverse,
             _git, _objects, _snapshot, _disk_bytes, product_inverse, _arc_inverse, _raw_inverse,
@@ -2119,6 +2207,21 @@ def _prose_metadata_stage(root, head, prior):
     return after
 
 
+def _night_metadata_stage(root, head, prior):
+    if NIGHT_METADATA_COMMIT is None:
+        return None
+    _require(NIGHT_RECEIPT_COMMIT is not None
+             and NIGHT_METADATA_PATHS == (INVENTORY_PATH, RATING_PATH)
+             and set(NIGHT_METADATA_RAW_SHA256) == set(NIGHT_METADATA_RAW_PATCHES) == set(NIGHT_METADATA_PATHS),
+             "night metadata requires completed receipts and exact two-file pins")
+    after = _ending_snapshot(root, head, prior, NIGHT_METADATA_PARENT, NIGHT_METADATA_COMMIT,
+                             NIGHT_METADATA_PATHS, NIGHT_RECEIPT_COMMIT)
+    for path in NIGHT_METADATA_PATHS:
+        _memoized_semantics("night-metadata:" + path, (prior[path], after[path]),
+                            lambda p=path: night_metadata_inverse(prior[p], after[p], p))
+    return after
+
+
 def _read_proof(root):
     """Fresh current/immutable admission, with invocation-local pure reuse."""
     memo = _SEMANTIC_MEMO.get()
@@ -2185,6 +2288,9 @@ def _read_proof_current(root):
                if first_win_source is not None else first_win_before)
     night_before, night_source, night_receipts = _night_stages(root, head, current)
     current = night_receipts if night_receipts is not None else night_source if night_source is not None else night_before
+    night_metadata = _night_metadata_stage(root, head, current)
+    if night_metadata is not None:
+        current = night_metadata
     actual, _ = _snapshot(root, head, tuple(current))
     _require(actual == current, "current HEAD differs from exact source/receipt product")
     _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "current disk differs from Git")
@@ -2212,6 +2318,7 @@ def _read_proof_current(root):
             "first_win_source": first_win_source,
             "first_win_receipts": first_win_receipts,
             "night_before": night_before, "night_source": night_source, "night_receipts": night_receipts,
+            "night_metadata": night_metadata,
             "binding": _configuration()}
 
 
