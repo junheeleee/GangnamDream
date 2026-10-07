@@ -345,6 +345,7 @@ def source_predecessor_inventory(root, inventory):
     """Full actual current census -> immutable PR31 census; no new receipts."""
     with fresh_validation_proof(root) as proof:
         import order470_source_compat as later
+        import market_cycle_label_history as market
         actual_hashes = inventory["source_hashes"]
         _require(type(actual_hashes) is dict and _digest(actual_hashes) == inventory["source_manifest_sha256"]
                  and actual_hashes.get(MAIN_PATH) == _sha(proof["current"][MAIN_PATH]), "current census digest/Main")
@@ -357,7 +358,10 @@ def source_predecessor_inventory(root, inventory):
         with later.fresh_validation_proof(root) as successor:
             #477 changes one Korean source, not Main. Prove/project that exact
             #whole parent first, then retain476's original immutable90d88 seam.
-            hashes = later._loss_hold_source_comparison(root, successor, actual_hashes)
+            #478 owns only Investment in the source census. Restore it before
+            #477's KO and476's Main; keep the supplied runtime inventory actual.
+            market_view = market.source_predecessor_inventory(root, inventory)
+            hashes = later._loss_hold_source_comparison(root, successor, market_view["source_hashes"])
             hashes = {**hashes, MAIN_PATH: _sha(proof["first_loss_before"][MAIN_PATH])}
             parent, _ = _snapshot(root, FIRST_LOSS_PARENT, tuple(hashes))
             _require({p: _sha(raw) for p, raw in parent.items()} == hashes

@@ -18,6 +18,7 @@ from pathlib import Path
 import order351_source_compat as previous
 import order469_source_compat as source_successor
 import order470_source_compat as fact_successor
+import market_cycle_label_history as market_successor
 
 ROOT = Path(__file__).resolve().parents[1]
 INTAKE_PARENT = "8a2c9a9e5cc61c05c9f58b238d59bbbe7a3ce39b"
@@ -520,6 +521,14 @@ def _read_proof(root=ROOT):
                               {**loss_hold_current, **{path: successor["loss_hold_metadata"][path]
                                for path in paths if path in successor["loss_hold_metadata"]}})
         current = loss_hold_current if loss_hold_metadata is None else loss_hold_metadata
+    pre_market_successor = dict(current)
+    with market_successor.fresh_validation_proof(root) as market:
+        _require(market["head"] == head and all(current[p] == market["before"][p] for p in CURRENT_UI_PATHS),
+                 "market successor predecessor differs from immutable477 four-raw")
+        market_source = {**current, **{p: market["source"][p] for p in CURRENT_UI_PATHS}}
+        market_receipts = (None if market["receipts"] is None else
+                           {**current, **{p: market["receipts"][p] for p in CURRENT_UI_PATHS}})
+        current = market_source if market_receipts is None else market_receipts
     # Every469..475 stage above remains its immutable historical endpoint.
     #476's completed current endpoint stays separate from477 source/receipt/
     #metadata. Runtime-facing current is always the final actual product.
@@ -542,7 +551,9 @@ def _read_proof(root=ROOT):
             "pre_night_successor": pre_night_successor, "night_source": night_source, "night_current": night_current,
             "night_metadata": night_metadata, "pre_first_loss_successor": pre_first_loss_successor,
             "pre_loss_hold_successor": pre_loss_hold_successor, "loss_hold_source": loss_hold_source,
-            "loss_hold_current": loss_hold_current, "loss_hold_metadata": loss_hold_metadata}
+            "loss_hold_current": loss_hold_current, "loss_hold_metadata": loss_hold_metadata,
+            "pre_market_successor": pre_market_successor,
+            "market_source": market_source, "market_receipts": market_receipts}
 
 
 def _successor_snapshot(root, predecessor, commit, head, before, changed_paths):
@@ -600,6 +611,10 @@ def source_predecessor_inventory(root, inventory):
         _require(all(hashes.get(path) == _sha(proof["current"][path]) for path in SOURCE_PATHS),
                  "current source census/content raw binding")
         comparison = dict(hashes)
+        if market_successor.INVESTMENT_PATH in hashes:
+            # Preserve the public partial15 API. Full inventories restore only
+            #the new source hash here; the actual Main is still owned by Main.
+            comparison = market_successor.source_predecessor_inventory(root, inventory)["source_hashes"]
         with fact_successor.fresh_validation_proof(root) as successor:
             if successor["prose_before"] is not None:
                 for path in fact_successor.PROSE_KO_PATHS:
@@ -665,7 +680,9 @@ def source_stage_manifest_digests(root, inventory):
             manifests.add(source_successor.FIRST_LOSS_PREDECESSOR_CENSUS)
             #source_successor proved477's full parent before applying the476
             #Main inverse. Keep that actual476 endpoint distinct from90d88.
-            pre_hold = {**hashes, fact_successor.LOSS_HOLD_KO_PATH:
+            pre_market = market_successor.source_predecessor_inventory(root, inventory)["source_hashes"]
+            manifests.add(_digest(pre_market))
+            pre_hold = {**pre_market, fact_successor.LOSS_HOLD_KO_PATH:
                         _sha(proof["pre_loss_hold_successor"][fact_successor.LOSS_HOLD_KO_PATH])}
             manifests.add(_digest(pre_hold))
             for stage, revision in (("before", INTAKE_PARENT), ("after", INTAKE_COMMIT),
@@ -984,6 +1001,17 @@ def receipt_transitions(root, inventory):
                       "correction_batches": len(new["batches"]) - len(old["batches"]),
                       "source_manifests": manifests, "pr31_intake_comparison": True}
             result.append((commit, before, after, change, _receipt_comparison))
+        for commit, a, b in ((market_successor.PRODUCT_COMMIT, proof["pre_market_successor"], proof["market_source"]),
+                             (market_successor.RECEIPT_COMMIT, proof["market_source"], proof["market_receipts"])):
+            if commit is None:
+                continue
+            before, after = ({p: snapshot[p] for p in CURRENT_UI_PATHS} for snapshot in (a, b))
+            is_receipt = commit == market_successor.RECEIPT_COMMIT
+            change = {"ui_by_locale": {locale: 0 for locale in LOCALES}, "receipts": 0, "batches": 0,
+                      "first_receipts": int(is_receipt), "corrections": 0, "correction_batches": int(is_receipt),
+                      "source_manifests": ({market_successor.RECEIPT_PARENT: market_successor.RECEIPT_SOURCE_MANIFEST_SHA256}
+                                           if is_receipt else {}), "pr31_intake_comparison": True}
+            result.append((commit, before, after, change, market_successor.ui_comparison))
         return tuple(result)
 
 

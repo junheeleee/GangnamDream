@@ -7597,5 +7597,168 @@ def _chapter_four_call_offsets(before_raw, current_raw, before_calls, actual_cal
     _FIRST_LOSS_OLD_CHAPTER_FOUR_CALL_OFFSETS(before_raw, previous, before_calls, old_calls)
 # END_FIRST_LOSS_COLLECTOR_476
 
+# BEGIN_MARKET_CYCLE_COLLECTOR_478
+MARKET_CYCLE_PIPELINE_APPEND_SHA = "42ca65e1871ff3c2edde1f81dc8a2b255a41fdebcdaf72b49fce57faa6204ef1"
+MARKET_CYCLE_PIPELINE_BEFORE_SHA = "e1222d36ecf86a5a28caa10e51ecd4d2e915edb1427657433d39791ca60a89c1"
+MARKET_CYCLE_PIPELINE_BEFORE_BLOB = "3fea40255e404535b3efa420d2a6581a00a4ed2a"
+MARKET_CYCLE_PIPELINE_BEFORE_COMMIT = "20443aa07a5f260ec4b581aaec97c89388004705"
+MARKET_CYCLE_PATH = "systems/InvestmentSystem.gd"
+MARKET_CYCLE_SITES = ((296, "상승장", "Bull Market"),
+                      (298, "하락장", "Bear Market"),
+                      (300, "횡보장", "Sideways"))
+_MARKET_CYCLE_OLD_MODAL_PREDECESSOR = modal_pipeline_predecessor
+_MARKET_CYCLE_OLD_COLLECT = collect_ui_inventory
+_MARKET_CYCLE_OLD_CHECKS = _last11_meta_title_historical_checks
+_MARKET_CYCLE_OLD_PARSE = _NONFORMAT_OLD_PARSE
+
+
+def market_cycle_pipeline_predecessor(raw):
+    """Strip this exact appendix only; all pre478 collector seals stay intact."""
+    if type(raw) is not bytes or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("market-cycle collector raw/import identity differs")
+    start, end = b"# BEGIN_MARKET_CYCLE_COLLECTOR_478\n", b"# END_MARKET_CYCLE_COLLECTOR_478\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("market-cycle collector appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    binding = ('MARKET_CYCLE_PIPELINE_APPEND_SHA = "' + MARKET_CYCLE_PIPELINE_APPEND_SHA + '"').encode()
+    span = raw[a:z]
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'MARKET_CYCLE_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != MARKET_CYCLE_PIPELINE_APPEND_SHA:
+        raise ValueError("market-cycle collector appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != MARKET_CYCLE_PIPELINE_BEFORE_SHA:
+        raise ValueError("market-cycle collector whole predecessor differs")
+    blob = _current_demo_git("show", MARKET_CYCLE_PIPELINE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
+            != MARKET_CYCLE_PIPELINE_BEFORE_BLOB):
+        raise ValueError("market-cycle collector immutable predecessor differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _MARKET_CYCLE_OLD_MODAL_PREDECESSOR(market_cycle_pipeline_predecessor(raw))
+
+
+def _market_cycle_raw_call_views(before, current):
+    """Pure exact call comparison, after the caller proves both source blobs."""
+    parsed = [_MARKET_CYCLE_OLD_PARSE(MARKET_CYCLE_PATH, raw.decode("utf-8"))
+              for raw in (before, current)]
+    if any(errors for _calls, errors in parsed):
+        raise ValueError("market-cycle UI source parse differs")
+    ordered = lambda calls: tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
+    previous, actual = (ordered(calls) for calls, _errors in parsed)
+    added = tuple(UiCall(MARKET_CYCLE_PATH, "_cycle_display_name", line, "legacy", ko, en)
+                  for line, ko, en in MARKET_CYCLE_SITES)
+    if (len(added) != 3 or len({c.korean for c in added}) != 3
+            or any(c.function == "_cycle_display_name" for c in previous)
+            or actual != ordered((*previous, *added))):
+        raise ValueError("market-cycle exact old calls/new3/coordinates differ")
+    return previous, actual
+
+
+def _market_cycle_call_views(raw):
+    import market_cycle_label_history as successor
+    previous = successor.market_cycle_predecessor(raw, ROOT)
+    return _market_cycle_raw_call_views(previous, raw)
+
+
+@contextmanager
+def _market_cycle_comparison_parser(raw, previous):
+    """Project only parser output for old readers; Git and disk stay actual."""
+    from unittest.mock import patch
+    observed = []
+
+    def historical_parse(path, source):
+        if path != MARKET_CYCLE_PATH:
+            return _MARKET_CYCLE_OLD_PARSE(path, source)
+        if type(source) is not str or source.encode("utf-8") != raw:
+            raise ValueError("market-cycle historical parser input is not actual raw")
+        observed.append(True)
+        return list(previous), []
+
+    # The saved nonformat collector temporarily replaces parse_ui_calls itself;
+    # its original-parser seam is the common leaf of both comparison paths.
+    with patch.object(sys.modules[__name__], "_NONFORMAT_OLD_PARSE", historical_parse):
+        yield
+    if not observed:
+        raise ValueError("market-cycle historical collector did not read the owner")
+
+
+def _market_cycle_rebind(inventory, previous, actual, contract=None):
+    if inventory.errors or tuple(c for c in inventory.calls if c.path == MARKET_CYCLE_PATH) != previous:
+        raise ValueError("market-cycle supplied predecessor calls differ")
+    added = tuple(UiCall(MARKET_CYCLE_PATH, "_cycle_display_name", line, "legacy", ko, en)
+                  for line, ko, en in MARKET_CYCLE_SITES)
+    ordered = lambda calls: tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
+    if actual != ordered((*previous, *added)):
+        raise ValueError("market-cycle rebind is not exact new3")
+    calls = tuple(c for c in inventory.calls if c.path != MARKET_CYCLE_PATH) + actual
+    result = _new_run_log_inventory(inventory, calls, contract)
+    old_entries = {e.source: e for e in inventory.legacy_entries}
+    if ({e.source for e in result.legacy_entries} != set(old_entries)
+            or not {row[1] for row in MARKET_CYCLE_SITES} <= set(old_entries)):
+        raise ValueError("market-cycle adds an unexpected Korean key")
+    entries = tuple(_gift_replace(old_entries[e.source], context=e.context) for e in result.legacy_entries)
+    if (len({e.key for e in entries}) != len(entries)
+            or any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
+                   for e in entries)):
+        raise ValueError("market-cycle surviving Entry identity differs")
+    for field in ("planned_context_entries", "planned_context_blueprint", "observed_context_entries", "observed_context_blueprint"):
+        if getattr(result, field) != getattr(inventory, field):
+            raise ValueError("market-cycle unowned context inventory differs")
+    changed = {"source_calls", "legacy_calls", "legacy_api_calls",
+               "parameter_total_ui_call_occurrences", "parameter_legacy_pair_call_occurrences"}
+    if (set(result.stats) != set(inventory.stats)
+            or any(result.stats[key] != inventory.stats[key] + 3 for key in changed)
+            or any(result.stats[key] != value for key, value in inventory.stats.items() if key not in changed)):
+        raise ValueError("market-cycle exact plus3/unique0 or unowned statistics differ")
+    return _gift_replace(result, legacy_entries=entries,
+                         legacy_blueprint={e.source: {"$entry": e.key} for e in entries},
+                         stats={**result.stats, "market_cycle_added_calls": 3, "market_cycle_added_keys": 0})
+
+
+def _market_cycle_collect(contract=None):
+    import market_cycle_label_history as successor
+    try:
+        market_cycle_pipeline_predecessor((ROOT / _NEW_RUN_JA).read_bytes())
+        with successor.fresh_validation_proof(ROOT):
+            raw = (ROOT / MARKET_CYCLE_PATH).read_bytes()
+            previous, actual = _market_cycle_call_views(raw)
+            with _market_cycle_comparison_parser(raw, previous):
+                baseline = _MARKET_CYCLE_OLD_COLLECT(contract)
+            if baseline.errors:
+                return baseline
+            result = _market_cycle_rebind(baseline, previous, actual, contract)
+            if _market_cycle_call_views((ROOT / MARKET_CYCLE_PATH).read_bytes()) != (previous, actual):
+                raise ValueError("market-cycle current source changed during collection")
+        return result
+    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
+        return UiInventory((), (), {}, (), {}, (), {}, ("market-cycle admission: " + str(exc),), {})
+
+
+def _market_cycle_historical_checks(inventory):
+    import market_cycle_label_history as successor
+    try:
+        market_cycle_pipeline_predecessor((ROOT / _NEW_RUN_JA).read_bytes())
+        with successor.fresh_validation_proof(ROOT):
+            raw = (ROOT / MARKET_CYCLE_PATH).read_bytes()
+            previous, actual = _market_cycle_call_views(raw)
+            with _market_cycle_comparison_parser(raw, previous):
+                baseline = _MARKET_CYCLE_OLD_COLLECT()
+                if inventory != _market_cycle_rebind(baseline, previous, actual):
+                    raise ValueError("market-cycle supplied current inventory differs")
+                result = _MARKET_CYCLE_OLD_CHECKS(baseline)
+            if _market_cycle_call_views((ROOT / MARKET_CYCLE_PATH).read_bytes()) != (previous, actual):
+                raise ValueError("market-cycle source changed during historical checks")
+        return result
+    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
+        errors = ["market-cycle comparison: " + str(exc)]
+        return _gift_replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
+
+
+collect_ui_inventory = _market_cycle_collect
+_last11_meta_title_historical_checks = _market_cycle_historical_checks
+# END_MARKET_CYCLE_COLLECTOR_478
+
 if __name__ == "__main__":
     sys.exit(main())

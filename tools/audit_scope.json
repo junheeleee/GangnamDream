@@ -14,6 +14,34 @@
   ],
   "fast_lanes": [
     {
+      "id": "market-cycle-log",
+      "paths": [],
+      "owned_paths": [
+        "systems/InvestmentSystem.gd", "locale/ui_ja.json", "content/meta/full_game_localization.json",
+        "tools/market_cycle_label_history.py", "tools/market_cycle_label_history_self_test.py",
+        "tools/order469_source_compat.py", "tools/order469_source_compat_self_test.py",
+        "tools/pr31_intake_history.py", "tools/pr31_intake_history_self_test.py",
+        "tools/order470_source_compat.py", "tools/order470_source_compat_self_test.py",
+        "tools/ja_translation_pipeline.py", "tools/investment_loss_gate_audit.py",
+        "tools/investment_loss_gate_self_test.py", "tools/investment_ap_copy_self_test.py",
+        "tools/MarketCycleLogCheck.gd", "tools/MarketCycleLogCheck.tscn", "tools/market_cycle_log_audit.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-478.json", "docs/queue_active/ORDER-478.md", "docs/queue_archive/ORDER-478.md"
+      ],
+      "tools": [
+        "tools/market_cycle_log_audit.py --self-test", "tools/market_cycle_label_history_self_test.py",
+        "tools/order469_source_compat_self_test.py --market-cycle-only",
+        "tools/order470_source_compat_self_test.py --market-cycle-only",
+        "tools/pr31_intake_history_self_test.py --market-cycle-only",
+        "tools/investment_loss_gate_audit.py", "tools/investment_loss_gate_self_test.py --market-cycle-only",
+        "tools/investment_ap_copy_self_test.py --market-cycle-only", "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py", "tools/demo_localization_scope.py --lang all",
+        "tools/english_hangul_audit.py", "tools/release_content_inventory.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Display-only market log names and shared JA neutral1, typed source2/first UI receipt1, current original collector and original current acceptance admission. Prepared real roll/log25 observed separately with exact legacy RNG/state preservation. Reuse narrative/audio/speech/EN/body only after entire original input-set equivalence; no old430/40, standalone or internal240 rerun, rendered/natural/native/pad/release claim."
+    },
+    {
       "id": "investment-loss-hold-result",
       "paths": [],
       "owned_paths": [
@@ -45,7 +73,7 @@
         "tools/speech_register_audit.py", "tools/release_content_inventory.py",
         "tools/story_demo_localization_audit.py", "tools/audit_select.py --verify"
       ],
-      "why": "Exact one result fact in five locales, typed source5/three official corrections/conditional fear metadata, fresh actual census before immutable comparison. Root separately observes prepared actual formatter/choice/record/callback40 and current full-body acceptance once. No old430, large UI,240-week or full historical suite repeats; no natural/render/native/pad/release claim."
+      "why": "Exact one result fact in five locales, typed source5/three official corrections/conditional fear metadata, fresh actual census before immutable comparison. Root separately observes prepared actual formatter/choice/record/callback40 and current full-body acceptance once. No old430, large UI, standalone240-week or full historical suite repeats; original narrative internally executes240 weeks. No natural/render/native/pad/release claim."
     },
     {
       "id": "investment-loss-gate",
@@ -5491,6 +5519,41 @@
       "tool": "tools/night_routine_time_audit.py --self-test",
       "paths": ["content/events*/arc_midgame.json", "tools/night_routine_time_audit.py", "tools/NightRoutineTimeCheck.gd", "tools/NightRoutineTimeCheck.tscn"],
       "why": "Exact10 relative chronology leaves and sixteen rollback/clock/token/layout/unowned negatives; not whole-scene approval."
+    },
+    {
+      "tool": "tools/market_cycle_log_audit.py --self-test",
+      "paths": ["systems/InvestmentSystem.gd", "locale/ui_ja.json", "tools/market_cycle_log_audit.py", "tools/MarketCycleLogCheck.gd", "tools/MarketCycleLogCheck.tscn"],
+      "why": "Exact market display-only source2 and bounded17 source/fixture mutation controls; actual prepared roll/log25 observed separately."
+    },
+    {
+      "tool": "tools/market_cycle_label_history_self_test.py",
+      "paths": ["systems/InvestmentSystem.gd", "locale/ui_ja.json", "content/meta/full_game_localization.json", "tools/market_cycle_label_history.py", "tools/market_cycle_label_history_self_test.py"],
+      "why": "Typed exact market source2 and separate first UI receipt1 with current Git/disk/census binding and adversarial controls."
+    },
+    {
+      "tool": "tools/order469_source_compat_self_test.py --market-cycle-only",
+      "paths": ["systems/InvestmentSystem.gd", "locale/ui_ja.json", "content/meta/full_game_localization.json", "tools/order469_source_compat.py", "tools/order469_source_compat_self_test.py"],
+      "why": "Exact current market display successor composes before477/476 history without returning old runtime payload."
+    },
+    {
+      "tool": "tools/order470_source_compat_self_test.py --market-cycle-only",
+      "paths": ["systems/InvestmentSystem.gd", "locale/ui_ja.json", "content/meta/full_game_localization.json", "tools/order470_source_compat.py", "tools/order470_source_compat_self_test.py"],
+      "why": "Separate current market UI acceptance admission preserves old273 batches and all41848 accepted values."
+    },
+    {
+      "tool": "tools/pr31_intake_history_self_test.py --market-cycle-only",
+      "paths": ["systems/InvestmentSystem.gd", "locale/ui_ja.json", "content/meta/full_game_localization.json", "tools/pr31_intake_history.py", "tools/pr31_intake_history_self_test.py"],
+      "why": "Strict current source census and raw target/ledger inverse through preserved intake seam."
+    },
+    {
+      "tool": "tools/investment_loss_gate_self_test.py --market-cycle-only",
+      "paths": ["systems/InvestmentSystem.gd", "tools/investment_loss_gate_audit.py", "tools/investment_loss_gate_self_test.py"],
+      "why": "Only exact market label inverse is admitted for the loss gate's Investment protected comparison."
+    },
+    {
+      "tool": "tools/investment_ap_copy_self_test.py --market-cycle-only",
+      "paths": ["systems/InvestmentSystem.gd", "tools/ja_translation_pipeline.py", "tools/investment_ap_copy_self_test.py"],
+      "why": "Exact actual three market display calls are reassembled after current source proof; unrelated AP behavior and UI unique keys unchanged."
     },
     {
       "tool": "tools/investment_loss_hold_result_audit.py --self-test",

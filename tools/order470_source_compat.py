@@ -2465,6 +2465,17 @@ def _read_proof_current(root):
     loss_hold_before, loss_hold_source, loss_hold_receipts, loss_hold_metadata = _loss_hold_stages(root, head, current)
     current = (loss_hold_metadata if loss_hold_metadata is not None else loss_hold_receipts
                if loss_hold_receipts is not None else loss_hold_source)
+    #478's independent leaf proof owns Investment+JA and a separate first UI
+    #receipt. Every earlier dictionary remains its immutable product endpoint.
+    import market_cycle_label_history as market
+    with market.fresh_validation_proof(root) as market_proof:
+        _require(market_proof["head"] == head and current[LEDGER_PATH] == market_proof["before"][LEDGER_PATH],
+                 "market successor must start at immutable477 ledger")
+        market_before = dict(current)
+        market_source = {**current, LEDGER_PATH: market_proof["source"][LEDGER_PATH]}
+        market_receipts = (None if market_proof["receipts"] is None else
+                           {**current, LEDGER_PATH: market_proof["receipts"][LEDGER_PATH]})
+        current = market_source if market_receipts is None else market_receipts
     actual, _ = _snapshot(root, head, tuple(current))
     _require(actual == current, "current HEAD differs from exact source/receipt product")
     _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "current disk differs from Git")
@@ -2485,6 +2496,7 @@ def _read_proof_current(root):
             "current": actual, "receipts": receipts, "person_before": person_before,
             "loss_hold_before": loss_hold_before, "loss_hold_source": loss_hold_source,
             "loss_hold_receipts": loss_hold_receipts, "loss_hold_metadata": loss_hold_metadata,
+            "market_before": market_before, "market_source": market_source, "market_receipts": market_receipts,
             "person_source": person_source, "person_receipts": person_receipts,
             "prose_before": prose_before, "prose_source": prose_source, "prose_receipts": prose_receipts,
             "prose_current": prose_current, "prose_metadata": prose_metadata,

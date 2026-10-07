@@ -1405,6 +1405,56 @@ def run_loss_hold_checks(root=history.ROOT):
     return failures, cases
 
 
+def run_market_cycle_checks(root=history.ROOT, inventory=None):
+    """478 changes only this owner's final ledger, never470..477 stages."""
+    import market_cycle_label_history as market
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER478 ledger admission: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    active, memo = history._ACTIVE.get(), history._SEMANTIC_MEMO.get()
+    with history.fresh_validation_proof(root) as proof, market.fresh_validation_proof(root) as market_proof:
+        prior, current = proof["market_before"], proof["current"]
+        check(prior == proof["loss_hold_metadata"], "immutable477 metadata endpoint")
+        check(proof["market_source"] == prior, "source2 changes no470-owned payload")
+        check(current[history.LEDGER_PATH] == market_proof["current"][history.LEDGER_PATH], "actual current ledger")
+        check(all(current[p] == prior[p] for p in prior if p != history.LEDGER_PATH), "all prose/runtime/inventory actual and unchanged")
+        old = history._loads(prior[history.LEDGER_PATH])
+        check(len(old["batches"]) == 273 and sum(map(len, old["accepted"].values())) == 41848, "old273/41848 endpoint remains")
+        if market.RECEIPT_COMMIT is None:
+            check(proof["market_receipts"] is None and current == prior, "source-only no new receipt")
+        else:
+            check(current == proof["market_receipts"] and current != prior, "separate actual receipt stage")
+            check(market._ledger_inverse(prior[history.LEDGER_PATH], current[history.LEDGER_PATH]) == prior[history.LEDGER_PATH], "exact first1 inverse")
+        frozen = copy.deepcopy(market_proof)
+        frozen["current"][history.LEDGER_PATH] += b"\n"
+        if frozen["receipts"] is not None:
+            frozen["receipts"][history.LEDGER_PATH] = frozen["current"][history.LEDGER_PATH]
+        else:
+            frozen["source"][history.LEDGER_PATH] = frozen["current"][history.LEDGER_PATH]
+        @contextlib.contextmanager
+        def fake(_root=root):
+            yield frozen
+        with mock.patch.object(market, "fresh_validation_proof", fake):
+            reject(lambda: history._read_proof(root), "forged successor fails actual typed final boundary")
+        with mock.patch.object(market, "_snapshot", side_effect=ValueError("missing478 typed object")):
+            reject(lambda: history._read_proof(root), "warm missing478 proof")
+    check(history._ACTIVE.get() is active and history._SEMANTIC_MEMO.get() is memo, "original scope identity restored")
+    return failures, cases
+
+
 def main():
     coffee_only = sys.argv[1:] == ["--coffee-self-test"]
     person_only = sys.argv[1:] == ["--person-self-test"]
@@ -1415,13 +1465,14 @@ def main():
     night_only = sys.argv[1:] == ["--night-routine-only"]
     night_metadata_only = sys.argv[1:] == ["--night-metadata-only"]
     loss_hold_only = sys.argv[1:] == ["--loss-hold-only"]
-    failures, cases = (run_loss_hold_checks() if loss_hold_only else run_night_metadata_checks() if night_metadata_only else run_night_routine_checks() if night_only else run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only else run_person_checks() if person_only else
+    market_only = sys.argv[1:] == ["--market-cycle-only"]
+    failures, cases = (run_market_cycle_checks() if market_only else run_loss_hold_checks() if loss_hold_only else run_night_metadata_checks() if night_metadata_only else run_night_routine_checks() if night_only else run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only else run_person_checks() if person_only else
                        run_coffee_consumer_checks() if coffee_only else run())
     for failure in failures:
         print(failure, file=sys.stderr)
     label = "COFFEE_CONSUMER" if coffee_only else "SOURCE_COMPAT"
-    prefix = "ORDER477_LOSS_HOLD" if loss_hold_only else "ORDER475_NIGHT_METADATA" if night_metadata_only else "ORDER475_NIGHT_ROUTINE" if night_only else "ORDER474_FIRST_WIN" if first_win_only else "ORDER473_ENDING_FACTS" if ending_only else "ORDER472_METADATA" if metadata_only else "ORDER472_PROSE" if prose_only else "ORDER471_PERSON" if person_only else "ORDER470_" + label
-    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={0 if night_metadata_only else 5 if loss_hold_only or night_only or first_win_only or ending_only else 0 if metadata_only else 10 if prose_only else 5 if person_only else 9}")
+    prefix = "ORDER478_MARKET_RECEIPT" if market_only else "ORDER477_LOSS_HOLD" if loss_hold_only else "ORDER475_NIGHT_METADATA" if night_metadata_only else "ORDER475_NIGHT_ROUTINE" if night_only else "ORDER474_FIRST_WIN" if first_win_only else "ORDER473_ENDING_FACTS" if ending_only else "ORDER472_METADATA" if metadata_only else "ORDER472_PROSE" if prose_only else "ORDER471_PERSON" if person_only else "ORDER470_" + label
+    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={0 if market_only or night_metadata_only else 5 if loss_hold_only or night_only or first_win_only or ending_only else 0 if metadata_only else 10 if prose_only else 5 if person_only else 9}")
     return int(bool(failures))
 
 

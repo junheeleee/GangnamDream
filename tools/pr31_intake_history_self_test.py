@@ -998,6 +998,9 @@ def run_loss_hold_checks(root=history.ROOT, inventory=None):
               {p: history._sha(proof["before"][p]) for p in history.SOURCE_PATHS}, "partial15 comparison supported")
         check(source[history.LEDGER_PATH] == old[history.LEDGER_PATH], "source has zero acceptance")
         ledger = history._loads(actual[history.LEDGER_PATH])
+        #478 may append its first UI receipt;477 assertions retain477's exact
+        #immutable endpoint, not a silently enlarged historical expectation.
+        ledger = history._loads(proof["pre_market_successor"][history.LEDGER_PATH])
         expected_batches = 270 if successor.LOSS_HOLD_RECEIPT_COMMIT is None else 273
         check(len(ledger["batches"]) == expected_batches and sum(len(v) for v in ledger["accepted"].values()) == 41848,
               "exact stage batch population and unchanged accepted keys")
@@ -1013,7 +1016,8 @@ def run_loss_hold_checks(root=history.ROOT, inventory=None):
             inventory = collect(root)
         original = copy.deepcopy(inventory)
         stages = history.source_stage_manifest_digests(root, inventory)
-        pre_hashes = {**inventory["source_hashes"], successor.LOSS_HOLD_KO_PATH: history._sha(old[successor.LOSS_HOLD_KO_PATH])}
+        pre_market = history.market_successor.source_predecessor_inventory(root, inventory)["source_hashes"]
+        pre_hashes = {**pre_market, successor.LOSS_HOLD_KO_PATH: history._sha(old[successor.LOSS_HOLD_KO_PATH])}
         check({inventory["source_manifest_sha256"], history._digest(pre_hashes),
                history.source_successor.FIRST_LOSS_PREDECESSOR_CENSUS, history.CURRENT_SOURCE_MANIFEST_SHA256} <= stages,
               "actual477, old476,90d88 and e300 coexist")
@@ -1049,6 +1053,84 @@ def run_loss_hold_checks(root=history.ROOT, inventory=None):
     return failures, cases
 
 
+def run_market_cycle_checks(root=history.ROOT, inventory=None):
+    """478 source2/first1 seam with immutable PR31..477 snapshots."""
+    market = history.market_successor
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("PR31 market cycle: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    active = history._ACTIVE.get()
+    with history.fresh_validation_proof(root) as proof:
+        old, source, actual = (proof[k] for k in ("pre_market_successor", "market_source", "current"))
+        check({p for p in old if old[p] != source[p]} == {market.JA_PATH}, "source modifies only JA in PR31-owned paths")
+        check(old == proof["loss_hold_metadata"], "immutable477 remains separate")
+        check(all(actual[p] == old[p] for p in history.CURRENT_CONTENT_PATHS), "runtime prose is actual and unchanged")
+        check(history.current_content_raw(root) == {p: actual[p] for p in history.CURRENT_CONTENT_PATHS}, "current payload API unchanged")
+        check(len(history.CONTENT_PATHS) == 71 and len(history.SOURCE_PATHS) == 15, "old71/partial15 population")
+        small = {p: history._sha(actual[p]) for p in history.SOURCE_PATHS}
+        small_inventory = {"source_hashes": small, "source_manifest_sha256": history._digest(small)}
+        check(history.source_predecessor_inventory(root, small_inventory)["source_hashes"] ==
+              {p: history._sha(proof["before"][p]) for p in history.SOURCE_PATHS}, "partial15 still supported")
+        transitions = history.receipt_transitions(root, {})
+        selected = [r for r in transitions if r[0] in {market.PRODUCT_COMMIT, market.RECEIPT_COMMIT}]
+        check(len(selected) == 1 + int(market.RECEIPT_COMMIT is not None), "source and receipt distinct transitions")
+        for commit, before, after, changes, inverse in selected:
+            is_receipt = commit == market.RECEIPT_COMMIT
+            check(inverse(after, before, after) == before, "exact four-raw inverse " + commit[:7])
+            check(changes["first_receipts"] == int(is_receipt) and changes["corrections"] == 0
+                  and changes["correction_batches"] == int(is_receipt), "first1 not old correction or source acceptance")
+            for label, rows in (("historical", before), ("missing", {p: v for p, v in after.items() if p != market.JA_PATH}),
+                                ("neighbor", {**after, market.JA_PATH: after[market.JA_PATH] + b"\n"}),
+                                ("wrong ledger", {**after, market.LEDGER_PATH: after[market.LEDGER_PATH] + b"\n"})):
+                reject(lambda r=rows, a=before, b=after, f=inverse: f(r, a, b), "four-raw seam " + label)
+        check(history._loads(old[history.LEDGER_PATH])["batches"][-1]["order"] == "ORDER-477", "old receipt endpoint477")
+        if inventory is None:
+            from full_game_localization import collect
+            inventory = collect(root)
+        unchanged = copy.deepcopy(inventory)
+        stages = history.source_stage_manifest_digests(root, inventory)
+        check({inventory["source_manifest_sha256"], market.PREDECESSOR_SOURCE_MANIFEST_SHA256,
+               history.source_successor.FIRST_LOSS_PREDECESSOR_CENSUS, history.CURRENT_SOURCE_MANIFEST_SHA256} <= stages,
+              "current478 plus immutable477/90d88/e300 censuses")
+        projected = history.source_predecessor_inventory(root, inventory)
+        check(projected["source_hashes"][market.INVESTMENT_PATH] == market.RAW_SHA256[market.INVESTMENT_PATH][0], "Investment historical comparison only")
+        check(projected["source_hashes"][history.source_successor.MAIN_PATH] == inventory["source_hashes"][history.source_successor.MAIN_PATH],
+              "actual Main stays for Main's own boundary")
+        check(inventory == unchanged, "current inventory never replaced")
+        for label, path, value in (("Investment rollback", market.INVESTMENT_PATH, market.RAW_SHA256[market.INVESTMENT_PATH][0]),
+                                   ("neighbor", "systems/RelationshipSystem.gd", "0" * 64)):
+            mutant = copy.deepcopy(inventory)
+            mutant["source_hashes"][path] = value
+            mutant["source_manifest_sha256"] = history._digest(mutant["source_hashes"])
+            reject(lambda r=mutant: history.source_stage_manifest_digests(root, r), "rehashed " + label)
+    with market.fresh_validation_proof(root) as market_proof:
+        forged = copy.deepcopy(market_proof)
+    forged["source"][market.JA_PATH] = forged["before"][market.JA_PATH]
+    forged["current"][market.JA_PATH] = forged["before"][market.JA_PATH]
+    if forged["receipts"] is not None:
+        forged["receipts"][market.JA_PATH] = forged["before"][market.JA_PATH]
+    @contextlib.contextmanager
+    def fake(_root=root):
+        yield forged
+    with mock.patch.object(market, "fresh_validation_proof", fake):
+        reject(lambda: history._read_proof(root), "forged historical JA cannot pass actual final boundary")
+    check(history._ACTIVE.get() is active, "scope identity restored")
+    return failures, cases
+
+
 def main():
     person_only = sys.argv[1:] == ["--person-self-test"]
     prose_only = sys.argv[1:] == ["--prose-self-test"]
@@ -1059,11 +1141,12 @@ def main():
     night_metadata_only = sys.argv[1:] == ["--night-metadata-only"]
     loss_only = sys.argv[1:] == ["--first-loss-only"]
     loss_hold_only = sys.argv[1:] == ["--loss-hold-only"]
-    failures, cases = (run_loss_hold_checks() if loss_hold_only else run_first_loss_checks() if loss_only else run_night_metadata_checks() if night_metadata_only else run_night_routine_checks() if night_only else run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
+    market_only = sys.argv[1:] == ["--market-cycle-only"]
+    failures, cases = (run_market_cycle_checks() if market_only else run_loss_hold_checks() if loss_hold_only else run_first_loss_checks() if loss_only else run_night_metadata_checks() if night_metadata_only else run_night_routine_checks() if night_only else run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
                        else run_person_checks() if person_only else run())
     for error in failures:
         print(error, file=sys.stderr)
-    label = ("PR31_LOSS_HOLD" if loss_hold_only else "PR31_FIRST_LOSS" if loss_only else "PR31_NIGHT_METADATA" if night_metadata_only else "PR31_NIGHT_ROUTINE" if night_only else "PR31_FIRST_WIN" if first_win_only else "PR31_ENDING_FACTS" if ending_only else "PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
+    label = ("PR31_MARKET_CYCLE" if market_only else "PR31_LOSS_HOLD" if loss_hold_only else "PR31_FIRST_LOSS" if loss_only else "PR31_NIGHT_METADATA" if night_metadata_only else "PR31_NIGHT_ROUTINE" if night_only else "PR31_FIRST_WIN" if first_win_only else "PR31_ENDING_FACTS" if ending_only else "PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
              else "PR31_PERSON_SUCCESSOR" if person_only else "PR31_INTAKE_HISTORY")
     print(f"{label}_{'FAIL' if failures else 'OK'} cases={cases} current_files=71 native_review=OPEN")
     return int(bool(failures))

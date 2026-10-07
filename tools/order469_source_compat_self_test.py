@@ -120,7 +120,8 @@ def run():
         reject(lambda row=changed: pipeline._chapter_four_call_offsets(before[history.MAIN_PATH],
                current, before_calls, (*actual_calls[:-1], row)), "UI call " + label + " drift")
     raw = (history.ROOT / "tools/ja_translation_pipeline.py").read_bytes()
-    raw = pipeline.story_fact_pipeline_predecessor(pipeline.first_loss_pipeline_predecessor(raw))
+    raw = pipeline.story_fact_pipeline_predecessor(pipeline.first_loss_pipeline_predecessor(
+        pipeline.market_cycle_pipeline_predecessor(raw)))
     pipeline.chapter_four_pipeline_predecessor(raw)
     check(True, "collector whole-prefix and appendix seal")
     reject(lambda: pipeline.chapter_four_pipeline_predecessor(b" " + raw), "collector prefix mutation")
@@ -258,6 +259,7 @@ def run_first_loss_checks(root=history.ROOT, inventory=None):
 def run_loss_hold_checks(root=history.ROOT, inventory=None):
     """477 KO is projected before the unchanged476 Main inverse."""
     import order470_source_compat as later
+    import market_cycle_label_history as market
     failures, cases = [], 0
 
     def check(ok, label):
@@ -285,7 +287,7 @@ def run_loss_hold_checks(root=history.ROOT, inventory=None):
             from full_game_localization import collect
             inventory = collect(root)
         original = copy.deepcopy(inventory)
-        hashes = inventory["source_hashes"]
+        hashes = market.source_predecessor_inventory(root, inventory)["source_hashes"]
         prior = later._loss_hold_source_comparison(root, successor, hashes)
         check({p for p in hashes if hashes[p] != prior[p]} == {later.LOSS_HOLD_KO_PATH}, "only477 KO first inverse")
         check(prior[path] == hashes[path], "477 projection leaves actual476 Main intact")
@@ -311,13 +313,68 @@ def run_loss_hold_checks(root=history.ROOT, inventory=None):
     return failures, cases
 
 
+def run_market_cycle_checks(root=history.ROOT, inventory=None):
+    """478 Investment, then477 KO, then476 Main: three distinct endpoints."""
+    import market_cycle_label_history as market
+    import order470_source_compat as later
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER478 source census: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    active = history._ACTIVE.get()
+    if inventory is None:
+        from full_game_localization import collect
+        inventory = collect(root)
+    unchanged = copy.deepcopy(inventory)
+    with history.fresh_validation_proof(root) as proof, later.fresh_validation_proof(root) as successor:
+        hashes = inventory["source_hashes"]
+        pre_market = market.source_predecessor_inventory(root, inventory)["source_hashes"]
+        check({p for p in hashes if hashes[p] != pre_market[p]} == {market.INVESTMENT_PATH}, "first inverse Investment only")
+        pre_hold = later._loss_hold_source_comparison(root, successor, pre_market)
+        check({p for p in pre_market if pre_market[p] != pre_hold[p]} == {later.LOSS_HOLD_KO_PATH}, "second inverse KO only")
+        pre_main = {**pre_hold, history.MAIN_PATH: history._sha(proof["first_loss_before"][history.MAIN_PATH])}
+        check(history._digest(pre_main) == history.FIRST_LOSS_PREDECESSOR_CENSUS, "third inverse preserves90d88")
+        check(hashes[history.MAIN_PATH] == history.FIRST_LOSS_RAW_SHA256[1], "actual476 Main unchanged")
+        check(history.main_predecessor(proof["current"][history.MAIN_PATH], root) == proof["before"][history.MAIN_PATH], "old469 Main meaning")
+        comparison = history.source_predecessor_inventory(root, inventory)
+        check(comparison["source_manifest_sha256"] == history.PR31_SOURCE_MANIFEST_SHA256, "full old e300 endpoint")
+        check(inventory == unchanged, "actual current payload preserved")
+        reject(lambda: later._loss_hold_source_comparison(root, successor, hashes), "wrong projection order")
+        for label, path, value in (("Investment rollback", market.INVESTMENT_PATH, pre_market[market.INVESTMENT_PATH]),
+                                   ("Main rollback", history.MAIN_PATH, history.FIRST_LOSS_RAW_SHA256[0]),
+                                   ("KO rollback", later.LOSS_HOLD_KO_PATH, pre_hold[later.LOSS_HOLD_KO_PATH]),
+                                   ("neighbor", "systems/RelationshipSystem.gd", "0" * 64)):
+            mutant = copy.deepcopy(inventory)
+            mutant["source_hashes"][path] = value
+            mutant["source_manifest_sha256"] = history._digest(mutant["source_hashes"])
+            reject(lambda r=mutant: history.source_predecessor_inventory(root, r), "rehashed " + label)
+        reject(lambda: history.source_predecessor_inventory(root, comparison), "old census cannot claim current")
+        with mock.patch.object(market, "_snapshot", side_effect=ValueError("missing478 typed object")):
+            reject(lambda: history.source_predecessor_inventory(root, inventory), "warm missing478")
+    check(history._ACTIVE.get() is active, "original proof scope restored")
+    return failures, cases
+
+
 def main():
     first_loss_only = sys.argv[1:] == ["--first-loss-only"]
     loss_hold_only = sys.argv[1:] == ["--loss-hold-only"]
-    failures, cases = run_loss_hold_checks() if loss_hold_only else run_first_loss_checks() if first_loss_only else run()
+    market_only = sys.argv[1:] == ["--market-cycle-only"]
+    failures, cases = run_market_cycle_checks() if market_only else run_loss_hold_checks() if loss_hold_only else run_first_loss_checks() if first_loss_only else run()
     for message in failures:
         print(message, file=sys.stderr)
-    label = "ORDER477_LOSS_HOLD_SOURCE" if loss_hold_only else "ORDER476_FIRST_LOSS_SOURCE" if first_loss_only else "ORDER469_SOURCE_COMPAT"
+    label = "ORDER478_MARKET_SOURCE" if market_only else "ORDER477_LOSS_HOLD_SOURCE" if loss_hold_only else "ORDER476_FIRST_LOSS_SOURCE" if first_loss_only else "ORDER469_SOURCE_COMPAT"
     print(f"{label}_{'FAIL' if failures else 'OK'} cases={cases} retired=6 receipts=0")
     return int(bool(failures))
 

@@ -133,13 +133,14 @@ def run(root=audit.ROOT):
             reject(lambda row=rows: pipeline._chapter_four_call_offsets(
                 pre469[audit.MAIN], current[audit.MAIN], old_calls, row), "JA calls " + label)
     code = (root / "tools/ja_translation_pipeline.py").read_bytes()
-    prefix = pipeline.first_loss_pipeline_predecessor(code)
+    prefix = pipeline.first_loss_pipeline_predecessor(pipeline.market_cycle_pipeline_predecessor(code))
     check(prefix == history._git(root, "show", audit.SOURCE + ":tools/ja_translation_pipeline.py"),
           "actual sealed JA whole predecessor")
     for label, raw in (("suffix", code + b"\n"), ("prefix", b" " + code),
                        ("appendix", code.replace(b"first-loss UI calls/payload/order/exact coordinates differ",
                                                 b"weakened diagnostic", 1))):
-        reject(lambda value=raw: pipeline.first_loss_pipeline_predecessor(value), "JA seal " + label)
+        reject(lambda value=raw: pipeline.first_loss_pipeline_predecessor(
+            pipeline.market_cycle_pipeline_predecessor(value)), "JA seal " + label)
     check({p: (root / p).read_bytes() for p in paths} == current
           and (root / audit.FIXTURE).read_bytes() == fixture
           and (root / "tools/ja_translation_pipeline.py").read_bytes() == code,
@@ -200,8 +201,13 @@ def run_loss_hold_only(root=audit.ROOT):
               "old475 exact chronology remains unchanged")
         check(all(actual[p] != compared[p] for p in audit.MIDGAME.values()),
               "all five actual corrected leaves retained outside comparison")
-        check(all(actual[p] == compared[p] for p in audit.PROTECTED if p not in audit.MIDGAME.values()),
-              "other nine protected raw files remain actual")
+        import market_cycle_label_history as market
+        # The old nine-path assertion is kept against the separately proved
+        # pre478 comparison. Only Investment's declared log/helper may differ.
+        historical_actual = {**actual, audit.INVESTMENT:
+                             market.market_cycle_predecessor(actual[audit.INVESTMENT], root)}
+        check(all(historical_actual[p] == compared[p] for p in audit.PROTECTED if p not in audit.MIDGAME.values()),
+              "other nine protected raw files remain exact after proven478 inverse")
 
         # These malformed supplied inputs fail the adapters' real current-disk
         # boundary before expensive Git history; no proof/collector is mocked.
@@ -256,14 +262,126 @@ def run_loss_hold_only(root=audit.ROOT):
     return failures, cases
 
 
+def run_market_cycle_only(root=audit.ROOT):
+    """478 adapter/tuple controls; partial fixtures are not a full collector."""
+    import market_cycle_label_history as market
+    import ja_translation_pipeline as pipeline
+    root = Path(root).resolve()
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append(label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    head = market._git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+    paths = (*audit.PROTECTED, "tools/ja_translation_pipeline.py",
+             "tools/investment_loss_gate_audit.py", "tools/investment_loss_gate_self_test.py")
+    inputs = {p: (root / p).read_bytes() for p in paths}
+    actual, _ = market._snapshot(root, head, audit.PROTECTED)
+    before, _ = market._snapshot(root, audit.BASE, audit.PROTECTED)
+    check(actual == {p: inputs[p] for p in audit.PROTECTED}, "actual typed HEAD/disk14")
+    with market.fresh_validation_proof(root):
+        compared = audit.historical_content_comparison(actual, root)
+        check(compared == before, "exact pre477 text5/pre478 Investment1 comparison")
+        check(not audit.content_errors(before, actual, comparison=compared),
+              "actual gameplay/readers plus exact historical source comparison")
+        check(all(actual[p] == compared[p] for p in audit.PROTECTED
+                  if p not in (*audit.MIDGAME.values(), audit.INVESTMENT)),
+              "remaining eight raw files are actual and unchanged")
+        check(actual[audit.INVESTMENT] != compared[audit.INVESTMENT]
+              and market.product_inverse(compared[audit.INVESTMENT], actual[audit.INVESTMENT],
+                                         audit.INVESTMENT) == before[audit.INVESTMENT],
+              "only proved Investment transition differs")
+        for label, mutant in (
+                ("rollback", before[audit.INVESTMENT]),
+                ("unowned newline", actual[audit.INVESTMENT] + b"\n"),
+                ("log bypass", actual[audit.INVESTMENT].replace(market.NEW_LOG, market.OLD_LOG, 1)),
+                ("RNG changed", actual[audit.INVESTMENT].replace(b"randi_range(5, 11)", b"randi_range(5, 12)", 1)),
+                ("unknown normalized", actual[audit.INVESTMENT].replace(b"\t\t\treturn cycle\n", b'\t\t\treturn "neutral"\n', 1))):
+            check(mutant != actual[audit.INVESTMENT], "mutation precondition " + label)
+            supplied = {**actual, audit.INVESTMENT: mutant}
+            reject(lambda row=supplied: audit.historical_content_comparison(row, root),
+                   "adapter rejects " + label)
+            check(bool(audit.content_errors(before, supplied, comparison=compared)),
+                  "historical view cannot hide actual " + label)
+        for path in audit.PROTECTED:
+            reject(lambda p=path: audit.historical_content_comparison(
+                {**actual, p: actual[p] + b"\n"}, root), "actual raw binding " + path)
+        for label, supplied in (("missing", {p: r for p, r in actual.items() if p != audit.INVESTMENT}),
+                                 ("extra", {**actual, "foreign.gd": b""}),
+                                 ("nonbytes", {**actual, audit.INVESTMENT: actual[audit.INVESTMENT].decode()})):
+            reject(lambda row=supplied: audit.historical_content_comparison(row, root), "population " + label)
+
+        previous, current = pipeline._market_cycle_call_views(actual[audit.INVESTMENT])
+        check(pipeline._market_cycle_raw_call_views(before[audit.INVESTMENT], actual[audit.INVESTMENT])
+              == (previous, current) and len(current) == len(previous) + 3,
+              "actual immutable source and exact current three calls")
+        for label, raw in (("missing helper", before[audit.INVESTMENT]),
+                           ("line drift", b"\n" + actual[audit.INVESTMENT]),
+                           ("wrong pair", actual[audit.INVESTMENT].replace(b'"Bull Market"', b'"Bear Market"', 1)),
+                           ("wrong owner", actual[audit.INVESTMENT].replace(b"func _cycle_display_name(", b"func _other_cycle(", 1))):
+            reject(lambda value=raw: pipeline._market_cycle_raw_call_views(before[audit.INVESTMENT], value),
+                   "pure current tuple rejects " + label)
+
+        # This small, explicitly synthetic peer inventory exercises rebuilding
+        # only. The original current collector is executed separately by root.
+        peers = tuple(pipeline.UiCall("synthetic-peer.gd", "existing", index + 1, "legacy", ko, en)
+                      for index, (_line, ko, en) in enumerate(pipeline.MARKET_CYCLE_SITES))
+        empty = pipeline.UiInventory((), (), {}, (), {}, (), {}, (), {})
+        baseline = pipeline._new_run_log_inventory(empty, (*previous, *peers), {})
+        result = pipeline._market_cycle_rebind(baseline, previous, current, {})
+        check(tuple(c for c in result.calls if c.path == audit.INVESTMENT) == current
+              and {e.source for e in result.legacy_entries} == {e.source for e in baseline.legacy_entries}
+              and result.stats["source_calls"] == baseline.stats["source_calls"] + 3
+              and result.stats["market_cycle_added_keys"] == 0,
+              "partial fixture exact plus3 unique0 actual tuple rebuild")
+        identities = {e.source: e for e in baseline.legacy_entries}
+        check(all(replace(e, context=identities[e.source].context) == identities[e.source]
+                  for e in result.legacy_entries), "partial surviving Entry identities")
+        for label, supplied in (("missing", current[:-1]), ("duplicate", (*current, current[-1])),
+                                 ("reordered", tuple(reversed(current))),
+                                 ("line", (*current[:-1], replace(current[-1], line=current[-1].line + 1))),
+                                 ("English", (*current[:-1], replace(current[-1], english="forged"))),
+                                 ("owner", (*current[:-1], replace(current[-1], function="forged")))):
+            reject(lambda row=supplied: pipeline._market_cycle_rebind(baseline, previous, row, {}),
+                   "partial rebind rejects " + label)
+        reject(lambda: pipeline._market_cycle_rebind(replace(baseline, calls=baseline.calls[:-1]),
+                                                     previous, current, {}), "partial old-owner omission")
+        missing_key = pipeline._new_run_log_inventory(empty, (*previous, *peers[:-1]), {})
+        reject(lambda: pipeline._market_cycle_rebind(missing_key, previous, current, {}),
+               "partial key creation is not accepted as unique0")
+        check(audit.historical_content_comparison(actual, root) == before, "fresh final comparison unchanged")
+    final, _ = market._snapshot(root, head, audit.PROTECTED)
+    check(final == actual and inputs == {p: (root / p).read_bytes() for p in paths}
+          and market._git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head,
+          "actual HEAD/Git/disk and owned inputs preserved after exit")
+    return failures, cases
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--loss-hold-only", action="store_true",
                         help="only ORDER477 historical-comparison connector controls")
+    parser.add_argument("--market-cycle-only", action="store_true",
+                        help="only ORDER478 comparison/call rebuilding controls; no full collector")
     args = parser.parse_args()
-    prefix = "INVESTMENT_LOSS_HOLD_ADAPTER_SELF_TEST" if args.loss_hold_only else "INVESTMENT_LOSS_GATE_SELF_TEST"
+    if args.loss_hold_only and args.market_cycle_only:
+        parser.error("choose at most one targeted scope")
+    prefix = ("INVESTMENT_MARKET_CYCLE_ADAPTER_SELF_TEST" if args.market_cycle_only else
+              "INVESTMENT_LOSS_HOLD_ADAPTER_SELF_TEST" if args.loss_hold_only else "INVESTMENT_LOSS_GATE_SELF_TEST")
     try:
-        failures, cases = run_loss_hold_only() if args.loss_hold_only else run()
+        failures, cases = (run_market_cycle_only() if args.market_cycle_only else
+                           run_loss_hold_only() if args.loss_hold_only else run())
     except (ValueError, TypeError, KeyError, IndexError, OSError, SyntaxError) as exc:
         print(prefix + "_FAIL " + str(exc))
         return 1

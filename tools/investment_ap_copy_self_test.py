@@ -30,7 +30,8 @@ INPUTS = (MAIN, *RAW4, "tools/main_game_locale_history.py",
           "tools/ui_translation_append.py", "tools/ja_translation_pipeline.py",
           "tools/ja_translation_audit.py", "tools/order469_source_compat.py",
           "tools/order470_source_compat.py", "tools/InvestmentAPCopyCheck.gd",
-          "tools/InvestmentAPCopyCheck.tscn", "tools/investment_ap_copy_self_test.py")
+          "tools/InvestmentAPCopyCheck.tscn", "tools/investment_ap_copy_self_test.py",
+          "systems/InvestmentSystem.gd", "tools/market_cycle_label_history.py")
 
 
 def _git(*args: str) -> bytes:
@@ -149,7 +150,7 @@ def run_self_test(*, include_current: bool = True) -> tuple[list[str], int]:
         raw_pipeline = (ROOT / "tools/ja_translation_pipeline.py").read_bytes()
         ap_pipeline = pipeline.ending_father_pipeline_predecessor(
             pipeline.chapter_four_pipeline_predecessor(pipeline.story_fact_pipeline_predecessor(
-                pipeline.first_loss_pipeline_predecessor(raw_pipeline))))
+                pipeline.first_loss_pipeline_predecessor(pipeline.market_cycle_pipeline_predecessor(raw_pipeline)))))
         check(pipeline.investment_ap_pipeline_predecessor(ap_pipeline)
               == _git("show", BEFORE + ":tools/ja_translation_pipeline.py"), "collector.immutable-whole-prefix")
         reject(lambda: pipeline.investment_ap_pipeline_predecessor(ap_pipeline + b"\n"),
@@ -294,18 +295,99 @@ def run_self_test(*, include_current: bool = True) -> tuple[list[str], int]:
     return failures, len(labels)
 
 
+def run_market_cycle_only() -> tuple[list[str], int]:
+    """Direct478 -> unchanged476/470/469/468/467 seals, not another collector."""
+    import ja_translation_pipeline as pipeline
+    import market_cycle_label_history as market
+    failures, labels = [], set()
+
+    def check(ok, label):
+        if label in labels:
+            raise AssertionError("duplicate market/AP case: " + label)
+        labels.add(label)
+        if not ok:
+            failures.append(label)
+        print("INVESTMENT_AP_MARKET_CYCLE_CASE " + json.dumps(
+            {"id": label, "passed": bool(ok)}, ensure_ascii=False), flush=True)
+
+    def reject(action, label):
+        try:
+            action()
+        except (ValueError, TypeError, KeyError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    initial = _snapshot()
+    print("INVESTMENT_AP_MARKET_CYCLE_INPUT " + json.dumps(initial, sort_keys=True), flush=True)
+    try:
+        with market.fresh_validation_proof(ROOT):
+            raw = (ROOT / "tools/ja_translation_pipeline.py").read_bytes()
+            previous = pipeline.market_cycle_pipeline_predecessor(raw)
+            check(previous == _git("show", market.PRODUCT_COMMIT + ":tools/ja_translation_pipeline.py"),
+                  "sealed478.whole-immutable-predecessor")
+            stripped = pipeline.ending_father_pipeline_predecessor(
+                pipeline.chapter_four_pipeline_predecessor(pipeline.story_fact_pipeline_predecessor(
+                    pipeline.first_loss_pipeline_predecessor(previous))))
+            check(pipeline.investment_ap_pipeline_predecessor(stripped)
+                  == _git("show", BEFORE + ":tools/ja_translation_pipeline.py"),
+                  "sealed478.original467-whole-prefix-and-intermediate-seals")
+            for label, value in (("prefix", b" " + raw), ("suffix", raw + b"\n"),
+                                  ("nonbytes", raw.decode()),
+                                  ("appendix", raw.replace(b"def _market_cycle_rebind(",
+                                                            b"def _market_cycle_rebind_forged(", 1))):
+                reject(lambda value=value: pipeline.market_cycle_pipeline_predecessor(value),
+                       "sealed478.reject-" + label)
+            for field, value in (("MARKET_CYCLE_PIPELINE_BEFORE_SHA", "0" * 64),
+                                  ("MARKET_CYCLE_PIPELINE_BEFORE_BLOB", "0" * 40),
+                                  ("MARKET_CYCLE_PIPELINE_BEFORE_COMMIT", "0" * 40),
+                                  ("MARKET_CYCLE_PIPELINE_APPEND_SHA", "0" * 64)):
+                with patch.object(pipeline, field, value):
+                    reject(lambda: pipeline.market_cycle_pipeline_predecessor(raw), "sealed478.pin-" + field)
+            actual4 = {p: (ROOT / p).read_bytes() for p in RAW4}
+            comparison4 = market.ui_predecessor(actual4, ROOT)
+            check(comparison4 == {p: _git("show", market.PRODUCT_PARENT + ":" + p) for p in RAW4},
+                  "raw4.exact-pre478-comparison-not-runtime")
+            short = pipeline.AP_COPY_NEW_PAIR[0]
+            leaf = "ui:" + short + ":/" + short
+            old_ledger, ledger = (json.loads(rows[RAW4[-1]]) for rows in (comparison4, actual4))
+            for locale, path in zip(("ja", "zh-CN", "zh-TW"), RAW4):
+                check(json.loads(actual4[path])[short] == json.loads(comparison4[path])[short]
+                      and ledger["accepted"][locale].get(leaf) == old_ledger["accepted"][locale].get(leaf),
+                      "actual.existing-AP-target-and-receipt-unchanged." + locale)
+            check(json.loads(actual4[RAW4[0]])["횡보장"] == "横ばい相場"
+                  and json.loads(comparison4[RAW4[0]])["횡보장"] == "横歩場",
+                  "actual.JA-correction-not-replaced-by-comparison")
+            for path in RAW4:
+                reject(lambda p=path: market.ui_predecessor({**actual4, p: actual4[p] + b"\n"}, ROOT),
+                       "raw4.unowned-byte." + path)
+            check(pipeline.market_cycle_pipeline_predecessor(raw) == previous,
+                  "sealed478.final-fresh-original-prefix")
+    finally:
+        final = _snapshot()
+        print("INVESTMENT_AP_MARKET_CYCLE_OUTPUT " + json.dumps(final, sort_keys=True), flush=True)
+        check(initial == final, "preservation.inputs-head-tree-status")
+    return failures, len(labels)
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-only", action="store_true", help="omit actual current collector/JA admission")
+    parser.add_argument("--market-cycle-only", action="store_true",
+                        help="only ORDER478 direct AP seals/raw4 controls, no collector")
     args = parser.parse_args(argv)
+    if args.source_only and args.market_cycle_only:
+        parser.error("choose at most one targeted scope")
     try:
-        failures, cases = run_self_test(include_current=not args.source_only)
+        failures, cases = (run_market_cycle_only() if args.market_cycle_only else
+                           run_self_test(include_current=not args.source_only))
     except Exception as exc:
         print("INVESTMENT_AP_COPY_SELF_TEST_FAIL exception=" + repr(exc), file=sys.stderr)
         return 1
-    marker = "INVESTMENT_AP_COPY_SOURCE_ONLY" if args.source_only else "INVESTMENT_AP_COPY_SELF_TEST"
+    marker = ("INVESTMENT_AP_MARKET_CYCLE_SELF_TEST" if args.market_cycle_only else
+              "INVESTMENT_AP_COPY_SOURCE_ONLY" if args.source_only else "INVESTMENT_AP_COPY_SELF_TEST")
     print(f"{marker}_{'FAIL' if failures else 'OK'} cases={cases} failures={len(failures)} "
-          f"actual_collectors={int(not args.source_only)}", flush=True)
+          f"actual_collectors={int(not args.source_only and not args.market_cycle_only)}", flush=True)
     for failure in failures:
         print("ERROR " + failure, file=sys.stderr)
     return int(bool(failures))

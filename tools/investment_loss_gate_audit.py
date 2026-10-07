@@ -32,6 +32,7 @@ CONTENT = tuple("content/events" + ("" if locale == "ko" else "_" + locale) + "/
                 for locale in LOCALES for filename in ("arc_midgame.json", "callback_events_45.json"))
 PROTECTED = (*CONTENT, "content/assets.json", "autoloads/GameState.gd",
              "autoloads/DataRegistry.gd", "systems/InvestmentSystem.gd")
+INVESTMENT = "systems/InvestmentSystem.gd"
 MIDGAME = {locale: "content/events" + ("" if locale == "ko" else "_" + locale)
            + "/arc_midgame.json" for locale in LOCALES}
 OLD_GUARD = '\t\t\tand GameState.investment_skill >= 5 \\\n'
@@ -226,8 +227,9 @@ def screen_errors(before, current):
 
 
 def historical_content_comparison(current, root=ROOT):
-    """Current14 -> pre477 comparison5 plus unchanged actual9, not runtime data."""
+    """Current14 -> pre477 text5/pre478 Investment1; actual8 stay untouched."""
     import order470_source_compat as history
+    import market_cycle_label_history as market
     root = Path(root).resolve()
     require(type(current) is dict and set(current) == set(PROTECTED)
             and all(type(raw) is bytes for raw in current.values()),
@@ -239,7 +241,9 @@ def historical_content_comparison(current, root=ROOT):
     require(type(previous) is dict and set(previous) == set(LOCALES)
             and all(type(raw) is bytes for raw in previous.values()),
             "protected comparison predecessor population/type")
-    return {**current, **{path: previous[locale] for locale, path in MIDGAME.items()}}
+    investment = market.market_cycle_predecessor(current[INVESTMENT], root)
+    return {**current, **{path: previous[locale] for locale, path in MIDGAME.items()},
+            INVESTMENT: investment}
 
 
 def content_errors(before, current, *, comparison=None):
@@ -253,7 +257,17 @@ def content_errors(before, current, *, comparison=None):
         if type(current[path]) is not bytes or type(compared[path]) is not bytes \
                 or compared[path] != before[path]:
             failures.append("unowned source/text raw changed: " + path)
-        if path not in MIDGAME.values() and compared[path] != current[path]:
+        if path == INVESTMENT and comparison is not None:
+            # Do not let a supplied historical view hide an arbitrary live
+            # price/trading change. The fresh adapter above and this pure exact
+            # inverse independently bind the only permitted log/helper delta.
+            import market_cycle_label_history as market
+            try:
+                if market.product_inverse(compared[path], current[path], path) != compared[path]:
+                    failures.append("Investment comparison inverse differs")
+            except (ValueError, TypeError, KeyError, IndexError):
+                failures.append("actual Investment exceeds exact market-label transition")
+        elif path not in MIDGAME.values() and compared[path] != current[path]:
             failures.append("comparison changed a non-midgame protected path: " + path)
     for locale in LOCALES:
         path = "content/events" + ("" if locale == "ko" else "_" + locale) + "/arc_midgame.json"
@@ -343,7 +357,7 @@ def run(root=ROOT):
             "historical content comparison changed during audit")
     return {"head": head, "source_commit": SOURCE, "locales": 5, "text_changes": 0,
             "text_changes_scope": "ORDER476 historical comparison only; actual ORDER477 leaf5 retained",
-            "historical_comparison": "pre477 exact five midgame raw files",
+            "historical_comparison": "pre477 exact midgame5 plus pre478 exact Investment1; actual raw retained",
             "simulator_cases": cases, "protected_paths": len(PROTECTED),
             "scope": "source/predicate/fixture wiring; actual runtime and human observation separate",
             "input_sha256": {p: hashlib.sha256(raw).hexdigest() for p, raw in actual.items()}}
