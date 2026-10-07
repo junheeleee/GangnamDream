@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-475",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-07",
+  "reviewer": "/root/order469_main",
+  "subject": {
+    "kind": "source",
+    "commit": "827848b25fc27e4e850e7191e9b9a870a8370447",
+    "tree": "3088fbf0e24af9bcb93d9bd2d2d92a30ad463fe5",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "scope": "arc_night_routine choices[1]의 result_text/bridge_summary×5언어=10잎에서 새벽1시 뒤 12시 취침/자정 전 소등으로 역행하던 사실만 수리한 범위 GO. 공식6 기존 교정, 정확 후속 이력·현재 지문2 수리, 준비120 소비자 증거를 포함한다. 장면 전체·계층 충족·실제 입력/렌더·자연 플레이·콜백 자연 발화·전체 본편/출시 GO가 아니다.",
+  "method": {
+    "independence": "root가 KO/EN·fixture/감사·실행·수용, order469_review가 JA/CN/TW, order469_history가 지원4파일을 작성했다. 비저자는 원문10·실제 소비자·fixture·지원 diff·typed Git 단계·원로그를 직접 읽고 stdlib JSON/AST/해시와 read-only Git으로 대조했다. 저자 선정 표본0, 보고서 외 작성0, 프로젝트 import/QA·Godot·공식 import·커밋0.",
+    "instructions": "CLAUDE, gangnamdream-dev 전체, WORK_UNIT, 선택 ORDER-475, 현지화 profile와 KO/JA/ZH I18N 정본을 직접 읽었다. 스킬에 따라 정확 소유·전수검수·pre-autoload 격리·표적 검사 및 자동/실제/인간 관찰의 경계를 적용했다.",
+    "population": "ko,en,ja,zh-CN,zh-TW 순서, 각 locale에서 result_text 다음 bridge_summary. 전체10을 선언 기준으로 고정하여 수리 전후 전수 독해했다. 시간·상대·호칭·문장 순서·토큰·LF 및 비소유 raw/gameplay를 대조했다.",
+    "seal_encoding": "항목 {file,event_id,path:[choices,1,field],text_sha256} 목록을 UTF-8 JSON ensure_ascii=false,sort_keys=true,separators=(',',':')로 직렬화한 SHA256. text_sha256은 해당 원문 UTF-8 SHA256이다. enumeration은 text_sha256 없는 같은 목록이다.",
+    "enumeration_sha256": "b0d62c9fe2f9b179ab0604b30da0a60480c1638f86ac70691f0cac1e512860ba",
+    "baseline_population_sha256": "5e898e49a70945320e903bbfd78ea5c927980cb752657c01dc3737ce77b09cfc",
+    "current_population_sha256": "43e05ddf6213b5a4af60fc6e068dc484c95aa6636cb3e73069aa85508b9a06ed",
+    "candidate_observation": "작성 직전 실제 HEAD/tree가 subject와 일치하고 clean임을 읽었다. 두 최종 실행의 전후3210 tracked snapshot이 동일하며, 이전 실행과 최종의 실제 변경 집합·7개 검사 원본·11개 소비자/fixture 입력·결과 로그를 별도로 대조했다. 보고서는 이 frozen source 후보에 결속된다."
+  },
+  "population": {
+    "root": "arc_night_routine",
+    "paths": [["choices", 1, "result_text"], ["choices", 1, "bridge_summary"]],
+    "locales": ["ko", "en", "ja", "zh-CN", "zh-TW"],
+    "total": 10,
+    "file_sha256": {
+      "content/events/arc_midgame.json": "1cc0dcab4379e00253f76ed8686e5fa466081bac565cab8ba2df7df80277d952",
+      "content/events_en/arc_midgame.json": "5b2d2192d47cdb723cbd26a68bc9ef02bfb074d6134ed6e6f3b084243e2c81ed",
+      "content/events_ja/arc_midgame.json": "256b6d7686343685fae07f4ae78018f24cb79f694ed7ea306048c0146c92732d",
+      "content/events_zh-CN/arc_midgame.json": "b45f0a4ac4da3bb98c291746c13ebc7caa90c138cdc2a90a381e754303619d2e",
+      "content/events_zh-TW/arc_midgame.json": "a5acbfaa01570a6f64855b86104d84a78db1e1220e4ec2233eab2ec417f47f00"
+    }
+  },
+  "product_review": {
+    "finding": "KO의 '더 공부하지 않고 바로 잤다'와 '공부를 일찍 마치고 불을 껐다'는 본문1AM 뒤 추가 공부를 멈춘 상대적 조기 취침이다. EN went straight to bed/finished studying early, JA それ以上勉強せず/早めに切り上げて, CN 没再学习/提早结束学习, TW 沒再讀下去/提早結束讀書가 같은 사실이다. 새 절대시각·수면시간·다음날 효과·상대 행동을 추가하지 않았다.",
+    "preservation": "각5파일의 소유2 JSON literal만 역치환하면 이전 전체 raw가 정확히 복원된다. 비소유 본문1AM·선택0 2AM·선택2 맥주·호칭·토큰/LF·구조·효과/플래그는 불변이다. Main/StoryMode/GameState/EventManager/DataRegistry, callback 원문, narrative_spine, legacy arc_father_quiet_call 및 공개14root/100잎·PCK/과거 pin/분모는 변경0이다.",
+    "consumer_contract": "MainGame.gd:7730–7736은 W12–22, gosiwon, arc_intro_hyunsu_seen, 미독해일 때 선택한다. :6576–6589는 투자 우선→hyunsu_encouraged 또는 affinity≥3→그 외의 기존 자동 선택이다. V2는 mindset_investor 단독을 투자 정체성으로 쓰지 않고 legacy는 쓴다. 직접 결과는 StoryMode.gd:6400/6496의 result_text, 생활 다리는 EventManager.gd:875/899/908→MainGame.gd:12073의 bridge_summary를 읽는다.",
+    "quality_boundary": "한 장면 전체 산문·재미·호흡의 승인이나 새 계층 승격이 아니다. 기존 미선언 T3의 상태변경 부채는 남는다. 상대적으로 일찍 쉰 기억은 보존되지만 callback_slept_early_echo의 자연 선택/발화 시점을 관찰한 것은 아니다."
+  },
+  "git_stages": [
+    {"kind": "source5 / exact10", "parent": "d58583aaf7bb9dc53c249f7ad28def492e51e6aa", "commit": "abd8eb37ebf1dd8cd7967365780e2cc8a5a0c4fd"},
+    {"kind": "official ledger1 / six corrections, first0", "parent": "2b30fb563a120a1001f8beee8e02f1228b8f4e8f", "commit": "6f80f2d113b2b684909956dd9d701cc9b9832e38"},
+    {"kind": "fixture preparation only / exclude four future year-close flags", "commit": "28c3b90386fe18c8b765e53b0eeee6f5d1672d38"},
+    {"kind": "measured metadata2 / two current content fingerprints", "parent": "170c5024b3e985980bc56f466537046cd6aa2c3c", "commit": "aae4446cca8a48b55571e76ebcdd41fc0056de8b"}
+  ],
+  "official_acceptance": {
+    "result": ".git/order475-20261007.LKsGGW/official1/result.json",
+    "result_sha256": "47d94dd5118462a39b76a2e412975ba3f64037322dd1137e92a10de75fb96def",
+    "runner_sha256": "200b2afb4d51d2c46fe3a96258adec18376df92522191b67ff4026b595af9c1b",
+    "source_revision": "2b30fb563a120a1001f8beee8e02f1228b8f4e8f",
+    "source_manifest_sha256": "90d88b6fe55939264625f49a36bfdc8ff7d10f93c7cd53b85a394f20f911cc05",
+    "observed": "실제 original collector1 + 같은 호출의 guarded collect9. JA/CN/TW export/check/import 각0, stderr0, check/import changed_files=0. source/response6잎·18로그·private receipt3을 직접 읽었다. fresh contexts 정상 종료 후 error=null, passed/preserved=true, 529.471837458초(collect407.69181975000004초). 전체3210 tracked·runner/log·보호6그룹 전후 동일. Portable ledger1은 이후 별도 커밋이다.",
+    "counts": {"corrections": 6, "first_receipts": 0, "old_batches": 267, "new_batches": 270, "accepted_keys": 41848},
+    "ledger_raw_before_sha256": "3b0581aca338cd897aa162458cac86b59864d126344091dccdf4c9dc904ac9f9",
+    "ledger_raw_after_sha256": "2d609869aae88189f0c65dc0046f2585bc7b20e2df261115f4cb94f018f7a442",
+    "binding": "기존267 batch 원문 prefix 동일, locale별 accepted 키 동일. 정확6 기존 쌍·accepted_sha256·추가3 batch 외 의미 변경0. KO path/field/text fingerprint, target canonical JSON digest, private receipt self-digest, portable값과 실제 header가 일치한다. first0/native OPEN/rendered OPEN, 옛470–474 끝점은 불변이다."
+  },
+  "runtime": {
+    "result": ".git/order475-20261007.LKsGGW/runtime2/result.json",
+    "result_sha256": "728752727a7f25236dd835cf9d20553e7d5ace7a990fefd411e7b4d0d65450f4",
+    "source_commit": "28c3b90386fe18c8b765e53b0eeee6f5d1672d38",
+    "source_tree": "246b83f9bb246645386dc11ea9dcd37a6d37c6a3",
+    "fixture_sha256": "c027851e84699b032061131309171584147ea3441028c6da0a5bab8436d73529",
+    "runner_sha256": "4f7e688324ab702e1834d9fdc57090cfacf59097c0830b72d98cba55f5c40831",
+    "engine_sha256_before_after": "e6b5cfdc226ffb7ec4f4950b0b12ddba4f040624724cff1acce9ae1241cf0034",
+    "namespace": "GangnamDream_StoryNameplateQA_b51018b517344aaf860f491f520c5663",
+    "marker": "NIGHT_ROUTINE_TIME_CHECK_OK locales=5 cases=120 loaded=5 priority=50 route=35 direct=5 bridge=5 callback=20 prepared_component_only=true",
+    "stdout_and_godot_log_sha256": "7fc813628f46e3c65579ea8660212cd271287844a13125ce8f624468e81a71f3",
+    "case_ids_sha256": "c3d1ab26d16e9dbf37495944e41d8eac08cc48d3de327e0382d68739ae469f2b",
+    "case_ids_encoding": "sorted unique120 IDs, UTF-8 JSON ensure_ascii=false,separators=(',',':')",
+    "observed": "engine/wrapper0, 4.39856초, stderr0. stdout와Godot 전체32992bytes 동일, 고정 ID120 전수·언어별24·group5/50/35/5/5/20·passed=true를 독립 대조했다. exact marker1, restored=true1, script/engine 오류0. fresh UUID pre-autoload, 전체3210 tracked/HEAD/tree/status·외부Godot SHA·runner·로그·protected11 전후 보존이다. official의 보호6과 구분한다.",
+    "matrix": "loaded5: 각 locale actual DataRegistry 두잎/게임구조. priority50: V2 enabled false/true×none/encouraged/affinity3/invest-over-encouraged/legacy-mindset×5. route35: W11/W12/W22/W23/oneroom/unmet/seen×5에서 실제 Main._next_arc_id(t,false,false), 선택과 serialize 불변. direct5: 실제 apply_choice+StoryMode._fmt. bridge5: 실제 resolve_narrative_bridge→consume→Main summary. callback20: W39/W40×slept_early false/true×5의 실제 조건 reader.",
+    "choice_oracle": "mental50→56, Hyunsu affinity0→1, arc_night_routine_seen/slept_early 없음→true, events_seen0→1, receipt index1. ProseRecallCheck.gd:340의 전체 선택snapshot actual==expected와 SHA를 유지한다. Bridge는 원문 summary·event_id·turn12·cooldown9999·recent1·1회 consume 후 빈 큐를 확인한다. 준비 상태·singleton/transient·MetaProgression·locale 복원도 별도 확인한다.",
+    "boundary": "선행selector를 닫은 준비 flags와 명시적 상태를 사용했다. 실제 StoryMode._on_choice/키보드/버튼·화면·자연 주간 progression·callback 스케줄 발화 검증이 아니다. callback은 flag/min_turn 조건만으로 W40부터 가능하며 실제 그 주 발화를 보장하지 않는다. 다른 선택 실행/자연 장기 결과를 새 증거로 주장하지 않는다."
+  },
+  "retained_failures": [
+    {
+      "run": "runtime1",
+      "result_sha256": "7f6b2b0184cc91f0518a0879b666a2a2bac850e23a2b0dc0fa8fd09856e88cdb",
+      "verdict": "FAIL",
+      "evidence": "실제120 중 route35 FAIL/나머지85 PASS, 선택 eligibility는35 모두 맞지만 state_unchanged=false. stdout/Godot case 동일·restored/protected/source/engine 보존 true. 미래 연말4 close_seen을 fixture가 true로 세워 MainGame.gd:7211–7228→6448–6456의 정상 year_scenes skip 기록을 유발했다. 원로그는 상세 state diff를 출력하지 않으므로 정확4키뿐의 동적 증명으로 확대하지 않는다.",
+      "repair": "28c3b90은 W11–23 준비에서 미래 연말4 flag만 제외했다. 실제 live selector 호출·전체 serialize 동일성·120 모집단은 유지하고 fresh runtime2로 재검증했다. 원실패를 PASS로 소급하지 않는다."
+    },
+    {
+      "run": "quick1",
+      "result_sha256": "1b90f64ff4a1ece9dc79d30fcaf4d4054cf28acbe46c1590dfabbc999f2dd433",
+      "verdict": "FAIL",
+      "evidence": "170c502에서 첫7 원본 CLI stage exit0 후 release_inventory exit1로 중단: 현재 sexuality/alcohol content 지문2 불일치와 생성보고 stale. 8실행/7단계 성공이며 전체 실패, 나머지4 미실행이다. 전후3210 tracked·runner·원로그 보존 true. 실패stdout SHA13dd3d43336069f0e5d1c6641ebbe7154a230646a2caeafd498d4e5f48900801을 유지한다.",
+      "repair": "aae4446 metadata2와 정확 typed successor를 추가한 뒤 실패 inventory 및 미실행4를 quick2에서 실제 실행했다. 단일12 PASS 실행으로 합치거나 원quick1을 PASS로 바꾸지 않는다."
+    }
+  ],
+  "metadata_review": {
+    "cause": "release_content_inventory.py:437–480은 검색 후보 사건의 KO/EN 전체 JSON을 해시한다. night는 수리 전후 KO bridge의 '불을 껐'로 sexuality, 비소유 choice2의 맥주/beer로 alcohol 후보였다. 이번 변화는 같은 후보의 문구 지문 변화이며 새 선정성/음주 사실·후보·강도 변화가 아니다.",
+    "observed": "inventory-generation.json SHA1047fab6fd30ac4bdf9aa648934670d8ecad5bb581a366590d0c431c7db4317d: 실제 owner 생성의 지문2 오류→0. 최종 원본 release_inventory CLI도 실제0이다. 두 metadata 파일에서 새 content hash2개만 역치환하면 이전 raw와 완전히 같다.",
+    "current_hashes": {"sexuality": "d0dd2b37a6bab08ce17cebfe19ebacaf6170acccd56d4e0f110653704ade7a8f", "alcohol_tobacco_drugs": "19836be587ee24a1561736047c5da80cd4f18262b175b1d66adde28aa6ebcda9"},
+    "preserved": "후보 sexuality124/26·alcohol82/39, ID지문·검색규칙·noise목록·강도·결정권 불변. 공개 package-source snapshot의 public_story_demo_package_contract 전체 지문/분모는 불변이다. 새 metadata endpoint는 night_current receipt끝점과 분리되며 473metadata 등 과거 pin을 덮지 않는다."
+  },
+  "targeted_evidence": {
+    "focused1_historical": {
+      "subject": "170c5024b3e985980bc56f466537046cd6aa2c3c",
+      "result_sha256": "32cc4f90c04e9e12961fe75bec81d4c6d2a2c2231cd4895bfb725368b7fddfa3",
+      "markers": ["ORDER475_NIGHT_ROUTINE_OK cases=80", "PR31_NIGHT_ROUTINE_OK cases=44"],
+      "seconds": 251.964436125,
+      "boundary": "실제 source/receipt 양성·음성124, failures=[]/stderr0 및 fresh scope 정상 종료. 최종 후보에서 재실행한80/44라고 주장하지 않는다."
+    },
+    "focused2_current": {
+      "result_sha256": "4f1569a69a7504c5d1e45e41b3c4931b7d3a5a8d48bf310d5a09a7cf69d467dc",
+      "markers": ["ORDER475_NIGHT_METADATA_OK cases=40", "PR31_NIGHT_METADATA_OK cases=6"],
+      "seconds": 112.701287792,
+      "boundary": "최종827848에서 실제46, failures=[]/stderr0, 정상 fresh 입출구·passed/preserved=true. exact metadata raw/hunk/두 JSON owner·wrong value/layout/field/count/classification/decision·typed parent/path/object loss·warm proof failure·옛 receipt endpoint 보존을 검사한다."
+    },
+    "quick1_seven_reused_stages": ["night_routine_time_audit --self-test (10잎/16반례)", "first_win_fact_audit --self-test (기존7+adapter5반례)", "en_coverage_check", "english_hangul_audit", "narrative_continuity_audit", "scene_audio_contract_check", "speech_register_audit"],
+    "quick2_current": {
+      "result_sha256": "86c7fca9b4344810df2e33e285a57c28a4f74232296c84824daf1b9e44797f5f",
+      "seconds": 113.39572199999999,
+      "actual_original_cli_exit0_stderr0": ["release_content_inventory", "story_demo_localization_audit", "context_manifest_check", "queue_consistency_check", "audit_select --verify"],
+      "observations": "최종827848에서5 원본 CLI·정상 fresh context 종료, error=null·passed/preserved=true. release 결정 user_required, demo 목표어 각14/14·100/100·UI121/121, queue active79/in_progress77, audit registered211. 원 audit EXTRA 안내와 본편 human/native/pad OPEN 및 HOLD를 삭제하지 않았다."
+    },
+    "reuse": {
+      "file": ".git/order475-20261007.LKsGGW/input-reuse2.json",
+      "sha256": "84830796f7aa33e2f40742f07034bd69fe81df2b7be6cbf1ec59280916c2fef0",
+      "observed": "runtime2→최종 변경은 CLAUDE+지원4+metadata2의7뿐/3203 tracked 동일. quick1→최종은 지원4+metadata2의6뿐/3204 동일. events*641경로(JSON638+.gitkeep3), consumer11·fixture/bootstrap·외부Godot·runtime runner·7검사 원본이 결속된다. 원결과7 파일 SHA도 대조했다.",
+      "independent_assessment": "기존7 stage의 제한 재사용이다: 원본script/소비제품/비변경3204 경로는 동일하지만 전체 의존 입력이 불변이라는 뜻은 아니다. EN/한글/서사/오디오/말투5의 실제 입력·전이 의존 소스는 불변이고, night가 쓰는 _Document는 unchanged previous parser alias다. first_win은 바뀐 proof helper를 소비한다. 비교 API 자체와 current5/night_before 값은 보존됐으며, 바뀐 지원4/metadata2는 실제40/6 반례와 최종5 CLI의 fresh proof 정상 종료로 별도 검수했다. 특정 추가 재실행은 요구하지 않는다. 7 이전 stage PASS + 새5 실제 종료이며 단일12 성공이 아니다. 기존 원문/공식/준비 증거의 원래 실행 subject를 최종 subject로 바꾸지 않는다."
+    }
+  },
+  "l2": [
+    {
+      "consumer": "choices[1].result_text ×5",
+      "도달 경로": "NIGHT_ROUTINE_TIME_CHECK_OK locales=5 cases=120 loaded=5 priority=50 route=35 direct=5 bridge=5 callback=20 prepared_component_only=true; direct/*/arc_night_routine 5/5, route35/35",
+      "생산자 ↔ 독자": "content/events/arc_midgame.json:2138–2151 ↔ autoloads/GameState.gd:1950 ↔ scenes/StoryMode.gd:6400,6496,7064; route scenes/MainGame.gd:7730",
+      "바꾸는 상태": "준비 mental50→56, Hyunsu affinity0→1, seen/slept_early 없음→true, events_seen0→1, receipt index1; 이번 수리의 gameplay 변화0",
+      "포기 시 잃는 것": "callback_slept_early_echo / content/events/callback_events_47.json:219,228–229 / earliest W40+; 자연 발화 미관찰. 경쟁 choice0 intelligence+2/investment_skill+1/health−2, choice2 mental+8/health−1",
+      "서사 위치": "Chapter1 / W12–22 / gosiwon·현수 만남 이후 생활 루틴; 본문1AM, 경쟁 선택0 2AM",
+      "장면 계층": "T3(미선언 기본); 기존 상태변경 부채 유지, 전체 계층 충족 미판정",
+      "닫는 것": "새로 닫는 경로 없음; 기존 arc_night_routine_seen에 의한 단회 조건 불변"
+    },
+    {
+      "consumer": "choices[1].bridge_summary ×5",
+      "도달 경로": "bridge/*/arc_night_routine 5/5; committed=true, selected=1, snapshot_equal=true, bridge_contract=true; priority50/50",
+      "생산자 ↔ 독자": "content/events/arc_midgame.json:2152 ↔ autoloads/EventManager.gd:875,899,908 ↔ scenes/MainGame.gd:12073; 자동선택 scenes/MainGame.gd:6576",
+      "바꾸는 상태": "준비 mental50→56, Hyunsu affinity0→1, seen/slept_early 없음→true, receipt index1; bridge queue0→1→0, cooldown9999/recent1; 이번 수리의 gameplay 변화0",
+      "포기 시 잃는 것": "callback_slept_early_echo / W40+ 조건; callback20은 W39/40×flag false/true 판정, 스케줄 발화 미관찰",
+      "서사 위치": "Chapter1 / W12–22 생활 다리 / STORY_BIBLE.md:263 및 narrative_spine.demo.bridge_roots; 공개14root 범위 밖",
+      "장면 계층": "T3(미선언 기본); 별도 장면/계층 승격0",
+      "닫는 것": "새로 닫는 경로 없음; 기존 seen·cooldown·consume 단회 처리 유지"
+    }
+  ],
+  "limits": {
+    "unobserved": ["actual_render", "StoryMode_input", "natural_play", "scheduled_callback_utterance", "native_reader", "human_playtest", "physical_controller_feel", "whole_release"],
+    "global_verdict": "HOLD",
+    "remaining_scoped_failures": 0,
+    "historical_failures": "runtime1 및 quick1의 실제 FAIL 원로그/결과를 보존한다. 최종 미해결 신규 실패0은 원실패가 없었다는 뜻이 아니다.",
+    "fixed_statement": "자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다. 자동 PASS·준비 상태를 에이전트의 범위 밖 GO 또는 사람 GO로 바꾸지 않는다."
+  }
+}

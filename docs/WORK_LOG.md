@@ -2,9 +2,13 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
-## 2026-10-07 — 심야 루틴 취침 순서 (475, 선언)
+## 2026-10-07 — 심야 루틴 상대적 취침 순서10잎 (475, 한정 GO)
 
-- 기존 원문 채무의 새벽1시→12시/자정 전 모순을 직접 결과와 생활 다리 두잎×5언어만 수리한다. [사양](queue_active/ORDER-475.md)의 정확 소유를 분리하며 선언 commit/push 뒤 저작한다. 새 시각·효과·라우팅·회수·계층 승격0; 공개14/100·legacy quiet-call·사용자 저장·과거 판정 보존. 474 검수/출시 권한의 확대가 아니다.
+- 새벽1시 이후12시/자정 전 취침 모순을 direct결과·생활다리 두잎×5언어에서 더 공부하지 않고 바로 쉼/상대적 조기종료로 맞췄다. 새시각·수면시간·효과·라우팅·callback·두잎밖raw·tokens·LF/문단0변경.
+- sourceabd8eb3→공식6교정/최초0→ledger1 6f80f2d113b2b684909956dd9d701cc9b9832e38 (directparent 2b30fb563a120a1001f8beee8e02f1228b8f4e8f)→최종candidate 827848b25fc27e4e850e7191e9b9a870a8370447를 결속했다. 공식main9 actual0·529.471837초; 한 actualcollect 후 전체입력·함수identity/census 가드9만 재사용. 기존267배치rawprefix·41848키 보존/현재270. quick1 release실패가 잡은 개발지문2·생성보고 대응값만 actual owner 생성/metadata2 aae4446으로 수리했고 후보/강도/규칙/공개축은 보존했다.
+- runtime1 engine/wrapper1·route35FAIL/그외85PASS·복원/보호true 원본을 보존했다. 준비상태가 미래연말4 close_seen을 잘못 세운 원인만 수리하고, actualrouter/전체상태검사/120모집단 불변으로 runtime2를 fresh UUID pre-autoload 실행했다. actual0·120(5/50/35/5/5/20)전수PASS, mental50→56/현수0→1/seen·slept_early/receipt1·resolve→consume→summary·W39/40조건 경계·복원true; stdout/Godot동일/오류0·외부engineSHA/보호11/전체tracked/로그불변이다. 직접_fmt·조건reader는 UI입력/자연발화 관찰이 아니며 뒤 지원핀/문서/metadata2 변경 뒤에도 runtime 입력이 같음을 별도 검수했다.
+- focused1 source/receipt80/44 실제PASS@170c를 역사증거로 보존하고 final focused2 metadata40/6·quick2 남은원본5 CLI 실제0/오류0·source/runner/logs보존을 확인했다. quick1 전체FAIL/첫7 stagePASS는 바꾸지 않는다. 7검사 원본script·제품·비변경3204 tracked 입력동일성+새fresh proof 검수로 재사용하며 단일 quick12 성공이라 하지 않는다. runtime 뒤7지원/문서/metadata만 바뀌고 engine/실제제품/consumer/fixture 동일성으로만 재사용했다. 옛first-win 비교만 역사투영하며 현재제품에 옛문구0. UI대형/240주/전체감사/옛 화면 반복0; SHA/L2전칸은 [완료사양](queue_archive/ORDER-475.md)에 결속한다.
+- 비저자 [전수보고](agent_reviews/ORDER-475.json) SHA 99688ec2ae3283792b509a5a614b85ce1ddf6dad1cbfef5a25ab986903b78d37의 해당source/단위만 GO. 공개GO1·인간OPEN45·역사HOLD/REJECT·149captureFAIL·474GO 보존. 실제화면·자연·원어민·인간·물리패드·본편출시 GO 아님. gangnamdream-dev의 소유/전이/표적검수/증거분리 적용, 새규범0/일회성. 자동 게이트는 계약 증거이지 재미·깊이·문체의 증거가 아니다.
 
 ## 2026-10-07 — 첫 수익 축하의 비용·거처10잎 사실 수리 (474, 한정 GO)
 
