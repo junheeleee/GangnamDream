@@ -939,12 +939,19 @@ FIRST_WIN_REPAIR_RAW_PATCHES = {'content/events/arc_midgame.json': (('replace',
                                       4291,
                                       'f4c413096072d5af8587c658fc869d4db097da0514f718eaa3e74b55fcd76c75',
                                       '7d0f83dbbd1e2006a178762ea9037daa6f0b50d5341dc0bdd4009182616cdd68'))}
-FIRST_WIN_RECEIPT_PARENT = None
-FIRST_WIN_RECEIPT_COMMIT = None
+FIRST_WIN_RECEIPT_PARENT = "037a858c4e70d7fa37d2950f22296b1669446308"
+FIRST_WIN_RECEIPT_COMMIT = "bae21b2f297d4eb8f285448a23b5c391370782e4"
 FIRST_WIN_RECEIPT_PATHS = (LEDGER_PATH,)
-FIRST_WIN_RECEIPT_RAW_SHA256 = {}
-FIRST_WIN_RECEIPT_BATCH_SHA256 = {}
-FIRST_WIN_RECEIPT_SOURCE_MANIFEST_SHA256 = None
+FIRST_WIN_RECEIPT_RAW_SHA256 = {
+    LEDGER_PATH: ("9c540d3b5b4dc1ac5d3f28cbe96e6467bb9e6074266e7c01931e23b8fe49d191",
+                  "3b0581aca338cd897aa162458cac86b59864d126344091dccdf4c9dc904ac9f9"),
+}
+FIRST_WIN_RECEIPT_BATCH_SHA256 = {
+    "ja": "6ba6caa0f48a2b26bc89e92c906bcc6a745a336a156ce94c1602789a928af146",
+    "zh-CN": "766f87e1c19dc7bed243a7fd6b52fd715aebff56e92dd8cfb99c58aa3db2a7f7",
+    "zh-TW": "6db409be670659ff4706654a9dafab30d4b8fe172bdf729f84b7e65723843101",
+}
+FIRST_WIN_RECEIPT_SOURCE_MANIFEST_SHA256 = "673384fc1590f904c3f23e7e4688ca87a95eb60a71ce7f7f6dd564611f667a2c"
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
 _SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
 
