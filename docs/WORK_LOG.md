@@ -2,10 +2,23 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-07 — 시장 로그를 각 언어 표시 이름으로 기록한다 (478, 한정 GO)
+
+- neutral/bear/bull raw 인수를 known3×5 표시 이름으로만 바꾸고 공유 JA 횡보장1을 横ばい相場로 고쳤다. enum·난수·경제·기간·매매·과거 저장 로그·비소유 raw 변경0.
+- source2 20443aa→지원16 d68bc66→official firstJA1/기존accepted교정0→ledger1 `ae01837dc6cfc0a272534ed38e654513d21cc6e5`를 분리했다. 원본collect1/공식3 실제0, 기존273 raw배치·41848값 보존→274/41849·native/render OPEN. 정확 역사 비교만 역상하며 actual payload는 현재다.
+- prepared25 실제0/3.134221초·15log/5unknown/5restore·exact 모집단/seed/timer/다음RNG·실제add_log/날짜/종류/append·가격/현금/보유/달력 불변. stdout=Godot/stderr·오류0/보호11·전체tracked·engine 보존. 자연월초·실제 화면/입력·globalRNG전체복원 주장이 아니다.
+- 집중4·365원본함수1·본문수용3·제품CLI9 실제 통과 뒤 CLAUDE 크기18041>18000B로 context만 실패했다. 원8324.186초 FAIL/예외 탈출은 보존; 직접 자식 상태1행 축약17948B·나머지3227/원census213·원로그36 불변을 확인했다. 후속 context+미실행3은 12.012242초에 통과, 새fresh5·census·lazyMain 정상종료는 773.359551초. 합계CLI12+목록1 완료·새 미해결 실패0이며 원pipeline PASS로 소급0.
+- EN/말투/오디오/서사 machine4 계약은 전체입력257/257/133/140·원로그8 불변으로만 재사용; 인간/agent 출력은 별도 현재resolver다. fullbody529 core는 보존하고 변경Investment lifecycle은 이번 actual collect에 귀속한다. 바뀐 최종메타3과 runtime 소비자 동일성으로 준비25를 재사용하며 새 실행으로 세지 않는다.
+- private 입력 결속 첫 실행의 모듈명 오타 KeyError exit1도 기록/SHA `d2cf37481922a5bbeba12a36f1daf2dda9263b7eb8f319a04373f8182371e9ca`로 보존했다. 실제 order316_header_source_compat.py 경로를 바로잡고529 입력을 제외 없이 재대조해 후속 결속을 통과했다. 옛 대형UI/전체 selftest 반복0이며 이번 JA UI 원본1은 실제 실행이다.
+- 실패기록의 runnerSHA1필드 추가87B로 먼저 끝난 결속 지문이 달라진 건도 원결과를 덮지 않고 [exact successor](queue_archive/ORDER-478.md)에 원지문·역상·현재증거 동일성으로 결속했다. 제품/검사 재실행0이다.
+- 비저자 [전수보고](agent_reviews/ORDER-478.json) SHA `02d4e432fc0dc409f712348f038358076b7f72bd20e51f83e641a7f588bab985`·candidate `38efd9b2e13f2f50d682897075ffcc7a9e8ad8ae`/tree `4600717702c5271138450e6705790a4a776afb19`가 표시 보정 한 단위만 GO했다. 상세실행·SHA/L2전칸은 [완료사양](queue_archive/ORDER-478.md)에 결속한다. 인접JA·화면/입력·자연진행·5장·원어민/사람/패드·본편 출시는 미완료다.
+- gangnamdream-dev 소유·분리전이·격리·표적검수·증거분리 적용. 새규범0/이번결속 일회성. 공개GO1·인간OPEN45·과거판정·player/seed·149captureFAIL 보존. 자동 통과는 재미·깊이·문체의 증거가 아니다.
+- 작업 중 교훈: 현재상태 요약을 늘린 뒤에는 CLAUDE 부팅 예산18000B를 먼저 확인한다. 실패원로그를 유지하고 입력이 같은 성공검사만 재사용해 문서오류 때문에 제품 검수를 반복하지 않았다.
+
 ## 2026-10-07 — 시장 국면 로그의 코드명 비노출 (478, 착수)
 
 - 실제 InvestmentSystem._roll_cycle→GameState.add_log→Main._render_log에 남는 neutral/bear/bull 인수를 기존 상승장/하락장/횡보장 표시 쌍으로만 현지화한다. enum·난수·시간·가격·매매·옛 저장 로그는 불변이다.
-- [작은 사양](queue_active/ORDER-478.md)에 root Investment/QA4·review JA1/지원4·history 지원8·비저자 최종보고1의 파일 소유를 분리했다. source2 단독→공식 JA1 최초수용 ledger1 분리, 기존273 raw배치·41848키와 공개 pin/과거판정 보존을 계획한다. 선언 시 구현·QA·수용0이다.
+- [작은 사양](queue_archive/ORDER-478.md)에 root Investment/QA4·review JA1/지원4·history 지원8·비저자 최종보고1의 파일 소유를 분리했다. source2 단독→공식 JA1 최초수용 ledger1 분리, 기존273 raw배치·41848키와 공개 pin/과거판정 보존을 계획한다. 선언 시 구현·QA·수용0이다.
 - 실제25 준비 모집단은 첫 실행 재조정으로 두고 원본 collect·동일 입력 가드·공식 JA1·현재 receipt admission·영문/JA UI/demo/ZH demo·새 history 지원을 표적으로 검수한다. 각 원검사의 실제 입력 집합과 변경 잎을 대조해 같은 event/body 결과만 재사용하고, 새 원장·Investment를 읽는 owner 함수는 실제 재검증한다. 내장240주 등 비적용은 입력 전수보존으로만 기록하며 validator 약화0·자동/실제 화면·원어민/사람/패드·본편 출시 HOLD를 유지한다.
 
 ## 2026-10-07 — 기다리기 결과의 회복 보장을 걷어냈다 (477, 한정 GO)
