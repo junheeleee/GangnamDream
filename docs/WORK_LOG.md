@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-07 — 20억 첫 돌파의 잘못된 잔여 안내를 수리한다 (480, 착수)
+
+- 479 scopedGO·메인 `c1e6177`까지 push한 뒤 [한 로그의 사실 수리](queue_active/ORDER-480.md)를 선언한다. GameState 실제월말20억 도달의 고정10억 잔여만 없애고 JA/CN/TW 새키1씩을 KO직접 옮긴다. 임계/flag/경제/엔딩/이전저장로그·다른이정표는 보존한다. 선언 전 구현/collect/수용/QA/엔진0.
+- source4→공식최초3/ledger1을 분리한다. helper는 정확current/source/census/receipt 역사만 역상하며 옛핀·모집단을 덮지 않는다. 실제원본collect1과 바뀐3잎의 공식각3, 준비5언어·순자산경계/기록완료/대출·복원을 표적으로 한다. 옛365/전체JAUI/240주/전체pipeline 반복0 계획, 과거PASS 재사용과 새실행은 분리한다.
+- 정확소유는 사양이 소유한다. 새JA 초안은 관용표현 に手が届く로 바로잡았으며 원어민 판정으로 쓰지 않는다. 공개GO1·인간OPEN45·본편HOLD·Mac실제관찰 잔여를 보존하고 사용자 잠금해제/재서명 요청0. gangnamdream-dev의 소유·선언·직접번역·표적/독립검수 절차를 적용한다.
+
 ## 2026-10-07 — 원장 중복 파싱4회 제거 (479, 한정 GO)
 
 - 검증된 Document2 값을 같은 receipt 호출에서만 재사용한다. 원본 inverse/schema/batch/current typed Git·raw/disk·HEAD·정상/예외 종료·public반환·기존77 반례는 그대로다. 소유source2 `c04607a`, 상태갱신2행 뒤 candidate `18197f4d921f7b83302ab82c69123c9c38b325cf`/tree `c4ff636d68898b476daa76b3204e96adce7cecb3`.

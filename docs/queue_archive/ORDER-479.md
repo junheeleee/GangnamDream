@@ -128,3 +128,15 @@ PCK·인간 원장·과거 agent 보고·사용자 저장·seed 변경0. Mac 잠
   자동 게이트는 계약 증거이지 재미·깊이·문체의 증거가 아니다. 본편 HOLD·공개GO1·
   인간OPEN45·과거판정 유지. 실제화면/자연플레이/원어민/인간/물리패드/출시 GO가 아니다.
   다음 별도선언: 실제월말20억 첫돌파 기록의 고정10억 잔여 안내 수리.
+
+### 종료 metadata / main 동기화
+
+- 원본 owner4 실제exit0·stderr0·입력/보호/runner 보존·41.549036416초.
+  `.git/order479-20261007.iU0dWw/metadata1/result.json` SHA
+  `27e492ee54f5eecfa930198c22e8d93ebaf6a648e0f7f29325cd32cedb1236bb`.
+  queue active78/in_progress76, context boot30032/docs581/links186,
+  human OPEN45/done1·원장errors0, audit scope registered215이다.
+- 생성 STATUS owner 작성/check 실제exit0, 잘못된 --check 단독 입력은 검사0/exit2 후
+  `--md docs/STATUS.md --check`로 원본확인했다. main `0210d9a..c1e6177` push 성공.
+  실제 resolver subject18197f4/treec4ff636d·work_unit479GO/errors0·internal_productHOLD,
+  사용자 재서명 필요false. 보고/사람/공개/이전478 증거는 그대로다.
