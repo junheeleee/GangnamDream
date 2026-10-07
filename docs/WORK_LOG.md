@@ -8,6 +8,7 @@
 - 동일 원fresh 입출구 단일 비교쌍 profile29.376291667→28.99850525초/plain22.923183292→22.614496초, ws2198536회 유지·누적2.228073822→1.843377968초. 전체pipeline/통계적/지속적 속도 보장0이다. before1 모듈명FAIL·after2 동결경합FAIL(invocation0/ownedhelper1 drift)·불채택after1/3·checks1 목록 옵션FAIL을 보존했다. 성공181/등록2는 동일입력 결속하고 remaining1 새목록/context/queue3만 실행, 재실행0이다. 실패묶음을PASS로 바꾸지 않는다.
 - actualseal1은 원결과/로그/runner 재해시·3239/보호6/actual proof5 결속PASS이며 새QA0이다. 상세SHA/L2는 [완료사양](queue_archive/ORDER-481.md). 비저자 [전수보고](agent_reviews/ORDER-481.json) SHA `0a512f9280589227b1d28bff4d8aa783b0f022d9d3f7ddc97c399d7f2eaa1989`는 source `585fd7d9178e1a127f6c47b792b60cbbb92250ef`/tree `88c202a259096ba39018e9d4328eeeed88ce3963`의 이 도구 범위만 GO했다. gangnamdream-dev의 표적·소유·실패/인간 증거 분리가 마감에 적용됐고 새규범0/일회성이다.
 - 본편HOLD·공개GO1·인간OPEN45·실제화면·자연·원어민·물리패드 관찰 잔여를 유지한다. 자동 검사는 계약 증거이지 재미·깊이·문체 증거가 아니다. 다음10억 첫 로그의 근거없는 가속 보장은 별도 범위로 읽기 확인 중이다.
+- 마감 현황 생성 뒤 root의 단독 `project_dashboard.py --check`는 `--md`가 없어 사용법 실패했다(제품 QA 아님). 현황 검사는 `--md docs/STATUS.md --check`로 실행한다. 기록 추가의 첫 patch도 한글 오타로 매칭 실패했고 파일 변화0; 올바른 한글 행으로 정정했다. 새181/측정 반복0이다.
 
 ## 2026-10-08 — 원장 공백 순회 비용을 먼저 잰다 (481, 착수)
 
