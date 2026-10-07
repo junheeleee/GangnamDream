@@ -53,6 +53,12 @@ FULL_GAME_LOCALIZATION backlog의 이정표 보류10 보존선. 10억의 `3분�
   중 GameState 정확 문구 비교만 연결한다. `tools/ja_translation_pipeline.py`는 현재
   GameState call 전체 복원 접속으로 변경0을 우선한다. 실제로 필요한 sealed appendix
   연결만 허용하고 다른 소비자·옛 모집단·분모·핀 변경0이다.
+  `tools/ja_translation_audit.py`는 보존한 옛JA20억 키 정확1개의 retained 접속만
+  소유한다. 새 helper의 typed old/current source·현재 call의 옛키0/새키1·원래JA값/
+  accepted 부재를 증명한 때만 허용하며 임의 extra 면제0. 원 전체 UI검사 반복 대신
+  `wealth_milestone_log_history_self_test.py`의 exact current/retained/변조 반례를
+  order469_history가 함께 소유한다. source4 편집 전 포착한 필수 소비자 연결이며
+  새 분모·기존 unknown-extra 규칙·옛 retired 모집단을 바꾸지 않는다.
 - root QA: `tools/WealthMilestoneLogCheck.gd`/`.tscn`,
   `tools/wealth_milestone_log_audit.py`, `tools/audit_scope.json` 전용 차선과 private
   `.git/` 원본 runner/로그/실패/입력 지문. 기존 pre-autoload 격리 bootstrap 사용,

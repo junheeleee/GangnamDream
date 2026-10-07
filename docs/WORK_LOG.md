@@ -7,6 +7,7 @@
 - 479 scopedGO·메인 `c1e6177`까지 push한 뒤 [한 로그의 사실 수리](queue_active/ORDER-480.md)를 선언한다. GameState 실제월말20억 도달의 고정10억 잔여만 없애고 JA/CN/TW 새키1씩을 KO직접 옮긴다. 임계/flag/경제/엔딩/이전저장로그·다른이정표는 보존한다. 선언 전 구현/collect/수용/QA/엔진0.
 - source4→공식최초3/ledger1을 분리한다. helper는 정확current/source/census/receipt 역사만 역상하며 옛핀·모집단을 덮지 않는다. 실제원본collect1과 바뀐3잎의 공식각3, 준비5언어·순자산경계/기록완료/대출·복원을 표적으로 한다. 옛365/전체JAUI/240주/전체pipeline 반복0 계획, 과거PASS 재사용과 새실행은 분리한다.
 - 정확소유는 사양이 소유한다. 새JA 초안은 관용표현 に手が届く로 바로잡았으며 원어민 판정으로 쓰지 않는다. 공개GO1·인간OPEN45·본편HOLD·Mac실제관찰 잔여를 보존하고 사용자 잠금해제/재서명 요청0. gangnamdream-dev의 소유·선언·직접번역·표적/독립검수 절차를 적용한다.
+- 구현 전 읽기 검수에서 보존할 옛JA키가 실제 source에서 은퇴하므로 unknown-extra가 되는 소비자를 포착했다. ja_translation_audit의 exact retained1/새 helper반례만 사양에 추가 선언한다. 기존키 삭제·임의extra 허용·대형JAUI 반복0이며 actual old/current·call·원JA값·수용부재를 모두 증명한다. 사전은 실제 하이픈 경로 ui_zh-CN/ui_zh-TW로 소유를 정렬했다.
 
 ## 2026-10-07 — 원장 중복 파싱4회 제거 (479, 한정 GO)
 
