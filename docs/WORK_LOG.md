@@ -2,6 +2,11 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-08 — 10억 첫 기록의 가속 보장 제거 (482, 착수)
+
+- 실제 asset_1b_reached는 최초 로그 억제 flag뿐이며 가속 효과가 없다. [작은 사양](queue_active/ORDER-482.md)으로 KO/EN 보장절·새JA/CN/TW키1씩·최초3수용과 필요한 exact 역사 접속을 선언한다. 선언 전 구현/QA/collect/수용/engine0이다.
+- gangnamdream-dev의 소유·직접 번역·표적/격리·독립 검수 절차를 적용한다. 10억/30억/3분의1·임계/경제/엔딩·과거 저장로그·옛JA값을 보존하고 공개GO1/인간OPEN45/본편HOLD를 유지한다. 옛 성공 검사를 반복하지 않으며 화면잠금 재확인/사용자 재서명 요청0이다.
+
 ## 2026-10-08 — 원장 공백 탐색의 비용만 줄였다 (481, 한정 GO)
 
 - 정확 Document/str/int의 공백0·1 단락 평가/2+ Unicode 원좌표 탐색만 수리했다. foreign/subclass·getter·타입/예외·raw/좌표·fresh typed Git/disk/HEAD/config/function·정상/예외 종료는 보존한다. 새181 실제CLI exit0/186.151611초·등록PASS. 원77/96/365/240주/전체UI/pipeline·collector·engine·번역수용 반복0이다.
