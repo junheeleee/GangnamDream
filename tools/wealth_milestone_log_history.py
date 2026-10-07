@@ -41,11 +41,15 @@ OLD_JA = "🔥 資産20億突破 — カンナムが手に掴めるようだ。�
 RECEIPT_ID = "ui:" + NEW_KEY + ":/" + NEW_KEY
 OLD_RECEIPT_ID = "ui:" + OLD_KEY + ":/" + OLD_KEY
 # Actual acceptance is a separate ledger-only commit; no draft is a receipt.
-RECEIPT_PARENT = None
-RECEIPT_COMMIT = None
-RECEIPT_RAW_SHA256 = ()
-RECEIPT_BATCH_SHA256 = {}
-RECEIPT_SOURCE_MANIFEST_SHA256 = None
+RECEIPT_PARENT = "2b7ed73b193488f961637d12dbc2173b0523998d"
+RECEIPT_COMMIT = "5503f68bfa009478da675e58ab5ffb0e37ecada7"
+RECEIPT_RAW_SHA256 = ("0cbec03c72fbf4818fd9285bf66b95e8630af6a7396e461b9151421348900cf4", "fa200e234491545d51e4d0395715eec274dc35cb04f3552003ab3729574cb027")
+RECEIPT_BATCH_SHA256 = {
+    "ja": "8a43c85ea7a43684b4338c72e1ec0e5ed99ff207bf952d186133c6c498da66e4",
+    "zh-CN": "a96ba48fe93ec788eafc50833dc8415b2acd33061829841ecc9ea1026e2f08e7",
+    "zh-TW": "e567baec03f92e2257d647e3c4b31aadf67ed7da315f9f10585bbb235e9e1b10",
+}
+RECEIPT_SOURCE_MANIFEST_SHA256 = "cf4f8f1221742440a4246e96763af707446684d99c69e43884c71d83f0ec7868"
 RAW_SHA256 = {'autoloads/GameState.gd': ('03ac214f4ad4fafe5f242c61df79eb89c09aca5b7a0a686a7c386df75a5ba978', 'dfa8c48596917c3b33eb1add4079b790c4bea8b09cc38c03a08165a2955b7bd1'), 'locale/ui_ja.json': ('9b450541a8d51be03f09f2a1f180cf1fb5e548e51a25648dacc9eddb055c32fb', '5a6a314b7fd4a82cf698bd86a832939e47596ece734c0edb4d006714393a8b2c'), 'locale/ui_zh-CN.json': ('5a36d9c19be5ad1dab97e420cdff4b39ad0cf29554213c765991fb7db834cb4f', 'b4b7c60cf82332ae1f58684aaab1ba46451c1e3a5abe6823e6802ec11180df99'), 'locale/ui_zh-TW.json': ('a46a54cf6642c22edae87e3be7b4a70517fe9434cf98437481ed3d07fd17b069', '5d8ca777bda61579b3b1ed44be60840c8984aebc6aaf47b1d545219b23f9fb82')}
 RAW_PATCHES = {'autoloads/GameState.gd': (('replace', 4331, 4332, 4331, 4332, '18078176d3dc68ce75bd84d8ff14c6dd99f18c1cc907564d32dbba2c4bdea0d1', 'dce6b917e6249ff93986bf44ee7d6a4bf2f766a5c064005dee8395b395d0adfe'),), 'locale/ui_ja.json': (('insert', 1818, 1818, 1818, 1819, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '017e4050f506ac183144779004940423d6d0bb6a0b0f4c78c5b292f24cb07ed9'),), 'locale/ui_zh-CN.json': (('insert', 1809, 1809, 1809, 1810, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '2a0b4c589840063a6e5ba37e82af5f53896ac461a3904cc4682fa2da835bbf58'),), 'locale/ui_zh-TW.json': (('insert', 1809, 1809, 1809, 1810, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '3adfdc4c7a7dc6e829176f75355fe3dba45b63362edd01f87bf6f1fc1a93b91e'),)}
 _ACTIVE = contextvars.ContextVar("wealth_milestone_log_proof", default=None)
