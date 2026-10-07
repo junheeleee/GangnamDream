@@ -2,8 +2,10 @@
 """Targeted fail-closed controls; no engine or full-history suite execution."""
 from __future__ import annotations
 
+import argparse
 import json
 from dataclasses import replace
+from pathlib import Path
 from unittest import mock
 
 import investment_loss_gate_audit as audit
@@ -57,8 +59,10 @@ def run(root=audit.ROOT):
         check(bool(audit.source_errors(before[audit.MAIN], raw)), "Main rejects " + label)
 
     old_protected = {p: before[p] for p in audit.PROTECTED}
-    protected = {p: current[p] for p in audit.PROTECTED}
-    check(not audit.content_errors(old_protected, protected), "actual text5/API source unchanged")
+    actual_protected = {p: current[p] for p in audit.PROTECTED}
+    protected = audit.historical_content_comparison(actual_protected, root)
+    check(not audit.content_errors(old_protected, actual_protected, comparison=protected),
+          "historical text5/API unchanged; actual current producer/readers")
     for path in audit.PROTECTED:
         mutant = {**protected, path: protected[path] + b"\n"}
         check(bool(audit.content_errors(old_protected, mutant)), "outside raw " + path)
@@ -143,15 +147,129 @@ def run(root=audit.ROOT):
     return failures, cases
 
 
+def run_loss_hold_only(root=audit.ROOT):
+    """477 connector controls only; no old Main/UI/simulator/engine suite."""
+    import order469_source_compat as history
+    import order470_source_compat as current_history
+    import night_routine_time_audit as night
+    root = Path(root).resolve()
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append(label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError, SyntaxError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    def locale_view(raw):
+        return {locale: raw[path] for locale, path in audit.MIDGAME.items()}
+
+    def change_leaf(raw, index, suffix):
+        document = night._Document(raw)
+        indices = [i for i, row in enumerate(document.value) if row.get("id") == audit.EVENT]
+        audit.require(len(indices) == 1, "counterexample exact loss event")
+        i = indices[0]
+        key = (i, "choices", index, "result_text")
+        start, end = document.spans[key]
+        value = document.value[i]["choices"][index]["result_text"]
+        return (document.text[:start] + json.dumps(value + suffix, ensure_ascii=False)
+                + document.text[end:]).encode()
+
+    head = history._git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+    actual, _ = history._snapshot(root, head, audit.PROTECTED)
+    before, _ = history._snapshot(root, audit.BASE, audit.PROTECTED)
+    night_before, _ = history._snapshot(root, night.BASE, tuple(audit.MIDGAME.values()))
+    inputs = {p: (root / p).read_bytes() for p in audit.PROTECTED}
+    audit.require(inputs == actual, "connector actual HEAD/disk binding")
+    with current_history.fresh_validation_proof(root):
+        compared = audit.historical_content_comparison(actual, root)
+        night_compared = night.historical_comparison(locale_view(actual), root)
+        check(compared == before, "actual current14 -> immutable pre477 comparison")
+        check(night_compared == locale_view(compared), "both adapters share exact pre477 five")
+        check(not audit.content_errors(before, actual, comparison=compared),
+              "current producers/readers with proven historical raw")
+        check(not night.errors(locale_view(night_before), night_compared),
+              "old475 exact chronology remains unchanged")
+        check(all(actual[p] != compared[p] for p in audit.MIDGAME.values()),
+              "all five actual corrected leaves retained outside comparison")
+        check(all(actual[p] == compared[p] for p in audit.PROTECTED if p not in audit.MIDGAME.values()),
+              "other nine protected raw files remain actual")
+
+        # These malformed supplied inputs fail the adapters' real current-disk
+        # boundary before expensive Git history; no proof/collector is mocked.
+        for locale, path in audit.MIDGAME.items():
+            for label, raw in (("old raw", before[path]),
+                               ("outside newline", actual[path] + b"\n"),
+                               ("unowned neighbor", change_leaf(actual[path], 0, " altered")),
+                               ("owned leaf drift", change_leaf(actual[path], 1, " altered"))):
+                mutant = {**actual, path: raw}
+                reject(lambda m=mutant: audit.historical_content_comparison(m, root),
+                       "protected rejects " + locale + " " + label)
+                reject(lambda m=mutant: night.historical_comparison(locale_view(m), root),
+                       "night rejects " + locale + " " + label)
+        for label, mutant in (
+                ("missing", {p: raw for p, raw in actual.items() if p != audit.MIDGAME["ko"]}),
+                ("extra", {**actual, "content/foreign.json": b"[]"}),
+                ("nonbytes", {**actual, audit.MIDGAME["ja"]: actual[audit.MIDGAME["ja"]].decode()})):
+            reject(lambda m=mutant: audit.historical_content_comparison(m, root),
+                   "protected population " + label)
+        locales = locale_view(actual)
+        for label, mutant in (("missing", {k: v for k, v in locales.items() if k != "ko"}),
+                               ("extra", {**locales, "foreign": b"[]"}),
+                               ("nonbytes", {**locales, "ja": locales["ja"].decode()})):
+            reject(lambda m=mutant: night.historical_comparison(m, root), "night population " + label)
+        for path in audit.PROTECTED:
+            if path not in audit.MIDGAME.values():
+                mutant = {**actual, path: actual[path] + b"\n"}
+                reject(lambda m=mutant: audit.historical_content_comparison(m, root),
+                       "other protected raw " + path)
+                check(bool(audit.content_errors(before, actual, comparison={**compared, path: before[path] + b"\n"})),
+                      "comparison cannot replace other protected raw " + path)
+
+        # Prove gameplay checks still read actual, not the historical view.
+        ko = audit.MIDGAME["ko"]
+        audit.require(actual[ko].count(b'"held_through_loss"') == 1,
+                      "actual flag mutation fixture population")
+        forged = {**actual, ko: actual[ko].replace(b'"held_through_loss"', b'"wrong_held_flag"', 1)}
+        check(bool(audit.content_errors(before, forged, comparison=compared)),
+              "actual producer flag cannot be hidden by historical comparison")
+        shared_before = dict(compared)
+        compared[ko] = b"forged returned predecessor"
+        night_compared["ko"] = b"forged returned predecessor"
+        check(audit.historical_content_comparison(actual, root) == shared_before,
+              "protected returned dict has no proof alias")
+        check(night.historical_comparison(locales, root) == locale_view(shared_before),
+              "night returned dict has no proof alias")
+    final, _ = history._snapshot(root, head, audit.PROTECTED)
+    check(final == actual == inputs
+          and {p: (root / p).read_bytes() for p in audit.PROTECTED} == inputs
+          and history._git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head,
+          "actual source HEAD/Git/disk preserved after fresh proof exit")
+    return failures, cases
+
+
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--loss-hold-only", action="store_true",
+                        help="only ORDER477 historical-comparison connector controls")
+    args = parser.parse_args()
+    prefix = "INVESTMENT_LOSS_HOLD_ADAPTER_SELF_TEST" if args.loss_hold_only else "INVESTMENT_LOSS_GATE_SELF_TEST"
     try:
-        failures, cases = run()
+        failures, cases = run_loss_hold_only() if args.loss_hold_only else run()
     except (ValueError, TypeError, KeyError, IndexError, OSError, SyntaxError) as exc:
-        print("INVESTMENT_LOSS_GATE_SELF_TEST_FAIL " + str(exc))
+        print(prefix + "_FAIL " + str(exc))
         return 1
     for failure in failures:
-        print("INVESTMENT_LOSS_GATE_SELF_TEST_FAIL " + failure)
-    print(f"INVESTMENT_LOSS_GATE_SELF_TEST_{'FAIL' if failures else 'OK'} cases={cases} failures={len(failures)}")
+        print(prefix + "_FAIL " + failure)
+    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} failures={len(failures)}")
     return int(bool(failures))
 
 

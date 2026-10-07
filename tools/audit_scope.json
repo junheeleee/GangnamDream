@@ -14,6 +14,40 @@
   ],
   "fast_lanes": [
     {
+      "id": "investment-loss-hold-result",
+      "paths": [],
+      "owned_paths": [
+        "content/events/arc_midgame.json", "content/events_en/arc_midgame.json",
+        "content/events_ja/arc_midgame.json", "content/events_zh-CN/arc_midgame.json",
+        "content/events_zh-TW/arc_midgame.json", "content/meta/full_game_localization.json",
+        "content/meta/release_content_inventory.json", "docs/CONTENT_RATING_INVENTORY.md",
+        "tools/InvestmentLossHoldResultCheck.gd", "tools/InvestmentLossHoldResultCheck.tscn",
+        "tools/investment_loss_hold_result_audit.py", "tools/night_routine_time_audit.py",
+        "tools/investment_loss_gate_audit.py", "tools/investment_loss_gate_self_test.py",
+        "tools/order470_source_compat.py", "tools/order470_source_compat_self_test.py",
+        "tools/order469_source_compat.py", "tools/order469_source_compat_self_test.py",
+        "tools/pr31_intake_history.py", "tools/pr31_intake_history_self_test.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-477.json",
+        "docs/queue_active/ORDER-477.md", "docs/queue_archive/ORDER-477.md"
+      ],
+      "tools": [
+        "tools/investment_loss_hold_result_audit.py --self-test",
+        "tools/night_routine_time_audit.py", "tools/investment_loss_gate_audit.py",
+        "tools/investment_loss_gate_self_test.py --loss-hold-only",
+        "tools/order470_source_compat_self_test.py --loss-hold-only",
+        "tools/order469_source_compat_self_test.py --loss-hold-only",
+        "tools/pr31_intake_history_self_test.py --loss-hold-only",
+        "tools/full_body_translation_scope.py",
+        "tools/en_coverage_check.py", "tools/english_hangul_audit.py",
+        "tools/narrative_continuity_audit.py", "tools/scene_audio_contract_check.py",
+        "tools/speech_register_audit.py", "tools/release_content_inventory.py",
+        "tools/story_demo_localization_audit.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Exact one result fact in five locales, typed source5/three official corrections/conditional fear metadata, fresh actual census before immutable comparison. Root separately observes prepared actual formatter/choice/record/callback40 and current full-body acceptance once. No old430, large UI,240-week or full historical suite repeats; no natural/render/native/pad/release claim."
+    },
+    {
       "id": "investment-loss-gate",
       "paths": [],
       "owned_paths": [
@@ -5457,6 +5491,11 @@
       "tool": "tools/night_routine_time_audit.py --self-test",
       "paths": ["content/events*/arc_midgame.json", "tools/night_routine_time_audit.py", "tools/NightRoutineTimeCheck.gd", "tools/NightRoutineTimeCheck.tscn"],
       "why": "Exact10 relative chronology leaves and sixteen rollback/clock/token/layout/unowned negatives; not whole-scene approval."
+    },
+    {
+      "tool": "tools/investment_loss_hold_result_audit.py --self-test",
+      "paths": ["content/events*/arc_midgame.json", "tools/investment_loss_hold_result_audit.py", "tools/InvestmentLossHoldResultCheck.gd", "tools/InvestmentLossHoldResultCheck.tscn"],
+      "why": "Exact five reviewed uncertainty leaves, preserved other bytes and bounded rollback/token/paragraph/population negatives; actual consumer40 observed separately."
     },
     {
       "tool": "tools/order470_source_compat_self_test.py --night-routine-only",

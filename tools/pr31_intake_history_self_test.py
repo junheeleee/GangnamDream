@@ -961,6 +961,94 @@ def run_first_loss_checks(root=history.ROOT, inventory=None):
     return failures, cases
 
 
+def run_loss_hold_checks(root=history.ROOT, inventory=None):
+    """Current477 raw/receipts separate from every immutable earlier stage."""
+    failures, cases = [], 0
+    successor = history.fact_successor
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("PR31 loss-hold: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    outer = history._ACTIVE.get()
+    with history.fresh_validation_proof(root) as proof:
+        old, source, actual = (proof[k] for k in ("pre_loss_hold_successor", "loss_hold_source", "current"))
+        main = history.source_successor.MAIN_PATH
+        check({p for p in old if old[p] != source[p]} == set(successor.LOSS_HOLD_PATHS), "exact source5 transition")
+        check({p for p in old if old[p] != proof["pre_first_loss_successor"][p]} == {main}, "476 remains Main-only endpoint")
+        check(history._sha(actual[main]) == history.source_successor.FIRST_LOSS_RAW_SHA256[1], "current Main still476")
+        check(actual[main] == old[main], "477 never modifies Main")
+        for stage in ("fact_current", "person_current", "prose_current", "ending_current", "first_win_current", "night_current"):
+            check(proof[stage][main] == proof["pre_first_loss_successor"][main], "old Main meaning " + stage)
+        check(history.current_content_raw(root) == {p: actual[p] for p in history.CURRENT_CONTENT_PATHS}, "runtime gets actual current prose")
+        check(len(history.CONTENT_PATHS) == 71 and len(history.SOURCE_PATHS) == 15, "old71/partial15 intact")
+        small_hashes = {p: history._sha(actual[p]) for p in history.SOURCE_PATHS}
+        small = {"source_hashes": small_hashes, "source_manifest_sha256": history._digest(small_hashes)}
+        check(history.source_predecessor_inventory(root, small)["source_hashes"] ==
+              {p: history._sha(proof["before"][p]) for p in history.SOURCE_PATHS}, "partial15 comparison supported")
+        check(source[history.LEDGER_PATH] == old[history.LEDGER_PATH], "source has zero acceptance")
+        ledger = history._loads(actual[history.LEDGER_PATH])
+        expected_batches = 270 if successor.LOSS_HOLD_RECEIPT_COMMIT is None else 273
+        check(len(ledger["batches"]) == expected_batches and sum(len(v) for v in ledger["accepted"].values()) == 41848,
+              "exact stage batch population and unchanged accepted keys")
+        transitions = history.receipt_transitions(root, {})
+        rows = [row for row in transitions if row[0] == successor.LOSS_HOLD_RECEIPT_COMMIT]
+        if successor.LOSS_HOLD_RECEIPT_COMMIT is None:
+            check(not rows and actual == source, "unaccepted source-only stage")
+        else:
+            check(len(rows) == 1 and rows[0][3]["corrections"] == 3 and rows[0][3]["first_receipts"] == 0
+                  and rows[0][3]["correction_batches"] == 3, "477 distinct three corrections/zero first receipts")
+        if inventory is None:
+            from full_game_localization import collect
+            inventory = collect(root)
+        original = copy.deepcopy(inventory)
+        stages = history.source_stage_manifest_digests(root, inventory)
+        pre_hashes = {**inventory["source_hashes"], successor.LOSS_HOLD_KO_PATH: history._sha(old[successor.LOSS_HOLD_KO_PATH])}
+        check({inventory["source_manifest_sha256"], history._digest(pre_hashes),
+               history.source_successor.FIRST_LOSS_PREDECESSOR_CENSUS, history.CURRENT_SOURCE_MANIFEST_SHA256} <= stages,
+              "actual477, old476,90d88 and e300 coexist")
+        check(history.source_predecessor_inventory(root, inventory)["source_hashes"][main] == history._sha(actual[main]),
+              "UI comparison retains actual Main until Main's own proof")
+        check(inventory == original, "current collector payload unchanged")
+        for label, path, value in (("KO rollback", successor.LOSS_HOLD_KO_PATH, history._sha(old[successor.LOSS_HOLD_KO_PATH])),
+                                   ("Main rollback", main, history.source_successor.FIRST_LOSS_RAW_SHA256[0]),
+                                   ("neighbor", "systems/RelationshipSystem.gd", "0" * 64)):
+            mutant = copy.deepcopy(inventory)
+            mutant["source_hashes"][path] = value
+            mutant["source_manifest_sha256"] = history._digest(mutant["source_hashes"])
+            reject(lambda r=mutant: history.source_stage_manifest_digests(root, r), "rehash " + label)
+        import main_game_locale_history as main_history
+        with main_history.fresh_main_validation_proof(root):
+            views = main_history._ending_father_proof(actual[main], root)
+            previous = main_history._investment_ap_proof(actual[main], root)
+            check(len(views) == 14 and len(previous) == 13 and views[1:] == previous, "Main14/13 meanings preserved")
+    with successor.fresh_validation_proof(root) as actual_proof:
+        forged = copy.deepcopy(actual_proof)
+    forged["loss_hold_source"][successor.LOSS_HOLD_KO_PATH] = forged["loss_hold_before"][successor.LOSS_HOLD_KO_PATH]
+    forged["current"][successor.LOSS_HOLD_KO_PATH] = forged["loss_hold_before"][successor.LOSS_HOLD_KO_PATH]
+    if forged["loss_hold_receipts"] is not None:
+        forged["loss_hold_receipts"][successor.LOSS_HOLD_KO_PATH] = forged["loss_hold_before"][successor.LOSS_HOLD_KO_PATH]
+    if forged["loss_hold_metadata"] is not None:
+        forged["loss_hold_metadata"][successor.LOSS_HOLD_KO_PATH] = forged["loss_hold_before"][successor.LOSS_HOLD_KO_PATH]
+    @contextlib.contextmanager
+    def fake(_root=root):
+        yield forged
+    with mock.patch.object(successor, "fresh_validation_proof", fake):
+        reject(lambda: history._read_proof(root), "forged successor still fails final actual boundary")
+    check(history._ACTIVE.get() is outer, "proof identity restored")
+    return failures, cases
+
+
 def main():
     person_only = sys.argv[1:] == ["--person-self-test"]
     prose_only = sys.argv[1:] == ["--prose-self-test"]
@@ -970,11 +1058,12 @@ def main():
     night_only = sys.argv[1:] == ["--night-routine-only"]
     night_metadata_only = sys.argv[1:] == ["--night-metadata-only"]
     loss_only = sys.argv[1:] == ["--first-loss-only"]
-    failures, cases = (run_first_loss_checks() if loss_only else run_night_metadata_checks() if night_metadata_only else run_night_routine_checks() if night_only else run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
+    loss_hold_only = sys.argv[1:] == ["--loss-hold-only"]
+    failures, cases = (run_loss_hold_checks() if loss_hold_only else run_first_loss_checks() if loss_only else run_night_metadata_checks() if night_metadata_only else run_night_routine_checks() if night_only else run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
                        else run_person_checks() if person_only else run())
     for error in failures:
         print(error, file=sys.stderr)
-    label = ("PR31_FIRST_LOSS" if loss_only else "PR31_NIGHT_METADATA" if night_metadata_only else "PR31_NIGHT_ROUTINE" if night_only else "PR31_FIRST_WIN" if first_win_only else "PR31_ENDING_FACTS" if ending_only else "PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
+    label = ("PR31_LOSS_HOLD" if loss_hold_only else "PR31_FIRST_LOSS" if loss_only else "PR31_NIGHT_METADATA" if night_metadata_only else "PR31_NIGHT_ROUTINE" if night_only else "PR31_FIRST_WIN" if first_win_only else "PR31_ENDING_FACTS" if ending_only else "PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
              else "PR31_PERSON_SUCCESSOR" if person_only else "PR31_INTAKE_HISTORY")
     print(f"{label}_{'FAIL' if failures else 'OK'} cases={cases} current_files=71 native_review=OPEN")
     return int(bool(failures))

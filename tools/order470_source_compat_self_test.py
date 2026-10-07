@@ -1301,6 +1301,110 @@ def run_night_metadata_checks():
     return failures, cases
 
 
+def run_loss_hold_checks(root=history.ROOT):
+    """477 only: actual current admission, exact inverse and closed successors."""
+    failures, cases = [], 0
+    active, memo = history._ACTIVE.get(), history._SEMANTIC_MEMO.get()
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER477 loss-hold: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    with history.fresh_validation_proof(root) as proof:
+        before, source, actual = (proof[k] for k in ("loss_hold_before", "loss_hold_source", "current"))
+        check({p for p in before if before[p] != source[p]} == set(history.LOSS_HOLD_PATHS), "exact source5")
+        check(before[history.LEDGER_PATH] == source[history.LEDGER_PATH], "source is not acceptance")
+        check(proof["night_metadata"] == before, "immutable475 metadata endpoint retained")
+        locales = ("ko", "en", *history.LOCALES)
+        current = {locale: actual[path] for locale, path in zip(locales, history.LOSS_HOLD_PATHS)}
+        expected = {locale: before[path] for locale, path in zip(locales, history.LOSS_HOLD_PATHS)}
+        original = dict(current)
+        comparison = history.historical_loss_hold_comparison(current, root)
+        check(comparison == expected and current == original, "comparison only; actual input untouched")
+        comparison["ko"] = b"forged"
+        check(history.historical_loss_hold_comparison(current, root) == expected, "no mutable result alias")
+        for path in history.LOSS_HOLD_PATHS:
+            check(history.loss_hold_product_inverse(before[path], source[path], path) == before[path], "raw/hunk/JSON inverse " + path)
+            check(actual[path] == source[path], "receipt and metadata never roll back current prose " + path)
+            for label, raw, owner in (("rollback", before[path], path), ("layout", source[path] + b"\n", path),
+                                      ("type", source[path].decode(), path), ("alias", source[path], "./" + path)):
+                reject(lambda r=raw, p=owner: history.loss_hold_product_inverse(before[path], r, p), label + path)
+            raw = source[path] + b"\n"
+            with mock.patch.dict(history.LOSS_HOLD_RAW_SHA256, {path: (history._sha(before[path]), history._sha(raw))}):
+                reject(lambda: history.loss_hold_product_inverse(before[path], raw, path), "rehashed hunk " + path)
+            #Independent semantic guard: repinning cannot extend the owned leaf.
+            doc = history._Document(source[path])
+            index = next(i for i, row in enumerate(doc.value) if row["id"] == "arc_invest_first_loss")
+            key = (index, "choices", 0, "result_text")
+            a, z = doc.spans[key]
+            mutant = (doc.text[:a] + json.dumps(history._leaf(doc.value, key) + "!", ensure_ascii=False) + doc.text[z:]).encode()
+            pins = {path: (history._sha(before[path]), history._sha(mutant))}
+            reject(lambda: history._receipt_overlay_inverse(before[path], mutant, path, history.LOSS_HOLD_TEXT_LEAVES,
+                   history.LOSS_HOLD_PATHS, pins, (), 1), "independently rehashed neighbor " + path)
+        variants = (("old", expected), ("mixed", {**current, "ja": expected["ja"]}),
+                    ("missing", {k: v for k, v in current.items() if k != "en"}),
+                    ("extra", {**current, "other": b"x"}), ("nonbytes", {**current, "ko": bytearray(current["ko"])}),
+                    ("neighbor", {**current, "ko": current["ko"] + b"\n"}))
+        for label, rows in variants:
+            reject(lambda r=rows: history.historical_loss_hold_comparison(r, root), "public " + label)
+        with mock.patch.object(history, "LOSS_HOLD_PRODUCT_PARENT", history.LOSS_HOLD_PRODUCT_COMMIT):
+            reject(lambda: history._loss_hold_stages(root, proof["head"], before), "wrong direct parent")
+        with mock.patch.object(history, "LOSS_HOLD_PATHS", history.LOSS_HOLD_PATHS[:-1]):
+            reject(lambda: history._loss_hold_stages(root, proof["head"], before), "incomplete paths")
+        with mock.patch.object(history, "LOSS_HOLD_PRODUCT_COMMIT", None):
+            reject(lambda: history._loss_hold_stages(root, proof["head"], before), "unbound source")
+        receipt = proof["loss_hold_receipts"]
+        if receipt is None:
+            check(actual == source and proof["loss_hold_metadata"] is None, "source-only remains unaccepted")
+            reject(lambda: history._validate_loss_hold_receipts(source, source, root), "unbound receipt cannot pass")
+        else:
+            history._validate_loss_hold_receipts(source, receipt, root)
+            check(True, "actual official receipt typed export and ancestor")
+            check(history._correction_ledger_inverse(source[history.LEDGER_PATH], receipt[history.LEDGER_PATH],
+                  "events", history.LOSS_HOLD_TEXT_LEAVES, 270) == source[history.LEDGER_PATH], "270 raw prefix and owned3 inverse")
+            reject(lambda: history._validate_loss_hold_receipts(source, source, root), "receipt rollback")
+            changed = {**receipt, history.LOSS_HOLD_PATHS[2]: source[history.LOSS_HOLD_PATHS[2]] + b"\n"}
+            reject(lambda: history._validate_loss_hold_receipts(source, changed, root), "receipt cannot change target")
+            changed = receipt[history.LEDGER_PATH] + b"\n"
+            reject(lambda: history._correction_ledger_inverse(source[history.LEDGER_PATH], changed,
+                   "events", history.LOSS_HOLD_TEXT_LEAVES, 270), "independent ledger layout")
+        metadata = proof["loss_hold_metadata"]
+        if metadata is not None:
+            check({p for p in receipt if receipt[p] != metadata[p]} == set(history.LOSS_HOLD_METADATA_PATHS), "metadata exact2")
+            for path in history.LOSS_HOLD_METADATA_PATHS:
+                check(history.loss_hold_metadata_inverse(receipt[path], metadata[path], path) == receipt[path], "fear raw/JSON inverse")
+                for label, raw in (("rollback", receipt[path]), ("layout", metadata[path] + b"\n"),
+                                   ("wrong value", metadata[path].replace(history.LOSS_HOLD_METADATA_FINGERPRINTS[0][2].encode(), b"0" * 64))):
+                    reject(lambda r=raw: history._loss_hold_metadata_semantics(receipt[path], r, path), "fear " + label)
+    check(history._ACTIVE.get() is active and history._SEMANTIC_MEMO.get() is memo, "scope identity restored")
+    for kind in ("Git", "configuration", "disk"):
+        def warm():
+            with history.fresh_validation_proof(root):
+                if kind == "Git":
+                    with mock.patch.object(history, "_git", side_effect=ValueError("missing object")):
+                        history.historical_loss_hold_comparison(current, root)
+                elif kind == "configuration":
+                    with mock.patch.object(history, "LOSS_HOLD_PRODUCT_COMMIT", None):
+                        history.historical_loss_hold_comparison(current, root)
+                else:
+                    read = history._disk_bytes
+                    with mock.patch.object(history, "_disk_bytes", side_effect=lambda p: read(p) + b"\n" if p == Path(root) / history.LOSS_HOLD_KO_PATH else read(p)):
+                        history.historical_loss_hold_comparison(current, root)
+        reject(warm, "warm " + kind)
+        check(history._ACTIVE.get() is active and history._SEMANTIC_MEMO.get() is memo, "failed scope restores " + kind)
+    return failures, cases
+
+
 def main():
     coffee_only = sys.argv[1:] == ["--coffee-self-test"]
     person_only = sys.argv[1:] == ["--person-self-test"]
@@ -1310,13 +1414,14 @@ def main():
     first_win_only = sys.argv[1:] == ["--first-win-only"]
     night_only = sys.argv[1:] == ["--night-routine-only"]
     night_metadata_only = sys.argv[1:] == ["--night-metadata-only"]
-    failures, cases = (run_night_metadata_checks() if night_metadata_only else run_night_routine_checks() if night_only else run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only else run_person_checks() if person_only else
+    loss_hold_only = sys.argv[1:] == ["--loss-hold-only"]
+    failures, cases = (run_loss_hold_checks() if loss_hold_only else run_night_metadata_checks() if night_metadata_only else run_night_routine_checks() if night_only else run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only else run_person_checks() if person_only else
                        run_coffee_consumer_checks() if coffee_only else run())
     for failure in failures:
         print(failure, file=sys.stderr)
     label = "COFFEE_CONSUMER" if coffee_only else "SOURCE_COMPAT"
-    prefix = "ORDER475_NIGHT_METADATA" if night_metadata_only else "ORDER475_NIGHT_ROUTINE" if night_only else "ORDER474_FIRST_WIN" if first_win_only else "ORDER473_ENDING_FACTS" if ending_only else "ORDER472_METADATA" if metadata_only else "ORDER472_PROSE" if prose_only else "ORDER471_PERSON" if person_only else "ORDER470_" + label
-    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={0 if night_metadata_only else 5 if night_only or first_win_only or ending_only else 0 if metadata_only else 10 if prose_only else 5 if person_only else 9}")
+    prefix = "ORDER477_LOSS_HOLD" if loss_hold_only else "ORDER475_NIGHT_METADATA" if night_metadata_only else "ORDER475_NIGHT_ROUTINE" if night_only else "ORDER474_FIRST_WIN" if first_win_only else "ORDER473_ENDING_FACTS" if ending_only else "ORDER472_METADATA" if metadata_only else "ORDER472_PROSE" if prose_only else "ORDER471_PERSON" if person_only else "ORDER470_" + label
+    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={0 if night_metadata_only else 5 if loss_hold_only or night_only or first_win_only or ending_only else 0 if metadata_only else 10 if prose_only else 5 if person_only else 9}")
     return int(bool(failures))
 
 

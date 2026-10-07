@@ -255,12 +255,69 @@ def run_first_loss_checks(root=history.ROOT, inventory=None):
     return failures, cases
 
 
+def run_loss_hold_checks(root=history.ROOT, inventory=None):
+    """477 KO is projected before the unchanged476 Main inverse."""
+    import order470_source_compat as later
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER477 loss-hold census: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    outer = history._ACTIVE.get()
+    with history.fresh_validation_proof(root) as proof, later.fresh_validation_proof(root) as successor:
+        path = history.MAIN_PATH
+        current = proof["current"][path]
+        check(history._sha(current) == history.FIRST_LOSS_RAW_SHA256[1], "actual476 Main unchanged")
+        check(history.first_loss_predecessor(current, root) == proof["after"][path], "immutable pre476 Main")
+        check(history.main_predecessor(current, root) == proof["before"][path], "immutable pre469 Main")
+        if inventory is None:
+            from full_game_localization import collect
+            inventory = collect(root)
+        original = copy.deepcopy(inventory)
+        hashes = inventory["source_hashes"]
+        prior = later._loss_hold_source_comparison(root, successor, hashes)
+        check({p for p in hashes if hashes[p] != prior[p]} == {later.LOSS_HOLD_KO_PATH}, "only477 KO first inverse")
+        check(prior[path] == hashes[path], "477 projection leaves actual476 Main intact")
+        pre_main = {**prior, path: history._sha(proof["first_loss_before"][path])}
+        check(history._digest(pre_main) == history.FIRST_LOSS_PREDECESSOR_CENSUS, "476 still reaches immutable90d88")
+        comparison = history.source_predecessor_inventory(root, inventory)
+        check(comparison["source_manifest_sha256"] == history.PR31_SOURCE_MANIFEST_SHA256, "whole actual census reaches e300")
+        check(inventory == original, "actual collector payload unmodified")
+        check(hashes[later.LOSS_HOLD_KO_PATH] == later.LOSS_HOLD_RAW_SHA256[later.LOSS_HOLD_KO_PATH][1], "actual477 Korean census")
+        for label, key, value in (("KO rollback", later.LOSS_HOLD_KO_PATH, prior[later.LOSS_HOLD_KO_PATH]),
+                                  ("Main rollback", path, history.FIRST_LOSS_RAW_SHA256[0]),
+                                  ("unowned", "systems/RelationshipSystem.gd", "0" * 64),
+                                  ("extra path", later.LEDGER_PATH, "0" * 64)):
+            mutant = copy.deepcopy(inventory)
+            mutant["source_hashes"][key] = value
+            mutant["source_manifest_sha256"] = history._digest(mutant["source_hashes"])
+            reject(lambda r=mutant: history.source_predecessor_inventory(root, r), "rehashed " + label)
+        reject(lambda: later._loss_hold_source_comparison(root, successor, pre_main), "wrong inverse order")
+        reject(lambda: history.source_predecessor_inventory(root, comparison), "historical cannot claim current")
+        with mock.patch.object(later, "_snapshot", side_effect=ValueError("missing477 typed object")):
+            reject(lambda: history.source_predecessor_inventory(root, inventory), "warm missing successor proof")
+    check(history._ACTIVE.get() is outer, "no cross-invocation cache")
+    return failures, cases
+
+
 def main():
     first_loss_only = sys.argv[1:] == ["--first-loss-only"]
-    failures, cases = run_first_loss_checks() if first_loss_only else run()
+    loss_hold_only = sys.argv[1:] == ["--loss-hold-only"]
+    failures, cases = run_loss_hold_checks() if loss_hold_only else run_first_loss_checks() if first_loss_only else run()
     for message in failures:
         print(message, file=sys.stderr)
-    label = "ORDER476_FIRST_LOSS_SOURCE" if first_loss_only else "ORDER469_SOURCE_COMPAT"
+    label = "ORDER477_LOSS_HOLD_SOURCE" if loss_hold_only else "ORDER476_FIRST_LOSS_SOURCE" if first_loss_only else "ORDER469_SOURCE_COMPAT"
     print(f"{label}_{'FAIL' if failures else 'OK'} cases={cases} retired=6 receipts=0")
     return int(bool(failures))
 

@@ -354,12 +354,15 @@ def source_predecessor_inventory(root, inventory):
         _require({p: _sha(raw) for p, raw in actual.items()} == actual_hashes
                  and all(_disk_bytes(Path(root) / p) == raw for p, raw in actual.items()),
                  "complete current Git/disk source binding")
-        hashes = {**actual_hashes, MAIN_PATH: _sha(proof["first_loss_before"][MAIN_PATH])}
-        parent, _ = _snapshot(root, FIRST_LOSS_PARENT, tuple(hashes))
-        _require({p: _sha(raw) for p, raw in parent.items()} == hashes
-                 and _digest(hashes) == FIRST_LOSS_PREDECESSOR_CENSUS,
-                 "first-loss exact whole predecessor census")
         with later.fresh_validation_proof(root) as successor:
+            #477 changes one Korean source, not Main. Prove/project that exact
+            #whole parent first, then retain476's original immutable90d88 seam.
+            hashes = later._loss_hold_source_comparison(root, successor, actual_hashes)
+            hashes = {**hashes, MAIN_PATH: _sha(proof["first_loss_before"][MAIN_PATH])}
+            parent, _ = _snapshot(root, FIRST_LOSS_PARENT, tuple(hashes))
+            _require({p: _sha(raw) for p, raw in parent.items()} == hashes
+                     and _digest(hashes) == FIRST_LOSS_PREDECESSOR_CENSUS,
+                     "first-loss exact whole predecessor census")
             _require(all(hashes.get(p) == _sha(successor["current"][p]) for p in later.SOURCE_PATHS),
                      "current470 source binding before historical comparisons")
             # Reuse470's unchanged, pinned comparison sequence only; no new

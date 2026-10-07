@@ -32,6 +32,8 @@ CONTENT = tuple("content/events" + ("" if locale == "ko" else "_" + locale) + "/
                 for locale in LOCALES for filename in ("arc_midgame.json", "callback_events_45.json"))
 PROTECTED = (*CONTENT, "content/assets.json", "autoloads/GameState.gd",
              "autoloads/DataRegistry.gd", "systems/InvestmentSystem.gd")
+MIDGAME = {locale: "content/events" + ("" if locale == "ko" else "_" + locale)
+           + "/arc_midgame.json" for locale in LOCALES}
 OLD_GUARD = '\t\t\tand GameState.investment_skill >= 5 \\\n'
 NEW_GUARD = '\t\t\tand GameState.investment_skill >= 5 and _has_current_investment_loss() \\\n'
 HELPER = '''
@@ -223,13 +225,36 @@ def screen_errors(before, current):
     return [] if current == expected else ["ScreenshotQA exceeds optional W15-18 expectation repair"]
 
 
-def content_errors(before, current):
+def historical_content_comparison(current, root=ROOT):
+    """Current14 -> pre477 comparison5 plus unchanged actual9, not runtime data."""
+    import order470_source_compat as history
+    root = Path(root).resolve()
+    require(type(current) is dict and set(current) == set(PROTECTED)
+            and all(type(raw) is bytes for raw in current.values()),
+            "protected comparison requires exact current14 bytes")
+    require(all((root / path).read_bytes() == raw for path, raw in current.items()),
+            "protected comparison supplied raw differs from current disk")
+    previous = history.historical_loss_hold_comparison(
+        {locale: current[path] for locale, path in MIDGAME.items()}, root)
+    require(type(previous) is dict and set(previous) == set(LOCALES)
+            and all(type(raw) is bytes for raw in previous.values()),
+            "protected comparison predecessor population/type")
+    return {**current, **{path: previous[locale] for locale, path in MIDGAME.items()}}
+
+
+def content_errors(before, current, *, comparison=None):
+    """Historical raw equality and actual-current producer/readers are distinct."""
     failures = []
-    if set(before) != set(PROTECTED) or set(current) != set(PROTECTED):
+    compared = current if comparison is None else comparison
+    if set(before) != set(PROTECTED) or set(current) != set(PROTECTED) \
+            or set(compared) != set(PROTECTED):
         return ["protected source/text population differs"]
     for path in PROTECTED:
-        if type(current[path]) is not bytes or current[path] != before[path]:
+        if type(current[path]) is not bytes or type(compared[path]) is not bytes \
+                or compared[path] != before[path]:
             failures.append("unowned source/text raw changed: " + path)
+        if path not in MIDGAME.values() and compared[path] != current[path]:
+            failures.append("comparison changed a non-midgame protected path: " + path)
     for locale in LOCALES:
         path = "content/events" + ("" if locale == "ko" else "_" + locale) + "/arc_midgame.json"
         rows = [row for row in json.loads(current[path]) if row.get("id") == EVENT]
@@ -301,7 +326,9 @@ def run(root=ROOT):
     main_before = history.first_loss_predecessor(actual[MAIN], root)
     require(main_before == prior[MAIN], "Main predecessor differs from declaration")
     failures = source_errors(prior[MAIN], actual[MAIN])
-    failures += content_errors({p: prior[p] for p in PROTECTED}, {p: actual[p] for p in PROTECTED})
+    protected = {p: actual[p] for p in PROTECTED}
+    comparison = historical_content_comparison(protected, root)
+    failures += content_errors({p: prior[p] for p in PROTECTED}, protected, comparison=comparison)
     failures += screen_errors(prior[SCREEN].decode(), actual[SCREEN].decode())
     failures += fixture_errors(actual[FIXTURE])
     if hashlib.sha256(actual[FIXTURE.replace(".gd", ".tscn")]).hexdigest() != SCENE_SHA256:
@@ -312,7 +339,11 @@ def run(root=ROOT):
     require(final == actual and all((root / p).read_bytes() == raw for p, raw in actual.items())
             and history._git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head,
             "source changed during audit")
+    require(historical_content_comparison(protected, root) == comparison,
+            "historical content comparison changed during audit")
     return {"head": head, "source_commit": SOURCE, "locales": 5, "text_changes": 0,
+            "text_changes_scope": "ORDER476 historical comparison only; actual ORDER477 leaf5 retained",
+            "historical_comparison": "pre477 exact five midgame raw files",
             "simulator_cases": cases, "protected_paths": len(PROTECTED),
             "scope": "source/predicate/fixture wiring; actual runtime and human observation separate",
             "input_sha256": {p: hashlib.sha256(raw).hexdigest() for p, raw in actual.items()}}

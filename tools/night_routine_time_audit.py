@@ -68,6 +68,22 @@ def errors(before, after):
     return failures
 
 
+def historical_comparison(after, root=ROOT):
+    """Prove actual current5; use pre477 bytes only for the old475 comparison."""
+    import order470_source_compat as history
+    root = Path(root).resolve()
+    if type(after) is not dict or set(after) != set(LOCALES) \
+            or any(type(raw) is not bytes for raw in after.values()):
+        raise ValueError("night comparison requires exact current five-locale bytes")
+    if any((root / path(locale)).read_bytes() != after[locale] for locale in LOCALES):
+        raise ValueError("night comparison supplied raw differs from current disk")
+    comparison = history.historical_loss_hold_comparison(after, root)
+    if type(comparison) is not dict or set(comparison) != set(LOCALES) \
+            or any(type(raw) is not bytes for raw in comparison.values()):
+        raise ValueError("night comparison predecessor population/type")
+    return comparison
+
+
 def mutate(raw, field, change):
     document = _Document(raw)
     value, key = selected(document)[field]
@@ -111,18 +127,24 @@ def main():
         ["git", "--no-replace-objects", "show", BASE + ":" + path(locale)], cwd=ROOT)
         for locale in LOCALES}
     after = {locale: (ROOT / path(locale)).read_bytes() for locale in LOCALES}
-    failures = errors(before, after)
+    comparison = historical_comparison(after)
+    failures = errors(before, comparison)
     for failure in failures:
         print("NIGHT_ROUTINE_TIME_FAIL " + failure)
     if failures:
         return 1
     if args.self_test:
-        self_test(before, after)
+        # Existing chronology counterexamples operate on the proven historical
+        # comparison, never on a replacement runtime/collector payload.
+        self_test(before, comparison)
+    if historical_comparison(after) != comparison:
+        raise ValueError("night comparison changed during audit")
     population = [{"file": path(locale), "event_id": EVENT_ID, "path": ["choices", 1, field]}
                   for locale in LOCALES for field in FIELDS]
     digest = hashlib.sha256(json.dumps(population, ensure_ascii=False, sort_keys=True,
                                       separators=(",", ":")).encode()).hexdigest()
-    print("NIGHT_ROUTINE_TIME_OK locales=5 leaves=10 outside_owned_raw=unchanged population_sha256=" + digest)
+    print("NIGHT_ROUTINE_TIME_OK locales=5 leaves=10 outside_owned_raw=unchanged "
+          "comparison=pre477 actual_loss_hold_leaves=5 population_sha256=" + digest)
     return 0
 
 

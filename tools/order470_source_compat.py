@@ -1060,6 +1060,38 @@ NIGHT_METADATA_RAW_PATCHES = {'content/meta/release_content_inventory.json': (('
                                        140,
                                        'addac52662d75a849958f3e5e169fc14b96d5686c2a03046b8c55a9b229c0847',
                                        '02ed30844d82ac1c8b80bcbd88baf930b8901b0e0f1adf2bbe1ea2bf210bc9b8'))}
+LOSS_HOLD_PATHS = NIGHT_PATHS
+LOSS_HOLD_KO_PATH = LOSS_HOLD_PATHS[0]
+LOSS_HOLD_TEXT_LEAVES = (("arc_invest_first_loss", ("choices", 1, "result_text")),)
+LOSS_HOLD_PRODUCT_PARENT = "70ceeebdb67c4e3ab66dc2bd08cb21cf2598a343"
+LOSS_HOLD_PRODUCT_COMMIT = "04ed119c6f0e31306ed89d62f2951ef6cc5490e5"
+LOSS_HOLD_RAW_SHA256 = dict(zip(LOSS_HOLD_PATHS, (
+    ("1cc0dcab4379e00253f76ed8686e5fa466081bac565cab8ba2df7df80277d952", "90be9165de0a4b6469f88d112745d8fe2292ba6aed889e36d3e01fcb55ab9440"),
+    ("5b2d2192d47cdb723cbd26a68bc9ef02bfb074d6134ed6e6f3b084243e2c81ed", "051e0f44784ca5a39deac5aff1a50c1d14abd659abcc59893121b375b755a6d5"),
+    ("256b6d7686343685fae07f4ae78018f24cb79f694ed7ea306048c0146c92732d", "d103e03acc26cb4fbf3ed6bff62862eda76266ca102e935d764870acb879e41e"),
+    ("b45f0a4ac4da3bb98c291746c13ebc7caa90c138cdc2a90a381e754303619d2e", "44e6d7ed512ab400ae5ee2ec43e5c3c2619a9ccc214bdac476183d170fb9a613"),
+    ("a5acbfaa01570a6f64855b86104d84a78db1e1220e4ec2233eab2ec417f47f00", "eef6145e91e24a35901515f328829413b26e4c5dc7ddab0926984aaaa29706bb"),
+)))
+LOSS_HOLD_RAW_PATCHES = dict(zip(LOSS_HOLD_PATHS, (
+    (("replace", 2431, 2432, 2431, 2432, "482e58db0953b5d598b194e5fa9ae0c04c7e0f1639637d3155f222741aab17ab", "2467f62ed2db39c5f973b9bc5462d9e430a11ebc6fa0de98af0aa738c8c52fa6"),),
+    (("replace", 788, 789, 788, 789, "e995a40e03cb8de27a75e23d7f6d4b1ec94bead1a826c52a9a8a3cf86b498c87", "fd4a17aefca69336bd73aee95b7087a8b581d9dff8a14df645a6f2a2b6906c3f"),),
+    (("replace", 993, 994, 993, 994, "a5dfdb4dc594c5862dd0e6262a4ef2d0c28525138406e5c9c294b2c44b548fe0", "6f57c47caf92fbcf813218fac5d7160a99afa4840562144bede227a03cb3635c"),),
+    (("replace", 993, 994, 993, 994, "97a36b2ff879dbbabc01c00746192a57220f7b740401aa15d0b403d66a5b3631", "596712842214ad73a07189c7ee68243be18d7edb65fe54e63f4eef688ce070f2"),),
+    (("replace", 993, 994, 993, 994, "60e25368eba524b60e82731b6127c1f3a9e1ee1c900ecb60225e984c2aee53e9", "817feedfb1add6acfa1d8b0b5e1dfe8df17d4ffe19a0cfa22e4adc2f304d7a21"),),
+)))
+LOSS_HOLD_RECEIPT_PARENT = None
+LOSS_HOLD_RECEIPT_COMMIT = None
+LOSS_HOLD_RECEIPT_PATHS = (LEDGER_PATH,)
+LOSS_HOLD_RECEIPT_RAW_SHA256 = {}
+LOSS_HOLD_RECEIPT_BATCH_SHA256 = {}
+LOSS_HOLD_RECEIPT_SOURCE_MANIFEST_SHA256 = None
+LOSS_HOLD_METADATA_PARENT = None
+LOSS_HOLD_METADATA_COMMIT = None
+LOSS_HOLD_METADATA_PATHS = (INVENTORY_PATH, RATING_PATH)
+LOSS_HOLD_METADATA_FINGERPRINTS = (("fear", "0ce0b943d537d2b1162ebb6e2fce63be66002c713fd9a3eed691cc5ee7d826c9",
+                                    "ee8f545970fb8a44eb26c298e1932284e16227e20c26dde245c6503e75594554"),)
+LOSS_HOLD_METADATA_RAW_SHA256 = {}
+LOSS_HOLD_METADATA_RAW_PATCHES = {}
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
 _SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
 
@@ -1460,6 +1492,47 @@ def _night_metadata_semantics(before, after, path):
     return before
 
 
+def loss_hold_product_inverse(before, after, path):
+    """Only477's one result literal; this is never a runtime payload."""
+    _require(path in LOSS_HOLD_PATHS and LOSS_HOLD_TEXT_LEAVES ==
+             (("arc_invest_first_loss", ("choices", 1, "result_text")),), "loss-hold exact selector/path")
+    _raw_inverse(before, after, path, LOSS_HOLD_RAW_SHA256, LOSS_HOLD_RAW_PATCHES)
+    return _receipt_overlay_inverse(before, after, path, LOSS_HOLD_TEXT_LEAVES,
+                                    LOSS_HOLD_PATHS, LOSS_HOLD_RAW_SHA256, (), 1)
+
+
+def _loss_hold_metadata_semantics(before, after, path):
+    _require(path in LOSS_HOLD_METADATA_PATHS and type(before) is bytes and type(after) is bytes
+             and len(LOSS_HOLD_METADATA_FINGERPRINTS) == 1
+             and LOSS_HOLD_METADATA_FINGERPRINTS[0][0] == "fear", "loss-hold metadata exact owner")
+    _axis, old, new = LOSS_HOLD_METADATA_FINGERPRINTS[0]
+    _require(old != new and all(type(h) is str and re.fullmatch(r"[0-9a-f]{64}", h) for h in (old, new))
+             and before.count(old.encode()) == after.count(new.encode()) == 1
+             and new.encode() not in before and old.encode() not in after
+             and after.replace(new.encode(), old.encode()) == before, "loss-hold metadata literal-only change")
+    if path == INVENTORY_PATH:
+        prior, current = _Document(before), _Document(after)
+        indices = [i for i, row in enumerate(prior.value["content_axes"]) if row["id"] == "fear"]
+        _require(len(indices) == 1, "loss-hold metadata unique fear owner")
+        index = indices[0]
+        keys = ("content_axes", index, "candidate_scan", "expected_content_sha256")
+        _require(_leaf(prior.value, keys) == old and _leaf(current.value, keys) == new,
+                 "loss-hold fingerprint is candidate content only")
+        expected = copy.deepcopy(prior.value)
+        expected["content_axes"][index]["candidate_scan"]["expected_content_sha256"] = new
+        _require(_ordered(expected) == _ordered(current.value), "loss-hold inventory population/classification changed")
+        a, z = prior.spans[keys]
+        b, end = current.spans[keys]
+        _require((current.text[:b] + prior.text[a:z] + current.text[end:]).encode() == before,
+                 "loss-hold metadata JSON span inverse")
+    return before
+
+
+def loss_hold_metadata_inverse(before, after, path):
+    _raw_inverse(before, after, path, LOSS_HOLD_METADATA_RAW_SHA256, LOSS_HOLD_METADATA_RAW_PATCHES)
+    return _loss_hold_metadata_semantics(before, after, path)
+
+
 def night_metadata_inverse(before, after, path):
     _require(path in NIGHT_METADATA_PATHS, "unowned night metadata inverse")
     _raw_inverse(before, after, path, NIGHT_METADATA_RAW_SHA256, NIGHT_METADATA_RAW_PATCHES)
@@ -1523,6 +1596,17 @@ def _configuration():
             copy.deepcopy(NIGHT_METADATA_RAW_PATCHES), _night_metadata_stage,
             _night_metadata_semantics, night_metadata_inverse,
             historical_first_win_comparison,
+            LOSS_HOLD_PATHS, LOSS_HOLD_KO_PATH, LOSS_HOLD_TEXT_LEAVES,
+            LOSS_HOLD_PRODUCT_PARENT, LOSS_HOLD_PRODUCT_COMMIT,
+            copy.deepcopy(LOSS_HOLD_RAW_SHA256), copy.deepcopy(LOSS_HOLD_RAW_PATCHES),
+            LOSS_HOLD_RECEIPT_PARENT, LOSS_HOLD_RECEIPT_COMMIT, LOSS_HOLD_RECEIPT_PATHS,
+            copy.deepcopy(LOSS_HOLD_RECEIPT_RAW_SHA256), copy.deepcopy(LOSS_HOLD_RECEIPT_BATCH_SHA256),
+            LOSS_HOLD_RECEIPT_SOURCE_MANIFEST_SHA256, LOSS_HOLD_METADATA_PARENT, LOSS_HOLD_METADATA_COMMIT,
+            LOSS_HOLD_METADATA_PATHS, LOSS_HOLD_METADATA_FINGERPRINTS,
+            copy.deepcopy(LOSS_HOLD_METADATA_RAW_SHA256), copy.deepcopy(LOSS_HOLD_METADATA_RAW_PATCHES),
+            loss_hold_product_inverse, loss_hold_metadata_inverse, _loss_hold_metadata_semantics,
+            _loss_hold_stages, _loss_hold_receipt_semantics, _loss_hold_receipt_exports,
+            _validate_loss_hold_receipts, _loss_hold_source_comparison, historical_loss_hold_comparison,
             _correction_ledger_inverse,
             _git, _objects, _snapshot, _disk_bytes, product_inverse, _arc_inverse, _raw_inverse,
             _validate_receipts, _receipt_semantics, _receipt_exports, receipt_overlay_inverse,
@@ -1684,11 +1768,11 @@ def _prose_receipt_semantics(before, after):
     return _event_receipt_semantics(before, after, PROSE_TEXT_LEAVES, person=False, prose=True)
 
 
-def _event_receipt_semantics(before, after, selectors, *, person, prose=False, ending=False, first_win=False, night=False):
+def _event_receipt_semantics(before, after, selectors, *, person, prose=False, ending=False, first_win=False, night=False, loss_hold=False):
     # Only these six named transitions use the shared official-header grammar.
     # Their path, count, source census, raw and batch pins remain independent.
-    _require(all(type(flag) is bool for flag in (person, prose, ending, first_win, night))
-             and sum((person, prose, ending, first_win, night)) <= 1
+    _require(all(type(flag) is bool for flag in (person, prose, ending, first_win, night, loss_hold))
+             and sum((person, prose, ending, first_win, night, loss_hold)) <= 1
              and set(before) == set(after), "receipt stage/snapshot shape")
     paths = PERSON_PATHS if person else ARC_PATHS
     ko_path = paths[0]
@@ -1714,6 +1798,10 @@ def _event_receipt_semantics(before, after, selectors, *, person, prose=False, e
         paths, ko_path, added, count, order = NIGHT_PATHS, NIGHT_KO_PATH, (), 2, "ORDER-475"
         receipt_paths, pins = NIGHT_RECEIPT_PATHS, NIGHT_RECEIPT_RAW_SHA256
         batches, source_manifest = NIGHT_RECEIPT_BATCH_SHA256, NIGHT_RECEIPT_SOURCE_MANIFEST_SHA256
+    if loss_hold:
+        paths, ko_path, added, count, order = LOSS_HOLD_PATHS, LOSS_HOLD_KO_PATH, (), 1, "ORDER-477"
+        receipt_paths, pins = LOSS_HOLD_RECEIPT_PATHS, LOSS_HOLD_RECEIPT_RAW_SHA256
+        batches, source_manifest = LOSS_HOLD_RECEIPT_BATCH_SHA256, LOSS_HOLD_RECEIPT_SOURCE_MANIFEST_SHA256
     _require(len(selectors) == count and set(pins) == set(receipt_paths)
              and set(batches) == set(LOCALES), "receipt pin/selector populations")
     for path in before:
@@ -1721,7 +1809,7 @@ def _event_receipt_semantics(before, after, selectors, *, person, prose=False, e
             _require((_sha(before[path]), _sha(after[path])) == pins[path], "receipt raw " + path)
         else:
             _require(before[path] == after[path], "receipt changed a source/protected file")
-    for path in (() if ending or first_win or night else PROSE_PATHS[10:] if prose else paths[2:]):
+    for path in (() if ending or first_win or night or loss_hold else PROSE_PATHS[10:] if prose else paths[2:]):
         if prose:
             prose_receipt_overlay_inverse(before[path], after[path], path)
         elif person:
@@ -1857,7 +1945,8 @@ def _correction_ledger_inverse(before, after, group, selectors, prefix):
     """Literal-only inverse shared by the three named ledger-only corrections."""
     _require((group, selectors, prefix) in (("endings", ENDING_TEXT_LEAVES, 261),
                                           ("events", FIRST_WIN_TEXT_LEAVES, 264),
-                                          ("events", NIGHT_TEXT_LEAVES, 267)),
+                                          ("events", NIGHT_TEXT_LEAVES, 267),
+                                          ("events", LOSS_HOLD_TEXT_LEAVES, 270)),
              "unowned correction literal contract")
     old, new = _Document(before), _Document(after)
     old_batches, new_batches = old.value["batches"], new.value["batches"]
@@ -1887,6 +1976,69 @@ def _correction_ledger_inverse(before, after, group, selectors, prefix):
         restored = restored[:a] + text + restored[z:]
     _require(restored.encode() == before, "ending ledger bytes changed outside owned receipts/append")
     return before
+
+
+def _loss_hold_receipt_semantics(before, after):
+    _require(LOSS_HOLD_PRODUCT_COMMIT is not None, "loss-hold receipts require authored source")
+    revisions = _event_receipt_semantics(before, after, LOSS_HOLD_TEXT_LEAVES, person=False, loss_hold=True)
+    _correction_ledger_inverse(before[LEDGER_PATH], after[LEDGER_PATH], "events", LOSS_HOLD_TEXT_LEAVES, 270)
+    return revisions
+
+
+def _loss_hold_receipt_exports(before, revisions, root):
+    for revision in revisions:
+        export, _ = _snapshot(root, revision, tuple(before))
+        _require(export == before, "loss-hold export source/draft/ledger differs")
+        _git(root, "merge-base", "--is-ancestor", LOSS_HOLD_PRODUCT_COMMIT, revision)
+        _git(root, "merge-base", "--is-ancestor", revision, LOSS_HOLD_RECEIPT_COMMIT)
+
+
+def _validate_loss_hold_receipts(before, after, root):
+    try:
+        _loss_hold_receipt_exports(before, _loss_hold_receipt_semantics(before, after), root)
+    except BaseException:
+        memo = _SEMANTIC_MEMO.get()
+        if memo is not None:
+            memo[1].clear()
+        raise
+
+
+def _loss_hold_stages(root, head, prior):
+    """477 source5, ledger1 and optional measured metadata2 remain distinct."""
+    _require(LOSS_HOLD_PRODUCT_COMMIT is not None and NIGHT_METADATA_COMMIT is not None
+             and LOSS_HOLD_PATHS == NIGHT_PATHS
+             and set(LOSS_HOLD_RAW_SHA256) == set(LOSS_HOLD_RAW_PATCHES) == set(LOSS_HOLD_PATHS),
+             "loss-hold complete actual source pins")
+    source = _ending_snapshot(root, head, prior, LOSS_HOLD_PRODUCT_PARENT, LOSS_HOLD_PRODUCT_COMMIT,
+                              LOSS_HOLD_PATHS, NIGHT_METADATA_COMMIT)
+    for path in LOSS_HOLD_PATHS:
+        _memoized_semantics("loss-hold-product:" + path, (prior[path], source[path]),
+                            lambda p=path: loss_hold_product_inverse(prior[p], source[p], p))
+    accepted, metadata = None, None
+    if LOSS_HOLD_RECEIPT_COMMIT is not None:
+        accepted = _ending_snapshot(root, head, source, LOSS_HOLD_RECEIPT_PARENT, LOSS_HOLD_RECEIPT_COMMIT,
+                                    LOSS_HOLD_RECEIPT_PATHS, LOSS_HOLD_PRODUCT_COMMIT)
+        inputs = tuple((path, source[path], accepted[path]) for path in source)
+        revisions = _memoized_semantics("loss-hold-receipts", inputs,
+                                       lambda: _loss_hold_receipt_semantics(source, accepted))
+        _loss_hold_receipt_exports(source, revisions, root)
+    else:
+        _require(LOSS_HOLD_RECEIPT_PARENT is None and not LOSS_HOLD_RECEIPT_RAW_SHA256
+                 and not LOSS_HOLD_RECEIPT_BATCH_SHA256 and LOSS_HOLD_RECEIPT_SOURCE_MANIFEST_SHA256 is None,
+                 "loss-hold unbound receipt pins")
+    if LOSS_HOLD_METADATA_COMMIT is not None:
+        _require(accepted is not None and LOSS_HOLD_METADATA_PATHS == (INVENTORY_PATH, RATING_PATH)
+                 and set(LOSS_HOLD_METADATA_RAW_SHA256) == set(LOSS_HOLD_METADATA_RAW_PATCHES) == set(LOSS_HOLD_METADATA_PATHS),
+                 "loss-hold metadata requires actual receipts and complete two-path pins")
+        metadata = _ending_snapshot(root, head, accepted, LOSS_HOLD_METADATA_PARENT, LOSS_HOLD_METADATA_COMMIT,
+                                    LOSS_HOLD_METADATA_PATHS, LOSS_HOLD_RECEIPT_COMMIT)
+        for path in LOSS_HOLD_METADATA_PATHS:
+            _memoized_semantics("loss-hold-metadata:" + path, (accepted[path], metadata[path]),
+                                lambda p=path: loss_hold_metadata_inverse(accepted[p], metadata[p], p))
+    else:
+        _require(LOSS_HOLD_METADATA_PARENT is None and not LOSS_HOLD_METADATA_RAW_SHA256
+                 and not LOSS_HOLD_METADATA_RAW_PATCHES, "loss-hold unbound metadata pins")
+    return prior, source, accepted, metadata
 
 
 def _night_receipt_semantics(before, after):
@@ -2291,6 +2443,9 @@ def _read_proof_current(root):
     night_metadata = _night_metadata_stage(root, head, current)
     if night_metadata is not None:
         current = night_metadata
+    loss_hold_before, loss_hold_source, loss_hold_receipts, loss_hold_metadata = _loss_hold_stages(root, head, current)
+    current = (loss_hold_metadata if loss_hold_metadata is not None else loss_hold_receipts
+               if loss_hold_receipts is not None else loss_hold_source)
     actual, _ = _snapshot(root, head, tuple(current))
     _require(actual == current, "current HEAD differs from exact source/receipt product")
     _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "current disk differs from Git")
@@ -2309,6 +2464,8 @@ def _read_proof_current(root):
     _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "disk changed during proof")
     return {"root": root, "head": head, "before": before, "after": after,
             "current": actual, "receipts": receipts, "person_before": person_before,
+            "loss_hold_before": loss_hold_before, "loss_hold_source": loss_hold_source,
+            "loss_hold_receipts": loss_hold_receipts, "loss_hold_metadata": loss_hold_metadata,
             "person_source": person_source, "person_receipts": person_receipts,
             "prose_before": prose_before, "prose_source": prose_source, "prose_receipts": prose_receipts,
             "prose_current": prose_current, "prose_metadata": prose_metadata,
@@ -2376,6 +2533,30 @@ def source_predecessor_inventory(root, inventory):
                  and all(_disk_bytes(Path(root) / p) == raw for p, raw in actual.items()),
                  "complete actual Git/disk source census")
         return {**inventory, "source_hashes": comparison, "source_manifest_sha256": _digest(comparison)}
+
+
+def historical_loss_hold_comparison(raw_by_locale, root=ROOT):
+    """Exact actual five raws -> immutable pre477 comparison, never runtime."""
+    locales = ("ko", "en", *LOCALES)
+    with fresh_validation_proof(root) as proof:
+        _require(type(raw_by_locale) is dict and set(raw_by_locale) == set(locales),
+                 "loss-hold exact five-locale population")
+        _require(all(type(raw_by_locale[locale]) is bytes
+                     and raw_by_locale[locale] == proof["current"][path]
+                     for locale, path in zip(locales, LOSS_HOLD_PATHS)), "loss-hold actual current raw only")
+        return {locale: proof["loss_hold_before"][path] for locale, path in zip(locales, LOSS_HOLD_PATHS)}
+
+
+def _loss_hold_source_comparison(root, proof, hashes):
+    """Project only477 KO before476 Main; independently bind the whole parent."""
+    path = LOSS_HOLD_KO_PATH
+    _require(type(hashes) is dict and hashes.get(path) == _sha(proof["loss_hold_source"][path]),
+             "loss-hold actual Korean source census")
+    comparison = {**hashes, path: _sha(proof["loss_hold_before"][path])}
+    prior, _ = _snapshot(root, LOSS_HOLD_PRODUCT_PARENT, tuple(hashes))
+    _require({p: _sha(raw) for p, raw in prior.items()} == comparison,
+             "loss-hold exact whole predecessor census")
+    return comparison
 
 
 def historical_first_win_comparison(raw_by_locale, root=ROOT):

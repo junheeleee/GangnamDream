@@ -508,12 +508,21 @@ def _read_proof(root=ROOT):
         night_metadata = (None if successor["night_metadata"] is None else
                           {**night_current, **{path: successor["night_metadata"][path]
                            for path in paths if path in successor["night_metadata"]}})
-        current = {**current, **{path: successor["current"][path]
-                   for path in paths if path in successor["current"]}}
+        pre_first_loss_successor = {**current, **{path: successor["loss_hold_before"][path]
+                                    for path in paths if path in successor["loss_hold_before"]}}
+        pre_loss_hold_successor = {**pre_first_loss_successor, source_successor.MAIN_PATH: actual_main}
+        loss_hold_source = {**pre_loss_hold_successor, **{path: successor["loss_hold_source"][path]
+                            for path in paths if path in successor["loss_hold_source"]}}
+        loss_hold_current = (loss_hold_source if successor["loss_hold_receipts"] is None else
+                             {**loss_hold_source, **{path: successor["loss_hold_receipts"][path]
+                              for path in paths if path in successor["loss_hold_receipts"]}})
+        loss_hold_metadata = (None if successor["loss_hold_metadata"] is None else
+                              {**loss_hold_current, **{path: successor["loss_hold_metadata"][path]
+                               for path in paths if path in successor["loss_hold_metadata"]}})
+        current = loss_hold_current if loss_hold_metadata is None else loss_hold_metadata
     # Every469..475 stage above remains its immutable historical endpoint.
-    # Only the final current view receives the separately proved476 Main.
-    pre_first_loss_successor = current
-    current = {**current, source_successor.MAIN_PATH: actual_main}
+    #476's completed current endpoint stays separate from477 source/receipt/
+    #metadata. Runtime-facing current is always the final actual product.
     actual, _ = _snapshot(root, head, paths)
     _require(actual == current, "current HEAD product differs from approved intake/receipt repair")
     for path in paths:
@@ -531,7 +540,9 @@ def _read_proof(root=ROOT):
             "first_win_initial": first_win_initial,
             "first_win_source": first_win_source, "first_win_current": first_win_current,
             "pre_night_successor": pre_night_successor, "night_source": night_source, "night_current": night_current,
-            "night_metadata": night_metadata, "pre_first_loss_successor": pre_first_loss_successor}
+            "night_metadata": night_metadata, "pre_first_loss_successor": pre_first_loss_successor,
+            "pre_loss_hold_successor": pre_loss_hold_successor, "loss_hold_source": loss_hold_source,
+            "loss_hold_current": loss_hold_current, "loss_hold_metadata": loss_hold_metadata}
 
 
 def _successor_snapshot(root, predecessor, commit, head, before, changed_paths):
@@ -652,6 +663,11 @@ def source_stage_manifest_digests(root, inventory):
             # The complete476 -> pre476 census was just independently proved
             # by source_successor. This is a source-only stage, not a receipt.
             manifests.add(source_successor.FIRST_LOSS_PREDECESSOR_CENSUS)
+            #source_successor proved477's full parent before applying the476
+            #Main inverse. Keep that actual476 endpoint distinct from90d88.
+            pre_hold = {**hashes, fact_successor.LOSS_HOLD_KO_PATH:
+                        _sha(proof["pre_loss_hold_successor"][fact_successor.LOSS_HOLD_KO_PATH])}
+            manifests.add(_digest(pre_hold))
             for stage, revision in (("before", INTAKE_PARENT), ("after", INTAKE_COMMIT),
                                     ("second", SECOND_COMMIT), ("third_source", THIRD_SOURCE_COMMIT)):
                 if revision is None:
@@ -950,7 +966,8 @@ def receipt_transitions(root, inventory):
                              (fact_successor.PROSE_RECEIPT_COMMIT, proof["prose_source"], proof["prose_current"]),
                              (fact_successor.ENDING_RECEIPT_COMMIT, proof["ending_source"], proof["ending_current"]),
                              (fact_successor.FIRST_WIN_RECEIPT_COMMIT, proof["first_win_source"], proof["first_win_current"]),
-                             (fact_successor.NIGHT_RECEIPT_COMMIT, proof["night_source"], proof["night_current"])):
+                             (fact_successor.NIGHT_RECEIPT_COMMIT, proof["night_source"], proof["night_current"]),
+                             (fact_successor.LOSS_HOLD_RECEIPT_COMMIT, proof["loss_hold_source"], proof["loss_hold_current"])):
             if commit is None:
                 continue
             before = {path: a[path] for path in CURRENT_UI_PATHS}
@@ -996,6 +1013,8 @@ def __getattr__(name):
                 if proof["night_source"] is not None:
                     for path in fact_successor.NIGHT_PATHS[:2]:
                         result[path] = tuple(dict.fromkeys((*result.get(path, ()), *fact_successor.NIGHT_TEXT_LEAVES)))
+                for path in fact_successor.LOSS_HOLD_PATHS[:2]:
+                    result[path] = tuple(dict.fromkeys((*result.get(path, ()), *fact_successor.LOSS_HOLD_TEXT_LEAVES)))
                 return result
             result = dict(previous.LIVE_EVENT_IDS)
             for path in HISTORY_CONTENT_PATHS:
@@ -1015,6 +1034,8 @@ def __getattr__(name):
             if proof["night_source"] is not None:
                 for path in fact_successor.NIGHT_PATHS[:2]:
                     result[path] = frozenset(result.get(path, ())) | {fact_successor.NIGHT_EVENT_ID}
+            for path in fact_successor.LOSS_HOLD_PATHS[:2]:
+                result[path] = frozenset(result.get(path, ())) | {eid for eid, _ in fact_successor.LOSS_HOLD_TEXT_LEAVES}
             return result
     return getattr(previous, name)
 
