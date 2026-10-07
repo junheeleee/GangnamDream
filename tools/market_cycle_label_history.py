@@ -156,6 +156,9 @@ class _Document:
         if type(self.text) is str and type(index) is int and 0 <= index <= len(self.text):
             if index == len(self.text) or not self.text[index].isspace():
                 return index
+            next_index = index + 1
+            if next_index == len(self.text) or not self.text[next_index].isspace():
+                return next_index
             return re.compile(r"\s*").match(self.text, index).end()
         while index < len(self.text) and self.text[index].isspace():
             index += 1
