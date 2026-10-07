@@ -122,7 +122,7 @@ project.godot·모든 게임 원문/번역/원장·공개 package·사용자 저
   context: boot_bytes30191/docs583/classified583/links187/invariants15/
   archive_bytes743490/open_proposals1; queue: active79/in_progress77/max_batches2.
 - actualseal1은 결과8·pstats4·로그·runner·raw를 재해시한 PASS다. final3239와 proof5/
-  보호6 동등·측정변경5경로·after2 ownedhelper1 drift·실패归속을 확인했다.
+  보호6 동등·측정변경5경로·after2 ownedhelper1 drift·실패 귀속을 확인했다.
   seal 신규QA/collect/engine/수용0이며 원검사 실행을 대신하지 않는다.
 
 ### 원시 증거 결속
