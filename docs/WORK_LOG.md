@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-07 — 시장 국면 로그의 코드명 비노출 (478, 착수)
+
+- 실제 InvestmentSystem._roll_cycle→GameState.add_log→Main._render_log에 남는 neutral/bear/bull 인수를 기존 상승장/하락장/횡보장 표시 쌍으로만 현지화한다. enum·난수·시간·가격·매매·옛 저장 로그는 불변이다.
+- [작은 사양](queue_active/ORDER-478.md)에 root Investment/QA4·review JA1/지원4·history 지원8·비저자 최종보고1의 파일 소유를 분리했다. source2 단독→공식 JA1 최초수용 ledger1 분리, 기존273 raw배치·41848키와 공개 pin/과거판정 보존을 계획한다. 선언 시 구현·QA·수용0이다.
+- 실제25 준비 모집단은 첫 실행 재조정으로 두고 원본 collect·동일 입력 가드·공식 JA1·현재 receipt admission·영문/JA UI/demo/ZH demo·새 history 지원을 표적으로 검수한다. 각 원검사의 실제 입력 집합과 변경 잎을 대조해 같은 event/body 결과만 재사용하고, 새 원장·Investment를 읽는 owner 함수는 실제 재검증한다. 내장240주 등 비적용은 입력 전수보존으로만 기록하며 validator 약화0·자동/실제 화면·원어민/사람/패드·본편 출시 HOLD를 유지한다.
+
 ## 2026-10-07 — 기다리기 결과의 회복 보장을 걷어냈다 (477, 한정 GO)
 
 - 첫 손실 결과1잎×5언어에서 실행되지 않은 사흘·손실 절반 회복·그 안도감을 지웠다. 앱 닫기·불안·판단 유보·팔지 않기로 한 기억, 세 문단/{name}/마지막 문단·비소유 raw/gameplay는 보존한다.
