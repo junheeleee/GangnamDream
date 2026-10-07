@@ -105,6 +105,10 @@ func _night_routes(game: Node) -> void:
 		suppressed[flag] = true
 	suppressed.erase("father_passed")
 	suppressed.erase("arc_father_passing_seen")
+	# W11–23 preparation must not mark future year-end closures complete.
+	for flag: String in ["arc_year1_close_seen", "arc_year2_close_seen",
+			"arc_year3_close_seen", "arc_year4_close_seen"]:
+		suppressed.erase(flag)
 	for row: Dictionary in rows:
 		_night_prepare(int(row["turn"]))
 		GameState.flags = suppressed.duplicate(true)
