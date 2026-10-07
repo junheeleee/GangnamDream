@@ -14,6 +14,33 @@
   ],
   "fast_lanes": [
     {
+      "id": "first-win-facts",
+      "paths": [],
+      "owned_paths": [
+        "content/events/arc_midgame.json", "content/events_en/arc_midgame.json",
+        "content/events_ja/arc_midgame.json", "content/events_zh-CN/arc_midgame.json",
+        "content/events_zh-TW/arc_midgame.json", "content/meta/full_game_localization.json",
+        "content/meta/release_content_inventory.json", "docs/CONTENT_RATING_INVENTORY.md",
+        "tools/first_win_fact_audit.py", "tools/FirstWinFactCheck.gd", "tools/FirstWinFactCheck.tscn",
+        "tools/order470_source_compat.py", "tools/order470_source_compat_self_test.py",
+        "tools/pr31_intake_history.py", "tools/pr31_intake_history_self_test.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-474.json",
+        "docs/queue_active/ORDER-474.md", "docs/queue_archive/ORDER-474.md"
+      ],
+      "tools": [
+        "tools/first_win_fact_audit.py --self-test",
+        "tools/order470_source_compat_self_test.py --first-win-only",
+        "tools/pr31_intake_history_self_test.py --first-win-only",
+        "tools/en_coverage_check.py", "tools/english_hangul_audit.py",
+        "tools/narrative_continuity_audit.py", "tools/scene_audio_contract_check.py",
+        "tools/speech_register_audit.py", "tools/release_content_inventory.py",
+        "tools/story_demo_localization_audit.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Two existing result facts × five languages: describe actual15000 cost and current home without gameplay changes. Root separately runs original official6 correction and isolated actual prepared components150. Exact source5/receipt1 preserves public14/100 and quiet-call raw; no new render, natural play, native or release approval."
+    },
+    {
       "id": "ending-money-facts",
       "paths": [],
       "owned_paths": [
@@ -5367,6 +5394,21 @@
       "tool": "tools/ending_money_fact_audit.py --self-test",
       "paths": ["content/endings*.json", "tools/ending_money_fact_audit.py", "tools/PR31EndingDescriptionCheck.gd"],
       "why": "Exact105 net-worth facts and seven bounded rollback/token/layout/amount negatives; not all-ending prose approval."
+    },
+    {
+      "tool": "tools/first_win_fact_audit.py --self-test",
+      "paths": ["content/events*/arc_midgame.json", "tools/first_win_fact_audit.py", "tools/FirstWinFactCheck.gd", "tools/FirstWinFactCheck.tscn"],
+      "why": "Exact two cost/home results × five locales and seven bounded old-cost/stairs/token/layout/unowned negatives."
+    },
+    {
+      "tool": "tools/order470_source_compat_self_test.py --first-win-only",
+      "paths": ["content/events*/arc_midgame.json", "tools/order470_source_compat.py", "tools/order470_source_compat_self_test.py"],
+      "why": "Only474 finite source5/receipt1 edges, immutable earlier endpoints and independently rehashed negative inputs."
+    },
+    {
+      "tool": "tools/pr31_intake_history_self_test.py --first-win-only",
+      "paths": ["content/events*/arc_midgame.json", "tools/pr31_intake_history.py", "tools/pr31_intake_history_self_test.py"],
+      "why": "Observe current authored results and separate official6 corrections without historical runtime prose or coverage expansion."
     },
     {
       "tool": "tools/order470_source_compat_self_test.py --ending-facts-only",

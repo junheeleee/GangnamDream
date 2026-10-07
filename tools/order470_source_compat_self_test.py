@@ -905,19 +905,141 @@ def run_ending_facts_checks():
     return failures, cases
 
 
+def run_first_win_checks():
+    """Bounded474 source/receipt edges; prior full-suite evidence is separate."""
+    failures, cases = [], 0
+    active_before, memo_before = history._ACTIVE.get(), history._SEMANTIC_MEMO.get()
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER474 first win: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    with history.fresh_validation_proof() as proof:
+        before, source = proof["first_win_before"], proof["first_win_source"]
+        check(source is not None, "actual source5 is bound")
+        if source is None:
+            return failures, cases
+        check(before == proof["ending_metadata"], "immutable473 endpoint precedes first-win source")
+        check(len(history.FIRST_WIN_PATHS) == 5 and len(history.FIRST_WIN_TEXT_LEAVES) == 2,
+              "exact two results in five locales")
+        check(all(before[p] == source[p] for p in before if p not in history.FIRST_WIN_PATHS),
+              "source preserves receipts, metadata, runtime and all other product bytes")
+        for path in history.FIRST_WIN_PATHS:
+            check(history.first_win_product_inverse(before[path], source[path], path) == before[path],
+                  "exact raw/hunk/two-literal inverse " + path)
+            for label, raw, owner in (("rollback", before[path], path), ("layout", source[path] + b"\n", path),
+                                      ("path alias", source[path], "./" + path),
+                                      ("type", source[path].decode(), path)):
+                reject(lambda a=before[path], b=raw, p=owner: history.first_win_product_inverse(a, b, p), label)
+            raw = source[path] + b"\n"
+            with mock.patch.dict(history.FIRST_WIN_RAW_SHA256,
+                                 {path: (history._sha(before[path]), history._sha(raw))}):
+                reject(lambda p=path, r=raw: history.first_win_product_inverse(before[p], r, p), "rehashed layout/hunk")
+            document = history._Document(source[path])
+            old_rows = {row["id"]: row for row in history._loads(before[path])}
+            rows = {row["id"]: i for i, row in enumerate(document.value)}
+            quiet = rows["arc_father_quiet_call"]
+            check(document.value[quiet] == old_rows["arc_father_quiet_call"], "legacy demo quiet-call row preserved")
+            for label, key, value in (
+                ("neighbor title", (rows[history.FIRST_WIN_EVENT_IDS[0]], "title"), "unowned"),
+                ("demo row", (quiet, "title"), "unowned"),
+                ("missing first correction", (rows[history.FIRST_WIN_EVENT_IDS[0]], "choices", 0, "result_text"),
+                 old_rows[history.FIRST_WIN_EVENT_IDS[0]]["choices"][0]["result_text"]),
+                ("wrong choice", (rows[history.FIRST_WIN_EVENT_IDS[1]], "choices", 1, "result_text"), "unowned"),
+            ):
+                a, z = document.spans[key]
+                mutant = (document.text[:a] + json.dumps(value, ensure_ascii=False) + document.text[z:]).encode()
+                pins = {path: (history._sha(before[path]), history._sha(mutant))}
+                reject(lambda p=path, r=mutant, q=pins: history._receipt_overlay_inverse(
+                    before[p], r, p, history.FIRST_WIN_TEXT_LEAVES, history.FIRST_WIN_PATHS, q, (), 2),
+                       "independent rehashed literal boundary " + label)
+        path = history.FIRST_WIN_KO_PATH
+        check(proof["prose_current"][path] == before[path] != source[path],
+              "472 midgame endpoint is immutable despite shared current path")
+        reject(lambda: history._first_win_source_comparison(history.ROOT, proof, {path: history._sha(before[path])}),
+               "old source cannot claim current474 census")
+        reject(lambda: history._prose_source_comparison(history.ROOT, proof,
+            {p: history._sha(proof["current"][p]) for p in history.PROSE_KO_PATHS}),
+               "474 current bytes cannot skip their inverse into472")
+        with mock.patch.object(history, "FIRST_WIN_PRODUCT_PARENT", history.FIRST_WIN_PRODUCT_COMMIT):
+            reject(lambda: history._first_win_stages(history.ROOT, proof["head"], before), "forged direct parent")
+        with mock.patch.object(history, "FIRST_WIN_PATHS", history.FIRST_WIN_PATHS[:-1]):
+            reject(lambda: history._first_win_stages(history.ROOT, proof["head"], before), "incomplete path population")
+        snapshot = history._snapshot
+        def missing(root, revision, paths):
+            if revision == history.FIRST_WIN_PRODUCT_COMMIT:
+                raise ValueError("missing474 typed source")
+            return snapshot(root, revision, paths)
+        with mock.patch.object(history, "_snapshot", missing):
+            reject(lambda: history._first_win_stages(history.ROOT, proof["head"], before), "missing typed source object")
+            reject(lambda: history._read_proof(history.ROOT), "warm reader/config mutation")
+        check(not history._SEMANTIC_MEMO.get()[1], "failed warm proof clears pure successes")
+        physical = history._disk_bytes
+        with mock.patch.object(history, "_disk_bytes", lambda p: physical(p) + b"\n" if p == history.ROOT / path else physical(p)):
+            reject(lambda: history._read_proof_current(history.ROOT), "actual physical source differs from Git")
+            reject(lambda: history._read_proof(history.ROOT), "warm disk reader identity mutation")
+        receipts = proof["first_win_receipts"]
+        if receipts is None:
+            check(history.FIRST_WIN_RECEIPT_COMMIT is None and proof["current"][history.LEDGER_PATH] == source[history.LEDGER_PATH],
+                  "source-only stage claims no6 acceptance")
+            reject(lambda: history._first_win_receipt_semantics(source, source), "unbound receipt rejection")
+        else:
+            history._validate_first_win_receipts(source, receipts, history.ROOT)
+            check(history._correction_ledger_inverse(source[history.LEDGER_PATH], receipts[history.LEDGER_PATH],
+                  "events", history.FIRST_WIN_TEXT_LEAVES, 264) == source[history.LEDGER_PATH],
+                  "raw264 batch prefix and unowned ledger bytes preserved")
+            old, new = (history._loads(stage[history.LEDGER_PATH]) for stage in (source, receipts))
+            check(sum(len(v) for v in old["accepted"].values()) == sum(len(v) for v in new["accepted"].values()) == 41848,
+                  "all41848 existing receipt keys retained")
+            for label, mutate in (
+                ("old batch", lambda data: data["batches"][0].update(order="forged")),
+                ("native approval", lambda data: data["batches"][-1].update(native_review="PASS")),
+                ("census", lambda data: next(iter(data["batches"][-1]["official_receipt_headers_by_locale"].values())).update(source_manifest_sha256="0" * 64)),
+                ("unowned key", lambda data: data["accepted"]["ja"].pop(next(iter(data["accepted"]["ja"])))),
+            ):
+                data = copy.deepcopy(new)
+                mutate(data)
+                raw = (json.dumps(data, ensure_ascii=False, indent=2) + "\n").encode()
+                mutant = {**receipts, history.LEDGER_PATH: raw}
+                with mock.patch.dict(history.FIRST_WIN_RECEIPT_RAW_SHA256, {history.LEDGER_PATH:
+                    (history._sha(source[history.LEDGER_PATH]), history._sha(raw))}):
+                    reject(lambda r=mutant: history._first_win_receipt_semantics(source, r), "rehashed receipt " + label)
+            reject(lambda: history._correction_ledger_inverse(source[history.LEDGER_PATH], receipts[history.LEDGER_PATH] + b"\n",
+                   "events", history.FIRST_WIN_TEXT_LEAVES, 264), "ledger layout cannot bypass raw boundary")
+            with mock.patch.object(history, "_snapshot", side_effect=ValueError("missing export object")):
+                reject(lambda: history._validate_first_win_receipts(source, receipts, history.ROOT), "direct receipt API export loss")
+        check(all(proof["current"][p] == before[p] for p in (*history.ENDING_PATHS, *history.ARC_PATHS,
+                  *history.RUNTIME_PATHS, history.INVENTORY_PATH, history.RATING_PATH)),
+              "protected product and unchanged metadata remain exact473")
+    check(history._ACTIVE.get() is active_before and history._SEMANTIC_MEMO.get() is memo_before,
+          "context restored without cross-invocation success cache")
+    return failures, cases
+
+
 def main():
     coffee_only = sys.argv[1:] == ["--coffee-self-test"]
     person_only = sys.argv[1:] == ["--person-self-test"]
     prose_only = sys.argv[1:] == ["--prose-self-test"]
     metadata_only = sys.argv[1:] == ["--prose-metadata-self-test"]
     ending_only = sys.argv[1:] == ["--ending-facts-only"]
-    failures, cases = (run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only else run_person_checks() if person_only else
+    first_win_only = sys.argv[1:] == ["--first-win-only"]
+    failures, cases = (run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only else run_person_checks() if person_only else
                        run_coffee_consumer_checks() if coffee_only else run())
     for failure in failures:
         print(failure, file=sys.stderr)
     label = "COFFEE_CONSUMER" if coffee_only else "SOURCE_COMPAT"
-    prefix = "ORDER473_ENDING_FACTS" if ending_only else "ORDER472_METADATA" if metadata_only else "ORDER472_PROSE" if prose_only else "ORDER471_PERSON" if person_only else "ORDER470_" + label
-    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={5 if ending_only else 0 if metadata_only else 10 if prose_only else 5 if person_only else 9}")
+    prefix = "ORDER474_FIRST_WIN" if first_win_only else "ORDER473_ENDING_FACTS" if ending_only else "ORDER472_METADATA" if metadata_only else "ORDER472_PROSE" if prose_only else "ORDER471_PERSON" if person_only else "ORDER470_" + label
+    print(f"{prefix}_{'FAIL' if failures else 'OK'} cases={cases} source_paths={5 if first_win_only or ending_only else 0 if metadata_only else 10 if prose_only else 5 if person_only else 9}")
     return int(bool(failures))
 
 

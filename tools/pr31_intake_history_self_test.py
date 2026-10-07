@@ -651,16 +651,107 @@ def run_ending_facts_checks():
     return failures, cases
 
 
+def run_first_win_checks():
+    """Exact474 observation/correction seam, without rerunning the older suite."""
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("PR31 first win: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    with history.fresh_validation_proof() as proof, history.previous.fresh_validation_proof():
+        successor = history.fact_successor
+        check(proof["first_win_source"] is not None, "actual source5 endpoint bound")
+        if proof["first_win_source"] is None:
+            return failures, cases
+        check(len(history.CONTENT_PATHS) == 71 and len(history.SOURCE_PATHS) == 15,
+              "original71/partial15 populations unchanged")
+        check(all(proof["first_win_source"][p] == proof["pre_first_win_successor"][p]
+                  for p in proof["first_win_source"] if p not in successor.FIRST_WIN_PATHS),
+              "source5 does not create receipts or modify protected product")
+        actual = history.current_content_raw()
+        historical = history.HISTORICAL_JSON_LEAVES
+        live = history.LIVE_EVENT_IDS
+        for path in successor.FIRST_WIN_PATHS:
+            raw = proof["current"][path]
+            check(actual[path] == raw and not history.source_errors(raw, path), "actual authored current raw " + path)
+            for label, candidate in (("rollback", proof["pre_first_win_successor"][path]), ("neighbor", raw + b"\n")):
+                check(bool(history.source_errors(candidate, path)), label + " " + path)
+                claim, errors = history.observed_byte_hash(path, history._sha(candidate), candidate)
+                check(claim == history._sha(candidate) and bool(errors), "rehashed current claim rejected " + label)
+            claim, errors = history.observed_byte_hash(path, "0" * 64, raw)
+            check(claim == "0" * 64 and bool(errors), "forged observed claim rejected " + path)
+            current_rows = history._rows(raw)
+            check(all(current_rows[eid]["choices"][0]["result_text"]
+                      == history._rows(proof["first_win_source"][path])[eid]["choices"][0]["result_text"]
+                      for eid in successor.FIRST_WIN_EVENT_IDS), "current output keeps authored result text")
+            if path in successor.FIRST_WIN_PATHS[:2]:
+                check(set(successor.FIRST_WIN_TEXT_LEAVES) <= set(historical[path])
+                      and set(successor.FIRST_WIN_EVENT_IDS) <= set(live[path]),
+                      "both changed results enter the existing historical comparison population")
+                before, after = history.historical_blobs(path)
+                check(after == raw and before == history.previous.project_bytes(proof["before"][path], path)
+                      and history.project_bytes(raw, path) == before,
+                      "current observation and comparison-only historical prose stay separate")
+                check(proof["prose_current"][path] == proof["pre_first_win_successor"][path] != raw,
+                      "shared472 path retains immutable earlier endpoint")
+        hashes = {p: history._sha(proof["current"][p]) for p in history.SOURCE_PATHS}
+        partial = {"source_hashes": hashes, "source_manifest_sha256": history._digest(hashes)}
+        check(history.source_predecessor_inventory(history.ROOT, partial)["source_hashes"]
+              == {p: history._sha(proof["before"][p]) for p in hashes}, "partial15 exact historical inverse")
+        mutant = {**hashes, successor.FIRST_WIN_KO_PATH: history._sha(proof["pre_first_win_successor"][successor.FIRST_WIN_KO_PATH])}
+        reject(lambda: history.source_predecessor_inventory(history.ROOT,
+            {"source_hashes": mutant, "source_manifest_sha256": history._digest(mutant)}), "rollback source census")
+        transitions = {row[0]: row for row in history.receipt_transitions(history.ROOT, {})}
+        for commit, endpoint, counts in (
+            (successor.RECEIPT_COMMIT, "fact_current", (6, 36)),
+            (successor.PERSON_RECEIPT_COMMIT, "person_current", (6, 12)),
+            (successor.PROSE_RECEIPT_COMMIT, "prose_current", (0, 120)),
+            (successor.ENDING_RECEIPT_COMMIT, "ending_current", (0, 63)),
+        ):
+            row = transitions[commit]
+            check(row[2][history.LEDGER_PATH] == proof[endpoint][history.LEDGER_PATH]
+                  and (row[3]["first_receipts"], row[3]["corrections"]) == counts,
+                  "immutable prior receipt endpoint " + endpoint)
+        if successor.FIRST_WIN_RECEIPT_COMMIT is None:
+            check(proof["first_win_current"][history.LEDGER_PATH] == proof["first_win_source"][history.LEDGER_PATH]
+                  == proof["pre_first_win_successor"][history.LEDGER_PATH] and None not in transitions,
+                  "source-only stage claims no6 acceptance")
+        else:
+            row = transitions[successor.FIRST_WIN_RECEIPT_COMMIT]
+            check((row[3]["first_receipts"], row[3]["corrections"], row[3]["correction_batches"]) == (0, 6, 3),
+                  "separate six corrections with no new keys")
+            check(row[1][history.LEDGER_PATH] == proof["first_win_source"][history.LEDGER_PATH]
+                  and row[2][history.LEDGER_PATH] == proof["first_win_current"][history.LEDGER_PATH],
+                  "six receipts do not extend previous63 endpoint")
+            check(row[3]["receipts"] == row[3]["batches"] == 0 and not any(row[3]["ui_by_locale"].values()),
+                  "result corrections never enlarge UI coverage")
+        check(proof["current"][history.INVENTORY_PATH] == proof["pre_first_win_successor"][history.INVENTORY_PATH],
+              "unmeasured metadata changes cannot be admitted")
+    return failures, cases
+
+
 def main():
     person_only = sys.argv[1:] == ["--person-self-test"]
     prose_only = sys.argv[1:] == ["--prose-self-test"]
     metadata_only = sys.argv[1:] == ["--prose-metadata-self-test"]
     ending_only = sys.argv[1:] == ["--ending-facts-only"]
-    failures, cases = (run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
+    first_win_only = sys.argv[1:] == ["--first-win-only"]
+    failures, cases = (run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
                        else run_person_checks() if person_only else run())
     for error in failures:
         print(error, file=sys.stderr)
-    label = ("PR31_ENDING_FACTS" if ending_only else "PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
+    label = ("PR31_FIRST_WIN" if first_win_only else "PR31_ENDING_FACTS" if ending_only else "PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
              else "PR31_PERSON_SUCCESSOR" if person_only else "PR31_INTAKE_HISTORY")
     print(f"{label}_{'FAIL' if failures else 'OK'} cases={cases} current_files=71 native_review=OPEN")
     return int(bool(failures))

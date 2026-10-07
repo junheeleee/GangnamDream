@@ -879,6 +879,53 @@ ENDING_METADATA_RAW_PATCHES = {'content/meta/release_content_inventory.json': ((
                                        126,
                                        'd37d7411dd5beb0aedb921ef20680b2cd87d95598b5ad67f52113dba77ace25f',
                                        '7785db6cd65eb800a9164e18a47704f710e285e24c58a308438e68fb120396f3'),)}
+# The two first-win result facts are a separate source5/receipt1 transition.
+# All five paths already belong to472; that earlier endpoint stays immutable.
+FIRST_WIN_PATHS = tuple("content/events" + suffix + "/arc_midgame.json"
+                        for suffix in ("", "_en", "_ja", "_zh-CN", "_zh-TW"))
+FIRST_WIN_KO_PATH = FIRST_WIN_PATHS[0]
+FIRST_WIN_EVENT_IDS = ("arc_first_real_win", "arc_first_real_win_father_passed")
+FIRST_WIN_TEXT_LEAVES = tuple((eid, ("choices", 0, "result_text")) for eid in FIRST_WIN_EVENT_IDS)
+FIRST_WIN_PRODUCT_PARENT = "5ec492da9a1007f6cc6b10c7ac1d22135e47b356"
+FIRST_WIN_PRODUCT_COMMIT = '1dbdf12ffa09b7143af43a006828af5d78e52619'
+FIRST_WIN_RAW_SHA256 = {'content/events/arc_midgame.json': ('db1874fca6073b1aeba546448f37630311adb3b2f4b03c556c5c3739dfc46a41',
+                                     '4edc95d3001a7e6df8b73c946f53855510305a9a464dbc1b75c5d26d4b309262'),
+ 'content/events_en/arc_midgame.json': ('964bff4c15d39beb9de58d2bbd5081264373967113846142bdb9d97bb53d0d28',
+                                        'b7237dda9c0d87a6cf8f8845775916e0b4ee3cbceb2dd0da2e847513baaa21da'),
+ 'content/events_ja/arc_midgame.json': ('e07b0f4ae333ad4e197e6d4fcd12b9e3be6190785032402c182a7478054788eb',
+                                        '63ebbdf7b91f4185789e06f66d84adec204c05118b99d0d0379e69dea85a20ad'),
+ 'content/events_zh-CN/arc_midgame.json': ('89e36247f39ada6eda81d1b73f7468607359103d7505af08d93628b7d3656f49',
+                                           '017d3161eb743cde8c660407b3684e1c1f0ee2e83b8d882f332c1e1c7a8a6514'),
+ 'content/events_zh-TW/arc_midgame.json': ('cb3f4b3be26f3192ae97bd7f8374d174281f20a37243a4a5d3baed7d2e5c2ed8',
+                                           'dcc316943babc5293729c6bd07e20e25ca8e090975d4202a506b33d06e48a114')}
+FIRST_WIN_RAW_PATCHES = {
+    'content/events/arc_midgame.json': (
+        ('replace', 344, 345, 344, 345, '58f365fe2d096fb6fb4763b8404cc556fbddc11fdba248a340c4f90a1ad4677d', 'f4c413096072d5af8587c658fc869d4db097da0514f718eaa3e74b55fcd76c75'),
+        ('replace', 4290, 4291, 4290, 4291, '2a9568cca288f0ea8673f0b59f183159dcf7c87b0233f2ee4caa30f62e0bd55a', 'f4c413096072d5af8587c658fc869d4db097da0514f718eaa3e74b55fcd76c75'),
+    ),
+    'content/events_en/arc_midgame.json': (
+        ('replace', 106, 107, 106, 107, 'c9da6c1602149a3e98d1941f43a958ff5b3433fb592981c101f4c2c4318e5de6', 'aff78f1bd17d92ba1de78291a4ccf20157303166a3afc3dbe740ab40199f722b'),
+        ('replace', 1573, 1574, 1573, 1574, '6b188fbb8f60407a676e8f291f1f648ab11df11b39f22764209ed63c0bc01f1d', 'aff78f1bd17d92ba1de78291a4ccf20157303166a3afc3dbe740ab40199f722b'),
+    ),
+    'content/events_ja/arc_midgame.json': (
+        ('replace', 752, 753, 752, 753, 'c4a7f2a559a9048e19977efc70828e059f363f6e683592609562d3eaff3651d4', 'df4861d2295c7c890bcd51caea64f546692075c6c19e962cf2026c03df5b0c9a'),
+        ('replace', 1027, 1028, 1027, 1028, 'b0896bf3c0751440d7d8c53791139b0a025a0aa971f4de2f5c5bb11edffd5ed5', 'df4861d2295c7c890bcd51caea64f546692075c6c19e962cf2026c03df5b0c9a'),
+    ),
+    'content/events_zh-CN/arc_midgame.json': (
+        ('replace', 752, 753, 752, 753, '3df74ebc63ac9ab406308f8f540b40fd081956a9359409ad055efeb4dae8ec87', '3b576cac048d57249be5b1357f3640efeeacc4e9559cfbf84e444f53dedf3a93'),
+        ('replace', 1027, 1028, 1027, 1028, 'd34b55c623b7a512c0276f5415dc025f0ed37a2437ab8b5dafd669dff48fe99d', '3b576cac048d57249be5b1357f3640efeeacc4e9559cfbf84e444f53dedf3a93'),
+    ),
+    'content/events_zh-TW/arc_midgame.json': (
+        ('replace', 752, 753, 752, 753, '1b36f2009896f5bb346f0cf2478c17a7a62da64633be332053a80a5cd436b0a0', '3c812f5a4b306e982ba0fe32f1a2e317b01976348752b1adf43751e0b814abad'),
+        ('replace', 1027, 1028, 1027, 1028, '86e98f92ff875bfe0d9a2f6b06a0af5b16981ac645739ad8ac8117e449531e56', '3c812f5a4b306e982ba0fe32f1a2e317b01976348752b1adf43751e0b814abad'),
+    ),
+}
+FIRST_WIN_RECEIPT_PARENT = None
+FIRST_WIN_RECEIPT_COMMIT = None
+FIRST_WIN_RECEIPT_PATHS = (LEDGER_PATH,)
+FIRST_WIN_RECEIPT_RAW_SHA256 = {}
+FIRST_WIN_RECEIPT_BATCH_SHA256 = {}
+FIRST_WIN_RECEIPT_SOURCE_MANIFEST_SHA256 = None
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
 _SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
 
@@ -1209,6 +1256,15 @@ def ending_metadata_inverse(before, after, path):
     return _ending_metadata_semantics(before, after, path)
 
 
+def first_win_product_inverse(before, after, path):
+    """Comparison-only inverse of exactly the two existing result literals."""
+    _require(path in FIRST_WIN_PATHS and len(FIRST_WIN_TEXT_LEAVES) == len(set(FIRST_WIN_TEXT_LEAVES)) == 2,
+             "first-win exact source path/selector population")
+    _raw_inverse(before, after, path, FIRST_WIN_RAW_SHA256, FIRST_WIN_RAW_PATCHES)
+    return _receipt_overlay_inverse(before, after, path, FIRST_WIN_TEXT_LEAVES, FIRST_WIN_PATHS,
+                                    FIRST_WIN_RAW_SHA256, (), 2)
+
+
 def _configuration():
     return (PRODUCT_PARENT, PRODUCT_COMMIT, PRODUCT_PATHS, SOURCE_PATHS,
             copy.deepcopy(RAW_SHA256), copy.deepcopy(RAW_PATCHES), RECEIPT_PARENT,
@@ -1245,6 +1301,14 @@ def _configuration():
             _ending_metadata_semantics,
             _ending_stages, _ending_snapshot, _ending_source_comparison, _ending_ledger_inverse,
             _ending_receipt_semantics, _ending_receipt_exports, _validate_ending_receipts,
+            FIRST_WIN_PATHS, FIRST_WIN_KO_PATH, FIRST_WIN_EVENT_IDS, FIRST_WIN_TEXT_LEAVES,
+            FIRST_WIN_PRODUCT_PARENT, FIRST_WIN_PRODUCT_COMMIT, copy.deepcopy(FIRST_WIN_RAW_SHA256),
+            copy.deepcopy(FIRST_WIN_RAW_PATCHES), FIRST_WIN_RECEIPT_PARENT, FIRST_WIN_RECEIPT_COMMIT,
+            FIRST_WIN_RECEIPT_PATHS, copy.deepcopy(FIRST_WIN_RECEIPT_RAW_SHA256),
+            copy.deepcopy(FIRST_WIN_RECEIPT_BATCH_SHA256), FIRST_WIN_RECEIPT_SOURCE_MANIFEST_SHA256,
+            first_win_product_inverse, _first_win_stages, _first_win_receipt_semantics,
+            _first_win_receipt_exports, _validate_first_win_receipts, _first_win_source_comparison,
+            _correction_ledger_inverse,
             _git, _objects, _snapshot, _disk_bytes, product_inverse, _arc_inverse, _raw_inverse,
             _validate_receipts, _receipt_semantics, _receipt_exports, receipt_overlay_inverse,
             _receipt_overlay_inverse, _event_receipt_semantics, person_product_inverse,
@@ -1405,11 +1469,11 @@ def _prose_receipt_semantics(before, after):
     return _event_receipt_semantics(before, after, PROSE_TEXT_LEAVES, person=False, prose=True)
 
 
-def _event_receipt_semantics(before, after, selectors, *, person, prose=False, ending=False):
-    # Only these four named transitions use the shared official-header grammar.
+def _event_receipt_semantics(before, after, selectors, *, person, prose=False, ending=False, first_win=False):
+    # Only these five named transitions use the shared official-header grammar.
     # Their path, count, source census, raw and batch pins remain independent.
-    _require(all(type(flag) is bool for flag in (person, prose, ending))
-             and sum((person, prose, ending)) <= 1
+    _require(all(type(flag) is bool for flag in (person, prose, ending, first_win))
+             and sum((person, prose, ending, first_win)) <= 1
              and set(before) == set(after), "receipt stage/snapshot shape")
     paths = PERSON_PATHS if person else ARC_PATHS
     ko_path = paths[0]
@@ -1427,6 +1491,10 @@ def _event_receipt_semantics(before, after, selectors, *, person, prose=False, e
         paths, ko_path, added, count, order = ENDING_PATHS, ENDING_KO_PATH, (), 21, "ORDER-473"
         receipt_paths, pins = ENDING_RECEIPT_PATHS, ENDING_RECEIPT_RAW_SHA256
         batches, source_manifest = ENDING_RECEIPT_BATCH_SHA256, ENDING_RECEIPT_SOURCE_MANIFEST_SHA256
+    if first_win:
+        paths, ko_path, added, count, order = FIRST_WIN_PATHS, FIRST_WIN_KO_PATH, (), 2, "ORDER-474"
+        receipt_paths, pins = FIRST_WIN_RECEIPT_PATHS, FIRST_WIN_RECEIPT_RAW_SHA256
+        batches, source_manifest = FIRST_WIN_RECEIPT_BATCH_SHA256, FIRST_WIN_RECEIPT_SOURCE_MANIFEST_SHA256
     _require(len(selectors) == count and set(pins) == set(receipt_paths)
              and set(batches) == set(LOCALES), "receipt pin/selector populations")
     for path in before:
@@ -1434,7 +1502,7 @@ def _event_receipt_semantics(before, after, selectors, *, person, prose=False, e
             _require((_sha(before[path]), _sha(after[path])) == pins[path], "receipt raw " + path)
         else:
             _require(before[path] == after[path], "receipt changed a source/protected file")
-    for path in (() if ending else PROSE_PATHS[10:] if prose else paths[2:]):
+    for path in (() if ending or first_win else PROSE_PATHS[10:] if prose else paths[2:]):
         if prose:
             prose_receipt_overlay_inverse(before[path], after[path], path)
         elif person:
@@ -1563,20 +1631,28 @@ def _validate_prose_receipts(before, after, root):
 
 def _ending_ledger_inverse(before, after):
     """Only63 existing receipt pairs and the three appended batches may move."""
+    return _correction_ledger_inverse(before, after, "endings", ENDING_TEXT_LEAVES, 261)
+
+
+def _correction_ledger_inverse(before, after, group, selectors, prefix):
+    """Literal-only inverse shared by the two named ledger-only corrections."""
+    _require((group, selectors, prefix) in (("endings", ENDING_TEXT_LEAVES, 261),
+                                          ("events", FIRST_WIN_TEXT_LEAVES, 264)),
+             "unowned correction literal contract")
     old, new = _Document(before), _Document(after)
     old_batches, new_batches = old.value["batches"], new.value["batches"]
-    _require(len(old_batches) == 261 and len(new_batches) == 264
-             and new_batches[:261] == old_batches, "ending original261 batch prefix")
+    _require(len(old_batches) == prefix and len(new_batches) == prefix + 3
+             and new_batches[:prefix] == old_batches, "exact original correction batch prefix")
     start, _ = old.spans[("batches",)]
     next_start, _ = new.spans[("batches",)]
-    _require(old.text[start:old.spans[("batches", 260)][1]]
-             == new.text[next_start:new.spans[("batches", 260)][1]], "ending raw batch prefix changed")
+    _require(old.text[start:old.spans[("batches", prefix - 1)][1]]
+             == new.text[next_start:new.spans[("batches", prefix - 1)][1]], "raw correction batch prefix changed")
     replacements = []
     for locale in LOCALES:
         _require(set(old.value["accepted"][locale]) == set(new.value["accepted"][locale]),
                  "ending receipt key population changed")
-        for eid, keys in ENDING_TEXT_LEAVES:
-            identifier = "endings:" + eid + ":/" + "/".join(map(str, keys))
+        for eid, keys in selectors:
+            identifier = group + ":" + eid + ":/" + "/".join(map(str, keys))
             for field in ("source_sha256", "target_sha256"):
                 key = ("accepted", locale, identifier, field)
                 a, z = old.spans[key]
@@ -1591,6 +1667,56 @@ def _ending_ledger_inverse(before, after):
         restored = restored[:a] + text + restored[z:]
     _require(restored.encode() == before, "ending ledger bytes changed outside owned receipts/append")
     return before
+
+
+def _first_win_receipt_semantics(before, after):
+    _require(FIRST_WIN_PRODUCT_COMMIT is not None, "first-win receipts require actual authored source")
+    revisions = _event_receipt_semantics(before, after, FIRST_WIN_TEXT_LEAVES,
+                                         person=False, first_win=True)
+    _correction_ledger_inverse(before[LEDGER_PATH], after[LEDGER_PATH], "events", FIRST_WIN_TEXT_LEAVES, 264)
+    return revisions
+
+
+def _first_win_receipt_exports(before, revisions, root):
+    for revision in revisions:
+        export, _ = _snapshot(root, revision, tuple(before))
+        _require(export == before, "first-win export source/draft/ledger differs")
+        _git(root, "merge-base", "--is-ancestor", FIRST_WIN_PRODUCT_COMMIT, revision)
+        _git(root, "merge-base", "--is-ancestor", revision, FIRST_WIN_RECEIPT_COMMIT)
+
+
+def _validate_first_win_receipts(before, after, root):
+    try:
+        _first_win_receipt_exports(before, _first_win_receipt_semantics(before, after), root)
+    except BaseException:
+        memo = _SEMANTIC_MEMO.get()
+        if memo is not None:
+            memo[1].clear()
+        raise
+
+
+def _first_win_stages(root, head, prior):
+    """Only source5 then ledger1 follow the immutable473 metadata endpoint."""
+    if FIRST_WIN_PRODUCT_COMMIT is None:
+        _require(FIRST_WIN_RECEIPT_COMMIT is None, "first-win receipts lack actual authored source")
+        return prior, None, None
+    _require(ENDING_METADATA_COMMIT is not None and set(FIRST_WIN_PATHS) <= set(prior)
+             and set(FIRST_WIN_RAW_SHA256) == set(FIRST_WIN_RAW_PATCHES) == set(FIRST_WIN_PATHS),
+             "first-win complete source5 pins and predecessor")
+    source = _ending_snapshot(root, head, prior, FIRST_WIN_PRODUCT_PARENT, FIRST_WIN_PRODUCT_COMMIT,
+                              FIRST_WIN_PATHS, ENDING_METADATA_COMMIT)
+    for path in FIRST_WIN_PATHS:
+        _memoized_semantics("first-win-product:" + path, (prior[path], source[path]),
+                            lambda p=path: first_win_product_inverse(prior[p], source[p], p))
+    accepted = None
+    if FIRST_WIN_RECEIPT_COMMIT is not None:
+        accepted = _ending_snapshot(root, head, source, FIRST_WIN_RECEIPT_PARENT, FIRST_WIN_RECEIPT_COMMIT,
+                                    FIRST_WIN_RECEIPT_PATHS, FIRST_WIN_PRODUCT_COMMIT)
+        inputs = tuple((path, source[path], accepted[path]) for path in source)
+        revisions = _memoized_semantics("first-win-receipts", inputs,
+                                       lambda: _first_win_receipt_semantics(source, accepted))
+        _first_win_receipt_exports(source, revisions, root)
+    return prior, source, accepted
 
 
 def _ending_receipt_semantics(before, after):
@@ -1620,7 +1746,7 @@ def _validate_ending_receipts(before, after, root):
 
 
 def _ending_snapshot(root, head, prior, parent, commit, changed, ancestor):
-    """Typed direct-parent edge for the four finite ending-fact stages only."""
+    """Typed direct-parent edge for the named finite money-fact stages."""
     before, _ = _snapshot(root, parent, tuple(prior))
     after, headers = _snapshot(root, commit, tuple(prior))
     _require(before == prior, "ending stage predecessor differs")
@@ -1862,6 +1988,9 @@ def _read_proof_current(root):
     ending_before, ending_initial, ending_source, ending_receipts, ending_metadata = _ending_stages(root, head, current)
     current = (ending_metadata if ending_metadata is not None else ending_receipts if ending_receipts is not None
                else ending_source if ending_source is not None else ending_before)
+    first_win_before, first_win_source, first_win_receipts = _first_win_stages(root, head, current)
+    current = (first_win_receipts if first_win_receipts is not None else first_win_source
+               if first_win_source is not None else first_win_before)
     actual, _ = _snapshot(root, head, tuple(current))
     _require(actual == current, "current HEAD differs from exact source/receipt product")
     _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "current disk differs from Git")
@@ -1885,6 +2014,8 @@ def _read_proof_current(root):
             "prose_current": prose_current, "prose_metadata": prose_metadata,
             "ending_before": ending_before, "ending_initial": ending_initial, "ending_source": ending_source,
             "ending_receipts": ending_receipts, "ending_metadata": ending_metadata,
+            "first_win_before": first_win_before, "first_win_source": first_win_source,
+            "first_win_receipts": first_win_receipts,
             "binding": _configuration()}
 
 
@@ -1931,7 +2062,8 @@ def source_predecessor_inventory(root, inventory):
         _require(all(hashes.get(p) == _sha(proof["current"][p]) for p in SOURCE_PATHS),
                  "actual three-source census binding")
         comparison = {**_person_source_comparison(root, proof, _prose_source_comparison(
-                          root, proof, _ending_source_comparison(root, proof, hashes))),
+                          root, proof, _ending_source_comparison(
+                              root, proof, _first_win_source_comparison(root, proof, hashes)))),
                       **{p: _sha(proof["before"][p]) for p in SOURCE_PATHS}}
         _require(_digest(comparison) == PREDECESSOR_SOURCE_MANIFEST_SHA256,
                  "exact pre470 complete source census")
@@ -1940,6 +2072,21 @@ def source_predecessor_inventory(root, inventory):
                  and all(_disk_bytes(Path(root) / p) == raw for p, raw in actual.items()),
                  "complete actual Git/disk source census")
         return {**inventory, "source_hashes": comparison, "source_manifest_sha256": _digest(comparison)}
+
+
+def _first_win_source_comparison(root, proof, hashes):
+    """Undo only current Korean midgame before entering the immutable473 census."""
+    if proof["first_win_source"] is None:
+        return dict(hashes)
+    path = FIRST_WIN_KO_PATH
+    _require(hashes.get(path) == _sha(proof["first_win_source"][path]), "first-win actual source census binding")
+    comparison = {**hashes, path: _sha(proof["first_win_before"][path])}
+    _require(_digest(comparison) == ENDING_RECEIPT_SOURCE_MANIFEST_SHA256,
+             "exact pre474 complete source census")
+    prior, _ = _snapshot(root, FIRST_WIN_PRODUCT_PARENT, tuple(hashes))
+    _require({p: _sha(raw) for p, raw in prior.items()} == comparison,
+             "first-win predecessor census differs outside exact Korean midgame source")
+    return comparison
 
 
 def _ending_source_comparison(root, proof, hashes):
@@ -1976,8 +2123,8 @@ def _prose_source_comparison(root, proof, hashes):
     """Actual complete census -> the separately preserved471 source census."""
     if proof["prose_before"] is None:
         return dict(hashes)
-    _require(all(hashes.get(path) == _sha(proof["current"][path]) for path in PROSE_KO_PATHS),
-             "recall actual five-source census binding")
+    _require(all(hashes.get(path) == _sha(proof["prose_current"][path]) for path in PROSE_KO_PATHS),
+             "recall immutable five-source census binding after newer inverses")
     comparison = {**hashes, **{path: _sha(proof["prose_before"][path]) for path in PROSE_KO_PATHS}}
     _require(_digest(comparison) == PERSON_RECEIPT_SOURCE_MANIFEST_SHA256,
              "exact pre472 complete source census")
