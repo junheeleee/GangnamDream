@@ -2,9 +2,17 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-08 — 20억 첫 기록의 잔여금 오안내 제거 (480, 한정 GO)
+
+- 25억·30억에서 처음 기록돼도 고정10억이 남았다고 하던 KO/EN만 걷고 JA/CN/TW 새키1씩을 직접 옮겼다. source4→원공식9/collect9→최초3/ledger1을 분리,274/41849→277/41852. 임계/flag/경제/종결/과거저장로그·사전옛값 raw는 보존했다.
+- 준비50(5언어 threshold40/대출5/복원5) 실제PASS·serialized/신호/log/옛sentinel·복원/ending 불변. 최종입력2225 중 비소비원장·CLAUDE2 exact전이와 나머지2223 resource/engine/runner/원로그 동일성으로 제한재사용; CLAUDE는 정본source이므로 새fe4d 후보를 유지한다. 새엔진·자연월말·렌더/입력 주장이 아니다. 집중API6 [('ORDER480_WEALTH_MILESTONE', 124), ('ORDER480_MARKET_WEALTH', 10), ('ORDER480_FACT_WEALTH', 19), ('ORDER480_SOURCE_WEALTH', 9), ('PR31_WEALTH_MILESTONE', 19), ('INVESTMENT_WEALTH_MILESTONE_ADAPTER_SELF_TEST', 34)]·원CLI5+목록1 실제PASS, 새collector0/old77·96·365/240주 반복0.
+- 예약어 parseFAIL cases0, PR31 미소유GS KeyError fresh입장FAIL(공식실행0), official2 ja.export FAIL(main1/collect시도1·유효반환0/receipt0), 관찰비용 때문에 SIGINT한official3(main1/collect진입1·유효반환0/receipt0)을 보존했다. namespace3참조·PR31 UI3/ledger4·sealed480 call 비교/JA retained 정렬을 수리한 뒤 같은50/원공식9 조건을 확인했다. 함수교체0·원명령 안의선택적반환관찰 있음; collect1 추정은 실행전9로 정정했다. 상세SHA·L2·비용경계는 [완료사양](queue_archive/ORDER-480.md).
+- seal1의 원장1-only 추정FAIL/보존true도 남겼다. 새seal2는 CLAUDE2행 typed/directparent/globalpathset/inverse 및 원장전이를 분리하여 actualchecks1과 원로그를 결속했고 PASS/보존true다. 원장typed/prefix3 검수는 checks1에 귀속하며 seal2 신규QA/collector/engine0이다.
+- 비저자 [전수보고](agent_reviews/ORDER-480.json) SHA `1b41dcaa10019acf88708ec4d062844a729762b2442936355f68085841481608` / candidate `fe4d025046d73272d5a763f5e5095b3dea9bc353`가 이 로그 사실·표시·수용만 GO했다. gangnamdream-dev 소유·표적·격리·증거분리를 적용, 새규범0/일회성. 자동검사는 계약 증거이지 재미·깊이·문체 증거가 아니다. 본편HOLD/공개GO1/인간OPEN45·원어민/사람/패드·실제화면·다른이정표는 그대로 남는다.
+
 ## 2026-10-07 — 20억 첫 돌파의 잘못된 잔여 안내를 수리한다 (480, 착수)
 
-- 479 scopedGO·메인 `c1e6177`까지 push한 뒤 [한 로그의 사실 수리](queue_active/ORDER-480.md)를 선언한다. GameState 실제월말20억 도달의 고정10억 잔여만 없애고 JA/CN/TW 새키1씩을 KO직접 옮긴다. 임계/flag/경제/엔딩/이전저장로그·다른이정표는 보존한다. 선언 전 구현/collect/수용/QA/엔진0.
+- 479 scopedGO·메인 `c1e6177`까지 push한 뒤 [한 로그의 사실 수리](queue_archive/ORDER-480.md)를 선언한다. GameState 실제월말20억 도달의 고정10억 잔여만 없애고 JA/CN/TW 새키1씩을 KO직접 옮긴다. 임계/flag/경제/엔딩/이전저장로그·다른이정표는 보존한다. 선언 전 구현/collect/수용/QA/엔진0.
 - source4→공식최초3/ledger1을 분리한다. helper는 정확current/source/census/receipt 역사만 역상하며 옛핀·모집단을 덮지 않는다. 실제원본collect1과 바뀐3잎의 공식각3, 준비5언어·순자산경계/기록완료/대출·복원을 표적으로 한다. 옛365/전체JAUI/240주/전체pipeline 반복0 계획, 과거PASS 재사용과 새실행은 분리한다.
 - 정확소유는 사양이 소유한다. 새JA 초안은 관용표현 に手が届く로 바로잡았으며 원어민 판정으로 쓰지 않는다. 공개GO1·인간OPEN45·본편HOLD·Mac실제관찰 잔여를 보존하고 사용자 잠금해제/재서명 요청0. gangnamdream-dev의 소유·선언·직접번역·표적/독립검수 절차를 적용한다.
 - 구현 전 읽기 검수에서 보존할 옛JA키가 실제 source에서 은퇴하므로 unknown-extra가 되는 소비자를 포착했다. ja_translation_audit의 exact retained1/새 helper반례만 사양에 추가 선언한다. 기존키 삭제·임의extra 허용·대형JAUI 반복0이며 actual old/current·call·원JA값·수용부재를 모두 증명한다. 사전은 실제 하이픈 경로 ui_zh-CN/ui_zh-TW로 소유를 정렬했다.
