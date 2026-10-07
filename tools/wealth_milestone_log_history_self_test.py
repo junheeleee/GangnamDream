@@ -247,6 +247,86 @@ def run_wealth_milestone_checks(root=history.ROOT, inventory=None, ui_inventory=
         with mock.patch.object(history, "fresh_validation_proof", fake):
             entries, errors = ja_audit.wealth_milestone_retained_ja_entries(ui_inventory, actual)
         check(bool(errors) and not entries, "retained independently rejects forged old acceptance")
+
+        import ja_translation_pipeline as pipeline
+        path = history.GAME_STATE_PATH
+        with history.fresh_validation_proof(root) as exact:
+            previous_raw, actual_raw = exact["before"][path], exact["current"][path]
+            previous_calls, actual_calls = pipeline._wealth_milestone_raw_call_views(previous_raw, actual_raw)
+            old_row = next(c for c in previous_calls if c.korean == history.OLD_KEY)
+            new_row = replace(old_row, korean=history.NEW_KEY, english=history.NEW_ENGLISH)
+            check(tuple(new_row if c == old_row else c for c in previous_calls) == actual_calls,
+                  "pure480 call inverse changes only exact KO/EN pair")
+            check(new_row in ui_inventory.calls and not any(c.korean == history.OLD_KEY for c in ui_inventory.calls),
+                  "supplied actual inventory retains current payload")
+            for label, raw in (("rollback", previous_raw), ("neighbor", actual_raw + b"\n"),
+                               ("missing literal", actual_raw.replace(history.NEW_KEY.encode(), b"", 1)),
+                               ("nonbytes", bytearray(actual_raw))):
+                reject(lambda r=raw: pipeline._wealth_milestone_raw_call_views(previous_raw, r),
+                       "pure480 raw boundary " + label)
+            # Keep exact source raw and the real product inverse intact. These
+            #independent parser-result faults exercise tuple guards, not hashes.
+            parse = pipeline._WEALTH_MILESTONE_OLD_PARSE
+            for label in ("missing", "old key", "English", "line", "owner", "parse error"):
+                def altered_parse(relative, text, fault=label):
+                    rows, errors = parse(relative, text)
+                    if relative != path or text.encode() != actual_raw:
+                        return rows, errors
+                    if fault == "parse error":
+                        return rows, [*errors, "injected parser error"]
+                    changed = []
+                    for call in rows:
+                        if call.korean == history.NEW_KEY:
+                            if fault == "missing":
+                                continue
+                            fields = {"old key": {"korean": history.OLD_KEY},
+                                      "English": {"english": history.OLD_ENGLISH},
+                                      "line": {"line": call.line + 1},
+                                      "owner": {"function": "forged_owner"}}[fault]
+                            call = replace(call, **fields)
+                        changed.append(call)
+                    return changed, errors
+                with mock.patch.object(pipeline, "_WEALTH_MILESTONE_OLD_PARSE", altered_parse):
+                    reject(lambda: pipeline._wealth_milestone_raw_call_views(previous_raw, actual_raw),
+                           "pure480 independent parser " + label)
+
+            before470, _ = history._snapshot(root, pipeline.STORY_FACT_PIPELINE_BEFORE_COMMIT, (path,))
+            historical, returned = pipeline._story_fact_call_views(path, before470[path], actual_raw)
+            expected_history, expected_previous = pipeline._WEALTH_MILESTONE_OLD_STORY_FACT_CALL_VIEWS(
+                path, before470[path], previous_raw)
+            check(historical == expected_history and expected_previous == previous_calls and returned == actual_calls,
+                  "same-root original470 seam returns actual480 calls")
+            for label, raw in (("pre480", previous_raw), ("neighbor", actual_raw + b"\n"),
+                               ("nonbytes", bytearray(actual_raw))):
+                reject(lambda r=raw: pipeline._story_fact_call_views(path, before470[path], r),
+                       "story-fact current payload rejects " + label)
+            with mock.patch.object(history, "_snapshot", side_effect=ValueError("missing actual480 object")):
+                reject(lambda: pipeline._story_fact_call_views(path, before470[path], actual_raw),
+                       "story-fact warm missing typed evidence")
+            original_disk = history._disk_bytes
+            with mock.patch.object(history, "_disk_bytes", side_effect=lambda p:
+                                   original_disk(p) + b"\n" if p == Path(root) / path else original_disk(p)):
+                reject(lambda: pipeline._story_fact_call_views(path, before470[path], actual_raw),
+                       "story-fact actual disk differs")
+            other = "autoloads/DataRegistry.gd"
+            other_before, _ = history._snapshot(root, pipeline.STORY_FACT_PIPELINE_BEFORE_COMMIT, (other,))
+            other_current, _ = history._snapshot(root, exact["head"], (other,))
+            check(pipeline._story_fact_call_views(other, other_before[other], other_current[other]) ==
+                  pipeline._WEALTH_MILESTONE_OLD_STORY_FACT_CALL_VIEWS(other, other_before[other], other_current[other]),
+                  "non-GameState original470 delegate unchanged")
+
+        pipeline_raw = history._disk_bytes(Path(root) / "tools/ja_translation_pipeline.py")
+        prior_pipeline = pipeline.wealth_milestone_pipeline_predecessor(pipeline_raw)
+        check(history._sha(prior_pipeline) == pipeline.WEALTH_MILESTONE_PIPELINE_BEFORE_SHA,
+              "sealed480 returns whole immutable predecessor")
+        check(pipeline.market_cycle_pipeline_predecessor(pipeline_raw) ==
+              pipeline._WEALTH_MILESTONE_OLD_MARKET_PREDECESSOR(prior_pipeline), "old478 unwrap chain remains exact")
+        for label, raw in (("old pipeline", prior_pipeline), ("nonbytes", bytearray(pipeline_raw)),
+                           ("appendix", pipeline_raw.replace(b"wealth-milestone GameState inverse differs",
+                                                              b"wealth-milestone forged inverse differs", 1)),
+                           ("prefix", pipeline_raw.replace(b"from __future__ import annotations",
+                                                            b"from __future__ import annotations # forged", 1))):
+            reject(lambda r=raw: pipeline.wealth_milestone_pipeline_predecessor(r), "collector seal " + label)
     check(history._ACTIVE.get() is active, "no cross-invocation success cache")
     return failures, cases
 

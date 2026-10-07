@@ -642,7 +642,7 @@ def wealth_milestone_retained_ja_entries(inventory: UiInventory, actual: Any) ->
                 dynamic, dynamic_errors, _stats = pipeline.collect_dynamic_housing_ui_calls(contract, source)
                 if parse_errors or dynamic_errors:
                     raise ValueError("GameState UI parser errors")
-                return tuple(rows) + tuple(dynamic)
+                return tuple(sorted((*rows, *dynamic), key=lambda c: (c.path, c.line, c.api)))
 
             previous_calls, current_calls = calls(before[path]), calls(current[path])
             key, new_key = history.OLD_KEY, history.NEW_KEY

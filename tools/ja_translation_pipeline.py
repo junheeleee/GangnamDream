@@ -7760,5 +7760,82 @@ collect_ui_inventory = _market_cycle_collect
 _last11_meta_title_historical_checks = _market_cycle_historical_checks
 # END_MARKET_CYCLE_COLLECTOR_478
 
+# BEGIN_WEALTH_MILESTONE_COLLECTOR_480
+WEALTH_MILESTONE_PIPELINE_APPEND_SHA = "eba6357c0d862cd450c69efe149f1bc47d627529b3ccc0b241fbfd260cb76408"
+WEALTH_MILESTONE_PIPELINE_BEFORE_SHA = "ad138f324c77fcbffdb83dce0878fdec3de918812110d21de206d165dbace7b9"
+WEALTH_MILESTONE_PIPELINE_BEFORE_BLOB = "3c7ae90c0c77006d81b581ce991add694c80ec7d"
+WEALTH_MILESTONE_PIPELINE_BEFORE_COMMIT = "42d30615708ef3344a1cad8af0aad7cebe7e6ca7"
+_WEALTH_MILESTONE_OLD_MARKET_PREDECESSOR = market_cycle_pipeline_predecessor
+_WEALTH_MILESTONE_OLD_STORY_FACT_CALL_VIEWS = _story_fact_call_views
+_WEALTH_MILESTONE_OLD_PARSE = parse_ui_calls
+
+
+def wealth_milestone_pipeline_predecessor(raw):
+    """Strip only this sealed comparison seam; older appendices stay exact."""
+    if type(raw) is not bytes or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("wealth-milestone collector raw/import identity differs")
+    start, end = b"# BEGIN_WEALTH_MILESTONE_COLLECTOR_480\n", b"# END_WEALTH_MILESTONE_COLLECTOR_480\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("wealth-milestone collector appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    binding = ('WEALTH_MILESTONE_PIPELINE_APPEND_SHA = "' + WEALTH_MILESTONE_PIPELINE_APPEND_SHA + '"').encode()
+    span = raw[a:z]
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'WEALTH_MILESTONE_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != WEALTH_MILESTONE_PIPELINE_APPEND_SHA:
+        raise ValueError("wealth-milestone collector appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != WEALTH_MILESTONE_PIPELINE_BEFORE_SHA:
+        raise ValueError("wealth-milestone collector whole predecessor differs")
+    blob = _current_demo_git("show", WEALTH_MILESTONE_PIPELINE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
+            != WEALTH_MILESTONE_PIPELINE_BEFORE_BLOB):
+        raise ValueError("wealth-milestone collector immutable predecessor differs")
+    return previous
+
+
+def market_cycle_pipeline_predecessor(raw):
+    return _WEALTH_MILESTONE_OLD_MARKET_PREDECESSOR(wealth_milestone_pipeline_predecessor(raw))
+
+
+def _wealth_milestone_raw_call_views(before, current):
+    """Pure exact480 pair/coordinate check, not a current Git admission."""
+    import wealth_milestone_log_history as successor
+    path = successor.GAME_STATE_PATH
+    if successor.product_inverse(before, current, path) != before:
+        raise ValueError("wealth-milestone GameState inverse differs")
+    parsed = [_WEALTH_MILESTONE_OLD_PARSE(path, raw.decode("utf-8")) for raw in (before, current)]
+    if any(errors for _calls, errors in parsed):
+        raise ValueError("wealth-milestone GameState UI parse differs")
+    ordered = lambda rows: tuple(sorted(rows, key=lambda c: (c.path, c.line, c.api)))
+    previous, actual = (ordered(rows) for rows, _errors in parsed)
+    old = tuple(c for c in previous if c.korean == successor.OLD_KEY)
+    new = tuple(c for c in actual if c.korean == successor.NEW_KEY)
+    if (len(old) != 1 or len(new) != 1 or any(c.korean == successor.NEW_KEY for c in previous)
+            or any(c.korean == successor.OLD_KEY for c in actual)
+            or old[0].path != path or old[0].function != "check_game_over"
+            or old[0].api != "legacy" or old[0].context_id != ""
+            or old[0].english != successor.OLD_ENGLISH
+            or new[0] != _gift_replace(old[0], korean=successor.NEW_KEY, english=successor.NEW_ENGLISH)
+            or tuple(new[0] if c == old[0] else c for c in previous) != actual):
+        raise ValueError("wealth-milestone exact old1/new1 UI payload/order/coordinates differ")
+    return previous, actual
+
+
+def _story_fact_call_views(path, before, current):
+    """The old470 offset proof sees pre480; the collector keeps actual480."""
+    if path != _NEW_RUN_GS:
+        return _WEALTH_MILESTONE_OLD_STORY_FACT_CALL_VIEWS(path, before, current)
+    import wealth_milestone_log_history as successor
+    with successor.fresh_validation_proof(ROOT) as proof:
+        if type(current) is not bytes or current != proof["current"][path]:
+            raise ValueError("wealth-milestone admission requires actual current GameState")
+        previous_raw = proof["before"][path]
+        previous, actual = _wealth_milestone_raw_call_views(previous_raw, current)
+        historical, compared = _WEALTH_MILESTONE_OLD_STORY_FACT_CALL_VIEWS(path, before, previous_raw)
+        if compared != previous:
+            raise ValueError("wealth-milestone old470 call comparison differs")
+    return historical, actual
+# END_WEALTH_MILESTONE_COLLECTOR_480
+
 if __name__ == "__main__":
     sys.exit(main())
