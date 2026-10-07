@@ -82,7 +82,13 @@ release_content_inventory·전체판 분모·Demo/ArcFlow/ScreenshotQA/옛 fixtu
    실제 GameState.check_game_over/add_log를 읽고20억 로그0/1·flag·kind·타로그와
    건강/정신/중독/peak/현금/보유/대출/종결 상태를 대조한다. 준비값·실제결과·복원을
    별도 기록하며 자연 월말·렌더·입력 관찰로 승격하지 않는다. 기존 seed/user 파일 불변.
-3. 실제 collector1회만 수행한다. 바뀐 leaf3의 원래 export/check/import 각3실행을
+3. [첫 실행 재조정] 원 main은 모든 command마다 collect를 호출하며 재사용 인자나
+   다중locale API가 없다(`tools/full_game_localization.py:4250`). collector1과 원main9,
+   owner후킹0을 동시에 요구한 착수 추정을 고친다. 후킹·원함수 교체0을 우선해
+   원 export3 → check3 → import3의 actual collector9를 수행하며 별도collector0이다.
+   같은 invocation의 실제 반환을 관찰해 census213/leafID와 현재입력에 결속하고
+   collector1 실행 또는 원CLI9와 다른 축약 API로 보고하지 않는다.
+   바뀐 leaf3의 원래 export/check/import 각3실행을
    source별 입력 지문과 같은 invocation의 원본 fresh 가드로 결속한다. owner 함수
    후킹/입장·종료 생략/가짜공식영수증0. 새FAIL은 수리 뒤 같은조건으로 검증한다.
 4. en_coverage/english_hangul 및 actual 소유 소비자·source/receipt/census seam만
