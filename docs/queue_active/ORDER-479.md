@@ -21,7 +21,7 @@
 - order469_history 작성2: `tools/market_cycle_label_history.py`와
   `tools/market_cycle_label_history_self_test.py`. 선언 뒤 root의 원본 baseline 측정,
   병목·안전 설계 확정 메시지를 받은 뒤에만 구현한다.
-- root: private `.git/` 원본 cProfile/표적 실행 wrapper와 원로그·입력 지문·실패 기록,
+- root: CLAUDE.md 현재 상태행, private `.git/` 원본 cProfile/표적 실행 wrapper와 원로그·입력 지문·실패 기록,
   큐·L3 순번·이 사양/완료 archive·WORK_LOG·생성 STATUS·agent_review_decisions.
 - order469_review: 읽기 전용 설계·변조 경계 검토. 파일 편집/QA/엔진0.
 - 비저자 order469_main: 최종 source commit/tree·원문2·원본 before/after 비용·표적
