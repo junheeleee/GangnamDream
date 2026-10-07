@@ -4329,7 +4329,7 @@ func check_game_over():
 		add_log(LocaleManager.ui("💰 자산 10억 돌파 — 30억의 3분의 1. 이제부터 가속이 붙는다.", "💰 Assets passed KRW 1B — one third of the goal. Acceleration starts now."), "money")
 	if total_now >= 2_000_000_000 and not flags.get("asset_2b_reached", false):
 		flags["asset_2b_reached"] = true
-		add_log(LocaleManager.ui("🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다. 남은 건 10억.", "🔥 Assets passed KRW 2B — Gangnam feels close. KRW 1B left."), "money")
+		add_log(LocaleManager.ui("🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다.", "🔥 Assets passed KRW 2B — Gangnam feels close."), "money")
 	if total_now >= 2_700_000_000 and not flags.get("asset_2_7b_reached", false):
 		flags["asset_2_7b_reached"] = true
 		add_log(LocaleManager.ui("🔥 자산 27억 — 마지막 고비다. 강남 입성이 코앞이다.", "🔥 Assets reached KRW 2.7B — the final wall. Gangnam is right there."), "money")
