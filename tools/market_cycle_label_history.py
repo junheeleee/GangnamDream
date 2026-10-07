@@ -222,7 +222,8 @@ def product_inverse(before, after, path):
     return _source_semantics(before, after, path)
 
 
-def _ledger_inverse(before, after):
+def _validated_ledger_documents(before, after):
+    """Return fresh documents only after the complete raw inverse passes."""
     old, new = _Document(before), _Document(after)
     a, b = old.value, new.value
     _require(len(a["batches"]) == 273 and len(b["batches"]) == 274
@@ -257,6 +258,11 @@ def _ledger_inverse(before, after):
     for x, y, literal in sorted(replacements, reverse=True):
         restored = restored[:x] + literal + restored[y:]
     _require(restored.encode() == before, "ledger raw outside owned first receipt/append changed")
+    return old, new
+
+
+def _ledger_inverse(before, after):
+    _validated_ledger_documents(before, after)
     return before
 
 
@@ -265,8 +271,8 @@ def _receipt_semantics(before, after):
     _require(all(before[p] == after[p] for p in PATHS if p != LEDGER_PATH)
              and (_sha(before[LEDGER_PATH]), _sha(after[LEDGER_PATH])) == RECEIPT_RAW_SHA256,
              "ledger-only receipt raw binding")
-    _ledger_inverse(before[LEDGER_PATH], after[LEDGER_PATH])
-    old, new = _loads(before[LEDGER_PATH]), _loads(after[LEDGER_PATH])
+    old_document, new_document = _validated_ledger_documents(before[LEDGER_PATH], after[LEDGER_PATH])
+    old, new = old_document.value, new_document.value
     _require(old.get("schema_version") == 1 and old.get("prompt_version") == "full-ko-direct-2026-09-07.1"
              and old.get("native_review") == "OPEN", "original receipt schema/native/prompt")
     source_hash = _digest({"path": "runtime:static_ui", "field": (SOURCE_KEY,), "ko": SOURCE_KEY})

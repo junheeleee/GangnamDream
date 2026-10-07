@@ -12,6 +12,59 @@ from unittest import mock
 import market_cycle_label_history as history
 
 
+def run_ledger_document_checks(before, after):
+    """Pure479 controls for call-local parsing; no cached or supplied documents."""
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER479 ledger documents: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    original = (dict(before), dict(after))
+    prior, current = before[history.LEDGER_PATH], after[history.LEDGER_PATH]
+    documents = history._validated_ledger_documents(prior, current)
+    check(type(documents) is tuple and len(documents) == 2
+          and all(type(doc) is history._Document for doc in documents)
+          and tuple(doc.text.encode() for doc in documents) == (prior, current),
+          "two documents retain the actual raw pair")
+    values = (history._loads(prior), history._loads(current))
+    check(tuple(doc.value for doc in documents) == values, "values equal independent strict parsing")
+    restored = history._ledger_inverse(prior, current)
+    check(type(restored) is bytes and restored is prior, "public inverse still returns the original bytes")
+    revision = history._receipt_semantics(before, after)
+    check(type(revision) is str and revision == history.RECEIPT_PARENT, "receipt still returns only export revision")
+    documents[0].value.clear()
+    documents[1].spans.clear()
+    fresh = history._validated_ledger_documents(prior, current)
+    check(all(fresh[i] is not documents[i] and fresh[i].value is not documents[i].value
+              and fresh[i].spans is not documents[i].spans for i in range(2))
+          and tuple(doc.value for doc in fresh) == values and bool(fresh[1].spans)
+          and (before, after) == original, "documents never alias another call or actual inputs")
+    for function in (history._validated_ledger_documents, history._ledger_inverse):
+        for label, args in (("parsed before", (values[0], current)),
+                            ("Document after", (prior, fresh[1])),
+                            ("supplied parsed shortcut", (prior, current, fresh)),
+                            ("malformed raw", (prior, b'{"')),
+                            ("neighbor raw", (prior, current + b"\n"))):
+            reject(lambda fn=function, a=args: fn(*a), function.__name__ + " rejects " + label)
+        reject(lambda fn=function: fn(prior, current, skip_validation=True),
+               function.__name__ + " rejects validation bypass keyword")
+    for label, a, b in (("parsed before", {**before, history.LEDGER_PATH: values[0]}, after),
+                        ("Document after", before, {**after, history.LEDGER_PATH: fresh[1]})):
+        reject(lambda x=a, y=b: history._receipt_semantics(x, y), "receipt rejects " + label)
+    return failures, cases
+
+
 def run_market_cycle_checks(root=history.ROOT, inventory=None):
     failures, cases = [], 0
 
@@ -91,6 +144,9 @@ def run_market_cycle_checks(root=history.ROOT, inventory=None):
             check(current == source and history.RECEIPT_COMMIT is None, "unbound receipt remains source-only")
             reject(lambda: history._receipt_semantics(source, source), "unbound acceptance cannot pass")
         else:
+            document_failures, document_cases = run_ledger_document_checks(source, receipts)
+            failures.extend(document_failures)
+            cases += document_cases
             check({p for p in source if source[p] != receipts[p]} == {history.LEDGER_PATH}, "separate ledger1 stage")
             check(history._receipt_semantics(source, receipts) == history.RECEIPT_PARENT, "exact official first1")
             check(history._ledger_inverse(source[history.LEDGER_PATH], receipts[history.LEDGER_PATH]) == source[history.LEDGER_PATH],
