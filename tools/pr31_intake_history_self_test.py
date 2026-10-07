@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import contextlib
 import hashlib
 import json
 import sys
@@ -855,7 +856,7 @@ def run_night_metadata_checks():
         successor, path = history.fact_successor, history.INVENTORY_PATH
         check(proof["night_metadata"] is not None and proof["current"][path] != proof["night_current"][path],
               "actual metadata separate from immutable six-receipt endpoint")
-        check(all(proof["current"][p] == proof["night_current"][p] for p in proof["current"]
+        check(all(proof["pre_first_loss_successor"][p] == proof["night_current"][p] for p in proof["current"]
                   if p not in successor.NIGHT_METADATA_PATHS), "only exact two metadata files follow receipts")
         check(history.release_inventory_predecessor(proof["current"][path]) == proof["before"][path],
               "current inventory composes through all old exact inverses")
@@ -872,6 +873,94 @@ def run_night_metadata_checks():
     return failures, cases
 
 
+def run_first_loss_checks(root=history.ROOT, inventory=None):
+    """476 final Main admission, with every historical receipt endpoint intact."""
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("PR31 first-loss source: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    outer = history._ACTIVE.get()
+    with history.fresh_validation_proof(root) as proof:
+        source, path = history.source_successor, history.source_successor.MAIN_PATH
+        old, actual = proof["pre_first_loss_successor"], proof["current"]
+        check(source._sha(actual[path]) == source.FIRST_LOSS_RAW_SHA256[1], "final Main is actual476")
+        check(source._sha(old[path]) == source.FIRST_LOSS_RAW_SHA256[0], "pre476 stays immutable469 Main")
+        check({p for p in actual if actual[p] != old[p]} == {path}, "Main-only final transition")
+        check(source.first_loss_predecessor(actual[path], root) == old[path], "final Main inverse is separately proved")
+        for stage in ("pre_fact_successor", "fact_current", "person_current", "prose_current",
+                      "ending_current", "first_win_current", "night_current", "night_metadata"):
+            check(proof[stage][path] == old[path], "historical Main is unchanged: " + stage)
+        check(actual[history.LEDGER_PATH] == old[history.LEDGER_PATH], "no new or corrected receipt")
+        check(all(actual[p] == old[p] for p in history.PROTECTED_PATHS if p != path),
+              "non-Main protected raws unchanged")
+        check(all(actual[p] == old[p] for p in history.CURRENT_UI_PATHS), "UI and ledger four raws unchanged")
+        check(history.current_content_raw(root) == {p: actual[p] for p in history.CURRENT_CONTENT_PATHS},
+              "runtime content reads actual current payloads")
+        ledger = history._loads(actual[history.LEDGER_PATH])
+        check(len(ledger["batches"]) == 270 and sum(len(v) for v in ledger["accepted"].values()) == 41848,
+              "existing270 batches and41848 accepted keys unchanged")
+        transitions = history.receipt_transitions(root, {})
+        check(all(row[0] != source.FIRST_LOSS_COMMIT for row in transitions), "476 cannot become a receipt stage")
+        check(len(history.CONTENT_PATHS) == 71 and len(history.SOURCE_PATHS) == 15,
+              "old71 content and partial15 source populations retained")
+        small_hashes = {p: history._sha(actual[p]) for p in history.SOURCE_PATHS}
+        small = {"source_hashes": small_hashes, "source_manifest_sha256": history._digest(small_hashes)}
+        result = history.source_predecessor_inventory(root, small)
+        check(result["source_hashes"] == {p: history._sha(proof["before"][p]) for p in history.SOURCE_PATHS},
+              "partial15 comparison remains supported")
+        if inventory is None:
+            from full_game_localization import collect
+            inventory = collect(root)
+        untouched = copy.deepcopy(inventory)
+        stages = history.source_stage_manifest_digests(root, inventory)
+        check({inventory["source_manifest_sha256"], source.FIRST_LOSS_PREDECESSOR_CENSUS,
+               history.CURRENT_SOURCE_MANIFEST_SHA256} <= stages,
+              "actual476, immutable475 census and original e300 coexist")
+        check(inventory["source_manifest_sha256"] != source.FIRST_LOSS_PREDECESSOR_CENSUS,
+              "current source identity is not the old receipt identity")
+        comparison = history.source_predecessor_inventory(root, inventory)
+        check(comparison["source_hashes"][path] == source._sha(actual[path]),
+              "UI history receives actual Main until its own Main inverse")
+        check(inventory == untouched, "consumer census remains current and unmodified")
+        for label, value in (("old Main", source.FIRST_LOSS_RAW_SHA256[0]), ("forged Main", "0" * 64)):
+            bad = copy.deepcopy(inventory)
+            bad["source_hashes"][path] = value
+            bad["source_manifest_sha256"] = history._digest(bad["source_hashes"])
+            reject(lambda v=bad: history.source_stage_manifest_digests(root, v), "rehashed " + label)
+        import main_game_locale_history as main_history
+        with main_history.fresh_main_validation_proof(root):
+            views = main_history._ending_father_proof(actual[path], root)
+            old_views = main_history._investment_ap_proof(actual[path], root)
+            check(len(views) == 14 and len(old_views) == 13 and views[1:] == old_views,
+                  "Main original fourteen/thirteen return meanings unchanged")
+            reject(lambda: main_history._ending_father_proof(old[path], root), "old Main cannot enter current consumer")
+            reject(lambda: main_history._ending_father_proof(actual[path] + b"\n", root), "mutated Main consumer")
+
+    # An invented helper result must still fail the final actual typed snapshot.
+    with history.source_successor.fresh_validation_proof(root) as source_proof:
+        forged = copy.deepcopy(source_proof)
+    forged["current"][path] = old[path]
+    @contextlib.contextmanager
+    def forged_source(_root=history.ROOT):
+        yield forged
+    with mock.patch.object(history.source_successor, "fresh_validation_proof", forged_source):
+        reject(lambda: history._read_proof(root), "forged successor cannot bypass final actual Main")
+    check(history._ACTIVE.get() is outer, "proof identity restored without cross-call cache")
+    return failures, cases
+
+
 def main():
     person_only = sys.argv[1:] == ["--person-self-test"]
     prose_only = sys.argv[1:] == ["--prose-self-test"]
@@ -880,11 +969,12 @@ def main():
     first_win_only = sys.argv[1:] == ["--first-win-only"]
     night_only = sys.argv[1:] == ["--night-routine-only"]
     night_metadata_only = sys.argv[1:] == ["--night-metadata-only"]
-    failures, cases = (run_night_metadata_checks() if night_metadata_only else run_night_routine_checks() if night_only else run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
+    loss_only = sys.argv[1:] == ["--first-loss-only"]
+    failures, cases = (run_first_loss_checks() if loss_only else run_night_metadata_checks() if night_metadata_only else run_night_routine_checks() if night_only else run_first_win_checks() if first_win_only else run_ending_facts_checks() if ending_only else run_prose_metadata_checks() if metadata_only else run_prose_checks() if prose_only
                        else run_person_checks() if person_only else run())
     for error in failures:
         print(error, file=sys.stderr)
-    label = ("PR31_NIGHT_METADATA" if night_metadata_only else "PR31_NIGHT_ROUTINE" if night_only else "PR31_FIRST_WIN" if first_win_only else "PR31_ENDING_FACTS" if ending_only else "PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
+    label = ("PR31_FIRST_LOSS" if loss_only else "PR31_NIGHT_METADATA" if night_metadata_only else "PR31_NIGHT_ROUTINE" if night_only else "PR31_FIRST_WIN" if first_win_only else "PR31_ENDING_FACTS" if ending_only else "PR31_PROSE_METADATA" if metadata_only else "PR31_PROSE_SUCCESSOR" if prose_only
              else "PR31_PERSON_SUCCESSOR" if person_only else "PR31_INTAKE_HISTORY")
     print(f"{label}_{'FAIL' if failures else 'OK'} cases={cases} current_files=71 native_review=OPEN")
     return int(bool(failures))

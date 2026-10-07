@@ -46,6 +46,40 @@ RAW_SHA256 = {
 }
 _ACTIVE = contextvars.ContextVar("order469_source_proof", default=None)
 
+# A separate source-only Main successor. The seven-file retirement and its
+# immutable before/after dictionaries retain their original meaning.
+FIRST_LOSS_PARENT = "53b885d66af93532b5c5a3117795be16cbe7e288"
+FIRST_LOSS_COMMIT = "54bda08d1c0ec1472b3cf1805703f84e1f533428"
+FIRST_LOSS_RAW_SHA256 = ("95ccd483779f7a2431f04b650b2c44dbfec8ca06fafb8ef5e7f930eaf65f7751",
+                         "c04f986d7fca16fa1e1023dc90801af373398ce4e94b3baca35ee19e2350bff1")
+FIRST_LOSS_PREDECESSOR_CENSUS = "90d88b6fe55939264625f49a36bfdc8ff7d10f93c7cd53b85a394f20f911cc05"
+FIRST_LOSS_OLD_LINE = b"\t\t\tand GameState.investment_skill >= 5 \\\n"
+FIRST_LOSS_NEW_LINE = b"\t\t\tand GameState.investment_skill >= 5 and _has_current_investment_loss() \\\n"
+FIRST_LOSS_APPEND = b'''
+func _has_current_investment_loss() -> bool:
+\t# Read the live holding and quote only; experience or an old loss is not enough.
+\tfor asset_id in GameState.portfolio:
+\t\tif DataRegistry.get_asset(asset_id).is_empty():
+\t\t\tcontinue
+\t\tvar holding: Variant = GameState.portfolio[asset_id]
+\t\tif not holding is Dictionary or not GameState.market_prices.has(asset_id):
+\t\t\tcontinue
+\t\tvar quantity: Variant = holding.get("quantity", null)
+\t\tvar average: Variant = holding.get("avg_price", null)
+\t\tvar price: Variant = GameState.market_prices[asset_id]
+\t\tvar valid := true
+\t\tfor value in [quantity, average, price]:
+\t\t\tif (typeof(value) != TYPE_INT and typeof(value) != TYPE_FLOAT):
+\t\t\t\tvalid = false
+\t\t\t\tbreak
+\t\t\tif not is_finite(float(value)) or float(value) <= 0.0:
+\t\t\t\tvalid = false
+\t\t\t\tbreak
+\t\tif valid and float(price) < float(average):
+\t\t\treturn true
+\treturn false
+'''
+
 
 def _require(ok, message):
     if not ok:
@@ -54,6 +88,22 @@ def _require(ok, message):
 
 def _sha(raw):
     return hashlib.sha256(raw).hexdigest()
+
+
+def _disk_bytes(path):
+    # Historical Path views are comparison inputs, not physical-disk evidence.
+    with open(path, "rb") as handle:
+        return handle.read()
+
+
+def _configuration():
+    return (PRODUCT_PARENT, PRODUCT_COMMIT, PRODUCT_PATHS, SOURCE_PATHS,
+            copy.deepcopy(RAW_SHA256), RETIRED_IDS, PR31_SOURCE_MANIFEST_SHA256,
+            FIRST_LOSS_PARENT, FIRST_LOSS_COMMIT, FIRST_LOSS_RAW_SHA256,
+            FIRST_LOSS_PREDECESSOR_CENSUS, FIRST_LOSS_OLD_LINE,
+            FIRST_LOSS_NEW_LINE, FIRST_LOSS_APPEND,
+            tuple((fn, fn.__code__) for fn in (_git, _objects, _snapshot,
+                  _disk_bytes, product_inverse, first_loss_inverse, _read_proof)))
 
 
 def _digest(value):
@@ -199,8 +249,26 @@ def product_inverse(before, after, path):
     return before
 
 
+def first_loss_inverse(before, after, path=MAIN_PATH):
+    """Exact one-line ingress plus the UI-free EOF predicate; comparison only."""
+    _require(path == MAIN_PATH and type(before) is bytes and type(after) is bytes
+             and (_sha(before), _sha(after)) == FIRST_LOSS_RAW_SHA256,
+             "first-loss unapproved raw pair/path")
+    _require(before.count(FIRST_LOSS_OLD_LINE) == 1
+             and FIRST_LOSS_NEW_LINE not in before and FIRST_LOSS_APPEND not in before
+             and after.count(FIRST_LOSS_NEW_LINE) == 1
+             and after.count(FIRST_LOSS_APPEND) == 1 and after.endswith(FIRST_LOSS_APPEND)
+             and before.replace(FIRST_LOSS_OLD_LINE, FIRST_LOSS_NEW_LINE, 1)
+                 + FIRST_LOSS_APPEND == after,
+             "first-loss changes outside the exact ingress and EOF predicate")
+    return before
+
+
 def _read_proof(root):
     root = Path(root).resolve()
+    module = Path(__file__).resolve()
+    _require(module == root / "tools/order469_source_compat.py", "source proof module/root identity")
+    module_raw, configuration = _disk_bytes(module), _configuration()
     head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
     before, _ = _snapshot(root, PRODUCT_PARENT, PRODUCT_PATHS)
     after, headers = _snapshot(root, PRODUCT_COMMIT, PRODUCT_PATHS)
@@ -213,17 +281,33 @@ def _read_proof(root):
     _require(set(RAW_SHA256) == set(PRODUCT_PATHS), "complete raw pin population")
     for path in PRODUCT_PATHS:
         product_inverse(before[path], after[path], path)
+    loss_before, _ = _snapshot(root, FIRST_LOSS_PARENT, (MAIN_PATH,))
+    loss_after, loss_headers = _snapshot(root, FIRST_LOSS_COMMIT, (MAIN_PATH,))
+    _require([h[7:].decode() for h in loss_headers if h.startswith(b"parent ")] == [FIRST_LOSS_PARENT],
+             "first-loss exact direct parent")
+    _require(_git(root, "diff", "--name-status", "-z", FIRST_LOSS_PARENT, FIRST_LOSS_COMMIT)
+             == b"M\0" + MAIN_PATH.encode() + b"\0", "first-loss exact Main-only pathset")
+    _git(root, "merge-base", "--is-ancestor", PRODUCT_COMMIT, FIRST_LOSS_PARENT)
+    _git(root, "merge-base", "--is-ancestor", FIRST_LOSS_COMMIT, head)
+    _require(first_loss_inverse(loss_before[MAIN_PATH], loss_after[MAIN_PATH]) == after[MAIN_PATH],
+             "first-loss predecessor differs from immutable469 Main")
     actual, _ = _snapshot(root, head, PRODUCT_PATHS)
     import order470_source_compat as later
     with later.fresh_validation_proof(root) as successor:
         comparison = dict(actual)
+        _require(actual[MAIN_PATH] == loss_after[MAIN_PATH], "first-loss current HEAD Main differs")
+        comparison[MAIN_PATH] = first_loss_inverse(loss_before[MAIN_PATH], actual[MAIN_PATH])
         for path in set(PRODUCT_PATHS) & set(later.PRODUCT_PATHS):
             _require(actual[path] == successor["current"][path], "later actual product binding")
             comparison[path] = successor["before"][path]
     _require(comparison == after, "current HEAD product differs from exact source successors")
-    _require(all((root / p).read_bytes() == raw for p, raw in actual.items()), "current disk differs from Git")
-    return {"root": root, "head": head, "before": before, "after": after,
-            "binding": (PRODUCT_PARENT, PRODUCT_COMMIT, PRODUCT_PATHS, dict(RAW_SHA256))}
+    _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "current disk differs from Git")
+    _require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head
+             and _disk_bytes(module) == module_raw and _configuration() == configuration,
+             "HEAD/module/configuration changed during source proof")
+    return {"root": root, "head": head, "before": before, "after": after, "current": actual,
+            "first_loss_before": loss_before, "first_loss_after": loss_after,
+            "binding": configuration, "module_raw": module_raw}
 
 
 @contextlib.contextmanager
@@ -246,8 +330,15 @@ def fresh_validation_proof(root=ROOT):
 
 def main_predecessor(raw, root=ROOT):
     with fresh_validation_proof(root) as proof:
-        _require(raw == proof["after"][MAIN_PATH], "current Main raw differs")
+        _require(type(raw) is bytes and raw == proof["current"][MAIN_PATH], "current Main raw differs")
         return proof["before"][MAIN_PATH]
+
+
+def first_loss_predecessor(raw, root=ROOT):
+    """Actual476 -> immutable post469 Main, never a runtime source replacement."""
+    with fresh_validation_proof(root) as proof:
+        _require(type(raw) is bytes and raw == proof["current"][MAIN_PATH], "first-loss actual Main raw differs")
+        return proof["first_loss_before"][MAIN_PATH]
 
 
 def source_predecessor_inventory(root, inventory):
@@ -255,16 +346,36 @@ def source_predecessor_inventory(root, inventory):
     with fresh_validation_proof(root) as proof:
         import order470_source_compat as later
         actual_hashes = inventory["source_hashes"]
-        prior = later.source_predecessor_inventory(root, inventory)
-        hashes = prior["source_hashes"]
-        _require(isinstance(hashes, dict) and _digest(hashes) == prior["source_manifest_sha256"],
-                 "current census digest")
+        _require(type(actual_hashes) is dict and _digest(actual_hashes) == inventory["source_manifest_sha256"]
+                 and actual_hashes.get(MAIN_PATH) == _sha(proof["current"][MAIN_PATH]), "current census digest/Main")
+        # Prove the entire real population before projecting one comparison
+        # hash. Passing a historical census to470's current API would be false.
+        actual, _ = _snapshot(root, proof["head"], tuple(actual_hashes))
+        _require({p: _sha(raw) for p, raw in actual.items()} == actual_hashes
+                 and all(_disk_bytes(Path(root) / p) == raw for p, raw in actual.items()),
+                 "complete current Git/disk source binding")
+        hashes = {**actual_hashes, MAIN_PATH: _sha(proof["first_loss_before"][MAIN_PATH])}
+        parent, _ = _snapshot(root, FIRST_LOSS_PARENT, tuple(hashes))
+        _require({p: _sha(raw) for p, raw in parent.items()} == hashes
+                 and _digest(hashes) == FIRST_LOSS_PREDECESSOR_CENSUS,
+                 "first-loss exact whole predecessor census")
+        with later.fresh_validation_proof(root) as successor:
+            _require(all(hashes.get(p) == _sha(successor["current"][p]) for p in later.SOURCE_PATHS),
+                     "current470 source binding before historical comparisons")
+            # Reuse470's unchanged, pinned comparison sequence only; no new
+            # Main ownership, bypass flag, or current-input exception there.
+            for compare in (later._night_source_comparison, later._first_win_source_comparison,
+                            later._ending_source_comparison, later._prose_source_comparison,
+                            later._person_source_comparison):
+                hashes = compare(root, successor, hashes)
+            hashes = {**hashes, **{p: _sha(successor["before"][p]) for p in later.SOURCE_PATHS}}
+            _require(_digest(hashes) == later.PREDECESSOR_SOURCE_MANIFEST_SHA256,
+                     "exact pre470 complete source census")
         _require(all(hashes.get(path) == _sha(proof["after"][path]) for path in SOURCE_PATHS),
                  "current census source-only raw binding")
         comparison = {**hashes, **{path: _sha(proof["before"][path]) for path in SOURCE_PATHS}}
         _require(_digest(comparison) == PR31_SOURCE_MANIFEST_SHA256, "exact PR31 predecessor census")
-        actual, _ = _snapshot(root, proof["head"], tuple(actual_hashes))
-        _require({p: _sha(raw) for p, raw in actual.items()} == actual_hashes
-                 and all((Path(root) / p).read_bytes() == raw for p, raw in actual.items()),
-                 "complete current Git/disk source binding")
+        final, _ = _snapshot(root, proof["head"], tuple(actual_hashes))
+        _require(final == actual and all(_disk_bytes(Path(root) / p) == raw for p, raw in actual.items()),
+                 "complete current source changed during comparison")
         return {**inventory, "source_hashes": comparison, "source_manifest_sha256": _digest(comparison)}

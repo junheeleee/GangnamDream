@@ -456,6 +456,7 @@ def _read_proof(root=ROOT):
         _require(successor_before == pre_source_successor, "source successor predecessor differs from PR31")
         current = {**current, **{path: successor["after"][path]
                    for path in paths if path in source_successor.PRODUCT_PATHS}}
+        actual_main = successor["current"][source_successor.MAIN_PATH]
     pre_fact_successor = current
     with fact_successor.fresh_validation_proof(root) as successor:
         _require(successor["head"] == head, "fact successor HEAD differs")
@@ -509,6 +510,10 @@ def _read_proof(root=ROOT):
                            for path in paths if path in successor["night_metadata"]}})
         current = {**current, **{path: successor["current"][path]
                    for path in paths if path in successor["current"]}}
+    # Every469..475 stage above remains its immutable historical endpoint.
+    # Only the final current view receives the separately proved476 Main.
+    pre_first_loss_successor = current
+    current = {**current, source_successor.MAIN_PATH: actual_main}
     actual, _ = _snapshot(root, head, paths)
     _require(actual == current, "current HEAD product differs from approved intake/receipt repair")
     for path in paths:
@@ -526,7 +531,7 @@ def _read_proof(root=ROOT):
             "first_win_initial": first_win_initial,
             "first_win_source": first_win_source, "first_win_current": first_win_current,
             "pre_night_successor": pre_night_successor, "night_source": night_source, "night_current": night_current,
-            "night_metadata": night_metadata}
+            "night_metadata": night_metadata, "pre_first_loss_successor": pre_first_loss_successor}
 
 
 def _successor_snapshot(root, predecessor, commit, head, before, changed_paths):
@@ -644,6 +649,9 @@ def source_stage_manifest_digests(root, inventory):
                 manifests.add(fact_successor.ENDING_RECEIPT_SOURCE_MANIFEST_SHA256)
             if proof["night_source"] is not None:
                 manifests.add(fact_successor.FIRST_WIN_RECEIPT_SOURCE_MANIFEST_SHA256)
+            # The complete476 -> pre476 census was just independently proved
+            # by source_successor. This is a source-only stage, not a receipt.
+            manifests.add(source_successor.FIRST_LOSS_PREDECESSOR_CENSUS)
             for stage, revision in (("before", INTAKE_PARENT), ("after", INTAKE_COMMIT),
                                     ("second", SECOND_COMMIT), ("third_source", THIRD_SOURCE_COMMIT)):
                 if revision is None:

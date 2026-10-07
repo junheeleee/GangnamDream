@@ -17,7 +17,7 @@
 사용: python3 tools/arc_flow_sim.py [--verbose]
 종료코드: 잼이 1건이라도 있으면 1, 아니면 0.
 """
-import re, json, glob, sys, os
+import re, json, glob, sys, os, math
 
 from event_schedule import deferred_follow_ups
 from story_choice_fact_audit import (
@@ -26,6 +26,8 @@ from story_choice_fact_audit import (
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
+with open("content/assets.json", encoding="utf-8") as asset_file:
+    ASSET_IDS = frozenset(row["id"] for row in json.load(asset_file))
 VERBOSE = "--verbose" in sys.argv
 BRIDGE_EVENTS = {
     "arc_money_check_low",
@@ -283,6 +285,7 @@ class State:
         s.money = 500000; s.investment_skill = 0; s.job_tenure = 0
         s.player_route = "직장형"; s.moral_tint = 0
         s.housing = "gosiwon"; s.current_job = Job(); s.nav = 500000
+        s.portfolio = {}; s.market_prices = {}
         s.deferred_events = []
         s.chapter5_receipts = {}
         s.chapter5_order = []
@@ -298,6 +301,17 @@ class State:
                   ["sangchul", "daeun", "jiyeon", "jaehyuk", "father", "hyunsu"]}
 
     def get_total_asset_value(s): return s.nav
+    def has_current_investment_loss(s):
+        for asset_id, holding in s.portfolio.items():
+            if asset_id not in ASSET_IDS or type(holding) is not dict \
+                    or asset_id not in s.market_prices:
+                continue
+            values = (holding.get("quantity"), holding.get("avg_price"),
+                      s.market_prices[asset_id])
+            if all(type(value) in (int, float) and math.isfinite(value)
+                   and value > 0 for value in values) and values[2] < values[1]:
+                return True
+        return False
     def get_cast_affinity(s, n): return s.cast.get(n, {}).get("aff", 0)
     def get_cast_stage(s, n): return s.cast.get(n, {}).get("stage", "none")
     def cast_has_flag(s, n, fl): return fl in s.cast.get(n, {}).get("flags", set())
@@ -737,6 +751,7 @@ def evalconds(conds, S):
             if not bool(eval(c, {
                 "S": S,
                 "father_is_passed": father_death_is_monotonic(S),
+                "_has_current_investment_loss": S.has_current_investment_loss,
                 "_chapter5_general_w220_reserves_generic": (
                     lambda at_turn: int(at_turn) <= 220
                     and S.chapter5_general_finale_w220_available(220)
@@ -915,6 +930,10 @@ def traj_A(S):
                   (100, 4e8), (150, 1e9), (190, 2e9), (210, 2.6e9), (235, 3e9)]:
         if t >= tt: S.nav = v
     if t >= 15: S.investment_skill = min(40, t - 10)
+    if t == 15:
+        # Explicit prepared holding, not a claim of a simulated trade history.
+        S.portfolio = {"samsung": {"quantity": 1.0, "avg_price": 70000.0}}
+        S.market_prices = {"samsung": 63000.0}
     if t >= 10:
         S.cast["sangchul"]["aff"] = min(70, (t - 10) * 2)
     if t >= 9: S.cast["daeun"]["aff"] = min(30, t - 9)
@@ -936,6 +955,10 @@ def traj_B(S):
                   (100, 8e8), (150, 1.5e9), (190, 2.3e9), (215, 2.7e9), (232, 3.1e9)]:
         if t >= tt: S.nav = v
     if t >= 15: S.investment_skill = min(60, t - 8)
+    if t == 15:
+        # Explicit prepared holding, not a claim of a simulated trade history.
+        S.portfolio = {"samsung": {"quantity": 1.0, "avg_price": 70000.0}}
+        S.market_prices = {"samsung": 63000.0}
     if t >= 10:
         S.cast["sangchul"]["aff"] = min(80, (t - 10) * 2)
     if t >= 9: S.cast["daeun"]["aff"] = min(70, t - 9)

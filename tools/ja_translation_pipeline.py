@@ -7547,5 +7547,55 @@ def _new_run_log_raw_view(source=None):
         return current, ["story-fact UI admission: " + str(exc)]
 # END_STORY_FACT_COLLECTOR_470
 
+# BEGIN_FIRST_LOSS_COLLECTOR_476
+FIRST_LOSS_PIPELINE_APPEND_SHA = "a4c609ad8d1eee55a60c52a15d78371213ba4ba246aff01a8d9a174be1348a50"
+FIRST_LOSS_PIPELINE_BEFORE_SHA = "4635f196993ff6cc8dadb7f11225570558bbb2970d269fe5c54be97190d42bfa"
+FIRST_LOSS_PIPELINE_BEFORE_BLOB = "a50ba4754fd9c0aa6c0c941d0dbab1ff8d1651c8"
+FIRST_LOSS_PIPELINE_BEFORE_COMMIT = "54bda08d1c0ec1472b3cf1805703f84e1f533428"
+_FIRST_LOSS_OLD_MODAL_PREDECESSOR = modal_pipeline_predecessor
+_FIRST_LOSS_OLD_CHAPTER_FOUR_CALL_OFFSETS = _chapter_four_call_offsets
+
+
+def first_loss_pipeline_predecessor(raw):
+    """Remove only this sealed coordinate adapter, preserving all older pins."""
+    if type(raw) is not bytes or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("first-loss collector raw/import identity differs")
+    start, end = b"# BEGIN_FIRST_LOSS_COLLECTOR_476\n", b"# END_FIRST_LOSS_COLLECTOR_476\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("first-loss collector appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    binding = ('FIRST_LOSS_PIPELINE_APPEND_SHA = "' + FIRST_LOSS_PIPELINE_APPEND_SHA + '"').encode()
+    span = raw[a:z]
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'FIRST_LOSS_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != FIRST_LOSS_PIPELINE_APPEND_SHA:
+        raise ValueError("first-loss collector appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != FIRST_LOSS_PIPELINE_BEFORE_SHA:
+        raise ValueError("first-loss collector whole predecessor differs")
+    blob = _current_demo_git("show", FIRST_LOSS_PIPELINE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
+            != FIRST_LOSS_PIPELINE_BEFORE_BLOB):
+        raise ValueError("first-loss collector immutable predecessor differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _FIRST_LOSS_OLD_MODAL_PREDECESSOR(first_loss_pipeline_predecessor(raw))
+
+
+def _chapter_four_call_offsets(before_raw, current_raw, before_calls, actual_calls):
+    """Keep the old -8 proof; the new EOF-only helper moves no UI call."""
+    from order469_source_compat import first_loss_predecessor
+    previous = first_loss_predecessor(current_raw, ROOT)
+    path = _gift_history.MAIN_GAME_PATH
+    old_calls, old_errors = parse_ui_calls(path, previous.decode("utf-8"))
+    live_calls, errors = parse_ui_calls(path, current_raw.decode("utf-8"))
+    key = lambda call: (call.path, call.line, call.api)
+    old_calls, live_calls = tuple(sorted(old_calls, key=key)), tuple(sorted(live_calls, key=key))
+    if old_errors or errors or old_calls != live_calls or live_calls != actual_calls:
+        raise ValueError("first-loss UI calls/payload/order/exact coordinates differ")
+    _FIRST_LOSS_OLD_CHAPTER_FOUR_CALL_OFFSETS(before_raw, previous, before_calls, old_calls)
+# END_FIRST_LOSS_COLLECTOR_476
+
 if __name__ == "__main__":
     sys.exit(main())

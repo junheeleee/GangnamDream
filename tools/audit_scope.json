@@ -14,6 +14,36 @@
   ],
   "fast_lanes": [
     {
+      "id": "investment-loss-gate",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd", "tools/arc_flow_sim.py", "tools/ScreenshotQA.gd",
+        "tools/InvestmentLossGateCheck.gd", "tools/InvestmentLossGateCheck.tscn",
+        "tools/investment_loss_gate_audit.py", "tools/investment_loss_gate_self_test.py",
+        "tools/order469_source_compat.py", "tools/order469_source_compat_self_test.py",
+        "tools/pr31_intake_history.py", "tools/pr31_intake_history_self_test.py",
+        "tools/ja_translation_pipeline.py", "tools/investment_ap_copy_self_test.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-476.json",
+        "docs/queue_active/ORDER-476.md", "docs/queue_archive/ORDER-476.md"
+      ],
+      "tools": [
+        "tools/investment_loss_gate_audit.py", "tools/investment_loss_gate_self_test.py",
+        "tools/order469_source_compat_self_test.py --first-loss-only",
+        "tools/pr31_intake_history_self_test.py --first-loss-only",
+        "tools/arc_flow_sim.py", "tools/ja_translation_audit.py --scope ui",
+        "tools/ja_translation_pipeline.py --scope demo --inventory",
+        "tools/ja_translation_audit.py --scope demo", "tools/zh_translation_audit.py",
+        "tools/investment_ap_copy_self_test.py", "tools/en_coverage_check.py",
+        "tools/english_hangul_audit.py", "tools/narrative_continuity_audit.py",
+        "tools/scene_audio_contract_check.py", "tools/speech_register_audit.py",
+        "tools/release_content_inventory.py", "tools/story_demo_localization_audit.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "One current held-loss ingress fact, exact Main-only successor with UI positions unchanged, explicit prepared sim holding and conditional legacy input expectation. Root separately runs fresh isolated actual Main boundary/producer/reader cases; historical source comparisons cannot change actual payload. No text receipts/public contract/render/native/pad/release promotion."
+    },
+    {
       "id": "night-routine-time",
       "paths": [],
       "owned_paths": [

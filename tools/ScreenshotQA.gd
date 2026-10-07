@@ -11170,7 +11170,6 @@ func _demo_scene_flow_error(
 		# The route-specific first resume scene and the fixed Sangchul/Daeun roots
 		# own weeks 10-12; Hyunsu's quieter study beat returns before Jaehyuk.
 		"hyunsu_study_together": 18,
-		"arc_invest_first_loss": 15,
 		"arc_hyunsu_night_talk": 20,
 	}
 	for event_id in expected_weeks:
@@ -11180,6 +11179,13 @@ func _demo_scene_flow_error(
 				event_id, int(expected_weeks[event_id]), actual_week]
 	# The office/investment clash is conditional on a qualifying office job and
 	# investment skill. Non-office demo routes must not be forced into it.
+	# This input route does not buy a holding. A first loss is optional, and may
+	# only appear in its existing window when the live holding predicate passes.
+	if event_weeks.has("arc_invest_first_loss") \
+			and (int(event_weeks["arc_invest_first_loss"]) < 15 \
+			or int(event_weeks["arc_invest_first_loss"]) > 18):
+		return "arc_invest_first_loss may only occupy demo weeks 15-18, got %s." % \
+				event_weeks["arc_invest_first_loss"]
 	if event_weeks.has("arc_job_vs_invest") \
 			and int(event_weeks["arc_job_vs_invest"]) != 20:
 		return "arc_job_vs_invest may only occupy demo week 20, got %s." % \

@@ -148,7 +148,8 @@ def run_self_test(*, include_current: bool = True) -> tuple[list[str], int]:
 
         raw_pipeline = (ROOT / "tools/ja_translation_pipeline.py").read_bytes()
         ap_pipeline = pipeline.ending_father_pipeline_predecessor(
-            pipeline.chapter_four_pipeline_predecessor(pipeline.story_fact_pipeline_predecessor(raw_pipeline)))
+            pipeline.chapter_four_pipeline_predecessor(pipeline.story_fact_pipeline_predecessor(
+                pipeline.first_loss_pipeline_predecessor(raw_pipeline))))
         check(pipeline.investment_ap_pipeline_predecessor(ap_pipeline)
               == _git("show", BEFORE + ":tools/ja_translation_pipeline.py"), "collector.immutable-whole-prefix")
         reject(lambda: pipeline.investment_ap_pipeline_predecessor(ap_pipeline + b"\n"),
