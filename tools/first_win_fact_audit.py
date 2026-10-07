@@ -11,6 +11,7 @@ import subprocess
 from pathlib import Path
 
 from pr31_intake_history import _Document
+import order470_source_compat as successor
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "5ec492da9a1007f6cc6b10c7ac1d22135e47b356"
@@ -110,7 +111,33 @@ def main():
     before = {locale: subprocess.check_output(
         ["git", "--no-replace-objects", "show", BASE + ":" + path(locale)], cwd=ROOT)
         for locale in LOCALES}
-    after = {locale: (ROOT / path(locale)).read_bytes() for locale in LOCALES}
+    current = {locale: (ROOT / path(locale)).read_bytes() for locale in LOCALES}
+    # Shared-file successor is validated against physical current bytes and a
+    # finite typed Git edge BEFORE its immutable pre-night comparison is used.
+    # This is solely a historical fact-check view, never a runtime payload.
+    with successor.fresh_validation_proof():
+        after = successor.historical_first_win_comparison(current, ROOT)
+        if args.self_test:
+            negatives = []
+            changed = dict(current)
+            changed["ko"] += b"\n"
+            negatives.append(changed)
+            changed = dict(current)
+            changed["en"] = mutate_leaf(changed["en"], IDS[0], lambda s: s.replace("15,000-won", "5,000-won"))
+            negatives.append(changed)
+            changed = dict(current)
+            changed["ko"] = after["ko"]
+            negatives.append(changed)
+            negatives.append({locale: current[locale] for locale in LOCALES[:-1]})
+            negatives.append(after)
+            for changed in negatives:
+                try:
+                    successor.historical_first_win_comparison(changed, ROOT)
+                except ValueError:
+                    pass
+                else:
+                    raise AssertionError("unbound current/historical/mixed raw accepted")
+            print("FIRST_WIN_COMPARISON_SELF_TEST_OK cases=" + str(len(negatives)))
     failures = errors(before, after)
     for failure in failures:
         print("FIRST_WIN_FACT_FAIL " + failure)
