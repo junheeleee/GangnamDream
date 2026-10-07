@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-08 — 원장 공백 순회 비용을 먼저 잰다 (481, 착수)
+
+- 20억 첫 로그 수리480을 독립 한정 GO·main `b5979b4`까지 반영했다. [다음 작은 단위](queue_active/ORDER-481.md)는 market helper의 ws 함수/self2·root등록1·비저자 최종보고1로 소유를 분리한다. 선언 전 새프로파일/구현/QA/collect/engine/수용0이다.
+- 실제 같은 fresh 입장·정상종료의 profile/nonprofile 각1 before/after로 병목과 경과를 구분한 뒤만 순수Unicode 공백 탐색을 최적화한다. typed Git/raw/disk/HEAD/config/function·입출구·원장값/좌표/inverse를 줄이지 않는다. 기존479 parse절감16→12나 old77/96/365/240주 검사를 반복 성과로 쓰지 않는다.
+- gangnamdream-dev의 선언·표적·독립/인간 증거 구분을 적용한다. 새규범0/일회성, 게임 원문·번역·수용·저장·공개·과거판정 변경0이며 전체출시/실제화면·자연·native/pad HOLD를 보존한다.
+
 ## 2026-10-08 — 20억 첫 기록의 잔여금 오안내 제거 (480, 한정 GO)
 
 - 25억·30억에서 처음 기록돼도 고정10억이 남았다고 하던 KO/EN만 걷고 JA/CN/TW 새키1씩을 직접 옮겼다. source4→원공식9/collect9→최초3/ledger1을 분리,274/41849→277/41852. 임계/flag/경제/종결/과거저장로그·사전옛값 raw는 보존했다.
