@@ -10056,6 +10056,44 @@
         "path": "docs/agent_reviews/ORDER-480.json",
         "sha256": "1b41dcaa10019acf88708ec4d062844a729762b2442936355f68085841481608"
       }
+    },
+    {
+      "id": "order-481-source-585fd7d-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-08",
+      "decided_by": "/root/order469_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-481",
+      "subject": {
+        "kind": "source",
+        "commit": "585fd7d9178e1a127f6c47b792b60cbbb92250ef",
+        "tree": "88c202a259096ba39018e9d4328eeeed88ce3963",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-481.json",
+          "sha256": "0a512f9280589227b1d28bff4d8aa783b0f022d9d3f7ddc97c399d7f2eaa1989"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-481.json",
+          "sha256": "0a512f9280589227b1d28bff4d8aa783b0f022d9d3f7ddc97c399d7f2eaa1989"
+        }
+      ],
+      "unobserved": [
+        "native_reader", "human_playtest", "physical_controller_feel",
+        "actual_rendered_scene", "natural_gameplay",
+        "whole_product_quality_and_external_release", "whole_pipeline_performance",
+        "statistically_established_speedup"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-481.json",
+        "sha256": "0a512f9280589227b1d28bff4d8aa783b0f022d9d3f7ddc97c399d7f2eaa1989"
+      }
     }
   ]
 }

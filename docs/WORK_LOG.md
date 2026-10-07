@@ -2,9 +2,16 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-08 — 원장 공백 탐색의 비용만 줄였다 (481, 한정 GO)
+
+- 정확 Document/str/int의 공백0·1 단락 평가/2+ Unicode 원좌표 탐색만 수리했다. foreign/subclass·getter·타입/예외·raw/좌표·fresh typed Git/disk/HEAD/config/function·정상/예외 종료는 보존한다. 새181 실제CLI exit0/186.151611초·등록PASS. 원77/96/365/240주/전체UI/pipeline·collector·engine·번역수용 반복0이다.
+- 동일 원fresh 입출구 단일 비교쌍 profile29.376291667→28.99850525초/plain22.923183292→22.614496초, ws2198536회 유지·누적2.228073822→1.843377968초. 전체pipeline/통계적/지속적 속도 보장0이다. before1 모듈명FAIL·after2 동결경합FAIL(invocation0/ownedhelper1 drift)·불채택after1/3·checks1 목록 옵션FAIL을 보존했다. 성공181/등록2는 동일입력 결속하고 remaining1 새목록/context/queue3만 실행, 재실행0이다. 실패묶음을PASS로 바꾸지 않는다.
+- actualseal1은 원결과/로그/runner 재해시·3239/보호6/actual proof5 결속PASS이며 새QA0이다. 상세SHA/L2는 [완료사양](queue_archive/ORDER-481.md). 비저자 [전수보고](agent_reviews/ORDER-481.json) SHA `0a512f9280589227b1d28bff4d8aa783b0f022d9d3f7ddc97c399d7f2eaa1989`는 source `585fd7d9178e1a127f6c47b792b60cbbb92250ef`/tree `88c202a259096ba39018e9d4328eeeed88ce3963`의 이 도구 범위만 GO했다. gangnamdream-dev의 표적·소유·실패/인간 증거 분리가 마감에 적용됐고 새규범0/일회성이다.
+- 본편HOLD·공개GO1·인간OPEN45·실제화면·자연·원어민·물리패드 관찰 잔여를 유지한다. 자동 검사는 계약 증거이지 재미·깊이·문체 증거가 아니다. 다음10억 첫 로그의 근거없는 가속 보장은 별도 범위로 읽기 확인 중이다.
+
 ## 2026-10-08 — 원장 공백 순회 비용을 먼저 잰다 (481, 착수)
 
-- 20억 첫 로그 수리480을 독립 한정 GO·main `b5979b4`까지 반영했다. [다음 작은 단위](queue_active/ORDER-481.md)는 market helper의 ws 함수/self2·root등록1·비저자 최종보고1로 소유를 분리한다. 선언 전 새프로파일/구현/QA/collect/engine/수용0이다.
+- 20억 첫 로그 수리480을 독립 한정 GO·main `b5979b4`까지 반영했다. [다음 작은 단위](queue_archive/ORDER-481.md)는 market helper의 ws 함수/self2·root등록1·비저자 최종보고1로 소유를 분리한다. 선언 전 새프로파일/구현/QA/collect/engine/수용0이다.
 - 실제 같은 fresh 입장·정상종료의 profile/nonprofile 각1 before/after로 병목과 경과를 구분한 뒤만 순수Unicode 공백 탐색을 최적화한다. typed Git/raw/disk/HEAD/config/function·입출구·원장값/좌표/inverse를 줄이지 않는다. 기존479 parse절감16→12나 old77/96/365/240주 검사를 반복 성과로 쓰지 않는다.
 - gangnamdream-dev의 선언·표적·독립/인간 증거 구분을 적용한다. 새규범0/일회성, 게임 원문·번역·수용·저장·공개·과거판정 변경0이며 전체출시/실제화면·자연·native/pad HOLD를 보존한다.
 

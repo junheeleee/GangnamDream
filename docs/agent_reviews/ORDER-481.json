@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-481",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-08",
+  "reviewer": "/root/order469_review",
+  "subject": {
+    "kind": "source",
+    "commit": "585fd7d9178e1a127f6c47b792b60cbbb92250ef",
+    "tree": "88c202a259096ba39018e9d4328eeeed88ce3963",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "scope": "market_cycle_label_history._Document.ws 한 함수의 동등한 공백 탐색, 새 전용 반례·등록 및 동일 fresh 입출구 단일 실행쌍의 비용 관측에 한정한다. 전체 pipeline 속도 보장·새 수용·게임 품질·출시 GO가 아니다.",
+  "method": {
+    "independence": "history가 helper/self-test를, root가 등록·측정·실행기·운영 문서를 작성했다. 비저자는 변경 코드 전부, 원래 while와 실제 독자, 실행기, 원로그·결과·실패·입력 결속·최종 metadata diff를 직접 읽었다. 이 보고 외 파일 작성0, 프로젝트 import/QA/collector/engine/수용/commit0이다.",
+    "instructions": "CLAUDE, gangnamdream-dev, WORK_UNIT 및 ORDER-481을 적용했다. 스킬의 소유권·표적 검수·자동/인간 증거 분리에 따라 실행은 root에 한정하고 관측 이상의 성능·제품 판정을 제외했다. 새 규범0.",
+    "population": "생산 ws 전체11행 추가, 전용 run_whitespace_checks/whitespace_main 및 __main__ 분기, 새 audit_scope 차선/검사. 기존 생산 함수·역사 핀·공개 API와 기존 자기검사4함수는 보존한다. 표본이 아닌 변경 전수 독해다.",
+    "evidence_readback": "원결과8·pstats4·명령 stdout/stderr12·실행기5의 고유29파일(중복 포함33기록)을 stdlib로 재해시하여 size/SHA 불일치0. AFTER4/checks1/remaining1의 전체3239파일 기록과 보호6 기록은 전후·서로 완전히 같다. 재해시는 새 프로젝트 검사 실행이 아니다."
+  },
+  "source_review": {
+    "baseline": "c6dcf7c3a3796220f0c407ea0875bc6e70afac27",
+    "baseline_tree": "66cf6af11411db392fd067a859605898617bb4b7",
+    "helper_sha256": "091aad99f6671d1532e38b20279208f130ab5d4fedf59308c356d6878c5f0dd7",
+    "self_test_sha256": "efeb573606e9b519f8a48a18953b4d4d94af571bed2b036a431510bc43dea4d1",
+    "assessment": "정확 _Document 수신자, builtin str, exact int, 유효 원문 좌표에서만 text/length를 지역 변수로 읽는다. 공백0/1은 단락 평가하고 2개 이상은 기본 Unicode 정규식으로 원문 end 좌표를 반환한다. foreign/subclass 수신자는 추가 getter 호출 없이 원래 while로 바로 진입한다. bool·다른 타입·음수·초과 좌표·text subclass도 원래 fallback을 유지한다. slicing/정규화/ASCII 한정/공유 cache/parsed 주입0이다.",
+    "preserved": "_loads/__init__/walk, literal/member 좌표, raw inverse, source/receipt 핀, typed Git/pathset/direct-parent/HEAD/current disk/config/function/module 및 fresh 정상·예외 종료는 변경0. diff와 root 구조 증거에서 ws 외 생산 raw/AST와 run_ledger_document_checks/run_market_cycle_checks/run_wealth_milestone_checks/main의 원문, 기존 audit_scope가 보존됨을 확인했다.",
+    "findings": "최종 변경에서 미수리 차단 결함0. 초기 regex-only 및 중간 후보는 비용 관측 후 불채택됐고, 최종 후보에는 0/1 공백 단락 평가와 foreign/subclass getter18 동등성 반례가 포함된다."
+  },
+  "measurement": {
+    "before_result": ".git/order481-20261008.sQUjjj/before2/result.json",
+    "before_sha256": "9df9e5a0c2b40200a4ba14cee20323e054ca21418af98b50058830e3de7b431b",
+    "after_result": ".git/order481-20261008.sQUjjj/after4/result.json",
+    "after_sha256": "7b3dac778d243a9eeeaab12364ecbb418afd94f630bf0891eb18c46f367740cb",
+    "runner_sha256": "e6d812878f42287a9bbc42f139f100725de57d5f0693f55cd76e3bc31f5662d4",
+    "profile_seconds": {"before": 29.376291667, "after": 28.99850525, "observed_reduction": 0.377786417},
+    "plain_seconds": {"before": 22.923183292, "after": 22.614496, "observed_reduction": 0.308687292},
+    "ws_self_seconds": {"before": 1.761034268, "after": 1.182207027},
+    "ws_cumulative_seconds": {"before": 2.228073822, "after": 1.843377968},
+    "unchanged_market_calls": {"ws": 2198536, "Document": 8, "walk": 553996, "loads": 12, "read_proof": 2, "receipt_semantics": 2, "snapshot": 14, "objects": 42, "git": 74},
+    "binding": "동일 runner로 각 원 fresh 입장+정상 종료를 profile1/plain1 관측했다. 양쪽 profile/plain의 actual proof5 payload, before→after 제품 payload와 보호6이 같다. 각 실행은 clean 후보·tracked3239·runner 전후 보존이다. 측정 사이 변경은 CLAUDE/해당 사양/등록/helper/self-test5경로뿐이다.",
+    "interpretation": "작은 감소가 관측된 단일 비교쌍이다. profiler는 Python 호출 비용에 영향을 주고 반복 표본·통계 검정이 없으므로 일반 속도 향상, 전체 collector/pipeline 단축률 또는 지속적인 절감 보장을 주장하지 않는다. 다른 후보의 불채택 결과도 보존한다."
+  },
+  "actual_checks": {
+    "first_result": ".git/order481-20261008.sQUjjj/checks1/result.json",
+    "first_sha256": "c94dd67cdd92ea54e708e2468804c84faf519f5d506685adf1595f8af579cdb2",
+    "first_wrapper": "FAIL/preserved=true. whitespace 및 registration만 실제 exit0, 잘못 결합한 --lane/직접 파일 목록 명령은 exit2였다. 전체 PASS로 바꾸지 않는다.",
+    "whitespace": {
+      "marker": "ORDER481_WHITESPACE_OK cases=181",
+      "exit_code": 0,
+      "seconds": 186.151611,
+      "stdout_sha256": "3448444c33f0e7434640a8802534c00866aaadf3b2fdb20c0b13d8bcee60dfab",
+      "stderr_bytes": 0,
+      "coverage": "현재 Python Unicode isspace29종과 유효 좌표·비공백, fallback 값/타입/identity/예외, foreign/subclass getter18, JSON value/text/spans/members·엄격 거절, 실제478 ledger raw inverse/export revision, 이웃·기존 accepted 잎 재해시 거절, warm 함수/ws/config/Git/disk/HEAD, 정상·consumer exception·late physical/ws 실패의 실제 entry/armed·정확 ValueError·ACTIVE 복원. 181은 집계 predicate 수이며 모든 문자/좌표의 개별 실행 수나 옛77/96 모집단으로 바꾸어 쓰지 않는다."
+    },
+    "remaining_result": ".git/order481-20261008.sQUjjj/remaining1/result.json",
+    "remaining_sha256": "91e6a510676cd1f7ead9e8c38e593dd12898f1db1b82dcb5409d009116f4e14e",
+    "reuse": "같은 clean585 후보·전체3239·보호6 및 원로그 SHA를 결속하여 성공2만 재사용했다. 수정된 list-only/context/queue3만 새 exit0, 각 stderr0이다. whitespace181/등록 재실행0이며 원래5명령 한 묶음 PASS라고 주장하지 않는다.",
+    "operations": "등록217, 명시 차선 목록4, context boot_bytes30191/docs583/classified583/links187/invariants15/archive_bytes743490/open_proposals1, queue active79/in_progress77/max_batches2 원출력을 확인했다."
+  },
+  "retained_attempts": [
+    {"result": "before1/result.json", "sha256": "47538a1930cbe0b2ec2cac9515e7a3bc2273bfd21b76d1d3245b0dad567cb968", "disposition": "FAIL: private profile.py의 표준 모듈 이름 충돌. invocation0, preserved=true. 이후 실행기를 분리하고 import 경로를 정정했다."},
+    {"result": "after1/result.json", "sha256": "c20986c58f2d0d2e0487152834b59ece10f1aaa8df09d025a88b4bd6805455b1", "disposition": "계약·보존 PASS지만 profile29.924360041/plain22.978346875초로 성능 후보 불채택."},
+    {"result": "after2/result.json", "sha256": "e249e93073da90aee98b315431779a808e19e028bbc2654c0ceed9b780090ab8", "disposition": "FAIL: 동결 경합을 시작 guard가 검출. invocation0/preserved=false. owned helper1만 변경됐고 나머지 tracked·보호6·runner는 같다. 성공으로 재분류하지 않는다."},
+    {"result": "after3/result.json", "sha256": "0c7ed3202957fccff63d9cef49d4e6d935b256ed12e23a030f4cedcef149d9d0", "disposition": "계약·보존 PASS지만 profile29.572783875/plain22.828343625초, ws cumulative2.350960780초로 최종 채택하지 않았다."}
+  ],
+  "final_binding": {
+    "evidence_base": ".git/order481-20261008.sQUjjj/",
+    "seal_path": ".git/order481-20261008.sQUjjj/seal1.json",
+    "seal_sha256": "52a73bc5f76b6778cbf7b126b3b45ab1d9426990a5c7475f9980e8bcadddc0a5",
+    "seal_scope": "원결과·pstats·로그·runner·기록된 raw를 재해시한 PASS이며 신규 QA/collector/engine/수용0이다. 원 검사 실행을 대신하지 않는다.",
+    "observed_clean_metadata_head": "51b9ceea607194d01c249669f1b3e36f223b2da7",
+    "observed_metadata_tree": "1c257bb108b4cba28addbcbcdd67b31800907d23",
+    "metadata_delta": ["docs/CODEX_QUEUE.md", "docs/queue_active/ORDER-481.md"],
+    "assessment": "보고 작성 직전 clean metadata 전체 diff는 큐 현재 게이트와 같은 사양의 실제 L1/L2·증거·오타 정정뿐이다. 실행 source585 및 helper/self-test·제품·검사 입력 변화0이다. subject는 metadata HEAD가 아니라 실제 검증 source585에 결속한다."
+  },
+  "l2": {
+    "reachability": "ORDER481_WHITESPACE_OK cases=181; exit0; stderr0; 186.151611s",
+    "producer_reader": "tools/market_cycle_label_history.py:155 ws → :171 walk → :236 _validated_ledger_documents → :280 _receipt_semantics → :401 fresh_validation_proof",
+    "changed_state": "공백 탐색 실행 비용만 변경; 실제 원장 value/text/spans/members·receipt·플레이 상태 변화0",
+    "foregone": "fresh_validation_proof 검수의 기존 순회 비용; 발화주차/24주 변화 해당없음(비제품 QA)",
+    "narrative_position": "해당없음: 원장 검수 도구 한 함수",
+    "scene_tier": "해당없음: 비장면 QA",
+    "closes": "공백 탐색 동등성181 및 동일 fresh 입출구 단일 비교쌍 관측; 제품·출시·사람 게이트는 닫지 않음"
+  },
+  "limits": {
+    "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "rendered_ui", "natural_gameplay", "whole_pipeline_performance", "statistically_established_speedup"],
+    "not_rerun": "원77/96/365, 240주, 전체 UI/pipeline, collector, engine 및 공식 수용은 반복하지 않았다. 과거 PASS를 이번 실행이라고 쓰지 않는다.",
+    "release": "본편 HOLD·공개 GO1·인간 OPEN45 및 모든 과거 판정은 불변이다. 자동 검사는 계약 증거이지 재미·깊이·문체나 출시 품질의 증거가 아니다."
+  }
+}
