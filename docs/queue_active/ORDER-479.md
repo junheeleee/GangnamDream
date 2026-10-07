@@ -45,6 +45,12 @@ _read_proof/_snapshot/_objects/_git/_receipt_semantics/_Document/_loads의 실�
    이후 catch-and-continue는 원본 의미 계산으로 검증한다. 호출 간 재사용0.
 
 baseline 뒤 선택·실제 범위는 이 사양에 기록하고 소유2 이외 필요 파일은 별도 선언한다.
+2026-10-07 선택: 실제 baseline2는 7.8063655초(cProfile 포함), _read_proof2/
+_snapshot14/_objects42/_git74/_receipt_semantics2/_Document8/_loads16이다. _loads
+누적0.512894초에 비해 위치 순회4.742309초가 지배하므로 효과를 과장하지 않는다.
+교차 호출 메모를 추가하지 않고 같은 receipt 호출의 검증된 Document2만 재사용한다.
+각 raw inverse/schema/batch 검증은 그대로이고 _loads16→12 및 실제 ledger 중복파싱4회
+제거를 확인한다. 시간은 동일 실행의 실제 값만 보고하며 전체 번역 처리 속도 보장으로 확대하지 않는다.
 수치 개선이 없거나 안전 경계를 약화하면 완료 GO하지 않는다. 기존 역사 endpoint·
 receipt5 pin·수용273→274·41848→41849·native/render 상태·source census·raw 역상은 불변이다.
 
