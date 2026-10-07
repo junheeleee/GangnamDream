@@ -104,7 +104,7 @@
     "choices": [
       {
         "text": "Tell no one. Walk to the convenience store and buy something expensive.",
-        "result_text": "Telling anyone would mean explaining only the number. {name} pocketed his phone and went down to the convenience store. He chose the 5,000-won ice cream he usually passed over.\n\nBack home, cold mist clung to his fingers as he opened it. The first bite was too sweet. From the second, it tasted like ordinary ice cream.\n\nHe liked that no one knew what he was celebrating. Long after it was gone, the wooden stick remained in his hand."
+        "result_text": "Telling anyone would mean explaining only the number. {name} pocketed his phone and went down to the convenience store. He chose the 15,000-won ice cream he usually passed over.\n\nBack home, cold mist clung to his fingers as he opened it. The first bite was too sweet. From the second, it tasted like ordinary ice cream.\n\nHe liked that no one knew what he was celebrating. Long after it was gone, the wooden stick remained in his hand."
       },
       {
         "text": "Call his father.",
@@ -1571,7 +1571,7 @@
     "choices": [
       {
         "text": "Tell no one. Walk to the convenience store and buy something expensive.",
-        "result_text": "Telling anyone would mean explaining only the number. {name} pocketed his phone and went down to the convenience store. He chose the 5,000-won ice cream he usually passed over.\n\nOn the goshiwon stairs, cold mist clung to his fingers as he opened it. The first bite was too sweet. From the second, it tasted like ordinary ice cream.\n\nHe liked that no one knew what he was celebrating. Long after it was gone, the wooden stick remained in his hand."
+        "result_text": "Telling anyone would mean explaining only the number. {name} pocketed his phone and went down to the convenience store. He chose the 15,000-won ice cream he usually passed over.\n\nBack home, cold mist clung to his fingers as he opened it. The first bite was too sweet. From the second, it tasted like ordinary ice cream.\n\nHe liked that no one knew what he was celebrating. Long after it was gone, the wooden stick remained in his hand."
       },
       {
         "text": "Dial Father's number — knowing it will not connect.",
