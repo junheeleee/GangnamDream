@@ -3,7 +3,7 @@ extends "res://tools/ProseRecallCheck.gd"
 ## Reuse the proven state reset/restoration helpers, not the old fixture population.
 const WIN_IDS := ["arc_first_real_win", "arc_first_real_win_father_passed"]
 const WIN_POPULATION := {"loaded": 10, "route": 100, "choice": 20, "reentry": 20}
-const WIN_COST := {"ko": "1만5천원짜리", "en": "15,000-won", "ja": "15000ウォン",
+const WIN_COST := {"ko": "15,000원짜리", "en": "15,000-won", "ja": "15000ウォン",
 	"zh-CN": "15000韩元", "zh-TW": "1萬5千韓元"}
 const WIN_HOME := {"ko": "집으로 돌아와", "en": "Back home,", "ja": "家に戻って",
 	"zh-CN": "回到家，", "zh-TW": "回到家"}

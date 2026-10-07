@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE = "5ec492da9a1007f6cc6b10c7ac1d22135e47b356"
 LOCALES = ("ko", "en", "ja", "zh-CN", "zh-TW")
 IDS = ("arc_first_real_win", "arc_first_real_win_father_passed")
-COST = {"ko": ("5천원짜리", "1만5천원짜리"),
+COST = {"ko": ("5천원짜리", "15,000원짜리"),
         "en": ("5,000-won", "15,000-won"), "ja": ("5000ウォン", "15000ウォン"),
         "zh-CN": ("5000韩元", "15000韩元"), "zh-TW": ("5千韓元", "1萬5千韓元")}
 TOKEN = re.compile(r"\{[^{}]+\}|%(?:\d+\$)?[-+0 #]*\d*(?:\.\d+)?[sdif]|\[/?[A-Za-z][^\]]*\]")
@@ -84,7 +84,7 @@ def mutate_leaf(raw, event_id, change):
 def self_test(before, after):
     cases = 0
     for label, locale, event_id, change in (
-        ("old cost", "ko", IDS[0], lambda s: s.replace("1만5천원짜리", "5천원짜리")),
+        ("old cost", "ko", IDS[0], lambda s: s.replace("15,000원짜리", "5천원짜리")),
         ("old stairs", "en", IDS[1], lambda s: s.replace("Back home,", "On the goshiwon stairs,")),
         ("token", "ja", IDS[0], lambda s: s.replace("{name}", "Minjun")),
         ("line", "zh-CN", IDS[0], lambda s: s + "\n"),
