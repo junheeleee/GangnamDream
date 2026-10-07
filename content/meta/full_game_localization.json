@@ -11124,6 +11124,111 @@
           "batch_id": "312852a7d02272e1c86a4fd0b4520d16795ef289182c810a06db58de8cd2a8ad"
         }
       }
+    },
+    {
+      "order": "ORDER-480",
+      "group": "ui",
+      "roots": [
+        "🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다."
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Agent direct Korean-source repair of the first KRW2B log. Actual original export/check/import3 by locale; first acceptance1, existing accepted corrections0. No native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "e8173957f6efbd0e012d21c39ff38b60c8f1780209d22aecd049ad78228a5ea5"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "2b7ed73b193488f961637d12dbc2173b0523998d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "cf4f8f1221742440a4246e96763af707446684d99c69e43884c71d83f0ec7868",
+          "selection_sha256": "36cf2ddda4409d0f847972e2a3f06b9945fdcff80b747138cf246d23f843edb9",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9bbd7c258c13affaa865b7d351ba90e11ab58965d02af866d45e47c8d5995110"
+        }
+      }
+    },
+    {
+      "order": "ORDER-480",
+      "group": "ui",
+      "roots": [
+        "🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다."
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 0
+      },
+      "source_review": "Agent direct Korean-source repair of the first KRW2B log. Actual original export/check/import3 by locale; first acceptance1, existing accepted corrections0. No native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "210b0069c43fa50fe4f99e2de7ed11a64dc14b9203651c7c76ee2a1e8cd70a92"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "2b7ed73b193488f961637d12dbc2173b0523998d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "cf4f8f1221742440a4246e96763af707446684d99c69e43884c71d83f0ec7868",
+          "selection_sha256": "95dfefb49082478b42cf68c48b3e4487f287a24de31e43e6db730a2b4bf9d565",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "cc879a2fff04608a75d16d7f183faf30d71f639d6972145b4c3c3572392e9017"
+        }
+      }
+    },
+    {
+      "order": "ORDER-480",
+      "group": "ui",
+      "roots": [
+        "🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다."
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 1
+      },
+      "source_review": "Agent direct Korean-source repair of the first KRW2B log. Actual original export/check/import3 by locale; first acceptance1, existing accepted corrections0. No native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "fecb3d21ed39273a817293accdec8d310e44661693114479cf67e5eeb7112101"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "2b7ed73b193488f961637d12dbc2173b0523998d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "cf4f8f1221742440a4246e96763af707446684d99c69e43884c71d83f0ec7868",
+          "selection_sha256": "a15a25869b92d7b3399a11bd04fc841be6c6bb276dd45b2eb72c4f39870eec46",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "62bb77fdd6f632a87b3e1671aae17efa411af0d8b5f2d6466f98bc514d77f148"
+        }
+      }
     }
   ],
   "accepted": {
@@ -63739,6 +63844,10 @@
       "ui:횡보장:/횡보장": {
         "source_sha256": "a5307c81bee5984b24f703bd7402babf3dc3b78604b83988fa0d0c763a2c7da6",
         "target_sha256": "6ebf371525a2b51c29f5c9911ee2d16df82eecb1b494202ab5fdbbe68289d121"
+      },
+      "ui:🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다.:/🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다.": {
+        "source_sha256": "e788331a2478064424626d7594ce99b8bf3d1bc79f26e732c478059c7a5cca63",
+        "target_sha256": "606462a69a4727e6315cbf9645d850c86548b27c4bb29aff2cbf190b99a8c14e"
       }
     },
     "zh-CN": {
@@ -121133,6 +121242,10 @@
       "events:arc_36_unexpected_hand_person_deal:/description_if_known/daeun_romance_started": {
         "source_sha256": "58bd2291107c8532a0e7056036e099c1a7a2ed6f78b443fe6178133a3f8b4a8b",
         "target_sha256": "10cacd9f59dc7e5a28c8333d49cc068fd2902f39515d68a532ba1b652504ecc3"
+      },
+      "ui:🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다.:/🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다.": {
+        "source_sha256": "e788331a2478064424626d7594ce99b8bf3d1bc79f26e732c478059c7a5cca63",
+        "target_sha256": "7d5220c6a4cdfc84f3cec749a737a2dd74dc317eb1bb07eda2fbd085196ac714"
       }
     },
     "zh-TW": {
@@ -178527,10 +178640,14 @@
       "events:arc_36_unexpected_hand_person_deal:/description_if_known/daeun_romance_started": {
         "source_sha256": "58bd2291107c8532a0e7056036e099c1a7a2ed6f78b443fe6178133a3f8b4a8b",
         "target_sha256": "c6a6967f3933d8c6464bb3f12199176f0c02f204fe8bc416ebbc10ad50e8fce9"
+      },
+      "ui:🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다.:/🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다.": {
+        "source_sha256": "e788331a2478064424626d7594ce99b8bf3d1bc79f26e732c478059c7a5cca63",
+        "target_sha256": "abd94955ed855c98812cdfc212e03dc5ed275766faa8492339133b1b061b56f0"
       }
     }
   },
-  "accepted_sha256": "b807dfafb541959e95c07475702bb57235b2a59ea8cf2fb0d831f50f76226ad4",
+  "accepted_sha256": "33e952bca52c67e411e4721386f8966bc1cfc3bd69066fa30102aecc00d353ed",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
