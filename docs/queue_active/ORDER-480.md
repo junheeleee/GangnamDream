@@ -27,8 +27,8 @@ FULL_GAME_LOCALIZATION backlog의 이정표 보류10 보존선. 10억의 `3분�
   KO `🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다.` / EN
   `🔥 Assets passed KRW 2B — Gangnam feels close.`. 조건/flag/로그kind·인접 호출/
   총자산 산식·peak_asset·M60 종결·다은 pending·게임플레이는 raw 불변이다.
-- order469_review 제품: `locale/ui_ja.json`, `locale/ui_zh_CN.json`,
-  `locale/ui_zh_TW.json`에 새 KO 키1씩/직접 KO 번역1씩만 추가. JA
+- order469_review 제품: `locale/ui_ja.json`, `locale/ui_zh-CN.json`,
+  `locale/ui_zh-TW.json`에 새 KO 키1씩/직접 KO 번역1씩만 추가. JA
   `🔥 資産が20億ウォンを突破 — カンナムに手が届きそうだ。`, CN
   `🔥 资产突破20亿韩元——江南仿佛触手可及。`, TW
   `🔥 資產突破20億韓元——江南彷彿近在眼前。`를 초안으로 검수한다.
