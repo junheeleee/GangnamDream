@@ -330,5 +330,224 @@ def main():
     return int(bool(failures))
 
 
+def run_whitespace_checks(root=history.ROOT):
+    """Only481 scanner equivalence and its unchanged live proof boundaries."""
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER481 whitespace: " + label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    def original_ws(self, index):
+        while index < len(self.text) and self.text[index].isspace():
+            index += 1
+        return index
+
+    class OriginalDocument(history._Document):
+        ws = original_ws
+
+    def outcome(function, text, index):
+        document = object.__new__(history._Document)
+        document.text = text
+        try:
+            return "value", function(document, index)
+        except Exception as error:
+            return "error", (type(error), error.args)
+
+    def same_scan(text, index):
+        old, new = outcome(original_ws, text, index), outcome(history._Document.ws, text, index)
+        if old[0] != new[0]:
+            return False
+        if old[0] == "error":
+            return old[1] == new[1]
+        prior, current = old[1], new[1]
+        if type(prior) is not type(current) or not (prior is current or prior == current):
+            return False
+        fast = type(text) is str and type(index) is int and 0 <= index <= len(text)
+        return fast or prior is not index or current is index
+
+    whitespace = tuple(chr(code) for code in range(sys.maxunicode + 1) if chr(code).isspace())
+    check(bool(whitespace), "Unicode whitespace population is not empty")
+    for character in whitespace:
+        text = "한🙂" + character * 3 + "x"
+        check(all(same_scan(text, index) for index in range(len(text) + 1)),
+              "all indices around Unicode whitespace U+%04X" % ord(character))
+    for text in ("", "x", "\u200b", "\ufeff", "\u200b \ufeff", "한🙂 \t끝", "".join(whitespace)):
+        check(all(same_scan(text, index) for index in range(len(text) + 1)),
+              "valid-index nonspace/boundary " + repr(text))
+
+    class Index(int):
+        pass
+
+    class Text(str):
+        pass
+
+    class IndexedText(str):
+        def __getitem__(self, index):
+            raise RuntimeError("original subclass indexing")
+
+    indices = (False, True, Index(0), Index(1000), -1, -2, -3, -4, 4, 10 ** 100,
+               -0.5, 0.0, 1.0, 4.5, float("nan"), float("inf"), None, "0", object())
+    for index in indices:
+        check(all(same_scan(text, index) for text in ("", "x  ", "  x", " \t ")),
+              "fallback value/type/identity/exception " + repr(index))
+    for text in (Text("  x"), IndexedText("  x"), b"  x", [" ", "x"], (), None, 5):
+        check(all(same_scan(text, index) for index in (False, 0, 1, -1, 1000)),
+              "non-builtin text fallback " + repr(text))
+
+    def document_state(document):
+        return document.value, document.text, document.spans, document.members
+
+    value = {"한🙂": [None, True, False, -12.5, {"escaped": 'quote" slash\\ newline\n'}],
+             "empty": {}, "list": [], "nested": {"x": [1, "끝"]}}
+    valid = (b"{}", b"[]", b"null", b"17", '"한🙂"'.encode(),
+             json.dumps(value, ensure_ascii=False, separators=(",", ":")).encode(),
+             (json.dumps(value, ensure_ascii=False, indent=2) + "\n").encode(),
+             (json.dumps(value, ensure_ascii=True, indent=2).replace("\n", "\r\n") + "\r\n").encode(),
+             b' \t\r\n{"spaced" : [ 1 , { "x" : "y" } ] } \r\n')
+    for index, raw in enumerate(valid):
+        old, new = OriginalDocument(raw), history._Document(raw)
+        check(document_state(old) == document_state(new), "Document exact value/text/spans/members " + str(index))
+        check(all(new.text[a:z] == old.text[a:z] for a, z in new.spans.values())
+              and new.text.encode() == raw, "character spans preserve raw UTF-8 " + str(index))
+    invalid = (b'{"x":1,"x":2}', b'{"x":{"a":1,"a":2}}', b'{} trailing', b'{}{}',
+               b'NaN', b'Infinity', b'-Infinity', b'{"x":NaN}', b'{"x":1,}', b'[1,]',
+               b'{"x" 1}', b'"unterminated', b'\xff')
+    invalid += tuple((character + '{}').encode() for character in whitespace if character not in " \t\r\n")
+    invalid += tuple(('{"x":' + character + '1}').encode() for character in ("\u00a0", "\u2003", "\u200b", "\ufeff"))
+    for index, raw in enumerate(invalid):
+        errors = []
+        for cls in (OriginalDocument, history._Document):
+            try:
+                cls(raw)
+            except Exception as error:
+                errors.append((type(error), error.args))
+        check(len(errors) == 2 and errors[0] == errors[1], "strict JSON rejection unchanged " + str(index))
+
+    active = history._ACTIVE.get()
+    with history.fresh_validation_proof(root) as proof:
+        source, receipts = proof["source"], proof["receipts"]
+        check(receipts is not None, "actual478 receipt fixture remains bound")
+        if receipts is None:
+            raise ValueError("ORDER481 needs the already accepted478 ledger fixture")
+        prior, current = source[history.LEDGER_PATH], receipts[history.LEDGER_PATH]
+        for label, raw in (("before", prior), ("after", current)):
+            check(document_state(OriginalDocument(raw)) == document_state(history._Document(raw)),
+                  "actual478 ledger exact values and span/member coordinates " + label)
+        check(history._ledger_inverse(prior, current) is prior, "actual478 inverse returns original raw object")
+        check(history._receipt_semantics(source, receipts) == history.RECEIPT_PARENT,
+              "actual478 receipt export revision remains exact")
+        for label, raw in (("layout", current + b"\n"),
+                           ("neighbor leaf", current.replace(b'"native_review": "OPEN"',
+                                                             b'"native_review": "PASS"', 1))):
+            check(raw != current, "receipt mutant actually changes " + label)
+            with mock.patch.object(history, "RECEIPT_RAW_SHA256", (history._sha(prior), history._sha(raw))):
+                reject(lambda r=raw: history._receipt_semantics(source, {**receipts, history.LEDGER_PATH: r}),
+                       "independently rehashed raw outside owned receipt " + label)
+        ledger = history._loads(current)
+        old_key = next(key for key in ledger["accepted"]["ja"] if key != history.RECEIPT_ID)
+        ledger["accepted"]["ja"][old_key]["target_sha256"] = "0" * 64
+        ledger["accepted_sha256"] = history._digest(ledger["accepted"])
+        mutant = (json.dumps(ledger, ensure_ascii=False, indent=2) + "\n").encode()
+        with mock.patch.object(history, "RECEIPT_RAW_SHA256", (history._sha(prior), history._sha(mutant))):
+            reject(lambda: history._receipt_semantics(source, {**receipts, history.LEDGER_PATH: mutant}),
+                   "old accepted leaf plus independent accepted and raw hashes")
+        investment = proof["current"][history.INVESTMENT_PATH]
+        original_git, original_disk = history._git, history._disk_bytes
+        original_inverse, original_scanner = history.product_inverse, history._Document.ws
+        current_active = history._ACTIVE.get()
+        for kind in ("function", "ws", "configuration", "Git", "disk", "HEAD"):
+            if kind == "function":
+                patch = mock.patch.object(history, "product_inverse", lambda *args: original_inverse(*args))
+            elif kind == "ws":
+                patch = mock.patch.object(history._Document, "ws", lambda *args: original_scanner(*args))
+            elif kind == "configuration":
+                patch = mock.patch.object(history, "PRODUCT_PARENT", history.PRODUCT_COMMIT)
+            elif kind == "Git":
+                patch = mock.patch.object(history, "_git", side_effect=ValueError("missing typed object"))
+            elif kind == "disk":
+                patch = mock.patch.object(history, "_disk_bytes", side_effect=lambda path:
+                                          original_disk(path) + b"\n" if path == Path(root) / history.JA_PATH
+                                          else original_disk(path))
+            else:
+                patch = mock.patch.object(history, "_git", side_effect=lambda r, *args, **kwargs:
+                                          (history.PRODUCT_PARENT + "\n").encode() if args[0] == "rev-parse"
+                                          else original_git(r, *args, **kwargs))
+            with patch:
+                reject(lambda: history.market_cycle_predecessor(investment, root), "warm nested " + kind)
+            check(history._ACTIVE.get() is current_active, "caught nested failure preserves outer identity " + kind)
+    check(history._ACTIVE.get() is active, "normal exit restores prior active identity")
+    try:
+        with history.fresh_validation_proof(root):
+            raise RuntimeError("ORDER481 consumer exception")
+    except RuntimeError as error:
+        check(error.args == ("ORDER481 consumer exception",) and history._ACTIVE.get() is active,
+              "consumer exception runs exit guard and restores identity")
+    for exceptional in (False, True):
+        original_read, armed, entered, caught = history._disk_bytes, [False], False, None
+        def read(path):
+            raw = original_read(path)
+            return raw + b"\n" if armed[0] and path == Path(root) / history.JA_PATH else raw
+        token = history._ACTIVE.set(None)
+        try:
+            try:
+                with mock.patch.object(history, "_disk_bytes", read):
+                    with history.fresh_validation_proof(root):
+                        entered, armed[0] = True, True
+                        if exceptional:
+                            raise RuntimeError("ORDER481 exception cannot bypass physical exit proof")
+            except Exception as error:
+                caught = error
+            check(entered and armed[0], "physical mutant armed only after actual entry " + str(exceptional))
+            check(type(caught) is ValueError and caught.args == ("ORDER-478: actual current Git/disk differs",),
+                  "late physical mutation has exact exit failure " + str(exceptional))
+            check(history._ACTIVE.get() is None, "late physical fresh scope clears itself " + str(exceptional))
+        finally:
+            history._ACTIVE.reset(token)
+        check(history._ACTIVE.get() is active, "late failure restores prior identity " + str(exceptional))
+    for exceptional in (False, True):
+        original_scanner, entered, armed, caught = history._Document.ws, False, False, None
+        patch = mock.patch.object(history._Document, "ws", lambda *args: original_scanner(*args))
+        token = history._ACTIVE.set(None)
+        try:
+            try:
+                with history.fresh_validation_proof(root):
+                    entered = True
+                    patch.start()
+                    armed = True
+                    if exceptional:
+                        raise RuntimeError("ORDER481 exception cannot bypass ws exit binding")
+            except Exception as error:
+                caught = error
+            check(entered and armed, "ws mutant armed only after actual entry " + str(exceptional))
+            check(type(caught) is ValueError and caught.args == ("ORDER-478: actual proof changed during use",),
+                  "late ws replacement has exact exit failure " + str(exceptional))
+            check(history._ACTIVE.get() is None, "late ws fresh scope clears itself " + str(exceptional))
+        finally:
+            if armed:
+                patch.stop()
+            history._ACTIVE.reset(token)
+        check(history._ACTIVE.get() is active, "late ws failure restores prior identity " + str(exceptional))
+    return failures, cases
+
+
+def whitespace_main():
+    failures, cases = run_whitespace_checks()
+    for failure in failures:
+        print(failure, file=sys.stderr)
+    print(f"ORDER481_WHITESPACE_{'FAIL' if failures else 'OK'} cases={cases}")
+    return int(bool(failures))
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(whitespace_main() if sys.argv[1:] == ["--whitespace-only"] else main())

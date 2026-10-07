@@ -14,6 +14,22 @@
   ],
   "fast_lanes": [
     {
+      "id": "ledger-whitespace",
+      "paths": [],
+      "owned_paths": [
+        "tools/market_cycle_label_history.py", "tools/market_cycle_label_history_self_test.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-481.json",
+        "docs/queue_active/ORDER-481.md", "docs/queue_archive/ORDER-481.md"
+      ],
+      "tools": [
+        "tools/market_cycle_label_history_self_test.py --whitespace-only",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Measure one original fresh entry/exit with and without profiling before/after. Only builtin Unicode whitespace cursor traversal may change; exact values, spans/members, inverse, typed Git/disk/HEAD/config/function and normal/exception exit remain bound. New focused controls only; old77/96/365, collector, engine, acceptance, native/render/play/input and release claims are excluded."
+    },
+    {
       "id": "wealth-milestone-log",
       "paths": [],
       "owned_paths": [
@@ -5558,6 +5574,11 @@
       "tool": "tools/wealth_milestone_log_history_self_test.py",
       "paths": ["autoloads/GameState.gd", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "content/meta/full_game_localization.json", "tools/wealth_milestone_log_history.py", "tools/wealth_milestone_log_history_self_test.py", "tools/ja_translation_audit.py"],
       "why": "Exact typed wealth source4/ledger1 and actual current census/retained1 with live and adversarial boundaries."
+    },
+    {
+      "tool": "tools/market_cycle_label_history_self_test.py --whitespace-only",
+      "paths": ["tools/market_cycle_label_history.py", "tools/market_cycle_label_history_self_test.py"],
+      "why": "Bounded pure Unicode and legacy fallback equivalence plus exact raw ledger and live entry/exit adversarial controls; no success cache, census relaxation or old suite replay."
     },
     {
       "tool": "tools/market_cycle_label_history_self_test.py --wealth-milestone-only",
