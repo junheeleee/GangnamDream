@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-07 — 첫 수익 축하의 비용·거처10잎 사실 수리 (474, 한정 GO)
+
+- 기존 결과2잎×5언어의 음식값5천원을 실제지출1만5천원에 맞추고 사별판의 고시원 계단을 현재 거처와 맞는 귀가로 정렬했다. choice/effect/flag/current_housing·나머지raw·토큰·문단·공개14root/100잎·legacy quiet-call은 변경0.
+- source1dbdf12→fixture1bf0585→KOrepair efacada→공식6교정/최초0→최종candidate e0d53cced72aaa1da30d397caafdf599bf15152a의 분리전이를 결속했다. official1 ja export0/check1·receipt0 FAIL은 기존파서가1만5천을5천으로 읽은 오탐이며 원검사를 완화하지 않고같은2잎의표기만15,000원으로명확히했다. 기존264배치rawprefix·41848키 보존/현재267, metadata 지문 변경0(원본 inventory/생성보고검사0). source census가 달라지는 영향은 새successor로 검사하고 현재제품에 역사산문을 반환하지 않는다.
+- runtime1 actualexit1/choice20 타입오탐과 보호true 로그를 보존했다. expected JSON 숫자타입만 맞춘 뒤 runtime2 actual150 PASS를 보존하고, KO표기수리뒤 fresh runtime3 actualexit0/준비150(10/100/20/20), 실제현금50000000→49985000/mental50→62/seen·영수증index0·재진입차단·복원true. stdout/Godot동일/오류0·외부Godot SHA전후동일/보호11그룹·전체tracked불변이다. 재진입 threshold 준비복원은 게임환급·자연플레이가 아니다.
+- official main9 실제0·459.284228초, 한 actualcollect 뒤 동일invocation 가드9만 재사용했다. final새focused [101, 58]·quick11원본CLI는 실제0/오류0/전후입력·로그보존이다. 원본CLI별실행을 한 fresh proof로 묶어 중복비용을 줄이고 UI대형·240주·전체감사·옛 화면 반복0. 상세SHA·L2전칸은 [완료사양](queue_archive/ORDER-474.md)에 결속했다.
+- 비저자 [전수보고](agent_reviews/ORDER-474.json) SHA 8093f0da51d37f4dea9d6fe4cbe649e5c303bd944abe633e8ad04640270dc0c0의 해당후보/단위만 GO. 공개GO1·인간OPEN45·역사REJECT/HOLD·149captureFAIL/연속창HOLD·473GO 보존. 실제화면·자연·원어민·인간·물리패드·본편출시 GO가 아니다. gangnamdream-dev가 소유/전이/표적검수/증거분리를 적용; 새규범0/일회성. 자동 게이트는 계약 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-07 — 엔딩 순자산·잔여액105잎 사실 수리 (473, 한정 GO)
 
 - stable/orthodox/unorthodox21잎×5언어의 현금·순자산 혼동과 stable 고정20억 잔여액을 고쳤다. 금액10억/5억 이상·토큰·문단·비소유raw·gameplay는 그대로다. EN12 새 predicate 결함을 비저자가 찾아 direct-parent repair로 닫았고 첫 source5도 보존했다.
