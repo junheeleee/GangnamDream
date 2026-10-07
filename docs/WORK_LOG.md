@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-07 — 원장 검수의 중복 계산 비용을 먼저 잰다 (479, 착수)
+
+- 시장 로그 수리478을 `06af8f5`까지 main에 올렸다. [작은 사양](queue_active/ORDER-479.md)은 history helper/self-test2만 소유하며 root 원본 before/after 측정·비저자 원문/반례 검수·운영 파일을 분리한다. 선언 시 구현/프로파일/QA0이다.
+- 원본 cProfile로 실제 병목을 확인한 뒤 같은 호출의 parsed document 재사용 또는 호출내 성공 의미 결과만 선택한다. typed Git·current raw/disk·HEAD·직접 부모·경로·원장 수용·함수/config·입출구 안전 경계는 줄이지 않는다. 옛 대형 QA/engine/전체 pipeline 반복0·새 실행 주장0이다.
+- 자연 도달성이 없는 legacy 분석판 횡보 표시는 현재 live 수리로 확대하지 않는다. 실제 월말이 읽는 20억 첫 돌파의 고정 잔여금 오류는 다음 별도 단위로 분리한다. 실제 화면/입력·전체 출시 HOLD·공개/사용자/과거 인간 판정을 보존한다.
+
 ## 2026-10-07 — 시장 로그를 각 언어 표시 이름으로 기록한다 (478, 한정 GO)
 
 - neutral/bear/bull raw 인수를 known3×5 표시 이름으로만 바꾸고 공유 JA 횡보장1을 横ばい相場로 고쳤다. enum·난수·경제·기간·매매·과거 저장 로그·비소유 raw 변경0.
