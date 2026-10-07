@@ -115,13 +115,15 @@ func _win_choices(game: Node) -> void:
 			var receipt: Dictionary = GameState.event_log.back() if not GameState.event_log.is_empty() else {}
 			var result: String = str(choice.get("result_text", ""))
 			_case("choice", "%s/%s" % [event_id, home], available and committed
-				and choice.get("effects", {}) == {"mental": 12, "money": -15000}
+				and choice.get("effects", {}) == {"mental": 12.0, "money": -15000.0}
 				and choice.get("flags", []) == ["arc_first_real_win_seen"]
 				and actual == expected and GameState.housing == home and GameState.events_seen == 1
 				and str(receipt.get("event_id", "")) == event_id
 				and int(receipt.get("choice_index", -1)) == 0, {
 				"event": event_id, "housing": home, "available": available, "committed": committed,
-				"expected": expected, "actual": actual, "events_seen": GameState.events_seen,
+				"expected_sha256": JSON.stringify(expected).sha256_text(),
+				"actual_sha256": JSON.stringify(actual).sha256_text(), "snapshot_equal": actual == expected,
+				"mental": GameState.mental, "money": GameState.money, "events_seen": GameState.events_seen,
 				"receipt_index": receipt.get("choice_index", -1), "result_sha256": result.sha256_text(),
 			})
 			# Prepared eligibility restoration only, NOT a product refund. Otherwise
