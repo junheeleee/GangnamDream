@@ -135,7 +135,7 @@ func _roll_cycle():
 		cycle = "bull"
 	GameState.market_context["cycle"] = cycle
 	GameState.market_context["crash_risk"] = clampf(0.02 + max(0.0, float(fear_greed - 70)) / 450.0, 0.02, 0.98)
-	GameState.add_log(LocaleManager.ui("시장 국면 전환: %s", "Market cycle shifted: %s") % cycle, "market")
+	GameState.add_log(LocaleManager.ui("시장 국면 전환: %s", "Market cycle shifted: %s") % _cycle_display_name(cycle), "market")
 
 func _update_asset(asset, news_items):
 	var id = str(asset.get("id", ""))
@@ -289,3 +289,14 @@ func get_market_forecast() -> String:
 	if cycle == "bull":
 		return LocaleManager.ui("🟡 상승 국면 — 단기 변동 주의", "🟡 Bullish phase — watch short-term volatility")
 	return LocaleManager.ui("⚪ 횡보 예상 — 분산 투자 유지", "⚪ Sideways market likely — maintain diversification")
+
+func _cycle_display_name(cycle: String) -> String:
+	match cycle:
+		"bull":
+			return LocaleManager.ui("상승장", "Bull Market")
+		"bear":
+			return LocaleManager.ui("하락장", "Bear Market")
+		"neutral":
+			return LocaleManager.ui("횡보장", "Sideways")
+		_:
+			return cycle
