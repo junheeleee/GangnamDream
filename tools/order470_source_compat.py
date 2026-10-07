@@ -1006,12 +1006,19 @@ NIGHT_RAW_PATCHES = {'content/events/arc_midgame.json': (('replace',
                                             892,
                                             'd1e90e11c332b03158cb69176c7e35bc14a03dab4b2eadfe33f92f6d107af699',
                                             '9fe3515b63db0a728a6c96d8e19e17f2da6efefe6f06aaeee49ca8e45e6815dc'),)}
-NIGHT_RECEIPT_PARENT = None
-NIGHT_RECEIPT_COMMIT = None
+NIGHT_RECEIPT_PARENT = "2b30fb563a120a1001f8beee8e02f1228b8f4e8f"
+NIGHT_RECEIPT_COMMIT = "6f80f2d113b2b684909956dd9d701cc9b9832e38"
 NIGHT_RECEIPT_PATHS = (LEDGER_PATH,)
-NIGHT_RECEIPT_RAW_SHA256 = {}
-NIGHT_RECEIPT_BATCH_SHA256 = {}
-NIGHT_RECEIPT_SOURCE_MANIFEST_SHA256 = None
+NIGHT_RECEIPT_RAW_SHA256 = {
+    LEDGER_PATH: ("3b0581aca338cd897aa162458cac86b59864d126344091dccdf4c9dc904ac9f9",
+                  "2d609869aae88189f0c65dc0046f2585bc7b20e2df261115f4cb94f018f7a442"),
+}
+NIGHT_RECEIPT_BATCH_SHA256 = {
+    "ja": "26062714f4daff16591073199399ce86cb40b314b6593426afdb68f2d55aa7d6",
+    "zh-CN": "2bfba723394c5e86794231a7c0a95039f2f045b76089bfd579e4ea0e5a15f592",
+    "zh-TW": "da80ac671e476f512a47791c1ee8896d13f85dd3da297c28c5371f1c454be850",
+}
+NIGHT_RECEIPT_SOURCE_MANIFEST_SHA256 = "90d88b6fe55939264625f49a36bfdc8ff7d10f93c7cd53b85a394f20f911cc05"
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
 _SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
 
