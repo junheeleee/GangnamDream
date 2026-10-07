@@ -367,8 +367,8 @@ def source_predecessor_inventory(root, inventory):
             _require({p: _sha(raw) for p, raw in parent.items()} == hashes
                      and _digest(hashes) == FIRST_LOSS_PREDECESSOR_CENSUS,
                      "first-loss exact whole predecessor census")
-            _require(all(hashes.get(p) == _sha(successor["current"][p]) for p in later.SOURCE_PATHS),
-                     "current470 source binding before historical comparisons")
+            _require(all(hashes.get(p) == _sha(successor["wealth_before"][p]) for p in later.SOURCE_PATHS),
+                     "proved pre480 source binding before historical470 comparisons")
             # Reuse470's unchanged, pinned comparison sequence only; no new
             # Main ownership, bypass flag, or current-input exception there.
             for compare in (later._night_source_comparison, later._first_win_source_comparison,

@@ -2476,6 +2476,19 @@ def _read_proof_current(root):
         market_receipts = (None if market_proof["receipts"] is None else
                            {**current, LEDGER_PATH: market_proof["receipts"][LEDGER_PATH]})
         current = market_source if market_receipts is None else market_receipts
+    import wealth_milestone_log_history as wealth
+    with wealth.fresh_validation_proof(root) as wealth_proof:
+        owned = (wealth.GAME_STATE_PATH, LEDGER_PATH)
+        _require(wealth_proof["head"] == head
+                 and all(current[p] == wealth_proof["before"][p] for p in owned),
+                 "wealth predecessor differs from immutable470/478 payload")
+        wealth_before = dict(current)
+        wealth_source = {**current, **{p: wealth_proof["source"][p] for p in owned}}
+        wealth_receipts = (None if wealth_proof["receipts"] is None else
+                           {**current, **{p: wealth_proof["receipts"][p] for p in owned}})
+        wealth.product_inverse(current[wealth.GAME_STATE_PATH], wealth_source[wealth.GAME_STATE_PATH],
+                               wealth.GAME_STATE_PATH)
+        current = wealth_source if wealth_receipts is None else wealth_receipts
     actual, _ = _snapshot(root, head, tuple(current))
     _require(actual == current, "current HEAD differs from exact source/receipt product")
     _require(all(_disk_bytes(root / p) == raw for p, raw in actual.items()), "current disk differs from Git")
@@ -2497,6 +2510,7 @@ def _read_proof_current(root):
             "loss_hold_before": loss_hold_before, "loss_hold_source": loss_hold_source,
             "loss_hold_receipts": loss_hold_receipts, "loss_hold_metadata": loss_hold_metadata,
             "market_before": market_before, "market_source": market_source, "market_receipts": market_receipts,
+            "wealth_before": wealth_before, "wealth_source": wealth_source, "wealth_receipts": wealth_receipts,
             "person_source": person_source, "person_receipts": person_receipts,
             "prose_before": prose_before, "prose_source": prose_source, "prose_receipts": prose_receipts,
             "prose_current": prose_current, "prose_metadata": prose_metadata,
@@ -2552,10 +2566,12 @@ def source_predecessor_inventory(root, inventory):
                  "actual source census digest")
         _require(all(hashes.get(p) == _sha(proof["current"][p]) for p in SOURCE_PATHS),
                  "actual three-source census binding")
+        import wealth_milestone_log_history as wealth
+        pre_wealth = wealth.source_predecessor_inventory(root, inventory)["source_hashes"]
         comparison = {**_person_source_comparison(root, proof, _prose_source_comparison(
                           root, proof, _ending_source_comparison(
                               root, proof, _first_win_source_comparison(
-                                  root, proof, _night_source_comparison(root, proof, hashes))))),
+                                  root, proof, _night_source_comparison(root, proof, pre_wealth))))),
                       **{p: _sha(proof["before"][p]) for p in SOURCE_PATHS}}
         _require(_digest(comparison) == PREDECESSOR_SOURCE_MANIFEST_SHA256,
                  "exact pre470 complete source census")

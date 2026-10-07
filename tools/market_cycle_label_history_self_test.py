@@ -151,7 +151,8 @@ def run_market_cycle_checks(root=history.ROOT, inventory=None):
             check(history._receipt_semantics(source, receipts) == history.RECEIPT_PARENT, "exact official first1")
             check(history._ledger_inverse(source[history.LEDGER_PATH], receipts[history.LEDGER_PATH]) == source[history.LEDGER_PATH],
                   "old273 raw prefix and41848 accepted records remain")
-            check(history.ui_comparison(actual4, source4, actual4) == source4, "first receipt UI seam")
+            receipt4 = {p: receipts[p] for p in history.CURRENT_UI_PATHS}
+            check(history.ui_comparison(receipt4, source4, receipt4) == source4, "first receipt UI seam")
             reject(lambda: history._receipt_semantics(source, source), "receipt rollback")
             reject(lambda: history._ledger_inverse(source[history.LEDGER_PATH], receipts[history.LEDGER_PATH] + b"\n"),
                    "receipt neighboring raw")
@@ -267,7 +268,59 @@ def run_market_cycle_checks(root=history.ROOT, inventory=None):
     return failures, cases
 
 
+def run_wealth_milestone_checks(root=history.ROOT, inventory=None):
+    """Only the new480 boundary; the older test populations remain intact."""
+    import wealth_milestone_log_history as wealth
+    import contextlib
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER480: " + label)
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+    with history.fresh_validation_proof(root) as proof, wealth.fresh_validation_proof(root) as later:
+        old = proof["receipts"] if proof["receipts"] is not None else proof["source"]
+        check(proof["wealth_before"] == old, "immutable478 receipt endpoint")
+        check(all(proof["current"][p] == later["current"][p] for p in history.CURRENT_UI_PATHS), "actual480 four-raw payload")
+        check(proof["current"][history.INVESTMENT_PATH] == old[history.INVESTMENT_PATH], "Investment unchanged")
+        actual4 = {p: proof["current"][p] for p in history.CURRENT_UI_PATHS}
+        check(history.ui_predecessor(actual4, root) == {p: proof["before"][p] for p in actual4}, "480 then478 comparison only")
+        old4 = {p: old[p] for p in history.CURRENT_UI_PATHS}
+        reject(lambda: history.ui_predecessor(old4, root), "old478 cannot claim current480")
+        forged = copy.deepcopy(later)
+        forged["source"][wealth.UI_PATHS[0]] = forged["before"][wealth.UI_PATHS[0]]
+        @contextlib.contextmanager
+        def fake(_root=wealth.ROOT):
+            yield forged
+        with mock.patch.object(wealth, "fresh_validation_proof", fake):
+            reject(lambda: history._read_proof(root), "forged successor source")
+        with mock.patch.object(wealth, "_snapshot", side_effect=ValueError("missing480 object")):
+            reject(lambda: history.ui_predecessor(actual4, root), "warm missing480 typed evidence")
+    if inventory is not None:
+        pre_wealth = wealth.source_predecessor_inventory(root, inventory)
+        compared = history.source_predecessor_inventory(root, inventory)
+        check({p for p in inventory["source_hashes"] if inventory["source_hashes"][p] != pre_wealth["source_hashes"][p]}
+              == {wealth.GAME_STATE_PATH}, "first480 projection GS only")
+        check({p for p in pre_wealth["source_hashes"] if pre_wealth["source_hashes"][p] != compared["source_hashes"][p]}
+              == {history.INVESTMENT_PATH}, "second478 projection Investment only")
+        check(compared["source_manifest_sha256"] == history.PREDECESSOR_SOURCE_MANIFEST_SHA256, "immutable477 census")
+    return failures, cases
+
+
 def main():
+    if sys.argv[1:] == ["--wealth-milestone-only"]:
+        failures, cases = run_wealth_milestone_checks()
+        for failure in failures:
+            print(failure, file=sys.stderr)
+        print(f"ORDER480_MARKET_WEALTH_{'FAIL' if failures else 'OK'} cases={cases}")
+        return int(bool(failures))
     if sys.argv[1:] not in ([], ["--market-cycle-only"]):
         raise SystemExit("usage: market_cycle_label_history_self_test.py [--market-cycle-only]")
     failures, cases = run_market_cycle_checks()

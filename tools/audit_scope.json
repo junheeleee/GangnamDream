@@ -14,6 +14,35 @@
   ],
   "fast_lanes": [
     {
+      "id": "wealth-milestone-log",
+      "paths": [],
+      "owned_paths": [
+        "autoloads/GameState.gd", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json", "tools/wealth_milestone_log_history.py",
+        "tools/wealth_milestone_log_history_self_test.py", "tools/market_cycle_label_history.py",
+        "tools/market_cycle_label_history_self_test.py", "tools/order470_source_compat.py",
+        "tools/order470_source_compat_self_test.py", "tools/order469_source_compat.py",
+        "tools/order469_source_compat_self_test.py", "tools/pr31_intake_history.py",
+        "tools/pr31_intake_history_self_test.py", "tools/investment_loss_gate_audit.py",
+        "tools/investment_loss_gate_self_test.py", "tools/ja_translation_audit.py",
+        "tools/ja_translation_pipeline.py", "tools/WealthMilestoneLogCheck.gd",
+        "tools/WealthMilestoneLogCheck.tscn", "tools/wealth_milestone_log_audit.py", "tools/audit_scope.json",
+        "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md",
+        "docs/STATUS.md", "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-480.json",
+        "docs/queue_active/ORDER-480.md", "docs/queue_archive/ORDER-480.md"
+      ],
+      "tools": [
+        "tools/wealth_milestone_log_audit.py --self-test", "tools/wealth_milestone_log_history_self_test.py",
+        "tools/market_cycle_label_history_self_test.py --wealth-milestone-only",
+        "tools/order470_source_compat_self_test.py --wealth-milestone-only",
+        "tools/order469_source_compat_self_test.py --wealth-milestone-only",
+        "tools/pr31_intake_history_self_test.py --wealth-milestone-only",
+        "tools/investment_loss_gate_audit.py", "tools/investment_loss_gate_self_test.py --wealth-milestone-only",
+        "tools/en_coverage_check.py", "tools/english_hangul_audit.py", "tools/audit_select.py --verify"
+      ],
+      "why": "Exact first2B fact repair: source4 literal2/UI3 and official three first receipts. Prepared real check/log50 observed separately with serialized/economy/ending preservation; original export/check/import9 with actual collect9 and focused typed successor/retained1 controls. No old77/96/365, full JA/UI, standalone240, natural month, render, native, physical input or release claim."
+    },
+    {
       "id": "market-cycle-log",
       "paths": [],
       "owned_paths": [
@@ -5519,6 +5548,41 @@
       "tool": "tools/night_routine_time_audit.py --self-test",
       "paths": ["content/events*/arc_midgame.json", "tools/night_routine_time_audit.py", "tools/NightRoutineTimeCheck.gd", "tools/NightRoutineTimeCheck.tscn"],
       "why": "Exact10 relative chronology leaves and sixteen rollback/clock/token/layout/unowned negatives; not whole-scene approval."
+    },
+    {
+      "tool": "tools/wealth_milestone_log_audit.py --self-test",
+      "paths": ["autoloads/GameState.gd", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "tools/wealth_milestone_log_audit.py", "tools/WealthMilestoneLogCheck.gd", "tools/WealthMilestoneLogCheck.tscn"],
+      "why": "Exact two source literals and three new UI values with bounded source/fixture mutation controls."
+    },
+    {
+      "tool": "tools/wealth_milestone_log_history_self_test.py",
+      "paths": ["autoloads/GameState.gd", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "content/meta/full_game_localization.json", "tools/wealth_milestone_log_history.py", "tools/wealth_milestone_log_history_self_test.py", "tools/ja_translation_audit.py"],
+      "why": "Exact typed wealth source4/ledger1 and actual current census/retained1 with live and adversarial boundaries."
+    },
+    {
+      "tool": "tools/market_cycle_label_history_self_test.py --wealth-milestone-only",
+      "paths": ["tools/market_cycle_label_history.py", "tools/market_cycle_label_history_self_test.py", "tools/wealth_milestone_log_history.py"],
+      "why": "Separate wealth source/receipt successor preserves old market pins and original control population."
+    },
+    {
+      "tool": "tools/order470_source_compat_self_test.py --wealth-milestone-only",
+      "paths": ["tools/order470_source_compat.py", "tools/order470_source_compat_self_test.py", "tools/wealth_milestone_log_history.py"],
+      "why": "Exact current wealth UI/source/receipt inverse composes before preserved 470 endpoint."
+    },
+    {
+      "tool": "tools/order469_source_compat_self_test.py --wealth-milestone-only",
+      "paths": ["tools/order469_source_compat.py", "tools/order469_source_compat_self_test.py", "tools/wealth_milestone_log_history.py"],
+      "why": "Actual census verified before wealth then market/prose/Main historical source inverses."
+    },
+    {
+      "tool": "tools/pr31_intake_history_self_test.py --wealth-milestone-only",
+      "paths": ["tools/pr31_intake_history.py", "tools/pr31_intake_history_self_test.py", "tools/wealth_milestone_log_history.py"],
+      "why": "Typed actual current wealth census and target/ledger append through preserved intake seam."
+    },
+    {
+      "tool": "tools/investment_loss_gate_self_test.py --wealth-milestone-only",
+      "paths": ["tools/investment_loss_gate_audit.py", "tools/investment_loss_gate_self_test.py", "tools/wealth_milestone_log_history.py"],
+      "why": "Only two exact GameState literals admitted for protected raw comparison, no predicate relaxation."
     },
     {
       "tool": "tools/market_cycle_log_audit.py --self-test",

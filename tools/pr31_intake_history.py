@@ -19,6 +19,7 @@ import order351_source_compat as previous
 import order469_source_compat as source_successor
 import order470_source_compat as fact_successor
 import market_cycle_label_history as market_successor
+import wealth_milestone_log_history as wealth_successor
 
 ROOT = Path(__file__).resolve().parents[1]
 INTAKE_PARENT = "8a2c9a9e5cc61c05c9f58b238d59bbbe7a3ce39b"
@@ -529,6 +530,14 @@ def _read_proof(root=ROOT):
         market_receipts = (None if market["receipts"] is None else
                            {**current, **{p: market["receipts"][p] for p in CURRENT_UI_PATHS}})
         current = market_source if market_receipts is None else market_receipts
+    pre_wealth_successor = dict(current)
+    with wealth_successor.fresh_validation_proof(root) as wealth:
+        _require(wealth["head"] == head
+                 and all(current[p] == wealth["before"][p] for p in wealth_successor.PATHS),
+                 "wealth predecessor differs from immutable478/470 endpoint")
+        wealth_source = {**current, **wealth["source"]}
+        wealth_receipts = None if wealth["receipts"] is None else {**current, **wealth["receipts"]}
+        current = wealth_source if wealth_receipts is None else wealth_receipts
     # Every469..475 stage above remains its immutable historical endpoint.
     #476's completed current endpoint stays separate from477 source/receipt/
     #metadata. Runtime-facing current is always the final actual product.
@@ -553,7 +562,9 @@ def _read_proof(root=ROOT):
             "pre_loss_hold_successor": pre_loss_hold_successor, "loss_hold_source": loss_hold_source,
             "loss_hold_current": loss_hold_current, "loss_hold_metadata": loss_hold_metadata,
             "pre_market_successor": pre_market_successor,
-            "market_source": market_source, "market_receipts": market_receipts}
+            "market_source": market_source, "market_receipts": market_receipts,
+            "pre_wealth_successor": pre_wealth_successor,
+            "wealth_source": wealth_source, "wealth_receipts": wealth_receipts}
 
 
 def _successor_snapshot(root, predecessor, commit, head, before, changed_paths):
@@ -678,6 +689,10 @@ def source_stage_manifest_digests(root, inventory):
             # The complete476 -> pre476 census was just independently proved
             # by source_successor. This is a source-only stage, not a receipt.
             manifests.add(source_successor.FIRST_LOSS_PREDECESSOR_CENSUS)
+            #480 proves its whole parent before478 Investment is projected;
+            #the original478 export census remains a separate immutable stage.
+            pre_wealth = wealth_successor.source_predecessor_inventory(root, inventory)
+            manifests.add(pre_wealth["source_manifest_sha256"])
             #source_successor proved477's full parent before applying the476
             #Main inverse. Keep that actual476 endpoint distinct from90d88.
             pre_market = market_successor.source_predecessor_inventory(root, inventory)["source_hashes"]
@@ -1012,6 +1027,18 @@ def receipt_transitions(root, inventory):
                       "source_manifests": ({market_successor.RECEIPT_PARENT: market_successor.RECEIPT_SOURCE_MANIFEST_SHA256}
                                            if is_receipt else {}), "pr31_intake_comparison": True}
             result.append((commit, before, after, change, market_successor.ui_comparison))
+        for commit, a, b in ((wealth_successor.PRODUCT_COMMIT, proof["pre_wealth_successor"], proof["wealth_source"]),
+                             (wealth_successor.RECEIPT_COMMIT, proof["wealth_source"], proof["wealth_receipts"])):
+            if commit is None:
+                continue
+            before, after = ({p: snapshot[p] for p in CURRENT_UI_PATHS} for snapshot in (a, b))
+            is_receipt = commit == wealth_successor.RECEIPT_COMMIT
+            change = {"ui_by_locale": {locale: int(not is_receipt) for locale in LOCALES},
+                      "receipts": 0, "batches": 0, "first_receipts": 3 * int(is_receipt),
+                      "corrections": 0, "correction_batches": 3 * int(is_receipt),
+                      "source_manifests": ({wealth_successor.RECEIPT_PARENT: wealth_successor.RECEIPT_SOURCE_MANIFEST_SHA256}
+                                           if is_receipt else {}), "pr31_intake_comparison": True}
+            result.append((commit, before, after, change, wealth_successor.ui_comparison))
         return tuple(result)
 
 

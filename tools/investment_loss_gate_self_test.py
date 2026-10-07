@@ -202,12 +202,15 @@ def run_loss_hold_only(root=audit.ROOT):
         check(all(actual[p] != compared[p] for p in audit.MIDGAME.values()),
               "all five actual corrected leaves retained outside comparison")
         import market_cycle_label_history as market
+        import wealth_milestone_log_history as wealth
         # The old nine-path assertion is kept against the separately proved
-        # pre478 comparison. Only Investment's declared log/helper may differ.
+        # pre478/pre480 comparisons. Only the two declared log transitions differ.
         historical_actual = {**actual, audit.INVESTMENT:
-                             market.market_cycle_predecessor(actual[audit.INVESTMENT], root)}
+                             market.market_cycle_predecessor(actual[audit.INVESTMENT], root),
+                             audit.GAME_STATE:
+                             wealth.game_state_predecessor(actual[audit.GAME_STATE], root)}
         check(all(historical_actual[p] == compared[p] for p in audit.PROTECTED if p not in audit.MIDGAME.values()),
-              "other nine protected raw files remain exact after proven478 inverse")
+              "other nine protected raw files remain exact after proven478/480 inverses")
 
         # These malformed supplied inputs fail the adapters' real current-disk
         # boundary before expensive Git history; no proof/collector is mocked.
@@ -265,6 +268,7 @@ def run_loss_hold_only(root=audit.ROOT):
 def run_market_cycle_only(root=audit.ROOT):
     """478 adapter/tuple controls; partial fixtures are not a full collector."""
     import market_cycle_label_history as market
+    import wealth_milestone_log_history as wealth
     import ja_translation_pipeline as pipeline
     root = Path(root).resolve()
     failures, cases = [], 0
@@ -295,9 +299,11 @@ def run_market_cycle_only(root=audit.ROOT):
         check(compared == before, "exact pre477 text5/pre478 Investment1 comparison")
         check(not audit.content_errors(before, actual, comparison=compared),
               "actual gameplay/readers plus exact historical source comparison")
-        check(all(actual[p] == compared[p] for p in audit.PROTECTED
+        historical_actual = {**actual, audit.GAME_STATE:
+                             wealth.game_state_predecessor(actual[audit.GAME_STATE], root)}
+        check(all(historical_actual[p] == compared[p] for p in audit.PROTECTED
                   if p not in (*audit.MIDGAME.values(), audit.INVESTMENT)),
-              "remaining eight raw files are actual and unchanged")
+              "remaining eight raw files unchanged after proven480 inverse")
         check(actual[audit.INVESTMENT] != compared[audit.INVESTMENT]
               and market.product_inverse(compared[audit.INVESTMENT], actual[audit.INVESTMENT],
                                          audit.INVESTMENT) == before[audit.INVESTMENT],
@@ -368,19 +374,101 @@ def run_market_cycle_only(root=audit.ROOT):
     return failures, cases
 
 
+def run_wealth_milestone_only(root=audit.ROOT):
+    """480 GameState comparison only; no old numeric/UI/engine populations."""
+    import wealth_milestone_log_history as wealth
+    root = Path(root).resolve()
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append(label)
+
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+
+    head = wealth._git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+    paths = (*audit.PROTECTED, "tools/investment_loss_gate_audit.py",
+             "tools/investment_loss_gate_self_test.py")
+    inputs = {p: (root / p).read_bytes() for p in paths}
+    actual, _ = wealth._snapshot(root, head, audit.PROTECTED)
+    before, _ = wealth._snapshot(root, audit.BASE, audit.PROTECTED)
+    check(actual == {p: inputs[p] for p in audit.PROTECTED}, "actual typed HEAD/disk14")
+    with wealth.fresh_validation_proof(root) as proof:
+        path = audit.GAME_STATE
+        current = actual[path]
+        previous = wealth.game_state_predecessor(current, root)
+        check(proof["current"][path] == current and proof["before"][path] == previous,
+              "actual current source and immutable predecessor bound")
+        check(previous == before[path] and previous != current,
+              "only new log pair projects to original476 protected GameState")
+        # This pure content predicate receives an explicit immutable comparison
+        # fixture. It is not a fresh proof of the unchanged477/478 transitions;
+        # root separately invokes the original audit's full current adapter.
+        check(not audit.content_errors(before, actual, comparison=before),
+              "actual producer/readers and wealth inverse accept immutable comparison fixture")
+        check(bool(audit.content_errors(before, actual)), "unprojected current is not old raw")
+        mutations = (
+            ("rollback", previous),
+            ("outside newline", current + b"\n"),
+            ("old Korean", current.replace(wealth.NEW_KEY.encode(), wealth.OLD_KEY.encode(), 1)),
+            ("old English", current.replace(wealth.NEW_ENGLISH.encode(), wealth.OLD_ENGLISH.encode(), 1)),
+            ("threshold", current.replace(b"total_now >= 2_000_000_000", b"total_now >= 2_500_000_000", 1)),
+            ("flag", current.replace(b'flags["asset_2b_reached"] = true', b'flags["asset_2b_reached"] = false', 1)),
+            ("neighbor", current.replace("🔥 자산 27억".encode(), "🔥 자산 28억".encode(), 1)),
+        )
+        for label, mutant in mutations:
+            check(mutant != current, "mutation precondition " + label)
+            check(bool(audit.content_errors(before, {**actual, path: mutant}, comparison=before)),
+                  "immutable comparison cannot hide actual GameState " + label)
+        check(bool(audit.content_errors(before, {**actual, path: current.decode()}, comparison=before)),
+              "actual GameState nonbytes rejected")
+        check(bool(audit.content_errors(before, actual, comparison={**before, path: previous + b"\n"})),
+              "forged historical GameState rejected")
+        check(bool(audit.content_errors(before, actual, comparison={**before, path: current})),
+              "current raw cannot masquerade as historical comparison")
+        # The adapter's actual disk boundary rejects these without acquiring any
+        # historical proof. No mutable live disk or proof substitution is used.
+        for label, mutant in (*mutations, ("nonbytes", current.decode())):
+            reject(lambda value=mutant: audit.historical_content_comparison(
+                {**actual, path: value}, root), "adapter current boundary " + label)
+        for label, supplied in (("missing", {p: r for p, r in actual.items() if p != path}),
+                                 ("extra", {**actual, "foreign.gd": b""})):
+            reject(lambda row=supplied: audit.historical_content_comparison(row, root),
+                   "adapter protected population " + label)
+        check(wealth.game_state_predecessor(current, root) == previous,
+              "fresh final GameState comparison unchanged")
+    final, _ = wealth._snapshot(root, head, audit.PROTECTED)
+    check(final == actual and inputs == {p: (root / p).read_bytes() for p in paths}
+          and wealth._git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head,
+          "actual HEAD/Git/disk and owned inputs preserved after exit")
+    return failures, cases
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--loss-hold-only", action="store_true",
                         help="only ORDER477 historical-comparison connector controls")
     parser.add_argument("--market-cycle-only", action="store_true",
                         help="only ORDER478 comparison/call rebuilding controls; no full collector")
+    parser.add_argument("--wealth-milestone-only", action="store_true",
+                        help="only ORDER480 protected GameState comparison; no full collector")
     args = parser.parse_args()
-    if args.loss_hold_only and args.market_cycle_only:
+    if sum((args.loss_hold_only, args.market_cycle_only, args.wealth_milestone_only)) > 1:
         parser.error("choose at most one targeted scope")
-    prefix = ("INVESTMENT_MARKET_CYCLE_ADAPTER_SELF_TEST" if args.market_cycle_only else
+    prefix = ("INVESTMENT_WEALTH_MILESTONE_ADAPTER_SELF_TEST" if args.wealth_milestone_only else
+              "INVESTMENT_MARKET_CYCLE_ADAPTER_SELF_TEST" if args.market_cycle_only else
               "INVESTMENT_LOSS_HOLD_ADAPTER_SELF_TEST" if args.loss_hold_only else "INVESTMENT_LOSS_GATE_SELF_TEST")
     try:
-        failures, cases = (run_market_cycle_only() if args.market_cycle_only else
+        failures, cases = (run_wealth_milestone_only() if args.wealth_milestone_only else
+                           run_market_cycle_only() if args.market_cycle_only else
                            run_loss_hold_only() if args.loss_hold_only else run())
     except (ValueError, TypeError, KeyError, IndexError, OSError, SyntaxError) as exc:
         print(prefix + "_FAIL " + str(exc))

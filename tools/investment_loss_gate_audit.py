@@ -33,6 +33,7 @@ CONTENT = tuple("content/events" + ("" if locale == "ko" else "_" + locale) + "/
 PROTECTED = (*CONTENT, "content/assets.json", "autoloads/GameState.gd",
              "autoloads/DataRegistry.gd", "systems/InvestmentSystem.gd")
 INVESTMENT = "systems/InvestmentSystem.gd"
+GAME_STATE = "autoloads/GameState.gd"
 MIDGAME = {locale: "content/events" + ("" if locale == "ko" else "_" + locale)
            + "/arc_midgame.json" for locale in LOCALES}
 OLD_GUARD = '\t\t\tand GameState.investment_skill >= 5 \\\n'
@@ -227,9 +228,10 @@ def screen_errors(before, current):
 
 
 def historical_content_comparison(current, root=ROOT):
-    """Current14 -> pre477 text5/pre478 Investment1; actual8 stay untouched."""
+    """Current14 -> pre477 text5/pre478 Investment1/pre480 GameState1."""
     import order470_source_compat as history
     import market_cycle_label_history as market
+    import wealth_milestone_log_history as wealth
     root = Path(root).resolve()
     require(type(current) is dict and set(current) == set(PROTECTED)
             and all(type(raw) is bytes for raw in current.values()),
@@ -242,8 +244,9 @@ def historical_content_comparison(current, root=ROOT):
             and all(type(raw) is bytes for raw in previous.values()),
             "protected comparison predecessor population/type")
     investment = market.market_cycle_predecessor(current[INVESTMENT], root)
+    game_state = wealth.game_state_predecessor(current[GAME_STATE], root)
     return {**current, **{path: previous[locale] for locale, path in MIDGAME.items()},
-            INVESTMENT: investment}
+            INVESTMENT: investment, GAME_STATE: game_state}
 
 
 def content_errors(before, current, *, comparison=None):
@@ -267,6 +270,15 @@ def content_errors(before, current, *, comparison=None):
                     failures.append("Investment comparison inverse differs")
             except (ValueError, TypeError, KeyError, IndexError):
                 failures.append("actual Investment exceeds exact market-label transition")
+        elif path == GAME_STATE and comparison is not None:
+            # A historical comparison must not conceal a live economy, flag,
+            # routing or adjacent-log edit. Only the sealed KO/EN pair differs.
+            import wealth_milestone_log_history as wealth
+            try:
+                if wealth.product_inverse(compared[path], current[path], path) != compared[path]:
+                    failures.append("GameState comparison inverse differs")
+            except (ValueError, TypeError, KeyError, IndexError):
+                failures.append("actual GameState exceeds exact wealth-log transition")
         elif path not in MIDGAME.values() and compared[path] != current[path]:
             failures.append("comparison changed a non-midgame protected path: " + path)
     for locale in LOCALES:

@@ -1,4 +1,4 @@
-"""Exact478 source2/first-JA-receipt successor, never a runtime rollback.
+"""Exact480 source4/first-three-receipt successor, never a runtime rollback.
 
 This leaf proof imports no other project module. Older owners may consume its
 comparison views without a recursive history dependency. Every public entry
@@ -16,61 +16,44 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-INVESTMENT_PATH = "systems/InvestmentSystem.gd"
-JA_PATH = "locale/ui_ja.json"
+GAME_STATE_PATH = "autoloads/GameState.gd"
 LEDGER_PATH = "content/meta/full_game_localization.json"
 LOCALES = ("ja", "zh-CN", "zh-TW")
 UI_PATHS = tuple("locale/ui_" + loc + ".json" for loc in LOCALES)
 CURRENT_UI_PATHS = (*UI_PATHS, LEDGER_PATH)
-PATHS = (INVESTMENT_PATH, *CURRENT_UI_PATHS)
-SOURCE_PATHS = (INVESTMENT_PATH, JA_PATH)
-PREDECESSOR_COMMIT = "d1ef3d225b2364f90163cb7bb734ea03655ae45c"
-PRODUCT_PARENT = "dfc23a93d8f3c028528dae2405bd63b11e6fac4d"
-PRODUCT_COMMIT = "20443aa07a5f260ec4b581aaec97c89388004705"
-PREDECESSOR_SOURCE_MANIFEST_SHA256 = "cd3a8af9a4f972f4fea87ea1630b6d31013418d35e0b4b29f01c0a7cc67a314b"
-RAW_SHA256 = {
-    INVESTMENT_PATH: ("b44a5c60c9f0ffd5d49829a3e041ea6a304ad46717683bfd8a9eb6d7b1f2c718", "b2f4f8dc1658d6003884ac6ebc3f1803429490d8585a7121edfab3128777e019"),
-    JA_PATH: ("c056e24b20ad6e9711bce82eaaface23edc49d62d4598d397baf08ed5a7b2816", "9b450541a8d51be03f09f2a1f180cf1fb5e548e51a25648dacc9eddb055c32fb"),
+SOURCE_PATHS = (GAME_STATE_PATH, *UI_PATHS)
+PATHS = (*SOURCE_PATHS, LEDGER_PATH)
+PREDECESSOR_COMMIT = "ae01837dc6cfc0a272534ed38e654513d21cc6e5"
+PRODUCT_PARENT = "209b79ec7df4e6e3a2bcc652f3371b1b24d862a5"
+PRODUCT_COMMIT = "42d30615708ef3344a1cad8af0aad7cebe7e6ca7"
+PREDECESSOR_SOURCE_MANIFEST_SHA256 = "877171e48c9d8b595d33144c3cc0c1e79cb4715e81236c1851eb368943d5832d"
+SOURCE_LEDGER_SHA256 = "0cbec03c72fbf4818fd9285bf66b95e8630af6a7396e461b9151421348900cf4"
+OLD_KEY = "🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다. 남은 건 10억."
+NEW_KEY = "🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다."
+OLD_ENGLISH = "🔥 Assets passed KRW 2B — Gangnam feels close. KRW 1B left."
+NEW_ENGLISH = "🔥 Assets passed KRW 2B — Gangnam feels close."
+TARGETS = {
+    "ja": "🔥 資産が20億ウォンを突破 — カンナムに手が届きそうだ。",
+    "zh-CN": "🔥 资产突破20亿韩元——江南仿佛触手可及。",
+    "zh-TW": "🔥 資產突破20億韓元——江南彷彿近在眼前。",
 }
-SOURCE_LEDGER_SHA256 = "3902a0003fc48ca635510061d07fe6a1354bde5a46257c52de12164829b8f9cc"
-PROTECTED_RAW_SHA256 = {
-    UI_PATHS[1]: "5a36d9c19be5ad1dab97e420cdff4b39ad0cf29554213c765991fb7db834cb4f",
-    UI_PATHS[2]: "a46a54cf6642c22edae87e3be7b4a70517fe9434cf98437481ed3d07fd17b069",
-}
-RAW_PATCHES = {
-    INVESTMENT_PATH: (("replace", 137, 138, 137, 138, "ca16dd1ea1d0476d60c2faed76419789ba6c8035a4882a644340e4503b13a07b", "3f8f5034be84937602381a0319e7baba7621970cf3e674e06264dd6f0a41a8ba"),
-                      ("insert", 291, 291, 291, 302, "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "5928888ad18e454440d62fc22cc326ef673f11a404d8a4901d4cbdf0d153f4d5")),
-    JA_PATH: (("replace", 1763, 1764, 1763, 1764, "186343378b504ce97d08ec79089e796f6e9d8df13984a21b8b814249646cddc5", "56414e62fed593d69280a8976d3ede6c5f694b45a7f87dfc65277a519a4b3128"),),
-}
-SOURCE_KEY = "횡보장"
-OLD_JA, CURRENT_JA = "横歩場", "横ばい相場"
-RECEIPT_ID = "ui:횡보장:/횡보장"
-OLD_LOG = '\tGameState.add_log(LocaleManager.ui("시장 국면 전환: %s", "Market cycle shifted: %s") % cycle, "market")\n'.encode()
-NEW_LOG = OLD_LOG.replace(b"% cycle,", b"% _cycle_display_name(cycle),")
-HELPER_APPEND = '''
-func _cycle_display_name(cycle: String) -> String:
-\tmatch cycle:
-\t\t"bull":
-\t\t\treturn LocaleManager.ui("상승장", "Bull Market")
-\t\t"bear":
-\t\t\treturn LocaleManager.ui("하락장", "Bear Market")
-\t\t"neutral":
-\t\t\treturn LocaleManager.ui("횡보장", "Sideways")
-\t\t_:
-\t\t\treturn cycle
-'''.encode()
-# No invented acceptance: filled only from the actual separate ledger commit.
-RECEIPT_PARENT = "d68bc66b228b0a908defef747d206e05ac66a0fc"
-RECEIPT_COMMIT = "ae01837dc6cfc0a272534ed38e654513d21cc6e5"
-RECEIPT_RAW_SHA256 = ("3902a0003fc48ca635510061d07fe6a1354bde5a46257c52de12164829b8f9cc", "0cbec03c72fbf4818fd9285bf66b95e8630af6a7396e461b9151421348900cf4")
-RECEIPT_BATCH_SHA256 = "d0025f2b84e0be33521ad38eabcdd09423336999249961e23913e229dc144f85"
-RECEIPT_SOURCE_MANIFEST_SHA256 = "877171e48c9d8b595d33144c3cc0c1e79cb4715e81236c1851eb368943d5832d"
-_ACTIVE = contextvars.ContextVar("market_cycle_label_proof", default=None)
+OLD_JA = "🔥 資産20億突破 — カンナムが手に掴めるようだ。残るは10億。"
+RECEIPT_ID = "ui:" + NEW_KEY + ":/" + NEW_KEY
+OLD_RECEIPT_ID = "ui:" + OLD_KEY + ":/" + OLD_KEY
+# Actual acceptance is a separate ledger-only commit; no draft is a receipt.
+RECEIPT_PARENT = None
+RECEIPT_COMMIT = None
+RECEIPT_RAW_SHA256 = ()
+RECEIPT_BATCH_SHA256 = {}
+RECEIPT_SOURCE_MANIFEST_SHA256 = None
+RAW_SHA256 = {'autoloads/GameState.gd': ('03ac214f4ad4fafe5f242c61df79eb89c09aca5b7a0a686a7c386df75a5ba978', 'dfa8c48596917c3b33eb1add4079b790c4bea8b09cc38c03a08165a2955b7bd1'), 'locale/ui_ja.json': ('9b450541a8d51be03f09f2a1f180cf1fb5e548e51a25648dacc9eddb055c32fb', '5a6a314b7fd4a82cf698bd86a832939e47596ece734c0edb4d006714393a8b2c'), 'locale/ui_zh-CN.json': ('5a36d9c19be5ad1dab97e420cdff4b39ad0cf29554213c765991fb7db834cb4f', 'b4b7c60cf82332ae1f58684aaab1ba46451c1e3a5abe6823e6802ec11180df99'), 'locale/ui_zh-TW.json': ('a46a54cf6642c22edae87e3be7b4a70517fe9434cf98437481ed3d07fd17b069', '5d8ca777bda61579b3b1ed44be60840c8984aebc6aaf47b1d545219b23f9fb82')}
+RAW_PATCHES = {'autoloads/GameState.gd': (('replace', 4331, 4332, 4331, 4332, '18078176d3dc68ce75bd84d8ff14c6dd99f18c1cc907564d32dbba2c4bdea0d1', 'dce6b917e6249ff93986bf44ee7d6a4bf2f766a5c064005dee8395b395d0adfe'),), 'locale/ui_ja.json': (('insert', 1818, 1818, 1818, 1819, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '017e4050f506ac183144779004940423d6d0bb6a0b0f4c78c5b292f24cb07ed9'),), 'locale/ui_zh-CN.json': (('insert', 1809, 1809, 1809, 1810, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '2a0b4c589840063a6e5ba37e82af5f53896ac461a3904cc4682fa2da835bbf58'),), 'locale/ui_zh-TW.json': (('insert', 1809, 1809, 1809, 1810, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '3adfdc4c7a7dc6e829176f75355fe3dba45b63362edd01f87bf6f1fc1a93b91e'),)}
+_ACTIVE = contextvars.ContextVar("wealth_milestone_log_proof", default=None)
 
 
 def _require(ok, detail):
     if not ok:
-        raise ValueError("ORDER-478: " + detail)
+        raise ValueError("ORDER-480: " + detail)
 
 
 def _sha(raw):
@@ -188,24 +171,45 @@ class _Document:
         return index
 
 
-def _source_semantics(before, after, path):
-    if path == INVESTMENT_PATH:
-        _require(before.count(OLD_LOG) == after.count(NEW_LOG) == 1
-                 and b"func _cycle_display_name(" not in before
-                 and after == before.replace(OLD_LOG, NEW_LOG, 1) + HELPER_APPEND,
-                 "only log argument and exact pure helper may change")
+def _member_removal(document, keys):
+    parent = document.value
+    for key in keys[:-1]:
+        parent = parent[key]
+    names = list(parent)
+    index = names.index(keys[-1])
+    if index:
+        start = document.spans[(*keys[:-1], names[index - 1])][1]
+        end = document.spans[keys][1]
+    elif len(names) > 1:
+        start = document.members[keys][0]
+        end = document.members[(*keys[:-1], names[1])][0]
     else:
-        _require(path == JA_PATH, "unowned source path")
+        start, end = document.members[keys]
+    return start, end, ""
+
+
+def _source_semantics(before, after, path):
+    if path == GAME_STATE_PATH:
+        old = ('LocaleManager.ui("' + OLD_KEY + '", "' + OLD_ENGLISH + '")').encode()
+        new = ('LocaleManager.ui("' + NEW_KEY + '", "' + NEW_ENGLISH + '")').encode()
+        _require(before.count(old) == after.count(new) == 1 and new not in before
+                 and old not in after and after == before.replace(old, new, 1),
+                 "only milestone KO/EN literals may change")
+    else:
+        _require(path in UI_PATHS, "unowned source path")
+        locale = LOCALES[UI_PATHS.index(path)]
         old, new = _Document(before), _Document(after)
         _require(type(old.value) is dict and type(new.value) is dict
-                 and list(old.value) == list(new.value)
-                 and old.value.get(SOURCE_KEY) == OLD_JA and new.value.get(SOURCE_KEY) == CURRENT_JA
-                 and {**old.value, SOURCE_KEY: CURRENT_JA} == new.value,
-                 "exact Japanese existing neutral label only")
-        a, z = old.spans[(SOURCE_KEY,)]
-        b, end = new.spans[(SOURCE_KEY,)]
-        _require((new.text[:b] + old.text[a:z] + new.text[end:]).encode() == before,
-                 "Japanese neighboring raw bytes changed")
+                 and NEW_KEY not in old.value and new.value.get(NEW_KEY) == TARGETS[locale]
+                 and {**old.value, NEW_KEY: TARGETS[locale]} == new.value
+                 and [key for key in new.value if key != NEW_KEY] == list(old.value),
+                 "exact one new translated UI key, old values/order preserved")
+        if locale == "ja":
+            _require(old.value.get(OLD_KEY) == new.value.get(OLD_KEY) == OLD_JA,
+                     "original retained Japanese value")
+        start, end, _ = _member_removal(new, (NEW_KEY,))
+        _require((new.text[:start] + new.text[end:]).encode() == before,
+                 "UI neighboring raw bytes changed")
     return before
 
 
@@ -223,33 +227,27 @@ def product_inverse(before, after, path):
 
 
 def _validated_ledger_documents(before, after):
-    """Return fresh documents only after the complete raw inverse passes."""
     old, new = _Document(before), _Document(after)
     a, b = old.value, new.value
-    _require(len(a["batches"]) == 273 and len(b["batches"]) == 274
-             and b["batches"][:273] == a["batches"], "exact old273 batch prefix")
-    _require(old.text[old.spans[("batches",)][0]:old.spans[("batches", 272)][1]]
-             == new.text[new.spans[("batches",)][0]:new.spans[("batches", 272)][1]],
-             "original273 batch raw prefix changed")
-    _require(RECEIPT_ID not in a["accepted"]["ja"]
-             and list(a["accepted"]) == list(b["accepted"]) == list(LOCALES), "exact new JA receipt locale")
+    _require(len(a["batches"]) == 274 and len(b["batches"]) == 277
+             and b["batches"][:274] == a["batches"], "exact old274 batch prefix")
+    _require(old.text[old.spans[("batches",)][0]:old.spans[("batches", 273)][1]]
+             == new.text[new.spans[("batches",)][0]:new.spans[("batches", 273)][1]],
+             "original274 batch raw prefix changed")
+    _require(list(a["accepted"]) == list(b["accepted"]) == list(LOCALES), "exact accepted locales")
     expected = copy.deepcopy(a)
-    expected["accepted"]["ja"][RECEIPT_ID] = b["accepted"]["ja"][RECEIPT_ID]
+    replacements = []
+    for locale in LOCALES:
+        _require(RECEIPT_ID not in a["accepted"][locale]
+                 and OLD_RECEIPT_ID not in a["accepted"][locale], "first receipt and no retained-key acceptance")
+        expected["accepted"][locale][RECEIPT_ID] = b["accepted"][locale][RECEIPT_ID]
+        _require([key for key in b["accepted"][locale] if key != RECEIPT_ID]
+                 == list(a["accepted"][locale]), "existing receipt key order")
+        replacements.append(_member_removal(new, ("accepted", locale, RECEIPT_ID)))
     expected["accepted_sha256"], expected["batches"] = _digest(expected["accepted"]), b["batches"]
     _require(expected == b and all(x["accepted_sha256"] == _digest(x["accepted"]) for x in (a, b))
-             and [sum(len(v) for v in x["accepted"].values()) for x in (a, b)] == [41848, 41849],
-             "exact first1/current key population, checksum and existing receipts")
-    keys = list(b["accepted"]["ja"])
-    index = keys.index(RECEIPT_ID)
-    _require([k for k in keys if k != RECEIPT_ID] == list(a["accepted"]["ja"]), "existing JA receipt order")
-    own = ("accepted", "ja", RECEIPT_ID)
-    if index:
-        start = new.spans[("accepted", "ja", keys[index - 1])][1]
-        end = new.spans[own][1]
-    else:
-        start = new.members[own][0]
-        end = new.members[("accepted", "ja", keys[1])][0]
-    replacements = [(start, end, "")]
+             and [sum(len(v) for v in x["accepted"].values()) for x in (a, b)] == [41849, 41852],
+             "exact first3/current population, checksum and unchanged old receipts")
     for key in (("accepted_sha256",), ("batches",)):
         p, q = old.spans[key]
         x, y = new.spans[key]
@@ -257,7 +255,7 @@ def _validated_ledger_documents(before, after):
     restored = new.text
     for x, y, literal in sorted(replacements, reverse=True):
         restored = restored[:x] + literal + restored[y:]
-    _require(restored.encode() == before, "ledger raw outside owned first receipt/append changed")
+    _require(restored.encode() == before, "ledger raw outside first3/append changed")
     return old, new
 
 
@@ -267,45 +265,54 @@ def _ledger_inverse(before, after):
 
 
 def _receipt_semantics(before, after):
-    _require(type(before) is dict and set(before) == set(after) == set(PATHS), "receipt snapshot population")
-    _require(all(before[p] == after[p] for p in PATHS if p != LEDGER_PATH)
+    _require(type(before) is dict and type(after) is dict and set(before) == set(after) == set(PATHS),
+             "receipt snapshot population")
+    _require(all(before[p] == after[p] for p in SOURCE_PATHS)
              and (_sha(before[LEDGER_PATH]), _sha(after[LEDGER_PATH])) == RECEIPT_RAW_SHA256,
              "ledger-only receipt raw binding")
     old_document, new_document = _validated_ledger_documents(before[LEDGER_PATH], after[LEDGER_PATH])
     old, new = old_document.value, new_document.value
     _require(old.get("schema_version") == 1 and old.get("prompt_version") == "full-ko-direct-2026-09-07.1"
-             and old.get("native_review") == "OPEN", "original receipt schema/native/prompt")
-    source_hash = _digest({"path": "runtime:static_ui", "field": (SOURCE_KEY,), "ko": SOURCE_KEY})
-    target = _loads(after[JA_PATH])[SOURCE_KEY]
-    _require(target == CURRENT_JA, "receipt target must be actual new Japanese")
-    translation = {"source_sha256": source_hash, "target_sha256": _digest(target)}
-    _require(new["accepted"]["ja"][RECEIPT_ID] == translation, "current source/target receipt binding")
-    batch = new["batches"][-1]
-    _require(_digest(batch) == RECEIPT_BATCH_SHA256
-             and set(batch["official_receipt_headers_by_locale"]) == {"ja"}, "actual portable batch pin")
-    header = batch["official_receipt_headers_by_locale"]["ja"]
-    row = {"group": "ui", "owner": SOURCE_KEY, "source_path": "runtime:static_ui", "path": [SOURCE_KEY],
-           "source": SOURCE_KEY, "category": "ui_static_context", "lifecycle": "not_applicable",
-           "protected": False, "runtime_support": "builtin_overlay_static_only", "format_template": False,
-           "id": RECEIPT_ID, "source_sha256": source_hash, "locale": "ja", "prompt_version": old["prompt_version"],
-           "target_path": JA_PATH, "previous_target_sha256": _digest(_loads(before[JA_PATH])[SOURCE_KEY])}
-    expected = {"kind": "full_game_localization_batch", "schema_version": 1, "locale": "ja",
-                "source_revision": header.get("source_revision"), "prompt_version": old["prompt_version"],
-                "source_manifest_sha256": RECEIPT_SOURCE_MANIFEST_SHA256,
-                "selection_sha256": _digest([row]), "count": 1, "source_language": "ko", "native_review": "OPEN"}
-    expected["batch_id"] = _digest(expected)
-    _require(header == expected and header["source_revision"] == RECEIPT_PARENT,
-             "official export selection/current prior target/revision")
-    _require(batch.get("order") == "ORDER-478" and batch.get("group") == "ui"
-             and batch.get("source_leaves") == 1 and batch.get("machine_validation") == "PASS"
-             and batch.get("native_review") == batch.get("rendered_review") == "OPEN"
-             and set(batch.get("target_leaves_by_locale", {})) <= set(LOCALES)
-             and all(batch.get("target_leaves_by_locale", {}).get(loc, 0) == int(loc == "ja") for loc in LOCALES),
-             "first1 machine-only acceptance counts")
-    receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN",
-               "translations": {RECEIPT_ID: translation}}
-    _require(batch.get("receipt_sha256_by_locale") == {"ja": _digest(receipt)}, "official receipt digest")
-    return header["source_revision"]
+             and old.get("native_review") == "OPEN" and set(RECEIPT_BATCH_SHA256) == set(LOCALES),
+             "original receipt schema/native/prompt and three batch pins")
+    source_hash = _digest({"path": "runtime:static_ui", "field": (NEW_KEY,), "ko": NEW_KEY})
+    seen = set()
+    for batch in new["batches"][274:]:
+        headers = batch.get("official_receipt_headers_by_locale", {})
+        _require(len(headers) == 1, "one portable locale header per batch")
+        locale = next(iter(headers))
+        _require(locale in LOCALES and locale not in seen and _digest(batch) == RECEIPT_BATCH_SHA256[locale],
+                 "actual portable batch identity")
+        seen.add(locale)
+        path = UI_PATHS[LOCALES.index(locale)]
+        target = _loads(after[path])[NEW_KEY]
+        _require(target == TARGETS[locale], "receipt target is exact source4 draft")
+        translation = {"source_sha256": source_hash, "target_sha256": _digest(target)}
+        _require(new["accepted"][locale][RECEIPT_ID] == translation, "current source/target receipt binding")
+        header = headers[locale]
+        row = {"group": "ui", "owner": NEW_KEY, "source_path": "runtime:static_ui", "path": [NEW_KEY],
+               "source": NEW_KEY, "category": "ui_static_context", "lifecycle": "not_applicable",
+               "protected": False, "runtime_support": "builtin_overlay_static_only", "format_template": False,
+               "id": RECEIPT_ID, "source_sha256": source_hash, "locale": locale, "prompt_version": old["prompt_version"],
+               "target_path": path, "previous_target_sha256": _digest(_loads(before[path])[NEW_KEY])}
+        expected = {"kind": "full_game_localization_batch", "schema_version": 1, "locale": locale,
+                    "source_revision": header.get("source_revision"), "prompt_version": old["prompt_version"],
+                    "source_manifest_sha256": RECEIPT_SOURCE_MANIFEST_SHA256,
+                    "selection_sha256": _digest([row]), "count": 1, "source_language": "ko", "native_review": "OPEN"}
+        expected["batch_id"] = _digest(expected)
+        _require(header == expected and header["source_revision"] == RECEIPT_PARENT,
+                 "official source4 export selection/current target/revision")
+        _require(batch.get("order") == "ORDER-480" and batch.get("group") == "ui"
+                 and batch.get("source_leaves") == 1 and batch.get("machine_validation") == "PASS"
+                 and batch.get("native_review") == batch.get("rendered_review") == "OPEN"
+                 and set(batch.get("target_leaves_by_locale", {})) <= set(LOCALES)
+                 and all(batch.get("target_leaves_by_locale", {}).get(loc, 0) == int(loc == locale) for loc in LOCALES),
+                 "first3 machine-only acceptance counts")
+        receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN",
+                   "translations": {RECEIPT_ID: translation}}
+        _require(batch.get("receipt_sha256_by_locale") == {locale: _digest(receipt)}, "official receipt digest")
+    _require(seen == set(LOCALES), "all three first receipts")
+    return RECEIPT_PARENT
 
 
 def _configuration():
@@ -332,48 +339,28 @@ def _transition(root, head, parent, commit, before, changed):
 def _read_proof(root):
     root = Path(root).resolve()
     module = Path(__file__).resolve()
-    _require(module == root / "tools/market_cycle_label_history.py", "module/root identity")
+    _require(module == root / "tools/wealth_milestone_log_history.py", "module/root identity")
     module_raw, binding = _disk_bytes(module), _configuration()
     head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
     before, _ = _snapshot(root, PREDECESSOR_COMMIT, PATHS)
     _git(root, "merge-base", "--is-ancestor", PREDECESSOR_COMMIT, PRODUCT_PARENT)
     source = _transition(root, head, PRODUCT_PARENT, PRODUCT_COMMIT, before, SOURCE_PATHS)
-    _require(set(RAW_SHA256) == set(RAW_PATCHES) == set(SOURCE_PATHS), "exact two source pins")
+    _require(set(RAW_SHA256) == set(RAW_PATCHES) == set(SOURCE_PATHS), "exact four source pins")
     for path in SOURCE_PATHS:
         product_inverse(before[path], source[path], path)
-    _require(_sha(source[LEDGER_PATH]) == SOURCE_LEDGER_SHA256, "source stage retains immutable477 ledger")
-    _require(all(_sha(source[p]) == sha for p, sha in PROTECTED_RAW_SHA256.items()), "unchanged regional UI raw")
+    _require(_sha(source[LEDGER_PATH]) == SOURCE_LEDGER_SHA256, "source stage retains immutable478 ledger")
     current, receipts = source, None
     if RECEIPT_COMMIT is not None:
         _git(root, "merge-base", "--is-ancestor", PRODUCT_COMMIT, RECEIPT_PARENT)
         receipts = _transition(root, head, RECEIPT_PARENT, RECEIPT_COMMIT, source, (LEDGER_PATH,))
         revision = _receipt_semantics(source, receipts)
         export, _ = _snapshot(root, revision, PATHS)
-        _require(export == source, "export typed snapshot differs from actual source2")
+        _require(export == source, "export typed snapshot differs from actual source4")
         _git(root, "merge-base", "--is-ancestor", revision, RECEIPT_COMMIT)
         current = receipts
     else:
-        _require(RECEIPT_PARENT is RECEIPT_BATCH_SHA256 is RECEIPT_SOURCE_MANIFEST_SHA256 is None
-                 and RECEIPT_RAW_SHA256 == (), "partial unbound receipt configuration")
-    #480 is a separate leaf authority. Preserve478 source/receipt endpoints;
-    #only the final physical UI/ledger endpoint advances.
-    import wealth_milestone_log_history as wealth
-    with wealth.fresh_validation_proof(root) as successor:
-        _require(successor["head"] == head
-                 and all(current[p] == successor["before"][p] for p in CURRENT_UI_PATHS),
-                 "wealth predecessor differs from immutable478 UI/ledger")
-        wealth_before = dict(current)
-        wealth_source = {**current, **{p: successor["source"][p] for p in CURRENT_UI_PATHS}}
-        wealth_receipts = (None if successor["receipts"] is None else
-                           {**current, **{p: successor["receipts"][p] for p in CURRENT_UI_PATHS}})
-        wealth.ui_comparison({p: wealth_source[p] for p in CURRENT_UI_PATHS},
-                             {p: current[p] for p in CURRENT_UI_PATHS},
-                             {p: wealth_source[p] for p in CURRENT_UI_PATHS})
-        if wealth_receipts is not None:
-            wealth.ui_comparison({p: wealth_receipts[p] for p in CURRENT_UI_PATHS},
-                                 {p: wealth_source[p] for p in CURRENT_UI_PATHS},
-                                 {p: wealth_receipts[p] for p in CURRENT_UI_PATHS})
-        current = wealth_source if wealth_receipts is None else wealth_receipts
+        _require(RECEIPT_PARENT is RECEIPT_SOURCE_MANIFEST_SHA256 is None
+                 and RECEIPT_BATCH_SHA256 == {} and RECEIPT_RAW_SHA256 == (), "partial unbound receipt configuration")
     actual, _ = _snapshot(root, head, PATHS)
     _require(actual == current and all(_disk_bytes(root / p) == raw for p, raw in actual.items()),
              "actual current Git/disk differs")
@@ -381,9 +368,7 @@ def _read_proof(root):
              and _disk_bytes(module) == module_raw and _configuration() == binding,
              "HEAD/module/function/config changed during proof")
     return {"root": root, "head": head, "before": before, "source": source, "receipts": receipts,
-            "current": actual, "binding": binding, "module_raw": module_raw,
-            "wealth_before": wealth_before, "wealth_source": wealth_source,
-            "wealth_receipts": wealth_receipts}
+            "current": actual, "binding": binding, "module_raw": module_raw}
 
 
 @contextlib.contextmanager
@@ -408,27 +393,25 @@ def fresh_validation_proof(root=ROOT):
         _ACTIVE.reset(token)
 
 
-def market_cycle_predecessor(actual_raw, root=ROOT):
+def game_state_predecessor(actual_raw, root=ROOT):
     with fresh_validation_proof(root) as proof:
-        _require(type(actual_raw) is bytes and actual_raw == proof["current"][INVESTMENT_PATH],
-                 "actual Investment raw required")
-        return proof["before"][INVESTMENT_PATH]
+        _require(type(actual_raw) is bytes and actual_raw == proof["current"][GAME_STATE_PATH],
+                 "actual GameState raw required")
+        return proof["before"][GAME_STATE_PATH]
 
 
 def source_predecessor_inventory(root, inventory):
     with fresh_validation_proof(root) as proof:
         hashes = inventory["source_hashes"]
         _require(type(hashes) is dict and _digest(hashes) == inventory["source_manifest_sha256"]
-                 and hashes.get(INVESTMENT_PATH) == _sha(proof["current"][INVESTMENT_PATH]), "actual source census")
+                 and hashes.get(GAME_STATE_PATH) == _sha(proof["current"][GAME_STATE_PATH]), "actual source census")
         actual, _ = _snapshot(root, proof["head"], tuple(hashes))
         _require({p: _sha(raw) for p, raw in actual.items()} == hashes
                  and all(_disk_bytes(Path(root) / p) == raw for p, raw in actual.items()), "whole actual census Git/disk")
-        import wealth_milestone_log_history as wealth
-        pre_wealth = wealth.source_predecessor_inventory(root, inventory)["source_hashes"]
-        compared = {**pre_wealth, INVESTMENT_PATH: _sha(proof["before"][INVESTMENT_PATH])}
+        compared = {**hashes, GAME_STATE_PATH: _sha(proof["before"][GAME_STATE_PATH])}
         parent, _ = _snapshot(root, PRODUCT_PARENT, tuple(compared))
         _require({p: _sha(raw) for p, raw in parent.items()} == compared
-                 and _digest(compared) == PREDECESSOR_SOURCE_MANIFEST_SHA256, "exact whole pre478 census")
+                 and _digest(compared) == PREDECESSOR_SOURCE_MANIFEST_SHA256, "exact whole pre480 census")
         final, _ = _snapshot(root, proof["head"], tuple(hashes))
         _require(final == actual and all(_disk_bytes(Path(root) / p) == raw for p, raw in final.items()),
                  "whole census changed during comparison")
@@ -436,19 +419,19 @@ def source_predecessor_inventory(root, inventory):
 
 
 def ui_comparison(snapshot, before, after):
-    """Pure exact four-raw inverse for PR31's existing history seam."""
-    _require(type(snapshot) is dict and set(snapshot) == set(before) == set(after) == set(CURRENT_UI_PATHS)
-             and snapshot == after and all(type(v) is bytes for v in snapshot.values()), "exact current four-raw comparison")
-    if before[JA_PATH] != after[JA_PATH]:
-        product_inverse(before[JA_PATH], after[JA_PATH], JA_PATH)
-        _require(all(before[p] == after[p] for p in CURRENT_UI_PATHS if p != JA_PATH)
-                 and _sha(before[LEDGER_PATH]) == SOURCE_LEDGER_SHA256
-                 and all(_sha(before[p]) == sha for p, sha in PROTECTED_RAW_SHA256.items()),
-                 "JA source stage changed another raw")
+    """Exact current four-raw stage -> its immutable comparison, not runtime."""
+    _require(type(snapshot) is dict and type(before) is dict and type(after) is dict
+             and set(snapshot) == set(before) == set(after) == set(CURRENT_UI_PATHS)
+             and snapshot == after and all(type(v) is bytes for v in snapshot.values()),
+             "exact current four-raw comparison")
+    if before[UI_PATHS[0]] != after[UI_PATHS[0]]:
+        for path in UI_PATHS:
+            product_inverse(before[path], after[path], path)
+        _require(before[LEDGER_PATH] == after[LEDGER_PATH]
+                 and _sha(before[LEDGER_PATH]) == SOURCE_LEDGER_SHA256, "source4 ledger unchanged")
     else:
         _require(RECEIPT_COMMIT is not None and all(before[p] == after[p] for p in UI_PATHS)
-                 and _sha(after[JA_PATH]) == RAW_SHA256[JA_PATH][1]
-                 and all(_sha(after[p]) == sha for p, sha in PROTECTED_RAW_SHA256.items())
+                 and all(_sha(after[p]) == RAW_SHA256[p][1] for p in UI_PATHS)
                  and (_sha(before[LEDGER_PATH]), _sha(after[LEDGER_PATH])) == RECEIPT_RAW_SHA256,
                  "exact bound receipt comparison")
         _ledger_inverse(before[LEDGER_PATH], after[LEDGER_PATH])
@@ -456,7 +439,7 @@ def ui_comparison(snapshot, before, after):
 
 
 def ui_predecessor(snapshot, root=ROOT):
-    """Actual four-raw only -> pre478 comparison copy, never runtime values."""
+    """Actual four-raw only -> pre480 copy, never runtime values."""
     with fresh_validation_proof(root) as proof:
         current = {p: proof["current"][p] for p in CURRENT_UI_PATHS}
         _require(type(snapshot) is dict and set(snapshot) == set(CURRENT_UI_PATHS)

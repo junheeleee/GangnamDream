@@ -617,5 +617,84 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
     return _AP_COPY_OLD_CHECK_UI_SCOPE(actual, errors)
 # END_INVESTMENT_AP_RETAINED_JA_467
 
+# BEGIN_WEALTH_MILESTONE_RETAINED_JA_480
+_WEALTH_LOG_OLD_RETIRED_ENTRIES = retired_relationship_ui_entries
+_WEALTH_LOG_OLD_CHECK_UI_SCOPE = check_ui_scope
+WEALTH_LOG_RETAINED_JA = "🔥 資産20億突破 — カンナムが手に掴めるようだ。残るは10億。"
+
+
+def wealth_milestone_retained_ja_entries(inventory: UiInventory, actual: Any) -> tuple[dict[str, Entry], list[str]]:
+    """One immutable unused legacy key; current source and targets stay current."""
+    from dataclasses import replace
+    import ja_translation_pipeline as pipeline
+    import wealth_milestone_log_history as history
+    try:
+        if not isinstance(inventory, UiInventory) or inventory.errors:
+            raise ValueError("supplied current UI inventory is malformed")
+        with history.fresh_validation_proof(ROOT) as proof:
+            path = history.GAME_STATE_PATH
+            before, current = proof["before"], proof["current"]
+            contract = pipeline.read_ui_context_contract()
+
+            def calls(raw):
+                source = raw.decode("utf-8")
+                rows, parse_errors = pipeline.parse_ui_calls(path, source)
+                dynamic, dynamic_errors, _stats = pipeline.collect_dynamic_housing_ui_calls(contract, source)
+                if parse_errors or dynamic_errors:
+                    raise ValueError("GameState UI parser errors")
+                return tuple(rows) + tuple(dynamic)
+
+            previous_calls, current_calls = calls(before[path]), calls(current[path])
+            key, new_key = history.OLD_KEY, history.NEW_KEY
+            old_rows = [c for c in previous_calls if c.korean == key]
+            new_rows = [c for c in current_calls if c.korean == new_key]
+            if (len(old_rows) != 1 or len(new_rows) != 1
+                    or any(c.korean == new_key for c in previous_calls)
+                    or any(c.korean == key for c in inventory.calls)
+                    or len([c for c in inventory.calls if c.korean == new_key]) != 1
+                    or key in inventory.blueprint or new_key not in inventory.blueprint
+                    or old_rows[0].function != "check_game_over" or old_rows[0].api != "legacy"
+                    or old_rows[0].english != history.OLD_ENGLISH
+                    or new_rows[0] != replace(old_rows[0], korean=new_key, english=history.NEW_ENGLISH)):
+                raise ValueError("retained/current wealth source identities differ")
+            expected = tuple(replace(c, korean=new_key, english=history.NEW_ENGLISH)
+                             if c == old_rows[0] else c for c in previous_calls)
+            if (current_calls != expected
+                    or tuple(c for c in inventory.calls if c.path == path) != current_calls):
+                raise ValueError("supplied current GameState UI payload/order/coordinates differ")
+            ja_path = "locale/ui_ja.json"
+            original, live = json.loads(before[ja_path]), json.loads(current[ja_path])
+            if (type(actual) is not dict or actual != live
+                    or original.get(key) != WEALTH_LOG_RETAINED_JA
+                    or live.get(key) != WEALTH_LOG_RETAINED_JA):
+                raise ValueError("immutable/supplied Japanese wealth target differs")
+            leaf_id = "ui:" + key + ":/" + key.replace("~", "~0").replace("/", "~1")
+            for stage in (before, current):
+                ledger = json.loads(stage[history.LEDGER_PATH])
+                accepted = ledger.get("accepted") if type(ledger) is dict else None
+                if (type(accepted) is not dict or set(accepted) != {"ja", "zh-CN", "zh-TW"}
+                        or any(type(rows) is not dict or leaf_id in rows for rows in accepted.values())):
+                    raise ValueError("retained wealth key has a receipt or malformed locale map")
+            result = {key: Entry("retained-ui::wealth-milestone", key,
+                                 "autoloads/GameState.gd::check_game_over (retired exact source)")}
+        # Publish only after the fresh helper's actual typed/disk exit checks.
+        return result, []
+    except (OSError, ValueError, TypeError, KeyError, IndexError, AttributeError) as exc:
+        return {}, ["wealth-milestone retained JA: " + str(exc)]
+
+
+def retired_relationship_ui_entries(inventory: UiInventory) -> tuple[dict[str, Entry], list[str]]:
+    entries, errors = _WEALTH_LOG_OLD_RETIRED_ENTRIES(inventory)
+    retained, extra_errors = wealth_milestone_retained_ja_entries(inventory, read_json(ROOT / "locale/ui_ja.json"))
+    return ({}, [*errors, *extra_errors]) if errors or extra_errors else ({**entries, **retained}, [])
+
+
+def check_ui_scope(actual: Any, errors: list[str]) -> int:
+    import wealth_milestone_log_history as history
+    if not isinstance(actual, dict) or actual.get(history.OLD_KEY) != WEALTH_LOG_RETAINED_JA:
+        errors.append("ui: exact retained wealth-milestone target changed/missing")
+    return _WEALTH_LOG_OLD_CHECK_UI_SCOPE(actual, errors)
+# END_WEALTH_MILESTONE_RETAINED_JA_480
+
 if __name__ == "__main__":
     sys.exit(main())

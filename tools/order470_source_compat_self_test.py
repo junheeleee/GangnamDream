@@ -1455,7 +1455,48 @@ def run_market_cycle_checks(root=history.ROOT, inventory=None):
     return failures, cases
 
 
+def run_wealth_milestone_checks(root=history.ROOT, inventory=None):
+    """Only the new480 boundary; the older test populations remain intact."""
+    import wealth_milestone_log_history as wealth
+    import contextlib
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER480: " + label)
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+    with history.fresh_validation_proof(root) as proof, wealth.fresh_validation_proof(root) as later:
+        path = wealth.GAME_STATE_PATH
+        old = proof["market_receipts"] if proof["market_receipts"] is not None else proof["market_source"]
+        check(proof["wealth_before"] == old, "immutable470/478 endpoint")
+        check(proof["wealth_source"][path] == later["source"][path] and proof["current"][path] == later["current"][path], "actual GameState payload")
+        check({p for p in old if old[p] != proof["wealth_source"][p]} == {path}, "source changes only owned GS")
+        check(history.predecessor_bytes(proof["current"][path], path, root) == proof["before"][path], "public actual to pre470 comparison")
+        reject(lambda: history.predecessor_bytes(old[path], path, root), "old GS cannot claim actual")
+        check(proof["current"][history.LEDGER_PATH] == later["current"][history.LEDGER_PATH], "actual ledger endpoint")
+        for stage in ("after", "receipts", "person_source", "person_receipts", "prose_source", "prose_current",
+                      "ending_source", "first_win_source", "night_source", "loss_hold_source", "market_source", "market_receipts"):
+            if proof[stage] is not None:
+                check(proof[stage][path] == old[path], "old GS endpoint remains " + stage)
+        with mock.patch.object(wealth, "_snapshot", side_effect=ValueError("missing480 object")):
+            reject(lambda: history.predecessor_bytes(later["current"][path], path, root), "warm missing480 typed evidence")
+    return failures, cases
+
+
 def main():
+    if sys.argv[1:] == ["--wealth-milestone-only"]:
+        failures, cases = run_wealth_milestone_checks()
+        for failure in failures:
+            print(failure, file=sys.stderr)
+        print(f"ORDER480_FACT_WEALTH_{'FAIL' if failures else 'OK'} cases={cases}")
+        return int(bool(failures))
     coffee_only = sys.argv[1:] == ["--coffee-self-test"]
     person_only = sys.argv[1:] == ["--person-self-test"]
     prose_only = sys.argv[1:] == ["--prose-self-test"]

@@ -367,7 +367,57 @@ def run_market_cycle_checks(root=history.ROOT, inventory=None):
     return failures, cases
 
 
+def run_wealth_milestone_checks(root=history.ROOT, inventory=None):
+    """Only the new480 boundary; the older test populations remain intact."""
+    import wealth_milestone_log_history as wealth
+    import contextlib
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER480: " + label)
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+    import order470_source_compat as later
+    import market_cycle_label_history as market
+    with history.fresh_validation_proof(root) as proof, wealth.fresh_validation_proof(root) as current:
+        check(proof["current"][history.MAIN_PATH] == proof["first_loss_after"][history.MAIN_PATH], "actual476 Main unchanged")
+        check(history.first_loss_predecessor(proof["current"][history.MAIN_PATH], root) == proof["after"][history.MAIN_PATH], "old469 comparison meaning unchanged")
+        check(history.main_predecessor(proof["current"][history.MAIN_PATH], root) == proof["before"][history.MAIN_PATH], "original Main14/13 boundary unchanged")
+        with mock.patch.object(wealth, "_snapshot", side_effect=ValueError("missing480 object")):
+            reject(lambda: history.first_loss_predecessor(proof["current"][history.MAIN_PATH], root), "warm missing480 typed evidence")
+    if inventory is not None:
+        original = copy.deepcopy(inventory)
+        pre_wealth = wealth.source_predecessor_inventory(root, inventory)
+        pre_market = market.source_predecessor_inventory(root, inventory)
+        check(pre_wealth["source_manifest_sha256"] == wealth.PREDECESSOR_SOURCE_MANIFEST_SHA256, "immutable478 census")
+        with later.fresh_validation_proof(root) as successor, history.fresh_validation_proof(root) as proof:
+            pre_hold = later._loss_hold_source_comparison(root, successor, pre_market["source_hashes"])
+            pre_loss = {**pre_hold, history.MAIN_PATH: history._sha(proof["first_loss_before"][history.MAIN_PATH])}
+            check(history._digest(pre_loss) == history.FIRST_LOSS_PREDECESSOR_CENSUS, "480 then478 then477 then476 exact90d88")
+        compared = history.source_predecessor_inventory(root, inventory)
+        check(compared["source_manifest_sha256"] == history.PR31_SOURCE_MANIFEST_SHA256, "original e300 census")
+        check(inventory == original, "runtime inventory stays actual")
+        mutant = copy.deepcopy(inventory)
+        mutant["source_hashes"][wealth.GAME_STATE_PATH] = wealth.RAW_SHA256[wealth.GAME_STATE_PATH][0]
+        mutant["source_manifest_sha256"] = history._digest(mutant["source_hashes"])
+        reject(lambda: history.source_predecessor_inventory(root, mutant), "rehashed pre480 GS cannot claim current")
+    return failures, cases
+
+
 def main():
+    if sys.argv[1:] == ["--wealth-milestone-only"]:
+        failures, cases = run_wealth_milestone_checks()
+        for failure in failures:
+            print(failure, file=sys.stderr)
+        print(f"ORDER480_SOURCE_WEALTH_{'FAIL' if failures else 'OK'} cases={cases}")
+        return int(bool(failures))
     first_loss_only = sys.argv[1:] == ["--first-loss-only"]
     loss_hold_only = sys.argv[1:] == ["--loss-hold-only"]
     market_only = sys.argv[1:] == ["--market-cycle-only"]

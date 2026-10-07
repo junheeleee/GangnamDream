@@ -1131,7 +1131,64 @@ def run_market_cycle_checks(root=history.ROOT, inventory=None):
     return failures, cases
 
 
+def run_wealth_milestone_checks(root=history.ROOT, inventory=None):
+    """Only the new480 boundary; the older test populations remain intact."""
+    import wealth_milestone_log_history as wealth
+    import contextlib
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER480: " + label)
+    def reject(fn, label):
+        try:
+            fn()
+        except (ValueError, TypeError, KeyError, IndexError, OSError):
+            check(True, label)
+        else:
+            check(False, label)
+    with history.fresh_validation_proof(root) as proof, wealth.fresh_validation_proof(root) as current:
+        old = proof["market_receipts"] if proof["market_receipts"] is not None else proof["market_source"]
+        check(proof["pre_wealth_successor"] == old, "immutable478 endpoint")
+        check({p for p in old if old[p] != proof["wealth_source"][p]} == set(wealth.SOURCE_PATHS), "source4 separate from receipts")
+        check(all(proof["current"][p] == current["current"][p] for p in wealth.PATHS), "actual480 payload")
+        check(history.current_content_raw(root) == {p: proof["current"][p] for p in history.CURRENT_CONTENT_PATHS}, "runtime content remains actual")
+        partial = {p: history._sha(proof["current"][p]) for p in history.SOURCE_PATHS}
+        partial = {"source_hashes": partial, "source_manifest_sha256": history._digest(partial)}
+        check(history.source_predecessor_inventory(root, partial)["source_hashes"] ==
+              {p: history._sha(proof["before"][p]) for p in history.SOURCE_PATHS}, "public partial15 unchanged")
+        rows = [r for r in history.receipt_transitions(root, {}) if r[0] in {wealth.PRODUCT_COMMIT, wealth.RECEIPT_COMMIT}]
+        check(len(rows) == 1 + int(wealth.RECEIPT_COMMIT is not None), "source4 and ledger1 distinct transitions")
+        for commit, before, after, change, inverse in rows:
+            receipt = commit == wealth.RECEIPT_COMMIT
+            check(change["ui_by_locale"] == {loc: int(not receipt) for loc in wealth.LOCALES}
+                  and change["first_receipts"] == 3 * int(receipt) and change["corrections"] == 0,
+                  "exact additions/first3 no corrections")
+            check(inverse(after, before, after) == before, "raw comparison seam")
+            for label, supplied in (("rollback", before), ("missing", {k: v for k, v in after.items() if k != wealth.UI_PATHS[0]}),
+                                     ("neighbor", {**after, wealth.UI_PATHS[0]: after[wealth.UI_PATHS[0]] + b"\n"})):
+                reject(lambda r=supplied: inverse(r, before, after), "seam " + label)
+    if inventory is not None:
+        stages = history.source_stage_manifest_digests(root, inventory)
+        check({inventory["source_manifest_sha256"], wealth.PREDECESSOR_SOURCE_MANIFEST_SHA256,
+               history.market_successor.PREDECESSOR_SOURCE_MANIFEST_SHA256,
+               history.source_successor.FIRST_LOSS_PREDECESSOR_CENSUS,
+               history.CURRENT_SOURCE_MANIFEST_SHA256} <= stages, "actual plus478/477/475/PR31 immutable censuses")
+        mutant = copy.deepcopy(inventory)
+        mutant["source_hashes"][wealth.GAME_STATE_PATH] = wealth.RAW_SHA256[wealth.GAME_STATE_PATH][0]
+        mutant["source_manifest_sha256"] = history._digest(mutant["source_hashes"])
+        reject(lambda: history.source_stage_manifest_digests(root, mutant), "rehashed rollback census")
+    return failures, cases
+
+
 def main():
+    if sys.argv[1:] == ["--wealth-milestone-only"]:
+        failures, cases = run_wealth_milestone_checks()
+        for failure in failures:
+            print(failure, file=sys.stderr)
+        print(f"PR31_WEALTH_MILESTONE_{'FAIL' if failures else 'OK'} cases={cases}")
+        return int(bool(failures))
     person_only = sys.argv[1:] == ["--person-self-test"]
     prose_only = sys.argv[1:] == ["--prose-self-test"]
     metadata_only = sys.argv[1:] == ["--prose-metadata-self-test"]
