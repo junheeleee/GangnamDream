@@ -154,6 +154,8 @@ class _Document:
 
     def ws(self, index):
         if type(self.text) is str and type(index) is int and 0 <= index <= len(self.text):
+            if index == len(self.text) or not self.text[index].isspace():
+                return index
             return re.compile(r"\s*").match(self.text, index).end()
         while index < len(self.text) and self.text[index].isspace():
             index += 1
