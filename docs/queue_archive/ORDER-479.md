@@ -1,6 +1,6 @@
 # ORDER-479 — 시장 번역 역사 검증의 반복 계산 비용
 
-#### [~] ORDER-479 [위임 QA 수리] 원장 의미 검증의 중복 계산만 줄인다 — 2026-10-07
+#### [x] ORDER-479 [위임 QA 수리] 원장 의미 검증의 중복 계산만 줄인다 — 2026-10-07
 
 478 한정 GO와 main push `06af8f5` 뒤 착수한다. 사용자 요청한 효율적 검수의
 작은 한 단위다. 선언 commit/push 전 제품 편집·프로파일·QA 실행0이다.
@@ -75,3 +75,56 @@ project.godot·게임 코드/원문/번역·full_game_localization·release inve
 PCK·인간 원장·과거 agent 보고·사용자 저장·seed 변경0. Mac 잠금 해제 요청/폴링0.
 규범 승격: 새 규범0. 기존 영향 표적 검수·current proof 정본 적용이며 비용/역사 결속은
 이번 단위의 일회성이다. 자동 통과는 재미·깊이·문체의 증거가 아니다.
+
+
+## 2026-10-07 마감 — 동일 receipt 호출의 중복 파싱4회만 제거, 한정 GO
+
+- candidate `18197f4d921f7b83302ab82c69123c9c38b325cf` / tree `c4ff636d68898b476daa76b3204e96adce7cecb3`.
+  source2 `c04607aa5e0fe44586c947867493518d4dac98ed` 뒤 현재 상태 갱신2행뿐이다.
+  비저자 [전수보고](../agent_reviews/ORDER-479.json) SHA `dee8fda7b92629942c991bddb567181d8145e7619e3d534df97cbb30a7e54116`.
+  모듈/호출간 캐시0·새 입력/우회0·원 public bytes identity/receipt str 반환 보존.
+- 기존 inverse 검증 본문·receipt의 나머지 schema/batch/header 검사·config·원본77
+  반례 구문을 AST 전수대조했다. 같은 호출의 checked Document2 값만 다시 읽는다.
+  게임/원문/번역/수용273→274 및41848→41849 역사 핀·공개·사용자 변경0.
+
+### L2 — QA 계산 한 단위, 전 칸
+
+| 단위 | 도달 경로 | 생산자 ↔ 독자 | 바꾸는 상태 | 포기 시 잃는 것 | 서사 위치 | 장면 계층 | 닫는 것 |
+|---|---|---|---|---|---|---|---|
+| 원장 receipt 파싱 | controls1/stdout.log:1 actual96; standalone1/stdout.log:1 actual90; candidate1/stdout.log:1 | tools/market_cycle_label_history.py:225 ↔ :269 ↔ :332/:369 | _loads16→12; 원본입력/순수출력 동일 | receipt 현재 Git/원장 증명(:269, :369), QA 입출구·게임 주차 해당없음 | QA/current proof(게임서사 추가0) | QA(T1~T3 장면 추가0) | 중복 ledger 파싱4회; 그 외 없음 |
+
+### 실제 증거 / 제한 재사용
+
+원본은 `.git/order479-20261007.iU0dWw/`에 보존한다. 아래 SHA는 각 result 원문이다.
+
+| 실제 실행/결속 | 결과 | SHA-256 |
+|---|---|---|
+| baseline2 원본 empty fresh+cProfile | PASS7.8063655초; parses16 | cd0adbd315cd15ebb0d1916aaf227b84cc76a1776bf5d18ee2e34c13320b6953 |
+| after1 같은 원본+cProfile | PASS7.966649083초; parses12 | cb85298e15f9b4010200074bc70f45a92d839dc1f48a9cb732e7963ce6bb20e5 |
+| controls1 current 원본77+pure19/actual213 census 검증 | PASS96/실패0·217.522852083초 | 6737c01442d02ff521b7682a137241432244e9045ee65b266fa76e084e485813 |
+| standalone1 등록된 원본 CLI | actualexit0/90·187.416877042초; privateexpected89 wrapperFAIL 유지 | 64c81370fb5b1a0fc784eeae121b1600200884f434936dd5b82bb3a4dfe0d856 |
+| standalone-seal1 actual90 로그/원입력 결속 | PASS; 원본QA 재실행0 | 278c6c82ece884135b8f3a7aeaafe2798719bc24bfd85f76bfea6bc1d9fecd95 |
+| comparison2 AST/전체3230 tracked/보호/478 원본87 | PASS; 원검사 모두 보존 | 05f6f59ae9642d8374196b59218721858fd4a09b5bc7e944efe33517d4eb8b38 |
+| candidate1 문서2행 후 새HEAD 원본 fresh 입출구 | PASS6.051004084초; controls96/90 입력동일 재사용 | 538b61f7ee1fc782beb1b398184c789fc510abc369377d8d20551cba1470155e |
+
+- 실제 _read_proof2/_snapshot14/_objects42/_git74/_receipt2/Document8/
+  walk553996/ws2198536/config4/disk14/product_inverse4/transition4는 그대로다.
+  _loads16→12와 누적0.512893876→0.287765958만 감소했다. 전체시간은0.160283583초
+  늘었고 after는 다른 QA와 겹쳤다. 각1표본이므로 통계적 속도/전체 pipeline 개선 GO가 아니다.
+- census는 478의 실제 collect 결과213/SHA877171e48c9d8b595d33144c3cc0c1e79cb4715e81236c1851eb368943d5832d를
+  현재 원본 API가 typed Git·raw/disk와 다시 검증한 제한 재사용이다. 새collector0/
+  원본engine0/공식import0/대형365·JAUI·240주·전체pipeline 반복0이다.
+- 선택기는 accidental default4 실제실행(audit.py/context/queue0, self-test1)을 남겼다.
+  root가 실행중 HEAD를 바꾸어 원래 exit guard가 `actual proof changed during use`로
+  거부했다. 고정후 original self-test만 actual90으로 재실행했다. 도구가 보인 꼬리만
+  보존한 selector-attempt1은 전체 자식 로그가 아니다. unsupported --json 검사0,
+  private profile.py의 stdlib shadow 실패 표본0, AST 비교 인덱스 실패도 각각 유지한다.
+  comparison1의 미존재 함수명0은 current proof 생략이 아니라 요약 오류이고 실제
+  config4/transition4를 담은 comparison2만 권위가 있다. 실패를 성공으로 바꾸지 않는다.
+- 자기 개선: audit_select 영향 목록은 반드시 `--list`; 기본은 실행이다. 원본 검사가
+  실행중일 때 tracked commit을 바꾸지 않는다. 이미 CODEX_QUEUE 공통검증이 소유한
+  규칙을 적용하며 새규범 승격0/이 raw전이 결속은 일회성이다.
+- gangnamdream-dev의 소유분리·표적 검수·원로그/위임판정/인간증거 분리를 적용했다.
+  자동 게이트는 계약 증거이지 재미·깊이·문체의 증거가 아니다. 본편 HOLD·공개GO1·
+  인간OPEN45·과거판정 유지. 실제화면/자연플레이/원어민/인간/물리패드/출시 GO가 아니다.
+  다음 별도선언: 실제월말20억 첫돌파 기록의 고정10억 잔여 안내 수리.

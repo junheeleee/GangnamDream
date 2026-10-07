@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-07 — 원장 중복 파싱4회 제거 (479, 한정 GO)
+
+- 검증된 Document2 값을 같은 receipt 호출에서만 재사용한다. 원본 inverse/schema/batch/current typed Git·raw/disk·HEAD·정상/예외 종료·public반환·기존77 반례는 그대로다. 소유source2 `c04607a`, 상태갱신2행 뒤 candidate `18197f4d921f7b83302ab82c69123c9c38b325cf`/tree `c4ff636d68898b476daa76b3204e96adce7cecb3`.
+- original fresh cProfile7.8063655→7.966649083초(전체단축 아님), parses16→12. after는 다른QA와 겹쳐 통계비교가 아니다. actual96/실패0, 등록CLI actual90/exit0은 전후3230입력·보호·478원본87 동일. 원본 collect213을 currentAPI로 다시 검증한 제한재사용/새collector0·engine0·import0·대형QA반복0이다.
+- root의 accidental default선택기4중 live proof HEAD변경FAIL, private startup shadow0표본/AST인덱스/expected89 실패를 보존했다. 등록CLI 실제90 성공 원로그를 독립 발견 뒤 별도seal로 결속하고 동일검사 재실행0. 자기개선: 영향미리보기는 `--list`, 검사중tracked commit 금지. 상세원문SHA·L2전칸은 [완료사양](queue_archive/ORDER-479.md).
+- 비저자 [전수보고](agent_reviews/ORDER-479.json) SHA `dee8fda7b92629942c991bddb567181d8145e7619e3d534df97cbb30a7e54116`의 QA한정GO만 결속한다. gangnamdream-dev의 소유/표적/증거분리가 적용됐고 새규범0/일회성. 자동검사는 계약 증거이지 재미·깊이·문체 증거가 아니다. 본편HOLD·공개GO1·인간OPEN45 보존; 다음 별도20억 고정잔여 사실수리.
+
 ## 2026-10-07 — 원장 검수의 중복 계산 비용을 먼저 잰다 (479, 착수)
 
 - 시장 로그 수리478을 `06af8f5`까지 main에 올렸다. [작은 사양](queue_active/ORDER-479.md)은 history helper/self-test2만 소유하며 root 원본 before/after 측정·비저자 원문/반례 검수·운영 파일을 분리한다. 선언 시 구현/프로파일/QA0이다.
