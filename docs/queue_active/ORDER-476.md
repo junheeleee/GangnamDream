@@ -10,7 +10,7 @@ FULL_GAME_LOCALIZATION.md의 first-loss 보유자산 가드 부재다.
 
 - 지우면: 안내·숙련5만 있으면 미매수·전량매도·이익 저장에도 보유주식 손실과
   손절·추가매수를 단정한다. 현재 보유와 실제 가격을 확인해야 한다.
-- 뒤의 독자: 기존 loss_cut/loss_hold/loss_doubled_down의 W36+ 회수가 실제
+- 뒤의 독자: 기존 cut_loss_first/held_through_loss/averaged_down의 W36+ 회수가 실제
   손실 장면 선택 뒤에만 생긴다. 새 거래·회수·플래그는 만들지 않는다.
 - 경쟁: 첫 월급 다리의 기존 우선순위는 유지한다. W15~18에 손실이 없으면
   다음 기존 후보로 진행하고 seen·선택·현금·보유를 소비하지 않는다.
@@ -36,6 +36,7 @@ InvestmentSystem.buy_asset가 quantity/avg_price를 생산하고 Main 보유 표
   실제입력 경로에 가짜 보유를 주입하거나 prepared 증거로 재분류하지 않는다.
 - root 새 런타임: tools/InvestmentLossGateCheck.gd/.tscn,
   tools/audit_scope.json 등록/전용 차선.
+  tools/investment_ap_copy_self_test.py는 새 JA appendix 역상 한 단계만 연결한다.
 - order469_history: tools/order469_source_compat.py/_self_test.py,
   tools/pr31_intake_history.py/_self_test.py. 실제 Main-only direct-parent 전이와
   현재 Git/disk를 먼저 증명하고 역사 비교만 exact 역투영한다. 옛469~475
