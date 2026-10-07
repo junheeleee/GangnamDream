@@ -1151,8 +1151,10 @@ def run_wealth_milestone_checks(root=history.ROOT, inventory=None):
     with history.fresh_validation_proof(root) as proof, wealth.fresh_validation_proof(root) as current:
         old = proof["market_receipts"] if proof["market_receipts"] is not None else proof["market_source"]
         check(proof["pre_wealth_successor"] == old, "immutable478 endpoint")
-        check({p for p in old if old[p] != proof["wealth_source"][p]} == set(wealth.SOURCE_PATHS), "source4 separate from receipts")
-        check(all(proof["current"][p] == current["current"][p] for p in wealth.PATHS), "actual480 payload")
+        check({p for p in old if old[p] != proof["wealth_source"][p]} == set(wealth.UI_PATHS), "UI3 projection of source4 separate from receipts")
+        check(set(proof["current"]) == set(proof["wealth_source"]) == set(old)
+              and wealth.GAME_STATE_PATH not in proof["current"], "PR31 snapshot population does not grow")
+        check(all(proof["current"][p] == current["current"][p] for p in history.CURRENT_UI_PATHS), "actual480 four-raw payload")
         check(history.current_content_raw(root) == {p: proof["current"][p] for p in history.CURRENT_CONTENT_PATHS}, "runtime content remains actual")
         partial = {p: history._sha(proof["current"][p]) for p in history.SOURCE_PATHS}
         partial = {"source_hashes": partial, "source_manifest_sha256": history._digest(partial)}

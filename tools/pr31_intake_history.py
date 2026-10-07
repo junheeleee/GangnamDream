@@ -533,10 +533,13 @@ def _read_proof(root=ROOT):
     pre_wealth_successor = dict(current)
     with wealth_successor.fresh_validation_proof(root) as wealth:
         _require(wealth["head"] == head
-                 and all(current[p] == wealth["before"][p] for p in wealth_successor.PATHS),
-                 "wealth predecessor differs from immutable478/470 endpoint")
-        wealth_source = {**current, **wealth["source"]}
-        wealth_receipts = None if wealth["receipts"] is None else {**current, **wealth["receipts"]}
+                 and all(current[p] == wealth["before"][p] for p in CURRENT_UI_PATHS),
+                 "wealth predecessor differs from immutable478 four-raw endpoint")
+        #GameState belongs to the fresh wealth proof and whole source census,
+        #not PR31's unchanged product snapshot population.
+        wealth_source = {**current, **{p: wealth["source"][p] for p in CURRENT_UI_PATHS}}
+        wealth_receipts = (None if wealth["receipts"] is None else
+                           {**current, **{p: wealth["receipts"][p] for p in CURRENT_UI_PATHS}})
         current = wealth_source if wealth_receipts is None else wealth_receipts
     # Every469..475 stage above remains its immutable historical endpoint.
     #476's completed current endpoint stays separate from477 source/receipt/

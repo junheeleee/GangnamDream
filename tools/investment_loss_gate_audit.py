@@ -369,7 +369,7 @@ def run(root=ROOT):
             "historical content comparison changed during audit")
     return {"head": head, "source_commit": SOURCE, "locales": 5, "text_changes": 0,
             "text_changes_scope": "ORDER476 historical comparison only; actual ORDER477 leaf5 retained",
-            "historical_comparison": "pre477 exact midgame5 plus pre478 exact Investment1; actual raw retained",
+            "historical_comparison": "pre477 exact midgame5 plus pre478 exact Investment1 plus pre480 exact GameState1; actual raw retained",
             "simulator_cases": cases, "protected_paths": len(PROTECTED),
             "scope": "source/predicate/fixture wiring; actual runtime and human observation separate",
             "input_sha256": {p: hashlib.sha256(raw).hexdigest() for p, raw in actual.items()}}
