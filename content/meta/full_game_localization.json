@@ -11089,6 +11089,41 @@
           "batch_id": "c1dab6f92ddb29b71ca0cf0a8198e329bdffd989b298890cce24fe0b3207eb04"
         }
       }
+    },
+    {
+      "order": "ORDER-478",
+      "group": "ui",
+      "roots": [
+        "횡보장"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Agent direct Korean-source terminology correction of one existing JA value. Actual official export/check/import1; first acceptance1, existing accepted corrections0, new UI keys0. Neither native nor rendered/natural-play/release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "4a52a6e6309783c1a020652053f3b26a152316a81cf937db240d3bb899e19e29"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "d68bc66b228b0a908defef747d206e05ac66a0fc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "877171e48c9d8b595d33144c3cc0c1e79cb4715e81236c1851eb368943d5832d",
+          "selection_sha256": "1b33608521bebe173e66f4581cccd0475b271f0afaee45df139bd43f5ea68557",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "312852a7d02272e1c86a4fd0b4520d16795ef289182c810a06db58de8cd2a8ad"
+        }
+      }
     }
   ],
   "accepted": {
@@ -63700,6 +63735,10 @@
       "events:arc_36_unexpected_hand_person_deal:/description_if_known/daeun_romance_started": {
         "source_sha256": "58bd2291107c8532a0e7056036e099c1a7a2ed6f78b443fe6178133a3f8b4a8b",
         "target_sha256": "ecc1eb793975301abf3f9b650bcd270a1a3bbd405f04614501354ab2e7f8bb48"
+      },
+      "ui:횡보장:/횡보장": {
+        "source_sha256": "a5307c81bee5984b24f703bd7402babf3dc3b78604b83988fa0d0c763a2c7da6",
+        "target_sha256": "6ebf371525a2b51c29f5c9911ee2d16df82eecb1b494202ab5fdbbe68289d121"
       }
     },
     "zh-CN": {
@@ -178491,7 +178530,7 @@
       }
     }
   },
-  "accepted_sha256": "ac1dd86c3c12d5fb4f678467801e4f16ac3040f428dedf28c66c6086002f8932",
+  "accepted_sha256": "b807dfafb541959e95c07475702bb57235b2a59ea8cf2fb0d831f50f76226ad4",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
