@@ -10984,6 +10984,111 @@
           "batch_id": "69c7a3256572c6d556e906e0aacc5374fa4253c5d55e11e228e64c79b77c2558"
         }
       }
+    },
+    {
+      "order": "ORDER-477",
+      "group": "events",
+      "roots": [
+        "arc_invest_first_loss"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Independent exact5 Korean-source uncertainty repair review; actual official export/check/import of1 existing hold result in each locale. Corrections only; no native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "13e8ab815ca63ac879bd69640fd3e626693af8d4d90a04a5bed74ba3f65b000d"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "fb9952cd1c5fbd8d128d487d20902ca10429a42d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "cd3a8af9a4f972f4fea87ea1630b6d31013418d35e0b4b29f01c0a7cc67a314b",
+          "selection_sha256": "1226cdea4858e6322cffabed81c144e2d681500b9e9cb4efab3ba527c9dfbaf9",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a6484b1552f64eccf33d7689b7c67cde249bdbf2d508a3862cc2dc067b09aefb"
+        }
+      }
+    },
+    {
+      "order": "ORDER-477",
+      "group": "events",
+      "roots": [
+        "arc_invest_first_loss"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 0
+      },
+      "source_review": "Independent exact5 Korean-source uncertainty repair review; actual official export/check/import of1 existing hold result in each locale. Corrections only; no native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "933a75b09d16dca0a2bfce6c1c203497c4890c17eecb9e41d66bdbd2b99829a5"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "fb9952cd1c5fbd8d128d487d20902ca10429a42d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "cd3a8af9a4f972f4fea87ea1630b6d31013418d35e0b4b29f01c0a7cc67a314b",
+          "selection_sha256": "7e06c2e43824324db6fb41c5f83c02bd24b32bbfb7d45ed9b305c6ccffb4448c",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9652fc7fbe3ba2b2c3583c3ff70ebcaa12a1194d17354e8dac03451a97f20d63"
+        }
+      }
+    },
+    {
+      "order": "ORDER-477",
+      "group": "events",
+      "roots": [
+        "arc_invest_first_loss"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 1
+      },
+      "source_review": "Independent exact5 Korean-source uncertainty repair review; actual official export/check/import of1 existing hold result in each locale. Corrections only; no native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "d7ca22b9fcf980de25e62b09e1c269c750da66e31e8c43fc867927e74d9321a3"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "fb9952cd1c5fbd8d128d487d20902ca10429a42d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "cd3a8af9a4f972f4fea87ea1630b6d31013418d35e0b4b29f01c0a7cc67a314b",
+          "selection_sha256": "54eb73bdc995423cdf5083a9afeecfdbee8df7c14ae95e587f341c60fe0c287f",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c1dab6f92ddb29b71ca0cf0a8198e329bdffd989b298890cce24fe0b3207eb04"
+        }
+      }
     }
   ],
   "accepted": {
@@ -59413,8 +59518,8 @@
         "target_sha256": "471b5edd6e6e3108cc85441e29ce56c2f3e6959654bbccd01048d67977c28f61"
       },
       "events:arc_invest_first_loss:/choices/1/result_text": {
-        "source_sha256": "6c011dbfe75b782a407f8d17293f92f4b322fe4cac8437fd9a34b8184edb7eed",
-        "target_sha256": "7530a39a52c68ba1bf959ebaf78d22d77290a8b7d6c73d131a69728f2dd28459"
+        "source_sha256": "f67bf61108cbe8bc0973b67ad24f84f84ee02490c58fbd459e2b2775ee28f332",
+        "target_sha256": "91ca2dee13383b6d018d39f8cd2dffc2551793fa325c40314f8a12cb0c4b8925"
       },
       "events:arc_invest_first_loss:/choices/1/text": {
         "source_sha256": "e13e44b003c0d4f2c74630ffd87fe8bc89e2f398f0f408245ef9f7e2485f87b1",
@@ -112031,8 +112136,8 @@
         "target_sha256": "ad8c9a9fc155407bdfccede5df209d850ee1217e559f1d7f064a6905f4399758"
       },
       "events:arc_invest_first_loss:/choices/1/result_text": {
-        "source_sha256": "6c011dbfe75b782a407f8d17293f92f4b322fe4cac8437fd9a34b8184edb7eed",
-        "target_sha256": "ffeee80fdd89ba4ae83d07ca6b10dbf2bcc7d1ef894251f334d93cc29b2dc39a"
+        "source_sha256": "f67bf61108cbe8bc0973b67ad24f84f84ee02490c58fbd459e2b2775ee28f332",
+        "target_sha256": "3f45f8931ffc50da2bea53abdbf295e2c2e37d54c324fec24ccad411313409db"
       },
       "events:arc_invest_first_loss:/choices/1/text": {
         "source_sha256": "e13e44b003c0d4f2c74630ffd87fe8bc89e2f398f0f408245ef9f7e2485f87b1",
@@ -169425,8 +169530,8 @@
         "target_sha256": "e0810a2d840a87d973de7eca9141c0b872d386b7cf8b1a7c038f27c1de896260"
       },
       "events:arc_invest_first_loss:/choices/1/result_text": {
-        "source_sha256": "6c011dbfe75b782a407f8d17293f92f4b322fe4cac8437fd9a34b8184edb7eed",
-        "target_sha256": "6ed8bbaec6a94c167c6e1294f7701f959d20404cd2d09d651381e67a5f4d1b26"
+        "source_sha256": "f67bf61108cbe8bc0973b67ad24f84f84ee02490c58fbd459e2b2775ee28f332",
+        "target_sha256": "beb876efcd403e906d86870d37c650b47370f32acac76dbb7ccc99be33450a85"
       },
       "events:arc_invest_first_loss:/choices/1/text": {
         "source_sha256": "e13e44b003c0d4f2c74630ffd87fe8bc89e2f398f0f408245ef9f7e2485f87b1",
@@ -178386,7 +178491,7 @@
       }
     }
   },
-  "accepted_sha256": "ff6e62582bf6c1705ea77726f7b53370b93cff22c5f38f77c7ef44f40a40cec8",
+  "accepted_sha256": "ac1dd86c3c12d5fb4f678467801e4f16ac3040f428dedf28c66c6086002f8932",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
