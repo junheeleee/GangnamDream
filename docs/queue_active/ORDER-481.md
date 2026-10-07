@@ -24,7 +24,7 @@
 
 - order469_history: `tools/market_cycle_label_history.py`의 `_Document.ws` 한 함수만
   구현 후보로 소유한다. before 실측에서 공백 탐색 비용이 확인된 뒤만 바꾼다.
-  builtin `str`와 `type(index) is int`, `0<=index<=len(text)`에서만 Unicode `\s*`
+  정확한 `_Document` 수신자·builtin `str`와 `type(index) is int`, `0<=index<=len(text)`에서만 Unicode `\s*`
   원문 좌표 탐색을 검토한다. bool/subclass/음수/초과/다른 타입은 원래 while로
   fallback하여 반환값/타입/예외까지 보존한다. slicing/lstrip/ASCII 정규화0.
   `_loads/__init__/walk`, raw/semantic inverse, 역사 핀·receipt·API·fresh/입출구·
@@ -67,3 +67,21 @@ project.godot·모든 게임 원문/번역/원장·공개 package·사용자 저
 
 규범 승격: 새규범0. 기존 검수·위임·실패 보존 규칙 적용이며 이번 exact 함수/
 입력·측정 계획·반례는 일회성이다. 병목 미확인/개선 없으면 최적화로 완료하지 않는다.
+
+## 실제 측정 진행 — 2026-10-08
+
+- 선언 `a1c7097`/현황 `c6dcf7c`는 main push했다. before2는 원fresh 입출구
+  profile29.376291667초/plain22.923183292초, ws2198536회/self1.761034268/
+  cumulative2.228073822초·Document8/walk553996/read_proof2/Git74다.
+  HEAD/tree·tracked3239·보호6·runner 전후 보존true, collector/engine/수용0.
+- after1은 계약PASS/보존true지만29.924360041/22.978346875초라 성능 채택0이다.
+  after3도29.572783875/22.828343625초·ws cumulative2.350960780이며,
+  plain0.095초 차이만으로 개선 판정0이다. 전체 pipeline 속도 주장이 아니다.
+- before1 파일명/표준 profile 충돌FAIL(invocations0/preservedtrue)을 그대로 남겼다.
+  after2는 추가 제안과 동결 메시지 경합을 실제 시작 guard가 검출한 FAIL이다.
+  invocation0/전체preservedfalse, ownedhelper1 외 tracked·보호6·runner 변화0이다.
+  동결은 저자 최종 ACK를 다시 받은 뒤 시작하며 두 원결과를 덮지 않는다.
+- 마지막 후보는 exact `_Document`에서만 text/length local scalar와 공백0/1
+  short-circuit을 쓴다. foreign/subclass getter는 원while로 읽기수·값·타입·예외를
+  유지하며 새18 반례를 선언한다. proof/parsed/globalmemo0·원fallback/raw 보존이다.
+  마지막 actual AFTER/전용CLI/독립판정은 아직 미실행이며 효과없으면 최적화 미완료다.

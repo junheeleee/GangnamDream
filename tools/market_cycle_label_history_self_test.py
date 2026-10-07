@@ -405,6 +405,43 @@ def run_whitespace_checks(root=history.ROOT):
         check(all(same_scan(text, index) for index in (False, 0, 1, -1, 1000)),
               "non-builtin text fallback " + repr(text))
 
+    class ForeignReceiver:
+        def __init__(self, values):
+            self.values, self.reads = values, 0
+
+        @property
+        def text(self):
+            value = self.values[min(self.reads, len(self.values) - 1)]
+            self.reads += 1
+            if isinstance(value, Exception):
+                raise value
+            return value
+
+    class SubclassReceiver(history._Document):
+        __init__ = ForeignReceiver.__init__
+        text = ForeignReceiver.text
+
+    def receiver_outcome(function, cls, values, index):
+        receiver = cls(values)
+        try:
+            value = function(receiver, index)
+            result = ("value", type(value), value, value is index)
+        except Exception as error:
+            result = ("error", type(error), error.args)
+        return result, receiver.reads
+
+    receiver_cases = (((" x",), 0), ((" x", "x ", "x"), 0),
+                      (("x", ValueError("second getter")), 0),
+                      ((RuntimeError("first getter"),), 0),
+                      (("x", RuntimeError("unexpected extra getter")), 1000),
+                      (("x", RuntimeError("unexpected extra getter")), True),
+                      (("x",), Index(0)), (("x",), 0.0), (("x",), -2))
+    for cls in (ForeignReceiver, SubclassReceiver):
+        for ordinal, (values, index) in enumerate(receiver_cases):
+            check(receiver_outcome(original_ws, cls, values, index)
+                  == receiver_outcome(history._Document.ws, cls, values, index),
+                  "foreign/subclass getter value/type/identity/reads/exception " + cls.__name__ + str(ordinal))
+
     def document_state(document):
         return document.value, document.text, document.spans, document.members
 
