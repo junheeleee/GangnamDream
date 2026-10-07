@@ -7658,7 +7658,7 @@ func _next_arc_id(
 	# 첫 투자 손실 — 아버지의 14주 전화와 분리해 다음 주부터 연다.
 	if t >= 15 and t <= 18 \
 			and f.get("arc_invest_guidance_seen", false) \
-			and GameState.investment_skill >= 5 \
+			and GameState.investment_skill >= 5 and _has_current_investment_loss() \
 			and not f.get("arc_invest_first_loss_seen", false):
 		return "arc_invest_first_loss"
 	# 야근 편의점 — 사무직 3주 이상, 지연 등장 전 (t16~19)
@@ -23912,3 +23912,26 @@ func _open_glossary(title: String, category: String):
 
 func _title_collection_button_text() -> String:
 	return _tr("칭호", "Title")
+
+func _has_current_investment_loss() -> bool:
+	# Read the live holding and quote only; experience or an old loss is not enough.
+	for asset_id in GameState.portfolio:
+		if DataRegistry.get_asset(asset_id).is_empty():
+			continue
+		var holding: Variant = GameState.portfolio[asset_id]
+		if not holding is Dictionary or not GameState.market_prices.has(asset_id):
+			continue
+		var quantity: Variant = holding.get("quantity", null)
+		var average: Variant = holding.get("avg_price", null)
+		var price: Variant = GameState.market_prices[asset_id]
+		var valid := true
+		for value in [quantity, average, price]:
+			if (typeof(value) != TYPE_INT and typeof(value) != TYPE_FLOAT):
+				valid = false
+				break
+			if not is_finite(float(value)) or float(value) <= 0.0:
+				valid = false
+				break
+		if valid and float(price) < float(average):
+			return true
+	return false
