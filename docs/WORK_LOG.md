@@ -2,13 +2,17 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-08 — Mac 해제 뒤 프롤로그 실제 창 재개 (149, 착수)
+
+- CUA 접근을 확인하고 [149 선언](queue_active/ORDER-149.md)에 새 private live3파일과 독립 새보고 소유를 분리했다. 두 언어·두 해상도 autoplay와 OS Return skip만 보며 옛12PNG/시간FAIL·인간OPEN을 보존한다. 스킬의 표적/격리/관찰 구분을 적용한다. 제품/저장/공개 변경0. 485 기록의 현재33/수용후17과 정식L2 위치도 교정한다.
+
 ## 2026-10-08 — 카지노 중국어 수량 오탐3문맥을 닫았다 (485, 한정 GO)
 
 - 정확3문맥의 배수·初2장·追加1장 경계를 source aefc0798680ae001a6116d1b0510ea711b41cce2/treeaa7042eb671a713182fa899d9f76a13c5bb79f14로 main에 push했다. 게임 원문·locale·수용0이며 parser 오탐을 번역문 왜곡 없이 걷었다.
 - 같은 frozen260(원228+script4+suffix8+boundary12+card8) actualdirect260/full248/격리static238/음성220/예외복원3와 같은draft32 errors0, 실제7명령 PASS/14.319211875초/입력보존true다. checks2/result SHA4e39368438db76feb2311d08dc00b7766e5d75b3da2038423ea4560ea5f9af81, prepared32 SHAa46433d3930ad063dcfc3597980407c38daf2e9571be4eba4702c560d27cc2ac. full skip12는 JA-OFF6+malformed pointer6이며 목록은 실행이 아니다.
 - QA는660aee+소유dirty2에서 실행했고 후속CLAUDE252→260 상태행1만 별도 결속했다. clean aefc의 read-only seal SHA55c9103fff424e4630f07a35ca6fc407a1ffe4ac09ad183f7f5bdd01f99cf519는 tracked3251·frozen6·보호6·증거80 SHA/기존보고를 대조한 것이며 신규QA0이다. JA에없는 build_scope=0 관측은 주장하지 않는다.
-- 비저자 [최종보고](agent_reviews/ORDER-485-final.json) SHA3dda1e783b022c6432a9b20bd5d1c6bf7edf55095acbbebe8241278da0fcb67c가 이 도구만 GO했다. 원eaa REWORK·actual232/252 PASS·before suffix8/경계10개오수용·card8 FAIL·실행기오류를 보존하며 별도판정을 추가한다. 전체SHA/L2전7칸은 [완료사양](queue_archive/ORDER-485.md).
-- exact KO/escaped ID/locale만 helper ON이고 path/hash는 별도관측이다. 격리static은 wholeliveUI·render/input가 아니다. gangnamdream-dev의 표적/소유/실패·인간 증거분리 적용, 새규범0/일회성. 원484 공식32수용0/ledger280·41855 그대로이며 실제export를 재개한다. natural KO/JA오문2·카지노잔여UI17·실제화면/원어민/패드·본편출시HOLD/공개GO1·인간OPEN45/done1을 유지한다.
+- 비저자 [최종보고](agent_reviews/ORDER-485-final.json) SHA3dda1e783b022c6432a9b20bd5d1c6bf7edf55095acbbebe8241278da0fcb67c가 이 도구만 GO했다. 원eaa REWORK·actual232/252 PASS·before suffix8/경계10개오수용·card8 FAIL·실행기오류를 보존하며 별도판정을 추가한다. 전체SHA/입출구표는 [완료사양](queue_archive/ORDER-485.md), 정식L2전7칸은 최종보고의 `l2`다.
+- exact KO/escaped ID/locale만 helper ON이고 path/hash는 별도관측이다. 격리static은 wholeliveUI·render/input가 아니다. gangnamdream-dev의 표적/소유/실패·인간 증거분리 적용, 새규범0/일회성. 원484 공식32수용0/ledger280·41855 그대로이며 실제export를 재개한다. natural KO/JA오문2·카지노잔여UI현재33(CN/TW 각각16/49, 계획16수용뒤17)·실제화면/원어민/패드·본편출시HOLD/공개GO1·인간OPEN45/done1을 유지한다.
 
 ## 2026-10-08 — 수량 검사 PASS 뒤 독립 suffix REWORK (485, 재착수)
 

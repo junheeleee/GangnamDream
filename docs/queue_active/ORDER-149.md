@@ -26,6 +26,22 @@ endpoint를 읽어 다시 측정한다. 후속 PASS는 warmed fixture의 시간 
 
 ## 현재 source 표적 결과 (2026-10-05)
 
+### 잠금 해제 뒤 실제 창·OS 입력 재개 선언 — 2026-10-08
+
+사용자가 Mac 해제를 알렸고 CUA 앱 재고 접근을 확인했다. root는 새 private
+`.git/order149-live-20261008.EzB4u5/live.py·live.gd·live.tscn`과 fresh 실행/관찰
+기록만 소유한다. 기존 OpeningRhythmCheck의 실제 opening 생성과 pre-autoload
+bootstrap/보호 도우미를 재사용한다. KO/EN×두 해상도의 정상 재생을 실제 창에서
+읽고, 별도 KO/EN skip 표본에 CUA OS Return 입력을 보낸다. 캡처 없는 후속이므로
+render2의12PNG/시간 FAIL을 덮거나 반복하지 않는다. 기존 timing/ReduceMotion은
+입력 동일성을 확인해 제한 재사용하며 이번 재실행으로 세지 않는다. 창/논리 캔버스,
+3beat→전환1, OS입력→전환1·후속beat0, 전체tracked/보호/실행입력 전후를 결속한다.
+CUA의 시간차 화면 관찰은 모든 프레임의 검은화면0 인증이 아니다. 자연 타이틀→
+MainGame·음질·첫 인간 강조 기억·원어민·물리패드 증거도 아니다. 독립
+opening_live_review는 새 `docs/agent_reviews/ORDER-149-live.json`만 소유한다.
+root는 기존 운영 문서만 갱신하며 제품/옛 보고/과거 판정0변경이다. 이 일회성 선언을
+별도 커밋·push한 뒤 구현한다. L3 OPEN/전체149 HOLD는 유지한다.
+
 ### 실제 렌더 의무 재개 선언 — 2026-10-06
 
 472의 필수 관찰을 마감한 뒤 이 단위의 미관찰 화면을 잇는다. root는 private

@@ -137,7 +137,10 @@ lang/key/source/target만 받는 helper가 synthetic path/hash를 직접 검사�
   보호6/원REWORK/증거80 SHA를 직접 결속했고 preserved=true다.
   seal은 추가 소비자/engine/공식 수용 검사가 아니다.
 
-### L2 전7칸 / 결속
+### 입출구 결속표
+
+WORK_UNIT의 정식 L2 일곱 칸은 [독립 최종보고](../agent_reviews/ORDER-485-final.json)의
+`l2`가 소유한다. 아래 표는 실행 입출구의 축약 결속이며 그 일곱 칸을 대체하지 않는다.
 
 | 원본 | 호출 | 입력 | 반환·표시 | 실패 | 불변 | 증거 |
 |---|---|---|---|---|---|---|
@@ -160,7 +163,8 @@ lang/key/source/target만 받는 helper가 synthetic path/hash를 직접 검사�
   격리단일 fixture며 wholeliveUI·실제render/input 관찰이 아니다.
 - 게임 원문·JA·locale사전·ledger280/41855 변경0·공식용어집32 수용0이다.
   원484를 재개해 실제export/check/import·전이/준비소비자 검증을 이어간다.
-  KO/JA natural 사실오문2와 카지노 UI 잔여17은 별도 OPEN이다.
+  KO/JA natural 사실오문2와 카지노 UI 현재 잔여33(CN/TW 각각, 현재16/49)은 별도
+  OPEN이다. 원484의16키를 실제 수용한 뒤에만 잔여17이 되며 아직 그 수용은0이다.
 - 새규범0/모든 실행·exact결속 지시는 일회성이다. gangnamdream-dev의 표적·소유·
   실패보존·독립/인간 증거분리를 적용했다. 자동 통과는 재미·깊이·문체 증거가 아니다.
   본편HOLD·공개GO1·human OPEN45/done1·native/human/pad·실제화면/자연플레이·
