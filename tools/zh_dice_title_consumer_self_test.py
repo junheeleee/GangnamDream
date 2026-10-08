@@ -4328,6 +4328,202 @@ CASINO_GLOSSARY_BOUNDARY_REWORK = json.loads(r'''{
     "git_write": 0
   }
 }''')
+CASINO_GLOSSARY_CARD_REWORK = json.loads(r'''{
+  "order": "ORDER-485",
+  "phase": "independent exact initial/additional card REWORK",
+  "chronology": "Separate card8 frozen before card code repair/root actual-before8. Original228/script4/suffix8/boundary12 and root-reported actual252/prepared32 PASS records remain unchanged.",
+  "cases": [
+    {
+      "id": "cn_double_initial_card_suffix_at_least_rework",
+      "kind": "mutant",
+      "context": "double",
+      "locale": "zh-CN",
+      "key": "ui:첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.:/첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "source": "첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "target": "拿到起手2张牌以上后，将投注额增加到2倍，并且只再拿1张牌。点数合计为10或11时有利。",
+      "base": "cn_double_normal",
+      "expected": "REJECT",
+      "required": [],
+      "static": true,
+      "supplement_phase": "post_positive_boundary252_observation_pre_card_REWORK_code",
+      "transform": {
+        "old": "起手2张牌",
+        "new": "起手2张牌以上",
+        "occurrences": 1,
+        "original_draft2_target": "拿到起手2张牌后，将投注额增加到2倍，并且只再拿1张牌。点数合计为10或11时有利。"
+      },
+      "reason": "The source owns exactly2 initial cards and exactly1 additional card. A post-card lower-bound/more extension must not be partially matched and masked."
+    },
+    {
+      "id": "cn_double_initial_card_suffix_more_rework",
+      "kind": "mutant",
+      "context": "double",
+      "locale": "zh-CN",
+      "key": "ui:첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.:/첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "source": "첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "target": "拿到起手2张牌多后，将投注额增加到2倍，并且只再拿1张牌。点数合计为10或11时有利。",
+      "base": "cn_double_normal",
+      "expected": "REJECT",
+      "required": [],
+      "static": true,
+      "supplement_phase": "post_positive_boundary252_observation_pre_card_REWORK_code",
+      "transform": {
+        "old": "起手2张牌",
+        "new": "起手2张牌多",
+        "occurrences": 1,
+        "original_draft2_target": "拿到起手2张牌后，将投注额增加到2倍，并且只再拿1张牌。点数合计为10或11时有利。"
+      },
+      "reason": "The source owns exactly2 initial cards and exactly1 additional card. A post-card lower-bound/more extension must not be partially matched and masked."
+    },
+    {
+      "id": "cn_double_additional_card_suffix_at_least_rework",
+      "kind": "mutant",
+      "context": "double",
+      "locale": "zh-CN",
+      "key": "ui:첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.:/첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "source": "첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "target": "拿到起手2张牌后，将投注额增加到2倍，并且只再拿1张牌以上。点数合计为10或11时有利。",
+      "base": "cn_double_normal",
+      "expected": "REJECT",
+      "required": [],
+      "static": true,
+      "supplement_phase": "post_positive_boundary252_observation_pre_card_REWORK_code",
+      "transform": {
+        "old": "只再拿1张牌",
+        "new": "只再拿1张牌以上",
+        "occurrences": 1,
+        "original_draft2_target": "拿到起手2张牌后，将投注额增加到2倍，并且只再拿1张牌。点数合计为10或11时有利。"
+      },
+      "reason": "The source owns exactly2 initial cards and exactly1 additional card. A post-card lower-bound/more extension must not be partially matched and masked."
+    },
+    {
+      "id": "cn_double_additional_card_suffix_more_rework",
+      "kind": "mutant",
+      "context": "double",
+      "locale": "zh-CN",
+      "key": "ui:첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.:/첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "source": "첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "target": "拿到起手2张牌后，将投注额增加到2倍，并且只再拿1张牌多。点数合计为10或11时有利。",
+      "base": "cn_double_normal",
+      "expected": "REJECT",
+      "required": [],
+      "static": true,
+      "supplement_phase": "post_positive_boundary252_observation_pre_card_REWORK_code",
+      "transform": {
+        "old": "只再拿1张牌",
+        "new": "只再拿1张牌多",
+        "occurrences": 1,
+        "original_draft2_target": "拿到起手2张牌后，将投注额增加到2倍，并且只再拿1张牌。点数合计为10或11时有利。"
+      },
+      "reason": "The source owns exactly2 initial cards and exactly1 additional card. A post-card lower-bound/more extension must not be partially matched and masked."
+    },
+    {
+      "id": "tw_double_initial_card_suffix_at_least_rework",
+      "kind": "mutant",
+      "context": "double",
+      "locale": "zh-TW",
+      "key": "ui:첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.:/첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "source": "첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "target": "拿到起手2張牌以上後，把下注金額加到2倍，並且只再拿1張牌。點數總和是10或11時有利。",
+      "base": "tw_double_normal",
+      "expected": "REJECT",
+      "required": [],
+      "static": true,
+      "supplement_phase": "post_positive_boundary252_observation_pre_card_REWORK_code",
+      "transform": {
+        "old": "起手2張牌",
+        "new": "起手2張牌以上",
+        "occurrences": 1,
+        "original_draft2_target": "拿到起手2張牌後，把下注金額加到2倍，並且只再拿1張牌。點數總和是10或11時有利。"
+      },
+      "reason": "The source owns exactly2 initial cards and exactly1 additional card. A post-card lower-bound/more extension must not be partially matched and masked."
+    },
+    {
+      "id": "tw_double_initial_card_suffix_more_rework",
+      "kind": "mutant",
+      "context": "double",
+      "locale": "zh-TW",
+      "key": "ui:첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.:/첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "source": "첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "target": "拿到起手2張牌多後，把下注金額加到2倍，並且只再拿1張牌。點數總和是10或11時有利。",
+      "base": "tw_double_normal",
+      "expected": "REJECT",
+      "required": [],
+      "static": true,
+      "supplement_phase": "post_positive_boundary252_observation_pre_card_REWORK_code",
+      "transform": {
+        "old": "起手2張牌",
+        "new": "起手2張牌多",
+        "occurrences": 1,
+        "original_draft2_target": "拿到起手2張牌後，把下注金額加到2倍，並且只再拿1張牌。點數總和是10或11時有利。"
+      },
+      "reason": "The source owns exactly2 initial cards and exactly1 additional card. A post-card lower-bound/more extension must not be partially matched and masked."
+    },
+    {
+      "id": "tw_double_additional_card_suffix_at_least_rework",
+      "kind": "mutant",
+      "context": "double",
+      "locale": "zh-TW",
+      "key": "ui:첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.:/첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "source": "첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "target": "拿到起手2張牌後，把下注金額加到2倍，並且只再拿1張牌以上。點數總和是10或11時有利。",
+      "base": "tw_double_normal",
+      "expected": "REJECT",
+      "required": [],
+      "static": true,
+      "supplement_phase": "post_positive_boundary252_observation_pre_card_REWORK_code",
+      "transform": {
+        "old": "只再拿1張牌",
+        "new": "只再拿1張牌以上",
+        "occurrences": 1,
+        "original_draft2_target": "拿到起手2張牌後，把下注金額加到2倍，並且只再拿1張牌。點數總和是10或11時有利。"
+      },
+      "reason": "The source owns exactly2 initial cards and exactly1 additional card. A post-card lower-bound/more extension must not be partially matched and masked."
+    },
+    {
+      "id": "tw_double_additional_card_suffix_more_rework",
+      "kind": "mutant",
+      "context": "double",
+      "locale": "zh-TW",
+      "key": "ui:첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.:/첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "source": "첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+      "target": "拿到起手2張牌後，把下注金額加到2倍，並且只再拿1張牌多。點數總和是10或11時有利。",
+      "base": "tw_double_normal",
+      "expected": "REJECT",
+      "required": [],
+      "static": true,
+      "supplement_phase": "post_positive_boundary252_observation_pre_card_REWORK_code",
+      "transform": {
+        "old": "只再拿1張牌",
+        "new": "只再拿1張牌多",
+        "occurrences": 1,
+        "original_draft2_target": "拿到起手2張牌後，把下注金額加到2倍，並且只再拿1張牌。點數總和是10或11時有利。"
+      },
+      "reason": "The source owns exactly2 initial cards and exactly1 additional card. A post-card lower-bound/more extension must not be partially matched and masked."
+    }
+  ],
+  "counts": {
+    "normal": 0,
+    "mutant": 8,
+    "OFF": 0
+  },
+  "prior_roster_sha256": "839854d2aea6ff4f0b781efb968cfe64a4bf2810aab3b34d5f3af24e632b8541",
+  "prior_supplementary_sha256": "cd330a163ad7fc555f95bc5b86162ad036c154768f6e2a5e051ded9781fe0e8c",
+  "prior_suffix8_sha256": "887e0b4454406c3de7637d91334888db6cf35c172ad1ab31451be53c9514bd58",
+  "prior_boundary12_sha256": "aa1b2a12b92cbc7d7f34b82ec9c498957d3ca16889361dc6a0a7e3c92927c8fe",
+  "actual_draft2_sha256": "9ce301899af1fca8ab5a22952ebfaf9b0b17f6b38f6d10618bada31837e6a213",
+  "expectation": "Same original base/source/key/locale/context; every unique1 card suffix transform expects REJECT from actual direct/full/isolated-static. Original arrays and expectations unchanged.",
+  "execution_counts": {
+    "production_module_import": 0,
+    "validate_text": 0,
+    "translation_errors": 0,
+    "static_ui_coverage": 0,
+    "collect": 0,
+    "main": 0,
+    "tracked_edit": 0,
+    "git_write": 0
+  }
+}''')
 CASINO_GLOSSARY_PROVENANCE = {
     "roster_sha256": "839854d2aea6ff4f0b781efb968cfe64a4bf2810aab3b34d5f3af24e632b8541",
     "OFF_before_sha256": "3a66708b8ae12cc500da3c810bf827255c47d367d23dc0d9db18eeeca3746d3d",
@@ -4344,6 +4540,11 @@ CASINO_GLOSSARY_PROVENANCE = {
         "frozen_sha256": "aa1b2a12b92cbc7d7f34b82ec9c498957d3ca16889361dc6a0a7e3c92927c8fe",
         "actual_before_sha256": "b7d3959be6c89e772b9b8687fffe6260efa7340ae609766677bfb7838ac45f77",
         "chronology": "Separate12 frozen before positive boundary repair. Root observed all12: false acceptance10 and existing English rejection2. Runner observation_complete=false flag is preserved; no all12-false-acceptance claim.",
+    },
+    "card_rework": {
+        "frozen_sha256": "94ba2800046c9e9e85e2013fec14892b42f1929d8adc89619192223c6899c275",
+        "actual_before_sha256": "3a8a7d001c50f351e8443d4ee0e10f853d264900874f4aa4d39d9d016c8340b3",
+        "chronology": "Separate card8 frozen before card repair. Root before observed false acceptance8 in direct/full/isolated-static, preserved=true, observation_complete=true; prior252/prepared32 PASS records remain unchanged.",
     },
 }
 
@@ -4369,7 +4570,8 @@ def _casino_snapshot():
                      "order485-roster.json", "order485-before-OFF.json",
                      "order485-supplementary4.json", "order485-suffix-rework8.json",
                      "order485-suffix-before.json", "order485-boundary-rework12.json",
-                     "order485-boundary-before.json")
+                     "order485-boundary-before.json", "order485-card-rework8.json",
+                     "order485-card-before.json")
     return {
         "HEAD": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT).decode().strip(),
         "status": subprocess.check_output(["git", "status", "--porcelain=v1", "-z"], cwd=ROOT).decode(),
@@ -4543,7 +4745,7 @@ def casino_glossary_main():
     before = _capture(_casino_snapshot)
     frozen_inputs = copy.deepcopy((CASINO_GLOSSARY_ROSTER, CASINO_GLOSSARY_OFF_BEFORE,
                                    CASINO_GLOSSARY_SUPPLEMENTARY, CASINO_GLOSSARY_SUFFIX_REWORK,
-                                   CASINO_GLOSSARY_BOUNDARY_REWORK))
+                                   CASINO_GLOSSARY_BOUNDARY_REWORK, CASINO_GLOSSARY_CARD_REWORK))
     functions = (
         zh.validate_text, zh.static_ui_coverage, zh._static_ui_inventory,
         zh._story_demo_exclusive_ui_pairs, zh._numeric_errors,
@@ -4553,7 +4755,8 @@ def casino_glossary_main():
     original_validate = zh.validate_text
     cases = (CASINO_GLOSSARY_ROSTER["cases"] + CASINO_GLOSSARY_SUPPLEMENTARY
              + CASINO_GLOSSARY_SUFFIX_REWORK["cases"]
-             + CASINO_GLOSSARY_BOUNDARY_REWORK["cases"])
+             + CASINO_GLOSSARY_BOUNDARY_REWORK["cases"]
+             + CASINO_GLOSSARY_CARD_REWORK["cases"])
     results = []
     forbidden_calls = {"full.collect": 0, "full.main": 0}
     watched = {full.collect.__code__: "full.collect", full.main.__code__: "full.main"}
@@ -4596,6 +4799,8 @@ def casino_glossary_main():
                         # In Latin-x cases an unrelated English error alone was
                         # insufficient to prove the numeric right boundary.
                         checks["positive_boundary_role_itself_rejected"] = bool(pair[2])
+                    if case.get("supplement_phase") == "post_positive_boundary252_observation_pre_card_REWORK_code":
+                        checks["exact_card_role_itself_rejected"] = bool(pair[2])
                     if case["kind"] == "normal" or case.get("supplementary"):
                         checks["normal_numeric_roles_verified"] = pair[2] == []
                         checks["only_numeric_copy_changes"] = (
@@ -4663,7 +4868,7 @@ def casino_glossary_main():
         "original_frozen_roster_counts": CASINO_GLOSSARY_ROSTER["counts"] == {
             "normal": 6, "mutant": 188, "OFF": 34}
             and len(CASINO_GLOSSARY_ROSTER["cases"]) == 228,
-        "all_unique_ids": len({case["id"] for case in cases}) == len(cases) == 252,
+        "all_unique_ids": len({case["id"] for case in cases}) == len(cases) == 260,
         "OFF_before_arrays_complete": set(CASINO_GLOSSARY_OFF_BEFORE) == {
             case["id"] for case in CASINO_GLOSSARY_ROSTER["cases"] if case["kind"] == "OFF"},
         "supplementary_four_separate": len(CASINO_GLOSSARY_SUPPLEMENTARY) == 4
@@ -4693,6 +4898,20 @@ def casino_glossary_main():
             and case["target"] == case["transform"]["original_draft2_target"].replace(
                 case["transform"]["old"], case["transform"]["new"], 1)
             for case in CASINO_GLOSSARY_BOUNDARY_REWORK["cases"]),
+        "card_rework_eight_separate": len(CASINO_GLOSSARY_CARD_REWORK["cases"]) == 8
+            and CASINO_GLOSSARY_CARD_REWORK["counts"] == {"normal": 0, "mutant": 8, "OFF": 0}
+            and all(case["expected"] == "REJECT" and case["supplement_phase"] == "post_positive_boundary252_observation_pre_card_REWORK_code"
+                    for case in CASINO_GLOSSARY_CARD_REWORK["cases"]),
+        "card_base_transform_identity": all(
+            case["base"] in by_id
+            and by_id[case["base"]]["case"]["kind"] == "normal"
+            and all(case[key] == by_id[case["base"]]["case"][key] for key in ("source", "key", "locale", "context"))
+            and case["transform"]["occurrences"] == 1
+            and case["transform"]["original_draft2_target"] == by_id[case["base"]]["case"]["target"]
+            and case["transform"]["original_draft2_target"].count(case["transform"]["old"]) == 1
+            and case["target"] == case["transform"]["original_draft2_target"].replace(
+                case["transform"]["old"], case["transform"]["new"], 1)
+            for case in CASINO_GLOSSARY_CARD_REWORK["cases"]),
         "all_cases_executed": len(results) == len(cases),
         "all_results_valid": all(row["valid_result"] for row in results),
         "actual_source_file_unchanged_identity": source_observation["exception"] is None
@@ -4707,7 +4926,8 @@ def casino_glossary_main():
             and all(row["passed"] for row in restoration),
         "frozen_literals_unchanged": frozen_inputs == (
             CASINO_GLOSSARY_ROSTER, CASINO_GLOSSARY_OFF_BEFORE, CASINO_GLOSSARY_SUPPLEMENTARY,
-            CASINO_GLOSSARY_SUFFIX_REWORK, CASINO_GLOSSARY_BOUNDARY_REWORK),
+            CASINO_GLOSSARY_SUFFIX_REWORK, CASINO_GLOSSARY_BOUNDARY_REWORK,
+            CASINO_GLOSSARY_CARD_REWORK),
         "collector_main_build_scope_zero": not any(forbidden_calls.values()),
         "profile_restored": sys.getprofile() is previous_profile,
     }
@@ -4719,6 +4939,7 @@ def casino_glossary_main():
         "counts": {"original": CASINO_GLOSSARY_ROSTER["counts"], "supplementary": 4,
                    "suffix_rework": len(CASINO_GLOSSARY_SUFFIX_REWORK["cases"]),
                    "positive_boundary_rework": len(CASINO_GLOSSARY_BOUNDARY_REWORK["cases"]),
+                   "card_rework": len(CASINO_GLOSSARY_CARD_REWORK["cases"]),
                    "actual_direct": len(results),
                    "actual_full": sum(row["full"] is not None for row in results),
                    "actual_isolated_static": sum(row["static"] is not None for row in results),

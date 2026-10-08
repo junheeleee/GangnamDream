@@ -9335,6 +9335,14 @@ def _ui_casino_glossary_numbers(lang: str, key: str, source: str, target: str):
             prefix = re.split(r"[。.;；，,\n]", target[:match.start(field)])[-1]
             if re.search(r"(?:[约約]|大概|差不多|至少|最多|不超[过過]|超[过過]|以上|以下|接近)[^。.;；，,\n]*$", prefix):
                 errors.append(label + " " + role + " exact-quantity modifier mismatch")
+        # Include the card noun in the boundary: the first two precede the
+        # after-clause; the only additional card ends its own clause.
+        if role == "initial cards" and not re.match(
+                r"[ \t　]*[后後][ \t　]*(?:[，,。.;；]|\Z)", target[match.end():]):
+            errors.append(label + " " + role + " post-card boundary mismatch")
+        if role == "additional card" and not re.match(
+                r"[ \t　]*(?:[，,。.;；]|\Z)", target[match.end():]):
+            errors.append(label + " " + role + " post-card boundary mismatch")
         # Own the complete exact multiplier, not a prefix of a threshold,
         # fraction, approximation or unadmitted continuation after its unit.
         if role == "bet multiplier" and not re.match(
