@@ -176,6 +176,16 @@ investment-loss-gate/full-game-localization의 현재 UI 호출·레이아웃·�
 
 ## 완료 전 남은 일
 
+### 마지막 등록 실사 — 삭제 전에 선언 (2026-10-09)
+
+| 삭제 후보 | 지키는 제품 동작 / 실패 원인 / 처리 |
+| --- | --- |
+| tools/chapter1_ui_proof_reuse_check.py | 없음. 완료408의 고정 Git-prefix와 같은 proof의 3회→1회 호출 수만 검증한다. 현재 Chapter1 owner가 제거한 ui_receipts/old delegate를 import해 실행조차 불가하다. 현재 typed state·receipt·저장·runtime 검사는 Chapter1 본검사에 남기고 이 전용 재사용 suite와 등록만 삭제한다. |
+
+읽기 검수 localization_collector_author도 파일 본문과 현재 owner/등록을 직접 읽어
+같은 분류를 확인했다. 기존53개와 합쳐54개며 이 추가 표 역시 삭제보다 먼저 커밋한다.
+남아 있는 Chapter1 `--inventory-history-self-test` 등록은 폐지 옵션이므로 함께 정리한다.
+
 표의 선커밋 → 별도 삭제/기존 owner 수리 커밋 → 잔여 정확 실패의 이유·소유자·만료 등록 →
 실제 main CI 녹색 순서다. UNKNOWN·취소·누락 flag는 알려진 실패로 자동 수용하지 않는다.
 목록 밖/만료 실패는 빨강이며 전역 skip은 없다. 현재 전체 CI·원어민·실제 화면·본편 출시 HOLD는

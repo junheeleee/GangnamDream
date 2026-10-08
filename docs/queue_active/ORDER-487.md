@@ -78,6 +78,8 @@ root와 아래 분리 저자가 다음 도구·등록·CI와 운영 문서만 �
   삭제 후보의 추가 표를 별도로 선커밋한 뒤 삭제한다.
   scalping_phase_focus_receipt_check.py의 전체 내용 실사 결과 실제 focus/input 조건 없이
   closed427의 고정 Git/역상/call count뿐이라 삭제 후보로 표를 갱신한다.
+- tools/chapter1_ui_proof_reuse_check.py도 완료408 Git-prefix/호출 수 전용이며
+  현재 제품 동작이 없으므로 마지막 추가표 선커밋 뒤 삭제한다. 실제 Chapter1 조건은 보존한다.
 
 저자들은 기존 제품 조건을 보존하며 자기 파일의 역사 dependency만 걷어낸다.
 root가 strict JSON/span을 기존 ui_translation_append 소유자에 보존한다.
@@ -110,3 +112,18 @@ KNOWN_FAILURES 적용0·main 전체 CI 아직 녹색 아님이다.
 컴파일, 저장 호환 검사. 게임 원문·번역·저장·project.godot·공개 패키지·
 human_gates/과거 판정은 수정0이다. "지난 주말 가지 못한 곳" 기본 변형 수리는
 이 정리 뒤 문장 묶음으로 남긴다. 새 규범은 승인 DECISIONS가 소유하며 실행 순서는 일회성이다.
+
+## 구현·검증 진행 (2026-10-09, main CI 대기)
+
+- cad6d39의 전수표 뒤 추가 의존 표214e9d6/f7cdf69를 먼저 커밋하고,
+  닫힌 이력·고정 endpoint·비용 전용53파일과 audit.sh의 이력 flag15개를 제거했다.
+  기존 제품 검사는148flag로 계속 실행한다. 삭제 파일/비제품 근거는 WORK_LOG와 전수표가 소유한다.
+- 기존 collector·validator·parser에서 이력 dependency만 분리했다. strict JSON/문자좌표/
+  원 receipt·데모72/467 및 공개 reuse8·경제/시간/장소·저장/compile 조건을 보존했다.
+  UI append109/value168/projection88·full-game265·trace187·demo16+62·JA collector76,
+  현재 JA/zh·EN/한글누출·서사 연속성·liveness·context/queue/등록 표적 PASS다.
+- 실제 제품 FAIL5는 KNOWN_FAILURES에 Codex 소유/2026-10-16 만료로 기록했다.
+  검사 실행·FAIL 로그는 남고 CI의 정확 exit1만 비차단이다. 미등록/만료/비정상 종료는 빨강이다.
+  전체 main CI의 실제 새 source 완료를 기다리므로 이 오더는 [~]이며 아직 녹색 판정이 아니다.
+- 게임 원문·번역·원장·저장·project.godot·과거 인간 판정 변경0이다.
+  검수 자체를 출시/원어민/화면 GO로 확대하지 않으며 다른 새 오더0을 유지한다.
