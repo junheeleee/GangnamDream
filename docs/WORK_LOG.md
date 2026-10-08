@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)에 바이트 그대로 이동했다. 보존본의 상대 링크는 이동 전 경로 기준이다.
 
+## 2026-10-09 — PR #32 적용·카지노 번역 마감 경로 정리 (484, 진행)
+
+- 사용자 승인 문서만의 PR #32를 main b81d2b0에 합쳤다(DECISIONS 추가19줄/다른 파일0). 원484 live guard가 끝난 뒤 로컬도 fast-forward했다. 원문 export6는 실제 CN/TW exit0·원main/collect2·지역별16잎·UI3478/errors0·동일17505잎 지문·passed/preserved/observer복원true다. 원결과/옛 실패는 `.git/order484-20261008.QsF61I/preexport6/`에 보존한다. 아직 check/import·32값 수용·실제 화면 완료가 아니다.
+- 새 결정대로 미구현 history helper5 연결·새 전용 self CLI·오더별 검수 보고 계획을 중단했다. 기존 helper의 current 핀은 CN 한 지역만 import해도 다음 TW 원collector를 거부하므로, 같은 제품 후보의 독립 지역 checkout에서 기존 원공식 check/import를 수행한 뒤 UI2·실제 영수증2만 함께 반영한다. 원collector·target hash·제품 검증은 바꾸지 않으며 새 비용 도구를 만들지 않는다. 강남드림 개발 스킬의 소유 선언·표적 검증 원칙에 최신 사용자 결정을 우선 적용했다.
+- 484 뒤에는 상시 실패 표를 먼저 커밋하는 검수 정리 오더 하나만 연다. 479·481 및 계측/재사용/시간단축 후속은 중단하고 정리 완료까지 다른 새 오더0이다. 기본 arc_36_unexpected_hand 선택지의 "지난 주말 가지 못한 곳"은 이후 문장 묶음에 포함한다. 원어민·인간·물리 패드·본편/출시 판정은 갱신하지 않았다.
+
 ## 2026-10-08 — 번역 검수의 순수 계산 재사용 (486, 완료)
 
 - 수리 B/F와 새 검사/차선만 구현했다. 준비1/2 각각295·원body/pin 보존·실제2의44 PASS다. 실제2는 B/F 원 _read_proof를 각arm2번씩 직접 호출해 전 proof 동일, Git/typed/제품disk 횟수 동일을 확인했다. 선택묶음180.111422→117.587582초, B receipt26→1·F product18→9/receipt2→1이며 추가 module-binding read B52→107/F4→193은 숨기지 않는다. 전체 pipeline 단축률/공식 수용/게임 관찰은0이다.

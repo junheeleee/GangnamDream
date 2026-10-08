@@ -40,23 +40,22 @@ private exact leaf-ID 목록을 현재 _show_casino_glossary literal에서 도�
   private 선택/원문/실행기·원결과/지문, tools/audit_scope.json 명시 차선/검사만,
   큐/L3·사양/완료archive·WORK_LOG/허용history 롤링·생성STATUS·agent 원장·
   CLAUDE.md 현재상태 한 줄만.
-- order469_history: tools/asset_one_billion_log_history.py에 원482
-  before/source/receipts/핀을 보존하고 별도 glossary_before/targets/receipts
-  typed 단계만 추가한다. 실제source2(CN/TW)→ledger1 직접부모·raw/span/
-  공식header/현재끝점·정상/예외 종료를 증명한다. source census 변경0이다.
-  tools/wealth_milestone_log_history.py·market_cycle_label_history.py·
-  order470_source_compat.py·pr31_intake_history.py에는 검증된 UI4/ledger 끝점만
-  합성한다. PR31 receipt_transitions의 source/receipt2를 좁은 비교 API로 잇는다.
-  tools/wealth_milestone_log_history_self_test.py에 새16키/32영수증·변조/핀/
-  변경5 원fresh 입출구·예외/복원만의 전용 CLI를 추가한다. 옛함수/모집단/CLI 보존.
-- 비저자 order469_review: docs/agent_reviews/ORDER-484.json만 최종 소유한다.
-  초안32 전수 KO대조와 실제 diff/공식/표적 소비자·실패/제한을 직접 읽어
-  이번 단위만 GO/HOLD한다. 저작/프로젝트QA/engine/collector/수용/commit0.
+- 2026-10-08 최신 사용자 결정(PR #32)이 위임 범위를 갱신한다. 미구현이던
+  history helper5 확장·새 전용 self CLI·오더별 agent_reviews 파일 계획은 중단한다.
+  옛 private 연결 초안과 과거 검사/판정은 삭제하거나 성공으로 바꾸지 않는다.
+- root: 동일한 고정 제품 후보의 지역별 독립 checkout에서 기존 원공식
+  check/import를 실행한다. 원 collect·모집단·함수·target hash·영수증 검증은
+  그대로다. 지역별 import가 다른 지역의 옛 이력 핀을 무효화하는 문제를
+  checkout 분리로 피하며, 캐시·collector 대체·새 검사 도구는 만들지 않는다.
+  실제 검증된 UI2와 원공식 receipt2만 main에 한 묶음으로 반영한다.
+- 비저자: 새로 관찰한 원문 export·실제 diff/공식/표적 소비자와 제한을
+  독립 대조한다. 오더별 새 보고 파일은 만들지 않고 실제 결과는 WORK_LOG에
+  남긴다. 장/릴리스 단위 독립 판정과 인간·원어민 관찰은 별개다.
 
 먼저 source 불변에서 실제 공식 export2를 원문 증거로 보존한다. 초안은 private에서
 병렬 작성할 수 있지만 export/검수의 live guard 안에서는 tracked/helper/HEAD를
-바꾸지 않는다. 그 다음 검증된 source2·지원 연결→fresh 공식 check/import2씩→
-원장1·고정끝점 결속을 분리한다. 대상 수동편집 시 현재 target hash로 새export하고
+바꾸지 않는다. 그 다음 동일 제품 후보의 지역별 fresh 공식 check/import2씩→
+검증된 UI2·원영수증2·원장1을 결속한다. 대상 수동편집 시 현재 target hash로 새export하고
 옛export는 보존한다. 모든 실제 main/collect invocation 수와 후보를 각각 남긴다.
 
 ## 표적 검수 / 마감
@@ -74,7 +73,7 @@ preexport5 디렉터리로 실행한다. 옛1~4시도/초안32·준비PASS는 �
    실제 기본수용기 export/check/import. accepted 예정41855→41887/b280→282는
    계획일 뿐 실제 원공식 영수증/원장 대조 전 완료로 세지 않는다.
 2. 원UI/receipt 이전members/raw·모든 비소유source/JA·retained·공개/과거판정
-   불변과 변조거절을 확인한다. 새 조건부 helper5만 표적검사하며 옛141/222/365/
+   불변과 변조거절을 기존 제품 검증 API로 확인한다. 옛141/222/365/
    전체self/동일UI·240주·전체스토리·출시감사를 관성 반복하지 않는다.
 3. 실제 원collector 입장 및 바뀐 UI/receipt consumer·JA UI/demo/ZH demo·
    en_coverage/english_hangul/등록을 영향 입력으로 선택한다. 입력이 같은 사건
@@ -107,3 +106,18 @@ source940ad0b의 도구 한정GO 뒤 clean metadata wrapper에서 private pre_ex
 원 함수 identity·observer복원은 그대로다. operation 각각 cold0·retained dict
 종료clear·token복원을 기록하며 원 export2가 실제 종료되기 전 tracked/helper/HEAD
 변경0이다. 원공식 export/check/import 성공·32값수용·전체속도 개선은 아직0이다.
+
+### 원문 export6 실제 종료·최신 검수 결정 적용 — 2026-10-09
+
+원 main/collect2가 각각 정상 종료했고 CN/TW 원문16씩·UI3478/errors0·
+동일 source manifest/17505잎 지문과 전후 preserved/observer복원true를 확인했다.
+당시 후보는 d231078이며 result.json passed=true다. CN/TW source SHA는 각각
+fdd195c85d54883677a909bf3d3210dcd50c631949b350949275352b9322ebfc /
+645861523a56118b97b5ec6473f8c7329c95f683b80586ba0fae4bad6d4ce18c.
+source16·초안 대응을 비저자가 지역별 새 export에서 확인했다. check/import·
+32값 수용·실제 화면 완료는 아직 아니다. live guard 종료 뒤 docs-only PR #32
+merge b81d2b0을 로컬 main에 fast-forward했다. 제품 원문/번역은 동일하다.
+이 오더를 마친 즉시 상시 실패 표→별도 삭제 커밋→KNOWN_FAILURES/녹색 CI의
+검수 정리 오더만 진행한다. 479·481 및 비용/재사용/시간단축 후속은 중단하며
+정리가 끝날 때까지 다른 새 오더를 열지 않는다. 기본 arc_36_unexpected_hand의
+"지난 주말 가지 못한 곳"은 정리 이후 문장 묶음으로 남긴다.
