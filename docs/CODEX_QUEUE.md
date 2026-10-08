@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-484 · 카지노 용어집 중국어16키 | [484](queue_active/ORDER-484.md) | 원문 export2 종료·보존 PASS / 수용0 · 마감 직후 PR32 검수 정리만 |
+| 1 | [~] | ORDER-487 · 상시 실패·닫힌 이력 검사 정리 | [487](queue_active/ORDER-487.md) | 선언 · 실패 전수표 먼저 / 삭제0 · 완료까지 다른 새 오더0 |
 | 2 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
 | 3 | [~] | ORDER-457 · 5장 일반 경로 정상 재플레이 | [457](queue_active/ORDER-457.md) | W193→W195 관찰 · Mac잠금으로 이어보기 메뉴미실행 |
 | 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor export GO/실제 재생6항목 HOLD |

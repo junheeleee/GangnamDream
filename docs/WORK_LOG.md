@@ -2,6 +2,15 @@
 
 이전 원문 전체는 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)에 바이트 그대로 이동했다. 보존본의 상대 링크는 이동 전 경로 기준이다.
 
+## 2026-10-09 — 카지노 용어집 중국어 실제 반영·검수 정리 착수 (484 마감, 487 선언)
+
+- 카지노 용어16개를 한국어에서 각 지역으로 옮긴 CN/TW32값과 원공식 receipt2를 main faa71588579d52e5f145b68b313f86d4e4523ec6/tree246f8162830e4290637b017d449081358fcbbe26에 commit·push했다. UI1811→1827씩/원장41855→41887/b280→282다. 기존 pure validate_append가 UI/receipt 대응·원 header/receipt checksum·이전 members/order/raw 역상·JA0을 통과했고 원 source213 SHA는 불변이다. 원값 수동 교체·원공식 collector 대체·새 history helper0이다.
+- 도달 경로: actual CASINO_GLOSSARY_CHECK_OK locales=2 translation=32 overlay_reentry=2 singleton_restore=2 prepared_component_only=true. 생산자↔독자: JeongseonCasino.gd:831/63↔LocaleManager.gd:150↔locale/ui_zh-CN.json:1814·ui_zh-TW.json:1814. 바꾸는 상태: 선택16키×2의 영어 fallback→지역 lookup/actual node32 일치·miss0. 포기 시 잃는 것: 선택16 용어·원화·배당/손실 설명의 지역어 표면(주차/게임 상태 변화0). 서사 위치: 선택적 카지노 UI·월 beat 없음. 장면 계층: 보조 UI, 신규 T1/T2/T3 원고0. 닫는 것: source/UI32·준비 컴포넌트36; natural KO/JA2·JA 신규수용0·화면/입력/자연플레이/원어민 OPEN.
+- 실제 engine은 기존 prepared fixture와 fresh pre-autoload namespace만 사용했다. exit0·정확 marker·stdout/Godot log fatal0, translation32/reentry2/locale6+game/meta restore2 PASS다. private consumer1 stdout/Godot log SHA b79721b9ba9115634155d0b1638227937587f42964094c2c8ae82f474819ddb8/stderr0. 실제 UI32의 private 원 receipt 파일 SHA CN6acfbec32962632e44ba18c6562d5cd72bcfd475fb5e02f17f12a13266a9ef41/TWd69c38fc6d82f7e271a1948ccc58d36e74c622cfe8881cbcaaeb49c89fd8cd5f를 worktree 제거 전에 main private에 보존했다.
+- 비저자 /root/glossary_preexport_review가 실제 main3파일·원 receipt32/b2·새 로그36을 직접 읽어 source/UI 한정 마감 결함0으로 판단했다. /root/translation_status_readonly는 고정482 admission→옛40767 demo 기대값 fallback과 빈 UI stats→KeyError의 인과를 코드로 확인했다. 새 per-order 보고/자가 인간 판정0이며 WORK_LOG에 현재 범위와 한계를 남긴다.
+- EN/한글누출·context·diff는 PASS다. JA_UI·JA_DEMO_PIPELINE·JA_DEMO_AUDIT·ZH_DEMO_AUDIT·DEMO_I18N_SCOPE는 실제 exit1/FAIL5다. 종료 tool 응답의 보존본(원 로그 자체 아님)은 private targeted-checks1.json SHA5e237ba1687e4b95653d441a22138923ea41f3db0b70439678b46a67eda23e81이다. 신규 source/UI가 게임을 깨뜨린 증거가 아니라 닫힌 source/UI 전체 핀이 새 append를 거부한 실패이며, FAIL을 PASS로 바꾸지 않는다. 전체CI NOT_GREEN/HOLD와 제품 검사 보존·복구를 바로 다음 [487](queue_active/ORDER-487.md)에 이관한다.
+- 최신 승인대로 [484 완료 사양](queue_archive/ORDER-484.md)을 보존하고 단일 검수 정리를 선언한다. 상시 실패 전수표를 먼저 커밋하고 다음 커밋에서 이력 전용 검사를 삭제한다. 지금 삭제0/새 비용 도구0/다른 새 오더0이다. 모든 실행 지시 일회성·새 규범0. 자동 게이트는 도달 가능성과 계약 증거이지 재미·깊이·문체·인간 GO가 아니다. 공개 GO1/과거 인간/원어민/물리·본편출시 HOLD는 불변이다.
+
 ## 2026-10-09 — PR #32 적용·카지노 번역 마감 경로 정리 (484, 진행)
 
 - 사용자 승인 문서만의 PR #32를 main b81d2b0에 합쳤다(DECISIONS 추가19줄/다른 파일0). 원484 live guard가 끝난 뒤 로컬도 fast-forward했다. 원문 export6는 실제 CN/TW exit0·원main/collect2·지역별16잎·UI3478/errors0·동일17505잎 지문·passed/preserved/observer복원true다. 원결과/옛 실패는 `.git/order484-20261008.QsF61I/preexport6/`에 보존한다. 아직 check/import·32값 수용·실제 화면 완료가 아니다.

@@ -1,6 +1,6 @@
 # ORDER-484 — 카지노 용어집의 중국어 폴백16키
 
-#### [~] ORDER-484 [전체 현지화] 한국어 직접 CN/TW16×2·고정 끝점 연결 — 2026-10-08
+#### [x] ORDER-484 [전체 현지화] 한국어 직접 CN/TW16×2·고정 끝점 연결 — 2026-10-09
 
 ## 판정 단위 / 깊이3문
 
@@ -121,3 +121,21 @@ merge b81d2b0을 로컬 main에 fast-forward했다. 제품 원문/번역은 동�
 검수 정리 오더만 진행한다. 479·481 및 비용/재사용/시간단축 후속은 중단하며
 정리가 끝날 때까지 다른 새 오더를 열지 않는다. 기본 arc_36_unexpected_hand의
 "지난 주말 가지 못한 곳"은 정리 이후 문장 묶음으로 남긴다.
+
+### source/UI 한정 마감 — 2026-10-09
+
+원 regional import의 실제 accepted receipt2와 UI16씩을 main에 결속했다.
+source faa71588579d52e5f145b68b313f86d4e4523ec6 /
+tree246f8162830e4290637b017d449081358fcbbe26, 변경은 CN/TW UI·원장3뿐이다.
+UI1811→1827씩, 원장41855→41887/b280→282이며 기존 값·순서·raw 역상,
+JA0·원 source213 파일을 기존 pure validate_append로 확인했다.
+실제 fresh pre-autoload Casino 소비자는 translation32/reentry2/restore2 PASS,
+exact marker/exit0·stdout/Godot log fatal0이다. 화면·서체·입력·자연플레이는 아니다.
+비저자 /root/glossary_preexport_review가 실제3파일·원receipt·새 로그를 읽고
+source/UI 한정 마감 결함0으로 판단했다. 새 per-order 보고/이력 도구는 만들지 않는다.
+EN/한글누출·context·diff PASS와 별개로 JA_UI·JA_DEMO_PIPELINE·JA_DEMO_AUDIT·
+ZH_DEMO_AUDIT·DEMO_I18N_SCOPE는 실제 FAIL5다. 고정482 UI/원장 admission의
+새 append 거부가 옛40767 기대값 fallback 또는 빈 stats KeyError로 이어졌다.
+이를 PASS로 바꾸지 않으며 제품 검사 보존·복구와 전체CI 미녹색은 바로 다음
+사용자 지정 검수 정리 오더로 이관한다. 원어민·인간·물리·본편출시 HOLD 유지.
+모든 실행 지시는 일회성/새 규범0이며 자동 PASS는 재미·문체·인간 GO가 아니다.
