@@ -176,6 +176,18 @@ investment-loss-gate/full-game-localization의 현재 UI 호출·레이아웃·�
 
 ## 완료 전 남은 일
 
+### 일반 이름의 닫힌 이력 suite 실사 — 삭제 전에 선언 (2026-10-09)
+
+| 삭제 후보 | 지키는 제품 동작 / 실패 원인 / 처리 |
+| --- | --- |
+| tools/market_cycle_log_audit.py | 없음. 완료478의 fixed BASE/SOURCE parent·whole Investment/UI 역상·current==committed·fixture 전체 SHA만 지킨다. 새 정상 UI append도 거부한다. 실제 MarketCycleLogCheck.gd/.tscn·현재 언어/경제 검사는 보존하고 이력 suite와 등록만 삭제한다. |
+| tools/asset_one_billion_log_audit.py | 없음. 완료482의 fixed source4/Git 부모·전체 UI 역상·current==committed·fixture 전체 SHA만 지킨다. 실제 임계/일회 flag를 독립 판정하지 않는다. AssetOneBillionLogCheck.gd/.tscn·현행 순자산/언어/원장 검사는 보존하고 이력 suite와 등록만 삭제한다. |
+
+등록된 Python120개를 localization_collector_author가 전수 검색 후 본문으로 분류했다.
+혼합 `holdem_tutorial_ui_self_test.py`의4잎 파서/도달·lookup·숫자/BBCode/카드 분류
+제품 검사는 유지한다. DECLARED commit의 tutorial/collector 전체 raw pin3개만 분리한다.
+이 두 suite의 추가 표도 실제 삭제 전에 커밋한다. 합계는56개이며 실제 engine fixture 삭제0이다.
+
 ### 마지막 등록 실사 — 삭제 전에 선언 (2026-10-09)
 
 | 삭제 후보 | 지키는 제품 동작 / 실패 원인 / 처리 |
