@@ -54,3 +54,31 @@ CN/TW만 적용하고 KO/source hash·owner가 달라지면 기존 경로를 유
 새규범0/일회성. source/locale/receipt/게임/사용자 저장/seed/project.godot·과거인간
 판정과 공개M01~M06 변경0. 자동검사는 계약 증거이지 재미·깊이·문체 증거가 아니다.
 본편HOLD·공개GO1·human OPEN45/done1·native/human/physical 관찰OPEN·외부권한0.
+
+## 같은 단위의 REWORK / 재착수 — 2026-10-08
+
+source eaa860169bdf9286d4abdc6452caa727e2c108cf/tree9af1728b2a34dc9a880804e88bc9cf3a6b3123e9의
+원232/direct·220/full·210/격리static·복원3와 준비32는 실제PASS로 보존한다.
+그러나 독립 검수는 정확2倍 뒤 以上/半이 허가될 정적결함을 발견해 REWORK했다.
+docs/agent_reviews/ORDER-485.json(SHA5d88cead3b1153da0e48d45f834d53a18ed4a5be1d5d8627c5d3622b7b09c805)은
+이 eaa 후보의 원REWORK보고이며 덮어쓰지 않는다. 경로/hash는 fixture의 별도 관측이지
+lang/key/source/target만 받는 helper가 synthetic path/hash를 직접 검사한다는 뜻은 아니다.
+
+- 코드수리 전 별도suffix8(CN/TW×以上/半/以下/左右) SHA
+  887e0b4454406c3de7637d91334888db6cf35c172ad1ab31451be53c9514bd58을 동결했다.
+  원228·OFF34·추가script4·원draft32·원FAIL/PASS는 변경0이다.
+- root 실제before8 direct/full/격리static 모두 오류0으로 잘못 허가했고 기대는REJECT다.
+  order485-suffix-before.json SHA64038d5689c76f878f93f753d5fd04545cf326d0e644e04e5068e0d6dbea6dae:
+  quality_passed=false/exit1·false_acceptances8·observation_complete/preserved=true,
+  main/collect/engine0이다. 정상번역 수용이나 품질GO가 아니다.
+- order484_author는 같은 ZH 파일의 bet multiplier 단위 바로 뒤 exact qualifier
+  거절만 좁게 추가한다. other helper/일반 숫자/원문·번역·영수증/생산guard 불변.
+- order484_history는 같은 self 파일에 별도8 기대/chrono만 추가한다. 원232 및
+  228+4의 배열·기대·기본CLI는 보존하고 실제총240으로 같은 focused CLI를 다시
+  검증한다. 알려진결함 수정이 재실행 이유이며 모집단 축소/옛PASS 삭제0이다.
+- root는 등록의 final 보고경로1만 추가하고 새선언·QA·증거/후보를 결속한다.
+  비저자의 후속 최종보고는 docs/agent_reviews/ORDER-485-final.json만 소유한다.
+  새candidate/실제240·준비32·등록/변경분 검사 전 GO/완료/484 공식수용0이다.
+
+깊이3문·단위/배치1·파일소유/금지/외부권한 경계는 위 계획 그대로다. 이8개는
+별도수리 범위가 아니라 원정확2배 역할을 닫는 미수리 결함이다. 새규범0/일회성.

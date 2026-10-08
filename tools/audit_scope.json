@@ -22,6 +22,7 @@
         "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
         "docs/history/WORK_LOG_2026-09-07_localization.md",
         "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-485.json",
+        "docs/agent_reviews/ORDER-485-final.json",
         "docs/queue_active/ORDER-485.md", "docs/queue_archive/ORDER-485.md"
       ],
       "tools": [

@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-08 — 수량 검사 PASS 뒤 독립 suffix REWORK (485, 재착수)
+
+- source4 eaa8601/tree9af1728로 원숫자 오탐3문맥을 수리해 main에 올렸다. 실제 direct232/full220/격리static210/예외복원3·같은준비32는 PASS이며 원고/수용0이다. 그러나 비저자는 정확2배를 2배 이상/2.5배로 허가할 post-unit 경계 결함을 발견해 [eaa REWORK](agent_reviews/ORDER-485.json)로 남겼다. 원PASS/원FAIL은 모두 보존하고 [같은 단위](queue_active/ORDER-485.md)의 배수 경계만 다시 닫는다. 최신깊이/소유/보고경로를 선언 뒤 구현한다.
+- 별도8 CN/TW×以上/半/以下/左右 기대를 코드수리 전 동결(SHA887e0b4454406c3de7637d91334888db6cf35c172ad1ab31451be53c9514bd58)했다. root actualbefore8 direct/full/격리static 모두 오류0으로 잘못허가: quality_passedfalse·실제exit1·false_acceptances8·원전후보존true·main/collect/engine0, 원결과SHA64038d5689c76f878f93f753d5fd04545cf326d0e644e04e5068e0d6dbea6dae. 원문/초안32/영수증·기존기대232 수정0이며 수정후 같은232+별도8의240을 다시 검증한다. 실제FAIL을 추론만이라고 축소하지 않는다.
+- 이전 실행기 운영실패도 보존: 집중CLI exit0 뒤 의도적 JSON Traceback3에 outer FAIL, 다음원준비32/등록PASS 뒤 --lane+파일목록 동시지정 exit2, 구조대조seal1 wrapper≠map AssertionError·seal2 출력경로오타 exit1. 같은bytes/원로그 전수결속해 집중/준비/등록 반복0으로 나머지목록/context/queue/diff를 통과했으며 seal3 actualexit0은 clean eaa/QA뒤 비소비CLAUDE1행 전이만 결속했다. 이PASS가 알려진suffix 결함을 승인하지 않는다.
+- 재착수 첫 patch는 실제spec에 없는 행을 기대해 미매칭/변경0이었다. 완전한 실제행으로 정정한다. 공개GO1·인간OPEN45/done1·본편HOLD·화면/원어민/패드 미관찰·외부출고0, skill의 표적·소유·실패/한계 분리를 유지한다. 새규범0/일회성이다.
+
 ## 2026-10-08 — 카지노 수량 검사의 실제 오탐3문맥 (485, 착수)
 
 - 용어집32값은 private 전수 KO대조를 끝냈지만 준비 원validator32에서6 FAIL/10진단이 나왔다. 10·11의 ‘일’을11일 기간으로, 3颗/3顆를 수량누락으로, ‘세 주사위’의3을 추가 숫자로 오독했다. [별도사양](queue_active/ORDER-485.md)의 정확3원문/ID에서만 숫자 역할을 교정한다. 원고·번역·영수증 수정0, 가짜11天/수량삭제/모집단축소0.
