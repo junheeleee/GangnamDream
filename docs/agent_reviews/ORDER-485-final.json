@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-485",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-08T10:45:07Z",
+  "reviewer": "/root/order484_review",
+  "subject": {
+    "kind": "source",
+    "commit": "aefc0798680ae001a6116d1b0510ea711b41cce2",
+    "tree": "aa7042eb671a713182fa899d9f76a13c5bb79f14",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "scope": "카지노 용어집의 정확3 KO UI문맥/CN·TW 수량 오탐 수리와 별도 focused 검사·등록의 한정 GO. 원 정상6의 숫자진단10을 없애되 카드2·추가카드1·배수2·점수10/11·주사위3·빅11~17/스몰4~10 역할과 독립 원검사를 보존한다. 알려진 배수·카드 부분마스킹 결함은 별도 동결28 반례를 실제 거절한 뒤 닫았다. 번역 공식수용·전체 의미 동등성·whole live UI·화면/입력·게임품질·출시 GO가 아니다.",
+  "method": {
+    "independence": "author는 ZH validator, history는 focused 명부/self, root는 등록·실행·후보·seal을 소유했다. 비저자는 지침·정본·원source3/private32·원6FAIL·동결228/OFF34/별도4·수리diff·소비자/실행기·원로그·실제260/32·clean 후보를 직접 읽었다. 이 final 보고만 tracked 편집하며 제품/초안/명부/영수증 편집0, 프로젝트 모듈 import·validator API·QA·collector/main·engine·공식수용·Git write0이다.",
+    "direct_reads": "실제260의 모든 helper/direct 진단과 full248/격리static238의 실제 진단·trace·skip 사유, 예외3의 원 traceback/복원, 준비32의 ID/locale/source/target SHA·원전후결과를 읽었다. stdlib JSON/AST/Git/파일 해시만 사용해 actual260=동결228+4+8+12+8, 이전252 객체 동일, per-case 확인값6214 전부true, static trace238, Leaf 객체260의 canonical ID/source hash, 준비32의64 source/target digest를 독립 확인했다. 260개 Leaf 객체 확인은 full 호출260이라는 뜻이 아니다.",
+    "binding": "작성 직전 actual HEAD/tree/origin main과 subject가 같고 clean이었다. 전체 tracked3251의 QA 후 입력과 현재 바이트를 직접 대조했으며 CLAUDE 마지막갱신252→260 한 행 외 모두 같았다. QA는 clean660aee6 HEAD+소유2 tools dirty에서 수행되었다. source aefc에서 새 QA를 실행했다고 주장하지 않는다.",
+    "evidence_integrity": "최종 seal의80 artifact를 전수 재해시하고 크기를 대조했다. 이전 FAIL/PASS·동결 기대·초안·원REWORK 보고는 원바이트 그대로다. 실제 성공 로그의 의도적 예외를 일반 실패로 덮거나 실행되지 않은 검사·화면·영수증을 발급하지 않았다.",
+    "skill": "gangnamdream-dev와 CLAUDE/WORK_UNIT의 파일소유·표적검수·원실패 보존·실측/추론 및 위임판정/인간관찰 분리를 적용했다. 새 규범0·일회성 도구 수리다."
+  },
+  "ownership": {
+    "original_declaration": "3b416452c680d1157a14740532b0af049ecadbc5",
+    "final_QA_HEAD": "660aee6728816540ce5d0c45118c139746e6ee28",
+    "source_files": {
+      "tools/zh_translation_audit.py": "665155116041c5f769fcf25740802e550f7f0c92ccaf6fb678aa17813117b766",
+      "tools/zh_dice_title_consumer_self_test.py": "8a9f5efc5a8362c9c75e8555a44df194cfef1076616cb3bf48f17f8a1ebee4bd",
+      "tools/audit_scope.json": "b725743b1f512f1238cd4b244f8fa550fd04677e73f9046f5a3ae85cd97728ff",
+      "CLAUDE.md": "f1760a03b38d6f591502ca7b383842ab776ba5b4b2a88a49b2fad0b7b21745e4"
+    },
+    "unchanged_consumers": {
+      "tools/full_game_localization.py": "214cb75168dcb770268a0596d9855cd2dcb55cd61d1f18698fe093bef9141e88",
+      "scenes/JeongseonCasino.gd": "f6cc7110d512f504b0d2a6dee1314fc7106c6b923c5f928106882d8ed29841b0"
+    },
+    "delta": "선언3b416452 기준 실제Git은 ZH109행 추가, self4403행 추가, audit_scope24행 추가, CLAUDE 한 행 갱신이다. ZH의 새helper 전체와route3행을 역제거한 raw전체, self의 별도opt-in block/dispatch를 역제거한 옛raw전체가 원commit과 직접 동일하다. 최종card 수리는 기존helper 내부8행뿐이며 같은scope의bet 경계5행·원검사·다른role을 보존했다.",
+    "numeric_binding": "정확KO literal3+ui:<KO>:/<~0·~1 escaped pointer>+CN/TW만 ON이다. 숫자·단위·역할순·유일성·missing/duplicate/extra/sign/modifier 확인 뒤 소유 수량span만 numeric사본에서 mask한다. 이상이면 원source/target pair를 반환한다. 광역classifier/day 면제·target 전체whitelist·진단삭제0이다. raw원문/번역은 script/용어/money/token/BBCode/newline/paragraph/English를 통과한다.",
+    "boundary_repair": "bet multiplier는 단위倍 직후 수평공백+[，,。.;；] 또는 문자열 끝만 허용한다. initial cards는牌 포함match.end() 직후后/後와 절경계, additional card는牌 직후 절경계를 요구한다. 정상CN/TW의牌后，/牌後，·2倍，·1张牌。/1張牌。를 직접 읽고 적용했다. 임의Han/Latin 연결이나 suffix denylist에 기대지 않는다.",
+    "api_limit": "validate_text(lang,key,source,target)는 source_path/Leaf hash 인자가 없다. actual source path/hash는fixture에서 별도로 관측했다. 같은canonical ID+KO에 다른source_path/hash만 붙인synthetic Leaf까지 helper가 직접 거절한다고 주장하지 않는다. full_game_localization이나 새metadata 검사는 이번에 불변이다."
+  },
+  "original_failure": {
+    "path": ".git/order484-20261008.QsF61I/draftpreflight1/result.json",
+    "sha256": "13fd959538ff4f9460125f3395c881f82741e7cdfb1ad3a3ab8e3b44e6c0d24b",
+    "actual": "원 translation_errors32의PASS26/FAIL6·숫자진단10을 그대로 보존했다. 더블다운10·11일 때는 duration11天이 아니라 점수 조건, 주사위3颗/3顆는 세 개와 같은 수량, 세 주사위의3도 원문 수량이다. 원문/수량 삭제나11天 거짓 번역0.",
+    "independent_diagnosis": ".git/order484-20261008.QsF61I/review-preflight1.json",
+    "review_sha256": "d6a4edf5269b0e20a0a5e5191271fb72e2035c19ba172979a80182b79edcc023"
+  },
+  "frozen_population": {
+    "original228": {
+      "path": ".git/order484-20261008.QsF61I/order485-roster.json",
+      "sha256": "839854d2aea6ff4f0b781efb968cfe64a4bf2810aab3b34d5f3af24e632b8541",
+      "normal": 6,
+      "mutant": 188,
+      "OFF": 34,
+      "chronology": "코드 전 동결했다. 모든source/key/locale/target/expected/base/required/static을 보존했다. card/multiplier/point/dice/range의 숫자·단위·부호·percent/time·missing/extra/duplicate·역할교환과 독립 원진단을 포함한다."
+    },
+    "OFF34": {
+      "path": ".git/order484-20261008.QsF61I/order485-before-OFF.json",
+      "sha256": "3a66708b8ae12cc500da3c810bf827255c47d367d23dc0d9db18eeeca3746d3d",
+      "actual": "helper absent 상태의 원validate_text34 진단을 실측 동결했다. baseline 당시audit_scope는root소유dirty 그대로 전후 동일하여clean baseline이라 부르지 않는다. 최종direct34 배열동일, representable full은sorted 동일하다. source-OFF 격리static은beforeDIRECT generic배열과의 대응이지 before정적호출 실측이라 부르지 않는다."
+    },
+    "classifier4": {
+      "path": ".git/order484-20261008.QsF61I/order485-supplementary4.json",
+      "sha256": "cd330a163ad7fc555f95bc5b86162ad036c154768f6e2a5e051ded9781fe0e8c",
+      "chronology": "author 첫코드 뒤·첫독립실행 전의 별도동결4다. owned classifier의CN顆/TW颗도 원script진단으로 거절한다. 원228의 코드전동결과 혼동하지 않는다."
+    },
+    "suffix8": {
+      "path": ".git/order484-20261008.QsF61I/order485-suffix-rework8.json",
+      "sha256": "887e0b4454406c3de7637d91334888db6cf35c172ad1ab31451be53c9514bd58",
+      "chronology": "eaa 독립REWORK 뒤·수리 전에 CN/TW×以上/半/以下/左右를 별도동결했다. 원32/228/4/OFF를 불변으로 보존했다."
+    },
+    "boundary12": {
+      "path": ".git/order484-20261008.QsF61I/order485-boundary-rework12.json",
+      "sha256": "aa1b2a12b92cbc7d7f34b82ec9c498957d3ca16889361dc6a0a7e3c92927c8fe",
+      "chronology": "positive경계 수리 전 별도12다. CN/TW×多·余/餘·上下·任·x·수평공백+多다. Latin2는numeric helper 자체거절도 요구한다."
+    },
+    "card8": {
+      "path": ".git/order484-20261008.QsF61I/order485-card-rework8.json",
+      "sha256": "94ba2800046c9e9e85e2013fec14892b42f1929d8adc89619192223c6899c275",
+      "chronology": "252PASS 뒤·card경계 수리 전 CN/TW×initial2/additional1×以上/多를 별도동결했다. 정상double2를base로 suffix삽입만 하고 원252를 보존했다."
+    },
+    "independent_readback": "six embedded bindings가 각원JSON/OFF map과 같다. 최종260 case전순서·전값=228+4+8+12+8, 옛252의case전순서·전값도 동일하다. 모집단축소·기대값사후교체0이다. 음성220은각정상base PASS에 결속한다."
+  },
+  "preserved_rework_history": {
+    "eaa_report": {
+      "path": "docs/agent_reviews/ORDER-485.json",
+      "sha256": "5d88cead3b1153da0e48d45f834d53a18ed4a5be1d5d8627c5d3622b7b09c805",
+      "subject_commit": "eaa860169bdf9286d4abdc6452caa727e2c108cf",
+      "verdict": "REWORK",
+      "unchanged": true
+    },
+    "actual_suffix_before": {
+      "path": ".git/order484-20261008.QsF61I/order485-suffix-before.json",
+      "sha256": "64038d5689c76f878f93f753d5fd04545cf326d0e644e04e5068e0d6dbea6dae",
+      "actual": "direct8/full8/격리static8 모두errors[]로falseaccept8이었다. quality=false/exit1/error=null, observation_complete/preserved=true다. 미수리 원증거를 보존했다."
+    },
+    "actual_boundary_before": {
+      "path": ".git/order484-20261008.QsF61I/order485-boundary-before.json",
+      "sha256": "b7d3959be6c89e772b9b8687fffe6260efa7340ae609766677bfb7838ac45f77",
+      "actual": "12 전관측, falseaccept10이며Latin x2는기존English진단으로 이미거절했다. quality=false/exit1/error=null/preserved=true다. raw observation_complete=false는runner가전falseaccept조건까지 넣어서이며12미관측이란뜻이 아니다. 원field를true로바꾸지 않는다."
+    },
+    "actual252_pass": {
+      "subject_commit": "3ffd02829496bea7682381eb0806ad5da856c0fe",
+      "path": ".git/order484-20261008.QsF61I/order485-rework-checks1/result.json",
+      "sha256": "64b5a50cfc421801aa3c64f3cfc91d1957ed20189f16a50d328c1fbaffc22db9",
+      "actual": "direct252/full240/static230/negative212/restore3와 준비32/7명령의 실제PASS를 보존했다. 다만 뒤에card결함을 확인하여 이PASS를final260 대신쓰지 않는다."
+    },
+    "actual_card_before": {
+      "path": ".git/order484-20261008.QsF61I/order485-card-before.json",
+      "sha256": "3a8a7d001c50f351e8443d4ee0e10f853d264900874f4aa4d39d9d016c8340b3",
+      "actual": "clean660aee6에서direct8/full8/격리static8 모두errors[]로falseaccept8이었다. quality=false/exit1/error=null/observation_complete/preserved=true, main/collect/engine0이다. card수리전 별도증거다."
+    },
+    "operational_failures": "원232 component PASS지만 공통wrapper가 의도적예외Traceback3을FAIL로 읽은checks1, --lane과직접path 동시지정exit2인checks2, OFF wrapper와map을비교한seal1 AssertionError, seal2 결과PASS 작성뒤seal1 출력path를잘못쓴exit1을보존했다. checks3/seal3는원진단을구조적으로결속했으며 옛QA를이유없이재실행0이다. 252뒤seconds/elapsed_seconds 출력KeyError도QA실패가아닌원tool출력으로보존했다. card self의tuple닫힘오류는완료전stdlib AST로수리했고root260 QA전실행0이었다. 미발급stale closure draft를이판정근거로쓰지않는다."
+  },
+  "actual_results": {
+    "final260": {
+      "path": ".git/order484-20261008.QsF61I/order485-rework-checks2/result.json",
+      "sha256": "4e39368438db76feb2311d08dc00b7766e5d75b3da2038423ea4560ea5f9af81",
+      "stdout_path": ".git/order484-20261008.QsF61I/order485-rework-checks2/focused260.stdout.log",
+      "stdout_sha256": "93dd13d0daac6279ff21454126ec96024f5d03d007d078d9ba10bdf795a987c8",
+      "marker": "ORDER485_CASINO_GLOSSARY_OK",
+      "direct": 260,
+      "full": 248,
+      "isolated_static": 238,
+      "valid_negative": 220,
+      "exception_restoration": 3,
+      "global_checks_true": 21,
+      "per_case_check_flags_true": 6214,
+      "seconds": 11.571959875,
+      "passed": true,
+      "error": null,
+      "preserved": true,
+      "diagnostics": "정상6 direct/full/static은0errors이며음성220 전부actual REJECT다. 원독립money/통화/token/BBCode/Hangul/kana/지역script/paragraph/newline/English진단을보존했다. suffix8/boundary12/card8은numeric helper자체경계진단으로전28거절하며Latin2의원English진단도보존했다. 실패helper는원pair를반환하고generic진단도남긴다.",
+      "full_skips": "ja locale-OFF6은direct-only며full ja는다른consumer다. malformed raw pointer6은canonical Leaf.id로동일roundtrip불가인direct-only다. full248을260이라부르지않는다.",
+      "static_limits": "real Entry/UiInventory의단일fixture를actual static_ui_coverage에전달한238이다. display alias는보고key뿐이며원validate로escaped source canonical key를한번전송한다. provider/story inventory를격리하고validator/cache/provider identity와fixture값을복원한다. whole live UI가아니다.",
+      "exceptions": "inventory_provider/story_provider/after_original_validator의의도적RuntimeError3을원traceback과함께보존했다. 마지막만원validator의정상CN실호출1회·errors[]관측뒤raise한다. 3곳모두fixture/함수/provider/cache복원true다. 일반예외를무시하는면제가아니다.",
+      "forbidden_execution": "actual profile은full.collect=0/full.main=0이다. 대상JA module에build_scope속성이없어build_scope profile값을관측했다고주장하지않는다. 읽은fixture경로에build_scope실행없음, engine=0/옛Dice corpus실행0이다."
+    },
+    "prepared32": {
+      "path": ".git/order484-20261008.QsF61I/order485-rework-checks2-prepared32/result.json",
+      "sha256": "a46433d3930ad063dcfc3597980407c38daf2e9571be4eba4702c560d27cc2ac",
+      "marker": "ORDER484_PREPARED_VALIDATOR_OK cases=32",
+      "actual": "원준비32의ID/locale/source/target SHA전부동일하다. 원PASS26/FAIL6의source/target을바꾸지않고현재32errors[]/PASS다. 원full.translation_errors를private실행했으며공식main0/collect0, 전후tracked/HEAD/private/runner동일·preserved=true/error=null이다. formal receipt가아니다.",
+      "api_seconds": 0.165836292,
+      "draft2_sha256": "9ce301899af1fca8ab5a22952ebfaf9b0b17f6b38f6d10618bada31837e6a213",
+      "selection2_sha256": "c96e50cfdd7417362a7df73044aa2607a7eab39c7c9c2c6c7607086d9fdec3fc"
+    },
+    "commands": {
+      "actual_count": 7,
+      "names": ["focused260", "same32", "registration", "selection", "context", "queue", "diff"],
+      "exit_codes": [0, 0, 0, 0, 0, 0, 0],
+      "all_stderr_bytes": 0,
+      "total_seconds": 14.319211875,
+      "details": "registration218 PASS는기존EXTRA정보경고를보존했다. selection은casino-glossary-numbers 검사4개를목록으로보였을뿐4개추가실행이라부르지않는다. context는docs587/links188/invariants15, queue는active80/in_progress78, diff stdout0이다. 전7의원stdout/stderr를직접읽고seal hash와대조했다."
+    }
+  },
+  "final_seal": {
+    "path": ".git/order484-20261008.QsF61I/order485-card-seal.json",
+    "sha256": "55c9103fff424e4630f07a35ca6fc407a1ffe4ac09ad183f7f5bdd01f99cf519",
+    "runner_path": ".git/order484-20261008.QsF61I/order485_card_seal.py",
+    "runner_sha256": "54d16d9d8a3596fb1c2a9e4b74cfe5d8bc4a09d59c5340b83f16d631aa5bef9d",
+    "actual_QA_commit": "660aee6728816540ce5d0c45118c139746e6ee28",
+    "actual_QA_tree": "1814d47bd9c9db57d6900b75c79a20132d7594be",
+    "actual_QA_dirty": ["tools/zh_dice_title_consumer_self_test.py", "tools/zh_translation_audit.py"],
+    "clean_subject": "source aefc/treeaa704는원QA consumer tool2와동일bytes다. CLAUDE마지막252→260만post-QA 비consumer갱신이다. tracked3251·HEAD·protected/history/private inputs/원보고를독립재결속했다.",
+    "actual": "PASS/preserved=true, artifact80재hash, ZH전체raw역제거/옛self전체raw/동결6/보호input/REWORK원보고불변이다. seal은read-only재hash이며새validator/CLI/collector/main/engine실행0, clean후보에서새QA한증거가아니다."
+  },
+  "quality_judgment": {
+    "conclusion": "원parser오탐에맞춰번역을왜곡하지않고정확3source의수량role을대조하는수리는타당하다. 부분token을mask하여거짓수량을허가하는기존28반례도positive role boundary와원검사로실제거절한다. 별도동결기대·원진단·OFF34·consumer전송/복원·finite260실제결과와현재source결속을확인하여이도구수리만GO로판정한다.",
+    "remaining_roles_static_read": "점수10/11·dice3·range11~17/4~10·triple3는소유classifier/noun뒤의時/結果/為大/算小/相同까지pattern이소비한다. 수량바로뒤에같은以上/多를넣으면role인식이깨져card/bet과같은명백한직후suffix부분match는정적으로찾지못했다. 이독해를추가실행이나전체의미검증증거로쓰지않는다.",
+    "open_findings_within_this_numeric_repair": [],
+    "human_evidence": "이scope quality판정은비저자agent의내부판단이다. 원어민·인간playtest·물리pad관찰을발급하지않는다."
+  },
+  "l2": {
+    "reachability": "ORDER485_CASINO_GLOSSARY_OK와실제exit0/원stdout·direct260/full248/격리static238/예외복원3이다. 준비32는원translation_errors실제PASS/API0.165836292초다. source aefc와원실행bytes를seal/reviewer읽기로결속했다.",
+    "producer_reader": "tools/zh_translation_audit.py:9289 helper → :9474 numeric route/:9395 validate_text → tools/full_game_localization.py:3142 translation_errors. 실제static consumer는tools/zh_translation_audit.py:10441, fixture는tools/zh_dice_title_consumer_self_test.py:4629/4741, opt-in dispatch:4959다.",
+    "changed_state": "정상6의숫자진단10→0, OFF34원배열동일, 음성220거절이다. 원suffix8/card8오수용과boundary12의오수용10+English거절2를보존하고최종28전부helper자체거절한다. 원source/draft32/공식41855개280batch/게임상태/공개/인간판정변화0이다.",
+    "foregone": "수리를빼면올바른점수11·dice3번역의준비6을옛parser가거절한다. 경계수리를빼면2倍以上/半이나2장以上/1장多의확인된오수용이남는다. 게임선택이아닌도구수리여서발화주차/24주choice손실은해당없다.",
+    "narrative_position": "해당없음. source3는기존Casino glossary UI며이번변경은번역검증도구라새scene/서사/게임flag를생산하지않는다.",
+    "scene_tier": "해당없음. 비scene도구수리다.",
+    "closes": "정확3 KO/CN·TW문맥의수량parser오탐과확인된suffix부분mask, finite260/같은32/등록·변경분검사·source동일성만닫는다. ORDER484공식수용·전체UI·넓은의미/문체·render/input/PAD·이야기품질·인간게이트·본편출시는닫지않는다."
+  },
+  "limits": {
+    "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "rendered_ui", "natural_gameplay", "full_product_quality"],
+    "not_run": "리뷰어project API/QA0이다. root전체UI/240주/옛Dice20/전체ZHself/공식export/check/import/수용반복/engine0이다. detached Casino16×2 fixture와overlay재진입/상태복원prepared계획을실제화면·입력증거로옮기지않는다.",
+    "translation_state": "ORDER484 CN/TW32는private draft+prepared PASS뿐이며공식수용/receipt0이다. 현재accepted41855·280batches는불변이다. glossary20source의16선택/4제외, JA신규수용0, Casino전체49key는미완료다. 제외한바카라natural KO/JA사실오류2는별도OPEN이다.",
+    "semantic_boundary": "유한수량role과원diagnostic검증은전체산문의미동등성·부정/조건전해석·도박설명전사실정확성·문체·재미·밀도를보장하지않는다. 정상동의paraphrase라도한정pattern밖이면옛경로/거절일수있다. 전입력어휘나제품성능평가가아니다.",
+    "timing_boundary": "11.571959875초/14.319211875초/API0.165836292초는이번실행소요시간뿐이다. 넓은pipeline단축·게임성능·재현속도보장을주장하지않는다.",
+    "release": "본편HOLD·공개GO1·human OPEN45/done1·역사판정을보존한다. agent수량도구GO는원어민/인간/물리pad관찰, Steam/store변경, 지출, 법률인증, 외부출시권한이아니다."
+  }
+}

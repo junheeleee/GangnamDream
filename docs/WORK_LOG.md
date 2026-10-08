@@ -2,19 +2,27 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-08 — 카지노 중국어 수량 오탐3문맥을 닫았다 (485, 한정 GO)
+
+- 정확3문맥의 배수·初2장·追加1장 경계를 source aefc0798680ae001a6116d1b0510ea711b41cce2/treeaa7042eb671a713182fa899d9f76a13c5bb79f14로 main에 push했다. 게임 원문·locale·수용0이며 parser 오탐을 번역문 왜곡 없이 걷었다.
+- 같은 frozen260(원228+script4+suffix8+boundary12+card8) actualdirect260/full248/격리static238/음성220/예외복원3와 같은draft32 errors0, 실제7명령 PASS/14.319211875초/입력보존true다. checks2/result SHA4e39368438db76feb2311d08dc00b7766e5d75b3da2038423ea4560ea5f9af81, prepared32 SHAa46433d3930ad063dcfc3597980407c38daf2e9571be4eba4702c560d27cc2ac. full skip12는 JA-OFF6+malformed pointer6이며 목록은 실행이 아니다.
+- QA는660aee+소유dirty2에서 실행했고 후속CLAUDE252→260 상태행1만 별도 결속했다. clean aefc의 read-only seal SHA55c9103fff424e4630f07a35ca6fc407a1ffe4ac09ad183f7f5bdd01f99cf519는 tracked3251·frozen6·보호6·증거80 SHA/기존보고를 대조한 것이며 신규QA0이다. JA에없는 build_scope=0 관측은 주장하지 않는다.
+- 비저자 [최종보고](agent_reviews/ORDER-485-final.json) SHA3dda1e783b022c6432a9b20bd5d1c6bf7edf55095acbbebe8241278da0fcb67c가 이 도구만 GO했다. 원eaa REWORK·actual232/252 PASS·before suffix8/경계10개오수용·card8 FAIL·실행기오류를 보존하며 별도판정을 추가한다. 전체SHA/L2전7칸은 [완료사양](queue_archive/ORDER-485.md).
+- exact KO/escaped ID/locale만 helper ON이고 path/hash는 별도관측이다. 격리static은 wholeliveUI·render/input가 아니다. gangnamdream-dev의 표적/소유/실패·인간 증거분리 적용, 새규범0/일회성. 원484 공식32수용0/ledger280·41855 그대로이며 실제export를 재개한다. natural KO/JA오문2·카지노잔여UI17·실제화면/원어민/패드·본편출시HOLD/공개GO1·인간OPEN45/done1을 유지한다.
+
 ## 2026-10-08 — 수량 검사 PASS 뒤 독립 suffix REWORK (485, 재착수)
 
 - 양성 배수경계 source3 `3ffd02829496bea7682381eb0806ad5da856c0fe`/tree`06cb8efd68381ab5d054553cd02a1c3734ac51d9` push, actual252/full240/static230/negative212/예외3 및 준비32 errors0·7명령 PASS/14.05676425초/보존true를 확인했다. 새QA결과SHA64b5a50cfc421801aa3c64f3cfc91d1957ed20189f16a50d328c1fbaffc22db9, clean sealSHA4d2c7b7e8ad9408232d728dbcca1cc7a66dcd45a9b8550d9464bd046e462c4fe는 이후CLAUDE232→252 한 행만 결속했고 clean후보에서 재실행0이다. 그러나 최초소유 初2/追加1 카드도 牌 이상의 같은부분마스킹 위험을 비저자/자가 모두 직접 읽어 발견해 최종발급을 보류했다. 별도card8 동결/actualbefore 후 같은 소유2파일에서 카드량 경계만 수리하고 기존252+8=260을 전량 검증한다. 새역할/파일/원고0·원PASS/원FAIL/보고/초안32 보존.
 - root 진단출력에서 smallcommand의 seconds 대신 elapsed_seconds를 읽어야 하는 KeyError1회가 났다(새QA실행/수정0). 원출력 보존 후 올바른 필드만 재독해했다. 경계12 actualbefore는10개 오수용·Latin x2는 원English로 거절이며 관측12 전량/보존true다. all(false_acceptance)를 넣은 observation_complete는false 그대로 유지해 누락관측이나12오수용으로 바꾸지 않는다.
 - 첫 suffix4종 guard5줄과 self8은 실제QA0으로 동결했다. 비저자와 self저자 모두 多/余/餘/上下가 같은 부분마스킹 경로에 남는다고 직접 읽어 확인했다. 정상 draft2의 CN/TW는 倍 직후 쉼표이므로 같은 정확2배 역할만 수평공백 뒤 절구두점/끝을 요구하는 양성경계로 대체한다. 연결어 선제허용0·새역할/파일0; 별도12 경계기대는 수리 전 동결/actualbefore 후 기존232+8+12=252 전량을 검증한다. 원보고·원실패·원PASS·초안32는 그대로다.
-- source4 eaa8601/tree9af1728로 원숫자 오탐3문맥을 수리해 main에 올렸다. 실제 direct232/full220/격리static210/예외복원3·같은준비32는 PASS이며 원고/수용0이다. 그러나 비저자는 정확2배를 2배 이상/2.5배로 허가할 post-unit 경계 결함을 발견해 [eaa REWORK](agent_reviews/ORDER-485.json)로 남겼다. 원PASS/원FAIL은 모두 보존하고 [같은 단위](queue_active/ORDER-485.md)의 배수 경계만 다시 닫는다. 최신깊이/소유/보고경로를 선언 뒤 구현한다.
+- source4 eaa8601/tree9af1728로 원숫자 오탐3문맥을 수리해 main에 올렸다. 실제 direct232/full220/격리static210/예외복원3·같은준비32는 PASS이며 원고/수용0이다. 그러나 비저자는 정확2배를 2배 이상/2.5배로 허가할 post-unit 경계 결함을 발견해 [eaa REWORK](agent_reviews/ORDER-485.json)로 남겼다. 원PASS/원FAIL은 모두 보존하고 [같은 단위](queue_archive/ORDER-485.md)의 배수 경계만 다시 닫는다. 최신깊이/소유/보고경로를 선언 뒤 구현한다.
 - 별도8 CN/TW×以上/半/以下/左右 기대를 코드수리 전 동결(SHA887e0b4454406c3de7637d91334888db6cf35c172ad1ab31451be53c9514bd58)했다. root actualbefore8 direct/full/격리static 모두 오류0으로 잘못허가: quality_passedfalse·실제exit1·false_acceptances8·원전후보존true·main/collect/engine0, 원결과SHA64038d5689c76f878f93f753d5fd04545cf326d0e644e04e5068e0d6dbea6dae. 원문/초안32/영수증·기존기대232 수정0이며 수정후 같은232+별도8의240을 다시 검증한다. 실제FAIL을 추론만이라고 축소하지 않는다.
 - 이전 실행기 운영실패도 보존: 집중CLI exit0 뒤 의도적 JSON Traceback3에 outer FAIL, 다음원준비32/등록PASS 뒤 --lane+파일목록 동시지정 exit2, 구조대조seal1 wrapper≠map AssertionError·seal2 출력경로오타 exit1. 같은bytes/원로그 전수결속해 집중/준비/등록 반복0으로 나머지목록/context/queue/diff를 통과했으며 seal3 actualexit0은 clean eaa/QA뒤 비소비CLAUDE1행 전이만 결속했다. 이PASS가 알려진suffix 결함을 승인하지 않는다.
 - 재착수 첫 patch는 실제spec에 없는 행을 기대해 미매칭/변경0이었다. 완전한 실제행으로 정정한다. 공개GO1·인간OPEN45/done1·본편HOLD·화면/원어민/패드 미관찰·외부출고0, skill의 표적·소유·실패/한계 분리를 유지한다. 새규범0/일회성이다.
 
 ## 2026-10-08 — 카지노 수량 검사의 실제 오탐3문맥 (485, 착수)
 
-- 용어집32값은 private 전수 KO대조를 끝냈지만 준비 원validator32에서6 FAIL/10진단이 나왔다. 10·11의 ‘일’을11일 기간으로, 3颗/3顆를 수량누락으로, ‘세 주사위’의3을 추가 숫자로 오독했다. [별도사양](queue_active/ORDER-485.md)의 정확3원문/ID에서만 숫자 역할을 교정한다. 원고·번역·영수증 수정0, 가짜11天/수량삭제/모집단축소0.
+- 용어집32값은 private 전수 KO대조를 끝냈지만 준비 원validator32에서6 FAIL/10진단이 나왔다. 10·11의 ‘일’을11일 기간으로, 3颗/3顆를 수량누락으로, ‘세 주사위’의3을 추가 숫자로 오독했다. [별도사양](queue_archive/ORDER-485.md)의 정확3원문/ID에서만 숫자 역할을 교정한다. 원고·번역·영수증 수정0, 가짜11天/수량삭제/모집단축소0.
 - gangnamdream-dev의 선언·파일소유·원실패/표적검수·독립/인간 분리를 적용한다. 저자ZH helper1, 다른저자 기존self 새CLI1, root등록/운영, 비저자 전수보고만 분리한다. 선언 전 구현/새QA0. 원484 공식 preexport1/2는 main0에서 중단,3은 main1/collect진입1·유효반환0/559.656865208초에서 중단됐다. 보존true·원결과SHA `1f9b54ca87ba38e3a8abf7c473cdfe21d6abaaa6771d6eee14e7abeab61d6fdd`; 성공수집/수용0이다.
 - 484 첫선택의 / escape3건은 원본을 보존한 selection2로 정정했다. private outer diagnostic7범위 제거는 원main/collector/생산guard 교체0이며 속도개선 주장0이다. 초안2 SHA `9ce301899af1fca8ab5a22952ebfaf9b0b17f6b38f6d10618bada31837e6a213`, 준비FAIL SHA `13fd959538ff4f9460125f3395c881f82741e7cdfb1ad3a3ab8e3b44e6c0d24b`를 동결했다. 본편HOLD/공개GO1/인간OPEN45·실제/원어민/패드 미관찰 보존. 새규범0/일회성.
 

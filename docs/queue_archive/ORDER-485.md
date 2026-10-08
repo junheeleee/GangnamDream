@@ -1,6 +1,6 @@
 # ORDER-485 — 카지노 용어집의 중국어 수량 오탐3문맥
 
-#### [~] ORDER-485 [QA] source-bound 수량 역할·기존 검증 보존 — 2026-10-08
+#### [x] ORDER-485 [QA] source-bound 수량 역할·기존 검증 보존 — 한정 GO — 2026-10-08
 
 ## 깊이3문 / 근거
 
@@ -102,3 +102,66 @@ lang/key/source/target만 받는 helper가 synthetic path/hash를 직접 검사�
   총260을 재검증한다. 최초부터 소유한 정확2장/1장 역할의 같은 결함이며 새장면/
   원고/파일/전체검사 범위0이다. 실제260·같은32·변경분검사·새후보/독립final 전
   GO/완료0, 원 eaa REWORK 보고와3ffd PASS/seal은 덮어쓰지 않는다. 일회성이다.
+
+## 최종 수리 / 실제 검증 / 독립 한정 GO — 2026-10-08
+
+- 최종 source3 `aefc0798680ae001a6116d1b0510ea711b41cce2` /
+  tree `aa7042eb671a713182fa899d9f76a13c5bb79f14`를 main에 push했다.
+  배수·初2장·追加1장 뒤 positive 경계를 닫았으며 정확 KO3/escaped ID/CN·TW만 ON이다.
+  helper API는 lang/key/source/target이고 실제 path/hash는 별도 fixture 관측이다.
+  synthetic path/hash를 이 API가 직접 검증한다고 주장하지 않는다.
+- 최초228/OFF34·script4·suffix8·boundary12·card8을 별도 시간순 동결했다.
+  원252/232의 배열·기대와 원 draft32를 보존했다. card before8은 clean660aee에서
+  direct/full/격리static 모두 잘못 허가됨을 실제 확인했다:
+  order485-card-before.json SHA
+  3a8a7d001c50f351e8443d4ee0e10f853d264900874f4aa4d39d9d016c8340b3,
+  quality_passed=false/exit1·false_acceptances8·보존true다.
+- 최종 actual260=228+4+8+12+8, direct260/full248/격리static238/음성220/예외복원3
+  PASS. full의 skip12는 JA-OFF6+malformed pointer6이며 전체UI census가 아니다.
+  per-case flags6214/global flags21 true, 원 collect/main 실제관측0/0이다.
+  JA에 build_scope 속성이 없으므로 observed build_scope=0 카운터를 주장하지 않는다.
+  고의 주입 RuntimeError traceback3만 구조적으로 허용했고 그 외 payload의 오류 탐지는 유지했다.
+- order485-rework-checks2/result.json SHA
+  4e39368438db76feb2311d08dc00b7766e5d75b3da2038423ea4560ea5f9af81:
+  전체7명령 actualexit0/14.319211875초/errornull/입력보존true.
+  집중260 11.571959875초, 같은준비32 1.567876초, 등록·목록·context·queue·diff
+  나머지5다. --list --lane은 등록목록이고 그 차선4개를 실행한 것이 아니다.
+  집중stdout SHA93dd13d0daac6279ff21454126ec96024f5d03d007d078d9ba10bdf795a987c8.
+  준비32결과 SHAa46433d3930ad063dcfc3597980407c38daf2e9571be4eba4702c560d27cc2ac,
+  실제 원translation_errors32/errors0/PASS, pureAPI0.165836292초다.
+- QA는 660aee HEAD+소유2dirty에서 실제 실행했다. 뒤 CLAUDE의 비소비 현재상태
+  252→260 행1 전이가 있어 최종aefc에서 신규QA를 실행했다고 쓰지 않는다.
+  clean read-only seal order485-card-seal.json SHA
+  55c9103fff424e4630f07a35ca6fc407a1ffe4ac09ad183f7f5bdd01f99cf519:
+  wholetracked3251 중 QA입력은 그 상태행 외 동일, 원Git/raw/함수역상/동결6/
+  보호6/원REWORK/증거80 SHA를 직접 결속했고 preserved=true다.
+  seal은 추가 소비자/engine/공식 수용 검사가 아니다.
+
+### L2 전7칸 / 결속
+
+| 원본 | 호출 | 입력 | 반환·표시 | 실패 | 불변 | 증거 |
+|---|---|---|---|---|---|---|
+| ZH helper9289/validate9395·9474 | 원직접/ full3142/격리static10441 | frozen260·KO3/escaped ID/CN·TW·JA OFF | 정상6 오류0·음성220 거절·direct260/full248/static238 | old suffix8·boundary10/12·card8 false accept 보존, 고의예외3만 구분 | 원228/OFF34/후속4+8+12+8·원검사/기본CLI/복원3 | checks2/result 4e393684…·stdout93dd13d0…·final보고 |
+| 원translation_errors32 | draft_preflight 원API32 | 원draft2 SHA9ce30189…/정확선택2 | 실제32 errors0·수용0 | 최초6 FAIL/10진단 보존 | 원draft·selection/IDs·main/collect0 | prepared32/result a46433d3… |
+| 변경분5 / seal | 등록218·목록·context·queue·diff / read-only seal | exact차선·wholetracked/HEAD·QA로그 | 명령5 exit0 / 증거80·보존true | 초기wrapper/옵션/seal실패와eaa REWORK 그대로 | protected6·old보고·ledger280/41855·locale/gameplay | checks2/result / card-seal55c9103f… / final보고 |
+
+각 행의 실제 파일/함수/라인·예외·출력 전수는
+[독립 최종보고](../agent_reviews/ORDER-485-final.json)에 결속한다. 이 표의 축약SHA는
+위 완전SHA와 해당보고로 식별하며 별도 실행으로 세지 않는다.
+
+### 판정 / 보존 / 남은 일
+
+- 비저자 /root/order484_review가 최종source aefc/treeaa704의 이 수량도구만 GO:
+  docs/agent_reviews/ORDER-485-final.json SHA
+  3dda1e783b022c6432a9b20bd5d1c6bf7edf55095acbbebe8241278da0fcb67c.
+  원eaa REWORK 보고5d88…와 기존 판정247을 유지하고 별도 신규GO 판정을 추가한다.
+- 일반/자연 의미·허용되지 않은 paraphrase까지 판정하는 수리나 전체중국어 품질GO가
+  아니다. finite 정상표현 밖은 원경로로 거절될 수 있다. static은 실제Entry/UiInventory의
+  격리단일 fixture며 wholeliveUI·실제render/input 관찰이 아니다.
+- 게임 원문·JA·locale사전·ledger280/41855 변경0·공식용어집32 수용0이다.
+  원484를 재개해 실제export/check/import·전이/준비소비자 검증을 이어간다.
+  KO/JA natural 사실오문2와 카지노 UI 잔여17은 별도 OPEN이다.
+- 새규범0/모든 실행·exact결속 지시는 일회성이다. gangnamdream-dev의 표적·소유·
+  실패보존·독립/인간 증거분리를 적용했다. 자동 통과는 재미·깊이·문체 증거가 아니다.
+  본편HOLD·공개GO1·human OPEN45/done1·native/human/pad·실제화면/자연플레이·
+  external release·wholepipeline 성능은 미관찰/잔여이며 project/사용자저장/공개원문/과거판정은 보존했다.
