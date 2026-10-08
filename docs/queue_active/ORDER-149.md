@@ -42,6 +42,32 @@ opening_live_review는 새 `docs/agent_reviews/ORDER-149-live.json`만 소유한
 root는 기존 운영 문서만 갱신하며 제품/옛 보고/과거 판정0변경이다. 이 일회성 선언을
 별도 커밋·push한 뒤 구현한다. L3 OPEN/전체149 HOLD는 유지한다.
 
+### 실제 창 후속 결과 — 2026-10-08
+
+clean2b9d6b1/tree33eee9db의 fresh live2는 engine/wrapper0·오류0,
+wholetracked3252/보호342/실행입력8 전후 동일이다.
+원result SHA140fe1d8e41609c0e08de2c23ff24c05a26b08d6604031bc0aebb6545852256f.
+KO1280/EN1280/KO1920/EN1920의 capture-free 정상 autoplay는 각각
+10.834017/10.830545/10.835987/10.808591초, beat0/1/2·전환1·눌림0이다.
+최대gap0.079521<0.10·원상한12.374 유지, 준비 제외 재생시간이다.
+옛 촬영FAIL의 원인은 미확정이다.
+
+root는 CUA gameplay12/harness2표본을 읽었다. EN1280의3비트, KO/EN1920의
+교체·처지·목표를 읽었으나 KO1280 정상은 도시1표본뿐이다. 전량3비트 실관찰 주장은
+없다. 읽을 수 있던 표본의 잘림/겹침/EN한글0·검게 멈춘 표본0이며 전프레임 영상·
+정밀crossfade·첫 인간 기억은 미관찰이다. 옛 settled12PNG와 분리한다.
+
+KO/EN CUA Return2씩의 실제 down/up각4건은 beat1/alpha1/입력열림 뒤다.
+전환0→1·generation1→2, 반복뒤1/2 유지·후속4.5초 beat2 비진입이다.
+skip5.585920/5.551982초. 옛 synthetic fade와 달리 settledhold이며 인간/패드 아니다.
+Main 진입억제·자연 타이틀/주차 인계 미관찰이다.
+
+live1 예약어 parseFAIL/case0는 ownedGodot88623만 TERM/exit-15·보존true 뒤
+private변수를 수리했다. 원result
+SHA1b1fa39bd135434787ffa584d521266cafff670044de0b579e3a4fe85631e276를 보존한다.
+옛 FAIL/보고/HOLD·인간 원장은 불변이다. 새 독립보고는 상태/OS입력·root표본만
+검수하며 전체149/L3·본편 HOLD다. 새규범0·일회성이다.
+
 ### 실제 렌더 의무 재개 선언 — 2026-10-06
 
 472의 필수 관찰을 마감한 뒤 이 단위의 미관찰 화면을 잇는다. root는 private
