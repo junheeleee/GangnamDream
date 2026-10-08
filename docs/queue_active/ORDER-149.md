@@ -65,8 +65,8 @@ Main 진입억제·자연 타이틀/주차 인계 미관찰이다.
 live1 예약어 parseFAIL/case0는 ownedGodot88623만 TERM/exit-15·보존true 뒤
 private변수를 수리했다. 원result
 SHA1b1fa39bd135434787ffa584d521266cafff670044de0b579e3a4fe85631e276를 보존한다.
-옛 FAIL/보고/HOLD·인간 원장은 불변이다. 새 독립보고는 상태/OS입력·root표본만
-검수하며 전체149/L3·본편 HOLD다. 새규범0·일회성이다.
+옛 FAIL/보고/HOLD·인간 원장은 불변이다. [독립보고](../agent_reviews/ORDER-149-live.json)는
+상태/OS입력·root표본만 검수하며 전체149/L3·본편 HOLD다.
 
 ### 실제 렌더 의무 재개 선언 — 2026-10-06
 

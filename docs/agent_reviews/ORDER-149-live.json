@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-149",
+  "decision_scope": "work_unit",
+  "verdict": "HOLD",
+  "reviewed_at": "2026-10-08",
+  "reviewer": "/root/opening_live_review",
+  "subject": {
+    "kind": "source",
+    "commit": "66a595fbb94334876a976a3c2a203eca6c36714e",
+    "tree": "dc4784c3a877b051a18a5143cc8f4bbf2a9c585d",
+    "manifest_sha256": null
+  },
+  "scope": "P-18 1층의 새 실제 GPU 창 정상 autoplay4와 CUA OS Return skip2의 상태·시간·입력 계약은 수용한다. root의 시간차 화면 표본은 해당 관찰자에게 귀속한다. 모든 프레임의 검은전환과 최초 인간의 비유도 강조 기억은 미관찰이므로 전체 ORDER-149는 HOLD다.",
+  "method": {
+    "independence": "비저자가 CLAUDE, gangnamdream-dev, WORK_UNIT, 활성149, UI/입력 정본, Opening 전체와 시간 fixture/bootstrap, 옛 두 보고·결과·새 private 실행기 전체를 직접 읽었다. root만 Godot/QA/CUA와 운영 문서를 실행·변경했다. 검수자는 파일/JSON/Git의 읽기 전용 대조와 이 새 보고서만 소유하며 프로젝트 API·엔진·QA·CUA·Git mutation0이다.",
+    "actual_reads": "새 live1/2의 원 stdout/stderr/Godot 로그, 결과·별도 before/after, private 입력 SHA, OS key 전후8행과6case 전수를 읽고 대조했다. stdout의 단일 REPORT는 result.report와 같은 값이다. old render2의 PNG12 SHA를 재확인하고 검수자 자신이12/12를 view_image original로 다시 읽었다. 새 live CUA screenshot pixels는 검수자에게 독립 현물로 전달되지 않았으므로 root-observation의 텍스트와 귀속을 읽었으며 새 pixels를 직접 보았다고 주장하지 않는다.",
+    "skill_boundary": "gangnamdream-dev의 표적·파일소유·원실패 보존과 WORK_UNIT의 agent 판정/실제 인간 관찰 분리를 적용했다. 자동 상태나 일부 화면 표본을 재미·리듬의 인간 GO, 원어민, 물리 패드, 전프레임 영상으로 올리지 않는다. 새 규범0·일회성 후속 검수다."
+  },
+  "source_binding": {
+    "actual_execution": {
+      "commit": "2b9d6b155ecbcfa22a782e620bf4ac980bfaca2d",
+      "tree": "33eee9db1e29af677ea9050f9f4f0cde02af9e05",
+      "clean_before_and_after": true
+    },
+    "observed_product_before_followup": {
+      "commit": "aefc0798680ae001a6116d1b0510ea711b41cce2",
+      "tree": "aa7042eb671a713182fa899d9f76a13c5bb79f14",
+      "method": "실제 Git first-parent 이력과 wrapper 전체 diff를 읽었다. aefc→2b9의 no-renames9경로는 큐2/STATUS/WORK_LOG/판정원장/485-final보고/149사양/485 active 삭제·archive 추가뿐이며 tools/human_gates.py의 고정 metadata 허용 경로에 든다. 원장 값에서 source를 역추정하지 않았다."
+    },
+    "post_execution_delta": ["CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/STATUS.md", "docs/WORK_LOG.md", "docs/queue_active/ORDER-149.md"],
+    "post_execution_review": "2b9→66a595의 전체 실제 diff는 위5문서뿐이다. CLAUDE는 현재 '바로 다음' 상태 한 행이며 resolver의 metadata 허용목록 밖이므로 subject는 새66a595다. 이를 aefc/2b9의 metadata wrapper라고 지우지 않는다. Opening/자산/실행입력8은 동일하여 원 runtime 증거를 그 소비자 범위로 제한 결속한다. 최종subject에서 엔진을 재실행했다고 주장하지 않는다. runtime3252 tracked 전후 보존과 이후5문서 변경을 구분하며 현재3252 전체가 runtime map과 같다고 쓰지 않는다.",
+    "opening_product_commit": "0afd81c8f702c1b792970f85cd864b6312774fa4",
+    "opening_sha256": "cee056e40352561670079ca6a9469b751f745de332e3b6c31aa0a85e024ddf77",
+    "opening_scene_sha256": "bd6bf98e717a048af84939f2e0bd18bbf8faf8b1a51c5f27e5d791c465d60617",
+    "opening_boundary": "0afd는Opening GD 한 파일16추가/9삭제의 역사 제품 commit이다. 현재 전체source identity나 이번 실행 commit 대신 쓰지 않는다. fade/hold는 도시0.44/2.80·처지0.76/3.50·목표0.36/2.90, fallback0.52·명목합10.76이며 새 문안/자산/오디오/입력/카메라 수리0이다."
+  },
+  "private_inputs": {
+    "base": ".git/order149-live-20261008.EzB4u5",
+    "live_py_sha256": "d58b1cae551b086c6f842e4546de8b17a887742f376f6bb42dd49adc5467f821",
+    "live_gd_sha256": "d31358c0c29fc512e506e71a4c6ea3ffeab6c3180de052052e1b2dab21cb2881",
+    "live_tscn_sha256": "be3b9b84c1f75f8800783aab2efd45ec8225ddb59610ec3ac0e5f89193071153",
+    "engine_sha256": "e6b5cfdc226ffb7ec4f4950b0b12ddba4f040624724cff1acce9ae1241cf0034",
+    "guard_helper_sha256": "d68efdab1916b9e9a2cf2d8600c2c9d55ba962d1b04869ff9ff083873d643937",
+    "bootstrap_sha256": "65e2418c194693ba48d7450d6fdc816026d182d54bcffe31d6f2d63c23e021a2",
+    "timing_checker_sha256": "e6662f2888804a3d026ab33e06c62d5ca527e2127f7e2ba163bce96b39e2d14c",
+    "timing_scene_sha256": "4fde44bc0dec2b468c3d621a83b543d643a519d18aa5dc5e92e12e615053caca",
+    "verification": "위8실행입력의 현물SHA를 원live2 input map에 대해 재확인했다. 새 fixture는 실제 Opening을 normal autoplay로 만들고 _qa_suppress_transition=true를 유지한다. Key/MouseButton/JoypadButton의 실제 input edge를 관찰하며 Input.parse_input_event 호출0이다. viewport readback/force_draw/PNG 저장·hash를 재생계측 안에 넣지 않는다. 외부 CUA screenshot 표본은 존재하므로 모든 시스템의 캡처 비용0이나 통계적 성능 보장을 뜻하지 않는다."
+  },
+  "live2": {
+    "result_path": ".git/order149-live-20261008.EzB4u5/live2/result.json",
+    "result_sha256": "140fe1d8e41609c0e08de2c23ff24c05a26b08d6604031bc0aebb6545852256f",
+    "passed": true,
+    "engine_exit_code": 0,
+    "wrapper_exit_code_reported_by_root": 0,
+    "engine_elapsed_seconds_including_manual_waits": 186.741660,
+    "wrapper_elapsed_seconds_including_manual_waits": 189.829158042,
+    "stdout_sha256": "2d2f68152525d8cc8908b133e9407debd48d227b942e9cc26e7d4454f0404cd2",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "godot_log_sha256": "2d2f68152525d8cc8908b133e9407debd48d227b942e9cc26e7d4454f0404cd2",
+    "log_result": "Godot4.6.2/OpenGL4.1 Metal Compatibility/Apple M1 Max의 실제 renderer다. 원stdout6370 bytes와Godot6370 bytes가 동일하고 stderr0이다. bootstrap1·READY6·BEAT16·REPORT1·DONE1·정확 ORDER149_LIVE_OK cases=6 autoplay=4 os_skip=2 capture=0 하나를 확인했고 parse/script/engine error·warning은 찾지 못했다. DONE만을 성공으로 읽지 않는다. Dummy audio이며 청취 검수가 아니다.",
+    "autoplay": [
+      {"case": 1, "locale": "ko", "window": [1280, 800], "seconds": 10.834017, "max_frame_gap_seconds": 0.067540, "frames": 645, "preparation_seconds_excluded": 0.253122},
+      {"case": 2, "locale": "en", "window": [1280, 800], "seconds": 10.830545, "max_frame_gap_seconds": 0.079521, "frames": 643, "preparation_seconds_excluded": 0.253395},
+      {"case": 3, "locale": "ko", "window": [1920, 1080], "seconds": 10.835987, "max_frame_gap_seconds": 0.066560, "frames": 640, "preparation_seconds_excluded": 0.252623},
+      {"case": 4, "locale": "en", "window": [1920, 1080], "seconds": 10.808591, "max_frame_gap_seconds": 0.057485, "frames": 641, "preparation_seconds_excluded": 0.261895}
+    ],
+    "autoplay_acceptance": "4/4 actual beat_order=[0,1,2], transition_requests=1, observed input edges=[], generation1→2다. 원10.76±15%=[9.146,12.374]초와gap≤0.10을 넓히지 않고 통과했다. 실측beat1→beat2 구간은4.282713~4.295312초여서 처지의 시간 비중을 실제 상태 계측에서 확인한다. 이것은 처음 보는 사람의 강조 기억이나 픽셀 모든 프레임을 증명하지 않는다. 새 시행은normal4뿐이며 ReduceMotion 재실행0이다.",
+    "window_scale": {"size": [1280, 800], "mode": 1, "aspect": 4, "factor": 1.0},
+    "scale_acceptance": "요청/실제Window size·OpeningImage의 실texture·content scale을 모든 상태표본에서 확인한 fixture의 errors=[]를 읽었다. 논리캔버스 설정은 전후 동일하다. 창1920 출력으로 원1280 설정을 바꾼 것이 아니며 사후 이미지 리사이즈0이다. CUA가 화면 전체를 매frame 확인했다는 뜻은 아니다."
+  },
+  "os_skip": {
+    "population": "KO/EN 각1280×800 정상 Opening에서 CUA Return 두 번, 총 실제 key down/up8행이다. F6는 harness가 Opening 생성 전에 소비하고 F7는 전체 완료 뒤 종료용이다.",
+    "runs": [
+      {"case": 5, "locale": "ko", "transition_at_seconds": 5.585920, "first_press_ticks_usec": 137471367, "second_press_ticks_usec": 137471417, "max_frame_gap_seconds": 0.052592, "frames": 598},
+      {"case": 6, "locale": "en", "transition_at_seconds": 5.551982, "first_press_ticks_usec": 169521864, "second_press_ticks_usec": 169521911, "max_frame_gap_seconds": 0.063852, "frames": 595}
+    ],
+    "actual_state": "양언어 모두InputEventKey/keycode=physical_keycode=4194309/echo=false다. 첫press 전beat1·alpha1·unlock=true·transition0/generation1, deferred 후transition1/generation2다. release와두 번째press/release의 전후는1/2를 유지한다. beat_order=[0,1]이고 코드가 전환 이후4.5초 상태관찰을 유지하여beat2 비진입을 확인한다. MainGame 진입은 억제했다.",
+    "scope_limit": "OS 출처는 합성입력0인 fixture와 root의 대화 CUA 조작기록을 함께 결속한다. 정확 UTC call timestamp·stable OS window ID가 없으므로 만들지 않는다. 실제 입력은 두 번째 비트의 settled hold이며 second-beat fade OS skip·echo/hold 모든 조합·실제 인간 키보드·물리 패드·자연 Main 인계의 증거가 아니다. 과거 synthetic fade 검사를 이 OS 표본으로 이름 바꾸지 않는다."
+  },
+  "root_live_observation": {
+    "path": ".git/order149-live-20261008.EzB4u5/root-observation.json",
+    "sha256": "33278ad82280eb4f46c3d067a7095884dac327fbcab1c2a7f37eb769e57fb13b",
+    "observer": "/root",
+    "method": "root 대화의 CUA native app screenshots/OS keyboard이며 exact Godot.app 실행 경로와 ORDER-149 isolated LIVE의1/6~6/6/complete title에 결속한다. bundle ID 최초조회는 ambiguous라 exact app path로 해결했고 windowID/정확UTC는 없다. 검수자가 새 CUA앱을 제어하거나 이 pixels를 별도로 직접 본 것은 아니다.",
+    "population": "gameplay12개+harness2개 시간차 표본이다. autoplay case1 KO1280은city 초기1개만이며 room/goal 직접표본0이다. case2 EN1280은city/room/goal3개, case3 KO1920은city배경+room텍스트가 희미해지는 교체/room/goal3개, case4 EN1920은city배경·text미표시 교체/room/goal3개다. skip case5/6은입력 전city 각1개다.",
+    "attributed_findings": "root는 읽을 수 있던 표본의 잘림·겹침·누락글리프/EN player한글0, 검게 멈춘 표본0을 기록했다. 초기/교체의text가 안보이는 표본은 완전정지화면 또는 누락글리프의 증거로 오독하지 않는다. 각4autoplay의3비트를 모두 눈으로 완료하거나 정밀crossfade·모든black pixel frame0을 읽었다고 주장하지 않는다. root가 source 저자와 별개인 검수자의 새 직접 pixel관찰을 대신 공급했다고 쓰지 않는다."
+  },
+  "preservation": {
+    "namespace": "GangnamDream_StoryNameplateQA_c2fb0675808f4c38a994b8d8e33daa1e",
+    "before_path": ".git/order149-live-20261008.EzB4u5/live2/before.json",
+    "after_path": ".git/order149-live-20261008.EzB4u5/live2/after.json",
+    "both_sha256": "8e3efa5688fb1163ec412f6c07fedc8a38e7e81ed92cf5f573ede20bc4a9fac1",
+    "verified": "별도before/after의 bytes와 result 내 각각snapshot이 정확히 같다. actual2b9 clean HEAD/tree·tracked3252·보호342영역/524entries·입력8이 원실행 전후 같다. pre-autoload fresh namespace marker도 정확히 같다. 선언 보호map 범위의 증거이며 기기 전체/임의 저장 위치 감사가 아니다. 이 전후 증거를 이후source66a595 전체파일 불변으로 확대하지 않는다.",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "historical_reports": [
+      {"path": "docs/agent_reviews/ORDER-149.json", "sha256": "a0ced83b5885c0bdeee6ee1a7bb2918c954458e2b6a6212f24b8ca825ebc5cda", "verdict": "HOLD"},
+      {"path": "docs/agent_reviews/ORDER-149-render.json", "sha256": "b890d882fbec23c08bcae6b43b9a2a7859def311a3b7d4459c372ae1645ad2a8", "verdict": "HOLD"}
+    ],
+    "boundary": "원human·공개판정·기존두보고와과거HOLD행을 변경하지 않는다. 검수자는 새보고 한 파일만 작성한다. root가 보고한 후속 metadata검사와diff PASS를 검수자 자신의 새 QA실행으로 세지 않는다."
+  },
+  "retained_live1_failure": {
+    "result_path": ".git/order149-live-20261008.EzB4u5/live1/result.json",
+    "result_sha256": "1b1fa39bd135434787ffa584d521266cafff670044de0b579e3a4fe85631e276",
+    "engine_exit_code": -15,
+    "passed": false,
+    "preserved": true,
+    "original_live_gd_sha256": "4ae8eb757f2811e8360df35062c32dfae60c84829a06413db8b482b651c3fdf1",
+    "stdout_sha256": "d205eb8c2160dc000483bc878e1d0d8c621b3b21843e786384de68e801280b52",
+    "stderr_sha256": "3699d936307d5d19018bc2c00adaa9ca11eff7f92bccfb86ed9609318f7d6276",
+    "godot_log_sha256": "f6f761c6f087a1739d0f9adb74c28137a8ce85e553a39b0a723fd8efd71d3139",
+    "disposition": "원로그의Expected variable name after var/live.gd:60와script-load parse failure를 직접 읽었다. product case0/report=null이다. root는 로그 확인 뒤 exact ownedGodot PID88623만TERM했다고 기록했고 실제engine exit=-15/result FAIL·before=after를 보존했다. 검수자의 read-only 프리런도 이 예약어 오류를 놓쳤다. live.gd의namespace 변수를 private에서 수리한 후 새live2를 실행했다. 실패 당시GD hash는snapshot에 보존되지만 현재live.gd는수리bytes이므로 실패입력8이 지금도전부같다고 주장하지 않는다. 실패를PASS로 재분류하지 않는다."
+  },
+  "historical_reuse": {
+    "baseline1_sha256": "d6c68cd6c09e6f9ec213f6dae45b6dc4529b000f36e2adba415ea9ffb4273c79",
+    "baseline2_sha256": "5cb971328831edf50f861d8951c2d3537f169d75db84315912db5a0528143560",
+    "current1_sha256": "6ae756802802c83fc3ec6a8491e8e6587f8d17352166d9b35b073e0935a3c48c",
+    "timing_scope": "옛baseline2/current1의KO normal10.864439→10.840767초와EN ReduceMotion10.863720→10.832778초, fallback0.52·synthetic secondfade release/echo0/accepted·repeat transition1 계약은 원실행 그대로 제한재사용한다. cold baseline1 FAIL도원SHA그대로다. 새before-after curve/RM 검사를 실행했다고 쓰지 않는다.",
+    "identity_review": "옛149subject5b096f→actual2b9 및최종66a595의Opening gd/tscn·시간fixture2·bootstrap·opening_rhythm_history·LivingScene·Locale/Save/Audio/BGM/SceneTransition/FontKit/DisplayManager/project·배경3·shader2·폰트4를 실제Git경로로 대조해 같은 bytes를 확인했다. GameState는후속10억/20억log문안2개만 달라서전체autoload/전체게임 불변이라고 쓰지 않는다. KO/EN의LocaleManager.ui:150 조기literal반환을 직접 읽어 해당Opening 경로에 한정한다.",
+    "old_input_difference": "옛current1 입력9 중 현재동일5는Opening gd/tscn·checker gd/tscn·bootstrap이다. JA/CN/TW UI사전과full_game_localization 원장4는후속변경됐다. 옛render보고의당시동일6/변경3을현재에복사하지 않는다. 전언어/full-body source수용·cold기동·MainGame/runtime/package 품질에 과거GO를 적용하지 않는다.",
+    "render2": {
+      "result_path": ".git/order149-render-20261006.elwY5j/render2/result.json",
+      "result_sha256": "9d5ee3da716ea5bce4d42775e8ca0e2f7bfdde63be2b95f4bd04d04f193e2874",
+      "extracted_report_path": ".git/order149-render-20261006.elwY5j/render2/extracted-report.json",
+      "extracted_report_sha256": "7007313e97d44a73e7b563159a61ac7fec8e85dfc7a70ffe626346be9e886d58",
+      "retained_failure": "실제engine/wrapper1·report=null/artifacts=[]·EN1920 12.401508>12.374의FAIL은그대로다. 이번capture-free4 PASS는새증거이며 옛초과0.027508초를빼거나전부capture탓으로원인확정0이다. render1 parseFAIL(case0/PNG0, result SHA427141b858cf7d43e41283a40d6e0feceb7067d10191061863236f2852772692)도보존한다.",
+      "independent_still_pixels": "검수자가KO/EN×1280×800/1920×1080×3beat의옛PNG12를원SHA대조후original로각각다시읽었다. 전문/여백을확인했고잘림·겹침·누락글리프·EN player한글0, settled완전검정0이다. 파일별12SHA/크기는위extracted-report의verified_pngs에결속한다. 이정지모집단 수용을새live4의전량3beat 직접관찰이나전프레임video로바꾸지 않는다."
+    }
+  },
+  "l2": {
+    "reachability": "ORDER149_LIVE_OK cases=6 autoplay=4 os_skip=2 capture=0; engine exit0; live2/result SHA140fe1d8e41609c0e08de2c23ff24c05a26b08d6604031bc0aebb6545852256f. normal4 beat[0,1,2]/transition1, skip2 beat[0,1]/transition1.",
+    "producer_reader": "scenes/OpeningCinematic.gd:13 BEATS → :195 duration getter/:186 hold timer → :242 image/:243 title/:244 body/:245 rule/:251 camera/:253 old_image. :297 input → :311 finish → :315 generation/:317 transition meta. private live.gd KeyObserver/6case loop가 이 실제 상태를 읽는다.",
+    "changed_state": "도시 fade/hold0.52/3.10→0.44/2.80, 처지0.52/3.10→0.76/3.50, 목표0.52/3.00→0.36/2.90; 명목합10.76→10.76. 새normal4 10.808591~10.835987초. OS2 첫press transition0→1/generation1→2, repeat1→1/2→2. 게임선택/저장/인간판정 변화0.",
+    "foregone": "해당없음: 선택 없는 기존 프롤로그 연출 수리(scenes/new scene0). OpeningCinematic.gd:179의3beat, :297/:311의전체skip이며 미래 소비자ID·발화주차·새choice flag를 생산하지 않는다.",
+    "narrative_position": "새이야기 프롤로그3beat → 첫플레이가능주차 요청. scenes/OpeningCinematic.gd:8 NEXT_SCENE=MainGame/:320 handoff. 이번fixture는:318 _qa_suppress_transition=true여서실제주차진입0.",
+    "scene_tier": "해당없음: 기존프롤로그의타이밍/검수만; 새씬·Tier승격0.",
+    "closes": "새normal4의시간/상태·OSskip2의중복방지와원실행보존만수용. 옛12settled PNG와warmed계약은제한재사용. 전체149/L3·전프레임black·첫인간기억·naturalMain·native·physicalpad·출시HOLD는닫지않는다."
+  },
+  "quality_judgment": {
+    "accepted": "불변Opening을실제renderer에서KO/EN양해상도각1회자연autoplay했고원시간/gap·3beat→전환1/무입력4가유지됐다. 별도OSReturn두쌍도한번만skip하고남은beat를열지않았다. 해당6case상태/시간/입력계약과옛12정지이미지의제한재사용만수용한다. 새6case에서남은명백한계약결함은찾지못했다.",
+    "remaining": "root의시간차표본은완전영상이아니며KO1280정상case의room/goal직접표본도없다. 모든frame 검은전환0과처음보는사람의비유도강조기억은미관찰이다. 그러므로전체149·L3·본편HOLD를유지하고P-18의2/3/4층은열지않는다. 내부agent위임으로이인간증거를발급하지않는다."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "all_pixel_frames_and_continuous_black_frame_transitions",
+    "first_time_human_unprompted_emphasis_memory",
+    "all_three_beats_directly_read_in_every_new_autoplay_case",
+    "new_live_screenshot_pixels_directly_read_by_this_reviewer",
+    "os_skip_during_second_beat_fade_and_all_input_edges",
+    "audio_quality_and_hearing",
+    "natural_title_entry_cold_boot_and_MainGame_handoff",
+    "release_package_and_whole_game_quality"
+  ],
+  "final_boundary": "새subject66a595에실행source2b9의6case증거를불변Opening/입력범위로만결속한다. 좁은실행결과는수용, 전체ORDER-149는HOLD다. 옛FAIL/보고/인간판정은불변이며agent관찰을인간·native·physicalpad·외부출시GO로바꾸지않는다."
+}

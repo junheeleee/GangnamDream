@@ -10261,6 +10261,55 @@
         "path": "docs/agent_reviews/ORDER-485-final.json",
         "sha256": "3dda1e783b022c6432a9b20bd5d1c6bf7edf55095acbbebe8241278da0fcb67c"
       }
+    },
+    {
+      "id": "order-149-source-66a595f-live-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-08",
+      "decided_by": "/root/opening_live_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-149",
+      "subject": {
+        "kind": "source",
+        "commit": "66a595fbb94334876a976a3c2a203eca6c36714e",
+        "tree": "dc4784c3a877b051a18a5143cc8f4bbf2a9c585d",
+        "manifest_sha256": null
+      },
+      "verdict": "HOLD",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-149-live.json",
+          "sha256": "2b6bbbcd6eec503cc7854d7be6a6a514172ca618854d5384d079c82503c92628"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-149-live.json",
+          "sha256": "2b6bbbcd6eec503cc7854d7be6a6a514172ca618854d5384d079c82503c92628"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-149-live.json",
+          "sha256": "2b6bbbcd6eec503cc7854d7be6a6a514172ca618854d5384d079c82503c92628"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "all_pixel_frames_and_continuous_black_frame_transitions",
+        "first_time_human_unprompted_emphasis_memory",
+        "all_three_beats_directly_read_in_every_new_autoplay_case",
+        "os_skip_during_second_beat_fade_and_all_input_edges",
+        "audio_quality_and_hearing",
+        "natural_title_entry_cold_boot_and_MainGame_handoff",
+        "release_package_and_whole_game_quality"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-149-live.json",
+        "sha256": "2b6bbbcd6eec503cc7854d7be6a6a514172ca618854d5384d079c82503c92628"
+      }
     }
   ]
 }

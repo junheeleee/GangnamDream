@@ -61,6 +61,15 @@ private exact leaf-ID 목록을 현재 _show_casino_glossary literal에서 도�
 
 ## 표적 검수 / 마감
 
+### 재개 입력 — 2026-10-08
+
+옛 private preexport4는 before/CN빈로그만 있고 프로세스·원result가 없다.
+성공·소실 원인·정상종료 보존을 추정하지 않으며 유효 export/수용0이다.
+149 실제창 후속 wrapper 마감 뒤 clean입장에서 원pre_export4.py를 새
+preexport5 디렉터리로 실행한다. 옛1~4시도/초안32·준비PASS는 그대로다.
+원main/collect/UIcollector 각2·원source17행씩2·원exit/보존/observer복원 뒤에만
+후속 typed 연결을 수정한다. 실행 중 tracked/helper/HEAD 변경0이며 새규범0이다.
+
 1. source16·CN/TW32의 의미/숫자/원화·지역문자/토큰/개행·전량 KO 대조 및
    실제 기본수용기 export/check/import. accepted 예정41855→41887/b280→282는
    계획일 뿐 실제 원공식 영수증/원장 대조 전 완료로 세지 않는다.

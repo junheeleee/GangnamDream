@@ -2,6 +2,10 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-08 — 카지노 원문 export 재개 (484)
+
+- [484](queue_active/ORDER-484.md)의 소실된 옛시도는 미판정/수용0이다. 원runner의 fresh5는 clean입장·종료까지 tracked/HEAD 동결이며 새 번역·collector 판정은 실제 종료 뒤만 기록한다.
+
 ## 2026-10-08 — Mac 해제 뒤 프롤로그 실제 창·OS 입력 (149, 한정 검수)
 
 - [149 선언·증거](queue_active/ORDER-149.md)의 실제창 autoplay4/OS Return skip2 engine·wrapper0, 재생10.808591~10.835987초·전환1·반복입력중복0·3252tracked/342보호/8입력 보존이다. CUA gameplay12표본은 전프레임/인간·물리패드 증거가 아니다. live1 parseFAIL/옛captureFAIL·L3OPEN을 보존한다. 스킬의 표적/격리/관찰 분리를 적용, 제품/저장/공개 변경0. 485 현재33/수용후17·정식L2 위치만 교정했다.
