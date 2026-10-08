@@ -7,7 +7,6 @@ import copy
 import hashlib
 import io
 import json
-import subprocess
 import sys
 import unittest
 from dataclasses import replace
@@ -24,7 +23,6 @@ import third_party_notice_ui as notice
 import zh_translation_audit as zh
 
 ROOT = Path(__file__).resolve().parents[1]
-DECLARED = "9fdf875c9767ed8b94a8d4dfb24163e5ffaeac89"
 
 
 @contextlib.contextmanager
@@ -203,10 +201,6 @@ class HoldemTutorialTests(unittest.TestCase):
             self.assertEqual(len(demo_views[0][1]["merged_pairs"]), 701)
             self.assertEqual(len(static_views), 2)
             self.assertEqual(static_views[0], static_views[1])
-        for path in (*tutorial.SOURCE_PATHS, "tools/demo_localization_scope.py", "tools/ja_translation_pipeline.py"):
-            with self.case("unchanged declared source " + path):
-                self.assertEqual((ROOT / path).read_bytes(), subprocess.check_output(
-                    ["git", "show", DECLARED + ":" + path], cwd=ROOT))
 
     def test_actual_three_locale_validator_consumers(self):
         entries = tuple(pipeline.Entry("ui::fixture::" + str(i), key, tutorial.SOURCE_PATH)
@@ -233,8 +227,7 @@ class HoldemTutorialTests(unittest.TestCase):
                     if locale == "ja":
                         errors = []
                         with contextlib.redirect_stdout(io.StringIO()):
-                            # Original retail checker owns the new integration;
-                            # historical retained-JA wrappers are a normal gate.
+                            # Current retail checker owns the integration.
                             ja._TUTORIAL_OLD_CHECK_UI_SCOPE(value, errors)
                         return errors
                     return zh.static_ui_coverage(locale, {"merged_pairs": {}}, strict, value)[-1]

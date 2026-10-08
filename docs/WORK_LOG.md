@@ -2,10 +2,10 @@
 
 이전 원문 전체는 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)에 바이트 그대로 이동했다. 보존본의 상대 링크는 이동 전 경로 기준이다.
 
-## 2026-10-09 — 이력 검사54개 제거·제품 계약 복구 (487, CI 대기)
+## 2026-10-09 — 이력 검사56개 제거·제품 계약 복구 (487, CI 대기)
 
-- 사용자 지시·DECISIONS 2026-10-08대로 PR32/484 마감 뒤 이 정리만 진행했다. 실패 전수표는 cad6d39에서 먼저 main commit·push했고, 추가 의존 표는214e9d6/f7cdf69/954c04e에서 삭제 전에 확정했다. 관측163flag/실패 합집합36을 유지하며 과거22·현재13·release 회복1·미관측127을 혼동하지 않는다.
-- 아래54파일을 삭제했다. 모두 닫힌 오더의 특정 Git 부모/전체 source bytes·옛 census·역투영 endpoint 또는 그 계측/호출 수 전용 suite다. **이 검사가 지키던 현재 제품 동작이 없었다.** 실제 UI·숫자/통화·장소·시간·배제·receipt·저장·컴파일·데모 동작은 현재 collector/validator와 generic 부정 테스트에 남겼다. 정확 파일별 근거는 선커밋 [전수표](queue_backlog/AUDIT_FAILURE_TRIAGE_2026-10-09.md)에 있다. 삭제 원본은 Git f7cdf69 이전 이력에서 복구할 수 있다.
+- 사용자 지시·DECISIONS 2026-10-08대로 PR32/484 마감 뒤 이 정리만 진행했다. 실패 전수표는 cad6d39에서 먼저 main commit·push했고, 추가 의존 표는214e9d6/f7cdf69/954c04e/476aa68에서 삭제 전에 확정했다. 관측163flag/실패 합집합36을 유지하며 과거22·현재13·release 회복1·미관측127을 혼동하지 않는다.
+- 아래56파일을 삭제했다. 모두 닫힌 오더의 특정 Git 부모/전체 source bytes·옛 census·역투영 endpoint 또는 그 계측/호출 수 전용 suite다. **이 검사가 지키던 현재 제품 동작이 없었다.** 실제 UI·숫자/통화·장소·시간·배제·receipt·저장·컴파일·데모 동작은 현재 collector/validator와 generic 부정 테스트에 남겼다. 정확 파일별 근거는 선커밋 [전수표](queue_backlog/AUDIT_FAILURE_TRIAGE_2026-10-09.md)에 있다. 삭제 원본은 Git f7cdf69 이전 이력에서 복구할 수 있다.
 - 삭제: tools/order305_demo_source_compat.py
 - 삭제: tools/order309_source_compat.py
 - 삭제: tools/order310_demo_source_compat.py
@@ -42,6 +42,8 @@
 - 삭제: tools/chapter5_proof_scope_self_test.py
 - 삭제: tools/ui_comparison_memo_self_test.py
 - 삭제: tools/chapter1_ui_proof_reuse_check.py
+- 삭제: tools/market_cycle_log_audit.py
+- 삭제: tools/asset_one_billion_log_audit.py
 - 삭제: tools/holdem_money_receipt_check.py
 - 삭제: tools/holdem_banner_receipt_check.py
 - 삭제: tools/holdem_banner_locale_receipt_check.py
@@ -67,7 +69,8 @@
 - docs/KNOWN_FAILURES.md에는 현재 실제 제품 FAIL5만 이유·Codex 소유·2026-10-16 만료로 남긴다. 검사 자체는 실행/FAIL 로그 보존하며 CI opt-in에서만 정확 exit1을 비차단 처리한다. 미설정/exit2+/미등록/중복/빈 사유·소유자/만료/30일초과는 빨강이다. inline gate 부정14 PASS·shell binding/syntax PASS다. 컴파일/EN/원장/서사/음악/데모/저장 검사 삭제0.
 - 비저자 causality_audits_author가 root의 gate/CI/demo/strict append를 직접 읽어 blocking0, 저자들도 분리 소유 파일의 현재 부정 테스트를 확인했다. 새 비용 보고/오더별 봉인 보고 대신 이 기록에 근거를 남긴다. 게임·locale·ledger·autoload/scenes/systems·project.godot·human_gates diff0; 로컬 engine/사용자 저장 접근0·원어민/화면/물리 패드 관찰0.
 - **정리는 아직 진행 중이다.** 이 source를 main에 올린 뒤 실제 전체 main CI 녹색(정확 KNOWN_FAILURES 제외)을 확인해야 닫는다. 로컬 표적 PASS를 CI/출시 GO로 바꾸지 않는다. 공개 GO와 인간 이력·본편 HOLD를 보존한다. 다음 문장 묶음의 기본 arc_36_unexpected_hand 선택지 수리는 정리 완료 뒤에만 진행한다.
-- 마지막 등록 읽기 검수 localization_collector_author가 현재223개 고유 명령의 옵션/수동 argv를 확인했다. 폐지 inventory-history 옵션2곳과 closed408 재사용 suite를 추가 제거한 뒤 유효 등록181/빠진 경로0이다. strict JSON과 실제 대화 이력은 삭제 대상이 아니다. 최종 source commit 뒤 실제 CI를 확인한다.
+- 마지막 등록 읽기 검수 localization_collector_author가 실사 당시223개 고유 명령의 옵션/수동 argv를 확인했다. 폐지 inventory-history 옵션2곳과 closed408 재사용 suite를 추가 제거했다. strict JSON과 실제 대화 이력은 삭제 대상이 아니다.
+- 일반 이름까지 등록 Python120개를 전수 실사해 closed478 market/482 1B의 fixed parent/raw/current==committed suite2를 추가 제거했다. 두 실제 엔진 fixture와 현재 경제/언어/순자산/원장 검사는 보존한다. 혼합 Holdem tutorial은 과거 선언 raw pin만 제거하고 실제4잎 파서·도달·lookup·숫자/BBCode/카드분류187 PASS/원문 및 원장 무변경을 확인했다. 최종 유효 등록179/삭제 경로 참조0이다. source7ec060a와 wrapper145c131의 CI 정적/밸런스는 실제 성공, 전체 감사/입력/240주/컴파일은 아직 실행 중이며 최종 source 뒤 실제 CI를 확인한다.
 
 ## 2026-10-09 — 카지노 용어집 중국어 실제 반영·검수 정리 착수 (484 마감, 487 선언)
 
