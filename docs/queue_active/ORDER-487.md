@@ -116,7 +116,7 @@ human_gates/과거 판정은 수정0이다. "지난 주말 가지 못한 곳" �
 ## 구현·검증 진행 (2026-10-09, main CI 대기)
 
 - cad6d39의 전수표 뒤 추가 의존 표214e9d6/f7cdf69를 먼저 커밋하고,
-  닫힌 이력·고정 endpoint·비용 전용53파일과 audit.sh의 이력 flag15개를 제거했다.
+  닫힌 이력·고정 endpoint·비용 전용54파일과 audit.sh의 이력 flag15개를 제거했다.
   기존 제품 검사는148flag로 계속 실행한다. 삭제 파일/비제품 근거는 WORK_LOG와 전수표가 소유한다.
 - 기존 collector·validator·parser에서 이력 dependency만 분리했다. strict JSON/문자좌표/
   원 receipt·데모72/467 및 공개 reuse8·경제/시간/장소·저장/compile 조건을 보존했다.

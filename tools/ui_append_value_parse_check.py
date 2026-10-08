@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Bounded ORDER433 parser equivalence; no old suites, collector, or engine.
+"""Strict JSON, current UI receipt and byte-preserving append regressions.
 
-The reference changes only the value-loader seam back to Document(raw).value.
-All inverse calls use real span documents. Isolated faults compare diagnostics;
-this is not a claim about first-error ordering for arbitrary compound failures.
+The value-loader reference is synthetic, not a fixed old implementation. Every
+case uses real span reconstruction and refuses malformed or mismatched receipts.
 """
 from __future__ import annotations
 
@@ -20,18 +19,6 @@ import ui_translation_append as append
 
 ROOT = Path(__file__).resolve().parents[1]
 PATH = "tools/ui_translation_append.py"
-BEFORE = "de5420a6f43a982464efd5266e15e1d65996491b"
-AFTER = "64303b4d423ebece2a6a18675859f9d062f1fe79"
-HASHES = (
-    "ca8ada114064c62a2f1296c72f5d26f5d43ba893d9e9e79b5a46b960454783f5",
-    "561b7b33092310a3ddbdcb14e9e9aafc9cf35711f142a38a64ac704830fbff40",
-)
-REPLACEMENTS = (
-    (b"    old = {path: _Document(before[path]).value for path in before}\n",
-     b"    old = {path: _loads(before[path]) for path in before}\n"),
-    (b"    new = {path: _Document(after[path]).value for path in after}\n",
-     b"    new = {path: _loads(after[path]) for path in after}\n"),
-)
 CASES: list[str] = []
 REAL_DOCUMENT = append._Document
 REAL_LOADS = append._loads
@@ -151,36 +138,14 @@ def compare(name, before, after, inventory, accepted, fragment=None):
         expected_inverse = [("inverse", path, before[path], after[path]) for path in before]
         expected_documents = [("document", "inverse", value) for path in before for value in (before[path], after[path])]
         check(name + ": all paths reach real raw inverse", [row for row in new_trace if row[0] == "inverse"] == expected_inverse)
-        check(name + ": total Document 4N to 2N, inverse Document 2N unchanged",
-              len([r for r in old_trace if r[0] == "document"]) == 4 * count
-              and [r for r in new_trace if r[0] == "document"] == expected_documents
-              and [r for r in old_trace if r[:2] == ("document", "inverse")] == expected_documents)
+
     return new
 
 
 def main():
-    protected = (PATH, "tools/order350_source_compat.py", "tools/order351_source_compat.py",
-                 "tools/order313_source_compat.py", "tools/order305_demo_source_compat.py",
-                 "tools/ui_translation_append_self_test.py", "tools/ui_append_value_parse_check.py",
-                 "tools/audit_scope.json", *append.CURRENT_PATHS)
+    protected = (PATH, "tools/ui_translation_append_self_test.py",
+                 "tools/ui_append_value_parse_check.py", *append.CURRENT_PATHS)
     observed = {path: sha((ROOT / path).read_bytes()) for path in protected}
-    before_raw = append._git(ROOT, "show", BEFORE + ":" + PATH)
-    current_raw = (ROOT / PATH).read_bytes()
-    check("independent whole old/current module pins", (sha(before_raw), sha(current_raw)) == HASHES)
-    check("actual direct product parent and one-path change",
-          append._git(ROOT, "rev-parse", AFTER + "^").decode().strip() == BEFORE
-          and append._git(ROOT, "diff", "--name-status", "-z", BEFORE, AFTER).split(b"\0") == [b"M", PATH.encode(), b""])
-    check("actual immutable successor equals current raw", append._git(ROOT, "show", AFTER + ":" + PATH) == current_raw)
-    restored = current_raw
-    for old, new in REPLACEMENTS:
-        check("unique value-only replacement " + new.decode().strip().split(" =")[0],
-              before_raw.count(old) == current_raw.count(new) == 1 and old not in current_raw and new not in before_raw)
-        restored = restored.replace(new, old, 1)
-    check("whole two-expression inverse has no other edits", restored == before_raw)
-    document_globals = REAL_DOCUMENT.__init__.__globals__
-    check("same strict loader identity, separate global binding", REAL_LOADS is document_globals["_loads"]
-          and document_globals is not append.__dict__ and REAL_LOADS.__module__ == "order313_source_compat")
-
     valid_json = [b'{"z":1,"a":1.0,"flag":true,"none":null,"nested":[{},[],false]}',
                   ' \r\n{"文字":"旧文","escaped":"\\u65e7文","punct":"{}[],:/\\\\"}\t'.encode(),
                   b'[1,-2,0.0,1e2,"text"]', b'"scalar"', b'false', b'null']

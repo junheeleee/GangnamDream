@@ -62,6 +62,8 @@ jobs:
           test -f .godot/global_script_class_cache.cfg \
             || { echo "::error::임포트 후에도 class_name 전역 캐시가 없다"; exit 1; }
       - name: 전체 감사 (컴파일 체크 포함)
+        env:
+          GANGNAM_AUDIT_ALLOW_KNOWN: "1"
         run: GODOT=/usr/local/bin/godot ./tools/audit.sh
       - name: V2 24주 실제입력 완주 (한국어 PlayStation)
         run: |

@@ -4,16 +4,14 @@ from __future__ import annotations
 
 import argparse
 import copy
-import hashlib
 import json
 import re
-import subprocess
 from pathlib import Path
 
-from pr31_intake_history import _Document
+from ui_translation_append import _Document
+from ja_translation_pipeline import _gd_function_source
 
 ROOT = Path(__file__).resolve().parents[1]
-BASE = "d6c1394fbf2a93f21179d7b7f9967cf9680fe449"
 LOCALES = ("ko", "en", "ja", "zh-CN", "zh-TW")
 VARIANTS = {
     "stable_success": ("cut_sangchul_network",),
@@ -36,52 +34,48 @@ STALE = {"ko": ("통장", "잔고", "은행 앱", "20억"),
     "ja": ("口座", "残高", "20億"), "zh-CN": ("账户", "余额", "20亿"),
     "zh-TW": ("帳戶", "餘額", "20億")}
 TOKEN = re.compile(r"\{[^{}]+\}|%(?:\d+\$)?[-+0 #]*\d*(?:\.\d+)?[sdif]|\[/?[A-Za-z][^\]]*\]")
+GAME = "autoloads/GameState.gd"
 
 
 def path(locale):
     return "content/endings" + ("" if locale == "ko" else "_" + locale) + ".json"
 
 
-def read_base():
-    return {locale: subprocess.check_output(["git", "--no-replace-objects", "show", BASE + ":" + path(locale)],
-                                           cwd=ROOT) for locale in LOCALES}
-
-
 def selected(document):
     found = {}
+    ids = [row["id"] for row in document.value]
+    if len(ids) != len(set(ids)):
+        raise ValueError("duplicate ending ID")
     for index, row in enumerate(document.value):
         if row["id"] in VARIANTS:
             found[(row["id"], "description")] = (row["description"], (index, "description"))
             for flag in VARIANTS[row["id"]]:
                 found[(row["id"], "description_if_known", flag)] = (
                     row["description_if_known"][flag], (index, "description_if_known", flag))
-    if len(found) != 21:
-        raise ValueError("exact21 owned leaf population")
+    expected = {(ending, "description") for ending in VARIANTS}
+    expected.update((ending, "description_if_known", flag)
+                    for ending, flags in VARIANTS.items() for flag in flags)
+    if set(found) != expected:
+        raise ValueError("current money ending variants missing")
     return found
 
 
-def masked(document, leaves):
-    text = document.text
-    spans = sorted((document.spans[keys] for _, keys in leaves.values()), reverse=True)
-    for start, end in spans:
-        text = text[:start] + '"__OWNED_ENDING_MONEY_LEAF__"' + text[end:]
-    return text
-
-
-def errors(before, after):
+def errors(after):
+    if set(after) != set(LOCALES):
+        return ["exact five ending locales required"]
     failures = []
+    source_leaves = selected(_Document(after["ko"]))
     for locale in LOCALES:
-        old, new = _Document(before[locale]), _Document(after[locale])
-        old_leaves, new_leaves = selected(old), selected(new)
-        if old_leaves.keys() != new_leaves.keys() or masked(old, old_leaves) != masked(new, new_leaves):
-            failures.append(locale + ": outside21 raw/gameplay changed")
-        for keys, (text, _) in new_leaves.items():
-            source = old_leaves[keys][0]
+        leaves = selected(_Document(after[locale]))
+        for keys, (text, _) in leaves.items():
             label = locale + ":" + "/".join(keys)
-            if text == source:
-                failures.append(label + ": money-subject correction absent")
-            if text.count("\n") != source.count("\n") or TOKEN.findall(text) != TOKEN.findall(source):
-                failures.append(label + ": line/token drift")
+            if not isinstance(text, str) or not text.count("{name}"):
+                failures.append(label + ": current name token absent")
+                continue
+            # JA/zh are direct KO overlays. English can use a pronoun where KO
+            # repeats a name; it remains a nonempty current player-name consumer.
+            if locale != "en" and TOKEN.findall(text) != TOKEN.findall(source_leaves[keys][0]):
+                failures.append(label + ": current source tokens differ")
             if NET[locale] not in text.lower():
                 failures.append(label + ": net-worth subject absent")
             amount = AMOUNTS[locale][int(keys[0] == "unorthodox_legend")]
@@ -92,14 +86,32 @@ def errors(before, after):
     return failures
 
 
-def self_test(before, after):
+def runtime_errors(source):
+    """Bind the translated threshold facts to the current ending owner."""
+    owner = _gd_function_source(source, "check_game_over")
+    compact = re.sub(r"\s+|\\", "", "\n".join(
+        line.split("#", 1)[0] for line in owner.splitlines()))
+    failures = []
+    if compact.count('vartotal=get_total_asset_value()') != 1:
+        failures.append("current ending settlement must use live net worth")
+    for ending, condition in (
+        ("orthodox_pinnacle", "total>=1_000_000_000androute_orthodox-route_unorthodox>=15"),
+        ("unorthodox_legend", "total>=500_000_000androute_unorthodox-route_orthodox>=15"),
+        ("stable_success", "total>=1_000_000_000"),
+    ):
+        branch = 'if' + condition + ':finish_run("' + ending + '");return'
+        if compact.count(branch) != 1 or owner.count('finish_run("' + ending + '")') != 1:
+            failures.append(ending + ": current inclusive net-worth branch differs")
+    return failures
+
+
+def self_test(after, source):
     cases = 0
     for label, locale, ending, field, replace in (
         ("fixed remainder", "en", "stable_success", "description", lambda t: t + " remaining two billion"),
         ("cash subject", "ko", "orthodox_pinnacle", "description", lambda t: t.replace("순자산", "통장")),
         ("exclusive threshold", "ko", "unorthodox_legend", "description", lambda t: t.replace("5억 이상", "5억 초과")),
         ("token drift", "en", "stable_success", "description", lambda t: t.replace("{name}", "Minjun")),
-        ("line drift", "ja", "stable_success", "description", lambda t: t + "\n"),
     ):
         mutant = copy.deepcopy(after)
         rows = json.loads(mutant[locale])
@@ -107,15 +119,24 @@ def self_test(before, after):
         original, changed = row[field], replace(row[field])
         mutant[locale] = mutant[locale].replace(json.dumps(original, ensure_ascii=False).encode(),
                                                json.dumps(changed, ensure_ascii=False).encode(), 1)
-        if not errors(before, mutant):
+        if not errors(mutant):
             raise AssertionError(label + " was accepted")
         cases += 1
-    mutant = dict(after)
-    mutant["ko"] += b"\n"
-    assert errors(before, mutant), "unowned raw whitespace accepted"
+    assert errors({locale: raw for locale, raw in after.items() if locale != "ja"})
     cases += 1
-    assert errors(before, before), "old cash-bound prose accepted"
+    assert not errors({locale: raw + b"\n" for locale, raw in after.items()})
     cases += 1
+    owner = _gd_function_source(source, "check_game_over")
+    for before, changed in (
+        ("var total = get_total_asset_value()", "var total = money"),
+        ("total >= 1_000_000_000", "total > 1_000_000_000"),
+        ("total >= 500_000_000 and route_unorthodox", "total >= 600_000_000 and route_unorthodox"),
+        ('finish_run("stable_success")', 'finish_run("ordinary_life")'),
+    ):
+        mutant = source.replace(owner, owner.replace(before, changed, 1), 1)
+        assert mutant != source and runtime_errors(mutant), "current ending branch drift accepted"
+        cases += 1
+    assert not runtime_errors(source + "\n"), "unrelated source whitespace must remain free"
     print("ENDING_MONEY_FACT_SELF_TEST_OK cases=" + str(cases))
 
 
@@ -123,19 +144,16 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
-    before = read_base()
     after = {locale: (ROOT / path(locale)).read_bytes() for locale in LOCALES}
-    failures = errors(before, after)
+    source = (ROOT / GAME).read_text(encoding="utf-8")
+    failures = errors(after) + runtime_errors(source)
     for failure in failures:
         print("ENDING_MONEY_FACT_FAIL " + failure)
     if failures:
         return 1
     if args.self_test:
-        self_test(before, after)
-    population = [(locale, path(locale), keys) for locale in LOCALES
-                  for keys in selected(_Document(after[locale]))]
-    digest = hashlib.sha256(json.dumps(population, ensure_ascii=False, separators=(",", ":")).encode()).hexdigest()
-    print("ENDING_MONEY_FACT_OK locales=5 leaves=105 outside_owned_raw=unchanged population_sha256=" + digest)
+        self_test(after, source)
+    print("ENDING_MONEY_FACT_OK locales=5 net_worth=inclusive_thresholds leaves=105")
     return 0
 
 

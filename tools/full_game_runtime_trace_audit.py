@@ -33,13 +33,9 @@ AUDIT_RUNNER = ROOT / "tools" / "audit.sh"
 IMMERSION_LOOP_SCRIPT = ROOT / "tools" / "ImmersionLoopCheck.gd"
 MAIN_GAME_SCRIPT = ROOT / "scenes" / "MainGame.gd"
 AUDIO_MANAGER_SCRIPT = ROOT / "autoloads" / "AudioManager.gd"
-AUDIT_RUNNER_SHA256 = (
-    "c906ff8b56a33a2861833997f3c244e9c3581b641c2c97f5c9d93863bd6127f7"
-)
-# ORDER-247 reseals the current runner after ORDER-243/244 check registration
-# and ORDER-245's successor command; the added exit flags still propagate failures.
-# Prior seal: af026c518fddc2b4928965d30a11124d80a5a5c3f988dbd44d3dc59727fc1f1e.
-# The teardown/error-policy blocks below remain byte-exact.
+# The live runner's error/isolation/occurrence contracts are checked below.
+# A closed order's whole audit.sh hash is not a product contract: registering
+# another check or an expiring CI exception must not invalidate all traces.
 
 AUDIO_MIX_DRAIN_CRITICAL_BLOCK = (
     "\tvar time_since_last_mix: float = maxf(\n"
@@ -112,6 +108,19 @@ AUDIT_OBJECTDB_SELF_TEST_BLOCK = (
     '  echo "❌ 내부 감사 오류 — ObjectDB 종료 누수 감지가 작동하지 않습니다."\n'
     "  exit 1\n"
     "fi\n"
+)
+AUDIT_GUARD_SELF_TEST_SEQUENCE = (
+    "}\n\n"
+    "if godot_check_passed $'AUDIT_GUARD_SELF_TEST_OK\\nERROR: synthetic late failure' \\\n"
+    '    0 "AUDIT_GUARD_SELF_TEST_OK" strict >/dev/null; then\n'
+    '  echo "❌ 내부 감사 오류 — Godot ERROR 동시 출력 감지가 작동하지 않습니다."\n'
+    "  exit 1\nfi\n"
+    'if godot_check_passed "AUDIT_GUARD_SELF_TEST_OK" \\\n'
+    '    7 "AUDIT_GUARD_SELF_TEST_OK" >/dev/null; then\n'
+    '  echo "❌ 내부 감사 오류 — Godot 비정상 종료코드 감지가 작동하지 않습니다."\n'
+    "  exit 1\nfi\n"
+    + AUDIT_OBJECTDB_SELF_TEST_BLOCK
+    + '\necho "──────────────────────────────────────────"\n'
 )
 
 SCHEMA_VERSION = 1
@@ -1277,12 +1286,6 @@ def _validate_audit_runtime_guard(source_input: str | bytes) -> None:
         source = source_bytes.decode("utf-8")
     except UnicodeDecodeError as exc:
         raise ContractError("audit runtime runner is not valid UTF-8") from exc
-    source_sha256 = hashlib.sha256(source_bytes).hexdigest()
-    if source_sha256 != AUDIT_RUNNER_SHA256:
-        raise ContractError(
-            "audit runtime runner exact-source seal drifted: "
-            f"expected {AUDIT_RUNNER_SHA256}, got {source_sha256}"
-        )
     for marker in (
         "WARNING: ObjectDB instances leaked at exit",
         "AUDIT_GUARD_OBJECTDB_SELF_TEST_OK",
@@ -1304,6 +1307,12 @@ def _validate_audit_runtime_guard(source_input: str | bytes) -> None:
     if source.count(AUDIT_OBJECTDB_SELF_TEST_BLOCK) != 1:
         raise ContractError(
             "audit must execute the exact ObjectDB teardown guard self-test"
+        )
+    # The three negative probes must run together after the helper closes.
+    # Merely finding their text also accepts a disabled `if false` wrapper.
+    if source.count(AUDIT_GUARD_SELF_TEST_SEQUENCE) != 1:
+        raise ContractError(
+            "audit must invoke all three Godot error guards at top level"
         )
     for function_name in (
         "run_limited",

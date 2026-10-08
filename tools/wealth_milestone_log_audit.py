@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Exact two-literal/three-key milestone repair; not economics or screen approval."""
+"""Current net-worth milestone/log facts; no historical source seals."""
 import argparse
-import hashlib
 import json
-import subprocess
+import re
 from pathlib import Path
 
+from ui_translation_append import _loads
+from ja_translation_pipeline import _gd_function_source, parse_ui_calls
+
 ROOT = Path(__file__).resolve().parents[1]
-BASE = "209b79ec7df4e6e3a2bcc652f3371b1b24d862a5"
-SOURCE = "42d30615708ef3344a1cad8af0aad7cebe7e6ca7"
 GAME = "autoloads/GameState.gd"
 UI = {locale: "locale/ui_" + locale + ".json" for locale in ("ja", "zh-CN", "zh-TW")}
 KEY = "🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다."
@@ -22,80 +22,111 @@ TARGETS = {
 }
 FIXTURE = "tools/WealthMilestoneLogCheck.gd"
 SCENE = "tools/WealthMilestoneLogCheck.tscn"
-FIXTURE_SHA = "cf847aafc8a1c588aeb19da5e40cdb3ddbd76f4c35918cf42848639f4593858f"
-SCENE_SHA = "583b1a9701e11143224cd0c6791d0c4e4c541fed7addcd2075c9d050966cc3b9"
 
 
-def strict_json(raw):
-    def pairs(rows):
-        value = {}
-        for key, item in rows:
-            if key in value: raise ValueError("duplicate key")
-            value[key] = item
-        return value
-    return json.loads(raw, object_pairs_hook=pairs)
+def normalized(source):
+    return "\n".join(line.split("#", 1)[0].strip() for line in source.splitlines()
+                     if line.split("#", 1)[0].strip())
 
 
-def errors(before, after):
-    paths = {GAME, *UI.values()}
-    if set(before) != paths or set(after) != paths:
-        return ["source4 population drift"]
-    old = before[GAME]
+def errors(after):
+    if set(after) != {GAME, *UI.values()}:
+        return ["current milestone source/target inputs absent"]
     failures = []
-    if old.count(OLD_KEY.encode()) != 1 or old.count(OLD_EN.encode()) != 1 \
-            or after[GAME] != old.replace(OLD_KEY.encode(), KEY.encode()).replace(OLD_EN.encode(), EN.encode()):
-        failures.append("GameState exact two literals only: gameplay/neighbor drift")
+    source = after[GAME].decode("utf-8")
+    calls, parse_errors = parse_ui_calls(GAME, source)
+    failures.extend(parse_errors)
+    selected = [call for call in calls if call.korean == KEY]
+    if len(selected) != 1 or selected[0].function != "check_game_over" \
+            or selected[0].english != EN or selected[0].api != "legacy":
+        failures.append("current milestone log owner/KO/EN differs")
+    owner = _gd_function_source(source, "check_game_over")
+    block = (
+        'if total_now >= 2_000_000_000 and not flags.get("asset_2b_reached", false):\n'
+        'flags["asset_2b_reached"] = true\n'
+        'add_log(LocaleManager.ui("' + KEY + '", "' + EN + '"), "money")'
+    )
+    if normalized(owner).count(block) != 1 \
+            or 'var total_now = get_total_asset_value()' not in owner \
+            or OLD_KEY in owner or OLD_EN in owner:
+        failures.append("inclusive net-worth threshold/one-shot flag/current log differs")
+    total = normalized("\n".join(
+        line for line in _gd_function_source(source, "get_total_asset_value").splitlines()
+        if line.startswith(("func ", "\t"))
+    ))
+    expected = normalized("""func get_total_asset_value():
+    var total = money
+    for asset_id in portfolio:
+        var holding: Dictionary = portfolio[asset_id]
+        total += float(holding.get("quantity", 0.0)) * float(market_prices.get(asset_id, holding.get("avg_price", 0.0)))
+    return total - get_loan_total()
+""")
+    if total != expected:
+        failures.append("cash plus marked holdings minus loans net-worth producer differs")
     for locale, path in UI.items():
-        try:
-            prior, current = strict_json(before[path]), strict_json(after[path])
-            if KEY in prior or current.get(KEY) != TARGETS[locale] or {**prior, KEY: TARGETS[locale]} != current:
-                failures.append(path + ": exact first key/value only")
-            addition = (json.dumps(KEY, ensure_ascii=False) + ": " + json.dumps(TARGETS[locale], ensure_ascii=False)).encode()
-            # Remove one whole member, including its separator; all historic bytes must return.
-            lines = after[path].splitlines(True)
-            positions = [i for i, line in enumerate(lines) if addition in line]
-            if len(positions) != 1:
-                failures.append(path + ": raw member population")
-            else:
-                index = positions[0]
-                normalized = list(lines)
-                removed = normalized.pop(index)
-                if not removed.rstrip().endswith(b",") and index > 0:
-                    normalized[index - 1] = normalized[index - 1].replace(b",\n", b"\n")
-                if b"".join(normalized) != before[path]:
-                    failures.append(path + ": historic raw/order drift")
-        except (ValueError, TypeError, KeyError):
-            failures.append(path + ": invalid raw dictionary")
+        current = _loads(after[path])
+        if not isinstance(current, dict) or current.get(KEY) != TARGETS[locale]:
+            failures.append(path + ": current two-billion-won meaning differs")
     return failures
 
 
 def fixture_errors(script, scene):
-    return [path + ": prepared50 fixture drift" for path, raw, expected in
-            ((FIXTURE, script, FIXTURE_SHA), (SCENE, scene, SCENE_SHA))
-            if hashlib.sha256(raw).hexdigest() != expected]
+    text = script.decode("utf-8")
+    required = (
+        'extends "res://tools/ProseRecallCheck.gd"',
+        'var net: float = cash - debt',
+        'var emits: bool = net >= 2_000_000_000.0 and not already',
+        'GameState.get_total_asset_value()', 'GameState.check_game_over()',
+        'after == expected', 'emitted == expected_entries',
+        'not GameState.is_game_over', 'not target_miss',
+        '"exact20": 2_000_000_000.0',
+        '_check("net_debt", "cash21_minus_loan2", 2_100_000_000.0, 200_000_000.0, false)',
+        'for language: String in LOCALES:',
+        'GameState.serialize() == initial_game',
+        '_snapshot_properties(LocaleManager, LOCALE_STATE) == locale_snapshot',
+    )
+    failures = ["runtime milestone consumer/oracle missing " + token
+                for token in required if token not in text]
+    if 'path="res://tools/WealthMilestoneLogCheck.gd"' not in scene.decode("utf-8") \
+            or 'script = ExtResource("1_wealth")' not in scene.decode("utf-8"):
+        failures.append("runtime scene does not select milestone consumer")
+    return failures
 
 
-def self_test(before, after, script, scene):
+def self_test(after, script, scene):
     cases = 0
-    mutations = [(GAME, before[GAME]), (GAME, after[GAME] + b"\n"),
-        (GAME, after[GAME].replace(b"total_now >= 2_000_000_000", b"total_now >= 1_900_000_000", 1)),
-        (GAME, after[GAME].replace(b'flags["asset_2b_reached"] = true', b'flags["asset_2b_reached"] = false', 1)),
-        (GAME, after[GAME].replace(b"total += float", b"total -= float", 1))]
+    for before, changed in (
+        ("total_now >= 2_000_000_000", "total_now >= 1_900_000_000"),
+        ('flags["asset_2b_reached"] = true', 'flags["asset_2b_reached"] = false'),
+        ("total += float", "total -= float"),
+        ("return total - get_loan_total()", "return total + get_loan_total()"),
+        (EN, OLD_EN),
+    ):
+        source = after[GAME].decode("utf-8")
+        function = "get_total_asset_value" if before.startswith(("total +=", "return total")) \
+            else "check_game_over"
+        owner = _gd_function_source(source, function)
+        raw = source.replace(owner, owner.replace(before, changed, 1), 1).encode()
+        assert raw != after[GAME] and errors({**after, GAME: raw}), "source fact mutation accepted"
+        cases += 1
     for locale, path in UI.items():
-        mutations.extend(((path, before[path]), (path, after[path] + b"\n"),
-            (path, after[path].replace(TARGETS[locale].encode(), (TARGETS[locale] + "!").encode(), 1))))
-    for path, raw in mutations:
-        assert raw != after[path], "inert negative"
-        assert errors(before, {**after, path: raw}), "mutation accepted " + path
+        current = _loads(after[path])
+        del current[KEY]
+        assert errors({**after, path: json.dumps(current, ensure_ascii=False).encode()})
+        current[KEY] = TARGETS[locale].replace("20", "10", 1)
+        assert errors({**after, path: json.dumps(current, ensure_ascii=False).encode()})
+        cases += 2
+    assert errors({p: raw for p, raw in after.items() if p != GAME})
+    cases += 1
+    for changed_script, changed_scene in (
+        (script.replace(b"GameState.check_game_over()", b"pass", 1), scene),
+        (script, scene.replace(b"WealthMilestoneLogCheck.gd", b"ProseRecallCheck.gd", 1)),
+    ):
+        assert fixture_errors(changed_script, changed_scene), "fixture consumer drift accepted"
         cases += 1
-    assert errors(before, {p: v for p, v in after.items() if p != GAME})
-    assert errors(before, {**after, "extra": b""})
-    cases += 2
-    for changed_script, changed_scene in ((script + b"\n", scene), (script, scene + b"\n"),
-            (script.replace(b"GameState.check_game_over()", b"pass", 1), scene),
-            (script, scene.replace(b"WealthMilestoneLogCheck.gd", b"ProseRecallCheck.gd", 1))):
-        assert fixture_errors(changed_script, changed_scene), "fixture mutation accepted"
-        cases += 1
+    assert not errors({path: raw + b"\n" for path, raw in after.items()})
+    assert not fixture_errors(script + b"\n", scene + b"\n")
+    cases += 1
     print("WEALTH_MILESTONE_LOG_SELF_TEST_OK cases=" + str(cases))
 
 
@@ -103,30 +134,16 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
-    def git(*parts):
-        return subprocess.check_output(["git", "--no-replace-objects", *parts], cwd=ROOT)
-    if SOURCE is None: raise ValueError("actual source4 is unbound")
-    if git("rev-parse", SOURCE + "^").decode().strip() != git("rev-parse", BASE).decode().strip():
-        raise ValueError("source direct parent changed")
-    paths = {GAME, *UI.values()}
-    if set(git("diff", "--name-only", BASE, SOURCE).decode().splitlines()) != paths:
-        raise ValueError("source4 global diff changed")
-    git("merge-base", "--is-ancestor", SOURCE, "HEAD")
-    before = {p: git("show", BASE + ":" + p) for p in paths}
-    committed = {p: git("show", SOURCE + ":" + p) for p in paths}
-    after = {p: (ROOT / p).read_bytes() for p in paths}
-    # Preserve the sealed 20억 proof; only the separate typed 10억 successor
-    # may project actual current bytes to this audit's immutable endpoint.
-    if after != committed:
-        import asset_one_billion_log_history as one_billion
-        after = one_billion.source_predecessor(after, ROOT)
-    script, scene = ((ROOT / p).read_bytes() for p in (FIXTURE, SCENE))
-    failures = errors(before, committed) + errors(before, after) + fixture_errors(script, scene)
-    if after != committed: failures.append("current source4 differs from actual typed commit")
-    for failure in failures: print("WEALTH_MILESTONE_LOG_AUDIT_FAIL " + failure)
-    if failures: return 1
-    if args.self_test: self_test(before, after, script, scene)
-    print("WEALTH_MILESTONE_LOG_AUDIT_OK source4=4 literal2=2 new_ui3=3 gameplay_raw=unchanged")
+    after = {path: (ROOT / path).read_bytes() for path in (GAME, *UI.values())}
+    script, scene = ((ROOT / path).read_bytes() for path in (FIXTURE, SCENE))
+    failures = errors(after) + fixture_errors(script, scene)
+    for failure in failures:
+        print("WEALTH_MILESTONE_LOG_AUDIT_FAIL " + failure)
+    if failures:
+        return 1
+    if args.self_test:
+        self_test(after, script, scene)
+    print("WEALTH_MILESTONE_LOG_AUDIT_OK locales=5 net_worth=inclusive2b current_log=one_shot")
     return 0
 
 

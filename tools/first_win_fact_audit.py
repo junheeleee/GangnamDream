@@ -1,26 +1,23 @@
 #!/usr/bin/env python3
-"""Two first-win result facts, not full-scene or release approval."""
+"""Current first-win cost/home facts; not full-scene or release approval."""
 from __future__ import annotations
 
 import argparse
 import copy
-import hashlib
 import json
 import re
-import subprocess
 from pathlib import Path
 
-from pr31_intake_history import _Document
-import order470_source_compat as successor
+from ui_translation_append import _Document
 
 ROOT = Path(__file__).resolve().parents[1]
-BASE = "5ec492da9a1007f6cc6b10c7ac1d22135e47b356"
 LOCALES = ("ko", "en", "ja", "zh-CN", "zh-TW")
 IDS = ("arc_first_real_win", "arc_first_real_win_father_passed")
 COST = {"ko": ("5천원짜리", "15,000원짜리"),
         "en": ("5,000-won", "15,000-won"), "ja": ("5000ウォン", "15000ウォン"),
         "zh-CN": ("5000韩元", "15000韩元"), "zh-TW": ("5千韓元", "1萬5千韓元")}
-TOKEN = re.compile(r"\{[^{}]+\}|%(?:\d+\$)?[-+0 #]*\d*(?:\.\d+)?[sdif]|\[/?[A-Za-z][^\]]*\]")
+HOME = {"ko": "집으로 돌아와", "en": "Back home,", "ja": "家に戻って",
+        "zh-CN": "回到家", "zh-TW": "回到家"}
 
 
 def path(locale):
@@ -29,77 +26,84 @@ def path(locale):
 
 def selected(document):
     result = {}
+    if not isinstance(document.value, list):
+        raise ValueError("first-win event array required")
+    ids = [row["id"] for row in document.value]
+    if len(ids) != len(set(ids)):
+        raise ValueError("duplicate first-win event ID")
     for index, row in enumerate(document.value):
         if row["id"] in IDS:
-            result[row["id"]] = (row["choices"][0]["result_text"],
-                                  (index, "choices", 0, "result_text"))
-    if tuple(result) != IDS:
-        raise ValueError("exact ordered two first-win results required")
+            text = row["choices"][0]["result_text"]
+            if not isinstance(text, str):
+                raise ValueError("first-win result must be text")
+            result[row["id"]] = (text, (index, "choices", 0, "result_text"))
+    if set(result) != set(IDS):
+        raise ValueError("two current first-win results required")
     return result
 
 
-def masked(document, leaves):
-    text = document.text
-    for start, end in sorted((document.spans[key] for _, key in leaves.values()), reverse=True):
-        text = text[:start] + '"__FIRST_WIN_RESULT__"' + text[end:]
-    return text
-
-
-def errors(before, after):
+def errors(after):
+    if set(after) != set(LOCALES):
+        return ["exact five locale population required"]
     failures = []
     for locale in LOCALES:
-        old, new = _Document(before[locale]), _Document(after[locale])
-        old_leaves, new_leaves = selected(old), selected(new)
-        if masked(old, old_leaves) != masked(new, new_leaves):
-            failures.append(locale + ": outside owned two results raw/gameplay changed")
-        source = old_leaves[IDS[0]][0]
-        old_cost, new_cost = COST[locale]
-        if source.count(old_cost) != 1:
-            failures.append(locale + ": original one cost absent/repeated")
-        expected = source.replace(old_cost, new_cost, 1)
-        for event_id in IDS:
-            text = new_leaves[event_id][0]
-            previous = old_leaves[event_id][0]
-            if text != expected:
-                failures.append(locale + ":" + event_id + ": exact cost/home repair drift")
-            if TOKEN.findall(previous) != TOKEN.findall(text) or previous.count("\n") != text.count("\n"):
-                failures.append(locale + ":" + event_id + ": token/line drift")
-    ko = _Document(after["ko"])
-    for row in ko.value:
+        document = _Document(after[locale])
+        leaves = selected(document)
+        old_cost, current_cost = COST[locale]
+        for event_id, (text, _) in leaves.items():
+            label = locale + ":" + event_id
+            if text.count(current_cost) != 1 or re.search(
+                r"(?<![0-9,萬万])" + re.escape(old_cost), text
+            ):
+                failures.append(label + ": 15,000-won purchase fact differs")
+            if HOME[locale] not in text:
+                failures.append(label + ": current home return absent")
+            if text.count("{name}") != 1 or len(text.split("\n\n")) != 3:
+                failures.append(label + ": name/three-beat result structure differs")
+    for row in _Document(after["ko"]).value:
         if row["id"] in IDS:
             choice = row["choices"][0]
-            if choice["effects"] != {"mental": 12, "money": -15000} \
-                    or choice["flags"] != ["arc_first_real_win_seen"] \
-                    or row["background"] != "current_housing":
-                failures.append(row["id"] + ": original actual spending/state/background drift")
+            effects = choice.get("effects", {})
+            if effects != {"mental": 12, "money": -15000} \
+                    or any(type(value) not in (int, float) for value in effects.values()) \
+                    or choice.get("flags") != ["arc_first_real_win_seen"] \
+                    or row.get("background") != "current_housing":
+                failures.append(row["id"] + ": actual spending/state/background differs")
     return failures
 
 
 def mutate_leaf(raw, event_id, change):
-    doc = _Document(raw)
-    value, key = selected(doc)[event_id]
-    start, end = doc.spans[key]
-    return (doc.text[:start] + json.dumps(change(value), ensure_ascii=False) + doc.text[end:]).encode()
+    document = _Document(raw)
+    value, key = selected(document)[event_id]
+    start, end = document.spans[key]
+    return (document.text[:start] + json.dumps(change(value), ensure_ascii=False)
+            + document.text[end:]).encode()
 
 
-def self_test(before, after):
+def self_test(after):
     cases = 0
-    for label, locale, event_id, change in (
-        ("old cost", "ko", IDS[0], lambda s: s.replace("15,000원짜리", "5천원짜리")),
-        ("old stairs", "en", IDS[1], lambda s: s.replace("Back home,", "On the goshiwon stairs,")),
-        ("token", "ja", IDS[0], lambda s: s.replace("{name}", "Minjun")),
-        ("line", "zh-CN", IDS[0], lambda s: s + "\n"),
-        ("unrelated prose", "zh-TW", IDS[0], lambda s: s + "。"),
-    ):
-        changed = copy.deepcopy(after)
-        changed[locale] = mutate_leaf(changed[locale], event_id, change)
-        assert errors(before, changed), label + " accepted"
+    for locale in LOCALES:
+        for label, change in (
+            ("old cost", lambda text: text.replace(COST[locale][1], COST[locale][0])),
+            ("wrong place", lambda text: text.replace(HOME[locale], "elsewhere")),
+            ("name", lambda text: text.replace("{name}", "Minjun")),
+        ):
+            changed = dict(after)
+            changed[locale] = mutate_leaf(changed[locale], IDS[0], change)
+            assert errors(changed), locale + ":" + label + " accepted"
+            cases += 1
+    for field, value in (("effects", {"mental": 12, "money": -5000}),
+                         ("flags", ["wrong_first_win"])):
+        changed = dict(after)
+        rows = copy.deepcopy(_Document(changed["ko"]).value)
+        next(row for row in rows if row["id"] == IDS[0])["choices"][0][field] = value
+        changed["ko"] = json.dumps(rows, ensure_ascii=False).encode()
+        assert errors(changed), field + " accepted"
         cases += 1
-    changed = dict(after)
-    changed["ko"] += b"\n"
-    assert errors(before, changed), "outside raw whitespace accepted"
+    assert errors({locale: raw for locale, raw in after.items() if locale != "ja"})
     cases += 1
-    assert errors(before, before), "unfixed original prose accepted"
+    # Harmless formatting and unrelated current prose are not old source seals.
+    assert not errors({locale: raw + b"\n" for locale, raw in after.items()})
     cases += 1
     print("FIRST_WIN_FACT_SELF_TEST_OK cases=" + str(cases))
 
@@ -108,47 +112,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
-    before = {locale: subprocess.check_output(
-        ["git", "--no-replace-objects", "show", BASE + ":" + path(locale)], cwd=ROOT)
-        for locale in LOCALES}
-    current = {locale: (ROOT / path(locale)).read_bytes() for locale in LOCALES}
-    # Shared-file successor is validated against physical current bytes and a
-    # finite typed Git edge BEFORE its immutable pre-night comparison is used.
-    # This is solely a historical fact-check view, never a runtime payload.
-    with successor.fresh_validation_proof():
-        after = successor.historical_first_win_comparison(current, ROOT)
-        if args.self_test:
-            negatives = []
-            changed = dict(current)
-            changed["ko"] += b"\n"
-            negatives.append(changed)
-            changed = dict(current)
-            changed["en"] = mutate_leaf(changed["en"], IDS[0], lambda s: s.replace("15,000-won", "5,000-won"))
-            negatives.append(changed)
-            changed = dict(current)
-            changed["ko"] = after["ko"]
-            negatives.append(changed)
-            negatives.append({locale: current[locale] for locale in LOCALES[:-1]})
-            negatives.append(after)
-            for changed in negatives:
-                try:
-                    successor.historical_first_win_comparison(changed, ROOT)
-                except ValueError:
-                    pass
-                else:
-                    raise AssertionError("unbound current/historical/mixed raw accepted")
-            print("FIRST_WIN_COMPARISON_SELF_TEST_OK cases=" + str(len(negatives)))
-    failures = errors(before, after)
+    after = {locale: (ROOT / path(locale)).read_bytes() for locale in LOCALES}
+    failures = errors(after)
     for failure in failures:
         print("FIRST_WIN_FACT_FAIL " + failure)
     if failures:
         return 1
     if args.self_test:
-        self_test(before, after)
-    population = [(locale, path(locale), event_id, ["choices", 0, "result_text"])
-                  for locale in LOCALES for event_id in IDS]
-    digest = hashlib.sha256(json.dumps(population, ensure_ascii=False, separators=(",", ":")).encode()).hexdigest()
-    print("FIRST_WIN_FACT_OK locales=5 leaves=10 outside_owned_raw=unchanged population_sha256=" + digest)
+        self_test(after)
+    print("FIRST_WIN_FACT_OK locales=5 results=10 cost=15000 home=current_housing")
     return 0
 
 

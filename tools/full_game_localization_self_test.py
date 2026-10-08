@@ -380,21 +380,22 @@ class ExchangeTests(unittest.TestCase):
                  "REJECT", "REJECT", base="actual")
         add_pair("key_off", tuple(actual.values()), "OFF", "REJECT",
                  suffix="_other_ui", owner="qa_other_coffee", base="actual")
-        # Same Korean EVENT title is not the owned UI leaf. Existing title
-        # strings remain legacy observations, not a new semantic endorsement.
+        # An unrelated synthetic EVENT title is not the owned UI leaf.
+        # The real Sangchul encounter now has its own current source-bound
+        # contract; its obsolete cup title is not a valid off-scope baseline.
         add_pair("key_off", ("第二杯咖啡", "第二杯咖啡"), "OFF", "PASS",
-                 suffix="_event_cup", owner="arc_sangchul_02_coffee", group="events")
+                 suffix="_event_cup", owner="qa_other_coffee_event", group="events")
         add_pair("key_off", tuple(actual.values()), "OFF", "REJECT",
-                 suffix="_event_occasion", owner="arc_sangchul_02_coffee",
+                 suffix="_event_occasion", owner="qa_other_coffee_event",
                  group="events", base="key_off_event_cup")
         add_pair("source_off", tuple(actual.values()), "OFF", "REJECT",
                  korean="두 번째 커피 ", base="actual")
-        # JA's actual accepted event title and a non-target locale both stay
+        # A synthetic Japanese cup title and a non-target locale both stay
         # outside this Chinese-only adapter. Direct/full have different APIs.
         cases.extend([
             {"id": "locale_off/ja", "family": "locale_off", "locale": "ja",
              "source": source, "target": "二杯目のコーヒー", "group": "events",
-             "owner": "arc_sangchul_02_coffee", "path": ["title"],
+             "owner": "qa_other_coffee_event", "path": ["title"],
              "helper": "OFF", "direct": "REJECT", "full": "PASS",
              "base": None, "component": None},
             {"id": "locale_off/en", "family": "locale_off", "locale": "en",
@@ -3821,7 +3822,7 @@ class ExchangeTests(unittest.TestCase):
         paths = (
             "tools/full_game_localization.py", "tools/full_game_localization_self_test.py",
             "tools/zh_translation_audit.py", "tools/ja_translation_pipeline.py",
-            "tools/meta_title_locale_successor.py", "autoloads/MetaProgression.gd",
+            "autoloads/MetaProgression.gd",
             "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json",
             "tools/data/opencc_script_variants_1_3_1.json",
             "tools/data/LICENSE-OpenCC-2.0.txt",
@@ -4597,7 +4598,8 @@ class ExchangeTests(unittest.TestCase):
             alias = "ui::fixture::both"
             entry = SimpleNamespace(key=alias, source=source, context_id="ctx:fixture-both")
             inv = SimpleNamespace(legacy_entries=[entry], planned_context_entries=[],
-                                  legacy_blueprint={source: None}, planned_context_blueprint={})
+                                  legacy_blueprint={source: None}, planned_context_blueprint={},
+                                  errors=[], entries=[entry])
             for target in (normals[0], mutants[2]):
                 with patch.object(zh, "_static_ui_inventory", return_value=inv), \
                         patch.object(zh, "_story_demo_exclusive_ui_pairs", return_value=({}, [])), \
@@ -4664,6 +4666,8 @@ class ExchangeTests(unittest.TestCase):
             context_id = "ctx:independent-third-party"
             entry = SimpleNamespace(key=alias, source=source, context_id=context_id)
             inventory = SimpleNamespace(
+                errors=[],
+                entries=[entry],
                 legacy_entries=[] if context else [entry],
                 planned_context_entries=[entry] if context else [],
                 legacy_blueprint={} if context else {source: None},

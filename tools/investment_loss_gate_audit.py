@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ORDER-476 source/consumer contract; not a trade, render or release verdict.
+"""Current investment-loss source/consumer facts; not a trade or release verdict.
 
 The simulator's selected definitions are compiled in isolation: importing its
 module would run the whole 240-week program. Runtime outcomes belong to the
@@ -9,35 +9,29 @@ from __future__ import annotations
 
 import ast
 import copy
-import hashlib
 import json
+import argparse
 import math
 import re
 from pathlib import Path
 
+from ui_translation_append import _loads
+from ja_translation_pipeline import _gd_function_source
+
 ROOT = Path(__file__).resolve().parents[1]
-BASE = "53b885d66af93532b5c5a3117795be16cbe7e288"
-SOURCE = "54bda08d1c0ec1472b3cf1805703f84e1f533428"
 MAIN = "scenes/MainGame.gd"
 SIM = "tools/arc_flow_sim.py"
 SCREEN = "tools/ScreenshotQA.gd"
 FIXTURE = "tools/InvestmentLossGateCheck.gd"
-FIXTURE_SHA256 = "88e11e6325a6a7c4a48500350c5232720a2d3488cef6de50a771fde2775f5e45"
-SCENE_SHA256 = "5bd53f16d18a353390549e93b18cc053329ca4eef2ba82c965a3f97014f51347"
 LOCALES = ("ko", "en", "ja", "zh-CN", "zh-TW")
 EVENT = "arc_invest_first_loss"
 FLAGS = ("cut_loss_first", "held_through_loss", "averaged_down")
 CALLBACKS = ("callback_cut_loss_first_echo", "callback_held_through_loss_echo", "callback_averaged_down_echo")
 CONTENT = tuple("content/events" + ("" if locale == "ko" else "_" + locale) + "/" + filename
                 for locale in LOCALES for filename in ("arc_midgame.json", "callback_events_45.json"))
-PROTECTED = (*CONTENT, "content/assets.json", "autoloads/GameState.gd",
-             "autoloads/DataRegistry.gd", "systems/InvestmentSystem.gd")
-INVESTMENT = "systems/InvestmentSystem.gd"
-GAME_STATE = "autoloads/GameState.gd"
+PROTECTED = (*CONTENT, "content/assets.json", "autoloads/DataRegistry.gd")
 MIDGAME = {locale: "content/events" + ("" if locale == "ko" else "_" + locale)
            + "/arc_midgame.json" for locale in LOCALES}
-OLD_GUARD = '\t\t\tand GameState.investment_skill >= 5 \\\n'
-NEW_GUARD = '\t\t\tand GameState.investment_skill >= 5 and _has_current_investment_loss() \\\n'
 HELPER = '''
 func _has_current_investment_loss() -> bool:
 \t# Read the live holding and quote only; experience or an old loss is not enough.
@@ -62,38 +56,37 @@ func _has_current_investment_loss() -> bool:
 \t\t\treturn true
 \treturn false
 '''
-PREPARED = '''if t == 15:
-    S.portfolio = {"samsung": {"quantity": 1.0, "avg_price": 70000.0}}
-    S.market_prices = {"samsung": 63000.0}
-'''
 ASSET_LOAD = '''with open("content/assets.json", encoding="utf-8") as asset_file:
     ASSET_IDS = frozenset(row["id"] for row in json.load(asset_file))
 '''
-SCREEN_OLD = '\t\t"arc_invest_first_loss": 15,\n'
-SCREEN_ADDED = '''\t# This input route does not buy a holding. A first loss is optional, and may
-\t# only appear in its existing window when the live holding predicate passes.
-\tif event_weeks.has("arc_invest_first_loss") \\
-\t\t\tand (int(event_weeks["arc_invest_first_loss"]) < 15 \\
-\t\t\tor int(event_weeks["arc_invest_first_loss"]) > 18):
-\t\treturn "arc_invest_first_loss may only occupy demo weeks 15-18, got %s." % \\
-\t\t\t\tevent_weeks["arc_invest_first_loss"]
-'''
-SCREEN_ANCHOR = '\tif event_weeks.has("arc_job_vs_invest") \\\n'
-
-
 def require(ok, message):
     if not ok:
         raise ValueError(message)
 
 
-def source_errors(before, current):
-    if type(before) is not bytes or type(current) is not bytes:
-        return ["Main raw must be bytes"]
-    old, new, helper = OLD_GUARD.encode(), NEW_GUARD.encode(), HELPER.encode()
-    if before.count(old) != 1 or before.count(b"func _has_current_investment_loss(") != 0:
-        return ["Main predecessor selector population"]
-    expected = before.replace(old, new, 1) + helper
-    return [] if current == expected else ["Main differs outside exact guard/EOF helper"]
+def statements(source):
+    return "\n".join(line.split("#", 1)[0].strip() for line in source.splitlines()
+                     if line.split("#", 1)[0].strip())
+
+
+def source_errors(current):
+    if type(current) is not bytes:
+        return ["Main source must be bytes"]
+    source = current.decode("utf-8")
+    failures = []
+    helper = _gd_function_source(source, "_has_current_investment_loss")
+    if statements(helper) != statements(HELPER):
+        failures.append("live holding/registered asset/finite positive quote predicate differs")
+    owner = _gd_function_source(source, "_next_arc_id")
+    compact = re.sub(r"\s+|\\", "", owner)
+    guard = (
+        'ift>=15andt<=18andf.get("arc_invest_guidance_seen",false)'
+        'andGameState.investment_skill>=5and_has_current_investment_loss()'
+        'andnotf.get("arc_invest_first_loss_seen",false):return"arc_invest_first_loss"'
+    )
+    if compact.count(guard) != 1 or owner.count('return "arc_invest_first_loss"') != 1:
+        failures.append("current loss window/guidance/skill/live-loss/seen routing differs")
+    return failures
 
 
 def dump(node):
@@ -149,46 +142,24 @@ def numeric_cases():
     return cases
 
 
-def simulator_contract(before, current, asset_rows):
-    """Retain the whole historical simulator AST except five explicit additions."""
-    tree, old = ast.parse(current), ast.parse(before)
-    normalized = copy.deepcopy(tree)
-    imports = [n for n in normalized.body if isinstance(n, ast.Import) and any(a.name == "math" for a in n.names)]
-    require(len(imports) == 1, "sim math import population")
-    imports[0].names = [a for a in imports[0].names if a.name != "math"]
-    expected_load = dump(ast.parse(ASSET_LOAD).body[0])
-    loads = [n for n in normalized.body if isinstance(n, ast.With) and dump(n) == expected_load]
-    require(len(loads) == 1, "sim actual registered asset population")
-    normalized.body.remove(loads[0])
-    state = one(normalized.body, ast.ClassDef, "State")
-    predicate = one(state.body, ast.FunctionDef, "has_current_investment_loss")
-    state.body.remove(predicate)
-    init = one(state.body, ast.FunctionDef, "__init__")
-    for field in ("portfolio", "market_prices"):
-        expected = dump(ast.parse("s." + field + " = {}").body[0])
-        matches = [n for n in init.body if dump(n) == expected]
-        require(len(matches) == 1, "sim empty default " + field)
-        init.body.remove(matches[0])
-    evaluate = one(normalized.body, ast.FunctionDef, "evalconds")
+def simulator_contract(current, asset_rows):
+    """Execute only current selected definitions, never the 240-week program."""
+    tree = ast.parse(current)
+    state = one(tree.body, ast.ClassDef, "State")
+    one(state.body, ast.FunctionDef, "has_current_investment_loss")
+    evaluate = one(tree.body, ast.FunctionDef, "evalconds")
     entries = []
     for node in ast.walk(evaluate):
         if isinstance(node, ast.Dict):
             for index, key in enumerate(node.keys):
                 if isinstance(key, ast.Constant) and key.value == "_has_current_investment_loss":
                     entries.append((node, index))
-    require(len(entries) == 1, "sim actual predicate eval binding population")
+    require(len(entries) == 1, "current predicate evaluator binding population")
     mapping, index = entries[0]
     require(dump(mapping.values[index]) == dump(ast.parse("S.has_current_investment_loss", mode="eval").body),
-            "sim predicate cannot be an always-true proxy")
-    del mapping.keys[index]
-    del mapping.values[index]
-    prepared = dump(ast.parse(PREPARED).body[0])
-    for name in ("traj_A", "traj_B"):
-        trajectory = one(normalized.body, ast.FunctionDef, name)
-        matches = [n for n in trajectory.body if dump(n) == prepared]
-        require(len(matches) == 1, "sim W15 explicit loss holding " + name)
-        trajectory.body.remove(matches[0])
-    require(dump(normalized) == dump(old), "sim unowned AST/240-week expectations changed")
+            "predicate evaluator cannot be an always-true proxy")
+    require(any(isinstance(node, ast.With) and dump(node) == dump(ast.parse(ASSET_LOAD).body[0])
+                for node in tree.body), "current asset registry loader absent")
     selected = [one(tree.body, ast.ClassDef, "Job"), one(tree.body, ast.ClassDef, "State")]
     selected += [one(tree.body, ast.FunctionDef, name) for name in (
         "evalconds", "traj_A", "traj_B", "father_death_is_monotonic", "chapter5_finale_holds_ending")]
@@ -220,81 +191,59 @@ def simulator_contract(before, current, asset_rows):
     return tested
 
 
-def screen_errors(before, current):
-    if before.count(SCREEN_OLD) != 1 or before.count(SCREEN_ANCHOR) != 1:
-        return ["ScreenshotQA predecessor selector population"]
-    expected = before.replace(SCREEN_OLD, "", 1).replace(SCREEN_ANCHOR, SCREEN_ADDED + SCREEN_ANCHOR, 1)
-    return [] if current == expected else ["ScreenshotQA exceeds optional W15-18 expectation repair"]
+def screen_errors(current):
+    owner = _gd_function_source(current, "_demo_scene_flow_error")
+    compact = re.sub(r"\s+|\\", "", owner)
+    # Retain the optional reached-window condition, not the complete QA file.
+    condition = (
+        'ifevent_weeks.has("arc_invest_first_loss")'
+        'and(int(event_weeks["arc_invest_first_loss"])<15'
+        'orint(event_weeks["arc_invest_first_loss"])>18):'
+    )
+    if compact.count(condition) != 1 or '"arc_invest_first_loss":15' in compact:
+        return ["current screenshot loss expectation must be optional and inside weeks15-18"]
+    return []
 
 
-def historical_content_comparison(current, root=ROOT):
-    """Current14 -> pre477 text5/pre478 Investment1/pre480 GameState1."""
-    import order470_source_compat as history
-    import market_cycle_label_history as market
-    import wealth_milestone_log_history as wealth
-    root = Path(root).resolve()
-    require(type(current) is dict and set(current) == set(PROTECTED)
-            and all(type(raw) is bytes for raw in current.values()),
-            "protected comparison requires exact current14 bytes")
-    require(all((root / path).read_bytes() == raw for path, raw in current.items()),
-            "protected comparison supplied raw differs from current disk")
-    previous = history.historical_loss_hold_comparison(
-        {locale: current[path] for locale, path in MIDGAME.items()}, root)
-    require(type(previous) is dict and set(previous) == set(LOCALES)
-            and all(type(raw) is bytes for raw in previous.values()),
-            "protected comparison predecessor population/type")
-    investment = market.market_cycle_predecessor(current[INVESTMENT], root)
-    game_state = wealth.game_state_predecessor(current[GAME_STATE], root)
-    return {**current, **{path: previous[locale] for locale, path in MIDGAME.items()},
-            INVESTMENT: investment, GAME_STATE: game_state}
-
-
-def content_errors(before, current, *, comparison=None):
-    """Historical raw equality and actual-current producer/readers are distinct."""
+def content_errors(current):
     failures = []
-    compared = current if comparison is None else comparison
-    if set(before) != set(PROTECTED) or set(current) != set(PROTECTED) \
-            or set(compared) != set(PROTECTED):
-        return ["protected source/text population differs"]
-    for path in PROTECTED:
-        if type(current[path]) is not bytes or type(compared[path]) is not bytes \
-                or compared[path] != before[path]:
-            failures.append("unowned source/text raw changed: " + path)
-        if path == INVESTMENT and comparison is not None:
-            # Do not let a supplied historical view hide an arbitrary live
-            # price/trading change. The fresh adapter above and this pure exact
-            # inverse independently bind the only permitted log/helper delta.
-            import market_cycle_label_history as market
-            try:
-                if market.product_inverse(compared[path], current[path], path) != compared[path]:
-                    failures.append("Investment comparison inverse differs")
-            except (ValueError, TypeError, KeyError, IndexError):
-                failures.append("actual Investment exceeds exact market-label transition")
-        elif path == GAME_STATE and comparison is not None:
-            # A historical comparison must not conceal a live economy, flag,
-            # routing or adjacent-log edit. Only the sealed KO/EN pair differs.
-            import wealth_milestone_log_history as wealth
-            import asset_one_billion_log_history as one_billion
-            try:
-                pre_one_billion = one_billion.game_state_inverse(current[path])
-                if wealth.product_inverse(compared[path], pre_one_billion, path) != compared[path]:
-                    failures.append("GameState comparison inverse differs")
-            except (ValueError, TypeError, KeyError, IndexError):
-                failures.append("actual GameState exceeds exact wealth-log transition")
-        elif path not in MIDGAME.values() and compared[path] != current[path]:
-            failures.append("comparison changed a non-midgame protected path: " + path)
+    if set(current) != set(PROTECTED):
+        return ["current loss event/callback/asset/reader inputs absent"]
+    documents = {path: _loads(raw) for path, raw in current.items() if path.endswith(".json")}
     for locale in LOCALES:
-        path = "content/events" + ("" if locale == "ko" else "_" + locale) + "/arc_midgame.json"
-        rows = [row for row in json.loads(current[path]) if row.get("id") == EVENT]
+        rows = [row for row in documents[MIDGAME[locale]] if row.get("id") == EVENT]
         if len(rows) != 1 or len(rows[0].get("choices", [])) != 3:
-            failures.append(locale + ": exact root/three choices absent")
-    root = next(row for row in json.loads(current[CONTENT[0]]) if row.get("id") == EVENT)
-    callbacks = {row["id"]: row for row in json.loads(current[CONTENT[1]])}
+            failures.append(locale + ": one current loss root/three choices required")
+    root = next(row for row in documents[MIDGAME["ko"]] if row.get("id") == EVENT)
+    callbacks = {row["id"]: row for row in documents[CONTENT[1]]}
+    expected_effects = (
+        {"money": -100000, "mental": 3, "investment_skill": 2},
+        {"investment_skill": 3, "mental": -3},
+        {"money": -200000, "investment_skill": 1, "mental": -2},
+    )
     for index, flag in enumerate(FLAGS):
-        if root["choices"][index]["flags"] != [EVENT + "_seen", flag]:
-            failures.append("producer flag changed: " + flag)
-        if callbacks[CALLBACKS[index]]["conditions"] != {"flag": flag, "min_turn": 36}:
-            failures.append("W36 callback reader changed: " + flag)
+        choice = root["choices"][index]
+        effects = choice.get("effects", {})
+        if choice.get("flags") != [EVENT + "_seen", flag] \
+                or effects != expected_effects[index] \
+                or any(type(value) not in (int, float) for value in effects.values()):
+            failures.append("typed cost/effect/flag producer differs: " + flag)
+        reader = callbacks.get(CALLBACKS[index], {})
+        if reader.get("conditions") != {"flag": flag, "min_turn": 36} \
+                or type(reader.get("conditions", {}).get("min_turn")) not in (int, float):
+            failures.append("W36 callback reader differs: " + flag)
+    assets = documents["content/assets.json"]
+    ids = [row["id"] for row in assets]
+    if len(ids) != len(set(ids)) or not {"samsung", "nvidia"} <= set(ids):
+        failures.append("current prepared holding IDs are not unique registered assets")
+    registry_source = current["autoloads/DataRegistry.gd"].decode()
+    registry = _gd_function_source(registry_source, "get_asset")
+    if statements(registry) != 'func get_asset(asset_id):\nreturn assets_by_id.get(asset_id, {})':
+        failures.append("current registered asset reader differs")
+    loader = statements(_gd_function_source(registry_source, "reload"))
+    if 'assets = _load_array(ASSETS_PATH)' not in loader \
+            or 'assets_by_id = _index_by_id(assets)' not in loader:
+        failures.append("current registered asset reader is not loaded from actual assets")
     return failures
 
 
@@ -302,9 +251,7 @@ def fixture_errors(raw):
     """Source wiring only; never substitutes for actual engine case records."""
     text = raw.decode("utf-8")
     failures = []
-    if hashlib.sha256(raw).hexdigest() != FIXTURE_SHA256:
-        failures.append("runtime fixture differs from reviewed complete consumer/restore source")
-    required = ('game.call("_has_current_investment_loss")', 'game.call("_next_arc_id",',
+    required = ('actual == expected', 'game.call("_has_current_investment_loss")', 'game.call("_next_arc_id",',
                 'const INVESTMENT := preload("res://systems/InvestmentSystem.gd")',
                 'var investment: Node = INVESTMENT.new()', 'investment.free()',
                 'investment.buy_asset("samsung", 140000.0)',
@@ -319,6 +266,13 @@ def fixture_errors(raw):
                 'if not restored: failures.append("singleton restoration failed")',
                 'INVESTMENT_LOSS_GATE_CHECK_OK locales=5 cases=430')
     failures += ["runtime fixture missing actual consumer/oracle " + token for token in required if token not in text]
+    helper_case = _gd_function_source(text, "_helper_case")
+    if 'var actual: bool = game.call("_has_current_investment_loss")' not in helper_case \
+            or 'actual == expected and _state_bytes() == before' not in helper_case:
+        failures.append("current helper case lost its actual predicate/immutable-state oracle")
+    routes = _gd_function_source(text, "_loss_routes")
+    if 'game.call("_next_arc_id", row["turn"], preview, false)' not in routes:
+        failures.append("current route case no longer calls the actual live owner")
     match = re.search(r'func _loss_helpers\(game: Node\).*?var rows := (\[.*?\n\t\])', text, re.S)
     if not match:
         return [*failures, "runtime helper rows absent"]
@@ -343,43 +297,129 @@ def fixture_errors(raw):
     return failures
 
 
-def run(root=ROOT):
-    import order469_source_compat as history
-    root = Path(root).resolve()
-    head = history._git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+def current_inputs(root=ROOT):
     paths = (MAIN, SIM, SCREEN, FIXTURE, FIXTURE.replace(".gd", ".tscn"), *PROTECTED)
-    actual, _ = history._snapshot(root, head, paths)
-    require(all((root / path).read_bytes() == raw for path, raw in actual.items()), "actual HEAD/disk differs")
-    prior, _ = history._snapshot(root, BASE, (MAIN, SIM, SCREEN, *PROTECTED))
-    main_before = history.first_loss_predecessor(actual[MAIN], root)
-    require(main_before == prior[MAIN], "Main predecessor differs from declaration")
-    failures = source_errors(prior[MAIN], actual[MAIN])
-    protected = {p: actual[p] for p in PROTECTED}
-    comparison = historical_content_comparison(protected, root)
-    failures += content_errors({p: prior[p] for p in PROTECTED}, protected, comparison=comparison)
-    failures += screen_errors(prior[SCREEN].decode(), actual[SCREEN].decode())
+    return {path: (Path(root) / path).read_bytes() for path in paths}
+
+
+def run(root=ROOT):
+    actual = current_inputs(root)
+    failures = source_errors(actual[MAIN])
+    failures += content_errors({path: actual[path] for path in PROTECTED})
+    failures += screen_errors(actual[SCREEN].decode())
     failures += fixture_errors(actual[FIXTURE])
-    if hashlib.sha256(actual[FIXTURE.replace(".gd", ".tscn")]).hexdigest() != SCENE_SHA256:
-        failures.append("runtime scene no longer selects reviewed fixture")
+    if 'path="res://tools/InvestmentLossGateCheck.gd"' not in actual[FIXTURE.replace(".gd", ".tscn")].decode():
+        failures.append("runtime scene no longer selects the loss-gate consumer")
     require(not failures, "; ".join(failures))
-    cases = simulator_contract(prior[SIM].decode(), actual[SIM].decode(), json.loads(actual["content/assets.json"]))
-    final, _ = history._snapshot(root, head, paths)
-    require(final == actual and all((root / p).read_bytes() == raw for p, raw in actual.items())
-            and history._git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head,
-            "source changed during audit")
-    require(historical_content_comparison(protected, root) == comparison,
-            "historical content comparison changed during audit")
-    return {"head": head, "source_commit": SOURCE, "locales": 5, "text_changes": 0,
-            "text_changes_scope": "ORDER476 historical comparison only; actual ORDER477 leaf5 retained",
-            "historical_comparison": "pre477 exact midgame5 plus pre478 exact Investment1 plus pre480 exact GameState1; actual raw retained",
-            "simulator_cases": cases, "protected_paths": len(PROTECTED),
-            "scope": "source/predicate/fixture wiring; actual runtime and human observation separate",
-            "input_sha256": {p: hashlib.sha256(raw).hexdigest() for p, raw in actual.items()}}
+    cases = simulator_contract(actual[SIM].decode(), _loads(actual["content/assets.json"]))
+    return {"locales": 5, "simulator_cases": cases,
+            "scope": "current source/predicate/fixture wiring; runtime and human observation separate"}
+
+
+def self_test(root=ROOT):
+    current = current_inputs(root)
+    failures, cases = [], 0
+    def check(condition, label):
+        nonlocal cases
+        cases += 1
+        if not condition:
+            failures.append(label)
+    def reject(operation, label):
+        try:
+            operation()
+        except (ValueError, TypeError, KeyError, IndexError, OSError, SyntaxError):
+            check(True, label)
+        else:
+            check(False, label)
+    check(not source_errors(current[MAIN]), "current Main semantics")
+    for label, old, new in (
+        ("missing live guard", "and _has_current_investment_loss()", ""),
+        ("wrong polarity", "and _has_current_investment_loss()", "and not _has_current_investment_loss()"),
+        ("unregistered asset", "if DataRegistry.get_asset(asset_id).is_empty():", "if false:"),
+        ("missing quote", "GameState.market_prices[asset_id]", 'GameState.market_prices.get(asset_id, 1.0)'),
+        ("quantity omitted", "[quantity, average, price]", "[average, price]"),
+        ("boolean accepted", "typeof(value) != TYPE_INT", "typeof(value) != TYPE_BOOL"),
+        ("nonfinite accepted", "not is_finite(float(value))", "false"),
+        ("zero accepted", "float(value) <= 0.0", "float(value) < 0.0"),
+        ("break even accepted", "float(price) < float(average)", "float(price) <= float(average)"),
+        ("price reversed", "float(price) < float(average)", "float(price) > float(average)"),
+        ("window widened", "if t >= 15 and t <= 18", "if t >= 14 and t <= 18"),
+        ("skill weakened", "GameState.investment_skill >= 5 and", "GameState.investment_skill >= 4 and"),
+    ):
+        raw = current[MAIN]
+        check(old.encode() in raw and bool(source_errors(raw.replace(old.encode(), new.encode(), 1))),
+              "Main rejects " + label)
+    check(not source_errors(current[MAIN] + b"\n"), "Main unrelated whitespace accepted")
+    protected = {path: current[path] for path in PROTECTED}
+    check(not content_errors(protected), "current producers and callback readers")
+    rows = _loads(protected[MIDGAME["ko"]])
+    for index in range(3):
+        changed = copy.deepcopy(rows)
+        mutant = next(row for row in changed if row["id"] == EVENT)
+        mutant["choices"][index]["flags"] = ["wrong_flag"]
+        check(bool(content_errors({**protected, MIDGAME["ko"]: json.dumps(changed).encode()})),
+              "producer flag " + FLAGS[index])
+    changed = copy.deepcopy(rows)
+    event = next(row for row in changed if row["id"] == EVENT)
+    event["choices"][0]["effects"]["money"] = True
+    check(bool(content_errors({**protected, MIDGAME["ko"]: json.dumps(changed).encode()})),
+          "producer cost must remain numeric and not boolean")
+    callback_rows = _loads(protected[CONTENT[1]])
+    next(row for row in callback_rows if row["id"] == CALLBACKS[0])["conditions"]["min_turn"] = True
+    check(bool(content_errors({**protected, CONTENT[1]: json.dumps(callback_rows).encode()})),
+          "callback turn must remain numeric and not boolean")
+    registry_path = "autoloads/DataRegistry.gd"
+    for before, changed in ((b"assets = _load_array(ASSETS_PATH)", b"assets = []"),
+                            (b"assets_by_id = _index_by_id(assets)", b"assets_by_id = {}")):
+        raw = protected[registry_path]
+        check(before in raw and bool(content_errors({**protected, registry_path: raw.replace(before, changed, 1)})),
+              "registered asset loader cannot be bypassed")
+    assets = _loads(current["content/assets.json"])
+    sim = current[SIM].decode()
+    check(simulator_contract(sim, assets) == len(numeric_cases()) + 2, "current numeric/evaluator/trajectory cases")
+    for label, old, new in (
+        ("constant helper", "for asset_id, holding in s.portfolio.items():",
+         "return True\n        for asset_id, holding in s.portfolio.items():"),
+        ("constant evaluator", '"_has_current_investment_loss": S.has_current_investment_loss',
+         '"_has_current_investment_loss": lambda: True'),
+        ("wrong quote", 'S.market_prices = {"samsung": 63000.0}', 'S.market_prices = {"samsung": 70000.0}'),
+        ("premature preparation", "if t == 15:", "if t == 14:"),
+        ("break even", "values[2] < values[1]", "values[2] <= values[1]"),
+        ("boolean", "type(value) in (int, float)", "isinstance(value, (int, float))"),
+        ("nonfinite", "math.isfinite(value)", "True"),
+        ("registry bypass", "asset_id not in ASSET_IDS", "False"),
+        ("mutating helper", "for asset_id, holding in s.portfolio.items():",
+         's.flags["audit_mutation"] = True\n        for asset_id, holding in s.portfolio.items():'),
+    ):
+        check(old in sim, "sim mutation precondition " + label)
+        reject(lambda old=old, new=new: simulator_contract(sim.replace(old, new, 1), assets),
+               "sim rejects " + label)
+    screen = current[SCREEN].decode()
+    check(not screen_errors(screen), "current optional screenshot expectation")
+    check(bool(screen_errors(screen.replace('< 15 \\', '< 14 \\', 1))), "screenshot narrowed lower window")
+    check(not screen_errors(screen + "\n"), "screen unrelated whitespace accepted")
+    fixture = current[FIXTURE]
+    check(not fixture_errors(fixture), "current fixture consumer wiring/oracle")
+    for old, new in ((b"actual == expected", b"true"),
+                     (b'game.call("_has_current_investment_loss")', b"true"),
+                     (b'game.call("_next_arc_id",', b'game.call("_wrong_route",'),
+                     (b"if not restored:", b"if false:"),
+                     (b'"expected": false', b'"expected": true')):
+        check(old in fixture and bool(fixture_errors(fixture.replace(old, new, 1))),
+              "fixture rejects " + old.decode())
+    return failures, cases
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--self-test", action="store_true")
+    args = parser.parse_args()
     try:
         report = run()
+        if args.self_test:
+            failures, cases = self_test()
+            require(not failures, "; ".join(failures))
+            print("INVESTMENT_LOSS_GATE_SELF_TEST_OK cases=" + str(cases))
     except (ValueError, TypeError, KeyError, IndexError, OSError, SyntaxError) as exc:
         print("INVESTMENT_LOSS_GATE_AUDIT_FAIL " + str(exc))
         return 1

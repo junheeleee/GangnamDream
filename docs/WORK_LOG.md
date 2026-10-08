@@ -2,6 +2,73 @@
 
 이전 원문 전체는 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)에 바이트 그대로 이동했다. 보존본의 상대 링크는 이동 전 경로 기준이다.
 
+## 2026-10-09 — 이력 검사54개 제거·제품 계약 복구 (487, CI 대기)
+
+- 사용자 지시·DECISIONS 2026-10-08대로 PR32/484 마감 뒤 이 정리만 진행했다. 실패 전수표는 cad6d39에서 먼저 main commit·push했고, 추가 의존 표는214e9d6/f7cdf69/954c04e에서 삭제 전에 확정했다. 관측163flag/실패 합집합36을 유지하며 과거22·현재13·release 회복1·미관측127을 혼동하지 않는다.
+- 아래54파일을 삭제했다. 모두 닫힌 오더의 특정 Git 부모/전체 source bytes·옛 census·역투영 endpoint 또는 그 계측/호출 수 전용 suite다. **이 검사가 지키던 현재 제품 동작이 없었다.** 실제 UI·숫자/통화·장소·시간·배제·receipt·저장·컴파일·데모 동작은 현재 collector/validator와 generic 부정 테스트에 남겼다. 정확 파일별 근거는 선커밋 [전수표](queue_backlog/AUDIT_FAILURE_TRIAGE_2026-10-09.md)에 있다. 삭제 원본은 Git f7cdf69 이전 이력에서 복구할 수 있다.
+- 삭제: tools/order305_demo_source_compat.py
+- 삭제: tools/order309_source_compat.py
+- 삭제: tools/order310_demo_source_compat.py
+- 삭제: tools/order313_source_compat.py
+- 삭제: tools/order316_header_source_compat.py
+- 삭제: tools/order350_source_compat.py
+- 삭제: tools/order351_source_compat.py
+- 삭제: tools/order365_ui_receipt_compat.py
+- 삭제: tools/order469_source_compat.py
+- 삭제: tools/order470_source_compat.py
+- 삭제: tools/main_game_locale_history.py
+- 삭제: tools/meta_title_locale_history.py
+- 삭제: tools/opening_rhythm_history.py
+- 삭제: tools/holdem_money_history.py
+- 삭제: tools/coffee_encounter_receipt_history.py
+- 삭제: tools/coin_call_receipt_history.py
+- 삭제: tools/pr31_intake_history.py
+- 삭제: tools/market_cycle_label_history.py
+- 삭제: tools/wealth_milestone_log_history.py
+- 삭제: tools/asset_one_billion_log_history.py
+- 삭제: tools/meta_title_locale_history_self_test.py
+- 삭제: tools/opening_rhythm_history_self_test.py
+- 삭제: tools/meta_title_locale_successor_self_test.py
+- 삭제: tools/ci_localization_reconciliation_self_test.py
+- 삭제: tools/order469_source_compat_self_test.py
+- 삭제: tools/order470_source_compat_self_test.py
+- 삭제: tools/coin_call_receipt_history_self_test.py
+- 삭제: tools/pr31_intake_history_self_test.py
+- 삭제: tools/market_cycle_label_history_self_test.py
+- 삭제: tools/wealth_milestone_log_history_self_test.py
+- 삭제: tools/history_semantic_scope_self_test.py
+- 삭제: tools/pr31_main_proof_scope_check.py
+- 삭제: tools/holdem_manifest_proof_scope_self_test.py
+- 삭제: tools/chapter5_proof_scope_self_test.py
+- 삭제: tools/ui_comparison_memo_self_test.py
+- 삭제: tools/chapter1_ui_proof_reuse_check.py
+- 삭제: tools/holdem_money_receipt_check.py
+- 삭제: tools/holdem_banner_receipt_check.py
+- 삭제: tools/holdem_banner_locale_receipt_check.py
+- 삭제: tools/holdem_betting_receipt_check.py
+- 삭제: tools/holdem_table_labels_receipt_check.py
+- 삭제: tools/holdem_seat_height_receipt_check.py
+- 삭제: tools/holdem_card_color_receipt_check.py
+- 삭제: tools/holdem_message_pulse_receipt_check.py
+- 삭제: tools/holdem_rank_ja_receipt_check.py
+- 삭제: tools/holdem_async_receipt_check.py
+- 삭제: tools/holdem_hand_net_receipt_check.py
+- 삭제: tools/holdem_victory_particle_receipt_check.py
+- 삭제: tools/holdem_canvas_width_check.py
+- 삭제: tools/meta_title_locale_successor.py
+- 삭제: tools/holdem_residual_locale_check.py
+- 삭제: tools/ui_receipt_cost_profile.py
+- 삭제: tools/ui_receipt_cost_profile_check.py
+- 삭제: tools/scalping_phase_focus_receipt_check.py
+- audit.sh의 이력 전용15flag/명령만 제거하여 집계163→148이다. audit_scope의 폐지 tool·old CLI/paths/비용 차선을 정리했으며 등록182/현재 target 누락0/삭제 helper 소비자0이다. 비용 계측·재사용 후속 작업0·다른 새 오더0·새 tool/report/history helper0.
+- strict duplicate/NaN/Infinity/1e999 거절·UTF-8 문자 좌표 span·raw exact inverse·공식 source/target/header/batch binding은 기존 ui_translation_append owner로 보존했다. demo manifest 원 SHA·72 사건/467잎·40769 현재 text와 사건 전체 효과/조건 순서 semantic seal을 유지하며 out-of-demo 원문 공백만 비고정이다. 불변 공개14/100잎·reuse8/3지역 source/target seal도 유지한다. old public target값 재현과 공식 receipt가 원래 없는 보호 baseline을 새 원장 수용으로 둔갑시키지 않았다.
+- 현재 표적 PASS: UI append109·strict span/parser168·generic projection88, trace187+현재 계약, demo16+62, full-game localization265, JA collector76/UI2952+context29/demo72·467, ZH12623, full-body54, graph64/Year5 22/Chapter5 76, Chapter1현재24/48 및12부정(48주 완성 아님), facts first-win19/ending10/night13/loss gate50+numeric52/hold24/wealth15/recall27/coffee88, gate companion50, gift18/new-run47/notice17/header23, width27/reaction23/log23/AP42. feature liveness는 실제 생성 QA scene 경로를 발견하여 known orphan2를 보존했다. EN coverage/한글누출(형식52·오류0)/narrative continuity/context/queue/diff PASS다.
+- 통합 중 실제 실패도 남긴다: trace의 ObjectDB negative를 false branch로 감싼 변조가 accepted되어 current top-level3 probe 의미 guard로 수리했다(전체 audit.sh SHA 재도입0). 새 English registry가 삭제되면서 format2 호출을 놓친 FAIL은 현행2 system-log 소비자 registry를 복원해 오류0으로 닫았다. localization265의 fake UI fixture errors/entries 누락과 coffee 옛 title fixture 충돌은 현재 interface/비소유 synthetic case로 고쳤고 최종265 PASS다. 게임 원문/번역/원장으로 실패를 덮지 않았다.
+- docs/KNOWN_FAILURES.md에는 현재 실제 제품 FAIL5만 이유·Codex 소유·2026-10-16 만료로 남긴다. 검사 자체는 실행/FAIL 로그 보존하며 CI opt-in에서만 정확 exit1을 비차단 처리한다. 미설정/exit2+/미등록/중복/빈 사유·소유자/만료/30일초과는 빨강이다. inline gate 부정14 PASS·shell binding/syntax PASS다. 컴파일/EN/원장/서사/음악/데모/저장 검사 삭제0.
+- 비저자 causality_audits_author가 root의 gate/CI/demo/strict append를 직접 읽어 blocking0, 저자들도 분리 소유 파일의 현재 부정 테스트를 확인했다. 새 비용 보고/오더별 봉인 보고 대신 이 기록에 근거를 남긴다. 게임·locale·ledger·autoload/scenes/systems·project.godot·human_gates diff0; 로컬 engine/사용자 저장 접근0·원어민/화면/물리 패드 관찰0.
+- **정리는 아직 진행 중이다.** 이 source를 main에 올린 뒤 실제 전체 main CI 녹색(정확 KNOWN_FAILURES 제외)을 확인해야 닫는다. 로컬 표적 PASS를 CI/출시 GO로 바꾸지 않는다. 공개 GO와 인간 이력·본편 HOLD를 보존한다. 다음 문장 묶음의 기본 arc_36_unexpected_hand 선택지 수리는 정리 완료 뒤에만 진행한다.
+- 마지막 등록 읽기 검수 localization_collector_author가 현재223개 고유 명령의 옵션/수동 argv를 확인했다. 폐지 inventory-history 옵션2곳과 closed408 재사용 suite를 추가 제거한 뒤 유효 등록181/빠진 경로0이다. strict JSON과 실제 대화 이력은 삭제 대상이 아니다. 최종 source commit 뒤 실제 CI를 확인한다.
+
 ## 2026-10-09 — 카지노 용어집 중국어 실제 반영·검수 정리 착수 (484 마감, 487 선언)
 
 - 카지노 용어16개를 한국어에서 각 지역으로 옮긴 CN/TW32값과 원공식 receipt2를 main faa71588579d52e5f145b68b313f86d4e4523ec6/tree246f8162830e4290637b017d449081358fcbbe26에 commit·push했다. UI1811→1827씩/원장41855→41887/b280→282다. 기존 pure validate_append가 UI/receipt 대응·원 header/receipt checksum·이전 members/order/raw 역상·JA0을 통과했고 원 source213 SHA는 불변이다. 원값 수동 교체·원공식 collector 대체·새 history helper0이다.

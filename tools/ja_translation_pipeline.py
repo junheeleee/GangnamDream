@@ -26,6 +26,15 @@ from typing import Any, Iterable, Optional
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
+# Current formatted system-log consumers also bind the English zero-Hangul
+# argument scanner. This is a semantic registry, not a predecessor census.
+NEW_RUN_LOG_CALLS = (
+    ("start_new_game", "format", "다시 시작한 아침. 출발점은 %s였다.",
+     "Another beginning. He started out %s."),
+    ("_roll_run_theme", "format", "이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.",
+     "This time, news tied to %s and %s caught his eye first."),
+)
+
 
 def git_private_path(filename: str) -> pathlib.Path:
     marker = ROOT / ".git"
@@ -116,15 +125,6 @@ GD_FUNCTION = re.compile(
 )
 UI_CONTEXT_ID = re.compile(r"^ui\.[a-z0-9]+(?:[._][a-z0-9]+)*$")
 UI_CONTEXT_MANIFEST_PATH = ROOT / "content/meta/demo_localization_scope.json"
-ORDER96_HISTORICAL_UI_BASELINE = {
-    "legacy_pair_call_occurrences": 3254,
-    "post_migration_legacy_pair_call_occurrences": 3217,
-    "legacy_korean_source_keys": 2730,
-    "legacy_korean_source_keys_sha256": (
-        "b67df90ba814deeac78db1b1bc4836d16596b6b93521e97a34427ae3b2bcb222"
-    ),
-}
-ORDER96_HISTORICAL_CONTEXT_CALLS = 37
 HANGUL = re.compile(r"[\u1100-\u11ff\u3130-\u318f\uac00-\ud7a3]")
 JAPANESE = re.compile(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff]")
 PLACEHOLDER = re.compile(
@@ -1206,7 +1206,59 @@ def parse_ui_calls(relative_path: str, source: str) -> tuple[list[UiCall], list[
             f"{relative_path}:{line}: ui_format requires four arguments with "
             "literal Korean/English templates"
         )
+    if relative_path == "scenes/ArubaGame.gd":
+        branches, branch_errors = nonformat_ui_calls(relative_path, source)
+        calls.extend(branches)
+        errors.extend(branch_errors)
     return sorted(calls, key=lambda call: call.line), errors
+
+
+def nonformat_ui_calls(relative_path: str, source: str) -> tuple[list[UiCall], list[str]]:
+    """Collect both literal branches of a plain shared boolean selector.
+
+    This reads the current source, not a frozen raw file. Formatted branches
+    remain owned by the parser above; complex or misaligned selectors fail.
+    """
+    literal = r'"(?:\\.|[^"\\])*"'
+    branch = re.compile(
+        r"^\s*(" + literal + r")\s+if\s+"
+        r"([A-Za-z_]\w*(?:\(\s*\))?)\s+else\s+(" + literal + r")\s*$",
+        re.S,
+    )
+    functions = [(match.start(), match.group(1)) for match in GD_FUNCTION.finditer(source)]
+    offsets = [offset for offset, _function in functions]
+    calls: list[UiCall] = []
+    errors: list[str] = []
+    for match in UI_PAIR_CALL_START.finditer(source):
+        try:
+            body, end = _balanced_call_body(source, match.start())
+            arguments = _split_gd_arguments(body)
+            if len(arguments) < 2 or not any(
+                _has_condition_outside_strings(argument) for argument in arguments[:2]
+            ):
+                continue
+            if re.match(r"\s*\.format\s*\(", source[end:end + 96]):
+                continue
+            parsed = [branch.fullmatch(argument) for argument in arguments[:2]]
+            if len(arguments) != 2 or not all(parsed) or _normalize_gd_expression(
+                parsed[0][2]
+            ) != _normalize_gd_expression(parsed[1][2]):
+                raise ValueError("requires two literal branches and the same simple selector")
+            if re.match(r"\s*(?:\.|%|\[)", source[end:end + 96]):
+                raise ValueError("post-lookup expression is not a plain branch")
+            index = bisect.bisect_right(offsets, match.start()) - 1
+            owner = functions[index][1] if index >= 0 else "<module>"
+            for part in (1, 3):
+                korean, english = (decode_gd_string(row[part]) for row in parsed)
+                if not korean.strip() or not english.strip():
+                    raise ValueError("empty branch literal")
+                calls.append(UiCall(
+                    relative_path, owner, source.count("\n", 0, match.start()) + 1,
+                    "branch", korean, english,
+                ))
+        except (ValueError, IndexError) as exc:
+            errors.append(f"{relative_path}: nonformat UI branch: {exc}")
+    return calls, errors
 
 
 def _ui_format_signature(text: str) -> str:
@@ -1301,59 +1353,30 @@ RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS = (
 )
 
 
-def _relationship_panel_historical_calls(
-    calls: Iterable[UiCall],
-) -> tuple[tuple[UiCall, ...], list[str]]:
-    """Check two exact current pairs, then project only historical comparisons.
-
-    This never edits the collector's calls, entries or source-key inventory.
-    The retained actual-partner fallback is not the neutral category label.
-    """
-    from dataclasses import replace
-
+def _relationship_panel_registry_errors(calls: Iterable[UiCall]) -> list[str]:
+    """Keep neutral relationship categories distinct from an actual partner."""
     expected = {
-        ("scenes/MainGame.gd", function, "legacy", ko, en, ""): (old_ko, old_en)
-        for function, old_ko, old_en, ko, en in RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS
+        ("scenes/MainGame.gd", function, "legacy", ko, en, ""): 1
+        for function, _old_ko, _old_en, ko, en
+        in RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS
     }
     retained = ("scenes/MainGame.gd", "_maybe_add_date_card", "legacy",
                 "연인", "partner", "")
-    counts = dict.fromkeys(expected, 0)
-    sensitive = {value for row in RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS
-                 for value in (row[1], row[3])}
-    projected: list[UiCall] = []
+    expected[retained] = 1
+    observed = dict.fromkeys(expected, 0)
     errors: list[str] = []
-    retained_count = 0
     for call in calls:
         selector = (call.path, call.function, call.api, call.korean,
                     call.english, call.context_id)
-        if selector in expected:
-            counts[selector] += 1
-            old_ko, old_en = expected[selector]
-            projected.append(replace(call, korean=old_ko, english=old_en))
-        else:
-            projected.append(call)
-            if selector == retained:
-                retained_count += 1
-            elif call.korean in sensitive:
-                errors.append(f"source: relationship panel unexpected selector {selector!r}")
-    if any(count != 1 for count in counts.values()) or retained_count != 1:
-        errors.append(
-            f"source: relationship panel requires exact two substitutions and "
-            f"retained partner: {list(counts.values())}/{retained_count}"
-        )
-    return tuple(projected), errors
-
-
-def _relationship_panel_historical_keys(
-    calls: Iterable[UiCall], source_keys: set[str],
-) -> tuple[set[str], list[str]]:
-    """Undo the two approved source substitutions for the immutable key hash."""
-    _projected, errors = _relationship_panel_historical_calls(calls)
-    current = {row[3] for row in RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS}
-    historical = {row[1] for row in RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS}
-    if not current.issubset(source_keys):
-        errors.append("source: relationship panel current source keys missing")
-    return (set(source_keys) - current) | historical, errors
+        if selector in observed:
+            observed[selector] += 1
+        elif (call.path, call.function) in {
+            (row[0], row[1]) for row in expected
+        } and call.korean in {"연인", "연애 관련"}:
+            errors.append(f"source: relationship panel category/partner differs {selector!r}")
+    if observed != expected:
+        errors.append("source: relationship panel category/partner ownership differs")
+    return errors
 
 
 def _relationship_ui_registry_errors(calls: Iterable[UiCall]) -> list[str]:
@@ -1370,114 +1393,13 @@ def _relationship_ui_registry_errors(calls: Iterable[UiCall]) -> list[str]:
     ])
 
 
-def _relationship_ui_expected_view(
-    calls: Iterable[UiCall], previous_view: dict[str, Any], kind: str,
-    source_keys: Optional[set[str]] = None,
-) -> tuple[dict[str, Any], list[str]]:
-    """Extend verified historical expectations, not discovered statistics."""
-    calls = tuple(calls)
-    errors = _relationship_ui_registry_errors(calls)
-    view = dict(previous_view)
-    old_counts = {
-        "snapshot": {"legacy_pair_call_occurrences": 3285,
-                     "post_migration_legacy_pair_call_occurrences": 3251},
-        "final": {"total_ui_call_occurrences": 3342,
-                  "legacy_pair_call_occurrences": 3308},
-        "final_self_stats": {"source_calls": 3342, "legacy_calls": 3308},
-        "keys": {},
-    }
-    if kind not in old_counts:
-        return view, errors + [f"manifest: unknown relationship view {kind!r}"]
-    for key, old in old_counts[kind].items():
-        if type(view.get(key)) is not int or view[key] != old:
-            errors.append(f"manifest: relationship pre-addition {key} != {old}")
-        else:
-            view[key] = old + 14
-    if source_keys is not None:
-        # Family is an existing shared key (FAM/Family); thirteen are new.
-        added = set(RELATIONSHIP_UI_NAMES) - {"가족"}
-        panel_historical_keys, panel_errors = _relationship_panel_historical_keys(
-            calls, source_keys
-        )
-        errors.extend(panel_errors)
-        historical_keys = panel_historical_keys - added
-        historical_hash = hashlib.sha256(
-            "\n".join(sorted(historical_keys)).encode("utf-8")
-        ).hexdigest()
-        if not set(RELATIONSHIP_UI_NAMES).issubset(source_keys):
-            errors.append("source: relationship display keys are missing")
-        if view.get("legacy_korean_source_keys") != len(historical_keys) \
-                or view.get("legacy_korean_source_keys_sha256") != historical_hash:
-            errors.append("manifest: relationship historical key set/hash drifted")
-        current_keys = set(source_keys)
-        view["legacy_korean_source_keys"] = len(current_keys)
-        view["legacy_korean_source_keys_sha256"] = hashlib.sha256(
-            "\n".join(sorted(current_keys)).encode("utf-8")
-        ).hexdigest()
-    return view, errors
-
-
-def _choice_preview_ui_expected_view(
-    calls: Iterable[UiCall], historical_view: dict[str, Any], kind: str,
-) -> tuple[dict[str, Any], list[str]]:
-    """Add two declared calls to expectations, never to observed statistics."""
-    registered = {
-        ("scenes/MainGame.gd", "_choice_effects_preview", "legacy",
-         "건강", "Health", ""): 1,
-        ("scenes/MainGame.gd", "_choice_effects_preview", "legacy",
-         "정신", "Mental", ""): 1,
-    }
-    counts = dict.fromkeys(registered, 0)
-    errors: list[str] = []
-    for call in calls:
-        selector = (call.path, call.function, call.api, call.korean,
-                    call.english, call.context_id)
-        if selector in counts:
-            counts[selector] += 1
-        elif (call.path, call.function) == (
-            "scenes/MainGame.gd", "_choice_effects_preview",
-        ):
-            errors.append(f"source: choice-preview unexpected selector {selector!r}")
-    for selector, expected in registered.items():
-        if counts[selector] != expected:
-            errors.append(
-                f"source: choice-preview registered selector {selector!r} "
-                f"count {counts[selector]} != {expected}"
-            )
-    pinned_counts = {
-        "snapshot": {
-            "legacy_pair_call_occurrences": 3283,
-            "post_migration_legacy_pair_call_occurrences": 3249,
-        },
-        "final": {
-            "total_ui_call_occurrences": 3340,
-            "legacy_pair_call_occurrences": 3306,
-        },
-        "final_self_stats": {"source_calls": 3340, "legacy_calls": 3306},
-    }
-    view = dict(historical_view)
-    if kind not in pinned_counts:
-        errors.append(f"manifest: unknown choice-preview expected view {kind!r}")
-        return view, errors
-    for key, historical in pinned_counts[kind].items():
-        if type(view.get(key)) is not int or view[key] != historical:
-            errors.append(
-                f"manifest: choice-preview historical {kind}.{key} "
-                f"{view.get(key)!r} != {historical}"
-            )
-        else:
-            # Fixed declared delta, independent of discovery/multiplicity.
-            view[key] = historical + 2
-    return view, errors
-
-
 def validate_ui_parameterized_contract(
     contract: dict[str, Any],
     calls: Iterable[UiCall],
     source_keys: set[str],
     observations: Optional[list[UiParameterizedObservation]] = None,
 ) -> tuple[list[str], dict[str, Any]]:
-    """Prove the exact disposition registry and an atomic phase."""
+    """Validate current template/argument ownership without a historical census."""
     errors: list[str] = []
     if contract.get("schema_version") != 2:
         errors.append("manifest: UI parameterized template schema_version must be 2")
@@ -2069,6 +1991,27 @@ def validate_ui_parameterized_contract(
                 f"{selector!r} {actual}/{row['count']}"
             )
 
+    # System logs use separate target/English producers. Their current argument
+    # provenance is a product contract, independent of the retired migration
+    # census and any fixed Git endpoint.
+    system_log_provenance = {
+        ("autoloads/GameState.gd", "start_new_game",
+         "다시 시작한 아침. 출발점은 %s였다.",
+         "Another beginning. He started out %s.",
+         "[_localized_profile_label(starting_profile)]",
+         "[_localized_profile_label(starting_profile,true)]"): 1,
+        ("autoloads/GameState.gd", "_roll_run_theme",
+         "이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.",
+         "This time, news tied to %s and %s caught his eye first.",
+         "[a,b]",
+         "[english_labels.get(pool[0],pool[0]),english_labels.get(pool[1],pool[1])]"): 1,
+    }
+    for selector in system_log_provenance:
+        key = "migrated", selector[:4]
+        known_observation_keys.add(key)
+        if observation_counts.get(key, 0) != 1:
+            errors.append(f"source: system log template owner differs {selector[:4]!r}")
+
     for key, count in sorted(observation_counts.items(), key=str):
         if count and key not in known_observation_keys:
             errors.append(f"source: extra/unclassified parameterized row {key!r} x{count}")
@@ -2077,6 +2020,9 @@ def validate_ui_parameterized_contract(
         for row in raw_registry if isinstance(row, dict)
         and row.get("disposition") == "locale_money_formatter"
     }
+    money_owners.add(("scenes/HoldemClub.gd", "_fmt"))
+    if money_migrated_counts.get(("scenes/HoldemClub.gd", "_fmt"), 0) != 1:
+        errors.append("source: Holdem whole-won formatter owner differs")
     for owner, count in sorted(money_migrated_counts.items()):
         if owner not in money_owners:
             errors.append(f"source: extra locale money formatter call {owner!r} x{count}")
@@ -2152,8 +2098,12 @@ def validate_ui_parameterized_contract(
                 f"source: argument provenance {selector!r} count "
                 f"{actual} != {expected_count}"
             )
+    for selector, count in system_log_provenance.items():
+        expected_provenance_total += count
+        if observed_provenance.get(selector, 0) != count:
+            errors.append(f"source: system log target/English provenance differs {selector!r}")
     for selector, count in sorted(observed_provenance.items()):
-        if selector not in provenance_registry:
+        if selector not in provenance_registry and selector not in system_log_provenance:
             errors.append(
                 f"source: extra/unclassified argument provenance "
                 f"{selector!r} x{count}"
@@ -2240,26 +2190,6 @@ def validate_ui_parameterized_contract(
     legacy_calls = [call for call in call_rows if call.api in {"legacy", "format"}]
     legacy_calls.extend(call for call in call_rows if call.api == "branch")
     context_calls = [call for call in call_rows if call.api == "context"]
-    phase_contracts = contract.get("source_inventory_phases")
-    if not isinstance(phase_contracts, dict) or set(phase_contracts) != set(phase_selectors):
-        errors.append(
-            "manifest: source_inventory_phases must contain baseline, batch_a, "
-            "batch_b, and final"
-        )
-        phase_contracts = {}
-    expected_phase = phase_contracts.get(observed_phase, {})
-    if not isinstance(expected_phase, dict):
-        errors.append(f"manifest: source inventory phase {observed_phase} is malformed")
-        expected_phase = {}
-    if observed_phase == "final":
-        expected_phase, preview_errors = _choice_preview_ui_expected_view(
-            call_rows, expected_phase, "final"
-        )
-        errors.extend(preview_errors)
-        expected_phase, relationship_errors = _relationship_ui_expected_view(
-            call_rows, expected_phase, "final", source_keys
-        )
-        errors.extend(relationship_errors)
     actual_inventory = {
         "migrated_calls": sum(
             int(registry[selector]["count"]) for selector in migrated_selectors
@@ -2276,11 +2206,6 @@ def validate_ui_parameterized_contract(
             "\n".join(sorted(source_keys)).encode("utf-8")
         ).hexdigest(),
     }
-    if expected_phase != actual_inventory:
-        errors.append(
-            f"manifest: {observed_phase} source inventory {expected_phase!r} "
-            f"!= observed {actual_inventory!r}"
-        )
     return errors, {
         **actual_inventory,
         "observed_phase": observed_phase,
@@ -2304,7 +2229,7 @@ def validate_ui_context_contract(
     contract: Optional[dict[str, Any]] = None,
     parameter_contract: Optional[dict[str, Any]] = None,
 ) -> tuple[list[str], dict[str, int]]:
-    """Validate the immutable 107-key plan separately from observed migration."""
+    """Validate current semantic context bindings and observed migration."""
     if contract is None:
         contract = read_ui_context_contract()
     if parameter_contract is None:
@@ -2323,46 +2248,11 @@ def validate_ui_context_contract(
     legacy_calls = [*legacy_api_calls, *branch_calls, *format_calls]
     context_calls = [call for call in calls if call.api == "context"]
     source_keys = {call.korean for call in calls}
-    historical_calls, panel_errors = _relationship_panel_historical_calls(calls)
-    errors.extend(panel_errors)
     variants: dict[str, set[str]] = {}
     for call in calls:
         variants.setdefault(call.korean, set()).add(call.english)
     current_collisions = {key: values for key, values in variants.items() if len(values) > 1}
-    # Validate the unchanged historical partition against exact inverse pairs.
-    # Keep the actual current collision inventory separate and visible below.
-    historical_variants: dict[str, set[str]] = {}
-    for call in historical_calls:
-        historical_variants.setdefault(call.korean, set()).add(call.english)
-    collisions = {key: values for key, values in historical_variants.items()
-                  if len(values) > 1}
-
-    historical_baseline = {
-        key: contract.get(key) for key in ORDER96_HISTORICAL_UI_BASELINE
-    }
-    if historical_baseline != ORDER96_HISTORICAL_UI_BASELINE:
-        errors.append(
-            "manifest: ORDER-96 historical UI baseline drifted "
-            f"{historical_baseline!r}"
-        )
-    current_snapshot = contract.get("current_source_snapshot")
-    snapshot_fields = set(ORDER96_HISTORICAL_UI_BASELINE)
-    if not isinstance(current_snapshot, dict) \
-            or set(current_snapshot) != snapshot_fields:
-        errors.append(
-            "manifest: current_source_snapshot must contain exactly the "
-            "four legacy inventory fields"
-        )
-        current_snapshot = {}
-    current_snapshot, preview_errors = _choice_preview_ui_expected_view(
-        calls, current_snapshot, "snapshot"
-    )
-    errors.extend(preview_errors)
-    current_snapshot, relationship_errors = _relationship_ui_expected_view(
-        calls, current_snapshot, "snapshot"
-    )
-    errors.extend(relationship_errors)
-    baseline_calls = current_snapshot.get("legacy_pair_call_occurrences")
+    collisions = current_collisions
     supplemental_rows = parameter_contract.get(
         "localized_argument_registry", []
     )
@@ -2408,69 +2298,6 @@ def validate_ui_context_contract(
         if (call.path, call.function, call.korean, call.english)
         in existing_format_selectors
     ]
-    observed_baseline_calls = (
-        len(calls) - len(format_calls) + len(existing_format_calls)
-        - len(branch_calls)
-        - len(supplemental_calls) - len(split_literal_calls)
-    )
-    if baseline_calls != observed_baseline_calls:
-        errors.append(
-            "manifest: baseline source pair calls "
-            f"{baseline_calls!r} != observed {observed_baseline_calls}"
-        )
-    nonbaseline_templates = {
-        row.get("ko") for row in parameter_contract.get("candidate_registry", [])
-        if isinstance(row, dict) and row.get("disposition") == "migrate"
-        and row.get("baseline_legacy_key") is False
-        and isinstance(row.get("ko"), str)
-    }
-    branch_templates = {
-        value for row in parameter_contract.get("candidate_registry", [])
-        if isinstance(row, dict)
-        and row.get("disposition") == "branch_selected_literal"
-        and isinstance(row.get("ko"), list)
-        for value in row["ko"] if isinstance(value, str)
-    }
-    supplemental_templates = {
-        row.get("ko") for row in supplemental_rows if isinstance(row, dict)
-        and isinstance(row.get("ko"), str)
-    }
-    split_literal_templates = {
-        row.get("ko") for row in split_literal_rows if isinstance(row, dict)
-        and isinstance(row.get("ko"), str)
-    }
-    baseline_source_keys = (
-        source_keys - nonbaseline_templates - branch_templates
-        - supplemental_templates - split_literal_templates
-    )
-    current_snapshot, relationship_key_errors = _relationship_ui_expected_view(
-        calls, current_snapshot, "keys", baseline_source_keys
-    )
-    errors.extend(relationship_key_errors)
-    current_source_key_count = current_snapshot.get("legacy_korean_source_keys")
-    if current_source_key_count != len(baseline_source_keys):
-        errors.append(
-            "manifest: current legacy Korean source key count "
-            f"{current_source_key_count!r} != "
-            f"{len(baseline_source_keys)}"
-        )
-    baseline_source_key_hash = hashlib.sha256(
-        "\n".join(sorted(baseline_source_keys)).encode("utf-8")
-    ).hexdigest()
-    current_source_key_hash = current_snapshot.get(
-        "legacy_korean_source_keys_sha256"
-    )
-    if current_source_key_hash != baseline_source_key_hash:
-        errors.append(
-            "manifest: current legacy Korean source key SHA-256 mismatch "
-            f"{baseline_source_key_hash}"
-        )
-    if contract.get("multi_english_korean_keys") != len(collisions):
-        errors.append(
-            f"manifest: multi-English key count is {len(collisions)}, expected "
-            f"{contract.get('multi_english_korean_keys')!r}"
-        )
-
     partition, registry = _ui_contract_rows(contract, errors)
     category_fields = {
         "format_equivalent": "format_equivalent_keys",
@@ -2488,27 +2315,21 @@ def validate_ui_context_contract(
         if overlap:
             errors.append(f"manifest: collision partition overlap {sorted(overlap)[:8]}")
         declared_union.update(rows)
-        for korean, expected_english in rows.items():
-            actual_english = collisions.get(korean)
-            if actual_english != expected_english:
-                errors.append(
-                    f"manifest: {category}.{korean!r} variants "
-                    f"{sorted(expected_english)!r} != observed "
-                    f"{sorted(actual_english or set())!r}"
-                )
-    missing = set(collisions) - declared_union
-    stale = declared_union - set(collisions)
-    if missing or stale:
-        errors.append(
-            f"manifest: collision partition mismatch missing={sorted(missing)[:8]} "
-            f"stale={sorted(stale)[:8]}"
-        )
+        # Historical census rows are documentation, not a pin on every UI key.
+        # Reached semantic context selectors below remain an exact product contract.
     for korean, english_rows in partition.get("format_equivalent", {}).items():
         if len({_ui_format_signature(value) for value in english_rows}) != 1:
             errors.append(f"manifest: formatting-only row is semantic: {korean!r}")
     for korean, english_rows in partition.get("shared_translation", {}).items():
         if len({_ui_format_signature(value) for value in english_rows}) == 1:
             errors.append(f"manifest: semantic allowlist row is formatting-only: {korean!r}")
+    for korean, english_rows in partition.get("context_split", {}).items():
+        unknown_english = variants.get(korean, set()) - set(english_rows)
+        if unknown_english:
+            errors.append(
+                f"source: ambiguous context key {korean!r} has unregistered English "
+                f"meanings {sorted(unknown_english)!r}"
+            )
 
     planned_ids = contract.get("planned_context_ids")
     if planned_ids != len(registry):
@@ -2582,27 +2403,6 @@ def validate_ui_context_contract(
             "manifest: planned context callsites "
             f"{contract.get('planned_context_callsite_migrations')!r} != {planned_calls}"
         )
-    historical_completed_legacy = contract.get(
-        "post_migration_legacy_pair_call_occurrences"
-    )
-    historical_baseline_calls = contract.get("legacy_pair_call_occurrences")
-    if isinstance(historical_baseline_calls, int) \
-            and historical_completed_legacy \
-            != historical_baseline_calls - ORDER96_HISTORICAL_CONTEXT_CALLS:
-        errors.append(
-            "manifest: historical post-migration legacy calls "
-            f"{historical_completed_legacy!r} != "
-            f"{historical_baseline_calls-ORDER96_HISTORICAL_CONTEXT_CALLS}"
-        )
-    completed_legacy = current_snapshot.get(
-        "post_migration_legacy_pair_call_occurrences"
-    )
-    if isinstance(baseline_calls, int) and completed_legacy != baseline_calls - planned_calls:
-        errors.append(
-            f"manifest: current post-migration legacy calls {completed_legacy!r} != "
-            f"{baseline_calls-planned_calls}"
-        )
-
     combined_counts: dict[tuple[str, str, str, str], int] = {}
     context_counts: dict[tuple[str, str, str, str], int] = {}
     migrated_by_id: dict[str, int] = {}
@@ -2652,27 +2452,15 @@ def validate_ui_context_contract(
     if not isinstance(implemented, bool):
         errors.append("manifest: implemented must be boolean")
     elif implemented:
-        if len(context_calls) != planned_calls \
-                or len(legacy_api_calls) + len(existing_format_calls) \
-                - len(supplemental_calls) \
-                - len(split_literal_calls) \
-                != completed_legacy \
-                or migrated_ids != len(registry):
+        if len(context_calls) != planned_calls or migrated_ids != len(registry):
             errors.append(
                 "source: implemented context migration is incomplete "
-                f"legacy={len(legacy_api_calls) + len(existing_format_calls) - len(supplemental_calls) - len(split_literal_calls)}/"
-                f"{completed_legacy} "
                 f"context={len(context_calls)}/{planned_calls} "
                 f"ids={migrated_ids}/{len(registry)}"
             )
-    elif len(legacy_api_calls) + len(existing_format_calls) \
-            - len(supplemental_calls) \
-            - len(split_literal_calls) != baseline_calls \
-            or context_calls or migrated_ids:
+    elif context_calls or migrated_ids:
         errors.append(
             f"source: implemented=false requires the untouched 0/{planned_calls} state "
-            f"legacy={len(legacy_api_calls) + len(existing_format_calls) - len(supplemental_calls) - len(split_literal_calls)}/"
-            f"{baseline_calls} "
             f"context={len(context_calls)}/0 ids={migrated_ids}/0"
         )
     stats = {
@@ -2689,11 +2477,10 @@ def validate_ui_context_contract(
         "collision_keys": len(current_collisions),
         "format_equivalent": len(set(partition.get("format_equivalent", {}))
                                  & set(current_collisions)),
-        "historical_collision_keys": len(collisions),
-        "historical_format_equivalent": len(partition.get("format_equivalent", {})),
-        "panel_source_substitutions": 2 if not panel_errors else 0,
-        "shared_translation": len(partition.get("shared_translation", {})),
-        "context_split": len(partition.get("context_split", {})),
+        "shared_translation": len(set(partition.get("shared_translation", {}))
+                                  & set(current_collisions)),
+        "context_split": len(set(partition.get("context_split", {}))
+                             & set(current_collisions)),
         "planned_context_ids": len(registry),
         "planned_context_calls": planned_calls,
         "migrated_context_ids": migrated_ids,
@@ -2756,822 +2543,87 @@ def build_ui_context_layers(
     )
 
 
-# BEGIN_LAST11_META_TITLE_SUCCESSOR_255
-# Current inventory keeps all22. Only a verified predecessor view is historical.
-from contextlib import contextmanager
-from pathlib import Path
-import meta_title_locale_successor as last11_successor
+def _meta_title_ui_binding_errors(source: Optional[str] = None) -> list[str]:
+    """Bind current title IDs and name/description fields to current KO/EN data.
 
-LAST11_META_TITLE_UI_ROWS = last11_successor.LAST11_SOURCE_ROWS
-LAST11_META_TITLE_UI_CURRENT = {
-    "source_calls": 3456, "legacy_calls": 3422, "legacy_api_calls": 3366,
-    "legacy_keys": 2945, "context_calls": 34, "planned_context_ids": 29,
-    "collision_keys": 104, "format_equivalent": 28, "shared_translation": 49,
-    "context_split": 27,
-}
-
-
-def _last11_meta_title_predecessor_calls(
-    calls: Iterable[UiCall], source: Optional[str] = None,
-) -> tuple[tuple[UiCall, ...], str, list[str]]:
-    """Newest whole raw and exact22 records precede every historical dispatch."""
-    from collections import Counter
-    calls = tuple(calls)
-    source = source if source is not None else (
-        ROOT / last11_successor.MP_PATH).read_bytes().decode("utf-8")
-    raw = source.encode("utf-8")
-    errors = last11_successor.last11_source_errors(last11_successor.MP_PATH, raw)
-    errors.extend(last11_successor.last11_source_errors(
-        last11_successor.JA_PATH, Path(__file__).read_bytes()))
-    if errors:
-        return calls, source, errors
-    expected = Counter((ko, en, "legacy", "")
-                       for _tid, _field, ko, en in LAST11_META_TITLE_UI_ROWS)
-    keys = {row[2] for row in LAST11_META_TITLE_UI_ROWS}
-    selected, previous = [], []
-    for call in calls:
-        if call.korean in keys and (call.path, call.function) == META_TITLE_UI_OWNER:
-            selected.append(call)
-        else:
-            previous.append(call)
-            if call.korean in keys:
-                errors.append("source: last11 meta-title unexpected owner/pair")
-    observed = Counter((c.korean, c.english, c.api, c.context_id) for c in selected)
-    if observed != expected:
-        errors.append("source: last11 exact22 pair/API/context/count mismatch")
-    if errors:
-        return calls, source, errors
-    old = last11_successor.last11_project_bytes(raw, last11_successor.MP_PATH)
-    return tuple(previous), old.decode("utf-8"), []
-
-
-@contextmanager
-def _last11_meta_title_previous_reads(mp_source: str):
-    """Raw-approved MP/JA files and saved current APIs; restored even on error."""
-    from unittest.mock import patch
-    current_mp = (ROOT / last11_successor.MP_PATH).read_bytes()
-    current_ja = Path(__file__).read_bytes()
-    errors = last11_successor.last11_source_errors(last11_successor.MP_PATH, current_mp)
-    errors.extend(last11_successor.last11_source_errors(last11_successor.JA_PATH, current_ja))
-    if errors:
-        raise ValueError("; ".join(errors))
-    old_mp = last11_successor.last11_project_bytes(current_mp, last11_successor.MP_PATH)
-    if mp_source.encode("utf-8") != old_mp:
-        raise ValueError("source: last11 supplied predecessor differs from actual inverse")
-    old_ja = last11_successor.last11_project_bytes(current_ja, last11_successor.JA_PATH)
-    views = {ROOT / last11_successor.MP_PATH: old_mp, Path(__file__): old_ja}
-    read0, text0 = Path.read_bytes, Path.read_text
-
-    def read_bytes(path):
-        return views[path] if path in views else read0(path)
-
-    def read_text(path, *args, **kwargs):
-        if path in views:
-            encoding = kwargs.get("encoding") or (args[0] if args else None) or "utf-8"
-            return views[path].decode(encoding, errors=kwargs.get("errors") or "strict")
-        return text0(path, *args, **kwargs)
-
-    def source(relative, raw, registered_previous=None):
-        return last11_successor._LAST11_OLD_MG9_SOURCE_ERRORS(relative, raw, registered_previous)
-
-    def project(raw, relative):
-        return last11_successor._LAST11_OLD_MG9_PROJECT_BYTES(raw, relative)
-
-    def observed(claim, relative, raw):
-        return last11_successor._LAST11_OLD_MG9_PROJECT_HASH(claim, relative, raw)
-
-    with patch.object(Path, "read_bytes", read_bytes), \
-            patch.object(Path, "read_text", read_text), \
-            patch.object(last11_successor, "mg9_source_errors", source), \
-            patch.object(last11_successor, "mg9_project_bytes", project), \
-            patch.object(last11_successor, "mg9_project_byte_hash", observed):
-        yield
-
-
-def _last11_meta_title_chain_calls(
-    calls: Iterable[UiCall],
-) -> tuple[tuple[UiCall, ...], str, list[str]]:
-    calls = tuple(calls)
-    previous, source, errors = _last11_meta_title_predecessor_calls(calls)
-    if errors:
-        return calls, source, errors
-    with _last11_meta_title_previous_reads(source):
-        return _mg9_meta_title_chain_calls(previous)
-
-
-def _last11_meta_title_current_stats(
-    calls: Iterable[UiCall], historical: Iterable[UiCall],
-    old_source: str, previous: dict[str, Any],
-) -> tuple[dict[str, Any], list[str]]:
-    calls, historical = tuple(calls), tuple(historical)
-    old_calls, source, errors = _last11_meta_title_predecessor_calls(calls)
-    if errors:
-        return dict(previous), errors
-    with _last11_meta_title_previous_reads(source):
-        stats, old_errors = _mg9_meta_title_current_stats(
-            old_calls, historical, old_source, previous)
-    errors.extend(old_errors)
-    old_keys = {c.korean for c in old_calls}
-    variants: dict[str, set[str]] = {}
-    for call in calls:
-        variants.setdefault(call.korean, set()).add(call.english)
-    keys = set(variants)
-    if keys - old_keys != {row[2] for row in LAST11_META_TITLE_UI_ROWS}:
-        errors.append("source: last11 expected twenty-two new unique keys")
-    stats.update({
-        "source_calls": len(calls),
-        "legacy_calls": sum(c.api in {"legacy", "branch", "format"} for c in calls),
-        "legacy_api_calls": sum(c.api == "legacy" for c in calls),
-        "legacy_keys": len(keys),
-        "collision_keys": sum(len(v) > 1 for v in variants.values()),
-    })
-    for key, expected in LAST11_META_TITLE_UI_CURRENT.items():
-        if stats.get(key) != expected:
-            errors.append(f"source: last11 current {key} != {expected}")
-    stats.update({
-        "parameter_total_ui_call_occurrences": len(calls),
-        "parameter_legacy_pair_call_occurrences": stats["legacy_calls"],
-        "parameter_legacy_korean_source_keys": len(keys),
-        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
-            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
-        "meta_title_added_calls": 100, "meta_title_added_keys": 96,
-        "meta_title_shared_collisions": 4,
-        "last11_meta_title_added_calls": len(calls) - len(old_calls),
-        "last11_meta_title_added_keys": len(keys - old_keys),
-    })
-    return stats, errors
-
-
-def _last11_meta_title_historical_checks(
-    inventory: UiInventory,
-) -> tuple[UiInventory, int, list[str]]:
-    from dataclasses import replace
-    calls, source, errors = _last11_meta_title_predecessor_calls(inventory.calls)
-    if errors:
-        return replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
-    keys = {c.korean for c in calls}
-    stats = dict(inventory.stats)
-    stats.update(MG9_META_TITLE_UI_CURRENT)
-    stats.update({
-        "parameter_total_ui_call_occurrences": len(calls),
-        "parameter_legacy_pair_call_occurrences": MG9_META_TITLE_UI_CURRENT["legacy_calls"],
-        "parameter_legacy_korean_source_keys": len(keys),
-        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
-            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
-        "meta_title_added_calls": 78, "meta_title_added_keys": 74,
-        "meta_title_shared_collisions": 4,
-        "mg9_meta_title_added_calls": 18, "mg9_meta_title_added_keys": 18,
-    })
-    stats.pop("last11_meta_title_added_calls", None)
-    stats.pop("last11_meta_title_added_keys", None)
-    historical = replace(
-        inventory, calls=calls, stats=stats,
-        legacy_entries=tuple(e for e in inventory.legacy_entries if e.source in keys),
-        legacy_blueprint={k: v for k, v in inventory.legacy_blueprint.items() if k in keys},
-    )
-    with _last11_meta_title_previous_reads(source):
-        return _mg9_meta_title_historical_checks(historical)
-# END_LAST11_META_TITLE_SUCCESSOR_255
-
-
-# BEGIN_META_TITLE_SUCCESSOR_250
-from contextlib import contextmanager
-from pathlib import Path
-import meta_title_locale_successor as mg9_successor
-
-MG9_META_TITLE_UI_ROWS = mg9_successor.MG9_SOURCE_ROWS
-# Declared arithmetic, checked against actual collected calls below.
-MG9_META_TITLE_UI_CURRENT = {
-    "source_calls": 3434, "legacy_calls": 3400, "legacy_api_calls": 3344,
-    "legacy_keys": 2923, "context_calls": 34, "planned_context_ids": 29,
-    "collision_keys": 104, "format_equivalent": 28, "shared_translation": 49,
-    "context_split": 27,
-}
-
-
-def _mg9_meta_title_predecessor_calls(
-    calls: Iterable[UiCall], source: Optional[str] = None,
-) -> tuple[tuple[UiCall, ...], str, list[str]]:
-    """Validate newest raw before stripping only the nine owned title pairs."""
-    from collections import Counter
-    calls = tuple(calls)
-    source = source if source is not None else (
-        ROOT / mg9_successor.MP_PATH).read_bytes().decode("utf-8")
-    raw = source.encode("utf-8")
-    errors = mg9_successor.mg9_source_errors(mg9_successor.MP_PATH, raw)
-    errors.extend(mg9_successor.mg9_source_errors(
-        mg9_successor.JA_PATH, Path(__file__).read_bytes()))
-    if errors:
-        return calls, source, errors
-    expected = Counter((ko, en, "legacy", "")
-                       for _tid, _field, ko, en in MG9_META_TITLE_UI_ROWS)
-    keys = {row[2] for row in MG9_META_TITLE_UI_ROWS}
-    selected, historical = [], []
-    for call in calls:
-        if call.korean in keys and (call.path, call.function) == META_TITLE_UI_OWNER:
-            selected.append(call)
-        else:
-            historical.append(call)
-            if call.korean in keys:
-                errors.append("source: MG9 meta-title unexpected owner/pair")
-    observed = Counter((c.korean, c.english, c.api, c.context_id) for c in selected)
-    if observed != expected:
-        errors.append("source: MG9 meta-title exact18 pair/API/context/count mismatch")
-    if errors:
-        return calls, source, errors
-    predecessor = mg9_successor.mg9_project_bytes(raw, mg9_successor.MP_PATH)
-    return tuple(historical), predecessor.decode("utf-8"), []
-
-
-@contextmanager
-def _mg9_meta_title_previous_reads(mp_source: str):
-    """A scoped248 file view, entered only after newest raw validation."""
-    from unittest.mock import patch
-    current_ja = Path(__file__).read_bytes()
-    errors = mg9_successor.mg9_source_errors(mg9_successor.JA_PATH, current_ja)
-    if errors:
-        raise ValueError("; ".join(errors))
-    previous_ja = mg9_successor.mg9_project_bytes(current_ja, mg9_successor.JA_PATH)
-    paths = {
-        ROOT / mg9_successor.MP_PATH: mp_source.encode("utf-8"),
-        Path(__file__): previous_ja,
-    }
-    actual_bytes, actual_text = Path.read_bytes, Path.read_text
-    def previous_bytes(path):
-        if path in paths:
-            return paths[path]
-        return actual_bytes(path)
-    def previous_text(path, *args, **kwargs):
-        if path in paths:
-            return paths[path].decode("utf-8")
-        return actual_text(path, *args, **kwargs)
-    with patch.object(Path, "read_bytes", previous_bytes), \
-            patch.object(Path, "read_text", previous_text):
-        yield
-
-
-def _mg9_meta_title_chain_calls(
-    calls: Iterable[UiCall],
-) -> tuple[tuple[UiCall, ...], str, list[str]]:
-    """Newest raw precedes unchanged248 ->245 ->244 observation."""
-    calls = tuple(calls)
-    previous, source, errors = _mg9_meta_title_predecessor_calls(calls)
-    if errors:
-        return calls, source, errors
-    with _mg9_meta_title_previous_reads(source):
-        return _a11_meta_title_chain_calls(previous)
-
-
-def _mg9_meta_title_current_stats(
-    calls: Iterable[UiCall], historical: Iterable[UiCall],
-    old_source: str, previous: dict[str, Any],
-) -> tuple[dict[str, Any], list[str]]:
-    """Old snapshots stay historical; public stats describe actual calls."""
-    calls, historical = tuple(calls), tuple(historical)
-    previous_calls, source, errors = _mg9_meta_title_predecessor_calls(calls)
-    if errors:
-        return dict(previous), errors
-    with _mg9_meta_title_previous_reads(source):
-        stats, old_errors = _a11_meta_title_current_stats(
-            previous_calls, historical, old_source, previous)
-    errors.extend(old_errors)
-    old_keys = {c.korean for c in previous_calls}
-    variants: dict[str, set[str]] = {}
-    for call in calls:
-        variants.setdefault(call.korean, set()).add(call.english)
-    keys = set(variants)
-    added_keys = {row[2] for row in MG9_META_TITLE_UI_ROWS}
-    if keys - old_keys != added_keys:
-        errors.append("source: MG9 meta-title expected eighteen new unique keys")
-    stats.update({
-        "source_calls": len(calls),
-        "legacy_calls": sum(c.api in {"legacy", "branch", "format"} for c in calls),
-        "legacy_api_calls": sum(c.api == "legacy" for c in calls),
-        "legacy_keys": len(keys),
-        "collision_keys": sum(len(v) > 1 for v in variants.values()),
-    })
-    for key, expected in MG9_META_TITLE_UI_CURRENT.items():
-        if stats.get(key) != expected:
-            errors.append(f"source: MG9 meta-title current {key} != {expected}")
-    stats.update({
-        "parameter_total_ui_call_occurrences": len(calls),
-        "parameter_legacy_pair_call_occurrences": stats["legacy_calls"],
-        "parameter_legacy_korean_source_keys": len(keys),
-        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
-            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
-        "meta_title_added_calls": 78, "meta_title_added_keys": 74,
-        "meta_title_shared_collisions": 4,
-        "mg9_meta_title_added_calls": len(calls) - len(previous_calls),
-        "mg9_meta_title_added_keys": len(keys - old_keys),
-    })
-    return stats, errors
-
-
-def _mg9_meta_title_historical_checks(
-    inventory: UiInventory,
-) -> tuple[UiInventory, int, list[str]]:
-    """Invoke original248 checks only on an explicitly bounded old file view."""
-    from dataclasses import replace
-    calls, source, errors = _mg9_meta_title_predecessor_calls(inventory.calls)
-    if errors:
-        return replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
-    keys = {c.korean for c in calls}
-    stats = dict(inventory.stats)
-    stats.update(A11_META_TITLE_UI_CURRENT)
-    stats.update({
-        "parameter_total_ui_call_occurrences": len(calls),
-        "parameter_legacy_pair_call_occurrences": A11_META_TITLE_UI_CURRENT["legacy_calls"],
-        "parameter_legacy_korean_source_keys": len(keys),
-        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
-            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
-        "meta_title_added_calls": 60, "meta_title_added_keys": 56,
-        "meta_title_shared_collisions": 4,
-        "a11_meta_title_added_calls": 22, "a11_meta_title_added_keys": 21,
-    })
-    stats.pop("mg9_meta_title_added_calls", None)
-    stats.pop("mg9_meta_title_added_keys", None)
-    historical = replace(
-        inventory, calls=calls, stats=stats,
-        legacy_entries=tuple(e for e in inventory.legacy_entries if e.source in keys),
-        legacy_blueprint={k: v for k, v in inventory.legacy_blueprint.items() if k in keys},
-    )
-    with _mg9_meta_title_previous_reads(source):
-        return _a11_meta_title_historical_checks(historical)
-# END_META_TITLE_SUCCESSOR_250
-
-
-# BEGIN_META_TITLE_SUCCESSOR_248
-from contextlib import contextmanager
-from pathlib import Path
-import meta_title_locale_successor as a11_successor
-
-A11_META_TITLE_UI_ROWS = a11_successor.A11_SOURCE_ROWS
-A11_META_TITLE_UI_CURRENT = {
-    "source_calls": 3416, "legacy_calls": 3382, "legacy_api_calls": 3326,
-    "legacy_keys": 2905, "context_calls": 34, "planned_context_ids": 29,
-    "collision_keys": 104, "format_equivalent": 28, "shared_translation": 49,
-    "context_split": 27,
-}
-A11_META_TITLE_SHARED = (
-    "autoloads/GameState.gd", "get_current_title", "legacy",
-    "강남드림 달성자", "Gangnam Dreamer", "",
-)
-
-
-def _a11_meta_title_predecessor_calls(
-    calls: Iterable[UiCall], source: Optional[str] = None,
-) -> tuple[tuple[UiCall, ...], str, list[str]]:
-    """Validate current raw before removing only the eleven owned title pairs."""
-    from collections import Counter
-    calls = tuple(calls)
-    source = source if source is not None else (
-        ROOT / a11_successor.MP_PATH).read_bytes().decode("utf-8")
-    raw = source.encode("utf-8")
-    errors = a11_successor.a11_source_errors(a11_successor.MP_PATH, raw)
-    errors.extend(a11_successor.a11_source_errors(
-        a11_successor.JA_PATH, Path(__file__).read_bytes()))
-    if errors:
-        return calls, source, errors
-    expected = Counter((ko, en, "legacy", "")
-                       for _tid, _field, ko, en in A11_META_TITLE_UI_ROWS)
-    keys = {row[2] for row in A11_META_TITLE_UI_ROWS}
-    selected, historical = [], []
-    for call in calls:
-        selector = (call.path, call.function, call.api,
-                    call.korean, call.english, call.context_id)
-        if call.korean in keys and (call.path, call.function) == META_TITLE_UI_OWNER:
-            selected.append(call)
-        else:
-            historical.append(call)
-            if call.korean in keys and selector != A11_META_TITLE_SHARED:
-                errors.append("source: A11 meta-title unexpected shared owner/pair")
-    observed = Counter((c.korean, c.english, c.api, c.context_id) for c in selected)
-    if observed != expected:
-        errors.append("source: A11 meta-title exact22 pair/API/context/count mismatch")
-    if errors:
-        return calls, source, errors
-    # The shared GameState call survives unchanged, including its distinct EN.
-    predecessor = a11_successor.a11_project_bytes(raw, a11_successor.MP_PATH)
-    return tuple(historical), predecessor.decode("utf-8"), []
-
-
-@contextmanager
-def _a11_meta_title_previous_reads(mp_source: str):
-    """Scoped old245 view, entered only after the current raw gate succeeds."""
-    from unittest.mock import patch
-    current_ja = Path(__file__).read_bytes()
-    errors = a11_successor.a11_source_errors(a11_successor.JA_PATH, current_ja)
-    if errors:
-        raise ValueError("; ".join(errors))
-    previous_ja = a11_successor.a11_project_bytes(current_ja, a11_successor.JA_PATH)
-    paths = {
-        ROOT / a11_successor.MP_PATH: mp_source.encode("utf-8"),
-        Path(__file__): previous_ja,
-    }
-    actual_bytes, actual_text = Path.read_bytes, Path.read_text
-    def previous_bytes(path):
-        if path in paths:
-            return paths[path]
-        return actual_bytes(path)
-    def previous_text(path, *args, **kwargs):
-        if path in paths:
-            return paths[path].decode("utf-8")
-        return actual_text(path, *args, **kwargs)
-    with patch.object(Path, "read_bytes", previous_bytes), \
-            patch.object(Path, "read_text", previous_text):
-        yield
-
-
-def _a11_meta_title_chain_calls(
-    calls: Iterable[UiCall],
-) -> tuple[tuple[UiCall, ...], str, list[str]]:
-    """Expose old244 calls only after A11 raw, then original245 validation."""
-    calls = tuple(calls)
-    previous, source, errors = _a11_meta_title_predecessor_calls(calls)
-    if errors:
-        return calls, source, errors
-    with _a11_meta_title_previous_reads(source):
-        return _next_meta_title_predecessor_calls(previous, source)
-
-
-def _a11_meta_title_current_stats(
-    calls: Iterable[UiCall], historical: Iterable[UiCall],
-    old_source: str, previous: dict[str, Any],
-) -> tuple[dict[str, Any], list[str]]:
-    """Keep old snapshots historical; report the actual current collection."""
-    calls, historical = tuple(calls), tuple(historical)
-    previous_calls, _source, errors = _a11_meta_title_predecessor_calls(calls)
-    if errors:
-        return dict(previous), errors
-    stats, old_errors = _next_meta_title_current_stats(
-        previous_calls, historical, old_source, previous)
-    errors.extend(old_errors)
-    old_keys = {c.korean for c in previous_calls}
-    variants: dict[str, set[str]] = {}
-    for call in calls:
-        variants.setdefault(call.korean, set()).add(call.english)
-    keys = set(variants)
-    added_keys = {row[2] for row in A11_META_TITLE_UI_ROWS} - {A11_META_TITLE_SHARED[3]}
-    if keys - old_keys != added_keys:
-        errors.append("source: A11 meta-title expected twenty-one new unique keys")
-    shared_english = next(row[3] for row in A11_META_TITLE_UI_ROWS
-                          if row[2] == A11_META_TITLE_SHARED[3])
-    if variants.get(A11_META_TITLE_SHARED[3]) != {shared_english, A11_META_TITLE_SHARED[4]}:
-        errors.append("source: A11 meta-title retained GameState English variants changed")
-    retained_count = sum(
-        (c.path, c.function, c.api, c.korean, c.english, c.context_id)
-        == A11_META_TITLE_SHARED for c in previous_calls)
-    if retained_count != 1:
-        errors.append("source: A11 meta-title retained GameState owner count mismatch")
-    stats.update({
-        "source_calls": len(calls),
-        "legacy_calls": sum(c.api in {"legacy", "branch", "format"} for c in calls),
-        "legacy_api_calls": sum(c.api == "legacy" for c in calls),
-        "legacy_keys": len(keys),
-        "collision_keys": sum(len(v) > 1 for v in variants.values()),
-        "shared_translation": stats.get("shared_translation", 0) + 1,
-    })
-    for key, expected in A11_META_TITLE_UI_CURRENT.items():
-        if stats.get(key) != expected:
-            errors.append(f"source: A11 meta-title current {key} != {expected}")
-    stats.update({
-        "parameter_total_ui_call_occurrences": len(calls),
-        "parameter_legacy_pair_call_occurrences": stats["legacy_calls"],
-        "parameter_legacy_korean_source_keys": len(keys),
-        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
-            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
-        "meta_title_added_calls": 60, "meta_title_added_keys": 56,
-        "meta_title_shared_collisions": 4,
-        "a11_meta_title_added_calls": len(calls) - len(previous_calls),
-        "a11_meta_title_added_keys": len(keys - old_keys),
-    })
-    return stats, errors
-
-
-def _a11_meta_title_historical_checks(
-    inventory: UiInventory,
-) -> tuple[UiInventory, int, list[str]]:
-    """Run the unchanged old245→242 checks on an explicitly historical view."""
-    from dataclasses import replace
-    calls, source, errors = _a11_meta_title_predecessor_calls(inventory.calls)
-    if errors:
-        return replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
-    keys = {c.korean for c in calls}
-    stats = dict(inventory.stats)
-    stats.update(NEXT_META_TITLE_UI_CURRENT)
-    stats.update({
-        "parameter_total_ui_call_occurrences": len(calls),
-        "parameter_legacy_pair_call_occurrences": NEXT_META_TITLE_UI_CURRENT["legacy_calls"],
-        "parameter_legacy_korean_source_keys": len(keys),
-        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
-            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
-        "meta_title_added_calls": 38, "meta_title_added_keys": 35,
-        "meta_title_shared_collisions": 3,
-        "next_meta_title_added_calls": 20, "next_meta_title_added_keys": 20,
-    })
-    stats.pop("a11_meta_title_added_calls", None)
-    stats.pop("a11_meta_title_added_keys", None)
-    historical = replace(
-        inventory, calls=calls, stats=stats,
-        legacy_entries=tuple(e for e in inventory.legacy_entries if e.source in keys),
-        legacy_blueprint={k: v for k, v in inventory.legacy_blueprint.items() if k in keys},
-    )
-    with _a11_meta_title_previous_reads(source):
-        return _next_meta_title_historical_checks(historical)
-# END_META_TITLE_SUCCESSOR_248
-
-
-# BEGIN_META_TITLE_SUCCESSOR_245
-from pathlib import Path
-import meta_title_locale_successor as title_successor
-
-NEXT_META_TITLE_UI_ROWS = title_successor.SOURCE_ROWS
-NEXT_META_TITLE_UI_CURRENT = {
-    "source_calls": 3394, "legacy_calls": 3360, "legacy_api_calls": 3304,
-    "legacy_keys": 2884, "context_calls": 34, "planned_context_ids": 29,
-    "collision_keys": 103, "format_equivalent": 28, "shared_translation": 48,
-    "context_split": 27,
-}
-
-
-def _next_meta_title_predecessor_calls(
-    calls: Iterable[UiCall], source: Optional[str] = None,
-) -> tuple[tuple[UiCall, ...], str, list[str]]:
-    """Validate live raw and twenty owned fields before an old242 observation."""
-    from collections import Counter
-    calls = tuple(calls)
-    source = source if source is not None else (
-        ROOT / title_successor.MP_PATH).read_bytes().decode("utf-8")
-    raw = source.encode("utf-8")
-    errors = title_successor.successor_source_errors(title_successor.MP_PATH, raw)
-    errors.extend(title_successor.successor_source_errors(
-        title_successor.JA_PATH, Path(__file__).read_bytes()))
-    if errors:
-        return calls, source, errors
-    old_source = title_successor.successor_project_bytes(
-        raw, title_successor.MP_PATH).decode("utf-8")
-    expected = Counter((ko, en, "legacy", "") for _tid, _field, ko, en in NEXT_META_TITLE_UI_ROWS)
-    keys = {row[2] for row in NEXT_META_TITLE_UI_ROWS}
-    selected = []
-    historical = []
-    for call in calls:
-        if call.korean in keys:
-            if (call.path, call.function) != META_TITLE_UI_OWNER:
-                errors.append("source: next meta-title unexpected owner")
-            selected.append(call)
-        else:
-            historical.append(call)
-    observed = Counter((c.korean, c.english, c.api, c.context_id) for c in selected)
-    if observed != expected:
-        errors.append("source: next meta-title exact20 pair/API/context/count mismatch")
-    # Whole source authority also binds branch ID, output field and order.
-    if errors:
-        return calls, source, errors
-    return tuple(historical), old_source, []
-
-
-def _next_meta_title_current_stats(
-    calls: Iterable[UiCall], historical: Iterable[UiCall],
-    old_source: str, previous: dict[str, Any],
-) -> tuple[dict[str, Any], list[str]]:
-    calls, historical = tuple(calls), tuple(historical)
-    stats, errors = _meta_title_current_stats(historical, previous, old_source)
-    old_keys = {c.korean for c in historical}
-    variants: dict[str, set[str]] = {}
-    for call in calls:
-        variants.setdefault(call.korean, set()).add(call.english)
-    keys = set(variants)
-    if keys - old_keys != {r[2] for r in NEXT_META_TITLE_UI_ROWS}:
-        errors.append("source: next meta-title expected twenty new unique keys")
-    stats.update({
-        "source_calls": len(calls),
-        "legacy_calls": sum(c.api in {"legacy", "branch", "format"} for c in calls),
-        "legacy_api_calls": sum(c.api == "legacy" for c in calls),
-        "legacy_keys": len(keys),
-        "collision_keys": sum(len(v) > 1 for v in variants.values()),
-    })
-    for key, expected in NEXT_META_TITLE_UI_CURRENT.items():
-        if stats.get(key) != expected:
-            errors.append(f"source: next meta-title current {key} != {expected}")
-    stats.update({
-        "parameter_total_ui_call_occurrences": len(calls),
-        "parameter_legacy_pair_call_occurrences": stats["legacy_calls"],
-        "parameter_legacy_korean_source_keys": len(keys),
-        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
-            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
-        "meta_title_added_calls": 38, "meta_title_added_keys": 35,
-        "next_meta_title_added_calls": len(calls) - len(historical),
-        "next_meta_title_added_keys": len(keys - old_keys),
-    })
-    return stats, errors
-
-
-def _next_meta_title_historical_checks(
-    inventory: UiInventory,
-) -> tuple[UiInventory, int, list[str]]:
-    """Old20+4 run on an explicitly labelled old242 view, not current counts."""
-    from dataclasses import replace
-    from unittest.mock import patch
-    calls, source, errors = _next_meta_title_predecessor_calls(inventory.calls)
-    errors.extend(title_successor.successor_source_errors(
-        title_successor.JA_PATH, Path(__file__).read_bytes()))
-    if errors:
-        return replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
-    keys = {c.korean for c in calls}
-    stats = dict(inventory.stats)
-    stats.update(META_TITLE_UI_CURRENT)
-    stats.update({
-        "legacy_api_calls": 3284,
-        "parameter_total_ui_call_occurrences": len(calls),
-        "parameter_legacy_pair_call_occurrences": 3340,
-        "parameter_legacy_korean_source_keys": len(keys),
-        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
-            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
-        "meta_title_added_calls": 18, "meta_title_added_keys": 15,
-    })
-    stats.pop("next_meta_title_added_calls", None)
-    stats.pop("next_meta_title_added_keys", None)
-    historical = replace(
-        inventory, calls=calls, stats=stats,
-        legacy_entries=tuple(e for e in inventory.legacy_entries if e.source in keys),
-        legacy_blueprint={k: v for k, v in inventory.legacy_blueprint.items() if k in keys},
-    )
-    actual_read = Path.read_text
-    owned_path = ROOT / title_successor.MP_PATH
-    def historical_read(path, *args, **kwargs):
-        if path == owned_path:
-            return source
-        return actual_read(path, *args, **kwargs)
-    # Test-only scoped read; no collector/product reads are globally normalized.
-    with patch.object(Path, "read_text", historical_read):
-        old_cases, old_errors = _meta_title_inventory_self_test(historical)
-        retained_cases, retained_errors = _meta_title_retained_owner_self_test(historical)
-        projected = _meta_title_historical_inventory(historical)
-    return projected, old_cases + retained_cases, [*old_errors, *retained_errors]
-# END_META_TITLE_SUCCESSOR_245
-
-
-META_TITLE_UI_OWNER = ("autoloads/MetaProgression.gd", "_localized_title")
-META_TITLE_UI_ROWS = (
-    ("gosiwon_survivor", "name", "고시원 생존자", "Gosiwon Survivor"),
-    ("gosiwon_survivor", "desc", "고시원에서 12개월을 버텼다. 이 경험은 잊지 못할 것이다.", "Survived 12 months in a gosiwon. You will not forget that room."),
-    ("first_move", "name", "첫 이사", "First Move"),
-    ("first_move", "desc", "처음으로 고시원을 벗어나 새 공간으로 이사했다.", "Left the gosiwon for the first time and moved into a new space."),
-    ("apartment_life", "name", "아파트 입성", "Apartment Life"),
-    ("apartment_life", "desc", "드디어 아파트에 살게 됐다. 경비 아저씨가 반겨준다.", "Finally living in an apartment. Even the security guard greets you."),
-    ("gangnam_resident", "name", "강남 입성", "Gangnam Resident"),
-    ("gangnam_resident", "desc", "강남 아파트. 주소만으로도 사람들의 눈빛이 달라진다.", "A Gangnam apartment. The address alone changes how people look at you."),
-    ("long_gosiwon", "name", "고시원 장기거주자", "Long-Term Gosiwon Tenant"),
-    ("long_gosiwon", "desc", "고시원 24개월. 이제 이 냄새도 집냄새처럼 느껴진다.", "24 months in a gosiwon. Even the smell has started to feel like home."),
-    ("first_paycheck", "name", "첫 월급의 무게", "Weight of the First Paycheck"),
-    ("first_paycheck", "desc", "통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.", "Your first salary hit the account. It felt joyful and strangely hollow."),
-    ("one_year_worker", "name", "1년 직장인", "One-Year Worker"),
-    ("one_year_worker", "desc", "같은 회사를 1년 다녔다. 어느새 선배가 돼 있었다.", "Stayed at the same company for a year. Somehow, you became senior to someone."),
-    ("three_year_worker", "name", "베테랑 직장인", "Office Veteran"),
-    ("three_year_worker", "desc", "3년. 회사 서류함에 내 이름이 녹아들었다.", "Three years. Your name has seeped into the company's filing cabinets."),
-    ("long_unemployed", "name", "백수의 자유", "Freedom of Unemployment"),
-    ("long_unemployed", "desc", "12개월을 무직으로 버텼다. 누군가는 백수라 하고 누군가는 자유인이라 한다.", "Stayed unemployed for 12 months. Some call it joblessness. Some call it freedom."),
-)
-META_TITLE_UI_BEFORE = {"source_calls":3356,"legacy_calls":3322,"legacy_keys":2849,"context_calls":34,"planned_context_ids":29,"collision_keys":100,"format_equivalent":28,"shared_translation":45,"context_split":27}
-META_TITLE_UI_CURRENT = {"source_calls":3374,"legacy_calls":3340,"legacy_keys":2864,"context_calls":34,"planned_context_ids":29,"collision_keys":103,"format_equivalent":28,"shared_translation":48,"context_split":27}
-META_TITLE_UI_RETAINED = (
-    ("scenes/MainGame.gd", "_ending_milestones", "legacy", "아파트 입성", "Entered an apartment", ""),
-    ("autoloads/GameState.gd", "get_wealth_tier", "legacy", "고시원 생존자", "Goshiwon Survivor", ""),
-    ("autoloads/GameState.gd", "get_current_title", "legacy", "고시원 장기거주자", "Long-Term Goshiwon Tenant", ""),
-)
-
-
-def _meta_title_ui_historical_calls(
-    calls: Iterable[UiCall], source: Optional[str] = None,
-) -> tuple[tuple[UiCall, ...], list[str]]:
-    """Validate eighteen exact current fields before historical comparison.
-
-    The collector retains all actual calls. This inverse is only for the old
-    manifest/self contracts; it is not a general GDScript reachability proof.
+    Changing prose in all current owners is allowed; swapping output fields,
+    duplicating an ID or skipping a reached title is not. No old Git blob,
+    source hash or predecessor population participates in this check.
     """
-    calls = tuple(calls)
     if source is None:
-        source = (ROOT / META_TITLE_UI_OWNER[0]).read_text(encoding="utf-8")
-    body = _gd_function_source(source, META_TITLE_UI_OWNER[1])
+        source = (ROOT / "autoloads/MetaProgression.gd").read_text(encoding="utf-8")
     errors: list[str] = []
-    expected = {(ko, en, "legacy", ""): 1 for _id, _field, ko, en in META_TITLE_UI_ROWS}
-    observed: dict[tuple[str, str, str, str], int] = {}
-    selected_keys = {row[2] for row in META_TITLE_UI_ROWS}
-    retained_counts = {selector: 0 for selector in META_TITLE_UI_RETAINED}
-    historical: list[UiCall] = []
-    for call in calls:
-        selector = (call.path, call.function, call.api, call.korean,
-                    call.english, call.context_id)
-        if (call.path, call.function) == META_TITLE_UI_OWNER:
-            row = (call.korean, call.english, call.api, call.context_id)
-            observed[row] = observed.get(row, 0) + 1
-        else:
-            historical.append(call)
-            if selector in retained_counts:
-                retained_counts[selector] += 1
-            elif call.korean in selected_keys:
-                errors.append(f"source: meta-title unexpected shared owner {selector!r}")
-    if observed != expected or any(count != 1 for count in retained_counts.values()):
-        errors.append("source: meta-title exact18/retained3 registry mismatch")
+    literal = r'"(?:\\.|[^"\\])*"'
+    object_body = r'((?:' + literal + r'|[^{}])*)'
 
-    # Bind each literal to its title ID and output field, not just a bag of pairs.
-    marker = "\tmatch title_id:\n"
-    if body.count(marker) != 1:
-        errors.append("source: meta-title selected match block missing/duplicate")
-    else:
-        tail = body.split(marker, 1)[1]
-        if not tail.endswith("\treturn localized\n"):
-            errors.append("source: meta-title selected block return boundary mismatch")
-        region = tail.rsplit("\treturn localized", 1)[0]
-        branches = list(re.finditer(r'(?m)^\t\t"([^"]+)":\n((?:\t\t\t[^\n]*\n)+)', region))
-        if "".join(m.group(0) for m in branches) != region:
-            errors.append("source: meta-title unexpected selected statement")
-        literal = r'("(?:\\.|[^"\\])*")'
-        assignment = re.compile(
-            r'\t\t\tlocalized\["(name|desc)"\] = LocaleManager\.ui\('
-            + literal + r', ' + literal + r'\)\n'
-        )
-        bound = []
-        for branch in branches:
-            fields = list(assignment.finditer(branch.group(2)))
-            if "".join(m.group(0) for m in fields) != branch.group(2):
-                errors.append("source: meta-title unexpected field assignment")
-            for field in fields:
-                bound.append((branch.group(1), field.group(1),
-                              decode_gd_string(field.group(2)),
-                              decode_gd_string(field.group(3))))
-        if tuple(bound) != META_TITLE_UI_ROWS:
-            errors.append("source: meta-title ID/field/KO/EN binding mismatch")
-    return tuple(historical), errors
+    def fields(body: str) -> dict[str, str]:
+        result: dict[str, str] = {}
+        for match in re.finditer(r'(' + literal + r')\s*:\s*(' + literal + r')', body):
+            key, value = (decode_gd_string(part) for part in match.groups())
+            if key in result:
+                errors.append(f"source: title duplicate data field {key!r}")
+            result[key] = value
+        return result
 
+    korean_rows: dict[str, dict[str, str]] = {}
+    korean_region = re.search(r'(?ms)^const ALL_TITLES\s*:=\s*\[(.*?)^\]', source)
+    english_region = re.search(r'(?ms)^const TITLE_EN\s*:=\s*\{(.*?)^\}', source)
+    if korean_region is None or english_region is None:
+        return ["source: current title KO/EN definitions missing"]
+    for match in re.finditer(r'\{' + object_body + r'\}', korean_region.group(1)):
+        row = fields(match.group(1))
+        title_id = row.get("id", "")
+        if not title_id or title_id in korean_rows:
+            errors.append(f"source: title missing/duplicate KO ID {title_id!r}")
+        korean_rows[title_id] = row
+    english_rows: dict[str, dict[str, str]] = {}
+    for match in re.finditer(r'(' + literal + r')\s*:\s*\{' + object_body + r'\}', english_region.group(1)):
+        title_id = decode_gd_string(match.group(1))
+        if title_id in english_rows:
+            errors.append(f"source: title duplicate EN ID {title_id!r}")
+        english_rows[title_id] = fields(match.group(2))
+    if not korean_rows or set(korean_rows) != set(english_rows):
+        errors.append("source: current title KO/EN ID sets differ")
 
-def _meta_title_current_stats(
-    calls: Iterable[UiCall], previous: dict[str, Any], source: Optional[str] = None,
-) -> tuple[dict[str, Any], list[str]]:
-    """Expose current totals without editing a historical manifest or roster."""
-    calls = tuple(calls)
-    historical, errors = _meta_title_ui_historical_calls(calls, source)
-    stats = dict(previous)
-    for key, expected in META_TITLE_UI_BEFORE.items():
-        if stats.get(key) != expected:
-            errors.append(f"source: meta-title historical {key} != {expected}")
-    variants: dict[str, set[str]] = {}
-    for call in calls:
-        variants.setdefault(call.korean, set()).add(call.english)
-    old_keys = {c.korean for c in historical}
-    keys = set(variants)
-    if keys - old_keys != {r[2] for r in META_TITLE_UI_ROWS} - {r[3] for r in META_TITLE_UI_RETAINED}:
-        errors.append("source: meta-title expected fifteen new keys")
-    stats.update({
-        "source_calls": len(calls),
-        "legacy_calls": sum(c.api in {"legacy", "branch", "format"} for c in calls),
-        "legacy_api_calls": sum(c.api == "legacy" for c in calls),
-        "legacy_keys": len(keys),
-        "collision_keys": sum(len(v) > 1 for v in variants.values()),
-        "shared_translation": previous.get("shared_translation", 0) + 3,
-    })
-    for key, expected in META_TITLE_UI_CURRENT.items():
-        if stats.get(key) != expected:
-            errors.append(f"source: meta-title current {key} != {expected}")
-    for retained in META_TITLE_UI_RETAINED:
-        title_english = next(row[3] for row in META_TITLE_UI_ROWS if row[2] == retained[3])
-        if variants.get(retained[3]) != {title_english, retained[4]}:
-            errors.append(f"source: meta-title retained English variants changed: {retained[3]}")
-    stats.update({
-        "parameter_total_ui_call_occurrences": len(calls),
-        "parameter_legacy_pair_call_occurrences": stats["legacy_calls"],
-        "parameter_legacy_korean_source_keys": len(keys),
-        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
-            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
-        "meta_title_added_calls": len(calls) - len(historical),
-        "meta_title_added_keys": len(keys - old_keys),
-        "meta_title_shared_collisions": 3,
-    })
-    return stats, errors
-
-
-def _meta_title_historical_inventory(inventory: UiInventory) -> UiInventory:
-    """Supply the unchanged pre-title population to old self checks only."""
-    from dataclasses import replace
-    calls, errors = _meta_title_ui_historical_calls(inventory.calls)
-    keys = {call.korean for call in calls}
-    stats = dict(inventory.stats)
-    stats.update(META_TITLE_UI_BEFORE)
-    stats.update({
-        "legacy_api_calls": 3266,
-        "parameter_total_ui_call_occurrences": len(calls),
-        "parameter_legacy_pair_call_occurrences": META_TITLE_UI_BEFORE["legacy_calls"],
-        "parameter_legacy_korean_source_keys": len(keys),
-        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
-            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
-    })
-    return replace(
-        inventory, calls=calls, stats=stats,
-        legacy_entries=tuple(e for e in inventory.legacy_entries if e.source in keys),
-        legacy_blueprint={k: v for k, v in inventory.legacy_blueprint.items() if k in keys},
-        errors=tuple([*inventory.errors, *errors]),
+    body = _gd_function_source(source, "_localized_title")
+    if body.count("\tmatch title_id:\n") != 1:
+        return [*errors, "source: current title match owner missing/duplicate"]
+    region = body.split("\tmatch title_id:\n", 1)[1]
+    if not region.endswith("\treturn localized\n"):
+        errors.append("source: current title output boundary differs")
+    region = region.rsplit("\treturn localized", 1)[0]
+    branches = list(re.finditer(
+        r'(?m)^\t\t(' + literal + r'):\n((?:\t\t\t[^\n]*\n)+)', region,
+    ))
+    if "".join(match.group(0) for match in branches) != region:
+        errors.append("source: current title unmatched branch statement")
+    observed_ids: set[str] = set()
+    assignment = re.compile(
+        r'\t\t\tlocalized\["(name|desc)"\] = LocaleManager\.ui\('
+        r'(' + literal + r'), (' + literal + r')\)\n',
     )
-
+    for branch in branches:
+        title_id = decode_gd_string(branch.group(1))
+        if title_id in observed_ids:
+            errors.append(f"source: current title duplicate branch ID {title_id!r}")
+        observed_ids.add(title_id)
+        assignments = list(assignment.finditer(branch.group(2)))
+        if "".join(match.group(0) for match in assignments) != branch.group(2):
+            errors.append(f"source: current title invalid output field/API {title_id!r}")
+        observed_fields: set[str] = set()
+        for match in assignments:
+            field, korean, english = match.groups()
+            if field in observed_fields:
+                errors.append(f"source: current title duplicate output field {title_id!r}/{field}")
+            observed_fields.add(field)
+            if decode_gd_string(korean) != korean_rows.get(title_id, {}).get(field) \
+                    or decode_gd_string(english) != english_rows.get(title_id, {}).get(field):
+                errors.append(f"source: current title ID/field/KO/EN differs {title_id!r}/{field}")
+        if observed_fields != {"name", "desc"}:
+            errors.append(f"source: current title incomplete fields {title_id!r}")
+    if observed_ids != set(korean_rows):
+        errors.append("source: current title localized branch ID set differs")
+    return errors
 
 
 def collect_ui_inventory(
@@ -3611,27 +2663,21 @@ def collect_ui_inventory(
     errors.extend(dynamic_errors)
     calls.sort(key=lambda call: (call.path, call.line, call.api))
     source_keys = {call.korean for call in calls}
-    predecessor_calls, predecessor_source, next_title_errors = _last11_meta_title_chain_calls(calls)
-    errors.extend(next_title_errors)
-    historical_calls, title_errors = _meta_title_ui_historical_calls(predecessor_calls, predecessor_source)
-    errors.extend(title_errors)
-    historical_keys = {call.korean for call in historical_calls}
     parameter_errors, parameter_stats = validate_ui_parameterized_contract(
-        parameter_contract, historical_calls, historical_keys
+        parameter_contract, calls, source_keys
     )
     contract_errors, stats = validate_ui_context_contract(
-        historical_calls, effective_contract, parameter_contract
+        calls, effective_contract, parameter_contract
     )
+    errors.extend(_relationship_ui_registry_errors(calls))
+    errors.extend(_relationship_panel_registry_errors(calls))
+    errors.extend(_meta_title_ui_binding_errors())
     errors.extend(parameter_errors)
     errors.extend(contract_errors)
     stats.update({
         f"parameter_{key}": value for key, value in parameter_stats.items()
     })
     stats.update(dynamic_stats)
-    stats, title_stat_errors = _last11_meta_title_current_stats(
-        calls, predecessor_calls, predecessor_source, stats)
-    errors.extend(title_stat_errors)
-
     legacy_locations: dict[str, set[str]] = {}
     formatted_templates = {
         call.korean for call in calls if call.api == "format"
@@ -4406,367 +3452,6 @@ def write_scope(scope: str, blueprint: Any, translated: dict[str, str]) -> None:
         write_json(ROOT / "locale/catalog_ja.json", resolved)
 
 
-def _choice_preview_ui_inventory_self_test(
-    inventory: Optional[UiInventory] = None,
-) -> tuple[int, list[str]]:
-    """Nineteen fixed exposed-scope controls; no generator or full self run."""
-    from dataclasses import replace
-
-    inventory = inventory if inventory is not None else collect_ui_inventory()
-    manifest = read_json(UI_CONTEXT_MANIFEST_PATH)
-    manifest_before = _canonical_json_sha256(manifest)
-    snapshot = manifest["ui_semantic_context_blocker"]["current_source_snapshot"]
-    phases = manifest["ui_parameterized_template_plan"]["source_inventory_phases"]
-    calls_before = inventory.calls
-    failures = [f"choice-preview actual inventory: {e}" for e in inventory.errors]
-    if (inventory.stats.get("source_calls"), inventory.stats.get("legacy_calls")) \
-            != (3342, 3308):
-        failures.append("choice-preview actual counts must remain 3342/3308")
-    if (phases["final"]["total_ui_call_occurrences"],
-        phases["final"]["legacy_pair_call_occurrences"]) != (3340, 3306):
-        failures.append("choice-preview historical final plan changed")
-    owner = ("scenes/MainGame.gd", "_choice_effects_preview")
-    registered = [
-        next((call for call in inventory.calls
-              if (call.path, call.function, call.api, call.korean, call.english,
-                  call.context_id) == (*owner, "legacy", ko, en, "")), None)
-        for ko, en in (("건강", "Health"), ("정신", "Mental"))
-    ]
-    controls = json.loads(
-        "[{\"id\":\"actual\",\"operation\":\"none\",\"pass\":true},{\"id\":\"reordered\",\"operation\":\"revers"
-        "e\",\"pass\":true},{\"id\":\"delete_health\",\"operation\":\"delete\",\"row\":0,\"pass\":false},{\"id"
-        "\":\"duplicate_health\",\"operation\":\"duplicate\",\"row\":0,\"pass\":false},{\"id\":\"delete_ment"
-        "al\",\"operation\":\"delete\",\"row\":1,\"pass\":false},{\"id\":\"duplicate_mental\",\"operation\":\""
-        "duplicate\",\"row\":1,\"pass\":false},{\"id\":\"rollback_both\",\"operation\":\"delete_both\",\"pas"
-        "s\":false},{\"id\":\"changed_function\",\"operation\":\"replace\",\"row\":0,\"field\":\"function\",\""
-        "value\":\"_other_preview\",\"pass\":false},{\"id\":\"changed_path\",\"operation\":\"replace\",\"row"
-        "\":1,\"field\":\"path\",\"value\":\"scenes/Other.gd\",\"pass\":false},{\"id\":\"changed_api\",\"opera"
-        "tion\":\"replace\",\"row\":0,\"field\":\"api\",\"value\":\"context\",\"pass\":false},{\"id\":\"changed_"
-        "korean\",\"operation\":\"replace\",\"row\":0,\"field\":\"korean\",\"value\":\"체력\",\"pass\":false},{\"i"
-        "d\":\"changed_english\",\"operation\":\"replace\",\"row\":1,\"field\":\"english\",\"value\":\"Mind\",\""
-        "pass\":false},{\"id\":\"changed_context_id\",\"operation\":\"replace\",\"row\":0,\"field\":\"contex"
-        "t_id\",\"value\":\"ui.extra.health\",\"pass\":false},{\"id\":\"source_changed_literal\",\"operati"
-        "on\":\"source\",\"source\":\"func _choice_effects_preview():\\n\\t_tr(\\\"건강\\\", \\\"Body\\\")\\n\\t_t"
-        "r(\\\"정신\\\", \\\"Mental\\\")\\n\",\"pass\":false},{\"id\":\"source_moved_function\",\"operation\":\"sou"
-        "rce\",\"source\":\"func moved():\\n\\t_tr(\\\"건강\\\", \\\"Health\\\")\\n\\t_tr(\\\"정신\\\", \\\"Mental\\\")\\n\""
-        ",\"pass\":false},{\"id\":\"snapshot_legacy_pair_call_occurrences_tamper\",\"operation\":\"view"
-        "\",\"kind\":\"snapshot\",\"field\":\"legacy_pair_call_occurrences\",\"value\":3284,\"pass\":false}"
-        ",{\"id\":\"snapshot_post_migration_legacy_pair_call_occurrences_tamper\",\"operation\":\"vie"
-        "w\",\"kind\":\"snapshot\",\"field\":\"post_migration_legacy_pair_call_occurrences\",\"value\":32"
-        "50,\"pass\":false},{\"id\":\"final_total_ui_call_occurrences_tamper\",\"operation\":\"view\",\"k"
-        "ind\":\"final\",\"field\":\"total_ui_call_occurrences\",\"value\":3341,\"pass\":false},{\"id\":\"fi"
-        "nal_legacy_pair_call_occurrences_tamper\",\"operation\":\"view\",\"kind\":\"final\",\"field\":\"l"
-        "egacy_pair_call_occurrences\",\"value\":3307,\"pass\":false}]"
-    )
-    for control in controls:
-        calls = list(inventory.calls)
-        current_snapshot, current_final = dict(snapshot), dict(phases["final"])
-        operation = control["operation"]
-        row = registered[control.get("row", 0)]
-        if operation == "reverse":
-            calls.reverse()
-        elif operation == "delete" and row in calls:
-            calls.remove(row)
-        elif operation == "duplicate" and row is not None:
-            calls.append(row)
-        elif operation == "delete_both":
-            calls = [call for call in calls if call not in registered]
-        elif operation == "replace" and row in calls:
-            calls[calls.index(row)] = replace(
-                row, **{control["field"]: control["value"]}
-            )
-        elif operation == "source":
-            parsed, parse_errors = parse_ui_calls(owner[0], control["source"])
-            if parse_errors:
-                failures.append(f'{control["id"]}: source fixture parse errors')
-            calls = [call for call in calls if call not in registered] + parsed
-        elif operation == "view":
-            changed = current_snapshot if control["kind"] == "snapshot" else current_final
-            changed[control["field"]] = control["value"]
-        snapshot_before, final_before = dict(current_snapshot), dict(current_final)
-        view_snapshot, snapshot_errors = _choice_preview_ui_expected_view(
-            calls, current_snapshot, "snapshot"
-        )
-        view_final, final_errors = _choice_preview_ui_expected_view(
-            calls, current_final, "final"
-        )
-        errors = snapshot_errors + final_errors
-        if control["pass"] != (not errors):
-            failures.append(f'{control["id"]}: expected pass={control["pass"]}: {errors}')
-        if control["pass"]:
-            expected_snapshot, expected_final = dict(snapshot), dict(phases["final"])
-            expected_snapshot.update(legacy_pair_call_occurrences=3285,
-                                     post_migration_legacy_pair_call_occurrences=3251)
-            expected_final.update(total_ui_call_occurrences=3342,
-                                  legacy_pair_call_occurrences=3308)
-            if view_snapshot != expected_snapshot or view_final != expected_final:
-                failures.append(f'{control["id"]}: expected view changed unowned fields')
-        if current_snapshot != snapshot_before or current_final != final_before:
-            failures.append(f'{control["id"]}: input view mutated')
-    if inventory.calls != calls_before or _canonical_json_sha256(manifest) != manifest_before:
-        failures.append("choice-preview input calls/manifest mutated")
-    return len(controls), failures
-
-
-def _relationship_ui_inventory_self_test(
-    inventory: Optional[UiInventory] = None,
-) -> tuple[int, list[str]]:
-    """Current14 delta plus the unchanged historical choice-preview roster."""
-    from dataclasses import replace
-
-    inventory = inventory if inventory is not None else collect_ui_inventory()
-    calls = inventory.calls
-    failures = list(inventory.errors)
-    failures.extend(_relationship_ui_registry_errors(calls))
-    if (inventory.stats.get("source_calls"), inventory.stats.get("legacy_calls"),
-            inventory.stats.get("legacy_keys")) != (3356, 3322, 2848):
-        failures.append("relationship actual inventory must be3356/3322/2848")
-    roles = [c for c in calls if (c.path, c.function) == RELATIONSHIP_UI_OWNER]
-    cases = 1
-    if len(roles) == 14:
-        first = roles[0]
-        mutations = [list(reversed(calls)), [c for c in calls if c != first],
-                     [*calls, first]]
-        for field, value in (("path", "systems/Other.gd"),
-                             ("function", "other"), ("korean", "없는 관계"),
-                             ("english", "Different"), ("api", "context"),
-                             ("context_id", "ui.other")):
-            mutations.append([replace(c, **{field: value}) if c == first else c
-                              for c in calls])
-        for index, changed in enumerate(mutations):
-            cases += 1
-            okay = not _relationship_ui_registry_errors(changed)
-            if okay != (index == 0):
-                failures.append(f"relationship registry control{index} differs")
-    else:
-        failures.append("relationship self roster requires fourteen actual calls")
-
-    # An explicit historical fixture projection, never a collector filter.
-    # Keep the old19 tests and their3342/3308 expectations byte-for-byte.
-    role_ids = {id(call) for call in roles}
-    historical_calls = tuple(c for c in calls if id(c) not in role_ids)
-    historical_stats = dict(inventory.stats)
-    historical_stats["source_calls"] = len(historical_calls)
-    historical_stats["legacy_calls"] = sum(
-        c.api in {"legacy", "format", "branch"} for c in historical_calls
-    )
-    historical = replace(inventory, calls=historical_calls, stats=historical_stats)
-    old_cases, old_failures = _choice_preview_ui_inventory_self_test(historical)
-    return cases + old_cases, failures + old_failures
-
-
-def _relationship_panel_inventory_self_test(
-    inventory: Optional[UiInventory] = None, include_historical: bool = True,
-) -> tuple[int, list[str]]:
-    """Fixed source-only controls plus an explicit old29 fixture projection."""
-    from dataclasses import replace
-
-    inventory = inventory if inventory is not None else collect_ui_inventory()
-    fixed = json.loads(
-        "{\"schema_version\":1,\"scope\":\"ORDER-240 exact two source substitutions; source-only, not translation QA\",\"source_rows\":[{\"path\":\"scenes/MainGame.gd\",\"function\":\"_relationship_type_label\",\"api\":\"legacy\",\"context_id\":\"\",\"before_ko\":\"연인\",\"before_en\":\"Partner\",\"after_ko\":\"연애 관련\",\"after_en\":\"Romance\"},{\"path\":\"scenes/MainGame.gd\",\"function\":\"_render_sidebars\",\"api\":\"legacy\",\"context_id\":\"\",\"before_ko\":\"아직 중요한 인연이 없습니다. 관계 행동이나 스토리 진행으로 인물이 기록됩니다.\",\"before_en\":\"No important relationships yet. People appear here through relationship actions or story progress.\",\"after_ko\":\"아직 기록된 인연이 없습니다. 이야기를 진행하며 맺은 인연이 여기에 표시됩니다.\",\"after_en\":\"No connections recorded yet. Connections formed through the story appear here.\"}],\"current_expected\":{\"source_calls\":3356,\"legacy_calls\":3322,\"legacy_keys\":2849,\"context_calls\":34,\"planned_context_ids\":29,\"collision_keys\":100,\"format_equivalent\":28,\"shared_translation\":45,\"context_split\":27},\"historical_expected\":{\"legacy_keys\":2848,\"collision_keys\":101,\"format_equivalent\":29},\"controls\":[{\"id\":\"actual\",\"op\":\"none\",\"pass\":true},{\"id\":\"reordered\",\"op\":\"reverse\",\"pass\":true},{\"id\":\"line_only\",\"op\":\"line\",\"pass\":true},{\"id\":\"delete_0\",\"op\":\"delete\",\"row\":0,\"pass\":false},{\"id\":\"duplicate_0\",\"op\":\"duplicate\",\"row\":0,\"pass\":false},{\"id\":\"path_0\",\"op\":\"replace\",\"row\":0,\"field\":\"path\",\"value\":\"scenes/Other.gd\",\"pass\":false},{\"id\":\"function_0\",\"op\":\"replace\",\"row\":0,\"field\":\"function\",\"value\":\"other\",\"pass\":false},{\"id\":\"api_0\",\"op\":\"replace\",\"row\":0,\"field\":\"api\",\"value\":\"context\",\"pass\":false},{\"id\":\"korean_0\",\"op\":\"replace\",\"row\":0,\"field\":\"korean\",\"value\":\"변조\",\"pass\":false},{\"id\":\"english_0\",\"op\":\"replace\",\"row\":0,\"field\":\"english\",\"value\":\"Changed\",\"pass\":false},{\"id\":\"context_id_0\",\"op\":\"replace\",\"row\":0,\"field\":\"context_id\",\"value\":\"ui.unowned\",\"pass\":false},{\"id\":\"delete_1\",\"op\":\"delete\",\"row\":1,\"pass\":false},{\"id\":\"duplicate_1\",\"op\":\"duplicate\",\"row\":1,\"pass\":false},{\"id\":\"path_1\",\"op\":\"replace\",\"row\":1,\"field\":\"path\",\"value\":\"scenes/Other.gd\",\"pass\":false},{\"id\":\"function_1\",\"op\":\"replace\",\"row\":1,\"field\":\"function\",\"value\":\"other\",\"pass\":false},{\"id\":\"api_1\",\"op\":\"replace\",\"row\":1,\"field\":\"api\",\"value\":\"context\",\"pass\":false},{\"id\":\"korean_1\",\"op\":\"replace\",\"row\":1,\"field\":\"korean\",\"value\":\"변조\",\"pass\":false},{\"id\":\"english_1\",\"op\":\"replace\",\"row\":1,\"field\":\"english\",\"value\":\"Changed\",\"pass\":false},{\"id\":\"context_id_1\",\"op\":\"replace\",\"row\":1,\"field\":\"context_id\",\"value\":\"ui.unowned\",\"pass\":false},{\"id\":\"rollback_both\",\"op\":\"rollback\",\"pass\":false},{\"id\":\"remove_retained_partner\",\"op\":\"remove_partner\",\"pass\":false},{\"id\":\"mutate_retained_partner\",\"op\":\"mutate_partner\",\"pass\":false},{\"id\":\"extra_new_key_owner\",\"op\":\"extra_owner\",\"pass\":false},{\"id\":\"unrelated_key_drift\",\"op\":\"key_drift\",\"pass\":false}]}"
-    )
-    failures = list(inventory.errors)
-    before = inventory.calls
-    for field, expected in fixed["current_expected"].items():
-        if inventory.stats.get(field) != expected:
-            failures.append(f"relationship panel actual {field} != {expected}")
-    expected_rows = tuple(
-        (row["function"], row["before_ko"], row["before_en"],
-         row["after_ko"], row["after_en"]) for row in fixed["source_rows"]
-    )
-    if RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS != expected_rows:
-        failures.append("relationship panel fixed source pairs drifted")
-    registered = [
-        next((c for c in before if
-              (c.path, c.function, c.api, c.korean, c.english, c.context_id) ==
-              (row["path"], row["function"], row["api"], row["after_ko"],
-               row["after_en"], row["context_id"])), None)
-        for row in fixed["source_rows"]
-    ]
-    retained = next((c for c in before if
-                     (c.path, c.function, c.api, c.korean, c.english, c.context_id) ==
-                     ("scenes/MainGame.gd", "_maybe_add_date_card", "legacy",
-                      "연인", "partner", "")), None)
-    manifest = read_json(UI_CONTEXT_MANIFEST_PATH)
-    manifest_before = _canonical_json_sha256(manifest)
-    phase = manifest["ui_parameterized_template_plan"]["source_inventory_phases"]["final"]
-    for control in fixed["controls"]:
-        changed = list(before)
-        op = control["op"]
-        row = registered[control.get("row", 0)]
-        if op == "reverse":
-            changed.reverse()
-        elif op == "line":
-            changed = [replace(c, line=c.line + 10) for c in changed]
-        elif op == "delete" and row in changed:
-            changed.remove(row)
-        elif op == "duplicate" and row is not None:
-            changed.append(row)
-        elif op == "replace" and row in changed:
-            changed[changed.index(row)] = replace(
-                row, **{control["field"]: control["value"]}
-            )
-        elif op == "rollback":
-            changed = list(_relationship_panel_historical_calls(changed)[0])
-        elif op == "remove_partner" and retained in changed:
-            changed.remove(retained)
-        elif op == "mutate_partner" and retained in changed:
-            changed[changed.index(retained)] = replace(retained, english="Partner")
-        elif op == "extra_owner" and row is not None:
-            changed.append(replace(row, function="unowned"))
-        elif op == "key_drift":
-            other = next(c for c in changed if c not in registered and c != retained)
-            changed[changed.index(other)] = replace(other, korean="unowned_source_drift")
-        unchanged = tuple(changed)
-        keys = {c.korean for c in changed}
-        view, errors = _relationship_ui_expected_view(changed, phase, "keys", keys)
-        if (not errors) != control["pass"]:
-            failures.append(f'{control["id"]}: pass={control["pass"]}: {errors}')
-        if control["pass"] and view.get("legacy_korean_source_keys") != 2849:
-            failures.append(f'{control["id"]}: current key count was hidden')
-        if tuple(changed) != unchanged:
-            failures.append(f'{control["id"]}: source fixture mutated')
-    if before != inventory.calls or _canonical_json_sha256(manifest) != manifest_before:
-        failures.append("relationship panel source/manifest mutated")
-    cases = len(fixed["controls"])
-    if include_historical:
-        projected, projection_errors = _relationship_panel_historical_calls(before)
-        failures.extend(projection_errors)
-        historical_stats = dict(inventory.stats)
-        historical_stats.update(fixed["historical_expected"])
-        # Only the old29 call/stat fixture is projected; the returned collector
-        # inventory and the fixed historical methods themselves stay untouched.
-        historical = replace(inventory, calls=projected, stats=historical_stats)
-        old_cases, old_failures = _relationship_ui_inventory_self_test(historical)
-        cases += old_cases
-        failures.extend(old_failures)
-    return cases, failures
-
-
-def _meta_title_inventory_self_test(
-    inventory: Optional[UiInventory] = None,
-    observations: Optional[list[dict[str, Any]]] = None,
-) -> tuple[int, list[str]]:
-    """Twenty pre-code controls, separate from the preserved historical53."""
-    from dataclasses import replace
-    fixed = json.loads(r'''{"source_rows":[{"id":"gosiwon_survivor","slot":"name","ko":"고시원 생존자","en":"Gosiwon Survivor"},{"id":"gosiwon_survivor","slot":"desc","ko":"고시원에서 12개월을 버텼다. 이 경험은 잊지 못할 것이다.","en":"Survived 12 months in a gosiwon. You will not forget that room."},{"id":"first_move","slot":"name","ko":"첫 이사","en":"First Move"},{"id":"first_move","slot":"desc","ko":"처음으로 고시원을 벗어나 새 공간으로 이사했다.","en":"Left the gosiwon for the first time and moved into a new space."},{"id":"apartment_life","slot":"name","ko":"아파트 입성","en":"Apartment Life"},{"id":"apartment_life","slot":"desc","ko":"드디어 아파트에 살게 됐다. 경비 아저씨가 반겨준다.","en":"Finally living in an apartment. Even the security guard greets you."},{"id":"gangnam_resident","slot":"name","ko":"강남 입성","en":"Gangnam Resident"},{"id":"gangnam_resident","slot":"desc","ko":"강남 아파트. 주소만으로도 사람들의 눈빛이 달라진다.","en":"A Gangnam apartment. The address alone changes how people look at you."},{"id":"long_gosiwon","slot":"name","ko":"고시원 장기거주자","en":"Long-Term Gosiwon Tenant"},{"id":"long_gosiwon","slot":"desc","ko":"고시원 24개월. 이제 이 냄새도 집냄새처럼 느껴진다.","en":"24 months in a gosiwon. Even the smell has started to feel like home."},{"id":"first_paycheck","slot":"name","ko":"첫 월급의 무게","en":"Weight of the First Paycheck"},{"id":"first_paycheck","slot":"desc","ko":"통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.","en":"Your first salary hit the account. It felt joyful and strangely hollow."},{"id":"one_year_worker","slot":"name","ko":"1년 직장인","en":"One-Year Worker"},{"id":"one_year_worker","slot":"desc","ko":"같은 회사를 1년 다녔다. 어느새 선배가 돼 있었다.","en":"Stayed at the same company for a year. Somehow, you became senior to someone."},{"id":"three_year_worker","slot":"name","ko":"베테랑 직장인","en":"Office Veteran"},{"id":"three_year_worker","slot":"desc","ko":"3년. 회사 서류함에 내 이름이 녹아들었다.","en":"Three years. Your name has seeped into the company's filing cabinets."},{"id":"long_unemployed","slot":"name","ko":"백수의 자유","en":"Freedom of Unemployment"},{"id":"long_unemployed","slot":"desc","ko":"12개월을 무직으로 버텼다. 누군가는 백수라 하고 누군가는 자유인이라 한다.","en":"Stayed unemployed for 12 months. Some call it joblessness. Some call it freedom."}],"current_expected":{"source_calls":3374,"legacy_calls":3340,"legacy_keys":2866,"context_calls":34,"planned_context_ids":29,"collision_keys":101,"format_equivalent":28,"shared_translation":46,"context_split":27},"historical_expected":{"source_calls":3356,"legacy_calls":3322,"legacy_keys":2849,"context_calls":34,"planned_context_ids":29,"collision_keys":100,"format_equivalent":28,"shared_translation":45,"context_split":27},"controls":[{"id":"actual","op":"none","pass":true},{"id":"reordered","op":"reverse","pass":true},{"id":"line_only","op":"line","pass":true},{"id":"delete_0","op":"delete","row":0,"pass":false},{"id":"duplicate_0","op":"duplicate","row":0,"pass":false},{"id":"delete_1","op":"delete","row":1,"pass":false},{"id":"duplicate_1","op":"duplicate","row":1,"pass":false},{"id":"wrong_path","op":"replace","row":0,"field":"path","value":"autoloads/Other.gd","pass":false},{"id":"wrong_function","op":"replace","row":0,"field":"function","value":"other","pass":false},{"id":"wrong_api","op":"replace","row":0,"field":"api","value":"context","pass":false},{"id":"wrong_korean","op":"replace","row":0,"field":"korean","value":"변조","pass":false},{"id":"wrong_english","op":"replace","row":0,"field":"english","value":"Changed","pass":false},{"id":"wrong_context_id","op":"replace","row":0,"field":"context_id","value":"ui.unowned","pass":false},{"id":"extra_pair","op":"extra","pass":false},{"id":"old_apartment_missing","op":"old_delete","pass":false},{"id":"old_apartment_EN","op":"old_english","pass":false},{"id":"name_field_swap","op":"source_name_field","pass":false},{"id":"desc_field_swap","op":"source_desc_field","pass":false},{"id":"branch_id_changed","op":"source_id","pass":false},{"id":"extra_branch","op":"source_extra","pass":false}]}''')
-    inventory = inventory if inventory is not None else collect_ui_inventory()
-    failures = list(inventory.errors)
-    source = (ROOT / META_TITLE_UI_OWNER[0]).read_text(encoding="utf-8")
-    if tuple((r["id"], r["slot"], r["ko"], r["en"]) for r in fixed["source_rows"]) != META_TITLE_UI_ROWS:
-        failures.append("meta-title frozen source rows changed")
-    # First20 stays frozen. First execution exposed two already-collected,
-    # unaccepted GameState keys: explicit fact correction, not a new roster.
-    corrected_current = {**fixed["current_expected"], "legacy_api_calls": 3284, "legacy_keys": 2864,
-                         "collision_keys": 103, "shared_translation": 48}
-    for key, value in corrected_current.items():
-        if inventory.stats.get(key) != value:
-            failures.append(f"meta-title current {key} != {value}")
-    before = inventory.calls
-    registered = [
-        next((c for c in before if
-              (c.path, c.function, c.api, c.korean, c.english, c.context_id) ==
-              (*META_TITLE_UI_OWNER, "legacy", row["ko"], row["en"], "")), None)
-        for row in fixed["source_rows"]
-    ]
-    retained = next((c for c in before if
-                    (c.path, c.function, c.korean, c.english) ==
-                    ("scenes/MainGame.gd", "_ending_milestones",
-                     "아파트 입성", "Entered an apartment")), None)
-    for control in fixed["controls"]:
-        changed = list(before)
-        changed_source = source
-        op = control["op"]
-        row = registered[control.get("row", 0)]
-        if op == "reverse":
-            changed.reverse()
-        elif op == "line":
-            changed = [replace(c, line=c.line + 10) for c in changed]
-        elif op == "delete" and row in changed:
-            changed.remove(row)
-        elif op == "duplicate" and row is not None:
-            changed.append(row)
-        elif op == "replace" and row in changed:
-            changed[changed.index(row)] = replace(row, **{control["field"]: control["value"]})
-        elif op == "extra" and row is not None:
-            changed.append(replace(row, korean="범위 밖 새 칭호", english="Unowned title"))
-        elif op == "old_delete" and retained in changed:
-            changed.remove(retained)
-        elif op == "old_english" and retained in changed:
-            changed[changed.index(retained)] = replace(retained, english="Apartment Life")
-        elif op == "source_name_field":
-            changed_source = source.replace('localized["name"] = LocaleManager.ui',
-                                            'localized["desc"] = LocaleManager.ui', 1)
-        elif op == "source_desc_field":
-            changed_source = source.replace('localized["desc"] = LocaleManager.ui',
-                                            'localized["name"] = LocaleManager.ui', 1)
-        elif op == "source_id":
-            changed_source = source.replace('\t\t"gosiwon_survivor":\n',
-                                            '\t\t"unowned_title":\n', 1)
-        elif op == "source_extra":
-            changed_source = source.replace(
-                '\treturn localized\n',
-                '\t\t"unowned_title":\n\t\t\tpass\n\treturn localized\n', 1)
-        unchanged = tuple(changed)
-        projected, errors = _meta_title_ui_historical_calls(changed, changed_source)
-        passed = not errors
-        if passed != control["pass"]:
-            failures.append(f'meta-title {control["id"]}: expected {control["pass"]}: {errors}')
-        if tuple(changed) != unchanged:
-            failures.append(f'meta-title {control["id"]}: input mutated')
-        if passed:
-            keys = {c.korean for c in projected}
-            if len(projected) != 3356 or len(keys) != 2849:
-                failures.append(f'meta-title {control["id"]}: old counts not preserved')
-        if observations is not None:
-            observations.append({"id": control["id"], "expected_pass": control["pass"],
-                                 "observed_pass": passed, "errors": errors})
-    if before != inventory.calls:
-        failures.append("meta-title collector calls mutated")
-    historical = _meta_title_historical_inventory(inventory)
-    if len(historical.legacy_entries) != 2849 or len(historical.entries) != 2878:
-        failures.append("meta-title historical entry projection differs")
-    if historical.stats.get("legacy_api_calls") != 3266:
-        failures.append("meta-title historical legacy API count differs")
-    return len(fixed["controls"]), failures
-
-
-
-
-def _meta_title_retained_owner_self_test(
-    inventory: Optional[UiInventory] = None,
-    observations: Optional[list[dict[str, Any]]] = None,
-) -> tuple[int, list[str]]:
-    """Four pre-repair supplemental controls; original twenty remain separate."""
-    from dataclasses import replace
-    fixed = json.loads(r'''{"retained":[{"path":"autoloads/GameState.gd","function":"get_wealth_tier","api":"legacy","korean":"고시원 생존자","english":"Goshiwon Survivor","context_id":"","line":4244},{"path":"autoloads/GameState.gd","function":"get_current_title","api":"legacy","korean":"고시원 장기거주자","english":"Long-Term Goshiwon Tenant","context_id":"","line":3672}],"controls":[{"id":"retained_survivor_missing","op":"delete","row":0,"normal_base":"actual","pass":false},{"id":"retained_survivor_english","op":"english","row":0,"normal_base":"actual","value":"Changed Survivor","pass":false},{"id":"retained_long_missing","op":"delete","row":1,"normal_base":"actual","pass":false},{"id":"retained_long_english","op":"english","row":1,"normal_base":"actual","value":"Changed Tenant","pass":false}]}''')
-    inventory = inventory if inventory is not None else collect_ui_inventory()
-    source = (ROOT / META_TITLE_UI_OWNER[0]).read_text(encoding="utf-8")
-    _projected, base_errors = _meta_title_ui_historical_calls(inventory.calls, source)
-    failures = [f"meta-title retained normal base: {e}" for e in base_errors]
-    registered = [next((c for c in inventory.calls if
-        (c.path, c.function, c.api, c.korean, c.english, c.context_id) ==
-        (r["path"], r["function"], r["api"], r["korean"], r["english"], r["context_id"])), None)
-        for r in fixed["retained"]]
-    for control in fixed["controls"]:
-        changed = list(inventory.calls)
-        row = registered[control["row"]]
-        if row not in changed:
-            failures.append(f'meta-title {control["id"]}: retained base absent')
-        elif control["op"] == "delete":
-            changed.remove(row)
-        elif control["op"] == "english":
-            changed[changed.index(row)] = replace(row, english=control["value"])
-        _old, errors = _meta_title_ui_historical_calls(changed, source)
-        if bool(not errors) != control["pass"]:
-            failures.append(f'meta-title {control["id"]}: expected reject: {errors}')
-        if observations is not None:
-            observations.append({"id": control["id"], "expected_pass": control["pass"],
-                                 "observed_pass": not errors, "base_pass": not base_errors,
-                                 "errors": errors})
-    return len(fixed["controls"]), failures
-
-
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -4801,6 +3486,7 @@ def main() -> int:
         cases = 6
         manifest = read_json(ROOT / "content/meta/demo_localization_scope.json")
         contract = manifest.get("source_contract", {})
+        parameter_contract = manifest.get("ui_parameterized_template_plan", {})
         expected_entries = (
             int(contract.get("event_text_count", -1))
             + int(contract.get("dynamic_unique_keys", -1))
@@ -4988,81 +3674,19 @@ def main() -> int:
             failures.append("UI printf conversion order drift was accepted")
         cases += 1
         ui_inventory = collect_ui_inventory()
-        meta_title_current_inventory = ui_inventory
-        # Current raw is validated before the explicitly historical old20+4.
-        ui_inventory, meta_title_cases, meta_title_failures = _last11_meta_title_historical_checks(ui_inventory)
-        cases += meta_title_cases
-        failures.extend(meta_title_failures)
         failures.extend(
             f"actual UI contract: {error}" for error in ui_inventory.errors
         )
-        formatted_ui_entries = sum(
-            1 for entry in ui_inventory.legacy_entries
-            if entry.format_template
-        )
-        if formatted_ui_entries != 44:
-            failures.append(
-                "actual UI formatted-template tagging drifted: "
-                f"{formatted_ui_entries} != 44"
-            )
-        cases += 1
         implementation_complete = bool(ui_inventory.stats.get("implemented"))
         expected_observed_context = 29 if implementation_complete else 0
-        parameter_phase = str(
-            ui_inventory.stats.get("parameter_observed_phase", "")
-        )
-        parameter_contract = manifest.get("ui_parameterized_template_plan", {})
-        phase_inventory = parameter_contract.get(
-            "source_inventory_phases", {}
-        ).get(parameter_phase, {})
-        phase_inventory, relationship_key_errors = _relationship_ui_expected_view(
-            ui_inventory.calls, phase_inventory, "keys",
-            {call.korean for call in ui_inventory.calls},
-        )
-        failures.extend(relationship_key_errors)
-        expected_legacy_entries = int(
-            phase_inventory.get("legacy_korean_source_keys", -1)
-        )
-        if len(ui_inventory.entries) != expected_legacy_entries \
-                + expected_observed_context \
-                or len(ui_inventory.planned_context_entries) != 29 \
-                or len(ui_inventory.observed_context_entries) \
-                != expected_observed_context:
-            failures.append(
-                "planned/observed UI inventory separation failed: "
-                f"actual={len(ui_inventory.entries)} "
-                f"planned={len(ui_inventory.planned_context_entries)} "
-                f"observed={len(ui_inventory.observed_context_entries)}"
-            )
-        cases += 1
-        exact_parameter_stats = {
-            "source_calls": 3340,
-            "legacy_calls": 3306,
-            "format_calls": 50,
-            "parameter_raw_candidates": 56,
-            "parameter_migrate_calls": 48,
-            "parameter_existing_lookup_before_format_migrations": 2,
-            "parameter_argument_provenance_calls": 15,
-            "parameter_existing_lookup_before_format_provenance_calls": 2,
-        }
-        current_parameter_stats, preview_errors = _choice_preview_ui_expected_view(
-            ui_inventory.calls, exact_parameter_stats, "final_self_stats"
-        )
-        failures.extend(preview_errors)
-        current_parameter_stats, relationship_errors = _relationship_ui_expected_view(
-            ui_inventory.calls, current_parameter_stats, "final_self_stats"
-        )
-        failures.extend(relationship_errors)
-        stale_parameter_stats = {
-            key: (ui_inventory.stats.get(key), expected)
-            for key, expected in current_parameter_stats.items()
-            if ui_inventory.stats.get(key) != expected
-        }
-        if stale_parameter_stats:
-            failures.append(
-                "final parameterized inventory drifted: "
-                f"{stale_parameter_stats}"
-            )
+        expected_keys = {call.korean for call in ui_inventory.calls}
+        if {entry.source for entry in ui_inventory.legacy_entries} != expected_keys \
+                or set(ui_inventory.legacy_blueprint) != expected_keys \
+                or len(ui_inventory.planned_context_entries) != len(
+                    manifest["ui_semantic_context_blocker"]["context_registry"]
+                ) \
+                or len(ui_inventory.observed_context_entries) != expected_observed_context:
+            failures.append("actual current calls/entries/context inventory differs")
         cases += 1
         dynamic_contract = dict(manifest.get("ui_semantic_context_blocker", {}))
         dynamic_registry = [dict(row) for row in dynamic_contract.get(
@@ -5106,6 +3730,50 @@ def main() -> int:
                 f"three UI API collector failed: calls={fixture_calls} "
                 f"errors={fixture_errors}"
             )
+        cases += 1
+        branch_source = (
+            'func fixture():\n'
+            '\t_tr("우천" if rainy() else "맑음", '
+            '"Rain" if rainy() else "Clear")\n'
+        )
+        branch_calls, branch_errors = parse_ui_calls("scenes/ArubaGame.gd", branch_source)
+        if branch_errors or [(call.api, call.function, call.korean, call.english)
+                             for call in branch_calls] != [
+            ("branch", "fixture", "우천", "Rain"),
+            ("branch", "fixture", "맑음", "Clear"),
+        ]:
+            failures.append("plain conditional UI current source branches were not collected")
+        cases += 1
+        for malformed in (
+            branch_source.replace('"Rain" if rainy()', '"Rain" if clear()'),
+            branch_source.replace('"맑음"', '""'),
+            branch_source.replace('rainy()', 'rainy(1)'),
+        ):
+            _calls, branch_errors = parse_ui_calls("scenes/ArubaGame.gd", malformed)
+            if not branch_errors:
+                failures.append("malformed/misaligned plain UI branch was accepted")
+            cases += 1
+        title_source = (ROOT / "autoloads/MetaProgression.gd").read_text(encoding="utf-8")
+        title_mutations = (
+            title_source.replace('localized["name"] = LocaleManager.ui',
+                                 'localized["desc"] = LocaleManager.ui', 1),
+            title_source.replace('localized["desc"] = LocaleManager.ui',
+                                 'localized["name"] = LocaleManager.ui', 1),
+            title_source.replace('\t\t"gosiwon_survivor":\n',
+                                 '\t\t"unknown_title":\n', 1),
+            title_source.replace('\treturn localized\n',
+                                 '\t\t"gosiwon_survivor":\n\t\t\tpass\n\treturn localized\n', 1),
+            title_source.replace('LocaleManager.ui("고시원 생존자", "Gosiwon Survivor")',
+                                 'LocaleManager.ui("고시원 생존자", "Wrong Title")', 1),
+        )
+        for changed_source in title_mutations:
+            if not _meta_title_ui_binding_errors(changed_source):
+                failures.append("current title ID/field/data binding mutation was accepted")
+            cases += 1
+        if _meta_title_ui_binding_errors(title_source.replace(
+            "고시원 생존자", "새 칭호 문구"
+        )):
+            failures.append("consistent current title copy change depended on old prose")
         cases += 1
         legacy_exact = Entry("ui::legacy", "도박장", "legacy UI")
         context_exact = Entry(
@@ -5270,6 +3938,22 @@ def main() -> int:
         if not any("partial" in error for error in partial_errors):
             failures.append("partial context ID migration was not rejected")
 
+        unknown_meaning_calls = list(ui_inventory.calls)
+        for index, call in enumerate(unknown_meaning_calls):
+            if call.korean == "건강" and call.api == "legacy":
+                unknown_meaning_calls[index] = UiCall(
+                    call.path, call.function, call.line, call.api,
+                    call.korean, "Unregistered Body Meaning", call.context_id,
+                )
+                break
+        cases += 1
+        unknown_meaning_errors, _stats = validate_ui_context_contract(
+            unknown_meaning_calls, ui_contract, parameter_contract
+        )
+        if not any("unregistered English meanings" in error
+                   for error in unknown_meaning_errors):
+            failures.append("new ambiguous context meaning was accepted")
+
         mutation_cases: list[tuple[str, dict[str, Any]]] = []
         changed = json.loads(json.dumps(ui_contract, ensure_ascii=False))
         changed["collision_partition"]["format_equivalent"].pop(
@@ -5297,13 +3981,6 @@ def main() -> int:
         changed["context_registry"].append(changed["context_registry"][0].copy())
         mutation_cases.append(("duplicate context ID", changed))
         changed = json.loads(json.dumps(ui_contract, ensure_ascii=False))
-        changed["current_source_snapshot"][
-            "legacy_pair_call_occurrences"
-        ] += 1
-        mutation_cases.append(("current source snapshot", changed))
-        changed = json.loads(json.dumps(ui_contract, ensure_ascii=False))
-        changed["legacy_korean_source_keys"] += 1
-        mutation_cases.append(("ORDER-96 historical baseline", changed))
         for label, changed_contract in mutation_cases:
             cases += 1
             mutation_errors, _stats = validate_ui_context_contract(
@@ -5479,10 +4156,6 @@ def main() -> int:
             failures.append(
                 "stale existing lookup-before-format provenance was not rejected"
             )
-        preview_cases, preview_failures = _relationship_panel_inventory_self_test(ui_inventory)
-        cases += preview_cases
-        failures.extend(preview_failures)
-        ui_inventory = meta_title_current_inventory
         if failures:
             print(
                 f"JA_TRANSLATE_SELF_TEST_FAIL cases={cases} "
@@ -5703,2219 +4376,6 @@ def main() -> int:
         print(f"JA_TRANSLATE_WRITTEN scope={scope} entries={len(entries)}", flush=True)
     return 0
 
-
-# BEGIN_GIFT_CAPTION_COLLECTOR_262
-# Only historical comparisons see the retired source. The public inventory
-# continues to describe the actual current calls and dictionary denominator.
-import main_game_locale_history as _gift_history
-from dataclasses import replace as _gift_replace
-
-_GIFT_OLD_COLLECT = collect_ui_inventory
-_GIFT_OLD_CHECKS = _last11_meta_title_historical_checks
-_GIFT_OLD_KO = "선물 — 사람 메뉴에서 전달"
-_GIFT_OLD_EN = "Gift — deliver from the People menu"
-_GIFT_CAPTION_SELECTOR = ("scenes/MainGame.gd", "_render_sidebars", "legacy", "선물", "Gift", "")
-_GIFT_FALLBACK_SELECTOR = ("scenes/MainGame.gd", "_gift_display_name", "legacy", "선물", "Gift", "")
-
-
-def _gift_caption_raw_view():
-    current = {p: (ROOT / p).read_bytes() for p in
-               ("scenes/MainGame.gd", "tools/ja_translation_pipeline.py")}
-    errors = [e for p, raw in current.items()
-              for e in _gift_history.gift_caption_source_errors(p, raw)]
-    return current, errors
-
-
-def _gift_caption_predecessor_calls(calls):
-    """Exact current owner/API/pair/context and shared fallback, or identity."""
-    calls = tuple(calls)
-    _current, errors = _gift_caption_raw_view()
-    selectors = [(c.path, c.function, c.api, c.korean, c.english, c.context_id) for c in calls]
-    if selectors.count(_GIFT_CAPTION_SELECTOR) != 1 or selectors.count(_GIFT_FALLBACK_SELECTOR) != 1:
-        errors.append("ORDER-262: exact caption/shared fallback cardinality differs")
-    if any(c.korean == _GIFT_OLD_KO or (c.korean == "선물" and s not in
-            (_GIFT_CAPTION_SELECTOR, _GIFT_FALLBACK_SELECTOR)) for c, s in zip(calls, selectors)):
-        errors.append("ORDER-262: retired key or unexpected Gift selector")
-    if errors:
-        return calls, errors
-    return tuple(_gift_replace(c, korean=_GIFT_OLD_KO, english=_GIFT_OLD_EN)
-                 if s == _GIFT_CAPTION_SELECTOR else c for c, s in zip(calls, selectors)), []
-
-
-@contextmanager
-def _gift_caption_previous_reads():
-    """Validate physical bytes first; temporary reads never escape this scope."""
-    from unittest.mock import patch
-    current, errors = _gift_caption_raw_view()
-    if errors:
-        raise ValueError("; ".join(errors))
-    views = {ROOT / p: _gift_history.gift_caption_project_bytes(raw, p) for p, raw in current.items()}
-    read0, text0 = Path.read_bytes, Path.read_text
-
-    def read_bytes(path):
-        return views[path] if path in views else read0(path)
-
-    def read_text(path, *args, **kwargs):
-        if path in views:
-            return views[path].decode(kwargs.get("encoding") or (args[0] if args else None) or "utf-8",
-                                      errors=kwargs.get("errors") or "strict")
-        return text0(path, *args, **kwargs)
-
-    with patch.object(Path, "read_bytes", read_bytes), patch.object(Path, "read_text", read_text):
-        yield
-
-
-def _gift_caption_inventory_view(inventory, calls):
-    """Rebuild legacy IDs/locations from this view; context layers are unchanged."""
-    locations = {}
-    formatted = {c.korean for c in calls if c.api == "format"}
-    for c in calls:
-        locations.setdefault(c.korean, set()).add(f"{c.path}:{c.line}")
-    entries, blueprint = [], {}
-    for index, ko in enumerate(sorted(locations)):
-        key = f"ui::{index:04d}::{hashlib.sha1(ko.encode()).hexdigest()[:12]}"
-        entries.append(Entry(key, ko, "UI / " + ", ".join(sorted(locations[ko])[:4]),
-                             format_template=ko in formatted))
-        blueprint[ko] = {"$entry": key}
-    stats = dict(inventory.stats)
-    stats.update(legacy_keys=len(locations), parameter_legacy_korean_source_keys=len(locations),
-                 parameter_legacy_korean_source_keys_sha256=hashlib.sha256(
-                     "\n".join(sorted(locations)).encode()).hexdigest())
-    return _gift_replace(inventory, calls=tuple(calls), legacy_entries=tuple(entries),
-                         legacy_blueprint=blueprint, stats=stats)
-
-
-def _gift_caption_collect_ui_inventory(contract=None):
-    current, errors = _gift_caption_raw_view()
-    if errors:
-        return UiInventory((), (), {}, (), {}, (), {}, tuple(errors), {})
-    main_calls, parse_errors = parse_ui_calls("scenes/MainGame.gd", current["scenes/MainGame.gd"].decode("utf-8"))
-    _previous, pair_errors = _gift_caption_predecessor_calls(main_calls)
-    if parse_errors or pair_errors:
-        return UiInventory((), (), {}, (), {}, (), {}, tuple([*parse_errors, *pair_errors]), {})
-    with _gift_caption_previous_reads():
-        previous = _GIFT_OLD_COLLECT(contract)
-    old_selector = (*_GIFT_CAPTION_SELECTOR[:3], _GIFT_OLD_KO, _GIFT_OLD_EN, "")
-    hits = [c for c in previous.calls if
-            (c.path, c.function, c.api, c.korean, c.english, c.context_id) == old_selector]
-    if len(hits) != 1:
-        raise ValueError("ORDER-262: predecessor caption is not exact1")
-    calls = tuple(_gift_replace(c, korean="선물", english="Gift") if c == hits[0] else c
-                  for c in previous.calls)
-    _old, errors = _gift_caption_predecessor_calls(calls)
-    result = _gift_caption_inventory_view(previous, calls)
-    return _gift_replace(result, errors=tuple([*result.errors, *errors]))
-
-
-def _gift_caption_historical_checks(inventory):
-    calls, errors = _gift_caption_predecessor_calls(inventory.calls)
-    if errors:
-        return _gift_replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
-    previous = _gift_caption_inventory_view(inventory, calls)
-    with _gift_caption_previous_reads():
-        return _GIFT_OLD_CHECKS(previous)
-
-
-collect_ui_inventory = _gift_caption_collect_ui_inventory
-_last11_meta_title_historical_checks = _gift_caption_historical_checks
-# END_GIFT_CAPTION_COLLECTOR_262
-
-# BEGIN_NEW_RUN_LOG_COLLECTOR_267
-# Current records stay current; only the saved contract readers see the inverse.
-from collections import Counter as _new_run_counter
-
-_NEW_RUN_GS = "autoloads/GameState.gd"
-_NEW_RUN_JA = "tools/ja_translation_pipeline.py"
-_NEW_RUN_OLD_COLLECT = collect_ui_inventory
-_NEW_RUN_OLD_CHECKS = _last11_meta_title_historical_checks
-NEW_RUN_LOG_CALLS = (
-    ("_localized_profile_label", "legacy", "백수", "unemployed"),
-    ("_localized_profile_label", "legacy", "알바", "working part-time"),
-    ("_roll_run_theme", "legacy", "투자", "Investing"),
-    ("_roll_run_theme", "legacy", "직장", "Jobs"),
-    ("_roll_run_theme", "legacy", "인간관계", "Social"),
-    ("_roll_run_theme", "legacy", "건강", "Health"),
-    ("_roll_run_theme", "legacy", "연애", "Relationships"),
-    ("_roll_run_theme", "legacy", "도박", "Gambling"),
-    ("_roll_run_theme", "legacy", "재정", "Finance"),
-    ("start_new_game", "format", "다시 시작한 아침. 출발점은 %s였다.",
-     "Another beginning. He started out %s."),
-    ("_roll_run_theme", "format", "이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.",
-     "This time, news tied to %s and %s caught his eye first."),
-)
-NEW_RUN_LOG_ARGUMENTS = {
-    "start_new_game": ("[_localized_profile_label(starting_profile)]",
-                       "[_localized_profile_label(starting_profile, true)]"),
-    "_roll_run_theme": ("[a, b]",
-        "[english_labels.get(pool[0], pool[0]), english_labels.get(pool[1], pool[1])]"),
-}
-
-
-def _new_run_log_selector(call):
-    return (call.path, call.function, call.api, call.korean, call.english, call.context_id)
-
-
-def _new_run_log_raw_view(source=None):
-    current = {p: (ROOT / p).read_bytes() for p in (_NEW_RUN_GS, _NEW_RUN_JA)}
-    if source is not None:
-        current[_NEW_RUN_GS] = source.encode("utf-8")
-    errors = [e for p, raw in current.items()
-              for e in _gift_history.new_run_log_source_errors(p, raw)]
-    return current, errors
-
-
-def _new_run_log_argument_shapes(source):
-    shapes, errors = [], []
-    functions = [(m.start(), m.group(1)) for m in GD_FUNCTION.finditer(source)]
-    for match in UI_FORMAT_CALL_START.finditer(source):
-        line = source.count("\n", 0, match.start()) + 1
-        try:
-            body, _end = _balanced_call_body(source, match.start())
-            args = _split_gd_arguments(body)
-            if len(args) != 4:
-                raise ValueError("ui_format arity")
-            shapes.append(UiFormatArgumentShape(
-                _NEW_RUN_GS, _function_owner(functions, match.start()), line,
-                decode_gd_string(args[0]), decode_gd_string(args[1]),
-                _normalize_gd_expression(args[2]), _normalize_gd_expression(args[3])))
-        except (ValueError, json.JSONDecodeError) as exc:
-            errors.append(f"ORDER-267: format argument parse at {line}: {exc}")
-    return shapes, errors
-
-
-def _new_run_log_predecessor_calls(calls, source=None, argument_shapes=None, *, call_mode="literal", contract=None):
-    calls = tuple(calls)
-    current, errors = _new_run_log_raw_view(source)
-    source = current[_NEW_RUN_GS].decode("utf-8")
-    if call_mode not in {"literal", "complete"}:
-        errors.append("ORDER-267: explicit call mode must be literal or complete")
-    if errors:
-        return calls, source, errors
-    actual, parse_errors = parse_ui_calls(_NEW_RUN_GS, source)
-    effective_contract = contract if contract is not None else read_ui_context_contract()
-    if call_mode == "complete":
-        dynamic, dynamic_errors, _stats = collect_dynamic_housing_ui_calls(effective_contract, source)
-        actual.extend(dynamic)
-        errors.extend(dynamic_errors)
-    shapes, shape_errors = _new_run_log_argument_shapes(source)
-    errors.extend([*parse_errors, *shape_errors])
-    supplied = [c for c in calls if c.path == _NEW_RUN_GS]
-    if _new_run_counter(map(_new_run_log_selector, supplied)) != _new_run_counter(map(_new_run_log_selector, actual)):
-        errors.append("ORDER-267: supplied current GameState call multiset differs")
-    expected = _new_run_counter((_NEW_RUN_GS, fn, api, ko, en, "")
-                                for fn, api, ko, en in NEW_RUN_LOG_CALLS)
-    owned = {"_localized_profile_label", "_roll_run_theme"}
-    observed = [c for c in actual if c.function in owned or
-                (c.function == "start_new_game" and c.korean == NEW_RUN_LOG_CALLS[-2][2])]
-    if _new_run_counter(map(_new_run_log_selector, observed)) != expected:
-        errors.append("ORDER-267: exact new9/parent2 selectors differ")
-
-    def shape_key(row):
-        return (row.path, row.function, row.korean, row.english,
-                _normalize_gd_expression(row.ko_args), _normalize_gd_expression(row.en_args))
-
-    supplied_shapes = shapes if argument_shapes is None else list(argument_shapes)
-    if _new_run_counter(shape_key(r) for r in supplied_shapes if r.path == _NEW_RUN_GS) != _new_run_counter(map(shape_key, shapes)):
-        errors.append("ORDER-267: supplied format provenance differs")
-    for function, arguments in NEW_RUN_LOG_ARGUMENTS.items():
-        found = [r for r in shapes if r.function == function and r.korean in
-                 {row[2] for row in NEW_RUN_LOG_CALLS[-2:]}]
-        if len(found) != 1 or (found[0].ko_args, found[0].en_args) != tuple(map(_normalize_gd_expression, arguments)):
-            errors.append("ORDER-267: exact parent argument ownership differs: " + function)
-    if errors:
-        return calls, source, errors
-    old_source = _gift_history.new_run_log_project_bytes(current[_NEW_RUN_GS], _NEW_RUN_GS).decode("utf-8")
-    old_calls, old_errors = parse_ui_calls(_NEW_RUN_GS, old_source)
-    if call_mode == "complete":
-        old_dynamic, dynamic_errors, _stats = collect_dynamic_housing_ui_calls(effective_contract, old_source)
-        old_calls.extend(old_dynamic)
-        old_errors.extend(dynamic_errors)
-    if old_errors:
-        return calls, source, old_errors
-    # Full GS replacement also restores nonselected locations, not just the nine additions.
-    return tuple(c for c in calls if c.path != _NEW_RUN_GS) + tuple(old_calls), old_source, []
-
-
-@contextmanager
-def _new_run_log_previous_reads(current):
-    from unittest.mock import patch
-    errors = [e for p, raw in current.items() for e in _gift_history.new_run_log_source_errors(p, raw)]
-    if errors:
-        raise ValueError("; ".join(errors))
-    views = {ROOT / p: _gift_history.new_run_log_project_bytes(raw, p) for p, raw in current.items()}
-    read0, text0 = Path.read_bytes, Path.read_text
-
-    def read_bytes(path):
-        return views[path] if path in views else read0(path)
-
-    def read_text(path, *args, **kwargs):
-        if path in views:
-            return views[path].decode(kwargs.get("encoding") or (args[0] if args else None) or "utf-8",
-                                      errors=kwargs.get("errors") or "strict")
-        return text0(path, *args, **kwargs)
-
-    with patch.object(Path, "read_bytes", read_bytes), patch.object(Path, "read_text", read_text):
-        yield
-
-
-def _new_run_log_inventory(inventory, calls, contract=None):
-    calls = tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
-    result = _gift_caption_inventory_view(inventory, calls)
-    layers = build_ui_context_layers(calls, contract if contract is not None else read_ui_context_contract())
-    variants = {}
-    for call in calls:
-        variants.setdefault(call.korean, set()).add(call.english)
-    stats = dict(result.stats)
-    stats.update(source_calls=len(calls), legacy_calls=sum(c.api in {"legacy", "branch", "format"} for c in calls),
-                 legacy_api_calls=sum(c.api == "legacy" for c in calls), context_calls=sum(c.api == "context" for c in calls),
-                 format_calls=sum(c.api == "format" for c in calls),
-                 branch_variant_calls=sum(c.api == "branch" for c in calls),
-                 collision_keys=sum(len(v) > 1 for v in variants.values()),
-                 parameter_total_ui_call_occurrences=len(calls),
-                 parameter_legacy_pair_call_occurrences=sum(c.api in {"legacy", "branch", "format"} for c in calls))
-    return _gift_replace(result, stats=stats, planned_context_entries=tuple(layers[0]),
-                         planned_context_blueprint=layers[1], observed_context_entries=tuple(layers[2]),
-                         observed_context_blueprint=layers[3])
-
-
-def _new_run_log_collect_ui_inventory(contract=None):
-    current, errors = _new_run_log_raw_view()
-    if errors:
-        return UiInventory((), (), {}, (), {}, (), {}, tuple(errors), {})
-    source = current[_NEW_RUN_GS].decode("utf-8")
-    effective_contract = contract if contract is not None else read_ui_context_contract()
-    actual, parse_errors = parse_ui_calls(_NEW_RUN_GS, source)
-    dynamic, dynamic_errors, dynamic_stats = collect_dynamic_housing_ui_calls(effective_contract, source)
-    actual.extend(dynamic)
-    parse_errors.extend(dynamic_errors)
-    _old, _source, semantic_errors = _new_run_log_predecessor_calls(actual, source, call_mode="complete", contract=effective_contract)
-    if parse_errors or semantic_errors:
-        return UiInventory((), (), {}, (), {}, (), {}, tuple([*parse_errors, *semantic_errors]), {})
-    with _new_run_log_previous_reads(current):
-        previous = _NEW_RUN_OLD_COLLECT(contract)
-    calls = tuple(c for c in previous.calls if c.path != _NEW_RUN_GS) + tuple(actual)
-    result = _new_run_log_inventory(previous, calls, contract)
-    result.stats.update(dynamic_stats)
-    result.stats["new_run_log_added_legacy_calls"] = 9
-    result.stats["new_run_log_parent_format_migrations"] = 2
-    result.stats["new_run_log_previous_stats"] = dict(previous.stats)
-    return result
-
-
-def _new_run_log_historical_checks(inventory):
-    current, errors = _new_run_log_raw_view()
-    calls, _source, semantic_errors = _new_run_log_predecessor_calls(inventory.calls, call_mode="complete", contract=read_ui_context_contract())
-    errors.extend(semantic_errors)
-    if errors:
-        return _gift_replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
-    previous = _new_run_log_inventory(inventory, calls)
-    # Recompute old metadata through the saved collector; no historical literal counts are overwritten.
-    with _new_run_log_previous_reads(current):
-        baseline = _NEW_RUN_OLD_COLLECT()
-        previous = _gift_replace(previous, stats=dict(baseline.stats))
-        return _NEW_RUN_OLD_CHECKS(previous)
-
-
-collect_ui_inventory = _new_run_log_collect_ui_inventory
-_last11_meta_title_historical_checks = _new_run_log_historical_checks
-# END_NEW_RUN_LOG_COLLECTOR_267
-
-# BEGIN_FIRST_START_NOTICE_274
-# One newly visible literal pair; only saved historical readers see the old form.
-NOTICE_PATH = "scenes/StartMenu.gd"
-NOTICE_CURRENT_SHA = "e2873c5cdd9d2ba09a5c712c760ee08966295f8787349796c3a3fc4456103219"
-NOTICE_PREVIOUS_SHA = "3b9628b0a5fedacf683826eb2bdf250c3e710dbb571ce5e7cd6c4e289a5ef7fd"
-NOTICE_PIPELINE_PREVIOUS_SHA = "90ad8caf9efc07d217cb8960715434ae09ae227de4ce0dee36e5ad74278ea270"
-NOTICE_APPEND_SHA = "c68c89aec657756198964703b4bdb84eb34ef71fc06f465da41000431fb47989"
-NOTICE_KO_PARTS = (
-    "이 게임에는 다음과 같은 내용이 포함됩니다:\n\n",
-    "• 재정적 어려움과 부채\n", "• 가족·사회적 압박과 비교\n",
-    "• 직장 스트레스와 번아웃\n", "• 정신건강 관련 묘사\n\n",
-    "강남드림은 현실적인 삶을 다룹니다. ",
-    "어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.",
-)
-NOTICE_EN_PARTS = (
-    "This game contains depictions of:\n\n", "• Financial hardship and debt\n",
-    "• Family pressure and social comparison\n", "• Workplace stress and burnout\n",
-    "• Mental health struggles\n\n", "Gangnam Dream is a realistic portrayal of life. ",
-    "Difficult situations are part of the story — not endorsements.",
-)
-NOTICE_KO, NOTICE_EN = "".join(NOTICE_KO_PARTS), "".join(NOTICE_EN_PARTS)
-NOTICE_SELECTOR = (NOTICE_PATH, "_show_content_warning", "legacy", NOTICE_KO, NOTICE_EN, "")
-_NOTICE_OLD_COLLECT = collect_ui_inventory
-_NOTICE_OLD_CHECKS = _last11_meta_title_historical_checks
-
-
-def _notice_call(flat):
-    pairs = ((NOTICE_KO,), (NOTICE_EN,)) if flat else (NOTICE_KO_PARTS, NOTICE_EN_PARTS)
-    return "\tbody_lbl.text = _tr(\n" + ",\n".join(
-        "\t\t\t" + "\n\t\t\t+ ".join(json.dumps(p, ensure_ascii=False) for p in parts)
-        for parts in pairs) + ")"
-
-
-def _notice_raw_view(source=None):
-    current = {p: (ROOT / p).read_bytes() for p in (NOTICE_PATH, _NEW_RUN_JA)}
-    if source is not None:
-        current[NOTICE_PATH] = source.encode("utf-8")
-    try:
-        raw = current[NOTICE_PATH]
-        before, after = _notice_call(False).encode(), _notice_call(True).encode()
-        if hashlib.sha256(raw).hexdigest() != NOTICE_CURRENT_SHA or raw.count(after) != 1:
-            raise ValueError("current StartMenu source differs")
-        old_start = raw.replace(after, before, 1)
-        if hashlib.sha256(old_start).hexdigest() != NOTICE_PREVIOUS_SHA:
-            raise ValueError("whole StartMenu inverse differs")
-        code = current[_NEW_RUN_JA]
-        start, end = b"# BEGIN_FIRST_START_NOTICE_274\n", b"# END_FIRST_START_NOTICE_274\n\n"
-        if code.count(start) != 1 or code.count(end) != 1:
-            raise ValueError("collector appendix boundaries")
-        a, z = code.index(start), code.index(end) + len(end)
-        span = code[a:z]
-        binding = ('NOTICE_APPEND_SHA = "' + NOTICE_APPEND_SHA + '"').encode()
-        if span.count(binding) != 1 or hashlib.sha256(span.replace(
-                binding, b'NOTICE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != NOTICE_APPEND_SHA:
-            raise ValueError("collector appendix seal")
-        old_code = code[:a] + code[z:]
-        if hashlib.sha256(old_code).hexdigest() != NOTICE_PIPELINE_PREVIOUS_SHA:
-            raise ValueError("whole collector inverse differs")
-        return current, {NOTICE_PATH: old_start, _NEW_RUN_JA: old_code}, []
-    except (ValueError, TypeError, UnicodeError) as exc:
-        return current, {}, ["first-start notice: " + str(exc)]
-
-
-@contextmanager
-def _notice_previous_reads(previous):
-    from unittest.mock import patch
-    values = {ROOT / p: raw for p, raw in previous.items()}
-    read0, text0 = Path.read_bytes, Path.read_text
-
-    def read_bytes(path):
-        return values[path] if path in values else read0(path)
-
-    def read_text(path, *args, **kwargs):
-        if path in values:
-            return values[path].decode(kwargs.get("encoding") or (args[0] if args else None) or "utf-8",
-                                      errors=kwargs.get("errors") or "strict")
-        return text0(path, *args, **kwargs)
-
-    with patch.object(Path, "read_bytes", read_bytes), patch.object(Path, "read_text", read_text):
-        yield
-
-
-def _notice_predecessor_calls(calls, source=None):
-    calls = tuple(calls)
-    current, previous, errors = _notice_raw_view(source)
-    if errors:
-        return calls, errors
-    actual, parse_errors = parse_ui_calls(NOTICE_PATH, current[NOTICE_PATH].decode("utf-8"))
-    supplied = [c for c in calls if c.path == NOTICE_PATH]
-    selector = _new_run_log_selector
-    if _new_run_counter(map(selector, supplied)) != _new_run_counter(map(selector, actual)):
-        errors.append("first-start notice: complete StartMenu call multiset differs")
-    selected = [selector(c) for c in calls if c.korean == NOTICE_KO]
-    if selected != [NOTICE_SELECTOR]:
-        errors.append("first-start notice: exact owner/API/pair/context/cardinality differs")
-    old_calls, old_errors = parse_ui_calls(NOTICE_PATH, previous[NOTICE_PATH].decode("utf-8"))
-    errors.extend([*parse_errors, *old_errors])
-    if errors:
-        return calls, errors
-    return tuple(c for c in calls if c.path != NOTICE_PATH) + tuple(old_calls), []
-
-
-def _notice_collect_ui_inventory(contract=None):
-    current, previous, errors = _notice_raw_view()
-    if errors:
-        return UiInventory((), (), {}, (), {}, (), {}, tuple(errors), {})
-    actual, parse_errors = parse_ui_calls(NOTICE_PATH, current[NOTICE_PATH].decode("utf-8"))
-    _old, semantic_errors = _notice_predecessor_calls(actual)
-    if parse_errors or semantic_errors:
-        return UiInventory((), (), {}, (), {}, (), {}, tuple([*parse_errors, *semantic_errors]), {})
-    with _notice_previous_reads(previous):
-        old_inventory = _NOTICE_OLD_COLLECT(contract)
-    calls = tuple(c for c in old_inventory.calls if c.path != NOTICE_PATH) + tuple(actual)
-    _old, errors = _notice_predecessor_calls(calls)
-    result = _new_run_log_inventory(old_inventory, calls, contract)
-    result.stats["first_start_notice_added_calls"] = len(calls) - len(old_inventory.calls)
-    return _gift_replace(result, errors=tuple([*result.errors, *errors]))
-
-
-def _notice_historical_checks(inventory):
-    _current, previous, errors = _notice_raw_view()
-    calls, semantic_errors = _notice_predecessor_calls(inventory.calls)
-    errors.extend(semantic_errors)
-    if errors:
-        return _gift_replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
-    with _notice_previous_reads(previous):
-        baseline = _NOTICE_OLD_COLLECT()
-        old_inventory = _new_run_log_inventory(baseline, calls)
-        old_inventory = _gift_replace(old_inventory, stats=dict(baseline.stats))
-        return _NOTICE_OLD_CHECKS(old_inventory)
-
-
-collect_ui_inventory = _notice_collect_ui_inventory
-_last11_meta_title_historical_checks = _notice_historical_checks
-# END_FIRST_START_NOTICE_274
-
-# BEGIN_CURRENT_DEMO_EXPECTATION_370
-CURRENT_DEMO_APPEND_SHA = "b2506e8d3391b7d204ddf527a4d580088a51a14207cf114f5353c1e3c60e4f87"
-CURRENT_DEMO_BEFORE_COMMIT = "f9af121036f44d7d37722f67a182480c565dcb22"
-CURRENT_DEMO_AFTER_COMMIT = "9f3c16ab6c3a3dc8bc8482fc20d30ce4a8f7aa8c"
-CURRENT_DEMO_BEFORE_SHA = "0cc15618245c679bf891244a59ce408b2476283d8f683fde7d22b838a37973f5"
-CURRENT_DEMO_AFTER_SHA = "022a84fbc009329e8f96f7d99575167d9bb1eb84a8bae2b4b5a308ce0fec3a8e"
-CURRENT_DEMO_OLD_HUNK = (
-    '    manifest = read_json(ROOT / "content/meta/demo_localization_scope.json")\n'
-    '    errors.extend(demo_scope.compare_contract(\n'
-    '        manifest.get("source_contract"), observed\n'
-    '    ))\n'
-)
-CURRENT_DEMO_NEW_HUNK = (
-    '    manifest = read_json(ROOT / "content/meta/demo_localization_scope.json")\n'
-    '    expected, expectation_errors = demo_scope.current_source_contract(manifest, observed, runtime)\n'
-    '    errors.extend(expectation_errors)\n'
-    '    errors.extend(demo_scope.compare_contract(\n'
-    '        expected, observed\n'
-    '    ))\n'
-)
-_CURRENT_DEMO_OLD_NOTICE_RAW_VIEW = _notice_raw_view
-
-
-def _current_demo_git(*args):
-    import subprocess
-    result = subprocess.run(("git", "--no-replace-objects", *args), cwd=ROOT,
-                            capture_output=True, timeout=30)
-    if result.returncode:
-        raise ValueError("current-demo immutable Git proof unavailable")
-    return result.stdout
-
-
-def current_demo_pipeline_predecessor(raw):
-    """Prove only the exact369 caller plus this appendix; return immutable274."""
-    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("current-demo raw/import identity differs")
-    start, end = b"# BEGIN_CURRENT_DEMO_EXPECTATION_370\n", b"# END_CURRENT_DEMO_EXPECTATION_370\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("current-demo appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    span = raw[a:z]
-    binding = ('CURRENT_DEMO_APPEND_SHA = "' + CURRENT_DEMO_APPEND_SHA + '"').encode()
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'CURRENT_DEMO_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != CURRENT_DEMO_APPEND_SHA:
-        raise ValueError("current-demo appendix seal differs")
-    after = raw[:a] + raw[z:]
-    new, old = CURRENT_DEMO_NEW_HUNK.encode(), CURRENT_DEMO_OLD_HUNK.encode()
-    if after.count(new) != 1 or hashlib.sha256(after).hexdigest() != CURRENT_DEMO_AFTER_SHA:
-        raise ValueError("current-demo whole369 code/caller differs")
-    before = after.replace(new, old, 1)
-    if hashlib.sha256(before).hexdigest() != CURRENT_DEMO_BEFORE_SHA:
-        raise ValueError("current-demo whole274 inverse differs")
-    # Fresh proof on every outer call: earlier success never masks lost Git data.
-    if _current_demo_git("rev-parse", CURRENT_DEMO_AFTER_COMMIT + "^").decode().strip() != CURRENT_DEMO_BEFORE_COMMIT:
-        raise ValueError("current-demo exact369 parent differs")
-    for revision, expected in ((CURRENT_DEMO_BEFORE_COMMIT, before), (CURRENT_DEMO_AFTER_COMMIT, after)):
-        if _current_demo_git("show", revision + ":" + _NEW_RUN_JA) != expected:
-            raise ValueError("current-demo immutable369 code blob differs")
-    return before
-
-
-def _current_demo_notice_raw_view(source=None):
-    """Admit real current bytes; only the old reader sees its scoped code view."""
-    import subprocess
-    current = {}
-    try:
-        current = {p: (ROOT / p).read_bytes() for p in (NOTICE_PATH, _NEW_RUN_JA)}
-        if source is not None:
-            current[NOTICE_PATH] = source.encode("utf-8")
-        predecessor = current_demo_pipeline_predecessor(current[_NEW_RUN_JA])
-        with _notice_previous_reads({_NEW_RUN_JA: predecessor}):
-            historical_current, previous, errors = _CURRENT_DEMO_OLD_NOTICE_RAW_VIEW(source)
-        if historical_current != {**current, _NEW_RUN_JA: predecessor}:
-            raise ValueError("current-demo historical reader observation differs")
-        return current, previous, errors
-    except (OSError, ValueError, TypeError, UnicodeError, subprocess.TimeoutExpired) as exc:
-        return current, {}, ["current-demo code admission: " + str(exc)]
-
-
-_notice_raw_view = _current_demo_notice_raw_view
-# END_CURRENT_DEMO_EXPECTATION_370
-
-# BEGIN_NONFORMAT_BRANCH_378
-# Current additions are collected separately from the sealed historical census.
-NONFORMAT_APPEND_SHA = "66fc1f87d0c72e05936f7ab9a80322a1396177b89c3329bf35c34ec51058a690"
-NONFORMAT_BEFORE_COMMIT = "d03d002ac82fb9e3cf9f8d41c216db776e609568"
-NONFORMAT_BEFORE_BLOB = "8885353cc64c2dd4e7ea2594facf56b271d643d2"
-NONFORMAT_BEFORE_SHA = "62373cc5414de2d1d636a9fd181870d687974a76a80bdf1c1b38581a4b505d8a"
-NONFORMAT_RUNTIME = "scenes/ArubaGame.gd"
-NONFORMAT_RUNTIME_SHA = "e9744c1467a3043f91f77f7c9faa7ab2039e55777311e90b8ae43d889bfc4eeb"
-NONFORMAT_PAIRS = (("비 오는 저녁 배달", "Rainy Evening Delivery"),
-                   ("배달 루트 설정", "Delivery Route Planning"))
-_NONFORMAT_OLD_PARSE = parse_ui_calls
-_NONFORMAT_OLD_COLLECT = collect_ui_inventory
-_NONFORMAT_OLD_PREDECESSOR = current_demo_pipeline_predecessor
-_NONFORMAT_OLD_CHECKS = _last11_meta_title_historical_checks
-
-
-def nonformat_pipeline_predecessor(raw):
-    """Remove only this sealed appendix; retain the exact preceding code blob."""
-    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("nonformat branch raw/import identity differs")
-    start, end = b"# BEGIN_NONFORMAT_BRANCH_378\n", b"# END_NONFORMAT_BRANCH_378\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("nonformat branch appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    binding = ('NONFORMAT_APPEND_SHA = "' + NONFORMAT_APPEND_SHA + '"').encode()
-    span = raw[a:z]
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'NONFORMAT_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != NONFORMAT_APPEND_SHA:
-        raise ValueError("nonformat branch appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != NONFORMAT_BEFORE_SHA:
-        raise ValueError("nonformat branch whole code inverse differs")
-    oid = _current_demo_git("rev-parse", NONFORMAT_BEFORE_COMMIT + ":" + _NEW_RUN_JA).decode().strip()
-    blob = _current_demo_git("show", NONFORMAT_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if oid != NONFORMAT_BEFORE_BLOB or blob != previous or hashlib.sha1(
-            b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != oid:
-        raise ValueError("nonformat branch immutable code proof differs")
-    return previous
-
-
-def current_demo_pipeline_predecessor(raw):
-    return _NONFORMAT_OLD_PREDECESSOR(nonformat_pipeline_predecessor(raw))
-
-
-def nonformat_ui_calls(relative_path, source):
-    """Two plain literals around one shared, simple selector syntax.
-
-    Only a boolean name or zero-argument selector is supported. Nested ternaries,
-    string-valued conditions, formatting and mismatched conditions stay rejected.
-    Syntax does not prove purity; the admitted runtime registry binds the known
-    selector's actual source. This is not a general GDScript evaluator.
-    """
-    literal = r'"(?:\\.|[^"\\])*"'
-    branch = re.compile(r"^\s*(" + literal + r")\s+if\s+([A-Za-z_]\w*(?:\(\s*\))?)\s+else\s+(" + literal + r")\s*$", re.S)
-    functions = [(m.start(), m.group(1)) for m in GD_FUNCTION.finditer(source)]
-    offsets = [p for p, _ in functions]
-    calls, errors = [], []
-    for match in UI_PAIR_CALL_START.finditer(source):
-        try:
-            body, end = _balanced_call_body(source, match.start())
-            args = _split_gd_arguments(body)
-            if len(args) < 2 or not any(_has_condition_outside_strings(a) for a in args[:2]):
-                continue
-            if re.match(r"\s*\.format\s*\(", source[end:end + 96]):
-                continue  # The original formatted-branch parser remains the owner.
-            parsed = [branch.fullmatch(a) for a in args[:2]]
-            if len(args) != 2 or not all(parsed) or _normalize_gd_expression(parsed[0][2]) != _normalize_gd_expression(parsed[1][2]):
-                raise ValueError("requires two literal branches and the same simple selector")
-            if re.match(r"\s*(?:\.|%|\[)", source[end:end + 96]):
-                raise ValueError("post-lookup expression is not a plain branch")
-            index = bisect.bisect_right(offsets, match.start()) - 1
-            owner = functions[index][1] if index >= 0 else "<module>"
-            for part in (1, 3):
-                ko, en = (decode_gd_string(p[part]) for p in parsed)
-                if not ko.strip() or not en.strip():
-                    raise ValueError("empty branch literal")
-                calls.append(UiCall(relative_path, owner, source.count("\n", 0, match.start()) + 1,
-                                    "branch", ko, en))
-        except (ValueError, IndexError) as exc:
-            errors.append(f"{relative_path}: nonformat UI branch: {exc}")
-    return calls, errors
-
-
-def parse_ui_calls(relative_path, source):
-    old, errors = _NONFORMAT_OLD_PARSE(relative_path, source)
-    if relative_path != NONFORMAT_RUNTIME:
-        return old, errors  # Other discovered conditional surfaces need their own scope.
-    added, extra_errors = nonformat_ui_calls(relative_path, source)
-    return sorted([*old, *added], key=lambda call: call.line), [*errors, *extra_errors]
-
-
-def _nonformat_registry_errors(calls):
-    from collections import Counter
-    expected = Counter((NONFORMAT_RUNTIME, "open", "branch", ko, en, "") for ko, en in NONFORMAT_PAIRS)
-    actual = Counter((c.path, c.function, c.api, c.korean, c.english, c.context_id) for c in calls)
-    return [] if actual == expected else ["nonformat UI branch: exact two-title registry differs"]
-
-
-def _nonformat_collect(contract=None):
-    from unittest.mock import patch
-    captures, extra_errors = {}, []
-    def historical_parse(path, source):
-        if path != NONFORMAT_RUNTIME:
-            return _NONFORMAT_OLD_PARSE(path, source)
-        additions, errors = nonformat_ui_calls(path, source)
-        # The old collector may parse a file again in an older comparison scope.
-        if additions or errors:
-            captures[(path, hashlib.sha256(source.encode()).hexdigest())] = additions
-            extra_errors.extend(errors)
-        return _NONFORMAT_OLD_PARSE(path, source)
-    with patch.object(sys.modules[__name__], "parse_ui_calls", historical_parse):
-        baseline = _NONFORMAT_OLD_COLLECT(contract)
-    added = [call for rows in captures.values() for call in rows]
-    extra_errors.extend(_nonformat_registry_errors(added))
-    if captures.keys() != {(NONFORMAT_RUNTIME, NONFORMAT_RUNTIME_SHA)}:
-        extra_errors.append("nonformat UI branch: current owner/raw population differs")
-    if baseline.errors or extra_errors:
-        return _gift_replace(baseline, errors=tuple([*baseline.errors, *extra_errors]))
-    if any(c.korean in {ko for ko, _ in NONFORMAT_PAIRS} for c in baseline.calls):
-        return _gift_replace(baseline, errors=("nonformat UI branch: old inventory overlap",))
-    result = _new_run_log_inventory(baseline, (*baseline.calls, *added), contract)
-    # Preserve existing translation cache IDs and hashes, not just KO lookup keys.
-    previous_entries = {e.source: e for e in baseline.legacy_entries}
-    entries = tuple(previous_entries.get(e.source, _gift_replace(e, key="ui::branch::" + hashlib.sha1(e.source.encode()).hexdigest()))
-                    for e in result.legacy_entries)
-    result = _gift_replace(result, legacy_entries=entries,
-                          legacy_blueprint={e.source: {"$entry": e.key} for e in entries})
-    result.stats["nonformat_added_calls"] = len(added)
-    result.stats["nonformat_previous_stats"] = dict(baseline.stats)
-    result.stats["nonformat_previous_calls_sha256"] = hashlib.sha256(json.dumps(
-        [vars(c) for c in baseline.calls], ensure_ascii=False, sort_keys=True).encode()).hexdigest()
-    result.stats["nonformat_previous_entries_sha256"] = hashlib.sha256(json.dumps(
-        [(e.key, e.source, e.source_hash) for e in baseline.legacy_entries],
-        ensure_ascii=False).encode()).hexdigest()
-    changed = {"source_calls", "legacy_calls", "branch_variant_calls", "legacy_keys",
-               "parameter_total_ui_call_occurrences", "parameter_legacy_pair_call_occurrences",
-               "parameter_legacy_korean_source_keys", "parameter_legacy_korean_source_keys_sha256"}
-    preserved = (tuple(e for e in entries if e.source in previous_entries) == baseline.legacy_entries
-                 and {k: v for k, v in result.legacy_blueprint.items() if k in previous_entries} == baseline.legacy_blueprint
-                 and result.planned_context_entries == baseline.planned_context_entries
-                 and result.planned_context_blueprint == baseline.planned_context_blueprint
-                 and result.observed_context_entries == baseline.observed_context_entries
-                 and result.observed_context_blueprint == baseline.observed_context_blueprint
-                 and all(result.stats.get(k) == v for k, v in baseline.stats.items() if k not in changed))
-    if not preserved:
-        return _gift_replace(result, errors=("nonformat UI branch: unrelated inventory fields changed",))
-    result.stats["nonformat_preserved_fields_verified"] = True
-    return result
-
-
-@contextmanager
-def nonformat_historical_inventory():
-    """Explicit old-census scope for unchanged historical tests, never current QA."""
-    from unittest.mock import patch
-    nonformat_pipeline_predecessor(Path(__file__).read_bytes())
-    with patch.object(sys.modules[__name__], "parse_ui_calls", _NONFORMAT_OLD_PARSE), \
-            patch.object(sys.modules[__name__], "collect_ui_inventory", _NONFORMAT_OLD_COLLECT), \
-            patch.object(sys.modules[__name__], "_last11_meta_title_historical_checks", _NONFORMAT_OLD_CHECKS):
-        yield
-
-
-def _nonformat_historical_checks(inventory):
-    keys = {ko for ko, _ in NONFORMAT_PAIRS}
-    added = [c for c in inventory.calls if c.korean in keys]
-    errors = [*inventory.errors, *_nonformat_registry_errors(added)]
-    if errors:
-        return _gift_replace(inventory, errors=tuple(errors)), 0, errors
-    with nonformat_historical_inventory():
-        baseline = _NONFORMAT_OLD_COLLECT()
-        remaining = tuple(c for c in inventory.calls if c.korean not in keys)
-        if remaining != baseline.calls:
-            errors = ["nonformat UI branch: historical remaining calls differ"]
-            return _gift_replace(inventory, errors=tuple(errors)), 0, errors
-        return _NONFORMAT_OLD_CHECKS(baseline)
-
-
-collect_ui_inventory = _nonformat_collect
-_last11_meta_title_historical_checks = _nonformat_historical_checks
-# END_NONFORMAT_BRANCH_378
-
-# BEGIN_MODAL_LOCATION_381
-MODAL_PIPELINE_APPEND_SHA = "5af639c07ad061f3e8982c9f02c282c951114fab809821dd56da41049db15cd2"
-MODAL_PIPELINE_BEFORE_COMMIT = "280a030e65c0a64b77517b70e244ab2c7f170ed2"
-MODAL_PIPELINE_BEFORE_BLOB = "4cacac1f6c197f7201215df55fd7f50ac29030d9"
-MODAL_PIPELINE_BEFORE_SHA = "2b68f06da7108ce8a3f21b51fc6cf148ac1979a336bf76d425382e106e47af11"
-_MODAL_PIPELINE_OLD_PREDECESSOR = current_demo_pipeline_predecessor
-_MODAL_PIPELINE_OLD_NONFORMAT = nonformat_pipeline_predecessor
-_MODAL_LOCATION_OLD_COLLECT = collect_ui_inventory
-_MODAL_LOCATION_OLD_CHECKS = _last11_meta_title_historical_checks
-
-
-def modal_pipeline_predecessor(raw):
-    """Only this sealed current-location appendix is removed for old readers."""
-    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("modal-location code raw/import identity differs")
-    start, end = b"# BEGIN_MODAL_LOCATION_381\n", b"# END_MODAL_LOCATION_381\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("modal-location appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    span = raw[a:z]
-    binding = ('MODAL_PIPELINE_APPEND_SHA = "' + MODAL_PIPELINE_APPEND_SHA + '"').encode()
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'MODAL_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != MODAL_PIPELINE_APPEND_SHA:
-        raise ValueError("modal-location appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != MODAL_PIPELINE_BEFORE_SHA:
-        raise ValueError("modal-location whole predecessor differs")
-    blob = _current_demo_git("show", MODAL_PIPELINE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != MODAL_PIPELINE_BEFORE_BLOB:
-        raise ValueError("modal-location immutable code blob differs")
-    return previous
-
-
-def current_demo_pipeline_predecessor(raw):
-    return _NONFORMAT_OLD_PREDECESSOR(_MODAL_PIPELINE_OLD_NONFORMAT(modal_pipeline_predecessor(raw)))
-
-
-def nonformat_pipeline_predecessor(raw):
-    # Direct historical callers use this entry too, not just the notice entry.
-    return _MODAL_PIPELINE_OLD_NONFORMAT(modal_pipeline_predecessor(raw))
-
-
-def modal_rebind_inventory(inventory, raw):
-    """Keep identities and semantics; bind MainGame locations to admitted raw."""
-    from collections import Counter
-    previous = _gift_history.modal_font_predecessor(raw, ROOT)
-    path = _gift_history.MAIN_GAME_PATH
-    old_calls, old_errors = parse_ui_calls(path, previous.decode())
-    actual, errors = parse_ui_calls(path, raw.decode())
-    # The collector's established ordering is (path, line, API), whereas the
-    # parser preserves lexical API order among calls sharing one source line.
-    old_calls.sort(key=lambda c: (c.path, c.line, c.api))
-    actual.sort(key=lambda c: (c.path, c.line, c.api))
-    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
-    if old_errors or errors or Counter(map(semantic, old_calls)) != Counter(map(semantic, actual)):
-        raise ValueError("modal-location current/predecessor UI semantics differ")
-    # Ordered occurrences disambiguate repeated identical literals. Every old
-    # coordinate must occur in the actual predecessor, never guessed by offset.
-    if tuple(c for c in inventory.calls if c.path == path) != tuple(old_calls):
-        raise ValueError("modal-location supplied predecessor call coordinates differ")
-    if list(map(semantic, old_calls)) != list(map(semantic, actual)):
-        raise ValueError("modal-location source call order differs")
-    replacements = iter(actual)
-    calls = tuple(next(replacements) if c.path == path else c for c in inventory.calls)
-    contexts = {e.source: e.context for e in _gift_caption_inventory_view(inventory, calls).legacy_entries}
-    entries = tuple(_gift_replace(e, context=contexts[e.source]) for e in inventory.legacy_entries)
-    if [(e.key, e.source, e.source_hash, e.context_id, e.format_template) for e in entries] != [
-            (e.key, e.source, e.source_hash, e.context_id, e.format_template) for e in inventory.legacy_entries]:
-        raise ValueError("modal-location translation identity changed")
-    return _gift_replace(inventory, calls=calls, legacy_entries=entries)
-
-
-def _modal_location_collect(contract=None):
-    try:
-        raw = (ROOT / _gift_history.MAIN_GAME_PATH).read_bytes()
-        # The saved collector must see actual runtime bytes at its admission
-        # boundary; only its already scoped older readers receive old views.
-        baseline = _MODAL_LOCATION_OLD_COLLECT(contract)
-        if baseline.errors:
-            return baseline
-        result = modal_rebind_inventory(baseline, raw)
-        if (ROOT / _gift_history.MAIN_GAME_PATH).read_bytes() != raw:
-            raise ValueError("modal-location runtime changed during collection")
-        return result
-    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
-        return UiInventory((), (), {}, (), {}, (), {}, ("modal-location admission: " + str(exc),), {})
-
-
-def _modal_location_historical_checks(inventory):
-    try:
-        baseline = _MODAL_LOCATION_OLD_COLLECT()
-        current = modal_rebind_inventory(baseline, (ROOT / _gift_history.MAIN_GAME_PATH).read_bytes())
-        if inventory != current:
-            raise ValueError("modal-location supplied current inventory differs")
-        return _MODAL_LOCATION_OLD_CHECKS(baseline)
-    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
-        errors = ["modal-location comparison: " + str(exc)]
-        return _gift_replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
-
-
-collect_ui_inventory = _modal_location_collect
-_last11_meta_title_historical_checks = _modal_location_historical_checks
-# END_MODAL_LOCATION_381
-
-# BEGIN_TUTORIAL_COPY_390
-TUTORIAL_PIPELINE_APPEND_SHA = "b1e3228252629b055fd8cb108daf9163dbec81c785c31f8498c1a7d29cbca586"
-TUTORIAL_PIPELINE_BEFORE_BLOB = "2a3c978c76879e51b20a7540153858e094fdd5fc"
-TUTORIAL_PIPELINE_BEFORE_SHA = "49a61bdb0c2ce06a1656f4a3b6c4794b3ad40945bab3cdaf1507a5a1ee66bec2"
-_TUTORIAL_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
-
-
-def tutorial_pipeline_predecessor(raw):
-    """Prove this code appendix before any saved collector sees its old bytes."""
-    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("tutorial-copy code raw/import identity differs")
-    start, end = b"# BEGIN_TUTORIAL_COPY_390\n", b"# END_TUTORIAL_COPY_390\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("tutorial-copy appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    span = raw[a:z]
-    binding = ('TUTORIAL_PIPELINE_APPEND_SHA = "' + TUTORIAL_PIPELINE_APPEND_SHA + '"').encode()
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'TUTORIAL_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != TUTORIAL_PIPELINE_APPEND_SHA:
-        raise ValueError("tutorial-copy appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != TUTORIAL_PIPELINE_BEFORE_SHA:
-        raise ValueError("tutorial-copy whole predecessor differs")
-    blob = _current_demo_git("show", _gift_history.TUTORIAL_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != TUTORIAL_PIPELINE_BEFORE_BLOB:
-        raise ValueError("tutorial-copy immutable code blob differs")
-    return previous
-
-
-def modal_pipeline_predecessor(raw):
-    return _TUTORIAL_OLD_MODAL_PIPELINE_PREDECESSOR(tutorial_pipeline_predecessor(raw))
-
-
-def _tutorial_copy_call_views(raw):
-    """Actual source and pre381 views differ in exactly the approved one pair."""
-    previous = _gift_history.modal_font_predecessor(raw, ROOT)
-    path = _gift_history.MAIN_GAME_PATH
-    before, old_errors = parse_ui_calls(path, previous.decode())
-    actual, errors = parse_ui_calls(path, raw.decode())
-    before.sort(key=lambda c: (c.path, c.line, c.api))
-    actual.sort(key=lambda c: (c.path, c.line, c.api))
-    old_selector = (path, "_show_tutorial", "legacy", _gift_history.TUTORIAL_OLD_KO,
-                    _gift_history.TUTORIAL_OLD_EN, "")
-    new_selector = (path, "_show_tutorial", "legacy", _gift_history.TUTORIAL_NEW_KO,
-                    _gift_history.TUTORIAL_NEW_EN, "")
-    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
-    old_semantic, new_semantic = list(map(semantic, before)), list(map(semantic, actual))
-    if (old_errors or errors or old_semantic.count(old_selector) != 1
-            or new_semantic.count(new_selector) != 1
-            or any(c.korean == _gift_history.TUTORIAL_OLD_KO for c in actual)
-            or [new_selector if row == old_selector else row for row in old_semantic] != new_semantic):
-        raise ValueError("tutorial-copy exact current/predecessor selector or unowned semantics differ")
-    return tuple(before), tuple(actual)
-
-
-def modal_rebind_inventory(inventory, raw):
-    """Expose the new Korean key/English pair; retain only old comparison views."""
-    before, actual = _tutorial_copy_call_views(raw)
-    path = _gift_history.MAIN_GAME_PATH
-    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
-        raise ValueError("tutorial-copy supplied predecessor inventory differs")
-    replacements = iter(actual)
-    calls = tuple(next(replacements) if c.path == path else c for c in inventory.calls)
-    result = _gift_caption_inventory_view(inventory, calls)
-    old_ko, new_ko = _gift_history.TUTORIAL_OLD_KO, _gift_history.TUTORIAL_NEW_KO
-    old_entries = {e.source: e for e in inventory.legacy_entries}
-    new_entries = {e.source: e for e in result.legacy_entries}
-    if (set(old_entries) - set(new_entries) != {old_ko}
-            or set(new_entries) - set(old_entries) != {new_ko}):
-        raise ValueError("tutorial-copy source identity changed outside its one key")
-    # Rebuilding locations must not renumber unrelated entries, including the
-    # two explicit ui::branch IDs introduced by the unchanged378 collector.
-    entries = tuple(_gift_replace(old_entries[e.source], context=e.context)
-                    if e.source in old_entries else e for e in result.legacy_entries)
-    blueprint = {e.source: {"$entry": e.key} for e in entries}
-    if any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
-           for e in entries if e.source in old_entries):
-        raise ValueError("tutorial-copy unowned entry identity changed")
-    return _gift_replace(result, legacy_entries=entries, legacy_blueprint=blueprint)
-# END_TUTORIAL_COPY_390
-
-# BEGIN_PROMOTION_REVIEW_COLLECTOR_406
-PROMOTION_PIPELINE_APPEND_SHA = "fc731061e6c284d29ba46fca6db7ccf7de7e232b2e46249e531f492a62acdd4d"
-PROMOTION_PIPELINE_BEFORE_SHA = "6489aa667a5424de3af6524f170a88261358c442b883a9b52f5026a519df81d0"
-PROMOTION_PIPELINE_BEFORE_BLOB = "f12cf4351bb07a62bd47cbb6e6a8424200664006"
-_PROMOTION_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
-_PROMOTION_OLD_TUTORIAL_CALL_VIEWS = _tutorial_copy_call_views
-_PROMOTION_OLD_REBIND_INVENTORY = modal_rebind_inventory
-
-
-def promotion_pipeline_predecessor(raw):
-    """Remove only the sealed406 appendix, returning actual pre406 code bytes."""
-    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("promotion-review code raw/import identity differs")
-    start, end = b"# BEGIN_PROMOTION_REVIEW_COLLECTOR_406\n", b"# END_PROMOTION_REVIEW_COLLECTOR_406\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("promotion-review appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    span = raw[a:z]
-    binding = ('PROMOTION_PIPELINE_APPEND_SHA = "' + PROMOTION_PIPELINE_APPEND_SHA + '"').encode()
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'PROMOTION_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != PROMOTION_PIPELINE_APPEND_SHA:
-        raise ValueError("promotion-review appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != PROMOTION_PIPELINE_BEFORE_SHA:
-        raise ValueError("promotion-review whole predecessor differs")
-    blob = _current_demo_git("show", _gift_history.PROMOTION_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != PROMOTION_PIPELINE_BEFORE_BLOB:
-        raise ValueError("promotion-review immutable code blob differs")
-    return previous
-
-
-def modal_pipeline_predecessor(raw):
-    return _PROMOTION_OLD_MODAL_PIPELINE_PREDECESSOR(promotion_pipeline_predecessor(raw))
-
-
-def _promotion_review_call_views(raw):
-    """Current calls differ from pre381 in the two declared source pairs only."""
-    previous = _gift_history.modal_font_predecessor(raw, ROOT)
-    path = _gift_history.MAIN_GAME_PATH
-    before, old_errors = parse_ui_calls(path, previous.decode())
-    actual, errors = parse_ui_calls(path, raw.decode())
-    before.sort(key=lambda c: (c.path, c.line, c.api))
-    actual.sort(key=lambda c: (c.path, c.line, c.api))
-    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
-    pairs = tuple(((path, owner, "legacy", old_ko, old_en, ""),
-                   (path, owner, "legacy", new_ko, new_en, "")) for owner, old_ko, old_en, new_ko, new_en in (
-        ("_show_tutorial", _gift_history.TUTORIAL_OLD_KO, _gift_history.TUTORIAL_OLD_EN,
-         _gift_history.TUTORIAL_NEW_KO, _gift_history.TUTORIAL_NEW_EN),
-        ("_open_cat_work", _gift_history.PROMOTION_OLD_KO, _gift_history.PROMOTION_OLD_EN,
-         _gift_history.PROMOTION_NEW_KO, _gift_history.PROMOTION_NEW_EN)))
-    old_semantic, new_semantic = list(map(semantic, before)), list(map(semantic, actual))
-    replacements = dict(pairs)
-    if (old_errors or errors or len(replacements) != 2
-            or any(old_semantic.count(old) != 1 or new_semantic.count(new) != 1
-                   or any(c.korean == old[3] for c in actual) for old, new in pairs)
-            or [replacements.get(row, row) for row in old_semantic] != new_semantic):
-        raise ValueError("promotion-review exact two selectors or unowned semantics differ")
-    return tuple(before), tuple(actual)
-
-
-# The unchanged tutorial-retained audit must compare with actual current calls.
-# Its historical one-pair body remains above and saved for explicit comparisons.
-_tutorial_copy_call_views = _promotion_review_call_views
-
-
-def modal_rebind_inventory(inventory, raw):
-    before, actual = _promotion_review_call_views(raw)
-    path = _gift_history.MAIN_GAME_PATH
-    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
-        raise ValueError("promotion-review supplied predecessor inventory differs")
-    replacements = iter(actual)
-    calls = tuple(next(replacements) if c.path == path else c for c in inventory.calls)
-    result = _gift_caption_inventory_view(inventory, calls)
-    old_entries = {e.source: e for e in inventory.legacy_entries}
-    new_entries = {e.source: e for e in result.legacy_entries}
-    if (set(old_entries) - set(new_entries) != {_gift_history.TUTORIAL_OLD_KO, _gift_history.PROMOTION_OLD_KO}
-            or set(new_entries) - set(old_entries) != {_gift_history.TUTORIAL_NEW_KO, _gift_history.PROMOTION_NEW_KO}):
-        raise ValueError("promotion-review source identity changed outside its two keys")
-    entries = tuple(_gift_replace(old_entries[e.source], context=e.context)
-                    if e.source in old_entries else e for e in result.legacy_entries)
-    blueprint = {e.source: {"$entry": e.key} for e in entries}
-    if any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
-           for e in entries if e.source in old_entries):
-        raise ValueError("promotion-review unowned entry identity changed")
-    return _gift_replace(result, legacy_entries=entries, legacy_blueprint=blueprint)
-# END_PROMOTION_REVIEW_COLLECTOR_406
-
-# BEGIN_CAREER_TENURE_COLLECTOR_409
-TENURE_PIPELINE_APPEND_SHA = "d00d80e05b50d03a23a278ced47061b914565a3abfc26fddb089102247482cf5"
-TENURE_PIPELINE_BEFORE_SHA = "c26eff24e0c2d42ab00a0bf48c4b4d529814d9aa7973300349cc5d3bad303be7"
-TENURE_PIPELINE_BEFORE_BLOB = "c0a904cc61cb6945888cf80b840e4ea5940b3feb"
-_TENURE_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
-_TENURE_OLD_TUTORIAL_CALL_VIEWS = _tutorial_copy_call_views
-_TENURE_OLD_PROMOTION_CALL_VIEWS = _promotion_review_call_views
-_TENURE_OLD_REBIND_INVENTORY = modal_rebind_inventory
-
-
-def career_tenure_pipeline_predecessor(raw):
-    """Remove only this sealed appendix before invoking the preserved406 chain."""
-    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("career-tenure code raw/import identity differs")
-    start, end = b"# BEGIN_CAREER_TENURE_COLLECTOR_409\n", b"# END_CAREER_TENURE_COLLECTOR_409\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("career-tenure appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    span = raw[a:z]
-    binding = ('TENURE_PIPELINE_APPEND_SHA = "' + TENURE_PIPELINE_APPEND_SHA + '"').encode()
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'TENURE_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != TENURE_PIPELINE_APPEND_SHA:
-        raise ValueError("career-tenure appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != TENURE_PIPELINE_BEFORE_SHA:
-        raise ValueError("career-tenure whole predecessor differs")
-    blob = _current_demo_git("show", _gift_history.TENURE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != TENURE_PIPELINE_BEFORE_BLOB:
-        raise ValueError("career-tenure immutable code blob differs")
-    return previous
-
-
-def modal_pipeline_predecessor(raw):
-    return _TENURE_OLD_MODAL_PIPELINE_PREDECESSOR(career_tenure_pipeline_predecessor(raw))
-
-
-def _career_tenure_call_views(raw):
-    """Expose current English/locations while preserving every Korean identity."""
-    previous = _gift_history.modal_font_predecessor(raw, ROOT)
-    path = _gift_history.MAIN_GAME_PATH
-    before, old_errors = parse_ui_calls(path, previous.decode())
-    actual, errors = parse_ui_calls(path, raw.decode())
-    before.sort(key=lambda c: (c.path, c.line, c.api))
-    actual.sort(key=lambda c: (c.path, c.line, c.api))
-    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
-    pairs = tuple(((path, owner, "legacy", old_ko, old_en, ""),
-                   (path, owner, "legacy", new_ko, new_en, "")) for owner, old_ko, old_en, new_ko, new_en in (
-        ("_show_tutorial", _gift_history.TUTORIAL_OLD_KO, _gift_history.TUTORIAL_OLD_EN,
-         _gift_history.TUTORIAL_NEW_KO, _gift_history.TUTORIAL_NEW_EN),
-        ("_open_cat_work", _gift_history.PROMOTION_OLD_KO, _gift_history.PROMOTION_OLD_EN,
-         _gift_history.PROMOTION_NEW_KO, _gift_history.PROMOTION_NEW_EN),
-        ("_open_cat_work", _gift_history.TENURE_KO, _gift_history.TENURE_OLD_EN,
-         _gift_history.TENURE_KO, _gift_history.TENURE_NEW_EN)))
-    old_semantic, new_semantic = list(map(semantic, before)), list(map(semantic, actual))
-    replacements = dict(pairs)
-    retired = {_gift_history.TUTORIAL_OLD_KO, _gift_history.PROMOTION_OLD_KO}
-    if (old_errors or errors or len(replacements) != 3
-            or any(old_semantic.count(old) != 1 or new_semantic.count(new) != 1
-                   or old in new_semantic for old, new in pairs)
-            or any(c.korean in retired for c in actual)
-            or sum(c.korean == _gift_history.TENURE_KO for c in before) != 1
-            or sum(c.korean == _gift_history.TENURE_KO for c in actual) != 1
-            or [replacements.get(row, row) for row in old_semantic] != new_semantic):
-        raise ValueError("career-tenure exact three selectors or unowned semantics differ")
-    return tuple(before), tuple(actual)
-
-
-# Both retained-JA readers must see the current calls, not an earlier EN view.
-_tutorial_copy_call_views = _career_tenure_call_views
-_promotion_review_call_views = _career_tenure_call_views
-
-
-def modal_rebind_inventory(inventory, raw):
-    before, actual = _career_tenure_call_views(raw)
-    path = _gift_history.MAIN_GAME_PATH
-    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
-        raise ValueError("career-tenure supplied predecessor inventory differs")
-    replacements = iter(actual)
-    calls = tuple(next(replacements) if c.path == path else c for c in inventory.calls)
-    result = _gift_caption_inventory_view(inventory, calls)
-    old_entries = {e.source: e for e in inventory.legacy_entries}
-    new_entries = {e.source: e for e in result.legacy_entries}
-    if (set(old_entries) - set(new_entries) != {_gift_history.TUTORIAL_OLD_KO, _gift_history.PROMOTION_OLD_KO}
-            or set(new_entries) - set(old_entries) != {_gift_history.TUTORIAL_NEW_KO, _gift_history.PROMOTION_NEW_KO}
-            or _gift_history.TENURE_KO not in old_entries or _gift_history.TENURE_KO not in new_entries):
-        raise ValueError("career-tenure Korean source identities changed")
-    entries = tuple(_gift_replace(old_entries[e.source], context=e.context)
-                    if e.source in old_entries else e for e in result.legacy_entries)
-    blueprint = {e.source: {"$entry": e.key} for e in entries}
-    if any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
-           for e in entries if e.source in old_entries):
-        raise ValueError("career-tenure unowned entry identity changed")
-    return _gift_replace(result, legacy_entries=entries, legacy_blueprint=blueprint)
-# END_CAREER_TENURE_COLLECTOR_409
-
-# BEGIN_HOLDEM_MONEY_COLLECTOR_434
-import holdem_money_history as _holdem_money_history
-
-HOLDEM_MONEY_PIPELINE_APPEND_SHA = "0b576ffb00fd2fbf78b0810445ca663cafb7e199f22df2cefedf00e464d65ad9"
-HOLDEM_MONEY_PIPELINE_BEFORE_SHA = "55a3b65670765fdf8aedb75e78fbbd94b0306e97f873c5e4a8580b9e171e9e27"
-HOLDEM_MONEY_PIPELINE_BEFORE_BLOB = "5d644d0bb6ba2d58501f3a964094bd46b85cbeff"
-_HOLDEM_MONEY_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
-_HOLDEM_MONEY_OLD_COLLECT = collect_ui_inventory
-_HOLDEM_MONEY_OLD_CHECKS = _last11_meta_title_historical_checks
-
-
-def holdem_money_pipeline_predecessor(raw):
-    """Strip only this sealed successor before the unchanged collector proof."""
-    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("holdem-money code raw/import identity differs")
-    start, end = b"# BEGIN_HOLDEM_MONEY_COLLECTOR_434\n", b"# END_HOLDEM_MONEY_COLLECTOR_434\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("holdem-money appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    span = raw[a:z]
-    binding = ('HOLDEM_MONEY_PIPELINE_APPEND_SHA = "' + HOLDEM_MONEY_PIPELINE_APPEND_SHA + '"').encode()
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'HOLDEM_MONEY_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != HOLDEM_MONEY_PIPELINE_APPEND_SHA:
-        raise ValueError("holdem-money appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != HOLDEM_MONEY_PIPELINE_BEFORE_SHA:
-        raise ValueError("holdem-money whole predecessor differs")
-    blob = _holdem_money_history._git(ROOT, "show", _holdem_money_history.BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != HOLDEM_MONEY_PIPELINE_BEFORE_BLOB:
-        raise ValueError("holdem-money immutable code blob differs")
-    return previous
-
-
-def modal_pipeline_predecessor(raw):
-    return _HOLDEM_MONEY_OLD_MODAL_PIPELINE_PREDECESSOR(holdem_money_pipeline_predecessor(raw))
-
-
-def _holdem_money_call_views(raw):
-    """The live view has exactly three fewer calls, never a dead formatter."""
-    previous = _holdem_money_history.holdem_money_predecessor(raw, ROOT)
-    path = _holdem_money_history.HOLDEM_PATH
-    before, old_errors = parse_ui_calls(path, previous.decode("utf-8"))
-    actual, errors = parse_ui_calls(path, raw.decode("utf-8"))
-    before.sort(key=lambda c: (c.path, c.line, c.api))
-    actual.sort(key=lambda c: (c.path, c.line, c.api))
-    selectors = {(path, "_fmt", "legacy", ko, en, "") for ko, en in _holdem_money_history.RETIRED_PAIRS}
-    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
-    retired = {ko for ko, _en in _holdem_money_history.RETIRED_PAIRS}
-    if (old_errors or errors or len(selectors) != 3 or len(retired) != 3
-            or any(sum(semantic(c) == row for c in before) != 1 for row in selectors)
-            or any(c.korean in retired for c in actual)
-            or [c for c in before if semantic(c) not in selectors] != actual):
-        raise ValueError("holdem-money exact three retired selectors or unowned calls differ")
-    return tuple(before), tuple(actual)
-
-
-@contextmanager
-def _holdem_money_previous_reads(raw):
-    """Only old comparison readers see old text; raw/Git reads stay current."""
-    from unittest.mock import patch
-    previous = _holdem_money_history.holdem_money_predecessor(raw, ROOT)
-    owner = ROOT / _holdem_money_history.HOLDEM_PATH
-    text0 = Path.read_text
-
-    def read_text(path, *args, **kwargs):
-        if path == owner:
-            return previous.decode(kwargs.get("encoding") or (args[0] if args else None) or "utf-8",
-                                   errors=kwargs.get("errors") or "strict")
-        return text0(path, *args, **kwargs)
-
-    with patch.object(Path, "read_text", read_text):
-        yield
-    if owner.read_bytes() != raw:
-        raise ValueError("holdem-money runtime changed during historical comparison")
-
-
-def holdem_money_rebind_inventory(inventory, raw, contract=None):
-    before, actual = _holdem_money_call_views(raw)
-    path = _holdem_money_history.HOLDEM_PATH
-    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
-        raise ValueError("holdem-money supplied predecessor inventory differs")
-    calls = tuple(c for c in inventory.calls if c.path != path) + actual
-    result = _new_run_log_inventory(inventory, calls, contract)
-    retired = {ko for ko, _en in _holdem_money_history.RETIRED_PAIRS}
-    old_entries = {e.source: e for e in inventory.legacy_entries}
-    new_entries = {e.source: e for e in result.legacy_entries}
-    if (set(old_entries) - set(new_entries) != retired or set(new_entries) - set(old_entries)
-            or len(inventory.calls) - len(result.calls) != 3
-            or any(c.korean in retired for c in result.calls)):
-        raise ValueError("holdem-money current source retirement population differs")
-    entries = tuple(_gift_replace(old_entries[e.source], context=e.context) for e in result.legacy_entries)
-    if any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source] for e in entries):
-        raise ValueError("holdem-money remaining translation identity changed")
-    for field in ("planned_context_entries", "planned_context_blueprint", "observed_context_entries", "observed_context_blueprint"):
-        if getattr(result, field) != getattr(inventory, field):
-            raise ValueError("holdem-money unowned context inventory changed")
-    changed = {"source_calls", "legacy_calls", "legacy_api_calls", "legacy_keys",
-               "parameter_total_ui_call_occurrences", "parameter_legacy_pair_call_occurrences",
-               "parameter_legacy_korean_source_keys", "parameter_legacy_korean_source_keys_sha256"}
-    if any(value != inventory.stats.get(key) for key, value in result.stats.items() if key not in changed):
-        raise ValueError("holdem-money unowned source census changed")
-    for key in changed - {"parameter_legacy_korean_source_keys_sha256"}:
-        if result.stats[key] != inventory.stats[key] - 3:
-            raise ValueError("holdem-money current census is not exact minus3")
-    # The old registry still owns its two migrations. The returned current
-    # census also includes this exact new owner; observations are never patched.
-    if inventory.stats.get("parameter_money_formatter_migrations") != 2:
-        raise ValueError("holdem-money predecessor money formatter census differs")
-    stats = dict(result.stats)
-    stats.update(parameter_money_formatter_migrations=3, holdem_money_retired_calls=3,
-                 holdem_money_retired_keys=3, holdem_money_added_formatter_owners=1)
-    return _gift_replace(result, legacy_entries=entries,
-                         legacy_blueprint={e.source: {"$entry": e.key} for e in entries}, stats=stats)
-
-
-def _holdem_money_collect(contract=None):
-    try:
-        raw = (ROOT / _holdem_money_history.HOLDEM_PATH).read_bytes()
-        _holdem_money_call_views(raw)
-        with _holdem_money_previous_reads(raw):
-            baseline = _HOLDEM_MONEY_OLD_COLLECT(contract)
-        if baseline.errors:
-            return baseline
-        result = holdem_money_rebind_inventory(baseline, raw, contract)
-        if (ROOT / _holdem_money_history.HOLDEM_PATH).read_bytes() != raw:
-            raise ValueError("holdem-money runtime changed during collection")
-        return result
-    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
-        return UiInventory((), (), {}, (), {}, (), {}, ("holdem-money admission: " + str(exc),), {})
-
-
-def _holdem_money_historical_checks(inventory):
-    try:
-        raw = (ROOT / _holdem_money_history.HOLDEM_PATH).read_bytes()
-        _holdem_money_call_views(raw)
-        with _holdem_money_previous_reads(raw):
-            baseline = _HOLDEM_MONEY_OLD_COLLECT()
-            current = holdem_money_rebind_inventory(baseline, raw)
-            if inventory != current:
-                raise ValueError("holdem-money supplied current inventory differs")
-            result = _HOLDEM_MONEY_OLD_CHECKS(baseline)
-        return result
-    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
-        errors = ["holdem-money comparison: " + str(exc)]
-        return _gift_replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
-
-
-collect_ui_inventory = _holdem_money_collect
-_last11_meta_title_historical_checks = _holdem_money_historical_checks
-# END_HOLDEM_MONEY_COLLECTOR_434
-
-# BEGIN_HOLDEM_BANNER_LOCALE_COLLECTOR_447
-# Keep historical64/retired3 contracts intact; publish all66 current calls.
-HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA = "e6defde38efbcf917343a5265b916ae2ccb3dc05235d3428fea129e74d2ce392"
-HOLDEM_BANNER_LOCALE_PIPELINE_BEFORE_SHA = "a16971c199dd2deeb76abb786a7eace97a1eaf31c89349bae7108b1d2249ec8b"
-HOLDEM_BANNER_LOCALE_PIPELINE_BEFORE_BLOB = "ffd47f4f7c7d6d9c12f751c5211c205cfeb022ae"
-HOLDEM_BANNER_LOCALE_PAIRS = (("새 핸드", "New Hand"), ("플랍", "Flop"), ("턴", "Turn"),
-                             ("리버", "River"), ("쇼다운", "Showdown"))
-_HOLDEM_BANNER_LOCALE_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
-_HOLDEM_BANNER_LOCALE_OLD_REBIND = holdem_money_rebind_inventory
-
-
-def holdem_banner_locale_pipeline_predecessor(raw):
-    """Remove only the new sealed appendix before all unchanged old seals."""
-    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("holdem-banner-locale code raw/import identity differs")
-    start, end = b"# BEGIN_HOLDEM_BANNER_LOCALE_COLLECTOR_447\n", b"# END_HOLDEM_BANNER_LOCALE_COLLECTOR_447\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("holdem-banner-locale appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    span = raw[a:z]
-    binding = ('HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA = "' + HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA + '"').encode()
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != HOLDEM_BANNER_LOCALE_PIPELINE_APPEND_SHA:
-        raise ValueError("holdem-banner-locale appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != HOLDEM_BANNER_LOCALE_PIPELINE_BEFORE_SHA:
-        raise ValueError("holdem-banner-locale whole predecessor differs")
-    blob = _holdem_money_history._git(ROOT, "show", _holdem_money_history.BANNER_LOCALE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != HOLDEM_BANNER_LOCALE_PIPELINE_BEFORE_BLOB:
-        raise ValueError("holdem-banner-locale immutable code blob differs")
-    return previous
-
-
-def modal_pipeline_predecessor(raw):
-    return _HOLDEM_BANNER_LOCALE_OLD_MODAL_PIPELINE_PREDECESSOR(holdem_banner_locale_pipeline_predecessor(raw))
-
-
-def _holdem_banner_locale_call_views(raw):
-    predecessors = _holdem_money_history._holdem_banner_locale_proof(raw, ROOT)
-    path = _holdem_money_history.HOLDEM_PATH
-    views = [parse_ui_calls(path, value.decode("utf-8")) for value in (predecessors[-1], predecessors[0], raw)]
-    if any(errors for _calls, errors in views):
-        raise ValueError("holdem-banner-locale call parse differs")
-    before, retained, actual = (tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
-                                for calls, _errors in views)
-    selectors = {(path, "_fmt", "legacy", ko, en, "") for ko, en in _holdem_money_history.RETIRED_PAIRS}
-    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
-    added = tuple(UiCall(path, "_phase_banner_label", 1784 + index, "legacy", ko, en)
-                  for index, (ko, en) in enumerate(HOLDEM_BANNER_LOCALE_PAIRS))
-    retired = {ko for ko, _en in _holdem_money_history.RETIRED_PAIRS}
-    if (len(before) != 64 or len(retained) != 61 or len(actual) != 66 or len(selectors) != 3
-            or len(retired) != 3 or len(added) != 5
-            or any(sum(semantic(c) == selector for c in before) != 1 for selector in selectors)
-            or tuple(c for c in before if semantic(c) not in selectors) != retained
-            or actual != (*retained, *added) or any(c.korean in retired for c in actual)
-            or any(c.korean == "새 핸드" for c in before)):
-        raise ValueError("holdem-banner-locale exact old61/new5 or retired3 calls differ")
-    return before, actual
-
-
-# Retained-JA readers need the honest current66, not the comparison-only61.
-_holdem_money_call_views = _holdem_banner_locale_call_views
-
-
-def holdem_money_rebind_inventory(inventory, raw, contract=None):
-    from unittest.mock import patch
-    before, actual = _holdem_banner_locale_call_views(raw)
-    path = _holdem_money_history.HOLDEM_PATH
-    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
-        raise ValueError("holdem-banner-locale supplied predecessor inventory differs")
-    # Invoke the unchanged pure retirement rebind only with the proved old61.
-    # The collector returned below always includes all five real new calls.
-    with patch.object(sys.modules[__name__], "_holdem_money_call_views", return_value=(before, actual[:-5])):
-        previous = _HOLDEM_BANNER_LOCALE_OLD_REBIND(inventory, raw, contract)
-    calls = tuple(c for c in previous.calls if c.path != path) + actual
-    result = _new_run_log_inventory(previous, calls, contract)
-    old_entries = {e.source: e for e in previous.legacy_entries}
-    new_entries = {e.source: e for e in result.legacy_entries}
-    if set(old_entries) - set(new_entries) or set(new_entries) - set(old_entries) != {"새 핸드"}:
-        raise ValueError("holdem-banner-locale unique Korean source population differs")
-    entries = tuple(_gift_replace(old_entries[e.source], context=e.context) if e.source in old_entries
-                    else _gift_replace(e, key="ui::holdem-banner::" + hashlib.sha1(e.source.encode()).hexdigest())
-                    for e in result.legacy_entries)
-    if (len({e.key for e in entries}) != len(entries)
-            or any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
-                   for e in entries if e.source in old_entries)):
-        raise ValueError("holdem-banner-locale existing Entry identity changed")
-    for field in ("planned_context_entries", "planned_context_blueprint", "observed_context_entries", "observed_context_blueprint"):
-        if getattr(result, field) != getattr(previous, field):
-            raise ValueError("holdem-banner-locale unowned context inventory changed")
-    deltas = {"source_calls": 5, "legacy_calls": 5, "legacy_api_calls": 5, "legacy_keys": 1,
-              "parameter_total_ui_call_occurrences": 5, "parameter_legacy_pair_call_occurrences": 5,
-              "parameter_legacy_korean_source_keys": 1}
-    changed = {*deltas, "parameter_legacy_korean_source_keys_sha256"}
-    if (any(result.stats.get(key) != value + deltas[key] for key, value in previous.stats.items() if key in deltas)
-            or any(result.stats.get(key) != value for key, value in previous.stats.items() if key not in changed)
-            or set(result.stats) != set(previous.stats)):
-        raise ValueError("holdem-banner-locale call/key census or unowned statistic differs")
-    stats = {**result.stats, "holdem_banner_locale_added_calls": 5, "holdem_banner_locale_added_keys": 1}
-    return _gift_replace(result, legacy_entries=entries,
-                         legacy_blueprint={e.source: {"$entry": e.key} for e in entries}, stats=stats)
-# END_HOLDEM_BANNER_LOCALE_COLLECTOR_447
-
-# BEGIN_HOLDEM_TABLE_LABELS_COLLECTOR_449
-# Publish current71 while retaining historical64/retired3/banner66 contracts.
-HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA = "0cd58173d241f756c6661616d155e8c9d6e43bd6e7dedbe9c2836c08e70d90ab"
-HOLDEM_TABLE_LABELS_PIPELINE_BEFORE_SHA = "1a2878b702867a4baa22f0ce2480a749af4cb0c48ee070bba0e4396c8062ef32"
-HOLDEM_TABLE_LABELS_PIPELINE_BEFORE_BLOB = "40894d482d977a18a7c42846904830183b4224c8"
-HOLDEM_TABLE_LABELS_SITES = (
-    ("_render_table", 548, "팟", "POT"),
-    ("_build_table_surface", 611, "팟", "POT"),
-    ("_build_table_surface", 639, "공개 카드", "BOARD"),
-    ("_build_holdem_seat", 783, "보유 칩", "STACK"),
-    ("_build_holdem_seat", 785, "베팅", "BET"),
-)
-_HOLDEM_TABLE_LABELS_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
-_HOLDEM_TABLE_LABELS_OLD_REBIND = holdem_money_rebind_inventory
-
-
-def holdem_table_labels_pipeline_predecessor(raw):
-    """Remove this exact sealed successor before entering every unchanged seal."""
-    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("holdem-table-labels code raw/import identity differs")
-    start, end = b"# BEGIN_HOLDEM_TABLE_LABELS_COLLECTOR_449\n", b"# END_HOLDEM_TABLE_LABELS_COLLECTOR_449\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("holdem-table-labels appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    span = raw[a:z]
-    binding = ('HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA = "' + HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA + '"').encode()
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != HOLDEM_TABLE_LABELS_PIPELINE_APPEND_SHA:
-        raise ValueError("holdem-table-labels appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != HOLDEM_TABLE_LABELS_PIPELINE_BEFORE_SHA:
-        raise ValueError("holdem-table-labels whole predecessor differs")
-    blob = _holdem_money_history._git(ROOT, "show", _holdem_money_history.TABLE_LABELS_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != HOLDEM_TABLE_LABELS_PIPELINE_BEFORE_BLOB:
-        raise ValueError("holdem-table-labels immutable code blob differs")
-    return previous
-
-
-def modal_pipeline_predecessor(raw):
-    return _HOLDEM_TABLE_LABELS_OLD_MODAL_PIPELINE_PREDECESSOR(holdem_table_labels_pipeline_predecessor(raw))
-
-
-def _holdem_table_labels_call_views(raw):
-    predecessors = _holdem_money_history._holdem_table_labels_proof(raw, ROOT)
-    path = _holdem_money_history.HOLDEM_PATH
-    views = [parse_ui_calls(path, value.decode("utf-8")) for value in (predecessors[-1], predecessors[0], raw)]
-    if any(errors for _calls, errors in views):
-        raise ValueError("holdem-table-labels call parse differs")
-    ordered = lambda calls: tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
-    before, retained, actual = (ordered(calls) for calls, _errors in views)
-    selectors = {(path, "_fmt", "legacy", ko, en, "") for ko, en in _holdem_money_history.RETIRED_PAIRS}
-    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
-    banner_calls = tuple(UiCall(path, "_phase_banner_label", 1784 + index, "legacy", ko, en)
-                         for index, (ko, en) in enumerate(HOLDEM_BANNER_LOCALE_PAIRS))
-    added = tuple(UiCall(path, function, line, "legacy", ko, en)
-                  for function, line, ko, en in HOLDEM_TABLE_LABELS_SITES)
-    new_keys = {row[2] for row in HOLDEM_TABLE_LABELS_SITES}
-    if (len(before) != 64 or len(retained) != 66 or len(actual) != 71 or len(selectors) != 3
-            or len(added) != 5 or len(new_keys) != 4
-            or any(sum(semantic(c) == selector for c in before) != 1 for selector in selectors)
-            or ordered((*tuple(c for c in before if semantic(c) not in selectors), *banner_calls)) != retained
-            or ordered((*retained, *added)) != actual or any(c.korean in new_keys for c in retained)
-            or any(c.korean in {ko for ko, _en in _holdem_money_history.RETIRED_PAIRS} for c in actual)):
-        raise ValueError("holdem-table-labels exact old66/new5 or historical calls differ")
-    return before, retained, actual
-
-
-def _holdem_money_call_views(raw):
-    before, _retained, actual = _holdem_table_labels_call_views(raw)
-    return before, actual
-
-
-def holdem_money_rebind_inventory(inventory, raw, contract=None):
-    from unittest.mock import patch
-    before, retained, actual = _holdem_table_labels_call_views(raw)
-    path = _holdem_money_history.HOLDEM_PATH
-    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
-        raise ValueError("holdem-table-labels supplied predecessor inventory differs")
-    # Reuse the unchanged 447 rebind with its exact proved 66-call input only.
-    with patch.object(sys.modules[__name__], "_holdem_banner_locale_call_views", return_value=(before, retained)):
-        previous = _HOLDEM_TABLE_LABELS_OLD_REBIND(inventory, raw, contract)
-    calls = tuple(c for c in previous.calls if c.path != path) + actual
-    result = _new_run_log_inventory(previous, calls, contract)
-    old_entries = {e.source: e for e in previous.legacy_entries}
-    new_entries = {e.source: e for e in result.legacy_entries}
-    new_keys = {row[2] for row in HOLDEM_TABLE_LABELS_SITES}
-    if set(old_entries) - set(new_entries) or set(new_entries) - set(old_entries) != new_keys:
-        raise ValueError("holdem-table-labels unique Korean source population differs")
-    entries = tuple(_gift_replace(old_entries[e.source], context=e.context) if e.source in old_entries
-                    else _gift_replace(e, key="ui::holdem-table::" + hashlib.sha1(e.source.encode()).hexdigest())
-                    for e in result.legacy_entries)
-    if (len({e.key for e in entries}) != len(entries)
-            or any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
-                   for e in entries if e.source in old_entries)):
-        raise ValueError("holdem-table-labels existing Entry identity changed")
-    for field in ("planned_context_entries", "planned_context_blueprint", "observed_context_entries", "observed_context_blueprint"):
-        if getattr(result, field) != getattr(previous, field):
-            raise ValueError("holdem-table-labels unowned context inventory changed")
-    deltas = {"source_calls": 5, "legacy_calls": 5, "legacy_api_calls": 5, "legacy_keys": 4,
-              "parameter_total_ui_call_occurrences": 5, "parameter_legacy_pair_call_occurrences": 5,
-              "parameter_legacy_korean_source_keys": 4}
-    changed = {*deltas, "parameter_legacy_korean_source_keys_sha256"}
-    if (any(result.stats.get(key) != value + deltas[key] for key, value in previous.stats.items() if key in deltas)
-            or any(result.stats.get(key) != value for key, value in previous.stats.items() if key not in changed)
-            or set(result.stats) != set(previous.stats)):
-        raise ValueError("holdem-table-labels call/key census or unowned statistic differs")
-    stats = {**result.stats, "holdem_table_labels_added_calls": 5, "holdem_table_labels_added_keys": 4}
-    return _gift_replace(result, legacy_entries=entries,
-                         legacy_blueprint={e.source: {"$entry": e.key} for e in entries}, stats=stats)
-# END_HOLDEM_TABLE_LABELS_COLLECTOR_449
-
-# BEGIN_INVESTMENT_AP_COPY_COLLECTOR_467
-AP_COPY_PIPELINE_APPEND_SHA = "c5ba0f0e0d0a7b0f534ad62a48ec61c1b1a12e57fb80b74af53b62628b80704d"
-AP_COPY_PIPELINE_BEFORE_SHA = "f45887eb301871177cbd47d3c5013e4a5a68a3e578cdb1e1a3a6a42c81b621ca"
-AP_COPY_PIPELINE_BEFORE_BLOB = "61779000d885adc0041bf72e56de560c49dbdff3"
-AP_COPY_OWNERS = ("_on_leverage_buy", "_on_buy_asset", "_on_sell_asset")
-AP_COPY_OLD_PAIR = ("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month.")
-AP_COPY_NEW_PAIR = ("행동력이 없습니다", "No Action Points")
-_AP_COPY_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
-_AP_COPY_OLD_REBIND_INVENTORY = modal_rebind_inventory
-
-
-def investment_ap_pipeline_predecessor(raw):
-    """Strip only this sealed appendix; all earlier collector bytes stay exact."""
-    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("investment-AP collector code raw/import identity differs")
-    start, end = b"# BEGIN_INVESTMENT_AP_COPY_COLLECTOR_467\n", b"# END_INVESTMENT_AP_COPY_COLLECTOR_467\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("investment-AP collector appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    binding = ('AP_COPY_PIPELINE_APPEND_SHA = "' + AP_COPY_PIPELINE_APPEND_SHA + '"').encode()
-    span = raw[a:z]
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'AP_COPY_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != AP_COPY_PIPELINE_APPEND_SHA:
-        raise ValueError("investment-AP collector appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != AP_COPY_PIPELINE_BEFORE_SHA:
-        raise ValueError("investment-AP collector whole predecessor differs")
-    blob = _current_demo_git("show", _gift_history.AP_COPY_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
-            != AP_COPY_PIPELINE_BEFORE_BLOB):
-        raise ValueError("investment-AP collector immutable blob differs")
-    return previous
-
-
-def modal_pipeline_predecessor(raw):
-    return _AP_COPY_OLD_MODAL_PIPELINE_PREDECESSOR(investment_ap_pipeline_predecessor(raw))
-
-
-def _investment_ap_stage_call_views(raw):
-    """One current Git proof supplies both immutable comparison views."""
-    predecessors = _gift_history._investment_ap_proof(raw, ROOT)
-    if (not isinstance(predecessors, tuple) or len(predecessors) != 13
-            or any(not isinstance(value, bytes) for value in predecessors)):
-        raise ValueError("investment-AP predecessor population differs")
-    path = _gift_history.MAIN_GAME_PATH
-    parsed = [parse_ui_calls(path, value.decode("utf-8"))
-              for value in (predecessors[-1], predecessors[0], raw)]
-    if any(errors for _calls, errors in parsed):
-        raise ValueError("investment-AP MainGame call parse differs")
-    before, retained, actual = (tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
-                                for calls, _errors in parsed)
-    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
-    # Preserve the established pre381 -> pre467 tutorial/promotion/tenure view.
-    historical_pairs = tuple(((path, owner, "legacy", old_ko, old_en, ""),
-                              (path, owner, "legacy", new_ko, new_en, ""))
-                             for owner, old_ko, old_en, new_ko, new_en in (
-        ("_show_tutorial", _gift_history.TUTORIAL_OLD_KO, _gift_history.TUTORIAL_OLD_EN,
-         _gift_history.TUTORIAL_NEW_KO, _gift_history.TUTORIAL_NEW_EN),
-        ("_open_cat_work", _gift_history.PROMOTION_OLD_KO, _gift_history.PROMOTION_OLD_EN,
-         _gift_history.PROMOTION_NEW_KO, _gift_history.PROMOTION_NEW_EN),
-        ("_open_cat_work", _gift_history.TENURE_KO, _gift_history.TENURE_OLD_EN,
-         _gift_history.TENURE_KO, _gift_history.TENURE_NEW_EN)))
-    old_semantic, retained_semantic = list(map(semantic, before)), list(map(semantic, retained))
-    replacements = dict(historical_pairs)
-    if (len(replacements) != 3
-            or any(old_semantic.count(old) != 1 or retained_semantic.count(new) != 1
-                   or old in retained_semantic for old, new in historical_pairs)
-            or [replacements.get(row, row) for row in old_semantic] != retained_semantic):
-        raise ValueError("investment-AP preserved historical MainGame selectors differ")
-    selectors = {(path, owner, "legacy", *AP_COPY_OLD_PAIR, "") for owner in AP_COPY_OWNERS}
-    if (len(selectors) != 3 or any(retained_semantic.count(row) != 1 for row in selectors)
-            or sum(c.korean == AP_COPY_OLD_PAIR[0] for c in retained) != 3
-            or any(c.korean == AP_COPY_OLD_PAIR[0] for c in actual)
-            or tuple(_gift_replace(c, korean=AP_COPY_NEW_PAIR[0], english=AP_COPY_NEW_PAIR[1])
-                     if semantic(c) in selectors else c for c in retained) != actual
-            or sum(c.korean == AP_COPY_NEW_PAIR[0] for c in actual)
-            != sum(c.korean == AP_COPY_NEW_PAIR[0] for c in retained) + 3):
-        raise ValueError("investment-AP exact three current selectors or unowned calls differ")
-    return before, retained, actual
-
-
-def _investment_ap_call_views(raw):
-    before, _retained, actual = _investment_ap_stage_call_views(raw)
-    return before, actual
-
-
-def _investment_ap_rebind(inventory, retained, actual):
-    path = _gift_history.MAIN_GAME_PATH
-    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != retained:
-        raise ValueError("investment-AP supplied pre467 inventory differs")
-    replacements = iter(actual)
-    calls = tuple(next(replacements) if c.path == path else c for c in inventory.calls)
-    result = _gift_caption_inventory_view(inventory, calls)
-    old_entries = {e.source: e for e in inventory.legacy_entries}
-    new_entries = {e.source: e for e in result.legacy_entries}
-    if (set(old_entries) - set(new_entries) != {AP_COPY_OLD_PAIR[0]}
-            or set(new_entries) - set(old_entries) or AP_COPY_NEW_PAIR[0] not in old_entries
-            or len(result.calls) != len(inventory.calls)):
-        raise ValueError("investment-AP call/key population differs")
-    entries = tuple(_gift_replace(old_entries[e.source], context=e.context) for e in result.legacy_entries)
-    if (len({e.key for e in entries}) != len(entries)
-            or any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
-                   for e in entries)):
-        raise ValueError("investment-AP surviving Entry identity changed")
-    changed = {"legacy_keys", "parameter_legacy_korean_source_keys",
-               "parameter_legacy_korean_source_keys_sha256"}
-    if (set(result.stats) != set(inventory.stats)
-            or any(result.stats[key] != inventory.stats[key] - 1
-                   for key in changed - {"parameter_legacy_korean_source_keys_sha256"})
-            or any(result.stats[key] != value for key, value in inventory.stats.items() if key not in changed)):
-        raise ValueError("investment-AP exact minus1 key census or unowned statistic differs")
-    return _gift_replace(result, legacy_entries=entries,
-                         legacy_blueprint={e.source: {"$entry": e.key} for e in entries})
-
-
-def investment_ap_rebind_inventory(inventory, raw):
-    """Rebind an exact pre467 inventory without renumbering surviving entries."""
-    _before, retained, actual = _investment_ap_stage_call_views(raw)
-    return _investment_ap_rebind(inventory, retained, actual)
-
-
-def modal_rebind_inventory(inventory, raw):
-    from unittest.mock import patch
-    before, retained, actual = _investment_ap_stage_call_views(raw)
-    # The saved409 implementation receives its independently proved old view;
-    # neither the disk bytes nor the current source census are projected away.
-    with patch.object(sys.modules[__name__], "_career_tenure_call_views", return_value=(before, retained)):
-        previous = _AP_COPY_OLD_REBIND_INVENTORY(inventory, raw)
-    return _investment_ap_rebind(previous, retained, actual)
-
-
-# Earlier exact-retained JA checks must see the actual current MainGame calls.
-_tutorial_copy_call_views = _investment_ap_call_views
-_promotion_review_call_views = _investment_ap_call_views
-# END_INVESTMENT_AP_COPY_COLLECTOR_467
-
-# BEGIN_ENDING_FATHER_COLLECTOR_468
-ENDING_FATHER_PIPELINE_APPEND_SHA = "795dcaac2481dfeb4e3135ed64c1265dbece825a59faf0a394f35f71b24eb4eb"
-ENDING_FATHER_PIPELINE_BEFORE_SHA = "2a8628235bebcfe167829aa02938d7e27a1c56cbd54e6c942374bca1f0d10834"
-ENDING_FATHER_PIPELINE_BEFORE_BLOB = "be25f8de2c5a5487900c2a27fec7553fd8d3ffdf"
-_ENDING_FATHER_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
-
-
-def ending_father_pipeline_predecessor(raw):
-    """Preserve the complete sealed collector prefix while adding call offsets."""
-    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("ending-Father collector code raw/import identity differs")
-    start, end = b"# BEGIN_ENDING_FATHER_COLLECTOR_468\n", b"# END_ENDING_FATHER_COLLECTOR_468\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("ending-Father collector appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    binding = ('ENDING_FATHER_PIPELINE_APPEND_SHA = "' + ENDING_FATHER_PIPELINE_APPEND_SHA + '"').encode()
-    span = raw[a:z]
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'ENDING_FATHER_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != ENDING_FATHER_PIPELINE_APPEND_SHA:
-        raise ValueError("ending-Father collector appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != ENDING_FATHER_PIPELINE_BEFORE_SHA:
-        raise ValueError("ending-Father collector whole predecessor differs")
-    blob = _current_demo_git("show", _gift_history.ENDING_FATHER_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
-            != ENDING_FATHER_PIPELINE_BEFORE_BLOB):
-        raise ValueError("ending-Father collector immutable blob differs")
-    return previous
-
-
-def modal_pipeline_predecessor(raw):
-    return _ENDING_FATHER_OLD_MODAL_PIPELINE_PREDECESSOR(ending_father_pipeline_predecessor(raw))
-
-
-def _investment_ap_stage_call_views(raw):
-    """One current Git proof supplies both immutable comparison views."""
-    predecessors = _gift_history._ending_father_proof(raw, ROOT)
-    if (not isinstance(predecessors, tuple) or len(predecessors) != 14
-            or any(not isinstance(value, bytes) for value in predecessors)):
-        raise ValueError("investment-AP predecessor population differs")
-    path = _gift_history.MAIN_GAME_PATH
-    parsed = [parse_ui_calls(path, value.decode("utf-8"))
-              for value in (predecessors[-1], predecessors[1], predecessors[0], raw)]
-    if any(errors for _calls, errors in parsed):
-        raise ValueError("investment-AP MainGame call parse differs")
-    before, retained, pre468, actual = (tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
-                                for calls, _errors in parsed)
-    added = _gift_history.ENDING_FATHER_INSERTION.encode()
-    offset = predecessors[0].index(_gift_history.ENDING_FATHER_ANCHOR.encode())
-    offset += len(_gift_history.ENDING_FATHER_ANCHOR.encode())
-    inserted_after_line = predecessors[0][:offset].count(b"\n")
-    if (added.count(b"\n") != 6
-            or tuple(_gift_replace(c, line=c.line + 6) if c.line > inserted_after_line else c
-                     for c in pre468) != actual):
-        raise ValueError("ending-Father exact six-line call offset or UI semantics differ")
-    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
-    # Preserve the established pre381 -> pre467 tutorial/promotion/tenure view.
-    historical_pairs = tuple(((path, owner, "legacy", old_ko, old_en, ""),
-                              (path, owner, "legacy", new_ko, new_en, ""))
-                             for owner, old_ko, old_en, new_ko, new_en in (
-        ("_show_tutorial", _gift_history.TUTORIAL_OLD_KO, _gift_history.TUTORIAL_OLD_EN,
-         _gift_history.TUTORIAL_NEW_KO, _gift_history.TUTORIAL_NEW_EN),
-        ("_open_cat_work", _gift_history.PROMOTION_OLD_KO, _gift_history.PROMOTION_OLD_EN,
-         _gift_history.PROMOTION_NEW_KO, _gift_history.PROMOTION_NEW_EN),
-        ("_open_cat_work", _gift_history.TENURE_KO, _gift_history.TENURE_OLD_EN,
-         _gift_history.TENURE_KO, _gift_history.TENURE_NEW_EN)))
-    old_semantic, retained_semantic = list(map(semantic, before)), list(map(semantic, retained))
-    replacements = dict(historical_pairs)
-    if (len(replacements) != 3
-            or any(old_semantic.count(old) != 1 or retained_semantic.count(new) != 1
-                   or old in retained_semantic for old, new in historical_pairs)
-            or [replacements.get(row, row) for row in old_semantic] != retained_semantic):
-        raise ValueError("investment-AP preserved historical MainGame selectors differ")
-    selectors = {(path, owner, "legacy", *AP_COPY_OLD_PAIR, "") for owner in AP_COPY_OWNERS}
-    if (len(selectors) != 3 or any(retained_semantic.count(row) != 1 for row in selectors)
-            or sum(c.korean == AP_COPY_OLD_PAIR[0] for c in retained) != 3
-            or any(c.korean == AP_COPY_OLD_PAIR[0] for c in pre468)
-            or tuple(_gift_replace(c, korean=AP_COPY_NEW_PAIR[0], english=AP_COPY_NEW_PAIR[1])
-                     if semantic(c) in selectors else c for c in retained) != pre468
-            or sum(c.korean == AP_COPY_NEW_PAIR[0] for c in pre468)
-            != sum(c.korean == AP_COPY_NEW_PAIR[0] for c in retained) + 3):
-        raise ValueError("investment-AP exact three current selectors or unowned calls differ")
-    return before, retained, actual
-
-# The existing AP rebinder keeps all surviving Entry IDs/statistics and uses
-# the actual current call coordinates returned by the successor view above.
-# END_ENDING_FATHER_COLLECTOR_468
-
-# BEGIN_CHAPTER_FOUR_COLLECTOR_469
-CHAPTER_FOUR_PIPELINE_APPEND_SHA = "ace75e6c791fa72840892fd817c87d35ade0d4f54c9ae664460971b460786f54"
-CHAPTER_FOUR_PIPELINE_BEFORE_SHA = "dff4fd3c54473fc2cab8aca497abb09d55929facd7659fc647ea122eceb027dd"
-CHAPTER_FOUR_PIPELINE_BEFORE_BLOB = "3b12e2b696d77a5b02c3638a238affaad5c56341"
-CHAPTER_FOUR_PIPELINE_BEFORE_COMMIT = "9766e70a8652c0c82e07176468542af831b3b644"
-_CHAPTER_FOUR_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
-
-
-def chapter_four_pipeline_predecessor(raw):
-    """Unwrap only this sealed source-coordinate appendix, never translation."""
-    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("chapter-four collector code raw/import identity differs")
-    start, end = b"# BEGIN_CHAPTER_FOUR_COLLECTOR_469\n", b"# END_CHAPTER_FOUR_COLLECTOR_469\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("chapter-four collector appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    binding = ('CHAPTER_FOUR_PIPELINE_APPEND_SHA = "' + CHAPTER_FOUR_PIPELINE_APPEND_SHA + '"').encode()
-    span = raw[a:z]
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'CHAPTER_FOUR_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != CHAPTER_FOUR_PIPELINE_APPEND_SHA:
-        raise ValueError("chapter-four collector appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != CHAPTER_FOUR_PIPELINE_BEFORE_SHA:
-        raise ValueError("chapter-four collector whole predecessor differs")
-    blob = _current_demo_git("show", CHAPTER_FOUR_PIPELINE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
-            != CHAPTER_FOUR_PIPELINE_BEFORE_BLOB):
-        raise ValueError("chapter-four collector immutable blob differs")
-    return previous
-
-
-def modal_pipeline_predecessor(raw):
-    return _CHAPTER_FOUR_OLD_MODAL_PIPELINE_PREDECESSOR(chapter_four_pipeline_predecessor(raw))
-
-
-def _chapter_four_call_offsets(before_raw, current_raw, before_calls, actual_calls):
-    """Check every current call against its unchanged predecessor source line."""
-    from difflib import SequenceMatcher
-    before_lines, current_lines = before_raw.splitlines(True), current_raw.splitlines(True)
-    if len(before_lines) - len(current_lines) != 8:
-        raise ValueError("chapter-four exact eight-line source delta differs")
-    lines = {}
-    for tag, a, z, b, end in SequenceMatcher(None, before_lines, current_lines, autojunk=False).get_opcodes():
-        if tag == "equal":
-            lines.update((old + 1, b + old - a + 1) for old in range(a, z))
-    if (any(call.line not in lines for call in before_calls)
-            or tuple(_gift_replace(call, line=lines[call.line]) for call in before_calls) != actual_calls):
-        raise ValueError("chapter-four UI calls or exact source coordinates differ")
-
-
-def _investment_ap_stage_call_views(raw):
-    """Retain all historical selectors and bind their exact current coordinates."""
-    from order469_source_compat import main_predecessor
-    pre469_raw = main_predecessor(raw, ROOT)
-    predecessors = _gift_history._ending_father_proof(raw, ROOT)
-    if (not isinstance(predecessors, tuple) or len(predecessors) != 14
-            or any(not isinstance(value, bytes) for value in predecessors)):
-        raise ValueError("investment-AP predecessor population differs")
-    path = _gift_history.MAIN_GAME_PATH
-    parsed = [parse_ui_calls(path, value.decode("utf-8"))
-              for value in (predecessors[-1], predecessors[1], predecessors[0], pre469_raw, raw)]
-    if any(errors for _calls, errors in parsed):
-        raise ValueError("investment-AP MainGame call parse differs")
-    before, retained, pre468, pre469, actual = (
-        tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api))) for calls, _errors in parsed)
-    added = _gift_history.ENDING_FATHER_INSERTION.encode()
-    offset = predecessors[0].index(_gift_history.ENDING_FATHER_ANCHOR.encode())
-    offset += len(_gift_history.ENDING_FATHER_ANCHOR.encode())
-    inserted_after_line = predecessors[0][:offset].count(b"\n")
-    if (added.count(b"\n") != 6
-            or tuple(_gift_replace(c, line=c.line + 6) if c.line > inserted_after_line else c
-                     for c in pre468) != pre469):
-        raise ValueError("ending-Father exact six-line call offset or UI semantics differ")
-    _chapter_four_call_offsets(pre469_raw, raw, pre469, actual)
-    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
-    historical_pairs = tuple(((path, owner, "legacy", old_ko, old_en, ""),
-                              (path, owner, "legacy", new_ko, new_en, ""))
-                             for owner, old_ko, old_en, new_ko, new_en in (
-        ("_show_tutorial", _gift_history.TUTORIAL_OLD_KO, _gift_history.TUTORIAL_OLD_EN,
-         _gift_history.TUTORIAL_NEW_KO, _gift_history.TUTORIAL_NEW_EN),
-        ("_open_cat_work", _gift_history.PROMOTION_OLD_KO, _gift_history.PROMOTION_OLD_EN,
-         _gift_history.PROMOTION_NEW_KO, _gift_history.PROMOTION_NEW_EN),
-        ("_open_cat_work", _gift_history.TENURE_KO, _gift_history.TENURE_OLD_EN,
-         _gift_history.TENURE_KO, _gift_history.TENURE_NEW_EN)))
-    old_semantic, retained_semantic = list(map(semantic, before)), list(map(semantic, retained))
-    replacements = dict(historical_pairs)
-    if (len(replacements) != 3
-            or any(old_semantic.count(old) != 1 or retained_semantic.count(new) != 1
-                   or old in retained_semantic for old, new in historical_pairs)
-            or [replacements.get(row, row) for row in old_semantic] != retained_semantic):
-        raise ValueError("investment-AP preserved historical MainGame selectors differ")
-    selectors = {(path, owner, "legacy", *AP_COPY_OLD_PAIR, "") for owner in AP_COPY_OWNERS}
-    if (len(selectors) != 3 or any(retained_semantic.count(row) != 1 for row in selectors)
-            or sum(c.korean == AP_COPY_OLD_PAIR[0] for c in retained) != 3
-            or any(c.korean == AP_COPY_OLD_PAIR[0] for c in pre468)
-            or tuple(_gift_replace(c, korean=AP_COPY_NEW_PAIR[0], english=AP_COPY_NEW_PAIR[1])
-                     if semantic(c) in selectors else c for c in retained) != pre468
-            or sum(c.korean == AP_COPY_NEW_PAIR[0] for c in pre468)
-            != sum(c.korean == AP_COPY_NEW_PAIR[0] for c in retained) + 3):
-        raise ValueError("investment-AP exact three current selectors or unowned calls differ")
-    return before, retained, actual
-# END_CHAPTER_FOUR_COLLECTOR_469
-
-# BEGIN_STORY_FACT_COLLECTOR_470
-STORY_FACT_PIPELINE_APPEND_SHA = "637891648fb6793fa98811fc0e99cdfb596eab50db337ae1fa9b0ab5a183e5e6"
-STORY_FACT_PIPELINE_BEFORE_SHA = "19ff618264ac745fb7a1a14861d8b7f1501e1d8c79b7112011f699c54f740f23"
-STORY_FACT_PIPELINE_BEFORE_BLOB = "fd7e894b1a80afbe884ab05db8f8acd602298346"
-STORY_FACT_PIPELINE_BEFORE_COMMIT = "7fc9002048a4c83401c497a0116d3688a44c152b"
-_STORY_FACT_OLD_MODAL_PREDECESSOR = modal_pipeline_predecessor
-_STORY_FACT_OLD_NEW_RUN_RAW_VIEW = _new_run_log_raw_view
-
-
-def story_fact_pipeline_predecessor(raw):
-    if type(raw) is not bytes or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("story-fact collector raw/import identity differs")
-    start, end = b"# BEGIN_STORY_FACT_COLLECTOR_470\n", b"# END_STORY_FACT_COLLECTOR_470\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("story-fact collector appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    binding = ('STORY_FACT_PIPELINE_APPEND_SHA = "' + STORY_FACT_PIPELINE_APPEND_SHA + '"').encode()
-    span = raw[a:z]
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'STORY_FACT_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != STORY_FACT_PIPELINE_APPEND_SHA:
-        raise ValueError("story-fact collector appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != STORY_FACT_PIPELINE_BEFORE_SHA:
-        raise ValueError("story-fact collector whole predecessor differs")
-    blob = _current_demo_git("show", STORY_FACT_PIPELINE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
-            != STORY_FACT_PIPELINE_BEFORE_BLOB):
-        raise ValueError("story-fact collector immutable predecessor differs")
-    return previous
-
-
-def modal_pipeline_predecessor(raw):
-    return _STORY_FACT_OLD_MODAL_PREDECESSOR(story_fact_pipeline_predecessor(raw))
-
-
-def _story_fact_call_views(path, before, current):
-    from difflib import SequenceMatcher
-    old_calls, old_errors = parse_ui_calls(path, before.decode("utf-8"))
-    actual, errors = parse_ui_calls(path, current.decode("utf-8"))
-    if old_errors or errors:
-        raise ValueError("story-fact UI source parse failed")
-    lines = {}
-    for tag, a, z, b, end in SequenceMatcher(None, before.splitlines(True), current.splitlines(True),
-                                             autojunk=False).get_opcodes():
-        if tag == "equal":
-            lines.update((old + 1, b + old - a + 1) for old in range(a, z))
-    key = lambda call: (call.path, call.line, call.api)
-    old_calls, actual = tuple(sorted(old_calls, key=key)), tuple(sorted(actual, key=key))
-    if (any(call.line not in lines for call in old_calls)
-            or tuple(_gift_replace(call, line=lines[call.line]) for call in old_calls) != actual):
-        raise ValueError("story-fact UI semantics/order/exact coordinates differ")
-    return old_calls, actual
-
-
-def _new_run_log_raw_view(source=None):
-    import order470_source_compat as successor
-    import subprocess
-    current, errors = _STORY_FACT_OLD_NEW_RUN_RAW_VIEW(source)
-    if errors:
-        return current, errors
-    try:
-        for path in successor.RUNTIME_PATHS:
-            raw = current[path] if path in current else (ROOT / path).read_bytes()
-            previous = successor.predecessor_bytes(raw, path, ROOT)
-            _story_fact_call_views(path, previous, raw)
-        return current, []
-    except (OSError, ValueError, TypeError, KeyError, subprocess.TimeoutExpired) as exc:
-        return current, ["story-fact UI admission: " + str(exc)]
-# END_STORY_FACT_COLLECTOR_470
-
-# BEGIN_FIRST_LOSS_COLLECTOR_476
-FIRST_LOSS_PIPELINE_APPEND_SHA = "a4c609ad8d1eee55a60c52a15d78371213ba4ba246aff01a8d9a174be1348a50"
-FIRST_LOSS_PIPELINE_BEFORE_SHA = "4635f196993ff6cc8dadb7f11225570558bbb2970d269fe5c54be97190d42bfa"
-FIRST_LOSS_PIPELINE_BEFORE_BLOB = "a50ba4754fd9c0aa6c0c941d0dbab1ff8d1651c8"
-FIRST_LOSS_PIPELINE_BEFORE_COMMIT = "54bda08d1c0ec1472b3cf1805703f84e1f533428"
-_FIRST_LOSS_OLD_MODAL_PREDECESSOR = modal_pipeline_predecessor
-_FIRST_LOSS_OLD_CHAPTER_FOUR_CALL_OFFSETS = _chapter_four_call_offsets
-
-
-def first_loss_pipeline_predecessor(raw):
-    """Remove only this sealed coordinate adapter, preserving all older pins."""
-    if type(raw) is not bytes or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("first-loss collector raw/import identity differs")
-    start, end = b"# BEGIN_FIRST_LOSS_COLLECTOR_476\n", b"# END_FIRST_LOSS_COLLECTOR_476\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("first-loss collector appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    binding = ('FIRST_LOSS_PIPELINE_APPEND_SHA = "' + FIRST_LOSS_PIPELINE_APPEND_SHA + '"').encode()
-    span = raw[a:z]
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'FIRST_LOSS_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != FIRST_LOSS_PIPELINE_APPEND_SHA:
-        raise ValueError("first-loss collector appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != FIRST_LOSS_PIPELINE_BEFORE_SHA:
-        raise ValueError("first-loss collector whole predecessor differs")
-    blob = _current_demo_git("show", FIRST_LOSS_PIPELINE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
-            != FIRST_LOSS_PIPELINE_BEFORE_BLOB):
-        raise ValueError("first-loss collector immutable predecessor differs")
-    return previous
-
-
-def modal_pipeline_predecessor(raw):
-    return _FIRST_LOSS_OLD_MODAL_PREDECESSOR(first_loss_pipeline_predecessor(raw))
-
-
-def _chapter_four_call_offsets(before_raw, current_raw, before_calls, actual_calls):
-    """Keep the old -8 proof; the new EOF-only helper moves no UI call."""
-    from order469_source_compat import first_loss_predecessor
-    previous = first_loss_predecessor(current_raw, ROOT)
-    path = _gift_history.MAIN_GAME_PATH
-    old_calls, old_errors = parse_ui_calls(path, previous.decode("utf-8"))
-    live_calls, errors = parse_ui_calls(path, current_raw.decode("utf-8"))
-    key = lambda call: (call.path, call.line, call.api)
-    old_calls, live_calls = tuple(sorted(old_calls, key=key)), tuple(sorted(live_calls, key=key))
-    if old_errors or errors or old_calls != live_calls or live_calls != actual_calls:
-        raise ValueError("first-loss UI calls/payload/order/exact coordinates differ")
-    _FIRST_LOSS_OLD_CHAPTER_FOUR_CALL_OFFSETS(before_raw, previous, before_calls, old_calls)
-# END_FIRST_LOSS_COLLECTOR_476
-
-# BEGIN_MARKET_CYCLE_COLLECTOR_478
-MARKET_CYCLE_PIPELINE_APPEND_SHA = "42ca65e1871ff3c2edde1f81dc8a2b255a41fdebcdaf72b49fce57faa6204ef1"
-MARKET_CYCLE_PIPELINE_BEFORE_SHA = "e1222d36ecf86a5a28caa10e51ecd4d2e915edb1427657433d39791ca60a89c1"
-MARKET_CYCLE_PIPELINE_BEFORE_BLOB = "3fea40255e404535b3efa420d2a6581a00a4ed2a"
-MARKET_CYCLE_PIPELINE_BEFORE_COMMIT = "20443aa07a5f260ec4b581aaec97c89388004705"
-MARKET_CYCLE_PATH = "systems/InvestmentSystem.gd"
-MARKET_CYCLE_SITES = ((296, "상승장", "Bull Market"),
-                      (298, "하락장", "Bear Market"),
-                      (300, "횡보장", "Sideways"))
-_MARKET_CYCLE_OLD_MODAL_PREDECESSOR = modal_pipeline_predecessor
-_MARKET_CYCLE_OLD_COLLECT = collect_ui_inventory
-_MARKET_CYCLE_OLD_CHECKS = _last11_meta_title_historical_checks
-_MARKET_CYCLE_OLD_PARSE = _NONFORMAT_OLD_PARSE
-
-
-def market_cycle_pipeline_predecessor(raw):
-    """Strip this exact appendix only; all pre478 collector seals stay intact."""
-    if type(raw) is not bytes or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("market-cycle collector raw/import identity differs")
-    start, end = b"# BEGIN_MARKET_CYCLE_COLLECTOR_478\n", b"# END_MARKET_CYCLE_COLLECTOR_478\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("market-cycle collector appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    binding = ('MARKET_CYCLE_PIPELINE_APPEND_SHA = "' + MARKET_CYCLE_PIPELINE_APPEND_SHA + '"').encode()
-    span = raw[a:z]
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'MARKET_CYCLE_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != MARKET_CYCLE_PIPELINE_APPEND_SHA:
-        raise ValueError("market-cycle collector appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != MARKET_CYCLE_PIPELINE_BEFORE_SHA:
-        raise ValueError("market-cycle collector whole predecessor differs")
-    blob = _current_demo_git("show", MARKET_CYCLE_PIPELINE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
-            != MARKET_CYCLE_PIPELINE_BEFORE_BLOB):
-        raise ValueError("market-cycle collector immutable predecessor differs")
-    return previous
-
-
-def modal_pipeline_predecessor(raw):
-    return _MARKET_CYCLE_OLD_MODAL_PREDECESSOR(market_cycle_pipeline_predecessor(raw))
-
-
-def _market_cycle_raw_call_views(before, current):
-    """Pure exact call comparison, after the caller proves both source blobs."""
-    parsed = [_MARKET_CYCLE_OLD_PARSE(MARKET_CYCLE_PATH, raw.decode("utf-8"))
-              for raw in (before, current)]
-    if any(errors for _calls, errors in parsed):
-        raise ValueError("market-cycle UI source parse differs")
-    ordered = lambda calls: tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
-    previous, actual = (ordered(calls) for calls, _errors in parsed)
-    added = tuple(UiCall(MARKET_CYCLE_PATH, "_cycle_display_name", line, "legacy", ko, en)
-                  for line, ko, en in MARKET_CYCLE_SITES)
-    if (len(added) != 3 or len({c.korean for c in added}) != 3
-            or any(c.function == "_cycle_display_name" for c in previous)
-            or actual != ordered((*previous, *added))):
-        raise ValueError("market-cycle exact old calls/new3/coordinates differ")
-    return previous, actual
-
-
-def _market_cycle_call_views(raw):
-    import market_cycle_label_history as successor
-    previous = successor.market_cycle_predecessor(raw, ROOT)
-    return _market_cycle_raw_call_views(previous, raw)
-
-
-@contextmanager
-def _market_cycle_comparison_parser(raw, previous):
-    """Project only parser output for old readers; Git and disk stay actual."""
-    from unittest.mock import patch
-    observed = []
-
-    def historical_parse(path, source):
-        if path != MARKET_CYCLE_PATH:
-            return _MARKET_CYCLE_OLD_PARSE(path, source)
-        if type(source) is not str or source.encode("utf-8") != raw:
-            raise ValueError("market-cycle historical parser input is not actual raw")
-        observed.append(True)
-        return list(previous), []
-
-    # The saved nonformat collector temporarily replaces parse_ui_calls itself;
-    # its original-parser seam is the common leaf of both comparison paths.
-    with patch.object(sys.modules[__name__], "_NONFORMAT_OLD_PARSE", historical_parse):
-        yield
-    if not observed:
-        raise ValueError("market-cycle historical collector did not read the owner")
-
-
-def _market_cycle_rebind(inventory, previous, actual, contract=None):
-    if inventory.errors or tuple(c for c in inventory.calls if c.path == MARKET_CYCLE_PATH) != previous:
-        raise ValueError("market-cycle supplied predecessor calls differ")
-    added = tuple(UiCall(MARKET_CYCLE_PATH, "_cycle_display_name", line, "legacy", ko, en)
-                  for line, ko, en in MARKET_CYCLE_SITES)
-    ordered = lambda calls: tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
-    if actual != ordered((*previous, *added)):
-        raise ValueError("market-cycle rebind is not exact new3")
-    calls = tuple(c for c in inventory.calls if c.path != MARKET_CYCLE_PATH) + actual
-    result = _new_run_log_inventory(inventory, calls, contract)
-    old_entries = {e.source: e for e in inventory.legacy_entries}
-    if ({e.source for e in result.legacy_entries} != set(old_entries)
-            or not {row[1] for row in MARKET_CYCLE_SITES} <= set(old_entries)):
-        raise ValueError("market-cycle adds an unexpected Korean key")
-    entries = tuple(_gift_replace(old_entries[e.source], context=e.context) for e in result.legacy_entries)
-    if (len({e.key for e in entries}) != len(entries)
-            or any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
-                   for e in entries)):
-        raise ValueError("market-cycle surviving Entry identity differs")
-    for field in ("planned_context_entries", "planned_context_blueprint", "observed_context_entries", "observed_context_blueprint"):
-        if getattr(result, field) != getattr(inventory, field):
-            raise ValueError("market-cycle unowned context inventory differs")
-    changed = {"source_calls", "legacy_calls", "legacy_api_calls",
-               "parameter_total_ui_call_occurrences", "parameter_legacy_pair_call_occurrences"}
-    if (set(result.stats) != set(inventory.stats)
-            or any(result.stats[key] != inventory.stats[key] + 3 for key in changed)
-            or any(result.stats[key] != value for key, value in inventory.stats.items() if key not in changed)):
-        raise ValueError("market-cycle exact plus3/unique0 or unowned statistics differ")
-    return _gift_replace(result, legacy_entries=entries,
-                         legacy_blueprint={e.source: {"$entry": e.key} for e in entries},
-                         stats={**result.stats, "market_cycle_added_calls": 3, "market_cycle_added_keys": 0})
-
-
-def _market_cycle_collect(contract=None):
-    import market_cycle_label_history as successor
-    try:
-        market_cycle_pipeline_predecessor((ROOT / _NEW_RUN_JA).read_bytes())
-        with successor.fresh_validation_proof(ROOT):
-            raw = (ROOT / MARKET_CYCLE_PATH).read_bytes()
-            previous, actual = _market_cycle_call_views(raw)
-            with _market_cycle_comparison_parser(raw, previous):
-                baseline = _MARKET_CYCLE_OLD_COLLECT(contract)
-            if baseline.errors:
-                return baseline
-            result = _market_cycle_rebind(baseline, previous, actual, contract)
-            if _market_cycle_call_views((ROOT / MARKET_CYCLE_PATH).read_bytes()) != (previous, actual):
-                raise ValueError("market-cycle current source changed during collection")
-        return result
-    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
-        return UiInventory((), (), {}, (), {}, (), {}, ("market-cycle admission: " + str(exc),), {})
-
-
-def _market_cycle_historical_checks(inventory):
-    import market_cycle_label_history as successor
-    try:
-        market_cycle_pipeline_predecessor((ROOT / _NEW_RUN_JA).read_bytes())
-        with successor.fresh_validation_proof(ROOT):
-            raw = (ROOT / MARKET_CYCLE_PATH).read_bytes()
-            previous, actual = _market_cycle_call_views(raw)
-            with _market_cycle_comparison_parser(raw, previous):
-                baseline = _MARKET_CYCLE_OLD_COLLECT()
-                if inventory != _market_cycle_rebind(baseline, previous, actual):
-                    raise ValueError("market-cycle supplied current inventory differs")
-                result = _MARKET_CYCLE_OLD_CHECKS(baseline)
-            if _market_cycle_call_views((ROOT / MARKET_CYCLE_PATH).read_bytes()) != (previous, actual):
-                raise ValueError("market-cycle source changed during historical checks")
-        return result
-    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
-        errors = ["market-cycle comparison: " + str(exc)]
-        return _gift_replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
-
-
-collect_ui_inventory = _market_cycle_collect
-_last11_meta_title_historical_checks = _market_cycle_historical_checks
-# END_MARKET_CYCLE_COLLECTOR_478
-
-# BEGIN_WEALTH_MILESTONE_COLLECTOR_480
-WEALTH_MILESTONE_PIPELINE_APPEND_SHA = "eba6357c0d862cd450c69efe149f1bc47d627529b3ccc0b241fbfd260cb76408"
-WEALTH_MILESTONE_PIPELINE_BEFORE_SHA = "ad138f324c77fcbffdb83dce0878fdec3de918812110d21de206d165dbace7b9"
-WEALTH_MILESTONE_PIPELINE_BEFORE_BLOB = "3c7ae90c0c77006d81b581ce991add694c80ec7d"
-WEALTH_MILESTONE_PIPELINE_BEFORE_COMMIT = "42d30615708ef3344a1cad8af0aad7cebe7e6ca7"
-_WEALTH_MILESTONE_OLD_MARKET_PREDECESSOR = market_cycle_pipeline_predecessor
-_WEALTH_MILESTONE_OLD_STORY_FACT_CALL_VIEWS = _story_fact_call_views
-_WEALTH_MILESTONE_OLD_PARSE = parse_ui_calls
-
-
-def wealth_milestone_pipeline_predecessor(raw):
-    """Strip only this sealed comparison seam; older appendices stay exact."""
-    if type(raw) is not bytes or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("wealth-milestone collector raw/import identity differs")
-    start, end = b"# BEGIN_WEALTH_MILESTONE_COLLECTOR_480\n", b"# END_WEALTH_MILESTONE_COLLECTOR_480\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("wealth-milestone collector appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    binding = ('WEALTH_MILESTONE_PIPELINE_APPEND_SHA = "' + WEALTH_MILESTONE_PIPELINE_APPEND_SHA + '"').encode()
-    span = raw[a:z]
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'WEALTH_MILESTONE_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != WEALTH_MILESTONE_PIPELINE_APPEND_SHA:
-        raise ValueError("wealth-milestone collector appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != WEALTH_MILESTONE_PIPELINE_BEFORE_SHA:
-        raise ValueError("wealth-milestone collector whole predecessor differs")
-    blob = _current_demo_git("show", WEALTH_MILESTONE_PIPELINE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
-            != WEALTH_MILESTONE_PIPELINE_BEFORE_BLOB):
-        raise ValueError("wealth-milestone collector immutable predecessor differs")
-    return previous
-
-
-def market_cycle_pipeline_predecessor(raw):
-    return _WEALTH_MILESTONE_OLD_MARKET_PREDECESSOR(wealth_milestone_pipeline_predecessor(raw))
-
-
-def _wealth_milestone_raw_call_views(before, current):
-    """Pure exact480 pair/coordinate check, not a current Git admission."""
-    import wealth_milestone_log_history as successor
-    path = successor.GAME_STATE_PATH
-    if successor.product_inverse(before, current, path) != before:
-        raise ValueError("wealth-milestone GameState inverse differs")
-    parsed = [_WEALTH_MILESTONE_OLD_PARSE(path, raw.decode("utf-8")) for raw in (before, current)]
-    if any(errors for _calls, errors in parsed):
-        raise ValueError("wealth-milestone GameState UI parse differs")
-    ordered = lambda rows: tuple(sorted(rows, key=lambda c: (c.path, c.line, c.api)))
-    previous, actual = (ordered(rows) for rows, _errors in parsed)
-    old = tuple(c for c in previous if c.korean == successor.OLD_KEY)
-    new = tuple(c for c in actual if c.korean == successor.NEW_KEY)
-    if (len(old) != 1 or len(new) != 1 or any(c.korean == successor.NEW_KEY for c in previous)
-            or any(c.korean == successor.OLD_KEY for c in actual)
-            or old[0].path != path or old[0].function != "check_game_over"
-            or old[0].api != "legacy" or old[0].context_id != ""
-            or old[0].english != successor.OLD_ENGLISH
-            or new[0] != _gift_replace(old[0], korean=successor.NEW_KEY, english=successor.NEW_ENGLISH)
-            or tuple(new[0] if c == old[0] else c for c in previous) != actual):
-        raise ValueError("wealth-milestone exact old1/new1 UI payload/order/coordinates differ")
-    return previous, actual
-
-
-def _story_fact_call_views(path, before, current):
-    """The old470 offset proof sees pre480; the collector keeps actual480."""
-    if path != _NEW_RUN_GS:
-        return _WEALTH_MILESTONE_OLD_STORY_FACT_CALL_VIEWS(path, before, current)
-    import wealth_milestone_log_history as successor
-    with successor.fresh_validation_proof(ROOT) as proof:
-        if type(current) is not bytes or current != proof["current"][path]:
-            raise ValueError("wealth-milestone admission requires actual current GameState")
-        previous_raw = proof["before"][path]
-        previous, actual = _wealth_milestone_raw_call_views(previous_raw, current)
-        historical, compared = _WEALTH_MILESTONE_OLD_STORY_FACT_CALL_VIEWS(path, before, previous_raw)
-        if compared != previous:
-            raise ValueError("wealth-milestone old470 call comparison differs")
-    return historical, actual
-# END_WEALTH_MILESTONE_COLLECTOR_480
-
-# BEGIN_ASSET_ONE_BILLION_COLLECTOR_482
-ASSET_ONE_BILLION_PIPELINE_APPEND_SHA = "358dd47c3d170d2d293f0ac4a7ec513f06ea7e35aa9b12fc71e568a0bf8627aa"
-ASSET_ONE_BILLION_PIPELINE_BEFORE_SHA = "4761cc821c37dfa061246277a6e22f25130e08c7fa57c4d61dd43801e4bd779a"
-ASSET_ONE_BILLION_PIPELINE_BEFORE_BLOB = "73628711c9dac15f7bf072e28912709883920d7b"
-ASSET_ONE_BILLION_PIPELINE_BEFORE_COMMIT = "fedf0c71ac890d258322e2c0464d9f7989c61dcd"
-_ONE_BILLION_OLD_WEALTH_PREDECESSOR = wealth_milestone_pipeline_predecessor
-_ONE_BILLION_OLD_STORY_FACT_CALL_VIEWS = _story_fact_call_views
-_ONE_BILLION_OLD_PARSE = parse_ui_calls
-
-
-def asset_one_billion_pipeline_predecessor(raw):
-    """Strip only482; the complete480 collector and its pins remain immutable."""
-    if type(raw) is not bytes or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
-        raise ValueError("one-billion collector raw/import identity differs")
-    start, end = b"# BEGIN_ASSET_ONE_BILLION_COLLECTOR_482\n", b"# END_ASSET_ONE_BILLION_COLLECTOR_482\n\n"
-    if raw.count(start) != 1 or raw.count(end) != 1:
-        raise ValueError("one-billion collector appendix boundaries differ")
-    a, z = raw.index(start), raw.index(end) + len(end)
-    binding = ('ASSET_ONE_BILLION_PIPELINE_APPEND_SHA = "' + ASSET_ONE_BILLION_PIPELINE_APPEND_SHA + '"').encode()
-    span = raw[a:z]
-    if span.count(binding) != 1 or hashlib.sha256(span.replace(
-            binding, b'ASSET_ONE_BILLION_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != ASSET_ONE_BILLION_PIPELINE_APPEND_SHA:
-        raise ValueError("one-billion collector appendix seal differs")
-    previous = raw[:a] + raw[z:]
-    if hashlib.sha256(previous).hexdigest() != ASSET_ONE_BILLION_PIPELINE_BEFORE_SHA:
-        raise ValueError("one-billion collector whole predecessor differs")
-    blob = _current_demo_git("show", ASSET_ONE_BILLION_PIPELINE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
-    if (blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
-            != ASSET_ONE_BILLION_PIPELINE_BEFORE_BLOB):
-        raise ValueError("one-billion collector immutable predecessor differs")
-    return previous
-
-
-def wealth_milestone_pipeline_predecessor(raw):
-    return _ONE_BILLION_OLD_WEALTH_PREDECESSOR(asset_one_billion_pipeline_predecessor(raw))
-
-
-def _asset_one_billion_raw_call_views(before, current):
-    """Pure482 pair/order/coordinate inverse; current admission stays separate."""
-    import asset_one_billion_log_history as successor
-    path = successor.GAME_STATE_PATH
-    if successor.product_inverse(before, current, path) != before:
-        raise ValueError("one-billion GameState inverse differs")
-    parsed = [_ONE_BILLION_OLD_PARSE(path, raw.decode("utf-8")) for raw in (before, current)]
-    if any(errors for _calls, errors in parsed):
-        raise ValueError("one-billion GameState UI parse differs")
-    ordered = lambda rows: tuple(sorted(rows, key=lambda c: (c.path, c.line, c.api)))
-    previous, actual = (ordered(rows) for rows, _errors in parsed)
-    old = tuple(c for c in previous if c.korean == successor.OLD_KEY)
-    new = tuple(c for c in actual if c.korean == successor.NEW_KEY)
-    if (len(old) != 1 or len(new) != 1 or any(c.korean == successor.NEW_KEY for c in previous)
-            or any(c.korean == successor.OLD_KEY for c in actual)
-            or old[0].path != path or old[0].function != "check_game_over"
-            or old[0].api != "legacy" or old[0].context_id != ""
-            or old[0].english != successor.OLD_ENGLISH
-            or new[0] != _gift_replace(old[0], korean=successor.NEW_KEY, english=successor.NEW_ENGLISH)
-            or tuple(new[0] if c == old[0] else c for c in previous) != actual):
-        raise ValueError("one-billion exact old1/new1 UI payload/order/coordinates differ")
-    return previous, actual
-
-
-def _story_fact_call_views(path, before, current):
-    """Prove actual482, compare482→480→470, return the actual current calls."""
-    if path != _NEW_RUN_GS:
-        return _ONE_BILLION_OLD_STORY_FACT_CALL_VIEWS(path, before, current)
-    import asset_one_billion_log_history as successor
-    import wealth_milestone_log_history as wealth
-    with successor.fresh_validation_proof(ROOT) as proof, wealth.fresh_validation_proof(ROOT) as old:
-        if (type(current) is not bytes or current != proof["current"][path]
-                or current != old["current"][path] or proof["head"] != old["head"]
-                or proof["before"][path] != old["source"][path]):
-            raise ValueError("one-billion admission requires actual current GameState and480 endpoint")
-        previous, actual = _asset_one_billion_raw_call_views(proof["before"][path], current)
-        earlier, post480 = _wealth_milestone_raw_call_views(old["before"][path], proof["before"][path])
-        historical, compared = _WEALTH_MILESTONE_OLD_STORY_FACT_CALL_VIEWS(path, before, old["before"][path])
-        if compared != earlier or post480 != previous:
-            raise ValueError("one-billion old480/470 call comparison differs")
-    return historical, actual
-# END_ASSET_ONE_BILLION_COLLECTOR_482
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -1,437 +1,143 @@
 #!/usr/bin/env python3
-"""One current notice admission; old suites execute unchanged in restored views."""
+"""Current first-start notice and unformatted delivery-header regressions."""
 from __future__ import annotations
 
 from collections import Counter
-from contextlib import ExitStack, contextmanager, redirect_stderr, redirect_stdout
-from dataclasses import asdict, replace
-import hashlib
-import io
-import json
+from dataclasses import replace
 from pathlib import Path
 import re
 import sys
-import traceback
-from unittest.mock import patch
 
 import ja_translation_pipeline as pipeline
 
 ROOT = Path(__file__).resolve().parents[1]
 START = "scenes/StartMenu.gd"
-PIPELINE = "tools/ja_translation_pipeline.py"
-OLD_SELF = "tools/new_run_log_locale_self_test.py"
-PIPELINE_SHA = "0cc15618245c679bf891244a59ce408b2476283d8f683fde7d22b838a37973f5"
-OLD_SELF_SHA = "37555e029e55652cca85705905a5acc186c076e97595dc27221cb8aa1899dd80"
-ENTRY_HOOK = '''# BEGIN_FIRST_START_NOTICE_ENTRY_274
-_NOTICE_SAVED_MAIN = main
-_NOTICE_SAVED_HISTORICAL_ENTRY = historical_entry
+DELIVERY = "scenes/ArubaGame.gd"
+NOTICE_KO = "이 게임에는 다음과 같은 내용이 포함됩니다:\n\n• 재정적 어려움과 부채\n• 가족·사회적 압박과 비교\n• 직장 스트레스와 번아웃\n• 정신건강 관련 묘사\n\n강남드림은 현실적인 삶을 다룹니다. 어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다."
+NOTICE_EN = "This game contains depictions of:\n\n• Financial hardship and debt\n• Family pressure and social comparison\n• Workplace stress and burnout\n• Mental health struggles\n\nGangnam Dream is a realistic portrayal of life. Difficult situations are part of the story — not endorsements."
+NOTICE = (START, "_show_content_warning", "legacy", NOTICE_KO, NOTICE_EN, "")
+HEADER_PAIRS = (("비 오는 저녁 배달", "Rainy Evening Delivery"),
+                ("배달 루트 설정", "Delivery Route Planning"))
 
 
-def main():
-    from first_start_notice_self_test import previous_entry
-    return previous_entry(_NOTICE_SAVED_MAIN, "source")
+def selector(call):
+    return call.path, call.function, call.api, call.korean, call.english, call.context_id
 
 
-def historical_entry(function, kind):
-    from first_start_notice_self_test import previous_entry
-    return previous_entry(lambda: _NOTICE_SAVED_HISTORICAL_ENTRY(function, kind), kind)
-# END_FIRST_START_NOTICE_ENTRY_274
-
-'''
-CASE_IDS = (
-    "current_notice", "raw_previous_start", "raw_ko_changed", "raw_en_changed", "raw_unrelated_lf",
-    "semantic_missing", "semantic_duplicate", "semantic_owner", "semantic_api", "semantic_ko",
-    "semantic_en", "semantic_context", "semantic_extra_owner", "historical_exception_restore",
-)
-OBSERVED_PATHS = (START, PIPELINE, OLD_SELF, "tools/first_start_notice_self_test.py",
-                  "tools/main_game_locale_history.py", "locale/ui_ja.json",
-                  "locale/ui_zh-CN.json", "locale/ui_zh-TW.json")
-
-
-def sha(raw):
-    return hashlib.sha256(raw).hexdigest()
-
-
-def pins():
-    return {p: {"bytes": len(raw), "sha256": sha(raw)} for p in OBSERVED_PATHS
-            for raw in [(ROOT / p).read_bytes()]}
+def notice_errors(calls, source):
+    owned = [c for c in calls if c.korean.startswith("이 게임에는")
+             or c.english.startswith("This game contains")]
+    errors = []
+    if Counter(map(selector, owned)) != Counter((NOTICE,)):
+        errors.append("notice owner, API, context or full bilingual body differs")
+    if any(c.korean.count("\n") != 7 or c.english.count("\n") != 7 for c in owned):
+        errors.append("notice paragraph layout differs")
+    request = pipeline._normalize_gd_expression(pipeline._gd_function_source(source, "_request_new_run"))
+    gate = 'ifnotMetaProgression.data.get("content_warning_seen",false):_show_content_warning()return_do_start_run()'
+    if gate not in request or request.count("_do_start_run()") != 1:
+        errors.append("unseen notice must precede starting the run")
+    warning = pipeline._normalize_gd_expression(pipeline._gd_function_source(source, "_show_content_warning"))
+    accepted = ('ok_btn.pressed.connect(func():MetaProgression.data["content_warning_seen"]=true'
+                'MetaProgression.save_meta()overlay.queue_free()_do_start_run())')
+    if accepted not in warning or warning.count("_do_start_run()") != 1:
+        errors.append("acceptance must persist the notice and start the run")
+    return errors
 
 
-def prepare():
-    current, previous, errors = pipeline._notice_raw_view()
-    if errors or sha(pipeline.current_demo_pipeline_predecessor(current[PIPELINE])) != PIPELINE_SHA:
-        raise AssertionError("current notice/code source: " + repr(errors))
-    raw = (ROOT / OLD_SELF).read_bytes()
-    hook = ENTRY_HOOK.encode()
-    if raw.count(hook) != 1:
-        raise AssertionError("new-run entry hook is not exact1")
-    old = raw.replace(hook, b"", 1)
-    if sha(old) != OLD_SELF_SHA:
-        raise AssertionError("new-run whole predecessor differs")
-    previous[OLD_SELF] = old
-    return current, previous
+def header_errors(calls, source):
+    owned = [c for c in calls if c.korean in {ko for ko, _ in HEADER_PAIRS}]
+    expected = Counter((DELIVERY, "open", "branch", ko, en, "") for ko, en in HEADER_PAIRS)
+    errors = []
+    if Counter(map(selector, owned)) != expected:
+        errors.append("delivery title branch owner, API, context or text differs")
+    body = pipeline._normalize_gd_expression(pipeline._gd_function_source(source, "open"))
+    consumer = ('_header_lbl.text=LocaleManager.ui("비 오는 저녁 배달"if_is_rain_surge_shift()else"배달 루트 설정",'
+                '"Rainy Evening Delivery"if_is_rain_surge_shift()else"Delivery Route Planning")_start_delivery()')
+    delivery_body = re.search(r"Mode\.DELIVERY:(.*?)(?=Mode\.[A-Z_]+:|$)", body)
+    if delivery_body is None or consumer not in delivery_body[1]:
+        errors.append("delivery header must use the same rain selector in both languages")
+    return errors
 
 
-def call_key(call):
-    return (call.path, call.function, call.api, call.korean, call.english, call.context_id)
-
-
-@contextmanager
-def historical_view(previous, observation):
-    read0, text0 = Path.read_bytes, Path.read_text
-    old_collect, old_checks = pipeline.collect_ui_inventory, pipeline._last11_meta_title_historical_checks
-    aliases = []
-    # Some consumers import the function directly rather than using the module.
-    for name in ("ja_translation_audit", "zh_translation_audit", "demo_localization_scope",
-                 "ci_localization_reconciliation_self_test", "meta_title_locale_successor_self_test"):
-        module = sys.modules.get(name)
-        if module is not None:
-            aliases.extend((module, key, value) for key, value in vars(module).items()
-                           if value is old_collect or value is old_checks)
-    try:
-        with ExitStack() as stack:
-            stack.enter_context(pipeline._notice_previous_reads(previous))
-            stack.enter_context(patch.object(pipeline, "collect_ui_inventory", pipeline._NOTICE_OLD_COLLECT))
-            stack.enter_context(patch.object(pipeline, "_last11_meta_title_historical_checks", pipeline._NOTICE_OLD_CHECKS))
-            for module, key, value in aliases:
-                stack.enter_context(patch.object(module, key, pipeline._NOTICE_OLD_COLLECT
-                    if value is old_collect else pipeline._NOTICE_OLD_CHECKS))
-            yield
-    finally:
-        observation.update(path_restored=Path.read_bytes is read0 and Path.read_text is text0,
-            callables_restored=pipeline.collect_ui_inventory is old_collect
-                and pipeline._last11_meta_title_historical_checks is old_checks,
-            imported_aliases_restored=all(getattr(m, k) is v for m, k, v in aliases))
-
-
-def normal(current, previous):
-    inventory = pipeline.collect_ui_inventory()
-    actual, parse_errors = pipeline.parse_ui_calls(START, current[START].decode())
-    with pipeline._notice_previous_reads({p: previous[p] for p in (START, PIPELINE)}):
-        old = pipeline._NOTICE_OLD_COLLECT()
-    projected, errors = pipeline._notice_predecessor_calls(inventory.calls)
-    old_span = pipeline._notice_call(False)
-    new_span = pipeline._notice_call(True)
-    literal = r'"(?:\\.|[^"\\])*"'
-    old_literals = [json.loads(s) for s in re.findall(literal, old_span)]
-    new_literals = [json.loads(s) for s in re.findall(literal, new_span)]
-    ko = "이 게임에는 다음과 같은 내용이 포함됩니다:\n\n• 재정적 어려움과 부채\n• 가족·사회적 압박과 비교\n• 직장 스트레스와 번아웃\n• 정신건강 관련 묘사\n\n강남드림은 현실적인 삶을 다룹니다. 어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다."
-    en = "This game contains depictions of:\n\n• Financial hardship and debt\n• Family pressure and social comparison\n• Workplace stress and burnout\n• Mental health struggles\n\nGangnam Dream is a realistic portrayal of life. Difficult situations are part of the story — not endorsements."
-    old_keys, new_keys = set(old.legacy_blueprint), set(inventory.legacy_blueprint)
-    stats = inventory.stats
-    checks = {
-        "decoded_values": len(old_literals) == 14 and new_literals == [ko, en]
-            and ["".join(old_literals[:7]), "".join(old_literals[7:])] == [ko, en]
-            and ko.count("\n") == en.count("\n") == 7,
-        "source_valid": not inventory.errors and not old.errors and not parse_errors and not errors,
-        "current_start_exact": Counter(tuple(asdict(c).items()) for c in inventory.calls if c.path == START)
-            == Counter(tuple(asdict(c).items()) for c in actual),
-        "non_start_calls_exact": tuple(c for c in inventory.calls if c.path != START)
-            == tuple(c for c in old.calls if c.path != START),
-        "historical_all_calls_exact": Counter(tuple(asdict(c).items()) for c in projected)
-            == Counter(tuple(asdict(c).items()) for c in old.calls),
-        "only_one_key_added": new_keys - old_keys == {ko} and not old_keys - new_keys,
-        "one_current_legacy_call": len(inventory.calls) == len(old.calls) + 1
-            and stats.get("source_calls") == 3466 and stats.get("legacy_keys") == 2949
-            and old.stats.get("source_calls") == 3465 and old.stats.get("legacy_keys") == 2948,
-        "current_api_partition": all(stats.get(k) == sum(c.api == api for c in inventory.calls)
-            for k, api in (("legacy_api_calls", "legacy"), ("format_calls", "format"),
-                           ("branch_variant_calls", "branch"), ("context_calls", "context"))),
-        "no_new_context": inventory.planned_context_entries == old.planned_context_entries
-            and inventory.observed_context_entries == old.observed_context_entries,
-    }
-    return all(checks.values()), {"checks": checks, "current_stats": stats, "previous_stats": old.stats,
-        "errors": list(inventory.errors), "previous_errors": list(old.errors),
-        "parse_errors": parse_errors, "semantic_errors": errors,
-        "notice": [asdict(c) for c in inventory.calls if c.korean == ko]}, inventory.calls
-
-
-def exception_probe(previous):
-    observed = {}
-    caught = None
-    try:
-        with historical_view(previous, observed):
-            observed["inside_exact"] = all((ROOT / p).read_bytes() == raw for p, raw in previous.items())
-            raise RuntimeError("first-start notice deliberate restoration exception")
-    except RuntimeError as exc:
-        caught = str(exc)
-    return all(observed.values()) and caught == "first-start notice deliberate restoration exception", {
-        "restoration": observed, "caught": caught}
-
-
-def previous_entry(function, kind):
-    before, after, code, fatal, observation, prerequisite = pins(), None, None, None, {}, {}
-    stdout, stderr = io.StringIO(), io.StringIO()
-    try:
-        current, previous = prepare()
-        good, prerequisite, _calls = normal(current, previous)
-        if good:
-            with historical_view(previous, observation), redirect_stdout(stdout), redirect_stderr(stderr):
-                code = function()
-    except Exception:
-        fatal = traceback.format_exc()
-    finally:
-        after = pins()
-    passed = code == 0 and not fatal and not stderr.getvalue() and before == after and all(observation.values())
-    print(json.dumps({"scope": "first-start notice prerequisite then unchanged " + kind,
-        "passed": passed, "normal_prerequisite": prerequisite, "old_exit": code,
-        "stdout": stdout.getvalue(), "stderr": stderr.getvalue(), "exception": fatal,
-        "restoration": observation, "physical_before": before, "physical_after": after,
-        "old_invocations": int(code is not None), "new14": 0}, ensure_ascii=False, indent=2))
-    print("FIRST_START_NOTICE_HISTORY_" + ("OK" if passed else "FAIL") + " kind=" + kind)
-    return 0 if passed else 1
-
-
-def main():
-    before, results, fatal, calls = pins(), [], None, ()
-    try:
-        current, previous = prepare()
-        for cid in CASE_IDS:
-            stdout, stderr, exception, values, passed = io.StringIO(), io.StringIO(), None, {}, False
-            try:
-                with redirect_stdout(stdout), redirect_stderr(stderr):
-                    if cid == "current_notice":
-                        passed, values, calls = normal(current, previous)
-                    elif cid == "historical_exception_restore":
-                        passed, values = exception_probe(previous)
-                    elif cid.startswith("raw_"):
-                        raw = {"raw_previous_start": previous[START],
-                               "raw_ko_changed": current[START].replace("이 게임에는".encode(), "이 작품에는".encode(), 1),
-                               "raw_en_changed": current[START].replace(b"This game contains", b"This game includes", 1),
-                               "raw_unrelated_lf": current[START] + b"\n"}[cid]
-                        with pipeline._notice_previous_reads({START: raw}), patch.object(
-                                pipeline, "_NOTICE_OLD_COLLECT", side_effect=AssertionError("old collector must not run")) as saved:
-                            returned = pipeline.collect_ui_inventory()
-                        passed = bool(returned.errors) and saved.call_count == 0
-                        values = {"input_sha256": sha(raw), "errors": list(returned.errors), "saved_calls": saved.call_count}
-                    else:
-                        supplied = list(calls)
-                        index = next(i for i, c in enumerate(supplied) if c.korean == pipeline.NOTICE_KO)
-                        call = supplied[index]
-                        if cid == "semantic_missing":
-                            supplied.pop(index)
-                        elif cid == "semantic_duplicate":
-                            supplied.append(call)
-                        elif cid == "semantic_extra_owner":
-                            supplied.append(replace(call, path="scenes/MainGame.gd", function="_render_sidebars"))
-                        else:
-                            field, value = {"semantic_owner": ("function", "_request_new_run"),
-                                "semantic_api": ("api", "format"), "semantic_ko": ("korean", call.korean + " "),
-                                "semantic_en": ("english", call.english + " "),
-                                "semantic_context": ("context_id", "unexpected.notice")}[cid]
-                            supplied[index] = replace(call, **{field: value})
-                        returned, errors = pipeline._notice_predecessor_calls(supplied)
-                        passed = bool(errors) and returned == tuple(supplied)
-                        values = {"errors": errors, "identity_on_rejection": returned == tuple(supplied)}
-            except Exception:
-                exception = traceback.format_exc()
-            results.append({"id": cid, "passed": bool(passed and not exception and not stderr.getvalue()),
-                "values": values, "stdout": stdout.getvalue(), "stderr": stderr.getvalue(), "exception": exception})
-    except Exception:
-        fatal = traceback.format_exc()
-    after = pins()
-    positive = bool(results and results[0]["passed"])
-    for row in results:
-        row["effective_negative"] = positive and row["passed"] and row["id"].startswith(("raw_", "semantic_"))
-    passed = len(results) == 14 and all(r["passed"] for r in results) and not fatal and before == after
-    print(json.dumps({"scope": "first-start notice fixed14; no old suite duplication", "passed": passed,
-        "results": results, "exception": fatal, "physical_before": before, "physical_after": after,
-        "effective_negatives": sum(r["effective_negative"] for r in results), "old_suites": 0}, ensure_ascii=False, indent=2))
-    print("FIRST_START_NOTICE_SELF_TEST_" + ("OK" if passed else "FAIL") + " cases=14")
-    return 0 if passed else 1
-
-
-def current_code_self_test():
-    """Exact369 caller/370 adapter controls; none replaces the original14."""
+def notice_self_test():
     failures, cases = [], 0
 
-    def check(ok, label):
-        nonlocal cases
-        cases += 1
-        if not ok:
-            failures.append("current-demo code boundary: " + label)
-
-    raw = (ROOT / PIPELINE).read_bytes()
-    before = pins()
-    read0, text0 = Path.read_bytes, Path.read_text
-    previous = pipeline.current_demo_pipeline_predecessor(raw)
-    check(sha(previous) == PIPELINE_SHA, "exact historical274 code")
-    current, old, errors = pipeline._notice_raw_view()
-    check(not errors and current[PIPELINE] == raw and current[START] == (ROOT / START).read_bytes(),
-          "current observation returns actual raw")
-    check(sha(old[PIPELINE]) == pipeline.NOTICE_PIPELINE_PREVIOUS_SHA,
-          "older reader still receives pre274 code")
-    inventory = pipeline.collect_ui_inventory()
-    check(not inventory.errors and len(inventory.calls) == 3466
-          and inventory.stats.get("legacy_keys") == 2949
-          and inventory.stats.get("migrated_context_ids") == 29, "actual collector population and stats")
-    check(Path.read_bytes is read0 and Path.read_text is text0, "normal read restoration")
-
-    begin, end = b"# BEGIN_CURRENT_DEMO_EXPECTATION_370\n", b"# END_CURRENT_DEMO_EXPECTATION_370\n\n"
-    a, z = raw.index(begin), raw.index(end) + len(end)
-    span = raw[a:z]
-    no_append = raw[:a] + raw[z:]
-    new, old_hunk = pipeline.CURRENT_DEMO_NEW_HUNK.encode(), pipeline.CURRENT_DEMO_OLD_HUNK.encode()
-    mutations = (
-        ("full old274 rollback", previous), ("369 without appendix", no_append),
-        ("missing caller only", raw.replace(new, old_hunk, 1)),
-        ("duplicate caller", raw.replace(new, new + new, 1)),
-        ("changed caller", raw.replace(b"expected, expectation_errors = demo_scope.current_source_contract",
-                                        b"expected, expectation_errors = demo_scope.other_source_contract", 1)),
-        ("duplicate appendix", raw[:z] + span + raw[z:]),
-        ("missing appendix start", raw.replace(begin, b"", 1)),
-        ("missing appendix end", raw.replace(end, b"", 1)),
-        ("appendix implementation", raw.replace(b"predecessor = current_demo_pipeline_predecessor(",
-                                               b"predecessor = other_pipeline_predecessor(", 1)),
-        ("seal forged", raw.replace(pipeline.CURRENT_DEMO_APPEND_SHA.encode(), b"0" * 64, 1)),
-        ("outside function", raw.replace(b"def git_private_path(filename:", b"def other_private_path(filename:", 1)),
-        ("old pin changed", raw.replace(pipeline.NOTICE_PIPELINE_PREVIOUS_SHA.encode(), b"0" * 64, 1)),
-        ("leading whitespace", b" " + raw), ("trailing newline", raw + b"\n"), ("empty", b""),
-    )
-    for label, mutant in mutations:
-        rejected = False
-        try:
-            pipeline.current_demo_pipeline_predecessor(mutant)
-        except (OSError, ValueError, TypeError):
-            rejected = True
-        def altered_read(path):
-            return mutant if path == ROOT / PIPELINE else read0(path)
-        with patch.object(Path, "read_bytes", altered_read), patch.object(
-                pipeline, "_CURRENT_DEMO_OLD_NOTICE_RAW_VIEW",
-                side_effect=AssertionError("historical reader must not run")) as historical:
-            returned, projected, guard_errors = pipeline._notice_raw_view()
-        check(rejected and bool(guard_errors) and not projected and not historical.called
-              and returned.get(PIPELINE) == mutant, label)
-    for invalid in (None, "not raw bytes", bytearray(raw)):
-        try:
-            pipeline.current_demo_pipeline_predecessor(invalid)
-        except (ValueError, TypeError):
-            check(True, "nonbytes rejected")
-        else:
-            check(False, "nonbytes rejected")
-    actual_git = pipeline._current_demo_git
-    for label, fake in (
-        ("missing Git", lambda *args: (_ for _ in ()).throw(OSError("missing immutable proof"))),
-        ("forged Git blob", lambda *args: b"forged" if args[0] == "show" else actual_git(*args)),
-        ("wrong parent", lambda *args: b"0" * 40 + b"\n" if args[0] == "rev-parse" else actual_git(*args)),
-    ):
-        with patch.object(pipeline, "_current_demo_git", side_effect=fake), patch.object(
-                pipeline, "_CURRENT_DEMO_OLD_NOTICE_RAW_VIEW",
-                side_effect=AssertionError("historical reader must not run")) as historical:
-            returned, projected, guard_errors = pipeline._notice_raw_view()
-        check(bool(guard_errors) and not projected and not historical.called and returned.get(PIPELINE) == raw, label)
-        recovered, _old, guard_errors = pipeline._notice_raw_view()
-        check(not guard_errors and recovered[PIPELINE] == raw, label + " recovery")
-    original_reader = pipeline._CURRENT_DEMO_OLD_NOTICE_RAW_VIEW
-    inside = {}
-    other = ROOT / "content/meta/demo_localization_scope.json"
-    other_raw = other.read_bytes()
-    def observed_reader(source):
-        inside.update(code=(ROOT / PIPELINE).read_bytes() == previous,
-                      text=(ROOT / PIPELINE).read_text(encoding="utf-8") == previous.decode(),
-                      other=other.read_bytes() == other_raw)
-        return original_reader(source)
-    with patch.object(pipeline, "_CURRENT_DEMO_OLD_NOTICE_RAW_VIEW", side_effect=observed_reader):
-        _current, _old, guard_errors = pipeline._notice_raw_view()
-    check(not guard_errors and inside == {"code": True, "text": True, "other": True}, "scoped read only")
-    check(Path.read_bytes is read0 and Path.read_text is text0, "observed reader restoration")
-    caught = False
-    def exploding_reader(source):
-        if (ROOT / PIPELINE).read_bytes() != previous:
-            raise AssertionError("exception fixture not in predecessor scope")
-        raise RuntimeError("deliberate current-demo restoration exception")
-    with patch.object(pipeline, "_CURRENT_DEMO_OLD_NOTICE_RAW_VIEW", side_effect=exploding_reader):
-        try:
-            pipeline._notice_raw_view()
-        except RuntimeError as exc:
-            caught = str(exc) == "deliberate current-demo restoration exception"
-    check(caught and Path.read_bytes is read0 and Path.read_text is text0, "exception restoration")
-    current, _old, guard_errors = pipeline._notice_raw_view()
-    check(not guard_errors and current[PIPELINE] == raw, "recovery after exception")
-    check(before == pins(), "physical inputs unchanged")
-    return failures, cases
-
-
-_ORIGINAL_FIXED14_MAIN = main
-
-
-def main():
-    old_exit = _ORIGINAL_FIXED14_MAIN()
-    try:
-        failures, cases = current_code_self_test()
-    except Exception:
-        failures, cases = [traceback.format_exc()], 0
-    print(json.dumps({"scope": "exact369 caller/current370 code boundary, separate from fixed14",
-                      "failures": failures, "cases": cases}, ensure_ascii=False))
-    print("FIRST_START_NOTICE_CURRENT_CODE_" + ("FAIL" if failures else "OK") + f" cases={cases}")
-    return int(bool(old_exit or failures))
-
-
-_DELIVERY_OLD_NORMAL = normal
-_DELIVERY_OLD_HISTORY_VIEW = historical_view
-_DELIVERY_OLD_MAIN = main
-
-
-def normal(current, previous):
-    # The unchanged14 assert the notice transition's historical census, not378.
-    with pipeline.nonformat_historical_inventory():
-        return _DELIVERY_OLD_NORMAL(current, previous)
-
-
-@contextmanager
-def historical_view(previous, observation):
-    with pipeline.nonformat_historical_inventory():
-        with _DELIVERY_OLD_HISTORY_VIEW(previous, observation):
-            yield
-
-
-def delivery_headers_self_test():
-    """One actual collection plus bounded parser/code/registry mutations."""
-    failures, cases = [], 0
     def check(ok, label):
         nonlocal cases
         cases += 1
         if not ok:
             failures.append(label)
-    def reject(action, label):
-        try:
-            action()
-        except (ValueError, OSError, TypeError):
-            check(True, label)
-        else:
-            check(False, label)
-    before = pins()
-    raw = (ROOT / PIPELINE).read_bytes()
-    prior = pipeline.nonformat_pipeline_predecessor(raw)
-    check(sha(prior) == pipeline.NONFORMAT_BEFORE_SHA, "whole historical code inverse")
-    check(sha(pipeline.current_demo_pipeline_predecessor(raw)) == PIPELINE_SHA, "unchanged274 code pin")
+
+    source = (ROOT / START).read_text(encoding="utf-8")
+    calls, errors = pipeline.parse_ui_calls(START, source)
     inventory = pipeline.collect_ui_inventory()
-    print("DELIVERY_HEADERS_COLLECTION " + json.dumps({"errors": inventory.errors,
-          "stats": inventory.stats}, ensure_ascii=False))
-    keys = {ko for ko, _ in pipeline.NONFORMAT_PAIRS}
-    added = [c for c in inventory.calls if c.korean in keys]
-    remaining = [c for c in inventory.calls if c.korean not in keys]
-    previous_stats = inventory.stats.get("nonformat_previous_stats", {})
-    check(not inventory.errors, "actual collector errors: " + repr(inventory.errors))
-    check(not pipeline._nonformat_registry_errors(added), "actual exact two-title registry")
-    if len(added) != 2 or inventory.errors:
-        return failures, cases, {"collector_errors": inventory.errors, "current_stats": inventory.stats}
-    check(len(inventory.calls) == 3468 and inventory.stats.get("legacy_keys") == 2951
-          and previous_stats.get("source_calls") == 3466 and previous_stats.get("legacy_keys") == 2949,
-          "separate current and historical census")
-    check(sha(json.dumps([vars(c) for c in remaining], ensure_ascii=False, sort_keys=True).encode())
-          == inventory.stats.get("nonformat_previous_calls_sha256"), "all prior calls unchanged")
-    old_entries = [(e.key, e.source, e.source_hash) for e in inventory.legacy_entries if e.source not in keys]
-    check(sha(json.dumps(old_entries, ensure_ascii=False).encode())
-          == inventory.stats.get("nonformat_previous_entries_sha256"), "all prior IDs/source hashes unchanged")
-    check(inventory.stats.get("nonformat_preserved_fields_verified") is True,
-          "prior entries/blueprints/context/nonowned stats unchanged")
+    check(not errors and not inventory.errors, "current source/collector is clean")
+    check(Counter(map(selector, calls)) == Counter(map(selector, (c for c in inventory.calls if c.path == START))),
+          "direct collector retains actual StartMenu calls")
+    check(not notice_errors(calls, source), "notice text and first-start delivery")
+    index = next(i for i, c in enumerate(calls) if selector(c) == NOTICE)
+    for field, value in (
+        ("path", "scenes/MainGame.gd"), ("function", "_request_new_run"),
+        ("api", "format"), ("context_id", "unexpected.notice"),
+        ("korean", NOTICE_KO + " "), ("english", NOTICE_EN + " "),
+        ("korean", NOTICE_KO.replace("\n", " ")),
+    ):
+        changed = list(calls)
+        changed[index] = replace(changed[index], **{field: value})
+        check(bool(notice_errors(changed, source)), f"reject notice {field} drift")
+    check(bool(notice_errors([c for i, c in enumerate(calls) if i != index], source)),
+          "reject missing notice")
+    check(bool(notice_errors([*calls, calls[index]], source)), "reject duplicated notice")
+    for before, after in (
+        ('data.get("content_warning_seen", false)', 'data.get("content_warning_seen", true)'),
+        ("\t\t_show_content_warning()\n", ""),
+        ('MetaProgression.data["content_warning_seen"] = true', 'MetaProgression.data["content_warning_seen"] = false'),
+        ("\t\tMetaProgression.save_meta()\n", ""),
+    ):
+        check(before in source and bool(notice_errors(calls, source.replace(before, after, 1))),
+              "reject changed first-start notice lifecycle")
+    shifted = [replace(c, line=c.line + 31) for c in reversed(calls)]
+    check(not notice_errors(shifted, source + "\n"), "meaning-preserving line/order/whitespace changes")
+    return failures, cases
+
+
+def delivery_headers_self_test():
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append(label)
+
+    source = (ROOT / DELIVERY).read_text(encoding="utf-8")
+    calls, errors = pipeline.parse_ui_calls(DELIVERY, source)
+    inventory = pipeline.collect_ui_inventory()
+    check(not errors and not inventory.errors, "current delivery source/collector is clean")
+    check(Counter(map(selector, calls)) == Counter(map(selector, (c for c in inventory.calls if c.path == DELIVERY))),
+          "direct collector includes both delivery branches")
+    check(not header_errors(calls, source), "current conditional delivery header")
+    index = next(i for i, c in enumerate(calls) if c.korean == HEADER_PAIRS[0][0])
+    for field, value in (("path", "fixture.gd"), ("function", "other"), ("api", "format"),
+                         ("context_id", "unexpected.header"), ("english", "Other")):
+        changed = list(calls)
+        changed[index] = replace(changed[index], **{field: value})
+        check(bool(header_errors(changed, source)), f"reject delivery {field} drift")
+    check(bool(header_errors([c for i, c in enumerate(calls) if i != index], source)),
+          "reject missing branch")
+    check(bool(header_errors([*calls, calls[index]], source)), "reject duplicated branch")
+    changed_source = source.replace('"Rainy Evening Delivery" if _is_rain_surge_shift()',
+                                    '"Rainy Evening Delivery" if other()', 1)
+    check(changed_source != source and bool(header_errors(calls, changed_source)),
+          "reject divergent language selector")
+
     plain = 'func open():\n\tLocaleManager.ui("비" if wet() else "맑음", "Rain" if wet() else "Clear")\n'
-    added_plain, parse_errors = pipeline.nonformat_ui_calls("fixture.gd", plain)
-    check(not parse_errors and [(c.korean, c.english) for c in added_plain] == [("비", "Rain"), ("맑음", "Clear")], "same selector pairs")
+    branches, errors = pipeline.nonformat_ui_calls("fixture.gd", plain)
+    check(not errors and [(c.korean, c.english) for c in branches] == [("비", "Rain"), ("맑음", "Clear")],
+          "plain shared selector exposes both translations")
     for label, value in (
-        ("different conditions", plain.replace('"Rain" if wet()', '"Rain" if dry()')),
-        ("condition literal", plain.replace('wet()', 'weather == "rain"')),
+        ("different selectors", plain.replace('"Rain" if wet()', '"Rain" if dry()')),
+        ("literal condition", plain.replace('wet()', 'weather == "rain"')),
         ("nested condition", plain.replace('"비" if wet()', '"비" if wet() else "눈" if cold()')),
         ("unpaired argument", plain.replace('"Rain" if wet() else "Clear"', '"Rain"')),
         ("third argument", plain.replace('else "Clear")', 'else "Clear", true)')),
@@ -440,50 +146,28 @@ def delivery_headers_self_test():
         ("property suffix", plain.replace('else "Clear")', 'else "Clear").length()')),
     ):
         _calls, errors = pipeline.nonformat_ui_calls("fixture.gd", value)
-        check(bool(errors), label)
+        check(bool(errors), "reject " + label)
     formatted = plain.replace('else "Clear")', 'else "Clear").format({})')
-    check(pipeline.nonformat_ui_calls("fixture.gd", formatted) == ([], []), "formatted branch stays with old parser")
-    check(pipeline.parse_ui_calls("fixture.gd", formatted) == pipeline._NONFORMAT_OLD_PARSE("fixture.gd", formatted),
-          "formatted parser output unchanged")
+    check(pipeline.nonformat_ui_calls("fixture.gd", formatted) == ([], []),
+          "formatted branch remains with its own parser")
     check(pipeline.nonformat_ui_calls("fixture.gd", 'func open():\n\tLocaleManager.ui("비", "Rain")\n') == ([], []),
-          "literal call not duplicated")
-    for label, calls in (("missing pair", added[:1]), ("duplicate pair", [*added, added[0]]),
-                         ("owner drift", [replace(added[0], function="other"), added[1]]),
-                         ("English drift", [replace(added[0], english="Other"), added[1]])):
-        check(bool(pipeline._nonformat_registry_errors(calls)), label)
-    for label, mutant in (("old code rollback", prior), ("code whitespace", raw + b"\n"),
-                          ("neighbor code", raw.replace(b'DEFAULT_MODEL = ', b'OTHER_MODEL = ', 1)),
-                          ("appendix mutation", raw.replace(b'exact two-title registry differs', b'exact two-title registry altered', 1))):
-        reject(lambda v=mutant: pipeline.nonformat_pipeline_predecessor(v), label)
-    with patch.object(pipeline, "_current_demo_git", side_effect=OSError("proof unavailable")):
-        reject(lambda: pipeline.nonformat_pipeline_predecessor(raw), "later Git loss after success")
-    git0 = pipeline._current_demo_git
-    def forged(*args):
-        result = git0(*args)
-        return result + b"x" if args[0] == "show" else result
-    with patch.object(pipeline, "_current_demo_git", side_effect=forged):
-        reject(lambda: pipeline.nonformat_pipeline_predecessor(raw), "forged Git blob after success")
-    check(pipeline.nonformat_pipeline_predecessor(raw) == prior, "fresh proof restored")
-    check(before == pins(), "physical inputs unchanged")
-    check(sha((ROOT / pipeline.NONFORMAT_RUNTIME).read_bytes()) == pipeline.NONFORMAT_RUNTIME_SHA,
-          "runtime raw unchanged")
-    return failures, cases, {"current_stats": inventory.stats, "added": [asdict(c) for c in added],
-                            "historical_suite_invocations": 0}
+          "literal call is not duplicated")
+    check(not header_errors([replace(c, line=c.line + 31) for c in reversed(calls)], source + "\n"),
+          "meaning-preserving line/order/whitespace changes")
+    return failures, cases
 
 
 def main():
-    if sys.argv[1:] == ["--delivery-headers"]:
-        try:
-            failures, cases, evidence = delivery_headers_self_test()
-        except Exception:
-            failures, cases, evidence = [traceback.format_exc()], 0, {}
-        print(json.dumps({"scope": "current nonformat delivery titles; original14/34 not rerun",
-                          "failures": failures, "cases": cases, **evidence}, ensure_ascii=False))
-        print("DELIVERY_HEADERS_SELF_TEST_" + ("FAIL" if failures else "OK") + f" cases={cases}")
-        return int(bool(failures))
-    print("FIRST_START_NOTICE_HISTORICAL_CENSUS current_nonformat_claim=false")
-    with pipeline.nonformat_historical_inventory():
-        return _DELIVERY_OLD_MAIN()
+    headers = sys.argv[1:] == ["--delivery-headers"]
+    try:
+        failures, cases = delivery_headers_self_test() if headers else notice_self_test()
+    except Exception as exc:
+        failures, cases = [f"{type(exc).__name__}: {exc}"], 0
+    for failure in failures:
+        print("ERROR first-start/delivery locale: " + failure)
+    marker = "DELIVERY_HEADERS_SELF_TEST" if headers else "FIRST_START_NOTICE_SELF_TEST"
+    print(f"{marker}_{'FAIL' if failures else 'OK'} cases={cases}")
+    return int(bool(failures))
 
 
 if __name__ == "__main__":

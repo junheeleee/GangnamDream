@@ -16,7 +16,6 @@ from ja_translation_pipeline import (
     Entry,
     RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS,
     UiInventory,
-    _relationship_panel_historical_calls,
     collect_catalog,
     collect_endings,
     collect_events,
@@ -166,27 +165,33 @@ def _demo_runtime(errors: list[str]) -> tuple[dict[str, Any], dict[str, Any]]:
 def retired_relationship_ui_entries(
     inventory: UiInventory,
 ) -> tuple[dict[str, Entry], list[str]]:
-    """Recognize only source-verified retained keys, never arbitrary extras.
+    """Allow finite unused dictionary rows, not historical source admissions.
 
-    The replacement registry owns the old/new pairs; its collector guard binds
-    each current pair to the exact function, API and cardinality. A failed source
-    guard grants no exemption. Still-live old keys use the regular blueprint.
+    Targets kept by append-only dictionaries are optional and do not count as
+    current coverage. A live call is always checked through the current source
+    blueprint, and malformed source collection grants no extra-key exemption.
+    There is no frozen target value, Git endpoint or predecessor reconstruction.
     """
-    _history, errors = _relationship_panel_historical_calls(inventory.calls)
-    if errors:
-        return {}, errors
-    retired = {}
-    for function, old_ko, _old_en, current_ko, _current_en in \
-            RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS:
-        if current_ko not in inventory.blueprint:
-            errors.append(f"retired UI: missing current source {current_ko!r}")
-        if old_ko not in inventory.blueprint:
-            retired[old_ko] = Entry(
-                f"retained-ui::{hashlib.sha1(old_ko.encode()).hexdigest()[:12]}",
-                old_ko,
-                f"scenes/MainGame.gd::{function} (retained source replacement)",
-            )
-    return ({}, errors) if errors else (retired, [])
+    if inventory.errors:
+        return {}, ["retired UI: current source inventory is invalid"]
+    keys = {
+        "건강/정신력이 0이 되거나 빚이 -1억을 넘으면 끝납니다.",
+        "이번 달 승진 판정 대상!  (35% 확률)",
+        "%.1f억", "%d만", "%d원",
+        "행동력이 없습니다. 이번 달 거래 불가",
+        "🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다. 남은 건 10억.",
+        "💰 자산 10억 돌파 — 30억의 3분의 1. 이제부터 가속이 붙는다.",
+        *(row[1] for row in RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS),
+    }
+    live = set(inventory.blueprint) | {call.korean for call in inventory.calls}
+    return {
+        key: Entry(
+            "ui::unused::" + hashlib.sha1(key.encode()).hexdigest()[:12],
+            key,
+            "unused compatibility dictionary row",
+        )
+        for key in sorted(keys - live)
+    }, []
 
 
 def check_ui_scope(actual: Any, errors: list[str]) -> int:
@@ -229,9 +234,7 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
     retired_entries, retired_errors = retired_relationship_ui_entries(inventory)
     errors.extend(f"ui source: {error}" for error in retired_errors)
     for key, entry in retired_entries.items():
-        if key not in actual:
-            errors.append(f"ui: missing retained source key {key!r}")
-        else:
+        if key in actual:
             check_text(entry, actual[key], errors)
     from third_party_notice_ui import (
         NoticeSourceError, collect_third_party_notice_ui_entries, notice_ui_additions,
@@ -308,12 +311,15 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
     legacy_present = len(set(inventory.legacy_blueprint) & set(actual))
     context_present = len(set(inventory.planned_context_blueprint) & set(actual))
     stats = inventory.stats
+    for key in ("migrated_context_ids", "planned_context_ids"):
+        if type(stats.get(key)) is not int or stats[key] < 0:
+            errors.append(f"ui source: missing/invalid inventory statistic {key}")
     print(
         "JA_AUDIT_SCOPE name=ui "
         f"legacy={legacy_present}/{len(inventory.legacy_blueprint)} "
         f"context={context_present}/{len(inventory.planned_context_blueprint)} "
-        f"migrated={stats['migrated_context_ids']}/"
-        f"{stats['planned_context_ids']} "
+        f"migrated={stats.get('migrated_context_ids', 'unavailable')}/"
+        f"{stats.get('planned_context_ids', 'unavailable')} "
         f"demo_dynamic={dynamic_present}/{len(dynamic_keys)} "
         f"story_demo_extra={story_demo_exclusive_present}/"
         f"{len(story_demo_exclusive_keys)} "
@@ -402,385 +408,9 @@ def main() -> int:
     return 0
 
 
-# Exact390 retains one superseded Japanese key without making it a live source.
-_TUTORIAL_OLD_RETIRED_ENTRIES = retired_relationship_ui_entries
+# Compatibility alias for existing provider-isolated product self-tests.
+# There is one current checker; no predecessor wrappers or Git admissions.
 _TUTORIAL_OLD_CHECK_UI_SCOPE = check_ui_scope
-TUTORIAL_RETAINED_JA_BLOB = "588a055a6f6440c5117587b182ff193b9ac2ae31"
-TUTORIAL_RETAINED_JA = "健康／精神力が0になったり、借金が-1億ウォンを超えると終了します。"
-
-
-def tutorial_retained_ja_entries(inventory: UiInventory, actual: Any) -> tuple[dict[str, Entry], list[str]]:
-    """One immutable old target, zero current calls/receipts; no extra-key grant."""
-    import ja_translation_pipeline as pipeline
-    import main_game_locale_history as history
-    try:
-        raw = (ROOT / history.MAIN_GAME_PATH).read_bytes()
-        _before, calls = pipeline._tutorial_copy_call_views(raw)
-        if inventory.errors or tuple(c for c in inventory.calls if c.path == history.MAIN_GAME_PATH) != calls:
-            raise ValueError("supplied current inventory differs")
-        key = history.TUTORIAL_OLD_KO
-        if key in inventory.blueprint or history.TUTORIAL_NEW_KO not in inventory.blueprint:
-            raise ValueError("retained/current source identities differ")
-        previous = history._modal_git(ROOT, "show", history.TUTORIAL_BEFORE_COMMIT + ":locale/ui_ja.json")
-        if hashlib.sha1(b"blob " + str(len(previous)).encode() + b"\0" + previous).hexdigest() != TUTORIAL_RETAINED_JA_BLOB:
-            raise ValueError("immutable Japanese blob differs")
-        if json.loads(previous)[key] != TUTORIAL_RETAINED_JA or not isinstance(actual, dict) or actual.get(key) != TUTORIAL_RETAINED_JA:
-            raise ValueError("retained Japanese target changed/missing")
-        ledger = read_json(ROOT / "content/meta/full_game_localization.json")
-        leaf_id = "ui:" + key + ":/" + key.replace("~", "~0").replace("/", "~1")
-        if any(leaf_id in rows for rows in ledger["accepted"].values()):
-            raise ValueError("retired source unexpectedly has an accepted receipt")
-        entry = Entry("retained-ui::tutorial-copy", key, "scenes/MainGame.gd::_show_tutorial (retired exact source)")
-        return {key: entry}, []
-    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
-        return {}, ["tutorial retained JA: " + str(exc)]
-
-
-def retired_relationship_ui_entries(inventory: UiInventory) -> tuple[dict[str, Entry], list[str]]:
-    entries, errors = _TUTORIAL_OLD_RETIRED_ENTRIES(inventory)
-    retained, extra_errors = tutorial_retained_ja_entries(inventory, read_json(ROOT / "locale/ui_ja.json"))
-    return ({}, [*errors, *extra_errors]) if errors or extra_errors else ({**entries, **retained}, [])
-
-
-def check_ui_scope(actual: Any, errors: list[str]) -> int:
-    # The original checker still validates all rows and rejects every other
-    # extra. Bind its supplied dictionary too, not only the disk counterpart.
-    import main_game_locale_history as history
-    if not isinstance(actual, dict) or actual.get(history.TUTORIAL_OLD_KO) != TUTORIAL_RETAINED_JA:
-        errors.append("ui: exact retained tutorial target changed/missing")
-    return _TUTORIAL_OLD_CHECK_UI_SCOPE(actual, errors)
-
-
-# BEGIN_PROMOTION_REVIEW_RETAINED_JA_406
-_PROMOTION_OLD_RETIRED_ENTRIES = retired_relationship_ui_entries
-_PROMOTION_OLD_CHECK_UI_SCOPE = check_ui_scope
-PROMOTION_RETAINED_JA_BLOB = "dc942362324588cfa7e87743f6326fb0f733e2f9"
-PROMOTION_RETAINED_JA = "今月の昇進判定対象！   (35% 確率)"
-
-
-def promotion_retained_ja_entries(inventory: UiInventory, actual: Any) -> tuple[dict[str, Entry], list[str]]:
-    """Retain only the immutable retired target; never a live source/receipt."""
-    import ja_translation_pipeline as pipeline
-    import main_game_locale_history as history
-    try:
-        raw = (ROOT / history.MAIN_GAME_PATH).read_bytes()
-        _before, calls = pipeline._promotion_review_call_views(raw)
-        if inventory.errors or tuple(c for c in inventory.calls if c.path == history.MAIN_GAME_PATH) != calls:
-            raise ValueError("supplied current inventory differs")
-        key = history.PROMOTION_OLD_KO
-        if key in inventory.blueprint or history.PROMOTION_NEW_KO not in inventory.blueprint:
-            raise ValueError("retained/current source identities differ")
-        previous = history._modal_git(ROOT, "show", history.PROMOTION_BEFORE_COMMIT + ":locale/ui_ja.json")
-        if hashlib.sha1(b"blob " + str(len(previous)).encode() + b"\0" + previous).hexdigest() != PROMOTION_RETAINED_JA_BLOB:
-            raise ValueError("immutable Japanese blob differs")
-        if json.loads(previous)[key] != PROMOTION_RETAINED_JA or not isinstance(actual, dict) or actual.get(key) != PROMOTION_RETAINED_JA:
-            raise ValueError("retained Japanese target changed/missing")
-        ledger = read_json(ROOT / "content/meta/full_game_localization.json")
-        leaf_id = "ui:" + key + ":/" + key.replace("~", "~0").replace("/", "~1")
-        if any(leaf_id in rows for rows in ledger["accepted"].values()):
-            raise ValueError("retired source unexpectedly has an accepted receipt")
-        entry = Entry("retained-ui::promotion-review", key, "scenes/MainGame.gd::_open_cat_work (retired exact source)")
-        return {key: entry}, []
-    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
-        return {}, ["promotion retained JA: " + str(exc)]
-
-
-def retired_relationship_ui_entries(inventory: UiInventory) -> tuple[dict[str, Entry], list[str]]:
-    entries, errors = _PROMOTION_OLD_RETIRED_ENTRIES(inventory)
-    retained, extra_errors = promotion_retained_ja_entries(inventory, read_json(ROOT / "locale/ui_ja.json"))
-    return ({}, [*errors, *extra_errors]) if errors or extra_errors else ({**entries, **retained}, [])
-
-
-def check_ui_scope(actual: Any, errors: list[str]) -> int:
-    import main_game_locale_history as history
-    if not isinstance(actual, dict) or actual.get(history.PROMOTION_OLD_KO) != PROMOTION_RETAINED_JA:
-        errors.append("ui: exact retained promotion target changed/missing")
-    return _PROMOTION_OLD_CHECK_UI_SCOPE(actual, errors)
-# END_PROMOTION_REVIEW_RETAINED_JA_406
-
-# BEGIN_HOLDEM_MONEY_RETAINED_JA_434
-_HOLDEM_MONEY_OLD_RETIRED_ENTRIES = retired_relationship_ui_entries
-_HOLDEM_MONEY_OLD_CHECK_UI_SCOPE = check_ui_scope
-HOLDEM_RETAINED_JA_BLOB = "750f9692b662082d93214318c743d3eccd102249"
-HOLDEM_RETAINED_JA = {
-    "%.1f억": "%.1f億",
-    "%d만": "%d万",
-    "%d원": "%dウォン",
-}
-
-
-def holdem_money_retained_ja_entries(inventory: UiInventory, actual: Any) -> tuple[dict[str, Entry], list[str]]:
-    """Retain exactly three immutable targets, never live sources or receipts."""
-    import ja_translation_pipeline as pipeline
-    import holdem_money_history as history
-    try:
-        raw = (ROOT / history.HOLDEM_PATH).read_bytes()
-        _before, calls = pipeline._holdem_money_call_views(raw)
-        if inventory.errors or tuple(c for c in inventory.calls if c.path == history.HOLDEM_PATH) != calls:
-            raise ValueError("supplied current inventory differs")
-        keys = set(HOLDEM_RETAINED_JA)
-        if any(c.korean in keys for c in inventory.calls) or keys.intersection(inventory.blueprint):
-            raise ValueError("retired money source remains live")
-        previous = history._git(ROOT, "show", history.BEFORE_COMMIT + ":locale/ui_ja.json")
-        if hashlib.sha1(b"blob " + str(len(previous)).encode() + b"\0" + previous).hexdigest() != HOLDEM_RETAINED_JA_BLOB:
-            raise ValueError("immutable Japanese blob differs")
-        original = json.loads(previous)
-        if (not isinstance(original, dict) or not isinstance(actual, dict)
-                or any(original.get(key) != value or actual.get(key) != value
-                       for key, value in HOLDEM_RETAINED_JA.items())):
-            raise ValueError("retained Japanese money target changed/missing")
-        ledger = read_json(ROOT / "content/meta/full_game_localization.json")
-        accepted = ledger.get("accepted") if isinstance(ledger, dict) else None
-        if not isinstance(accepted, dict) or not accepted or any(not isinstance(rows, dict) for rows in accepted.values()):
-            raise ValueError("accepted receipt locale map malformed")
-        for key in keys:
-            leaf_id = "ui:" + key + ":/" + key.replace("~", "~0").replace("/", "~1")
-            if any(leaf_id in rows for rows in accepted.values()):
-                raise ValueError("retired money source unexpectedly has an accepted receipt")
-        if (ROOT / history.HOLDEM_PATH).read_bytes() != raw:
-            raise ValueError("Holdem source changed during retained admission")
-        entries = {
-            key: Entry("retained-ui::holdem-money::" + hashlib.sha1(key.encode()).hexdigest()[:12],
-                       key, "scenes/HoldemClub.gd::_fmt (retired exact source)")
-            for key in HOLDEM_RETAINED_JA
-        }
-        return entries, []
-    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
-        return {}, ["Holdem money retained JA: " + str(exc)]
-
-
-def retired_relationship_ui_entries(inventory: UiInventory) -> tuple[dict[str, Entry], list[str]]:
-    entries, errors = _HOLDEM_MONEY_OLD_RETIRED_ENTRIES(inventory)
-    retained, extra_errors = holdem_money_retained_ja_entries(inventory, read_json(ROOT / "locale/ui_ja.json"))
-    return ({}, [*errors, *extra_errors]) if errors or extra_errors else ({**entries, **retained}, [])
-
-
-def check_ui_scope(actual: Any, errors: list[str]) -> int:
-    # Bind the supplied dictionary as well as the disk dictionary used above.
-    if not isinstance(actual, dict) or any(actual.get(key) != value for key, value in HOLDEM_RETAINED_JA.items()):
-        errors.append("ui: exact retained Holdem money targets changed/missing")
-    return _HOLDEM_MONEY_OLD_CHECK_UI_SCOPE(actual, errors)
-# END_HOLDEM_MONEY_RETAINED_JA_434
-
-# BEGIN_INVESTMENT_AP_RETAINED_JA_467
-_AP_COPY_OLD_RETIRED_ENTRIES = retired_relationship_ui_entries
-_AP_COPY_OLD_CHECK_UI_SCOPE = check_ui_scope
-AP_COPY_RETAINED_JA_BLOB = "c1b6060f79854125fa08364fc7eea16497066922"
-AP_COPY_RETAINED_JA = "行動力がありません。今月の取引はできません"
-
-
-def investment_ap_retained_ja_entries(inventory: UiInventory, actual: Any) -> tuple[dict[str, Entry], list[str]]:
-    """Retain one immutable legacy target, with zero current calls/receipts."""
-    import ja_translation_pipeline as pipeline
-    import main_game_locale_history as history
-    try:
-        raw = (ROOT / history.MAIN_GAME_PATH).read_bytes()
-        _before, calls = pipeline._investment_ap_call_views(raw)
-        if inventory.errors or tuple(c for c in inventory.calls if c.path == history.MAIN_GAME_PATH) != calls:
-            raise ValueError("supplied current MainGame inventory differs")
-        key = pipeline.AP_COPY_OLD_PAIR[0]
-        if (any(c.korean == key for c in inventory.calls) or key in inventory.blueprint
-                or pipeline.AP_COPY_NEW_PAIR[0] not in inventory.blueprint):
-            raise ValueError("retained/current AP source identities differ")
-        previous = history._modal_git(ROOT, "show", history.AP_COPY_BEFORE_COMMIT + ":locale/ui_ja.json")
-        if hashlib.sha1(b"blob " + str(len(previous)).encode() + b"\0" + previous).hexdigest() != AP_COPY_RETAINED_JA_BLOB:
-            raise ValueError("immutable Japanese blob differs")
-        original = json.loads(previous)
-        if (not isinstance(original, dict) or not isinstance(actual, dict)
-                or original.get(key) != AP_COPY_RETAINED_JA or actual.get(key) != AP_COPY_RETAINED_JA):
-            raise ValueError("retained Japanese AP target changed/missing")
-        ledger = read_json(ROOT / "content/meta/full_game_localization.json")
-        accepted = ledger.get("accepted") if isinstance(ledger, dict) else None
-        if not isinstance(accepted, dict) or not accepted or any(not isinstance(rows, dict) for rows in accepted.values()):
-            raise ValueError("accepted receipt locale map malformed")
-        leaf_id = "ui:" + key + ":/" + key.replace("~", "~0").replace("/", "~1")
-        if any(leaf_id in rows for rows in accepted.values()):
-            raise ValueError("retired AP source unexpectedly has an accepted receipt")
-        if (ROOT / history.MAIN_GAME_PATH).read_bytes() != raw:
-            raise ValueError("MainGame source changed during retained admission")
-        return {key: Entry("retained-ui::investment-ap", key,
-                           "scenes/MainGame.gd::_on_leverage_buy/_on_buy_asset/_on_sell_asset (retired exact source)")}, []
-    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
-        return {}, ["investment-AP retained JA: " + str(exc)]
-
-
-def retired_relationship_ui_entries(inventory: UiInventory) -> tuple[dict[str, Entry], list[str]]:
-    entries, errors = _AP_COPY_OLD_RETIRED_ENTRIES(inventory)
-    retained, extra_errors = investment_ap_retained_ja_entries(inventory, read_json(ROOT / "locale/ui_ja.json"))
-    return ({}, [*errors, *extra_errors]) if errors or extra_errors else ({**entries, **retained}, [])
-
-
-def check_ui_scope(actual: Any, errors: list[str]) -> int:
-    import ja_translation_pipeline as pipeline
-    if not isinstance(actual, dict) or actual.get(pipeline.AP_COPY_OLD_PAIR[0]) != AP_COPY_RETAINED_JA:
-        errors.append("ui: exact retained investment-AP target changed/missing")
-    return _AP_COPY_OLD_CHECK_UI_SCOPE(actual, errors)
-# END_INVESTMENT_AP_RETAINED_JA_467
-
-# BEGIN_WEALTH_MILESTONE_RETAINED_JA_480
-_WEALTH_LOG_OLD_RETIRED_ENTRIES = retired_relationship_ui_entries
-_WEALTH_LOG_OLD_CHECK_UI_SCOPE = check_ui_scope
-WEALTH_LOG_RETAINED_JA = "🔥 資産20億突破 — カンナムが手に掴めるようだ。残るは10億。"
-
-
-def wealth_milestone_retained_ja_entries(inventory: UiInventory, actual: Any) -> tuple[dict[str, Entry], list[str]]:
-    """One immutable unused legacy key; current source and targets stay current."""
-    from dataclasses import replace
-    import ja_translation_pipeline as pipeline
-    import wealth_milestone_log_history as history
-    import asset_one_billion_log_history as one_billion
-    try:
-        if not isinstance(inventory, UiInventory) or inventory.errors:
-            raise ValueError("supplied current UI inventory is malformed")
-        with history.fresh_validation_proof(ROOT) as proof, one_billion.fresh_validation_proof(ROOT) as successor:
-            path = history.GAME_STATE_PATH
-            before, current = proof["before"], proof["current"]
-            if (proof["head"] != successor["head"] or current[path] != successor["current"][path]
-                    or proof["source"][path] != successor["before"][path]):
-                raise ValueError("retained wealth/one-billion actual and historical endpoints differ")
-            pipeline._asset_one_billion_raw_call_views(successor["before"][path], current[path])
-            contract = pipeline.read_ui_context_contract()
-
-            def calls(raw):
-                source = raw.decode("utf-8")
-                rows, parse_errors = pipeline.parse_ui_calls(path, source)
-                dynamic, dynamic_errors, _stats = pipeline.collect_dynamic_housing_ui_calls(contract, source)
-                if parse_errors or dynamic_errors:
-                    raise ValueError("GameState UI parser errors")
-                return tuple(sorted((*rows, *dynamic), key=lambda c: (c.path, c.line, c.api)))
-
-            previous_calls, current_calls = calls(before[path]), calls(current[path])
-            key, new_key = history.OLD_KEY, history.NEW_KEY
-            old_rows = [c for c in previous_calls if c.korean == key]
-            new_rows = [c for c in current_calls if c.korean == new_key]
-            if (len(old_rows) != 1 or len(new_rows) != 1
-                    or any(c.korean == new_key for c in previous_calls)
-                    or any(c.korean == key for c in inventory.calls)
-                    or len([c for c in inventory.calls if c.korean == new_key]) != 1
-                    or key in inventory.blueprint or new_key not in inventory.blueprint
-                    or old_rows[0].function != "check_game_over" or old_rows[0].api != "legacy"
-                    or old_rows[0].english != history.OLD_ENGLISH
-                    or new_rows[0] != replace(old_rows[0], korean=new_key, english=history.NEW_ENGLISH)):
-                raise ValueError("retained/current wealth source identities differ")
-            expected = tuple(replace(c, korean=new_key, english=history.NEW_ENGLISH)
-                             if c == old_rows[0] else c for c in previous_calls)
-            expected = tuple(replace(c, korean=one_billion.NEW_KEY, english=one_billion.NEW_ENGLISH)
-                             if c.korean == one_billion.OLD_KEY else c for c in expected)
-            if (current_calls != expected
-                    or tuple(c for c in inventory.calls if c.path == path) != current_calls):
-                raise ValueError("supplied current GameState UI payload/order/coordinates differ")
-            ja_path = "locale/ui_ja.json"
-            original, live = json.loads(before[ja_path]), json.loads(current[ja_path])
-            if (type(actual) is not dict or actual != live
-                    or original.get(key) != WEALTH_LOG_RETAINED_JA
-                    or live.get(key) != WEALTH_LOG_RETAINED_JA):
-                raise ValueError("immutable/supplied Japanese wealth target differs")
-            leaf_id = "ui:" + key + ":/" + key.replace("~", "~0").replace("/", "~1")
-            for stage in (before, current):
-                ledger = json.loads(stage[history.LEDGER_PATH])
-                accepted = ledger.get("accepted") if type(ledger) is dict else None
-                if (type(accepted) is not dict or set(accepted) != {"ja", "zh-CN", "zh-TW"}
-                        or any(type(rows) is not dict or leaf_id in rows for rows in accepted.values())):
-                    raise ValueError("retained wealth key has a receipt or malformed locale map")
-            result = {key: Entry("retained-ui::wealth-milestone", key,
-                                 "autoloads/GameState.gd::check_game_over (retired exact source)")}
-        # Publish only after the fresh helper's actual typed/disk exit checks.
-        return result, []
-    except (OSError, ValueError, TypeError, KeyError, IndexError, AttributeError) as exc:
-        return {}, ["wealth-milestone retained JA: " + str(exc)]
-
-
-def retired_relationship_ui_entries(inventory: UiInventory) -> tuple[dict[str, Entry], list[str]]:
-    entries, errors = _WEALTH_LOG_OLD_RETIRED_ENTRIES(inventory)
-    retained, extra_errors = wealth_milestone_retained_ja_entries(inventory, read_json(ROOT / "locale/ui_ja.json"))
-    return ({}, [*errors, *extra_errors]) if errors or extra_errors else ({**entries, **retained}, [])
-
-
-def check_ui_scope(actual: Any, errors: list[str]) -> int:
-    import wealth_milestone_log_history as history
-    if not isinstance(actual, dict) or actual.get(history.OLD_KEY) != WEALTH_LOG_RETAINED_JA:
-        errors.append("ui: exact retained wealth-milestone target changed/missing")
-    return _WEALTH_LOG_OLD_CHECK_UI_SCOPE(actual, errors)
-# END_WEALTH_MILESTONE_RETAINED_JA_480
-
-# BEGIN_ASSET_ONE_BILLION_RETAINED_JA_482
-_ONE_BILLION_OLD_RETIRED_ENTRIES = retired_relationship_ui_entries
-_ONE_BILLION_OLD_CHECK_UI_SCOPE = check_ui_scope
-ONE_BILLION_RETAINED_JA = "💰 資産10億突破 — 30億の3分の1。ここから加速がつく。"
-
-
-def asset_one_billion_retained_ja_entries(inventory: UiInventory, actual: Any) -> tuple[dict[str, Entry], list[str]]:
-    """One unused10億 key with no receipt; no arbitrary extra-key exemption."""
-    from dataclasses import replace
-    import ja_translation_pipeline as pipeline
-    import asset_one_billion_log_history as history
-    try:
-        if not isinstance(inventory, UiInventory) or inventory.errors:
-            raise ValueError("supplied current UI inventory is malformed")
-        with history.fresh_validation_proof(ROOT) as proof:
-            path = history.GAME_STATE_PATH
-            before, current = proof["before"], proof["current"]
-            pipeline._asset_one_billion_raw_call_views(before[path], current[path])
-            contract = pipeline.read_ui_context_contract()
-
-            def calls(raw):
-                source = raw.decode("utf-8")
-                rows, parse_errors = pipeline.parse_ui_calls(path, source)
-                dynamic, dynamic_errors, _stats = pipeline.collect_dynamic_housing_ui_calls(contract, source)
-                if parse_errors or dynamic_errors:
-                    raise ValueError("GameState UI parser errors")
-                return tuple(sorted((*rows, *dynamic), key=lambda c: (c.path, c.line, c.api)))
-
-            previous_calls, current_calls = calls(before[path]), calls(current[path])
-            key, new_key = history.OLD_KEY, history.NEW_KEY
-            old_rows = [c for c in previous_calls if c.korean == key]
-            new_rows = [c for c in current_calls if c.korean == new_key]
-            if (len(old_rows) != 1 or len(new_rows) != 1
-                    or any(c.korean == new_key for c in previous_calls)
-                    or any(c.korean == key for c in inventory.calls)
-                    or len([c for c in inventory.calls if c.korean == new_key]) != 1
-                    or key in inventory.blueprint or new_key not in inventory.blueprint
-                    or old_rows[0].function != "check_game_over" or old_rows[0].api != "legacy"
-                    or old_rows[0].english != history.OLD_ENGLISH
-                    or new_rows[0] != replace(old_rows[0], korean=new_key, english=history.NEW_ENGLISH)):
-                raise ValueError("retained/current one-billion source identities differ")
-            expected = tuple(replace(c, korean=new_key, english=history.NEW_ENGLISH)
-                             if c == old_rows[0] else c for c in previous_calls)
-            if (current_calls != expected
-                    or tuple(c for c in inventory.calls if c.path == path) != current_calls):
-                raise ValueError("supplied current GameState UI payload/order/coordinates differ")
-            ja_path = "locale/ui_ja.json"
-            original, live = json.loads(before[ja_path]), json.loads(current[ja_path])
-            if (type(actual) is not dict or actual != live
-                    or original.get(key) != ONE_BILLION_RETAINED_JA
-                    or live.get(key) != ONE_BILLION_RETAINED_JA):
-                raise ValueError("immutable/supplied Japanese one-billion target differs")
-            leaf_id = "ui:" + key + ":/" + key.replace("~", "~0").replace("/", "~1")
-            for stage in (before, current):
-                ledger = json.loads(stage[history.LEDGER_PATH])
-                accepted = ledger.get("accepted") if type(ledger) is dict else None
-                if (type(accepted) is not dict or set(accepted) != {"ja", "zh-CN", "zh-TW"}
-                        or any(type(rows) is not dict or leaf_id in rows for rows in accepted.values())):
-                    raise ValueError("retained one-billion key has a receipt or malformed locale map")
-            result = {key: Entry("retained-ui::asset-one-billion", key,
-                                 "autoloads/GameState.gd::check_game_over (retired exact source)")}
-        return result, []
-    except (OSError, ValueError, TypeError, KeyError, IndexError, AttributeError) as exc:
-        return {}, ["one-billion retained JA: " + str(exc)]
-
-
-def retired_relationship_ui_entries(inventory: UiInventory) -> tuple[dict[str, Entry], list[str]]:
-    entries, errors = _ONE_BILLION_OLD_RETIRED_ENTRIES(inventory)
-    retained, extra_errors = asset_one_billion_retained_ja_entries(inventory, read_json(ROOT / "locale/ui_ja.json"))
-    return ({}, [*errors, *extra_errors]) if errors or extra_errors else ({**entries, **retained}, [])
-
-
-def check_ui_scope(actual: Any, errors: list[str]) -> int:
-    import asset_one_billion_log_history as history
-    if not isinstance(actual, dict) or actual.get(history.OLD_KEY) != ONE_BILLION_RETAINED_JA:
-        errors.append("ui: exact retained one-billion target changed/missing")
-    return _ONE_BILLION_OLD_CHECK_UI_SCOPE(actual, errors)
-# END_ASSET_ONE_BILLION_RETAINED_JA_482
 
 if __name__ == "__main__":
     sys.exit(main())

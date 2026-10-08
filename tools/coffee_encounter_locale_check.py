@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
-"""One coffee encounter's four corrected targets; no historical suite or engine.
+"""Current coffee-encounter semantics and source-bound machine receipts.
 
-The semantic cases use the actual title and one parsed Main consumer. One
-observed product proof and one current event admission supply the captured
-replay faults; those faults never claim fresh historical executions.
+Checks use the live title, Main consumer, translated targets and accepted
+ledger. They do not require a past Git transition or run an engine.
 """
 from __future__ import annotations
 
 import copy
 import json
 import sys
-from contextlib import nullcontext
 from dataclasses import replace
 from pathlib import Path
 from unittest.mock import patch
@@ -22,10 +20,6 @@ import ja_translation_pipeline as pipeline
 import zh_translation_audit as zh
 
 ROOT = Path(__file__).resolve().parents[1]
-DECLARATION = "0987e966ee1843dff2fe0cfba6a624affe44721d"
-EXPECTED_PRODUCT_COMMIT = "5ff1e8e72e7de5ef11212bd84d682a94c39e8487"
-EXPECTED_PARENT = "f4e44326b56cb76188de6278625f14181ed190e6"
-EXPECTED_TREES = ("283a54d359f62e86584695197accbfa0309bae3a", "82b9b8c4e251e594b3f94f0a130522caef8190ee")
 CASES: list[str] = []
 
 
@@ -52,7 +46,7 @@ def semantic_checks():
     calls, errors = pipeline.parse_ui_calls("scenes/MainGame.gd", (ROOT / "scenes/MainGame.gd").read_text())
     owners = [c for c in calls if c.korean == contract.RECALL_SOURCE]
     check("one actual recollection consumer without full collection", not errors and len(owners) == 1
-          and owners[0].function == "_contact_flavor" and owners[0].line == 17223
+          and owners[0].function == "_contact_flavor" and owners[0].api == "legacy"
           and owners[0].english == "After the second coffee, Sangchul started telling the real stories — ones holding 30 years of seeing.")
     event = full.Leaf("events", contract.EVENT_ID, contract.EVENT_SOURCE_PATH, ("title",),
                       contract.EVENT_SOURCE, "event_standard", lifecycle="shipping")
@@ -116,197 +110,61 @@ def semantic_checks():
     return {"leaves": [event, recall]}
 
 
-def history_checks(inventory):
-    import coffee_encounter_receipt_history as history
-    check("observed product parent and trees bound", history.COFFEE_AFTER_COMMIT == EXPECTED_PRODUCT_COMMIT
-          and history.COFFEE_BEFORE_COMMIT == EXPECTED_PARENT and history.COFFEE_TREES == EXPECTED_TREES)
-    actual_git, actual_objects, actual_pair = history._git, history._objects, history._read_pair
-    product_git, product_objects, pairs = [], [], []
+def receipt_errors(ledger, rows):
+    """Check actual accepted source/target identities, not a historical count."""
+    failures = []
+    if not isinstance(ledger, dict) or ledger.get("schema_version") != full.SCHEMA_VERSION \
+            or ledger.get("prompt_version") != full.PROMPT_VERSION \
+            or ledger.get("native_review") != "OPEN":
+        return ["machine receipt schema/prompt/native evidence state differs"]
+    accepted = ledger.get("accepted")
+    if not isinstance(accepted, dict) or set(accepted) != set(full.LOCALES) \
+            or ledger.get("accepted_sha256") != full.digest(accepted):
+        return ["accepted locale/checksum differs"]
+    for leaf, locale, target in rows:
+        receipt = accepted.get(locale, {}).get(leaf.id)
+        if not isinstance(receipt, dict) or set(receipt) != {"source_sha256", "target_sha256"} \
+                or receipt.get("source_sha256") != leaf.source_sha256 \
+                or receipt.get("target_sha256") != full.digest(target):
+            failures.append(locale + ":" + leaf.id + ": actual source/target receipt differs")
+    return failures
 
-    def record_git(destination):
-        def invoke(root, *args, input=None):
-            output = actual_git(root, *args, input=input)
-            destination.append((args, input, output))
-            return output
-        return invoke
 
-    def record_objects(root, requests):
-        result = actual_objects(root, requests)
-        product_objects.append((list(requests), result))
-        return result
-
-    def record_pair(root):
-        result = actual_pair(root)
-        pairs.append(result)
-        return result
-
-    # The only actual product-object/receipt proof. No old self-test is called.
-    with patch.object(history, "_git", side_effect=record_git(product_git)), \
-         patch.object(history, "_objects", side_effect=record_objects), \
-         patch.object(history, "_read_pair", side_effect=record_pair):
-        before_ui, after_ui, change = history.coffee_encounter_proof(ROOT, inventory)
-    check("one actual 18-request product proof", len(pairs) == len(product_objects) == 1
-          and len(product_objects[0][0]) == 18 and len(product_git) == 2)
-    before_all, after_all = pairs[0]
-    before = {path: before_all[path] for path in history.PRODUCT_PATHS}
-    after = {path: after_all[path] for path in history.PRODUCT_PATHS}
-    check("whole five-path raw inverse", len(before) == 5
-          and history.coffee_product_inverse(after, before) == before)
-    check("four current UI comparison paths restored", len(before_ui) == len(after_ui) == 4
-          and history.coffee_encounter_comparison(after_ui, before_ui, after_ui) == before_ui)
-    expected_events = {path: after[path] for path in history.EVENT_PATHS}
-    current_git, predecessor_verdicts = [], {}
-    actual_source_errors = history.previous.source_errors
-
-    def record_source_errors(raw, path):
-        result = actual_source_errors(raw, path)
-        predecessor_verdicts[path] = (raw, list(result))
-        return result
-
-    # Fresh HEAD/three current blobs/disk plus the retained predecessor proof;
-    # only the already-proved immutable product pair is reused here.
-    with patch.object(history, "_read_pair", return_value=pairs[0]), \
-         patch.object(history, "_git", side_effect=record_git(current_git)), \
-         patch.object(history.previous, "source_errors", side_effect=record_source_errors):
-        check("one actual current event admission", history.coffee_encounter_current_events(ROOT) == expected_events)
-    check("actual predecessor source verdicts captured", set(predecessor_verdicts) == set(history.EVENT_PATHS)
-          and all(raw == before[path] and not errors for path, (raw, errors) in predecessor_verdicts.items())
-          and len(current_git) == 5)
-    ledger = history.LEDGER_PATH
-    a, b = full.loads(before[ledger].decode()), full.loads(after[ledger].decode())
-    check("three existing event receipts plus one first Japanese UI receipt",
-          sum(map(len, a["accepted"].values())) == 41740
-          and sum(map(len, b["accepted"].values())) == 41741
-          and len(a["batches"]) == 220 and len(b["batches"]) == 224
-          and contract.RECALL_KEY not in a["accepted"]["ja"]
-          and contract.RECALL_KEY in b["accepted"]["ja"]
-          and all(contract.EVENT_KEY in a["accepted"][locale] for locale in full.LOCALES)
-          and b["batches"][:220] == a["batches"])
-    check("corrections are not new UI coverage", change["corrections"] == change["correction_batches"] == 4
-          and change["first_receipts"] == 1 and change["receipts"] == change["batches"] == 0
-          and not any(change["ui_by_locale"].values()))
-
-    def replay_git(records):
-        pending = iter(records)
-        def invoke(root, *args, input=None):
-            expected_args, expected_input, output = next(pending)
-            if root != ROOT or args != expected_args or input != expected_input:
-                raise AssertionError("captured Git request differs")
-            if isinstance(output, Exception):
-                raise output
-            return output
-        return invoke
-
-    def changed_output(records, index, output):
-        result = list(records)
-        args, data, _ = result[index]
-        result[index] = (args, data, output)
-        return result
-
-    for label, packet in (("truncated", product_git[0][2][:-1]),
-                          ("trailing", product_git[0][2] + b"x")):
-        with patch.object(history, "_git", side_effect=replay_git(changed_output(product_git, 0, packet))):
-            rejects("captured Git packet " + label, lambda: history._read_pair(ROOT))
-    with patch.object(history, "_git", side_effect=replay_git(changed_output(
-            product_git, 1, product_git[1][2] + b"M\0unowned.json\0"))):
-        rejects("captured product path population", lambda: history._read_pair(ROOT))
-    # These three faults begin after object decoding, explicitly not fake
-    # cryptographic Git objects. They exercise the subsequent binding guards.
-    for label, index, old, new in (
-        ("parent", 1, b"parent " + EXPECTED_PARENT.encode(), b"parent " + b"0" * 40),
-        ("tree", 1, b"tree " + EXPECTED_TREES[1].encode(), b"tree " + b"0" * 40),
-        ("whole raw", 4, before[history.EVENT_PATHS[0]], before[history.EVENT_PATHS[0]] + b"\n"),
-    ):
-        values = list(product_objects[0][1])
-        if old not in values[index]:
-            raise AssertionError("fault token missing: " + label)
-        values[index] = values[index].replace(old, new, 1)
-        with patch.object(history, "_objects", return_value=values), \
-             patch.object(history, "_git", side_effect=replay_git(product_git[1:])):
-            rejects("captured decoded-object " + label, lambda: history._read_pair(ROOT))
-
-    original_read = Path.read_bytes
-    absolute_events = {ROOT / path: path for path in history.EVENT_PATHS}
-
-    def current_replay(*, disk=None, records=None, unreadable=None, source_fault=False):
-        disk = expected_events if disk is None else disk
-        def read(path):
-            if path in absolute_events:
-                relative = absolute_events[path]
-                if relative == unreadable:
-                    raise OSError("captured current read failure")
-                return disk[relative]
-            return original_read(path)
-        def source_errors(raw, path):
-            previous_raw, errors = predecessor_verdicts[path]
-            if raw != previous_raw:
-                raise AssertionError("captured predecessor input differs")
-            return ["captured predecessor failure"] if source_fault else list(errors)
-        with patch.object(history, "_read_pair", return_value=pairs[0]), \
-             patch.object(history, "_git", side_effect=replay_git(current_git if records is None else records)), \
-             patch.object(history.previous, "fresh_validation_proof", side_effect=nullcontext), \
-             patch.object(history.previous, "source_errors", side_effect=source_errors), \
-             patch.object(Path, "read_bytes", read):
-            return history.coffee_encounter_current_events(ROOT)
-
-    for mask in range(8):
-        disk = {path: (after if mask & (1 << index) else before)[path]
-                for index, path in enumerate(history.EVENT_PATHS)}
-        if mask == 7:
-            check("captured event combination 111 current only", current_replay(disk=disk) == expected_events)
-        else:
-            rejects(f"captured event combination {mask:03b} rejected", lambda disk=disk: current_replay(disk=disk))
-    for label, index, output in (
-        ("invalid HEAD", 0, b"invalid\n"),
-        ("HEAD changed during admission", 4, b"0" * 40 + b"\n"),
-        ("current blob ids differ", 2, b"0" * 40 + b"\n"),
-        ("ancestry unavailable", 1, ValueError("captured Git ancestry failure")),
-        ("current blob packet truncated", 3, current_git[3][2][:-1]),
-    ):
-        records = changed_output(current_git, index, output)
-        rejects("captured " + label, lambda records=records: current_replay(records=records))
-    rejects("captured current source read failure", lambda: current_replay(unreadable=history.EVENT_PATHS[0]))
-    rejects("captured historical predecessor verdict failure", lambda: current_replay(source_fault=True))
-    check("captured fresh invocation recovers after failures", current_replay() == expected_events)
-
-    for path in (history.EVENT_PATHS[0], history.JA_PATH, ledger):
-        rejects("outside exact raw inverse rejected " + path, lambda path=path: history.coffee_product_inverse(
-            {**after, path: after[path] + b"\n"}, before))
-    for path in (history.JA_PATH, ledger):
-        rejects("current comparison rollback rejected " + path, lambda path=path: history.coffee_encounter_comparison(
-            {**after_ui, path: before_ui[path]}, before_ui, after_ui))
-
-    # Token-local mutations retain every other raw byte. Receipt mutations
-    # recompute the checksum, so failures are not merely checksum failures.
-    ledger_doc = history._Document(after[ledger])
-    def ledger_mutant(path, value):
-        start, end = ledger_doc.spans[path]
-        edits = [(start, end, json.dumps(value, ensure_ascii=False))]
-        if path[0] == "accepted":
-            accepted = copy.deepcopy(b["accepted"])
-            cursor = accepted
-            for key in path[1:-1]:
-                cursor = cursor[key]
-            cursor[path[-1]] = value
-            start, end = ledger_doc.spans[("accepted_sha256",)]
-            edits.append((start, end, json.dumps(full.digest(accepted))))
-        return {**after, ledger: history._apply(ledger_doc, edits)}
-
-    for label, path, value in (
-        ("old event receipt target", ("accepted", "zh-CN", contract.EVENT_KEY, "target_sha256"),
-         a["accepted"]["zh-CN"][contract.EVENT_KEY]["target_sha256"]),
-        ("first Japanese receipt source", ("accepted", "ja", contract.RECALL_KEY, "source_sha256"), "0" * 64),
-        ("previous target header", ("batches", 220, "before_target_sha256_by_locale", "ja", contract.EVENT_KEY), "0" * 64),
-        ("false existing Japanese receipt", ("batches", 223, "prior_acceptance"), "existing"),
-        ("official export revision", ("batches", 220, history.HEADERS_FIELD, "ja", "source_revision"), "0" * 40),
-    ):
-        mutated = ledger_mutant(path, value)
-        rejects("receipt mutation " + label, lambda mutated=mutated: history.validate_coffee_correction(before, mutated, inventory))
-    for label, altered in (("missing", inventory["leaves"][:1]),
-                           ("duplicate", inventory["leaves"] + inventory["leaves"][:1]),
-                           ("source drift", [replace(inventory["leaves"][0], source="다른 커피"), inventory["leaves"][1]])):
-        rejects("current two-leaf identity " + label, lambda altered=altered:
-                history.validate_coffee_correction(before, after, {"leaves": altered}))
+def current_receipt_checks(inventory):
+    event, recall = inventory["leaves"]
+    rows = []
+    for locale, expected in contract.EVENT_TARGETS.items():
+        filename = "content/events_" + locale + "/arc_events.json"
+        targets = full.read_json(ROOT / filename)
+        found = [row for row in targets if row.get("id") == contract.EVENT_ID]
+        check("one current target event " + locale,
+              len(found) == 1 and found[0].get("title") == expected)
+        target = found[0]["title"]
+        check("actual target semantic validation " + locale,
+              not full.translation_errors(event, locale, target))
+        rows.append((event, locale, target))
+    dictionary = full.read_json(ROOT / "locale/ui_ja.json")
+    target = dictionary.get(contract.RECALL_SOURCE)
+    check("current Japanese recollection target", target == contract.RECALL_TARGET)
+    check("current Japanese recollection validation",
+          not full.translation_errors(recall, "ja", target))
+    rows.append((recall, "ja", target))
+    ledger = full.read_json(ROOT / "content/meta/full_game_localization.json")
+    check("four current source/target accepted receipts", not receipt_errors(ledger, rows))
+    for leaf, locale, _target in rows:
+        for field in ("source_sha256", "target_sha256"):
+            changed = copy.deepcopy(ledger)
+            changed["accepted"][locale][leaf.id][field] = "0" * 64
+            changed["accepted_sha256"] = full.digest(changed["accepted"])
+            check("rechecksummed receipt mutation rejected " + locale + leaf.id + field,
+                  bool(receipt_errors(changed, rows)))
+    changed = copy.deepcopy(ledger)
+    del changed["accepted"]["ja"][recall.id]
+    changed["accepted_sha256"] = full.digest(changed["accepted"])
+    check("missing current recollection receipt rejected", bool(receipt_errors(changed, rows)))
+    changed = copy.deepcopy(ledger)
+    changed["accepted_sha256"] = "0" * 64
+    check("receipt checksum mutation rejected", bool(receipt_errors(changed, rows)))
 
 
 def main():
@@ -319,10 +177,10 @@ def main():
                  "tools/zh_translation_audit.py", "tools/coffee_encounter_locale_check.py")
     observed = {path: (ROOT / path).read_bytes() for path in protected}
     inventory = semantic_checks()
-    history_checks(inventory)
+    current_receipt_checks(inventory)
     check("owned and protected bytes unchanged", all((ROOT / path).read_bytes() == raw for path, raw in observed.items()))
     check("unique case names", len(CASES) == len(set(CASES)))
-    print(f"COFFEE_ENCOUNTER_LOCALE_CHECK_OK cases={len(CASES)} historical_cases=0")
+    print(f"COFFEE_ENCOUNTER_LOCALE_CHECK_OK cases={len(CASES)} current_receipts=4")
     return 0
 
 

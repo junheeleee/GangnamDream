@@ -10460,6 +10460,9 @@ def static_ui_coverage(
     )
     story_demo_exclusive_keys = set(story_demo_pairs)
     source_errors = [
+        f"{lang}:ui source: {error}"
+        for error in inventory.errors
+    ] + [
         f"{lang}:story-demo-ui source: {error}"
         for error in story_source_errors
     ]
@@ -22992,6 +22995,10 @@ def main() -> int:
         errors.append(f"Chinese prepared languages exposed: {exposed}")
 
     languages = LANGUAGES if args.lang == "all" else (args.lang,)
+    stats = _static_ui_inventory().stats
+    for key in ("migrated_context_ids", "planned_context_ids"):
+        if type(stats.get(key)) is not int or stats[key] < 0:
+            errors.append(f"ui source: missing/invalid inventory statistic {key}")
     for lang in languages:
         result, coverage_errors = demo_scope.language_coverage(
             lang, runtime, args.strict
@@ -23022,8 +23029,8 @@ def main() -> int:
             f"ui_legacy={ui_legacy_covered}/{ui_legacy_total} "
             f"ui_context={ui_context_covered}/{ui_context_total} "
             f"ui_story_demo={ui_story_demo_covered}/{ui_story_demo_total} "
-            f"context_plan={_static_ui_inventory().stats['migrated_context_ids']}/"
-            f"{_static_ui_inventory().stats['planned_context_ids']} "
+            f"context_plan={stats.get('migrated_context_ids', 'unavailable')}/"
+            f"{stats.get('planned_context_ids', 'unavailable')} "
             f"dynamic={result['dynamic']}/{result['total_dynamic']} "
             f"catalog={result['catalog']}/{result['total_catalog']} "
             f"font={'ready' if route.ready else 'blocked'} "

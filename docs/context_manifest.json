@@ -124,6 +124,7 @@
     ],
     "release_quality": [
       "docs/MASTER_RELEASE_AUDIT.md",
+      "docs/KNOWN_FAILURES.md",
       "docs/QA_CHECKLIST.md",
       "docs/BUILD_PIPELINE.md"
     ],
@@ -347,6 +348,7 @@
     ],
     "qa_release_marketing": [
       "docs/BUILD_PIPELINE.md",
+      "docs/KNOWN_FAILURES.md",
       "docs/INPUT_MATRIX.md",
       "docs/NEXTFEST_CHECKLIST.md",
       "docs/PLAYTEST_KIT.md",

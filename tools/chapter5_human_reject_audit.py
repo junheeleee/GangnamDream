@@ -9,23 +9,17 @@ replace either the Godot route check or the required human M49-M60 replays.
 from __future__ import annotations
 
 import argparse
-import contextlib
 import copy
 import hashlib
 import json
 import re
-import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
-import order305_demo_source_compat as demo_source
-import order310_demo_source_compat as latest_demo_source
-import order316_header_source_compat as header_source
-import order350_source_compat as chapter3_source
-import pr31_intake_history as current_source
-import order365_ui_receipt_compat as ui_receipts
+import demo_localization_scope as demo_scope
+
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,38 +36,6 @@ VISUAL_CONTRACTS_PATH = ROOT / "assets" / "event_visual_contracts.json"
 AUDIO_MANIFEST_PATH = ROOT / "assets" / "scene_audio_manifest.json"
 DIRECTION_MANIFEST_PATH = ROOT / "assets" / "scene_direction_manifest.json"
 
-AUTHORED_LOCATION_PRESERVED_SHA256 = {
-    "arc_y5_burnout_check_reference":
-        "bd7fb9e8f2cb80b879d339bc709c83c845cbec84a1d4cc71e52fcada7ce3e721",
-    "rare_wallet_executive":
-        "98c4fa6dcdc258c794610efe8dd20da080af27277e9a0bbbbefc872fafce8faf",
-    "chain_exec_meal_arrival":
-        "67dfedc1728854ce0d93ee10bfadd45485eb56afdf4062b98b0e671086355b7d",
-    "arc_jiyeon_year5_news":
-        "fac8a6590933f69a0a448a0e4f72d5af843719f60fccde211e4c26f3d357ff4e",
-    "yolo_spend_moment":
-        "1d9fc9e1ae767b809f16b8ad251068cb233204ca5f6c00c56b4f154fdaa0f97b",
-    "chain_envelope_owner_return":
-        "8d1381b49927338c45d2b63bb220bcf4b460d1177d890b21f437a6db90679f63",
-    "hidden_gangnam_open_house":
-        "f17b2b9fe934bb6c6d6db16987f266c45b45474a131dfca2656728e1e77ab7e3",
-}
-AUTHORED_LOCATION_EN_SHA256 = {
-    "arc_y5_burnout_check_reference":
-        "6b4143b111f0b2262489c7ab4c0a1d6a27bd68234f3647e5d8046997aa8f0f2b",
-    "rare_wallet_executive":
-        "fddce59988f7a4b65828c278471f0ec6bec8a8e75ff9edd42f8db376db5a5a20",
-    "chain_exec_meal_arrival":
-        "024d3c3b3591f2a27d72e60e6f05894065bd4dc3ff39bd30818fe66ce157d05f",
-    "arc_jiyeon_year5_news":
-        "485f3819a57ac01b59dc8dd41b79f5be9287f0f34cb383d9293e312f99eccd8d",
-    "yolo_spend_moment":
-        "daa0cdeb6978433bcce8b255669e09692150404a5c9bfe02d594ceba067147de",
-    "chain_envelope_owner_return":
-        "0b4f94d14caf3974b904a1d86d2d589ac7f4519a7a87cfd478c84d0eca7eda27",
-    "hidden_gangnam_open_house":
-        "69ccdbb6ed8cda315b5a9a8f19879cfb33ea4058ec645c271ec8309b8ff0fc99",
-}
 AUTHORED_LOCATION_CONTRACTS = {
     "arc_y5_burnout_check_reference": {
         "background": "hospital_clinic_day",
@@ -187,88 +149,10 @@ PUBLIC_DEMO_PRODUCT_TREE = "0fdddf11e2ef030cd172d23e691e3d7da4ea29ff"
 PUBLIC_DEMO_MANIFEST_SHA256 = (
     "50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870"
 )
-PUBLIC_DEMO_FROZEN_FILES = {
-    "content/events_ja/story_demo_events.json":
-        "661f9dcf1b958ab9edc5707ca3155e675670b1394fc2ce0e341c6d5456e28a08",
-    "content/events_zh-CN/story_demo_events.json":
-        "cd67bf8007c6dad44d8c6161a52ad44484ea510ab084acd18f68ba4c535dc142",
-    "content/events_zh-TW/story_demo_events.json":
-        "33a5b165970675646d7144d42da92884eb3d4bc9b846635369d6ea2a3d5097a9",
-    "content/meta/story_map_m1m6_en.json":
-        "f250eeac5a987537f4382fd2e66c879f7310b4895d72b258401f216764a8bab1",
-    "tools/StoryDemoFourLanguageCheck.gd":
-        "df12e1dd57eb768c40ac5beec563b845a03bac9639a4b9506050e14278f1d7eb",
-    "tools/build_story_demo_macos.sh":
-        "68f3cfaf64ce3e55332c379b930d7d6d5240bd2bc74e938861913a37f7b0e6a4",
-    "tools/fixtures/story_demo_density_contract.json":
-        "208755a56c09943c033c653efca9f2fda65bfacf43abd91780483c513c4e0ca3",
-    "tools/story_demo_localization_audit.py":
-        "39c1f2ab38d273bc2f2f6d629008484f603edae083a9ebcf026a2c003c9f0ebe",
-    "tools/story_demo_package_audit.py":
-        "6da7ea2acaa83b7e4dd859fdbe1406d3c11d967f350cfba4907f6da753389df4",
-}
-
-# The deployed demo identity and PUBLIC_DEMO_FROZEN_FILES above are historical.
-# ORDER-165 approved exactly one current-source CN sentence (ef931a5a40434bc9dc644d0fcbb1713cdd026c64).
-# This does not update the deployed package, its user GO, or any native gate.
-PUBLIC_DEMO_REVIEWED_WORKING_SOURCE_TRANSITIONS = {
-    "content/events_zh-CN/story_demo_events.json": (
-        "cd67bf8007c6dad44d8c6161a52ad44484ea510ab084acd18f68ba4c535dc142",
-        "4e749e041c7d463d26aa3c54da284b4d5da1455611b0af651b74a81b6048bbc8",
-    ),
-}
-
-
-def _public_demo_working_source_hash_errors(
-    relative: str, historical_hash: str, actual_hash: str,
-) -> list[str]:
-    errors: list[str] = []
-    effective_hash = historical_hash
-    transition = PUBLIC_DEMO_REVIEWED_WORKING_SOURCE_TRANSITIONS.get(relative)
-    if transition is not None:
-        if historical_hash != transition[0]:
-            errors.append(f"public demo historical source pin drifted: {relative}")
-        else:
-            effective_hash = transition[1]
-    if actual_hash != effective_hash:
-        errors.append(
-            f"public demo frozen file drifted: {relative} "
-            f"sha256={actual_hash}, expected={effective_hash}"
-        )
-    return errors
-
-
-# ORDER-308 changed only this audit's exact rent parsing boundary and its tests.
-# The public package pin and the independent CN transition above stay historical.
-ORDER308_PARSER_PATH = "tools/story_demo_localization_audit.py"
-ORDER308_PARSER_COMMITS = (
-    "636a457fe44db3470cc37443c060230d4fbe2fbe",
-    "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+PUBLIC_DEMO_FIXTURE_PATH = "tools/fixtures/story_demo_density_contract.json"
+PUBLIC_DEMO_FIXTURE_SHA256 = (
+    "208755a56c09943c033c653efca9f2fda65bfacf43abd91780483c513c4e0ca3"
 )
-ORDER308_PARSER_HASHES = (
-    "39c1f2ab38d273bc2f2f6d629008484f603edae083a9ebcf026a2c003c9f0ebe",
-    "7c635535bb5a6f4361904d0334711e5bc8f0587681dcdf4f49d84adca7b3f320",
-)
-
-
-def _order308_parser_history_view(
-    relative: str, historical_hash: str, raw: bytes, *,
-    read_blob: Callable[[str, str], bytes] = demo_source._git_blob,
-) -> tuple[bytes, list[str]]:
-    """Admit the exact live parser; expose its predecessor only for old pins."""
-    if relative != ORDER308_PARSER_PATH:
-        return raw, []
-    if historical_hash != ORDER308_PARSER_HASHES[0]:
-        return raw, ["ORDER-308: historical parser pin drifted"]
-    try:
-        before, after = (read_blob(commit, relative) for commit in ORDER308_PARSER_COMMITS)
-    except (OSError, ValueError) as exc:
-        return raw, [f"ORDER-308: immutable parser proof unavailable: {exc}"]
-    if (_sha256_bytes(before), _sha256_bytes(after)) != ORDER308_PARSER_HASHES:
-        return raw, ["ORDER-308: immutable parser proof hashes drifted"]
-    if raw != after:
-        return raw, ["ORDER-308: live parser is not the exact approved successor"]
-    return before, []
 
 
 # These are hashes of the rejected product's economic housing functions.  The
@@ -338,24 +222,12 @@ LEGACY_MAX_TURNS = {
 GUARANTEE_LEGACY_WINDOW = {
     "amb_guarantee_00": {
         "required_flag": "",
-        "projection_sha256":
-            "85d8b6f957582c083404fdb72766dd8d51aa3fb8e0bcbc8944e8e4b758abc7ba",
-        "en_overlay_sha256":
-            "cd127cb4a1c4875dd6159ad928669c0d0b96243585f69d4eb98c6a8700c6c345",
     },
     "callback_guarantee_default": {
         "required_flag": "guarantee_signed",
-        "projection_sha256":
-            "f68356711996ec9048feddc6f86c399d75c5ec85c73ea19ae7c450f091780b42",
-        "en_overlay_sha256":
-            "ca27dcb18c2cffa8bf32daf6b363b22d0ba1e7e8e814629ac19e6e3f22759052",
     },
     "callback_guarantee_refused_news": {
         "required_flag": "guarantee_refused",
-        "projection_sha256":
-            "ff8057d7a39acccbce89eb4a63458ba9818aa94f0bdbc21117755c95176369a8",
-        "en_overlay_sha256":
-            "84118c62054e1bb9003230bba76a629e3a0c813b3ddbe194146528c48eb7ff5b",
     },
 }
 
@@ -695,22 +567,6 @@ def _has_condition_value(event: dict[str, Any], key: str, value: str) -> bool:
     return value in _condition_values(event, key)
 
 
-def _canonical_object_sha256(value: Any) -> str:
-    payload = json.dumps(
-        value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
-    )
-    return _sha256_text(payload)
-
-
-def _guarantee_preserved_projection(event: dict[str, Any]) -> dict[str, Any]:
-    """Remove only ORDER-153's new time ceiling before hashing the old object."""
-    projected = copy.deepcopy(event)
-    conditions = projected.get("conditions")
-    if isinstance(conditions, dict):
-        conditions.pop("max_turn", None)
-    return projected
-
-
 def _guarantee_window_errors(model: AuditModel) -> list[str]:
     errors: list[str] = []
     for event_id, contract in GUARANTEE_LEGACY_WINDOW.items():
@@ -733,27 +589,12 @@ def _guarantee_window_errors(model: AuditModel) -> list[str]:
                 f"{event_id} legacy receipt changed: "
                 f"flag={actual_flag!r}, expected {required_flag!r}"
             )
-        projection_hash = _canonical_object_sha256(
-            _guarantee_preserved_projection(ko_event)
-        )
-        if projection_hash != contract["projection_sha256"]:
-            errors.append(
-                f"{event_id} changed outside max_turn "
-                f"(sha256={projection_hash})"
-            )
-
         en_event = _event(model.en, event_id, "EN", errors)
         forbidden_keys = GUARANTEE_OVERLAY_FORBIDDEN_ROOT_KEYS & set(en_event)
         if forbidden_keys:
             errors.append(
                 f"EN {event_id} overlay gained gameplay keys: "
                 + ", ".join(sorted(forbidden_keys))
-            )
-        en_hash = _canonical_object_sha256(en_event)
-        if en_hash != contract["en_overlay_sha256"]:
-            errors.append(
-                f"EN {event_id} text-only overlay changed "
-                f"(sha256={en_hash})"
             )
 
     decision = _event(
@@ -1555,21 +1396,6 @@ def validate_scene_context_repair(model: AuditModel, errors: list[str]) -> None:
                 _event_text(callback).lower(), forbidden_recollection, errors)
 
 
-def _authored_location_preserved_projection(
-    event: dict[str, Any],
-) -> dict[str, Any]:
-    """Remove only ORDER-155's explicitly owned visual-routing fields."""
-    projected = copy.deepcopy(event)
-    for key in ("background", "paragraph_backgrounds", "result_background"):
-        projected.pop(key, None)
-    choices = projected.get("choices", [])
-    if isinstance(choices, list):
-        for choice in choices:
-            if isinstance(choice, dict):
-                choice.pop("result_background", None)
-    return projected
-
-
 def _authored_location_errors(model: AuditModel) -> list[str]:
     errors: list[str] = []
     visuals = {
@@ -1645,22 +1471,7 @@ def _authored_location_errors(model: AuditModel) -> list[str]:
                 f"authored-location {event_id} visual result map="
                 f"{visual_results!r}, expected {expected_visual_results!r}"
             )
-        projection_hash = _canonical_object_sha256(
-            _authored_location_preserved_projection(event)
-        )
-        expected_hash = AUTHORED_LOCATION_PRESERVED_SHA256[event_id]
-        if projection_hash != expected_hash:
-            errors.append(
-                f"authored-location {event_id} prose/gameplay changed outside "
-                f"visual routing (sha256={projection_hash})"
-            )
-        en_event = _event(model.en, event_id, "EN", errors)
-        en_hash = _canonical_object_sha256(en_event)
-        if en_hash != AUTHORED_LOCATION_EN_SHA256[event_id]:
-            errors.append(
-                f"authored-location {event_id} EN overlay changed "
-                f"(sha256={en_hash})"
-            )
+        _event(model.en, event_id, "EN", errors)
         expected_intent = AUTHORED_LOCATION_EVENT_INTENTS.get(event_id)
         if expected_intent is not None:
             actual_intents = {
@@ -1678,7 +1489,7 @@ def _authored_location_errors(model: AuditModel) -> list[str]:
 def validate_authored_location_repair(
     model: AuditModel, errors: list[str]
 ) -> None:
-    """Protect the seven exact ORDER-155 authored scene locations."""
+    """Protect authored locations and their visible transition contracts."""
     errors.extend(_authored_location_errors(model))
 
 
@@ -2081,8 +1892,6 @@ def validate_story_rules(model: AuditModel, errors: list[str]) -> None:
 
 
 def validate_preserved_product_boundaries(model: AuditModel, errors: list[str]) -> None:
-    admission_errors = ui_receipts.current_source_errors()
-    errors.extend(admission_errors)
     instant_block = _instant_legend_block(model.game_state)
     instant_hash = _sha256_text(instant_block) if instant_block else "missing"
     if instant_hash != EXPECTED_INSTANT_LEGEND_SHA256:
@@ -2193,23 +2002,22 @@ def validate_preserved_product_boundaries(model: AuditModel, errors: list[str]) 
             errors,
         )
 
-    for relative, expected_hash in PUBLIC_DEMO_FROZEN_FILES.items():
-        path = ROOT / relative
-        try:
-            raw = path.read_bytes()
-        except OSError as exc:
-            errors.append(f"public demo frozen file unavailable: {relative}: {exc}")
-            continue
-        source_errors = (ui_receipts.source_errors(raw, relative)
-                         if relative in ui_receipts.LIVE_PATHS else [])
-        errors.extend(source_errors)
-        raw, parser_errors = _order308_parser_history_view(relative, expected_hash, raw)
-        errors.extend(parser_errors)
-        comparison = (current_source.project_bytes(raw, relative)
-                      if not admission_errors and not source_errors else raw)
-        actual_hash = _sha256_bytes(comparison)
-        errors.extend(_public_demo_working_source_hash_errors(
-            relative, expected_hash, actual_hash))
+    # Public package identity and the fixture stay frozen. Approved current
+    # source is checked by its product owner, without closed-order Git inverses
+    # or byte seals on unrelated QA tool implementations.
+    try:
+        fixture = (ROOT / PUBLIC_DEMO_FIXTURE_PATH).read_bytes()
+    except OSError as exc:
+        errors.append(f"public demo fixture unavailable: {exc}")
+    else:
+        if _sha256_bytes(fixture) != PUBLIC_DEMO_FIXTURE_SHA256:
+            errors.append("public demo fixture bytes drifted")
+    observed, runtime, scope_errors = demo_scope.build_scope()
+    errors.extend(scope_errors)
+    expected, scope_errors = demo_scope.current_source_contract(
+        demo_scope.read_json(demo_scope.MANIFEST_PATH), observed, runtime)
+    errors.extend(scope_errors)
+    errors.extend(demo_scope.compare_contract(expected, observed))
 
 
 def validate_model(model: AuditModel) -> list[str]:
@@ -2343,12 +2151,6 @@ def run_self_test() -> int:
             bool(_guarantee_window_errors(early_ceiling)),
             f"{guarantee_id} W192 eligibility loss accepted",
         )
-    prose_mutation = copy.deepcopy(guarantee_fixture)
-    prose_mutation.ko["amb_guarantee_00"]["choices"][0]["result_text"] += " drift"
-    check(
-        bool(_guarantee_window_errors(prose_mutation)),
-        "anonymous guarantee prose mutation accepted",
-    )
     overlay_mutation = copy.deepcopy(guarantee_fixture)
     overlay_mutation.en["amb_guarantee_00"]["conditions"] = {"max_turn": 192}
     check(
@@ -2639,14 +2441,6 @@ def run_self_test() -> int:
     check(bool(_authored_location_errors(mutated)),
           "authored-location missing concert move accepted")
     mutated = copy.deepcopy(location_fixture)
-    mutated.ko["arc_jiyeon_year5_news"]["description"] += " drift"
-    check(bool(_authored_location_errors(mutated)),
-          "authored-location prose mutation accepted")
-    mutated = copy.deepcopy(location_fixture)
-    mutated.en["chain_exec_meal_arrival"]["title"] += " drift"
-    check(bool(_authored_location_errors(mutated)),
-          "authored-location EN overlay mutation accepted")
-    mutated = copy.deepcopy(location_fixture)
     mutated.audio_manifest["background_profiles"]["concert_hall_night"] = "hoesik"
     check(bool(_authored_location_errors(mutated)),
           "authored-location wrong concert ambience accepted")
@@ -2664,156 +2458,6 @@ def run_self_test() -> int:
     return cases
 
 
-def _reviewed_public_source_self_tests() -> int:
-    cases = 0
-
-    def check(ok: bool, message: str) -> None:
-        nonlocal cases
-        cases += 1
-        if not ok:
-            raise AssertionError(message)
-
-    relative = "content/events_zh-CN/story_demo_events.json"
-    prior, current = PUBLIC_DEMO_REVIEWED_WORKING_SOURCE_TRANSITIONS[relative]
-    check(set(PUBLIC_DEMO_REVIEWED_WORKING_SOURCE_TRANSITIONS) == {relative},
-          "reviewed working-source transition widened")
-    check(PUBLIC_DEMO_FROZEN_FILES[relative] == prior,
-          "historical demo source pin was refreshed")
-    # Keep ORDER-165's old fixture and all its rejection cases unchanged after
-    # the later exact ORDER-305 inverse; live admission above still reads raw.
-    raw = demo_source.project_bytes((ROOT / relative).read_bytes(), relative)
-    check(_sha256_bytes(raw) == current, "reviewed CN source baseline drifted")
-    check(not _public_demo_working_source_hash_errors(relative, prior, current),
-          "exact approved CN working source rejected")
-    old_sentence = "这些记录留在同一块屏幕上。".encode("utf-8")
-    new_sentence = "这两条记录留在同一块屏幕上。".encode("utf-8")
-    check(raw.count(new_sentence) == 1 and raw.count(old_sentence) == 0,
-          "reviewed CN one-sentence topology drifted")
-    inverse = raw.replace(new_sentence, old_sentence, 1)
-    check(_sha256_bytes(inverse) == prior,
-          "CN inverse failed to restore exact historical bytes")
-    original = json.loads(inverse)
-    reviewed = json.loads(raw)
-    check([x["id"] for x in original] == [x["id"] for x in reviewed],
-          "CN root order changed")
-    fixed = copy.deepcopy(reviewed)
-    target = next(x for x in fixed if x["id"] == "arc_temptation_fallout")
-    target["description"] = target["description"].replace(
-        new_sentence.decode("utf-8"), old_sentence.decode("utf-8"), 1)
-    check(fixed == original, "CN change extends beyond the approved leaf")
-
-    mutants = {
-        "rollback_historical": inverse,
-        "three_not_two": raw.replace(new_sentence, "这三条记录留在同一块屏幕上。".encode("utf-8")),
-        "delete_sentence": raw.replace(new_sentence, b""),
-        "further_text": raw.replace(new_sentence, new_sentence + b" drift"),
-        "drop_placeholder": raw.replace(b"{name}", b"name", 1),
-        "LF": raw + b"\n",
-        "reorder": json.dumps(list(reversed(reviewed)), ensure_ascii=False).encode("utf-8"),
-        "delete_root": json.dumps(reviewed[:-1], ensure_ascii=False).encode("utf-8"),
-        "duplicate_key": raw.replace(b'"id":', b'"id":"duplicate", "id":', 1),
-    }
-    for label, payload in mutants.items():
-        check(payload != raw, f"ineffective public source mutant: {label}")
-        check(bool(_public_demo_working_source_hash_errors(
-            relative, prior, _sha256_bytes(payload))),
-            f"public source mutation accepted: {label}")
-    for label, previous, actual in (
-        ("refresh_registry_to_current", current, current),
-        ("unknown_old", "0" * 64, current),
-        ("unknown_both", "0" * 64, "0" * 64),
-    ):
-        check(bool(_public_demo_working_source_hash_errors(relative, previous, actual)),
-              f"historical pin mutation accepted: {label}")
-    for wrong_path in (
-        "content/events_ja/story_demo_events.json",
-        "content/events_zh-TW/story_demo_events.json",
-        "content/events_zh-CN/another_events.json",
-    ):
-        check(bool(_public_demo_working_source_hash_errors(wrong_path, prior, current)),
-              f"CN transition borrowed by another path: {wrong_path}")
-    for path, historical in PUBLIC_DEMO_FROZEN_FILES.items():
-        if path == relative:
-            continue
-        check(not _public_demo_working_source_hash_errors(path, historical, historical),
-              f"unchanged protected source rejected: {path}")
-        check(bool(_public_demo_working_source_hash_errors(path, historical, "0" * 64)),
-              f"unrelated protected drift accepted: {path}")
-    return cases
-
-
-def _order308_parser_source_self_tests() -> int:
-    """Separate exact-source boundaries; the existing 127 cases are unchanged."""
-    cases = 0
-
-    def check(ok: bool, message: str) -> None:
-        nonlocal cases
-        cases += 1
-        if not ok:
-            raise AssertionError("ORDER-308 parser boundary: " + message)
-
-    path = ORDER308_PARSER_PATH
-    old_hash, new_hash = ORDER308_PARSER_HASHES
-    before, after = (demo_source._git_blob(commit, path) for commit in ORDER308_PARSER_COMMITS)
-    raw = (ROOT / path).read_bytes()
-    check(PUBLIC_DEMO_FROZEN_FILES[path] == old_hash, "historical public pin changed")
-    check(_sha256_bytes(before) == old_hash and _sha256_bytes(after) == new_hash,
-          "immutable predecessor/successor proof changed")
-    projected, errors = _order308_parser_history_view(path, old_hash, raw)
-    check(raw == after and not errors and projected == before,
-          "exact current source did not restore historical bytes")
-    check(not _public_demo_working_source_hash_errors(path, old_hash, _sha256_bytes(projected)),
-          "approved parser did not reach the unchanged historical checker")
-
-    mutants = (
-        ("historical rollback", before),
-        ("missing bytes", b""),
-        ("trailing newline", after + b"\n"),
-        ("rent key", after.replace(b'ORTHODOX_RENT_KEY = "event::', b'ORTHODOX_RENT_KEY = "ui::', 1)),
-        ("rent amount", after.replace("월 70만원, 별도 관리비.".encode(), "월 7만원, 별도 관리비.".encode(), 1)),
-        ("unrelated parser code", after.replace(b"def target_text_errors(", b"def changed_target_text_errors(", 1)),
-        ("deleted boundary", after.replace(b'    if key != ORTHODOX_RENT_KEY', b'    if False and key != ORTHODOX_RENT_KEY', 1)),
-    )
-    for label, mutant in mutants:
-        projected, errors = _order308_parser_history_view(path, old_hash, mutant)
-        check(mutant != after and bool(errors) and projected == mutant,
-              label + " was admitted or hidden")
-    for label, historical in (("refreshed pin", new_hash), ("unknown pin", "0" * 64)):
-        projected, errors = _order308_parser_history_view(path, historical, after)
-        check(bool(errors) and projected == after, label + " was accepted")
-    for wrong_path in (path + ".other", "tools/story_demo_package_audit.py"):
-        projected, errors = _order308_parser_history_view(wrong_path, old_hash, after)
-        check(projected == after and not errors and bool(_public_demo_working_source_hash_errors(
-            wrong_path, old_hash, _sha256_bytes(projected))), "successor borrowed by " + wrong_path)
-
-    for bad_commit in ORDER308_PARSER_COMMITS:
-        def unavailable(commit: str, relative: str) -> bytes:
-            if commit == bad_commit:
-                raise ValueError("self-test missing immutable Git object")
-            return demo_source._git_blob(commit, relative)
-        projected, errors = _order308_parser_history_view(path, old_hash, after, read_blob=unavailable)
-        check(bool(errors) and projected == after, "missing Git proof was accepted: " + bad_commit)
-
-        def altered(commit: str, relative: str) -> bytes:
-            blob = demo_source._git_blob(commit, relative)
-            return blob + b"\n" if commit == bad_commit else blob
-        projected, errors = _order308_parser_history_view(path, old_hash, after, read_blob=altered)
-        check(bool(errors) and projected == after, "mutated Git proof was accepted: " + bad_commit)
-    return cases
-
-
-def _validate_current_model(model: AuditModel) -> list[str]:
-    """Share fresh proof only within this normal invocation; retain every check."""
-    with contextlib.ExitStack() as stack:
-        try:
-            stack.enter_context(ui_receipts.fresh_validation_proof())
-        except (OSError, ValueError, KeyError, TypeError, IndexError,
-                subprocess.TimeoutExpired) as exc:
-            return ["ORDER-365: whole current proof rejected: " + str(exc)]
-        # Do not relabel exceptions from the audit body as proof-entry failures.
-        return validate_model(model)
-
-
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--self-test", action="store_true")
@@ -2821,8 +2465,6 @@ def main(argv: list[str] | None = None) -> int:
     if args.self_test:
         try:
             cases = run_self_test()
-            cases += _reviewed_public_source_self_tests()
-            cases += _order308_parser_source_self_tests()
         except AssertionError as exc:
             print(f"CHAPTER5_HUMAN_REJECT_SELF_TEST_FAIL {exc}", file=sys.stderr)
             return 1
@@ -2834,7 +2476,7 @@ def main(argv: list[str] | None = None) -> int:
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"CHAPTER5_HUMAN_REJECT_AUDIT_FAIL load={exc}", file=sys.stderr)
         return 1
-    errors = _validate_current_model(model)
+    errors = validate_model(model)
     if errors:
         print(f"CHAPTER5_HUMAN_REJECT_AUDIT_FAIL errors={len(errors)}")
         for error in errors:

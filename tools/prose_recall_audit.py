@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
-"""Bounded prose-only delta audit; runtime and language quality are separate evidence."""
+"""Current recall/time/place facts; runtime and language quality remain separate."""
 from __future__ import annotations
 
 import argparse
 import copy
 import json
-import re
-import subprocess
 from pathlib import Path
 
-from order470_source_compat import _Document
+from ui_translation_append import _Document
+import full_game_localization as full
 
 ROOT = Path(__file__).resolve().parents[1]
-BASE = "629452e7650bdfb9f20fc547c7d4696481cf239b"
 LOCALES = {"ko": "events", "en": "events_en", "ja": "events_ja",
            "zh-CN": "events_zh-CN", "zh-TW": "events_zh-TW"}
 MEMORY_KEY = "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person"
@@ -55,6 +53,44 @@ SELECTORS = {
 }
 
 
+HOME = {"ko": "지금 사는 방", "en": "current room", "ja": "今暮らす部屋",
+        "zh-CN": "如今住处", "zh-TW": "目前住處"}
+STREET = {"ko": "가로등", "en": "streetlamp", "ja": "街灯", "zh-CN": "路灯", "zh-TW": "路燈"}
+FINAL_YEAR = {"ko": "마지막 해", "en": "final year", "ja": "最後の年",
+              "zh-CN": "最后一年", "zh-TW": "最後一年"}
+KIMBAP = {"ko": "삼각김밥", "en": "triangle kimbap", "ja": "三角キンパ",
+          "zh-CN": "三角紫菜包饭", "zh-TW": "三角飯捲"}
+FIRST_YEAR = {"ko": "첫해", "en": "first year", "ja": "最初の年",
+              "zh-CN": "第一年", "zh-TW": "第一年"}
+CALENDAR = {"ko": "달력", "en": "calendar", "ja": "カレンダー", "zh-CN": "日历", "zh-TW": "行事曆"}
+TRAVEL = {"ko": "이동 시간", "en": "travel time", "ja": "移動時間",
+          "zh-CN": "路上所需的时间", "zh-TW": "路程所需的時間"}
+GAMEPLAY = {
+    "arc_year_one_mark": ("current_housing", [
+        ({"mental": 4, "intelligence": 1}, ["arc_year_one_mark_seen", "keeps_records"]),
+        ({"mental": -1}, ["arc_year_one_mark_seen"]),
+        ({"mental": -2, "investment_skill": 1, "luck": 1}, ["arc_year_one_mark_seen", "grind_mentality"])]),
+    "arc_year2_close": ("year2_winter_street_night", [
+        ({"mental": 2}, ["arc_year2_close_seen", "year2_confident"]),
+        ({"mental": 1}, ["arc_year2_close_seen", "year2_conflicted"]),
+        ({}, ["arc_year2_close_seen"])]),
+    "hyunsu_year5_call": ("current_housing", [
+        ({"mental": 3}, ["hyunsu_year5_call_seen"]), ({"mental": 1}, ["hyunsu_year5_call_seen"])]),
+    "hyunsu_year5_call_father_passed": ("current_housing", [
+        ({"mental": 3}, ["hyunsu_year5_call_seen"]), ({"mental": 1}, ["hyunsu_year5_call_seen"])]),
+    "arc_daeun_year5_apart": ("gangnam_night", [
+        ({"mental": 8, "tint": 3}, ["arc_daeun_year5_apart_seen"]),
+        ({"mental": 3, "tint": 2}, ["arc_daeun_year5_apart_seen"])]),
+    "arc_daeun_year5_ending": ("apartment", [
+        ({"mental": 20, "tint": 8}, ["arc_daeun_year5_seen", "daeun_final_together"]),
+        ({"mental": 15, "tint": 3}, ["arc_daeun_year5_seen"])]),
+}
+for event_id in ("arc_y4_body_witness", "arc_y4_body_witness_hyunsu"):
+    GAMEPLAY[event_id] = ("current_housing", [
+        ({}, ["arc_y4_body_witness_seen", "arc_y4_body_chose_" + action])
+        for action in ("care", "deadline", "alone")])
+
+
 def require(ok, message):
     if not ok:
         raise ValueError(message)
@@ -66,113 +102,102 @@ def at(value, keys):
     return value
 
 
-def validate_delta(before: bytes, after: bytes, filename: str) -> int:
-    """Restore only owned literal spans, then require the whole baseline byte string."""
-    old, new = _Document(before), _Document(after)
-    old_ids = [row["id"] for row in old.value]
-    require(len(set(old_ids)) == len(old_ids), "duplicate baseline event id")
-    require(old_ids == [row["id"] for row in new.value], "event order/population changed")
-    replacements = []
-    for eid, selectors in SELECTORS[filename].items():
-        i = old_ids.index(eid)
+def current_rows(raw, filename):
+    rows = _Document(raw).value
+    require(isinstance(rows, list), "current event array required")
+    ids = [row["id"] for row in rows]
+    require(len(ids) == len(set(ids)), "duplicate current event ID")
+    selected = {row["id"]: row for row in rows if row["id"] in SELECTORS[filename]}
+    require(set(selected) == set(SELECTORS[filename]), "current recall event absent")
+    return selected
+
+
+def validate_current(raw, filename, locale, sources):
+    rows = current_rows(raw, filename)
+    count = 0
+    for event_id, selectors in SELECTORS[filename].items():
+        row = rows[event_id]
+        if locale == "ko":
+            background, choices = GAMEPLAY[event_id]
+            require(row.get("background") == background, event_id + ": current physical location differs")
+            require(len(row["choices"]) == len(choices), event_id + ": choice producer absent")
+            for choice, (effects, flags) in zip(row["choices"], choices):
+                require(choice.get("effects", {}) == effects
+                        and all(type(value) in (int, float) for value in choice.get("effects", {}).values())
+                        and choice.get("flags") == flags, event_id + ": typed effects/flag producer differs")
         for keys in selectors:
-            previous, current = at(old.value[i], keys), at(new.value[i], keys)
-            require(type(previous) is str and type(current) is str and previous != current,
-                    f"expected changed string: {eid}:{keys}")
-            require(len(previous.split("\n\n")) == len(current.split("\n\n")),
-                    f"paragraph count: {eid}:{keys}")
-            require(sorted(re.findall(r"\{[^}]+\}", previous)) ==
-                    sorted(re.findall(r"\{[^}]+\}", current)), f"tokens: {eid}:{keys}")
-            a, z = old.spans[(i, *keys)]
-            b, end = new.spans[(i, *keys)]
-            replacements.append((b, end, old.text[a:z]))
-    restored = new.text
-    for a, z, literal in sorted(replacements, reverse=True):
-        restored = restored[:a] + literal + restored[z:]
-    require(restored.encode("utf-8") == before,
-            f"unowned bytes, gameplay or key order changed: {filename}")
-    return len(replacements)
-
-
-def baseline(path):
-    spec = BASE + ":" + path
-    kind = subprocess.check_output(["git", "--no-replace-objects", "cat-file", "-t", spec], cwd=ROOT).strip()
-    require(kind == b"blob", "baseline is not a Git blob: " + path)
-    return subprocess.check_output(["git", "--no-replace-objects", "cat-file", "blob", spec], cwd=ROOT)
+            text = at(row, keys)
+            require(isinstance(text, str) and bool(text.strip()), f"current text absent {event_id}:{keys}")
+            facts = []
+            if event_id == "arc_year_one_mark" and keys == ("description",):
+                facts.append(HOME[locale])
+            elif event_id == "arc_year2_close" and keys[0].startswith("description"):
+                facts.append(STREET[locale])
+            elif event_id.startswith("hyunsu_year5_call") and keys[0] != "choices":
+                facts.append(FINAL_YEAR[locale])
+            elif event_id == "arc_daeun_year5_apart":
+                facts.append(KIMBAP[locale])
+            elif event_id == "arc_daeun_year5_ending" and keys == ("description",):
+                facts.append(FIRST_YEAR[locale])
+            elif keys == ("description_memory_if_known", MEMORY_KEY):
+                facts.extend((TRAVEL[locale], CALENDAR[locale]))
+            require(all(fact.lower() in text.lower() for fact in facts),
+                    f"current chronology/place/recall fact differs {locale}:{event_id}:{keys}")
+            if locale in full.LOCALES:
+                source = at(sources[event_id], keys)
+                leaf = full.Leaf("events", event_id, "content/events/" + filename,
+                                 keys, source, "event_standard", lifecycle="shipping")
+                require(not full.translation_errors(leaf, locale, text),
+                        f"current direct-source translation contract differs {locale}:{event_id}:{keys}")
+            count += 1
+    return count
 
 
 def snapshots(locales):
-    return {(locale, filename): (baseline(path), (ROOT / path).read_bytes())
-            for locale in locales for filename in SELECTORS
-            for path in [f"content/{LOCALES[locale]}/{filename}"]}
+    return {(locale, filename): (ROOT / f"content/{LOCALES[locale]}/{filename}").read_bytes()
+            for locale in locales for filename in SELECTORS}
 
 
-def self_test():
-    """Small synthetic corpus: every negative starts from a valid owned-string edit."""
-    count = 0
-    for filename, events in SELECTORS.items():
-        rows = []
-        for eid, selectors in events.items():
-            row = {"id": eid, "description": "old {name}",
-                   "conditions": {"min_turn": 1}, "choices": [
-                       {"text": "keep", "result_text": "keep", "flags": ["a"],
-                        "effects": {"mental": 1}},
-                       {"text": "keep2", "result_text": "keep2", "flags": ["b"]},
-                       {"text": "keep3", "result_text": "keep3"}], "title": "keep"}
-            for keys in selectors:
-                node = row
-                for key in keys[:-1]:
-                    if type(key) is str and key not in node:
-                        node[key] = {}
-                    node = node[key]
-                node[keys[-1]] = "old {name}"
-            rows.append(row)
-        rows.append({"id": "arc_y4_body_witness_jiyeon", "description": "author only"})
-        dump = lambda value: json.dumps(value, ensure_ascii=False, indent=2).encode()
-        before = dump(rows)
-        edited = copy.deepcopy(rows)
-        for i, selectors in enumerate(events.values()):
-            for keys in selectors:
-                node = edited[i]
-                for key in keys[:-1]:
-                    node = node[key]
-                node[keys[-1]] = "new {name}"
-        after = dump(edited)
-        expected = sum(map(len, events.values()))
-        require(validate_delta(before, after, filename) == expected, "valid synthetic delta")
-        count += 1
-        mutations = []
-        for key, val in (("effects", {"mental": 9}), ("flags", ["wrong"])):
-            bad = copy.deepcopy(edited); bad[0]["choices"][0][key] = val
-            mutations.append(dump(bad))
-        bad = copy.deepcopy(edited); bad[0]["conditions"]["min_turn"] = 2
-        mutations.append(dump(bad))
-        bad = copy.deepcopy(edited); bad[0]["choices"].reverse()
-        mutations.append(dump(bad))
-        bad = copy.deepcopy(edited); bad[-1]["description"] = "changed author only"
-        mutations.append(dump(bad))
-        bad = copy.deepcopy(edited); bad[0] = dict(reversed(list(bad[0].items())))
-        mutations.append(dump(bad))
-        for key in ("description_if_known", "description_memory_if_known"):
-            if len(edited[0].get(key, {})) > 1:
-                bad = copy.deepcopy(edited)
-                bad[0][key] = dict(reversed(list(bad[0][key].items())))
-                mutations.append(dump(bad))
-        first = next(iter(events.values()))[0]
-        for replacement in ("old {name}", "new {assets}", "new {name}\n\nextra"):
-            bad = copy.deepcopy(edited); node = bad[0]
-            for key in first[:-1]: node = node[key]
-            node[first[-1]] = replacement
-            mutations.append(dump(bad))
-        mutations += [after + b"\n", after.replace(b"  ", b" ", 1)]
-        for bad in mutations:
+def self_test(files):
+    cases = 0
+    for locale in LOCALES:
+        for filename, event_id, keys, required in (
+            ("arc_midgame.json", "arc_year_one_mark", ("description",), HOME[locale]),
+            ("arc_year_close.json", "arc_year2_close", ("description",), STREET[locale]),
+            ("arc_hyunsu.json", "hyunsu_year5_call", ("description",), FINAL_YEAR[locale]),
+            ("arc_daeun_extension.json", "arc_daeun_year5_apart", ("description",), KIMBAP[locale]),
+            ("arc_chapter_themes.json", "arc_y4_body_witness",
+             ("description_memory_if_known", MEMORY_KEY), CALENDAR[locale]),
+        ):
+            raw = files[(locale, filename)]
+            document = _Document(raw)
+            index = next(i for i, row in enumerate(document.value) if row["id"] == event_id)
+            previous = at(document.value[index], keys)
+            changed = previous.replace(required, "wrong fact", 1)
+            require(changed != previous, "inert fact mutation")
+            start, end = document.spans[(index, *keys)]
+            mutant = (document.text[:start] + json.dumps(changed, ensure_ascii=False)
+                      + document.text[end:]).encode()
+            sources = current_rows(files[("ko", filename)], filename)
             try:
-                validate_delta(before, bad, filename)
-            except (ValueError, KeyError, IndexError):
-                count += 1
+                validate_current(mutant, filename, locale, sources)
+            except ValueError:
+                cases += 1
             else:
-                raise ValueError("mutation accepted: " + filename)
-    print(f"PROSE_RECALL_SELF_TEST_OK cases={count}")
+                raise ValueError("current fact mutation accepted")
+    filename = "arc_midgame.json"
+    sources = current_rows(files[("ko", filename)], filename)
+    changed = copy.deepcopy(_Document(files[("ko", filename)]).value)
+    next(row for row in changed if row["id"] == "arc_year_one_mark")["choices"][0]["flags"] = ["wrong"]
+    try:
+        validate_current(json.dumps(changed, ensure_ascii=False).encode(), filename, "ko", sources)
+    except ValueError:
+        cases += 1
+    else:
+        raise ValueError("current producer mutation accepted")
+    validate_current(files[("ko", filename)] + b"\n", filename, "ko", sources)
+    cases += 1
+    print(f"PROSE_RECALL_SELF_TEST_OK cases={cases}")
 
 
 def main():
@@ -180,24 +205,23 @@ def main():
     parser.add_argument("--source-only", action="store_true")
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
-    if args.self_test:
-        self_test()
-        return 0
     locales = ("ko", "en") if args.source_only else tuple(LOCALES)
-    files = snapshots(locales)
+    files = snapshots(tuple(LOCALES) if args.self_test else locales)
     counts = {locale: 0 for locale in locales}
-    for (locale, filename), (before, after) in files.items():
-        counts[locale] += validate_delta(before, after, filename)
-    require(all(value == 40 for value in counts.values()), "exact owned leaf population")
-    print("PROSE_RECALL_OK " + json.dumps({"files": len(files), "changed_leaves": counts,
-          "baseline": BASE, "unowned_bytes_preserved": True,
-          "runtime_or_quality_claim": False}, ensure_ascii=False))
+    for locale in locales:
+        for filename in SELECTORS:
+            sources = current_rows(files[("ko", filename)], filename)
+            counts[locale] += validate_current(files[(locale, filename)], filename, locale, sources)
+    if args.self_test:
+        self_test(files)
+    print("PROSE_RECALL_OK " + json.dumps({"files": len(locales) * len(SELECTORS),
+          "current_leaves": counts, "runtime_or_quality_claim": False}, ensure_ascii=False))
     return 0
 
 
 if __name__ == "__main__":
     try:
         raise SystemExit(main())
-    except (ValueError, KeyError, IndexError, OSError, subprocess.CalledProcessError) as exc:
+    except (ValueError, KeyError, IndexError, OSError) as exc:
         print("PROSE_RECALL_FAIL " + str(exc))
         raise SystemExit(1)

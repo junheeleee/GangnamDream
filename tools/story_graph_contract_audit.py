@@ -18,13 +18,8 @@ import sys
 from dataclasses import dataclass
 from typing import Any, Callable
 
-import order305_demo_source_compat as order305_compat
-import order310_demo_source_compat as latest_demo_compat
-import order309_source_compat as prior_source
-import order313_source_compat as chapter2_source
-import order350_source_compat as chapter3_source
-import pr31_intake_history as current_source
-import order365_ui_receipt_compat as ui_receipts
+import demo_localization_scope as demo_scope
+
 
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -405,12 +400,14 @@ class Inputs:
 
 
 def load_inputs() -> Inputs:
-    # Admission uses the live bytes, never a historical projection. The KO/EN
-    # indexes below consume these same snapshots rather than reopening them.
+    # Current graph and in-memory mutations share the same event snapshot.
+    # No closed-order raw-file admission is a prerequisite for product checks.
     source_bytes: dict[str, bytes] = {}
-    for relative in ui_receipts.LIVE_PATHS:
-        with open(os.path.join(ROOT, relative), "rb") as handle:
-            source_bytes[relative] = handle.read()
+    for directory in ("content/events", "content/events_en"):
+        for path in sorted(glob.glob(os.path.join(ROOT, directory, "*.json"))):
+            relative = os.path.relpath(path, ROOT)
+            with open(path, "rb") as handle:
+                source_bytes[relative] = handle.read()
     contract = load_json(CONTRACT_PATH)
     fixture_path = os.path.join(ROOT, str(contract["demo_protection"]["fixture"]))
     fixture_bytes = open(fixture_path, "rb").read()
@@ -429,48 +426,18 @@ def load_inputs() -> Inputs:
 
 
 def validate(data: Inputs) -> list[str]:
-    # Fresh original-module/Git identity once per invocation; mutation cases
-    # still submit their own whole live raw snapshot below, not disk substitutes.
-    try:
-        with ui_receipts.fresh_validation_proof():
-            return _validate_with_proof(data)
-    except (OSError, ValueError) as exc:
-        return [f"ORDER-365 current proof unavailable: {exc}"]
-
-
-def _validate_with_proof(data: Inputs) -> list[str]:
     errors: list[str] = []
-    if set(data.source_bytes) != set(ui_receipts.LIVE_PATHS):
-        errors.append("ORDER-309 current source snapshot paths drifted")
-    for relative in ui_receipts.LIVE_PATHS:
-        raw = data.source_bytes.get(relative)
-        if not isinstance(raw, bytes):
-            errors.append(f"ORDER-309 current source snapshot missing: {relative}")
-            continue
-        source_errors = ui_receipts.source_errors(raw, relative)
-        errors.extend(source_errors)
-        if source_errors:
-            continue
-        indexed = None
-        if relative in current_source.HISTORICAL_PATHS:
-            indexed = (data.events_ko if relative.startswith("content/events/")
-                       else data.events_en)
-        if indexed is not None:
-            # In-memory mutation fixtures must not substitute a historical
-            # changed event while presenting the approved live bytes as proof.
-            # Leave unrelated graph mutation cases to their original checks.
-            changed_ids = current_source.LIVE_EVENT_IDS[relative]
-            for event in json.loads(raw):
-                event_id = event["id"]
-                if event_id not in changed_ids:
-                    continue
-                if (canonical_bytes(indexed.get(event_id)) != canonical_bytes(event)
-                        or json.dumps(indexed.get(event_id), ensure_ascii=False)
-                        != json.dumps(event, ensure_ascii=False)):
-                    errors.append(
-                        f"ORDER-309 indexed event differs from live snapshot: {relative}#{event_id}"
-                    )
-    source_admitted = not errors
+    # A forged indexed event cannot borrow another raw snapshot. Formatting and
+    # later non-demo prose edits are allowed; current branch order is not lost.
+    for relative, raw in data.source_bytes.items():
+        index = (data.events_ko if relative.startswith("content/events/")
+                 else data.events_en)
+        for event in json.loads(raw):
+            event_id = event.get("id")
+            if json.dumps(index.get(event_id), ensure_ascii=False) != json.dumps(
+                    event, ensure_ascii=False):
+                errors.append(
+                    f"indexed event differs from current snapshot: {relative}#{event_id}")
     contract = data.contract
     if contract.get("schema_version") != 1:
         errors.append("story_graph_contract.schema_version must be 1")
@@ -562,9 +529,8 @@ def _validate_with_proof(data: Inputs) -> list[str]:
             or mirror_legacy.get("produces_any") != mirror_branch_flags:
         errors.append("Sangchul mirror receipt rule contract drifted")
 
-    # The immutable M01-M06 semantic pin remains unchanged. ORDER-305's exact
-    # admitted successor is viewed through a copied inverse only here; all
-    # graph checks continue to inspect the real, unprojected event indexes.
+    # Fixture/package/map seals remain exact. The current approved demo text
+    # contract is owned by the demo-scope checker, not an old whole-file inverse.
     demo = contract.get("demo_protection", {})
     if sha256(data.fixture_bytes) != demo.get("fixture_sha256"):
         errors.append("story_demo_rc fixture bytes drifted")
@@ -579,27 +545,12 @@ def _validate_with_proof(data: Inputs) -> list[str]:
     }
     if sha256(canonical_bytes(topology)) != demo.get("topology_sha256"):
         errors.append("story_demo_rc node topology drifted")
-    refs: set[tuple[str, str]] = set()
-    for row in list(data.fixture.get("nodes", [])) + list(
-        data.fixture.get("synthetic_events", [])
-    ):
-        source = row.get("source", {}) if isinstance(row, dict) else {}
-        refs.add((str(source.get("path", "")), str(source.get("event_id", ""))))
-    semantic_rows: list[dict[str, Any]] = []
-    for path, event_id in sorted(refs):
-        event = data.events_ko.get(event_id)
-        if event is None:
-            errors.append(f"demo source event missing: {path}#{event_id}")
-            continue
-        historical_event = (current_source.project_payload([event], path)[0]
-                            if source_admitted else event)
-        semantic_rows.append({
-            "path": path, "event_id": event_id, "event": historical_event,
-        })
-    if sha256(canonical_bytes(semantic_rows)) != demo.get(
-        "source_event_semantics_sha256"
-    ):
-        errors.append("M01-M06 source event semantics drifted")
+    observed, runtime, scope_errors = demo_scope.build_scope()
+    errors.extend(scope_errors)
+    expected, scope_errors = demo_scope.current_source_contract(
+        demo_scope.read_json(demo_scope.MANIFEST_PATH), observed, runtime)
+    errors.extend(scope_errors)
+    errors.extend(demo_scope.compare_contract(expected, observed))
     demo_months = [month(data.story_map, number) for number in range(1, 7)]
     if sha256(canonical_bytes(demo_months)) != demo.get("story_map_m01_m06_sha256"):
         errors.append("M01-M06 story-map product graph drifted")
@@ -1157,146 +1108,6 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
     def _(data: Inputs) -> None:
         data.fixture_bytes += b"\n"
 
-    for relative in order305_compat.PATHS:
-        def mutate_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes[relative] += b"\n"
-        cases.append((f"order305_raw_drift:{relative}", mutate_raw))
-
-    @case("order305_missing_raw_snapshot")
-    def _(data: Inputs) -> None:
-        data.source_bytes.pop("content/events_zh-TW/story_demo_events.json")
-
-    @case("order305_historical_raw_is_not_live_admission")
-    def _(data: Inputs) -> None:
-        relative = "content/events/arc_events.json"
-        data.source_bytes[relative] = order305_compat.verified_blobs(relative)[0]
-
-    @case("order305_historical_event_cannot_mask_mutation")
-    def _(data: Inputs) -> None:
-        previous, _current = order305_compat.verified_blobs("content/events/arc_events.json")
-        event = next(row for row in json.loads(previous)
-                     if row["id"] == "arc_sangchul_01_meet")
-        data.events_ko[event["id"]] = event
-
-    # Separate successor cases leave all ORDER-305 and original graph fixtures
-    # intact, including the assertion that those original failures are unmasked.
-    for relative in latest_demo_compat.PATHS:
-        def mutate_latest_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes[relative] += b"\n"
-        cases.append((f"order310_raw_drift:{relative}", mutate_latest_raw))
-
-        def rollback_latest_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes[relative] = latest_demo_compat.verified_blobs(relative)[0]
-        cases.append((f"order310_raw_rollback:{relative}", rollback_latest_raw))
-
-        def missing_latest_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes.pop(relative)
-        cases.append((f"order310_raw_missing:{relative}", missing_latest_raw))
-
-    for relative, leaves in latest_demo_compat.JSON_LEAVES.items():
-        for event_id, leaf_path in leaves:
-            def mutate_latest_leaf(data: Inputs, event_id: str = event_id,
-                                   leaf_path: tuple = leaf_path) -> None:
-                parent = data.events_en[event_id]
-                for key in leaf_path[:-1]:
-                    parent = parent[key]
-                parent[leaf_path[-1]] += " unapproved"
-            cases.append((f"order310_indexed_leaf:{relative}:{event_id}:{leaf_path}", mutate_latest_leaf))
-
-        def rollback_latest_event(data: Inputs, relative: str = relative) -> None:
-            before, _after = latest_demo_compat.verified_blobs(relative)
-            event_id = latest_demo_compat.JSON_LEAVES[relative][0][0]
-            data.events_en[event_id] = next(row for row in json.loads(before) if row["id"] == event_id)
-        cases.append((f"order310_indexed_rollback:{relative}", rollback_latest_event))
-
-    # Additional cases, without replacing any original 305/310 corpus.
-    for relative in prior_source.LIVE_PATHS:
-        def corrupt_current_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes[relative] += b"\n"
-        cases.append((f"order309_raw_drift:{relative}", corrupt_current_raw))
-
-        def missing_current_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes.pop(relative)
-        cases.append((f"order309_raw_missing:{relative}", missing_current_raw))
-    for relative, leaves in prior_source.JSON_LEAVES.items():
-        for event_id, leaf_path in leaves:
-            def corrupt_current_leaf(data: Inputs, relative: str = relative,
-                                     event_id: str = event_id, leaf_path: tuple = leaf_path) -> None:
-                index = data.events_ko if relative.startswith("content/events/") else data.events_en
-                parent = index[event_id]
-                for key in leaf_path[:-1]:
-                    parent = parent[key]
-                parent[leaf_path[-1]] += " unapproved"
-            cases.append((f"order309_indexed_leaf:{relative}:{event_id}:{leaf_path}", corrupt_current_leaf))
-        def rollback_current_event(data: Inputs, relative: str = relative) -> None:
-            index = data.events_ko if relative.startswith("content/events/") else data.events_en
-            event_id = prior_source.JSON_LEAVES[relative][0][0]
-            before, _after = prior_source.verified_blobs(relative)
-            index[event_id] = next(row for row in json.loads(before) if row["id"] == event_id)
-        cases.append((f"order309_indexed_rollback:{relative}", rollback_current_event))
-
-    # New cases are additive; the old 305/310/309 fixture populations stay intact.
-    for relative in chapter2_source.CURRENT_PATHS:
-        def corrupt_new_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes[relative] += b"\n"
-        cases.append((f"order313_raw_drift:{relative}", corrupt_new_raw))
-
-        def missing_new_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes.pop(relative)
-        cases.append((f"order313_raw_missing:{relative}", missing_new_raw))
-
-        def rollback_new_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes[relative] = chapter2_source.verified_blobs(relative)[0]
-        cases.append((f"order313_raw_rollback:{relative}", rollback_new_raw))
-    for relative, leaves in chapter2_source.JSON_LEAVES.items():
-        for event_id, leaf_path in leaves:
-            def corrupt_new_leaf(data: Inputs, relative: str = relative,
-                                 event_id: str = event_id, leaf_path: tuple = leaf_path) -> None:
-                index = data.events_ko if relative.startswith("content/events/") else data.events_en
-                parent = index[event_id]
-                for key in leaf_path[:-1]:
-                    parent = parent[key]
-                parent[leaf_path[-1]] += " unapproved"
-            cases.append((f"order313_indexed_leaf:{relative}:{event_id}:{leaf_path}", corrupt_new_leaf))
-
-        def rollback_new_event(data: Inputs, relative: str = relative) -> None:
-            index = data.events_ko if relative.startswith("content/events/") else data.events_en
-            event_id = chapter2_source.JSON_LEAVES[relative][0][0]
-            before, _after = chapter2_source.verified_blobs(relative)
-            index[event_id] = next(row for row in json.loads(before) if row["id"] == event_id)
-        cases.append((f"order313_indexed_rollback:{relative}", rollback_new_event))
-
-    # Keep the preceding 313 corpus above; 350/359 adds, never replaces it.
-    for relative in chapter3_source.CURRENT_PATHS:
-        def corrupt_chapter3_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes[relative] += b"\n"
-        cases.append((f"order350_raw_drift:{relative}", corrupt_chapter3_raw))
-
-        def missing_chapter3_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes.pop(relative)
-        cases.append((f"order350_raw_missing:{relative}", missing_chapter3_raw))
-
-        def rollback_chapter3_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes[relative] = chapter3_source.verified_blobs(relative)[0]
-        cases.append((f"order350_raw_rollback:{relative}", rollback_chapter3_raw))
-    for relative, leaves in chapter3_source.JSON_LEAVES.items():
-        for event_id, leaf_path in leaves:
-            def corrupt_chapter3_leaf(data: Inputs, relative: str = relative,
-                                      event_id: str = event_id, leaf_path: tuple = leaf_path) -> None:
-                index = data.events_ko if relative.startswith("content/events/") else data.events_en
-                parent = index[event_id]
-                for key in leaf_path[:-1]:
-                    parent = parent[key]
-                parent[leaf_path[-1]] += " unapproved"
-            cases.append((f"order350_indexed_leaf:{relative}:{event_id}:{leaf_path}", corrupt_chapter3_leaf))
-
-        def rollback_chapter3_event(data: Inputs, relative: str = relative) -> None:
-            index = data.events_ko if relative.startswith("content/events/") else data.events_en
-            event_id = chapter3_source.JSON_LEAVES[relative][0][0]
-            before, _after = chapter3_source.verified_blobs(relative)
-            index[event_id] = next(row for row in json.loads(before) if row["id"] == event_id)
-        cases.append((f"order350_indexed_rollback:{relative}", rollback_chapter3_event))
-
     for relative in ("content/events/arc_year_close.json", "content/events_en/arc_year_close.json"):
         def missing_ghost(data: Inputs, relative: str = relative) -> None:
             index = data.events_ko if relative.startswith("content/events/") else data.events_en
@@ -1316,38 +1127,6 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
             row["description_if_known"] = dict(reversed(list(row["description_if_known"].items())))
             data.source_bytes[relative] = json.dumps(rows, ensure_ascii=False).encode("utf-8")
         cases.append((f"order350_raw_condition_order:{relative}", reorder_conditions))
-
-    # A separate chapter-four corpus; the original 350 population above stays
-    # bound to its own immutable transition, including its two ghost leaves.
-    for relative in current_source.CURRENT_PATHS:
-        def corrupt_chapter4_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes[relative] += b"\n"
-        cases.append((f"order351_raw_drift:{relative}", corrupt_chapter4_raw))
-
-        def missing_chapter4_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes.pop(relative)
-        cases.append((f"order351_raw_missing:{relative}", missing_chapter4_raw))
-
-        def rollback_chapter4_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes[relative] = current_source.verified_blobs(relative)[0]
-        cases.append((f"order351_raw_rollback:{relative}", rollback_chapter4_raw))
-    for relative, leaves in current_source.JSON_LEAVES.items():
-        for event_id, leaf_path in leaves:
-            def corrupt_chapter4_leaf(data: Inputs, relative: str = relative,
-                                      event_id: str = event_id, leaf_path: tuple = leaf_path) -> None:
-                index = data.events_ko if relative.startswith("content/events/") else data.events_en
-                parent = index[event_id]
-                for key in leaf_path[:-1]:
-                    parent = parent[key]
-                parent[leaf_path[-1]] += " unapproved"
-            cases.append((f"order351_indexed_leaf:{relative}:{event_id}:{leaf_path}", corrupt_chapter4_leaf))
-
-        def rollback_chapter4_event(data: Inputs, relative: str = relative) -> None:
-            index = data.events_ko if relative.startswith("content/events/") else data.events_en
-            event_id = current_source.JSON_LEAVES[relative][0][0]
-            before, _after = current_source.verified_blobs(relative)
-            index[event_id] = next(row for row in json.loads(before) if row["id"] == event_id)
-        cases.append((f"order351_indexed_rollback:{relative}", rollback_chapter4_event))
 
     @case("network_w52_prelaunch")
     def _(data: Inputs) -> None:

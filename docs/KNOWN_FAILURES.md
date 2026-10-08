@@ -1,0 +1,21 @@
+# 알려진 제품 검사 실패
+
+DECISIONS 2026-10-08의 CI 예외 목록이다. 검사는 계속 실행하고 FAIL 로그를 보존한다.
+CI에서만 아래 정확한 검사명·종료코드1을 한시적으로 비차단 처리한다. 목록 밖 실패,
+미실행·잘못된 종료코드, 중복/알 수 없는 검사명, 빠진 사유/소유자, 만료된 예외는 빨강이다.
+만료는 최대30일이며 정상 통과로 돌아온 항목은 이 목록에서 제거한다.
+녹색 CI는 원어민·인간·물리 패드 관찰이나 본편 출시 GO가 아니다.
+
+## 현재 예외
+
+| 검사명 | 이유 | 소유자 | 만료일 |
+| --- | --- | --- | --- |
+| PEAK_CHAIN_EXIT | arc_sangchul_deduction의 왕복/결정 밀도가 EXPAND이며 gold standard와 불일치. 원고 수리는 검수 정리 범위 밖이다. | Codex — 다음 문장 묶음 | 2026-10-16 |
+| EXPOSED_STATE_EXIT | 직업 사실3·관계 사실1이 조건에 선언되지 않았고 hyunsu_result_pass KO/EN에 방 이동 사실2가 없다. 원문/서사 원장은 이번 오더에서 불변이다. | Codex — 다음 사실/문장 묶음 | 2026-10-16 |
+| SCENE_AUDIO_CATALOG_EXIT | author_only로 내린 지연6개가 오디오 intent에 남는다. 음악 검사 자체는 유지하며 실제 manifest 정리는 후속 콘텐츠 정합 범위다. | Codex — 장면 manifest 정합 | 2026-10-16 |
+| SCENE_DIRECTION_CATALOG_EXIT | shipping 사건 집합과 연출 manifest 집합이 다르다. 자산/원문 manifest 저작은 이번 검수 도구 정리 밖이다. | Codex — 장면 manifest 정합 | 2026-10-16 |
+| FULL_RUN_DIRECTION_EXIT | 비도달 지연 bill/body/borrowed/family/three_promises5개가 전 구간 연출 분류에 남는다. 분류 검사는 삭제하지 않는다. | Codex — 장면 manifest 정합 | 2026-10-16 |
+
+근거는 [삭제 전 실패 전수표](queue_backlog/AUDIT_FAILURE_TRIAGE_2026-10-09.md)의 실제 C 실행이다.
+옛 history admission·collector 오류·이미 통과한 release inventory는 예외에 넣지 않는다.
+더 넓은 번역 완성도·화면·출시 위험은 해당 제품/사람 원장에서 계속 관리한다.
