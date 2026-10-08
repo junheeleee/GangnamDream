@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)에 바이트 그대로 이동했다. 보존본의 상대 링크는 이동 전 경로 기준이다.
 
+## 2026-10-09 — main CI 현황 오탐의 실제 원인 수리 (487, 재검증 대기)
+
+- 실제 [main CI37851130776](https://github.com/junheeleee/GangnamDream/actions/runs/37851130776), source0fb0807/job113564010620이 종료됐다. 정적/밸런스 성공·전체 컴파일68 PASS, audit.sh 집계의 정확 KNOWN_FAILURES5 외 실패는 STATUS_DOC_EXIT 한 건이다. 뒤의 실제입력/240주 시뮬은 이 실패로 skipped이며 완료로 세지 않는다.
+- clean detached clone0fb0807에서 기존 Godot4.6.2 첫 import를 실행했다. tracked diff0이지만 기존 QA .gd의 누락 UID14가 untracked로 생겼고 현황의 후보 reason이 바뀌어 DASHBOARD_FRESH→STALE를 재현했다.6305215에서14경로를 먼저 선언한 뒤 실제 엔진 생성 sidecar14만 추가했다. 검사/게임 .gd 수정0·새 tool0·전역 ignore/skip0·현재 후보 resolver와 STATUS 변경 감지 보존이다.
+- 같은 UID14를 가진 격리 source31a89cb에서 별도 fresh clone→첫 import exit0/fatal0→tracked0/untracked0→DASHBOARD_FRESH를 확인했다. 기존 UID150+14 중복0·생성 원본과 추가14 바이트 모두 일치. fresh import 로그 SHA c40177b43a39a6fa5efde3564d10c83ed33c765c7d6eb0cfd566d6baa74a7f54, 재import 로그67cd67d9ae319284b7f1f64d0c47172778ec20e95e1f11c68f48cf0aa7189284를 격리 /tmp/gangnam-order487-ci-import.ARKSLI에 보존했다. 실제 게임/사용자 저장/화면·원어민·물리 패드 관찰0이다.
+- 비저자 ci_dashboard_review가 dirty 후보 인과와 successor의 tracked baseline/생성 extras 분리를 직접 읽어 이 수리의 blocking0을 확인했다. 새 UID는 새 source 후보이며 과거 GO를 승계하지 않는다. 공개 데모의 exact commit/manifest와 이전 successor는 불변이고 GENERATED_UIDS 계약 변경0이다. 개발 스킬의 선선언·실물 재현·표적 검증을 적용했다.
+- context/queue/등록179·diff PASS다. 부팅 예산18000초과2byte를 관측하고 현 상태 문구만 줄여 PASS로 수리했다. 게임 원문·번역·원장·저장·project.godot·인간 이력 변경0, known5의 소유자/만료10-16·제품 검사148flag는 유지한다. 새 source와 생성 STATUS를 main에 올린 뒤 실제 CI 녹색을 확인해야487을 닫는다. 다른 새 오더0·출시 HOLD·일회성이다.
+
 ## 2026-10-09 — 이력 검사56개 제거·제품 계약 복구 (487, CI 대기)
 
 - 사용자 지시·DECISIONS 2026-10-08대로 PR32/484 마감 뒤 이 정리만 진행했다. 실패 전수표는 cad6d39에서 먼저 main commit·push했고, 추가 의존 표는214e9d6/f7cdf69/954c04e/476aa68에서 삭제 전에 확정했다. 관측163flag/실패 합집합36을 유지하며 과거22·현재13·release 회복1·미관측127을 혼동하지 않는다.
