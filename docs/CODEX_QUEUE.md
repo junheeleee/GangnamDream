@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-485 · 카지노 수량검사 오탐3문맥 | [485](queue_active/ORDER-485.md) | 준비32·집중232 PASS 보존 · suffix8 REWORK·수리중 |
+| 1 | [~] | ORDER-485 · 카지노 수량검사 오탐3문맥 | [485](queue_active/ORDER-485.md) | 준비32·집중232 PASS 보존 · suffix8/경계12 REWORK·수리중 |
 | 2 | [~] | ORDER-484 · 카지노 용어집 중국어16키 | [484](queue_active/ORDER-484.md) | 초안32 검수·준비 PASS · 숫자suffix 수리 뒤 공식 수용0/HOLD |
 | 3 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | source/옛 전후시간 PASS · 12PNG 글자관찰·캡처실행 FAIL·연속창 HOLD · L3 OPEN |
 | 4 | [~] | ORDER-457 · 5장 일반 경로 정상 재플레이 | [457](queue_active/ORDER-457.md) | W193→W195 관찰 · Mac잠금으로 이어보기 메뉴미실행 |

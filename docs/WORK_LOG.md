@@ -4,6 +4,7 @@
 
 ## 2026-10-08 — 수량 검사 PASS 뒤 독립 suffix REWORK (485, 재착수)
 
+- 첫 suffix4종 guard5줄과 self8은 실제QA0으로 동결했다. 비저자와 self저자 모두 多/余/餘/上下가 같은 부분마스킹 경로에 남는다고 직접 읽어 확인했다. 정상 draft2의 CN/TW는 倍 직후 쉼표이므로 같은 정확2배 역할만 수평공백 뒤 절구두점/끝을 요구하는 양성경계로 대체한다. 연결어 선제허용0·새역할/파일0; 별도12 경계기대는 수리 전 동결/actualbefore 후 기존232+8+12=252 전량을 검증한다. 원보고·원실패·원PASS·초안32는 그대로다.
 - source4 eaa8601/tree9af1728로 원숫자 오탐3문맥을 수리해 main에 올렸다. 실제 direct232/full220/격리static210/예외복원3·같은준비32는 PASS이며 원고/수용0이다. 그러나 비저자는 정확2배를 2배 이상/2.5배로 허가할 post-unit 경계 결함을 발견해 [eaa REWORK](agent_reviews/ORDER-485.json)로 남겼다. 원PASS/원FAIL은 모두 보존하고 [같은 단위](queue_active/ORDER-485.md)의 배수 경계만 다시 닫는다. 최신깊이/소유/보고경로를 선언 뒤 구현한다.
 - 별도8 CN/TW×以上/半/以下/左右 기대를 코드수리 전 동결(SHA887e0b4454406c3de7637d91334888db6cf35c172ad1ab31451be53c9514bd58)했다. root actualbefore8 direct/full/격리static 모두 오류0으로 잘못허가: quality_passedfalse·실제exit1·false_acceptances8·원전후보존true·main/collect/engine0, 원결과SHA64038d5689c76f878f93f753d5fd04545cf326d0e644e04e5068e0d6dbea6dae. 원문/초안32/영수증·기존기대232 수정0이며 수정후 같은232+별도8의240을 다시 검증한다. 실제FAIL을 추론만이라고 축소하지 않는다.
 - 이전 실행기 운영실패도 보존: 집중CLI exit0 뒤 의도적 JSON Traceback3에 outer FAIL, 다음원준비32/등록PASS 뒤 --lane+파일목록 동시지정 exit2, 구조대조seal1 wrapper≠map AssertionError·seal2 출력경로오타 exit1. 같은bytes/원로그 전수결속해 집중/준비/등록 반복0으로 나머지목록/context/queue/diff를 통과했으며 seal3 actualexit0은 clean eaa/QA뒤 비소비CLAUDE1행 전이만 결속했다. 이PASS가 알려진suffix 결함을 승인하지 않는다.
