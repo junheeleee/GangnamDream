@@ -9286,6 +9286,99 @@ def _ui_asset_one_billion_fraction_numbers(lang: str, key: str, source: str, tar
     return numeric_source, numeric_target, []
 
 
+def _ui_casino_glossary_numbers(lang: str, key: str, source: str, target: str):
+    """Bind the numeric roles of three exact casino glossary UI leaves.
+
+    The double-down copula in ``11일 때`` is not eleven days; 颗/顆 counts
+    the owned dice, not a new global entity classifier. Verify each role
+    before masking only its numeral/counter span for the generic comparator.
+    Every independent prose, script, money and token check keeps the originals.
+    """
+    sources = {
+        "double_down": "첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.",
+        "dice": "세 개의 주사위 결과에 거는 카지노 게임. 빅/스몰은 이해하기 쉽지만, 트리플이나 합계 베팅은 배당이 큰 만큼 확률이 낮다.",
+        "big_small": "주사위 합계 11~17은 빅, 4~10은 스몰. 단, 세 주사위가 모두 같은 트리플이면 빅/스몰은 패배 처리된다.",
+    }
+    kind = next((kind for kind, expected in sources.items() if source == expected), None)
+    pointer = source.replace("~", "~0").replace("/", "~1")
+    if lang not in LANGUAGES or kind is None or key != f"ui:{source}:/{pointer}":
+        return None
+    label = "source-bound casino-glossary " + kind
+    if not isinstance(target, str) or "\n" in target or "\r" in target:
+        return source, target, [label + " quantity line/type mismatch"]
+
+    import unicodedata
+
+    digits = "0-9０-９零〇○一二两兩三四五六七八九十百千万萬亿億兆.,，．"
+    number = rf"[{digits}]+"
+    forms = {
+        1: {"1", "一"}, 2: {"2", "二", "两", "兩"}, 3: {"3", "三"},
+        4: {"4", "四"}, 10: {"10", "十"}, 11: {"11", "十一"},
+        17: {"17", "十七"},
+    }
+    errors: list[str] = []
+    target_spans: list[tuple[int, int]] = []
+    roles: list[re.Match[str]] = []
+
+    def own(role: str, pattern: str, values: dict[str, int],
+            first: str, last: str) -> re.Match[str] | None:
+        matches = list(re.finditer(pattern, target))
+        if len(matches) != 1:
+            errors.append(label + " " + role + " value/unit/owner/count mismatch")
+            return None
+        match = matches[0]
+        for field, expected in values.items():
+            if unicodedata.normalize("NFKC", match.group(field)) not in forms[expected]:
+                errors.append(label + " " + role + " value/sign mismatch")
+            # A correct numeral later in an approximated/threshold role cannot
+            # repair the source's exact quantity. Keep this test in its clause.
+            prefix = re.split(r"[。.;；，,\n]", target[:match.start(field)])[-1]
+            if re.search(r"(?:[约約]|大概|差不多|至少|最多|不超[过過]|超[过過]|以上|以下|接近)[^。.;；，,\n]*$", prefix):
+                errors.append(label + " " + role + " exact-quantity modifier mismatch")
+        target_spans.append((match.start(first), match.end(last)))
+        roles.append(match)
+        return match
+
+    if kind == "double_down":
+        own("initial cards", rf"^[ \t]*(?:拿到|收到|得到|[获獲]得)[ \t]*(?:起手|初始|最初)[ \t]*(?P<n>{number})[ \t]*(?P<u>[张張])牌",
+            {"n": 2}, "n", "u")
+        own("bet multiplier", rf"(?:投注[额額]|下注金[额額]|[赌賭]注)[ \t]*(?:增加到|增至|加到|加至|提高到|翻成|[变變][为為])[ \t]*(?P<n>{number})[ \t]*(?P<u>倍)",
+            {"n": 2}, "n", "u")
+        own("additional card", rf"(?:只|[仅僅])[ \t]*再[ \t]*(?:拿|拿到|取|抽|[获獲]得)[ \t]*(?P<n>{number})[ \t]*(?P<u>[张張])牌",
+            {"n": 1}, "n", "u")
+        own("point totals", rf"(?:[点點][数數](?:合[计計]|[总總]和)|合[计計][点點][数數])[ \t]*(?:[为為]|是|[达達]到)?[ \t]*(?P<low>{number})[ \t]*(?:或|、|[·/])[ \t]*(?P<high>{number})[ \t]*[时時]",
+            {"low": 10, "high": 11}, "low", "high")
+        source_atoms = ("두 장", "2배", "한 장", "10·11일")
+    elif kind == "dice":
+        own("dice", rf"^[ \t]*(?:对|對|以)[ \t]*(?P<n>{number})[ \t]*(?P<u>[颗顆个個])骰子(?:的)?[结結]果",
+            {"n": 3}, "n", "u")
+        source_atoms = ("세 개",)
+    else:
+        own("BIG total range", rf"^[ \t]*骰子(?:的)?(?:[点點][数數](?:[总總]和|合[计計])|[总總]和|合[计計])[ \t]*(?P<low>{number})[ \t]*[~～至][ \t]*(?P<high>{number})[ \t]*(?:[点點])?[ \t]*(?:[为為]|算|是)大",
+            {"low": 11, "high": 17}, "low", "high")
+        own("SMALL total range", rf"[，,][ \t]*(?P<low>{number})[ \t]*[~～至][ \t]*(?P<high>{number})[ \t]*(?:[点點])?[ \t]*(?:[为為]|算|是)小",
+            {"low": 4, "high": 10}, "low", "high")
+        own("triple dice", rf"(?:但)?(?:若|如果|[当當])[ \t]*(?P<n>{number})[ \t]*(?P<u>[颗顆个個])骰子(?:的)?[点點][数數](?:完全|全部|都)?相同",
+            {"n": 3}, "n", "u")
+        source_atoms = ("11~17", "4~10", "세")
+    if roles != sorted(roles, key=lambda match: match.start()):
+        errors.append(label + " quantity role order mismatch")
+    if errors:
+        return source, target, list(dict.fromkeys(errors))
+
+    def mask(text: str, spans: list[tuple[int, int]]) -> str:
+        for start, end in sorted(spans, reverse=True):
+            text = text[:start] + " " * (end - start) + text[end:]
+        return text
+
+    numeric_target = mask(target, target_spans)
+    if re.search(r"[0-9０-９零〇○一二两兩三四五六七八九十百千万萬亿億兆%％‰+＋−﹣－\-]", numeric_target):
+        return source, target, [label + " extra/duplicate/displaced quantity mismatch"]
+    source_spans = [(source.index(atom), source.index(atom) + len(atom))
+                    for atom in source_atoms]
+    return mask(source, source_spans), numeric_target, []
+
+
 def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     """Validate one Korean-source Chinese target without generating content."""
     if lang not in LANGUAGES:
@@ -9365,6 +9458,9 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     holdem_tutorial_cards = _ui_holdem_tutorial_card_numbers(lang, key, source, target)
     if holdem_tutorial_cards is not None:
         notice_numbers = holdem_tutorial_cards
+    casino_glossary_numbers = _ui_casino_glossary_numbers(lang, key, source, target)
+    if casino_glossary_numbers is not None:
+        notice_numbers = casino_glossary_numbers
     if notice_numbers is None:
         errors.extend(_numeric_errors(source, target))
     else:

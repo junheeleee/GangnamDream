@@ -14,6 +14,23 @@
   ],
   "fast_lanes": [
     {
+      "id": "casino-glossary-numbers",
+      "paths": [],
+      "owned_paths": [
+        "tools/zh_translation_audit.py", "tools/zh_dice_title_consumer_self_test.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/history/WORK_LOG_2026-09-07_localization.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-485.json",
+        "docs/queue_active/ORDER-485.md", "docs/queue_archive/ORDER-485.md"
+      ],
+      "tools": [
+        "tools/zh_dice_title_consumer_self_test.py --casino-glossary-only",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact3 Casino KO literals and canonical escaped UI IDs only: point11 copula, dice3 classifiers and bare native dice count. Bounded original direct/full Leaf/isolated static consumers preserve unowned numeric and script/money/token/layout checks. No translation, receipt, source census, original collector/main, historical suite, engine or release claim."
+    },
+    {
       "id": "ledger-whitespace-470",
       "paths": [],
       "owned_paths": [
@@ -4018,6 +4035,12 @@
       "tool": "tools/contact_coffee_number_self_test.py",
       "paths": ["tools/zh_translation_audit.py", "tools/contact_coffee_number_self_test.py"],
       "why": "Exact419 long contact-coffee UI leaf: actual two targets, local second-occasion/coffee/after binding, thirty-year and nonnumeric checks, boundary rejection and old title/cup behavior unchanged through both validators.",
+      "godot": false
+    },
+    {
+      "tool": "tools/zh_dice_title_consumer_self_test.py --casino-glossary-only",
+      "paths": ["tools/zh_translation_audit.py", "tools/zh_dice_title_consumer_self_test.py"],
+      "why": "Focused Casino glossary source3/normal6 numeric-role repair and frozen mutation/OFF controls through original validators and isolated static consumer; preserves old Dice populations and generic checks without collector/main or engine.",
       "godot": false
     },
     {
