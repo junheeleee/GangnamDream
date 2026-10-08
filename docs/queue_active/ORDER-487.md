@@ -19,7 +19,7 @@ DECISIONS 2026-10-08을 실행한다. 484 source/UI32는 faa7158에서 마감했
 
 ## 선언된 파일 소유
 
-root가 다음 도구·등록·CI와 운영 문서만 소유한다.
+root와 아래 분리 저자가 다음 도구·등록·CI와 운영 문서만 소유한다.
 
 - tools/audit.sh, tools/audit_scope.json, .github/workflows/ci.yml.
 - tools의 닫힌 오더 전용 *history*.py, order*_source_compat*.py,
@@ -37,12 +37,31 @@ root가 다음 도구·등록·CI와 운영 문서만 소유한다.
   story_graph_contract_audit.py, prose_recall_audit.py,
   coffee_encounter_locale_check.py, ui_fixed_ledger_projection_check.py,
   ui_append_value_parse_check.py. 역사 의존만 제거/오류 처리 수리하고 제품 조건은 유지한다.
+- 추가 확인된 기존 소유/전용 suite: meta_title_locale_successor_self_test.py,
+  ci_localization_reconciliation_self_test.py, pr31_main_proof_scope_check.py,
+  holdem_manifest_proof_scope_self_test.py, chapter5_proof_scope_self_test.py,
+  ui_comparison_memo_self_test.py. 고정 raw/history·비용 suite만 제거한다.
+  ui_translation_append_self_test.py는 generic receipt/parser 제품 반례를 유지하며
+  삭제한 history 분기만 분리할 수 있다. full_game_runtime_trace_audit.py·
+  full_game_runtime_trace_contract.py·feature_liveness_audit.py·project_dashboard.py는
+  확인된 old byte seal/독립 QA 오탐/생성 현황 비교만 수리할 수 있으며 제품 조건은 유지한다.
 - docs/queue_backlog/AUDIT_FAILURE_TRIAGE_2026-10-09.md,
   docs/KNOWN_FAILURES.md, docs/context_manifest.json, docs/CODEX_QUEUE.md,
   docs/queue_active/ORDER-487.md·완료 archive, docs/WORK_LOG.md,
   생성 docs/STATUS.md, CLAUDE.md 현재 상태.
 
-비저자들은 읽기 조사/검수와 메시지만 소유한다. 구현 파일의 동시 소유0이다.
+표 선커밋 cad6d39 이후 구현 파일 소유를 다음처럼 분리한다. 새 오더가 아니다.
+
+- localization_collector_author: tools/ja_translation_pipeline.py만.
+- localization_audits_author: tools/ja_translation_audit.py·zh_translation_audit.py만.
+- causality_audits_author: tools/chapter1_core_loop_v2_causal_ledger_check.py·
+  story_graph_contract_audit.py·year5_reference_route_audit.py·chapter5_human_reject_audit.py만.
+- root: 나머지 선언 파일·등록·삭제·통합 검증·문서·main commit/push.
+
+저자들은 기존 제품 조건을 보존하며 자기 파일의 역사 dependency만 걷어낸다.
+root가 strict JSON/span을 기존 ui_translation_append 소유자에 보존한다.
+각 저자는 새 tool/report·게임/원장 변경·자체 commit·엔진 실행을 하지 않는다.
+비저자는 읽기 검수/메시지만 소유하며 구현 파일의 동시 소유0이다.
 목록 밖 실제 의존은 편집 전에 사양에 정확히 선언한다.
 
 ## 순서 / 완료 조건
@@ -57,6 +76,14 @@ root가 다음 도구·등록·CI와 운영 문서만 소유한다.
    CI는 이 정확 목록 밖 실패와 만료된 예외만 빨강으로 처리한다. 전역 skip 금지다.
 4. 기존 영향 제품 검사를 통과시키고, 실제 main CI 녹색(정확 KNOWN_FAILURES 제외)을
    확인한 뒤에만 정리 완료로 닫는다. 감사 통과는 전체게임·재미·출고 GO가 아니다.
+
+## 실제 첫 표 (2026-10-09)
+
+[실패표](../queue_backlog/AUDIT_FAILURE_TRIAGE_2026-10-09.md)를 cad6d39에서 단독 선커밋·push했다.
+현재 집계163flag·관측 실패 합집합36행이다. 최신 직접 FAIL13/PASS1,
+과거 종료 로그만22·나머지127 미완주를 분리했다. 비저자 audit_history_classification의
+읽기 검수에서 수량·미실행 판정·삭제 근거의 blocking0을 확인했다. 이 시점 삭제0,
+KNOWN_FAILURES 적용0·main 전체 CI 아직 녹색 아님이다.
 
 보존: EN 한글 누출, 번역 원장 정합, 서사 연속성, 장면 음악, 데모 고정,
 컴파일, 저장 호환 검사. 게임 원문·번역·저장·project.godot·공개 패키지·
