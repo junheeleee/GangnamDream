@@ -76,6 +76,8 @@ root와 아래 분리 저자가 다음 도구·등록·CI와 운영 문서만 �
   investment_loss_gate_self_test.py·full_game_localization_self_test.py는 기존 현재 의미/형식/
   레이아웃/공식 receipt 부정 테스트를 유지하고 이력 전용 분기·폐지 파일 참조만 제거한다.
   삭제 후보의 추가 표를 별도로 선커밋한 뒤 삭제한다.
+  scalping_phase_focus_receipt_check.py의 전체 내용 실사 결과 실제 focus/input 조건 없이
+  closed427의 고정 Git/역상/call count뿐이라 삭제 후보로 표를 갱신한다.
 
 저자들은 기존 제품 조건을 보존하며 자기 파일의 역사 dependency만 걷어낸다.
 root가 strict JSON/span을 기존 ui_translation_append 소유자에 보존한다.

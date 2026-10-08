@@ -153,9 +153,10 @@ holdem-manifest-proof-scope, ui-comparison-memo, chapter5-proof-scope는 역사/
 | tools/holdem_residual_locale_check.py | 완료451 source/history stage 역상·이전 raw pin 검사. 실제 카지노 잔여 UI/형식은 현행 JA/ZH validator/collector가 검증하므로 삭제 |
 | tools/ui_receipt_cost_profile.py | 완료479의 특정 old365 호출과 고정 line 번호의 시간/호출 계측기. 게임 동작/receipt acceptance 검사가 아니며 사용자 계측 중단 지시에 따라 삭제 |
 | tools/ui_receipt_cost_profile_check.py | 위 계측기의 synthetic 호출수·instrumentation 복원 테스트. 제품 검사 없이 비용 도구만 지키므로 삭제 |
+| tools/scalping_phase_focus_receipt_check.py | 전체165행이 완료427 Scalp source의 고정 commit/tree/blob·Main13개 역상 manifest·fresh proof 호출수 검사다. 실제 트레이딩 focus/input 검사는 별도 runtime owner에 있으므로 삭제 |
 
-추가 혼합 self-test 10개는 통째 삭제하지 않는다. gift/new-run/first-start,
-decision-risk/reaction-body/log-body-font, scalping-phase/investment-AP,
+추가 혼합 self-test 9개는 통째 삭제하지 않는다. gift/new-run/first-start,
+decision-risk/reaction-body/log-body-font, investment-AP,
 investment-loss-gate/full-game-localization의 현재 UI 호출·레이아웃·형식·receipt 반례를
 남기고 old raw/Git·폐지 helper 복원 분기만 분리한다. 정확 소유는 ORDER-487에 선언했다.
 
