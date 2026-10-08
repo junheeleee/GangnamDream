@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-486",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-08T14:29:19Z",
+  "reviewer": "/root/glossary_preexport_review",
+  "subject": {
+    "kind": "source",
+    "commit": "940ad0bf3250bfae64f3d9ec00ff319da0343e35",
+    "tree": "6e15bc346459c7d4503d00d76fbfebf3bee42b83",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "scope": "ORDER-486의 B/F 동기 operation-local 순수 계산 재사용, 새 prepared/actual self와 명시 차선·등록만 한정 GO다. 성공 immutable 계산만 재사용하고 원 fresh proof/Git/typed/product-disk 입출구를 유지하는 도구 단위다. ORDER-484 공식 연결·export/check/import/번역 수용, 전체 pipeline 속도, 게임·원어민·인간·물리 입력·출시 GO가 아니다.",
+  "method": {
+    "independence": "B/F 저자와 root 실행자와 다른 비저자다. 정확 소유는 이 보고 한 파일이며 구현·프로젝트 QA/import/API/collector/main/engine·Git write0이다. 원문/AST/JSON/로그/Git 이력·파일 SHA를 읽었으며 새 프로젝트 검사 실행0이다.",
+    "direct_reads": "CLAUDE.md·gangnamdream-dev SKILL.md·CODEX_QUEUE·선택 사양·WORK_UNIT·관련 소비자와 원 proof/핀, 선언→후보 전 diff, B/F 변경 전 함수 보존 결과, self507줄, frozen roster, private runner/static script, prepared295·actual44의 전 label/result와 원 stdout/stderr, actual1 중단 및 원 preexport5 실패, 전후 snapshot을 직접 읽었다. 표본 선택 없이 이번 변경과 동결 표적 모집단을 전수 검토했다.",
+    "candidate_observation": "보고 작성 전 실제 Git HEAD/tree가 subject와 일치했고 main...origin/main clean이었다. 선언 ac0ddc22 뒤 source 후보의 변경은 B/F/self/audit4와 CLAUDE 현재상태·큐·생성STATUS·WORK_LOG·선택 사양5뿐이다. 게임 source/locale/ledger/기타 helper·공식 collector/main/인간 원장 변경0이다.",
+    "test_identity": "QA는 선언 HEAD ac0ddc22b0cd0a2089552d8e15ff974dcaff5237/tree20dc7673960e6c73319534c9d35c9fa71deee8d7 + 선언된 소유 dirty에서 수행됐다. clean 940ad0b에서 재실행한 결과가 아니다. 검사 snapshot의 구현4 SHA와 현재 disk 및 subject commit blob SHA를 각각 직접 대조해 모두 동일했다.",
+    "skill": "gangnamdream-dev/CLAUDE/WORK_UNIT의 정확 소유·표적 검수·원 실패 보존·실측과 추론·에이전트 판정과 인간 관찰 분리를 적용했다. 새 규범0/일회성이다."
+  },
+  "ownership": {
+    "declaration": "ac0ddc22b0cd0a2089552d8e15ff974dcaff5237",
+    "implementation_sha256": {
+      "tools/asset_one_billion_log_history.py": "1f0a367e0fb9be518da4f747cac2e3fbed90346d1f82c9162555549d4d0c6a20",
+      "tools/order470_source_compat.py": "f6fba7d414467757afae484d6e01a264799832333dcec4e31678f08ddef50fe9",
+      "tools/history_semantic_scope_self_test.py": "7c85114ad65366afebb27158c74e0730ee3bf06b2784aaa08f33fa27b165ac21",
+      "tools/audit_scope.json": "7e1e4a27697afb687f9cf051cb3be88c500aa947382e856b7b81d1534bd9828c"
+    },
+    "B": "tools/asset_one_billion_log_history.py:414/:451/:521。PATHS의 모든 before/after exact bytes·root·물리 helper raw·설정·함수 identity/code/defaults·선택 primitives에 결속한다. 성공한 RECEIPT_PARENT str 한 항목만 보유하며 B owner 중첩은 거절+poison한다. 원 _receipt_semantics/_Document/ledger 순수 함수·핀은 불변, 원 proof 본체는 이름 변경과 receipt helper 호출 한 곳만 대체됐다. wrapper는 본체를 계속 실행하고 late 실패 및 ACTIVE equality 불일치 때 성공 cache를 비운다.",
+    "F": "tools/order470_source_compat.py:1749/:1793/:2576/:2726。기존 invocation-local memo를 opt-in 동기 owner 안에서만 공유한다. 같은 context의 F 중첩은 공유하고 다른 context/thread/event-loop는 거절한다. 원 _read_proof_current와 모든 기존 순수 함수·핀은 불변이다. 실패 후 fresh finally는 owner/memo를 잠시 해제해 원 proof를 다시 읽고, 최상위 종료는 retained dict를 비우며 token을 복원한다.",
+    "binding_limit": "변경 감시는 선택된 JSON/copy/hash/class primitives와 module callable identity/code/defaults/선택 wrapped binding의 계약이다. 모든 Python 환경의 임의 변화나 악의적 guard 자체 변경에 대한 보안 경계라고 확장하지 않는다. F memo의 항목 수는 operation 동안 입력별로 늘 수 있으며 B처럼 고정1항목이라고 주장하지 않는다."
+  },
+  "frozen_population": {
+    "path": ".git/order486-20261008.YiW24K/frozen_cases.json",
+    "sha256": "162fe9d03aae4e3eaf5c035b9a9cfaf2de64b782aa6309795b9b0f16e88ef415",
+    "chronology": "첫 실행 전에 B nested reject+poison/F same-context nesting과 async·fresh 정상/예외·actual HEAD/type/disk 반례를 명확화했다. 실행 뒤 기대값 변경이나 실패 삭제·모집단 축소0이다. actual1 측정기 수리 뒤 prepared2와 actual2를 별도 고유 시도로 보존했다.",
+    "prepared": "295 전수: B cold/warm·1성공값·두 operation·중첩 거절, PATHS5의 양쪽 bytes 변화/누락/추가/타입, invalid result; B/F root·event-loop·copied Context·thread·ValueError·KeyboardInterrupt·retained clear; pin/function/Document/JSON encoder/decoder/copy dispatch/hash/module drift 및 same-identity code/defaults; F raw 재계산/중첩 공유/mutable 거절; F fresh prepared normal/nested/ValueError/KeyboardInterrupt/exit mismatch의 ACTIVE·원 입출구 횟수·teardown; B fresh equality 실패 clear를 포함한다.",
+    "actual": "44 전수: B/F 각 arm 원 proof2회·전체 dict 등가8, retained teardown, B/F/M/W의 원 Git/typed/product-disk 횟수 동일12, pure receipt 계산 감소, B warm 실제 HEAD/object-type/disk 거절 및 late normal/exception fresh exit, F warm 실제 HEAD 거절·clear·poison·종료 거절이다. stable readers를 owner 진입 전에 설치하고 원 Git/disk를 읽은 뒤 응답을 주입했다. 물리 파일을 바꾸거나 단순 callable identity 거절만 관찰한 실험이 아니다.",
+    "observation_boundary": "prepared295의 pure/proof stub 상태기계 통과를 실제 typed Git 관찰로 세지 않는다. F fresh 정상·중첩·예외 입출구 전용 검사는 prepared stub이며 actual44 전체 F fresh branch 실행이라고 쓰지 않는다. 새 invalidation 함수 교체 전용 label은295에 없으므로 해당 함수가 전체 module callable 결속에 포함됨을 정적으로 확인한 범위만 주장한다."
+  },
+  "repairs": [
+    {
+      "finding": "실행 전 B/F nesting 정책, B event-loop admission 및 F JSONEncoder/deepcopy dispatch 의존성 검수 범위가 불충분했다.",
+      "resolution": "B reject+poison/F 동일context 공유로 명확화하고 sync gate·selected primitive binding·prepared 반례를 추가했다. 원 body/pins와 최초 동결 기대값을 보존했다."
+    },
+    {
+      "finding": "B fresh의 기존 ACTIVE equality 실패는 원 본체가 반환한 뒤 발생하므로 pure owner에 성공값을 남길 수 있었다. F 새 fresh 분기의 상태기계도 별도 확인이 필요했다.",
+      "resolution": "B wrapper는 실제 반환 proof 불일치 때 clear+poison하되 원 proof를 반환하여 기존 fresh 비교가 계속 실패하게 했다. F 정상/중첩/예외/mismatch의 prepared 입출구 count와 token/retained teardown을 추가했다. actual B late 정상·예외 fresh 거절도 확인했다."
+    },
+    {
+      "finding": "actual1 측정기는 arm마다 새 wrapper identity를 만들었고 F proof binding의 full equality 비교가 동일 측정조건이 아니었다. private runner도 component 필수·성공 marker 정확1 조건을 강화했다.",
+      "resolution": "root는 actual1을 own SIGINT로 중단해 원 FAIL을 보존했다. actual2는 두 arm에 동일 wrapper를 한 번 설치하고 counters dict만 교체했다. full proof equality 정규화/필드삭제0이며 actual2의44와 prepared2의295가 실제 exit0이다. predicted F equality FAIL은 actual1에서 반환 전에 중단돼 실관측 결함이라고 쓰지 않는다."
+    }
+  ],
+  "blocking_findings": [],
+  "evidence": {
+    "private_runner": {
+      "path": ".git/order486-20261008.YiW24K/run_checks.py",
+      "sha256": "32d79d3eb36bb1d220ca1f9184b59e41ed68a1eae5034d31783b4f6912db7746",
+      "actual": "prepared/actual은 exit0·stderr0·error없음·전후snapshot 동일뿐 아니라 component 존재/passed=true와 ORDER486_SEMANTIC_SCOPE_OK 정확1회를 요구한다. 각 실행은 별도 attempt 디렉토리를 사용한다."
+    },
+    "prepared2": {
+      "path": ".git/order486-20261008.YiW24K/prepared2/result.json",
+      "sha256": "be1cbed0fd8afa3adbd58087d02ea8071ed4738fd34a3437d98374dc3a9faa5d",
+      "stdout_path": ".git/order486-20261008.YiW24K/prepared2/stdout.log",
+      "stdout_sha256": "b3ab4e7188252742883aa272d4a763bd6273910795aac4e1320c5f3d7751e8fa",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0,
+      "seconds": 0.351506666,
+      "cases": 295,
+      "passed": true,
+      "preserved": true,
+      "before_after_sha256": "3f542cbd411e2d172f923d551a73775d431444be2d808260991d1cfc0c5598db",
+      "actual": "295 전true/fatal=null/measurements=null. 원 stdout component와 result component는 동일하다. 준비1의295 PASS는 별도 원본으로 보존하며 새 결과로 덮어쓰지 않았다."
+    },
+    "actual2": {
+      "path": ".git/order486-20261008.YiW24K/actual2/result.json",
+      "sha256": "ce70a8a89eabbe94ae809bdea1663aa976b28b72d803e73605efe0c98663cceb",
+      "stdout_path": ".git/order486-20261008.YiW24K/actual2/stdout.log",
+      "stdout_sha256": "c328aa17c2b251b1a29042873e2000b962086ef3a83fef351ef986d7e02ec908",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0,
+      "seconds": 384.389250083,
+      "cases": 44,
+      "passed": true,
+      "preserved": true,
+      "before_after_sha256": "3f542cbd411e2d172f923d551a73775d431444be2d808260991d1cfc0c5598db",
+      "actual": "원8 progress·arm2 JSON·component44 true/fatal=null·정확 성공marker1과 원결과를 읽었다. 선택 proof pair만 실측했으며 공식 main/collect/UI/engine 실행0이다."
+    },
+    "static1": {
+      "path": ".git/order486-20261008.YiW24K/static1/result.json",
+      "sha256": "30ae16a6f6f7e3fd507d966acbf40f033c2adf28e15c3eef84ad05d01e1944ca",
+      "stdout_path": ".git/order486-20261008.YiW24K/static1/stdout.log",
+      "stdout_sha256": "0b0b99eadd06e46cf70eb19fe3468c130bd23cff89db1deb7532fb12539480ba",
+      "script_sha256": "f5ae0383b5b77f813494f7e4339a146b60202f84135073d467d23f1d18359cb2",
+      "exit_code": 0,
+      "seconds": 4.291603625,
+      "passed": true,
+      "preserved": true,
+      "before_after_sha256": "b20311089cd34158142af5f32239b70b76ae0aa173069a074f08f656f0721e4e",
+      "actual": "원 B 함수/class/assignments·핀과 원 F 모든 비허용 함수/class/assignments·핀 전true. B proof는 exact 이름 변경 및 receipt helper 한 호출만 차이, F _read_proof_current 불변이다. 이후 측정self/runner만 바뀌고 B/F SHA는 동일하므로 static 재실행0이다."
+    },
+    "auxiliary": {
+      "registration1": "0ea82b49425d643c45dd6591c32d087d5f1c4cf513a1b7b8f3ffc514896a0ab1",
+      "selection1": "0ee2eaddf72150090458efed0b845f6ad73508c8050bf554dc421db4136c2dc9",
+      "context1": "26c957e730cdf5d4efe453a6481beebae5be3ce683b36d2f82b9408e11aed91e",
+      "queue1": "498c872f73c981444169b4571786f11befdcfe9786d10e213acda27a9d1c418f",
+      "path_pattern": ".git/order486-20261008.YiW24K/<attempt>/result.json",
+      "actual": "각 원 result/stdout 직접 읽기: 전 exit0/passed/preservedtrue, registration219·명시목록4·context589/links190/invariants15·queue80/in_progress78. project-wide 재실행이 아니다. root의 후속 metadata wrapper 검증·원장 등록은 이 보고가 발급하지 않는다."
+    },
+    "guard_scope": "prepared2/actual2는3256 tracked/new-self 파일 SHA·HEAD/tree·NUL status·roster·runner의 전후 동일을 관측했다. static1/actual1/aux는 측정기 변경 전 snapshotb203110이다. preserved=true가 외부 player/public-demo/seed의 전량 실제 hash 보존을 뜻하지 않는다. 해당 외부 파일 접근·engine·제품쓰기0 경계만 확인한다."
+  },
+  "retained_failures": {
+    "actual1": {
+      "path": ".git/order486-20261008.YiW24K/actual1/result.json",
+      "sha256": "be07f22b81b2b6478a29653b820cd96e980b58c76740e56480c2861c0e172217",
+      "stdout_sha256": "77d47f659529eb8b999f27fcb9d5086382c04f42ee0c879f1867e8b992538707",
+      "exit_code": 1,
+      "seconds": 204.15578375,
+      "preserved": true,
+      "actual": "root의 own child53173 SIGINT 기록과 원fatal KeyboardInterrupt, checks6 전true/measurementsnull을 보존한다. scoped F 첫 반환/등가 비교 전 중단됐으므로 예상 binding equality 실패를 actual FAIL로 관측한 것은 아니다. 게임/helper 오류나 성능 baseline으로 전환하지 않는다."
+    },
+    "preexport5": {
+      "path": ".git/order484-20261008.QsF61I/preexport5/result.json",
+      "sha256": "51851de6e81b756f430e269da90244d724d038c08e6b9524883edb4c099e6223",
+      "seconds": 3950.184972,
+      "passed": false,
+      "preserved": true,
+      "actual": "root own SIGINT 중단, 원 main/collect/UI 진입 각각1·wrapper1·None 실패반환1·observer복원true. 유효collect/export/수용0이며 CN stdout/stderr0과 원KeyboardInterrupt traceback을 보존한다. 옛1~4의 process 소실을 성공/원인/보존으로 추정하지 않는다. 이 중단시간은 정상 전체pipeline baseline도 특정 병목 기여율도 아니다."
+    }
+  },
+  "selected_measurement": {
+    "design": "각arm plain1회·B/F _read_proof 각각2회·고정순서 unscoped→scoped。동일 wrapper identity를 두 arm에 설치해 원 proof 전체dict 등가를 비교했고 정규화0이다. 통계적 일반화·전체 collector 속도 비교가 아니다.",
+    "seconds": {"unscoped": 180.11142233299998, "scoped": 117.58758212499998},
+    "counts_before_after": {
+      "B": {"git": [962, 962], "typed": [546, 546], "product_disk": [130, 130], "module_disk": [52, 107], "product_semantics": [152, 152], "receipt_semantics": [26, 1]},
+      "F": {"git": [536, 536], "typed": [294, 294], "product_disk": [160, 160], "module_disk": [4, 193], "product_semantics": [18, 9], "receipt_semantics": [2, 1]},
+      "M": {"git": [148, 148], "typed": [84, 84], "product_disk": [20, 20], "module_disk": [8, 8], "product_semantics": [8, 8], "receipt_semantics": [4, 4]},
+      "W": {"git": [444, 444], "typed": [252, 252], "product_disk": [60, 60], "module_disk": [24, 24], "product_semantics": [62, 62], "receipt_semantics": [12, 12]}
+    },
+    "interpretation": "이번 지목검수에서는 성공 순수 계산 호출이 감소했고 원 Git/typed/product-disk 횟수는 전모듈 동일했다. 추가 module binding read B52→107/F4→193 비용은 별도이며 생략하지 않는다. 전체 pipeline 단축률·제한 없는 future operation 성능을 주장하지 않는다."
+  },
+  "l2": {
+    "reachability": "prepared2 ORDER486_SEMANTIC_SCOPE_OK/exit0/295true·actual2 같은marker/exit0/44true·static1 ORDER486_STATIC_PRESERVATION_OK/exit0。原로그SHA는 evidence에 결속한다.",
+    "producer_reader": "tools/asset_one_billion_log_history.py:414/:451/:521 ↔ tools/order470_source_compat.py:1749/:1793/:2576/:2726 ↔ tools/history_semantic_scope_self_test.py:61/:343。후속 original full_game_localization.main→collect/UI 연결은486에서 실행0이다.",
+    "changed_state": "선택 raw proof pair Breceipt26→1/Fproduct18→9/Freceipt2→1·180.111422→117.587582초。원 Git/typed/product-disk 횟수 전모듈 동일, module read 증가를 명시한다. 제품/게임 상태·source/locale/ledger 변화0이다.",
+    "foregone": "tools/history_semantic_scope_self_test.py:343의 동기 operation 재사용을 잃는다. 도구 단위이므로 발화주차/24주 gameplay 선택 효과는 해당없음. ORDER-484 공식 export/수용은 여전히0이다.",
+    "narrative_position": "해당없음 — 검수 순수 계산 재사용 도구1단위, narrative 편집0.",
+    "scene_tier": "해당없음 — sync-only 순수 operation API·계약검수이며 장면 저작/화면 체감 판정이 아니다.",
+    "closes": "clean source940ad0b의 ORDER-486 도구 단위에 독립 한정 GO를 발급한다. root의 별도 metadata 검사/원장 결속은 후속이다. ORDER-484 연결/공식수용·게임/원어민/물리/출시 게이트는 닫지 않는다."
+  },
+  "limits": {
+    "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "rendered_ui", "natural_gameplay", "full_pipeline_speed", "official_original_pipeline_integration", "translation_acceptance", "external_player_public_demo_seed_full_hash", "release_quality"],
+    "not_run": "리뷰어 프로젝트 QA/import/API/collector/main/engine/commit0。486 실행은 fixed-small original proof pair와 새 prepared/등록차선뿐이며 옛 전체self/240주·공식collector/main·원어민·물리 입력 반복0이다.",
+    "remaining": "484 owner 연결 뒤 원 main/collect/UI 경계와 fresh 원문 export2를 다음 고유attempt에서 별도로 관측해야 한다. 이번 GO로 그것이 이미 통과했거나 중국어32값이 공식 수용됐다고 추정하지 않는다.",
+    "release": "공개GO1·인간OPEN45와 역사판정·본편HOLD를 보존한다. 자동 통과는 계약 증거이지 재미·깊이·문체·실제 인간 관찰의 증거가 아니다. 이 source 도구 단위 GO는 package·외부 출시 권한이나 게임/현지화 품질 GO로 확대되지 않는다."
+  }
+}

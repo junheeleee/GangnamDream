@@ -95,5 +95,15 @@ SHIPPING_LANGUAGES·과거판정·human_gates.json은 변경/stage0. 본편HOLD�
 own PID18332 SIGINT 뒤 실제 wrapper1/3950.184972초로 종료했다. 원main/collect/UI
 진입1씩·None 반환1·유효수집/export/수용0이며 보존/observer복원true다.
 원결과SHA51851de6e81b756f430e269da90244d724d038c08e6b9524883edb4c099e6223과
-초안·준비/옛실패는 그대로다. [별도486](ORDER-486.md) 순수 계산 수리 뒤 원 export2를
+초안·준비/옛실패는 그대로다. [별도486](../queue_archive/ORDER-486.md) 순수 계산 수리 뒤 원 export2를
 재개한다. guard 정상 성공이나 전체병목 원인·속도개선으로 바꾸지 않는다.
+
+### 수리 마감 뒤 원문 export6 재개 — 2026-10-08
+
+source940ad0b의 도구 한정GO 뒤 clean metadata wrapper에서 private pre_export6.py를
+새 attempt preexport6로 실행한다. 옛runner/1~5는 불변이다. 원 main/collect/UI를
+바꾸지 않고 각 원 main 작업에 B/F pure_semantic_scope를 한 번씩만 감싼다.
+원 main/collect/UI 각각2·source17행씩2와 clean/current/protected 전후 guard,
+원 함수 identity·observer복원은 그대로다. operation 각각 cold0·retained dict
+종료clear·token복원을 기록하며 원 export2가 실제 종료되기 전 tracked/helper/HEAD
+변경0이다. 원공식 export/check/import 성공·32값수용·전체속도 개선은 아직0이다.

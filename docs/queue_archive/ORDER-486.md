@@ -1,6 +1,6 @@
 # ORDER-486 — 검수 순수 계산의 작업별 재사용
 
-#### [~] ORDER-486 [검수 효율] B/F 동기 작업 범위의 순수 결과만 재사용 — 2026-10-08
+#### [x] ORDER-486 [검수 효율] B/F 동기 작업 범위의 순수 결과만 재사용 — 2026-10-08
 
 ## 판정 단위 / 깊이3문
 
@@ -29,7 +29,7 @@
 
 project.godot·게임 source/locale/portable ledger·KO/EN/JA·기타 helper/collector/main·사용자 저장/seed·공개데모·과거판정/human_gates.json 변경/stage0. 공개GO1/인간OPEN45·본편HOLD·native/human/physical 미관찰 유지. 자동 통과는 계약 증거이지 재미·깊이·문체의 증거가 아니다.
 
-## 실제 L1/L2 — 독립 최종 대기
+## 구현 직후 L1/L2 — 독립 최종 전 기록
 
 - 도달 경로: 새 CLI 준비295/실제44 전true·exit0. private prepared2/actual2 원결과 SHA는 WORK_LOG 최신 절에 기록한다. actual2 총384.389250초/preservedtrue/HEADac0ddc22+소유dirty다. 같은 code를 clean 후보로 봉인할 예정이지 clean 후보에서 재실행한 결과가 아니다.
 - 생산자 ↔ 독자: B:414/451/521 ↔ F:1749/2576/2726 ↔ self:61/343. 실제 original main/collect/engine0; 484 연결은 미실행이다.
@@ -40,3 +40,15 @@ project.godot·게임 source/locale/portable ledger·KO/EN/JA·기타 helper/col
 - 닫는 것: 아직없음 — 독립 비저자 최종 보고/clean source·원장 결속 대기. 공개GO1·인간OPEN45·본편HOLD 유지.
 
 실패 보존: actual1은 arm별 서로 다른 측정wrapper identity 정적 결함 때문에 own SIGINT/204.155784초·exit1/fatalKeyboardInterrupt/6등가true/measurementsnull로 중단했다. 예측한 F equality 실패를 실관측했다고 쓰지 않는다. actual2는 wrapper1회 설치로 full proof equality(정규화0)를 유지했다. 준비1을 삭제하지 않고 측정기 변경 뒤 prepared2를 실행했다. static1은 원 B/F 본체/핀 직접 비교이며 같은 B/F bytes라 재실행0. 등록219·명시4목록·context589/queue80 PASS. 외부 player/seed 전량hash 관찰 없이 원 외부상태 보존을 주장하지 않는다. 모든 기존 규범은 WORK_UNIT/원 API 소유를 유지하고 이번 실행 지시는 일회성이다.
+
+## 마감 — 2026-10-08
+
+- source: 940ad0bf3250bfae64f3d9ec00ff319da0343e35 / tree6e15bc346459c7d4503d00d76fbfebf3bee42b83; main commit·origin/main push. QA의 선언HEAD+dirty와 clean commit의 구현4 SHA 동일; clean 재실행0.
+- 독립 최종: 비저자 /root/glossary_preexport_review의 [보고](../agent_reviews/ORDER-486.json), SHA64b6b993566c6f759a231b0e30dc5780b92a37210ec225a4db9e20c93c91d43b; work_unit ORDER-486 한정GO / blocking0. agent_review_decisions에 source/tree/보고SHA 결속한다.
+- 도달 경로: prepared2 295true·actual2 44true·원body/pin 보존·등록219/명시4 PASS. 원Git/typed/제품disk 횟수 동일; 선택proof묶음180.111422→117.587582초. 전체pipeline 실측/공식수용0.
+- 생산자 ↔ 독자: B:414/451/521 ↔ F:1749/2576/2726 ↔ self:61/343.
+- 바꾸는 상태: 성공 순수 Breceipt26→1/Fproduct18→9/Freceipt2→1; 게임/locale/portable ledger0.
+- 포기 시 잃는 것: self:343 동기operation 재사용. 발화주차/24주 게임 선택 효과 해당없음.
+- 서사 위치 / 장면 계층: 해당없음 / 해당없음 — 검수도구1단위.
+- 닫는 것: ORDER-486 도구수리만. [484](../queue_active/ORDER-484.md)의 원공식export2/수용·자연플레이·원어민·물리패드·출시는 미완료다. 공개GO1/인간OPEN45/done1·본편HOLD 유지. prepared F fresh state-machine과 정적 invalidation 결속을 actual Git 관찰로 바꾸지 않는다.
+- 승격: 없음 / 새규범0·일회성. 자동 통과는 계약 증거이지 재미·깊이·문체의 증거가 아니다. source commit 뒤 생성STATUS의 stale는 후보신원 변화이며 게임실패가 아니고 metadata 마감에서 재생성한다.
