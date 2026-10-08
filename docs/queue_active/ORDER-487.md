@@ -83,6 +83,14 @@ root와 아래 분리 저자가 다음 도구·등록·CI와 운영 문서만 �
 - 마지막 일반 이름 실사에서 tools/market_cycle_log_audit.py·asset_one_billion_log_audit.py의
   고정 parent/raw/fixture SHA 전용 성격을 확인했다. 추가표 선커밋 뒤 삭제하고 실제 .gd/.tscn은 보존한다.
   tools/holdem_tutorial_ui_self_test.py는4잎 제품 부정 테스트를 보존하고 DECLARED raw pin만 제거한다.
+- 실제 main CI37851130776의 목록 밖 STATUS_DOC_EXIT를 수리하기 위해 기존 QA14개의
+  Godot 생성 식별자만 소유한다: tools/{AssetOneBillionLogCheck,ChapterFourRelationshipCheck,
+  FirstWinFactCheck,InvestmentAPCopyCheck,InvestmentLossGateCheck,InvestmentLossHoldResultCheck,
+  MarketCycleLogCheck,NightRoutineTimeCheck,OpeningRhythmCheck,PR31EndingDescriptionCheck,
+  ProseRecallCheck,RoutineBackgroundInputCheck,StoryChoiceFactCheck,WealthMilestoneLogCheck}.gd.uid.
+  새 검사/스크립트가 아니라 기존 .gd의 누락 sidecar다. 격리 clone에서 첫 import가14개를
+  미추적 파일로 만들어 clean 후보를 오염시킨 사실을 확인했다. 현재 후보 판정·신선도 검사는
+  약화/skip하지 않으며 게임 .gd·데모 원본·저장·project.godot는 소유하지 않는다.
 
 저자들은 기존 제품 조건을 보존하며 자기 파일의 역사 dependency만 걷어낸다.
 root가 strict JSON/span을 기존 ui_translation_append 소유자에 보존한다.
