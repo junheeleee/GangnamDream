@@ -1517,5 +1517,284 @@ def main():
     return int(bool(failures))
 
 
+def run_whitespace_checks(root=history.ROOT):
+    """483 scanner/immutable477 equivalence; no current or warmed Git proof."""
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER483 whitespace: " + label)
+
+    def original_ws(self, index):
+        while index < len(self.text) and self.text[index].isspace():
+            index += 1
+        return index
+
+    class OriginalDocument(history._Document):
+        ws = original_ws
+
+    def outcome(function, text, index):
+        document = object.__new__(history._Document)
+        document.text = text
+        try:
+            return "value", function(document, index)
+        except Exception as error:
+            return "error", (type(error), error.args)
+
+    def same_scan(text, index):
+        old, new = outcome(original_ws, text, index), outcome(history._Document.ws, text, index)
+        if old[0] != new[0]:
+            return False
+        if old[0] == "error":
+            return old[1] == new[1]
+        prior, current = old[1], new[1]
+        return (type(prior) is type(current) and (prior is current or prior == current)
+                and (prior is index) == (current is index))
+
+    whitespace = tuple(chr(code) for code in range(sys.maxunicode + 1) if chr(code).isspace())
+    check(bool(whitespace), "Unicode whitespace population is not empty")
+    for character in whitespace:
+        text = "한🙂" + character * 3 + "x"
+        check(all(same_scan(text, index) for index in range(len(text) + 1)),
+              "all indices around Unicode whitespace U+%04X" % ord(character))
+    for text in ("", "x", "\u200b", "\ufeff", "\u200b \ufeff", "한🙂 \t끝", "".join(whitespace)):
+        check(all(same_scan(text, index) for index in range(len(text) + 1)),
+              "valid-index nonspace/boundary " + repr(text))
+
+    class Index(int):
+        pass
+
+    class Text(str):
+        pass
+
+    class IndexedText(str):
+        def __getitem__(self, index):
+            raise RuntimeError("original subclass indexing")
+
+    indices = (False, True, Index(0), Index(1000), -1, -2, -3, -4, 4, 10 ** 100,
+               -0.5, 0.0, 1.0, 4.5, float("nan"), float("inf"), None, "0", object())
+    for index in indices:
+        check(all(same_scan(text, index) for text in ("", "x  ", "  x", " \t ")),
+              "fallback value/type/identity/exception " + repr(index))
+    for text in (Text("  x"), IndexedText("  x"), b"  x", [" ", "x"], (), None, 5):
+        check(all(same_scan(text, index) for index in (False, 0, 1, -1, 1000)),
+              "non-builtin text fallback " + repr(text))
+    for text, index in (("x" * 1000, int("999")), (" " * 1000, int("1000")),
+                        ("x" * 1000 + " ", int("999")), ("x" * 999 + " ", int("999"))):
+        check(same_scan(text, index), "large exact-int return identity " + repr(index))
+
+    class ForeignReceiver:
+        def __init__(self, values):
+            self.values, self.reads = values, 0
+
+        @property
+        def text(self):
+            value = self.values[min(self.reads, len(self.values) - 1)]
+            self.reads += 1
+            if isinstance(value, Exception):
+                raise value
+            return value
+
+    class SubclassReceiver(history._Document):
+        __init__ = ForeignReceiver.__init__
+        text = ForeignReceiver.text
+
+    def receiver_outcome(function, cls, values, index):
+        receiver = cls(values)
+        try:
+            value = function(receiver, index)
+            result = ("value", type(value), value, value is index)
+        except Exception as error:
+            result = ("error", type(error), error.args)
+        return result, receiver.reads
+
+    receiver_cases = (((" x",), 0), ((" x", "x ", "x"), 0),
+                      (("x", ValueError("second getter")), 0),
+                      ((RuntimeError("first getter"),), 0),
+                      (("x", RuntimeError("unexpected extra getter")), 1000),
+                      (("x", RuntimeError("unexpected extra getter")), True),
+                      (("x",), Index(0)), (("x",), 0.0), (("x",), -2))
+    for cls in (ForeignReceiver, SubclassReceiver):
+        for ordinal, (values, index) in enumerate(receiver_cases):
+            check(receiver_outcome(original_ws, cls, values, index)
+                  == receiver_outcome(history._Document.ws, cls, values, index),
+                  "foreign/subclass getter value/type/identity/reads/exception " + cls.__name__ + str(ordinal))
+
+    def document_state(document):
+        #470 deliberately accepts JSONDecoder's nonfinite constants; do not
+        #copy the newer market helper's stricter parse_constant contract here.
+        return (json.dumps(document.value, ensure_ascii=False, allow_nan=True),
+                type(document.value), document.text, document.spans)
+
+    value = {"한🙂": [None, True, False, -12.5, {"escaped": 'quote" slash\\ newline\n'}],
+             "empty": {}, "list": [], "nested": {"x": [1, "끝"]}}
+    valid = (b"{}", b"[]", b"null", b"17", '"한🙂"'.encode(),
+             json.dumps(value, ensure_ascii=False, separators=(",", ":")).encode(),
+             (json.dumps(value, ensure_ascii=False, indent=2) + "\n").encode(),
+             (json.dumps(value, ensure_ascii=True, indent=2).replace("\n", "\r\n") + "\r\n").encode(),
+             b' \t\r\n{"spaced" : [ 1 , { "x" : "y" } ] } \r\n',
+             b'NaN', b'Infinity', b'-Infinity', b'{"x":[NaN,Infinity,-Infinity]}')
+    for index, raw in enumerate(valid):
+        old, new = OriginalDocument(raw), history._Document(raw)
+        check(document_state(old) == document_state(new), "Document exact value/text/spans " + str(index))
+        check(all(new.text[a:z] == old.text[a:z] for a, z in new.spans.values())
+              and new.text.encode() == raw, "character spans preserve raw UTF-8 " + str(index))
+    invalid = (b'{"x":1,"x":2}', b'{"x":{"a":1,"a":2}}', b'{} trailing', b'{}{}',
+               b'{"x":1,}', b'[1,]', b'{"x" 1}', b'"unterminated', b'\xff')
+    invalid += tuple((character + '{}').encode() for character in whitespace if character not in " \t\r\n")
+    invalid += tuple(('{"x":' + character + '1}').encode() for character in ("\u00a0", "\u2003", "\u200b", "\ufeff"))
+    for index, raw in enumerate(invalid):
+        errors = []
+        for cls in (OriginalDocument, history._Document):
+            try:
+                cls(raw)
+            except Exception as error:
+                errors.append((type(error), error.args))
+        check(len(errors) == 2 and errors[0] == errors[1], "original JSON rejection unchanged " + str(index))
+
+    #Read only the six immutable historical inputs. This is not a current
+    #census, accepted-current receipt check, or a warmed admission scope.
+    receipt_parent = "fb9952cd1c5fbd8d128d487d20902ca10429a42d"
+    receipt_revision = "fb766fd7fc17a574bc00ffcbcd278fb03b797cee"
+    check((history.LOSS_HOLD_RECEIPT_PARENT, history.LOSS_HOLD_RECEIPT_COMMIT)
+          == (receipt_parent, receipt_revision), "declared historical tuple remains exact")
+    paths = (*history.LOSS_HOLD_PATHS, history.LEDGER_PATH)
+    before, _ = history._snapshot(root, receipt_parent, paths)
+    after, headers = history._snapshot(root, receipt_revision, paths)
+    check([row[7:].decode() for row in headers if row.startswith(b"parent ")]
+          == [history.LOSS_HOLD_RECEIPT_PARENT], "actual historical receipt direct parent")
+    check(all(before[path] == after[path] for path in history.LOSS_HOLD_PATHS),
+          "historical receipt changes no source5 bytes")
+    prior, current = before[history.LEDGER_PATH], after[history.LEDGER_PATH]
+    check((history._sha(prior), history._sha(current))
+          == history.LOSS_HOLD_RECEIPT_RAW_SHA256[history.LEDGER_PATH], "historical pinned ledger pair")
+    for label, raw in (("before", prior), ("after", current)):
+        check(document_state(OriginalDocument(raw)) == document_state(history._Document(raw)),
+              "historical ledger exact value/text/spans " + label)
+    inverse_args = (prior, current, "events", history.LOSS_HOLD_TEXT_LEAVES, 270)
+    with mock.patch.object(history._Document, "ws", original_ws):
+        old_inverse = history._correction_ledger_inverse(*inverse_args)
+        old_revisions = history._loss_hold_receipt_semantics(before, after)
+    check(old_inverse is prior and history._correction_ledger_inverse(*inverse_args) is prior,
+          "270 raw prefix inverse returns the original bytes object")
+    new_revisions = history._loss_hold_receipt_semantics(before, after)
+    check(type(old_revisions) is type(new_revisions) is tuple
+          and old_revisions == new_revisions == (history.LOSS_HOLD_RECEIPT_PARENT,),
+          "historical receipt headers and export revision unchanged")
+
+    def receipt_error(raw):
+        try:
+            history._loss_hold_receipt_semantics(before, {**after, history.LEDGER_PATH: raw})
+        except Exception as error:
+            return type(error), error.args
+        return None
+
+    document = history._Document(current)
+    owned = {"events:" + eid + ":/" + "/".join(map(str, keys)) for eid, keys in history.LOSS_HOLD_TEXT_LEAVES}
+    unowned = next(key for key in document.value["accepted"]["ja"] if key not in owned)
+    changed = copy.deepcopy(document.value)
+    changed["accepted"]["ja"][unowned]["target_sha256"] = "0" * 64
+    replacements = []
+    for key, replacement in ((("accepted", "ja", unowned, "target_sha256"), "0" * 64),
+                             (("accepted_sha256",), history._digest(changed["accepted"]))):
+        a, z = document.spans[key]
+        replacements.append((a, z, json.dumps(replacement)))
+    text = document.text
+    for a, z, replacement in sorted(replacements, reverse=True):
+        text = text[:a] + replacement + text[z:]
+    mutants = (("layout", current + b"\n"),
+               ("neighbor", current.replace(b'"native_review": "OPEN"', b'"native_review": "PASS"', 1)),
+               ("unowned accepted leaf and rehashed accepted digest", text.encode()))
+    for label, raw in mutants:
+        check(raw != current, "receipt mutant changes bytes " + label)
+        with mock.patch.dict(history.LOSS_HOLD_RECEIPT_RAW_SHA256,
+                             {history.LEDGER_PATH: (history._sha(prior), history._sha(raw))}):
+            with mock.patch.object(history._Document, "ws", original_ws):
+                old_error = receipt_error(raw)
+            new_error = receipt_error(raw)
+        check(old_error is not None and old_error == new_error and old_error[0] is ValueError,
+              "independently rehashed mutation has original rejection " + label)
+
+    #Exercise only the binding rejection before _read_proof_current/Git. A
+    #synthetic memo here is not evidence of an actual warmed live proof.
+    active_before, memo_before = history._ACTIVE.get(), history._SEMANTIC_MEMO.get()
+    real_disk = history._disk_bytes
+    module = Path(history.__file__).resolve()
+    for kind in ("ws", "module"):
+        armed = [False]
+        def read(path):
+            raw = real_disk(path)
+            return raw + b"\n" if armed[0] and Path(path).resolve() == module else raw
+        with contextlib.ExitStack() as stack:
+            git = stack.enter_context(mock.patch.object(history, "_git", side_effect=AssertionError("unexpected live proof")))
+            stack.enter_context(mock.patch.object(history, "_disk_bytes", read))
+            binding = history._semantic_binding(root)
+            memo = (binding, {("prepared-only", (b"input",)): b"cached"})
+            token = history._SEMANTIC_MEMO.set(memo)
+            patch = (mock.patch.object(history._Document, "ws", original_ws)
+                     if kind == "ws" else contextlib.nullcontext())
+            try:
+                armed[0] = kind == "module"
+                with patch:
+                    check(history._semantic_binding(root) != binding, "binding observes " + kind)
+                    try:
+                        history._read_proof(root)
+                    except ValueError as error:
+                        check(error.args == ("ORDER-470: semantic scope root/config/module identity changed",),
+                              "exact early rejection " + kind)
+                    else:
+                        check(False, "early rejection " + kind)
+                check(not memo[1] and git.call_count == 0, "failure clears memo before any Git " + kind)
+            finally:
+                history._SEMANTIC_MEMO.reset(token)
+            check(history._ACTIVE.get() is active_before and history._SEMANTIC_MEMO.get() is memo_before,
+                  "prepared binding case restores original scope identities " + kind)
+    reads, captured = [0], []
+    def changed_entry(path):
+        raw = real_disk(path)
+        if Path(path).resolve() == module:
+            reads[0] += 1
+            if reads[0] == 2:
+                memo = history._SEMANTIC_MEMO.get()
+                captured.append(memo)
+                memo[1][("prepared-entry-only", (b"input",))] = b"cached"
+                return raw + b"\n"
+        return raw
+    active_token = history._ACTIVE.set(None)
+    memo_token = history._SEMANTIC_MEMO.set(None)
+    try:
+        with contextlib.ExitStack() as stack:
+            git = stack.enter_context(mock.patch.object(history, "_git", side_effect=AssertionError("unexpected live proof")))
+            stack.enter_context(mock.patch.object(history, "_disk_bytes", changed_entry))
+            try:
+                with history.fresh_validation_proof(root):
+                    check(False, "changed entry must not yield a proof")
+            except ValueError as error:
+                check(error.args == ("ORDER-470: semantic scope root/config/module identity changed",),
+                      "fresh context rejects before live entry")
+            else:
+                check(False, "changed entry must raise")
+            check(len(captured) == 1 and not captured[0][1] and git.call_count == 0,
+                  "pre-admission failure clears memo without Git")
+            check(history._ACTIVE.get() is None and history._SEMANTIC_MEMO.get() is None,
+                  "real context finally resets failed pre-admission scope")
+    finally:
+        history._SEMANTIC_MEMO.reset(memo_token)
+        history._ACTIVE.reset(active_token)
+    check(history._ACTIVE.get() is active_before and history._SEMANTIC_MEMO.get() is memo_before,
+          "pre-admission unit restores caller scope identities")
+    return failures, cases
+
+
+def whitespace_main():
+    failures, cases = run_whitespace_checks()
+    for failure in failures:
+        print(failure, file=sys.stderr)
+    print(f"ORDER483_WHITESPACE_{'FAIL' if failures else 'OK'} cases={cases}")
+    return int(bool(failures))
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(whitespace_main() if sys.argv[1:] == ["--whitespace-only"] else main())

@@ -1672,6 +1672,17 @@ class _Document:
         _require(not self.text[end:].strip(), "trailing JSON bytes")
 
     def ws(self, index):
+        if type(self) is _Document:
+            text = self.text
+            if type(text) is str and type(index) is int:
+                length = len(text)
+                if 0 <= index <= length:
+                    if index == length or not text[index].isspace():
+                        return index
+                    next_index = index + 1
+                    if next_index == length or not text[next_index].isspace():
+                        return next_index
+                    return re.compile(r"\s*").match(text, index).end()
         while index < len(self.text) and self.text[index].isspace():
             index += 1
         return index

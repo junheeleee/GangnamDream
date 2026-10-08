@@ -14,6 +14,22 @@
   ],
   "fast_lanes": [
     {
+      "id": "ledger-whitespace-470",
+      "paths": [],
+      "owned_paths": [
+        "tools/order470_source_compat.py", "tools/order470_source_compat_self_test.py",
+        "tools/audit_scope.json", "CLAUDE.md", "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md", "docs/WORK_LOG.md", "docs/STATUS.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-483.json",
+        "docs/queue_active/ORDER-483.md", "docs/queue_archive/ORDER-483.md"
+      ],
+      "tools": [
+        "tools/order470_source_compat_self_test.py --whitespace-only",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Only470 ws cursor traversal changes. Same original historical LOSS_HOLD pure API plain/profile pair measures cost; Unicode/fallback identity/getter exceptions, values/spans/raw inverse and original early binding rejection are focused controls. No new proof/mutable cache, current or warmed Git claim, collector, old suite, official localization, engine or release observation."
+    },
+    {
       "id": "asset-one-billion-log",
       "paths": [],
       "owned_paths": [
@@ -5608,6 +5624,11 @@
       "tool": "tools/wealth_milestone_log_history_self_test.py",
       "paths": ["autoloads/GameState.gd", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "content/meta/full_game_localization.json", "tools/wealth_milestone_log_history.py", "tools/wealth_milestone_log_history_self_test.py", "tools/ja_translation_audit.py"],
       "why": "Exact typed wealth source4/ledger1 and actual current census/retained1 with live and adversarial boundaries."
+    },
+    {
+      "tool": "tools/order470_source_compat_self_test.py --whitespace-only",
+      "paths": ["tools/order470_source_compat.py", "tools/order470_source_compat_self_test.py"],
+      "why": "Bounded pure Unicode and original fallback/value/span/strict-JSON-equivalence controls plus exact historical raw ledger/revision and pre-Git binding rejection; does not claim current census, warmed live proof or whole pipeline performance."
     },
     {
       "tool": "tools/market_cycle_label_history_self_test.py --whitespace-only",
