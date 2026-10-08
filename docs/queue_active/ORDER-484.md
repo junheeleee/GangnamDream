@@ -89,3 +89,11 @@ preexport5 디렉터리로 실행한다. 옛1~4시도/초안32·준비PASS는 �
 project.godot·사용자 저장/seed·Casino/KO/EN/JA·경제/엔딩/라우팅·공개 데모·
 SHIPPING_LANGUAGES·과거판정·human_gates.json은 변경/stage0. 본편HOLD·공개GO1·
 인간OPEN45/done1·원어민/물리 관찰 OPEN 유지, 외부출고/스토어/지출/법률권한0이다.
+
+### 원문 export5 중단·선행 수리 — 2026-10-08
+
+own PID18332 SIGINT 뒤 실제 wrapper1/3950.184972초로 종료했다. 원main/collect/UI
+진입1씩·None 반환1·유효수집/export/수용0이며 보존/observer복원true다.
+원결과SHA51851de6e81b756f430e269da90244d724d038c08e6b9524883edb4c099e6223과
+초안·준비/옛실패는 그대로다. [별도486](ORDER-486.md) 순수 계산 수리 뒤 원 export2를
+재개한다. guard 정상 성공이나 전체병목 원인·속도개선으로 바꾸지 않는다.
