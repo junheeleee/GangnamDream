@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-08 — 순수 문자 좌표 탐색의 확인된 비용 (483, 착수)
+
+- 읽기 진단에서 동일 역사 LOSS_HOLD 원 함수 plain2.180620초/profile2.971550875초, ws1074374회/cum1.114864407초를 확인했다. 중복 decode2회0.106994958초 후보는 기각한다. 482의7468초는 전체 UI블록이며 collector 단독이나 이 함수 기여율은 미측정이다.
+- [한 함수 사양](queue_active/ORDER-483.md)을 선언한다. 순수 ws/self 전용 CLI·등록만 분리 소유하며 선언 전 새 구현/원공식/collector/engine/수용0. 강남드림 개발 skill의 표적·소유·독립/인간 증거 구분을 적용한다. 새 cache/증명 생략/출시·인간 GO0, 새규범0/일회성이다.
+- 선언 검사에서 root가 없는 context_lint.py 이름을 써 파일부재 exit2였다(제품 QA0). 실물 검색한 context_manifest_check.py로 귀속을 바로잡으며 실패를 성공으로 바꾸지 않는다.
+
 ## 2026-10-08 — 10억 첫 기록을 실제 효과에 맞췄다 (482, 한정 GO)
 
 - “여기서부터 자산 증가가 빨라진다”는 실행되지 않는 보장절을 KO/EN에서 걷고 JA/CN/TW 새키1씩을 직접 옮겼다. 10억/30억/3분의1 사실·순자산 임계·최초 flag·경제·엔딩·과거 저장로그와 옛JA값을 보존한다. source4 fedf0c7 → 원공식9/collect9 → ledger1 6dd8fb8(직접부모가 실제 export2ef1d958) → helper 핀 RHS5 d302396을 분리했다. 배치277/accepted41852→280/41855, 최초3/교정0/옛JA 수용0/native OPEN이다.
