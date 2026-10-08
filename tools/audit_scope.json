@@ -14,6 +14,24 @@
   ],
   "fast_lanes": [
     {
+      "id": "history-semantic-scope",
+      "paths": [],
+      "owned_paths": [
+        "tools/asset_one_billion_log_history.py", "tools/order470_source_compat.py",
+        "tools/history_semantic_scope_self_test.py", "tools/audit_scope.json",
+        "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_review_decisions.json",
+        "docs/history/WORK_LOG_2026-10-08_pre_order486.md",
+        "docs/agent_reviews/ORDER-486.json", "docs/queue_active/ORDER-486.md",
+        "docs/queue_archive/ORDER-486.md", "docs/queue_active/ORDER-484.md"
+      ],
+      "tools": [
+        "tools/history_semantic_scope_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Opt-in synchronous operation-local immutable pure results only. Prepared lifetime/binding/negative controls plus separately recorded fixed-small actual original proof pair preserve typed Git/current disk/HEAD admission. No proof cache, official collector/main, old suite replay, translation acceptance, engine or release claim."
+    },
+    {
       "id": "casino-glossary-numbers",
       "paths": [],
       "owned_paths": [
@@ -5633,6 +5651,11 @@
       "tool": "tools/wealth_milestone_log_audit.py --self-test",
       "paths": ["autoloads/GameState.gd", "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json", "tools/wealth_milestone_log_audit.py", "tools/WealthMilestoneLogCheck.gd", "tools/WealthMilestoneLogCheck.tscn"],
       "why": "Exact two source literals and three new UI values with bounded source/fixture mutation controls."
+    },
+    {
+      "tool": "tools/history_semantic_scope_self_test.py",
+      "paths": ["tools/asset_one_billion_log_history.py", "tools/order470_source_compat.py", "tools/history_semantic_scope_self_test.py"],
+      "why": "New operation-local pure reuse only; original live admission edges remain fresh. Focused prepared controls do not rerun old historical suites or admit official localization."
     },
     {
       "tool": "tools/asset_one_billion_log_audit.py --self-test",

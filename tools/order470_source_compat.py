@@ -5,6 +5,7 @@ for immutable earlier contracts. An unbound product or receipt stage is closed.
 """
 from __future__ import annotations
 
+import asyncio
 import contextlib
 import contextvars
 import copy
@@ -12,6 +13,7 @@ import hashlib
 import json
 import re
 import subprocess
+import threading
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -1113,6 +1115,8 @@ LOSS_HOLD_METADATA_RAW_PATCHES = {
 }
 _ACTIVE = contextvars.ContextVar("order470_source_proof", default=None)
 _SEMANTIC_MEMO = contextvars.ContextVar("order470_semantic_memo", default=None)
+_SEMANTIC_OWNER = contextvars.ContextVar("order470_semantic_owner", default=None)
+_SEMANTIC_CONTEXT = contextvars.ContextVar("order470_semantic_context", default=None)
 
 
 def _require(ok, detail):
@@ -1650,8 +1654,173 @@ def _semantic_binding(root):
     return root, _configuration(), _disk_bytes(module)
 
 
+def _operation_binding_value(value):
+    """Detach mutable defaults without the copy/JSON primitives being sealed."""
+    if type(value) in (tuple, list):
+        return type(value), tuple(_operation_binding_value(item) for item in value)
+    if type(value) is dict:
+        return dict, tuple((_operation_binding_value(key), _operation_binding_value(item))
+                           for key, item in value.items())
+    if type(value) in (set, frozenset):
+        return type(value), frozenset(_operation_binding_value(item) for item in value)
+    if isinstance(value, Path):
+        return type(value), str(value)
+    if hasattr(value, "__code__"):
+        return _operation_binding_callable(value)
+    return type(value), value
+
+
+def _operation_binding_callable(function):
+    wrapped = getattr(function, "__wrapped__", None)
+    return (function, getattr(function, "__code__", None),
+            _operation_binding_value(getattr(function, "__defaults__", None)),
+            _operation_binding_value(getattr(function, "__kwdefaults__", None)),
+            None if wrapped is None else _operation_binding_callable(wrapped))
+
+
+def _operation_primitives():
+    functions = (json.loads, json.dumps, copy.deepcopy, hashlib.sha256, hashlib.sha1,
+                 json.decoder.scanstring, json.scanner.make_scanner,
+                 json.encoder.encode_basestring, json.encoder.encode_basestring_ascii,
+                 json.encoder.c_make_encoder, re.compile, re.fullmatch, Path.resolve,
+                 open, asyncio.get_running_loop, threading.get_ident, threading.current_thread)
+    classes = tuple((cls, tuple((name, _operation_binding_callable(getattr(cls, name)))
+                               for name in names))
+                    for cls, names in ((_Document, ("__init__", "walk", "ws")),
+                                       (json.JSONDecoder, ("__init__", "decode", "raw_decode")),
+                                       (json.JSONEncoder, ("__init__", "default", "encode", "iterencode"))))
+    dispatch = tuple((kind, _operation_binding_callable(function))
+                     for kind, function in sorted(copy._deepcopy_dispatch.items(),
+                                                  key=lambda item: (item[0].__module__, item[0].__qualname__)))
+    return ((json, copy, hashlib, re, Path, asyncio, threading),
+            tuple(_operation_binding_callable(function) for function in functions), classes, dispatch,
+            _ACTIVE, _SEMANTIC_MEMO, _SEMANTIC_OWNER, _SEMANTIC_CONTEXT)
+
+
+def _operation_dependency_binding(root):
+    """Additional opt-in binding; the historical configuration stays unchanged."""
+    primitives = _operation_primitives()
+    binding = _semantic_binding(root)
+    functions = tuple((name, _operation_binding_callable(function))
+                      for name, function in sorted(globals().items())
+                      if callable(function) and hasattr(function, "__code__"))
+    _require(_operation_primitives() == primitives,
+             "pure semantic primitive changed during binding")
+    return binding, functions, primitives
+
+
+def _operation_sync_check(owner=None):
+    if owner is not None:
+        _require(threading.get_ident() == owner["thread"],
+                 "pure semantic operation cannot cross threads")
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return
+    _require(False, "pure semantic operation is synchronous only")
+
+
+def _operation_fail(owner):
+    owner["failed"] = True
+    owner["memo"][1].clear()
+
+
+def _operation_owner_check(owner, root, allow_failed=False):
+    """A ContextVar token rejects copied contexts even on the same thread."""
+    try:
+        _require(allow_failed or not owner["failed"], "pure semantic operation already failed")
+        _operation_sync_check(owner)
+        _require(_SEMANTIC_OWNER.get() is owner and _SEMANTIC_MEMO.get() is owner["memo"]
+                 and _SEMANTIC_CONTEXT.get() is owner["marker"],
+                 "pure semantic operation owner identity changed")
+        try:
+            _SEMANTIC_CONTEXT.reset(owner["context_token"])
+        except (ValueError, RuntimeError):
+            _require(False, "pure semantic operation cannot cross contexts")
+        owner["context_token"] = _SEMANTIC_CONTEXT.set(owner["marker"])
+        _require(_operation_dependency_binding(root) == owner["binding"],
+                 "pure semantic operation root/config/module/dependency changed")
+    except BaseException:
+        _operation_fail(owner)
+        raise
+
+
+@contextlib.contextmanager
+def pure_semantic_scope(root=ROOT):
+    """Opt in for one synchronous operation, never cache a current proof."""
+    owner = _SEMANTIC_OWNER.get()
+    if owner is not None:
+        escaped = False
+        try:
+            _operation_owner_check(owner, root)
+            try:
+                yield
+            except BaseException:
+                escaped = True
+                _operation_fail(owner)
+                raise
+            finally:
+                _operation_owner_check(owner, root, allow_failed=escaped)
+        except BaseException:
+            _operation_fail(owner)
+            raise
+        return
+    _operation_sync_check()
+    binding = _operation_dependency_binding(root)
+    memo = (binding[0], {})
+    owner = {"root": Path(root).resolve(), "thread": threading.get_ident(),
+             "binding": binding, "memo": memo, "marker": object(), "failed": False}
+    owner["context_token"] = _SEMANTIC_CONTEXT.set(owner["marker"])
+    owner_token = _SEMANTIC_OWNER.set(owner)
+    memo_token = _SEMANTIC_MEMO.set(memo)
+    escaped = False
+    try:
+        try:
+            yield
+        except BaseException:
+            escaped = True
+            _operation_fail(owner)
+            raise
+        finally:
+            _operation_owner_check(owner, root, allow_failed=escaped)
+    finally:
+        memo[1].clear()
+        _SEMANTIC_MEMO.reset(memo_token)
+        _SEMANTIC_OWNER.reset(owner_token)
+        _SEMANTIC_CONTEXT.reset(owner["context_token"])
+
+
+def _operation_memoized_semantics(owner, label, inputs, calculate):
+    try:
+        _operation_owner_check(owner, owner["root"])
+
+        def immutable(value):
+            return type(value) in (bytes, str) or (type(value) is tuple
+                                                  and all(immutable(item) for item in value))
+
+        _require(type(label) is str and immutable(inputs),
+                 "pure semantic memo requires exact immutable inputs")
+        key, values = (label, inputs), owner["memo"][1]
+        if key not in values:
+            result = calculate()
+            _require(type(result) is bytes or (type(result) is tuple
+                     and all(type(value) is str for value in result)), "mutable semantic result")
+            _operation_owner_check(owner, owner["root"])
+            values[key] = result
+        result = values[key]
+        _require(type(result) is bytes or (type(result) is tuple
+                 and all(type(value) is str for value in result)), "mutable semantic result")
+        return result
+    except BaseException:
+        _operation_fail(owner)
+        raise
+
+
 def _memoized_semantics(label, inputs, calculate):
     """Cache successful pure calculations only; no Git/disk admission is cached."""
+    owner = _SEMANTIC_OWNER.get()
+    if owner is not None:
+        return _operation_memoized_semantics(owner, label, inputs, calculate)
     memo = _SEMANTIC_MEMO.get()
     if memo is None:
         return calculate()
@@ -2406,15 +2575,22 @@ def _night_metadata_stage(root, head, prior):
 
 def _read_proof(root):
     """Fresh current/immutable admission, with invocation-local pure reuse."""
+    owner = _SEMANTIC_OWNER.get()
     memo = _SEMANTIC_MEMO.get()
     try:
+        if owner is not None:
+            _operation_owner_check(owner, root)
         binding = _semantic_binding(root)
         if memo is not None:
             _require(binding == memo[0], "semantic scope root/config/module identity changed")
         proof = _read_proof_current(root)
         _require(_semantic_binding(root) == binding, "proof configuration/module changed during read")
+        if owner is not None:
+            _operation_owner_check(owner, root)
         return proof
     except BaseException:
+        if owner is not None:
+            _operation_fail(owner)
         if memo is not None:
             memo[1].clear()
         raise
@@ -2547,7 +2723,55 @@ def _read_proof_current(root):
 
 
 @contextlib.contextmanager
+def _operation_fresh_validation_proof(root, owner):
+    """Share only pure results; all actual proof entry/exit edges remain fresh."""
+    token = None
+    try:
+        _operation_owner_check(owner, root)
+        active = _ACTIVE.get()
+        if active is not None:
+            _require(Path(root).resolve() == active["root"] and _read_proof(root) == active,
+                     "nested proof Git/disk/configuration changed")
+            proof = active
+        else:
+            proof = _read_proof(root)
+            token = _ACTIVE.set(proof)
+        try:
+            try:
+                yield proof
+            except BaseException:
+                _operation_fail(owner)
+                raise
+        finally:
+            if owner["failed"]:
+                _operation_owner_check(owner, root, allow_failed=True)
+                owner_token = _SEMANTIC_OWNER.set(None)
+                memo_token = _SEMANTIC_MEMO.set(None)
+                try:
+                    exit_proof = _read_proof(root)
+                finally:
+                    _SEMANTIC_MEMO.reset(memo_token)
+                    _SEMANTIC_OWNER.reset(owner_token)
+            else:
+                exit_proof = _read_proof(root)
+            _require(exit_proof == proof, "Git/disk/configuration changed inside proof")
+        _require(not owner["failed"], "pure semantic operation already failed")
+    except BaseException:
+        # Also erase results recalculated by the exceptional exit proof.
+        _operation_fail(owner)
+        raise
+    finally:
+        if token is not None:
+            _ACTIVE.reset(token)
+
+
+@contextlib.contextmanager
 def fresh_validation_proof(root=ROOT):
+    owner = _SEMANTIC_OWNER.get()
+    if owner is not None:
+        with _operation_fresh_validation_proof(root, owner) as proof:
+            yield proof
+        return
     active = _ACTIVE.get()
     if active is not None:
         try:

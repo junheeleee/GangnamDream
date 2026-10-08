@@ -6,6 +6,7 @@ revalidates actual typed Git objects, physical disk and configuration.
 """
 from __future__ import annotations
 
+import asyncio
 import contextlib
 import contextvars
 import copy
@@ -13,6 +14,7 @@ import hashlib
 import json
 import re
 import subprocess
+import threading
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -45,6 +47,8 @@ RECEIPT_SOURCE_MANIFEST_SHA256 = "caa02cb8435eee1d9e7fb99c36fe3886743e6a7ef65e36
 RAW_SHA256 = {'autoloads/GameState.gd': ('dfa8c48596917c3b33eb1add4079b790c4bea8b09cc38c03a08165a2955b7bd1', '88182e54aef1138a867441c6261dd62548e0291715c4c985c893c1c2d680a694'), 'locale/ui_ja.json': ('5a6a314b7fd4a82cf698bd86a832939e47596ece734c0edb4d006714393a8b2c', '24f09bc604698bca7a4665ac9072cff8bae88b500770a321dccb37e8467d75b1'), 'locale/ui_zh-CN.json': ('b4b7c60cf82332ae1f58684aaab1ba46451c1e3a5abe6823e6802ec11180df99', '79b953c7cdb1a344fb35d34bcd5c4b78deb1660a4821d1af7767b713cbf8495c'), 'locale/ui_zh-TW.json': ('5d8ca777bda61579b3b1ed44be60840c8984aebc6aaf47b1d545219b23f9fb82', '36325c9dc6703a293c6f3a99d9c4598d1cb7142b96bcd838a5b5b1561bcd45de')}
 RAW_PATCHES = {'autoloads/GameState.gd': (('replace', 4328, 4329, 4328, 4329, '8786a9157d53e61ce4b4bfa46552b6b3a76de7d6d1d38b5229d7dd3d81cb4840', '5ad4af3a796e7889fce1fa7c95fdf75550244e55ac69f1b9e6d97b4c2207a361'),), 'locale/ui_ja.json': (('insert', 3054, 3054, 3054, 3055, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '6c07b2d7475b6f071a165f34acd4afbdfde9f956810ac2ed98d70d21ce2161bc'),), 'locale/ui_zh-CN.json': (('insert', 1810, 1810, 1810, 1811, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '95c3621c54b9efac2bf1d46ab734d2f5a32762b61e9cdfd10545e385541c7393'),), 'locale/ui_zh-TW.json': (('insert', 1810, 1810, 1810, 1811, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'ebb7e6f53e20f983f29d434d94b2116232b3603bc3c34977eb2d8fff7500578a'),)}
 _ACTIVE = contextvars.ContextVar("asset_one_billion_log_proof", default=None)
+_PURE_SEMANTIC_OWNER = contextvars.ContextVar("asset_one_billion_pure_semantic_owner", default=None)
+_PURE_SEMANTIC_CONTEXT = contextvars.ContextVar("asset_one_billion_pure_semantic_context", default=None)
 
 
 def _require(ok, detail):
@@ -320,6 +324,153 @@ def _configuration():
     return constants, functions, (_Document, _Document.__init__.__code__, _Document.walk.__code__, _Document.ws.__code__)
 
 
+def _pure_semantic_value(value):
+    """Detach mutable defaults/config without using the primitives being sealed."""
+    if type(value) in (tuple, list):
+        return type(value), tuple(_pure_semantic_value(item) for item in value)
+    if type(value) is dict:
+        return dict, tuple((_pure_semantic_value(key), _pure_semantic_value(item))
+                           for key, item in value.items())
+    if type(value) in (set, frozenset):
+        return type(value), frozenset(_pure_semantic_value(item) for item in value)
+    if isinstance(value, Path):
+        return type(value), str(value)
+    if hasattr(value, "__code__"):
+        return _pure_semantic_callable(value)
+    return type(value), value
+
+
+def _pure_semantic_callable(function):
+    wrapped = getattr(function, "__wrapped__", None)
+    return (function, getattr(function, "__code__", None),
+            _pure_semantic_value(getattr(function, "__defaults__", None)),
+            _pure_semantic_value(getattr(function, "__kwdefaults__", None)),
+            None if wrapped is None else _pure_semantic_callable(wrapped))
+
+
+def _pure_semantic_primitives():
+    """Bind selected external globals whose mutation could stale a pure result."""
+    functions = (json.loads, json.dumps, copy.deepcopy, hashlib.sha1, hashlib.sha256,
+                 json.decoder.scanstring, json.scanner.make_scanner,
+                 json.encoder.encode_basestring, json.encoder.encode_basestring_ascii,
+                 json.encoder.c_make_encoder, re.fullmatch, Path.resolve, open,
+                 threading.get_ident, threading.current_thread, asyncio.get_running_loop)
+    classes = tuple((cls, tuple((name, _pure_semantic_callable(getattr(cls, name)))
+                               for name in names))
+                    for cls, names in ((json.JSONDecoder, ("__init__", "decode", "raw_decode")),
+                                       (json.JSONEncoder, ("__init__", "default", "encode", "iterencode")),
+                                       (_Document, ("__init__", "walk", "ws"))))
+    dispatch = tuple((kind, _pure_semantic_callable(function))
+                     for kind, function in sorted(copy._deepcopy_dispatch.items(),
+                                                  key=lambda item: (item[0].__module__, item[0].__qualname__)))
+    return ((json, copy, hashlib, re, Path, threading, asyncio),
+            tuple(_pure_semantic_callable(function) for function in functions), classes, dispatch,
+            _PURE_SEMANTIC_OWNER, _PURE_SEMANTIC_CONTEXT)
+
+
+def _pure_semantic_binding(root):
+    """Physical/config binding only; this is never a fresh Git admission."""
+    root = Path(root).resolve()
+    module = Path(__file__).resolve()
+    _require(module == root / "tools/asset_one_billion_log_history.py", "pure semantic module/root identity")
+    primitives = _pure_semantic_primitives()
+    configuration = _configuration()
+    functions = tuple((name, _pure_semantic_callable(function))
+                      for name, function in sorted(globals().items())
+                      if callable(function) and hasattr(function, "__code__"))
+    physical = _disk_bytes(module)
+    _require(_pure_semantic_primitives() == primitives, "pure semantic primitive changed during binding")
+    return root, module, physical, configuration, functions, primitives
+
+
+def _invalidate_pure_semantics(owner):
+    if owner is not None:
+        owner["cache"].clear()
+        owner["poisoned"] = True
+
+
+def _require_synchronous_pure_semantics():
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return
+    raise ValueError("ORDER-482: async pure semantic owner is unsupported")
+
+
+def _require_pure_semantic_owner(root, owner):
+    _require_synchronous_pure_semantics()
+    _require(_PURE_SEMANTIC_OWNER.get() is owner and owner["open"] and not owner["poisoned"],
+             "pure semantic owner is not healthy/open")
+    _require(threading.get_ident() == owner["thread"] and _PURE_SEMANTIC_CONTEXT.get() is owner["marker"],
+             "pure semantic owner cannot cross thread/context")
+    # A copied Context carries our state reference, but cannot reset the token
+    # issued by the owning Context. Rotate only this marker, not any proof scope.
+    _PURE_SEMANTIC_CONTEXT.reset(owner["context_token"])
+    owner["context_token"] = _PURE_SEMANTIC_CONTEXT.set(owner["marker"])
+    _require(_pure_semantic_binding(root) == owner["binding"], "pure semantic root/module/config/primitive changed")
+
+
+@contextlib.contextmanager
+def pure_semantic_scope(root=ROOT):
+    """One synchronous cold owner; no proof/Document or Git verdict is retained."""
+    active = _PURE_SEMANTIC_OWNER.get()
+    if active is not None:
+        _invalidate_pure_semantics(active)
+        raise ValueError("ORDER-482: nested pure semantic owner is unsupported")
+    _require_synchronous_pure_semantics()
+    root = Path(root).resolve()
+    owner = {"root": root, "binding": _pure_semantic_binding(root), "cache": {},
+             "poisoned": False, "open": True, "thread": threading.get_ident(), "marker": object()}
+    token = _PURE_SEMANTIC_OWNER.set(owner)
+    owner["token"] = token
+    owner["context_token"] = _PURE_SEMANTIC_CONTEXT.set(owner["marker"])
+    try:
+        try:
+            yield
+            _require_pure_semantic_owner(root, owner)
+        except BaseException:
+            _invalidate_pure_semantics(owner)
+            raise
+    finally:
+        owner["cache"].clear()
+        owner["open"] = False
+        try:
+            _PURE_SEMANTIC_CONTEXT.reset(owner["context_token"])
+        finally:
+            _PURE_SEMANTIC_OWNER.reset(token)
+
+
+def _receipt_semantic_key(before, after):
+    _require(type(before) is dict and type(after) is dict and set(before) == set(after) == set(PATHS),
+             "pure receipt exact path population")
+    _require(all(type(before[path]) is bytes and type(after[path]) is bytes for path in PATHS),
+             "pure receipt requires exact immutable bytes")
+    return tuple((path, before[path], after[path]) for path in PATHS)
+
+
+def _memoized_receipt_semantics(root, before, after):
+    owner = _PURE_SEMANTIC_OWNER.get()
+    if owner is None:
+        return _receipt_semantics(before, after)
+    try:
+        _require_pure_semantic_owner(root, owner)
+        key = _receipt_semantic_key(before, after)
+        if key in owner["cache"]:
+            result = owner["cache"][key]
+        else:
+            result = _receipt_semantics(before, after)
+            _require_pure_semantic_owner(root, owner)
+            _require(_receipt_semantic_key(before, after) == key, "pure receipt inputs changed during calculation")
+            _require(type(result) is str and result == RECEIPT_PARENT, "pure receipt result is not immutable parent")
+            owner["cache"].clear()
+            owner["cache"][key] = result
+        _require(type(result) is str and result == RECEIPT_PARENT, "pure receipt result is not immutable parent")
+        return result
+    except BaseException:
+        _invalidate_pure_semantics(owner)
+        raise
+
+
 def _transition(root, head, parent, commit, before, changed):
     actual_before, _ = _snapshot(root, parent, PATHS)
     after, headers = _snapshot(root, commit, PATHS)
@@ -332,7 +483,7 @@ def _transition(root, head, parent, commit, before, changed):
     return after
 
 
-def _read_proof(root):
+def _read_proof_current(root):
     root = Path(root).resolve()
     module = Path(__file__).resolve()
     _require(module == root / "tools/asset_one_billion_log_history.py", "module/root identity")
@@ -349,7 +500,7 @@ def _read_proof(root):
     if RECEIPT_COMMIT is not None:
         _git(root, "merge-base", "--is-ancestor", PRODUCT_COMMIT, RECEIPT_PARENT)
         receipts = _transition(root, head, RECEIPT_PARENT, RECEIPT_COMMIT, source, (LEDGER_PATH,))
-        revision = _receipt_semantics(source, receipts)
+        revision = _memoized_receipt_semantics(root, source, receipts)
         export, _ = _snapshot(root, revision, PATHS)
         _require(export == source, "export typed snapshot differs from actual source4")
         _git(root, "merge-base", "--is-ancestor", revision, RECEIPT_COMMIT)
@@ -365,6 +516,22 @@ def _read_proof(root):
              "HEAD/module/function/config changed during proof")
     return {"root": root, "head": head, "before": before, "source": source, "receipts": receipts,
             "current": actual, "binding": binding, "module_raw": module_raw}
+
+
+def _read_proof(root):
+    """Keep every original fresh edge; poison pure reuse on even a caught failure."""
+    owner = _PURE_SEMANTIC_OWNER.get()
+    try:
+        proof = _read_proof_current(root)
+        if owner is not None:
+            _require_pure_semantic_owner(root, owner)
+            active = _ACTIVE.get()
+            if active is not None and proof != active:
+                _invalidate_pure_semantics(owner)
+        return proof
+    except BaseException:
+        _invalidate_pure_semantics(owner)
+        raise
 
 
 @contextlib.contextmanager
