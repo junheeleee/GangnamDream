@@ -11229,6 +11229,111 @@
           "batch_id": "62bb77fdd6f632a87b3e1671aae17efa411af0d8b5f2d6466f98bc514d77f148"
         }
       }
+    },
+    {
+      "order": "ORDER-482",
+      "group": "ui",
+      "roots": [
+        "💰 자산 10억 돌파 — 30억의 3분의 1."
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Agent direct Korean-source repair of the first KRW1B log. Actual original export/check/import3 by locale; first acceptance1, existing accepted corrections0. No native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "b2ebcec533773edb55d10f59f8f7c8ce361cfde43344b3cc62e796d5fc4c9acf"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "2ef1d958b2589fae5e0187380bf10dcbb4e1e58f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "caa02cb8435eee1d9e7fb99c36fe3886743e6a7ef65e3699ffe2991fb6396c5b",
+          "selection_sha256": "a0ca02f48cd1d37de9a1ac0e203ada903140800686f2d737e90d9047ca057cf6",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b21c257ad0f92b7d1e4010d0df2edd9efc2f23ba41cf029df41974a634dbb5a0"
+        }
+      }
+    },
+    {
+      "order": "ORDER-482",
+      "group": "ui",
+      "roots": [
+        "💰 자산 10억 돌파 — 30억의 3분의 1."
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 0
+      },
+      "source_review": "Agent direct Korean-source repair of the first KRW1B log. Actual original export/check/import3 by locale; first acceptance1, existing accepted corrections0. No native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "99bda834a5bdbbe120287b18e78c926e3fdcc404705d4756cd7e4dcf9dd14d66"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "2ef1d958b2589fae5e0187380bf10dcbb4e1e58f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "caa02cb8435eee1d9e7fb99c36fe3886743e6a7ef65e3699ffe2991fb6396c5b",
+          "selection_sha256": "924237dff7b1548e2a4ebbb1ff8491380847c4cd92830085ca162182eeeaa52a",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "eaac2437a048d548392634684b6294d4f8fdb82b1101cf2786ebfea0b00dfbf7"
+        }
+      }
+    },
+    {
+      "order": "ORDER-482",
+      "group": "ui",
+      "roots": [
+        "💰 자산 10억 돌파 — 30억의 3분의 1."
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 1
+      },
+      "source_review": "Agent direct Korean-source repair of the first KRW1B log. Actual original export/check/import3 by locale; first acceptance1, existing accepted corrections0. No native, rendered, natural-play or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "b660fd9ed919a1d0f902a8f6f5f6d635b163b36dbe488687d21dba41c3cc3ca8"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "2ef1d958b2589fae5e0187380bf10dcbb4e1e58f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "caa02cb8435eee1d9e7fb99c36fe3886743e6a7ef65e3699ffe2991fb6396c5b",
+          "selection_sha256": "8cbd3b12f84d6e1c90589c07bafc2e024c377a5bc268871446fbbab8be4e2038",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2bd434cb3f1e32699d06ae1f398d2720ec74431750d171e8ad3e1fd97991c91e"
+        }
+      }
     }
   ],
   "accepted": {
@@ -63848,6 +63953,10 @@
       "ui:🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다.:/🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다.": {
         "source_sha256": "e788331a2478064424626d7594ce99b8bf3d1bc79f26e732c478059c7a5cca63",
         "target_sha256": "606462a69a4727e6315cbf9645d850c86548b27c4bb29aff2cbf190b99a8c14e"
+      },
+      "ui:💰 자산 10억 돌파 — 30억의 3분의 1.:/💰 자산 10억 돌파 — 30억의 3분의 1.": {
+        "source_sha256": "012960ee729a2616a9962fb60c5881182fff12b5beb3d0cb760de9803e0ae86f",
+        "target_sha256": "df4e06727fef0858934599ee3cb5006c081e8bb8a769b1e408e5e4397d40a1dd"
       }
     },
     "zh-CN": {
@@ -121246,6 +121355,10 @@
       "ui:🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다.:/🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다.": {
         "source_sha256": "e788331a2478064424626d7594ce99b8bf3d1bc79f26e732c478059c7a5cca63",
         "target_sha256": "7d5220c6a4cdfc84f3cec749a737a2dd74dc317eb1bb07eda2fbd085196ac714"
+      },
+      "ui:💰 자산 10억 돌파 — 30억의 3분의 1.:/💰 자산 10억 돌파 — 30억의 3분의 1.": {
+        "source_sha256": "012960ee729a2616a9962fb60c5881182fff12b5beb3d0cb760de9803e0ae86f",
+        "target_sha256": "e7b949a95ffc9ae7f7bcc0f19cec0c4f697f87224038c1ff4702ccbf3b5e1e6c"
       }
     },
     "zh-TW": {
@@ -178644,10 +178757,14 @@
       "ui:🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다.:/🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다.": {
         "source_sha256": "e788331a2478064424626d7594ce99b8bf3d1bc79f26e732c478059c7a5cca63",
         "target_sha256": "abd94955ed855c98812cdfc212e03dc5ed275766faa8492339133b1b061b56f0"
+      },
+      "ui:💰 자산 10억 돌파 — 30억의 3분의 1.:/💰 자산 10억 돌파 — 30억의 3분의 1.": {
+        "source_sha256": "012960ee729a2616a9962fb60c5881182fff12b5beb3d0cb760de9803e0ae86f",
+        "target_sha256": "59044bf86b804573b2d9a4c801c1bb136bf9b276570817882579c2ebb8d3f834"
       }
     }
   },
-  "accepted_sha256": "33e952bca52c67e411e4721386f8966bc1cfc3bd69066fa30102aecc00d353ed",
+  "accepted_sha256": "b9b3762eea61128b1be4ed87067460f35024fb54922e361d5ae42eee08d47db3",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
