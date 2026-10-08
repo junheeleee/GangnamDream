@@ -56,6 +56,9 @@ root와 아래 분리 저자가 다음 도구·등록·CI와 운영 문서만 �
 - localization_audits_author: tools/ja_translation_audit.py·zh_translation_audit.py만.
 - causality_audits_author: tools/chapter1_core_loop_v2_causal_ledger_check.py·
   story_graph_contract_audit.py·year5_reference_route_audit.py·chapter5_human_reject_audit.py만.
+- localization_audits_author의 두 validator 저작 종료 뒤 같은 저자가
+  tools/full_body_translation_scope.py만 이어 맡는다. 현재 lifecycle/typed closure·
+  target receipt·공개 데모 reuse 제품 조건은 유지하고 source history와 옛 census만 분리한다.
 - root: 나머지 선언 파일·등록·삭제·통합 검증·문서·main commit/push.
 
 저자들은 기존 제품 조건을 보존하며 자기 파일의 역사 dependency만 걷어낸다.
