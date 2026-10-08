@@ -145,6 +145,20 @@ holdem-manifest-proof-scope, ui-comparison-memo, chapter5-proof-scope는 역사/
 
 ## 지우지 않는 것과 의존 분리 조건
 
+### 추가 의존 실사 — 삭제 전 표 갱신
+
+| 정확한 파일 | 지키던 제품 동작이 없었던 근거 / 처리 |
+| --- | --- |
+| tools/meta_title_locale_successor.py | 완료245의 고정 전체 SHA·244 predecessor 역투영만. 현재 title ID/KO/EN/format 수집은 collector가 직접 검증하므로 삭제 |
+| tools/holdem_residual_locale_check.py | 완료451 source/history stage 역상·이전 raw pin 검사. 실제 카지노 잔여 UI/형식은 현행 JA/ZH validator/collector가 검증하므로 삭제 |
+| tools/ui_receipt_cost_profile.py | 완료479의 특정 old365 호출과 고정 line 번호의 시간/호출 계측기. 게임 동작/receipt acceptance 검사가 아니며 사용자 계측 중단 지시에 따라 삭제 |
+| tools/ui_receipt_cost_profile_check.py | 위 계측기의 synthetic 호출수·instrumentation 복원 테스트. 제품 검사 없이 비용 도구만 지키므로 삭제 |
+
+추가 혼합 self-test 10개는 통째 삭제하지 않는다. gift/new-run/first-start,
+decision-risk/reaction-body/log-body-font, scalping-phase/investment-AP,
+investment-loss-gate/full-game-localization의 현재 UI 호출·레이아웃·형식·receipt 반례를
+남기고 old raw/Git·폐지 helper 복원 분기만 분리한다. 정확 소유는 ORDER-487에 선언했다.
+
 - opening_rhythm_history의 docstring만 보고 활성149 검사로 분류하지 않는다.
   완료463 사양이 정확한 소유자이며 삭제 대상은 source 역상뿐이다. **활성149/L3 OPEN**의
   실제 프롤로그 시간·화면·skip 검수는 지우지 않고, 완료로 바꾸지도 않는다.

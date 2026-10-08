@@ -67,6 +67,16 @@ root와 아래 분리 저자가 다음 도구·등록·CI와 운영 문서만 �
   고정 before/after·전체 raw 봉인·전이 전용 self-test만 제거한다.
 - root: 나머지 선언 파일·등록·삭제·통합 검증·문서·main commit/push.
 
+추가 의존 실사에서 확인된 파일도 같은 오더에 먼저 선언한다(게임 범위 증가는 없다).
+- tools/meta_title_locale_successor.py·holdem_residual_locale_check.py와
+  ui_receipt_cost_profile.py·ui_receipt_cost_profile_check.py는 옛 endpoint/비용 전용 삭제 후보다.
+- gift_caption_locale_self_test.py·new_run_log_locale_self_test.py·first_start_notice_self_test.py,
+  decision_risk_width_self_test.py·reaction_body_font_self_test.py·log_body_font_receipt_check.py,
+  scalping_phase_focus_receipt_check.py·investment_ap_copy_self_test.py·
+  investment_loss_gate_self_test.py·full_game_localization_self_test.py는 기존 현재 의미/형식/
+  레이아웃/공식 receipt 부정 테스트를 유지하고 이력 전용 분기·폐지 파일 참조만 제거한다.
+  삭제 후보의 추가 표를 별도로 선커밋한 뒤 삭제한다.
+
 저자들은 기존 제품 조건을 보존하며 자기 파일의 역사 dependency만 걷어낸다.
 root가 strict JSON/span을 기존 ui_translation_append 소유자에 보존한다.
 각 저자는 새 tool/report·게임/원장 변경·자체 commit·엔진 실행을 하지 않는다.
