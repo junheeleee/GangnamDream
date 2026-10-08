@@ -2,6 +2,13 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-08 — 카지노 용어집 중국어16키 (484, 착수)
+
+- 실제 용어집20키 중 기존 수용2·KO/JA 사실수리 별도2를 제외한16키를 KO에서 CN/TW 각각 직접 옮긴다. [사양](queue_active/ORDER-484.md)에 private 번역 저자·기존 역사 지원5/전용self·root 공식/원장·비저자 전수 검수를 분리했다. 선언 시 번역/공식/collector/engine0, 최초32·batch2는 계획이다. JA/게임동작/공개/저장 불변이며 natural의 양쪽8/9 무조건무승부 오문은 별도 미완료다.
+- gangnamdream-dev의 선언·정확 소유·원문 직접 번역·표적검수·위임/관찰 분리를 적용한다. 원482 typed 전이는 보존하고 CN/TWsource2→ledger1만 연결한다. 전체현지화/실제화면/원어민/패드/출시 완료를 주장하지 않는다.
+- 운영 실패: 큐 renumber와 새1행을 한 패치에서 새번호 context로 매칭한 첫 시도는 미매칭/큐 변경0이었다(사양 생성만 성공). 두 번째 diff의 숫자 hunk를 apply_patch 문맥으로 준 시도도 미매칭/전체 변경0; @@로 바꾼 원문 기준 diff로 수리한다. 첫 복귀 읽기에서 docs/ 접두를 생략한 큐/로그 경로2건은 파일없음 exit1/제품 실행0이다. 원자적 문맥·정확 경로를 유지한다. 새규범0/일회성.
+- 149 raw 롤링 첫 검증은 EOF 빈줄1 누락을 잡았다. 후행 SHA 기록으로 원문2917바이트/기존history prefix 전부를 보존했고 다시 직접 대조한다. 제품/원QA 실행0이다.
+
 ## 2026-10-08 — 원470 문자 탐색 한 함수의 검수 비용만 줄였다 (483, 한정 GO)
 
 - exact Document/str/int 공백0·1 단락 평가/2+ Unicode 원좌표 탐색만 source3 `7f13fb883d7063656aeb1c1ec75c6ae85405adae`/tree `b9aa00fb981773dc2ebec7bd09256adb6137c089`로 push했다. ws 밖 raw/AST·원fallback·옛self 함수15/main·기존등록·fresh/typed/Git/disk/HEAD/config/memo 불변, 새cache/증명생략0이다.
@@ -147,13 +154,6 @@
 - 비저자 [전수 보고](agent_reviews/ORDER-473.json) SHA e56b92f1da026193573b9e6659c409fd71f0c1c22c6b3246b2e67a3136ccec45, candidate090552dd2df00a1e8c96e9cc693fb7ec284f54d3/tree587ed73025feaa811618d7e9c0451f4f99ae20a4의 엔딩 금액 사실 단위만 GO. humanSHA6ab5c927…·공개GO1/인간OPEN45·149captureFAIL/연속창HOLD·472GO 보존. 본편 출시·원어민·인간·물리패드·실제 엔딩 화면은 미관찰/HOLD다.
 - gangnamdream-dev의 전이분리·표적검수·pre-autoload·증거분리를 적용했다. 새규범0/이 exact배치 결속은 일회성. 자동 게이트는 계약 증거이지 재미·깊이·문체의 증거가 아니다. 다음 안전작업은 별도선언하는 첫5천만원 축하 결과문의 지출/거처 사실이다.
 
-## 2026-10-06 — 프롤로그 정지 화면12장 한정 관찰 (149, HOLD)
-
-- clean692c157/tree027b6aaa의 normal KO/EN×실제1280×800/1920×1080×3비트12PNG를 root가 original로 전수 읽었다. 글자 잘림·겹침·누락·EN player text 한글 누출0을 관찰했다. 실제창/연속전환은 Mac 재잠금으로 미관찰이다. 정지 이미지가 강조체감·연속 검은프레임0을 증명하지 않는다.
-- .git/order149-render-20261006.elwY5j/render2의 실제 engine/wrapper exit1을 보존한다. 시간11.528249/11.499559/12.349251/12.401508초이며 마지막이 private 상한12.374보다0.027508초 초과했다. 촬영/저장 부하를 포함하지만 비용별 계측이 없어 제품 결함 또는 무결함을 확정하지 않는다. 허용선 확대·동일 시간검사 재실행0이다. 옛 warmed 전후 시간/fallback/ReduceMotion/skip은 원문으로 재사용하며 GPU 새 PASS로 바꾸지 않는다.
-- result SHA9d5ee3da716ea5bce4d42775e8ca0e2f7bfdde63be2b95f4bd04d04f193e2874. wrapper report=null/artifacts=[]는 명령 실패 뒤 처리 중단이며 원stdout의REPORT+12PNG SHA/IHDR를 별도로 결속했다. extracted-report SHA7007313e97d44a73e7b563159a61ac7fec8e85dfc7a70ffe626346be9e886d58, root pixel SHA8163c5e2a36ce9b2a2104eb990e27cf6dd345b0eca44787fef66c9412c9a7716. source3197·보호342·입력8 before=after 및 원로그 동일이다.
-- private render1 bool추론 parse 실패 case0/PNG0·exit1 원본과 자기 프로세스 종료 기록도 보존한다. unrelated Godot/player·seed·공개 GO·human 원문·옛149보고는 변경0이다. gangnamdream-dev의 자동/실제/인간 증거 분리와 표적 검수를 적용했고 새로운 제품·규범0, 이번 증거 전이는 일회성이다. 독립 후속 보고는 별도149-render 파일로만 결속한다. 전체149·본편 출시 HOLD, 최초 인간의 비유도 강조 기억 및 P-18 2~4층은 계속 OPEN/보류다.
-- 비저자 [149 후속 보고](agent_reviews/ORDER-149-render.json)가12PNG를 직접 전수 읽고 정지 가독성·배치만 수용했다. sourcea7369ee/tree261acd47·보고 SHAb890d882fbec23c08bcae6b43b9a2a7859def311a3b7d4459c372ae1645ad2a8·새 HOLD 원장 행으로 결속한다. 초안 JSON 중복key1은 경로/설명 분리 뒤 재귀 중복0으로 수리했으며 원실행FAIL과는 별개다. 큐/문서/원장/생성현황만 표적 검증하고 제품·동일 대형 검사는 반복하지 않는다.
-- 원장 정상·222반례·큐/25이어보기 fixture·문서 예산/links186은 실제 exit0·stderr0이다. 원로그는 같은 private 경로 metadata-*·final-*에 보존한다. source 후보가 dirty로 미확정인 정상검사 출력은 품질 실패가 아닌 당시 상태이며, commit 후 생성현황에서 sourcea7369ee를 다시 결속한다. human SHA6ab5c927…·옛149보고 SHAa0ced83b…·472후속보고 SHAb94e7878…는 불변이다.
+프롤로그149 정지화면 원문은 [보존본](history/WORK_LOG_2026-09-07_localization.md#2026-10-08-프롤로그-관찰-기록-롤링)에 손실 없이 이동했다. 보존문 속 상대 경로는 이동 전 위치 기준이다.
 
 이전472 원문은 [현지화·검수 보존본](history/WORK_LOG_2026-09-07_localization.md#2026-10-08-작업-기록-예산-롤링)에 손실 없이 이동했다. 보존문 속 상대 경로는 이동 전 위치 기준이다.
