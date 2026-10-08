@@ -59,6 +59,12 @@ root와 아래 분리 저자가 다음 도구·등록·CI와 운영 문서만 �
 - localization_audits_author의 두 validator 저작 종료 뒤 같은 저자가
   tools/full_body_translation_scope.py만 이어 맡는다. 현재 lifecycle/typed closure·
   target receipt·공개 데모 reuse 제품 조건은 유지하고 source history와 옛 census만 분리한다.
+- localization_collector_author의 collector 저작 종료 뒤 같은 저자가 기존 사실 검사
+  tools/first_win_fact_audit.py·ending_money_fact_audit.py·night_routine_time_audit.py·
+  investment_loss_gate_audit.py·investment_loss_hold_result_audit.py·
+  wealth_milestone_log_audit.py·prose_recall_audit.py·coffee_encounter_locale_check.py를 맡는다.
+  실제 비용·임계/순자산·시간/장소/수신·영수증 조건과 표적 변조는 유지하고
+  고정 before/after·전체 raw 봉인·전이 전용 self-test만 제거한다.
 - root: 나머지 선언 파일·등록·삭제·통합 검증·문서·main commit/push.
 
 저자들은 기존 제품 조건을 보존하며 자기 파일의 역사 dependency만 걷어낸다.
