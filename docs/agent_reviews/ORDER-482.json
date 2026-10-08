@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-482",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-08",
+  "reviewer": "/root/order469_review",
+  "subject": {
+    "kind": "source",
+    "commit": "c82715611071178c394eb2d82ceb866ccfc4b5b1",
+    "tree": "3092e298df3fccbaebdae270e5c1bca8722c8b96",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "scope": "10억 최초 로그의 근거 없는 가속 보장절 삭제, 직접 KO 기반 새 JA/CN/TW3 공식 수용 및 정확한 역사·분수·잔류키 검증에 한정한다. 임계·경제·flag·엔딩·과거 저장 로그와 본편 HOLD는 보존한다. 출시·화면·원어민 GO가 아니다.",
+  "method": {
+    "independence": "root가 GameState/QA/실행기/원장, main이 UI3/언어지원3, history가 역사 지원을 작성했다. 비저자는 변경 제품·지원·반례·실행기·소비자와 실제 결과/원로그/영수증/실패를 전수 읽었다. 이 보고 외 저작0, 프로젝트 import/QA/collector/engine/수용/commit0.",
+    "instructions": "CLAUDE·gangnamdream-dev·WORK_UNIT·현지화 프로필·ORDER-482의 소유/직접KO/표적검수/인간 증거 분리를 적용했다. 새 규범0.",
+    "readback": "Git 실제 parent/tree/global pathset, source4 raw와 원장 새3 역치환을 독립 대조했다. 공식28파일(18로그+source/response6+receipt3+runner)과 closure evidence16+runner1을 마지막 경계 종료 후 재해시하여 불일치0. 원 main 반환값·저장 결과는 직접 읽었고 unified shell outer exit/marker 관찰자는 실행 소유자 root다."
+  },
+  "source_review": {
+    "parent": "586bd23e7a6c5f2a7ebe67d94b00be30106787c4",
+    "commit": "fedf0c71ac890d258322e2c0464d9f7989c61dcd",
+    "tree": "b95498a1559397a9bfc47b0de2bd574b9cb4f191",
+    "owned_product": [
+      "autoloads/GameState.gd:4329 KO/EN literal2",
+      "locale/ui_ja.json 새키1",
+      "locale/ui_zh-CN.json 새키1",
+      "locale/ui_zh-TW.json 새키1"
+    ],
+    "texts": {
+      "ko": "💰 자산 10억 돌파 — 30억의 3분의 1.",
+      "en": "💰 Assets passed KRW 1B — one third of the goal.",
+      "ja": "💰 資産が10億ウォンを突破 — 30億ウォンの3分の1。",
+      "zh-CN": "💰 资产突破10亿韩元 — 30亿韩元的三分之一。",
+      "zh-TW": "💰 資產突破10億韓元 — 30億韓元的三分之一。"
+    },
+    "assessment": "GameState:4119 순자산과 :4137 목표30억, :4327–4329 최초 flag/log만 실행하는 실제 독자를 확인했다. 가속 효과가 없으므로 보장절 삭제가 맞다. 3분의1은 넘은10억 이정표와30억 목표의 관계이며 초과 현재자산의 정확 비율 주장이 아니다. 직접5언어 독해상 의미·수량 불일치0. 에이전트 판단이지 원어민 인증은 아니다.",
+    "preserved": "타 source raw/키/값/순서·옛JA키, 임계·peak·경제·로그count·인접 이정표·선택/효과·finish_run/엔딩·저장 스키마·이미 저장된 action_log 변경0. 최종 raw5 SHA는 아래 closure result의 source/receipts/current 필드에 결속했다."
+  },
+  "support_review": {
+    "history_files": [
+      "tools/asset_one_billion_log_history.py",
+      "tools/wealth_milestone_log_history.py",
+      "tools/wealth_milestone_log_history_self_test.py",
+      "tools/market_cycle_label_history.py",
+      "tools/order470_source_compat.py",
+      "tools/pr31_intake_history.py",
+      "tools/investment_loss_gate_audit.py"
+    ],
+    "language_files": [
+      "tools/ja_translation_pipeline.py",
+      "tools/ja_translation_audit.py",
+      "tools/zh_translation_audit.py"
+    ],
+    "qa_files": [
+      "tools/AssetOneBillionLogCheck.gd",
+      "tools/AssetOneBillionLogCheck.tscn",
+      "tools/asset_one_billion_log_audit.py",
+      "tools/wealth_milestone_log_audit.py",
+      "tools/audit_scope.json"
+    ],
+    "history": "typed Git source4/ledger1·직접부모·전역 pathset·ancestor·actual HEAD/disk·module/config/function·fresh 정상/예외 종료 후만482→480 역사 비교를 허용한다. immutable480/478/기존 핀과 실제 current payload는 보존한다. d302 수정은 실제 receipt 핀5 상수뿐이다.",
+    "japanese": "sealed482 appendix가 whole prior480을 복원하고482→480→470 tuple/line을 대조한 뒤 실제 현재 calls를 반환한다. 원 collector/main 교체0. retained API는 실제 전체UiInventory/현재JA사전·새call1/옛call0·typed 옛값·oldaccepted0에 결속해 옛10억키 정확1만 허용한다. 기존20억 잔류키도 별도 보존한다.",
+    "chinese": "정확KO전체/UI ID/CN·TW문법에서 분모3·분자1을 검증해 해당 fraction span만 numeric 대조에서 제외한다. 원 validate_text의 통화순서/script/token/LF/문단/term 검사는 유지한다. 분수·금액·역순·부호·소수·%·시간·통화·누락/중복·추가 약속·token/LF20종×2와 off-key/source/JA 반례를 읽었다. 일반3분 파서·임의 숫자 면제0.",
+    "findings": "최종 미수리 차단 결함0. 원 함수·실제 collector를 옛 payload로 대체하거나 broad waiver를 추가하지 않았다."
+  },
+  "actual_checks": {
+    "static20": {
+      "path": ".git/order482-20261008.hsSmNO/static1.json",
+      "sha256": "3e25c46bda6743798b6b392eb4470ffc79f3d1cf69e7f38edf57a504fe45f805",
+      "result": "원 asset_one_billion_log_audit --self-test 20/exit0·0.194403792s의 tool 출력 전사. typed source/fixture/raw 반례이며 whole-input guard 주장false. 중국어20종×2와 다른 모집단."
+    },
+    "source141": {
+      "path": ".git/order482-20261008.hsSmNO/preflight1/result.json",
+      "sha256": "2b15adaae2847b2647e62112e5a93f50fd891b5fcc08a664f313da5d90e1e4c7",
+      "source": "2ef1d958b2589fae5e0187380bf10dcbb4e1e58f",
+      "result": "ORDER482_ONE_BILLION_OK cases=141 native_review=OPEN; 원 CLI exit0/45.496485375s/stderr0.",
+      "coverage": "exact/rehashed source·typed missing/type/bytes·warm Git/disk/HEAD/config/function/ACTIVE·정상/예외/late failure 복원·JA pure/sealed seam·원 Chinese validate_text. optional 실제 census/전체UI 반례는 이141로 주장하지 않으며 후속33에서 확인.",
+      "consumers": "같은 preflight 원 consumer8조건/실패0/453.273769333s, 차선목록7 exit0. clean 전체3245/HEAD/runner/log 보존. collector8회라는 뜻이 아니다."
+    },
+    "quick2": {
+      "path": ".git/order482-20261008.hsSmNO/quick2/result.json",
+      "sha256": "56b8ce0d25040360683dc97d8b59a544a2b199f18542f50296c19939e9fee5eb",
+      "result": "d302 원 EN/Hangul/등록3 exit0/stderr0. EN clean·content_issues0·ui_format_registry52/contract0. 입력2232/HEAD/보호/runner 보존; 전체3245 guard로 확대0. collector/engine0."
+    }
+  },
+  "prepared_runtime": {
+    "path": ".git/order482-20261008.hsSmNO/runtime1/result.json",
+    "sha256": "da597c4f382408e3131294e3f10e2b81abf595340f2923a662b47ec18f8db9eb",
+    "source": "fedf0c71ac890d258322e2c0464d9f7989c61dcd",
+    "marker": "ASSET_ONE_BILLION_LOG_CHECK_OK locales=5 cases=50 threshold=40 net_debt=5 restore=5 prepared_component_only=true",
+    "result": "엔진 exit0/3.060466s, stdout=Godot·stderr0/엔진오류0. 5언어×미달999999999/정확1B/초과1.5B/목표3B×최초/기록완료40+순자산1.1B−0.2B=0.9B5+복원5=50 전수.",
+    "stdout_and_godot_sha256": "2c56685d5dc99ed21723349163d75f8803f36861c94cc016c8ba0eb8cc72cd7e",
+    "binding": "pre-autoload UUID 격리, actual check_game_over/add_log·전체serialize·signal·sentinel·중복/ending·locale복원 일치. 당시 resource2227/보호11그룹/HEAD/engine/runner/log 보존. 동시 Python 저작이 있어 당시 전체tracked 동결 주장은 아니다.",
+    "reuse_path": ".git/order482-20261008.hsSmNO/runtimereuse2/result.json",
+    "reuse_sha256": "30c99301806e9e02676bcf64b47d40d7dc7b8bf075fd60d404818339b73d0215",
+    "reuse": "d302에서2227중2225동일, CLAUDE상태/ledger2만 변화. 실제 GameState/LocaleManager/DataRegistry 소비자는 이 문서·수용원장을 읽지 않는다. 직접 소비자와 fixture/engine/raw로그 동일성을 함께 확인했다. c827은 여기서 CLAUDE만 추가 변화. 준비50만 제한재사용하며 새 engine/render/input/receipt proof라고 하지 않는다."
+  },
+  "official_acceptance": {
+    "path": ".git/order482-20261008.hsSmNO/official1/result.json",
+    "sha256": "202099c92888fb9ed73a40f6e638185882b2a9d0fc09b61024af12c6e14868f1",
+    "runner_sha256": "a4b96d05a3be8ae09321b226c6c66ec3b6a6ebe774b299959fb2e6f7d22c4add",
+    "source": "2ef1d958b2589fae5e0187380bf10dcbb4e1e58f",
+    "tree": "9784beb616cb3710cd72fd77006749dd42a8c57f",
+    "result": "원 export3/check3/import3 main9·actual collect9 각1/exit0, 함수교체0. selective return 관찰과 trace ownership/restored9. 매번 원 UiInventory3478/errors0, census213/전체leaf17505·metadata/순서 동일. check/import leaves1/changed_files0·INCOMPLETE/human OPEN. fresh 종료 뒤 saved passed/preserved/logs_preserved=true/error=null. clean3245/보호6그룹46entries/runner 보존. root session82393 outer exit0.",
+    "source_manifest_sha256": "caa02cb8435eee1d9e7fb99c36fe3886743e6a7ef65e3699ffe2991fb6396c5b",
+    "leaf_vector_sha256": "c67a45628729d70a907a56707cc736ef8c65720d44bd07e1b31faf6aecc944a1",
+    "receipt_commit": "6dd8fb87765622d7ba91d9b1bddb407f6fb51d91",
+    "receipt_parent": "2ef1d958b2589fae5e0187380bf10dcbb4e1e58f",
+    "ledger_path": "content/meta/full_game_localization.json",
+    "ledger_raw_sha256": {
+      "before": "fa200e234491545d51e4d0395715eec274dc35cb04f3552003ab3729574cb027",
+      "after": "9262c8e68528d85c53c3ff9b156e8135932b237a78b6936d3098476b00c2eff2"
+    },
+    "receipt_file_sha256": {
+      "ja": "dbe3fb935f7074c3b7c6a480bfad38385ca18b30fd5f152d2a583a2635a47817",
+      "zh-CN": "4a8e43b4f1805c6ed10bfdf8ab8e660942c60d3246b7e3ffaa300cd75702e4aa",
+      "zh-TW": "9a58055cea94a4d72c52946f7c1c6cc392a9dd135e7a38eb0c25c2cbcd718fee"
+    },
+    "ledger": "direct-parent ledger-only1. old277 batch rawprefix/41852 accepted 값·순서·비소유raw 보존→280/41855 최초3, 교정0. 새3 역치환으로 옛전체raw byte-exact 복원. actual source/response/receipt header·direct revision2ef1·selection/batch/target·canonical digest를 전수 대조했다. 상세 경로/헤더/receipt digest는 위 result SHA에 결속. old10억 accepted0·native/render OPEN3 유지."
+  },
+  "post_receipt": {
+    "path": ".git/order482-20261008.hsSmNO/postreceipt2/result.json",
+    "sha256": "f274776b89c1da1f61508792e230ed5ffdb19d2e96c5580da0ed85a9dfa381e1",
+    "source": "d3023964cf4ae3ccd815dee97c58b7d83449e746",
+    "tree": "095fecb4a2ef8698c13adf2113ca4950ae99e100",
+    "result": "receipt9+binding3+census6+원consumer8+실제UI retained7=33 전부PASS. 원UI1만 새수집/fullcollect·main·engine0. 재해시 old행/target/oldkey/native/prefix·partial/wrongparent/missingcommit·rollback/neighbor/extra/historical-current 반례 거절. 공식결과의 census2필드만 actual typed/disk와 재대조하며 새전체inventory라고 하지 않는다.",
+    "binding": "functions/scopes/logs/preserved=true/error=null, clean3245/보호6/runner 전후 동일, stdout/stderr10개0B. root session60273 ORDER482_POST_RECEIPT_OK/outer exit0.",
+    "actual_ui": {
+      "path": ".git/order482-20261008.hsSmNO/postreceipt2/actual-original-ui.json",
+      "sha256": "c66fd10af8f7c5ad19ced2d0a09830bb06d9ed4c25c6c23e4946f2e39169cf75",
+      "bytes": 1911895,
+      "fields": 9,
+      "calls": 3478,
+      "legacy_entries": 2952,
+      "planned_context_entries": 29,
+      "observed_context_entries": 29,
+      "errors": 0
+    },
+    "retained": "원 collector 전체dataclass에서 GameState.check_game_over:4329 새KO/EN call1/entry1·옛call0/entry0 직접 확인. 옛JA정확1, supplied old/new target·old/missing/coordinate call5 변조 거절, 기존20억 retained1 정상. 실행기 new10B/old20B 라벨은 실제 키10억(KRW1B)/20억(KRW2B)을 가리킨다.",
+    "seal": {
+      "path": ".git/order482-20261008.hsSmNO/seal1/result.json",
+      "sha256": "904ed42e788b13fe092fcd43b071387b2cda6d1ed1eb27ebbc262cd6c4699635",
+      "result": "post결과/runner/전체UI/official결과/10로그14개 재해시 PASS; 같은 d302/3245/보호6 보존. 새 QA/collector/engine0."
+    }
+  },
+  "retained_failure": {
+    "path": ".git/order482-20261008.hsSmNO/postreceipt1/result.json",
+    "sha256": "0097e2b07d9990b6fc57e6764b91b4e48208b2ddb1b8930c84d4c99f3e061f49",
+    "disposition": "전체FAIL/outer exit1/preserved=true. 실제 receipt9+binding3 통과 뒤 open('x') progress.json 재생성의 FileExistsError. 원실패/4로그/runner 보존. 별도 post_receipt2의 progress-N 경로1줄만 수리해 새실행했다. 첫 시도를33/전체PASS로 바꾸지 않는다."
+  },
+  "final_binding": {
+    "path": ".git/order482-20261008.hsSmNO/closurebinding1/result.json",
+    "sha256": "1cfdfab5a6e10567aa06b04820924208e2bc8b5812b6c5fd0908c7fb1b632ee1",
+    "runner_sha256": "832c29175296aaf106ea5fe2d1373929467736ed0949fb7d3041cb15f84379a5",
+    "identity": "c827/tree3092의 clean 상태는 실제 closurebinding1 before/after 기록에서 확인했다. 보고 작성 시 현재 HEAD는 c827이며 root의 queue/L3/WORK_LOG·active→archive482 metadata 변경과 이 새 보고가 있어 clean이라고 주장하지 않는다. parent d302→c827은 전역CLAUDE1/15·21행2+/2-만, 다른3244파일 동일. CLAUDE는 metadata 예외가 아니므로 새 source subject다.",
+    "actual_boundary": "c827에서 원 asset_one_billion fresh 입장/정상 종료1회6.146376542s, current raw5·functions/scope·전체3245/보호/runner 보존=true/error=null. root session20605 ORDER482_STATUS_SUCCESSOR_OK/outer exit0.",
+    "reuse": "141/공식9는2ef1, 준비50는fedf, post33/seal은d302에서 실제 실행했다. c827에서 재실행0. 변경은 비소비 상태문서뿐임과 코드/데이터/원증거 동일성으로 제한재사용한다. 전체입력 동일·새후보QA 실행 주장은 아니다. closure의 private증거 재해시는 fresh 전이므로 검수자가 종료 뒤 현재 원파일을 재해시했다.",
+    "metadata": "보고 뒤 root의 queue/spec/archive/WORK_LOG/원장/STATUS 마감은 별도 metadata wrapper 검증 대상이다. 제품·지원·CLAUDE 추가변경은 이 보고로 허용하지 않는다."
+  },
+  "l2": {
+    "reachability": "ASSET_ONE_BILLION_LOG_CHECK_OK locales=5 cases=50 threshold=40 net_debt=5 restore=5; exit0/3.060466s; 자연발화0.",
+    "producer_reader": "autoloads/GameState.gd:4119 순자산 → :4327 threshold/:4328 flag/:4329 LocaleManager.ui(:150) → GameState:4025 add_log → scenes/MainGame.gd:10185 _render_log.",
+    "changed_state": "최초 asset_1b_reached false→true/log1, 기true→추가log0 보존. 문구5/first receipt3만 변경; 임계·재무·peak·엔딩·24주 상태차0.",
+    "foregone": "선택 아님/발화주차 고정없음. 실제 순자산>=1B 최초 check_game_over. 존치 시 실행되지 않는 가속을 새 로그가 보장했음; 과거 저장 로그 재서술0.",
+    "narrative_position": "고정 챕터 장면 아님: 경제 이정표 로그. 준비 turn49/age34; 자연발생 주차 미관찰.",
+    "scene_tier": "해당없음: 비장면 UI 사실 수리. 장면 계층 변경/승인0.",
+    "closes": "10억 가속 보장 불일치·새3 공식수용·정확 역사/잔류키/분수 경계만. 다른 이정표·본편완성·실제관찰 게이트는 닫지 않음."
+  },
+  "limits": {
+    "unobserved": [
+      "native_reader",
+      "human_playtest",
+      "physical_controller_feel",
+      "rendered_ui",
+      "natural_gameplay",
+      "full_product_quality"
+    ],
+    "execution": "새 자연진행/화면/패드/240주/전체출시 QA0. 과거실행과 새 UI1/33/fresh1을 합쳐 가상의 단일 전체실행을 만들지 않는다. 증거는 로컬 .git 보관본이며 tracked 제품과 구분한다.",
+    "release": "본편HOLD·공개GO1·인간OPEN45·과거HOLD/REJECT/GO 불변. 원어민/render OPEN·전체현지화 INCOMPLETE. 자동검사는 계약 증거이지 재미·깊이·문체·전체게임 품질이나 출시승인이 아니다."
+  }
+}

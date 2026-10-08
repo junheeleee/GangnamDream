@@ -2,9 +2,17 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-08 — 10억 첫 기록을 실제 효과에 맞췄다 (482, 한정 GO)
+
+- “여기서부터 자산 증가가 빨라진다”는 실행되지 않는 보장절을 KO/EN에서 걷고 JA/CN/TW 새키1씩을 직접 옮겼다. 10억/30억/3분의1 사실·순자산 임계·최초 flag·경제·엔딩·과거 저장로그와 옛JA값을 보존한다. source4 fedf0c7 → 원공식9/collect9 → ledger1 6dd8fb8(직접부모가 실제 export2ef1d958) → helper 핀 RHS5 d302396을 분리했다. 배치277/accepted41852→280/41855, 최초3/교정0/옛JA 수용0/native OPEN이다.
+- 준비50 actual exit0/3.060466초, source141·분수/retained 반례·원consumer8, 원공식 export/check/import 각3/collect9, 후속 receipt9/binding3/census6/consumer8/UI7=33, EN/Hangul/등록3을 통과했다. 후속UI는 실제 원 dataclass9필드/3478calls/errors0를 저장했다. 같은 대형검사/240주/옛 반례 모집단 재실행0이며 새 원UI1회 경과7468.317900875초는 비용 관측이지 개선율이 아니다. 자동검사는 계약 증거이지 재미·깊이·문체의 증거가 아니다.
+- 첫 postreceipt1은 실제12 PASS 뒤 checkpoint 중복 exclusive-create로 wrapper FAIL/exit1/보존true였다. 원실패·원로그를 남기고 새 runner의 경로1줄만 수리했다. 이12 재실행은 wrapper 수리에 귀속한다. 종료 뒤 실제 증거14/UI전체/원공식결과 rehash seal PASS, SHA/L2/각 원검사의 실제 후보는 [완료사양](queue_archive/ORDER-482.md)에 결속했다.
+- CLAUDE15/21 현재상태2행은 metadata 예외가 아닌 새source c82715611071178c394eb2d82ceb866ccfc4b5b1/tree3092e298df3fccbaebdae270e5c1bca8722c8b96이다. 이전d302 입력3245 중3244·보호6·원소비자/증거 불변과 actual original fresh 입장/정상종료1(6.146376542초)을 확인했다. 준비50은 비소비 원장/상태문서 전이·runtime2227·engine/runner/log/소비자 불변에만 제한재사용하며, 원33/9/141/50을 새 후보에서 실행했다거나 전체입력이 같다고 쓰지 않는다.
+- 비저자 [최종 전수보고](agent_reviews/ORDER-482.json)가 이 로그의 사실·5언어 표시·최초3수용만 GO했다. gangnamdream-dev의 표적·소유·직접 번역·격리·실패/인간 증거 분리가 마감에 적용됐다. 새규범0, exact 전이·실행/재사용 계획은 일회성. 공개GO1·인간OPEN45·player/seed·project.godot·본편HOLD·실제화면/자연/원어민/물리패드 미관찰은 유지한다. 검수 병목은 별도 작은 범위로 실제 비용을 먼저 확인한다.
+
 ## 2026-10-08 — 10억 첫 기록의 가속 보장 제거 (482, 착수)
 
-- 실제 asset_1b_reached는 최초 로그 억제 flag뿐이며 가속 효과가 없다. [작은 사양](queue_active/ORDER-482.md)으로 KO/EN 보장절·새JA/CN/TW키1씩·최초3수용과 필요한 exact 역사 접속을 선언한다. 선언 전 구현/QA/collect/수용/engine0이다.
+- 실제 asset_1b_reached는 최초 로그 억제 flag뿐이며 가속 효과가 없다. [작은 사양](queue_archive/ORDER-482.md)으로 KO/EN 보장절·새JA/CN/TW키1씩·최초3수용과 필요한 exact 역사 접속을 선언한다. 선언 전 구현/QA/collect/수용/engine0이다.
 - gangnamdream-dev의 소유·직접 번역·표적/격리·독립 검수 절차를 적용한다. 10억/30억/3분의1·임계/경제/엔딩·과거 저장로그·옛JA값을 보존하고 공개GO1/인간OPEN45/본편HOLD를 유지한다. 옛 성공 검사를 반복하지 않으며 화면잠금 재확인/사용자 재서명 요청0이다.
 - 선언 검증에서 없는 `queue_manifest_check.py` 이름을 추정해 사용법 이전 파일부재FAIL이 났다(제품검사0). 실물 검색 뒤 실제 `queue_consistency_check.py`/context/STATUS/diff를 통과해 선언586bd23을 push했다. 이후 source4 fedf0c7·준비50/3.060466초·source/fixture 반례20 실제PASS를 보존하며 공식수용/최종판정은 아직 미완료다.
 

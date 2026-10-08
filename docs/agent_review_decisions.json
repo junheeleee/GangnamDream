@@ -10094,6 +10094,48 @@
         "path": "docs/agent_reviews/ORDER-481.json",
         "sha256": "0a512f9280589227b1d28bff4d8aa783b0f022d9d3f7ddc97c399d7f2eaa1989"
       }
+    },
+    {
+      "id": "order-482-source-c827156-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-08",
+      "decided_by": "/root/order469_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-482",
+      "subject": {
+        "kind": "source",
+        "commit": "c82715611071178c394eb2d82ceb866ccfc4b5b1",
+        "tree": "3092e298df3fccbaebdae270e5c1bca8722c8b96",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-482.json",
+          "sha256": "817ad454aaba3636a931015f7f0882ca71f0d41efab5f445a3b2736b8b822057"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-482.json",
+          "sha256": "817ad454aaba3636a931015f7f0882ca71f0d41efab5f445a3b2736b8b822057"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-482.json",
+          "sha256": "817ad454aaba3636a931015f7f0882ca71f0d41efab5f445a3b2736b8b822057"
+        }
+      ],
+      "unobserved": [
+        "native_reader", "human_playtest", "physical_controller_feel",
+        "rendered_ui", "natural_gameplay", "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-482.json",
+        "sha256": "817ad454aaba3636a931015f7f0882ca71f0d41efab5f445a3b2736b8b822057"
+      }
     }
   ]
 }

@@ -1,6 +1,6 @@
 # ORDER-482 — 10억 첫 기록의 근거 없는 가속 보장
 
-#### [~] ORDER-482 [위임 사실 수리] 10억 돌파의 가속 보장절만 제거한다 — 2026-10-08
+#### [x] ORDER-482 [위임 사실 수리] 10억 첫 기록·5언어·최초3수용 한정 GO — 2026-10-08
 
 481 한정 GO/main 5aaebe8 뒤 선언한다. 선언 전 구현·새QA·collector·수용·엔진0.
 본편HOLD·공개GO1·인간OPEN45는 보존한다. 게임 출시/원어민/실제화면 판정이 아니다.
@@ -66,7 +66,7 @@ project.godot·공개manifest/PCK·사용자save/seed·인간원장·과거agent
 분모·release_content_inventory·Demo/ArcFlow/ScreenshotQA 변경0. 새규범0;
 exact 전이/모집단/실행계획은 일회성이다. 자동검사는 계약 증거이지 재미·문체 증거가 아니다.
 
-## 2026-10-08 실제 진행 — 아직 미완료
+## 2026-10-08 초기 진행 이력 — 아래 후속 결과와 구분
 
 - actual source4 `fedf0c71ac890d258322e2c0464d9f7989c61dcd`, directparent
   `586bd23e7a6c5f2a7ebe67d94b00be30106787c4`, tree `b95498a1559397a9bfc47b0de2bd574b9cb4f191`.
@@ -85,3 +85,72 @@ exact 전이/모집단/실행계획은 일회성이다. 자동검사는 계약 �
 - 공식 원main9·actualcollect9/첫수용3·새역사 반례·독립 최종 판정은 남았다.
   오래 걸리는 원검사 실행 중에는 tracked authoring/commit을 동결하고 기존 실패·
   결과를 덮거나 새 성공으로 표시하지 않는다.
+
+## 2026-10-08 실제 완료 입력·L1/L2
+
+```text
+도달 경로      : ASSET_ONE_BILLION_LOG_CHECK_OK locales=5 cases=50 threshold=40 net_debt=5 restore=5 prepared_component_only=true; actual exit0
+생산자 ↔ 독자   : autoloads/GameState.gd:4327–4329 ↔ autoloads/LocaleManager.gd:422 / scenes/MainGame.gd:10185
+바꾸는 상태     : KO/EN 가속 보장절2 → 사실2; JA/CN/TW 새키1씩; 배치277/accepted41852 → 280/41855; 임계/경제/flag/ending 변화0
+포기 시 잃는 것 : tools/AssetOneBillionLogCheck.gd:26–67; 조건 net>=1000000000·최초 flag=false, 준비 turn49; 선택/24주 상태 차이0
+서사 위치       : autoloads/GameState.gd:4327–4329; 본편 공통 자산로그(특정 chapter.beat 없음)
+장면 계층       : 해당없음(비장면 UI 로그); tools/AssetOneBillionLogCheck.gd:2; 새 장면0
+닫는 것         : 10억 첫 기록의 사실·5언어 표시·최초3수용; 실제화면/자연/원어민/물리패드/본편출시 닫음0
+```
+
+- 원 공식9는 source-only `2ef1d958b2589fae5e0187380bf10dcbb4e1e58f`에서
+  export/check/import 각3·actual collect9를 종료했다. root session82393 actual exit0,
+  `ORDER482_ORIGINAL_OFFICIAL_OK`; 함수교체0/선택적 return 관찰, 213 source/17505 leaves,
+  UI3478/errors0. 전체3245/보호6/원함수·scope·로그 보존. `official1/result.json`
+  SHA `202099c92888fb9ed73a40f6e638185882b2a9d0fc09b61024af12c6e14868f1`.
+- ledger-only `6dd8fb87765622d7ba91d9b1bddb407f6fb51d91`의 직접부모는 실제 export
+  revision `2ef1d958…`; 전역diff 원장1만이다. 기존277 raw배치·41852 accepted/value/order
+  prefix 보존, 새 최초3/교정0/옛JA 수용0/native OPEN. raw SHA
+  `fa200e234491545d51e4d0395715eec274dc35cb04f3552003ab3729574cb027` →
+  `9262c8e68528d85c53c3ff9b156e8135932b237a78b6936d3098476b00c2eff2`.
+  후속 `d3023964…`는 새 helper의 실제 영수증 핀 RHS5만 결속했다.
+- source141/원consumer8 실제PASS는 `preflight1/result.json` SHA
+  `2b15adaae2847b2647e62112e5a93f50fd891b5fcc08a664f313da5d90e1e4c7`에 귀속한다.
+  EN/Hangul/등록3 후속원CLI PASS는 `quick2/result.json` SHA
+  `56b8ce0d25040360683dc97d8b59a544a2b199f18542f50296c19939e9fee5eb`에 귀속한다.
+- 실제 후속33=receipt9/binding3/census6/original consumers8/UI·retained7,
+  root session60273 exit0/`ORDER482_POST_RECEIPT_OK`, 입력 d3023964/tree095fecb4.
+  `postreceipt2/result.json` SHA
+  `f274776b89c1da1f61508792e230ed5ffdb19d2e96c5580da0ed85a9dfa381e1`.
+  원UI1회·전체9필드/3478 calls는 `actual-original-ui.json` SHA
+  `c66fd10af8f7c5ad19ced2d0a09830bb06d9ed4c25c6c23e4946f2e39169cf75`;
+  새 fullcollect/official main/engine0이다. census6은 실제 원collect의213source 필드만
+  current typed API로 검증하며 새 전체inventory로 포장하지 않는다.
+- 첫 `postreceipt1`은 receipt9/binding3 PASS 뒤 중복 progress 파일의 exclusive-create
+  충돌로 wrapper FAIL/exit1이었다. 원파일·실패를 보존했고 새 runner의 checkpoint
+  경로1줄만 고쳐12+잔여21을 실행했다. 12재실행 이유는 wrapper 수리이며 원FAIL을
+  PASS로 바꾸지 않는다. UI·retained7 경과7468.317900875초는 관측값이지 개선율이 아니다.
+- 원증거14 재해시의 `seal1/result.json` SHA
+  `904ed42e788b13fe092fcd43b071387b2cda6d1ed1eb27ebbc262cd6c4699635`, root session95824
+  actual exit0/`ORDER482_ACTUAL_AUXILIARY_SEAL_OK`; 신규제품QA/collector/engine0.
+- 최종 source는 정본 CLAUDE15/21 현재상태2행만 바뀐 직접자식
+  `c82715611071178c394eb2d82ceb866ccfc4b5b1`/tree
+  `3092e298df3fccbaebdae270e5c1bca8722c8b96`이다. metadata 예외가 아닌 새 후보다.
+  `closurebinding1/result.json` SHA
+  `1cfdfab5a6e10567aa06b04820924208e2bc8b5812b6c5fd0908c7fb1b632ee1`은 actual
+  original fresh 입장/정상종료1(6.146376542초)/root session20605 exit0,
+  `ORDER482_STATUS_SUCCESSOR_OK`; 전체3245 중3244 불변/CLAUDE2행·보호6·원함수·scope
+  보존을 결속했다. post33/공식9/source141/준비50 재실행0이다.
+- 준비50 제한재사용은 원2227 중 비소비 원장·CLAUDE2 전이와 actual engine/runner/
+  로그/소비자 불변의 `runtimereuse2/result.json` SHA
+  `30c99301806e9e02676bcf64b47d40d7dc7b8bf075fd60d404818339b73d0215` 및 새후보
+  CLAUDE-only/2226 동일성에만 귀속한다. 전체입력 동일·새 실행·자연/렌더 주장0.
+
+모든 private 경로의 공통 base는 `.git/order482-20261008.hsSmNO/`다.
+규범 승격: 새규범0. exact 입력·역사 접속·모집단·실행/재사용 계획은 일회성이다.
+자동검사는 계약 증거이지 재미·깊이·문체의 증거가 아니다. 공개GO1/인간OPEN45·
+사용자save/seed·project.godot·본편HOLD를 그대로 유지한다.
+
+## 독립 최종 판정
+
+비저자 `/root/order469_review`가 실제 제품4·새3수용·지원 변경·원검사/실패/종료후
+증거를 전수로 읽고 새 source `c82715611071178c394eb2d82ceb866ccfc4b5b1`/tree
+`3092e298df3fccbaebdae270e5c1bca8722c8b96`의 이 한 로그 사실·표시·수용만 GO했다.
+보고는 [ORDER-482.json](../agent_reviews/ORDER-482.json), 정확 SHA와 scope는
+별도 `agent_review_decisions.json`에 결속한다. 원문·코드·CLAUDE가 아닌 허용된
+큐/보고/WORK_LOG/STATUS 마감 wrapper만 이 후보에 결속한다. 본편출시 GO는 아니다.
