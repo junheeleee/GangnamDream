@@ -2,10 +2,21 @@
 
 이전 원문 전체는 [화면 재개 전 기록](history/WORK_LOG_2026-10-06_pre_order472_render.md)에 바이트 그대로 보존했다. 더 이전은 [시장 UI 번역 전 기록](history/WORK_LOG_2026-10-05_pre_order465.md), [Claude PR31 기록](history/WORK_LOG_2026-10-05_claude_pr31.md)이다. 보존본 속 상대 경로는 이동 전 위치 기준이다.
 
+## 2026-10-08 — 원470 문자 탐색 한 함수의 검수 비용만 줄였다 (483, 한정 GO)
+
+- exact Document/str/int 공백0·1 단락 평가/2+ Unicode 원좌표 탐색만 source3 `7f13fb883d7063656aeb1c1ec75c6ae85405adae`/tree `b9aa00fb981773dc2ebec7bd09256adb6137c089`로 push했다. ws 밖 raw/AST·원fallback·옛self 함수15/main·기존등록·fresh/typed/Git/disk/HEAD/config/memo 불변, 새cache/증명생략0이다.
+- 같은 역사6입력 원API plain2.1800765→2.084976792초/profile2.966287708→2.788270625초, ws1074374회/cum1.099120443→0.887206721초. 한 전후쌍의 plain0.095099708초(4.36%)/profile0.178017083초(6.00%) 감소만 관측했다. 입력취득은 타이머 밖이며 7468초 UI블록·collector 단독·통계적/전체pipeline 개선율로 확대하지 않는다.
+- actual 새175 CLI exit0/stderr0/18.337008333초·등록/목록만/context/queue/diff 총6명령 통과. Unicode/타입/identity/getter/예외·JSON/좌표·역사rawinverse·변조거절은 원함수와 동등하다. prepared semantic_binding 조기거절은 actual warmed live Git 관찰이 아니다. 원UI/collector·공식9·old141·240주·Godot/수용 반복0이다.
+- before는 clean2220, after/checks는 그HEAD+소유dirty였다. clean7f13 seal에서 같은commit/disk raw와 증거20 SHA/크기·tracked3247중3244 불변을 결속했으며 새API/CLI0이다. 외부userdata/engine snapshot 실측 주장은 없다. [완료사양](queue_archive/ORDER-483.md)에 실제SHA/L2전7칸·root 파일부재exit2를 그대로 보존했다.
+- 비저자 [전수보고](agent_reviews/ORDER-483.json) SHA `a0a4c617aaa8e1ac85b054b9343354de23a1ff92b45e338dfdf57d7c39436caf`는 이 함수·새검사·등록만 GO했다. gangnamdream-dev의 소유·표적·실측/추정·독립/인간 증거 구분을 적용했다. 새규범0/일회성, 공개GO1·인간OPEN45/done1·본편HOLD·실제화면/자연/native/물리패드 미관찰·과거판정은 유지한다. 다음 용어집 후보는 읽기 재고18키 확인까지만 했고 새번역/수용0이다.
+- 마감 patch1은 WORK_LOG의 완전한 행 대신 짧은 부분행을 기대해 매칭FAIL/파일변경0이었다. 실제 전체행을 읽어 같은 metadata만 정정했고 제품검사·측정 재실행0이다.
+- 마감 context1은 WORK_LOG41811B>40000B 예산으로 FAIL했다. 말미472 원문을 허용된 현지화·검수 history에 손실 없이 이동하고 링크만 남겼다. 기존 제품·보고·측정 불변이며 같은 context를 재검증한다.
+- 롤링 patch는 적용됐지만 orchestration의 크기출력만 미지원 TextEncoder로 ReferenceError였다. 파일수리/API/제품QA 실패가 아니며, 뒤 실제 Git 원문과 archive bytes를 직접 대조한다.
+
 ## 2026-10-08 — 순수 문자 좌표 탐색의 확인된 비용 (483, 착수)
 
 - 읽기 진단에서 동일 역사 LOSS_HOLD 원 함수 plain2.180620초/profile2.971550875초, ws1074374회/cum1.114864407초를 확인했다. 중복 decode2회0.106994958초 후보는 기각한다. 482의7468초는 전체 UI블록이며 collector 단독이나 이 함수 기여율은 미측정이다.
-- [한 함수 사양](queue_active/ORDER-483.md)을 선언한다. 순수 ws/self 전용 CLI·등록만 분리 소유하며 선언 전 새 구현/원공식/collector/engine/수용0. 강남드림 개발 skill의 표적·소유·독립/인간 증거 구분을 적용한다. 새 cache/증명 생략/출시·인간 GO0, 새규범0/일회성이다.
+- [한 함수 사양](queue_archive/ORDER-483.md)을 선언한다. 순수 ws/self 전용 CLI·등록만 분리 소유하며 선언 전 새 구현/원공식/collector/engine/수용0. 강남드림 개발 skill의 표적·소유·독립/인간 증거 구분을 적용한다. 새 cache/증명 생략/출시·인간 GO0, 새규범0/일회성이다.
 - 선언 검사에서 root가 없는 context_lint.py 이름을 써 파일부재 exit2였다(제품 QA0). 실물 검색한 context_manifest_check.py로 귀속을 바로잡으며 실패를 성공으로 바꾸지 않는다.
 
 ## 2026-10-08 — 10억 첫 기록을 실제 효과에 맞췄다 (482, 한정 GO)
@@ -145,15 +156,4 @@
 - 비저자 [149 후속 보고](agent_reviews/ORDER-149-render.json)가12PNG를 직접 전수 읽고 정지 가독성·배치만 수용했다. sourcea7369ee/tree261acd47·보고 SHAb890d882fbec23c08bcae6b43b9a2a7859def311a3b7d4459c372ae1645ad2a8·새 HOLD 원장 행으로 결속한다. 초안 JSON 중복key1은 경로/설명 분리 뒤 재귀 중복0으로 수리했으며 원실행FAIL과는 별개다. 큐/문서/원장/생성현황만 표적 검증하고 제품·동일 대형 검사는 반복하지 않는다.
 - 원장 정상·222반례·큐/25이어보기 fixture·문서 예산/links186은 실제 exit0·stderr0이다. 원로그는 같은 private 경로 metadata-*·final-*에 보존한다. source 후보가 dirty로 미확정인 정상검사 출력은 품질 실패가 아닌 당시 상태이며, commit 후 생성현황에서 sourcea7369ee를 다시 결속한다. human SHA6ab5c927…·옛149보고 SHAa0ced83b…·472후속보고 SHAb94e7878…는 불변이다.
 
-## 2026-10-06 — 여섯 준비 장면 실제 화면·키보드 관찰 (472)
-
-다음 기존149의 실제12PNG·강조 관찰 범위를 별도 선언했다. 제품/문안/원본 project0수정,
-정상4재생의12PNG·창/이미지 크기·글자경계·정확 source/로그/저장 보존만 추가한다.
-기존149시간/fallback/ReduceMotion/skip은 입력동일 검증으로 재사용하며 사람의 첫 강조 기억은 OPEN이다.
-
-- clean main 4d1f6c1/tree72c8d606의 첫해·둘째 해·아버지 사망 현수 전화 KO/EN6건을 root가 실제 화면과 수동 키보드로 관찰했다. 모든 본문·추가 회상·선택·결과와 첫해 후속 첫 페이지를 확인했고 잘림·겹침·영문 한글 누출은 관찰되지 않았다. prepared1280×800·autooff이며 자연 플레이·원어민·사람·물리패드·소리 검수는 아니다.
-- render1은 private 실행기 예약어 parse 실패, render2는 root가 다섯째 마지막 결과 뒤 Enter를 한 번 더 보내 fixture가 처음으로 돌아간 전체 FAIL/exit1이다. 둘 다 원본을 보존한다. render2 COMPLETE5까지의5건과 아직 안 본 case6만 실행한 render3 PASS/exit0을 분리한다. 단일6건 실행 PASS로 재분류하지 않는다.
-- raw 결과·표적 보존·개별 입력/페이지·root pixel 기록은 .git/order472-20261006.yw3Jwt에 보존한다. render3 SHA74ad7f7e116c042ced8f9a16a7e821745bda4b421f251c01ac6498a6672c11bc, pixel기록 SHA0eefcbd071c16eef1e31781ba258aad82a7570552b5b27932c2e82a0e11a7182. 기존 HOLD 보고·원장 SHA는 불변이고 독립 후속 판정은 별도 보고로 남긴다. 공식120/준비337/표적14는 입력동일 재사용이며 이번 재실행이 아니다.
-- gangnamdream-dev의 실제 관찰/자동 로그 구분과 표적 검수 적용. 추가 제품수정0·새 규범0, 이번 검수 전이는 일회성이다. 본편 출시 HOLD·공개 GO·과거 인간 판정은 보존한다.
-- 비저자 [후속 보고](agent_reviews/ORDER-472-render.json)가 candidate5d85c5b/tree64c1031a의472 단위만 한정 GO했다. SHA b94e78785f0c2936f4a41f174e80294fc55830a9404c4c0d0d6a6acde28ca168. 과거 HOLD를 보존하고 새 원장 행으로 결속·완료 보관한다. 다음 순서는 기존149의 실제 프롤로그 화면 의무다.
-- 완료 metadata의 큐/문서 예산/원장 정상·222반례/생성현황 검사 exit0·stderr0. 원로그는 위 private 경로 closure-*에 보존한다. 역사 WORK_LOG 원문 SHAce9f59da… 동일과 human_gates SHA6ab5c927…·이전472보고 SHA400001fb… 불변을 확인했다. 현황은 commit 뒤 후보 신원을 다시 생성하며 내부 본편 HOLD를 유지한다.
+이전472 원문은 [현지화·검수 보존본](history/WORK_LOG_2026-09-07_localization.md#2026-10-08-작업-기록-예산-롤링)에 손실 없이 이동했다. 보존문 속 상대 경로는 이동 전 위치 기준이다.

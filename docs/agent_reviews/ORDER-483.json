@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-483",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-08",
+  "reviewer": "/root/order469_review",
+  "subject": {
+    "kind": "source",
+    "commit": "7f13fb883d7063656aeb1c1ec75c6ae85405adae",
+    "tree": "b9aa00fb981773dc2ebec7bd09256adb6137c089",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "scope": "원470 _Document.ws 한 함수의 순수 문자좌표 탐색 최적화, 전용175 검사와 등록만의 도구 GO. 게임·번역·수용·현재 proof·전체 파이프라인·출시 GO가 아니다.",
+  "method": {
+    "independence": "main이 helper/self-test를, root가 등록·실행기·실행을 작성했다. 비저자는 실제 선언 전체, 변경3파일 전수 diff/원 함수/새 검사, measure/checks/seal 실행기와 결과·12원로그·두 pstats를 직접 읽었다. 이 보고 외 편집0, 프로젝트 import/QA/collector/engine/수용/commit0.",
+    "source_observation": "검수 시작 시 실제 Git HEAD/tree와 clean 상태를 직접 관측했다. 선언2220cdc→후보는 아래3파일만이며 제품/482보고 변경0. 작성 후 root 마감 metadata는 별도 wrapper 검증 대상이다.",
+    "independent_readback": "stdlib/Git 읽기로 증거20 SHA/크기, pstats 전체60/62행과 JSON 통계, 역사6파일×2revision의 실제 raw12, 최종 소유3 commit/disk raw를 대조해 불일치0. ws 밖 전체raw와 oldfallback suffix, 옛self-test prefix/함수15 AST도 직접 동일 확인했다. 프로젝트 검사는 재실행하지 않았다.",
+    "skill": "gangnamdream-dev/CLAUDE/WORK_UNIT의 범위 선언·표적 검수·실측/추정·에이전트/사람 증거 분리를 적용했다. 새 규범0."
+  },
+  "ownership": {
+    "declaration": "2220cdc76d2c88b2778a337ea79d39b490140f12",
+    "files": {
+      "tools/order470_source_compat.py": "6cc948b4ee16f57946ffd35f44404016f57f3c52d9d1b7a3a163f5f5d0eca273",
+      "tools/order470_source_compat_self_test.py": "2a47548007a634797695aae651bf8be31ff4c6dc21cc7b6459ae5d806b56e66b",
+      "tools/audit_scope.json": "979f14aae4efd0df90604d6efc1b32bff6c2ff0f93ebc18da102563f923acb90"
+    },
+    "delta": "ws 몸체11줄 추가; self 새2함수/--whitespace-only dispatch281줄; 명시차선1+검사1만. _loads/__init__/walk/configuration/semantic_binding/read_proof/fresh/memo/원receipt/기존15검사함수/main 원문, 기존등록·기본CLI 보존.",
+    "implementation": "exact _Document receiver→builtin str/exact int/0<=index<=len만 fast path. 공백0·1은 원index/next_index를 반환하고2+는 Unicode regex 위치를 반환한다. bool/subclass/foreign/음수/초과/다른형은 원while 그대로. mutable cache·doc 공유·proof 생략0.",
+    "findings": "최종 미수리 차단0. 시장481과 다른 원470 NaN/Infinity 허용 및 후단 allow_nan=False 동작은 유지하며 parser 강화로 주장하지 않는다."
+  },
+  "measured_pair": {
+    "runner": ".git/order483-20261008.LshAik/measure.py",
+    "runner_sha256": "d7cb65e7991ba5b7ecdbfd27771bc3c70d4fa460ec3881c7c9bd1aa6f987a7b6",
+    "historical_source": "fb9952cd1c5fbd8d128d487d20902ca10429a42d",
+    "historical_receipt": "fb766fd7fc17a574bc00ffcbcd278fb03b797cee",
+    "population": "동일 typed 역사 midgame5+ledger1의 원 _loss_hold_receipt_semantics를 각후보 plain1/profile1. 두 결과 모두 tuple (fb9952cd…,). typed 입력 취득·모듈 import·snapshot은 타이머 밖.",
+    "before": {
+      "path": ".git/order483-20261008.LshAik/before/result.json",
+      "sha256": "6b168c482cd0ea8618c1dafaa827aebca0c6cda3ca3e6e0ecd11ba31c6102925",
+      "plain_seconds": 2.1800765,
+      "profile_seconds": 2.966287708,
+      "ws_self_seconds": 0.864301446,
+      "ws_cumulative_seconds": 1.099120443,
+      "pstats_sha256": "a9aa65e4b5e538d32dedb26ab64b52ef6ac9d46df8f9c32d128ec2f0d9cf1479",
+      "source": "clean2220cdc/treee25a18789b6e6a6f5b095036871fdcf6c468cac8"
+    },
+    "after": {
+      "path": ".git/order483-20261008.LshAik/after/result.json",
+      "sha256": "7d5d3bced130a6ed46626fef8c43d527ce4130b4f8555f3a55c1eb53723a5bfc",
+      "plain_seconds": 2.084976792,
+      "profile_seconds": 2.788270625,
+      "ws_self_seconds": 0.569191765,
+      "ws_cumulative_seconds": 0.887206721,
+      "pstats_sha256": "717697aa68d366c95fe6c579ec2b28262c286cadd01d84b46aeff56683a0f10c",
+      "source": "HEAD2220cdc/treee25a187 그대로+소유helper/self2 dirty. clean7f13에서 새측정했다는 주장이 아니며 뒤 seal이 동일raw를 연결한다."
+    },
+    "preserved": "각 실행 before/after 전체tracked3247·HEAD/tree/status·함수/config·ACTIVE/memo 동일, exception=null/status=PASS. 호출수 ws1074374/Document2/walk270771/_loads11 동일. 외부 userdata·engine 보호 실측은 아니며 별도 stdout/stderr 파일 없는 JSON+pstats 원증거다.",
+    "conclusion": "plain 0.095099708s(약4.36%), profile0.178017083s(약6.00%) 감소라는 단일쌍 관측. 선언 전 진단값은 이 전후쌍에 합치지 않았다. 통계적 속도 보장·7468초 UI블록/collector 단독·전체pipeline 절감률로 확대0."
+  },
+  "checks": {
+    "path": ".git/order483-20261008.LshAik/checks1/result.json",
+    "sha256": "90f962c21aefa18eed78c429f2dab25484538aea627a60a3f37bd5dc5bfc7a83",
+    "runner_sha256": "2e9ac99faddc4a50341294a6569217d47e62f4434fd1249588f684e17f35a2b1",
+    "marker": "ORDER483_WHITESPACE_OK cases=175",
+    "cli_seconds": 18.337008333,
+    "stdout_sha256": "dd5fe8d949f15167baca139ed22d79626855609b6cbb69c6fb83d40745dfe005",
+    "actual": "원 새CLI·등록verify·명시lane 목록preview·context·queue·diff 총6명령 exit0/stderr0. 등록218/목록4, context boot30225/docs585, queue active79/in_progress77. 목록은 실제4검사 재실행이 아니다.",
+    "coverage": "Unicode isspace 전종/비공백·유효좌표·bool/int/str subclass·foreign receiver/동적getter18·음수/초과/float/기타형의 값/타입/반환identity/읽기횟수/예외를 원while과 대조. compact/pretty/CRLF/UTF-8/nested/escaped/nonfinite value/text/spans 동등; duplicate/trailing/비JSON공백·구문 오류의 원예외 동등. 실제 역사270-prefix rawinverse/공식header/revision 동일, layout/native-neighbor/비소유accepted+재해시3 거절.",
+    "boundary": "ws교체/module변화를 synthetic memo의 _semantic_binding에서 Git 전에 거절하고 clear/reset한다. actual context의 pre-admission 실패/finally 복원은 확인하지만 정상 current proof·warm Git 입출구 관측은0. 기존 정상/예외 경계를 새로 강화했다는 주장0.",
+    "binding": "검사 실행은 HEAD2220cdc+소유3 dirty 상태를 전후 보존했다. ownership은 ws외raw/AST·fallbackraw·옛test/main15·기존등록 동일 PASS. 최종commit과 같은bytes라는 seal 근거로만 연결한다."
+  },
+  "final_seal": {
+    "path": ".git/order483-20261008.LshAik/seal1.json",
+    "sha256": "8d06f2f4a5d3b4c774dfa1e85a5c774350c61724495e6ac08d01d896aedd2eab",
+    "runner_sha256": "c1a32a06a995a1f233e693ff7b6909a8c3eb426a302dd8f285160a91530e8120",
+    "result": "실제 clean7f13/treeb9aa에서 typed 소유3·현재disk 일치, tracked3247중3244 원선언과 불변, 측정후 helper/self raw와 검사3 raw 모두 같음. 증거20 SHA/크기 재결속·preserved=true·새API/CLI0. root 실행 결과를 비저자가 다시 읽고 재해시했다."
+  },
+  "retained_failure": {
+    "observer": "root exec_command tool output; 별도 원로그 파일 없음",
+    "result": "선언 중 tools/context_lint.py 파일부재로 exit2: can't open file .../tools/context_lint.py: [Errno 2] No such file or directory.",
+    "disposition": "운영실패 그대로 보존하며 제품QA/API/collector/engine 실행0. 실제 파일검색 후 context_manifest_check.py exit0으로 정정했다. 이후 성공으로 원실패를 재분류하거나 가짜 로그경로를 발급하지 않는다."
+  },
+  "l2": {
+    "reachability": "ORDER483_WHITESPACE_OK cases=175; 원CLI exit0/18.337008333s. 원pureAPI before/after plain/profile 각1.",
+    "producer_reader": "tools/order470_source_compat.py:1674 ws → :1690 walk → :1974 _correction_ledger_inverse → :2011 _loss_hold_receipt_semantics.",
+    "changed_state": "cursor값·JSON값/text/spans·역상bytes/revision·예외 동일; ws cum1.099120443→0.887206721s. 게임상태/수용0변경.",
+    "foregone": "기존순회 존치 시 동일 역사원장 탐색 비용 유지. 선택/발화주차/24주게임효과 해당없음.",
+    "narrative_position": "해당없음: QA 도구 내부 순수 원장 문자좌표.",
+    "scene_tier": "해당없음: 비장면 도구 최적화.",
+    "closes": "측정된 원470 ws 한 함수의 한정비용과 동등성만. 전체collector/공식수용/현행Git입장/게임품질 게이트는 닫지 않음."
+  },
+  "limits": {
+    "unobserved": [
+      "native_reader",
+      "human_playtest",
+      "physical_controller_feel",
+      "rendered_ui",
+      "natural_gameplay",
+      "full_product_quality"
+    ],
+    "not_run": "원UI/전체collector·공식9·old141·240주·Godot·현재fresh/live warm proof 재실행0. 제품 입력이 같다고 기존482 결과를 새 실행으로 세지 않는다.",
+    "prior_report": {
+      "path": "docs/agent_reviews/ORDER-482.json",
+      "sha256": "817ad454aaba3636a931015f7f0882ca71f0d41efab5f445a3b2736b8b822057",
+      "changed": false
+    },
+    "release": "본편HOLD·공개GO1·인간OPEN45·과거판정 유지. 자동검사는 계약 증거이며 재미·깊이·문체·출시 승인이나 인간 관찰이 아니다."
+  }
+}

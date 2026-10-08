@@ -1206,3 +1206,20 @@
 - 후속 읽기전용 진단: 배달제목2는 JA/CN/TW 모두없다. 조건식UI parser가 후행`.format`을 요구해 비포맷호출을 놓친다. runtime if/else는단일파일48→50호출·표적0→2가되지만폰트raw핀/원문manifest승계를다시열게된다. 다음번역배치에서동일조건·literal쌍의bounded parser 개선+신규leaf실집합확인+6값을함께선언하는안을권고한다. 무제한조건제거의타파일매칭증가는미확인, 새코드/collector전수검사/번역실행0. 이번관측도구학습: 상속fixture를재사용할때부모와같은이름의함수시그니처를먼저대조하면불필요한엔진실패를줄인다. 이는이번후속메모이며새정본규범승격0.
 
 취업 준비 중국어188값·반복 검사 비용 축소 기록은 [현지화 보존본](history/WORK_LOG_2026-09-07_localization.md)에 원문 그대로 이동했다.
+
+## 2026-10-08 작업 기록 예산 롤링
+
+docs/WORK_LOG.md 말미의472 절을 원문 그대로 보존한다. 상대 경로는 이동 전 위치 기준이다.
+
+## 2026-10-06 — 여섯 준비 장면 실제 화면·키보드 관찰 (472)
+
+다음 기존149의 실제12PNG·강조 관찰 범위를 별도 선언했다. 제품/문안/원본 project0수정,
+정상4재생의12PNG·창/이미지 크기·글자경계·정확 source/로그/저장 보존만 추가한다.
+기존149시간/fallback/ReduceMotion/skip은 입력동일 검증으로 재사용하며 사람의 첫 강조 기억은 OPEN이다.
+
+- clean main 4d1f6c1/tree72c8d606의 첫해·둘째 해·아버지 사망 현수 전화 KO/EN6건을 root가 실제 화면과 수동 키보드로 관찰했다. 모든 본문·추가 회상·선택·결과와 첫해 후속 첫 페이지를 확인했고 잘림·겹침·영문 한글 누출은 관찰되지 않았다. prepared1280×800·autooff이며 자연 플레이·원어민·사람·물리패드·소리 검수는 아니다.
+- render1은 private 실행기 예약어 parse 실패, render2는 root가 다섯째 마지막 결과 뒤 Enter를 한 번 더 보내 fixture가 처음으로 돌아간 전체 FAIL/exit1이다. 둘 다 원본을 보존한다. render2 COMPLETE5까지의5건과 아직 안 본 case6만 실행한 render3 PASS/exit0을 분리한다. 단일6건 실행 PASS로 재분류하지 않는다.
+- raw 결과·표적 보존·개별 입력/페이지·root pixel 기록은 .git/order472-20261006.yw3Jwt에 보존한다. render3 SHA74ad7f7e116c042ced8f9a16a7e821745bda4b421f251c01ac6498a6672c11bc, pixel기록 SHA0eefcbd071c16eef1e31781ba258aad82a7570552b5b27932c2e82a0e11a7182. 기존 HOLD 보고·원장 SHA는 불변이고 독립 후속 판정은 별도 보고로 남긴다. 공식120/준비337/표적14는 입력동일 재사용이며 이번 재실행이 아니다.
+- gangnamdream-dev의 실제 관찰/자동 로그 구분과 표적 검수 적용. 추가 제품수정0·새 규범0, 이번 검수 전이는 일회성이다. 본편 출시 HOLD·공개 GO·과거 인간 판정은 보존한다.
+- 비저자 [후속 보고](agent_reviews/ORDER-472-render.json)가 candidate5d85c5b/tree64c1031a의472 단위만 한정 GO했다. SHA b94e78785f0c2936f4a41f174e80294fc55830a9404c4c0d0d6a6acde28ca168. 과거 HOLD를 보존하고 새 원장 행으로 결속·완료 보관한다. 다음 순서는 기존149의 실제 프롤로그 화면 의무다.
+- 완료 metadata의 큐/문서 예산/원장 정상·222반례/생성현황 검사 exit0·stderr0. 원로그는 위 private 경로 closure-*에 보존한다. 역사 WORK_LOG 원문 SHAce9f59da… 동일과 human_gates SHA6ab5c927…·이전472보고 SHA400001fb… 불변을 확인했다. 현황은 commit 뒤 후보 신원을 다시 생성하며 내부 본편 HOLD를 유지한다.
