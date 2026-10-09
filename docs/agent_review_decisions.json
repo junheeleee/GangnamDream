@@ -10354,6 +10354,55 @@
         "path": "docs/agent_reviews/ORDER-486.json",
         "sha256": "64b6b993566c6f759a231b0e30dc5780b92a37210ec225a4db9e20c93c91d43b"
       }
+    },
+    {
+      "id": "order-457-source-ce0a32b-general-live-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-457",
+      "subject": {
+        "kind": "source",
+        "commit": "ce0a32b05dc381ca8b34f18d56ea38c91923332b",
+        "tree": "dabb22881b716ecd7309c0987f1c3b2aa33ee832",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-457.json",
+          "sha256": "563d16674e6326310e5404a8105743d91e78c0c79021a87853c55792471f296b"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-457.json",
+          "sha256": "563d16674e6326310e5404a8105743d91e78c0c79021a87853c55792471f296b"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-457.json",
+          "sha256": "563d16674e6326310e5404a8105743d91e78c0c79021a87853c55792471f296b"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_audio_listening",
+        "Property_route_actual_play",
+        "other_endings_and_branches",
+        "other_locales_and_resolutions",
+        "single_candidate_fresh_W1_to_W240_play",
+        "corrected_W211_memory_render",
+        "W240_settlement_repair_and_replay"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-457.json",
+        "sha256": "563d16674e6326310e5404a8105743d91e78c0c79021a87853c55792471f296b"
+      }
     }
   ]
 }

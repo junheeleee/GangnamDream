@@ -1,6 +1,6 @@
 # ORDER-457 — 보존된 일반 경로를 실제 메뉴에서 불러와 5장을 읽는다
 
-#### [~] ORDER-457 [P1·플레이 검수] General W193→M60·후일담·6/6
+#### [x] ORDER-457 [P1·플레이 검수] General W193→M60·후일담·6/6 — 2026-10-10 관찰 완료
 
 **[~] 착수 — 2026-10-05.** 456의 준비 입력4건은 5장 정상 플레이가 아니다.
 151/150/146의 남은 두 경로 중 General 하나를 새 exact source에서 관찰한다.
@@ -162,3 +162,38 @@ M60/후일담6/6은 미도달, 인간/원어민/물리패드·출시는 HOLD다.
 
 이 단위가 없으면 준비 fixture와 실제 연속 독해 사이 공백이 남는다. 선택/경제/정본을
 추가하지 않고 이미 작성된 General 경로를 읽는다. 파일·모집단·진입 절차는 **일회성**이다.
+
+## 최종 관찰 — 일반 경로 한 갈래·보존 GO, 확인 결함 제품 HOLD
+
+source ce0a32b05dc381ca8b34f18d56ea38c91923332b/tree
+dabb22881b716ecd7309c0987f1c3b2aa33ee832에서 실제 메뉴 Load→slot1 W215를
+읽고 W238 UI Save, W240 주소·알림 삭제01→민서 선발신01→investment_master의
+3문단→Credits→Aftermath→Time Ledger→Run Record→6/6→Main Menu→Quit를
+정상 키보드로 완료했다. root 원관찰1–37은 private
+`.git/chapter5-replay/order457-continue-w215-live-20261010/observations.md`다.
+새 회신·읽음·확정 만남·매매/이체/등기/소유를 만들지 않았음을 대조했다.
+다른 source의 W193→195/195→200/200→215와 이어진 관찰이며, 한 fresh 후보의
+W1→240 완주나 Property·모든 분기·다섯 언어 독해라고 하지 않는다.
+
+격리50b35a3247b70dfcd274a7034b67c702/own96130·parent96124 정상 종료,
+editor61385 생존.4951.067초/exit0/errors[]/auto0/경고·누수0/result SHA
+a01c8c2e79162db38f273dc5dbbda85aa0dc6354dc563ee0b78bfd154d732450.
+stdout/godot 각300B/SHA125940fded2e04810aefd991898cc3359e19ea1261ce905bbd0b39e725c05ece,
+pre-autoload marker1·stderr0. root와 비저자 phone_independent_review가 fresh
+prepared.before=entry.before=result.before=result.after=current 전체 역상을
+직접 대조해 tracked3246/helper5/player33/seed2·원W195/W200/510bak/W215 불변 GO.
+실제 slot1 W238은156239B/SHAe05a456c…·final autosave W240은157798B/SHAe5ed0029…,
+job03/월224만원·resume/pending={}이며 final만 game_over=true다. 원시 파일을 보존한다.
+
+시간 원장4/6의131+108+0+0=239/WEEK239와 Run Record5/6의240주 불일치를
+확인했다. 최종 저장에 W240 money축1·countdown 행동은 남고 주간분류만239다.
+보호 종막 consume→즉시 ending 경로가 마지막 주 정산을 건너뛴다. [513](../queue_active/ORDER-513.md)으로
+분리 수리하며 이 관찰의 도달 GO를 제품 GO로 넓히지 않는다. 봉투 반환 결과의 EN
+bag/envelope, 편의점 직업의 회식, 부산 지연 meet, 휴식 feather 정지 원인 미분리는
+별도 잔여다. 야간근무 서비스와 일부 포착 문단·quiet주차 한계도 과거 기록대로다.
+비저자는 실제 화면을 직접 보지 않고 root 관찰·원문·저장·로그를 대조했다.
+
+512 exact CI37952741803은 2026-10-09 17:04:46UTC 단발 확인에서 completed/success,
+양 job success·failed step0(실제 마지막 종료17:02:30UTC)다. 자동 계약의 녹색을
+실제 원어민/인간/물리패드/청취·전체제품·출시 GO로 바꾸지 않는다. 과거 인간
+OPEN45/DONE1·공개GO1·project/사용자저장/공개데모 불변. 새 규범0·절차 일회성.

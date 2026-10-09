@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-457",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "source",
+    "commit": "ce0a32b05dc381ca8b34f18d56ea38c91923332b",
+    "tree": "dabb22881b716ecd7309c0987f1c3b2aa33ee832",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "product_verdict": "HOLD",
+  "scope": "General 실제 메뉴 이어보기·W215→M60 서명/발신→Investment Master6/6→Quit 관찰과 전체 보존 한정GO. W240 정산 결함/본편 제품/출시HOLD. 서로 다른source의 저장 연결이며 한 후보의 새W1~240 플레이가 아니다.",
+  "method": {
+    "independence": "root가 실제 GUI 입력/관찰을 수행했다. 비저자는 실행기/소비자/KO·EN 원문·원관찰·로그·저장/영수증을 직접 읽고 Git/stdlib와 기존 helper.snapshot으로 대조했다. W215 CUA·엔진·게임 입력·상태 편집0, 명시적 위임 뒤 이 보고서만 작성했다.",
+    "population": "최종 관찰1~37 전체、prepared/entry/result/stdout/stderr/godot、격리 W238/W240/meta、원seed2/W195/W200/510bak/W215 pin 전수. 세 이어보기와 최초 진입의 원관찰을 재독해하고 source를 구분했다.",
+    "observation_boundary": "EN1280×800 문단/선택/전환은 root 에이전트 관찰이다. source/영수증으로 놓친 픽셀·문장·quiet 주차·월말 요약을 대신하지 않는다. 별도PNG·독립W215화면·인간·원어민·패드·청취 증거0.",
+    "verification_boundary": "새 검사/runner/계측/whole audit/Property/엔진 재실행0. 종료 후 fresh 전체 snapshot은 root 운영 편집 동결 해제 전에 확인했다. 자동 통과는 재미·깊이·문체나 사람 승인이 아니다."
+  },
+  "actual_source_chain": [
+    {
+      "range": "최초 W193→W195",
+      "source": "a83b0e41dc8d4656a1f584321353afbe102f32f3",
+      "tree": "83c6115f578d045d080b9c98af4ada8c6f879a41",
+      "evidence": ".git/chapter5-replay/order457-first",
+      "result_sha256": "bf7e7380361d06cc42f215c5aa1bfe605a465867c30dc3e8e97de9cb03354a2b",
+      "observations_sha256": "74a8813c4c51474cf20c871e1f1714924919443ce460b9271c410773a5474b0f",
+      "elapsed_seconds": 706.12,
+      "boundary": "KO 진입/정산·코인 장면→W195 Save. 당시19입력/player34 보존은 최신 tracked3246 분모와 다르다. 코인 결함은458~460 별도 수리."
+    },
+    {
+      "range": "실제 W195→W200",
+      "source": "6977e5047b1c02d2bdbfaecbed785d3872a70349",
+      "tree": "1a81816bd3515a79e91bc46d8ae629adc2b0dc57",
+      "evidence": ".git/chapter5-replay/order457-continue-live-20261009",
+      "result_sha256": "83400632ed32d3b09910029c9656165234c96c539308bd50baf2bc6ff878e525",
+      "observations_sha256": "fea4b8557fc337699fb31bdff77ad7331911ac0208e93c831a97251da7157d9e",
+      "elapsed_seconds": 956.862,
+      "boundary": "지연 contact/회식02/100K매수/객실 거절/현수 사별 통화. W200 재로드 추가 사건은 복원PASS가 아니다. 선택02 후 정신96의 저장을 다음 구간에서 사용. 당시 tracked3241/helper5/player33/seed2 보존."
+    },
+    {
+      "range": "실제 W200→W215 재시도",
+      "source": "d418772c354d31ac038216206d1e7b07cdf2eb5b",
+      "tree": "b30bb850aecd8f21c3c0fba0751723903fc2798c",
+      "evidence": ".git/chapter5-replay/order457-continue-w200-retry-20261009",
+      "result_sha256": "50c4f0e38a6b72cb890b4ef1af9b3c6e07c4c3f06cc6f5781dccc3c79d16eaac",
+      "observations_sha256": "cb2ef705b3b6d62afc9c126d1956d9a0b9ffb642b845a87033374232ad717faf",
+      "elapsed_seconds": 2019.666,
+      "boundary": "민서 sent-only/지갑 반환/단독 명의/복권 거절→W215 Save/Quit. tracked3244/helper5/player33/seed2 보존. 확인한 W211 stale 회신은512에서5언어 수리했으나 교정문 실제 재생은 아니다."
+    },
+    {
+      "range": "실제 W215→M60/outbound→Investment Master 6/6→Main Menu→Quit",
+      "source": "ce0a32b05dc381ca8b34f18d56ea38c91923332b",
+      "tree": "dabb22881b716ecd7309c0987f1c3b2aa33ee832",
+      "evidence": ".git/chapter5-replay/order457-continue-w215-live-20261010",
+      "result_sha256": "a01c8c2e79162db38f273dc5dbbda85aa0dc6354dc563ee0b78bfd154d732450",
+      "observations_sha256": "d1eb5cc0ab7ccfdbbb64cdd89d94e3c2eab43e9354bf3384f679a5ff584beb65",
+      "elapsed_seconds": 4951.067,
+      "boundary": "최신 source의 정상 이어보기 완료. quiet/월말 미포착·야간근무 성공 미주장·239/240 결함 보존."
+    }
+  ],
+  "latest_process_and_preservation": {
+    "prepared_sha256": "ceed82bac78acda64684aeae7be8182038324caf608dad6e9ce011164f6207cd",
+    "entry_sha256": "ee99716b431b97eedc6e72ed5bd571961268a70ea0c4c2f7d074ab7caa1eba89",
+    "result_bytes": 1251024,
+    "stdout_and_godot_bytes_each": 300,
+    "stdout_and_godot_sha256": "125940fded2e04810aefd991898cc3359e19ea1261ce905bbd0b39e725c05ece",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "observed": "exited/exit0/errors[]/automatic_inputs0/checkpoint_copied/storage_retained=true. stdout/godot pre-autoload marker각1의 namespace일치, parse/script/engine error·warning·leak0. 실행기의 gameplay_verdict=NOT_ASSIGNED를 품질GO로 바꾸지 않는다.",
+    "fresh_exact_equality": "prepared.before=entry.before=result.before=result.after=종료 직후 fresh helper.snapshot. HEAD/tree/status·tracked3246·helper5·player33·seed2·W215checkpoint의 전체 딕셔너리가 일치한다. protected_unchanged 플래그만 믿은 판정이 아니다.",
+    "processes": "own96130/launcher96124 종료·사용자editor61385 생존 직접 확인. 정상 메뉴Quit이며 feather 시도의 창닫기와 구분한다.",
+    "helper": {
+      "path": ".git/chapter5-replay/order457-continue.py",
+      "bytes": 14395,
+      "sha256": "da05b3d62de76315078508a7a62728798821e6f51bb69df11eaaf6708fa04569",
+      "backup": ".git/chapter5-replay/order457-continue-before-live-w215-20261010.py",
+      "backup_bytes": 14395,
+      "backup_sha256": "2db554f5f92fd3c50be625cba05a50af77ab193982045af1e332da75bb488ce1",
+      "assessment": "선언한 W215 checkpoint/path/SHA/size/turn/mode literal만 변경, 실행/안전logic 불변·자동입력/상태편집0."
+    },
+    "original_pins": [
+      {
+        "identity": "general.AOm3lo/slot2: 절대 경로는 result.before.seeds.general",
+        "bytes": 153088,
+        "sha256": "5f4b5a0f6842e8ac726ee45b3c361ad1a45dc6c665c89009fe812acec5cf6aa8",
+        "meaning": "원 General W193 seed"
+      },
+      {
+        "identity": "property.cLiXZm/slot1: 절대 경로는 result.before.seeds.property",
+        "bytes": 155940,
+        "sha256": "7239040565920fcb2ffad0d606078ce9a436c8ae2ddd5fd2ed29542ff83bd3af",
+        "meaning": "미플레이 Property 원 seed"
+      },
+      {
+        "identity": "QA_ae795aef7ab833fa7381c3d03ba445be/slot1",
+        "bytes": 153359,
+        "sha256": "d34ab88092821d0c6df4c37c520047bb0142097a60be94762337ed66be88cb12",
+        "meaning": "원 실제 W195"
+      },
+      {
+        "identity": "QA_34722084693ccc205576ab7587902b19/slot1",
+        "bytes": 152197,
+        "sha256": "abcf7a43de0f84a2e712e19955bdfa0e460a6a3d7835ac2d8155a83ebdeac606",
+        "meaning": "선택02 결과 포함 정신96의 원 실제 W200"
+      },
+      {
+        "identity": "QA_34722084693ccc205576ab7587902b19/slot1.json.bak",
+        "bytes": 151708,
+        "sha256": "911fd3955ba87ad217c854aaf8633c02118b6c4e334334aaef728f37359ee6e3",
+        "meaning": "510 추가 사건 전 원 W200 .bak, 이번 진입에 대신 사용하지 않음"
+      },
+      {
+        "identity": "QA_73c9422ceb1533c969d1cac0a52f8099/slot1",
+        "bytes": 152641,
+        "sha256": "640f6ba664bba1a4b8bf2483f133bd27750dc0645957b96dcb62fc445f85a7a1",
+        "meaning": "이번 byte-copy의 원 실제 W215, resume/pending={}"
+      }
+    ],
+    "pin_assessment": "원본6/보존helper 직접 재해시=모든pin일치. QA_*의 parent는 /Users/junheelee/Library/Application Support/GangnamDream_StoryNameplateQA_*이며 slot1은 gangnam_dream_slot_1.json이다. 과거player34→33은 recovery lock부재, tracked3244→3246은 실행 전510archive/512사양 추가이며 실행 중 변이0."
+  },
+  "latest_isolated_outputs": {
+    "storage": "/Users/junheelee/Library/Application Support/GangnamDream_StoryNameplateQA_50b35a3247b70dfcd274a7034b67c702",
+    "manual_slot1": {
+      "bytes": 156239,
+      "sha256": "e05a456c5f9c429a9a4bd4ccde83d08699c508612360fcade29190e04438f157",
+      "state": "turn238/2030-12W2/health86/mental100/game_over=false/job_03/monthly_income2240000/resume={}/pending_weekly_commitment={}",
+      "observation": "root가 실제 Saved toast와 System Slot1 Week238을 확인했다. 저장 후 reload는 하지 않았다."
+    },
+    "final_autosave": {
+      "bytes": 157798,
+      "sha256": "e5ed00292e5058c03481cd45054fd34dfeb8b181703f82cdba4a8bddfe061760",
+      "state": "turn240/2030-12W4/age37/health86/mental98/game_over=true/job_03/monthly_income2240000/resume={}/pending_weekly_commitment={}",
+      "ending_check": "consumed",
+      "finale_status": "open",
+      "status_boundary": "open+consumed+route_complete는 GameState.chapter5_finale_ending_consumed의 정상 완료 조건이다. open 문자열만 보고 종결 실패라고 판정하지 않는다."
+    },
+    "meta": {
+      "bytes": 1844,
+      "sha256": "262866f346a8394d7b37e48c3400ef4901ecfe80faff8286440c633c36fbc2c2",
+      "observed": "total_runs1/discovered_endings=[investment_master]/run_history1의turn240·age37·ending_id investment_master·total_assets2943377344.05447. 실제 한 엔딩 수집이며 35개 엔딩 전수 플레이가 아니다."
+    },
+    "finale_receipts": [
+      {"stage": "father_legacy", "event_id": "arc_y5_general_father_legacy_cafe_exact", "turn": 224, "choice_index": 0},
+      {"stage": "debt_memory_consequence", "event_id": "arc_y5_general_debt_memory_cafe_exact", "turn": 229, "choice_index": 0},
+      {"stage": "summit", "event_id": "arc_y5_general_pre_ending_summit_exact", "turn": 234, "choice_index": 0},
+      {"stage": "record_disposition", "event_id": "arc_y5_general_final_record_seal", "turn": 237, "choice_index": 0},
+      {"stage": "sacrifice", "event_id": "arc_final_countdown_general_near_goal_passed", "turn": 240, "choice_index": 0, "receipt_id": "m60_general_sacrifice_addresses"},
+      {"stage": "outbound", "event_id": "arc_y5_final_week_general_people_outbound", "turn": 240, "choice_index": 0, "receipt_id": "m60_general_outbound_minseo_answer_sent"}
+    ],
+    "receipt_boundary": "W238 앞4영수증과 최종 동일4+W240두영수증 대조. profile=general_near_goal_father_passed/source_route=general_story. Father passed/contact_mode=present는 기록 binding이지 동석/통화수신이 아니다. W240 economic_outcome={}와 no ownership/sent-only가 일치한다."
+  },
+  "narrative_and_surface_assessment": {
+    "causal_trace": "W211단독명의→220카페혼자→224빈의자→229두장보관→234상담/no-call→237알림30분닫기→240주소삭제/3B목표유지/sent-only는 source/영수증과 맞는다. 220→224/224→229/229→234/234→237은4/5/5/3주다. 새회신/만남/계약/소유권/죽은아버지응답을 발명하지 않았다.",
+    "reading_limit": "관찰16의 note답을 읽는 별도 문장은 화면 미포착. KO/EN source에 있으나 화면 완독으로 대체하지 않고 후속229 거짓회수로도 단정하지 않는다.",
+    "job_producer_consumer": "chain_events.json:333~371 choice0의500000수당/grant_job job03/replace=true와 GameState2033~2078·jobs.json기본급2240000·실제저장이 맞는다. 전무 추천은 채용확정이 아니다. EN from then on은 KO 다음달부터보다 덜 정확하나 과지급 확인0.",
+    "ending_pages": "관찰34~37: 본문3장면1/6→credits2→aftermath3→timeledger4→runrecord5→next6→MainMenu/Quit. THREE ADDRESSES/마지막 sent-only는 영수증과 일치. EN한해상도/root에서 clipping·스크롤·APshell·Hangul 미노출 한정이다.",
+    "historical_aftermath_limit": "과거cast카드 표시=root관찰, W193이전 전 사실의 현재 자연플레이 재검증은 아니다. 지연drawer 미관찰을 적격trigger누락으로 단정하지 않는다."
+  },
+  "confirmed_findings": [
+    {
+      "id": "W240_TIME_LEDGER_UNSETTLED",
+      "severity": "P1",
+      "verdict": "HOLD",
+      "observed": "관찰36의 Time Ledger4/6은 Money131+People108+Both0+Neither0=239, footer WEEK239이며 Run Record5/6은 Time Lived240weeks다. 실제 final autosave도turn240/classified_weeks_total239/action_axis_this_week={money:1,human:0}、action_records_this_week=[story:arc_final_countdown_general_near_goal_passed]를 남긴다. recent_action_weeks는238/239까지다.",
+      "cause": "MainGame.gd:634~647은 typed finale ending_ready를 consumed로 바꾸고 즉시 check_game_over한다. Chapter5FinaleRoute.gd:715~729의 consume는 latch만 변경하며 주 정산을 하지 않는다. GameState.gd:1428~1432의 advance_calendar가 호출하는 finalize_action_axis_week(3637~3651)를 마지막 주에서 거치지 않았다. 반면 MainGame.gd:21761~21765는 일반 종결의 달력+1 전제로turn−1을 원장 주차로 사용하고22369~22370은 live turn을 살아낸 시간으로 표시한다.",
+      "boundary": "footer뿐 아니라 실제 마지막주 미정산이다. 수리/회귀는 별도 선언하며 여기서 제품/저장/영수증 변경·240주PASS 주장0."
+    },
+    {
+      "id": "EN_ENVELOPE_BAG",
+      "severity": "P2",
+      "verdict": "REWORK",
+      "observed": "관찰6의 What a Customer Left Behind 본문 black envelope가 선택0 결과 the bag로 바뀐다. content/events/rare_encounter_events.json:371의 검은 봉투 및 content/events_en/rare_encounter_events.json:129의 took the bag를 직접 대조했다.",
+      "boundary": "EN 물체 연속성 결함. 금액/선택/chain/제품 수리0."
+    }
+  ],
+  "preserved_failures_and_other_open_risks": [
+    "과거 Mac잠금 준비/중단 결과 보존. 성공 재개로 원실패를 정상플레이로 바꾸지 않는다.",
+    "d418772의 continue-w200-live-20261009 feather 문장/Continue 정지 원인미분리. result c30598e2b939a157650e2276126c1d1ea82dfc91a69a8435b01465237745971b、511.942초/exit0/errors0는 창닫기/보존만GO. 다른변형 성공은 반증이 아니다.",
+    "부산지연 meet/편의점job01 부서회식은 미수리. InvestmentSystem 국면 재추첨은 코드위험이며 실제변화/손실 미관찰.",
+    "W200 추가사건은510 별도수리/실제복원/exactCI 마감, 원실패 보존. W211기억은512 source수리, 교정문 화면은 미재생.",
+    "야간근무 시간초과/GOOD0는 root 왕복지연 관찰이며 성공·패드감각·제품타이밍 결함 판정이 아니다."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "continuous_audio_listening",
+    "Property_route_actual_play",
+    "other_endings_and_branches",
+    "other_locales_and_resolutions",
+    "single_candidate_fresh_W1_to_W240_play",
+    "corrected_W211_memory_render",
+    "W240_settlement_repair_and_replay"
+  ],
+  "final_boundary": "General 관찰·정상Quit·보존·결함보고 완료 한정GO. W240정산/문장/문맥/입력 위험과 미관찰 경로 때문에 본편·새package·출시HOLD. 인간이력/공개GO/원본/원실패 불변."
+}
