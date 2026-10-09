@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)에 바이트 그대로 이동했다. 보존본의 상대 링크는 이동 전 경로 기준이다.
 
+## 2026-10-09 — 살아 있는 장면의 음악·연출 등록을 정상화 (489)
+
+- 이미 제품 진입에서 제외한4장 지연 연인 원고6개가 shipping 음악·연출 intent에 남아 기존 검사3개를 실패시켰다. 선언6cc09a9 뒤 source d0515605c023b8d7cce68a6a07c01373fc2055a5에서 audio rendered_profile와 direction explicit_move에서 같은6개씩만 제외했다. 실제 음악/이미지·원고/5locale·저장·runtime·공개데모·project·판정 이력은 바꾸거나 지우지 않았다.
+- 전체 JSON 역상으로 exact6 외 값 변화0. 살아 있는1702사건·전환192·배경101·활동8·엔딩35 계약과 기존 오디오4개 분류는 동일하다. 오디오 전체 생성기는 범위 밖4개도 재분류하므로 쓰지 않았다. author_only6의 package 원고와 weight0/hidden/조건을 유지해 새 서사·선택·연애 진전을 만들지 않는다.
+- 오디오 카탈로그·연출 카탈로그·전 구간 연출의 실제 FAIL→PASS를 확인해 KNOWN_FAILURES의 정확3행만 제거했다. 남은 PEAK_CHAIN_EXIT/EXPOSED_STATE_EXIT2와 Codex소유·만료10-16, 제품 검사 자체·CI 목록 밖 빨강은 보존한다. scene_audio_contract·lifecycle declared111/exempt111/product_ingress0·4장 causal promoted19/direct15·현재 release inventory도 PASS. 지문 변화0으로 심의 파일 갱신0.
+- 기존 방향·오디오 Python trace 각 routes2/localesko-en/weeks960 PASS는 실기기240주 플레이/청취가 아니다. 전체 감사·엔진·새 검사/계측/재사용 도구0. 독립 manifest_alignment_review가 실제3파일 diff/전체 JSON/현재원고6과 조건을 직접 읽고 제품 검사3개를 재실행해 등록 정합 범위만 GO·blocking0. 새 오더별 formal 보고/판정 원장0.
+- context/queue/fixtures25·human open45/done1·diff PASS. [489 완료 사양](queue_archive/ORDER-489.md)에 좁은 수치·consumer와 일회성 절차를 기록했다. 개발 스킬의 선선언·최소 변경·표적 검증·보존 절차를 적용했고 새 규범은 없다. 화면은 실제 Mac잠금으로 재개하지 못했다. 원어민/인간플레이/연속청취/물리패드 미관찰·본편출시 HOLD, 새 main CI 대기다. 남은 사실·정점 원고 결함과 화면 회귀를 완료로 세지 않는다.
+
 ## 2026-10-09 — 4장 놓친 일정 선택지를 5개 언어에서 분명하게 (488)
 
 - 플레이어가 ‘지난 주말 가지 못한 곳에 시각을 보낸다’ 대신 ‘그날 놓친 일정의 이번 주 재방문 시각을 잡는다’를 고른다. 다은 약속/무연애 야간진료에 공통인 행동이며 예약 승인·치료·관계 회복을 만들지 않는다. 선언9b4cb67 → KO/EN f13fcd1 → 최종5언어 source1442deb1cb93913031ed5fb5ae6b157ae77fdec3. 선택지 한 잎×5값만 바뀌었고 본문·결과·플래그·조건·효과·순서·라우팅·비소유 raw 변화0이다.

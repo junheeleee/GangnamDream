@@ -1,6 +1,6 @@
 # ORDER-489 — 비도달 4장 지연 원고의 장면 등록 정합
 
-#### [~] ORDER-489 착수 — 만지는 파일: assets/scene_audio_manifest.json, assets/scene_direction_manifest.json, docs/KNOWN_FAILURES.md — 2026-10-09
+#### [x] ORDER-489 완료 — 음악·연출 등록6+6 정합, known 제품 실패5→2 — 2026-10-09
 
 ## 근거 / 정확한 범위
 
@@ -48,3 +48,33 @@ Mac 실제 화면·청취·원어민·인간·물리 패드 미관찰, 본편 �
 
 새 규범0. 정본은 기존 AUDIO_QA/event_lifecycle/DECISIONS/WORK_UNIT이며
 파일 소유와 최소 패치·종료 절차는 일회성이다.
+
+## 실제 결과 / 한정 판정
+
+- 선언6cc09a9 → source d0515605c023b8d7cce68a6a07c01373fc2055a5.
+  전체 JSON 역상: exact6 제외 외 모든 값 동일. audio profiled1339→1333,
+  direction explicit_move568→562; product1702/전환192/배경101/활동8/엔딩35.
+  기존 audio4 분류 불변, 원고6/5locale·runtime·save·demo·project·과거판정 변화0.
+- 도달 경로: EVENT_LIFECYCLE_OK declared111/meta_valid111/exempt111/
+  product_ingress0/packaged1813/shipping1702.
+  CHAPTER4_CAUSAL_ROUTE_AUDIT_OK promoted19/direct15/owners12/medical2-of-3.
+  생산자↔독자: content/meta/event_lifecycle.json:86 ↔
+  tools/scene_audio_catalog.py:228 및 tools/scene_direction_catalog.py:731;
+  assets/scene_direction_manifest.json:1853 ↔ autoloads/DataRegistry.gd:496.
+  바꾸는 상태: dormant 등록12→0, shipping coverage1708→1702씩.
+  포기 시 잃는 것/서사 위치/장면 계층: 새 선택·서사·계층 변화0, 기존4장 비도달6.
+  닫는 것: SCENE_AUDIO_CATALOG_EXIT/SCENE_DIRECTION_CATALOG_EXIT/
+  FULL_RUN_DIRECTION_EXIT3 실제 PASS; known2 만료10-16 유지.
+- SCENE_AUDIO_CATALOG_OK events1702/backgrounds101/authored369/profiled1333.
+  SCENE_DIRECTION_CATALOG_OK events1702/edges192/backgrounds101/activities8/endings35.
+  FULL_RUN_DIRECTION_AUDIT_OK 및 FULL_RUN_AUDIO_AUDIT_OK:
+  routes2/localesko-en/weeks960씩 Python trace. 실제 엔진 플레이/청취가 아니다.
+  SCENE_AUDIO_CONTRACT_OK cg75/peak115/ambience39/music20/demo45/foley41.
+  RELEASE_CONTENT_INVENTORY_OK shipping1696(author-only축 별도)/current1813;
+  지문·심의 파일 변화0. context/queue/queue fixtures25·human open45/done1·diff PASS.
+- 비저자 manifest_alignment_review가 실제 d051560/6cc09a9 diff3파일·전체 JSON
+  역상·lifecycle/현재원고6을 직접 읽고 기존 오디오/연출/전 구간 연출을 재실행해
+  shipping 등록 정합만 GO/blocking0. 새 오더별 formal보고/원장/도구/엔진0.
+  자동 계약 PASS와 한정 GO는 재미·원어민·화면·연속청취·물리패드·출시를 닫지 않는다.
+  본편 출시 HOLD, Mac잠금으로 실제 화면 재개 미실행, 새 main CI는 별도로 확인한다.
+  개발 스킬의 선선언·정본/사용자 변경 보존·최소 diff·기존 표적 검증을 적용했다.
