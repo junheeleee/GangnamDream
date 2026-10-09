@@ -6,6 +6,28 @@
 돌아가는 결함만 수리한다. 제품이 이미 제공하는 데모 수동 저장/이어하기의 연결
 복구이며 새 저장 시스템·스키마·임의 namespace 허용이 아니다.
 
+## 구현·표적 결과 — 최종 source 판정 대기
+
+- 제품 변경은 exact 비교1줄뿐이다. 이미 preload한 controller의 상수를 소비하며
+  기존 source의 v1·승인 QA 조건은 그대로다. fixture +35줄은 동적 exact/유사/비활성
+  세 표본을 off-tree에서 대조하고 원 설정을 복원한다.
+- private `.git/order519-identity-20261010/` clean eebf3cd archive를 기존 builder
+  변환4개로 staged successor identity-contract에 맞췄다. 수정 전 exit1/8.047973초는
+  exact namespace mismatch1건이다. 수정 후 같은 stage의 제품1줄만 바꿔 exit0/
+  8.551746초·stdout/Godot4793B/SHA571db561…·stderr/오류/경고/누수0·정확 marker1이다.
+  기존 locales5/routes5/months30/weeks120/save5/story10도 유지한다. 실제 앱 관측은 아니다.
+- 기존 Compile68/Font PASS·I18n exit0/정확 marker1/오류0/의도 거절 warning19다.
+  이름표24case 실제 engine/runner는 exit0/59.249979초·정확 원 marker1/오류0이다.
+  root wrapper가 잘못 적은 이름표 marker의 ValueError는 보존하고 원로그 직접대조
+  영수증으로 구분했다. 재실행0이다. EN coverage/Hangul/demo 현지화 normal PASS.
+- 영향 선택기는 등록 검사16개 중 Python 검사와 원장/context/queue를 통과했으나
+  중간 STATUS stale이 남았고 Godot 없는 PATH의 engine skip은 통과로 세지 않는다.
+  위 별도 격리 engine으로 필요한 runtime을 확인했고 마감 때 STATUS를 재생성한다.
+- 수정 전 전체 보존 SHA8b6ba9f7…654255B, 수정 후/마지막 전체 보존
+  SHAfda30fc4…654301B 동일: tracked3255/helper5/seed2/W238/player33·보호24곳.
+  비저자는 stage 전량 baseline/허용 변환·동일 수리1줄/원로그/보존을 직접 대조해
+  수리 한정 GO했다. clean 최종 제품 commit 대조 후 이 단위를 닫는다.
+
 ## 한 단위·깊이 3문
 
 1. 없으면 저장 토스트 뒤 재시작해도 그 선택/문단이 이어하기에 반영되지 않는다.

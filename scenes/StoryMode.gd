@@ -3096,7 +3096,7 @@ func _is_public_story_demo() -> bool:
 		"application/config/custom_user_dir_name", ""))
 	return bool(ProjectSettings.get_setting(
 		"application/config/use_custom_user_dir", false)) \
-		and (configured_name == "GangnamDream_StoryDemo_v1" \
+		and (configured_name == STORY_DEMO_CONTROLLER.PUBLIC_CUSTOM_USER_DIR \
 		or ((OS.get_environment("STORY_DEMO_ALLOW_ISOLATED_QA") == "1" \
 			or OS.get_cmdline_user_args().has("--story-demo-runtime-qa")) \
 		and configured_name.begins_with("GangnamDream_StoryDemo_RuntimeQA_")))
