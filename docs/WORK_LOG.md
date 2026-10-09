@@ -2,6 +2,13 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)과 [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 중국어 대출·상환 안내32값 수용 (495)
+
+- KO16키·실제 은행/공유 투자17호출의 CN/TW32값을 병렬 저작·비저자 전수 대조해 반영했다. 대출잔액/현금·신용등급 방향·남은 차입 한도·변동금리·원화 음수 위험·금리 precision을 보존했다. 기존 금액 검사 오탐은 별도496에서 먼저 수리하고 정상 문안을 우회하지 않았다. 선언0cda0e4 → 제품6939838e8e9508bfabc559e7f2b9434c3bf6e558 main commit/push 완료다.
+- 공식 check/import16씩·원header/SHA2·현재 source/target/committed receipt32·4파일 raw 역상 PASS. accepted42021→42053/batch290→291/UI1894→1910씩·JA불변, legacy1685/2952/context29/29/dynamic150/701로 전체 미완료를 구분했다. 비저자 actual Git current_proof(base6c1d96e→제품6939838)는 transition1/32receipt/배치1·선언Git/current source manifest 일치·blocking0이다.
+- EN/Hangul·JA UI·ZH·i18n·multilingual·공개/legacy 데모 영향검사 PASS. [495 완료 사양](queue_archive/ORDER-495.md)에 상세 수용 증거를 남겼다. 개발 스킬의 선선언·독립 저작/검수·기존 원장·영향 검증 적용, 새 도구/형식 보고/판정원장0·새규범0/일회성이다. 원문/runtime/경제/저장/project·공개M01~M06·shipping language·역사 인간판정은 불변이다.
+- 직전492 ef97d8c의 실제 CI37889060971 녹색이며 최신 후보는 진행/대기다. Mac잠금으로 실제폭/입력149·457·302 미관찰·원어민/물리패드 OPEN·본편 출시 HOLD다. 이번 수용은 기존 은행 UI 번역이며 신규 StoryMode 기능이나 출시 GO가 아니다.
+
 ## 2026-10-09 — 금리 안내를 2만원으로 읽던 금액 검사 경계 수리 (496)
 
 - 495 중국어 은행 문안을 공식 검사하던 중 월 이자를 월 이=2만원으로 읽는 오탐을 발견했다. 가짜 금액을 번역에 넣거나 검사를 끄지 않고, 선행496을 별도 선언735752a 후 제품69c75c4d450efb4f34ae771d082078ffe48d1e4d로 main commit/push했다. 기존 zh_translation_audit.py의 수사/숫자 끝 경계와 embedded self-test1파일만 수정했다.
