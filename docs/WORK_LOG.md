@@ -2,11 +2,17 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 실제 저장·재시작 위치 복원 확인, 재개 이름표 수리 선언
+
+- [516](queue_archive/ORDER-516.md): resume-fix 앱 KO 실제 차단0→result0/정신64→빈slot1 UI Save→정상Quit→별도15631 Continue가 같은 완문/선택/건강70/230만원을 복원했다. 두 실행 exit0/247.791371·33.34691초, 각 native marker1/stdout·Godot474B·stderr/오류/경고/누수0이다. 첫본문0은 부분관찰이며 완전독해로 확대하지 않는다.
+- slot19429B/076ea463… byteexact·controller_session/pointer1·JSON 상태 일치다. controller 숫자16곳 직렬화32B차이는 값 변경이 아니며 중간 byteequal assertion을 엔진오류로 세지 않는다. private beforede5cee1f…→after4c7bfff3…/원관찰7cc41ab8…/원로그·저장을 보존했다. root/비저자 fresh source3257/helper5/seed2/W238/player33·보호29 exact/ns1만파일0→7, own종료/editor61385생존 후 동결 해제했다.
+- 비저자 직접 코드/원로그/저장/보존 검수는 부팅·새저장·정확위치3항목만 GO다. 실제pixels는 root 관찰이다. 재개 뒤 김민준 이름표 누락은 결과 화면 REWORK이며 [521](queue_active/ORDER-521.md)에 restore 경로 캐시1줄·기존 KOEN named/hidden4표본만 선선언한다. source/code/QA 소유 분리·원시 실패와 실제관찰 구분의 개발 스킬 적용·새도구/보고0·일회성·나머지runtime/출시 HOLD다.
+
 ## 2026-10-10 — 저장 재개 수리의 새 앱 발급 완료·실제 검수는 Mac 잠금 대기
 
 - [520](queue_archive/ORDER-520.md)은 clean de90d896/treeec363696·BUILD2026.10.10.1/resume-fix를 발급했다. 16명령 exit0/필수 marker1/오류·누수0·서명 PASS/ad-hoc, nested 경고각1/I18n 의도19는 구분한다. 원manifest171630B/b81931ac…·ZIP428078088B/d78d2455…·PCK389860008B/594edf4a…/JSON675/app7 exact다. runtime NOT_RUN/user GO NOT_INHERITED를 보존한다.
 - root/비저자 fresh 전체 before=after662703B/5f225727…·tracked3256/helper5/seed2/W238/player33·보호25곳 exact, 별도 package audit PASS로 export만 GO했다. staged 수리1줄 exact/retouch0이며 실제 플레이·인간/원어민/물리/청취·출시 GO는 아니다. 최종 대조 뒤 동결을 해제했다.
-- 기존 user project manager CUA가 Mac locked여서 새 앱 실행/입력0이다. [516](queue_active/ORDER-516.md)에 새 exact 대상·fresh 증거/보존30곳·실제 KO 수동 저장/별도 Continue 재검수를 준비 선언했다. 옛 third SIGSEGV/timer-fix cold resume REWORK와 공개/player/원저장을 모두 보존한다. 개발 스킬의 기존 빌더 재사용·독립 전량검수·원시 실패 분리 적용·새도구/보고0·일회성·본편/출시 HOLD다.
+- 기존 user project manager CUA가 Mac locked여서 새 앱 실행/입력0이다. [516](queue_archive/ORDER-516.md)에 새 exact 대상·fresh 증거/보존30곳·실제 KO 수동 저장/별도 Continue 재검수를 준비 선언했다. 옛 third SIGSEGV/timer-fix cold resume REWORK와 공개/player/원저장을 모두 보존한다. 개발 스킬의 기존 빌더 재사용·독립 전량검수·원시 실패 분리 적용·새도구/보고0·일회성·본편/출시 HOLD다.
 
 ## 2026-10-10 — 저장 재개 수리를 실제 새 앱으로 옮길 준비
 
@@ -20,18 +26,18 @@
 
 ## 2026-10-10 — 실제 데모 저장은 생성되나 재시작 위치가 틀려 연결 수리 선언
 
-- [516](queue_active/ORDER-516.md) retry1: KO 무인자94266→M01 자동전환 정상/본문5문단→차단0/결과0·정신64→실제 UI slot1 성공·정상 exit0/139.213959초다. 명시적 별도94573 Continue는 첫 prose/정신72로 돌아가 exact cold resume FAIL·exit0/44.018858초다. 각 stdout/Godot472B·entry1·stderr/엔진오류0. 저장slot11502B/88364ae5…는 불변이나 controller session/pointer가 없다. SaveManager 슬롯 자체 신원은 legacy이며 새package 신원으로 세지 않는다.
+- [516](queue_archive/ORDER-516.md) retry1: KO 무인자94266→M01 자동전환 정상/본문5문단→차단0/결과0·정신64→실제 UI slot1 성공·정상 exit0/139.213959초다. 명시적 별도94573 Continue는 첫 prose/정신72로 돌아가 exact cold resume FAIL·exit0/44.018858초다. 각 stdout/Godot472B·entry1·stderr/엔진오류0. 저장slot11502B/88364ae5…는 불변이나 controller session/pointer가 없다. SaveManager 슬롯 자체 신원은 legacy이며 새package 신원으로 세지 않는다.
 - 종료 뒤 AX 조회가 앱94487을 암묵 재실행한 사실도 원관찰에 보존했다. 게임입력0/CmdQ 종료/프로세스 부재 뒤 controlled second를 따로 실행했고 우발 재실행은 cold-resume 증거에서 제외했다. 종료 후에는 bound AX를 조회하지 않고 프로세스 부재로 확인한다.
 - root/비저자 각 fresh 전체대조로 before7c5bdd75…648687B→after019e6e71…650244B source·보호19·app7/ZIP/manifest exact, 후보9파일만 변경·세PID부재/editor61385생존이다. 옛실패raw/사용자 저장/인간판정 보존 후 동결 해제했다. 실제 UI는 root 관찰, 비저자는 원로그/저장/소스 대조다. [519](queue_archive/ORDER-519.md)에 StoryMode 고정 namespace를 controller exact 상수로 연결하는 수리·기존 fixture 표본만 선선언한다. 새 도구/보고0·일회성·출시 HOLD다.
 
 ## 2026-10-10 — 화면 접근 복귀·같은 수리 후보의 실제 저장/재시작을 잇는다
 
-- [516](queue_active/ORDER-516.md)의 기존 실행 중 Godot project manager 정확 경로에서 CUA AX가 정상 반환됐다. 후보 앱은 미실행이며 같은 b705bcf8/timer-fix/manifest892c0be3…를 retry1 새 로그로 검수한다. 옛 잠금 로그0B raw bytecopy/전체원raw·oldthird·518raw를 보호하고 입구~최종fresh 대조 동안 제품/문서/helper를 동결한다.
+- [516](queue_archive/ORDER-516.md)의 기존 실행 중 Godot project manager 정확 경로에서 CUA AX가 정상 반환됐다. 후보 앱은 미실행이며 같은 b705bcf8/timer-fix/manifest892c0be3…를 retry1 새 로그로 검수한다. 옛 잠금 로그0B raw bytecopy/전체원raw·oldthird·518raw를 보호하고 입구~최종fresh 대조 동안 제품/문서/helper를 동결한다.
 - 실제 KO 본문/선택 독해→수동 저장→정상 Quit→별도 프로세스 이어하기만 대상이다. 앞선 Mac잠금/실제SIGSEGV를 성공으로 바꾸지 않고, 자동저장/기계 fixture를 실제 재개로 세지 않는다. 개발 스킬의 기존 도구 재사용·독립 보존/권한 분리 적용·새도구/검사/보고0·일회성이다.
 
 ## 2026-10-10 — 새 데모의 실제 시도는 Mac 잠금/HOLD·원본 보존
 
-- [516](queue_active/ORDER-516.md) 새 timer-fix 앱 무인자 own86257은 첫 CUA에서 Mac locked/automatic unlock failed였다. 실제화면/입력/새설정/수동·자동 저장/별도 coldresume0·native entry marker0이다. 정확 executable ps 확인 뒤 ownPID SIGTERM→exit−15/23.945928초·stdout/stderr/Godot0B다. 정상 Quit/실제부팅 GO·Timer 수리 재실패로 세지 않는다.
+- [516](queue_archive/ORDER-516.md) 새 timer-fix 앱 무인자 own86257은 첫 CUA에서 Mac locked/automatic unlock failed였다. 실제화면/입력/새설정/수동·자동 저장/별도 coldresume0·native entry marker0이다. 정확 executable ps 확인 뒤 ownPID SIGTERM→exit−15/23.945928초·stdout/stderr/Godot0B다. 정상 Quit/실제부팅 GO·Timer 수리 재실패로 세지 않는다.
 - private before777b4644…646952B→after35525135…647135B·원명령d3b8bd43…1349B·관찰b6706ac1…427B를 보존한다. root/비저자 fresh 직접 대조는 source af2d1b3/tree9a4d1f·tracked3254/helper5/seed2/W238/player33·보호18곳·새app7/ZIP/원manifest exact다. 후보 namespace만 빈 Godot로그1파일이며 own두PID부재/editor61385생존이다. 예전 third SIGSEGV와 원516·518 raw 불변이다.
 - source/패키지 수리 GO를 실제 검수로 바꾸지 않는다. 해제 확인 뒤 새 로그 위치에서 같은 actual UI 저장/재시작을 잇는다. 공개/player·원고/번역·과거 인간 판정 변경0·새도구/검사/보고0·일회성·정본승격0. 개발 스킬의 원시 실패/실제 관찰 분리·독립 전체 보존 검수를 적용했다. 본편/출시 HOLD다.
 
@@ -39,7 +45,7 @@
 
 - [518](queue_archive/ORDER-518.md)은 clean b705bcf8/tree18542e4c·BUILD2026.10.10.1/timer-fix를 별도 발급했다. 기존16명령 exit0/오류0·정확 marker각1·codesign deep/strict PASS, nested-project 무시 경고각1/I18n 의도 거절19는 구분한다. manifest171548B/SHA892c0be3…·앱7/ZIP428076423B/e15bc26b…/PCK389860104B/ad427236…/JSON675가 일치한다.
 - root와 비저자 각 fresh 전수대조로 before/after643708B/SHA8d46e73e… byte-exact·tracked3253/helper5/seed2/W238/player33·보호17곳을 보존했다. 독립 원명령/실물/서명/package audit 검수로 export만 GO, runtime NOT_RUN·user GO NOT_INHERITED다. 옛 third의 실제 SIGSEGV와 원manifest·실패raw는 불변이다.
-- [516](queue_active/ORDER-516.md)에 새 exact 앱의 KO 실제 본문/선택→UI 수동 slot 저장→정상 Quit→별도 프로세스 이어하기를 선선언한다. 빈 새namespace만 사용하고 입구~최종 대조 동안 source/helper/docs를 동결한다. 나머지 실제 재생·인간/원어민/물리패드/청취·본편/출시 HOLD다. 개발 스킬의 기존 발급기·원시 경고 분리·독립 보존 검수를 적용했다. 새도구/검사/보고0·일회성·정본승격0.
+- [516](queue_archive/ORDER-516.md)에 새 exact 앱의 KO 실제 본문/선택→UI 수동 slot 저장→정상 Quit→별도 프로세스 이어하기를 선선언한다. 빈 새namespace만 사용하고 입구~최종 대조 동안 source/helper/docs를 동결한다. 나머지 실제 재생·인간/원어민/물리패드/청취·본편/출시 HOLD다. 개발 스킬의 기존 발급기·원시 경고 분리·독립 보존 검수를 적용했다. 새도구/검사/보고0·일회성·정본승격0.
 
 ## 2026-10-10 — 첫 장면 자동 전환의 자기 해제 수리·기존 5언어 표적 통과
 
@@ -56,13 +62,13 @@
 
 ## 2026-10-10 — 수정 데모 첫 장면 전환의 실제 종료를 확인하고 Timer 수리 선언
 
-- [516](queue_active/ORDER-516.md) 실제 third 무인자 PID64603은 KO 선택→home→처음부터→M01 안내 뒤35.95785초/exit−11로 종료됐다. entry marker는 정확 profile/build/namespace이며 발행 중 Object 해제1건·OS SIGSEGV가 일치한다. 본문/선택·수동 저장·정상 종료·cold resume는 미실행이다. 자동 월1 저장만 남았다.
+- [516](queue_archive/ORDER-516.md) 실제 third 무인자 PID64603은 KO 선택→home→처음부터→M01 안내 뒤35.95785초/exit−11로 종료됐다. entry marker는 정확 profile/build/namespace이며 발행 중 Object 해제1건·OS SIGSEGV가 일치한다. 본문/선택·수동 저장·정상 종료·cold resume는 미실행이다. 자동 월1 저장만 남았다.
 - 원증거 before330cda14…/command7fa0cd72…/stderrf972eeb3…/Godot2003713a…/fresh4edc60cf…를 private에 보존한다. root/비저자 각 fresh 전후 전체대조는 tracked3251/helper5/seed2/checkpoint/player33·보호6곳·앱7/ZIP/manifest 동일, 후보 새4파일만 허용이다. 첫 after의 앱 상위폴더 오지정은 보존하고 corrected 경로를 판정에 쓴다. 공개/사용자 저장 변경0·own 종료/editor 생존이다.
 - 비저자 원코드/원로그/OS report 직접 진단으로 timeout 콜백의 자기 Timer 즉시 free가 가장 직접적인 결함이다. 기존 fixture는 auto-launch를 꺼 이 경로를 우회했다. [517](queue_archive/ORDER-517.md)에 Timer 수명2곳과 기존 fixture의 expiry/cancel/stale 반례만 선선언한다. 전역 SceneTransition·새 도구/검사/오더별 보고0, 기존 third는 소급GO 없이 HOLD다.
 
 ## 2026-10-10 — 수정 데모 앱의 새 저장·cold resume 실제 검수 선언
 
-- [516](queue_active/ORDER-516.md)은302/462 뒤 남은 실제 package 첫3항목만 검수한다. 기존 third 앱·KO·무인자 두 프로세스·실제 입력·새 저장/이어보기이며 재export·새 도구/검사/보고0이다. 149의 같은 표본 반복과 인간 강조 기억 대기를 대신하지 않는다.
+- [516](queue_archive/ORDER-516.md)은302/462 뒤 남은 실제 package 첫3항목만 검수한다. 기존 third 앱·KO·무인자 두 프로세스·실제 입력·새 저장/이어보기이며 재export·새 도구/검사/보고0이다. 149의 같은 표본 반복과 인간 강조 기억 대기를 대신하지 않는다.
 - 기존 snapshot/run_command를 그대로 재사용하고 입구~마지막 종료 대조 동안 제품/문서/helper를 동결한다. 공개본/사용자 저장·원checkpoint/seed·과거 인간 판정 보존, 나머지 runtime·전체제품/출시는 HOLD다. gangnamdream-dev의 선선언·기존 도구 재사용·독립 한정검수 원칙을 적용한다.
 
 ## 2026-10-10 — 실제 마지막 주 원장과 기록이 모두240주로 맞는다

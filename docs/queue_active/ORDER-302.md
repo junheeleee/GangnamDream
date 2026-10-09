@@ -177,10 +177,7 @@ fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거�
 
 ### 2026-10-10 실제 package 저장/재시작 착수
 
-[516](ORDER-516.md)의 third 첫 자동 전환 SIGSEGV/HOLD·원manifest를 보존한다.
-[517](../queue_archive/ORDER-517.md)은 Timer 수명 source만 GO다.
-[518](../queue_archive/ORDER-518.md)의 새 b705bcf8/tree18542e4c·BUILD2026.10.10.1/
-timer-fix는 export만 GO(manifest SHA892c0be3…/runtime NOT_RUN)다.
-516 retry1은 실제 KO 부팅/slot 생성 후 이어하기가 결과64→첫 본문72로 돌아가 REWORK다.
-519 source·520 새앱 export GO다. Mac 잠금/실제 재개 HOLD·옛실패는 보존한다.
+[516 보존본](../queue_archive/ORDER-516.md)에 third SIGSEGV·timer-fix REWORK·
+517~520 수리/발급과 원manifest를 보존했다. resume-fix의 실제 저장·동일문단/수치
+재개3항목만 GO다. 이름표 차이는[521](ORDER-521.md) REWORK로 분리한다.
 공개본/사용자GO 불승계·나머지 runtime·전체302/본편/출시 HOLD를 유지한다.

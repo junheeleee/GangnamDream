@@ -1,10 +1,45 @@
 # ORDER-516 — 수정된 데모 앱의 실제 저장과 재시작
 
-#### [~] ORDER-516 [P0·패키지 QA] successor 실제 무인자 부팅 → 새 저장 → cold resume
+#### [x] ORDER-516 [P0·패키지 QA] successor 실제 무인자 부팅 → 새 저장 → cold resume
 
-**현재 HOLD — 수리된 resume-fix 앱 export GO, Mac 잠금으로 실제 재개 검수 미실행.**
-source 수리·새 export GO와 실제 부팅/저장/재개를 구분한다. 아래 oldthird 실패와
-새 후보의 잠금 시도 원시 증거를 모두 보존한다.
+**완료 — 2026-10-10. 실제 부팅·새 UI 저장·동일 문단/선택/수치의 cold resume만 GO.**
+결과 화면 이름표 차이는 REWORK로 [521](../queue_active/ORDER-521.md)에 분리한다.
+전체 화면 동등성·나머지 runtime·출시 GO가 아니며 아래 모든 옛 실패를 보존한다.
+
+## resume-fix 실제 관측 결과와 독립 판정
+
+- exact520 source de90d896/treeec363696·원manifest b81931ac… 앱의 무인자
+  own15353은 KO gate/home→M01 자동 전환→본문→차단0→완문 result0/정신64/
+  건강70/230만원을 관측했다. 본문0은 타이핑 중 부분관찰, 1~4는 완문관찰이다.
+  AUTO/일괄 입력/상태 주입0이며 설정→빈slot1 UI Save의 성공 토스트/메타데이터와
+  닫기 뒤 같은 result0을 확인했다. CmdQ exit0/247.791371초다.
+- 첫 PID/parent 부재 뒤 명시적 새 own15631 무인자→KOhome Continue는 같은 완문
+  result0·선택0·정신64/건강70/230만원을 복원했다. 이후 게임 진행 입력0,
+  CmdQ exit0/33.34691초다. 두 실행 stdout/Godot 각474B/SHA dafec273…,
+  정확 native entry각1·stderr/engine 오류/경고/누수0이다.
+- slot1 qa_fixture=false·19429B/SHA076ea46342e1ef5fa7637a06de501ed6e7c86e066861dd95715521d11c677701은
+  두 실행 뒤 byte-exact다. story/result/arc_temptation_01/choice0/paragraph0/KO·
+  완문·dialogue7·controller_session·story_resume_slot1과 상태가 일치한다.
+  슬롯 신원은 기존 SaveManager full/2026.08.24.5/legacy이며 앱 신원이 아니다.
+  controller8094→8126B는 숫자16곳 n→n.0 직렬화뿐으로 JSON값 전체 동일이다.
+  byte-equal을 요구한 root 중간 assertion 실패는 엔진 실패와 구분한다.
+- private `.git/order516-live-20261010-resume-fix/`: before666348B/de5cee1f…→
+  between667564B/87b9e5ba…→after667776B/4c7bfff3…,
+  observation2274B/SHA7cc41ab8bd4dd2f717bdf9cb2eaacc954464916545980dd41961818ed7983d07,
+  각 command/원로그/slot/controller bytecopy를 보존한다. 원manifest NOT_RUN은 불변이다.
+- root/비저자 각 fresh 전체 대조: source cf662ff5/tree18d09c·tracked3257/helper5/
+  seed2/W238/player33 exact, 보호30 중 새namespace만 파일0→7이다. 다른29곳의
+  public9/옛 실패raw/앱7/ZIP/manifest/520raw는 모두 불변이다. own4PID부재·
+  사용자 editor61385생존 직접 확인 뒤 동결을 해제했다.
+- 비저자 `/root/phone_independent_review`는 코드/원명령/로그/저장/보존을 직접 읽고
+  위 세 관찰 항목만 GO했다. 실제 pixels는 root 관찰이고 인간 관찰로 세지 않는다.
+  저장 전 있던 김민준 이름표가 재개 후 없는 차이를 두 화면에서 확인했다.
+  새노드 기본 choice-dock cache=false가 현재 표시 상태를 덮는 소스 경로와 일치하며
+  결과 화면 동등성은 REWORK다. 521에서 별도 source 수리, 새앱 실제 확인은 후속이다.
+  5언어/옛 공개저장 복사 호환/복귀 입력/전체24주·본편/출시는 계속 HOLD다.
+
+규범 판정: 실행·보존·증거 결속은 일회성, 새 정본 승격0이다. 기계 PASS는
+재미·깊이·문체나 인간/원어민/물리패드/연속청취의 증거가 아니다.
 
 ## 2026-10-10 resume-fix 실제 검수 준비
 
