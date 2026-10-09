@@ -12590,6 +12590,71 @@
           "batch_id": "d273fdfd12d4be366031f9418d1ce4025513367164897cc6078573d799677ba4"
         }
       }
+    },
+    {
+      "order": "ORDER-507",
+      "group": "ui",
+      "roots": [
+        "%s 매도: %s / 손익 %s",
+        "%s 매수: %s",
+        "⚠ 폭락 경보 — 현금 비중 늘리기 권장",
+        "⚡ 레버리지 매수: {asset}에 {cash}을 투입해 두 배 규모의 포지션을 열었다.",
+        "⚪ 횡보 예상 — 분산 투자 유지",
+        "가격 정보 없음",
+        "매수 완료",
+        "보유하지 않은 자산입니다.",
+        "자산 가격 정보가 없습니다.",
+        "잔액 부족",
+        "잔액이 부족합니다.",
+        "존재하지 않는 자산",
+        "존재하지 않는 자산입니다.",
+        "최소 투자 금액은 %s입니다.",
+        "🔴 하락 압력 — 방어 자산 권장",
+        "🟡 상승 국면 — 단기 변동 주의",
+        "🟢 상승 지속 예상 — 성장주 유리"
+      ],
+      "source_leaves": 17,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 17,
+        "zh-TW": 17
+      },
+      "source_review": "Independent regional authors translated directly from Korean; non-author compared every one of 17 Korean keys and 34 target values against actual InvestmentSystem producers and MainGame consumers, with no retouch needed. Eight failure messages, three transaction logs and five forecasts have actual readers; one purchase-complete success return remains packaged copy only because MainGame uses a separate toast. Buy-log amount is committed cash; sell-log arguments are asset, settled proceeds and signed profit/loss. Leveraged cash is the amount committed and the position is twice that size, not twice an already doubled exposure. Forecast uncertainty, advice and growth-stock meaning, token order and won value are preserved. Existing eight investment keys unchanged. Agent comparison only; native and rendered review remain OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "6107f76aa718067ce60b07b93c1ea22fbb4b707bce12447d28d9b117f6d5e129",
+        "zh-TW": "768b66ee4155f8923bae106a3ab438f7d0fea541ddf7dda845990861e82af670"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "acb5d4ace8eff6cb2066aa64948882c0c8e84131",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "f971c7193ba3a68299e166f2734f507f577001bc1ecc83cc940551abd038fb85",
+          "selection_sha256": "ff940cedfe1b1db70965d2886a26e01b0152228a6f508580480453d62ad86d81",
+          "count": 17,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a212c0e6657a6eb4bd030ae542ebcf7758205b432d4b2f58d1309aab296eb87e"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "acb5d4ace8eff6cb2066aa64948882c0c8e84131",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "f971c7193ba3a68299e166f2734f507f577001bc1ecc83cc940551abd038fb85",
+          "selection_sha256": "130d039ee0dcf8ad29f9c606c21de581ee0db4aee4f295c99e96192d46359868",
+          "count": 17,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "1bc2e88d6a60b6401be5878129d3e6332eb9878e7bde888f616a0fa3c455f936"
+        }
+      }
     }
   ],
   "accepted": {
@@ -123735,6 +123800,74 @@
       "ui:🔭 시장 분석 — %s:/🔭 시장 분석 — %s": {
         "source_sha256": "aaa1a524665da84e20c850afdeb96ac3997c9735babe742cd8dffb771faa7db4",
         "target_sha256": "dba449d70975f800b75bbe939a87ee8d55d332462de474cb53d9fd5a9b87221d"
+      },
+      "ui:%s 매도: %s / 손익 %s:/%s 매도: %s ~1 손익 %s": {
+        "source_sha256": "da24c94226390f89296acd21e3ceab8049a28bff86e4f0cae0c28e9ccfe46602",
+        "target_sha256": "dc92693f322fca02279df1871277500f30a22b13395be5f31456988a12e0fdfe"
+      },
+      "ui:%s 매수: %s:/%s 매수: %s": {
+        "source_sha256": "485cfa59587ab10ef57e01ed251f3f97a32c29c18887ccb4e1be3f0310deceb6",
+        "target_sha256": "542ff10b9d82a255f7647959456b61d63fe85fefe139848a42b6e4dd1f28c5b5"
+      },
+      "ui:⚠ 폭락 경보 — 현금 비중 늘리기 권장:/⚠ 폭락 경보 — 현금 비중 늘리기 권장": {
+        "source_sha256": "bd921ce87ccfce44b16c09338d89c58ae1fd9efc8a7267e166e74441a13abfcd",
+        "target_sha256": "58d2f174dd32a82e0febba0de0824baa89c51fef115eadc6abf562f5f345ebbb"
+      },
+      "ui:⚡ 레버리지 매수: {asset}에 {cash}을 투입해 두 배 규모의 포지션을 열었다.:/⚡ 레버리지 매수: {asset}에 {cash}을 투입해 두 배 규모의 포지션을 열었다.": {
+        "source_sha256": "acbc3906b9d449a1b22af6fbf2259bebdfb679fb0528639a8cdb835ad475de4b",
+        "target_sha256": "7bad2911c197ed4d616d7c8282cd2603475a59c64304e186055ca222f8332487"
+      },
+      "ui:⚪ 횡보 예상 — 분산 투자 유지:/⚪ 횡보 예상 — 분산 투자 유지": {
+        "source_sha256": "4df0e15ff1e793668bb5aa243637628ee558d710474846e40536bde4455ee13f",
+        "target_sha256": "abe5b73a8a6adc95758657d3189c049e0d16558eaa7702b9c781e081cf80e52c"
+      },
+      "ui:가격 정보 없음:/가격 정보 없음": {
+        "source_sha256": "908ade5591435f7511326a3953c0d64ca8edf75897f81ecc3f700cdf0d495d8c",
+        "target_sha256": "e006220b684bf27713b0b7201f3c54d312d5159b7eabd696eb10397a464117c6"
+      },
+      "ui:매수 완료:/매수 완료": {
+        "source_sha256": "d44659bde2021ef9402b3c4b8013c556016d2c536a554a471672a0504c850456",
+        "target_sha256": "a33188e4c35ed48474e40a7d0b30f2d50c7765abaa3bf499a16c093933d16a2b"
+      },
+      "ui:보유하지 않은 자산입니다.:/보유하지 않은 자산입니다.": {
+        "source_sha256": "5198e766d8a041108a24ede2643fc0e7efbc9395df0d3789b5cd350859611437",
+        "target_sha256": "c4c78cb36f5064699c55e3e0dd1048212bd463a232f985704caf2c1b923dd33d"
+      },
+      "ui:자산 가격 정보가 없습니다.:/자산 가격 정보가 없습니다.": {
+        "source_sha256": "8dc0357e38487cf96e6f37b3749242402bb0e5598d8369c87dc675b435642400",
+        "target_sha256": "0641e567efbabfeb63de63a8045412cc8014a509359dbc1c532fa0fef7c980f3"
+      },
+      "ui:잔액 부족:/잔액 부족": {
+        "source_sha256": "26c1db356037a4b55c51c971cc63dc6030f14c6fcc84c4c7998393a68542d11b",
+        "target_sha256": "c4cf2b0a0bf04e788c14b0700193e1d7a1c22249ce104cf9f7cad858dbf1b0e4"
+      },
+      "ui:잔액이 부족합니다.:/잔액이 부족합니다.": {
+        "source_sha256": "a6acc59f9796db028c69bcdb342d6f85cf2357662b907c2fb84ad67448480d39",
+        "target_sha256": "870d2d8ff23d3582974c8e8eb1ca8b3a71c989ae105fe290addc99500bd279bd"
+      },
+      "ui:존재하지 않는 자산:/존재하지 않는 자산": {
+        "source_sha256": "aab613eb950f352ce056beeb783fd271057d118ef7dba73038852bc28c3e02c0",
+        "target_sha256": "511f0d88b3f72c8e6f0030f595b153bc078b47707a3eb71f2d03615cedd8af66"
+      },
+      "ui:존재하지 않는 자산입니다.:/존재하지 않는 자산입니다.": {
+        "source_sha256": "e536e0f155cee28705110b70679a0d828d81381520898242a641fd0a632d66a2",
+        "target_sha256": "2ace33a924d00f2fc92c89b55e4b5be4ff3c892f390d924047da43eb86bd8c00"
+      },
+      "ui:최소 투자 금액은 %s입니다.:/최소 투자 금액은 %s입니다.": {
+        "source_sha256": "eda6278ba94703062793ce9c232f80fa76669e50c8ec156c2064fc10f49ff8c4",
+        "target_sha256": "3949479e9b74d0daacf92d1cab799817a14081545cd05b25d26bbea613e2d741"
+      },
+      "ui:🔴 하락 압력 — 방어 자산 권장:/🔴 하락 압력 — 방어 자산 권장": {
+        "source_sha256": "907c61e23adc30d14f09ee606f911f30a704c391505b1427e780fbad78975478",
+        "target_sha256": "c0820d85353125262d105691f3fc43864f073922b660a346d05521c1fda29595"
+      },
+      "ui:🟡 상승 국면 — 단기 변동 주의:/🟡 상승 국면 — 단기 변동 주의": {
+        "source_sha256": "78748858aa744fb8f30224dad8344766cc0cdd9f918a3afb9a6262aa68724093",
+        "target_sha256": "97bd48077ce0e51f2d971a268971423cbb9c244639d4e405cc9d02bbe46e4eeb"
+      },
+      "ui:🟢 상승 지속 예상 — 성장주 유리:/🟢 상승 지속 예상 — 성장주 유리": {
+        "source_sha256": "31a8a1af169c4bbb564e4505eb14d553909b1b8e2f41c8912cf2fc43a58078be",
+        "target_sha256": "de7daf9eab85d1d3231a6defcc4607cd13f94bf01fd195d2dae8adcc4e0d7ed5"
       }
     },
     "zh-TW": {
@@ -182241,10 +182374,78 @@
       "ui:🔭 시장 분석 — %s:/🔭 시장 분석 — %s": {
         "source_sha256": "aaa1a524665da84e20c850afdeb96ac3997c9735babe742cd8dffb771faa7db4",
         "target_sha256": "8d64fe39853a0ea466a2d0a5c1cbc2ceb91e01306806bda0c92d14ebb9f1eee4"
+      },
+      "ui:%s 매도: %s / 손익 %s:/%s 매도: %s ~1 손익 %s": {
+        "source_sha256": "da24c94226390f89296acd21e3ceab8049a28bff86e4f0cae0c28e9ccfe46602",
+        "target_sha256": "fc9aa05edbdaf8d22c0b3411f1603c10247993affb70ff0bb89402d0bf108b3d"
+      },
+      "ui:%s 매수: %s:/%s 매수: %s": {
+        "source_sha256": "485cfa59587ab10ef57e01ed251f3f97a32c29c18887ccb4e1be3f0310deceb6",
+        "target_sha256": "1e2b7ec033f5ca9c026b92a1bd4c3d55fc07820e1df07986ca3e5624b1177f44"
+      },
+      "ui:⚠ 폭락 경보 — 현금 비중 늘리기 권장:/⚠ 폭락 경보 — 현금 비중 늘리기 권장": {
+        "source_sha256": "bd921ce87ccfce44b16c09338d89c58ae1fd9efc8a7267e166e74441a13abfcd",
+        "target_sha256": "ee882380d8ac0b4d4720cc3d0eeaa7ed222b9a2b3605eaa78af450cfbb696ca1"
+      },
+      "ui:⚡ 레버리지 매수: {asset}에 {cash}을 투입해 두 배 규모의 포지션을 열었다.:/⚡ 레버리지 매수: {asset}에 {cash}을 투입해 두 배 규모의 포지션을 열었다.": {
+        "source_sha256": "acbc3906b9d449a1b22af6fbf2259bebdfb679fb0528639a8cdb835ad475de4b",
+        "target_sha256": "c648e9d787f1b927b49b7f973c676a3514b8ce0efdbdec1d120841f7a416120d"
+      },
+      "ui:⚪ 횡보 예상 — 분산 투자 유지:/⚪ 횡보 예상 — 분산 투자 유지": {
+        "source_sha256": "4df0e15ff1e793668bb5aa243637628ee558d710474846e40536bde4455ee13f",
+        "target_sha256": "0c7c3dddb9d1256a6d13ef8bbe7c9bdaab2d10281344f626379beab341e82e5d"
+      },
+      "ui:가격 정보 없음:/가격 정보 없음": {
+        "source_sha256": "908ade5591435f7511326a3953c0d64ca8edf75897f81ecc3f700cdf0d495d8c",
+        "target_sha256": "634a1fa5a62874efbd69355990b47369b4ab9e3bec9b1c185f1dfa729b4b9943"
+      },
+      "ui:매수 완료:/매수 완료": {
+        "source_sha256": "d44659bde2021ef9402b3c4b8013c556016d2c536a554a471672a0504c850456",
+        "target_sha256": "2a05b332117f92ef3bfbeb5aad85d48fb90221849e408683cf4b30b18da7f324"
+      },
+      "ui:보유하지 않은 자산입니다.:/보유하지 않은 자산입니다.": {
+        "source_sha256": "5198e766d8a041108a24ede2643fc0e7efbc9395df0d3789b5cd350859611437",
+        "target_sha256": "9fd1d8cd9ea05423ea15669f656b21f69f2b22a693bfd185e668c4ea4c003d8e"
+      },
+      "ui:자산 가격 정보가 없습니다.:/자산 가격 정보가 없습니다.": {
+        "source_sha256": "8dc0357e38487cf96e6f37b3749242402bb0e5598d8369c87dc675b435642400",
+        "target_sha256": "57e6893dfb9333452327b31994e0140ce186c76d1ed0b49fc264e1ee1fb8577a"
+      },
+      "ui:잔액 부족:/잔액 부족": {
+        "source_sha256": "26c1db356037a4b55c51c971cc63dc6030f14c6fcc84c4c7998393a68542d11b",
+        "target_sha256": "9d930853f5c7d849383260d30e3006daa41fe6b549629ddc300420d6791daf86"
+      },
+      "ui:잔액이 부족합니다.:/잔액이 부족합니다.": {
+        "source_sha256": "a6acc59f9796db028c69bcdb342d6f85cf2357662b907c2fb84ad67448480d39",
+        "target_sha256": "ba5edb94f887b4042dcd1845a2a7c59ca654656084cbfac1edbecd343c5e6cd5"
+      },
+      "ui:존재하지 않는 자산:/존재하지 않는 자산": {
+        "source_sha256": "aab613eb950f352ce056beeb783fd271057d118ef7dba73038852bc28c3e02c0",
+        "target_sha256": "0597cc8b11f6a0838b704060c5fe34b109a7ec69ca860153954ce382050d5661"
+      },
+      "ui:존재하지 않는 자산입니다.:/존재하지 않는 자산입니다.": {
+        "source_sha256": "e536e0f155cee28705110b70679a0d828d81381520898242a641fd0a632d66a2",
+        "target_sha256": "374e3ae821f4a9680b89cad14c2915aef579d6480469289cb4ea605b32e7931d"
+      },
+      "ui:최소 투자 금액은 %s입니다.:/최소 투자 금액은 %s입니다.": {
+        "source_sha256": "eda6278ba94703062793ce9c232f80fa76669e50c8ec156c2064fc10f49ff8c4",
+        "target_sha256": "6f8b4ed238385ece118a6b1617dc99a355f2a38fc80639528ea9d9444e94e5d6"
+      },
+      "ui:🔴 하락 압력 — 방어 자산 권장:/🔴 하락 압력 — 방어 자산 권장": {
+        "source_sha256": "907c61e23adc30d14f09ee606f911f30a704c391505b1427e780fbad78975478",
+        "target_sha256": "7f30d64b5b0979389b4ba6f56a030f2b947f5cc018c5524903bbda1930fe6c68"
+      },
+      "ui:🟡 상승 국면 — 단기 변동 주의:/🟡 상승 국면 — 단기 변동 주의": {
+        "source_sha256": "78748858aa744fb8f30224dad8344766cc0cdd9f918a3afb9a6262aa68724093",
+        "target_sha256": "85cdbd4fa86696c6310169dac2654bed590ab26859f2e0cb5e82a521065b078b"
+      },
+      "ui:🟢 상승 지속 예상 — 성장주 유리:/🟢 상승 지속 예상 — 성장주 유리": {
+        "source_sha256": "31a8a1af169c4bbb564e4505eb14d553909b1b8e2f41c8912cf2fc43a58078be",
+        "target_sha256": "bfef5f359b35e1e1e890214e9f3478e51831507fb2b328a5b067f1865101c3d8"
       }
     }
   },
-  "accepted_sha256": "c4816530a0f6487b1511df99d9bc0641c7d06b0d765f6ded4eeba45bbbb1e5cf",
+  "accepted_sha256": "d3998e6adc38ade0573086391afa8b9e698f73e8094227aa4e8367c04a713424",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
