@@ -259,7 +259,7 @@ CREATOR_COUNTER_KINDS = frozenset({
     "creator_weekly_uploads", "collab_both", "cofounder_departure_pair", "creator_age_group",
     "creator_baseline_views", "creator_followup_views", "creator_total_views", "creator_comment_total",
     "creator_subscribers_lost", "creator_subscribers_gained", "creator_collab_audience",
-    "creator_counter_views", "creator_counter_subscriber_delta",
+    "creator_counter_views", "creator_counter_subscriber_delta", "creator_subscriber_over_count",
 })
 DAILY_MOMENT_COUNTER_KINDS = frozenset({
     "birthday_greeting_people_range", "newyear_goal_count", "brief_mutual_gaze_pair",
@@ -330,7 +330,7 @@ LIFE_SCENE_COUNTER_KINDS = INVESTMENT_WORK_COUNTER_KINDS | WORK_SCENE_COUNTER_KI
     "rental_home_ordinal", "mirror_glance", "gangnam_attempt",
     "university_year", "restaurant_per_person", "underground_exit",
     "microwave_duration", "screen_time_duration", "chicken_open_hours",
-    "monthly_headache_frequency",
+    "monthly_headache_frequency", "kept_gangnam_family_pair",
 })
 TARGET_COUNTER_FORMS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("duration_hour", ("個小時", "个小时", "小時", "小时")),
@@ -1884,6 +1884,7 @@ def _source_audience_quantities(source: str) -> list[CounterQuantity]:
         (r"(?<=댓글은 )(?P<number>\d+)만 개(?=가 달렸다\.)", 10000, "creator_comment_total"),
         (r"(?<=구독자 )(?P<number>\d+)천 명(?=이 빠졌지만 악플러들이)", 1000, "creator_subscribers_lost"),
         (r"(?<=구독자 )(?P<number>\d+)만(?=이 늘었지만 적도 그만큼)", 10000, "creator_subscribers_gained"),
+        (r"(?<=구독자가 )(?P<number>\d+)만(?=을 넘은 날,)", 10000, "creator_subscriber_over_count"),
         (r"(?<=영상이 올라가자 구독자 )(?P<number>\d+)만 명(?=이 유입됐다\.)", 10000, "creator_subscribers_gained"),
         (r"^(?P<number>\d+)만(?= 유튜버가 제안했다$)", 10000, "creator_collab_audience"),
         (r"(?<=구독자 )(?P<number>\d+)만(?= 유튜버다\. 콜라보를 하자고\.)", 10000, "creator_collab_audience"),
@@ -2499,6 +2500,9 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             kind = "concept_pair"
         if match.group("number") == "둘" and source[match.end():].startswith(" 다 된다고 쓰지 않았다"):
             kind = "concept_pair"
+        if match.group("number") == "둘" and source[:match.start()].endswith("강남과 가족, ") \
+                and source[match.end():] == " 다 지켰다.":
+            kind = "kept_gangnam_family_pair"
         if match.group("number") == "둘" and source[match.end():].startswith(" 다 지울 수 없는 사실"):
             kind = "immutable_fact_pair"
         if match.group("number") == "둘" and source[match.end():].startswith(" 중 하나를 지우지 않은") \
@@ -2900,6 +2904,12 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
         return re.compile(rf"(?P<frame>流失了|少了|增加了)[+＋−﹣－負负-]?\s*(?P<number>{CHINESE_CARDINAL})(?P<large_unit>[萬万])?(?P<creator_unit>名[訂订][閱阅]者|人|年|公里|公斤|[韓韩]元)")
     if kind == "creator_subscribers_gained":
         return re.compile(rf"(?P<frame>[訂订][閱阅](?:人[數数]|者)(?:增加|減少|减少)|湧入了|涌入了|帶來了|带来了)[+＋−﹣－負负-]?\s*(?P<number>{CHINESE_CARDINAL})(?P<large_unit>[萬万])?(?P<creator_unit>名[訂订][閱阅]者|人|年|公里|[韓韩]元)?")
+    if kind == "creator_subscriber_over_count":
+        return re.compile(rf"(?P<label>[訂订][閱阅](?:人[數数]|者))(?P<bound>突破|超過|超过|不到|不足|達到|达到)?(?:了)?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<large_unit>[萬万])?(?P<creator_unit>人|年|股|公里|[韓韩]元)?")
+    if kind == "kept_gangnam_family_pair":
+        # Named objects plus the retaining predicate witness the implicit 都.
+        # This is not permission to read a generic two-person source as 兩者.
+        return re.compile(rf"江南(?:和|與|与)(?:家人|家庭)[，,]\s*(?:(?P<number>{CHINESE_CARDINAL})者)?都守住了(?=[。.!！]|$)")
     if kind == "creator_collab_audience":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<large_unit>[萬万])?(?P<creator_unit>[訂订][閱阅](?:者的)?)?(?P<creator_person>YouTube博主|YouTuber)(?![^\W\u3400-\u4dbf\u4e00-\u9fff])")
     if kind in {"creator_counter_views", "creator_counter_subscriber_delta"}:
@@ -3955,6 +3965,9 @@ def _creator_quantity_valid(kind: str, match: re.Match[str], target: str) -> boo
         return bool(end or re.match(r"的邀[約约]|提出邀[約约]", after))
     if kind == "creator_counter_views":
         return fields.get("label") in {"播放量", "觀看次數"} and fields.get("sign") is None and unit is None and end
+    if kind == "creator_subscriber_over_count":
+        return fields.get("bound") in {"突破", "超過", "超过"} and unit in {None, "人"} \
+            and bool(re.match(r"(?:的)?那天(?:[，,。.]|$)", after))
     if kind == "creator_counter_subscriber_delta":
         return fields.get("label") in {"訂閱人數", "订阅人数", "訂閱者", "订阅者"} \
             and fields.get("sign") == "+" and unit == "人" and end
@@ -4247,7 +4260,7 @@ def _match_target_counter_quantities(
                 continue
             if expected.kind in LIFE_SCENE_COUNTER_KINDS:
                 number_start = match.start("number") if match.group("number") else match.start()
-                if expected.kind in {"exam_countdown", "video_view_count", "viral_view_over_count", "viral_subscriber_count", "approx_comment_count", "creator_counter_subscriber_delta"}:
+                if expected.kind in {"exam_countdown", "video_view_count", "viral_view_over_count", "viral_subscriber_count", "approx_comment_count", "creator_counter_subscriber_delta", "creator_subscriber_over_count"}:
                     number_start = match.start()  # 倒數 / 觀看次數 own 數 as a noun, not a numeric prefix.
                 if expected.kind == "creator_counter_subscriber_delta":
                     # The previous labelled view total ends on the line above;
@@ -4406,6 +4419,11 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "kept_gangnam_family_pair":
+                if re.search(r"(?:不|沒有|没有|並非|并非|不是)\s*$", target[:match.start()]):
+                    continue
+                if not match.group("number"):
+                    value = Decimal(2)
             if expected.kind in INVESTMENT_WORK_COUNTER_KINDS and not match.group("number"):
                 tail_number = match.groupdict().get("tail_number")
                 value = _chinese_cardinal_value(tail_number) if tail_number else Decimal(2 if expected.kind == "private_manager_pair" else 1)
@@ -21671,6 +21689,50 @@ def run_self_test(
             expected_error and not any(expected_error in error for error in observed)
         ):
             failures.append(f"creator audience scope {lang}: expected {expected_error!r}, got {observed}")
+
+    subscriber_summary = "구독자가 100만을 넘은 날, 강남보다 더 넓은 세계가 열렸다"
+    kept_summary = "임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다."
+    for lang, subscriber, kept, won, people in (
+        ("zh-CN", "订阅者超过100万的那天，比江南更广阔的世界打开了。",
+         "从 Im Sangchul 那里追回了父亲那笔债的钱。江南和家人，都守住了。", "韩元", "两个人"),
+        ("zh-TW", "訂閱人數突破100萬的那天，比江南更寬廣的世界展開了。",
+         "從 Im Sangchul 手中追回了父親那筆債的錢。江南和家人，兩者都守住了。", "韓元", "兩個人"),
+    ):
+        large = "万" if lang == "zh-CN" else "萬"
+        both = "都守住了" if lang == "zh-CN" else "兩者都守住了"
+        bound = "超过" if lang == "zh-CN" else "突破"
+        for source, target, valid in (
+            (subscriber_summary, subscriber, True),
+            (subscriber_summary.replace("100만", "101만"), subscriber.replace("100", "101"), True),
+            (subscriber_summary, subscriber.replace("100", "101"), False),
+            (subscriber_summary, subscriber.replace("100" + large, "100"), False),
+            (subscriber_summary, subscriber.replace("100", "-100"), False),
+            (subscriber_summary, subscriber.replace(bound, "不足"), False),
+            (subscriber_summary, subscriber.replace(bound, "達到" if lang == "zh-TW" else "达到"), False),
+            (subscriber_summary, subscriber.replace(bound, ""), False),
+            (subscriber_summary, subscriber.replace("100" + large, "100" + large + won), False),
+            (subscriber_summary, subscriber.replace("100" + large, "100" + large + "股"), False),
+            (subscriber_summary, subscriber.replace("訂閱人數" if lang == "zh-TW" else "订阅者", "觀看次數" if lang == "zh-TW" else "观看次数"), False),
+            (subscriber_summary, subscriber + subscriber, False),
+            (subscriber_summary.replace("100만", "100만원"), subscriber, False),
+            ("계약금 100만", "100" + large + won, True),
+            ("계약금 100만", "100" + large, False),
+            (kept_summary, kept, True),
+            (kept_summary, kept.replace(both, "两者都守住了" if lang == "zh-CN" else "都守住了"), True),
+            (kept_summary, kept.replace(both, "三者都守住了"), False),
+            (kept_summary, kept.replace(both, people + "都守住了"), False),
+            (kept_summary, kept.replace("家人", "同事"), False),
+            (kept_summary, kept.replace("都守住了", "都没守住" if lang == "zh-CN" else "都沒守住"), False),
+            (kept_summary, kept.replace("江南和家人", "不是江南和家人"), False),
+            (kept_summary, kept + kept, False),
+            (kept_summary, kept.replace(both, "三者都守住了") + kept, False),
+            ("둘 다 지켰다.", people + "都守住了。", True),
+            ("둘 다 지켰다.", ("两者" if lang == "zh-CN" else "兩者") + "都守住了。", False),
+        ):
+            cases += 1
+            observed = validate_text(lang, "self-test::ending-quantity-roles", source, target)
+            if bool(observed) == valid:
+                failures.append(f"ending quantity roles {lang} valid={valid}: {source}:{target}: {observed}")
 
     for lang, target in (
         ("zh-CN", "在江南，目标是30亿韩元。"),
