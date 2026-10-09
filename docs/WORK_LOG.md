@@ -2,6 +2,13 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)과 [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 중국어 HUD·수첩·능력치60값 수용 (498)
+
+- KO30키·실제 HUD/notebook/AP/stat37호출의 CN/TW60값을 15+15 두 배치로 지역별 병렬 저작·비저자 전수 대조했다. 확정 계획 조회·넓은 메시지/통화 기록, 보너스 포함 전체 잔여 행동 횟수, 경과 개월/남은 주/처음 약속한 5년을 구분했다. 아버지의 사망 단조증거 우선·짧은 실제 통화·병원 회피·괜찮다는 반복·먼저 끊지 않음과 8능력치 의미를 보존했다. 선언e1b9fc8 → 제품8215acfc37bf603649dae5e1bafbd283a15d1563 main commit/push 완료다.
+- 공식 export/check/import15+15씩·원header/SHA4·현재 source/target/committed receipt60·기존4파일 raw 역상 PASS. accepted42143→42203/batch293→295/UI1955→1985씩·JA3055 불변, CN/TW legacy1760/2952/context29/29/dynamic150/701·전체 INCOMPLETE다. 비저자 phone_independent_review가 actual Git current_proof(basebb77e5e→제품8215acf)의 제품전이1/60receipt/배치2·선언Git/current source manifest b7d4 일치·blocking0을 확인했다.
+- EN/Hangul·JA UI·ZH·i18n·multilingual·공개storydemo·legacy demo 영향검사 PASS. [498 완료 사양](queue_archive/ORDER-498.md)에 영수증과 경계를 남겼다. 개발 스킬의 선선언·독립 지역 저작/비저자 검수·기존 원장·표적 검증 적용, 새 도구/형식 보고/판정원장0·새규범0/일회성이다. 게임원문/runtime/저장/project·기존 번역·JA·공개M01~M06·shipping language·역사 인간판정은 불변이다.
+- 494 최종6c1d96e의 실제 CI37894764267 녹색을 2026-10-09 07:52 UTC 확인했다. 최신 후속 CI는 별도 진행/대기로 현재 main 녹색을 선점하지 않는다. Mac잠금으로 실제폭/입력149·457·302 미관찰, 원어민/물리패드 OPEN·본편 출시 HOLD다. 기존 HUD/수첩 소비자 번역이지 새 StoryMode 기능·M60엔딩이 아니다.
+
 ## 2026-10-09 — 중국어 월말·결산 표시와 저장 안내90값 수용 (497)
 
 - KO45키·실제 completion/month-summary/boundary/save-retry51호출의 CN/TW90값을 23+22 두 배치로 병렬 저작·비저자 전수 대조했다. 기록 부재·완료/미선택/만료/미해결, 월 차수와 기간, 넓은 의무, 저장 성공/기존 기록 열기/실패 재시도, 증감 부호와 남은 목표 금액을 구분했다. 선언912b7ac → 제품ac0c4fdedd20615c8c5109ecda2912ef92ffdabc main commit/push 완료다.

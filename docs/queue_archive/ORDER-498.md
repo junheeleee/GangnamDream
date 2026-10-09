@@ -1,6 +1,6 @@
 # ORDER-498 — 중국어 HUD·수첩 UI30키
 
-#### [~] ORDER-498 [전체 현지화] CN/TW 상태·수첩60값 — 2026-10-09
+#### [x] ORDER-498 [전체 현지화] CN/TW 상태·수첩60값 — 2026-10-09
 
 착수 — 만지는 파일: locale/ui_zh-CN.json·ui_zh-TW.json 신규30키씩,
 content/meta/full_game_localization.json 해당60영수증·배치2. 운영 파일은
@@ -73,3 +73,33 @@ source/target를 원장에 결속한다. 비저자는 KO30/실제37소비자·60
 엔진240주·새 이력/계측/재사용 도구0. Mac잠금으로 실제폭/입력 미관찰/OPEN,
 원어민·물리패드 OPEN·전체출시 HOLD다. project.godot·사용자 저장·shipping language·
 공개데모·역사 인간판정 불변·새규범0/절차 일회성이다.
+
+
+## 수용 결과 — 2026-10-09 / HUD·수첩 정적 번역만 GO
+
+선언e1b9fc81 → 제품8215acfc37bf603649dae5e1bafbd283a15d1563를 main commit/push했다.
+KO30키·실제37호출·CN/TW60값을 저자2/비저자가 전수 대조했다. 확정 계획 조회와
+넓은 메시지·통화 기록, 보너스 포함 전체 잔여 행동 횟수·선택1회·확정 상태를
+구분했다. 경과 개월/남은 주/처음 약속한 5년과 수첩을 덮는 동작을 보존했다.
+아버지 사망 단조증거 우선·병원 회피·짧은 실제 통화·괜찮다는 반복·먼저 끊지 않음을
+섞지 않았고, 8능력치가 가리키는 값도 각각 구분했다. 원문/런타임/저장 변화0이다.
+
+공식 export/check/import15+15씩 PASS·현재60 source/target/committed receipt 일치.
+accepted42143→42203·batches293→295·UI1955→1985씩/JA3055 불변이다.
+CN/TW legacy1760/2952·context29/29·dynamic150/701·전체 INCOMPLETE/원어민 OPEN이다.
+원공식header4·원영수증/원장 SHA4와 기존4파일 raw 역상 PASS다.
+
+- CN A15: c696a90d434677cd68d3174df0e261b5a02f8f9be6b94da62b3a3a8d6c43efd1
+- CN B15: f25fe917359112fa44e5b1808f2a1242074ed209773a32178528144cfca34244
+- TW A15: 28cf9fdeea9587621baa8756d06dddcf5bc119ecaf21ded91b2be76ece22c595
+- TW B15: 1012c4740eda378eda92eb4532e815d187374c0274dd4264f521ee782eeacc85
+
+비저자 phone_independent_review의 actual Git current_proof(basebb77e5e→제품8215acf)는
+제품전이1·60receipt·배치2·선언e1b9fc81 실제Git/current source manifest
+b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea 일치·blocking0이다.
+기존 번역·원장 메타/배치/영수증·JA·공개데모·shipping language·인간판정 불변이다.
+
+EN/Hangul·JA UI·ZH·i18n·multilingual·공개storydemo·legacy demo 영향검사 PASS.
+494 최종6c1d96e의 CI37894764267 녹색 확인(2026-10-09 07:52 UTC), 후속 최신CI는 별도다.
+새 도구/형식 보고/판정원장·전체 local audit/엔진240주0·새규범0/절차 일회성이다.
+Mac잠금으로 실제폭/입력 미관찰·원어민/물리패드 OPEN·전체출시 HOLD다.
