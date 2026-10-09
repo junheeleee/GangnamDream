@@ -2,6 +2,13 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)과 [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 중국어 월말·결산 표시와 저장 안내90값 수용 (497)
+
+- KO45키·실제 completion/month-summary/boundary/save-retry51호출의 CN/TW90값을 23+22 두 배치로 병렬 저작·비저자 전수 대조했다. 기록 부재·완료/미선택/만료/미해결, 월 차수와 기간, 넓은 의무, 저장 성공/기존 기록 열기/실패 재시도, 증감 부호와 남은 목표 금액을 구분했다. 선언912b7ac → 제품ac0c4fdedd20615c8c5109ecda2912ef92ffdabc main commit/push 완료다.
+- 공식 export/check/import23+22씩·원header/SHA4·현재 source/target/committed receipt90·기존4파일 raw 역상 PASS. accepted42053→42143/batch291→293/UI1910→1955씩·JA3055 불변, CN/TW legacy1730/2952/context29/29/dynamic150/701로 전체 INCOMPLETE를 유지했다. 비저자의 actual Git current_proof(basef6140264→제품ac0c4fd)는 제품전이1/90receipt/배치2·선언Git/current source manifest b7d4 일치·blocking0이다.
+- EN/Hangul·JA UI·ZH·i18n·multilingual·공개storydemo·legacy demo 영향검사 PASS. [497 완료 사양](queue_archive/ORDER-497.md)에 상세 증거를 남겼다. 개발 스킬의 선선언·지역별 독립 저작/비저자 검수·기존 원장·표적 검증 적용, 새 도구/형식 보고/판정원장0·새규범0/일회성이다. 원문/runtime/저장/project·기존 번역·공개M01~M06·shipping language·역사 인간판정은 불변이다.
+- 이번 실행의495+497 합계 중국어 UI122값과496 금액 오탐 수리를 완료했다. 493 마감2e2f266의 실제 CI37894081324 녹색을 확인했으며 494 이후 CI는 진행/대기다. Mac잠금으로 실제폭/입력149·457·302 미관찰·원어민/물리패드 OPEN·본편 출시 HOLD다. 기존 V2 월말/결산 번역이며 StoryMode 새 기능·M60엔딩·출시 GO가 아니다.
+
 ## 2026-10-09 — 중국어 대출·상환 안내32값 수용 (495)
 
 - KO16키·실제 은행/공유 투자17호출의 CN/TW32값을 병렬 저작·비저자 전수 대조해 반영했다. 대출잔액/현금·신용등급 방향·남은 차입 한도·변동금리·원화 음수 위험·금리 precision을 보존했다. 기존 금액 검사 오탐은 별도496에서 먼저 수리하고 정상 문안을 우회하지 않았다. 선언0cda0e4 → 제품6939838e8e9508bfabc559e7f2b9434c3bf6e558 main commit/push 완료다.
