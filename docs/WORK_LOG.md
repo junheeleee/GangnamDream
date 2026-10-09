@@ -2,6 +2,14 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)과 [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 레버리지 성공 알림의 중복 배수 표시 수리 (506)
+
+- 투입현금20만원의 노출액40만원에 다시×2를 붙이던 성공toast를 20만원×2로 고쳤다. MainGame 미사용local1줄 삭제·표시인자1개만, 현금/수수료/수량/35%청산·producer 반환 exposure·주간 영수증은 불변이다. 선언0b11e79 → 제품e1acd2b8d116bd6aa03df441451940ba42138221 main commit/push. 기존 fixture30표본에 실제 성공10/실패15/주간owner5를 더했다.
+- 최종 격리 정상엔진 fresh2회 각각60/60·복원5·exit0/exact marker·stdout+stderr/engine 오류·경고0, MoneyIntegrity exit0/marker/오류0. 실제저장33+project/3UI/원장5파일 hash 전후불변. 비저자 phone_independent_review가 두 로그·15성공의 현금/노출/fee/owner 및 실제Git endpoint를 대조해 거래/문구 component 한정GO다. [506 완료 사양](queue_archive/ORDER-506.md)에 정확한 namespace·실행/실패 로그를 남겼다.
+- 효과음 켠 초기 표본은60/60여도 shutdown resource1 ERROR로 수용하지 않았다. 추정 pool/cache/frame 정리도 재현돼 제거했다. 최종 fixture는 비대상 SFX만 보관→비활성→복원, 제품오디오/별도오디오검사는 변경0이다. 구체 누수원인 해소·실제청취·화면/자연입력 PASS를 주장하지 않는다.
+- 독립 collector/Git 대조에서 UI1947호출 원문/소비자·locale3/원장/경제/Audio/project raw 불변. 17505잎 중17488 SHA 동일·미승인후보17은 줄번호 -1의 source_path/SHA만 변화(승인receipt0), manifest b7d4→f971c719…다. 역사 header/영수증을 새 manifest로 덮지 않았다. AP self42·EN/Hangul·JA UI·ZH·i18n·공개/legacy demo·구조audit·등록179의 영향10검사/context/queue/diff PASS다.
+- 개발 스킬의 선선언·최소표면수리·별도test저작/비저자검수·표적검증 적용. 새규범0/일회성·새도구/이력/계측/재사용/전체audit·240주0. 이전 fedae9d1 CI37911666004 녹색 확인, 최신main CI진행 중·Mac잠금/실제화면·입력·청취/원어민·물리패드 OPEN·전체번역 INCOMPLETE·출시HOLD다.
+
 ## 2026-10-09 — 중국어 시간 기록·시장 위험82값 수용 (505)
 
 - 기존 KO41키/실제46호출의 CN/TW82값을 24+17 두 배치로 직접 지역별 병렬 저작·비저자 전수 대조했다. 돈/사람의 주 수 동시 집계와 자기돌봄 포함, 호흡/수면 변화 방향·중단 이유·잔액 바닥 관찰, 분석AP0/매수AP1·손익2배·노출액35% 미만 청산·토큰/공백을 보존했다. 선언4b34b47 → 제품cf41966b7ce74ad4bdaa1d0bf63fefb8f21b991c main commit/push다.
