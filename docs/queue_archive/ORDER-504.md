@@ -1,6 +1,6 @@
 # ORDER-504 — 중국어 월간 통화 빈도 검사 오탐 수리
 
-#### [~] ORDER-504 [현지화 검사 수리] 월마다 두 번과 한 달 기간 구분 — 2026-10-09
+#### [x] ORDER-504 [현지화 검사 수리] 월마다 두 번과 한 달 기간 구분 — 2026-10-09
 
 착수 — 제품 소유는 tools/zh_translation_audit.py의 기존 monthly_frequency
 원문 분류와 같은 파일 embedded self-test뿐이다. 운영 파일은 큐/L3·본 사양/
@@ -31,3 +31,19 @@ context/queue/diff만. 전체 local audit/240주·계측/검수 재사용 작업
 실제화면/원어민/물리패드 OPEN·전체출시 HOLD다. 공개M01~M06·과거 인간판정·
 shipping language·사용자 저장 불변. 개발 스킬의 원인수리·독립 반례·표적검증을
 적용한다. 새규범0/절차와 이번 배치 범위는 일회성이다.
+
+## 수용 결과 — 2026-10-09 / 기존 검사 한정 GO
+
+선언7dbf84a → 제품fa57a72 main commit/push. tool1파일18+/2-만이며 기존
+monthly_frequency 분류1곳·embedded 정상6/음성8을 바꿨다. 정상502 공식check
+16×2 PASS. ZH self-test12725·currentZH·full localization265·body54·i18n·
+공개/legacy demo·구조audit ERROR0/WARNING0·context/queue/diff PASS다.
+
+비저자 phone_cn_author의 독립40표본(정상16/음성24) 예상불일치0이다.
+source16957종 counter/money 전수대조 변화는 실제 월2통화와 월4회여력의
+2잎 duration_month1→monthly_frequency1뿐이다. 각각 occurrence2/4와 모든
+money 불변·manifest b7d4 불변이다. 실제Git 선언→제품 tool-only와 검수blob
+fc4c343ebe954ca585fdff2f01b68977464f18ae 동일GO·blocking0·clean/origin동기다.
+일반 기간/횟수/통화 검사를 완화하지 않았고 번역/원장/게임원문 변경0이다.
+새규범0/절차 일회성. 502를 재개하며 생성STATUS는 그 마감에 최신화한다.
+현재 main CI 진행 중·실제화면/원어민/물리패드 OPEN·출시 HOLD다.

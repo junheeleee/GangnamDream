@@ -2,6 +2,12 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)과 [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 월간 통화 빈도 중국어 검사 오탐 수리 (504)
+
+- 502의 올바른 每个月/每個月 두 통화를 기간1개월로 오독하던 기존 monthly_frequency 분류를 수리했다. 선언7dbf84a → 제품fa57a72 main commit/push·tool1파일18+/2-다. 월간 간격과 독립 횟수를 분리하며 일반 한 달 기간·금액·잘못된 횟수/간격 거부는 유지했다. 게임원문/번역/원장/runtime/저장 변경0이다.
+- 비저자 phone_cn_author의 독립40표본(정상16/음성24) 예상불일치0·502 공식32응답 PASS. 원문16957종 전후 변화는 월2통화와 월4회여력 2잎 duration_month1→monthly_frequency1만이며 occurrence2/4·모든money·manifest b7d4 불변이다. 실제Git tool-only범위/검수blob fc4c343e 동일GO·blocking0·clean/origin동기다.
+- ZH self-test12725·currentZH·full localization265/body54·i18n·공개/legacy demo·구조audit ERROR0/WARNING0·context/queue/diff PASS. [504 완료 사양](queue_archive/ORDER-504.md). 개발 스킬의 실패재현·별도범위·독립 반례·표적검증 적용. 새 검사/이력/계측/재사용 도구·전체 잎 예외·삭제0, 새규범0/일회성이다. 502 수용을 재개하며 생성STATUS는 그 마감과 함께 최신화한다. 최신 main CI진행 중·실제화면/원어민/물리패드 OPEN·출시 HOLD다.
+
 ## 2026-10-09 — 중국어 엔딩 여정 요약40값 수용 (500)
 
 - 기존 MainGame._ending_run_summary의 KO20반환문/결말화면 caption20소비자를 CN/TW에서 KO 직접 병렬 저작·비저자 전수 대조했다. 원화30억·첫해/5년·구독자100만·평판/자산·사회적 생활권·아버지 생존/화해/빚 회수·NG+전생 경계를 보존했다. CN의 회사전체매각 단정1잎을 실제 지분매각 producer에 맞는 创业股权变现으로 수리했고 도구 오탐은 선행501에서 닫았다. 선언19baf918 → 제품6352d9b99d777b45b32d7bd0033c9931cba07049 main commit/push 완료다.
