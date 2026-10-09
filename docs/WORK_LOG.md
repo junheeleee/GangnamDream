@@ -2,6 +2,13 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 5언어 화면 검수 입구에서 잠금 재발·저장 보존
+
+- [525](queue_active/ORDER-525.md): native inventory 성공 뒤 exact522 무인자 own76110/parent76109를 실행했으나 getApp에서 Mac locked가 재발했다. 화면/게임입력/새저장0이며 검증한 own group만 SIGTERM, exit−15/26.664948초다. stdout/stderr/Godot 각0B·entry0이므로 정상CmdQ·부팅 GO·제품 실패를 주장하지 않는다.
+- `.git/order525-live-20261010/` 원산출8개를 보존했다. before695184B/b445b02c…→after695394B/17975d2d…·observation1993B/a7f98f32…·command1347B/abd9f572…다. root/비저자 phone_independent_review가 before.source=after.source=fresh clean c9bfae1d/tree1abff6f1·tracked3263/helper5/seed2/W238/player33와43곳을 직접 전량 대조했다.
+- index40 후보namespace의 log806→0B·동일806B/0192f57b… 회전1개만 변했다. 나머지42곳·원slot19417B/e4978df6…·controller/backup/settings/meta byteexact, own/parent 부재·사용자editor61385 생존이다. 첫 사후 전부불변 assert는 허용index40 로그회전에서 중단·쓰기0이었고 올바른 경계로 봉인했다.
+- 개발 스킬의 실제관찰/자동계약 분리·독립 fresh·기존 도구 재사용을 적용했다. 실제5언어는 미완료/HOLD이며 새checker/runner/보고·제품/번역/저장 주입0, 일회성·정본승격0이다. 재시도는 새raw·44곳 보존으로 분리한다. 공개/과거GO·인간/원어민/물리·본편/출시 HOLD를 보존한다.
+
 ## 2026-10-10 — 실제 재개 결과 완독·한 번 정산·다음 달 복귀 통과
 
 - [524](queue_archive/ORDER-524.md): 같은 exact522/nameplate-fix/원slot1에서 result0→개별Return3으로 남은 두 문단 완독→2월 전환→자동M02 도착, 확인/추가게임입력0이다. 실제 진행안내는 이번 stable/완료문단에서 보였고 523 소실 원관찰은 비재현으로 보존한다. 수리 성공으로 세지 않는다.
