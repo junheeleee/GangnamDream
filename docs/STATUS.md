@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-10-09 20:05 UTC · f385ed33`
+> 생성 시각 · 커밋: `2026-10-09 20:09 UTC · 9c1b4e4c`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -116,7 +116,7 @@
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
 | `ORDER-149` | 프롤로그 세 비트의 강조·리듬 | 진행 | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
-| `ORDER-517` | 첫 장면 자동 전환 Timer 수명 | 진행 | Timer 수리·기존5언어/Compile PASS · source 판정 결속 |
+| `ORDER-518` | Timer 수리 새 데모 후보 발급 | 진행 | 기존빌더 신원/현재33파일 정렬·fresh export 착수 |
 | `ORDER-516` | 수정 데모 앱 실제 저장·재시작 | 진행 | 실제 첫 자동 전환 SIGSEGV · 수리/새 package 대기 HOLD |
 | `ORDER-302` | 체험판 대본 사실·영어 정합 수리 | 진행 | 수리7항목 source GO · successor export GO/실제 재생6항목 HOLD |
 | `ORDER-352` | 본편 5장 대본 이름·시간·회수 정합 | 미착수 | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |

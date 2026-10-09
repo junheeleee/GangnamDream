@@ -1,11 +1,20 @@
 # ORDER-517 — 첫 장면 자동 전환 Timer의 수명 수리
 
-#### [~] ORDER-517 [P0·실행 종료] timeout 신호 발행 중 자기 해제
+#### [x] ORDER-517 [P0·실행 종료] timeout 신호 발행 중 자기 해제
 
 **착수 — 2026-10-10.** 516의 실제 successor/third 첫 실행에서 확인한
 SIGSEGV와 발행 중 Object 해제만 수리한다. 현 controller는 같은 원문이다.
 
-## 구현·표적 결과 — source 최종 결속 전
+## 완료·source 한정 판정 — 2026-10-10
+
+비저자 `/root/phone_independent_review`가 clean main/origin source
+`9c1b4e4c010184e79f46a50a1900156f588be822`/tree
+`f07257bd7b77ea5061b72258935b364d272873d5`의 전체7파일 diff와 검수한 두 제품
+blob을 직접 대조해 이 Timer 수리만 GO했다. 나머지5개는 운영문서다.
+원문/locale/project/SceneTransition·다른 runtime·human/과거 판정/462manifest/builder
+Git 변경0이다. 새 실제 package·첫 장면 도달/수동 저장/cold resume는 미관찰이다.
+
+## 구현·표적 결과
 
 - 제품은 두 Timer의 remove_child/free만 queue_free로 교체했다. timeout 발행자는
   그 프레임까지 유효하고 다음 프레임에 해제된다. serial/screen/auto guard와
@@ -29,7 +38,8 @@ SIGSEGV와 발행 중 Object 해제만 수리한다. 현 controller는 같은 �
 - 수정 전/후 각 source+protected 전후 equality, 수정 후 final fresh도 SHA57eb2809…/
   636215B 전체 동일: tracked3252/helper5/seed2/checkpoint/player33·보호6곳.
   비저자도 fixed 전후/fresh/원로그를 직접 읽고 코드/QA/보존 한정 GO다.
-  제품 commit 범위와 원장 최종 결속은 완료 전 남는다. 새 package/실제 재생은 HOLD다.
+  제품 commit 전수대조까지 수리 한정 GO이며 원장은 이 완료 사양의 SHA에 결속한다.
+  새 package/실제 재생은 HOLD다.
 
 ## 한 단위·깊이 3문
 

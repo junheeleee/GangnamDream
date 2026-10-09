@@ -4,16 +4,21 @@
 
 ## 2026-10-10 — 첫 장면 자동 전환의 자기 해제 수리·기존 5언어 표적 통과
 
-- [517](queue_active/ORDER-517.md)은 Timer 두 해제만 queue_free로 바꿨다. 원문/번역·3초 안내·선택·저장/라우팅은 그대로다. 기존 fixture에 자연 timeout/cancel/stale 수명 반례를 넣었으며 장면 이동을 막은 준비 검증이지 실제 패키지 재생은 아니다.
+- [517](queue_archive/ORDER-517.md)은 Timer 두 해제만 queue_free로 바꿨다. 원문/번역·3초 안내·선택·저장/라우팅은 그대로다. 기존 fixture에 자연 timeout/cancel/stale 수명 반례를 넣었으며 장면 이동을 막은 준비 검증이지 실제 패키지 재생은 아니다.
 - 수정 전 exit1/locked Object controller2412를 재현하고, 수정 후 exit0/8.437666초·정확 five-language marker1·stderr/오류/경고/누수0을 확인했다. 새 표본과 기존5언어/30개월/120주/5저장/10StoryMode가 함께 통과했다. raw commandc5cff20f…/stdout·Godote188f73b… 보존.
 - Compile68/Font·이름표24·기존 영향 Python8·demo 현지화 normal·EN/한글 PASS. I18n engine은 exit0/원래 긴 marker1/오류0/의도 거절 warning19다. root의 짧은 marker 오지정 wrapper 실패를 지우지 않고 기존 긴 marker 직접 대조 receipt51fc0baf…로 구분했다. 수정 전 stale 인자/누수는 fixture 부수 오류로 구분한다.
-- source/보호 전후와 최종fresh 전체 동일 SHA57eb2809…: tracked3252/helper5/seed2/checkpoint/player33 보존. 비저자 직접 원로그/코드/fresh 수리 한정 GO·제품commit 결속은 남았다. 기존 third 실제 SIGSEGV/HOLD는 소급 통과시키지 않는다. 새도구/검사/오더별보고0·개발 스킬의 기존 fixture/원시 오류검사·선언 분리를 적용했다.
+- source/보호 전후와 최종fresh 전체 동일 SHA57eb2809…: tracked3252/helper5/seed2/checkpoint/player33 보존. 비저자 직접 원로그/코드/fresh와 clean9c1b4e4/treef07257bd 전체7diff/두 제품blob 수리 한정 GO다. 기존 third 실제 SIGSEGV/HOLD는 소급 통과시키지 않는다. 새도구/검사/오더별보고0·개발 스킬의 기존 fixture/원시 오류검사·선언 분리를 적용했다.
+
+## 2026-10-10 — Timer 수리 앱을 옛 후보와 분리해 발급한다
+
+- [518](queue_active/ORDER-518.md)에 기존 빌더/감사기의 BUILD2026.10.10.1/date/version/새 namespace·실제player33·기존 self-test 신원 literal만 선선언했다. 새 빌더/검사/성능작업0이며 fresh timer-fix 후보만 만든다. 소스 날짜를 조작하거나 공개/third를 덮지 않는다.
+- 원seed2/W238·player/원고/과거판정 보존과 source동결 뒤 기존 import/export/서명/ZIP/PCK 검사만 수행한다. 성공도 실제 GUI 저장/재개·출시 GO가 아니며 516에서 새 exact 대상으로 관측을 잇는다.
 
 ## 2026-10-10 — 수정 데모 첫 장면 전환의 실제 종료를 확인하고 Timer 수리 선언
 
 - [516](queue_active/ORDER-516.md) 실제 third 무인자 PID64603은 KO 선택→home→처음부터→M01 안내 뒤35.95785초/exit−11로 종료됐다. entry marker는 정확 profile/build/namespace이며 발행 중 Object 해제1건·OS SIGSEGV가 일치한다. 본문/선택·수동 저장·정상 종료·cold resume는 미실행이다. 자동 월1 저장만 남았다.
 - 원증거 before330cda14…/command7fa0cd72…/stderrf972eeb3…/Godot2003713a…/fresh4edc60cf…를 private에 보존한다. root/비저자 각 fresh 전후 전체대조는 tracked3251/helper5/seed2/checkpoint/player33·보호6곳·앱7/ZIP/manifest 동일, 후보 새4파일만 허용이다. 첫 after의 앱 상위폴더 오지정은 보존하고 corrected 경로를 판정에 쓴다. 공개/사용자 저장 변경0·own 종료/editor 생존이다.
-- 비저자 원코드/원로그/OS report 직접 진단으로 timeout 콜백의 자기 Timer 즉시 free가 가장 직접적인 결함이다. 기존 fixture는 auto-launch를 꺼 이 경로를 우회했다. [517](queue_active/ORDER-517.md)에 Timer 수명2곳과 기존 fixture의 expiry/cancel/stale 반례만 선선언한다. 전역 SceneTransition·새 도구/검사/오더별 보고0, 기존 third는 소급GO 없이 HOLD다.
+- 비저자 원코드/원로그/OS report 직접 진단으로 timeout 콜백의 자기 Timer 즉시 free가 가장 직접적인 결함이다. 기존 fixture는 auto-launch를 꺼 이 경로를 우회했다. [517](queue_archive/ORDER-517.md)에 Timer 수명2곳과 기존 fixture의 expiry/cancel/stale 반례만 선선언한다. 전역 SceneTransition·새 도구/검사/오더별 보고0, 기존 third는 소급GO 없이 HOLD다.
 
 ## 2026-10-10 — 수정 데모 앱의 새 저장·cold resume 실제 검수 선언
 

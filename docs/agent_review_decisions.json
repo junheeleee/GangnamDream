@@ -10543,6 +10543,50 @@
         "path": "docs/queue_archive/ORDER-514.md",
         "sha256": "e159378b72bd099118b563e7e5642b37739d9182ec0d03eace4eacfe38c6f0b9"
       }
+    },
+    {
+      "id": "order-517-source-9c1b4e4-transition-timer-lifetime",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-517",
+      "subject": {
+        "kind": "source",
+        "commit": "9c1b4e4c010184e79f46a50a1900156f588be822",
+        "tree": "f07257bd7b77ea5061b72258935b364d272873d5",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-517.md",
+          "sha256": "280ca726e231a73449d2d243ab44b3f8d86031e4cb3037b7d7055b00e1fef373"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-517.md",
+          "sha256": "280ca726e231a73449d2d243ab44b3f8d86031e4cb3037b7d7055b00e1fef373"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_audio_listening",
+        "repaired_source_actual_scene_entry",
+        "new_native_package",
+        "manual_save_and_cold_resume",
+        "stale_serial_routing_independent_proof",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-517.md",
+        "sha256": "280ca726e231a73449d2d243ab44b3f8d86031e4cb3037b7d7055b00e1fef373"
+      }
     }
   ]
 }

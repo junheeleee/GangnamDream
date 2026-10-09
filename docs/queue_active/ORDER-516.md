@@ -6,7 +6,8 @@
 언어 gate→KO home→처음부터→M01 안내를 실제 개별 클릭2회로 관측한 뒤
 자동 전환에서 종료됐다. 첫 StoryMode 본문/선택·수동 저장·정상 Quit·cold resume는0이다.
 원로그는 발행 중 Object 해제를 기록하며 controller의 동기 timeout 콜백2412가
-자기 Timer를 즉시 free한다. [517](ORDER-517.md)에서 수명만 별도 수리한다.
+자기 Timer를 즉시 free한다. [517](../queue_archive/ORDER-517.md)에서 수명만 별도 수리했다.
+새 후보는 [518](ORDER-518.md)에서 발급하며 기존 third를 덮거나 재판정하지 않는다.
 
 - 원증거 `.git/order516-live-20261010/`: first-command.json1263B/SHA7fa0cd72…,
   stderr319B/SHAf972eeb3…, Godot783B/SHA2003713a…. 실제 namespace 자동 저장은

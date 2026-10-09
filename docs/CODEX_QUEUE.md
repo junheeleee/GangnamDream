@@ -51,7 +51,7 @@
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
 | 1 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
-| 2 | [~] | ORDER-517 · 첫 장면 자동 전환 Timer 수명 | [517](queue_active/ORDER-517.md) | Timer 수리·기존5언어/Compile PASS · source 판정 결속 |
+| 2 | [~] | ORDER-518 · Timer 수리 새 데모 후보 발급 | [518](queue_active/ORDER-518.md) | 기존빌더 신원/현재33파일 정렬·fresh export 착수 |
 | 3 | [~] | ORDER-516 · 수정 데모 앱 실제 저장·재시작 | [516](queue_active/ORDER-516.md) | 실제 첫 자동 전환 SIGSEGV · 수리/새 package 대기 HOLD |
 | 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor export GO/실제 재생6항목 HOLD |
 | 5 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |

@@ -182,4 +182,5 @@ cold resume만 먼저 검수한다. 재export/공개본 교체0이며 462의 당
 manifest를 수정하지 않는다. 나머지 runtime·전체302·본편/출시는 HOLD를 유지한다.
 
 실행 결과는 [516](ORDER-516.md)의 첫 자동 전환 SIGSEGV/HOLD다. 새 수동 저장·
-cold resume 전까지 완료로 세지 않는다. [517](ORDER-517.md)에서 Timer 수명만 먼저 수리한다.
+cold resume 전까지 완료로 세지 않는다. [517](../queue_archive/ORDER-517.md)은 Timer
+수명 source 수리만 GO이며 [518](ORDER-518.md)의 새 후보 발급 뒤 실제 재생을 잇는다.
