@@ -2,7 +2,7 @@
 
 #### [~] ORDER-516 [P0·패키지 QA] successor 실제 무인자 부팅 → 새 저장 → cold resume
 
-**현재 HOLD — 잠금 시도는 보존하고 해제 뒤 같은 후보의 실제 재검수에 착수한다.**
+**현재 REWORK — 실제 부팅·수동 슬롯 생성은 관측했으나 cold resume가 처음으로 돌아간다.**
 source 수리·새 export GO와 실제 부팅/저장/재개를 구분한다. 아래 oldthird 실패와
 새 후보의 잠금 시도 원시 증거를 모두 보존한다.
 
@@ -16,6 +16,27 @@ source 수리·새 export GO와 실제 부팅/저장/재개를 구분한다. 아
 ## 2026-10-10 새 timer-fix 후보 실제 검수 선선언
 
 ### 해제 뒤 retry1 착수
+
+**retry1 결과 — 2026-10-10.** 같은 timer-fix 무인자 PID94266은 KO gate/home→
+M01 자동 전환→본문5문단→차단 선택0→결과0/정신64→UI slot1 저장을 관측했다.
+저장 성공 토스트·쉬운 돈 메타데이터와 실제 qa_fixture=false 슬롯11502B/SHA88364ae5…가
+일치한다. CmdQ 정상 exit0/139.213959초·stdout/Godot472B·stderr0·entry marker1이다.
+종료 직후 bound AX 조회가 PID94487/PPID1로 앱을 암묵 재실행했다. 게임 입력0으로
+다시 CmdQ 종료·프로세스 부재를 확인했으며 controlled cold resume 증거로 세지 않는다.
+
+별도 명시 실행 PID94573의 실제 이어하기는 저장한 result0/정신64가 아니라 M01
+첫 prose/정신72로 돌아갔다. CmdQ exit0/44.018858초·각472B·stderr0·marker1이며
+엔진 오류/경고/누수0이다. slot1은 끝까지 원바이트 그대로다. slot 신원은 기존
+SaveManager의 full/2026.08.24.5/legacy이며 timer-fix package 신원이라고 쓰지 않는다.
+StoryMode의 고정 public namespace 판정이 successor를 거부해 controller session과
+story_resume_slot이 빠진 원인과 일치한다. [519](ORDER-519.md)에서 연결부만 수리한다.
+
+private retry1 before648687B/SHA7c5bdd75…→between650044B/043e4668…→
+after650244B/019e6e71…·observation2661B/b12af6ed…·두 command/원로그/저장 bytecopy를
+보존한다. root/비저자 fresh 전체 대조로 source e293263/tree8eafced·tracked3254/
+helper5/seed2/W238/player33·보호19곳·app7/ZIP/manifest exact, 후보 공간9파일만
+변경이다. 세 후보 PID부재/editor61385생존 확인 후 동결을 해제했다. 실제 화면은 root
+관찰이며 비저자는 원로그/저장/코드/보존을 직접 대조했다. cold resume/출시 GO는 없다.
 
 기존 실행 중 Godot project manager의 정확 경로에서 CUA AX 화면 접근이 다시
 정상 반환됐다. 같은 b705bcf8/BUILD2026.10.10.1/timer-fix 앱·저장 공간에서

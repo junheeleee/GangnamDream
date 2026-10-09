@@ -2,6 +2,12 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 실제 데모 저장은 생성되나 재시작 위치가 틀려 연결 수리 선언
+
+- [516](queue_active/ORDER-516.md) retry1: KO 무인자94266→M01 자동전환 정상/본문5문단→차단0/결과0·정신64→실제 UI slot1 성공·정상 exit0/139.213959초다. 명시적 별도94573 Continue는 첫 prose/정신72로 돌아가 exact cold resume FAIL·exit0/44.018858초다. 각 stdout/Godot472B·entry1·stderr/엔진오류0. 저장slot11502B/88364ae5…는 불변이나 controller session/pointer가 없다. SaveManager 슬롯 자체 신원은 legacy이며 새package 신원으로 세지 않는다.
+- 종료 뒤 AX 조회가 앱94487을 암묵 재실행한 사실도 원관찰에 보존했다. 게임입력0/CmdQ 종료/프로세스 부재 뒤 controlled second를 따로 실행했고 우발 재실행은 cold-resume 증거에서 제외했다. 종료 후에는 bound AX를 조회하지 않고 프로세스 부재로 확인한다.
+- root/비저자 각 fresh 전체대조로 before7c5bdd75…648687B→after019e6e71…650244B source·보호19·app7/ZIP/manifest exact, 후보9파일만 변경·세PID부재/editor61385생존이다. 옛실패raw/사용자 저장/인간판정 보존 후 동결 해제했다. 실제 UI는 root 관찰, 비저자는 원로그/저장/소스 대조다. [519](queue_active/ORDER-519.md)에 StoryMode 고정 namespace를 controller exact 상수로 연결하는 수리·기존 fixture 표본만 선선언한다. 새 도구/보고0·일회성·출시 HOLD다.
+
 ## 2026-10-10 — 화면 접근 복귀·같은 수리 후보의 실제 저장/재시작을 잇는다
 
 - [516](queue_active/ORDER-516.md)의 기존 실행 중 Godot project manager 정확 경로에서 CUA AX가 정상 반환됐다. 후보 앱은 미실행이며 같은 b705bcf8/timer-fix/manifest892c0be3…를 retry1 새 로그로 검수한다. 옛 잠금 로그0B raw bytecopy/전체원raw·oldthird·518raw를 보호하고 입구~최종fresh 대조 동안 제품/문서/helper를 동결한다.
