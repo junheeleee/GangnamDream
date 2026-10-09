@@ -2,6 +2,13 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 첫 장면 자동 전환의 자기 해제 수리·기존 5언어 표적 통과
+
+- [517](queue_active/ORDER-517.md)은 Timer 두 해제만 queue_free로 바꿨다. 원문/번역·3초 안내·선택·저장/라우팅은 그대로다. 기존 fixture에 자연 timeout/cancel/stale 수명 반례를 넣었으며 장면 이동을 막은 준비 검증이지 실제 패키지 재생은 아니다.
+- 수정 전 exit1/locked Object controller2412를 재현하고, 수정 후 exit0/8.437666초·정확 five-language marker1·stderr/오류/경고/누수0을 확인했다. 새 표본과 기존5언어/30개월/120주/5저장/10StoryMode가 함께 통과했다. raw commandc5cff20f…/stdout·Godote188f73b… 보존.
+- Compile68/Font·이름표24·기존 영향 Python8·demo 현지화 normal·EN/한글 PASS. I18n engine은 exit0/원래 긴 marker1/오류0/의도 거절 warning19다. root의 짧은 marker 오지정 wrapper 실패를 지우지 않고 기존 긴 marker 직접 대조 receipt51fc0baf…로 구분했다. 수정 전 stale 인자/누수는 fixture 부수 오류로 구분한다.
+- source/보호 전후와 최종fresh 전체 동일 SHA57eb2809…: tracked3252/helper5/seed2/checkpoint/player33 보존. 비저자 직접 원로그/코드/fresh 수리 한정 GO·제품commit 결속은 남았다. 기존 third 실제 SIGSEGV/HOLD는 소급 통과시키지 않는다. 새도구/검사/오더별보고0·개발 스킬의 기존 fixture/원시 오류검사·선언 분리를 적용했다.
+
 ## 2026-10-10 — 수정 데모 첫 장면 전환의 실제 종료를 확인하고 Timer 수리 선언
 
 - [516](queue_active/ORDER-516.md) 실제 third 무인자 PID64603은 KO 선택→home→처음부터→M01 안내 뒤35.95785초/exit−11로 종료됐다. entry marker는 정확 profile/build/namespace이며 발행 중 Object 해제1건·OS SIGSEGV가 일치한다. 본문/선택·수동 저장·정상 종료·cold resume는 미실행이다. 자동 월1 저장만 남았다.

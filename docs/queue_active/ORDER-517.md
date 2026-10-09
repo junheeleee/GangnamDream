@@ -5,6 +5,32 @@
 **착수 — 2026-10-10.** 516의 실제 successor/third 첫 실행에서 확인한
 SIGSEGV와 발행 중 Object 해제만 수리한다. 현 controller는 같은 원문이다.
 
+## 구현·표적 결과 — source 최종 결속 전
+
+- 제품은 두 Timer의 remove_child/free만 queue_free로 교체했다. timeout 발행자는
+  그 프레임까지 유효하고 다음 프레임에 해제된다. serial/screen/auto guard와
+  _launch_story 호출·3초 wait/CONNECT_ONE_SHOT은 그대로다.
+- 기존 five-language fixture에 실제 expiry/cancel/stale 표본을 넣었다. 실제 장면
+  라우팅은 막고 emitter lifetime/replacement만 대조한다. serial guard의 독립적인
+  장면 차단이나 실제 앱 완주 증거는 아니다.
+- `.git/order517-timer-20261010/` 수정 전 before-command SHAf7308627…:
+  exit1/8.42011초, controller2412의 locked/free ERROR+SCRIPT ERROR를 재현했다.
+  stale의 previously-freed argument와 leak는 수정 전 fixture 부수 오류이며 원516
+  사용자 오류와 합치지 않는다. 현재 fixture는 valid guard/실패 시 orphan 정리를 보강했다.
+- 수정 후 fixed-command1610B/SHAc5cff20f…: exit0/8.437666초,
+  stdout/Godot각4319B/SHAe188f73b…·stderr0·정확5언어 marker1·오류/경고/누수0.
+  기존 locales5/routes5/months30/weeks120/settlements30/save5/story10도 통과했다.
+- Compile68/Font routing·고지 normal/self·trace normal/self·이름표24case·demo
+  현지화 normal/self·package self·audit registration·EN coverage/Hangul PASS.
+  influence-command6441B/SHA636a6d7a…와 engine-command2996B/SHA030ec4e8…를 보존한다.
+- I18n은 exit0/정확 원래 긴 marker1/engine error0·의도한 입력 거절 warning19다.
+  root가 짧은 marker를 잘못 지정한 wrapper 실패는 원로그에 남기고 재실행하지 않았다.
+  원코드의 긴 marker를 직접 대조한 receipt2506B/SHA51fc0baf…와 구분한다.
+- 수정 전/후 각 source+protected 전후 equality, 수정 후 final fresh도 SHA57eb2809…/
+  636215B 전체 동일: tracked3252/helper5/seed2/checkpoint/player33·보호6곳.
+  비저자도 fixed 전후/fresh/원로그를 직접 읽고 코드/QA/보존 한정 GO다.
+  제품 commit 범위와 원장 최종 결속은 완료 전 남는다. 새 package/실제 재생은 HOLD다.
+
 ## 한 단위·깊이 3문
 
 1. 없으면 첫 월 안내의 3초 자동 전환 때 앱이 종료돼 첫 선택에 도달할 수 없다.

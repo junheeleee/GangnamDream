@@ -130,6 +130,8 @@ func _run() -> void:
 	_check_story_language_contract()
 	await _check_failed_story_return_uncover()
 	_remove_candidate_files()
+	await _check_transition_timer_lifetime()
+	_remove_candidate_files()
 
 	var controller := _new_controller()
 	if controller == null:
@@ -190,6 +192,68 @@ func _run() -> void:
 	_expect(_storymode_semantic_backup_recoveries == 1,
 		"five-locale sweep did not prove StoryMode semantic .bak recovery")
 	_finish()
+
+
+func _check_transition_timer_lifetime() -> void:
+	var controller := _new_controller()
+	if controller == null:
+		return
+	var initial_screen := str(controller.call("qa_screen"))
+	controller.call("qa_set_auto_launch", true)
+	controller.call("_schedule_transition_auto_launch")
+	var expired := controller.get("_transition_auto_timer") as Timer
+	var expiry := {"calls": 0, "alive": false, "queued": false}
+	expired.timeout.connect(func():
+		expiry["calls"] += 1
+		expiry["alive"] = is_instance_valid(expired)
+		if is_instance_valid(expired):
+			expiry["queued"] = expired.is_queued_for_deletion(), CONNECT_ONE_SHOT)
+	# Keep the real timeout cleanup, but do not leave this fixture through the
+	# global scene transition. This is lifetime evidence, not a played scene.
+	controller.set("_auto_launch_enabled", false)
+	expired.start(0.02)
+	await get_tree().create_timer(0.08).timeout
+	await get_tree().process_frame
+	_expect(int(expiry["calls"]) == 1 and bool(expiry["alive"]) \
+			and bool(expiry["queued"]),
+		"transition timeout destroyed its emitter during signal delivery")
+	_expect(not is_instance_valid(expired) \
+			and controller.get("_transition_auto_timer") == null,
+		"expired transition timer remained live or retained")
+	if is_instance_valid(expired):
+		expired.queue_free()
+
+	controller.call("qa_set_auto_launch", true)
+	controller.call("_schedule_transition_auto_launch")
+	var cancelled := controller.get("_transition_auto_timer") as Timer
+	var cancellation := {"calls": 0}
+	cancelled.timeout.connect(func(): cancellation["calls"] += 1, CONNECT_ONE_SHOT)
+	cancelled.start(0.02)
+	controller.call("_cancel_transition_auto_launch")
+	_expect(is_instance_valid(cancelled) and cancelled.is_queued_for_deletion(),
+		"transition cancellation did not defer timer deletion")
+	await get_tree().create_timer(0.08).timeout
+	await get_tree().process_frame
+	_expect(int(cancellation["calls"]) == 0 and not is_instance_valid(cancelled),
+		"cancelled transition timer fired or was not released")
+
+	controller.call("_schedule_transition_auto_launch")
+	var stale := controller.get("_transition_auto_timer") as Timer
+	var stale_serial := int(controller.get("_transition_serial"))
+	controller.call("_schedule_transition_auto_launch")
+	var current := controller.get("_transition_auto_timer") as Timer
+	_expect(is_instance_valid(stale), "stale timer was destroyed before deferred cleanup")
+	if is_instance_valid(stale):
+		controller.call("_on_transition_auto_timeout", stale_serial, stale)
+	_expect(controller.get("_transition_auto_timer") == current \
+			and not current.is_queued_for_deletion() and not current.is_stopped(),
+		"stale transition timeout consumed the replacement timer")
+	_expect(str(controller.call("qa_screen")) == initial_screen,
+		"guarded timer cleanup changed the fixture screen")
+	controller.call("qa_set_auto_launch", false)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_free_controller(controller)
 
 
 func _check_failed_story_return_uncover() -> void:

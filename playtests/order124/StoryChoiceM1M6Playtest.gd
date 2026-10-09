@@ -2396,10 +2396,7 @@ func _cancel_transition_auto_launch() -> void:
 	_transition_serial += 1
 	if is_instance_valid(_transition_auto_timer):
 		_transition_auto_timer.stop()
-		if _transition_auto_timer.get_parent() != null:
-			_transition_auto_timer.get_parent().remove_child(
-				_transition_auto_timer)
-		_transition_auto_timer.free()
+		_transition_auto_timer.queue_free()
 	_transition_auto_timer = null
 
 
@@ -2407,9 +2404,9 @@ func _on_transition_auto_timeout(serial: int, timer: Timer) -> void:
 	if is_instance_valid(timer):
 		if _transition_auto_timer == timer:
 			_transition_auto_timer = null
-		if timer.get_parent() != null:
-			timer.get_parent().remove_child(timer)
-		timer.free()
+		# The Timer is still emitting timeout. Keep its emitter alive until the
+		# current frame finishes; free() here can crash a native release build.
+		timer.queue_free()
 	if serial != _transition_serial or _screen != "transition" or not _auto_launch_enabled:
 		return
 	_launch_story()
