@@ -31,6 +31,18 @@ Property 원본 SHA `7239040565920fcb2ffad0d606078ce9a436c8ae2ddd5fd2ed29542ff83
 
 ## 관찰 계약
 
+### 실제 메뉴 이어보기 재개 — 2026-10-09
+
+Mac 앱 접근이 다시 가능하여 W195 checkpoint를 새 label로 계속한다. 기존
+`order457-continue.py`의 과거 원문을 private 보존한 뒤 admission의 player 파일
+개수만 현재33으로 맞춘다. 과거34와의 차이는 `.recovery_mode_lock` 하나의 부재이며
+저장/설정을 복구·재작성하지 않는다. root가 이 한 줄과 새 실행/관찰 기록만 소유한다.
+원본seed2/checkpoint·현재player33·전체tracked/helper의 fresh 전후 byte/hash 비교와
+pre-autoload 새 namespace·실제 메뉴 불러오기·개별 OS 입력 경계는 그대로다.
+이 실행 중 다른 제품/번역/운영 파일은 바꾸지 않는다. 이번 관찰의 독립 검수는
+phone_independent_review가 실제 로그·원관찰을 읽으며, 과거 인간/공개 판정과
+미도달 M60/후일담/6/6을 선점하지 않는다. 새 도구/검사/보고는 만들지 않는다.
+
 현재 clean main의 full commit/tree, helper SHA, seed/player 전후 hash와 로그를
 `.git/chapter5-replay/order457-<label>/`에 결속한다. 원본을 복구하거나 기존 폴더를
 덮지 않고 모든 시도/실패 증거를 보존한다. 게임·원고·번역·입력 매핑·패키지 변경0이다.
