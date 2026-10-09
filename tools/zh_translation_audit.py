@@ -330,7 +330,7 @@ LIFE_SCENE_COUNTER_KINDS = INVESTMENT_WORK_COUNTER_KINDS | WORK_SCENE_COUNTER_KI
     "rental_home_ordinal", "mirror_glance", "gangnam_attempt",
     "university_year", "restaurant_per_person", "underground_exit",
     "microwave_duration", "screen_time_duration", "chicken_open_hours",
-    "monthly_headache_frequency", "kept_gangnam_family_pair",
+    "monthly_headache_frequency", "kept_gangnam_family_pair", "task_priority",
 })
 TARGET_COUNTER_FORMS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("duration_hour", ("個小時", "个小时", "小時", "小时")),
@@ -2212,6 +2212,9 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         for match in re.finditer(r'(?<=닿았다\. )하나(?=, 둘\.)|(?<=하나, )둘(?=\.)', source):
             quantities.append(CounterQuantity(match.start(), match.end(),
                 Decimal(_korean_native_value(match.group())), 'counted_beat_sequence'))
+    for match in re.finditer(r"(?<=탈출이 )(?P<number>\d+)순위(?=$|[\s.,!?…])", source):
+        quantities.append(CounterQuantity(match.start(), match.end(),
+            Decimal(match.group("number")), "task_priority"))
     for match in re.finditer(r"(?<=보호자 )1순위(?= 연락처)", source):
         quantities.append(CounterQuantity(match.start(), match.end(), Decimal(1), "contact_priority"))
     for match in re.finditer(r"(?<![\d가-힣])(?P<number>\d+)킬로(?= 뛰다)", source):
@@ -3205,6 +3208,11 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
         return re.compile(rf"(?<=[、，,])\s*(?P<number>{CHINESE_CARDINAL})(?=[、，,。])")
     if kind == "contact_priority":
         return re.compile(rf"第(?P<number>{CHINESE_CARDINAL})[順顺]位")
+    if kind == "task_priority":
+        # Observe wrong/bare ordinals too, so a later correct priority cannot
+        # hide an earlier changed or duplicated rank in the unmatched scan.
+        return re.compile(rf"第\s*(?P<sign>[+＋−﹣－負负-])?\s*"
+            rf"(?P<number>{CHINESE_CARDINAL})\s*(?P<priority_unit>要[务務])?")
     if kind == "feeling_pair":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?:者|邊|边)|(?P<either_side>任何一[邊边])")
     if kind == "per_line":
@@ -4259,6 +4267,12 @@ def _match_target_counter_quantities(
             if expected.kind in SOCIAL_COST_COUNTER_KINDS and not _social_cost_quantity_valid(expected.kind, match, target):
                 continue
             if expected.kind in CALLBACK_COUNTER_KINDS and not _callback_quantity_valid(expected.kind, match, target):
+                continue
+            if expected.kind == "task_priority" and (
+                match.group("priority_unit") not in {"要务", "要務"}
+                or re.search(r"(?:不是|並非|并非|不再是|不|非|未|沒|没|沒有|没有)\s*$", target[:match.start()])
+                or re.match(r"(?:[\d零〇○一二两兩三四五六七八九十百千萬万億亿兆+＋−﹣－負负-]|[%％‰‱倍]|\.\s*\d)", target[match.end():].lstrip())
+            ):
                 continue
             if expected.kind in LIFE_SCENE_COUNTER_KINDS:
                 number_start = match.start("number") if match.group("number") else match.start()
@@ -21658,6 +21672,48 @@ def run_self_test(
         observed = validate_text(lang, "catalog:self-test", source, target)
         if bool(observed) == valid:
             failures.append(f"catalogue quantity valid={valid} {source}:{target}: {observed}")
+
+    priority_source = "구직활동  →  수입 0원 탈출이 1순위. 알바라도 먼저"
+    for lang, head, task, won in (
+        ("zh-CN", "求职  →  摆脱0韩元收入是", "要务", "韩元"),
+        ("zh-TW", "求職  →  擺脫0韓元收入是", "要務", "韓元"),
+    ):
+        for source, rank, valid in (
+            (priority_source, "第一" + task, True),
+            (priority_source, "第1" + task, True),
+            (priority_source, "第 一 " + task, True),
+            (priority_source.replace("1순위", "2순위"), "第二" + task, True),
+            (priority_source, task, False),
+            (priority_source, "第二" + task, False),
+            (priority_source, "第2" + task, False),
+            (priority_source, "第一", False),
+            (priority_source, "第一年", False),
+            (priority_source, "第一次", False),
+            (priority_source, "第一名", False),
+            (priority_source, "第一" + won, False),
+            (priority_source, "第−一" + task, False),
+            (priority_source, "第+一" + task, False),
+            (priority_source, "-第一" + task, False),
+            (priority_source, "二第一" + task, False),
+            (priority_source, "不是第一" + task, False),
+            (priority_source, "并非第一" + task if lang == "zh-CN" else "並非第一" + task, False),
+            (priority_source, "第一" + task + "2", False),
+            (priority_source, "第一" + task + "二", False),
+            (priority_source, "第一" + task + "年", False),
+            (priority_source, "第一" + task + "。第一" + task, False),
+            (priority_source, "第二" + task + "。第一" + task, False),
+            (priority_source, "第一次。第一" + task, False),
+            (priority_source, "不是第一" + task + "。第一" + task, False),
+            (priority_source.replace("1순위", "2순위"), "第一" + task, False),
+            (priority_source.replace("1순위", "-1순위"), "第一" + task, False),
+            (priority_source.replace("1순위", "1회"), "第一" + task, False),
+            (priority_source.replace("1순위", "1원"), "第一" + task, False),
+        ):
+            cases += 1
+            target = head + rank + "。"
+            observed = validate_text(lang, "self-test::task-priority", source, target)
+            if bool(observed) == valid:
+                failures.append(f"task priority {lang} valid={valid}: {source}:{target}: {observed}")
 
     creator_source = (
         "댓글 알림이 멈추지 않았다. 100만이었다. 구독자 100만. "
