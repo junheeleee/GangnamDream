@@ -2,6 +2,13 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)과 [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 중국어 시간 기록·시장 위험82값 수용 (505)
+
+- 기존 KO41키/실제46호출의 CN/TW82값을 24+17 두 배치로 직접 지역별 병렬 저작·비저자 전수 대조했다. 돈/사람의 주 수 동시 집계와 자기돌봄 포함, 호흡/수면 변화 방향·중단 이유·잔액 바닥 관찰, 분석AP0/매수AP1·손익2배·노출액35% 미만 청산·토큰/공백을 보존했다. 선언4b34b47 → 제품cf41966b7ce74ad4bdaa1d0bf63fefb8f21b991c main commit/push다.
+- 공식export/check/import24+17씩·원header/receipt4SHA·current source-target82/기존4파일raw PASS. accepted42329→42411/batch299→301/UI2046→2087씩·JA3055불변, CN/TW legacy1862/2952/context29/29/dynamic150/701·전체INCOMPLETE다. 원영수증은 [505 완료 사양](queue_archive/ORDER-505.md)에 남겼다. 비저자 actual Git current_proof(base25c2cc39→cf41966)의 제품전이1/82receipt/배치2·선언/current manifest 일치GO·blocking0이다.
+- EN/Hangul·JA UI·ZH·i18n·multilingual·공개/legacy demo 영향8검사/context/queue/diff PASS. 개발 스킬의 선선언·독립 지역 저작/검수·기존 원장·표적검증 적용, 새규범0/일회성·새 도구/이력/계측/재사용·형식보고0이다. 원문/runtime/경제/저장/project·기존번역·공개M01~M06·shipping language·역사 인간판정 불변이다.
+- 501 마감ebd19a34 CI37911543665 녹색 확인, 최신main CI진행 중·Mac잠금/실제화면·원어민/물리패드 OPEN·출시HOLD다. 기존 매수toast가 현금20만원의 노출액40만원에 다시×2를 붙여 보이는 결함을 root/독립 비저자가 확인했다. 실제경제는 정상이며 다음 별도오더에서 표시 인자만 고친다.
+
 ## 2026-10-09 — 일본어 아버지 후일담·전화 힌트4오역 수리 (503)
 
 - 기존JA의 딜러직업→取引, 객실→病室, 차례차례→また今度, 알아챔질문→父からの電話に出る/かもしれない로 KO직접 수리했다. 비저자 phone_independent_review가 실제 소비자/4원문/최종4값을 전수 대조했고 병실 반사실 비교만 行かないよりはよかった로 retouch했다. 생사/1시간/5년/창원/NG+ 조건·수신방향은 보존했다. ORDER500 source_review의30billion→3billion 오타1필드만 함께 수리, 실제CN/TW30亿/億·옛header/영수증은 불변이다.

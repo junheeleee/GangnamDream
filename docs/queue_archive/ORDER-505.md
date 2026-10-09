@@ -1,6 +1,6 @@
 # ORDER-505 — 중국어 시간 기록·시장 위험 UI41키
 
-#### [~] ORDER-505 [전체 현지화] CN/TW 기존 UI82값 — 2026-10-09
+#### [x] ORDER-505 [전체 현지화] CN/TW 기존 UI82값 — 2026-10-09
 
 착수 — 만지는 파일: locale/ui_zh-CN.json·ui_zh-TW.json 신규41키씩,
 content/meta/full_game_localization.json 해당82영수증·배치2. 운영 파일은
@@ -42,3 +42,26 @@ Mac잠금으로 실제폭/입력 미관찰·원어민/물리패드 OPEN·본편�
 project.godot·사용자 저장·shipping language·공개M01~M06·역사 인간판정 불변.
 개발 스킬의 선선언·현지화 프로필·독립 지역 저작/비저자 검수·표적검사를 적용한다.
 새규범0·범위/절차는 일회성이다. 자동PASS는 재미·원어민/사람GO가 아니다.
+
+## 수용 결과 — 정적 소비자 번역 한정 GO
+
+선언4b34b47 → 제품cf41966b7ce74ad4bdaa1d0bf63fefb8f21b991c main commit/push.
+KO41/실제46호출/CN·TW82값 직접 지역별 저작·비저자 전수검수 GO·retouch0이다.
+공식export/check/import24+17씩·원header4/current source-target82/기존4파일raw PASS.
+accepted42329→42411/batches299→301/UI2046→2087씩·JA3055불변,
+CN/TW legacy1821→1862/2952/context29/29/dynamic150/701·전체 INCOMPLETE다.
+원receipt SHA는 time CN42ee71ae3dc673425565dd7c1128618a34ffa62c50940426415679666b3329d0,
+TW1a750b1bf2f9dbf0e14318774e6ff70eaa5715cd8c3d68869cdb44aa1b8a28bb,
+market CN114fa7aa419a97e280274a0835aa3456ca63b065df0b9df4a8f24e4f72e86977,
+TW03b6b9200ed1a2121fc51f0c0ece3efef75c814ff8ef66d83484dc1e8b40052a다.
+
+비저자 phone_independent_review actual Git current_proof(base25c2cc39→cf41966)는
+제품전이1·82receipt/배치2·선언4b34b47/current manifest b7d4 일치GO·blocking0이다.
+제품3파일+생성STATUS만, clean/origin동기. EN/Hangul·JA UI·ZH·i18n·multilingual·
+공개storydemo·legacy demo 영향8검사/context/queue/diff PASS다.
+개발 스킬의 선선언·독립 지역 저작/검수·기존 원장·표적 검증 적용,
+새규범0/절차일회성·새 검사/이력/계측/재사용도구·형식보고0이다.
+원문/runtime/경제/저장/project·기존번역·공개M01~M06·shipping language·역사인간판정 불변.
+최신CI진행 중·Mac잠금/실제화면·원어민/물리패드 OPEN·출시HOLD다.
+확인된 기존 매수toast의 이미2배인 exposure에 다시×2를 붙이는 표시 오류는
+다음 별도 오더에서 cash_committed 표시로 수리한다. 경제 집행 자체는 정상이다.
