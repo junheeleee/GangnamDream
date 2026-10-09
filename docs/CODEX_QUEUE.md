@@ -51,7 +51,7 @@
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
 | 1 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
-| 2 | [~] | ORDER-522 · 이름표 수리 로컬 데모 발급 | [522](queue_active/ORDER-522.md) | cold result 이름표 source GO · 새 앱 발급 착수 |
+| 2 | [~] | ORDER-523 · 새 앱 재개 이름표 실제 검수 | [523](queue_active/ORDER-523.md) | nameplate-fix 발급 GO · Mac 잠금/실제 입력0·HOLD |
 | 3 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · 실제 저장·재개3항목 GO/나머지 HOLD |
 | 4 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 

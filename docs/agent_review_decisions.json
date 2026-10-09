@@ -10813,6 +10813,52 @@
         "path": "docs/queue_archive/ORDER-521.md",
         "sha256": "4bafc70b8364411f8eb80ca505df680f1eb06c3b7bc8b3963e62188a43032305"
       }
+    },
+    {
+      "id": "order-522-package-a2008f3-nameplate-fix-export",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-522",
+      "subject": {
+        "kind": "package",
+        "commit": "a2008f3d77ad21f007787908b048d81da698e779",
+        "tree": "503ac425151b67117eb441ff2a3313be860d1ced",
+        "manifest_sha256": "949b86d8c3915b007f6aa2b602e0859f0d05cf8165d555c8a732b26fb74c6771"
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-522.md",
+          "sha256": "2509eebc9b98f19a6a241b8e9468ae631c1042316762622d90be6b4033f909cf"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-522-manifest.json",
+          "sha256": "949b86d8c3915b007f6aa2b602e0859f0d05cf8165d555c8a732b26fb74c6771"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_audio_listening",
+        "no_argument_boot",
+        "manual_save_and_cold_resume",
+        "actual_cold_result_nameplate_screen",
+        "story_return_input",
+        "five_locale_screens",
+        "old_public_save_copy_compatibility",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-522.md",
+        "sha256": "2509eebc9b98f19a6a241b8e9468ae631c1042316762622d90be6b4033f909cf"
+      }
     }
   ]
 }

@@ -2,11 +2,17 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 재개 이름표 수정 앱 발급 완료·실제 화면만 잠금 대기
+
+- [522](queue_archive/ORDER-522.md)은 cleana2008f3/tree503ac425·BUILD2026.10.10.1/nameplate-fix를 발급했다. 원manifest171865B/949b86d8…·ZIP428078457B/e0e71b73…·PCK389860184B/0b182a30…·앱7/PCK1877/JSON675 exact다. 16명령/서명/별도package audit PASS·fatal/leak0, nested각1/I18n 의도19 경고는 구분한다. 실제 runtime NOT_RUN/user GO NOT_INHERITED다.
+- root/비저자 fresh before=after681348B/a29d20b1…·tracked3259/helper5/seed2/W238/player33·보호35곳 exact, staged 521 캐시 수리/Gitbytes 일치 후 발급만 GO했다. 기존 빌더 재사용·독립 전량검수의 개발 스킬 적용·새도구/보고0·일회성·본편/출시 HOLD다. 최종 대조 뒤 동결을 해제했다.
+- native inventory가 다시 Mac locked를 반환하여 새앱 실행/입력0이다. [523](queue_active/ORDER-523.md)에 exact 새앱 UI Save→정상Quit→별도Continue의 완문/수치/이름표 검수를 선언했다. 앱이나 시스템 잠금을 우회하지 않고 화면 검수만 미실행으로 남긴다. 공개본/player/옛앱·원manifest/실패raw·인간 판정은 보존했다.
+
 ## 2026-10-10 — cold result 이름표 수리 통과·수정 앱 발급 선언
 
 - [521](queue_archive/ORDER-521.md): source98bb99ed/treeca59bbcd의 cache1줄+주석으로 cold result 이름표를 원렌더 상태대로 복원한다. 기존 fixture에 named/hidden KOEN4표본만 추가했다. 수정전 named2 FAIL→수정후 cold4/기존24·compile68·영향6 PASS이며 원오류/경고/누수0이다. 정상표시 강제 대신 숨김 계약을 보존했다.
 - root/비저자 fresh before=after672869B/09284f86…·tracked3258/helper5/seed2/W238/player33·보호33곳 exact, own종료/editor생존 후 source만 GO했다. 원520 native 이름표 REWORK/새앱·전체출시 HOLD는 그대로다. 개발 스킬의 반례 보존·기존검사 확장·독립 전량검수 적용, 새도구/보고0·일회성이다.
-- [522](queue_active/ORDER-522.md)에 기존 빌더 literal6곳만 정렬하는 fresh nameplate-fix 앱 발급을 선언한다. 공개본·원520 앱/저장·실패raw를 덮지 않으며 실제 package 화면은 별도 검수다.
+- [522](queue_archive/ORDER-522.md)에 기존 빌더 literal6곳만 정렬하는 fresh nameplate-fix 앱 발급을 선언한다. 공개본·원520 앱/저장·실패raw를 덮지 않으며 실제 package 화면은 별도 검수다.
 
 ## 2026-10-10 — 실제 저장·재시작 위치 복원 확인, 재개 이름표 수리 선언
 
