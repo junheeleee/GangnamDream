@@ -29,13 +29,16 @@ InvestmentAPCopyCheck의 MainProbe와 실제InvestmentSystem을 사용해 5local
 기존30 AP0/복원표본을 유지하고 toast의현금×2·로그현금·실제cash/quantity/fee·
 노출액·AP/영수증을 각각 대조한다. 다른state/autoload는 fixture 격리안에서만 다룬다.
 fixture가 실제로 실행한 수와 한계를 기록하며 준비만을 PASS로 부르지 않는다.
+거래·문구 component의 효과음은 fixture에서만 설정을 보관→비활성→복원한다.
+제품 AudioManager·기존 오디오 계약 검사는 그대로며 실제 청취 PASS를 주장하지 않는다.
 
 root가 기존 StoryNameplateBootstrap 사전-autoload fresh namespace로만 기존
 InvestmentAPCopyCheck와 MoneyIntegrityCheck를 실행, exact marker+exit와 stdout/engine
 두로그의 parse/script/engine 오류0 확인. 제품2파일 diff역상, 원문/locale/원장/project
 불변, EN/Hangul·JA UI·ZH·i18n·공개/legacy demo 영향 및 기존 AP copy검사·audit
-구조·등록/context/queue/diff를 확인한다. source collector 값/소비자/LeafSHA는 불변,
-MainGame 파일 해시/current manifest가 바뀜은 사실대로 기록한다. 전체audit/240주0.
+구조·등록/context/queue/diff를 확인한다. source 원문/소비자/승인LeafSHA는 불변,
+MainGame 파일 해시/current manifest와 줄번호 기반 미승인후보SHA 변화는 구분해
+기록한다. 전체audit/240주0.
 비저자가 실제Git최종diff·성공/실패증거를 보고 수용범위만 판정한다.
 
 Mac잠금으로 실제toast화면/폭/입력 미관찰·원어민/물리패드 OPEN·출시HOLD다.

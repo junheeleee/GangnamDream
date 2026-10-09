@@ -18282,7 +18282,6 @@ func _on_leverage_buy(asset_id: String, amount: float):
 		result = investment_system.buy_asset_leveraged(asset_id, amount)
 	if result.get("success", false):
 		var cash_committed := float(result.get("cash_committed", 0.0))
-		var exposure := float(result.get("exposure", cash_committed * 2.0))
 		AudioManager.play("money_gain")
 		var asset_name = asset_id
 		for data in DataRegistry.assets:
@@ -18297,7 +18296,7 @@ func _on_leverage_buy(asset_id: String, amount: float):
 		if not has_pending_owner:
 			_show_ap_action_commit(_tr("레버리지 매수", "Leverage Buy"), "leverage", "#ef4444", false, _action_thumb_texture("_ap_invest", "invest"))
 		_refresh_all()
-		_show_toast(_tr("레버리지 매수 — %s ×2배 포지션 확보", "Leverage buy — secured %s ×2 position") % GameState.format_money(exposure), Color("#ef4444"))
+		_show_toast(_tr("레버리지 매수 — %s ×2배 포지션 확보", "Leverage buy — secured %s ×2 position") % GameState.format_money(cash_committed), Color("#ef4444"))
 	elif not has_pending_owner:
 		GameState.action_points += 1
 		GameState.stats_changed.emit()
