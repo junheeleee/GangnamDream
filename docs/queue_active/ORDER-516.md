@@ -2,7 +2,11 @@
 
 #### [~] ORDER-516 [P0·패키지 QA] successor 실제 무인자 부팅 → 새 저장 → cold resume
 
-**HOLD — 2026-10-10 실제 첫 실행 SIGSEGV.** PID64603·35.95785초·exit−11.
+**현재 HOLD — 새 timer-fix 시도는 Mac 잠금/실제 화면0이다.**
+source 수리·새 export GO와 실제 부팅/저장/재개를 구분한다. 아래 oldthird 실패와
+새 후보의 잠금 시도 원시 증거를 모두 보존한다.
+
+**첫 시도 HOLD — 2026-10-10 실제 첫 실행 SIGSEGV.** PID64603·35.95785초·exit−11.
 언어 gate→KO home→처음부터→M01 안내를 실제 개별 클릭2회로 관측한 뒤
 자동 전환에서 종료됐다. 첫 StoryMode 본문/선택·수동 저장·정상 Quit·cold resume는0이다.
 원로그는 발행 중 Object 해제를 기록하며 controller의 동기 timeout 콜백2412가
@@ -10,6 +14,20 @@
 새 후보는 [518](../queue_archive/ORDER-518.md)에서 발급했으며 기존 third를 덮거나 재판정하지 않는다.
 
 ## 2026-10-10 새 timer-fix 후보 실제 검수 선선언
+
+**실제 시도 HOLD.** 무인자 ownPID86257/parent86256 실행 뒤 첫 CUA가 Mac locked/
+automatic unlock failed를 반환했다. 화면/게임 입력/새 설정/저장/cold resume0,
+native entry marker도0이므로 실제 부팅 GO가 아니다. 정확 executable을 ps로
+확인한 뒤 ownPID에만 SIGTERM을 보내 exit−15/23.945928초로 종료했다. 정상 Quit도
+Timer 수리 재실패도 아니다. 재시도는 잠금 해제 확인 뒤 새 로그 경로에서 수행한다.
+
+- private 원증거 before646952B/SHA777b4644…→after647135B/SHA35525135…,
+  first-command1349B/SHAd3b8bd43…·observation427B/SHAb6706ac1…를 보존한다.
+  stdout/stderr/Godot 전부0B다. wrapper의 nonzero exit ValueError는 PASS로 숨기지 않는다.
+- root와 비저자 fresh 전수대조로 source af2d1b3/tree9a4d1f·tracked3254/helper5/
+  seed2/W238/player33·보호18·새app7/ZIP/원manifest exact다. namespace만 새 빈
+  logs/godot.log1파일이며 저장/설정0. oldthird/원516실패raw/518export raw도 불변이다.
+  own두PID 부재·사용자editor61385 생존을 직접 확인했다. 동결은 이 대조 후 해제했다.
 
 518의 export 한정 GO 뒤 아래 새 후보에서 같은 첫3항목만 다시 관측한다.
 기존 third 실패/namespace/로그를 그대로 보호하고, 아래 입구~최종 fresh 대조 동안

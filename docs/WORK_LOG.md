@@ -2,6 +2,12 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 새 데모의 실제 시도는 Mac 잠금/HOLD·원본 보존
+
+- [516](queue_active/ORDER-516.md) 새 timer-fix 앱 무인자 own86257은 첫 CUA에서 Mac locked/automatic unlock failed였다. 실제화면/입력/새설정/수동·자동 저장/별도 coldresume0·native entry marker0이다. 정확 executable ps 확인 뒤 ownPID SIGTERM→exit−15/23.945928초·stdout/stderr/Godot0B다. 정상 Quit/실제부팅 GO·Timer 수리 재실패로 세지 않는다.
+- private before777b4644…646952B→after35525135…647135B·원명령d3b8bd43…1349B·관찰b6706ac1…427B를 보존한다. root/비저자 fresh 직접 대조는 source af2d1b3/tree9a4d1f·tracked3254/helper5/seed2/W238/player33·보호18곳·새app7/ZIP/원manifest exact다. 후보 namespace만 빈 Godot로그1파일이며 own두PID부재/editor61385생존이다. 예전 third SIGSEGV와 원516·518 raw 불변이다.
+- source/패키지 수리 GO를 실제 검수로 바꾸지 않는다. 해제 확인 뒤 새 로그 위치에서 같은 actual UI 저장/재시작을 잇는다. 공개/player·원고/번역·과거 인간 판정 변경0·새도구/검사/보고0·일회성·정본승격0. 개발 스킬의 원시 실패/실제 관찰 분리·독립 전체 보존 검수를 적용했다. 본편/출시 HOLD다.
+
 ## 2026-10-10 — Timer 수리 새 후보 발급 완료·실제 저장/재시작 재선언
 
 - [518](queue_archive/ORDER-518.md)은 clean b705bcf8/tree18542e4c·BUILD2026.10.10.1/timer-fix를 별도 발급했다. 기존16명령 exit0/오류0·정확 marker각1·codesign deep/strict PASS, nested-project 무시 경고각1/I18n 의도 거절19는 구분한다. manifest171548B/SHA892c0be3…·앱7/ZIP428076423B/e15bc26b…/PCK389860104B/ad427236…/JSON675가 일치한다.

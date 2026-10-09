@@ -181,5 +181,5 @@ fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거�
 [517](../queue_archive/ORDER-517.md)은 Timer 수명 source만 GO다.
 [518](../queue_archive/ORDER-518.md)의 새 b705bcf8/tree18542e4c·BUILD2026.10.10.1/
 timer-fix는 export만 GO(manifest SHA892c0be3…/runtime NOT_RUN)다.
-516에 새 exact KO 부팅/수동 저장/cold resume를 선선언했으며 실제 결과 전에는 HOLD다.
+516의 새 exact 시도는 Mac잠금/화면·저장0/own SIGTERM으로 HOLD다. 해제 뒤 실제 검수를 잇는다.
 공개본/사용자GO 불승계·나머지 runtime·전체302/본편/출시 HOLD를 유지한다.
