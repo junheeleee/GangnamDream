@@ -1667,9 +1667,11 @@ def _source_counter_kind(
     if source == "2차 창업자 네트워크" and counter == "차":
         return "second_startup"
     if counter == "달" and match.group("number") == "한" and re.match(
-        r"에\s+(?:한\s+번(?:$|[\s.,!?…])|일요일\s+하나)", following,
+        r"에\s+(?:(?:\d+|" + "|".join(map(re.escape, KOREAN_NATIVE_FORMS))
+        + r")\s*번(?:$|[\s.,!?…])|일요일\s+하나)", following,
     ):
-        # A monthly frequency, not an arbitrary one-month deadline/duration.
+        # The monthly interval and the independently counted occurrences are
+        # separate quantities, not an arbitrary one-month deadline/duration.
         return "monthly_frequency"
     if counter == "달" and match.group("number") == "한" and re.search(r"다음\s+$", preceding) \
             and not re.match(r"반(?=$|\s|[.,!?…]|[은는이가을를의도에])", following):
@@ -21819,6 +21821,14 @@ def run_self_test(
         ("monthly-longer-period", "zh-CN", "한 달에 한 번", "每三个月一次", "counter quantity missing/changed"),
         ("monthly-not-two-months", "zh-TW", "두 달에 한 번", "每月一次", "counter quantity missing/changed"),
         ("monthly-not-deadline", "zh-CN", "한 달을 기다렸다.", "每月等待。", "counter quantity missing/changed"),
+        ("monthly-two-wrong-count", "zh-CN", "한 달에 두 번 통화한다.", "每个月通一次电话。", "counter quantity missing/changed"),
+        ("monthly-two-extra-count", "zh-TW", "한 달에 두 번 통화한다.", "每個月通三次電話。", "counter quantity missing/changed"),
+        ("monthly-two-missing-count", "zh-CN", "한 달에 두 번 통화한다.", "每个月通电话。", "counter quantity missing/changed"),
+        ("monthly-two-missing-period", "zh-TW", "한 달에 두 번 통화한다.", "通兩次電話。", "counter quantity missing/changed"),
+        ("monthly-two-wrong-period", "zh-CN", "한 달에 두 번 통화한다.", "每年通两次电话。", "counter quantity missing/changed"),
+        ("monthly-two-longer-period", "zh-TW", "한 달에 두 번 통화한다.", "每兩個月通兩次電話。", "counter quantity missing/changed"),
+        ("monthly-two-source-longer-period", "zh-CN", "두 달에 두 번 통화한다.", "每个月通两次电话。", "counter quantity missing/changed"),
+        ("monthly-two-not-duration", "zh-TW", "한 달 동안 두 번 통화했다.", "每個月通兩次電話。", "counter quantity missing/changed"),
         ("repeated-three-month-two", "zh-CN", "석 달마다 병원에 갔다.", "每隔两个月去医院。", "counter quantity missing/changed"),
         ("repeated-three-month-four", "zh-TW", "석 달마다 병원에 갔다.", "每隔四個月去醫院。", "counter quantity missing/changed"),
         ("repeated-three-month-calendar", "zh-CN", "석 달마다 병원에 갔다.", "每年三月去医院。", "counter quantity missing/changed"),
@@ -22568,6 +22578,12 @@ def run_self_test(
         ("zh-TW", "한 달에 한 번", "每月一次"),
         ("zh-CN", "한 달에 한 번", "一个月一次"),
         ("zh-TW", "한 달에 한 번", "一個月一次"),
+        ("zh-CN", "한 달에 두 번 통화한다.", "每个月通两次电话。"),
+        ("zh-TW", "한 달에 두 번 통화한다.", "每個月通兩次電話。"),
+        ("zh-CN", "한 달에 세 번", "每月三次"),
+        ("zh-TW", "한 달에 3번", "每月三次"),
+        ("zh-CN", "아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.", "现在每个月和父亲通两次电话。时间不长，联系却一直没断。"),
+        ("zh-TW", "아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.", "現在每個月和父親通兩次電話。聊得不長，聯繫卻沒有斷。"),
         ("zh-CN", "석 달마다 병원에 갔다.", "每隔三个月去医院。"),
         ("zh-TW", "석 달마다 병원에 갔다.", "每三個月去醫院。"),
         ("zh-CN", "두 번째 전화", "第二通电话"),
