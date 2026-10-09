@@ -2,9 +2,31 @@
 
 #### [~] ORDER-516 [P0·패키지 QA] successor 실제 무인자 부팅 → 새 저장 → cold resume
 
-**현재 REWORK — 실제 부팅·수동 슬롯 생성은 관측했으나 cold resume가 처음으로 돌아간다.**
+**현재 HOLD — 수리된 resume-fix 앱 export GO, Mac 잠금으로 실제 재개 검수 미실행.**
 source 수리·새 export GO와 실제 부팅/저장/재개를 구분한다. 아래 oldthird 실패와
 새 후보의 잠금 시도 원시 증거를 모두 보존한다.
+
+## 2026-10-10 resume-fix 실제 검수 준비
+
+[519](../queue_archive/ORDER-519.md)의 exact 신원 연결 수리와
+[520](../queue_archive/ORDER-520.md)의 새 export는 각각 source/export만 GO다.
+기존 user project manager CUA에서 Mac locked를 확인했으므로 이번 새 앱 실행0/
+게임입력0/저장0이다. timer-fix의 실제 REWORK를 성공으로 바꾸지 않는다.
+
+- source `de90d8960857931a2416b51d374317898604aafc`/tree
+  `ec36369672f65ff6dde281664ed7ae44ca29c085`, BUILD2026.10.10.1/attempt resume-fix.
+  원manifest171630B/SHA`b81931ac036f712277a278936326687a87ca1f0f05a93a458e6d0f01d914bbba`.
+- 앱은 Application Support/GangnamDream_LocalCandidates/2026.10.10.1/resume-fix/
+  GangnamDream-StoryDemo-Successor-2026.10.10.1-resume-fix.app이며 bundle
+  `dev.junheelee.gangnamdream.storydemo.successor.resume-fix`다. 새 저장 공간
+  `GangnamDream_StoryDemo_Successor_2026_10_10_1_resume-fix` 파일0을 확인했다.
+- 해제 확인 뒤 private `.git/order516-live-20261010-resume-fix/`에 fresh 입구를
+  봉인한다. 520의 보호25곳+새app/ZIP/manifest/namespace/520raw를 모두 보호한다.
+  실제 실행~마지막 fresh 대조 동안 source/docs/helper를 동결한다.
+- 정확 executable 무인자→KO 첫 본문/선택/결과 독해→UI 수동 slot1 저장→정상 Quit→
+  프로세스 부재→별도 실행 Continue→동일 result 문단/상태 복원을 관측한다.
+  Quit 뒤 bound AX를 조회하지 않는다. 실제 UI 관찰만으로 판정하고 fixture/자동저장/
+  package GO를 대체 증거로 세지 않는다. 그 외 runtime/출시 HOLD다.
 
 **첫 시도 HOLD — 2026-10-10 실제 첫 실행 SIGSEGV.** PID64603·35.95785초·exit−11.
 언어 gate→KO home→처음부터→M01 안내를 실제 개별 클릭2회로 관측한 뒤
@@ -30,7 +52,7 @@ M01 자동 전환→본문5문단→차단 선택0→결과0/정신64→UI slot1
 SaveManager의 full/2026.08.24.5/legacy이며 timer-fix package 신원이라고 쓰지 않는다.
 StoryMode의 고정 public namespace 판정이 successor를 거부해 controller session과
 story_resume_slot이 빠진 원인과 일치한다. [519](../queue_archive/ORDER-519.md)의
-연결부 source 수리는 GO이며 [520](ORDER-520.md)에서 새 앱을 발급한다.
+연결부 source 수리는 GO이며 [520](../queue_archive/ORDER-520.md)의 새 앱을 발급했다.
 
 private retry1 before648687B/SHA7c5bdd75…→between650044B/043e4668…→
 after650244B/019e6e71…·observation2661B/b12af6ed…·두 command/원로그/저장 bytecopy를

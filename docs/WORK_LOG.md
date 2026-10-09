@@ -2,15 +2,21 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 저장 재개 수리의 새 앱 발급 완료·실제 검수는 Mac 잠금 대기
+
+- [520](queue_archive/ORDER-520.md)은 clean de90d896/treeec363696·BUILD2026.10.10.1/resume-fix를 발급했다. 16명령 exit0/필수 marker1/오류·누수0·서명 PASS/ad-hoc, nested 경고각1/I18n 의도19는 구분한다. 원manifest171630B/b81931ac…·ZIP428078088B/d78d2455…·PCK389860008B/594edf4a…/JSON675/app7 exact다. runtime NOT_RUN/user GO NOT_INHERITED를 보존한다.
+- root/비저자 fresh 전체 before=after662703B/5f225727…·tracked3256/helper5/seed2/W238/player33·보호25곳 exact, 별도 package audit PASS로 export만 GO했다. staged 수리1줄 exact/retouch0이며 실제 플레이·인간/원어민/물리/청취·출시 GO는 아니다. 최종 대조 뒤 동결을 해제했다.
+- 기존 user project manager CUA가 Mac locked여서 새 앱 실행/입력0이다. [516](queue_active/ORDER-516.md)에 새 exact 대상·fresh 증거/보존30곳·실제 KO 수동 저장/별도 Continue 재검수를 준비 선언했다. 옛 third SIGSEGV/timer-fix cold resume REWORK와 공개/player/원저장을 모두 보존한다. 개발 스킬의 기존 빌더 재사용·독립 전량검수·원시 실패 분리 적용·새도구/보고0·일회성·본편/출시 HOLD다.
+
 ## 2026-10-10 — 저장 재개 수리를 실제 새 앱으로 옮길 준비
 
-- [520](queue_active/ORDER-520.md)은 기존 builder/auditor 발급 unit6 literal만 정렬했다. synthetic52 PASS/actual_exports0·기타 로직 diff0이다. BUILD2026.10.10.1/resume-fix의 별도 앱/빈 저장 공간을 사용하며 모든 옛 후보·실패raw·seed/player를 보존한다. 실제 export/저장/재개 GO는 아직 없다. 새도구/보고0·일회성이다.
+- [520](queue_archive/ORDER-520.md)은 기존 builder/auditor 발급 unit6 literal만 정렬했다. synthetic52 PASS/actual_exports0·기타 로직 diff0이다. BUILD2026.10.10.1/resume-fix의 별도 앱/빈 저장 공간을 사용하며 모든 옛 후보·실패raw·seed/player를 보존한다. 실제 export/저장/재개 GO는 아직 없다. 새도구/보고0·일회성이다.
 
 ## 2026-10-10 — 장면과 시작 메뉴가 같은 데모 신원을 읽는다
 
 - [519](queue_archive/ORDER-519.md)은 StoryMode 고정 v1 비교1줄을 기존 controller exact 상수로 연결했다. prefix 확장·저장 스키마/원문/번역 변경0이다. 기존 fixture +35줄은 정확한 이름/유사 이름/비활성3표본·원 설정 복원을 검사한다.
 - clean fixture source의 기존 builder staged successor에서 수정 전 mismatch1건/exit1을 재현하고, 동일 stage에 제품1줄만 적용 후 exit0/8.551746초·4793B/SHA571db561…·정확5언어 marker1·stderr/오류/경고/누수0을 확인했다. Compile68/Font·I18n(의도 warning19)·이름표24/EN/Hangul/demo normal도 통과했다. root의 잘못된 이름표 marker wrapper ValueError와 중간 STATUS stale/engine PATH skip을 보존하며 재실행으로 숨기지 않는다.
-- root/비저자 fresh source·보호24곳 전체 불변, stage3255 원파일/허용4변환/제품1줄 exact 검수는 소스 수리만 GO다. 비저자는 clean cffd9d0/tree8fb35c endpoint/blob과 최종 보존·이름표 원로그까지 직접 대조해 source GO했다. [519](queue_archive/ORDER-519.md)를 닫고 [520](queue_active/ORDER-520.md)의 fresh resume-fix export만 선선언한다. 실제 새앱/cold resume는 미검증이다. 개발 스킬의 파일 소유 분리·수정 전 반례·기존 검사 재사용 적용·새도구/보고0·일회성·출시 HOLD다.
+- root/비저자 fresh source·보호24곳 전체 불변, stage3255 원파일/허용4변환/제품1줄 exact 검수는 소스 수리만 GO다. 비저자는 clean cffd9d0/tree8fb35c endpoint/blob과 최종 보존·이름표 원로그까지 직접 대조해 source GO했다. [519](queue_archive/ORDER-519.md)를 닫고 [520](queue_archive/ORDER-520.md)의 fresh resume-fix export만 선선언한다. 실제 새앱/cold resume는 미검증이다. 개발 스킬의 파일 소유 분리·수정 전 반례·기존 검사 재사용 적용·새도구/보고0·일회성·출시 HOLD다.
 
 ## 2026-10-10 — 실제 데모 저장은 생성되나 재시작 위치가 틀려 연결 수리 선언
 
