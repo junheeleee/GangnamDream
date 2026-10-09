@@ -12351,6 +12351,70 @@
           "batch_id": "329e3dee1880eb10907838bbd95c67fcf9b73777740ec6b5f48078103b63960f"
         }
       }
+    },
+    {
+      "order": "ORDER-502",
+      "group": "ui",
+      "roots": [
+        "다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」",
+        "다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.",
+        "다시 시작한다면, 다은을 처음부터 놓치지 않을 수 있을지 모른다...",
+        "다시 시작한다면, 아버지 전화를 먼저 받을 수 있을지 모른다...",
+        "다시 시작한다면, 임상철을 처음부터 다르게 대할 수 있을지 모른다...",
+        "마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.",
+        "아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.",
+        "아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.",
+        "아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.",
+        "아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.",
+        "아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.",
+        "창원에는 끝내 한 번도 내려가지 못했다.",
+        "한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.",
+        "한지연과는 그 이상 가까워지지 못했다. 인연은 거기까지였다.",
+        "한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.",
+        "한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까."
+      ],
+      "source_leaves": 16,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 16,
+        "zh-TW": 16
+      },
+      "source_review": "Direct Korean-source independent regional authorship; non-author compared all 32 values with 16 existing MainGame cast-epilogue and next-run-hint consumers. Father living, deceased and uncontacted branches stay distinct; monthly two calls, one-hour delay, one Changwon visit, five-year postponement, deal and empty hospital room retained. Jiyeon romance versus mutual respect, hurt and distance preserved. NG+ conditional possibilities, prior death evidence and answering rather than initiating a call retained; no new romance, resurrection or reward. Names and Changwon follow glossary. Existing monthly-frequency false positive repaired separately before official acceptance. Agent comparison only, not native or rendered approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "a0351054f8a99afe5ca249529553fb7aa39fdd0e3bacd882406bcce9c9890f94",
+        "zh-TW": "0d509561a1239cf1dee8c923691566fc473cca6cb7f4a20ec51e1d8a66c4f32f"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "b1e65023a073041eaeef3f42463c13c4d0a11b42",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "6016315a953239672d13325aca725295ee6e6db65696293be7ff30a1f5706f6d",
+          "count": 16,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "f7653403b558b00b14b4ac3daa3b318ff52af7200420fdaa24b58b1ce07c95db"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "b1e65023a073041eaeef3f42463c13c4d0a11b42",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "663d78c0af7367eca65d9c158373975f426ba1ea03023ec787c27b46ba1a3a45",
+          "count": 16,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a9ac42e582d9915ad02120ed75e0d5013fca142a6886019802ceac8f33a47b89"
+        }
+      }
     }
   ],
   "accepted": {
@@ -123252,6 +123316,70 @@
       "ui:화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다:/화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다": {
         "source_sha256": "fb69913a27752b83a2a5dd594cb27d5c901f4fa278eef21471ae930de22e30df",
         "target_sha256": "83870e82ee892831c863923ff30868776550d723639028e0ec1cec26345c78aa"
+      },
+      "ui:다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」:/다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」": {
+        "source_sha256": "5da5b7741f8c3adb051d0af5b4f94e09464f8e476d04186f3fcb606f8d552c90",
+        "target_sha256": "fb1042ac73768ead3e5d0ca5eea66a82c578e0e0ae7c246442be1399fdffbd5b"
+      },
+      "ui:다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.:/다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.": {
+        "source_sha256": "ccb181301e209cd718cb3b797e03aeda3e5ffcf3aa894ffda6f9dae91bcc8ef3",
+        "target_sha256": "f19e601d77ab94009f95bfd3a35e894c36d30512ddd3887994ef0583e07f1330"
+      },
+      "ui:다시 시작한다면, 다은을 처음부터 놓치지 않을 수 있을지 모른다...:/다시 시작한다면, 다은을 처음부터 놓치지 않을 수 있을지 모른다...": {
+        "source_sha256": "a7f0a6cf97f4c679764726e3ff7bd544f44522e2a4a1cd713a6080a3f22b0253",
+        "target_sha256": "9cdfb68a3dbcbed3f5534486c54dd97501f43795f9d91ada5a0ab0f2b618819e"
+      },
+      "ui:다시 시작한다면, 아버지 전화를 먼저 받을 수 있을지 모른다...:/다시 시작한다면, 아버지 전화를 먼저 받을 수 있을지 모른다...": {
+        "source_sha256": "9d3961b4f3376bf4b656dbf4fe52ccaa94ec6cfd8961b6114a30e1cac0fb4b7e",
+        "target_sha256": "72b30c685258f9081fd7a391861facc45e4cf75600f9ff4d9c5854582e585173"
+      },
+      "ui:다시 시작한다면, 임상철을 처음부터 다르게 대할 수 있을지 모른다...:/다시 시작한다면, 임상철을 처음부터 다르게 대할 수 있을지 모른다...": {
+        "source_sha256": "dd18f2c9fb51f6dd5d44f7a0326e4b6caaf2aa8632c121d6a6c3a92627e3b868",
+        "target_sha256": "0e2906cd83cc94411c9e8cbb4a6aa3e0f52cb76c547b6bd955108b218982e209"
+      },
+      "ui:마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.:/마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.": {
+        "source_sha256": "a5ecd69ddcafd2b0926a241c4cdb3791843c7c4690b7c05d6f19aaac7ee84ced",
+        "target_sha256": "cad600abf4ce28bd6aae889ca1f1cc90fdca292fbdd430d8b2835e9fa104666d"
+      },
+      "ui:아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.:/아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.": {
+        "source_sha256": "737e81a179693f2e0e0af0f3b9c5f1c2d01483c244cef4141d2e3bef2c79fefb",
+        "target_sha256": "7592cb4a239d94aa3d8d311db06ece4c85fba65681ffcf0891b703b48cbe714e"
+      },
+      "ui:아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.:/아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.": {
+        "source_sha256": "b30f5cd8456a6b3659cff90e3a79ec3bbbecbdf3e9b7de407517296e08f97a55",
+        "target_sha256": "8a94537a737289cafeb3444757bb302546b1e9f4475e3f8d4b11324f561ab06b"
+      },
+      "ui:아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.:/아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.": {
+        "source_sha256": "7fa7aa539d901262f4a639d93e34047a96e6c0da660601316ab1462c656789a6",
+        "target_sha256": "14d04885df0eccce4df9507c32074f037624e5ea474671b5976e9e122f61fb2c"
+      },
+      "ui:아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.:/아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.": {
+        "source_sha256": "535fc4c0c26efa1edf563b9911c416619f194047b567551920c7cacc4b340e5b",
+        "target_sha256": "9ef316bbdefe6fd81516702542c4dfda71d2f42553549a4bd1c8c00e1d6bc9fe"
+      },
+      "ui:아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.:/아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.": {
+        "source_sha256": "cb2fc30a937726a74ef04e2e31cc5dd80a3f1d02bb5a05a16f173954b72399b1",
+        "target_sha256": "319f0ba59714e12b6db9c3e09d1900505b3234dd17b9098d8602014428b8b706"
+      },
+      "ui:창원에는 끝내 한 번도 내려가지 못했다.:/창원에는 끝내 한 번도 내려가지 못했다.": {
+        "source_sha256": "14a15da019f4e406d0151f396c75720095ee2d1443a88b6c1d06ebba9c2e1870",
+        "target_sha256": "67a5ef5349a12c8302b48d86267310786c79a9744d849c78f192c231a3caeb1b"
+      },
+      "ui:한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.:/한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.": {
+        "source_sha256": "229c2cec243faaa1a21f02df83edd5d3a590c67d8cf046554dd2b95842ea9fb9",
+        "target_sha256": "c9a44418bb46d6e096dc7f5760505d94f9a378e15303d7148bc8fd1491211388"
+      },
+      "ui:한지연과는 그 이상 가까워지지 못했다. 인연은 거기까지였다.:/한지연과는 그 이상 가까워지지 못했다. 인연은 거기까지였다.": {
+        "source_sha256": "482b8c24a1ea98abf6a0683ae475ca1c610ac8df543e308fe98efae9e53ab235",
+        "target_sha256": "47bb8e0008de40692b9e22c167a49ccc2fdcb966a7177008d1ba5e72bd0a6fe5"
+      },
+      "ui:한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.:/한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.": {
+        "source_sha256": "34aab157455f279d274ef81f7ee96626b9109c9d81207e51edf494276f22dff1",
+        "target_sha256": "e2ccaabc25468225dd0f2bdb161610eb84cc3fc741caee2ce19adc0798eae5e9"
+      },
+      "ui:한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.:/한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.": {
+        "source_sha256": "0ecb94a0041eab3bc9821db621d97fb4c780249c161ec31ae4c2deb47f183273",
+        "target_sha256": "52d9d25ec4939acc469716df417d057a16e740d80290141e5bde4e43cb03a89a"
       }
     },
     "zh-TW": {
@@ -181530,10 +181658,74 @@
       "ui:화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다:/화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다": {
         "source_sha256": "fb69913a27752b83a2a5dd594cb27d5c901f4fa278eef21471ae930de22e30df",
         "target_sha256": "d117dab329c17fadf9b9fd3611e5e2c8ae746a1d2573914531b0ea07ea35e69d"
+      },
+      "ui:다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」:/다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」": {
+        "source_sha256": "5da5b7741f8c3adb051d0af5b4f94e09464f8e476d04186f3fcb606f8d552c90",
+        "target_sha256": "2042268ef651c92f3e7ac637b5c06f096427ae73a4894a0330ed7ed784d55fb4"
+      },
+      "ui:다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.:/다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.": {
+        "source_sha256": "ccb181301e209cd718cb3b797e03aeda3e5ffcf3aa894ffda6f9dae91bcc8ef3",
+        "target_sha256": "b3905ed40a7e49bdf28539485f86df9a93fb227fbf1d407b51cc6069fdda35cb"
+      },
+      "ui:다시 시작한다면, 다은을 처음부터 놓치지 않을 수 있을지 모른다...:/다시 시작한다면, 다은을 처음부터 놓치지 않을 수 있을지 모른다...": {
+        "source_sha256": "a7f0a6cf97f4c679764726e3ff7bd544f44522e2a4a1cd713a6080a3f22b0253",
+        "target_sha256": "df236e492b988128871fc608145194de5caf1002ec87ff5b027a971fba8d51da"
+      },
+      "ui:다시 시작한다면, 아버지 전화를 먼저 받을 수 있을지 모른다...:/다시 시작한다면, 아버지 전화를 먼저 받을 수 있을지 모른다...": {
+        "source_sha256": "9d3961b4f3376bf4b656dbf4fe52ccaa94ec6cfd8961b6114a30e1cac0fb4b7e",
+        "target_sha256": "025429d4e7fa034f30e037dd9198dbdef7f5bdb165a9a492c37895944b81d23c"
+      },
+      "ui:다시 시작한다면, 임상철을 처음부터 다르게 대할 수 있을지 모른다...:/다시 시작한다면, 임상철을 처음부터 다르게 대할 수 있을지 모른다...": {
+        "source_sha256": "dd18f2c9fb51f6dd5d44f7a0326e4b6caaf2aa8632c121d6a6c3a92627e3b868",
+        "target_sha256": "39885287dc181467cc923a02bb728853095e14b833e6311c824b82cc9639d261"
+      },
+      "ui:마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.:/마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.": {
+        "source_sha256": "a5ecd69ddcafd2b0926a241c4cdb3791843c7c4690b7c05d6f19aaac7ee84ced",
+        "target_sha256": "40e6a2653c64d4082b65a6e88c292e1192d5e73efbeb00c3879fce992ec41d69"
+      },
+      "ui:아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.:/아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.": {
+        "source_sha256": "737e81a179693f2e0e0af0f3b9c5f1c2d01483c244cef4141d2e3bef2c79fefb",
+        "target_sha256": "3a723aa82ed732881353035792ace02c963e9cdc5abcac1daf77be48d90c4e74"
+      },
+      "ui:아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.:/아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.": {
+        "source_sha256": "b30f5cd8456a6b3659cff90e3a79ec3bbbecbdf3e9b7de407517296e08f97a55",
+        "target_sha256": "74ec13f025172453a6d7c96bad37ba6b6df2cd5611887340ec8c8d3a29d2d918"
+      },
+      "ui:아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.:/아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.": {
+        "source_sha256": "7fa7aa539d901262f4a639d93e34047a96e6c0da660601316ab1462c656789a6",
+        "target_sha256": "032e2928fe23decc9b5b0367dbfd714912fa3fe92d158528d0526b84f0e1a56a"
+      },
+      "ui:아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.:/아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.": {
+        "source_sha256": "535fc4c0c26efa1edf563b9911c416619f194047b567551920c7cacc4b340e5b",
+        "target_sha256": "c6838c872078ba56989bfd125493c695c0ade1264b1973639699b0ac5439c06a"
+      },
+      "ui:아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.:/아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.": {
+        "source_sha256": "cb2fc30a937726a74ef04e2e31cc5dd80a3f1d02bb5a05a16f173954b72399b1",
+        "target_sha256": "669cffe5f87f4986d2dc7bc9b82fc943aeb12494a18c566f932bdaa55e74ee8a"
+      },
+      "ui:창원에는 끝내 한 번도 내려가지 못했다.:/창원에는 끝내 한 번도 내려가지 못했다.": {
+        "source_sha256": "14a15da019f4e406d0151f396c75720095ee2d1443a88b6c1d06ebba9c2e1870",
+        "target_sha256": "783755fd6508338e1a2d2ed24524fee11be682a21a025b2c3183aac14953ac6d"
+      },
+      "ui:한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.:/한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.": {
+        "source_sha256": "229c2cec243faaa1a21f02df83edd5d3a590c67d8cf046554dd2b95842ea9fb9",
+        "target_sha256": "a1a00dcbc0ddddb2451b378fba9625f94ca7e28bff9cd82dc328ff822311420a"
+      },
+      "ui:한지연과는 그 이상 가까워지지 못했다. 인연은 거기까지였다.:/한지연과는 그 이상 가까워지지 못했다. 인연은 거기까지였다.": {
+        "source_sha256": "482b8c24a1ea98abf6a0683ae475ca1c610ac8df543e308fe98efae9e53ab235",
+        "target_sha256": "df0178e3db327e07ba611771e2bb4a0ecbfe1fb5bc8043efaa38c8fe98e29de7"
+      },
+      "ui:한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.:/한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.": {
+        "source_sha256": "34aab157455f279d274ef81f7ee96626b9109c9d81207e51edf494276f22dff1",
+        "target_sha256": "b07a4eb1436953fecbc75d734a49a846ae25afaf686b221f19c6aab8ddf5f666"
+      },
+      "ui:한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.:/한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.": {
+        "source_sha256": "0ecb94a0041eab3bc9821db621d97fb4c780249c161ec31ae4c2deb47f183273",
+        "target_sha256": "73ea22e5b3b6c226184994360fdfaec518cc2e03732238ca0fdf6c04a93ddaa7"
       }
     }
   },
-  "accepted_sha256": "00d2325c0cfaab658fed2953104b53155da2f817c6fb63ddcadf103a2305d5eb",
+  "accepted_sha256": "24dfac1d49cb2e00bf5906b02457cccba2f5b05a2761930f727f10dd02cf163f",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
