@@ -126,11 +126,11 @@
     "choices": [
       {
         "text": "Call the manager immediately",
-        "result_text": "Manager arrived 30 minutes later. Reached the customer.\n\nThe customer came, took the bag. Gave {name} 100,000 won.\n\n\"Thank you. That was everything I had.\"\n\nThat sentence stayed longer than the 100,000 won."
+        "result_text": "Manager arrived 30 minutes later. Reached the customer.\n\nThe customer came, took the envelope. Gave {name} 100,000 won.\n\n\"Thank you. That was everything I had.\"\n\nThat sentence stayed longer than the 100,000 won."
       },
       {
         "text": "Pretend not to notice and take it",
-        "result_text": "Got home and took the bag out.\n500,000 won.\n\nLay down to sleep. Couldn't sleep.\nThought about the CCTV. The customer might come back.\n\n{name} stared at the ceiling all night.\nThis is what money weighs."
+        "result_text": "Got home and took the envelope out.\n500,000 won.\n\nLay down to sleep. Couldn't sleep.\nThought about the CCTV. The customer might come back.\n\n{name} stared at the ceiling all night.\nThis is what money weighs."
       }
     ]
   },
