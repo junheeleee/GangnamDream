@@ -180,5 +180,6 @@ fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거�
 [516 보존본](../queue_archive/ORDER-516.md)에 third SIGSEGV·timer-fix REWORK·
 517~520 수리/발급과 원manifest를 보존했다. resume-fix의 실제 저장·동일문단/수치
 재개3항목만 GO다. 이름표[521](../queue_archive/ORDER-521.md) source GO·
-[522](../queue_archive/ORDER-522.md) 발급 GO, [523](ORDER-523.md) 실제 검수는 Mac 잠금 대기다.
+[522](../queue_archive/ORDER-522.md) 발급 GO, [523](../queue_archive/ORDER-523.md) 실제
+완문/수치/이름표 재개 GO다. 진행안내 소실·복귀입력은 [524](ORDER-524.md)에서 확인한다.
 공개본/사용자GO 불승계·나머지 runtime·전체302/본편/출시 HOLD를 유지한다.

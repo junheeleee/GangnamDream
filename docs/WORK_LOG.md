@@ -2,6 +2,12 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 새 앱 실제 저장·재시작의 문장·이름표·수치 복원 통과
+
+- [523](queue_archive/ORDER-523.md): exact522/nameplate-fix 앱의 KO 본문0~4 완독→차단0→result0→빈slot1 UI Save/정상Quit→별도Continue가 같은 완문·김민준·건강70/정신64/230만원을 복원했다. 두 무인자 실행 exit0/160.809982·33.733531초·stdout/Godot480B/204c7320…·entry각1·stderr/오류/경고/누수0이다.
+- slot19417B/e4978df6… byteexact/qa_fixture=false·controller_session/전체값 동일이며 숫자16곳 직렬화32B 차이는 상태변경이 아니다. 초기 inline의 second entry ko 오기대만 고쳤고 원로그/앱 재실행0이다. root/비저자 fresh tracked3261/helper5/seed2/W238/player33·41곳 중 기존40불변/ns파일0→6→7·own4PID부재/editor61385생존을 확인한 뒤 한정 GO/동결 해제했다.
+- 실제 pixels는 root 관찰·독립 검수는 원로그/저장/보존 직접 대조다. 개발 스킬의 실제 관찰/자동 계약 분리·기존 도구 재사용·독립 검수 적용·새도구/보고0·일회성이다. 재시작 뒤 진행안내 소실은 별도 차이로 남기고 [524](queue_active/ORDER-524.md)에 개별 문단 진행·월 복귀 입력을 선선언한다. 5언어화면/옛공개저장 복사본·인간/원어민/물리/청취·본편/출시 HOLD·원manifest NOT_RUN/userGO 불승계는 보존한다.
+
 ## 2026-10-10 — 재개 이름표 수정 앱 발급 완료·실제 화면만 잠금 대기
 
 - [522](queue_archive/ORDER-522.md)은 cleana2008f3/tree503ac425·BUILD2026.10.10.1/nameplate-fix를 발급했다. 원manifest171865B/949b86d8…·ZIP428078457B/e0e71b73…·PCK389860184B/0b182a30…·앱7/PCK1877/JSON675 exact다. 16명령/서명/별도package audit PASS·fatal/leak0, nested각1/I18n 의도19 경고는 구분한다. 실제 runtime NOT_RUN/user GO NOT_INHERITED다.
