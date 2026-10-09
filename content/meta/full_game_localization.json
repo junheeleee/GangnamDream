@@ -12453,6 +12453,143 @@
           "batch_id": "d21e3b923aadb629fa6fb4e7011cb6c82b0bb4444cba0b578dafbfa663bcb96e"
         }
       }
+    },
+    {
+      "order": "ORDER-505",
+      "group": "ui",
+      "roots": [
+        "%d주가 지나갔다.",
+        "%d주가 흘렀다.",
+        "돈에 %d주 — 사람에게는 한 주도 없었다.",
+        "돈에 %d주, 사람에게 %d주.",
+        "마음이 버티기 어려워졌다.",
+        "몸",
+        "몸은 전과 비슷했다.",
+        "몸이 신호를 보낸다.",
+        "무언가 일어났다.",
+        "밤",
+        "사람에게 %d주 — 돈은 잠시 밀어뒀다.",
+        "숨이 전보다 빨리 찼다.",
+        "숨이 전보다 편해졌다.",
+        "시간 기록",
+        "시간이 흘렀다",
+        "아무 데도 시간을 남기지 못한 주들.",
+        "여기서 시간이 멈췄다.",
+        "잠들기 전 생각이 오래 남았다.",
+        "잠은 평소와 비슷하게 왔다.",
+        "잠이 조금 편하게 왔다.",
+        "지나간 주의 흔적",
+        "총자산 변화",
+        "통장이 바닥을 보인다.",
+        "한 달이 끝났다."
+      ],
+      "source_leaves": 24,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 24,
+        "zh-TW": 24
+      },
+      "source_review": "Direct Korean-source independent regional authorship; non-author compared all 48 values and actual time-record consumers, including shared body and nights labels. Money and human week counts may overlap and human time includes self-care; no romance-only or exclusive split added. Elapsed weeks, one-month boundary and distinct interruption reasons, near-empty balance observation rather than bankruptcy, body and sleep improvement/worsening/unchanged directions preserved. Agent comparison only, not native or rendered approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "42ee71ae3dc673425565dd7c1128618a34ffa62c50940426415679666b3329d0",
+        "zh-TW": "1a750b1bf2f9dbf0e14318774e6ff70eaa5715cd8c3d68869cdb44aa1b8a28bb"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "4b34b47ef21a2cd7b1456c3c8a241acbe804ac18",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "39477b972878de5b6fa9c82fdd7f84ac4eeaea9c5fdac1e15fd4bce6aa128109",
+          "count": 24,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "09660fef7e5b17d1a5cf6bb73fd2e4d84e0043c1fa46509f67f61354882e0339"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "4b34b47ef21a2cd7b1456c3c8a241acbe804ac18",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "e5f8ba1c9697929316dfb31939570db312586dcb0bd8be9152e4c530087d0ac0",
+          "count": 24,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9df37ac2cd8631b50e32e9aca48f95d29b11959385f6672f296bd9c05d215614"
+        }
+      }
+    },
+    {
+      "order": "ORDER-505",
+      "group": "ui",
+      "roots": [
+        " [레버리지]",
+        "%s — 매수 실행 시 1 소비",
+        "2배 포지션",
+        "✓ 레버리지 → %s ×2배  %s",
+        "고위험 거래. 수익도 2배, 손실도 2배. 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 청산됩니다.",
+        "다음 달 예측",
+        "레버리지 매수",
+        "레버리지 매수 — %s ×2배 포지션 확보",
+        "레버리지 투자",
+        "시장 국면: %s  |  공포/탐욕: %d/100",
+        "시장 리포트",
+        "시장 분석",
+        "폭락 경보: 레버리지 포지션 청산 검토. 현금 비중을 높이세요.",
+        "행동력 소비 없음 — 현재 시장 국면과 다음 달 리스크를 확인합니다.",
+        "현재 시장 상황",
+        "횡보",
+        "🔭 시장 분석 — %s"
+      ],
+      "source_leaves": 17,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 17,
+        "zh-TW": 17
+      },
+      "source_review": "Direct Korean-source independent regional authorship; non-author compared all 34 values and actual market-analysis, leveraged-buy, action-echo and log consumers. Free market analysis versus one AP for buying, phase and fear/greed denominator, next-month prediction rather than guaranteed gains, twofold gains and losses and forced liquidation strictly below 35 percent of exposure preserved. Asset/principal placeholder order, multiplier, prefixes and double spaces retained. Existing success-toast exposure-base defect identified separately for the next scoped runtime repair, not silently changed in this translation unit. Agent comparison only, not native or rendered approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "114fa7aa419a97e280274a0835aa3456ca63b065df0b9df4a8f24e4f72e86977",
+        "zh-TW": "03b6b9200ed1a2121fc51f0c0ece3efef75c814ff8ef66d83484dc1e8b40052a"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "4b34b47ef21a2cd7b1456c3c8a241acbe804ac18",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "ff7cfb2ca8eec4ed27eb4c40edeeb2c1de9c09248c580f4ea8d6250999aebdd5",
+          "count": 17,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "785433614066246940252aeff19c68d4d7f06a7f02bcd2254a5dcd869dd5b0ae"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "4b34b47ef21a2cd7b1456c3c8a241acbe804ac18",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "919758b7323d162f28636df16067d13a5aeb604625fbe73c872d2ec477427453",
+          "count": 17,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d273fdfd12d4be366031f9418d1ce4025513367164897cc6078573d799677ba4"
+        }
+      }
     }
   ],
   "accepted": {
@@ -123434,6 +123571,170 @@
       "ui:한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.:/한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.": {
         "source_sha256": "0ecb94a0041eab3bc9821db621d97fb4c780249c161ec31ae4c2deb47f183273",
         "target_sha256": "52d9d25ec4939acc469716df417d057a16e740d80290141e5bde4e43cb03a89a"
+      },
+      "ui:%d주가 지나갔다.:/%d주가 지나갔다.": {
+        "source_sha256": "5b02b0b3265433fb1dad681e5ae64aefbfd30e9d7598255d27aa35643fab33ab",
+        "target_sha256": "756c23ec07376d86873447a757a60028e5435807a6a8d71fb6a6b6a9c8120a27"
+      },
+      "ui:%d주가 흘렀다.:/%d주가 흘렀다.": {
+        "source_sha256": "ed4e9e98b5ad329e119cd89848fa63916f7b4d3ab9f7f6f057cfc3ded87e6b9b",
+        "target_sha256": "4cc6f590c7ec4a3100ed96b15558bc53d7c8c4a7d6b88fbf2aedc302ddd973eb"
+      },
+      "ui:돈에 %d주 — 사람에게는 한 주도 없었다.:/돈에 %d주 — 사람에게는 한 주도 없었다.": {
+        "source_sha256": "a4daaf5cccb0ea4a12cf01bb368be992411d645fb3b1c2dbd59850d0f9b1aa16",
+        "target_sha256": "c4c7fc7e44566916583419fc58f7d6ed0b3551c3ee282b2f64312805e94f805f"
+      },
+      "ui:돈에 %d주, 사람에게 %d주.:/돈에 %d주, 사람에게 %d주.": {
+        "source_sha256": "134ec9bb2dc6623196d6cb4a22603c8d481424c7f3db3616861f1256546de3ef",
+        "target_sha256": "5dffff1e42e0ad8c8388bc11c0be40d1ce156475fe4979a4c7287ae6f5021989"
+      },
+      "ui:마음이 버티기 어려워졌다.:/마음이 버티기 어려워졌다.": {
+        "source_sha256": "cba4a3c383013620b244fd94085dc4e2383df84b8b31f772673b4f81b18db674",
+        "target_sha256": "cfa435614fab3a56e86a209a4ec5ca724dd575a984a3ceebf056fccf2e134a4c"
+      },
+      "ui:몸:/몸": {
+        "source_sha256": "731b0e130b0f51af2a0b12ef131780b740c2d32abcb2dc766a7e6c594cfc47d0",
+        "target_sha256": "3e311fe934c30080ca89dcc15e8fa9c2d75e3cfc43b7c9cbff29befc4c41dd97"
+      },
+      "ui:몸은 전과 비슷했다.:/몸은 전과 비슷했다.": {
+        "source_sha256": "96c444d267bf520ffd68ab2ed99ad82e0668cba1e2c1059667b2cbec5e22dd20",
+        "target_sha256": "11bf555a208206f01cbb1f314cc396ec7e6e409982f3b0343d521df211498a4c"
+      },
+      "ui:몸이 신호를 보낸다.:/몸이 신호를 보낸다.": {
+        "source_sha256": "c09abf4af87c12ee4594d950cdb07684d6cf98370942b247f76b584e33e916b9",
+        "target_sha256": "9c5de7507f5285590b42e9d2a5b33f8c0f224a54a8da0f3bd9fedf69f1651be3"
+      },
+      "ui:무언가 일어났다.:/무언가 일어났다.": {
+        "source_sha256": "84d4dfeb982cac4f0b2046f3fa74d4ec55828a7904976b6b5f1d50b65a7a01da",
+        "target_sha256": "eeba6427d9428b58b5682daff9de999257b2ebfe4bbed893d0d8bbad54e6746a"
+      },
+      "ui:밤:/밤": {
+        "source_sha256": "349fbac337a1eaa0b37c873677bdf90f6470a20691682c3b7c89a90df7494a69",
+        "target_sha256": "e64c308fb937f8eb8283711b2a7f402b6471773e18392ba70884ac93af26a6cb"
+      },
+      "ui:사람에게 %d주 — 돈은 잠시 밀어뒀다.:/사람에게 %d주 — 돈은 잠시 밀어뒀다.": {
+        "source_sha256": "5ee83665c777718bdbd467ed359d064295f4ee0125af37211a9e56b4276ecd1c",
+        "target_sha256": "5b701d66d64d4183a62f5d85fa270c71decb0768b25f137b6f764daa842040fd"
+      },
+      "ui:숨이 전보다 빨리 찼다.:/숨이 전보다 빨리 찼다.": {
+        "source_sha256": "641ee830977e1ab16feb41d18027a66ddcebef68c5d0278c3b6a0caebda11504",
+        "target_sha256": "8516ec703c726804b08894c250e77208509c2df983ef3e7c642892f506628c3d"
+      },
+      "ui:숨이 전보다 편해졌다.:/숨이 전보다 편해졌다.": {
+        "source_sha256": "410d5562ca8a7d39693b4c072af968710c6e099a44224986b61e2365890a64f9",
+        "target_sha256": "0871d1bd37018a084976eefcd9710f68baafaa0b4a0cf776dda5218ddd8e9c10"
+      },
+      "ui:시간 기록:/시간 기록": {
+        "source_sha256": "1d801ab6eca6d31127aa45fb17451bc7351ca24da38eb092e2a3ca4628b331d3",
+        "target_sha256": "0b5b0e127b74b42870584bb32c38a4208971b54d4d28d03145a27b3074e43afe"
+      },
+      "ui:시간이 흘렀다:/시간이 흘렀다": {
+        "source_sha256": "16f6c9f3d0678e31907ad6f29347e56d87f624c943c925a8e508d3da59df93c0",
+        "target_sha256": "d3e139a3e2c88db4bae067b1c5d3608d597fa243c838f5b7e873c74ca4124f12"
+      },
+      "ui:아무 데도 시간을 남기지 못한 주들.:/아무 데도 시간을 남기지 못한 주들.": {
+        "source_sha256": "112a73aef37248b80f90385ddb621d6402caecd4533bfc4b8a1bd1b6ba76e1b9",
+        "target_sha256": "2d232d7d7c593896af3de1dc4c3326ad40a9f27077c31f9af0e60d8367ea02a1"
+      },
+      "ui:여기서 시간이 멈췄다.:/여기서 시간이 멈췄다.": {
+        "source_sha256": "97fd283f6b9afc47c2bafffc7f931fdd297f12f12dfd8bc6296a806e980be33a",
+        "target_sha256": "0ca15b1d0f84f49c9cd1de1987a2615845b64a287c931f2b4a9e75f84266e49d"
+      },
+      "ui:잠들기 전 생각이 오래 남았다.:/잠들기 전 생각이 오래 남았다.": {
+        "source_sha256": "8abbff1e289957b23ee6f418219fd00af8ba253d1c2aec6677d78e3f2fff1b82",
+        "target_sha256": "37cbe6917d2aab5ec0ccd8fb8a369ef945872310c33e2e124de61086f7a5e5c2"
+      },
+      "ui:잠은 평소와 비슷하게 왔다.:/잠은 평소와 비슷하게 왔다.": {
+        "source_sha256": "a1fdcacbf4bdbd989cf7508053ad22c94561f2df51b382bed11742f415f8b2fe",
+        "target_sha256": "935ed3c56e09f21ad4afe57d8a151985f90690f7b69ef8f19808ce2d31be4e8b"
+      },
+      "ui:잠이 조금 편하게 왔다.:/잠이 조금 편하게 왔다.": {
+        "source_sha256": "295d75fc7fa50f3a8f3d08d612c8f141fb50b8fda620dd1c0b9c415e49f9b12c",
+        "target_sha256": "efadef19c7c485efbc9370c76d9ad04c81ff757f68c6b499b28dab783870b953"
+      },
+      "ui:지나간 주의 흔적:/지나간 주의 흔적": {
+        "source_sha256": "684d95030bfe4a64f210e1b367daa0306ea37c7e2d9cf5648cc8514f70ac878f",
+        "target_sha256": "036dd5841534cabd6ba223573580580c806d32696a8db080ab6451cdf29a7f4a"
+      },
+      "ui:총자산 변화:/총자산 변화": {
+        "source_sha256": "1e4613ef6dade348a7a85545956afa2bbc223c395eb511454c49a21025d3542c",
+        "target_sha256": "fe5df4c07e2b0571bf4701c4550892fac72b0269ed4d4e3aa2a076d2618003cb"
+      },
+      "ui:통장이 바닥을 보인다.:/통장이 바닥을 보인다.": {
+        "source_sha256": "21117b59ef42f361685549db20a528e0a518f6d482f9e09fd3f500c6889378ea",
+        "target_sha256": "63f9adbdb3321c08b31dc00cfdb7c8b15e4a316feec2c270223abf5093942c12"
+      },
+      "ui:한 달이 끝났다.:/한 달이 끝났다.": {
+        "source_sha256": "885fe8b85a11d1155c5831ca3bfb4f8e66b7b4cc0fcd4e3f72fdf94650423801",
+        "target_sha256": "56cacf91c0bd83c5e7960a716c7802ff85c5e3369cf9d1d61df9658b805e0257"
+      },
+      "ui: [레버리지]:/ [레버리지]": {
+        "source_sha256": "4070e909ee46152d3a8a4757b117160a8a00f54258756e4f6478907c36b9f8d6",
+        "target_sha256": "bdc6de833966f313cc495b6523967afbb357778567cc4472a14d3e54cb737d8a"
+      },
+      "ui:%s — 매수 실행 시 1 소비:/%s — 매수 실행 시 1 소비": {
+        "source_sha256": "6ebb52e8a25bbd6fd5c0e12b806e4156a3d7e9e6171104936524727f2fa3208e",
+        "target_sha256": "cfb5e86954e7bb168c93e03206091d4b14cffa75aa9b7b31c11dbd4aa54ee55a"
+      },
+      "ui:2배 포지션:/2배 포지션": {
+        "source_sha256": "59b30ec8d67061b126a933fa30ea572870a2a7fa4a12537df736273886707c77",
+        "target_sha256": "6f988f10b693c98a0ad1fa82fd20bffb27fcc077db220e308e19c958a623f1eb"
+      },
+      "ui:✓ 레버리지 → %s ×2배  %s:/✓ 레버리지 → %s ×2배  %s": {
+        "source_sha256": "99da2fd7faad55c6253432b62d1cc4ff098e504e32467e3144eac14ae8cdc3fe",
+        "target_sha256": "bc52270776b463cb1bb109bdac14769f35d8ab551baf390b53a7b51fb1a10010"
+      },
+      "ui:고위험 거래. 수익도 2배, 손실도 2배. 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 청산됩니다.:/고위험 거래. 수익도 2배, 손실도 2배. 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 청산됩니다.": {
+        "source_sha256": "8ed6b9bd86ae1bdfb15150c94197ee8ba6b73b6ecb95fc5a46163499833e4749",
+        "target_sha256": "8d9fc99be85c09e44839e31b12723058d5204eab3cef42274f75874b950525b3"
+      },
+      "ui:다음 달 예측:/다음 달 예측": {
+        "source_sha256": "b43fd4c405396d6e0e494b866a9feb3b94cde988371aa859906132ab23f239b8",
+        "target_sha256": "87f684169372b14cc206161739d2c33daa78ebd74cf4de178828bd8ff63befe9"
+      },
+      "ui:레버리지 매수 — %s ×2배 포지션 확보:/레버리지 매수 — %s ×2배 포지션 확보": {
+        "source_sha256": "65e1cae868fbd27298bbf791cd7140fc16ef0739edd848dbc61e4825931d32ec",
+        "target_sha256": "35059fe61cd36dad03c533bc2cfd08bee221d9bbec2faecbb47ba494e5942a96"
+      },
+      "ui:레버리지 매수:/레버리지 매수": {
+        "source_sha256": "24e67a9cbb5855e08fd16b113d757ca7630368b08e718f4ddb98c24d3bf7d97e",
+        "target_sha256": "800e6f0577d7ecc4a8b296e8bcbb6ed9d86ec72bf2c7842093d02a78b0f4fcb2"
+      },
+      "ui:레버리지 투자:/레버리지 투자": {
+        "source_sha256": "e1c44f8568a4577a3da94a3b215507678801b153b710f04839ef08127d640e6e",
+        "target_sha256": "70932d522059a8f8b49947d265d7a44ab770f6dd6ebc2eacd15cb7d2505c4b72"
+      },
+      "ui:시장 국면: %s  |  공포/탐욕: %d/100:/시장 국면: %s  |  공포~1탐욕: %d~1100": {
+        "source_sha256": "bd7577f98b1e69d56fbb40d493babccd781134979413021d0607867532214db6",
+        "target_sha256": "e646a0f88c0b7728357dcca9d087af6c5135b0b50cc18bbe0bae4459ae8a701d"
+      },
+      "ui:시장 리포트:/시장 리포트": {
+        "source_sha256": "6ccf4660d2284f62639766d2b1dcd5cb821e22e8dc3722c0657f1d28a159bfbd",
+        "target_sha256": "f2a78897c4a8b6d0b2a58715f0020123e285aca5fbd5a5e67389e6b925abc4c7"
+      },
+      "ui:시장 분석:/시장 분석": {
+        "source_sha256": "d7f5d7b96d1e0793db2121e2387f9caeb2c5cef6222dfae5fb903c1e375be2aa",
+        "target_sha256": "7e7b84fe3626c722dfddf498cef3b45492e5b30db5a18604d967489ba4d2fb91"
+      },
+      "ui:폭락 경보: 레버리지 포지션 청산 검토. 현금 비중을 높이세요.:/폭락 경보: 레버리지 포지션 청산 검토. 현금 비중을 높이세요.": {
+        "source_sha256": "fa253839b7333e06fc3f7a84dd74f3ae768a32142677a4ad56bcfe58970dc992",
+        "target_sha256": "00ac69cfe32e7af4e33def75046996e9279276a5673dd763bd5c686b4fd1f981"
+      },
+      "ui:행동력 소비 없음 — 현재 시장 국면과 다음 달 리스크를 확인합니다.:/행동력 소비 없음 — 현재 시장 국면과 다음 달 리스크를 확인합니다.": {
+        "source_sha256": "f3c4e7c925e447c91da36807a6a8216ab8de7a1603425c81ba68116cd6b15744",
+        "target_sha256": "dec8f088fe8422a4695f32b0f9143d1ae1fce43af9e1e140238e5b00df2ec8e2"
+      },
+      "ui:현재 시장 상황:/현재 시장 상황": {
+        "source_sha256": "6ab0d91885f1f7e6fecfb020cd146da22f9f655e22dab489081e843f487ae4a5",
+        "target_sha256": "67b69863709f0c31c14af297424791ec059e4432ce83d71c8987bdc82fa5428c"
+      },
+      "ui:횡보:/횡보": {
+        "source_sha256": "008be7770196f8ae6bb2cfeb332fc4f154d3d47a1f0b05830ed30144cba35cb4",
+        "target_sha256": "3167cbd8352b63f7825af09ed287fb343dd318ad8c15d449343e209272d69853"
+      },
+      "ui:🔭 시장 분석 — %s:/🔭 시장 분석 — %s": {
+        "source_sha256": "aaa1a524665da84e20c850afdeb96ac3997c9735babe742cd8dffb771faa7db4",
+        "target_sha256": "dba449d70975f800b75bbe939a87ee8d55d332462de474cb53d9fd5a9b87221d"
       }
     },
     "zh-TW": {
@@ -181776,10 +182077,174 @@
       "ui:한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.:/한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.": {
         "source_sha256": "0ecb94a0041eab3bc9821db621d97fb4c780249c161ec31ae4c2deb47f183273",
         "target_sha256": "73ea22e5b3b6c226184994360fdfaec518cc2e03732238ca0fdf6c04a93ddaa7"
+      },
+      "ui:%d주가 지나갔다.:/%d주가 지나갔다.": {
+        "source_sha256": "5b02b0b3265433fb1dad681e5ae64aefbfd30e9d7598255d27aa35643fab33ab",
+        "target_sha256": "c02f8e6d32a242d97968d8733eb5994ec57fd794f7e45d428e8a763918d0d5a9"
+      },
+      "ui:%d주가 흘렀다.:/%d주가 흘렀다.": {
+        "source_sha256": "ed4e9e98b5ad329e119cd89848fa63916f7b4d3ab9f7f6f057cfc3ded87e6b9b",
+        "target_sha256": "c2a1a175f88105484bc3e9d4effc4a2281060564e5ee47aab121ed582a6c97ba"
+      },
+      "ui:돈에 %d주 — 사람에게는 한 주도 없었다.:/돈에 %d주 — 사람에게는 한 주도 없었다.": {
+        "source_sha256": "a4daaf5cccb0ea4a12cf01bb368be992411d645fb3b1c2dbd59850d0f9b1aa16",
+        "target_sha256": "3de95e08543ada052580c4c047a94f2b834c7802ffc409682feea8242881542c"
+      },
+      "ui:돈에 %d주, 사람에게 %d주.:/돈에 %d주, 사람에게 %d주.": {
+        "source_sha256": "134ec9bb2dc6623196d6cb4a22603c8d481424c7f3db3616861f1256546de3ef",
+        "target_sha256": "ca14c02de96e9ff53b3d08e6b8b31ebcf0950afdfc38a199c819579f3b1f4fb3"
+      },
+      "ui:마음이 버티기 어려워졌다.:/마음이 버티기 어려워졌다.": {
+        "source_sha256": "cba4a3c383013620b244fd94085dc4e2383df84b8b31f772673b4f81b18db674",
+        "target_sha256": "fff1be7cd8a26a0b6ff864de363ccae519e70370cd2e3ceed6ce19c5c3e45bc1"
+      },
+      "ui:몸:/몸": {
+        "source_sha256": "731b0e130b0f51af2a0b12ef131780b740c2d32abcb2dc766a7e6c594cfc47d0",
+        "target_sha256": "8329f3cf551ffc989a4daec85bce3c59382407d15ccda9994d35cc595f276583"
+      },
+      "ui:몸은 전과 비슷했다.:/몸은 전과 비슷했다.": {
+        "source_sha256": "96c444d267bf520ffd68ab2ed99ad82e0668cba1e2c1059667b2cbec5e22dd20",
+        "target_sha256": "f8e524b9fb198db7694bb9b82759e6ccfbf26b00c4b821cc84a9c44b91d4e513"
+      },
+      "ui:몸이 신호를 보낸다.:/몸이 신호를 보낸다.": {
+        "source_sha256": "c09abf4af87c12ee4594d950cdb07684d6cf98370942b247f76b584e33e916b9",
+        "target_sha256": "61d70210a0b3dcf0d85824e90cd6737ea87575a76fb276ea90905e95ea2f47ec"
+      },
+      "ui:무언가 일어났다.:/무언가 일어났다.": {
+        "source_sha256": "84d4dfeb982cac4f0b2046f3fa74d4ec55828a7904976b6b5f1d50b65a7a01da",
+        "target_sha256": "7dc05ce689d42096b14ffbb046346bc37454a077ff707b6602311fc6ff7e63be"
+      },
+      "ui:밤:/밤": {
+        "source_sha256": "349fbac337a1eaa0b37c873677bdf90f6470a20691682c3b7c89a90df7494a69",
+        "target_sha256": "e64c308fb937f8eb8283711b2a7f402b6471773e18392ba70884ac93af26a6cb"
+      },
+      "ui:사람에게 %d주 — 돈은 잠시 밀어뒀다.:/사람에게 %d주 — 돈은 잠시 밀어뒀다.": {
+        "source_sha256": "5ee83665c777718bdbd467ed359d064295f4ee0125af37211a9e56b4276ecd1c",
+        "target_sha256": "836632ee3a522552977ef4b80660426dd59d7918e9bb98492ee95b0cfd097478"
+      },
+      "ui:숨이 전보다 빨리 찼다.:/숨이 전보다 빨리 찼다.": {
+        "source_sha256": "641ee830977e1ab16feb41d18027a66ddcebef68c5d0278c3b6a0caebda11504",
+        "target_sha256": "3dd9b77cb94c07d54e341f57a03152761e7d9124604d6392c9224c9d94b94a4b"
+      },
+      "ui:숨이 전보다 편해졌다.:/숨이 전보다 편해졌다.": {
+        "source_sha256": "410d5562ca8a7d39693b4c072af968710c6e099a44224986b61e2365890a64f9",
+        "target_sha256": "298fb070a680b550e15836dba61699d5a2863b0f6d8757b3d15f290b5ad5795b"
+      },
+      "ui:시간 기록:/시간 기록": {
+        "source_sha256": "1d801ab6eca6d31127aa45fb17451bc7351ca24da38eb092e2a3ca4628b331d3",
+        "target_sha256": "2a0520f8c0444943dbb7a757036b4772c3ba45dea3eb256e5af954d44aebeb79"
+      },
+      "ui:시간이 흘렀다:/시간이 흘렀다": {
+        "source_sha256": "16f6c9f3d0678e31907ad6f29347e56d87f624c943c925a8e508d3da59df93c0",
+        "target_sha256": "a7218300ffdf4b7ec2737833e1accf154c50ee7b63268f8e0e18fdb53ea918e7"
+      },
+      "ui:아무 데도 시간을 남기지 못한 주들.:/아무 데도 시간을 남기지 못한 주들.": {
+        "source_sha256": "112a73aef37248b80f90385ddb621d6402caecd4533bfc4b8a1bd1b6ba76e1b9",
+        "target_sha256": "7175a5c1b9dd21a0d604a10c1bcb162dcc235181dadbf22b99a392bc1a6f8b52"
+      },
+      "ui:여기서 시간이 멈췄다.:/여기서 시간이 멈췄다.": {
+        "source_sha256": "97fd283f6b9afc47c2bafffc7f931fdd297f12f12dfd8bc6296a806e980be33a",
+        "target_sha256": "e3d44149aaa475f736cad1c9b5e91f1eb1c5d5506b54abd7a92c69677b4c7219"
+      },
+      "ui:잠들기 전 생각이 오래 남았다.:/잠들기 전 생각이 오래 남았다.": {
+        "source_sha256": "8abbff1e289957b23ee6f418219fd00af8ba253d1c2aec6677d78e3f2fff1b82",
+        "target_sha256": "4dbc670a20e1e88b236ee8cb787d8ad9711dae2034c1a8387cd99163cda54556"
+      },
+      "ui:잠은 평소와 비슷하게 왔다.:/잠은 평소와 비슷하게 왔다.": {
+        "source_sha256": "a1fdcacbf4bdbd989cf7508053ad22c94561f2df51b382bed11742f415f8b2fe",
+        "target_sha256": "3634e2175378821c06fc454083261f888fa142a53bd2d406599bb5f42d5c5e64"
+      },
+      "ui:잠이 조금 편하게 왔다.:/잠이 조금 편하게 왔다.": {
+        "source_sha256": "295d75fc7fa50f3a8f3d08d612c8f141fb50b8fda620dd1c0b9c415e49f9b12c",
+        "target_sha256": "d830107f3ca14d794d6bc85415a2a56d47312fe87dd74f4433fa39f6e5db899b"
+      },
+      "ui:지나간 주의 흔적:/지나간 주의 흔적": {
+        "source_sha256": "684d95030bfe4a64f210e1b367daa0306ea37c7e2d9cf5648cc8514f70ac878f",
+        "target_sha256": "131a2398460b7fa123f16d8c012c31cdf447238ab8d2fc63702ee7dc6fec8ea7"
+      },
+      "ui:총자산 변화:/총자산 변화": {
+        "source_sha256": "1e4613ef6dade348a7a85545956afa2bbc223c395eb511454c49a21025d3542c",
+        "target_sha256": "06d8ff0093c3967204c54481570119df43f9f40cf2974005311c8dad2ca26ff7"
+      },
+      "ui:통장이 바닥을 보인다.:/통장이 바닥을 보인다.": {
+        "source_sha256": "21117b59ef42f361685549db20a528e0a518f6d482f9e09fd3f500c6889378ea",
+        "target_sha256": "4948721ae91d6c699f4080ce987f3c66927ceee4e99385b089de0a76b4d57a00"
+      },
+      "ui:한 달이 끝났다.:/한 달이 끝났다.": {
+        "source_sha256": "885fe8b85a11d1155c5831ca3bfb4f8e66b7b4cc0fcd4e3f72fdf94650423801",
+        "target_sha256": "e91a1e766fab1c4fefdd8d0e8acf4d332093d4afe31348f4304e3ddba21d5091"
+      },
+      "ui: [레버리지]:/ [레버리지]": {
+        "source_sha256": "4070e909ee46152d3a8a4757b117160a8a00f54258756e4f6478907c36b9f8d6",
+        "target_sha256": "e127c47c4b588faad029aa9dcaafb3d712cfb7145c0c96b529bc9ad856caebfa"
+      },
+      "ui:%s — 매수 실행 시 1 소비:/%s — 매수 실행 시 1 소비": {
+        "source_sha256": "6ebb52e8a25bbd6fd5c0e12b806e4156a3d7e9e6171104936524727f2fa3208e",
+        "target_sha256": "10dc0e0b40b7d0c1acfee5d0c080cade6fcd101f808e1e2f89bf1e781c60afd0"
+      },
+      "ui:2배 포지션:/2배 포지션": {
+        "source_sha256": "59b30ec8d67061b126a933fa30ea572870a2a7fa4a12537df736273886707c77",
+        "target_sha256": "ffa81c803efd47691cd8fb997d784a84889acda2b1a1047d949e5e2828bd5e3f"
+      },
+      "ui:✓ 레버리지 → %s ×2배  %s:/✓ 레버리지 → %s ×2배  %s": {
+        "source_sha256": "99da2fd7faad55c6253432b62d1cc4ff098e504e32467e3144eac14ae8cdc3fe",
+        "target_sha256": "f12f8f85afb4d97cc949e25831741bfc123224179542111a3f5ca6caa76aad13"
+      },
+      "ui:고위험 거래. 수익도 2배, 손실도 2배. 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 청산됩니다.:/고위험 거래. 수익도 2배, 손실도 2배. 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 청산됩니다.": {
+        "source_sha256": "8ed6b9bd86ae1bdfb15150c94197ee8ba6b73b6ecb95fc5a46163499833e4749",
+        "target_sha256": "64f8383e850ff508c41f4b1f0fa24641deb2f99bcbf8133082d77597fe43f25a"
+      },
+      "ui:다음 달 예측:/다음 달 예측": {
+        "source_sha256": "b43fd4c405396d6e0e494b866a9feb3b94cde988371aa859906132ab23f239b8",
+        "target_sha256": "5c812316ab60c07aae949d6691e9a3f03a079a98fd2d39e2422e6543adeb281e"
+      },
+      "ui:레버리지 매수 — %s ×2배 포지션 확보:/레버리지 매수 — %s ×2배 포지션 확보": {
+        "source_sha256": "65e1cae868fbd27298bbf791cd7140fc16ef0739edd848dbc61e4825931d32ec",
+        "target_sha256": "d4dde7f31921fd6faa7fe4faecbd3ebe855ac453b43419e2b5d04e4b58508b94"
+      },
+      "ui:레버리지 매수:/레버리지 매수": {
+        "source_sha256": "24e67a9cbb5855e08fd16b113d757ca7630368b08e718f4ddb98c24d3bf7d97e",
+        "target_sha256": "ed3cad473a783c9c6410511ff474afdf63857e8d6a56bc31aa950e7603b8fc10"
+      },
+      "ui:레버리지 투자:/레버리지 투자": {
+        "source_sha256": "e1c44f8568a4577a3da94a3b215507678801b153b710f04839ef08127d640e6e",
+        "target_sha256": "282e153b8415735e36474d0e284e2b819dce6d8ae54f3381e03dff8445e7fd62"
+      },
+      "ui:시장 국면: %s  |  공포/탐욕: %d/100:/시장 국면: %s  |  공포~1탐욕: %d~1100": {
+        "source_sha256": "bd7577f98b1e69d56fbb40d493babccd781134979413021d0607867532214db6",
+        "target_sha256": "2ac154881384e4f8659d26825dfd5a60692e4617d40ce829e32482559de95e4d"
+      },
+      "ui:시장 리포트:/시장 리포트": {
+        "source_sha256": "6ccf4660d2284f62639766d2b1dcd5cb821e22e8dc3722c0657f1d28a159bfbd",
+        "target_sha256": "c3e059850298f6ca40ee86e4c37c51dbaf80e62f7171b5de02371fd79fb18f8a"
+      },
+      "ui:시장 분석:/시장 분석": {
+        "source_sha256": "d7f5d7b96d1e0793db2121e2387f9caeb2c5cef6222dfae5fb903c1e375be2aa",
+        "target_sha256": "41b0aa4fdc4ef6333de0dde5e9df9a015ce1ef0fba1a5d2b5d8af07e7cc30f46"
+      },
+      "ui:폭락 경보: 레버리지 포지션 청산 검토. 현금 비중을 높이세요.:/폭락 경보: 레버리지 포지션 청산 검토. 현금 비중을 높이세요.": {
+        "source_sha256": "fa253839b7333e06fc3f7a84dd74f3ae768a32142677a4ad56bcfe58970dc992",
+        "target_sha256": "a1480ed9af2622a457b6c8aaa522ef0be60ec2414d0933c9cb944a91f04136a0"
+      },
+      "ui:행동력 소비 없음 — 현재 시장 국면과 다음 달 리스크를 확인합니다.:/행동력 소비 없음 — 현재 시장 국면과 다음 달 리스크를 확인합니다.": {
+        "source_sha256": "f3c4e7c925e447c91da36807a6a8216ab8de7a1603425c81ba68116cd6b15744",
+        "target_sha256": "f5aaa6b4bf71373e76386e168b27bf021152721ce9314821d6cca21634fabfdf"
+      },
+      "ui:현재 시장 상황:/현재 시장 상황": {
+        "source_sha256": "6ab0d91885f1f7e6fecfb020cd146da22f9f655e22dab489081e843f487ae4a5",
+        "target_sha256": "5864ac9e5d93d76ac5dd1a4c7af83c99dd19f7c095d5775e9d7181934fd940ab"
+      },
+      "ui:횡보:/횡보": {
+        "source_sha256": "008be7770196f8ae6bb2cfeb332fc4f154d3d47a1f0b05830ed30144cba35cb4",
+        "target_sha256": "f66ddcd32c98ce72a86aa01b71dff5859b2ab36736146e7d96ac379216b2cbe1"
+      },
+      "ui:🔭 시장 분석 — %s:/🔭 시장 분석 — %s": {
+        "source_sha256": "aaa1a524665da84e20c850afdeb96ac3997c9735babe742cd8dffb771faa7db4",
+        "target_sha256": "8d64fe39853a0ea466a2d0a5c1cbc2ceb91e01306806bda0c92d14ebb9f1eee4"
       }
     }
   },
-  "accepted_sha256": "7b5f37757dc0fadff00c9de9ff07d6dbf6d7b14576d5425011773474b57c9b12",
+  "accepted_sha256": "c4816530a0f6487b1511df99d9bc0641c7d06b0d765f6ded4eeba45bbbb1e5cf",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
