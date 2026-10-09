@@ -1,6 +1,6 @@
 # ORDER-492 — 연락 휴대전화 중국어 UI25키
 
-#### [~] ORDER-492 [전체 현지화] CN/TW 연락 화면의 영어 폴백50값 — 2026-10-09
+#### [x] ORDER-492 [전체 현지화] CN/TW 연락 화면의 영어 폴백50값 — 2026-10-09
 
 착수 — 만지는 파일: locale/ui_zh-CN.json·ui_zh-TW.json의 신규25키씩,
 content/meta/full_game_localization.json의 해당50영수증·배치1. 운영 파일은
@@ -42,3 +42,20 @@ header/SHA·source/target 해시를 원장에 결속한다. 비저자는 실제 
 Mac 잠금 때문에 실제 화면은 미관찰/OPEN이며 원어민·물리패드·출시 claim도 OPEN/HOLD다.
 UI25키 수용만 닫고 넓은 ORDER-157 전체완료나 연락 화면 전체번역으로 확대하지 않는다.
 project.godot·사용자 저장·공개 M01~M06·shipping language·인간 판정은 불변이다.
+
+## 수용 결과 — 2026-10-09 / 텍스트 범위만 GO
+
+선언79f69c0 → 제품061d7b7f6a5b8d334779fb70976982391a7f9174를 main commit/push했다.
+CN/TW 저자 둘이 독립 KO 직접25씩 작성했다. 비저자가 KakaoTalk도 읽는 문자를
+SMS로 한정한 TW3값을 지적해 訊息으로 수리한 뒤 공식 check/import25씩 PASS다.
+UI1827→1852씩/JA3055 불변; 정적ZH legacy1620→1644/2952·context11→12/29,
+accepted41887→41937·batch287→288이며 전체 INCOMPLETE다.
+
+기존 append raw 역상·현재50 source/target/overlay/receipt·공식header2/SHA2 PASS.
+비저자의 actual Git current_proof는 base7df56fd→제품061d7b7 transition1/50추가만,
+실제 선언Git의 source manifest와 현재 b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea
+일치·옛 UI/원장 원바이트 유지다. 최종 메시지 scope GO/blocking0·새 formal 보고0.
+EN/Hangul·JA UI·ZH·i18n·multilingual·공개storydemo·legacy demo 범위 영향검사 PASS.
+새 도구/전체 local audit/엔진/저장 실행0이다. 이 전화는 기존 V2 소비자이며
+StoryMode의 새 기능·동적 메시지 전량 번역을 주장하지 않는다. 렌더/원어민·전체 출시
+HOLD는 그대로다. 새규범0·절차 일회성, 넓은 번역 규칙은 기존 I18N 정본에 이미 있다.

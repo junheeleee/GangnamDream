@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)에 바이트 그대로 이동했다. 보존본의 상대 링크는 이동 전 경로 기준이다.
 
+## 2026-10-09 — 연락 휴대전화의 중국어 안내50값 수용 (492)
+
+- 실제 CommunicationPhone 소비자의 미번역25키를 CN/TW에서 각각 한국어 직접 작성했다. 연락/통화·문자·연락처·지난 대화 기록과 일정 가능 여부를 자기 언어로 읽도록 했다. 기존 V2 전화의 번역이지 StoryMode에 새 휴대전화를 만든 것이 아니다. 선언79f69c0 → 제품061d7b7f6a5b8d334779fb70976982391a7f9174를 main commit/push했다. 제품 파일3개·신규50값, 원문/런타임/기존 번역0변경.
+- 병렬 저자와 비저자 전수 문맥 대조에서 TW의 SMS 한정3표현을 찾아 KakaoTalk도 포함하는 訊息으로 수리한 뒤 수용했다. 원 공식 export/check/import 각25 PASS, source/target/receipt50일치·translation_errors0, accepted41887→41937·batch287→288다. UI 사전1827→1852씩/JA3055 불변이며 실제 ZH 정적 coverage는 legacy1644/2952·context12/29다. 전체 번역 INCOMPLETE/원어민 OPEN을 유지했다.
+- 기존 ui_translation_append의 명시적 전후4파일 raw 역상·원영수증header/SHA2, 비저자의 실제 Git current_proof(base7df56fd→제품061d7b7 transition1/50추가) PASS. 선언Git와 현재 source manifest b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea가 일치하며 옛 UI·원장 metadata/287배치 바이트를 보존했다. source/수용 scope GO·신규 blocker0, 새 formal 보고/판정원장0이다.
+- EN/Hangul·JA UI·ZH·i18n·multilingual·공개storydemo·legacy demo 범위 영향검사 PASS. 게임 원문·음악·선택·저장·shipping language·공개 M01~M06·과거 인간 판정·project는 그대로다. 전체 local audit/엔진240주/새 계측·이력 도구0. Mac 잠금으로 화면149/457/302·이번 전화 실제 폭 검수는 미관찰이다. 최신 전체 CI는 아직 확인 중이며 등록 검사 예외0을 녹색/출시 GO로 바꾸지 않는다.
+- [492 완료 사양](queue_archive/ORDER-492.md)에 정확한 소비자·수용·한계를 기록했다. 개발 스킬의 현지화 프로필·먼저 선언·지역 독립 저작·기존 원장·표적 검증을 적용했고 새규범0/절차 일회성이다. ORDER-157 전체·실제화면/원어민·물리패드·본편 출시 HOLD는 계속 남는다.
+
 ## 2026-10-09 — 상철 추론의 잘못된 직장 기억 수리·등록 검사 예외0 (491)
 
 - 취업 여부와 무관하게 차트를 가르친 현재 동료로 나오던 상철을 실제 첫날 사무소의 커피 제안 기억으로 고쳤다. 선언0df3dfd → KO/EN95d8dd5 → 최종417526178ff0e1c031bf3414f0ecc0463576d8e3을 main commit/push했다. 본문·선택0 결과2잎×5언어10값/5파일 외 raw 변화0. 처음부터 아들임을 안 사실·문서 대조·아버지의 무지·추론 무게와 선택/효과/타이머/플래그/라우팅을 보존했다.
