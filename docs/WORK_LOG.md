@@ -2,6 +2,12 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)과 [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 중국어 첫 우선사항 숫자 검사 오탐 수리 (509)
+
+- 508의 정상 第一要务를 원문의1순위 누락으로 읽던 기존 도구1파일만 수리했다. 명시적 탈출 우선순위와 第+수사+要务/要務를 typed값으로 비교하되 다른순위·누락/중복/부호·돈/횟수·잘못된앞표현 뒤 정답 덧붙임은 거부한다. 번역/원문/원장/runtime/저장 변경0, 선언3b9a4b0 → 제품c0e8188cebdff283db0e19ec25acde54cb342bd2 main commit/push다.
+- embedded58·비저자 TW 독립102(정상18/음성84) 예상불일치0. 전체17505잎/16957고유source primitive tuple 대조에서 구직1잎 task_priority1만 추가·원화0/보호자contact/나머지source 불변·manifest f971…불변이다. 실제Git tool-only57+/1-와 검수blob5f402d36… 일치GO·blocking0이다. 비저자 harness의 클래스비교·집계혼동은 값tuple/잎·고유source 구분으로 정정했고 제품결함으로 포장하지 않았다.
+- ZHself12783/current·full localization265·i18n·공개/legacy demo·구조audit ERROR0/WARNING0·등록179/context/queue/diff PASS. 정상508 공식4배치 PASS로 수용을 재개하며 STATUS는508마감에 갱신한다. [509 완료 사양](queue_archive/ORDER-509.md). 개발 스킬의 원인수리·독립반례/실제Git·표적검증 적용, 새규범0/일회성·새도구/이력검사/계측/재사용/보고/예외/삭제0. 최신CI대기·실제화면/원어민/물리패드 OPEN·출시HOLD다.
+
 ## 2026-10-09 — 중국어 투자 거래·예측34값 수용 (507)
 
 - 투자시스템 KO17키/CN·TW34값을 지역별 KO직접 병렬저작·비저자 전수검수했다. 실패8·거래로그3·예측5는 실제독자16키, 성공반환1은 MainGame 별도toast 때문에 packaged 수용만 구분했다. 매수 투입현금/매도 정산대금·부호손익·레버리지 현금과두배포지션·성장주/예측불확실성·토큰 보존, retouch0이다. 선언acb5d4a → 제품d855006bf81e1d5d47ded2db94ac01f7c36ea4ce main commit/push 완료다.
