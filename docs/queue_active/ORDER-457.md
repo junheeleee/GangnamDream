@@ -112,6 +112,30 @@ slot1은 W200/2030-02 W4·건강100/정신96·resume={}·pending commitment={}�
 원관찰/로그는 `.git/chapter5-replay/order457-continue-live-20261009/`에 보존한다.
 독립 안전 GO는 보존/정상 종료에만 적용한다. M60·후일담·6/6 미도달로 계속 `[~]`다.
 
+2026-10-09 source d418772의 W200 이어보기 첫 시도는 휴식의 feather 문장 중간과
+버튼/키 입력 정지로 끝났다. 원인 미분리이며 native 창닫기 exit0/511.942초/errors0,
+result SHAc30598e2b939a157650e2276126c1d1ea82dfc91a69a8435b01465237745971b.
+보존 GO일 뿐 정상 Continue PASS가 아니다. private continue-w200-live-20261009에
+원로그/관찰을 유지한다. 아래 재시도는 다른 휴식 변형이므로 해당 정지를 반증하지 않는다.
+
+같은 source의 새 격리73c9422ceb1533c969d1cac0a52f8099에서 실제 W200→W215,
+2030-06 W3·건강97/정신87·26주 남음까지 이어 읽고 UI Save/Week215 표시 뒤
+System Quit 정상 종료했다. 민서 무회신/제안된 시간의 미확정/지갑 반환/단독 명의
+기준 상담/복권 거절 등을 읽었다. 야간근무는 검수 대기 중0/10시간초과로 실제 기록하며
+성공으로 바꾸지 않는다. 마지막7개월 본문의 질문1문장은 일부만 포착해 전문 독해를
+주장하지 않는다. AUTO/상태주입0이며 중간 quiet주차는 별도 화면을 보지 않았다.
+2019.666초/exit0/errors0/자동입력0/경고·누수0, result SHA
+50c4f0e38a6b72cb890b4ef1af9b3c6e07c4c3f06cc6f5781dccc3c79d16eaac.
+비저자 fresh대조로 prepared/entry/result전후/현재 tracked3244/helper5/player33/
+seed2·원W200/별도W195/510bak 불변, own84344 종료/editor61385 생존 GO다.
+새 slot1은152641B/SHA640f6ba664bba1a4b8bf2483f133bd27750dc0645957b96dcb62fc445f85a7a1,
+turn215/resume={}/pending={}다. private continue-w200-retry-20261009의 원관찰/
+로그/격리저장을 보존한다. 다음 이어보기는 이 실제 checkpoint를 별도 선선언한다.
+W211 기억0이 삭제된 민서 회신을 인용하는 확인 결함은 [512](ORDER-512.md)에서
+5언어 한 잎만 수리한다. 주간93%/Story97%는 구간/전체 목표의 다른 계산으로 오류가
+아니며, 편의점 회식 producer/부산 지연 meet/시장 초기화 위험은 별개로 남긴다.
+M60/후일담6/6은 미도달, 인간/원어민/물리패드·출시는 HOLD다.
+
 실행기 문법/안전 경계 읽기, context/queue/diff와 이 실제 경로만 수행한다.
 기존32callback/456/302/365·whole audit·240주·Property·JA/ZH 전체 검사는 반복하지 않는다.
 정상 속도 한 경로 완료와 독립 관찰 판단까지 이 단위는 진행 중이다. 도구 완성이나

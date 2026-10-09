@@ -1,6 +1,6 @@
 # ORDER-510 — 저장 복원에서 이미 읽은 주차에 랜덤 사건을 추가하지 않는다
 
-#### [~] ORDER-510 [P1·저장 복원] 소비된 foreground의 추가 추첨 차단
+#### [x] ORDER-510 [P1·저장 복원] 소비된 foreground의 추가 추첨 차단 — 2026-10-10
 
 **[~] 착수 — 2026-10-09.** 457의 실제 EN 메뉴 재플레이에서 확인했다.
 source6977의 W200 Main 저장은 resume={}·foreground_story_turn=200·month_event_turn=199다.
@@ -48,7 +48,7 @@ _ready→_begin_month→_maybe_play_month_situation에서 yolo_spend_moment를 �
 정본 규칙 신설0, 위 소유·재현·배치는 일회성이다. 이미 존재하는 한 주 한 foreground
 가드와 저장 복원의 일치를 수리하며 M60/후일담6/6·전체번역·인간/원어민/패드·출시는 별개다.
 
-## 실행 증거 — 실제 메뉴 GO·최종 CI OPEN
+## 실행 증거 — 실제 메뉴 GO·최종 CI SUCCESS
 
 - MainGame guard/주석2줄만 수정, 기존 ManualSaveCheck에 합성 W200 디스크 왕복·
   Main 진입·전체 serialize/flags/queue/cooldown 무부작용·missing/stale/next-week의
@@ -92,6 +92,10 @@ _ready→_begin_month→_maybe_play_month_situation에서 yolo_spend_moment를 �
   비저자가 prepared.before=entry.before=result.before=result.after=최신 snapshot,
   tracked3244/helper5/player33/seed2/W200/별도원W195 및 복사본 불변을 직접 확인했다.
   ownGodot76403 부재·사용자editor61385 생존도 확인해 실제 복원·정상 종료 한정GO다.
-- exact제품37936805688/현재main37941236324은 정적·밸런스 성공/전체 Godot step6
-  진행·완료failure0이며 전체 CI 녹색은 아직 미확인이다. 따라서 ORDER-510은 [~]를
-  유지한다. M60/후일담6/6·부산 지연·직업 회식·시장 초기화 위험은 별개다.
+- 당시 exact제품37936805688/기록37941236324은 전체 진행이어서 [~]를 유지했다.
+- 2026-10-09 15:09:51UTC 비저자 공개 API 새 확인: exact제품
+  0d4cb109348eb233bae6a3075c19fa777b4798ee의37936805688 completed/success,
+  정적·밸런스/전체 Godot jobs success·실패 step0이다. 실제 메뉴 GO와 합쳐 이
+  추가추첨 수리만 완료한다. 원 fixture 경고13/중단 실패를 지우지 않는다.
+  새 규범0, 기존 저장 복원 규칙의 수리이며 작업 절차 일회성이다.
+  M60/후일담6/6·부산 지연·직업 회식·시장 초기화 위험·출시는 별개다.

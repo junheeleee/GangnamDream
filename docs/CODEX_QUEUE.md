@@ -50,9 +50,9 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-510 · 저장 후 읽은 주차의 추가 사건 추첨 차단 | [510](queue_active/ORDER-510.md) | 제품/저장 fixture·실제 W200 복원 GO · 전체 CI OPEN |
+| 1 | [~] | ORDER-512 · 무회신 뒤 민서 기억의 잘못된 발언 귀속 | [512](queue_active/ORDER-512.md) | 실제 W211 확인·5언어 기억1잎 수리 선언 |
 | 2 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
-| 3 | [~] | ORDER-457 · 5장 일반 경로 정상 재플레이 | [457](queue_active/ORDER-457.md) | 실제 W195→W200/격리 보존 GO · 510 복원 수리 실제 GO · M60 이어보기 |
+| 3 | [~] | ORDER-457 · 5장 일반 경로 정상 재플레이 | [457](queue_active/ORDER-457.md) | 실제 W215 저장/정상종료·보존 GO · 512 기억 수리 뒤 M60 이어보기 |
 | 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor export GO/실제 재생6항목 HOLD |
 | 5 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 
