@@ -5,6 +5,9 @@
 **착수 — 2026-10-10.** [519](../queue_archive/ORDER-519.md)의 source GO를 실제
 앱으로 옮긴다. timer-fix의 실제 cold resume REWORK와 모든 원증거는 보존한다.
 
+**발급 준비:** 두 기존 도구의 unit literal6곳만 정렬했다. 기존 synthetic
+self-test52 PASS/actual_exports0이며 BUILD/date/player33/변환/검증 로직 diff0이다.
+
 ## 한 단위·깊이 3문
 
 1. 없으면 수리된 실제 앱이 없어 수동 저장/재시작 위치를 재검수할 수 없다.

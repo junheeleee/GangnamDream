@@ -2,6 +2,10 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 저장 재개 수리를 실제 새 앱으로 옮길 준비
+
+- [520](queue_active/ORDER-520.md)은 기존 builder/auditor 발급 unit6 literal만 정렬했다. synthetic52 PASS/actual_exports0·기타 로직 diff0이다. BUILD2026.10.10.1/resume-fix의 별도 앱/빈 저장 공간을 사용하며 모든 옛 후보·실패raw·seed/player를 보존한다. 실제 export/저장/재개 GO는 아직 없다. 새도구/보고0·일회성이다.
+
 ## 2026-10-10 — 장면과 시작 메뉴가 같은 데모 신원을 읽는다
 
 - [519](queue_archive/ORDER-519.md)은 StoryMode 고정 v1 비교1줄을 기존 controller exact 상수로 연결했다. prefix 확장·저장 스키마/원문/번역 변경0이다. 기존 fixture +35줄은 정확한 이름/유사 이름/비활성3표본·원 설정 복원을 검사한다.
