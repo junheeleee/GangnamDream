@@ -12,7 +12,7 @@ content/meta/full_game_localization.json 해당40영수증·배치1. 운영 파�
 - 지우면: 중국어 플레이어가 본편 엔딩 화면의 여정 한 줄 요약을 영어 폴백으로
   읽는다. 첫해/5년·원화 목표·가족/창업/평판의 서로 다른 결과를 자기 언어로 못 읽는다.
 - 독자: MainGame._ending_run_summary의 기존20 정적 반환문 →
-  _render_ending_finale_stage(20980)의 _quote_ui/_wrap_label → LocaleManager.ui다.
+  _ending_add_finale_stage(20980)의 _quote_ui/_wrap_label → LocaleManager.ui다.
   ending_id·startup_exit 플래그·NG+ 갈래와 기본 fallback은 관찰만 한다.
 - 경쟁: 엔딩 선택/효과/라우팅·대본을 바꾸지 않는다. 이미 채운 결말 본문/기존 UI나
   V2 6개월 기록과 별개인 본편 기존 회고다. 새 엔딩이나 Tier1 장면 저작이 아니다.
@@ -41,6 +41,9 @@ content/meta/full_game_localization.json 해당40영수증·배치1. 운영 파�
 - 그렇게 5년이 지나갔다
 
 ## 실행 / 검증 / 경계
+
+현재 gate: 정상 구독자100만/강남과 가족 양자 표현을 기존 수량 검사가
+거부했다. 별도501이 기존 검사만 수리한 뒤 공식 check/import를 재개한다.
 
 간체·번체 저자 둘은 KO 직접 private response 한 파일씩만 소유한다. root는
 먼저 선언commit/push, 공식 export/check/import20·원영수증 header/SHA2와
