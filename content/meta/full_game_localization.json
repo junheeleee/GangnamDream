@@ -11806,6 +11806,79 @@
           "batch_id": "79556caf88aee2d88d1d73dcc6f8135947fcde8e82ec7cf47e4bff1980be8655"
         }
       }
+    },
+    {
+      "order": "ORDER-494",
+      "group": "ui",
+      "roots": [
+        "%d개월 끝의 흔적",
+        "%d개월차 · %d–%d주",
+        "%d개월차",
+        "%d주차 결산",
+        "%d주차에 결국 한 가지를 끝냈다. 그 선택 때문에 남은 일과, 지난 %d개월 동안 여기까지 온 기록을 함께 확인한다.",
+        "24주차에 남아 있던 일은 옛 저장에서 복원할 수 없다.",
+        "24주차의 마지막 선택은 기록에 남아 있지 않다.",
+        "결과를 짐작해 채우지 않았다. 남아 있는 월별 기록만 확인할 수 있다.",
+        "고정비",
+        "기한이 끝난 일",
+        "끝낸 일",
+        "내가 먼저 건넨 연락",
+        "누가 먼저 연락했는지는 당시 기록에서 복원할 수 없다.",
+        "다음 재정 목표",
+        "달성까지 %s",
+        "대신 남긴 일",
+        "서울에서 보낸 스물네 주",
+        "여섯 달은 민준의 삶을 해결하지 않았다. 다만 끝낸 일과 남겨 둔 일의 값을 한 페이지에 올려놓았다.",
+        "옛 저장",
+        "월말 정산 후",
+        "이 달의 누락 기록은 옛 저장에서 완전히 복원할 수 없다.",
+        "종결 시점 기록 없음",
+        "종결 현금",
+        "첫 달 제안의 결론은 당시 기록에서 복원할 수 없다.",
+        "첫 달에 내린 결정"
+      ],
+      "source_leaves": 25,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 25,
+        "zh-TW": 25
+      },
+      "source_review": "Direct Korean-source independent regional authorship; all 50 values compared against 25 source keys and 31 actual V2 recap/shared month-summary consumers. Frozen boundary, unrecoverable older-save records, finished/forgone/expired work, initiative and remaining-goal amounts retained without inference. Agent comparison only, not native or rendered approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "825e153e06fbd8f72ebfb5779c85eaea67139373dd3430adf491911b0b0d6950",
+        "zh-TW": "51dff2b93b7697088a82e13d452b98f5d05b3745b196c46b1aa4c929ba22d64b"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "3b47355ea30de2dc3017635e7f6f9b31bde0ad51",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "47aa824ed7adacbff22c1df55f614f8e909b24d2a156d50c6659e20f23ffab56",
+          "count": 25,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d9349d1ee75ed7e0098a5ac66e17c62f7b9e089c7401e3f81b796e45271e505b"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "3b47355ea30de2dc3017635e7f6f9b31bde0ad51",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "4bac7922a876e8ad051a6a75b21feb9f2c5441c774a1e272db13bbb2477d7560",
+          "count": 25,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "984b701cb16119d05c8b28797d971da19e51733e1c1d803d20f5088e27701d4e"
+        }
+      }
     }
   ],
   "accepted": {
@@ -122063,6 +122136,106 @@
       "ui:ui.week.spent_status:/ui.week.spent_status": {
         "source_sha256": "e5d622b8d09cff4be4e0dcefa5862c3eed0c1f4c940bde920cf5288eb28a3399",
         "target_sha256": "90d0e6806fa1506abeaeabd52d66547348818e4e3ed51e3fb93dcb412a2ba12f"
+      },
+      "ui:%d개월 끝의 흔적:/%d개월 끝의 흔적": {
+        "source_sha256": "b9b595d2c30d5cb886134c1b155683386b9cf4442ca1bdb1ea203bb71e871c14",
+        "target_sha256": "bdbdd343c1785df784515c8908c03f7bc45c3bf4ce18f6a2650e437de15fb0be"
+      },
+      "ui:%d개월차 · %d–%d주:/%d개월차 · %d–%d주": {
+        "source_sha256": "b37d536c9e2c3655823d67f84c72a93e28a4372da9d6a13a5cc24dc3152e5bc2",
+        "target_sha256": "dccee443a654e1a6efabe68cb646bfa013285b00920a69d912f8c88704a9ea9b"
+      },
+      "ui:%d개월차:/%d개월차": {
+        "source_sha256": "a944636d8f191299bde27812b71fad4b73bcc3ab100e3a40f83f9211f2345c65",
+        "target_sha256": "75fd62a53a75fcb7e552758d99260df7d3a1739cb78e2d45ed2d58238c52268f"
+      },
+      "ui:%d주차 결산:/%d주차 결산": {
+        "source_sha256": "d65f74c549e859bccdceb01134e4f1a52273890132098eaab970cfc48a95f629",
+        "target_sha256": "c664c10042da23fee024cf32693e19794f35601879f7e57cf9b590defdc70cb5"
+      },
+      "ui:%d주차에 결국 한 가지를 끝냈다. 그 선택 때문에 남은 일과, 지난 %d개월 동안 여기까지 온 기록을 함께 확인한다.:/%d주차에 결국 한 가지를 끝냈다. 그 선택 때문에 남은 일과, 지난 %d개월 동안 여기까지 온 기록을 함께 확인한다.": {
+        "source_sha256": "93ea44b6a36cef68313dd63f373d3a29d81d231cf06b6966b8de638f1d05153a",
+        "target_sha256": "71b7a22615c74a76339ab223bde8f87448696458a6db24fa960dea44428ad458"
+      },
+      "ui:24주차에 남아 있던 일은 옛 저장에서 복원할 수 없다.:/24주차에 남아 있던 일은 옛 저장에서 복원할 수 없다.": {
+        "source_sha256": "d21e547ab3294fbdb1e55a0f887410c611085fed85f1b095df84a10007020447",
+        "target_sha256": "f483c907c7231ed276235e1b01affcd100468191b6d4871b360ccef338faac5f"
+      },
+      "ui:24주차의 마지막 선택은 기록에 남아 있지 않다.:/24주차의 마지막 선택은 기록에 남아 있지 않다.": {
+        "source_sha256": "a1fd7a7935ca7c972f8f12186752f01158b1972cbe6b7b41a8b98b5fc48a5f60",
+        "target_sha256": "7aabc5b986bdf2fc8b27772358886bc932252447863e08656bc25d29eecd5c91"
+      },
+      "ui:결과를 짐작해 채우지 않았다. 남아 있는 월별 기록만 확인할 수 있다.:/결과를 짐작해 채우지 않았다. 남아 있는 월별 기록만 확인할 수 있다.": {
+        "source_sha256": "3738ba7dce1fa0ed57d4c573811ca268188861d51b4a2c4d7c286804e0f1b439",
+        "target_sha256": "09dbe252dc7a635ecce632e725534cac105ed6509ae1577ddd197b3d7cea6ad3"
+      },
+      "ui:고정비:/고정비": {
+        "source_sha256": "64cf85527abf6489e1c593acca644aae332ea2d489609997f1ed708f4afe5196",
+        "target_sha256": "478fe12d527b2fe0d99805e13999d7f4eefb7c046ee3cd207d5b989ff3aab289"
+      },
+      "ui:기한이 끝난 일:/기한이 끝난 일": {
+        "source_sha256": "9221c21948dec26419a4d2b3b1f76d9a8128fff2cc3ce202849f36e925e2ceac",
+        "target_sha256": "8f59d841bc5cd855af34c5941f2f5d7560d011b90a919c9ebe3ae5a10d5588d2"
+      },
+      "ui:끝낸 일:/끝낸 일": {
+        "source_sha256": "3e6c00e19a6aae22aca1bdf2aabe03aa5385594feca696476ad74477dcbb9bed",
+        "target_sha256": "06fd8ef64f90d1bb07407870b27bef1008cdf836fd2fd3f28600ed543af9b9d9"
+      },
+      "ui:내가 먼저 건넨 연락:/내가 먼저 건넨 연락": {
+        "source_sha256": "a6580ece5d6b1e92dd521e36fd43b7add7cf70fb32afba27f3b6a2a005076581",
+        "target_sha256": "1df3db9610423adfde473fbec19ab5f5d40573f55dd1ba79c7e09070eef28831"
+      },
+      "ui:누가 먼저 연락했는지는 당시 기록에서 복원할 수 없다.:/누가 먼저 연락했는지는 당시 기록에서 복원할 수 없다.": {
+        "source_sha256": "edf5cb08b5b029553cd6f6572d697757933683521924388c657d8ff3bd700d1d",
+        "target_sha256": "b85755e612c8d64bce9ef171231e81683771ecc0e4f82949d11c7ae8863a58a0"
+      },
+      "ui:다음 재정 목표:/다음 재정 목표": {
+        "source_sha256": "846d9393dd7438a9217a06da14653c26d391e7292405cfbb793acba594dd2a7e",
+        "target_sha256": "b187c4c94a7debb98f84a4fb9b2d3e1b4a36ae28c04b5f49e31df0ff82219aea"
+      },
+      "ui:달성까지 %s:/달성까지 %s": {
+        "source_sha256": "7fbcc23b4265012ca4264ea6da7cabb3cd6fdb5cb8fdded6eb2703863aeb5e7c",
+        "target_sha256": "fceba08aa971f54c5976308433a8712c8f2a079201a54e071b397629a7e8832e"
+      },
+      "ui:대신 남긴 일:/대신 남긴 일": {
+        "source_sha256": "fb5d3ce4de93bc686e6d13a503a9bb7f3fd553c5165253d62dfd7b2114796a6e",
+        "target_sha256": "f2f380c0faada53beff8e568b679f1f9d765bd1d35f9d226dd526f8fd3ede4f8"
+      },
+      "ui:서울에서 보낸 스물네 주:/서울에서 보낸 스물네 주": {
+        "source_sha256": "e4f15a3fa2d6c7fe6ebd291c973df61583ed6f05dcaf684717686547bbff8e97",
+        "target_sha256": "fe9f5c973dbed32e80841ff72717e80c6bdd1a8232e17ff3a405febf1a2c1f3e"
+      },
+      "ui:여섯 달은 민준의 삶을 해결하지 않았다. 다만 끝낸 일과 남겨 둔 일의 값을 한 페이지에 올려놓았다.:/여섯 달은 민준의 삶을 해결하지 않았다. 다만 끝낸 일과 남겨 둔 일의 값을 한 페이지에 올려놓았다.": {
+        "source_sha256": "4073595f2b3b1d13049f8b0b8bedd74f8765d9dcd244f07c82c7bb5124210343",
+        "target_sha256": "164b71a5354719ce83ee41ec7fc425cb6b47d16e1be1c7ebeb3cb589bd821d30"
+      },
+      "ui:옛 저장:/옛 저장": {
+        "source_sha256": "0122c744e4307128ae897fc8a336f584b7748a572189cf62aee353a2f281942d",
+        "target_sha256": "82ca72307b80d6f98be50f1948da46eaaec26c1c41a3fca48edc935efbd8d308"
+      },
+      "ui:월말 정산 후:/월말 정산 후": {
+        "source_sha256": "6127c2feba69a7f3f25b6ff4fb519b0964b142b513f17aa70eaa5c850c57f569",
+        "target_sha256": "c582223a19073662a447950c1bc4d353fa01624a1831ff3c92a75a4dbbddcd6f"
+      },
+      "ui:이 달의 누락 기록은 옛 저장에서 완전히 복원할 수 없다.:/이 달의 누락 기록은 옛 저장에서 완전히 복원할 수 없다.": {
+        "source_sha256": "c237c6fc31a51cc2e7897de09ba805d0c92a85bc5c8ea44eec35853fb48703de",
+        "target_sha256": "2d1cf048829818b2443471239b6162e836c356a872b3d31d6da6620927be59a9"
+      },
+      "ui:종결 시점 기록 없음:/종결 시점 기록 없음": {
+        "source_sha256": "0f4643c7264bc1f4045fd98cd593efe6a0a0e33652ab347c8dbf4847565d5cb0",
+        "target_sha256": "834fde0b6a2f6358d42874d3dca82120c8e88ad44a72ab957ddaa7f8a45c641b"
+      },
+      "ui:종결 현금:/종결 현금": {
+        "source_sha256": "61f441822a4aef94233c45eb19245ebd596660add91856f8b7e15f182864fd38",
+        "target_sha256": "3ff1c994d6df0797048785d956cf4572958a0723f42489d98638897ae24e6ba0"
+      },
+      "ui:첫 달 제안의 결론은 당시 기록에서 복원할 수 없다.:/첫 달 제안의 결론은 당시 기록에서 복원할 수 없다.": {
+        "source_sha256": "c8e40a5af96e9ac3dfa8ffe23d80a94387bbed154c43a50bdeb09232ae2c07dc",
+        "target_sha256": "4ebddaaa6201a12631b25fb03ef4a0eabeeaf6dc440b2b9bbd9a9c40850a5d3a"
+      },
+      "ui:첫 달에 내린 결정:/첫 달에 내린 결정": {
+        "source_sha256": "184eac162acac16c1bb8abeaf411e04aa30daaa9dcf881c834012a4ab17173fd",
+        "target_sha256": "5230acdc5dfee859a29582da5407eaaaa3563ba1a4ce55cb37521a9194d5201b"
       }
     },
     "zh-TW": {
@@ -179697,10 +179870,110 @@
       "ui:ui.week.spent_status:/ui.week.spent_status": {
         "source_sha256": "e5d622b8d09cff4be4e0dcefa5862c3eed0c1f4c940bde920cf5288eb28a3399",
         "target_sha256": "64709c39970c3d36d0944a51dbd0fe1e0b0a09f9911497b6d55634f10345f4f5"
+      },
+      "ui:%d개월 끝의 흔적:/%d개월 끝의 흔적": {
+        "source_sha256": "b9b595d2c30d5cb886134c1b155683386b9cf4442ca1bdb1ea203bb71e871c14",
+        "target_sha256": "8bd5f3c91372eb0bcfb96515033e885e1053609cfa3a1a6ab0fa1f09987492ae"
+      },
+      "ui:%d개월차 · %d–%d주:/%d개월차 · %d–%d주": {
+        "source_sha256": "b37d536c9e2c3655823d67f84c72a93e28a4372da9d6a13a5cc24dc3152e5bc2",
+        "target_sha256": "9bce6a0e7b2519b7c433734f685873d38d72effdbca710033546779c3c9a3c1c"
+      },
+      "ui:%d개월차:/%d개월차": {
+        "source_sha256": "a944636d8f191299bde27812b71fad4b73bcc3ab100e3a40f83f9211f2345c65",
+        "target_sha256": "fa357ac05f5d1e9b4c150cd0ca9de5ff672ddf6a1bc89e67401e4b4ba7cd4314"
+      },
+      "ui:%d주차 결산:/%d주차 결산": {
+        "source_sha256": "d65f74c549e859bccdceb01134e4f1a52273890132098eaab970cfc48a95f629",
+        "target_sha256": "175e47c0fabad7247864e3feab27051e79f37bd0b7a35085c64213f4393c2184"
+      },
+      "ui:%d주차에 결국 한 가지를 끝냈다. 그 선택 때문에 남은 일과, 지난 %d개월 동안 여기까지 온 기록을 함께 확인한다.:/%d주차에 결국 한 가지를 끝냈다. 그 선택 때문에 남은 일과, 지난 %d개월 동안 여기까지 온 기록을 함께 확인한다.": {
+        "source_sha256": "93ea44b6a36cef68313dd63f373d3a29d81d231cf06b6966b8de638f1d05153a",
+        "target_sha256": "d3ed636ff713b6f7e61ab0b50d0fbb854d8045507cffc0af5f62d8c0454c48ff"
+      },
+      "ui:24주차에 남아 있던 일은 옛 저장에서 복원할 수 없다.:/24주차에 남아 있던 일은 옛 저장에서 복원할 수 없다.": {
+        "source_sha256": "d21e547ab3294fbdb1e55a0f887410c611085fed85f1b095df84a10007020447",
+        "target_sha256": "92c4156e048ffd9efdc9869ea007a16e144caa6d0e7b80c991dcfb0b53f5d9ea"
+      },
+      "ui:24주차의 마지막 선택은 기록에 남아 있지 않다.:/24주차의 마지막 선택은 기록에 남아 있지 않다.": {
+        "source_sha256": "a1fd7a7935ca7c972f8f12186752f01158b1972cbe6b7b41a8b98b5fc48a5f60",
+        "target_sha256": "8535798d5bfc12877c4ab92c5052b06e82de5d650d114d988a1861966f4dc439"
+      },
+      "ui:결과를 짐작해 채우지 않았다. 남아 있는 월별 기록만 확인할 수 있다.:/결과를 짐작해 채우지 않았다. 남아 있는 월별 기록만 확인할 수 있다.": {
+        "source_sha256": "3738ba7dce1fa0ed57d4c573811ca268188861d51b4a2c4d7c286804e0f1b439",
+        "target_sha256": "9972328b257979bb88fbb1348d32f7891e265bd8b6374c54881564525129bd75"
+      },
+      "ui:고정비:/고정비": {
+        "source_sha256": "64cf85527abf6489e1c593acca644aae332ea2d489609997f1ed708f4afe5196",
+        "target_sha256": "306efde2ad5f35d3d069cc8c3aeda1613cbb5a7d273386e93bc7bbf429716168"
+      },
+      "ui:기한이 끝난 일:/기한이 끝난 일": {
+        "source_sha256": "9221c21948dec26419a4d2b3b1f76d9a8128fff2cc3ce202849f36e925e2ceac",
+        "target_sha256": "bd89dd699827efe3988c00f9727b837f9bedc8b0588afda1eab3c8d672731724"
+      },
+      "ui:끝낸 일:/끝낸 일": {
+        "source_sha256": "3e6c00e19a6aae22aca1bdf2aabe03aa5385594feca696476ad74477dcbb9bed",
+        "target_sha256": "06fd8ef64f90d1bb07407870b27bef1008cdf836fd2fd3f28600ed543af9b9d9"
+      },
+      "ui:내가 먼저 건넨 연락:/내가 먼저 건넨 연락": {
+        "source_sha256": "a6580ece5d6b1e92dd521e36fd43b7add7cf70fb32afba27f3b6a2a005076581",
+        "target_sha256": "f89b81b96799bc6973dfdaf89d807b3401f2ad1e0ae69d97512ae8c6d54e8f55"
+      },
+      "ui:누가 먼저 연락했는지는 당시 기록에서 복원할 수 없다.:/누가 먼저 연락했는지는 당시 기록에서 복원할 수 없다.": {
+        "source_sha256": "edf5cb08b5b029553cd6f6572d697757933683521924388c657d8ff3bd700d1d",
+        "target_sha256": "3c57bb15ddb6146c22f8abb22cebf67fbd3cafae37c0fb8eae8a7491f376f045"
+      },
+      "ui:다음 재정 목표:/다음 재정 목표": {
+        "source_sha256": "846d9393dd7438a9217a06da14653c26d391e7292405cfbb793acba594dd2a7e",
+        "target_sha256": "273915349d503354a352470729f307ce274236135cade88e1dd30f473f7290ba"
+      },
+      "ui:달성까지 %s:/달성까지 %s": {
+        "source_sha256": "7fbcc23b4265012ca4264ea6da7cabb3cd6fdb5cb8fdded6eb2703863aeb5e7c",
+        "target_sha256": "79b1a80eb1d9ffb12142b906ab661ec3b4f84019c9934bed4a63b82ce3935836"
+      },
+      "ui:대신 남긴 일:/대신 남긴 일": {
+        "source_sha256": "fb5d3ce4de93bc686e6d13a503a9bb7f3fd553c5165253d62dfd7b2114796a6e",
+        "target_sha256": "61b365baa08ed271f37dc1e544dc8830a44d85cb99f61f459490ee75aaea9d11"
+      },
+      "ui:서울에서 보낸 스물네 주:/서울에서 보낸 스물네 주": {
+        "source_sha256": "e4f15a3fa2d6c7fe6ebd291c973df61583ed6f05dcaf684717686547bbff8e97",
+        "target_sha256": "455d1e8e9552c521342e227e0a6b96b8a3297f62ed3a77f08b7ef2cf2aa3158b"
+      },
+      "ui:여섯 달은 민준의 삶을 해결하지 않았다. 다만 끝낸 일과 남겨 둔 일의 값을 한 페이지에 올려놓았다.:/여섯 달은 민준의 삶을 해결하지 않았다. 다만 끝낸 일과 남겨 둔 일의 값을 한 페이지에 올려놓았다.": {
+        "source_sha256": "4073595f2b3b1d13049f8b0b8bedd74f8765d9dcd244f07c82c7bb5124210343",
+        "target_sha256": "49e37793b191cd0c2d85348d0bb854b63c3b521ca558aa04968f0f0f6dc4802d"
+      },
+      "ui:옛 저장:/옛 저장": {
+        "source_sha256": "0122c744e4307128ae897fc8a336f584b7748a572189cf62aee353a2f281942d",
+        "target_sha256": "cd1dcc21a3adbb84a3c0a72cac18a374a161c883781c68fe1dad0f8aa2a909ee"
+      },
+      "ui:월말 정산 후:/월말 정산 후": {
+        "source_sha256": "6127c2feba69a7f3f25b6ff4fb519b0964b142b513f17aa70eaa5c850c57f569",
+        "target_sha256": "8b16cd9b8781183527d141957f5d396940ef91ecf5d94d9b2189de40e73e4705"
+      },
+      "ui:이 달의 누락 기록은 옛 저장에서 완전히 복원할 수 없다.:/이 달의 누락 기록은 옛 저장에서 완전히 복원할 수 없다.": {
+        "source_sha256": "c237c6fc31a51cc2e7897de09ba805d0c92a85bc5c8ea44eec35853fb48703de",
+        "target_sha256": "5cc73bbef16e07e27f7408dc18a06baa6043e8ba9968a14a3f85e1087c418e08"
+      },
+      "ui:종결 시점 기록 없음:/종결 시점 기록 없음": {
+        "source_sha256": "0f4643c7264bc1f4045fd98cd593efe6a0a0e33652ab347c8dbf4847565d5cb0",
+        "target_sha256": "1597a99c8e87a41bea86afdc7112fc2bc327660eb3b50b202d48da4290e35f4f"
+      },
+      "ui:종결 현금:/종결 현금": {
+        "source_sha256": "61f441822a4aef94233c45eb19245ebd596660add91856f8b7e15f182864fd38",
+        "target_sha256": "53eacbdd051b5e170f88d2f29f88f3b4c2c6e0bc997c071d638d4649898eba38"
+      },
+      "ui:첫 달 제안의 결론은 당시 기록에서 복원할 수 없다.:/첫 달 제안의 결론은 당시 기록에서 복원할 수 없다.": {
+        "source_sha256": "c8e40a5af96e9ac3dfa8ffe23d80a94387bbed154c43a50bdeb09232ae2c07dc",
+        "target_sha256": "664a620c5fc44247f1266c8181706f70a4e263d2678768194bf77a2d04b411b0"
+      },
+      "ui:첫 달에 내린 결정:/첫 달에 내린 결정": {
+        "source_sha256": "184eac162acac16c1bb8abeaf411e04aa30daaa9dcf881c834012a4ab17173fd",
+        "target_sha256": "461382d88cf896cfb11672913cc2ad9299370606fdfe3178bfd72a4c00ebdbad"
       }
     }
   },
-  "accepted_sha256": "577202d2e2db8b802c853369c9cafcebf7f06be9be216bbf599a3ea3822fd003",
+  "accepted_sha256": "4bdd6164271d84e190018df102d8737e8e3ac78224629ae7df9c371930ba5379",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
