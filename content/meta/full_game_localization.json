@@ -12784,6 +12784,74 @@
           "batch_id": "0a9467d0f9c5c4d91c40d97b6736328827873f9405b24d8caf3c44a119214dd8"
         }
       }
+    },
+    {
+      "order": "ORDER-511",
+      "group": "ui",
+      "roots": [
+        "  (준비 보너스 +%d 업무능력)",
+        "%s  월 %s%s",
+        "%s 취업. 월급 %s%s",
+        ". 연습해 둔 답변은 채용 자리에서도 그대로 쓰였다.",
+        ". 준비해 간 서류는 채용 자리에서도 그대로 쓰였다.",
+        ". 준비해 간 서류와 답변은 채용 자리에서도 그대로 쓰였다.",
+        "구직활동 → %s 취업%s",
+        "마지막 답은 끝까지 갔지만, 문을 나선 뒤 한 문장이 계속 걸렸다.",
+        "면접관은 다음 질문 전에 지원서를 한 번 더 넘겨봤다.",
+        "면접관은 종이를 덮지 않고 다음 출근 가능 날짜를 물었다.",
+        "빈칸은 메웠지만 두 번째 장에서 다시 손이 멈췄다.",
+        "이미 지원서를 보냈다. 연락을 기다리는 중이다.",
+        "지원 조건을 다시 확인하세요",
+        "지원서는 끝까지 읽을 수 있는 모양을 갖췄고, 고칠 문장 몇 개가 남았다.",
+        "지원할 수 없습니다",
+        "첫 문장과 마지막 경력이 한 사람의 이야기로 이어졌다.",
+        "첫 장을 넘기기 전에 지우고 다시 쓸 문장이 더 많이 보였다.",
+        "첫 질문 뒤에 준비한 문장이 끊겼고, 빈 의자만 오래 보였다.",
+        "첫 취업 — %s  월 %s%s",
+        "🔒 Tier %d 경력 필요 — 낮은 직급에서 먼저 경험 쌓기"
+      ],
+      "source_leaves": 20,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 20,
+        "zh-TW": 20
+      },
+      "source_review": "Independent regional authors translated directly from Korean. A non-author compared all 20 Korean keys and 40 values against the preparation-quality, application, hiring-log and career-lock consumers. No retouch was required. Evaluation responses and start-date questions do not promise hiring; pending applications and failures remain distinct. Work-skill preparation bonuses are separate from salaries. Token order, signs, ordinals, repeated-page inspection, required lower-tier experience, suffix sentence joins and spacing are preserved. Existing base-salary and monthly-income consumer differences are not silently reconciled. Agent comparison only; rendered, input and native review remain OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "46b33ece9421337a82659cd5e1c6c1857ba2ed2e4316917d91a9a8f4f05e9e08",
+        "zh-TW": "cf5e1697b228ff50970957b71dbd45772f41eb429b0de82f1be095c6877df72d"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "7a36bb98a44d06d1c00ea15abd4bf51dc83ee19a",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "f81a37c4ad465a404e3f0fdf842af6342ae4e9c21cafccb39a4982c17c119c0b",
+          "selection_sha256": "407dcfc28d3389d5382f1e651a84538ad5cc5ec880fd674a0156975b55519e39",
+          "count": 20,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a0588833e0490e2fbad17f74898fad62ad345f8bfd53f8c616b3ac0a1a06d8eb"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "7a36bb98a44d06d1c00ea15abd4bf51dc83ee19a",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "f81a37c4ad465a404e3f0fdf842af6342ae4e9c21cafccb39a4982c17c119c0b",
+          "selection_sha256": "490f6771def2360668c2d90661cbd269c5530a0eec93dd6637799fb18626af26",
+          "count": 20,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "23b0b701ce3605bc19fe81251a1dbb6046c0fdae66a4897eec39003aa276e758"
+        }
+      }
     }
   ],
   "accepted": {
@@ -124129,6 +124197,86 @@
       "ui:휴식  →  정신력 %d. 번아웃 전에 멈추는 게 전략:/휴식  →  정신력 %d. 번아웃 전에 멈추는 게 전략": {
         "source_sha256": "33949c36d2311d3af5a6c0cdf843c566a820cf1b2a667ca787a970510a4a7598",
         "target_sha256": "78fc65fa5c7e2ed4186feb15e7d8f008d7b161ad89491e7d6c4d2fdda2f1edb2"
+      },
+      "ui:  (준비 보너스 +%d 업무능력):/  (준비 보너스 +%d 업무능력)": {
+        "source_sha256": "8c6bd64a5637b929c55ad48410cda736f6ce9cabd6e9c3fd13ac87600e5f2cce",
+        "target_sha256": "b3a9c36d673ecb91ec35681c16f1eabc7860aede69336f545a1fd28918be3faa"
+      },
+      "ui:%s  월 %s%s:/%s  월 %s%s": {
+        "source_sha256": "687b77071f800c6d09f5b698eb461ff61cd40b6259cd73e245b2ea193a462139",
+        "target_sha256": "79e0eb7d2ed51f32ee06cc9bea2f1114d3ead6cf5319ad9ea6fbcf469cc1ccf7"
+      },
+      "ui:%s 취업. 월급 %s%s:/%s 취업. 월급 %s%s": {
+        "source_sha256": "f18bbbfa46dba4258689d5dcdbfbb40852ff867f4531698b587abff407d7d4a2",
+        "target_sha256": "b36381383ab4f76cc9013c655739c1878f512c33fbe2b67774e9d8e2ce1ef160"
+      },
+      "ui:. 연습해 둔 답변은 채용 자리에서도 그대로 쓰였다.:/. 연습해 둔 답변은 채용 자리에서도 그대로 쓰였다.": {
+        "source_sha256": "107b69ca5c936d80ec9879d2c30e1c02543e9e8f9dba2ec7e3414c2f98b97c87",
+        "target_sha256": "65b5bc54403c6d3bc515d779e770a9d2a9944a8732d5fbc8365a3ab714ea6a48"
+      },
+      "ui:. 준비해 간 서류는 채용 자리에서도 그대로 쓰였다.:/. 준비해 간 서류는 채용 자리에서도 그대로 쓰였다.": {
+        "source_sha256": "c65dc0359bedaa25e07c13c09fe7b9f1a21207027a3fd8c353f19af35a3d9c6b",
+        "target_sha256": "7400814b2acc2258839fa5d74a8fdfc862c69e1587a1b9c53b91ec3343eaf055"
+      },
+      "ui:. 준비해 간 서류와 답변은 채용 자리에서도 그대로 쓰였다.:/. 준비해 간 서류와 답변은 채용 자리에서도 그대로 쓰였다.": {
+        "source_sha256": "21eb35cecda1814aa5f9fa97891e2eb152cf7ce5d14dbb82599b4b2f4fb08873",
+        "target_sha256": "46ae672ad82bd5cc33e05d2826badd69ec76582c2fa70ad53df37b9f1e5a04db"
+      },
+      "ui:구직활동 → %s 취업%s:/구직활동 → %s 취업%s": {
+        "source_sha256": "632854e10161aba1134071202aa0e21a538c7179eaa2dc640a6207a644696bb9",
+        "target_sha256": "9b318580f00a659bff9ccd0adfd1db86d11048eab8c0ac4f9029220ead3a8563"
+      },
+      "ui:마지막 답은 끝까지 갔지만, 문을 나선 뒤 한 문장이 계속 걸렸다.:/마지막 답은 끝까지 갔지만, 문을 나선 뒤 한 문장이 계속 걸렸다.": {
+        "source_sha256": "d8a78ec0dd0636eea45bc8348a5115cb4d0d2bd638322d76c821492676dcfc56",
+        "target_sha256": "993335104861539dde7758c34b452da5654d61a513757dcfb207c0e10d5293c6"
+      },
+      "ui:면접관은 다음 질문 전에 지원서를 한 번 더 넘겨봤다.:/면접관은 다음 질문 전에 지원서를 한 번 더 넘겨봤다.": {
+        "source_sha256": "f00ca102918467dbb18bdd9793747d60114162f949b418ac2415dc6bc296c38e",
+        "target_sha256": "c1160e2d6ec6c9c9c07374608aa53b0df4fd1575aadf2882483f33a80a67a68b"
+      },
+      "ui:면접관은 종이를 덮지 않고 다음 출근 가능 날짜를 물었다.:/면접관은 종이를 덮지 않고 다음 출근 가능 날짜를 물었다.": {
+        "source_sha256": "c6b3964937b1d5b21e328134e2c8585e271edcdc3e2312b8ba79322111c8efa3",
+        "target_sha256": "b38d619b5581f461c4771aae3ae565a7c695a5441df13efad1230606d02b31da"
+      },
+      "ui:빈칸은 메웠지만 두 번째 장에서 다시 손이 멈췄다.:/빈칸은 메웠지만 두 번째 장에서 다시 손이 멈췄다.": {
+        "source_sha256": "d4401b26a3a13656bfc068da0c9c19c8970b0ab27b36a978da619776d0914fac",
+        "target_sha256": "5089426167bf0a37e31009691ec9a6fd84399b050a9b80c6ce279b01728adf49"
+      },
+      "ui:이미 지원서를 보냈다. 연락을 기다리는 중이다.:/이미 지원서를 보냈다. 연락을 기다리는 중이다.": {
+        "source_sha256": "de70bec768f96f0a9b7aebc8ff20f7d19d7fe0e4850ab00c87f004cb75e72199",
+        "target_sha256": "ea51187aafa36efbeccb045d85b9bc84c0d7eac70d98257c35da97f93194d546"
+      },
+      "ui:지원 조건을 다시 확인하세요:/지원 조건을 다시 확인하세요": {
+        "source_sha256": "9f3d401651eb0c83af453dc0024b36df69407941d51f7643242f83fb3c429585",
+        "target_sha256": "4f25a1c83282a8f94295a37089c7d738910dec064f69b5c7ab515fb4cc72b1c8"
+      },
+      "ui:지원서는 끝까지 읽을 수 있는 모양을 갖췄고, 고칠 문장 몇 개가 남았다.:/지원서는 끝까지 읽을 수 있는 모양을 갖췄고, 고칠 문장 몇 개가 남았다.": {
+        "source_sha256": "1da9a0ec430600c53b90f2abaa6a659bd73299046b521224f903a1ec778fc78a",
+        "target_sha256": "b183e13f390e331cd8b0083bf33bc551df592fe4cb44f7158bb1b2496c0ce498"
+      },
+      "ui:지원할 수 없습니다:/지원할 수 없습니다": {
+        "source_sha256": "90056d1fb9d671d5c4cfbd9d7ae3f855415344e10b79a69003accc8a5516fa5a",
+        "target_sha256": "7f189facb462d214e845a3d8ef44735b380a4e6434f41832909e17dd4e33bf07"
+      },
+      "ui:첫 문장과 마지막 경력이 한 사람의 이야기로 이어졌다.:/첫 문장과 마지막 경력이 한 사람의 이야기로 이어졌다.": {
+        "source_sha256": "1cd491791be4227bb4aef3651c1f12325ef9165de7fa18579e5da3d0dfd2536c",
+        "target_sha256": "b8e289568e6aad9e0da0ec99cfb9f0c30866334d37c13ebef1ee199206e9a7cd"
+      },
+      "ui:첫 장을 넘기기 전에 지우고 다시 쓸 문장이 더 많이 보였다.:/첫 장을 넘기기 전에 지우고 다시 쓸 문장이 더 많이 보였다.": {
+        "source_sha256": "376921fcc9f33202d4910c4d18e24fe617c2144a556ad974995195563082b2b5",
+        "target_sha256": "988c639ca70d5c6638c387cac4947fdd18add98304a83768ef3f9c1d20899bff"
+      },
+      "ui:첫 질문 뒤에 준비한 문장이 끊겼고, 빈 의자만 오래 보였다.:/첫 질문 뒤에 준비한 문장이 끊겼고, 빈 의자만 오래 보였다.": {
+        "source_sha256": "706477a5e49f2aea3e3173860d8e70bbea9a452abee6c4c32ab818953e705021",
+        "target_sha256": "8443c9aefff86558a70cbf2c896c0632ca557dbb78df978de55c889d44ec447b"
+      },
+      "ui:첫 취업 — %s  월 %s%s:/첫 취업 — %s  월 %s%s": {
+        "source_sha256": "0e8ea5331380634dd3a41651a7f9e9c5b98fa39a50288e47f3403dd0e1389bbc",
+        "target_sha256": "f59240e12b12cfdc443f0ded9774b9cdbe5af49482576856e2f1cbc4cb0b4070"
+      },
+      "ui:🔒 Tier %d 경력 필요 — 낮은 직급에서 먼저 경험 쌓기:/🔒 Tier %d 경력 필요 — 낮은 직급에서 먼저 경험 쌓기": {
+        "source_sha256": "2d7d5d535321fd6edd320654e264ea4938104be49f58540922a074a0a05c2224",
+        "target_sha256": "305106a69822aaa6cc737711776c702247d4d891119d1476ffc9705671d1f3ad"
       }
     },
     "zh-TW": {
@@ -182835,10 +182983,90 @@
       "ui:휴식  →  정신력 %d. 번아웃 전에 멈추는 게 전략:/휴식  →  정신력 %d. 번아웃 전에 멈추는 게 전략": {
         "source_sha256": "33949c36d2311d3af5a6c0cdf843c566a820cf1b2a667ca787a970510a4a7598",
         "target_sha256": "a452970ea311e676eeb37887a3c8a41f251d97f60a50ac04e6e93836f0e9b1c6"
+      },
+      "ui:  (준비 보너스 +%d 업무능력):/  (준비 보너스 +%d 업무능력)": {
+        "source_sha256": "8c6bd64a5637b929c55ad48410cda736f6ce9cabd6e9c3fd13ac87600e5f2cce",
+        "target_sha256": "654ba3eb6383332bbf36fecc9a5ad1bf66184ab79708ae5515d99f0475525957"
+      },
+      "ui:%s  월 %s%s:/%s  월 %s%s": {
+        "source_sha256": "687b77071f800c6d09f5b698eb461ff61cd40b6259cd73e245b2ea193a462139",
+        "target_sha256": "79e0eb7d2ed51f32ee06cc9bea2f1114d3ead6cf5319ad9ea6fbcf469cc1ccf7"
+      },
+      "ui:%s 취업. 월급 %s%s:/%s 취업. 월급 %s%s": {
+        "source_sha256": "f18bbbfa46dba4258689d5dcdbfbb40852ff867f4531698b587abff407d7d4a2",
+        "target_sha256": "b464bdd026f6387bb2a971ab8c29dc7b662d66044c83a3e7d0b3a532a462cd0a"
+      },
+      "ui:. 연습해 둔 답변은 채용 자리에서도 그대로 쓰였다.:/. 연습해 둔 답변은 채용 자리에서도 그대로 쓰였다.": {
+        "source_sha256": "107b69ca5c936d80ec9879d2c30e1c02543e9e8f9dba2ec7e3414c2f98b97c87",
+        "target_sha256": "8bac5095352f8f9a7eff2afa444b03c7c1134b7cc3ccc230ace95e2d52511948"
+      },
+      "ui:. 준비해 간 서류는 채용 자리에서도 그대로 쓰였다.:/. 준비해 간 서류는 채용 자리에서도 그대로 쓰였다.": {
+        "source_sha256": "c65dc0359bedaa25e07c13c09fe7b9f1a21207027a3fd8c353f19af35a3d9c6b",
+        "target_sha256": "c5ea7017d5f50eada28118022d21a1eafbaebf60753560fa68e62415948ca66a"
+      },
+      "ui:. 준비해 간 서류와 답변은 채용 자리에서도 그대로 쓰였다.:/. 준비해 간 서류와 답변은 채용 자리에서도 그대로 쓰였다.": {
+        "source_sha256": "21eb35cecda1814aa5f9fa97891e2eb152cf7ce5d14dbb82599b4b2f4fb08873",
+        "target_sha256": "0b0ec29df449456776d37f8272aa21aa5323360d9e56235a303a8433c2dd3429"
+      },
+      "ui:구직활동 → %s 취업%s:/구직활동 → %s 취업%s": {
+        "source_sha256": "632854e10161aba1134071202aa0e21a538c7179eaa2dc640a6207a644696bb9",
+        "target_sha256": "18b316c0add0cd01e0dcda19a7ca429c51ec3f8501ad56ec13d354678ab558f1"
+      },
+      "ui:마지막 답은 끝까지 갔지만, 문을 나선 뒤 한 문장이 계속 걸렸다.:/마지막 답은 끝까지 갔지만, 문을 나선 뒤 한 문장이 계속 걸렸다.": {
+        "source_sha256": "d8a78ec0dd0636eea45bc8348a5115cb4d0d2bd638322d76c821492676dcfc56",
+        "target_sha256": "eade12f67e0a2e6379e9f616715008bdd846dd05ba24b1eee565747417288fa0"
+      },
+      "ui:면접관은 다음 질문 전에 지원서를 한 번 더 넘겨봤다.:/면접관은 다음 질문 전에 지원서를 한 번 더 넘겨봤다.": {
+        "source_sha256": "f00ca102918467dbb18bdd9793747d60114162f949b418ac2415dc6bc296c38e",
+        "target_sha256": "6385b5ebd447df5a8f4fc484b2e3d21534c1246231f618ff8fe54e4832f6dea5"
+      },
+      "ui:면접관은 종이를 덮지 않고 다음 출근 가능 날짜를 물었다.:/면접관은 종이를 덮지 않고 다음 출근 가능 날짜를 물었다.": {
+        "source_sha256": "c6b3964937b1d5b21e328134e2c8585e271edcdc3e2312b8ba79322111c8efa3",
+        "target_sha256": "bef29a623e83ea5afead833eb139e262ce5d9220ae7064d93c5e283e7bce87b3"
+      },
+      "ui:빈칸은 메웠지만 두 번째 장에서 다시 손이 멈췄다.:/빈칸은 메웠지만 두 번째 장에서 다시 손이 멈췄다.": {
+        "source_sha256": "d4401b26a3a13656bfc068da0c9c19c8970b0ab27b36a978da619776d0914fac",
+        "target_sha256": "f20ded51bc1177c0342366b4d661db8c3a75ce45dcfeda5c8603452bb1c9d174"
+      },
+      "ui:이미 지원서를 보냈다. 연락을 기다리는 중이다.:/이미 지원서를 보냈다. 연락을 기다리는 중이다.": {
+        "source_sha256": "de70bec768f96f0a9b7aebc8ff20f7d19d7fe0e4850ab00c87f004cb75e72199",
+        "target_sha256": "a90a9d8cafec2bc47635a68b4f1f40b63e3a63328be16b007491ea8154e9a55d"
+      },
+      "ui:지원 조건을 다시 확인하세요:/지원 조건을 다시 확인하세요": {
+        "source_sha256": "9f3d401651eb0c83af453dc0024b36df69407941d51f7643242f83fb3c429585",
+        "target_sha256": "6d5b1d1d1313df5d81cdb3aa04ff610707e773770614b18da44fc785100139cd"
+      },
+      "ui:지원서는 끝까지 읽을 수 있는 모양을 갖췄고, 고칠 문장 몇 개가 남았다.:/지원서는 끝까지 읽을 수 있는 모양을 갖췄고, 고칠 문장 몇 개가 남았다.": {
+        "source_sha256": "1da9a0ec430600c53b90f2abaa6a659bd73299046b521224f903a1ec778fc78a",
+        "target_sha256": "8afdfcf57d8bfb343a78f5e8c484591a0136036ede6a8ab0f46cfee5a5e8c994"
+      },
+      "ui:지원할 수 없습니다:/지원할 수 없습니다": {
+        "source_sha256": "90056d1fb9d671d5c4cfbd9d7ae3f855415344e10b79a69003accc8a5516fa5a",
+        "target_sha256": "400f20d67ed310b4c80e6d1a278f2d0647130b80be114afb117a1ccfb5afe9ee"
+      },
+      "ui:첫 문장과 마지막 경력이 한 사람의 이야기로 이어졌다.:/첫 문장과 마지막 경력이 한 사람의 이야기로 이어졌다.": {
+        "source_sha256": "1cd491791be4227bb4aef3651c1f12325ef9165de7fa18579e5da3d0dfd2536c",
+        "target_sha256": "f4ca5a8c30fa4f70768ea1d05901845e35a2cd3ef0a8d03791599bd876f77031"
+      },
+      "ui:첫 장을 넘기기 전에 지우고 다시 쓸 문장이 더 많이 보였다.:/첫 장을 넘기기 전에 지우고 다시 쓸 문장이 더 많이 보였다.": {
+        "source_sha256": "376921fcc9f33202d4910c4d18e24fe617c2144a556ad974995195563082b2b5",
+        "target_sha256": "5fee8a5a2014422d74a575053b2222e4c9525eab4889f8330836965218837f82"
+      },
+      "ui:첫 질문 뒤에 준비한 문장이 끊겼고, 빈 의자만 오래 보였다.:/첫 질문 뒤에 준비한 문장이 끊겼고, 빈 의자만 오래 보였다.": {
+        "source_sha256": "706477a5e49f2aea3e3173860d8e70bbea9a452abee6c4c32ab818953e705021",
+        "target_sha256": "d26ff915025bdb0a141510bccaab9c4430c1906c6248c005d1755894ba2ea61c"
+      },
+      "ui:첫 취업 — %s  월 %s%s:/첫 취업 — %s  월 %s%s": {
+        "source_sha256": "0e8ea5331380634dd3a41651a7f9e9c5b98fa39a50288e47f3403dd0e1389bbc",
+        "target_sha256": "11048626f77daca2c5b8f3cc0e2bac09a89131d17795d2d67994afabc071744a"
+      },
+      "ui:🔒 Tier %d 경력 필요 — 낮은 직급에서 먼저 경험 쌓기:/🔒 Tier %d 경력 필요 — 낮은 직급에서 먼저 경험 쌓기": {
+        "source_sha256": "2d7d5d535321fd6edd320654e264ea4938104be49f58540922a074a0a05c2224",
+        "target_sha256": "a0bf7ee168476b2b0964110be759d71e38e7682382e260328c8575be63002b52"
       }
     }
   },
-  "accepted_sha256": "0cc71279c2618b9d8a8546ae77081f09fb861641121ef7250a749c6275b4cd86",
+  "accepted_sha256": "549dee8b596c5fa0b0cf92a77aa5f2e92dbc574be453617235baee74c86fe25a",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

@@ -2,6 +2,13 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md), [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md), [491~509·457 W200 관찰 보존본](history/WORK_LOG_2026-10-09_pre_order510.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 중국어 구직 준비·지원 결과40값 수용 (511)
+
+- 선언7a36bb98 main push 뒤 KO20키→CN/TW각20 직접 독립 저작·공식 export/check/import PASS. 비저자 phone_independent_review 원문/40값·실제 구직/준비/채용/잠금 소비자 전수 GO, retouch0. 평가 반응을 합격 보장으로 바꾸지 않았고 업무능력 보너스/월급·지원 대기/실패/취업·토큰·공백·접미문장·필요Tier를 보존했다.
+- 원장 accepted42511→42551/batches304→305/UI2137→2157씩·JA3055불변. 원header/receipt SHA2·source/target40·기존4파일 raw 역상 PASS. [완료 사양](queue_archive/ORDER-511.md)에 원영수증과 범위 결속. CN/TW legacy1932/2952·dynamic150/701, 전체 번역은 INCOMPLETE다.
+- EN/Hangul·JA UI·ZH·i18n·multilingual·공개/legacy demo 영향8검사 PASS. 게임원문/조건/수치/runtime/경제/저장·JA/기존번역·project·공개데모·과거인간판정 변경0. 새 도구/검사/형식보고0·새규범0/일회성, 개발 스킬의 선선언·지역별 저작/비저자·원장·표적검증 적용.
+- 실제폭/입력은 Mac잠금으로 미관찰·원어민/물리패드 OPEN·출시HOLD다. 510 실제 W200 재로드도 OPEN 유지. 0d4cb109/a9db2f0 exact CI는 정적 성공/전체 step6진행·완료failure0이며 녹색으로 바꿔 부르지 않았다.
+
 ## 2026-10-09 — 읽은 주차의 저장 재로드 추가 추첨 수리 (510 진행)
 
 - 선언fa5302d → 제품0d4cb109348eb233bae6a3075c19fa777b4798ee main commit/push. MainGame의 기존 foreground 판독 guard2줄로 저장 재진입과 정상 장면 복귀를 맞췄다. 원문/번역/저장 스키마·키/효과/경제/엔딩/공개 데모/project/과거 판정은 변경0이다.

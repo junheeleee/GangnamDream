@@ -1,6 +1,6 @@
 # ORDER-511 — 중국어 구직 준비·지원 결과 UI20키
 
-#### [~] ORDER-511 [전체 현지화] CN/TW 기존 UI40값 — 2026-10-09
+#### [x] ORDER-511 [전체 현지화] CN/TW 기존 UI40값 — 2026-10-09
 
 착수 — 만지는 파일: locale/ui_zh-CN.json·ui_zh-TW.json 신규20키씩,
 content/meta/full_game_localization.json 해당40영수증·배치1. 운영 파일은
@@ -54,3 +54,26 @@ project/사용자저장/공개M01~M06/shipping language/과거인간판정 불�
 실제폭/입력/원어민/물리패드 OPEN·전체번역 INCOMPLETE·출시HOLD다.
 개발 스킬은 선선언·독립 지역 저작/비저자·기존 원장·표적검증에 적용한다.
 새규범0/이 절차 일회성. 510의 실제 재로드/전체CI는 별도 OPEN으로 보존한다.
+
+## 수용 결과 — 정적 구직 UI 번역 한정 GO
+
+선언7a36bb98a44d06d1c00ea15abd4bf51dc83ee19a main push 뒤 공식 export/check/import
+20×2 PASS. 별도 KO 직접 지역 저자 CN/TW와 비저자 phone_independent_review가
+20원문/40값·실제 소비자를 전수 대조해 GO·retouch0이다. 평가8은 모의면접/준비의
+실제 반응이지 합격 보장이 아니다. 지원 대기·실패·취업 결과, 업무능력 +%d와 월급,
+JobSystem base_salary와 Main monthly_income의 기존 독자 차이를 보존했다.
+준비보너스 앞2공백·%s/%d순서/+부호·순서/횟수·접미3 문장접합·필요Tier를 보존했다.
+
+원header/SHA2·source/target40·기존 JA/CN/TW/원장 raw 역상 PASS.
+원receipt CN46b33ece9421337a82659cd5e1c6c1857ba2ed2e4316917d91a9a8f4f05e9e08,
+TWcf5e1697b228ff50970957b71dbd45772f41eb429b0de82f1be095c6877df72d.
+accepted42511→42551/batches304→305/CN·TW UI2137→2157씩·JA3055불변.
+CN/TW legacy1912→1932/2952/context29/29/dynamic150/701·전체INCOMPLETE다.
+EN coverage/EN 한글·JA UI·ZH·i18n·multilingual·공개/legacy demo 영향8검사 PASS.
+private .git/full-game-localization/order511/ source·response는 원문 그대로 보존하고
+portable 공식 header/영수증은 제품 원장에 함께 수용했다.
+
+새 도구/검사/형식보고·게임원문/runtime·project·사용자저장·공개데모·과거인간판정 변경0.
+Mac잠금으로 실제폭/입력 미관찰·지역 원어민/물리패드 OPEN이며 전체번역/출시HOLD다.
+510 제품0d4cb109와 기록a9db2f0의 CI는 정적 PASS/전체 step6 진행으로 녹색 미확인이다.
+새규범0/작업 절차 일회성. 개발 스킬의 선선언·지역별 독립 저작/비저자·원장·표적검증 적용.
