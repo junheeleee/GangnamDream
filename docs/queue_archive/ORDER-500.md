@@ -1,6 +1,6 @@
 # ORDER-500 — 중국어 엔딩 한 줄 회고 UI20키
 
-#### [~] ORDER-500 [전체 현지화] CN/TW 결말 회고40값 — 2026-10-09
+#### [x] ORDER-500 [전체 현지화] CN/TW 결말 회고40값 — 2026-10-09
 
 착수 — 만지는 파일: locale/ui_zh-CN.json·ui_zh-TW.json 신규20키씩,
 content/meta/full_game_localization.json 해당40영수증·배치1. 운영 파일은
@@ -62,3 +62,34 @@ source/target를 원장에 결속한다. 비저자는 KO20/실제20반환·결�
 엔진240주·새 이력/계측/재사용 도구0. Mac잠금으로 실제폭/입력 미관찰/OPEN,
 원어민·물리패드 OPEN·전체출시 HOLD다. project.godot·사용자 저장·shipping language·
 공개M01~M06·역사 인간판정 불변·새규범0/절차 일회성이다.
+
+## 수용 결과 — 2026-10-09 / 기존 엔딩 한 줄 요약 번역만 GO
+
+선언19baf918 → 제품6352d9b99d777b45b32d7bd0033c9931cba07049 main commit/push.
+KO20키/실제20반환과 _ending_add_finale_stage20980의 caption 소비자·40문구를
+저자2/비저자가 전수 대조했다. 원화30억·첫해/5년·100만 구독자·평판/자산·
+사회적 생활권·아버지 생존/화해/빚 회수·다은 동행과 NG+전생 범위를 보존했다.
+CN 회사전체매각 단정은 창업 지분 현금화로 수리해 원문과 실제 producer에 맞췄다.
+501의 구독자수/명시양자 오탐 수리 뒤 정상 문안을 그대로 공식 수용했다.
+
+공식 export/check/import20씩·현재40 source/target/committed receipt PASS.
+accepted42253→42293·batches296→297·UI2010→2030씩·JA3055 불변이다.
+CN/TW legacy1785→1805/2952·context29/29·dynamic150/701·전체 INCOMPLETE.
+원공식header2·원영수증/원장SHA2와 기존4파일 raw 역상 PASS다.
+
+- CN20: 6715f9b083c252af87dc4fa5fcf521fc71f0cb7775f87236eb634f38e04ff040
+- TW20: 9d515b047da5bac952aa7e5155253de6ded7fa041e93445169c9cc1ff0a04dd9
+
+비저자 phone_independent_review의 actual Git current_proof(base3f36f77→제품6352d9b)는
+UI제품전이1/40receipt/배치1·선언19baf918 실제Git/current source manifest
+b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea 일치GO·blocking0이다.
+별도501 tool/ops를500 UI전이로 섞지 않았고 실제제품commit3파일·clean을 확인했다.
+EN/Hangul·JA UI·ZH·i18n·multilingual·공개storydemo·legacy demo8검사 PASS.
+기존 UI/원장 metadata·42253영수증/296배치·JA·원문/runtime/저장/project·
+공개M01~M06·shipping language·역사 인간판정 불변이다.
+
+개발 스킬의 현지화 프로필·선선언·지역별 직접 저작·비저자 검수·기존 원장/
+표적 검증 적용. 새 도구/형식 보고/판정원장0·새규범0/절차 일회성이다.
+이번499+500 합계90값이며 기존 엔딩 번역이지 새 M60 완결·출시 GO가 아니다.
+Mac잠금으로 실제폭/입력 미관찰, 원어민/물리패드 OPEN·본편출시 HOLD다.
+497마감bb77e5e CI37900734618 녹색 확인·최신후속 CI는 별도 진행 중이다.

@@ -2,6 +2,13 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)과 [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 중국어 엔딩 여정 요약40값 수용 (500)
+
+- 기존 MainGame._ending_run_summary의 KO20반환문/결말화면 caption20소비자를 CN/TW에서 KO 직접 병렬 저작·비저자 전수 대조했다. 원화30억·첫해/5년·구독자100만·평판/자산·사회적 생활권·아버지 생존/화해/빚 회수·NG+전생 경계를 보존했다. CN의 회사전체매각 단정1잎을 실제 지분매각 producer에 맞는 创业股权变现으로 수리했고 도구 오탐은 선행501에서 닫았다. 선언19baf918 → 제품6352d9b99d777b45b32d7bd0033c9931cba07049 main commit/push 완료다.
+- 공식 export/check/import20씩·현재40 source/target/committed receipt·원header/SHA2·기존4파일 raw 역상 PASS. accepted42253→42293/batches296→297/UI2010→2030씩·JA3055 불변, CN/TW legacy1785→1805/2952/context29/29/dynamic150/701·전체 INCOMPLETE다. 원영수증 CN6715f9b…/TW9d515b0… 전문은 [500 완료 사양](queue_archive/ORDER-500.md)에 남겼다.
+- 비저자 phone_independent_review의 actual Git current_proof(base3f36f77→제품6352d9b)는 UI제품전이1·40receipt·배치1·선언19baf918 실제Git/current source manifest b7d4 일치GO·blocking0이다. 중간501 tool수리를500제품전이로 섞지 않았다. EN/Hangul·JA UI·ZH·i18n·multilingual·공개storydemo·legacy demo 영향8검사 PASS다. 게임원문/엔딩동작/저장·기존 번역·JA·공개M01~M06·project·shipping language·역사 인간판정은 불변이다.
+- 이번 실행499+500 중국어90값과501기존 검사 수리 완료다. 개발 스킬의 현지화 프로필·선선언·독립 지역 저작/비저자 검수·기존 원장·표적 검사 적용, 새 도구/계측/재사용 작업·형식 보고/판정원장0·새규범0/일회성이다. 497 마감bb77e5e의 실제 CI37900734618 녹색은 확인했지만 최신 main CI는 진행 중이라 녹색을 선점하지 않는다. Mac잠금으로 실제폭/입력149·457·302 미관찰/OPEN·원어민/물리패드 OPEN·출시 HOLD다. 기존 엔딩 요약 번역이지 새 M60 완결 기능은 아니다.
+
 ## 2026-10-09 — 엔딩 구독자 수·두 대상 표현의 중국어 검사 오탐 수리 (501)
 
 - 500 정상 번역의 구독자100만을 100만원으로, 강남과 가족의 둘 다를 사람2명으로 읽던 기존 검사를 수리했다. 선언c1902b3 → 제품5aa6de3bf6da0c33d1787222ec3a48f4f7a8e7c0 main commit/push 완료다. zh_translation_audit.py 1파일65+/3-·typed audience/명시된 양자와 embedded self-test만, 게임원문/번역/원장/runtime/저장 변경0이다.
