@@ -2580,6 +2580,8 @@ func _restore_story_result(context: Dictionary) -> void:
 	_pending_after_result = true
 	_showing_choices = false
 	_choice_box.visible = false
+	# Cold result loading has no preceding choice dock to capture this state.
+	_name_panel_visible_before_choices = is_instance_valid(_name_panel) and _name_panel.visible
 	_set_choice_dock_active(false)
 	_set_portrait_choice_focus(false)
 	_apply_choice_result_visual(choice)
