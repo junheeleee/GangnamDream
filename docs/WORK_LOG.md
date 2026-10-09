@@ -2,6 +2,12 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 수정 데모 첫 장면 전환의 실제 종료를 확인하고 Timer 수리 선언
+
+- [516](queue_active/ORDER-516.md) 실제 third 무인자 PID64603은 KO 선택→home→처음부터→M01 안내 뒤35.95785초/exit−11로 종료됐다. entry marker는 정확 profile/build/namespace이며 발행 중 Object 해제1건·OS SIGSEGV가 일치한다. 본문/선택·수동 저장·정상 종료·cold resume는 미실행이다. 자동 월1 저장만 남았다.
+- 원증거 before330cda14…/command7fa0cd72…/stderrf972eeb3…/Godot2003713a…/fresh4edc60cf…를 private에 보존한다. root/비저자 각 fresh 전후 전체대조는 tracked3251/helper5/seed2/checkpoint/player33·보호6곳·앱7/ZIP/manifest 동일, 후보 새4파일만 허용이다. 첫 after의 앱 상위폴더 오지정은 보존하고 corrected 경로를 판정에 쓴다. 공개/사용자 저장 변경0·own 종료/editor 생존이다.
+- 비저자 원코드/원로그/OS report 직접 진단으로 timeout 콜백의 자기 Timer 즉시 free가 가장 직접적인 결함이다. 기존 fixture는 auto-launch를 꺼 이 경로를 우회했다. [517](queue_active/ORDER-517.md)에 Timer 수명2곳과 기존 fixture의 expiry/cancel/stale 반례만 선선언한다. 전역 SceneTransition·새 도구/검사/오더별 보고0, 기존 third는 소급GO 없이 HOLD다.
+
 ## 2026-10-10 — 수정 데모 앱의 새 저장·cold resume 실제 검수 선언
 
 - [516](queue_active/ORDER-516.md)은302/462 뒤 남은 실제 package 첫3항목만 검수한다. 기존 third 앱·KO·무인자 두 프로세스·실제 입력·새 저장/이어보기이며 재export·새 도구/검사/보고0이다. 149의 같은 표본 반복과 인간 강조 기억 대기를 대신하지 않는다.

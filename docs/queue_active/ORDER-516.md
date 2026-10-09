@@ -2,6 +2,24 @@
 
 #### [~] ORDER-516 [P0·패키지 QA] successor 실제 무인자 부팅 → 새 저장 → cold resume
 
+**HOLD — 2026-10-10 실제 첫 실행 SIGSEGV.** PID64603·35.95785초·exit−11.
+언어 gate→KO home→처음부터→M01 안내를 실제 개별 클릭2회로 관측한 뒤
+자동 전환에서 종료됐다. 첫 StoryMode 본문/선택·수동 저장·정상 Quit·cold resume는0이다.
+원로그는 발행 중 Object 해제를 기록하며 controller의 동기 timeout 콜백2412가
+자기 Timer를 즉시 free한다. [517](ORDER-517.md)에서 수명만 별도 수리한다.
+
+- 원증거 `.git/order516-live-20261010/`: first-command.json1263B/SHA7fa0cd72…,
+  stderr319B/SHAf972eeb3…, Godot783B/SHA2003713a…. 실제 namespace 자동 저장은
+  6478B/SHA4143e6f7…/phase=story/month1/weeks0/choices[]이고 수동 resume slot은 없다.
+- OS crash report는 정확 bundle/build/PID의 EXC_BAD_ACCESS/SIGSEGV,
+  mainthread Object::_notification_forward→SceneTree::_process_group이다. Mac 잠금이 아니다.
+- before638315B/SHA330cda14…와 fresh after-corrected639073B/SHA4edc60cf…:
+  전체tracked3251/helper5/seed2/checkpoint/player33·보호6곳·앱7파일/ZIP/manifest 동일.
+  after.json의 앱 상위폴더 오지정 산출도 보존하며 판정은 정확 앱 경로의 corrected만 쓴다.
+- 후보 namespace만 새 설정/로그/자동 저장/backup4파일을 남겼다. 삭제·복구·재실행0.
+  third 실패는 보존하고 새 후보 export 전 기존 실제 재생6항목/출시 HOLD를 유지한다.
+  비저자 fresh 전수대조도 동일이며 own64602/64603 부재·사용자editor61385 생존이다.
+
 **착수 — 2026-10-10.** 302의 수리7항목 source GO와 462의 export GO 뒤에 남은 실제
 runtime6 가운데 첫 세 항목을 한 저장/재시작 흐름으로 검수한다. 제품 수정과 재export는 없다.
 

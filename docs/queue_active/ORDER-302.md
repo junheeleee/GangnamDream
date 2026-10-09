@@ -180,3 +180,6 @@ fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거�
 [516](ORDER-516.md)에서 기존 third 앱의 무인자 부팅·KO 새 저장·별도 프로세스
 cold resume만 먼저 검수한다. 재export/공개본 교체0이며 462의 당시 runtime NOT_RUN
 manifest를 수정하지 않는다. 나머지 runtime·전체302·본편/출시는 HOLD를 유지한다.
+
+실행 결과는 [516](ORDER-516.md)의 첫 자동 전환 SIGSEGV/HOLD다. 새 수동 저장·
+cold resume 전까지 완료로 세지 않는다. [517](ORDER-517.md)에서 Timer 수명만 먼저 수리한다.
