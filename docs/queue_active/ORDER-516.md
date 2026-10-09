@@ -2,7 +2,7 @@
 
 #### [~] ORDER-516 [P0·패키지 QA] successor 실제 무인자 부팅 → 새 저장 → cold resume
 
-**현재 HOLD — 새 timer-fix 시도는 Mac 잠금/실제 화면0이다.**
+**현재 HOLD — 잠금 시도는 보존하고 해제 뒤 같은 후보의 실제 재검수에 착수한다.**
 source 수리·새 export GO와 실제 부팅/저장/재개를 구분한다. 아래 oldthird 실패와
 새 후보의 잠금 시도 원시 증거를 모두 보존한다.
 
@@ -14,6 +14,16 @@ source 수리·새 export GO와 실제 부팅/저장/재개를 구분한다. 아
 새 후보는 [518](../queue_archive/ORDER-518.md)에서 발급했으며 기존 third를 덮거나 재판정하지 않는다.
 
 ## 2026-10-10 새 timer-fix 후보 실제 검수 선선언
+
+### 해제 뒤 retry1 착수
+
+기존 실행 중 Godot project manager의 정확 경로에서 CUA AX 화면 접근이 다시
+정상 반환됐다. 같은 b705bcf8/BUILD2026.10.10.1/timer-fix 앱·저장 공간에서
+새 `.git/order516-live-20261010-timer-fix-retry1/` 로그로 첫3항목만 잇는다.
+잠금 시도의 빈 Godot로그는 원raw 폴더의 `first.godot.log`로 byte-copy한 뒤
+전체 원raw를 입구에 보호한다. 현재 후보 공간의 빈 로그1파일은 삭제/복구하지 않는다.
+기존 앱은 실행 중이 아니며 새 실물/전후 보존선 확인 뒤 root만 무인자로 시작한다.
+같은 QA 단위의 이어보기이며 새 게임/도구/검사·공개본 교체0이다.
 
 **실제 시도 HOLD.** 무인자 ownPID86257/parent86256 실행 뒤 첫 CUA가 Mac locked/
 automatic unlock failed를 반환했다. 화면/게임 입력/새 설정/저장/cold resume0,

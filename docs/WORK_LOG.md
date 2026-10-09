@@ -2,6 +2,11 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 화면 접근 복귀·같은 수리 후보의 실제 저장/재시작을 잇는다
+
+- [516](queue_active/ORDER-516.md)의 기존 실행 중 Godot project manager 정확 경로에서 CUA AX가 정상 반환됐다. 후보 앱은 미실행이며 같은 b705bcf8/timer-fix/manifest892c0be3…를 retry1 새 로그로 검수한다. 옛 잠금 로그0B raw bytecopy/전체원raw·oldthird·518raw를 보호하고 입구~최종fresh 대조 동안 제품/문서/helper를 동결한다.
+- 실제 KO 본문/선택 독해→수동 저장→정상 Quit→별도 프로세스 이어하기만 대상이다. 앞선 Mac잠금/실제SIGSEGV를 성공으로 바꾸지 않고, 자동저장/기계 fixture를 실제 재개로 세지 않는다. 개발 스킬의 기존 도구 재사용·독립 보존/권한 분리 적용·새도구/검사/보고0·일회성이다.
+
 ## 2026-10-10 — 새 데모의 실제 시도는 Mac 잠금/HOLD·원본 보존
 
 - [516](queue_active/ORDER-516.md) 새 timer-fix 앱 무인자 own86257은 첫 CUA에서 Mac locked/automatic unlock failed였다. 실제화면/입력/새설정/수동·자동 저장/별도 coldresume0·native entry marker0이다. 정확 executable ps 확인 뒤 ownPID SIGTERM→exit−15/23.945928초·stdout/stderr/Godot0B다. 정상 Quit/실제부팅 GO·Timer 수리 재실패로 세지 않는다.
