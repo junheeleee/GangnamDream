@@ -2,6 +2,13 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)과 [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 일본어 아버지 후일담·전화 힌트4오역 수리 (503)
+
+- 기존JA의 딜러직업→取引, 객실→病室, 차례차례→また今度, 알아챔질문→父からの電話に出る/かもしれない로 KO직접 수리했다. 비저자 phone_independent_review가 실제 소비자/4원문/최종4값을 전수 대조했고 병실 반사실 비교만 行かないよりはよかった로 retouch했다. 생사/1시간/5년/창원/NG+ 조건·수신방향은 보존했다. ORDER500 source_review의30billion→3billion 오타1필드만 함께 수리, 실제CN/TW30亿/億·옛header/영수증은 불변이다.
+- 선언8b7ae222 → 제품b3741fe7 → 부수효과복원eb1a9d7e910349f4fe9d7fa07ba71c15345372c4 main commit/push다. 공식import가 기존JA5탭을2space로 정규화한 부수효과를 root·비저자가 각각 발견해 후속commit에서 정확5탭을 복원했다. 중간제품 raw를 PASS로 포장하지 않았으며 최종endpoint만 한정GO다. 실제Git base634fa59 대비4수리값+500설명1필드를 옛literal로 복원한 뒤 기존 _raw_inverse로 나머지4파일 옛raw 불변을 증명했다. append-only history를 통과했다고 주장하거나 검사를 완화하지 않았다.
+- 공식export/check/import4 --replace-existing/원header·previous targetSHA/current source-target4·원receipt SHA b9b1c6e84be01683df71dfaf8833d367c045c6ba54a5fed8c8834511fbd1353a PASS. JA3055키/CN·TW2046씩 불변, accepted42325→42329/batch298→299·전체INCOMPLETE다. [503 완료 사양](queue_archive/ORDER-503.md). EN/Hangul·JA UI·ZH·i18n·multilingual·공개/legacy demo 영향8검사/context/queue/diff PASS. 5탭복원은JSON동일성이므로 의미검사를 재실행하지 않았다.
+- 이번 실행502중국어32값·503일본어4오역·504월간빈도검사 수리 완료다. 개발 스킬의 선선언·KO직접/독립지역저작·비저자retouch/원장/raw검수·표적검증 적용. 새 검사/이력/계측/재사용 도구·형식보고0·새규범0/일회성이다. 499마감3f36f77c CI37908522859 녹색을 확인했고 최신main CI는진행 중이다. 게임원문/분기/저장/project·공개M01~M06·shipping language·역사 인간판정 불변, Mac잠금/실제화면·원어민/물리패드 OPEN·출시HOLD다. 기존JSON 혼합들여쓰기는 공식수용 직렬화 중 달라질 수 있었으며 이번 raw대조/복원이 이를 잡았다.
+
 ## 2026-10-09 — 중국어 인연 후일담·다음 회차 힌트32값 수용 (502)
 
 - MainGame._ending_cast_epilogue의 아버지8/지연5와 _ending_next_run_hints의3 기존 소비자를 CN/TW에서 KO 직접 지역별 병렬 저작·비저자32값 전수 대조했다. 생존/사망/미연락, 거래·빈 병실·월2통화·1시간 지각·창원1방문·5년 지연, 지연의 연애/존중/상처/거리, NG+ 조건·최대3노출·가능성과 수신/발신 차이를 보존했다. 선언b1e65023 → 제품010ece9ff19ce201f281d76a745d21cf66e7b931 main commit/push다.
