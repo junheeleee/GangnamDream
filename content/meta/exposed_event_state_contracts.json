@@ -186,7 +186,8 @@
     ],
     "arc_36_unexpected_hand_person_deal": [
       "housing",
-      "location"
+      "location",
+      "relationship"
     ],
     "arc_37_burn_or_light": [
       "father_life",

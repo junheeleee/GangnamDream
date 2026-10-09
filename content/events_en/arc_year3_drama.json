@@ -170,7 +170,7 @@
       },
       {
         "text": "Called Hyunsu. Haven't heard from him in a while.",
-        "result_text": "Hyunsu picks up {name}'s call. \"Oh, hyung? It's been a while.\"\n\n\"Yeah. What are you up to?\" — \"Just taking it easy. I'm off work today.\" — \"Not much going on here, either.\" — \"...Maybe we could get something to eat?\" — \"When?\" — \"When are you free?\"\n\nThat settles it. One call made first turns into a plan to meet a month later."
+        "result_text": "Hyunsu picked up {name}'s call. \"Oh, hyung? It's been a while.\"\n\n\"Yeah. What are you up to?\" — \"Just taking it easy. Nothing much today.\" — \"Not much going on here, either.\" — \"...Maybe we could get something to eat?\" — \"When?\" — \"When are you free?\"\n\nThat settled it. One call made first became a plan to meet a month later."
       },
       {
         "text": "Pressed the call button. Then hung up. Not yet.",
