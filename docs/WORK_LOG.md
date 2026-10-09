@@ -2,6 +2,12 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — Timer 수리 새 후보 발급 완료·실제 저장/재시작 재선언
+
+- [518](queue_archive/ORDER-518.md)은 clean b705bcf8/tree18542e4c·BUILD2026.10.10.1/timer-fix를 별도 발급했다. 기존16명령 exit0/오류0·정확 marker각1·codesign deep/strict PASS, nested-project 무시 경고각1/I18n 의도 거절19는 구분한다. manifest171548B/SHA892c0be3…·앱7/ZIP428076423B/e15bc26b…/PCK389860104B/ad427236…/JSON675가 일치한다.
+- root와 비저자 각 fresh 전수대조로 before/after643708B/SHA8d46e73e… byte-exact·tracked3253/helper5/seed2/W238/player33·보호17곳을 보존했다. 독립 원명령/실물/서명/package audit 검수로 export만 GO, runtime NOT_RUN·user GO NOT_INHERITED다. 옛 third의 실제 SIGSEGV와 원manifest·실패raw는 불변이다.
+- [516](queue_active/ORDER-516.md)에 새 exact 앱의 KO 실제 본문/선택→UI 수동 slot 저장→정상 Quit→별도 프로세스 이어하기를 선선언한다. 빈 새namespace만 사용하고 입구~최종 대조 동안 source/helper/docs를 동결한다. 나머지 실제 재생·인간/원어민/물리패드/청취·본편/출시 HOLD다. 개발 스킬의 기존 발급기·원시 경고 분리·독립 보존 검수를 적용했다. 새도구/검사/보고0·일회성·정본승격0.
+
 ## 2026-10-10 — 첫 장면 자동 전환의 자기 해제 수리·기존 5언어 표적 통과
 
 - [517](queue_archive/ORDER-517.md)은 Timer 두 해제만 queue_free로 바꿨다. 원문/번역·3초 안내·선택·저장/라우팅은 그대로다. 기존 fixture에 자연 timeout/cancel/stale 수명 반례를 넣었으며 장면 이동을 막은 준비 검증이지 실제 패키지 재생은 아니다.
@@ -11,7 +17,7 @@
 
 ## 2026-10-10 — Timer 수리 앱을 옛 후보와 분리해 발급한다
 
-- [518](queue_active/ORDER-518.md)에 기존 빌더/감사기의 BUILD2026.10.10.1/date/version/새 namespace·실제player33·기존 self-test 신원 literal만 선선언했다. 새 빌더/검사/성능작업0이며 fresh timer-fix 후보만 만든다. 소스 날짜를 조작하거나 공개/third를 덮지 않는다.
+- [518](queue_archive/ORDER-518.md)에 기존 빌더/감사기의 BUILD2026.10.10.1/date/version/새 namespace·실제player33·기존 self-test 신원 literal만 선선언했다. 새 빌더/검사/성능작업0이며 fresh timer-fix 후보만 만든다. 소스 날짜를 조작하거나 공개/third를 덮지 않는다.
 - 원seed2/W238·player/원고/과거판정 보존과 source동결 뒤 기존 import/export/서명/ZIP/PCK 검사만 수행한다. 성공도 실제 GUI 저장/재개·출시 GO가 아니며 516에서 새 exact 대상으로 관측을 잇는다.
 - 기존 builder9행/auditor11행과 BUILD_PIPELINE 지원ID1행만 정렬했다. 기존 successor self-test52 PASS/actual_exports0이며 날짜·player33·unit518을 서로 독립 대조한다. 바이트 변환/보호/오류/ZIP/PCK 로직과 게임 변경0이다.
 

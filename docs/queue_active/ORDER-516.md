@@ -7,7 +7,26 @@
 자동 전환에서 종료됐다. 첫 StoryMode 본문/선택·수동 저장·정상 Quit·cold resume는0이다.
 원로그는 발행 중 Object 해제를 기록하며 controller의 동기 timeout 콜백2412가
 자기 Timer를 즉시 free한다. [517](../queue_archive/ORDER-517.md)에서 수명만 별도 수리했다.
-새 후보는 [518](ORDER-518.md)에서 발급하며 기존 third를 덮거나 재판정하지 않는다.
+새 후보는 [518](../queue_archive/ORDER-518.md)에서 발급했으며 기존 third를 덮거나 재판정하지 않는다.
+
+## 2026-10-10 새 timer-fix 후보 실제 검수 선선언
+
+518의 export 한정 GO 뒤 아래 새 후보에서 같은 첫3항목만 다시 관측한다.
+기존 third 실패/namespace/로그를 그대로 보호하고, 아래 입구~최종 fresh 대조 동안
+source/문서/helper는 다시 동결한다. 기존 실제 third 실행을 성공으로 바꾸지 않는다.
+
+- 새 source `b705bcf8cad30f7fb39f590beb8670f77043c401`/tree
+  `18542e4c54f6137beaa091c616c629fd7f021324`, BUILD2026.10.10.1/attempt timer-fix.
+  518 manifest171548B/SHA`892c0be35aaf6fa33b10114a0973473f5dcdcbeb6cdabba1d86d527bab1596a0`.
+- 실제 앱은 Application Support/GangnamDream_LocalCandidates/2026.10.10.1/timer-fix/
+  GangnamDream-StoryDemo-Successor-2026.10.10.1-timer-fix.app의 executable 무인자 실행이다.
+  bundle `dev.junheelee.gangnamdream.storydemo.successor.timer-fix`.
+- 새 namespace `GangnamDream_StoryDemo_Successor_2026_10_10_1_timer-fix`는
+  empty objectdb_snapshots 폴더만 있고 파일0이다. 저장/설정은 실제 UI에서만 생성한다.
+  원관찰/보존/명령은 기존 형식 `.git/order516-live-20261010-timer-fix/`에 보존한다.
+- 실제 KO 첫 본문·선택/결과를 독해한 뒤 UI 수동 slot 저장→정상 Quit→별도 프로세스
+  이어하기→같은 결과/본문 위치·선택·slot 복원을 대조한다. 자동 월 저장만으로는
+  exact cold resume GO가 아니다. 원manifest NOT_RUN는 수정하지 않는다.
 
 - 원증거 `.git/order516-live-20261010/`: first-command.json1263B/SHA7fa0cd72…,
   stderr319B/SHAf972eeb3…, Godot783B/SHA2003713a…. 실제 namespace 자동 저장은
@@ -32,7 +51,7 @@ runtime6 가운데 첫 세 항목을 한 저장/재시작 흐름으로 검수한
 3. 전체 5언어/옛 공개 저장 복사 호환과 경쟁한다. 이번에는 KO 한 경로의 신규 저장과
    cold resume만 먼저 닫고 나머지를 실행했다고 세지 않는다.
 
-## exact 대상과 소유
+## 첫 시도 exact 대상과 공통 소유
 
 - 대상: source05747c92de6b590c5f0456376f2210a4e422b182/treea867b41a90f59f5dcedafe9bb171e39b82aa2100,
   BUILD2026.10.05.1/third. 462 manifest SHA02f2a3973b496df52bd71e8d1b0abe81e75fbe768221671ca9bff68016f16d49.

@@ -177,10 +177,9 @@ fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거�
 
 ### 2026-10-10 실제 package 저장/재시작 착수
 
-[516](ORDER-516.md)에서 기존 third 앱의 무인자 부팅·KO 새 저장·별도 프로세스
-cold resume만 먼저 검수한다. 재export/공개본 교체0이며 462의 당시 runtime NOT_RUN
-manifest를 수정하지 않는다. 나머지 runtime·전체302·본편/출시는 HOLD를 유지한다.
-
-실행 결과는 [516](ORDER-516.md)의 첫 자동 전환 SIGSEGV/HOLD다. 새 수동 저장·
-cold resume 전까지 완료로 세지 않는다. [517](../queue_archive/ORDER-517.md)은 Timer
-수명 source 수리만 GO이며 [518](ORDER-518.md)의 새 후보 발급 뒤 실제 재생을 잇는다.
+[516](ORDER-516.md)의 third 첫 자동 전환 SIGSEGV/HOLD·원manifest를 보존한다.
+[517](../queue_archive/ORDER-517.md)은 Timer 수명 source만 GO다.
+[518](../queue_archive/ORDER-518.md)의 새 b705bcf8/tree18542e4c·BUILD2026.10.10.1/
+timer-fix는 export만 GO(manifest SHA892c0be3…/runtime NOT_RUN)다.
+516에 새 exact KO 부팅/수동 저장/cold resume를 선선언했으며 실제 결과 전에는 HOLD다.
+공개본/사용자GO 불승계·나머지 runtime·전체302/본편/출시 HOLD를 유지한다.
