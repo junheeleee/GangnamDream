@@ -10492,6 +10492,57 @@
         "path": "docs/queue_archive/ORDER-515.md",
         "sha256": "4bcc370a01d8f572fa812f75f5456bd103ff6c1a613208ec0ffac9a437d52750"
       }
+    },
+    {
+      "id": "order-514-source-13fdb54-final-week-live",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-514",
+      "subject": {
+        "kind": "source",
+        "commit": "13fdb54345b4bda90c7cce9f1e588efc74239189",
+        "tree": "1058547b6b106263a6d1ee0116189c9649f29428",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-514.md",
+          "sha256": "e159378b72bd099118b563e7e5642b37739d9182ec0d03eace4eacfe38c6f0b9"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-514.md",
+          "sha256": "e159378b72bd099118b563e7e5642b37739d9182ec0d03eace4eacfe38c6f0b9"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/queue_archive/ORDER-514.md",
+          "sha256": "e159378b72bd099118b563e7e5642b37739d9182ec0d03eace4eacfe38c6f0b9"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_audio_listening",
+        "independent_actual_pixel_observation",
+        "EN11_prepared_PNG_independent_numeric_pixel_visibility",
+        "Property_route_actual_play",
+        "other_endings_and_branches",
+        "other_locales_and_resolutions",
+        "single_candidate_fresh_W1_to_W240_play",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-514.md",
+        "sha256": "e159378b72bd099118b563e7e5642b37739d9182ec0d03eace4eacfe38c6f0b9"
+      }
     }
   ]
 }

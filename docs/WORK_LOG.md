@@ -2,14 +2,21 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 실제 마지막 주 원장과 기록이 모두240주로 맞는다
+
+- [514](queue_archive/ORDER-514.md) source13fdb543/tree1058547b에서 실제 Title→Load slot1 W238→절약/구청 신청→W239 절약→W240 주소삭제01/민서선발신01→InvestmentMaster 본문3장면·후일담6화면→MainMenu/Quit를 완료했다. EN1280×800·개별 키/클릭·정상 독해·AUTO/skip/일괄/상태주입0. 원장132+108+0+0/WEEK240와 RunRecord240이 실제 화면에서 일치한다. 원관찰19묶음 SHA3a2d73a1…는 기존 private evidence에 보존한다.
+- 정상 exit0/1198.58초/errors0/result SHA21cf6afa…·정확 격리 marker·stdout/Godot각300B/stderr0. 비저자 원관찰/producer/receipt/로그/새저장 전수대조로 이 General 종막/보존만 GO다. backup pending4→final consumed6에서 건강86/정신98/현금/tint/grind/turn240 불변이고 분류239→240만 회수한다. axis버퍼clear/마지막 행동1회/run_history1을 직접 확인했다.
+- root/비저자 각 fresh 전체dictionary equality로 tracked3250/helper5/seed2/player33·원checkpoint/옛239저장/실패잠금 시도 불변, own종료/사용자projectmanager생존 GO다. 준비 EN11의 독립 도구 픽셀차에 소급GO는 없고 이번 root native화면만 보완한다. 다른source 앞구간/Property·다른엔딩/JAzh·원어민/인간/물리패드/청취·전체제품/출시는 HOLD다.
+- 옛source21dc70f CI37966428096 원job의 유일 최종실패는 STATUS_DOC_EXIT이고 현재13fdb543의 STATUS_FRESH는 독립 재확인했다. 513 terminal-axes/compile68 PASS와 별개다. 재생한 exact13fdb543의 CI37968624215는19:13:43UTC completed/success·두job/모든step success로 확인했다. 이는 다음 metadata commit의 CI나 전체품질 GO가 아니다. 기존 StoryDialogueHistoryCheck 종료resource2 ERROR는 전체엔진오류0으로 덮지 않는다. 새도구/검사/보고형식0·일회성·정본승격0. 개발 스킬의 기존 실행기·실제관찰/준비 증거 분리·독립 원본보존을 적용했다.
+
 ## 2026-10-10 — 영어 습득물이 두 선택 결과에서도 같은 봉투로 남는다
 
 - [515](queue_archive/ORDER-515.md) source1cee267/tree039b8d99: 실제 EN 관찰에서 확인한 `rare_night_alva_find` 결과2잎의 bag만 envelope로 수리했다. 반환/가져옴 모두 본문과 같은 물건이다. 보상·선택·flags/후속·KO/JA/zh·원장·심의·데모·사용자 저장 변경0이다.
-- EN coverage/Hangul·서사 연속성·장면음악·말투·심의 inventory·demo scope·JA demo inventory/audit·ZH audit 모두 PASS/새 실패0. 비저자 whole-byte 기대치·보호523파일·6영수증 대조는 이 source 정합만 GO다. 새 검사/도구/보고/엔진0. archive를 판정 증거로 재사용한다. Mac 잠금으로 [514](queue_active/ORDER-514.md) 실제 재플레이·전체제품/출시는 HOLD를 유지한다.
+- EN coverage/Hangul·서사 연속성·장면음악·말투·심의 inventory·demo scope·JA demo inventory/audit·ZH audit 모두 PASS/새 실패0. 비저자 whole-byte 기대치·보호523파일·6영수증 대조는 이 source 정합만 GO다. 새 검사/도구/보고/엔진0. archive를 판정 증거로 재사용한다. Mac 잠금으로 [514](queue_archive/ORDER-514.md) 실제 재플레이·전체제품/출시는 HOLD를 유지한다.
 
 ## 2026-10-10 — 실제 재플레이 Mac 잠금/HOLD·영어 습득물 정합 수리 선언
 
-- [514](queue_active/ORDER-514.md) sourceaf420e6의 첫 CUA가 Mac locked/자동 해제 실패를 반환했다. 게임 입력/실제Load/화면0이므로 실제 재플레이 HOLD다. fresh99d2cb82…에 원W238 slot1만 복사했고 own launcher26216 SIGINT→기존 안전 cleanup/own26285 exit−9·interrupted/KeyboardInterrupt1/39.054초를 원증거로 남겼다. 정상 Quit/PASS가 아니다.
+- [514](queue_archive/ORDER-514.md) sourceaf420e6의 첫 CUA가 Mac locked/자동 해제 실패를 반환했다. 게임 입력/실제Load/화면0이므로 실제 재플레이 HOLD다. fresh99d2cb82…에 원W238 slot1만 복사했고 own launcher26216 SIGINT→기존 안전 cleanup/own26285 exit−9·interrupted/KeyboardInterrupt1/39.054초를 원증거로 남겼다. 정상 Quit/PASS가 아니다.
 - result SHA93a0b4f3537e910fcadcd8c447b7103ecb169484dd9532db5c481e9fa9b48bd1, stdout/godot각300B·엔진오류0/stderr0. root와 비저자가 종료fresh 전체 dictionary를 각각 대조해 prepared/entry/result before/after/current 동일·tracked3249/helper5/seed2/player33·원checkpoint/옛W240 불변, own종료/editor61385생존의 보존만 GO다. 실제 화면을 준비 QA로 대신하지 않는다.
 - 동결 해제 뒤 [515](queue_archive/ORDER-515.md)에 실제457에서 찾은 EN습득물 bag/envelope와 같은 사건의 다른 선택을 두 잎으로 선선언했다. 본문 envelope에 맞춰 결과 명사만 바꾸며 KO/JA/zh·수치/후속/조건/저장/데모는 불변이다. 새 도구·오더별 보고0. 잠금 해제 전에도 가능한 확인된 제품 수리를 계속한다.
 
@@ -17,7 +24,7 @@
 
 - [513](queue_archive/ORDER-513.md) source21dc70f/tree5aea95f7의 구현4파일·기존 QA·보존을 비저자가 직접 대조해 이 수리 한정 GO다. 새 보고서 없이 기존 완료 사양에 검토 방법/범위/원로그 SHA·한계를 기록해 원장에 결속한다. 본편/출시 판단은 HOLD다.
 - 같은 EN11 rawPNG SHA d343d082…의 숫자 전부는 root에게 보이나 비저자 도구 표시에는 일부가 빠져 보인다. 독립 EN11 수치 픽셀 GO는 부여하지 않고 자동 수치/다른3컷·footer/stat 확인과 구분한다. 원인/제품 결함으로 단정하지 않는다. 기존 standalone audit 실패의 raw lifecycle은1813/1702(기대1708)로 정정했다. ce0a32b와 동일 실패/byte-identical은 유지된다.
-- [514](queue_active/ORDER-514.md)는457의 실제 W238/156239B/SHAe05a456c…를 fresh 격리에 byte-copy해 실제 Load→마지막 두 선택→원장/기록240→6/6→Main Menu/Quit를 먼저 선언한다. 기존 helper literal만 갱신·원문 보존·자동입력0/상태주입0. prepare~fresh 종료 대조 동안 source/문서 쓰기 동결이다.
+- [514](queue_archive/ORDER-514.md)는457의 실제 W238/156239B/SHAe05a456c…를 fresh 격리에 byte-copy해 실제 Load→마지막 두 선택→원장/기록240→6/6→Main Menu/Quit를 먼저 선언한다. 기존 helper literal만 갱신·원문 보존·자동입력0/상태주입0. prepare~fresh 종료 대조 동안 source/문서 쓰기 동결이다.
 - 새 source CI37966428096은 진행 중이며 완료 녹색이라고 쓰지 않는다. 개발 스킬의 선선언·독립 검토·기존 검사/실행기 재사용을 적용했다. 사용자저장/원seed·project/데모·과거 인간 판정 불변. 새 규범/검사/도구0·일회성.
 
 ## 2026-10-10 — 마지막 주 원장 수리·기존 두 경로/한영 화면 검증
