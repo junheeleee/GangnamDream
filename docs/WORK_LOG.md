@@ -2,6 +2,13 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)과 [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 중국어 행동 미리보기·추천66값 수용 (508)
+
+- KO33키/CN·TW66값을 지역별 KO직접 병렬저작·비저자 전수검수 GO/retouch0으로 반영했다. preview17은 현 호출 연결10/packaged·폴백7, 추천16은 경고/demo-pressure/명시hint 대체를 구분했다. 위험·선택후AP1·부호/기간·최대4주·둘이보내는시간·지력/정신/사회성/평판·첫급여잠금·전세/빌라·Im Sangchul·40+·30亿/億원화/토큰순서를 보존했고 원문 투자조언을 실제보장으로 인증하지 않았다. 선언a348bb8 → 제품4e5a5bfe201d2b0fe16d66cad6107e11b9bdc05f main commit/push다.
+- 공식export/check/import17+16씩·원header/SHA4·current source/target66·기존4파일raw 역상PASS. 정상 第一要务의 오탐은 별도509에서 먼저 닫고 문안은 바꾸지 않았다. accepted42445→42511/batch302→304/UI2104→2137씩·JA3055불변, CN/TW legacy1912/2952/context29/29/dynamic150/701·전체INCOMPLETE다. 원receipt SHA전문은 [508 완료 사양](queue_archive/ORDER-508.md)에 남겼다.
+- 비저자 phone_independent_review actual Git current_proof(base2746b64→4e5a5bf) UI제품전이1/66receipt/배치2·선언Git/current manifest f971… 일치GO·blocking0. 509수리는 UI전이에 섞지 않았다. MainGame/InvestmentSystem/GameState/LocaleManager/Audio/project/JA·과거human/agent판정 실제blob 불변이다. EN/Hangul·JA UI·ZH·i18n·multilingual·공개/legacydemo 영향8검사/context/queue/diff PASS.
+- 507+508 합계 중국어 UI100값 main수용. 개발 스킬의 선선언·독립저작/비저자·기존원장/raw/actualGit·표적검증 적용, 새규범0/일회성·새검사/이력/계측/재사용도구·형식보고0. 이전25c2cc39 CI37916871377 녹색확인·최신전체CI녹색미확인, 실제폭/입력/원어민/물리패드 OPEN·전체번역 INCOMPLETE·출시HOLD다. 번역은 기존UI 소비자만이며 새StoryMode 기능이나 출시GO가 아니다.
+
 ## 2026-10-09 — 중국어 첫 우선사항 숫자 검사 오탐 수리 (509)
 
 - 508의 정상 第一要务를 원문의1순위 누락으로 읽던 기존 도구1파일만 수리했다. 명시적 탈출 우선순위와 第+수사+要务/要務를 typed값으로 비교하되 다른순위·누락/중복/부호·돈/횟수·잘못된앞표현 뒤 정답 덧붙임은 거부한다. 번역/원문/원장/runtime/저장 변경0, 선언3b9a4b0 → 제품c0e8188cebdff283db0e19ec25acde54cb342bd2 main commit/push다.
