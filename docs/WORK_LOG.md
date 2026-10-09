@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)에 바이트 그대로 이동했다. 보존본의 상대 링크는 이동 전 경로 기준이다.
 
+## 2026-10-09 — 중국어 문맥 UI17키씩·현재29/29 문맥 분리 수용 (493)
+
+- planner·Holdem·MainGame21소비자의 남은 문맥키17개를 간체/번체 각각 KO 직접 저작·독립 전수 검수했다. 지력은 intelligence, 설정은 홀덤 준비단계, 대기는 자금부족, 인연은 상대 이름 대체값, 기억은 비상호작용 그림 자리표시로 구분했다. 선언eb0e57c → 제품1d90f58cc832e9fcce55ac3093fbf262e4d81ab0를 main commit/push했다. 제품3파일·신규34값 외 원문/런타임/저장/기존 번역0변경이다.
+- 공식 export/check/import17씩 PASS·현재 source/target/committed receipt34일치/errors0, accepted41937→41971·batch288→289·UI1852→1869씩/JA3055 불변이다. CN/TW context12→29/29가 닫혔지만 legacy1644/2952·동적150/701·전체 INCOMPLETE는 그대로다. 기존 넓은 source metadata·288배치·일본어와 보호 데모는 보존했다.
+- 비저자 phone_independent_review는 KO17/소비자21/번역34, 원공식header2·receipt SHA2와 전후4파일 raw 역상, 실제 Git current_proof(baseef97d8c→제품1d90f58 transition1/34receipt/batch1)를 직접 확인해 scope GO·blocking0을 기록했다. source 선언Git/현재 manifest b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea 일치다. 새 formal 보고·판정원장0이다.
+- EN/Hangul0·JA UI·ZH skeleton·i18n·multilingual·공개storydemo14/100/121·legacy demo72/467/701 영향검사 PASS. 실제 GitHub CI의 직전491 마감7df56fd는 run37884109402 녹색을 확인했다. 최신492/493 CI는 진행 중이며 이를 녹색으로 선점하지 않는다. 등록 예외0·제품 검사 유지, 전체 local audit/엔진240주/새 검사·계측 도구0이다.
+- [493 완료 사양](queue_archive/ORDER-493.md)에 범위/증거/한계를 남겼다. 개발 스킬의 현지화 프로필·선선언·지역 독립 저작·기존 원장·표적 검증을 적용했고 새규범0/절차 일회성이다. Mac 잠금으로 실제 폭/입력149·457·302는 미관찰/OPEN, 원어민·물리패드·본편 출시 HOLD다. 게임원문·shipping language·project.godot·사용자 저장·공개 M01~M06·역사 인간판정은 불변이다.
+
 ## 2026-10-09 — 연락 휴대전화의 중국어 안내50값 수용 (492)
 
 - 실제 CommunicationPhone 소비자의 미번역25키를 CN/TW에서 각각 한국어 직접 작성했다. 연락/통화·문자·연락처·지난 대화 기록과 일정 가능 여부를 자기 언어로 읽도록 했다. 기존 V2 전화의 번역이지 StoryMode에 새 휴대전화를 만든 것이 아니다. 선언79f69c0 → 제품061d7b7f6a5b8d334779fb70976982391a7f9174를 main commit/push했다. 제품 파일3개·신규50값, 원문/런타임/기존 번역0변경.
