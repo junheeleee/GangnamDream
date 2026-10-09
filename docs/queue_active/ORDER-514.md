@@ -48,3 +48,30 @@ W240 원장 네 칸 합240/기간240과 기록240, last action 소비/버퍼clea
 W1~240 한 후보·JA/zh 실제 재생·전체제품/외부출시는 이 단위 GO가 아니다.
 새 source 수정/원문/번역/project.godot/사용자 저장/공개 데모/과거 인간 판정0.
 기존 제품 계약 검수만 수행하며 새 정본 규칙0·일회성이다.
+
+## 2026-10-10 첫 시도 — Mac 잠금·실제 재플레이 HOLD
+
+선언 source `af420e6dd26e4a0268f8721764974d72ac3e02c8` / tree
+`d6f0f4f1da858a322266f138fc5e20b5eff57535`. 기존 helper literal-only 갱신과
+W215 원문 보존(SHA`da05b3d62de76315078508a7a62728798821e6f51bb69df11eaaf6708fa04569`),
+현재 helper SHA`a85dad784cdf4c91916037acf3304134daf489b7201353917b4696339e1d6af0`.
+prepare 입구의 잘못된 expected-head 한 번은 검증에서 거절됐고 evidence 생성 전이었다.
+관측한 exact HEAD로 prepare한 아래 시도만 실제 실행 증거다.
+
+- `.git/chapter5-replay/order457-w238-order514-live-20261010`의 fresh 격리
+  `GangnamDream_StoryNameplateQA_99d2cb82ff3c6db55809d48da74fafb1`에 원 W238
+  slot1 바이트만 복사됐다. 첫 CUA `listApps`가 Mac locked/자동 해제 실패를 반환해
+  실제 Load/화면/게임 입력0이다. 잠금 우회나 사용자 편집기 조작은 하지 않았다.
+- own launcher26216만 SIGINT로 기존 safety cleanup을 호출했다. own Godot26285
+  exit−9/`interrupted`/`KeyboardInterrupt`1/39.054초, 자동입력0/NOT_ASSIGNED다.
+  정상 메뉴 Quit/실제 재플레이 PASS로 쓰지 않는다. result SHA
+  `93a0b4f3537e910fcadcd8c447b7103ecb169484dd9532db5c481e9fa9b48bd1`.
+- stdout/godot 각300B·SHA`3e779217806cc1ba5914caa2866db859e96a41d77eed8a18b25d37f39c0d742f`,
+  정확 격리 marker1·엔진오류/경고/누수0, stderr0B. 새 격리는 slot1 한 파일만
+  보존하며 원 W238의156239B/SHAe05a456…와 같다.
+- root와 `/root/phone_independent_review`가 종료 직후 새 helper.snapshot 전수로
+  prepared.before=entry.before=result.before=result.after=current를 각각 대조했다.
+  clean tracked3249/helper5/seed2/player33와 원 W195/W200/510bak/W215/W238/옛W240
+  불변, own26216·26285 부재/user editor61385 생존. 보존만 GO, actual HOLD다.
+  독립 엔진/CUA/입력/수정0. 동결을 해제하고 잠금 없이 가능한 확인된 EN 수리를
+  별도515에서 진행한다. 다음 실제 시도는 잠금 해제 뒤 새 evidence/storage를 쓴다.
