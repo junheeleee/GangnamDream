@@ -11943,6 +11943,147 @@
           "batch_id": "38b9e69b0ea0c3941d512e644a9dd2fe0a608010c96eb2af6834e868981a36f8"
         }
       }
+    },
+    {
+      "order": "ORDER-497",
+      "group": "ui",
+      "roots": [
+        "%d개월 돌아보기",
+        "%d번째 달",
+        "%d주 동안 무엇을 했고 무엇을 놓쳤는지 돌아본다. 남은 돈과 몸에 밴 흔적도 함께 확인한다.",
+        "24주에 쓴 시간",
+        "4주차 이후",
+        "고르지 않은 일",
+        "고르지 않은 제안이 없다.",
+        "기록된 선택이 없다.",
+        "기한을 놓친 일",
+        "기한을 놓친 일이 없다.",
+        "놓친 기회",
+        "놓친 기회가 없다.",
+        "배치한 시간이 없다.",
+        "아직 풀리지 않은 일",
+        "아직 풀리지 않은 일이 없다.",
+        "완료한 일정",
+        "완료한 일정이 없다.",
+        "이번 달에 고르지 못한 일",
+        "이번 달에 고르지 못한 일이 없다.",
+        "이번 주에 끝낸 일",
+        "이번 주에 하지 못한 일",
+        "자동 저장에 실패했다. 시작 화면으로 나가기 전에 다시 시도해 주세요.",
+        "하지 못한 일이 없다."
+      ],
+      "source_leaves": 23,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 23,
+        "zh-TW": 23
+      },
+      "source_review": "Direct Korean-source regional authorship; all 90 values independently compared with 45 source keys and 51 actual completion, month-summary, boundary and save-retry consumers. Record absence, completed versus unchosen, expired and unresolved work, broad obligations, six months versus unfinished first year, save success versus opened record and retry failure, delta sign arguments, next month and remaining financial goal retained. Agent comparison only, not native or rendered approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "a83c410d36672235d592339fd5d946e953e0ef344157242dad2967cad5c98610",
+        "zh-TW": "e7d61c984d0e4a8573f0859f6c1fd062c2c18e13808743a0c00a97f853cc9ede"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "912b7ac8645c0c8c0f800221bb8cbcb2e6bd1387",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "09bdb0693604d061e6a75c732c3f5cff85aa501a09572cee6c418d0b4d962f1a",
+          "count": 23,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "140fea3518645a49b1a5b295e406c6c4f23f02683a318d10417284ad233c2967"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "912b7ac8645c0c8c0f800221bb8cbcb2e6bd1387",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "c1926372919ce5d04795fec0b1902da9d232c6ba7ebace44864652f0fe5c9bf6",
+          "count": 23,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "5a2e078cc3fed9ed090cb245183c4b70f8ba682a60dbe145144f7e8ccfbab994"
+        }
+      }
+    },
+    {
+      "order": "ORDER-497",
+      "group": "ui",
+      "roots": [
+        "%d개월차 계획하기  ›",
+        "%d개월차 수첩",
+        "%d주 동안의 기록을 자동 저장했다. 이어지는 시간은 아직 열리지 않았다.",
+        "4주 동안 계속한 일 · %s",
+        "네 주의 여력을 어디에 썼는지와, 끝낸 약속·기한을 넘긴 약속을 같은 장부에 남겼다.",
+        "다음 재정 목표 · %s — 달성까지 %s",
+        "데모를 마치고 시작 화면으로  ›",
+        "약속의 결과",
+        "여섯 달의 기록을 자동 저장했다. 첫해는 아직 끝나지 않았다.",
+        "월세·이자",
+        "이번 달 끝의 흔적",
+        "이번 달 증감 %s%s",
+        "이번 달에 끝낸 일이 없다.",
+        "이번 달에 쓴 네 주",
+        "이번 달에 잡지 않은 일정",
+        "이번 달에 한 일",
+        "이번 달에 한 일과 고르지 않은 일, 생활비와 몸 상태를 함께 정리했다.",
+        "이번 달에는 놓친 일정이 없다.",
+        "자동 저장 다시 시도  ›",
+        "저장된 여섯 달의 기록을 열었다. 첫해는 아직 끝나지 않았다.",
+        "저장된 주간 배치가 없다.",
+        "확인할 약속 결과가 없다."
+      ],
+      "source_leaves": 22,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 22,
+        "zh-TW": 22
+      },
+      "source_review": "Direct Korean-source regional authorship; all 90 values independently compared with 45 source keys and 51 actual completion, month-summary, boundary and save-retry consumers. Record absence, completed versus unchosen, expired and unresolved work, broad obligations, six months versus unfinished first year, save success versus opened record and retry failure, delta sign arguments, next month and remaining financial goal retained. Agent comparison only, not native or rendered approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "c768717e8b2548f69b313501fa0af494dafd192046c36c3a368a88e6341ab3a6",
+        "zh-TW": "9d376c277fcd9548bca8305de97e5821162d7d896075f613863fad8428581052"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "912b7ac8645c0c8c0f800221bb8cbcb2e6bd1387",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "ab7533b1404b7ce32c97edcc85b9216659a24f836446a0df51f82528fbf076c2",
+          "count": 22,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6fb7be43d484698bafb7615fe2a898c429e032ad78bdd236c0f5350afb91715f"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "912b7ac8645c0c8c0f800221bb8cbcb2e6bd1387",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "24c8566b40851cbb15bb800490e9d71a0fa3010ff1662a52c7749bb9873d1d16",
+          "count": 22,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "28fafdd5d39ab04313c19d336e9074639c35f176daa4a681e0786dc29fa7fbba"
+        }
+      }
     }
   ],
   "accepted": {
@@ -122364,6 +122505,186 @@
       "ui:현금 %s   |   순자산 %s:/현금 %s   |   순자산 %s": {
         "source_sha256": "50584b4e1eac3598be2d9c83945c5c93a111ed7a65cec26eaba0910602acdd41",
         "target_sha256": "f6febec1ff65da3a494465a30da7d62d42ba33a6abe98a1d3f22f86489d7bebb"
+      },
+      "ui:%d개월 돌아보기:/%d개월 돌아보기": {
+        "source_sha256": "98373a1e8b5d17d7c3da9fc81b8ef5d0852104aaa7b3ad041971601416d7e41a",
+        "target_sha256": "9b55fdae39a47dd1d8b6d87eea43c47e6ccb515937de5f07f449ffe677ae4521"
+      },
+      "ui:%d번째 달:/%d번째 달": {
+        "source_sha256": "df4a9c23107ddb9edeeea936834aeb2598aef6e7404a822bee9fa5c30b4fdcc1",
+        "target_sha256": "75fd62a53a75fcb7e552758d99260df7d3a1739cb78e2d45ed2d58238c52268f"
+      },
+      "ui:%d주 동안 무엇을 했고 무엇을 놓쳤는지 돌아본다. 남은 돈과 몸에 밴 흔적도 함께 확인한다.:/%d주 동안 무엇을 했고 무엇을 놓쳤는지 돌아본다. 남은 돈과 몸에 밴 흔적도 함께 확인한다.": {
+        "source_sha256": "1dbb17d4ceff5a7966f598c292a55a19e14e3fa8b6e0281feff3a9cb72b396b4",
+        "target_sha256": "a22347e8e1231046710463afc7634ca68a6f85bef586971378ebf5354a9b6765"
+      },
+      "ui:24주에 쓴 시간:/24주에 쓴 시간": {
+        "source_sha256": "a9038dbbe3452aa96e005ecbb2c4e377ee0d0b01b1b5f1d86b0584be5864d903",
+        "target_sha256": "2c468f6921e1fe0a509235502913e920d59dc044998cbded91eb9117bcae5ed6"
+      },
+      "ui:4주차 이후:/4주차 이후": {
+        "source_sha256": "b0986f8d1c4004453ce74ed635ffd7d3b243774f3f59e6f869eba23c99ef44dc",
+        "target_sha256": "6a7d3df95f56279c825d673b6a9a9c473faaca52058cb119ddc9207f140c2063"
+      },
+      "ui:고르지 않은 일:/고르지 않은 일": {
+        "source_sha256": "a3fc0a3f960cdb6f62c5a1ac6abb97f813644b18aaef0ea31646a2d50439ebde",
+        "target_sha256": "14555323fc7358aa3a7a90d09bb5be1ee2b0b4d0fd3fc9943151bf5d641b2bd6"
+      },
+      "ui:고르지 않은 제안이 없다.:/고르지 않은 제안이 없다.": {
+        "source_sha256": "0f386c2bfc4a6bc46e71aa754257b76b1a1f7bbf2078ff1e92dce9fd4cc2a25e",
+        "target_sha256": "aaa02587600ac927c93a0e7e153766902a4c185ff83f98e73096cc1ad9f5be62"
+      },
+      "ui:기록된 선택이 없다.:/기록된 선택이 없다.": {
+        "source_sha256": "db215a1faf23e8dc30c3c8b82a73bfb15ad9480e3f44e755e5eb430bb4d9d5e4",
+        "target_sha256": "7aabb081c38d286d02fa5d980fe54b2ed0ece9d796d5cb474a19e9e32112f3d1"
+      },
+      "ui:기한을 놓친 일:/기한을 놓친 일": {
+        "source_sha256": "687595d206448126decce3a75e8c751b60d8f8759c8e05a93cf02dded6dd892d",
+        "target_sha256": "d3afec7a4e640aec6dc5bbc48602be59a0bf1a3bba92c3f89ce847214c7a8423"
+      },
+      "ui:기한을 놓친 일이 없다.:/기한을 놓친 일이 없다.": {
+        "source_sha256": "b749234576c986d8187ca9b344aff752851471e185e97d72784272ff749c8143",
+        "target_sha256": "cbe36eb2446c12ca4cc13490b9bc859616a1ff217cb76c91a229541f58af6d41"
+      },
+      "ui:놓친 기회:/놓친 기회": {
+        "source_sha256": "0f8e46c430603ab5b5b9749e7ba3165a69b90384478c377ca559878dfceb25d7",
+        "target_sha256": "ce9bcb2d4b1383b120f3d62f0994497f5a189f4eea26b11098398546e6fead56"
+      },
+      "ui:놓친 기회가 없다.:/놓친 기회가 없다.": {
+        "source_sha256": "dfaa426e9e2a80fbc2735ce5718d033dcdb96b737bb1e53d1e411856dc93bcac",
+        "target_sha256": "ff5a3cfa044e553b467bc7c9445f22e4cff3471ab01bf4828f4e474da7cc9c91"
+      },
+      "ui:배치한 시간이 없다.:/배치한 시간이 없다.": {
+        "source_sha256": "124a77a6c009201ed1fbebf2395cda77270afc35e724c8dff7ca2212707bc7ff",
+        "target_sha256": "c378738fad4f07914513f525df3f88ee0da80f790125542197489489538a9842"
+      },
+      "ui:아직 풀리지 않은 일:/아직 풀리지 않은 일": {
+        "source_sha256": "30b07fd8a0cfd720d860ecfe3ff2659ae01328dfd5a76863bc44fc6dac6d1086",
+        "target_sha256": "8a874ab8ac8b81065d4c4abcf02be84dd0e6bbcba4e1d27c74a224aa008e1662"
+      },
+      "ui:아직 풀리지 않은 일이 없다.:/아직 풀리지 않은 일이 없다.": {
+        "source_sha256": "90205b7501a3850951f8bad49cf2da1c82ece5a0371a5ec0785c650938536720",
+        "target_sha256": "7f9c8a4b1495a6632f37dab8f2cee1464f120b09e7d7720acb4bb6b4b0f4de11"
+      },
+      "ui:완료한 일정:/완료한 일정": {
+        "source_sha256": "0110b9a1adfaef7cb7c7e47c83a6a427d16319770263627e4710d1e3c0220d7c",
+        "target_sha256": "a496a2205cc6aae123a81d032afc6249a18c70f6186b8fce1cde0f0e761c3f6f"
+      },
+      "ui:완료한 일정이 없다.:/완료한 일정이 없다.": {
+        "source_sha256": "a5bd1bb1c3cefe0bd3a5c38ae6921635c12337974b8fede6225b73b1136e54aa",
+        "target_sha256": "e6ff86515a66425fce54f4cc0b57ad3ba3389a489a4da61cf5e9c86485cc21a0"
+      },
+      "ui:이번 달에 고르지 못한 일:/이번 달에 고르지 못한 일": {
+        "source_sha256": "c70991e29396eca9bdd610851ef870bee9c51046f88e61b4665647bff8325942",
+        "target_sha256": "fb594c12d4500e2a7823580decfce80796e165f9ff8bb3cb0167f0826a95c3ce"
+      },
+      "ui:이번 달에 고르지 못한 일이 없다.:/이번 달에 고르지 못한 일이 없다.": {
+        "source_sha256": "c2013a98473f512e5c0d1416f4380d8f3edbb912ba971680ccf8a6a8f09c27b3",
+        "target_sha256": "36734801190bfc92e9826d8069085f51bebd09b97b402ee6ec5e4b3c5352b2c4"
+      },
+      "ui:이번 주에 끝낸 일:/이번 주에 끝낸 일": {
+        "source_sha256": "06aaf04523204d37f3b6472753bc7f0bcde3fc221ac02ca82ee9b9d4ee2a3503",
+        "target_sha256": "edda19685853403bfec16c23e4eb449ed18e68c12c764a90cc1dd5265356bdae"
+      },
+      "ui:이번 주에 하지 못한 일:/이번 주에 하지 못한 일": {
+        "source_sha256": "4f8e3ae14de51934202564b88cc7a2697f1c6cecbdaf3400e3bba2da471302f0",
+        "target_sha256": "2beb9d3cfd0ec9960a226563d70e05a62f46579b8e4ba7a583d64c37e1fde6ec"
+      },
+      "ui:자동 저장에 실패했다. 시작 화면으로 나가기 전에 다시 시도해 주세요.:/자동 저장에 실패했다. 시작 화면으로 나가기 전에 다시 시도해 주세요.": {
+        "source_sha256": "25a1e67accc477478488814279a4c6e9ffb57e47c07957b1de9ffc565ec3e4f1",
+        "target_sha256": "6082c61a4a8dc6cc73f9805f3f16765f82004f52bf553891b3688bd557953489"
+      },
+      "ui:하지 못한 일이 없다.:/하지 못한 일이 없다.": {
+        "source_sha256": "5103a2d11883bd0a6aea7905ef51bf8ba55388af055788af8750525e758b7f88",
+        "target_sha256": "66db804aa613a1b6131d82229898fefc7609494933f5079a4e825f76bb58ab39"
+      },
+      "ui:%d개월차 계획하기  ›:/%d개월차 계획하기  ›": {
+        "source_sha256": "281dda561d4b5be99ebcb352fa39f741f263b2dc83be19398a8848e5c41aedf0",
+        "target_sha256": "7ce385337e1de1c1ac98dfefe57ed908a5252dd0d11aa047ca90f2b655146973"
+      },
+      "ui:%d개월차 수첩:/%d개월차 수첩": {
+        "source_sha256": "340bcfb383f90bc828a698aea76285e82ed5dc9ad6173c0cc113dc0b6c2d04d5",
+        "target_sha256": "d4087ae8615203e60a675325ee2ecef310373d820c3c33d7215a57af9afea858"
+      },
+      "ui:%d주 동안의 기록을 자동 저장했다. 이어지는 시간은 아직 열리지 않았다.:/%d주 동안의 기록을 자동 저장했다. 이어지는 시간은 아직 열리지 않았다.": {
+        "source_sha256": "4fd09d1849bc3068957ca053e8ec807b21aa33ac5abc9e34b1acf60c12a6559d",
+        "target_sha256": "ddc2fdf82737f8f7f20139d9d921ee9f60fed9154d39e5a3397882af4c65626e"
+      },
+      "ui:4주 동안 계속한 일 · %s:/4주 동안 계속한 일 · %s": {
+        "source_sha256": "f98c1e6bfd069d0169865a54a170aafd90125046247da4049297354861f7f1bf",
+        "target_sha256": "66022d879c6ad9533cba6fa15bfa1a046b68ee079db0b96214f3cc53cf16cf6a"
+      },
+      "ui:네 주의 여력을 어디에 썼는지와, 끝낸 약속·기한을 넘긴 약속을 같은 장부에 남겼다.:/네 주의 여력을 어디에 썼는지와, 끝낸 약속·기한을 넘긴 약속을 같은 장부에 남겼다.": {
+        "source_sha256": "01e4f29b8878c1b1a35836befa5be984aa7bb7989b4b98d6bc1890170cad976d",
+        "target_sha256": "97fd632bc6ac38a3021125545f3f6c312128a53e02b755bf446bf8dd92493518"
+      },
+      "ui:다음 재정 목표 · %s — 달성까지 %s:/다음 재정 목표 · %s — 달성까지 %s": {
+        "source_sha256": "91a5f377aa264af85ce91d1f011c120f9a7469a2482042d21bc18100e9d6bf37",
+        "target_sha256": "cf5aecdf2281c545269e598a551347ab8c509d16cbab03a9bf282c8d5349b791"
+      },
+      "ui:데모를 마치고 시작 화면으로  ›:/데모를 마치고 시작 화면으로  ›": {
+        "source_sha256": "254c606822abf7fa39f5b867625d4b8265ac786cfb402e89e00ec00bc920c3f4",
+        "target_sha256": "3cc5b3548e1815b38b45e63105edbe27ed01b2e48a33ff8bf62bedea6a41c94a"
+      },
+      "ui:약속의 결과:/약속의 결과": {
+        "source_sha256": "4d0f795c3b488b7e306f72018a392896a1df658d8035f1522db0d592dea1b119",
+        "target_sha256": "9dd356b1b35a006f32a07f52e7a742897e78bee42b1bf99efb9e9f16e28d9d13"
+      },
+      "ui:여섯 달의 기록을 자동 저장했다. 첫해는 아직 끝나지 않았다.:/여섯 달의 기록을 자동 저장했다. 첫해는 아직 끝나지 않았다.": {
+        "source_sha256": "12d236ff6fe78f8beee6ee78195bc3c7b5eaf493b1dc002b67a2d79b06ce1db6",
+        "target_sha256": "5ebb9610f9b5f875ae0903c9b3b94e954d5478d433720ee3c5a4da90292909c0"
+      },
+      "ui:월세·이자:/월세·이자": {
+        "source_sha256": "be60b3a8d5ae588048c21ba13002be1ffef855dda1258795d9de4cafdcb92ce1",
+        "target_sha256": "290db47f234558dea93a8982f2e413d2ec2543acf366c3cde821189eeae414d9"
+      },
+      "ui:이번 달 끝의 흔적:/이번 달 끝의 흔적": {
+        "source_sha256": "20d7d4e38c14526f59f1df8279dc60f4e829a512700f676a3a9d5a01d7967404",
+        "target_sha256": "38f03099f8e0c68b5792c0ab35aa8352a09ffd538d667ef66c09f7c244a2f57f"
+      },
+      "ui:이번 달 증감 %s%s:/이번 달 증감 %s%s": {
+        "source_sha256": "6c46942d32eb7be9b955ac69a4f9676d770f6f5e13d552b3cd095b3da7ca71fb",
+        "target_sha256": "a097972cd8be2ac04547a43493847ce3cb3df64c427beb02164b07d05c49d674"
+      },
+      "ui:이번 달에 끝낸 일이 없다.:/이번 달에 끝낸 일이 없다.": {
+        "source_sha256": "9cd2eba6fd5de689a0f84b3ad4161ef889ac6b9a0c4b8b4f9a1d5f676dfe148e",
+        "target_sha256": "8ce07ef1676e3d08878e258c38d9b734ae1df7df916e97244237ca37a89a5ba2"
+      },
+      "ui:이번 달에 쓴 네 주:/이번 달에 쓴 네 주": {
+        "source_sha256": "20444b9276b9769357fce91a772e8c2e657e06d893104040360f36923342adb8",
+        "target_sha256": "5b421e7b07cef5f0bfb80f223a4968c2d54f1235141212b73866060ce3ef26d4"
+      },
+      "ui:이번 달에 잡지 않은 일정:/이번 달에 잡지 않은 일정": {
+        "source_sha256": "c9d6603e4f3b2194af3e6ef991353ea160a0b5faae1afc378cd23bdca503c9f1",
+        "target_sha256": "f767b06ad682f15917c0e8326f5792915cab1b3cef4045ebf93520c910310638"
+      },
+      "ui:이번 달에 한 일:/이번 달에 한 일": {
+        "source_sha256": "7940c634d46d96838c3b738b5a5740f681630785905f811a0acec28ed0459aa4",
+        "target_sha256": "051d9ee9ea0f790ad250785d48b698a3764a311650c9d374bebab894179b48a4"
+      },
+      "ui:이번 달에 한 일과 고르지 않은 일, 생활비와 몸 상태를 함께 정리했다.:/이번 달에 한 일과 고르지 않은 일, 생활비와 몸 상태를 함께 정리했다.": {
+        "source_sha256": "247c4442da8ef6da80a2a3827bd43243f0766819680c0540499dea0f948a2c4d",
+        "target_sha256": "5b8426efc532befd08cbc3ddf1cb7d3de99408ce1bd8311ef33d4e1646874f9b"
+      },
+      "ui:이번 달에는 놓친 일정이 없다.:/이번 달에는 놓친 일정이 없다.": {
+        "source_sha256": "caffbc96b42d07d20cc310831fa1817fa22205a15affc998dcf4b6e8656773f6",
+        "target_sha256": "25ed8d4c250d4b9e67bed53648f8e62c9379577e6cecdbef45d439de9994434f"
+      },
+      "ui:자동 저장 다시 시도  ›:/자동 저장 다시 시도  ›": {
+        "source_sha256": "d012edc56f19e98f101d63a52565af93f28ef9e0dacdb88cacd14e0ee477dcb6",
+        "target_sha256": "bf8276e89739608f9d41f18ccfcc293a5b841469f47d70cc7b5bf5a202daddb1"
+      },
+      "ui:저장된 여섯 달의 기록을 열었다. 첫해는 아직 끝나지 않았다.:/저장된 여섯 달의 기록을 열었다. 첫해는 아직 끝나지 않았다.": {
+        "source_sha256": "27d572fabf237bdbedb65a02b26ef05f1c7852a41fb6c88887a6e7182dad2864",
+        "target_sha256": "c416eaf6db2149f28db96e9736012af91a6b7578c05660322b336366b77c8d9c"
+      },
+      "ui:저장된 주간 배치가 없다.:/저장된 주간 배치가 없다.": {
+        "source_sha256": "f33ec0faa3cd1e1a3c62f687146011b1d4e6d061934ca6f8114f8dbc60002eed",
+        "target_sha256": "451895e5e25966abf1a16f73d74a492293fff6f769d9ff05716dc97dac5d4f2f"
+      },
+      "ui:확인할 약속 결과가 없다.:/확인할 약속 결과가 없다.": {
+        "source_sha256": "1fc517f24572f5fae1227f4b3c02693488f466910f76724580bf6e95d74abd91",
+        "target_sha256": "8b4ec6655be3da140ff3ffec68dbf4be39b1a7dca366e1a8089d32140bbe9e8a"
       }
     },
     "zh-TW": {
@@ -180162,10 +180483,190 @@
       "ui:현금 %s   |   순자산 %s:/현금 %s   |   순자산 %s": {
         "source_sha256": "50584b4e1eac3598be2d9c83945c5c93a111ed7a65cec26eaba0910602acdd41",
         "target_sha256": "bae66eaf04b6d2f39f9dc25d48567e6b4a10ff595524aa7402105cc43d9194dd"
+      },
+      "ui:%d개월 돌아보기:/%d개월 돌아보기": {
+        "source_sha256": "98373a1e8b5d17d7c3da9fc81b8ef5d0852104aaa7b3ad041971601416d7e41a",
+        "target_sha256": "7c81928cae45566c00b33c500f3a04084b3f5f60df9421782db8ca9847e97018"
+      },
+      "ui:%d번째 달:/%d번째 달": {
+        "source_sha256": "df4a9c23107ddb9edeeea936834aeb2598aef6e7404a822bee9fa5c30b4fdcc1",
+        "target_sha256": "fa357ac05f5d1e9b4c150cd0ca9de5ff672ddf6a1bc89e67401e4b4ba7cd4314"
+      },
+      "ui:%d주 동안 무엇을 했고 무엇을 놓쳤는지 돌아본다. 남은 돈과 몸에 밴 흔적도 함께 확인한다.:/%d주 동안 무엇을 했고 무엇을 놓쳤는지 돌아본다. 남은 돈과 몸에 밴 흔적도 함께 확인한다.": {
+        "source_sha256": "1dbb17d4ceff5a7966f598c292a55a19e14e3fa8b6e0281feff3a9cb72b396b4",
+        "target_sha256": "028aba0251afeb630b5a40eae655c34ec28af0fb83fab48b40a3f4eb1eba7612"
+      },
+      "ui:24주에 쓴 시간:/24주에 쓴 시간": {
+        "source_sha256": "a9038dbbe3452aa96e005ecbb2c4e377ee0d0b01b1b5f1d86b0584be5864d903",
+        "target_sha256": "235f7c89a8941aad96259699fcc10b377bac56b262bf540413d104198e271cfb"
+      },
+      "ui:4주차 이후:/4주차 이후": {
+        "source_sha256": "b0986f8d1c4004453ce74ed635ffd7d3b243774f3f59e6f869eba23c99ef44dc",
+        "target_sha256": "5926dcc04789f00b08d12df14dec0ab722326b961d62f00461ade39e82a89544"
+      },
+      "ui:고르지 않은 일:/고르지 않은 일": {
+        "source_sha256": "a3fc0a3f960cdb6f62c5a1ac6abb97f813644b18aaef0ea31646a2d50439ebde",
+        "target_sha256": "60fcb77b0938e801781b1e6ea8f23b4dec51026f3863e1c036173b1fbf2ef137"
+      },
+      "ui:고르지 않은 제안이 없다.:/고르지 않은 제안이 없다.": {
+        "source_sha256": "0f386c2bfc4a6bc46e71aa754257b76b1a1f7bbf2078ff1e92dce9fd4cc2a25e",
+        "target_sha256": "f1eb20d91c7966a1eb7e53318cca50e127d4a4b3c0e9d543913d3b6f7a887c50"
+      },
+      "ui:기록된 선택이 없다.:/기록된 선택이 없다.": {
+        "source_sha256": "db215a1faf23e8dc30c3c8b82a73bfb15ad9480e3f44e755e5eb430bb4d9d5e4",
+        "target_sha256": "cc38c67eedcfbf8276c74936983d174fc7a392f1ac23180e1dcf5abcad37291f"
+      },
+      "ui:기한을 놓친 일:/기한을 놓친 일": {
+        "source_sha256": "687595d206448126decce3a75e8c751b60d8f8759c8e05a93cf02dded6dd892d",
+        "target_sha256": "c8b567671cdc93fcbb661ed3522f451b6231259f10f7b3b1ee57a738fbea8ada"
+      },
+      "ui:기한을 놓친 일이 없다.:/기한을 놓친 일이 없다.": {
+        "source_sha256": "b749234576c986d8187ca9b344aff752851471e185e97d72784272ff749c8143",
+        "target_sha256": "21dcf58607e900ba405b33af2294a36797fbb56f04cbe5be4af1a0aa0a8334c4"
+      },
+      "ui:놓친 기회:/놓친 기회": {
+        "source_sha256": "0f8e46c430603ab5b5b9749e7ba3165a69b90384478c377ca559878dfceb25d7",
+        "target_sha256": "5168b0d554aaa2ec7278d1cf2920d79ac755a7fdc65e7122f38bc3545bbe6f03"
+      },
+      "ui:놓친 기회가 없다.:/놓친 기회가 없다.": {
+        "source_sha256": "dfaa426e9e2a80fbc2735ce5718d033dcdb96b737bb1e53d1e411856dc93bcac",
+        "target_sha256": "c33b220aa2c98a712d0467620a7ec983757977a8eaa2308062d0b7c72f0025af"
+      },
+      "ui:배치한 시간이 없다.:/배치한 시간이 없다.": {
+        "source_sha256": "124a77a6c009201ed1fbebf2395cda77270afc35e724c8dff7ca2212707bc7ff",
+        "target_sha256": "06da375ff609c8ffb6dede1441898e02691e56bcea7d58eab4400a0878676595"
+      },
+      "ui:아직 풀리지 않은 일:/아직 풀리지 않은 일": {
+        "source_sha256": "30b07fd8a0cfd720d860ecfe3ff2659ae01328dfd5a76863bc44fc6dac6d1086",
+        "target_sha256": "b2a5f243c5dfc67e8a79f7611614e472838d05e5f609f32853324b8bfec1097d"
+      },
+      "ui:아직 풀리지 않은 일이 없다.:/아직 풀리지 않은 일이 없다.": {
+        "source_sha256": "90205b7501a3850951f8bad49cf2da1c82ece5a0371a5ec0785c650938536720",
+        "target_sha256": "d191e097acb9d21b864e4b3f53dd9511a3ce7aa9886b90d870b2046b5b1c7701"
+      },
+      "ui:완료한 일정:/완료한 일정": {
+        "source_sha256": "0110b9a1adfaef7cb7c7e47c83a6a427d16319770263627e4710d1e3c0220d7c",
+        "target_sha256": "bcda0372d600430a29f7ed2ff45103c1905558933249cc963b2cbf4913bfe4a5"
+      },
+      "ui:완료한 일정이 없다.:/완료한 일정이 없다.": {
+        "source_sha256": "a5bd1bb1c3cefe0bd3a5c38ae6921635c12337974b8fede6225b73b1136e54aa",
+        "target_sha256": "41a5975f731d1a960bb3a05990410634f661add19a3edd4643d7f84bd5d4a731"
+      },
+      "ui:이번 달에 고르지 못한 일:/이번 달에 고르지 못한 일": {
+        "source_sha256": "c70991e29396eca9bdd610851ef870bee9c51046f88e61b4665647bff8325942",
+        "target_sha256": "9bfd37fb81368c3206bbe85fc7bfdda517857aaed92be34ed767e31420b57fc2"
+      },
+      "ui:이번 달에 고르지 못한 일이 없다.:/이번 달에 고르지 못한 일이 없다.": {
+        "source_sha256": "c2013a98473f512e5c0d1416f4380d8f3edbb912ba971680ccf8a6a8f09c27b3",
+        "target_sha256": "6817b14c3e64efe82bd6093494a6d123000ada7983ed64f90a43b6b3b8faa890"
+      },
+      "ui:이번 주에 끝낸 일:/이번 주에 끝낸 일": {
+        "source_sha256": "06aaf04523204d37f3b6472753bc7f0bcde3fc221ac02ca82ee9b9d4ee2a3503",
+        "target_sha256": "9de57fa4a75b3989521f4cf2a5bf2dfb6154808b5ccd60026575f62bfe739006"
+      },
+      "ui:이번 주에 하지 못한 일:/이번 주에 하지 못한 일": {
+        "source_sha256": "4f8e3ae14de51934202564b88cc7a2697f1c6cecbdaf3400e3bba2da471302f0",
+        "target_sha256": "03e14379e5c453ca2059206498ab20abd1e960f0370de039b6ffaedfb9b50841"
+      },
+      "ui:자동 저장에 실패했다. 시작 화면으로 나가기 전에 다시 시도해 주세요.:/자동 저장에 실패했다. 시작 화면으로 나가기 전에 다시 시도해 주세요.": {
+        "source_sha256": "25a1e67accc477478488814279a4c6e9ffb57e47c07957b1de9ffc565ec3e4f1",
+        "target_sha256": "de049f80364a0053ea54810d082d13071640c923532972bec89b660083c14547"
+      },
+      "ui:하지 못한 일이 없다.:/하지 못한 일이 없다.": {
+        "source_sha256": "5103a2d11883bd0a6aea7905ef51bf8ba55388af055788af8750525e758b7f88",
+        "target_sha256": "fe67190a583a1c82acbb1aeff88241d9c595c2e8f6815d0fc983eae2c49cd781"
+      },
+      "ui:%d개월차 계획하기  ›:/%d개월차 계획하기  ›": {
+        "source_sha256": "281dda561d4b5be99ebcb352fa39f741f263b2dc83be19398a8848e5c41aedf0",
+        "target_sha256": "14dfe847474a6ebc56e3ed8efa7b8be1a6b742256cb6e8e729b40f98f6128bb9"
+      },
+      "ui:%d개월차 수첩:/%d개월차 수첩": {
+        "source_sha256": "340bcfb383f90bc828a698aea76285e82ed5dc9ad6173c0cc113dc0b6c2d04d5",
+        "target_sha256": "2570adf860c23187eefb0dc45aaff677fb9cb576bade9d7eab3c857fe2a06e63"
+      },
+      "ui:%d주 동안의 기록을 자동 저장했다. 이어지는 시간은 아직 열리지 않았다.:/%d주 동안의 기록을 자동 저장했다. 이어지는 시간은 아직 열리지 않았다.": {
+        "source_sha256": "4fd09d1849bc3068957ca053e8ec807b21aa33ac5abc9e34b1acf60c12a6559d",
+        "target_sha256": "c405711cfe6c2be9859abfcc4c4959102e22dceaee38914e43dd9c785878ccc1"
+      },
+      "ui:4주 동안 계속한 일 · %s:/4주 동안 계속한 일 · %s": {
+        "source_sha256": "f98c1e6bfd069d0169865a54a170aafd90125046247da4049297354861f7f1bf",
+        "target_sha256": "2ad2f801efd7de1b42a80dbaacda4dd1f0fe1e3585b5e9a8f698c25c8c2f53f7"
+      },
+      "ui:네 주의 여력을 어디에 썼는지와, 끝낸 약속·기한을 넘긴 약속을 같은 장부에 남겼다.:/네 주의 여력을 어디에 썼는지와, 끝낸 약속·기한을 넘긴 약속을 같은 장부에 남겼다.": {
+        "source_sha256": "01e4f29b8878c1b1a35836befa5be984aa7bb7989b4b98d6bc1890170cad976d",
+        "target_sha256": "410e820ae252e89cd0767d3c35c13c4a8af3a5bb9b6fa0a9190ba5852108f232"
+      },
+      "ui:다음 재정 목표 · %s — 달성까지 %s:/다음 재정 목표 · %s — 달성까지 %s": {
+        "source_sha256": "91a5f377aa264af85ce91d1f011c120f9a7469a2482042d21bc18100e9d6bf37",
+        "target_sha256": "f2897553504ad5e63c277d081bc623b6fc1cdf79de4014994557139847e57550"
+      },
+      "ui:데모를 마치고 시작 화면으로  ›:/데모를 마치고 시작 화면으로  ›": {
+        "source_sha256": "254c606822abf7fa39f5b867625d4b8265ac786cfb402e89e00ec00bc920c3f4",
+        "target_sha256": "9b0b48535ab21988bea1c5d204e02752386a248b19d6ce14bea127f67907d825"
+      },
+      "ui:약속의 결과:/약속의 결과": {
+        "source_sha256": "4d0f795c3b488b7e306f72018a392896a1df658d8035f1522db0d592dea1b119",
+        "target_sha256": "2f720c37d0ac7d4f5be68e8ac589eb97952b1eeffe55a7b6f8acb6363d42d8c3"
+      },
+      "ui:여섯 달의 기록을 자동 저장했다. 첫해는 아직 끝나지 않았다.:/여섯 달의 기록을 자동 저장했다. 첫해는 아직 끝나지 않았다.": {
+        "source_sha256": "12d236ff6fe78f8beee6ee78195bc3c7b5eaf493b1dc002b67a2d79b06ce1db6",
+        "target_sha256": "ed5179594a21fe50d5687e557775ccf87350e7340c47ab73ad57082dde3f8dd5"
+      },
+      "ui:월세·이자:/월세·이자": {
+        "source_sha256": "be60b3a8d5ae588048c21ba13002be1ffef855dda1258795d9de4cafdcb92ce1",
+        "target_sha256": "290db47f234558dea93a8982f2e413d2ec2543acf366c3cde821189eeae414d9"
+      },
+      "ui:이번 달 끝의 흔적:/이번 달 끝의 흔적": {
+        "source_sha256": "20d7d4e38c14526f59f1df8279dc60f4e829a512700f676a3a9d5a01d7967404",
+        "target_sha256": "43d66f789e1718092b6484f2ecd762612c239a3d2497c6c2e76656f4b2d15c52"
+      },
+      "ui:이번 달 증감 %s%s:/이번 달 증감 %s%s": {
+        "source_sha256": "6c46942d32eb7be9b955ac69a4f9676d770f6f5e13d552b3cd095b3da7ca71fb",
+        "target_sha256": "42612b5e39520f02e6c9a2dae81f81ffb873bb4b781d5d23da099487d77d8cb4"
+      },
+      "ui:이번 달에 끝낸 일이 없다.:/이번 달에 끝낸 일이 없다.": {
+        "source_sha256": "9cd2eba6fd5de689a0f84b3ad4161ef889ac6b9a0c4b8b4f9a1d5f676dfe148e",
+        "target_sha256": "4742c320f917b0119269e972cb75988b04ab30c3a9cdabca45637eb74dbc0434"
+      },
+      "ui:이번 달에 쓴 네 주:/이번 달에 쓴 네 주": {
+        "source_sha256": "20444b9276b9769357fce91a772e8c2e657e06d893104040360f36923342adb8",
+        "target_sha256": "823c2f6e6fd5c2b3a852a56fcf11958e9ea6ef30a657d5467ef6f81d4534f10d"
+      },
+      "ui:이번 달에 잡지 않은 일정:/이번 달에 잡지 않은 일정": {
+        "source_sha256": "c9d6603e4f3b2194af3e6ef991353ea160a0b5faae1afc378cd23bdca503c9f1",
+        "target_sha256": "50178b25ce718ec1efd8bcb06afeb1856263fb1b9674ba11838d9fe50c10e3f3"
+      },
+      "ui:이번 달에 한 일:/이번 달에 한 일": {
+        "source_sha256": "7940c634d46d96838c3b738b5a5740f681630785905f811a0acec28ed0459aa4",
+        "target_sha256": "e8e4ab7df2c1af50e89ca0a293d20c9a78a518a0ab86bd5fe48ce6e7f061e84a"
+      },
+      "ui:이번 달에 한 일과 고르지 않은 일, 생활비와 몸 상태를 함께 정리했다.:/이번 달에 한 일과 고르지 않은 일, 생활비와 몸 상태를 함께 정리했다.": {
+        "source_sha256": "247c4442da8ef6da80a2a3827bd43243f0766819680c0540499dea0f948a2c4d",
+        "target_sha256": "31cdadd2590f0c39c4d983d542d03b96d0f43a981a4fb172a2453683c8da24e7"
+      },
+      "ui:이번 달에는 놓친 일정이 없다.:/이번 달에는 놓친 일정이 없다.": {
+        "source_sha256": "caffbc96b42d07d20cc310831fa1817fa22205a15affc998dcf4b6e8656773f6",
+        "target_sha256": "877105919e4418ad0cd98037dc4ccb68d242c83ddfb4bfa7268a9bc3e59d5350"
+      },
+      "ui:자동 저장 다시 시도  ›:/자동 저장 다시 시도  ›": {
+        "source_sha256": "d012edc56f19e98f101d63a52565af93f28ef9e0dacdb88cacd14e0ee477dcb6",
+        "target_sha256": "e3f414ab55a7cfefbd770d68dd124787bb606f858c7dc6d42b053d6bde99a3df"
+      },
+      "ui:저장된 여섯 달의 기록을 열었다. 첫해는 아직 끝나지 않았다.:/저장된 여섯 달의 기록을 열었다. 첫해는 아직 끝나지 않았다.": {
+        "source_sha256": "27d572fabf237bdbedb65a02b26ef05f1c7852a41fb6c88887a6e7182dad2864",
+        "target_sha256": "05854ab8b81b7f2615b8532d4f3020402755b67c796cad04c300ffb48cd7c141"
+      },
+      "ui:저장된 주간 배치가 없다.:/저장된 주간 배치가 없다.": {
+        "source_sha256": "f33ec0faa3cd1e1a3c62f687146011b1d4e6d061934ca6f8114f8dbc60002eed",
+        "target_sha256": "73374f7bdc28b4ee6915f4f8780a71183a9941cb94186ea89991272ea2469f4b"
+      },
+      "ui:확인할 약속 결과가 없다.:/확인할 약속 결과가 없다.": {
+        "source_sha256": "1fc517f24572f5fae1227f4b3c02693488f466910f76724580bf6e95d74abd91",
+        "target_sha256": "7ea73a6fc073a51b73429c9299a64d5f92d328cc615b61f57f5f6247323f4bd1"
       }
     }
   },
-  "accepted_sha256": "b4336bbb84c24c3bc27d51fea0ba79e0685f6f5cd0496ef87d1890f635cfbdea",
+  "accepted_sha256": "b60029f99d090e7bb106025ba8f63b8f5826d481c91cad106e420b73e63234c7",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
