@@ -62,6 +62,7 @@ func _run() -> void:
 		await _finish()
 		return
 	await _check_main_game_save_failure_feedback()
+	await _check_consumed_week_main_resume()
 	if not _failures.is_empty():
 		await _finish()
 		return
@@ -1001,6 +1002,132 @@ func _latest_main_game_toast(main_game: Control) -> String:
 	var toast := container.get_child(container.get_child_count() - 1)
 	var label := toast.get("label") as Label if is_instance_valid(toast) else null
 	return label.text if is_instance_valid(label) else ""
+
+func _check_consumed_week_main_resume() -> void:
+	# Synthetic isolated Main save: the foreground was read, but the older
+	# ambient latch still belongs to last week. Never read a player's checkpoint.
+	GameState.start_new_game()
+	GameState.turn = 200
+	GameState.year = 2030
+	GameState.month = 2
+	GameState.week_of_month = 4
+	GameState.age = 37
+	GameState.money = 1_000_000.0
+	GameState.action_points = 0
+	GameState.flags.merge({
+		"prologue_done": true,
+		"arc_37_reckoning_seen": true,
+		"arc_final_year_start_seen": true,
+		"foreground_story_turn": 200,
+		"month_event_turn": 199,
+		# Keep the real entry on its decision surface, not an auto-advanced week.
+		"demo_director_kind_turn": 200,
+		"demo_director_locked_kind": "decision",
+	}, true)
+	var saved := SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true})
+	_expect(saved, "consumed-week fixture could not save its Main checkpoint")
+	if not saved:
+		return
+	GameState.start_new_game()
+	var loaded := SaveManager.load_game(TEST_SLOT)
+	_expect(loaded and SaveManager.peek_loaded_resume_context().is_empty() \
+			and SaveManager.loaded_scene_path() == "res://scenes/MainGame.tscn" \
+			and GameState.turn == 200 \
+			and int(GameState.flags.get("foreground_story_turn", -1)) == 200 \
+			and int(GameState.flags.get("month_event_turn", -1)) == 199,
+		"consumed-week disk reload lost its empty-resume Main/foreground state")
+	if not loaded:
+		return
+
+	var main_game: Control = MAIN_GAME_SCENE.instantiate()
+	main_game.set_meta("_screenshot_qa_static_surface", true)
+	add_child(main_game)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	# Bootstrap legitimately initializes market/UI/transient state. Snapshot
+	# after it so the guard itself must leave the entire serialized state inert.
+	var cooldown_probe := "manual_save_situation_guard"
+	EventManager.event_cooldowns = {cooldown_probe: 5}
+	GameState.pending_story_queue = ["yolo_morning_after"]
+	var before_guard: Dictionary = GameState.serialize().duplicate(true)
+	var guard_flags := GameState.flags.duplicate(true)
+	var guard_queue := GameState.pending_story_queue.duplicate(true)
+	var guard_cooldowns := EventManager.event_cooldowns.duplicate(true)
+	_expect(not bool(main_game.call("_maybe_play_month_situation")) \
+			and GameState.serialize() == before_guard \
+			and GameState.flags == guard_flags \
+			and GameState.pending_story_queue == guard_queue \
+			and EventManager.event_cooldowns == guard_cooldowns,
+		"consumed-current guard changed state/flags/queue or attempted a draw")
+
+	GameState.pending_story_queue.clear()
+	main_game.set_meta("_qa_core_loop_v2_begin_month_call_count", 0)
+	main_game.call("_begin_month")
+	_expect(int(main_game.get_meta("_qa_core_loop_v2_begin_month_call_count")) == 1 \
+			and GameState.turn == 200 \
+			and GameState.action_points == GameState.max_action_points \
+			and GameState.flags == guard_flags \
+			and GameState.pending_story_queue.is_empty() \
+			and EventManager.event_cooldowns == guard_cooldowns \
+			and (main_game.get("current_event") as Dictionary).is_empty() \
+			and is_instance_valid(main_game.get("_ap_action_grid")),
+		"saved consumed-week Main entry added a story/draw or failed to reach actions")
+
+	# A single real eligible candidate makes each allowed draw's handoff exact;
+	# restore the registry immediately after these synchronous calls. No event
+	# text, conditions, selection policy, or persistent content is rewritten.
+	var original_events: Array = DataRegistry.events
+	var candidate: Dictionary = DataRegistry.find_event("yolo_spend_moment")
+	_expect(not candidate.is_empty(), "ambient resume fixture lacks its real candidate")
+	DataRegistry.events = [candidate]
+	for guard_case in [
+		{"name": "missing", "turn": 200, "foreground": -1},
+		{"name": "stale", "turn": 200, "foreground": 199},
+		{"name": "next-week", "turn": 201, "foreground": 200},
+	]:
+		GameState.turn = int(guard_case["turn"])
+		GameState.flags.erase("foreground_story_turn")
+		if int(guard_case["foreground"]) >= 0:
+			GameState.flags["foreground_story_turn"] = int(guard_case["foreground"])
+		GameState.flags["month_event_turn"] = 199
+		GameState.pending_story_queue.clear()
+		EventManager.event_cooldowns = {cooldown_probe: 5}
+		_expect(bool(main_game.call("_maybe_play_month_situation")) \
+				and GameState.pending_story_queue == ["yolo_spend_moment"] \
+				and int(GameState.flags.get("foreground_story_turn", -1)) == GameState.turn \
+				and int(GameState.flags.get("month_event_turn", -1)) == GameState.turn \
+				and int(EventManager.event_cooldowns.get(cooldown_probe, -1)) == 4 \
+				and int(EventManager.event_cooldowns.get("yolo_spend_moment", -1)) \
+					== EventManager.cooldown_for_event(candidate),
+			"%s foreground blocked the original ambient draw/handoff" % guard_case["name"])
+		# Remove the new foreground guard to exercise the original ambient latch.
+		GameState.flags.erase("foreground_story_turn")
+		var after_draw: Dictionary = GameState.serialize().duplicate(true)
+		var after_draw_queue := GameState.pending_story_queue.duplicate(true)
+		var after_draw_cooldowns := EventManager.event_cooldowns.duplicate(true)
+		_expect(not bool(main_game.call("_maybe_play_month_situation")) \
+				and GameState.serialize() == after_draw \
+				and GameState.pending_story_queue == after_draw_queue \
+				and EventManager.event_cooldowns == after_draw_cooldowns,
+			"%s foreground redrew through the same-turn ambient latch" % guard_case["name"])
+	DataRegistry.events = original_events
+
+	GameState.turn = 1
+	GameState.flags["month_event_turn"] = 0
+	var first_week_state: Dictionary = GameState.serialize().duplicate(true)
+	var first_week_queue := GameState.pending_story_queue.duplicate(true)
+	var first_week_cooldowns := EventManager.event_cooldowns.duplicate(true)
+	_expect(not bool(main_game.call("_maybe_play_month_situation")) \
+			and GameState.serialize() == first_week_state \
+			and GameState.pending_story_queue == first_week_queue \
+			and EventManager.event_cooldowns == first_week_cooldowns,
+		"first-week ambient exclusion changed state or attempted a draw")
+	main_game.get_parent().remove_child(main_game)
+	main_game.free()
+	BGMPlayer.stop()
+	SaveManager.clear_loaded_resume_context()
+	GameState.start_new_game()
+	await get_tree().process_frame
 
 func _check_prose_resume() -> void:
 	GameState.start_new_game()
@@ -3815,7 +3942,7 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
-		print("MANUAL_SAVE_CHECK_OK slots=10 chapter5=causal-disk-json-exact-int/eligible-entry/durable-lock-ratchet+finale-disk-exact-int/tamper-closed/legacy-W220-open-W221-closed+w207-live-retained2/cafe-save-reload-ko-en durability=temp-readback/verified-backup/primary-preserved/retry/recovery/compatible-backup-preserved/wrong-type/missing-key manual_feedback=failure-stays/success-close identity=current/partial/unknown/full-demo/v2-isolated/completion-turn25-exact/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 result_variant=sangchul-father-passed/result-once/current-serial-history/event-action-logs/nonresult-prose+choices-restart stale_queue=alive-original/death-canonical+legacy+cast/passed-variants/living-only-skip/769-iterative-skip/769-curation-iterative-skip/read-only-history father_passing=blocked5/event-manager+story-queue/terminal-result2/once/cross-splice2-reject/latest-receipt2-reject timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+old_dirty_generic_inert+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
+		print("MANUAL_SAVE_CHECK_OK slots=10 chapter5=causal-disk-json-exact-int/eligible-entry/durable-lock-ratchet+finale-disk-exact-int/tamper-closed/legacy-W220-open-W221-closed+w207-live-retained2/cafe-save-reload-ko-en durability=temp-readback/verified-backup/primary-preserved/retry/recovery/compatible-backup-preserved/wrong-type/missing-key manual_feedback=failure-stays/success-close month_situation_resume=consumed-disk/main-entry/state-inert+missing/stale/next-week-one-draw+same-turn-latch+first-week-inert identity=current/partial/unknown/full-demo/v2-isolated/completion-turn25-exact/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 result_variant=sangchul-father-passed/result-once/current-serial-history/event-action-logs/nonresult-prose+choices-restart stale_queue=alive-original/death-canonical+legacy+cast/passed-variants/living-only-skip/769-iterative-skip/769-curation-iterative-skip/read-only-history father_passing=blocked5/event-manager+story-queue/terminal-result2/once/cross-splice2-reject/latest-receipt2-reject timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+old_dirty_generic_inert+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
 		get_tree().quit(0)
 		return
 	for failure in _failures:

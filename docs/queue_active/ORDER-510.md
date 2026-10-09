@@ -41,8 +41,25 @@ _ready→_begin_month→_maybe_play_month_situation에서 yolo_spend_moment를 �
 격리 정상엔진 ManualSaveCheck exact marker+stdout/stderr/engine 오류0,
 실제 메뉴에 원본을 byte-copy한 W200 slot1 불러오기→동일 보드/추가 장면0→정상 종료.
 자동 fixture를 실제 읽기/OS 입력으로 포장하지 않는다. UI 원문/collector/번역 원장과
-공개 데모 영향은 기존 audit_select의 표적 검사로 확인하며 whole audit/240주를 반복하지 않는다.
+공개 데모 영향은 기존 audit_select의 표적 검사로 확인한다. 스케줄러 진입 가드 변경의
+최종 전체 감사는 main CI에서 확인하고, 반복 local whole audit/240주를 추가하지 않는다.
 독립 actual Git·원본 저장 보존·표적 증거 대조 후 해당 수리만 닫는다.
 
 정본 규칙 신설0, 위 소유·재현·배치는 일회성이다. 이미 존재하는 한 주 한 foreground
 가드와 저장 복원의 일치를 수리하며 M60/후일담6/6·전체번역·인간/원어민/패드·출시는 별개다.
+
+## 실행 증거 — 실제 메뉴·최종 CI 전
+
+- MainGame guard/주석2줄만 수정, 기존 ManualSaveCheck에 합성 W200 디스크 왕복·
+  Main 진입·전체 serialize/flags/queue/cooldown 무부작용·missing/stale/next-week의
+  실제 후보 handoff와 기존 latch/첫 주 반례를 추가했다. 원문/번역/저장 스키마0이다.
+- 격리 정상엔진 6f459b3eebb27d586488f8a85444dcd9: exit0/정확 success marker1·
+  pre-autoload marker1. stdout/stderr/godot의 parse/script/engine ERROR·leak0이다.
+  기존 실패주입·구버전·복구 fixture의 경고13개는 보존한다. root wrapper가 WARNING까지
+  묶어 exit1인 원 result를 덮지 않았다. 비저자가 원 backtrace/13경고의 기존 실패주입
+  분기·새 함수 경고0을 직접 대조해 비예상 오류0으로 한정 수용했다.
+  private .git/chapter5-replay/order510-manual-save-20261009의 원로그/결과,
+  tracked3242/helper5/player33/seed2/checkpoint 및 별도 원W195 전후 hash 불변이다.
+- EN/한글·EN coverage·JA UI·i18n·demo scope·서사 연속성·장면 음악 표적7 PASS.
+  이전 c0e8188/fc1a730 main CI 실패는 connector 실제 로그에서 STATUS_DOC_EXIT1개,
+  COMPILE_CHECK_OK68을 확인했다. 510 guard 이전 실패이며 새 제품 CI 통과로 쓰지 않는다.
