@@ -78,7 +78,8 @@ func _ready() -> void:
 			+ "general=source-w211-w220/branches2-w224-w229-w234/"
 			+ "roots8-active6/choices17-active13-w237-w240-outbound-save-release "
 			+ "general-gate=assets2.5b-exact/stale-generic/source-tamper/"
-			+ "old-v1-closed/locked-durable")
+			+ "old-v1-closed/locked-durable "
+			+ "terminal-axes=profiles2/cases4/once-json/no-extra-wear")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -415,8 +416,11 @@ func _check_game_state_wrapper_save_and_single_release() -> void:
 		and GameState.chapter5_finale_holds_ending() \
 		and GameState.chapter5_finale_next_event_for_turn() == ALIVE_EVENTS[0],
 		"GameState wrapper could not bind completed source route at W221")
+	var pending_save: Dictionary = {}
 	for index in range(ALIVE_EVENTS.size()):
 		GameState.turn = ACTIVE_TURNS[index]
+		if index == ALIVE_EVENTS.size() - 1:
+			pending_save = GameState.serialize().duplicate(true)
 		_expect(GameState.chapter5_finale_choice_available(
 			ALIVE_EVENTS[index], PATH_CHOICES[index]),
 			"GameState preflight rejected %s" % ALIVE_EVENTS[index])
@@ -439,6 +443,8 @@ func _check_game_state_wrapper_save_and_single_release() -> void:
 		and GameState.chapter5_finale_ending_ready() \
 		and GameState.chapter5_finale_holds_ending(),
 		"GameState JSON save/load lost ready finale latch")
+	_check_terminal_axis_release_matrix(
+		GameState.serialize().duplicate(true), pending_save, "property")
 	var first := GameState.consume_chapter5_finale_ending()
 	var consumed_snapshot := GameState.chapter5_finale_state.duplicate(true)
 	var second := GameState.consume_chapter5_finale_ending()
@@ -471,6 +477,133 @@ func _check_game_state_wrapper_save_and_single_release() -> void:
 		and canonical_check_count == 1 \
 		and consume_position >= 0 and canonical_position > consume_position,
 		"MainGame W240 release is not consume-first then one canonical check")
+
+
+func _check_terminal_axis_release_matrix(
+		ready_save: Dictionary, pending_save: Dictionary, profile: String) -> void:
+	# These are real wrapper-produced ready/pending states, not invented latches.
+	for axes in [[2, 0], [0, 1], [2, 1], [0, 0]]:
+		_load_terminal_axis_case(ready_save, int(axes[0]), int(axes[1]))
+		var label := "%s terminal axes %s" % [profile, str(axes)]
+		var before: Dictionary = GameState.serialize().duplicate(true)
+		var assets_before: float = GameState.get_total_asset_value()
+		var expected := before.duplicate(true)
+		var money_used := int(axes[0]) > 0
+		var human_used := int(axes[1]) > 0
+		var bucket := "unmarked_weeks_total"
+		if money_used and human_used:
+			bucket = "both_axes_weeks_total"
+		elif money_used:
+			bucket = "money_only_weeks_total"
+		elif human_used:
+			bucket = "human_only_weeks_total"
+		expected[bucket] = int(expected[bucket]) + 1
+		expected["classified_weeks_total"] = 240
+		if money_used:
+			expected["money_weeks_total"] = int(expected["money_weeks_total"]) + 1
+			expected["month_money_weeks"] = int(expected["month_money_weeks"]) + 1
+		if human_used:
+			expected["human_weeks_total"] = int(expected["human_weeks_total"]) + 1
+			expected["month_human_weeks"] = int(expected["month_human_weeks"]) + 1
+		var weeks: Array = expected["recent_action_weeks"]
+		weeks.append({"turn": 240, "money": int(axes[0]), "human": int(axes[1]),
+			"places": before["action_places_this_week"].duplicate(true),
+			"actions": before["action_records_this_week"].duplicate(true)})
+		while weeks.size() > 2:
+			weeks.pop_front()
+		expected["action_axis_this_week"] = {"money": 0, "human": 0}
+		expected["action_places_this_week"] = {}
+		expected["action_records_this_week"] = []
+		expected["chapter5_finale_state"]["ending_check"] = "consumed"
+		var first := GameState.consume_chapter5_finale_ending()
+		var after: Dictionary = GameState.serialize().duplicate(true)
+		_expect(bool(first.get("ok", false)) and not bool(first.get("idempotent", true)) \
+			and GameState.chapter5_finale_ending_consumed() \
+			and not GameState.chapter5_finale_holds_ending(),
+			"%s did not consume its ready latch" % label)
+		_expect(GameState.classified_weeks_total == 240 \
+			and GameState.money_only_weeks_total + GameState.human_only_weeks_total \
+				+ GameState.both_axes_weeks_total + GameState.unmarked_weeks_total == 240 \
+			and GameState.get_total_asset_value() == assets_before \
+			and _same(after, expected),
+			"%s did not settle only the final week (wear/date/economy/AP/flags/receipts)" % label)
+		var duplicate := GameState.consume_chapter5_finale_ending_check()
+		_expect(bool(duplicate.get("ok", false)) and bool(duplicate.get("idempotent", false)) \
+			and _same(GameState.serialize(), after),
+			"%s duplicate alias consumption changed the whole state" % label)
+		var disk: Variant = JSON.parse_string(JSON.stringify(after))
+		GameState.start_new_game()
+		GameState.load_from_dict(disk)
+		var reloaded: Dictionary = GameState.serialize().duplicate(true)
+		var again := GameState.consume_chapter5_finale_ending()
+		_expect(GameState.classified_weeks_total == 240 \
+			and bool(again.get("ok", false)) and bool(again.get("idempotent", false)) \
+			and _same(GameState.serialize(), reloaded),
+			"%s JSON-reloaded consumption settled the final week twice" % label)
+
+	for closed in [false, true]:
+		_load_terminal_axis_case(ready_save if closed else pending_save, 2, 1)
+		if closed:
+			var closure := GameState.close_chapter5_finale_route("source_route_invalid")
+			_expect(bool(closure.get("ok", false)), "%s could not prepare closed negative" % profile)
+		var before: Dictionary = GameState.serialize().duplicate(true)
+		var rejected := GameState.consume_chapter5_finale_ending()
+		_expect(not bool(rejected.get("ok", false)) \
+			and _same(GameState.serialize(), before),
+			"%s %s consumption changed pending axes or other state" \
+				% [profile, "closed" if closed else "not-ready"])
+
+	# The ordinary calendar path must retain its default weekly wear.
+	_load_terminal_axis_case(ready_save, 2, 0)
+	GameState.turn = 238
+	GameState.week_of_month = 3
+	var control: Dictionary = GameState.serialize().duplicate(true)
+	var month_ended := GameState.advance_calendar()
+	_expect(not month_ended and GameState.turn == 239 and GameState.week_of_month == 4 \
+		and GameState.grind_streak_weeks == 4 \
+		and GameState.mental == int(control["mental"]) - 1 \
+		and is_equal_approx(GameState.moral_tint, float(control["moral_tint"]) - 1.0) \
+		and is_equal_approx(GameState.loop_tint_spent, float(control["loop_tint_spent"]) - 1.0) \
+		and GameState.action_log.size() == (control["action_log"] as Array).size() + 1 \
+		and _same(GameState.chapter5_finale_state, control["chapter5_finale_state"]),
+		"%s ordinary advance_calendar lost default money-only weekly wear" % profile)
+	GameState.start_new_game()
+	GameState.load_from_dict(ready_save)
+
+
+func _load_terminal_axis_case(saved: Dictionary, money_actions: int, human_actions: int) -> void:
+	GameState.start_new_game()
+	GameState.load_from_dict(JSON.parse_string(JSON.stringify(saved)))
+	GameState.turn = 240
+	GameState.year = 2030
+	GameState.month = 12
+	GameState.week_of_month = 4
+	GameState.mental = 60
+	GameState.moral_tint = -30.0
+	GameState.moral_band_last = -1
+	GameState.loop_tint_spent = -3.0
+	GameState.grind_streak_weeks = 3
+	GameState.action_points = 1
+	GameState.active_thought = {}
+	GameState.money_only_weeks_total = 100
+	GameState.human_only_weeks_total = 50
+	GameState.both_axes_weeks_total = 60
+	GameState.unmarked_weeks_total = 29
+	GameState.classified_weeks_total = 239
+	GameState.money_weeks_total = 160
+	GameState.human_weeks_total = 110
+	GameState.month_money_weeks = 2
+	GameState.month_human_weeks = 1
+	GameState.action_axis_this_week = {"money": 0, "human": 0}
+	GameState.action_places_this_week = {}
+	GameState.action_records_this_week = []
+	GameState.recent_action_weeks = [
+		{"turn": 238, "money": 1, "human": 0, "places": {}, "actions": []},
+		{"turn": 239, "money": 1, "human": 0, "places": {}, "actions": []}]
+	for index in range(money_actions):
+		GameState.register_action_axis("money", "work", "side_shift")
+	for index in range(human_actions):
+		GameState.register_action_axis("human", "home", "rest")
 
 
 func _check_general_ledger_and_reducer_contract() -> void:
@@ -692,8 +825,11 @@ func _check_general_game_state_contract() -> void:
 	GameState.cast = original_cast
 	GameState.player_route = original_player_route
 	GameState.tendency_realized = original_tendency
+	var pending_save: Dictionary = {}
 	for index in range(GENERAL_CAFE_EVENTS.size()):
 		GameState.turn = GENERAL_TURNS[index]
+		if index == GENERAL_CAFE_EVENTS.size() - 1:
+			pending_save = GameState.serialize().duplicate(true)
 		var result := GameState.record_chapter5_finale_choice(
 			GENERAL_CAFE_EVENTS[index], GENERAL_CHOICES[index])
 		_expect(bool(result.get("ok", false)),
@@ -708,6 +844,8 @@ func _check_general_game_state_contract() -> void:
 		and str(GameState.chapter5_finale_entry_snapshot().get("profile_id", "")) \
 		== ROUTE.GENERAL_PROFILE_ID,
 		"GameState general ready save did not roundtrip")
+	_check_terminal_axis_release_matrix(
+		GameState.serialize().duplicate(true), pending_save, "general")
 	var first := GameState.consume_chapter5_finale_ending()
 	var second := GameState.consume_chapter5_finale_ending()
 	_expect(bool(first.get("ok", false)) and not bool(first.get("idempotent", true)) \

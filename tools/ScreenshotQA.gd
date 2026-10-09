@@ -22538,6 +22538,80 @@ func _assert_full_time_ledger_classification_fixture(
 		GameState.RUN_TURN_LIMIT, "%s legacy full-ending ledger fixture" % lang):
 		return false
 	await _save(prefix + "10_legacy_unclassified_ledger", 0.02)
+
+	# The typed finale consumes its last choice at W240 without calendar +1.
+	# Prepare the existing General route, not a fabricated consumed latch.
+	var prior_state: Dictionary = GameState.serialize().duplicate(true)
+	var outbound_id := "arc_y5_final_week_general_people_outbound"
+	_prepare_chapter5_general_finale_story_state(outbound_id)
+	if _qa_failed:
+		return false
+	var committed := GameState.record_chapter5_finale_choice(outbound_id, 0)
+	if not bool(committed.get("ok", false)):
+		_fail("%s terminal ledger fixture could not prepare outbound." % lang)
+		return false
+	GameState.money_only_weeks_total = 131
+	GameState.human_only_weeks_total = 108
+	GameState.both_axes_weeks_total = 0
+	GameState.unmarked_weeks_total = 0
+	GameState.classified_weeks_total = 239
+	GameState.action_axis_this_week = {"money": 1, "human": 0}
+	var released := GameState.consume_chapter5_finale_ending_check()
+	if not bool(released.get("ok", false)) \
+			or not GameState.chapter5_finale_ending_consumed():
+		_fail("%s terminal ledger fixture could not consume outbound." % lang)
+		return false
+	choice_root = _clear_choice_box_immediately()
+	var terminal_ledger := _mg.call(
+		"_build_time_ledger_card", _tr("5년의 기록", "A Five-Year Record"), "", false) \
+		as PanelContainer
+	if not is_instance_valid(terminal_ledger):
+		_fail("%s terminal ledger fixture could not build its surface." % lang)
+		return false
+	choice_root.add_child(terminal_ledger)
+	await get_tree().process_frame
+	if not _assert_time_ledger_week_classification(
+			choice_root, GameState.RUN_TURN_LIMIT,
+			"%s protected ending turn-240 ledger fixture" % lang):
+		return false
+	var footer := _tr("{date} · {weeks}주차", "{date} · WEEK {weeks}").format({
+		"date": GameState.get_date_string(), "weeks": GameState.RUN_TURN_LIMIT})
+	if _collect_control_text(terminal_ledger).find(footer) < 0:
+		_fail("%s protected ending ledger footer did not show W240." % lang)
+		return false
+	_mg.call("_ending_stat_grid", choice_root)
+	var facts := _find_meta_control(choice_root, "ending_record_facts")
+	if not is_instance_valid(facts) or _collect_control_text(facts).find(
+			_tr("%d주", "%d weeks") % GameState.RUN_TURN_LIMIT) < 0:
+		_fail("%s protected ending run record did not show 240 weeks." % lang)
+		return false
+	await _save(prefix + "11_terminal_week240_ledger", 0.02)
+
+	# An already-consumed older save may still lack its last classification.
+	# Report that gap; rendering/re-consuming must never invent its history.
+	GameState.money_only_weeks_total = 131
+	GameState.classified_weeks_total = 239
+	GameState.action_axis_this_week = {"money": 1, "human": 0}
+	var old_consumed: Dictionary = GameState.serialize().duplicate(true)
+	GameState.consume_chapter5_finale_ending_check()
+	choice_root = _clear_choice_box_immediately()
+	var old_terminal_ledger := _mg.call(
+		"_build_time_ledger_card", _tr("5년의 기록", "A Five-Year Record"), "", false) \
+		as PanelContainer
+	if not is_instance_valid(old_terminal_ledger):
+		_fail("%s old terminal ledger fixture could not build its surface." % lang)
+		return false
+	choice_root.add_child(old_terminal_ledger)
+	await get_tree().process_frame
+	if not _assert_time_ledger_legacy_classification(
+			choice_root, {"money_only": 131, "human_only": 108, "both": 0, "neither": 0},
+			GameState.RUN_TURN_LIMIT, "%s old consumed W240 ledger fixture" % lang):
+		return false
+	if GameState.serialize() != old_consumed:
+		_fail("%s old consumed W240 ledger invented a week." % lang)
+		return false
+	await _save(prefix + "12_old_consumed_week240_gap", 0.02)
+	GameState.load_from_dict(prior_state)
 	return true
 
 func _classification_state_matches(

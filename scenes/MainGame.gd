@@ -21759,10 +21759,12 @@ func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool)
 	var accent: Color = _moral_gray_accent(Color("#dce5ee"), palette, 0.05)
 	var money_color: Color = _moral_gray_accent(Color("#858d98"), palette, 0.02)
 	var people_color: Color = _moral_gray_accent(Color("#dce5ee"), palette, 0.04)
-	# 데모 결산은 W24 화면에서 닫히지만, 본편 결산은 마지막 주를 정산한 뒤
-	# 달력이 다음 turn으로 넘어가며 열린다. 따라서 본편은 완료한 주(turn-1)를 쓴다.
+	# 일반 결산은 달력이 넘어간 뒤 열리지만 보호 종막은 W240 안에서 닫힌다.
 	var record_turn: int = mini(int(GameState.turn), GameState.DEMO_TURN_LIMIT) \
 		if is_demo else mini(maxi(0, int(GameState.turn) - 1), GameState.RUN_TURN_LIMIT)
+	if not is_demo and GameState.turn == GameState.RUN_TURN_LIMIT \
+			and GameState.chapter5_finale_ending_consumed():
+		record_turn = GameState.RUN_TURN_LIMIT
 	var money_only_weeks: int = GameState.money_only_weeks_total
 	var human_only_weeks: int = GameState.human_only_weeks_total
 	var both_weeks: int = GameState.both_axes_weeks_total

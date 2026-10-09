@@ -44,3 +44,29 @@ ScreenshotQA의 네 분류합=살아온 주 수 계약을 복구한다. 새 엔�
 원문/번역·project.godot·사용자 저장·원본 seed/checkpoint·과거 인간 판정·공개
 M01~M06 변경0. 자동 PASS는 재미/원어민/인간/물리패드/전체제품/출시 GO가 아니다.
 기존 제품 계약의 결함 수리이며 새 정본 규칙0·절차 일회성이다.
+
+## 2026-10-10 구현·표적 확인
+
+- consume wrapper 최초 성공의 W240만 기록을 정산한다. 기본 달력 호출의
+  마모는 유지하고 종막에서는 정신/도덕/피로·날짜·경제·AP를 추가 소비하지 않는다.
+  이미 consumed인 옛 저장은 역으로 채우지 않는다. 원장은 유효한 consumed
+  W240에만 240주를 쓰며 turn241·데모 경계는 기존대로다.
+- 기존 Chapter5FinaleRouteCheck exit0/exact marker `terminal-axes=profiles2/cases4/once-json/no-extra-wear`.
+  Property/General 네 축·최초/alias 중복/JSON 재소비·pending/closed·기본 마모 대조
+  전수 PASS. `/tmp/gangnam-order513-route.FQkhUj` stdout/godot SHA각
+  `2f75ef207fc8486ab0c3032262376c3b98613e734987391c5070aba502b70a43`, 오류/경고0.
+- 기존 CompileCheck68 PASS(`/tmp/gangnam-order513-compile.5aZtF0`). 기존
+  ScreenshotQA ap-act-en KO/EN1280×800 각각 exit0/exact marker·16컷·오류/경고0.
+  root가 새11/12 네 화면을 직접 확인했다:132+108=240/기록240/footer240,
+  옛 consumed131+108=239/미분류1/footer240. 준비 상태이며 자연 플레이 증거가 아니다.
+  KO `/tmp/gangnam-order513-surface-ko.vCIiUP` stdout SHA
+  `06fe25a7f1a0dc8808f73720875c4fec9ebc749849c13bc87aaec764ffc1c056`;
+  EN `/tmp/gangnam-order513-surface-en.0EE1JB` stdout SHA
+  `7ae529ce391b6180f9fe0855620547b7b90982b533934a613adf083529b5c0cf`.
+- EN coverage/Hangul·finale route·서사·음악·데모 고정·표면언어 PASS, diff 오류0.
+  standalone general finale audit의 lifecycle shipping1708 고정 실패1은
+  ce0a32b 동일 파일/동일 원인(실제1696)임을 원함수로 대조했다. 새 실패0이며
+  검사/KNOWN_FAILURES를 넓히거나 이 기존 실패를 PASS라고 쓰지 않는다.
+- 기존 helper.snapshot fresh 대조로 helper5/seed2/W215/player33가457 종료 전과
+  전수 동일. W238/W200/W195/510bak도 원 SHA 유지, 사용자 editor61385 생존.
+  수리된 실제 W238→종막 재플레이·CI 새 head·최종 source 결속은 별도다.

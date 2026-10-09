@@ -2,6 +2,13 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 마지막 주 원장 수리·기존 두 경로/한영 화면 검증
+
+- [513](queue_active/ORDER-513.md)은 보호 종막의 최초 consume에서 W240 행동만 정확1회 기록하고 원장 기간을240주로 맞춘다. 날짜·AP·경제·정신/숨은 도덕 마모를 추가 실행하지 않으며 기존 달력 정산·옛 저장은 보존한다. 새 UI문자열/번역/저장 스키마/엔딩 분기0.
+- 기존 Chapter5 fixture Property/General×네 축·최초/중복/JSON·pending/closed·기본 마모 전수 PASS, Compile68 PASS. 기존 ScreenshotQA KO/EN1280×800 각각16컷·exit0/marker·엔진오류0, 새 네 컷 root 직접 확인으로 합계/기록240과 옛239+미분류1 표시를 대조했다. 준비 QA이며 실제 자연 입력·인간·원어민 증거로 바꾸지 않는다.
+- EN/한글·서사·장면음악·데모·표면 언어 새 실패0. standalone general finale audit의 shipping1708 이력 수치 실패1은 ce0a32b에도 같은 원인으로 재현돼 보존한다(현재1696, 수리 대상 밖). helper5/seed2/원W215/player33·W238/W200/W195/510bak 불변·사용자editor 유지. 새 head CI/실제 마지막 주 재플레이·최종 결속은 남았다.
+- 개발 스킬의 기존 검사 재사용·원시 로그 검사·옛 저장 비추정·별도 실제 관찰 원칙을 적용했다. 새 도구/규범0·기존 계약 복구·일회성. 본편/출시 HOLD.
+
 ## 2026-10-10 — General M60·후일담6/6 정상 완주, 마지막 주 원장 누락 수리 선언
 
 - [457](queue_archive/ORDER-457.md)은 실제 W215 Load→W238 UI Save→마지막 밤 주소 삭제/민서 선발신→investment_master 3문단→Credits/Aftermath/Time Ledger/Run Record/6/6→Main Menu/Quit를 완료했다. source ce0a32b/EN1280×800·개별 키/자연 타이핑·자동입력0이며 원관찰37건과 원시 로그/저장을 보존한다. 다른 source의 앞선 이어보기와 구분하며 fresh W1→240/모든 경로로 확대하지 않는다.

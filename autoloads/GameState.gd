@@ -734,6 +734,10 @@ func consume_chapter5_finale_ending() -> Dictionary:
 	if bool(result.get("ok", false)):
 		chapter5_finale_state = (
 			result.get("state", chapter5_finale_state) as Dictionary).duplicate(true)
+		if turn == RUN_TURN_LIMIT and not bool(result.get("idempotent", false)):
+			# W240 ends here, without advancing the calendar or charging another
+			# week's wear. Keep its actual choices in the ledger exactly once.
+			finalize_action_axis_week(false)
 	return result
 
 func consume_chapter5_finale_ending_check() -> Dictionary:
@@ -3632,9 +3636,9 @@ func get_latest_action_records(max_count: int = 2) -> Array:
 			break
 	return records
 
-# 주가 끝날 때(advance_calendar) 한 번 호출 — 그 주를 무엇에 썼는지 정산한다.
+# 주가 끝날 때 한 번 호출 — 그 주를 무엇에 썼는지 정산한다.
 # 사람축을 한 번이라도 챙긴 주는 마모를 리셋. 돈에만 갈아넣은 주가 쌓이면 서서히 마모.
-func finalize_action_axis_week() -> void:
+func finalize_action_axis_week(apply_weekly_wear: bool = true) -> void:
 	var money_count := int(action_axis_this_week.get("money", 0))
 	var human_count := int(action_axis_this_week.get("human", 0))
 	_remember_action_week(money_count, human_count)
@@ -3655,8 +3659,9 @@ func finalize_action_axis_week() -> void:
 	if human_count > 0:
 		human_weeks_total += 1
 		month_human_weeks += 1
+	if apply_weekly_wear and human_count > 0:
 		grind_streak_weeks = 0
-	elif money_count > 0:
+	elif apply_weekly_wear and money_count > 0:
 		grind_streak_weeks += 1
 		if grind_streak_weeks % 4 == 0:
 			modify_stat("mental", -1)
