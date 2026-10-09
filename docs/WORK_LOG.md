@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)에 바이트 그대로 이동했다. 보존본의 상대 링크는 이동 전 경로 기준이다.
 
+## 2026-10-09 — 지금 하지 않는 직장 일을 단정하지 않도록, 현수 방문 장소도 분명하게 (490)
+
+- 아버지 전화 결과의 현재 동료 상철→이미 경험한 사무소 커피 제안, 느린 축적 장면의 급여/퇴근/3년 동일 급여→현재 자동이체·가계부, 현수 전화의 근무→오늘 별일 없음, 합격 방문→현수가 사는 고시원으로 고쳤다. 선언5c48461 → KO/EN9d09b1a → 최종 be3f616b6df1c3a275155e80f7c0db369569e4bb를 main에 올렸다. 5잎×5언어25값/20파일 외 raw 변화0, 선택·효과·조건·라우팅·runtime·저장·공개 데모·project·과거 판정 불변이다.
+- 현재 직업을 발명한 원문을 먼저 고쳐 employment3을 억지 등록하지 않았다. person_deal의 기존 관계 변형에 relationship1만 등록했다. 기존 EXPOSED를 실제 재실행해 실패6→0(roots380/exposed531/sensitive523/neutral8)으로 복귀, KNOWN 정확1행만 닫았다. PEAK_CHAIN_EXIT/Codex/만료2026-10-16이 유일한 현재 CI 예외이며 밀도 결함은 남아 있다. 검사 삭제·예외 확대0이다.
+- 확정 KO를 각 지역에서 독립 저작해 JA/CN/TW 공식 export/check/import 각5잎·4파일을 수용했다. current source/target/official receipt15 일치·translation_errors0, accepted41887 불변/15교정·batch285→286·native/rendered OPEN·새 coverage0이다. 옛 receipts/전역 metadata를 보존했고 전체 번역은 여전히 INCOMPLETE다. release inventory에서 실제 바뀐 gambling/sexuality/fear 지문3만 갱신하고 기존 보고 생성기로 맞췄다.
+- EN coverage/한글 누출·서사 연속성·말투·story consistency·장면 음악·prose recall·번역 overlay·release inventory·보호 데모 검사가 PASS했다. 표적 Python trace는 실제 플레이가 아니다. 독립 manifest_alignment_review가 ingress·KO/번역15·공식수용3·25값 raw 역상·도메인1·지문3을 직접 검수하고 EXPOSED 재실행/known1 삭제까지 최종 GO·blocking0을 확인했다. 새 formal보고·에이전트 판정 원장·전체 감사·엔진240주·도구/계측0이다.
+- [490 완료 사양](queue_archive/ORDER-490.md)에 기존 producer/consumer·정확한 범위와 한계를 기록하고 큐는 선언 전 바이트로 복귀한다. 개발 스킬의 선선언·작은 diff·공식 수용·기존 표적 검증을 적용했다. 새 규범0/일회성 절차다. Mac 실제 잠금으로 화면149/457/302 재개 미실행, 원어민/인간/물리패드 미관찰·본편출시 HOLD다. 정리487의 실제 녹색 CI는 보존하되 새 main CI 통과로 확대하지 않는다.
+
 ## 2026-10-09 — 살아 있는 장면의 음악·연출 등록을 정상화 (489)
 
 - 이미 제품 진입에서 제외한4장 지연 연인 원고6개가 shipping 음악·연출 intent에 남아 기존 검사3개를 실패시켰다. 선언6cc09a9 뒤 source d0515605c023b8d7cce68a6a07c01373fc2055a5에서 audio rendered_profile와 direction explicit_move에서 같은6개씩만 제외했다. 실제 음악/이미지·원고/5locale·저장·runtime·공개데모·project·판정 이력은 바꾸거나 지우지 않았다.
