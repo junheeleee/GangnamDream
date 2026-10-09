@@ -125,6 +125,7 @@ func _run() -> void:
 		_failures.append("could not create isolated RuntimeQA user directory")
 		_finish()
 		return
+	_check_public_namespace_contract()
 	_remove_candidate_files()
 	_remove_settings_file()
 	_check_story_language_contract()
@@ -192,6 +193,40 @@ func _run() -> void:
 	_expect(_storymode_semantic_backup_recoveries == 1,
 		"five-locale sweep did not prove StoryMode semantic .bak recovery")
 	_finish()
+
+
+func _check_public_namespace_contract() -> void:
+	var original_use_custom: Variant = ProjectSettings.get_setting(
+		"application/config/use_custom_user_dir", false)
+	var original_name: Variant = ProjectSettings.get_setting(
+		"application/config/custom_user_dir_name", "")
+	# Do not enter either scene: these namespace predicates must not write files
+	# or bootstrap a session while their configuration is temporarily changed.
+	var controller := CONTROLLER_SCENE.instantiate()
+	var story := STORY_SCENE.instantiate()
+	var public_name := str(controller.get_script().PUBLIC_CUSTOM_USER_DIR)
+	_expect(not public_name.is_empty(), "controller public namespace is empty")
+	for sample in [
+		{"name": public_name, "enabled": true, "accepted": true},
+		{"name": public_name + "_untrusted", "enabled": true, "accepted": false},
+		{"name": public_name, "enabled": false, "accepted": false},
+	]:
+		ProjectSettings.set_setting(
+			"application/config/use_custom_user_dir", sample["enabled"])
+		ProjectSettings.set_setting(
+			"application/config/custom_user_dir_name", sample["name"])
+		var controller_accepts := bool(controller.call("_public_user_data_configured"))
+		var story_accepts := bool(story.call("_is_public_story_demo"))
+		_expect(controller_accepts == bool(sample["accepted"]) \
+			and story_accepts == controller_accepts,
+			"StoryMode/controller namespace mismatch for %s (custom=%s)" % [
+				sample["name"], sample["enabled"]])
+	ProjectSettings.set_setting(
+		"application/config/use_custom_user_dir", original_use_custom)
+	ProjectSettings.set_setting(
+		"application/config/custom_user_dir_name", original_name)
+	story.free()
+	controller.free()
 
 
 func _check_transition_timer_lifetime() -> void:
