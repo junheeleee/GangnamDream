@@ -51,7 +51,7 @@
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
 | 1 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
-| 2 | [~] | ORDER-457 · 5장 일반 경로 정상 재플레이 | [457](queue_active/ORDER-457.md) | W195 실제 메뉴 이어보기 재개 · M60 미도달 |
+| 2 | [~] | ORDER-457 · 5장 일반 경로 정상 재플레이 | [457](queue_active/ORDER-457.md) | 실제 W195→W200/격리 보존 GO · 로드 추가추첨 등 수리 필요 · M60 미도달 |
 | 3 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor export GO/실제 재생6항목 HOLD |
 | 4 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 
