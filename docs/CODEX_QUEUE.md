@@ -51,7 +51,7 @@
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
 | 1 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
-| 2 | [~] | ORDER-513 · 종막 마지막 주의 시간 원장 누락 | [513](queue_active/ORDER-513.md) | General 실제완주·6/6·보존 GO · W240 정산/239·240 불일치 수리 선언 |
+| 2 | [~] | ORDER-514 · 수리된 마지막 주 실제 엔딩 재플레이 | [514](queue_active/ORDER-514.md) | 513 정산 정확1회·한영 준비 PASS · 원W238 Load→240/6/6 선언 |
 | 3 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor export GO/실제 재생6항목 HOLD |
 | 4 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 

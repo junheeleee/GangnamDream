@@ -10403,6 +10403,54 @@
         "path": "docs/agent_reviews/ORDER-457.json",
         "sha256": "563d16674e6326310e5404a8105743d91e78c0c79021a87853c55792471f296b"
       }
+    },
+    {
+      "id": "order-513-source-21dc70f-final-week-ledger",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-513",
+      "subject": {
+        "kind": "source",
+        "commit": "21dc70f034f587c692593ec984835ea3bb2e2543",
+        "tree": "5aea95f71dfd031fd5d6890b7db2714c75b48de4",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-513.md",
+          "sha256": "133d63d8642667493e04a855c2521a026a5d9450f590b522ed273c53b814cf64"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-513.md",
+          "sha256": "133d63d8642667493e04a855c2521a026a5d9450f590b522ed273c53b814cf64"
+        },
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/queue_archive/ORDER-513.md",
+          "sha256": "133d63d8642667493e04a855c2521a026a5d9450f590b522ed273c53b814cf64"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_audio_listening",
+        "repaired_source_actual_W238_to_M60_play",
+        "EN11_independent_numeric_pixel_visibility",
+        "other_locales_and_resolutions",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-513.md",
+        "sha256": "133d63d8642667493e04a855c2521a026a5d9450f590b522ed273c53b814cf64"
+      }
     }
   ]
 }
