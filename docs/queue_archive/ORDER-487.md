@@ -1,6 +1,6 @@
 # ORDER-487 — 상시 실패와 닫힌 오더의 이력 검사 정리
 
-#### [~] ORDER-487 [검수 절차] 실패 전수표 선커밋 → 이력 전용 검사 삭제 → 녹색 CI — 2026-10-09
+#### [x] ORDER-487 [검수 절차] 실패 전수표 선커밋 → 이력 전용 검사 삭제 → 녹색 CI — 2026-10-09
 
 ## 근거 / 판정 범위
 
@@ -45,6 +45,8 @@ root와 아래 분리 저자가 다음 도구·등록·CI와 운영 문서만 �
   삭제한 history 분기만 분리할 수 있다. full_game_runtime_trace_audit.py·
   full_game_runtime_trace_contract.py·feature_liveness_audit.py·project_dashboard.py는
   확인된 old byte seal/독립 QA 오탐/생성 현황 비교만 수리할 수 있으며 제품 조건은 유지한다.
+- docs/CODEX_QUEUE_L3_PENDING.md의 완료 행 제거에 따른 순번만 기계적으로 정렬한다.
+  기존 L3 문구·상태·사양·판정은 변경하지 않는다.
 - docs/queue_backlog/AUDIT_FAILURE_TRIAGE_2026-10-09.md,
   docs/KNOWN_FAILURES.md, docs/context_manifest.json, docs/CODEX_QUEUE.md,
   docs/queue_active/ORDER-487.md·완료 archive, docs/WORK_LOG.md,
@@ -143,3 +145,25 @@ human_gates/과거 판정은 수정0이다. "지난 주말 가지 못한 곳" �
   fresh clone의 첫 import가 누락 QA UID14를 만들며 후보 신원 reason을 바꾸는 오탐을
   재현했다.6305215에서 소유 선언 뒤 엔진 생성 UID14만 수용하여 검사를 그대로 유지한다.
   실제 main 녹색 재확인 전까지 이 오더는 계속 [~]다.
+
+## 실제 main 녹색 확인·마감 (2026-10-09)
+
+- main00eec859470bf69c86cf989b7bbe587f07e2072c/source0af4ca6987aaec94c34d14cd738c2d443f524342의
+  [CI37858051278](https://github.com/junheeleee/GangnamDream/actions/runs/37858051278)는
+  2026-10-09T00:38:35Z completed/success다. 정적·밸런스 job113586904516과
+  Godot·입력·240주 job113586904198 모두 success이며 skipped 제품 단계0이다.
+- 실제 로그: DASHBOARD_FRESH; COMPILE_CHECK_OK total=68;
+  감사 통과 known_failures=5 allowed_in_ci=True. 목록 밖 실패0이며 정확5건은
+  실패 로그/소유자/2026-10-16 만료를 보존한다. 실패를 제품 GO로 바꾸지 않는다.
+- CORE_LOOP_V2_INPUT_OK device=gamepad lang=ko weeks=24 gamepad_events=1640;
+  device=keyboard lang=en weeks=24 keyboard_events=1646. 둘 다 semantic_events=0,
+  unknown_events=0·autosave=1·title_return=1·first_bill=1/1/1이다.
+  SIMRUN_CASH_INTEGRITY_OK checkpoints=24/48/240·SMOKE_ALL_OK도 실제 로그에서 확인했다.
+  이는 자동 입력 회귀이며 인간·원어민·물리 패드 감각 관찰이 아니다.
+- 입력 로그·화면 artifact11587947306/core-loop-v2-input-1(4,712,075byte),
+  digest b5869e6b9b70e2574f7bff41fb9d60a9f000480dd1317d3a25933c3cd58bc665를 CI가 보존했다.
+  원문·번역·원장·저장·project.godot·과거 인간 판정 변경0, 공개 데모 GO와 본편 HOLD 유지다.
+- 규범 판정: 계속 유효한 검수 원칙은 이미 DECISIONS 2026-10-08이 소유한다.
+  이 오더의 파일 소유·표 선커밋·삭제56·CI 마감 순서는 일회성이다.
+  신규 규범/비용 도구/후속 계측 오더0. 기본 arc_36_unexpected_hand 문장 수리는
+  이 마감 뒤 별도 선언한다. 2장 수첩·5장 기간 수리는 완료472를 재적용하지 않는다.

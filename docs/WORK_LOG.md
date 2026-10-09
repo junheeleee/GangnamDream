@@ -2,6 +2,15 @@
 
 이전 원문 전체는 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)에 바이트 그대로 이동했다. 보존본의 상대 링크는 이동 전 경로 기준이다.
 
+## 2026-10-09 — 실제 main CI 녹색·검수 정리 마감 (487)
+
+- 실제 main00eec859470bf69c86cf989b7bbe587f07e2072c/source0af4ca6987aaec94c34d14cd738c2d443f524342의 [CI37858051278](https://github.com/junheeleee/GangnamDream/actions/runs/37858051278)가 2026-10-09T00:38:35Z completed/success다. 정적·밸런스113586904516, Godot·입력·경제113586904198 모두 success·skipped 제품 단계0. 현황 오탐 UID14 수리도 DASHBOARD_FRESH로 실제 확인됐다.
+- COMPILE_CHECK_OK total=68; 감사 통과 known_failures=5 allowed_in_ci=True; 목록 밖 실패0. KNOWN_FAILURES의 실제 제품5건은 검사 실행/FAIL 로그·Codex 소유·만료2026-10-16을 보존한다. 이력 전용56삭제·표 선커밋·비제품 근거는 아래 기록과 [전수표](queue_backlog/AUDIT_FAILURE_TRIAGE_2026-10-09.md)에 있으며 Git에서 복구 가능하다. EN 한글·번역 원장·서사·장면 음악·데모·컴파일·저장 검사는 삭제하지 않았다.
+- CORE_LOOP_V2_INPUT_OK KOgamepad24주/1640입력·ENkeyboard24주/1646입력, 둘 다 semantic/unknown0·autosave1·title_return1·first_bill1/1/1. SIMRUN_CASH_INTEGRITY_OK24/48/240·SMOKE_ALL_OK. CI의 입력 로그·화면 artifact11587947306(4,712,075byte; digest b5869e6b9b70e2574f7bff41fb9d60a9f000480dd1317d3a25933c3cd58bc665)도 보존됐다. 자동 PASS는 계약 증거이며 재미·깊이·문체나 인간·원어민·물리 패드 관찰을 증명하지 않는다.
+- [487 완료 사양](queue_archive/ORDER-487.md)을 아카이브하고 큐 본문/이어보기의 순번만 정렬한다. 기존 L3 상태·문구·판정은 불변. 계속 유효한 규범은 DECISIONS 2026-10-08이 이미 소유하며 이번 파일 소유·표/삭제/마감 절차는 일회성이다. 신규 도구·비용 계측·재사용 후속0; 게임 원문·번역·원장·저장·project.godot·인간 이력 수정0. 개발 스킬의 선선언/제품 보존/표적 검증을 적용했다.
+- 다음은 사용자가 지정한 기본 arc_36_unexpected_hand의 모호한 선택지 수리를 별도 선언한다. 준비된 2장 수첩·5장 기간 초안은 완료472를 먼저 대조해 중복 적용하지 않는다. 공개 데모 GO·본편 출시 HOLD·known 제품 결함5건을 유지한다.
+- 비저자 cleanup_closure_review가 최종 main/CI 양 job의 실제 로그·56개 삭제/선커밋 표·금지 경로 diff를 직접 대조해 정리 완료의 blocker0을 확인했다. 검수 모집단은894a6c09..00eec859이며 게임/locale/원장/runtime/project/인간·에이전트 판정 이력 diff0이다. 별도 오더별 보고/원장/새 도구는 만들지 않았고 검수 절차 정리의 완료만 판정했다.
+
 ## 2026-10-09 — main CI 현황 오탐의 실제 원인 수리 (487, 재검증 대기)
 
 - 실제 [main CI37851130776](https://github.com/junheeleee/GangnamDream/actions/runs/37851130776), source0fb0807/job113564010620이 종료됐다. 정적/밸런스 성공·전체 컴파일68 PASS, audit.sh 집계의 정확 KNOWN_FAILURES5 외 실패는 STATUS_DOC_EXIT 한 건이다. 뒤의 실제입력/240주 시뮬은 이 실패로 skipped이며 완료로 세지 않는다.
