@@ -42,8 +42,9 @@ content/meta/full_game_localization.json 해당40영수증·배치1. 운영 파�
 
 ## 실행 / 검증 / 경계
 
-현재 gate: 정상 구독자100만/강남과 가족 양자 표현을 기존 수량 검사가
-거부했다. 별도501이 기존 검사만 수리한 뒤 공식 check/import를 재개한다.
+현재 gate: 정상 구독자100만/강남과 가족 양자 표현을 거부하던 기존검사는
+별도501의 제품5aa6de3에서 수리/독립검수 완료다. 문안40 GO·공식 check20씩
+PASS이며, 원영수증/원장/raw 역상/actual Git 검수와 수용을 재개한다.
 
 간체·번체 저자 둘은 KO 직접 private response 한 파일씩만 소유한다. root는
 먼저 선언commit/push, 공식 export/check/import20·원영수증 header/SHA2와

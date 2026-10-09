@@ -2,6 +2,13 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)과 [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 엔딩 구독자 수·두 대상 표현의 중국어 검사 오탐 수리 (501)
+
+- 500 정상 번역의 구독자100만을 100만원으로, 강남과 가족의 둘 다를 사람2명으로 읽던 기존 검사를 수리했다. 선언c1902b3 → 제품5aa6de3bf6da0c33d1787222ec3a48f4f7a8e7c0 main commit/push 완료다. zh_translation_audit.py 1파일65+/3-·typed audience/명시된 양자와 embedded self-test만, 게임원문/번역/원장/runtime/저장 변경0이다.
+- 현재 source16957종의 counter/money 필드 전후 전수대조는 실제2잎만 변화다. 구독자100만은 원화1,000,000→초과 구독자1,000,000, 강남+가족은 entity2→명시 양자2다. source manifest b7d4 불변·500 공식check20×2 PASS. 일반만=원화·일반둘=entity·금액/단위/부호/범위/역할/중복 차단을 보존했다.
+- 비저자 phone_cn_author의 정상40·독립78표본 예상불일치0. 발견한 양자 중복 누락은 기존 LIFE_SCENE unmatched 검사 등록으로 닫았고 최종실제Git/tool-only범위·검수blob68db73ac 일치GO·blocking0이다. ZH self-test12711·currentZH·full localization265·body54·i18n·공개/legacy demo·등록179/context/queue/diff PASS다. 첫 테스트의 간체 정상표본에 번체字를 넣은 실수는 지역검사를 보존한 채 표본만 고쳤다.
+- [501 완료 사양](queue_archive/ORDER-501.md). 개발 스킬의 선선언·실패재현·별도범위·비저자/표적 검증 적용, 새 검사/이력/계측/재사용 도구·형식 보고/판정원장·allowlist/검사삭제0·새규범0/일회성이다. 500 번역 수용을 이어가며 마지막 생성STATUS는 그 마감과 함께 갱신한다. 497 마감bb77e5e CI37900734618 녹색 확인·최신 CI진행 중, Mac잠금/실제화면·원어민·물리패드 OPEN·출시 HOLD다.
+
 ## 2026-10-09 — 중국어 기록 탐색·저장 실패 안내50값 수용 (499)
 
 - 기존 UI25키/실제25호출(CoreLoopV2Completion14·MainGame11)의 CN/TW50값을 KO 직접 지역별 병렬 저작·비저자 전수 대조했다. 선제 연락·시간 배정·미결 항목·월 차수/기록 기간·패드 순서를 구분했고, 저장 실패6단계의 이미 고정/1회 적용된 상태와 같은 상태의 저장 재시도·취업 신청·디스크 공간·수동 성공 분기를 보존했다. 선언fef6d05 → 제품fe8bbb425e282f93af7a57d5ab45646a7c3f8638 main commit/push 완료다.

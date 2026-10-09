@@ -1,6 +1,6 @@
 # ORDER-501 — 중국어 엔딩 수량 검사 오탐 수리
 
-#### [~] ORDER-501 [현지화 검사 수리] 구독자 수·양자 표현 — 2026-10-09
+#### [x] ORDER-501 [현지화 검사 수리] 구독자 수·양자 표현 — 2026-10-09
 
 착수 — 만지는 제품 파일: tools/zh_translation_audit.py의 기존 수량 판독과
 같은 파일 embedded self-test만. 운영 파일은 큐/L3·본 사양/완료archive·WORK_LOG·
@@ -36,3 +36,22 @@ i18n·공개/legacy 데모 및 등록/context/queue/diff 영향 검사만 실행
 전체 local audit/엔진240주·계측/검수 재사용 작업·형식 보고/판정원장0이다.
 과거 인간판정·공개 M01~M06·shipping language 불변, 실제화면/원어민/
 물리패드 OPEN·전체출시 HOLD. 새규범0/절차 일회성이다.
+
+## 수용 결과 — 2026-10-09 / 기존 검사 한정 GO
+
+선언c1902b3 → 제품5aa6de3bf6da0c33d1787222ec3a48f4f7a8e7c0 main commit/push.
+tool1파일65+/3-, source16957종 counter/money 필드 전수대조의 변화2잎만이다.
+구독자100만 money1,000,000→creator_subscriber_over_count1,000,000;
+강남과 가족 entity2→kept_gangnam_family_pair2, source manifest b7d4 불변.
+500 공식check20×2·현재 정상40 PASS. 일반만=원화·일반둘=entity 불변이다.
+
+독립 phone_cn_author의78표본(기본74+삼자/정상 혼합4) 예상불일치0.
+양자 중복 누락 발견/기존 unmatched 경로 등록 수리 후 GO·blocking0이며,
+실제Git c1902b3→5aa6de3의 tool-only scope와 검수blob
+68db73ac2d9de51ba4995e42c94db0b9c34cbc30 일치·clean/origin 동기를 확인했다.
+ZH self-test12711·currentZH·full localization265·body scope54·i18n·
+공개/legacy demo·등록179/context/queue/diff PASS. 새검사/도구/전체잎 예외0이다.
+원문·번역·원장·runtime·저장·공개 M01~M06·인간판정은 그대로다.
+개발 스킬의 현지화 프로필·선선언·원인 수리·독립 반례 검수를 적용했다.
+새규범0/절차 일회성. 500을 재개하고 생성STATUS는 그 마감과 함께 갱신한다.
+현재 전체 CI/실제화면·원어민·물리패드·본편출시 GO가 아니다.
