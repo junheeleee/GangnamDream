@@ -1,12 +1,20 @@
 # ORDER-519 — successor 장면의 데모 신원 연결 수리
 
-#### [~] ORDER-519 [P0·저장 재개] StoryMode와 controller의 exact namespace 일치
+#### [x] ORDER-519 [P0·저장 재개] StoryMode와 controller의 exact namespace 일치
 
 **착수 — 2026-10-10.** 516 retry1 실제 UI에서 저장한 결과 대신 첫 본문으로
 돌아가는 결함만 수리한다. 제품이 이미 제공하는 데모 수동 저장/이어하기의 연결
 복구이며 새 저장 시스템·스키마·임의 namespace 허용이 아니다.
 
-## 구현·표적 결과 — 최종 source 판정 대기
+## 구현·표적 결과 — source 한정 GO
+
+**완료 — 2026-10-10.** 비저자 `phone_independent_review`가 clean 최종 제품
+`cffd9d0e86e7d861be68a4f0962ce58f3e4aa38c`/tree
+`8fb35c04292395bbaeb8226ced125567088411da`의 endpoint와 원증거를 직접 대조했다.
+StoryMode blob22652a72…·fixture blobf3f53de1…는 검수했던 바이트와 exact다.
+보호24곳 fresh 동일·이름표 실제 긴 marker/원로그 일치도 확인했다. 결함/retouch0,
+source만 GO다. 새 package·실제 cold resume는 [516](../queue_active/ORDER-516.md)의
+후속 [520](../queue_active/ORDER-520.md) 발급 뒤 검수하며 현재 HOLD다.
 
 - 제품 변경은 exact 비교1줄뿐이다. 이미 preload한 controller의 상수를 소비하며
   기존 source의 v1·승인 QA 조건은 그대로다. fixture +35줄은 동적 exact/유사/비활성
@@ -26,7 +34,7 @@
 - 수정 전 전체 보존 SHA8b6ba9f7…654255B, 수정 후/마지막 전체 보존
   SHAfda30fc4…654301B 동일: tracked3255/helper5/seed2/W238/player33·보호24곳.
   비저자는 stage 전량 baseline/허용 변환·동일 수리1줄/원로그/보존을 직접 대조해
-  수리 한정 GO했다. clean 최종 제품 commit 대조 후 이 단위를 닫는다.
+  수리 한정 GO했다. 위 clean 최종 제품 commit 대조로 이 단위만 닫는다.
 
 ## 한 단위·깊이 3문
 

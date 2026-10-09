@@ -29,7 +29,8 @@ M01 자동 전환→본문5문단→차단 선택0→결과0/정신64→UI slot1
 엔진 오류/경고/누수0이다. slot1은 끝까지 원바이트 그대로다. slot 신원은 기존
 SaveManager의 full/2026.08.24.5/legacy이며 timer-fix package 신원이라고 쓰지 않는다.
 StoryMode의 고정 public namespace 판정이 successor를 거부해 controller session과
-story_resume_slot이 빠진 원인과 일치한다. [519](ORDER-519.md)에서 연결부만 수리한다.
+story_resume_slot이 빠진 원인과 일치한다. [519](../queue_archive/ORDER-519.md)의
+연결부 source 수리는 GO이며 [520](ORDER-520.md)에서 새 앱을 발급한다.
 
 private retry1 before648687B/SHA7c5bdd75…→between650044B/043e4668…→
 after650244B/019e6e71…·observation2661B/b12af6ed…·두 command/원로그/저장 bytecopy를

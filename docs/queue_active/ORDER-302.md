@@ -182,5 +182,5 @@ fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거�
 [518](../queue_archive/ORDER-518.md)의 새 b705bcf8/tree18542e4c·BUILD2026.10.10.1/
 timer-fix는 export만 GO(manifest SHA892c0be3…/runtime NOT_RUN)다.
 516 retry1은 실제 KO 부팅/slot 생성 후 이어하기가 결과64→첫 본문72로 돌아가 REWORK다.
-519에서 StoryMode/controller 신원 연결을 수리하며 기존 잠금/third 실패는 보존한다.
+519 신원 연결 source GO 뒤 520 새앱 발급을 잇는다. 잠금/third 실패는 보존한다.
 공개본/사용자GO 불승계·나머지 runtime·전체302/본편/출시 HOLD를 유지한다.

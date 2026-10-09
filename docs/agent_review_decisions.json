@@ -10632,6 +10632,48 @@
         "path": "docs/queue_archive/ORDER-518.md",
         "sha256": "9bc10bc85171a29152e72e181416c0ee97b36a4bceb5b76c5caa0df5ff263779"
       }
+    },
+    {
+      "id": "order-519-source-cffd9d0-exact-demo-identity",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-519",
+      "subject": {
+        "kind": "source",
+        "commit": "cffd9d0e86e7d861be68a4f0962ce58f3e4aa38c",
+        "tree": "8fb35c04292395bbaeb8226ced125567088411da",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-519.md",
+          "sha256": "7d418bd73c0c902cd3e3e900492c5dfbf633c59fa713330b02b51402a816bcc4"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-519.md",
+          "sha256": "7d418bd73c0c902cd3e3e900492c5dfbf633c59fa713330b02b51402a816bcc4"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_audio_listening",
+        "new_native_package",
+        "manual_save_and_cold_resume",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-519.md",
+        "sha256": "7d418bd73c0c902cd3e3e900492c5dfbf633c59fa713330b02b51402a816bcc4"
+      }
     }
   ]
 }
