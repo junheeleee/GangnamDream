@@ -11434,6 +11434,111 @@
           "batch_id": "ac85036bf6d0d23556d7a120cb2bcbef65c082212b246b4b2e13fa53bce28337"
         }
       }
+    },
+    {
+      "order": "ORDER-488",
+      "group": "events",
+      "roots": [
+        "arc_36_unexpected_hand"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean-source correction of the default chapter-four revisit choice only. Original export/check/import replaces one accepted leaf per locale, without new coverage or gameplay changes. Body/results are unchanged; native, rendered, human-play, physical-input and release review remain open.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "4f99a917ce0f0eb757deb04bbcf19eaaf4adcadebb185ab1e928f4db3354a6ef"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "f13fcd1b9060114b33e6fa3a9c033f49c24102c2",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "684dc4f8c409a5e0ceb197f3cdc6f93570fafe3412fc8b149ae875068e0a58ff",
+          "selection_sha256": "ae8a2200e9722c0af907f8223ac63d38acaa924887b929b57ce2e50ae532bcab",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "40b6c663876aec2712ad374d74a1e92f0fc70d4ac6312ba6d62481d8f40cefbb"
+        }
+      }
+    },
+    {
+      "order": "ORDER-488",
+      "group": "events",
+      "roots": [
+        "arc_36_unexpected_hand"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean-source correction of the default chapter-four revisit choice only. Original export/check/import replaces one accepted leaf per locale, without new coverage or gameplay changes. Body/results are unchanged; native, rendered, human-play, physical-input and release review remain open.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "660b1266bb77634d890f9a635c157152fc0caed6882a28e6716a65bb2b0bb826"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "f13fcd1b9060114b33e6fa3a9c033f49c24102c2",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "684dc4f8c409a5e0ceb197f3cdc6f93570fafe3412fc8b149ae875068e0a58ff",
+          "selection_sha256": "b9367f3c1d21bb1d6f5baa4a5443a78dd9f268d92c18729830fa92d34d35d944",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "179ebe1addea9dbee65243ff231e568331002a032d55238055709326466deaf8"
+        }
+      }
+    },
+    {
+      "order": "ORDER-488",
+      "group": "events",
+      "roots": [
+        "arc_36_unexpected_hand"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 1
+      },
+      "source_review": "Direct Korean-source correction of the default chapter-four revisit choice only. Original export/check/import replaces one accepted leaf per locale, without new coverage or gameplay changes. Body/results are unchanged; native, rendered, human-play, physical-input and release review remain open.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "81966834cfaafe631dfd18ab0e2cca5ad52d514faf29e9c4f41b051540f33ff6"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "f13fcd1b9060114b33e6fa3a9c033f49c24102c2",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "684dc4f8c409a5e0ceb197f3cdc6f93570fafe3412fc8b149ae875068e0a58ff",
+          "selection_sha256": "0e4e5de7a73ad0eb98faa3479e17004b1e62cd39e4e446173b30f669db333196",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "32c67d37ba223113aada0320c0bd616d2add588cac31c186964dfa09c619c3c0"
+        }
+      }
     }
   ],
   "accepted": {
@@ -18667,8 +18772,8 @@
         "target_sha256": "474266b2a9b318618b0ae8686e9c3eb15a98974b30a56823d4873e2aef8d3e4e"
       },
       "events:arc_36_unexpected_hand:/choices/1/text": {
-        "source_sha256": "7ec903532c1445a97e3d2ee06c583ae2c585a992867e468c598388d4c8a5f5fb",
-        "target_sha256": "7b6d0f95d0decac435b680067fb1c1bbb7c177b2cc86e87aac84fe42754d6c76"
+        "source_sha256": "fa73e300872d10641a3e66c5a0e36ca409f1b2fb39b333a0d282fe8991f5c6fe",
+        "target_sha256": "a6f6b3787fe7cf4ee656d884c9cae0f1c4b6ce5afb2d9805794192d2a52f6a28"
       },
       "events:arc_36_unexpected_hand:/description": {
         "source_sha256": "12c152fea9a730b21e04dc4affc3f6fdc7d89c13334d6317cac0c8ea2d8dec15",
@@ -71289,8 +71394,8 @@
         "target_sha256": "e9a1cf9d7669b567f29f1f75b2c67ab0975d12a97c21a3702c12b5f65fdc3dc9"
       },
       "events:arc_36_unexpected_hand:/choices/1/text": {
-        "source_sha256": "7ec903532c1445a97e3d2ee06c583ae2c585a992867e468c598388d4c8a5f5fb",
-        "target_sha256": "456382e924ab00da206c956918a3f1f603efbbdc5deca4696cff51aa2d1c4451"
+        "source_sha256": "fa73e300872d10641a3e66c5a0e36ca409f1b2fb39b333a0d282fe8991f5c6fe",
+        "target_sha256": "4ba58618f057345fb0c08eb48878fdef930de77f12c19f33f56f6f6818d82ad5"
       },
       "events:arc_36_unexpected_hand:/description": {
         "source_sha256": "12c152fea9a730b21e04dc4affc3f6fdc7d89c13334d6317cac0c8ea2d8dec15",
@@ -128755,8 +128860,8 @@
         "target_sha256": "42570240d913f520069a17ec6f4d198b75589f79def5a1c7989808b17f1da13d"
       },
       "events:arc_36_unexpected_hand:/choices/1/text": {
-        "source_sha256": "7ec903532c1445a97e3d2ee06c583ae2c585a992867e468c598388d4c8a5f5fb",
-        "target_sha256": "4a1f24eac37e4163e8fe3b524da293492d73267d3430a9e566180047d04dae2d"
+        "source_sha256": "fa73e300872d10641a3e66c5a0e36ca409f1b2fb39b333a0d282fe8991f5c6fe",
+        "target_sha256": "9cb9ab6bac48a71e2b2e022e6826c90ebf503f9b4ce28a83025ebbe8bbdb712e"
       },
       "events:arc_36_unexpected_hand:/description": {
         "source_sha256": "12c152fea9a730b21e04dc4affc3f6fdc7d89c13334d6317cac0c8ea2d8dec15",
@@ -178992,7 +179097,7 @@
       }
     }
   },
-  "accepted_sha256": "cc9165935b2a210b6d1e89c5c18b9a298c1d283d626f908712d97542d9306254",
+  "accepted_sha256": "35cd7804134ec57480476f9ae9fcfba78dab3aafe93d7519f27d4dc06a4156ca",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
