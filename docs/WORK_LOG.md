@@ -2,6 +2,11 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 수정 데모 앱의 새 저장·cold resume 실제 검수 선언
+
+- [516](queue_active/ORDER-516.md)은302/462 뒤 남은 실제 package 첫3항목만 검수한다. 기존 third 앱·KO·무인자 두 프로세스·실제 입력·새 저장/이어보기이며 재export·새 도구/검사/보고0이다. 149의 같은 표본 반복과 인간 강조 기억 대기를 대신하지 않는다.
+- 기존 snapshot/run_command를 그대로 재사용하고 입구~마지막 종료 대조 동안 제품/문서/helper를 동결한다. 공개본/사용자 저장·원checkpoint/seed·과거 인간 판정 보존, 나머지 runtime·전체제품/출시는 HOLD다. gangnamdream-dev의 선선언·기존 도구 재사용·독립 한정검수 원칙을 적용한다.
+
 ## 2026-10-10 — 실제 마지막 주 원장과 기록이 모두240주로 맞는다
 
 - [514](queue_archive/ORDER-514.md) source13fdb543/tree1058547b에서 실제 Title→Load slot1 W238→절약/구청 신청→W239 절약→W240 주소삭제01/민서선발신01→InvestmentMaster 본문3장면·후일담6화면→MainMenu/Quit를 완료했다. EN1280×800·개별 키/클릭·정상 독해·AUTO/skip/일괄/상태주입0. 원장132+108+0+0/WEEK240와 RunRecord240이 실제 화면에서 일치한다. 원관찰19묶음 SHA3a2d73a1…는 기존 private evidence에 보존한다.

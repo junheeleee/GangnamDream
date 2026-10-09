@@ -174,3 +174,9 @@ fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거�
 실제 export/서명/ZIP/PCK 무결성과 실제 GUI 부팅·저장·복귀는 다른 판정이다.
 무인자 부팅·신규 저장·cold resume·StoryMode 복귀/입력·5언어 화면·옛 공개저장
 복사본 호환6항목은 미실행이다. 이 부모·새 package 플레이/본편/출시는 HOLD다.
+
+### 2026-10-10 실제 package 저장/재시작 착수
+
+[516](ORDER-516.md)에서 기존 third 앱의 무인자 부팅·KO 새 저장·별도 프로세스
+cold resume만 먼저 검수한다. 재export/공개본 교체0이며 462의 당시 runtime NOT_RUN
+manifest를 수정하지 않는다. 나머지 runtime·전체302·본편/출시는 HOLD를 유지한다.

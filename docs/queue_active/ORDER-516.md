@@ -1,0 +1,55 @@
+# ORDER-516 — 수정된 데모 앱의 실제 저장과 재시작
+
+#### [~] ORDER-516 [P0·패키지 QA] successor 실제 무인자 부팅 → 새 저장 → cold resume
+
+**착수 — 2026-10-10.** 302의 수리7항목 source GO와 462의 export GO 뒤에 남은 실제
+runtime6 가운데 첫 세 항목을 한 저장/재시작 흐름으로 검수한다. 제품 수정과 재export는 없다.
+
+## 한 단위·깊이 3문
+
+1. 없으면 수정된 대본의 앱이 실제 시작하고 진행을 보존하는지 알 수 없다.
+2. 선택·24주 상태를 바꾸는 오더가 아니다. 같은 실제 선택/본문 위치가 새 프로세스에서도
+   유지되는지 검수하며, 저장을 직접 만들거나 상태/주차/언어를 주입하지 않는다.
+3. 전체 5언어/옛 공개 저장 복사 호환과 경쟁한다. 이번에는 KO 한 경로의 신규 저장과
+   cold resume만 먼저 닫고 나머지를 실행했다고 세지 않는다.
+
+## exact 대상과 소유
+
+- 대상: source05747c92de6b590c5f0456376f2210a4e422b182/treea867b41a90f59f5dcedafe9bb171e39b82aa2100,
+  BUILD2026.10.05.1/third. 462 manifest SHA02f2a3973b496df52bd71e8d1b0abe81e75fbe768221671ca9bff68016f16d49.
+- 실제 배달 앱: Application Support/GangnamDream_LocalCandidates/2026.10.05.1/third의
+  GangnamDream-StoryDemo-Successor-2026.10.05.1-third.app. executable 무인자 실행만 사용한다.
+- 후보 전용 저장: GangnamDream_StoryDemo_Successor_2026_10_05_1_third. 입구는
+  objectdb_snapshots 빈 폴더 외 파일0이며 사용자 기존 저장이 없다. 이번 앱이 만든
+  저장·설정·로그는 삭제/복구하지 않고 보존한다.
+- root: 이 사양·CODEX_QUEUE/L3 순번·302 runtime 문단·CLAUDE 현재행·WORK_LOG·생성STATUS·
+  위임판정원장, private `.git/order516-live-*`의 생성된 보존 snapshot/로그/원관찰만.
+- 비저자 phone_independent_review: 위 파일/앱 신원/원로그/저장을 읽기만 하고 한정 판정한다.
+  새 오더별 보고0·검사/runner0. root만 엔진/CUA를 실행한다.
+- 공개 앱/manifest/핀·옛462 실패/완료 기록·human·project·모든 원고/번역·사용자저장·
+  checkpoint/seed/기존 helper는 불변이다.
+
+## 실행·검증
+
+1. 기존 successor builder의 identity/file_record/snapshot/protected/write_json/clean_environment/
+   run_command와 기존457 snapshot을 그대로 호출한다. 새 검사 코드/실행기는 만들지 않는다.
+   현재 앱·ZIP/PCK/manifest와 공개/사용자·전체tracked·seed/checkpoint 입구를 기록한다.
+2. root가 실제 앱의 첫 언어/시작 안내를 읽고 KO를 실제 UI로 선택한다. 앱 실행 인자는0,
+   QA smoke/자동선택/상태주입0. M01 실제 대본과 선택 결과를 정상 독해한다.
+3. 앱 UI에서 저장 가능한 안전 위치를 만든 뒤 실제 저장 사실/내용을 읽고 정상 종료한다.
+   두 번째 별도 프로세스를 같은 무인자로 시작하고 실제 이어보기로 저장 위치/선택을 확인한다.
+   원래 저장을 손으로 고치거나 원namespace를 바꾸지 않는다. 마지막에도 정상 종료한다.
+4. 정확 native entry profile/build/custom-dir marker, stdout/stderr와 후보 Godot log의
+   script/parse/engine 오류, exit/프로세스, 새 저장 identity/본문 위치를 대조한다.
+   실행 준비부터 마지막 종료fresh snapshot까지 docs/제품/helper 쓰기를 동결한다.
+5. root와 비저자 모두 새 전후 전체 snapshot을 대조한다. 이후 기존 영향검사/context/queue/
+   원장·STATUS/git diff로 문서 마감한다. 대형 audit·self-test 전량·240주·재export0.
+
+## 완료와 한계
+
+실제 부팅/새 저장/cold resume가 관측되고 오류·새 회귀0/원본보존이면 이 한 단위만 GO다.
+실패는 원시 로그/저장과 함께 HOLD/REWORK로 남기며 원인을 분리해 후속 수리를 선언한다.
+StoryMode 복귀 입력은 실제 관측한 만큼만 적고 runtime4 전체를 대신하지 않는다.
+5언어 화면·옛 공개저장 복사 호환·전체 24주·본편·인간/원어민/물리패드/연속청취·외부출시
+GO는 발급하지 않는다. 자동 PASS는 재미·깊이·문체의 증거가 아니다.
+일회성 실행 범위이며 새 지속 규칙/정본 승격0이다.
