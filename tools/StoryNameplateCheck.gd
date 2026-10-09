@@ -30,6 +30,7 @@ var _quote_pages := 0
 var _wedding_cases := 0
 var _custody_cases := 0
 var _morning_cg_cases := 0
+var _cold_result_cases := 0
 var _context := "bootstrap"
 var _expected_id := ""
 var _root_failures: Dictionary = {}
@@ -69,6 +70,8 @@ func _ready() -> void:
 				await _play_wedding_chain(root_choice, final_choice)
 		for choice_index in range(2):
 			await _play_custody(choice_index)
+		for event_id in ["arc_temptation_01", WEDDING_ROOT]:
+			await _play_cold_result(str(event_id))
 	await _remove_story()
 	await _stop_audio()
 	for event_id in TARGETS + WEDDING_IDS + [CUSTODY_ID]:
@@ -79,7 +82,8 @@ func _ready() -> void:
 				else "targeted-L2-only"])
 	if _cases != 24 or _wedding_cases != 8 or _custody_cases != 4 \
 			or _morning_cg_cases != 8 or _pages < 120 \
-			or _locale_roundtrips != 24 or _controls != 32 or _quote_pages != 12:
+			or _locale_roundtrips != 24 or _controls != 32 or _quote_pages != 12 \
+			or _cold_result_cases != 4:
 		_fail("fixture inventory incomplete: cases=%d wedding=%d custody=%d morning_cg=%d pages=%d locale_roundtrips=%d controls=%d quote_pages=%d" % [
 			_cases, _wedding_cases, _custody_cases, _morning_cg_cases,
 			_pages, _locale_roundtrips, _controls, _quote_pages])
@@ -88,10 +92,64 @@ func _ready() -> void:
 			_failures, _cases, _pages, _refreshes, _locale_roundtrips, _controls])
 		get_tree().quit(1)
 		return
+	print("STORY_NAMEPLATE_COLD_RESULT_OK cases=%d ko_en=1 named=2 hidden=2 fresh_loader=1 state_unchanged=1" % _cold_result_cases)
 	print("STORY_NAMEPLATE_CHECK_OK cases=%d wedding=%d custody=%d morning_cg=%d pages=%d refreshes=%d locale_roundtrips=%d controls=%d quote_pages=%d ko_en=1 no_refresh_cases=4 sequential_pages=1 live_choices=1 live_followups=1 loader_controls=1 human_gate=OPEN" % [
 		_cases, _wedding_cases, _custody_cases, _morning_cg_cases, _pages,
 		_refreshes, _locale_roundtrips, _controls, _quote_pages])
 	get_tree().quit(0)
+
+func _play_cold_result(event_id: String) -> void:
+	await _remove_story()
+	_context = "%s/%s/cold-result" % [LocaleManager.language, event_id]
+	_expected_id = event_id
+	_seed_standalone_story()
+	GameState.pending_story_queue = [event_id]
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	await _settle()
+	if not _expect_live_root(event_id):
+		return
+	for _page in range(100):
+		if bool(_story.get("_showing_choices")):
+			break
+		await _advance_to_choices()
+	if not bool(_story.get("_showing_choices")):
+		_fail("cold result prerequisite did not reach live choices")
+		return
+	_story.call("_on_choice", 0)
+	await _settle()
+	var panel := _story.get("_name_panel") as Control
+	var name_label := _story.get("_name_tag") as Label
+	var body := _story.get("_body_lbl") as RichTextLabel
+	var expected_visible := event_id == "arc_temptation_01"
+	var expected_name := name_label.text
+	var expected_body := body.text
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var state: Dictionary = GameState.serialize().duplicate(true)
+	if panel.visible != expected_visible or str(context.get("phase", "")) != "result" \
+			or int(context.get("pending_result_choice_index", -1)) != 0:
+		_fail("cold result prerequisite did not produce named/hidden live result")
+		return
+	await _remove_story()
+	# Only the isolated QA namespace is active. Exercise the real fresh loader,
+	# not a refresh on the old node whose choice-dock cache was already filled.
+	SaveManager.set("_loaded_resume_context", context.duplicate(true))
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	await _settle()
+	panel = _story.get("_name_panel") as Control
+	name_label = _story.get("_name_tag") as Label
+	body = _story.get("_body_lbl") as RichTextLabel
+	if str((_story.get("_current") as Dictionary).get("id", "")) != event_id \
+			or not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != 0 \
+			or int(_story.get("_para_index")) != int(context.get("paragraph_index", -1)) \
+			or panel.visible != expected_visible \
+			or panel.is_visible_in_tree() != expected_visible \
+			or name_label.text != expected_name or body.text != expected_body \
+			or GameState.serialize() != state:
+		_fail("fresh result loader changed nameplate, position, text, or state")
+	_cold_result_cases += 1
 
 func _play_target(event_id: String, choice_index: int) -> void:
 	await _remove_story()
