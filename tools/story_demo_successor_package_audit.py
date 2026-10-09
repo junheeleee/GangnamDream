@@ -205,7 +205,7 @@ def expected_identity(build_id, attempt):
 
 def manifest_shape(data):
     require(type(data) is dict and type(data.get("schema_version")) is int and data["schema_version"] == 1
-            and data.get("unit") == "ORDER-520" and data.get("status") == "EXPORTED_NOT_RUNTIME_VERIFIED",
+            and data.get("unit") == "ORDER-522" and data.get("status") == "EXPORTED_NOT_RUNTIME_VERIFIED",
             "manifest schema/export status differs")
     identity = data.get("identity")
     require(type(identity) is dict and identity == expected_identity(identity.get("build_id"), identity.get("attempt")),
@@ -509,7 +509,7 @@ def audit_manifest(path, source_root=ROOT):
             require(canonical(row) == canonical(protected_snapshot(row)), "actual protected bytes differ: " + row["label"])
         if path.name == "MANIFEST.json":
             result = load_json(no_symlink(output / "result.json").read_bytes())
-            require(result.get("unit") == "ORDER-520" and result.get("all_pass") is True
+            require(result.get("unit") == "ORDER-522" and result.get("all_pass") is True
                     and result.get("status") == "EXPORTED_NOT_RUNTIME_VERIFIED" and result.get("runtime") == "NOT_RUN"
                     and result.get("error") is None and result.get("preservation_errors") == []
                     and result.get("source_after") == source["after"]
@@ -575,7 +575,7 @@ def self_test():
     source = {"commit": "1" * 40, "tree": "2" * 40, "commit_date": "2026-10-10",
               "before": {"head": "1" * 40, "tree": "2" * 40, "status": ""},
               "after": {"head": "1" * 40, "tree": "2" * 40, "status": ""}}
-    sample = {"schema_version": 1, "unit": "ORDER-520", "status": "EXPORTED_NOT_RUNTIME_VERIFIED",
+    sample = {"schema_version": 1, "unit": "ORDER-522", "status": "EXPORTED_NOT_RUNTIME_VERIFIED",
               "identity": identity, "source": source, "runtime": {"status": "NOT_RUN", "pending": PENDING},
               "user_go": "NOT_INHERITED", "codesign": "ad-hoc"}
     manifest_shape(sample)

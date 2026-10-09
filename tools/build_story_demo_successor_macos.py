@@ -382,7 +382,7 @@ def build(args):
     env["PYTHONDONTWRITEBYTECODE"] = "1"
     qa_env = dict(env, STORY_DEMO_ALLOW_ISOLATED_QA="1", STORY_DEMO_QA_BOOTSTRAP_NAME=qa)
     rows = []
-    entry = {"unit": "ORDER-520", "status": "RUNNING", "identity": identity,
+    entry = {"unit": "ORDER-522", "status": "RUNNING", "identity": identity,
              "source": before, "staging": str(stage), "protected": protections}
     write_json(output / "entry.json", entry)
     manifest = None
@@ -485,7 +485,7 @@ def build(args):
         after, protections_after = source_state(), protected(args.protect)
         require(after == before and after["status"] == "", "source HEAD/tree/status drift")
         require(protections_after == protections, "protected inputs changed")
-        manifest = {"schema_version": 1, "unit": "ORDER-520", "status": "EXPORTED_NOT_RUNTIME_VERIFIED",
+        manifest = {"schema_version": 1, "unit": "ORDER-522", "status": "EXPORTED_NOT_RUNTIME_VERIFIED",
                     "identity": identity, "source": {"commit": args.source, "tree": before["tree"],
                     "commit_date": date, "before": before, "after": after},
                     "builder": {"path": str(builder), "sha256": sha(builder.read_bytes()), "source_commit": args.source},
@@ -514,7 +514,7 @@ def build(args):
         except Exception as exc:
             final_source, final_protected = None, None
             final_errors.append("final preservation read failed: " + repr(exc))
-        result = {"unit": "ORDER-520", "all_pass": failure is None and not final_errors,
+        result = {"unit": "ORDER-522", "all_pass": failure is None and not final_errors,
                   "status": "EXPORTED_NOT_RUNTIME_VERIFIED" if failure is None and not final_errors else "FAILED",
                   "runtime": "NOT_RUN", "source_after": final_source, "protected_after": final_protected,
                   "commands": rows, "staging": str(stage), "error": repr(failure) if failure else None,
