@@ -460,7 +460,12 @@ SOURCE_BARE_ONE_MONEY = re.compile(
 )
 SOURCE_COLLOQUIAL_MANWON = re.compile(
     r"(?<![가-힣\d])(?P<context>보증금|월|즉시|건당)\s+"
-    r"(?P<number>\d[\d,]*|[일이삼사오육칠팔구십백천]+)(?![\d,])"
+    r"(?P<number>\d[\d,]*(?![\d,])|[일이삼사오육칠팔구십백천]+"
+    # A Korean numeral must end at a delimiter or a complete particle/unit.
+    # Otherwise 월 이자 becomes 월 이 (20,000 won), while a comma rewinds
+    # 월 칠십, to 월 칠 (70,000 won). Arabic grouping keeps its own guard.
+    r"(?=$|[^가-힣\d]|(?:의|도|에|이면|이라면|은|는|이|가|을|를|으로|로|만|억)"
+    r"(?![가-힣])))"
 )
 CHINESE_MONEY_COMPONENT = re.compile(
     rf"(?P<number>{DECIMAL_LITERAL})\s*"
@@ -13309,6 +13314,31 @@ def _late_callback_parser_self_test() -> tuple[int, list[str]]:
             check(source, normal.replace("1", "2"), False)
             check(source, normal.replace("1", "−1"), False)
             check(source, "月利率1%", False)
+    for source, normal_cn, normal_tw in (
+        ("  (월 이자 %s)", "  （每月利息 %s）", "  （每月利息 %s）"),
+        ("%s — 월 이자 %.2f%% (연 %.1f%%)",
+         "%s — 月利率 %.2f%%（年利率 %.1f%%）",
+         "%s — 月利率 %.2f%%（年利率 %.1f%%）"),
+        ("즉시 일어났다.", "立刻站了起来。", "立刻站了起來。"),
+        ("월 칠십, 관리비 별도.", "月租70万韩元，管理费另计。", "月租70萬韓元，管理費另計。"),
+        ("월 이자 2만원.", "每月利息2万韩元。", "每月利息2萬韓元。"),
+        ("월 이백이면", "月薪200万韩元的话", "月薪200萬韓元的話"),
+        ("보증금 천에 월 오십오.", "押金1000万韩元，月租55万韩元。", "押金1000萬韓元，月租55萬韓元。"),
+    ):
+        for lang, normal in (("zh-CN", normal_cn), ("zh-TW", normal_tw)):
+            cases += 1
+            errors = _numeric_errors(source, normal) + _money_errors(lang, source, normal)
+            if errors:
+                failures.append(f"colloquial numeral boundary normal: {source!r}: {errors}")
+            cases += 1
+            added = normal + ("2万韩元" if lang == "zh-CN" else "2萬韓元")
+            if not (_numeric_errors(source, added) + _money_errors(lang, source, added)):
+                failures.append(f"colloquial numeral boundary invented money accepted: {source!r}")
+            if "70" in normal or "200" in normal or "55" in normal or "2万" in normal or "2萬" in normal:
+                cases += 1
+                changed = normal.replace("70", "7").replace("200", "20").replace("55", "5").replace("2万", "3万").replace("2萬", "3萬")
+                if not (_numeric_errors(source, changed) + _money_errors(lang, source, changed)):
+                    failures.append(f"colloquial numeral boundary changed money accepted: {source!r}")
     for source in ("1금융", "1금융권", "2금융", "2금융권"):
         tier = "一" if source.startswith("1") else "二"
         normal = f"第{tier}金融圈"
