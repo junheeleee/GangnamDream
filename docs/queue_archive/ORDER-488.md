@@ -1,6 +1,6 @@
 # ORDER-488 — 4장 기본 회수 선택지의 모호한 장소 표현 수리
 
-#### [~] ORDER-488 [사용자 문장 지시] 놓친 일정의 재방문 시각 — 2026-10-09
+#### [x] ORDER-488 [사용자 문장 지시] 놓친 일정의 재방문 시각 — 2026-10-09
 
 ## 근거와 경계
 
@@ -52,3 +52,43 @@ project.godot·사용자 저장·공개 데모/arc_events·과거 인간/에이�
    원어민·인간 플레이·물리 패드·출시 GO는 별개다.
 
 규범은 기존 I18N/WORK_UNIT/DECISIONS 소유, 파일 소유·한 잎·검증 순서는 일회성.
+
+## 실제 산출·검증 (2026-10-09)
+
+- 선언9b4cb67 → KO/EN f13fcd1 → 최종 EN/JA/zh·원장1442deb.
+  KO/EN/JA/CN/TW 각각 choices[1].text 한 값만 바뀌었다. 다섯 파일의 JSON
+  literal 역상은 비소유 잎·게임플레이 raw 변화0을 확인했다. release inventory
+  현재 검사도 PASS여서 지문/심의 문서는 불필요하게 갱신하지 않았다.
+- 도달 경로: CHAPTER4_CAUSAL_ROUTE_AUDIT_OK promoted19/direct15.
+  생산자↔독자: content/events/arc_chapter_themes.json:297 ↔
+  scenes/MainGame.gd:7092; 기존 repaired_person 독자는 같은 원문파일:1073/1183.
+  바꾸는 상태: choices[1] 모호한 ‘곳/시각 전송’ → 놓친 일정의 재방문 시각 잡기;
+  flags/effects/choice 순서/라우팅 변화0. 포기 시 잃는 것: W157 기존
+  arc_y4_missed_cost_repaired_person/accepted_grace, 경쟁 choices[0] 아버지 약 확인.
+  서사 위치: 기존4장 W157. 장면 계층: 새 장면0·기존 계층 변경0.
+  닫는 것: 한 잎5언어 의미/공식 수용만; 본문·결과 사실 부채/본편 품질은 안 닫음.
+- JA/CN/TW 각 공식 export/check/import --accept --replace-existing leaves1·files1
+  PASS. 잘못된 초기 response의 extra field는 실제 strict FAIL로 거절한 뒤 올바른
+  exchange3만 수용했다. 원 source_revision=f13fcd1b9060114b33e6fa3a9c033f49c24102c2.
+  source 잎 SHA=fa73e300872d10641a3e66c5a0e36ca409f1b2fb39b333a0d282fe8991f5c6fe.
+  private 원 receipt SHA JA4f99a917ce0f0eb757deb04bbcf19eaaf4adcadebb185ab1e928f4db3354a6ef,
+  CN660b1266bb77634d890f9a635c157152fc0caed6882a28e6716a65bb2b0bb826,
+  TW81966834cfaafe631dfd18ab0e2cca5ad52d514faf29e9c4f41b051540f33ff6.
+  committed accepted41887 불변/기존3교정/batch282→285, 다른41884·이전batch·
+  metadata raw 불변. 원 collector/overlay/committed receipts의 current source/target3
+  모두 일치·translation_errors0; accepted SHA35cd7804134ec57480476f9ae9fcfba78dab3aafe93d7519f27d4dc06a4156ca.
+- EN coverage/EN 한글(issues0·format52), NARRATIVE_CONTINUITY_AUDIT_OK,
+  SCENE_AUDIO_CONTRACT_OK, SPEECH_REGISTER_AUDIT_OK, PROSE_RECALL_OK,
+  RELEASE_CONTENT_INVENTORY_OK, DEMO_I18N_SCOPE_OK, JA demo errors0·ZH skeleton
+  PASS. 전체 inventory는 INCOMPLETE/보수적 기존 invalid·unsupported를 보존하며
+  현재 교정3 외의 미완료를 완료로 세지 않는다. context/queue/diff 표적 PASS.
+  한 문구/번역 영향만 검사했고 새 검사/계측/재사용/전체 감사·엔진 재실행0이다.
+- 자동 게이트는 도달·계약 증거이지 재미·깊이·문체·인간 GO가 아니다.
+  공개 데모·이전 인간 판정·저장·project.godot 불변. native_reader/human_playtest/
+  physical_controller_feel/실제 화면 미관찰, 본편 출시 HOLD/known5 만료10-16 유지.
+  본문·결과의 ‘연락창/지난 주말’은 이번 한 잎의 범위 밖이며 수리됐다고 하지 않는다.
+  일회성 실행 절차이며 새 규범0; 정본은 기존 I18N/WORK_UNIT/DECISIONS가 소유한다.
+- 비저자 choice_copy_review가 source1442deb/기준9b4cb67의 실제5값·두 경로·
+  변경 diff와 원 exchange/accepted receipts3를 전수 읽었다. 한 잎 교정 범위 GO,
+  blocking0·새 coverage0. 자신의 방문 가능 시간 정하기이며 수신/예약/치료/
+  재결합을 보장하지 않는다. 오더별 formal 보고/판정 원장/새 도구는 만들지 않았다.

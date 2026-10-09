@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)에 바이트 그대로 이동했다. 보존본의 상대 링크는 이동 전 경로 기준이다.
 
+## 2026-10-09 — 4장 놓친 일정 선택지를 5개 언어에서 분명하게 (488)
+
+- 플레이어가 ‘지난 주말 가지 못한 곳에 시각을 보낸다’ 대신 ‘그날 놓친 일정의 이번 주 재방문 시각을 잡는다’를 고른다. 다은 약속/무연애 야간진료에 공통인 행동이며 예약 승인·치료·관계 회복을 만들지 않는다. 선언9b4cb67 → KO/EN f13fcd1 → 최종5언어 source1442deb1cb93913031ed5fb5ae6b157ae77fdec3. 선택지 한 잎×5값만 바뀌었고 본문·결과·플래그·조건·효과·순서·라우팅·비소유 raw 변화0이다.
+- 기존 공식 export/check/import --accept --replace-existing에서 JA/CN/TW 각1잎·1파일 PASS. 초기 extra-field 응답은 strict FAIL로 거절하고 private에 보존했다. 원 sourcef13fcd1/header/3accepted receipt를 그대로 원장에 결속했다. accepted41887 불변·기존3교정·batch282→285·새 coverage0; 다른41884/옛batch/metadata raw 불변. 기존 collector/overlay/committed receipts가 current source/target3·translation_errors0을 확인했다. 세 지역을 KO에서 직접 검토했고 자동 한자 변환/영어 pivot0이다.
+- EN coverage·EN 한글(format52/issues0)·서사 연속성·장면 음악·말투·4장 인과(promoted19/direct15)·prose recall·현재 release inventory·데모 scope·JA demo errors0/ZH skeleton·context/queue/diff PASS. inventory의 INCOMPLETE와 기존 보수적 invalid/unsupported는 유지한다. release inventory 지문 변화0이므로 심의 파일을 갱신하지 않았다. 스케줄러/엔딩/저장 변경0에 맞게 기존 영향 검사만 실행했고 전체 감사/엔진/24주·240주 반복/새 검사·비용 도구0이다.
+- 비저자 choice_copy_review가 최종1442deb/기준9b4cb67의5값 전수, 두 경로 소비자, 전체 diff와 원 exchange/accepted receipts3를 직접 읽어 한 잎 품질 GO·blocking0을 확인했다. 새 오더별 formal 보고/판정 원장은 만들지 않는다. [488 완료 사양](queue_archive/ORDER-488.md)에 receipt와 좁은 증거/범위를 남기고 큐/이어보기는 순번만 정렬했다. 개발 스킬이 선선언·파일 소유·공식 번역 수용·표적 검증을 이끌었으며 계속 유효한 규칙은 기존 I18N/WORK_UNIT/DECISIONS 소유, 이번 실행은 일회성이다.
+- 자동 게이트는 도달·계약 증거이지 재미·깊이·문체·인간 GO가 아니다. native_reader/human_playtest/physical_controller_feel/실제 화면은 미관찰이다. 기본 본문/결과의 연락창·지난 주말 부채, 공개 데모 GO1, 인간 이력, 본편 출시 HOLD, KNOWN_FAILURES5/만료10-16을 보존한다. 게임 저장·project.godot·arc_events·자산·과거 판정 변화0이다. 앞서 472에서 닫힌 2장 수첩·5장 기간 교정은 반복하지 않았다. 정리487의 실제 green main CI37858051278은 이 새 원문 후보의 CI/출시 GO가 아니다.
+
 ## 2026-10-09 — 실제 main CI 녹색·검수 정리 마감 (487)
 
 - 실제 main00eec859470bf69c86cf989b7bbe587f07e2072c/source0af4ca6987aaec94c34d14cd738c2d443f524342의 [CI37858051278](https://github.com/junheeleee/GangnamDream/actions/runs/37858051278)가 2026-10-09T00:38:35Z completed/success다. 정적·밸런스113586904516, Godot·입력·경제113586904198 모두 success·skipped 제품 단계0. 현황 오탐 UID14 수리도 DASHBOARD_FRESH로 실제 확인됐다.
