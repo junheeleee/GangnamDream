@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-510 · 저장 후 읽은 주차의 추가 사건 추첨 차단 | [510](queue_active/ORDER-510.md) | W200 실제 재로드 결함 · 기존 foreground 소유 보존 |
+| 1 | [~] | ORDER-510 · 저장 후 읽은 주차의 추가 사건 추첨 차단 | [510](queue_active/ORDER-510.md) | 제품/저장 fixture GO · 실제 W200 재로드 Mac잠금/전체 CI OPEN |
 | 2 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
 | 3 | [~] | ORDER-457 · 5장 일반 경로 정상 재플레이 | [457](queue_active/ORDER-457.md) | 실제 W195→W200/격리 보존 GO · 로드 추가추첨 등 수리 필요 · M60 미도달 |
 | 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor export GO/실제 재생6항목 HOLD |

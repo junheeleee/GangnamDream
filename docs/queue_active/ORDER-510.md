@@ -48,7 +48,7 @@ _ready→_begin_month→_maybe_play_month_situation에서 yolo_spend_moment를 �
 정본 규칙 신설0, 위 소유·재현·배치는 일회성이다. 이미 존재하는 한 주 한 foreground
 가드와 저장 복원의 일치를 수리하며 M60/후일담6/6·전체번역·인간/원어민/패드·출시는 별개다.
 
-## 실행 증거 — 실제 메뉴·최종 CI 전
+## 실행 증거 — 실제 메뉴·최종 CI OPEN
 
 - MainGame guard/주석2줄만 수정, 기존 ManualSaveCheck에 합성 W200 디스크 왕복·
   Main 진입·전체 serialize/flags/queue/cooldown 무부작용·missing/stale/next-week의
@@ -63,3 +63,20 @@ _ready→_begin_month→_maybe_play_month_situation에서 yolo_spend_moment를 �
 - EN/한글·EN coverage·JA UI·i18n·demo scope·서사 연속성·장면 음악 표적7 PASS.
   이전 c0e8188/fc1a730 main CI 실패는 connector 실제 로그에서 STATUS_DOC_EXIT1개,
   COMPILE_CHECK_OK68을 확인했다. 510 guard 이전 실패이며 새 제품 CI 통과로 쓰지 않는다.
+- 제품0d4cb109348eb233bae6a3075c19fa777b4798ee main commit/push. 생성 STATUS를
+  clean 제품에서 갱신해 DASHBOARD_FRESH를 확인했다. 실제 Git 범위는 제품2파일·
+  사양·생성 STATUS뿐이며 비저자가 실행 당시 코드/fixture SHA와 현재 제품 일치를 확인했다.
+  정확 제품 CI37936805688은 정적 job SUCCESS·전체 감사 진행, 아직 녹색을 발급하지 않는다.
+- 실제 GUI 시도: .git/chapter5-replay/order457-save-510-w200, 신규7c2d9bc6b27ae017650989990b864382.
+  pre-autoload 뒤 원W200을151708B/SHA911fd395… 그대로 slot1에 복사했다.
+  CUA getApp1회가 Maclocked/자동해제불가로 끝나 OS입력·화면·로드 관찰0이다.
+  검증용 wrapper62945에 SIGINT→기존 cleanup으로 ownGodot62951만 종료했고 사용자
+  editor61385는 보존했다. result는 interrupted/exit-9/KeyboardInterrupt1/50.872초,
+  SHA09379f36cbd3baea4114b8333f279a7d4830fd34ccadc75fa5af2d8bb95c8478이다.
+  정상Quit/실제 재로드 PASS가 아니며 원로그/실패 결과를 유지한다.
+- 비저자가 prepared.before=result.before=result.after=최신 snapshot의 tracked3242/
+  helper5/seed2/player33/W200 및 별도 원W195 hash·복사본 불변, 실제 process 부재/
+  사용자 editor 생존을 확인해 중단 정리·보존만 한정GO다. 다음 실제 재현은 Mac해제 뒤
+  동일 실행기의 새 label/신규 namespace에서 다시 메뉴로 시작한다. 원 저장 편집0이다.
+- ORDER-510은 [~]를 유지한다. 실제 동일 보드 복원·추가 장면0과 최종 main CI가
+  남았으며 M60/후일담6/6·부산 지연·직업 회식·시장 초기화 위험은 별개다.
