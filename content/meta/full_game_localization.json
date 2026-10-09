@@ -12655,6 +12655,135 @@
           "batch_id": "1bc2e88d6a60b6401be5878129d3e6332eb9878e7bde888f616a0fa3c455f936"
         }
       }
+    },
+    {
+      "order": "ORDER-508",
+      "group": "ui",
+      "roots": [
+        "낮은 위험 · AP 1 · 사회성 +3 · 평판 +2 · 1~3주: 넓어진 관계",
+        "낮은 위험 · AP 1 · 정신 +2~11 · 1~3주: 몸과 마음의 여유",
+        "낮은 위험 · AP 1 · 정신 +5 · 스트레스 -3 · 관계 +4 · 1~3주: 인연",
+        "낮은 위험 · 선택 후 AP 1 · 능력 또는 회복 · 1~3주: 반복 기록",
+        "높은 위험 · AP 1 · 현금 손실 가능 · 즉시 결과 · 1~3주 뒤에도 남음",
+        "높은 위험 · 현금 손실 · 즉시 결과 · 1~3주: 중독과 통제 비용",
+        "무료  주거와 생활을 정리한다",
+        "선택  알바 · 절약 · 금융",
+        "선택  업무 · 이력서 · 면접 준비",
+        "선택  투자 · 알바 · 절약",
+        "시간  조용한 주를 최대 4주 압축",
+        "위험  현금과 통제력",
+        "이후  관계 · 둘이 보내는 시간",
+        "이후  관계와 다음 만남이 달라진다",
+        "이후  관계와 다음 선택",
+        "이후  이번 달 현금흐름",
+        "중간 위험 · AP 1 · 사회성·평판 상승 · 스트레스 1~4 · 1~3주: 사회 사건"
+      ],
+      "source_leaves": 17,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 17,
+        "zh-TW": 17
+      },
+      "source_review": "Independent regional authors translated directly from Korean; non-author compared all 17 source keys and 34 values against MainGame._ap_action_preview and its two card readers, with no retouch needed. Ten selected branches have traced current reader arguments; seven network/contact, life-menu or icon-only fallbacks remain packaged copy without a witnessed current call. This is not 17 rendered-screen approvals. Choice-before-AP consumption, signed mental/stress/relation changes, low/medium/high risk, possible cash loss, immediate and one-to-three-week consequences, maximum four quiet weeks and two-person time remain distinct. Free describes the management action, not free housing. Existing eight preview keys unchanged. Agent comparison only; rendered, input and native review remain OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "98fc1fe647bdd2f85705a26678ecf1acb5a93b1cf86a93089e09a0cc9156bf21",
+        "zh-TW": "cf7a933af63de2b1b39bb055bdb3cbfc1c853a752e03f3e75c376a603508cfe6"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "a348bb8ee3162d30908dd5855087236a8aeb479d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "f971c7193ba3a68299e166f2734f507f577001bc1ecc83cc940551abd038fb85",
+          "selection_sha256": "56fd1f4d19d52a5fe0d8046d1dd931e139ef4ff194c788a42190bc66b6d6cdd9",
+          "count": 17,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "f7c9f249da031fe6526a0a4e30edfd62a15158ebfc5ebb5a7cbd91998887f353"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "a348bb8ee3162d30908dd5855087236a8aeb479d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "f971c7193ba3a68299e166f2734f507f577001bc1ecc83cc940551abd038fb85",
+          "selection_sha256": "0ecbaec0c0beee9c6633508d339ad90be3a3331e0794d0852927384eceeadff2",
+          "count": 17,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "3e68ed0672379cd0ba9b0b61d424c02da8c5bbb46c54b14c555155452dfa5c5e"
+        }
+      }
+    },
+    {
+      "order": "ORDER-508",
+      "group": "ui",
+      "roots": [
+        "구직활동  →  수입 0원 탈출이 1순위. 알바라도 먼저",
+        "구직활동  →  자산 %s. 수입부터 늘려야 합니다",
+        "구직활동  →  지력 %d이면 사무직 지원 가능. 이력서 작성부터",
+        "남은 %d개월  →  30억까지 %s. 지금 방식을 유지하면 보입니다",
+        "남은 %d개월  →  투자 레버리지나 고수익 방법이 필요한 시점입니다",
+        "사교력  →  상철과의 다음 만남이 투자·직업의 새 기회로 이어집니다",
+        "이사 고려  →  자산 %s, 빌라 전세로 격상하면 정신력 보너스가 있습니다",
+        "이사 고려  →  자산 %s, 아파트 전세 구간입니다. 투자 평판도 올라갑니다",
+        "이사 고려  →  자산 %s, 원룸 이사 구간에 들어왔습니다 (AP 주거 메뉴)",
+        "일 시작  →  첫 월급 수령 전까지 투자 계좌가 열리지 않습니다",
+        "자기계발  →  지력 %d. 좋은 직장·투자이벤트는 지력 40+ 조건이 많습니다",
+        "자기계발 또는 투자  →  꾸준히 스탯과 자산을 키우세요",
+        "자기계발(투자)  →  주문서의 수수료와 빠져나올 가격을 먼저 읽는 연습부터",
+        "투자  →  상철에게 종목표의 수수료와 빠져나올 자리를 함께 짚어 달라고 해 보세요",
+        "투자  →  자산 %s, 포트폴리오를 분산하면 위험이 줄어듭니다",
+        "휴식  →  정신력 %d. 번아웃 전에 멈추는 게 전략"
+      ],
+      "source_leaves": 16,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 16,
+        "zh-TW": 16
+      },
+      "source_review": "Independent regional authors translated directly from Korean; non-author compared all 16 source keys and 32 values against MainGame._recommend_action and the weekly-focus reader, with no retouch needed. Warning, demo-pressure and explicit hints can replace this recommendation; _clean_focus_text only strips emoji and outer whitespace. Intelligence, mental, social ability and reputation remain distinct. Job applications, first-paycheck investment lock, regional jeonse/villa housing, Im Sangchul, fees and exit prices, token order, 40-plus threshold and KRW 3 billion target are preserved. Existing source advice is translated without adding a guarantee; its factual strength is not certified by this localization acceptance. The valid Chinese first-priority ordinal was accepted after separate ORDER-509 corrected the existing numeric parser, not by changing the translation. Agent comparison only; rendered, input and native review remain OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "9d68f68ee418cee12a4561f097c962b062962556713df27671f51a3f2f93ffa8",
+        "zh-TW": "7abacd9e4f8a02c3de237a6ae67a651a1eb8d6139772ed5f99c295518ede454f"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "a348bb8ee3162d30908dd5855087236a8aeb479d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "f971c7193ba3a68299e166f2734f507f577001bc1ecc83cc940551abd038fb85",
+          "selection_sha256": "595247b114423bc0e254725d94bbdfbda813017da55dd3f2ec9dc32da9d99b52",
+          "count": 16,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "aab3ae83ac772071fa05db47a009db3a86998596a654699328c00eac45e213c6"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "a348bb8ee3162d30908dd5855087236a8aeb479d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "f971c7193ba3a68299e166f2734f507f577001bc1ecc83cc940551abd038fb85",
+          "selection_sha256": "85639be41fc5446cf740f606544ce41953a9b529dbf5f4c5591c53242c163ee4",
+          "count": 16,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "0a9467d0f9c5c4d91c40d97b6736328827873f9405b24d8caf3c44a119214dd8"
+        }
+      }
     }
   ],
   "accepted": {
@@ -123868,6 +123997,138 @@
       "ui:🟢 상승 지속 예상 — 성장주 유리:/🟢 상승 지속 예상 — 성장주 유리": {
         "source_sha256": "31a8a1af169c4bbb564e4505eb14d553909b1b8e2f41c8912cf2fc43a58078be",
         "target_sha256": "de7daf9eab85d1d3231a6defcc4607cd13f94bf01fd195d2dae8adcc4e0d7ed5"
+      },
+      "ui:낮은 위험 · AP 1 · 사회성 +3 · 평판 +2 · 1~3주: 넓어진 관계:/낮은 위험 · AP 1 · 사회성 +3 · 평판 +2 · 1~03주: 넓어진 관계": {
+        "source_sha256": "28f973b83699b3bdd9f550a26d19df1652bbdb13653b5bb62bc8613b8c55fc7f",
+        "target_sha256": "2054190c4617eed32eecfed727b26716936886150c7fbbf253dc9b99ff79d059"
+      },
+      "ui:낮은 위험 · AP 1 · 정신 +2~11 · 1~3주: 몸과 마음의 여유:/낮은 위험 · AP 1 · 정신 +2~011 · 1~03주: 몸과 마음의 여유": {
+        "source_sha256": "8b3b07348ddd8a1aa80167eabb51feb3e0ae930b97a44385669d9a78b5589e35",
+        "target_sha256": "d6817ff6932e685b190bc9ecbac1dc338e9b23db7baf4d016458c32789e64194"
+      },
+      "ui:낮은 위험 · AP 1 · 정신 +5 · 스트레스 -3 · 관계 +4 · 1~3주: 인연:/낮은 위험 · AP 1 · 정신 +5 · 스트레스 -3 · 관계 +4 · 1~03주: 인연": {
+        "source_sha256": "66cc8bee30d36d97d748f1781bd80a88b2e80d2addb50442c667fe03e441f2a4",
+        "target_sha256": "651c77079cd0709287379a05f3aa4195021b498f92ad6de7cf91888c1b493640"
+      },
+      "ui:낮은 위험 · 선택 후 AP 1 · 능력 또는 회복 · 1~3주: 반복 기록:/낮은 위험 · 선택 후 AP 1 · 능력 또는 회복 · 1~03주: 반복 기록": {
+        "source_sha256": "57914121251b4f9b51add583fcd9c36a9921a9bbc96da580bc5d6cbf54a196eb",
+        "target_sha256": "0fe5494c9c5d4028e661403b80b853d259aa7140ebe93511bddbcb2f50d2e865"
+      },
+      "ui:높은 위험 · AP 1 · 현금 손실 가능 · 즉시 결과 · 1~3주 뒤에도 남음:/높은 위험 · AP 1 · 현금 손실 가능 · 즉시 결과 · 1~03주 뒤에도 남음": {
+        "source_sha256": "2bcdd789f7a7114d899eb76b7d219e6ca5bf19ea00a51b82fd00907d90af1898",
+        "target_sha256": "c92c7d91e01e98753af9f8619b5ac9acd2f7784f5a68d2d2d977fa78da0adec4"
+      },
+      "ui:높은 위험 · 현금 손실 · 즉시 결과 · 1~3주: 중독과 통제 비용:/높은 위험 · 현금 손실 · 즉시 결과 · 1~03주: 중독과 통제 비용": {
+        "source_sha256": "b83a4ce56ec592a7da5135bff589c96fe38e2d9a3540331474b051780cae8bf4",
+        "target_sha256": "f0ec05e07a1421ede1e8c1b6279ee93dedf5add9d1c2ef4de880e04fe2820e52"
+      },
+      "ui:무료  주거와 생활을 정리한다:/무료  주거와 생활을 정리한다": {
+        "source_sha256": "df045cdf70093d69387f71d2f9954b8131431a3342490039640661009ef349ee",
+        "target_sha256": "7ac18f3388f19de909c6c35996a1435a834e16c54cf57f08ae4e1b153e516e0b"
+      },
+      "ui:선택  알바 · 절약 · 금융:/선택  알바 · 절약 · 금융": {
+        "source_sha256": "de17d9d6452d6b50c9176ec0543918ee28332eab0204db0445b95ffad8f764f4",
+        "target_sha256": "312ef3861145ce0fa168ee342d06d9465ec20ccdcff940b2ab2c91d0b788f677"
+      },
+      "ui:선택  업무 · 이력서 · 면접 준비:/선택  업무 · 이력서 · 면접 준비": {
+        "source_sha256": "1b8c80c305db7ddb622a3ee32a8426d972b94647711ae3f2d0830f4fcdfcdefd",
+        "target_sha256": "899b83b7ffe550a6d79da2d7a4dbb57fb2833ca19f441072897a702c33acc726"
+      },
+      "ui:선택  투자 · 알바 · 절약:/선택  투자 · 알바 · 절약": {
+        "source_sha256": "ba5c88c1af2516f6434427a5bfb74d25691c4e61cd07775f2b8e5a648f373326",
+        "target_sha256": "6e2245b4b7e9a37f309b3a5ff5c03e323f77f52ad6b88f11682ecbb6022d9f24"
+      },
+      "ui:시간  조용한 주를 최대 4주 압축:/시간  조용한 주를 최대 4주 압축": {
+        "source_sha256": "5336dfde43301e53e8d1220fbdd1371244b9bf10dedff506c875a421d05203fe",
+        "target_sha256": "08dc64ae59976d0b107f27a4f65adb95e225ee4b80efa9ac79a736a5aa3df9be"
+      },
+      "ui:위험  현금과 통제력:/위험  현금과 통제력": {
+        "source_sha256": "28c7a0499ef7c497e15bbdfa5a7f41c0e252c0f9f4e92fb61feb0573553e54f5",
+        "target_sha256": "297bfe071825610b79e8584573cc293e48e9ad12914e8999476ccf3ac48c94ed"
+      },
+      "ui:이후  관계 · 둘이 보내는 시간:/이후  관계 · 둘이 보내는 시간": {
+        "source_sha256": "ab15915e2976ad702111919afed9f64aeb8de78384e550de89be0834a740be50",
+        "target_sha256": "cc70a9cc3d060d3df2cc8bad8b534063fe2a98944d72129ac92d6fcdfda6c800"
+      },
+      "ui:이후  관계와 다음 만남이 달라진다:/이후  관계와 다음 만남이 달라진다": {
+        "source_sha256": "3733209b8740bd058a2fb0e6c9a730d534b8d6b928a710113c8fb64078f7aa07",
+        "target_sha256": "1b4f68b6914c222265cf6096ae99017b33352a788098392972364d55f9be895c"
+      },
+      "ui:이후  관계와 다음 선택:/이후  관계와 다음 선택": {
+        "source_sha256": "28080eeb09e686bd63ba747a1a43c4d15074295dd95631666d17210a93a53543",
+        "target_sha256": "452be1d94acb56102ed3b03662f6660a645710ea2217378962dbf7e2fa67c010"
+      },
+      "ui:이후  이번 달 현금흐름:/이후  이번 달 현금흐름": {
+        "source_sha256": "7615d40fde5752a46c89d92b07662857dc8ea61b6eb90a1c228d8ff457fca87a",
+        "target_sha256": "52d9db99d9faf8418c2b43614e198bdc7ae63b82875052ab49d05095783c8050"
+      },
+      "ui:중간 위험 · AP 1 · 사회성·평판 상승 · 스트레스 1~4 · 1~3주: 사회 사건:/중간 위험 · AP 1 · 사회성·평판 상승 · 스트레스 1~04 · 1~03주: 사회 사건": {
+        "source_sha256": "0b2d23b2180c2ea37bbdbdadfb1a2c1d41fe292f0482d431dcb2f5b911172725",
+        "target_sha256": "93ca187d3be9949c663ef99d52c6d448b086efcfcfef648bfbd3cdbb46919d72"
+      },
+      "ui:구직활동  →  수입 0원 탈출이 1순위. 알바라도 먼저:/구직활동  →  수입 0원 탈출이 1순위. 알바라도 먼저": {
+        "source_sha256": "34aeb95626b7f543e5554cfd9e5cda96d2e512639e27cda404cf84b5e5dc0698",
+        "target_sha256": "d2fa76eb98bbeedc925445ecb65fb4d69e092434d3bc133f750fa419bd2dad38"
+      },
+      "ui:구직활동  →  자산 %s. 수입부터 늘려야 합니다:/구직활동  →  자산 %s. 수입부터 늘려야 합니다": {
+        "source_sha256": "a6483e33c5805ed4b646fe9f4c145e7d09867bc2d9f21f84fb3d888740123d3d",
+        "target_sha256": "a5787abc2afef4dac0a6c0558329ed432919a7e37c4fbb2e21fd4e8900da48d7"
+      },
+      "ui:구직활동  →  지력 %d이면 사무직 지원 가능. 이력서 작성부터:/구직활동  →  지력 %d이면 사무직 지원 가능. 이력서 작성부터": {
+        "source_sha256": "388b93cc1f0cd08ee14184b2e8387c0bc8d24743329e54ecb1cd463318472e96",
+        "target_sha256": "7322f780b908ec1607e99e9e5cb33c4718bbb0bf9c8046ee9a28837807718279"
+      },
+      "ui:남은 %d개월  →  30억까지 %s. 지금 방식을 유지하면 보입니다:/남은 %d개월  →  30억까지 %s. 지금 방식을 유지하면 보입니다": {
+        "source_sha256": "b91b45fb16b20905abee49838bbe23c8d579ca666d151d3ecd81514c35fff35e",
+        "target_sha256": "34783f859349fc4942a12c6effa4cdd07cc3bced70c10d528bde6ae5d30b3b66"
+      },
+      "ui:남은 %d개월  →  투자 레버리지나 고수익 방법이 필요한 시점입니다:/남은 %d개월  →  투자 레버리지나 고수익 방법이 필요한 시점입니다": {
+        "source_sha256": "a9ded088b022283dc1bc735c354519eac74985ed705bfbeb10190030a5017287",
+        "target_sha256": "e88b6322eadf8112d1f0d76618203ed40f9886f796e7e49a72f6409ff83ace4e"
+      },
+      "ui:사교력  →  상철과의 다음 만남이 투자·직업의 새 기회로 이어집니다:/사교력  →  상철과의 다음 만남이 투자·직업의 새 기회로 이어집니다": {
+        "source_sha256": "ad10bc05de374fd0a2afe1be5273aeddc181cf2c2ff1122027f015533063c8d5",
+        "target_sha256": "785552a5f34ab0e883545576b579652fbf9a4c37c756e8ccf8eac4a4b7671f8e"
+      },
+      "ui:이사 고려  →  자산 %s, 빌라 전세로 격상하면 정신력 보너스가 있습니다:/이사 고려  →  자산 %s, 빌라 전세로 격상하면 정신력 보너스가 있습니다": {
+        "source_sha256": "5d6808f6e0540145d888c585d56c8576aa60586b9ec1d9a050958844ea1679bf",
+        "target_sha256": "560aa79ef3eed00a48fe29c35c41c9bfd2b3c4817cdb971b23cdb55d4377abd1"
+      },
+      "ui:이사 고려  →  자산 %s, 아파트 전세 구간입니다. 투자 평판도 올라갑니다:/이사 고려  →  자산 %s, 아파트 전세 구간입니다. 투자 평판도 올라갑니다": {
+        "source_sha256": "a7fe1895cefe21a9e0f5833490eef5ecc26e7aaa16bd9599c96c6c2d7ca161d3",
+        "target_sha256": "2844a4ada05079e62887627e65054eb3ed0941cabb5d0b5caa5d677327241c97"
+      },
+      "ui:이사 고려  →  자산 %s, 원룸 이사 구간에 들어왔습니다 (AP 주거 메뉴):/이사 고려  →  자산 %s, 원룸 이사 구간에 들어왔습니다 (AP 주거 메뉴)": {
+        "source_sha256": "3a1ef95b50beec2092b4e718e18a2028de13ca300443b0bda9bdf126cf8f5d83",
+        "target_sha256": "f9e6fe005f778eb7f23afa2828d60d2cee573a650f87d5b6283c4bec13a2d003"
+      },
+      "ui:일 시작  →  첫 월급 수령 전까지 투자 계좌가 열리지 않습니다:/일 시작  →  첫 월급 수령 전까지 투자 계좌가 열리지 않습니다": {
+        "source_sha256": "649fb41027d249e38755150748c286a673868a268b9a77cc31a6740da3eeeb94",
+        "target_sha256": "d066dd8f5952c36eb62a4c77be79dc7555ad3216240f36476a77b8217a9451f9"
+      },
+      "ui:자기계발  →  지력 %d. 좋은 직장·투자이벤트는 지력 40+ 조건이 많습니다:/자기계발  →  지력 %d. 좋은 직장·투자이벤트는 지력 40+ 조건이 많습니다": {
+        "source_sha256": "d017ea175e5c954f4b4212fa77cc8edc73afee70f9fc87d35701b5c808fb69cc",
+        "target_sha256": "350860f0e209041c6195faf0a34b6f981c78748f75e0f21f671e2a1807e964d9"
+      },
+      "ui:자기계발 또는 투자  →  꾸준히 스탯과 자산을 키우세요:/자기계발 또는 투자  →  꾸준히 스탯과 자산을 키우세요": {
+        "source_sha256": "89711753fb5a8b1d3bdda45a5a7721b28ec4c3e01f0a0b1018489c364fa5aaaa",
+        "target_sha256": "2d9d9ed15c70b50f918a6681ae6c53d63cc32233e4aa447dc8959cccddbff0d3"
+      },
+      "ui:자기계발(투자)  →  주문서의 수수료와 빠져나올 가격을 먼저 읽는 연습부터:/자기계발(투자)  →  주문서의 수수료와 빠져나올 가격을 먼저 읽는 연습부터": {
+        "source_sha256": "0e854bb54364e5811e20f40721ede3f39a91270118da9641751713f3a0957d7c",
+        "target_sha256": "303a5d69c732d8a32301ab52c2a3e3ea7946a2b387ab6b439a389997e49a1d80"
+      },
+      "ui:투자  →  상철에게 종목표의 수수료와 빠져나올 자리를 함께 짚어 달라고 해 보세요:/투자  →  상철에게 종목표의 수수료와 빠져나올 자리를 함께 짚어 달라고 해 보세요": {
+        "source_sha256": "1efe720804160fd5c54e6cb09d7a3245a741c2cc45492aa98e77ae45ead0813a",
+        "target_sha256": "e87be2d797a475bbe13a1fefdc1c25cd31efe1fd5576d54b527521351c2368b5"
+      },
+      "ui:투자  →  자산 %s, 포트폴리오를 분산하면 위험이 줄어듭니다:/투자  →  자산 %s, 포트폴리오를 분산하면 위험이 줄어듭니다": {
+        "source_sha256": "2b2588d5ee123dfe693f4a9ea2a5dcc50dc85d83d530b496752dce411407c8a8",
+        "target_sha256": "ad4f1e09ba58de657ca84b1b466281b8d743e26a10164dc24ca16d4d7c9717f7"
+      },
+      "ui:휴식  →  정신력 %d. 번아웃 전에 멈추는 게 전략:/휴식  →  정신력 %d. 번아웃 전에 멈추는 게 전략": {
+        "source_sha256": "33949c36d2311d3af5a6c0cdf843c566a820cf1b2a667ca787a970510a4a7598",
+        "target_sha256": "78fc65fa5c7e2ed4186feb15e7d8f008d7b161ad89491e7d6c4d2fdda2f1edb2"
       }
     },
     "zh-TW": {
@@ -182442,10 +182703,142 @@
       "ui:🟢 상승 지속 예상 — 성장주 유리:/🟢 상승 지속 예상 — 성장주 유리": {
         "source_sha256": "31a8a1af169c4bbb564e4505eb14d553909b1b8e2f41c8912cf2fc43a58078be",
         "target_sha256": "bfef5f359b35e1e1e890214e9f3478e51831507fb2b328a5b067f1865101c3d8"
+      },
+      "ui:낮은 위험 · AP 1 · 사회성 +3 · 평판 +2 · 1~3주: 넓어진 관계:/낮은 위험 · AP 1 · 사회성 +3 · 평판 +2 · 1~03주: 넓어진 관계": {
+        "source_sha256": "28f973b83699b3bdd9f550a26d19df1652bbdb13653b5bb62bc8613b8c55fc7f",
+        "target_sha256": "4fb3ae59aee2b0c7a3e26eac642e841851c0b5c3ca4cbcd5f15a49771ab6ab5e"
+      },
+      "ui:낮은 위험 · AP 1 · 정신 +2~11 · 1~3주: 몸과 마음의 여유:/낮은 위험 · AP 1 · 정신 +2~011 · 1~03주: 몸과 마음의 여유": {
+        "source_sha256": "8b3b07348ddd8a1aa80167eabb51feb3e0ae930b97a44385669d9a78b5589e35",
+        "target_sha256": "a30a3e060cf87d9d142e5e117575d935b57b7aba53fc6aeedf24a8a3f93c4a99"
+      },
+      "ui:낮은 위험 · AP 1 · 정신 +5 · 스트레스 -3 · 관계 +4 · 1~3주: 인연:/낮은 위험 · AP 1 · 정신 +5 · 스트레스 -3 · 관계 +4 · 1~03주: 인연": {
+        "source_sha256": "66cc8bee30d36d97d748f1781bd80a88b2e80d2addb50442c667fe03e441f2a4",
+        "target_sha256": "0419ccbb174ed307d81a63ebefb5bbed3915b52d6527f7facba8680a422acab5"
+      },
+      "ui:낮은 위험 · 선택 후 AP 1 · 능력 또는 회복 · 1~3주: 반복 기록:/낮은 위험 · 선택 후 AP 1 · 능력 또는 회복 · 1~03주: 반복 기록": {
+        "source_sha256": "57914121251b4f9b51add583fcd9c36a9921a9bbc96da580bc5d6cbf54a196eb",
+        "target_sha256": "7ad823c0d7842dece255c506391505449e5dafe07b24394d79c9aa4ce6cc70fc"
+      },
+      "ui:높은 위험 · AP 1 · 현금 손실 가능 · 즉시 결과 · 1~3주 뒤에도 남음:/높은 위험 · AP 1 · 현금 손실 가능 · 즉시 결과 · 1~03주 뒤에도 남음": {
+        "source_sha256": "2bcdd789f7a7114d899eb76b7d219e6ca5bf19ea00a51b82fd00907d90af1898",
+        "target_sha256": "0a9d583f73eb1f7e0a7fa21afe9aa6cac2403d61393cd8e8fe6d7854d5081318"
+      },
+      "ui:높은 위험 · 현금 손실 · 즉시 결과 · 1~3주: 중독과 통제 비용:/높은 위험 · 현금 손실 · 즉시 결과 · 1~03주: 중독과 통제 비용": {
+        "source_sha256": "b83a4ce56ec592a7da5135bff589c96fe38e2d9a3540331474b051780cae8bf4",
+        "target_sha256": "45bd4b31b3a77c43ceccb886fd715e4b191df1dca0c189e6f58533ea439b4d07"
+      },
+      "ui:무료  주거와 생활을 정리한다:/무료  주거와 생활을 정리한다": {
+        "source_sha256": "df045cdf70093d69387f71d2f9954b8131431a3342490039640661009ef349ee",
+        "target_sha256": "753baecc5b834c9aef269babea6b16a31c93f7918e47533af6008a1102cee8b9"
+      },
+      "ui:선택  알바 · 절약 · 금융:/선택  알바 · 절약 · 금융": {
+        "source_sha256": "de17d9d6452d6b50c9176ec0543918ee28332eab0204db0445b95ffad8f764f4",
+        "target_sha256": "fe93794ac8a560351945c170dc4b4f1f64cf3f531f74514340c915ba30337f54"
+      },
+      "ui:선택  업무 · 이력서 · 면접 준비:/선택  업무 · 이력서 · 면접 준비": {
+        "source_sha256": "1b8c80c305db7ddb622a3ee32a8426d972b94647711ae3f2d0830f4fcdfcdefd",
+        "target_sha256": "5e8c290684cc1e9d269416c75b7560b04d0bd7779615d00bba83926b5d1b0e61"
+      },
+      "ui:선택  투자 · 알바 · 절약:/선택  투자 · 알바 · 절약": {
+        "source_sha256": "ba5c88c1af2516f6434427a5bfb74d25691c4e61cd07775f2b8e5a648f373326",
+        "target_sha256": "6ded4696e23801ff6513c058526375ef57f7b583d0043f0ccd5682723f55b510"
+      },
+      "ui:시간  조용한 주를 최대 4주 압축:/시간  조용한 주를 최대 4주 압축": {
+        "source_sha256": "5336dfde43301e53e8d1220fbdd1371244b9bf10dedff506c875a421d05203fe",
+        "target_sha256": "41da6e052424abefd3c4335c352135b664edfd4955fe30197c057a6540e2e71f"
+      },
+      "ui:위험  현금과 통제력:/위험  현금과 통제력": {
+        "source_sha256": "28c7a0499ef7c497e15bbdfa5a7f41c0e252c0f9f4e92fb61feb0573553e54f5",
+        "target_sha256": "f278d1f4d075ccffd503fbca28d10bc0e04b4cb677a7737caa93c45fb1ea24f6"
+      },
+      "ui:이후  관계 · 둘이 보내는 시간:/이후  관계 · 둘이 보내는 시간": {
+        "source_sha256": "ab15915e2976ad702111919afed9f64aeb8de78384e550de89be0834a740be50",
+        "target_sha256": "ffceb5e15b89668478c73366a04e4f9e5b230c6a12a20fd21b801bb8d95d096a"
+      },
+      "ui:이후  관계와 다음 만남이 달라진다:/이후  관계와 다음 만남이 달라진다": {
+        "source_sha256": "3733209b8740bd058a2fb0e6c9a730d534b8d6b928a710113c8fb64078f7aa07",
+        "target_sha256": "f2bc319e5f515f84d81ef9ba402a2c47199c9e4fe6cbab9eab7bc7cac7945b7c"
+      },
+      "ui:이후  관계와 다음 선택:/이후  관계와 다음 선택": {
+        "source_sha256": "28080eeb09e686bd63ba747a1a43c4d15074295dd95631666d17210a93a53543",
+        "target_sha256": "941c8d798c805315939a4580e08cbc956530aea553405aae2d3ea047d17df0d3"
+      },
+      "ui:이후  이번 달 현금흐름:/이후  이번 달 현금흐름": {
+        "source_sha256": "7615d40fde5752a46c89d92b07662857dc8ea61b6eb90a1c228d8ff457fca87a",
+        "target_sha256": "446c8241bb81246da823f6dcf0ec2baf7accdb06b0dd5c15cf55dfc7f0fed30b"
+      },
+      "ui:중간 위험 · AP 1 · 사회성·평판 상승 · 스트레스 1~4 · 1~3주: 사회 사건:/중간 위험 · AP 1 · 사회성·평판 상승 · 스트레스 1~04 · 1~03주: 사회 사건": {
+        "source_sha256": "0b2d23b2180c2ea37bbdbdadfb1a2c1d41fe292f0482d431dcb2f5b911172725",
+        "target_sha256": "5ea9b1ae395e0a538f8916c81eaf3975935e8073303082670db1ae52797f25c2"
+      },
+      "ui:구직활동  →  수입 0원 탈출이 1순위. 알바라도 먼저:/구직활동  →  수입 0원 탈출이 1순위. 알바라도 먼저": {
+        "source_sha256": "34aeb95626b7f543e5554cfd9e5cda96d2e512639e27cda404cf84b5e5dc0698",
+        "target_sha256": "dcc96e3cee154695929ae1f3f19fcfd6726c181bc744d0f1cbd6b5f1edbab0a4"
+      },
+      "ui:구직활동  →  자산 %s. 수입부터 늘려야 합니다:/구직활동  →  자산 %s. 수입부터 늘려야 합니다": {
+        "source_sha256": "a6483e33c5805ed4b646fe9f4c145e7d09867bc2d9f21f84fb3d888740123d3d",
+        "target_sha256": "8f3567683f7fdcf02f1dd5c63c3c87de3c261eb9902484a4a958bac867fb4e21"
+      },
+      "ui:구직활동  →  지력 %d이면 사무직 지원 가능. 이력서 작성부터:/구직활동  →  지력 %d이면 사무직 지원 가능. 이력서 작성부터": {
+        "source_sha256": "388b93cc1f0cd08ee14184b2e8387c0bc8d24743329e54ecb1cd463318472e96",
+        "target_sha256": "1bdef749b8d47be3ea07e208bb68be724082b066e14354994477594da5bbeac5"
+      },
+      "ui:남은 %d개월  →  30억까지 %s. 지금 방식을 유지하면 보입니다:/남은 %d개월  →  30억까지 %s. 지금 방식을 유지하면 보입니다": {
+        "source_sha256": "b91b45fb16b20905abee49838bbe23c8d579ca666d151d3ecd81514c35fff35e",
+        "target_sha256": "d05ba206c76919a71d0ee3be05867517b864e97b9d5e11c489f28e8031211c68"
+      },
+      "ui:남은 %d개월  →  투자 레버리지나 고수익 방법이 필요한 시점입니다:/남은 %d개월  →  투자 레버리지나 고수익 방법이 필요한 시점입니다": {
+        "source_sha256": "a9ded088b022283dc1bc735c354519eac74985ed705bfbeb10190030a5017287",
+        "target_sha256": "927ea39084791ff14c5a37493a28b507172811fe5ab45fc2e3b1834c75d94ce1"
+      },
+      "ui:사교력  →  상철과의 다음 만남이 투자·직업의 새 기회로 이어집니다:/사교력  →  상철과의 다음 만남이 투자·직업의 새 기회로 이어집니다": {
+        "source_sha256": "ad10bc05de374fd0a2afe1be5273aeddc181cf2c2ff1122027f015533063c8d5",
+        "target_sha256": "a006ddfc05eb5d8ea8712f485a2d3a427e02e09301f44d381afb68ec6039dcff"
+      },
+      "ui:이사 고려  →  자산 %s, 빌라 전세로 격상하면 정신력 보너스가 있습니다:/이사 고려  →  자산 %s, 빌라 전세로 격상하면 정신력 보너스가 있습니다": {
+        "source_sha256": "5d6808f6e0540145d888c585d56c8576aa60586b9ec1d9a050958844ea1679bf",
+        "target_sha256": "a3a9488c685da45702dbd7e36dc417f262c2558e429df8799c677ed81711153d"
+      },
+      "ui:이사 고려  →  자산 %s, 아파트 전세 구간입니다. 투자 평판도 올라갑니다:/이사 고려  →  자산 %s, 아파트 전세 구간입니다. 투자 평판도 올라갑니다": {
+        "source_sha256": "a7fe1895cefe21a9e0f5833490eef5ecc26e7aaa16bd9599c96c6c2d7ca161d3",
+        "target_sha256": "892a60bd071e1ae8cfc24a1b5b85761cd422be80d86a14ec60fce6516856d0a6"
+      },
+      "ui:이사 고려  →  자산 %s, 원룸 이사 구간에 들어왔습니다 (AP 주거 메뉴):/이사 고려  →  자산 %s, 원룸 이사 구간에 들어왔습니다 (AP 주거 메뉴)": {
+        "source_sha256": "3a1ef95b50beec2092b4e718e18a2028de13ca300443b0bda9bdf126cf8f5d83",
+        "target_sha256": "561d965dae5633a4c9e7892bda2dc24ddd4c848fa0dcb699c1673dd1f8683385"
+      },
+      "ui:일 시작  →  첫 월급 수령 전까지 투자 계좌가 열리지 않습니다:/일 시작  →  첫 월급 수령 전까지 투자 계좌가 열리지 않습니다": {
+        "source_sha256": "649fb41027d249e38755150748c286a673868a268b9a77cc31a6740da3eeeb94",
+        "target_sha256": "ae9bc6c5c3ef6df1ed0471090fca21c6c0342c00b7ac558c3205df40f721b249"
+      },
+      "ui:자기계발  →  지력 %d. 좋은 직장·투자이벤트는 지력 40+ 조건이 많습니다:/자기계발  →  지력 %d. 좋은 직장·투자이벤트는 지력 40+ 조건이 많습니다": {
+        "source_sha256": "d017ea175e5c954f4b4212fa77cc8edc73afee70f9fc87d35701b5c808fb69cc",
+        "target_sha256": "04f56046f468248c1ca514eda6c4c6f5d63139dfa53e9ddbcabc5b20f8324cab"
+      },
+      "ui:자기계발 또는 투자  →  꾸준히 스탯과 자산을 키우세요:/자기계발 또는 투자  →  꾸준히 스탯과 자산을 키우세요": {
+        "source_sha256": "89711753fb5a8b1d3bdda45a5a7721b28ec4c3e01f0a0b1018489c364fa5aaaa",
+        "target_sha256": "3e3ec0d71aba2f61b6e5a05bbacce5d18784adafc96d7714f8dd8ba60858ef6b"
+      },
+      "ui:자기계발(투자)  →  주문서의 수수료와 빠져나올 가격을 먼저 읽는 연습부터:/자기계발(투자)  →  주문서의 수수료와 빠져나올 가격을 먼저 읽는 연습부터": {
+        "source_sha256": "0e854bb54364e5811e20f40721ede3f39a91270118da9641751713f3a0957d7c",
+        "target_sha256": "299875499d33b70acbbf795ac78fc29bf0905f92b12b0dc737823926a12f6e97"
+      },
+      "ui:투자  →  상철에게 종목표의 수수료와 빠져나올 자리를 함께 짚어 달라고 해 보세요:/투자  →  상철에게 종목표의 수수료와 빠져나올 자리를 함께 짚어 달라고 해 보세요": {
+        "source_sha256": "1efe720804160fd5c54e6cb09d7a3245a741c2cc45492aa98e77ae45ead0813a",
+        "target_sha256": "18e707bdeb35eef65084d333a6ec0b9dee6b9089e109a921f53cb743ff1e3892"
+      },
+      "ui:투자  →  자산 %s, 포트폴리오를 분산하면 위험이 줄어듭니다:/투자  →  자산 %s, 포트폴리오를 분산하면 위험이 줄어듭니다": {
+        "source_sha256": "2b2588d5ee123dfe693f4a9ea2a5dcc50dc85d83d530b496752dce411407c8a8",
+        "target_sha256": "d0341366359d59349f15d45d615637fcf1f5842e6021b5997536fc65a671c7ce"
+      },
+      "ui:휴식  →  정신력 %d. 번아웃 전에 멈추는 게 전략:/휴식  →  정신력 %d. 번아웃 전에 멈추는 게 전략": {
+        "source_sha256": "33949c36d2311d3af5a6c0cdf843c566a820cf1b2a667ca787a970510a4a7598",
+        "target_sha256": "a452970ea311e676eeb37887a3c8a41f251d97f60a50ac04e6e93836f0e9b1c6"
       }
     }
   },
-  "accepted_sha256": "d3998e6adc38ade0573086391afa8b9e698f73e8094227aa4e8367c04a713424",
+  "accepted_sha256": "0cc71279c2618b9d8a8546ae77081f09fb861641121ef7250a749c6275b4cd86",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
