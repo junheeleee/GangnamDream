@@ -507,7 +507,7 @@ GODOT=/path/to/Godot_v4.6.2 ./tools/build_story_demo_desktop.sh \
 - `tools/story_demo_successor_package_audit.py --self-test`: 경로·치환·manifest와
   산출물 반례 검사다. 이 실행 자체는 export나 실제 플레이 증거가 아니다.
 - 빌더의 `--source <full-commit> --build-id <supported-build-id> --attempt <fresh-label>
-  --godot <absolute-engine-path>`로 발급한다. 현재 지원 ID는 `2026.10.05.1`이며
+  --godot <absolute-engine-path>`로 발급한다. 현재 지원 ID는 `2026.10.10.1`이며
   날짜가 source commit과 같아야 한다. 기존 attempt/namespace 및 symlink 경로는
   거절한다. 실패 staging과 로그는 삭제하지 않고 보존한다.
 - 출력은 `build/story_demo_successor/<build-id>/<attempt>/`이고, 첫 엔진 시작

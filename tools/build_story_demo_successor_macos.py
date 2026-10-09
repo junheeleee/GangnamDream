@@ -23,7 +23,7 @@ import uuid
 
 sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[1]
-BUILD = "2026.10.05.1"
+BUILD = "2026.10.10.1"
 GODOT_VERSION = "4.6.2.stable.official.71f334935"
 ENTRY = "res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
 CHANGED = ("project.godot", "export_presets.cfg",
@@ -55,8 +55,8 @@ def identity_for(build_id, attempt):
     return {"build_id": build_id, "attempt": attempt,
             "app_stem": "GangnamDream-StoryDemo-Successor-" + build_id + "-" + attempt,
             "bundle_id": "dev.junheelee.gangnamdream.storydemo.successor." + attempt,
-            "app_version": "2026.10.5", "preset_name": "macOS StoryDemo Successor",
-            "artifact_namespace": "GangnamDream_StoryDemo_Successor_2026_10_05_1_" + attempt,
+            "app_version": "2026.10.10", "preset_name": "macOS StoryDemo Successor",
+            "artifact_namespace": "GangnamDream_StoryDemo_Successor_2026_10_10_1_" + attempt,
             "output_rel": "build/story_demo_successor/" + build_id + "/" + attempt,
             "entry_scene": ENTRY, "profile": "story_demo_rc"}
 
@@ -347,7 +347,7 @@ def build(args):
     before = source_state()
     require(before["head"] == args.source and before["status"] == "", "source must be clean current HEAD")
     date = git("show", "-s", "--format=%cs", args.source).decode().strip()
-    require(date == "2026-10-05", "source commit date differs from BUILD date")
+    require(date == "2026-10-10", "source commit date differs from BUILD date")
     # Reject unsupported archive kinds before touching any output.
     for entry in git("ls-tree", "-r", "-z", args.source).split(b"\0"):
         if entry:
@@ -358,10 +358,10 @@ def build(args):
         require(Path(tool).is_file(), "required macOS utility absent: " + tool)
     for path in args.protect:
         require(Path(path).is_absolute() and no_symlink(path).is_file(), "extra protection must be an existing absolute file")
-    require(len(args.protect) == 3 and len(set(args.protect)) == 3, "provide the two seed files and W195 via three --protect paths")
+    require(len(args.protect) == 3 and len(set(args.protect)) == 3, "provide the two seed files and a replay checkpoint via three --protect paths")
     protections = protected(args.protect)
     player = next(row for row in protections if row["label"] == "retail_player_files")
-    require(player["exists"] and len(player["entries"]) == 34, "actual player file census is not 34")
+    require(player["exists"] and len(player["entries"]) == 33, "actual player file census is not 33")
     output = require_fresh_path(ROOT / identity["output_rel"])
     require(output.is_relative_to(ROOT / "build/story_demo_successor"), "output escaped")
     delivery_root = require_fresh_path(delivery_path(identity))
@@ -382,7 +382,7 @@ def build(args):
     env["PYTHONDONTWRITEBYTECODE"] = "1"
     qa_env = dict(env, STORY_DEMO_ALLOW_ISOLATED_QA="1", STORY_DEMO_QA_BOOTSTRAP_NAME=qa)
     rows = []
-    entry = {"unit": "ORDER-462", "status": "RUNNING", "identity": identity,
+    entry = {"unit": "ORDER-518", "status": "RUNNING", "identity": identity,
              "source": before, "staging": str(stage), "protected": protections}
     write_json(output / "entry.json", entry)
     manifest = None
@@ -485,7 +485,7 @@ def build(args):
         after, protections_after = source_state(), protected(args.protect)
         require(after == before and after["status"] == "", "source HEAD/tree/status drift")
         require(protections_after == protections, "protected inputs changed")
-        manifest = {"schema_version": 1, "unit": "ORDER-462", "status": "EXPORTED_NOT_RUNTIME_VERIFIED",
+        manifest = {"schema_version": 1, "unit": "ORDER-518", "status": "EXPORTED_NOT_RUNTIME_VERIFIED",
                     "identity": identity, "source": {"commit": args.source, "tree": before["tree"],
                     "commit_date": date, "before": before, "after": after},
                     "builder": {"path": str(builder), "sha256": sha(builder.read_bytes()), "source_commit": args.source},
@@ -514,7 +514,7 @@ def build(args):
         except Exception as exc:
             final_source, final_protected = None, None
             final_errors.append("final preservation read failed: " + repr(exc))
-        result = {"unit": "ORDER-462", "all_pass": failure is None and not final_errors,
+        result = {"unit": "ORDER-518", "all_pass": failure is None and not final_errors,
                   "status": "EXPORTED_NOT_RUNTIME_VERIFIED" if failure is None and not final_errors else "FAILED",
                   "runtime": "NOT_RUN", "source_after": final_source, "protected_after": final_protected,
                   "commands": rows, "staging": str(stage), "error": repr(failure) if failure else None,

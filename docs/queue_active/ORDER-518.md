@@ -5,6 +5,9 @@
 **착수 — 2026-10-10.** 517 source 수리 GO 뒤에도 기존 third 앱은 실패한
 옛 바이트다. 이를 덮지 않고 새 clean source와 별도 신원으로 발급한다.
 
+현재 구현은 기존 builder9행/auditor11행/BUILD_PIPELINE 지원ID1행의 literal만
+정렬했다. 기존 self-test52 PASS/actual_exports0이며 실제 발급은 clean source 뒤다.
+
 ## 한 단위·깊이 3문
 
 1. 없으면 수정된 코드의 실행 앱이 없어 실제 부팅·저장·재개를 확인할 수 없다.

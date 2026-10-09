@@ -23,7 +23,7 @@ import zipfile
 
 sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[1]
-BUILD = "2026.10.05.1"
+BUILD = "2026.10.10.1"
 ENTRY = "res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
 CHANGED = ("project.godot", "export_presets.cfg",
            "playtests/order124/StoryChoiceM1M6Playtest.gd", "tools/StoryDemoFourLanguageCheck.gd")
@@ -197,15 +197,15 @@ def expected_identity(build_id, attempt):
     return {"build_id": BUILD, "attempt": attempt,
             "app_stem": "GangnamDream-StoryDemo-Successor-" + BUILD + "-" + attempt,
             "bundle_id": "dev.junheelee.gangnamdream.storydemo.successor." + attempt,
-            "app_version": "2026.10.5", "preset_name": "macOS StoryDemo Successor",
-            "artifact_namespace": "GangnamDream_StoryDemo_Successor_2026_10_05_1_" + attempt,
+            "app_version": "2026.10.10", "preset_name": "macOS StoryDemo Successor",
+            "artifact_namespace": "GangnamDream_StoryDemo_Successor_2026_10_10_1_" + attempt,
             "output_rel": "build/story_demo_successor/" + BUILD + "/" + attempt,
             "entry_scene": ENTRY, "profile": "story_demo_rc"}
 
 
 def manifest_shape(data):
     require(type(data) is dict and type(data.get("schema_version")) is int and data["schema_version"] == 1
-            and data.get("unit") == "ORDER-462" and data.get("status") == "EXPORTED_NOT_RUNTIME_VERIFIED",
+            and data.get("unit") == "ORDER-518" and data.get("status") == "EXPORTED_NOT_RUNTIME_VERIFIED",
             "manifest schema/export status differs")
     identity = data.get("identity")
     require(type(identity) is dict and identity == expected_identity(identity.get("build_id"), identity.get("attempt")),
@@ -216,7 +216,7 @@ def manifest_shape(data):
     source = data.get("source")
     require(type(source) is dict and re.fullmatch(r"[0-9a-f]{40}", str(source.get("commit", "")))
             and re.fullmatch(r"[0-9a-f]{40}", str(source.get("tree", "")))
-            and source.get("commit_date") == "2026-10-05", "explicit source identity/date differs")
+            and source.get("commit_date") == "2026-10-10", "explicit source identity/date differs")
     require(source.get("before") == source.get("after")
             and source.get("before") == {"head": source["commit"], "tree": source["tree"], "status": ""},
             "source before/after is not the same clean candidate")
@@ -504,12 +504,12 @@ def audit_manifest(path, source_root=ROOT):
                           Path("/Users/junheelee/Library/Application Support/Godot/app_userdata/강남드림")]
         require([row["path"] for row in rows[:6]] == [str(item) for item in expected_paths], "protected primary path differs")
         require(len({row["path"] for row in rows}) == 9 and all(row["exists"] is True for row in rows[6:])
-                and len(rows[5]["entries"]) == 34, "player34/extra3 protections differ")
+                and len(rows[5]["entries"]) == 33, "player33/extra3 protections differ")
         for row in rows:
             require(canonical(row) == canonical(protected_snapshot(row)), "actual protected bytes differ: " + row["label"])
         if path.name == "MANIFEST.json":
             result = load_json(no_symlink(output / "result.json").read_bytes())
-            require(result.get("unit") == "ORDER-462" and result.get("all_pass") is True
+            require(result.get("unit") == "ORDER-518" and result.get("all_pass") is True
                     and result.get("status") == "EXPORTED_NOT_RUNTIME_VERIFIED" and result.get("runtime") == "NOT_RUN"
                     and result.get("error") is None and result.get("preservation_errors") == []
                     and result.get("source_after") == source["after"]
@@ -542,8 +542,8 @@ def self_test():
     identity = expected_identity(BUILD, "synthetic")
     good("independent identity", builder.identity_for(BUILD, "synthetic") == identity)
     good("independent delivered app location", delivery_app(identity) == Path(
-        "/Users/junheelee/Library/Application Support/GangnamDream_LocalCandidates/2026.10.05.1/synthetic/"
-        "GangnamDream-StoryDemo-Successor-2026.10.05.1-synthetic.app")
+        "/Users/junheelee/Library/Application Support/GangnamDream_LocalCandidates/2026.10.10.1/synthetic/"
+        "GangnamDream-StoryDemo-Successor-2026.10.10.1-synthetic.app")
         and builder.delivery_path(identity) == delivery_app(identity).parent)
     bad("delivery identity path tamper", lambda: delivery_app(dict(identity, app_stem="../old")))
     bad("actual builder delivery identity tamper", lambda: builder.delivery_path(dict(identity, attempt="../old")))
@@ -572,10 +572,10 @@ def self_test():
     mutated = dict(changed)
     mutated[CHANGED[0]] = changed[CHANGED[0]].replace(b"viewport_width=1280", b"viewport_width=1200")
     bad("unowned staging byte", lambda: stage_contract(original, mutated, identity, identity["artifact_namespace"]))
-    source = {"commit": "1" * 40, "tree": "2" * 40, "commit_date": "2026-10-05",
+    source = {"commit": "1" * 40, "tree": "2" * 40, "commit_date": "2026-10-10",
               "before": {"head": "1" * 40, "tree": "2" * 40, "status": ""},
               "after": {"head": "1" * 40, "tree": "2" * 40, "status": ""}}
-    sample = {"schema_version": 1, "unit": "ORDER-462", "status": "EXPORTED_NOT_RUNTIME_VERIFIED",
+    sample = {"schema_version": 1, "unit": "ORDER-518", "status": "EXPORTED_NOT_RUNTIME_VERIFIED",
               "identity": identity, "source": source, "runtime": {"status": "NOT_RUN", "pending": PENDING},
               "user_go": "NOT_INHERITED", "codesign": "ad-hoc"}
     manifest_shape(sample)
