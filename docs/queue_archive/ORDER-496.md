@@ -46,3 +46,6 @@ ZH self-test12659·현재audit·full localization265·body scope54·등록179·i
 content/locale/원장/runtime/project 변화0·새 도구/보고/규범0·절차 일회성이다.
 직전492 마감ef97d8c의 실제 CI37889060971 녹색을 확인했다. 현재 후보 전체CI와
 실제화면/원어민/물리패드·본편출시 GO는 별개다. 495 번역 수용으로 복귀한다.
+운영 마감의 부팅 예산 초과는 마지막 갱신 문구 축약과 WORK_LOG의 484~490
+기록을 history/WORK_LOG_2026-10-09_pre_order491.md로 원문 바이트 보존해 해소한다.
+새 검수보고가 아니라 기존 기록의 보관 이동이며 과거 제품/인간 판정은 불변이다.
