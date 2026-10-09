@@ -12084,6 +12084,132 @@
           "batch_id": "28fafdd5d39ab04313c19d336e9074639c35f176daa4a681e0786dc29fa7fbba"
         }
       }
+    },
+    {
+      "order": "ORDER-498",
+      "group": "ui",
+      "roots": [
+        "%d번 남음 (+%d)",
+        "%d번 남음",
+        "다음 주 ›",
+        "문자·통화 기록과 연락처를 연다 (P / %s)",
+        "수첩",
+        "아버지는 괜찮다는 말만 반복한다.",
+        "아버지는 먼저 전화를 끊지 않는다.",
+        "아버지는 병원 이야기를 피하고 있다.",
+        "아버지는 짧은 전화만 남긴다.",
+        "아버지에게는 이제 전화를 걸 수 없다.",
+        "이번 주 확정",
+        "일정",
+        "한 번만 선택",
+        "확정한 이번 달 계획을 본다",
+        "휴대폰"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 15,
+        "zh-TW": 15
+      },
+      "source_review": "Direct Korean-source regional authorship; all 60 values independently compared with 30 source keys and 37 actual HUD, notebook, AP and stat consumers. Confirmed-plan viewing, broad messages and call history, total remaining AP including bonus, choose-once versus committed status, elapsed months versus remaining weeks and the original five-year promise retained. Monotonic father death takes precedence over living stages; short actual conversations, hospital avoidance, reassurance and not hanging up first remain distinct. Intelligence, social ability, appearance, reputation, addiction, gambling urge, work performance and monthly income remain distinct. Agent comparison only, not native or rendered approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "c696a90d434677cd68d3174df0e261b5a02f8f9be6b94da62b3a3a8d6c43efd1",
+        "zh-TW": "28cf9fdeea9587621baa8756d06dddcf5bc119ecaf21ded91b2be76ece22c595"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "e1b9fc81f663f3905b7451e691ddfc9e3a3d3737",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "0e03a673f0f5b8189c21a3ab63ce8b47d2c1bb6c690eed55e53ca8723ccd34f9",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "1a90d507ae7a586bd72434eba735d14436eea9a332cc874c200168fd3b0f4d19"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "e1b9fc81f663f3905b7451e691ddfc9e3a3d3737",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "36edf20e34eac377e781ac7a213c570dd89fe5ebd8e6274fd00477497916c7a2",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "ee8162c77e2ba07ce038cdf7de1c5d643a18f36959381871a253825313250f8e"
+        }
+      }
+    },
+    {
+      "order": "ORDER-498",
+      "group": "ui",
+      "roots": [
+        "{weeks}주",
+        "남은 시간",
+        "덮는다",
+        "도박충동",
+        "사회성",
+        "서울에 온 뒤 {months}개월",
+        "숫자보다 먼저 적었던 이유",
+        "업무성과",
+        "외모",
+        "월수입",
+        "중독도",
+        "지능",
+        "처음 약속한 5년",
+        "처음 적은 문장",
+        "평판"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 15,
+        "zh-TW": 15
+      },
+      "source_review": "Direct Korean-source regional authorship; all 60 values independently compared with 30 source keys and 37 actual HUD, notebook, AP and stat consumers. Confirmed-plan viewing, broad messages and call history, total remaining AP including bonus, choose-once versus committed status, elapsed months versus remaining weeks and the original five-year promise retained. Monotonic father death takes precedence over living stages; short actual conversations, hospital avoidance, reassurance and not hanging up first remain distinct. Intelligence, social ability, appearance, reputation, addiction, gambling urge, work performance and monthly income remain distinct. Agent comparison only, not native or rendered approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "f25fe917359112fa44e5b1808f2a1242074ed209773a32178528144cfca34244",
+        "zh-TW": "1012c4740eda378eda92eb4532e815d187374c0274dd4264f521ee782eeacc85"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "e1b9fc81f663f3905b7451e691ddfc9e3a3d3737",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "96a0aac3969ca496093e8de91bb95422037bb258b088bc8227ce79731d0a6371",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "62ac2db948b12fc7577a04f7f0c2da10432cb535f78327968489ec77d61718de"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "e1b9fc81f663f3905b7451e691ddfc9e3a3d3737",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "c841f83fbbf115f68c51b02e963fa9c93ec279761c831d9bcaadfda31bcd6503",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "1009b035a68eb9a975c960c077015759a6ebe44670d51a9282ccb705ebae60ad"
+        }
+      }
     }
   ],
   "accepted": {
@@ -122685,6 +122811,126 @@
       "ui:확인할 약속 결과가 없다.:/확인할 약속 결과가 없다.": {
         "source_sha256": "1fc517f24572f5fae1227f4b3c02693488f466910f76724580bf6e95d74abd91",
         "target_sha256": "8b4ec6655be3da140ff3ffec68dbf4be39b1a7dca366e1a8089d32140bbe9e8a"
+      },
+      "ui:%d번 남음 (+%d):/%d번 남음 (+%d)": {
+        "source_sha256": "8e935357532ce877456994bf485606032538f1b2b25c145ba10d9e7fb101c825",
+        "target_sha256": "4255bf8052396baf0fc3e66a673fda26ea3ad4d12f5ee9c5e11d820e9371e10c"
+      },
+      "ui:%d번 남음:/%d번 남음": {
+        "source_sha256": "ddaf407227de8cd35b4213616d746cc0f6f28a448e2ad994cf771253c0c4b34e",
+        "target_sha256": "01f5d138bd5bddc5ddfed05fbb4e1c120d4577b3d377a1929bfcbf7a008c5648"
+      },
+      "ui:다음 주 ›:/다음 주 ›": {
+        "source_sha256": "9e36d3fccd00ab41f8b5a0d4e573388df3aa4f5b4ba6d889a8dbda7a7ea8e878",
+        "target_sha256": "3d41abe5a2790a8751609d38d12281862b8df0e0b16cbb9454a02da68f75d6de"
+      },
+      "ui:문자·통화 기록과 연락처를 연다 (P / %s):/문자·통화 기록과 연락처를 연다 (P ~1 %s)": {
+        "source_sha256": "3de2bce06017a32fa363f5a6af131cacc1820a54afd1fd1513e819f4a55dca59",
+        "target_sha256": "df611c0cf71e4fc2b26de4816130101c6d7292cda51f139dc75751dc8d91fe2b"
+      },
+      "ui:수첩:/수첩": {
+        "source_sha256": "a5374fd606255d7ae946f85b39c22dfe4d7eeb4d00424ac4a341f0a23d834713",
+        "target_sha256": "ddf8e1e177948f09b930eb9a60ddfdbe41cb36c6dbd8e2a510c6834befd5dba9"
+      },
+      "ui:아버지는 괜찮다는 말만 반복한다.:/아버지는 괜찮다는 말만 반복한다.": {
+        "source_sha256": "b85b230917f7c5db01eaec8f72dddb611c2d8a0b6396f2e854b449ad2542be21",
+        "target_sha256": "41a70f2fa1b9ff699d049ddb687c30e26727538040964f62fd07b649f63cf714"
+      },
+      "ui:아버지는 먼저 전화를 끊지 않는다.:/아버지는 먼저 전화를 끊지 않는다.": {
+        "source_sha256": "deb7760f4d6ef934f3ec4e1b635b619ff9dcbd80230cec55ee4baff1de9e166f",
+        "target_sha256": "8503bccadc3a4de2690ab613d8b7929a8031ce4b26f3d98965b04d7f78f95d05"
+      },
+      "ui:아버지는 병원 이야기를 피하고 있다.:/아버지는 병원 이야기를 피하고 있다.": {
+        "source_sha256": "5f504c71a06f4e22f6709401c39d3afe7d5c2da1bc3c2879e89ea664f5b115dc",
+        "target_sha256": "f8407d334e1726056a56b5def7a84c6797ea0ccbfe77127a48577af604463b1e"
+      },
+      "ui:아버지는 짧은 전화만 남긴다.:/아버지는 짧은 전화만 남긴다.": {
+        "source_sha256": "97343f81b75efb301190801feb0bb84647b944ab75d23e3b946fc05944f6b517",
+        "target_sha256": "0ec7bcfb7fd312de075141020c9417d8becf550ab3e9e3d5a2e9f453c53dc790"
+      },
+      "ui:아버지에게는 이제 전화를 걸 수 없다.:/아버지에게는 이제 전화를 걸 수 없다.": {
+        "source_sha256": "da4c54a2021e74f43865bf8b923b581177a75e46ff58a6682aac866ca49eba36",
+        "target_sha256": "2d0fc3dca36fcc9ffabe11f28b905f5b85979306ff72554139fce80fcfa07307"
+      },
+      "ui:이번 주 확정:/이번 주 확정": {
+        "source_sha256": "8846285433b9aa665689b870fa60dda6be47325a265388c078a4f9952023840b",
+        "target_sha256": "15efd2f6ed2a6849f62ff9678e7094a9cfabe290ff8b0c08cd3d85557b3de76a"
+      },
+      "ui:일정:/일정": {
+        "source_sha256": "b7d28920872ef67d7181cc04c643bf4a0b990c8371e8025aafa823b7d3b73820",
+        "target_sha256": "c04a1a55f1ae4a5fdb4658b2f26ef2d82f31bac4ed9361dfa88ac09ceae3dbf1"
+      },
+      "ui:한 번만 선택:/한 번만 선택": {
+        "source_sha256": "129a0c99aaf36f272f3e305091ddfbed745f645b2a254f09b48fbe0badf6bb23",
+        "target_sha256": "d706f13f62141aad722ffb9ce1790067e4f7f7784be0580dc683197bfc5e8914"
+      },
+      "ui:확정한 이번 달 계획을 본다:/확정한 이번 달 계획을 본다": {
+        "source_sha256": "d1843aaca7623b8ffc5cde7133233b34dc8d592a0a4c7adc0fb803acd0e43e62",
+        "target_sha256": "aa17f5b343dfa0095c10d8e38e0f1dabba4ea5e07759d3cc9fe466dae987cc5c"
+      },
+      "ui:휴대폰:/휴대폰": {
+        "source_sha256": "b720a0df96cbf378dde85181bbfeea461dde1ad7c323192cc22cdbbc1bc7bdbf",
+        "target_sha256": "6cdd93f56a5176693539562ce305e0fe9507d57d07e2c90bd9f03b6a398eca00"
+      },
+      "ui:{weeks}주:/{weeks}주": {
+        "source_sha256": "4732539f6921f43cd33e1ebaf9cbe1642700739df87862fe364a5bad4553d339",
+        "target_sha256": "31cff26293f44b59cc5ad16e0244971d9bdddb15f693e6bb623bcbf5a29abbad"
+      },
+      "ui:남은 시간:/남은 시간": {
+        "source_sha256": "4b3faaa0398a849e3ad85cdd3499f079899044985c16c87542095f88350d27f0",
+        "target_sha256": "7860f647410c8c06bbaf86c27766a6bcd4558b1e6a9fb8bc908863d34a30dbb0"
+      },
+      "ui:덮는다:/덮는다": {
+        "source_sha256": "0c7c37a9c89ff438feec4d2ff0ebcd5b7a2db4681e8996e083fe90c942680e16",
+        "target_sha256": "05f90666477739fd69bd5459228c4e7003f92dc0f1415ab34081def4f3269713"
+      },
+      "ui:도박충동:/도박충동": {
+        "source_sha256": "781cc5f1f99f7432575227ffe5f2e3e7618cb6976d0fb05abbd37c621523907d",
+        "target_sha256": "362819692edd60c8698f8e45bee717074e413bd44a7c1de46b4c8ee0c3fd18ca"
+      },
+      "ui:사회성:/사회성": {
+        "source_sha256": "1aecf05b88e069de64a3d401e7e42b263371df3bfda3be75ba1970651fbb6b76",
+        "target_sha256": "09842350d0976f3f8521b43fabe1c9c489959a61c8a933dd10d8d7a108001ae1"
+      },
+      "ui:서울에 온 뒤 {months}개월:/서울에 온 뒤 {months}개월": {
+        "source_sha256": "dee45eced016f79fd9dc189cd555e9900ffc59b21265b2c282dfa8a8d51577f9",
+        "target_sha256": "0fdd717c69ecb85c2ecffcb88efaaf0e4b5f7bc0084f8e392f982268801f8be7"
+      },
+      "ui:숫자보다 먼저 적었던 이유:/숫자보다 먼저 적었던 이유": {
+        "source_sha256": "2f2691e93b055d7beac5e8ff0ae024232db9762b9da13086a29b0f4786813152",
+        "target_sha256": "cfbd0b61e4754ad07d9edad8a1cb12dc30b81a5fd484e3dc1c2a8153f575a337"
+      },
+      "ui:업무성과:/업무성과": {
+        "source_sha256": "dc37626d531973900b306c358dfe32d6a9499e094794844745afabd8aae0a149",
+        "target_sha256": "e8c945feb1175c173486480fa65b114dde756c6c409bb4d2fd7803e8ece670f1"
+      },
+      "ui:외모:/외모": {
+        "source_sha256": "09646ae9e56fdade5491de54df1e0d1f1e210e76310c0407ac5b7d8f8f65d3f6",
+        "target_sha256": "df6aa1f6ffb54da04b9e87e95b63f89167295f8dfd66418b3b5783488f5dbb34"
+      },
+      "ui:월수입:/월수입": {
+        "source_sha256": "5d9af5a2db54d60d8d84ab45eaac92d0796032b4df63f1b6df25731e557bcca3",
+        "target_sha256": "9225560c8b6f8774724da4a2aaf359ae529d06e867e5b8bed7ab38b1cadc34da"
+      },
+      "ui:중독도:/중독도": {
+        "source_sha256": "70996b75b0e0554c921ae62d1f1d17c1645ef136d085ce00265ce1f993216efd",
+        "target_sha256": "cfeb157b342a2a380c2d5835748db53bee4e59faa596422caf94c1e6fec5803e"
+      },
+      "ui:지능:/지능": {
+        "source_sha256": "acf529f641beacb5b125b344cb7484a06d34788b5e3a55e1518ecea2d85890ea",
+        "target_sha256": "62fb764c94ff710739326a8c0d262e618c6b6dce55461fce864855895fe0a1e2"
+      },
+      "ui:처음 약속한 5년:/처음 약속한 5년": {
+        "source_sha256": "008ddb378c05e890cba475d08ec1ca35a3307db84c07947c85e1c3cc5b95dab9",
+        "target_sha256": "ae03c0c3c20a0cc14bb8e274f6053ffa33f9ed933aee59d0d5b15a8e23b6229e"
+      },
+      "ui:처음 적은 문장:/처음 적은 문장": {
+        "source_sha256": "1150e94dc82f832f40feff350333b8e4c94c1546dda37de4c8236db07fe56f42",
+        "target_sha256": "720c320735d1727feb7aaef1afaeec3d036abc7d9aeb355c02e2cd406812076d"
+      },
+      "ui:평판:/평판": {
+        "source_sha256": "90a168b23c6ef67ed62d8a2987e74a6e015a545710a9de09da3d04744f4366ad",
+        "target_sha256": "815a0daba0cd3d9a80d2aa28ebce240349e985bf5c2e91c4329425cfbc4d6ebd"
       }
     },
     "zh-TW": {
@@ -180663,10 +180909,130 @@
       "ui:확인할 약속 결과가 없다.:/확인할 약속 결과가 없다.": {
         "source_sha256": "1fc517f24572f5fae1227f4b3c02693488f466910f76724580bf6e95d74abd91",
         "target_sha256": "7ea73a6fc073a51b73429c9299a64d5f92d328cc615b61f57f5f6247323f4bd1"
+      },
+      "ui:%d번 남음 (+%d):/%d번 남음 (+%d)": {
+        "source_sha256": "8e935357532ce877456994bf485606032538f1b2b25c145ba10d9e7fb101c825",
+        "target_sha256": "4a3fe5df84a98ec931916a12b3f1c21f75add5756781dc032f51e7573e568baa"
+      },
+      "ui:%d번 남음:/%d번 남음": {
+        "source_sha256": "ddaf407227de8cd35b4213616d746cc0f6f28a448e2ad994cf771253c0c4b34e",
+        "target_sha256": "ba8ca7aa5f3b87f4a75c998f1effe3eeff19a19aba4f6539f46c69c8d8b0012e"
+      },
+      "ui:다음 주 ›:/다음 주 ›": {
+        "source_sha256": "9e36d3fccd00ab41f8b5a0d4e573388df3aa4f5b4ba6d889a8dbda7a7ea8e878",
+        "target_sha256": "94ec61e35222e08763628e5466dbf7b588c9c5be91e8857393384d066a489179"
+      },
+      "ui:문자·통화 기록과 연락처를 연다 (P / %s):/문자·통화 기록과 연락처를 연다 (P ~1 %s)": {
+        "source_sha256": "3de2bce06017a32fa363f5a6af131cacc1820a54afd1fd1513e819f4a55dca59",
+        "target_sha256": "b9334ac19aab33c7d3cf0ec19ffdd5bde4b61f9de25d012e610ca7bd2dab0f11"
+      },
+      "ui:수첩:/수첩": {
+        "source_sha256": "a5374fd606255d7ae946f85b39c22dfe4d7eeb4d00424ac4a341f0a23d834713",
+        "target_sha256": "1a136635a0424bdd1f80f870a92bae228c662aca3dd998ddcdd139e7543bc20c"
+      },
+      "ui:아버지는 괜찮다는 말만 반복한다.:/아버지는 괜찮다는 말만 반복한다.": {
+        "source_sha256": "b85b230917f7c5db01eaec8f72dddb611c2d8a0b6396f2e854b449ad2542be21",
+        "target_sha256": "84a567fc5fb424086f0bdf98dbb1f129b226835f2674f95ac29f5f741f0cdd0b"
+      },
+      "ui:아버지는 먼저 전화를 끊지 않는다.:/아버지는 먼저 전화를 끊지 않는다.": {
+        "source_sha256": "deb7760f4d6ef934f3ec4e1b635b619ff9dcbd80230cec55ee4baff1de9e166f",
+        "target_sha256": "de19e147fa11618bcda6422370f038b536f1ad7095d7b9c5fd689289c63b2a99"
+      },
+      "ui:아버지는 병원 이야기를 피하고 있다.:/아버지는 병원 이야기를 피하고 있다.": {
+        "source_sha256": "5f504c71a06f4e22f6709401c39d3afe7d5c2da1bc3c2879e89ea664f5b115dc",
+        "target_sha256": "d9232e70338533000fd9605ae9c58bf1c5018c9b404f06d9b387df6446289ef6"
+      },
+      "ui:아버지는 짧은 전화만 남긴다.:/아버지는 짧은 전화만 남긴다.": {
+        "source_sha256": "97343f81b75efb301190801feb0bb84647b944ab75d23e3b946fc05944f6b517",
+        "target_sha256": "de3b14104012d6bbf7ce4dc8af0b1464221532c0d0c46384febba5493ff69b6c"
+      },
+      "ui:아버지에게는 이제 전화를 걸 수 없다.:/아버지에게는 이제 전화를 걸 수 없다.": {
+        "source_sha256": "da4c54a2021e74f43865bf8b923b581177a75e46ff58a6682aac866ca49eba36",
+        "target_sha256": "d8feecd03d7e5462c0423b034eaf29c43c4ce048dff502c8aefa52830d3a3578"
+      },
+      "ui:이번 주 확정:/이번 주 확정": {
+        "source_sha256": "8846285433b9aa665689b870fa60dda6be47325a265388c078a4f9952023840b",
+        "target_sha256": "1e161451dc0320459a3e555c6daeaf5625ad789614391220973c1abf7ee2ac05"
+      },
+      "ui:일정:/일정": {
+        "source_sha256": "b7d28920872ef67d7181cc04c643bf4a0b990c8371e8025aafa823b7d3b73820",
+        "target_sha256": "6c6871176534b2f4e891728740098a0d99bff9d9d858f75bc7f5eb518cd67605"
+      },
+      "ui:한 번만 선택:/한 번만 선택": {
+        "source_sha256": "129a0c99aaf36f272f3e305091ddfbed745f645b2a254f09b48fbe0badf6bb23",
+        "target_sha256": "fff7ec984011cef18f8c42cc00313eb77ef0d1ee21f4389c090dd5125fd784e8"
+      },
+      "ui:확정한 이번 달 계획을 본다:/확정한 이번 달 계획을 본다": {
+        "source_sha256": "d1843aaca7623b8ffc5cde7133233b34dc8d592a0a4c7adc0fb803acd0e43e62",
+        "target_sha256": "1dc030e65b2891e85950f113382b898706a4ede3a6938c35f346c78fecf8a3a4"
+      },
+      "ui:휴대폰:/휴대폰": {
+        "source_sha256": "b720a0df96cbf378dde85181bbfeea461dde1ad7c323192cc22cdbbc1bc7bdbf",
+        "target_sha256": "2b4d2ca8465bf37fefc95367090d5de9ab902378909eb5672778bc4010cbae14"
+      },
+      "ui:{weeks}주:/{weeks}주": {
+        "source_sha256": "4732539f6921f43cd33e1ebaf9cbe1642700739df87862fe364a5bad4553d339",
+        "target_sha256": "93eaa4801a4745621448bdaaf1e678d3172ec079c5fb8194aa240b06e665ab86"
+      },
+      "ui:남은 시간:/남은 시간": {
+        "source_sha256": "4b3faaa0398a849e3ad85cdd3499f079899044985c16c87542095f88350d27f0",
+        "target_sha256": "a1b435972014433a014104196b88abf485b52b89678ec740b74e2bb8ddd9d878"
+      },
+      "ui:덮는다:/덮는다": {
+        "source_sha256": "0c7c37a9c89ff438feec4d2ff0ebcd5b7a2db4681e8996e083fe90c942680e16",
+        "target_sha256": "e907bf5cd582c9ef1b080e7d485913f3b9f85cceb63fbaacef213f6ea8f3a759"
+      },
+      "ui:도박충동:/도박충동": {
+        "source_sha256": "781cc5f1f99f7432575227ffe5f2e3e7618cb6976d0fb05abbd37c621523907d",
+        "target_sha256": "acc6b56753c3353969f4dbe2a8ecfb7696074c04da0abd62839416bbec5af0d9"
+      },
+      "ui:사회성:/사회성": {
+        "source_sha256": "1aecf05b88e069de64a3d401e7e42b263371df3bfda3be75ba1970651fbb6b76",
+        "target_sha256": "09842350d0976f3f8521b43fabe1c9c489959a61c8a933dd10d8d7a108001ae1"
+      },
+      "ui:서울에 온 뒤 {months}개월:/서울에 온 뒤 {months}개월": {
+        "source_sha256": "dee45eced016f79fd9dc189cd555e9900ffc59b21265b2c282dfa8a8d51577f9",
+        "target_sha256": "6fa09b0f04977f68453bef25953107987e19491712e5254f7f4fddb1b074d61e"
+      },
+      "ui:숫자보다 먼저 적었던 이유:/숫자보다 먼저 적었던 이유": {
+        "source_sha256": "2f2691e93b055d7beac5e8ff0ae024232db9762b9da13086a29b0f4786813152",
+        "target_sha256": "0dcd121a920619768df586e65e8f15d4f33afad22eff8a35c149ecddbb52fdb3"
+      },
+      "ui:업무성과:/업무성과": {
+        "source_sha256": "dc37626d531973900b306c358dfe32d6a9499e094794844745afabd8aae0a149",
+        "target_sha256": "310fe7b7a12dd2a63921f2b3b0c9e40b1b948e7dda5bc6b57c01965cae0fd2be"
+      },
+      "ui:외모:/외모": {
+        "source_sha256": "09646ae9e56fdade5491de54df1e0d1f1e210e76310c0407ac5b7d8f8f65d3f6",
+        "target_sha256": "df6aa1f6ffb54da04b9e87e95b63f89167295f8dfd66418b3b5783488f5dbb34"
+      },
+      "ui:월수입:/월수입": {
+        "source_sha256": "5d9af5a2db54d60d8d84ab45eaac92d0796032b4df63f1b6df25731e557bcca3",
+        "target_sha256": "9225560c8b6f8774724da4a2aaf359ae529d06e867e5b8bed7ab38b1cadc34da"
+      },
+      "ui:중독도:/중독도": {
+        "source_sha256": "70996b75b0e0554c921ae62d1f1d17c1645ef136d085ce00265ce1f993216efd",
+        "target_sha256": "6d6c0823e29b2732a6c044be0f6b2981a82c550ae72f9ebed55b3677a7287a9b"
+      },
+      "ui:지능:/지능": {
+        "source_sha256": "acf529f641beacb5b125b344cb7484a06d34788b5e3a55e1518ecea2d85890ea",
+        "target_sha256": "62fb764c94ff710739326a8c0d262e618c6b6dce55461fce864855895fe0a1e2"
+      },
+      "ui:처음 약속한 5년:/처음 약속한 5년": {
+        "source_sha256": "008ddb378c05e890cba475d08ec1ca35a3307db84c07947c85e1c3cc5b95dab9",
+        "target_sha256": "80c994676bce4ee513a7725d95a87c8b74ea498dc5f1ee90e346e932466c69b8"
+      },
+      "ui:처음 적은 문장:/처음 적은 문장": {
+        "source_sha256": "1150e94dc82f832f40feff350333b8e4c94c1546dda37de4c8236db07fe56f42",
+        "target_sha256": "64c25cca297a81b4b18057f08b5cad6e7885dfd23e8b62144c1f03233bf91ab4"
+      },
+      "ui:평판:/평판": {
+        "source_sha256": "90a168b23c6ef67ed62d8a2987e74a6e015a545710a9de09da3d04744f4366ad",
+        "target_sha256": "a7cb3acc3f53ad004e40820d371217e6523785c5b3b414e4f9c90d78b4609f2a"
       }
     }
   },
-  "accepted_sha256": "b60029f99d090e7bb106025ba8f63b8f5826d481c91cad106e420b73e63234c7",
+  "accepted_sha256": "9e0f9bfe904af5b125b321673278137c3ab3fdbc7e1b544fb40b6892cf046bdc",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
