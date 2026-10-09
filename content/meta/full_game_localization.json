@@ -11668,6 +11668,79 @@
           "batch_id": "6d996834a716d334df8222891642168d12c858a38d81aa527d809e9abaf660cc"
         }
       }
+    },
+    {
+      "order": "ORDER-492",
+      "group": "ui",
+      "roots": [
+        "%s/%s 탭 · %s 뒤로 · P/%s 닫기",
+        "ui.phone.title",
+        "대화",
+        "문자",
+        "문자나 통화가 아닌 제안은 넓은 계획판에서 확인한다.",
+        "받은 명함의 번호",
+        "새로 받은 연락이 없다",
+        "실제로 연락할 수 있는 사람 · %d",
+        "알 수 없는 발신자",
+        "연락",
+        "연락수단 없음",
+        "연락처",
+        "이 대화는 기록으로만 남아 있다.",
+        "이번 달 받은 문자",
+        "이번 달 받은 연락 · %d",
+        "이번 달 연락 일정 없음",
+        "이번 달 통화 기록",
+        "일정 보기",
+        "일정에서 보기",
+        "저장된 연락처가 없다",
+        "저장된 전화번호",
+        "지금은 일정에 넣을 수 없음",
+        "직접 번호나 대화방을 얻은 사람만 여기에 남는다.",
+        "카카오톡 대화방",
+        "통화"
+      ],
+      "source_leaves": 25,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 25,
+        "zh-TW": 25
+      },
+      "source_review": "Direct Korean-source independent regional authorship; actual CommunicationPhone static consumers and shared no-contact-method consumer verified. TW message-channel wording corrected before acceptance. Agent comparison only, not native or rendered approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "2caa369f9e1a7507084809fdf1befb22c3d760b2ba24d4cb0cb1c5483272fe23",
+        "zh-TW": "c9bc112c8307c12f6f87d1c3a766675488c61af23383fd21e848cd1639919078"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "79f69c0df360a23c3f9f71c1c14f65304fb7e758",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "65ed2f69057fe81177f8d973ad833b3ad29f2a30864defb13e1cfd2a274ae482",
+          "count": 25,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b9dda8b60256fb4f46c2f6913012d75f61f8a8e82d42fc27484d5e08b92a48ec"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "79f69c0df360a23c3f9f71c1c14f65304fb7e758",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "5f3bb4e4aa3889436b72469ce55579c03cd0a6e3c11fd4800e089621e95c8f8b",
+          "count": 25,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d294b6f18a5346b116c56c7201d74864a0ca889549296ee20755a4dd97e40b8c"
+        }
+      }
     }
   ],
   "accepted": {
@@ -121757,6 +121830,106 @@
       "ui:하우스엣지:/하우스엣지": {
         "source_sha256": "dfd0939a74790ba67c25f13fb19dee75028359bdbd0570ec1ba48b529c93d9b2",
         "target_sha256": "279286e6c9dfd38b0af8c8c765615d70982b9fbdb12ad6be38c7e1f3719288b6"
+      },
+      "ui:%s/%s 탭 · %s 뒤로 · P/%s 닫기:/%s~1%s 탭 · %s 뒤로 · P~1%s 닫기": {
+        "source_sha256": "c1ef0b7f56bbff42d55899485c9d786135f74d652b36cdd7d67bb55eb9bf0619",
+        "target_sha256": "a2d02619573c0ac2e5be2e0bc11e506072e0f3b70ba8814ebaa0bddc292bd3ec"
+      },
+      "ui:ui.phone.title:/ui.phone.title": {
+        "source_sha256": "aa965f457881e366490179210b9e3b353d203434c82913e6babecb8d57f51b9e",
+        "target_sha256": "6cdd93f56a5176693539562ce305e0fe9507d57d07e2c90bd9f03b6a398eca00"
+      },
+      "ui:대화:/대화": {
+        "source_sha256": "9e917933366e1c062ff7ee9f791e7e0210906a1395df9865ca34790fdd94b1b0",
+        "target_sha256": "db21a9335d1213e691886ccd653bbd1617d7735787b3cded728dd8f14f87fade"
+      },
+      "ui:문자:/문자": {
+        "source_sha256": "5037ffb4d4432685f7bba3219527e77c6b7dd7cba1e65018e6d106c0b2552708",
+        "target_sha256": "bbbe39b854090fb4f0c4dc2295536e6e7df8ed718676a11c11338cb6b99a2ffe"
+      },
+      "ui:문자나 통화가 아닌 제안은 넓은 계획판에서 확인한다.:/문자나 통화가 아닌 제안은 넓은 계획판에서 확인한다.": {
+        "source_sha256": "ff1da2c4136bc5384191e25f03b00e02966db793d0ce40bac794d6a185c513d7",
+        "target_sha256": "1e325c9f2afd9fa0488ac684bc681fc20e9a40f3b6ecf35294eefb97ba756e4f"
+      },
+      "ui:받은 명함의 번호:/받은 명함의 번호": {
+        "source_sha256": "40f7be5db51e283d604a4cc8c45c660b988949e7c9afe579855dda806f1d24ae",
+        "target_sha256": "1ff872b471011c3ebe01ca732e550efbfbd24f26c1c2cb14ffdb718c552eef5a"
+      },
+      "ui:새로 받은 연락이 없다:/새로 받은 연락이 없다": {
+        "source_sha256": "ae83495d9f1864fb5c335e7d43bb2aa253cb6075f17288a1c0d200e3540b55a9",
+        "target_sha256": "8baa74a6d490f1d305c5c679211aa59a34f2da96c6faa566401e6359443dbb47"
+      },
+      "ui:실제로 연락할 수 있는 사람 · %d:/실제로 연락할 수 있는 사람 · %d": {
+        "source_sha256": "330572482e154fd77423b6d019d19968d34b7a154b8196984c73112af7790ef2",
+        "target_sha256": "b8d4a0e12e5ea3681952ce57089c2d0ff802ffb22611924b68e09382abbcf494"
+      },
+      "ui:알 수 없는 발신자:/알 수 없는 발신자": {
+        "source_sha256": "356873197258f9fc378959957f13e4e8e78927ad032434918b35978368557204",
+        "target_sha256": "d2781ee22ac7365ee509e9f60c42fe9f7ab47699e10e9e7cc043084661ef95a2"
+      },
+      "ui:연락:/연락": {
+        "source_sha256": "d7b29e14356f0ebd71130a7031c63ad4d973a1da3d40ad538a89a9140f9d52a3",
+        "target_sha256": "cfd4b1e95f97c6d1336d8673fd8cead91c9f753a4551d65d3aa2b0c169dc9718"
+      },
+      "ui:연락수단 없음:/연락수단 없음": {
+        "source_sha256": "a816da9bb1837286d530c87e2271f8d500192e0ddc21fdab5cc4ffcf1c8675f1",
+        "target_sha256": "a4e8fd704c690ed1d24f199840d354e32dc66fe72e9202104799c0abd17ac794"
+      },
+      "ui:연락처:/연락처": {
+        "source_sha256": "e4e234bf1bf3f3ffda54a3e79f881c251ec96345bc4340c2278bbbcbbd225c84",
+        "target_sha256": "807a92927ffdd9f5b3fc963cf538a2f6cbc4b849857f976dbc46666c1ff7aaa1"
+      },
+      "ui:이 대화는 기록으로만 남아 있다.:/이 대화는 기록으로만 남아 있다.": {
+        "source_sha256": "11264c1bc1b4baaa217d08ada1b70d954c8b861420040066fc6b21330e4ef1f6",
+        "target_sha256": "0aac9e86e7a3a7443fe0c0ea752e05fa21083d21675d03e18b6efa3ca496c8c0"
+      },
+      "ui:이번 달 받은 문자:/이번 달 받은 문자": {
+        "source_sha256": "b3edbb05fd7cb07ab04c8fb1971816321d5ea95ffa8589d85b3275ee4e35b9a4",
+        "target_sha256": "dcd2cf6dd86494de272bd45ae906830dac7ca6a7324c4cfdbfc37e6bb216ef5c"
+      },
+      "ui:이번 달 받은 연락 · %d:/이번 달 받은 연락 · %d": {
+        "source_sha256": "91ceb55061d8e1f058a3330d6c7c31477cfeeeec7b34ed282973030b244febcb",
+        "target_sha256": "e7f9a4cf6480ec191654250a12d4b0cac990465cad74693cdcddd33b0bfd3fe0"
+      },
+      "ui:이번 달 연락 일정 없음:/이번 달 연락 일정 없음": {
+        "source_sha256": "a9cf360bfdcc71cd886a70071bc180a319c35f7fe3f93c842f6f6fd94a6be2ca",
+        "target_sha256": "45d5033209370287c6c1513c6a4ca154571680147b8de0c42bba1c3cdfbb1496"
+      },
+      "ui:이번 달 통화 기록:/이번 달 통화 기록": {
+        "source_sha256": "5db1d6008ed9774180b555c47b36f4939d13a80b9ec94e1e07126640ce0324b9",
+        "target_sha256": "0a44190b4d30b4b0453d0e0b8a6182f106e8b8b8dd951ddde84563fdcbca949c"
+      },
+      "ui:일정 보기:/일정 보기": {
+        "source_sha256": "d4965959412e0298507bdae2167fe559de9d38bfe7269ca768f48afcc2299e9d",
+        "target_sha256": "a9f1dfaa39b88939364eee1e81604ee26191469cccc5e5ebc9566ee127eb1735"
+      },
+      "ui:일정에서 보기:/일정에서 보기": {
+        "source_sha256": "0530e445fd9e9da8ce0722aa0d49002ac0c964c697f666b86c08f2133cc6674b",
+        "target_sha256": "a90d10df73f7bd5a68793deec3f63f65597700fa97563a49f9a20dc6aa81483a"
+      },
+      "ui:저장된 연락처가 없다:/저장된 연락처가 없다": {
+        "source_sha256": "aa18fbf088bd00e6e188b860d7da78c380edb14f19f981f345a358e053c8240f",
+        "target_sha256": "7e9bec6d4ea2fa1ddbf04cc5fd502da989f27fc59b038384cdb1818a3ba6d0b3"
+      },
+      "ui:저장된 전화번호:/저장된 전화번호": {
+        "source_sha256": "608ecce224ae6fc35287840535d8fd68f24e5a52eab516ffcf93e5f67ef7096d",
+        "target_sha256": "b1160ec9aaad6dbc0bdd6de1d83ab4ef330efb7a6791ce65df0dbce4e0bebd4c"
+      },
+      "ui:지금은 일정에 넣을 수 없음:/지금은 일정에 넣을 수 없음": {
+        "source_sha256": "3553f33a28baa2bd6cdac3711a8ead15dc4f1510383291a73ea27551a1a8887b",
+        "target_sha256": "6cb6214d575147a1429e9120ed5fed6bf75c0c3a8dbe5c4ac0a9684d8b557410"
+      },
+      "ui:직접 번호나 대화방을 얻은 사람만 여기에 남는다.:/직접 번호나 대화방을 얻은 사람만 여기에 남는다.": {
+        "source_sha256": "703b1faca77d9d215fc6aee2e619f97ef7dacf58845f6516d4fc592b978c183a",
+        "target_sha256": "ced12407f5a4dbd1e8f416fe41c4d21ed99c374ac27269ef56f31b7cec61e692"
+      },
+      "ui:카카오톡 대화방:/카카오톡 대화방": {
+        "source_sha256": "4d4553731b6f0e7d9f28d14cda458dd49d701f970f3f7a2764e0cd631d458a67",
+        "target_sha256": "c51d40a47a476f252e0d06ad0123c78b206595e33356df26b353dcd976d550ac"
+      },
+      "ui:통화:/통화": {
+        "source_sha256": "c70c27454a23247bb6beca40b9ff211ec7f1ba93c1cbcc91d5a9af9466aa5f66",
+        "target_sha256": "332bd863653f3d5e1eeb3d27cdd77f702b34b412f0abe994055d8efdcfca8fc5"
       }
     },
     "zh-TW": {
@@ -179223,10 +179396,110 @@
       "ui:하우스엣지:/하우스엣지": {
         "source_sha256": "dfd0939a74790ba67c25f13fb19dee75028359bdbd0570ec1ba48b529c93d9b2",
         "target_sha256": "a2e8b93bac3e3bff1610d6bfa0aca51e8dd0f7ef303edc47cd4a6c8a55544a2a"
+      },
+      "ui:%s/%s 탭 · %s 뒤로 · P/%s 닫기:/%s~1%s 탭 · %s 뒤로 · P~1%s 닫기": {
+        "source_sha256": "c1ef0b7f56bbff42d55899485c9d786135f74d652b36cdd7d67bb55eb9bf0619",
+        "target_sha256": "d76e4ca9c71323b59ff772ad12582e9d4cfc403617638afc88ec8d33cca3d199"
+      },
+      "ui:ui.phone.title:/ui.phone.title": {
+        "source_sha256": "aa965f457881e366490179210b9e3b353d203434c82913e6babecb8d57f51b9e",
+        "target_sha256": "2b4d2ca8465bf37fefc95367090d5de9ab902378909eb5672778bc4010cbae14"
+      },
+      "ui:대화:/대화": {
+        "source_sha256": "9e917933366e1c062ff7ee9f791e7e0210906a1395df9865ca34790fdd94b1b0",
+        "target_sha256": "db21a9335d1213e691886ccd653bbd1617d7735787b3cded728dd8f14f87fade"
+      },
+      "ui:문자:/문자": {
+        "source_sha256": "5037ffb4d4432685f7bba3219527e77c6b7dd7cba1e65018e6d106c0b2552708",
+        "target_sha256": "fe9463b6e1f6beccdb3114833a761c11162e051efd903a502b694b6a6050c678"
+      },
+      "ui:문자나 통화가 아닌 제안은 넓은 계획판에서 확인한다.:/문자나 통화가 아닌 제안은 넓은 계획판에서 확인한다.": {
+        "source_sha256": "ff1da2c4136bc5384191e25f03b00e02966db793d0ce40bac794d6a185c513d7",
+        "target_sha256": "219bc0758503432e3fbfdbc48b58c2e3a729b3ea02f17ad796cfb3583688bb42"
+      },
+      "ui:받은 명함의 번호:/받은 명함의 번호": {
+        "source_sha256": "40f7be5db51e283d604a4cc8c45c660b988949e7c9afe579855dda806f1d24ae",
+        "target_sha256": "a9966b29d3b6951bb6122b0d02a054de13e90fbecdc7a01bfe218d5229922218"
+      },
+      "ui:새로 받은 연락이 없다:/새로 받은 연락이 없다": {
+        "source_sha256": "ae83495d9f1864fb5c335e7d43bb2aa253cb6075f17288a1c0d200e3540b55a9",
+        "target_sha256": "60a8d5d0c41537b07ce76265d751ec99ac2272e580ba6cb5940ec4731dc6fba1"
+      },
+      "ui:실제로 연락할 수 있는 사람 · %d:/실제로 연락할 수 있는 사람 · %d": {
+        "source_sha256": "330572482e154fd77423b6d019d19968d34b7a154b8196984c73112af7790ef2",
+        "target_sha256": "8c6310b7dcffcd315f6a4727b63c48b32cad44be27b0832c683a745c553f65c6"
+      },
+      "ui:알 수 없는 발신자:/알 수 없는 발신자": {
+        "source_sha256": "356873197258f9fc378959957f13e4e8e78927ad032434918b35978368557204",
+        "target_sha256": "1c595c58dc5bd285fdad061dcc9099efd3fd67fe6e78dc6ba2d862fb57b23343"
+      },
+      "ui:연락:/연락": {
+        "source_sha256": "d7b29e14356f0ebd71130a7031c63ad4d973a1da3d40ad538a89a9140f9d52a3",
+        "target_sha256": "3f86418f5aa26e61b0b5fddf1fd2e75bcd0fea66df7b4ffee71ac6c2048f7c8d"
+      },
+      "ui:연락수단 없음:/연락수단 없음": {
+        "source_sha256": "a816da9bb1837286d530c87e2271f8d500192e0ddc21fdab5cc4ffcf1c8675f1",
+        "target_sha256": "d30ae53f991df9df9b932122c3d0f4366e6a7ba031ccbef0ed7104a7c8c20e67"
+      },
+      "ui:연락처:/연락처": {
+        "source_sha256": "e4e234bf1bf3f3ffda54a3e79f881c251ec96345bc4340c2278bbbcbbd225c84",
+        "target_sha256": "d05e512438ab212ea937bc70f2183297ca86be6c85256bba48ed01c2bccc90c7"
+      },
+      "ui:이 대화는 기록으로만 남아 있다.:/이 대화는 기록으로만 남아 있다.": {
+        "source_sha256": "11264c1bc1b4baaa217d08ada1b70d954c8b861420040066fc6b21330e4ef1f6",
+        "target_sha256": "bed5e3172084a5ec17d918c58484e0c168ba39123f603158c9de61004ea2be31"
+      },
+      "ui:이번 달 받은 문자:/이번 달 받은 문자": {
+        "source_sha256": "b3edbb05fd7cb07ab04c8fb1971816321d5ea95ffa8589d85b3275ee4e35b9a4",
+        "target_sha256": "62fbcc42bd475d06e5f319dcd23a15642bdc206ad5fb953661bcc592c222c1a3"
+      },
+      "ui:이번 달 받은 연락 · %d:/이번 달 받은 연락 · %d": {
+        "source_sha256": "91ceb55061d8e1f058a3330d6c7c31477cfeeeec7b34ed282973030b244febcb",
+        "target_sha256": "742eea19ae360cf47f3d9290aa5c17a72621d59719e940c561754d21591025d6"
+      },
+      "ui:이번 달 연락 일정 없음:/이번 달 연락 일정 없음": {
+        "source_sha256": "a9cf360bfdcc71cd886a70071bc180a319c35f7fe3f93c842f6f6fd94a6be2ca",
+        "target_sha256": "88d4cfb5c5546bec7e5c7cab91bb18a4cff77ff80a9f7866cf11693de0111c75"
+      },
+      "ui:이번 달 통화 기록:/이번 달 통화 기록": {
+        "source_sha256": "5db1d6008ed9774180b555c47b36f4939d13a80b9ec94e1e07126640ce0324b9",
+        "target_sha256": "5d27a780faba40faa2f556ad2cfb5ecfe8e5b9780492021c38115829b408c4bb"
+      },
+      "ui:일정 보기:/일정 보기": {
+        "source_sha256": "d4965959412e0298507bdae2167fe559de9d38bfe7269ca768f48afcc2299e9d",
+        "target_sha256": "2f0f7633c555967281188acc40f40f90b5471497701fb09263dd32a869e7c223"
+      },
+      "ui:일정에서 보기:/일정에서 보기": {
+        "source_sha256": "0530e445fd9e9da8ce0722aa0d49002ac0c964c697f666b86c08f2133cc6674b",
+        "target_sha256": "f0b9941c54f588914853948f2f98c5c5de0158857e3e6ddcc4021f52750b9729"
+      },
+      "ui:저장된 연락처가 없다:/저장된 연락처가 없다": {
+        "source_sha256": "aa18fbf088bd00e6e188b860d7da78c380edb14f19f981f345a358e053c8240f",
+        "target_sha256": "82b27a8877b97d3cd02b7372a81e1dc4b3e656e4cf22ec23b3d1453be9242a1e"
+      },
+      "ui:저장된 전화번호:/저장된 전화번호": {
+        "source_sha256": "608ecce224ae6fc35287840535d8fd68f24e5a52eab516ffcf93e5f67ef7096d",
+        "target_sha256": "5350d94f8d6164a2237b132edd2b01c349a583476d86c62301127bccc2cd23da"
+      },
+      "ui:지금은 일정에 넣을 수 없음:/지금은 일정에 넣을 수 없음": {
+        "source_sha256": "3553f33a28baa2bd6cdac3711a8ead15dc4f1510383291a73ea27551a1a8887b",
+        "target_sha256": "ff68ae252437ddf2a315807225247a0503c04a1f04b135d1d80418e3df32c22f"
+      },
+      "ui:직접 번호나 대화방을 얻은 사람만 여기에 남는다.:/직접 번호나 대화방을 얻은 사람만 여기에 남는다.": {
+        "source_sha256": "703b1faca77d9d215fc6aee2e619f97ef7dacf58845f6516d4fc592b978c183a",
+        "target_sha256": "cff02dc561577e3b82e28d61751bc242bc431631da8d73565dc7ec7f26e0d2da"
+      },
+      "ui:카카오톡 대화방:/카카오톡 대화방": {
+        "source_sha256": "4d4553731b6f0e7d9f28d14cda458dd49d701f970f3f7a2764e0cd631d458a67",
+        "target_sha256": "6a6c0fac397e4677a90fec6708b3b5fadc4a64fe7702494d0d3fc373f4904748"
+      },
+      "ui:통화:/통화": {
+        "source_sha256": "c70c27454a23247bb6beca40b9ff211ec7f1ba93c1cbcc91d5a9af9466aa5f66",
+        "target_sha256": "7b99e9c3401083cf5aac6890580086265fac396e058595f6a2b168c88563db80"
       }
     }
   },
-  "accepted_sha256": "001635808d1debc323d91cd7f6288afea29115d9511047f820e255fb522116e9",
+  "accepted_sha256": "26b4254414deeab6cd7dfb24c5e15c240f4cf4d3d0143c22f92390be7a1be632",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
