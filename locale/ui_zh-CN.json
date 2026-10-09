@@ -1850,5 +1850,22 @@
   "지금은 일정에 넣을 수 없음": "目前无法加入日程",
   "직접 번호나 대화방을 얻은 사람만 여기에 남는다.": "这里只列出你亲自取得电话号码或聊天窗口的人。",
   "카카오톡 대화방": "KakaoTalk 聊天窗口",
-  "통화": "通话"
+  "통화": "通话",
+  "ui.action.creating_content": "内容创作",
+  "ui.choice.keep_action": "记忆",
+  "ui.choice.noun_label": "选项",
+  "ui.completion.unrecorded_value": "未记录",
+  "ui.forgone.relationship_fallback": "对方",
+  "ui.gambling.venues_title": "赌博场所",
+  "ui.holdem.setup_action": "牌桌准备",
+  "ui.housing.requirement_state": "资金不足",
+  "ui.job.application_noun": "求职申请",
+  "ui.planner.income_axis": "生计",
+  "ui.planner.people_axis": "人际关系",
+  "ui.planner.skill_axis": "智力",
+  "ui.saving.activity_title": "省钱",
+  "ui.situation.civic_tag": "社会",
+  "ui.situation.event_fallback": "状况",
+  "ui.situation.life_tag": "生活",
+  "ui.week.spent_status": "本周已结束"
 }
