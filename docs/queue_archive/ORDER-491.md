@@ -1,6 +1,6 @@
 # ORDER-491 — 상철 추론의 현재 직장 단정·정점 검사 정합
 
-#### [~] ORDER-491 착수 — 사실2잎×5언어와 기존 증거 대조 기능 판정 — 2026-10-09
+#### [x] ORDER-491 완료 — 사실2잎×5언어·추론 기능 PASS·등록 예외0 — 2026-10-09
 
 ## 근거 / 정확한 모집단
 
@@ -66,3 +66,54 @@ Mac 잠금·원어민·인간플레이·물리패드·출시 HOLD를 자동 PASS
 
 새 규범0. 기존 SCENE_TIER/STORY_BIBLE/I18N_INFRASTRUCTURE/WORK_UNIT이 계속
 소유한다. 이 파일의 범위·작업 순서·검증 절차는 일회성이다.
+
+## 실제 결과 / 한정 판정
+
+- 선언0df3dfd → KO/EN95d8dd59f83736782860e96a4015fa3df6ebb0e5 → 최종 source
+  417526178ff0e1c031bf3414f0ecc0463576d8e3을 main commit/push했다.
+  exact2잎×5언어=10값/5파일, 전체 raw 역치환으로 비소유 바이트0/gameplay0.
+  현재 직장·차트 수업 전제를 첫날 사무소 커피 기억으로만 교체했다. 아들 인지
+  시점·문서 증거·유죄 단정 유보·아버지 무지·혼자 알아낸 무게를 보존했고,
+  선택/효과/플래그/타이머/라우팅·자산·runtime·저장·데모·과거 판정 변화0이다.
+- JA/CN/TW 독립 KO 저작→공식 export/check/import --accept --replace-existing
+  각2잎/1파일 PASS. CN 커피 반복은 수용 전에 한국어 문단에 맞춰 수리했다.
+  source manifest b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea,
+  current source/target/official6receipt 일치/translation_errors0. accepted41887
+  불변/기존6교정/batches286→287/옛 metadata·286batch raw 불변, checksum
+  001635808d1debc323d91cd7f6288afea29115d9511047f820e255fb522116e9.
+  전체 INCOMPLETE/native·rendered OPEN, 새 coverage0/영어 pivot·자동 변환0.
+- 기존 peak measure의 deduction만 증거 경로·합류·15초 판단·조기 상태 금지·
+  최종 상태 계약으로 직접 검사한다. 본문4/결과6 빈값·비문자열도 거절한다.
+  dialogue1은 관측하고 acceptance=evidence_convergence를 표시한다. strict 실제
+  31/31 PASS/debt0/baseline0. 다른30개 전체 metric/verdict·MIN/MAX·REQUIRED_PASS/
+  baseline 불변. 도구 저자 메모리 부정표본34/34, 비저자 root14/14 거절(중복
+  표본 포함, 합산 안 함). 새 대사/클릭/링크·도구·이력 래칫0이다.
+- strict PASS 뒤 KNOWN 정확 PEAK1행만 제거해 등록 예외0. 기존 gate 함수를
+  메모리 실행해 빈 표 수용·목록 밖 EN_HANGUL 실패 차단을 확인했다. 제품 검사
+  삭제·CI 허용 정책 변경0이며 이 표적 PASS는 새 main 전체 CI 녹색이 아니다.
+- EN coverage/Hangul(content issues0/format52)·narrative continuity·speech
+  (events1813/contracts28)·story consistency(unclassified0)·scene audio contract
+  (cg75/peak115/ambience39/music20/demo45/foley41)·EXPOSED(380/531/523/8)·prose
+  recall(40/locale)·overlay/i18n·보호 데모 PASS. scope72/467·JA errors0·ZH skeleton,
+  strictEN1813/1813/endings35 유지. release inventory PASS(current1813/shipping1696/
+  author_only110/axes9/network0), 실제 지문 변화0이라 심의 원장/보고 수정0.
+  기존 영향 검사만 실행/전체 audit·엔진240주 반복0이다.
+- deduction_contract_author가 비저자로 실제10값·5파일 raw 역상·KO95d8dd5·
+  private6응답·official header3/accepted3·현재6해시·옛원장 보존·known1행 삭제를
+  직접 검수해 사실/현지화/원장 GO·blocking0. 도구 자체는 비저자 root가 전체
+  diff·다른30개/래칫·부정표본을 검수했다. 새 formal 보고/판정원장0.
+- 개발·장면 스킬의 선선언·실제 진입/지식·기능 확인·최소 사실 수리·표적 검증을
+  적용했다. current_housing/tired/shocked 실물 PNG와 기존 audio/direction은
+  존재하며 불변이다. 새 T1 심화/자산/품질 완성 판정0. 실제 Mac잠금으로149/457/
+  302 재개 미실행, 화면·원어민·인간플레이·물리패드·청취 미관찰·본편출시 HOLD.
+  새 규범0/일회성 절차이며 기존 정본 소유권을 유지한다.
+
+```
+도달 경로      : MainGame.gd:7597; walk_paths(root→case/career→decision)=2; PEAK strict31/31
+생산자 ↔ 독자   : content/events/arc_drama.json:153 ↔ StoryMode.gd:2588/3509; DataRegistry.gd:437
+바꾸는 상태     : 현재재직/차트수업 단정 → 첫날 사무소 커피 기억; gameplay0
+포기 시 잃는 것 : 기존 choices[1] truth_known 미생산 ↔ MainGame.gd:7617(t112~128)/7623(t120~132)
+서사 위치       : story_map.json:1530 M32; 3장 진실 추론
+장면 계층       : 기존 T1; 새 작품 품질 승격0
+닫는 것         : PEAK_CHAIN_EXIT 실제 FAIL→PASS; KNOWN1→0
+```
