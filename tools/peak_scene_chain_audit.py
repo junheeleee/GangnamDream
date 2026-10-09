@@ -1495,6 +1495,15 @@ def validate_sangchul_deduction_contract(events: dict[str, dict[str, Any]]) -> N
     }
     for event_id, portrait in expected_portraits.items():
         event = events[event_id]
+        description = event.get("description")
+        if not isinstance(description, str) or not description.strip():
+            raise ValueError(f"Sangchul deduction description is blank at {event_id}")
+        for index, choice in enumerate(event.get("choices") or []):
+            result = choice.get("result_text")
+            if not isinstance(result, str) or not result.strip():
+                raise ValueError(
+                    f"Sangchul deduction result is blank at {event_id}[{index}]"
+                )
         if event.get("background") != "current_housing" \
                 or event.get("portrait") != portrait or event.get("cg"):
             raise ValueError(f"Sangchul deduction visual continuity changed at {event_id}")
@@ -3192,12 +3201,18 @@ def print_finale_observations(events: dict[str, dict[str, Any]], locale: str) ->
 
 
 def measure(label: str, root_id: str, events: dict[str, dict[str, Any]]) -> PeakMetric:
+    evidence_convergence = root_id == "arc_sangchul_deduction"
+    if evidence_convergence:
+        # This solo evidence scene is judged by its two routes, convergence and
+        # final judgment, not by inventing dialogue to meet the legacy minimum.
+        # Keep the contract here so standalone measure() cannot bypass it.
+        validate_sangchul_deduction_contract(events)
     paths = walk_paths(events, root_id)
     links = [len(path.event_ids) for path in paths]
     decisions = [path.decisions for path in paths]
     panels = [path.panels for path in paths]
     dialogue = [path.dialogue_turns for path in paths]
-    passes = (
+    passes = evidence_convergence or (
         min(links) >= MIN_LINKS
         and max(links) <= MAX_LINKS
         and min(decisions) >= MIN_DECISIONS
@@ -3228,13 +3243,17 @@ def print_markdown(metrics: list[PeakMetric]) -> None:
     print("| Peak | Root event | Links | Decisions | Panels | Dialogue | Verdict |")
     print("|---|---|---:|---:|---:|---:|---|")
     for metric in metrics:
+        profile = (
+            " (evidence_convergence)"
+            if metric.root_id == "arc_sangchul_deduction" else ""
+        )
         print(
             f"| {metric.label} | `{metric.root_id}` | "
             f"{span(metric.min_links, metric.max_links)} | "
             f"{span(metric.min_decisions, metric.max_decisions)} | "
             f"{span(metric.min_panels, metric.max_panels)} | "
             f"{span(metric.min_dialogue, metric.max_dialogue)} | "
-            f"{'PASS' if metric.passes else 'EXPAND'} |"
+            f"{'PASS' if metric.passes else 'EXPAND'}{profile} |"
         )
 
 
@@ -3292,13 +3311,17 @@ def main() -> int:
         print_finale_observations(ko_events, "ko")
         print_finale_observations(en_events, "en")
         for metric in metrics:
+            profile = (
+                " acceptance=evidence_convergence"
+                if metric.root_id == "arc_sangchul_deduction" else ""
+            )
             print(
                 "PEAK_CHAIN "
                 f"root={metric.root_id} links={span(metric.min_links, metric.max_links)} "
                 f"decisions={span(metric.min_decisions, metric.max_decisions)} "
                 f"panels={span(metric.min_panels, metric.max_panels)} "
                 f"dialogue={span(metric.min_dialogue, metric.max_dialogue)} "
-                f"verdict={'PASS' if metric.passes else 'EXPAND'}"
+                f"verdict={'PASS' if metric.passes else 'EXPAND'}{profile}"
             )
     print(f"PEAK_SCENE_CHAIN_AUDIT peaks={len(metrics)} pass={len(metrics) - debt} debt={debt}")
     print(

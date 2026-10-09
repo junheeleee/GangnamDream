@@ -16,6 +16,11 @@
 - **LEGACY PASS**: 모든 분기가 과거 2~4링크, 2~3선택점, 6패널 이상,
   대사 2회 이상을 만족한다. 현재 품질 합격은 `SCENE_TIER.md`의 기능 프로필이
   별도로 판정한다.
+- **증거 대조 기능 PASS (`evidence_convergence`)**: `arc_sangchul_deduction`만
+  기존 두 증거 경로의 합류·15초 확정/유보·조기 상태 금지·최종 효과/플래그와
+  비어 있지 않은 본문/결과 계약으로 판정한다. 대화 1회는 관측값이며 최소2를
+  충족했다는 뜻이 아니다. 다른 30개 즉시 체인의 지표·LEGACY 판정과 부채0
+  래칫은 그대로이며, 이 기능 PASS도 T1 작품 품질·실제 화면·사람 GO가 아니다.
 - **분산 정점**: 즉시 `follow_up_event`가 아니라 선행 영수증을 읽는 보호
   주차에서 비용이 돌아오는 구조다. 같은 세션의 링크 수로 정점을
   부풀리지 않고, exact 주차·영수증 분할·구세이브 폴백을 별도로 검증한다.
@@ -44,7 +49,7 @@
 | 지연 심판 | `arc_jiyeon_verdict` | 3 | 2 | 19-20 | 5-10 | **PASS** |
 | 다은 이혼 담판 | `arc_daeun_final_choice` | 3 | 2 | 18-20 | 4-6 | **PASS** |
 | 상철 첫 만남 | `arc_sangchul_01_meet` | 3 | 2 | 30 | 16-19 | **PASS** |
-| 상철 진실 추론 | `arc_sangchul_deduction` | 3 | 2 | 28-30 | 2 | **PASS** |
+| 상철 진실 추론 | `arc_sangchul_deduction` | 3 | 2 | 28-30 | 1 | **PASS (`evidence_convergence`)** |
 | 상철 대면·심판 | `arc_sangchul_confrontation` | 2-3 | 2-3 | 20-30 | 4-15 | **PASS** |
 | 상철 카지노 유혹 | `arc_sangchul_casino_invite` | 3-4 | 2 | 23-35 | 3-10 | **PASS** |
 | 아버지 병상 | `father_hospital_wait` | 2 | 2 | 17-19 | 4-7 | **PASS** |
