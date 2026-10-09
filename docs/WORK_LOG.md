@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)에 바이트 그대로 이동했다. 보존본의 상대 링크는 이동 전 경로 기준이다.
 
+## 2026-10-09 — 중국어 V2 결산·옛 저장의 미복원 기록50값 수용 (494)
+
+- 기존 V2 결산25키/31소비자를 CN/TW로 각각 KO 직접 저작·독립 전수 검수했다. 끝낸 일·선택의 대가로 남긴 일·기한이 지난 일을 구분하고, 옛 저장에서 누락된 마지막 선택/연락/종결 현금을 추정하거나 0으로 만들지 않았다. 선언3b47355 → 제품446b9ca3d558f79e17ccc06bd8b29081c1bef48c를 main commit/push했다. UI/원장3파일·신규50값 외 제품 변화0, 신규 StoryMode 기능이나 M60엔딩이 아니다.
+- 공식 export/check/import25씩 PASS·현재 source/target/committed receipt50일치/errors0, accepted41971→42021·batch289→290·UI1869→1894씩/JA3055 불변이다. ZH legacy1644→1669/2952·context29/29·dynamic150/701, 전체 INCOMPLETE/원어민 OPEN을 보존했다. 이번 실행의493+494 합계84값이며 기존 번역과 원장 메타/289배치 raw는 불변이다.
+- 비저자 phone_independent_review가 KO25/소비자31/번역50·원공식header/SHA2·전후4파일 raw 역상·actual Git current_proof(base2e2f266→제품446b9ca transition1/50receipt/배치1)를 직접 확인해 scope GO·blocking0이다. 선언Git/현재 source manifest b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea가 일치한다. 별도 formal 보고/판정원장/새 검사·계측 도구0이다.
+- EN/Hangul0·JA UI·ZH skeleton·i18n·multilingual·공개storydemo·legacy demo 영향검사 PASS. 493 이후 바뀐50값만의 영향 검증이며 전체 local audit/엔진240주를 반복하지 않았다. 직전491 마감7df56fd의 실제 CI run37884109402 녹색을 확인했고, 최신492~494는 진행/대기 중이라 현재 main 녹색·출시완료라고 하지 않는다.
+- [494 완료 사양](queue_archive/ORDER-494.md)에 수용과 한계를 남겼다. 개발 스킬의 현지화 프로필·선선언·지역 독립 저작·기존 원장·표적 검사 적용, 새규범0/절차 일회성이다. 원문·게임동작·저장·project·공개 M01~M06·shipping language·인간판정은 보존했다. Mac잠금으로 실제 폭/입력149·457·302 미관찰, 원어민/물리패드 OPEN·본편 출시 HOLD다.
+
 ## 2026-10-09 — 중국어 문맥 UI17키씩·현재29/29 문맥 분리 수용 (493)
 
 - planner·Holdem·MainGame21소비자의 남은 문맥키17개를 간체/번체 각각 KO 직접 저작·독립 전수 검수했다. 지력은 intelligence, 설정은 홀덤 준비단계, 대기는 자금부족, 인연은 상대 이름 대체값, 기억은 비상호작용 그림 자리표시로 구분했다. 선언eb0e57c → 제품1d90f58cc832e9fcce55ac3093fbf262e4d81ab0를 main commit/push했다. 제품3파일·신규34값 외 원문/런타임/저장/기존 번역0변경이다.

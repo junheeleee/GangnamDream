@@ -1,6 +1,6 @@
 # ORDER-494 — 중국어 V2 결산 UI25키
 
-#### [~] ORDER-494 [전체 현지화] CN/TW 결산·옛 저장 설명50값 — 2026-10-09
+#### [x] ORDER-494 [전체 현지화] CN/TW 결산·옛 저장 설명50값 — 2026-10-09
 
 착수 — 만지는 파일: locale/ui_zh-CN.json·ui_zh-TW.json의 신규25키씩,
 content/meta/full_game_localization.json의 해당50영수증·배치1. 운영 파일은
@@ -56,3 +56,24 @@ content/meta/full_game_localization.json의 해당50영수증·배치1. 운영 �
 게임원문·결산/저장/엔딩동작 변경0이므로 전체 local audit/엔진240주/새 계측0.
 Mac잠금으로 실제폭/입력은 미관찰/OPEN, 원어민·물리패드·전체출시HOLD다.
 project.godot·사용자 저장·shipping language·공개 데모·역사 인간판정은 불변이다.
+
+## 수용 결과 — 2026-10-09 / 정적 번역 범위만 GO
+
+선언3b47355 → 제품446b9ca3d558f79e17ccc06bd8b29081c1bef48c를 main commit/push했다.
+한국어25키·실제31호출·CN/TW50값을 저자2와 비저자가 직접 대조·blocking0이다.
+완료/대신 남김/기한 만료·옛 저장의 복원 불가·종결 상태·6개월/24주·발신 주체와
+남은 재정 목표를 보존했다. 원문/런타임/저장/기존 번역·일본어·공개 데모 변화0이다.
+
+공식 check/import25씩 PASS, accepted41971→42021·batch289→290·UI1869→1894씩.
+CN/TW legacy1669/2952·context29/29·dynamic150/701로 전체 미완료를 구분했다.
+원영수증 CN825e153e06fbd8f72ebfb5779c85eaea67139373dd3430adf491911b0b0d6950 /
+TW51dff2b93b7697088a82e13d452b98f5d05b3745b196c46b1aa4c929ba22d64b,
+현재50 source/target/committed receipt·header2·raw 역상 PASS.
+비저자의 actual Git current_proof(base2e2f266→제품446b9ca)는 transition1/50추가·배치1,
+선언Git/현재 source manifest b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea
+일치를 검증했다. 기존4파일의 바이트를 지키는 증분만 수용했다.
+
+EN/Hangul·JA UI·ZH·i18n·multilingual·공개/legacy 데모 영향검사 PASS.
+직전491 CI 성공·최신492~494 진행/대기. 새 도구/보고·전체 local audit/엔진0이다.
+실제 폭/입력·원어민·물리패드 OPEN·본편 출시 HOLD, 현재25키 수용만 닫는다.
+새규범0·절차 일회성·넓은 I18N 정본은 불변이다.
