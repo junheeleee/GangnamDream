@@ -48,7 +48,7 @@ _ready→_begin_month→_maybe_play_month_situation에서 yolo_spend_moment를 �
 정본 규칙 신설0, 위 소유·재현·배치는 일회성이다. 이미 존재하는 한 주 한 foreground
 가드와 저장 복원의 일치를 수리하며 M60/후일담6/6·전체번역·인간/원어민/패드·출시는 별개다.
 
-## 실행 증거 — 실제 메뉴·최종 CI OPEN
+## 실행 증거 — 실제 메뉴 GO·최종 CI OPEN
 
 - MainGame guard/주석2줄만 수정, 기존 ManualSaveCheck에 합성 W200 디스크 왕복·
   Main 진입·전체 serialize/flags/queue/cooldown 무부작용·missing/stale/next-week의
@@ -78,5 +78,20 @@ _ready→_begin_month→_maybe_play_month_situation에서 yolo_spend_moment를 �
   helper5/seed2/player33/W200 및 별도 원W195 hash·복사본 불변, 실제 process 부재/
   사용자 editor 생존을 확인해 중단 정리·보존만 한정GO다. 다음 실제 재현은 Mac해제 뒤
   동일 실행기의 새 label/신규 namespace에서 다시 메뉴로 시작한다. 원 저장 편집0이다.
-- ORDER-510은 [~]를 유지한다. 실제 동일 보드 복원·추가 장면0과 최종 main CI가
-  남았으며 M60/후일담6/6·부산 지연·직업 회식·시장 초기화 위험은 별개다.
+- 2026-10-09 Mac해제 뒤 source300e90ff96f6bdee4b44a3f6d0e53866578a685c의
+  `.git/chapter5-replay/order457-save-510-w200-unlocked-20261009/`에서 재현했다.
+  새 격리a8341484f758dbf672f77ec8769aeb18, 같은151708B/SHA911fd395…를
+  byte-copy하고 실제 EN StartMenu→Load Game→slot1로 W200에 들어갔다.
+  추가 yolo 장면 없이2030-02 W4·건강100/정신100·93%·41주 남음의 행동3택
+  (지연 연락/오늘 중단/추가 야간근무) 보드에 도착했다. 비저자가 현재 화면을 직접
+  보고 추가 장면0을 확인했다. 과거 보드 PNG가 없어 과거 픽셀/전체 문구 동일성은
+  주장하지 않는다. root 메뉴 입력5회·게임 선택/Save/AUTO/상태편집0이다.
+- 실제 Escape→System→Quit Game 정상 종료132.021초/exited/exit0/errors0/
+  automatic_inputs0, stdout/godot 각300B·pre-autoload marker1·stderr0B·경고/누수0.
+  result SHA8b8626d81d7d91664648015bc51012892875018a06b0543d13f86a07a27efdc7.
+  비저자가 prepared.before=entry.before=result.before=result.after=최신 snapshot,
+  tracked3244/helper5/player33/seed2/W200/별도원W195 및 복사본 불변을 직접 확인했다.
+  ownGodot76403 부재·사용자editor61385 생존도 확인해 실제 복원·정상 종료 한정GO다.
+- exact제품37936805688/현재main37941236324은 정적·밸런스 성공/전체 Godot step6
+  진행·완료failure0이며 전체 CI 녹색은 아직 미확인이다. 따라서 ORDER-510은 [~]를
+  유지한다. M60/후일담6/6·부산 지연·직업 회식·시장 초기화 위험은 별개다.

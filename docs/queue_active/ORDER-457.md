@@ -43,6 +43,22 @@ pre-autoload 새 namespace·실제 메뉴 불러오기·개별 OS 입력 경계�
 phone_independent_review가 실제 로그·원관찰을 읽으며, 과거 인간/공개 판정과
 미도달 M60/후일담/6/6을 선점하지 않는다. 새 도구/검사/보고는 만들지 않는다.
 
+### W200 이후 실제 이어보기 선언 — 2026-10-09
+
+510 실제 Load→추가 사건0은 root가 관찰했고 비저자는 도착한 W200 보드를 직접 확인했다.
+기존 continue 실행기의
+510용 원문은 private 보존하고 root가 checkpoint 경로/SHA/크기와 unit/mode literal만
+아래 실제 플레이 최종 slot1에 맞춘다. .bak의 정신100을 대신 쓰지 않고 실제 선택02
+결과를 포함한152197B/SHAabcf7a43…·정신96의 W200 원본을 그대로 byte-copy한다.
+unit은 ORDER-457, mode는 general_week200_continue다. 다른 실행 로직/입력/제품
+파일은 변경0이며 helper5·player33·seed2·원W195/W200 전체 보존과 pre-autoload 신규
+격리, 개별 실제 메뉴/선택/자연 타이핑·정상 저장/종료를 유지한다. 별도 원W195와
+510용 W200 .bak도 실행 전후 기존 pin으로 직접 재해시한다. 기존 안전 helper를
+재사용하는 일회성 설정 변경이며 새 검사/runner/계측/자동 넘김/상태 주입은 없다.
+이번에도 phone_independent_review가 source/저장/최종 로그와 관찰을 독립 대조한다.
+새 제품 결함은 기록 후 별도 범위로 분리하고 이번에는 M60까지 정상 경로를 이어 읽는다.
+전체 CI·후일담/6/6·인간/원어민/물리패드·출시 판단은 실제 도달/증거 전에 승격하지 않는다.
+
 현재 clean main의 full commit/tree, helper SHA, seed/player 전후 hash와 로그를
 `.git/chapter5-replay/order457-<label>/`에 결속한다. 원본을 복구하거나 기존 폴더를
 덮지 않고 모든 시도/실패 증거를 보존한다. 게임·원고·번역·입력 매핑·패키지 변경0이다.

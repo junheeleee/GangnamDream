@@ -2,6 +2,12 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md), [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md), [491~509·457 W200 관찰 보존본](history/WORK_LOG_2026-10-09_pre_order510.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — W200 실제 메뉴 복원·정상 종료 확인 (510 진행)
+
+- main300e90ff의 신규 격리a8341484…에 추가 사건 직전 원W200을 byte-copy, 실제 Load Game→slot1에서 yolo 추가 장면 없이2030-02 W4·건강/정신100·행동3택 보드에 도착했다. 비저자도 현재 화면 직접 관찰 GO. 과거 PNG 없어 픽셀 동일성은 미판정이다.
+- 실제 System→Quit 정상 종료132.021초/exit0/errors0/경고·누수0·자동입력0. result SHA8b8626d81d7d91664648015bc51012892875018a06b0543d13f86a07a27efdc7. 비저자 직접 최신대조로 tracked3244/helper5/player33/seed2/원W200·별도W195 불변, own76403 종료/사용자editor61385 보존 GO. root 메뉴입력5·게임선택/Save0이다.
+- [510 사양](queue_active/ORDER-510.md)에 이전 Mac잠금 실패도 보존했다. exact제품/current main CI는 정적·밸런스 성공/전체 진행으로 [~] 유지한다. [457](queue_active/ORDER-457.md)에 실제 최종 W200(정신96)에서 기존 private helper literal만 바꾸는 이어보기를 선선언했다. 원본 저장·제품 수정0, M60·후일담6/6·전체번역·인간/원어민/패드·출시는 HOLD다.
+
 ## 2026-10-09 — 중국어 구직 준비·지원 결과40값 수용 (511)
 
 - 선언7a36bb98 main push 뒤 KO20키→CN/TW각20 직접 독립 저작·공식 export/check/import PASS. 비저자 phone_independent_review 원문/40값·실제 구직/준비/채용/잠금 소비자 전수 GO, retouch0. 평가 반응을 합격 보장으로 바꾸지 않았고 업무능력 보너스/월급·지원 대기/실패/취업·토큰·공백·접미문장·필요Tier를 보존했다.
