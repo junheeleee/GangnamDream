@@ -1,6 +1,6 @@
 # ORDER-499 — 중국어 기록 탐색·저장 실패 복구 UI25키
 
-#### [~] ORDER-499 [전체 현지화] CN/TW 기록·저장50값 — 2026-10-09
+#### [x] ORDER-499 [전체 현지화] CN/TW 기록·저장50값 — 2026-10-09
 
 착수 — 만지는 파일: locale/ui_zh-CN.json·ui_zh-TW.json 신규25키씩,
 content/meta/full_game_localization.json 해당50영수증·배치1. 운영 파일은
@@ -13,7 +13,7 @@ content/meta/full_game_localization.json 해당50영수증·배치1. 운영 파�
   진행 제한의 이유를 영어 폴백으로 읽는다. 저장만 재시도한다는 안내가 불명확하다.
 - 독자: CoreLoopV2Completion의 _render_summary·_build_detail_rail·_refresh_hints·
   _page_title와 MainGame의 _core_loop_v2_open_seoul_cycle_save_retry_gate·
-  _on_save_pressed, 실제25호출 → LocaleManager.ui 지역사전다.
+  _on_save_pressed, 실제25호출 → LocaleManager.ui 지역 사전이다.
 - 경쟁: 기존 V2 24주/6개월 기록과 본편 M60 완결을 혼동하지 않는다. 이미 채운
   월말·HUD·수첩·StoryMode 정적 UI를 반복하지 않고, 저장 상태 전이는 바꾸지 않는다.
 
@@ -63,3 +63,36 @@ source/target를 원장에 결속한다. 비저자는 KO25/실제25소비자·50
 엔진240주·새 이력/계측/재사용 도구0. Mac잠금으로 실제폭/입력 미관찰/OPEN,
 원어민·물리패드 OPEN·전체출시 HOLD다. project.godot·사용자 저장·shipping language·
 공개M01~M06 원문·역사 인간판정 불변·새규범0/절차 일회성이다.
+
+
+## 수용 결과 — 2026-10-09 / 기록 탐색·저장 안내 정적 번역만 GO
+
+선언fef6d05 → 제품fe8bbb425e282f93af7a57d5ab45646a7c3f8638를 main commit/push했다.
+KO25키·실제25호출(CoreLoopV2Completion14/MainGame11)·CN/TW50값을 저자2와
+비저자가 전수 대조했다. 선제 연락·주간 시간 배정·미결 과업/관계·월 차수와
+기록 기간·패드3인자 순서를 보존했다. 저장 실패6단계에서 이미 고정한 상태와
+수치/영수증1회 적용을 같은 상태의 저장 재시도와 구분했고, 취업 신청·디스크
+공간·저장 성공 분기를 보존했다. TW 여력1잎은 원문 밀착 미세조정이지 게임 결함
+수리로 확대하지 않는다. V2 6개월 기록이며 본편 M60 완결이 아니다.
+
+공식 export/check/import25씩 PASS·현재50 source/target/committed receipt 일치.
+accepted42203→42253·batches295→296·UI1985→2010씩/JA3055 불변이다.
+CN/TW legacy1760→1785/2952·context29/29·dynamic150/701·전체 INCOMPLETE다.
+원공식header2·원영수증/원장 SHA2와 기존4파일 raw 역상 PASS다.
+
+- CN25: e869df02e189f98094a792d324688ba14a878ef171ac1633db9ffd6ef747b937
+- TW25: b928caabc6b596c644c83d075dbedcb9efd24b0f11e870a3399a7908704d01f5
+
+비저자 phone_independent_review의 actual Git current_proof(base91a9876→제품fe8bbb4)는
+제품전이1·50receipt·배치1·선언fef6d05 실제Git/current source manifest
+b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea 일치·blocking0이다.
+기존 UI/원장 순서·메타/영수증/배치·JA·원문/runtime/저장·공개데모·shipping language·
+역사 인간판정은 불변이다. EN/Hangul·JA UI·ZH·i18n·multilingual·공개storydemo·
+legacy demo 영향검사8개 PASS·신규 실패0이다.
+
+497 제품ac0c4fd CI37900444304의 실제 실패는 STATUS_DOC_EXIT/현황 문서 신선도1개로
+확인했다. 해당 실행의 제품 서사/음악/수동저장/컴파일 PASS와 후속 입력·경제 검사
+skipped를 구분했다. 495·497·498 마감wrapper CI는 이번 읽기에서 진행 중이다.
+현재 main 녹색을 선점하지 않는다. 등록 예외0·제품검사 유지·새 도구/형식 보고/
+판정원장·전체 local audit/엔진240주0·새규범0/절차 일회성이다. Mac잠금으로
+실제폭/입력 미관찰·원어민/물리패드 OPEN·전체출시 HOLD다.

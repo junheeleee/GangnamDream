@@ -2,6 +2,13 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)과 [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 중국어 기록 탐색·저장 실패 안내50값 수용 (499)
+
+- 기존 UI25키/실제25호출(CoreLoopV2Completion14·MainGame11)의 CN/TW50값을 KO 직접 지역별 병렬 저작·비저자 전수 대조했다. 선제 연락·시간 배정·미결 항목·월 차수/기록 기간·패드 순서를 구분했고, 저장 실패6단계의 이미 고정/1회 적용된 상태와 같은 상태의 저장 재시도·취업 신청·디스크 공간·수동 성공 분기를 보존했다. 선언fef6d05 → 제품fe8bbb425e282f93af7a57d5ab45646a7c3f8638 main commit/push 완료다.
+- 공식 export/check/import25씩·원header/SHA2·현재 source/target/committed receipt50·기존4파일 raw 역상 PASS. accepted42203→42253/batch295→296/UI1985→2010씩·JA3055 불변, CN/TW legacy1785/2952/context29/29/dynamic150/701·전체 INCOMPLETE다. 비저자 actual Git current_proof(base91a9876→제품fe8bbb4)의 제품전이1/50receipt/배치1·선언Git/current manifest b7d4 일치·blocking0을 확인했다.
+- EN/Hangul·JA UI·ZH·i18n·multilingual·공개storydemo·legacy demo 영향검사8개 PASS. [499 완료 사양](queue_archive/ORDER-499.md)에 원영수증·경계를 남겼다. 개발 스킬의 선선언·독립 지역 저작/비저자 검수·기존 원장·표적 검증 적용, 새 도구/형식 보고/판정원장0·새규범0/일회성이다. 원문/runtime/저장/project·기존 번역·JA·공개M01~M06·shipping language·역사 인간판정 불변이다.
+- 실제 로그로 497 제품 CI37900444304 실패가 현황 문서 신선도 STATUS_DOC_EXIT 하나임을 확인했다. 제품 서사/음악/수동저장/컴파일 PASS지만 후속 입력·경제는 skipped이므로 녹색으로 확대하지 않았다. 후속 마감wrapper CI는 진행 중이다. Mac잠금으로 실제폭/입력149·457·302 미관찰·원어민/물리패드 OPEN·출시 HOLD다. V2 6개월 기록 번역이지 새 M60 완결 기능이 아니다.
+
 ## 2026-10-09 — 중국어 HUD·수첩·능력치60값 수용 (498)
 
 - KO30키·실제 HUD/notebook/AP/stat37호출의 CN/TW60값을 15+15 두 배치로 지역별 병렬 저작·비저자 전수 대조했다. 확정 계획 조회·넓은 메시지/통화 기록, 보너스 포함 전체 잔여 행동 횟수, 경과 개월/남은 주/처음 약속한 5년을 구분했다. 아버지의 사망 단조증거 우선·짧은 실제 통화·병원 회피·괜찮다는 반복·먼저 끊지 않음과 8능력치 의미를 보존했다. 선언e1b9fc8 → 제품8215acfc37bf603649dae5e1bafbd283a15d1563 main commit/push 완료다.
