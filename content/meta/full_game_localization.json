@@ -11539,6 +11539,72 @@
           "batch_id": "32c67d37ba223113aada0320c0bd616d2add588cac31c186964dfa09c619c3c0"
         }
       }
+    },
+    {
+      "order": "ORDER-490",
+      "group": "events",
+      "roots": [
+        "arc_35_orthodox_weight",
+        "arc_father_06_confession",
+        "arc_minjun_first_call",
+        "hyunsu_result_pass"
+      ],
+      "source_leaves": 5,
+      "target_leaves_by_locale": {
+        "ja": 5,
+        "zh-CN": 5,
+        "zh-TW": 5
+      },
+      "source_review": "Direct Korean-source correction of five current-career and Hyunsu-visit leaves. False employment/colleague premises are removed; past coffee, quiet exam success and one-month meal promise remain. Official export/check/import replaces five accepted leaves per locale without new coverage or gameplay changes. Source 9d09b1a; independent source review GO. Native/rendered/human/physical/release gates remain OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "77e7645d249adc4188e6ca91fa64709ad1f72c78366269796cbac8c8c0f6a6eb",
+        "zh-CN": "e89f83b022b9c9dbb18c6c596f240859d7ab9523d6ffe2b5fb5eaa8d21a264bf",
+        "zh-TW": "f68b6b1bf5faf6b79a9de3a9764d88445b1d8e3b87d42c873135cc31f8a9d420"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "9d09b1a205e53e2791914bf8e0365df8158f9e63",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "027b91ddf60658cf4199dd800a31c1345de0f5297c6a22d412c9125f30095cd0",
+          "selection_sha256": "3189bc74bc5bf1fbf702c9d0561ef571f4a4db7cc8c469459d1c3a88f075c51c",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7a9c7b6010593a4e269c170e320f42e3c8d36b19e6f8d8397402f551334686da"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "9d09b1a205e53e2791914bf8e0365df8158f9e63",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "027b91ddf60658cf4199dd800a31c1345de0f5297c6a22d412c9125f30095cd0",
+          "selection_sha256": "e83903030e5c7c7c17aa9922f5b28bf02e977f65721812e5b8334b2263a95c28",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "cdd6ba02636b5e93453a03d1bac3459db57bc37161e2a6c4fdd5c4890c6201ec"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "9d09b1a205e53e2791914bf8e0365df8158f9e63",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "027b91ddf60658cf4199dd800a31c1345de0f5297c6a22d412c9125f30095cd0",
+          "selection_sha256": "f4d0c1b4c3cad488e31d7f9955936a81a2174eaa9df282d222b89f551b6c8e80",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "bd232a434c62607ec64d3f0ae0b7cfe3a6844724d68d2d172b185865ab9908da"
+        }
+      }
     }
   ],
   "accepted": {
@@ -17364,16 +17430,16 @@
         "target_sha256": "276b2b4f60773007ceb8846570ee8365e04290749f482c1af0514a38d3a24f98"
       },
       "events:arc_father_06_confession:/choices/0/result_text": {
-        "source_sha256": "7661c46d83085a75a9071b328674dfb78fea2167f4700457df7384dc767e85e7",
-        "target_sha256": "f84565aa90c0b75c9b90c5e37c7d5b46ec0dacb1507a0bb2041b5502dee92047"
+        "source_sha256": "20bb64acdeaf7729db614bb25910559ec023388baa875b9459d51639d5d61806",
+        "target_sha256": "cd6375a8134ade96b19b84dc4924d4c48be74bb4e89d2ff70984eef708bf6082"
       },
       "events:arc_father_06_confession:/choices/0/text": {
         "source_sha256": "900298efbdc9f621dc307a1b6628e187600f3fdebdd013d4092201430a4b505c",
         "target_sha256": "750e7ed855700f1781bbb46ecd7577c3df4d054fa483a0aba306dbec6957e5dc"
       },
       "events:arc_father_06_confession:/choices/1/result_text": {
-        "source_sha256": "c9f7f4999845056a58d6641d936592bbdd935dbc5264c0550907a030a760aa49",
-        "target_sha256": "cd57b6e96cdb4de8c94befe23b43a28bdcdf960cc63e44f57550ebdd20424915"
+        "source_sha256": "1ddcda3b96fc230d5827ea2534137932f850e6bffb44db63c91e8cfad83f42a0",
+        "target_sha256": "9fd73aad28bbb39a004b6ed9b5a233017fa5bb4a810a3b19327a6548aa75ea26"
       },
       "events:arc_father_06_confession:/choices/1/text": {
         "source_sha256": "8561aa7c1e403de4cec419c9b8443a157fa566335fde3e0c28a1a1229996ef68",
@@ -18180,8 +18246,8 @@
         "target_sha256": "247a40e8478c2a9e555cd49a554e9593ea9fa66522410d9a7769ebf93b14083e"
       },
       "events:arc_minjun_first_call:/choices/1/result_text": {
-        "source_sha256": "a8dd3cb3f8ad078873394a14366b3e2b0c9d301aff9a8fe16dd3b1ccc5124313",
-        "target_sha256": "6a13f4e56df31db7a85eb2bd032085f2253e1f7c9cdf490cdea32e78aabfd2bb"
+        "source_sha256": "8563a5f0285bfa10c1bc9d96dcfe4de2607214ab1e5e5fd20e06ac903403b8f3",
+        "target_sha256": "f12cb29b68465ba39888b81dc0afdefd698d25f1bb5e91e64f9b219755e41e94"
       },
       "events:arc_minjun_first_call:/choices/1/text": {
         "source_sha256": "a6c85dec80825c80e66fb9a2d03276eebbd697f9320f57b35eae304d0e1556cb",
@@ -56516,8 +56582,8 @@
         "target_sha256": "ef7e98f33a15dccad9363f8fb6ffa02ce3168f3eb9f7ff933bcfc5bab1dde73e"
       },
       "events:arc_35_orthodox_weight:/description": {
-        "source_sha256": "75ca1b44ea209ba2ee9ec3f08ead6cdda9d63bda57088ce7dd5df3fb9a56d12b",
-        "target_sha256": "2684ecc639e9e80a3c1f5b23b8b6e166ec3477a3ec1b81b76b58f4bf56c9f2eb"
+        "source_sha256": "1b4ce0a69b69a434619da114789314c6c191f5a8893d52609f17188b27b26434",
+        "target_sha256": "5db2c9ee09efd7cf74eadb5bea4eb315416904a6f701ab67165896d0504750ff"
       },
       "events:arc_35_orthodox_weight:/title": {
         "source_sha256": "ead33d812018c38bcea2c0a80b1d1ddbfbf040be293f9b3ff2ef453e9a08afa0",
@@ -57572,8 +57638,8 @@
         "target_sha256": "941b4284cdc740edeb02e59ea4000a0f4c9444fd60ba26fcd996fb421c245b49"
       },
       "events:hyunsu_result_pass:/description": {
-        "source_sha256": "c62d4cbaf8fc4f4ee00398d2c284ff24f25d5155c44376b6a2e832a47ac3cfe6",
-        "target_sha256": "d95fa5d12defee9f50b1cd51018765a76dd0e7b78ffbe5aa19ad07ecafdd0a02"
+        "source_sha256": "bdd7c3c37387d92569f784920842bba514f4d5dcf6643d3c6a6b2e162237e44b",
+        "target_sha256": "9c330c396ef437e1beb769b742a9c5e06b4d039d7d181a3cc153e576fbe4fd2e"
       },
       "events:hyunsu_result_pass:/title": {
         "source_sha256": "faca1e8f5859566a1dbac3a652a3f828a65896907a89b639c2cab624eb9d6f00",
@@ -69986,16 +70052,16 @@
         "target_sha256": "ba2c93aab40ef06c7dc723d94ac10680191e661b9bdedfc9627c5a9c300129e4"
       },
       "events:arc_father_06_confession:/choices/0/result_text": {
-        "source_sha256": "7661c46d83085a75a9071b328674dfb78fea2167f4700457df7384dc767e85e7",
-        "target_sha256": "f51634164820af9de4c7da3cc0e45f21a5131132c6562a5f9b7fc332eade34f0"
+        "source_sha256": "20bb64acdeaf7729db614bb25910559ec023388baa875b9459d51639d5d61806",
+        "target_sha256": "826514a810732307b0e6b4ee1898c68beae4ea4776fc71c4182f83295605e541"
       },
       "events:arc_father_06_confession:/choices/0/text": {
         "source_sha256": "900298efbdc9f621dc307a1b6628e187600f3fdebdd013d4092201430a4b505c",
         "target_sha256": "f5eabf5cf5a4e784684c1dca7b80ec4f7c5acec4b8de1bbf0243f35b79da259a"
       },
       "events:arc_father_06_confession:/choices/1/result_text": {
-        "source_sha256": "c9f7f4999845056a58d6641d936592bbdd935dbc5264c0550907a030a760aa49",
-        "target_sha256": "5b47ed18922b786ef5949a3543379dcd5fb170d0301b3cedd46b22d4343c8f58"
+        "source_sha256": "1ddcda3b96fc230d5827ea2534137932f850e6bffb44db63c91e8cfad83f42a0",
+        "target_sha256": "ed2f992e6ecae6e86720f29a7a01f77e8001b4e9ebeec30f11a05d94893585f1"
       },
       "events:arc_father_06_confession:/choices/1/text": {
         "source_sha256": "8561aa7c1e403de4cec419c9b8443a157fa566335fde3e0c28a1a1229996ef68",
@@ -70802,8 +70868,8 @@
         "target_sha256": "d8a7045df931c8ed72a7848cff734e897d6d59144e6610191618389da796464d"
       },
       "events:arc_minjun_first_call:/choices/1/result_text": {
-        "source_sha256": "a8dd3cb3f8ad078873394a14366b3e2b0c9d301aff9a8fe16dd3b1ccc5124313",
-        "target_sha256": "7975e0f3f005e35cee12ce98b248ddbf105a2872da38cf7d4d1084999ab27a78"
+        "source_sha256": "8563a5f0285bfa10c1bc9d96dcfe4de2607214ab1e5e5fd20e06ac903403b8f3",
+        "target_sha256": "cd6e07cc372649f1c18f7ec891ffd06e66325e1e6f94bb9a62fddd89623b55b1"
       },
       "events:arc_minjun_first_call:/choices/1/text": {
         "source_sha256": "a6c85dec80825c80e66fb9a2d03276eebbd697f9320f57b35eae304d0e1556cb",
@@ -109138,8 +109204,8 @@
         "target_sha256": "6da61e167f459167817ebede2328b49e6bde7a28ff7b63958efaa8d91dfc343c"
       },
       "events:arc_35_orthodox_weight:/description": {
-        "source_sha256": "75ca1b44ea209ba2ee9ec3f08ead6cdda9d63bda57088ce7dd5df3fb9a56d12b",
-        "target_sha256": "c98d563e25de2755c86b358f7650e61ff3c60aced4b1bdef94cc24b3bbde205a"
+        "source_sha256": "1b4ce0a69b69a434619da114789314c6c191f5a8893d52609f17188b27b26434",
+        "target_sha256": "56ed1913818497b68d2750d1422be2131f321be394b3342ba44e754e86e3ed5e"
       },
       "events:arc_35_orthodox_weight:/title": {
         "source_sha256": "ead33d812018c38bcea2c0a80b1d1ddbfbf040be293f9b3ff2ef453e9a08afa0",
@@ -110194,8 +110260,8 @@
         "target_sha256": "681e5ff1b979ef6f323a766ff38e8a804755b612de7451da2a94b622ffb5ad57"
       },
       "events:hyunsu_result_pass:/description": {
-        "source_sha256": "c62d4cbaf8fc4f4ee00398d2c284ff24f25d5155c44376b6a2e832a47ac3cfe6",
-        "target_sha256": "e9949bd7ac6f878c8b7f277b367a3fdf141318124baf7e7a34c41ec2432812de"
+        "source_sha256": "bdd7c3c37387d92569f784920842bba514f4d5dcf6643d3c6a6b2e162237e44b",
+        "target_sha256": "509f5b405463c40e613fc26f9489a14bd877409151a23a83d8c22d790755796f"
       },
       "events:hyunsu_result_pass:/title": {
         "source_sha256": "faca1e8f5859566a1dbac3a652a3f828a65896907a89b639c2cab624eb9d6f00",
@@ -127452,16 +127518,16 @@
         "target_sha256": "9ee4bf5da51801c4040a952c031230d7a18767a3c0f4415aed6a9ef53bf51aa9"
       },
       "events:arc_father_06_confession:/choices/0/result_text": {
-        "source_sha256": "7661c46d83085a75a9071b328674dfb78fea2167f4700457df7384dc767e85e7",
-        "target_sha256": "555a45e142d2d8bdbf26ea1349f09db2bd0a6da8a0e6d74294af096cf42b4f6a"
+        "source_sha256": "20bb64acdeaf7729db614bb25910559ec023388baa875b9459d51639d5d61806",
+        "target_sha256": "78846b034532c9713493633cf619db97def45fedde0fd899d122d17e357b9ad1"
       },
       "events:arc_father_06_confession:/choices/0/text": {
         "source_sha256": "900298efbdc9f621dc307a1b6628e187600f3fdebdd013d4092201430a4b505c",
         "target_sha256": "6e1e3791cdcc6e2a466e293f0530b3ec5128cf8ff27e981905f9d1115e399177"
       },
       "events:arc_father_06_confession:/choices/1/result_text": {
-        "source_sha256": "c9f7f4999845056a58d6641d936592bbdd935dbc5264c0550907a030a760aa49",
-        "target_sha256": "bf3cd3c322915851c0007fa0c20c7000df1c0aa3bf84cfc2419046964aab19a2"
+        "source_sha256": "1ddcda3b96fc230d5827ea2534137932f850e6bffb44db63c91e8cfad83f42a0",
+        "target_sha256": "a20872039526243fcdddd50a7c9cef979689fd63e97e029c5378c174cd7a89df"
       },
       "events:arc_father_06_confession:/choices/1/text": {
         "source_sha256": "8561aa7c1e403de4cec419c9b8443a157fa566335fde3e0c28a1a1229996ef68",
@@ -128268,8 +128334,8 @@
         "target_sha256": "f5db82ef904f64ccde65e0889fb7f9f9fe067fb74fe8cc8e95f05819b0dbec3e"
       },
       "events:arc_minjun_first_call:/choices/1/result_text": {
-        "source_sha256": "a8dd3cb3f8ad078873394a14366b3e2b0c9d301aff9a8fe16dd3b1ccc5124313",
-        "target_sha256": "9c1aac61d58954799dd31e9e19901f014f71ffb7cdb54ec0ff9cb7de94ef3aa6"
+        "source_sha256": "8563a5f0285bfa10c1bc9d96dcfe4de2607214ab1e5e5fd20e06ac903403b8f3",
+        "target_sha256": "06fd335b4999cc29dbc6f16938f71ef21363f1853d4d13394a345c35a4e6b5cc"
       },
       "events:arc_minjun_first_call:/choices/1/text": {
         "source_sha256": "a6c85dec80825c80e66fb9a2d03276eebbd697f9320f57b35eae304d0e1556cb",
@@ -166604,8 +166670,8 @@
         "target_sha256": "2a331214982a7e6120498165d9aa3ab8fc2dae4113a1b3da693e00aaa88c56a7"
       },
       "events:arc_35_orthodox_weight:/description": {
-        "source_sha256": "75ca1b44ea209ba2ee9ec3f08ead6cdda9d63bda57088ce7dd5df3fb9a56d12b",
-        "target_sha256": "6b54e3884131ad3fb240011412d5d3db21c3afaf893777e7b1e98492aa400592"
+        "source_sha256": "1b4ce0a69b69a434619da114789314c6c191f5a8893d52609f17188b27b26434",
+        "target_sha256": "c4704585a40b246c2fca88d428ade1d57a63d546ddfadfc6bb689c66dfe29c65"
       },
       "events:arc_35_orthodox_weight:/title": {
         "source_sha256": "ead33d812018c38bcea2c0a80b1d1ddbfbf040be293f9b3ff2ef453e9a08afa0",
@@ -167660,8 +167726,8 @@
         "target_sha256": "1f1a8e81583c6dd374ca289c0fcd480385c3d7264819db7444b40acf4a5d1956"
       },
       "events:hyunsu_result_pass:/description": {
-        "source_sha256": "c62d4cbaf8fc4f4ee00398d2c284ff24f25d5155c44376b6a2e832a47ac3cfe6",
-        "target_sha256": "75013aaee87669e3a2297a6f92d3b97610d4b32b5cf0b48b58451803892787ec"
+        "source_sha256": "bdd7c3c37387d92569f784920842bba514f4d5dcf6643d3c6a6b2e162237e44b",
+        "target_sha256": "45991e3104759c32ea850176a6c90d2540d0bc3df564926c9350ec234dcf175e"
       },
       "events:hyunsu_result_pass:/title": {
         "source_sha256": "faca1e8f5859566a1dbac3a652a3f828a65896907a89b639c2cab624eb9d6f00",
@@ -179097,7 +179163,7 @@
       }
     }
   },
-  "accepted_sha256": "35cd7804134ec57480476f9ae9fcfba78dab3aafe93d7519f27d4dc06a4156ca",
+  "accepted_sha256": "3b9537d3beefda137aa8d041ad07c65de8906e960736e89264787309d006216e",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

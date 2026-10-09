@@ -11,7 +11,6 @@ CI에서만 아래 정확한 검사명·종료코드1을 한시적으로 비차�
 | 검사명 | 이유 | 소유자 | 만료일 |
 | --- | --- | --- | --- |
 | PEAK_CHAIN_EXIT | arc_sangchul_deduction의 왕복/결정 밀도가 EXPAND이며 gold standard와 불일치. 원고 수리는 검수 정리 범위 밖이다. | Codex — 다음 문장 묶음 | 2026-10-16 |
-| EXPOSED_STATE_EXIT | 직업 사실3·관계 사실1이 조건에 선언되지 않았고 hyunsu_result_pass KO/EN에 방 이동 사실2가 없다. 원문/서사 원장은 이번 오더에서 불변이다. | Codex — 다음 사실/문장 묶음 | 2026-10-16 |
 
 근거는 [삭제 전 실패 전수표](queue_backlog/AUDIT_FAILURE_TRIAGE_2026-10-09.md)의 실제 C 실행이다.
 옛 history admission·collector 오류·이미 통과한 release inventory는 예외에 넣지 않는다.
