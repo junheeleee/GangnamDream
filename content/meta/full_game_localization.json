@@ -12852,6 +12852,81 @@
           "batch_id": "23b0b701ce3605bc19fe81251a1dbb6046c0fdae66a4897eec39003aa276e758"
         }
       }
+    },
+    {
+      "order": "ORDER-512",
+      "group": "events_correction",
+      "roots": [
+        "arc_y5_general_name_boundary_exact"
+      ],
+      "source_leaves": 1,
+      "prior_acceptance": "existing",
+      "before_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_y5_general_name_boundary_exact:/description_memory_if_known/chapter5_general_minseo_arrival_0": "93cc3ef44471009457513e23aebb397174c75436d74df1ecfa5a18f98508c5de"
+        },
+        "zh-CN": {
+          "events:arc_y5_general_name_boundary_exact:/description_memory_if_known/chapter5_general_minseo_arrival_0": "40ec6d0af95f52a92c3a36ece87ec868032e4831345d75f8a1e6109cda895dcc"
+        },
+        "zh-TW": {
+          "events:arc_y5_general_name_boundary_exact:/description_memory_if_known/chapter5_general_minseo_arrival_0": "ea87386ae576db918e43c846dc9d597c79044e286fb3d9256e6783d4449f784b"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "source_review": "Korean-direct correction of one existing memory leaf in three locales. The current arrival producer records Minjun's sent answer without a read receipt, reply or next appointment; Gangnam possibly starting the next sentence is his later thought alone in his room, not a statement from Minseo. The correction retains that subject and uncertainty, the blank-name-field callback, original second paragraphs and placeholders. No gameplay, flags, routing or new coverage. Original batches and public-demo source remain unchanged. Agent source comparison only; rendered and native review remain OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "38b6e8ec76b22418671cbf22314edd6f56e5e9f7",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "4bc810c2f13d008967d0b516bd6cc187cd06c3b909ef318193f15cd6571ece50",
+          "selection_sha256": "ea057d7c22d8d31a05d062fcac7f27c21ad8d7d9a31678d21071d0337c929501",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "be521a95d5bd764a83bca5055a8617843db5381a0e5d230e5c3172a0a9f8f755"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "38b6e8ec76b22418671cbf22314edd6f56e5e9f7",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "4bc810c2f13d008967d0b516bd6cc187cd06c3b909ef318193f15cd6571ece50",
+          "selection_sha256": "e6fd7e92ba81de45c71bdf1a9ddf0ea09aaef0ac31fe24a6a844c994f7f9d851",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "817b1489749a792fd920cea116874568a938a692457366f4224bc156ada381c8"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "38b6e8ec76b22418671cbf22314edd6f56e5e9f7",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "4bc810c2f13d008967d0b516bd6cc187cd06c3b909ef318193f15cd6571ece50",
+          "selection_sha256": "0755dfc83406beb3e923ad6f5c00145ed3f439721137011bc09cabaee42db270",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e68571e515cdd8d60187d66b2db68dcf6ccb0456cc9844693df323b30fe676b5"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "7d99c64aae0014c98eaab46bb48c3e985c8c077d4178ff035eff4ead24539660",
+        "zh-CN": "56be818a145dd56af9acfd1a82dc89c55b57e6b140afb802c53adffef1dfe343",
+        "zh-TW": "67684018b8edddab90abb2d8c6c1c24ca51e1e449b13d027fd7b7553990bcbca"
+      }
     }
   ],
   "accepted": {
@@ -22353,8 +22428,8 @@
         "target_sha256": "95d9004800d450ec261c0ed342f7848f51ad0049a1cce5fd2daf85766ddabb31"
       },
       "events:arc_y5_general_name_boundary_exact:/description_memory_if_known/chapter5_general_minseo_arrival_0": {
-        "source_sha256": "09e319cb07274fdd5b64cf89018c104587770f2242ec527a2a6236fe726bfbac",
-        "target_sha256": "93cc3ef44471009457513e23aebb397174c75436d74df1ecfa5a18f98508c5de"
+        "source_sha256": "f65331f5937d0b376565b59d3170f1a40d57dbce2dfca0473e8558e390833c33",
+        "target_sha256": "7a48a49de97e8147cd1d301647a7366ce75891bec8818ea4bf3539e569243cd8"
       },
       "events:arc_y5_general_name_boundary_exact:/description_memory_if_known/chapter5_general_minseo_arrival_1": {
         "source_sha256": "a036e91d8c117c1829a808c9b86aca786dd6a096ba5834cb0b89402bab02eb42",
@@ -74991,8 +75066,8 @@
         "target_sha256": "43165de62eb50c419877b582a351da3a9cf86a77a18d598f23715095a226fc8f"
       },
       "events:arc_y5_general_name_boundary_exact:/description_memory_if_known/chapter5_general_minseo_arrival_0": {
-        "source_sha256": "09e319cb07274fdd5b64cf89018c104587770f2242ec527a2a6236fe726bfbac",
-        "target_sha256": "40ec6d0af95f52a92c3a36ece87ec868032e4831345d75f8a1e6109cda895dcc"
+        "source_sha256": "f65331f5937d0b376565b59d3170f1a40d57dbce2dfca0473e8558e390833c33",
+        "target_sha256": "ba7e4bfb07069131dc8ca9ad73f8346a173e8fa1d8a1eff54e1d142f6971c21f"
       },
       "events:arc_y5_general_name_boundary_exact:/description_memory_if_known/chapter5_general_minseo_arrival_1": {
         "source_sha256": "a036e91d8c117c1829a808c9b86aca786dd6a096ba5834cb0b89402bab02eb42",
@@ -133777,8 +133852,8 @@
         "target_sha256": "22bdc28916b4f745bfb886073cd375804414ef75cd2e342a1d3cddbf7c384496"
       },
       "events:arc_y5_general_name_boundary_exact:/description_memory_if_known/chapter5_general_minseo_arrival_0": {
-        "source_sha256": "09e319cb07274fdd5b64cf89018c104587770f2242ec527a2a6236fe726bfbac",
-        "target_sha256": "ea87386ae576db918e43c846dc9d597c79044e286fb3d9256e6783d4449f784b"
+        "source_sha256": "f65331f5937d0b376565b59d3170f1a40d57dbce2dfca0473e8558e390833c33",
+        "target_sha256": "0f7431cd8cae30347624ad9557df54b276660c83a1fddf38f585d093367546d5"
       },
       "events:arc_y5_general_name_boundary_exact:/description_memory_if_known/chapter5_general_minseo_arrival_1": {
         "source_sha256": "a036e91d8c117c1829a808c9b86aca786dd6a096ba5834cb0b89402bab02eb42",
@@ -183066,7 +183141,7 @@
       }
     }
   },
-  "accepted_sha256": "549dee8b596c5fa0b0cf92a77aa5f2e92dbc574be453617235baee74c86fe25a",
+  "accepted_sha256": "6218d4a6a3f639e93c86d9732cb867ee6835e1b46f4bcefba2e1f55358ed8c12",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

@@ -1,6 +1,6 @@
 # ORDER-512 — 민서의 무회신 뒤 이름 칸 회상의 주체 정합
 
-#### [~] ORDER-512 [서사 인과·5언어] 삭제된 민서 회신의 기억 소비자 수리
+#### [x] ORDER-512 [서사 인과·5언어] 삭제된 민서 회신의 기억 소비자 수리 — 2026-10-10
 
 **착수 — 2026-10-10.** 457의 source d418772 실제 W200→W215 EN 독해 중
 `arc_y5_general_name_boundary_exact`에서 삭제된 민서 회신을 회상하는 결함을 확인했다.
@@ -44,3 +44,28 @@
 
 project.godot·원본/사용자 저장·공개 M01~M06·과거 인간 판정·shipping languages·
 경제·엔딩 라우팅은 변경0. 검수 절차/정본 규칙 신설0·작업 절차는 일회성이다.
+
+## 수용 결과 — 기존 기억 한 잎의 주체 교정 한정 GO
+
+선언4eb2216 main push 뒤 KO/EN38b6e8e의 첫 문단만 고쳤다. 현재 producer의
+민준 발신/무회신/혼자 한 생각을 기억하며, 민서가 답하거나 새 약속을 했다는 사실은
+만들지 않는다. JA는 root, CN/TW는 별도 지역 저자가 KO에서 직접 작성하고 공식
+export/check/import `--replace-existing --accept` 각각1잎 PASS다. 비저자
+phone_independent_review가 producer/consumer와 5잎을 전수 대조해 GO·retouch0.
+두 문단·토큰과 기존 두 번째 문단 bytes를 보존하며 각 잎만 역치환하면 기존 파일
+raw 전체가 복원된다. 선택/결과/조건/효과/flags/routing 변경0이다.
+
+공식 source38b6e8ec76b22418671cbf22314edd6f56e5e9f7와 manifest
+4bc810c2f13d008967d0b516bd6cc187cd06c3b909ef318193f15cd6571ece50에 결속했다.
+원영수증 JA7d99c64aae0014c98eaab46bb48c3e985c8c077d4178ff035eff4ead24539660,
+CN56be818a145dd56af9acfd1a82dc89c55b57e6b140afb802c53adffef1dfe343,
+TW67684018b8edddab90abb2d8c6c1c24ca51e1e449b13d027fd7b7553990bcbca.
+원장 기존305배치는 그대로 보존하고 교정1배치만 추가했다. accepted42551개는
+불변이며 해당3record/checksum만 갱신했다. 신규 번역 커버리지로 세지 않는다.
+
+KO/EN 뒤 EN coverage/EN Hangul·서사연속성·장면음악·speech register·legacy/
+공개 데모 PASS, 세 번역 뒤 기존 overlay lane11개와 ZH·release inventory PASS.
+현재 inventory/등급보고 지문은 바뀌지 않아 두 파일은 변경0이다. 새 검사/도구/
+형식보고0·project/사용자저장/공개 M01~M06/과거 인간판정 불변이다.
+실제 교정문 폭/입력·원어민·물리패드 OPEN, 전체번역 INCOMPLETE이며 M60/후일담
+6/6·출시 HOLD는 이 교정으로 닫지 않는다. 새규범0·작업 절차 일회성이다.

@@ -69,6 +69,24 @@ root가 개별 GUI 입력으로 문장을 읽고 자연 타이핑·전환을 기
 못 봤다면 미관찰이다. 조기 종료·도달 실패·확인 결함을 숨기거나 상태를 바꿔 통과시키지 않는다.
 안전한 후속 선택은 실제 보이는 조건과 원본의 인과에 따라 root가 판단한다.
 
+### W215 이후 실제 이어보기 선언 — 2026-10-10
+
+512의 5언어 기억 교정 후 아래 실제 저장을 새 격리에서 이어 읽는다. root는 기존
+continue 실행기의 W200 원문을 private `order457-continue-before-live-w215-20261010.py`로
+바이트 보존하고 `order457-continue.py`의 checkpoint 경로/SHA/크기·turn215·설명과
+mode `general_week215_continue` literal만 바꾼다. 실행/안전 로직·제품·입력 매핑은
+변경0이다. checkpoint는 `/Users/junheelee/Library/Application Support/GangnamDream_StoryNameplateQA_73c9422ceb1533c969d1cac0a52f8099/gangnam_dream_slot_1.json`,
+152641B/SHA640f6ba664bba1a4b8bf2483f133bd27750dc0645957b96dcb62fc445f85a7a1,
+turn215/resume={}/pending={}인 실제 UI Save 결과다. .bak/상태 편집으로 대신하지 않는다.
+
+선언 commit/push 뒤 비저자 helper literal-only/새 snapshot을 확인하고 root만
+pre-autoload 신규 namespace·실제 Load→slot1·개별 입력/자연 타이핑으로 진행한다.
+실행 중 제품/번역/운영 변경0. helper5/player33/seed2 및 별도 원W195/W200/510bak도
+fresh 전후 직접 재해시하고 원시 로그/관찰을 보존한다. 비저자는 CUA를 쓰지 않고
+원관찰/로그/저장/전체tracked 역상을 독립 대조한다. 새 runner/검사/계측/자동입력0.
+도달한 주차·선택·저장/종료만 판정하며 M60/후일담6/6·인간/원어민/물리패드·출시는
+관찰 전에 승격하지 않는다. 기존 안전 helper의 일회성 설정이며 새 정본 규칙0이다.
+
 ## 검증·마감 경계
 
 2026-10-05 첫 실행은 source `a83b0e4`에서706.120초/exit0, 실제 W193→W195까지
@@ -131,8 +149,8 @@ seed2·원W200/별도W195/510bak 불변, own84344 종료/editor61385 생존 GO�
 새 slot1은152641B/SHA640f6ba664bba1a4b8bf2483f133bd27750dc0645957b96dcb62fc445f85a7a1,
 turn215/resume={}/pending={}다. private continue-w200-retry-20261009의 원관찰/
 로그/격리저장을 보존한다. 다음 이어보기는 이 실제 checkpoint를 별도 선선언한다.
-W211 기억0이 삭제된 민서 회신을 인용하는 확인 결함은 [512](ORDER-512.md)에서
-5언어 한 잎만 수리한다. 주간93%/Story97%는 구간/전체 목표의 다른 계산으로 오류가
+W211 기억0이 삭제된 민서 회신을 인용하는 확인 결함은 [512](../queue_archive/ORDER-512.md)에서
+5언어 한 잎만 수리했다. 주간93%/Story97%는 구간/전체 목표의 다른 계산으로 오류가
 아니며, 편의점 회식 producer/부산 지연 meet/시장 초기화 위험은 별개로 남긴다.
 M60/후일담6/6은 미도달, 인간/원어민/물리패드·출시는 HOLD다.
 
