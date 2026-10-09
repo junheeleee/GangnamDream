@@ -2,11 +2,16 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 영어 습득물이 두 선택 결과에서도 같은 봉투로 남는다
+
+- [515](queue_archive/ORDER-515.md) source1cee267/tree039b8d99: 실제 EN 관찰에서 확인한 `rare_night_alva_find` 결과2잎의 bag만 envelope로 수리했다. 반환/가져옴 모두 본문과 같은 물건이다. 보상·선택·flags/후속·KO/JA/zh·원장·심의·데모·사용자 저장 변경0이다.
+- EN coverage/Hangul·서사 연속성·장면음악·말투·심의 inventory·demo scope·JA demo inventory/audit·ZH audit 모두 PASS/새 실패0. 비저자 whole-byte 기대치·보호523파일·6영수증 대조는 이 source 정합만 GO다. 새 검사/도구/보고/엔진0. archive를 판정 증거로 재사용한다. Mac 잠금으로 [514](queue_active/ORDER-514.md) 실제 재플레이·전체제품/출시는 HOLD를 유지한다.
+
 ## 2026-10-10 — 실제 재플레이 Mac 잠금/HOLD·영어 습득물 정합 수리 선언
 
 - [514](queue_active/ORDER-514.md) sourceaf420e6의 첫 CUA가 Mac locked/자동 해제 실패를 반환했다. 게임 입력/실제Load/화면0이므로 실제 재플레이 HOLD다. fresh99d2cb82…에 원W238 slot1만 복사했고 own launcher26216 SIGINT→기존 안전 cleanup/own26285 exit−9·interrupted/KeyboardInterrupt1/39.054초를 원증거로 남겼다. 정상 Quit/PASS가 아니다.
 - result SHA93a0b4f3537e910fcadcd8c447b7103ecb169484dd9532db5c481e9fa9b48bd1, stdout/godot각300B·엔진오류0/stderr0. root와 비저자가 종료fresh 전체 dictionary를 각각 대조해 prepared/entry/result before/after/current 동일·tracked3249/helper5/seed2/player33·원checkpoint/옛W240 불변, own종료/editor61385생존의 보존만 GO다. 실제 화면을 준비 QA로 대신하지 않는다.
-- 동결 해제 뒤 [515](queue_active/ORDER-515.md)에 실제457에서 찾은 EN습득물 bag/envelope와 같은 사건의 다른 선택을 두 잎으로 선선언한다. 본문 envelope에 맞춰 결과 명사만 바꾸며 KO/JA/zh·수치/후속/조건/저장/데모는 불변이다. 새 도구·오더별 보고0. 잠금 해제 전에도 가능한 확인된 제품 수리를 계속한다.
+- 동결 해제 뒤 [515](queue_archive/ORDER-515.md)에 실제457에서 찾은 EN습득물 bag/envelope와 같은 사건의 다른 선택을 두 잎으로 선선언했다. 본문 envelope에 맞춰 결과 명사만 바꾸며 KO/JA/zh·수치/후속/조건/저장/데모는 불변이다. 새 도구·오더별 보고0. 잠금 해제 전에도 가능한 확인된 제품 수리를 계속한다.
 
 ## 2026-10-10 — 원장 수리 한정 완료·실제 W238 종막 재플레이 선언
 

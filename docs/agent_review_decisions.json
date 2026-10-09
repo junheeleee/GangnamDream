@@ -10451,6 +10451,47 @@
         "path": "docs/queue_archive/ORDER-513.md",
         "sha256": "133d63d8642667493e04a855c2521a026a5d9450f590b522ed273c53b814cf64"
       }
+    },
+    {
+      "id": "order-515-source-1cee267-envelope-consistency",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_tw_author",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-515",
+      "subject": {
+        "kind": "source",
+        "commit": "1cee2677aa2299d34ef2901b97a79cda194ac003",
+        "tree": "039b8d995931b30ba9876f9523bfe6800cf6e500",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-515.md",
+          "sha256": "4bcc370a01d8f572fa812f75f5456bd103ff6c1a613208ec0ffac9a437d52750"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-515.md",
+          "sha256": "4bcc370a01d8f572fa812f75f5456bd103ff6c1a613208ec0ffac9a437d52750"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "repaired_EN_outcomes_actual_screen_and_input",
+        "public_package_ZIP_rehash",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-515.md",
+        "sha256": "4bcc370a01d8f572fa812f75f5456bd103ff6c1a613208ec0ffac9a437d52750"
+      }
     }
   ]
 }
