@@ -2,6 +2,12 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 실제 재개 결과 완독·한 번 정산·다음 달 복귀 통과
+
+- [524](queue_archive/ORDER-524.md): 같은 exact522/nameplate-fix/원slot1에서 result0→개별Return3으로 남은 두 문단 완독→2월 전환→자동M02 도착, 확인/추가게임입력0이다. 실제 진행안내는 이번 stable/완료문단에서 보였고 523 소실 원관찰은 비재현으로 보존한다. 수리 성공으로 세지 않는다.
+- own53061/parent53060 정상CmdQ exit0/57.600133초·stdout=Godot806B/0192f57b…·stderr/오류/경고/누수0이다. entry en→ko 각1은 같은 process의 정상controller 재진입이며 두 부팅이 아니다. controller month2/4weeks/settlement1/choice1·230→297만원/70→70/64→62, 원slot19417B/e4978df6… byteexact·중복선택효과0이다.
+- root/비저자 fresh source3262/helper5/seed2/W238/player33와42곳 중41불변/ns7→8을 직접 대조·한정GO 뒤 동결 해제했다. 개발 스킬의 실제관찰/자동계약 분리·독립 전량검수·기존 도구 재사용 적용, 새checker/runner/보고0·일회성·정본승격0이다. [525](queue_active/ORDER-525.md)에 M02 첫 표면/설정 5언어만 선선언한다. 옛공개저장·인간/원어민/물리/청취·본편/출시 HOLD와 공개/player/원manifest/실패raw를 보존한다.
+
 ## 2026-10-10 — 새 앱 실제 저장·재시작의 문장·이름표·수치 복원 통과
 
 - [523](queue_archive/ORDER-523.md): exact522/nameplate-fix 앱의 KO 본문0~4 완독→차단0→result0→빈slot1 UI Save/정상Quit→별도Continue가 같은 완문·김민준·건강70/정신64/230만원을 복원했다. 두 무인자 실행 exit0/160.809982·33.733531초·stdout/Godot480B/204c7320…·entry각1·stderr/오류/경고/누수0이다.

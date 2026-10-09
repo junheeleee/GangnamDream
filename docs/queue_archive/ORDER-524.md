@@ -1,6 +1,43 @@
 # ORDER-524 — 실제 cold result의 진행·월 복귀 입력
 
-#### [~] ORDER-524 [P1·실제 입력] 재개 결과를 끝까지 읽고 월 복귀를 확인
+#### [x] ORDER-524 [P1·실제 입력] 재개 결과를 끝까지 읽고 월 복귀를 확인
+
+**완료 — 2026-10-10 / 결과 진행·월 복귀 한정 GO.** 비저자
+`phone_independent_review`가 원로그/실제 저장/producer/전체 보존을 직접 대조했다.
+실제 pixels·개별 입력은 root 관찰이며 인간/독립 픽셀 관찰로 바꾸지 않는다.
+
+## 결과·증거
+
+- 실행 metadata clean `6d1b29d2b1b731da0e5c6b2e7b5637d558c443b6`/tree
+  `9514aa504087ac88d908e5fc94de8f542c9a00e7`, 대상 package는 아래 exact522 그대로다.
+- KO home Continue→result0 완문/김민준/70·64·230만원→개별 Return1/2로
+  result1·2 각각 자연 타이핑 완독→Return3으로 정상 복귀했다. 2월 전환 카드의
+  4주 경과/297만원·70·62 뒤 기본 자동M02 진입, 별도 확인0/M02진행·선택0이다.
+  M02 첫 문단은 부분 관찰에 그쳤으며 전체 독해로 확대하지 않는다.
+- 실제 진행 안내는 result0 초기+stable/완료result1·2 우하단에 작고 어둡게 보였다.
+  타이핑 중 숨김은 정상이다. 523의 소실 원관찰은 보존하며 이번 비재현을 확정
+  결함 수리나 과거 관찰 삭제로 세지 않는다. source 복원은 StoryMode:2657~2662에서
+  완문/힌트visible=true이며 읽기 조사에서 확정 소실 원인을 찾지 못했다.
+- 무인자 own53061/parent53060 정상CmdQ exit0/57.600133초,
+  stdout=Godot806B/SHA`0192f57b1369b024d68150b05d5d3adf7b40356783f87decdf9948065d26ee8b`,
+  stderr/오류/경고/누수0이다. 정확 native entry en1→ko1/engineheader1은
+  같은 process의 StoryMode:7047~7054→controller:159~163 정상 재진입이다.
+  controller:184~190→_close_month:690→_show_transition:2208→auto:2380이 독자다.
+- controller8453B/SHA`aa41ee32b7a616216a8650f2e389895a40557badbd1578a392cc8671bd328904`:
+  current_month2/elapsed4/closed[1]/settlement1/choice1/turn1→5,
+  cash2300000→2970000·health70→70·mental64→62, 선택 중복 적용0이다.
+  story_resume_slot 포인터만 정상 제거됐다. 원slot19417B/SHA
+  `e4978df64273d2377b5b9623a913c226da3bea34d9a3a1658281690e21840a0c`는 byteexact다.
+- private `.git/order524-live-20261010/` before692679B/SHAf1fe52c8…→after692891B/SHA
+  `2b418ad2e6a7eba0e142ded25410276f92fd2003c254249e12f9efd7d6a153f3`,
+  observation2386B/SHA`6f604861b6b9587f2a473828c050d199965a137594ce8e243f15e4fb0a525f64`,
+  원명령1349B/SHA527aa45e…를 보존했다. root/독립 final fresh source3262/helper5/
+  seed2/W238/player33 전체exact·보호42 중41불변/index40 ns만7→8파일,
+  own두PID부재/editor61385생존 확인 뒤 동결 해제했다.
+- 기존 도구 재사용·새checker/runner/보고0·일회성·정본 승격0이다.
+  5언어 화면은 [525](../queue_active/ORDER-525.md)의 M02 표면부터 잇는다.
+  옛공개저장 복사본/인간·원어민·물리·청취/전체제품·출시 HOLD,
+  원manifest runtime NOT_RUN/userGO NOT_INHERITED는 그대로다.
 
 **착수 — 2026-10-10.** [523](../queue_archive/ORDER-523.md)의 nameplate-fix
 앱과 실제 UI 저장을 그대로 잇는다. 완료한 부팅/새저장/이름표 검수를 반복하지 않는다.
