@@ -12283,6 +12283,74 @@
           "batch_id": "770f12e345567e087af7bfc911a8100ab38866141827d71d3015fdd14573dbef"
         }
       }
+    },
+    {
+      "order": "ORDER-500",
+      "group": "ui",
+      "roots": [
+        "30억보다 소중한 것을 알게 됐다. 그게 다은이었다.",
+        "30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.",
+        "5년의 고군분투 끝에 강남드림을 이뤘다",
+        "가장 정직한 길이 결국 가장 높은 곳으로 이어졌다",
+        "강남은 아직 없었다. 하지만 아버지가 살아있었다.",
+        "강남은 포기했다. 대신 아버지를 빚에서 해방시켰다.",
+        "강남이 아닌 더 높은 곳으로 — 정계에 발을 들였다",
+        "고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다",
+        "구독자가 100만을 넘은 날, 강남보다 더 넓은 세계가 열렸다",
+        "그렇게 5년이 지나갔다",
+        "다른 세계의 사람이 그를 선택했다. 강남은 그렇게 왔다.",
+        "다은과 함께 강 너머 강남의 불빛을 본다. 이번엔 혼자가 아니다.",
+        "도박의 문 앞에서 멈췄다. 전생의 기억이 발을 붙잡았다.",
+        "돈이 돈을 버는 법을 깨달았다 — 투자의 달인",
+        "모두가 실패라 했던 방식으로 서울을 뒤집었다",
+        "임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.",
+        "자산보다 이름이 먼저 강남에 닿았다",
+        "작은 아이디어 하나가 강남드림으로 이어졌다",
+        "작은 아이디어 하나가 첫 엑싯으로 이어졌다",
+        "화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다"
+      ],
+      "source_leaves": 20,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 20,
+        "zh-TW": 20
+      },
+      "source_review": "Direct Korean-source regional authorship; all 40 values independently compared with 20 existing MainGame._ending_run_summary returns and their ending finale caption consumer. Won goal 30 billion, first year versus five years, million subscribers rather than currency, startup equity exit rather than whole-company sale or game termination, reputation versus assets and social circles retained. Father alive/reconciliation/debt recovery, family and Gangnam both retained, named cast Romanizations and branch-specific past-life memory preserved without inventing death, resurrection or new loans. Separate existing quantity-parser repair completed before acceptance; no source, runtime or ending route changed. Agent comparison only, not native or rendered approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "6715f9b083c252af87dc4fa5fcf521fc71f0cb7775f87236eb634f38e04ff040",
+        "zh-TW": "9d515b047da5bac952aa7e5155253de6ded7fa041e93445169c9cc1ff0a04dd9"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "19baf918492f267c41d47d7d0c71f2bdd04058ae",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "0797cb91d4eddd1b7117223b86b92c45498bc510762091168f7c431fc0ec156e",
+          "count": 20,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "3dc8446cac4d3449da9e798da4a0349d6c3070dc7331015ee0f29d9f86aea05c"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "19baf918492f267c41d47d7d0c71f2bdd04058ae",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b7d4a4a0418151a18274c73e702d1e149a91c7a11611bece742b3e143acbd2ea",
+          "selection_sha256": "b111bab6c9deea995d096fa9787475f65c3502e28d512d6de7d0410764f966db",
+          "count": 20,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "329e3dee1880eb10907838bbd95c67fcf9b73777740ec6b5f48078103b63960f"
+        }
+      }
     }
   ],
   "accepted": {
@@ -123104,6 +123172,86 @@
       "ui:확인한 월말 수첩 상태는 이미 고정했습니다. 저장이 끝나기 전에는 다음 달을 열지 않습니다.:/확인한 월말 수첩 상태는 이미 고정했습니다. 저장이 끝나기 전에는 다음 달을 열지 않습니다.": {
         "source_sha256": "e2f22474a64919fdc6941385606362eb9855be29def8bf3d6cbffe3feac2f16b",
         "target_sha256": "198a512fe0612d6ba5b60d10d5560ebf57aaee0d929e6d871b345b9f4d8bb88e"
+      },
+      "ui:30억보다 소중한 것을 알게 됐다. 그게 다은이었다.:/30억보다 소중한 것을 알게 됐다. 그게 다은이었다.": {
+        "source_sha256": "04588ca0154a0948dfba97adff99a5f2d1a4a641ad5424e665d2b2cf05c970ac",
+        "target_sha256": "43924625d03717d43dd466b956a2a7fbe633e11f6ba4d1029fc4f2d0c510ff3a"
+      },
+      "ui:30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.:/30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.": {
+        "source_sha256": "a2718072e2ba88820ca08c50fb48fc75693b50c95d2ed5ba1593a68390260305",
+        "target_sha256": "b9cbfe2fe22d3ee1acc8fd1a8530f2011a1ea15157bed339b811a9ec9e6c59f1"
+      },
+      "ui:5년의 고군분투 끝에 강남드림을 이뤘다:/5년의 고군분투 끝에 강남드림을 이뤘다": {
+        "source_sha256": "bfab3a4f7747a67e656369193bf9d13a56bd44aa14d1e0b81f8e9c767c6a893e",
+        "target_sha256": "21beb9f298cae330f2a568583b094af37abffa89a5cc0b52189d6ad95c7c9ace"
+      },
+      "ui:가장 정직한 길이 결국 가장 높은 곳으로 이어졌다:/가장 정직한 길이 결국 가장 높은 곳으로 이어졌다": {
+        "source_sha256": "ef4868d2dbef8c2b7031cbac0f4f34ab2b336fb9cbe19dc43655118639f59833",
+        "target_sha256": "f8f3a97dad08a8e01061196ba822a54d62a890f8502f72bb69499f67e2708633"
+      },
+      "ui:강남은 아직 없었다. 하지만 아버지가 살아있었다.:/강남은 아직 없었다. 하지만 아버지가 살아있었다.": {
+        "source_sha256": "0964fc8d2777ffacaf710ca75219835061d966566bc358d1a7df91e66958ab9e",
+        "target_sha256": "cdcedd1b3d44b4c756e1aaa6fcf75102331b7ca119d34be391f4aa055ac7bb27"
+      },
+      "ui:강남은 포기했다. 대신 아버지를 빚에서 해방시켰다.:/강남은 포기했다. 대신 아버지를 빚에서 해방시켰다.": {
+        "source_sha256": "b769edf72350873b34f5022a72a20fb75177a3908e146d232dc832da3571f74f",
+        "target_sha256": "bd6f81e208027c6b976196601cda8f4a5618e9bab19bb8635f03686994094a96"
+      },
+      "ui:강남이 아닌 더 높은 곳으로 — 정계에 발을 들였다:/강남이 아닌 더 높은 곳으로 — 정계에 발을 들였다": {
+        "source_sha256": "7b1d11267fa06c205fe59ff215717279e03058f027a49abc6e3c7bda6a8bf2ec",
+        "target_sha256": "27107dd876958188eb45ffa96b98c3d41ec732ca22dc8b619bdcc85f7cc3e56a"
+      },
+      "ui:고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다:/고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다": {
+        "source_sha256": "ef46676cf7cbfe2b179f94de8ad931c7939726b6d7c63b7a6caead606ad3482b",
+        "target_sha256": "3d7c74bdde7c96e53736be002a815a2a235833d5e0da3cb0761a790c3cb2688d"
+      },
+      "ui:구독자가 100만을 넘은 날, 강남보다 더 넓은 세계가 열렸다:/구독자가 100만을 넘은 날, 강남보다 더 넓은 세계가 열렸다": {
+        "source_sha256": "6a5b5f5bcef416c3945e1e5f3a7ae9574f0a7a347a809d1704b01755679da4ac",
+        "target_sha256": "f87fe206d18e368df453b65231e8fc9238a114188ced726fd6386ce581d78ae1"
+      },
+      "ui:그렇게 5년이 지나갔다:/그렇게 5년이 지나갔다": {
+        "source_sha256": "fb8f93ada87ef2945add5e7cfeab048d3cbd616da54c09d6e0c379f70d9eedea",
+        "target_sha256": "ec8941ab2bbf56330872a315d2a3c8dc51227fc388179e3dcbdf665556248eaf"
+      },
+      "ui:다른 세계의 사람이 그를 선택했다. 강남은 그렇게 왔다.:/다른 세계의 사람이 그를 선택했다. 강남은 그렇게 왔다.": {
+        "source_sha256": "2c896366499e21e001c5bc07713d696d99007c53cb4d58024392066c8fffece0",
+        "target_sha256": "3250cc723874a73a681b386b69d3bc37f6840214e50053ded307b5d9b12f590b"
+      },
+      "ui:다은과 함께 강 너머 강남의 불빛을 본다. 이번엔 혼자가 아니다.:/다은과 함께 강 너머 강남의 불빛을 본다. 이번엔 혼자가 아니다.": {
+        "source_sha256": "4979dfe9acc2349114d9162db9de43a6a1991583926250eea59f5c5b9962b2d3",
+        "target_sha256": "3a63c1ac407a9dfe491412e8ec28d2439ceef27f32eccaa9cd0f01c31f0da6e3"
+      },
+      "ui:도박의 문 앞에서 멈췄다. 전생의 기억이 발을 붙잡았다.:/도박의 문 앞에서 멈췄다. 전생의 기억이 발을 붙잡았다.": {
+        "source_sha256": "cc86e61344b4264ddb2e8ac770571041cf88c0dc7dab17feca5e1a3564817acb",
+        "target_sha256": "f525680eb6e03aa0b0f64e60470ca2081061aa7aaf2872c64d5678d3f49f6c3b"
+      },
+      "ui:돈이 돈을 버는 법을 깨달았다 — 투자의 달인:/돈이 돈을 버는 법을 깨달았다 — 투자의 달인": {
+        "source_sha256": "9aa91a4fcb305b25d2e131505f44f77fa8d650958cd565a860ec7214cc89119d",
+        "target_sha256": "c591893f412add1b2bc1242b467741d1dad2aee76ad92cb0ec09bfabf73fc20b"
+      },
+      "ui:모두가 실패라 했던 방식으로 서울을 뒤집었다:/모두가 실패라 했던 방식으로 서울을 뒤집었다": {
+        "source_sha256": "b018a3b936f91b4a8e7baf0db5ef5efc19b58146ec9e47cfbda3aaad2099d7e8",
+        "target_sha256": "51ad1b3184ec729fe37c41368f74a0a0b31a81cf8c6649575c10c1d4ca01d154"
+      },
+      "ui:임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.:/임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.": {
+        "source_sha256": "764fe6651e2c1449e6f59b2dafb49e254f5910dec8e45f3426a40070fd0bbced",
+        "target_sha256": "632a0cfd1e87760698a66d7f605de28c4c6cfb6a8cfe6df4651e5a811ee08a2c"
+      },
+      "ui:자산보다 이름이 먼저 강남에 닿았다:/자산보다 이름이 먼저 강남에 닿았다": {
+        "source_sha256": "a0d3c2c68122f77e3fc971011de7a7114e29bdaa25ae72576dd3e85c0a6ec856",
+        "target_sha256": "5545dd9e2667972f9638229a0938af7380b9143ac4f4c5da3767c75f85da11aa"
+      },
+      "ui:작은 아이디어 하나가 강남드림으로 이어졌다:/작은 아이디어 하나가 강남드림으로 이어졌다": {
+        "source_sha256": "83ac0fa216acbf6fd95d4ce7eb7ffeab94be9386b16ed49f80ec6d23b565fb54",
+        "target_sha256": "191d0f6c460a15490b65f5253c693af51943ea45dfc9b6084e6ce6bd2946efd3"
+      },
+      "ui:작은 아이디어 하나가 첫 엑싯으로 이어졌다:/작은 아이디어 하나가 첫 엑싯으로 이어졌다": {
+        "source_sha256": "7029e6b05ff013dd7f5ce3cf077533e10eb78035e2acc783f3fb66516462cc20",
+        "target_sha256": "c9f8e84486c1d0a33e86e5e59d95e5058cb7f74c666840c22525fe2be6b8d864"
+      },
+      "ui:화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다:/화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다": {
+        "source_sha256": "fb69913a27752b83a2a5dd594cb27d5c901f4fa278eef21471ae930de22e30df",
+        "target_sha256": "83870e82ee892831c863923ff30868776550d723639028e0ec1cec26345c78aa"
       }
     },
     "zh-TW": {
@@ -181302,10 +181450,90 @@
       "ui:확인한 월말 수첩 상태는 이미 고정했습니다. 저장이 끝나기 전에는 다음 달을 열지 않습니다.:/확인한 월말 수첩 상태는 이미 고정했습니다. 저장이 끝나기 전에는 다음 달을 열지 않습니다.": {
         "source_sha256": "e2f22474a64919fdc6941385606362eb9855be29def8bf3d6cbffe3feac2f16b",
         "target_sha256": "41e6834a7833863a715f02a61716f3e5c70c6acf68698501e103f94044704388"
+      },
+      "ui:30억보다 소중한 것을 알게 됐다. 그게 다은이었다.:/30억보다 소중한 것을 알게 됐다. 그게 다은이었다.": {
+        "source_sha256": "04588ca0154a0948dfba97adff99a5f2d1a4a641ad5424e665d2b2cf05c970ac",
+        "target_sha256": "fe68baa3dbb1d615fd507d0fbbcce74f9d3cb6237189e69d14377dc509d05397"
+      },
+      "ui:30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.:/30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.": {
+        "source_sha256": "a2718072e2ba88820ca08c50fb48fc75693b50c95d2ed5ba1593a68390260305",
+        "target_sha256": "7e5cef4f547680e171076f91c44d2fd3375e113aee1d7c2423410669a71a2663"
+      },
+      "ui:5년의 고군분투 끝에 강남드림을 이뤘다:/5년의 고군분투 끝에 강남드림을 이뤘다": {
+        "source_sha256": "bfab3a4f7747a67e656369193bf9d13a56bd44aa14d1e0b81f8e9c767c6a893e",
+        "target_sha256": "d3e92f2649edd6c1dcc66a8cd6c8ceffeec0edf16f88fbe80abd2f322e0144ba"
+      },
+      "ui:가장 정직한 길이 결국 가장 높은 곳으로 이어졌다:/가장 정직한 길이 결국 가장 높은 곳으로 이어졌다": {
+        "source_sha256": "ef4868d2dbef8c2b7031cbac0f4f34ab2b336fb9cbe19dc43655118639f59833",
+        "target_sha256": "2d093609bca30831833c8ae663e6b919907c381f270b9b71db87d6c98eb9b414"
+      },
+      "ui:강남은 아직 없었다. 하지만 아버지가 살아있었다.:/강남은 아직 없었다. 하지만 아버지가 살아있었다.": {
+        "source_sha256": "0964fc8d2777ffacaf710ca75219835061d966566bc358d1a7df91e66958ab9e",
+        "target_sha256": "81a0abfd854454de8ad27152d07d50a51a7c8a736cd58193638322e0e2d98957"
+      },
+      "ui:강남은 포기했다. 대신 아버지를 빚에서 해방시켰다.:/강남은 포기했다. 대신 아버지를 빚에서 해방시켰다.": {
+        "source_sha256": "b769edf72350873b34f5022a72a20fb75177a3908e146d232dc832da3571f74f",
+        "target_sha256": "5da977ca2f63f9f09c5568d116b82aaa42a642c35fa3450b85bfe5ec69fcfaef"
+      },
+      "ui:강남이 아닌 더 높은 곳으로 — 정계에 발을 들였다:/강남이 아닌 더 높은 곳으로 — 정계에 발을 들였다": {
+        "source_sha256": "7b1d11267fa06c205fe59ff215717279e03058f027a49abc6e3c7bda6a8bf2ec",
+        "target_sha256": "2904763c069004ad1ae8fbe05ef74031b36f873a153f35c5dcd89d4e3d3a8281"
+      },
+      "ui:고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다:/고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다": {
+        "source_sha256": "ef46676cf7cbfe2b179f94de8ad931c7939726b6d7c63b7a6caead606ad3482b",
+        "target_sha256": "70e91bc71bf56848a7f988bda6eae242f9f8d883604d71de0d6e57c3660431a7"
+      },
+      "ui:구독자가 100만을 넘은 날, 강남보다 더 넓은 세계가 열렸다:/구독자가 100만을 넘은 날, 강남보다 더 넓은 세계가 열렸다": {
+        "source_sha256": "6a5b5f5bcef416c3945e1e5f3a7ae9574f0a7a347a809d1704b01755679da4ac",
+        "target_sha256": "6b2a80d48f8e25f117622e8d53b667c375677c4b7b3512c52b263b4585ab4424"
+      },
+      "ui:그렇게 5년이 지나갔다:/그렇게 5년이 지나갔다": {
+        "source_sha256": "fb8f93ada87ef2945add5e7cfeab048d3cbd616da54c09d6e0c379f70d9eedea",
+        "target_sha256": "54bfd66376157998a4fa0d3edc5cd895a1aa8a066a4817aee5c17f011afe4918"
+      },
+      "ui:다른 세계의 사람이 그를 선택했다. 강남은 그렇게 왔다.:/다른 세계의 사람이 그를 선택했다. 강남은 그렇게 왔다.": {
+        "source_sha256": "2c896366499e21e001c5bc07713d696d99007c53cb4d58024392066c8fffece0",
+        "target_sha256": "a89f4fac08834a0323511577262bbc7ffb63abd09c0bb1c6412d23bf6060d6a4"
+      },
+      "ui:다은과 함께 강 너머 강남의 불빛을 본다. 이번엔 혼자가 아니다.:/다은과 함께 강 너머 강남의 불빛을 본다. 이번엔 혼자가 아니다.": {
+        "source_sha256": "4979dfe9acc2349114d9162db9de43a6a1991583926250eea59f5c5b9962b2d3",
+        "target_sha256": "2821bcb70d9e1bf8f301182c20bf5a61cd95c3d886d3c8328c7a177f52a38253"
+      },
+      "ui:도박의 문 앞에서 멈췄다. 전생의 기억이 발을 붙잡았다.:/도박의 문 앞에서 멈췄다. 전생의 기억이 발을 붙잡았다.": {
+        "source_sha256": "cc86e61344b4264ddb2e8ac770571041cf88c0dc7dab17feca5e1a3564817acb",
+        "target_sha256": "b1b44a84832c0c27f82025a02262316d9016ba1e99dc6962a817457487161f11"
+      },
+      "ui:돈이 돈을 버는 법을 깨달았다 — 투자의 달인:/돈이 돈을 버는 법을 깨달았다 — 투자의 달인": {
+        "source_sha256": "9aa91a4fcb305b25d2e131505f44f77fa8d650958cd565a860ec7214cc89119d",
+        "target_sha256": "8c9fe2f81a6416ce0b7b382853af974b0e481da1d9897ba94c47b7d4073e2426"
+      },
+      "ui:모두가 실패라 했던 방식으로 서울을 뒤집었다:/모두가 실패라 했던 방식으로 서울을 뒤집었다": {
+        "source_sha256": "b018a3b936f91b4a8e7baf0db5ef5efc19b58146ec9e47cfbda3aaad2099d7e8",
+        "target_sha256": "231f37b3ff6d43a7d3e238f2de034a9ef13a9343be0d82e3ea8798c1a4f89f6b"
+      },
+      "ui:임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.:/임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.": {
+        "source_sha256": "764fe6651e2c1449e6f59b2dafb49e254f5910dec8e45f3426a40070fd0bbced",
+        "target_sha256": "87d15aa198e49358ebb5ab9bea095c41af7e074b30616aa18aac1f876dd2e3d6"
+      },
+      "ui:자산보다 이름이 먼저 강남에 닿았다:/자산보다 이름이 먼저 강남에 닿았다": {
+        "source_sha256": "a0d3c2c68122f77e3fc971011de7a7114e29bdaa25ae72576dd3e85c0a6ec856",
+        "target_sha256": "ef7bf1990f0f2a2ff7406320a185adeefc36b5d4a5fa70ca755bd2c71fef619c"
+      },
+      "ui:작은 아이디어 하나가 강남드림으로 이어졌다:/작은 아이디어 하나가 강남드림으로 이어졌다": {
+        "source_sha256": "83ac0fa216acbf6fd95d4ce7eb7ffeab94be9386b16ed49f80ec6d23b565fb54",
+        "target_sha256": "a33338caa31255bdc3fe96d013da8125342151557ff72abed7782e09231bef60"
+      },
+      "ui:작은 아이디어 하나가 첫 엑싯으로 이어졌다:/작은 아이디어 하나가 첫 엑싯으로 이어졌다": {
+        "source_sha256": "7029e6b05ff013dd7f5ce3cf077533e10eb78035e2acc783f3fb66516462cc20",
+        "target_sha256": "ce5b0491ab4506676dd9d3bcc48f94053dd214e8776814076e9c36ae74f59538"
+      },
+      "ui:화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다:/화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다": {
+        "source_sha256": "fb69913a27752b83a2a5dd594cb27d5c901f4fa278eef21471ae930de22e30df",
+        "target_sha256": "d117dab329c17fadf9b9fd3611e5e2c8ae746a1d2573914531b0ea07ea35e69d"
       }
     }
   },
-  "accepted_sha256": "44d05f681f4ab5f802bd3b88838f4fe8de68fa6b140f85e95da63e9cf279fea9",
+  "accepted_sha256": "00d2325c0cfaab658fed2953104b53155da2f817c6fb63ddcadf103a2305d5eb",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
