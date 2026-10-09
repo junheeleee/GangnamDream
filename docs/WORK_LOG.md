@@ -2,6 +2,13 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)과 [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 중국어 투자 거래·예측34값 수용 (507)
+
+- 투자시스템 KO17키/CN·TW34값을 지역별 KO직접 병렬저작·비저자 전수검수했다. 실패8·거래로그3·예측5는 실제독자16키, 성공반환1은 MainGame 별도toast 때문에 packaged 수용만 구분했다. 매수 투입현금/매도 정산대금·부호손익·레버리지 현금과두배포지션·성장주/예측불확실성·토큰 보존, retouch0이다. 선언acb5d4a → 제품d855006bf81e1d5d47ded2db94ac01f7c36ea4ce main commit/push 완료다.
+- 공식export/check/import17씩·원header/receipt2·current source-target34·기존4파일raw 역상PASS. accepted42411→42445/batch301→302/UI2087→2104씩·JA3055불변, CN/TW legacy1879/2952/context29/29/dynamic150/701·전체INCOMPLETE다. 원receipt SHA전문은 [507 완료 사양](queue_archive/ORDER-507.md)에 남겼다.
+- 비저자 phone_independent_review actual Git current_proof(base34f645c→d855006)는 제품전이1·34receipt/배치1·선언Git/current manifest f971c719… 일치GO·blocking0이다. runtime/InvestmentSystem/GameState/LocaleManager/project/JA/Audio 실제blob 불변. 선언 새사양 끝빈줄1이 baseline diff-check에서 발견되어 전체PASS로 기록하지 않고 마감archive에서 제거했다. 제품diff는PASS다.
+- EN/Hangul·JA UI·ZH·i18n·multilingual·공개storydemo·legacy demo 영향8검사PASS. 개발 스킬의 선선언·독립저작/비저자검수·원장/raw·표적검증 적용, 새규범0/일회성·새검사/이력/계측/재사용도구·형식보고0이다. 게임원문/기존번역/경제/저장·공개M01~M06·shipping language·역사인간판정 불변. 이전25c2cc39 CI37916871377 녹색확인·최신CI대기, 실제화면/입력/청취·원어민/물리패드 OPEN·출시HOLD다.
+
 ## 2026-10-09 — 레버리지 성공 알림의 중복 배수 표시 수리 (506)
 
 - 투입현금20만원의 노출액40만원에 다시×2를 붙이던 성공toast를 20만원×2로 고쳤다. MainGame 미사용local1줄 삭제·표시인자1개만, 현금/수수료/수량/35%청산·producer 반환 exposure·주간 영수증은 불변이다. 선언0b11e79 → 제품e1acd2b8d116bd6aa03df441451940ba42138221 main commit/push. 기존 fixture30표본에 실제 성공10/실패15/주간owner5를 더했다.

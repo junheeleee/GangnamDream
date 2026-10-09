@@ -1,6 +1,6 @@
 # ORDER-507 — 중국어 투자 거래·예측 UI17키
 
-#### [~] ORDER-507 [전체 현지화] CN/TW 기존 UI34값 — 2026-10-09
+#### [x] ORDER-507 [전체 현지화] CN/TW 기존 UI34값 — 2026-10-09
 
 착수 — 만지는 파일: locale/ui_zh-CN.json·ui_zh-TW.json 신규17키씩,
 content/meta/full_game_localization.json 해당34영수증·배치1. 운영 파일은
@@ -42,3 +42,31 @@ project.godot·사용자 저장·shipping language·공개M01~M06·역사 인간
 개발 스킬의 선선언·현지화 프로필·독립 지역 저작/비저자 검수·표적검사를 적용한다.
 새규범0·범위/절차는 일회성이다. 자동PASS는 재미·원어민/사람GO가 아니다.
 
+## 수용 결과 — 정적 거래 소비자 번역 한정 GO
+
+선언acb5d4ace8eff6cb2066aa64948882c0c8e84131 →
+제품d855006bf81e1d5d47ded2db94ac01f7c36ea4ce main commit/push.
+KO17·CN/TW34값 지역별 직접 병렬 저작·비저자 전수검수 GO·retouch0이다.
+선정17키는 producer 호출17회다. 실패8/거래로그3/예측5의16키는 실제 reader가 있으며,
+매수완료1은 성공반환만 있고 MainGame이 별도toast를 써 packaged 수용만 세었다.
+일반 매수액=투입현금, 매도=정산대금/부호손익, 레버리지 투입금과 두 배 포지션,
+성장주와 예상/권장/주의의 불확실성·원화·토큰순서를 보존했다.
+
+공식export/check/import17씩·원header/SHA2·current source/target34·기존4파일raw 역상PASS.
+원receipt CN6107f76aa718067ce60b07b93c1ea22fbb4b707bce12447d28d9b117f6d5e129,
+TW768b66ee4155f8923bae106a3ab438f7d0fea541ddf7dda845990861e82af670.
+accepted42411→42445/batches301→302/UI2087→2104씩·JA3055불변,
+CN/TW legacy1862→1879/2952/context29/29/dynamic150/701·전체INCOMPLETE다.
+역사 header/영수증·기존8키·runtime/경제/저장/공개M01~M06/project 불변이다.
+
+비저자 phone_independent_review actual Git current_proof(base34f645c→d855006)
+제품전이1·34receipt·배치1·선언acb5d4a/current source manifest f971c719… 일치GO다.
+KO17/실제독자/34번역/공식header·receipt·기존raw 모두 직접 읽었고 blocking0이다.
+EN/Hangul·JA UI·ZH·i18n·multilingual·공개storydemo·legacy demo 영향8검사 PASS.
+선언의 새사양 끝 빈줄1을 비저자가 baseline diff-check에서 발견했다.
+제품diff는PASS였으나 전체PASS로 확대하지 않았고 이 archive 전환에서 빈줄을 제거했다.
+
+개발 스킬의 선선언·독립 지역 저작/비저자 검수·기존 원장·표적검증 적용.
+새규범0/일회성·새 검사/이력/계측/재사용 도구·형식보고0이다.
+직전25c2cc39 CI37916871377 녹색 확인·최신main CI대기,
+실제폭/입력/청취·원어민/물리패드 OPEN·전체번역 INCOMPLETE·출시HOLD다.
