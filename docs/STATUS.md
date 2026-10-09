@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-10-09 22:03 UTC · 8c3cfffd`
+> 생성 시각 · 커밋: `2026-10-09 22:15 UTC · 8b4ee0eb`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -116,7 +116,7 @@
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
 | `ORDER-149` | 프롤로그 세 비트의 강조·리듬 | 진행 | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
-| `ORDER-521` | cold result 이름표 복원 | 진행 | 실제 저장·문단 재개3항목 GO · 이름표 REWORK/source 수리 착수 |
+| `ORDER-522` | 이름표 수리 로컬 데모 발급 | 진행 | cold result 이름표 source GO · 새 앱 발급 착수 |
 | `ORDER-302` | 체험판 대본 사실·영어 정합 수리 | 진행 | 수리7항목 source GO · 실제 저장·재개3항목 GO/나머지 HOLD |
 | `ORDER-352` | 본편 5장 대본 이름·시간·회수 정합 | 미착수 | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 | `ORDER-212` | 선택의 나비효과·친절의 연쇄 번역 | 진행 | 432번역 L1/L2 · L3 OPEN |
