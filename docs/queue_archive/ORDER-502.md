@@ -1,6 +1,6 @@
 # ORDER-502 — 중국어 인연 에필로그·다음 삶 힌트16키
 
-#### [~] ORDER-502 [전체 현지화] CN/TW 기존 엔딩 UI32값 — 2026-10-09
+#### [x] ORDER-502 [전체 현지화] CN/TW 기존 엔딩 UI32값 — 2026-10-09
 
 착수 — 만지는 파일: locale/ui_zh-CN.json·ui_zh-TW.json 신규16키씩,
 content/meta/full_game_localization.json 해당32영수증·배치1. 운영 파일은
@@ -44,3 +44,26 @@ Mac잠금으로 실제폭/입력 미관찰이며 원어민·물리패드 OPEN·�
 project.godot·사용자 저장·shipping language·공개M01~M06·역사 인간판정 불변.
 개발 스킬의 현지화 프로필·선선언·독립 지역 저작·비저자 검수·표적검사를 적용한다.
 새규범0·위 절차/배치 범위는 일회성이다. 자동PASS는 재미·원어민/사람GO가 아니다.
+
+## 수용 결과 — 2026-10-09 / 정적 소비자 번역 한정 GO
+
+선언b1e65023 → 제품010ece9ff19ce201f281d76a745d21cf66e7b931 main commit/push.
+KO16/실제소비자16/CN·TW32값을 직접 지역별 저작하고 비저자 전수 대조했다.
+월2통화 검사 오탐만 별도504에서 수리한 뒤 정상 문안을 공식 수용했다.
+공식 export/check/import16×2·원header/SHA2·current source/target32와 기존
+4파일 raw 역상 PASS. accepted42293→42325/batches297→298/UI2030→2046씩,
+JA3055 불변, CN/TW legacy1805→1821/2952/context29/29/dynamic150/701다.
+원영수증 CN a0351054f8a99afe5ca249529553fb7aa39fdd0e3bacd882406bcce9c9890f94,
+TW 0d509561a1239cf1dee8c923691566fc473cca6cb7f4a20ec51e1d8a66c4f32f다.
+
+비저자 phone_independent_review actual Git current_proof(base fedae9d1→제품
+010ece9)는 제품전이1·JA0/CN16/TW16·32receipt/배치1·선언b1e65023/current
+manifest b7d4 일치GO·blocking0이다. 중간504 tool/ops를 UI전이에 섞지 않았다.
+HEAD 제품3파일+생성STATUS5줄만·clean/origin동기다. EN/Hangul·JA UI·ZH·i18n·
+multilingual·공개storydemo·legacy demo 표적8검사 및 context/queue/diff PASS.
+
+기존 번역/JA/원장 metadata·게임원문/엔딩동작/저장/project·공개M01~M06·
+shipping language·과거 인간판정 불변. 새규범0/절차 일회성이다. 개발 스킬의
+선선언·독립 지역 저작/비저자 검수·기존 원장·표적 검증을 적용했다.
+현재 전체 INCOMPLETE/CI진행 중·실제화면/원어민/물리패드 OPEN·출시 HOLD다.
+다음은 발견된 기존 일본어4오역과 원장 설명의30억 단위 오타를 별도503으로 다룬다.

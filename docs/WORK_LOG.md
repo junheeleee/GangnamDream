@@ -2,6 +2,13 @@
 
 이전 기록은 [검수 재사용 선언 전 보존본](history/WORK_LOG_2026-10-08_pre_order486.md)과 [484~490 보존본](history/WORK_LOG_2026-10-09_pre_order491.md)에 남겼다. 보존본의 상대 링크는 이동 전 경로 기준이며 원문 바이트를 보존했다.
 
+## 2026-10-09 — 중국어 인연 후일담·다음 회차 힌트32값 수용 (502)
+
+- MainGame._ending_cast_epilogue의 아버지8/지연5와 _ending_next_run_hints의3 기존 소비자를 CN/TW에서 KO 직접 지역별 병렬 저작·비저자32값 전수 대조했다. 생존/사망/미연락, 거래·빈 병실·월2통화·1시간 지각·창원1방문·5년 지연, 지연의 연애/존중/상처/거리, NG+ 조건·최대3노출·가능성과 수신/발신 차이를 보존했다. 선언b1e65023 → 제품010ece9ff19ce201f281d76a745d21cf66e7b931 main commit/push다.
+- 공식check/import16씩·원header/SHA2·current source/target32·기존4파일 raw 역상 PASS. accepted42293→42325/batch297→298/UI2030→2046씩·JA3055 불변, CN/TW legacy1805→1821/2952/context29/29/dynamic150/701·전체 INCOMPLETE다. 영수증 전문은 [502 완료 사양](queue_archive/ORDER-502.md)에 남겼다.
+- 비저자 phone_independent_review actual Git current_proof(base fedae9d1→010ece9)는 제품전이1·32receipt/배치1·선언b1e65023/manifest b7d4 일치GO·blocking0이다. 중간504 검사 수리를 UI전이에 섞지 않았다. EN/Hangul·JA UI·ZH·i18n·multilingual·공개/legacy demo 영향8검사/context/queue/diff PASS. 생성STATUS도 제품커밋에 함께 반영했다.
+- 개발 스킬의 선선언·독립 지역 저작/비저자 검수·기존 원장·표적 검증 적용. 새 검사/계측/재사용 도구·형식 보고0·새규범0/일회성이다. 게임원문/분기/저장/project·기존 번역/JA·공개M01~M06·shipping language·역사 인간판정 불변이다. 최신 main CI진행 중·Mac잠금/실제화면·원어민/물리패드 OPEN·출시 HOLD다. 확인된 기존 일본어4오역·원장 설명 단위 오타를 다음 별도503으로 다룬다.
+
 ## 2026-10-09 — 월간 통화 빈도 중국어 검사 오탐 수리 (504)
 
 - 502의 올바른 每个月/每個月 두 통화를 기간1개월로 오독하던 기존 monthly_frequency 분류를 수리했다. 선언7dbf84a → 제품fa57a72 main commit/push·tool1파일18+/2-다. 월간 간격과 독립 횟수를 분리하며 일반 한 달 기간·금액·잘못된 횟수/간격 거부는 유지했다. 게임원문/번역/원장/runtime/저장 변경0이다.
