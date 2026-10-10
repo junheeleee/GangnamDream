@@ -617,7 +617,7 @@
   {
     "id": "arc_first_job_week",
     "title": "First Week on the Job",
-    "description": "One week since starting the job.\n\nThe manager asked, \"Getting used to it?\" Said, \"Yes, all good.\"\n\nNot exactly a lie. But every morning waking up at 7:30 — there's a flicker of \"is this right?\"\n\nThree weeks until payday.",
+    "description": "He kept taking the same route to work.\n\nThe manager asked, \"Getting used to it?\" \"Yes, it's going well,\" he said.\n\nIt wasn't a lie. But every morning, waking at 7:30, he wondered for a moment: was this right?\n\nHe checked the month-end payday on his phone, then reset the alarm for the next morning.",
     "choices": [
       {
         "text": "This is the best option right now — hang in there.",
@@ -636,7 +636,7 @@
   {
     "id": "arc_first_job_week_convenience",
     "title": "First Week on the Night Shift",
-    "description": "The first week on the job was over. At 2 AM, the manager was gone. Only the refrigerator motors and microwave chimes took turns breaking the silence.\n\n{name} checked the shift sheet taped beneath the counter. Three hours until relief. Three weeks until the first paycheck.\n\nEvery time the door opened, he straightened. Every time it closed, time slowed again. A steady income had arrived, and the nights had grown longer with it.",
+    "description": "He was gradually getting used to the night shift. At 2 AM, the manager was gone. Only the refrigerator motors and microwave chimes took turns breaking the silence.\n\n{name} checked the shift sheet taped beneath the counter. Three hours until relief. Pay came at the end of the month.\n\nEvery time the door opened, he straightened. Every time it closed, time slowed again. A steady income had arrived, and the nights had grown longer with it.",
     "choices": [
       {
         "text": "This is the best option right now — make it to the handoff.",
@@ -655,7 +655,7 @@
   {
     "id": "arc_first_job_week_delivery",
     "title": "First Week Delivering",
-    "description": "One week into delivery work, the alleys on the map had become familiar. His phone battery and knees ran down faster every day.\n\nAt a red light, {name} checked the week's pending payout. A few days remained before the first deposit. The next order appeared immediately.\n\nHis thumb hovered over Accept. Resting stopped the money. Riding wore down the body.",
+    "description": "As he made deliveries, the alleys on the map had become familiar. His phone battery and knees ran down faster every day.\n\nAt a red light, {name} checked the month's pending payout. Deposits came at month-end. The next order appeared immediately.\n\nHis thumb hovered over Accept. Resting stopped the money. Riding wore down the body.",
     "choices": [
       {
         "text": "This is the best option right now — accept the next order.",

@@ -12927,6 +12927,89 @@
         "zh-CN": "56be818a145dd56af9acfd1a82dc89c55b57e6b140afb802c53adffef1dfe343",
         "zh-TW": "67684018b8edddab90abb2d8c6c1c24ca51e1e449b13d027fd7b7553990bcbca"
       }
+    },
+    {
+      "order": "ORDER-539",
+      "group": "events_correction",
+      "roots": [
+        "arc_first_job_week",
+        "arc_first_job_week_convenience",
+        "arc_first_job_week_delivery"
+      ],
+      "source_leaves": 3,
+      "prior_acceptance": "existing",
+      "before_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_first_job_week:/description": "976146fbe9763542c5f08c84e995d65b1a9a15ad37c5faf35556f1b169abbdff",
+          "events:arc_first_job_week_convenience:/description": "66a90c298c7559a543c9e9f1fa6890d44e8718eb879a46b2ef856a49c95bb564",
+          "events:arc_first_job_week_delivery:/description": "235e09870c3ed0cf61a1b9b135865ba2455a82b45740a99ada68be24ce5f0cae"
+        },
+        "zh-CN": {
+          "events:arc_first_job_week:/description": "b3fa92942894b6e160a4da9920f916cfa2fda860ae69c06607767180504c3b74",
+          "events:arc_first_job_week_convenience:/description": "ce51d98c68ca5a87129b26c35fdc7e9cdfd1450e778d5b93cf9022cb15351b23",
+          "events:arc_first_job_week_delivery:/description": "bdca371520a3659f83987612a232b2c4b815aa44f5129cf8069438cbc2fae87f"
+        },
+        "zh-TW": {
+          "events:arc_first_job_week:/description": "801986446bb466ba755ea81de9a917550fafd787d996349434b43b1c60d2c5c3",
+          "events:arc_first_job_week_convenience:/description": "d83efecb312e8f9c51aeefeff2520115185f10627efbd3e17a4b6d46856adf32",
+          "events:arc_first_job_week_delivery:/description": "5f451af2fe576a55b80d1baf22d5419a95e667f0af426b33c391762d462c40d6"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 3,
+        "zh-CN": 3,
+        "zh-TW": 3
+      },
+      "source_review": "Korean-direct correction of three existing first-work descriptions in each locale. Actual scene eligibility does not prove seven elapsed days or an unpaid first salary. Remove fixed weeks/days until payday and weekly delivery payout; preserve commute, night-shift handoff, fatigue, dialogue, paragraph structure and placeholders. Month-end pay matches the existing payroll owner without changing gameplay, income, choices, results or routing. Export source_revision is the declaration HEAD, not the commit containing the revised Korean; exact live source manifest and leaf hashes bind the final candidate. No new coverage. Original batches and public demo are unchanged. Agent source comparison only; rendered and native review remain OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "980e79379f68a77b0ab2d1d9a0bf6f8d014ee63c",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3dc1e7e1a69e6e9166699199d776edecda3e000d8e2c07af586a2730cd029aab",
+          "selection_sha256": "be5ad9dba81f0510cdc16facde5bd430e8aaf18069ad240efb9c7562a5251438",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8fd4cb2bcc9aa31060924a4a801c6d09c9f951e87b9178f7dc5845584e6d793c"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "980e79379f68a77b0ab2d1d9a0bf6f8d014ee63c",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3dc1e7e1a69e6e9166699199d776edecda3e000d8e2c07af586a2730cd029aab",
+          "selection_sha256": "fbaf1dab977a606728b40a0cba183c3abd4782a291cc1b945b5b8bb4df6c098d",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2c00013f228ade673148f701bb8affbd3cd3a9fd790bc18f23b5e62cc2085a58"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "980e79379f68a77b0ab2d1d9a0bf6f8d014ee63c",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3dc1e7e1a69e6e9166699199d776edecda3e000d8e2c07af586a2730cd029aab",
+          "selection_sha256": "1708db2ae7cdc0be674228e5f03228acccdbcaecd52b0cc18ca60aa273b2ddb7",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "17da4793288865d4f11a0ddcbeb3c117560c41c6485c87f877c67c98d6396c2a"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "82bdccf37071aaccdbae9997357aa7b67ba8a3144fa8dd55813e4894de4c4a74",
+        "zh-CN": "c14a81fa29f45eb276866afcf0c9a96bbc042da9cd31c522862628372132d5fe",
+        "zh-TW": "59a7dbf8704b720ab255246d978a07e9eb83bbdb1a2c9db454a32fd4a644f75d"
+      }
     }
   ],
   "accepted": {
@@ -61052,8 +61135,8 @@
         "target_sha256": "07a8fd3d5befbe2d269f043d37620eb327b27634bd03b35457cac0c25e6cf9d7"
       },
       "events:arc_first_job_week:/description": {
-        "source_sha256": "d9095694e3b3e982193c3ff294ef958051f38b57b0d2921d088d4969f989ddd4",
-        "target_sha256": "976146fbe9763542c5f08c84e995d65b1a9a15ad37c5faf35556f1b169abbdff"
+        "source_sha256": "fc3538b14057bbbe7e0d5cbd59ac7beea29c6ab2aa87583a0122405e33757230",
+        "target_sha256": "e09ce0ed4422595ee4b8f47b136f3e9076d8cb91948e0eefe2bda46f6222153f"
       },
       "events:arc_first_job_week:/title": {
         "source_sha256": "54403551318309131e8b5c1d1ab0fec5ad902cedfa736351e5626bebfabb63ce",
@@ -61084,8 +61167,8 @@
         "target_sha256": "d7bf115f4e9257b8fc31d36799d6135d194016ccd46b2c9c7d20f87635cb68c8"
       },
       "events:arc_first_job_week_convenience:/description": {
-        "source_sha256": "2a9f3834715ed0993035737485370d2d76add704733b39d6a6ef5565fe5dbd1c",
-        "target_sha256": "66a90c298c7559a543c9e9f1fa6890d44e8718eb879a46b2ef856a49c95bb564"
+        "source_sha256": "6f42fec598a6ff6e2a42cd208d64ad9b87a806e842c6afb63cd3110e27f5c4e8",
+        "target_sha256": "8368236fdeb0a21be8fbdb96b60f02d54fdf2a87b530128bc730fcf82b994799"
       },
       "events:arc_first_job_week_convenience:/title": {
         "source_sha256": "b827ada908b643bb4fc70a32450c25038c0f7b8a793602340c40916f0abd44c0",
@@ -61116,8 +61199,8 @@
         "target_sha256": "91a887f31da61650fffff0536115afaffdb30b7d5bee3f788310ff54ed23346d"
       },
       "events:arc_first_job_week_delivery:/description": {
-        "source_sha256": "a911e6acab8452653ff21134ccd5de3f1f2aa14adda1062465474ed3d298a79c",
-        "target_sha256": "235e09870c3ed0cf61a1b9b135865ba2455a82b45740a99ada68be24ce5f0cae"
+        "source_sha256": "3872bc85c7c4a5a3c2da1c4268698b5789145a972f1ef0d2794c003288d979f0",
+        "target_sha256": "d0e94437f59b440049e362232aa21ececf4e209ca8e9ce3e44af5c4f04b99aaf"
       },
       "events:arc_first_job_week_delivery:/title": {
         "source_sha256": "e238f8c5f611e7d9e50c4d47f8e24290301e5d6faccdd7a8714f745b02f12e5b",
@@ -113698,8 +113781,8 @@
         "target_sha256": "14343f05ab75909a8975ca7f4e98bb1e5a280979ef8679e5f6ed9f3452b48f19"
       },
       "events:arc_first_job_week:/description": {
-        "source_sha256": "d9095694e3b3e982193c3ff294ef958051f38b57b0d2921d088d4969f989ddd4",
-        "target_sha256": "b3fa92942894b6e160a4da9920f916cfa2fda860ae69c06607767180504c3b74"
+        "source_sha256": "fc3538b14057bbbe7e0d5cbd59ac7beea29c6ab2aa87583a0122405e33757230",
+        "target_sha256": "6a9ad6809a4681ce58689d070443c20f175270ebbb1be78dd0e9993e7e0b2961"
       },
       "events:arc_first_job_week:/title": {
         "source_sha256": "54403551318309131e8b5c1d1ab0fec5ad902cedfa736351e5626bebfabb63ce",
@@ -113730,8 +113813,8 @@
         "target_sha256": "258b8eebf30a394d860694826bda1ff44ff8e2e5138bbd33840a981ea2e470b2"
       },
       "events:arc_first_job_week_convenience:/description": {
-        "source_sha256": "2a9f3834715ed0993035737485370d2d76add704733b39d6a6ef5565fe5dbd1c",
-        "target_sha256": "ce51d98c68ca5a87129b26c35fdc7e9cdfd1450e778d5b93cf9022cb15351b23"
+        "source_sha256": "6f42fec598a6ff6e2a42cd208d64ad9b87a806e842c6afb63cd3110e27f5c4e8",
+        "target_sha256": "fcdee7eb7930fdeb183cd835424c9bda1b288c963d9d117792a83771b4bc24cb"
       },
       "events:arc_first_job_week_convenience:/title": {
         "source_sha256": "b827ada908b643bb4fc70a32450c25038c0f7b8a793602340c40916f0abd44c0",
@@ -113762,8 +113845,8 @@
         "target_sha256": "fed451d6a99cf75893a73dc53317e13fe23ba9ca3208565c0c857089aee3a958"
       },
       "events:arc_first_job_week_delivery:/description": {
-        "source_sha256": "a911e6acab8452653ff21134ccd5de3f1f2aa14adda1062465474ed3d298a79c",
-        "target_sha256": "bdca371520a3659f83987612a232b2c4b815aa44f5129cf8069438cbc2fae87f"
+        "source_sha256": "3872bc85c7c4a5a3c2da1c4268698b5789145a972f1ef0d2794c003288d979f0",
+        "target_sha256": "e5f26f8d900b823479540b0878a4651d4f692b1d54bc8690f70c9119adc597ce"
       },
       "events:arc_first_job_week_delivery:/title": {
         "source_sha256": "e238f8c5f611e7d9e50c4d47f8e24290301e5d6faccdd7a8714f745b02f12e5b",
@@ -172484,8 +172567,8 @@
         "target_sha256": "c114c91b0f4a470738ba553cb2479620b48c0bed9b253af0a7b474efb0f26a6b"
       },
       "events:arc_first_job_week:/description": {
-        "source_sha256": "d9095694e3b3e982193c3ff294ef958051f38b57b0d2921d088d4969f989ddd4",
-        "target_sha256": "801986446bb466ba755ea81de9a917550fafd787d996349434b43b1c60d2c5c3"
+        "source_sha256": "fc3538b14057bbbe7e0d5cbd59ac7beea29c6ab2aa87583a0122405e33757230",
+        "target_sha256": "c3ba5dda80fed159c43c5e24d03078309072ae154ede545634804f527cec6780"
       },
       "events:arc_first_job_week:/title": {
         "source_sha256": "54403551318309131e8b5c1d1ab0fec5ad902cedfa736351e5626bebfabb63ce",
@@ -172516,8 +172599,8 @@
         "target_sha256": "51d8f35040dea55e9c00ff721b77a301d82667f48f2b0e842ab703a1af8dfabf"
       },
       "events:arc_first_job_week_convenience:/description": {
-        "source_sha256": "2a9f3834715ed0993035737485370d2d76add704733b39d6a6ef5565fe5dbd1c",
-        "target_sha256": "d83efecb312e8f9c51aeefeff2520115185f10627efbd3e17a4b6d46856adf32"
+        "source_sha256": "6f42fec598a6ff6e2a42cd208d64ad9b87a806e842c6afb63cd3110e27f5c4e8",
+        "target_sha256": "05fdb4cc6da6a4db0d8009db11133682fa393bdc4c86eb0394f4726c49642119"
       },
       "events:arc_first_job_week_convenience:/title": {
         "source_sha256": "b827ada908b643bb4fc70a32450c25038c0f7b8a793602340c40916f0abd44c0",
@@ -172548,8 +172631,8 @@
         "target_sha256": "4d9d920768ee6e85e6de21d1c4dd1277d23daf154307f4b5c84d990a9eb7906d"
       },
       "events:arc_first_job_week_delivery:/description": {
-        "source_sha256": "a911e6acab8452653ff21134ccd5de3f1f2aa14adda1062465474ed3d298a79c",
-        "target_sha256": "5f451af2fe576a55b80d1baf22d5419a95e667f0af426b33c391762d462c40d6"
+        "source_sha256": "3872bc85c7c4a5a3c2da1c4268698b5789145a972f1ef0d2794c003288d979f0",
+        "target_sha256": "6ea77e54b2dc19a96b81ca8b280f260c92c109850879e2595bb78bcd863cd21b"
       },
       "events:arc_first_job_week_delivery:/title": {
         "source_sha256": "e238f8c5f611e7d9e50c4d47f8e24290301e5d6faccdd7a8714f745b02f12e5b",
@@ -183141,7 +183224,7 @@
       }
     }
   },
-  "accepted_sha256": "6218d4a6a3f639e93c86d9732cb867ee6835e1b46f4bcefba2e1f55358ed8c12",
+  "accepted_sha256": "a6d178b4ab0461b0d3053c2589e59985f57f310f0fbe4813130f34b79c72e1f6",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

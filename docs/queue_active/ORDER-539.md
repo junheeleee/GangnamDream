@@ -2,7 +2,7 @@
 
 #### [~] ORDER-539 [P1·원고 정합] 첫 근무 3종 × 5언어 — 착수
 
-**착수 — 2026-10-10 / 구현 전 선언.** 부모 [534](ORDER-534.md)의 정상 본편
+**착수 — 2026-10-10 / 최종 source 결속 대기.** 부모 [534](ORDER-534.md)의 정상 본편
 입구 REWORK를 수리하기 위한 읽기 중 확인한 원고 결함이다. 538의 격리12주
 source GO를 기본 본편·M07 GO로 확대하지 않는다.
 
@@ -32,7 +32,9 @@ source GO를 기본 본편·M07 GO로 확대하지 않는다.
 - cjk_wrap_diagnosis: 도구·급여/소비자 읽기 검토만, 제품 저작0.
 - phone_independent_review: 비저자 전수 검수·원본 보존·source/raw 결속,
   `docs/agent_reviews/ORDER-539.json`. root는 큐/L3 순번·이 사양·WORK_LOG·CLAUDE
-  현재행·agent 판정원장·완료 archive만 관리한다.
+  현재행·agent 판정원장·완료 archive만 관리한다. 기록 예산 초과 시 기존
+  WORK_LOG 원문을 `docs/history/WORK_LOG_2026-10-10_pre_order539_close.md`에
+  바이트 그대로 보관하고 live 링크를 잇는 통상 기록 회전도 root가 소유한다.
 
 ## 구현·검증 경계
 
@@ -58,3 +60,20 @@ GO만 닫는다. 자동 계약은 재미·깊이·문체의 증거가 아니다.
 W13 이후 실제 취업→근무→첫 급여 독자·cold resume, 상철의 두주 선행,
 첫 사무근무 결과의 미보유 자산 단정은 별도 범위다. 새 cap만 늘리지 않는다.
 새 정본 규칙0, 이 사양의 실행 지시는 일회성이다.
+
+## 구현·표적 결과
+
+KO/EN6·KO직접JA/CN/TW9의15description을 비저자가 전수 읽어 문안
+preliminary GO, retouch0이다. 기간 단정만 제거하고 월말 지급·장면 감각을 맞췄다.
+공식check/import6회 PASS, correction9를 새coverage로 세지 않고 기존306batch와
+accepted개수를 보존한다. 기준HEAD980e793 뒤 작업트리 원문을 export했으므로
+source_revision을 수정원문commit이라고 주장하지 않는다. 실제manifest/leaf SHA와
+최종 제품commit의 본문을 독립 결속한다.
+
+표적20검사20 PASS/새실패0, 원6회12stream+20회40stream을 private에 보존한다.
+전체감사/기존census 실패수리/엔진·앱·실제화면·입력0이다. 최초 숫자/반복표기
+불일치도 원형에 보존하고 동일사실로 정렬했으며 checker/예외 변경0이다.
+현재15잎 외 gameplay·데모·저장/인간/과거판정 보존 및 clean source의 최종 보고는
+결속 후 마감한다. 이 기록은 정상본편/M07/취업→급여 연결 GO가 아니다.
+후기록의 WORK_LOG 40000B 예산 초과는 이전HEAD 원문39496B를 위 보관본으로
+옮기고 현재절/링크만 live에 남겨 닫는다. 과거 원문은 삭제·재서술하지 않는다.
