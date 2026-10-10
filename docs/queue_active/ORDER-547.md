@@ -14,6 +14,16 @@ KO/EN 두 크기108 PNG 전수 독립 검수와 새 앱 KO 선택0/결과→W36 
 한정 GO를 전체 완료·출시 GO로 확대하지 않는다. 신규6장 아트 판정만 실제 확인한
 에이전트 등급으로 마감한다. 과거546 REWORK/544 사고/인간 OPEN은 소급 변경0이다.
 
+### 548 수리 뒤 source 한정 마감 재개 — 2026-10-11
+
+기존 HOLD 보고/manifest/원자료는 불변이다. 새 독립 보고
+`docs/agent_reviews/ORDER-547-post548.json`만 phone_independent_review가 소유한다.
+현재 Git source와 당시 시각 소비자 바이트 동일성, 548의 실제 차단 원인 해소를
+직접 대조한 뒤 이 unit의 source 판정만 새로 추가한다. 548 GO 자동 전용0,
+새 package/export/native/검사 실행0·설치앱 NG+ 수리 주장0이다.
+root는 기존 소유 metadata만 마감한다. 옛547 source/package HOLD와 strict FAIL,
+인간·전체본편·출시 한계는 유지한다. 이 재개 지시는 일회성이다.
+
 ## 깊이 3문
 
 1. 그대로 두면 일요일16시·남색 사복·편의점 밖/분식집 원문에 밤 계산대·근무복이
