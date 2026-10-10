@@ -6237,7 +6237,7 @@ func _escape_bbcode_text(value: Variant) -> String:
 	return str(value).replace("[", "(").replace("]", ")")
 
 ## 월초 전용 경제 처리(뉴스·시장·크라이시스) — 새 달 첫 주(week_of_month==1)에만.
-## _begin_month와 몽타주 주-전환이 공유한다(경제 코드 중복 방지, 동작 불변).
+## _begin_month와 몽타주 주-전환이 공유한다. 저장 재개는 새 경제월이 아니다.
 func _run_week_start_economy() -> void:
 	if GameState.week_of_month != 1:
 		return
@@ -6246,6 +6246,18 @@ func _run_week_start_economy() -> void:
 	# market rolls would make the same saved plan resolve differently.
 	if DEMO_CORE_LOOP_V2.requested():
 		return
+	if _economy_integer_matches(GameState.flags.get("monthly_economy_turn"), GameState.turn):
+		return
+	# Older v4 saves have no latch. Only news stamped with this exact calendar
+	# month proves that its economic opening already ran; last month's news does not.
+	for raw_news in GameState.news_log:
+		if raw_news is Dictionary \
+				and _economy_integer_matches(raw_news.get("year"), GameState.year) \
+				and _economy_integer_matches(raw_news.get("month"), GameState.month):
+			GameState.flags["monthly_economy_turn"] = GameState.turn
+			return
+	# Reserve before synchronous news/price signals can re-enter MainGame.
+	GameState.flags["monthly_economy_turn"] = GameState.turn
 	if GameState.turn > 4:  # 튜토리얼 1달(4주) 이후부터 크라이시스
 		var crisis = _roll_monthly_crisis()
 		if not crisis.is_empty():
@@ -6254,14 +6266,18 @@ func _run_week_start_economy() -> void:
 					"emergency_expense", "ap_penalty", "market_shock", "health_crisis"]:
 				GameState.flags["demo_director_crisis_turn"] = GameState.turn
 			_apply_monthly_event(crisis)
-	if GameState.news_log.is_empty() or GameState.turn > 1:
-		var news = NewsManager.generate_monthly_news()
-		var had_margin_call_before: bool = GameState.flags.get("margin_called_happened", false)
-		investment_system.process_month(news)
-		# 마진콜 발생 시 전체 화면 흔들림 + 빨간 플래시
-		if not had_margin_call_before and GameState.flags.get("margin_called_happened", false):
-			_full_screen_shake(14.0, 0.55)
-			_screen_flash(Color("#d73a49"), 0.35, 0.55)
+	var news = NewsManager.generate_monthly_news()
+	var had_margin_call_before: bool = GameState.flags.get("margin_called_happened", false)
+	investment_system.process_month(news)
+	# 마진콜 발생 시 전체 화면 흔들림 + 빨간 플래시
+	if not had_margin_call_before and GameState.flags.get("margin_called_happened", false):
+		_full_screen_shake(14.0, 0.55)
+		_screen_flash(Color("#d73a49"), 0.35, 0.55)
+
+func _economy_integer_matches(value: Variant, expected: int) -> bool:
+	# JSON numbers load as floats. Never coerce bool/string/fractional receipts.
+	return (value is int or value is float) \
+		and is_finite(float(value)) and float(value) == float(expected)
 
 func _begin_month():
 	if has_meta("_qa_core_loop_v2_begin_month_call_count"):

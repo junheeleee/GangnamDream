@@ -3868,6 +3868,7 @@
         "scenes/StoryMode.gd",
         "systems/Chapter5CausalRoute.gd",
         "systems/Chapter5FinaleRoute.gd",
+        "systems/InvestmentSystem.gd",
         "tools/chapter5_general_finale_route_audit.py",
         "tools/ManualSaveCheck.gd",
         "tools/ManualSaveCheck.gd.uid",

@@ -18,6 +18,9 @@ M07 실제 플레이 완료가 아니며 534의 REWORK/HOLD를 유지한다.
   이 사양·큐/연속번호·WORK_LOG·CLAUDE 현재행·독립보고/판정 원장.
 - phone_cn_author: systems/InvestmentSystem.gd의 초기화·국면 countdown 보존.
 - cjk_wrap_diagnosis: 기존 tools/ManualSaveCheck.gd의 실제 v4 저장/재개 회귀.
+- root 추가: tools/MarketCycleLogCheck.gd의 기존 국면 기대값에 영속 timer 한 키만
+  정렬한다. tools/audit_scope.json 기존 ManualSave 등록에 InvestmentSystem 경로를 붙인다.
+  새 검사/runner가 아니라 같은 변경의 기존 fixture·누락 등록 정합이다.
 - phone_independent_review: 비저자 전수 검수, 제품 파일 편집0.
 - 기존 flags/market_context v4 직렬화만 이용한다. GameState/SaveManager/스키마,
   기본 진입/월말 정산/원문·번역/project.godot/공개 데모/사용자 저장/인간 판정 비소유.
@@ -28,8 +31,10 @@ M07 실제 플레이 완료가 아니며 534의 REWORK/HOLD를 유지한다.
 - 월초 경제는 legacy/full의 week_of_month=1, V2 requested=false에서만 적용한다.
   flags의 monthly_economy_turn을 실제 처리 turn으로 기록하고 같은 turn 재진입은
   RNG·위기·뉴스·가격·배당·마진콜을 반복하지 않는다. 동기 signal 재진입도 막는다.
-- 새 marker 없는 구저장은 같은 year/month의 실제 news_log가 있을 때만 이미 처리한
-  월로 받아들인다. 이전 달 뉴스/잘못된 타입은 처리 근거가 아니다. 다음 달/연도는 정상 진행한다.
+- 유효한 같은-turn marker가 없는 저장은 같은 year/month의 실제 news_log가 있을 때만
+  이미 처리한 월로 받아들인다. 누락·손상·오래된 marker 모두 이 독립 근거로 복구한다.
+  뉴스는 MainGame 경제 한 생산자만 생성하므로 marker 손상만으로 현금을 재적용하지 않는다.
+  이전 달 뉴스/잘못된 타입은 처리 근거가 아니다. 다음 달/연도는 정상 진행한다.
 - InvestmentSystem 초기화는 기존 국면/가격을 다시 추첨하지 않는다. cycle_timer는
   기존 market_context에 보존하며 실제 process_month와 시장충격이 갱신한다.
   새 게임의 미초기화 시장은 원래 5~11개월 추첨을 한 번 한다.
@@ -48,3 +53,16 @@ M07 실제 플레이 완료가 아니며 534의 REWORK/HOLD를 유지한다.
 - 영향 검사·EN 한글·저장 호환·diff/context/queue, 독립 source+raw 전수 검수를 결속한다.
   완성 범위는 경제 재진입 정합 한정이다. 기본 full story-only 입구·M07·전체 출시 HOLD.
   자동 계약은 재미·깊이·문체나 인간·원어민·물리 패드 관찰을 증명하지 않는다.
+
+## 구현·실행 결과 — 독립 최종 판정 대기
+
+- 실제 월초 경제의 위기/뉴스/가격/배당/마진콜·signal 재진입·v4 저장/새 Main·
+  다음 달/연도·legacy와 타입 경계·주중/V2 제외·timer/충격 재개 표적 PASS.
+  기존 전체 ManualSave도 PASS. cold4 비교는 기존 저장 codec 양측 정규화만 쓰고
+  in-memory 전체상태/RNG strict는 유지한다. 첫 실패2회/진단20행을 보존한다.
+- compile68·기존 시장 로그5언어25·기존 현금 정합 PASS. 전체 Manual의 의도된
+  저장/복구 WARNING13개는 남고 fatal/누수0이다. 정상 본편/M07 관측은 아니다.
+- 비저자 fresh 보호6그룹45파일·제품5pin 불변. private raw는
+  `.git/order535-qa-20261010`이며 source 최종 commit 뒤 판정 보고를 결속한다.
+  선택 정적 검사 중 기존 general finale shipping1708 고정 실패는 baseline도 동일하며
+  현재1702/new0, checker 삭제·완화·CI 예외 추가0이다.

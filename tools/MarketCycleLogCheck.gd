@@ -74,7 +74,8 @@ func _market_consumers() -> void:
 		var context: Dictionary = GameState.market_context.duplicate(true)
 		after["action_log"] = before["action_log"].duplicate(true)
 		after["market_context"] = before["market_context"].duplicate(true)
-		var passed: bool = context == {"fear_greed": 50, "cycle": cycle, "crash_risk": 0.02} \
+		var passed: bool = context == {"fear_greed": 50, "cycle": cycle, "crash_risk": 0.02,
+			"cycle_timer": expected["timer"]} \
 			and investment.get("cycle_timer") == expected["timer"] \
 			and actual_next == expected["next"] and expected["cycle"] == cycle \
 			and GameState.action_log.size() == before["action_log"].size() + 1 \

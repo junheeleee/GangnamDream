@@ -4,18 +4,57 @@ signal price_updated(asset_id: String, new_price: float, change_pct: float)
 signal trade_executed(asset_id: String, action: String, quantity: float, price: float)
 signal portfolio_updated()
 
-var cycle_timer = 0
+var cycle_timer: int = 0
 
 func initialize():
+	var uninitialized_market := _market_is_uninitialized()
 	if GameState.market_prices.is_empty():
 		for asset in DataRegistry.assets:
 			GameState.market_prices[asset.get("id", "")] = float(asset.get("initial_price", asset.get("base_price", 10_000.0)))
-	_roll_cycle()
+	_restore_cycle_timer()
+	if uninitialized_market:
+		_roll_cycle()
+
+func _market_is_uninitialized() -> bool:
+	# start_new_game already fills prices. Only the untouched first-week market
+	# may make its initial roll; a loaded market must keep its published state.
+	if GameState.turn != 1 or GameState.week_of_month != 1 \
+			or GameState.market_context.has("cycle_timer") \
+			or GameState.flags.has("monthly_economy_turn") \
+			or not GameState.news_log.is_empty() \
+			or not GameState.price_history.is_empty():
+		return false
+	if GameState.market_context != {
+		"fear_greed": 50,
+		"cycle": "neutral",
+		"bubble_assets": [],
+		"crash_risk": 0.04,
+		"momentum": 0.0,
+	}:
+		return false
+	for entry in GameState.action_log:
+		if not entry is Dictionary or str(entry.get("type", "")) == "market":
+			return false
+	return true
+
+func _restore_cycle_timer() -> void:
+	# JSON decodes integers as floats. Missing or corrupt legacy countdowns
+	# cannot reconstruct elapsed months, so preserve the market and expire at 0.
+	var saved: Variant = GameState.market_context.get("cycle_timer", 0)
+	cycle_timer = 0
+	if (saved is int or saved is float) and is_finite(float(saved)) \
+			and float(saved) == floor(float(saved)) \
+			and float(saved) >= 0.0 and float(saved) <= 11.0:
+		cycle_timer = int(saved)
+	GameState.market_context["cycle_timer"] = cycle_timer
 
 func process_month(news_items):
+	_restore_cycle_timer()
 	cycle_timer -= 1
 	if cycle_timer <= 0:
 		_roll_cycle()
+	else:
+		GameState.market_context["cycle_timer"] = cycle_timer
 	for asset in DataRegistry.assets:
 		_update_asset(asset, news_items)
 	_record_price_history()
@@ -126,6 +165,7 @@ func get_asset_rows():
 
 func _roll_cycle():
 	cycle_timer = randi_range(5, 11)
+	GameState.market_context["cycle_timer"] = cycle_timer
 	var fear_greed = int(GameState.market_context.get("fear_greed", 50))
 	var roll = randf()
 	var cycle = "neutral"
@@ -269,12 +309,14 @@ func _check_margin_calls():
 		GameState.portfolio.erase(id)
 
 func apply_market_shock():
+	_restore_cycle_timer()
 	# 시장 충격: 크래시 위험 2.5배 상승, 약세장 전환
 	GameState.market_context["crash_risk"] = float(GameState.market_context.get("crash_risk", 0.05)) * 2.5
 	GameState.market_context["fear_greed"] = max(10, int(GameState.market_context.get("fear_greed", 50)) - 25)
 	if str(GameState.market_context.get("cycle", "neutral")) != "bear":
 		GameState.market_context["cycle"] = "bear"
 		cycle_timer = randi_range(2, 4)
+		GameState.market_context["cycle_timer"] = cycle_timer
 
 func get_market_forecast() -> String:
 	var cycle = str(GameState.market_context.get("cycle", "neutral"))

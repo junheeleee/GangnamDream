@@ -6,6 +6,7 @@ const CHAPTER5_CAUSAL_ROUTE := preload("res://systems/Chapter5CausalRoute.gd")
 const CHAPTER5_FINALE_ROUTE := preload("res://systems/Chapter5FinaleRoute.gd")
 const MAIN_GAME_SCENE := preload("res://scenes/MainGame.tscn")
 const STORY_MODE_SCRIPT := preload("res://scenes/StoryMode.gd")
+const INVESTMENT_SYSTEM_SCRIPT := preload("res://systems/InvestmentSystem.gd")
 const TEST_SLOT := 1
 const LEGACY_SLOT := 9
 const CONTRACT_SLOT := 10
@@ -42,6 +43,8 @@ var _settings_backup: Dictionary = {}
 var _meta_file_backup: Dictionary = {}
 var _meta_data_backup: Dictionary = {}
 var _meta_new_this_run_backup: Dictionary = {}
+var _monthly_economy_only := false
+var _monthly_economy_checked := false
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -50,6 +53,11 @@ func _run() -> void:
 	_backup_settings_file()
 	_backup_meta_progression()
 	_backup_test_slots()
+	_monthly_economy_only = OS.get_cmdline_user_args().has("--monthly-economy-only")
+	if _monthly_economy_only:
+		await _check_monthly_economy_resume()
+		await _finish()
+		return
 	GameState.start_new_game()
 	_check_chapter5_causal_disk_save_contract()
 	GameState.start_new_game()
@@ -63,6 +71,7 @@ func _run() -> void:
 		return
 	await _check_main_game_save_failure_feedback()
 	await _check_consumed_week_main_resume()
+	await _check_monthly_economy_resume()
 	if not _failures.is_empty():
 		await _finish()
 		return
@@ -1128,6 +1137,372 @@ func _check_consumed_week_main_resume() -> void:
 	SaveManager.clear_loaded_resume_context()
 	GameState.start_new_game()
 	await get_tree().process_frame
+
+func _check_monthly_economy_resume() -> void:
+	# Synthetic isolated full/legacy checkpoint, not normal M07 play evidence.
+	# Invoke production owners and durable v4 slots; static Main skips only the
+	# unrelated story/AP ingress, never system initialization or this economy.
+	GameState.start_new_game()
+	_expect(not CORE_LOOP.requested(), "monthly economy fixture requires legacy/full, not --core-loop-v2")
+	if CORE_LOOP.requested():
+		return
+	GameState.turn = 25
+	GameState.month = 7
+	GameState.week_of_month = 1
+	GameState.money = 10_000_000.0
+	GameState.market_context["cycle_timer"] = 8
+	var dividend_id := ""
+	var margin_id := ""
+	for raw_asset in DataRegistry.assets:
+		var asset: Dictionary = raw_asset
+		if dividend_id.is_empty() and str(asset.get("category", "")) in ["korean_stock", "real_estate"]:
+			dividend_id = str(asset.get("id", ""))
+	for raw_asset in DataRegistry.assets:
+		var asset: Dictionary = raw_asset
+		if str(asset.get("id", "")) != dividend_id:
+			margin_id = str(asset.get("id", ""))
+			break
+	_expect(not dividend_id.is_empty() and not margin_id.is_empty(),
+		"monthly economy fixture lacks real dividend/margin assets")
+	if dividend_id.is_empty() or margin_id.is_empty():
+		return
+	GameState.portfolio = {
+		dividend_id: {"quantity": 100.0, "avg_price": GameState.market_prices[dividend_id]},
+		# A zero-value leveraged position exercises production margin liquidation
+		# without relying on an arbitrary asset's random monthly return.
+		margin_id: {"quantity": 0.0, "avg_price": GameState.market_prices[margin_id], "leveraged_amount": 1_000_000.0},
+	}
+	var main_game: Control = await _spawn_monthly_economy_main()
+	var investment: Node = main_game.get("investment_system")
+	var before: Dictionary = _monthly_economy_snapshot()
+	# Pick a deterministic real crisis through its pure production roll. Do not
+	# replace NewsManager, InvestmentSystem, crisis effects or their signals.
+	var crisis_seed := -1
+	var crisis: Dictionary = {}
+	for candidate_seed in range(1, 257):
+		seed(candidate_seed)
+		crisis = main_game.call("_roll_monthly_crisis")
+		if str(crisis.get("type", "")) == "emergency_expense":
+			crisis_seed = candidate_seed
+			break
+	_expect(crisis_seed >= 0, "monthly economy could not select its real expense crisis")
+	if crisis_seed < 0:
+		await _free_monthly_economy_main(main_game)
+		return
+	# The news signal fires before prices/dividends. Synchronous reentry must
+	# see the reserved turn, not generate another set of news or crisis.
+	var reentry_count := [0]
+	var reenter := func(_news: Array) -> void:
+		reentry_count[0] += 1
+		if reentry_count[0] == 1:
+			main_game.call("_run_week_start_economy")
+	NewsManager.news_generated.connect(reenter)
+	seed(crisis_seed)
+	main_game.call("_run_week_start_economy")
+	NewsManager.news_generated.disconnect(reenter)
+	var dividend := GameState.settle_cash(
+		100.0 * float(GameState.market_prices[dividend_id]) * 0.002)
+	_expect(reentry_count[0] == 1 and GameState.news_log.size() >= 3 \
+			and GameState.news_log.size() <= 5 \
+			and int(GameState.flags.get("monthly_economy_turn", -1)) == 25 \
+			and int(investment.get("cycle_timer")) == 7 \
+			and int(GameState.market_context.get("cycle_timer", -1)) == 7,
+		"monthly economy first call/reentrant signal did not consume exactly one month")
+	_expect(GameState.market_prices != before["market_prices"] \
+			and GameState.price_history.size() == DataRegistry.assets.size() \
+			and (GameState.price_history.get(dividend_id, []) as Array).size() == 1,
+		"monthly economy first call did not update real prices/history once")
+	_expect(dividend >= 1.0 and GameState.money \
+			== float(before["money"]) - float(crisis.get("amount", 0.0)) + dividend \
+			and not GameState.portfolio.has(margin_id) \
+			and bool(GameState.flags.get("margin_called_happened", false)) \
+			and GameState.mental == int(before["mental"]) - 30,
+		"monthly economy did not apply real expense/dividend/margin effects exactly once")
+	for raw_news in GameState.news_log:
+		_expect(raw_news is Dictionary and int(raw_news.get("year", -1)) == 2026 \
+				and int(raw_news.get("month", -1)) == 7,
+			"monthly economy first news lacks its actual calendar month")
+	_expect_monthly_economy_inert(main_game, "same-turn duplicate")
+	var processed: Dictionary = GameState.serialize().duplicate(true)
+	var economic_processed: Dictionary = _monthly_economy_snapshot()
+	_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}),
+		"monthly economy could not write its processed v4 checkpoint")
+	var disk: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveManager.slot_path(TEST_SLOT)))
+	_expect(disk is Dictionary and int(disk.get("version", -1)) == 4 \
+			and int(disk.get("state", {}).get("flags", {}).get("monthly_economy_turn", -1)) == 25 \
+			and int(disk.get("state", {}).get("market_context", {}).get("cycle_timer", -1)) == 7,
+		"monthly economy v4 disk payload lost its consumed turn/countdown")
+	await _free_monthly_economy_main(main_game)
+	GameState.start_new_game()
+	var loaded := SaveManager.load_game(TEST_SLOT)
+	_diagnose_monthly_economy_snapshot(economic_processed, "v4-cold-load")
+	# Compare the exact durable representation: SaveManager's JSON codec
+	# rounds doubles and parses nested integers as floats. No epsilon applies.
+	_expect(loaded and SaveManager.loaded_scene_path() == "res://scenes/MainGame.tscn" \
+			and _json_round_trip_dictionary(_monthly_economy_snapshot()) \
+				== _json_round_trip_dictionary(economic_processed),
+		"monthly economy v4 cold load changed market/cash/news/consumed turn")
+	if not loaded:
+		return
+	main_game = await _spawn_monthly_economy_main()
+	investment = main_game.get("investment_system")
+	_diagnose_monthly_economy_snapshot(economic_processed, "v4-new-main")
+	_expect(_json_round_trip_dictionary(_monthly_economy_snapshot()) \
+			== _json_round_trip_dictionary(economic_processed) \
+			and int(investment.get("cycle_timer")) == 7,
+		"new MainGame rerolled the saved market/countdown or changed economic state")
+	_expect_monthly_economy_inert(main_game, "cold-loaded same turn")
+	# A subsequent real month and a December->January boundary must each run
+	# once; old year/month news must not suppress that next economic opening.
+	for calendar in [
+		{"turn": 29, "year": 2026, "month": 8},
+		{"turn": 45, "year": 2026, "month": 12},
+		{"turn": 49, "year": 2027, "month": 1},
+	]:
+		GameState.turn = int(calendar["turn"])
+		GameState.year = int(calendar["year"])
+		GameState.month = int(calendar["month"])
+		var news_count := GameState.news_log.size()
+		var history_count := (GameState.price_history[dividend_id] as Array).size()
+		main_game.call("_run_week_start_economy")
+		_expect(int(GameState.flags.get("monthly_economy_turn", -1)) == GameState.turn \
+				and GameState.news_log.size() > news_count \
+				and (GameState.price_history[dividend_id] as Array).size() == history_count + 1,
+			"next month/year did not consume one new economic opening: %s" % calendar)
+		_expect_monthly_economy_inert(main_game, "next month/year duplicate %s" % calendar)
+	# Missing old receipt accepts only exact current-calendar news. Corrupt
+	# bool/string/fractional values must not become proof by int() coercion.
+	for legacy_case in [
+		{"name": "current-int", "news": [{"year": 2026, "month": 7}], "skip": true},
+		{"name": "current-json-float", "news": [{"year": 2026.0, "month": 7.0}], "skip": true},
+		{"name": "previous-month", "news": [{"year": 2026, "month": 6}], "skip": false},
+		{"name": "previous-year", "news": [{"year": 2025, "month": 7}], "skip": false},
+		{"name": "bad-entry", "news": [true, "2026/7", {}], "skip": false},
+		{"name": "string-month", "news": [{"year": 2026, "month": "7"}], "skip": false},
+		{"name": "bool-year", "news": [{"year": true, "month": 7}], "skip": false},
+		{"name": "fractional-year", "news": [{"year": 2026.5, "month": 7}], "skip": false},
+	]:
+		GameState.load_from_dict(processed.duplicate(true))
+		GameState.flags.erase("monthly_economy_turn")
+		GameState.news_log = legacy_case["news"].duplicate(true)
+		investment.call("initialize")
+		var legacy_before: Dictionary = GameState.serialize().duplicate(true)
+		if bool(legacy_case["skip"]):
+			legacy_before["flags"]["monthly_economy_turn"] = 25
+			seed(535)
+			var expected_random := randi()
+			seed(535)
+			main_game.call("_run_week_start_economy")
+			_expect(randi() == expected_random and GameState.serialize() == legacy_before,
+				"current legacy news reran economy/RNG: %s" % legacy_case["name"])
+		else:
+			# Malformed non-Dictionary news is a guard boundary fixture, not a
+			# renderable player checkpoint. Keep unrelated UI refresh listeners
+			# from reading that synthetic corruption; economy owners still run.
+			var signals_were_blocked := GameState.is_blocking_signals()
+			if str(legacy_case["name"]) == "bad-entry":
+				GameState.set_block_signals(true)
+			main_game.call("_run_week_start_economy")
+			GameState.set_block_signals(signals_were_blocked)
+			_expect(GameState.news_log.size() > legacy_case["news"].size() \
+					and int(GameState.flags.get("monthly_economy_turn", -1)) == 25,
+				"stale/malformed legacy news suppressed real opening: %s" % legacy_case["name"])
+		_expect_monthly_economy_inert(main_game, "legacy reentry %s" % legacy_case["name"])
+	for bad_marker in [true, "25", 25.5, 24, null, [], {}]:
+		GameState.load_from_dict(processed.duplicate(true))
+		GameState.flags["monthly_economy_turn"] = bad_marker
+		investment.call("initialize")
+		var repaired: Dictionary = GameState.serialize().duplicate(true)
+		repaired["flags"]["monthly_economy_turn"] = 25
+		seed(535)
+		var expected_random := randi()
+		seed(535)
+		main_game.call("_run_week_start_economy")
+		_expect(randi() == expected_random and GameState.serialize() == repaired,
+			"current-calendar news did not repair corrupt/stale marker without replay: %s" % [bad_marker])
+		GameState.load_from_dict(processed.duplicate(true))
+		GameState.news_log = [{"year": 2026, "month": 6}, {"year": "2026", "month": 7}]
+		GameState.flags["monthly_economy_turn"] = bad_marker
+		investment.call("initialize")
+		main_game.call("_run_week_start_economy")
+		_expect(GameState.news_log.size() >= 3 \
+				and int(GameState.flags.get("monthly_economy_turn", -1)) == 25,
+			"malformed/stale marker suppressed economic opening: %s" % [bad_marker])
+	GameState.load_from_dict(processed.duplicate(true))
+	GameState.flags["monthly_economy_turn"] = 25.0
+	GameState.news_log.clear()
+	investment.call("initialize")
+	_expect_monthly_economy_inert(main_game, "JSON integral-float turn marker")
+	for excluded in ["week-two", "v2-requested"]:
+		GameState.load_from_dict(processed.duplicate(true))
+		GameState.flags.erase("monthly_economy_turn")
+		GameState.news_log.clear()
+		if excluded == "week-two":
+			GameState.week_of_month = 2
+		else:
+			GameState.core_loop_v2_state = {"enabled": true}
+		investment.call("initialize")
+		_expect_monthly_economy_inert(main_game, excluded)
+	GameState.load_from_dict(processed.duplicate(true))
+	await _free_monthly_economy_main(main_game)
+	await _check_monthly_cycle_countdown(processed)
+	SaveManager.clear_loaded_resume_context()
+	GameState.start_new_game()
+	_monthly_economy_checked = true
+	await get_tree().process_frame
+
+
+func _check_monthly_cycle_countdown(processed: Dictionary) -> void:
+	for timer in range(12):
+		for saved_timer in [timer, float(timer)]:
+			GameState.load_from_dict(processed.duplicate(true))
+			GameState.market_context["cycle_timer"] = saved_timer
+			_expect_cycle_initialization_inert(timer, "valid %s" % [saved_timer])
+	for saved_timer in [-1, 12, 3.5, true, false, "7", null, [], {}, INF, NAN]:
+		GameState.load_from_dict(processed.duplicate(true))
+		GameState.market_context["cycle_timer"] = saved_timer
+		_expect_cycle_initialization_inert(0, "invalid %s" % [saved_timer])
+	GameState.load_from_dict(processed.duplicate(true))
+	GameState.market_context.erase("cycle_timer")
+	_expect_cycle_initialization_inert(0, "missing legacy countdown")
+	# A genuinely untouched new game rolls once; reopening that same initialized
+	# market is inert. No lost legacy countdown is fabricated as a fresh 5..11.
+	GameState.start_new_game()
+	var fresh: Node = INVESTMENT_SYSTEM_SCRIPT.new()
+	fresh.call("initialize")
+	var first_timer := int(fresh.get("cycle_timer"))
+	_expect(first_timer >= 5 and first_timer <= 11 \
+			and int(GameState.market_context.get("cycle_timer", -1)) == first_timer,
+		"fresh market did not persist its original 5..11 month roll")
+	fresh.free()
+	_expect_cycle_initialization_inert(first_timer, "already initialized first week")
+	GameState.load_from_dict(processed.duplicate(true))
+	GameState.market_context["cycle_timer"] = 1
+	var expired: Node = INVESTMENT_SYSTEM_SCRIPT.new()
+	expired.call("initialize")
+	expired.call("process_month", [])
+	var rolled_timer := int(expired.get("cycle_timer"))
+	_expect(rolled_timer >= 5 and rolled_timer <= 11 \
+			and int(GameState.market_context.get("cycle_timer", -1)) == rolled_timer,
+		"expired countdown did not persist its next real monthly cycle roll")
+	expired.free()
+	# Shock countdown is durable, including an already-bear shock which must not
+	# silently extend its remaining lifetime or consume another random draw.
+	GameState.load_from_dict(processed.duplicate(true))
+	GameState.market_context["cycle"] = "bull"
+	var shock: Node = INVESTMENT_SYSTEM_SCRIPT.new()
+	shock.call("initialize")
+	shock.call("apply_market_shock")
+	var shock_timer := int(shock.get("cycle_timer"))
+	_expect(shock_timer >= 2 and shock_timer <= 4 \
+			and str(GameState.market_context.get("cycle", "")) == "bear" \
+			and int(GameState.market_context.get("cycle_timer", -1)) == shock_timer,
+		"real market shock did not persist its 2..4 month countdown")
+	seed(535)
+	var expected_random := randi()
+	seed(535)
+	shock.call("apply_market_shock")
+	_expect(randi() == expected_random and int(shock.get("cycle_timer")) == shock_timer \
+			and int(GameState.market_context.get("cycle_timer", -1)) == shock_timer,
+		"already-bear shock rerolled/extended its remaining countdown")
+	var shocked: Dictionary = _monthly_economy_snapshot()
+	_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}),
+		"shock countdown could not be saved to a v4 slot")
+	shock.free()
+	GameState.start_new_game()
+	var loaded := SaveManager.load_game(TEST_SLOT)
+	_diagnose_monthly_economy_snapshot(shocked, "shock-cold-load")
+	_expect(loaded and _json_round_trip_dictionary(_monthly_economy_snapshot()) \
+			== _json_round_trip_dictionary(shocked),
+		"shock v4 cold load changed countdown/market/cash")
+	if loaded:
+		var main_game: Control = await _spawn_monthly_economy_main()
+		var investment: Node = main_game.get("investment_system")
+		_diagnose_monthly_economy_snapshot(shocked, "shock-new-main")
+		_expect(_json_round_trip_dictionary(_monthly_economy_snapshot()) \
+				== _json_round_trip_dictionary(shocked) \
+				and int(investment.get("cycle_timer")) == shock_timer,
+			"new MainGame rerolled the saved market shock countdown")
+		_expect_monthly_economy_inert(main_game, "cold-loaded market shock")
+		await _free_monthly_economy_main(main_game)
+
+
+func _expect_cycle_initialization_inert(expected_timer: int, label: String) -> void:
+	var expected_state: Dictionary = GameState.serialize().duplicate(true)
+	expected_state["market_context"]["cycle_timer"] = expected_timer
+	var investment: Node = INVESTMENT_SYSTEM_SCRIPT.new()
+	seed(535)
+	var expected_random := randi()
+	seed(535)
+	investment.call("initialize")
+	_expect(randi() == expected_random and GameState.serialize() == expected_state \
+			and int(investment.get("cycle_timer")) == expected_timer,
+		"market initialization changed RNG/market/prices/logs: %s" % label)
+	investment.free()
+
+
+func _expect_monthly_economy_inert(main_game: Control, label: String) -> void:
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var investment: Node = main_game.get("investment_system")
+	var before_timer := int(investment.get("cycle_timer"))
+	seed(535)
+	var expected_random := randi()
+	seed(535)
+	main_game.call("_run_week_start_economy")
+	_expect(randi() == expected_random and GameState.serialize() == before \
+			and int(investment.get("cycle_timer")) == before_timer,
+		"monthly economy changed state/countdown/RNG during %s" % label)
+
+
+func _monthly_economy_snapshot() -> Dictionary:
+	var serialized: Dictionary = GameState.serialize()
+	var economic: Dictionary = {}
+	for key in ["money", "health", "mental", "action_points", \
+			"portfolio", "market_prices", "price_history", "market_context", \
+			"news_log", "action_log"]:
+		economic[key] = serialized[key]
+	for key in ["monthly_economy_turn", "margin_called_happened", "demo_director_crisis_turn"]:
+		if GameState.flags.has(key):
+			economic[key] = GameState.flags[key]
+	return economic.duplicate(true)
+
+
+func _diagnose_monthly_economy_snapshot(expected: Dictionary, label: String) -> void:
+	# Failure-only synthetic diagnostics: full-precision values distinguish a
+	# real economic delta from JSON number representation/precision changes.
+	var actual: Dictionary = _monthly_economy_snapshot()
+	if _json_round_trip_dictionary(actual) == _json_round_trip_dictionary(expected):
+		return
+	for key in expected:
+		if not actual.has(key) or expected[key] != actual[key]:
+			print("MONTHLY_ECONOMY_SNAPSHOT_DIFF label=%s field=%s before_type=%d after_type=%d before=%s after=%s" % [
+				label, key, typeof(expected[key]), typeof(actual.get(key)),
+				JSON.stringify(expected[key], "", true, true),
+				JSON.stringify(actual.get(key), "", true, true),
+			])
+	for key in actual:
+		if not expected.has(key):
+			print("MONTHLY_ECONOMY_SNAPSHOT_DIFF label=%s extra_field=%s value=%s" % [
+				label, key, JSON.stringify(actual[key], "", true, true),
+			])
+
+
+func _spawn_monthly_economy_main() -> Control:
+	var main_game: Control = MAIN_GAME_SCENE.instantiate()
+	main_game.set_meta("_screenshot_qa_static_surface", true)
+	add_child(main_game)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	return main_game
+
+
+func _free_monthly_economy_main(main_game: Control) -> void:
+	if main_game.get_parent() != null:
+		main_game.get_parent().remove_child(main_game)
+	main_game.free()
+	BGMPlayer.stop()
+	await get_tree().process_frame
+
 
 func _check_prose_resume() -> void:
 	GameState.start_new_game()
@@ -3942,6 +4317,11 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
+		if _monthly_economy_checked:
+			print("MANUAL_SAVE_MONTHLY_ECONOMY_CHECK_OK production=news/prices/dividend/expense/margin reentry=signal+same-turn+rng resume=v4-disk/new-main/static calendar=next-month/year legacy=current/stale/type-boundary excluded=week2/v2 timer=0..11/integral-float/missing/corrupt/fresh/expiry/shock-cold synthetic_not_m07=1")
+		if _monthly_economy_only:
+			get_tree().quit(0)
+			return
 		print("MANUAL_SAVE_CHECK_OK slots=10 chapter5=causal-disk-json-exact-int/eligible-entry/durable-lock-ratchet+finale-disk-exact-int/tamper-closed/legacy-W220-open-W221-closed+w207-live-retained2/cafe-save-reload-ko-en durability=temp-readback/verified-backup/primary-preserved/retry/recovery/compatible-backup-preserved/wrong-type/missing-key manual_feedback=failure-stays/success-close month_situation_resume=consumed-disk/main-entry/state-inert+missing/stale/next-week-one-draw+same-turn-latch+first-week-inert identity=current/partial/unknown/full-demo/v2-isolated/completion-turn25-exact/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 result_variant=sangchul-father-passed/result-once/current-serial-history/event-action-logs/nonresult-prose+choices-restart stale_queue=alive-original/death-canonical+legacy+cast/passed-variants/living-only-skip/769-iterative-skip/769-curation-iterative-skip/read-only-history father_passing=blocked5/event-manager+story-queue/terminal-result2/once/cross-splice2-reject/latest-receipt2-reject timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice first_bill=expression/decision/ledger+preclamp_H3_H99+fatal_short_circuit+frozen_replay+local_ledger+hyunsu+legacy_atomic+old_dirty_generic_inert+nonstory_root_only/no_synthetic_archive archive=opening1/decision0 meta=restored")
 		get_tree().quit(0)
 		return
