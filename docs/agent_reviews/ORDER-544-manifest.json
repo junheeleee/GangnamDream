@@ -1,0 +1,122 @@
+{
+  "unit": "ORDER-544",
+  "scope": "internal full M08 checkpoint continuation; native and release not yet approved",
+  "source": {
+    "head": "145ff6f5aa55479afa629e8f0257e594cff930de",
+    "tree": "4c33429a7ed5f1ae2edb0291470c3cc1edb1a51a",
+    "status": ""
+  },
+  "zip": {
+    "path": "/Users/junheelee/.codex/worktrees/full-m08-local/GangnamDream/build/macos/GangnamDream.zip",
+    "sha256": "d8fa2912d20034889603f771d91bb50ec5e16a0a628e0dd0e4d696b69fd1e442",
+    "size": 429273296
+  },
+  "manifest": {
+    "path": "/Users/junheelee/.codex/worktrees/full-m08-local/GangnamDream/build/macos/MANIFEST.sha256",
+    "sha256": "00eb4f4ed6e8cc1c032f4729b721fa24bd9609278eebfeb000f1e772c7e796f4",
+    "size": 464
+  },
+  "app": {
+    "label": "new_app",
+    "path": "/private/tmp/gd-full-m08-5uffhwr9/app/GangnamDream.app",
+    "exists": true,
+    "entries": [
+      {
+        "path": "Contents/Info.plist",
+        "kind": "file",
+        "sha256": "091169de1ad20197ec07e69f5588a0a3fce562e7eba15d3938d8cdfe9d5ce7fb",
+        "size": 1797
+      },
+      {
+        "path": "Contents/MacOS/GangnamDream",
+        "kind": "file",
+        "sha256": "25b7fd309c068774b7a4d7715b291a73bd2fb9876a92b2539d07f111d0c29251",
+        "size": 184222304
+      },
+      {
+        "path": "Contents/PkgInfo",
+        "kind": "file",
+        "sha256": "7e50a30efad50208a173203ced60818d693bb61266b75aa10927d1a2adce80cb",
+        "size": 9
+      },
+      {
+        "path": "Contents/Resources/GangnamDream.pck",
+        "kind": "file",
+        "sha256": "c68c85bb73437b6cdf415a0a1db4e460a6c3fdab5643b25636b3f8722de9ab1f",
+        "size": 391079352
+      },
+      {
+        "path": "Contents/Resources/PrivacyInfo.xcprivacy",
+        "kind": "file",
+        "sha256": "0535353bb08c25b8ce5ed9ac7e442a5994f402e0f6cbc4bed668cfc63c2ceac3",
+        "size": 229
+      },
+      {
+        "path": "Contents/Resources/icon.icns",
+        "kind": "file",
+        "sha256": "14ccaeef56a52d52af211adce6d6c5b330cafa6c29dc928659b4369ebcef0a28",
+        "size": 2550174
+      },
+      {
+        "path": "Contents/_CodeSignature/CodeResources",
+        "kind": "file",
+        "sha256": "9de783191ac819f12d317f9f386af209f672d0ca82cd6693fa40c43ed38a7111",
+        "size": 2926
+      }
+    ]
+  },
+  "pck": {
+    "file": {
+      "path": "/private/tmp/gd-full-m08-5uffhwr9/app/GangnamDream.app/Contents/Resources/GangnamDream.pck",
+      "sha256": "c68c85bb73437b6cdf415a0a1db4e460a6c3fdab5643b25636b3f8722de9ab1f",
+      "size": 391079352
+    },
+    "header": {
+      "format_version": 3,
+      "engine_version": [
+        4,
+        6,
+        2
+      ],
+      "flags": 2,
+      "base_offset": 112,
+      "directory_offset": 390907120,
+      "entry_count": 1880
+    },
+    "content_json_exact": 675,
+    "icu_member_present": false
+  },
+  "sandbox": "/private/tmp/gd-full-m08-5uffhwr9",
+  "app_path": "/private/tmp/gd-full-m08-5uffhwr9/app/GangnamDream.app",
+  "argv": [
+    "/private/tmp/gd-full-m08-5uffhwr9/app/GangnamDream.app/Contents/MacOS/GangnamDream"
+  ],
+  "environment": {
+    "HOME": "/private/tmp/gd-full-m08-5uffhwr9/home",
+    "XDG_DATA_HOME": "/private/tmp/gd-full-m08-5uffhwr9/xdg-data",
+    "XDG_CONFIG_HOME": "/private/tmp/gd-full-m08-5uffhwr9/xdg-config",
+    "XDG_CACHE_HOME": "/private/tmp/gd-full-m08-5uffhwr9/xdg-cache",
+    "GODOT": "/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot"
+  },
+  "actual_user_data_path": "/private/tmp/gd-full-m08-5uffhwr9/home/Library/Application Support/Godot/app_userdata/강남드림",
+  "checkpoint_source": {
+    "path": "/private/tmp/gd-full-m07-541retry-s5_4x9sv/home/Library/Application Support/Godot/app_userdata/강남드림/gangnam_dream_autosave.json",
+    "sha256": "d1cd6c477e74758111602d99e2bd4af02dd7f39a489727ee562a35d740bed144",
+    "size": 116693
+  },
+  "checkpoint_target": {
+    "path": "/private/tmp/gd-full-m08-5uffhwr9/home/Library/Application Support/Godot/app_userdata/강남드림/gangnam_dream_autosave.json",
+    "sha256": "d1cd6c477e74758111602d99e2bd4af02dd7f39a489727ee562a35d740bed144",
+    "size": 116693
+  },
+  "copied_saves": 1,
+  "state_edits": 0,
+  "unobserved": [
+    "native_M08",
+    "human_playtest",
+    "native_reader",
+    "physical_controller_feel",
+    "audio_listening",
+    "release"
+  ]
+}

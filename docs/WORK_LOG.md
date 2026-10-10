@@ -2,6 +2,49 @@
 
 이전 기록은 [539 마감 전 원문](history/WORK_LOG_2026-10-10_pre_order539_close.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-11 — 본편 M08 실제 앱 관측·무거래 투자 장면 REWORK
+
+- [544](queue_active/ORDER-544.md)은 실행 전 범위/소유를 기록하고 관측·독립 검수와
+  한 커밋으로 묶었다. 새 clean145ff6f5/tree4c33429a full 패키지/격리 HOME·XDG에
+  실제 M07 W29 autosave 한 파일116693B/d1cd6c47…만 byteexact 이월했다.
+  fresh start/저장무주입으로 부르지 않는다. 원문·번역·runtime·project 변경0이다.
+- 실제 KO title Continue→W29 현수4문단/새 slot1 저장→정상 종료→새 OS process
+  Continue에서 같은 완문p4·대화4개 복원→choice0/결과2문단→W31 임상철 기억
+  4문단/choice0/결과2문단을 개별 읽었다. AUTO/skip/연타0이며 프레임·HUD·두 줄
+  배치 표본에 잘림0이다. 원어민·인간·패드·독립 픽셀/PNG·연속 청취 증거는 아니다.
+- 실제 무거래/보유{}·투자감각20인데 W31이 첫 실투자·손절·추가투자/본전을
+  단정했다. guidance 선택0은 실제 거래 없이 callback을 예약한다. 인과 REWORK를
+  별도 수리로 남기며 원문·효과·gate를 이번 관측 기록에서 조용히 바꾸지 않았다.
+  W29→31 돈+14만원/정신+8은 자동 루틴29·30 각1회로 정확 설명되어 중복 지급0이다.
+- W31 결과닫힘 Return1회 후 W32·33이 자동 소비되어 다음 화면은 W34 현수였다.
+  M09 선택0/즉시 CmdQ. W33 첫 화면·월말 UI/예정 정지점은 미충족·HOLD이며
+  주차를 되돌리지 않았다. 저장의 routine29–33·closure5·월말−65만원을 화면 관측으로
+  바꾸지 않는다. 544는 [~]로 남기며 전체 M08/본편 품질 GO를 발급하지 않는다.
+- 첫 PID68560 actual0/227.251358s·cold PID68656 actual0/487.073336s,
+  각 stdout/Godot154B/6649181a…·stderr0·오류/경고/누수0이다. 독립 fresh71그룹/
+  1190파일·tracked3300·app7·helper2+5·seed2/W238/player33·과거283/Human·원W29
+  exact다. private .git/order544-live-20261011/에 원6stream·저장3·관찰 journal과
+  독립 final38560B/ff17d4c8…를 보존했다. 초기 root의 p3 오독·창/클릭 API 오류는
+  정정/한계로 보존하고 제품 실패나 Mac 잠금으로 확대하지 않는다.
+- 개발skill의 기존 builder/격리·종료 후 재활성화 금지·원본보존/실제와 합성 구분을
+  적용했다. 새 영구 도구/전체감사/240주/ObjectDB탐침/최적화/STATUS-only0이다.
+  새 규범0/실행지시 일회성. [독립 보고](agent_reviews/ORDER-544.json)와
+  [manifest 사본](agent_reviews/ORDER-544-manifest.json)은 실제 패키지에 결속하며
+  CLAUDE 현재행 변경을 source wrapper GO로 설명하지 않는다. 전체 제품/출시 HOLD다.
+- 비저자 보고15626B/2fa227cc43d86e2eec9cef92d244ec0ca724e9ddd799719b8d259a2b4ef9aa7f와
+  발급 manifest4260B/507c93cc9f4fd30be239d05fd54a802086927ab47ba817ac0fd64657dab066c5를
+  원장에 package/work_unit REWORK로 추가했다. 과거283판정 원문prefix·Human은
+  보존하며 신규 internal_product GO0이다. 독립 실제 trade형 count 보완은 별도
+  private correction1de7ba08…에 남기고 기존 final receipt를 덮지 않았다.
+- 기록 표적6검사의 최종 결과는 모두 actual0이다(context30577/docs655/links203·
+  큐79/진행77·큐self25/fence4·Human45OPEN/1done·agent self290).
+  최초 Human/agent self2FAIL은 새 package evidence[]의 manifest 링크를 root가
+  빠뜨린 기록 결함이다. 원출력을 보존하고 해당 근거1개만 추가해 두 검사 재실행을
+  통과했다(51.347519s/96.965358s, stderr0). 검사/제품/기대값 완화0이다.
+  STATUS stale은 advisory/actual0이며 현황판 갱신·별도커밋0이다. cjk_wrap_diagnosis의
+  비저자 기록 검토는 허용8파일·옛283원문prefix·다른78큐행·제품/Human/raw35 pin
+  보존 GO/추가결함0이다. 전체CI·제품GO를 발급한 결과가 아니다.
+
 ## 2026-10-11 — 본편 첫 만남의 잘못 고정된 3월 말 날짜 표시 수리
 
 - [543](queue_archive/ORDER-543.md)은 실제 W14(4월)에 나온 공유 첫 만남 날짜를

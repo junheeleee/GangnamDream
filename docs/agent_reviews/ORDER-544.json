@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-544",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewed_at_timezone": "UTC",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "package",
+    "commit": "145ff6f5aa55479afa629e8f0257e594cff930de",
+    "tree": "4c33429a7ed5f1ae2edb0291470c3cc1edb1a51a",
+    "manifest_sha256": "507c93cc9f4fd30be239d05fd54a802086927ab47ba817ac0fd64657dab066c5"
+  },
+  "verdict": "REWORK",
+  "product_verdict": "HOLD",
+  "order_status": "in_progress",
+  "scope": "실제534 시도2의 W29 autosave를 새 HOME에 원바이트 1파일 이월한 full M08 관측 후보. 새 앱 정상 Continue→W29 prose 수동저장→정상 종료→새 OS process cold Continue→W29 choice0/결과→W31 choice0/결과 및 자동 W34 도착까지의 원자료·인과·보존 판정이다. W31 투자 전제는 REWORK이며 예정 W33 첫 화면 정지 미충족으로 544 [~]를 유지한다. 전체 M08 품질/완료, 본편·240주·출시 GO가 아니다.",
+  "scoped_verdicts": {
+    "package_provenance": "GO limited",
+    "manual_save_and_same_prose_cold_resume_evidence": "GO limited",
+    "observed_path_choice_effects_and_once_calendar_receipts": "GO limited",
+    "sealed_population_preservation": "GO",
+    "W31_investment_causality": "REWORK",
+    "W33_first_screen_and_month_end_UI_stop": "HOLD: not observed / stop unmet",
+    "whole_M08_product_and_release": "HOLD"
+  },
+  "method": {
+    "direct": "정본/개발스킬/544사양, 관련 producer/consumer, observations 전체24항목, build/package/admission/pre/native/cold 원자료·6stream, 실제 slot1/autosave/backup·저장사본3개를 읽었다. 기존 b.snapshot/file_record/source_state와 c.snapshot으로 전후/현재를 비교했다.",
+    "population": "tracked3300, 보호71그룹1190파일, helper2 및 기존 helper5/seed2/W238/player33, 과거283판정/Human·공개/옛 산출물/534 원실패·시도2 raw/build/sandbox, app7/ZIP/PCK/manifest, 두 실행 6stream, 최종 격리 namespace7파일이다.",
+    "not_repeated": "native-admission의 실제5 build명령/11stream·서명/universal·PCK검증에 결속하며 final은 같은 bytes/SHA만 확인. 675 payload loop·감사·engine/UI·저장편집·새 checker 실행0.",
+    "observation_boundary": "실제 KO1280×864 픽셀·문단 독해·개별 입력은 root 관측이다. 독립자는 pixels/native UI/소리/패드를 관측하지 않았다. 영속 PNG/video0이며 소스나 로그를 실제 완독 증거로 대체하지 않는다.",
+    "skill_effect": "기존 순수 reader/격리·원본 보존·source/package/인간 증거 분리를 적용했다. 종료 앱 재선택0, 허용 보고/manifest만 작성."
+  },
+  "identity": {
+    "build_worktree": "/Users/junheelee/.codex/worktrees/full-m08-local/GangnamDream",
+    "build_source_clean": true,
+    "root_entry": "145ff6f5/tree4c33429a; queue2 dirty + 미추적 ORDER-544.md 월별 예외 선언. root를 clean source 또는 clean metadata-wrapper GO로 부르지 않는다.",
+    "app": "/private/tmp/gd-full-m08-5uffhwr9/app/GangnamDream.app",
+    "flavor": "full/legacy/v0.1.0-dev/BUILD2026.08.24.5/save4/features=none",
+    "manifest_copy": "docs/agent_reviews/ORDER-544-manifest.json",
+    "manifest_copy_rule": "원 package.json4260B byteexact 사본. 발급 당시 unobserved/native 미승인 문구는 고치지 않으며 후속 관측은 보고에만 기록한다.",
+    "build_manifest_sha256": "00eb4f4ed6e8cc1c032f4729b721fa24bd9609278eebfeb000f1e772c7e796f4",
+    "zip": {
+      "bytes": 429273296,
+      "sha256": "d8fa2912d20034889603f771d91bb50ec5e16a0a628e0dd0e4d696b69fd1e442"
+    },
+    "pck": {
+      "bytes": 391079352,
+      "sha256": "c68c85bb73437b6cdf415a0a1db4e460a6c3fdab5643b25636b3f8722de9ab1f",
+      "entries": 1880,
+      "content_json_exact": 675,
+      "icu_member_present": false
+    },
+    "build_limit": "기존 build.sh macos의 import/export/unpack/codesign strict/lipo 실제 exit0. import/export nested-project warning만 기존 원출력에 보존(import stderr와 Godot는 거울). 내부 ad-hoc 발급이며 notarization·외부배포 승인이 아니다. ICU 없음·KO-only이며 successor CJK GO 불승계."
+  },
+  "provenance": {
+    "original_save": {
+      "path": "/private/tmp/gd-full-m07-541retry-s5_4x9sv/home/Library/Application Support/Godot/app_userdata/강남드림/gangnam_dream_autosave.json",
+      "bytes": 116693,
+      "sha256": "d1cd6c477e74758111602d99e2bd4af02dd7f39a489727ee562a35d740bed144"
+    },
+    "source": "기존 ORDER-534-541retry 실제 cold1 결과/독립 보고의 W29 autosave다. source98baf01 때 실제 W1–28 경로가 만든 저장을145ff6f 새 패키지로 이어 읽었다. 이번 후보의 pristine W1→34 연속 실행이라고 주장하지 않는다.",
+    "copy_boundary": "새 HOME에 원 autosave 1파일 byteexact 복사, state/turn/flags 편집0. 데모/합성 이월0이며 fresh start·복사 없는 검수로 부르지 않는다. 원 namespace는 읽기 전용 보호 대상이다."
+  },
+  "execution": {
+    "first": {
+      "pid_root_recorded": 68560,
+      "exit_code": 0,
+      "seconds": 227.251358
+    },
+    "cold": {
+      "pid_root_recorded": 68656,
+      "exit_code": 0,
+      "seconds": 487.073336
+    },
+    "environment": "각 exact binary 무인자/동일 cwd/HOME/XDG 환경. 실제 user://는 sandbox/home/Library/Application Support/Godot/app_userdata/강남드림. 첫 로그를 native-exit.godot.log로 보관한 뒤 cold 실행; cold1-exit.godot.log도 원바이트 보존했다.",
+    "logs": {
+      "each_stdout_and_Godot_bytes": 154,
+      "sha256": "6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1",
+      "each_stderr_bytes": 0,
+      "error_warning_leak_lines": 0
+    },
+    "log_scope": "원 6stream 전체를 직접 읽고 실제 SHA·size와 결과 pin이 같음을 확인했다. 일반 full 앱 startup 로그이며 QA/native-entry marker를 요구하거나 발명하지 않는다.",
+    "shutdown": "최종 read-only ps에서68560/68656 부재·사용자 editor61385 생존. root는 종료 후 binding/AX/screenshot 재접근0을 기록했다. 독립 UI 조작0이다."
+  },
+  "actual_path_and_saves": {
+    "root_observed": "W29 결과 이후 4문단을 각각 읽고 마지막 prose에서 slot1 UI 저장/토스트→CmdQ. 새 cold normal Continue가 같은 fully displayed p4를 복원; history4개 중복 없음→choice0/결과2문단. Return 후 W30 별도 화면 없이 W31 투자 콜백4문단→choice0/결과2문단. 결과 닫힘 Return1회 후 다음 실제 화면은 W34 사라진 시간표였다. M09 추가 Return/선택 입력0으로 즉시 CmdQ했다.",
+    "manual_slot1": {
+      "bytes": 122018,
+      "sha256": "3fdc379a169845b776b50b6f08963b5e34eddf365957a6164fa5bbf17379963d",
+      "first_exit_cold_entry_final_byteexact": true,
+      "turn": 29,
+      "money": -1767700,
+      "health": 54,
+      "mental": 89,
+      "event_id": "arc_hyunsu_exam_fail",
+      "phase": "prose",
+      "source_paragraph_index": 3,
+      "source_paragraph_count": 4,
+      "paragraph_was_typing": false,
+      "source_text_progress": 1,
+      "pending_result_choice_index": -1,
+      "story_locale": "ko"
+    },
+    "cold_contract": "slot1에는 선택 적용 전 사건41개·full chain turn29/open·last_completed28·dialogue4개가 저장됐다. cold-pre namespace는 첫 종료 namespace와 exact이며 실제 slot1은 최종까지 원바이트 동일하다. root가 관측한 p4/HUD 복원과 디스크 context가 맞지만 독립 픽셀 GO는 아니다.",
+    "w31": {
+      "bytes": 122863,
+      "sha256": "173224e71ab6cd713ba1eec820411db4312dda5b0572627290695d573cc8bc88",
+      "turn": 31,
+      "money": -1627700,
+      "health": 54,
+      "mental": 97,
+      "events_seen": 42,
+      "portfolio": {},
+      "investment_skill": 20,
+      "last_completed_turn": 30
+    },
+    "final_autosave": {
+      "bytes": 130518,
+      "sha256": "5c605627b2d0a05a288a095298a04738e395f360323320f10875ad941ac690b9",
+      "turn": 34,
+      "year": 2026,
+      "month": 9,
+      "week_of_month": 2,
+      "money": -2067700,
+      "health": 52,
+      "mental": 93,
+      "events_seen": 43,
+      "last_completed_turn": 33,
+      "resume": {},
+      "chain": {}
+    },
+    "backup": {
+      "bytes": 127266,
+      "sha256": "1feb2026da32c7d9d10b651361691ed14142a0cf18f345afd960d54d7fcb0aeb",
+      "turn": 33,
+      "last_completed_turn": 32,
+      "resume": {}
+    },
+    "once_receipts": "원 W1–28 read/routine/completed/activity 및 event/action prefix는 값 exact. 신규 actual read는 W29 arc_hyunsu_exam_fail0/sequence42와 W31 callback_investment_lesson_echo0/sequence43 각1개. routines29–33 및 complete29→30…33→34 각1개. W29→31 현금+140000/정신+8은 routine2와 맞고, 전체 현금−1767700+5×70000−650000=−2067700이다. monthly_economy_turn33·8월말 cashflow−65만원 원장이 일치한다.",
+    "calendar_consumer": "scenes/MainGame.gd:617 _full_story_route_week→deferred _full_story_continue_week:682→_full_story_advance_week:691. quiet week가 ready이면 루틴/advance 또는 month-end→save→_begin_month를 다시 호출한다. 실제 W32/33 routine·closure와 W34 save가 이 경로를 뒷받침한다. 자동 진행을 입력주입·중복경제라고 단정하지 않으나 W33 정지조건 충족으로도 쓰지 않는다.",
+    "stop_limit": "W30/W32/W33 별도 pixels·W33 첫 화면·월말 UI는 미관측이다. W34 처음 보인 장면의 선택/결과0이며 그 장면을 durable 완료했다고 주장하지 않는다. M08 전체 관측은 미완료/[~]다."
+  },
+  "findings": [
+    {
+      "id": "UNSUPPORTED_INVESTMENT_CAUSALITY",
+      "verdict": "REWORK",
+      "source": [
+        "content/events/callback_events_37.json:11 conditions",
+        "content/events/callback_events_37.json:22 description",
+        "content/events/callback_events_37.json:25,32 choice0/result",
+        "content/events/arc_events.json:515 deferred_delay16",
+        "autoloads/GameState.gd:2087,4911 deferred producer",
+        "scenes/MainGame.gd:7040 due/eligible consumer",
+        "autoloads/EventManager.gd:855 eligibility"
+      ],
+      "evidence": "guidance 선택0은 investment_lesson_1/16주 후속을 예약할 뿐 매수를 실행하지 않는다. 콜백 조건도 flag+min_turn28이며 actual trade witness가 없다. W29/W31/final 보유{}와 실제 action_log trade0(70/71/76행, cap120 미도달), pre-choice investment_skill20·현금 routine-only가 원 경로의 거래 부재를 뒷받침한다. 그런데 prose '처음으로 진짜 돈을 넣었다', 양 선택의 투자·손절 전제, 결과 '3일/본전에서 조금 올랐다'가 실제 이력과 충돌한다. 관측된 선택0은 현금 효과 없이 mental/investment_skill만 바꾼다. 별도 수리 후 동일 인과 범위를 재검수해야 한다."
+    },
+    {
+      "id": "W33_STOP_BOUNDARY_UNOBSERVED",
+      "verdict": "HOLD",
+      "evidence": "W31 resultclose Return1 후 W32/33을 자동 소비해 next observed W34가 됐다. 계획의 W33 첫 화면 stop은 미충족이며 544 완료/[x]·full M08 GO로 마감할 수 없다. 엔진 오류/수동 M09 선택으로 바꾸어 기록하지 않는다."
+    }
+  ],
+  "preservation": {
+    "receipt": {
+      "path": ".git/order544-live-20261011/independent-final-preservation.json",
+      "bytes": 38560,
+      "sha256": "ff17d4c89c4a6109bb80a6137fe3e563461fcde1373bded2404b9c6abbef3bbc"
+    },
+    "trade_reader_correction": {
+      "path": ".git/order544-live-20261011/independent-final-trade-correction.json",
+      "bytes": 1766,
+      "sha256": "1de7ba08706f9f26d5ab5a9b7ad0bde08c4918e22b45aa35637631be9b87a10b"
+    },
+    "exact": "baseline→build/first-pre/first-after/cold-pre/cold-after→독립fresh의 보호71/1190·tracked3300·spec/helper2·app7/ZIP/PCK/manifest·helper5/seed2/W238/player33·원W29·과거283/Human 전량 불일치0. 최종namespace7=current, first-exit5=cold-entry5. 옛534 사고/report/manifest 원형 보존.",
+    "freeze_release": "2026-10-10T17:14:12Z fresh 뒤 receipt를 봉인하고 root에 metadata 동결해제를 회신했다. 이후 문서 편집을 clean source wrapper GO로 부르지 않는다.",
+    "diagnostic_notes": "최초 reviewer 읽기는 flat resume를 resume.story로 가정해 KeyError 중단. 파일/engine 변경 없이 정정 후 fresh 전량 완료했다. 원 receipt의 literal investment형 count0은 실제 writer trade형이 아니므로 원bytes를 덮지 않고 별도 correction에 삼저장의 trade0을 결속했다. 기존 준비 진단은 원 admission에 보존."
+  },
+  "raw_evidence": {
+    "base": ".git/order544-live-20261011",
+    "baseline": {
+      "bytes": 29916,
+      "sha256": "ba8487b972b644944615db23c05e2af7dacea9cd422bf95314bb42bcc671a517"
+    },
+    "native_admission": {
+      "bytes": 8952,
+      "sha256": "d9f4060a8f7f1ea5861e2cedfe8683993be950612820588ea5635015136e651e"
+    },
+    "before": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-live-20261011/before.json",
+      "sha256": "7912fb51dd7bba34ebadd8cc09eec6197bc96911e38e58671d5279cf22457e6d",
+      "size": 273648
+    },
+    "build_result": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-live-20261011/build-result.json",
+      "sha256": "82ca386a2a4ad93d9702fdef227c0ccb39674d923c79398af9289f3b21e15955",
+      "size": 277074
+    },
+    "first_pre": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-live-20261011/pre-launch.json",
+      "sha256": "e3da3d8b73e899d9f7aab4547a0c0e45139d94185197d8d21f04e412b79cc4bf",
+      "size": 1126459
+    },
+    "first_result": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-live-20261011/native-result.json",
+      "sha256": "a9a20e2b59de5c0417bfed39e50ca868d6b21be8f8346245c1ea395fd1de194e",
+      "size": 274776
+    },
+    "cold_pre": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-live-20261011/cold1/pre-launch.json",
+      "sha256": "2f192de18bb9e66160c8184b8d5aa270dd97dc854fd3989cb72a66404ebb9634",
+      "size": 1127217
+    },
+    "cold_result": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-live-20261011/cold1/native-result.json",
+      "sha256": "5154ba7a285b02ba816749001b5ccc18c578565de5c08db3c6e493eed525f7b7",
+      "size": 275188
+    },
+    "observations": {
+      "bytes": 6381,
+      "sha256": "d91a8d7ab465ef03d38edb1bc2709cf27143da9a912fd1ee275d31aeb78a2662",
+      "scope": "root24항목+state correlation 전체 읽음. 초기 coffee-stain 오기는 #10의 행정법 책/네모난 빈자리로 정정됐다. 제품 오류로 세지 않는다."
+    },
+    "raw_pin_population": 33
+  },
+  "unobserved": [
+    "independent_pixels",
+    "persistent_PNG_video",
+    "W30_W32_W33_separate_screens",
+    "W33_first_screen_month_end_UI_stop",
+    "other_locales_branches_resolutions",
+    "natural_W14_repairs_replay",
+    "M09_choices_or_later_months",
+    "natural240_week_completion",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "continuous_audio_listening",
+    "full_CI_notarization_external_release"
+  ],
+  "final_boundary": "W29 수동저장/cold 문단 위치·한정 경로 once효과·보존만 GO. 투자 인과 REWORK와 W33 미관측 HOLD로 544는 [~], 제품/출시 HOLD. 자동 계약은 재미·깊이·문체·실제 인간 승인의 증명이 아니다. 과거 실패/인간 증거를 덮거나 후속 수리·월의 GO로 확대하지 않는다."
+}

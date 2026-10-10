@@ -11895,6 +11895,53 @@
         "path": "docs/agent_reviews/ORDER-543.json",
         "sha256": "4c87a7d6486bd1372e50a1d22779e34312e5cd6a4b500b0ec78c6bbfbaba9f5e"
       }
+    },
+    {
+      "id": "order-544-full-m08-observed-package-rework",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-11",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-544",
+      "subject": {
+        "kind": "package",
+        "commit": "145ff6f5aa55479afa629e8f0257e594cff930de",
+        "tree": "4c33429a7ed5f1ae2edb0291470c3cc1edb1a51a",
+        "manifest_sha256": "507c93cc9f4fd30be239d05fd54a802086927ab47ba817ac0fd64657dab066c5"
+      },
+      "verdict": "REWORK",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-544.json",
+          "sha256": "2fa227cc43d86e2eec9cef92d244ec0ca724e9ddd799719b8d259a2b4ef9aa7f"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-544.json",
+          "sha256": "2fa227cc43d86e2eec9cef92d244ec0ca724e9ddd799719b8d259a2b4ef9aa7f"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-544-manifest.json",
+          "sha256": "507c93cc9f4fd30be239d05fd54a802086927ab47ba817ac0fd64657dab066c5"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "independent_pixels_persistent_PNG_video_continuous_audio",
+        "W30_W32_W33_separate_screens_W33_stop_month_end_UI",
+        "other_locales_branches_resolutions_natural_W14_repairs_replay",
+        "M09_choices_later_months_natural240_week_completion",
+        "full_CI_notarization_external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-544.json",
+        "sha256": "2fa227cc43d86e2eec9cef92d244ec0ca724e9ddd799719b8d259a2b4ef9aa7f"
+      }
     }
   ]
 }
