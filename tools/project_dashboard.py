@@ -1168,8 +1168,13 @@ def main() -> int:
                          "(지정하면 HTML은 만들지 않는다)")
     ap.add_argument("--check", action="store_true",
                     help="--md 대상이 지금 내용과 같은지만 확인한다. "
-                         "다르면 1로 끝나므로 CI가 낡은 문서를 잡는다.")
+                         "다르면 1로 끝난다 (--advisory로 참고 경고만 가능).")
+    ap.add_argument("--advisory", action="store_true",
+                    help="--md PATH --check에서 문서 낡음만 경고/0으로 처리한다. "
+                         "생성기 오류는 계속 실패한다.")
     args = ap.parse_args()
+    if args.advisory and not (args.md and args.check):
+        ap.error("--advisory 는 --md PATH --check 와 함께 쓴다.")
 
     if args.md:
         dest = ROOT / args.md
@@ -1181,9 +1186,10 @@ def main() -> int:
                                  if not l.startswith("> 생성 시각"))
             current = dest.read_text(encoding="utf-8") if dest.is_file() else ""
             if body(current) != body(text):
-                print(f"DASHBOARD_STALE {args.md} — 저장소가 바뀌었는데 문서가 그대로다.")
-                print(f"  고치는 법: python3 tools/project_dashboard.py --md {args.md}")
-                return 1
+                note = " (참고 경고·CI 비차단)" if args.advisory else ""
+                print(f"DASHBOARD_STALE {args.md} — 저장소가 바뀌었는데 문서가 그대로다.{note}")
+                print(f"  현황이 필요할 때 갱신: python3 tools/project_dashboard.py --md {args.md}")
+                return 0 if args.advisory else 1
             print(f"DASHBOARD_FRESH {args.md}")
             return 0
         dest.parent.mkdir(parents=True, exist_ok=True)

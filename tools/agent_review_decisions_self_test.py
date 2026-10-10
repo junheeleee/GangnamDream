@@ -91,14 +91,30 @@ def generated_status_cases(base: dict, human_raw: bytes) -> list[dict]:
             observe(mode + "-clean-verdict", expected_verdict,
                     gates.effective_agent_decision(subject, "internal_product", root=repo)["verdict"])
 
-            def dashboard_cli(check_only: bool = False) -> tuple[int, str]:
+            def dashboard_cli(check_only: bool = False, advisory: bool = False,
+                              flags: tuple[str, ...] | None = None) -> tuple[int, str]:
                 argv = ["project_dashboard.py", "--md", "docs/STATUS.md"]
-                if check_only:
-                    argv.append("--check")
+                if flags is not None:
+                    argv = ["project_dashboard.py", *flags]
+                else:
+                    if check_only:
+                        argv.append("--check")
+                    if advisory:
+                        argv.append("--advisory")
                 out = io.StringIO()
-                with patch.object(dashboard, "ROOT", repo), patch("sys.argv", argv), contextlib.redirect_stdout(out):
-                    code = dashboard.main()
-                return code, out.getvalue()
+                err = io.StringIO()
+                with patch.object(dashboard, "ROOT", repo), patch("sys.argv", argv), \
+                        contextlib.redirect_stdout(out), contextlib.redirect_stderr(err), \
+                        contextlib.ExitStack() as read_only:
+                    if "--check" in argv or "--advisory" in argv:
+                        for method in ("write_text", "write_bytes"):
+                            read_only.enter_context(patch.object(
+                                Path, method, side_effect=AssertionError("dashboard check wrote a file")))
+                    try:
+                        code = dashboard.main()
+                    except SystemExit as exc:
+                        code = exc.code
+                return code, out.getvalue() + err.getvalue()
 
             written, _ = dashboard_cli()
             checked, output = dashboard_cli(True)
@@ -110,6 +126,78 @@ def generated_status_cases(base: dict, human_raw: bytes) -> list[dict]:
             checked_clean, output_clean = dashboard_cli(True)
             observe(mode + "-committed-generated-check", 0, checked_clean)
             results[-1]["stdout"] = output_clean
+
+            status = repo / "docs/STATUS.md"
+            fresh = status.read_bytes()
+            checked_advisory, output_advisory = dashboard_cli(True, advisory=True)
+            observe(mode + "-fresh-advisory", 0, checked_advisory)
+            observe(mode + "-fresh-advisory-marker", True,
+                    "DASHBOARD_FRESH docs/STATUS.md" in output_advisory)
+            observe(mode + "-fresh-advisory-no-write", fresh, status.read_bytes())
+
+            status.write_bytes(fresh + b"\nfixture stale body\n")
+            stale = status.read_bytes()
+            warning = "(참고 경고·CI 비차단)"
+            for advisory, expected in ((False, 1), (True, 0)):
+                label = mode + ("-advisory" if advisory else "-strict")
+                code, output = dashboard_cli(True, advisory=advisory)
+                observe(label + "-stale-exit", expected, code)
+                observe(label + "-stale-marker", True, "DASHBOARD_STALE" in output)
+                observe(label + "-stale-warning", advisory, warning in output)
+                observe(label + "-stale-no-write", stale, status.read_bytes())
+
+            status.write_bytes(fresh)
+            original_read_text = Path.read_text
+            for advisory in (False, True):
+                label = mode + ("-advisory" if advisory else "-strict")
+                generation_error = RuntimeError("fixture markdown generation failure")
+                with patch.object(dashboard, "markdown", side_effect=generation_error):
+                    caught = None
+                    try:
+                        dashboard_cli(True, advisory=advisory)
+                    except RuntimeError as exc:
+                        caught = exc
+                    observe(label + "-generation-error-propagates", True,
+                            caught is generation_error)
+
+                reading_error = OSError("fixture STATUS read failure")
+
+                def fail_status_read(path: Path, *args, **kwargs):
+                    if path == status:
+                        raise reading_error
+                    return original_read_text(path, *args, **kwargs)
+
+                with patch.object(Path, "read_text", new=fail_status_read):
+                    caught = None
+                    try:
+                        dashboard_cli(True, advisory=advisory)
+                    except OSError as exc:
+                        caught = exc
+                    observe(label + "-reading-error-propagates", True,
+                            caught is reading_error)
+                observe(label + "-exception-no-write", fresh, status.read_bytes())
+
+            status.unlink()
+            for advisory, expected in ((False, 1), (True, 0)):
+                label = mode + ("-advisory" if advisory else "-strict")
+                code, output = dashboard_cli(True, advisory=advisory)
+                observe(label + "-missing-exit", expected, code)
+                observe(label + "-missing-marker", True, "DASHBOARD_STALE" in output)
+                observe(label + "-missing-warning", advisory, warning in output)
+                observe(label + "-missing-not-created", False, status.exists())
+
+            for name, flags in (
+                ("missing-check", ("--md", "docs/STATUS.md", "--advisory")),
+                ("missing-md", ("--check", "--advisory")),
+                ("missing-both", ("--advisory",)),
+            ):
+                with patch.object(dashboard, "markdown") as markdown, \
+                        patch.object(dashboard, "build") as build:
+                    code, _ = dashboard_cli(flags=flags)
+                observe(mode + "-advisory-" + name + "-exit", 2, code)
+                observe(mode + "-advisory-" + name + "-no-generation", False,
+                        markdown.called or build.called)
+                observe(mode + "-advisory-" + name + "-no-file", False, status.exists())
 
     cases = (
         ("clean", True), ("status-unstaged", True), ("status-staged", True),

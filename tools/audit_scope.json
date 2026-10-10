@@ -1316,7 +1316,7 @@
         "tools/agent_review_decisions_self_test.py",
         "tools/human_gates.py",
         "tools/queue_index_self_test.py",
-        "tools/project_dashboard.py --md docs/STATUS.md --check",
+        "tools/project_dashboard.py --md docs/STATUS.md --check --advisory",
         "tools/audit_select.py --verify"
       ],
       "why": "위임된 내부 판정과 인간 증거 원형 분리만. 명시 차선이며 제품·실플레이 통과를 대신하지 않는다."
@@ -1392,7 +1392,7 @@
         "tools/queue_index_self_test.py",
         "tools/queue_consistency_check.py",
         "tools/context_manifest_check.py",
-        "tools/project_dashboard.py --md docs/STATUS.md --check",
+        "tools/project_dashboard.py --md docs/STATUS.md --check --advisory",
         "tools/human_gates.py",
         "tools/audit_select.py --verify"
       ],
@@ -1955,7 +1955,7 @@
         "tools/third_party_notice_audit.py",
         "tools/story_demo_package_audit.py --self-test",
         "tools/run_story_nameplate_check.py",
-        "tools/project_dashboard.py --md docs/STATUS.md --check",
+        "tools/project_dashboard.py --md docs/STATUS.md --check --advisory",
         "tools/human_gates.py",
         "tools/audit_select.py --verify"
       ],
@@ -4685,8 +4685,8 @@
       ]
     },
     {
-      "tool": "tools/project_dashboard.py --md docs/STATUS.md --check",
-      "why": "현황 문서 신선도 — 생성 문서가 저장소보다 낡으면 거짓말이 된다",
+      "tool": "tools/project_dashboard.py --md docs/STATUS.md --check --advisory",
+      "why": "현황 문서 신선도 — 낡음만 참고 경고, 생성기 오류는 차단한다",
       "paths": [
         "content/**",
         "docs/CODEX_QUEUE.md",

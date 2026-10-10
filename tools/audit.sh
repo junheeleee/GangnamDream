@@ -244,8 +244,8 @@ python3 tools/feature_liveness_audit.py
 FEATURE_LIVENESS_EXIT=$?
 
 echo "──────────────────────────────────────────"
-echo "● 현황 문서 신선도 (docs/STATUS.md가 저장소와 같은가)"
-python3 tools/project_dashboard.py --md docs/STATUS.md --check
+echo "● 현황 문서 신선도 (낡음은 참고 경고·생성 오류는 차단)"
+python3 tools/project_dashboard.py --md docs/STATUS.md --check --advisory
 STATUS_DOC_EXIT=$?
 
 echo "──────────────────────────────────────────"

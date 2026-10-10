@@ -65,7 +65,7 @@ python3 tools/en_coverage_check.py
 git diff --check
 ```
 
-`docs/STATUS.md` is generated, never hand-edited. Any content change makes it stale and `audit.sh` fails on it. Regenerate in the same commit:
+`docs/STATUS.md` is generated, never hand-edited. CI reports staleness as an advisory warning; generator errors still block. Regenerate when an updated view is needed, optionally alongside substantive work, never as a required STATUS-only follow-up commit. Strict `--check` remains available for an explicit freshness check:
 
 ```bash
 python3 tools/project_dashboard.py --md docs/STATUS.md
