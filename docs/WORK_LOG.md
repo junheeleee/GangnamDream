@@ -2,13 +2,23 @@
 
 이전 기록은 [526 발급까지의 원문](history/WORK_LOG_2026-10-10_pre_order526.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 재혁 재회 선택·월정산→M06 첫문단 완료
+
+- [531](queue_archive/ORDER-531.md) 한정GO. 같은ICU앱 verbose OS1회/Continue1/개별Return5/선택0click1/정산1/CmdQ1, KO본문4화면(2/2/2/1줄)·2택·결과1화면4줄을 자연완독했다. 선택직후mental82, 자동M06첫문단1줄/HUD565만원·70·80/남은55개월 뒤 추가진행0이다.
+- 실제primary19239B/aadfeb0d… M6/elapsed20/closed[1..5]/pressure5/turn21/choice8·settlement5/social60/재혁reunited12·사진1. 기존7선택/4정산·oldflags/다른cast/명함보존, 재혁0·정산각1만 추가다. backup19110B/16eda0b2…는 같은정산 game_state, phase transition/context미추가만 다르다. 새empty-root m6_route_context는controller874–963의 정상분기다.
+- raw8 before750524B/b035c100…·after755489B/66fa6164…·관찰2900B/56ebed22…·command1444B/d44a4bb7… 보존. exit0/81.439620초/stdout17949B·Godot17899B(50B만차이)/stderr·오류·경고·누수행0, entry2는앱1회내controller재진입이다. SDL진단원문 보존, M04고유reset/연출 미재현이므로529REWORK·객체동정HOLD는 그대로다.
+- 비저자 phone_independent_review가 clean3b664649/treec00fc369 source3271/helper5/seed2/W238/player33·immutable59 전체 before=after=fresh/runtime9 after=fresh·실저장/backup/원로그/consumer를 직접 읽고 한정GO·동결해제했다. own55179/55175부재/editor61385생존, root pixels/독립raw검수·독립pixels/PNG영속/청취0이다.
+- raw봉인 뒤 출력용 top-diff의 새키 KeyError는 읽기요약 오류였으며 제품/산출물실패가 아니다. 원값/producer직접대조, 재실행/원고·번역·제품/원저장·새검사·재발급0이다. 개발스킬의 기존소비자·독립fresh·보존 적용/일회성·승격0. M06나머지/다른선택·언어·크기/인간·원어민·물리·본편출시HOLD다.
+- 다음 [532](queue_active/ORDER-532.md)은 M06 다은0/놓친네줄ledger·표현0/정산1→회고 한 단위로 선선언한다. 읽기준비의 632만원·70·79/social61/choices9·settlements6는 기대값이지 관측이 아니다. 529원경로 수리와 회고cold-restart는 별개다.
+- 기록/선언 영향6검사 PASS(context30060/docs641/links198·큐78/76·현황신선도·인간원장·index25/4·agent222/제품HOLD)/diff PASS, 기존269판정 불변/531 archive원장결속 독립GO·532준비만GO다. 변경없는 전체회귀·EN/엔진은 재실행하지 않았다.
+
 ## 2026-10-10 — 최소 종료 탐침 무경고 / 누수 객체 동정 HOLD
 
 - [530](queue_archive/ORDER-530.md)의 같은ICU앱 verbose1회/Continue1/M05첫문단2줄/기록entry1완문2줄/open·close각1/CmdQ1을 실행했다. 추가advance·선택·정산·설정·저장복사/주입0, 같은HUD498만원·70·73/남은56개월이다. stale창의 cgWindowNotFound는 잠금으로 오판하지 않고 실행중editor61385 exact경로에 재연결했다.
 - exit0/50.983207초/stdout16354B·Godot16304B/stderr0/parse·script·enginefatal·WARNING·ObjectDB·Leaked instance행0. M04원경로 미재현/verbose타이밍 변화라 529REWORK는 유지한다. 실제객체명/원인은HOLD이며 소스추정수리·재발급·경고예외/검사삭제0이다.
 - private raw10 before748551B/e7205e82…·after748680B/e84a792c…·observation2300B/3d02e882…·command1453B/29029018… 및 이전Godot912B/e4aaafa0… 원문 보존. save17299B/6a754921…의 +60B는30곳 int→동일값float뿐, 전체payload/choice7·settlement4/M5·elapsed16·turn17/수치·cast·item 동일, 이전primary는backup byte-exact다.
 - root/비저자 phone_independent_review가 clean dceaf0b/tree0897e24c source3270/helper5/seed2/W238/player33/immutable58 before=after=fresh/runtime9 after=fresh를 직접 읽었다. own35844/35837부재/editor61385생존, 최종은 실행/보존 한정GO·객체동정HOLD다. root pixels만/독립pixels·영속PNG·청취0·인간/원어민/물리·본편출시HOLD다.
-- 개발스킬의 기존helper·실제소비자·독립fresh·원본보존 적용/일회성·정본승격0. 다음 [531](queue_active/ORDER-531.md)은 첫실제M05전체→선택0/결과→정산1→M06첫문단으로 빠졌던선택dock·commit·퇴장·월복귀를 함께 본다. M04고유reset/연출은 재현하지 않으므로 음성도529누수수리GO가 아니다. 원고/번역/제품/사용자저장·과거인간판정 변경0이다.
+- 개발스킬의 기존helper·실제소비자·독립fresh·원본보존 적용/일회성·정본승격0. 다음 [531](queue_archive/ORDER-531.md)은 첫실제M05전체→선택0/결과→정산1→M06첫문단으로 빠졌던선택dock·commit·퇴장·월복귀를 함께 본다. M04고유reset/연출은 재현하지 않으므로 음성도529누수수리GO가 아니다. 원고/번역/제품/사용자저장·과거인간판정 변경0이다.
 
 ## 2026-10-10 — M04 상철·월 정산 확인 / 새 종료누수 REWORK
 

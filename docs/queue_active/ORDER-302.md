@@ -177,10 +177,10 @@ fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거�
 
 ### 2026-10-10 실제 package 저장/재시작 착수
 
-[516](../queue_archive/ORDER-516.md)에 실패·수리/발급 이력을 보존했다.
+[516](../queue_archive/ORDER-516.md)에 실패·발급 보존.
 [523](../queue_archive/ORDER-523.md)의 exact522 저장·완문/수치/이름표 재개와
 [524](../queue_archive/ORDER-524.md)의 정산1·자동M02 복귀 GO(진행안내 소실 비재현).
 [525](../queue_archive/ORDER-525.md) M02 설정5언어·[526](../queue_archive/ORDER-526.md)
-ICU 줄바꿈·[527](../queue_archive/ORDER-527.md) M02재개/언어복귀·
-[528](../queue_archive/ORDER-528.md) M03→M04 GO. [529](../queue_archive/ORDER-529.md)
-M04기능GO·종료REWORK, [530](../queue_archive/ORDER-530.md) 원인HOLD. 다음531·전체HOLD.
+ICU 줄바꿈·[527](../queue_archive/ORDER-527.md) M02재개·[528](../queue_archive/ORDER-528.md)
+M03→M04 GO. [529](../queue_archive/ORDER-529.md) 종료REWORK·[530](../queue_archive/ORDER-530.md)
+원인HOLD·[531](../queue_archive/ORDER-531.md) M05선택·정산GO. M06나머지/전체HOLD.
