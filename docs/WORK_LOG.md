@@ -4,6 +4,10 @@
 
 ## 2026-10-10 — 시작 방식 저장 수리·첫 8주 내부 연결 검증
 
+- [536 독립 보고](agent_reviews/ORDER-536.json) 11456B/75ac14a8…와 [537 독립 보고](agent_reviews/ORDER-537.json) 6896B/052a3cbd…를 source cb177ac8/tree dca05fe2에 결속했다. 최종 commit13파일(제품8·기록5)·최종9stream·앞 동치 제외6stream·최초 실패·정적 원형을 직접 읽은 한정 GO다. 보호18그룹92파일/helper5/seed2/W238·최종8제품blob exact, 사후 봉인10921B/8580069c…이다. 두 단위만 마감하며 현재CLAUDE/STATUS/제품·다른활성상태·과거판정은 metadata wrapper에서 불변이다.
+- 마감 영향 context30432/docs647/links198·큐78/76·index25/fence4·agent 원장276·diff PASS. cjk_wrap_diagnosis가 별도 readonly로 기존274판정·나머지78큐행(순번 외)·허용metadata8항목·보고SHA·제품/CLAUDE/STATUS/인간 불변을 확인했다. 문구의 제품13을 제품8/기록5로 정정했다. 게임 검사를 기록 수정 때문에 반복하지 않는다.
+- 다음은 W9–W12의 실제 후속·세 번째 월말·cold/쓰기 재시도 경계를 별도 선언한다. 읽기 전용 분석에서 target_turn<=9와 W12 경마 직접활동 복귀의 미연결을 확인했다. 불합격/구제직 원고의 선행사실·사망/장기경제도 미검증이며 숫자 cap만24로 바꾸거나 임의 월급으로 우회하지 않는다. 아직 새 구현/원고 변경0, 534 M07/기본활성화/출시 HOLD다.
+
 - 536의 명시 격리 preview만 W1–W8 결과 완독→실제 후속 큐 종료→자동 생계/회복→기존 월말로 연결했다. 정상 50만원/백수/33세와 W4 유혹·W8 clean/반환/더 깊게 원효과·미래 예약을 보존한다. 주8/월2 once, 지원금 선처리·직업/관계/아이템·압력/비용을 기존 owner로 처리하고 W9 개발 경계에서 멈춘다. 기본 시작·demo/V2·원문/번역·project·인간 판정은 바꾸지 않았다.
 - 저장 실패는 계산된 메모리를 유지하되 진행을 잠그고 재시도는 쓰기만 한다. 새 Main 재생성의 뉴스 표시가 게임 RNG를 소비하던 확인 결함은 preview에서 화면 RNG로 분리했다. 버튼은 원래 잠겼으며 버튼 결함으로 소급하지 않는다. cold는 기존 JSON codec, 메모리/RNG는 strict 비교다. 기존 새 Main의 정수 reader 두 잎(tab/timer)만 유한 정수값을 확인해 비교하며 다른 상태를 마스킹하지 않는다.
 - 537은 필드 누락 구저장에만 시작 방식 역추론을 허용한다. 명시 자유/투자·누락 구저장 3경계를 실제 v4 저장→cold→다시 저장/재개로 검증했고 수치·로그·범주는 그대로다. 마지막 EN 검사 오탐은 기존 내부ID 조건이 인식하는 동치 순서로 정렬해 닫았다. 검사/면제·스키마 변경0이다.
@@ -11,16 +15,16 @@
 - 첫 parse/fixture 오류, W4 cold/새 Main/RNG 실패, 자유→투자 실제 회귀, EN 오탐을 원로그에 보존했다. `.git/order536-qa-20261010/final-after-guard.json`은 최종3회 argv/env/exit/time-p·9stream SHA와 제품8pin, `final-executions.json`은 앞5회 원형이다. 모두 격리 합성 검사이며 자연 완독·실제 M07·새 앱 패키지가 아니다.
 - EN coverage/한글0·arc 흐름·등록179·537 추가 정적4 PASS. 선택 정적 묶음은 causal self-test 120초 및 별도600초 timeout으로 종합 exit를 얻지 못해 63개 원출력을 전체 PASS로 올리지 않는다. general finale의 기존 shipping1708 고정 실패(현재1702)는 535 원 baseline과 같고 수정/삭제/예외 추가0이다. 전체 감사·240주·종료누수 추적·비용 최적화·STATUS-only commit0, 전체 CI 녹색은 미관측이다.
 - 마감 selector 목록 조회의 `--list` 누락은 readonly human_gates 자식에서 exact PID 중단(exit143)했고 PASS로 세지 않는다. engine/입력0, 기존 editor만 생존 확인 후 보호 fresh를 다시 봉인한다. 개발 skill Verify에 목록/실행 구분 한 줄을 승격해 재발을 막는다. CLAUDE 현재행의 18KB 초과는 그 한 줄만 줄여 context30733/docs647 PASS로 닫았다.
-- 개발 skill의 기존 consumer·격리/원본 보존·비저자 판정을 적용했다. 새 설계 정본 규칙0, 위 실행 주의 외 범위/구현/검증 지시는 일회성이다. 독립 최종 source 결속 전 완료 선언은 하지 않는다. 정상 full 입구534 REWORK·M07·W9 이후·기본 활성화·인간/원어민/물리 패드·연속 청취·본편 출시는 HOLD다.
+- 개발 skill의 기존 consumer·격리/원본 보존·비저자 판정을 적용했다. 새 설계 정본 규칙0, 위 실행 주의 외 범위/구현/검증 지시는 일회성이다. 독립 최종 source 한정 GO를 아래 원장에 결속했다. 정상 full 입구534 REWORK·M07·W9 이후·기본 활성화·인간/원어민/물리 패드·연속 청취·본편 출시는 HOLD다.
 
 ## 2026-10-10 — 명시된 시작 방식의 저장 재개 수리 착수
 
-- [537](queue_active/ORDER-537.md)을 구현 전에 선언한다. 536 전체 Manual-preview에서 W4 결과 재개 뒤 `run_theme`만 자유→투자로 변했다. `_roll_run_theme`의 초기 무작위 범주와 기존 구저장 역추론이 만나 명시 자유 선택까지 덮는 기존 결함이며 숫자 정밀도/완독 소유권 문제가 아니다.
+- [537](queue_archive/ORDER-537.md)을 구현 전에 선언한다. 536 전체 Manual-preview에서 W4 결과 재개 뒤 `run_theme`만 자유→투자로 변했다. `_roll_run_theme`의 초기 무작위 범주와 기존 구저장 역추론이 만나 명시 자유 선택까지 덮는 기존 결함이며 숫자 정밀도/완독 소유권 문제가 아니다.
 - GameState guard 저작·기존 ManualSave 3경계 회귀·비저자 source/raw 검수로 분리한다. 구저장 필드 누락 추론은 유지하고 명시 시작 방식만 보존한다. 536 소스/실패 원형은 그대로 두며, 새 범위는 같은 오더에 붙이지 않는다. 원문/번역/스키마·사용자/공개 저장·project/인간 판정 변경0이다.
 
 ## 2026-10-10 — 본편 결과 완독→자동 생활·정산 내부 단면 착수
 
-- [536](queue_active/ORDER-536.md)을 구현 전에 선언한다. 실제 534 입구 결함의 첫 수리이며 full 내부 W1–W8만 판정한다. 기본 새 이야기·공개 체험판·저장/원문/번역·인간 판정은 그대로다. 현재535는 source17e45369 한정 독립GO로 마감했고 534/M07/출시는 HOLD다.
+- [536](queue_archive/ORDER-536.md)을 구현 전에 선언한다. 실제 534 입구 결함의 첫 수리이며 full 내부 W1–W8만 판정한다. 기본 새 이야기·공개 체험판·저장/원문/번역·인간 판정은 그대로다. 현재535는 source17e45369 한정 독립GO로 마감했고 534/M07/출시는 HOLD다.
 - root 연결·phone_cn_author full 상태/자동생활·cjk_wrap_diagnosis 기존 저장fixture·phone_independent_review 비저자 전수 검수로 분리한다. W4 첫 제안→W8 실제 후속, 결과 완독/큐 종료와 주/월 once를 함께 닫는다. 기존 승인 생계/회복 값만 쓰며 취업·월급·XP·AP 행동을 추정하지 않는다. story_map의 반려 commitment·demo controller 이식0이다.
 - WORK_UNIT의 위임으로 내부 개발 판단을 진행하며 재서명을 요구하지 않는다. 명시적 격리 preview만 켜고 W9 개발 경계에서 멈춘다. M01–M06→M07 후속 증거와 별도 기본 활성화가 남으며 합성 검증을 실제 플레이로 바꾸지 않는다. 도구 비용/성능 프로젝트·종료누수 추적·STATUS-only 커밋0이다.
 

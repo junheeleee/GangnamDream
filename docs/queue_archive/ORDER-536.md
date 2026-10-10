@@ -1,6 +1,6 @@
 # ORDER-536 — 본편 결과 완독→자동 주·월 진행의 첫 내부 단면
 
-#### [~] ORDER-536 [P0·본편 연결] W1–W8 결과 닫힘·생계·월말·실제 후속 독자를 잇는다
+#### [x] ORDER-536 [P0·본편 연결] W1–W8 결과 닫힘·생계·월말·실제 후속 독자를 잇는다
 
 **착수 — 2026-10-10 / 구현 전 선언.** 534의 정상 입구 REWORK를 고치기 위한
 첫 내부 개발 단면이다. 2026-08-24 DECISIONS의 StoryMode 행동 소유·자동 생활과
@@ -56,7 +56,7 @@ WORK_UNIT의 현재 개발 판단 위임을 따른다. 공개 데모와 retail �
 - 한정 source GO만 가능하다. 정상 full 입구534·M07·전체 본편/출시·원어민/인간/물리
   패드·실제 연속 청취는 HOLD/미관측이다. 자동 통과는 재미·깊이·문체 증거가 아니다.
 
-## 구현·표적 결과 — 독립 최종 결속 대기
+## 구현·표적 결과 — 내부 source 한정 GO
 
 - 실제 Main roots/StoryMode 결과·장 카드·후속 큐, W4 두 갈래와 W8 세 결과,
   주8/월2 once·v4 cold/새 Main·동기 중복·저장 실패/쓰기 재시도·RNG·W9 경계 PASS.
@@ -70,3 +70,15 @@ WORK_UNIT의 현재 개발 판단 위임을 따른다. 공개 데모와 retail �
   과거 인간 판정은 불변이다. 합성 첫8주 한정이며 정상 입구/M07/출시 HOLD다.
   규범 처리: 새 설계 정본 규칙0. 목록 조회의 실행 방지는 개발 skill Verify에
   한 줄 승격했고, 이 단위의 범위/구현/검수 지시는 일회성이다.
+
+## 최종 결속·마감
+
+- [비저자 보고](../agent_reviews/ORDER-536.json) 11456B,
+  SHA256 `75ac14a85e9126123e80a88d1a249fb9d5acba57e0e5d6f79eb4ec081baee9b9`.
+  source `cb177ac8a075e0cfad222180ac56d0b28fe4b865`, tree
+  `dca05fe243f5ee27e27c5a3c93b665c5e3ab8404`, manifest=null 한정 GO다.
+- 보호18그룹92파일/helper5/seed2/W238·최종제품8blob/9stream exact다.
+  처음 보호 baseline의 MainGame은 이미 dirty였다는 한계는 그대로다.
+- causal self-test/선택 종합·원격 CI 미관측, 기존 census FAIL, 정상 본편 입구534
+  REWORK·M07·W9 이후·기본 활성화·인간/원어민/물리·연속 청취·출시 HOLD를 유지한다.
+  자동 통과는 도달/계약 증거이며 재미·깊이·문체나 완성 게임 승인이 아니다.

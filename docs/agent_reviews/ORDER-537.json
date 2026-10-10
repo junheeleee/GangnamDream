@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-537",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "source",
+    "commit": "cb177ac8a075e0cfad222180ac56d0b28fe4b865",
+    "tree": "dca05fe243f5ee27e27c5a3c93b665c5e3ab8404",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "product_verdict": "HOLD",
+  "scope": "명시된 시작 방식의 v4 cold 보존 및 필드 누락 구저장 역추론 계약 한정 source GO. 같은 후보의536은 별도 보고다.",
+  "method": {
+    "independence": "GameState guard와 Manual의 실제 slot10 3경계 코드를 비저자로 읽고 최초 실패 및 최종 원로그/실행 receipt/Git blob/보호를 직접 대조했다. 엔진·GUI·실저장 조작·검사 재실행0.",
+    "population": "최종13파일 전체 범위도536과 함께 확인했다. 이 단위의 제품 소유는 GameState의 추론 guard와 같은 ManualSaveCheck의3경계 추가뿐이다. 나머지536 변경을537 수리로 주장하지 않는다.",
+    "source_binding": "HEAD=origin/main=cb177ac8/tree dca05fe2 clean 확인 후 보고서를 작성했다. GameState/Manual을 포함한 최종 제품8blob은 final-after-guard 실행 pin과 정확히 일치한다."
+  },
+  "implementation_review": [
+    "기존 자유런+범주 역추론에 not data.has('run_theme')만 추가했다. 명시 자유 선택을 투자/인맥/직업 범주로 덮지 않으며 기존 필드 누락 추론 분기·기본값·저장 스키마·수치·보상은 바꾸지 않는다.",
+    "최종 run_theme==자유런, 범주 nonempty, 필드 missing의3항은 부수효과 없는 동치 conjunction이다. 내부ID checker가 인정하는 조건 순서로 정렬했을 뿐 checker/면제/expected를 바꾸지 않았다.",
+    "실제 start_new_game으로 원 선택 효과를 만든 뒤 범주만 결정한다. 명시 자유+investment/finance→자유, 명시 투자+social/relationship→투자, run_theme 한 필드 누락+investment/finance→기존 투자 추론의3경계를 실제 v4 slot10 disk/load로 검사한다.",
+    "각 경계는 fresh state로 실제 cold load 뒤 전체 serialized state를 기존 JSON codec으로 expected와 exact 비교하고 다시 저장·재개한다. 시작 보상 재적용/현금·로그·범주 변화를 masking하지 않는다. 누락 fixture는 state.run_theme만 지우며 envelope는v4 그대로다. 마지막 원상태·loaded context를 복구하고 기존 테스트 슬롯 보존 절차를 재사용한다.",
+    "확인한 명시 자유/투자 및 누락 투자 추론 밖의 손상 타입·다른 모든 시작 방식까지 새로 검증했다고 확대하지 않는다."
+  ],
+  "executed_evidence": {
+    "original_failure": "manual-preview.stdout의 W4-cold-result before='자유런' after='투자런'을 직접 확인했다. 실제 의미 변이1이며 JSON 숫자 표현 문제가 아니다. 원 실패/오류 로그를 보존하고 통과로 소급하지 않는다.",
+    "final_compile": "compile6 exit0/4.90초/69, fatal·경고·누수0. 원stderr는 time-p뿐이다.",
+    "final_preview": "whole manual-preview3 exit0/21.97초. MANUAL_SAVE_RUN_THEME_CHECK_OK cases=3 explicit=free/investment legacy=missing reload=twice other_state=exact-json과 FULL_STORY_FLOW/MONTHLY/기존 MANUAL marker가 양쪽에 각각1.",
+    "final_legacy": "whole manual-legacy2 exit0/13.56초. 같은 RUN_THEME cases3와 unmarked activated=0·MONTHLY·기존 MANUAL marker 각각1. preview없이도 시작 방식 회귀가 닫혔다.",
+    "warnings": "preview15·legacy13은 의도된 기존 저장실패/복구 및 preview 주저장 실패 경고다. stderr/Godot 복제는 별개 사건이 아니다. 최종9stream parse/script/fatal/leak0이며 경고0으로 기록하지 않는다.",
+    "source_candidate_limit": "final-after-guard의 root exit/argv/env와 실제9stream·time-p·namespace를 직접 교차검토했다. 앞5실행 receipt의 GameState는8087692c…이고 최종2fd9ece0…와 조건 순서만 다르다. 앞 demo/V2 실행을 최종 재실행으로 부르지 않는다.",
+    "static_boundary": "537 추가4개 정적검사 exit0 receipt를 읽었다. 선택64개 묶음의 causal self-test120/600초 timeout·종합exit 미관측 및 기존 general finale shipping census 실패는 그대로다. 전체CI green은 미관측이다."
+  },
+  "final_fresh_preservation": {
+    "receipt": ".git/order536-qa-20261010/independent-final-candidate-preservation.json",
+    "sha256": "8580069c883763e5821e1dcb50f7e891de2cc92d5a425e340b90e4e9830de1bf",
+    "result": "selector 중단·최종 commit 이후 보호18그룹92파일/helper5/seed2/W238 current exact, 제품8Git blob·9stream exact. 실제 사용자33파일/Human/project/공개 namespace 불변; user editor61385 생존, 중단 selector 두PID 부재.",
+    "limit": "GameState는 최초 보존집합에 없고 이 단위가 명시 변경한 제품 소스다. 처음 baseline Main dirty였다는 한계도 보존한다. 과거 모든 앱/ZIP을 새 전수 봉인하거나 UI를 직접 관측한 증거가 아니다."
+  },
+  "source_pins": {
+    "autoloads/GameState.gd": "2fd9ece0c2905773f06897a1f13315b96e8705135ffce383e1512f8d3687d02a",
+    "tools/ManualSaveCheck.gd": "e71be5b53846db436891078a3a3fad1309831ef0b9cc028d5bfea4521d24f25f"
+  },
+  "raw_pins": {
+    "manual-preview.stdout.log": "ddff10db2485fb8c09558fd0d835ba2b42430a2804b689524f1a80c0a6abf6cc",
+    "manual-preview.godot.log": "56b5a4314a96a4f73ee2672cd4f1dd500d58a0706084e0e95f72cbb0f3bfe7a0",
+    "final-after-guard.json": "f5700e38356e9ceb9b1c39c17d62e08858dfe126949139e924a2176af3d2cec7",
+    "final-executions.json": "1cd728d4325a9f05901668353f10b7267be3b0c22eb63867cee13dd24db9e157",
+    "static-537-delta.json": "91aaef879ebfc91094a807b3af99b56f754d137d1dadaf7671a8f91aaa097ee0",
+    "final-static-boundaries.json": "f9d16cf3543feb5a1a1d44ac862cc4a6c15b8b4dac7702e7a9125360d6cc6c25",
+    "statics-partial.json": "488c8aa455388012e884f2154b4f6a9e33c3633d92edb14225252429ff7b693a",
+    "independent-protected-before.json": "d5540138b9d3379f0acc8933b9fa88116053fa14f6a2bcd37d9ec2f8f0eb5972",
+    "independent-final-candidate-preservation.json": "8580069c883763e5821e1dcb50f7e891de2cc92d5a425e340b90e4e9830de1bf"
+  },
+  "unobserved": [
+    "selected_causal_self_test_and_full_CI",
+    "normal_default_full_ingress_534_REWORK",
+    "native_M07",
+    "W9_and_later_full_progression",
+    "natural_reading_independent_pixels",
+    "human_native_language_physical_pad_continuous_audio",
+    "default_activation_full_product_external_release"
+  ],
+  "final_boundary": "GO는 저장에 명시한 시작 조건과 기존 missing-field 이관 계약에만 한정한다. 536의8주 내부 개발 단면, 기본 입구/M07/전체게임·출시는 HOLD이며 이 보고가 활성화나 배포 권한을 넓히지 않는다."
+}

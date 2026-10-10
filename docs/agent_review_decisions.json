@@ -11498,6 +11498,98 @@
         "path": "docs/agent_reviews/ORDER-535.json",
         "sha256": "c40261a332ce8e09f93d7cadf9720ab8d99911a90ea1cde34e7ed84658620772"
       }
+    },
+    {
+      "id": "order-536-isolated-eight-week-full-story-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-536",
+      "subject": {
+        "kind": "source",
+        "commit": "cb177ac8a075e0cfad222180ac56d0b28fe4b865",
+        "tree": "dca05fe243f5ee27e27c5a3c93b665c5e3ab8404",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-536.json",
+          "sha256": "75ac14a85e9126123e80a88d1a249fb9d5acba57e0e5d6f79eb4ec081baee9b9"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-536.json",
+          "sha256": "75ac14a85e9126123e80a88d1a249fb9d5acba57e0e5d6f79eb4ec081baee9b9"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_audio_listening",
+        "causal_self_test_completion_and_selected_aggregate",
+        "full_remote_CI_green",
+        "normal_default_full_ingress_534_REWORK",
+        "native_M07_play",
+        "W9_and_later_progression",
+        "other_routes_and_long_run_balance",
+        "independent_pixels_or_natural_reading",
+        "human_native_language_physical_pad_audio_acceptance",
+        "full_product_and_external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-536.json",
+        "sha256": "75ac14a85e9126123e80a88d1a249fb9d5acba57e0e5d6f79eb4ec081baee9b9"
+      }
+    },
+    {
+      "id": "order-537-explicit-run-theme-cold-preservation-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-537",
+      "subject": {
+        "kind": "source",
+        "commit": "cb177ac8a075e0cfad222180ac56d0b28fe4b865",
+        "tree": "dca05fe243f5ee27e27c5a3c93b665c5e3ab8404",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-537.json",
+          "sha256": "052a3cbd89304d46683bebcabaeab4f41f72ef074ef27e73c8758618000cfccd"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-537.json",
+          "sha256": "052a3cbd89304d46683bebcabaeab4f41f72ef074ef27e73c8758618000cfccd"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_audio_listening",
+        "selected_causal_self_test_and_full_CI",
+        "normal_default_full_ingress_534_REWORK",
+        "native_M07",
+        "W9_and_later_full_progression",
+        "natural_reading_independent_pixels",
+        "human_native_language_physical_pad_continuous_audio",
+        "default_activation_full_product_external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-537.json",
+        "sha256": "052a3cbd89304d46683bebcabaeab4f41f72ef074ef27e73c8758618000cfccd"
+      }
     }
   ]
 }

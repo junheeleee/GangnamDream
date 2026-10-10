@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-536",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "source",
+    "commit": "cb177ac8a075e0cfad222180ac56d0b28fe4b865",
+    "tree": "dca05fe243f5ee27e27c5a3c93b665c5e3ab8404",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "product_verdict": "HOLD",
+  "scope": "명시 격리 opt-in의 W1–W8 결과 닫힘·자동 생계/회복·기존 월말·v4 저장 계약만 source GO. 기본 본편/완성 게임 GO가 아니다.",
+  "method": {
+    "independence": "제품·fixture 비저자가 정본/전체 소스 diff와 588행 helper, 기존 Manual 추가분, 원로그/receipt/보호 실물을 읽었다. 엔진·GUI·저장 조작·검사 재실행0.",
+    "population": "최종 commit13파일 전수: 제품8(MainGame/StoryMode/StartMenu/FullStoryFlow+uid/ManualSaveCheck/audit_scope/GameState)와 CLAUDE/WORK_LOG/536·537사양/개발skill5. 536 소유 제품7, GameState는 별도537이다.",
+    "source_binding": "보고 직전 HEAD=origin/main=cb177ac8/tree dca05fe2 clean. 최종 실행 source8 SHA=working bytes=실제 Git blob 전량 일치. 원문/번역/project/데모 controller/인간·기존 agent 판정 변경0.",
+    "execution": "exit/argv/env는 root 기록이며 원 stdout/stderr/Godot·time-p·pre-autoload namespace와 교차 대조했다. 독립 재실행/자연 완독/픽셀 관측으로 바꾸지 않는다."
+  },
+  "implementation_review": [
+    "FullStoryFlow는 fresh full+명시 --full-story-flow-preview+proven pre-autoload 고유 QA namespace를 모두 요구한다. 일반 새 이야기·marker 없는 저장·demo/V2는 미활성이다. 저장 owner가 있되 손상되면 fail-closed하며 legacy AP로 해석하지 않는다.",
+    "이미 적용된 정확한 turn/event/index 영수증과 최종 결과 닫힘을 별도로 검사한다. 미완 문단·중복 결과·읽기 전용 replay는 진척 근거가 아니다. 실제 follow-up 예약/장 카드와 StoryMode 큐 소진 뒤 chain을 닫고 달력을 넘긴다. W1/W4/W8 필수 읽기·분기를 보존한다.",
+    "승인된 밴드의 값만 자동 생활로 재사용한다(무직 주7만원/H-1/M+1, 취업 성과+1/M+1, 회복H+1/M+3). 이는 새 내부 자동생활 정책이지 과거 full 플레이/장기 밸런스 승인 증거가 아니다. V2 실행기·계획/AP축·XP·가짜 취업/임금 영수증은 만들지 않는다.",
+    "주 once→기존 Job/관계/아이템 월말→첫 지원금→압력/비용→달력 owner 순서를 유지한다. 실패 autosave는 계산된 메모리를 유지하고 pending으로 월초/후속/행동판을 막는다. 재시도는 저장만 하므로 배경·월말·게임 RNG를 재호출하지 않는다. cold disk는 마지막 성공 상태다. 사망은 리셋하지 않는다.",
+    "Main 재생성 중 뉴스 표시의 gameplay RNG 소비는 full owner일 때만 기존 presentation RNG로 분리했다. ordinary legacy pick_random은 유지한다. 새 Main 기대 비교는 finite integral·범위를 확인한 tab/timer 두 잎만 int화하며 나머지 in-memory state와 RNG는 strict다. 실제 disk 경계는 기존 JSON codec exact 비교, epsilon/의미 필드 삭제0이다.",
+    "W8 뒤 W9에서 AP chip/next/선택판 없이 내부 checkpoint로 멈춘다. 기본 활성화·demo recap·강제 M07·직접 경마 복귀를 우회하지 않는다. 기존 Manual 등록에 Start/helper+uid 영향 경로만 추가하며 검사 삭제/새 runner0이다."
+  ],
+  "executed_evidence": {
+    "raw_directory": ".git/order536-qa-20261010",
+    "compile": "최종 compile6 exit0/4.90초, COMPILE_CHECK_OK total=69. stdout=Godot330B/af23594d6fc21e32ee0c238c60b94637cf533f23d9fb0ec9bbdbb3a873d085f3. stderr29B는 time-p뿐이다.",
+    "whole_preview": "최종 manual-preview3 exit0/21.97초. RUN_THEME cases3, FULL_STORY_FLOW, MONTHLY_ECONOMY, 기존 10슬롯 MANUAL marker가 stdout/Godot에 각각1. production Main roots/실제 선택·결과·후속·카드, clean/return/deeper, 주8/월2 once, employed/reentry/subsidy, v4 cold/새 Main/중복/저장실패·재시도/RNG/W9-no-AP 합성 계약을 통과했다.",
+    "whole_legacy": "최종 manual-legacy2 exit0/13.56초. unmarked activated=0과 RUN_THEME/MONTHLY/기존 MANUAL marker 각각1이다. 기본 경로를 full preview로 바꾸지 않았다.",
+    "warnings": "최종 preview 의도 WARNING15(기존 저장실패·복구/버전 거부13+주저장 실패2), legacy13. stderr/Godot 복제는 별도30/26건이 아니다. 원9stream fatal/script/parse/instance leak0이며 경고0으로 쓰지 않는다.",
+    "exclusions": "앞 동치 guard 후보의 focused demo/V2 각각 exit0/4.30초, activated=0/경고0. 537의 순수 조건3개 순서만 달랐으며 이를 최종 source에서 다시 실행한 증거로 소급하지 않는다.",
+    "integer_proofs": "최종 preview stdout의 두 비교×tab/timer INTEGER_PROOF 4행을 확인했다. 이 실행 timer값은10.0→10이다. 비교 전체를 JSON/epsilon으로 완화하거나 run_theme 차이를 가리지 않았다.",
+    "selected_statics": "64개 선택 중63개 원출력126파일 크기/SHA 일치, 모든 exit_code는 null. causal self-test의120초 timeout 및 별도600초 timeout은 미완료다. raw marker를 종합 PASS/CI 녹색으로 바꾸지 않는다. EN/한글·arc·등록 및537 추가4검사 root 기록은 별도 경계 receipt에 있다.",
+    "inherited_failure": "static22에는 packaged1813/shipping1708 고정 assertion 실패가 남는다(현재shipping1702). 535 baseline과 동일한 기존 실패로 귀속하며 관련 checker/입력 변경·삭제·완화·KNOWN_FAILURES/CI 예외 추가0이다."
+  },
+  "failure_history": {
+    "preserved": "compile1/2 parse, 첫 full fixture stored_ap parse, full2~4 상태/RNG 실패, manual-preview의 실제 자유→투자 변이를 원 raw 그대로 보존했다.",
+    "diagnosis": "W4 cold는 JSON 표현, 새 Main은 tab/timer 두 숫자형 표현 차이였다. full4에 queue_empty=true/next_visible=false/next_disabled=true가 있어 버튼 결함 추정은 기각했다. 게임 RNG 소비는 실제 preview 표시 결함으로 수정했다. run_theme 의미 변이는537 별도 수리이며 정규화하지 않았다.",
+    "guard_order": "537 최종 조건 순서 동치 정렬은 기존 EnglishHangul 내부ID 인식 오탐을 닫은 것으로 checker/면제 변경0. 최종 compile/whole preview/whole legacy를 재확인했다.",
+    "accidental_selector": "마감 목록 조회의 --list 누락으로 readonly human_gates 자식이 실행되어 root가 exact PID47075/47078을 TERM(exit143)했다. PASS로 세지 않는다. 그 종료 후 최종 fresh를 별도로 봉인했다. 개발skill 변경은 조회/실행 구분1문장뿐이며 새 비용 최적화 작업이 아니다."
+  },
+  "final_fresh_preservation": {
+    "receipt": ".git/order536-qa-20261010/independent-final-candidate-preservation.json",
+    "sha256": "8580069c883763e5821e1dcb50f7e891de2cc92d5a425e340b90e4e9830de1bf",
+    "result": "selector 종료·최종 clean 커밋 뒤 기존 b.snapshot/c.pin을 재호출했다. 보호18그룹92파일·helper5·seed2·W238 전체 baseline=current exact, 최종8source/9rawstream exact. selector 두PID 부재·사용자 editor61385 생존 확인.",
+    "population": "project1/export1/Human1/public build 부재0/public namespace9/retail33/과거 successor namespace4+9+7+10/기존 QA2/ICU namespace9/BuildFlavor·BuildInfo·V2·원playtest·V2 data·inventory 각1. GameState는 보호baseline 밖의 명시537 변경이다.",
+    "limits": "baseline 봉인 때 MainGame은 이미 dirty였으므로 clean 실행입구 전수 증명으로 부르지 않는다. 명시18그룹 외 모든 과거 앱/ZIP/raw를 새로 봉인했다는 주장도 하지 않는다.",
+    "prior_receipts": "independent-final-preservation.json 6492B/8bb07a10…와 independent-final-after-guard.json 5905B/9aa554b4…는 서로 다른 원형 파일이며 덮지 않았다. 전자는 guard 최종결속 전 상태를 보존한다."
+  },
+  "source_pins": {
+    "autoloads/GameState.gd": "2fd9ece0c2905773f06897a1f13315b96e8705135ffce383e1512f8d3687d02a",
+    "scenes/MainGame.gd": "f139f071526ef87b7223fbc88e3436905cff391f84c74b5db547f850a47fb19d",
+    "scenes/StoryMode.gd": "c0582accaf0b551c141ba73c6f687ce4976096563e13df9cb0cef3ad3d461faf",
+    "scenes/StartMenu.gd": "5b8537c6f04467e8d82cf2db32cab8aad58969b4122a4410d2914e6d84f878fe",
+    "systems/FullStoryFlow.gd": "ca150a689748df705c6dd8c126e7acd28f9b9aedc3eb3995622103c23a876b58",
+    "systems/FullStoryFlow.gd.uid": "56ebe4a2efd96152f38893126fd41121755a28e6b6857aa04c7b713ba478c316",
+    "tools/ManualSaveCheck.gd": "e71be5b53846db436891078a3a3fad1309831ef0b9cc028d5bfea4521d24f25f",
+    "tools/audit_scope.json": "083bb3f37916eb38e7aac603d01c72e4be4f9d0c54374def602e9bd498051129"
+  },
+  "raw_pins": {
+    "final-after-guard.json": "f5700e38356e9ceb9b1c39c17d62e08858dfe126949139e924a2176af3d2cec7",
+    "final-executions.json": "1cd728d4325a9f05901668353f10b7267be3b0c22eb63867cee13dd24db9e157",
+    "final-static-boundaries.json": "f9d16cf3543feb5a1a1d44ac862cc4a6c15b8b4dac7702e7a9125360d6cc6c25",
+    "statics-partial.json": "488c8aa455388012e884f2154b4f6a9e33c3633d92edb14225252429ff7b693a",
+    "static-537-delta.json": "91aaef879ebfc91094a807b3af99b56f754d137d1dadaf7671a8f91aaa097ee0",
+    "independent-protected-before.json": "d5540138b9d3379f0acc8933b9fa88116053fa14f6a2bcd37d9ec2f8f0eb5972",
+    "independent-final-preservation.json": "8bb07a10bce1c8ae4d7b1c277fc5f402c7be881b99523bc7826ce4876050adad",
+    "independent-final-after-guard.json": "9aa554b4d373b4c25087e16d7c15ceeec7ef2411d03306c8e53ead559ead6722",
+    "independent-final-candidate-preservation.json": "8580069c883763e5821e1dcb50f7e891de2cc92d5a425e340b90e4e9830de1bf",
+    "compile.stderr.log": "65f1976687c0435542cb5a71b435ccbf853ab882f6e08354dad6fa816a57ca65",
+    "compile2.stderr.log": "32a147aeba333f8c979ea2e31d8986c48769248e91657e247147fd278d852e77",
+    "full.stderr.log": "ecac5befc73f334971eb8af7c2c27d4497957f8eab86cf3f5ac9dc844b32ca3d",
+    "full2.godot.log": "36f6fdfc8c0801c66ba9d68a27048fb3f842a6d51a8392a9628fb74ab89c9c40",
+    "full3.godot.log": "cf820019b3482c47c1b3aea4dcf006af39526c6c04aff6a4364143bffe9e6cb2",
+    "full4.stdout.log": "4a0da80c40367defad7a62adada32626db4d8933f7702d1a1fa17b95e4429d71",
+    "manual-preview.stdout.log": "ddff10db2485fb8c09558fd0d835ba2b42430a2804b689524f1a80c0a6abf6cc",
+    "manual-preview.godot.log": "56b5a4314a96a4f73ee2672cd4f1dd500d58a0706084e0e95f72cbb0f3bfe7a0",
+    "static-22.stdout.log": "d70341a95f8c08000b51636a6ae04f8938f7a59faf66d28e48a5509ed648e558"
+  },
+  "unobserved": [
+    "causal_self_test_completion_and_selected_aggregate",
+    "full_remote_CI_green",
+    "normal_default_full_ingress_534_REWORK",
+    "native_M07_play",
+    "W9_and_later_progression",
+    "other_routes_and_long_run_balance",
+    "independent_pixels_or_natural_reading",
+    "human_native_language_physical_pad_audio_acceptance",
+    "full_product_and_external_release"
+  ],
+  "final_boundary": "GO는 내부 opt-in W1–W8 구현·합성 저장 계약·명시 보존에만 적용한다. 534 정상 입구 REWORK와 M07/W9이후/기본 활성화/본편·배포 HOLD를 유지한다. 새 단면 개발이나 다음 범위를 완성 게임 승인으로 해석하지 않는다."
+}
