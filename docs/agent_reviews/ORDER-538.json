@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-538",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "source",
+    "commit": "b3d725189a5835a8f6a8c2de93b58193478428dd",
+    "tree": "46ddd479eae4c9cb8d4d2cca57329a09ff2f7e5b",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "product_verdict": "HOLD",
+  "scope": "별도 명시 격리 profile의 W1–W12 연결·W9 후속 닫힘·세 번째 정산·v4 저장 재시도 및 구8주 호환만 source GO. 기본 본편·M07·완성 게임·출시 GO가 아니다.",
+  "method": {
+    "independence": "제품과 fixture 비저자가 CLAUDE/개발skill/WORK_UNIT/활성538 사양, 4제품 전체 diff·618행 helper와 실제 Main/StoryMode/선택 producer를 직접 읽었다. 최종7파일 diff(제품4·기록3)도 전수 확인했다. 독립 엔진·GUI·저장 조작·검사 재실행0.",
+    "population": "7회 실행의 원 receipt7·stdout/stderr/Godot21stream, 정적56회 원 receipt56·stdout/stderr112stream을 직접 읽고 크기/SHA를 전량 대조했다. 보호23그룹968파일/helper5/seed2/W238/player33 및 과거276판정 원문 전체와 prefix를 fresh 비교했다.",
+    "source_binding": "보고 작성 전 HEAD=origin/main=subject, clean이다. 실행 전 source-candidate와 final-executions의 4제품 SHA는 현재 파일 및 실제 Git blob과 같다. 실행 receipt의 head는 선언64ae512+미커밋4제품이므로 이를 당시 clean source 실행이라고 부르지 않고, 동결된 제품 bytes를 최종 후보에 결속한다.",
+    "observation_boundary": "argv/env/시간/exit는 root 실행 receipt이며 원로그·격리 pre-autoload marker와 교차 대조했다. 합성 호출을 자연 완독·독립 픽셀·별도 무인자 process 재개로 바꾸지 않는다. 개발skill의 기존 consumer·원본 보존·표적 검수 원칙을 적용했다."
+  },
+  "implementation_review": [
+    "기존 schema1/profile/MAX_TURN8은 유지된다. fresh full+base opt-in+companion+검증된 QA namespace일 때만 새 profile12를 만든다. 기존 owner는 args로 승격하지 않으며 unknown profile의 상한0/invalid owner는 fail-closed다. 기본 StartMenu/StoryMode·demo/V2·project·GameState/SaveManager 변경0이다.",
+    "profile별 상한을 current-turn·validator·routine/read/completed 범위·complete_turn과 Main pending-save가 함께 읽는다. W12 완료 뒤 W13에서 AP/계획판·demo 회고·M07로 떨어지지 않는다. W9 현수와 arc_chapter1_close 두 exact read는 실제 choice-log 및 ordered follow-up chain 검증도 통과해야 한다.",
+    "새 profile만 demo narrative bridge를 제외해 authored 선택을 무언 적용하지 않는다. 기존 root selector/조건/선택 index/효과/예약은 수정하지 않았다. 세 표본은 실제 Main root의 W9 현수→W10 불합격→W11 잔액→W12 고시원을 읽으며 다른 상태의 모든 root를 같은 순서라고 일반화하지 않는다.",
+    "bool=true 경마 pending은 Main begin/continue/route에서 take/erase보다 먼저 봉인되고 helper ready/complete도 거부한다. flag·읽은 결과·영수증을 버리거나 활동 완료로 위장하지 않는다. 실제 producer는 race_first_visit 선택1의 flag 목록과 GameState.apply_choice의 bool true 기록이다. fixture는 그 flag 직접 설정의 저장/cold/새 Main2회 차단 표본일 뿐 실제 경마 선택·방문·미니게임 복귀 증거가 아니다.",
+    "W9→10/W12→13 저장 실패는 마지막 성공 disk와 계산된 메모리를 분리하고 pending 동안 새 Main/달 진행을 막는다. retry는 autosave만 하며 배경·월말·게임 RNG를 다시 실행하지 않는다. 기존 JSON codec의 cold 비교와 메모리/RNG strict 비교를 유지하고 새 Main의 기존 tab/timer 두 유한 정수 잎만 기존 방식으로 판독한다.",
+    "구8주 shape checkpoint의 비승격과 별도 base-only whole run을 구분했다. prefix 검사는 새12주 자신이 생성한 첫8주 영수증의 후속 불변이며 cross-profile 전 root 동일성 증거가 아니다. 기존 자동생활 수치·월말 owner·지원금 once·압력/사망은 변경하지 않았다. audit_scope는 기존 Manual 검사 설명 한 필드만 바뀌며 검사 삭제·완화·예외 추가0이다."
+  ],
+  "executed_evidence": {
+    "raw_directory": ".git/order538-qa-20261010",
+    "runs": [
+      {"name": "compile-01", "exit": 0, "seconds": 4.553163, "warning_events": 0, "result": "COMPILE_CHECK_OK total=69"},
+      {"name": "third-month-focus-01", "exit": 0, "seconds": 17.576113, "warning_events": 4, "result": "새12주 합성 연결·W9 두 선택/후속·cold/once·W10/W13 실패 retry/RNG·구8 비승격·unknown 거부·pending 비소모·W13 봉인"},
+      {"name": "full-third-month-01", "exit": 0, "seconds": 26.295066, "warning_events": 17, "result": "THIRD_MONTH/RUN_THEME3/MONTHLY_ECONOMY/기존10슬롯 MANUAL exact marker 각1"},
+      {"name": "full-old8-01", "exit": 0, "seconds": 21.554603, "warning_events": 15, "result": "base-only 기존8주/RUN_THEME3/MONTHLY_ECONOMY/기존10슬롯 marker 각1"},
+      {"name": "legacy-companion-only-01", "exit": 0, "seconds": 13.656792, "warning_events": 13, "result": "base 없이 companion만 주면 unmarked activated=0; 기존 whole 계약 유지"},
+      {"name": "demo-exclusion-01", "exit": 0, "seconds": 4.248275, "warning_events": 0, "result": "두 opt-in+demo, activated=0"},
+      {"name": "v2-exclusion-01", "exit": 0, "seconds": 4.244471, "warning_events": 0, "result": "두 opt-in+V2, activated=0"}
+    ],
+    "logs": "7개 서로 다른 pre-autoload namespace와 HOME/XDG 격리 기록을 대조했다. 필요한 exact marker는 stdout/Godot에 각각1, 21stream fatal/parse/script/instance leak0이다. WARNING4/17/15/13은 의도된 저장 실패·복구·구버전/미래버전 거부이며 Godot 거울을 추가 사건으로 합산하지 않는다.",
+    "statics": "원 집계는56회/54 PASS·2 wrapper FAIL이다. 직접 판독 결과 제품55 PASS·기존 census1 FAIL·새 제품 실패0이며 종합 감사/원격 CI 녹색이 아니다. EN/한글·서사·arc·음악·말투·등록179·context/queue 원출력을 읽었다.",
+    "inherited_failure": "static-23 stdout116B의 packaged1813/shipping1708 고정 실패는 536 static-22 stdout와 바이트 동일하다. 현재1809/1702 코퍼스라는 기존 경계를 이번에 고치거나 checker/KNOWN_FAILURES/CI 예외로 우회하지 않았다.",
+    "wrapper_false_positive": "static-28의 demo_core_loop_v2_audit는 실제 exit0·stderr0·마지막 core_loop_v2_ok schema=3이다. long_tail 데이터행 끝의 hyunsu_result_fail이 실행 보조기 _FAIL regex에 걸렸음을 원14047B 전체에서 확인했다. 원 FAIL receipt/출력은 보존하며 제품 검사 수리·완화·재실행으로 처리하지 않는다."
+  },
+  "final_fresh_preservation": {
+    "receipt": ".git/order538-qa-20261010/independent-final-preservation.json",
+    "bytes": 59310,
+    "sha256": "223df90084e8df2a9fa7a4383bfe5668303fbb77b640bceb227799a808ffbcd7",
+    "result": "기존 b.snapshot/c.snapshot/pin을 재호출해 선언 baseline=current exact를 확인했다. 보호23그룹968파일·helper5·seed2·W238·player33·과거 agent 판정276건 원문 전체/prefix가 같고 실행 제품4pin=Git, 원7회21stream 및 정적56회112stream SHA도 같다.",
+    "population": "기존536의18그룹92파일 + content679/locale6/536 raw189/536·537 보고2다. project/export/Human/BuildFlavor/BuildInfo/V2/기존 사용자·공개 namespace를 포함한다. build/story_demo 부재/파일0도 원상태이며 존재하는 공개본 앱/ZIP을 새로 전수 봉인했다는 뜻은 아니다.",
+    "agent_prefix": "기존276건 raw prefix419683B SHA68781cff24e4dc605790518a153df2ac606761ceb43888139c0dc5edeb26b21a 및 개별 canonical SHA 전량 동일, 원장 쓰기0.",
+    "process": "사후 ps에서 사용자 editor PID61385만 Godot 실행파일로 남고 QA 엔진은 없다. 원536 실패·timeout/보호 receipt를 덮지 않았다."
+  },
+  "source_pins": {
+    "scenes/MainGame.gd": "dad86a9a62a1d65fb9b8884079a29ba0adc88dc9f62b965fbc38077dab495a79",
+    "systems/FullStoryFlow.gd": "170f451a51fe817b7e4b27b7e3a587251f54c962ac79beafd98ccbad95f5e35b",
+    "tools/ManualSaveCheck.gd": "f06e315610f6fd221caa518c426e592e53cd9d890b3e528d512b11aa24a27a60",
+    "tools/audit_scope.json": "174cf6dd724a546a25071bb49632920e7983cf1d0e02d7bc3ece60286fe6da0a"
+  },
+  "raw_pins": {
+    "independent-protected-before.json": "926d5da3188eed2dc5d3befb28524f9e859851c6f7e4a4c835125599d6b1e4a4",
+    "source-candidate-01.json": "454e687e830eb76236157b634c9259d6a0aea325eea17cfcc79086f816e71e6d",
+    "final-executions.json": "05dab8b657d94603c9a311180b0927c39d719940b46f6594d0f09ab940562235",
+    "static-summary.json": "2c7b21fee83b2bfa572b5b6322769a4c7e251304293d5b57cb9ef2d215c86f32",
+    "static-23.stdout.log": "d70341a95f8c08000b51636a6ae04f8938f7a59faf66d28e48a5509ed648e558",
+    "static-28.stdout.log": "7e53af53b34ef85c65958fde680ffc5d4d3c9cca3b38712d84e208a4548ff485"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "independent_pixels_natural_reading_audio",
+    "separate_no_argument_cold_process_resume",
+    "actual_racetrack_choice_visit_and_return",
+    "other_choices_routes_and_long_run_balance",
+    "job_rejection_application_history_and_rescue_job_prose_quality",
+    "causal_self_test_timeout_completion_and_full_remote_CI",
+    "normal_default_full_ingress_534_REWORK_native_M07",
+    "W13_and_later_full_product_external_release"
+  ],
+  "final_boundary": "한정 GO는538의 격리12주 구현·합성 저장 계약·구8주 회귀·명시 보존만 닫는다. 사양이 분리한 원고 선행사실·미연결 직접활동·기본 활성화·534/M07·W13 이후·전체 본편과 배포는 HOLD다. 자동 통과는 도달/계약 증거이지 재미·깊이·문체 증거가 아니다."
+}

@@ -1,6 +1,6 @@
 # ORDER-538 — 본편 세 번째 달의 격리 연결
 
-#### [~] ORDER-538 [P0·본편 연결] W9–W12 실제 후속·월말·저장 실패 경계
+#### [x] ORDER-538 [P0·본편 연결] W9–W12 실제 후속·월말·저장 실패 경계
 
 **착수 — 2026-10-10 / 구현 전 선언.** 534 정상 입구 REWORK의 후속이며
 536의 첫8주 source GO를 기본 본편이나 M07 GO로 확대하지 않는다.
@@ -81,3 +81,17 @@ DECISIONS 2026-08-24의 장면 행동 소유·자동 생활과 WORK_UNIT의 위�
   동일하다. 성공한 demo 검사 데이터의 `hyunsu_result_fail`을 실행 보조기 regex가
   오류로 잡은 원 FAIL은 남기고 exit0/실제 success marker를 별도 판독했다.
   제품 검사·예외·도구 변경0, causal self-test timeout 재실행0·전체 CI GO0이다.
+
+## 최종 결속·마감 — 격리 source 한정 GO
+
+- [비저자 보고](../agent_reviews/ORDER-538.json) 10091B,
+  SHA256 `adf3f662e7abf324708c9fc1813bf8b9eec4a02cbc9c4eb0d805ef4a2db92c42`.
+  clean source `b3d725189a5835a8f6a8c2de93b58193478428dd`, tree
+  `46ddd479eae4c9cb8d4d2cca57329a09ff2f7e5b`, manifest=null의 한정 GO다.
+- 비저자 fresh 보호23그룹968파일/helper5/seed2/W238/player33·과거276판정·
+  실행4제품 pin=현재Git blob exact. 최종7회21stream·정적56회112stream 원SHA 대조,
+  사후 receipt59310B/223df900…에 결속했다. 원 실패/오탐·WARNING·미관측은 보존한다.
+- 규범 판정: 새 설계 정본 규칙0, 이번 범위·구현·검수 지시는 일회성이다.
+  구8주 비승격·원문/번역/기본/demo/V2/project·사용자/공개 저장·인간 판정은 불변이다.
+  정상 입구534 REWORK·M07·W13 이후·원고 사실/작품성·실제 경마·인간/원어민/물리·
+  연속 청취·전체CI·본편/외부출시는 HOLD다. 한정 GO는 그 권한을 넓히지 않는다.
