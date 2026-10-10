@@ -2,6 +2,15 @@
 
 이전 기록은 [539 마감 전 원문](history/WORK_LOG_2026-10-10_pre_order539_close.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 새 본편의 정상 이야기 흐름 연결 착수
+
+- [541](queue_active/ORDER-541.md)을 구현 전에 선언한다. 534 정상 입구의 legacy AP 낙하를
+  fresh full 전용 이야기 owner로 수리한다. 8/12 개발 상한 연장·구저장 승격·원문/번역·
+  기존 현수 결과/엔딩/급여 재설계0. 실제 경마 복귀와 연말 달력·동적 선택을 함께 연결한다.
+- root 입구/복귀, phone_cn helper, cjk 기존 저장 fixture, phone_independent 비저자
+  보존/최종 검수로 파일 소유를 분리한다. 합성 호출과 자연 앱을 구분하며 부모534/M07·
+  전체 본편/출시 HOLD, 공개/사용자 저장·인간 판정 불변이다. 실행 지시는 일회성이다.
+
 ## 2026-10-10 — 본편 첫 월급 장면의 주차 만료 수리
 
 - [540](queue_archive/ORDER-540.md)을 구현 전에 선언했다. 첫 월급 reader의 본편 W17 만료만 수리하며 원급여·원문·우선순위·데모/V2·기존8/12주 profile은 보존한다. root Main 조건, cjk 기존 저장 fixture, phone_cn producer 읽기, phone_independent 비저자 검수로 파일 소유를 나눈다. 합성 actual-call 검증은 자연 앱/M07 관찰이 아니다. 실행 지시는 일회성이다.
