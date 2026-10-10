@@ -1,6 +1,6 @@
 # ORDER-526 — 중국어 줄바꿈 데이터의 successor 패키징 수리
 
-#### [~] ORDER-526 [P1·가독성] 빠진 ICU 데이터를 새 로컬 앱에 포함한다
+#### [x] ORDER-526 [P1·가독성] 빠진 ICU 데이터를 새 로컬 앱에 포함한다
 
 **착수 — 2026-10-10.** [525](../queue_archive/ORDER-525.md)의 실제 CN/TW 화면에서
 첫 줄이Kim/다음 줄이Minjun으로 갈리고 여백이 컸다. 완문·무잘림은 통과했으나
@@ -52,9 +52,43 @@ Godot 거울 로그를 별도 실패로 합산하지 않는다. ad-hoc이며 공
   뒤 context30066/docs634/links193·큐78/76·현황95071B·인간원장 계약·큐index25/4
   PASS다. 원이력/제품/검사를 지우거나 예산을 넓히지 않았다.
 
-**남은 같은 범위:** Mac을 수동 해제한 뒤 위 exact 새앱의 fresh KO 시작→첫선택→M02,
-CN/TW/KO 첫 문단·설정닫기·정상종료를 정상UI로 확인한다. 옛slot 복사/주입이나
-이전522 실제5언어 GO의 상속으로 대체하지 않는다. 이 오더는 `[~]`/미완료다.
+**실제 화면·보존 완료 — 2026-10-10.** 기존 Godot의 stale 창 screenshot은
+cgWindowNotFound였다. 살아 있는 사용자 project manager를 새로 bind해 실제
+screenshot 접근을 확인했다. 이전 Mac locked 실패와 혼동하거나 소급 통과시키지 않는다.
+위 exact ICU 앱을 무인자 단일 OS process로 fresh 시작했다. KO M01 본문5문단/
+차단0/결과3문단을 자연 완료 뒤 개별 Return으로 읽어 정산1→자동M02에 도착했다.
+M02 첫 authored 문단을 완독하고 Settings에서 CN→TW→EN→JA→KO를 각각 닫아
+같은 문단에 복귀했다. M02 다음입력/선택·AUTO·skip·수동save·저장복사/주입0이다.
+
+- root 실제1280×864 창/default 크기·Normal 속도에서 KO3/CN3/TW2/EN4/JA3줄.
+  CN 첫줄은 은행앱까지, TW는 行動까지 이어지고 Kim Minjun이 같은 줄에 있다.
+  525의 Kim/Minjun 분리·큰 첫줄 여백은 재현되지 않았다. CN 마지막줄 `机。`의
+  짧은 꼬리는 남으며 전 장면의 줄갈이 완벽을 주장하지 않는다. 완문·무잘림/
+  tofu·의도하지 않은 한글 누출 관측0, 이름표/HUD/설정/문단 복귀 정상이다.
+  독립 검수자는 두 PCK의 font22경로와 JSON675의 raw 크기/SHA 전체 동일을 확인했다.
+  개선은 관측이나 ICU runtime 분기 자체는 계측하지 않았다. 실제pixels는 root이며
+  PNG 영속0·독립pixels0·원어민/인간/물리 관찰0이다.
+- 정상CmdQ exit0/365.801256초. stdout=Godot790B /
+  `7dcba27f53c94cd784627c30ca73fe8d288d67a3a9902c0730481cdc8aeca55f`,
+  stderr/오류/경고/누수0. entry en→ko2개는 controller 정상재진입이며 앱2실행이 아니다.
+  own26180/parent26176부재·사용자editor61385생존이다. 종료한 앱의AX를 다시 조회하지 않았다.
+- private `.git/order526-live-20261010/` raw7개: before714719B /
+  `214f0afa5c4ceb6d71d75306bf57f86b5963034d63a1853db3fb2c1fb883666f`,
+  after714736B / `d6e344e7205498c2c6f5ee5734175eea659c4788baae7b52c5162a2efe1ced7a`,
+  observation5203B / `e017eba416842cc9ee94203d4cb33acddf6e28555cc39af38a30811d22341e92`.
+  root/비저자 phone_independent_review는 clean6dea70ab/treea3f43c13의 tracked3265/
+  helper5/seed2/W238/player33·immutable53곳을 before=after=fresh 전량 대조했다.
+  새namespace 정상UI5파일만 생성됐다. root입구파일0은 기존 빈 objectdb 디렉터리와
+  구별했으며 비저자는 launch 뒤3파일을 확인했으므로 독립입구0 관측으로 세지 않는다.
+- 실제 controller save8421B/e78edb8b…는 month2/elapsed4/closed[1]/선택0한건/
+  settlements1/pressure1/turn5/money2970000/health70/mental62다. settings는 KO다.
+  첫 root의 ns부재 assertion과 `cash` 키 오지정은 쓰기 전 중단·수정한 진단이며
+  앱오류로 합산하지 않는다. raw와 이전 실패·원manifest NOT_RUN은 그대로 보존한다.
+- 비저자는 직접 source/PCK/원로그·저장·53곳 fresh 출구를 읽고 패키징 수리와
+  root 지정5언어 첫문단 관찰만 GO했다. 독립 엔진/GUI/쓰기0이며 최종 출구 뒤 동결해제.
+  이 작업은 일회성/정본승격0이다. 자동 계약은 재미·전체 품질 판정이 아니다.
+  exact새앱 coldresume/남은문단·선택·다른크기·옛공개저장 복사호환·연속청취/
+  인간·원어민·물리·본편/출시는 HOLD다. 다음은 별도527의 실제 재개·M02 선택이다.
 
 ## 한 단위·깊이 3문
 
