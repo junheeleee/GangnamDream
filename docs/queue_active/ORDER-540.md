@@ -18,6 +18,8 @@
 - root: scenes/MainGame.gd의 첫 월급 조건 helper/호출만, tools/audit_scope.json의
   기존 ManualSave 설명(필요할 때만), 이 사양·큐/L3 순번·WORK_LOG·CLAUDE 현재행,
   독립 보고/agent 판정원장과 private 검증 기록.
+- 검사 adapter 등록 누락은 tools/arc_flow_sim.py의 기존 full 대표 모델 eval binding에
+  이 helper만 연결한다. 초기 미등록 실패 raw를 보존하며 검사·기대값·면제 삭제0.
 - cjk_wrap_diagnosis: tools/ManualSaveCheck.gd의 표적 첫 월급 fixture만.
 - phone_cn_author: 기존 채용/급여/데모 producer-reader 읽기 검토만, 제품 수정0.
 - phone_independent_review: 비저자 source·검증 raw·보존 최종 검수만.
@@ -29,6 +31,9 @@
 - 본편 non-demo/non-V2에서 W14 이후 실제 current_job·has_received_paycheck가 있고
   arc_paycheck_reality_seen이 없으면 W17 이후에도 기존 자리에서 도달 가능하다.
   원래 W14 최소 주차·한 주 한 root·상위 장면 우선·선택/효과·급여 계산은 그대로다.
+- has_received_paycheck는 창작자/초기특전도 쓰는 역사 호환 플래그다. 이번 수리는
+  기존 자격 의미만 보존하며 현재 직장의 최초 실입금을 새로 증명하는 receipt가 아니다.
+  W24 이내 full의 기존 bridge 무언 소비와 정상 handoff도 이 단위에서 수리/GO하지 않는다.
 - demo와 legacy V2는 기존 W14–17 조건과 bridge를 보존한다. 새 flag/schema/입금0.
 - 기존 격리 ManualSave fixture에서 실제 authored 채용 accept/refuse 적용,
   첫 근무 selector, 기존 월말 producer, v4 disk/cold, 미입금/무직/이미읽음/늦은주차,
