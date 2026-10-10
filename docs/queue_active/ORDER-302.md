@@ -180,6 +180,6 @@ fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거�
 [516](../queue_archive/ORDER-516.md)에 실패·수리/발급 이력을 보존했다.
 [523](../queue_archive/ORDER-523.md)의 exact522 실제 저장·완문/수치/이름표 재개와
 [524](../queue_archive/ORDER-524.md)의 결과 완독·정산1/4주·자동M02 복귀는 GO다.
-진행안내는 이번 표시/523 소실 기록 비재현이다. [525](../queue_archive/ORDER-525.md)의
-M02 첫 문단·설정5언어 복귀는 GO이며 중국어 이름 줄갈이는 [526](ORDER-526.md)에서 분리한다.
+진행안내는 이번 표시/523 소실 비재현이다. [525](../queue_archive/ORDER-525.md)의
+M02 첫 문단·설정5언어 GO. [526](ORDER-526.md)의 ICU 새앱 발급PASS/화면잠금 미검수.
 공개본/사용자GO 불승계·나머지 runtime·전체302/본편/출시 HOLD를 유지한다.

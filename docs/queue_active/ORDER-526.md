@@ -23,6 +23,39 @@ WARNING0·큐/현황/인간원장 계약 PASS다. 부팅 문서18011B 예산 초
 stage한정/고정template·PCKbytes/기존보호 유지/생산mock우회0의 소스 한정GO다.
 실제 발급·실행·줄바꿈 개선 GO는 아직 발급하지 않는다.
 
+**발급·보존 검수 — 2026-10-10 / 실제 화면 HOLD.** clean source
+`25fc879d39a6593e244b3905d7782f22560676c2` / tree
+`de0898823de1cbb26ea9cfe7c5a7ccd0233b5e6a`의 새 `icu-break`를 발급했다.
+원 [manifest 사본](../agent_reviews/ORDER-526-manifest.json)은 byteexact171865B /
+`7a435023dbb662de53f02012242ffa04b106f0b56f86ab5ca6c5eab7bdf50072`다.
+앱7파일/tree71507b66…·ZIP430908019B/462fc6da…·PCK394657360B/cc6611a4… /
+1878항목·currentJSON675 exact다. ICU 단일 멤버4797072B/SHA40256630…와 설치
+template의 실제 bytes가 같다. 16명령 exit0·필수마커·서명/별도final package감사
+PASS·fatal/leak0이다. nested경고는 import/export각1, I18n19는 의도 반례이며
+Godot 거울 로그를 별도 실패로 합산하지 않는다. ad-hoc이며 공개출시 인증이 아니다.
+
+- private `.git/order526-export-20261010/` before=after 각699872B /
+  `d66a5d82e9f225a08181938ba24973b8b25d564efd09cfbd0eaebfc39e1e8268`.
+  root/비저자 phone_independent_review가 fresh tracked3264/helper5/seed2/W238/
+  player33·기존보호45곳을 직접 전량 대조했다. source/docs/helper 동결은 독립
+  최종 출구 뒤 해제했다. 옛앱·namespace·manifest·원저장·실패raw diff0이다.
+- 비저자는 실제 stage의Git원형/소유4변환·UID, ZIP↔앱7, PCK1878digest/JSON675/
+  ICU exact, manifest/result/16명령의 argv·namespace·원로그SHA/마커·보존을 읽어
+  발급·보존만 GO다. 엔진·GUI 재실행/독립pixels0이며 전체 작업 GO가 아니다.
+- 발급 전 기존 사용자 Godot 창의 native screenshot preflight가 Mac locked를
+  반환했다. receipt601B/SHA95273d33…는 그 실패를 기록하며 새앱launch/input/
+  savecopy/보안우회0이다. 새namespace 파일0, runtime NOT_RUN/user GO NOT_INHERITED.
+  실제 CN/TW/KO 줄바꿈·이후장면/다른크기·원어민/인간/물리·출시 HOLD다.
+- 소스 영향6검사는 context 예산18011B를 상태 한 줄 축약으로 고친 뒤 모두 PASS.
+  main CI는 마지막 조회에서 진행 중이며 초록/전체 감사 통과를 주장하지 않는다.
+- 발급 결과의 문서 영향5검사는 부모302 상태요약16067B 예산 초과를15922B로 줄인
+  뒤 context30066/docs634/links193·큐78/76·현황95071B·인간원장 계약·큐index25/4
+  PASS다. 원이력/제품/검사를 지우거나 예산을 넓히지 않았다.
+
+**남은 같은 범위:** Mac을 수동 해제한 뒤 위 exact 새앱의 fresh KO 시작→첫선택→M02,
+CN/TW/KO 첫 문단·설정닫기·정상종료를 정상UI로 확인한다. 옛slot 복사/주입이나
+이전522 실제5언어 GO의 상속으로 대체하지 않는다. 이 오더는 `[~]`/미완료다.
+
 ## 한 단위·깊이 3문
 
 1. 없으면 중국어 독자가 본문의 긴 줄 앞에서 불필요한 짧은 줄을 계속 읽는다.

@@ -7,6 +7,10 @@
 - [526](queue_active/ORDER-526.md): root가 exact522 PCK1877항목/오류0의ICU 부재와 설치template4797072B/40256630…를 직접 확인했다. 공식4.6.2 exporter/TextServer 코드의 감지·fallback과 맞으나 실제fallback 진입은 아직 추론이다.
 - builder 임시stage만 ICU 포함설정을 더하고, 별도저자는 기존auditor에 고정template/PCK byteexact 검증·기존synthetic 반례를 추가한다. 원project/preset·StoryMode·원고/번역·옛앱/manifest/저장 변경0이다. 새 icu-break 앱 발급·실제 중국어 개선 판정은 미완료/HOLD다. 선언b0408f1 뒤 구현·기존도구 재사용·저작/독립소유 분리의 개발 스킬을 적용했다. 새검사도구/보고0·일회성이다.
 - self-test65/actual_exports0·audit.py ERROR0/WARNING0·큐/현황/인간원장 계약 PASS. context의CLAUDE18011B 예산 초과는 최신상태 한 줄을 줄여 재검사한다. 비저자 phone_independent_review는 두 파일/호출 경로 전수 소스 한정GO(기존보호 유지·생산우회0)이며 실제 발급·화면 GO와 구별한다.
+- 이후 clean25fc879/tree de089882의 새icu-break 발급·별도final package감사 PASS. 원manifest171865B/7a435023…의 [사본](agent_reviews/ORDER-526-manifest.json)은 byteexact, app7/tree71507b66…·ZIP430908019B/462fc6da…·PCK394657360B/cc6611a4…·1878항목/JSON675/ICU4797072B·40256630… exact다. 16명령 exit0·fatal/leak0, nested import/export각1·I18n 의도19 경고와 거울 로그는 구별한다. ad-hoc/외부배포0이다.
+- root/비저자 phone_independent_review는 private before=after699872B/d66a5d82…와 fresh source3264/helper5/seed2/W238/player33·45곳 immutable을 전량 재대조했다. 실제stageGit/소유4변환·UID/ZIP↔앱/PCK전체digest·JSON·ICU/16raw마커·namespace·보존을 직접 읽어 발급·보존만 GO 후 동결해제했다. 독립 엔진/GUI/쓰기0다.
+- 발급 전 native screenshot preflight가 Mac locked: receipt601B/95273d33…·새앱launch/input/savecopy0·새namespace파일0·보안우회0. 실제 새앱과 줄바꿈 개선은 미검수/HOLD이며 [526](queue_active/ORDER-526.md)을 완료하지 않는다. context 예산 축약 수리 뒤 영향6 PASS, CI는 마지막 조회 진행 중·초록 주장0. 원저장/옛앱/공개GO/과거실패/인간판정 보존, 개발 스킬의 선선언·stage격리·기존도구 재사용·독립출구 적용이다.
+- 발급 문서 영향5는 부모302 상태요약16067→15922B 축약 뒤 context30066/docs634/links193·큐78/76·현황95071B·인간원장 계약·큐index25/4 PASS. 예산 확대·원이력/제품/검사 삭제0이며 이번 partial 결과를 전체526/본편 GO로 올리지 않았다.
 
 ## 2026-10-10 — M02 첫 문단·설정 5언어 실제 복귀 통과
 
