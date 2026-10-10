@@ -55,3 +55,15 @@ M5 camera=none·portrait idle Tween과 _exit_tree를 읽었다. 현재 직접 Re
 529 원경고1건/거울1건·기능/보존과 종료품질의 분리를 확인했다. 준비는 실행/원인확정
 또는 수리GO가 아니다. 개발스킬의 실제소비자·표적검증·원본보존/독립판정 적용,
 일회성/새규범·정본승격0이다.
+
+## 실제 입구 — 2026-10-10 / 화면 접근 대기
+
+선언c1bba19·생성STATUS0d7e076 main push/clean 뒤 기존 사용자Godot창 screenshot이
+Mac locked/automatic unlock unavailable을 반환했다. 앱실행/입력/저장복사·주입/
+입구전량snapshot0, 보안우회0이다. private raw의 preflight-locked.json
+(567B/dbebe3eebb05926285701251fd4f9995bfc61f9eab3b49b9596691f1e016813b)만 남긴다.
+비저자 phone_independent_review는 노트 작성 전 clean0d7e076·앱process0와 runtime9
+전체=529after/save17239B·editor61385생존을 좁게 대조했다. 잠금은 root native 관찰이며
+58곳 입구전량을 재검수하거나 실제진단에 GO를 준 것은 아니다.
+529의 실제실행/보존 판정과 이 새입구 실패를 구별한다. 잠금 해제 뒤 fresh 입구에서
+계속하며 현재까지 verbose 진단·객체명확정·수리GO는 미실행이다.

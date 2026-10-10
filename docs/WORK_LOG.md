@@ -8,6 +8,7 @@
 - 실제save17239B/785cc062… M5/elapsed16/closed[1..4]/pressure4/turn17/choice7·settlement4/지력66/tint13/AP2. 기존4/3영수증 값동일·상철3선택0/정산1만 추가, 상철interested15/아버지이유flag/명함1·재혁unknown0 정합이다. exit0/563.723938초이나 stderr124B/706b9a0a… ObjectDB 종료누수 경고1건이 새로 났다. Godot912B의 같은경고는 거울이다. fatal0와 무누수 종료GO는 구분하며 원인미확정이다.
 - raw7 before726715B/c6fb70f9… after728219B/42f84f0a… observation10811B/bd8f24d8… command1423B/a8e91b82… 보존. 비저자 phone_independent_review가 clean285c4ea/treea728e43a의 source3269/helper5/seed2/W238/player33/immutable57 전량 before=after=fresh/runtime9 after=fresh·원저장/로그를 대조했다. own6405/6401부재/editor61385생존, pixels root/독립raw검수·독립pixels/PNG영속0이다. 최종판정은 기능/보존 한정GO·전체REWORK다.
 - 개발스킬의 실제소비자·독립fresh/원본보존을 적용했다. 제품/원문/번역/원저장/재발급/새검사0·일회성/정본승격0, 인간/원어민/물리/청취·본편출시HOLD. [530](queue_active/ORDER-530.md)에 동일앱 verbose1회·정상M05첫문단/기록읽기·추가선택0의 객체진단만 선선언한다. 확인 전 추정소스수리·경고예외처리0, M05나머지는 아직 진행하지 않는다.
+- 529기록/530선언 c1bba19 및 clean현황0d7e076 main push. 영향6검사(context30018/docs639/links196·큐78/76·현황신선도·인간원장·index25/4·agent222/HOLD)/diff PASS다. 다음530 native 입구 screenshot은 Mac locked/automatic unlock unavailable이라 앱실행/입력/저장복사/주입·입구전량snapshot0/보안우회0이다. preflight-locked raw만 보존하며 잠금해제 뒤 상세로그 진단을 이어간다. 반복실행이나 원인수리를 완료했다고 쓰지 않는다.
 
 ## 2026-10-10 — M03 두 만남·선택/월 정산→M04 완료
 
