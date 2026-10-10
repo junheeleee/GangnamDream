@@ -69,8 +69,24 @@ root 추가 소유:
   docs/agent_reviews/ORDER-547-manifest.json 및 신규 private 독립 봉인만 작성한다.
   저자 제품·prompt 원장·기존 보고를 수정하지 않는다.
 
+### 착수 뒤 확인된 필수 범위 추가 — 2026-10-11
+
+다음 두 경로만 기존 범위에 추가한다. 별도 오더·공통 schema·검사 완화는 없다.
+
+- scenes/StoryMode.gd: `_restore_story_result`에서 실제 유효한 지연 결과 CG와
+  paragraph_backgrounds가 함께 있는 경우에만, pending 설정 전에 기존
+  `_maybe_change_event_background`로 마지막 본문 source 배경을 복원한다.
+  root 저작, 비저자 교차 소스 확인. 현재 cold는 intro0 실내를 그린 뒤 pending
+  guard가 마지막 본문 외부 복원을 막는다. live 마지막 배경과 cold를 같게 만드는
+  수정이며 CG0·result_background·다른 결과·저장 schema/게임효과를 바꾸지 않는다.
+  선택0/1 결과0, 선택2 결과0/1/2의 live/cold reveal 전후를 격리 fixture로 대조한다.
+- docs/ART_AI_AUDIT.md: 신규6점의 실제 채택 SHA·검수 행/짧은 scope 절만 root 추가.
+  기존 행·과거 Human 판정·허용 grade·검사 로직 불변. 이번 관측은 위임된 agent
+  원본/합성/화면 검수이며 사람 검수로 부르지 않는다. 6점과 합성 크롭의 실제
+  검수 전에 완료 grade를 미리 기록하지 않는다. 기존257장은 이번 재검수 대상이 아니다.
+
 **비소유:** 모든 KO/EN/JA/zh 문장, 다른 사건과 선택의 gameplay key/효과/조건/
-예약/라우팅, scenes/StoryMode.gd·공통 schema/SaveManager, 기존 이미지, 기존 공개
+예약/라우팅, 위 좁은 복원 외 scenes/StoryMode.gd·공통 schema/SaveManager, 기존 이미지, 기존 공개
 데모/package/pin, project.godot·presets·사용자 저장/설정·과거 인간 판정/보고/raw.
 영구 runner·ScreenshotQA·audit 등록·검수 비용/도구 단축 작업은 추가하지 않는다.
 다른 파일이 실제로 필요하면 해당 변경 전에 별도 범위를 선언한다.
