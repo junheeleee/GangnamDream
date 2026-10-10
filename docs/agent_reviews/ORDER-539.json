@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-539",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "source",
+    "commit": "2b7569db9637283ff9db5bb62c714217b76b2fa6",
+    "tree": "1abf66e2a703869d7d12fbfc091b79c150ad5585",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "product_verdict": "HOLD",
+  "scope": "첫 근무 사무·야간편의점·배달 3description × KO/EN/JA/zh-CN/zh-TW =15잎의 기간·월말급여 정합, 공식9교정 및 원본 보존만 source GO. 취업 기능 연결·기본 본편·M07·완성게임·출시 GO가 아니다.",
+  "method": {
+    "independence": "제품/번역 비저자가 CLAUDE·개발skill·WORK_UNIT·539사양과 현지화 필수 정본을 직접 읽고 KO3을 기준으로 EN3/JA3/CN3/TW3 전수 비교했다. 실제 첫근무·급여 producer/consumer와 최종12파일 diff도 확인했다. 독립 엔진·UI·저장 조작·검사 재실행0.",
+    "population": "description15 전수, 공식source/response 각3파일과 원 accepted receipt3, check/import6회 원12stream, 정적20회 원40stream을 대조했다. 큰 self-test 출력은 전체 bytes/SHA·JSON 결과/summary와 terminal marker를 판독했으며 개별 과거 번역문 전수 재검수로 부르지 않는다.",
+    "source_binding": "보고 작성 직전 HEAD=origin/main=subject, clean/3289tracked였다. 선언980e793의 Git 원문과 수정된 작업트리 원문을 구분한다. 공식 export의 source_revision은 당시 기준HEAD이고 수정KO가 들어 있는 commit이라는 주장이 아니다. live KO3/source SHA와 공식9target/receipt 및 검사 당시 최종 제품8 bytes를 실제 후보Git에 결속했다.",
+    "skill_effect": "개발skill의 기존 소비자 우선·한국어 직접 번역·독립 전수 판정·원본 보존·표적 검수 원칙을 적용했다. 새 정본 규칙·QA 도구·면제·성능 작업0."
+  },
+  "findings_and_resolution": [
+    "MainGame.gd:6645 첫근무 gate는 취업다음turn/근속≤1이며 정확7일 경과나 첫 급여 미수령을 증명하지 않는다. JobSystem.gd:74/80의 근속은 월 단위이고 MainGame.gd:8817 → GameState.gd:1663/1676이 월말 급여 owner다. 고정일주일·첫급여3주·배달주간정산/며칠 대기를 제거하는 수리가 실제 조건과 맞는다.",
+    "15본문은 출퇴근·대화·피로·야간 교대·배달의 비용을 유지하고 월말 지급으로 정렬한다. 7:30/새벽2시/교대3시간, 각언어 문단4/3/3과 {name} 개수0/1/1을 보존했다. 급여액·일할비율·취업조건·선택/결과/효과/라우팅은 바꾸지 않았다.",
+    "초기JA의 2時는 원문 두 시와 수치 의미는 같지만 기존 형식게이트가 거부했다. 원문 의미를 유지하는 二時로 정렬했다. 초기 author 검사3행은 JA 숫자1/CN·TW 반복 각1이며 후자는 自己一次로 맞췄다. TW의 送單跑久了 장기간 뉘앙스는 送單的日子裡로 제거했다. 최종9 추가 retouch0; checker/면제 수정0.",
+    "5JSON의 각3 description literal을 이전 literal로 복원하면 baseline bytes/SHA가 exact다. 따라서 제목·다른본문·선택·결과·조건·효과·방향·순서·공백까지 비소유 bytes는 그대로다.",
+    "원장 기존306batch·locale별 key/order/count13159/14696/14696·기타toplevel을 보존했다. 기존9 accepted record의 source/target hash만 교체하고 events_correction1배치/원official3header·receipt digest·이전targetSHA를 결속했다. 옛9record 복원 후 기존 _raw_inverse로 나머지 원장bytes exact를 확인했다. 신규coverage0.",
+    "release inventory는 기존 음주축 content fingerprint1개만 바뀌고 분류/82사건·39파일/ID/다른축은 같다. 생성 CONTENT_RATING_INVENTORY.md도 같은 지문1행만이다. 제품7JSON+생성보고1, 기록4로 총12파일 후보이며 코드/프로젝트/저장구조 변경0."
+  ],
+  "evidence": {
+    "raw_directory": ".git/order539-qa-20261010",
+    "official_acceptance": {
+      "path": ".git/order539-qa-20261010/official-acceptance.json",
+      "bytes": 7899,
+      "sha256": "7327115b263357bfb356cc3f99b4903fa8430806929eeb66a636f6aa4abea80f",
+      "result": "locale별3잎 check/import6회 actual exit0·원12stream 크기/SHA exact. marker는 INCOMPLETE/human_gate=OPEN이다."
+    },
+    "static_summary": {
+      "path": ".git/order539-qa-20261010/static-summary.json",
+      "bytes": 23710,
+      "sha256": "0b287e5f937279ff53d9cb592f6d2ce5be07f7b5435544cbd4344499fd4b38ca",
+      "result": "선택20 actual exit0/20 PASS·원40stream 크기/SHA exact. 본문/번역·EN/한글·서사/음악/말투·데모·등록/기록 표적이다. full localization self-test265 stderr366B는 unittest 진행/OK이며 제품 경고가 아니다. 이20은 후기록 전 최종 제품bytes 검사이지 전체감사/전체CI 녹색이 아니다."
+    },
+    "initial_failures": {
+      "paths": [
+        ".git/order539-qa-20261010/initial-ja-check-observation.json",
+        ".git/order539-qa-20261010/ja-response-initial.jsonl",
+        ".git/order539-qa-20261010/author-self-check-initial.txt"
+      ],
+      "boundary": "최초JA 실패 receipt는 root 관측 tool출력의 전사이며 원stdout/stderr 캡처라고 부르지 않는다. 초기응답과 author3거부 원형을 보존했다. 정적20 뒤 root가 관측한 WORK_LOG41537>40000 기록budgetFAIL은 원문 회전으로 처리했으며 제품실패로 세지 않는다."
+    },
+    "source_manifest_sha256": "3dc1e7e1a69e6e9166699199d776edecda3e000d8e2c07af586a2730cd029aab",
+    "official_receipt_digest_by_locale": {
+      "ja": "82bdccf37071aaccdbae9997357aa7b67ba8a3144fa8dd55813e4894de4c4a74",
+      "zh-CN": "c14a81fa29f45eb276866afcf0c9a96bbc042da9cd31c522862628372132d5fe",
+      "zh-TW": "59a7dbf8704b720ab255246d978a07e9eb83bbdb1a2c9db454a32fd4a644f75d"
+    },
+    "precommit_proof": {
+      "path": ".git/order539-qa-20261010/independent-precommit-proof.json",
+      "bytes": 8743,
+      "sha256": "daf8e525c11c064a6e7e2c841adf4620e903d420a953cc22fa75b5c0943ceb93"
+    },
+    "final_fresh": {
+      "path": ".git/order539-qa-20261010/independent-final-preservation.json",
+      "bytes": 11083,
+      "sha256": "da66f3e23fe050c9371356d6df8de87945d4bb8c9e4075c0cebd6351530d6c8e"
+    }
+  },
+  "preservation": {
+    "baseline": {
+      "path": ".git/order539-qa-20261010/independent-protected-before.json",
+      "bytes": 34699,
+      "sha256": "e97c604933fb7889b1f881a9a2c35ff506eb3d1b38dc397bf9b55829ad84e40c"
+    },
+    "result": "기존 b.snapshot/c.snapshot/pin을 fresh 재호출했다. 보호22그룹492파일·helper5·seed2·W238·player33와 비소유 tracked제품2387개가 baseline exact이며 실행 후 사용자저장/공개namespace/Human/locale/536·538원raw 변경0이다. 공개build/story_demo 부재·파일0도 원상태이며 존재하는 공개 앱/ZIP을 새로 봉인했다는 뜻이 아니다.",
+    "old_agent_decisions": "기존277판정 원문 전체421431B SHA7612710cc49973aa37aa900ab4feb58c0d39faf12853780e92211541ecc994de와 prefix exact. 본 검수는 원장 쓰기0이다.",
+    "work_log_rotation": {
+      "path": "docs/history/WORK_LOG_2026-10-10_pre_order539_close.md",
+      "bytes": 39496,
+      "sha256": "1f9fe5f73e18a532750aa24a2438d31f48c3646ea52f5fa1bf94ebfabf7c0bfe",
+      "result": "선언HEAD의 WORK_LOG 원문과 byte-exact. live는 현재539절/보존링크이며 과거내용 재서술0. 현재 'CN/TW 누락3행' 표기는 실제 JA1+CN1+TW1로 읽어야 하므로 root가 metadata 마감에서 명확히 정렬하기로 했다; 제품판정 영향0."
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "independent_rendered_pixels_natural_reading_audio",
+    "engine_compile_runtime_this_unit",
+    "full_audit_remote_CI_and_240_week_completion",
+    "normal_default_full_ingress_534_REWORK_native_M07",
+    "actual_hiring_first_shift_first_pay_and_W13_later_connection",
+    "other_arc_events_guidance_two_weeks_and_unowned_asset_prose",
+    "full_game_and_external_release"
+  ],
+  "final_boundary": "GO는539의 기존15description/공식9교정·단일지문 정렬·원본 보존만 닫는다. 기존 censusFAIL·causal timeout·종료ObjectDB·534/M07·다른 원고/기능 연결의 상태를 바꾸지 않는다. 자동 통과는 도달/계약 증거이지 재미·깊이·문체 또는 인간·원어민·출시 증거가 아니다."
+}
