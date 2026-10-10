@@ -12083,6 +12083,55 @@
         "path": "docs/agent_reviews/ORDER-544-attempt3.json",
         "sha256": "c95f71b3af573e3c2d673374cf8edc22902c3728e9b08cda88c7833fdaac82b3"
       }
+    },
+    {
+      "id": "order-546-m09-native-receipts-visual-rework",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-11",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-546",
+      "subject": {
+        "kind": "package",
+        "commit": "71d02b70bb980c95d9fac1347b6d202fed8a9f2e",
+        "tree": "1f6d669d9c43529910e9a00750458853b2671d1a",
+        "manifest_sha256": "d450fdba1da5477c9bed9523e0fdb122a7d026c835b4922e4947d17cb3dd42e1"
+      },
+      "verdict": "REWORK",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-546.json",
+          "sha256": "a03eb3abfa4435bda107e5101feb6c9b14dd503cee3d443c2e4e05974333974d"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-546.json",
+          "sha256": "a03eb3abfa4435bda107e5101feb6c9b14dd503cee3d443c2e4e05974333974d"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-546-manifest.json",
+          "sha256": "d450fdba1da5477c9bed9523e0fdb122a7d026c835b4922e4947d17cb3dd42e1"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "independent_runtime_pixels_persistent_PNG_video",
+        "W35_repaired_time_wardrobe_location_visuals",
+        "quiet_W37_W38_W39_screens_or_W40_after_first_paragraph_choice",
+        "successful_full_investment_UI_three_day_break_even_prose",
+        "other_choices_locales_routes_resolutions_natural_240_week_play",
+        "continuous_audio_full_remote_CI_notarization_external_release",
+        "pre_attempt2_protected75_whole_preservation_or_removed_log_recovery"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-546.json",
+        "sha256": "a03eb3abfa4435bda107e5101feb6c9b14dd503cee3d443c2e4e05974333974d"
+      }
     }
   ]
 }

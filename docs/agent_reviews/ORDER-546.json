@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-546",
+  "reviewer": "phone_independent_review (비저자)",
+  "reviewed_at_utc": "2026-10-10T19:55:34.406452+00:00",
+  "subject": {
+    "kind": "package",
+    "commit": "71d02b70bb980c95d9fac1347b6d202fed8a9f2e",
+    "tree": "1f6d669d9c43529910e9a00750458853b2671d1a",
+    "manifest_path": "docs/agent_reviews/ORDER-546-manifest.json",
+    "manifest_sha256": "d450fdba1da5477c9bed9523e0fdb122a7d026c835b4922e4947d17cb3dd42e1"
+  },
+  "scope": "exact 재사용 full 앱·실제 W34 autosave 이월 한 파일로 M09 KO 한 경로를 진행해 첫 M10+ 자연 foreground W40 첫 문단에서 종료한 실관측·저장·원로그·보존. 새 build/전체 M09 네 주/다른 경로·언어·출시 검수가 아니다.",
+  "verdict": "REWORK",
+  "product_verdict": "HOLD",
+  "results": {
+    "navigation_and_receipts": "부분 GO — W34/35/36 choice0 및 결과→자동 quiet37–39→W40 첫 문단. root 관측과 저장된 read43/44/45·completed/routine34–39 각1이 일치한다.",
+    "preservation": "GO — 새 입구 기준 보호82/1475파일·tracked3309·helper5+2·seed2/W238/player33/Human/287원장 및 옛285prefix 전량 직접 current/pre/result/entry 대조 exact.",
+    "visual_continuity": "REWORK — W35 다은 산문의 오후4시/남색 사복·가게 밖/분식집과 고정 밤 계산대·beige 초상 관측의 충돌. 독립 소스에서 event binding/override 부재를 확인; 독립 런타임 pixels 관찰은 아니다.",
+    "overall": "최종 작업 단위 REWORK, 제품 HOLD. 기능/보존 부분 GO를 resolver/dashboard 전체 GO로 확대하지 않는다. 과거544 HOLD·시도2 REWORK/retail 로그 손상은 소급 변경하지 않는다."
+  },
+  "method": {
+    "direct_read": "546 사양·helper2 전수·원 package, finalized observations.md 전량, pre-launch/native-result, stdout/stderr/실제 Godot·보존 사본 전량, 원 W34/final W40 autosave 전체 JSON 및 실제 namespace, 해당 세 event의 선택0·효과·예약·문단, StoryMode visual fallback과 ImageRegistry binding을 읽었다.",
+    "fresh": "변경 없는 기존 b.snapshot/file_record/source_state 및 c.snapshot만 재사용. 원 flag만 신뢰하지 않고 전체82·tracked3309·원장/Human·발급물 현재 해시와 새 namespace actual 저장을 직접 비교했다.",
+    "not_performed": "검수자 engine/UI/app/build/재플레이/프로세스·저장 쓰기0, 새 체커/675JSON payload 루프0. root inline CUA를 독립 pixels·인간·원어민·물리 검수로 부르지 않는다.",
+    "candidate_boundary": "현재 root578c578/treeb3a7의 선선언 queue/L3 dirty 및546 spec untracked와 clean 발급 source71d02/tree1f6d를 구분해 봉인했다. 제품 metadata wrapper GO를 발급하지 않는다."
+  },
+  "evidence": {
+    "private_base": ".git/order546-live-20261011",
+    "independent_entry": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order546-live-20261011/independent-before.json",
+      "sha256": "194da5d26d72b1061c2233f51f97fd2d4635f0fb6e6f67601cae4202a0927239",
+      "size": 40612
+    },
+    "independent_admission": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order546-live-20261011/independent-native-admission.json",
+      "sha256": "a5e2e123bda8ed9c05ce5612bb8995a66429944858704a945ace0f5f4162d0d6",
+      "size": 4211
+    },
+    "independent_final": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order546-live-20261011/independent-final-preservation.json",
+      "size": 42828,
+      "sha256": "accb4030aa1c2acaf3dbaf64bb3ad9e7c0f73c88963a3becd0b5e89060e02141"
+    },
+    "observations": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order546-live-20261011/observations.md",
+      "sha256": "2260935f3d1570d2ce37b992a2b59bb81dee2a0d8aa98bfe02937254d3dea149",
+      "size": 6880
+    },
+    "pre_launch": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order546-live-20261011/pre-launch.json",
+      "sha256": "471956cd7507c85ecf062a52c5cca84c561bc524cfc768a8e5d9ed01c1813ec4",
+      "size": 1197429
+    },
+    "native_result": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order546-live-20261011/native-result.json",
+      "sha256": "0aec52caebd9d748a9a9bdaa9ccd2999f9e3c21839108dd59f0d17305c9a6a75",
+      "size": 343413
+    },
+    "stdout": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order546-live-20261011/native.stdout.log",
+      "sha256": "6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1",
+      "size": 154
+    },
+    "stderr": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order546-live-20261011/native.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "preserved_godot": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order546-live-20261011/native-exit.godot.log",
+      "sha256": "6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1",
+      "size": 154
+    },
+    "final_autosave": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order546-live-20261011/final-autosave.json",
+      "sha256": "77f007b3f5964d908d52873aa61ee687f158c27c90c2833e176902bc6c2a9e8f",
+      "size": 147720
+    },
+    "issued_package": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order546-live-20261011/package.json",
+      "sha256": "d450fdba1da5477c9bed9523e0fdb122a7d026c835b4922e4947d17cb3dd42e1",
+      "size": 4496
+    },
+    "helpers": [
+      {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order546-live-20261011/prepare.py",
+        "sha256": "0f0d85a036fca74ce47d11636c2d05fbcc130aff5690c5fe466581ef36143fb3",
+        "size": 2581
+      },
+      {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order546-live-20261011/launch.py",
+        "sha256": "1a0a5886bfe335e8f7c3cf256d027af9e1e9b776a8d743b206b5e7254de612fa",
+        "size": 3051
+      }
+    ],
+    "prior_attempt3_report": {
+      "path": "docs/agent_reviews/ORDER-544-attempt3.json",
+      "size": 13346,
+      "sha256": "c95f71b3af573e3c2d673374cf8edc22902c3728e9b08cda88c7833fdaac82b3",
+      "verdict": "HOLD"
+    },
+    "prior_attempt2_report": {
+      "path": "docs/agent_reviews/ORDER-544-attempt2.json",
+      "size": 15858,
+      "sha256": "28bc1f30594940743d421e2bb2afd730355b13f2f6edbd65943d254376f5fece",
+      "verdict": "REWORK"
+    }
+  },
+  "run": {
+    "os_launches": 1,
+    "pid": 26952,
+    "launcher_pid": 26939,
+    "argv": [
+      "/private/tmp/gd-full-m08-purchase-ynfcj3em/app/GangnamDream.app/Contents/MacOS/GangnamDream"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 579.477609,
+    "wrapper_failure": null,
+    "protected_exact": true,
+    "tracked_exact": true,
+    "spec_exact": true,
+    "app_exact": true,
+    "streams": "stdout=Godot=보존 사본154B/SHA6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1, stderr0B. 전체 읽기에서 parse/script/engine ERROR·WARNING·ObjectDB/leaked0.",
+    "processes": "읽기 전용 종료 ps에서26952/26939 및 조회한 옛 후보 PID 부재, 사용자editor61385만 생존. CmdQ 단독 이후 UI 재접근0은 root 기록이며 독립 확인은 ps/log만 사용했다.",
+    "entrance": "cgWindowNotFound/임시 binding 이름 오류 뒤 같은 생존 process에 정상 연결한 root 진단을 원 journal에 보존. Maclocked/제품 실패·추가 OS실행으로 추정하지 않는다.",
+    "save_copy": 1,
+    "state_edits": 0,
+    "rebuilds": 0,
+    "manual_save_or_dedicated_cold_repeat": 0
+  },
+  "actual_scope": {
+    "observer": "root inline CUA, KO/default1280×864. 영구PNG/영상0, 독립 직접 pixels0.",
+    "W34": "현수 메시지 본문4문단·3선택/선택0·결과2문단. mental88→89, routine 뒤W35 mental93.",
+    "W35": "다은 본문3문단·3선택/선택0 저녁·결과2문단. 현금−30000/mental93→100 cap. 원문과 고정 시각연출 충돌을 아래 REWORK로 기록한다.",
+    "W36": "지연 본문5+실제 자전거 기억1=6문단·2선택/선택0·결과 실제4페이지. source 준비 기대5와 구분하며, 원 result_text의 네 double-newline 그룹/실저장과 일치하므로 누락5번째를 발명하지 않는다.",
+    "stop": "다음 자연 foreground는W40 현수의 새 길 첫 문단. 명시 전화 채널/초상 envelope를 root가 관측했고 추가 본문·선택0/CmdQ. quiet37–39는 저장으로 확인한 자동 진행이며 실제 화면 관측이 아니다.",
+    "month_boundary": "W34/M09W2부터 시작한다. 이번 사양은 첫 M10 또는 그 이후 자연 foreground를 정지점으로 허용하며 W37 모달을 요구하지 않는다. W33 필수 화면 가정은 이전 미관측/HOLD 기록을 고치는 근거로 사용하지 않는다."
+  },
+  "state_and_consumers": {
+    "entry": {
+      "turn": 34,
+      "money": -2571703,
+      "health": 52,
+      "mental": 88,
+      "investment_skill": 21,
+      "resume": {},
+      "autosave_size": 130852,
+      "autosave_sha256": "6ba691d3f0440cca719478b564392a32f5583bbf1ebd0b848f5508bf9ce76170"
+    },
+    "final": {
+      "turn": 40,
+      "year": 2026,
+      "month": 10,
+      "week": 4,
+      "money": -2831703,
+      "health": 50,
+      "mental": 100,
+      "investment_skill": 22,
+      "resume": {},
+      "autosave_size": 147720,
+      "autosave_sha256": "77f007b3f5964d908d52873aa61ee687f158c27c90c2833e176902bc6c2a9e8f"
+    },
+    "once_proof": "이전 flow completed/routine/read 및 event_log prefix 의미 exact. 새 read는 W34 drift0/43, W35 regular0/44, W36 store0/45만 각1. closure/routine34–39 각1/next_turn+1, W40 선택 영수증0.",
+    "economy": "현금 차이 −260000=6×70000−650000−30000. 자동 생계/회복 receipt는 health합0/주당money+70000, mental 실효[4,0,2,4,4,2]로 cap을 반영. W36월말 pressure 뒤health52→50, monthly_economy_turn33→37. 실제 일시정지나 월말 UI를 보았다는 증거가 아니다.",
+    "skill": "21→22 실제 변화. Sangchul mentoring·W36 월말 학습 action_log와 GameState1730–1732 패시브가 일치한다. 거래 증거/스킬불변 주장0.",
+    "no_trade": "portfolio{}·full_story_market_purchase_completed 부재, callback_investment_lesson_echo trigger31 원 예약 exact 보존. 무거래 회상 보류는 계속 유지되며 거래/3일본전 산문을 검증하지 않는다.",
+    "new_reservations": "실제 drift0의 arc_hyunsu_new_path W40 및 다은 dinner0의 callback_daeun_supportive_warmth W47. 기록된 선택·원문 deferdelay6/12와 일치하며 future 선택은 미관측."
+  },
+  "finding": {
+    "id": "M09-W35-Daeun-visual-continuity",
+    "verdict": "REWORK",
+    "prose": "content/events/arc_daeun.json103–151의 오후 네 시·교대 종료/빛바랜 남색 카디건·자동문 밖 빨간 의자, 선택0 결과의 김 서린 분식집 창가.",
+    "binding": "동일 event는 background=convenience_night/portrait=daeun_normal, paragraph_backgrounds/result_background/result_portrait 등 override 없음. StoryMode4196/4206/5105/5190/6260의 기본 event/결과 fallback, ImageRegistry54/210의 경로와 일치한다.",
+    "root_observation": "안정 프레임에서 밤 편의점 내부 계산대·베이지 카디건 초상이 가게 밖·식사까지 유지되었다는 실제 root 관측. 검수자는 이 화면이나 asset pixels를 직접 보지 않았다.",
+    "assessment": "원문↔고정 asset binding의 시간/의상/장소 연속성 결함으로 REWORK. 최근 회귀·renderer 오류·전환 veil 결함으로 단정하지 않는다. 첫 W35 부분 타이핑/회색 전환 프레임은 안정 화면 결함 증거가 아니다.",
+    "repair_boundary": "이번 검수는 제품/산문/자산 수리0. 새 수리는 별도 선언 후 해당 장면 연속성 범위로 다루며 기존 야간 식당 이미지의 자동 대체를 승인하지 않는다."
+  },
+  "preservation": {
+    "population": "82곳/1475파일(중첩경로 합산), tracked3309·helper5+새helper2·seed2/W238/player33·Human·현재287판정 및 옛285prefix. 앱7/ZIP/PCK/package/문자manifest·전월 전체namespace/raw/report를 직접 포함한다.",
+    "historical287": {
+      "count": 287,
+      "file": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/docs/agent_review_decisions.json",
+        "sha256": "878b8c1c250a64bbfae39cdefb618c5c4562bae29a907a5808f2f839c61d7694",
+        "size": 438887
+      },
+      "canonical_sha256": "e269555537f317774fc2e5a42e2c98b7eb62c077464730246fa5c10e9ae6bcbe",
+      "old285_prefix_exact": true,
+      "old285_prefix_sha256": "937ccb5b167fa729e49ff86db16f38d0dd1dcd4fa567f36be7e8062851b5872c"
+    },
+    "human": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/docs/human_gates.json",
+      "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+      "size": 103390
+    },
+    "runtime": "새 M09 namespace만1→5파일 정상 UI 변화; 원 seed와 옛 namespace는 보호 exact. 새 autosave/backup/meta/settings/log를 wrapper after와 fresh 전량 대조했다.",
+    "old_failures": "시도2 당시 retail logs3경로 delta와194B 로그 제거, 시도2 REWORK·544 overallHOLD를 그대로 보호한다. 새82의 current equality는 손상 전75 보존 PASS나 복구 가능성을 뜻하지 않는다."
+  },
+  "package": {
+    "source": {
+      "head": "71d02b70bb980c95d9fac1347b6d202fed8a9f2e",
+      "tree": "1f6d669d9c43529910e9a00750458853b2671d1a",
+      "status": ""
+    },
+    "manifest_copy": "원 ORDER546 package.json4496B/d450fdba1da5477c9bed9523e0fdb122a7d026c835b4922e4947d17cb3dd42e1 byte-identical 사본. 발급 당시 native_M09 unobserved를 고치지 않으며 실제 부분관측은 이 보고가 별도로 기록한다.",
+    "ZIP": {
+      "size": 429272848,
+      "sha256": "ee76e067a4f5ed468ee1450e0939b07a547c589bc5fdd7c496736bca2dd07734"
+    },
+    "PCK": {
+      "size": 391079256,
+      "sha256": "8a8dd83668a0ebdd19c6e3a4714893d20dcd2e5eee0dbc174f6c3936412d2b42",
+      "issued_entries": 1880,
+      "issued_JSON_exact": 675,
+      "icu_present": false
+    },
+    "build_manifest": {
+      "size": 464,
+      "sha256": "efff27af1ffd7e1da15c33f168e477fe27b013763011bf95c192241fc3748547"
+    },
+    "evidence_limit": "기존 발급/서명/universal/675JSON 검사 증거를 재사용하고 이번엔 해당 source·앱/ZIP/PCK 현재 bytes만 exact 대조했다. 재발급·재서명·재전량검사0, 출시/공증 GO0."
+  },
+  "unobserved": [
+    "independent_runtime_pixels_or_persistent_PNG_video",
+    "W33_first_screen",
+    "quiet_W37_W38_W39_screens",
+    "W40_after_first_paragraph_or_choice",
+    "other_choices_routes_locales_or_resolutions",
+    "natural_full_240_week_play",
+    "trade_UI_or_first_purchase_profit_prose",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "audio_listening",
+    "full_remote_CI",
+    "external_release"
+  ],
+  "acceptance": "원시 관측·저장/루틴/경제/선택 영수증과 보존의 부분 GO, W35 연속성으로 최종 ORDER546 REWORK/제품HOLD. 자동 계약은 재미·깊이·문체 또는 실제 인간 품질의 증거가 아니다."
+}

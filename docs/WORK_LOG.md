@@ -2,6 +2,45 @@
 
 이전 기록은 [539 마감 전 원문](history/WORK_LOG_2026-10-10_pre_order539_close.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-11 — M09 실제 선택·결과 확인, 다은 그림 연속성 수리 필요
+
+- [546](queue_active/ORDER-546.md)은 실행 전 범위·소유를 기록하고 착수/실제관측/
+  독립검수/현황을 월별1commit으로 묶었다. source71d02/tree1f6d의 기존 발급앱을
+  exact 재사용해 새 HOME/XDG에 실제W34 autosave130852B/6ba691d3… 1개만 이월했다.
+  제품·번역·project·사용자 저장·과거 판정 편집/새build/675전수 재검사0이다.
+- KO 정상 Continue→W34 현수4문단/choice0/결과2→W35 다은3문단/choice0/결과2→
+  W36 지연6문단(사고기억1)/choice0/결과4→W40 현수 통화 첫 문단 완독, 추가선택0.
+  각 완문·선택지를 따로 읽었다. AUTO/skip/연타/함수입구0·1280×864 KO 한 경로다.
+  quiet37..39는 자동 저장 진행이고 화면 관측이 아니다. W36 결과는 원문 빈 줄4그룹/
+  StoryMode4474와 일치하며 준비5쪽은 기대계수 오류이지 본문 누락이 아니다.
+- final147720B/77f007b3…는 W40/−2831703/h50/m100/resume{}·last39다. 과거flow/
+  event/action prefix exact+read43/44/45 각1·routine/closure34..39 각1/W40선택0.
+  현금차−260000=6×70000−650000−30000, 다은8→20/close·지연2→5/curious.
+  현수40·다은47 예약, 무거래 투자callback31 exact 보류/portfolio{}다. skill21→22는
+  상철 월말학습이다. source 기대·실제 저장·root 화면을 독립 대조했다.
+- native26952 actual0/579.477609s·stdout/Godot/보존사본154B/6649181a…·stderr0,
+  오류/경고/누수0이다. CmdQ 단독 마지막 UI호출 후 owned26952/26939 부재·사용자
+  editor61385 유지다. private .git/order546-live-20261011/에 원로그/저장/journal을
+  남겼다. 비저자 fresh final42828B/accb4030…는 보호82그룹/1475파일·tracked3309·
+  helper5+2·seed2/W238/player33/Human·옛287판정/285rawprefix·발급물/사양 exact다.
+  이전 사고 이후 기준의 보존이며 옛 로그 손상을 복구/소급 GO로 쓰지 않는다.
+- **전체546 REWORK:** `arc_daeun_02_regular`의 오후16시·남색 사복·편의점 밖 및
+  분식집 원문에 밤 계산대·베이지 근무복이 계속 보였다. arc_daeun.json:103의
+  convenience_night/daeun_normal 고정·문단/결과 override 부재와 일치한다. 렌더
+  실패나 최근 회귀로 단정하지 않는다. 기존 restaurant는 야간 고깃집이라 대체하면
+  또 틀린다. 이 장면 자산/바인딩·꿈 분기 전환만 별도 수리한다. 기본 다은 전역 교체0.
+- W33 모달은 자동 시간/경제 정본에 없는 QA 가정으로 확인해 불필요한 정지UI를
+  만들지 않았다. 옛544HOLD/시도2REWORK·인간/원어민/물리패드/연속청취·다른언어/
+  후반본편/출시 HOLD 보존. 개발skill의 종료후 UI재활성화 금지·증거 경계를 적용했다.
+  새 규범0/일회성·새 영구도구/479·481최적화/전체감사/STATUS-only0이다.
+- [독립 보고](agent_reviews/ORDER-546.json)15304B/a03eb3ab…·manifest4496B/d450fdba…에
+  결속해 work_unit REWORK1건만 추가했다. 옛287 원문prefix·Human 불변, 내부제품GO0이다.
+- 기록 표적6(context·STATUS advisory·Human·큐·큐self·agent self)은 actual0/stderr0,
+  큐80/진행78·큐self25/fence4·agent self290·Human45OPEN/1done, 새실패0이다.
+  원12stream은 private qa_*에 보존했다. STATUS stale 비차단·별도갱신0, diff 통과다.
+  cjk_wrap_diagnosis 마감 읽기는 허용8경로·옛287원문/79큐행·제품/Human·private13pin
+  보존/판정결속 GO·추가결함0이다. 이는 전체 원격CI 또는 제품GO 주장이 아니다.
+
 ## 2026-10-11 — 수정 M08 저장 복원·무거래 회상 미노출 실제 표본 확인
 
 - [544](queue_active/ORDER-544.md)의 수정앱 재관측을 실행 전 선언하고 실패/제한 재개/
