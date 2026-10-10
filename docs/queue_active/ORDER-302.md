@@ -183,4 +183,4 @@ fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거�
 [525](../queue_archive/ORDER-525.md) M02 설정5언어·[526](../queue_archive/ORDER-526.md)
 ICU 줄바꿈·[527](../queue_archive/ORDER-527.md) M02재개/언어복귀·
 [528](../queue_archive/ORDER-528.md) M03→M04 GO. [529](../queue_archive/ORDER-529.md)
-M04상철3선택/정산→M05 기능GO·종료누수REWORK, 530진단. 전체302/출시HOLD다.
+M04기능GO·종료REWORK, [530](../queue_archive/ORDER-530.md) 원인HOLD. 다음531·전체HOLD.

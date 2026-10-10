@@ -1,6 +1,6 @@
 # ORDER-530 — 실제 앱 종료 ObjectDB 누수 객체 진단
 
-#### [~] ORDER-530 [P1·종료 품질] 경고의 실제 객체명을 얻고 수리 대상을 좁힌다
+#### [x] ORDER-530 [P1·종료 품질] 최소 진단 수행 종료 · 객체 동정 HOLD
 
 **착수 — 2026-10-10 / 선언commit·push 뒤 실행.** [529](../queue_archive/ORDER-529.md)의
 상철3선택·정산1→M05 기능/보존은 한정GO지만 정상CmdQ가 새 ObjectDB 종료누수
@@ -67,3 +67,61 @@ Mac locked/automatic unlock unavailable을 반환했다. 앱실행/입력/저장
 58곳 입구전량을 재검수하거나 실제진단에 GO를 준 것은 아니다.
 529의 실제실행/보존 판정과 이 새입구 실패를 구별한다. 잠금 해제 뒤 fresh 입구에서
 계속하며 현재까지 verbose 진단·객체명확정·수리GO는 미실행이다.
+
+## 실제 최소 탐침·독립 최종 — 2026-10-10 / 객체 동정 HOLD
+
+- stale 기존창의 cgWindowNotFound는 잠금 증거가 아니었다. 실행 중 editor61385의
+  exact app 경로로 재연결한 screenshot은 정상이며 새 editor/후보 실행0이었다.
+  clean dceaf0b388c07824903d6d96a390c58a6b78f810/tree
+  0897e24c958bae2af4cfe6343bd64aa316d1d57e에서 source3270/helper5/seed2/
+  W238/player33·immutable58·runtime9 전량을 root/phone_independent_review가
+  직접 봉인·fresh 대조한 뒤에만 설치 binary+`--verbose`로 OS1회 실행했다.
+- 실제1280×864/KO/default/normal. Continue click1→M05 재혁첫문단2줄 자연완독→
+  기록open1/현재entry1 완문2줄 읽기/close1→같은문단·HUD498만원/70/73/남은56개월→
+  CmdQ1. 본문advance/선택/정산/AUTO/skip/hold/연타/설정/수동save/저장복사/
+  주입/닫힌앱AX/보안우회0. 표본잘림/tofu/경로명노출 관측0, root pixels만이며
+  독립pixels/영속PNG/청취 관찰0이다.
+- exit0/50.983207초, own35844/parent35837부재/editor61385생존. stdout16354B/
+  8c1cb2bd…·Godot16304B/a5063083…·stderr0. 전문 직접검토에서 parse/script/
+  engine fatal·WARNING·ObjectDB·Leaked instance 행0이다. stdout 앞 WorkerThreadPool
+  50B를 제외하면 Godot 원문과 같다. SDL `Unrecognized output string misc2`는
+  원문 매핑진단이며 누수 객체 신원으로 해석하지 않는다. native entry en1/OS1회다.
+- 실제save17299B/SHA6a754921c7d30a76565469d3d15255aeafb349a9bbb87be316c0062f6ca61326.
+  입구보다60B 증가한 것은 정확히30곳 int→동일값float 재직렬화뿐이다. 전체JSON
+  payload 값동일, bool/문자/키/컨테이너 변경0. M5/elapsed16/closed[1..4]/pressure4/
+  turn17/choice7·settlement4/498만원·70·73/지력66/tint13/AP2·cast/inventory 동일.
+  이전primary17239B/785cc062…는 backup에 byte-exact 보존됐다.
+- runtime9 after=fresh. 정상 로그회전은 옛11.57.41로그 제거/13.53.44로그 추가이며
+  현재godot/primary/backup 외 나머지 기존파일은 같다. 529 Godot912B/e4aaafa0…는
+  먼저 보존한 raw사본과 새회전파일에 동일하게 남았다. 직접 수동삭제/저장복사0이다.
+- private `.git/order530-shutdown-20261010/` raw10개를 보존한다.
+  before748551B/e7205e82…·after748680B/e84a792c…·observation2300B/3d02e882…·
+  command1453B/29029018…·launch734B/d75093ca…·stdout/stderr·godot-after.log·
+  order529-godot-before.log·기존preflight-locked.json이다. 정확한 SHA는 아래와 같다.
+
+| raw | bytes | SHA-256 |
+|---|---:|---|
+| before.json | 748551 | e7205e8210aee215672092a95a1ecdff5655ae5c738cd09b5ed726276e134f40 |
+| after.json | 748680 | e84a792cf526c8da322d5a3c0ebe56bcda8b5cc688d0a1ac6ff6417a718356a1 |
+| observation.json | 2300 | 3d02e8820dbdfa3a7563ae8f74912a7337396c0c93ccdf5c97d88b075a345058 |
+| command.json | 1453 | 29029018183c84056c2eea1a59c130a7d93b44f5bac7f3f84df3352d311ce845 |
+| launch.json | 734 | d75093ca18153884a5052792fc3115707a906c5faea64cb1268da6fd018c9b29 |
+| run.stdout.log | 16354 | 8c1cb2bd880d5d5a16394bec65a1e5c7801bb73283603452346f5903ce45797b |
+| run.stderr.log | 0 | e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 |
+| godot-after.log | 16304 | a5063083d3762652bb697d7e43568f9c61bcfc507bea98d2caa4db35a83c940b |
+| order529-godot-before.log | 912 | e4aaafa0b3768c9b900f9eebd7dcb2bb96bdd5464362b5aebad130760cdbacfc |
+| preflight-locked.json | 567 | dbebe3eebb05926285701251fd4f9995bfc61f9eab3b49b9596691f1e016813b |
+
+- 비저자 phone_independent_review는 raw10·원저장전량·명령/로그·exact package 결속을
+  직접 읽고 source3270/helper5/seed2/W238/player33·immutable58 before=after=fresh와
+  runtime9 after=fresh를 재대조했다. 최종fresh 뒤 문서동결 해제. **최소 실행/보존
+  한정GO, 누수 객체 동정HOLD**다. 객체명·원인은 미확정이고 529 전체REWORK는 유지한다.
+  단발비재현·verbose 타이밍·M05짧은재개는 원래M04 긴 경로 재현이나 누수수리GO가 아니다.
+- 읽기 준비의 다음 표적은 이 탐침이 거치지 않은 선택dock/commit/장면퇴장/월복귀다.
+  처음 읽는 M05를 같은앱 verbose로 정상선택0→정산1→M06첫문단까지 보는 별도
+  [531](../queue_active/ORDER-531.md)을 선언한다. M04 연결장면 reset/reconfigure는
+  재현하지 않으므로 그 음성결과도 529경고 해소로 올리지 않는다. 추정소스수리/
+  새앱/새검사/KNOWN_FAILURES 예외0, 원고/번역/원저장/과거인간판정 변경0이다.
+- 개발스킬의 실제소비자·기존helper재사용·독립fresh·원본보존을 적용했다. 규범은
+  일회성/정본승격0이며 자동 계약·에이전트 관찰은 인간 재미·원어민·물리·청취GO가
+  아니다. 완료표시는 이 최소 탐침 수행 종료이며 객체 동정/전체302/본편/출시는HOLD다.

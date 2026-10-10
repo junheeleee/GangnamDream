@@ -2,12 +2,20 @@
 
 이전 기록은 [526 발급까지의 원문](history/WORK_LOG_2026-10-10_pre_order526.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 최소 종료 탐침 무경고 / 누수 객체 동정 HOLD
+
+- [530](queue_archive/ORDER-530.md)의 같은ICU앱 verbose1회/Continue1/M05첫문단2줄/기록entry1완문2줄/open·close각1/CmdQ1을 실행했다. 추가advance·선택·정산·설정·저장복사/주입0, 같은HUD498만원·70·73/남은56개월이다. stale창의 cgWindowNotFound는 잠금으로 오판하지 않고 실행중editor61385 exact경로에 재연결했다.
+- exit0/50.983207초/stdout16354B·Godot16304B/stderr0/parse·script·enginefatal·WARNING·ObjectDB·Leaked instance행0. M04원경로 미재현/verbose타이밍 변화라 529REWORK는 유지한다. 실제객체명/원인은HOLD이며 소스추정수리·재발급·경고예외/검사삭제0이다.
+- private raw10 before748551B/e7205e82…·after748680B/e84a792c…·observation2300B/3d02e882…·command1453B/29029018… 및 이전Godot912B/e4aaafa0… 원문 보존. save17299B/6a754921…의 +60B는30곳 int→동일값float뿐, 전체payload/choice7·settlement4/M5·elapsed16·turn17/수치·cast·item 동일, 이전primary는backup byte-exact다.
+- root/비저자 phone_independent_review가 clean dceaf0b/tree0897e24c source3270/helper5/seed2/W238/player33/immutable58 before=after=fresh/runtime9 after=fresh를 직접 읽었다. own35844/35837부재/editor61385생존, 최종은 실행/보존 한정GO·객체동정HOLD다. root pixels만/독립pixels·영속PNG·청취0·인간/원어민/물리·본편출시HOLD다.
+- 개발스킬의 기존helper·실제소비자·독립fresh·원본보존 적용/일회성·정본승격0. 다음 [531](queue_active/ORDER-531.md)은 첫실제M05전체→선택0/결과→정산1→M06첫문단으로 빠졌던선택dock·commit·퇴장·월복귀를 함께 본다. M04고유reset/연출은 재현하지 않으므로 음성도529누수수리GO가 아니다. 원고/번역/제품/사용자저장·과거인간판정 변경0이다.
+
 ## 2026-10-10 — M04 상철·월 정산 확인 / 새 종료누수 REWORK
 
 - [529](queue_archive/ORDER-529.md) 검수 수행 종료/제품REWORK다. Continue1/개별Return27/meet0·answer0각click1/기록open·close각1/CmdQ1. measure0는 정상 단일행동안내 Return16, KO본문6+7+7화면·결과3+3+2화면(마지막4+3줄)을 읽었다. answer p7은 일부표시→authored hold0.8 뒤3택dock이라 정상대화기록entry28에서 완문2줄을 읽었다. 본화면 완문 지속관찰로 올리지 않는다. 잘림/tofu/경로명노출 관측0, M05첫문단2줄/HUD498만원·70·73/남은56개월 뒤 추가진행0이다.
 - 실제save17239B/785cc062… M5/elapsed16/closed[1..4]/pressure4/turn17/choice7·settlement4/지력66/tint13/AP2. 기존4/3영수증 값동일·상철3선택0/정산1만 추가, 상철interested15/아버지이유flag/명함1·재혁unknown0 정합이다. exit0/563.723938초이나 stderr124B/706b9a0a… ObjectDB 종료누수 경고1건이 새로 났다. Godot912B의 같은경고는 거울이다. fatal0와 무누수 종료GO는 구분하며 원인미확정이다.
 - raw7 before726715B/c6fb70f9… after728219B/42f84f0a… observation10811B/bd8f24d8… command1423B/a8e91b82… 보존. 비저자 phone_independent_review가 clean285c4ea/treea728e43a의 source3269/helper5/seed2/W238/player33/immutable57 전량 before=after=fresh/runtime9 after=fresh·원저장/로그를 대조했다. own6405/6401부재/editor61385생존, pixels root/독립raw검수·독립pixels/PNG영속0이다. 최종판정은 기능/보존 한정GO·전체REWORK다.
-- 개발스킬의 실제소비자·독립fresh/원본보존을 적용했다. 제품/원문/번역/원저장/재발급/새검사0·일회성/정본승격0, 인간/원어민/물리/청취·본편출시HOLD. [530](queue_active/ORDER-530.md)에 동일앱 verbose1회·정상M05첫문단/기록읽기·추가선택0의 객체진단만 선선언한다. 확인 전 추정소스수리·경고예외처리0, M05나머지는 아직 진행하지 않는다.
+- 개발스킬의 실제소비자·독립fresh/원본보존을 적용했다. 제품/원문/번역/원저장/재발급/새검사0·일회성/정본승격0, 인간/원어민/물리/청취·본편출시HOLD. [530](queue_archive/ORDER-530.md)에 동일앱 verbose1회·정상M05첫문단/기록읽기·추가선택0의 객체진단만 선선언한다. 확인 전 추정소스수리·경고예외처리0, M05나머지는 아직 진행하지 않는다.
 - 529기록/530선언 c1bba19 및 clean현황0d7e076 main push. 영향6검사(context30018/docs639/links196·큐78/76·현황신선도·인간원장·index25/4·agent222/HOLD)/diff PASS다. 다음530 native 입구 screenshot은 Mac locked/automatic unlock unavailable이라 앱실행/입력/저장복사/주입·입구전량snapshot0/보안우회0이다. preflight-locked raw만 보존하며 잠금해제 뒤 상세로그 진단을 이어간다. 반복실행이나 원인수리를 완료했다고 쓰지 않는다.
 
 ## 2026-10-10 — M03 두 만남·선택/월 정산→M04 완료
