@@ -2,6 +2,13 @@
 
 이전 기록은 [526 발급까지의 원문](history/WORK_LOG_2026-10-10_pre_order526.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — M02 재개 실측·단일행동 검수 전제 정정
+
+- [527](queue_active/ORDER-527.md) 시도1은 정상Continue→KO본문2/Return2회→결과1·정신62→72까지 확인하고 정상CmdQ했다. 기존규칙(StoryMode3335/5776·DECISIONS2026-07-20)은 한 행동을 본문 끝 Enter안내로 확정한다. 선택dock 부재는 제품결함이 아니라 검수 전제 오류라 원래 범위REWORK/미완료로 남긴다.
+- private raw7: before718692B/8cd7a64a… after717956B/134fd6d4… observation3698B/c9009276…; exit0/60.965706초/stdout=Godot472B/cccfb27a…/stderr·오류·경고·누수0. own55330/55329부재/editor61385생존. 최초receipt 생성의 KeyError는 raw쓰기/앱실행 전 진단이며 앱오류가 아니다.
+- 비저자 phone_independent_review는 입구와 종료 source3267/helper5/seed2/W238/player33·immutable54·runtime6을 전량fresh 대조해 보존GO/동결해제했다. durable save8481B/ce380aa3…는M2/elapsed4/turn5/정신62/choice1/settlement1 유지, 30개숫자 재직렬화만 있다. 실제pixels root/독립raw·source검수이며 인간판정 불승계다.
+- 같은527을 마지막본문 단일행동hint EN→KO복귀/Return확정→결과→정산→M03으로 정정 선선언한다. 시도1 raw를55번째 보호로 넣고 별도raw에서 정상Continue 재개한다. 게임원문/번역/코드/원저장/새검사/재발급0·일회성/정본승격0이다. 개발 스킬의 실제소비자 근거·저장보존·독립검수 경계를 적용했다.
+
 ## 2026-10-10 — 중국어 줄바꿈 실제 개선 완료·다음 선택 재개 선언
 
 - [526](queue_archive/ORDER-526.md): exact ICU 새앱 단일 무인자 실행에서 KO M01 자연완독/차단0/결과→정산1→M02 첫문단과 CN/TW/EN/JA/KO 설정복귀를 확인했다. CN/TW의 Kim/Minjun 분리·큰 첫줄 여백이 사라졌다. KO3/CN3/TW2/EN4/JA3줄·완문/무잘림/tofu·의도하지 않은 한글 누출 관측0이며 CN의짧은꼬리/다른크기·장면은 미판정이다.
