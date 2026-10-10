@@ -62,6 +62,10 @@ var _full_story_date_exclusion := ""
 var _full_story_purchase_only := false
 var _full_story_purchase_checked := false
 var _full_story_purchase_exclusion := ""
+var _full_story_ngplus_only := false
+var _full_story_ngplus_checked := false
+var _full_story_ngplus_exclusion := ""
+var _full_story_ngplus_rejections := 0
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -70,6 +74,11 @@ func _run() -> void:
 	_backup_settings_file()
 	_backup_meta_progression()
 	_backup_test_slots()
+	_full_story_ngplus_only = OS.get_cmdline_user_args().has("--full-story-ngplus-only")
+	if _full_story_ngplus_only:
+		await _check_full_story_ngplus()
+		await _finish()
+		return
 	_full_story_purchase_only = OS.get_cmdline_user_args().has("--full-story-purchase-only")
 	if _full_story_purchase_only:
 		await _check_full_story_purchase()
@@ -119,6 +128,7 @@ func _run() -> void:
 	await _check_full_story_production()
 	await _check_full_story_meeting_date()
 	await _check_full_story_purchase()
+	await _check_full_story_ngplus()
 	if not _failures.is_empty():
 		await _finish()
 		return
@@ -1602,6 +1612,280 @@ func _free_monthly_economy_main(main_game: Control) -> void:
 	await get_tree().process_frame
 
 
+func _check_full_story_ngplus() -> void:
+	# Explicit meta fixtures and actual StartMenu/save/Main methods. This is not
+	# native input, a natural repeated life, or a new-OS-process cold resume.
+	await _free_story()
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var events_before: Dictionary = _full_story_event_snapshot()
+	var queue_before: Array = GameState.pending_story_queue.duplicate(true)
+	var returning_before: bool = GameState.returning_from_story
+	var meta_before: Dictionary = MetaProgression.data.duplicate(true)
+	var new_before: Dictionary = (MetaProgression.get("_new_this_run") as Dictionary).duplicate(true)
+	var language_before: String = LocaleManager.language
+	var resume_before: Dictionary = {}
+	for key in ["_loaded_resume_context", "_loaded_slot_metadata", "_loaded_save_identity", "_last_load_diagnostic"]:
+		resume_before[key] = (SaveManager.get(key) as Dictionary).duplicate(true)
+	var failures_before: int = _failures.size()
+	var args: PackedStringArray = OS.get_cmdline_user_args()
+	var excluded: bool = GameState.is_demo_build() or CORE_LOOP.requested() \
+		or args.has(FULL_STORY_FLOW.PREVIEW_ARG) or args.has(FULL_STORY_FLOW.THIRD_MONTH_ARG)
+	_full_story_ngplus_rejections = 0
+	LocaleManager.set_language("ko")
+	var starts: Dictionary = {}
+	var base: Dictionary = {}
+	for total in [-1, 0, 1, 3, 4]:
+		MetaProgression.data = meta_before.duplicate(true)
+		MetaProgression.data["total_runs"] = total
+		MetaProgression.data["unlocked_titles"] = ["first_paycheck", "ordinary_end_title"] \
+			if total == 4 else []
+		GameState.pending_story_queue.clear()
+		GameState.returning_from_story = false
+		await _production_fresh_start()
+		var expected_flags: Dictionary = _ngplus_expected_flags(total)
+		_expect(_ngplus_exact_flags(expected_flags), "StartMenu changed exact NG+ bool flags at %d" % total)
+		if excluded:
+			var preview_expected: bool = args.has(FULL_STORY_FLOW.PREVIEW_ARG) \
+				and not GameState.is_demo_build() and not CORE_LOOP.requested() and total < 1
+			_expect(not FULL_STORY_FLOW.is_full_run() \
+					and FULL_STORY_FLOW.owns_session() == preview_expected,
+				"excluded StartMenu issued an unexpected owner at %d" % total)
+			_ngplus_expect_initializer_inert(false, "excluded-fresh-%d" % total)
+			if preview_expected:
+				var preview_profile: String = FULL_STORY_FLOW.PROFILE_THIRD_MONTH \
+					if args.has(FULL_STORY_FLOW.THIRD_MONTH_ARG) else FULL_STORY_FLOW.PROFILE
+				_expect(FULL_STORY_FLOW.valid_session() \
+						and FULL_STORY_FLOW.snapshot().get("profile") == preview_profile \
+						and FULL_STORY_FLOW.last_turn() == (12 if args.has(FULL_STORY_FLOW.THIRD_MONTH_ARG) else 8),
+					"explicit preview lost its original profile/horizon")
+			elif args.has(FULL_STORY_FLOW.PREVIEW_ARG) \
+					and not GameState.is_demo_build() and not CORE_LOOP.requested():
+				_ngplus_expect_initializer_inert(false, "fresh-preview-reject-ngplus-%d" % total, true)
+			continue
+		_expect(FULL_STORY_FLOW.is_full_run() and FULL_STORY_FLOW.valid_session() \
+				and FULL_STORY_FLOW.last_turn() == 240 and GameState.turn == 1 \
+				and FULL_STORY_FLOW.snapshot().get("last_completed_turn") == 0 \
+				and (FULL_STORY_FLOW.snapshot().get("read_receipts") as Dictionary).is_empty() \
+				and not FULL_STORY_FLOW.ready_to_advance(),
+			"actual NG+ StartMenu did not issue an unread full owner at %d" % total)
+		if not FULL_STORY_FLOW.valid_session():
+			continue
+		var issued: Dictionary = GameState.serialize().duplicate(true)
+		var owner: Dictionary = FULL_STORY_FLOW.snapshot()
+		GameState.flags.erase(FULL_STORY_FLOW.STATE_KEY)
+		var producer: Dictionary = GameState.serialize().duplicate(true)
+		var expected: Dictionary = producer.duplicate(true)
+		expected["flags"][FULL_STORY_FLOW.STATE_KEY] = owner.duplicate(true)
+		var producer_events: Dictionary = _full_story_event_snapshot()
+		var producer_meta: Dictionary = MetaProgression.data.duplicate(true)
+		var producer_new: Dictionary = (MetaProgression.get("_new_this_run") as Dictionary).duplicate(true)
+		seed(548)
+		var next_random: int = randi()
+		seed(548)
+		_expect(FULL_STORY_FLOW.initialize_fresh_run() and GameState.serialize() == expected \
+				and _full_story_event_snapshot() == producer_events \
+				and GameState.pending_story_queue.is_empty() and not GameState.returning_from_story \
+				and MetaProgression.data == producer_meta and MetaProgression.get("_new_this_run") == producer_new \
+				and randi() == next_random,
+			"fresh NG+ owner changed producer state or RNG at %d" % total)
+		_ngplus_expect_initializer_inert(true, "owned-duplicate-%d" % total)
+		starts[total] = issued.duplicate(true)
+		if total == 0:
+			base = producer.duplicate(true)
+		if total == 4:
+			_expect(MetaProgression.get_run_start_bonus() == {"intelligence": 1, "money": 50000} \
+					and not base.is_empty() and GameState.money == float(base.get("money", 0.0)) + 50000.0 \
+					and GameState.intelligence == int(base.get("intelligence", 0)) + 1 \
+					and GameState.action_log.size() == (base.get("action_log", []) as Array).size() + 1 \
+					and GameState.action_log == producer["action_log"] and GameState.event_log.is_empty(),
+				"NG+ owner erased actual title money/stat/perk log or invented a story receipt")
+	if excluded:
+		_full_story_ngplus_exclusion = "demo" if GameState.is_demo_build() else \
+			("v2" if CORE_LOOP.requested() else \
+			("preview12" if args.has(FULL_STORY_FLOW.PREVIEW_ARG) and args.has(FULL_STORY_FLOW.THIRD_MONTH_ARG) \
+			else ("preview8" if args.has(FULL_STORY_FLOW.PREVIEW_ARG) else "preview-companion-only")))
+	elif starts.has(1) and starts.has(4) and not base.is_empty():
+		_check_ngplus_rejections(base)
+		for total in [1, 4]:
+			_ngplus_restore(starts[total])
+			MetaProgression.data["total_runs"] = total
+			var main_game: Control = await _spawn_monthly_economy_main()
+			var stored_owner: Dictionary = FULL_STORY_FLOW.snapshot()
+			MetaProgression.data["total_runs"] = total + 10
+			_ngplus_expect_initializer_inert(true, "owned-meta-increased-%d" % total)
+			MetaProgression.data["total_runs"] = total
+			await _production_cold_checkpoint(main_game, "ngplus-%d" % total, total + 10)
+			_expect(_ngplus_exact_flags(_ngplus_expected_flags(total), ["_last_info_tab"]) \
+					and FULL_STORY_FLOW.snapshot() == stored_owner,
+				"cold NG+ slot inferred flags/owner from later meta at %d" % total)
+			_ngplus_expect_initializer_inert(true, "loaded-meta-increased-%d" % total)
+			await _free_monthly_economy_main(main_game)
+		# An old unmarked repeated run remains legacy; Main is not a fresh issuer.
+		_ngplus_restore(starts[1])
+		GameState.flags.erase(FULL_STORY_FLOW.STATE_KEY)
+		GameState.turn = 2
+		GameState.week_of_month = 2
+		var legacy_main: Control = await _spawn_monthly_economy_main()
+		var legacy: Dictionary = GameState.serialize().duplicate(true)
+		_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}), "NG+ legacy disk write failed")
+		GameState.start_new_game()
+		_expect(SaveManager.load_game(TEST_SLOT) \
+				and _json_round_trip_dictionary(GameState.serialize()) == _json_round_trip_dictionary(legacy),
+			"unmarked NG+ legacy disk state changed")
+		var legacy_expected: Dictionary = _full_story_expected_main_reentry(GameState.serialize(), legacy_main)
+		var legacy_resumed: Control = await _spawn_monthly_economy_main()
+		_expect(not FULL_STORY_FLOW.owns_session() and GameState.serialize() == legacy_expected \
+				and _ngplus_exact_flags({"is_repeat_run": true}, ["_last_info_tab"]),
+			"loaded unmarked NG+ legacy run was silently enrolled or changed")
+		await _free_monthly_economy_main(legacy_resumed)
+		await _free_monthly_economy_main(legacy_main)
+		# Prepared, previously issued preview saves; no claim of fresh activation.
+		for profile in [FULL_STORY_FLOW.PROFILE, FULL_STORY_FLOW.PROFILE_THIRD_MONTH]:
+			_ngplus_restore(base)
+			GameState.flags[FULL_STORY_FLOW.STATE_KEY] = {
+				"schema": 1, "profile": profile, "start_turn": 1, "last_completed_turn": 0,
+				"chain": {}, "read_receipts": {}, "routine_receipts": {}, "completed_turns": {},
+			}
+			var preview: Dictionary = FULL_STORY_FLOW.snapshot()
+			_expect(FULL_STORY_FLOW.valid_session(), "saved preview fixture lacks its original QA environment")
+			_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}), "saved preview NG+ disk write failed")
+			GameState.start_new_game()
+			_expect(SaveManager.load_game(TEST_SLOT) and FULL_STORY_FLOW.valid_session() \
+					and not FULL_STORY_FLOW.is_full_run() \
+					and _json_round_trip_dictionary(FULL_STORY_FLOW.snapshot()) == _json_round_trip_dictionary(preview) \
+					and FULL_STORY_FLOW.last_turn() == (8 if profile == FULL_STORY_FLOW.PROFILE else 12),
+				"saved preview was promoted or rebound to current NG+ meta")
+			_ngplus_expect_initializer_inert(false, "saved-preview-not-full")
+			_ngplus_expect_initializer_inert(true, "saved-preview-duplicate", true)
+	# Local restoration must not consume the whole-run backup needed by _finish.
+	MetaProgression.data = meta_before.duplicate(true)
+	MetaProgression.set("_new_this_run", new_before.duplicate(true))
+	LocaleManager.set_language(language_before)
+	GameState.call("_restore_serialized_snapshot_exact", state_before)
+	GameState.pending_story_queue = queue_before.duplicate(true)
+	GameState.returning_from_story = returning_before
+	for key in events_before:
+		EventManager.set(key, events_before[key].duplicate(true))
+	for key in resume_before:
+		SaveManager.set(key, resume_before[key].duplicate(true))
+	_expect(GameState.serialize() == state_before and _full_story_event_snapshot() == events_before \
+			and GameState.pending_story_queue == queue_before and GameState.returning_from_story == returning_before \
+			and MetaProgression.data == meta_before and MetaProgression.get("_new_this_run") == new_before \
+			and LocaleManager.language == language_before,
+		"NG+ fixture failed exact local restoration")
+	for key in resume_before:
+		_expect(SaveManager.get(key) == resume_before[key], "NG+ fixture lost loaded context %s" % key)
+	_full_story_ngplus_checked = _failures.size() == failures_before
+	await get_tree().process_frame
+
+
+func _ngplus_expected_flags(total: int) -> Dictionary:
+	var expected: Dictionary = {}
+	if total >= 1:
+		expected["is_repeat_run"] = true
+	if total >= 4:
+		expected["is_veteran_run"] = true
+	return expected
+
+
+func _ngplus_exact_flags(expected: Dictionary, extra: Array = []) -> bool:
+	var actual: Dictionary = GameState.flags.duplicate(true)
+	actual.erase(FULL_STORY_FLOW.STATE_KEY)
+	for key in extra:
+		actual.erase(key)
+	if actual.size() != expected.size():
+		return false
+	for key in expected:
+		if not actual.get(key) is bool or not actual[key]:
+			return false
+	return true
+
+
+func _ngplus_restore(state: Dictionary) -> void:
+	GameState.call("_restore_serialized_snapshot_exact", state)
+	GameState.pending_story_queue.clear()
+	GameState.returning_from_story = false
+	SaveManager.clear_loaded_resume_context()
+
+
+func _ngplus_expect_initializer_inert(accepted: bool, label: String, preview: bool = false) -> void:
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var events: Dictionary = _full_story_event_snapshot()
+	var queue: Array = GameState.pending_story_queue.duplicate(true)
+	var returning: bool = GameState.returning_from_story
+	var meta: Dictionary = MetaProgression.data.duplicate(true)
+	var new_this_run: Dictionary = (MetaProgression.get("_new_this_run") as Dictionary).duplicate(true)
+	seed(548)
+	var next_random: int = randi()
+	seed(548)
+	var actual: bool = FULL_STORY_FLOW.initialize_fresh_preview() if preview \
+		else FULL_STORY_FLOW.initialize_fresh_run()
+	_expect(actual == accepted and GameState.serialize() == before \
+			and _full_story_event_snapshot() == events and GameState.pending_story_queue == queue \
+			and GameState.returning_from_story == returning and MetaProgression.data == meta \
+			and MetaProgression.get("_new_this_run") == new_this_run and randi() == next_random,
+		"NG+ initializer changed state/EventManager/meta/RNG for %s" % label)
+	if not accepted:
+		_full_story_ngplus_rejections += 1
+
+
+func _check_ngplus_rejections(base: Dictionary) -> void:
+	# Full raw bool/type and key population, independently of the producer.
+	for target in [
+			{"total": 1, "key": "is_repeat_run"}, {"total": 4, "key": "is_repeat_run"},
+			{"total": 4, "key": "is_veteran_run"}]:
+		for raw in [false, 1, 1.0, "true", null, [], {}]:
+			_ngplus_restore(base)
+			MetaProgression.data["total_runs"] = target["total"]
+			GameState.flags = _ngplus_expected_flags(int(target["total"]))
+			GameState.flags[str(target["key"])] = raw
+			_ngplus_expect_initializer_inert(false, "raw-%s-%s" % [target["key"], typeof(raw)])
+	for mismatch in [
+			{"total": -1, "flags": {"is_repeat_run": true}},
+			{"total": 0, "flags": {"is_repeat_run": true}},
+			{"total": 0, "flags": {"is_veteran_run": true}},
+			{"total": 0, "flags": {"is_repeat_run": true, "is_veteran_run": true}},
+			{"total": 1, "flags": {}}, {"total": 1, "flags": {"is_veteran_run": true}},
+			{"total": 1, "flags": {"is_repeat_run": true, "is_veteran_run": true}},
+			{"total": 3, "flags": {"is_repeat_run": true, "is_veteran_run": true}},
+			{"total": 4, "flags": {}}, {"total": 4, "flags": {"is_repeat_run": true}},
+			{"total": 4, "flags": {"is_veteran_run": true}}]:
+		_ngplus_restore(base)
+		MetaProgression.data["total_runs"] = mismatch["total"]
+		GameState.flags = (mismatch["flags"] as Dictionary).duplicate(true)
+		_ngplus_expect_initializer_inert(false, "key-combination-%d" % mismatch["total"])
+	for unknown in [true, false]:
+		_ngplus_restore(base)
+		MetaProgression.data["total_runs"] = 1
+		GameState.flags = {"is_repeat_run": true, "unknown_ngplus_fixture": unknown}
+		_ngplus_expect_initializer_inert(false, "extra-flag")
+	for contamination in [
+			{"key": "turn", "value": 2}, {"key": "week_of_month", "value": 2},
+			{"key": "month", "value": 2}, {"key": "year", "value": 2027},
+			{"key": "age", "value": 34}, {"key": "is_game_over", "value": true},
+			{"key": "events_seen", "value": 1}, {"key": "event_log", "value": [{}]},
+			{"key": "current_job", "value": {"id": "prepared-job"}},
+			{"key": "monthly_income", "value": 1.0},
+			{"key": "pending_story_queue", "value": ["story_flashforward"]},
+			{"key": "pending_weekly_commitment", "value": {"turn": 1}},
+			{"key": "weekly_commitments", "value": [{}]},
+			{"key": "action_records_this_week", "value": [{}]},
+			{"key": "returning_from_story", "value": true}]:
+		_ngplus_restore(base)
+		MetaProgression.data["total_runs"] = 1
+		GameState.flags = {"is_repeat_run": true}
+		GameState.set(str(contamination["key"]), contamination["value"])
+		_ngplus_expect_initializer_inert(false, "pristine-%s" % contamination["key"])
+	for damaged in [null, false, 1, "full", {}, {"schema": "1", "profile": FULL_STORY_FLOW.PROFILE_FULL}]:
+		_ngplus_restore(base)
+		MetaProgression.data["total_runs"] = 1
+		GameState.flags = {"is_repeat_run": true}
+		GameState.flags[FULL_STORY_FLOW.STATE_KEY] = damaged
+		_expect(FULL_STORY_FLOW.owns_session() and not FULL_STORY_FLOW.valid_session(),
+			"damaged NG+ owner unexpectedly lost ownership or became valid")
+		_ngplus_expect_initializer_inert(false, "damaged-owner")
+
+
 func _check_full_story_purchase() -> void:
 	# Actual purchase/sell/save APIs, with a separately prepared W31 reader.
 	# No long-run replay, native investment ingress, loss or profit is proved.
@@ -2406,10 +2690,13 @@ func _read_production_story(main_game: Control, choices_by_id: Dictionary, reads
 		"normal duplicate chain close mutated its run")
 
 
-func _production_cold_checkpoint(main_game: Control, label: String) -> void:
+func _production_cold_checkpoint(main_game: Control, label: String, meta_total_after_save: int = -1) -> void:
 	var before: Dictionary = GameState.serialize().duplicate(true)
 	_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}),
 		"normal %s checkpoint disk write failed" % label)
+	if meta_total_after_save >= 0:
+		# The NG+ regression changes external meta only AFTER this slot was saved.
+		MetaProgression.data["total_runs"] = meta_total_after_save
 	GameState.start_new_game()
 	_expect(SaveManager.load_game(TEST_SLOT) \
 			and _json_round_trip_dictionary(GameState.serialize()) == _json_round_trip_dictionary(before),
@@ -6894,6 +7181,13 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
+		if _full_story_ngplus_checked and _full_story_ngplus_exclusion.is_empty():
+			print("MANUAL_SAVE_FULL_STORY_NGPLUS_CHECK_OK startmenu=0/1/3/4/negative flags=exact-bool/perks-preserved owner=only-add/idempotent rejects=%d cold=repeat/veteran/meta-changed/v4/new-main legacy=unmarked preview=8/12-not-promoted initializer=state/event/meta/rng-inert local=state/event/meta/locale/context-restored prepared=1 natural=0 new_OS_process=0" % _full_story_ngplus_rejections)
+		if _full_story_ngplus_checked and not _full_story_ngplus_exclusion.is_empty():
+			print("MANUAL_SAVE_FULL_STORY_NGPLUS_EXCLUSION_CHECK_OK profile=%s startmenu=0/1/3/4/negative full=not-issued initializer=state/event/meta/rng-inert local=state/event/meta/locale/context-restored prepared=1 natural=0" % _full_story_ngplus_exclusion)
+		if _full_story_ngplus_only:
+			get_tree().quit(0)
+			return
 		if _full_story_purchase_checked and _full_story_purchase_exclusion.is_empty():
 			print("MANUAL_SAVE_FULL_STORY_PURCHASE_CHECK_OK producer=actual-spot/leverage/fail/query/sell fact=exact-bool/durable-full-sale/log-cap/v4-disk/new-main reader=no-trade-preserved/before-eligibility/other-ready/order/observational-rng/claim-once excluded=unmarked/preview8/12/corrupt-owner prepared_W31=1 natural=0 new_OS_process=0 investment_UI/loss/three-day-profit=unproven")
 		if not _full_story_purchase_exclusion.is_empty():

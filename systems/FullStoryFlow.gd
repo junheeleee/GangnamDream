@@ -52,7 +52,7 @@ static func initialize_fresh_run() -> bool:
 	# Explicit development entries retain their original initializer and horizon.
 	if OS.get_cmdline_user_args().has(PREVIEW_ARG) \
 			or OS.get_cmdline_user_args().has(THIRD_MONTH_ARG) \
-			or not _environment_allowed(PROFILE_FULL) or not _pristine_start():
+			or not _environment_allowed(PROFILE_FULL) or not _pristine_start(PROFILE_FULL):
 		return false
 	_store({
 		"schema": SCHEMA_VERSION,
@@ -500,18 +500,38 @@ static func _environment_allowed(profile: String = PROFILE) -> bool:
 		and OS.get_user_data_dir().get_file() == qa_namespace
 
 
-static func _pristine_start() -> bool:
+static func _pristine_start(profile: String = PROFILE) -> bool:
 	return GameState.turn == 1 and GameState.week_of_month == 1 \
 		and GameState.month == 1 and GameState.year == 2026 \
 		and GameState.age == 33 and not GameState.is_game_over \
 		and GameState.events_seen == 0 and GameState.event_log.is_empty() \
-		and GameState.flags.is_empty() and GameState.current_job.is_empty() \
+		and _pristine_flags(profile) and GameState.current_job.is_empty() \
 		and float(GameState.monthly_income) == 0.0 \
 		and GameState.pending_story_queue.is_empty() \
 		and GameState.pending_weekly_commitment.is_empty() \
 		and GameState.weekly_commitments.is_empty() \
 		and GameState.action_records_this_week.is_empty() \
 		and not GameState.returning_from_story
+
+
+static func _pristine_flags(profile: String) -> bool:
+	if profile != PROFILE_FULL:
+		return GameState.flags.is_empty()
+	# Match start_new_game's exact NG+ producer; do not erase its rewards or
+	# accept unrelated flags. Existing owned saves never enter this fresh check.
+	var expected: Dictionary = {}
+	var previous_runs := int(MetaProgression.data.get("total_runs", 0))
+	if previous_runs >= 1:
+		expected["is_repeat_run"] = true
+	if previous_runs >= 4:
+		expected["is_veteran_run"] = true
+	if GameState.flags.size() != expected.size():
+		return false
+	for key in expected:
+		var value: Variant = GameState.flags.get(key, null)
+		if not value is bool or not value:
+			return false
+	return true
 
 
 static func _store(state: Dictionary) -> void:
