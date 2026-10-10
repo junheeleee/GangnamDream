@@ -2,6 +2,54 @@
 
 이전 기록은 [539 마감 전 원문](history/WORK_LOG_2026-10-10_pre_order539_close.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-11 — 수정 M08 저장 복원·무거래 회상 미노출 실제 표본 확인
+
+- [544](queue_active/ORDER-544.md)의 수정앱 재관측을 실행 전 선언하고 실패/제한 재개/
+  독립 검수/기록을 월별1commit으로 묶었다. source71d02b7/tree1f6d669의 새 격리
+  full앱에 원 실제W29 autosave116693B/d1cd6c47… 한 파일만 이월했다. ZIP429272848B/
+  ee76e067…·PCK391079256B/8a8dd836…·JSON675 exact·strict서명/universal actual0,
+  import nested-project WARNING1·ad-hoc 교체 안내 보존, 내부발급/공증·출시GO0이다.
+- **시도2는 root 절차 오류로 REWORK다.** W29 본문4개/slot1 저장 후 CmdQ와 같은
+  호출에 붙인 getAXState가 별도 앱을 재활성화한 정황이 있고 통제 cold와 겹쳤다.
+  cold·무거래 인과 PASS0이다. 두 통제game actual0/144.895518s·66.103304s 및 원6stream
+  오류0은 provenance 실패를 지우지 않는다. [시도2 보고](agent_reviews/ORDER-544-attempt2.json)
+  와 private final36215B/6a14ac65…를 그대로 남겼다.
+- 당시 보호75중74 exact다. retail 저장·설정 등 비로그28파일은 그대로이나 로그3경로는
+  현재godot.log 0→154B·새0B회전본 추가·옛194B회전본 제거로 달라졌다. 제거된
+  `logs/godot2026-09-07T12.49.22.log` SHA5927491c…의 byte backup은 확인되지 않았다.
+  복구 가능·전체 원본불변으로 쓰지 않으며 로그 복구/삭제/원자료 덮기0이다.
+- 시도3은 같은 발급물/격리 HOME/XDG와 실제slot1 123232B/ec1ed859…를 그대로
+  썼다. 새build/export/675재검사/seed복사/state편집0. 정상 KO title Continue가
+  완문p4·대화4개·현금−227만원/건강54/정신79를 복원했다. W29choice0·결과2문단
+  완독 뒤 Return1회로 quiet주가 자동 진행되었고 다음 화면은 W34 현수 메시지였다.
+  투자하지 않은 경로의 W31 투자 회상 화면0·M09선택0이며 W33 화면/월말UI 미관측이다.
+- 실제 final autosave130852B/6ba691d3…는 W34/−2571703/h52/m88/portfolio{}, 구매fact
+  없음/callback31 예약 유지·W29 이후 event_log W29choice0만이다. routine/closure29–33
+  각1·latch33, 현금차−30만원=5×7만원−65만원이다. 투자감각20→21은 실제 상철
+  mentoring 월말 패시브와 W32 action_log에 대응한다(GameState1730–1732). 거래 증거
+  또는 변화 없음으로 쓰지 않는다. 원slot1 byteexact·원W29/사용자save 불변이다.
+- CmdQ 단독 이후 UI활성화0, game11504 actual0/277.640906s·stdout/Godot154B/6649181a…,
+  stderr0·오류/경고/누수0이다. private .git/order544-attempt3-20261011/에 원3stream/
+  저장2사본/journal·독립 final42793B/7e0731b7…를 보존했다. 비저자 fresh78/1439파일·
+  tracked3305/app7/helper5/seed2/W238/player33/Human/옛285판정·시도2raw/report/manifest
+  exact다. 이는 사고 뒤 현재 기준 보존이며 옛75 보존 실패를 소급 GO로 바꾸지 않는다.
+- [시도3 보고](agent_reviews/ORDER-544-attempt3.json)는 같은 발급package의 cold·무거래
+  callback 보류·현재 보존 한정 GO/전체544 HOLD다. 옛544 REWORK·545 source GO·시도2
+  REWORK를 각각 보존하고 내부제품/출시 GO0, 과거 인간 판정 불변이다. 실제 투자 입구/
+  3일본전 산문·W33 정지점·다른언어/분기·인간/원어민/물리패드/연속청취는 남았다.
+- 개발skill의 실제/합성·인간 증거 구분과 종료후 UI재활성화 금지를 적용했다. 시도2
+  경계 위반도 숨기지 않았다. 새 영구도구/최적화/전체감사/240주/ObjectDB추가탐침/
+  STATUS-only0, 새규범0/실행지시 일회성이다.
+- 판정 원장은 옛285 원문prefix를 보존하고 시도2 REWORK1·시도3 전체HOLD1만 추가했다.
+  보고3 최상위도 HOLD로 맞춰 부분GO가 전체544 GO로 해석되지 않게 했다. report2
+  15858B/28bc1f30…·report3 13346B/c95f71b3…·동일manifest4377B/4191aabd…에 결속한다.
+- 기록 표적6검사(context·큐·STATUS advisory·Human·큐self·agent self)는 actual0/
+  stderr0·새실패0이다. Human45OPEN/1done·큐79/진행77·큐self25/fence4를 보존한다.
+  STATUS stale은 비차단으로 남겼고 재생성/별도커밋0이다. 전체 원격CI 녹색 주장이 아니다.
+  cjk_wrap_diagnosis의 비저자 마감 읽기는 허용9경로·옛285원문·다른78큐행·제품3/
+  Human/project·과거raw/보고·private26pin 보존 GO/추가결함0이다. CLAUDE의 기존
+  'player 불변' 표현도 비로그 저장/설정 보존으로 한정해 로그 사고와 모순을 없앴다.
+
 ## 2026-10-11 — 거래하지 않은 본편에 투자 회상이 열리는 진입 수리
 
 - [545](queue_archive/ORDER-545.md)는 544 실제 W31의 확인 결함만 별도 선언055a819

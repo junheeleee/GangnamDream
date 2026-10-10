@@ -11986,6 +11986,103 @@
         "path": "docs/agent_reviews/ORDER-545.json",
         "sha256": "31d7d725718a50fe78ad09103144fbabba793c79ce056eec4756a9eb1d0b2350"
       }
+    },
+    {
+      "id": "order-544-attempt2-provenance-rework",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-11",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-544",
+      "subject": {
+        "kind": "package",
+        "commit": "71d02b70bb980c95d9fac1347b6d202fed8a9f2e",
+        "tree": "1f6d669d9c43529910e9a00750458853b2671d1a",
+        "manifest_sha256": "4191aabd2464afd85d7a1872468a399eef407f2e079d2306f371b8f7ccd37dcd"
+      },
+      "verdict": "REWORK",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-544-attempt2.json",
+          "sha256": "28bc1f30594940743d421e2bb2afd730355b13f2f6edbd65943d254376f5fece"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-544-attempt2.json",
+          "sha256": "28bc1f30594940743d421e2bb2afd730355b13f2f6edbd65943d254376f5fece"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-544-attempt2-manifest.json",
+          "sha256": "4191aabd2464afd85d7a1872468a399eef407f2e079d2306f371b8f7ccd37dcd"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "controlled_cold_scene_and_W31_no_trade_callback_native_result_in_attempt2",
+        "incidental_restart_environment_exit_code_direct_API_causality",
+        "W33_first_screen_full_M08_month_end_UI",
+        "removed_194_byte_retail_log_backup_recoverability",
+        "independent_pixels_continuous_audio_other_locales_routes",
+        "full_remote_CI_notarization_external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-544-attempt2.json",
+        "sha256": "28bc1f30594940743d421e2bb2afd730355b13f2f6edbd65943d254376f5fece"
+      }
+    },
+    {
+      "id": "order-544-attempt3-bounded-cold-no-trade-overall-hold",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-11",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-544",
+      "subject": {
+        "kind": "package",
+        "commit": "71d02b70bb980c95d9fac1347b6d202fed8a9f2e",
+        "tree": "1f6d669d9c43529910e9a00750458853b2671d1a",
+        "manifest_sha256": "4191aabd2464afd85d7a1872468a399eef407f2e079d2306f371b8f7ccd37dcd"
+      },
+      "verdict": "HOLD",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-544-attempt3.json",
+          "sha256": "c95f71b3af573e3c2d673374cf8edc22902c3728e9b08cda88c7833fdaac82b3"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-544-attempt3.json",
+          "sha256": "c95f71b3af573e3c2d673374cf8edc22902c3728e9b08cda88c7833fdaac82b3"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-544-attempt3-manifest.json",
+          "sha256": "4191aabd2464afd85d7a1872468a399eef407f2e079d2306f371b8f7ccd37dcd"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "W33_first_screen_month_end_UI_stop_and_full_M08_completion",
+        "successful_full_investment_UI_loss_three_day_break_even_prose",
+        "M09_choices_or_later_months_natural_240_week_play",
+        "independent_pixels_persistent_PNG_video_continuous_audio",
+        "other_locales_routes_resolutions_branch_exhaustion",
+        "pre_attempt2_protected75_whole_preservation_or_removed_log_recovery",
+        "full_remote_CI_notarization_external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-544-attempt3.json",
+        "sha256": "c95f71b3af573e3c2d673374cf8edc22902c3728e9b08cda88c7833fdaac82b3"
+      }
     }
   ]
 }

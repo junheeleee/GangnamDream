@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-544",
+  "attempt": "attempt3 controlled cold after attempt2 REWORK",
+  "reviewer": "phone_independent_review (비저자)",
+  "reviewed_at_utc": "2026-10-10T19:15:41.126386+00:00",
+  "subject": {
+    "kind": "package",
+    "commit": "71d02b70bb980c95d9fac1347b6d202fed8a9f2e",
+    "tree": "1f6d669d9c43529910e9a00750458853b2671d1a",
+    "manifest_path": "docs/agent_reviews/ORDER-544-attempt3-manifest.json",
+    "manifest_sha256": "4191aabd2464afd85d7a1872468a399eef407f2e079d2306f371b8f7ccd37dcd"
+  },
+  "scope": "이미 발급한 exact full 앱의 격리 slot1 정상 cold 복원→W29 선택0/결과→다음 자연 foreground W34 첫 문단, 무거래 투자 회상 보류 및 새 입구 기준 보존. 전체 M08/W33 정지점·출시 판정이 아니다.",
+  "verdict": "HOLD",
+  "product_verdict": "HOLD",
+  "results": {
+    "controlled_cold": "GO 한정 — root W29 p4/history4·HUD 관측을 원 slot1 prose index3/type_ratio1/4개 history와 결속했다. 검수자는 화면을 직접 보지 않았다.",
+    "no_trade_callback": "GO 한정 — 구매 fact 부재·빈 portfolio에서 callback31을 소비하지 않고 W34 다음 foreground로 진행한 실제 저장/원관찰과 strict reader가 일치한다. 거래/수익/본전 산문을 입증하지 않는다.",
+    "preservation": "GO 한정 — fresh post-incident 입구78곳/1439파일과 pre/result/current 전량 exact. 이전 손상 전75의 보존 PASS로 소급하지 않는다.",
+    "overall_ORDER544": "HOLD — W33 첫 화면/월말 UI 정지조건 미충족, W34 자동 도착. 기존 시도1 인과 REWORK 및 시도2 provenance/retail 로그 REWORK를 대체하거나 닫지 않는다."
+  },
+  "method": {
+    "direct_read": "시도3 helper 전체·사양/권한/skill, finalized observations.md, pre-launch/native-result, stdout/stderr/원 Godot와 보존 사본, final-autosave/slot1 전체 JSON, 해당 달력/월말·상철 패시브·deferred callback 소비자. package/build/사고 상세는 변경 없는 시도2 독립 보고와 발급 증거를 참조한다.",
+    "fresh": "변경 없는 기존 b.snapshot/file_record/source_state, c.snapshot만 재사용. 검수자 엔진/빌드/app/UI/저장·프로세스 쓰기0, 새 도구/675 payload 재스캔0.",
+    "actual_observer": "root의 inline CUA 관측만. 독립 pixels/native 시각 검수·영구 PNG/영상·인간/원어민/청취/패드 증거0.",
+    "source_boundary": "빌드 checkout은 clean source71d02/tree1f6d. root의 선선언 spec/queue2개 미커밋 및 이전 보고2개 untracked를 입구 그대로 동결 대조했다. root 작업 트리를 clean metadata wrapper라고 부르지 않는다."
+  },
+  "evidence": {
+    "private_base": ".git/order544-attempt3-20261011",
+    "independent_entry": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-attempt3-20261011/independent-before.json",
+      "sha256": "000ebf3a37ff07205e44c93a74bbf93c8da3cae28f32853b53afbc776585a549",
+      "size": 35314
+    },
+    "independent_admission": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-attempt3-20261011/independent-native-admission.json",
+      "sha256": "39ea016354c0ed158c3a7d2850613037264fe1cfb9c3cfaf12188ef11910b6ed",
+      "size": 3897
+    },
+    "independent_final": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-attempt3-20261011/independent-final-preservation.json",
+      "size": 42793,
+      "sha256": "7e0731b736931f1c53e086ef94f275b9113e51c7c127407ad340fd58ae7197c7"
+    },
+    "observations": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-attempt3-20261011/observations.md",
+      "sha256": "e999620e40b355d6f5f814f8d53fa314eff79668822a3531755ce8dd8c27554b",
+      "size": 4108
+    },
+    "pre_launch": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-attempt3-20261011/pre-launch.json",
+      "sha256": "85cb3eac10e00d3035a5db7f7c48cc2414442540e9b5d665d25f21ff8d3977d2",
+      "size": 1189100
+    },
+    "native_result": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-attempt3-20261011/native-result.json",
+      "sha256": "58977bf7fafc1798efe4f737a9decf7231a3111aeaab32c986b14ae3983897f7",
+      "size": 335683
+    },
+    "stdout": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-attempt3-20261011/native.stdout.log",
+      "sha256": "6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1",
+      "size": 154
+    },
+    "stderr": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-attempt3-20261011/native.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "preserved_godot": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-attempt3-20261011/native-exit.godot.log",
+      "sha256": "6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1",
+      "size": 154
+    },
+    "final_autosave": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-attempt3-20261011/final-autosave.json",
+      "sha256": "6ba691d3f0440cca719478b564392a32f5583bbf1ebd0b848f5508bf9ce76170",
+      "size": 130852
+    },
+    "unchanged_slot1": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-attempt3-20261011/final-slot1.json",
+      "sha256": "ec1ed8598fa0f72d31cd9cdfd36260482e14ca1352e26db26bd785b96bd522d7",
+      "size": 123232
+    },
+    "helper": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-attempt3-20261011/launch.py",
+      "sha256": "6f265a22cd9494f366a4a5347f4e99dca8601e5c79bfb54d977ec740ae70444f",
+      "size": 3699
+    },
+    "issued_package_original": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-attempt2-20261011/package.json",
+      "sha256": "4191aabd2464afd85d7a1872468a399eef407f2e079d2306f371b8f7ccd37dcd",
+      "size": 4377
+    },
+    "prior_attempt2_report": {
+      "path": "docs/agent_reviews/ORDER-544-attempt2.json",
+      "size": 15858,
+      "sha256": "28bc1f30594940743d421e2bb2afd730355b13f2f6edbd65943d254376f5fece"
+    }
+  },
+  "run": {
+    "os_launches_in_this_controlled_attempt": 1,
+    "pid": 11504,
+    "launcher_pid": 11496,
+    "argv": [
+      "/private/tmp/gd-full-m08-purchase-ynfcj3em/app/GangnamDream.app/Contents/MacOS/GangnamDream"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 277.640906,
+    "wrapper_failure": null,
+    "protected_exact": true,
+    "tracked_exact": true,
+    "spec_exact": true,
+    "app_exact": true,
+    "streams": "stdout=Godot=보존 사본154B/SHA6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1; stderr0B. 전량 읽기에서 parse/script/engine ERROR·WARNING·ObjectDB/leaked0.",
+    "actions": "root: title/menu Continue→W29 p4 완문→history4 open/close→choice0→결과2문단 개별 완독/Return→W34 첫 문단 완독→CmdQ 단독. Quit 뒤 UI binding 재선택0은 root 관측 기록이며, 독립 종료 확인은 읽기 전용 ps/log로 했다.",
+    "processes": "fresh ps에서11504/11496 및 이전10920/11006/11053/11064 부재, 사용자 editor61385만 생존.",
+    "copied_saves_this_attempt": 0,
+    "state_edits": 0,
+    "new_builds_exports": 0,
+    "diagnostic": "post-exit 원자료 복사 시 nonexistent save_1 파일명 조회 실패 뒤 실제 slot_1을 보존한 root 진단을 observations에 유지. 제품 실행 실패나 재실행으로 해석하지 않는다."
+  },
+  "preservation": {
+    "population": "protected78/1439파일(중첩 경로 합산), tracked3305, 기존 helper5+새 launch1, seed2/W238/player33, Human·과거285판정, app7/ZIP/PCK/원 package/문자 manifest/spec/queue·원W29.",
+    "direct_result": "pre-launch.protected == native-result.protected_after == fresh 및 독립 입구 digest78 모두 exact. tracked 전체파일·기존 helper/seed/W238/player·285판정 원문/의미 prefix/Human exact; 원 raw/report/manifest2까지 보호에 포함.",
+    "historical285": {
+      "count": 285,
+      "file": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/docs/agent_review_decisions.json",
+        "size": 434842,
+        "sha256": "7299c8869cfb8392afc4471e202dc0aff4e76bdcfebe8574d4b8a2cfb9b933e7"
+      },
+      "semantic_prefix_sha256": "937ccb5b167fa729e49ff86db16f38d0dd1dcd4fa567f36be7e8062851b5872c",
+      "previous284_prefix_exact": true,
+      "previous284_semantic_prefix_sha256": "146c7396f0f887e4ef0d8695053d10d9688b22327d0cb4c90b38514be6542e09"
+    },
+    "human": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/docs/human_gates.json",
+      "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+      "size": 103390
+    },
+    "previous_attempt2": "REWORK 영구 보존. 당시 retail33 중28 비로그 저장/설정 exact이나 logs3경로 변경: 현재 logs/godot.log 0→154B, logs/godot2026-10-11T03.54.29.log 0B 추가, 아래194B 로그 제거. 시도3은 이 사후 상태를 기준으로만 exact.",
+    "removed_log": {
+      "path": "/Users/junheelee/Library/Application Support/Godot/app_userdata/강남드림/logs/godot2026-09-07T12.49.22.log",
+      "size": 194,
+      "sha256": "5927491c8b56d76930900c935c1083577fe549e81eb3018ee25aa4b74a2cad94",
+      "recoverability": "원 bytes 백업 검증 없음. 복구 가능 주장/restore/삭제0."
+    },
+    "prior_incidents": "원544/534 사고·기존 보고/원장/Human의 역사 판정 불변. 새78 보존 GO는 과거75 불일치를 지우지 않는다."
+  },
+  "state_and_consumers": {
+    "manual_slot1": "123232B/ec1ed8598fa0f72d31cd9cdfd36260482e14ca1352e26db26bd785b96bd522d7 원 bytes exact. W29/-2271703/health54/mental79/skill20, arc_hyunsu_exam_fail prose paragraph3, source3/count4/type_ratio1/history4. 이번 수동 Save0.",
+    "final_autosave": "130852B/6ba691d3f0440cca719478b564392a32f5583bbf1ebd0b848f5508bf9ce76170 실제 파일과 사본 exact. turn34/2026-09 W2/-2571703/health52/mental88/skill21, resume{}.",
+    "flow": "과거 completed/routine/read prefix1–28 의미 exact. 신규 completed29..33 각 next_turn+1, routine29..33 각1; 신규 read29만 실제 arc_hyunsu_exam_fail/choice0/turn29/applied_sequence42. 기존 event_log prefix 그대로+W29 선택0 한 건, callback 선택/거래 event0.",
+    "economy": "routine29–33 각 money+70000/health0/mental+4. 월말 순현금-650000, 합계 현금-300000=5×70000−650000. monthly_economy_turn29→33. MainGame9004–9068의 월말 pressure→calendar 경로 및 저장된 closure/월말 action_log와 부합; W33 UI를 직접 보았다는 증거 아님.",
+    "skill": "20→21 실제 변화. saved Sangchul stage=mentoring, turn32 월말 action_log '임상철의 지나가는 말들이...' 및 GameState1730–1732 turn%4==0 패시브와 일치. InvestmentSystem98의 buy 보상이나 거래 증거로 부르지 않는다.",
+    "no_trade": "flags.full_story_market_purchase_completed 부재, portfolio{} 유지. deferred callback_investment_lesson_echo trigger31 원 record exact 보존. MainGame7046–7055 full/valid session + strict bool purchase gate가 예약을 erase하지 않고 뒤 eligible 사건/quiet weeks를 허용하는 경로와 일치.",
+    "new_foreground": "root W34 arc_hyunsu_drift 첫 문단/현수 메시지 관측은 saved deferred 및 turn34와 부합. 그 이후 본문·선택·M09 진행은 미관측."
+  },
+  "package": {
+    "reused_identity": "새 build/export/서명/675JSON 재검사0. 기존 발급/독립 native admission에 결속하며 이번은 source/app7/ZIP/PCK/manifest 현재 bytes exact를 직접 확인.",
+    "zip": {
+      "size": 429272848,
+      "sha256": "ee76e067a4f5ed468ee1450e0939b07a547c589bc5fdd7c496736bca2dd07734"
+    },
+    "pck": {
+      "size": 391079256,
+      "sha256": "8a8dd83668a0ebdd19c6e3a4714893d20dcd2e5eee0dbc174f6c3936412d2b42",
+      "issued_entries": 1880,
+      "issued_json_exact": 675,
+      "icu_member_present": false
+    },
+    "build_manifest": {
+      "size": 464,
+      "sha256": "efff27af1ffd7e1da15c33f168e477fe27b013763011bf95c192241fc3748547"
+    },
+    "manifest_copy": "원 attempt2/package.json 4377B를 byte-identical 복사. copied_saves=1·native_M08 unobserved 등 발급 당시 사실을 수정/승계하지 않으며 시도3 copied_saves0·부분 실관측은 이 보고서가 별도로 기록한다."
+  },
+  "unobserved": [
+    "W33_first_screen_and_month_end_UI_stop",
+    "full_M08_completion",
+    "M09_choice_or_progress_after_W34_first_paragraph",
+    "successful_investment_UI_or_trade_profit_prose",
+    "other_routes_locales_resolutions_or_branch_exhaustion",
+    "natural_full_240_week_play",
+    "independent_pixels_or_persistent_PNG_video",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "audio_listening",
+    "full_remote_CI",
+    "external_release"
+  ],
+  "acceptance": "최종 작업 단위 판정은 HOLD, controlled cold·무거래 callback 보류·새 입구 보존의 부분 차원만 GO다. resolver/dashboard에서 전체 ORDER544 GO로 확대하지 않는다. 자동/저장 계약과 좁은 root 관측은 재미·문체·인간/원어민/물리 품질 전체 GO가 아니다. ORDER544는 [~]/HOLD, 시도2 REWORK 유지."
+}
