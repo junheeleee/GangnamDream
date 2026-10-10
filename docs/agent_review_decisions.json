@@ -11453,6 +11453,51 @@
         "path": "docs/agent_reviews/ORDER-534.json",
         "sha256": "df2dc1404db76c77cc780cb761f603a010cfab0ba5a1891f864062a31257f3b3"
       }
+    },
+    {
+      "id": "order-535-monthly-economy-reentry-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-535",
+      "subject": {
+        "kind": "source",
+        "commit": "17e45369cd0aca69d83b2b198ae1ae9e1edf1a83",
+        "tree": "98e5c02d7da90b18db6974c72cf64877d4a5ad8d",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-535.json",
+          "sha256": "c40261a332ce8e09f93d7cadf9720ab8d99911a90ea1cde34e7ed84658620772"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-535.json",
+          "sha256": "c40261a332ce8e09f93d7cadf9720ab8d99911a90ea1cde34e7ed84658620772"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_audio_listening",
+        "independent_pixels",
+        "normal_full_story_only_ingress",
+        "native_M07_play_and_cold_resume",
+        "other_full_routes_and_long_run_economy",
+        "full_remote_CI_completion",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-535.json",
+        "sha256": "c40261a332ce8e09f93d7cadf9720ab8d99911a90ea1cde34e7ed84658620772"
+      }
     }
   ]
 }

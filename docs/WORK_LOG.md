@@ -4,12 +4,14 @@
 
 ## 2026-10-10 — 월초 경제 재진입 중복 수리·저장 회귀 통과
 
-- [535](queue_active/ORDER-535.md) 범위를 구현 전에 선언한다. MainGame 월초 경제·InvestmentSystem 국면 timer·기존 ManualSaveCheck만 제품/fixture 소유다. 같은 저장/장면 재생성의 재추첨·위기/뉴스/가격/배당 중복을 닫고 실제 다음 달은 유지한다. flags/market_context v4만 사용하며 새 스키마·보상·기본 경로·원문·번역·project·사용자 저장 변경0이다.
+- [535](queue_archive/ORDER-535.md) 범위를 구현 전에 선언했다. MainGame 월초 경제·InvestmentSystem 국면 timer·기존 ManualSaveCheck만 제품/fixture 소유다. 같은 저장/장면 재생성의 재추첨·위기/뉴스/가격/배당 중복을 닫고 실제 다음 달은 유지한다. flags/market_context v4만 사용하며 새 스키마·보상·기본 경로·원문·번역·project·사용자 저장 변경0이다.
 - root MainGame/기록, phone_cn_author 시장 초기화, cjk_wrap_diagnosis 기존 저장 fixture, phone_independent_review 비저자 전수 검수로 분리한다. 새 runner/최적화/ObjectDB 탐침0. 534 본편 입구 REWORK·M07 미도달 HOLD는 그대로이며 이 정합 수리가 본편 활성화 GO를 대신하지 않는다.
 - 같은 turn 처리 latch를 RNG/동기 signal 앞에 예약하고 현재 연월 뉴스만 실제 처리 근거로 복구한다. timer를 기존 v4 market_context에 보존해 재진입/재개에서 시장 국면 재추첨0, 실제 다음 월·연도·충격은 원래 한 번 처리한다. 구저장 누락/손상 timer는 현재 국면·가격·로그를 보존하고 잔여0으로 이관한다. 기존 MarketCycleLog 기대 timer 한 키와 기존 ManualSave 등록의 InvestmentSystem 경로만 함께 정렬했다.
 - fresh pre-autoload namespace의 실제 compile68·시장 로그5언어25·현금 정합 PASS. 월초 표적 run3 exit0/6.203479초와 전체 ManualSave exit0/9.846756초, exact 새/기존 marker를 확인했다. real 위기/배당/마진콜·동기 재진입·같은 turn/RNG·v4 슬롯/새 Main·다음 달/연도·legacy 타입·V2/주중 제외·timer/충격 재개를 검증했다. 합성 fixture이며 정상 M07 플레이가 아니다. 전체 Manual의 의도된 저장 오류/복구 WARNING13개는 남고 fatal/누수0이다.
 - 표적 run1/2의 cold 비교4실패를 원로그에 보존했다. run2 필드diff20행은 가격 double 저장 정밀도와 nested int→JSON float만이며 현금/능력치/처리 marker 차이0이다. cold4 경계만 기존 JSON codec으로 양쪽을 정규화했고 in-memory 전체상태/RNG strict·epsilon0을 유지했다. 원 `.git/order535-qa-20261010`의 최초 실패/진단/최종 통과·보호/소스 pin을 보존한다. Market 통과 뒤 보조 snapshot의 /var alias 거부는 canonical 경로로 읽기 전용 재계산했고 원 command는 수정0이다. Money marker 수집 실패는 엔진 미실행이며 이후 실제 별도 실행 PASS와 구분한다.
-- 비저자 fresh에서 제품5pin before=after=current와 보호6그룹45파일(project/export/인간원장·공개namespace9·retail33)이 exact다. 공개 build는 원래 없음을 보존한다. 선택 정적50 중 장편 causal self-test는 진행 중이고 general finale 한 건의 shipping1708 고정 실패는 착수 전5a5b701에서도 동일함을 별도 baseline receipt로 확인했다(현재1702, 새 실패0). 삭제·baseline 완화·CI 예외 추가0. 최종 source commit/독립 판정은 이어 결속하며 전체 CI 녹색·본편/출시 GO를 주장하지 않는다.
+- 비저자 fresh에서 제품5pin before=after=current와 보호6그룹45파일(project/export/인간원장·공개namespace9·retail33)이 exact다. 공개 build는 원래 없음을 보존한다. 선택 정적50은 최종49 PASS/기존1 FAIL이며 장편 causal self-test도 PASS다. general finale의 shipping1708 고정 실패는 착수 전5a5b701에서도 동일함을 별도 baseline receipt로 확인했다(현재1702, 새 실패0). 삭제·baseline 완화·CI 예외 추가0이다. 구현17e45369/tree98e5c02d를 main에 push했고 최종 독립 보고를 결속한다. 원격 전체 CI는 미관측이며 전체 녹색·본편/출시 GO를 주장하지 않는다.
+- [독립 최종 보고](agent_reviews/ORDER-535.json) 11663B/c40261a3…의 구현·합성 저장 계약 한정 GO를 별도 원장에 기록했다. runtime2/fixture2/등록1/기록3 diff8파일·engine7/정적50 증거 전수 검수다. 개발 skill의 기존 검사·격리·독립 검수·보존 경계를 적용했다. 새 정본 규칙·승격0/작업 지시는 일회성이며 종료 ObjectDB 추적중단을 유지한다. 큐535만 마감하고 source/CLAUDE/STATUS·다른 활성 상태·인간 판정은 이 metadata wrapper에서 불변이다. 다음은534 정상 시작→월 진행 연결 수리이며 데모 controller 우회나 합성 M07 주입은 하지 않는다.
+- 마감 영향6검사 PASS: context30412/docs645/links198·큐78/76·index25/fence4·agent290/제품HOLD·인간45OPEN/1done 불변. STATUS 낡음은 실제 advisory 경고/exit0이며 재생성·전용 추종commit0이다. 제품·엔진 검사를 기록 수정 때문에 반복하지 않았다.
 
 ## 2026-10-10 — 본편 정상 시작 연결 공백 확인·M07 미도달
 
