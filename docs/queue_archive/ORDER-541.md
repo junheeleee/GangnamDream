@@ -1,6 +1,6 @@
 # ORDER-541 — 새 본편의 정상 이야기 흐름 연결
 
-#### [~] ORDER-541 [P0·본편 연결] 정상 새 이야기 → 자동 시간·직접 활동·저장 재개
+#### [x] ORDER-541 [P0·본편 연결] 정상 새 이야기 → 자동 시간·직접 활동·저장 재개
 
 **착수 — 2026-10-10 / 구현 전 선언.** 부모534의 정상 입구 REWORK를 수리한다.
 DECISIONS 2026-08-24·08-31의 실제 장면 행동/자동 생활 및 WORK_UNIT의 위임을
@@ -76,7 +76,7 @@ DECISIONS 2026-08-24·08-31의 실제 장면 행동/자동 생활 및 WORK_UNIT�
   옮긴다. 240주 자연완독·M07 실제 월검수·원어민/인간/패드/청취·출시는 계속 HOLD다.
   자동 계약 통과는 재미·깊이·문체 GO가 아니다. 새 설계 정본 규칙0/실행 지시 일회성.
 
-## 2026-10-10 표적 검증 결과 — clean 비저자 결속 전
+## 2026-10-10 표적 검증 결과 — source 범위 한정 완료
 
 - production-settled-final actualexit0/195.919956초·전체 marker1회. 의도한 부정
   fixture10 ERROR(활동4/손상 owner2/ending4)만 있으며 broad wrapper FAIL과
@@ -89,4 +89,9 @@ DECISIONS 2026-08-24·08-31의 실제 장면 행동/자동 생활 및 WORK_UNIT�
   wrapper 오탐1은 분리한다. causal self-test timeout·balance/일부 데모 엔진 미실행을
   완료로 올리지 않는다. 원 검사/필터/면제 변경0, 전체 CI 녹색 주장0.
 - 자연 M07/자연240주/원어민/인간/물리패드·본편출시는 HOLD. source 범위의
-  clean main/원격·비저자 fresh/보호 원문을 결속한 뒤만 한정 GO로 마감한다.
+  clean main/원격98baf0113f37b70f94a99e68bcdf234e3819897b/tree
+  bec8afe9cee875034f0d7a5560803b9947d4fff6에 비저자 fresh/보호 원문을 결속했다.
+  [독립 보고](../agent_reviews/ORDER-541.json)의 source work_unit 한정 GO로 마감한다.
+  보호26그룹688파일·비소유제품2378·helper5/seed2/W238/player33·과거279판정은
+  exact다. 자연 앱 재시도는 부모534의 월별 한 커밋으로 이어가며 새 정본 규칙0/
+  실행 지시 일회성이다. 이 마감 wrapper는 제품6/CLAUDE/인간 원장을 바꾸지 않는다.

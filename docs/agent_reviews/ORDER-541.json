@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-541",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "source",
+    "commit": "98baf0113f37b70f94a99e68bcdf234e3819897b",
+    "tree": "bec8afe9cee875034f0d7a5560803b9947d4fff6",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "product_verdict": "HOLD",
+  "scope": "정상 fresh full의 이야기 owner·달력/자동경제 once·직접 경마 복귀·저장 실패 재시도·동적 연말·기존 종결 cold 계약에 대한 source work_unit 한정 GO. 합성 actual-method 검증을 실제 앱 M07·자연240주·전체 본편·출시 GO로 확대하지 않는다.",
+  "method": {
+    "independence": "제품 비저자가 CLAUDE·gangnamdream-dev·WORK_UNIT·541사양 및 관련 정본을 읽고 제품6파일 diff/실제 producer-reader/최종 fixture를 전수 검수했다. 정적58의116stream, 후속 정적6 묶음과 엔진 초기/최종3stream의 원문·크기/SHA·종료·marker·오류 호출을 직접 대조했다. 독립 엔진/앱/UI/저장 조작·감사 재실행0.",
+    "source_binding": "보고 작성 직전 HEAD=origin/main=subject, clean/3293tracked를 직접 관측했다. 선언 f79de1d315c30e17cc39d17255c45097ab8ef29a 대비 제품6+CLAUDE/WORK_LOG/활성사양3만 바뀌며 arc_flow_sim.py는 불변이다. 최종 엔진 receipt는 248ea74 위 dirty 작업트리 실행을 보존한다. 당시 고정6 SHA와 최종 Git blob을 exact 결속했으며 당시 clean source commit에서 실행했다고 주장하지 않는다.",
+    "skill_effect": "기존 소비자·원문 우선, fresh pre-autoload 격리, 정확 marker와3stream 귀속, 사용자 원본 보존, 자동 계약/사람 관찰 분리를 적용했다. 검사 필터·기대 marker·면제 변경0."
+  },
+  "findings_and_resolution": [
+    "정상 non-demo/non-V2 fresh 초기화만 full profile을 발급한다. 기존8/12 explicit preview와 구저장·손상/unknown marker는 추정 승격하지 않는다. full owner는 Story 결과/장 카드/실제 후속이 닫히기 전 시간 진행과 AP fallback을 막고 원 GameState 달력을 읽는다.",
+    "자동 생활/회복·기존 월초/월말의 계산을 한 번만 적용한다. 실패 후 계산된 메모리를 유지하고 pending을 봉인하며 재시도는 autosave 쓰기만 한다. cold는 마지막 성공 disk를 읽고 RNG/월말/배경 효과를 재호출하지 않는다. 실제 경마 producer가 정보료·베팅·정산과 원 AP를 소유하고 helper는 receipt만 기록한다. 무베팅 정보료 −3000도 허용하며 net 재지급0이다.",
+    "SaveManager의 event_log tail100을 바꾸지 않는다. 적용 당시 최소 tuple/절대 순번을 결속하고 현재/열린 결과는 actual log를 요구한다. 실제로 잘린 완료 과거만 lost prefix와 typed tail 조건으로 인정한다. 105+1 실제 apply/close·cap100 두 cold·current 누락/과거 tuple 변조 거부를 확인했다. 잘린 과거 activity 자체의 별도 대량 표본은 없으며 같은 validator 재사용 소스와 activity cold 표본까지만 판정한다.",
+    "동적 연말 receipt는 정확2필드·유한 정수 year 의미·strict scene/current 선택을 비교해 JSON 정수 표현만 수용한다. 기존 causal W210과 typed W240의 원 ledger가 여는 같은 주 후속을 Story 큐와 helper에 함께 전달한다. exact source/choice/next·actual witness·source-front·미완 결과만 허용하고 동일 중복은 무변경이다. 엔딩 선택/우선순위/원 효과는 비소유·불변이다.",
+    "종결 cold는 실제 game_over의 같은 ending ID 화면만 복원하며 finish_run/record_run/엔딩 재선택0이다. full terminal에서만 milestone writer를 막아 재개 중 자산 업적/log 추가를 수리했다. valid 또는 damaged owner가 있는 빈 action_log를 새 게임으로 초기화하지 않는다. valid empty-log cold와 damaged owner/잘못된 ID fail-closed를 확인했다.",
+    "초기 전환/결과 닫힘 fixture 오류와 hidden cafe catalog0 선택 오류를 수정했다. W210의 AP2 불변 기대는 원 Story commitment의 AP0 producer와 달랐다. 최종은 return_call1/turn210/human/jaehyuk/forgone[0,2] 영수증 정확1개·AP0를 요구한다. 준비 자산 milestone도 실제 producer로 완료한 뒤 strict cold baseline을 잡았으며 비교 필드를 숨기지 않았다.",
+    "마지막 typed cold 실패는 기존 새 Main의 instance portrait 초기화가 just_hit_milestone=true를 false로 바꾸는 한 잎이었다. terminal 로컬 cold 기대만 false로 예측한다. 성공 저장/쓰기 재시도 비교는 원 true를 요구하고 전체 경제/원장/나머지 상태·RNG exact 비교는 유지한다. 기존 new-Main의 tab/timer 정수 reader 범위 외 공통 normalizer 확대0이다."
+  ],
+  "actual_population": {
+    "production": "actual StartMenu/Main/Story W1–28 두 루프, hire/firstwork/paycheck·W21/25/29 v4/new-Main cold, W25/29 실패 달력 쓰기 재시도/RNG, 실제 경마 root/취소/정보료/한 판/entry·close fault/중복, tail105+1/cap100 twice, 준비 W48→49 dynamic index2, pure W49/W241 날짜, 준비 W210 actual 두 root, typed/generic 종결/cold/meta/empty-log/손상 owner/ID 거부.",
+    "hyunsu": "정상 두 루프는 study 미열람/선택 witness 없음이 실제 출력되며 원 flag대로 exam fail이다. 별도 준비 W11의 실제 study0/1과 준비 W29의 실제 selector/result/cold로 pass/fail을 검증했다. 자연 두 분기 도달이나 새 현수 canon을 증명하지 않는다.",
+    "boundaries": "모든 페이지 완료는 합성 fixture 호출이다. 자연 독해·렌더 픽셀·M07 실제 월 플레이·연속240주가 아니다. 기존8/12/540 fixture 함수와 원문/번역/효과/급여/SaveManager/GameState/JobSystem/RaceTrack/finish_run/엔딩 선택은 불변이다."
+  },
+  "evidence": {
+    "raw_directory": ".git/order541-qa-20261010",
+    "production_final": {
+      "file": "production-settled-final.json",
+      "bytes": 3333,
+      "sha256": "507199826726eb7bb77598cb5ecb545da49917ac57214c5a65ec62218a4a3f2f",
+      "actual_exit": 0,
+      "seconds": 195.919956,
+      "exact_full_marker_count_per_stdout_and_godot": 1,
+      "wrapper_verdict_preserved": "FAIL: ValueError('error in production-settled-final stderr')",
+      "streams": {
+        "stdout": {
+          "bytes": 7518,
+          "sha256": "92af8fd7aec55c6d20e5230c14ccc66d8a41e8245b7673bfe248542cbbbed4ae"
+        },
+        "stderr": {
+          "bytes": 12374,
+          "sha256": "b47cd03f970986c1c4332da9f1e224292eafe894b87350a2515a8fcfd3b3de07"
+        },
+        "godot": {
+          "bytes": 19688,
+          "sha256": "440cba46c1fb4adbfacd05a354aecee844aa1cabc62f2a554324b57b8bf9930b"
+        }
+      },
+      "classification": "ERROR10은 의도한 부정 표본뿐이다: activity malformed4(Main625→6589/Manual1933), damaged empty-owner2(Main625→10568→12032→9378→406/Manual2533), missing/wrong terminal-ID4(Main770/Manual2551). assertion/Parse/Script/예정 밖 engine ERROR/ObjectDB/leak0. WARNING12는 primary 저장 실패6+calendar pause3+activity pause2+terminal pause1. stderr와 Godot 거울을20/24건으로 합산하지 않는다.",
+      "isolation": "Godot4.6.2.71f334935, fresh HOME/XDG, StoryNameplateBootstrap의 pre-autoload namespace32f865d99b364d32b73f622ecd14abba. 독립 재실행0."
+    },
+    "supporting_receipts": {
+      "compile-terminal-final.json": "75471231cbf784a5b263cffd9f0c8c87ed6752b9565299a7fde0b0e60777aa50",
+      "old-eight-whole-terminal-final.json": "b43c07cccbe0615ceb96a52409c647c242268681a771b4060bc8e21b70fe97de",
+      "old-twelve-whole-terminal-final.json": "b1922945ed9eca06ee305b89d85a5db4b56fb305f3c30cd9460a27c98492f529",
+      "exclude-demo.json": "3b3169c46d808ea752fd58a3292fcee30b731caab9b4c9c01363d414e212a9d0",
+      "exclude-v2.json": "97bbcab44b1e14396093db26bca2bba0d7c192e8f5b4bbed8a054675df467f37",
+      "exclude-preview.json": "83b9243cfc968abbf61534196b6797d4100668f063dcd68a4ef88ea718b0ccc9",
+      "font-final.json": "b2af6c630d04b2f4e77d922fc9dab52a61d0d27000941c301f8f181448058731",
+      "i18n-final.json": "c177125f0f9f8eda7dd43be220b48454591afba6b5612e8cf81e011f9b0a7834"
+    },
+    "supporting_scope": "compile69/빈 stderr, 기존8/12 whole exit0/exact marker(의도 경고15/17), demo/V2/preview 제외 exit0/경고0, font 및 i18n exit0(의도 format reject19)다. 일부는 마지막 terminal-local fixture 기대4행 정렬 전 후보에서 실행됐으며 기존 profile 함수/해당 제품 분기가 보존됨을 diff로 확인했다. 최종 production은 마지막 Manual을 실제 parse/실행했다. 모든 보조 실행이 최종 clean commit에서 이뤄졌다는 주장은 아니다.",
+    "statics": {
+      "file": "static-summary.json",
+      "bytes": 65397,
+      "sha256": "44e38914f6cef527852b1d47f1333746413941141553e5007ad6b095f63ac669",
+      "result": "선택99 중 실제 정적58/116stream. 원 wrapper56PASS/2FAIL 유지. General finale census1 actualFAIL stdout는536 static22와 byteexact(기존 packaged1813/shipping1708 기대 vs 현재1702). Core V2는 actualexit0/core_loop_v2_ok·hyunsu_result_fail ID의 wrapper 오탐1. 독립 판독 actual57PASS/기존1FAIL/새0. 전체99 실행 또는 전체감사 녹색이 아니다.",
+      "source-final-static.json": "38b32ff03e0f4048e73b6421490639c0143e209be02fb5b5ef71e488955b0830",
+      "final-static.json": "2bc1a0488b671e995954891f31b3d73d7fac667d89a571a8c6a1513976f3e95d",
+      "terminal-static.json": "c848ceefd67c4ff0fcedd0e1c5bd20700a3325951fa1f825bee32892abf197ee",
+      "final_six": "arc/서사/EN/한글/음악/말투 실제6회 exit0. 검사·기대·필터·면제 변경0."
+    },
+    "five_actual_failures_preserved": {
+      "production-initial.json": "cc7aa750cfabfb47dd09b51a2bd2fc8ee23e25d186d20f5530f26bcab5297fef",
+      "production-second.json": "8acceceb0febc21e853fbfc8eb01ccd84bcb36b9c29883603b126181a52e4c28",
+      "production-third.json": "51a59f67aa20d4e1359996ba627ad0e8b0c2c34016c943cf005bde35f485190a",
+      "production-final.json": "5cd2dba99bc88444017b2bf6d1a022425634ead2a350dd112e950e7d44a94608",
+      "production-terminal-final.json": "8ad71df8826799e26b459f72b14705fc512b918d47e7cd893399b200bb35d604"
+    },
+    "record_note": "현재 WORK_LOG가 초기 두 실패를 hidden-choice로 함께 적은 작은 귀속 오기는 root가 metadata close에서 전환/결과 닫힘과 hidden catalog0로 나눠 정정하기로 했다. 제품 판정/원 raw는 바꾸지 않는다."
+  },
+  "preservation": {
+    "baseline": {
+      "path": ".git/order541-qa-20261010/independent-protected-before.json",
+      "bytes": 19182,
+      "sha256": "acc7a303902303a875da840cb4a28f6327f87944b1ad471fd30c37aba29e86e5"
+    },
+    "precommit_receipt_preserved": {
+      "path": ".git/order541-qa-20261010/independent-precommit-preservation.json",
+      "bytes": 2268,
+      "sha256": "7a49136f9963983ae1e3d2e882cec20787c8de0a59c5ec95b1e3952185bc550a"
+    },
+    "final_fresh": {
+      "path": ".git/order541-qa-20261010/independent-final-preservation-clean.json",
+      "bytes": 6631,
+      "sha256": "5224a901bd1f0dcbd47902ad519bad06dd35ded42c4d9a089109394721910e4c"
+    },
+    "result": "기존 c.snapshot/admit/pin·b.snapshot을 최종 clean source에서 fresh 재호출했다. 보호26그룹688파일·비소유 tracked제품2378·helper5·seed2·원 W238156239B/e05a456c…·사용자33·public/옛 앱·과거 raw·Human가 baseline exact. 이전279 판정 전체424666B/SHA4a266e05f1a5a9a26656986b6d82e2c4a805671d774406082a57e52008c59c92 exact. 제품6 current SHA=Git blob=최종 실행 고정 pin이다. 본 검수는 원장 쓰기0이다.",
+    "product_sha256": {
+      "scenes/MainGame.gd": "a241c347005620f6f67d191a30044e20eabe4cd642f79c12fce777bf83e055b8",
+      "scenes/StartMenu.gd": "9f7320fe592bf2b5adb98b8ddeb2c24671f3362ae82a71bb641eaab5d72b3c15",
+      "scenes/StoryMode.gd": "742e8c2dab8d1c35c8a499692e1760339b66e1996b07aa2a1b8fb1f2bec30714",
+      "systems/FullStoryFlow.gd": "7775c75e307a1e7e097bbc16bb672c3f94b4b5855b60401cdb42d39efdfa0623",
+      "tools/ManualSaveCheck.gd": "1c209a3dd6af6e35a2e7e69af9bf8cdd064db7f160c7b888fc78d1c87e67396a",
+      "tools/audit_scope.json": "b1be004f3c003f634a0a547c07a208f7ea4e0f103d18b20ebecc536acfaf0ffc"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "independent_rendered_pixels_natural_reading_audio",
+    "actual_normal_full_ingress_534_native_M07_replay",
+    "natural_240_week_complete_all_branches_long_balance",
+    "causal_self_test_prior_120_600_second_timeout_unobserved",
+    "balance_full_run_pacing_and_some_demo_engine_checks_not_run",
+    "whole_audit_remote_CI_and_new_export_package",
+    "inherited_529_shutdown_ObjectDB_REWORK_not_cleared_by_this_headless_sample",
+    "full_game_external_release"
+  ],
+  "final_boundary": "541은 정상 full source 연결·기존 실제 producer를 호출한 합성 저장 계약·보존만 닫는다. 현재 남은 차단 결함은 검수한 계약 범위에서 발견0이나, 실제 본편 M07/자연240주/전체 출시·인간 판정은 HOLD다. 자동 계약 통과는 재미·깊이·문체 GO가 아니며 기존 역사 GO/REWORK/HOLD는 소급 변경하지 않는다."
+}

@@ -4,12 +4,22 @@
 
 ## 2026-10-10 — 새 본편의 정상 이야기 흐름·저장 재개 수리
 
+- [541 독립 보고](agent_reviews/ORDER-541.json)13412B/c325f500…를 clean main/origin
+  98baf011/treebec8afe9에 결속해 source work_unit만 GO로 마감했다. 보호26그룹688파일/
+  비소유제품2378·helper5/seed2/W238/player33·과거279판정은 exact다. 제품6/CLAUDE/
+  인간 원장 불변의 metadata wrapper이며 실제 M07 재시도는 부모534의 한 달 한 커밋으로
+  이어간다. 원 실패/오탐·미실행 한계·본편/출시 HOLD를 보존하며 STATUS-only 추종0이다.
+- 마감 context30413/docs652/links198·큐78/76·diff PASS. cjk_wrap_diagnosis가
+  허용metadata7경로·보고SHA/후보·기존279객체/원문prefix·제품6/CLAUDE/Human·
+  다른78큐행(순번 외) 불변 및 신규internal_product GO0을 독립 확인했다.
+
 - 정상 fresh 전용 full owner와 원 240주 달력을 연결했다. 경마의 실제 선택/입장/
   무베팅·정보료·원정산/저장 재시도, 최근100 선택 로그의 완료 과거 증명,
   같은 엔딩 ID cold 복원을 수리했다. 공개 데모·구저장·8/12 개발 profile·원 급여/
   효과/엔딩 선택은 보존하며 자동 계약을 자연 M07 또는 240주 완독으로 올리지 않는다.
-- 첫 네 production 실행 FAIL은 원형 보존한다. 초기 두 실행은 숨겨진 기본 선택을
-  fixture가 고른 오류였고, 세 번째는 W49 연말 receipt의 JSON 정수형 정합 및
+- 첫 네 production 실행 FAIL은 원형 보존한다.
+  첫 실행은 결과 닫힘 전환 fixture 오류, 두 번째는 숨긴 cafe 선택 거절이었다.
+  세 번째는 W49 연말 receipt의 JSON 정수형 정합 및
   typed 종결 cold/현수 복합 기대를 포함해 새 실패5·예정 밖 owner 오류1을 확인했다.
   W210 통화→문서·W240 서명→outbound의 원 ledger 후속을 full helper에 전달하지
   않던 실제 연결 누락도 독립 검수에서 확인해 같은 선언 범위에서 수리한다.
@@ -41,7 +51,7 @@
   개발skill의 기존 consumer·격리/정확 marker·원 실패 보존을 적용했으며 새 정본 규칙0/
   실행 지시는 일회성이다. 종료 누수 추적/검수 비용 최적화0, 다음 실제 앱은 부모534다.
 
-- [541](queue_active/ORDER-541.md)을 구현 전에 선언한다. 534 정상 입구의 legacy AP 낙하를
+- [541](queue_archive/ORDER-541.md)을 구현 전에 선언했다. 534 정상 입구의 legacy AP 낙하를
   fresh full 전용 이야기 owner로 수리한다. 8/12 개발 상한 연장·구저장 승격·원문/번역·
   기존 현수 결과/엔딩/급여 재설계0. 실제 경마 복귀와 연말 달력·동적 선택을 함께 연결한다.
 - root 입구/복귀, phone_cn helper, cjk 기존 저장 fixture, phone_independent 비저자
