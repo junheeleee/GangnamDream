@@ -2,6 +2,19 @@
 
 이전 기록은 [539 마감 전 원문](history/WORK_LOG_2026-10-10_pre_order539_close.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-11 — 다은 오후 만남 그림 수리·실제 재관측
+
+- [547](queue_active/ORDER-547.md): 오후 내부/외부·사복·결과CG 신규6점과 지연결과
+  cold 배경9줄만 수리했다. 원문5언어·효과·다른15사건·공개/player/Human 불변이다.
+- 후보a0bc2886/tree9e21cfc, KO/EN×960/1280의108 PNG 전수 독립 시각 GO.
+  새 앱 KO 정상 Continue→W34→W35 선택0/결과 완독→W36 첫문단, CmdQ 단독.
+  actual0/424.930588s·stderr0, final136633B/28fe1d2a…·last35/read43/44 각1이다.
+- 비저자 fresh 보호86/1507파일·tracked3326·helper8·app7/PCK/과거288판정 exact.
+  [독립 보고](agent_reviews/ORDER-547.json)의 화면·현재보존 한정GO이며 전체547 HOLD다.
+  whole Manual exit1의 정상 NG+ owner 충돌은 별도 수리한다. 원 실패·CG teardown
+  wrapper FAIL은 보존하며 종료누수 추적0이다. 사람/원어민/패드·본편/출시 HOLD,
+  새규범·전체감사·STATUS-only0. 개발skill의 격리·소비자재사용·증거경계를 적용했다.
+
 ## 2026-10-11 — M09 실제 선택·결과 확인, 다은 그림 연속성 수리 필요
 
 - [546](queue_active/ORDER-546.md)은 실행 전 범위·소유를 기록하고 착수/실제관측/

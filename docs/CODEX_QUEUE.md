@@ -53,7 +53,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-547 · 다은 그림 정합 | [547](queue_active/ORDER-547.md) | W35 수리 착수 |
+| 1 | [~] | ORDER-547 · 다은 그림 정합 | [547](queue_active/ORDER-547.md) | 화면 GO · NG+ 회귀 HOLD |
 | 2 | [~] | ORDER-546 · 본편 M09 실제 앱 이어보기 | [546](queue_active/ORDER-546.md) | W34–36 선택/결과→W40 첫 문단 · 다은 그림 연속성 REWORK |
 | 3 | [~] | ORDER-544 · 본편 M08 실제 앱 이어보기 | [544](queue_active/ORDER-544.md) | 수정앱 cold·무거래 회상 미노출 표본 GO · 시도2 REWORK/W33 화면 HOLD |
 | 4 | [~] | ORDER-534 · 본편 M07 실제 앱 검수·정상 선행 | [534](queue_active/ORDER-534.md) | 실제 W25–29·저장/cold·보존 GO · 선행3 source 수리·변경화면 OPEN/제품 HOLD |

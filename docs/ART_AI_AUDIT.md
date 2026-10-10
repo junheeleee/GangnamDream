@@ -28,7 +28,7 @@
 
 - 신규 6장만 대상이다. 기존 257장 픽셀과 과거 사람 판정은 변경하거나 재판정하지 않았다.
 - 저작과 다른 에이전트가 최종 원본 6장의 정체성·의상·시선·소품·편의점 동선·낮/밤을 직접 확인했다. 이는 위임된 에이전트 관찰이며 사람·원어민·물리 패드 판정이 아니다. 정확한 입력·프롬프트·생성 원본·교정 이력·전체 SHA-256은 `docs/agent_reviews/ORDER-547-assets.json`에 남긴다.
-- 현재 원본 확인만 통과했으며 KO/EN 960x600·1280x800 실제 렌더와 새 full 앱 W35 재현은 미완료다. 아래 신규 6장 판정은 그 화면 검수 전까지 `PENDING`이다. 1280x800 결과 CG와 1586x992 배경은 네이티브 4K/출시 master를 뜻하지 않는다.
+- 비저자가 KO/EN 960x600·1280x800의 표적 PNG108장을 원본 해상도로 전수 확인했다. root는 새 격리 full 앱에서 KO W34 정상 Continue→W35 본문·선택0/결과→W36 첫 문단을 확인했다. 신규6장만 아래 등급으로 마감하며 전체547은 기존 NG+ 회귀 때문에 HOLD다. 선택1/2와 cold는 준비 fixture/같은 OS 프로세스 관측이며 자연 입력·새 OS cold가 아니다. 1280x800 결과 CG와 1586x992 배경은 네이티브 4K/출시 master를 뜻하지 않는다.
 
 ### M01-M06 독립 선택판 UI 장면
 
@@ -186,12 +186,12 @@
 
 | Kind | Asset | Registry IDs | Raster | Alpha | Hash | Verdict | Review |
 |---|---|---|---:|:---:|:---:|:---:|---|
-| Portrait | `assets/characters/npc_daeun_regular_offduty_v1.png` | `daeun_regular_offduty` | 1024x1536 | yes | `24d7188524df` | PENDING | ORDER-547 신규. 독립 에이전트 원본 확인 통과·실제 게임 크롭 미완료. |
-| Background | `assets/backgrounds/convenience_store_afternoon_v1.png` | `convenience_afternoon` | 1586x992 | no | `0b2c0d1cbdbf` | PENDING | ORDER-547 신규. 정본 편의점 실내 오후광·익명 다른 점원 확인·게임 크롭 미완료. |
-| Background | `assets/backgrounds/convenience_store_exterior_afternoon_v1.png` | `convenience_afternoon_exterior` | 1586x992 | no | `ffe34676416a` | PENDING | ORDER-547 신규. 동일 편의점 외부·마른 오후·붉은 의자 확인·게임 크롭 미완료. |
-| CG | `assets/cg/romance/daeun_regular_bunsik_v1.png` | `cg_daeun_regular_bunsik` | 1280x800 | no | `dda2e6e09a01` | PENDING | ORDER-547 신규. 같은 사복·분식집 물컵/계산서·상호 시선 확인·대화창 크롭 미완료. |
-| CG | `assets/cg/romance/daeun_regular_walk_v1.png` | `cg_daeun_regular_walk` | 1280x800 | no | `3e8d87f3695e` | PENDING | ORDER-547 신규. 동네 하천길·소지품·상호 시선 확인·대화창 크롭 미완료. |
-| CG | `assets/cg/romance/daeun_regular_night_wait_v1.png` | `cg_daeun_regular_night_wait` | 1280x800 | no | `7c043845a0bb` | PENDING | ORDER-547 신규. 민준 단독·같은 편의점 실제 밤 재방문 확인·게임 크롭 미완료. |
+| Portrait | `assets/characters/npc_daeun_regular_offduty_v1.png` | `daeun_regular_offduty` | 1024x1536 | yes | `24d7188524df` | PASS-B | ORDER-547 비저자 원본/KO·EN 두 크기 크롭: 동일 얼굴·남색 사복·투명 경계. native KO 선택0 한정 확인. |
+| Background | `assets/backgrounds/convenience_store_afternoon_v1.png` | `convenience_afternoon` | 1586x992 | no | `0b2c0d1cbdbf` | PASS-B | ORDER-547 비저자 원본/KO·EN 크롭: 오후 실내·익명 직원·동선. native KO 본문 확인. |
+| Background | `assets/backgrounds/convenience_store_exterior_afternoon_v1.png` | `convenience_afternoon_exterior` | 1586x992 | no | `ffe34676416a` | PASS-B | ORDER-547 비저자 원본/KO·EN 크롭: 동일 가게·마른 오후·붉은 의자. native KO 본문/결과 전 확인. |
+| CG | `assets/cg/romance/daeun_regular_bunsik_v1.png` | `cg_daeun_regular_bunsik` | 1280x800 | no | `dda2e6e09a01` | PASS-A | ORDER-547 비저자 원본/KO·EN 크롭: 얼굴·손·상호시선·물컵/계산서 위 UI 경계. native KO 결과 확인. |
+| CG | `assets/cg/romance/daeun_regular_walk_v1.png` | `cg_daeun_regular_walk` | 1280x800 | no | `3e8d87f3695e` | PASS-A | ORDER-547 비저자 원본/KO·EN 크롭: 얼굴·손·알람폰·하천/같은 가게. 가방 하단 UI 뒤, 전량 무가림 주장은 없음. native 선택1 미관측. |
+| CG | `assets/cg/romance/daeun_regular_night_wait_v1.png` | `cg_daeun_regular_night_wait` | 1280x800 | no | `7c043845a0bb` | PASS-A | ORDER-547 비저자 원본/KO·EN 크롭: 민준 단독·얼굴/손·밤 문밖·꿈 후속 원 근무복 복귀. native 선택2 미관측. |
 | CG | `assets/cg/demo/daeun_first_kindness_v2.png` | `cg_demo_daeun_first_kindness` | 1280x800 | no | `f3e0f629c069` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/demo/father_first_call_v1.png` | `cg_demo_father_first_call` | 1280x800 | no | `974db28ea9ac` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/demo/first_interview_v1.png` | `cg_demo_first_interview` | 1280x800 | no | `47f49936c3b9` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
