@@ -11853,6 +11853,48 @@
         "path": "docs/agent_reviews/ORDER-542.json",
         "sha256": "05f564d0ab17e47df877c5b12e725ec5f15f797b305b6ac30a8944667c7532ef"
       }
+    },
+    {
+      "id": "order-543-full-only-meeting-date-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-11",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-543",
+      "subject": {
+        "kind": "source",
+        "commit": "e8c0e9829cc40aef8c37a7db3d6b95c26db33d60",
+        "tree": "7da0272c7b06b48f61dcacb231eb6dafddf6a32c",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-543.json",
+          "sha256": "4c87a7d6486bd1372e50a1d22779e34312e5cd6a4b500b0ec78c6bbfbaba9f5e"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-543.json",
+          "sha256": "4c87a7d6486bd1372e50a1d22779e34312e5cd6a4b500b0ec78c6bbfbaba9f5e"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "changed_native_pixels_natural_W14_M07_M08_or_later",
+        "new_OS_process_cold_resume_real_old_user_save_migration",
+        "JA_zh_release_menu_gallery_other_routes_resolutions_audio",
+        "whole_Manual_final69_recompile_full_audit_remote_CI",
+        "full_game_external_release_store_legal_certification"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-543.json",
+        "sha256": "4c87a7d6486bd1372e50a1d22779e34312e5cd6a4b500b0ec78c6bbfbaba9f5e"
+      }
     }
   ]
 }

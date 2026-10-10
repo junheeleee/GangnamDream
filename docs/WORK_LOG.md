@@ -2,6 +2,48 @@
 
 이전 기록은 [539 마감 전 원문](history/WORK_LOG_2026-10-10_pre_order539_close.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-11 — 본편 첫 만남의 잘못 고정된 3월 말 날짜 표시 수리
+
+- [543](queue_archive/ORDER-543.md)은 실제 W14(4월)에 나온 공유 첫 만남 날짜를
+  본편 전용 resolver에서 고쳤다. 기존3변형×5언어15표시의 exact 접두만 제거하고
+  EN just를 Just로 잇는다. 정상 달을 다시 하드코딩하지 않았고 나머지 본문은 exact다.
+- 유효한 full owner·단일ID만 투영한다. 공개 데모 namespace/return scene·읽기전용·
+  preview8/12·unmarked/손상 owner·다른ID/불일치 접두는 원문 유지다. 새 장면·라우팅/
+  효과·저장 schema·공개 원문/pin·번역/FGL receipt 추가0이다. 기존 번역은 그대로라
+  15잎 영수증을 재발급하지 않았다. EN 감사의 exact 비출력 matcher/음성13만 귀속했다.
+- 관련 정적23 actual0/stderr0·새실패0, source핵심6 전후SHA exact다.
+  compile69 및 새 Manual 실제 실행으로 제품과 표적 fixture를 검사했다. 정적23은
+  Manual 작성 전이며 그 파일을 검사했다고 소급하지 않는다. 전체감사·240주·옛whole
+  차선·ObjectDB 탐색·도구최적화·STATUS-only commit0이다.
+- 최초 normal raw history 비교10FAIL은 원로그 보존했다. 기대값만 기존 JSON
+  round-trip 표현으로 정렬했고 final5locale×5숫자잎 실측이 INT2→FLOAT3/동일값,
+  serialized 전체entries exact1임을 확인했다. 저장 코드·필드·본문·순서·진행/상태
+  비교는 바꾸지 않았다. finalnormal actual0/8.179554s/exactmarker1·오류/경고/누수0이다.
+- 준비 W1 full owner에 meet를 handoff한15 actual페이지,5locale 각각 새/합성과거
+  기록10회 v4 disk→same-process new Story, KO↔EN 실제 언어 consumer가 통과했다.
+  demo/V2 별도 초기 프로세스도 원문15 무변경 PASS다. 해당 분기는 수정0이라 반복0.
+  정상 W14 도달·actual native·다른 OS process cold 증거가 아니며 옛 대화 기록을
+  소급 재작성하지 않는다. JA/CN/TW는 내부 지원 locale 주입이지 출시 메뉴 관측이 아니다.
+- private .git/order543-qa-20261011/에 compile/initial3/final1의 원15stream·정적46stream을
+  보존했다. compile은 독립 보호 snapshot 전이므로 사전 독립 보존을 주장하지 않는다.
+  Manual 전후 fresh69그룹/1074·비소유 tracked제품2382·player33/Human/과거282판정·
+  공개/옛 후보·15원문/번역/FGL이 exact다. 새 원어민·인간·패드/출시 GO0이다.
+  변경 후 정상 화면과 M08 이후는 다음 범위이며 자동 계약은 재미·깊이·문체 증명이 아니다.
+  새 정본 규칙0/이번 실행 지시 일회성이다.
+- [독립 최종 보고](agent_reviews/ORDER-543.json)11756B/
+  SHA4c87a7d6486bd1372e50a1d22779e34312e5cd6a4b500b0ec78c6bbfbaba9f5e는
+  clean main/origin e8c0e9829cc40aef8c37a7db3d6b95c26db33d60/
+  tree7da0272c7b06b48f61dcacb231eb6dafddf6a32c의 위 source 범위만 GO다.
+  마감은 허용 metadata wrapper만 바꾸며 제품3·CLAUDE·Human·원raw 불변이다.
+  변경 후 정상 화면·M08 이후·전체 제품/출시 HOLD를 유지한다.
+- 마감 context/판정self-test290/STATUS advisory/Human/큐78·진행76/큐self25와 diff가
+  통과했다. 최초 판정self-test는 지정60초 제한에서 actual−15/60.013925s로 중단됐고
+  stdout/stderr0B 원형을 보존했다. 검사 수정 없이 새 실행 actual0/97.986040s가
+  통과했으며 timeout을 assertion 실패나 원PASS로 바꾸지 않았다. 과거282판정
+  원문prefix/Human·제품3/CLAUDE/project 불변, 새283판정/reportSHA 결속을 확인했다.
+  비저자 마감 metadata 읽기 GO/결함0이다. 현황판 stale은 advisory이며 별도 STATUS
+  갱신/커밋0이다.
+
 ## 2026-10-11 — 실제 일한 이력·상철 첫 만남 뒤 경과시간 수리
 
 - [542](queue_archive/ORDER-542.md) 4본문×5언어20잎의 질문/첫 시간구만 고쳤다.

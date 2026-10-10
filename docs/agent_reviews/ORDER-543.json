@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-543",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewed_at_utc": "2026-10-10T16:01:17Z",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "source",
+    "commit": "e8c0e9829cc40aef8c37a7db3d6b95c26db33d60",
+    "tree": "7da0272c7b06b48f61dcacb231eb6dafddf6a32c",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "product_verdict": "HOLD",
+  "scope": "arc_sangchul_01_meet의 기존 기본/orthodox/unorthodox × KO/EN/JA/zh-CN/zh-TW 15표시에 대한 valid full-only 날짜 접두 투영, 제외 경계·준비된 W1 소비자·합성 v4 저장/동일 프로세스 새 StoryMode 계약 및 보존만 source GO다. 변경 후 정상 W14/native 화면·실제 OS cold·본편/출시 GO가 아니다.",
+  "method": {
+    "independence": "제품·fixture·감사 비저자가 CLAUDE, 개발skill, WORK_UNIT, 현재543사양과 소비자를 읽었다. 제품3 전체 diff/최종 fixture 수리 및 CLAUDE 현재2행, 원문15 접두/잔여, 실제 Git4파일 범위를 직접 검토했다. 검수자 엔진/UI/프로세스 조작·게임/사용자 저장 편집·검사 재실행0이다. 지정된 private baseline/final preservation와 이 보고만 작성했다.",
+    "raw_population": "root의 compile-initial, normal/demo/V2 initial, normal-final 총5실행 원15stream을 전량 읽고 size/SHA·실제 exit·marker·오류/경고/누수를 대조했다. static23 원46stream도 읽고 각 exit와 size/SHA를 확인했다. 큰 FGL inventory는 전체 JSON을 파싱해 groups/invalid/INCOMPLETE·OPEN을 읽었으며 전체 번역의 새 의미 검수로 부르지 않는다.",
+    "source_binding": "보고 작성 전 실제 HEAD=origin/main=subject·working tree clean을 관측했다. 선언86a7cee62f441d5e395dda4dbc9237a3634d8e22 대비 scenes/StoryMode.gd, tools/ManualSaveCheck.gd, tools/english_hangul_audit.py, CLAUDE.md만 변경됐다. 최종 제품3 bytes/SHA가 normal-final 전후 실행 pin과 exact다. CLAUDE의 변경은 현재 상태2행이며 새 정본 규칙0이다.",
+    "skill_effect": "개발skill의 표적 검사·exact marker와 3stream 판독·공개/사용자/인간 증거 보존·현재 후보와 역사 GO 분리 기준을 적용했다. 새 checker/runner·게이트 완화·전체감사·엔진 재실행0이다."
+  },
+  "findings_and_resolution": [
+    "StoryMode._resolved_story_description의 기존 변형 선택·memory 뒤, _fmt 앞에 순수 문자열 투영만 연결했다. exact event ID, is_full_run 및 valid_session, 비공개demo namespace/비demo return scene, 비read-only 조건을 모두 요구한다. 다른 ID·손상/없는 owner·preview8/12·demo/V2·공개/readonly·불일치 접두는 원문을 반환한다. owner/선택/효과/진입/달력/경제/저장 schema 변경0이다.",
+    "15 원문은 KO/EN content/events*/arc_events.json 및 JA/CN/TW content/events_*/story_demo_events.json의 기존 기본/orthodox/unorthodox다. KO '3월 끝, ', JA '3月の終わり、', CN '三月底，', TW '3月底，'만 제거하고 EN 'Late March, just'를 'Just'로 바꾼다. 각 정확 접두 뒤 문자열·토큰·문단은 보존한다. 새 날짜나 기간을 발명하지 않으며 원registry 파일과 공개 M04 공유 원문을 바꾸지 않는다.",
+    "Manual은 actual fresh full initializer가 만든 W1 owner에 meet를 prepared handoff했다. 15 resolver/전체 page 배열·각 첫 표시, registry/GameState 불변을 검증한다. 5locale × 새/합성과거 history의 10 v4 disk/load·새 StoryMode에서 부분 산문 source paragraph1/typing·full owner·경제와 기록을 비교한다. KO↔EN은 실제 언어 consumer이며 JA/CN/TW는 지원locale 내부 주입이다. 출시 메뉴 allowlist 확대0이다.",
+    "새 기록은 날짜 없는 첫 블록이고, 합성 과거 기록에는 기존 날짜 문자열을 넣어 v4/new Story에서도 그대로 보존됨을 확인한다. 실제 사용자 구저장 migration 관측이 아니라 합성 저장 계약이다. prose 저장/읽기 중 상태 exact로 효과 재적용0을 확인했으며 새 선택/결과 실행을 했다는 주장은 아니다. 기존 preview8/12·production/240 fixture 본문은 불변이다.",
+    "initial normal은 actual exit1·성공 marker0이며 disk history 비교10건만 실패했다. 원FAIL raw는 그대로 보존했다. 후속 normal의 5locale 실측 진단에서 seq/event_serial/choice_index/source_paragraph_index/page_index가 TYPE_INT2의 1/-1/0에서 TYPE_FLOAT3의 1.0/-1.0/0.0으로 바뀌고 serialized entries 전체가 exact임을 직접 읽었다. disk 기대값 한 곳만 기존 JSON round-trip helper로 정렬했다. 텍스트·기록 key/value·state/progress·load 후 exact 비교는 유지했고 SaveManager/Story 제품을 이 실패 때문에 바꾸지 않았다.",
+    "EN 감사는 scenes/StoryMode.gd의 strip된 전체줄 '\"ko\": [\"3월 끝, \", \"\"],' 한 줄만 내부 literal로 귀속한다. substring/넓은 regex/다른 파일·출력문 허용0이다. 기존18+신규15 self-test=33의 정상2·음성13과 기존 실제 EN gate가 통과했다.",
+    "compile-initial은 fixture 작성/최종화 이전 69스크립트 검사다. static23도 Manual 최종화 이전이며 기록된 Story/ENaudit/FGL/release inventory/report/project 6 SHA는 전후 exact다. 최종 Manual 자체는 normal-final에서 실제 parser/기능 실행됐다. demo/V2 PASS는 초기 Manual674b02c6 후보이며 이후 변경은 excluded=false의 disk 비교/진단뿐이어서 제외 경로 본문은 동일하고 재실행하지 않았다. 이를 최종 전체69 재컴파일·whole Manual·전체CI PASS로 확대하지 않는다.",
+    "원문/번역15잎 및 FGL 원장 bytes가 그대로이므로 새 번역 receipt를 발급하지 않는 것이 맞다. 이 작업은 승인 번역 교정이나 coverage 증가가 아닌 소비자 표시 수리다. 기존 JA invalid58/CN0/TW0와 전체 INCOMPLETE/native OPEN도 그대로이며 이번 GO가 이를 해소하지 않는다."
+  ],
+  "evidence": {
+    "raw_directory": ".git/order543-qa-20261011",
+    "baseline": {
+      "path": ".git/order543-qa-20261011/independent-protected-before.json",
+      "bytes": 38454,
+      "sha256": "2a79c9e0478472db6883ba159261b8518b72ee629d1ebdf8c33a7185f68ea54d"
+    },
+    "final_preservation": {
+      "path": ".git/order543-qa-20261011/independent-final-preservation.json",
+      "bytes": 15096,
+      "sha256": "c3d1ee9b35896d30d74f9e33580f04a4808c2e211619004bb4767566cf16c3aa"
+    },
+    "compile_initial": {
+      "path": ".git/order543-qa-20261011/compile-initial.json",
+      "bytes": 2598,
+      "sha256": "c28169e8c88462fb3881626121819fda5a4517fc7eb8755f2576734d51d4fa3a",
+      "result": "actual0/4.538202s/COMPILE_CHECK_OK total=69 stderr_verdict=required exact1, stdout=Godot381B/3abcf1f9…, stderr0, engine 오류/경고/누수0. 검사 당시 Manual은 최종 후보 이전이다."
+    },
+    "initial_normal_failure": {
+      "path": ".git/order543-qa-20261011/manual-normal-initial.json",
+      "bytes": 3635,
+      "sha256": "3bd353758cefa1c89ab09c7bdf3091e0af5eed3da1480f456908b33f05fb093d",
+      "result": "actual1/8.655292s, MANUAL_SAVE_CHECK_FAIL disk-history10건. stderr2427B/39f870b7…, Godot2714B/c38f2359… 원형 보존; 성공 marker0."
+    },
+    "initial_demo": {
+      "path": ".git/order543-qa-20261011/manual-demo-initial.json",
+      "bytes": 3432,
+      "sha256": "888c6508cfc9e969e6735fd64937c057568d574fb6581c35945f654be958833a",
+      "result": "actual0/5.624157s, exclusion profile=demo exact1, stdout=Godot396B/a20fb738…, stderr0, 오류/경고/누수0."
+    },
+    "initial_v2": {
+      "path": ".git/order543-qa-20261011/manual-v2-initial.json",
+      "bytes": 3420,
+      "sha256": "83cc4f4e52e9324e87338678809241407c3c137a64cacb10777bd08c0d646062",
+      "result": "actual0/5.624525s, exclusion profile=v2 exact1, stdout=Godot394B/4a97f3bc…, stderr0, 오류/경고/누수0."
+    },
+    "final_normal": {
+      "path": ".git/order543-qa-20261011/manual-normal-final.json",
+      "bytes": 3586,
+      "sha256": "30be54ae62a33818552b18662ed54ee615a89578748b105dc35f728db33e5c2a",
+      "result": "actual0/8.179554s, 정확 DATE_CHECK_OK marker1 + 5locale JSON_HISTORY exact_serialized=1 각1. stdout=Godot1608B/SHA163932d504f1e67206b544693edb02a228c007acd9a6032ad267a8f985ace6d9, stderr0, 오류/경고/누수0. final 제품3 전후 exact."
+    },
+    "statics": {
+      "path": ".git/order543-qa-20261011/static-final.json",
+      "bytes": 26831,
+      "sha256": "ef6a707a37beaea42e3636b76f382d9824f529c5db0f615ddddfa76ceb2bd6ec",
+      "result": "선택 정적23 모두 actual0/stderr0, 원46stream size/SHA exact. EN self-test33·EN/다국어/공개14·legacy72·release inventory 등 표적 결과; 전체감사/전체CI 주장0."
+    }
+  },
+  "preservation": {
+    "timing_limit": "독립 baseline은 root Story/ENaudit 소유편집과 compile-initial/정적 실행 이후, 후속 Manual 실행 이전에 생성했다. 선언 Git 원제품3와 당시 dirty 소유파일을 분리 봉인했다. 컴파일 이전 독립 snapshot이나 전체 최초부터의 전후 보존을 발급하지 않는다. 이후 최종 Manual 종료 뒤 한 번 fresh 대조했고 clean 후보에서는 재snapshot 대신 실제 Git 범위·3blob 일치를 결속했다.",
+    "protected_groups": 69,
+    "protected_files": 1074,
+    "immutable_tracked_products": 2382,
+    "immutable_tracked_product_canonical_sha256": "f41bdf3eb8ce1498117381a1727ea0b5904962564d229f2e926a3dc712efd6bc",
+    "result": "69그룹/1074파일 전량 baseline exact. 기존 공개/옛 successor 앱·ZIP·manifest·namespace·raw, 과거534 사고와541retry 산출, 프로젝트/데모 pin·사용자 저장·원문15/FGL·release inventory·기존 reports를 보존했다. helper5/seed2/W238/player33 전체 exact. 새 QA namespace만 root의 별도 격리 HOME/XDG/pre-autoload 실행에 쓰였고 기존 저장 복사/주입0이다.",
+    "past_agent_decisions": {
+      "count": 282,
+      "bytes": 429691,
+      "sha256": "aec4d3fa4dfa7a0f0e10448a83d5b095b0ba45ef55453c56fd1d39b1d78dd28c",
+      "result": "원파일 byteexact, 본 검수 원장쓰기0."
+    },
+    "human_gates": {
+      "bytes": 103390,
+      "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+      "result": "원파일 byteexact, 기존 사람 GO/OPEN/REJECT 불변."
+    },
+    "fgl_ledger_sha256": "faccde21fafa391c1e544e7a561afe3bf23315c791a56929d82553ebe9694b91",
+    "product_sha256": {
+      "scenes/StoryMode.gd": "ccf33cf3471445dbc41c0510e98cf49ad2334c265e4c0147528e70808b855b11",
+      "tools/ManualSaveCheck.gd": "f74378eb764ff5195e5b9f6f6c516de943227867846d2503e91af249f690e513",
+      "tools/english_hangul_audit.py": "62dfd74f482e58e3310076e7671c89960063a83379c3fdda55ec048a66d80897"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "변경 후 실제 정상 W14 날짜 화면·natural M07 재실행·M08 이후",
+    "새 OS프로세스 cold resume·실제 사용자 구저장 migration",
+    "JA/CN/TW 출시 메뉴 선택·실제 gallery replay·다른 경로/해상도/청취",
+    "whole Manual·옛 whole8/12/production/240주·전체감사·최종 전체69 재컴파일·원격 전체CI",
+    "전체 본편·외부 출시/스토어/법률 인증"
+  ],
+  "final_boundary": "ORDER-543 현재 source work_unit만 GO다. 원래 공유 데모 문안은 유지하면서 본편 valid owner의 고정 날짜 모순을 제거했다. 자동 계약은 재미·깊이·문체나 실제 인간 관찰의 증거가 아니다. 전체 제품 HOLD와 역사 실패/인간 증거를 보존한다."
+}
