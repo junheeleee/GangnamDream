@@ -7043,6 +7043,16 @@ func _deferred_foreground_event_id(
 		var trigger_turn := int(entry.get("trigger_turn", -1))
 		if event_id.is_empty():
 			continue
+		if event_id == "callback_investment_lesson_echo" \
+				and FULL_STORY_FLOW.is_full_run() \
+				and FULL_STORY_FLOW.valid_session():
+			var purchase: Variant = GameState.flags.get(
+				"full_story_market_purchase_completed", false)
+			if not purchase is bool or not purchase:
+				# Advice can reserve this memory without executing a trade. Do not
+				# invent one or discard the reservation; later eligible entries
+				# and ordinary quiet weeks must still be able to proceed.
+				continue
 		# The product-owned W209-W212 chain relocates Jaehyuk's one canonical
 		# guarantee decision. Keep its old one-week deferred reservation intact
 		# until W209 can release the legacy fallback or a W195 entry lock proves

@@ -14,11 +14,13 @@
 
 ## 범위·소유
 
-- root: systems/InvestmentSystem.gd, scenes/MainGame.gd, tools/ManualSaveCheck.gd.
+- root: systems/InvestmentSystem.gd, scenes/MainGame.gd.
   이 사양/마감 archive, 큐/L3 순번, WORK_LOG, CLAUDE 현재행, agent 원장.
-- phone_cn_author: 생산자/독자/기존 정상 full 진입 읽기 검토만. 편집/실행0.
+- phone_cn_author: 생산자/독자/기존 정상 full 진입 읽기 검토와
+  tools/ManualSaveCheck.gd의 표적 fixture만 작성한다. 엔진 실행0.
 - phone_independent_review: 비저자 전수 source·표적 raw·보존 검토와
-  docs/agent_reviews/ORDER-545.json만 작성한다. 저자 코드 수정0.
+  docs/agent_reviews/ORDER-545.json 및 private before/final 보호 snapshot만 작성한다.
+  저자 코드 수정0.
 - content/원문/번역·효과/수치·조건 JSON·project.godot·공개 패키지·사용자 저장·
   인간 원장·이전 보고/raw·영구 검수 도구·audit 등록은 비소유다.
 
@@ -43,7 +45,8 @@
   v4 disk/new-main 왕복, 관찰 무변경·한 번 청구, public/legacy/preview 제외를 확인한다.
 - 기존 pre-autoload bootstrap·fresh HOME/XDG/namespace와 build safety runner를
   재사용한다. raw stdout/stderr/Godot·actual exit·정확 marker·오류 스캔을 보존한다.
-  대상 compiler/EN 한글·영어coverage·큐/context/agent metadata와 diff만 실행한다.
+  대상 compiler·기존 현금 보존 계약/EN 한글·영어coverage·서사·음악·원장·
+  큐/context/agent metadata와 diff만 실행한다.
   전체감사·8/12/240주 반복·새 최적화/도구·STATUS-only·ObjectDB 탐침0이다.
 - source 후보를 먼저 커밋하고 비저자가 그 exact commit/tree를 읽어 독립 판정한다.
   실제 수정/표적 검증·보존이 통과한 범위만 source GO로 기록한다.

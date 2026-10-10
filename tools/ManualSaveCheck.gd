@@ -12,6 +12,8 @@ const STORY_DEMO_CONTROLLER := preload("res://playtests/order124/StoryChoiceM1M6
 const TEST_SLOT := 1
 const LEGACY_SLOT := 9
 const CONTRACT_SLOT := 10
+const FULL_STORY_PURCHASE_FLAG := "full_story_market_purchase_completed"
+const INVESTMENT_CALLBACK := "callback_investment_lesson_echo"
 const CHAPTER5_REQUIRED_ENTRY_FLAGS: Array[String] = [
 	"arc_sangchul_met_seen",
 	"arc_daeun_met",
@@ -57,6 +59,9 @@ var _full_story_production_checked := false
 var _full_story_date_only := false
 var _full_story_date_checked := false
 var _full_story_date_exclusion := ""
+var _full_story_purchase_only := false
+var _full_story_purchase_checked := false
+var _full_story_purchase_exclusion := ""
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -65,6 +70,11 @@ func _run() -> void:
 	_backup_settings_file()
 	_backup_meta_progression()
 	_backup_test_slots()
+	_full_story_purchase_only = OS.get_cmdline_user_args().has("--full-story-purchase-only")
+	if _full_story_purchase_only:
+		await _check_full_story_purchase()
+		await _finish()
+		return
 	_full_story_date_only = OS.get_cmdline_user_args().has("--full-story-date-only")
 	if _full_story_date_only:
 		await _check_full_story_meeting_date()
@@ -108,6 +118,7 @@ func _run() -> void:
 	await _check_paycheck_window()
 	await _check_full_story_production()
 	await _check_full_story_meeting_date()
+	await _check_full_story_purchase()
 	if not _failures.is_empty():
 		await _finish()
 		return
@@ -1589,6 +1600,258 @@ func _free_monthly_economy_main(main_game: Control) -> void:
 	main_game.free()
 	BGMPlayer.stop()
 	await get_tree().process_frame
+
+
+func _check_full_story_purchase() -> void:
+	# Actual purchase/sell/save APIs, with a separately prepared W31 reader.
+	# No long-run replay, native investment ingress, loss or profit is proved.
+	await _free_story()
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var events_before: Dictionary = _full_story_event_snapshot()
+	var resume_before: Dictionary = {}
+	for key in ["_loaded_resume_context", "_loaded_slot_metadata", "_loaded_save_identity", "_last_load_diagnostic"]:
+		resume_before[key] = (SaveManager.get(key) as Dictionary).duplicate(true)
+	var failures_before: int = _failures.size()
+	GameState.start_new_game("PurchaseFixture")
+	var fresh_unmarked: Dictionary = GameState.serialize().duplicate(true)
+	var admitted: bool = FULL_STORY_FLOW.initialize_fresh_run()
+	var investment: Node = INVESTMENT_SYSTEM_SCRIPT.new()
+	investment.call("initialize")
+	if admitted:
+		_expect(FULL_STORY_FLOW.is_full_run() and FULL_STORY_FLOW.valid_session(),
+			"purchase fixture did not obtain a valid fresh full owner")
+		var fresh: Dictionary = GameState.serialize().duplicate(true)
+		# An imported holding is not proof of a witnessed purchase. A successful
+		# sale in an otherwise valid full owner must not manufacture that fact.
+		GameState.portfolio["samsung"] = {"quantity": 1.0, "avg_price": 70000.0}
+		var imported_sale: Dictionary = investment.call("sell_asset", "samsung", 1.0)
+		_expect(bool(imported_sale.get("success", false)) and GameState.portfolio.is_empty() \
+				and not GameState.flags.has(FULL_STORY_PURCHASE_FLAG),
+			"valid full sale of an unwitnessed imported holding manufactured a purchase")
+		for leveraged in [false, true]:
+			GameState.call("_restore_serialized_snapshot_exact", fresh)
+			var method: String = "buy_asset_leveraged" if leveraged else "buy_asset"
+			for failed in [{"id": "missing-purchase-fixture", "cash": 100000.0},
+					{"id": "samsung", "cash": 0.0}, {"id": "samsung", "cash": -1.0},
+					{"id": "samsung", "cash": GameState.money + 1.0}]:
+				var before_failure: Dictionary = GameState.serialize().duplicate(true)
+				var rejected: Dictionary = investment.call(method, failed["id"], failed["cash"])
+				_expect(not bool(rejected.get("success", false)) \
+						and GameState.serialize() == before_failure,
+					"failed %s manufactured a purchase or changed the run" % method)
+			var observed: Dictionary = GameState.serialize().duplicate(true)
+			investment.call("get_asset_rows")
+			var no_sale: Dictionary = investment.call("sell_asset", "samsung", 1.0)
+			_expect(not bool(no_sale.get("success", false)) and GameState.serialize() == observed,
+				"query/failed sell manufactured a purchase")
+			var cash_before: float = GameState.money
+			var bought: Dictionary = investment.call(method, "samsung", 100000.0)
+			_expect(bool(bought.get("success", false)) \
+					and GameState.money == cash_before - 100000.0 \
+					and GameState.flags.get(FULL_STORY_PURCHASE_FLAG) is bool \
+					and GameState.flags[FULL_STORY_PURCHASE_FLAG] \
+					and FULL_STORY_FLOW.valid_session(),
+				"actual successful %s failed to produce the exact durable purchase fact" % method)
+			if leveraged:
+				_expect(float(bought.get("exposure", 0.0)) == 200000.0,
+					"leveraged purchase fixture lost cash/exposure distinction")
+			var sold: Dictionary = investment.call("sell_asset", "samsung", 1.0)
+			_expect(bool(sold.get("success", false)) and GameState.portfolio.is_empty() \
+					and GameState.flags.get(FULL_STORY_PURCHASE_FLAG) is bool \
+					and GameState.flags[FULL_STORY_PURCHASE_FLAG],
+				"full sale erased the actual %s purchase fact" % method)
+			# Actual log producer and SaveManager's existing cap, not a new ledger.
+			for index in range(125):
+				GameState.add_log("purchase-fixture-tail-%d" % index, "system")
+			var main_game: Control = await _spawn_monthly_economy_main()
+			var expected_disk: Dictionary = GameState.serialize().duplicate(true)
+			expected_disk["action_log"] = (expected_disk["action_log"] as Array).slice(-100)
+			_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}),
+				"purchase %s v4 disk write failed" % method)
+			GameState.start_new_game()
+			_expect(SaveManager.load_game(TEST_SLOT) \
+					and _json_round_trip_dictionary(GameState.serialize()) \
+						== _json_round_trip_dictionary(expected_disk) \
+					and GameState.action_log.size() == 100 \
+					and GameState.portfolio.is_empty() \
+					and GameState.flags.get(FULL_STORY_PURCHASE_FLAG) is bool \
+					and GameState.flags[FULL_STORY_PURCHASE_FLAG],
+				"purchase %s did not survive full sale/log cap/v4 disk reload" % method)
+			var expected_main: Dictionary = _full_story_expected_main_reentry(GameState.serialize(), main_game)
+			var resumed: Control = await _spawn_monthly_economy_main()
+			_expect(GameState.serialize() == expected_main and FULL_STORY_FLOW.valid_session() \
+					and GameState.flags.get(FULL_STORY_PURCHASE_FLAG) is bool \
+					and GameState.flags[FULL_STORY_PURCHASE_FLAG],
+				"purchase %s new Main changed or inferred the durable fact" % method)
+			await _free_monthly_economy_main(resumed)
+			await _free_monthly_economy_main(main_game)
+			SaveManager.clear_loaded_resume_context()
+		_check_purchase_deferred_reader(fresh)
+	else:
+		_expect(not FULL_STORY_FLOW.owns_session(), "purchase excluded entry acquired an owner")
+		_full_story_purchase_exclusion = "demo" if GameState.is_demo_build() else \
+			("v2" if CORE_LOOP.requested() else "preview-args")
+	# Unmarked and both existing preview shapes use the same actual APIs. These
+	# are explicit prepared exclusion states, not proof of preview activation.
+	for profile in ["", FULL_STORY_FLOW.PROFILE, FULL_STORY_FLOW.PROFILE_THIRD_MONTH,
+			FULL_STORY_FLOW.PROFILE_FULL]:
+		for method in ["buy_asset", "buy_asset_leveraged"]:
+			GameState.call("_restore_serialized_snapshot_exact", fresh_unmarked)
+			if not profile.is_empty():
+				GameState.flags[FULL_STORY_FLOW.STATE_KEY] = {
+					"schema": 1, "profile": profile, "start_turn": 1,
+					"last_completed_turn": 0, "chain": {}, "read_receipts": {},
+					"routine_receipts": {}, "completed_turns": {}, "activity_receipts": {},
+				}
+				if profile == FULL_STORY_FLOW.PROFILE_FULL \
+						and not GameState.is_demo_build() and not CORE_LOOP.requested():
+					# A damaged full owner must not license the producer either.
+					GameState.flags[FULL_STORY_FLOW.STATE_KEY]["schema"] = "1"
+				if profile == FULL_STORY_FLOW.PROFILE_FULL:
+					_expect(not FULL_STORY_FLOW.valid_session(),
+						"excluded/damaged purchase owner unexpectedly became valid")
+			investment.call("initialize")
+			var bought: Dictionary = investment.call(method, "samsung", 100000.0)
+			_expect(bool(bought.get("success", false)) \
+					and not GameState.flags.has(FULL_STORY_PURCHASE_FLAG),
+				"excluded/damaged profile %s changed the %s producer" % [profile, method])
+			var sold: Dictionary = investment.call("sell_asset", "samsung", 1.0)
+			_expect(bool(sold.get("success", false)) \
+					and not GameState.flags.has(FULL_STORY_PURCHASE_FLAG),
+				"excluded/damaged profile %s sell manufactured a purchase" % profile)
+			# Legacy reader behavior is tested at prepared W31, without claiming
+			# these preview horizons permit natural W31 entry.
+			GameState.turn = 31
+			GameState.flags["investment_lesson_1"] = true
+			GameState.deferred_events = [{"event_id": INVESTMENT_CALLBACK, "trigger_turn": 30}]
+			var probe: Control = MAIN_GAME_SCENE.instantiate()
+			var before_read: Dictionary = GameState.serialize().duplicate(true)
+			_expect(str(probe.call("_deferred_foreground_event_id", false)) == INVESTMENT_CALLBACK \
+					and GameState.serialize() == before_read,
+				"excluded/damaged profile %s changed observational legacy reader" % profile)
+			_expect(str(probe.call("_deferred_foreground_event_id", true)) == INVESTMENT_CALLBACK \
+					and GameState.deferred_events.is_empty(),
+				"excluded/damaged profile %s changed existing claim behavior" % profile)
+			probe.free()
+	investment.free()
+	GameState.call("_restore_serialized_snapshot_exact", state_before)
+	for key in events_before:
+		EventManager.set(key, events_before[key].duplicate(true))
+	for key in resume_before:
+		SaveManager.set(key, resume_before[key].duplicate(true))
+	_expect(GameState.serialize() == state_before and _full_story_event_snapshot() == events_before,
+		"purchase fixture failed to restore its state/EventManager")
+	_full_story_purchase_checked = _failures.size() == failures_before
+	await get_tree().process_frame
+
+
+func _purchase_prepared_reader(fresh: Dictionary) -> void:
+	# Prepared history/calendar ONLY, not played M01-M08. Six authentic choice
+	# producers bind the owner's required read witnesses; no economy is replayed.
+	GameState.call("_restore_serialized_snapshot_exact", fresh)
+	var owner: Dictionary = FULL_STORY_FLOW.snapshot()
+	var reads: Dictionary = {}
+	for predecessor in [
+			{"turn": 1, "id": "story_flashforward"}, {"turn": 1, "id": "chapter_card_33"},
+			{"turn": 4, "id": "arc_temptation_01"}, {"turn": 8, "id": "arc_temptation_clean"},
+			{"turn": 9, "id": "arc_intro_04_hyunsu"}, {"turn": 9, "id": "arc_chapter1_close"}]:
+		GameState.turn = int(predecessor["turn"])
+		var event: Dictionary = DataRegistry.find_event(str(predecessor["id"]))
+		_expect(not event.is_empty() and GameState.apply_choice(event, event["choices"][0]),
+			"prepared purchase reader lacked authentic predecessor %s" % predecessor["id"])
+		var turn_key: String = str(GameState.turn)
+		if not reads.has(turn_key):
+			reads[turn_key] = []
+		reads[turn_key].append({
+			"turn": GameState.turn, "event_id": predecessor["id"], "choice_index": 0,
+			"expression": false, "applied_sequence": GameState.events_seen,
+			"applied_tuple": {"turn": GameState.turn, "event_id": predecessor["id"], "choice_index": 0},
+		})
+	var before := {"money": 500000.0, "health": 65, "mental": 60, "work_performance": 0}
+	var after_livelihood := {"money": 570000.0, "health": 64, "mental": 61, "work_performance": 0}
+	var after_recovery := {"money": 570000.0, "health": 65, "mental": 64, "work_performance": 0}
+	owner["read_receipts"] = reads
+	owner["last_completed_turn"] = 30
+	for at_turn in range(1, 31):
+		owner["completed_turns"][str(at_turn)] = {"turn": at_turn, "next_turn": at_turn + 1}
+		owner["routine_receipts"][str(at_turn)] = {
+			"turn": at_turn, "source": FULL_STORY_FLOW.ROUTINE_SOURCE, "job_id": "", "status": "applied",
+			"effects": {"money": 70000, "health": 0, "mental": 4},
+			"units": [
+				{"kind": "livelihood", "requested_effects": FULL_STORY_FLOW.APPROVED_UNEMPLOYED.duplicate(true),
+					"effects": {"money": 70000, "health": -1, "mental": 1},
+					"before": before.duplicate(true), "after": after_livelihood.duplicate(true)},
+				{"kind": "recovery", "requested_effects": FULL_STORY_FLOW.APPROVED_RECOVERY.duplicate(true),
+					"effects": {"health": 1, "mental": 3},
+					"before": after_livelihood.duplicate(true), "after": after_recovery.duplicate(true)},
+			],
+		}
+	GameState.flags[FULL_STORY_FLOW.STATE_KEY] = owner
+	GameState.turn = 31
+	GameState.week_of_month = 3
+	GameState.month = 8
+	GameState.flags["investment_lesson_1"] = true
+	GameState.flags["hyunsu_failed"] = true
+	GameState.deferred_events.clear()
+	_expect(FULL_STORY_FLOW.valid_session(), "prepared W31 purchase reader owner is not valid")
+
+
+func _check_purchase_deferred_reader(fresh: Dictionary) -> void:
+	_purchase_prepared_reader(fresh)
+	var prepared: Dictionary = GameState.serialize().duplicate(true)
+	var probe: Control = MAIN_GAME_SCENE.instantiate()
+	var other_id := "arc_hyunsu_exam_fail"
+	_expect(EventManager.deferred_event_is_eligible(INVESTMENT_CALLBACK) \
+			and EventManager.deferred_event_is_eligible(other_id),
+		"purchase reader prepared reservations do not meet original authored eligibility")
+	for damaged in [null, false, "true", 1, 1.0, {}, []]:
+		GameState.call("_restore_serialized_snapshot_exact", prepared)
+		if damaged != null:
+			GameState.flags[FULL_STORY_PURCHASE_FLAG] = damaged
+		GameState.flags["had_first_investment"] = true
+		GameState.portfolio["samsung"] = {"quantity": 1.0, "avg_price": 70000.0}
+		GameState.add_log("legacy-purchase-looking-text", "trade")
+		GameState.deferred_events = [
+			{"event_id": INVESTMENT_CALLBACK, "trigger_turn": 30},
+			{"event_id": other_id, "trigger_turn": 31},
+			{"event_id": INVESTMENT_CALLBACK, "trigger_turn": 40},
+		]
+		var before: Dictionary = GameState.serialize().duplicate(true)
+		var events: Dictionary = _full_story_event_snapshot()
+		seed(545)
+		var expected_random: int = randi()
+		seed(545)
+		_expect(str(probe.call("_deferred_foreground_event_id", false)) == other_id \
+				and str(probe.call("_deferred_foreground_event_id", false)) == other_id \
+				and GameState.serialize() == before and _full_story_event_snapshot() == events \
+				and randi() == expected_random,
+			"missing/damaged purchase fact inferred a trade or mutated observational state/RNG")
+		# With the prerequisite removed, skip must happen BEFORE the old stale
+		# eligibility path, otherwise resolve would discard the no-trade callback.
+		GameState.flags.erase("investment_lesson_1")
+		var expected: Array = [before["deferred_events"][0], before["deferred_events"][2]]
+		_expect(str(probe.call("_deferred_foreground_event_id", true)) == other_id \
+				and GameState.deferred_events == expected \
+				and str(probe.call("_deferred_foreground_event_id", true)).is_empty() \
+				and GameState.deferred_events == expected,
+			"no-trade callback was discarded or blocked another eligible reservation")
+	GameState.call("_restore_serialized_snapshot_exact", prepared)
+	var investment: Node = INVESTMENT_SYSTEM_SCRIPT.new()
+	var bought: Dictionary = investment.call("buy_asset_leveraged", "samsung", 100000.0)
+	_expect(bool(bought.get("success", false)) and GameState.flags.get(FULL_STORY_PURCHASE_FLAG) is bool \
+			and GameState.flags[FULL_STORY_PURCHASE_FLAG], "prepared W31 actual buy did not license reader")
+	GameState.deferred_events = [{"event_id": INVESTMENT_CALLBACK, "trigger_turn": 30}]
+	var eligible: Dictionary = GameState.serialize().duplicate(true)
+	_expect(str(probe.call("_deferred_foreground_event_id", false)) == INVESTMENT_CALLBACK \
+			and GameState.serialize() == eligible,
+		"actual purchase callback observation changed state or failed eligibility")
+	_expect(str(probe.call("_deferred_foreground_event_id", true)) == INVESTMENT_CALLBACK \
+			and GameState.deferred_events.is_empty(), "actual purchase callback was not claimed once")
+	var claimed: Dictionary = GameState.serialize().duplicate(true)
+	_expect(str(probe.call("_deferred_foreground_event_id", true)).is_empty() \
+			and GameState.serialize() == claimed, "purchase callback duplicate claim mutated state")
+	investment.free()
+	probe.free()
 
 
 func _check_full_story_meeting_date() -> void:
@@ -6631,6 +6894,13 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
+		if _full_story_purchase_checked and _full_story_purchase_exclusion.is_empty():
+			print("MANUAL_SAVE_FULL_STORY_PURCHASE_CHECK_OK producer=actual-spot/leverage/fail/query/sell fact=exact-bool/durable-full-sale/log-cap/v4-disk/new-main reader=no-trade-preserved/before-eligibility/other-ready/order/observational-rng/claim-once excluded=unmarked/preview8/12/corrupt-owner prepared_W31=1 natural=0 new_OS_process=0 investment_UI/loss/three-day-profit=unproven")
+		if not _full_story_purchase_exclusion.is_empty():
+			print("MANUAL_SAVE_FULL_STORY_PURCHASE_EXCLUSION_CHECK_OK profile=%s producer=actual-spot/leverage/sell reader=existing-observe/claim prepared_W31=1 natural=0" % _full_story_purchase_exclusion)
+		if _full_story_purchase_only:
+			get_tree().quit(0)
+			return
 		if _full_story_date_checked:
 			print("MANUAL_SAVE_FULL_STORY_DATE_CHECK_OK variants=15 locales=5 prose=v4-disk/new-Story/source/history-new/old-preserved language=actual-ko-en excluded=public/preview8/12/unmarked/corrupt/read-only/other-id/mismatch owner/economy/registry=unchanged prepared_W1=1 natural=0 new_OS_process=0")
 		if not _full_story_date_exclusion.is_empty():

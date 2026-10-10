@@ -1,5 +1,7 @@
 extends Node
 
+const FULL_STORY_FLOW := preload("res://systems/FullStoryFlow.gd")
+
 signal price_updated(asset_id: String, new_price: float, change_pct: float)
 signal trade_executed(asset_id: String, action: String, quantity: float, price: float)
 signal portfolio_updated()
@@ -90,6 +92,7 @@ func buy_asset(asset_id, amount_krw):
 		holding["avg_price"] = total_cost / max(total_quantity, 0.0001)
 	else:
 		GameState.portfolio[asset_id] = {"quantity": quantity, "avg_price": current_price}
+	_record_full_story_market_purchase()
 	GameState.add_settled_cash(-cash_committed)
 	if randf() < 0.35:
 		GameState.modify_stat("investment_skill", 1)
@@ -145,6 +148,13 @@ func sell_asset(asset_id, sell_ratio):
 		"profit": profit,
 		"ratio": resolved_ratio,
 	}
+
+func _record_full_story_market_purchase() -> void:
+	# Advice, background flags and a current holding cannot prove a purchase.
+	# Keep this durable witness scoped to the full owner, before cash observers
+	# run; failed buys and sells never call it. Existing v4 flags persist it.
+	if FULL_STORY_FLOW.is_full_run() and FULL_STORY_FLOW.valid_session():
+		GameState.flags["full_story_market_purchase_completed"] = true
 
 func get_asset_rows():
 	var rows: Array = []
@@ -263,6 +273,7 @@ func buy_asset_leveraged(asset_id: String, amount_krw: float) -> Dictionary:
 			"avg_price": current_price,
 			"leveraged_amount": cash_committed,
 		}
+	_record_full_story_market_purchase()
 	GameState.add_settled_cash(-cash_committed)
 	GameState.modify_stat("investment_skill", 1)
 	GameState.add_log(LocaleManager.ui(
