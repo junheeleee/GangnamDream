@@ -102,13 +102,20 @@ def project_bytes(original, identity, namespace):
     _identity(identity)
     require(type(namespace) is str and (namespace == identity["artifact_namespace"] or
             re.fullmatch(r"GangnamDream_StoryDemo_RuntimeQA_[A-Za-z0-9_-]+", namespace)), "invalid namespace")
-    return _section_replace(original, "application", (
+    result = _section_replace(original, "application", (
         ("config/name", '"강남드림"', json.dumps(identity["app_stem"])),
         ("run/main_scene", '"res://scenes/SplashScreen.tscn"', json.dumps(ENTRY)),
         ("boot_splash/image", '"res://assets/logos/gangnam_dream_logo_concept.png"', '""'),
         ("config/use_custom_user_dir", None, "true"),
         ("config/custom_user_dir_name", None, json.dumps(namespace)),
         ("boot_splash/show_image", None, "false")))
+    # Our JSON locales are not Translation resources, so the exporter cannot
+    # auto-detect CJK support-data requirements. Only the isolated stage changes;
+    # include the matching template's ICU data rather than altering prose/wrap.
+    if b"[internationalization]\n" not in result:
+        result += b"\n[internationalization]\n\n"
+    return _section_replace(result, "internationalization", (
+        ("locale/include_text_server_data", None, "true"),))
 
 
 def presets_bytes(original, identity):
@@ -382,7 +389,7 @@ def build(args):
     env["PYTHONDONTWRITEBYTECODE"] = "1"
     qa_env = dict(env, STORY_DEMO_ALLOW_ISOLATED_QA="1", STORY_DEMO_QA_BOOTSTRAP_NAME=qa)
     rows = []
-    entry = {"unit": "ORDER-522", "status": "RUNNING", "identity": identity,
+    entry = {"unit": "ORDER-526", "status": "RUNNING", "identity": identity,
              "source": before, "staging": str(stage), "protected": protections}
     write_json(output / "entry.json", entry)
     manifest = None
@@ -485,7 +492,7 @@ def build(args):
         after, protections_after = source_state(), protected(args.protect)
         require(after == before and after["status"] == "", "source HEAD/tree/status drift")
         require(protections_after == protections, "protected inputs changed")
-        manifest = {"schema_version": 1, "unit": "ORDER-522", "status": "EXPORTED_NOT_RUNTIME_VERIFIED",
+        manifest = {"schema_version": 1, "unit": "ORDER-526", "status": "EXPORTED_NOT_RUNTIME_VERIFIED",
                     "identity": identity, "source": {"commit": args.source, "tree": before["tree"],
                     "commit_date": date, "before": before, "after": after},
                     "builder": {"path": str(builder), "sha256": sha(builder.read_bytes()), "source_commit": args.source},
@@ -514,7 +521,7 @@ def build(args):
         except Exception as exc:
             final_source, final_protected = None, None
             final_errors.append("final preservation read failed: " + repr(exc))
-        result = {"unit": "ORDER-522", "all_pass": failure is None and not final_errors,
+        result = {"unit": "ORDER-526", "all_pass": failure is None and not final_errors,
                   "status": "EXPORTED_NOT_RUNTIME_VERIFIED" if failure is None and not final_errors else "FAILED",
                   "runtime": "NOT_RUN", "source_after": final_source, "protected_after": final_protected,
                   "commands": rows, "staging": str(stage), "error": repr(failure) if failure else None,

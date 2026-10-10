@@ -2,6 +2,12 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 중국어 줄바꿈 데이터의 패키징 수리 구현
+
+- [526](queue_active/ORDER-526.md): root가 exact522 PCK1877항목/오류0의ICU 부재와 설치template4797072B/40256630…를 직접 확인했다. 공식4.6.2 exporter/TextServer 코드의 감지·fallback과 맞으나 실제fallback 진입은 아직 추론이다.
+- builder 임시stage만 ICU 포함설정을 더하고, 별도저자는 기존auditor에 고정template/PCK byteexact 검증·기존synthetic 반례를 추가한다. 원project/preset·StoryMode·원고/번역·옛앱/manifest/저장 변경0이다. 새 icu-break 앱 발급·실제 중국어 개선 판정은 미완료/HOLD다. 선언b0408f1 뒤 구현·기존도구 재사용·저작/독립소유 분리의 개발 스킬을 적용했다. 새검사도구/보고0·일회성이다.
+- self-test65/actual_exports0·audit.py ERROR0/WARNING0·큐/현황/인간원장 계약 PASS. context의CLAUDE18011B 예산 초과는 최신상태 한 줄을 줄여 재검사한다. 비저자 phone_independent_review는 두 파일/호출 경로 전수 소스 한정GO(기존보호 유지·생산우회0)이며 실제 발급·화면 GO와 구별한다.
+
 ## 2026-10-10 — M02 첫 문단·설정 5언어 실제 복귀 통과
 
 - [525](queue_archive/ORDER-525.md): 같은 exact522 앱에서 KO Continue→M02 첫 authored 문단 자연 완료→EN/JA/CN/TW/KO 설정 변경·닫기·정상CmdQ를 확인했다. 본문/이름표/HUD/설정 표시·같은 문단 복귀 한정GO, 다음 문단/선택/자동진행/새수동저장0이다. 글 누락·잘림·의도하지 않은 한글 누출 관측0이다.

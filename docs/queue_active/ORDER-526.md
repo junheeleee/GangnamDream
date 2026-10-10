@@ -10,6 +10,19 @@ include 설정/등록 Translation locale로 ICU 포함 여부를 정하므로 JS
 자동 감지되지 않는다. 공식 TextServer의 ICU iterator 실패 시 공백 분리 fallback은
 관측과 맞는다. 원문/본문 consumer 추측수리 대신 이 확인된 패키징 공백을 고친다.
 
+**구현 — 2026-10-10 / 발급·실제 화면은 미완료.** builder는 기존 application
+변환 뒤 stage에만 정확한 internationalization 절/ICU true를 더한다. auditor는
+설치된4.6.2 template의 고정 크기/SHA를 검사하고 PCK 단일 정규 멤버의 실제 bytes와
+대조한다. 기존 synthetic self-test의 설치경계만 tiny 데이터로 mock하며 missing/
+empty/valid-digest-corruption·stage설정 누락/변조 반례를 더한다. 생산 우회 옵션0이다.
+원root project/preset·StoryMode/원고/번역 diff0이며 옛manifest는 그대로 보존한다.
+
+**소스 검수 — 2026-10-10.** 기존 self-test65/actual_exports0·audit.py ERROR0/
+WARNING0·큐/현황/인간원장 계약 PASS다. 부팅 문서18011B 예산 초과는 상태 한 줄을
+줄여 수리한다. 비저자 phone_independent_review는 두 파일·호출 경로를 직접 읽어
+stage한정/고정template·PCKbytes/기존보호 유지/생산mock우회0의 소스 한정GO다.
+실제 발급·실행·줄바꿈 개선 GO는 아직 발급하지 않는다.
+
 ## 한 단위·깊이 3문
 
 1. 없으면 중국어 독자가 본문의 긴 줄 앞에서 불필요한 짧은 줄을 계속 읽는다.

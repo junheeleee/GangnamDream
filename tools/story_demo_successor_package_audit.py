@@ -33,6 +33,10 @@ ERRORS = re.compile(r"(?im)^.*(?:SCRIPT ERROR:|Parse Error:|Compile Error|Failed
 GENERATED_UIDS = ("tools/RoutineBackgroundInputCheck.gd.uid", "tools/order103_export/AudioManagerStub.gd.uid",
                   "tools/order103_export/Entry.gd.uid")
 DELIVERY_ROOT = Path("/Users/junheelee/Library/Application Support/GangnamDream_LocalCandidates")
+ICU_MEMBER = "icudt_godot.dat"
+ICU_TEMPLATE = Path("/Users/junheelee/Library/Application Support/Godot/export_templates/4.6.2.stable") / ICU_MEMBER
+ICU_BYTES = 4797072
+ICU_SHA256 = "4025663065f82dd78e68981ad362cafa993396468b44f14853004ded3b3d665d"
 
 
 def require(condition, message):
@@ -77,6 +81,19 @@ def no_symlink(path):
     require(all(not parent.is_symlink() for parent in (path, *path.parents)),
             "symlink path is not allowed: " + str(path))
     return path
+
+
+def validate_icu_template_bytes(raw):
+    require(type(raw) is bytes and len(raw) == ICU_BYTES and sha(raw) == ICU_SHA256,
+            "installed Godot 4.6.2 ICU support data bytes differ")
+    return raw
+
+
+def icu_template_bytes():
+    # JSON overlays are not Translation resources: the exporter cannot infer
+    # their ICU dependency. Bind the package to this engine's installed data,
+    # not an arbitrary same-name payload or a new manifest's self-report.
+    return validate_icu_template_bytes(no_symlink(ICU_TEMPLATE).read_bytes())
 
 
 def safe_zip_members(zip_path):
@@ -134,10 +151,15 @@ def pck_inventory(pck, stage):
         normalized[relative] = entry
     require("project.binary" in normalized and normalized["project.binary"]["size"] > 0,
             "PCK project.binary is absent/empty (its Variant identity is not runtime-verified)")
+    require(ICU_MEMBER in normalized, "PCK ICU text server support data is absent")
+    template_raw = icu_template_bytes()
     content = {}
     with Path(pck).open("rb") as handle:
         errors = validate_pck_payload_digests(handle, header["base_offset"], entries)
         require(not errors, "PCK payload: " + "; ".join(errors))
+        support_raw = pck_entry_bytes(handle, header["base_offset"], normalized[ICU_MEMBER])
+        require(support_raw == template_raw,
+                "PCK ICU text server support data differs from installed Godot 4.6.2 template")
         wanted = {item.relative_to(stage).as_posix(): item for item in (Path(stage) / "content").rglob("*.json")}
         actual = {name for name in normalized if name.startswith("content/") and name.endswith(".json")}
         require(wanted and actual == set(wanted), "PCK current content JSON population differs")
@@ -149,6 +171,8 @@ def pck_inventory(pck, stage):
             content[name] = {"sha256": sha(raw), "bytes": len(raw)}
     return {"path": str(Path(pck)), **file_record(pck), "entries": len(entries),
             "entry_paths_sha256": sha(("\n".join(sorted(entries)) + "\n").encode()),
+            "text_server_support_data": {"member": ICU_MEMBER, "template_path": str(ICU_TEMPLATE),
+                                         "sha256": sha(support_raw), "bytes": len(support_raw)},
             "content_json": content}
 
 
@@ -205,7 +229,7 @@ def expected_identity(build_id, attempt):
 
 def manifest_shape(data):
     require(type(data) is dict and type(data.get("schema_version")) is int and data["schema_version"] == 1
-            and data.get("unit") == "ORDER-522" and data.get("status") == "EXPORTED_NOT_RUNTIME_VERIFIED",
+            and data.get("unit") == "ORDER-526" and data.get("status") == "EXPORTED_NOT_RUNTIME_VERIFIED",
             "manifest schema/export status differs")
     identity = data.get("identity")
     require(type(identity) is dict and identity == expected_identity(identity.get("build_id"), identity.get("attempt")),
@@ -245,14 +269,26 @@ def section_delta(before, after, allowed):
 
 def stage_contract(before, after, identity, namespace):
     quoted = lambda value: json.dumps(value, ensure_ascii=False)
-    section_delta(before[CHANGED[0]], after[CHANGED[0]], {
+    project_keys = {
         ("application", "config/name"): quoted(identity["app_stem"]),
         ("application", "run/main_scene"): quoted(ENTRY),
         ("application", "config/use_custom_user_dir"): "true",
         ("application", "config/custom_user_dir_name"): quoted(namespace),
         ("application", "boot_splash/show_image"): "false",
         ("application", "boot_splash/image"): '""',
-    })
+    }
+    source_project, staged_project = before[CHANGED[0]], after[CHANGED[0]]
+    icu_section = b"\n[internationalization]\n\nlocale/include_text_server_data=true\n"
+    if not re.search(rb"(?m)^\[internationalization\]$", source_project):
+        require(staged_project.count(b"[internationalization]") == 1
+                and staged_project.endswith(icu_section),
+                "staging ICU section is absent, duplicate or changes unowned bytes")
+        staged_project = staged_project[:-len(icu_section)]
+    else:
+        require(staged_project.count(b"[internationalization]") == 1,
+                "staging ICU section is duplicate")
+        project_keys[("internationalization", "locale/include_text_server_data")] = "true"
+    section_delta(source_project, staged_project, project_keys)
     section_delta(before[CHANGED[1]], after[CHANGED[1]], {
         ("preset.1", "name"): quoted(identity["preset_name"]),
         ("preset.1", "export_path"): quoted(identity["app_stem"] + ".zip"),
@@ -509,7 +545,7 @@ def audit_manifest(path, source_root=ROOT):
             require(canonical(row) == canonical(protected_snapshot(row)), "actual protected bytes differ: " + row["label"])
         if path.name == "MANIFEST.json":
             result = load_json(no_symlink(output / "result.json").read_bytes())
-            require(result.get("unit") == "ORDER-522" and result.get("all_pass") is True
+            require(result.get("unit") == "ORDER-526" and result.get("all_pass") is True
                     and result.get("status") == "EXPORTED_NOT_RUNTIME_VERIFIED" and result.get("runtime") == "NOT_RUN"
                     and result.get("error") is None and result.get("preservation_errors") == []
                     and result.get("source_after") == source["after"]
@@ -525,6 +561,7 @@ def audit_manifest(path, source_root=ROOT):
 def self_test():
     # Local import avoids builder/auditor initialization cycles. Pure calls only.
     import build_story_demo_successor_macos as builder
+    from unittest.mock import patch
     checks = []
 
     def good(name, value):
@@ -572,14 +609,32 @@ def self_test():
     mutated = dict(changed)
     mutated[CHANGED[0]] = changed[CHANGED[0]].replace(b"viewport_width=1280", b"viewport_width=1200")
     bad("unowned staging byte", lambda: stage_contract(original, mutated, identity, identity["artifact_namespace"]))
+    for name, raw in (
+            ("missing staged ICU section", changed[CHANGED[0]].split(b"\n[internationalization]", 1)[0]),
+            ("disabled staged ICU data", changed[CHANGED[0]].replace(
+                b"locale/include_text_server_data=true", b"locale/include_text_server_data=false")),
+            ("unowned staged ICU section key", changed[CHANGED[0]] + b'locale/fallback="zh"\n'),
+            ("duplicate staged ICU section", changed[CHANGED[0]] + b"\n[internationalization]\n")):
+        mutated = dict(changed)
+        mutated[CHANGED[0]] = raw
+        bad(name, lambda mutated=mutated: stage_contract(original, mutated, identity, identity["artifact_namespace"]))
+    with_section = dict(original)
+    with_section[CHANGED[0]] += b'\n[internationalization]\n\nlocale/fallback="en"\n'
+    section_changed = dict(changed)
+    section_changed[CHANGED[0]] = builder.project_bytes(
+        with_section[CHANGED[0]], identity, identity["artifact_namespace"])
+    stage_contract(with_section, section_changed, identity, identity["artifact_namespace"])
+    good("existing internationalization section retained", b'locale/fallback="en"\n' in section_changed[CHANGED[0]])
+    bad("existing ICU key is not silently overwritten", lambda: builder.project_bytes(
+        with_section[CHANGED[0]] + b"locale/include_text_server_data=false\n", identity, identity["artifact_namespace"]))
     source = {"commit": "1" * 40, "tree": "2" * 40, "commit_date": "2026-10-10",
               "before": {"head": "1" * 40, "tree": "2" * 40, "status": ""},
               "after": {"head": "1" * 40, "tree": "2" * 40, "status": ""}}
-    sample = {"schema_version": 1, "unit": "ORDER-522", "status": "EXPORTED_NOT_RUNTIME_VERIFIED",
+    sample = {"schema_version": 1, "unit": "ORDER-526", "status": "EXPORTED_NOT_RUNTIME_VERIFIED",
               "identity": identity, "source": source, "runtime": {"status": "NOT_RUN", "pending": PENDING},
               "user_go": "NOT_INHERITED", "codesign": "ad-hoc"}
     manifest_shape(sample)
-    for field, value in (("schema_version", True), ("status", "RUNTIME_VERIFIED"), ("codesign", "notarized"),
+    for field, value in (("schema_version", True), ("unit", "ORDER-522"), ("status", "RUNTIME_VERIFIED"), ("codesign", "notarized"),
                          ("user_go", "INHERITED"), ("runtime", {"status": "NOT_RUN", "pending": []})):
         mutant = deepcopy(sample)
         mutant[field] = value
@@ -591,7 +646,14 @@ def self_test():
     mutant["source"]["after"]["head"] = "3" * 40
     bad("source drift", lambda: manifest_shape(mutant))
     bad("duplicate manifest key", lambda: load_json(b'{"status":1,"status":2}'))
-    with tempfile.TemporaryDirectory(prefix="gangnam-successor-audit-") as temporary:
+    bad("empty installed ICU template", lambda: validate_icu_template_bytes(b""))
+    bad("wrong installed ICU template digest", lambda: validate_icu_template_bytes(b"x" * ICU_BYTES))
+    synthetic_icu = b"synthetic ICU fixture, not real engine support data"
+    # Keep synthetic package controls portable and tiny. Production auditing
+    # always calls the pinned installed-data reader; only this self-test replaces
+    # that boundary, never the PCK parser, payload digests or byte comparison.
+    with tempfile.TemporaryDirectory(prefix="gangnam-successor-audit-") as temporary, \
+            patch(__name__ + ".icu_template_bytes", return_value=synthetic_icu):
         root = Path(temporary).resolve()
         stage, app = root / "source", root / "Tiny.app"
         (stage / "content").mkdir(parents=True)
@@ -611,16 +673,25 @@ def self_test():
         (app / "Contents/Info.plist").write_bytes(plistlib.dumps({"CFBundleExecutable": "Tiny"}))
         pck = app / "Contents/Resources/Tiny.pck"
         binary = b"synthetic project.binary; not a Variant decoder test"
-        payloads = payload + binary
-        header = bytearray(112)
-        header[:4] = b"GDPC"
-        struct.pack_into("<5I", header, 4, 3, 4, 6, 2, 2)
-        struct.pack_into("<2Q", header, 24, 112, 112 + len(payloads))
-        pck_raw = bytes(header) + payloads + struct.pack("<I", 2)
-        for member, value, offset in ((b"res://content/test.json\0", payload, 0),
-                                      (b"res://project.binary\0", binary, len(payload))):
-            pck_raw += struct.pack("<I", len(member)) + member
-            pck_raw += struct.pack("<QQ", offset, len(value)) + hashlib.md5(value).digest() + struct.pack("<I", 0)
+        def synthetic_pck(icu=synthetic_icu):
+            members = [(b"res://content/test.json\0", payload),
+                       (b"res://project.binary\0", binary)]
+            if icu is not None:
+                members.append((b"res://icudt_godot.dat\0", icu))
+            payloads = b"".join(value for _member, value in members)
+            header = bytearray(112)
+            header[:4] = b"GDPC"
+            struct.pack_into("<5I", header, 4, 3, 4, 6, 2, 2)
+            struct.pack_into("<2Q", header, 24, 112, 112 + len(payloads))
+            result = bytes(header) + payloads + struct.pack("<I", len(members))
+            offset = 0
+            for member, value in members:
+                result += struct.pack("<I", len(member)) + member
+                result += struct.pack("<QQ", offset, len(value)) + hashlib.md5(value).digest() + struct.pack("<I", 0)
+                offset += len(value)
+            return result
+
+        pck_raw = synthetic_pck()
         pck.write_bytes(pck_raw)
         package = root / "Tiny.zip"
 
@@ -635,7 +706,17 @@ def self_test():
         pack(package)
         measured = package_inventory(app, package, stage)
         good("synthetic package three files and current JSON", len(measured["app_files"]) == 3
-             and measured["pck"]["entries"] == 2 and measured["pck"]["content_json"]["content/test.json"]["sha256"] == sha(payload))
+             and measured["pck"]["entries"] == 3 and measured["pck"]["content_json"]["content/test.json"]["sha256"] == sha(payload))
+        good("synthetic ICU support receipt", measured["pck"]["text_server_support_data"] == {
+            "member": ICU_MEMBER, "template_path": str(ICU_TEMPLATE),
+            "sha256": sha(synthetic_icu), "bytes": len(synthetic_icu)})
+        pck.write_bytes(synthetic_pck(None))
+        bad("PCK missing ICU support data", lambda: pck_inventory(pck, stage))
+        pck.write_bytes(synthetic_pck(b"!" + synthetic_icu[1:]))
+        bad("PCK valid digest but corrupt ICU support data", lambda: pck_inventory(pck, stage))
+        pck.write_bytes(synthetic_pck(b""))
+        bad("PCK empty ICU support data", lambda: pck_inventory(pck, stage))
+        pck.write_bytes(pck_raw)
         for name in ("../escape", "/absolute", "Tiny.app/../escape", "Tiny.app\\escape"):
             pack(root / "bad.zip", ((name, b"x"),))
             bad("unsafe ZIP " + name, lambda: safe_zip_members(root / "bad.zip"))
