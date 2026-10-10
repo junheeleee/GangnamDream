@@ -1,0 +1,484 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-547",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewed_at_utc": "2026-10-10T23:12:57.747780+00:00",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "source",
+    "commit": "a2d4788b694b32b74fddc064305b7f606a21f41c",
+    "tree": "afbe37336dfc9e157ad4b7518fc0110ffd2fe4f8",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "product_verdict": "HOLD",
+  "scope": "548 수리 후 현재 source의 W35 다은6점·기존 시각 소비자·지연 결과CG cold 복원 단위만 마감 GO. 역사 시각/준비화면/native 증거의 byte 동일성과 실제 NG+ 차단 원인 해소를 직접 결속한 판정이다. 새 package/실제 화면/NG+ 자연 플레이/제품·출시 GO가 아니다.",
+  "source_identity": {
+    "observed_clean_HEAD": "96de00537b9962c63ea81b0df80cad74ccfa817c",
+    "observed_HEAD_tree": "84fc206cfc791bd3ce9d17251fa3b1932fb4ffbb",
+    "observed_origin_main": "f3c31f016623a4fa9b18293944be5705b624337f",
+    "local_ahead": 1,
+    "resolved_product_subject": {
+      "kind": "source",
+      "commit": "a2d4788b694b32b74fddc064305b7f606a21f41c",
+      "tree": "afbe37336dfc9e157ad4b7518fc0110ffd2fe4f8",
+      "manifest_sha256": null
+    },
+    "wrapper_paths": [
+      "docs/CODEX_QUEUE.md",
+      "docs/CODEX_QUEUE_L3_PENDING.md",
+      "docs/WORK_LOG.md",
+      "docs/agent_review_decisions.json",
+      "docs/agent_reviews/ORDER-548.json",
+      "docs/queue_active/ORDER-547.md",
+      "docs/queue_active/ORDER-548.md",
+      "docs/queue_archive/ORDER-548.md"
+    ],
+    "boundary": "실제 Git clean HEAD96de005를 관측했고 기존 current_agent_source_subject reader가 반환한 product source a2d4788/treeafbe3733를 subject로 쓴다. a2d→HEAD의8경로 전체 diff는 고정 허용 metadata뿐이며 CLAUDE/제품 변경0이다. 보고 작성 전 미커밋547 재개절은 root가96de005로 커밋했다. origin보다1 ahead인 로컬 후보이며 push/원격CI 완료를 선발급하지 않는다."
+  },
+  "method": {
+    "historical_direct_observation": "같은 비저자가 이전547에서 원본6과 KO/EN×960x600/1280x800의108PNG 전량을 직접 보았고,40합성v4/원명령·native raw/보존 증거를 직접 읽었다. native pixels는 당시 root 관측이었다. 그 역사 결과는 옛 보고2054c60f…에 그대로 남긴다.",
+    "this_review": "이번에는 정본/skill/WORK_UNIT/큐/재개사양과 실제 Git·허용 wrapper를 읽었다. 현재6PNG, 원표적4receipt와108PNG/40v4 각 파일의 크기/SHA, 원출력 모집단,10개 소비자 바이트를 이전 기록/a0bc Git과 직접 대조했다. 옛547 보고/manifest/원보존 seal·원native/save/journal,5487receipt/21stream과 현재제품2pin·NG+ 생산자/initializer·whole 호출순서/원date assertion을 직접 판독했다.",
+    "non_actions": "엔진·빌드·검사·UI·새 픽셀 열람·전수보호 snapshot·사용자 파일 쓰기0. 새 원자료/manifest/기존 보고·원장 수정0이며 소유된 이 새 보고 한 파일만 apply_patch로 작성했다.",
+    "skill_effect": "gangnamdream-dev의 기존 소비자/원자료 보존 및 source/package·agent/Human 분리를 적용했다. 548 GO를 다른 unit으로 자동 전용하지 않고 실제 원인/소스/로그와547 시각 동일성을 독립 대조했다."
+  },
+  "findings": [
+    "a0bc→현재 제품 차이는 FullStoryFlow와ManualSaveCheck 두 파일뿐이다. scenes/autoloads/content/assets/project/presets는 byte 불변이며 현재StoryMode·ImageRegistry·대상arc_daeun·visual/cg/direction/audio manifests·direction catalog 등10개를 직접 대조했다. 따라서 이전6점/108화면의 오후 내부→외부·사복·reveal1/1/2·꿈 근무복 복귀 및 좁은cold9줄 계약을 현재source에 결속할 수 있다.",
+    "원547 whole은 actual1, stderr ERROR11/WARNING25였다. 실제 실패1은 date fixture did not use the actual fresh full initializer이고 나머지ERROR10은 의도된 negative였다. production terminal→GameState.finish_run→MetaProgression.record_run(total_runs+1)→StartMenu/GameState 새게임의 repeat/veteran 생산→옛 flags.is_empty 거절이라는 원인을 source로 재확인했다. 원547 raw에 repeat raw값 출력이 있었다고 새로 주장하지 않는다.",
+    "548 FullStoryFlow는 정상 full fresh에만 기존 생산자와 같은 <1 {},1–3 repeat=true,≥4 repeat+veteran=true 전체 키/raw bool 조합을 받는다. rewards/flags를 지우지 않으며 다른 pristine 조건·preview emptyflags·demo/V2 제외·loaded owner는 그대로다. 현재SHA=실제2d 실행SHA다. 정상칭호 보상/57거절/저장 뒤 메타 증가/legacy·preview 비승격은 원focus 및 whole marker와 source로 직접 확인했다.",
+    "원547의 _check_full_story_meeting_date/_check_full_story_production/_production_fresh_start 함수 본문은 최종Manual과 byteexact다. 실제 old date assertion을 삭제/완화하거나 production→date 실행순서를 제거한 것이 아니다. 548 whole actual0/정확marker1/assertion0에서 production/date/purchase/NG+ marker가 모두 있고, 기존 date 오류만 사라졌다. 저장 owner 기대 한곳의 기존JSON 표현화와 loaded NG2 projection은 전체 cold state exact/direct owner 비교를 유지한다.",
+    "548 최종7차선/21stream은 모두 actual0/exactmarker1이고 compile69·focus·제외4는 stderr0이다. whole에는 정확히 의도ERROR10(활동4+손상emptyowner2+badending4)/WARNING25가 남아 strict wrapper exit1/ValueError FAIL 그대로다. 거울로그를 더해20/50으로 세지 않는다. 이 원인 해소는 소스 기능/계약 판정이지 strict whole PASS·전체CI 녹색·자연240주 완료가 아니다.",
+    "기존 CGRuntime actual0/marker1이더라도 ObjectDB WARNING+2 resources still in use ERROR의 strict wrapper FAIL은 원형 유지한다. 548이 이 종료 빚을 수리했다거나 새 CG 실행을 했다고 쓰지 않는다. 좁은547 시각 source의 새 차단 결함은 확인하지 못했고 원NG+ assertion 해소와 기존6/108/native 부분 증거를 결합해 현재unit source만 GO로 닫는다."
+  ],
+  "evidence": {
+    "prior_547_report": {
+      "path": "docs/agent_reviews/ORDER-547.json",
+      "bytes": 14691,
+      "sha256": "2054c60f60b3fbabe5daeab8547508ba48d01a9d515e2468d213b416727b6483"
+    },
+    "prior_548_report": {
+      "path": "docs/agent_reviews/ORDER-548.json",
+      "bytes": 14598,
+      "sha256": "b712df879fc6958a8cdb7ab84996c67a6975a2a2ca4389861c4575b3d7474e9b"
+    },
+    "old_547_references": [
+      {
+        "path": "docs/agent_reviews/ORDER-547-manifest.json",
+        "bytes": 12058,
+        "sha256": "c4b93854e46a55cb8d2e4150560370ce551be35655762d692060e8fa095e028d"
+      },
+      {
+        "path": "docs/agent_reviews/ORDER-547-assets.json",
+        "bytes": 30635,
+        "sha256": "188bc0f918c76aea63995d1c9c46dad62296d4f6057c71b8f5055922d1bb81b5"
+      },
+      {
+        "path": ".git/order547-qa-20261011/independent-target-visual-review.json",
+        "bytes": 10219,
+        "sha256": "d04bdfbf50a127bc66abca388b7de80ea2cac08a0c20a7005bf731b63c3f17ba"
+      },
+      {
+        "path": ".git/order547-qa-20261011/independent-final-preservation.json",
+        "bytes": 11882,
+        "sha256": "10199deacd60654e61e9a388f39a6d76b3974941653e43a05c80fb8bdb3c99b3"
+      },
+      {
+        "path": ".git/order547-qa-20261011/independent-final-source-binding.json",
+        "bytes": 3667,
+        "sha256": "fb4c28a3cf922673e8e4655fec6618a815a289d0990815ff6f54207bbfcbd300"
+      },
+      {
+        "path": ".git/order547-qa-20261011/native-result.json",
+        "bytes": 351956,
+        "sha256": "f68fe7bf5e352bdfbc4c17fc336a235c2938928a70d9f377437f362f894f5f57"
+      },
+      {
+        "path": ".git/order547-qa-20261011/final-native-autosave.json",
+        "bytes": 136633,
+        "sha256": "28fe1d2a05513858ea0cdb2cf7614428fb24edc056c5cc65b1c1ab68ba1c194a"
+      },
+      {
+        "path": ".git/order547-qa-20261011/observations.md",
+        "bytes": 8020,
+        "sha256": "bbd88722e4449e8b69b887a01df3d3f0ff386f955ca2c5efd0173153af5fb831"
+      }
+    ],
+    "current_asset6": [
+      {
+        "path": "assets/characters/npc_daeun_regular_offduty_v1.png",
+        "sha256": "24d7188524df29091db169869229ba120e92790560ca8f6225dccf088b6cd1fe",
+        "bytes": 2086400
+      },
+      {
+        "path": "assets/backgrounds/convenience_store_afternoon_v1.png",
+        "sha256": "0b2c0d1cbdbf7b877726c28d538822859b4a18a1afd8b438a88328b7a5392c89",
+        "bytes": 2964856
+      },
+      {
+        "path": "assets/backgrounds/convenience_store_exterior_afternoon_v1.png",
+        "sha256": "ffe34676416a9bdee220461f4c1cfb4c24f4ac0e0bc10ae6dcf5200fd018d245",
+        "bytes": 2923997
+      },
+      {
+        "path": "assets/cg/romance/daeun_regular_bunsik_v1.png",
+        "sha256": "dda2e6e09a0112759f842c579a5591e8c942f0114d3634eb5467a4207b4de256",
+        "bytes": 1598935
+      },
+      {
+        "path": "assets/cg/romance/daeun_regular_walk_v1.png",
+        "sha256": "3e8d87f3695e281e3d79a62f6f72915257a6694ba5e4f73848d88da2fa6ed7bd",
+        "bytes": 1870565
+      },
+      {
+        "path": "assets/cg/romance/daeun_regular_night_wait_v1.png",
+        "sha256": "7c043845a0bb58a1454f6ed3ede61342f0307c426a318d15bb24d4bd1c1e72de",
+        "bytes": 1508938
+      }
+    ],
+    "unchanged_consumers": [
+      {
+        "path": "scenes/StoryMode.gd",
+        "bytes": 302928,
+        "sha256": "9e98a185bf7d041ea54254d5244f80836f5e6f3d69e534d888b1b04faedb035d"
+      },
+      {
+        "path": "autoloads/ImageRegistry.gd",
+        "bytes": 47909,
+        "sha256": "65394ab54fd99ed99af3b3cc8baeaae35fd76d6df4d2f105688d6744f11aa5d2"
+      },
+      {
+        "path": "content/events/arc_daeun.json",
+        "bytes": 43374,
+        "sha256": "c93452b0b2404e52cf799a3d8bee77e095bc3c5156328f915c81aaf58e016c4a"
+      },
+      {
+        "path": "assets/event_visual_contracts.json",
+        "bytes": 44585,
+        "sha256": "39d87e837ef99bded095bdcc34de2146180d2d8fafe9842ab6ae2585c6c37267"
+      },
+      {
+        "path": "assets/cg_acting_manifest.json",
+        "bytes": 52486,
+        "sha256": "311e1693b2997fcc74dfc9e0146259ef5bff158d71a5a4679d79fa14d81fc425"
+      },
+      {
+        "path": "assets/scene_direction_manifest.json",
+        "bytes": 138884,
+        "sha256": "77abdb7da07016cef2bc1e7a236743d1273e8fa4e7adee60ff5d97e036e775b2"
+      },
+      {
+        "path": "assets/scene_audio_manifest.json",
+        "bytes": 118906,
+        "sha256": "a34804b0f32f8493810be9278f95b72f7adb1866d442ec966af94ed0397866c6"
+      },
+      {
+        "path": "tools/scene_direction_catalog.py",
+        "bytes": 29171,
+        "sha256": "17576cad4ca22d347503207a8aed868710945ec175f1e56b97e44f17454009af"
+      },
+      {
+        "path": "project.godot",
+        "bytes": 4699,
+        "sha256": "78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5"
+      },
+      {
+        "path": "export_presets.cfg",
+        "bytes": 13201,
+        "sha256": "891a9be108137df120e0b91082b43a73e65c524c423465a88fe580050bc91f7f"
+      }
+    ],
+    "prepared_hash_population": {
+      "png": 108,
+      "v4": 40,
+      "lanes": [
+        {
+          "name": "target-ko-960-01",
+          "receipt_sha256": "c1c0d5f95c4add9974733e0c5ce35999ff20475212def9fe9062216dcc7d242f",
+          "output_sha256": "258d45c11e09dd249a0572be1ff9665caa714728f536040543732ef6b8e4a153",
+          "png": 27,
+          "v4": 10
+        },
+        {
+          "name": "target-en-960-01",
+          "receipt_sha256": "c4e8ab2084e1cf617041b2cc50eb090a474979f558110813f5be866b56b23b9f",
+          "output_sha256": "78a989267248a2e9cf576d3e63ba8cebf81a1e57158e605563b7d478039ae835",
+          "png": 27,
+          "v4": 10
+        },
+        {
+          "name": "target-ko-1280-01",
+          "receipt_sha256": "fc3ed87219fcf646adae541e87d97606be3fdbb25438d6f7a80066575957b747",
+          "output_sha256": "0b6559d14449f919bc8df23d43cf85e773c89a40771fe39cde4de337cd1f8740",
+          "png": 27,
+          "v4": 10
+        },
+        {
+          "name": "target-en-1280-01",
+          "receipt_sha256": "705bf88e94dadb2bf3aee8806660e2a727d8934da3655361a7404c7b81718273",
+          "output_sha256": "1e61a8f2157e8dd6d9322e3466a766b26725bd9e00f004f17c5b2a29fd30cf94",
+          "png": 27,
+          "v4": 10
+        }
+      ],
+      "method": "각 원receipt의 output entries148개와 실제 파일의 size/SHA·폴더 모집단을 이번에 직접 대조했다. output digest는 json sort_keys + compact separators의 기존 표현이다. 픽셀 품질은 이전 직접 열람 결과를 참조하며 이번 새 열람 주장은 없다."
+    },
+    "unchanged_critical_Manual_functions": [
+      {
+        "name": "_check_full_story_meeting_date",
+        "sha256": "c16f0853802c64a3c576fc7a23bf20dcfc4335e246507d7096f0fb7e6e264e28"
+      },
+      {
+        "name": "_check_full_story_production",
+        "sha256": "2b51963f74b3214e627a7aa2594865f3c22ea9464547d365af24f3ef1229be49"
+      },
+      {
+        "name": "_production_fresh_start",
+        "sha256": "7eea9fe984cac99a5527d615e0e77b5dc53b851d647dedd81eb9fec5185792c3"
+      }
+    ],
+    "executed_548_source": {
+      "commit": "2d7591528098732131cc530b551b43bcb2ff496a",
+      "tree": "356a6e02f8114eeb321d1bd3bf38057aa6fbc76e",
+      "boundary": "실제 엔진 실행 신원이다. 이후a2d는CLAUDE/WORK_LOG, f3/96de는허용metadata이며 제품/fixture 원바이트는 같다."
+    },
+    "current_548_product_pins": [
+      {
+        "path": "systems/FullStoryFlow.gd",
+        "bytes": 39771,
+        "sha256": "a1bb6172e3a1309d94f855c646b7cb42baea7849917d1d18e22239d81abd1d84"
+      },
+      {
+        "path": "tools/ManualSaveCheck.gd",
+        "bytes": 367078,
+        "sha256": "1bcc5b7b24e8c501eaf07e6a9827651b730e0d1305149fdc6e258fbc33f7c4f2"
+      }
+    ],
+    "final548_runs": [
+      {
+        "name": "compile-04",
+        "receipt": {
+          "path": ".git/order548-qa-20261011/compile-04.json",
+          "bytes": 823913,
+          "sha256": "e3a7d20d75cc5476d65dbdfaa8e1cec61db629442f55bce52feef8b5c183f628"
+        },
+        "actual_exit": 0,
+        "seconds": 4.536,
+        "exact_marker_count": 1,
+        "strict_wrapper": "PASS",
+        "stderr_and_Godot_each": {
+          "errors": 0,
+          "warnings": 0
+        }
+      },
+      {
+        "name": "ngplus-full-04",
+        "receipt": {
+          "path": ".git/order548-qa-20261011/ngplus-full-04.json",
+          "bytes": 824595,
+          "sha256": "03cb24a233fb847c203d3ea848a2a4e0c95cab23cfa717e5c8a69eaabab73c87"
+        },
+        "actual_exit": 0,
+        "seconds": 6.623546,
+        "exact_marker_count": 1,
+        "strict_wrapper": "PASS",
+        "stderr_and_Godot_each": {
+          "errors": 0,
+          "warnings": 0
+        }
+      },
+      {
+        "name": "manual-whole-04",
+        "receipt": {
+          "path": ".git/order548-qa-20261011/manual-whole-04.json",
+          "bytes": 826672,
+          "sha256": "fc957b53c8600ee0a0f0846e17bbd549900853e38a0bfd09c86c9db6431d6244"
+        },
+        "actual_exit": 0,
+        "seconds": 215.92721,
+        "exact_marker_count": 1,
+        "strict_wrapper": "FAIL retained",
+        "stderr_and_Godot_each": {
+          "errors": 10,
+          "warnings": 25
+        }
+      },
+      {
+        "name": "ngplus-demo-04",
+        "receipt": {
+          "path": ".git/order548-qa-20261011/ngplus-demo-04.json",
+          "bytes": 824347,
+          "sha256": "9c3bf14484722663cb04896eeb5ec93c354860778e94b656d49a0890ee31df18"
+        },
+        "actual_exit": 0,
+        "seconds": 4.861689,
+        "exact_marker_count": 1,
+        "strict_wrapper": "PASS",
+        "stderr_and_Godot_each": {
+          "errors": 0,
+          "warnings": 0
+        }
+      },
+      {
+        "name": "ngplus-v2-04",
+        "receipt": {
+          "path": ".git/order548-qa-20261011/ngplus-v2-04.json",
+          "bytes": 824323,
+          "sha256": "12ad1cd72cee388d0deff0d18366d084500d6285cae5b3ebcbb78e43aa82641e"
+        },
+        "actual_exit": 0,
+        "seconds": 4.839982,
+        "exact_marker_count": 1,
+        "strict_wrapper": "PASS",
+        "stderr_and_Godot_each": {
+          "errors": 0,
+          "warnings": 0
+        }
+      },
+      {
+        "name": "ngplus-preview8-04",
+        "receipt": {
+          "path": ".git/order548-qa-20261011/ngplus-preview8-04.json",
+          "bytes": 824412,
+          "sha256": "58d9c402e4d0fd05163de0b91323f6835cd08556534f523fb75463fc7690cfae"
+        },
+        "actual_exit": 0,
+        "seconds": 4.951645,
+        "exact_marker_count": 1,
+        "strict_wrapper": "PASS",
+        "stderr_and_Godot_each": {
+          "errors": 0,
+          "warnings": 0
+        }
+      },
+      {
+        "name": "ngplus-preview12-04",
+        "receipt": {
+          "path": ".git/order548-qa-20261011/ngplus-preview12-04.json",
+          "bytes": 824473,
+          "sha256": "535e961a08a93fcf08ea206dcd77337c101cf3ed67b480a2a1757f210b654372"
+        },
+        "actual_exit": 0,
+        "seconds": 4.82366,
+        "exact_marker_count": 1,
+        "strict_wrapper": "PASS",
+        "stderr_and_Godot_each": {
+          "errors": 0,
+          "warnings": 0
+        }
+      }
+    ],
+    "old547_actual_failure": {
+      "receipt": {
+        "path": ".git/order547-qa-20261011/regression-manual-01.json",
+        "bytes": 27200,
+        "sha256": "74de2fee077e45247b2be517a01d1b1a297dea657f3e906854ac7c388458620e"
+      },
+      "actual_exit": 1,
+      "error_lines": 11,
+      "warning_lines": 25,
+      "exact_assertion": "ERROR: MANUAL_SAVE_CHECK_FAIL: date fixture did not use the actual fresh full initializer",
+      "unchanged_streams": [
+        {
+          "path": ".git/order547-qa-20261011/regression-manual-01.stdout.log",
+          "bytes": 7954,
+          "sha256": "6b32aa9924648c290772cb659cd41b6ff8afa292d85ed0573f4249fe1d0948cd"
+        },
+        {
+          "path": ".git/order547-qa-20261011/regression-manual-01.stderr.log",
+          "bytes": 19003,
+          "sha256": "2ae02b945ca1f42b7aae007081224829498b564b7b41b6dc34c296737279d667"
+        },
+        {
+          "path": ".git/order547-qa-20261011/regression-manual-01.godot.log",
+          "bytes": 26585,
+          "sha256": "5d0222d916dd73a9dd00994ea56ce51aea03cbcaff6b2df76b6245c442f43973"
+        }
+      ]
+    },
+    "old_CG_teardown_strict_FAIL": {
+      "receipt": {
+        "path": ".git/order547-qa-20261011/regression-cg-01.json",
+        "bytes": 24459,
+        "sha256": "06e0bcc2e0bcd135a3970384ac3a3fb301395d2fcce08fdff117a747b54d3d00"
+      },
+      "actual_exit": 0,
+      "strict_wrapper": "FAIL retained",
+      "errors": 1,
+      "warnings": 1,
+      "unchanged_streams": [
+        {
+          "path": ".git/order547-qa-20261011/regression-cg-01.stdout.log",
+          "bytes": 272,
+          "sha256": "5cc70548058b47f5c5b0b78e711e1e5f2abbe558b7c548185202c19ed8ea98cc"
+        },
+        {
+          "path": ".git/order547-qa-20261011/regression-cg-01.stderr.log",
+          "bytes": 238,
+          "sha256": "7385057f9e5ce1ef1077d91d1bdb44f1f45a5c8da0759741d86d6adfed805106"
+        },
+        {
+          "path": ".git/order547-qa-20261011/regression-cg-01.godot.log",
+          "bytes": 508,
+          "sha256": "cda54b4ae8e111ca515d15a0a9129ba7139fca334dddd60fc01521b92f5ae631"
+        }
+      ]
+    },
+    "historical548_final_fresh": {
+      "path": ".git/order548-qa-20261011/independent-final-preservation.json",
+      "bytes": 19215,
+      "sha256": "1f01034e0b8835e880c6ae3ecb9060ead940ea1b3c917bd3f0d3f7cf9e0cf198"
+    },
+    "historical548_source_binding": {
+      "path": ".git/order548-qa-20261011/independent-final-source-binding.json",
+      "bytes": 5872,
+      "sha256": "6560aceb91afa83f73fd673172fcb1e64f2fb09aee45c7c85b761d02b282543f"
+    },
+    "current_selected_spec": {
+      "path": "docs/queue_active/ORDER-547.md",
+      "bytes": 14508,
+      "sha256": "ba56250b41a9b066ab2879294a1953cbda27681d5ae1e9da9a7e3c8909dd7291"
+    }
+  },
+  "package_boundary": {
+    "old_subject": {
+      "kind": "package",
+      "commit": "a0bc2886faf34ca75c926b1492cfe5808413921f",
+      "tree": "9e21cfc5647f6f81b7999617453a9ffd8bb56ef4",
+      "manifest_sha256": "c4b93854e46a55cb8d2e4150560370ce551be35655762d692060e8fa095e028d"
+    },
+    "old_verdict": "HOLD_UNCHANGED",
+    "new_package_issued": false,
+    "new_manifest_written": false,
+    "native_history": "당시 root KO1280x800의 W34→W35 선택0/결과→W36 첫 문단 한정 관측뿐이다. 원native actual0/424.930588s·stderr0/154B log와 v4 저장 SHA를 재대조했다. 독립 native pixels0, 이번 native 재실행0이다.",
+    "boundary": "발급된 a0bc 앱의 NG+ 수정/재서명/업데이트를 주장하지 않는다. 새 source GO는 이 old package HOLD를 대체하지 않는다."
+  },
+  "preservation": {
+    "this_boundary": "새86/99 전량 보호 snapshot은 실행하지 않았다. 원547 보호86/1507과548 보호99/1795의 immutable seal SHA 및 이번 대상raw/image/output/consumer만 직접 재대조했다. 과거 current preservation GO를 새 전체 사용자 저장 감사나 사고 복구로 확대하지 않는다.",
+    "historical_547_source_HOLD": "41fef2eec0a193159340df3481badc2d50dd0e84/tree053b35ec9e8a7e973e38ef4a01ec4eaa46827fed remains HOLD",
+    "old_report_and_manifest_untouched": true,
+    "current_ledger": {
+      "path": "docs/agent_review_decisions.json",
+      "bytes": 445113,
+      "sha256": "5d14bdefbaccf20f06ebf5cce14722f312e70314e388ff9f0d1ac754c1f33e0f",
+      "decisions": 291,
+      "old290_prefix_exact": true
+    },
+    "Human": {
+      "path": "docs/human_gates.json",
+      "bytes": 103390,
+      "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+    },
+    "incident_boundary": "옛544 시도2 retail 로그3경로 변화/194B 삭제·546/544/534 REWORK/HOLD·원547 실제FAIL/548초기FAIL3·잘못된 정적호출exit2는 불변이다. 복구/원Human승격/과거판정덮기0."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "이번검수의 새원본/픽셀/native/CG/엔진/빌드/CI 관측",
+    "설치앱NG+수리 및 자연240주완주→정상새게임·새OS cold",
+    "native 선택1/2·EN/JA/CN/TW·다른크기·연속청취",
+    "M09전체/이후자연진행·전게임품질·외부출시"
+  ],
+  "final_boundary": "현재 product subject a2d4788/treeafbe3733의 ORDER-547 source work_unit만 GO다. 역사source41fef·packagea0bc의HOLD와strictFAIL은불변, 본편/출시HOLD다. 자동계약은재미·깊이·문체의증거가아니다. 원장/큐/아카이브/WORK_LOG마감은root소유다."
+}

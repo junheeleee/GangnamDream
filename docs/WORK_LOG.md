@@ -3,6 +3,25 @@
 이전 기록은 [548 전 원문](history/WORK_LOG_2026-10-11_pre_order548.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39584B/SHA256 dd0c1275654b1596be7343c2542dba452e2817f0cbf6ca808342f43affb1341b이다.
 
+## 2026-10-11 — 다은 그림 수리의 현재 source 한정 마감
+
+- 548 뒤 [547](queue_archive/ORDER-547.md)을 재개 선언96de005로 한정했다.
+  비저자가 새 [직접 대조 보고](agent_reviews/ORDER-547-post548.json)
+  SHA256 b58eb47be120fa6fbf3ff0ec4c0dd140d6f475716bcbeb03b7909ea9142b8872에서
+  현재 source a2d4788/tree afbe3733의 단위 GO를 새로 판단했다. 548 GO 자동 전용0이다.
+- 기존6이미지·108PNG/40v4·시각10소비자의 바이트 동일성, 옛 date assertion 보존,
+  548 실제 production→date→purchase→NG+ 실패 해소를 대조했다. 엔진/빌드/native/
+  새 픽셀·전체 보존 snapshot 재실행0이며 과거 증거를 현재 실행으로 쓰지 않는다.
+- 옛547 source41fef와 package a0bc의 HOLD2건·원보고/manifest·CG 종료 strict FAIL·
+  whole 의도 ERROR10/WARNING25 strict FAIL은 불변이다. 새 보고는 설치앱 NG+ 수리,
+  M09 전체 완료·인간/원어민/물리패드·본편/출시 GO를 뜻하지 않는다.
+- 원장291건을 그대로 두고 새 source GO1건만 추가한다. 547만 보관하고 나머지 큐행은
+  순번 외 불변이다. 새 규범0·재개 지시는 일회성이다. 다음 실제 플레이는 이미 관측한
+  W34–36을 반복하지 않고 기존546 W40 저장에서 현수 통화→다음 foreground로 잇는다.
+  gangnamdream-dev에 따라 source/package 및 에이전트/실제 인간 증거를 분리했다.
+- 마감 metadata 표적6개 PASS(active80/in_progress78·agent self-test290). STATUS의
+  낡음 경고는 비차단 그대로며 현황판 단독 커밋0, 제품 동작 검사 변경0이다.
+
 ## 2026-10-11 — 엔딩 후 정상 새게임 이야기 입구 수리
 
 - [548](queue_archive/ORDER-548.md)을 별도 선언0701fc6/main push 후 착수했다.

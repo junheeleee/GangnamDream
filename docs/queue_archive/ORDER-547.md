@@ -1,12 +1,12 @@
 # ORDER-547 — 다은의 오후 만남·결과 그림 정합 수리
 
-#### [~] ORDER-547 [P1·확인 시각 수리] W35 한 장면 — 전용 6점·기존 문단/결과 CG 배선
+#### [x] ORDER-547 [P1·확인 시각 수리] W35 한 장면 — 전용 6점·기존 문단/결과 CG 배선
 
 **착수 — 2026-10-11.** 546의 실제 W35 시각 REWORK를 별도 구현으로 수리한다.
 선언 기준은 clean main source4fe119a다. root가 이 선언을 먼저 커밋·push한 뒤
 제품 저작을 시작한다. 월별 관측 기록 예외가 아니라 확인 결함의 구현 오더다.
 
-**현재 — 화면 한정 GO / 전체 HOLD.** 후보 a0bc2886/tree9e21cfc의 신규6점·
+**당시 — 화면 한정 GO / 전체 HOLD(보존).** 후보 a0bc2886/tree9e21cfc의 신규6점·
 KO/EN 두 크기108 PNG 전수 독립 검수와 새 앱 KO 선택0/결과→W36 첫 문단,
 종료 actual0/stderr0·fresh 보호86/1507파일 exact를 확인했다. 원문/효과 불변이다.
 기존 whole Manual의 정상 NG+ fresh-owner 충돌(exit1)은 남았으며 새 별도 수리로
@@ -23,6 +23,18 @@ KO/EN 두 크기108 PNG 전수 독립 검수와 새 앱 KO 선택0/결과→W36 
 새 package/export/native/검사 실행0·설치앱 NG+ 수리 주장0이다.
 root는 기존 소유 metadata만 마감한다. 옛547 source/package HOLD와 strict FAIL,
 인간·전체본편·출시 한계는 유지한다. 이 재개 지시는 일회성이다.
+
+### 완료 — 2026-10-11, source 한정
+
+[새 독립 보고](../agent_reviews/ORDER-547-post548.json)의 실제 판정시각은
+2026-10-11 08:12:57 KST다. source a2d4788/treeafbe3733의 이 unit만 GO다.
+기존6점·108PNG/40v4·당시 native 부분 증거와 현재 시각 소비자 byte 동일성,
+NG+ 차단 원인 해소를 직접 대조했다. 548 GO의 자동 전용이 아니다.
+whole actual0/정확 marker1/assertion0이지만 의도 ERROR10/WARNING25의 strict
+wrapper FAIL, CG의 2 resources 종료 strict FAIL은 유지한다.
+옛 source41fef/packagea0bc HOLD·원 FAIL·546 등 다른 gate·인간 OPEN·본편/출시
+HOLD는 불변이다. 새 package/export/native/검사0, 설치앱 NG+ 수리 주장0이다.
+새 정본 규범0, 재개·마감 지시는 일회성이다.
 
 ## 깊이 3문
 
