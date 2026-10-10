@@ -2,6 +2,11 @@
 
 이전 기록은 [526 발급까지의 원문](history/WORK_LOG_2026-10-10_pre_order526.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 세 번째 달의 격리 연결 착수
+
+- [538](queue_active/ORDER-538.md)을 구현 전에 선언한다. 기존8주 profile/저장은 W9에서 그대로 멈추고 fresh companion opt-in만12주로 연결한다. root Main 연결·phone_cn_author helper·cjk_wrap_diagnosis 기존fixture·phone_independent_review 비저자 전수 검수로 파일 소유를 나눈다.
+- 실제 W9 현수→수첩 후속·월3 once·세 번째 정산·W9/12 저장 실패 재시도와 W13 경계를 검증한다. 새12주 profile에서는 데모 bridge의 무언 적용을 막는다. 직접활동 pending은 소비하지 않고 계속 잠그며 경마 연결/원고의 미생산 지원 이력/기본활성화/M07/출시는 별도 HOLD다. 원문·번역·숫자·project·사용자/공개 저장·과거 인간 판정 변경0이다.
+
 ## 2026-10-10 — 시작 방식 저장 수리·첫 8주 내부 연결 검증
 
 - [536 독립 보고](agent_reviews/ORDER-536.json) 11456B/75ac14a8…와 [537 독립 보고](agent_reviews/ORDER-537.json) 6896B/052a3cbd…를 source cb177ac8/tree dca05fe2에 결속했다. 최종 commit13파일(제품8·기록5)·최종9stream·앞 동치 제외6stream·최초 실패·정적 원형을 직접 읽은 한정 GO다. 보호18그룹92파일/helper5/seed2/W238·최종8제품blob exact, 사후 봉인10921B/8580069c…이다. 두 단위만 마감하며 현재CLAUDE/STATUS/제품·다른활성상태·과거판정은 metadata wrapper에서 불변이다.

@@ -1,0 +1,59 @@
+# ORDER-538 — 본편 세 번째 달의 격리 연결
+
+#### [~] ORDER-538 [P0·본편 연결] W9–W12 실제 후속·월말·저장 실패 경계
+
+**착수 — 2026-10-10 / 구현 전 선언.** 534 정상 입구 REWORK의 후속이며
+536의 첫8주 source GO를 기본 본편이나 M07 GO로 확대하지 않는다.
+DECISIONS 2026-08-24의 장면 행동 소유·자동 생활과 WORK_UNIT의 위임을 따른다.
+
+## 깊이 3문
+
+1. 없으면 내부 첫8주 뒤 현수와 실제 후속·세 번째 월말·저장 재시도가 끊긴다.
+2. 실제 W4/W8 선택과 W9 현수의 말이 원효과·관계·W24 예약으로 남는다.
+   주급·취업·지원 이력·새 영수증을 발명해 다음 달을 통과시키지 않는다.
+3. 현수에게 현재를 말하거나 꿈을 말하는 선택, 원래 사건 우선순위가 같은 시간을
+   경쟁한다. 고시원·구직·잔액 장면을 모두 한 주에 밀어 넣지 않는다.
+
+## 소유
+
+- root: scenes/MainGame.gd의 profile별 저장 재시도·pending 직접활동 비소모 차단·
+  새12주 profile의 demo bridge 제외, tools/audit_scope.json 기존 검사 등록 정합
+  (필요할 때만), 이 사양·큐/L3연속번호·WORK_LOG·CLAUDE 현재행·비저자 보고/판정 원장.
+- phone_cn_author: systems/FullStoryFlow.gd만. 기존8주 profile 불변·새 명시12주
+  profile·정확한 W9 후속 완독·profile별 범위·활동 pending 진행 차단.
+- cjk_wrap_diagnosis: tools/ManualSaveCheck.gd만. 기존8주 회귀 보존·새12주 실제 호출,
+  W9 cold/월초 once·현수2택·후속 미완 차단·W9/12 쓰기 실패와 W13 경계.
+- phone_independent_review: 비저자 source/raw 전수·보호 fresh·한정 최종 판정.
+- 원문/번역·GameState/SaveManager·StoryMode/StartMenu·demo/V2·JobSystem·밸런스·
+  project.godot·공개/사용자 저장·인간 원장·finish_run은 비소유다.
+
+## 이번 단위 계약 — 일회성
+
+- 기존 `--full-story-flow-preview`와 기존 저장 profile은 W8 완료/W9 경계를 유지한다.
+  fresh full+검증된 pre-autoload 격리에서 companion
+  `--full-story-flow-third-month-preview`까지 명시했을 때만 새12주 profile을 만든다.
+  옛8주 저장의 자동 승격·normal/demo/V2 활성화0, 손상 profile은 fail-closed다.
+- 실제 MainGame root와 StoryMode 후속을 그대로 쓴다. W9 현수 두 선택 모두의
+  `arc_chapter1_close`를 실제 완독해야 주가 닫힌다. 진입/선택 적용만으로 닫지 않는다.
+  새12주 profile에서는 demo narrative bridge가 이 본편 장면을 무언 적용하지 않는다.
+- 원래 한 주 한 독립 root·우선순위·조건·선택·효과·예약·주/월 정산 owner를 보존한다.
+  기존 승인 자동 생계/회복만 재사용하고 체납·압력·사망을 그대로 둔다.
+- pending 경마 직접활동은 계약 미구현 경계다. flag/선택/결과를 지우거나 완료로
+  위장하지 않고 continue/새 Main/중복 advance에서 계속 막는다. 활동 연결은 별도다.
+- profile별 최종 turn을 저장 실패 재시도 검증도 읽는다. 계산된 상태를 유지한 채
+  실패 동안 진행을 막고 쓰기만 재시도한다. 마지막12주 정산 뒤 W13에서 개발 경계로
+  멈추며 AP/계획판·demo회고·강제M07로 낙하하지 않는다.
+- 구직 불합격의 미생산 지원 이력·구제직 원고의 선행사실은 확인된 별도 원고 결함이다.
+  이번 연결 source GO를 그 문장의 사실/작품 품질 GO로 올리지 않는다.
+
+## 검증·판정
+
+- 기존8주 fixture 그대로 + 새12주 fresh actual-call 3경로·W9현수2택/후속·실제 월말3회,
+  W9 checkpoint disk cold/월3 once·주9→10/주12→13 실패·disk보존/새Main/RNG/retry,
+  W13 cold 경계·구profile 비승격·unknownprofile·pending 활동 비소모 차단.
+- 동일 process의 actual v4 cold는 별도 무인자 process 재개나 native 자연완독이 아니다.
+  컴파일/표적 저장·영향 정적·EN/한글·arc·context/queue/diff와 비저자 전수검수.
+  엔진은 기존 bootstrap/fresh HOME/XDG/namespace·marker·3stream 오류 scan을 쓴다.
+- 원 실패 보존, 새 실패0 전 마감0. 전체 감사/240주/누수 추적/비용·성능 도구 작업0.
+  원격 전체 CI·기본 full 활성화·534/M07·W13이후·원어민/인간/물리/청취·출시 HOLD다.
+  자동 통과는 도달/계약 증거이며 재미·깊이·문체 증거가 아니다. 새 설계 정본 규칙0.
