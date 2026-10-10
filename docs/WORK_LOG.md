@@ -2,6 +2,31 @@
 
 이전 기록은 [539 마감 전 원문](history/WORK_LOG_2026-10-10_pre_order539_close.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-11 — 실제 일한 이력·상철 첫 만남 뒤 경과시간 수리
+
+- [542](queue_active/ORDER-542.md) 4본문×5언어20잎의 질문/첫 시간구만 고쳤다.
+  고정 일자리 부재는 실제 상하차·임시 노동을 부정하지 않는다. W14→15를 두 주로
+  단정하지 않고 이후 어느 저녁으로 쓴다. 선택·결과·효과·직업·급여·라우팅 불변이다.
+- 수정 전 clean bed87f3/관련8파일 SHA exact와 정적19 exit0를 보존했다.
+  KO/EN 뒤 공식4잎×3locale export/check/import6회 PASS, 기존accepted개수
+  JA13159/CN14696/TW14696·옛307batch를 보존하고 correction12/batch1만 더했다.
+  source_revision은 선언HEAD이며 실제 수정KO commit으로 주장하지 않는다.
+- JA 첫 초안의 옛 호칭 실패/원초안은 보존했다. 옛 KO hash에만 적용되는 문화호칭
+  예외가 새 KO에는 적용되지 않아, 소유 질문 안의 부름만 あんた로 고쳐 통과했다.
+  checker/예외 확대0·모집단 축소0·기존JA invalid58 부채 감소 claim0이다.
+- 공식 import가 바꾼 JSON 들여쓰기는 원형으로 맞췄고 공식 수용과 semantic exact다.
+  다섯 제품 파일은 각각4줄만 다르며 다른 문장/행은 byteexact다. 대상 두 root는
+  공개 playable14·legacy visible72 범위 밖이나 frozen all_resources에 포함된
+  역사 원고다. 기존 공개 앱/PCK/ZIP/manifest·row/pin을 바꾸지 않았다.
+- release inventory content-scan 축에 두 root가 없으므로 새 trigger/지문 변화가
+  없으면 원장/생성보고 재생성0이다. 공유 M04 첫 만남 ‘3월 끝’은 아직 수리하지
+  않았다. 그 본편 전용 소비자와 M08 이후는 별도 범위다. 원어민·실제 변경화면/
+  인간·패드·전체 본편/출시 GO는 별개다. 자동 계약은 재미·깊이·문체 증명이 아니다.
+- 변경후 같은 표적19도 exit0/stderr0·새실패0, 원로그와 baseline/final 비교를
+  보존했다. JA invalid58→58/ZH0→0·모든group 카운터 불변, owned12 currentreceipt
+  일치·release inventory/생성보고 byteexact다. 비저자20잎 문안 예비 GO/추가retouch0이며
+  최종 clean 후보 판정은 별도로 결속한다. 메타데이터 정합 외 제품 검사 반복/전체감사0이다.
+
 ## 2026-10-10 — 실제 본편 7개월차·결과 저장 재개와 다음 달 전환
 
 - [534](queue_active/ORDER-534.md) 시도2는 clean98baf011/treebec8afe9의 새 full

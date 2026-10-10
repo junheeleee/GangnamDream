@@ -1,6 +1,6 @@
 # ORDER-542 — 본편 집주인·투자 길잡이 선행 문장 정합
 
-#### [~] ORDER-542 [P1·원고 정합] 기존4잎 × 5언어 — 수리 착수
+#### [~] ORDER-542 [P1·원고 정합] 기존4잎 × 5언어 — 공식수용·표적 PASS / 독립 후보 대기
 
 **착수 — 2026-10-11 / 부모534 실제 선행에서 확인한 결함 두 건.**
 월별 관측 기록 a1833da와 분리한 구현 범위다. 기존 M07 기능 검수를 반복하지 않는다.
@@ -49,3 +49,19 @@
 정확20잎·공식12교정·다른잎/gameplay/데모 불변·표적 새실패0·비저자 정확source
 GO만 닫는다. 자동 계약은 재미·깊이·문체의 증거가 아니다. 실제 변경화면/원어민/
 인간·패드·M08이후·전체본편/출시 GO는 별개다. 새 정본규칙0/실행지시 일회성.
+
+## 구현·표적 결과
+
+KO/EN8·KO직접JA/CN/TW12의20잎을 질문 또는 첫 시간구만 교정했다.
+JA 첫 질문의 옛 source-bound 호칭 예외 미적용 FAIL/초안을 보존하고, 소유 질문
+내 부름만 수정해 공식 check/import6회 PASS다. 번역기/예외/검사코드 변경0이다.
+공식 writer의 JSON 재포맷은 원형으로 정렬했으며 semantic exact, 각 파일4줄
+변경뿐이다. 기존307batch·accepted개수/키/순서·다른receipt는 exact이며 새batch1,
+기존receipt12 source/target 교정만 추가했다. 새coverage0·native/rendered OPEN이다.
+
+clean bed87f3 baseline19와 변경후 같은19 모두 exit0/stderr0, 새실패0이다.
+원 stdout/stderr/결과·전후SHA·final-comparison은 `.git/order542-qa-20261011/`에
+보존한다. final 검사 전후8파일도 exact다. JA invalid58→58/ZH0→0 및 각group
+카운터/원장부채 불변, owned12 currentreceipt/digest가 현재 원문/target과 맞는다.
+release inventory PASS·JSON/생성보고 byteexact라 불필요한 재생성0이다.
+독립20잎 품질·최종 clean source 판정은 별도로 결속한다. 실제 화면 재검수0이다.

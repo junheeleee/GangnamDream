@@ -53,7 +53,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-542 · 본편 집주인·투자 길잡이 선행 문장 정합 | [542](queue_active/ORDER-542.md) | 20언어잎 수리 착수 · 공개 데모 불변 |
+| 1 | [~] | ORDER-542 · 본편 집주인·투자 길잡이 선행 문장 정합 | [542](queue_active/ORDER-542.md) | 20잎·표적19 PASS · 독립 후보 판정 대기 |
 | 2 | [~] | ORDER-534 · 본편 M07 실제 앱 검수·정상 선행 | [534](queue_active/ORDER-534.md) | 실제 W25–29·저장/cold·보존 GO · 선행 문장3 REWORK/제품 HOLD |
 | 3 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
 | 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · 실제 저장·재개·월 복귀 GO/나머지 HOLD |

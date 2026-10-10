@@ -505,7 +505,7 @@
   {
     "id": "arc_invest_guidance",
     "title": "Make the Seed Money Work",
-    "description": "About two weeks after their first meeting, {name} returned to the Sinchon real-estate office. Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\nBefore answering, {name} looked at the man's hands. Hands that had worked.\nManual labor, night-guard shifts, real-estate gigs. Two buildings now.\n\n\"I am — but I don't know anything yet.\"\n\n\"That's the most honest answer there is.\" Im Sangchul smiled.\n\"Someone who knows nothing is the easiest to teach. It's the ones who pretend to know that are the problem.\"",
+    "description": "One evening after their first meeting, {name} returned to the Sinchon real-estate office. Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\nBefore answering, {name} looked at the man's hands. Hands that had worked.\nManual labor, night-guard shifts, real-estate gigs. Two buildings now.\n\n\"I am — but I don't know anything yet.\"\n\n\"That's the most honest answer there is.\" Im Sangchul smiled.\n\"Someone who knows nothing is the easiest to teach. It's the ones who pretend to know that are the problem.\"",
     "choices": [
       {
         "text": "\"How should I start?\" — ask in earnest",
@@ -523,8 +523,8 @@
         "bridge_summary": "After rejecting Sangchul's method, he wrote 'My way' in the notebook and left the line beneath it empty."
       }
     ],
-    "description_orthodox": "About two weeks after their first meeting, {name} returned to the Sinchon real-estate office. Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\n{name} left the cup where it was and looked first at the business card beside the handle. Its corners were worn. Three numbers had been written on the back in ballpoint pen.\n\n\"I am — but I don't know yet.\"\n\n\"That's the most honest answer there is.\" Im Sangchul smiled.\nHe did not pull the untouched cup back toward himself.",
-    "description_unorthodox": "About two weeks after their first meeting, {name} returned to the Sinchon real-estate office. Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\n\"Sure.\" {name} answered right away.\n\n\"Why?\"\n\nThat stung. Why. Too simple to call it the money; too long to explain if it was Gangnam.\n\n\"I haven't sorted it out yet.\"\n\n\"Let me know when you do.\" Im Sangchul smiled."
+    "description_orthodox": "One evening after their first meeting, {name} returned to the Sinchon real-estate office. Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\n{name} left the cup where it was and looked first at the business card beside the handle. Its corners were worn. Three numbers had been written on the back in ballpoint pen.\n\n\"I am — but I don't know yet.\"\n\n\"That's the most honest answer there is.\" Im Sangchul smiled.\nHe did not pull the untouched cup back toward himself.",
+    "description_unorthodox": "One evening after their first meeting, {name} returned to the Sinchon real-estate office. Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\n\"Sure.\" {name} answered right away.\n\n\"Why?\"\n\nThat stung. Why. Too simple to call it the money; too long to explain if it was Gangnam.\n\n\"I haven't sorted it out yet.\"\n\n\"Let me know when you do.\" Im Sangchul smiled."
   },
   {
     "id": "arc_opp_jiyeon_bunyang",
@@ -925,7 +925,7 @@
   {
     "id": "arc_rescue_job",
     "title": "The Goshiwon Owner's Meddling",
-    "description": "He ran into the goshiwon owner — the ajumma — in the hallway.\n\n'Not heading out to work these days, are you, young man?'\n\nIt was phrased as a question, but it was a confirmed fact. There's nothing that happens in this building the ajumma doesn't know.\n\n'There's a night shift open at the convenience store my nephew runs. It's not far either. You want it?'\n\nIt's no great position. But with his account in its current state, is this the time to be picky?",
+    "description": "He ran into the goshiwon owner — the ajumma — in the hallway.\n\n'You haven't found a regular job yet, have you, young man?'\n\nIt was phrased as a question, but it was a confirmed fact. There's nothing that happens in this building the ajumma doesn't know.\n\n'There's a night shift open at the convenience store my nephew runs. It's not far either. You want it?'\n\nIt's no great position. But with his account in its current state, is this the time to be picky?",
     "choices": [
       {
         "text": "Thank you. I'll start right away — convenience store night shift",
