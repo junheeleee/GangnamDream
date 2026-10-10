@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-534",
+  "attempt": "541retry",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "package",
+    "commit": "98baf0113f37b70f94a99e68bcdf234e3819897b",
+    "tree": "bec8afe9cee875034f0d7a5560803b9947d4fff6",
+    "manifest_sha256": "4d356732e31052a56323303f6b6b3b88e066cd61d5f8dbdc32b3e71dc9e01b9f"
+  },
+  "verdict": "REWORK",
+  "product_verdict": "HOLD",
+  "scope": "정상 fresh full M01–06 선행→M07 W25–28 실제 선택/결과·W25 slot1 수동저장/cold 복원→W29 첫 화면의 원시 증거와 패키지·보존 검수. 해당 기능/보존은 한정 GO이나 선행 산문3개가 실제 노동/날짜/간격과 충돌하므로 후보의 종합 품질은 REWORK다. 자연240주·다른 경로·본편/출시 GO가 아니다.",
+  "scoped_verdicts": {
+    "package_provenance": "GO limited",
+    "normal_full_ingress_and_M07_W25_to_W29_observed_path": "GO limited",
+    "slot1_result0_cold_resume_and_once_effects": "GO limited",
+    "sealed_population_preservation": "GO",
+    "three_confirmed_ingress_prose_findings": "REWORK",
+    "whole_product_and_release": "HOLD"
+  },
+  "method": {
+    "direct": "비저자는 CLAUDE·gangnamdream-dev·WORK_UNIT·현재534사양, 정상 Main/Story/FullStoryFlow 소비자와 해당 원문, build/package/pre-launch/native/cold/관찰 JSON·전체 원로그, 실제 격리 autosave/backup/slot1을 직접 읽었다. 기존 b.snapshot/source_state/file_record·c.snapshot만 재사용해 entry/first/cold/final/current의 전량을 비교했다. 앞 단계에서 ZIP/app/PCK 전payload/JSON675·서명/universal 원증거를 검수하고 최종 fresh에서는 같은 bytes/hash를 결속했다.",
+    "population": "root tracked3294·보호65그룹524파일·launch helper2·기존 helper5/seed2/W238/player33·과거280판정/Human/시도1 원형, app7/ZIP/PCK1880/JSON675, 첫 실행 및cold의 stdout/stderr/Godot·회전원본·저장 namespace 최종7파일 전량이다.",
+    "observation_boundary": "root가 KO1280×864 native CUA 입력과 실제 픽셀/독해를 관측했다. 독립자는 화면·소리·물리 조작을 보지 않았고 원 파일만 검수했다. observations.json은321 live REPL notes 전체가 아니라 ingress 요약과43 M07/cold 객체를 보존한다. 영속 PNG0이며 source/로그가 자연 완독 증거를 대신하지 않는다.",
+    "skill_effect": "기존 순수 reader·격리 환경·원본 보존·실제/합성/인간 증거 분리를 적용했다. 종료 앱을 재선택하지 않고 읽기 전용 process/log로 종료를 확인했다. 새 checker/engine/UI/저장 편집·whole audit·기능 재실행0이다. final fresh 후 허용된 새 보고/manifest2파일만 작성했다."
+  },
+  "identity": {
+    "build_checkout": "/Users/junheelee/.codex/worktrees/full-m07-541retry/GangnamDream",
+    "build_source_clean": true,
+    "root_entry_source": "9ed5429349b7a9c636eb23fdd50dfaa616a0a9c4/tree d7c93ddc1e15dee7763c7b503134e3e90d4b6029; ORDER-534.md만 미커밋인 실행 전 월별 범위기록. root를 clean build source라고 부르지 않는다.",
+    "app": "/private/tmp/gd-full-m07-541retry-s5_4x9sv/app/GangnamDream.app",
+    "flavor": "full/legacy/v0.1.0-dev/BUILD2026.08.24.5/save4/features=none",
+    "package_manifest": "docs/agent_reviews/ORDER-534-541retry-manifest.json",
+    "manifest_copy": "private package.json3781B의 byteexact 사본. 발급 당시 scope/unobserved는 고치지 않았으며 이후 관측은 이 보고에만 기록한다.",
+    "build_manifest_sha256": "a38312ed49f492d29afcd5807cbc1c0fac70aa43bdf18a8949914a376e312374",
+    "zip": {"bytes": 429272332, "sha256": "b75adef4f9315c4feea85ca3c9afc9db5fd1c12ffafa9938a8c5e75d89351d02"},
+    "pck": {"bytes": 391073656, "sha256": "98623d562682a7a8bb67c47bb8171e9603401a9c3913df6b3556418e07051080", "entries": 1880, "content_json_exact": 675, "icu_member_present": false},
+    "verification": "기존 build.sh macos 그대로의 실제 import/export exit0. ZIP 논리7↔app7 전체 일치(AppleDouble11 metadata는 별도), PCK 안전directory/전체digest/JSON675 exact. codesign strict0·universal x86_64/arm64 원출력을 확인했다. import/export nested-project warning은 보존하며 엔진 거울을 독립 결함으로 합산하지 않는다. ad-hoc 내부 개발 발급이며 notarization/RC/외부배포 승인이 아니다. ICU 미포함·KO-only이며 successor CJK GO 불승계."
+  },
+  "execution": {
+    "first": {"pid_root_recorded": 7175, "parent_root_recorded": 7165, "exit_code": 0, "seconds": 5516.209934},
+    "cold": {"pid_root_recorded": 8589, "parent_root_recorded": 8584, "exit_code": 0, "seconds": 666.675177},
+    "environment": "두 프로세스 모두 동일 exact binary 무인자/동일 cwd·HOME/XDG 환경. 실제 user://는 sandbox/home/Library/Application Support/Godot/app_userdata/강남드림이다. 사용자/데모 save 복사·상태주입0. 첫 종료 뒤 Godot log154B를 cold1/first-native.godot.log로 보관한 뒤 cold 실행했다.",
+    "logs": {"each_stdout_and_Godot_bytes": 154, "sha256": "6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1", "each_stderr_bytes": 0, "native_error_warning_leak_lines": 0},
+    "log_scope": "양쪽 원 stdout/stderr와 첫 Godot 사본/current/회전 Godot를 전체 읽어 bytes/SHA와 오류/경고/leak0을 직접 확인했다. 일반 full 앱 로그이며 successor native-entry/QA marker를 요구하거나 발명하지 않는다.",
+    "shutdown": "독립 ps에서7175/7165/8589/8584 및 같은 private executable 부재, user editor61385 생존을 확인했다. root는 종료 뒤 binding/AX/screenshot 재접근0이라고 기록했다. 독립 UI 재활성화0이다."
+  },
+  "actual_path_and_saves": {
+    "root_observed": "정상 새 이야기 선행에서W25 현수 fail의 실제 choice0→결과 첫문단 후 slot1 UI저장/토스트/metadata→정상CmdQ. 별도 cold title→Load Game→slot1에서 같은 결과 첫문단/health56/mental90/cash 약−140만원 복원. 나머지 결과 완독→W26 재혁 reunion choice0/결과→조용한W27→W28 상철 coffee choice0/결과→W29 첫문단까지만 정상CmdQ. 첫 실행 선행은 데모 검수나 합성 fixture로 세지 않는다.",
+    "slot1": {"bytes": 109605, "sha256": "8dd1c37f7a2396a5a3114c6aaf21e2a41a78d93f92e6c9bf308330bd1399ea1d", "first_cold_entry_final_bytes_exact": true, "qa_fixture": false, "turn": 25, "money": -1397700, "health": 56, "mental": 90, "event_id": "hyunsu_result_fail", "phase": "result", "paragraph_index": 0, "pending_result_choice_index": 0, "story_locale": "ko", "was_typing": false},
+    "cold_contract": "slot1 dialogue/result context는 '한참 후에 문이 열렸다.' 완문/진행1.0이다. 적용 event tuple은 hyunsu_result_fail/choice0/turn25이며 cold 이후에도 정확1개다. root의 mental89→90은 원 choice+1과 맞고 복원 시90 유지다. 독립자는 디스크 context·효과·영수증을 확인했으며 실제 cold 픽셀을 직접 봤다고 쓰지 않는다.",
+    "final_autosave": {"bytes": 116693, "sha256": "d1cd6c477e74758111602d99e2bd4af02dd7f39a489727ee562a35d740bed144", "turn": 29, "year": 2026, "month": 8, "week_of_month": 1, "money": -1767700, "health": 54, "mental": 89, "resume": {}, "is_game_over": false},
+    "flow": "full_story_flow profile/schema1·last_completed_turn28·chain{}; 실제 read/apply tuple은25 hyunsu_result_fail0,26 arc_jaehyuk_01_reunion0,28 arc_sangchul_02_coffee0. routine/completed25·26·27·28 각각1개·연속 next_turn, 각 자동생계 cash+70000 및 health/mental clamp before/after와 일치한다. W27 read 없음은 정상 routine-only다. W29부터 추가선택0이며 M08 월초경제까지 완료했다고 주장하지 않는다.",
+    "backup": {"bytes": 113393, "sha256": "6d16bf7d61197f108cf4fab46e1a52f57f353c621f91e110fd974f22b0f8db13", "turn": 28, "last_completed_turn": 27},
+    "limitations": "W6 intended Down과 실제 coffee option3, W13 intended option1과 실제 refusal option2는 불일치한 입력 관측으로 보존한다. timer/input 원인 미확정이며 actual saved choice만 판정한다. W27 별도 화면 관측은 없다. 루트 전체 timing/선택신뢰성 또는 다른 분기 GO가 아니다."
+  },
+  "confirmed_quality_findings": [
+    {"id": "RESCUE_JOB_NO_WORK_ASSERTION", "verdict": "REWORK", "source": "content/events/arc_events.json:2946 / scenes/MainGame.gd:7761", "evidence": "'총각, 요즘 일 안 나가지?'를 서술자가 사실확인이라고 단정한다. 현재 조건은 formal current_job 없음뿐이며 실제 선행 상하차/야간노동·자동생계를 부정하지 못한다. actual event_log W13 rescue choice1을 확인했다."},
+    {"id": "FIRST_SANGCHUL_FIXED_MARCH", "verdict": "REWORK", "source": "content/events/arc_events.json:317 / scenes/MainGame.gd:7825", "evidence": "description 및 성향변주330/331의 '3월 끝'과 실제W14/4월2주가 충돌한다. selector는 절대turn>=10만 확인한다."},
+    {"id": "GUIDANCE_TWO_WEEK_GAP", "verdict": "REWORK", "source": "content/events/arc_events.json:503 / scenes/MainGame.gd:7829", "evidence": "description 및 성향변주545/546의 '첫 만남에서 두 주쯤'과 실제 saved meetingW14→guidanceW15가 충돌한다. selector는turn>=12+seen일 뿐 first-meeting 이후2주를 검증하지 않는다."}
+  ],
+  "unconfirmed_notes": "common-kitchen prose/hallway background, mixed-speaker result의 Minjun nameplate, '첫 혼자 방문'의 감정적 의미 가능성은 root 메모로만 보존한다. 독립 픽셀/충분한 문맥 없이 새 확정 결함으로 승격하지 않았다.",
+  "preservation": {
+    "private_final": {"path": ".git/order534-live-541retry-20261010/independent-final.json", "bytes": 9104, "sha256": "2348ea98432f7736d2d9cceadd95794d0e2583ef8b5d5de0f40573b20a7ad110"},
+    "result": "pre-launch→first→cold-pre→cold-after→독립fresh의 보호65/524파일·tracked3294·helper2와 package/app/ZIP/PCK/manifest exact. 기존c.snapshot helper5/seed2/W238/player33도541 baseline exact. 최종 실제 namespace7파일=current이고 first-exit6파일=cold-entry6파일이다. 첫 entry files0은 root 봉인이며 독립자는 launch후 fresh였으므로 독립 files0 admission이라고 부르지 않는다.",
+    "history": "과거 agent280·Human·public/player와 옛534 raw/build/sandbox 및 실패 report/manifest 전bytes exact. 기존 ORDER-534.json(df2dc140…)·ORDER-534-manifest.json(a2ca997…)은 덮지 않았다. 시도1의 >=2launch/retail log delta/격리 REWORK는 이번 정상 시도로 소급 삭제하지 않는다.",
+    "freeze_boundary": "2026-10-10T14:52:35Z private fresh 봉인 뒤 root에 기록문서 작업 동결해제를 회신했다. 그 이후 새 보고/byteexact manifest만 작성했으며 source/ops/ledger/save는 비소유다."
+  },
+  "raw_evidence": {
+    "base": ".git/order534-live-541retry-20261010",
+    "pre-launch.json": "42192df43a23876788891bf913a1acac29a557efb514a24b60a0323b50d0a377",
+    "native-result.json": "4e994a75e9f383d4a193954757131220116496dc6c37bbe59f74c4fd15745955",
+    "cold1/pre.json": "032d1ffa45ab6b7661488501807a5b7922098b74af06c00147f89731ed85e126",
+    "cold1/result.json": "f2b139a84e339690786dcac6aa723545b088be7b929e8021f691303e6006d4dc",
+    "build-result.json": "92fa60747a757f19baf250257afbbf203a6b050f431ea01a27b7cc5577ff9df5",
+    "observations.json": "cd5903977a39e063ae6791078512e2f2490b53f96fdfa81bbf4780d079e20b8c",
+    "observations_retention": "11934B; root43 M07/cold 객체+정상입구요약,321 live notes 전체의 bytecopy 아님"
+  },
+  "unobserved": ["independent_pixels", "persistent_PNG", "all321_live_note_objects", "other_locales_branches_resolutions", "M08_choice_or_later_months", "natural240_week_completion", "native_reader", "human_playtest", "physical_controller_feel", "continuous_audio_listening", "full_CI_and_release"],
+  "final_boundary": "M07의 관측 경로·정상 slot1 cold·봉인 보존은 기능 한정 GO다. 확인된 ingress3문장은 REWORK이며 본편 제품/외부 출시 HOLD다. 자동 계약·원문/파일 검수는 재미·깊이·문체·실제 인간 승인의 증명이 아니다. 새 수리/재발급/다음 월 실행 권한이나 과거 판정 변경을 이 보고에서 추론하지 않는다."
+}

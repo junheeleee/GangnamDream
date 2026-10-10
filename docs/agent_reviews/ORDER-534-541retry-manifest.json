@@ -1,0 +1,111 @@
+{
+  "unit": "ORDER-534",
+  "attempt": "541retry",
+  "scope": "internal full package provenance only; native M07 and release not approved",
+  "source": {
+    "head": "98baf0113f37b70f94a99e68bcdf234e3819897b",
+    "tree": "bec8afe9cee875034f0d7a5560803b9947d4fff6",
+    "status": ""
+  },
+  "zip": {
+    "path": "/Users/junheelee/.codex/worktrees/full-m07-541retry/GangnamDream/build/macos/GangnamDream.zip",
+    "sha256": "b75adef4f9315c4feea85ca3c9afc9db5fd1c12ffafa9938a8c5e75d89351d02",
+    "size": 429272332
+  },
+  "manifest": {
+    "path": "/Users/junheelee/.codex/worktrees/full-m07-541retry/GangnamDream/build/macos/MANIFEST.sha256",
+    "sha256": "a38312ed49f492d29afcd5807cbc1c0fac70aa43bdf18a8949914a376e312374",
+    "size": 464
+  },
+  "app": {
+    "label": "new_app",
+    "path": "/private/tmp/gd-full-m07-541retry-s5_4x9sv/app/GangnamDream.app",
+    "exists": true,
+    "entries": [
+      {
+        "path": "Contents/Info.plist",
+        "kind": "file",
+        "sha256": "091169de1ad20197ec07e69f5588a0a3fce562e7eba15d3938d8cdfe9d5ce7fb",
+        "size": 1797
+      },
+      {
+        "path": "Contents/MacOS/GangnamDream",
+        "kind": "file",
+        "sha256": "4c220f2bb9ee475f63de12228851fdee4ae3066b1ae3e9b36356aff496189d13",
+        "size": 184222304
+      },
+      {
+        "path": "Contents/PkgInfo",
+        "kind": "file",
+        "sha256": "7e50a30efad50208a173203ced60818d693bb61266b75aa10927d1a2adce80cb",
+        "size": 9
+      },
+      {
+        "path": "Contents/Resources/GangnamDream.pck",
+        "kind": "file",
+        "sha256": "98623d562682a7a8bb67c47bb8171e9603401a9c3913df6b3556418e07051080",
+        "size": 391073656
+      },
+      {
+        "path": "Contents/Resources/PrivacyInfo.xcprivacy",
+        "kind": "file",
+        "sha256": "0535353bb08c25b8ce5ed9ac7e442a5994f402e0f6cbc4bed668cfc63c2ceac3",
+        "size": 229
+      },
+      {
+        "path": "Contents/Resources/icon.icns",
+        "kind": "file",
+        "sha256": "14ccaeef56a52d52af211adce6d6c5b330cafa6c29dc928659b4369ebcef0a28",
+        "size": 2550174
+      },
+      {
+        "path": "Contents/_CodeSignature/CodeResources",
+        "kind": "file",
+        "sha256": "2e2cd25dce010745d49655cc1e4e4d996923873ff4448b5a1ebb13527f1e4bd0",
+        "size": 2926
+      }
+    ]
+  },
+  "pck": {
+    "file": {
+      "path": "/private/tmp/gd-full-m07-541retry-s5_4x9sv/app/GangnamDream.app/Contents/Resources/GangnamDream.pck",
+      "sha256": "98623d562682a7a8bb67c47bb8171e9603401a9c3913df6b3556418e07051080",
+      "size": 391073656
+    },
+    "header": {
+      "format_version": 3,
+      "engine_version": [
+        4,
+        6,
+        2
+      ],
+      "flags": 2,
+      "base_offset": 112,
+      "directory_offset": 390901424,
+      "entry_count": 1880
+    },
+    "content_json_exact": 675,
+    "icu_member_present": false
+  },
+  "sandbox": "/private/tmp/gd-full-m07-541retry-s5_4x9sv",
+  "app_path": "/private/tmp/gd-full-m07-541retry-s5_4x9sv/app/GangnamDream.app",
+  "argv": [
+    "/private/tmp/gd-full-m07-541retry-s5_4x9sv/app/GangnamDream.app/Contents/MacOS/GangnamDream"
+  ],
+  "environment": {
+    "HOME": "/private/tmp/gd-full-m07-541retry-s5_4x9sv/home",
+    "XDG_DATA_HOME": "/private/tmp/gd-full-m07-541retry-s5_4x9sv/xdg-data",
+    "XDG_CONFIG_HOME": "/private/tmp/gd-full-m07-541retry-s5_4x9sv/xdg-config",
+    "XDG_CACHE_HOME": "/private/tmp/gd-full-m07-541retry-s5_4x9sv/xdg-cache",
+    "GODOT": "/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot"
+  },
+  "actual_user_data_path": "/private/tmp/gd-full-m07-541retry-s5_4x9sv/home/Library/Application Support/Godot/app_userdata/강남드림",
+  "unobserved": [
+    "native_M07",
+    "human_playtest",
+    "native_reader",
+    "physical_controller_feel",
+    "audio_listening",
+    "release"
+  ]
+}
