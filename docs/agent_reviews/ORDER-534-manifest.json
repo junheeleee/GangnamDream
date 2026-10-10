@@ -1,0 +1,83 @@
+{
+  "unit": "ORDER-534",
+  "scope": "internal full macOS package provenance only; runtime/month/release not approved",
+  "source": {
+    "commit": "3e6f8e7f1e6c7c64459fda7d7668e1de4551c825",
+    "tree": "bd139504f71698bcbb7a2dbb6cc837fa8c5df5d6",
+    "status": ""
+  },
+  "build_id": "2026.08.24.5",
+  "build_flavor": "full",
+  "save_namespace": "legacy",
+  "manifest": {
+    "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order534-live-20261010/MANIFEST.sha256",
+    "sha256": "0762ef94e4297d91f36c39fa680eb326cd46621b42d0444396d65512419aca4b",
+    "size": 464
+  },
+  "zip": {
+    "path": "/Users/junheelee/.codex/worktrees/full-m07-local/GangnamDream/build/macos/GangnamDream.zip",
+    "sha256": "596a9b02286727a99ddbe9cf177b69994c19669614efde9ad5217d08e9ca403e",
+    "size": 429227794
+  },
+  "app": {
+    "Contents/Info.plist": {
+      "sha256": "091169de1ad20197ec07e69f5588a0a3fce562e7eba15d3938d8cdfe9d5ce7fb",
+      "bytes": 1797
+    },
+    "Contents/MacOS/GangnamDream": {
+      "sha256": "01a4c75a3e63038b9c2a72cffc880b9400daf010252d669972d5fa8183f98208",
+      "bytes": 184222304
+    },
+    "Contents/PkgInfo": {
+      "sha256": "7e50a30efad50208a173203ced60818d693bb61266b75aa10927d1a2adce80cb",
+      "bytes": 9
+    },
+    "Contents/Resources/GangnamDream.pck": {
+      "sha256": "2b9fe24a5330f990b726015976bc6a40035ab6532a679bb34f1d3e8604a471d1",
+      "bytes": 391031052
+    },
+    "Contents/Resources/PrivacyInfo.xcprivacy": {
+      "sha256": "0535353bb08c25b8ce5ed9ac7e442a5994f402e0f6cbc4bed668cfc63c2ceac3",
+      "bytes": 229
+    },
+    "Contents/Resources/icon.icns": {
+      "sha256": "14ccaeef56a52d52af211adce6d6c5b330cafa6c29dc928659b4369ebcef0a28",
+      "bytes": 2550174
+    },
+    "Contents/_CodeSignature/CodeResources": {
+      "sha256": "f2a751f7c6d8b4641231adc698eea3ad8727c2acb169906b279a9d19e3abea51",
+      "bytes": 2926
+    }
+  },
+  "pck": {
+    "file": {
+      "path": "/private/tmp/gd-full-m07-uTlRp5/app/GangnamDream.app/Contents/Resources/GangnamDream.pck",
+      "sha256": "2b9fe24a5330f990b726015976bc6a40035ab6532a679bb34f1d3e8604a471d1",
+      "size": 391031052
+    },
+    "header": {
+      "format_version": 3,
+      "engine_version": [
+        4,
+        6,
+        2
+      ],
+      "flags": 2,
+      "base_offset": 112,
+      "directory_offset": 390858960,
+      "entry_count": 1878
+    },
+    "entries": 1878,
+    "content_json_exact": 675,
+    "icu_member_present": false
+  },
+  "unobserved": [
+    "no_argument_boot",
+    "M07",
+    "human_playtest",
+    "native_reader",
+    "physical_controller_feel",
+    "audio_listening",
+    "release"
+  ]
+}

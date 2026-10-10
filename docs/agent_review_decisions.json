@@ -11400,6 +11400,59 @@
         "path": "docs/queue_archive/ORDER-533_L1_L2_RESULTS.md",
         "sha256": "9f7dbe23b4abf20279fdb91b61101132a3ccb99f4ff17316eca99c509efa850d"
       }
+    },
+    {
+      "id": "order-534-full-ingress-isolation-rework-m07-hold",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-534",
+      "subject": {
+        "kind": "package",
+        "commit": "3e6f8e7f1e6c7c64459fda7d7668e1de4551c825",
+        "tree": "bd139504f71698bcbb7a2dbb6cc837fa8c5df5d6",
+        "manifest_sha256": "a2ca997db9ecccf8e4c1bcc2aa64454e99f2cad6f00559cc99e2081df0260b97"
+      },
+      "verdict": "REWORK",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-534.json",
+          "sha256": "df2dc1404db76c77cc780cb761f603a010cfab0ba5a1891f864062a31257f3b3"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-534.json",
+          "sha256": "df2dc1404db76c77cc780cb761f603a010cfab0ba5a1891f864062a31257f3b3"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-534-manifest.json",
+          "sha256": "a2ca997db9ecccf8e4c1bcc2aa64454e99f2cad6f00559cc99e2081df0260b97"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_audio_listening",
+        "independent_pixels_and_persistent_PNG",
+        "AP_surface_or_action",
+        "full_M01_completion",
+        "M07_W25_to_W29",
+        "durable_full_save_and_cold_resume",
+        "other_locales_branches_resolutions",
+        "unexpected_second_process_exit_code_and_proven_cause",
+        "full_main_CI_completion",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-534.json",
+        "sha256": "df2dc1404db76c77cc780cb761f603a010cfab0ba5a1891f864062a31257f3b3"
+      }
     }
   ]
 }

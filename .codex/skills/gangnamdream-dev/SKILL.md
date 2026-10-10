@@ -75,6 +75,8 @@ Several checks are ratchets with a recorded baseline: `surface_coherence_audit`,
 
 Use only relevant ScreenshotQA scopes while iterating. Treat automated visual/audio checks as contract evidence, not human taste approval.
 
+After quitting an isolated native app, do not reselect/reactivate its UI binding: that can relaunch it without the isolated environment. Confirm exit with read-only process/log checks instead.
+
 For headless Godot checks, require the exact success marker **and** scan both stdout and the Godot log for parse/script/engine errors. Godot may exit `0` or print a late marker after a script error, so exit status or marker alone is not evidence.
 
 Even `--check-only` can touch the real recovery lock and cannot validate autoload-dependent fixtures alone; use the proven pre-autoload isolated bootstrap for project checks, never a late Node `_ready()` override or an unisolated parse shortcut.

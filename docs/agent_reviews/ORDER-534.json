@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-534",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "package",
+    "commit": "3e6f8e7f1e6c7c64459fda7d7668e1de4551c825",
+    "tree": "bd139504f71698bcbb7a2dbb6cc837fa8c5df5d6",
+    "manifest_sha256": "a2ca997db9ecccf8e4c1bcc2aa64454e99f2cad6f00559cc99e2081df0260b97"
+  },
+  "verdict": "REWORK",
+  "product_verdict": "HOLD",
+  "scope": "정상 full 개발 패키지 발급과 새 이야기 입구 일부의 증거 검수. 패키징은 한정 GO이나 비격리 재실행에 따른 사용자 로그 변경으로 전체 격리·보존 REWORK. StoryMode-only 본편 입구 연결 REWORK, M07 W25–W29 실제 월 검수 HOLD.",
+  "method": {
+    "independence": "root가 빌드·프로세스 실행·native CUA 입력/픽셀 관측을 수행했다. 비저자는 사양·정본·정상 진입/반환 코드·원문·원 JSON/로그·ZIP/app/PCK를 직접 읽고 기존 pure reader 및 snapshot 함수로 비교했다. 엔진·CUA·게임 입력·저장/상태 편집·원로그 복원0. 최종 fresh 회신 후 이 보고서 한 파일만 작성했다.",
+    "population": "import/export/run 영수증과 원로그, manifest/package/launch/pre-launch/after/after2/관찰/경로정정/재실행사고, detached build source, root tracked3274/helper5/seed2/W238/player33 및 보호62 전량. ZIP 논리7파일/app7, PCK1878 전 payload digest와 content JSON675 원바이트를 대조했다.",
+    "direct_observation_limit": "root 관찰은 KO 정상 창1280×864와 프롤로그 일부다. 독립 픽셀·영속 PNG·인간·원어민·물리 패드·연속 청취 증거0. 원문/코드/로그는 실제 화면 완독이나 M07 도달을 대신하지 않는다.",
+    "verification_limit": "새 checker/runner·whole audit·이미 완료한 데모 월 검수·엔진 재실행0. 기존 함수의 읽기 전용 호출과 codesign verify/lipo 읽기만 수행했다. 종료된 앱을 CUA로 다시 접근하지 않았다."
+  },
+  "package": {
+    "source_checkout": "/Users/junheelee/.codex/worktrees/full-m07-local/GangnamDream",
+    "source_state": "detached clean3e6f8e7/treebd139504를 발급 전·최종 출구에서 직접 확인. root main은 같은 HEAD이나 큐2개 dirty/534 사양 untracked였고 clean이라고 부르지 않는다.",
+    "identity": "full / legacy / v0.1.0-dev / BUILD2026.08.24.5 / save_version4 / features=none. 기존 build.sh macos를 수정 없이 실행한 내부 개발 산출물이며 최신 full-rc 날짜/출시 게이트 통과가 아니다.",
+    "app": "/private/tmp/gd-full-m07-uTlRp5/app/GangnamDream.app",
+    "manifest": ".git/order534-live-20261010/MANIFEST.sha256",
+    "manifest_bytes": 464,
+    "build_manifest_sha256": "0762ef94e4297d91f36c39fa680eb326cd46621b42d0444396d65512419aca4b",
+    "package_manifest": "docs/agent_reviews/ORDER-534-manifest.json",
+    "package_manifest_assessment": "private package.json 2609B를 byteexact 보관한 JSON이며 subject.manifest_sha256과 같다. 발급 당시 unobserved 값은 그대로이고 이후 실제 관측 성공을 소급 기입하지 않았다. 문자형 빌드 manifest0762ef94…와 구분한다.",
+    "zip": {
+      "path": "/Users/junheelee/.codex/worktrees/full-m07-local/GangnamDream/build/macos/GangnamDream.zip",
+      "bytes": 429227794,
+      "sha256": "596a9b02286727a99ddbe9cf177b69994c19669614efde9ad5217d08e9ca403e"
+    },
+    "pck": {
+      "bytes": 391031052,
+      "sha256": "2b9fe24a5330f990b726015976bc6a40035ab6532a679bb34f1d3e8604a471d1",
+      "entries": 1878,
+      "content_json_exact": 675,
+      "icu_member_present": false
+    },
+    "verified": "app7↔ZIP 논리7의 전체 bytes/SHA 일치, PCK directory 안전성·전 payload digest·content JSON675가 detached source와 일치. codesign --verify --deep --strict exit0, lipo x86_64/arm64. 원 manifest의 source/version/ZIP SHA 결속. ad-hoc 서명은 notarization/배포 승인이 아니다. ICU 미포함을 숨기지 않으며 기존 successor CJK 표시 개선 GO를 승계하지 않는다.",
+    "verdict": "GO limited: provenance/package only"
+  },
+  "runtime_evidence": {
+    "original_isolated_run": {
+      "pid": 195,
+      "parent_pid": 194,
+      "argv": ["/private/tmp/gd-full-m07-uTlRp5/app/GangnamDream.app/Contents/MacOS/GangnamDream"],
+      "exit_code": 0,
+      "elapsed_seconds": 929.545403,
+      "stdout_and_actual_home_log_bytes": 154,
+      "stdout_and_actual_home_log_sha256": "6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1",
+      "stderr_bytes": 0,
+      "log_errors_warnings_leaks": 0,
+      "helper_exit_code": 1,
+      "helper_failure": "ValueError: Godot log absent: run. 실행기의 기대 XDG 경로 오지정이며 원 게임 exit0와 별개다. launch/run-command를 고치지 않고 실제 HOME 로그를 별도 원증거로 결속했다."
+    },
+    "actual_namespace": "/private/tmp/gd-full-m07-uTlRp5/home/Library/Application Support/Godot/app_userdata/강남드림",
+    "namespace_assessment": "sandbox67→70항목은 HOME meta/settings/godot.log 3파일 추가뿐이다. 기존 app/캐시/템플릿 symlink는 동일하다. XDG쪽 게임 파일0. 일반 save/slot/autosave는 미생성이므로 durable 저장·cold resume 성공 증거가 없다.",
+    "root_observed_scope": "KO 선택→정상 타이틀/Continue 비활성→새 이야기→내용 notice→OpeningCinematic 자동전환→MainGame의 story_flashforward/arrival/knee_door/knee_witness. witness 결과3에서 정상 CmdQ. cash500000/health65/mental60→58/잔여60개월. 단일행동 arrival0/door0/witness0만 수행했고 다중선택·AP행동·월정산·수동저장0. 관찰2958B/595b404f…는 원격리 실행만의 root 기록이며 전체 process1회 증거가 아니다.",
+    "source_correspondence": "story_events.json의 witness0만 mental−2이며 follow_up은 story_knee_choice다. root의58과 마지막 '같은 문장이 한 번 더…'는 원문과 맞는다. 표시 페이지는 StoryMode._story_page_data의 분할을 거쳐 원문 문단 수와 동일시하지 않는다. 미재생 다음 장면을 관측했다고 쓰지 않는다."
+  },
+  "confirmed_findings": [
+    {
+      "id": "FULL_NORMAL_INGRESS_STILL_ROUTES_TO_GENERIC_AP",
+      "verdict": "REWORK",
+      "evidence": "project.godot main은 SplashScreen이며 Splash→StartMenu._do_start_run→OpeningCinematic→MainGame이 정상 경로다. 무인자 full은 DemoCoreLoopV2를 강제 활성화하지 않는다. StoryMode._finish_all→MainGame._continue_after_story(515)는 남은 전경 이야기를 처리한 뒤 _demo_director_route_week(11664)로 돌아간다. decision/boss에 commit이 없으면 _render_ap_actions(10205)→_render_scene_first_decision(10343)의 일반3택으로 연결된다. event_director.json W1은 decision이지만 commitment_event_owners에 W1은 없다. StoryMode6377/6473은 명시 contract가 있을 때만 story 주간 commit을 기록한다.",
+      "boundary": "정상 full의 source 경로 확인이며 AP 표시/입력 실제 관측이 아니다. root는 이 연결을 확인하고 선행 플레이를 중지했다. M01완료·W25도달·M07월정산은 미달이므로 HOLD다. 코드/기존 save를 여기서 수리하지 않았다."
+    },
+    {
+      "id": "UNEXPECTED_UNISOLATED_SECOND_PROCESS_CHANGED_RETAIL_LOGS",
+      "verdict": "REWORK",
+      "evidence": "원격리 PID195 정상 종료 뒤 root가 동일 private app의 PID652/PPID1·15:21:51 시작·retail godot.log FD3w를 ps/lsof로 관측했다고 별도 incident에 기록했다. 기존 godot.log167B/SHA53a48e3c…는 15.21.51.log로 byteexact 순환, 현재 godot.log0B, 2026-09-07T12.49.18.log181B/SHA9ca5cfc2…는 소실됐다. before→after→after2→fresh의 retail 로그 차이를 직접 확인했다. retail 비로그28파일은 전체 bytes 불변이다.",
+      "boundary": "총 기동은 최소2회다. PID652 ps/lsof는 root 재전사이며 원출력 캡처가 아니고 CUA 재활성화 원인은 유력 추정으로 남긴다. 652의 실제 exit code는 미관측/null이다. root가 exact PID만 SIGTERM했고 독립 ps에서194/195/652부재·editor61385생존을 확인했다. 사용자 save 변경이나 게임 손실 증거0이나 전체보호 불변/완전격리 PASS로 올릴 수 없다. 소실181B 로그 원bytes 미회수, 복원/수동삭제0."
+    }
+  ],
+  "final_fresh_preservation": {
+    "source": "pre-launch.source=after.source=after2.source=fresh source_state이며 tracked3274 전pin 불변이다. 기존 continue.snapshot을 읽기 전용 재호출해 helper5/seed2/W238/player33을 직접 확인했다.",
+    "protected": "62항목 전체를 기존 builder.snapshot으로 다시 계산했다. current=after2, after→after2도 전항목 일치다. pre-launch 대비61항목 exact이고 retail1항목만 위 로그 차이가 있다. retail 비로그28exact. public/옛candidate/옛raw/seed/Human/옛root macOS ZIP 등 다른61항목은 불변이다. protected_unchanged=false를 유지한다.",
+    "runtime": "current=sandbox after2 전체70항목이며 옛67항목 모두 동일하다. HOME 게임3파일만 추가됐다. package는 앞의 실물 검수와 source 결속을 유지한다.",
+    "untracked_spec": "ORDER-534.md는 최종3933B/SHA188b108ae2af4b3a93423a8319a22c6ef22c94923765487bf89c689449047f57과 current가 일치한다. 실행 전 직접 읽었지만 pre-launch에 이 untracked 파일 raw pin은 없어 entry→exit bytes 불변 기계증명에 포함하지 않는다.",
+    "freeze_release": "이상을 숨기지 않은 최종 endpoint 봉인을 완료했으므로 기록문서 갱신만의 동결 해제는 가능하다. 전체보호 불변 GO/다음 실행 허가가 아니다."
+  },
+  "raw_pins": {
+    "base_directory": ".git/order534-live-20261010",
+    "package.json": "a2ca997db9ecccf8e4c1bcc2aa64454e99f2cad6f00559cc99e2081df0260b97",
+    "import-command.json": "7c670383ac3eb20289c9db2f9d1e24e0b388727338746e0f7fbb122c9124aa40",
+    "export-command.json": "5e5a7d520e6a4968d164438904460383fb94d53f878e04558a5c10502bf9f60a",
+    "launch.json": "ededf1da6d46d2dcf2485286b5b0c82216c258727ac8a8b71338b3747691dc3a",
+    "pre-launch.json": "eabdda4a9c76bbdbb76285fd548795979046c23182b96075dad52253c10b23b1",
+    "run-command.json": "cb9afdf5f5725ee1544423406ee2e9e8480cd954cfad5496f1c0304a92b28008",
+    "observations.json": "595b404ffba541e4bceccc796a1daf7d9329bbdb58065c8855c68faf293ff615",
+    "log-path-correction.json": "cdc5e2f6d77e3e1a766028dd30b381d33334de07658a581be2147331c9824986",
+    "after.json": "2debcf1849551186f0e94ad6791f41682bcdd7973fed40c063bd1ae8343d5aa7",
+    "after2.json": "306a407fb4388b6d572060feb3c9246d5e9ecdbe8030484042c0f34a56623f37",
+    "relaunch-incident.json": "0c918f9c4d5ed0652074ec075bb21c5dc355bfd07e56596d81c6cc69080c37c0"
+  },
+  "unobserved": [
+    "independent_pixels",
+    "AP_surface_or_action",
+    "full_M01_completion",
+    "M07_W25_to_W29",
+    "durable_full_save_and_cold_resume",
+    "other_locales_branches_resolutions",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "continuous_audio_listening",
+    "full_release"
+  ],
+  "final_boundary": "발급/원격리 프로세스 정상 입구 일부만 한정GO. 정상 full StoryMode-only 연결과 비격리 재기동/retail 로그 변경은 REWORK, M07과 본편 제품/출시 HOLD. 기존529/530판정이나 Human이력을 바꾸지 않고 새 수리·재발급·월QA범위를 이 보고에서 추론하지 않는다."
+}

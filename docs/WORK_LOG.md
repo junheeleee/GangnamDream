@@ -2,6 +2,15 @@
 
 이전 기록은 [526 발급까지의 원문](history/WORK_LOG_2026-10-10_pre_order526.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 본편 정상 시작 연결 공백 확인·M07 미도달
+
+- [534](queue_active/ORDER-534.md)에서 clean3e6f8e7/treebd139504의 별도 macos앱을 발급했다. 기존 builder/import0·export0/33.071152·45.647404초, ZIP429227794B/596a9b02…·PCK1878/675JSON exact/서명·universal/app7파일 한정GO. 원 build manifest464B/0762ef94…와 [package 사본](agent_reviews/ORDER-534-manifest.json)을 보존하며 본편RC/출시GO가 아니다. import/export의 중첩 order103 project 경고는 남긴다.
+- 원 격리 무인자실행에서 root1280×864 KO title→새이야기→opening→flashforward/arrival/door/witness 마지막결과까지 자연완독했다. 언어click1·Return26(시작3/이야기23)·단일행동3·CmdQ1, 50만원·건강65·정신60→58/남은60개월. exit0/929.545403초/stdout=실제HOME Godot154B·stderr/오류/경고0. helper exit1은 XDG log 경로 오지정이며 원command 수정 없이 별도정정했다. durable 게임save/월정산/M07·실제AP 화면/입력0이다.
+- 정상 full StartMenu2097–2112→MainGame576–581/11678–11680/10227–10232는 프롤로그 뒤 legacy AP/scene-first fallback을 잇는다. approved story-only 본편 월진행이 연결되지 않아 선행을 멈췄다. 소스 결함은REWORK/M07은HOLD이며 AP실제관측으로 쓰지 않는다. demo전용controller 연결·백수50만원을 알바/보상으로 바꾸는 우회·AP만숨기기는 수리가 아니다. 정상행동/기존경제·저장호환을 잇는 별도범위를 다음으로 잡는다.
+- 종료확인 뒤 동일private앱 PID652/PPID1이 별도로 떠서 retail log를 열었다. exactPID만 TERM/추가UI0·editor61385생존, UI재활성화 원인은 유력추정/미확정이다. 총실행>=2이고 전체격리·보존은REWORK다. retail 비로그28(저장·설정)은exact, 옛현재log167B는sameSHA로rotate/새log0B·9/7의181B log1은순환제거됐다. 원bytes복구/수동user파일쓰기0, 원pre/after/after2와사고receipt를 숨기거나 고치지 않는다.
+- 비저자 phone_independent_review는 source3274/helper5/seed2/W238/player33·보호62중61exact/retail 비로그28exact·3logdelta·runtime after2=fresh와 detached clean을 전량 대조했다. 새사양3933B/188b108…는 최종pin만 있어 입구SHA불변으로 높이지 않는다. root pixels/독립raw·source검수·독립pixels/영속PNG/청취0, [최종보고](agent_reviews/ORDER-534.json)를 결속한다. private raw `.git/order534-live-20261010`: pre eabdda4a…/after2 306a407f…/관찰595b404f…/log정정cdc5e2f6…/사고0c918f9c…이다.
+- 개발skill의 기존소비자/독립fresh/실제관측 경계를 적용했고 종료 뒤 UI재선택 금지를 Verify에 한 줄 승격했다. 월별 시도는 선언·관측·판정을 한commit으로 묶으며 STATUS-only 추종commit0이다. 종료ObjectDB탐침/도구최적화/제품·번역·project·과거인간판정 변경0. 원격3e6CI38029100773은 여전히in_progress로만 관측했으며 전체green/인간·원어민·패드/전체본편출시GO가 아니다.
+
 ## 2026-10-10 — 현황판 전용 추종커밋 제거·본편 월별 검수로 전환
 
 - [533](queue_archive/ORDER-533.md) source21a0167/tree37778b85의8파일 전수 독립GO. [보고](queue_archive/ORDER-533_L1_L2_RESULTS.md) SHA9f7dbe23…; `--check --advisory`는 낡음/누락만 경고0, strict는1, 오용2/생성·읽기예외 실패를 유지한다. audit STATUS두줄/등록4참조만 바꾸고 모든 제품명령·실패집계·KNOWN gate는 동일하다.
