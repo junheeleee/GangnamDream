@@ -49,6 +49,8 @@ var _monthly_economy_checked := false
 var _full_story_flow_only := false
 var _full_story_flow_checked := false
 var _full_story_third_month_checked := false
+var _paycheck_window_only := false
+var _paycheck_window_checked := false
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -57,6 +59,11 @@ func _run() -> void:
 	_backup_settings_file()
 	_backup_meta_progression()
 	_backup_test_slots()
+	_paycheck_window_only = OS.get_cmdline_user_args().has("--paycheck-window-only")
+	if _paycheck_window_only:
+		await _check_paycheck_window()
+		await _finish()
+		return
 	_full_story_flow_only = OS.get_cmdline_user_args().has("--full-story-flow-only")
 	if _full_story_flow_only:
 		await _check_full_story_flow()
@@ -82,6 +89,7 @@ func _run() -> void:
 	await _check_consumed_week_main_resume()
 	await _check_monthly_economy_resume()
 	await _check_full_story_flow()
+	await _check_paycheck_window()
 	if not _failures.is_empty():
 		await _finish()
 		return
@@ -1563,6 +1571,265 @@ func _free_monthly_economy_main(main_game: Control) -> void:
 	main_game.free()
 	BGMPlayer.stop()
 	await get_tree().process_frame
+
+
+func _check_paycheck_window() -> void:
+	# Explicit synthetic weeks and production method calls, not natural ingress,
+	# a new preview cap, or evidence that the monthly transition is idempotent.
+	await _free_story()
+	var previous_language: String = LocaleManager.language
+	var events_before: Dictionary = _full_story_event_snapshot()
+	LocaleManager.set_language("ko")
+	GameState.start_new_game()
+	var main_game: Control = await _spawn_monthly_economy_main()
+	if GameState.is_demo_build() or CORE_LOOP.requested():
+		GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
+		GameState.flags["has_received_paycheck"] = true
+		if CORE_LOOP.requested():
+			GameState.core_loop_v2_state["enabled"] = true
+		var excluded: Dictionary = GameState.serialize().duplicate(true)
+		_expect(bool(main_game.call("_paycheck_reality_available", GameState.flags, 14)) \
+				and bool(main_game.call("_paycheck_reality_available", GameState.flags, 17)) \
+				and not bool(main_game.call("_paycheck_reality_available", GameState.flags, 18)) \
+				and not bool(main_game.call("_paycheck_reality_available", GameState.flags, 25)) \
+				and GameState.serialize() == excluded,
+			"demo/V2 paycheck window no longer preserves W14-W17 without mutation")
+		print("MANUAL_SAVE_PAYCHECK_WINDOW_EXCLUSION_CHECK_OK profile=%s window=W14-W17 synthetic=1" % [
+			"demo" if GameState.is_demo_build() else "v2"])
+	else:
+		for hire_choice in [0, 1]:
+			await _free_monthly_economy_main(main_game)
+			GameState.start_new_game()
+			EventManager.pending_events.clear()
+			EventManager.current_event = {}
+			EventManager.narrative_bridge_results.clear()
+			GameState.turn = 14
+			GameState.month = 4
+			GameState.week_of_month = 2
+			main_game = await _spawn_monthly_economy_main()
+			_expect(not FULL_STORY_FLOW.owns_session(),
+				"paycheck fixture manufactured or extended a preview profile")
+			var before_hire: Dictionary = GameState.serialize().duplicate(true)
+			if not await _paycheck_story_choice(main_game, "arc_rescue_job", hire_choice):
+				break
+			_expect(GameState.money == float(before_hire["money"]) \
+					and bool(GameState.flags.get("arc_rescue_job_seen", false)) \
+					and not GameState.flags.get("has_received_paycheck", false),
+				"rescue choice paid a salary before the real monthly producer")
+			if hire_choice == 1:
+				_expect(GameState.current_job.is_empty() and GameState.monthly_income == 0.0 \
+						and bool(GameState.flags.get("rejected_rescue_job", false)) \
+						and str(main_game.call("_first_job_week_arc_id", GameState.flags, 15)).is_empty() \
+						and not bool(main_game.call("_paycheck_reality_available", GameState.flags, 18)),
+					"refused rescue job invented employment, first work, or a paycheck reader")
+				await _paycheck_cold_main(main_game, "refused")
+				continue
+			var job: Dictionary = DataRegistry.get_job("job_01")
+			var salary: float = float(job.get("base_salary", 0.0))
+			_expect(str(GameState.current_job.get("id", "")) == "job_01" \
+					and GameState.job_tenure == 0 and GameState.work_performance == 50 \
+					and GameState.monthly_income == salary \
+					and float(GameState.current_job.get("effective_salary", -1.0)) == salary \
+					and not GameState.current_job.has("pending_first_paycheck_ratio") \
+					and int(GameState.flags.get("job_started_turn", -1)) == 14 \
+					and bool(GameState.flags.get("has_job", false)) \
+					and str(main_game.call("_first_job_week_arc_id", GameState.flags, 14)).is_empty(),
+				"authored rescue accept changed its catalog job/salary or opened first work in the hire week")
+			_check_paycheck_eligibility(main_game)
+			GameState.turn = 15
+			GameState.week_of_month = 3
+			var first_work: String = main_game.call("_first_job_week_arc_id", GameState.flags)
+			_expect(first_work == "arc_first_job_week_convenience",
+				"actual rescue job did not select the convenience first-work scene")
+			if not await _paycheck_story_choice(main_game, first_work, 0):
+				break
+			_expect(bool(GameState.flags.get("arc_first_job_week_seen", false)) \
+					and str(main_game.call("_first_job_week_arc_id", GameState.flags)).is_empty() \
+					and not bool(main_game.call("_paycheck_reality_available", GameState.flags, 18)),
+				"first work replayed or fabricated the unpaid paycheck flag")
+			GameState.turn = 16
+			GameState.week_of_month = 4
+			var before_pay: Dictionary = GameState.serialize().duplicate(true)
+			var payable: float = GameState.get_monthly_payable_income()
+			var required_cash: float = GameState.get_monthly_required_cash()
+			_expect(payable == salary, "rescue job unexpectedly prorated its unauthored first paycheck")
+			seed(540_016)
+			main_game.call("_run_month_end_transition", false, false)
+			_expect(GameState.turn == 17 and GameState.month == 5 and GameState.week_of_month == 1 \
+					and GameState.money == float(before_pay["money"]) + payable - required_cash \
+					and GameState.monthly_income == salary and GameState.job_tenure == 1 \
+					and int(GameState.flags.get("career_months_total", 0)) == 1 \
+					and bool(GameState.flags.get("has_received_paycheck", false)),
+				"one real month-end transition lost/doubled salary, bills, tenure, or the first-paycheck producer")
+			await _paycheck_cold_main(main_game, "paid")
+			# These prior-scene flags are synthetic selector prerequisites, not a
+			# claim that this fixture played the preceding sixteen weeks.
+			for flag in ["arc_intro_dad_seen", "arc_temptation_seen", "arc_intro_sns_seen",
+					"cafe_scenario_seen", "arc_intro_hyunsu_seen", "chapter1_closed", "cafe_callback_seen",
+					"arc_money_check_seen", "arc_gosiwon_wall_seen", "arc_sangchul_met_seen",
+					"arc_invest_guidance_seen", "arc_daeun_met", "arc_father_01_seen",
+					"arc_father_quiet_call_seen", "arc_father_02_done"]:
+				GameState.flags[flag] = true
+			var before_query: Dictionary = GameState.serialize().duplicate(true)
+			_expect(str(main_game.call("_next_arc_id", 17, false, false)) == "arc_jiyeon_01_crash" \
+					and GameState.serialize() == before_query,
+				"paycheck repair preempted the higher-priority W17 Jiyeon scene")
+			GameState.flags["arc_jiyeon_crash_seen"] = true
+			GameState.turn = 18
+			GameState.week_of_month = 2
+			before_query = GameState.serialize().duplicate(true)
+			_expect(bool(main_game.call("_paycheck_reality_available", GameState.flags)) \
+					and str(main_game.call("_next_arc_id", 18, false, false)) == "arc_paycheck_reality" \
+					and str(main_game.call("_next_arc_id", 25, false, true)) == "arc_paycheck_reality" \
+					and GameState.serialize() == before_query,
+				"unread paid full-game paycheck expired at W18/W25 or live query consumed its bridge")
+			var before_reader_money: float = GameState.money
+			if not await _paycheck_story_choice(main_game, "arc_paycheck_reality", 0, true):
+				break
+			_expect(GameState.money == before_reader_money - 3_800.0 \
+					and GameState.monthly_income == salary and GameState.job_tenure == 1 \
+					and bool(GameState.flags.get("arc_paycheck_reality_seen", false)) \
+					and not bool(main_game.call("_paycheck_reality_available", GameState.flags, 18)) \
+					and not bool(main_game.call("_paycheck_reality_available", GameState.flags, 25)),
+				"paycheck reader reapplied salary or lost its original choice effect/seen guard")
+			await _paycheck_cold_main(main_game, "read")
+			_paycheck_window_checked = true
+	await _free_monthly_economy_main(main_game)
+	GameState.start_new_game()
+	for key in events_before:
+		EventManager.set(key, events_before[key].duplicate(true))
+	SaveManager.clear_loaded_resume_context()
+	LocaleManager.set_language(previous_language)
+
+
+func _check_paycheck_eligibility(main_game: Control) -> void:
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var paid: Dictionary = GameState.flags.duplicate(true)
+	paid["has_received_paycheck"] = true
+	seed(540_014)
+	var next_random: int = randi()
+	seed(540_014)
+	_expect(not bool(main_game.call("_paycheck_reality_available", paid, 13)) \
+			and bool(main_game.call("_paycheck_reality_available", paid, 14)) \
+			and bool(main_game.call("_paycheck_reality_available", paid, 17)) \
+			and bool(main_game.call("_paycheck_reality_available", paid, 18)) \
+			and not bool(main_game.call("_paycheck_reality_available", GameState.flags, 18)),
+		"full paycheck helper changed minimum week/current job/lifetime paid prerequisites")
+	paid["arc_paycheck_reality_seen"] = true
+	_expect(not bool(main_game.call("_paycheck_reality_available", paid, 18)),
+		"already read paycheck became eligible again")
+	paid.erase("arc_paycheck_reality_seen")
+	GameState.current_job = {}
+	_expect(not bool(main_game.call("_paycheck_reality_available", paid, 18)),
+		"lifetime paycheck history manufactured a reader without a current job")
+	GameState.call("_restore_serialized_snapshot_exact", before)
+	GameState.core_loop_v2_state["enabled"] = true
+	_expect(bool(main_game.call("_paycheck_reality_available", paid, 17)) \
+			and not bool(main_game.call("_paycheck_reality_available", paid, 18)) \
+			and not bool(main_game.call("_paycheck_reality_available", paid, 25)),
+		"loaded V2 ownership lost its original paycheck deadline beyond its active cap")
+	GameState.call("_restore_serialized_snapshot_exact", before)
+	_expect(GameState.serialize() == before and randi() == next_random,
+		"paycheck availability queries mutated the actual job/flags or global RNG")
+
+
+func _paycheck_story_choice(
+		main_game: Control, event_id: String, choice_index: int, cold_result: bool = false) -> bool:
+	main_game.call("_go_story_mode", [event_id])
+	if not await _spawn_full_story_fixture():
+		return false
+	var event: Dictionary = _story.get("_current")
+	var choices: Array = event.get("choices", [])
+	_expect(str(event.get("id", "")) == event_id and choice_index < choices.size(),
+		"paycheck production handoff loaded the wrong event/choice")
+	if choice_index >= choices.size():
+		await _free_story()
+		return false
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	_show_current_story_choices()
+	_story.call("_on_choice", choice_index)
+	var after: Dictionary = GameState.serialize().duplicate(true)
+	_expect(GameState.event_log.size() == (before["event_log"] as Array).size() + 1 \
+			and GameState.event_log.slice(0, (before["event_log"] as Array).size()) \
+				== before["event_log"] \
+			and str(GameState.event_log[-1].get("event_id", "")) == event_id \
+			and int(GameState.event_log[-1].get("choice_index", -1)) == choice_index,
+		"%s failed to produce exactly one real authored choice receipt" % event_id)
+	var effects: Dictionary = (choices[choice_index] as Dictionary).get("effects", {})
+	_expect(GameState.money == float(before["money"]) + float(effects.get("money", 0.0)),
+		"%s manufactured a salary deposit outside its authored cash effect" % event_id)
+	for key in effects:
+		var expected_value: float = float(before[key]) + float(effects[key])
+		if str(key) != "money":
+			expected_value = clampf(expected_value, 0.0, 100.0)
+		_expect(float(GameState.get(str(key))) == expected_value,
+			"%s changed authored %s choice effects" % [event_id, key])
+	_story.call("_on_choice", choice_index)
+	_expect(GameState.serialize() == after,
+		"%s repeated result input reapplied its job/cash/choice" % event_id)
+	if cold_result:
+		var context: Dictionary = _story.call("build_save_resume_context")
+		_expect(str(context.get("phase", "")) == "result" \
+				and SaveManager.save_game(TEST_SLOT, context, {"qa_fixture": true}),
+			"paycheck result could not save its original v4 context")
+		await _free_story()
+		GameState.start_new_game()
+		_expect(SaveManager.load_game(TEST_SLOT), "paycheck result cold load failed")
+		if not await _spawn_full_story_fixture(true):
+			return false
+		_expect(bool(_story.get("_pending_after_result")) \
+				and int(_story.get("_pending_result_choice_index")) == choice_index \
+				and _json_round_trip_dictionary(GameState.serialize()) == _json_round_trip_dictionary(after),
+			"paycheck result cold resume replayed salary/choice or lost its exact saved choice")
+	_story.call("_finish_story_scene_transition")
+	_story.call("_complete_typing")
+	_story.set("_para_index", (_story.get("_paragraphs") as Array).size())
+	_story.call("_after_result")
+	_expect(bool(_story.get("_transitioning")), "%s result did not close through StoryMode" % event_id)
+	await _free_story()
+	GameState.returning_from_story = false
+	SaveManager.clear_loaded_resume_context()
+	return true
+
+
+func _paycheck_cold_main(main_game: Control, label: String) -> void:
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}),
+		"%s paycheck checkpoint could not save" % label)
+	var disk: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveManager.slot_path(TEST_SLOT)))
+	_expect(disk is Dictionary and int(disk.get("version", -1)) == 4,
+		"paycheck checkpoint changed the existing v4 save schema")
+	GameState.start_new_game()
+	_expect(SaveManager.load_game(TEST_SLOT) \
+			and _json_round_trip_dictionary(GameState.serialize()) == _json_round_trip_dictionary(before),
+		"%s paycheck disk cold load regranted employment/salary or changed saved effects" % label)
+	var expected: Dictionary = _full_story_expected_main_reentry(before, main_game)
+	# Diagnostic run isolated one existing AP-presentation write, not an
+	# economic delta. Predict that exact reader only under its original guards;
+	# every other state field remains covered by the complete comparison below.
+	var expected_flags: Dictionary = expected["flags"]
+	if bool(expected_flags.get("has_received_paycheck", false)) \
+			and not bool(expected_flags.get("invest_hint_shown", false)):
+		var earlier_hint: bool = int(expected["turn"]) == 1 \
+			or (int(expected["tutorial_step"]) >= 1 \
+				and bool(expected_flags.get("story_job_unlocked", false)) \
+				and (expected["current_job"] as Dictionary).is_empty())
+		_expect(not earlier_hint,
+			"paycheck UI expectation may not skip an earlier week-one/unemployed hint")
+		if not earlier_hint:
+			expected_flags["invest_hint_shown"] = true
+			print("PAYCHECK_WINDOW_HINT_REENTRY_PROOF label=%s paid=1 previously_shown=0 earlier_hint=0 expected_ui_flag=invest_hint_shown" % label)
+	var cold_main: Control = await _spawn_monthly_economy_main()
+	if _json_round_trip_dictionary(GameState.serialize()) != _json_round_trip_dictionary(expected):
+		_report_full_story_state_diff(expected, "paycheck-%s-new-main" % label, true)
+	if FULL_STORY_FLOW.owns_session():
+		print("PAYCHECK_WINDOW_OWNER_DIFF label=%s owner=%s" % [
+			label, JSON.stringify(FULL_STORY_FLOW.snapshot(), "", true, true)])
+	_expect(_json_round_trip_dictionary(GameState.serialize()) == _json_round_trip_dictionary(expected) \
+			and not FULL_STORY_FLOW.owns_session(),
+		"%s new Main regranted salary/job or promoted an unmarked save" % label)
+	await _free_monthly_economy_main(cold_main)
+	SaveManager.clear_loaded_resume_context()
 
 
 func _check_full_story_flow() -> void:
@@ -5126,6 +5393,11 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
+		if _paycheck_window_checked:
+			print("MANUAL_SAVE_PAYCHECK_WINDOW_CHECK_OK hire=authored-accept/refuse first-work=actual-selector/choice salary=one-production-month-end reader=W17-priority/W18/W25/cold-result resume=v4-disk/new-main unpaid/current-job/seen/v2-window=preserved synthetic_not_m07=1")
+		if _paycheck_window_only:
+			get_tree().quit(0)
+			return
 		if _full_story_third_month_checked:
 			print("MANUAL_SAVE_FULL_STORY_THIRD_MONTH_CHECK_OK scope=internal-preview-W1-W12 roots=production-main prefix=W1-W8 hyunsu=two-choices/follow-up/result-close month3=cold/once save=fault-W10-W13/disk/pending/new-main/retry/rng profile=old8-not-promoted/unknown-rejected activity=pending-cold/new-main-twice/inert boundary=W13-no-AP-surface synthetic_not_m07=1")
 		if _full_story_flow_checked:

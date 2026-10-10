@@ -44,3 +44,20 @@
 - 전체감사/240주/누수 탐침/검증비용 도구0. 534 실제 M07·기본 full 연결·native/human/
   physical/native-reader·연속 청취·전체 제품/출시는 HOLD다. 자동 통과는 계약 증거이지
   재미·깊이·문체 증거가 아니다. 새 정본 규칙0, 실행 지시는 일회성이다.
+
+## 구현·검증 결과 — 최종 후보 결속 대기
+
+- Main helper는 full의 W17 상한만 제거한다. demo/loaded V2의 W14–17,
+  기존 자격·우선순위·bridge·월말 지급·선택 효과·원문·8/12 profile은 불변이다.
+- 실제 authored rescue 양선택·첫근무·월말1회·늦은 reader·v4/new Main·결과 cold를
+  기존 ManualSave에 넣었다. full/demo/V2 focus 및 whole4회 exit0/exact marker/
+  3stream PASS. W25는 selector query이며 자연 W25 플레이 증거가 아니다.
+- 정적18 제품검사 PASS. 최초 arc/narrative 모델미등록2FAIL은 선언 후 adapter/f
+  binding으로 수리하고 최종2회 raw를 남겼다. V2검사 actualexit0의 정상 데이터명
+  hyunsu_result_fail을 잡은 wrapper오탐은 원2stream으로 분리한다. 게이트 삭제0.
+- compile69 actualexit0/빈stderr/전체marker1회. 축약marker wrapper FAIL을 원형
+  보존하고 재실행 없이 독립 재평가한다. 첫 focus/diagnostic2FAIL은 기존 AP UI
+  invest_hint_shown 한 잎 차이로 분리했고, 그 기존 조건만 로컬 예측해 나머지
+  전체 상태/경제 비교를 유지했다. 실패·수리·최종 raw를 모두 private에 보존한다.
+- 독립 source 최종 GO·보존 결속 뒤 이 범위만 닫는다. 기본 본편534/M07·W24이내
+  full bridge/normal handoff·완성게임·출시 및 인간 증거의 HOLD는 바뀌지 않는다.

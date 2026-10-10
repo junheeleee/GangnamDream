@@ -6664,6 +6664,20 @@ func _first_job_week_arc_id(f: Dictionary, at_turn: int = -1) -> String:
 		_:
 			return "arc_first_job_week"
 
+func _paycheck_reality_available(f: Dictionary, at_turn: int = -1) -> bool:
+	var query_turn: int = GameState.turn if at_turn < 0 else at_turn
+	if query_turn < 14 or GameState.current_job.is_empty() \
+			or not f.get("has_received_paycheck", false) \
+			or f.get("arc_paycheck_reality_seen", false):
+		return false
+	# Keep the frozen demo/V2 scheduling window, including loaded V2 saves
+	# beyond their active prototype. Full-game hiring and higher-priority arcs
+	# have no W17 deadline, so an unread paycheck beat must not expire there.
+	var v2_state: Variant = GameState.core_loop_v2_state
+	var v2_enabled := v2_state is Dictionary \
+		and bool((v2_state as Dictionary).get("enabled", false))
+	return query_turn <= 17 if GameState.is_demo_build() or v2_enabled else true
+
 func _office_routine_available(f: Dictionary, at_turn: int = -1) -> bool:
 	var query_turn: int = GameState.turn if at_turn < 0 else at_turn
 	return query_turn >= 16 and query_turn <= 19 \
@@ -7829,11 +7843,8 @@ func _next_arc_id(
 		return "arc_four_months_in"
 
 	# ── t=14~19 공백 채우기 씬 3종 ──────────────────────────────────
-	# 첫 월급날 밤 — 취직 후 첫 월급 수령 시 (t14~17 구간)
-	if t >= 14 and t <= 17 \
-			and not GameState.current_job.is_empty() \
-			and f.get("has_received_paycheck", false) \
-			and not f.get("arc_paycheck_reality_seen", false):
+	# First paycheck: retain the full-game beat if another arc used its old slot.
+	if _paycheck_reality_available(f, t):
 		if not _resolve_demo_narrative_bridge(
 				"arc_paycheck_reality", t, preview_only, resolve_bridges):
 			return "arc_paycheck_reality"

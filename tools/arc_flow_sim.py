@@ -750,8 +750,17 @@ def evalconds(conds, S):
         try:
             if not bool(eval(c, {
                 "S": S,
+                "f": S.flags,
                 "father_is_passed": father_death_is_monotonic(S),
                 "_has_current_investment_loss": S.has_current_investment_loss,
+                # These two representative traces are full, non-V2 runs.
+                # The engine fixture separately proves demo/V2's frozen window.
+                "_paycheck_reality_available": (
+                    lambda flags, at_turn: int(at_turn) >= 14
+                    and not S.current_job.is_empty()
+                    and bool(flags.get("has_received_paycheck", False))
+                    and not bool(flags.get("arc_paycheck_reality_seen", False))
+                ),
                 "_chapter5_general_w220_reserves_generic": (
                     lambda at_turn: int(at_turn) <= 220
                     and S.chapter5_general_finale_w220_available(220)
