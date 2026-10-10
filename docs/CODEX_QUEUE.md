@@ -51,7 +51,7 @@
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
 | 1 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
-| 2 | [~] | ORDER-527 · 수리 앱 M02 재개·선택·M03 복귀 | [527](queue_active/ORDER-527.md) | 시도1 보존GO·선택dock 전제REWORK · 단일행동 안내로 정정 재개 |
+| 2 | [~] | ORDER-528 · 수리 앱 M03 두 만남·M04 복귀 | [528](queue_active/ORDER-528.md) | 다은·지연 선택0·월 정산1회·M04 첫문단 미검수 |
 | 3 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · 실제 저장·재개·월 복귀 GO/나머지 HOLD |
 | 4 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 

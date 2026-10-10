@@ -1,6 +1,6 @@
 # ORDER-527 — 수리 앱의 실제 M02 재개·선택·M03 복귀
 
-#### [~] ORDER-527 [P1·실제 진행] M02 저장에서 정상 이어하기로 다음 선택을 읽는다
+#### [x] ORDER-527 [P1·실제 진행] M02 저장에서 정상 이어하기로 다음 선택을 읽는다
 
 **착수 — 2026-10-10 / 선언 뒤 실행.** [526](../queue_archive/ORDER-526.md)의
 exact ICU 앱은 fresh M01→M02·첫 문단/설정5언어·중국어 줄갈이 개선만 GO다.
@@ -79,5 +79,29 @@ int→float 재직렬화만 있었다(8421→8481B/ce380aa3…). 사라진 in-me
 4. 원 stdout/stderr/Godot의 성공 신원/오류·경고·누수/exit와 실제 상태를 대조한다.
    보호 전체 before=after=fresh·own프로세스 부재/사용자editor생존·독립검수 뒤
    관측 범위만 GO한다. 다른 선택·크기·M03이후·인간/원어민/물리·청취/출시는 HOLD다.
+
+## 완료 — 2026-10-10 / 정정 범위 한정 GO
+
+- 정정 시도는 정상Continue1·Return4·설정2/EN→KO/닫기2·CmdQ1이다.
+  M02 KO본문 각3줄·EN마지막4줄/행동안내·KO같은문단3줄이 완문으로 복귀했다.
+  설정복귀 동안297만원/건강70/정신62 유지, 새Return만 결과1/정신72로 확정했다.
+  결과1·2 각2줄 자연완독 뒤 한 번 정산해 M03첫문단1줄/+1/편의점CG로 자동 복귀했다.
+  M03 CG에는 HUD/이름표가 없었으며 표시됐다고 주장하지 않는다. 추가M03입력0이다.
+- 실제 save10529B/SHA d5afe7ab555c36e8c61713c46874efd0132bb811f86112c8792cfa32b1ed37e0:
+  M3/elapsed8/closed[1,2]/pressure2/turn9/선택2·정산2/364만원·건강70·정신70.
+  M2 신규선택0·정산 각1건, 기존M1 영수증 동일, 정산 현금297→364만원/정신72→70다.
+  backup M3 transition→current M3 story는 월폐쇄 뒤 정상 자동진입과 맞는다.
+- `.git/order527-resume-20261010/` raw7: before720298B/659b50cc…,
+  after720651B/2944b4a7…, observation6045B/ce9c40ab…, command1470B/779749b4….
+  OS1회/exit0/168.756498초/stdout=Godot790B/7dcba27f…·stderr/오류/경고/누수0.
+  nativeentry en→ko2는 controller재진입이며 앱2회가 아니다. own65109/65108부재,
+  editor61385생존. AUTO/skip/hold/수동save/복사/주입/재발급/새검사0이다.
+- root와 비저자 phone_independent_review는 source7e1f45d8019fa8fdb87c7009fdcde2f9c8ff5a91/
+  tree4b66368d8eab67785a853f96d8e67e7501862e0b의3267파일/helper5/seed2/W238/player33,
+  immutable55곳 before=after=fresh·runtime허용7파일을 전량 대조했다. 독립자는
+  _close_month690의 guard/저장실패rollback·실제 신규영수증을 읽고 한정GO/동결해제했다.
+  첫시도REWORK 원증거는55번째 보호로 전량 보존했다. rootpixels/독립원산출검수이며
+  PNG영속0·독립pixels0이다. 다른경로/크기·JAzh 이행동·M03이후·인간/원어민/물리/
+  연속청취·전체302/본편/출시는HOLD, 원manifest NOT_RUN/옛 공개GO 불승계다.
 
 일회성 실행 지시/정본승격0. 자동 계약 통과는 재미·깊이·전체 품질 GO가 아니다.

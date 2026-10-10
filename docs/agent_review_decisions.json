@@ -11056,6 +11056,56 @@
         "path": "docs/queue_archive/ORDER-526.md",
         "sha256": "e1a4ab9f9c8983d77df36f4f9c42adc998b40ca6d674b48d617a78b9cf189187"
       }
+    },
+    {
+      "id": "order-527-package-25fc879-icu-break-m02-resume-action",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-527",
+      "subject": {
+        "kind": "package",
+        "commit": "25fc879d39a6593e244b3905d7782f22560676c2",
+        "tree": "de0898823de1cbb26ea9cfe7c5a7ccd0233b5e6a",
+        "manifest_sha256": "7a435023dbb662de53f02012242ffa04b106f0b56f86ab5ca6c5eab7bdf50072"
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-527.md",
+          "sha256": "aab99eb46371bec107ca7f7c82cc0fa7aae096dd4df307fc148ae21b0ebc0fba"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/queue_archive/ORDER-527.md",
+          "sha256": "aab99eb46371bec107ca7f7c82cc0fa7aae096dd4df307fc148ae21b0ebc0fba"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-526-manifest.json",
+          "sha256": "7a435023dbb662de53f02012242ffa04b106f0b56f86ab5ca6c5eab7bdf50072"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_audio_listening",
+        "independent_pixels_and_persistent_PNG",
+        "other_M02_routes_and_JA_zh_action",
+        "remaining_M03_prose_choices_and_later_months",
+        "other_resolutions_and_large_font",
+        "old_public_save_copy_compatibility",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-527.md",
+        "sha256": "aab99eb46371bec107ca7f7c82cc0fa7aae096dd4df307fc148ae21b0ebc0fba"
+      }
     }
   ]
 }
