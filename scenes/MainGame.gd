@@ -7,6 +7,7 @@ const STEAM_APP_ID := "STEAM_APP_ID"  # TODO: Steamworks 등록 후 실제 App I
 const STEAM_FALLBACK_URL := "https://store.steampowered.com/search/?term=Gangnam%20Dream"
 const SEOUL_MAP_STRIP_SCRIPT = preload("res://ui_components/SeoulMapStrip.gd")
 const DEMO_CORE_LOOP_V2 = preload("res://systems/DemoCoreLoopV2.gd")
+const FULL_STORY_FLOW = preload("res://systems/FullStoryFlow.gd")
 const CHAPTER5_CAUSAL_ROUTE = preload("res://systems/Chapter5CausalRoute.gd")
 const CHAPTER5_FINALE_ROUTE = preload("res://systems/Chapter5FinaleRoute.gd")
 const CORE_LOOP_PLANNER_SCRIPT = preload("res://scenes/CoreLoopPlanner.gd")
@@ -532,6 +533,12 @@ func _continue_after_story():
 		# The ending modal is already emitted above, so uncover it before returning.
 		SceneTransition.fade_in()
 		return
+	if FULL_STORY_FLOW.owns_session() and (
+			not FULL_STORY_FLOW.valid_session()
+			or GameState.flags.has("full_story_calendar_save_pending")
+			or FULL_STORY_FLOW.at_boundary()):
+		_full_story_route_week()
+		return
 	# W210 has two ordered roots. If the first returned through an interrupted
 	# queue, the exact call receipt may open the second before this week closes.
 	if _route_chapter5_causal_week(true):
@@ -558,6 +565,12 @@ func _continue_after_story():
 		return
 	var followup_activity := _take_story_followup_activity()
 	if followup_activity == "racetrack":
+		if FULL_STORY_FLOW.owns_session():
+			# This first preview does not certify direct minigame returns. Never
+			# conceal the gap by falling back to a generic AP/planning surface.
+			_full_story_seal_surface()
+			push_error("Full story preview requires a direct activity return contract")
+			return
 		SceneTransition.fade_in()
 		current_event = {}
 		_refresh_all()
@@ -573,12 +586,129 @@ func _continue_after_story():
 		if ms_id != "":
 			_go_story_mode([ms_id], true)
 			return
+	if _full_story_route_week():
+		return
 	# 더 없으면 바로 루틴 행동 화면
 	SceneTransition.fade_in()
 	current_event = {}
 	if _demo_director_requires_player_input() and _main_game_tutorial_allowed():
 		TutorialOverlay.maybe_show("main_game", self)
 	_demo_director_route_week()
+
+
+var _full_story_advancing := false
+
+
+func _full_story_seal_surface() -> void:
+	_clear_week_reading_surface()
+	if top_labels.has("ap_chip"):
+		(top_labels["ap_chip"] as Control).visible = false
+	next_button.visible = false
+	get_viewport().gui_release_focus()
+
+
+func _full_story_route_week() -> bool:
+	if not FULL_STORY_FLOW.owns_session():
+		return false
+	_full_story_seal_surface()
+	if not FULL_STORY_FLOW.valid_session():
+		push_error("Full story preview has an invalid saved owner")
+		return true
+	# Keep the already-calculated state on a failed save. Retrying only the
+	# durable write preserves both money and the global RNG stream; re-running
+	# a month-end transaction would otherwise roll new random results.
+	if GameState.flags.has("full_story_calendar_save_pending"):
+		if not _full_story_pending_save_is_valid():
+			push_error("Full story preview has an invalid pending calendar save")
+			return true
+		if not _full_story_advancing and not bool(
+				get_meta("_screenshot_qa_static_surface", false)):
+			_full_story_advancing = true
+			call_deferred("_full_story_continue_week", int(
+				GameState.flags["full_story_calendar_save_pending"]["from_turn"]))
+		return true
+	if FULL_STORY_FLOW.at_boundary():
+		# A named development checkpoint, not a retail completion/recap or a
+		# silent handoff to the rejected action board. The default stays off.
+		set_meta("_full_story_preview_boundary", GameState.turn)
+		SceneTransition.fade_in()
+		return true
+	if not FULL_STORY_FLOW.ready_to_advance():
+		# An open result/chain belongs to StoryMode, never to an AP fallback.
+		set_meta("_full_story_waiting_for_chain", GameState.turn)
+		return true
+	if _full_story_advancing:
+		return true
+	if bool(get_meta("_screenshot_qa_static_surface", false)):
+		set_meta("_full_story_ready_turn", GameState.turn)
+		return true
+	_full_story_advancing = true
+	call_deferred("_full_story_continue_week", GameState.turn)
+	return true
+
+
+func _full_story_continue_week(expected_turn: int) -> void:
+	if not _full_story_advance_week(expected_turn):
+		_full_story_advancing = false
+		return
+	_full_story_advancing = false
+	_begin_month()
+
+
+func _full_story_advance_week(expected_turn: int) -> bool:
+	if GameState.flags.has("full_story_calendar_save_pending"):
+		return _full_story_pending_save_is_valid() and int(
+			GameState.flags["full_story_calendar_save_pending"]["from_turn"]
+			) == expected_turn and _full_story_save_calendar(expected_turn)
+	if not FULL_STORY_FLOW.valid_session() or FULL_STORY_FLOW.at_boundary() \
+			or GameState.turn != expected_turn or GameState.is_game_over \
+			or not FULL_STORY_FLOW.ready_to_advance():
+		return false
+	if not FULL_STORY_FLOW.apply_background_for_turn(expected_turn):
+		return false
+	if GameState.is_game_over:
+		# Real fatal state is not the demo's reset-to-survival behavior.
+		SaveManager.autosave()
+		return false
+	if GameState.week_of_month == 4:
+		_run_month_end_transition(false, false)
+	else:
+		GameState.advance_calendar()
+	if GameState.is_game_over:
+		SaveManager.autosave()
+		return false
+	if not FULL_STORY_FLOW.complete_turn(expected_turn):
+		push_error("Full story preview could not seal the advanced week")
+		return false
+	return _full_story_save_calendar(expected_turn)
+
+
+func _full_story_pending_save_is_valid() -> bool:
+	var pending: Variant = GameState.flags.get("full_story_calendar_save_pending")
+	return FULL_STORY_FLOW.valid_session() and pending is Dictionary \
+		and pending.size() == 2 \
+		and _economy_integer_matches(
+			FULL_STORY_FLOW.snapshot().get("last_completed_turn"), GameState.turn - 1) \
+		and _economy_integer_matches(pending.get("target_turn"), GameState.turn) \
+		and _economy_integer_matches(pending.get("from_turn"), GameState.turn - 1) \
+		and GameState.turn >= 2 and GameState.turn <= 9
+
+
+func _full_story_save_calendar(expected_turn: int) -> bool:
+	# The successful payload is identical to the no-fault path. A failed primary
+	# replacement leaves the last successful disk snapshot untouched; the live
+	# owner remains paused and can retry here, including from a new MainGame.
+	GameState.flags.erase("full_story_calendar_save_pending")
+	if not SaveManager.autosave():
+		GameState.flags["full_story_calendar_save_pending"] = {
+			"from_turn": expected_turn, "target_turn": GameState.turn,
+		}
+		_refresh_all()
+		_full_story_seal_surface()
+		push_warning("Full story preview paused after a failed calendar save")
+		return false
+	_refresh_all()
+	return true
 
 func _route_chapter5_causal_week(keep_cover: bool = false) -> bool:
 	# An interrupted W195-W208 save can still owe the M49 closure; an old save
@@ -6280,6 +6410,12 @@ func _economy_integer_matches(value: Variant, expected: int) -> bool:
 		and is_finite(float(value)) and float(value) == float(expected)
 
 func _begin_month():
+	if FULL_STORY_FLOW.owns_session() and (
+			not FULL_STORY_FLOW.valid_session()
+			or GameState.flags.has("full_story_calendar_save_pending")
+			or FULL_STORY_FLOW.at_boundary()):
+		_full_story_route_week()
+		return
 	if has_meta("_qa_core_loop_v2_begin_month_call_count"):
 		set_meta(
 			"_qa_core_loop_v2_begin_month_call_count",
@@ -6311,8 +6447,9 @@ func _begin_month():
 		turn_action_log.clear()
 		_begin_month_story_and_render()
 		return
-	GameState.restore_ap()
-	_animate_ap_refill()
+	if not FULL_STORY_FLOW.owns_session():
+		GameState.restore_ap()
+		_animate_ap_refill()
 	turn_action_log.clear()
 	prev_prices = GameState.market_prices.duplicate()
 	_run_week_start_economy()
@@ -6323,6 +6460,12 @@ func _begin_month():
 func _begin_month_story_and_render():
 	if DEMO_CORE_LOOP_V2.is_prototype_complete():
 		_core_loop_v2_show_completion()
+		return
+	if FULL_STORY_FLOW.owns_session() and (
+			not FULL_STORY_FLOW.valid_session()
+			or GameState.flags.has("full_story_calendar_save_pending")
+			or FULL_STORY_FLOW.at_boundary()):
+		_full_story_route_week()
 		return
 	# ── 스토리 이벤트 트리거 ─────────────────────────
 	# 턴 1: 프롤로그 → StoryMode(비주얼노벨)로 재생 (1회만)
@@ -6366,6 +6509,8 @@ func _begin_month_story_and_render():
 		if ms_id != "":
 			_go_story_mode([ms_id])
 			return
+	if _full_story_route_week():
+		return
 	# 데모 편성기는 보장 아크와 마일스톤을 모두 확인한 뒤에만 저위험 주를 흘린다.
 	# Quiet/Echo에서는 랜덤 선택지를 하나 더 끼우지 않고 기존 루틴과 경제를 정상 계산한다.
 	if _demo_pressure_enabled() and not _demo_director_requires_player_input():
@@ -6441,6 +6586,10 @@ func _go_story_mode(event_ids: Array, keep_cover: bool = false):
 			story_queue.append("arc_37_reckoning")
 	var opening_prologue: bool = GameState.turn == 1 \
 			and first_event_id in ["story_flashforward", "story_arrival"]
+	if FULL_STORY_FLOW.owns_session() \
+			and not FULL_STORY_FLOW.begin_chain(story_queue):
+		push_error("Full story preview could not reserve its authored chain")
+		return
 	if not first_event_id.is_empty() and not opening_prologue:
 		GameState.flags["foreground_story_turn"] = GameState.turn
 	GameState.pending_story_queue = story_queue
@@ -8707,6 +8856,9 @@ func _run_month_end_transition(
 		) % [str(snap.get("date", "")), GameState.format_money(compact_net)], "money")
 
 func _on_next_month():
+	if FULL_STORY_FLOW.owns_session():
+		_full_story_route_week()
+		return
 	if not current_event.is_empty():
 		return
 	if not pending_result_text.is_empty():
@@ -9247,7 +9399,7 @@ func _refresh_all():
 	top_labels["ap"].text = _ap_status_text()
 	if top_labels.has("ap_chip"):
 		(top_labels["ap_chip"] as Control).visible = not DEMO_CORE_LOOP_V2.requested() \
-				and not _scene_first_surface_active
+				and not FULL_STORY_FLOW.owns_session() and not _scene_first_surface_active
 	if is_instance_valid(_planner_button):
 		_planner_button.text = _tr("일정", "Plan")
 		_planner_button.tooltip_text = _tr(
@@ -10219,6 +10371,8 @@ func _render_log():
 	log_box.text = "\n".join(lines)
 
 func _render_ap_actions():
+	if _full_story_route_week():
+		return
 	if _ap_focus_restore_turn != GameState.turn:
 		_ap_focus_restore_turn = GameState.turn
 		_ap_focus_restore_index = 0
@@ -23458,6 +23612,10 @@ func _random_topic(news):
 	var topics: Array = news.get("topics", [_tr("시장", "market")])
 	if topics.is_empty():
 		return _tr("시장", "market")
+	# Repainting a paused preview (including after a failed save) is not an
+	# economic roll. Keep this display-only choice off the gameplay RNG stream.
+	if FULL_STORY_FLOW.owns_session():
+		return topics[_presentation_rng.randi_range(0, topics.size() - 1)]
 	return topics.pick_random()
 
 # ── 다음 마일스톤 힌트 ────────────────────────────────

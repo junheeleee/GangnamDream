@@ -4858,8 +4858,10 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — 몽타주 루틴
 	if typeof(week_routine) != TYPE_ARRAY:
 		week_routine = []
-	# 구버전 세이브 호환 — run_theme 없으면 run_theme_categories로 역추론
-	if run_theme == "자유런" and not run_theme_categories.is_empty():
+	# Only a genuinely missing legacy field may be inferred from categories.
+	# An explicit free theme is the player's saved starting choice, not a gap.
+	if run_theme == "자유런" and not run_theme_categories.is_empty() \
+			and not data.has("run_theme"):
 		var cat_str = ",".join(run_theme_categories)
 		if "investment" in cat_str and "finance" in cat_str:
 			run_theme = "투자런"

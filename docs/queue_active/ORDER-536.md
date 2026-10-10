@@ -55,3 +55,18 @@ WORK_UNIT의 현재 개발 판단 위임을 따른다. 공개 데모와 retail �
   stdout/stderr/Godot 오류 scan·보호 hash를 요구한다. 전체 감사/240주/누수 추적0.
 - 한정 source GO만 가능하다. 정상 full 입구534·M07·전체 본편/출시·원어민/인간/물리
   패드·실제 연속 청취는 HOLD/미관측이다. 자동 통과는 재미·깊이·문체 증거가 아니다.
+
+## 구현·표적 결과 — 독립 최종 결속 대기
+
+- 실제 Main roots/StoryMode 결과·장 카드·후속 큐, W4 두 갈래와 W8 세 결과,
+  주8/월2 once·v4 cold/새 Main·동기 중복·저장 실패/쓰기 재시도·RNG·W9 경계 PASS.
+  compile6 69/exit0, whole preview3 0/21.97초, whole legacy2 0/13.56초.
+  앞 동치 guard 후보의 demo/V2 focused 각0/활성0은 별도 원실행으로 보존한다.
+- 원 `.git/order536-qa-20261010`의 최초 parse/fixture/상태/RNG 실패와 최종3stream을
+  보존한다. warning15/13은 의도된 저장 실패/복구이며 fatal/누수0이다.
+  EN/한글0·arc/등록 PASS, 선택 정적 종합은 causal self-test timeout으로 미관측이다.
+  기존 general finale census 실패는 고치거나 완화하지 않았다. 전체 CI GO가 아니다.
+- 537의 명시 시작 방식 수리를 함께 검증했다. 원문/번역/데모/project·사용자 저장·
+  과거 인간 판정은 불변이다. 합성 첫8주 한정이며 정상 입구/M07/출시 HOLD다.
+  규범 처리: 새 설계 정본 규칙0. 목록 조회의 실행 방지는 개발 skill Verify에
+  한 줄 승격했고, 이 단위의 범위/구현/검수 지시는 일회성이다.

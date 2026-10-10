@@ -3858,7 +3858,7 @@
     {
       "tool": "tools/ManualSaveCheck.tscn",
       "godot": true,
-      "why": "10슬롯 수동 저장 왕복",
+      "why": "10슬롯·결과 재개·월초 once·격리 opt-in full W1–W8 저장/완독/정산 경계",
       "paths": [
         "autoloads/SaveManager.gd",
         "autoloads/GameState.gd",
@@ -3866,6 +3866,9 @@
         "content/meta/chapter5_finale_ledger.json",
         "scenes/MainGame.gd",
         "scenes/StoryMode.gd",
+        "scenes/StartMenu.gd",
+        "systems/FullStoryFlow.gd",
+        "systems/FullStoryFlow.gd.uid",
         "systems/Chapter5CausalRoute.gd",
         "systems/Chapter5FinaleRoute.gd",
         "systems/InvestmentSystem.gd",

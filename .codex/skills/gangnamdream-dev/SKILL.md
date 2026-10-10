@@ -56,6 +56,8 @@ python3 tools/audit_select.py --base main   # 변경이 요구하는 검사만 �
 
 An unmatched path deliberately demands the full audit; that is the safe default, not a bug. Register a new check in `tools/audit_scope.json` — `--verify` fails on an unregistered one.
 
+Use `audit_select.py --list -- <paths...>` to inspect the selection only; omitting `--list` executes it, including engine checks, and is not a safe substitute for isolated targeted runs.
+
 Before completion:
 
 ```bash

@@ -3,6 +3,7 @@ extends Control
 const GangnamWordmarkScript := preload("res://scenes/ui/GangnamWordmark.gd")
 const LivingSceneLayerScript := preload("res://scenes/ui/LivingSceneLayer.gd")
 const DemoCoreLoopV2Script := preload("res://systems/DemoCoreLoopV2.gd")
+const FullStoryFlowScript := preload("res://systems/FullStoryFlow.gd")
 const BuildInfoScript := preload("res://systems/BuildInfo.gd")
 const BuildFlavorScript := preload("res://systems/BuildFlavor.gd")
 const THIRD_PARTY_NOTICE_PATH := "res://content/meta/third_party_notices.json"
@@ -2106,6 +2107,9 @@ func _initialize_new_run_state(core_loop_v2_test: bool) -> void:
 	GameState.start_new_game(_tr("김민준", "Kim Minjun"), "지방_상경", "none", "백수", "자유런", "현실")
 	if core_loop_v2_test:
 		DemoCoreLoopV2Script.initialize_for_run(true)
+	else:
+		# Explicit argument + pre-autoload isolated namespace; retail remains off.
+		FullStoryFlowScript.initialize_fresh_preview()
 	BuildInfoScript.apply_window_title(
 		get_window(), core_loop_v2_test, not LocaleManager.is_korean())
 

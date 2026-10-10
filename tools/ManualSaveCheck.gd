@@ -7,6 +7,7 @@ const CHAPTER5_FINALE_ROUTE := preload("res://systems/Chapter5FinaleRoute.gd")
 const MAIN_GAME_SCENE := preload("res://scenes/MainGame.tscn")
 const STORY_MODE_SCRIPT := preload("res://scenes/StoryMode.gd")
 const INVESTMENT_SYSTEM_SCRIPT := preload("res://systems/InvestmentSystem.gd")
+const FULL_STORY_FLOW := preload("res://systems/FullStoryFlow.gd")
 const TEST_SLOT := 1
 const LEGACY_SLOT := 9
 const CONTRACT_SLOT := 10
@@ -45,6 +46,8 @@ var _meta_data_backup: Dictionary = {}
 var _meta_new_this_run_backup: Dictionary = {}
 var _monthly_economy_only := false
 var _monthly_economy_checked := false
+var _full_story_flow_only := false
+var _full_story_flow_checked := false
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -53,6 +56,11 @@ func _run() -> void:
 	_backup_settings_file()
 	_backup_meta_progression()
 	_backup_test_slots()
+	_full_story_flow_only = OS.get_cmdline_user_args().has("--full-story-flow-only")
+	if _full_story_flow_only:
+		await _check_full_story_flow()
+		await _finish()
+		return
 	_monthly_economy_only = OS.get_cmdline_user_args().has("--monthly-economy-only")
 	if _monthly_economy_only:
 		await _check_monthly_economy_resume()
@@ -72,6 +80,7 @@ func _run() -> void:
 	await _check_main_game_save_failure_feedback()
 	await _check_consumed_week_main_resume()
 	await _check_monthly_economy_resume()
+	await _check_full_story_flow()
 	if not _failures.is_empty():
 		await _finish()
 		return
@@ -443,6 +452,57 @@ func _check_slot_and_legacy_contract() -> void:
 		"v3 save invented a StoryMode resume payload")
 	_check_build_identity_compatibility(legacy_payload)
 	_check_legacy_father_reason_flag_migration()
+	_check_run_theme_disk_preservation()
+
+func _check_run_theme_disk_preservation() -> void:
+	var original: Dictionary = GameState.serialize().duplicate(true)
+	var failures_before: int = _failures.size()
+	for theme_case in [
+		{"label": "explicit-free", "theme": "자유런", "categories": ["investment", "finance"],
+			"missing": false, "expected": "자유런"},
+		{"label": "explicit-investment", "theme": "투자런", "categories": ["social", "relationship"],
+			"missing": false, "expected": "투자런"},
+		{"label": "legacy-missing", "theme": "자유런", "categories": ["investment", "finance"],
+			"missing": true, "expected": "투자런"},
+	]:
+		# Only the categories are made deterministic. The real selected starting
+		# theme owns its original stats, money, flags, and logs; never reapply it.
+		GameState.start_new_game("김민준", "지방_상경", "none", "백수", str(theme_case["theme"]))
+		GameState.run_theme_categories = (theme_case["categories"] as Array).duplicate()
+		var expected: Dictionary = GameState.serialize().duplicate(true)
+		expected["run_theme"] = theme_case["expected"]
+		_expect(SaveManager.save_game(CONTRACT_SLOT, {}, {"qa_fixture": true}),
+			"%s theme fixture could not save" % theme_case["label"])
+		if bool(theme_case["missing"]):
+			# Missing-field compatibility is independent of the save envelope. Keep
+			# the existing v4 contract and omit this one legacy state field only.
+			var payload: Variant = JSON.parse_string(FileAccess.get_file_as_string(
+				SaveManager.slot_path(CONTRACT_SLOT)))
+			_expect(payload is Dictionary, "missing theme fixture could not read its payload")
+			if not payload is Dictionary:
+				continue
+			(payload["state"] as Dictionary).erase("run_theme")
+			var file := FileAccess.open(SaveManager.slot_path(CONTRACT_SLOT), FileAccess.WRITE)
+			_expect(file != null, "missing theme fixture could not open its test slot")
+			if file == null:
+				continue
+			file.store_string(JSON.stringify(payload))
+			file.close()
+		GameState.start_new_game()
+		_expect(SaveManager.load_game(CONTRACT_SLOT),
+			"%s theme fixture could not cold load" % theme_case["label"])
+		_expect(_json_round_trip_dictionary(GameState.serialize()) \
+				== _json_round_trip_dictionary(expected),
+			"%s cold load changed its saved theme or rewrote another stat/log/money field" % theme_case["label"])
+		_expect(SaveManager.save_game(CONTRACT_SLOT, {}, {"qa_fixture": true}) \
+				and SaveManager.load_game(CONTRACT_SLOT) \
+				and _json_round_trip_dictionary(GameState.serialize()) \
+					== _json_round_trip_dictionary(expected),
+			"%s theme reload reapplied starting rewards or lost its migration" % theme_case["label"])
+	GameState.call("_restore_serialized_snapshot_exact", original)
+	SaveManager.clear_loaded_resume_context()
+	if _failures.size() == failures_before:
+		print("MANUAL_SAVE_RUN_THEME_CHECK_OK cases=3 explicit=free/investment legacy=missing reload=twice other_state=exact-json")
 
 func _check_legacy_father_reason_flag_migration() -> void:
 	var current_state: Dictionary = GameState.serialize().duplicate(true)
@@ -1502,6 +1562,496 @@ func _free_monthly_economy_main(main_game: Control) -> void:
 	main_game.free()
 	BGMPlayer.stop()
 	await get_tree().process_frame
+
+
+func _check_full_story_flow() -> void:
+	# Synthetic, isolated production calls, not natural reading or M07 evidence.
+	await _free_story()
+	var previous_language := LocaleManager.language
+	LocaleManager.set_language("ko")
+	GameState.start_new_game()
+	var legacy_before: Dictionary = GameState.serialize().duplicate(true)
+	_expect(not FULL_STORY_FLOW.owns_session(),
+		"full story preview claimed an unmarked legacy/new run")
+	if not OS.get_cmdline_user_args().has("--full-story-flow-preview"):
+		_expect(not FULL_STORY_FLOW.initialize_fresh_preview() \
+				and GameState.serialize() == legacy_before,
+			"full story preview activated without its explicit fresh opt-in")
+		if _full_story_flow_only:
+			_fail("positive full-story-flow-only requires preview opt-in and pre-autoload isolation")
+		print("MANUAL_SAVE_FULL_STORY_EXCLUSION_CHECK_OK profile=unmarked activated=0")
+		LocaleManager.set_language(previous_language)
+		return
+	if GameState.is_demo_build() or CORE_LOOP.requested():
+		_expect(not FULL_STORY_FLOW.initialize_fresh_preview() \
+				and GameState.serialize() == legacy_before,
+			"full story preview activated in a demo/V2 process")
+		print("MANUAL_SAVE_FULL_STORY_EXCLUSION_CHECK_OK profile=%s activated=0" % [
+			"v2" if CORE_LOOP.requested() else "demo"])
+		LocaleManager.set_language(previous_language)
+		return
+	_expect(FULL_STORY_FLOW.initialize_fresh_preview(),
+		"full story fixture requires explicit preview and proven isolated full environment")
+	if not FULL_STORY_FLOW.valid_session():
+		LocaleManager.set_language(previous_language)
+		return
+	var initial: Dictionary = GameState.serialize().duplicate(true)
+	_expect(FULL_STORY_FLOW.initialize_fresh_preview() \
+			and GameState.serialize() == initial \
+			and not FULL_STORY_FLOW.ready_to_advance(),
+		"fresh preview initialization reran or skipped unread W1 prologue/card")
+	for route_case in [
+		{"label": "clean", "first": 0, "later": 0},
+		{"label": "return", "first": 1, "later": 0},
+		{"label": "deeper", "first": 1, "later": 1},
+	]:
+		GameState.start_new_game()
+		EventManager.pending_events.clear()
+		EventManager.current_event = {}
+		EventManager.event_cooldowns.clear()
+		EventManager.recent_event_ids.clear()
+		EventManager.narrative_bridge_results.clear()
+		_expect(FULL_STORY_FLOW.initialize_fresh_preview(),
+			"%s fresh preview could not initialize" % route_case["label"])
+		var main_game: Control = await _spawn_monthly_economy_main()
+		var roots: Array[String] = []
+		for expected_turn in range(1, 9):
+			_expect(GameState.turn == expected_turn,
+				"%s skipped/repeated entry week %d" % [route_case["label"], expected_turn])
+			main_game.call("_begin_month")
+			var handoffs := 0
+			while not GameState.pending_story_queue.is_empty() and handoffs < 8:
+				roots.append(str(GameState.pending_story_queue[0]))
+				if not await _spawn_full_story_fixture():
+					break
+				await _read_full_story_fixture(main_game, route_case)
+				await _free_story()
+				GameState.returning_from_story = false
+				main_game.call("_continue_after_story")
+				handoffs += 1
+			_expect(handoffs < 8 and FULL_STORY_FLOW.ready_to_advance(),
+				"%s W%d did not close its actual roots/follow-up chain" % [
+					route_case["label"], expected_turn])
+			if not FULL_STORY_FLOW.ready_to_advance():
+				break
+			if expected_turn == 2 and str(route_case["label"]) == "clean":
+				_check_full_story_background_once()
+			_expect(bool(main_game.call("_full_story_route_week")) \
+					and GameState.turn == expected_turn \
+					and int(main_game.get_meta("_full_story_ready_turn", -1)) == expected_turn,
+				"static full router escaped ownership or advanced without its test caller")
+			var before: Dictionary = GameState.serialize().duplicate(true)
+			var required_cash := GameState.get_monthly_required_cash()
+			var payable_income := GameState.get_monthly_payable_income()
+			if expected_turn == 4 and str(route_case["label"]) == "clean":
+				_check_full_story_owner_guards(main_game)
+				await _check_full_story_calendar_save_retry(main_game)
+			else:
+				_expect(bool(main_game.call("_full_story_advance_week", expected_turn)),
+					"%s W%d production advance failed" % [route_case["label"], expected_turn])
+			_expect(GameState.turn == expected_turn + 1 \
+					and GameState.week_of_month == expected_turn % 4 + 1,
+				"full story calendar did not advance exactly one week")
+			var expected_money := float(before["money"]) + 70_000.0
+			if expected_turn % 4 == 0:
+				expected_money += payable_income - required_cash
+				if expected_turn == 4:
+					expected_money += 300_000.0
+			_expect(GameState.money == expected_money \
+					and GameState.current_job.is_empty() and GameState.monthly_income == 0.0,
+				"%s W%d lost/doubled background, subsidy, or real month-end bills" % [
+					route_case["label"], expected_turn])
+			_expect(GameState.action_axis_this_week == {"money": 0, "human": 0} \
+					and GameState.action_records_this_week.is_empty() \
+					and GameState.tendency == before["tendency"],
+				"automatic background fabricated a player action or identity score")
+			var after: Dictionary = GameState.serialize().duplicate(true)
+			seed(536)
+			var next_random := randi()
+			seed(536)
+			_expect(not bool(main_game.call("_full_story_advance_week", expected_turn)) \
+					and randi() == next_random and GameState.serialize() == after,
+				"duplicate/stale full advance changed state or RNG")
+		_expect(roots.size() >= 4 and roots[0] == "story_flashforward" \
+				and roots[1] == "chapter_card_33" \
+				and roots.has("arc_temptation_01") \
+				and roots.has("arc_temptation_clean" if int(route_case["first"]) == 0 \
+					else "arc_temptation_fallout"),
+			"%s production roots lost prologue/card, W4 decision, or W8 consequence" % route_case["label"])
+		_expect(GameState.turn == 9 and GameState.month == 3 \
+				and FULL_STORY_FLOW.at_boundary() \
+				and bool(GameState.flags.get("settlement_subsidy_received", false)),
+			"full preview did not stop after eight weeks/two real settlements")
+		if str(route_case["label"]) == "return":
+			var reservations := 0
+			for raw_entry in GameState.deferred_events:
+				if raw_entry is Dictionary \
+						and str(raw_entry.get("event_id", "")) == "callback_escaped_dirty_trace" \
+						and int(raw_entry.get("trigger_turn", -1)) == 24:
+					reservations += 1
+			_expect(reservations == 1,
+				"W8 return lost/doubled its authored W24 reservation")
+		await _check_full_story_boundary_resume(main_game)
+		await _free_monthly_economy_main(main_game)
+	GameState.start_new_game()
+	GameState.core_loop_v2_state = {"enabled": true}
+	var excluded: Dictionary = GameState.serialize().duplicate(true)
+	_expect(not FULL_STORY_FLOW.initialize_fresh_preview() \
+			and not FULL_STORY_FLOW.owns_session() and GameState.serialize() == excluded,
+		"full preview reissued an existing V2 run as a fresh full session")
+	GameState.start_new_game()
+	SaveManager.clear_loaded_resume_context()
+	LocaleManager.set_language(previous_language)
+	_full_story_flow_checked = true
+
+
+func _spawn_full_story_fixture(loaded: bool = false) -> bool:
+	if not loaded:
+		SaveManager.clear_loaded_resume_context()
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not is_instance_valid(_story) or (_story.get("_current") as Dictionary).is_empty():
+		_fail("full story production handoff did not load its actual scene")
+		return false
+	_story.call("_set_auto_mode", false, false, false)
+	_story.call("_finish_story_scene_transition")
+	return true
+
+
+func _read_full_story_fixture(main_game: Control, route_case: Dictionary) -> void:
+	var fragments := 0
+	while is_instance_valid(_story) and not bool(_story.get("_transitioning")) \
+			and fragments < 48:
+		var event: Dictionary = _story.get("_current")
+		var event_id := str(event.get("id", ""))
+		if bool(_story.get("_is_chapter_card")):
+			_story.call("_chapter_card_advance")
+			fragments += 1
+			continue
+		var choice_index := 0
+		if event_id == "arc_temptation_01":
+			choice_index = int(route_case["first"])
+		elif event_id == "arc_temptation_fallout":
+			choice_index = int(route_case["later"])
+		var choices: Array = event.get("choices", [])
+		_expect(choice_index < choices.size(), "full story fixture lacks %s choice" % event_id)
+		if choice_index >= choices.size():
+			return
+		var choice: Dictionary = choices[choice_index]
+		_show_current_story_choices()
+		var before: Dictionary = GameState.serialize().duplicate(true)
+		_story.call("_on_choice", choice_index)
+		var after_choice: Dictionary = GameState.serialize().duplicate(true)
+		_story.call("_after_result")
+		_expect(not FULL_STORY_FLOW.ready_to_advance() \
+				and not bool(main_game.call("_full_story_advance_week", GameState.turn)) \
+				and bool(_story.get("_pending_after_result")) \
+				and GameState.serialize() == after_choice,
+			"%s unread result allowed calendar/economic progress" % event_id)
+		if event_id in ["arc_temptation_01", "arc_temptation_clean", "arc_temptation_fallout"]:
+			var effects: Dictionary = choice.get("effects", {})
+			_expect(GameState.money == float(before["money"]) + float(effects.get("money", 0)) \
+					and GameState.mental == clampi(int(before["mental"]) + int(effects.get("mental", 0)), 0, 100) \
+					and GameState.health == clampi(int(before["health"]) + int(effects.get("health", 0)), 0, 100),
+				"%s changed the authored immediate choice effects" % event_id)
+			_expect(not FULL_STORY_FLOW.close_result(event_id, choice_index + 99) \
+					and not FULL_STORY_FLOW.close_result(event_id, choice_index, true) \
+					and not FULL_STORY_FLOW.close_chain() \
+					and GameState.serialize() == after_choice,
+				"%s accepted a forged result/expression or unfinished chain" % event_id)
+			_story.call("_on_choice", choice_index)
+			_expect(GameState.serialize() == after_choice,
+				"%s duplicate result input reapplied its chosen effect" % event_id)
+		if event_id == "arc_temptation_01" and str(route_case["label"]) == "clean":
+			var context: Dictionary = _story.call("build_save_resume_context")
+			_expect(str(context.get("phase", "")) == "result" \
+					and SaveManager.save_game(TEST_SLOT, context, {"qa_fixture": true}),
+				"W4 full result could not be saved to v4 disk")
+			await _free_story()
+			GameState.start_new_game()
+			_expect(SaveManager.load_game(TEST_SLOT), "W4 full result disk load failed")
+			if not await _spawn_full_story_fixture(true):
+				return
+			_report_full_story_state_diff(after_choice, "W4-cold-result", true)
+			if not bool(_story.get("_pending_after_result")) \
+					or int(_story.get("_pending_result_choice_index")) != choice_index \
+					or FULL_STORY_FLOW.ready_to_advance():
+				print("FULL_STORY_RESUME_DIFF pending=%s index=%s expected_index=%d owns=%s valid=%s ready=%s" % [
+					_story.get("_pending_after_result"), _story.get("_pending_result_choice_index"),
+					choice_index, FULL_STORY_FLOW.owns_session(),
+					FULL_STORY_FLOW.valid_session(), FULL_STORY_FLOW.ready_to_advance()])
+			_expect(bool(_story.get("_pending_after_result")) \
+					and int(_story.get("_pending_result_choice_index")) == choice_index \
+					and _json_round_trip_dictionary(GameState.serialize()) \
+						== _json_round_trip_dictionary(after_choice) \
+					and not FULL_STORY_FLOW.ready_to_advance(),
+				"W4 cold result lost owner, applied twice, or auto-closed unread prose")
+		_story.call("_finish_story_scene_transition")
+		_story.call("_complete_typing")
+		_story.set("_para_index", (_story.get("_paragraphs") as Array).size())
+		_story.call("_after_result")
+		if not bool(_story.get("_transitioning")):
+			_expect(not FULL_STORY_FLOW.ready_to_advance() \
+					and not FULL_STORY_FLOW.close_chain(),
+				"%s closed the calendar before its authored follow-up was read" % event_id)
+		fragments += 1
+	_expect(fragments < 48 and bool(_story.get("_transitioning")),
+		"full story chain failed to finish through its production return")
+	var closed: Dictionary = GameState.serialize().duplicate(true)
+	_expect(FULL_STORY_FLOW.close_chain() and GameState.serialize() == closed,
+		"duplicate full chain close changed the durable run")
+
+
+func _check_full_story_calendar_save_retry(main_game: Control) -> void:
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var event_before := _full_story_event_snapshot()
+	_expect(SaveManager.autosave(), "full save-fault fixture could not create its prior checkpoint")
+	var durable_before := FileAccess.get_file_as_bytes(SaveManager.slot_path(SaveManager.AUTOSAVE_SLOT))
+	seed(536_004)
+	_expect(bool(main_game.call("_full_story_advance_week", 4)),
+		"no-fault full W4 control could not advance")
+	var control: Dictionary = GameState.serialize().duplicate(true)
+	var next_random := randi()
+	GameState.call("_restore_serialized_snapshot_exact", before)
+	for key in event_before:
+		EventManager.set(key, event_before[key].duplicate(true))
+	_expect(SaveManager.autosave(), "full save-fault fixture could not restore its durable checkpoint")
+	durable_before = FileAccess.get_file_as_bytes(SaveManager.slot_path(SaveManager.AUTOSAVE_SLOT))
+	SaveManager.set_meta("_qa_fail_next_primary_replacement", true)
+	seed(536_004)
+	_expect(not bool(main_game.call("_full_story_advance_week", 4)) \
+			and GameState.turn == 5 \
+			and GameState.flags.has("full_story_calendar_save_pending") \
+			and FileAccess.get_file_as_bytes(SaveManager.slot_path(SaveManager.AUTOSAVE_SLOT)) \
+				== durable_before,
+		"failed calendar save advanced the disk or discarded its settled in-memory checkpoint")
+	var pending: Dictionary = GameState.serialize().duplicate(true)
+	var pending_events := _full_story_event_snapshot()
+	for damaged in ["invalid", {}, {"from_turn": "4", "target_turn": 5},
+			{"from_turn": 3, "target_turn": 5}, {"from_turn": 4, "target_turn": 6}]:
+		GameState.flags["full_story_calendar_save_pending"] = damaged
+		var damaged_before: Dictionary = GameState.serialize().duplicate(true)
+		_expect(not bool(main_game.call("_full_story_pending_save_is_valid")) \
+				and not bool(main_game.call("_full_story_advance_week", 4)) \
+				and GameState.serialize() == damaged_before,
+			"damaged/mismatched pending calendar save admitted an economic retry")
+		GameState.call("_restore_serialized_snapshot_exact", pending)
+	_expect(bool(main_game.call("_full_story_route_week")) \
+			and GameState.serialize() == pending and GameState.pending_story_queue.is_empty(),
+		"pending calendar save opened another story/economic month")
+	_expect(SaveManager.load_game(SaveManager.AUTOSAVE_SLOT) \
+			and GameState.turn == 4 \
+			and not GameState.flags.has("full_story_calendar_save_pending") \
+			and _json_round_trip_dictionary(GameState.serialize()) \
+				== _json_round_trip_dictionary(before),
+		"cold failed-save disk did not recover the last successful checkpoint")
+	GameState.call("_restore_serialized_snapshot_exact", pending)
+	for key in pending_events:
+		EventManager.set(key, pending_events[key].duplicate(true))
+	var expected_pending := _full_story_expected_main_reentry(pending, main_game)
+	var expected_control := _full_story_expected_main_reentry(control, main_game)
+	var new_main: Control = await _spawn_monthly_economy_main()
+	new_main.call("_begin_month")
+	_report_full_story_state_diff(expected_pending, "pending-new-main")
+	if GameState.serialize() != expected_pending or not GameState.pending_story_queue.is_empty() \
+			or (new_main.get("next_button") as Control).visible:
+		print("FULL_STORY_PENDING_DIFF state_equal=%s queue_empty=%s next_visible=%s next_disabled=%s owns=%s valid=%s pending_valid=%s" % [
+			GameState.serialize() == expected_pending, GameState.pending_story_queue.is_empty(),
+			(new_main.get("next_button") as Control).visible,
+			(new_main.get("next_button") as BaseButton).disabled,
+			FULL_STORY_FLOW.owns_session(), FULL_STORY_FLOW.valid_session(),
+			new_main.call("_full_story_pending_save_is_valid")])
+	_expect(GameState.serialize() == expected_pending \
+			and GameState.pending_story_queue.is_empty() \
+			and not (new_main.get("next_button") as Control).visible,
+		"new MainGame bypassed pending save into another month/story/AP")
+	var retry_succeeded: bool = new_main.call("_full_story_advance_week", 4)
+	var retry_random: int = randi()
+	_report_full_story_state_diff(expected_control, "pending-retry-control")
+	if not retry_succeeded or retry_random != next_random:
+		print("FULL_STORY_RETRY_DIFF succeeded=%s expected_next_rng=%d actual_next_rng=%d" % [
+			retry_succeeded, next_random, retry_random])
+	_expect(retry_succeeded and GameState.serialize() == expected_control and retry_random == next_random,
+		"failed calendar save retry reran background/month-end RNG or differed from no-fault state")
+	await _free_monthly_economy_main(new_main)
+
+
+func _full_story_expected_main_reentry(expected: Dictionary, main_game: Control) -> Dictionary:
+	# full4 raw isolated the new-Main delta to exactly these pre-existing JSON
+	# integer readers. Do not normalize any other economic/receipt field here.
+	var result: Dictionary = expected.duplicate(true)
+	var tab_count: int = (main_game.get("info_tabs") as TabContainer).get_tab_count()
+	for field in [
+		{"section": "flags", "key": "_last_info_tab", "maximum": tab_count - 1},
+		{"section": "market_context", "key": "cycle_timer", "maximum": 11},
+	]:
+		var section: String = field["section"]
+		var key: String = field["key"]
+		var raw: Variant = result[section].get(key)
+		var valid: bool = (raw is int or raw is float) and is_finite(float(raw)) \
+			and float(raw) == floor(float(raw)) and float(raw) >= 0.0 \
+			and float(raw) <= float(field["maximum"])
+		_expect(valid, "new-Main expected normalization requires a valid integral %s.%s" % [section, key])
+		if valid:
+			result[section][key] = int(raw)
+			print("FULL_STORY_MAIN_REENTRY_INTEGER_PROOF field=%s.%s before_type=%d value=%s after_type=%d" % [
+				section, key, typeof(raw), JSON.stringify(raw), TYPE_INT])
+	return result
+
+
+func _report_full_story_state_diff(
+		expected: Dictionary, label: String, durable: bool = false) -> void:
+	var actual: Dictionary = GameState.serialize().duplicate(true)
+	if durable:
+		expected = _json_round_trip_dictionary(expected)
+		actual = _json_round_trip_dictionary(actual)
+	_report_full_story_value_diff(expected, actual, label, "state")
+
+
+func _report_full_story_value_diff(
+		expected: Variant, actual: Variant, label: String, path: String) -> void:
+	if expected == actual and typeof(expected) == typeof(actual):
+		return
+	if expected is Dictionary and actual is Dictionary:
+		for key in expected:
+			_report_full_story_value_diff(expected[key], actual.get(key), label, "%s.%s" % [path, key])
+		for key in actual:
+			if not expected.has(key):
+				_report_full_story_value_diff(null, actual[key], label, "%s.%s" % [path, key])
+		return
+	if expected is Array and actual is Array and expected.size() == actual.size():
+		for index in range(expected.size()):
+			_report_full_story_value_diff(expected[index], actual[index], label, "%s[%d]" % [path, index])
+		return
+	print("FULL_STORY_STATE_DIFF label=%s field=%s before_type=%d after_type=%d before=%s after=%s" % [
+		label, path, typeof(expected), typeof(actual),
+		JSON.stringify(expected, "", true, true), JSON.stringify(actual, "", true, true)])
+
+
+func _check_full_story_owner_guards(main_game: Control) -> void:
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	GameState.is_game_over = true
+	var fatal_before: Dictionary = GameState.serialize().duplicate(true)
+	_expect(not FULL_STORY_FLOW.ready_to_advance() \
+			and not bool(main_game.call("_full_story_advance_week", 4)) \
+			and GameState.serialize() == fatal_before,
+		"full preview revived or economically advanced an actual fatal boundary")
+	GameState.call("_restore_serialized_snapshot_exact", before)
+	var marker := FULL_STORY_FLOW.snapshot()
+	var missing_reads: Dictionary = marker.duplicate(true)
+	missing_reads.erase("read_receipts")
+	var mismatched_completed: Dictionary = marker.duplicate(true)
+	mismatched_completed["last_completed_turn"] = 0
+	for damaged in ["invalid", {}, missing_reads, mismatched_completed]:
+		GameState.flags[FULL_STORY_FLOW.STATE_KEY] = damaged
+		var damaged_before: Dictionary = GameState.serialize().duplicate(true)
+		seed(536_003)
+		var next_random := randi()
+		seed(536_003)
+		_expect(FULL_STORY_FLOW.owns_session() and not FULL_STORY_FLOW.valid_session() \
+				and not bool(main_game.call("_full_story_advance_week", 4)) \
+				and GameState.serialize() == damaged_before and randi() == next_random,
+			"damaged full owner escaped its saved boundary or mutated economics/RNG")
+		GameState.call("_restore_serialized_snapshot_exact", before)
+
+
+func _check_full_story_background_once() -> void:
+	# A real catalog job is an explicitly synthetic boundary, not an authored
+	# hire receipt. The automatic routine must not create such a receipt either.
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	_expect(not DataRegistry.jobs.is_empty(), "full background fixture lacks a real job")
+	if DataRegistry.jobs.is_empty():
+		return
+	GameState.current_job = (DataRegistry.jobs[0] as Dictionary).duplicate(true)
+	GameState.monthly_income = float(GameState.current_job.get("base_salary", 0.0))
+	var employed: Dictionary = GameState.serialize().duplicate(true)
+	var reentry := [0, false]
+	var reenter := func() -> void:
+		reentry[0] += 1
+		if reentry[0] == 1:
+			reentry[1] = FULL_STORY_FLOW.apply_background_for_turn(2)
+	GameState.stats_changed.connect(reenter)
+	_expect(FULL_STORY_FLOW.apply_background_for_turn(2),
+		"employed full background could not apply its approved band")
+	GameState.stats_changed.disconnect(reenter)
+	_expect(reentry[0] > 0 and not reentry[1] \
+			and GameState.money == float(employed["money"]) \
+			and GameState.health == clampi(int(employed["health"]) + 1, 0, 100) \
+			and GameState.mental == clampi(int(employed["mental"]) + 4, 0, 100) \
+			and GameState.work_performance == clampi(int(employed["work_performance"]) + 1, 0, 100) \
+			and GameState.current_job == employed["current_job"] \
+			and GameState.monthly_income == float(employed["monthly_income"]) \
+			and GameState.job_tenure == int(employed["job_tenure"]) \
+			and GameState.action_points == int(employed["action_points"]) \
+			and GameState.action_axis_this_week == employed["action_axis_this_week"] \
+			and GameState.action_records_this_week == employed["action_records_this_week"] \
+			and GameState.tendency == employed["tendency"],
+		"employed/reentrant automatic background changed income, hire, AP, or action identity")
+	var applied: Dictionary = GameState.serialize().duplicate(true)
+	seed(536_002)
+	var next_random := randi()
+	seed(536_002)
+	_expect(FULL_STORY_FLOW.apply_background_for_turn(2) \
+			and GameState.serialize() == applied and randi() == next_random,
+		"duplicate full background changed its applied state or RNG")
+	GameState.call("_restore_serialized_snapshot_exact", before)
+
+
+func _full_story_event_snapshot() -> Dictionary:
+	return {
+		"pending_events": EventManager.pending_events.duplicate(true),
+		"current_event": EventManager.current_event.duplicate(true),
+		"event_cooldowns": EventManager.event_cooldowns.duplicate(true),
+		"recent_event_ids": EventManager.recent_event_ids.duplicate(true),
+		"narrative_bridge_results": EventManager.narrative_bridge_results.duplicate(true),
+	}
+
+
+func _check_full_story_boundary_resume(main_game: Control) -> void:
+	var stored_ap: int = GameState.action_points
+	_expect(bool(main_game.call("_full_story_route_week")) \
+			and not bool(main_game.call("_full_story_advance_week", 9)) \
+			and GameState.action_points == stored_ap and GameState.pending_story_queue.is_empty() \
+			and int(main_game.get_meta("_full_story_preview_boundary", -1)) == 9 \
+			and _full_story_surface_is_sealed(main_game),
+		"W9 internal checkpoint fell into AP/planning or advanced past its declared boundary")
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}),
+		"full W9 checkpoint could not save")
+	var disk: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveManager.slot_path(TEST_SLOT)))
+	_expect(disk is Dictionary and int(disk.get("version", -1)) == 4,
+		"full preview changed the existing v4 disk format")
+	GameState.start_new_game()
+	_expect(SaveManager.load_game(TEST_SLOT) and FULL_STORY_FLOW.valid_session() \
+			and FULL_STORY_FLOW.at_boundary(), "full W9 v4 cold load lost its owner/boundary")
+	var cold_main: Control = await _spawn_monthly_economy_main()
+	cold_main.call("_begin_month")
+	_expect(_json_round_trip_dictionary(GameState.serialize()) \
+			== _json_round_trip_dictionary(before) \
+			and GameState.action_points == stored_ap and GameState.pending_story_queue.is_empty() \
+			and int(cold_main.get_meta("_full_story_preview_boundary", -1)) == 9 \
+			and _full_story_surface_is_sealed(cold_main),
+		"new MainGame changed W9 economics/receipts or restored the AP surface")
+	await _free_monthly_economy_main(cold_main)
+
+
+func _full_story_surface_is_sealed(main_game: Control) -> bool:
+	# Compatibility AP data remains intact. This owner hides its action surface,
+	# rather than spending or erasing points that it did not produce.
+	if (main_game.get("next_button") as Control).visible \
+			or main_game.get("_ap_action_grid") != null \
+			or not (main_game.get("_ap_grid_cards") as Array).is_empty():
+		return false
+	var labels: Dictionary = main_game.get("top_labels")
+	if labels.has("ap_chip") and (labels["ap_chip"] as Control).visible:
+		return false
+	for child in (main_game.get("choice_box") as Control).get_children():
+		if child is CanvasItem and (child as CanvasItem).visible:
+			return false
+	return true
 
 
 func _check_prose_resume() -> void:
@@ -4214,7 +4764,7 @@ func _fail(message: String) -> void:
 	_failures.append(message)
 
 func _backup_test_slots() -> void:
-	for slot in [TEST_SLOT, LEGACY_SLOT, CONTRACT_SLOT]:
+	for slot in [SaveManager.AUTOSAVE_SLOT, TEST_SLOT, LEGACY_SLOT, CONTRACT_SLOT]:
 		var path := SaveManager.slot_path(slot)
 		var owned_paths := [
 			path, "%s.bak" % path, "%s.tmp" % path,
@@ -4317,6 +4867,11 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
+		if _full_story_flow_checked:
+			print("MANUAL_SAVE_FULL_STORY_FLOW_CHECK_OK scope=internal-preview-W1-W8 roots=production-main story=actual-choice/result-close/follow-up/card branches=clean/return/deeper economy=background-once/employed-reentry/subsidy-before-pressure/month2 resume=v4-result/disk/new-main new-main-int=tab/timer-only duplicate=turn/result/chain save=fault-pending/once-retry/rng boundary=W9-no-AP-surface synthetic_not_m07=1")
+		if _full_story_flow_only:
+			get_tree().quit(0)
+			return
 		if _monthly_economy_checked:
 			print("MANUAL_SAVE_MONTHLY_ECONOMY_CHECK_OK production=news/prices/dividend/expense/margin reentry=signal+same-turn+rng resume=v4-disk/new-main/static calendar=next-month/year legacy=current/stale/type-boundary excluded=week2/v2 timer=0..11/integral-float/missing/corrupt/fresh/expiry/shock-cold synthetic_not_m07=1")
 		if _monthly_economy_only:

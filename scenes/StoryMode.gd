@@ -13,6 +13,7 @@ extends Control
 
 # ── 노출 색상 ─────────────────────────────────────────────────
 const DEMO_CORE_LOOP_V2 := preload("res://systems/DemoCoreLoopV2.gd")
+const FULL_STORY_FLOW := preload("res://systems/FullStoryFlow.gd")
 const CHAPTER5_CAUSAL_ROUTE := preload("res://systems/Chapter5CausalRoute.gd")
 const CHAPTER5_FINALE_ROUTE := preload("res://systems/Chapter5FinaleRoute.gd")
 const BUILD_FLAVOR := preload("res://systems/BuildFlavor.gd")
@@ -6509,6 +6510,20 @@ func _on_choice(idx: int):
 		_after_result()
 
 func _after_result():
+	if not _read_only_replay and FULL_STORY_FLOW.owns_session():
+		# A saved result is an observation of the original choice, not a second
+		# application. Seal it only after its final page, before clearing the
+		# exact choice index required to verify the existing event receipt.
+		if _pending_after_result and (_typing or _para_index < _paragraphs.size()):
+			return
+		var choices: Array = _current.get("choices", [])
+		if _pending_result_choice_index < 0 \
+				or _pending_result_choice_index >= choices.size() \
+				or not FULL_STORY_FLOW.close_result(
+					str(_current.get("id", "")), _pending_result_choice_index,
+					GameState.is_expression_choice(choices[_pending_result_choice_index])):
+			push_error("Full story preview could not close its exact result")
+			return
 	_pending_after_result = false
 	_pending_result_choice_index = -1
 	_clear_result_record_card()
@@ -6542,6 +6557,11 @@ func _chapter_card_advance():
 	var choices: Array = _current.get("choices", [])
 	if choices.size() > 0 and not _read_only_replay:
 		if not GameState.apply_choice(_current, choices[0]):
+			return
+		if FULL_STORY_FLOW.owns_session() and not FULL_STORY_FLOW.close_result(
+				str(_current.get("id", "")), 0,
+				GameState.is_expression_choice(choices[0])):
+			push_error("Full story preview could not close its chapter card")
 			return
 	_load_next_event()
 
@@ -7033,6 +7053,17 @@ func _argument_value(args: PackedStringArray, prefix: String) -> String:
 func _finish_all():
 	if _transitioning:
 		return
+	var ret = GameState.story_return_scene
+	if ret == "":
+		ret = "res://scenes/MainGame.tscn"
+	if not _read_only_replay and FULL_STORY_FLOW.owns_session() \
+			and ret == "res://scenes/MainGame.tscn" \
+			and not _story_has_pending_fatal_state():
+		if not _queue.is_empty() or _pending_after_result \
+				or _pending_result_choice_index >= 0 \
+				or not FULL_STORY_FLOW.close_chain():
+			push_error("Full story preview could not close its complete chain")
+			return
 	_transitioning = true
 	_stop_story_choice_countdown()
 	EventManager.current_event = {}
@@ -7046,11 +7077,12 @@ func _finish_all():
 	# MainGame 복귀만 주간 재시작을 막는다. 메인 메뉴 회상은 런 상태를 건드리지 않는다.
 	GameState.returning_from_story = not _read_only_replay
 	# 복귀 대상 (기본: MainGame)
-	var ret = GameState.story_return_scene
-	if ret == "":
-		ret = "res://scenes/MainGame.tscn"
 	GameState.story_return_scene = ""
 	GameState.story_replay_mode = false
+	# The same instance-level static surface boundary as MainGame: assertions
+	# exercise the real closure above without replacing the QA scene itself.
+	if bool(get_meta("_screenshot_qa_static_surface", false)):
+		return
 	SceneTransition.go(ret)
 
 func _exit_tree() -> void:
