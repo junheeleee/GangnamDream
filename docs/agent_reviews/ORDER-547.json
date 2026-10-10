@@ -1,0 +1,238 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-547",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewed_at_utc": "2026-10-10T22:02:39Z",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "source",
+    "commit": "41fef2eec0a193159340df3481badc2d50dd0e84",
+    "tree": "053b35ec9e8a7e973e38ef4a01ec4eaa46827fed",
+    "manifest_sha256": null
+  },
+  "verdict": "HOLD",
+  "product_verdict": "HOLD",
+  "scope": "W35 다은 신규6점·시각 배선·지연 resultCG의 cold 배경 복원, KO/EN 두 크기 준비화면108 및 발급 앱 KO 선택0의 한정 관측을 검수했다. 전체547은 whole Manual NG+ 실패 때문에 HOLD다. 아래 부분 GO를 작업 전체·본편·출시 GO로 승격하지 않는다.",
+  "results": {
+    "overall_ORDER547": "HOLD",
+    "source_visual_wiring": "GO_BOUNDED",
+    "original6_and_prepared108": "GO_BOUNDED",
+    "native_KO_choice0": "GO_ROOT_PIXELS_AND_INDEPENDENT_RAW_ONLY",
+    "current_preservation": "GO",
+    "whole_manual": "REWORK",
+    "cg_default_contract": "GO_WITH_TEARDOWN_DEBT_STRICT_WRAPPER_FAIL",
+    "internal_product": "HOLD",
+    "release": "HOLD"
+  },
+  "method": {
+    "independence": "제품/이미지/fixture 비저자가 최신 CLAUDE·개발skill·WORK_UNIT·547사양 및 원고/visual bible/소비자/diff를 직접 읽었다. 검수자는 원본6·준비PNG108만 직접 보았고 native pixels는 root 기록이다. 지정 private seal과 새 보고/manifest 외 수정0, 엔진/GUI/입력/저장편집/복구/검사 재실행0이다.",
+    "population": "실행후보 a0bc의27파일 diff 및 최신 source41fef의 추가5파일 diff 전량, 신규6PNG/6import, 프롬프트·반려·후처리 원장, helper/fixture8, import/build 원명령, 회귀3의9stream, 표적4의12stream과108PNG·40합성v4, native3stream/전체journal/최종v4 및 영수증을 읽었다. 보호86그룹1507파일·tracked3326·미소유3293·helper5/seed2/W238/player33·과거288판정/Human을 fresh 대조했다.",
+    "source_binding": "최신 subject는 실제 clean Git에서 관측한 로컬 미push 후보다(origin/main=3b216943). a0bc→41fef는 ART6등급/범위·CLAUDE 현재2행·큐/WORK_LOG/547사양의 정확5파일31+/10−다. ART/CLAUDE는 metadata wrapper 예외가 아니므로 새 source로 독립 재결속했다. code/data/pixels/import/helper는 같으며 package/native 실행을41fef에서 했다고 쓰지 않는다.",
+    "skill_effect": "개발skill의 격리 실행·기존 소비자 재사용·정확 원자료/현재후보 결속·CmdQ 후 UI 재접근 금지·agent와 Human 경계가 검수/판정 범위를 정했다. 전체감사나 새 비용/누수 탐침을 추가하지 않았다."
+  },
+  "package": {
+    "execution_subject": {
+      "kind": "package",
+      "commit": "a0bc2886faf34ca75c926b1492cfe5808413921f",
+      "tree": "9e21cfc5647f6f81b7999617453a9ffd8bb56ef4",
+      "manifest_sha256": "c4b93854e46a55cb8d2e4150560370ce551be35655762d692060e8fa095e028d"
+    },
+    "issued_manifest_copy": {
+      "path": "docs/agent_reviews/ORDER-547-manifest.json",
+      "bytes": 12058,
+      "sha256": "c4b93854e46a55cb8d2e4150560370ce551be35655762d692060e8fa095e028d"
+    },
+    "build_manifest": {
+      "bytes": 464,
+      "sha256": "aa86e8be2616b4b70d793a8384c33c93e45c13655ca63638bc2e4e5e51fb8c2b"
+    },
+    "zip": {
+      "bytes": 438023378,
+      "sha256": "b18cd1dafe65a36031db1bab480ab1978e34a0259873f903d1884029a669d3f1"
+    },
+    "pck": {
+      "bytes": 399841208,
+      "sha256": "2836e7dbd377e587b736b1564cb290078f0436e33e006ddd8422d0a763ed8557",
+      "entries": 1892,
+      "engine": "4.6.2",
+      "icu_present": false
+    },
+    "app_files": 7,
+    "app_snapshot_sha256": "b068602bad7e9bce1e5ea9985580b0e1873f5714166582c6d46379f530b84abf",
+    "result": "import-only actual0/6출력만, build6명령 actual0이다. 전PCK payload MD5·675JSON/target JSON·6ctex binding·strict서명·universal x86_64/arm64를 직접 확인했다. nested project ignored경고와 export ad-hoc서명 교체는 남기며 zero-warning이라고 하지 않는다. ICU없음은 사실이며 이번 KO/EN 실패 판정이 아니다.",
+    "issuance_boundary": "manifest는 원package.json의 byteexact 복제이며 발급 당시 unobserved/PENDING 문구를 사후 변경하지 않는다. 후속 native 증거는 이 보고에 별도로 결속한다."
+  },
+  "findings": [
+    "원문5언어·선택·효과·조건·게임플레이·기존 daeun_normal/night·공개/demo pin은 불변이다. 새 사복(남색 cardigan/ivory crewneck), 같은 가게 오후 내부/외부, 분식/하천/밤 기다림 CG3을 기존 registry·문단 배경·resultCG/reveal1·1·2 계약으로 배선했다. 새 renderer/schema/저장필드0이다.",
+    "StoryMode9줄은 유효한 delayed resultCG·reveal>0·문단배경이 있을 때 pending 전 마지막 intro 문단 배경을 기존 consumer로 복원한다. live의 외부와 cold prereveal 외부를 맞추며 reveal 뒤 CG/즉시CG/배경만 있는 사건은 기존 경로다. 새 게임효과나 원고 이동을 추가하지 않는다.",
+    "원본6 전수에서 동일 성인 정체성·사복·손/시선·같은 가게 동선·16시/밤·붉은 의자·투명 경계를 확인했다. CG3은 raw→1584x990 crop→1280x800 resize이며 raw byteexact가 아니다. 낮빛 night/낮은 소품 초기반려 및1278x798 중간 실패도 보존했다.",
+    "KO/EN×960x600/1280x800의27장씩108장을 원해상도로 직접 보았다. 본문 실내→외부, 선택3, live/cold prereveal, reveal1/1/2, 꿈의 기존 근무복 복귀가 정합했다. 얼굴·손·물컵/계산서·폰/가방 손잡이와 글의 잘림/tofu/EN 한글누출에서 새 확정 결함0이다. 가방 하단은 UI 뒤이며 전량 무가림은 아니다.",
+    "ART 신규6행만 portrait/background PASS-B·CG3 PASS-A로 정렬하는 근거가 충분하다. 과거257행은 불변이며 agent 관측을 사람 판정으로 바꾸지 않는다. 최종 no-arg 원stdout263/ART_AI_AUDIT_OK 및 stderr0을 직접 읽었고 exit0은 root tool 결과다. 두1586x992 master-size WARNING와 초기 --check usage2를 남겼다.",
+    "whole Manual은 actual exit1·성공marker0이며 날짜 fresh full initializer assertion1이 실패했다. production terminal의 finish_run→Meta.total_runs 증가→start_new_game repeat/veteran flag와 fresh helper의 flags.is_empty 충돌을 직접 source/call-order로 확인했다. 관련3파일은 기준4fe119a부터 불변이고 이번9줄 CG복원과 무관하나 baseline 재실행 PASS는 발급하지 않는다. raw에는 repeat flag 실측 출력이 없으며 원인 판독은 source 근거다. NG+ 정상입구 수리는 이번에 하지 않았다."
+  ],
+  "executions": {
+    "targets": {
+      "runs": 4,
+      "actual_exit": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "seconds": [
+        44.909938,
+        45.125662,
+        48.984445,
+        49.216567
+      ],
+      "png": 108,
+      "synthetic_v4": 40,
+      "exact_marker_each": 1,
+      "stderr_bytes_each": 0,
+      "error_warning_leak_lines": 0,
+      "boundary": "합성 complete_typing/direction 및 같은 프로세스 새 StoryMode; 자연 완독·새OS cold가 아니다."
+    },
+    "manual": {
+      "receipt": {
+        "path": ".git/order547-qa-20261011/regression-manual-01.json",
+        "bytes": 27200,
+        "sha256": "74de2fee077e45247b2be517a01d1b1a297dea657f3e906854ac7c388458620e"
+      },
+      "actual_exit": 1,
+      "seconds": 204.866474,
+      "result": "MANUAL_SAVE_CHECK_FAIL: date fixture did not use the actual fresh full initializer; 의도적 negative ERROR10과 이 실제 assertion을 분리하며 전체 FAIL 원형을 유지한다."
+    },
+    "story": {
+      "receipt": {
+        "path": ".git/order547-qa-20261011/regression-story-01.json",
+        "bytes": 25214,
+        "sha256": "9d837c2e12a188fb305e77c75fe9e2f19fda5558e189c87712070f1e42096e1b"
+      },
+      "actual_exit": 0,
+      "seconds": 14.372,
+      "stdout_godot_sha256": "4c853ff38d59269f2d6fff29883627301a7529eb7a858d61f9b7a51629dda7a7",
+      "result": "STORY_PLAYBACK_CHECK_OK 정확1·stderr0. 준비된 playback 계약이며 native 판정이 아니다."
+    },
+    "cg": {
+      "receipt": {
+        "path": ".git/order547-qa-20261011/regression-cg-01.json",
+        "bytes": 24459,
+        "sha256": "06e0bcc2e0bcd135a3970384ac3a3fb301395d2fcce08fdff117a747b54d3d00"
+      },
+      "actual_exit": 0,
+      "seconds": 7.220051,
+      "stderr_sha256": "7385057f9e5ce1ef1077d91d1bdb44f1f45a5c8da0759741d86d6adfed805106",
+      "result": "CG_RUNTIME_CHECK_OK 정확1이나 ObjectDB WARNING+ERROR 2 resources still in use at exit로 strict private wrapper FAIL 원형보존. 기존 audit.sh 기본 CG guard는 exact resources행을 제외하고 teardown_strict만 ObjectDB를 막으므로 기능계약은 한정 통과다. zero-error/leak·wrapper PASS·누수수리 GO는 아니다."
+    },
+    "native": {
+      "receipt": {
+        "path": ".git/order547-qa-20261011/native-result.json",
+        "bytes": 351956,
+        "sha256": "f68fe7bf5e352bdfbc4c17fc336a235c2938928a70d9f377437f362f894f5f57"
+      },
+      "actual_exit": 0,
+      "seconds": 424.930588,
+      "stdout_godot_bytes": 154,
+      "stdout_godot_sha256": "6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1",
+      "stderr_bytes": 0,
+      "error_warning_leak_lines": 0,
+      "result": "root만 KO1280x800에서 W34 본문4/선택0/결과2→W35 본문3/선택0/결과2 및CG0→W36 첫문단을 읽었다. CmdQ 단독이 마지막 UI 호출이며 owned50863/50852 부재·editor61385 생존을 독립 readonly 확인했다. 독립 native pixels0이다."
+    }
+  },
+  "saved_payload": {
+    "file": {
+      "path": ".git/order547-qa-20261011/final-native-autosave.json",
+      "bytes": 136633,
+      "sha256": "28fe1d2a05513858ea0cdb2cf7614428fb24edc056c5cc65b1c1ab68ba1c194a"
+    },
+    "schema": "v4 envelope / state / flags.full_story_flow_preview",
+    "turn": 36,
+    "week_of_month": 4,
+    "month": 9,
+    "money": -2461703,
+    "health": 52,
+    "mental": 100,
+    "events_seen": 44,
+    "investment_skill": 21,
+    "profile": "full_story_flow",
+    "last_completed_turn": 35,
+    "resume": {},
+    "receipts": "원 read25/routine33/completed33 및 event_log42/action_log prefix 값을 모두 보존하고 read34(seq43)/35(seq44), routine34/35, completed34/35와 event34/35 choice0만 각1 추가했다. routine34 +70000/h0/m+4, routine35 +70000/h0/m0(clamp); 새 선택35의 원 money−30000/mental+11/다은affinity+12도 실제 저장과 맞는다. 새 다은 affinity20/met/close와 deferred2는 원 producer다.",
+    "prose": "W35 saved result_text는 canonical choice0의 {name} 치환과 exact다. 첫 결과의 정확 표현은 '방값 알림'이며 '밤잠'으로 전사하지 않는다.",
+    "boundary": "옛 actual W34 autosave130852B/6ba691d3…1개를 새HOME에 byteexact 복사한 정상 Continue다. fresh W1/no-copy 주장이 아니다. 같은 M09의 W36까지만 관측했고 월말/M10/새OS cold는 미실행이다."
+  },
+  "preservation": {
+    "final_seal": {
+      "path": ".git/order547-qa-20261011/independent-final-preservation.json",
+      "bytes": 11882,
+      "sha256": "10199deacd60654e61e9a388f39a6d76b3974941653e43a05c80fb8bdb3c99b3"
+    },
+    "source_rebind": {
+      "path": ".git/order547-qa-20261011/independent-final-source-binding.json",
+      "bytes": 3667,
+      "sha256": "fb4c28a3cf922673e8e4655fec6618a815a289d0990815ff6f54207bbfcbd300"
+    },
+    "result": "native 입구→종료→fresh 보호86/1507파일 exact 및 preengine86 digest exact, 당시 tracked3326/spec/helper8/app7·ZIP/PCK/manifest exact다. original helper5/seed2/W238/player33·Human·과거288판정 wholefile/old287prefix를 보존했다. mutable 새HOME만1→5파일이다. 후속 source41fef의 의도된5문서 차이는 별도 seal로 결속했으며 옛 final seal을 덮지 않았다.",
+    "historical_decisions_sha256": "4a35ac2d5cbb171fac597cc2127308a62acaa8eded5f93e2f6276ededd8ad604",
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "incident_boundary": "현재보존GO는 옛544 시도2 retail 로그3경로 변화/194B 삭제를 복구·소급GO로 바꾸지 않는다. root의 잘못된 top-level jq/null 및 배열 index 조회는 readonly 진단일 뿐 state 수정이 아니다."
+  },
+  "evidence": {
+    "prompt_and_rejections": {
+      "path": "docs/agent_reviews/ORDER-547-assets.json",
+      "bytes": 30635,
+      "sha256": "188bc0f918c76aea63995d1c9c46dad62296d4f6057c71b8f5055922d1bb81b5"
+    },
+    "pre_engine": {
+      "path": ".git/order547-qa-20261011/independent-pre-engine.json",
+      "bytes": 47864,
+      "sha256": "68a34f2f466af46f78673aee4cb274ab5744963b9450c632232dd4b5841fa798"
+    },
+    "build_admission": {
+      "path": ".git/order547-qa-20261011/independent-build-admission.json",
+      "bytes": 45176,
+      "sha256": "e3539df6a25e7753b161335e8b178abc5943b17747d47a50546c9acd5450969c"
+    },
+    "build_result": {
+      "path": ".git/order547-qa-20261011/build-result.json",
+      "bytes": 353911,
+      "sha256": "f34ec0ef472af883445e8ff6037c5045d84d673f170bc390de4b2bcbc3cdc66e"
+    },
+    "native_admission": {
+      "path": ".git/order547-qa-20261011/independent-native-admission.json",
+      "bytes": 7694,
+      "sha256": "cf7c300aee1275945aa41fc947d9ee235d375d9fa09a2ace8ca398b13ee24ede"
+    },
+    "prepared_visual": {
+      "path": ".git/order547-qa-20261011/independent-target-visual-review.json",
+      "bytes": 10219,
+      "sha256": "d04bdfbf50a127bc66abca388b7de80ea2cac08a0c20a7005bf731b63c3f17ba"
+    },
+    "journal": {
+      "path": ".git/order547-qa-20261011/observations.md",
+      "bytes": 8020,
+      "sha256": "bbd88722e4449e8b69b887a01df3d3f0ff386f955ca2c5efd0173153af5fb831"
+    },
+    "art_stdout": {
+      "path": ".git/order547-qa-20261011/art-ledger-final.stdout.log",
+      "bytes": 393,
+      "sha256": "e8a6583639c243c692cb6c4203b03a1df95410c10fa17a146a6c928273d7a75c"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "independent_native_pixels",
+    "native EN/JA/CN/TW",
+    "native choice1/2",
+    "new_OS_process_cold",
+    "new_game_NGplus_repaired",
+    "audio/listening",
+    "native4K/master quality",
+    "M09 full month/M10 progression",
+    "whole CI/release"
+  ],
+  "closure": "최종 작업 verdict는 HOLD이며 부분 화면·기능·현재보존 GO만 있다. 전체 Manual NG+ 인과 수리를 별도 선언해 통과시키기 전 작업 전체 또는 출시 PASS로 기록하지 않는다."
+}

@@ -12132,6 +12132,75 @@
         "path": "docs/agent_reviews/ORDER-546.json",
         "sha256": "a03eb3abfa4435bda107e5101feb6c9b14dd503cee3d443c2e4e05974333974d"
       }
+    },
+    {
+      "id": "order-547-source-bounded-visual-go-overall-hold",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-11",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-547",
+      "subject": {
+        "kind": "source",
+        "commit": "41fef2eec0a193159340df3481badc2d50dd0e84",
+        "tree": "053b35ec9e8a7e973e38ef4a01ec4eaa46827fed",
+        "manifest_sha256": null
+      },
+      "verdict": "HOLD",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-547.json",
+          "sha256": "2054c60f60b3fbabe5daeab8547508ba48d01a9d515e2468d213b416727b6483"
+        }
+      ],
+      "unobserved": [
+        "native_reader", "human_playtest", "physical_controller_feel",
+        "whole_Manual_NGplus_repaired", "full_remote_CI_external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-547.json",
+        "sha256": "2054c60f60b3fbabe5daeab8547508ba48d01a9d515e2468d213b416727b6483"
+      }
+    },
+    {
+      "id": "order-547-package-native-choice0-bounded-go-overall-hold",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-11",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-547",
+      "subject": {
+        "kind": "package",
+        "commit": "a0bc2886faf34ca75c926b1492cfe5808413921f",
+        "tree": "9e21cfc5647f6f81b7999617453a9ffd8bb56ef4",
+        "manifest_sha256": "c4b93854e46a55cb8d2e4150560370ce551be35655762d692060e8fa095e028d"
+      },
+      "verdict": "HOLD",
+      "evidence": [
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-547.json",
+          "sha256": "2054c60f60b3fbabe5daeab8547508ba48d01a9d515e2468d213b416727b6483"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-547-manifest.json",
+          "sha256": "c4b93854e46a55cb8d2e4150560370ce551be35655762d692060e8fa095e028d"
+        }
+      ],
+      "unobserved": [
+        "native_reader", "human_playtest", "physical_controller_feel",
+        "independent_native_pixels", "native_other_choices_locales_new_OS_cold",
+        "whole_Manual_NGplus_repaired", "M09_whole_month_or_later_natural_play",
+        "full_remote_CI_external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-547.json",
+        "sha256": "2054c60f60b3fbabe5daeab8547508ba48d01a9d515e2468d213b416727b6483"
+      }
     }
   ]
 }

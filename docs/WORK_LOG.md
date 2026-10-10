@@ -14,6 +14,9 @@
   whole Manual exit1의 정상 NG+ owner 충돌은 별도 수리한다. 원 실패·CG teardown
   wrapper FAIL은 보존하며 종료누수 추적0이다. 사람/원어민/패드·본편/출시 HOLD,
   새규범·전체감사·STATUS-only0. 개발skill의 격리·소비자재사용·증거경계를 적용했다.
+- 독립 보고14691B/2054c60f…는 새 source41fef/tree053b와 실행 packagea0bc를
+  구분해 결속했다. manifest12058B/c4b93854… 원본불변, work_unit HOLD2건만
+  추가했다. 기존288판정 원문·Human 불변, 새 internal_product/출시 GO0이다.
 
 ## 2026-10-11 — M09 실제 선택·결과 확인, 다은 그림 연속성 수리 필요
 

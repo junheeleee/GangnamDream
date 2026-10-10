@@ -1,0 +1,275 @@
+{
+  "unit": "ORDER-547",
+  "scope": "new full app normal Continue W34→W35 choice0/result→W36 first paragraph only; not release",
+  "source": {
+    "head": "a0bc2886faf34ca75c926b1492cfe5808413921f",
+    "tree": "9e21cfc5647f6f81b7999617453a9ffd8bb56ef4",
+    "status": ""
+  },
+  "project": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream",
+  "zip": {
+    "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/build/macos/GangnamDream.zip",
+    "sha256": "b18cd1dafe65a36031db1bab480ab1978e34a0259873f903d1884029a669d3f1",
+    "size": 438023378
+  },
+  "manifest": {
+    "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/build/macos/MANIFEST.sha256",
+    "sha256": "aa86e8be2616b4b70d793a8384c33c93e45c13655ca63638bc2e4e5e51fb8c2b",
+    "size": 464
+  },
+  "app": {
+    "label": "new_app",
+    "path": "/private/tmp/gd-order547-build-ze5249j0/app/GangnamDream.app",
+    "exists": true,
+    "entries": [
+      {
+        "path": "Contents/Info.plist",
+        "kind": "file",
+        "sha256": "091169de1ad20197ec07e69f5588a0a3fce562e7eba15d3938d8cdfe9d5ce7fb",
+        "size": 1797
+      },
+      {
+        "path": "Contents/MacOS/GangnamDream",
+        "kind": "file",
+        "sha256": "01184818c58458e3058c75c429f334313630a3b07412e945fa560e9b36f08748",
+        "size": 184222304
+      },
+      {
+        "path": "Contents/PkgInfo",
+        "kind": "file",
+        "sha256": "7e50a30efad50208a173203ced60818d693bb61266b75aa10927d1a2adce80cb",
+        "size": 9
+      },
+      {
+        "path": "Contents/Resources/GangnamDream.pck",
+        "kind": "file",
+        "sha256": "2836e7dbd377e587b736b1564cb290078f0436e33e006ddd8422d0a763ed8557",
+        "size": 399841208
+      },
+      {
+        "path": "Contents/Resources/PrivacyInfo.xcprivacy",
+        "kind": "file",
+        "sha256": "0535353bb08c25b8ce5ed9ac7e442a5994f402e0f6cbc4bed668cfc63c2ceac3",
+        "size": 229
+      },
+      {
+        "path": "Contents/Resources/icon.icns",
+        "kind": "file",
+        "sha256": "14ccaeef56a52d52af211adce6d6c5b330cafa6c29dc928659b4369ebcef0a28",
+        "size": 2550174
+      },
+      {
+        "path": "Contents/_CodeSignature/CodeResources",
+        "kind": "file",
+        "sha256": "056c7e13431e98093234963896a25690137a5ee939d893a93c29c7a0dde75eb9",
+        "size": 2926
+      }
+    ]
+  },
+  "app_path": "/private/tmp/gd-order547-build-ze5249j0/app/GangnamDream.app",
+  "argv": [
+    "/private/tmp/gd-order547-build-ze5249j0/app/GangnamDream.app/Contents/MacOS/GangnamDream"
+  ],
+  "pck": {
+    "file": {
+      "path": "/private/tmp/gd-order547-build-ze5249j0/app/GangnamDream.app/Contents/Resources/GangnamDream.pck",
+      "sha256": "2836e7dbd377e587b736b1564cb290078f0436e33e006ddd8422d0a763ed8557",
+      "size": 399841208
+    },
+    "header": {
+      "format_version": 3,
+      "engine_version": [
+        4,
+        6,
+        2
+      ],
+      "flags": 2,
+      "base_offset": 112,
+      "directory_offset": 399667616,
+      "entry_count": 1892
+    },
+    "payload_digests": "all directory MD5 matched",
+    "target_event_exact": "content/events/arc_daeun.json",
+    "target_imports": [
+      {
+        "source": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/assets/characters/npc_daeun_regular_offduty_v1.png",
+          "sha256": "24d7188524df29091db169869229ba120e92790560ca8f6225dccf088b6cd1fe",
+          "size": 2086400
+        },
+        "sidecar": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/assets/characters/npc_daeun_regular_offduty_v1.png.import",
+          "sha256": "a40725e69f962f6e9d8d56c0bdcd2d3f1df9a16bdeb1a5141f0b0f21735fcf97",
+          "size": 1005
+        },
+        "imported": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/.godot/imported/npc_daeun_regular_offduty_v1.png-6b61b3b20da9e89cc1842da0967b6e9f.ctex",
+          "sha256": "865af85d765b53e6192a0a1df32047777255e449d3a185302bf4acdf8e36c5f5",
+          "size": 1403098
+        },
+        "binding": [
+          "texture",
+          "CompressedTexture2D",
+          ".godot/imported/npc_daeun_regular_offduty_v1.png-6b61b3b20da9e89cc1842da0967b6e9f.ctex"
+        ]
+      },
+      {
+        "source": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/assets/backgrounds/convenience_store_afternoon_v1.png",
+          "sha256": "0b2c0d1cbdbf7b877726c28d538822859b4a18a1afd8b438a88328b7a5392c89",
+          "size": 2964856
+        },
+        "sidecar": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/assets/backgrounds/convenience_store_afternoon_v1.png.import",
+          "sha256": "a331903476ff01700217cd5e73db4362dd8b7c239f4fbab6f8707234d8f4aedf",
+          "size": 1013
+        },
+        "imported": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/.godot/imported/convenience_store_afternoon_v1.png-8d9e701b2db373e1fe0a720cb7d66de1.ctex",
+          "sha256": "5a663e5f6d2eadf5e9dad59791346cb59b3c87bc3099a06d4b0c71d874945f7d",
+          "size": 1964608
+        },
+        "binding": [
+          "texture",
+          "CompressedTexture2D",
+          ".godot/imported/convenience_store_afternoon_v1.png-8d9e701b2db373e1fe0a720cb7d66de1.ctex"
+        ]
+      },
+      {
+        "source": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/assets/backgrounds/convenience_store_exterior_afternoon_v1.png",
+          "sha256": "ffe34676416a9bdee220461f4c1cfb4c24f4ac0e0bc10ae6dcf5200fd018d245",
+          "size": 2923997
+        },
+        "sidecar": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/assets/backgrounds/convenience_store_exterior_afternoon_v1.png.import",
+          "sha256": "1b7a8b95fd043496e253b0e6fab519d5fae67d50b6aa053cf9b3659442755550",
+          "size": 1040
+        },
+        "imported": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/.godot/imported/convenience_store_exterior_afternoon_v1.png-492e238099ae4a3536e1df26a18d7c3c.ctex",
+          "sha256": "9eae28fc2b6f87e75f1034934558dbf21ec0dc1eb6155a986ae7d9bf03aa4f1c",
+          "size": 1961376
+        },
+        "binding": [
+          "texture",
+          "CompressedTexture2D",
+          ".godot/imported/convenience_store_exterior_afternoon_v1.png-492e238099ae4a3536e1df26a18d7c3c.ctex"
+        ]
+      },
+      {
+        "source": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/assets/cg/romance/daeun_regular_bunsik_v1.png",
+          "sha256": "dda2e6e09a0112759f842c579a5591e8c942f0114d3634eb5467a4207b4de256",
+          "size": 1598935
+        },
+        "sidecar": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/assets/cg/romance/daeun_regular_bunsik_v1.png.import",
+          "sha256": "4e49083441993a5a5d64261f11b6add2c6812a1afbfea1f3dea29619509d1bcd",
+          "size": 991
+        },
+        "imported": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/.godot/imported/daeun_regular_bunsik_v1.png-5d43d34ce9f605ea950d877df4796c85.ctex",
+          "sha256": "b0aca99253860c408b7d318550c90b8ecbef0f16bfe4d8db1571b95ba29a2184",
+          "size": 1097252
+        },
+        "binding": [
+          "texture",
+          "CompressedTexture2D",
+          ".godot/imported/daeun_regular_bunsik_v1.png-5d43d34ce9f605ea950d877df4796c85.ctex"
+        ]
+      },
+      {
+        "source": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/assets/cg/romance/daeun_regular_walk_v1.png",
+          "sha256": "3e8d87f3695e281e3d79a62f6f72915257a6694ba5e4f73848d88da2fa6ed7bd",
+          "size": 1870565
+        },
+        "sidecar": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/assets/cg/romance/daeun_regular_walk_v1.png.import",
+          "sha256": "a9e7f38eccefe6d876f0e2498a8d905c3c36cfbd07d17e773826f7572cf0fe7f",
+          "size": 985
+        },
+        "imported": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/.godot/imported/daeun_regular_walk_v1.png-5978ccada0bc3a47e7ca86bdc4c71b6e.ctex",
+          "sha256": "8936b8e0ffcc1f8a2ea789dba938bfac7256207734f434a87464725123a7aa60",
+          "size": 1291192
+        },
+        "binding": [
+          "texture",
+          "CompressedTexture2D",
+          ".godot/imported/daeun_regular_walk_v1.png-5978ccada0bc3a47e7ca86bdc4c71b6e.ctex"
+        ]
+      },
+      {
+        "source": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/assets/cg/romance/daeun_regular_night_wait_v1.png",
+          "sha256": "7c043845a0bb58a1454f6ed3ede61342f0307c426a318d15bb24d4bd1c1e72de",
+          "size": 1508938
+        },
+        "sidecar": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/assets/cg/romance/daeun_regular_night_wait_v1.png.import",
+          "sha256": "e4bf269b31c0b17957d407147ea8ee5e7049fd19bd87149bb1db5bc409cefcb1",
+          "size": 1003
+        },
+        "imported": {
+          "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/.godot/imported/daeun_regular_night_wait_v1.png-fca844077465c66564ff42584dd4a98a.ctex",
+          "sha256": "5bfa9ef8ee16d81ed704bc6f6bf70bc0c3379f21511be854dc070a86410b9be6",
+          "size": 1037336
+        },
+        "binding": [
+          "texture",
+          "CompressedTexture2D",
+          ".godot/imported/daeun_regular_night_wait_v1.png-fca844077465c66564ff42584dd4a98a.ctex"
+        ]
+      }
+    ],
+    "icu_member_present": false
+  },
+  "build_sandbox": "/private/tmp/gd-order547-build-ze5249j0",
+  "build_environment": {
+    "HOME": "/private/tmp/gd-order547-build-ze5249j0/home",
+    "XDG_DATA_HOME": "/private/tmp/gd-order547-build-ze5249j0/xdg-data",
+    "XDG_CONFIG_HOME": "/private/tmp/gd-order547-build-ze5249j0/xdg-config",
+    "XDG_CACHE_HOME": "/private/tmp/gd-order547-build-ze5249j0/xdg-cache",
+    "GODOT": "/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot"
+  },
+  "build_receipt": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order547-qa-20261011/build-result.json",
+  "unobserved": [
+    "native_W35",
+    "human_playtest",
+    "native_reader",
+    "physical_controller_feel",
+    "audio_listening",
+    "release"
+  ],
+  "build_package": {
+    "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order547-qa-20261011/build-package.json",
+    "sha256": "ea0dcac337b3707a86b8b5eb6bccb37622600fb99e6727705bd11dc305c36201",
+    "size": 10410
+  },
+  "sandbox": "/private/tmp/gd-order547-native-qliuq6qq",
+  "environment": {
+    "HOME": "/private/tmp/gd-order547-native-qliuq6qq/home",
+    "XDG_DATA_HOME": "/private/tmp/gd-order547-native-qliuq6qq/xdg-data",
+    "XDG_CONFIG_HOME": "/private/tmp/gd-order547-native-qliuq6qq/xdg-config",
+    "XDG_CACHE_HOME": "/private/tmp/gd-order547-native-qliuq6qq/xdg-cache"
+  },
+  "actual_user_data_path": "/private/tmp/gd-order547-native-qliuq6qq/home/Library/Application Support/Godot/app_userdata/강남드림",
+  "checkpoint_source": {
+    "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order544-attempt3-20261011/final-autosave.json",
+    "sha256": "6ba691d3f0440cca719478b564392a32f5583bbf1ebd0b848f5508bf9ce76170",
+    "size": 130852
+  },
+  "checkpoint_target": {
+    "path": "/private/tmp/gd-order547-native-qliuq6qq/home/Library/Application Support/Godot/app_userdata/강남드림/gangnam_dream_autosave.json",
+    "sha256": "6ba691d3f0440cca719478b564392a32f5583bbf1ebd0b848f5508bf9ce76170",
+    "size": 130852
+  },
+  "copied_saves": 1,
+  "state_edits": 0,
+  "rebuilds": 1,
+  "admission": "PENDING independent admission; this preparation is not runtime/package quality GO",
+  "stop": "W36 first paragraph; extra choice0; CmdQ alone is last UI call, afterwards read-only process/log only",
+  "historical_limits": "current protection does not erase ORDER544 attempt2 log incident or old544/546 HOLD/REWORK"
+}
