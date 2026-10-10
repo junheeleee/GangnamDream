@@ -1,6 +1,6 @@
 # ORDER-528 — 수리 앱 M03 두 만남·선택·M04 복귀
 
-#### [~] ORDER-528 [P1·실제 진행] 다은·지연 만남과 월 정산을 정상 입력으로 확인한다
+#### [x] ORDER-528 [P1·실제 진행] 다은·지연 만남과 월 정산을 정상 입력으로 확인한다
 
 **착수 — 2026-10-10 / 선언 뒤 실행.** [527](../queue_archive/ORDER-527.md)의
 exact ICU 앱 M02 재개·EN복귀·행동/정산→M03첫문단만 GO다. 같은 실제 M03 저장에서
@@ -52,3 +52,31 @@ choice4·settlement3/431만원·건강70·정신69가 코드 기반 기대값이
 독립 대조 전에는 GO가 아니다. 준비 과정 파일쓰기·엔진·GUI·검사 반복0이다.
 
 일회성 실행 지시/정본승격0. 자동 계약·에이전트 관찰은 인간 재미 GO가 아니다.
+
+## 완료 — 2026-10-10 / 선언 범위 한정 GO
+
+- 정상Continue1·개별Return13·다은0/지연0각click1·CmdQ1, OS앱실행1회다.
+  다은본문4문단(1/1/1/2줄)·2택·선택0결과2문단(2/1줄), 지연본문5문단
+  (1/1/1/1/2줄)·3택·선택0결과2문단(2/1줄)을 자연완독했다. 첫 문단 출력 중에는
+  입력하지 않고 완문/안내가 나올 때까지 읽었다. 본문/선택 잘림·tofu·경로명 노출
+  관측0이다. M03 두CG에는 HUD/이름표가 없어 수치나 이름표 표시를 주장하지 않는다.
+- 결과 뒤 정산1회→M04 `왜 강남인가` 첫문단1줄/임상철 이름표/HUD431만원·건강70·
+  정신69·남은57개월이 자동 복귀했다. M04 다음입력0, 설정입력0·AUTO/skip/hold/
+  연타/강제선택/수동save/복사/주입/재발급/새checker0이다.
+- 실제 save12987B/SHAf892597d93c62c51410eb2f7a06471d2bebfe75164570863fd1a53ab118dfee6:
+  M4/elapsed12/closed[1,2,3]/pressure3/turn13/choice4·settlement3/431만원·70·69/
+  moral_tint8. 기존2선택/2정산 값동일(숫자재직렬화 포함), 신규M3각index0/정산1만
+  추가됐다. 다은met/호감8/acquaintance·지연met/호감8/curious/휘어진바퀴가 맞고
+  보상/연락처/연애 플래그 추가0이다. backup M4transition→current M4story도 정합하다.
+- private `.git/order528-live-20261010/` raw7: before723850B/6800123a…,
+  after724140B/9bf5c962…·관찰8550B/c222a0f8…·command1421B/cf8f2b7e…,
+  exit0/233.556334초/stdout=Godot790B/7dcba27f…·stderr/오류/경고/누수0.
+  entry2는 같은앱내controller재진입이며 OS실행2회나 설정입력 증거가 아니다.
+  own86333/86329부재/editor61385생존이다. 입구전 slot/JSON키 가정의 읽기 진단
+  실패는 raw쓰기/실행 전에 정정했으며 앱오류나 저장변경이 아니다.
+- root/비저자 phone_independent_review는 clean39e31465f11e7f6ae67b2746c776b7d3ec44a8e4/
+  treef983c1d19b57756788c96e9c745e6afb296226cd의 source3268/helper5/seed2/W238/
+  player33·immutable56 전량 before=after=fresh/runtime8 after=fresh를 직접 대조했다.
+  원고2파일/exact stage·효과/cast consumer·월guard·영수증/저장/원로그 정합으로
+  한정GO/동결해제다. pixels root/독립원산출검수·독립pixels0/PNG영속0이며 다른선택/
+  언어/크기·M04나머지/인간/원어민/물리/연속청취·전체302/본편/출시는 HOLD다.

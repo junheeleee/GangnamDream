@@ -2,12 +2,19 @@
 
 이전 기록은 [526 발급까지의 원문](history/WORK_LOG_2026-10-10_pre_order526.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — M03 두 만남·선택/월 정산→M04 완료
+
+- [528](queue_archive/ORDER-528.md) 한정GO. Continue1/개별Return13/다은0·지연0각click1/CmdQ1, KO본문4+5문단/각결과2/2택+3택을 자연완독했다. 잘림·tofu·경로명 노출 관측0. M3CG HUD/이름표 표시 주장0, M4첫문단1줄/임상철/HUD431만원·70·69·남은57개월까지 자동복귀/M4추가입력0이다.
+- 실제 save12987B/f892597d… M4/elapsed12/closed[1,2,3]/pressure3/turn13/choice4·settlement3/moral_tint8. 기존2/2영수증 값동일·신규M3각index0/정산1만 추가, 다은acquaintance8·지연curious8/휘어진바퀴와 보상/연락처/연애flag추가0이 정합하다. raw7 before723850B/6800123a… after724140B/9bf5c962… 관찰8550B/c222a0f8… command1421B/cf8f2b7e…, exit0/233.556334초/stdout=Godot790B·stderr/오류/경고/누수0이다.
+- root/비저자 phone_independent_review는 clean39e31465/treef983c1d1 source3268/helper5/seed2/W238/player33·immutable56 전량 before=after=fresh/runtime8·원고2/exact stage·효과/cast/월guard/원저장/로그를 직접 대조해 GO/동결해제했다. own86333/86329부재/editor61385생존·pixels root/독립원산출/독립pixels·PNG영속0이다.
+- 개발 스킬의 최소 저장경계·실제소비자·독립fresh·원본보존을 적용했다. 설정/제품/원문/번역/원저장/재발급/새검사0·일회성/정본승격0, 읽기키 진단은 raw쓰기/앱실행 전 정정했다. 다른선택/언어/크기·M04나머지/인간/원어민/물리/청취·본편출시 HOLD다. [529](queue_active/ORDER-529.md)에 M04상철 세 연결index0·정산1→M05첫문단 한 단위만 선선언했다. 비저자 읽기 준비는 code기대값이고 actualGO0이다.
+
 ## 2026-10-10 — M02 정상 재개·언어복귀·단일행동/정산 완료
 
 - [527](queue_archive/ORDER-527.md) 정정범위 GO. Continue1/Return4/Settings2/EN→KO/close2/CmdQ1, KO본문3+3줄/EN마지막4줄/KO복귀3줄·행동안내 완문/동일위치. 설정 중297만원·70·62 불변, 새Return만정신72/결과1→결과2(각2줄)→정산1→M03/+1/편의점CG첫문단1줄로 자동복귀했다. 그CG의HUD/이름표 표시를 주장하지 않는다.
 - save10529B/d5afe7ab… M3/elapsed8/closed[1,2]/pressure2/turn9/choice2·settlement2/364만원·70·70. 신규M2 행동0/정산각1건·기존M1영수증동일, 즉시200만원 지급·중복효과0이다. raw7 before720298B/659b50cc… after720651B/2944b4a7… 관찰6045B/ce9c40ab… command1470B/779749b4…, exit0/168.756498초/stdout=Godot790B/7dcba27f… stderr·오류·경고·누수0. entry2는앱1회내controller재진입이다.
 - root/비저자 phone_independent_review는 clean7e1f45d/tree4b66368d source3267/helper5/seed2/W238/player33·immutable55 전체 before=after=fresh/runtime7/원저장·로그·월guard를 직접 대조해 한정GO/동결해제했다. own65109/65108부재/editor61385생존, 첫시도REWORK raw7 보존. pixels root/독립원산출·PNG영속0/독립pixels0, 다른경로·크기·M03이후·인간/원어민/물리/청취·본편출시 HOLD다.
-- 개발 스킬의 실제소비자 전제·독립fresh·저장보존을 적용했고 제품/원문/번역/원저장/재발급/새검사0·일회성/정본승격0이다. [528](queue_active/ORDER-528.md)에 같은M3 저장의 다은·지연 정상완독/각선택0·정산1→M4첫문단을 선선언한다. 읽기 준비에서 장면 사이 자동저장0을 확인해 월 복귀를 최소 단위로 묶었다. 코드 기반 기대값과 실제GO는 구별한다.
+- 개발 스킬의 실제소비자 전제·독립fresh·저장보존을 적용했고 제품/원문/번역/원저장/재발급/새검사0·일회성/정본승격0이다. [528](queue_archive/ORDER-528.md)에 같은M3 저장의 다은·지연 정상완독/각선택0·정산1→M4첫문단을 선선언한다. 읽기 준비에서 장면 사이 자동저장0을 확인해 월 복귀를 최소 단위로 묶었다. 코드 기반 기대값과 실제GO는 구별한다.
 
 ## 2026-10-10 — M02 재개 실측·단일행동 검수 전제 정정
 

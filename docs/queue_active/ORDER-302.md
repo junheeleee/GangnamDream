@@ -181,5 +181,6 @@ fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거�
 [523](../queue_archive/ORDER-523.md)의 exact522 저장·완문/수치/이름표 재개와
 [524](../queue_archive/ORDER-524.md)의 정산1·자동M02 복귀 GO(진행안내 소실 비재현).
 [525](../queue_archive/ORDER-525.md) M02 설정5언어·[526](../queue_archive/ORDER-526.md)
-ICU 줄바꿈 GO. [527](../queue_archive/ORDER-527.md) M02재개·EN복귀·확정/정산→M03 GO.
-공개본/사용자GO 불승계·나머지 runtime·전체302/본편/출시 HOLD를 유지한다.
+ICU 줄바꿈·[527](../queue_archive/ORDER-527.md) M02재개/언어복귀·
+[528](../queue_archive/ORDER-528.md) M03두만남/정산→M04 GO.
+공개본/사용자GO 불승계·나머지 runtime·전체302/본편/출시 HOLD다.

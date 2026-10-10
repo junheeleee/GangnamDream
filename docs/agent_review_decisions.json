@@ -11106,6 +11106,55 @@
         "path": "docs/queue_archive/ORDER-527.md",
         "sha256": "aab99eb46371bec107ca7f7c82cc0fa7aae096dd4df307fc148ae21b0ebc0fba"
       }
+    },
+    {
+      "id": "order-528-package-25fc879-icu-break-m03-two-encounters",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-528",
+      "subject": {
+        "kind": "package",
+        "commit": "25fc879d39a6593e244b3905d7782f22560676c2",
+        "tree": "de0898823de1cbb26ea9cfe7c5a7ccd0233b5e6a",
+        "manifest_sha256": "7a435023dbb662de53f02012242ffa04b106f0b56f86ab5ca6c5eab7bdf50072"
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-528.md",
+          "sha256": "ccdbfbf17548dfa6fd3d2cbb7886f5e2ba5ba389ff4f511124b17eed89569bf8"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/queue_archive/ORDER-528.md",
+          "sha256": "ccdbfbf17548dfa6fd3d2cbb7886f5e2ba5ba389ff4f511124b17eed89569bf8"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-526-manifest.json",
+          "sha256": "7a435023dbb662de53f02012242ffa04b106f0b56f86ab5ca6c5eab7bdf50072"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_audio_listening",
+        "independent_pixels_and_persistent_PNG",
+        "other_M03_choices_languages_and_resolutions",
+        "remaining_M04_prose_choices_and_later_months",
+        "old_public_save_copy_compatibility",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-528.md",
+        "sha256": "ccdbfbf17548dfa6fd3d2cbb7886f5e2ba5ba389ff4f511124b17eed89569bf8"
+      }
     }
   ]
 }
