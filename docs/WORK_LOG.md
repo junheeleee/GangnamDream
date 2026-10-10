@@ -2,12 +2,19 @@
 
 이전 기록은 [526 발급까지의 원문](history/WORK_LOG_2026-10-10_pre_order526.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — M04 상철·월 정산 확인 / 새 종료누수 REWORK
+
+- [529](queue_archive/ORDER-529.md) 검수 수행 종료/제품REWORK다. Continue1/개별Return27/meet0·answer0각click1/기록open·close각1/CmdQ1. measure0는 정상 단일행동안내 Return16, KO본문6+7+7화면·결과3+3+2화면(마지막4+3줄)을 읽었다. answer p7은 일부표시→authored hold0.8 뒤3택dock이라 정상대화기록entry28에서 완문2줄을 읽었다. 본화면 완문 지속관찰로 올리지 않는다. 잘림/tofu/경로명노출 관측0, M05첫문단2줄/HUD498만원·70·73/남은56개월 뒤 추가진행0이다.
+- 실제save17239B/785cc062… M5/elapsed16/closed[1..4]/pressure4/turn17/choice7·settlement4/지력66/tint13/AP2. 기존4/3영수증 값동일·상철3선택0/정산1만 추가, 상철interested15/아버지이유flag/명함1·재혁unknown0 정합이다. exit0/563.723938초이나 stderr124B/706b9a0a… ObjectDB 종료누수 경고1건이 새로 났다. Godot912B의 같은경고는 거울이다. fatal0와 무누수 종료GO는 구분하며 원인미확정이다.
+- raw7 before726715B/c6fb70f9… after728219B/42f84f0a… observation10811B/bd8f24d8… command1423B/a8e91b82… 보존. 비저자 phone_independent_review가 clean285c4ea/treea728e43a의 source3269/helper5/seed2/W238/player33/immutable57 전량 before=after=fresh/runtime9 after=fresh·원저장/로그를 대조했다. own6405/6401부재/editor61385생존, pixels root/독립raw검수·독립pixels/PNG영속0이다. 최종판정은 기능/보존 한정GO·전체REWORK다.
+- 개발스킬의 실제소비자·독립fresh/원본보존을 적용했다. 제품/원문/번역/원저장/재발급/새검사0·일회성/정본승격0, 인간/원어민/물리/청취·본편출시HOLD. [530](queue_active/ORDER-530.md)에 동일앱 verbose1회·정상M05첫문단/기록읽기·추가선택0의 객체진단만 선선언한다. 확인 전 추정소스수리·경고예외처리0, M05나머지는 아직 진행하지 않는다.
+
 ## 2026-10-10 — M03 두 만남·선택/월 정산→M04 완료
 
 - [528](queue_archive/ORDER-528.md) 한정GO. Continue1/개별Return13/다은0·지연0각click1/CmdQ1, KO본문4+5문단/각결과2/2택+3택을 자연완독했다. 잘림·tofu·경로명 노출 관측0. M3CG HUD/이름표 표시 주장0, M4첫문단1줄/임상철/HUD431만원·70·69·남은57개월까지 자동복귀/M4추가입력0이다.
 - 실제 save12987B/f892597d… M4/elapsed12/closed[1,2,3]/pressure3/turn13/choice4·settlement3/moral_tint8. 기존2/2영수증 값동일·신규M3각index0/정산1만 추가, 다은acquaintance8·지연curious8/휘어진바퀴와 보상/연락처/연애flag추가0이 정합하다. raw7 before723850B/6800123a… after724140B/9bf5c962… 관찰8550B/c222a0f8… command1421B/cf8f2b7e…, exit0/233.556334초/stdout=Godot790B·stderr/오류/경고/누수0이다.
 - root/비저자 phone_independent_review는 clean39e31465/treef983c1d1 source3268/helper5/seed2/W238/player33·immutable56 전량 before=after=fresh/runtime8·원고2/exact stage·효과/cast/월guard/원저장/로그를 직접 대조해 GO/동결해제했다. own86333/86329부재/editor61385생존·pixels root/독립원산출/독립pixels·PNG영속0이다.
-- 개발 스킬의 최소 저장경계·실제소비자·독립fresh·원본보존을 적용했다. 설정/제품/원문/번역/원저장/재발급/새검사0·일회성/정본승격0, 읽기키 진단은 raw쓰기/앱실행 전 정정했다. 다른선택/언어/크기·M04나머지/인간/원어민/물리/청취·본편출시 HOLD다. [529](queue_active/ORDER-529.md)에 M04상철 세 연결index0·정산1→M05첫문단 한 단위만 선선언했다. 비저자 읽기 준비는 code기대값이고 actualGO0이다.
+- 개발 스킬의 최소 저장경계·실제소비자·독립fresh·원본보존을 적용했다. 설정/제품/원문/번역/원저장/재발급/새검사0·일회성/정본승격0, 읽기키 진단은 raw쓰기/앱실행 전 정정했다. 다른선택/언어/크기·M04나머지/인간/원어민/물리/청취·본편출시 HOLD다. [529](queue_archive/ORDER-529.md)에 M04상철 세 연결index0·정산1→M05첫문단 한 단위만 선선언했다. 비저자 읽기 준비는 code기대값이고 actualGO0이다.
 
 ## 2026-10-10 — M02 정상 재개·언어복귀·단일행동/정산 완료
 

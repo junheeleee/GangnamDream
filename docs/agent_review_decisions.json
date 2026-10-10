@@ -11155,6 +11155,57 @@
         "path": "docs/queue_archive/ORDER-528.md",
         "sha256": "ccdbfbf17548dfa6fd3d2cbb7886f5e2ba5ba389ff4f511124b17eed89569bf8"
       }
+    },
+    {
+      "id": "order-529-package-25fc879-icu-break-m04-shutdown-rework",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-529",
+      "subject": {
+        "kind": "package",
+        "commit": "25fc879d39a6593e244b3905d7782f22560676c2",
+        "tree": "de0898823de1cbb26ea9cfe7c5a7ccd0233b5e6a",
+        "manifest_sha256": "7a435023dbb662de53f02012242ffa04b106f0b56f86ab5ca6c5eab7bdf50072"
+      },
+      "verdict": "REWORK",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-529.md",
+          "sha256": "316843cbb32b6cd48e886c29fac17e27e7447203edee1ed995c4dba4a19e5d7b"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/queue_archive/ORDER-529.md",
+          "sha256": "316843cbb32b6cd48e886c29fac17e27e7447203edee1ed995c4dba4a19e5d7b"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-526-manifest.json",
+          "sha256": "7a435023dbb662de53f02012242ffa04b106f0b56f86ab5ca6c5eab7bdf50072"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_audio_listening",
+        "independent_pixels_and_persistent_PNG",
+        "sustained_last_answer_paragraph_on_story_panel",
+        "ObjectDB_leaked_instance_identity_and_fix",
+        "other_choices_locales_and_resolutions",
+        "remaining_M05_and_later_months",
+        "old_public_save_copy_compatibility",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-529.md",
+        "sha256": "316843cbb32b6cd48e886c29fac17e27e7447203edee1ed995c4dba4a19e5d7b"
+      }
     }
   ]
 }
