@@ -18,7 +18,7 @@ DECISIONS 2026-08-24·08-31의 실제 장면 행동/자동 생활 및 WORK_UNIT�
 
 - root: scenes/StartMenu.gd 정상 fresh 초기화, scenes/MainGame.gd의 full 소유
   handoff/경마 복귀·저장 재시도/기존 Chapter5 완료와의 달력 단일 소유;
-  scenes/StoryMode.gd는 실제 동적 선택의 기존 helper 전달이 필요한 경우만;
+  scenes/StoryMode.gd는 실제 동적 선택/같은 주 typed 후속의 기존 helper 전달만;
   tools/arc_flow_sim.py 기존 모델 binding 및 tools/audit_scope.json 기존 등록 정합만.
 - phone_cn_author: systems/FullStoryFlow.gd만. 새 정상 full profile·실제 달력·동적
   연말 선택 검증·직접 활동 영수증. 기존8/12주 초기화/격리/저장 비승격은 유지한다.
@@ -47,6 +47,12 @@ DECISIONS 2026-08-24·08-31의 실제 장면 행동/자동 생활 및 WORK_UNIT�
 - 동적 연말 선택은 StoryMode와 같은 기존 후보 consumer로 읽고 index1+ 실제 결과도
   정확히 검증한다. 기존 typed W240은 원래 ending latch/축정산/달력 비진행을 유지하고,
   일반 W240은 원래 월말/나이 rollover를 유지한다. 엔딩 종류·우선순위 변경0.
+- 실제 저장의 event_log 최근100개 제한은 유지한다. 현재/열린 결과는 실제 로그를
+  요구하고, 잘린 완료 과거 결과만 최소 applied tuple·절대 순번으로 검증한다.
+  종결 cold는 실제 game_over가 내보낸 같은 ending ID의 기존 화면만 복원하며
+  finish_run/record_run/엔딩 재선택0. 종결 저장 실패도 계산 없이 쓰기만 재시도한다.
+- typed W240의 원 ledger가 여는 같은 주 outbound를 기존 StoryMode 큐에 넣을 때
+  full helper에도 exact source/choice/next를 전달한다. 정점 선택·효과·엔딩 latch는 그대로다.
 
 ## 검증·판정
 
