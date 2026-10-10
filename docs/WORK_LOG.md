@@ -2,6 +2,11 @@
 
 이전 기록은 [526 발급까지의 원문](history/WORK_LOG_2026-10-10_pre_order526.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 월초 경제 재진입 중복 수리 착수
+
+- [535](queue_active/ORDER-535.md) 범위를 구현 전에 선언한다. MainGame 월초 경제·InvestmentSystem 국면 timer·기존 ManualSaveCheck만 제품/fixture 소유다. 같은 저장/장면 재생성의 재추첨·위기/뉴스/가격/배당 중복을 닫고 실제 다음 달은 유지한다. flags/market_context v4만 사용하며 새 스키마·보상·기본 경로·원문·번역·project·사용자 저장 변경0이다.
+- root MainGame/기록, phone_cn_author 시장 초기화, cjk_wrap_diagnosis 기존 저장 fixture, phone_independent_review 비저자 전수 검수로 분리한다. 새 runner/최적화/ObjectDB 탐침0. 534 본편 입구 REWORK·M07 미도달 HOLD는 그대로이며 이 정합 수리가 본편 활성화 GO를 대신하지 않는다.
+
 ## 2026-10-10 — 본편 정상 시작 연결 공백 확인·M07 미도달
 
 - [534](queue_active/ORDER-534.md)에서 clean3e6f8e7/treebd139504의 별도 macos앱을 발급했다. 기존 builder/import0·export0/33.071152·45.647404초, ZIP429227794B/596a9b02…·PCK1878/675JSON exact/서명·universal/app7파일 한정GO. 원 build manifest464B/0762ef94…와 [package 사본](agent_reviews/ORDER-534-manifest.json)을 보존하며 본편RC/출시GO가 아니다. import/export의 중첩 order103 project 경고는 남긴다.
