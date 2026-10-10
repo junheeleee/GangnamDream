@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-548",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewed_at_utc": "2026-10-10T22:56:17.263586+00:00",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "source",
+    "commit": "a2d4788b694b32b74fddc064305b7f606a21f41c",
+    "tree": "afbe37336dfc9e157ad4b7518fc0110ffd2fe4f8",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "product_verdict": "HOLD",
+  "scope": "정상 full fresh NG+ 발급에서 기존 repeat/veteran 생산 표식을 엄격히 수용하는 소스 수리와 합성 v4/새 Main·legacy·제외 계약만 GO. 자연 반복 완주·실제 앱/변경 화면·본편/출시 GO가 아니다. 옛 ORDER-547 HOLD 및 모든 역사 실패를 소급 변경하지 않는다.",
+  "method": {
+    "population": "선언0701fc6→최종 후보의 변경5파일(FullStoryFlow·ManualSaveCheck·CLAUDE·WORK_LOG·byte-exact history)을 전수 읽었다. 제품2파일 전체 diff/추가 fixture와 기존 StartMenu/GameState 메타 생산자·Main cold reader를 직접 대조했다. 최종7회21stream과 초기 실패3회 원문/진단, 정적6차선 및 잘못된 호출 원자료를 직접 판독했다.",
+    "independence": "제품 비저자 검수다. 엔진/검사/빌드/UI/저장 조작·새 영구 도구0. 기존 snapshot/file_record/source_state 및 pre-autoload 격리 helper만 사용해 보존을 확인했고 private 증거와 이 보고서만 apply_patch로 작성했다.",
+    "source_binding": "보고 직전 clean HEAD a2d4788b/treeafbe3733, origin/main0701fc6보다5 ahead를 직접 관측했다(미push 상태). 실제 최종 엔진은 2d759152/tree356a6e02에서만 실행됐다. 2d→a2d는 CLAUDE 현재2행과 WORK_LOG 결과만 34+/3−이며 코드/데이터/fixture 및 원자료는 exact다. CLAUDE는 wrapper 예외가 아니므로 최종 source subject를 a2d로 새 결속한다.",
+    "skill_effect": "gangnamdream-dev의 정본/소유권·원자료 보존·pre-autoload 고유 namespace·실제 marker와 세 로그 분리 판독을 적용했다. 자동 계약을 자연 플레이/독립 픽셀/Human/출시 판정으로 확대하지 않았다."
+  },
+  "findings_and_resolution": [
+    "FullStoryFlow의 정상 PROFILE_FULL fresh에서만 기존 GameState와 같은 total_runs 경계(<1 {}, ≥1 repeat=true, ≥4 repeat+veteran=true)를 받는다. 전체 키 수/존재와 raw bool true를 요구하며 unknown/누락/false/truthy 타입을 거부한다. 표식을 지우거나 재작성하지 않고 다른 pristine 조건은 유지한다. preview8/12는 empty flags 정책 그대로이며 loaded owner를 현재 메타로 재해석하지 않는다.",
+    "신규 fixture는 실제 StartMenu 초기화와 칭호 보상, totals -1/0/1/3/4, owner-only 추가/중복 무변경/RNG, 57거절, repeat/veteran v4→새 Main 및 저장 뒤 외부 메타 증가, 미표식 legacy와 저장된8/12 비승격을 검증한다. 메타/달력/이력은 합성 준비이며 natural240주·새 OS cold·실제 사용자의 NG+ 플레이 주장은 없다. 기존 production→date→purchase 뒤 whole에서 이어 실행되며 기존8/12/540/terminal 계약은 유지된다.",
+    "초기 actual FAIL3회(각 assertions3/3/2·marker0)는 원형 보존했다. 기존 Main이 추가/정리하는 표시 flags 때문에 loaded에 fresh 전체 flags population을 적용한 fixture가 잘못됐다. loaded의 두 NG 표식만 presence/raw bool/value로 별도 검사하되 전체 저장/로드/새 Main state exact는 유지한다. fresh는 여전히 전체 flags strict다.",
+    "최종 두 cold owner 실패는 schema/start_turn/last_completed_turn의 저장 int→JSON float 3잎×2 실제 진단으로 좁혀졌다. 기대 owner 한 곳만 기존 JSON round-trip helper로 저장 표현화했고 postload owner 직접 비교·다른 state/경제/RNG/assertion은 그대로다. 임의 epsilon/필드 무시/전역 정규화0이다. 중간 fixture에서 Main bool false2를 확인했으나 최종은 그 값과 다른 non-NG flags 전부를 기존 whole cold state exact로 보호한다.",
+    "whole actual0/정확 최종 marker1/MANUAL_SAVE_CHECK_FAIL0이나 strict wrapper는 ValueError(error in manual-whole-04 stderr), exit1/FAIL 그대로다. ERROR10은 원래 negative 호출(잘못된 activity4+손상 empty owner2+잘못된 terminal ID4)과 정확히 일치한다. WARNING25도 의도된 저장 거절/복구·미래버전·저장 재시도 원문을 보존한다. stderr/Godot 거울을 더해20/50으로 세지 않는다. 최종21stream에 추가 parse/script/fatal/ObjectDB/leak는 없지만 zero-error/zero-warning·strict whole PASS·전체 CI 녹색 주장은 하지 않는다.",
+    "정적6차선은 ccd3 후보에서 실행됐고 Full 제품은 최종과 exact다. Manual의 후속 fixture 수정에 정적 실행을 소급하지 않으며 최종 compile/focus/whole이 그 부분을 검증한다. 존재하지 않는 *_selftest.py 호출 exit2를 보존하고 기존 player_surface_language_audit.py --self-test actual0로만 바로잡았다. checker/expected/면제/영구 등록 변경0이다."
+  ],
+  "evidence": {
+    "raw_directory": ".git/order548-qa-20261011",
+    "baseline": {
+      "path": ".git/order548-qa-20261011/independent-before.json",
+      "bytes": 49075,
+      "sha256": "fe9355d639d31ea2486970807f84fc695823c4170df52b6e6a8132b4c88dde43"
+    },
+    "baseline_boundary": "첫 구현 후보 이후·모든548 엔진/import 이전 봉인이다. 저작 전 스냅샷이라고 부르지 않는다.",
+    "final_fresh": {
+      "path": ".git/order548-qa-20261011/independent-final-preservation.json",
+      "bytes": 19215,
+      "sha256": "1f01034e0b8835e880c6ae3ecb9060ead940ea1b3c917bd3f0d3f7cf9e0cf198"
+    },
+    "final_source_binding": {
+      "path": ".git/order548-qa-20261011/independent-final-source-binding.json",
+      "bytes": 5872,
+      "sha256": "6560aceb91afa83f73fd673172fcb1e64f2fb09aee45c7c85b761d02b282543f"
+    },
+    "final_product_pins": {
+      "FullStoryFlow": {
+        "path": "systems/FullStoryFlow.gd",
+        "bytes": 39771,
+        "sha256": "a1bb6172e3a1309d94f855c646b7cb42baea7849917d1d18e22239d81abd1d84"
+      },
+      "ManualSaveCheck": {
+        "path": "tools/ManualSaveCheck.gd",
+        "bytes": 367078,
+        "sha256": "1bcc5b7b24e8c501eaf07e6a9827651b730e0d1305149fdc6e258fbc33f7c4f2"
+      }
+    },
+    "executed_source": {
+      "commit": "2d7591528098732131cc530b551b43bcb2ff496a",
+      "tree": "356a6e02f8114eeb321d1bd3bf38057aa6fbc76e",
+      "clean": true
+    },
+    "final_runs": [
+      {
+        "name": "compile-04",
+        "receipt": {
+          "path": ".git/order548-qa-20261011/compile-04.json",
+          "bytes": 823913,
+          "sha256": "e3a7d20d75cc5476d65dbdfaa8e1cec61db629442f55bce52feef8b5c183f628"
+        },
+        "actual_exit": 0,
+        "seconds": 4.536,
+        "exact_marker_count": 1,
+        "strict_wrapper": "PASS",
+        "errors_per_stderr_and_godot": 0,
+        "warnings_per_stderr_and_godot": 0
+      },
+      {
+        "name": "ngplus-full-04",
+        "receipt": {
+          "path": ".git/order548-qa-20261011/ngplus-full-04.json",
+          "bytes": 824595,
+          "sha256": "03cb24a233fb847c203d3ea848a2a4e0c95cab23cfa717e5c8a69eaabab73c87"
+        },
+        "actual_exit": 0,
+        "seconds": 6.623546,
+        "exact_marker_count": 1,
+        "strict_wrapper": "PASS",
+        "errors_per_stderr_and_godot": 0,
+        "warnings_per_stderr_and_godot": 0
+      },
+      {
+        "name": "manual-whole-04",
+        "receipt": {
+          "path": ".git/order548-qa-20261011/manual-whole-04.json",
+          "bytes": 826672,
+          "sha256": "fc957b53c8600ee0a0f0846e17bbd549900853e38a0bfd09c86c9db6431d6244"
+        },
+        "actual_exit": 0,
+        "seconds": 215.92721,
+        "exact_marker_count": 1,
+        "strict_wrapper": "FAIL (exit1 retained)",
+        "errors_per_stderr_and_godot": 10,
+        "warnings_per_stderr_and_godot": 25
+      },
+      {
+        "name": "ngplus-demo-04",
+        "receipt": {
+          "path": ".git/order548-qa-20261011/ngplus-demo-04.json",
+          "bytes": 824347,
+          "sha256": "9c3bf14484722663cb04896eeb5ec93c354860778e94b656d49a0890ee31df18"
+        },
+        "actual_exit": 0,
+        "seconds": 4.861689,
+        "exact_marker_count": 1,
+        "strict_wrapper": "PASS",
+        "errors_per_stderr_and_godot": 0,
+        "warnings_per_stderr_and_godot": 0
+      },
+      {
+        "name": "ngplus-v2-04",
+        "receipt": {
+          "path": ".git/order548-qa-20261011/ngplus-v2-04.json",
+          "bytes": 824323,
+          "sha256": "12ad1cd72cee388d0deff0d18366d084500d6285cae5b3ebcbb78e43aa82641e"
+        },
+        "actual_exit": 0,
+        "seconds": 4.839982,
+        "exact_marker_count": 1,
+        "strict_wrapper": "PASS",
+        "errors_per_stderr_and_godot": 0,
+        "warnings_per_stderr_and_godot": 0
+      },
+      {
+        "name": "ngplus-preview8-04",
+        "receipt": {
+          "path": ".git/order548-qa-20261011/ngplus-preview8-04.json",
+          "bytes": 824412,
+          "sha256": "58d9c402e4d0fd05163de0b91323f6835cd08556534f523fb75463fc7690cfae"
+        },
+        "actual_exit": 0,
+        "seconds": 4.951645,
+        "exact_marker_count": 1,
+        "strict_wrapper": "PASS",
+        "errors_per_stderr_and_godot": 0,
+        "warnings_per_stderr_and_godot": 0
+      },
+      {
+        "name": "ngplus-preview12-04",
+        "receipt": {
+          "path": ".git/order548-qa-20261011/ngplus-preview12-04.json",
+          "bytes": 824473,
+          "sha256": "535e961a08a93fcf08ea206dcd77337c101cf3ed67b480a2a1757f210b654372"
+        },
+        "actual_exit": 0,
+        "seconds": 4.82366,
+        "exact_marker_count": 1,
+        "strict_wrapper": "PASS",
+        "errors_per_stderr_and_godot": 0,
+        "warnings_per_stderr_and_godot": 0
+      }
+    ],
+    "final_stream_population": 21,
+    "whole_diagnostic_source_binding": "ManualSaveCheck:2757의 malformed activity4→Main625, Manual3357의 손상 schema+empty log2→Main625, Manual3375의 missing/wrong ID×generic/typed4→Main770. 총10이며 548에서 해당 negative 본문은 변경0. 전체 원stderr와 Godot 로그를 직접 읽었다.",
+    "initial_actual_failures": [
+      {
+        "receipt": {
+          "path": ".git/order548-qa-20261011/ngplus-full-01.json",
+          "bytes": 824686,
+          "sha256": "dccff03f057015ac309a5806b2502375c26f93d64fae667f4b28f0e94da05b7a"
+        },
+        "actual_exit": 1,
+        "exact_marker_count": 0,
+        "assertions": 3,
+        "historical_verdict": "FAIL retained"
+      },
+      {
+        "receipt": {
+          "path": ".git/order548-qa-20261011/ngplus-full-02.json",
+          "bytes": 824693,
+          "sha256": "124d52bb933f8465b441310f24ab2afcb6348a348621b18f48b7aab1fc4c0527"
+        },
+        "actual_exit": 1,
+        "exact_marker_count": 0,
+        "assertions": 3,
+        "historical_verdict": "FAIL retained"
+      },
+      {
+        "receipt": {
+          "path": ".git/order548-qa-20261011/ngplus-full-03.json",
+          "bytes": 824693,
+          "sha256": "281e76cbe2e691fc42d69fd16787885242896afcf40ca4532fd84368979fd371"
+        },
+        "actual_exit": 1,
+        "exact_marker_count": 0,
+        "assertions": 2,
+        "historical_verdict": "FAIL retained"
+      }
+    ],
+    "static_summary": {
+      "path": ".git/order548-qa-20261011/static-product-checks.json",
+      "bytes": 2343,
+      "sha256": "c124d955499527e8bd9561f6de588efb6e138925a010d11fde442ccfac099215"
+    },
+    "corrected_static_call": {
+      "path": ".git/order548-qa-20261011/static-surface-self-test-corrected.json",
+      "bytes": 548,
+      "sha256": "593f805b13e615f258b155c896eb956dc561d448447a2efc80cbaaca96f08447"
+    },
+    "static_boundary": "원5 actual0+잘못된 파일명 exit2 원형 보존, 정확 기존 self-test actual0로 여섯 실제 차선 충족. 원 stdout/stderr 전수 직접 판독, 최종 fixture에 대한 재실행0.",
+    "no_new_package": true,
+    "manifest_sha256": null
+  },
+  "preservation": {
+    "result": "기존 최종 fresh에서99그룹/1795파일(로스터별 합계), tracked3330/비소유3321·helper5/seed2/W238/player33, public/retail/옛raw/5476이미지·108screens40v4/앱·패키지·namespace를 원 baseline과 exact 대조했다. 과거290판정 전체와 Human도 exact다. 옛544 로그3경로 delta/194B 제거와 547 whole 실패는 역사 그대로이며 이 PASS로 복구/소급 GO하지 않는다.",
+    "final_rebind": "최종 source-binding은 전량 fresh seal 원형·7 receipt/21stream·helper4/stage4·제품/Human/원장 핀을 직접 재대조했다. fresh seal 이후 허용 문서2개만 바뀐 clean Git을 결속했으며99 snapshot을 다시 실행했다고 주장하지 않는다.",
+    "nonowned_tracked_sha256": "17f6ac55b0ba8cb86e60cfee215faf9a2ab49abae4fa7b6da3bc1291a4bd0666",
+    "historical_agent_decisions": {
+      "count": 290,
+      "path": "docs/agent_review_decisions.json",
+      "bytes": 443611,
+      "sha256": "1bf68c739b1d4d6771ce6a34fe721896a69492e727829f6d1a1e6e02d355a98c"
+    },
+    "human_gates": {
+      "path": "docs/human_gates.json",
+      "bytes": 103390,
+      "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+    },
+    "work_log_history": {
+      "path": "docs/history/WORK_LOG_2026-10-11_pre_order548.md",
+      "bytes": 39584,
+      "sha256": "dd0c1275654b1596be7343c2542dba452e2817f0cbf6ca808342f43affb1341b",
+      "boundary": "선언0701fc6의 WORK_LOG 39584B와 byte-exact. 과거 기록 삭제/내용 교체가 아닌 통상 회전이다."
+    },
+    "process_boundary": "최종 fresh의 read-only 프로세스 관측은 사용자 editor61385만 생존, 548 후보 엔진0. 검수자가 UI/프로세스를 조작하지 않았다."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "이번 변경의 실제 앱/픽셀·음성·원어민 관측",
+    "자연 반복240주/완주 뒤 title NG+ 및 새 OS 프로세스 cold",
+    "새 export/설치 앱·전체 원격CI·전체 감사",
+    "옛547 whole FAIL의 소급 PASS, 옛544 보존사고 복구",
+    "본편 모든 경로·M07 이후 자연 진행 완결·외부 출시"
+  ],
+  "final_boundary": "ORDER-548 source work_unit 및 명시 합성 계약 한정 GO다. product/release HOLD, 기존547 HOLD/역사 REWORK/Human 원형 유지. 원장 append·큐/아카이브 등 마감은 root 소유이며 이 보고서는 그 파일을 수정하지 않는다."
+}

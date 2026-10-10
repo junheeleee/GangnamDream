@@ -5,7 +5,7 @@
 
 ## 2026-10-11 — 엔딩 후 정상 새게임 이야기 입구 수리
 
-- [548](queue_active/ORDER-548.md)을 별도 선언0701fc6/main push 후 착수했다.
+- [548](queue_archive/ORDER-548.md)을 별도 선언0701fc6/main push 후 착수했다.
   기존 생산자의 repeat/veteran 표식만 fresh full에서 허용하고 다른 오염은 거절한다.
   root FullStoryFlow, phone_cn Manual, cjk source, phone_independent 보호/최종으로 분리한다.
 - preview8/12·demo/V2·legacy load·기존 저장/schema·칭호 보상·원문/번역·공개/player/Human
@@ -38,7 +38,12 @@
   `.git/order548-qa-20261011/independent-final-preservation.json` 19215B/
   SHA256 1f01034e0b8835e880c6ae3ecb9060ead940ea1b3c917bd3f0d3f7cf9e0cf198.
   기존 격리 bootstrap·fresh HOME/XDG와 원자료 경계는 개발 skill에 따라 유지했다.
+- [독립 최종 보고](agent_reviews/ORDER-548.json) 14598B/SHA256
+  b712df879fc6958a8cdb7ab84996c67a6975a2a2ca4389861c4575b3d7474e9b를
+  판정 source a2d4788/tree afbe3733에 결속하고 work_unit GO 한 건만 추가했다.
+  실제 실행은 위 2d75915이며 뒤 결과 문서와 마감 메타데이터에서 제품/fixture 변경0이다.
+  548만 보관하고 다른81큐행은 순번 외 불변이다. 옛290판정과 Human도 불변이다.
 - 이번은 합성 메타와 실제 제품 메서드의 source/저장 계약 한정 검수다. native 입력,
-  자연 반복240주·새 OS cold·인간/원어민/물리패드·출시 관측0이다. 옛547 HOLD를
-  소급 GO로 바꾸지 않는다. 독립 최종 보고/현 source 결속 뒤 큐 마감하며 다음은
-  기존 본편 실제 플레이 검수다. 현황판 단독 커밋·외부 배포/스토어/지출/인증0이다.
+  자연 반복240주·새 OS cold·인간/원어민/물리패드·출시 관측0이다. 옛547 HOLD·
+  strict whole FAIL·본편/출시 HOLD를 유지한다. 다음은 기존 본편 실제 플레이 검수다.
+  현황판 단독 커밋·외부 배포/스토어/지출/인증0이다.

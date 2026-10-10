@@ -1,6 +1,6 @@
 # ORDER-548 — 정상 NG+ 새게임의 full owner 발급 수리
 
-#### [~] ORDER-548 [P0·확인 입구 수리] 정상 반복런 표식과 fresh full 계약 정렬
+#### [x] ORDER-548 [P0·확인 입구 수리] 정상 반복런 표식과 fresh full 계약 정렬
 
 **착수 — 2026-10-11.** 547에서 발견한 기존 NG+ 초기화 결함을 별도 단위로 수리한다.
 root가 547의 실제 앱 종료·독립 final·메타데이터 기록을 마친 뒤 이 선언을 커밋·push해야
@@ -129,3 +129,38 @@ synthetic 메타/상태와 실제 제품 메서드 호출이며 native 입력·�
 - 547/546/544 과거 보고·판정을 소급 바꾸지 않는다. 현 본편/출시 HOLD,
   인간/원어민/물리패드 미관측 유지. 자동 계약은 재미·깊이·문체의 증거가 아니다.
 - 외부 출시/스토어/지출/법률 인증0. 새 정본 규범0이며 이 실행 지시는 일회성이다.
+
+## 완료 결과 — 2026-10-11
+
+- [독립 최종 보고](../agent_reviews/ORDER-548.json): 이번 source work_unit만 GO,
+  본편/출시 HOLD. 최종 판정 source는 a2d4788b694b32b74fddc064305b7f606a21f41c/
+  tree afbe37336dfc9e157ad4b7518fc0110ffd2fe4f8이다. 실제 최종 실행 source는
+  2d7591528098732131cc530b551b43bcb2ff496a/tree
+  356a6e02f8114eeb321d1bd3bf38057aa6fbc76e이며, 뒤 source 결속은 CLAUDE/WORK_LOG
+  결과 기록만 추가한 것으로 제품/fixture/raw 불변이다.
+- full fresh에서만 기존 total_runs의 <1/1–3/>=4 조합과 raw bool true를 수용한다.
+  정상 StartMenu의 -1/0/1/3/4회·칭호 보상, owner만 추가/중복 무변경,
+  57거절, repeat/veteran v4→새 Main·저장 뒤 메타 증가, legacy 미승격을 확인했다.
+  fresh 전체 flags strict와 loaded 두 NG 표식의 presence/raw bool/value를 구분하며,
+  다른 loaded flags/경제/이력은 기존 전체 cold state exact가 보호한다.
+  기대 owner 한 곳만 기존 JSON 저장표현 helper를 거치고 실제 postload 직접 비교는 유지한다.
+- 최종7차선/21stream: compile69 actual0/4.536s, NG+ full 표적
+  actual0/6.623546s, demo/V2/preview8/preview12 제외 각각 actual0이다.
+  이 여섯 차선은 정확 marker1/stderr0/strict wrapper PASS다.
+  whole은 actual0/215.92721s/최종 exact marker1/assertion 실패0이며
+  production/date/purchase/NG+ marker도 각각1이다.
+- whole strict wrapper는 ValueError(error in manual-whole-04 stderr)/exit1/FAIL 그대로다.
+  의도 ERROR10(손상 activity4+손상 empty owner2+잘못된 terminal ID4)과 WARNING25는
+  이전547의 실제 호출 경로·개수와 동일하다. stderr/Godot 거울을 중복 합산하지 않는다.
+  원547의 date fresh initializer FAIL은 사라졌으나 strict whole PASS·전체 CI 녹색이나
+  zero-error/zero-warning 판정으로 바꾸지 않는다.
+- 초기 표적3회 actual1/marker0(각 assertion3/3/2), 잘못된 self-test 호출 exit2,
+  이전547 whole actual1 및 옛547 HOLD를 원형 보존한다. 영향 정적6차선은 ccd3 후보의
+  결과이며 후속 fixture 수정에 소급하지 않는다. 최종 compile/표적/whole이 수정분을 검증했다.
+  원자료는 `.git/order548-qa-20261011/`와 기존547 디렉터리에 그대로 둔다.
+- 비저자 최종 보호99그룹/1795파일·기존290판정/Human·공개/player/seed/547 원자료
+  보존을 결속했다. native 입력·변경 화면·자연 반복240주·새 OS cold·인간/원어민/
+  물리패드 관측은0이며 자동 계약은 재미·깊이·문체의 증거가 아니다.
+- 마감은548만 [x]로 보관한다. 다른81큐행은 순번−1 외 제목/상태/링크/gate 불변이며
+  특히547의 `화면 GO · NG+ 회귀 HOLD`를 소급 변경하지 않는다.
+  정본 승격: 새 규범 없음. 이 단위의 구현·검수·격리·마감 지시는 일회성이다.
