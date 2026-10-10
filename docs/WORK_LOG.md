@@ -4,7 +4,10 @@
 
 ## 2026-10-10 — 본편 첫 월급 장면의 주차 만료 수리
 
-- [540](queue_active/ORDER-540.md)을 구현 전에 선언했다. 첫 월급 reader의 본편 W17 만료만 수리하며 원급여·원문·우선순위·데모/V2·기존8/12주 profile은 보존한다. root Main 조건, cjk 기존 저장 fixture, phone_cn producer 읽기, phone_independent 비저자 검수로 파일 소유를 나눈다. 합성 actual-call 검증은 자연 앱/M07 관찰이 아니다. 실행 지시는 일회성이다.
+- [540](queue_archive/ORDER-540.md)을 구현 전에 선언했다. 첫 월급 reader의 본편 W17 만료만 수리하며 원급여·원문·우선순위·데모/V2·기존8/12주 profile은 보존한다. root Main 조건, cjk 기존 저장 fixture, phone_cn producer 읽기, phone_independent 비저자 검수로 파일 소유를 나눈다. 합성 actual-call 검증은 자연 앱/M07 관찰이 아니다. 실행 지시는 일회성이다.
+
+- [540 독립 보고](agent_reviews/ORDER-540.json) 9330B/f3d036ce…를 clean main bf6ab1fb/treec47b7a0e의 제품4에 결속해 source 범위만 GO로 마감했다. fresh 비소유제품2381·보호23그룹581파일/helper5/seed2/W238/player33·과거278판정은 exact다. 마감은 제품/CLAUDE/보호원본을 바꾸지 않는 metadata이며 기본 본편534/M07·출시HOLD를 유지한다. STATUS-only 추종/제품검사·엔진 재실행0이다.
+- 마감 context30426/docs651/links198·큐78/76·index25/fence4·판정279구조·diff PASS다. cjk_wrap_diagnosis가 허용metadata7경로·다른78큐행(순번외)·기존278객체/원문prefix·제품4/CLAUDE 불변 및 report SHA/source 결속을 독립 확인했다. 신규 internal_product GO0이다.
 
 - non-demo/non-V2 full의 미열람 첫 월급 장면만 W17 이후에도 남긴다. W14 최소·current_job·역사 호환 has_received_paycheck·seen guard·원래 우선순위는 보존한다. raw V2 enabled는 active cap 뒤에도 W17 상한을 유지한다. 채용/첫근무/월말 지급·선택 효과·원고·저장 schema·새 cap/profile 변경0이다. lifetime paid flag를 현재 직장 최초입금 영수증으로 바꾸지 않았다.
 - 격리 full focus·demo focus·V2 focus·기존 whole ManualSave4회 exit0/exact marker/3stream PASS다. 실제 rescue 수락/거절·firstwork selector/choice·기존 월말 producer1회·W17 지연/W18 및 W25 query·v4 disk/new Main·결과 cold·중복 입력 무효를 합성 검증했다. 급여 재지급0은 reader/재개 경계 증거이며 월말 함수를 두 번 부르는 idempotence 증거가 아니다. whole10슬롯 통과와 기존 full18함수 원문 보존을 별도로 확인했다.

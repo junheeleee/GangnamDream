@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-540",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "source",
+    "commit": "bf6ab1fbcedbd7c27091e956d1864dc4b3ed55eb",
+    "tree": "c47b7a0e264b33e4043c0883740a17d01790662a",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "product_verdict": "HOLD",
+  "scope": "non-demo/non-V2 첫 월급 reader의 W17 만료 제거, 기존 합성 저장 계약·대표 full 모델 binding·원본 보존만 source GO. 기본 본편 입구534·실제 M07·W13 이후 정상 진행·완성게임·출시 GO가 아니다.",
+  "method": {
+    "independence": "제품 비저자가 CLAUDE·개발skill·WORK_UNIT·540사양, 실제 채용/급여 producer-reader와 제품4파일 diff/fixture를 직접 읽었다. 최초 정적18의36stream·후속 arc/narrative4stream·compile 및 초기/진단/최종 엔진 raw를 읽고 크기/SHA·종료·marker·오류 귀속을 대조했다. 독립 엔진/UI/저장 조작·검사 재실행0.",
+    "source_binding": "최종 보고 작성 전 HEAD=origin/main=subject, clean/3291tracked를 직접 확인했다. 7파일은 제품4와 CLAUDE/WORK_LOG/활성540사양3뿐이다. 실행은 선언958cdfa 위의 수정 작업트리에서 이루어졌고 receipt는 그 상태를 보존한다. 실행 후 고정한 제품4 pin과 최종 Git blob을 exact 결속했으며 실행 당시 clean 제품commit이었다고 주장하지 않는다.",
+    "skill_effect": "기존 소비자 우선·표적 검수·독립 원본 보존·실제 관찰과 자동 계약 분리를 적용했다. 새 QA 도구/기대값 면제/게임 규칙/프로필 추가0."
+  },
+  "findings_and_resolution": [
+    "기존 W14–17 reader는 W17 상위 지연 장면 뒤 만료된다. 새 helper는 W14 최소·current_job·has_received_paycheck·미열람 조건과 selector 위치/우선순위를 보존하고 full의 상한만 제거한다. demo와 enabled V2 저장은 기존 W17 상한을 유지한다. helper 조회는 상태/RNG를 소비하지 않는다.",
+    "has_received_paycheck는 초기특전/창작자 수입도 쓰는 lifetime 호환 flag다. 이번 GO는 현재 직장 첫 입금을 새로 증명하거나 firstwork_seen을 새 자격으로 요구하는 판정이 아니다. W24 이내 기존 full bridge의 무언 소비와 정상 handoff는 그대로이며 별도 HOLD다.",
+    "합성 W14 실제 rescue 수락/거절·W15 첫근무 selector/선택·W16 기존 월말 producer 정확1회·W17 우선순위/W18 query·W25 bridge범위 밖 query·원급여/청구·v4 disk/new Main·결과 cold·중복 선택 무효를 확인했다. W25 자연 플레이 또는 월말 함수 자체의 중복호출 멱등성 증거는 아니다. 원문/효과/급여 계산/저장 schema/기존8·12주 profile은 불변이다.",
+    "초기 focus/diagnostic2실패의 유일 차이는 새 Main의 기존 안내 flags.invest_hint_shown=null→true였다. 최종 fixture의 paycheck 로컬 기대에서 paid/미표시/앞선 안내 비해당이라는 원래 조건의 이1잎만 예측한다. 나머지 전체 상태·직업·현금·영수증 비교와 기존 JSON round-trip/정수 reader 경계 및 RNG 검증을 유지했다. 경제 오류로 부르거나 실패 raw를 지우지 않았다.",
+    "arc_flow_sim의 기존 full 대표 모델에 새 helper와 f binding만 연결했다. 최초 adapter 미등록 arc/narrative2FAIL을 최종 두 PASS가 대체하며 기대 앵커·게이트·면제는 그대로다. audit_scope는 기존 ManualSave 설명1행만 변경한다.",
+    "정적18의 최초 집계는15PASS/3wrapperFAIL이었다. arc/narrative 실제2실패는 위 수리로 닫혔다. Core V2는 actual exit0/정상 core_loop_v2_ok이며 hyunsu_result_fail 데이터명을 기존 wrapper가 오류로 오독한1건이다. 원형을 유지하고 분리 판독했으므로 최초 aggregate가 녹색이었다고 쓰지 않는다.",
+    "compile actual exit0/69스크립트/빈 stderr/전체 COMPILE_CHECK_OK total=69 stderr_verdict=required marker1회다. 축약 marker를 넘긴 wrapper FAIL은 보존하고 원3stream으로만 재평가했다. 최종 full/demo/V2 focus와 whole Manual4회는 exit0/exact marker/격리 namespace/3stream 계약을 만족한다. focused 경고0, whole의 의도된 저장실패·복구·구버전 경고13은 Godot 거울을 합산한26건이 아니다. fatal/parse/script/engine error·ObjectDB/leak0이며 자연 앱/인간 관찰이 아니다."
+  ],
+  "evidence": {
+    "raw_directory": ".git/order540-qa-20261010",
+    "compile": {
+      "path": ".git/order540-qa-20261010/compile-final.json",
+      "sha256": "e39390c8177d05f29b6d1713e74ad764ad0ad69883913e559cd1d1ee57c3fd43",
+      "result": "actual exit0/4.689586s; stdout=Godot381B SHA9014e87b19b65970dd89cad58f101ecbd3850738f43a9ffc1ca7e678ee66c15c; retained wrapper FAIL. 컴파일 후 fixture 로컬 기대 정렬은 최종 whole 엔진이 직접 parse/실행했다."
+    },
+    "final_engine_receipts": [
+      {"file": "paycheck-full-final.json", "sha256": "1419a9a6a787a068912f57c687f1ccb32aaaa7fe19e0989eb2cf8682e05a061e", "exit": 0, "seconds": 7.072093},
+      {"file": "paycheck-demo-final.json", "sha256": "14595a1eeb1f132171818f98360a3a798d0b4a5e330f2764c33d478f84f08a99", "exit": 0, "seconds": 5.31727},
+      {"file": "paycheck-v2-final.json", "sha256": "17cd5c835fbec09cedd36220fa4222cec10008a449d0e27148ae5e0288bb4c79", "exit": 0, "seconds": 5.215885},
+      {"file": "manual-whole-final.json", "sha256": "c109a143a535cec291417229eee8fb2805128fce2a5e2b8c170260de66fec8ff", "exit": 0, "seconds": 14.960883}
+    ],
+    "static_summary": {
+      "path": ".git/order540-qa-20261010/static-summary.json",
+      "bytes": 21235,
+      "sha256": "99fde9cde5408446c79f4a7103d23edb341ed3f25d7941cbaf9e70df67379cdd",
+      "replacement_receipts": {
+        "arc-final.json": "ae8d6091122fcf2b1a0b222d5187b66f56b466900e8ce03702fb4692b27d881d",
+        "narrative-final.json": "1e4893415e00d81e23a37bedafc95d5fc6a70d3e9411151fa5b7410e152c3dea"
+      },
+      "result": "표적18 최종 제품 새 실패0으로 판독. 원18집계/adapter실패2/CoreV2 wrapper오탐1을 보존하며 전체감사·240주·CI 통과는 아니다."
+    },
+    "initial_failures_preserved": ["paycheck-full.json", "paycheck-full-diagnostic.json", "static-05.json", "static-14.json", "static-15.json", "compile-final.json"],
+    "precommit_record_checks": "precommit-context/queue/scope/diff4개 actual exit0·원8stream SHA를 직접 확인했다. context30583/docs651/links199, queue79/77, scope179다. root가 관측한 CLAUDE18007>18000 예산실패 뒤 같은 현재행14B 단축→17993 통과는 기록 범위 수리이며 제품실패가 아니다."
+  },
+  "preservation": {
+    "baseline": {
+      "path": ".git/order540-qa-20261010/independent-protected-before.json",
+      "bytes": 18313,
+      "sha256": "21527e72837f5abf083d05d62094ab27d6f8ca4e8b39033bf2283ae1f5c9a890",
+      "boundary": "제품 소유 편집 시작 뒤 관측한 baseline이다. 원소유4파일 이전 bytes는 선언958cdfa Git에, 비소유/보호는 fresh 실물에 결속했다. clean 사전 입구 admission이라고 부르지 않는다."
+    },
+    "precommit_proof": {
+      "path": ".git/order540-qa-20261010/independent-precommit-preservation.json",
+      "bytes": 21957,
+      "sha256": "19c8fb73fdedfde94ca09c0766f4bf8a53c6e1e82a99036708a875321b3ca86d"
+    },
+    "final_fresh": "최종 clean subject에서 기존 c.snapshot/admit/pin·b.snapshot을 재호출했다. 비소유 tracked제품2381·보호23그룹581파일·helper5·seed2·W238156239B/e05a456c…·사용자33파일이 baseline exact다. GameState/JobSystem/SaveManager/FullStoryFlow/StoryMode/StartMenu·원문번역·project·공개namespace·Human 변경0. 공개 build/story_demo의 원부재/파일0도 보존이며 새 공개 앱 검증을 뜻하지 않는다.",
+    "old_agent_decisions": "과거278건/전체423110B SHA0bf95eb93827bd5d40ebaf959c27555a493e3774e507c7a0517aa7143060da84 exact. 본 검수는 판정원장 쓰기0이다.",
+    "product_sha256": {
+      "scenes/MainGame.gd": "d7794925ba6c9c5d1db4552af70878da92d50daeedc0bfa53ed1d6dddc540faa",
+      "tools/ManualSaveCheck.gd": "c33be5cccb2456f1b23c692459bff89a6dcb9afc28632be512907f3f37e60ddd",
+      "tools/arc_flow_sim.py": "81ea0a8cbb7ba612ebf2d06a78cb774b9aa1d1d0b6ab362fa6c1fb616232de49",
+      "tools/audit_scope.json": "54793c128da32181522ec8106d79a29dc1522141a3d4fe16303b76df36f21292"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "independent_rendered_pixels_natural_reading_audio",
+    "normal_default_full_ingress_534_REWORK_and_native_M07",
+    "natural_W13_later_connection_and_W24_full_bridge_handoff",
+    "full_audit_remote_CI_240_week_completion",
+    "inherited_causal_self_test_timeout_census_failure_and_shutdown_ObjectDB_debt",
+    "full_game_and_external_release"
+  ],
+  "final_boundary": "540 work_unit GO는 늦은 첫 월급 eligibility·기존 합성 저장 계약·모델 binding·보존만 닫는다. 자동 생계/회복·새 cap·기본 활성화·실제 장기 진행이나 현재 직장 최초입금 receipt를 발명하지 않는다. 이전 HOLD/REWORK와 인간 판정은 그대로다."
+}
