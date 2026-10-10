@@ -4427,7 +4427,7 @@ func _resolved_story_description(event: Dictionary) -> String:
 				else:
 					obligation_dispositions_added[disposition] = true
 				desc_raw += "\n\n" + memory_text
-	var desc := _fmt(desc_raw)
+	var desc := _fmt(_full_story_meeting_description(event_id, desc_raw))
 	# The schema does not store a current-run action echo. Gallery roots are
 	# authored without one, so a later run must not invent a new preface.
 	var causal_frame := "" if _read_only_replay \
@@ -4435,6 +4435,26 @@ func _resolved_story_description(event: Dictionary) -> String:
 	if not causal_frame.is_empty():
 		desc = "[color=#9aa4b2][i]%s[/i][/color]\n%s" % [_fmt(causal_frame), desc]
 	return desc
+
+func _full_story_meeting_description(event_id: String, description: String) -> String:
+	# The shared M04 demo text keeps its authored date. Only the valid full-run
+	# consumer drops that fixed date; the meeting may occur on a later week.
+	if event_id != "arc_sangchul_01_meet" or _read_only_replay \
+			or _is_public_story_demo() \
+			or GameState.story_return_scene == STORY_DEMO_RETURN_SCENE \
+			or not FULL_STORY_FLOW.is_full_run() or not FULL_STORY_FLOW.valid_session():
+		return description
+	var prefixes := {
+		"ko": ["3월 끝, ", ""],
+		"en": ["Late March, just", "Just"],
+		"ja": ["3月の終わり、", ""],
+		"zh-CN": ["三月底，", ""],
+		"zh-TW": ["3月底，", ""],
+	}
+	var repair: Array = prefixes.get(LocaleManager.language, [])
+	if repair.size() != 2 or not description.begins_with(str(repair[0])):
+		return description
+	return str(repair[1]) + description.substr(str(repair[0]).length())
 
 func _current_story_phase_text() -> String:
 	if _pending_after_result and _pending_result_choice_index >= 0:

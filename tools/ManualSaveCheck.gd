@@ -8,6 +8,7 @@ const MAIN_GAME_SCENE := preload("res://scenes/MainGame.tscn")
 const STORY_MODE_SCRIPT := preload("res://scenes/StoryMode.gd")
 const INVESTMENT_SYSTEM_SCRIPT := preload("res://systems/InvestmentSystem.gd")
 const FULL_STORY_FLOW := preload("res://systems/FullStoryFlow.gd")
+const STORY_DEMO_CONTROLLER := preload("res://playtests/order124/StoryChoiceM1M6Playtest.gd")
 const TEST_SLOT := 1
 const LEGACY_SLOT := 9
 const CONTRACT_SLOT := 10
@@ -53,6 +54,9 @@ var _paycheck_window_only := false
 var _paycheck_window_checked := false
 var _full_story_production_only := false
 var _full_story_production_checked := false
+var _full_story_date_only := false
+var _full_story_date_checked := false
+var _full_story_date_exclusion := ""
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -61,6 +65,11 @@ func _run() -> void:
 	_backup_settings_file()
 	_backup_meta_progression()
 	_backup_test_slots()
+	_full_story_date_only = OS.get_cmdline_user_args().has("--full-story-date-only")
+	if _full_story_date_only:
+		await _check_full_story_meeting_date()
+		await _finish()
+		return
 	_full_story_production_only = OS.get_cmdline_user_args().has("--full-story-production-only")
 	if _full_story_production_only:
 		await _check_full_story_production()
@@ -98,6 +107,7 @@ func _run() -> void:
 	await _check_full_story_flow()
 	await _check_paycheck_window()
 	await _check_full_story_production()
+	await _check_full_story_meeting_date()
 	if not _failures.is_empty():
 		await _finish()
 		return
@@ -1579,6 +1589,240 @@ func _free_monthly_economy_main(main_game: Control) -> void:
 	main_game.free()
 	BGMPlayer.stop()
 	await get_tree().process_frame
+
+
+func _check_full_story_meeting_date() -> void:
+	# Prepared W1 consumer handoff, not natural W14 reach/native observation.
+	# Disk reloads below create a new StoryMode in this same isolated process.
+	await _free_story()
+	var previous_language: String = LocaleManager.language
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var events_before: Dictionary = _full_story_event_snapshot()
+	var resume_before: Dictionary = {}
+	for key in ["_loaded_resume_context", "_loaded_slot_metadata", "_loaded_save_identity", "_last_load_diagnostic"]:
+		resume_before[key] = (SaveManager.get(key) as Dictionary).duplicate(true)
+	var failures_before: int = _failures.size()
+	var args: PackedStringArray = OS.get_cmdline_user_args()
+	var excluded: bool = GameState.is_demo_build() or CORE_LOOP.requested() \
+		or args.has(FULL_STORY_FLOW.PREVIEW_ARG) or args.has(FULL_STORY_FLOW.THIRD_MONTH_ARG)
+	for locale in ["ko", "en", "ja", "zh-CN", "zh-TW"]:
+		await _free_story()
+		LocaleManager.set_language(locale)
+		if excluded:
+			GameState.start_new_game("DateFixture")
+			var unmarked: Dictionary = GameState.serialize().duplicate(true)
+			_expect(not FULL_STORY_FLOW.initialize_fresh_run() and GameState.serialize() == unmarked,
+				"date exclusion issued a full owner in %s" % locale)
+			if GameState.is_demo_build() or CORE_LOOP.requested():
+				# Synthetic full-shaped marker proves the environment gate, not entry.
+				GameState.flags[FULL_STORY_FLOW.STATE_KEY] = {
+					"schema": 1, "profile": FULL_STORY_FLOW.PROFILE_FULL, "start_turn": 1,
+					"last_completed_turn": 0, "chain": {}, "read_receipts": {},
+					"routine_receipts": {}, "completed_turns": {}, "activity_receipts": {},
+				}
+				_expect(FULL_STORY_FLOW.is_full_run() and not FULL_STORY_FLOW.valid_session(),
+					"date demo/V2 synthetic owner bypassed its environment")
+			else:
+				_expect(FULL_STORY_FLOW.initialize_fresh_preview() \
+						and FULL_STORY_FLOW.valid_session() and not FULL_STORY_FLOW.is_full_run(),
+					"date explicit preview was not the existing excluded profile")
+			for key in ["pending_events", "current_event", "event_cooldowns", "recent_event_ids", "narrative_bridge_results"]:
+				var value: Variant = EventManager.get(key)
+				if value is Dictionary or value is Array:
+					value.clear()
+		else:
+			await _production_fresh_start()
+			GameState.player_name = "DateFixture"
+			_expect(FULL_STORY_FLOW.is_full_run() and FULL_STORY_FLOW.valid_session() and GameState.turn == 1,
+				"date fixture did not use the actual fresh full initializer")
+			if not FULL_STORY_FLOW.valid_session():
+				break
+		var registry_before: Array = DataRegistry.events.duplicate(true)
+		var by_id_before: Dictionary = DataRegistry.events_by_id.duplicate(true)
+		var event: Dictionary = (DataRegistry.events_by_id.get("arc_sangchul_01_meet", {}) as Dictionary).duplicate(true)
+		_expect(not event.is_empty(), "date fixture lacks localized meet %s" % locale)
+		if event.is_empty():
+			break
+		var probe: Control = STORY_MODE_SCRIPT.new()
+		for variant in ["description", "description_orthodox", "description_unorthodox"]:
+			GameState.route_orthodox = 16 if variant == "description_orthodox" else 0
+			GameState.route_unorthodox = 16 if variant == "description_unorthodox" else 0
+			var raw: String = str(event.get(variant, ""))
+			var projected: String = _full_story_date_expected(raw, locale)
+			var expected: String = str(probe.call("_fmt", raw if excluded else projected))
+			if excluded:
+				var before: Dictionary = GameState.serialize().duplicate(true)
+				_expect(str(probe.call("_resolved_story_description", event)) == expected \
+						and GameState.serialize() == before,
+					"date exclusion changed %s/%s" % [locale, variant])
+			else:
+				await _free_story()
+				_expect(FULL_STORY_FLOW.begin_chain(["arc_sangchul_01_meet"]), "date prepared meet handoff failed")
+				GameState.pending_story_queue = ["arc_sangchul_01_meet"]
+				GameState.story_return_scene = "res://scenes/MainGame.tscn"
+				if not await _spawn_full_story_fixture():
+					break
+				var before: Dictionary = GameState.serialize().duplicate(true)
+				var pages: Dictionary = _story.call("_story_page_data", expected)
+				_expect(str(_story.call("_resolved_story_description", _story.get("_current"))) == expected \
+						and (_story.get("_paragraphs") as Array) == pages.get("pages", []) \
+						and str(_story.get("_type_full")) == str((pages.get("pages", []) as Array)[0]) \
+						and GameState.serialize() == before and FULL_STORY_FLOW.valid_session(),
+					"date resolver/pages changed more than exact prefix %s/%s" % [locale, variant])
+		if not excluded:
+			await _free_story()
+			GameState.route_orthodox = 0
+			GameState.route_unorthodox = 0
+			_check_full_story_date_exclusions(probe, str(event["description"]))
+			GameState.pending_story_queue = ["arc_sangchul_01_meet"]
+			GameState.story_return_scene = "res://scenes/MainGame.tscn"
+			if await _spawn_full_story_fixture():
+				await _check_full_story_date_prose(event, locale)
+		probe.free()
+		_expect(DataRegistry.events == registry_before and DataRegistry.events_by_id == by_id_before,
+			"date projection rewrote localized registry %s" % locale)
+	await _free_story()
+	LocaleManager.set_language(previous_language)
+	GameState.call("_restore_serialized_snapshot_exact", state_before)
+	for key in events_before:
+		EventManager.set(key, events_before[key].duplicate(true))
+	for key in resume_before:
+		SaveManager.set(key, resume_before[key].duplicate(true))
+	_expect(GameState.serialize() == state_before and _full_story_event_snapshot() == events_before \
+			and LocaleManager.language == previous_language,
+		"date fixture failed to restore the previous whole-check state/context")
+	if _failures.size() == failures_before:
+		if excluded:
+			_full_story_date_exclusion = "demo" if GameState.is_demo_build() else ("v2" if CORE_LOOP.requested() else "preview")
+		else:
+			_full_story_date_checked = true
+
+
+func _full_story_date_expected(raw: String, locale: String) -> String:
+	var prefixes: Dictionary = {"ko": "3월 끝, ", "en": "Late March, just", \
+		"ja": "3月の終わり、", "zh-CN": "三月底，", "zh-TW": "3月底，"}
+	var prefix: String = str(prefixes[locale])
+	_expect(raw.begins_with(prefix), "date fixture source prefix differs in %s" % locale)
+	return ("Just" if locale == "en" else "") + raw.substr(prefix.length())
+
+
+func _check_full_story_date_exclusions(probe: Control, raw: String) -> void:
+	# Pure probes: neither a public launch nor a real gallery replay (not a root).
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var custom_before: Variant = ProjectSettings.get_setting("application/config/use_custom_user_dir", false)
+	var name_before: Variant = ProjectSettings.get_setting("application/config/custom_user_dir_name", "")
+	for boundary in ["unmarked", "corrupt", "preview8", "preview12", "read-only", "public-return", "public-namespace"]:
+		GameState.call("_restore_serialized_snapshot_exact", before)
+		probe.set("_read_only_replay", false)
+		match boundary:
+			"unmarked":
+				GameState.flags.erase(FULL_STORY_FLOW.STATE_KEY)
+			"corrupt":
+				GameState.flags[FULL_STORY_FLOW.STATE_KEY]["schema"] = "1"
+			"preview8", "preview12":
+				GameState.flags[FULL_STORY_FLOW.STATE_KEY]["profile"] = \
+					FULL_STORY_FLOW.PROFILE if boundary == "preview8" else FULL_STORY_FLOW.PROFILE_THIRD_MONTH
+				_expect(FULL_STORY_FLOW.valid_session() and not FULL_STORY_FLOW.is_full_run(),
+					"date synthetic preview shape is not a valid excluded old owner")
+			"read-only":
+				probe.set("_read_only_replay", true)
+			"public-return":
+				GameState.story_return_scene = "res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
+			"public-namespace":
+				ProjectSettings.set_setting("application/config/use_custom_user_dir", true)
+				ProjectSettings.set_setting("application/config/custom_user_dir_name", STORY_DEMO_CONTROLLER.PUBLIC_CUSTOM_USER_DIR)
+		var negative: Dictionary = GameState.serialize().duplicate(true)
+		_expect(str(probe.call("_full_story_meeting_description", "arc_sangchul_01_meet", raw)) == raw \
+				and GameState.serialize() == negative,
+			"date projection changed excluded boundary %s/%s" % [LocaleManager.language, boundary])
+		ProjectSettings.set_setting("application/config/use_custom_user_dir", custom_before)
+		ProjectSettings.set_setting("application/config/custom_user_dir_name", name_before)
+	GameState.call("_restore_serialized_snapshot_exact", before)
+	probe.set("_read_only_replay", false)
+	_expect(str(probe.call("_full_story_meeting_description", "arc_sangchul_01_measure", raw)) == raw \
+			and str(probe.call("_full_story_meeting_description", "arc_sangchul_01_meet", " " + raw)) == " " + raw \
+			and GameState.serialize() == before,
+		"date projection changed another event/non-leading prefix")
+
+
+func _check_full_story_date_prose(event: Dictionary, locale: String) -> void:
+	var expected: String = str(_story.call("_fmt", _full_story_date_expected(str(event["description"]), locale)))
+	var original_first: String = str(_story.call("_dialogue_log_plain_text", \
+		_story.call("_fmt", str(event["description"]).split("\n\n")[0])))
+	var source_pages: int = 0
+	while int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) == 0 \
+			and source_pages < 16:
+		_story.call("_complete_typing")
+		_story.call("_on_advance")
+		source_pages += 1
+	_expect(int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) == 1,
+		"date prose did not consume exactly its first authored paragraph %s" % locale)
+	var partial: int = mini(7, maxi(1, str(_story.get("_type_full")).length() - 1))
+	_story.set("_type_pos", partial)
+	_story.set("_typing", true)
+	(_story.get("_body_lbl") as RichTextLabel).text = str(_story.get("_type_full")).substr(0, partial)
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var entries: Array = ((context.get("dialogue_log", {}) as Dictionary).get("entries", []) as Array).duplicate(true)
+	var expected_first: String = str(_story.call("_dialogue_log_plain_text", expected.split("\n\n")[0]))
+	_expect(str(context.get("phase", "")) == "prose" and int(context.get("source_paragraph_index", -1)) == 1 \
+			and bool(context.get("paragraph_was_typing", false)) and str(context.get("story_locale", "")) == locale \
+			and entries.size() == 1 and str((entries[0] as Dictionary).get("text", "")) == expected_first \
+			and expected_first != original_first,
+		"date new history/source save did not contain only the undated first block %s" % locale)
+	if entries.size() != 1 or context.is_empty():
+		return
+	var saved_state: Dictionary = GameState.serialize().duplicate(true)
+	for historical in [false, true]:
+		var saved_context: Dictionary = context.duplicate(true)
+		var saved_entries: Array = entries.duplicate(true)
+		if historical:
+			# Explicit synthetic past text, not a migration of an actual user save.
+			(saved_entries[0] as Dictionary)["text"] = original_first
+			(saved_context["dialogue_log"] as Dictionary)["entries"] = saved_entries
+		_expect(SaveManager.save_game(TEST_SLOT, saved_context), "date prose disk save failed %s" % locale)
+		var disk: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveManager.slot_path(TEST_SLOT)))
+		var disk_entries: Array = ((disk.get("resume", {}) as Dictionary).get("dialogue_log", {}) as Dictionary).get("entries", []) if disk is Dictionary else []
+		# JSON numbers are parsed as floats; compare the unchanged serialized
+		# representation, not its pre-serialization Dictionary number types.
+		var expected_disk: Dictionary = _json_round_trip_dictionary({"entries": saved_entries})
+		if not historical and disk_entries != saved_entries and {"entries": disk_entries} == expected_disk:
+			var numeric_types: Array[String] = []
+			for key in ["seq", "event_serial", "choice_index", "source_paragraph_index", "page_index"]:
+				var memory_value: Variant = (saved_entries[0] as Dictionary).get(key)
+				var disk_value: Variant = (disk_entries[0] as Dictionary).get(key)
+				numeric_types.append("%s:%d/%s->%d/%s" % [key, typeof(memory_value), str(memory_value), typeof(disk_value), str(disk_value)])
+			print("MANUAL_SAVE_FULL_STORY_DATE_JSON_HISTORY locale=%s exact_serialized=1 numeric_leaves=%s" % [locale, ",".join(numeric_types)])
+		_expect(disk is Dictionary and int(disk.get("version", -1)) == 4 \
+				and {"entries": disk_entries} == expected_disk,
+			"date v4 disk omitted exact history %s old=%s" % [locale, historical])
+		await _free_story()
+		GameState.start_new_game("DateFixture")
+		_expect(SaveManager.load_game(TEST_SLOT), "date v4 disk reload failed %s" % locale)
+		if not await _spawn_full_story_fixture(true):
+			return
+		var resumed: Dictionary = _story.call("build_save_resume_context")
+		_expect(FULL_STORY_FLOW.valid_session() and FULL_STORY_FLOW.is_full_run() \
+				and _json_round_trip_dictionary(GameState.serialize()) == _json_round_trip_dictionary(saved_state) \
+				and int(resumed.get("source_paragraph_index", -1)) == 1 and bool(_story.get("_typing")) \
+				and (_story.get("_dialogue_log_entries") as Array) == saved_entries \
+				and str(_story.call("_resolved_story_description", _story.get("_current"))) == expected \
+				and (_story.get("_paragraphs") as Array) == (_story.call("_story_page_data", expected) as Dictionary).get("pages", []),
+			"date new Story disk resume changed prose/history/owner/economy %s old=%s" % [locale, historical])
+	if locale == "ko":
+		var before: Dictionary = GameState.serialize().duplicate(true)
+		var old_history: Array = (_story.get("_dialogue_log_entries") as Array).duplicate(true)
+		for language in ["en", "ko"]:
+			_story.call("_set_story_language", language)
+			await get_tree().process_frame
+			await get_tree().process_frame
+			var localized: Dictionary = _story.get("_current")
+			var localized_expected: String = str(_story.call("_fmt", \
+				_full_story_date_expected(str(localized["description"]), language)))
+			_expect(LocaleManager.language == language and GameState.serialize() == before \
+					and (_story.get("_dialogue_log_entries") as Array) == old_history \
+					and str(_story.call("_resolved_story_description", localized)) == localized_expected \
+					and (_story.get("_paragraphs") as Array) == (_story.call("_story_page_data", localized_expected) as Dictionary).get("pages", []),
+				"date actual KO/EN language consumer changed body/history/economy %s" % language)
 
 
 func _check_full_story_production() -> void:
@@ -6387,6 +6631,13 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
+		if _full_story_date_checked:
+			print("MANUAL_SAVE_FULL_STORY_DATE_CHECK_OK variants=15 locales=5 prose=v4-disk/new-Story/source/history-new/old-preserved language=actual-ko-en excluded=public/preview8/12/unmarked/corrupt/read-only/other-id/mismatch owner/economy/registry=unchanged prepared_W1=1 natural=0 new_OS_process=0")
+		if not _full_story_date_exclusion.is_empty():
+			print("MANUAL_SAVE_FULL_STORY_DATE_EXCLUSION_CHECK_OK profile=%s variants=15 rendered=unchanged synthetic_owner=1" % _full_story_date_exclusion)
+		if _full_story_date_only:
+			get_tree().quit(0)
+			return
 		if _full_story_production_checked:
 			print("MANUAL_SAVE_FULL_STORY_PRODUCTION_CHECK_OK entry=actual-StartMenu roots=actual-Main/Story-W1-W28 hyunsu=normal-flags/prepared-study-pass/fail hire/first-work/paycheck=actual cold=W21/W25/W29/v4/new-main calendar=fault-W25/W29-once/rng activity=actual-choice/cancel/tip-cancel/round/cold/fault/AP0 dates=prepared-W49/W241 year=dynamic2 causal=prepared-W210-two-actual-roots terminal=typed/generic/cold tail=105+1/cap100-twice synthetic_not_m07=1 natural_240=0")
 		if _full_story_production_only:
