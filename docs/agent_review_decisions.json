@@ -11360,6 +11360,46 @@
         "path": "docs/queue_archive/ORDER-532.md",
         "sha256": "3cdbdddc466de57462f5c2410ac855746be70639b58276aaea700c25a3096ad7"
       }
+    },
+    {
+      "id": "order-533-status-staleness-advisory-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-10",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-533",
+      "subject": {
+        "kind": "source",
+        "commit": "21a0167f36c7601613b8d986b86813351ab69ff6",
+        "tree": "37778b85633ffef96185d9be76a214d4a9a7a857",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-533_L1_L2_RESULTS.md",
+          "sha256": "9f7dbe23b4abf20279fdb91b61101132a3ccb99f4ff17316eca99c509efa850d"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "continuous_audio_listening",
+        "independent_pixels",
+        "independent_durable_raw_of_root_290_case_run",
+        "full_main_CI_completion",
+        "ObjectDB_cause_and_fix",
+        "full_game_M07_actual_play",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-533_L1_L2_RESULTS.md",
+        "sha256": "9f7dbe23b4abf20279fdb91b61101132a3ccb99f4ff17316eca99c509efa850d"
+      }
     }
   ]
 }

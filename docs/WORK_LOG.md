@@ -2,13 +2,22 @@
 
 이전 기록은 [526 발급까지의 원문](history/WORK_LOG_2026-10-10_pre_order526.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 현황판 전용 추종커밋 제거·본편 월별 검수로 전환
+
+- [533](queue_archive/ORDER-533.md) source21a0167/tree37778b85의8파일 전수 독립GO. [보고](queue_archive/ORDER-533_L1_L2_RESULTS.md) SHA9f7dbe23…; `--check --advisory`는 낡음/누락만 경고0, strict는1, 오용2/생성·읽기예외 실패를 유지한다. audit STATUS두줄/등록4참조만 바꾸고 모든 제품명령·실패집계·KNOWN gate는 동일하다.
+- 기존전량 fixture290(222+68) root실행PASS/HOLD·인간불변, 독립직접12경계PASS. shell문법/등록179/queue_index25·fence4/context30400/docs642/links197 PASS. 실제advisory fresh0 및 마감 뒤 재생성 없는 stale경고0(session6398) 확인. 게임/번역/저장/project/과거271판정/사람원장 변경0, 전체제품감사·240주·engine 재실행0이다.
+- 개발skill Verify절로 재생성 의무 제거를 승격했다. 최신지시의 한달한commit 예외는 CODEX_QUEUE 운영프로토콜이 소유한다. 그 외 사양/검수지시는 일회성이다. [KNOWN_FAILURES](KNOWN_FAILURES.md)에 종료누수를 플레이 영향 미관측/추적중단으로 기록했고 CI예외는0건이다. 옛529 REWORK·530원인HOLD를 고치거나 무영향/해결 완료로 올리지 않는다.
+- 최신 본편 exact앱/manifest 쌍은 현재 없고 옛6월ZIP은 manifest가 없다. 기존 `tools/build.sh macos`는 currentHEAD 내부본편후보를 만들 수 있다. 다음은 clean source·격리 HOME/XDG의 로컬본편앱/정상저장 준비 뒤 진짜W25→28→W29 경계를 M07로 관측하는 것이다. 데모M7은recap sentinel이라 복사/변환0, M07 실제진행은 아직0이다. 필요한 정상선행을 실행하고 월별 관측·독립검수·마감은 한commit으로 묶는다.
+- 원격 구현CI2826의 정적·밸런스 job은success/engine job은진행중으로 관측했다. CI전체완료·본편품질·인간/원어민/물리·출시GO로 쓰지 않는다.
+- 최종 context30269/docs643/links196·큐77/75·인간원장45OPEN/1done PASS. 보고서 분류 경로와 새source판정의 필수 manifest=null 누락은 마감에서 고쳤다. 큐는533행만 제거/연속번호만-1, 나머지77행·기존271판정·STATUS바이트 동일이다. CLAUDE 현재행 갱신은 새후보이므로21a0167 source한정GO를 전체후보GO로 상속하지 않는다.
+
 ## 2026-10-10 — M06 선택·놓친 일·정산/회고 완료 / 현황판 수리 착수
 
 - [532](queue_archive/ORDER-532.md) 실제 경로 한정GO. Continue1/다은0 click1/Return14/기록1/정산1/CmdQ1, 결과5·ledger본문5/결과2화면과 회고9선택행·24주·6정산·전용저장안내 확인. root마지막본문은 authored hold 뒤 기록entry3 완문이며 자연완문으로 세지 않는다.
 - primary22120B/39261c27… recapM7/turn25/elapsed24/closed1..6/pressure6/632만원·70·79/social61/choices9·settlements6. 기존8/5·oldflags/cast/items 보존, 결정1/정산1만 추가·ledger 표현영수증0. backup19283B/97a33ab0…는 before전체payload 값동일/22곳float재직렬화/+44B다.
 - raw8 before755478B/911f8a71… after776195B/009fcc57… 관찰3430B/9508d2d4… command1446B/46c80764…; exit0/344.173307초/stdout17713B·Godot17663B(50B차이)/stderr·오류·경고·누수0. 비저자 phone_independent_review는 cleanf2b6779/tree1a56360e source3272/helper5/seed2/W238/player33·immutable60 전량 before=after=fresh/runtime9 after=fresh·실제저장/로그를 대조해 GO·동결해제했다. own74604/parent74600부재/editor61385생존.
 - root pixels/독립raw·source 검수, 독립pixels/영속PNG/청취0. 다른선택·언어·크기·회고cold-restart·공개저장copy·인간/원어민/물리·부모302/본편출시 HOLD. 529REWORK/원인HOLD는 유지한다. 개발스킬의 실제소비자/독립fresh/원본보존 적용·일회성/승격0·제품/원문/번역/원저장 변경0이다.
-- 최신 직접지시에 따라 [533](queue_active/ORDER-533.md)을 선선언한다. 현황판만 낡음 경고/0, 생성기 오류/제품검사 실패는 계속 차단. root구현·phone_cn_author 기존fixture·phone_independent_review 비저자검수로 분리하며 STATUS전용 추종commit을 끝낸다. 다른 새오더0이다.
+- 최신 직접지시에 따라 [533](queue_archive/ORDER-533.md)을 선선언했다. 현황판만 낡음 경고/0, 생성기 오류/제품검사 실패는 계속 차단. root구현·phone_cn_author 기존fixture·phone_independent_review 비저자검수로 분리하며 STATUS전용 추종commit을 끝낸다. 다른 새오더0이다.
 
 ## 2026-10-10 — 재혁 재회 선택·월정산→M06 첫문단 완료
 

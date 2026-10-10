@@ -1,6 +1,6 @@
 # ORDER-533 — 현황판 신선도만 CI 비차단으로 바꾼다
 
-#### [~] ORDER-533 [P1·검사 오탐 수리] STATUS_DOC 참고 경고화
+#### [x] ORDER-533 [P1·검사 오탐 수리] STATUS_DOC 참고 경고화
 
 **착수 — 2026-10-10 / 선언commit·push 뒤 구현.** 최신 사용자 직접지시를 근거로
 현황판만의 추종commit을 없앤다. 생성기 자체의 실패와 제품검사는 차단을 유지한다.
@@ -49,3 +49,24 @@
 실제 앱 문제 기록과 CODEX_QUEUE의 월별커밋 예외를 함께 넣는다. CI 예외표/게임/과거
 판정 수정은 없으며 본편 실행범위는 후속 월별 사양으로 나눈다. 이 선언/작업은 새 지시
 이전에 착수한 검사 수리이며 월별 실제 앱 검수 커밋을 분할하는 선례가 아니다.
+
+## 완료 증거 — 2026-10-10
+
+- 구현source21a0167f36c7601613b8d986b86813351ab69ff6/tree
+  37778b85633ffef96185d9be76a214d4a9a7a857, 변경8파일 전수 독립검수 GO.
+  [비저자 보고](ORDER-533_L1_L2_RESULTS.md) SHA
+  9f7dbe23b4abf20279fdb91b61101132a3ccb99f4ff17316eca99c509efa850d.
+- 기존 self-test 전량 root실행 exit0/290건(기존222+새68), product_verdict=HOLD/
+  human_evidence_unchanged=true. 비저자 직접 메모리12경계와 root전량 실행은 별개다.
+  strict stale/missing1·advisory0·fresh0·오용2·생성/읽기 예외실패·검사쓰기0을 확인했다.
+- audit shell문법/등록179/queue_index25·fence4/context30400·642문서·197링크 PASS.
+  STATUS두줄 역복원 전체audit 동일/scope4명령+why1 이외 동일, 제품검사 집계 유지.
+  기존 KNOWN gate AST의 EN_HANGUL_EXIT/STATUS_DOC_EXIT 실패는 모두 차단, CI예외0.
+- 게임원문/번역/저장/엔진/project/사람원장·기존271판정 불변. ObjectDB는 실제앱
+  비차단 문제로만 기록해 추적중단하며 원인해결/모든경로무영향을 주장하지 않는다.
+- 승격: 개발skill Verify절(신선도참고경고·STATUS전용commit불필요), CODEX_QUEUE
+  운영프로토콜의 월별실제검수 한달한commit 예외. 나머지 실행지시는 일회성이다.
+  본편M07 실제플레이/전체품질·인간/원어민/물리·외부출시 GO는 아니다.
+- 마감 뒤 root 실제CLI는 STATUS를 재생성하지 않고 DASHBOARD_STALE 참고경고/
+  exit0을 냈다(session6398). 생성STATUS는 구현 전3e75859의 바이트 그대로 보존했다.
+  새보고는 기존archive분류에 원문/SHA동일 이동했고 문서예산은 올리지 않았다.
