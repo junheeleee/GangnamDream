@@ -102,8 +102,13 @@
   {
     "id": "arc_daeun_02_regular",
     "title": "편의점 밖 사십 분",
-    "background": "convenience_night",
-    "portrait": "daeun_normal",
+    "background": "convenience_afternoon",
+    "paragraph_backgrounds": [
+      "convenience_afternoon",
+      "convenience_afternoon",
+      "convenience_afternoon_exterior"
+    ],
+    "portrait": "daeun_regular_offduty",
     "category": "story",
     "rarity": "story",
     "weight": 0,
@@ -124,6 +129,8 @@
     "choices": [
       {
         "text": "퇴근했으면 근처에서 저녁을 같이 먹자고 묻는다 — 오늘 시간을 더 쓴다",
+        "result_cg": "cg_daeun_regular_bunsik",
+        "result_cg_reveal_paragraph": 1,
         "result_text": "{name}이 \"저녁은 제가 살게요\"라고 하자 다은은 방값 알림을 본 사람처럼 잠깐 망설였다. 그러고는 \"비싼 데 말고요\"라고 먼저 선을 그었다.\n\n둘은 김이 서린 분식집 창가에 앉았다. 다은은 야간 근무가 끝나고도 잠이 바로 오지 않는 날들을 말했다. {name}은 답을 보태지 않고 끝까지 들었다. 계산서가 물컵 아래 눌린 채, 버스 한 대가 이미 지나갔다.",
         "flags": [
           "daeun_supportive",
@@ -145,6 +152,8 @@
       },
       {
         "text": "사십 분만 같이 걷자고 묻고, 다음 일을 지킨다",
+        "result_cg": "cg_daeun_regular_walk",
+        "result_cg_reveal_paragraph": 1,
         "result_text": "다은은 버스 화면을 끄고 말했다. \"사십 분이면요. 저도 저녁 장보기는 끝냈고요.\" {name}은 알람을 맞춘 뒤 하천 쪽을 가리켰다.\n\n알람이 울리자 그는 변명하지 않고 멈췄다. \"오늘은 여기까지 해야 해요.\"\n\n다은은 서운하다는 말 대신 장바구니 손잡이를 고쳐 잡았다. \"정확하네요. 그래도 말없이 사라지는 것보단 낫죠.\" 둘은 편의점 불빛이 다시 보이는 모퉁이에서 헤어졌다.",
         "flags": [
           "daeun_guarded",
@@ -162,6 +171,8 @@
       },
       {
         "text": "수첩을 펼쳐, 왜 30억과 강남을 적었는지 말해도 되겠느냐고 묻는다",
+        "result_cg": "cg_daeun_regular_night_wait",
+        "result_cg_reveal_paragraph": 2,
         "result_text": "{name}은 낡은 수첩을 펼쳤다. 30억, 다섯 해, 강남. 다은은 숫자보다 그 아래 눌러 쓴 자국을 오래 봤다.\n\n\"이건 버스 오기 전에 들을 얘기가 아닌 것 같아요. 오늘 밤 가게로 와요. 왜 하필 강남인지, 그때 말해 줘요.\"\n\n그날 밤 {name}은 수첩을 주머니에 넣고 손님이 뜸해질 때까지 편의점 창밖에서 기다렸다. 준비한 대답과 진짜 대답이 유리문을 사이에 두고 갈라졌다.",
         "follow_up_event": "arc_daeun_02b_dream",
         "effects": {

@@ -2578,6 +2578,15 @@ func _restore_story_result(context: Dictionary) -> void:
 		# from the durable stage ledger rather than an authored follow-up string.
 		_pending_follow_up = ""
 		_queue_chapter5_finale_same_turn_ingress()
+	# A delayed result CG keeps the last prose location until its reveal.
+	# Cold loading initially renders prose page 0, unlike a live choice.
+	var result_cg_id := str(choice.get("result_cg", _current.get("result_cg", "")))
+	var result_cg_reveal := int(choice.get(
+		"result_cg_reveal_paragraph", _current.get("result_cg_reveal_paragraph", 0)))
+	if not _event_paragraph_backgrounds.is_empty() and result_cg_reveal > 0 \
+			and not result_cg_id.is_empty() \
+			and ImageRegistry.has_texture(ImageRegistry.get_cg(result_cg_id)):
+		_maybe_change_event_background(_story_source_paragraph_count() - 1)
 	_pending_after_result = true
 	_showing_choices = false
 	_choice_box.visible = false

@@ -37,18 +37,18 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 257,
+  "inventory_count": 263,
   "counts": {
     "1080p": {
       "CG": {
         "native": 0,
-        "light": 75,
+        "light": 78,
         "medium": 0,
         "heavy": 0,
         "severe": 0
       },
       "Portrait": {
-        "native": 92,
+        "native": 93,
         "light": 0,
         "medium": 0,
         "heavy": 0,
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 89,
+        "light": 91,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -67,11 +67,11 @@
         "native": 0,
         "light": 0,
         "medium": 0,
-        "heavy": 75,
+        "heavy": 78,
         "severe": 0
       },
       "Portrait": {
-        "native": 32,
+        "native": 33,
         "light": 1,
         "medium": 59,
         "heavy": 0,
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 89,
+        "heavy": 91,
         "severe": 0
       }
     }
@@ -302,6 +302,40 @@
       "scale": {
         "1080p": 1.5,
         "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/convenience_store_afternoon_v1.png": {
+      "kind": "Background",
+      "ids": [
+        "convenience_afternoon"
+      ],
+      "width": 1586,
+      "height": 992,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.2106,
+        "4k": 2.4212
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/convenience_store_exterior_afternoon_v1.png": {
+      "kind": "Background",
+      "ids": [
+        "convenience_afternoon_exterior"
+      ],
+      "width": 1586,
+      "height": 992,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.2106,
+        "4k": 2.4212
       },
       "band": {
         "1080p": "light",
@@ -2427,6 +2461,57 @@
         "4k": "heavy"
       }
     },
+    "assets/cg/romance/daeun_regular_bunsik_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_daeun_regular_bunsik"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/daeun_regular_night_wait_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_daeun_regular_night_wait"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/daeun_regular_walk_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_daeun_regular_walk"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
     "assets/cg/romance/fireworks_daeun.png": {
       "kind": "CG",
       "ids": [
@@ -3505,6 +3590,23 @@
       "band": {
         "1080p": "native",
         "4k": "medium"
+      }
+    },
+    "assets/characters/npc_daeun_regular_offduty_v1.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_regular_offduty"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
       }
     },
     "assets/characters/npc_daeun_sad.png": {

@@ -1,5 +1,5 @@
 {
-  "version": 24,
+  "version": 25,
   "updated": "2026-09-05",
   "policy": {
     "diegetic_spoken_language": "ko",
@@ -15,6 +15,8 @@
     "goshiwon_shared_kitchen": "goshiwon_hallway",
     "v2_first_bill_desk_closeup": "current_housing",
     "convenience_night": "convenience",
+    "convenience_afternoon": "convenience",
+    "convenience_afternoon_exterior": "street",
     "convenience_first_snow_exterior": "street",
     "cafe": "cafe",
     "gukbap_restaurant_night": "hoesik",
@@ -547,6 +549,9 @@
     "intentional_silence": []
   },
   "cg": {
+    "cg_daeun_regular_bunsik": {"ambience": "cafe"},
+    "cg_daeun_regular_walk": {"ambience": "street"},
+    "cg_daeun_regular_night_wait": {"ambience": "street"},
     "cg_start": {"ambience": "room"},
     "cg_demo_first_interview": {"ambience": "office"},
     "cg_jiyeon_crash": {"ambience": "rain"},

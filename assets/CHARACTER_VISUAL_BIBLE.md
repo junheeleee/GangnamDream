@@ -147,6 +147,8 @@ frame continuity lives in `assets/FIRST_BILL_VISUAL_BIBLE.md`.
 
 **Class Signal:** Beige knit cardigan over a navy convenience-store work polo for her default portrait. Clothes are clean, repeatedly worn, and practical. No visible store logo. Her off-duty wardrobe uses modest solid-color pieces with ordinary fabrics and almost no jewelry. Even in a dress or swimsuit she should look like Daeun dressing up, not like a wealthy influencer or a different heroine.
 
+**Regular Afternoon Outfit Lock:** `arc_daeun_02_regular` uses `npc_daeun_regular_offduty_v1.png`: the same adult face, short layered hair, and left-temple clip under a faded navy cardigan with a plain modest off-duty inner layer, not the beige cardigan/navy work-polo uniform. The bunsik and forty-minute-walk CGs preserve this outfit and Minjun's off-duty black crewneck. The night-wait CG contains Minjun alone; `arc_daeun_02b_dream` then returns to the existing night-store work portrait rather than carrying the afternoon outfit into her shift. Place and reveal timing are owned by `assets/CONVENIENCE_STORE_VISUAL_BIBLE.md`.
+
 **Body Language:** Slightly closed shoulders from night work, hands kept close to the body when shy, direct eye contact once she chooses honesty. Her embarrassment is explicit and sincere: she may blush or admit that she is nervous, but she does not perform Jiyeon's sharp recovery or status composure.
 
 **Emotional Range:**

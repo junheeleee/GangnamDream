@@ -105,6 +105,7 @@ INDOOR_BACKGROUNDS = {
     "goshiwon_shared_kitchen",
     "v2_first_bill_desk_closeup",
     "convenience_night",
+    "convenience_afternoon",
     "cafe",
     "gukbap_restaurant_night",
     "namsan_tonkatsu_restaurant",

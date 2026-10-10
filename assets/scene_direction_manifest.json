@@ -72,6 +72,22 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "convenience_afternoon": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "convenience_afternoon_exterior": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "convenience_first_snow_exterior": {
       "environment": "outdoor",
       "depth": "far",
@@ -1097,7 +1113,6 @@
       "amb_hoesik_dodge",
       "amb_jobswitch_in",
       "arc_34_money_attracts_money",
-      "arc_daeun_02b_dream",
       "arc_daeun_03_fork_hold_receipt",
       "arc_daeun_03_fork_release_receipt",
       "arc_daeun_first_kiss_ask",
@@ -1922,6 +1937,7 @@
       "arc_chapter1_close",
       "arc_daeun_01_meet",
       "arc_daeun_02_regular",
+      "arc_daeun_02b_dream",
       "arc_daeun_03_fork",
       "arc_daeun_03b_date",
       "arc_daeun_04b_future",
@@ -2636,11 +2652,11 @@
       "from_surface": "current_housing"
     },
     "arc_daeun_02_regular->arc_daeun_02b_dream": {
-      "mode": "same_location",
+      "mode": "explicit_move",
       "to_surface": "convenience_night",
-      "audio_policy": "continue",
-      "reduced_motion": "static_update",
-      "from_surface": "convenience_night"
+      "audio_policy": "crossfade",
+      "reduced_motion": "static_fade",
+      "from_surface": "convenience_afternoon"
     },
     "arc_daeun_03_fork->arc_daeun_03_fork_hold_receipt": {
       "mode": "same_location",

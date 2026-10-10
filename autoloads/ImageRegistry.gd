@@ -52,6 +52,7 @@ const PORTRAITS = {
 
 	# 김다은 (연인)
 	"daeun_normal":       "res://assets/characters/npc_romantic_interest.png",
+	"daeun_regular_offduty": "res://assets/characters/npc_daeun_regular_offduty_v1.png",
 	"daeun_normal_y3":    "res://assets/characters/npc_daeun_normal_y3.png",
 	"daeun_normal_y5":    "res://assets/characters/npc_daeun_normal_y5.png",
 	"daeun_smile":        "res://assets/characters/npc_daeun_smile.png",
@@ -208,6 +209,8 @@ const BACKGROUNDS = {
 	"v2_first_bill_desk_closeup": "res://assets/backgrounds/v2_first_bill_desk_closeup.png",
 	# 서울 일상
 	"convenience_night": "res://assets/backgrounds/convenience_store_night_v2.png",
+	"convenience_afternoon": "res://assets/backgrounds/convenience_store_afternoon_v1.png",
+	"convenience_afternoon_exterior": "res://assets/backgrounds/convenience_store_exterior_afternoon_v1.png",
 	"convenience_first_snow_exterior": "res://assets/backgrounds/convenience_store_exterior_first_snow.png",
 	"cafe":              "res://assets/backgrounds/cafe_seoul.png",
 	"gukbap_restaurant_night": "res://assets/backgrounds/gukbap_restaurant_night.png",
@@ -361,6 +364,9 @@ const CG = {
 	"cg_ending_career_burnout": "res://assets/cg/ending_career_burnout_v1.png",
 	"cg_ending_writer": "res://assets/cg/ending_writer_v1.png",
 	"cg_romance_sea_daeun":    "res://assets/cg/romance/sea_daeun_v3.png",
+	"cg_daeun_regular_bunsik": "res://assets/cg/romance/daeun_regular_bunsik_v1.png",
+	"cg_daeun_regular_walk": "res://assets/cg/romance/daeun_regular_walk_v1.png",
+	"cg_daeun_regular_night_wait": "res://assets/cg/romance/daeun_regular_night_wait_v1.png",
 	"cg_romance_sea_jiyeon":   "res://assets/cg/romance/sea_jiyeon_v2.png",
 	"cg_romance_fireworks_daeun": "res://assets/cg/romance/fireworks_daeun.png",
 	"cg_romance_fireworks_jiyeon": "res://assets/cg/romance/fireworks_jiyeon.png",

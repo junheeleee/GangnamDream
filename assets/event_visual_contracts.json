@@ -1,5 +1,5 @@
 {
-  "version": 39,
+  "version": 40,
   "tag_coverage": [
     "climate",
     "season",
@@ -39,6 +39,7 @@
     {"id": "arc_season_sea_jiyeon_voice", "background": "ktx_window", "portrait": "jiyeon_sea", "cg": null},
     {"id": "arc_season_sea_jiyeon_route", "background": "ktx_window", "portrait": "jiyeon_sea", "cg": null},
     {"id": "arc_season_sea_jiyeon_decision", "background": "ktx_window", "portrait": "jiyeon_sea", "cg": "cg_romance_sea_jiyeon"},
+    {"id": "arc_daeun_02_regular", "background": "convenience_afternoon", "portrait": "daeun_regular_offduty", "cg": null, "choice_result_cgs": {"0": "cg_daeun_regular_bunsik", "1": "cg_daeun_regular_walk", "2": "cg_daeun_regular_night_wait"}, "choice_result_cg_reveal_paragraphs": {"0": 1, "1": 1, "2": 2}},
     {"id": "arc_daeun_first_kiss", "background": "convenience_night", "portrait": "daeun_smile", "cg": null},
     {"id": "arc_daeun_first_kiss_wait", "background": "convenience_night", "portrait": "daeun_smile", "cg": null},
     {"id": "arc_daeun_first_kiss_ask", "background": "convenience_night", "portrait": "daeun_smile", "cg": null},

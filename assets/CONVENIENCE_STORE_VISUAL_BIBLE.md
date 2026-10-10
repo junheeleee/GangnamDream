@@ -82,6 +82,34 @@ STREET / RAIN
 - Exactly two focal triangle packages. No readable promotion text, logo, or
   price label.
 
+## Regular Afternoon And Night Return
+
+- `arc_daeun_02_regular` begins on Sunday at four in the afternoon. The reusable
+  `convenience_store_afternoon_v1.png` preserves the canonical counter/entrance
+  and refrigerator geometry, with only an anonymous replacement clerk at the
+  register. Daeun and Minjun are not baked into this background.
+- The first two authored paragraphs use that daytime interior; paragraph 2
+  uses `convenience_store_exterior_afternoon_v1.png`, the same automatic door,
+  red chair, and facade with a legible approach toward the stop and riverside
+  path. An appended relationship memory keeps this exterior, not the counter.
+- Daeun's separate faded-navy off-duty portrait is owned by
+  `assets/CHARACTER_VISUAL_BIBLE.md`. Neither the afternoon background nor its
+  outdoor continuation changes her back into the beige work cardigan.
+- Dinner result paragraph 0 stays outside the store. Paragraph 1 reveals
+  `daeun_regular_bunsik_v1.png`: exactly Minjun and Daeun at a modest steamed
+  window, with the bill beneath a water cup, not a barbecue or luxury venue.
+- Walk result paragraph 0 stays outside while Minjun sets his alarm. Paragraph
+  1 reveals `daeun_regular_walk_v1.png`: both adults at the riverside corner,
+  Daeun's basket and the same store visible in the distance. That single
+  continuous corner also supports the final farewell paragraph; no night jump.
+- Notebook result paragraphs 0 and 1 remain in the afternoon. Paragraph 2
+  reveals `daeun_regular_night_wait_v1.png`: Minjun alone outside the same glass
+  entrance at night, notebook in his pocket, waiting for customers to thin out.
+  Daeun is not added beside him. The immediate `arc_daeun_02b_dream` follow-up
+  restores the existing night interior and her work portrait at the counter.
+- These are scene-local bindings. Default night backgrounds, work portraits,
+  the first-meeting CG, and the first-snow shell remain unchanged.
+
 ## Rejection Conditions
 
 - Refrigerators behind Daeun.

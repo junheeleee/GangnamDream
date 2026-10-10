@@ -1,8 +1,34 @@
 {
-  "version": 7,
+  "version": 8,
   "updated": "2026-08-26",
   "rule": "Every active CG owns an explicit camera role and every visible named actor owns a gaze target plus a supporting body action. Lens gaze is legal only for player_pov.",
   "cg": {
+    "cg_daeun_regular_bunsik": {
+      "path": "assets/cg/romance/daeun_regular_bunsik_v1.png",
+      "camera_role": "observational_two_shot",
+      "story_action": "At a modest bunsik window table, Daeun speaks about sleeplessness after night work while Minjun listens; the bill remains beneath a water cup.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "Minjun across the small table", "pose_support": "Her short-haired head and upright shoulders turn toward him; the faded navy off-duty cardigan stays continuous with the afternoon portrait."},
+        {"id": "minjun", "gaze_target": "Daeun speaking across the table", "pose_support": "His black-crewneck torso and attentive head angle face her without interrupting; neither hand performs a payment before the prose establishes it."}
+      ]
+    },
+    "cg_daeun_regular_walk": {
+      "path": "assets/cg/romance/daeun_regular_walk_v1.png",
+      "camera_role": "observational_two_shot",
+      "story_action": "The forty-minute alarm stops Minjun at a riverside corner where the same convenience store is visible again; Daeun adjusts her shopping-basket handle before they part.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "Minjun beside the riverside corner", "pose_support": "Her face and shoulders remain oriented toward him while her hand naturally readjusts the basket handle; the faded navy cardigan matches the earlier afternoon."},
+        {"id": "minjun", "gaze_target": "Daeun as he stops at the alarm", "pose_support": "His black-crewneck body has stopped rather than walking away; a lowered phone and restrained turned head support his spoken time boundary."}
+      ]
+    },
+    "cg_daeun_regular_night_wait": {
+      "path": "assets/cg/romance/daeun_regular_night_wait_v1.png",
+      "camera_role": "observational_single_shot",
+      "story_action": "That night Minjun waits alone outside the same store's glass entrance until customers thin out, with his notebook put away in his pocket; Daeun is not beside him.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The store interior beyond the glass entrance", "pose_support": "His worn black crewneck and still, upright waiting stance stay on the public exterior side; his hands do not reopen the pocketed notebook or claim Daeun's presence."}
+      ]
+    },
     "cg_start": {
       "path": "assets/cg/start.png",
       "camera_role": "environment",

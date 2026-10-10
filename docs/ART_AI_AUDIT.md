@@ -13,8 +13,8 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **257장** (`CG 75 / Portrait 92 / Background 90`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
-- 전수 방법: 종류별 콘택트시트 24장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
+- 활성 인벤토리: **263장** (`CG 78 / Portrait 93 / Background 92`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 기존 257장 전수 방법: 종류별 콘택트시트 24장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다. ORDER-547 신규 6장은 아래 별도 범위로 검수한다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
 - 아버지 의상 정합: 작업복 하나를 집·병원·통화에 돌려 쓰지 않는다. 같은 얼굴을 작업/외출, 세대감 있는 집 생활복, 쇠약 생활복, 입원 환자복으로 분리하고 피부색·투명 가장자리·의상 장소 계약을 원본 해상도에서 재검수했다.
@@ -22,7 +22,13 @@
 - 안정적인 성공 엔딩: `ending_stable_success_v1.png`를 원본과 1280x800 실제 엔딩 모달에서 재검수했다. 38세 민준, 소형 서울 집, 뒤집힌 휴대폰 한 대, 안도하는 비렌즈 시선, 비강남·비럭셔리 공간, 손·창·침대 원근과 중앙 크롭을 확인했다.
 - 특별 정합: 사고 컷은 검은 장축 세단·한국식 왼쪽 운전석·운전석 문·자전거 두 바퀴를 유지한다. 정류장은 카메라가 벤치 등받이 뒤를 보며 좌석이 도로를 향한다. 편의점 CG는 다은이 카운터 안, 민준이 출입문 쪽에 있다. 다은 결혼식 9종은 한 프레임에 가족 상태를 과적하지 않고 `다은 어머니 반응 1 → 신랑석 상태 4 → 커플 와이드 2 → 커플 근접 2`로 분리한다. 어머니는 혼주 한복과 딸을 향한 시선, 아버지는 혼주 정장과 통로를 향한 시선, 별세 경로는 완전히 빈 예약석, 현수 재회 경로는 배우자·아이 없는 현수 단독을 지킨다. 커플 컷의 식별 인물은 민준·다은뿐이며 민준 선입장/다은 후입장·소형/풀 의상·상호 시선을 유지한다.
 - 글자 게이트: 전경 핵심 소품에는 판독을 요구하는 AI 글자가 없다. 투자 차트·포장지·책등의 작은 표식은 언어처럼 읽히지 않는 비서사 질감이며, 실제 UI 카피를 대신하지 않는다.
-- 최종 판정: **FAIL 0 / PENDING 0**. 비활성 원화는 향후 다시 등록할 때 새 감사 대상이 된다.
+- 기존 257장 판정: **FAIL 0 / PENDING 0**. 이 과거 판정은 ORDER-547 신규 6장의 승인으로 확대하지 않는다. 비활성 원화는 향후 다시 등록할 때 새 감사 대상이 된다.
+
+### ORDER-547 다은의 일요일 오후·선택 결과
+
+- 신규 6장만 대상이다. 기존 257장 픽셀과 과거 사람 판정은 변경하거나 재판정하지 않았다.
+- 저작과 다른 에이전트가 최종 원본 6장의 정체성·의상·시선·소품·편의점 동선·낮/밤을 직접 확인했다. 이는 위임된 에이전트 관찰이며 사람·원어민·물리 패드 판정이 아니다. 정확한 입력·프롬프트·생성 원본·교정 이력·전체 SHA-256은 `docs/agent_reviews/ORDER-547-assets.json`에 남긴다.
+- 현재 원본 확인만 통과했으며 KO/EN 960x600·1280x800 실제 렌더와 새 full 앱 W35 재현은 미완료다. 아래 신규 6장 판정은 그 화면 검수 전까지 `PENDING`이다. 1280x800 결과 CG와 1586x992 배경은 네이티브 4K/출시 master를 뜻하지 않는다.
 
 ### M01-M06 독립 선택판 UI 장면
 
@@ -180,6 +186,12 @@
 
 | Kind | Asset | Registry IDs | Raster | Alpha | Hash | Verdict | Review |
 |---|---|---|---:|:---:|:---:|:---:|---|
+| Portrait | `assets/characters/npc_daeun_regular_offduty_v1.png` | `daeun_regular_offduty` | 1024x1536 | yes | `24d7188524df` | PENDING | ORDER-547 신규. 독립 에이전트 원본 확인 통과·실제 게임 크롭 미완료. |
+| Background | `assets/backgrounds/convenience_store_afternoon_v1.png` | `convenience_afternoon` | 1586x992 | no | `0b2c0d1cbdbf` | PENDING | ORDER-547 신규. 정본 편의점 실내 오후광·익명 다른 점원 확인·게임 크롭 미완료. |
+| Background | `assets/backgrounds/convenience_store_exterior_afternoon_v1.png` | `convenience_afternoon_exterior` | 1586x992 | no | `ffe34676416a` | PENDING | ORDER-547 신규. 동일 편의점 외부·마른 오후·붉은 의자 확인·게임 크롭 미완료. |
+| CG | `assets/cg/romance/daeun_regular_bunsik_v1.png` | `cg_daeun_regular_bunsik` | 1280x800 | no | `dda2e6e09a01` | PENDING | ORDER-547 신규. 같은 사복·분식집 물컵/계산서·상호 시선 확인·대화창 크롭 미완료. |
+| CG | `assets/cg/romance/daeun_regular_walk_v1.png` | `cg_daeun_regular_walk` | 1280x800 | no | `3e8d87f3695e` | PENDING | ORDER-547 신규. 동네 하천길·소지품·상호 시선 확인·대화창 크롭 미완료. |
+| CG | `assets/cg/romance/daeun_regular_night_wait_v1.png` | `cg_daeun_regular_night_wait` | 1280x800 | no | `7c043845a0bb` | PENDING | ORDER-547 신규. 민준 단독·같은 편의점 실제 밤 재방문 확인·게임 크롭 미완료. |
 | CG | `assets/cg/demo/daeun_first_kindness_v2.png` | `cg_demo_daeun_first_kindness` | 1280x800 | no | `f3e0f629c069` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/demo/father_first_call_v1.png` | `cg_demo_father_first_call` | 1280x800 | no | `974db28ea9ac` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/demo/first_interview_v1.png` | `cg_demo_first_interview` | 1280x800 | no | `47f49936c3b9` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
@@ -438,4 +450,4 @@
 | Background | `assets/backgrounds/year3_hangang_winter_night.png` | `year3_hangang_winter_night` | 1280x800 | no | `b8387ccb4707` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year4_winter_rooftop.png` | `year4_winter_rooftop` | 1280x800 | no | `46803837d191` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 
-Inventory: 75 CG / 92 portraits / 90 backgrounds / 257 total.
+Inventory: 78 CG / 93 portraits / 92 backgrounds / 263 total.

@@ -1,0 +1,243 @@
+{
+  "order": 547,
+  "declaration_commit": "5d931b937b2f1f085495620bd2a24e9fa7567591",
+  "scope": "6 new scene-specific assets; original assets and all prose/gameplay preserved",
+  "review_boundary": "Independent agent source-pixel GO for exact final six files. Game crop/save/native validation pending. Not human/native-speaker/physical-controller acceptance.",
+  "assets": [
+    {
+      "key": "daeun_regular_offduty",
+      "path": "assets/characters/npc_daeun_regular_offduty_v1.png",
+      "transparent_background": true,
+      "referenced_image_paths": [
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/characters/npc_romantic_interest.png"
+      ],
+      "prompt": "Use case: identity-preserve. Asset type: transparent visual novel character portrait. Gangnam Ink visual language: desaturated Korean visual novel/manhwa realism, concrete gray and charcoal palette, matte paper grain, subtle ink-wash contrast, restrained cinematic lighting, no glossy mobile-game colors, no photoreal DSLR look, no text, no logos, no UI, quiet Seoul social-reality mood.\nImage 1 is the EDIT TARGET and definitive Daeun identity. Preserve the exact same adult 33-year-old Korean woman: face shape, small facial features, dark-brown short bob, side hair clip at her left temple, body proportions, neutral warm attentive expression, three-quarter standing waist-up pose, brushwork, framing and clean alpha edges. Change ONLY her clothing from the beige cardigan and navy collared work polo into a slightly faded NAVY knit cardigan worn open over a plain modest IVORY crewneck inner shirt. This is Sunday afternoon off duty, not a work uniform. No collar, no polo stripe, no beige cardigan, no apron, no bag, no props, no scenery, no text. Do not beautify, de-age, glamorize, enlarge eyes or change her hairstyle/clip. Keep the entire head and shoulder outline with comfortable margins and an ample torso, the same visual scale as the reference. True transparent background, preserve alpha. Native portrait target 1024x1536.",
+      "provider": "OpenAI built-in image_gen",
+      "mode": "edit",
+      "original_output": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-8e308a8c-b33c-40a5-94e2-cf226feb550b.png",
+      "status": "independent agent final-source-pixel GO; rendered crop and native validation pending",
+      "iteration": 1,
+      "postprocessing": "none; native output retained",
+      "runtime_sha256": "24d7188524df29091db169869229ba120e92790560ca8f6225dccf088b6cd1fe",
+      "runtime_bytes": 2086400,
+      "runtime_size": [
+        1024,
+        1536
+      ],
+      "runtime_mode": "RGBA",
+      "original_output_sha256": "24d7188524df29091db169869229ba120e92790560ca8f6225dccf088b6cd1fe",
+      "reference_sha256": {
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/characters/npc_romantic_interest.png": "f79d2c89dafb734c571ad09d2d4963358d909f5add594dfce2fa431eceea9083"
+      }
+    },
+    {
+      "key": "convenience_afternoon",
+      "path": "assets/backgrounds/convenience_store_afternoon_v1.png",
+      "transparent_background": false,
+      "referenced_image_paths": [
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/backgrounds/convenience_store_night_v2.png"
+      ],
+      "prompt": "Use case: lighting-weather. Asset type: full-screen visual novel background, landscape 16:10 target 3840x2400. Gangnam Ink visual language: desaturated Korean visual novel/manhwa realism, concrete gray and charcoal palette, matte paper grain, subtle ink-wash contrast, restrained cinematic lighting, no glossy mobile-game colors, no photoreal DSLR look, no text, no logos, no UI, quiet Seoul social-reality mood.\nImage 1 is the EDIT TARGET: same small Seoul neighborhood convenience-store interior, same camera, architecture, furniture and object geometry. Turn night into a quiet clear Sunday afternoon around 4 pm: natural neutral late-afternoon daylight through the RIGHT glass entrance, subdued existing ceiling fluorescent light, no dark night street, no snow, no rain or wet street. Preserve EXACT spatial plan: continuous refrigerator cases on LEFT wall, low merchandise aisles middle-left, checkout counter immediately LEFT of the glass entrance at RIGHT, POS screen back facing customers, staff-only dark cigarette/cabinet wall BEHIND that counter, not across the store. Nothing relocating, no extra door/window/counter, no invented branding. A single anonymous background clerk may be barely seen in the proper staff pocket behind the checkout (small C-tier silhouette, unreadable face), never a foreground portrait; no Daeun, no Minjun. No labels/readable writing on packages/signs, no UI. Matte restrained Korean manhwa, keep reference ink/paper texture. Functional location continuity is primary. Protect bottom 28 percent from critical detail and leave faces/important geometry away from top HUD cropping; do not add cinematic black bars.",
+      "provider": "OpenAI built-in image_gen",
+      "mode": "edit",
+      "original_output": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-a4c87186-094a-4639-8da4-264ad1f7ccb6.png",
+      "status": "independent agent final-source-pixel GO; rendered crop and native validation pending",
+      "iteration": 1,
+      "postprocessing": "none; native output retained",
+      "runtime_sha256": "0b2c0d1cbdbf7b877726c28d538822859b4a18a1afd8b438a88328b7a5392c89",
+      "runtime_bytes": 2964856,
+      "runtime_size": [
+        1586,
+        992
+      ],
+      "runtime_mode": "RGB",
+      "original_output_sha256": "0b2c0d1cbdbf7b877726c28d538822859b4a18a1afd8b438a88328b7a5392c89",
+      "reference_sha256": {
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/backgrounds/convenience_store_night_v2.png": "b0d81368510fd6deeeb72dc69034f198abbb53f5e09f88c1c75a10aff2f91236"
+      }
+    },
+    {
+      "key": "convenience_afternoon_exterior",
+      "path": "assets/backgrounds/convenience_store_exterior_afternoon_v1.png",
+      "transparent_background": false,
+      "referenced_image_paths": [
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/backgrounds/convenience_store_exterior_first_snow.png"
+      ],
+      "prompt": "Use case: lighting-weather. Asset type: full-screen visual novel background, landscape 16:10 target 3840x2400. Gangnam Ink visual language: desaturated Korean visual novel/manhwa realism, concrete gray and charcoal palette, matte paper grain, subtle ink-wash contrast, restrained cinematic lighting, no glossy mobile-game colors, no photoreal DSLR look, no text, no logos, no UI, quiet Seoul social-reality mood.\nImage 1 is the EDIT TARGET: EXACT same convenience store facade and viewpoint, small old Seoul neighborhood, not a chain logo. Transform the snowy nighttime view to a clear dry Sunday afternoon around 4 pm. Remove ALL snow from road/curb/roof, remove nighttime darkness and streetlight glow/wet reflections. Keep EXACT door/window/counter layout through glass: refrigerators visible far LEFT, low merchandise aisles middle-left, checkout/POS center-right immediately LEFT of the entrance at RIGHT, staff cabinets behind the counter. Same dark masonry frame and blank fascia. Natural neutral slightly warm afternoon daylight with soft shadows. Add one plain RED plastic chair just outside near the automatic entrance, on the sidewalk, not obstructing the door. Quiet anonymous sidewalk leading toward a neighborhood bus stop/stream off-frame, no big river or major bridge. No foreground actors, no duplicate Daeun/Minjun, no readable text, no logos/UI, no cars needed. Preserve ink/paper texture and architecture. Important store structure visible above bottom dialogue overlay; no black bars.",
+      "provider": "OpenAI built-in image_gen",
+      "mode": "edit",
+      "original_output": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-ddb16244-8d11-48cf-b4bd-8cc45bb18ece.png",
+      "status": "independent agent final-source-pixel GO; rendered crop and native validation pending",
+      "iteration": 1,
+      "postprocessing": "none; native output retained",
+      "runtime_sha256": "ffe34676416a9bdee220461f4c1cfb4c24f4ac0e0bc10ae6dcf5200fd018d245",
+      "runtime_bytes": 2923997,
+      "runtime_size": [
+        1586,
+        992
+      ],
+      "runtime_mode": "RGB",
+      "original_output_sha256": "ffe34676416a9bdee220461f4c1cfb4c24f4ac0e0bc10ae6dcf5200fd018d245",
+      "reference_sha256": {
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/backgrounds/convenience_store_exterior_first_snow.png": "40bff4511687e52abb37f5dd80b53e635a5dc3d24b18fb02c67579d4eb3994f0"
+      }
+    },
+    {
+      "key": "cg_daeun_regular_bunsik",
+      "path": "assets/cg/romance/daeun_regular_bunsik_v1.png",
+      "transparent_background": false,
+      "referenced_image_paths": [
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/characters/npc_daeun_regular_offduty_v1.png",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/characters/main_character_unemployed.png"
+      ],
+      "prompt": "Use case: illustration-story. Asset type: landscape visual novel story CG, 16:10 composition, native target 3840x2400. Gangnam Ink visual language: desaturated Korean visual novel/manhwa realism, concrete gray and charcoal palette, matte paper grain, subtle ink-wash contrast, restrained cinematic lighting, no glossy mobile-game colors, no photoreal DSLR look, no text, no logos, no UI, quiet Seoul social-reality mood.\nImage1 is DAEUN identity AND clothing reference, NOT pose reference: exact same 33-year-old adult Korean woman with short layered dark-brown jaw/nape bob, left-temple small dark clip, gently tired almond brown eyes, ordinary slim build, faded navy knit cardigan over plain modest ivory crewneck. Image2 is MINJUN identity AND clothing reference ONLY: exact 33-year-old lean Korean man with uneven black fringe, worn plain black crewneck. Do NOT copy his permanently defeated expression or slumped pose. Keep both adults recognizable and age-consistent, not idol or teenage faces.\nScene: the two sit facing one another at an inexpensive Seoul bunsik diner window after their Sunday 4pm meeting. Medium-wide restrained side-on two-shot, both faces visible in three-quarter profile and gaze directed AT EACH OTHER, never at camera. Daeun is quietly speaking about finding sleep difficult after night work; one hand rests near a small plain bowl, the other relaxed on the table. Minjun listens attentively to the end, head slightly raised, grounded upright posture, receptive eyes and a small composed mouth, no exaggerated grin or hollow defeat. Warmth is respect, not romantic posing.\nA thin BLANK bill is visibly pinned under a clear WATER GLASS on their simple laminate table, with modest diner bowls/chopsticks and a steamed/fogged window behind. Plain small local diner, no grilling meat, champagne, luxury restaurant, neon bar, branding or readable menu. Through window diffuse ordinary late-afternoon street daylight, not night. Ordinary faded table/chairs, subdued practical light. Hands anatomically coherent, no fused fingers/glass/reflection. Only these two identifiable people, no duplicated faces. Faces, gaze, hand gesture and water-glass/bill above bottom28percent dialogue zone and away from top HUD crop; no text/logos/UI/black bars.",
+      "provider": "OpenAI built-in image_gen",
+      "mode": "generate with identity/location references",
+      "original_output": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-60d3930c-1326-4f5a-90fe-12dccabec645.png",
+      "candidate_output": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-323ec725-054f-4ca3-ac3e-cf2777f0f3fa.png",
+      "status": "independent agent final-source-pixel GO; rendered crop and native validation pending",
+      "rejected_outputs": [
+        {
+          "source": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-60d3930c-1326-4f5a-90fe-12dccabec645.png",
+          "reason": "critical glass/bill obscured by lower dialogue zone",
+          "sha256": "f08b7ff8cb6c388ad86996523ebad32893addd33fa57e3ed6c81a0984848d734"
+        },
+        {
+          "source": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-ded5168c-939c-4186-a1ca-574ae7975ae4.png",
+          "reason": "first correction still places bill in lower dialogue zone",
+          "sha256": "f057c63e17cc34299cf1f6c307ea7ffcb5d072f432f34fe473973410ee116efc"
+        }
+      ],
+      "corrections": [
+        {
+          "prompt": "Precise edit of the provided bunsik story CG. Preserve the EXACT two adult faces, short hairstyles/clip, navy cardigan+ivory shirt, black crewneck, reciprocal eye gaze, quiet attentive acting, diner window/fog, low-key Gangnam Ink ink/paper style, and inexpensive diner. Do not change identities or add any people, text, logos or objects. The water glass pinning a blank bill is a critical story prop but currently too low and would be hidden by the game's bottom dialogue overlay. Recompose the existing table/medium two-shot just enough that the FULL water glass AND its blank bill are clearly in the CENTRAL band, between 53% and 67% of image height, with their bottom safely ABOVE 70%. The two faces remain in upper-middle area; bowl/table anatomy and perspective coherent. Move the glass/bill from their old lower-front position so there is only ONE glass/bill. Slightly wider/slightly higher camera looking down at the table is acceptable; no arbitrary zoom into faces. Bottom 28% should only contain low-importance tabletop/chair details. Keep same 16:10 landscape aspect and natural afternoon light.",
+          "reference": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-60d3930c-1326-4f5a-90fe-12dccabec645.png",
+          "status": "rejected",
+          "output": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-ded5168c-939c-4186-a1ca-574ae7975ae4.png",
+          "output_sha256": "f057c63e17cc34299cf1f6c307ea7ffcb5d072f432f34fe473973410ee116efc",
+          "reference_sha256": "f08b7ff8cb6c388ad86996523ebad32893addd33fa57e3ed6c81a0984848d734"
+        },
+        {
+          "prompt": "Precise object relocation only, preserving this exact image's two people, faces, gaze, clothes, diner and camera. The critical water glass and blank bill are STILL TOO LOW in this draft. Remove the ONE existing glass and its bill completely from the front/lower tabletop. Put that SAME glass pinning that SAME blank bill at the FAR BACK EDGE of the table, in the center gap BETWEEN the two people, BEHIND the small side-dish bowls. The full glass must span approximately 44% to 61% image height, and the blank bill beneath it must be at 61% to 66% image height. Their entire outlines must be ABOVE the lower 30% of the frame. The front/lower tabletop must now be completely empty of glass or bill. You can move the side-dish bowls a little left/right to make room, but do not add a second glass/bill, do not change any person, facial identity/acting, window or lighting. Maintain coherent perspective: glass/bill stand on the far edge of this table. No readable writing or logos. Same matte Gangnam Ink and landscape composition.",
+          "reference": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-ded5168c-939c-4186-a1ca-574ae7975ae4.png",
+          "output": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-323ec725-054f-4ca3-ac3e-cf2777f0f3fa.png",
+          "status": "candidate",
+          "output_sha256": "1b84734c6569f9b95253d9a9462bb6a2d6487b27c78a5d4ee7ecfc5f2a56dfbd",
+          "reference_sha256": "f057c63e17cc34299cf1f6c307ea7ffcb5d072f432f34fe473973410ee116efc"
+        }
+      ],
+      "iteration": 3,
+      "postprocessing": "Deterministic runtime normalization only: center crop 1584x990 from retained generation output, then downsample to 1280x800 with macOS sips in separate commands. No upscaling, repainting or content edits. Original outputs retained. First combined crop/resize attempt yielded 1278/1279x798 and failed contract; discarded runtime by restoring source before final normalization.",
+      "runtime_sha256": "dda2e6e09a0112759f842c579a5591e8c942f0114d3634eb5467a4207b4de256",
+      "runtime_bytes": 1598935,
+      "runtime_size": [
+        1280,
+        800
+      ],
+      "runtime_mode": "RGB",
+      "original_output_sha256": "f08b7ff8cb6c388ad86996523ebad32893addd33fa57e3ed6c81a0984848d734",
+      "reference_sha256": {
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/characters/npc_daeun_regular_offduty_v1.png": "24d7188524df29091db169869229ba120e92790560ca8f6225dccf088b6cd1fe",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/characters/main_character_unemployed.png": "cb6f640c2d92c4df4c562963a6eff19a45fb11c5dd19556d0f69a0326031279a"
+      },
+      "candidate_output_sha256": "1b84734c6569f9b95253d9a9462bb6a2d6487b27c78a5d4ee7ecfc5f2a56dfbd"
+    },
+    {
+      "key": "cg_daeun_regular_walk",
+      "path": "assets/cg/romance/daeun_regular_walk_v1.png",
+      "transparent_background": false,
+      "referenced_image_paths": [
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/characters/npc_daeun_regular_offduty_v1.png",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/characters/main_character_unemployed.png",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/backgrounds/convenience_store_exterior_afternoon_v1.png"
+      ],
+      "prompt": "Use case: illustration-story. Asset type: landscape visual novel story CG, 16:10 composition, native target 3840x2400. Gangnam Ink visual language: desaturated Korean visual novel/manhwa realism, concrete gray and charcoal palette, matte paper grain, subtle ink-wash contrast, restrained cinematic lighting, no glossy mobile-game colors, no photoreal DSLR look, no text, no logos, no UI, quiet Seoul social-reality mood.\nImage1 is DAEUN identity AND clothing reference: exact 33-year-old Korean adult, layered short dark-brown bob, left-temple dark clip, same gently tired face, faded NAVY cardigan + plain ivory crewneck. Image2 is MINJUN identity AND clothing reference ONLY: same 33-year-old Korean man, lean face/uneven black fringe and worn black crewneck, NOT its defeated pose/expression. Image3 is location/facade identity reference, NOT camera framing: same tiny convenience shop must remain recognizably in the distance (dark masonry blank fascia, left glass fridges, low aisle, checkout next to entrance at right, red plastic chair near door).\nScene-specific action: the pair have paused at the corner of a modest neighborhood STREAM footpath that leads back toward the convenience store after their exactly forty-minute walk. Still Sunday late afternoon, neutral warm daylight with a small amount of store practical light. Medium-wide 3/4 two-shot, quiet respectful parting not a romantic embrace. Minjun has just silenced the phone alarm, phone screen dark/unreadable in one relaxed lowered hand; he is stationary, attentive and mildly apologetic but clear, looking at Daeun, upright rather than collapsed. Daeun adjusts the handles of a simple reusable shopping tote containing indistinct groceries with both hands close to her body; restrained disappointed-but-accepting eyes directed toward him. Both characters above lower dialogue zone; natural anatomy, consistent body scale and correct hands/handles.\nSmall Seoul residential creek and low railing/path edge, ordinary low/mid-rise neighborhood, not vast Han River, no monumental bridge, no tourist promenade or skyscraper luxury, no night/snow/rain, no readable phone numbers/clock/menu or logos. The exact shop is small but visible behind them toward the corner, not physically sitting in the stream. No extra foreground identifiable people; no lens gaze, giant grin, invented kiss or text/UI/black bars.",
+      "provider": "OpenAI built-in image_gen",
+      "mode": "generate with identity/location references",
+      "original_output": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-8abe55bb-c647-4895-b025-dd4f61818f77.png",
+      "candidate_output": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-40a26125-64f6-4390-bd68-438301adb7ff.png",
+      "status": "independent agent final-source-pixel GO; rendered crop and native validation pending",
+      "rejected_outputs": [
+        {
+          "source": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-8abe55bb-c647-4895-b025-dd4f61818f77.png",
+          "reason": "phone/hand and bag handles hidden by lower dialogue zone",
+          "sha256": "74159fe507b178c497acd53f129a718de5d6c674aabd615100afa61673432f16"
+        }
+      ],
+      "corrections": [
+        {
+          "prompt": "Recompose this exact walking/parting story CG for a visual-novel dialogue overlay. Preserve EXACT adult Daeun/Minjun faces, hairstyles and clip, navy cardigan+ivory inner, black crewneck, restrained mutual gaze and quiet accepting/almost-apologetic acting, same small creek and the exact convenience shop facade in the background. Critical action in the old framing is too low. Use a MEDIUM WAIST-UP two-shot: frame the figures slightly smaller/upward and raise their hands naturally. Minjun holds his just-silenced DARK/UNREADABLE phone near his LOWER CHEST with bent elbow, so the WHOLE phone and all its holding fingers are between 48% and 62% of image height, not down at his thigh. Daeun adjusts the shopping tote's handles with BOTH HANDS near her upper waist, WHOLE hands/handle loop between 50% and 64% image height. Keep coherent anatomy, hands joined to arms naturally, bag body can extend into bottom dialogue zone. No readable phone time, no new gestures or objects. Reserve the entire bottom32% for nonessential lower torso/bag/path only. Both faces still fully in upper-middle with top margin; no close-up cropped heads. Keep natural warm Sunday afternoon and SAME day store/creek setting, not night. No text/logo/UI/black bars, no lens gaze. Gangnam Ink matte paper illustration.",
+          "reference": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-8abe55bb-c647-4895-b025-dd4f61818f77.png",
+          "output": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-40a26125-64f6-4390-bd68-438301adb7ff.png",
+          "status": "candidate",
+          "output_sha256": "77f46950aede5c480c3ffae2b46fa1714ea1437efe95fc170c435203bd9345cd",
+          "reference_sha256": "74159fe507b178c497acd53f129a718de5d6c674aabd615100afa61673432f16"
+        }
+      ],
+      "iteration": 2,
+      "postprocessing": "Deterministic runtime normalization only: center crop 1584x990 from retained generation output, then downsample to 1280x800 with macOS sips in separate commands. No upscaling, repainting or content edits. Original outputs retained. First combined crop/resize attempt yielded 1278/1279x798 and failed contract; discarded runtime by restoring source before final normalization.",
+      "runtime_sha256": "3e8d87f3695e281e3d79a62f6f72915257a6694ba5e4f73848d88da2fa6ed7bd",
+      "runtime_bytes": 1870565,
+      "runtime_size": [
+        1280,
+        800
+      ],
+      "runtime_mode": "RGB",
+      "original_output_sha256": "74159fe507b178c497acd53f129a718de5d6c674aabd615100afa61673432f16",
+      "reference_sha256": {
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/characters/npc_daeun_regular_offduty_v1.png": "24d7188524df29091db169869229ba120e92790560ca8f6225dccf088b6cd1fe",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/characters/main_character_unemployed.png": "cb6f640c2d92c4df4c562963a6eff19a45fb11c5dd19556d0f69a0326031279a",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/backgrounds/convenience_store_exterior_afternoon_v1.png": "ffe34676416a9bdee220461f4c1cfb4c24f4ac0e0bc10ae6dcf5200fd018d245"
+      },
+      "candidate_output_sha256": "77f46950aede5c480c3ffae2b46fa1714ea1437efe95fc170c435203bd9345cd"
+    },
+    {
+      "key": "cg_daeun_regular_night_wait",
+      "path": "assets/cg/romance/daeun_regular_night_wait_v1.png",
+      "transparent_background": false,
+      "referenced_image_paths": [
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/characters/main_character_unemployed.png",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/backgrounds/convenience_store_exterior_afternoon_v1.png"
+      ],
+      "prompt": "Use case: illustration-story. Asset type: landscape visual novel story CG, 16:10 composition, native target 3840x2400. Gangnam Ink visual language: desaturated Korean visual novel/manhwa realism, concrete gray and charcoal palette, matte paper grain, subtle ink-wash contrast, restrained cinematic lighting, no glossy mobile-game colors, no photoreal DSLR look, no text, no logos, no UI, quiet Seoul social-reality mood.\nImage1 is MINJUN identity AND clothes reference only: exact same 33-year-old Korean man, lean face, uneven black fringe, worn black crewneck. Do not copy the portrait's camera-facing vacant expression/defeated slump. Image2 is the EXACT convenience-store facade and interior geometry reference, not daylight/time reference. Turn the SAME facade into that night's dry quiet street: same blank fascia/dark masonry, glass refrigerators at left, low aisles center-left, checkout/POS just LEFT of entrance at right, staff cabinets BEHIND counter, red plastic chair near door. No moved door/counter, no new luxury/chain signage.\nShow only Minjun standing outside the convenience-store window, waiting for customers to thin out before entering to speak honestly. Medium-wide oblique side view, his 3/4 profile faces toward the lit glass entrance/interior, NOT toward the camera; restrained anticipatory concern, upright still posture. His worn small notebook is IN HIS TROUSER POCKET: only a small closed upper edge may be visible at pocket opening, never held/open/readable in hands. One hand relaxed near the pocket, the other at his side; physically correct hands. No smartphone action.\nThis is a transitional SOLO waiting moment, not the subsequent conversation: DAEUN MUST NOT APPEAR anywhere (no foreground woman, no face/reflection/ghost), no other identifiable people. Interior may be mostly empty, anonymous shelf shapes only. Quiet night, cool charcoal street and warm subdued practical store lights, no snow/rain, no neon romance glamor. No invented skyline/cars/major bridge, no readable writing/logos/UI, no black bars. Keep Minjun face and posture plus store entrance above bottom28percent dialogue overlay and safe from top HUD crop.",
+      "provider": "OpenAI built-in image_gen",
+      "mode": "generate with identity/location references",
+      "original_output": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-18d58765-5d28-4e89-b302-ea5910273a87.png",
+      "candidate_output": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-bcc9a2eb-97c2-46d9-baf8-cc0406d5c010.png",
+      "status": "independent agent final-source-pixel GO; rendered crop and native validation pending",
+      "rejected_outputs": [
+        {
+          "source": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-18d58765-5d28-4e89-b302-ea5910273a87.png",
+          "reason": "outdoor still daylight, not night",
+          "sha256": "3053d720f91af041ea9dbbb1b665157a382bba9325764895dbfc78d9f8b1a8c5"
+        }
+      ],
+      "corrections": [
+        {
+          "prompt": "Lighting/time correction of this EXACT SOLO waiting CG. Preserve the exact Minjun identity, black crewneck, still profile pose/gaze toward the door, notebook inside pocket, correctly shaped hands, all store facade/door/counter/refrigerator geometry, red chair and camera. Change ONLY the time lighting from the visible late-afternoon/daytime to unequivocal LATE NIGHT. The sky and distant outdoor trees/buildings/street must be DARK charcoal/navy, no sun, no golden sunlit leaves, no daytime blue sky, no sun shafts or sharp sunlight shadows. The ONLY meaningful illumination comes from modest store fluorescent/practical lights and very dim street lamps; soft small warm store light spills on the immediate sidewalk, cool dark street elsewhere. Store interior remains legible but the exterior is visibly nighttime. No rain, no snow, no wet reflections, no extra person, especially NO Daeun inside/outside/reflections, no added signage/text/logo/UI/black bars. Keep Gangnam Ink matte paper and ink wash look, same landscape 16:10 composition.",
+          "reference": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-18d58765-5d28-4e89-b302-ea5910273a87.png",
+          "status": "candidate",
+          "output": "/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-bcc9a2eb-97c2-46d9-baf8-cc0406d5c010.png",
+          "output_sha256": "20ae641688a87b548917fdd3b50dfa633a6fae0be37ce092d581dbe03a5d9a84",
+          "reference_sha256": "3053d720f91af041ea9dbbb1b665157a382bba9325764895dbfc78d9f8b1a8c5"
+        }
+      ],
+      "iteration": 2,
+      "postprocessing": "Deterministic runtime normalization only: center crop 1584x990 from retained generation output, then downsample to 1280x800 with macOS sips in separate commands. No upscaling, repainting or content edits. Original outputs retained. First combined crop/resize attempt yielded 1278/1279x798 and failed contract; discarded runtime by restoring source before final normalization.",
+      "runtime_sha256": "7c043845a0bb58a1454f6ed3ede61342f0307c426a318d15bb24d4bd1c1e72de",
+      "runtime_bytes": 1508938,
+      "runtime_size": [
+        1280,
+        800
+      ],
+      "runtime_mode": "RGB",
+      "original_output_sha256": "3053d720f91af041ea9dbbb1b665157a382bba9325764895dbfc78d9f8b1a8c5",
+      "reference_sha256": {
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/characters/main_character_unemployed.png": "cb6f640c2d92c4df4c562963a6eff19a45fb11c5dd19556d0f69a0326031279a",
+        "/Users/junheelee/Documents/GitHub/GangnamDream/assets/backgrounds/convenience_store_exterior_afternoon_v1.png": "ffe34676416a9bdee220461f4c1cfb4c24f4ac0e0bc10ae6dcf5200fd018d245"
+      },
+      "candidate_output_sha256": "20ae641688a87b548917fdd3b50dfa633a6fae0be37ce092d581dbe03a5d9a84"
+    }
+  ],
+  "additional_scope_commit": "3b21694"
+}
