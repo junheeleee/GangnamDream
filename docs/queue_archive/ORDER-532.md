@@ -1,6 +1,6 @@
 # ORDER-532 — M06 결정·놓친 일→데모 회고 실제 입력
 
-#### [~] ORDER-532 [P1·실제 입력] M06 두 장면·정산1·회고 한 단위
+#### [x] ORDER-532 [P1·실제 입력] M06 두 장면·정산1·회고 한 단위
 
 **착수 — 2026-10-10 / 선언commit·push 뒤 실행.** [531](../queue_archive/ORDER-531.md)의
 실제M05완주 뒤 아직 읽지 않은 M06의 다은선택·놓친네줄·회고를 확인한다.
@@ -70,3 +70,40 @@ phone_cn_author는 실제M6저장과 controller844/1113/690/2267·원문core_loo
 선택3/ledger를 읽었다. normalContinue/M6경로2장면·결정/표현구별·최종수치/정지경계를
 코드 기대값으로 보고했고 쓰기/앱/엔진0이다. root도 원문2장면/동적history·ledger/
 context·정산·recap소비자를 직접 읽었다. 준비를 실제GO로 세지 않는다.
+
+## 2026-10-10 완료 증거 / 해당 경로 한정 GO
+
+- 관측source: clean f2b67792f0f5a5fe1e3850c1ec7dfdc939c5eaff/tree
+  1a56360ec27d864e7db4c8e77e058a9581e7c8be. 설치package/manifest는 위의25fc879/7a435 그대로다.
+- OS실행1/Continue1/다은runtime0 click1/개별Return14/대화기록open·close각1/
+  정산1/CmdQ1. root본문 지속완문2화면(1/4줄), 마지막문단은 hold0.8 뒤 dock이어서
+  기록entry3의 마지막2줄로 완독했다. 본화면 자연완문 관측으로 올리지 않는다.
+  결과5화면(1/2/1/3/2줄), ledger본문5화면(1/2/4/1/1줄), 결과2화면(1/1줄)을
+  읽었다. 실제5택·고른1/놓친4줄·회고9행/24주·정산6회·전용저장안내를 확인했다.
+- 실제primary22120B/SHA39261c2752e9e18a50699cba035e0d9c5dd4f3cee387f350937fc0ccd1f40060:
+  recap/M7/turn25/elapsed24/closed1..6/pressure6/choices9·settlements6,
+  632만원·health70·mental79/int66/social61/tint13/AP2/completed[]. 즉시mental81,
+  신규결정0 영수증1/정산1만 추가, ledger 표현 추가영수증0/context·resume제거.
+  기존8선택·5정산/oldflags/cast/items/contacts 값동일이다.
+- backup19283B/SHA97a33ab07f01bfdca6f02383fe733ce3551cc9c4c65bb12c8fae5660db2bf0f1은
+  before 전체payload와 값동일(22곳 int→동일float/+44B)이다. after 복사본이 아니다.
+- private `.git/order532-live-20261010/` raw8 전량보존:
+  before755478B/911f8a71bcbc95c02d28b98e41a1797c06b3761ee849e5f2837660823a3a2da7;
+  after776195B/009fcc57a8613f57a94998e9cd9547d0fb6f5e9443fcaebc35fab55c00660a05;
+  launch745B/ce25f2af3fb05882211ced57ba187198f4644e2c91ffb5235f034e9eef5e9bbf;
+  command1446B/46c807649653cd5e5858fad25ac47b752ee65341a8eb293bd7ebda147f43a5a2;
+  observation3430B/9508d2d4f70184106e8cd87c436fd0cf112082127a270e573e619d9a137be6e4;
+  stdout17713B/a86ef351c070bb837daf7abce7eb49362a416ddac31e009e750a9d2215f84f8a;
+  stderr0B/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855;
+  Godot17663B/1a6f4a2eb5e6a30144e42f715695df662389a27bc48565260c9659fe2fe34363.
+- exit0/344.173307초. stdout은 WorkerThreadPool50B를 빼면 Godot과 동일하다.
+  parse/script/fatal/WARNING/ObjectDB/instance/leak행0. SDL misc2진단 보존,
+  en→ko entry2는 OS1회 내 controller재진입이다. 무경고를529원인해소로 올리지 않는다.
+- 비저자 `/root/phone_independent_review`가 source3272/helper5/seed2/W238/player33·
+  immutable60전량 before=after=fresh/runtime9 after=fresh, raw8/실제저장/consumer를
+  직접 대조해 한정GO·동결해제했다. own74604/parent74600부재/editor61385생존.
+  종료 뒤 root의 read-only진단 KeyError는 raw쓰기/게임 실패가 아니며 정정했다.
+- pixels=root만/독립pixels·영속PNG·청취0. 다른4선택·언어·크기·회고cold-restart·
+  공개저장copy호환·원어민/인간/물리·M04고유경로/누수동정·부모302/본편/출시HOLD.
+  529REWORK/530원인HOLD 보존. 원고/번역/제품/원저장/재발급/새검사 변경0.
+  자동계약은 재미/깊이/문체 증명이 아니며 위는agent한정관측이다. 지시는 일회성·승격0.

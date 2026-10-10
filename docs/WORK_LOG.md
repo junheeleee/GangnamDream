@@ -2,6 +2,14 @@
 
 이전 기록은 [526 발급까지의 원문](history/WORK_LOG_2026-10-10_pre_order526.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — M06 선택·놓친 일·정산/회고 완료 / 현황판 수리 착수
+
+- [532](queue_archive/ORDER-532.md) 실제 경로 한정GO. Continue1/다은0 click1/Return14/기록1/정산1/CmdQ1, 결과5·ledger본문5/결과2화면과 회고9선택행·24주·6정산·전용저장안내 확인. root마지막본문은 authored hold 뒤 기록entry3 완문이며 자연완문으로 세지 않는다.
+- primary22120B/39261c27… recapM7/turn25/elapsed24/closed1..6/pressure6/632만원·70·79/social61/choices9·settlements6. 기존8/5·oldflags/cast/items 보존, 결정1/정산1만 추가·ledger 표현영수증0. backup19283B/97a33ab0…는 before전체payload 값동일/22곳float재직렬화/+44B다.
+- raw8 before755478B/911f8a71… after776195B/009fcc57… 관찰3430B/9508d2d4… command1446B/46c80764…; exit0/344.173307초/stdout17713B·Godot17663B(50B차이)/stderr·오류·경고·누수0. 비저자 phone_independent_review는 cleanf2b6779/tree1a56360e source3272/helper5/seed2/W238/player33·immutable60 전량 before=after=fresh/runtime9 after=fresh·실제저장/로그를 대조해 GO·동결해제했다. own74604/parent74600부재/editor61385생존.
+- root pixels/독립raw·source 검수, 독립pixels/영속PNG/청취0. 다른선택·언어·크기·회고cold-restart·공개저장copy·인간/원어민/물리·부모302/본편출시 HOLD. 529REWORK/원인HOLD는 유지한다. 개발스킬의 실제소비자/독립fresh/원본보존 적용·일회성/승격0·제품/원문/번역/원저장 변경0이다.
+- 최신 직접지시에 따라 [533](queue_active/ORDER-533.md)을 선선언한다. 현황판만 낡음 경고/0, 생성기 오류/제품검사 실패는 계속 차단. root구현·phone_cn_author 기존fixture·phone_independent_review 비저자검수로 분리하며 STATUS전용 추종commit을 끝낸다. 다른 새오더0이다.
+
 ## 2026-10-10 — 재혁 재회 선택·월정산→M06 첫문단 완료
 
 - [531](queue_archive/ORDER-531.md) 한정GO. 같은ICU앱 verbose OS1회/Continue1/개별Return5/선택0click1/정산1/CmdQ1, KO본문4화면(2/2/2/1줄)·2택·결과1화면4줄을 자연완독했다. 선택직후mental82, 자동M06첫문단1줄/HUD565만원·70·80/남은55개월 뒤 추가진행0이다.
