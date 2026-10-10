@@ -1710,7 +1710,8 @@ func _check_full_story_ngplus() -> void:
 			_ngplus_restore(starts[total])
 			MetaProgression.data["total_runs"] = total
 			var main_game: Control = await _spawn_monthly_economy_main()
-			var stored_owner: Dictionary = FULL_STORY_FLOW.snapshot()
+			# The expected owner crosses the same v4 JSON boundary as the actual slot.
+			var stored_owner: Dictionary = _json_round_trip_dictionary(FULL_STORY_FLOW.snapshot())
 			MetaProgression.data["total_runs"] = total + 10
 			_ngplus_expect_initializer_inert(true, "owned-meta-increased-%d" % total)
 			MetaProgression.data["total_runs"] = total
