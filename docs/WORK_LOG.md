@@ -4,6 +4,10 @@
 
 ## 2026-10-10 — 세 번째 달의 격리 연결 착수
 
+- 538 구현 후보는 별도 fresh12주 profile만 W9 현수 두 선택→실제 장 닫힘 후속→W10 불합격→W11 잔액→W12 고시원→세 번째 월말로 잇고 W13에서 멈춘다. demo bridge의 무언 적용을 이 profile에서만 막고 pending 경마 flag를 take/erase 전에 계속 차단한다. 구8주/schema1·기본/demo/V2는 보존하며 cap별 쓰기 재시도만 허용한다.
+- compile69/4.55초·focused12주17.58초·whole12주26.30초·whole8주21.55초·companion-only legacy13.66초·companion demo/V2 제외 각4.25초가 exit0/exact marker/3stream PASS다. whole3회는 기존10슬롯·run_theme3·월초 once를 함께 통과했다. 의도된 저장/복구 WARNING focused4/whole12주17/8주15/legacy13, fatal·parse·누수0이다. 새 앱·실제 화면·자연완독·M07 증거0이다.
+- W9/12 실패 때 이전 disk·이미 정산된 메모리·진행 잠금·새 Main·RNG·쓰기만 재시도, W9 disk cold/월3 once·W13 cold를 확인했다. 활동 표본은 bool flag 직접 주입의 저장/cold/새 Main2회 불변까지만이며 실제 경마 선택/방문이 아니다. prefix 검사는 새12주 자신의 첫8주 기록 불변이고 구8주 전 root 동치 주장이 아니다. 별도 base-only whole run이 구8주 회귀를 소유한다. source/raw 독립 최종 대기이며 보호23그룹968파일의 사후 fresh를 결속한다.
+- 영향 정적56개는 제품55 PASS/기존 census1 FAIL/새 제품실패0이다. general finale의 packaged1813/shipping1708 고정 실패 원문은536과 바이트 동일하며 삭제·완화·예외 추가0이다. 기존 실행 보조기의 `_FAIL` scan이 성공한 demo 검사(exit0/core_loop_v2_ok)의 사건ID `hyunsu_result_fail`을 오류로 잡은 원 FAIL도 보존하고 데이터행 오탐으로만 판독했다. 검사/도구를 바꾸거나 재실행하지 않았다. 앞 causal self-test timeout은 반복0, 밸런스/240주/전체CI 녹색은 미관측이다. EN/한글0·서사/음악/말투·원장·arc·등록179·context30578/큐79/77 PASS, final-executions26273B/05dab8b6…가7실행21stream·source4pin·정적 원출력/경계를 결속한다.
 - [538](queue_active/ORDER-538.md)을 구현 전에 선언한다. 기존8주 profile/저장은 W9에서 그대로 멈추고 fresh companion opt-in만12주로 연결한다. root Main 연결·phone_cn_author helper·cjk_wrap_diagnosis 기존fixture·phone_independent_review 비저자 전수 검수로 파일 소유를 나눈다.
 - 실제 W9 현수→수첩 후속·월3 once·세 번째 정산·W9/12 저장 실패 재시도와 W13 경계를 검증한다. 새12주 profile에서는 데모 bridge의 무언 적용을 막는다. 직접활동 pending은 소비하지 않고 계속 잠그며 경마 연결/원고의 미생산 지원 이력/기본활성화/M07/출시는 별도 HOLD다. 원문·번역·숫자·project·사용자/공개 저장·과거 인간 판정 변경0이다.
 

@@ -536,6 +536,7 @@ func _continue_after_story():
 	if FULL_STORY_FLOW.owns_session() and (
 			not FULL_STORY_FLOW.valid_session()
 			or GameState.flags.has("full_story_calendar_save_pending")
+			or not FULL_STORY_FLOW.pending_activity_id().is_empty()
 			or FULL_STORY_FLOW.at_boundary()):
 		_full_story_route_week()
 		return
@@ -627,6 +628,14 @@ func _full_story_route_week() -> bool:
 			call_deferred("_full_story_continue_week", int(
 				GameState.flags["full_story_calendar_save_pending"]["from_turn"]))
 		return true
+	# An unsupported direct activity still owns this week's unresolved action.
+	# Keep its producer flag intact across returns/reloads; taking it first would
+	# let a second MainGame entry silently advance without the activity.
+	var pending_activity: String = FULL_STORY_FLOW.pending_activity_id()
+	if not pending_activity.is_empty():
+		set_meta("_full_story_waiting_for_activity", pending_activity)
+		SceneTransition.fade_in()
+		return true
 	if FULL_STORY_FLOW.at_boundary():
 		# A named development checkpoint, not a retail completion/recap or a
 		# silent handoff to the rejected action board. The default stays off.
@@ -691,7 +700,7 @@ func _full_story_pending_save_is_valid() -> bool:
 			FULL_STORY_FLOW.snapshot().get("last_completed_turn"), GameState.turn - 1) \
 		and _economy_integer_matches(pending.get("target_turn"), GameState.turn) \
 		and _economy_integer_matches(pending.get("from_turn"), GameState.turn - 1) \
-		and GameState.turn >= 2 and GameState.turn <= 9
+		and GameState.turn >= 2 and GameState.turn <= FULL_STORY_FLOW.last_turn() + 1
 
 
 func _full_story_save_calendar(expected_turn: int) -> bool:
@@ -6413,6 +6422,7 @@ func _begin_month():
 	if FULL_STORY_FLOW.owns_session() and (
 			not FULL_STORY_FLOW.valid_session()
 			or GameState.flags.has("full_story_calendar_save_pending")
+			or not FULL_STORY_FLOW.pending_activity_id().is_empty()
 			or FULL_STORY_FLOW.at_boundary()):
 		_full_story_route_week()
 		return
@@ -6464,6 +6474,7 @@ func _begin_month_story_and_render():
 	if FULL_STORY_FLOW.owns_session() and (
 			not FULL_STORY_FLOW.valid_session()
 			or GameState.flags.has("full_story_calendar_save_pending")
+			or not FULL_STORY_FLOW.pending_activity_id().is_empty()
 			or FULL_STORY_FLOW.at_boundary()):
 		_full_story_route_week()
 		return
@@ -6756,6 +6767,12 @@ func _demo_narrative_bridge_choice(event_id: String) -> int:
 
 func _resolve_demo_narrative_bridge(
 		event_id: String, at_turn: int, preview_only: bool, resolve_bridges: bool) -> bool:
+	# The third-month full preview must read these authored choices in StoryMode,
+	# not let the demo compression policy apply a choice without the player.
+	# The old eight-week profile and every default/demo/V2 caller stay unchanged.
+	if FULL_STORY_FLOW.owns_session() and FULL_STORY_FLOW.snapshot().get(
+			"profile", "") == FULL_STORY_FLOW.PROFILE_THIRD_MONTH:
+		return false
 	if at_turn < 1 or at_turn > GameState.DEMO_TURN_LIMIT:
 		return false
 	# Preview callers need the next foreground scene, but must never mutate state.

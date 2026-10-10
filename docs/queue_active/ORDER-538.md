@@ -57,3 +57,27 @@ DECISIONS 2026-08-24의 장면 행동 소유·자동 생활과 WORK_UNIT의 위�
 - 원 실패 보존, 새 실패0 전 마감0. 전체 감사/240주/누수 추적/비용·성능 도구 작업0.
   원격 전체 CI·기본 full 활성화·534/M07·W13이후·원어민/인간/물리/청취·출시 HOLD다.
   자동 통과는 도달/계약 증거이며 재미·깊이·문체 증거가 아니다. 새 설계 정본 규칙0.
+
+## 구현·표적 결과 — 비저자 최종 대기
+
+- 기존8주 profile/상한/schema1은 보존하고 fresh companion만12주를 선택한다.
+  W9 현수 두 선택→장 닫힘 후속을 실제 reader 호출로 읽고 W10 불합격·W11 잔액·
+  W12 고시원 원래 우선순위와 세 번째 정산 뒤 W13 경계를 확인했다.
+- compile69, focused12주·whole12주·whole8주·companion-only legacy·새 companion의
+  demo/V2 제외가 각각 exit0/marker·3stream scan PASS다. whole12주는26.30초,
+  whole8주21.55초, legacy13.66초이며 기존10슬롯·시작방식·월초 once marker도 유지한다.
+  의도된 저장 실패/복구 WARNING는 focused4·whole12주17·whole8주15·legacy13이다.
+  fatal/parse/누수0이며 WARNING를 숨기거나0으로 기록하지 않는다.
+- W9/12 쓰기 실패의 이전 disk·계산 메모리·새 Main·RNG·쓰기만 retry,
+  실제 W9 v4 cold/월3 once·W13 cold·구8 shape 비승격·unknown profile 거부 PASS다.
+  pending 경마는 직접 bool flag를 세운 합성 저장/cold/새 Main2회 표본이다.
+  실제 경마 선택·방문이나 별도 무인자 process 재개로 확대하지 않는다.
+- 새12주 자신의 W1–W8 receipt prefix가 후속 진행에서 불변임을 검사했다.
+  옛8주와 모든 root가 같다는 증거가 아니며 옛 profile은 별도 base-only whole run이 소유한다.
+- 원 `.git/order538-qa-20261010`에 argv/env/exit/시간·3stream·source4pin을 보존한다.
+  비저자 최종 clean source 결속과 보호 fresh 뒤에만 마감한다. 원고/번역·기본 활성화·
+  실제 앱 M07·W13 이후·전체CI·본편출시는 HOLD다. 새 정본 규칙/도구 최적화0이다.
+- 영향 정적56개 제품55 PASS/기존 census1 FAIL/새 실패0. census 원문은536과 바이트
+  동일하다. 성공한 demo 검사 데이터의 `hyunsu_result_fail`을 실행 보조기 regex가
+  오류로 잡은 원 FAIL은 남기고 exit0/실제 success marker를 별도 판독했다.
+  제품 검사·예외·도구 변경0, causal self-test timeout 재실행0·전체 CI GO0이다.

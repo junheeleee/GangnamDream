@@ -1,5 +1,5 @@
 extends RefCounted
-## Development-only full-game W1-W8 flow. The existing v4 flags dictionary owns
+## Development-only full-game W1-W8 or explicit W1-W12 flow. The v4 flags own
 ## this receipt; it is not a demo/V2 plan, a new save schema, or a retail default.
 ## Mutators return true when the exact request succeeds OR was already completed
 ## identically. A duplicate never mutates state; false means stop, not fall back.
@@ -8,9 +8,12 @@ const BuildFlavorScript := preload("res://systems/BuildFlavor.gd")
 const DemoCoreLoopV2Script := preload("res://systems/DemoCoreLoopV2.gd")
 const STATE_KEY := "full_story_flow_preview"
 const PROFILE := "full_story_flow_preview"
+const PROFILE_THIRD_MONTH := "full_story_flow_third_month_preview"
 const SCHEMA_VERSION := 1
 const PREVIEW_ARG := "--full-story-flow-preview"
+const THIRD_MONTH_ARG := "--full-story-flow-third-month-preview"
 const MAX_TURN := 8
+const THIRD_MONTH_MAX_TURN := 12
 const ROUTINE_SOURCE := "automatic_livelihood_recovery"
 const APPROVED_UNEMPLOYED := {"money": 70000, "health": -1, "mental": 1}
 const APPROVED_EMPLOYED := {"work_performance": 1, "mental": 1}
@@ -23,9 +26,13 @@ static func initialize_fresh_preview() -> bool:
 	if not OS.get_cmdline_user_args().has(PREVIEW_ARG) \
 			or not _environment_allowed() or not _pristine_start():
 		return false
+	# Only a fresh, explicitly opted-in candidate gets the longer horizon.
+	# A loaded eight-week marker returned above and is never promoted by args.
+	var profile := PROFILE_THIRD_MONTH \
+		if OS.get_cmdline_user_args().has(THIRD_MONTH_ARG) else PROFILE
 	_store({
 		"schema": SCHEMA_VERSION,
-		"profile": PROFILE,
+		"profile": profile,
 		"start_turn": 1,
 		"last_completed_turn": 0,
 		"chain": {},
@@ -51,8 +58,26 @@ static func valid_session() -> bool:
 	return owns_session() and _environment_allowed() and _valid_state(snapshot())
 
 
+static func last_turn() -> int:
+	return _last_turn_for_state(snapshot())
+
+
+static func _last_turn_for_state(state: Dictionary) -> int:
+	match state.get("profile", null):
+		PROFILE:
+			return MAX_TURN
+		PROFILE_THIRD_MONTH:
+			return THIRD_MONTH_MAX_TURN
+	return 0
+
+
+static func pending_activity_id() -> String:
+	var pending: Variant = GameState.flags.get("open_racetrack_after_story", false)
+	return "racetrack" if pending is bool and pending else ""
+
+
 static func at_boundary() -> bool:
-	return owns_session() and GameState.turn > MAX_TURN
+	return owns_session() and GameState.turn > last_turn()
 
 
 static func begin_chain(event_ids: Array) -> bool:
@@ -164,7 +189,8 @@ static func ready_to_advance() -> bool:
 	if not valid_session():
 		return false
 	var state := snapshot()
-	if not _current_uncompleted_turn(state) or GameState.is_game_over:
+	if not _current_uncompleted_turn(state) or GameState.is_game_over \
+			or not pending_activity_id().is_empty():
 		return false
 	var chain: Dictionary = state["chain"]
 	if not chain.is_empty() and not bool(chain["closed"]):
@@ -188,6 +214,9 @@ static func _required_reads_closed(state: Dictionary, at_turn: int) -> bool:
 			consequence_id = "arc_temptation_clean"
 		return not consequence_id.is_empty() \
 			and not _read_record(state, 8, consequence_id).is_empty()
+	if at_turn == 9 and state.get("profile", null) == PROFILE_THIRD_MONTH:
+		return not _read_record(state, 9, "arc_intro_04_hyunsu").is_empty() \
+			and not _read_record(state, 9, "arc_chapter1_close").is_empty()
 	return true
 
 
@@ -245,8 +274,9 @@ static func apply_background_for_turn(expected_turn: int) -> bool:
 
 
 static func complete_turn(expected_turn: int) -> bool:
-	if not valid_session() or expected_turn < 1 or expected_turn > MAX_TURN \
-			or GameState.turn != expected_turn + 1:
+	if not valid_session() or expected_turn < 1 or expected_turn > last_turn() \
+			or GameState.turn != expected_turn + 1 \
+			or not pending_activity_id().is_empty():
 		return false
 	var state := snapshot()
 	var completed: Dictionary = state["completed_turns"]
@@ -306,7 +336,7 @@ static func _store(state: Dictionary) -> void:
 
 
 static func _current_uncompleted_turn(state: Dictionary) -> bool:
-	return GameState.turn >= 1 and GameState.turn <= MAX_TURN \
+	return GameState.turn >= 1 and GameState.turn <= _last_turn_for_state(state) \
 		and GameState.turn == int(state["last_completed_turn"]) + 1
 
 
@@ -462,14 +492,14 @@ static func _valid_background_snapshot(raw: Variant) -> bool:
 
 
 static func _valid_state(state: Dictionary) -> bool:
-	if GameState.turn < 1 or GameState.turn > MAX_TURN + 1 \
+	var final_turn := _last_turn_for_state(state)
+	if final_turn == 0 or GameState.turn < 1 or GameState.turn > final_turn + 1 \
 			or GameState.week_of_month != (GameState.turn - 1) % 4 + 1 \
 			or GameState.month != 1 + int((GameState.turn - 1) / 4.0) \
 			or GameState.year != 2026 or GameState.age != 33 \
 			or not _integer_equals(state.get("schema", null), SCHEMA_VERSION) \
-			or state.get("profile", null) != PROFILE \
 			or not _integer_equals(state.get("start_turn", null), 1) \
-			or not _bounded_integer(state.get("last_completed_turn", null), 0, MAX_TURN):
+			or not _bounded_integer(state.get("last_completed_turn", null), 0, final_turn):
 		return false
 	for key in ["chain", "read_receipts", "routine_receipts", "completed_turns"]:
 		if not state.get(key, null) is Dictionary:
@@ -491,7 +521,7 @@ static func _valid_state(state: Dictionary) -> bool:
 		if not raw_key is String or not str(raw_key).is_valid_int():
 			return false
 		var at_turn := int(raw_key)
-		if str(at_turn) != raw_key or at_turn < 1 or at_turn > MAX_TURN \
+		if str(at_turn) != raw_key or at_turn < 1 or at_turn > final_turn \
 				or at_turn > last + 1:
 			return false
 		var raw: Variant = routines[raw_key]
@@ -506,7 +536,7 @@ static func _valid_state(state: Dictionary) -> bool:
 			return false
 		var at_turn := int(raw_key)
 		var raw_records: Variant = reads[raw_key]
-		if at_turn < 1 or at_turn > mini(last + 1, MAX_TURN) \
+		if at_turn < 1 or at_turn > mini(last + 1, final_turn) \
 				or not raw_records is Array or (raw_records as Array).size() > 64:
 			return false
 		var seen: Array = []
@@ -528,11 +558,11 @@ static func _valid_state(state: Dictionary) -> bool:
 				or (not chain.is_empty() and not bool(chain["closed"]))):
 		return false
 	if GameState.turn == last + 1:
-		return GameState.turn >= 1 and GameState.turn <= MAX_TURN + 1
+		return GameState.turn >= 1 and GameState.turn <= final_turn + 1
 	# A save may observe the existing calendar producer after advance_calendar
 	# but before complete_turn. The already-applied routine licenses completion,
 	# not another calendar advance or another income deposit.
-	return last < MAX_TURN and GameState.turn == last + 2 \
+	return last < final_turn and GameState.turn == last + 2 \
 		and routines.has(str(last + 1)) \
 		and (chain.is_empty() or bool(chain["closed"]))
 

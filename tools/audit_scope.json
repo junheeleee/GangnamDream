@@ -3858,7 +3858,7 @@
     {
       "tool": "tools/ManualSaveCheck.tscn",
       "godot": true,
-      "why": "10슬롯·결과 재개·월초 once·격리 opt-in full W1–W8 저장/완독/정산 경계",
+      "why": "10슬롯·결과 재개·월초 once·격리 opt-in full W1–W8 및 별도 W1–W12 저장/완독/정산 경계",
       "paths": [
         "autoloads/SaveManager.gd",
         "autoloads/GameState.gd",
