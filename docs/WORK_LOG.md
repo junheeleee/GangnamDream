@@ -2,6 +2,12 @@
 
 이전 기록은 [526 발급까지의 원문](history/WORK_LOG_2026-10-10_pre_order526.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — 본편 결과 완독→자동 생활·정산 내부 단면 착수
+
+- [536](queue_active/ORDER-536.md)을 구현 전에 선언한다. 실제 534 입구 결함의 첫 수리이며 full 내부 W1–W8만 판정한다. 기본 새 이야기·공개 체험판·저장/원문/번역·인간 판정은 그대로다. 현재535는 source17e45369 한정 독립GO로 마감했고 534/M07/출시는 HOLD다.
+- root 연결·phone_cn_author full 상태/자동생활·cjk_wrap_diagnosis 기존 저장fixture·phone_independent_review 비저자 전수 검수로 분리한다. W4 첫 제안→W8 실제 후속, 결과 완독/큐 종료와 주/월 once를 함께 닫는다. 기존 승인 생계/회복 값만 쓰며 취업·월급·XP·AP 행동을 추정하지 않는다. story_map의 반려 commitment·demo controller 이식0이다.
+- WORK_UNIT의 위임으로 내부 개발 판단을 진행하며 재서명을 요구하지 않는다. 명시적 격리 preview만 켜고 W9 개발 경계에서 멈춘다. M01–M06→M07 후속 증거와 별도 기본 활성화가 남으며 합성 검증을 실제 플레이로 바꾸지 않는다. 도구 비용/성능 프로젝트·종료누수 추적·STATUS-only 커밋0이다.
+
 ## 2026-10-10 — 월초 경제 재진입 중복 수리·저장 회귀 통과
 
 - [535](queue_archive/ORDER-535.md) 범위를 구현 전에 선언했다. MainGame 월초 경제·InvestmentSystem 국면 timer·기존 ManualSaveCheck만 제품/fixture 소유다. 같은 저장/장면 재생성의 재추첨·위기/뉴스/가격/배당 중복을 닫고 실제 다음 달은 유지한다. flags/market_context v4만 사용하며 새 스키마·보상·기본 경로·원문·번역·project·사용자 저장 변경0이다.
