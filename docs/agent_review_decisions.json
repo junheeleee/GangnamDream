@@ -12275,6 +12275,44 @@
         "path": "docs/agent_reviews/ORDER-547-post548.json",
         "sha256": "b58eb47be120fa6fbf3ff0ec4c0dd140d6f475716bcbeb03b7909ea9142b8872"
       }
+    },
+    {
+      "id": "order-549-package-m10-hyunsu-call-end-presentation-rework",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-11",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-549",
+      "subject": {
+        "kind": "package",
+        "commit": "a0bc2886faf34ca75c926b1492cfe5808413921f",
+        "tree": "9e21cfc5647f6f81b7999617453a9ffd8bb56ef4",
+        "manifest_sha256": "29059481ab807b34ed0a9941d772f5d13c31029a26942cef5d725cdb2cb05cbd"
+      },
+      "verdict": "REWORK",
+      "evidence": [
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-549.json",
+          "sha256": "394cf1162aed6954061a4e7fa0e7b3736a8c634ea858a2961930b5cf9c53153a"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-549-manifest.json",
+          "sha256": "29059481ab807b34ed0a9941d772f5d13c31029a26942cef5d725cdb2cb05cbd"
+        }
+      ],
+      "unobserved": [
+        "native_reader", "human_playtest", "physical_controller_feel",
+        "independent_native_pixels", "other_choices_locales_or_new_OS_cold",
+        "call_end_presentation_repaired", "W45_beyond_first_paragraph_or_later_natural_play",
+        "issued_app_NGplus_repair", "full_remote_CI_external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-549.json",
+        "sha256": "394cf1162aed6954061a4e7fa0e7b3736a8c634ea858a2961930b5cf9c53153a"
+      }
     }
   ]
 }

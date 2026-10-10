@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-549",
+  "reviewer": "phone_independent_review (비저자)",
+  "reviewed_at_utc": "2026-10-10T23:39:15.818182+00:00",
+  "subject": {
+    "kind": "package",
+    "commit": "a0bc2886faf34ca75c926b1492cfe5808413921f",
+    "tree": "9e21cfc5647f6f81b7999617453a9ffd8bb56ef4",
+    "manifest_path": "docs/agent_reviews/ORDER-549-manifest.json",
+    "manifest_sha256": "29059481ab807b34ed0a9941d772f5d13c31029a26942cef5d725cdb2cb05cbd"
+  },
+  "scope": "기존547 issued a0bc 앱을 exact 재사용하고 실제546 W40 autosave 한 파일만 새 HOME/XDG로 이월한 KO 정상 Continue→현수 통화 choice0/결과→다음 foreground W45 첫 문단 종료. 월별 실제 관측·저장·로그·보존 검수이며 새 제품 수리/빌드/전체 본편 검수가 아니다.",
+  "verdict": "REWORK",
+  "product_verdict": "HOLD",
+  "results": {
+    "navigation_and_receipts": "한정 GO — root 관측 5본문/choice0 1회/3결과→W45 ‘12개월.’ 첫 문단과 실제 read46·completed/routine40..44 각1·새 event1이 일치한다. W45 선택/후속0.",
+    "preservation": "GO — 보호117곳(파일1916+symlink5, 중첩합산)·tracked3332/helper5+2/seed2/W238/player33/Human/292판정·issued app7/ZIP/PCK/manifest 원형 및 최종 namespace5를 entry→result→fresh 직접 전량 exact 대조했다.",
+    "channel_continuity": "REWORK — 결과3 ‘통화가 끝난 뒤’에 ‘통화 중’ badge와 현수 원격 inset/nameplate가 남았다는 root 실제 관측을 event-wide phone/connected 및 결과 consumer의 해제 경계 부재로 독립 확인했다. 이번 수리0.",
+    "overall": "ORDER-549 최종 단위 REWORK, 제품/출시 HOLD. 정상 진행·영수증·보존 부분 GO를 전체 품질/해결 GO로 확대하지 않는다."
+  },
+  "method": {
+    "direct": "사양·helper2 전체·package/prepare/pre/native-result/finalized observations 전량, 원 stdout/stderr/실제 Godot·보존 사본 전량, seed/final/backup 전체 v4 JSON, 현수 event choice0/효과·story_rules·StoryMode render/result/advance/remote 소비자와 월말/상철 패시브를 읽었다.",
+    "fresh": "새 checker 없이 기존 b.snapshot/file_record/source_state만 재사용. 원 bool 영수증만 신뢰하지 않고117 roster/전체 tracked와 실제 새 runtime을 직접 비교했다. 모든 실제 비교 세부 pin은 immutable independent-final-preservation에 결속했다.",
+    "observation_boundary": "실제1280×800 KO 키보드 pixels는 root inline CUA 관측이다. 독립 pixels/영구PNG/영상/음성0. 검수자는 원문·저장·원로그·해시·process 상태만 직접 관측했다.",
+    "source_boundary": "f056f9d/tree5c7db4a2 + 선언 queue2 dirty/spec untracked를 별도 봉인했다. monthly 한 커밋 예외의 선언 상태이며 clean source GO나 metadata wrapper GO가 아니다. 실제 실행 package source는 a0bc/tree9e21이며548 fresh NG+ 수리를 포함하지 않는다.",
+    "actions_not_taken": "검수자 engine/UI/app/재플레이/build/서명/675payload 재스캔/제품·원문·저장편집0. 실제 final autosave만 승인된 raw byte copy로 보존했고 보고/manifest는 apply_patch로 작성했다."
+  },
+  "evidence": {
+    "private_base": ".git/order549-live-20261011",
+    "independent_entry": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/independent-native-admission.json",
+      "sha256": "1da691d822babd0f0237f3451c45ed73ee138ce4d9478e0f18b346e78775d23f",
+      "size": 12253
+    },
+    "independent_final": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/independent-final-preservation.json",
+      "size": 18236,
+      "sha256": "7be6ae07fbda04b06f5fcc2af486c9df92b34092a12dee086d150d748771a07d"
+    },
+    "roster": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/protection-roster.json",
+      "sha256": "3e88d2eea4e3a29f41308ca0cbdbf5ced73cd7f3fd2ecc130b2ed9d076936b43",
+      "size": 19656
+    },
+    "prepare_before": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/prepare-before.json",
+      "sha256": "8e1c771b8159d9228dbf3a1e334ffb862d3de802ca3837e4185a0f9bf6811381",
+      "size": 1302901
+    },
+    "prepare_result": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/prepare-result.json",
+      "sha256": "da1f0207452a1c0218a4ba86c86ae5615f8d038cbda80193012a06de555dc1dd",
+      "size": 439206
+    },
+    "pre_launch": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/pre-launch.json",
+      "sha256": "097755e1ef334011cd772489576275fbd6cee45a9ec758a3747aa5a7bcac9fcd",
+      "size": 1304654
+    },
+    "native_result": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/native-result.json",
+      "sha256": "a79c099d16b20bd471f430366ed59c89bcc352fdeca0f08288374a5358aaa461",
+      "size": 442115
+    },
+    "root_observations": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/observations.md",
+      "sha256": "52a907ac64b2a552144780225c42dc515eb7ed3f3fe125e28325894926985b39",
+      "size": 4467
+    },
+    "stdout": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/native.stdout.log",
+      "sha256": "6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1",
+      "size": 154
+    },
+    "stderr": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/native.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "preserved_godot": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/native.godot.log",
+      "sha256": "6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1",
+      "size": 154
+    },
+    "final_autosave": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/final-autosave.json",
+      "sha256": "a98ddfe49e12e07c8602766fb596a5d997541cae92f9734bd92424b66a5db822",
+      "size": 160055
+    },
+    "issued_reuse_manifest": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/package.json",
+      "sha256": "29059481ab807b34ed0a9941d772f5d13c31029a26942cef5d725cdb2cb05cbd",
+      "size": 5498
+    }
+  },
+  "run": {
+    "os_launches": 1,
+    "pid": 288,
+    "launcher_pid": 268,
+    "exit_code": 0,
+    "elapsed_seconds": 207.081432,
+    "wrapper_failure": null,
+    "wrapper_preservation_checks": 12,
+    "all_true": true,
+    "stdout_and_godot": "각154B/SHA6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1, byteexact 사본 동일. stderr0B. 전량 ERROR/WARNING/parse/script/ObjectDB/leaked0. full 앱이므로 native-entry marker를 요구하거나 발명하지 않는다.",
+    "exit": "CmdQ 단독 이후 UI 접근0은 root 기록. 독립 ps에서288/268 및 동일 실행파일 process 부재, user editor61385 생존.",
+    "provenance": "초기 cgWindowNotFound/임시 변수 할당 진단은 같은 생존 app의 연결 문제로 journal 보존. 추가 OS 실행·제품 실패로 단정하지 않는다.",
+    "copied_saves": 1,
+    "state_edits": 0,
+    "rebuilds": 0
+  },
+  "actual_scope": {
+    "observer": "root only; KO/default1280×800 keyboard",
+    "W40": "현수의 새 길 본문5문단·3선택 중 choice0 1회·결과3문단. 현재 고시원/회계사무실 원격 통화 구분은 root가 관측했다. 결과3 표시 정합은 아래 REWORK다.",
+    "stop": "quiet41–44는 자동 진행 저장으로만 확인. 다음 실제 foreground story_one_year W45 첫 문단 ‘12개월.’에서 선택/추가문단0·정상 종료. W41–44 화면·월말 모달을 보았다고 하지 않는다."
+  },
+  "state_and_receipts": {
+    "entry": {
+      "turn": 40,
+      "money": -2831703,
+      "health": 50,
+      "mental": 100,
+      "social_skill": 57,
+      "moral_tint": 45,
+      "investment_skill": 22,
+      "events_seen": 45,
+      "resume": {}
+    },
+    "final": {
+      "turn": 45,
+      "year": 2026,
+      "month": 12,
+      "week_of_month": 1,
+      "money": -3781703,
+      "health": 46,
+      "mental": 90,
+      "social_skill": 58,
+      "moral_tint": 49,
+      "investment_skill": 24,
+      "events_seen": 46,
+      "resume": {}
+    },
+    "once": "이전 event45/action86/news42 및 flow의 모든 완료/루틴/읽기 prefix 값 exact. 새 event/read는 현수 W40 choice0/sequence46 각1, completed/routine40..44 각1/next_turn+1, last44. W45 읽기·선택 영수증0/resume{}.",
+    "effects": "현수 affinity13→18, social57→58, tint45→49 원 choice0 효과. mental+5는100 cap. 다른 cast/stage/flags exact.",
+    "economy": "현금 -2831703+5×70000−2×650000=-3781703. 루틴40..44 health net0/mental 실효[0,4,4,2,0]. 두 월말 health 각−2/mental100→90 및 W41/W45 결산 로그 각1. 월초 latch37→41. income0/fixed650000/job{}와 bank/second loan0은 전후 exact.",
+    "passive": "investment_skill22→24 실제 변화. Sangchul mentoring/W40·44 ‘임상철의 지나가는 말’ 로그 각1 및 GameState1730–1732 기존 패시브와 일치한다. 거래/스킬불변 주장0.",
+    "deferred": "예약 현수40만 소비. 투자 callback31 및 다은47 원예약 exact 보존. portfolio{}·실제 market purchase flag 부재.",
+    "backup": "157837B/becc2315050f4e35176bdad07ce6dbcf00a40e56760d1bc1f0891ae2ed82fed5, W44/last43/resume{} 정상 직전 checkpoint. primary와 같거나 복사했다고 주장하지 않는다.",
+    "complete_diff": "전체 semantic 차이를 calendar·월말/주거/시장/news·director/scene tracking·weekly classification·선택1·flow5로 직접 귀속했다. prefix 비교 제외나 저장 의미 masking0."
+  },
+  "finding": {
+    "id": "Hyunsu-result3-ended-call-still-connected",
+    "verdict": "REWORK",
+    "exact_text": "통화가 끝난 뒤 김민준은 한동안 꺼진 화면을 들고 있었다.",
+    "root_pixels": "동일 안정 결과 화면에 ‘통화 중’과 현수 remote inset/nameplate가 유지되었고 다음 W45에서 사라짐. 독립 pixels 관측은 아니다.",
+    "source": "content/meta/story_rules.json3638–3655는 event-wide phone/connected/remote. scenes/StoryMode.gd5143→5300/5332–5359가 이를 badge/inset/name suffix에 사용하며6529 선택 결과와5790–5810 결과 문단 진행에서 communication state를 갱신하지 않는다. 현수 choices에는 결과 presentation override가 없다.",
+    "attribution": "current StoryMode/arc_midgame/story_rules bytes는 issued a0bc와 exact. 따라서 확인된 시간·연출 정합 결함이나 최근 회귀/렌더 고장으로 단정하지 않는다.",
+    "required_next_scope": "별도 source 수리 선언 후 choice0 authored result index2에서만 통화 badge·remote inset·이름표 종료를 live/restore/언어 변경에 정합시킬 것. 앞 결과2문단은 아직 통화이므로 choice 선택 즉시 전역 숨김이나 산문 regex 추정은 부적절하다. 549에서 결함 해결 GO0."
+  },
+  "preservation": {
+    "canonical_protected_sha256": "65c1daba262818e4c034139710ef70e7ea45c88a7ceaa23bf69d4f73b066d5f4",
+    "canonical_tracked_sha256": "132a55e0bc08b973e7fec500c64ed06d8c40bfeae2d0f9c530aad72c54c5ade1",
+    "Human": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/docs/human_gates.json",
+      "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+      "size": 103390
+    },
+    "historical292": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/docs/agent_review_decisions.json",
+      "sha256": "3d3d6b559d74eff24c25e7528bdaddb8ca43d55592c610bc5f40c777629b3c95",
+      "size": 446464
+    },
+    "old_history": "292 전체 원장 및 Human byteexact HEAD/입구, public/player33·과거545/544/546/547/548 raw/report/namespace·보호 helper/seed/W238 불변. 과거 retail log3 delta/194B 제거·사고 REWORK를 복구/손상 전 PASS로 바꾸지 않는다.",
+    "runtime": "새549 namespace만1→5파일 UI 변화; result/current exact. 실제 primary160055B/a98ddfe4…를 final-autosave.json에 byteexact 보존. 원seed147720B/77f007b3… 변경0.",
+    "release_boundary": "final seal 완료 뒤 선언된549 기록 metadata만 root에 동결해제 통보. 제품/기존보고/raw/helper/인간/저장 변경은 승인하지 않는다."
+  },
+  "package": {
+    "app_path": "/private/tmp/gd-order547-build-ze5249j0/app/GangnamDream.app",
+    "app_files": 7,
+    "ZIP": {
+      "size": 438023378,
+      "sha256": "b18cd1dafe65a36031db1bab480ab1978e34a0259873f903d1884029a669d3f1"
+    },
+    "PCK": {
+      "size": 399841208,
+      "sha256": "2836e7dbd377e587b736b1564cb290078f0436e33e006ddd8422d0a763ed8557"
+    },
+    "build_text_manifest": {
+      "size": 464,
+      "sha256": "aa86e8be2616b4b70d793a8384c33c93e45c13655ca63638bc2e4e5e51fb8c2b"
+    },
+    "manifest_copy": "원 package.json5498B/29059481… byte-identical 사본. 발급 시 admission PENDING 등 원문을 고치지 않으며 실제 입구/관측 판정은 이 보고가 별도로 결속한다.",
+    "old_verdicts": "옛547 source41fef/packagea0bc HOLD와 이후 current source 한정 GO를 각각 보존. 이번 package REWORK는 소급 수정·전체 source/출시 판단이 아니다."
+  },
+  "unobserved": [
+    "independent_runtime_pixels_or_persistent_PNG",
+    "human_playtest",
+    "native_reader",
+    "physical_controller_feel",
+    "audio_listening",
+    "other_choices_routes_locales_resolutions",
+    "quiet_W41_W44_screens",
+    "W45_after_first_paragraph",
+    "natural_full_240_week_play",
+    "fresh_NGplus_in_this_app",
+    "new_build_signing_or_pack_validation",
+    "full_remote_CI",
+    "external_release"
+  ],
+  "acceptance": "진행·영수증·보존 한정 GO, 결과3 통화 종료 표시는 REWORK, 최종 ORDER549 REWORK/본편·출시 HOLD. 자동 계약은 재미·깊이·문체 또는 인간 품질의 증거가 아니다."
+}

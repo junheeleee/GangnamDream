@@ -1,0 +1,128 @@
+{
+  "unit": "ORDER-549",
+  "scope": "KO normal Continue W40 choice0/result to next foreground first paragraph; not release",
+  "issued_source": {
+    "head": "a0bc2886faf34ca75c926b1492cfe5808413921f",
+    "tree": "9e21cfc5647f6f81b7999617453a9ffd8bb56ef4",
+    "status": ""
+  },
+  "inspection_source": {
+    "head": "f056f9d102861f16fd85ae7f718bfa599ade3149",
+    "tree": "5c7db4a2c0f1ccb3cb54794aab8e921be6b14321",
+    "status": " M docs/CODEX_QUEUE.md\n M docs/CODEX_QUEUE_L3_PENDING.md\n?? docs/queue_active/ORDER-549.md\n"
+  },
+  "issued_artifacts": {
+    "package": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order547-qa-20261011/package.json",
+      "sha256": "c4b93854e46a55cb8d2e4150560370ce551be35655762d692060e8fa095e028d",
+      "size": 12058
+    },
+    "app": {
+      "label": "new_app",
+      "path": "/private/tmp/gd-order547-build-ze5249j0/app/GangnamDream.app",
+      "exists": true,
+      "entries": [
+        {
+          "path": "Contents/Info.plist",
+          "kind": "file",
+          "sha256": "091169de1ad20197ec07e69f5588a0a3fce562e7eba15d3938d8cdfe9d5ce7fb",
+          "size": 1797
+        },
+        {
+          "path": "Contents/MacOS/GangnamDream",
+          "kind": "file",
+          "sha256": "01184818c58458e3058c75c429f334313630a3b07412e945fa560e9b36f08748",
+          "size": 184222304
+        },
+        {
+          "path": "Contents/PkgInfo",
+          "kind": "file",
+          "sha256": "7e50a30efad50208a173203ced60818d693bb61266b75aa10927d1a2adce80cb",
+          "size": 9
+        },
+        {
+          "path": "Contents/Resources/GangnamDream.pck",
+          "kind": "file",
+          "sha256": "2836e7dbd377e587b736b1564cb290078f0436e33e006ddd8422d0a763ed8557",
+          "size": 399841208
+        },
+        {
+          "path": "Contents/Resources/PrivacyInfo.xcprivacy",
+          "kind": "file",
+          "sha256": "0535353bb08c25b8ce5ed9ac7e442a5994f402e0f6cbc4bed668cfc63c2ceac3",
+          "size": 229
+        },
+        {
+          "path": "Contents/Resources/icon.icns",
+          "kind": "file",
+          "sha256": "14ccaeef56a52d52af211adce6d6c5b330cafa6c29dc928659b4369ebcef0a28",
+          "size": 2550174
+        },
+        {
+          "path": "Contents/_CodeSignature/CodeResources",
+          "kind": "file",
+          "sha256": "056c7e13431e98093234963896a25690137a5ee939d893a93c29c7a0dde75eb9",
+          "size": 2926
+        }
+      ]
+    },
+    "zip": {
+      "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/build/macos/GangnamDream.zip",
+      "sha256": "b18cd1dafe65a36031db1bab480ab1978e34a0259873f903d1884029a669d3f1",
+      "size": 438023378
+    },
+    "manifest": {
+      "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/build/macos/MANIFEST.sha256",
+      "sha256": "aa86e8be2616b4b70d793a8384c33c93e45c13655ca63638bc2e4e5e51fb8c2b",
+      "size": 464
+    },
+    "build_package": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order547-qa-20261011/build-package.json",
+      "sha256": "ea0dcac337b3707a86b8b5eb6bccb37622600fb99e6727705bd11dc305c36201",
+      "size": 10410
+    },
+    "pck": {
+      "path": "/private/tmp/gd-order547-build-ze5249j0/app/GangnamDream.app/Contents/Resources/GangnamDream.pck",
+      "sha256": "2836e7dbd377e587b736b1564cb290078f0436e33e006ddd8422d0a763ed8557",
+      "size": 399841208
+    }
+  },
+  "app_path": "/private/tmp/gd-order547-build-ze5249j0/app/GangnamDream.app",
+  "argv": [
+    "/private/tmp/gd-order547-build-ze5249j0/app/GangnamDream.app/Contents/MacOS/GangnamDream"
+  ],
+  "sandbox": "/private/tmp/gd-order549-native-ql4k2tce",
+  "environment": {
+    "HOME": "/private/tmp/gd-order549-native-ql4k2tce/home",
+    "XDG_DATA_HOME": "/private/tmp/gd-order549-native-ql4k2tce/xdg-data",
+    "XDG_CONFIG_HOME": "/private/tmp/gd-order549-native-ql4k2tce/xdg-config",
+    "XDG_CACHE_HOME": "/private/tmp/gd-order549-native-ql4k2tce/xdg-cache"
+  },
+  "actual_user_data_path": "/private/tmp/gd-order549-native-ql4k2tce/home/Library/Application Support/Godot/app_userdata/강남드림",
+  "checkpoint_source": {
+    "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order546-live-20261011/final-autosave.json",
+    "sha256": "77f007b3f5964d908d52873aa61ee687f158c27c90c2833e176902bc6c2a9e8f",
+    "size": 147720
+  },
+  "checkpoint_target": {
+    "path": "/private/tmp/gd-order549-native-ql4k2tce/home/Library/Application Support/Godot/app_userdata/강남드림/gangnam_dream_autosave.json",
+    "sha256": "77f007b3f5964d908d52873aa61ee687f158c27c90c2833e176902bc6c2a9e8f",
+    "size": 147720
+  },
+  "copied_saves": 1,
+  "state_edits": 0,
+  "rebuilds": 0,
+  "prepare_before": {
+    "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/prepare-before.json",
+    "sha256": "8e1c771b8159d9228dbf3a1e334ffb862d3de802ca3837e4185a0f9bf6811381",
+    "size": 1302901
+  },
+  "protection_roster": {
+    "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/protection-roster.json",
+    "sha256": "3e88d2eea4e3a29f41308ca0cbdbf5ced73cd7f3fd2ecc130b2ed9d076936b43",
+    "size": 19656
+  },
+  "admission": "PENDING independent native admission; no runtime/release quality GO",
+  "stop": "Expected W45 story_one_year first paragraph, no choice; if another foreground occurs stop there. CmdQ alone is the final UI call.",
+  "limits": "Issued a0bc app does not contain548 fresh NG+ repair; original HOLD/REWORK and prior log incidents remain."
+}

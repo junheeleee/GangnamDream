@@ -3,6 +3,37 @@
 이전 기록은 [548 전 원문](history/WORK_LOG_2026-10-11_pre_order548.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39584B/SHA256 dd0c1275654b1596be7343c2542dba452e2817f0cbf6ca808342f43affb1341b이다.
 
+## 2026-10-11 — 본편 M10 현수 통화 실관측 / 종료 표시 REWORK
+
+- [549](queue_active/ORDER-549.md)은 사용자 월별1커밋 지시에 따라 선언·실제 입력·
+  독립 검수·관측 마감을 함께 기록한다. 기존546 W40 원저장147720B/77f007b3…을
+  새 HOME/XDG에 한 파일만 이월하고, 재사용 a0bc 앱에서 정상 KO 계속하기를 했다.
+  현재 작업트리 f056+선언3경로와 앱 source는 별개이며548 NG+ 수리 포함 주장은0이다.
+- 1280×800에서 현수5본문/선택3개/choice0 한 번/3결과를 읽고 W45 「1년이 지났다」
+  첫 문단 “12개월.”에서 선택 전 멈췄다. quiet41–44 화면·별도 M11 모달은 미관측이다.
+  AUTO/skip/연타·W34–36 반복·build·engine QA 재실행·ObjectDB 탐침0이다.
+- 확인한 새 결함1건: 마지막 결과 “통화가 끝난 뒤”에도 “통화 중”과 원격 초상/이름표가
+  유지된다. 비저자2명이 event-wide phone/connected 계약과 종료 전환 부재를 확인했다.
+  해당 소스/원고/규칙은 a0bc와 current가 동일하다. 진행·보존 부분 GO와 달리549는
+  **REWORK**로 남기며, 다음 별도 수리는 앞 두 결과 문단의 통화를 유지하고 마지막 문단에서만
+  채널/초상/이름표를 함께 종료한다. 원문·번역·효과·저장을 이번에 수정하지 않았다.
+- 실제 exit0/207.081432s/failure null·stdout/Godot/보존본154B6649181a…/stderr0이다.
+  전체 원3stream ERROR/WARNING/parse/script/ObjectDB0, CmdQ 단독 후 UI 재접근0이다.
+  owned288/launcher268 종료·기존editor61385 생존은 읽기 전용으로 확인했다.
+- W40→45/read45→46/choice0@40 한 건, completed/routine40..44 각1과 기존 prefix exact다.
+  현수 affinity13→18/social57→58/tint45→49, money−3781703/h46/m90이며 투자31/다은47은
+  미소비 원형이다. W45 실제 저장160055B/SHAa98ddfe4…는 byteexact private 보존했다.
+- 비저자 final seal18236B/SHA7be6ae07…에서 보호117/1916파일(중첩합산)+symlink5,
+  tracked3332·player33·Human/과거292판정·seed2/W238·앱7/ZIP/PCK·옛helper5/신규2·
+  실제namespace5 전량을 직접 대조했다. [독립 보고](agent_reviews/ORDER-549.json)와
+  [package](agent_reviews/ORDER-549-manifest.json)에 결속한 새 REWORK 한 건만 기록한다.
+- gangnamdream-dev에 따라 actual 앱과 source, root 실관측과 독립 소스/저장 검수를
+  분리했다. 인간/원어민/물리패드·독립 native pixels/청취·다른 언어/경로·자연240주·
+  전체CI/출시 GO는 아니다. 옛547/546/544/534·strict FAIL·로그 사고 불변, 새 규범0이다.
+- 마감 metadata 표적6개 PASS(active81/in_progress79·agent self-test290), diff-check0이다.
+  별도 비저자가 8경로·기존80큐행 순번 외 불변·292판정 byte prefix와 새 REWORK293,
+  report/manifest 결속·예산을 대조했다. STATUS 낡음은 비차단·별도 갱신 커밋0이다.
+
 ## 2026-10-11 — 다은 그림 수리의 현재 source 한정 마감
 
 - 548 뒤 [547](queue_archive/ORDER-547.md)을 재개 선언96de005로 한정했다.
