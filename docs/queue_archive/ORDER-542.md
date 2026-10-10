@@ -1,6 +1,6 @@
 # ORDER-542 — 본편 집주인·투자 길잡이 선행 문장 정합
 
-#### [~] ORDER-542 [P1·원고 정합] 기존4잎 × 5언어 — 공식수용·표적 PASS / 독립 후보 대기
+#### [x] ORDER-542 [P1·원고 정합] 기존4잎 × 5언어 — 2026-10-11 source 한정 GO / 제품 HOLD
 
 **착수 — 2026-10-11 / 부모534 실제 선행에서 확인한 결함 두 건.**
 월별 관측 기록 a1833da와 분리한 구현 범위다. 기존 M07 기능 검수를 반복하지 않는다.
@@ -64,4 +64,15 @@ clean bed87f3 baseline19와 변경후 같은19 모두 exit0/stderr0, 새실패0�
 보존한다. final 검사 전후8파일도 exact다. JA invalid58→58/ZH0→0 및 각group
 카운터/원장부채 불변, owned12 currentreceipt/digest가 현재 원문/target과 맞는다.
 release inventory PASS·JSON/생성보고 byteexact라 불필요한 재생성0이다.
-독립20잎 품질·최종 clean source 판정은 별도로 결속한다. 실제 화면 재검수0이다.
+비저자20잎 문안 GO/추가retouch0과 최종 clean source 판정을 결속했다. 실제 화면 재검수0이다.
+
+## 독립 최종 판정
+
+[최종 보고](../agent_reviews/ORDER-542.json)10738B/
+`05f564d0ab17e47df877c5b12e725ec5f15f797b305b6ac30a8944667c7532ef`는
+clean main/origin `0d10afa8de7554bfb119521a70f905684388080b` /
+tree `23fc3d140470a81ed201d28f5bda3cada154cdcc`의 이 단위만 GO다.
+20잎·공식12교정·5JSON/원장 raw역상·기존307batch·281판정/Human 보존과
+baseline/final19 원76stream·공식6 원12stream을 독립 대조했다.
+공유 첫 만남 날짜·변경 화면·원어민/인간/물리 패드·M08 이후·전체 본편/출시는
+HOLD/OPEN이다. 새 정본승격0/이 사양 실행지시 일회성이다.

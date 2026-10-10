@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-542",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewed_at_utc": "2026-10-10T15:27:16Z",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "source",
+    "commit": "0d10afa8de7554bfb119521a70f905684388080b",
+    "tree": "23fc3d140470a81ed201d28f5bda3cada154cdcc",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "product_verdict": "HOLD",
+  "scope": "arc_rescue_job.description 및 arc_invest_guidance.description/description_orthodox/description_unorthodox의 KO/EN/JA/zh-CN/zh-TW 20잎, 공식12교정과 비소유 원문·원장 보존만 source GO. 새 coverage·기능·공개 패키지·변경 후 실제 화면·전체 본편/출시 GO가 아니다.",
+  "method": {
+    "independence": "제품/번역 비저자가 CLAUDE·개발skill·WORK_UNIT·542사양과 현지화 정본을 읽고 KO4 기준 EN4/JA4/CN4/TW4를 전수 직접 비교했다. 실제 MainGame selector와 후보10파일 diff도 읽었다. 제품/번역 저작, 엔진/UI/프로세스/사용자 저장 접근, 공식검사 재실행0. 이 보고 한 파일만 작성했다.",
+    "population": "5제품 JSON의 20본문, 공식 source/response 각3파일·원 accepted receipt3, check/import6회 원12stream, baseline19/final19 원76stream을 읽고 크기/SHA를 대조했다. 큰 inventory 출력은 JSON 전체를 파싱해 source_counts/groups/invalid 목록을 비교했으며 과거 모든 번역문의 의미 재검수로 부르지 않는다.",
+    "source_binding": "보고 작성 전 실제 Git HEAD=origin/main=subject·clean을 관측했다. bed87f3a12eeaae11687e141bff3193473992834 대비 제품6+기록4의 10파일만 변경됐다. 검사 전후8파일 SHA와 현재 Git/작업트리 bytes가 일치한다. 공식 export source_revision은 당시 선언HEAD이며 수정 KO가 커밋된 revision이라는 주장이 아니다. live KO4의 leaf SHA와 source manifest를 최종 후보에 결속했다.",
+    "skill_effect": "개발skill의 한국어 직접 대조·기존 소비자 우선·독립 전수 판정·표적 raw 검수·공개/인간 증거 불승계 기준을 적용했다. 새 도구·검사완화·정본규칙0."
+  },
+  "findings_and_resolution": [
+    "MainGame.gd:7757의 rescue 조건은 current_job.is_empty()이며 과거 실제 노동이 없었다는 증거가 아니다. 다섯 언어의 질문은 고정적으로 다니는 일자리/regular job/決まった仕事/固定的工作의 부재로 좁혀 기존 임시 노동을 부정하지 않는다. 정규직·full-time·새 취업 사실을 발명하지 않는다.",
+    "MainGame.gd:7828 guidance는 t>=12·첫 만남 seen·guidance 미관찰을 읽으며 실제 두 주 경과를 검사하지 않는다. 5언어×3분기의 시간구는 이후 어느 저녁으로 정렬했고, 새 날짜·기간·동석·약속을 추가하지 않았다. 같은 함수의 '첫 만남 2주 후' 주석은 비표시·비소유 기존 코드로 남아 있으며 이번에는 수정하지 않았다.",
+    "JA 최종 질문 あんた、まだ決まった仕事には就いてないんだろ？는 집주인의 기존 친숙한 반말/간섭 어조와 부합한다. 첫 お兄さん 초안과 forbidden-term 실패를 보존하고 소유 질문 안의 부름만 수정했다. 검사/예외 코드 변경0·모집단 축소0. 최종20 추가 retouch0이다.",
+    "guidance 각 본문은 {name} 뒤 전체 문자열이 baseline exact이고 rescue는 질문 문단 밖 전부 exact다. 20잎의 토큰 개수와 줄바꿈도 이전과 같다. 5JSON의 각4 literal을 이전 literal로 되돌리면 파일 전체 bytes가 baseline exact다. 따라서 비소유 본문·제목·선택·결과·조건·효과·타이밍·자산참조·배열/키 순서·공백 변경0이다.",
+    "원장 기존307batch·accepted locale별 count13159/14696/14696와 키/순서·기타 toplevel을 보존했다. 정확12record의 source/target SHA만 교체하고 events_correction1배치·원header3·이전targetSHA·원receipt digest를 연결했다. 기존12record의 raw literal 복원 뒤 기존 _raw_inverse로 신규 batch/checksum만 제거하면 이전 원장 전체 bytes가 exact다. 신규 coverage0이다.",
+    "공식 source/header/selection/batch checksum, 현재 KO/target12, 원receipt의 accepted_machine_validated·native OPEN·translations를 직접 검증했다. 원파일 SHA와 receipt_sha256은 다르다. 후자는 자기 receipt_sha256 필드를 제외한 canonical digest이며 원장과 정확히 같다.",
+    "두 root는 public playable14 및 legacy visible72/467잎 보호 범위 밖이나 frozen public all_resources corpus에는 포함된다. 공개 패키지에 없다고 주장하지 않는다. 공개 row/locale/story_demo·legacy pin·런타임·프로젝트·기존281판정/Human의 tracked bytes는 바뀌지 않았다. 기존 공개 앱/PCK/ZIP을 새로 발급하거나 현재 물리 바이트를 재검사한 작업은 아니다.",
+    "release inventory에서 두 root는 현재 content-scan 7축 후보가 아니고 새 축 trigger도 생기지 않았다. release inventory9축/JSON과 생성 CONTENT_RATING_INVENTORY.md는 baseline byteexact이므로 재생성/지문 교정0이다. 공유 arc_sangchul_01_meet의 '3월 끝' 문장은 이번 밖이며 잔여 REWORK다."
+  ],
+  "evidence": {
+    "raw_directory": ".git/order542-qa-20261011",
+    "source_manifest_sha256": "6d00776ab9145d494d880150ac61a5658354eb86b1a1e370acae607be7b1eeef",
+    "official_acceptance": {
+      "path": ".git/order542-qa-20261011/official-acceptance.json",
+      "bytes": 7963,
+      "sha256": "fc53973238ad19743a8b5c5fd57c5fb347d663884caf2181f847d45dc3a9a887",
+      "result": "check/import 각3회 actual exit0·원12stream SHA/size exact·stderr0. 정확 marker는 leaves=4, full_status=INCOMPLETE, human_gate=OPEN이다."
+    },
+    "baseline_summary": {
+      "path": ".git/order542-qa-20261011/baseline-summary.json",
+      "bytes": 9143,
+      "sha256": "65481e73e01958e1a3f29fce5bcf5d0d0b6004f36486632df74c1dee03808c68"
+    },
+    "final_summary": {
+      "path": ".git/order542-qa-20261011/final-summary.json",
+      "bytes": 9673,
+      "sha256": "afa813b4e3968f8c5c1bfbd90a431c2ea3ef88e488ee41873a91b37b74fab856",
+      "result": "baseline와 같은 정적19 모두 actual exit0/stderr0, 원76stream 크기/SHA exact. source/group/invalid 전량 비교: JA58→58, CN0→0, TW0→0, 전체 INCOMPLETE/native OPEN 유지. 계약/범위 통과이지 전체 번역·전체감사·전체CI 녹색이 아니다."
+    },
+    "final_comparison": {
+      "path": ".git/order542-qa-20261011/final-comparison.json",
+      "bytes": 2981,
+      "sha256": "c88b2fadb116e3b5ec7d9636d4fe0ed888f7929e1f98596ed1b1a60c0bb7eea3",
+      "result": "보고자가 현재 source/target/receipt와 raw 역상을 별도로 직접 대조했으며 이 요약의 assertion만 신뢰한 판정이 아니다."
+    },
+    "official_receipts": {
+      "ja": {
+        "path": ".git/full-game-localization/ja/full-ko-direct-2026-09-07.1/1e5387c1983d00ec24cec65113184f3fa5d4bfaecb4170b35df23d3a0acffcec.accepted.json",
+        "bytes": 1720,
+        "raw_sha256": "1944dbfe56c53073d3cfaf82753096ddc63e96862b07b64dd52a489bcfff6612",
+        "receipt_sha256": "512c423af6f2dfae18197fbc6228c57333530d8168d302899d28e66b7ecf5f07"
+      },
+      "zh-CN": {
+        "path": ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/1e71782739a11876d56f95010928095698a0249cba10ef0417e15fac887774f0.accepted.json",
+        "bytes": 1723,
+        "raw_sha256": "ccdca1a9963e1a2f8a81f103d083e755d6152175bf14617ed6b0face8f672ee8",
+        "receipt_sha256": "3cf9aeaef62808683e0ec64b1ae5cd21bbaa96a7b4496471085e36a5c6bc6b60"
+      },
+      "zh-TW": {
+        "path": ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/9d200f4d9a098b25abf67c4d9b7d05051f53d0a0c943aa0d7fd038274a7fea9e.accepted.json",
+        "bytes": 1723,
+        "raw_sha256": "0366864d364acc4bb2ee89fb4e17867f9d7080150c00e4abdf61646aec93d180",
+        "receipt_sha256": "a072091ca9541faf529e4d2deee7212380090a3f155b4881f2757fabe069a2ed"
+      }
+    },
+    "initial_ja_failure": {
+      "draft_path": ".git/order542-qa-20261011/ja-response-initial.jsonl",
+      "draft_bytes": 3729,
+      "draft_sha256": "327230197f5f413cdd5482af73a064f3f3a32a5d715c2a9a651a8664f5d873f7",
+      "log_path": ".git/order542-qa-20261011/ja-draft-check.log",
+      "log_bytes": 99,
+      "log_sha256": "d6fb0ae5a283f176484df9653b90e25955d1ed0191f86c1b2d28e49aed37a162",
+      "boundary": "저자 보존 로그의 exit_code=1/forbidden term お兄さん를 읽었다. 최종 JA check/import 원캡처와 별개다. 최종 draft check log도 보존됐다."
+    }
+  },
+  "preservation": {
+    "baseline_commit": "bed87f3a12eeaae11687e141bff3193473992834",
+    "method": "기존 _Document.spans와 _raw_inverse의 in-memory 읽기만 재사용했다. 전용 새 검사/보고 도구·private evidence 생성0. 제품6 역상 exact와 최종 Git10경로를 대조했고, 비소유 tracked 제품·공개/legacy source pins·프로젝트·Human·기존 agent 원장은 같은 Git blob이다.",
+    "old_agent_decisions": {
+      "count": 281,
+      "bytes": 428116,
+      "sha256": "8608081b606058fdc90d02ecf104aef04e84daa5fb40480b876563b7ca444f20",
+      "result": "baseline과 현재 파일 byteexact, 본 검수 원장쓰기0."
+    },
+    "human_gates": {
+      "bytes": 103390,
+      "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+      "result": "baseline byteexact, 과거 GO/REJECT/OPEN과 인간 증거 변경0."
+    },
+    "user_save_boundary": "이 단위는 앱/엔진/프로세스/사용자 저장 접근·쓰기0이다. 새 사용자 저장 census 또는 물리 앱/namespace 보존 snapshot을 직접 재호출했다고 주장하지 않는다. 과거534 사고/보고·실행 증거는 대체하지 않는다."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "changed_text_rendered_pixels_natural_reading_audio",
+    "engine_compile_runtime_package_reexport_this_unit",
+    "full_audit_remote_CI_and_all_routes",
+    "shared_first_meeting_March_date_repair_and_stale_unrendered_comment",
+    "M08_later_full_game_and_external_release"
+  ],
+  "final_boundary": "GO는542의 기존20본문·공식12교정·비소유 원본 보존만 닫는다. 이전 M07 기능/저장/cold 관측을 반복하거나 변경 문구의 화면 증거로 승계하지 않는다. 공유 첫 만남 날짜·다른 경로·원어민·인간·물리 조작감과 전체 제품은 HOLD/OPEN을 유지한다. 자동 계약은 재미·깊이·문체·인간 또는 출시 증거가 아니다."
+}

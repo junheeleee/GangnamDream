@@ -4,7 +4,7 @@
 
 ## 2026-10-11 — 실제 일한 이력·상철 첫 만남 뒤 경과시간 수리
 
-- [542](queue_active/ORDER-542.md) 4본문×5언어20잎의 질문/첫 시간구만 고쳤다.
+- [542](queue_archive/ORDER-542.md) 4본문×5언어20잎의 질문/첫 시간구만 고쳤다.
   고정 일자리 부재는 실제 상하차·임시 노동을 부정하지 않는다. W14→15를 두 주로
   단정하지 않고 이후 어느 저녁으로 쓴다. 선택·결과·효과·직업·급여·라우팅 불변이다.
 - 수정 전 clean bed87f3/관련8파일 SHA exact와 정적19 exit0를 보존했다.
@@ -25,7 +25,16 @@
 - 변경후 같은 표적19도 exit0/stderr0·새실패0, 원로그와 baseline/final 비교를
   보존했다. JA invalid58→58/ZH0→0·모든group 카운터 불변, owned12 currentreceipt
   일치·release inventory/생성보고 byteexact다. 비저자20잎 문안 예비 GO/추가retouch0이며
-  최종 clean 후보 판정은 별도로 결속한다. 메타데이터 정합 외 제품 검사 반복/전체감사0이다.
+  최종 clean 후보 판정은 아래에 별도로 결속했다. 메타데이터 정합 외 제품 검사 반복/전체감사0이다.
+- [독립 최종 보고](agent_reviews/ORDER-542.json)10738B/
+  SHA05f564d0ab17e47df877c5b12e725ec5f15f797b305b6ac30a8944667c7532ef는
+  clean main/origin0d10afa8/tree23fc3d14의 이20잎·공식12교정만 source GO다.
+  raw 역상·원76+12stream·기존307batch/281판정/Human 보존을 직접 확인했다.
+  마감은 허용 metadata wrapper만 바꾸며 CLAUDE·제품6·원raw 불변이다.
+  실제 변경화면/공유날짜·전체제품/출시HOLD를 유지한다. 새 정본승격0/실행지시 일회성.
+- 마감 표적6·diff PASS, 비저자 metadata7경로 검토 GO다. 기존281판정 원문prefix·
+  Human·제품6·CLAUDE 불변과 source/reportSHA 결속, 큐78행/다른행 보존을 확인했다.
+  STATUS stale은 advisory만 유지하며 별도 현황판 커밋0이다.
 
 ## 2026-10-10 — 실제 본편 7개월차·결과 저장 재개와 다음 달 전환
 
