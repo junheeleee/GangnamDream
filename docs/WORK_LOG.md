@@ -4,6 +4,8 @@
 
 ## 2026-10-10 — 첫 근무 세 장면의 월말 급여 문장 정합
 
+- [540](queue_active/ORDER-540.md)을 구현 전에 선언했다. 첫 월급 reader의 본편 W17 만료만 수리하며 원급여·원문·우선순위·데모/V2·기존8/12주 profile은 보존한다. root Main 조건, cjk 기존 저장 fixture, phone_cn producer 읽기, phone_independent 비저자 검수로 파일 소유를 나눈다. 합성 actual-call 검증은 자연 앱/M07 관찰이 아니다. 실행 지시는 일회성이다.
+
 - [539 독립 최종 보고](agent_reviews/ORDER-539.json) 8561B/3f992dfc…를 clean main2b7569db/tree1abf66e2에 결속해15본문·9교정·지문1만 GO로 마감했다. 비소유제품2387/보호22그룹492파일/player33·과거277판정과 원문39496B 보관은 exact다. 마감metadata에서 제품·CLAUDE·보관원문을 바꾸지 않으며 정상본편534/M07·출시HOLD다.
 - 마감 context30433/docs650/links198·큐78/76·index25/fence4·판정278구조·diff PASS다. cjk_wrap_diagnosis가 허용metadata7경로·기존277원문/객체·다른78큐행(순번외)·보고SHA/source·제품/인간/보관원문 불변과 internal_product 신규GO0을 별도 읽기 확인했다. 제품검사/엔진 재실행·STATUS-only 갱신0이다.
 - 사무·야간편의점·배달의 description만 KO/EN/JA/zh-CN/zh-TW15잎을 맞췄다. 첫근무 gate는 정확7일·급여미수령을 보장하지 않으므로 고정3주/며칠·배달주간지급을 제거하고 현재 월말 owner를 읽는다. 교대3시간·새벽2시·아침7:30·문단/이름토큰·기존 선택/결과/효과/직업/급여/저장/라우팅은 그대로다. 독립15문안 preliminary GO이며 clean 최종 후보 결속은 다음 기록에서 판정한다.
