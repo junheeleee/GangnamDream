@@ -1715,7 +1715,19 @@ func _check_full_story_ngplus() -> void:
 			_ngplus_expect_initializer_inert(true, "owned-meta-increased-%d" % total)
 			MetaProgression.data["total_runs"] = total
 			await _production_cold_checkpoint(main_game, "ngplus-%d" % total, total + 10)
-			_expect(_ngplus_exact_flags(_ngplus_expected_flags(total), ["_last_info_tab"]) \
+			var expected_ng_flags: Dictionary = _ngplus_expected_flags(total)
+			# Main's existing timer setup/exit writes these two exact bool false
+			# flags; they are not fresh NG+ flags or an unbounded extra-key exemption.
+			expected_ng_flags["just_critical_event"] = false
+			expected_ng_flags["just_hit_milestone"] = false
+			var actual_ng_flags: Dictionary = GameState.flags.duplicate(true)
+			actual_ng_flags.erase(FULL_STORY_FLOW.STATE_KEY)
+			actual_ng_flags.erase("_last_info_tab")
+			_report_full_story_value_diff(expected_ng_flags, actual_ng_flags,
+				"ngplus-cold-%d" % total, "ng_flags")
+			_report_full_story_value_diff(stored_owner, FULL_STORY_FLOW.snapshot(),
+				"ngplus-cold-%d" % total, "owner")
+			_expect(_ngplus_exact_flags(expected_ng_flags, ["_last_info_tab"]) \
 					and FULL_STORY_FLOW.snapshot() == stored_owner,
 				"cold NG+ slot inferred flags/owner from later meta at %d" % total)
 			_ngplus_expect_initializer_inert(true, "loaded-meta-increased-%d" % total)
@@ -1734,8 +1746,16 @@ func _check_full_story_ngplus() -> void:
 			"unmarked NG+ legacy disk state changed")
 		var legacy_expected: Dictionary = _full_story_expected_main_reentry(GameState.serialize(), legacy_main)
 		var legacy_resumed: Control = await _spawn_monthly_economy_main()
+		_report_full_story_state_diff(legacy_expected, "ngplus-unmarked-legacy")
+		var expected_legacy_flags := {
+			"is_repeat_run": true, "just_critical_event": false, "just_hit_milestone": false,
+		}
+		var actual_legacy_flags: Dictionary = GameState.flags.duplicate(true)
+		actual_legacy_flags.erase("_last_info_tab")
+		_report_full_story_value_diff(expected_legacy_flags, actual_legacy_flags,
+			"ngplus-unmarked-legacy", "ng_flags")
 		_expect(not FULL_STORY_FLOW.owns_session() and GameState.serialize() == legacy_expected \
-				and _ngplus_exact_flags({"is_repeat_run": true}, ["_last_info_tab"]),
+				and _ngplus_exact_flags(expected_legacy_flags, ["_last_info_tab"]),
 			"loaded unmarked NG+ legacy run was silently enrolled or changed")
 		await _free_monthly_economy_main(legacy_resumed)
 		await _free_monthly_economy_main(legacy_main)
@@ -1796,7 +1816,7 @@ func _ngplus_exact_flags(expected: Dictionary, extra: Array = []) -> bool:
 	if actual.size() != expected.size():
 		return false
 	for key in expected:
-		if not actual.get(key) is bool or not actual[key]:
+		if not actual.get(key) is bool or actual[key] != expected[key]:
 			return false
 	return true
 
