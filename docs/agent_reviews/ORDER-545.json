@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-545",
+  "decision_scope": "work_unit",
+  "reviewed_at": "2026-10-10",
+  "reviewed_at_utc": "2026-10-10T17:54:06.091069+00:00",
+  "reviewer": "/root/phone_independent_review",
+  "subject": {
+    "kind": "source",
+    "commit": "08e3ac1e95b3fcb7b2c128d47dc01d93ea5a2382",
+    "tree": "aa621f148ad6d34bdafa0f45dbc35049ba14b3b2",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "product_verdict": "HOLD",
+  "scope": "유효한 본편 full owner의 실제 성공 현물/레버리지 매수 사실과 exact 투자 callback의 무거래 보류, 표적 합성 저장 계약·보존만 source GO. 정상 투자 UI·회상 속 하락/3일 본전·실제 수정 화면·544 W33 첫 화면·본편/출시 GO가 아니다.",
+  "method": {
+    "independence": "제품 비저자가 CLAUDE·gangnamdream-dev·WORK_UNIT·545 사양과 선언055a819→후보의 전체4파일 diff, 실제 매수/현금 signal/매도/FullStoryFlow 자격/지연 예약 생산자·독자 및 신규 Manual fixture 전량을 직접 읽었다. 표적5회15stream과 정적14회28stream의 원문·크기/SHA·actual exit·정확 marker·오류를 직접 대조했다. 독립 엔진/빌드/검사 재실행·UI·저장 조작0.",
+    "source_binding": "보고 작성 직전 HEAD=origin/main=subject, clean 및 tracked3304를 관측했다. 후보 변경은 MainGame10줄·InvestmentSystem11줄·ManualSaveCheck270줄과 활성545 소유/표적 설명뿐이다. 5엔진 receipt의 clean source commit/tree가 subject와 같다. 정적14는 저자 Manual 편집 전 선언 HEAD의 dirty2제품 상태에서 실행됐으며 두 제품 SHA가 최종 Git과 exact인 것만 결속한다. 정적 검사를 최종 fixture 검증으로 소급하지 않는다.",
+    "skill_effect": "기존 실제 소비자와 pre-autoload 격리·표적 검수·원본 보존을 우선하고, 자동 계약과 자연 플레이/인간 증거를 분리했다. 새 영구 검사도구·새 원문/번역 영수증·audit 등록·저장 schema 변경0."
+  },
+  "findings_and_resolution": [
+    "InvestmentSystem.buy_asset와 buy_asset_leveraged의 기존 성공 경로에서만 full_story_market_purchase_completed=true를 쓴다. PROFILE_FULL 및 valid_session 둘 다 요구한다. 모든 기존 거절 분기 뒤, 실제 portfolio 갱신 후/첫 add_settled_cash 동기 observer 전에 위치한다. 수량·수수료·투입금·2배 exposure·기존 RNG/현금 계산/신호 순서의 별도 변경은 없고, 실패/조회/조언/매도는 이 producer를 호출하지 않는다.",
+    "MainGame._deferred_foreground_event_id의 exact callback_investment_lesson_echo + 유효 full 세션에서만 strict bool true를 요구한다. absent/false/String/number/Array/Dictionary는 eligibility/claim 전에 continue한다. 무거래 예약을 삭제하거나 뒤의 적격 예약을 막지 않고, 관찰 호출은 상태/예약/EventManager/RNG를 바꾸지 않는다. 실제 fact가 있으면 기존 eligibility와 once claim을 그대로 사용한다.",
+    "had_first_investment·현재 portfolio·거래처럼 보이는 action_log에서 사실을 역산하지 않는다. 실제 성공 후 전량 매도/로그100절단/v4 disk reload/new Main에도 bool fact가 남는다. 저장 구조/SaveManager/GameState/FullStoryFlow/원문·효과/수치·조건/프로필/기본 진입 변경0이다.",
+    "신규 fixture는 실제 buy/sell/query/save/load API를 호출하되 W31 달력·30주 완료/루틴과 필수 read witness는 준비한 합성 이력이다. six predecessor의 apply_choice를 사용해 owner 자격을 만들며 자연 M01–M08 완주나 선택 산문 완독을 뜻하지 않는다. normal은 실제 성공2·각 거절4·전량매도·log cap/v4/new Main, fact 타입7·다른 적격 예약 통과·순서/보류·관찰 RNG·once claim을 검증한다. unmarked/preview8/12/corrupt owner 및 별도 demo/V2는 기존 API/reader 결과 보존만 검증한다.",
+    "v4 비교는 기존 양쪽 JSON round-trip을 쓰고 new Main은 기존 finite integral 검증을 거친 _last_info_tab/cycle_timer 두 reader만 기대 int화한다. 원raw normal의 두 왕복마다 TYPE_FLOAT→TYPE_INT proof 2행씩(총4행)이 있다. 신규 broad masking/epsilon/기대 완화는 없다. 전체 serialized 상태·EventManager와 SaveManager loaded context를 fixture 말미 복원한다.",
+    "5엔진은 actual exit0/exact marker1/고유 pre-autoload namespace1, stdout=Godot 및 stderr0이다. 15stream에서 parse/script/engine ERROR·WARNING·ObjectDB/leak0을 직접 확인했다. 정상 focus/제외3회와 기존 MoneyIntegrity/compile69의 한정 계약이며 8/12/240주·whole Manual·전체감사/원격CI를 실행하거나 녹색으로 주장하지 않는다. 이번 raw에서 초기 실패0이며 이전544 실패/REWORK는 그대로다."
+  ],
+  "evidence": {
+    "raw_directory": ".git/order545-qa-20261011",
+    "baseline": {
+      "path": ".git/order545-qa-20261011/independent-before.json",
+      "bytes": 30979,
+      "sha256": "531c46f87d833cd499d03b23110d7acdc5ceb755e977a5bcc5b185fe765f8f13",
+      "boundary": "엔진 전이지만 저자 소유 편집은 이미 시작된 관측이다. 소유3코드는 immutable에서 제외했고 pre-edit 증거라고 부르지 않는다. 비소유 원형은 선언055a819 Git과 대조했다."
+    },
+    "final_fresh": {
+      "path": ".git/order545-qa-20261011/independent-final-preservation.json",
+      "bytes": 46679,
+      "sha256": "0245e94e0c0a8715e5c418327dba41cd95574c1af62fc1d8c5e9e983e2e63087"
+    },
+    "executions": [
+      {
+        "path": ".git/order545-qa-20261011/compile.json",
+        "bytes": 2492,
+        "sha256": "435cce6e2f8f079a90d8520fca264846c805d2640d41453906fb76967ed49c70",
+        "actual_exit": 0,
+        "seconds": 4.946515,
+        "exact_marker_count": 1,
+        "stdout_godot_sha256": "8a8d989d9e73e7d7388597bb666bc354df3985930f07d10fdee8921360e06492",
+        "stdout_godot_bytes": 381,
+        "stderr_bytes": 0
+      },
+      {
+        "path": ".git/order545-qa-20261011/manual-normal.json",
+        "bytes": 2890,
+        "sha256": "f025a8f2a7357827402dd3f71b155cd8dce82873bf6ee4313e9285c639e78b60",
+        "actual_exit": 0,
+        "seconds": 5.719153,
+        "exact_marker_count": 1,
+        "stdout_godot_sha256": "0a378bd625e259f1a05b45040575b2961eef01a3c1fd0bc9c08781d59954ae20",
+        "stdout_godot_bytes": 1076,
+        "stderr_bytes": 0
+      },
+      {
+        "path": ".git/order545-qa-20261011/manual-demo.json",
+        "bytes": 2685,
+        "sha256": "b25bea5838618e3da45ca2d6e2170dda6d876a347721487524f200be93fd06bf",
+        "actual_exit": 0,
+        "seconds": 4.025868,
+        "exact_marker_count": 1,
+        "stdout_godot_sha256": "8b974b8315c7cb83e379605167c54aa20d72f5b47bbd0756ae48f1c0318a30d3",
+        "stdout_godot_bytes": 441,
+        "stderr_bytes": 0
+      },
+      {
+        "path": ".git/order545-qa-20261011/manual-v2.json",
+        "bytes": 2673,
+        "sha256": "99b2a078d9709478292985571da362162af776d5e93f94e0e7467db8939461dc",
+        "actual_exit": 0,
+        "seconds": 4.203034,
+        "exact_marker_count": 1,
+        "stdout_godot_sha256": "fc97c7375c16b7b3c07980eb6d3f40389b68003ea7b9efe582785fbd6c450833",
+        "stdout_godot_bytes": 439,
+        "stderr_bytes": 0
+      },
+      {
+        "path": ".git/order545-qa-20261011/money.json",
+        "bytes": 2876,
+        "sha256": "1d942dda96ed3b5e3def96231880775806270277c7086e590c10143e3bda27ff",
+        "actual_exit": 0,
+        "seconds": 3.338656,
+        "exact_marker_count": 1,
+        "stdout_godot_sha256": "a21fa8b3933bc9546c90376a99a54ef1d508054a48ebb59b1a5b30ac80e7894f",
+        "stdout_godot_bytes": 726,
+        "stderr_bytes": 0
+      }
+    ],
+    "static_summary": {
+      "path": ".git/order545-qa-20261011/static-summary.json",
+      "bytes": 15556,
+      "sha256": "6f4aecd1c130410530884fa4c49c57591998aabd452fb88b76dbecde7700c121",
+      "actual_pass": 14,
+      "actual_fail": 0,
+      "boundary": "최종 Manual 작성 전 상태. audit/ENcoverage/EnglishHangul/narrative/audio/register/consistency/liveness/arc/lifecycle/release inventory/context/queue/index 14개의 원28stream 직접 판독.2제품 SHA=후보 exact, fixture 증거는 최종 normal/demo/V2 엔진에만 결속."
+    }
+  },
+  "preservation": {
+    "result": "기존 b.snapshot/file_record/source_state 및 c.snapshot/admit만 재호출하여 74그룹·1317파일(보호 로스터별 합계)와 tracked3304 중 비소유3296 exact를 확인했다. helper5/seed2/W238/player33, public·old raw·옛 package·M08 전체 sandbox/build/namespace7파일·이전보고를 보존했다. 공개 build/story_demo의 기존 부재도 exact이며 새 공개 앱 검증 주장이 아니다.",
+    "nonowned_canonical_sha256": "c8dec15a313d484015cc9a91ae9f65f830db48c7c253fa440850e2c5bfbefa4c",
+    "old_agent_decisions": {
+      "count": 284,
+      "bytes": 433153,
+      "sha256": "55c40f98da43670db1addf7cda8e94850b0f012b6f71497858ae5e9e331a6017",
+      "older_283_prefix_exact": true
+    },
+    "human_gates": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/docs/human_gates.json",
+      "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+      "size": 103390
+    },
+    "product_sha256": {
+      "scenes/MainGame.gd": "782bd303788bfed85b20496f9a2939ddda021fd73285ec85bd3d8b079f5818fe",
+      "systems/InvestmentSystem.gd": "9d370ab0966f0936af8743cb1e0a4e2b58663b0a1b60c9549f18d67d4378c486",
+      "tools/ManualSaveCheck.gd": "7574d73d75fa399b5f8ab46d0b51ec95eeb37ed908ed955dad02bdba5acc7992"
+    },
+    "unchanged": "원문/번역/효과/JSON 조건·content 원장/release inventory·project/export presets·SaveManager/GameState/FullStoryFlow/Job/Racetrack/StoryMode/StartMenu·과거agent/Human·사용자 저장 변경0. 보고/원장 append는 이 fresh 이후 별도 metadata이고 본 검수는 판정원장 쓰기0이다."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "independent_rendered_pixels_and_natural_UI_reading_audio",
+    "changed_full_callback_native_replay",
+    "normal_full_investment_UI_complete_ingress",
+    "three_day_elapsed_loss_additional_purchase_break_even_fact",
+    "ORDER-544_W33_first_screen_stop_and_month_end_UI",
+    "whole_Manual_8_12_240_week_and_full_audit_remote_CI",
+    "full_game_and_external_release"
+  ],
+  "final_boundary": "545 work_unit source GO는 무거래 full에서 확인되지 않은 투자 회상의 진입을 막는 것만 닫는다. 실제 매수 fact는 손실·손절·추가매수·3일 뒤 본전을 증명하지 않으며 해당 산문과 정상 투자 실행 UI는 별도 REWORK/HOLD다. 544 W33 미관측·과거 실패·인간 OPEN을 대체하지 않는다. 자동 게이트는 도달성과 계약 증거이지 재미·깊이·문체·출시 증거가 아니다."
+}

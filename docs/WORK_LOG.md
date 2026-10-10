@@ -2,6 +2,41 @@
 
 이전 기록은 [539 마감 전 원문](history/WORK_LOG_2026-10-10_pre_order539_close.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-11 — 거래하지 않은 본편에 투자 회상이 열리는 진입 수리
+
+- [545](queue_archive/ORDER-545.md)는 544 실제 W31의 확인 결함만 별도 선언055a819
+  뒤 수리했다. source08e3ac1/treeaa621f1을 먼저 커밋·표적 검증 후 main에 올렸다.
+  실제 성공 현물/레버리지 매수에서만 유효 full bool fact를 현금 observer 전에 쓰고,
+  deferred reader는 그 사실 없는 예약을 삭제하지 않고 다른 적격 예약으로 넘어간다.
+  조언·옛 배경flag·보유·log·문자/숫자 true로 거래를 발명하지 않는다.
+- 실패/조회/매도는 비생산자다. 실제 매수2종·전량매도/log cap·v4 disk/load·같은
+  프로세스 새 Main 왕복·strict 타입·예약 보존/순서·관찰 state/RNG 불변·claim1회,
+  legacy/준비 preview8/12/손상 owner 및 별도 demo/V2 제외가 통과했다.
+  fresh W1과 별도 prepared W31/read/routine 표본이며 자연 M08·실제 투자 UI·
+  다른 OS cold·하락/3일본전 증거가 아니다. SaveManager/schema·수치·산문 변경0이다.
+- compile69/Manual normal/demo/V2/MoneyIntegrity 5실행은 최종 clean source에서
+  actual0, 각각4.946515/5.719153/4.025868/4.203034/3.338656s·exact marker1·
+  원15stream 오류/경고/누수0이다. 정적14도 actual0/stderr0이나 Manual 작성 전
+  검사이므로 최종 fixture에 소급하지 않는다. 엔진 초기 실패0·전체감사/8·12·240주
+  반복/새 영구 도구·최적화·ObjectDB탐침·STATUS-only0이다.
+- 비저자 source/원로그 전수와 fresh74그룹/1317파일·비소유 tracked3296,
+  helper5/seed2/W238/player33·과거284판정/Human·544 raw/package/namespace exact를
+  확인했다. private .git/order545-qa-20261011/에 원15+정적28stream와 독립 final
+  46679B/SHA0245e94e…를 보존했다. [독립 보고](agent_reviews/ORDER-545.json)는
+  한정 source GO이며 metadata 마감은 그 제품 범위를 확대하지 않는다.
+- 개발skill의 pre-autoload 격리·기존 안전 runner 재사용·정확 marker/3stream·
+  실제/합성·인간 증거 구분을 적용했다. 새 정본 규칙0/실행지시 일회성이다.
+  544 과거 REWORK/W33 화면 HOLD·투자 실행 입구 미완성·3일본전 산문 REWORK,
+  변경 후 native 화면·원어민/인간/패드·전체 본편/출시 HOLD는 유지한다.
+- 비저자 보고10930B/SHA31d7d725718a50fe78ad09103144fbabba793c79ce056eec4756a9eb1d0b2350을
+  source/work_unit GO1건으로 원장에 추가했다. 과거284 원문prefix·Human·544REWORK는
+  그대로이며 새 internal_product/출시 GO0이다.
+- 마감 context·큐79/진행77·큐self25/fence4·Human45OPEN/1done·판정self290·
+  STATUS advisory 6검사와 diff 모두 통과했다. 원12stream·actual0/stderr0·새실패0,
+  현황판 stale은 비차단이며 별도 현황판 갱신 커밋0이다. 전체 원격CI 녹색 주장은 아니다.
+- cjk_wrap_diagnosis의 허용8경로 마감 읽기 GO/결함0이다. 옛284 원문prefix·
+  다른79큐행·제품3/Human/project·기존raw/helper pin 불변을 대조했다.
+
 ## 2026-10-11 — 본편 M08 실제 앱 관측·무거래 투자 장면 REWORK
 
 - [544](queue_active/ORDER-544.md)은 실행 전 범위/소유를 기록하고 관측·독립 검수와
