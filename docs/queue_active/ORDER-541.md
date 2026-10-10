@@ -51,8 +51,14 @@ DECISIONS 2026-08-24·08-31의 실제 장면 행동/자동 생활 및 WORK_UNIT�
   요구하고, 잘린 완료 과거 결과만 최소 applied tuple·절대 순번으로 검증한다.
   종결 cold는 실제 game_over가 내보낸 같은 ending ID의 기존 화면만 복원하며
   finish_run/record_run/엔딩 재선택0. 종결 저장 실패도 계산 없이 쓰기만 재시도한다.
-- typed W240의 원 ledger가 여는 같은 주 outbound를 기존 StoryMode 큐에 넣을 때
-  full helper에도 exact source/choice/next를 전달한다. 정점 선택·효과·엔딩 latch는 그대로다.
+  full 종결 화면의 재개·갱신은 자산 milestone producer를 다시 호출하지 않는다.
+  살아 있는 full 주차·기존 preview/데모의 milestone 동작은 보존한다.
+  기존 helper 소유 marker가 있는 빈 표시 로그도 새 게임으로 추정 초기화하지 않는다.
+  손상 marker의 fail-closed 소유를 보존하며 profile을 새로 추정/발급하지 않는다.
+  종결 빈 로그 cold 표본을 기존 strict 상태/같은 엔딩/meta 비교에 포함한다.
+- 기존 causal W210·typed W240의 원 ledger가 여는 같은 주 후속을 기존 StoryMode
+  큐에 넣을 때 full helper에도 exact source/choice/next를 전달한다. 원 선택·효과·
+  라우팅·엔딩 latch는 그대로다. 두 실제 reader의 연속 결과를 표적 검증한다.
 
 ## 검증·판정
 
@@ -69,3 +75,18 @@ DECISIONS 2026-08-24·08-31의 실제 장면 행동/자동 생활 및 WORK_UNIT�
 - 새 실패0·비저자 한정 판정 전 완료0. 정상 입구의 실제 재시도는 clean 후보 뒤 부모534로
   옮긴다. 240주 자연완독·M07 실제 월검수·원어민/인간/패드/청취·출시는 계속 HOLD다.
   자동 계약 통과는 재미·깊이·문체 GO가 아니다. 새 설계 정본 규칙0/실행 지시 일회성.
+
+## 2026-10-10 표적 검증 결과 — clean 비저자 결속 전
+
+- production-settled-final actualexit0/195.919956초·전체 marker1회. 의도한 부정
+  fixture10 ERROR(활동4/손상 owner2/ending4)만 있으며 broad wrapper FAIL과
+  앞선 production5회 실패를 원형 보존한다. assertion/예정 밖 오류/종료 누수0.
+- actual StartMenu→Main/Story W1–28 두 회, cold W21/25/29, 원 경마 선택/취소/
+  정보료/한 판·저장 실패 쓰기 재시도, 105+1 실제 선택/cap100 두 회·변조 거부,
+  동적 연말 index2/W49, 준비 W210 두 실제 root·typed/generic W240/cold/meta PASS.
+- compile69·기존8/12 whole·demo/V2/preview 제외·font/i18n 및 최종 arc/서사/EN/
+  한글/음악/말투6 PASS. 정적58 actual57성공/기존5장 census1실패, V2 데이터 ID의
+  wrapper 오탐1은 분리한다. causal self-test timeout·balance/일부 데모 엔진 미실행을
+  완료로 올리지 않는다. 원 검사/필터/면제 변경0, 전체 CI 녹색 주장0.
+- 자연 M07/자연240주/원어민/인간/물리패드·본편출시는 HOLD. source 범위의
+  clean main/원격·비저자 fresh/보호 원문을 결속한 뒤만 한정 GO로 마감한다.

@@ -379,7 +379,9 @@ func _ready():
 	jeongseon_casino.dai_sai_table    = dai_sai_table
 	add_child(jeongseon_casino)
 	jeongseon_casino.closed.connect(_on_jeongseon_casino_closed)
-	if GameState.action_log.is_empty():
+	# A present owner, even damaged, must not become a new run merely because
+	# its display log is empty. Its existing fail-closed reader owns the save.
+	if GameState.action_log.is_empty() and not FULL_STORY_FLOW.owns_session():
 		GameState.new_game()
 	# Old and interrupted saves can retain a terminal Father receipt without the
 	# newer canonical flag. Repair it before any resumed week can select an
@@ -403,6 +405,9 @@ func _ready():
 		current_event = {}
 		_render_event()
 	# StoryMode에서 복귀한 경우: 달을 다시 시작하지 않고 이어진 스토리만 체크
+	elif _full_story_resume_ending():
+		GameState.returning_from_story = false
+		SceneTransition.fade_in()
 	elif GameState.returning_from_story:
 		GameState.returning_from_story = false
 		_continue_after_story()
@@ -529,6 +534,7 @@ func _continue_after_story():
 	# the reverse can bounce forever between MainGame and a guarded StoryMode.
 	_check_game_over_with_monotonic_story_state()
 	if GameState.is_game_over:
+		_full_story_resume_ending()
 		# StoryMode entered this scene under an opaque global transition cover.
 		# The ending modal is already emitted above, so uncover it before returning.
 		SceneTransition.fade_in()
@@ -536,6 +542,9 @@ func _continue_after_story():
 	if FULL_STORY_FLOW.owns_session() and (
 			not FULL_STORY_FLOW.valid_session()
 			or GameState.flags.has("full_story_calendar_save_pending")
+			or GameState.flags.has("full_story_activity_save_pending")
+			or (FULL_STORY_FLOW.is_full_run()
+				and GameState.flags.has("open_racetrack_after_story"))
 			or not FULL_STORY_FLOW.pending_activity_id().is_empty()
 			or FULL_STORY_FLOW.at_boundary()):
 		_full_story_route_week()
@@ -615,6 +624,11 @@ func _full_story_route_week() -> bool:
 	if not FULL_STORY_FLOW.valid_session():
 		push_error("Full story preview has an invalid saved owner")
 		return true
+	if FULL_STORY_FLOW.is_full_run() \
+			and GameState.flags.has("open_racetrack_after_story") \
+			and not GameState.flags["open_racetrack_after_story"] is bool:
+		push_error("Full story has an invalid direct activity flag")
+		return true
 	# Keep the already-calculated state on a failed save. Retrying only the
 	# durable write preserves both money and the global RNG stream; re-running
 	# a month-end transaction would otherwise roll new random results.
@@ -628,12 +642,21 @@ func _full_story_route_week() -> bool:
 			call_deferred("_full_story_continue_week", int(
 				GameState.flags["full_story_calendar_save_pending"]["from_turn"]))
 		return true
+	if GameState.flags.has("full_story_activity_save_pending"):
+		if not _full_story_pending_activity_save_is_valid():
+			push_error("Full story has an invalid pending activity save")
+			return true
+		_full_story_route_activity(str(
+			GameState.flags["full_story_activity_save_pending"]["phase"]))
+		return true
 	# An unsupported direct activity still owns this week's unresolved action.
 	# Keep its producer flag intact across returns/reloads; taking it first would
 	# let a second MainGame entry silently advance without the activity.
 	var pending_activity: String = FULL_STORY_FLOW.pending_activity_id()
 	if not pending_activity.is_empty():
 		set_meta("_full_story_waiting_for_activity", pending_activity)
+		if FULL_STORY_FLOW.is_full_run():
+			_full_story_route_activity("entry")
 		SceneTransition.fade_in()
 		return true
 	if FULL_STORY_FLOW.at_boundary():
@@ -661,10 +684,13 @@ func _full_story_continue_week(expected_turn: int) -> void:
 		_full_story_advancing = false
 		return
 	_full_story_advancing = false
-	_begin_month()
+	if not GameState.is_game_over:
+		_begin_month()
 
 
 func _full_story_advance_week(expected_turn: int) -> bool:
+	if GameState.flags.has("full_story_activity_save_pending"):
+		return false
 	if GameState.flags.has("full_story_calendar_save_pending"):
 		return _full_story_pending_save_is_valid() and int(
 			GameState.flags["full_story_calendar_save_pending"]["from_turn"]
@@ -677,14 +703,25 @@ func _full_story_advance_week(expected_turn: int) -> bool:
 		return false
 	if GameState.is_game_over:
 		# Real fatal state is not the demo's reset-to-survival behavior.
-		SaveManager.autosave()
+		if not _full_story_resume_ending():
+			SaveManager.autosave()
 		return false
 	if GameState.week_of_month == 4:
 		_run_month_end_transition(false, false)
 	else:
 		GameState.advance_calendar()
 	if GameState.is_game_over:
-		SaveManager.autosave()
+		# The generic final week keeps its existing month-end/age-rollover owner.
+		# Seal that already-advanced week, but never begin another week or charge
+		# a second bill. Typed W240 retains its separate, non-advancing ending latch.
+		if FULL_STORY_FLOW.is_full_run() and GameState.turn == expected_turn + 1:
+			if not FULL_STORY_FLOW.complete_turn(expected_turn):
+				push_error("Full story could not seal its terminal calendar week")
+				return false
+			_full_story_save_calendar(expected_turn)
+		else:
+			if not _full_story_resume_ending():
+				SaveManager.autosave()
 		return false
 	if not FULL_STORY_FLOW.complete_turn(expected_turn):
 		push_error("Full story preview could not seal the advanced week")
@@ -708,6 +745,9 @@ func _full_story_save_calendar(expected_turn: int) -> bool:
 	# replacement leaves the last successful disk snapshot untouched; the live
 	# owner remains paused and can retry here, including from a new MainGame.
 	GameState.flags.erase("full_story_calendar_save_pending")
+	# The calendar checkpoint also owns a just-emitted generic terminal ID.
+	# A failed write retains the calendar retry, not a second terminal transaction.
+	GameState.flags.erase("full_story_ending_save_pending")
 	if not SaveManager.autosave():
 		GameState.flags["full_story_calendar_save_pending"] = {
 			"from_turn": expected_turn, "target_turn": GameState.turn,
@@ -718,6 +758,116 @@ func _full_story_save_calendar(expected_turn: int) -> bool:
 		return false
 	_refresh_all()
 	return true
+
+
+func _full_story_resume_ending() -> bool:
+	if not FULL_STORY_FLOW.is_full_run() or not GameState.is_game_over:
+		return false
+	_full_story_seal_surface()
+	var ending_id: Variant = GameState.flags.get("full_story_ending_id")
+	if not FULL_STORY_FLOW.valid_session() or not ending_id is String \
+			or DataRegistry.get_ending(ending_id).is_empty():
+		push_error("Full story has an invalid saved terminal ending")
+		return true
+	if GameState.flags.has("full_story_calendar_save_pending"):
+		if not _full_story_pending_save_is_valid():
+			push_error("Full story has an invalid terminal calendar retry")
+			return true
+		if not _full_story_save_calendar(GameState.turn - 1):
+			return true
+	elif GameState.flags.has("full_story_ending_save_pending"):
+		var pending: Variant = GameState.flags["full_story_ending_save_pending"]
+		if not pending is Dictionary or pending.size() != 2 \
+				or not _economy_integer_matches(pending.get("turn"), GameState.turn) \
+				or pending.get("ending_id") != ending_id:
+			push_error("Full story has an invalid terminal save retry")
+			return true
+		GameState.flags.erase("full_story_ending_save_pending")
+		if not SaveManager.autosave():
+			GameState.flags["full_story_ending_save_pending"] = pending
+			push_warning("Full story paused after a failed terminal save")
+			return true
+	# Loading an already-ended save never reselects an ending or records a run.
+	# The existing ending view's unlock/title side effects are idempotent.
+	if _ending_id.is_empty():
+		_show_ending(ending_id)
+	return true
+
+func _full_story_route_activity(phase: String) -> void:
+	if _minigame_overlay_active or _full_story_advancing:
+		return
+	if bool(get_meta("_screenshot_qa_static_surface", false)):
+		set_meta("_full_story_activity_phase", phase)
+		return
+	_full_story_advancing = true
+	call_deferred("_full_story_continue_activity", GameState.turn, phase)
+
+
+func _full_story_continue_activity(expected_turn: int, phase: String) -> void:
+	if GameState.turn != expected_turn or _minigame_overlay_active \
+			or not FULL_STORY_FLOW.is_full_run():
+		_full_story_advancing = false
+		return
+	if phase == "entry" and not FULL_STORY_FLOW.begin_activity("racetrack"):
+		_full_story_advancing = false
+		push_error("Full story could not reserve its authored racetrack return")
+		return
+	var saved := _full_story_save_activity(expected_turn, phase)
+	_full_story_advancing = false
+	if saved:
+		_full_story_after_activity_saved(phase)
+
+
+func _full_story_activity_phase_is_valid(phase: String) -> bool:
+	if not FULL_STORY_FLOW.is_full_run() or not FULL_STORY_FLOW.valid_session():
+		return false
+	var receipts: Variant = FULL_STORY_FLOW.snapshot().get("activity_receipts", {})
+	if not receipts is Dictionary:
+		return false
+	var raw: Variant = receipts.get(str(GameState.turn), null)
+	if not raw is Dictionary or raw.get("activity_id", null) != "racetrack" \
+			or not _economy_integer_matches(raw.get("turn", null), GameState.turn):
+		return false
+	if phase == "entry":
+		return raw.get("status", null) == "pending" \
+			and FULL_STORY_FLOW.pending_activity_id() == "racetrack"
+	return phase == "closed" and raw.get("status", null) in ["closed", "cancelled"] \
+		and FULL_STORY_FLOW.pending_activity_id().is_empty()
+
+
+func _full_story_pending_activity_save_is_valid() -> bool:
+	var pending: Variant = GameState.flags.get("full_story_activity_save_pending")
+	return pending is Dictionary and pending.size() == 3 \
+		and _economy_integer_matches(pending.get("turn", null), GameState.turn) \
+		and pending.get("activity_id", null) == "racetrack" \
+		and pending.get("phase", null) is String \
+		and _full_story_activity_phase_is_valid(str(pending["phase"]))
+
+
+func _full_story_save_activity(expected_turn: int, phase: String) -> bool:
+	if expected_turn != GameState.turn or not _full_story_activity_phase_is_valid(phase):
+		return false
+	# Retrying this write neither opens a second session nor replays its wager,
+	# log, axis, or calendar. The last successful disk remains the cold checkpoint.
+	GameState.flags.erase("full_story_activity_save_pending")
+	if not SaveManager.autosave():
+		GameState.flags["full_story_activity_save_pending"] = {
+			"turn": expected_turn, "activity_id": "racetrack", "phase": phase,
+		}
+		_full_story_seal_surface()
+		push_warning("Full story paused after a failed activity save")
+		return false
+	return true
+
+
+func _full_story_after_activity_saved(phase: String) -> void:
+	if phase == "entry":
+		SceneTransition.fade_in()
+		_open_racetrack()
+	elif bool(get_meta("_screenshot_qa_static_surface", false)):
+		set_meta("_full_story_activity_closed_turn", GameState.turn)
+	else:
+		call_deferred("_continue_after_story")
 
 func _route_chapter5_causal_week(keep_cover: bool = false) -> bool:
 	# An interrupted W195-W208 save can still owe the M49 closure; an old save
@@ -751,6 +901,8 @@ func _route_chapter5_causal_week(keep_cover: bool = false) -> bool:
 func _complete_chapter5_causal_week_after_story() -> bool:
 	if not GameState.chapter5_causal_week_completed():
 		return false
+	if FULL_STORY_FLOW.is_full_run():
+		return _full_story_route_week()
 	SceneTransition.fade_in()
 	current_event = {}
 	_demo_director_finish_auto_week()
@@ -780,12 +932,15 @@ func _complete_chapter5_finale_week_after_story() -> bool:
 				% str(release.get("error", "unknown")))
 			return true
 		_check_game_over_with_monotonic_story_state()
+		_full_story_resume_ending()
 		# The outbound result returns under StoryMode's opaque cover. The ending
 		# signal has built the modal; uncover it before this terminal branch exits.
 		SceneTransition.fade_in()
 		return true
 	if not GameState.chapter5_finale_week_completed():
 		return false
+	if FULL_STORY_FLOW.is_full_run():
+		return _full_story_route_week()
 	SceneTransition.fade_in()
 	current_event = {}
 	_demo_director_finish_auto_week()
@@ -803,6 +958,8 @@ func _generic_finale_week_ready_to_close() -> bool:
 func _complete_generic_finale_week_after_story() -> bool:
 	if not _generic_finale_week_ready_to_close():
 		return false
+	if FULL_STORY_FLOW.is_full_run():
+		return _full_story_route_week()
 	SceneTransition.fade_in()
 	current_event = {}
 	_demo_director_finish_auto_week()
@@ -6419,9 +6576,14 @@ func _economy_integer_matches(value: Variant, expected: int) -> bool:
 		and is_finite(float(value)) and float(value) == float(expected)
 
 func _begin_month():
+	if _full_story_resume_ending():
+		return
 	if FULL_STORY_FLOW.owns_session() and (
 			not FULL_STORY_FLOW.valid_session()
 			or GameState.flags.has("full_story_calendar_save_pending")
+			or GameState.flags.has("full_story_activity_save_pending")
+			or (FULL_STORY_FLOW.is_full_run()
+				and GameState.flags.has("open_racetrack_after_story"))
 			or not FULL_STORY_FLOW.pending_activity_id().is_empty()
 			or FULL_STORY_FLOW.at_boundary()):
 		_full_story_route_week()
@@ -6474,6 +6636,9 @@ func _begin_month_story_and_render():
 	if FULL_STORY_FLOW.owns_session() and (
 			not FULL_STORY_FLOW.valid_session()
 			or GameState.flags.has("full_story_calendar_save_pending")
+			or GameState.flags.has("full_story_activity_save_pending")
+			or (FULL_STORY_FLOW.is_full_run()
+				and GameState.flags.has("open_racetrack_after_story"))
 			or not FULL_STORY_FLOW.pending_activity_id().is_empty()
 			or FULL_STORY_FLOW.at_boundary()):
 		_full_story_route_week()
@@ -6784,8 +6949,9 @@ func _resolve_demo_narrative_bridge(
 	# The third-month full preview must read these authored choices in StoryMode,
 	# not let the demo compression policy apply a choice without the player.
 	# The old eight-week profile and every default/demo/V2 caller stay unchanged.
-	if FULL_STORY_FLOW.owns_session() and FULL_STORY_FLOW.snapshot().get(
-			"profile", "") == FULL_STORY_FLOW.PROFILE_THIRD_MONTH:
+	if FULL_STORY_FLOW.is_full_run() or (FULL_STORY_FLOW.owns_session() \
+			and FULL_STORY_FLOW.snapshot().get(
+				"profile", "") == FULL_STORY_FLOW.PROFILE_THIRD_MONTH):
 		return false
 	if at_turn < 1 or at_turn > GameState.DEMO_TURN_LIMIT:
 		return false
@@ -17861,12 +18027,38 @@ func _record_gamble_session_result(details: Dictionary) -> bool:
 	return true
 
 func _open_racetrack():
-	if not _can_open_gamble_session():
+	if FULL_STORY_FLOW.is_full_run():
+		if _minigame_overlay_active \
+				or FULL_STORY_FLOW.pending_activity_id() != "racetrack" \
+				or GameState.flags.has("full_story_activity_save_pending") \
+				or not FULL_STORY_FLOW.begin_activity("racetrack"):
+			return
+	elif not _can_open_gamble_session():
 		return
 	_enter_minigame_overlay(racetrack)
 	racetrack.open()
 
 func _on_racetrack_closed():
+	if FULL_STORY_FLOW.is_full_run():
+		# The minigame already settled every wager. Closing merely receipts the
+		# actual session and returns to this same story week, without AP or a net
+		# payout. A duplicate closed signal cannot log, settle, or advance again.
+		if not _minigame_overlay_active \
+				or FULL_STORY_FLOW.pending_activity_id() != "racetrack":
+			return
+		var details := _gamble_session_details("racetrack", racetrack)
+		if not FULL_STORY_FLOW.close_activity("racetrack",
+				int(details["rounds"]), float(details["session_net"])):
+			push_error("Full story could not close its actual racetrack session")
+			return
+		_exit_minigame_overlay()
+		if int(details["rounds"]) > 0:
+			GameState.register_action_axis("money", "racetrack", "gamble_racetrack")
+			details["settled"] = true
+			_record_gamble_session_result(details)
+		if _full_story_save_activity(GameState.turn, "closed"):
+			_full_story_after_activity_saved("closed")
+		return
 	_exit_minigame_overlay()
 	_record_gamble_session_result(_settle_gamble_session(
 		"gamble_racetrack", "racetrack", "racetrack", racetrack))
@@ -20926,6 +21118,18 @@ func _demo_record_metric(title: String, value: String, hint: String, accent: Str
 	return card
 
 func _show_ending(ending_id: String) -> void:
+	if FULL_STORY_FLOW.is_full_run():
+		if not GameState.is_game_over or DataRegistry.get_ending(ending_id).is_empty() \
+				or (GameState.flags.has("full_story_ending_id")
+					and GameState.flags["full_story_ending_id"] != ending_id):
+			_full_story_seal_surface()
+			push_error("Full story rejected a mismatched terminal ending")
+			return
+		if not GameState.flags.has("full_story_ending_id"):
+			GameState.flags["full_story_ending_id"] = ending_id
+			GameState.flags["full_story_ending_save_pending"] = {
+				"turn": GameState.turn, "ending_id": ending_id,
+			}
 	_ending_id = ending_id
 	_ending_data = EndingSystem.get_ending(ending_id)
 	var ending_direction := DataRegistry.get_scene_direction_ending_contract(ending_id)
@@ -23144,6 +23348,10 @@ func _get_ap_pattern_comment(actions: Array) -> String:
 
 
 func _check_milestones() -> void:
+	# A full-run terminal view is a reader of the settled save, not another
+	# gameplay tick. Refreshing or reopening it must not append wealth receipts.
+	if FULL_STORY_FLOW.is_full_run() and GameState.is_game_over:
+		return
 	if _milestone_portrait_active:
 		return
 	if not is_instance_valid(_milestone_portrait_timer):

@@ -1,6 +1,6 @@
 extends RefCounted
-## Development-only full-game W1-W8 or explicit W1-W12 flow. The v4 flags own
-## this receipt; it is not a demo/V2 plan, a new save schema, or a retail default.
+## Story-owned full-game flow and the unchanged explicit W1-W8/W1-W12 previews.
+## Existing v4 flags own these receipts; old unmarked saves are never enrolled.
 ## Mutators return true when the exact request succeeds OR was already completed
 ## identically. A duplicate never mutates state; false means stop, not fall back.
 
@@ -9,11 +9,14 @@ const DemoCoreLoopV2Script := preload("res://systems/DemoCoreLoopV2.gd")
 const STATE_KEY := "full_story_flow_preview"
 const PROFILE := "full_story_flow_preview"
 const PROFILE_THIRD_MONTH := "full_story_flow_third_month_preview"
+const PROFILE_FULL := "full_story_flow"
 const SCHEMA_VERSION := 1
 const PREVIEW_ARG := "--full-story-flow-preview"
 const THIRD_MONTH_ARG := "--full-story-flow-third-month-preview"
 const MAX_TURN := 8
 const THIRD_MONTH_MAX_TURN := 12
+# SaveManager.save_game retains this many event-log entries, not the full run.
+const SAVED_EVENT_LOG_LIMIT := 100
 const ROUTINE_SOURCE := "automatic_livelihood_recovery"
 const APPROVED_UNEMPLOYED := {"money": 70000, "health": -1, "mental": 1}
 const APPROVED_EMPLOYED := {"work_performance": 1, "mental": 1}
@@ -43,6 +46,28 @@ static func initialize_fresh_preview() -> bool:
 	return true
 
 
+static func initialize_fresh_run() -> bool:
+	if owns_session():
+		return is_full_run() and valid_session()
+	# Explicit development entries retain their original initializer and horizon.
+	if OS.get_cmdline_user_args().has(PREVIEW_ARG) \
+			or OS.get_cmdline_user_args().has(THIRD_MONTH_ARG) \
+			or not _environment_allowed(PROFILE_FULL) or not _pristine_start():
+		return false
+	_store({
+		"schema": SCHEMA_VERSION,
+		"profile": PROFILE_FULL,
+		"start_turn": 1,
+		"last_completed_turn": 0,
+		"chain": {},
+		"read_receipts": {},
+		"routine_receipts": {},
+		"completed_turns": {},
+		"activity_receipts": {},
+	})
+	return true
+
+
 static func owns_session() -> bool:
 	# Even an invalid marker owns the failure. Never reinterpret a damaged
 	# development checkpoint as an ordinary retail/AP run.
@@ -55,7 +80,13 @@ static func snapshot() -> Dictionary:
 
 
 static func valid_session() -> bool:
-	return owns_session() and _environment_allowed() and _valid_state(snapshot())
+	var state := snapshot()
+	return owns_session() \
+		and _environment_allowed(str(state.get("profile", ""))) and _valid_state(state)
+
+
+static func is_full_run() -> bool:
+	return owns_session() and snapshot().get("profile", null) == PROFILE_FULL
 
 
 static func last_turn() -> int:
@@ -68,12 +99,71 @@ static func _last_turn_for_state(state: Dictionary) -> int:
 			return MAX_TURN
 		PROFILE_THIRD_MONTH:
 			return THIRD_MONTH_MAX_TURN
+		PROFILE_FULL:
+			return GameState.RUN_TURN_LIMIT
 	return 0
 
 
 static func pending_activity_id() -> String:
 	var pending: Variant = GameState.flags.get("open_racetrack_after_story", false)
 	return "racetrack" if pending is bool and pending else ""
+
+
+static func begin_activity(activity_id: String) -> bool:
+	if not is_full_run() or not valid_session() or activity_id != "racetrack" \
+			or GameState.is_game_over or pending_activity_id() != activity_id:
+		return false
+	var state := snapshot()
+	if not _current_uncompleted_turn(state) \
+			or not _activity_source_closed(state, GameState.turn):
+		return false
+	var chain: Dictionary = state["chain"]
+	if chain.is_empty() or not bool(chain["closed"]) \
+			or (state["routine_receipts"] as Dictionary).has(str(GameState.turn)):
+		return false
+	var receipts: Dictionary = state.get("activity_receipts", {})
+	var turn_key := str(GameState.turn)
+	if receipts.has(turn_key):
+		return str((receipts[turn_key] as Dictionary).get("status", "")) == "pending"
+	receipts[turn_key] = {
+		"turn": GameState.turn, "activity_id": activity_id,
+		"source_event_id": "race_first_visit", "choice_index": 1,
+		"status": "pending", "rounds": 0, "net": 0,
+	}
+	state["activity_receipts"] = receipts
+	_store(state)
+	return true
+
+
+static func close_activity(activity_id: String, rounds: int, net: float) -> bool:
+	# Racetrack already owns every wager and payout. This only closes its handoff.
+	# Zero completed races can still include the existing tipster's real expense.
+	if not is_full_run() or not valid_session() or activity_id != "racetrack" \
+			or rounds < 0 or not is_finite(net) or net != floor(net):
+		return false
+	var state := snapshot()
+	if not _current_uncompleted_turn(state):
+		return false
+	var receipts: Dictionary = state.get("activity_receipts", {})
+	var turn_key := str(GameState.turn)
+	if not receipts.has(turn_key):
+		return false
+	var receipt: Dictionary = receipts[turn_key]
+	var status := "closed" if rounds > 0 else "cancelled"
+	if receipt["status"] != "pending":
+		return receipt["status"] == status \
+			and _integer_equals(receipt["rounds"], rounds) \
+			and float(receipt["net"]) == net
+	if pending_activity_id() != activity_id:
+		return false
+	receipt["status"] = status
+	receipt["rounds"] = rounds
+	receipt["net"] = net
+	receipts[turn_key] = receipt
+	state["activity_receipts"] = receipts
+	_store(state)
+	GameState.flags.erase("open_racetrack_after_story")
+	return true
 
 
 static func at_boundary() -> bool:
@@ -114,6 +204,84 @@ static func begin_chain(event_ids: Array) -> bool:
 	return true
 
 
+static func append_causal_ingress(
+		source_event_id: String, choice_index: int, event_id: String) -> bool:
+	# W210's return call and father's document are separate same-week roots.
+	# Only the actual causal ledger can authorize the latter after the call.
+	if not is_full_run() or not valid_session() \
+			or GameState.turn != 210 or GameState.is_game_over \
+			or source_event_id == event_id \
+			or not GameState.chapter5_causal_is_owned_event(source_event_id) \
+			or not GameState.chapter5_causal_is_owned_event(event_id) \
+			or GameState.chapter5_causal_next_event_for_turn() != event_id \
+			or not GameState.chapter5_causal_receipt_matches(
+				source_event_id, choice_index, GameState.turn) \
+			or _applied_choice_witness(source_event_id, choice_index, GameState.turn).is_empty() \
+			or DataRegistry.find_event(event_id).is_empty():
+		return false
+	var state := snapshot()
+	if not _current_uncompleted_turn(state) \
+			or (state["routine_receipts"] as Dictionary).has(str(GameState.turn)) \
+			or not _read_record(state, GameState.turn, event_id).is_empty():
+		return false
+	var chain: Dictionary = state["chain"]
+	if chain.is_empty() or bool(chain["closed"]):
+		return false
+	var pending: Array = chain["pending_event_ids"]
+	var roots: Array = chain["roots"]
+	if pending.is_empty() or pending.front() != source_event_id:
+		return false
+	if roots.has(event_id) or pending.has(event_id):
+		return roots.count(event_id) == 1 and roots.back() == event_id \
+			and pending == [source_event_id, event_id]
+	if pending != [source_event_id] or roots.size() >= 64:
+		return false
+	roots.append(event_id)
+	pending.append(event_id)
+	_store(state)
+	return true
+
+
+static func append_finale_ingress(
+		source_event_id: String, choice_index: int, event_id: String) -> bool:
+	# The existing finale ledger, not authored follow_up_event, owns the second
+	# W240 root. Admit it while the source's applied result is still unread.
+	if not is_full_run() or not valid_session() \
+			or GameState.turn != GameState.RUN_TURN_LIMIT or GameState.is_game_over \
+			or source_event_id == event_id \
+			or not GameState.chapter5_finale_is_owned_event(source_event_id) \
+			or not GameState.chapter5_finale_is_owned_event(event_id) \
+			or GameState.chapter5_finale_next_event_for_turn() != event_id \
+			or not GameState.chapter5_finale_receipt_matches(
+				source_event_id, choice_index, GameState.turn) \
+			or _applied_choice_witness(source_event_id, choice_index, GameState.turn).is_empty() \
+			or DataRegistry.find_event(event_id).is_empty():
+		return false
+	var state := snapshot()
+	if not _current_uncompleted_turn(state) \
+			or (state["routine_receipts"] as Dictionary).has(str(GameState.turn)) \
+			or not _read_record(state, GameState.turn, event_id).is_empty():
+		return false
+	var chain: Dictionary = state["chain"]
+	if chain.is_empty() or bool(chain["closed"]):
+		return false
+	var pending: Array = chain["pending_event_ids"]
+	var roots: Array = chain["roots"]
+	if pending.is_empty() or pending.front() != source_event_id:
+		return false
+	if roots.has(event_id) or pending.has(event_id):
+		# A cold source result may ask again. Only the identical still-unread
+		# source -> next pair is idempotent; it cannot reopen a consumed result.
+		return roots.count(event_id) == 1 and roots.back() == event_id \
+			and pending == [source_event_id, event_id]
+	if pending != [source_event_id] or roots.size() >= 64:
+		return false
+	roots.append(event_id)
+	pending.append(event_id)
+	_store(state)
+	return true
+
+
 static func close_result(
 		event_id: String, choice_index: int, expression: bool = false) -> bool:
 	if not valid_session():
@@ -132,7 +300,7 @@ static func close_result(
 	if pending.is_empty() or str(pending.front()) != event_id:
 		return false
 	var event: Dictionary = DataRegistry.find_event(event_id)
-	var choices: Variant = event.get("choices", [])
+	var choices: Variant = _event_choices(event)
 	if not choices is Array or choice_index < 0 \
 			or choice_index >= (choices as Array).size():
 		return false
@@ -141,6 +309,11 @@ static func close_result(
 			or (not expression and not _applied_choice_exists(
 				event_id, choice_index, GameState.turn)):
 		return false
+	var applied: Dictionary = {}
+	if is_full_run() and not expression:
+		applied = _applied_choice_witness(event_id, choice_index, GameState.turn)
+		if applied.is_empty():
+			return false
 	var follow_up := _follow_up_id(choice)
 	if not follow_up.is_empty() \
 			and (DataRegistry.find_event(follow_up).is_empty() \
@@ -153,6 +326,12 @@ static func close_result(
 		"choice_index": choice_index,
 		"expression": expression,
 	}
+	if not applied.is_empty():
+		receipt["applied_tuple"] = applied["tuple"]
+		receipt["applied_sequence"] = applied["sequence"]
+	if is_full_run() and event.has("year_scene_year"):
+		# Bind the actual curated scene, not the catalog's placeholder option.
+		receipt["year_scene"] = (choice.get("year_scene", {}) as Dictionary).duplicate(true)
 	var turn_key := str(GameState.turn)
 	var reads: Dictionary = state["read_receipts"]
 	var turn_reads: Array = reads.get(turn_key, [])
@@ -214,7 +393,7 @@ static func _required_reads_closed(state: Dictionary, at_turn: int) -> bool:
 			consequence_id = "arc_temptation_clean"
 		return not consequence_id.is_empty() \
 			and not _read_record(state, 8, consequence_id).is_empty()
-	if at_turn == 9 and state.get("profile", null) == PROFILE_THIRD_MONTH:
+	if at_turn == 9 and state.get("profile", null) in [PROFILE_THIRD_MONTH, PROFILE_FULL]:
 		return not _read_record(state, 9, "arc_intro_04_hyunsu").is_empty() \
 			and not _read_record(state, 9, "arc_chapter1_close").is_empty()
 	return true
@@ -301,9 +480,13 @@ static func complete_turn(expected_turn: int) -> bool:
 	return true
 
 
-static func _environment_allowed() -> bool:
+static func _environment_allowed(profile: String = PROFILE) -> bool:
 	if BuildFlavorScript.build_flavor_id() != "full" \
 			or DemoCoreLoopV2Script.requested():
+		return false
+	if profile == PROFILE_FULL:
+		return true
+	if profile not in [PROFILE, PROFILE_THIRD_MONTH]:
 		return false
 	var qa_namespace := OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")
 	var pattern := RegEx.new()
@@ -361,6 +544,76 @@ static func _applied_choice_exists(event_id: String, choice_index: int, at_turn:
 	return false
 
 
+static func _applied_choice_witness(
+		event_id: String, choice_index: int, at_turn: int) -> Dictionary:
+	# events_seen is the existing cumulative non-expression choice counter. The
+	# retained log may start later after a cold load; its absolute ordinal does not.
+	var log_size := GameState.event_log.size()
+	if GameState.events_seen < log_size:
+		return {}
+	var witness: Dictionary = {}
+	for log_index in range(log_size):
+		var raw: Variant = GameState.event_log[log_index]
+		if not raw is Dictionary:
+			continue
+		var record: Dictionary = raw
+		if record.get("event_id", null) != event_id \
+				or not _integer_equals(record.get("turn", null), at_turn) \
+				or not _integer_equals(record.get("choice_index", null), choice_index):
+			continue
+		if not witness.is_empty():
+			return {}
+		witness = {
+			"tuple": {"turn": at_turn, "event_id": event_id, "choice_index": choice_index},
+			"sequence": GameState.events_seen - log_size + log_index + 1,
+		}
+	return witness
+
+
+static func _read_application_valid(record: Dictionary, at_turn: int) -> bool:
+	if bool(record.get("expression", false)):
+		return true
+	var event_id := str(record.get("event_id", ""))
+	var choice_index := int(record.get("choice_index", -1))
+	if not is_full_run():
+		return _applied_choice_exists(event_id, choice_index, at_turn)
+	var raw_tuple: Variant = record.get("applied_tuple", null)
+	var sequence: Variant = record.get("applied_sequence", null)
+	if not raw_tuple is Dictionary or (raw_tuple as Dictionary).size() != 3 \
+			or not _integer_equals((raw_tuple as Dictionary).get("turn", null), at_turn) \
+			or (raw_tuple as Dictionary).get("event_id", null) != event_id \
+			or not _integer_equals((raw_tuple as Dictionary).get("choice_index", null), choice_index) \
+			or not _bounded_integer(sequence, 1, GameState.events_seen):
+		return false
+	var witness := _applied_choice_witness(event_id, choice_index, at_turn)
+	if not witness.is_empty():
+		return _integer_equals(sequence, int(witness["sequence"]))
+	# A conflicting retained entry is never replaced by a historical assertion.
+	if _applied_choice_exists(event_id, choice_index, at_turn):
+		return false
+	var last: Variant = snapshot().get("last_completed_turn", null)
+	if not _bounded_integer(last, 0, GameState.RUN_TURN_LIMIT) \
+			or at_turn > int(last) or GameState.event_log.size() < SAVED_EVENT_LOG_LIMIT:
+		return false
+	var lost_prefix := GameState.events_seen - GameState.event_log.size()
+	if lost_prefix <= 0 or int(sequence) > lost_prefix:
+		return false
+	# Only the genuinely truncated prefix is historical. Current/open-chain
+	# results and entries still inside the retained suffix require the real log.
+	var previous_turn := at_turn
+	for raw in GameState.event_log:
+		if not raw is Dictionary:
+			return false
+		var logged: Dictionary = raw
+		if not _bounded_integer(logged.get("turn", null), previous_turn, GameState.turn) \
+				or not logged.get("event_id", null) is String \
+				or str(logged["event_id"]).is_empty() \
+				or not _bounded_integer(logged.get("choice_index", null), 0, 2147483647):
+			return false
+		previous_turn = int(logged["turn"])
+	return true
+
+
 static func _follow_up_id(choice: Dictionary) -> String:
 	var required: Variant = choice.get("follow_up_requires_flags", [])
 	if not required is Array:
@@ -370,6 +623,89 @@ static func _follow_up_id(choice: Dictionary) -> String:
 				or not bool(GameState.flags.get(raw_flag, false)):
 			return ""
 	return str(choice.get("follow_up_event", ""))
+
+
+static func _event_choices(event: Dictionary) -> Array:
+	if is_full_run() and event.has("year_scene_year"):
+		var year_index: Variant = event.get("year_scene_year", null)
+		return GameState.build_year_scene_choices(int(year_index)) \
+			if _bounded_integer(year_index, 1, 5) else []
+	var choices: Variant = event.get("choices", [])
+	return choices if choices is Array else []
+
+
+static func _activity_source_closed(state: Dictionary, at_turn: int) -> bool:
+	var read := _read_record(state, at_turn, "race_first_visit")
+	return not read.is_empty() and _integer_equals(read.get("choice_index", null), 1) \
+		and read.get("expression", null) is bool and not bool(read["expression"]) \
+		and _read_application_valid(read, at_turn)
+
+
+static func _valid_activity_receipts(state: Dictionary, last: int) -> bool:
+	if state.get("profile", null) != PROFILE_FULL:
+		return true
+	var raw_receipts: Variant = state.get("activity_receipts", {})
+	if not raw_receipts is Dictionary:
+		return false
+	var receipts: Dictionary = raw_receipts
+	for raw_key in receipts:
+		if not raw_key is String or not str(raw_key).is_valid_int() \
+				or str(int(raw_key)) != raw_key:
+			return false
+		var at_turn := int(raw_key)
+		var raw_receipt: Variant = receipts[raw_key]
+		if at_turn < 1 or at_turn > mini(last + 1, GameState.RUN_TURN_LIMIT) \
+				or not raw_receipt is Dictionary \
+				or not _activity_source_closed(state, at_turn):
+			return false
+		var receipt: Dictionary = raw_receipt
+		if not _integer_equals(receipt.get("turn", null), at_turn) \
+				or receipt.get("activity_id", null) != "racetrack" \
+				or receipt.get("source_event_id", null) != "race_first_visit" \
+				or not _integer_equals(receipt.get("choice_index", null), 1) \
+				or not _bounded_integer(receipt.get("rounds", null), 0, 2147483647):
+			return false
+		var net: Variant = receipt.get("net", null)
+		if not (net is int or net is float) or not is_finite(float(net)) \
+				or float(net) != floor(float(net)):
+			return false
+		var rounds := int(receipt["rounds"])
+		match receipt.get("status", null):
+			"pending":
+				var chain: Dictionary = state["chain"]
+				if at_turn != last + 1 or GameState.turn != at_turn \
+						or rounds != 0 or float(net) != 0.0 \
+						or pending_activity_id() != "racetrack" \
+						or chain.is_empty() or not bool(chain["closed"]) \
+						or (state["routine_receipts"] as Dictionary).has(raw_key):
+					return false
+			"closed":
+				if rounds <= 0 or not pending_activity_id().is_empty():
+					return false
+			"cancelled":
+				if rounds != 0 or not pending_activity_id().is_empty():
+					return false
+			_:
+				return false
+	return true
+
+
+static func _calendar_values_match(profile: String, at_turn: int, week: Variant,
+		month: Variant, year: Variant, age: Variant) -> bool:
+	if profile == PROFILE_FULL:
+		var month_index := int((at_turn - 1) / 4.0)
+		var years_elapsed := int(month_index / 12.0)
+		return at_turn >= 1 and at_turn <= GameState.RUN_TURN_LIMIT + 1 \
+			and _integer_equals(week, (at_turn - 1) % 4 + 1) \
+			and _integer_equals(month, month_index % 12 + 1) \
+			and _integer_equals(year, 2026 + years_elapsed) \
+			and _integer_equals(age, 33 + years_elapsed)
+	if profile in [PROFILE, PROFILE_THIRD_MONTH]:
+		var preview_limit := MAX_TURN if profile == PROFILE else THIRD_MONTH_MAX_TURN
+		return at_turn >= 1 and at_turn <= preview_limit + 1 \
+			and week == (at_turn - 1) % 4 + 1 \
+			and month == 1 + int((at_turn - 1) / 4.0) and year == 2026 and age == 33
+	return false
 
 
 static func _approved_background_effects() -> Dictionary:
@@ -493,10 +829,14 @@ static func _valid_background_snapshot(raw: Variant) -> bool:
 
 static func _valid_state(state: Dictionary) -> bool:
 	var final_turn := _last_turn_for_state(state)
+	if state.get("profile", null) == PROFILE_FULL \
+			and (not _bounded_integer(GameState.turn, 1, GameState.RUN_TURN_LIMIT + 1) \
+				or (GameState.flags.has("open_racetrack_after_story") \
+					and not GameState.flags["open_racetrack_after_story"] is bool)):
+		return false
 	if final_turn == 0 or GameState.turn < 1 or GameState.turn > final_turn + 1 \
-			or GameState.week_of_month != (GameState.turn - 1) % 4 + 1 \
-			or GameState.month != 1 + int((GameState.turn - 1) / 4.0) \
-			or GameState.year != 2026 or GameState.age != 33 \
+			or not _calendar_values_match(str(state.get("profile", "")), GameState.turn,
+				GameState.week_of_month, GameState.month, GameState.year, GameState.age) \
 			or not _integer_equals(state.get("schema", null), SCHEMA_VERSION) \
 			or not _integer_equals(state.get("start_turn", null), 1) \
 			or not _bounded_integer(state.get("last_completed_turn", null), 0, final_turn):
@@ -530,6 +870,7 @@ static func _valid_state(state: Dictionary) -> bool:
 		if not _valid_routine_receipt(raw as Dictionary, at_turn):
 			return false
 	var reads: Dictionary = state["read_receipts"]
+	var applied_sequences: Dictionary = {}
 	for raw_key in reads:
 		if not raw_key is String or not str(raw_key).is_valid_int() \
 				or str(int(raw_key)) != raw_key:
@@ -547,11 +888,19 @@ static func _valid_state(state: Dictionary) -> bool:
 			if seen.has(event_id):
 				return false
 			seen.append(event_id)
+			if state.get("profile", null) == PROFILE_FULL \
+					and not bool((raw_record as Dictionary)["expression"]):
+				var sequence := int((raw_record as Dictionary)["applied_sequence"])
+				if applied_sequences.has(sequence):
+					return false
+				applied_sequences[sequence] = true
 	for at_turn in range(1, last + 1):
 		if not _required_reads_closed(state, at_turn):
 			return false
 	var chain: Dictionary = state["chain"]
 	if not chain.is_empty() and not _valid_chain(chain, state, last + 1):
+		return false
+	if not _valid_activity_receipts(state, last):
 		return false
 	if routines.has(str(last + 1)) \
 			and (not _required_reads_closed(state, last + 1) \
@@ -576,14 +925,28 @@ static func _valid_read_record(raw: Variant, at_turn: int) -> bool:
 			or not record.get("expression", null) is bool:
 		return false
 	var event: Dictionary = DataRegistry.find_event(record["event_id"])
-	var choices: Variant = event.get("choices", [])
+	var choices: Variant = _event_choices(event)
 	if not choices is Array or not _bounded_integer(
 			record.get("choice_index", null), 0, (choices as Array).size() - 1):
 		return false
 	var choice_index := int(record["choice_index"])
+	if is_full_run() and event.has("year_scene_year"):
+		var year_scene: Variant = choices[choice_index].get("year_scene", null)
+		var saved_year_scene: Variant = record.get("year_scene", null)
+		if not year_scene is Dictionary or (year_scene as Dictionary).size() != 2 \
+				or not saved_year_scene is Dictionary \
+				or (saved_year_scene as Dictionary).size() != 2 \
+				or not _bounded_integer((year_scene as Dictionary).get("year", null), 1, 5) \
+				or not _integer_equals((saved_year_scene as Dictionary).get("year", null),
+					int((year_scene as Dictionary)["year"])) \
+				or not (saved_year_scene as Dictionary).get("scene_id", null) is String \
+				or (saved_year_scene as Dictionary)["scene_id"] \
+					!= (year_scene as Dictionary).get("scene_id", null) \
+				or GameState.get_year_scene_selection(int(event["year_scene_year"])) \
+					!= str((year_scene as Dictionary).get("scene_id", "")):
+			return false
 	return GameState.is_expression_choice(choices[choice_index]) == record["expression"] \
-		and (bool(record["expression"]) or _applied_choice_exists(
-			str(record["event_id"]), choice_index, at_turn))
+		and _read_application_valid(record, at_turn)
 
 
 static func _valid_chain(chain: Dictionary, state: Dictionary, at_turn: int) -> bool:
@@ -610,7 +973,7 @@ static func _valid_chain(chain: Dictionary, state: Dictionary, at_turn: int) -> 
 				or _read_record(state, at_turn, str(record["event_id"])) != record:
 			return false
 		var event: Dictionary = DataRegistry.find_event(record["event_id"])
-		var choice: Dictionary = (event["choices"] as Array)[int(record["choice_index"])]
+		var choice: Dictionary = _event_choices(event)[int(record["choice_index"])]
 		var follow_up := _follow_up_id(choice)
 		if not follow_up.is_empty():
 			pending.push_front(follow_up)

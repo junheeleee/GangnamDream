@@ -2108,8 +2108,15 @@ func _initialize_new_run_state(core_loop_v2_test: bool) -> void:
 	if core_loop_v2_test:
 		DemoCoreLoopV2Script.initialize_for_run(true)
 	else:
-		# Explicit argument + pre-autoload isolated namespace; retail remains off.
-		FullStoryFlowScript.initialize_fresh_preview()
+		# Only this pristine new-story ingress issues the full owner. Loaded
+		# unmarked saves keep their historical flow; explicit QA profiles retain
+		# their original opt-in and never become a production checkpoint.
+		var args := OS.get_cmdline_user_args()
+		if args.has(FullStoryFlowScript.PREVIEW_ARG) \
+				or args.has(FullStoryFlowScript.THIRD_MONTH_ARG):
+			FullStoryFlowScript.initialize_fresh_preview()
+		else:
+			FullStoryFlowScript.initialize_fresh_run()
 	BuildInfoScript.apply_window_title(
 		get_window(), core_loop_v2_test, not LocaleManager.is_korean())
 

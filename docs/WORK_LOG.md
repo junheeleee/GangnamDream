@@ -2,7 +2,44 @@
 
 이전 기록은 [539 마감 전 원문](history/WORK_LOG_2026-10-10_pre_order539_close.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
-## 2026-10-10 — 새 본편의 정상 이야기 흐름 연결 착수
+## 2026-10-10 — 새 본편의 정상 이야기 흐름·저장 재개 수리
+
+- 정상 fresh 전용 full owner와 원 240주 달력을 연결했다. 경마의 실제 선택/입장/
+  무베팅·정보료·원정산/저장 재시도, 최근100 선택 로그의 완료 과거 증명,
+  같은 엔딩 ID cold 복원을 수리했다. 공개 데모·구저장·8/12 개발 profile·원 급여/
+  효과/엔딩 선택은 보존하며 자동 계약을 자연 M07 또는 240주 완독으로 올리지 않는다.
+- 첫 네 production 실행 FAIL은 원형 보존한다. 초기 두 실행은 숨겨진 기본 선택을
+  fixture가 고른 오류였고, 세 번째는 W49 연말 receipt의 JSON 정수형 정합 및
+  typed 종결 cold/현수 복합 기대를 포함해 새 실패5·예정 밖 owner 오류1을 확인했다.
+  W210 통화→문서·W240 서명→outbound의 원 ledger 후속을 full helper에 전달하지
+  않던 실제 연결 누락도 독립 검수에서 확인해 같은 선언 범위에서 수리한다.
+- 네 번째5FAIL 중 typed 종결3은 새 Main 화면의 기존 자산 milestone writer가
+  종료 저장에 후속 업적/log를 더한 실제 재개 결함이다. full 종료에서만 차단하고,
+  빈 표시 로그가 소유 marker를 지워 새 게임이 되던 경계도 막았다. W210의2FAIL은
+  준비21억원의 미정산 milestone 이력과 원 주간 commitment AP0를 fixture가 AP2
+  불변으로 기대한 오류다. 실제 milestone 처리·exact 주간 영수증/선택/AP0로 정렬하고
+  현금/정신/카운트/원 causal/전체 cold 상태 비교는 유지한다.
+- 다섯 번째 production은 실제 연결·W210·종결 소유/빈 로그/잘못된 ID 경계를
+  통과했으나 typed cold의 일시 표시 flag1 비교가 FAIL이었다. 원 Main 초기화가
+  지우는 just_hit_milestone만 해당 cold fixture의 기대값 false로 예측했다. 성공 저장/
+  쓰기 재시도에서는 원 true를 유지하며 공통 normalizer·경제·나머지 상태 비교는 불변이다.
+- 마지막 production-settled-final은 actualexit0/195.919956초·전체 marker1회다.
+  stdout7518B/92af8fd7…·stderr12374B/b47cd03f…·Godot19688B/440cba46…를
+  `.git/order541-qa-20261010/`에 봉인했다. broad wrapper FAIL은 그대로 보존한다:
+  부정 fixture의 raw 활동4·손상 owner2·잘못된 ending4가 정확10 ERROR를 내며
+  실제 실패 assertion/예정 밖 오류/종료 누수0이다. 원 검사·필터·기대 marker 삭제0.
+- 실제 StartMenu/Main/Story W1–28 두 경로·W21/25/29 cold·쓰고 실패한 달력/활동/
+  종결의 쓰기만 재시도·원 경마 취소/정보료/한 판·로그105+1/cap100 두 번·동적연말
+  index2/W49·W210 원 통화→문서·typed/generic W240와 같은 엔딩/meta cold를 통과했다.
+  정상 두 경로는 원 편성상 study 미열람/현수 fail이며 pass/fail 선택은 별도 준비 상태의
+  실제 reader 검증이다. 자연 양분기·240주 완독·실제 앱 M07·사람/원어민/패드 증거0.
+- 기존 compile69·8/12 whole·demo/V2/preview 제외는 통과했다. 정적58은 actual57성공/
+  기존5장 census1실패이며 V2의 데이터 ID를 잡은 wrapper 오탐1을 분리했다.
+  최종 arc/서사/EN/한글/음악/말투6도 PASS다. 원5장 census1708/1702 실패·causal
+  self-test timeout·미실행 balance/StoryDemoFourLanguage는 고쳤다고 세지 않는다.
+  전체 CI 녹색/새 패키지 GO0, clean 후보 비저자 판정 전 완료0이다.
+  개발skill의 기존 consumer·격리/정확 marker·원 실패 보존을 적용했으며 새 정본 규칙0/
+  실행 지시는 일회성이다. 종료 누수 추적/검수 비용 최적화0, 다음 실제 앱은 부모534다.
 
 - [541](queue_active/ORDER-541.md)을 구현 전에 선언한다. 534 정상 입구의 legacy AP 낙하를
   fresh full 전용 이야기 owner로 수리한다. 8/12 개발 상한 연장·구저장 승격·원문/번역·

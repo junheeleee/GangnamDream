@@ -3920,11 +3920,21 @@ func _queue_chapter5_same_turn_ingress() -> void:
 	var next_event_id := GameState.chapter5_causal_next_event_for_turn()
 	if next_event_id.is_empty() or _queue.has(next_event_id):
 		return
+	if not _read_only_replay and FULL_STORY_FLOW.is_full_run() \
+			and not FULL_STORY_FLOW.append_causal_ingress(
+				str(_current.get("id", "")), _pending_result_choice_index, next_event_id):
+		push_error("Full story rejected the causal same-turn handoff")
+		return
 	_queue.push_front(next_event_id)
 
 func _queue_chapter5_finale_same_turn_ingress() -> void:
 	var next_event_id := GameState.chapter5_finale_next_event_for_turn()
 	if next_event_id.is_empty() or _queue.has(next_event_id):
+		return
+	if not _read_only_replay and FULL_STORY_FLOW.is_full_run() \
+			and not FULL_STORY_FLOW.append_finale_ingress(
+				str(_current.get("id", "")), _pending_result_choice_index, next_event_id):
+		push_error("Full story rejected the finale same-turn handoff")
 		return
 	_queue.push_front(next_event_id)
 

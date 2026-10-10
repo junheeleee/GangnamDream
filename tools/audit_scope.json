@@ -3858,7 +3858,7 @@
     {
       "tool": "tools/ManualSaveCheck.tscn",
       "godot": true,
-      "why": "10슬롯·결과 재개·월초 once·격리 full W1–W8/W1–W12 및 본편 첫 월급 주차·원급여·결과 cold/데모·V2 경계",
+      "why": "10슬롯·결과 재개·월초 once·기존 full8/12·정상 fresh full의 장면/직접 경마/자동 정산·저장 실패·연말/종결 경계·본편 첫 월급/데모/V2 보존",
       "paths": [
         "autoloads/SaveManager.gd",
         "autoloads/GameState.gd",
