@@ -1,6 +1,46 @@
 # ORDER-525 — 같은 데모의 M02 첫 문단·설정 5언어 실제 표면
 
-#### [~] ORDER-525 [P1·실제 화면] 다음 달 장면의 5언어 표시·설정 복귀
+#### [x] ORDER-525 [P1·실제 화면] 다음 달 장면의 5언어 표시·설정 복귀
+
+**완료 — 2026-10-10 / 첫 문단·설정 복귀 기능 한정 GO.** root CUA 실제 픽셀과
+비저자 `phone_independent_review`의 원로그/소스/저장/전체 보존 직접 검수를 구분한다.
+독립 픽셀·인간·원어민·전체 가독성·출시 GO가 아니다.
+
+## 재시도 결과·한계
+
+- metadata clean d55cbbae5588ebb813738197e84f1d25c02725a4/tree4740cd3d…에서
+  아래 exact522 앱을 무인자로 재실행했다. 실제 KO Continue→M02
+  `arc_temptation_clean` 첫 authored 문단 자연 완료→Settings EN/JA/CN/TW/KO
+  각각 변경·닫기를 확인했다. 다음 문단/Return/선택/AUTO/skip/새수동저장0이다.
+- 기본 창1280×864(제목줄 포함), 첫 문단 KO3/EN4/JA3/CN3/TW3 시각 줄이다.
+  title/HUD/nameplate/본문/Settings가 표시되고 닫기마다 같은 장면·첫 문단이다.
+  누락 자형·잘림·의도하지 않은 한글 누출은 관측0이며 우하단 진행안내는 작고
+  어둡게 보였다. EN 현금3.0million은297만원 반올림 표시다. 기본 글자/보통속도/
+  음악25·효과음80·진동ON70·동작감소OFF를 보존하고 언어는KO로 복귀했다.
+- CN/TW 첫 줄은 `Kim`, 다음 줄은 `Minjun`으로 시작해 첫 줄의 여백이 크다.
+  완문은3줄에 들어가나 가독성 잔여다. 비저자 확인상 원문 내부개행0/토큰각1,
+  강제개행0이므로 자동 줄갈이/서체 경계 가능성만 남기며 원인은 미확정이다.
+  이를 수리나 완전 가독성 GO로 세지 않고 [526](../queue_active/ORDER-526.md)에서 분리한다.
+- own84674/parent84673 정상CmdQ exit0/278.289238초, 정확 native entry1(en),
+  stdout=Godot480B/SHA204c7320dfe88db9de17645509c019b098916d92d32c014bc9130e48642e96b9,
+  stderr/오류/경고/누수0이다. 종료 후AX 재조회0·두PID부재/editor61385생존이다.
+- controller8453→8481B/SHAc2af8be3d10a3db0733634850fb3c23d687f88cb0922f69075d40e7a928e67e3:
+  M2/story/4weeks/closed[1]/settlement1/choice1/pressure1/turn5·2970000/70/62 유지다.
+  backup=이전8453B/aa41ee32…이며 JSON값 전체 동일·추가효과0이다. 바이트28 차이는
+  int→float14곳(상위/주거5+settlement9) 직렬화다. root 첫5곳 집계는 배열 내부9곳을
+  빠뜨렸으며 비저자 전량 대조로 정정했다. 원slot19417B/e4978df6…·settings/meta byteexact다.
+- private `.git/order525-live-retry-20261010/` 원산출11개를 보존했다.
+  before697120B/d5bf73bf…→after697332B/SHA
+  3afcb290b662a0d30ab5a2e587695687d7ce149eea560f32591c9f14280eadfa,
+  observation3353B/SHAa529a54b77a6487dc2551b73d927addf6ec36a9f999eec3f4e63842589b00f8a,
+  command1362B/SHAf3a5dfd44db3fc4381e39105660b8f30f42c793028ee227ec5fd0acb896c2153다.
+  root+비저자 fresh에서 before.source=after.source=current·tracked3263/helper5/
+  seed2/W238/player33 전량 동일, 보호44중43불변/index40 ns9→10파일만 허용했다.
+  로그0→480/새회전0B·controller/backup만 변했고 이전 실패raw8개도 불변이다.
+- 독립 final fresh 뒤 문서 동결을 해제했다. 기존 도구 재사용·새checker/runner/보고0,
+  지시·규범은 일회성/기존 WORK_UNIT 적용·정본 승격0이다. 이후 문단/선택·다른장면/
+  크기·큰글자·옛공개저장/인간·원어민·물리·청취/본편·출시 HOLD와 원manifest
+  runtime NOT_RUN/userGO NOT_INHERITED를 보존한다. 이전 실패는 아래 그대로다.
 
 **착수 — 2026-10-10.** [524](../queue_archive/ORDER-524.md)의 실제 M02 ingress를
 잇는다. 완료한 M01 저장·재개·결과 진행·정산을 반복하거나 새 앱을 발급하지 않는다.

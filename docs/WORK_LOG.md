@@ -2,6 +2,13 @@
 
 이전 기록은 [510 저장 수리·511 번역·W200 복원 원문](history/WORK_LOG_2026-10-10_pre_order512.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 
+## 2026-10-10 — M02 첫 문단·설정 5언어 실제 복귀 통과
+
+- [525](queue_archive/ORDER-525.md): 같은 exact522 앱에서 KO Continue→M02 첫 authored 문단 자연 완료→EN/JA/CN/TW/KO 설정 변경·닫기·정상CmdQ를 확인했다. 본문/이름표/HUD/설정 표시·같은 문단 복귀 한정GO, 다음 문단/선택/자동진행/새수동저장0이다. 글 누락·잘림·의도하지 않은 한글 누출 관측0이다.
+- exit0/278.289238초·native entry1(en)·stdout=Godot480B/204c7320…·stderr/오류/경고/누수0. 원slot19417B/e4978df6…·settings/meta exact, controller JSON값 전체 동일/M2·4weeks·정산1·선택1·297만원/70/62 유지다. int→float14곳(+28B)의 직렬화와 상태변경을 구별했다.
+- root/비저자 phone_independent_review fresh source3263/helper5/seed2/W238/player33·보호44중43불변/ns만로그·직렬화변경·own84674/parent84673부재/editor61385생존 직접확인 후 동결해제했다. private 재시도11원산출·이전실패8개는 보존하며 actual픽셀은root/독립은원로그·소스·저장 대조다.
+- CN/TW는Kim/Minjun 줄갈이로 첫 줄 여백이 크다. 원문개행0·무잘림. 읽기 전용 진단에서PCK의ICU 데이터 누락을 확인했고 공식4.6.2 코드의 공백fallback은 관측과 맞으나 실행분기 자체는 추론이다. [526](queue_active/ORDER-526.md)에 stage만 포함설정·기존package감사/자체표본·fresh icu-break 앱 발급/실제표면을 선선언했다. 원고/consumer는 바꾸지 않는다. 개발 스킬의 선선언·실제관찰/자동계약 분리·독립 fresh·기존도구 재사용 적용, 새checker/runner/보고0·일회성·정본승격0. 이후장면/크기·옛공개저장/인간·원어민·물리·청취/본편·출시는 HOLD다.
+
 ## 2026-10-10 — 5언어 화면 검수 입구에서 잠금 재발·저장 보존
 
 - [525](queue_active/ORDER-525.md): native inventory 성공 뒤 exact522 무인자 own76110/parent76109를 실행했으나 getApp에서 Mac locked가 재발했다. 화면/게임입력/새저장0이며 검증한 own group만 SIGTERM, exit−15/26.664948초다. stdout/stderr/Godot 각0B·entry0이므로 정상CmdQ·부팅 GO·제품 실패를 주장하지 않는다.
