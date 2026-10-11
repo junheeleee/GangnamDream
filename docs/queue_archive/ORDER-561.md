@@ -1,6 +1,6 @@
 # ORDER-561 — 계획표 선택의 허위 소득 감소 약속 수리
 
-#### [~] ORDER-561 [P1·사실 정합] 착수 — 2026-10-11
+#### [x] ORDER-561 [P1·사실 정합] source 수리 완료 — 2026-10-11
 
 559 actual M16의 소득 삭제 약속과 자동 생계 불일치 REWORK를 수리한다.
 같은 파일의 M18에서도 같은 유형의 단정을 source로 확인했다. M18은 native
@@ -60,4 +60,30 @@ arc_events.json·project/presets/BuildInfo·앱/원raw는 비소유다. 새scene
 
 ## 실제 결과
 
-선언 단계. 구현·공식 교정·표적 실행·독립 검수 뒤 기록한다.
+선언9ba25c1824df48673bd4e6f105544a10398552a9/treea1435ea7b27f98807c8c6e176c8cc97cbd08a8f1 뒤 exact10잎×5언어만 수정했다.
+실제 소득/근무 취소 약속을 계획표의 삭제·검토 기입으로 정렬했다. gameplay·다른
+text·choice indices·효과/flags/소비자/저장/라우팅은 불변이다. KO 선택0 결과의
+‘먼저 비우기로 정해 둔 시간이’ 한 구절은 root가 소유를 인수해 수리했다.
+
+- 최초 check JA0/CN1(duration_hour), v2 JA0/CN1/TW1(entity)는 한국어 수식어를
+  수량으로 읽은 실패다. 원raw/응답을 보존하고 검사기·번역의 숫자를 조작하지 않았다.
+  v3 source manifest b847b101300bff7ff2ebad57391fd6cc5f1a8c93a5b7a1944394eb665f7d0c46,
+  기존30번역 text는 exact이며 새source headers로 공식 check3/import3 actual0.
+- accepted30 교정·현재checksum9814258378c008bfd3c0b2f302d6924c2851acfe624856e3e91b8de3fd0046f9,
+  correction1행만 추가(310→311). 수용개수 JA13159/CN14696/TW14696·310 역사prefix·
+  다른accepted/역사census는 exact다. 신규coverage0이며 세 locale INCOMPLETE/nativeOPEN이다.
+- 표적13 actual0/실패0/stderr0, 변경locale10잎씩 invalid0. JA 기존invalid58,
+  CN/TW0 그대로다. release inventory PASS여서 임의 지문/심의문서 수정0이다.
+  static-results12372B/SHAda61ae1c36bd91b7a404da2070893e46e793452596e38fafcd4c28563081f593,
+  author-after-final64635B/SHA2e390d9fb0f01bff3db240403704b9149946025d5418560a00dc2c75c08ea67b.
+- root 전20 KO/EN·전30번역과 원장diff를 읽었고 phone_independent_review가
+  비저자로 실제50잎/accepted30·33실행66원stream·최종metadata와 fresh보존을
+  전수 대조해 source 정합·보존 한정 GO로 판정했다. 보호22그룹249entries·
+  비소유tracked3338·엔진/templates35 exact, 큐2는 pre561 b20ed43 bytes exact다.
+  최종 context PASS(boot30671)/queue PASS(active81,in_progress79)/diff PASS다.
+- source 사실 정렬만 GO다. 559 실제 REWORK는 옛앱 관측으로 보존하며 새앱에서
+  고쳐진 문안을 봤다는 뜻이 아니다. M18 native0·CJK5화면/WinLinux/인간/원어민/
+  물리패드/청취·전체번역/본편/출시 HOLD. 다음은 원559 W68 정상 월별 검수다.
+  엔진/UI/build/전체audit/240주/누수탐침/새checker/등록/formal보고/판정원장행/
+  STATUS단독커밋0. 새규범0·모든 범위 지시는 일회성이다. 자동 계약은 재미·깊이·
+  문체/인간 품질의 증거가 아니다.

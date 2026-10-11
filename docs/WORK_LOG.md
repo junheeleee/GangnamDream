@@ -3,15 +3,33 @@
 이전 기록은 [561 전 원문](history/WORK_LOG_2026-10-11_pre_order561.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 40588B/SHA256 340f211da9b794b2cd47c6d033e6dd664b0efcb7e1e55a98f1d80d48c721f709이다.
 
-## 2026-10-11 — 계획표의 허위 소득 감소 약속 수리 착수
+## 2026-10-11 — 계획표의 허위 소득 감소 약속 source 수리
 
-- [561](queue_active/ORDER-561.md)은 actual559 M16 REWORK와 source로 확인한
+- [561](queue_archive/ORDER-561.md)은 actual559 M16 REWORK와 source로 확인한
   M18 유사 약속을 10잎×5언어로 정렬한다. M18 native 관측0이다. 일정표의 계획
   삭제/검토 기입만 현재 행동으로 쓰고 실제 근무/수입 감소·시간 확보를 보장하지 않는다.
   KO/EN cjk·3언어/원장 phone_cn·root metadata/필요 심의지문·비저자 전수 검수로 나눈다.
 - 자동 생계/효과/flags/index/소비자·저장/사용자·공개demo·원seed/raw/app 불변,
   공식10잎 export/check/import·accepted30교정만 실행한다. source 한정이며 새app/UI/
   전체audit/새checker/원장판정행0, 실제 다음 월은 원559 W68에서 잇는다.
+- 실제50잎만 수정, root가 KO/EN20·번역30·원장diff를 읽었다. 한국어 수식어를
+  수량으로 읽은 최초CN1/v2CN1·TW1 실패를 private 원raw 그대로 보존하고 KO
+  한 구절만 root 소유로 명확화했다. 검사기/숫자/번역30text 조작0이다. v3 공식
+  check3/import3 actual0, source manifest b847b101300bff7ff2ebad57391fd6cc5f1a8c93a5b7a1944394eb665f7d0c46.
+- correction1행만 추가(310→311), accepted30/hash/checksum 교정이며 수용개수
+  JA13159/CN14696/TW14696·과거310prefix·다른accepted/census exact, 신규coverage0.
+  지정13표적 actual0/실패0/stderr0·변경각10 invalid0·JA기존58/CN·TW0·INCOMPLETE/
+  nativeOPEN 그대로다. release PASS라 심의지문 추가 수정0이다.
+  static-results12372B/da61ae1c36bd91b7a404da2070893e46e793452596e38fafcd4c28563081f593,
+  author-after-final64635B/2e390d9fb0f01bff3db240403704b9149946025d5418560a00dc2c75c08ea67b.
+- phone_independent_review가 비저자로 실제50잎/accepted30·33실행66원stream·
+  최종metadata/fresh보존을 전수 대조해 source 정합·보존 한정 GO로 판정했다.
+  보호22그룹249entries·비소유tracked3338·engine/templates35 exact, 큐2는 pre561
+  b20ed43 bytes exact다. context PASS(boot30671)/queue PASS(active81,in_progress79)/diff PASS. 559 옛앱의
+  REWORK를 소급 GO로 바꾸지 않는다. 새문안 실제화면/M18 native/CJK5화면·
+  WinLinux/인간/원어민/물리패드/청취/전체CI·본편·출시 HOLD다. gangnamdream-dev의
+  표적/보존 규칙을 따랐다. 새규범0·일회성이며 자동 계약은 재미·깊이·문체/인간
+  품질의 증거가 아니다.
 
 ## 2026-10-11 — CJK 지원 데이터를 포함한 full 후보 발급
 
