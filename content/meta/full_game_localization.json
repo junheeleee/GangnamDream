@@ -13095,6 +13095,87 @@
         "zh-CN": "3cf9aeaef62808683e0ec64b1ae5cd21bbaa96a7b4496471085e36a5c6bc6b60",
         "zh-TW": "a072091ca9541faf529e4d2deee7212380090a3f155b4881f2757fabe069a2ed"
       }
+    },
+    {
+      "order": "ORDER-552",
+      "group": "events_correction",
+      "roots": [
+        "story_one_year"
+      ],
+      "source_leaves": 3,
+      "prior_acceptance": "existing",
+      "before_target_sha256_by_locale": {
+        "ja": {
+          "events:story_one_year:/choices/1/text": "27d9839c07a346c561627cf2852e1d2108f4f64ca4929d662d1c8f146f1a3ebe",
+          "events:story_one_year:/description": "5efc338e189cb3c6b547612ddac5828b48fe086c129c46f3b90bfbf689ab46cb",
+          "events:story_one_year:/title": "f7ce12a40755b644ba64407a198bd402a9a32ec40f2a6a82168d66b86671bc41"
+        },
+        "zh-CN": {
+          "events:story_one_year:/choices/1/text": "6320c669738413124be2c57e8eaee7018c68b3998991e65c3b0454d8a3514a71",
+          "events:story_one_year:/description": "c21278fcfcad73eaa0eac024b1363e1db6fbf67d2756effaf794735681b11cae",
+          "events:story_one_year:/title": "7afddff1e47745a39a67c978471e9ab99bebb532a895e3b4329c8068fa9e1446"
+        },
+        "zh-TW": {
+          "events:story_one_year:/choices/1/text": "88e7d9066107796d2a2248dfeca0c288f0e97018338f48e21c94a3633c98d0c5",
+          "events:story_one_year:/description": "0300fa716ceb4a3ca03d5662b3c95c0b964e5f33c7c7468eeea7da4f305e11be",
+          "events:story_one_year:/title": "8e855a307c183a4f07acc2ee312e0f14dcc87f6af06650e98a930f8c3e650efd"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 3,
+        "zh-CN": 3,
+        "zh-TW": 3
+      },
+      "source_review": "Korean-direct temporal correction of three existing leaves per locale. W45 enters the twelfth calendar month after 44 completed weeks, not a completed year; title, description and choice 1 now say twelfth month, start of this year and held on this far. Only the three temporal passages inside each six-paragraph description change. Choice 0, both results, all other prose, effects, flags, routing, schedule, save data and public demo rows remain unchanged. Export source_revision is declaration HEAD; live source manifest and leaf hashes bind this implementation. Historical top-level census source_revision/source_manifest remain historical, not this candidate. Original 308 batches remain unchanged. No new translation coverage; agent source comparison only; native/rendered OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "4d5e72d47a3574023c53b69e3097924ba3a03df5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "100c1eed103dc9a0ccf5a12d58abb99a37948598388f9ac2edc9ee7d83ea0625",
+          "selection_sha256": "70fd97aae0893168fa546433f053ebf0b9a45aa57e7da90a5a0d7344ce7c0b47",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8a949a986b0e74bec70d650e5fc369b8be44e85cd1a2e4aed18726f5f1179614"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "4d5e72d47a3574023c53b69e3097924ba3a03df5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "100c1eed103dc9a0ccf5a12d58abb99a37948598388f9ac2edc9ee7d83ea0625",
+          "selection_sha256": "036afe6b2d59d3234a8970ff00ce617bf0be8aea0e200aa0337c48a8ecf78aa1",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "19dea57ac7b908d9dc37e1488360434f49f36db69b950ab3c2dac13b1d21dd0f"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "4d5e72d47a3574023c53b69e3097924ba3a03df5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "100c1eed103dc9a0ccf5a12d58abb99a37948598388f9ac2edc9ee7d83ea0625",
+          "selection_sha256": "1729051e163ad2d22782d350f829e2e66773b2cc5a1f122960fe7d76cbb66f0b",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "5682af0fe9bf9a0d9dd1422d47b4af87888cd65068389c29dcdab95f518fa94d"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "0b9f28e3328fd2c9cc5f244fbff83d2291168bf86c7593fae494d008da9b5fd5",
+        "zh-CN": "ed65fa9843aeab2488730c2bc62a7275f167f90c1f317595c7f61057b5845c0d",
+        "zh-TW": "410ddb0419c0638f3c651c086ff480d922b0fbf694965c38996dab90372390c2"
+      }
     }
   ],
   "accepted": {
@@ -34148,16 +34229,16 @@
         "target_sha256": "5bc8b4dd6b01d21204c064f5c4b9caff85c0109923f00d5dccf3a075264c4b58"
       },
       "events:story_one_year:/choices/1/text": {
-        "source_sha256": "438a12931de1f28bd15a89ca836e20e274410783ad0eb18a4f4df379e637ec5c",
-        "target_sha256": "27d9839c07a346c561627cf2852e1d2108f4f64ca4929d662d1c8f146f1a3ebe"
+        "source_sha256": "aea1239f8204a1d5a8fef266b3925b7f8fb3fdd8e318bf5ed242c94b890d9057",
+        "target_sha256": "fe43f42f213e0e657550b103b9f0aeedb64cc1691a3001c261ef1410dde252ae"
       },
       "events:story_one_year:/description": {
-        "source_sha256": "e9c6f080434e2eb40ed5ca13ea9f6ea579d42b1d6f0049a696993bfcc2fdbb82",
-        "target_sha256": "5efc338e189cb3c6b547612ddac5828b48fe086c129c46f3b90bfbf689ab46cb"
+        "source_sha256": "5451b9c61d68acbd43dc18977d6acd1ad27802730dff31a9f71bc1ca8be64f47",
+        "target_sha256": "d69320dca28aa807958459d03d7c8c36944d4c863b9e6657e7fdda457fd52ddc"
       },
       "events:story_one_year:/title": {
-        "source_sha256": "57fca03a2dbef3d37a05371782edb28285d1033068ffd58d9ee31105396c666d",
-        "target_sha256": "f7ce12a40755b644ba64407a198bd402a9a32ec40f2a6a82168d66b86671bc41"
+        "source_sha256": "73b7e755e0ced17c53c721f44dbc73b2664de88db3b249bf13a81934944a6e78",
+        "target_sha256": "c972c79d349bcfcb1e7cd1e48ec891bf24b3f5f0b5545d13ee740e4b82b6ca69"
       },
       "events:story_payday_morning:/choices/0/result_text": {
         "source_sha256": "a8c4212777bf0171c3690fdaf43714a9e9d46a7ec2c5c21d8817ec6c974c9bbf",
@@ -86786,16 +86867,16 @@
         "target_sha256": "9f60b0f50a7d4d99b6bec2b4cef1d87370617a13bbbc4f07917dcbafb4ae3375"
       },
       "events:story_one_year:/choices/1/text": {
-        "source_sha256": "438a12931de1f28bd15a89ca836e20e274410783ad0eb18a4f4df379e637ec5c",
-        "target_sha256": "6320c669738413124be2c57e8eaee7018c68b3998991e65c3b0454d8a3514a71"
+        "source_sha256": "aea1239f8204a1d5a8fef266b3925b7f8fb3fdd8e318bf5ed242c94b890d9057",
+        "target_sha256": "27e693badcd847030f2f374e62edffac5c33d27bc57ab32fcb01e72b57fdd5f8"
       },
       "events:story_one_year:/description": {
-        "source_sha256": "e9c6f080434e2eb40ed5ca13ea9f6ea579d42b1d6f0049a696993bfcc2fdbb82",
-        "target_sha256": "c21278fcfcad73eaa0eac024b1363e1db6fbf67d2756effaf794735681b11cae"
+        "source_sha256": "5451b9c61d68acbd43dc18977d6acd1ad27802730dff31a9f71bc1ca8be64f47",
+        "target_sha256": "f875e055580d83be8f9c309b079515d9ccca08d6ea12eb6dea1f0a66283386eb"
       },
       "events:story_one_year:/title": {
-        "source_sha256": "57fca03a2dbef3d37a05371782edb28285d1033068ffd58d9ee31105396c666d",
-        "target_sha256": "7afddff1e47745a39a67c978471e9ab99bebb532a895e3b4329c8068fa9e1446"
+        "source_sha256": "73b7e755e0ced17c53c721f44dbc73b2664de88db3b249bf13a81934944a6e78",
+        "target_sha256": "d51d33b162391b7f39b06f57ee17c04ee2e817301083c1f004c2ef31b9bce692"
       },
       "events:story_payday_morning:/choices/0/result_text": {
         "source_sha256": "a8c4212777bf0171c3690fdaf43714a9e9d46a7ec2c5c21d8817ec6c974c9bbf",
@@ -145572,16 +145653,16 @@
         "target_sha256": "5758345d82047f7fe5b929a0d81ac47796fc457412b028912b1ab2857de344f0"
       },
       "events:story_one_year:/choices/1/text": {
-        "source_sha256": "438a12931de1f28bd15a89ca836e20e274410783ad0eb18a4f4df379e637ec5c",
-        "target_sha256": "88e7d9066107796d2a2248dfeca0c288f0e97018338f48e21c94a3633c98d0c5"
+        "source_sha256": "aea1239f8204a1d5a8fef266b3925b7f8fb3fdd8e318bf5ed242c94b890d9057",
+        "target_sha256": "5823a1eddb596d6f562450a124860eb0237ea4813722e6cc4d24d0b528487864"
       },
       "events:story_one_year:/description": {
-        "source_sha256": "e9c6f080434e2eb40ed5ca13ea9f6ea579d42b1d6f0049a696993bfcc2fdbb82",
-        "target_sha256": "0300fa716ceb4a3ca03d5662b3c95c0b964e5f33c7c7468eeea7da4f305e11be"
+        "source_sha256": "5451b9c61d68acbd43dc18977d6acd1ad27802730dff31a9f71bc1ca8be64f47",
+        "target_sha256": "f54e00877af3edda9e9916e839dc208fb0b361453e7cae72b68ec0ad7c175ac8"
       },
       "events:story_one_year:/title": {
-        "source_sha256": "57fca03a2dbef3d37a05371782edb28285d1033068ffd58d9ee31105396c666d",
-        "target_sha256": "8e855a307c183a4f07acc2ee312e0f14dcc87f6af06650e98a930f8c3e650efd"
+        "source_sha256": "73b7e755e0ced17c53c721f44dbc73b2664de88db3b249bf13a81934944a6e78",
+        "target_sha256": "53374ef58697f69b5c7b560784325a66c786cff31fd8300aed006ecd9e1de493"
       },
       "events:story_payday_morning:/choices/0/result_text": {
         "source_sha256": "a8c4212777bf0171c3690fdaf43714a9e9d46a7ec2c5c21d8817ec6c974c9bbf",
@@ -183309,7 +183390,7 @@
       }
     }
   },
-  "accepted_sha256": "48195e9a61a336649c0f425f78463b7154c19568743b83505a6789775fff986b",
+  "accepted_sha256": "0f28090e7375bf4d64049b304aa37bd3295e4df07b08c7813449fb4a6997d5e0",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

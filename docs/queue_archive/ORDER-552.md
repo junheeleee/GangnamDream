@@ -1,6 +1,6 @@
 # ORDER-552 — M12 회고의 완료기간 표현 수리
 
-#### [~] ORDER-552 [P1·확인된 시간 결함] 열두 번째 달과 완료한 1년을 구분한다
+#### [x] ORDER-552 [P1·확인된 시간 결함] 열두 번째 달과 완료한 1년을 구분한다
 
 **착수 — 2026-10-11.** 실제551 W45/완료44주에서 관측한 시간 정합 REWORK만
 고친다. 선언을 main에 commit/push한 뒤 구현한다.551의 원관측/packageREWORK는 불변이다.
@@ -20,11 +20,12 @@
 - root: `content/events/story_events.json`, `content/events_en/story_events.json`의
   exact3잎, `content/meta/full_game_localization.json`의9교정 영수증/새batch/현재
   source지문, `content/meta/release_content_inventory.json`의 영향 지문과 필요시
-  생성 `docs/CONTENT_RATING_INVENTORY.md`; 큐/사양/WORK_LOG/agent원장과 private552 자료.
+  생성 `docs/CONTENT_RATING_INVENTORY.md`; 큐/사양/WORK_LOG와 private552 자료.
+  마감 시 CLAUDE 현재상태의 최근검증/마지막갱신2행만 실제 범위와 정렬한다.
 - phone_cn_author: `content/events_ja/story_events.json`, `content/events_zh-CN/story_events.json`,
   `content/events_zh-TW/story_events.json`의 exact3잎만 공식 export/check/import로 교정.
   각 언어는 KO에서 직접 작성, 영어 중역·간번 변환0. private552 exchange만 별도 소유한다.
-- phone_independent_review: `docs/agent_reviews/ORDER-552.json` 및 새 private 검수 자료만.
+- phone_independent_review: 새 private 검수 자료와 검수 결과 메시지만.
   KO/EN/JA/zh 전체15변경잎과 나머지 사건/효과/조건/원장 영수증 불변을 직접 대조한다.
 - cjk_wrap_diagnosis: 읽기 전용 일정/소비자·메타데이터 검수. 새 영구체커/등록/engine0.
 - `project.godot`, MainGame/StoryMode/LocaleManager 코드, 저장·사용자 설정/Human,
@@ -46,7 +47,9 @@
   기계 PASS는 재미/깊이/문체/인간 품질 증거가 아니다.
 - 비저자가 정확15잎·6문단·{name}/줄바꿈·W45/연말/카드 소비자·원장 current-source
   receipt9개를 전수 읽는다. source 한정GO와 실제 새앱/렌더/원어민 관측은 구분한다.
-  새 source는 새 commit/tree에 결속한다. 옛551REWORK/550sourceGO/기타HOLD/사고 불변이다.
+  새 source는 새 commit/tree에 결속한다. 최신 DECISIONS2026-10-08대로 오더 전용
+  독립보고/판정원장 행은 추가하지 않고 이 검수는 WORK_LOG에 남긴다. 장·릴리스
+  검수와 실제 화면은 별도다. 옛551REWORK/550sourceGO/기타HOLD/사고 불변이다.
 - 이번 source수리에서 새게임시스템/규범/번역coverage/출시언어 추가0. 실행·소유 지시는
   일회성이다. STATUS비차단·단독현황판커밋0, 종료누수탐침·479/481 비용작업0이다.
 
@@ -58,4 +61,21 @@
 - 포기 시 잃는 것: 선택0/1 원결과·효과 그대로, 새분기0.
 - 서사 위치: 첫해M12 입구→W48연말회수→W49Ch2 입력 전, 일정 불변.
 - 장면 계층: 기존milestone, 추가scene/tier/자산0.
-- 닫는 것: PENDING 독립 source 검수. 실제 새패키지/화면·전체제품/출시HOLD는 별도다.
+- 닫는 것: 시간 표현15잎 source 한정GO. 실제 새패키지/화면·전체제품/출시HOLD는 별도다.
+
+## 2026-10-11 완료 — source 수리만
+
+- 선언4d5e72d 뒤 기존3잎×5언어를 교정했다. 원6문단·줄바꿈·{name}과 나머지
+  사건 raw를 exact 보존했다. JA 공식 import의 비소유 쉼표 포맷1곳은 원형으로 복원했다.
+- 공식 export/check/import3언어×3단계 actual exit0, check/import stderr0이다.
+  private accepted9행과 portable current-source9행이 일치하고 기존308batch prefix·
+  최상위 역사 지문·수용 수13159/14696/14696을 유지한 교정batch1건만 추가했다.
+- 기존 표적11검사 actual exit0/failures[]·stderr11개0. receipt static-results.json
+  9780B/SHA55935171bcb22f1f70b01548f20b7b25df7c29984267d1eb9635dc1c463d13fb.
+  release content 지문은 영향 축이 없어 byteexact 보존, 전체 현지화INCOMPLETE/
+  nativeOPEN·기존JA invalid58은 그대로다. 변경9잎 invalid0이다.
+- 비저자2명이 정확15잎·시간/소비자·원장/공식수용을 직접 읽었다. 보호/원자료 검수는
+  private JSON과 WORK_LOG에 결속하며 오더 전용 formal report/판정원장 행 추가0이다.
+  source 동작 검증은 재미/깊이/원어민/인간/물리 패드 판정이 아니다.
+- 새앱/build/UI/8·12·240주/전체감사0. 원551packageREWORK·기타HOLD·Human·
+  사용자 저장은 소급0. 다음 실제 월별 입력은 보존 W49에서 M13으로 잇는다.

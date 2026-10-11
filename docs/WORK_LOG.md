@@ -3,6 +3,49 @@
 이전 기록은 [548 전 원문](history/WORK_LOG_2026-10-11_pre_order548.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39584B/SHA256 dd0c1275654b1596be7343c2542dba452e2817f0cbf6ca808342f43affb1341b이다.
 
+## 2026-10-11 — 첫해 마지막 달의 완료기간 표현 수리
+
+- [552](queue_archive/ORDER-552.md)는 선언4d5e72d/main push 뒤551에서 확인한
+  시간 결함 하나만 고쳤다. KO/EN/JA/zh-CN/zh-TW의 title/description/choice1
+  정확15잎을 ‘열두 번째 달/올해 초/여기까지 버텼다’로 정렬한다.
+  원6문단·줄바꿈·{name}·선택0/결과2/효과/flags/ID·모든 비시간문장은 그대로다.
+- 도달 경로: 원551 actualW45/완료44주 → MainGame8813/8837 일정 불변.
+  생산자↔독자: story_events444 ↔ MainGame8837/기존DataRegistry overlay.
+  바꾸는 상태: 시간 표현15잎만, gameplay/serialize0. 포기 시 잃는 것: 선택0/1
+  원result/effect 불변·새분기0. 서사 위치: M12입구→W48연말→W49Ch2카드.
+  장면 계층: 기존milestone/신규tier·자산0. 닫는 것: 시간 표현 source 한정GO.
+- root가 KO/EN을 고치고 phone_cn_author가 KO직접3언어를 작성했다. root는 응답9잎을
+  전량 읽고 수용을 승인했다. 공식 export/check/import3×3 actual exit0,
+  import JA4.094303s/CN3.957024s/TW4.029315s, check/import stderr0이다.
+  JA 공식import의 비소유 쉼표 포맷1곳은 비저자 지적에 따라 원바이트로 복원했다.
+- portable accepted 정확9행/current-source·accepted checksum과 공식3header/3digest를
+  맞췄다. 원308batch 객체/원문prefix·상위 역사 census·accepted13159/14696/14696은
+  불변이며 correction309만 추가했다. 새 번역coverage0. release inventory 영향축0으로
+  JSON/심의문서 지문도 byteexact다. 과거receipt/실패 원본을 덮어쓰지 않았다.
+- 기존 표적11검사 모두 actual0/failures[]·stderr11개0. 원22stream과 elapsed는
+  private552/static-results.json 9780B/SHA55935171bcb22f1f70b01548f20b7b25df7c29984267d1eb9635dc1c463d13fb.
+  전체현지화INCOMPLETE/nativeOPEN·기존JA invalid58은 유지, 변경9잎 invalid0이다.
+  receipt검사 통과는 재미/깊이/문체나 인간 품질 판정이 아니다.
+- phone_independent_review/cjk_wrap_diagnosis가 정확15잎·6문단·시간/소비자·원장9행을
+  전수 대조하여 source 범위GO. 독립 private552 baseline64404B/
+  SHA7563f32aa68bd59a52ef8ad0e576380c94b798b011b82bb2051ad1d870834908에
+  fresh133그룹/2051파일+5symlink·tracked3341/비소유3329·295과거판정·Human/player33을
+  봉인했다. 최종 independent-final-review.json 21044B/
+  SHA2f17c8ae8a9ee9a2f758b9a6c5151286e1f3802c885a1194472e388dc8cd0b21은
+  비소유tracked3326/핵심10그룹 fresh exact·공식6+정적11+마감2 원38stream을 결속한다.
+  옛대용량앱/ZIP/PCK는 입구seal 상속, 반복전체census0이며 이 경계를 명시했다.
+- 최신 DECISIONS2026-10-08대로 오더 전용 독립보고/판정원장 행 추가0. 제품5파일과
+  source원장이 같은 구현 커밋에 결속하며 과거550sourceGO를 현재 전체제품에 전용0이다.
+  gangnamdream-dev에 따라 원package/새source·에이전트독해/실제관측을 구분했다.
+  새앱/build/UI/원어민/인간/물리패드·8/12/240주·전체감사·새영구체커0이다.
+  원551packageREWORK·옛HOLD/strictFAIL/로그 사고·공개GO1/인간OPEN45·저장 불변이다.
+  본편/출시HOLD, STATUS비차단·단독현황판커밋0·종료누수/479·481탐침0.
+  다음 실제 월별 진행은 원W49 저장에서 M13이며, 새앱 신원과 미관측 수리는 따로 구분한다.
+- 마감 이동 뒤 context0/0.140565s·queue0/0.090113s(active81/in_progress79),
+  원4stream stderr0을 metadata-close.json에 남겼다. 제품 검사는 반복0이다.
+  CLAUDE 현재2행만 정렬하고551보존사양의 후속552링크1곳만 옮겼다.
+  원551판정·보고/manifest·관측문장은 불변이며 STATUS 단독커밋0이다.
+
 ## 2026-10-11 — 본편 M12 실제 진행 / 회고 시간 정합 REWORK
 
 - [551](queue_archive/ORDER-551.md)은 월별 한 커밋 예외로 선언·실제 앱·독립검수·마감을

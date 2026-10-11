@@ -184,15 +184,15 @@
   },
   {
     "id": "story_one_year",
-    "title": "A Year Gone",
-    "description": "Twelve months.\n\n{name}.\n\nThis time last year you unpacked your bags in this room for the first time.\nBack then you didn't even know how big Seoul was.\n\nAnd now?\n\nIf you're still in a goshiwon, something feels like it's going wrong;\nif you're living in an apartment, you got lucky, or you really did well.\nWherever you are, the fact remains: you survived a year.\n\nHow hard it is to hang on in Seoul,\nonly someone who has hung on truly knows.",
+    "title": "The Twelfth Month",
+    "description": "The twelfth month.\n\n{name}.\n\nAt the start of this year you unpacked your bags in this room for the first time.\nBack then you didn't even know how big Seoul was.\n\nAnd now?\n\nIf you're still in a goshiwon, something feels like it's going wrong;\nif you're living in an apartment, you got lucky, or you really did well.\nWherever you are, the fact remains: you've held on this far.\n\nHow hard it is to hang on in Seoul,\nonly someone who has hung on truly knows.",
     "choices": [
       {
         "text": "Just making it this far means something",
         "result_text": "I decided not to compare.\n{name} is moving at {name}'s own pace.\nEven if that pace looks slow, it isn't a stop."
       },
       {
-        "text": "A year passed and I'm still here? Time to burn bright.",
+        "text": "It's already the twelfth month and I'm still here? Time to burn bright.",
         "result_text": "I lit the flame.\nI just hope this energy lasts.\n{name} already knows: restlessness and resolve are different things."
       }
     ]
