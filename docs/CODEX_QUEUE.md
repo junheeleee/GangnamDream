@@ -53,7 +53,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-551 · 본편 M12 실제 앱 | [551](queue_active/ORDER-551.md) | W45→49 GO · 회고 REWORK |
+| 1 | [~] | ORDER-552 · M12 회고 시간 수리 | [552](queue_active/ORDER-552.md) | 시간 표현3잎×5언어 |
 | 2 | [~] | ORDER-549 · 본편 M10 실제 앱 이어보기 | [549](queue_active/ORDER-549.md) | W40→W45 진행/보존 GO · 통화 종료 표시 REWORK |
 | 3 | [~] | ORDER-546 · 본편 M09 실제 앱 이어보기 | [546](queue_active/ORDER-546.md) | W34–36 선택/결과→W40 첫 문단 · 다은 그림 연속성 REWORK |
 | 4 | [~] | ORDER-544 · 본편 M08 실제 앱 이어보기 | [544](queue_active/ORDER-544.md) | 수정앱 cold·무거래 회상 미노출 표본 GO · 시도2 REWORK/W33 화면 HOLD |
