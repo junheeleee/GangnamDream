@@ -3,6 +3,41 @@
 이전 기록은 [548 전 원문](history/WORK_LOG_2026-10-11_pre_order548.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39584B/SHA256 dd0c1275654b1596be7343c2542dba452e2817f0cbf6ca808342f43affb1341b이다.
 
+## 2026-10-11 — 새 앱 M16 실제 진행·소득 약속 REWORK
+
+- [559](queue_archive/ORDER-559.md)은 월별 한 커밋 예외로 선언·관측·독립검수·
+  마감을 묶었다. 새52369e6 BUILD2026.10.11.1에 원556 W62 한 파일만 byteexact
+  복사, fresh HOME/XDG·무인자 KO Continue로 루틴의 덫3문단·2후보/UI02·2결과
+  완독→W68 형 동생 첫 본문 선택 전 CmdQ. AUTO/skip/내부진입/이후UI재선택0이다.
+- 실제 본문 민준/UI 김민준, focus Down→02·Return1, 표본 본문/선택/결과 잘림0.
+  actual0/462.211729s/보존13 true. stdout154B/stderr111B/Godot263B,
+  구 BUILD seed의 build_id_mismatch WARNING1 외 오류/parse/ObjectDB/leak0이다.
+- final209392B/SHA7fa076d04eae989874bfe59399453dfbf6c4e2f3d49030f62d8305dae1d41a1f,
+  W68/2027년5월4주/−5421703/h36/m100/AP0/resume{}/chain{}·last67.
+  W62 index1/seq57 신규1, 완료·루틴62..67 각1/옛1..61 exact. quiet63..67 pixels
+  미관측·W68 read/choice/routine/완료0이다. 현금6×7만원−65만원=−23만원,
+  mental94−1+17−10=100/health−2·luck+2/unorthodox+1과 대조했다.
+- **진행·이름·보존 GO / 소득 삭제 약속 REWORK / 제품 HOLD.** 실제 수입은
+  여전히 매주7만원인데 문안은 다음 주 수입 블록 삭제를 확정한다. 선택은 소득을
+  바꾸지 않고 kept/broke의 독자는 W151..164 회고문뿐이다. 계산 오류나 새 회귀로
+  단정하지 않는다. 패키지 수리 뒤 원 자동생계를 보존하는 계획/시간 문안 정렬을
+  별도 범위로 잇는다. 새 경제 비용·스케줄러를 이 월별 검수에 끼워 넣지 않았다.
+- phone_independent_review가 원raw3·최종저장·소비자·보호11/3347tracked를 직접
+  대조했다. private559/native-result38695B/SHAcb43e1e0e91ae71cc61fbc4162fa8f32a5442d7952ad9b73ef7fb831992e492b,
+  final-preservation9637B/SHA63bb364b49adc4494b5b25d2af15025839d7213ba074181393170c9e69217afc.
+  private 최종판독12143B/SHA924a950b51ee36c0e2e67033fb68ba9ad97d88db0e725743b13b3076dc40ddef는
+  전체559 REWORK/부분GO를 명시했다. skill29→30은 상철 passive이며 매수가 아니다.
+  원seed/옛raw/app7/Human295/public9/player33·cast/deferred·투자31 예약 exact,
+  portfolio{}·실제매수0·event old56/new1·action cap100 old93/new7을 구분했다.
+- gangnamdream-dev의 실제 저장 격리를 따랐고 독립pixels/원어민/인간/패드/청취는
+  관측하지 않았다. 자동 계약은 재미·깊이·문체/인간 품질 증거가 아니다.
+  ICU 부재·전체번역 INCOMPLETE·옛FAIL/HOLD/공개GO/인간OPEN45·본편/출시 HOLD
+  유지, formal오더보고/원장행/STATUS단독커밋/누수탐침/전체감사0·새규범0/일회성이다.
+- 마감 context PASS(boot30691)·queue PASS(active81/in_progress79)·diff PASS.
+  선택된 HUMAN_GATES 계약도 actual0/open45·done1이며 새 인간 관찰 발급은0이다.
+  잘못된 queue_protocol_check 파일명 호출 exit2는 실제 queue_consistency_check로
+  정정했다. 제품검사를 돌린 것으로 세지 않는다.
+
 ## 2026-10-11 — 수리 포함 세 플랫폼 내부 검수 후보 발급
 
 - [558](queue_archive/ORDER-558.md)은 BUILD_ID 한 값만 `2026.10.11.1`로 발급했다.
