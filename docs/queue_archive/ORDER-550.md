@@ -1,6 +1,6 @@
 # ORDER-550 — 현수 통화 종료 표시 수리
 
-#### [~] ORDER-550 [P1·확인된 표시 결함] 선택0 마지막 결과의 통화 표현을 끝낸다
+#### [x] ORDER-550 [P1·확인된 표시 결함] 선택0 마지막 결과의 통화 표현을 끝낸다
 
 **착수 — 2026-10-11.** 549 실제 앱에서 확인한 결과 마지막 문단의 통화 중 배지·
 원격 초상·이름표 잔류 한 건만 수리한다. 이 선언을 main에 push한 뒤 구현한다.
@@ -54,11 +54,37 @@
 
 ## 완료 증거 슬롯
 
-- 도달 경로: 표적 실행 전.
-- 생산자↔독자: 기존3결과의 종료 경계 ↔ StoryMode 공용 표시 소비자.
-- 바꾸는 상태: 결과index2의 통신 표현만; gameplay/save 변화0.
-- 포기 시 잃는 것: 해당 없음(새 선택이 아닌 확인된 표시 결함 수리).
-- 서사 위치: Ch2/M10 현수 새 길 선택0 결과 마지막 문단.
-- 장면 계층: 기존 사건 tier 불변.
-- 닫는 것: 549에서 확인한 종료 후 배지/초상/이름표 잔류의 source 결함만.
-- 규범 판정: 새 규범0, 위 실행 지시는 이번 오더 일회성. 기존 정본의 통신 문법을 따른다.
+- 도달 경로: `MANUAL_SAVE_HYUNSU_CALL_END_CHECK_OK choices=15 locales=5 disk_new_Story=10 same_source_locale=10 next_event_reset=5 r0/r1=connected r2_all_pages=hidden other_choices=unchanged effects/log/history/registry=once-preserved language=actual-ko-en/internal-ja-zh prepared_W40=1 natural_M10=0 new_OS_process=0` 1개.
+- 생산자↔독자: `content/events/arc_midgame.json:416`의 선택0 결과 source2 ↔
+  `scenes/StoryMode.gd:5336`; 확정 위치 소비자는 `:2641/:3253/:5820/:6568`.
+- 바꾸는 상태: r0/r1 `phone/connected/remote` 유지 → r2 `narration/none/hidden`;
+  15선택 원효과/로그 once·10복원/10locale 이후 serialize/history/Registry exact.
+- 포기 시 잃는 것: 새 선택 0건; 기존 선택1/2의 통화 표현 불변(5언어 전결과 검사).
+- 서사 위치: `arc_hyunsu_new_path`, Ch2/M10, choice0 result source2(5언어3문단).
+- 장면 계층: 기존 사건 tier·CG·배경/음악·원문/번역/저장schema 변경0.
+- 닫는 것: 549의 종료 후 배지/초상/이름표 잔류 **source 한정**. 원549 package REWORK 불변.
+- 규범 판정: 새 규범0; 위 검증·소유 지시는 이 오더 일회성. 정본 승격0.
+
+## 2026-10-11 마감 — source 단위 GO
+
+- 선언 `d05b0dc555dc6399673f86cd5600ea8bf5ce6dda` main push 뒤 착수;
+  검수 source `7b026c902b0b372238aa6b3b7365cd74f5e50493` / tree
+  `ae0ad233983c55d8d0401403dddf99d7cbb0e6fa`. 제품26줄·기존 Manual214줄 추가만.
+- `.git/order550-qa-20261011/`: prepare-01 import0/32.270345s(기존 nested project
+  WARNING1 보존), compile-01 actual0/4.292396s/69, manual-01 actual0/9.587657s/40pages,
+  render-ko-01 actual0/18.248625s, render-en-01 actual0/18.305617s.
+  runtime4건 exact marker 각1/failure null/3stream ERROR·WARNING·ObjectDB0.
+- 기존 ScreenshotQA를 재사용한 KO/EN1280×800 PNG6+상태JSON6 전량 직접 관측:
+  r0/r1 배지·원격 초상·이름표 유지, r2 원문 완문과 함께 셋 모두 숨김.
+  원배경/텍스트/진행 유지, 표본 내 새 잘림/tofu/EN한글0. 합성 source 렌더이며
+  실제 정상 입력/새 issued 앱/M10 재플레이/인간·원어민·물리패드 관측이 아니다.
+- 신규 정적7개 actual0/14stream exact: audit/en_coverage/inventory/player_language/
+  story_consistency/feature_liveness/surface_coherence. EN_HANGUL는 동일 StoryMode
+  바이트에서 앞선 terminal exit0 관측만; 새 private raw/새 검사로 합산0이다.
+- [독립 보고](../agent_reviews/ORDER-550.json): phone_independent_review의5언어 원문·
+  2소스·원실행3stream·PNG6/JSON6·종료 fresh 직접 검수. 보호121/1938 file+5symlink,
+  tracked3336/nonowned3334·player33·Human/기존293판정·seed2/W238·helper5 exact.
+  final seal15110B/SHA256 `08a2cc0c15e3c576d2403aab0d365723830af0a35da912b8003b3f5c53b4dc44`.
+- 강제 page split0/JAzh native 화면0/새앱·OS cold0/자연240주0/전체CI0;
+  옛547/546/544/534/HOLD·strict FAIL·로그 사고·원549 REWORK·본편/출시 HOLD 불변.
+  CLAUDE/STATUS/정본/제품 동작 검사 수정0, metadata-only 마감으로 후보를 유지한다.

@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-550",
+  "decision_scope": "work_unit",
+  "reviewer": "phone_independent_review",
+  "reviewed_at": "2026-10-11",
+  "reviewed_at_utc": "2026-10-11T00:19:34.536069+00:00",
+  "verdict": "GO",
+  "product_verdict": "HOLD",
+  "subject": {
+    "kind": "source",
+    "commit": "7b026c902b0b372238aa6b3b7365cd74f5e50493",
+    "tree": "ae0ad233983c55d8d0401403dddf99d7cbb0e6fa",
+    "manifest_sha256": null
+  },
+  "scope": "arc_hyunsu_new_path 선택0 결과 authored source index2 이후의 통화 배지·원격 초상·이름표 종료 표시. 이 source work_unit만 GO이며 새 패키지/native/본편·출시 판정이 아니다.",
+  "observed_source": {
+    "head": "7b026c902b0b372238aa6b3b7365cd74f5e50493",
+    "tree": "ae0ad233983c55d8d0401403dddf99d7cbb0e6fa",
+    "status": "clean at independent final seal before this report",
+    "origin_main": "d05b0dc555dc6399673f86cd5600ea8bf5ce6dda",
+    "local_ahead": 1,
+    "changed_files": [
+      "scenes/StoryMode.gd",
+      "tools/ManualSaveCheck.gd"
+    ],
+    "diff": "선언 d05b0dc 대비 StoryMode26행·Manual214행 추가. 원문/번역/Registry/story_rules/자산/저장 스키마·효과·라우팅 변경0."
+  },
+  "population_and_method": {
+    "source": "전체 소유 diff2파일과 관련 _show_portrait/badge/nameplate, live authored-source advance, v4 result 위치 복원, 언어 변경·다음 사건 reset 소비 경로 직접 읽기.",
+    "prose": "KO/EN/JA/zh-CN/zh-TW 대상 사건의 선택0~2 결과문 직접 대조. 다섯 언어 모두 선택0 r0/r1은 통화 중이며 r2가 종료 후 서술이다. 번역 품질 전체파일/원어민 검수로 확대하지 않는다.",
+    "runtime": "root 실행 원4 receipt 및12 stream의 실제 bytes/SHA/exit/전체 marker·오류 행 직접 대조. prepare 원3명령과 import 전체 stream 오류 검색, 정적7개14stream 의미 판독. 리뷰어 실행0.",
+    "pixels": "원본 KO/EN1280×800 PNG 각3장, 총6장 모두 view_image로 직접 읽고 대응 상태 JSON6의 source index·완문·표시 bool 대조. prepared ScreenshotQA fixture이지 native pixels/실제 플레이가 아니다.",
+    "preservation": {
+      "tracked": 3336,
+      "tracked_nonowned": 3334,
+      "protected_groups": 121,
+      "protected_file_entries": 1938,
+      "protected_symlink_entries": 5,
+      "historical_decisions": 293,
+      "retail_player_files": 33,
+      "original_helpers": 5,
+      "seeds": 2,
+      "W238_checkpoint": 1,
+      "runtime_runs": 4,
+      "runtime_streams": 12,
+      "static_runs": 7,
+      "static_streams": 14,
+      "direct_PNG": 6,
+      "state_JSON": 6
+    },
+    "digest_method": "기존 snapshot/file_record/source_state로 121그룹·3336 tracked 전수 fresh. 전체 in-memory record canonical SHA와 독립 입구 및 각 root before/after를 exact 비교; 표본 검사 아님."
+  },
+  "findings_and_resolution": [
+    "이전549에서 관측한 종료 후 연결 표시 잔류는 event-wide phone/connected/remote presentation이 결과 마지막 문단에도 유지된 소비 경로와 일치한다. 기존549 REWORK 보고/패키지를 수정하거나 소급 통과시키지 않았다.",
+    "새 helper는 exact 사건·선택0·pending result·authored source>=2만 Registry deep-copy에 narration/빈 state/portrait none/nameplate hidden을 적용한다. r0/r1·다른 선택은 원본 presentation, 다른 사건은 즉시 return이다.",
+    "live 새 authored paragraph, 확정 v4 복원 source, locale 복원 위치가 같은 helper를 읽는다. 언어 refresh의 Registry base 재설정 뒤 force refresh로 숨김이 복원되며, 다음 queued phone 사건은 기존 render reset으로 연결 표시를 되찾는다.",
+    "Manual은 실제 StoryMode choice transaction 15회/5locale, 현재40pages, v4 disk/new Story10·같은 source locale10·next reset5를 검증했다. 효과·event log·dialogue history·Registry 보존 assertion을 읽었다. KO/EN은 실제 selectable locale 경로, JA/CN/TW는 내부 locale 소비자 호출이며 shipping 선택 허용을 넓히지 않는다.",
+    "독립 PNG6에서 r0/r1의 연결 배지·현수 원격 inset·이름표 유지, r2의 완문과 셋 모두 숨김을 확인했다. 이 여섯 표본에서 새 잘림/tofu/EN 한글 누출/빈 캡처를 발견하지 않았다. fixture의 60개월 HUD는 자연 M10 경제/달력 증거가 아니다."
+  ],
+  "actual_results": {
+    "compile": {
+      "exit": 0,
+      "elapsed_seconds": 4.292396,
+      "exact_marker": 1,
+      "scripts": 69
+    },
+    "manual": {
+      "exit": 0,
+      "elapsed_seconds": 9.587657,
+      "exact_marker": 1,
+      "choices": 15,
+      "locales": 5,
+      "live_pages": 40,
+      "disk_new_Story": 10,
+      "same_source_locale": 10,
+      "next_event_reset": 5
+    },
+    "render_KO": {
+      "exit": 0,
+      "elapsed_seconds": 18.248625,
+      "exact_marker": 1,
+      "PNG": 3,
+      "state_JSON": 3
+    },
+    "render_EN": {
+      "exit": 0,
+      "elapsed_seconds": 18.305617,
+      "exact_marker": 1,
+      "PNG": 3,
+      "state_JSON": 3
+    },
+    "runtime_streams": "12개 실제 SHA 일치·stderr0·ERROR/WARNING/ObjectDB/parse/script/leak0. 첫 실패/재실행0.",
+    "prepare": "clone/checkout/import actual0. import 32.270345초; 기존 tools/order103_export 중첩 프로젝트 무시 WARNING1이 stderr/Godot에 거울 기록됨. 경고0 또는 서로 다른2건으로 세지 않았다.",
+    "static": "captured7개 actual0/stderr0. audit/en_coverage/release_inventory/player_language/story_consistency/feature_liveness/surface_coherence. 기존 orphan2·Human open45/done1·제품HOLD 문구 그대로. EnglishHangul 별도 terminal exit0 관측은 원 raw 없음으로 분리하며7개에 합산하지 않는다."
+  },
+  "product_pins": [
+    {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/scenes/StoryMode.gd",
+      "sha256": "bbf3387b3af6007605bde9003a85562a0adb03991780e1a2595adcf3f81afa3d",
+      "size": 304148
+    },
+    {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/tools/ManualSaveCheck.gd",
+      "sha256": "3ed8d1c02719cb86c8c01c60e4c5c71513a5cda71d4aef078c9107c080eb6172",
+      "size": 380100
+    }
+  ],
+  "evidence": {
+    "entry": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order550-qa-20261011/independent-entry-admission.json",
+      "sha256": "b9a319c2f031c4976cad445a1c6b000a8025a72222a22b5b55367cd4b8f07fcb",
+      "size": 3174
+    },
+    "before": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order550-qa-20261011/independent-before.json",
+      "sha256": "21d2b4cd449443aaa8dcbebf300ce61954af56f0f8386b5df7513eaa0b792c28",
+      "size": 53128
+    },
+    "final_preservation": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order550-qa-20261011/independent-final-preservation.json",
+      "size": 15110,
+      "sha256": "08a2cc0c15e3c576d2403aab0d365723830af0a35da912b8003b3f5c53b4dc44"
+    },
+    "prepare": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order550-qa-20261011/prepare-01.json",
+      "sha256": "4d356ffdce06e5dbcb0b24604fa6c7bd66f4725cc5549b025a6ccca79ee8932a",
+      "size": 893992
+    },
+    "compile": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order550-qa-20261011/compile-01.json",
+      "sha256": "2df94b680b88a8c8849335d8f2289700eb3246e8e17d0830ec20bbaf0dd563d0",
+      "size": 892332
+    },
+    "manual": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order550-qa-20261011/manual-01.json",
+      "sha256": "31b217b884ef58231aea25a7e91467090d1b3b0d5d61a198e7115b694fc367bb",
+      "size": 892865
+    },
+    "render_KO": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order550-qa-20261011/render-ko-01.json",
+      "sha256": "83540d659d2496922d74271a83b9fad19a2730e507fce9f683180f9645d123e9",
+      "size": 892524
+    },
+    "render_EN": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order550-qa-20261011/render-en-01.json",
+      "sha256": "4c0ad8c7c9cd762b4065b7140ac03859f86643ed50adda36b440de89618838c8",
+      "size": 892524
+    },
+    "statics": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order550-qa-20261011/statics.json",
+      "sha256": "3ed60dcc7149f71fd8e60692d5ad61ffb082b4377328b7d9d4c6728fab774b40",
+      "size": 6825
+    },
+    "root_visual_notes": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order550-qa-20261011/root-visual-notes.md",
+      "sha256": "646c3aecc2592c94020b27663c572c649173f46d3b8d1ddb0880edd1d35dd219",
+      "size": 1361
+    },
+    "detail": "각 receipt는 argv/env/namespace/exit/time/원 stream SHA를 결속한다. final seal은 원6 PNG+6JSON 전부의 경로/size/SHA와 full preservation canonical digest를 결속한다. root notes는 보조 관측이며 독립 판정은 직접 원자료 대조에 근거한다."
+  },
+  "preservation": {
+    "result": "GO",
+    "protected_groups": 121,
+    "file_entries": 1938,
+    "symlink_entries": 5,
+    "tracked": 3336,
+    "nonowned_tracked": 3334,
+    "canonical_digests": {
+      "protected": "734b82e826d16a6129e04d742b1138af914f5014232ccb67ffefc3ae4583616e",
+      "tracked": "773ea6b11f0b4717d716b1265b1a6a89d9f1fef92685ff937e86243e6dd32bae",
+      "nonowned_tracked": "0f6ecbccfc20c50bde9f9610705730bee98d1890c78509e717b677ca34c858ba",
+      "historical293": "1d74cca43e511fe8a4c98dbf704273a147b649c8fee91c90f7a9cc791432c1e8"
+    },
+    "exact": "입구→prepare/각runtime before/after→독립final exact. Human/293개 원판정 전체/player33/옛 raw·namespace·공개 패키지/프로젝트/원 helper5/seed2/W238/current spec/helper/제품 Git blob 및 private stage clean exact.",
+    "process": "선언된 stage 경로의 Godot 실행 프로세스 부재, 기존 editor61385 생존을 readonly ps로 확인. 종료·재선택·UI 조작0."
+  },
+  "unobserved": [
+    "forced_repagination",
+    "new_issued_app",
+    "native_runtime",
+    "natural_M10_replay",
+    "new_OS_process_cold",
+    "whole_Manual_and_8_12_240",
+    "full_CI",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "audio_listening",
+    "release"
+  ],
+  "limits_and_historical_verdicts": [
+    "현재40pages만 관측했다. 강제 재-pagination/길어진 이름으로 r2를 여러 페이지로 나누는 별도 표본0; source-index 소비자 코드를 읽었지만 이 미관측을 runtime 통과로 꾸미지 않는다.",
+    "v4 disk/new Story는 같은 OS process의 합성 표적이며 새 OS cold0. 독립 보존된10개 v4 실물 사본을 읽었다고 주장하지 않는다.",
+    "새 issued app/build/export/native 입력·549 자연 M10 재플레이0. 이번 source 수리가 과거 issued a0bc 앱에 들어갔다고 주장하지 않는다.",
+    "whole Manual/8·12·240주/전체CI/오디오 청취/native_reader/human_playtest/physical_controller_feel 미관측. 실제 원어민/인간/패드 증거 OPEN 유지.",
+    "549 원 REWORK, 모든 이전 HOLD/strict FAIL/retail log 사고와 과거 판정은 불변이다. 본편·외부 출시 HOLD.",
+    "자동 계약은 도달성/정합 증거이며 재미·깊이·문체 또는 전체 제품 품질의 증거가 아니다."
+  ],
+  "conclusion": "선언된 종료 표시 source 수리와 표적 합성 저장·언어/픽셀 계약 한정 GO. 독립 final fresh 후 root는 허용 close metadata만 변경 가능; CLAUDE/제품/원자료 불변 계획을 확인했다. 새로운 manifest는 없다."
+}

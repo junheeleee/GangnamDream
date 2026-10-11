@@ -3,6 +3,36 @@
 이전 기록은 [548 전 원문](history/WORK_LOG_2026-10-11_pre_order548.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39584B/SHA256 dd0c1275654b1596be7343c2542dba452e2817f0cbf6ca808342f43affb1341b이다.
 
+## 2026-10-11 — 현수 통화 종료 표시 source 수리
+
+- [550](queue_archive/ORDER-550.md)을 선언 d05b0dc/main push 뒤 구현했다.
+  검수 source7b026c902b0b372238aa6b3b7365cd74f5e50493/treeae0ad233983c55d8d0401403dddf99d7cbb0e6fa:
+  StoryMode26줄·기존Manual214줄 추가. 선택0 결과 source2 이후만 통신 표현을 끝내며
+  live/v4 확정 위치/locale 복원이 같은 판정을 읽는다. 앞2문단·선택1/2·다음사건 원형이다.
+- 격리 compile69 actual0/4.292396s, 표적15선택/40pages·disk10·locale10·nextphone5
+  actual0/9.587657s, KO/EN1280×800 렌더 각0/18.248625s·18.305617s.
+  runtime4건 marker각1/failure null·원12stream ERROR/WARNING/ObjectDB0이며
+  원효과/serialize/로그/history/Registry once/exact를 확인했다. import0/32.270345s의
+  기존 중첩프로젝트 WARNING1은 그대로 보존, 종료 누수 추가 탐침0이다.
+- 기존 ScreenshotQA로 생성한 원PNG6/상태JSON6을 root/독립 검수자가 직접 읽었다.
+  첫2문단 배지·원격초상·이름표 유지, 종료문단에서 함께 숨김·완문/진행 유지다.
+  이는 준비된 source 렌더이며 실제 새앱/M10 재플레이·인간·원어민·물리패드 관측0이다.
+  강제 페이지분할 표본0, prepared JAzh 내부복원을 출시 언어 선택으로 바꾸지 않았다.
+- 신규 정적7종 모두exit0/14stream exact. EN한글은 동일 StoryMode의 앞선 terminal
+  exit0 관측만 별도 기록하며 새 raw로 합산하지 않았다. 전체감사/wholeManual/8·12·240주0,
+  새 영구 runner/감사등록/479·481 비용 작업0, 기존 제품 검사 삭제/완화0이다.
+- [독립 보고](agent_reviews/ORDER-550.json)는 source550 한정GO다. 종료 fresh seal
+  15110B/SHA08a2cc0c…에서121그룹/1938file+5symlink·tracked3336/nonowned3334·
+  player33/Human/옛293판정·seed2/W238·helper5·private stage를 exact 대조했다.
+  새 sourceGO만 원장에 추가하며 원549 package REWORK/옛HOLD/strictFAIL/로그 사고 불변이다.
+- gangnamdream-dev에 따라 source/issued앱·합성계약/실제입력을 분리했다.
+  새 규범0/작업 지시 일회성, 본편/출시 HOLD다. CLAUDE는 metadata 허용경로가 아니므로
+  원native REWORK 행을 보존하고, 허용 큐/원장/보고/로그만으로 후보를 유지한다.
+  STATUS 낡음 비차단·현황판 단독 커밋0. 다음은 W45 실제 저장의 미관측 본문 이어보기다.
+- 마감 metadata6개 exit0/failures[]·active81/in_progress79·self-test290, diff-check0이다.
+  비저자가7경로/기존81큐행 순번 외 불변·옛293판정 exact prefix+새294GO·보고SHA/예산을
+  직접 대조했다. dirty 시 후보 HOLD는 미커밋 마감 때문이며 제품 GO로 바꾸지 않는다.
+
 ## 2026-10-11 — 본편 M10 현수 통화 실관측 / 종료 표시 REWORK
 
 - [549](queue_active/ORDER-549.md)은 사용자 월별1커밋 지시에 따라 선언·실제 입력·
