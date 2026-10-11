@@ -3,6 +3,38 @@
 이전 기록은 [548 전 원문](history/WORK_LOG_2026-10-11_pre_order548.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39584B/SHA256 dd0c1275654b1596be7343c2542dba452e2817f0cbf6ca808342f43affb1341b이다.
 
+## 2026-10-11 — 기본 이야기 이름·저장 재개 수리
+
+- [557](queue_archive/ORDER-557.md)은 M15에서 확인한 전체이름 반복을 고쳤다.
+  DECISIONS09-30의 기본 본문 민준/Minjun/ミンジュン/Minjun/Minjun을 pure reader로
+  연결했다. runtime6개와 기존 기대 fixture4개만 변경, 원고/번역/schema/선택효과0.
+  UI 전체이름·공식19 occurrence·custom의 공백/토큰·과거 캐시 대화는 보존한다.
+  혼합 병동문은 독립 literal given/given/full 순서로 검증했다. FirstBill의 기존
+  UI custom trim은 그대로이며 본문 custom은 exact다.
+- source568c20d/tree697574b4. compile69·Phone5언어×alias3/custom3/공식4문맥·
+  frozen ordinary/FirstBill 양방향20·투자손실40 actual0/marker각1/stderr0.
+  최종 v4 disk/new Story prose/result20은 actual0/7.176274s/marker1·오류경고0,
+  stdout=Godot472B/SHA71066c8109cb7e9f8b95e88dbd309c3109453bff0ca00e35c2bfd67175018c30.
+  private557/attempt4/manual-04.json27199B/
+  SHA3de60df4d7c3d61456b8f0950a40d1ed9d6c9b9b4054455632997d5241852690.
+- manual01의 새 fixture 추론 Parse2/load1은 타입 명시로 고쳤다. 02/03의 결과 재개
+  10FAIL은 진단에서 turn/choice_index/action turn의 int→float3잎만 달랐다.
+  이름/결과/효과/과거기록7절 true·JSON equality2 true를 확인하고 기대 로그2만
+  기존 codec 표현으로 맞췄다. 제품·codec 변경/검증 절 완화0, 실패 원자료 보존이다.
+- Locale actual0/marker1 뒤 ObjectDB WARNING+resource1 ERROR는 strict FAIL 그대로다.
+  기존 KNOWN_FAILURES의 비차단 종료 정책에 따라 추적0·CI 예외추가0·원인해결 주장0.
+  import 중첩 project WARNING1, EN coverage/Hangul·demo scope/story localization·
+  JA UI·ZH skeleton·multilingual surface PASS를 분리했다. 전체 번역 INCOMPLETE와
+  기존 JA invalid58/원어민 OPEN·whole strict FAIL은 닫지 않았다.
+- phone_independent_review가 diff·원3stream/receipt·저장 타입 진단을 직접 확인해
+  source 이름 투영만 GO로 판정했다. 모든 격리 실행 preservation_exact=true,
+  원556 W62/공개/player/Human/원장 불변. 원seed SHA0c9bd1f177d939ca19d2f614bc6e166660df8f75f005ceaa26cb28edd44e69bd.
+  gangnamdream-dev에 따라 실제 저장과 분리해 검증했고 에이전트 관찰을 인간 증거로
+  바꾸지 않았다. 새앱/native·새OS cold·399전체화면·청취/원어민/물리패드/출시 미관측.
+  자동 계약은 재미·깊이·문체/인간품질 증거가 아니다. 새규범0/일회성·formal오더보고/
+  원장행0·전체감사/240주0·STATUS단독커밋0. context PASS(boot30646)·queue PASS
+  (active81/in_progress79/max_batches2)·diff-check PASS. 다음은 새 후보→원W62 M16이다.
+
 ## 2026-10-11 — 본편 M15 실제 플레이·기본 본문 이름 REWORK
 
 - [556](queue_archive/ORDER-556.md)은 월별 한 커밋 예외로 선언·관측·독립검수·
