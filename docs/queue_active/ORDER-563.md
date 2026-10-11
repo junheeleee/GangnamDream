@@ -20,6 +20,8 @@ M07~M10 수정화면은 534 한 묶음으로 모으며 월 작업은 534/562 두
 - manual_save_ci: tools/audit.sh의 ManualSave 실행 블록, tools/ManualSaveCheck.gd의
   의도적 손상 fixture 동기 호출만. 기존 pre-autoload bootstrap/fresh HOME/XDG/
   namespace를 연결하고 오류 출력 복원은 await 이전이다. strict gate는 불변이다.
+  156bd9c 원격 후속은 같은 audit.sh의 성공 마커 소비자만 더 수리한다. 큰 원로그에서
+  grep 조기종료가 printf SIGPIPE를 만드는 오탐이며 exit/error/strict 기준은 그대로다.
 - mod_layer_ci: 기존 generate_mod_manifest.py로 assets/mod_asset_manifest.json와
   docs/MODDING.md 생성 부분만 갱신, tools/audit_scope.json의 mod_layer_audit 실제
   입력/자기 경로만 등록한다. 기존 visual257/audio를 보존하고 누락6만 더한다.
@@ -50,3 +52,14 @@ audit.sh 미등록 별도 general-finale 감사의 shipping1708 고정 vs 현행
 HEAD부터 있던 실패로 분리 기록하며 이번 숫자/KNOWN 목록 변경0이다.
 제품5파일과 현재행/WORK_LOG를 함께 올린 뒤 실제 main 전체 CI를 확인한다.
 pending 중 534 실제화면/562 새 월 실행0, 이 구현·검증 기록은 일회성이다.
+
+## 원격 후속 — 마커 소비자 수리·전체 CI 재확인 대기
+
+156bd9c CI38123501580/job114422927096의 whole 저장 성공 마커2·모드 audit/runtime·
+compile69는 실제 출력됐다. 남은 목록 밖 실패1은 audit.sh72의 printf Broken pipe
+뒤 MANUAL_SAVE_EXIT다. 원격 원로그를 private563/ci-after-156bd9c.log로 보존한다.
+같은 오더에서 마커 입력을 끝까지 소비하도록 고쳤다. 원3stream55,092B의 메모리
+2배부터 원소비자141 오탐이 재현됐다. 기존 guard selftest3·저자11case·독립18case와
+root 큰 로그 대조 PASS, exit/late ERROR/strict·teardown 판정은 불변이다.
+엔진/월 플레이 재실행0,
+제품 검사 삭제/KNOWN 추가0이며 새 main 전체 jobs 녹색 전 미완료를 유지한다.

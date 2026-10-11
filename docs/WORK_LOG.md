@@ -31,6 +31,16 @@
   번역/공개GO1·인간OPEN45 불변, 원격 main CI 녹색 확인 전 이 오더는 진행 중이다.
   수정 source5파일과 현재 기록을 함께 커밋하며 STATUS 단독커밋/새 영구도구/비용
   최적화/종료누수 탐침0, M07~M10 수정 화면 검수·본편/출시 HOLD는 별개로 남는다.
+- 후속156bd9c CI38123501580에서 저장 whole marker2·모드 audit/runtime·compile69
+  실제 PASS, 남은 unexpected1은 audit.sh72 printf Broken pipe 뒤 MANUAL_SAVE_EXIT다.
+  grep -q 조기종료가 pipefail에서 성공 로그를 실패로 바꿨다. 기존 marker 검색만
+  입력 끝까지 소비하게 수리했다. 원격 decoded raw는 private563/ci-after-156bd9c.log
+  SHA4221f9f10edbf94bc008fec79cfc76cc1f77dcd616ff7e9098f795a0e096473b로 보존했다.
+  기존55,092B raw의 메모리2배부터 원소비자141이 재현, 저자11/독립18case·기존
+  guard selftest3·root 큰 로그 검증은 PASS다. 실제 오류/exit/strict·teardown 기준과
+  기존 예외는 그대로다. root의 첫 두 일회성 source 어댑터 실패도 private 원결과에
+  보존했고, 판독한 기존 함수 메모리 실행으로 최종 actual0을 확인했다. bash syntax/
+  scope179 PASS, 새 영구검사/KNOWN/엔진/월 실행0이며 전체 원격 CI 재확인 대기다.
 
 ## 2026-10-11 — 계획표의 허위 소득 감소 약속 source 수리
 

@@ -69,7 +69,9 @@ godot_check_passed() {
     echo "  ✗ Godot 종료코드: $exit_status"
     return 1
   fi
-  if ! printf '%s\n' "$output" | grep -Fq "$success_marker"; then
+  # Consume the complete payload: grep -q can close early and make printf fail
+  # with SIGPIPE under pipefail even when the success marker was present.
+  if ! printf '%s\n' "$output" | grep -F "$success_marker" >/dev/null; then
     echo "  ✗ 성공 마커 없음: $success_marker"
     return 1
   fi

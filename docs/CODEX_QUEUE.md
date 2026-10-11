@@ -53,7 +53,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-563 · CI 저장·모드 검사 수리 | [563](queue_active/ORDER-563.md) | whole 저장/compile69/모드 표적 PASS · 원격 CI 대기 · 새 월0 |
+| 1 | [~] | ORDER-563 · CI 저장·모드 검사 수리 | [563](queue_active/ORDER-563.md) | 저장·모드 원격 PASS · 로그 소비자 오탐 수리 · 전체 CI 재확인 대기 · 새 월0 |
 | 2 | [~] | ORDER-534 · M07~M10 수정 화면 묶음 | [534](queue_active/ORDER-534.md) | CI 녹색 전 실행0 · 역사 REWORK 보존 |
 | 3 | [ ] | ORDER-562 · 본편 M17 실제 앱 이어보기 | [562](queue_active/ORDER-562.md) | 새 월 중단 · CI/기존 REWORK 뒤 재개 |
 | 4 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
