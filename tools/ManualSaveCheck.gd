@@ -4495,6 +4495,27 @@ func _check_narrative_name_resume() -> void:
 			_expect(SaveManager.load_game(TEST_SLOT), "%s result load failed" % label)
 			if not await _spawn_loaded_story():
 				return
+			var clauses := {
+				"result_phase": bool(_story.get("_pending_after_result")),
+				"choice_index": int(_story.get("_pending_result_choice_index")) == 0,
+				"result_text": str(_story.call("_fmt", result)) == result.replace("{name}", story_name),
+				"stored_name": GameState.player_name == raw_name,
+				"event_log": GameState.event_log == event_log,
+				"action_log": GameState.action_log == action_log,
+				"mental": is_equal_approx(GameState.mental, mental_after),
+				"dialogue_history": (_story.get("_dialogue_log_entries") as Array) == result_entries,
+				"old_history": (result_entries[0] as Dictionary).get("text") == "Legacy: " + full + " {name}",
+			}
+			if clauses.values().has(false):
+				print("NARRATIVE_NAME_RESUME_DIAGNOSTIC label=%s clauses=%s event_json_equal=%s action_json_equal=%s" % [
+					label, JSON.stringify(clauses),
+					_json_round_trip_dictionary({"log": event_log}) \
+						== _json_round_trip_dictionary({"log": GameState.event_log}),
+					_json_round_trip_dictionary({"log": action_log}) \
+						== _json_round_trip_dictionary({"log": GameState.action_log}),
+				])
+				_report_full_story_value_diff(event_log, GameState.event_log, label, "narrative_event_log")
+				_report_full_story_value_diff(action_log, GameState.action_log, label, "narrative_action_log")
 			_expect(bool(_story.get("_pending_after_result")) \
 				and int(_story.get("_pending_result_choice_index")) == 0 \
 				and str(_story.call("_fmt", result)) == result.replace("{name}", story_name) \
