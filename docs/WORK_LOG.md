@@ -3,6 +3,48 @@
 이전 기록은 [561 전 원문](history/WORK_LOG_2026-10-11_pre_order561.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 40588B/SHA256 340f211da9b794b2cd47c6d033e6dd664b0efcb7e1e55a98f1d80d48c721f709이다.
 
+## 2026-10-12 — 프롤로그 통화 종료 표시 source 수리
+
+- [564](queue_archive/ORDER-564.md)는 실제534 fresh에서 통화가 끝난 뒤 남던
+  전화 badge/아버지 inset/명패를 기존 source 문단 소비자로 수리했다.
+  선택0 source2·선택1 source1부터 숨기며 W40 기존 경계는 유지한다.
+  대사·번역·효과·father affinity·follow_up·저장 schema·registry 변경0이다.
+- 선언4ceac5a6/tree8aa6aca3 뒤 제품1파일·기존fixture1파일만 수정했다.
+  초기 fixture는 선택 dock의 이름표 숨김을 놓쳐 actual1/fail10이었다.
+  choices 단계 기대만 기존 제품 정책에 맞추고 실제 choices 상태도 검증했다.
+  ended 결과·효과/once assertions는 완화0, 초기 원raw/receipt는 보존했다.
+- fresh prologue retry actual0/10.96642s·marker1: 두 선택×5언어, live30,
+  real v4/new Story disk20·같은 source 언어20·준비 phone reset10/read close once10.
+  KO/EN 실제 언어 소비자와 준비 CJK를 구분하며 같은 OS process의 준비 W1이다.
+  기존 Hyunsu actual0/9.255693s·live40/disk10/언어10/reset5, final compile69
+  actual0/4.729011s·각 marker1·3stream 오류/경고0이다. 정상 prologue/새OS
+  재개·실제 pixels/원어민/물리패드/청취 증거로 바꾸지 않았다.
+- Presence actual0/marker1이나 resource4 ERROR/ObjectDB WARNING으로 strictFAIL이다.
+  기존 녹색9c27151 raw에도 같은 resource4가 있다. 불변 등록 guard를 실제raw에
+  재적용한 default0/strict1/teardown_strict1을 보존한다. 최초 함수 입구127도
+  숨기지 않았다. 기존 KNOWN의 종료 문제 추적 중단 지시를 지키며 탐침/예외확대0이다.
+- 등록 정적 표적13종 PASS(EN 한글·언어·서사·음악·현지화·demo·inventory).
+  별도 optional demo strict는 JA21/701·SC/TC150/701의 기존 준비 번역 미완료로
+  actual1/errors3이며 원raw 그대로다. 검사 삭제/통과 기준 완화/번역 완성 주장0이다.
+- mod_layer_ci가 코드·fixture·원3stream을 독립 판독해 source/headless 한정GO,
+  blocking0. report9026B/SHA6d4675b85b55830eb14b349bf6d8afe9253b01d244878a15dc304e5f95f06d96.
+  rework_batch_plan final13347B/
+  SHA941458ffbacdb14368e681e56cf0a1b2de460f0ac8b8ff1cd0672c1c0f30f9f9,
+  fresh13/13·nonowned3347·보호42그룹625항목·초기raw exact다.
+  원자료 `.git/order564-qa-20261012/`; root가 실제 결과/독립 보고를 직접 읽었다.
+- gangnamdream-dev의 source/실제관찰 경계를 지켰다. OS잠금 native/UI0,
+  M17/562 retry2 native0/admission0·새 월0이며 실제 수정화면은 HOLD다.
+  기존 BUILD2026.10.11.3 앱에는 수리가 없고 재발급/실제화면 확인은 별도다.
+  사용자·공개·Human·seed/raw/app/project 보호, 옛 REWORK·인간 OPEN45 불변,
+  새영구도구/전체audit/240주/검증비용 작업/정본승격0·모두 일회성이다.
+- 구현 전 선언4ceac5a6 CI38153926498/jobs114512869799·114512869870 전steps
+  success를 확인했다. 수정 구현 commit의 CI 녹색 주장은 아니며 push 뒤 확인한다.
+  현황 기록은 구현/마감과 함께 묶고 STATUS 단독 후속0이다. 본편/출시 HOLD다.
+- 마감 context PASS(boot30237/docs677/links209), queue PASS(active78/in_progress76/
+  max_batches2), index selftest25/4·Human open45/done1·diff PASS다.
+  최초 CLAUDE18121B/재시도18040B 예산 실패는 현재행을 줄여 고쳤으며 기준 변경0,
+  STATUS stale actual0/advisory 그대로다. 영향 목록69개는 조회만 했고 일괄 실행0이다.
+
 ## 2026-10-11 — main CI 복구·지정 수정 화면 묶음 마감
 
 - [563](queue_archive/ORDER-563.md)은 main9c271512/tree1bf8bf7c의 실제 CI38128215926

@@ -72,6 +72,13 @@ var _hyunsu_call_end_pages := 0
 var _hyunsu_call_end_disk := 0
 var _hyunsu_call_end_languages := 0
 var _hyunsu_call_end_resets := 0
+var _prologue_call_end_only := false
+var _prologue_call_end_checked := false
+var _prologue_call_end_pages := 0
+var _prologue_call_end_disk := 0
+var _prologue_call_end_languages := 0
+var _prologue_call_end_resets := 0
+var _prologue_call_end_reads := 0
 var _narrative_name_only := false
 var _narrative_name_checked := false
 
@@ -85,6 +92,11 @@ func _run() -> void:
 	_narrative_name_only = OS.get_cmdline_user_args().has("--narrative-name-only")
 	if _narrative_name_only:
 		await _check_narrative_name_resume()
+		await _finish()
+		return
+	_prologue_call_end_only = OS.get_cmdline_user_args().has("--prologue-call-end-only")
+	if _prologue_call_end_only:
+		await _check_prologue_call_end()
 		await _finish()
 		return
 	_hyunsu_call_end_only = OS.get_cmdline_user_args().has("--hyunsu-call-end-only")
@@ -155,6 +167,7 @@ func _run() -> void:
 	await _check_choice_and_result_resume()
 	await _check_w207_result_presentation_resume_and_locale()
 	await _check_hyunsu_call_end()
+	await _check_prologue_call_end()
 	await _check_result_choice_receipt_index_guard()
 	await _check_year_scene_result_resume()
 	await _check_father_passed_result_variant_resume()
@@ -5028,6 +5041,303 @@ func _check_hyunsu_call_languages(source: int, applied: Dictionary) -> void:
 		_hyunsu_call_end_languages += 1
 
 
+func _check_prologue_call_end() -> void:
+	# Prepared W1 queue/choices, not natural/native prologue observation. The
+	# real owner closes one read only after the final result; disk is a new
+	# StoryMode in this same process, never a new OS process.
+	await _free_story()
+	var previous_language: String = LocaleManager.language
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var events_before: Dictionary = _full_story_event_snapshot()
+	var queue_before: Array = GameState.pending_story_queue.duplicate(true)
+	var return_before: String = GameState.story_return_scene
+	var replay_before: bool = GameState.story_replay_mode
+	var returning_before: bool = GameState.returning_from_story
+	var meta_before: Dictionary = MetaProgression.data.duplicate(true)
+	var new_before: Dictionary = (MetaProgression.get("_new_this_run") as Dictionary).duplicate(true)
+	var resume_before: Dictionary = {}
+	for key in ["_loaded_resume_context", "_loaded_slot_metadata", "_loaded_save_identity", "_last_load_diagnostic"]:
+		resume_before[key] = (SaveManager.get(key) as Dictionary).duplicate(true)
+	var failures_before: int = _failures.size()
+	var explicit_preview: bool = OS.get_cmdline_user_args().has(FULL_STORY_FLOW.PREVIEW_ARG)
+	for language in ["ko", "en", "ja", "zh-CN", "zh-TW"]:
+		LocaleManager.set_language(language)
+		var registry_event: Dictionary = DataRegistry.find_event("story_prologue_dad").duplicate(true)
+		var registry_presentation: Dictionary = DataRegistry.get_story_presentation("story_prologue_dad").duplicate(true)
+		for choice_index in range(2):
+			await _free_story()
+			GameState.pending_story_queue.clear()
+			GameState.returning_from_story = false
+			GameState.story_replay_mode = false
+			GameState.start_new_game("PrologueCallFixture")
+			# Respect the original full/explicit-preview entry and its pre-autoload
+			# isolation. Do not manufacture a marker or repair the environment late.
+			var initialized: bool = FULL_STORY_FLOW.initialize_fresh_preview() \
+				if explicit_preview else FULL_STORY_FLOW.initialize_fresh_run()
+			var owner_ready: bool = initialized and FULL_STORY_FLOW.valid_session() \
+				and FULL_STORY_FLOW.begin_chain(["story_prologue_dad", "arc_hyunsu_new_path"])
+			_expect(owner_ready,
+				"Prologue call fixture could not initialize its original owner %s/%d" % [language, choice_index])
+			if not owner_ready:
+				break
+			if not await _spawn_pending_story_queue(
+					["story_prologue_dad", "arc_hyunsu_new_path"], "story_prologue_dad"):
+				break
+			_assert_prologue_call_surface(choice_index, 0, "prose %s" % language, false)
+			var mental_before: int = GameState.mental
+			var tint_before: float = GameState.moral_tint
+			var affinity_before: int = GameState.get_cast_affinity("father")
+			var seen_before: int = GameState.events_seen
+			_advance_story_fixture_to_choices()
+			_assert_prologue_call_surface(choice_index, int(_story.call(
+				"_story_source_paragraph_index", int(_story.get("_para_index")))), "choices %s" % language, false, true)
+			_story.call("_on_choice", choice_index)
+			await get_tree().process_frame
+			_story.call("_finish_story_scene_transition")
+			_expect(bool(_story.get("_pending_after_result")) \
+					and int(_story.get("_pending_result_choice_index")) == choice_index \
+					and str(_story.get("_pending_follow_up")) == "story_prologue_goal" \
+					and GameState.mental == clampi(mental_before + [5, -5][choice_index], 0, 100) \
+					and GameState.moral_tint == clampf(tint_before + [2.0, -2.0][choice_index], -100.0, 100.0) \
+					and GameState.get_cast_affinity("father") == clampi(affinity_before + [12, -5][choice_index], -100, 100) \
+					and GameState.events_seen == seen_before + 1 \
+					and _prologue_call_choice_count(choice_index) == 1 \
+					and _prologue_call_dialogue_count("choice", choice_index) == 1 \
+					and _prologue_call_read_entries().is_empty(),
+				"Prologue call changed its original effects/follow-up/receipt %s/%d" % [language, choice_index])
+			var applied: Dictionary = GameState.serialize().duplicate(true)
+			var seen_sources: Array[int] = []
+			var page_guard: int = 0
+			while bool(_story.get("_pending_after_result")) and page_guard < 64:
+				var source: int = int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index"))))
+				var first_page: bool = source not in seen_sources
+				if first_page:
+					seen_sources.append(source)
+				_assert_prologue_call_surface(choice_index, source, "live %s/%d" % [language, page_guard])
+				_prologue_call_end_pages += 1
+				if first_page and source in ([1, 2] if choice_index == 0 else [0, 1]):
+					await _check_prologue_call_disk(choice_index, source, language, applied)
+					if language == "ko":
+						await _check_prologue_call_languages(choice_index, source, applied)
+				var history: Array = (_story.get("_dialogue_log_entries") as Array).duplicate(true)
+				_story.call("_on_choice", choice_index)
+				_expect((_story.get("_dialogue_log_entries") as Array) == history \
+						and _json_round_trip_dictionary(GameState.serialize()) == _json_round_trip_dictionary(applied) \
+						and _prologue_call_choice_count(choice_index) == 1 \
+						and _prologue_call_dialogue_count("choice", choice_index) == 1 \
+						and _prologue_call_read_entries().is_empty(),
+					"Prologue result duplicate/read/restore replayed state or receipts %s/%d/r%d" % [language, choice_index, source])
+				_story.call("_finish_story_scene_transition")
+				_story.call("_finish_direction_beat")
+				_story.call("_complete_typing")
+				_story.call("_on_advance")
+				page_guard += 1
+			_expect(not bool(_story.get("_pending_after_result")) and seen_sources == [0, 1, 2],
+				"Prologue call did not consume every authored result block %s/%d" % [language, choice_index])
+			var reads: Array = _prologue_call_read_entries()
+			_expect(str((_story.get("_current") as Dictionary).get("id", "")) == "story_prologue_goal" \
+					and FULL_STORY_FLOW.valid_session() and reads.size() == 1 \
+					and int((reads[0] as Dictionary).get("choice_index", -1)) == choice_index \
+					and _prologue_call_choice_count(choice_index) == 1 \
+					and _prologue_call_dialogue_count("choice", choice_index) == 1 \
+					and _prologue_call_dialogue_count("result", choice_index) == 3 \
+					and _prologue_call_read_entries("story_prologue_goal").is_empty() \
+					and _json_round_trip_dictionary(_prologue_call_gameplay_state(GameState.serialize())) \
+						== _json_round_trip_dictionary(_prologue_call_gameplay_state(applied)),
+				"Prologue final close changed effects/history or lost its one read/follow-up %s/%d" % [language, choice_index])
+			var closed: Dictionary = GameState.serialize().duplicate(true)
+			_expect(FULL_STORY_FLOW.close_result("story_prologue_dad", choice_index) \
+					and GameState.serialize() == closed and _prologue_call_read_entries() == reads,
+				"Prologue duplicate read close was not state-inert %s/%d" % [language, choice_index])
+			_prologue_call_end_reads += 1
+			# Both authored choices lead to goal, not directly to another phone.
+			# After proving that real ingress, explicitly hand the SAME StoryMode
+			# its remaining prepared phone root without reading/choosing goal.
+			# Normal entry may write run/meta seen-scenes; it is not a pure render.
+			_story.call("_finish_story_scene_transition")
+			_story.call("_load_next_event")
+			_story.call("_finish_story_scene_transition")
+			_expect(str((_story.get("_current") as Dictionary).get("id", "")) == "arc_hyunsu_new_path" \
+					and (_story.get("_current_presentation") as Dictionary) \
+						== DataRegistry.get_story_presentation("arc_hyunsu_new_path") \
+					and not bool(_story.get("_pending_after_result")) \
+					and bool(_story.get("_portrait_remote_inset")) \
+					and (_story.get("_communication_badge") as Control).visible \
+					and (_story.get("_communication_label") as Label).text == LocaleManager.ui("통화 중", "VOICE CALL") \
+					and (_story.get("_portrait_frame") as Control).visible \
+					and (_story.get("_portrait") as TextureRect).texture != null \
+					and (_story.get("_portrait") as TextureRect).texture.resource_path == ImageRegistry.get_portrait("hyunsu") \
+					and (_story.get("_name_panel") as Control).visible \
+					and (_story.get("_name_tag") as Label).text == "%s  ·  %s" % [ \
+						str(ImageRegistry.get_person_info("hyunsu").get("name", "")), LocaleManager.ui("전화 너머", "Voice call")] \
+					and _prologue_call_choice_count(choice_index) == 1 \
+					and _prologue_call_read_entries() == reads \
+					and _prologue_call_read_entries("story_prologue_goal").is_empty() \
+					and _prologue_call_read_entries("arc_hyunsu_new_path").is_empty() \
+					and _json_round_trip_dictionary(_prologue_call_gameplay_state(GameState.serialize())) \
+						== _json_round_trip_dictionary(_prologue_call_gameplay_state(applied)),
+				"Prologue ended-call override leaked into prepared next phone or replayed effects %s/%d" % [language, choice_index])
+			_prologue_call_end_resets += 1
+		_expect(DataRegistry.find_event("story_prologue_dad") == registry_event \
+				and DataRegistry.get_story_presentation("story_prologue_dad") == registry_presentation,
+			"Prologue paragraph presentation mutated Registry %s" % language)
+	await _free_story()
+	LocaleManager.set_language(previous_language)
+	GameState.call("_restore_serialized_snapshot_exact", state_before)
+	GameState.pending_story_queue = queue_before
+	GameState.story_return_scene = return_before
+	GameState.story_replay_mode = replay_before
+	GameState.returning_from_story = returning_before
+	MetaProgression.data = meta_before.duplicate(true)
+	MetaProgression.set("_new_this_run", new_before.duplicate(true))
+	for key in events_before:
+		EventManager.set(key, events_before[key].duplicate(true))
+	for key in resume_before:
+		SaveManager.set(key, resume_before[key].duplicate(true))
+	_expect(GameState.serialize() == state_before and _full_story_event_snapshot() == events_before \
+			and LocaleManager.language == previous_language \
+			and GameState.pending_story_queue == queue_before and GameState.story_return_scene == return_before \
+			and GameState.story_replay_mode == replay_before and GameState.returning_from_story == returning_before \
+			and MetaProgression.data == meta_before and MetaProgression.get("_new_this_run") == new_before,
+		"Prologue call fixture did not restore the prior whole-check memory context")
+	for key in resume_before:
+		_expect(SaveManager.get(key) == resume_before[key], "Prologue fixture changed loaded resume field %s" % key)
+	# Existing _finish/_exit_tree guards restore actual slot/settings/meta bytes.
+	_expect(_prologue_call_end_disk == 20 and _prologue_call_end_languages == 20 \
+			and _prologue_call_end_resets == 10 and _prologue_call_end_reads == 10,
+		"Prologue call fixture did not exercise its complete bounded matrix")
+	_prologue_call_end_checked = _failures.size() == failures_before
+
+
+func _prologue_call_choice_count(choice_index: int) -> int:
+	var count: int = 0
+	for entry in GameState.event_log:
+		if entry is Dictionary and str(entry.get("event_id", "")) == "story_prologue_dad" \
+				and int(entry.get("choice_index", -1)) == choice_index:
+			count += 1
+	return count
+
+
+func _prologue_call_dialogue_count(kind: String, choice_index: int) -> int:
+	var count: int = 0
+	for entry in _story.get("_dialogue_log_entries") as Array:
+		if entry is Dictionary and str(entry.get("event_id", "")) == "story_prologue_dad" \
+				and str(entry.get("kind", "")) == kind and int(entry.get("choice_index", -1)) == choice_index:
+			count += 1
+	return count
+
+
+func _prologue_call_read_entries(event_id: String = "story_prologue_dad") -> Array:
+	var entries: Array = []
+	for turn_reads in (FULL_STORY_FLOW.snapshot().get("read_receipts", {}) as Dictionary).values():
+		for entry in turn_reads as Array:
+			if entry is Dictionary and str(entry.get("event_id", "")) == event_id:
+				entries.append(entry.duplicate(true))
+	return entries
+
+
+func _prologue_call_gameplay_state(state: Dictionary) -> Dictionary:
+	# Only normal entry seen-scenes and the separately asserted read owner may
+	# change after closing the result/entering the prepared next event.
+	var result: Dictionary = state.duplicate(true)
+	(result["flags"] as Dictionary).erase(FULL_STORY_FLOW.STATE_KEY)
+	result.erase("run_seen_scenes_by_year")
+	return result
+
+
+func _assert_prologue_call_surface(
+		choice_index: int, source: int, stage: String, in_result: bool = true, at_choices: bool = false) -> void:
+	var ended: bool = in_result and source >= (2 if choice_index == 0 else 1)
+	# The existing choice dock hides the nameplate even while a call is connected.
+	var expected_name_visible: bool = not ended and not at_choices
+	var expected: Dictionary = DataRegistry.get_story_presentation("story_prologue_dad").duplicate(true)
+	if ended:
+		expected.merge({"channel": "narration", "state": "", "portrait_role": "none", "nameplate_role": "hidden"}, true)
+	var portrait: TextureRect = _story.get("_portrait") as TextureRect
+	var frame: Control = _story.get("_portrait_frame") as Control
+	var badge: Control = _story.get("_communication_badge") as Control
+	var label: Label = _story.get("_communication_label") as Label
+	var name_panel: Control = _story.get("_name_panel") as Control
+	var name_tag: Label = _story.get("_name_tag") as Label
+	var expected_name: String = str(ImageRegistry.get_person_info("father_home").get("name", ""))
+	var expected_path: String = ImageRegistry.get_portrait("father_home")
+	_expect(str((_story.get("_current") as Dictionary).get("id", "")) == "story_prologue_dad" \
+			and bool(_story.get("_pending_after_result")) == in_result \
+			and bool(_story.get("_showing_choices")) == at_choices \
+			and (not at_choices or (not in_result and (_story.get("_choice_box") as Control).visible)) \
+			and (not in_result or int(_story.get("_pending_result_choice_index")) == choice_index) \
+			and int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) == source \
+			and (_story.get("_current_presentation") as Dictionary) == expected \
+			and bool(_story.get("_portrait_remote_inset")) == (not ended) \
+			and badge.visible == (not ended) and frame.visible == (not ended) and name_panel.visible == expected_name_visible \
+			and (label.text.is_empty() if ended else label.text == LocaleManager.ui("통화 중", "VOICE CALL")) \
+			and (portrait.texture == null if ended else portrait.texture != null \
+				and portrait.texture.resource_path == expected_path) \
+			and (ended or name_tag.text == "%s  ·  %s" % [expected_name, LocaleManager.ui("전화 너머", "Voice call")]),
+		"Prologue call surface drifted %s choice=%d source=%d presentation=%s badge=%s portrait=%s name=%s" \
+			% [stage, choice_index, source, str(_story.get("_current_presentation")), badge.visible, frame.visible, name_panel.visible])
+
+
+func _check_prologue_call_disk(choice_index: int, source: int, language: String, applied: Dictionary) -> void:
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var history: Array = (_story.get("_dialogue_log_entries") as Array).duplicate(true)
+	_expect(str(context.get("phase", "")) == "result" \
+			and int(context.get("pending_result_choice_index", -1)) == choice_index \
+			and int(context.get("source_paragraph_index", -1)) == source \
+			and int(context.get("source_paragraph_count", -1)) == 3 \
+			and str(context.get("pending_follow_up", "")) == "story_prologue_goal" \
+			and str(context.get("story_locale", "")) == language,
+		"Prologue result context lost its exact source/follow-up %s/%d/r%d" % [language, choice_index, source])
+	_expect(SaveManager.save_game(TEST_SLOT, context), "Prologue call v4 save failed %s/%d/r%d" % [language, choice_index, source])
+	var disk: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveManager.slot_path(TEST_SLOT)))
+	_expect(disk is Dictionary and int(disk.get("version", -1)) == 4 \
+			and _json_round_trip_dictionary({"resume": context}) == {"resume": disk.get("resume", {})},
+		"Prologue call v4 disk changed its exact resume context %s/%d/r%d" % [language, choice_index, source])
+	await _free_story()
+	_expect(SaveManager.load_game(TEST_SLOT), "Prologue call v4 load failed %s/%d/r%d" % [language, choice_index, source])
+	if not await _spawn_loaded_story():
+		return
+	_assert_prologue_call_surface(choice_index, source, "disk/new Story %s" % language)
+	_expect(_json_round_trip_dictionary(GameState.serialize()) == _json_round_trip_dictionary(applied) \
+			and _json_round_trip_dictionary({"entries": _story.get("_dialogue_log_entries")}) \
+				== _json_round_trip_dictionary({"entries": history}) \
+			and _prologue_call_choice_count(choice_index) == 1 \
+			and _prologue_call_dialogue_count("choice", choice_index) == 1 \
+			and _prologue_call_read_entries().is_empty() and FULL_STORY_FLOW.valid_session(),
+		"Prologue new Story replayed effects/log/history/read %s/%d/r%d" % [language, choice_index, source])
+	_prologue_call_end_disk += 1
+
+
+func _check_prologue_call_languages(choice_index: int, source: int, applied: Dictionary) -> void:
+	var history: Array = (_story.get("_dialogue_log_entries") as Array).duplicate(true)
+	for language in ["en", "ja", "zh-CN", "zh-TW", "ko"]:
+		if language in ["en", "ko"]:
+			_story.call("_set_story_language", language)
+			await get_tree().process_frame
+			await get_tree().process_frame
+			_story.call("_close_audio_settings")
+		else:
+			# Prepared CJK is not retail-selectable. Reuse the localized-result
+			# source consumer, without opening or weakening the shipping gate.
+			LocaleManager.set_language(language)
+			var localized: Dictionary = _story.call("_localized_story_event", "story_prologue_dad")
+			_story.set("_current", localized)
+			EventManager.current_event = localized
+			_story.set("_current_presentation", DataRegistry.get_story_presentation("story_prologue_dad"))
+			_story.call("_restore_localized_story_text", _story.call("_localized_result_page_data", choice_index), \
+				source, 0.0, true, 0.0, false, false)
+			_story.call("_refresh_story_speaker_language")
+		_assert_prologue_call_surface(choice_index, source, "same-source locale %s" % language)
+		_expect(LocaleManager.language == language \
+				and _json_round_trip_dictionary(GameState.serialize()) == _json_round_trip_dictionary(applied) \
+				and (_story.get("_dialogue_log_entries") as Array) == history \
+				and _prologue_call_choice_count(choice_index) == 1 \
+				and _prologue_call_dialogue_count("choice", choice_index) == 1 \
+				and _prologue_call_read_entries().is_empty(),
+			"Prologue same-source locale changed effects/log/history/read %s/%d/r%d" % [language, choice_index, source])
+		_prologue_call_end_languages += 1
+
+
 func _check_result_choice_receipt_index_guard() -> void:
 	for receipt_case_value in [
 		"wrong_index", "wrong_index_fatal", "missing_event_fatal",
@@ -7565,6 +7875,12 @@ func _finish() -> void:
 		if _narrative_name_checked:
 			print("MANUAL_SAVE_NARRATIVE_NAME_CHECK_OK locales=5 cases=default/custom prose/result=v4-disk/new-Story20 name=stored-full/custom nameplate=full result/effects/log=once old-history=literal-preserved prepared=1 new_OS_process=0")
 		if _narrative_name_only:
+			get_tree().quit(0)
+			return
+		if _prologue_call_end_checked:
+			print("MANUAL_SAVE_PROLOGUE_CALL_END_DETAIL live_pages=%d disk_new_Story=%d same_source_locale=%d prepared_next_phone_reset=%d read_close_once=%d" % [_prologue_call_end_pages, _prologue_call_end_disk, _prologue_call_end_languages, _prologue_call_end_resets, _prologue_call_end_reads])
+			print("MANUAL_SAVE_PROLOGUE_CALL_END_CHECK_OK choices=10 locales=5 disk_new_Story=20 same_source_locale=20 prepared_next_phone_reset=10 read_close_once=10 choice0_r0/r1=connected choice0_r2_all_pages=hidden choice1_r0=connected choice1_r1/r2_all_pages=hidden effects/father/choice/read/history/registry=once-preserved language=actual-ko-en/internal-ja-zh authored_followup=goal prepared_W1=1 natural_prologue=0 new_OS_process=0")
+		if _prologue_call_end_only:
 			get_tree().quit(0)
 			return
 		if _hyunsu_call_end_only and _hyunsu_call_end_checked:

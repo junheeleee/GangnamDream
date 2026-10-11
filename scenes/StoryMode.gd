@@ -5335,14 +5335,23 @@ func _configure_portrait_presentation() -> void:
 
 func _refresh_story_paragraph_presentation(
 		source_paragraph_index: int, force_refresh: bool = false) -> void:
-	if str(_current.get("id", "")) != "arc_hyunsu_new_path":
-		return
-	# The final authored block follows the call; screen pagination cannot move
-	# that boundary, and neither a cold result nor a locale refresh owns a new call.
-	var presentation := DataRegistry.get_story_presentation(
-		"arc_hyunsu_new_path").duplicate(true)
-	if _pending_after_result and _pending_result_choice_index == 0 \
-			and source_paragraph_index >= 2:
+	var event_id := str(_current.get("id", ""))
+	var call_end_source_index := -1
+	match event_id:
+		"arc_hyunsu_new_path":
+			if _pending_result_choice_index == 0:
+				call_end_source_index = 2
+		"story_prologue_dad":
+			match _pending_result_choice_index:
+				0: call_end_source_index = 2
+				1: call_end_source_index = 1
+		_:
+			return
+	# Authored result blocks own the hang-up, not screen pagination or translated
+	# words. A cold result or locale refresh must restore that same call boundary.
+	var presentation := DataRegistry.get_story_presentation(event_id).duplicate(true)
+	if _pending_after_result and call_end_source_index >= 0 \
+			and source_paragraph_index >= call_end_source_index:
 		presentation["channel"] = "narration"
 		presentation["state"] = ""
 		presentation["portrait_role"] = "none"
