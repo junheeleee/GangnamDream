@@ -1,6 +1,21 @@
 # ORDER-563 — CI 저장·모드 검사 실행 계약 수리
 
-#### [~] ORDER-563 [P0·CI 회귀] 착수 — 2026-10-11
+#### [x] ORDER-563 [P0·CI 회귀] 완료 — 2026-10-11
+
+## 최종 — 실제 main 전체 CI 녹색
+
+main9c27151220445092963d0c9c3a4f3b438b8a36c8/tree1bf8bf7c476ab52f1e63a2c3c9857d909eeeab95의
+CI38128215926이 2026-10-11T10:58:00Z에 success로 끝났다. jobs114436907210/
+114436907304의 모든 steps success, 목록 밖 실패0·KNOWN0이다. MANUAL_SAVE whole
+마커2는 stdout/Godot 중복이며 재실행2회가 아니다. 모드 audit/runtime와 compile69,
+기존 KO/EN V2·Sim/Smoke도 PASS다. 내부 자동검사를 native·물리패드·출시 GO로 쓰지 않는다.
+원로그727983B/SHAec3e9c575aded1e895a8fa546aa412f3ccb0d8b677c3e40c8195fa58256c66b9는
+private563/ci-green-9c27151.log에 봉인했다. 저장 segment 예상 밖 오류/Broken pipe0,
+전체 로그의 기존 비strict resource ERROR4행은 보존하며 전체 오류0 주장이 아니다.
+비저자와 root가 실제 원로그·commit/tree/jobs·receipt를 직접 읽었다.
+미등록 general-finale FAIL1·과거 실패·KNOWN 목록·Human/공개/본편 HOLD는 불변이다.
+새 제품 규칙0·이 오더의 실행 지시는 일회성이다. 다음 metadata commit의 CI 결과는
+이 녹색으로 대신하지 않는다. 534 수정화면 묶음과 함께 한 마감 commit으로 정리한다.
 
 최신 사용자 지시: MANUAL_SAVE/MOD_LAYER_AUDIT가 녹색이 되기 전 새 월 플레이0.
 M07~M10 수정화면은 534 한 묶음으로 모으며 월 작업은 534/562 두 개만 둔다.

@@ -3,9 +3,51 @@
 이전 기록은 [561 전 원문](history/WORK_LOG_2026-10-11_pre_order561.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 40588B/SHA256 340f211da9b794b2cd47c6d033e6dd664b0efcb7e1e55a98f1d80d48c721f709이다.
 
+## 2026-10-11 — main CI 복구·지정 수정 화면 묶음 마감
+
+- [563](queue_archive/ORDER-563.md)은 main9c271512/tree1bf8bf7c의 실제 CI38128215926
+  jobs114436907210/114436907304 전steps success로 닫았다. KNOWN0·목록 밖 실패0,
+  저장 whole/모드 audit·runtime/compile69/기존 V2·Sim·Smoke PASS다. raw727983B/
+  SHAec3e9c575aded1e895a8fa546aa412f3ccb0d8b677c3e40c8195fa58256c66b9 봉인,
+  root/비저자 직접 판독이다. 저장 segment ERROR/Brokenpipe0이나 전체의 기존
+  비strict resource ERROR4행은 남는다. 미등록 general-finale FAIL1도 그대로다.
+  내부 자동검사는 실제 앱·물리패드·본편/출시 GO가 아니며 KNOWN 확대/검사 삭제0.
+- [534](queue_archive/ORDER-534.md)는 최신 지정 수정화면 묶음만 한정 마감했다.
+  기존 발급a4bbe275/treea7aa2f1b BUILD2026.10.11.3 앱을 재사용했다. 새 main의
+  모드목록 수정이 이 옛 앱에 들어갔다고 주장하지 않는다. 정상 KO Continue W40
+  선택0·결과3문단을 읽어 통화 종료 서술에서 badge/초상/명패 모두 숨김을 확인했다.
+  마지막 결과를 닫기 전 CmdQ, actual0/154.981843s·기존build-id WARNING1 보존,
+  독립 final2c5daf77…·26checks·32그룹524entries/tracked3353 exact다.
+- 별도 무저장 정상 새 이야기에서 W13 집주인의 고정 일자리 질문과 실제 W15
+  첫만남의 날짜 중립 문장을 완독했다. W14는 실제 첫 야간근무였으므로 길잡이는
+  그 시도에서 미관측으로 남겼다. actual0/3713.477715s·3stream 오류/경고/누수0,
+  독립 final0a67d9fc…·25checks·34그룹542entries/tracked3353 exact다.
+- 실제 fresh autosave66127B/1169926e…1개만 새 격리에 복사해 정상 meet0/measure0/
+  answer0을 완독·닫고 W16 길잡이 첫 문단 `그 뒤 어느 저녁,`을 확인했다.
+  다음 문단/선택/결과·W17 입력0, Return32/CmdQ1·종료 뒤 재선택0이다.
+  actual0/703.3303s·13checks·3stream 오류/경고/누수0; save72649B/815dfcd8…는
+  W15 완료·3선택 once·routine15 once→W16입구를 증명할 뿐 guide body0 영속완료는 아니다.
+  guide native-result124379B/ee32a11f…와 독립 final13892B/
+  SHA21c477adbad883a7b11aa40783ad99c53310531ec52a44047342872fda372d79 봉인,
+  fresh28/28·36그룹561entries/tracked3353·원W40/fresh/runtime/app/seed exact다.
+- 비저자 rework_batch_plan의 `GO_LATEST_DECLARED_FIXED_SCREEN_BATCH_ONLY`를 root가
+  직접 읽은 뒤에만 기록 동결을 풀었다. 기존 M07 cold·M08 시도3 무거래/cold·W35
+  547 실제 KO 관측은 반복하지 않았다. 과거534/544/546/549 whole REWORK/HOLD·
+  사고/strictFAIL·보고/Human/공개 GO1·인간 OPEN45는 불변이다. W25/W26·혼합화자·
+  주방/복도·첫 혼자 방문 미확정 메모와 새 **프롤로그 통화 종료 UI 잔존**은 OPEN이다.
+- gangnamdream-dev에 따라 root pixels/독립 파일 검수/사람 증거를 구분했다.
+  사용자·공개 저장/설정·project.godot·제품 원문/번역·원앱/원raw/helper 변경0,
+  formal 판정원장행/새영구검사/전체audit/240주/종료누수 탐침0이다. 새규범0·일회성.
+  범위·관측·독립검수·마감을 한 commit에 묶으며 STATUS 단독 후속0이다.
+  마감 commit의 CI 녹색 뒤 원559 W68에서 M17을 잇는다. M17 신규 실행0,
+  CJK5화면/다른경로/WinLinux/청취/원어민/물리패드/전본편·출시 HOLD는 남는다.
+- 마감 문서 표적은 context PASS(boot30260/docs676/links209), queue PASS(active78/
+  in_progress75), queue-index selftest25/4·Human 원장(open45/done1)·diff PASS다.
+  STATUS stale은 기존 advisory actual0이며 현황판만의 갱신/후속 commit0이다.
+
 ## 2026-10-11 — 새 월 중단·저장/모드 CI 회귀 수리
 
-- [563](queue_active/ORDER-563.md)은 main53a33d7 CI38119116995의 실제 목록 밖 실패
+- [563](queue_archive/ORDER-563.md)은 main53a33d7 CI38119116995의 실제 목록 밖 실패
   MANUAL_SAVE_EXIT/MOD_LAYER_AUDIT_EXIT를 먼저 수리한다. 원 job114409993458 로그는
   private563/ci-before.log로 보존했다. 새 월0, 534 M07~M10 수정 화면 한 묶음과
   보류562 두 월 작업만 두며 544/546/549 대기 이동은 과거 REWORK 완료가 아니다.

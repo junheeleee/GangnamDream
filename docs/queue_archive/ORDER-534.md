@@ -1,8 +1,95 @@
 # ORDER-534 — 본편 M07 실제 앱 검수·정상 선행
 
-#### [~] ORDER-534 [P1·수정화면 묶음] M07~M10 열린 REWORK 재검수 — CI 녹색 전 실행0
+#### [x] ORDER-534 [P1·수정화면 묶음] 최신 지정 수정화면 한정 완료 — 2026-10-11
+
+## 최종 — 최신 지정 수정화면 묶음만 마감
+
+9c271512의 전체 CI 녹색을 확인한 뒤, 기존 발급a4bbe275/treea7aa2f1b/
+BUILD2026.10.11.3 앱을 재사용했다. 이 앱에 새 main 모드목록 수리가 포함됐다는
+주장은 하지 않는다. 아래 실제 root pixels와 비저자 파일/소비자 대조를 분리한다.
+
+- W40 authentic546 seed1개를 새 격리에 byteexact 복사해 KO Continue→선택0을
+  정상 완독했다. 결과0/1은 통화 UI 유지, 통화 종료 서술인 결과2는 전화 badge·
+  inset초상·명패 모두 사라졌다. 마지막 결과를 닫기 전 CmdQ, W41/선택 영속 증명0.
+  actual0/154.981843s·3stream 오류/누수0·기존 build-id WARNING1 보존이다.
+  private W40 native-result115481B/SHAfce3154772c646c7693e77d503a28ca3f0f76b41de660f8fe5cc275daa097037,
+  독립 final7024B/SHA2c5daf77a3dbfba7c7123aa64cc60914344e14d77b81caf45bdafe12e92b578a,
+  fresh26check·32그룹524entries/tracked3353 exact다.
+- 별도 무저장 fresh 정상 새 이야기에서 W13 집주인의 `고정으로 다니는 일자리는
+  아직 없지?`가 선행 일용근로를 부정하지 않음을 읽었다. 실제 선택0→W14 첫 야간
+  근무 뒤 W15 첫만남은 `비가 막 그친 신촌 골목`으로 3월 끝 단정이 없다.
+  W15 answer0 마지막 결과를 닫기 전에 정상 종료, 이 시도 길잡이는 미관측이다.
+  actual0/3713.477715s·3stream 오류/경고/누수0, 독립 final8808B/
+  SHA0a67d9fc7cb065e751558125edaaf870723237f5738c368754b3e3bbf316ac36,
+  fresh25check·34그룹542entries/tracked3353 exact다. 옛 결과는 덮지 않는다.
+- 그 fresh가 실제 만든 W15 입구 autosave66127B/1169926e…만 별도 격리에 복사했다.
+  정상 Continue→meet0/measure0/answer0을 완독·닫아 실제 W16 `종잣돈을 굴려라`
+  첫 문단 `그 뒤 어느 저녁, 민준은 신촌 부동산 사무실을 다시 찾았다. 임상철 씨가
+  차를 내밀었다.`를 fully typed 상태로 읽었다. 다음 문단·선택·결과/W17 입력0,
+  Return32/CmdQ1이며 CmdQ가 마지막 UI호출이다. actual0/703.3303s·13checks true,
+  원stdout/실제Godot/사본 각154B/6649181a…·stderr0·오류/경고/누수0이다.
+  final save72649B/815dfcd8…는 W15 실제3선택seq26/27/28 각1·routine15 once·
+  last_completed15→turn16/resume{}를 증명한다. guide body0 영속완료/cold증명은 아니다.
+  native-result124379B/SHAee32a11f5fd3d6a5a9da71af02f2c57ed08e341796421165f088230eaa807761,
+  root observations2638B/SHAb48158ee4168f5aaaa74e345e80ada2d93eca20c9c8594437a6d5b3d1e5ea78e,
+  독립 final13892B/SHA21c477adbad883a7b11aa40783ad99c53310531ec52a44047342872fda372d79다.
+  fresh28/28·36그룹561entries/tracked3353·app7·원seed·옛W40/fresh seals exact다.
+
+비저자 rework_batch_plan은 `GO_LATEST_DECLARED_FIXED_SCREEN_BATCH_ONLY`로 이 최신
+묶음의 metadata 마감만 허용했다. 기존 M07/slot1 cold·M08 시도3 무거래/cold·W35
+547 KO그림 관측은 위 final의 기존 증거 연결만 쓰며 이유 없는 재검사0이다.
+과거534/544/546/549 전체 REWORK/HOLD·사고·strictFAIL·보고/manifest는 그대로다.
+W25/W26/common-kitchen·mixed-speaker·첫 혼자 방문의 미확정 메모는 OPEN이다.
+새 fresh 관측인 **프롤로그 전화 종료 서술의 전화 badge/초상/명패 잔존**도 별도 OPEN,
+W40 수리로 고쳐졌다고 쓰지 않는다. 다른 언어/분기·독립 pixels·Human/원어민·
+청취·물리패드·전본편/출시 GO가 아니다. 562 M17은 아직 시작하지 않았다.
+root가 독립 final pin을 읽은 뒤에만 기록 동결을 해제했다. 사용자/공개 저장·과거
+인간 판정·project.godot·원앱/raw/runtime/helper는 불변이다. 새 정본 규칙0/실행 지시
+일회성, 기존 skill 종료 뒤 UI 재선택 방지 승격은 유지한다. 이번 범위 기록·실제관측·
+독립검수·마감을 한 commit으로 묶으며 STATUS-only 후속은 만들지 않는다.
 
 ## 2026-10-11 최신 사용자 지시 — 기존 수정 화면 한 묶음
+
+실행 전 봉인: main9c27151220445092963d0c9c3a4f3b438b8a36c8/tree
+1bf8bf7c476ab52f1e63a2c3c9857d909eeeab95의 CI38128215926 jobs2 success를
+원격 원로그와 비저자가 확인했다. KNOWN0·기존 비strict 종료resource4행은 보존한다.
+이번 native부터 최종 fresh 대조까지 이 사양만 dirty로 두고 source/docs/helper를 동결한다.
+발급562 a4bbe275/treea7aa2f1b 앱7/PCKb9e9931f…를 그대로 재사용한다.
+새 main의 모드 생성목록 수리를 이 옛 앱에 포함됐다고 주장하지 않는다.
+먼저 authentic546 W40 원seed147720B/SHA77f007b3f5964d908d52873aa61ee687f158c27c90c2833e176902bc6c2a9e8f를
+새 HOME/3XDG에 byteexact1개만 복사, 정상 KO Continue→현수의 새 길 선택0→결과3문단을
+읽고 마지막 결과를 닫기 전에 CmdQ로 끝낸다. W41 새 월 입력0이다.
+그 뒤 별도 fresh 무저장 입구에서 정상 새 이야기→W13 집주인/W14 첫만남 날짜/
+W15 길잡이까지 개별 완독한다. AUTO/skip/주차·flag 편집·함수진입0이다.
+private order534-rework-w40-20261011와 order534-rework-fresh-20261011의 최소
+기존562 준비/실행 어댑터만 쓴다. 원helper/원seed·옛raw/app/공개·사용자 파일을 보존하고
+비저자가 새 roster/admission/final을 직접 확인한다. 앱 종료 뒤 재선택0이다.
+준비/실행/판정은 이 묶음 결과와 한 커밋, 실패나 미관측이면 REWORK를 닫지 않는다.
+
+### 실제 선행 결과와 남은 길잡이 재개 경계 — 실행 전 추가 봉인
+
+W40 결과 마지막 통화 UI 제거와 fresh W13 집주인·W15 첫만남 날짜는 root가
+실제로 완독했다. fresh에서 야간 일을 수락해 W14는 첫 야간 근무 주였으므로,
+길잡이는 아직 미관측이다. 첫만남 answer0 최종 결과에서 닫기 전 정상 종료했고
+W16 입력0이다. native actual0/3713.477715s·3stream 오류/경고/누수0,
+독립 final8808B/SHA0a67d9fc7cb065e751558125edaaf870723237f5738c368754b3e3bbf316ac36의
+25check·34보호그룹542entries·tracked3353 exact 뒤 이번 동결을 해제했다.
+새 관측은 prologue 전화 종료 서술에도 전화 UI가 남는 별도 OPEN이며 여기서 수리하지 않는다.
+
+남은 원래 길잡이 날짜 표면만 같은 묶음에서 확인한다. 별도 private
+order534-rework-guide-20261011에 기존 W40 준비/실행 어댑터를 최소 재사용한다.
+방금 정상 fresh가 만든 실제 W15 입구 autosave66127B/
+SHA1169926edf0a3f3ee29d720f2b22bd22978b6797da36c170189172cc2e3a4d74를
+새 HOME/3XDG에 1개 byteexact 복사한다. 이 seed는 resume{}·last_completed14이며
+첫만남 최종 선택을 영속한 저장이라고 부르지 않는다. settings/meta/다른 저장 복사0이다.
+새 보호36그룹은 원32+W40 raw/runtime+fresh raw/runtime이며 원자료·final은 불변이다.
+정상 KO Continue→W15 meet0→measure0→answer0의 필요한 선행만 다시 완독한다.
+그 결과를 정상 닫은 뒤 W16 `종잣돈을 굴려라` 첫 본문 `그 뒤 어느 저녁,`을
+완독하고 **다음 본문·선택·결과·W17로 넘기지 않은 채 CmdQ**한다. 예상 밖 장면이면
+거기서 중단하고 주차/flag/저장을 맞추지 않는다. AUTO/skip/상태주입0이다.
+현재9c/발급a4 앱 identity·무인자 실행·strict/보존 비교를 유지하고 새 admission/final로
+판정한다. 이번 추가 입구부터 새 독립 final까지 source/docs/helper를 다시 동결한다.
+이 경계는 새 월 오더가 아니라 원래 미관측 수정문구 하나의 필요한 재진입이다.
 
 기존 544/546/549는 [대기544](../queue_backlog/ORDER-544.md),
 [대기546](../queue_backlog/ORDER-546.md), [대기549](../queue_backlog/ORDER-549.md)로
