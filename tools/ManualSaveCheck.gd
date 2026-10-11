@@ -4484,8 +4484,9 @@ func _check_narrative_name_resume() -> void:
 				and GameState.event_log.size() == count_before + 1 \
 				and is_equal_approx(GameState.mental, mental_before - 5.0),
 				"%s actual result/name/effect was not applied once" % label)
-			var event_log := GameState.event_log.duplicate(true)
-			var action_log := GameState.action_log.duplicate(true)
+			# Compare loaded logs directly against their existing JSON save representation.
+			var event_log: Array = _json_round_trip_dictionary({"log": GameState.event_log})["log"]
+			var action_log: Array = _json_round_trip_dictionary({"log": GameState.action_log})["log"]
 			context = _story.call("build_save_resume_context")
 			var result_entries: Array = (context.get("dialogue_log", {}) as Dictionary).get("entries", [])
 			result_entries = result_entries.duplicate(true)
