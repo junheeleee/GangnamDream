@@ -1,6 +1,6 @@
 # ORDER-554 — M13 투자체험 사실 수리
 
-#### [~] ORDER-554 [P1·실관측 결함] 하지 않은 투자를 과거로 만들지 않는다
+#### [x] ORDER-554 [P1·실관측 결함] 하지 않은 투자를 과거로 만들지 않는다
 
 **착수 — 2026-10-11.**553 actual W50에서 확인한 무거래 경로의 직접 운용 단정만
 고친다. 선언 main commit/push 뒤 구현한다.553 원관측/package REWORK는 보존한다.
@@ -59,4 +59,22 @@
 - 포기 시 잃는 것: 기존선택3개의 결과/효과 그대로, 새분기0.
 - 서사 위치: Chapter2 M13, 첫해 장부 뒤 같은 authored queue.
 - 장면 계층: 기존 authored reflection, 신규tier/scene/자산0.
-- 닫는 것: PENDING 본문사실 source수리. 원553packageREWORK/제품·출시HOLD 불변.
+- 닫는 것: 본문사실5잎 source한정GO. 원553packageREWORK/제품·출시HOLD 불변.
+
+## 2026-10-11 완료 — source 수리만
+
+- 선언79ecbea/main push 뒤5언어의 두 번째 문단만 공책 위 가정 계산으로 고쳤다.
+  나머지3문단·4문단/6줄바꿈/{name}×2·memory/선택/결과/효과/flags/라우팅은 exact다.
+- 공식 export/check/import9회 actual0/stderr0. accepted3와correction310/current checksum
+  만 교정하고 old309batch 원문prefix·수용13159/14696/14696·역사census를 보존했다.
+  source_manifest617c1598ca7897c1428c95cafd980f18ea816d35b3af7a6272dd77aff88d8d6c.
+- 기존표적11검사 actual0/failures[]·stderr11개0. private554/static-results.json9782B/
+  SHAb7850c68211db3df38f84d095928d1b065626206363af711a6ca32b2036ab6c4.
+  전체INCOMPLETE/nativeOPEN·옛JA invalid58 exact·변경3잎 invalid0이다.
+- 독립 private554/independent-final-review.json19034B/
+  SHAbb6d8fe25e10805db3ee15f727a320200e9fd597c71e7499a84c5e207e6744bc는5잎·공식9/
+  정적11의40원stream과비소유3330·12그룹112파일 fresh exact를 결속한다.
+  release심의지문·Human295/player33/public9·원seed/raw 불변, 옛133/ZIP상속이다.
+- 변경5잎/원장3교정만 sourceGO, 실제새앱/화면/원어민/인간/물리패드는 미관측이다.
+  formal보고/판정원장행0. 원553packageREWORK·옛HOLD/strictFAIL은 소급0이다.
+  다음 월은 원553 W53저장부터 M14를 잇는다. 새규범0·실행지시일회성이다.

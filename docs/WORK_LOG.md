@@ -3,6 +3,34 @@
 이전 기록은 [548 전 원문](history/WORK_LOG_2026-10-11_pre_order548.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39584B/SHA256 dd0c1275654b1596be7343c2542dba452e2817f0cbf6ca808342f43affb1341b이다.
 
+## 2026-10-11 — 하지 않은 투자를 회상하던 M13 본문 수리
+
+- [554](queue_archive/ORDER-554.md)는 선언79ecbea/main push 뒤553에서 실제 확인한
+  직접 투자체험 단정만 KO/EN/JA/zh-CN/zh-TW의 공책 위 가정 계산으로 바꿨다.
+  같은수익률·100만/1,000만원 비교만 남겨 거래자/무거래자 모두 참인 본문이 된다.
+  정확5잎의 paragraph2만 변경, 나머지3문단·4문단/6줄바꿈·{name}×2·memory·
+  선택/결과/효과/flags/라우팅·저장/공개demo는 byteexact다. 이자과거 문구는 비소유다.
+- root KO/EN·phone_cn_author KO직접3언어, root응답3전량 독해/수용승인 뒤 공식
+  export/check/import9회 actual0/stderr0. import JA3.829783s/CN3.852932s/TW3.920061s.
+  portable accepted3/current-source/checksum·correction310만 추가했고 old309prefix·
+  census/history·수용13159/14696/14696은 그대로다. 새번역coverage0이다.
+- 표적11검사 actual0/failures[]·원22stream stderr0. private554/static-results.json
+  9782B/SHAb7850c68211db3df38f84d095928d1b065626206363af711a6ca32b2036ab6c4.
+  전체INCOMPLETE/nativeOPEN·기존JA invalid58 exact·변경3잎 invalid0이다.
+  release심의 영향축0/원지문불변. 자동계약은 재미·깊이·문체/인간품질 증거가 아니다.
+- 비저자2명은5문안/소비자를 직접읽고 source한정GO. private554 최종검수19034B/
+  SHAbb6d8fe25e10805db3ee15f727a320200e9fd597c71e7499a84c5e207e6744bc는공식9/
+  정적11의40stream·비소유3330·핵심12그룹112파일 fresh exact를 결속한다.
+  baseline901461B/SHA694f0af40d886bde209eb1a1afc8ecb90ec7de7f7b8e3fa949d46d7eb1c32f91.
+  Human295/player33/public9·원551/553seed/raw/runtime 불변, 옛133/ZIP는552seal상속이다.
+- gangnamdream-dev에 따라 새source/원package를 구분했다. source6파일은 구현커밋에
+  함께 결속하며 formal오더보고/원장행0·새규범0/일회성이다. 새앱/build/UI0,
+  원553packageREWORK·옛HOLD/strictFAIL/사고·공개GO1/인간OPEN45·본편/출시HOLD 불변.
+  STATUS비차단/단독커밋0·종료누수탐침/479·481/전체감사/8·12·240주0이다.
+  다음 실제 월은 원553 W53부터 M14이며 이전 수리의 새앱 화면 검수는 별개로 남는다.
+- 마감 이동 뒤 context0/0.14452s·queue0/0.090991s(active81/in_progress79),
+  원4stream stderr0을 private554/metadata-close.json에 남겼다. 제품검사 반복0이다.
+
 ## 2026-10-11 — 본편 M13 실제 진행 / 무거래 투자체험 산문 REWORK
 
 - [553](queue_archive/ORDER-553.md)은 월별 한 커밋 예외로 actual551 W49 한 저장만

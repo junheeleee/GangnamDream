@@ -13176,6 +13176,81 @@
         "zh-CN": "ed65fa9843aeab2488730c2bc62a7275f167f90c1f317595c7f61057b5845c0d",
         "zh-TW": "410ddb0419c0638f3c651c086ff480d922b0fbf694965c38996dab90372390c2"
       }
+    },
+    {
+      "order": "ORDER-554",
+      "group": "events_correction",
+      "roots": [
+        "arc_34_money_attracts_money"
+      ],
+      "source_leaves": 1,
+      "prior_acceptance": "existing",
+      "before_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_34_money_attracts_money:/description": "331e8673fe34961140272b114ea69e7c5fc197b8e5f06e8eddbf79893171ddae"
+        },
+        "zh-CN": {
+          "events:arc_34_money_attracts_money:/description": "1ba5be29ea4b0bc1a57532afab7e45657e03f1817d9f4c2ea42dfa87135392dd"
+        },
+        "zh-TW": {
+          "events:arc_34_money_attracts_money:/description": "9164766b7d1578402a7f6a7527b8145474e6338adb8a5ddce2cd8eaef05d68fe"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "source_review": "Korean-direct correction of one existing description per locale. Only paragraph 2 changes: hypothetical equal-return arithmetic written in a notebook replaces unsupported personal investment experience on the observed no-trade path. Both traded and untraded paths may read this paper calculation. Preserve the other three paragraphs, four-paragraph structure, placeholders, amounts, memory variants, choices, results, effects, flags, routing, schedule, saves and public demo. Export source_revision is declaration HEAD, not the revised Korean commit; exact live source manifest and accepted leaf hashes bind this implementation. Historical census identity and all 309 old batches remain unchanged. No new translation coverage; agent source comparison only; native/rendered OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "79ecbea6bc46e6364e9956a8d453b62b214b7b21",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "617c1598ca7897c1428c95cafd980f18ea816d35b3af7a6272dd77aff88d8d6c",
+          "selection_sha256": "6c7296eb026c2161a6b33945db8a21feffa068cc58df27215d40ff6f8c620f82",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d27fbd729d393a96bbdebc33ec2a983f1fa1cffbd591792d99e65c0c662f074a"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "79ecbea6bc46e6364e9956a8d453b62b214b7b21",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "617c1598ca7897c1428c95cafd980f18ea816d35b3af7a6272dd77aff88d8d6c",
+          "selection_sha256": "cbefa7d695c1b59ca69067bee3d4221dd54f22eab36d41646bb521ca93740b14",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "82093921f6f823a97bf0b8eaf7f452561b1811d9b6cf87f02cfe6f1350df17ff"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "79ecbea6bc46e6364e9956a8d453b62b214b7b21",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "617c1598ca7897c1428c95cafd980f18ea816d35b3af7a6272dd77aff88d8d6c",
+          "selection_sha256": "ca990a8bbc86265f5901d3c648923bfaaa8cbd3e7ac860dad9149fb5873869bf",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "457ca6630fd0b7ea9cdedba3ad9a2c8b5a56c290fa96440be30253f210c3666f"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "f54b2a02f75d63ed79a8fd6463e6e3039f3fd4e64a08e1a88b928185568d9a63",
+        "zh-CN": "79b3aa0afcc9d72cde3e1d6414f8d8233da4e0070bb939b08eb5ff03f3da61e3",
+        "zh-TW": "13dbd5eb74fe5da387cd0a5a5889f9672a1bd110da782254a0551e869db7872e"
+      }
     }
   ],
   "accepted": {
@@ -17853,8 +17928,8 @@
         "target_sha256": "95bb0c390cd6cea95f43d29bab96940e655fc72dbc0c39783471274eaf206ccd"
       },
       "events:arc_34_money_attracts_money:/description": {
-        "source_sha256": "665a2c9af06c7bc305804573f5c88a3969684b1836c51f0d5a143d39785947cc",
-        "target_sha256": "331e8673fe34961140272b114ea69e7c5fc197b8e5f06e8eddbf79893171ddae"
+        "source_sha256": "0590db1267ad77ab7dc399d66ca07e381e7754b32ca8767fe02ce5b77e0fb1f0",
+        "target_sha256": "98457915adcbfe1eb8b6eddad8e01cc40b24075b89138c98a91ae97cf4b25ca7"
       },
       "events:arc_34_money_attracts_money:/description_memory_if_known/m3_ledger_reasons_named": {
         "source_sha256": "3dfc8bd951cc5c3a43011322483f14640b7ab6d41996ff54313199f5c4460c9d",
@@ -70491,8 +70566,8 @@
         "target_sha256": "11b5fd616a0cfd12404d883fc5a66b32df29428c526d0dc53ed5617a7f9e75a4"
       },
       "events:arc_34_money_attracts_money:/description": {
-        "source_sha256": "665a2c9af06c7bc305804573f5c88a3969684b1836c51f0d5a143d39785947cc",
-        "target_sha256": "1ba5be29ea4b0bc1a57532afab7e45657e03f1817d9f4c2ea42dfa87135392dd"
+        "source_sha256": "0590db1267ad77ab7dc399d66ca07e381e7754b32ca8767fe02ce5b77e0fb1f0",
+        "target_sha256": "129f838424414734efb5014bd11496050a1739d5bd65096a0c72852db598ecc1"
       },
       "events:arc_34_money_attracts_money:/description_memory_if_known/m3_ledger_reasons_named": {
         "source_sha256": "3dfc8bd951cc5c3a43011322483f14640b7ab6d41996ff54313199f5c4460c9d",
@@ -129277,8 +129352,8 @@
         "target_sha256": "992f37e15313a09d2becdb9733860c198e3524c021341f381457e7defd8412e2"
       },
       "events:arc_34_money_attracts_money:/description": {
-        "source_sha256": "665a2c9af06c7bc305804573f5c88a3969684b1836c51f0d5a143d39785947cc",
-        "target_sha256": "9164766b7d1578402a7f6a7527b8145474e6338adb8a5ddce2cd8eaef05d68fe"
+        "source_sha256": "0590db1267ad77ab7dc399d66ca07e381e7754b32ca8767fe02ce5b77e0fb1f0",
+        "target_sha256": "052ceb97eda7af674e37044f1fcf4df739d3bde9eb1ba5dd431edea953ae42e8"
       },
       "events:arc_34_money_attracts_money:/description_memory_if_known/m3_ledger_reasons_named": {
         "source_sha256": "3dfc8bd951cc5c3a43011322483f14640b7ab6d41996ff54313199f5c4460c9d",
@@ -183390,7 +183465,7 @@
       }
     }
   },
-  "accepted_sha256": "0f28090e7375bf4d64049b304aa37bd3295e4df07b08c7813449fb4a6997d5e0",
+  "accepted_sha256": "ec4962d34e7345f53683fcd8e0fb2fecb5974a2c156af546e2d7773e813b3fad",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
