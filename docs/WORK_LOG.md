@@ -3,6 +3,16 @@
 이전 기록은 [561 전 원문](history/WORK_LOG_2026-10-11_pre_order561.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 40588B/SHA256 340f211da9b794b2cd47c6d033e6dd664b0efcb7e1e55a98f1d80d48c721f709이다.
 
+## 2026-10-11 — 계획표의 허위 소득 감소 약속 수리 착수
+
+- [561](queue_active/ORDER-561.md)은 actual559 M16 REWORK와 source로 확인한
+  M18 유사 약속을 10잎×5언어로 정렬한다. M18 native 관측0이다. 일정표의 계획
+  삭제/검토 기입만 현재 행동으로 쓰고 실제 근무/수입 감소·시간 확보를 보장하지 않는다.
+  KO/EN cjk·3언어/원장 phone_cn·root metadata/필요 심의지문·비저자 전수 검수로 나눈다.
+- 자동 생계/효과/flags/index/소비자·저장/사용자·공개demo·원seed/raw/app 불변,
+  공식10잎 export/check/import·accepted30교정만 실행한다. source 한정이며 새app/UI/
+  전체audit/새checker/원장판정행0, 실제 다음 월은 원559 W68에서 잇는다.
+
 ## 2026-10-11 — CJK 지원 데이터를 포함한 full 후보 발급
 
 - [560](queue_archive/ORDER-560.md)은 실제547/558 ICU 부재를 고쳤다. 기존 빌드/
