@@ -72,6 +72,8 @@ var _hyunsu_call_end_pages := 0
 var _hyunsu_call_end_disk := 0
 var _hyunsu_call_end_languages := 0
 var _hyunsu_call_end_resets := 0
+var _narrative_name_only := false
+var _narrative_name_checked := false
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -80,6 +82,11 @@ func _run() -> void:
 	_backup_settings_file()
 	_backup_meta_progression()
 	_backup_test_slots()
+	_narrative_name_only = OS.get_cmdline_user_args().has("--narrative-name-only")
+	if _narrative_name_only:
+		await _check_narrative_name_resume()
+		await _finish()
+		return
 	_hyunsu_call_end_only = OS.get_cmdline_user_args().has("--hyunsu-call-end-only")
 	if _hyunsu_call_end_only:
 		await _check_hyunsu_call_end()
@@ -140,6 +147,7 @@ func _run() -> void:
 	await _check_full_story_meeting_date()
 	await _check_full_story_purchase()
 	await _check_full_story_ngplus()
+	await _check_narrative_name_resume()
 	if not _failures.is_empty():
 		await _finish()
 		return
@@ -4410,6 +4418,98 @@ func _full_story_surface_is_sealed(main_game: Control) -> bool:
 	return true
 
 
+func _check_narrative_name_resume() -> void:
+	var original_language := LocaleManager.language
+	await _free_story()
+	for language in ["ko", "en", "ja", "zh-CN", "zh-TW"]:
+		LocaleManager.set_language(language)
+		var full := "김민준" if language == "ko" else (
+			"キム・ミンジュン" if language == "ja" else "Kim Minjun")
+		var given := "민준" if language == "ko" else (
+			"ミンジュン" if language == "ja" else "Minjun")
+		for custom in [false, true]:
+			var raw_name := "  Kim{name}{money}{v2_first_bill_body}  " if custom else full
+			var story_name := raw_name if custom else given
+			var label := "%s/%s" % [language, "custom" if custom else "default"]
+			GameState.start_new_game()
+			GameState.player_name = raw_name
+			if not await _spawn_story("arc_father_medication"):
+				return
+			var event: Dictionary = DataRegistry.find_event("arc_father_medication")
+			var prose := str(event.get("description", ""))
+			_expect(prose.count("{name}") == 2 \
+				and str(_story.call("_fmt", prose)) == prose.replace("{name}", story_name) \
+				and _current_story_text().replace("\n", "").replace(" ", "") \
+					== prose.replace("{name}", story_name).replace("\n", "").replace(" ", "") \
+				and str(_story.call("_story_player_display_name")) == raw_name,
+				"%s live prose/nameplate projection failed" % label)
+			# An already-read full-name entry represents an old v4 cached display,
+			# not raw prose to regenerate. Keep its literal token-looking text too.
+			var pages: Array = _story.get("_paragraphs")
+			var source_zero_last := 0
+			for page in range(pages.size()):
+				if int(_story.call("_story_source_paragraph_index", page)) == 0:
+					source_zero_last = page
+			_story.set("_para_index", source_zero_last)
+			_story.call("_complete_typing")
+			_story.call("_record_current_dialogue_source")
+			var context: Dictionary = _story.call("build_save_resume_context")
+			var cached_log: Dictionary = context.get("dialogue_log", {})
+			var entries: Array = cached_log.get("entries", [])
+			_expect(not entries.is_empty(), "%s old-history fixture has no real entry" % label)
+			if entries.is_empty():
+				await _free_story()
+				continue
+			(entries[0] as Dictionary)["text"] = "Legacy: " + full + " {name}"
+			var old_entries := entries.duplicate(true)
+			_expect(SaveManager.save_game(TEST_SLOT, context), "%s prose save failed" % label)
+			await _free_story()
+			_expect(SaveManager.load_game(TEST_SLOT), "%s prose load failed" % label)
+			if not await _spawn_loaded_story():
+				return
+			_expect(GameState.player_name == raw_name \
+				and str(_story.call("_fmt", prose)) == prose.replace("{name}", story_name) \
+				and (_story.get("_dialogue_log_entries") as Array) == old_entries,
+				"%s v4/new-Story changed stored name, prose or old history" % label)
+			_show_current_story_choices()
+			var count_before := GameState.event_log.size()
+			var mental_before := GameState.mental
+			_story.call("_on_choice", 0)
+			var choices: Array = event.get("choices", [])
+			var result := str((choices[0] as Dictionary).get("result_text", ""))
+			_expect(result.count("{name}") == 3 \
+				and str(_story.call("_fmt", result)) == result.replace("{name}", story_name) \
+				and _current_story_text().replace("\n", "").replace(" ", "") \
+					== result.replace("{name}", story_name).replace("\n", "").replace(" ", "") \
+				and GameState.event_log.size() == count_before + 1 \
+				and is_equal_approx(GameState.mental, mental_before - 5.0),
+				"%s actual result/name/effect was not applied once" % label)
+			var event_log := GameState.event_log.duplicate(true)
+			var action_log := GameState.action_log.duplicate(true)
+			context = _story.call("build_save_resume_context")
+			var result_entries: Array = (context.get("dialogue_log", {}) as Dictionary).get("entries", [])
+			result_entries = result_entries.duplicate(true)
+			var mental_after := GameState.mental
+			_expect(SaveManager.save_game(TEST_SLOT, context), "%s result save failed" % label)
+			await _free_story()
+			_expect(SaveManager.load_game(TEST_SLOT), "%s result load failed" % label)
+			if not await _spawn_loaded_story():
+				return
+			_expect(bool(_story.get("_pending_after_result")) \
+				and int(_story.get("_pending_result_choice_index")) == 0 \
+				and str(_story.call("_fmt", result)) == result.replace("{name}", story_name) \
+				and GameState.player_name == raw_name \
+				and GameState.event_log == event_log and GameState.action_log == action_log \
+				and is_equal_approx(GameState.mental, mental_after) \
+				and (_story.get("_dialogue_log_entries") as Array) == result_entries \
+				and (result_entries[0] as Dictionary).get("text") == "Legacy: " + full + " {name}",
+				"%s result cold resume reapplied effects or rewrote stored history/name" % label)
+			await _free_story()
+	LocaleManager.set_language(original_language)
+	SaveManager.clear_loaded_resume_context()
+	_narrative_name_checked = true
+
+
 func _check_prose_resume() -> void:
 	GameState.start_new_game()
 	if not await _spawn_story("story_knee_choice"):
@@ -7420,6 +7520,11 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
+		if _narrative_name_checked:
+			print("MANUAL_SAVE_NARRATIVE_NAME_CHECK_OK locales=5 cases=default/custom prose/result=v4-disk/new-Story20 name=stored-full/custom nameplate=full result/effects/log=once old-history=literal-preserved prepared=1 new_OS_process=0")
+		if _narrative_name_only:
+			get_tree().quit(0)
+			return
 		if _hyunsu_call_end_only and _hyunsu_call_end_checked:
 			print("MANUAL_SAVE_HYUNSU_CALL_END_DETAIL live_pages=%d disk_new_Story=%d same_source_locale=%d next_event_reset=%d" % [_hyunsu_call_end_pages, _hyunsu_call_end_disk, _hyunsu_call_end_languages, _hyunsu_call_end_resets])
 			print("MANUAL_SAVE_HYUNSU_CALL_END_CHECK_OK choices=15 locales=5 disk_new_Story=10 same_source_locale=10 next_event_reset=5 r0/r1=connected r2_all_pages=hidden other_choices=unchanged effects/log/history/registry=once-preserved language=actual-ko-en/internal-ja-zh prepared_W40=1 natural_M10=0 new_OS_process=0")

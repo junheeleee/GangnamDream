@@ -869,9 +869,8 @@ func _phone_message_sender(offer: Dictionary) -> String:
 func _phone_message_body(offer: Dictionary) -> String:
 	var body := _optional_phone_copy(offer, "message_body")
 	if not body.is_empty():
-		return body.replace(
-			"{name}",
-			LocaleManager.localize_player_name(str(GameState.player_name)))
+		return LocaleManager.format_story_player_name(
+			body, str(GameState.player_name))
 	var detail := _localized(offer, "detail").strip_edges()
 	var deadline := _localized(offer, "deadline").strip_edges()
 	if deadline.is_empty():

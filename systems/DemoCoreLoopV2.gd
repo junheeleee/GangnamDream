@@ -12973,12 +12973,10 @@ static func format_first_bill_story_text(
 	var snapshot := validated_first_bill_replay_snapshot(replay_snapshot)
 	var formatted := source_text
 	if snapshot.is_empty():
-		formatted = GameState.format_event_text(formatted)
+		formatted = GameState.format_event_text(formatted, false)
 	else:
 		var replay_money := float(snapshot.get("money", 0.0))
 		formatted = formatted \
-			.replace("{name}", _first_bill_localized_player_name(
-				str(snapshot.get("player_name", "")))) \
 			.replace("{cash_position}",
 				_first_bill_cash_position_sentence(replay_money)) \
 			.replace("{expense}", GameState.format_money(
@@ -12986,18 +12984,17 @@ static func format_first_bill_story_text(
 		# Do not call the live GameState formatter here. The authored First Bill
 		# closure is deliberately limited to the frozen tokens above; any future
 		# generic token must gain an explicit snapshot field and audit coverage.
-	formatted = format_first_bill_story_tokens(formatted, snapshot)
+	formatted = format_first_bill_story_tokens(formatted, snapshot, false)
 	var raw_player_name := str(snapshot.get("player_name", "")) \
 		if not snapshot.is_empty() else str(GameState.player_name)
-	var player_name: String = _first_bill_localized_player_name(raw_player_name)
-	return formatted.replace(
-		"{name}", player_name if not player_name.is_empty() \
-			else raw_player_name)
+	# Insert the name once, after all source tokens: custom names are literal text.
+	return LocaleManager.format_story_player_name(formatted, raw_player_name)
 
 ## Expands the First Bill's story-only tokens from frozen candidates and durable
 ## receipts. Kept public for focused QA and other story surfaces.
 static func format_first_bill_story_tokens(
-		source_text: String, replay_snapshot: Dictionary = {}) -> String:
+		source_text: String, replay_snapshot: Dictionary = {},
+		include_player_name: bool = true) -> String:
 	var needs_format := false
 	for token in FIRST_BILL_STORY_TOKENS:
 		if source_text.contains(token):
@@ -13089,12 +13086,11 @@ static func format_first_bill_story_tokens(
 	var formatted := source_text
 	for token in FIRST_BILL_STORY_TOKENS:
 		formatted = formatted.replace(token, str(replacements[token]))
+	if not include_player_name:
+		return formatted
 	var raw_player_name := str(snapshot.get("player_name", "")) \
 		if not snapshot.is_empty() else str(GameState.player_name)
-	var player_name: String = _first_bill_localized_player_name(raw_player_name)
-	return formatted.replace(
-		"{name}", player_name if not player_name.is_empty() \
-			else raw_player_name)
+	return LocaleManager.format_story_player_name(formatted, raw_player_name)
 
 static func _first_bill_finale_contract() -> Dictionary:
 	var raw_finale: Variant = bundle(

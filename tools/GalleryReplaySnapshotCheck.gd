@@ -35,6 +35,7 @@ func _run() -> void:
 	_check_first_bill_m3_and_runtime_max()
 	_check_pair_persistence_and_fail_closed()
 	await _check_frozen_runtime_surfaces()
+	_check_frozen_narrative_names()
 	await _finish()
 
 
@@ -421,6 +422,74 @@ func _check_frozen_runtime_surfaces() -> void:
 	story.queue_free()
 	await get_tree().process_frame
 	BGMPlayer.end_gallery_replay()
+
+
+func _check_frozen_narrative_names() -> void:
+	var original_language := LocaleManager.language
+	var ordinary := MetaProgression.get_scene_replay_snapshot(FROZEN_SURFACE_ROOT)
+	_expect(not ordinary.is_empty() and not _first_bill_fixture.is_empty(),
+		"frozen narrative-name fixtures are missing")
+	if ordinary.is_empty() or _first_bill_fixture.is_empty():
+		return
+	var custom := "  Kim{name}{money}{v2_first_bill_body}  "
+	for language in ["ko", "en", "ja", "zh-CN", "zh-TW"]:
+		LocaleManager.set_language(language)
+		var given := "민준" if language == "ko" else (
+			"ミンジュン" if language == "ja" else "Minjun")
+		var full := "김민준" if language == "ko" else (
+			"キム・ミンジュン" if language == "ja" else "Kim Minjun")
+		for frozen_default in [true, false]:
+			# The later live run deliberately has the opposite kind of name.
+			GameState.player_name = custom if frozen_default else full
+			var frozen_name := "김민준" if frozen_default else custom
+			var expected_story := given if frozen_default else custom
+			var expected_ui := full if frozen_default else custom
+			for first_bill in [false, true]:
+				var root_id := FIRST_BILL_ROOT if first_bill else FROZEN_SURFACE_ROOT
+				var snapshot := (_first_bill_fixture if first_bill else ordinary).duplicate(true)
+				snapshot["player_name"] = frozen_name
+				snapshot = CORE_LOOP.validated_first_bill_replay_snapshot(snapshot) \
+					if first_bill else MetaProgression.validate_scene_replay_snapshot(root_id, snapshot)
+				_expect(not snapshot.is_empty(),
+					"%s frozen name snapshot was rejected: %s" % [language, root_id])
+				if snapshot.is_empty():
+					continue
+				var before: Dictionary = GameState.serialize().duplicate(true)
+				var meta_before: Dictionary = MetaProgression.data.duplicate(true)
+				var snapshot_before := snapshot.duplicate(true)
+				var story := STORY_MODE_SCRIPT.new()
+				story.set("_read_only_replay", true)
+				story.set("_current", DataRegistry.find_event(root_id))
+				story.set("_first_bill_replay_snapshot" if first_bill else "_gallery_replay_snapshot", snapshot)
+				# First Bill's existing UI-only helper trims custom edges; its prose
+				# must still preserve the raw frozen name, including those edges.
+				var expected_nameplate := expected_ui.strip_edges() if first_bill else expected_ui
+				_expect(str(story.call("_fmt", "{name}|{name}")) \
+						== expected_story + "|" + expected_story \
+					and str(story.call("_story_player_display_name")) == expected_nameplate,
+					"%s %s used live/full narrative name or changed full UI" % [language, root_id])
+				var raw := "{name}|{cash_position}|{expense}"
+				if first_bill:
+					var rendered := CORE_LOOP.format_first_bill_story_text(raw, snapshot)
+					var event: Dictionary = DataRegistry.find_event(root_id)
+					var first_source := str(event.get("description", "")).split("\n\n")[0]
+					_expect(rendered.begins_with(expected_story + "|") \
+						and rendered == str(story.call("_fmt", raw)) \
+						and first_source.count("{name}") == 1 \
+						and str(story.call("_fmt", first_source)) == first_source.replace("{name}", expected_story),
+						"%s First Bill name was re-expanded or live-bound" % language)
+				else:
+					var event: Dictionary = DataRegistry.find_event(root_id)
+					var source := str(event.get("description", ""))
+					_expect(source.contains("{name}") \
+						and str(story.call("_fmt", source)) == source.replace("{name}", expected_story),
+						"%s ordinary authored replay name did not use frozen value" % language)
+				_expect(GameState.serialize() == before and MetaProgression.data == meta_before \
+					and snapshot == snapshot_before,
+					"%s frozen name reader mutated state/meta/snapshot" % language)
+				story.free()
+	LocaleManager.set_language(original_language)
+	print("GALLERY_REPLAY_NARRATIVE_NAME_DETAIL locales=5 frozen-default/live-custom+frozen-custom/live-default ordinary/FirstBill=20 ui=full custom=literal snapshots/state/meta=inert prepared=1")
 
 
 func _prepare_generic_frozen_state() -> void:

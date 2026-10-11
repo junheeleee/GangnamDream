@@ -4068,12 +4068,11 @@ func notebook_motive_sentence() -> String:
 		)
 	return LocaleManager.ui("30억. 5년 안에.", "Three billion won. Five years.")
 
-func format_event_text(text: String) -> String:
+func format_event_text(text: String, include_player_name: bool = true) -> String:
 	var job_name: String = get_job_display_name()
 	var total_assets: float = get_total_asset_value()
 	var loan_total: float = get_loan_total()
-	return text \
-		.replace("{name}", player_name) \
+	var formatted := text \
 		.replace("{job}", job_name) \
 		.replace("{housing}", get_housing_name(housing)) \
 		.replace("{month}", str(month)) \
@@ -4092,6 +4091,8 @@ func format_event_text(text: String) -> String:
 		.replace("{loan}", format_money(loan_total)) \
 		.replace("{notebook_motive}", notebook_motive_sentence()) \
 		.replace("{keepsake}", get_pending_housing_keepsake_name())
+	return LocaleManager.format_story_player_name(formatted, player_name) \
+		if include_player_name else formatted
 
 func get_available_cash() -> float:
 	# Negative `money` is the unpaid-cost ledger, not an overdraft facility.

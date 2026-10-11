@@ -11819,7 +11819,9 @@ func _month_narration() -> String:
 
 	# ── 경과 개월 기반 내레이션 (마일스톤 / 후반 긴장) ────
 	if me >= 60:
-		return _tr("마지막 달이다. 지금 여기, 이게 {name}의 5년이다.", "It's the final month. Right here, right now — this is {name}'s five years.").replace("{name}", name)
+		return LocaleManager.format_story_player_name(_tr(
+			"마지막 달이다. 지금 여기, 이게 {name}의 5년이다.",
+			"It's the final month. Right here, right now — this is {name}'s five years."), name)
 	if me >= 54:
 		return _tr("6개월이 남았다. 아직 늦지 않았다고 — 믿어야 한다.", "Six months left. It's not too late yet — I have to believe that.")
 	if me >= 48:

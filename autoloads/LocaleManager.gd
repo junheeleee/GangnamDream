@@ -119,6 +119,68 @@ func localize_player_name(raw_name: String) -> String:
 		return ui(DEFAULT_NAME_KO, DEFAULT_NAME_EN)
 	return raw_name
 
+## Story copy uses the given name; profiles, slots and nameplates keep the full
+## UI projection above. Never infer a surname from a custom player name.
+func localize_story_player_name(raw_name: String) -> String:
+	if not _is_default_player_name(raw_name):
+		return raw_name
+	match language:
+		"ko":
+			return "민준"
+		"ja":
+			return "ミンジュン"
+	return "Minjun"
+
+## These are the authored formal clauses, not whole-event exceptions. In the
+## hospital result, two narrative tokens and one formal token share one leaf.
+## Keep raw content/translation receipts intact and project only that occurrence.
+const FORMAL_STORY_NAME_CLAUSES: Array[String] = [
+	"보호자 {name}입니다",
+	"저는 {name}입니다.",
+	"직원은 {name} 명의 계좌로",
+	"안녕하세요, {name}님 프로필을 보고",
+	"This is {name}, his guardian.",
+	"Last time, all I said was thanks. I'm {name}.",
+	"the account in {name}'s name",
+	"Hello, you're reaching out after seeing {name}'s profile.",
+	"家族の{name}です",
+	"この前はお礼だけで帰ってしまいましたね。{name}といいます",
+	"職員は{name}名義の口座に",
+	"はじめまして。{name}様のプロフィールを拝見し",
+	"我是家属{name}。",
+	"上次只打了个招呼就走了。我叫{name}。",
+	"您好，看到{name}先生的个人资料后",
+	"我是家屬，{name}。",
+	"上次只道了謝就走了。我叫{name}。",
+	"進出{name}名下帳戶的交易時間",
+	"您好，我們看過{name}先生的個人檔案後",
+]
+
+func format_story_player_name(text: String, raw_name: String) -> String:
+	if not text.contains("{name}"):
+		return text
+	var story_name := localize_story_player_name(raw_name)
+	var full_name := localize_player_name(raw_name)
+	var formal_offsets: Dictionary = {}
+	if story_name != full_name:
+		for clause in FORMAL_STORY_NAME_CLAUSES:
+			var start := text.find(clause)
+			while start >= 0:
+				formal_offsets[start + clause.find("{name}")] = true
+				start = text.find(clause, start + clause.length())
+	# Read only the source template. A custom name containing a token must not
+	# become another substitution instruction, even in a mixed formal clause.
+	var parts := PackedStringArray()
+	var cursor := 0
+	var offset := text.find("{name}")
+	while offset >= 0:
+		parts.append(text.substr(cursor, offset - cursor))
+		parts.append(full_name if formal_offsets.has(offset) else story_name)
+		cursor = offset + "{name}".length()
+		offset = text.find("{name}", cursor)
+	parts.append(text.substr(cursor))
+	return "".join(parts)
+
 func _is_default_player_name(raw_name: String) -> bool:
 	if raw_name in [DEFAULT_NAME_KO, DEFAULT_NAME_EN]:
 		return true

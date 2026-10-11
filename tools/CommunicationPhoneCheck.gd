@@ -3,6 +3,7 @@ extends Node
 
 const PHONE_SCRIPT := preload("res://scenes/CommunicationPhone.gd")
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
+const STORY_SCRIPT := preload("res://scenes/StoryMode.gd")
 const FLAGSHIP_PATH := "res://assets/ui/phone/phone_frame_flagship.png"
 
 var _failures: Array[String] = []
@@ -15,6 +16,7 @@ func _ready() -> void:
 func _run() -> void:
 	var original_language := LocaleManager.language
 	GameState.start_new_game()
+	_check_narrative_names()
 	_check_durable_offer_history()
 	_prepare_contact_fixture()
 	_check_surface_classifier()
@@ -24,6 +26,7 @@ func _run() -> void:
 	LocaleManager.language = original_language
 	LocaleManager.language_changed.emit(original_language)
 	if _failures.is_empty():
+		print("COMMUNICATION_PHONE_NARRATIVE_NAME_CHECK_OK locales=5 aliases=3 custom=3 formal=4/mixed2+1 source=actual ui=full state=inert")
 		print(
 			"COMMUNICATION_PHONE_CHECK_OK geometry=1280x800/392+960x600/320 "
 			+ "frame=flagship/portrait/90deg reveal=right_slide/reduced_static "
@@ -37,6 +40,85 @@ func _run() -> void:
 	for failure in _failures:
 		push_error("COMMUNICATION_PHONE_CHECK_FAIL: %s" % failure)
 	get_tree().quit(1)
+
+
+func _check_narrative_names() -> void:
+	var original_language := LocaleManager.language
+	var phone := PHONE_SCRIPT.new()
+	var story := STORY_SCRIPT.new()
+	for language in ["ko", "en", "ja", "zh-CN", "zh-TW"]:
+		LocaleManager.set_language(language)
+		var given := "민준" if language == "ko" else (
+			"ミンジュン" if language == "ja" else "Minjun")
+		var full := "김민준" if language == "ko" else (
+			"キム・ミンジュン" if language == "ja" else "Kim Minjun")
+		for alias in ["김민준", "Kim Minjun", "キム・ミンジュン"]:
+			_expect(LocaleManager.localize_story_player_name(alias) == given \
+				and LocaleManager.localize_player_name(alias) == full,
+				"%s default alias lost narrative/UI separation: %s" % [language, alias])
+		GameState.player_name = full
+		var before: Dictionary = GameState.serialize().duplicate(true)
+		var raw := "{name}|{name}"
+		_expect(GameState.format_event_text(raw) == given + "|" + given \
+			and GameState.format_event_text(raw, false) == raw,
+			"%s actual GameState name projection failed" % language)
+		_expect(str(phone.call("_phone_message_body", {
+			"message_body_ko": raw, "message_body_en": raw,
+		})) == given + "|" + given,
+			"%s actual phone body retained the default surname" % language)
+		_expect(str(story.call("_story_player_display_name")) == full,
+			"%s full nameplate reader changed" % language)
+		_check_formal_name_sources(language, full, given)
+		_expect(GameState.serialize() == before,
+			"%s name readers mutated GameState" % language)
+		for custom in ["김민준 ", "Two Part Name", "  Kim{name}{money}{v2_first_bill_body}  "]:
+			GameState.player_name = custom
+			before = GameState.serialize().duplicate(true)
+			_expect(LocaleManager.localize_story_player_name(custom) == custom \
+				and LocaleManager.localize_player_name(custom) == custom \
+				and LocaleManager.format_story_player_name(raw, custom) \
+					== custom + "|" + custom \
+				and GameState.format_event_text(raw) == custom + "|" + custom,
+				"%s custom name was trimmed, split or expanded: %s" % [language, custom])
+			_expect(str(phone.call("_phone_message_body", {
+				"message_body_ko": raw, "message_body_en": raw,
+			})) == custom + "|" + custom \
+				and str(story.call("_story_player_display_name")) == custom,
+				"%s phone/nameplate changed a custom name" % language)
+			_expect(GameState.serialize() == before,
+				"%s custom name readers mutated GameState" % language)
+	phone.free()
+	story.free()
+	LocaleManager.set_language(original_language)
+	GameState.start_new_game()
+
+
+func _check_formal_name_sources(language: String, full: String, given: String) -> void:
+	var cases := [
+		{"id": "arc_sangchul_mirror_receipt", "field": "result_text", "choice": 0, "full": 1, "given": 2},
+		{"id": "v2_daeun_return_after_distance", "field": "text", "choice": 0, "full": 1, "given": 0},
+		{"id": "arc_temptation_fallout", "field": "description", "full": 0 if language == "zh-CN" else 1, "given": 1 if language == "zh-CN" else 0},
+		{"id": "hidden_011", "field": "description", "full": 1, "given": 0},
+	]
+	for spec in cases:
+		var event: Dictionary = DataRegistry.find_event(str(spec["id"]))
+		var leaf: Dictionary = event
+		if spec.has("choice"):
+			var choices: Array = event.get("choices", [])
+			_expect(choices.size() > int(spec["choice"]),
+				"%s formal source choice missing: %s" % [language, spec["id"]])
+			if choices.size() <= int(spec["choice"]):
+				continue
+			leaf = choices[int(spec["choice"])] as Dictionary
+		var raw := str(leaf.get(str(spec["field"]), ""))
+		var rendered := GameState.format_event_text(raw)
+		_expect(raw.count("{name}") == int(spec["full"]) + int(spec["given"]) \
+			and rendered.count(full) == int(spec["full"]) \
+			and rendered.replace(full, "").count(given) == int(spec["given"]),
+			"%s actual formal source occurrence mismatch: %s" % [language, spec["id"]])
+		var custom := "  Kim{name}{money}  "
+		_expect(LocaleManager.format_story_player_name(raw, custom) == raw.replace("{name}", custom),
+			"%s formal source re-expanded custom name: %s" % [language, spec["id"]])
 
 
 func _prepare_contact_fixture() -> void:

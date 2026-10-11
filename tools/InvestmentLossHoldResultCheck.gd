@@ -40,7 +40,8 @@ func _hold_consumers() -> void:
 	var state_before: PackedByteArray = var_to_bytes(GameState.serialize())
 	var formatted: String = story.call("_fmt", raw)
 	story.free()
-	var expected: String = raw.replace("{name}", GameState.player_name)
+	var expected: String = LocaleManager.format_story_player_name(
+		raw, GameState.player_name)
 	_case("formatted", "StoryMode", formatted == expected and not formatted.contains("{name}")
 		and var_to_bytes(GameState.serialize()) == state_before,
 		{"actual_sha256": formatted.sha256_text(), "expected_sha256": expected.sha256_text(),

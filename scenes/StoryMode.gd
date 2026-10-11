@@ -7173,7 +7173,8 @@ func _fmt(s: String) -> String:
 		# Ordinary gallery closure currently owns exactly one dynamic token. Keep
 		# unknown future tokens unresolved so they cannot silently read a live run;
 		# the gallery audit rejects any such authored expansion.
-		return s.replace("{name}", _story_player_display_name())
+		return LocaleManager.format_story_player_name(s, str(
+			_gallery_replay_snapshot.get("player_name", "")))
 	return DEMO_CORE_LOOP_V2.format_first_bill_story_text(s)
 
 ## UI 문자열 번역 헬퍼
