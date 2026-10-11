@@ -3,6 +3,35 @@
 이전 기록은 [561 전 원문](history/WORK_LOG_2026-10-11_pre_order561.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 40588B/SHA256 340f211da9b794b2cd47c6d033e6dd664b0efcb7e1e55a98f1d80d48c721f709이다.
 
+## 2026-10-11 — 새 월 중단·저장/모드 CI 회귀 수리
+
+- [563](queue_active/ORDER-563.md)은 main53a33d7 CI38119116995의 실제 목록 밖 실패
+  MANUAL_SAVE_EXIT/MOD_LAYER_AUDIT_EXIT를 먼저 수리한다. 원 job114409993458 로그는
+  private563/ci-before.log로 보존했다. 새 월0, 534 M07~M10 수정 화면 한 묶음과
+  보류562 두 월 작업만 두며 544/546/549 대기 이동은 과거 REWORK 완료가 아니다.
+- 저장 실패16 assertions는 한국어/영어 저장 기능 변경이 아니라 preview8/12 원소유
+  환경이 없는 검사 입구였다. 기존 bootstrap·fresh HOME/3XDG/고유 namespace를
+  연결했다. 의도한 손상 표본의 동기 호출10회만 오류 출력을 즉시 복원하는 기존
+  부정검사 방식으로 맞췄다. strict guard·상태/meta/RNG assertions·제품 거부 경로 불변.
+- 모드 실패는 a0bc2886의 ImageRegistry6점 뒤 생성 목록이257에 머문 원인이다.
+  기존 generator로263visual/142audio만 정렬하고 실제 입력 경로18개를 기존 scope에
+  연결했다. 기존257행/audio/문서 생성 영역 밖 exact, 새 기능/검사/예외/원문 수정0이다.
+- whole ManualSave actual0/218.065918s·literal marker stdout1/Godot1, compile69 actual0/
+  4.830639s·mod runtime actual0/2.795993s. 각 fresh32그룹662entries(중첩포함)·tracked3353
+  전후 exact, 3stream ERROR/parse/script/FAIL0·사용자/공개/Human/옛raw/앱 불변이다.
+  Manual의 예상 fault/recovery/rejection WARNING25·Mod의 부정 fixture WARNING27은
+  원raw 그대로 보존하며 경고0 주장이 아니다. Manual receipt
+  SHA0324caed60e5fa56fb67bc7968406f1be93cd0b06064cc914ab1c590b5aea01e.
+  비저자가 source/helper·원3stream·실제 bootstrap 경로·fresh 보존을 직접 대조했다.
+- 모드 audit/generator/validator·영향 등록179·영어 한글·표면 언어·자산/출시 원장
+  표적 PASS. 별도 미등록 general-finale 감사는 shipping1708 고정 vs 현행1702로 FAIL1;
+  감사기/생명주기 파일 둘 다 HEAD와 byteexact여서 기존 extra-lane 실패로 남긴다.
+  모든 영향 검사 PASS/전체CI/출시 GO로 바꾸거나 KNOWN 목록으로 숨기지 않는다.
+- gangnamdream-dev에 따라 코드/원raw·실제 앱 관측을 구분했다. root project/저장/
+  번역/공개GO1·인간OPEN45 불변, 원격 main CI 녹색 확인 전 이 오더는 진행 중이다.
+  수정 source5파일과 현재 기록을 함께 커밋하며 STATUS 단독커밋/새 영구도구/비용
+  최적화/종료누수 탐침0, M07~M10 수정 화면 검수·본편/출시 HOLD는 별개로 남는다.
+
 ## 2026-10-11 — 계획표의 허위 소득 감소 약속 source 수리
 
 - [561](queue_archive/ORDER-561.md)은 actual559 M16 REWORK와 source로 확인한

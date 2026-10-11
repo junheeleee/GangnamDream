@@ -110,6 +110,22 @@
     {
       "kind": "background",
       "ids": [
+        "convenience_afternoon"
+      ],
+      "relative_path": "backgrounds/convenience_store_afternoon_v1.png",
+      "resolution": "1586x992"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "convenience_afternoon_exterior"
+      ],
+      "relative_path": "backgrounds/convenience_store_exterior_afternoon_v1.png",
+      "resolution": "1586x992"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "convenience_first_snow_exterior"
       ],
       "relative_path": "backgrounds/convenience_store_exterior_first_snow.png",
@@ -1113,6 +1129,30 @@
     {
       "kind": "cg",
       "ids": [
+        "cg_daeun_regular_bunsik"
+      ],
+      "relative_path": "cg/romance/daeun_regular_bunsik_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_daeun_regular_night_wait"
+      ],
+      "relative_path": "cg/romance/daeun_regular_night_wait_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_daeun_regular_walk"
+      ],
+      "relative_path": "cg/romance/daeun_regular_walk_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
         "cg_romance_fireworks_daeun"
       ],
       "relative_path": "cg/romance/fireworks_daeun.png",
@@ -1622,6 +1662,14 @@
       ],
       "relative_path": "characters/npc_daeun_proposal.png",
       "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_regular_offduty"
+      ],
+      "relative_path": "characters/npc_daeun_regular_offduty_v1.png",
+      "resolution": "1024x1536"
     },
     {
       "kind": "portrait",

@@ -331,6 +331,8 @@ python3 tools/generate_mod_manifest.py --check
 | background | `community_center` | `backgrounds/community_center.png` | 1672x941 |
 | background | `company_dinner_restaurant` | `backgrounds/company_dinner_restaurant.png` | 1672x941 |
 | background | `concert_hall_night` | `backgrounds/concert_hall_night.png` | 1280x800 |
+| background | `convenience_afternoon` | `backgrounds/convenience_store_afternoon_v1.png` | 1586x992 |
+| background | `convenience_afternoon_exterior` | `backgrounds/convenience_store_exterior_afternoon_v1.png` | 1586x992 |
 | background | `convenience_first_snow_exterior` | `backgrounds/convenience_store_exterior_first_snow.png` | 1280x800 |
 | background | `convenience_night`, `convenience_store` | `backgrounds/convenience_store_night_v2.png` | 1280x800 |
 | background | `daeun_mother_home_dining` | `backgrounds/daeun_mother_home_dining_summer.png` | 1280x800 |
@@ -455,6 +457,9 @@ python3 tools/generate_mod_manifest.py --check
 | cg | `cg_romance_breakup_jiyeon` | `cg/romance/breakup_jiyeon_v1.png` | 1280x800 |
 | cg | `cg_romance_cherry_daeun` | `cg/romance/cherry_daeun.png` | 1280x800 |
 | cg | `cg_romance_cherry_jiyeon` | `cg/romance/cherry_jiyeon.png` | 1280x800 |
+| cg | `cg_daeun_regular_bunsik` | `cg/romance/daeun_regular_bunsik_v1.png` | 1280x800 |
+| cg | `cg_daeun_regular_night_wait` | `cg/romance/daeun_regular_night_wait_v1.png` | 1280x800 |
+| cg | `cg_daeun_regular_walk` | `cg/romance/daeun_regular_walk_v1.png` | 1280x800 |
 | cg | `cg_romance_fireworks_daeun` | `cg/romance/fireworks_daeun.png` | 1280x800 |
 | cg | `cg_romance_fireworks_jiyeon` | `cg/romance/fireworks_jiyeon.png` | 1280x800 |
 | cg | `cg_romance_first_kiss_daeun` | `cg/romance/first_kiss_daeun.png` | 1280x800 |
@@ -518,6 +523,7 @@ python3 tools/generate_mod_manifest.py --check
 | portrait | `daeun_normal_y3` | `characters/npc_daeun_normal_y3.png` | 1024x1536 |
 | portrait | `daeun_normal_y5` | `characters/npc_daeun_normal_y5.png` | 1024x1536 |
 | portrait | `daeun_proposal` | `characters/npc_daeun_proposal.png` | 512x768 |
+| portrait | `daeun_regular_offduty` | `characters/npc_daeun_regular_offduty_v1.png` | 1024x1536 |
 | portrait | `daeun_sad` | `characters/npc_daeun_sad.png` | 512x768 |
 | portrait | `daeun_sad_y3` | `characters/npc_daeun_sad_y3.png` | 1024x1536 |
 | portrait | `daeun_sad_y5` | `characters/npc_daeun_sad_y5.png` | 1024x1536 |

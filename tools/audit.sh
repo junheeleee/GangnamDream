@@ -1129,8 +1129,26 @@ echo "────────────────────────�
 echo "● 10슬롯·스토리 문단/선택/결과/타이머 수동 저장 검사"
 if [ -x "$GODOT" ]; then
   MANUAL_SAVE_HOME=$(make_isolated_home "gangnam-manual-save")
-  MANUAL_SAVE_RAW=$(run_limited env HOME="$MANUAL_SAVE_HOME" "$GODOT" --headless --resolution 960x600 --quit-after 3600 res://tools/ManualSaveCheck.tscn 2>&1)
+  MANUAL_SAVE_QA_NAMESPACE="GangnamDream_StoryNameplateQA_$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
+  MANUAL_SAVE_LOG="$MANUAL_SAVE_HOME/manual-save-godot.log"
+  # Saved preview fixtures retain their original QA-only environment. Select
+  # its fresh namespace before autoloads, without opting the full run into preview.
+  MANUAL_SAVE_RAW=$(run_limited env HOME="$MANUAL_SAVE_HOME" \
+    XDG_DATA_HOME="$MANUAL_SAVE_HOME/data" \
+    XDG_CONFIG_HOME="$MANUAL_SAVE_HOME/config" \
+    XDG_CACHE_HOME="$MANUAL_SAVE_HOME/cache" \
+    STORY_NAMEPLATE_QA_NAMESPACE="$MANUAL_SAVE_QA_NAMESPACE" \
+    "$GODOT" --headless --resolution 960x600 --quit-after 3600 \
+    --log-file "$MANUAL_SAVE_LOG" \
+    --script res://tools/StoryNameplateBootstrap.gd \
+    --scene res://tools/ManualSaveCheck.tscn 2>&1)
   MANUAL_SAVE_STATUS=$?
+  if [ -f "$MANUAL_SAVE_LOG" ]; then
+    MANUAL_SAVE_RAW="$MANUAL_SAVE_RAW"$'\n'"$(< "$MANUAL_SAVE_LOG")"
+  else
+    MANUAL_SAVE_RAW="$MANUAL_SAVE_RAW"$'\n''ERROR: ManualSave Godot log is missing'
+    MANUAL_SAVE_STATUS=1
+  fi
   cleanup_isolated_home "$MANUAL_SAVE_HOME"
   echo "$MANUAL_SAVE_RAW" | grep -E "MANUAL_SAVE_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
   if godot_check_passed "$MANUAL_SAVE_RAW" "$MANUAL_SAVE_STATUS" \

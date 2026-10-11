@@ -3352,8 +3352,24 @@
       "tool": "tools/mod_layer_audit.py",
       "why": "모드 계층",
       "paths": [
-        "assets/mod_asset_manifest.json",
-        "autoloads/ModLoader.gd"
+        "assets/**",
+        "autoloads/ModLoader.gd",
+        "autoloads/DataRegistry.gd",
+        "autoloads/ImageRegistry.gd",
+        "autoloads/AudioManager.gd",
+        "autoloads/BGMPlayer.gd",
+        "content/events/**",
+        "content/themes/**",
+        "content/assets.json",
+        "content/jobs.json",
+        "content/items.json",
+        "content/news_templates.json",
+        "docs/MODDING.md",
+        "tools/mod_layer_audit.py",
+        "tools/generate_mod_manifest.py",
+        "tools/mod_pack_validator.py",
+        "tools/event_schedule.py",
+        "tools/story_choice_fact_audit.py"
       ]
     },
     {

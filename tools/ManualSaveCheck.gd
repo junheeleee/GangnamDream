@@ -1615,10 +1615,24 @@ func _diagnose_monthly_economy_snapshot(expected: Dictionary, label: String) -> 
 			])
 
 
-func _spawn_monthly_economy_main() -> Control:
+func _spawn_monthly_economy_main(expected_corrupt_owner: bool = false) -> Control:
 	var main_game: Control = MAIN_GAME_SCENE.instantiate()
 	main_game.set_meta("_screenshot_qa_static_surface", true)
-	add_child(main_game)
+	var known_corrupt_owner: bool = expected_corrupt_owner \
+		and FULL_STORY_FLOW.is_full_run() and not FULL_STORY_FLOW.valid_session() \
+		and FULL_STORY_FLOW.snapshot().get("schema") == "order541_bad_schema" \
+		and GameState.is_game_over and GameState.action_log.is_empty()
+	_expect(not expected_corrupt_owner or known_corrupt_owner,
+		"expected corrupt-owner Main entry lacks its exact prepared damage")
+	if known_corrupt_owner:
+		# Only synchronous _ready() emits this intentional fail-closed error.
+		# Restore output before frames, cleanup, or any assertions can run.
+		var print_errors_before: bool = Engine.print_error_messages
+		Engine.print_error_messages = false
+		add_child(main_game)
+		Engine.print_error_messages = print_errors_before
+	else:
+		add_child(main_game)
 	await get_tree().process_frame
 	await get_tree().process_frame
 	return main_game
@@ -2774,7 +2788,10 @@ func _check_production_activity(checkpoint: Dictionary) -> void:
 			for damaged in ["true", 1, {}, []]:
 				GameState.flags["open_racetrack_after_story"] = damaged
 				var invalid: Dictionary = GameState.serialize().duplicate(true)
+				var print_errors_before: bool = Engine.print_error_messages
+				Engine.print_error_messages = false
 				main_game.call("_begin_month")
+				Engine.print_error_messages = print_errors_before
 				_expect(not FULL_STORY_FLOW.valid_session() \
 						and not bool(main_game.call("_full_story_advance_week", GameState.turn)) \
 						and GameState.serialize() == invalid \
@@ -3374,7 +3391,7 @@ func _check_production_terminal_resume(main_game: Control, label: String) -> voi
 	damaged_owner["schema"] = "order541_bad_schema"
 	GameState.flags[FULL_STORY_FLOW.STATE_KEY] = damaged_owner
 	var damaged_empty_log: Dictionary = GameState.serialize().duplicate(true)
-	resumed = await _spawn_monthly_economy_main()
+	resumed = await _spawn_monthly_economy_main(true)
 	_expect(FULL_STORY_FLOW.owns_session() and not FULL_STORY_FLOW.valid_session() \
 			and GameState.flags[FULL_STORY_FLOW.STATE_KEY] == damaged_owner \
 			and GameState.serialize() == damaged_empty_log \
@@ -3392,7 +3409,10 @@ func _check_production_terminal_resume(main_game: Control, label: String) -> voi
 		var invalid: Dictionary = GameState.serialize().duplicate(true)
 		resumed = await _spawn_monthly_economy_main()
 		var invalid_expected: Dictionary = _full_story_expected_main_reentry(invalid, main_game)
+		var print_errors_before: bool = Engine.print_error_messages
+		Engine.print_error_messages = false
 		var invalid_handled: bool = bool(resumed.call("_full_story_resume_ending"))
+		Engine.print_error_messages = print_errors_before
 		var invalid_matches: bool = invalid_handled \
 				and str(resumed.get("_ending_id")).is_empty() \
 				and GameState.serialize() == invalid_expected \
