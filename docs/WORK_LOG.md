@@ -3,6 +3,17 @@
 이전 기록은 [548 전 원문](history/WORK_LOG_2026-10-11_pre_order548.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39584B/SHA256 dd0c1275654b1596be7343c2542dba452e2817f0cbf6ca808342f43affb1341b이다.
 
+## 2026-10-11 — CJK full 후보 수리 착수
+
+- [560](queue_active/ORDER-560.md)은 실제547/558 ICU 부재를 고친다. 기존 빌드/
+  build_identity2파일·BUILD_PIPELINE만 제품 범위이며 root project/presets/BuildInfo는
+  그대로 둔다. 별도 clean clone의 ICU key+새 BUILD local commit에 실제 manifest를
+  결속한다. root 사양/문서·cjk 도구2·phone_cn private실행·phone_independent 검수로
+  나누며 선언 뒤 구현한다. 새 checker/등록/영구stage 도구·원고/번역/schema 변경0이다.
+- source 보호·새 package만 판정한다. 실제CJK5언어/인간/원어민/물리패드/청취/
+  본편/출시 HOLD 유지, 공개GO·과거판정·사용자 저장·원seed/raw/app 보존이다.
+  559 소득 약속 REWORK는 다음 별도 문안 범위이며 이번 수리에 끼워 넣지 않는다.
+
 ## 2026-10-11 — 새 앱 M16 실제 진행·소득 약속 REWORK
 
 - [559](queue_archive/ORDER-559.md)은 월별 한 커밋 예외로 선언·관측·독립검수·
