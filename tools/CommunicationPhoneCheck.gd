@@ -112,6 +112,17 @@ func _check_formal_name_sources(language: String, full: String, given: String) -
 			leaf = choices[int(spec["choice"])] as Dictionary
 		var raw := str(leaf.get(str(spec["field"]), ""))
 		var rendered := GameState.format_event_text(raw)
+		if str(spec["id"]) == "arc_sangchul_mirror_receipt":
+			# The three authored occurrences have different roles. Counts alone
+			# cannot detect swapping the formal guardian introduction with prose.
+			var pieces := raw.split("{name}")
+			_expect(pieces.size() == 4,
+				"%s ward source lost its three ordered name occurrences" % language)
+			if pieces.size() == 4:
+				var expected := pieces[0] + given + pieces[1] + given \
+					+ pieces[2] + full + pieces[3]
+				_expect(rendered == expected,
+					"%s ward occurrence order is not given/given/full" % language)
 		_expect(raw.count("{name}") == int(spec["full"]) + int(spec["given"]) \
 			and rendered.count(full) == int(spec["full"]) \
 			and rendered.replace(full, "").count(given) == int(spec["given"]),
