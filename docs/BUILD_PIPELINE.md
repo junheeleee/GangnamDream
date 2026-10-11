@@ -94,6 +94,32 @@ W25 이월 후보가 아니다. 과거 clean W1~24 `demo_rc`의 W24 CTA→full W
 bridge 설계도 현재 공개 `story_demo_rc`의 지원 약속이나 제출 조건이 아니다.
 현재 공개 데모의 정식판 이어하기는 full-release HOLD에서 별도로 판정한다.
 
+### 현행 full RC와 CJK 지원 데이터
+
+`tools/build.sh full-rc`는 clean source·새 BUILD_ID 날짜/첫 부모·시작 전 `.godot`
+부재를 확인하고 import와 Win/Mac/Linux export를 한 번에 수행한다. 개별 개발
+export가 이 RC 입구를 통과한 것으로 간주하지 않는다.
+
+본편의 JSON 번역은 Godot Translation resource가 아니므로 CJK 필요가 자동
+감지되지 않는다. full RC는 import 전에 `[internationalization]`의
+`locale/include_text_server_data=true`를 명시적으로 요구한다. 이 설정이 없는
+원본을 자동 수정하거나 그냥 발급하지 않는다. 원 프로젝트·preset을 보존해야
+하는 작업에서는 별도 clean clone의 **build-only Git commit**으로 ICU 설정과
+미사용 BUILD_ID만 바꾼다. base→stage 두 파일 diff·실제 stage SHA/tree·clean·날짜/
+첫 부모를 확인하고 commit/bundle을 보존한다. manifest는 root base가 아니라
+실제 발급한 stage commit에 결속한다. root source의 일반 정적 검사는 RC 발급
+요청이 아니므로 이 설정 부재만으로 실패시키지 않는다.
+
+export가 성공 상태와 새 파일을 남겨도 text-server-data 누락 경고는 실패다.
+전체 WARNING를 실패로 바꾸지는 않는다. 경고 번역에 따른 판독 한계가 있으므로
+실제 PCK의 `icudt_godot.dat` 포함·크기·바이트 지문을 별도로 확인한다. 설치
+템플릿 파일이 없다는 사실 자체는 실패가 아니다. 공식 exporter는 프로젝트 파일,
+템플릿 파일, 에디터 내장 데이터 순으로 사용할 수 있다.
+[Godot 4.6.2 exporter](https://github.com/godotengine/godot/blob/4.6.2-stable/editor/export/editor_export_platform.cpp#L944)
+
+manifest·서명·PCK 데이터 검증은 발급 증거이며 실제 다섯 언어 줄바꿈 품질,
+Win/Linux 실기기, 정상 플레이·원어민·물리 패드·청취·출시 GO를 대신하지 않는다.
+
 ## 2. legacy/internal V2 준비
 
 이 절과 다음 V2 생성 절은 호환·회귀 증거를 재현할 때만 쓴다. 현재 공개

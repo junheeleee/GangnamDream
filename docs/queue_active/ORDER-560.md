@@ -64,4 +64,19 @@ resource가 아니므로 자동 감지가 이 요구를 찾지 못한다. 공개
 
 ## 실제 결과
 
-선언 전. 구현·실제 산출·독립 검수 뒤 채운다.
+### 발급 보호 구현 — 후보 발급 전
+
+- 기존 build.sh에 명시 설정 입구와 공식 missing-data 경고 거절을 더했다.
+  기존 오류/산출/manifest/날짜/clean 검사는 유지한다. template·editor embedded
+  데이터 메시지는 허용하며 일반 정적 호출에서 root 설정 부재를 실패시키지 않는다.
+- 기존 build_identity self-test의 설정7·export mock6 표본을 포함해 actual0,
+  `BUILD_IDENTITY_AUDIT_OK profiles=3 identity_fields=4 manifests=0 self_tests=97`.
+  stderr0·0.510405125s, GODOT=/usr/bin/true이며 실제 엔진 실행은0이다.
+  첫96 PASS는 보존했고 중복 section 표본 추가 때문에 한 번만 재검증했다.
+  bash syntax actual0. 최종 build.sh SHA1c8278ad9034db047f9c2e835fd891ddfbee4c8f925a2ea568d2bf7f7e2f8478,
+  auditor SHAb5eeef5995de51d8eb0ed536d9e2056eddfbb4727a61e45cd166f77cf6897892.
+- root와 phone_independent_review가 실제 source diff를 읽었고 sourceguard GO다.
+  private adapter290줄·18경로 roster는 root 전문 판독 완료, 독립 준비 입구 검수 중이다.
+  실제 candidate 발급/ICU/PCK/서명/manifest/보호 검증은 아직0이며 이 오더는 진행 중이다.
+- selector의 기존 V2/state/order103 관련 후보는 해당 코드·preset 불변이므로 이번에
+  반복 실행하지 않는다. 기존 identity 자체검사·actual full-rc·metadata 표적만 실행한다.

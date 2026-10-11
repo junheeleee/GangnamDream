@@ -20,6 +20,7 @@ BUILD_FLAVOR = ROOT / "systems" / "BuildFlavor.gd"
 SAVE_MANAGER = ROOT / "autoloads" / "SaveManager.gd"
 BUILD_SCRIPT = ROOT / "tools" / "build.sh"
 EXPORT_PRESETS = ROOT / "export_presets.cfg"
+PROJECT_CONFIG = ROOT / "project.godot"
 IDENTITY_FIELDS = (
     "game_version",
     "build_id",
@@ -35,6 +36,7 @@ FULL_RC_ARTIFACT_PATHS = (
 FULL_RC_STAGE_SEQUENCE = (
     "require_clean_playtest_source",
     "require_current_package_build_id",
+    "require_full_rc_text_server_data",
     "require_fresh_import_cache",
     "clear_full_rc_receipts",
     "prepare_playtest_imports",
@@ -63,6 +65,9 @@ BUILD_ID_RE = re.compile(
     r"^(?P<date>\d{4}\.\d{2}\.\d{2})\.(?P<sequence>[1-9]\d*)$"
 )
 EXPECTED_GODOT_VERSION = "4.6.2.stable.official.71f334935"
+MISSING_TEXT_SERVER_DATA_WARNING = (
+    "Missing text server data, text display in the exported project might be broken!"
+)
 
 
 def string_const(path: Path, name: str) -> str:
@@ -381,6 +386,31 @@ def export_preset_errors(text: str) -> list[str]:
     return errors
 
 
+def full_rc_text_server_data_errors(project_text: str) -> list[str]:
+    section = ""
+    section_count = 0
+    settings: list[tuple[str, str]] = []
+    for raw in project_text.splitlines():
+        line = raw.strip()
+        if not line or line.startswith(";"):
+            continue
+        if line.startswith("["):
+            match = re.fullmatch(r"\[([^\]]+)\]", line)
+            section = match.group(1) if match else ""
+            section_count += section == "internationalization"
+            continue
+        key, separator, value = line.partition("=")
+        if separator and key.strip() == "locale/include_text_server_data":
+            settings.append((section, value.strip()))
+    if section_count != 1 or settings != [("internationalization", "true")]:
+        return [
+            "full RC requires exactly one [internationalization] "
+            "locale/include_text_server_data=true raw boolean: "
+            f"sections={section_count} settings={settings!r}"
+        ]
+    return []
+
+
 def build_script_errors(build_script: str) -> list[str]:
     errors: list[str] = []
     required_calls = {
@@ -432,6 +462,18 @@ def build_script_errors(build_script: str) -> list[str]:
         date_guard.group("body") if date_guard else "",
     ):
         errors.append("build.sh malformed or missing package build-id date guard")
+    text_server_guard = re.search(
+        r'^require_full_rc_text_server_data\(\) \{\n'
+        r'(?P<body>.*?)^\}\s*$',
+        build_script,
+        flags=re.MULTILINE | re.DOTALL,
+    )
+    if text_server_guard is None or not re.search(
+        r'python3\s+"\$PROJECT_DIR/tools/build_identity_audit\.py"\s+'
+        r'--require-full-rc-text-server-data',
+        text_server_guard.group("body") if text_server_guard else "",
+    ):
+        errors.append("build.sh malformed or missing full RC text server data guard")
     for aggregate in ("build_demo", "build_playtest", "build_full_rc"):
         function = re.search(
             rf'^{aggregate}\(\) \{{\n(?P<body>.*?)^\}}\s*$',
@@ -484,6 +526,8 @@ def build_script_errors(build_script: str) -> list[str]:
     for guard_token in (
         'rm -f -- "$artifact"',
         "SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|ERROR:",
+        MISSING_TEXT_SERVER_DATA_WARNING,
+        '"$missing_text_server_data"',
         '"$exit_code" -ne 0',
         '! -f "$artifact"',
     ):
@@ -524,7 +568,7 @@ def static_errors() -> list[str]:
     return errors
 
 
-def run_self_test() -> list[str]:
+def run_self_test() -> tuple[list[str], int]:
     failures: list[str] = []
     profiles = ("full", "demo", "playtest")
     for profile in profiles:
@@ -633,6 +677,20 @@ def run_self_test() -> list[str]:
                 f"first_parent_build_id={first_parent_build_id!r}"
             )
     build_script = BUILD_SCRIPT.read_text(encoding="utf-8")
+    text_server_key = "locale/include_text_server_data="
+    text_server_data_cases = (
+        ("missing", "", True),
+        ("false", "[internationalization]\n" + text_server_key + "false\n", True),
+        ("string", "[internationalization]\n" + text_server_key + '"true"\n', True),
+        ("duplicate", "[internationalization]\n" + (text_server_key + "true\n") * 2, True),
+        ("duplicate section", "[internationalization]\n[internationalization]\n"
+         + text_server_key + "true\n", True),
+        ("wrong section", "[application]\n" + text_server_key + "true\n", True),
+        ("true", "[internationalization]\n" + text_server_key + "true\n", False),
+    )
+    for label, project_text, should_fail in text_server_data_cases:
+        if bool(full_rc_text_server_data_errors(project_text)) != should_fail:
+            failures.append(f"full RC text server data setting: wrong result for {label}")
     script_mutations = {
         "full manifest invocation": '--manifest "full=$manifest"',
         "demo manifest invocation": '--manifest "demo=$manifest"',
@@ -643,6 +701,8 @@ def run_self_test() -> list[str]:
             "! -name 'MANIFEST.sha256' -print0 | sort -z"
         ),
         "package build-id date audit": "--require-head-date",
+        "full RC text server data audit": "--require-full-rc-text-server-data",
+        "missing text server data export guard": MISSING_TEXT_SERVER_DATA_WARNING,
         "demo package build-id date guard": (
             "build_demo() {\n  require_clean_playtest_source\n"
             "  require_current_package_build_id"
@@ -668,6 +728,7 @@ def run_self_test() -> list[str]:
             if label in {
                 "recursive web artifact scan",
                 "web manifest exclusion and stable order",
+                "missing text server data export guard",
             }
             else build_script.replace(marker, f"+    {marker}", 1)
         )
@@ -715,7 +776,7 @@ def run_self_test() -> list[str]:
     )
     if (
         guard_test.returncode != 0
-        or "FULL_RC_EXPORT_GUARD_SELF_TEST_OK cases=3" not in guard_test.stdout
+        or "FULL_RC_EXPORT_GUARD_SELF_TEST_OK cases=6" not in guard_test.stdout
     ):
         failures.append(
             "build.sh full RC export guard behavior self-test failed: "
@@ -730,7 +791,10 @@ def run_self_test() -> list[str]:
     )
     if not export_preset_errors(mutated_preset):
         failures.append("export presets accepted a V2 feature mutation")
-    return failures
+    return failures, (
+        3 * 14 + 2 + 8 + 13 + 1 + 5 + len(FULL_RC_STAGE_SEQUENCE)
+        + 6 + len(text_server_data_cases)
+    )
 
 
 def main() -> int:
@@ -755,6 +819,11 @@ def main() -> int:
         "--require-head-date",
         action="store_true",
         help="require BUILD_ID's date to equal the current HEAD commit date",
+    )
+    parser.add_argument(
+        "--require-full-rc-text-server-data",
+        action="store_true",
+        help="require explicit raw true text server support data in project.godot for full RC",
     )
     args = parser.parse_args()
 
@@ -793,8 +862,15 @@ def main() -> int:
             errors.append(str(exc))
     self_tests = 0
     if args.self_test:
-        errors.extend(run_self_test())
-        self_tests = 3 * 14 + 2 + 8 + 11 + 1 + 5 + 12 + 3
+        self_test_failures, self_tests = run_self_test()
+        errors.extend(self_test_failures)
+    if args.require_full_rc_text_server_data:
+        try:
+            errors.extend(
+                full_rc_text_server_data_errors(PROJECT_CONFIG.read_text(encoding="utf-8"))
+            )
+        except (OSError, UnicodeError) as exc:
+            errors.append(f"cannot verify full RC text server data setting: {exc}")
     if args.require_head_date:
         try:
             errors.extend(

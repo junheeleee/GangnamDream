@@ -107,6 +107,10 @@ require_current_package_build_id() {
   python3 "$PROJECT_DIR/tools/build_identity_audit.py" --require-head-date
 }
 
+require_full_rc_text_server_data() {
+  python3 "$PROJECT_DIR/tools/build_identity_audit.py" --require-full-rc-text-server-data
+}
+
 prepare_playtest_imports() {
   echo ""
   echo "📦 clean checkout 리소스·전역 클래스 import 준비..."
@@ -153,7 +157,11 @@ run_retail_export() {
   local export_errors
   export_errors=$(echo "$output" | grep -E \
     "SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|ERROR:" || true)
-  if [[ "$exit_code" -ne 0 || -n "$export_errors" || ! -f "$artifact" ]]; then
+  local missing_text_server_data
+  missing_text_server_data=$(echo "$output" | grep -F \
+    "Missing text server data, text display in the exported project might be broken!" || true)
+  if [[ "$exit_code" -ne 0 || -n "$export_errors" \
+      || -n "$missing_text_server_data" || ! -f "$artifact" ]]; then
     echo "❌ retail export 실패: preset=$preset exit=$exit_code artifact=$artifact"
     return 1
   fi
@@ -618,6 +626,7 @@ build_playtest() {
 build_full_rc() {
   require_clean_playtest_source
   require_current_package_build_id
+  require_full_rc_text_server_data
   require_fresh_import_cache
   clear_full_rc_receipts
   prepare_playtest_imports
@@ -642,7 +651,10 @@ run_full_rc_export_guard_self_test() {
     'case "${MOCK_GODOT_MODE:-}" in' \
     '  no_write) exit 0 ;;' \
     '  error) mkdir -p "$(dirname "$artifact")"; printf fresh > "$artifact"; echo "SCRIPT ERROR: synthetic export failure"; exit 0 ;;' \
+    '  missing_data) mkdir -p "$(dirname "$artifact")"; printf fresh > "$artifact"; echo "WARNING: Missing text server data, text display in the exported project might be broken!" >&2; exit 0 ;;' \
     '  success) mkdir -p "$(dirname "$artifact")"; printf fresh > "$artifact"; exit 0 ;;' \
+    '  template) mkdir -p "$(dirname "$artifact")"; printf fresh > "$artifact"; echo "Using text server data from export templates."; exit 0 ;;' \
+    '  embedded) mkdir -p "$(dirname "$artifact")"; printf fresh > "$artifact"; echo "Using editor embedded text server data, text display in the exported project might be broken if export template was built with different ICU version!"; exit 0 ;;' \
     '  *) exit 9 ;;' \
     'esac' > "$GODOT"
   chmod +x "$GODOT"
@@ -666,9 +678,24 @@ run_full_rc_export_guard_self_test() {
     rm -rf -- "$test_root"
     return 1
   fi
+  export MOCK_GODOT_MODE=missing_data
+  if run_retail_export "Windows" "$artifact" >/dev/null 2>&1; then
+    echo "FULL_RC_EXPORT_GUARD_SELF_TEST_FAIL missing text server data accepted"
+    rm -rf -- "$test_root"
+    return 1
+  fi
+  local mode
+  for mode in template embedded; do
+    export MOCK_GODOT_MODE="$mode"
+    if ! run_retail_export "Windows" "$artifact" >/dev/null 2>&1; then
+      echo "FULL_RC_EXPORT_GUARD_SELF_TEST_FAIL valid $mode support data rejected"
+      rm -rf -- "$test_root"
+      return 1
+    fi
+  done
   unset MOCK_GODOT_MODE
   rm -rf -- "$test_root"
-  echo "FULL_RC_EXPORT_GUARD_SELF_TEST_OK cases=3 stale=removed errors=rejected"
+  echo "FULL_RC_EXPORT_GUARD_SELF_TEST_OK cases=6 stale=removed errors=rejected missing_data=rejected template/embedded=accepted"
 }
 
 case "$TARGET" in

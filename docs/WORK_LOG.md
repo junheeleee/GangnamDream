@@ -13,6 +13,12 @@
 - source 보호·새 package만 판정한다. 실제CJK5언어/인간/원어민/물리패드/청취/
   본편/출시 HOLD 유지, 공개GO·과거판정·사용자 저장·원seed/raw/app 보존이다.
   559 소득 약속 REWORK는 다음 별도 문안 범위이며 이번 수리에 끼워 넣지 않는다.
+- 기존 full-rc에 ICU raw true 입구·공식 데이터 누락 경고 거절을 구현하고
+  BUILD_PIPELINE에만 지속 규칙을 정렬했다. 일반 WARNING·설치 .dat 부재를 실패로
+  바꾸지 않는다. 기존 self-test actual0/97·stderr0/0.510405125s와 shell syntax0,
+  GODOT=/usr/bin/true·엔진0. 첫96 PASS 뒤 중복section 표본으로 한 번만 재검증했다.
+  root·phone_independent_review 실제 source 판독 GO다. 새 candidate 발급은 아직0,
+  private helper 전문 판독/root 완료·독립 준비 승인 뒤 exact clean 구현 SHA로 진행한다.
 
 ## 2026-10-11 — 새 앱 M16 실제 진행·소득 약속 REWORK
 
