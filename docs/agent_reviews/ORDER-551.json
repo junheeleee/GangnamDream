@@ -1,0 +1,312 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-551",
+  "reviewer": "phone_independent_review (비저자)",
+  "reviewed_at_utc": "2026-10-11T00:59:01.878673+00:00",
+  "subject": {
+    "kind": "package",
+    "commit": "a0bc2886faf34ca75c926b1492cfe5808413921f",
+    "tree": "9e21cfc5647f6f81b7999617453a9ffd8bb56ef4",
+    "manifest_path": "docs/agent_reviews/ORDER-551-manifest.json",
+    "manifest_sha256": "1569a68298b2f40086ddde46735e0f4be3e731b30e89d9e374bdffa7ef88ada7"
+  },
+  "scope": "기존547 issued a0bc 앱/ZIP/PCK exact 재사용, 실제549 W45 autosave 한 파일만 새 HOME/XDG로 이월한 KO 정상 Continue→M12 네 선택·결과·연말 curation→W49 챕터2 카드 첫 입력 전 종료. 월별 실제 관측/원로그/저장/보존 검수이며 제품 수리·새 빌드·전체 본편 검수가 아니다.",
+  "verdict": "REWORK",
+  "product_verdict": "HOLD",
+  "results": {
+    "navigation_and_receipts": "한정 GO — root 관측13본문+5결과/선택화면4개(2/2/3/4택) 및 실제 choice0 네 건·read sequence47..50·W45..48 완료/루틴 각1·W49 카드 입력0이 일치한다.",
+    "preservation": "GO — 보호128군/파일2017+symlink5(중첩합산), tracked3337/비소유3335, helper5+2/seed2/W238/player33/Human/과거294판정, issued app7/ZIP/PCK/manifest와 실제 종료 namespace5를 entry→native result→fresh 직접 전량 대조했다.",
+    "narrative_time": "REWORK — 완료44주/11개월인 W45에서 ‘12개월.’·‘작년 이맘때’·‘1년을 버텼다는 건 사실이다’가 이미 완료한 시간으로 서술된다. 달력12월 입구를 고르는 milestone 조건과 완료기간 산문의 정합 결함이다. 이번 수리0/최근 회귀 단정0.",
+    "employment_wording": "미확정 명료성 위험 — ‘퇴근 뒤’는 current_job{}·monthly_income0만으로 가짜 취업이라고 확정할 수 없다. 실제 주간 단기 생계 루틴이 있으며 정규직/고정 근무시간을 새로 생산한 증거는 없다.",
+    "overall": "최종 ORDER-551 단위 REWORK, 본편/출시 HOLD. 정상 진행·영수증·보존 부분 GO는 전체 품질/시간 결함 해결 GO가 아니다."
+  },
+  "method": {
+    "direct": "사양/helper2 전량, package/prepare/pre/native-result/finalized journal, stdout/stderr/실제 Godot 및 사본 전량, 원seed/primary/backup 전체 v4 JSON, milestone/후속큐/월초·월말·패시브/curation/카드 입력 소비자를 직접 읽었다.",
+    "fresh": "새 checker 없이 기존 prepare.current_source/tracked_files/issued_artifacts와 builder.snapshot/file_record만 재사용했다. final seal에서128군과 전체 tracked·실제 namespace를 새로 비교했으며 옛 census나 root의 bool만으로 대체하지 않았다.",
+    "observation_boundary": "실제 KO/default1280×800 키보드 게임 pixels는 root inline CUA 관측이다. 검수자는 원문/원로그/저장/해시/프로세스 상태를 직접 보았으며 독립 native pixels·영구PNG·청취·인간 증거는 발급하지 않는다.",
+    "source_boundary": "inspection HEAD/origin79bdd/tree83625e + queue2 dirty/551 spec untracked를 별도 봉인했다. 월별 한 커밋 예외의 선언 상태이지 clean source GO/metadata-wrapper GO가 아니다. 실제 앱 source는 a0bc/tree9e21이며548 fresh NG+ 및550 현수 종료 표시 수리를 포함하지 않는다.",
+    "actions_not_taken": "검수자 engine/UI/app/build/replay/675payload 재스캔/추가 검사/제품·원문·원저장 편집0. final autosave만 승인된 xb 배타 raw 복사로 무재직렬화 보존; 보고/manifest/독립 seal은 apply_patch로 작성했다."
+  },
+  "evidence": {
+    "private_base": ".git/order551-live-20261011",
+    "independent_before": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/independent-before.json",
+      "sha256": "e30da616863593b360afc5ca2439ee9edc3f126ff7cd5eb11ca315e2deb7a9fe",
+      "size": 55119
+    },
+    "independent_native_admission": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/independent-native-admission.json",
+      "sha256": "5d92e1bd75921015fa64a1aceb6b254171b251853e795b7d795ccb64248c885c",
+      "size": 9953
+    },
+    "independent_final": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/independent-final-preservation.json",
+      "size": 21683,
+      "sha256": "c8965c2ea6c5335cc1650673e34280dd230174ce6e5c851065f5879fda939788"
+    },
+    "protection_roster": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/protection-roster.json",
+      "sha256": "94b4f4f1d5a254ce5daf83613ce974156cf368531d995b790afa4b69de39677e",
+      "size": 21982
+    },
+    "prepare_before": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/prepare-before.json",
+      "sha256": "35d4a97b5baf8434491caec3fa57d3aed2ad581beed239ecfd02f1a07409f1de",
+      "size": 1327641
+    },
+    "prepare_result": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/prepare-result.json",
+      "sha256": "461cb428937ffa11f1a089d114be748c0066717dd035b80f4656b8c7d077856f",
+      "size": 462679
+    },
+    "pre_launch": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/pre-launch.json",
+      "sha256": "cdb1dee57d883139742a8b09855f79d203704d1adf5c34eb7b3377172b44b211",
+      "size": 1329393
+    },
+    "native_result": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/native-result.json",
+      "sha256": "f1418c77af7a36d3d10d3adfa86c028ea7577f8235bc5b8785321c240885bbdc",
+      "size": 465589
+    },
+    "root_observations": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/observations.md",
+      "sha256": "8dc6b3985f7ed887a4abc5742cb80c9d63d85fc224a8ed3d73710020fd72a318",
+      "size": 6948
+    },
+    "streams": {
+      "stdout": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/native.stdout.log",
+        "sha256": "6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1",
+        "size": 154
+      },
+      "stderr": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/native.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      "preserved_godot": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/native.godot.log",
+        "sha256": "6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1",
+        "size": 154
+      }
+    },
+    "source_autosave": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order549-live-20261011/final-autosave.json",
+      "sha256": "a98ddfe49e12e07c8602766fb596a5d997541cae92f9734bd92424b66a5db822",
+      "size": 160055
+    },
+    "final_autosave": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/final-autosave.json",
+      "sha256": "9b6c4729865bff3e3fd0bf7a89a34a83fd92a9aaac3c8ebe21aac1b88816bff6",
+      "size": 171557
+    },
+    "actual_backup": {
+      "path": "/private/tmp/gd-order551-native-a__uln4e/home/Library/Application Support/Godot/app_userdata/강남드림/gangnam_dream_autosave.json.bak",
+      "sha256": "a317e56f04e478206a1d384966fa5bafb99287657e6de7da396deabc39ff8983",
+      "size": 168448
+    },
+    "issued_reuse_manifest": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/package.json",
+      "sha256": "1569a68298b2f40086ddde46735e0f4be3e731b30e89d9e374bdffa7ef88ada7",
+      "size": 5564
+    }
+  },
+  "inspection_source": {
+    "head": "79bdd9d6306e28ae8518316220eae11b619117b0",
+    "tree": "83625eed83ff2485d3fe6dad65246ff76b889de2",
+    "status": " M docs/CODEX_QUEUE.md\n M docs/CODEX_QUEUE_L3_PENDING.md\n?? docs/queue_active/ORDER-551.md\n"
+  },
+  "spec_at_final_seal": {
+    "path": "/Users/junheelee/Documents/GitHub/GangnamDream/docs/queue_active/ORDER-551.md",
+    "sha256": "88387c5d4c10ff6109bb2934f679d582452a06570e7d89a61ccf258344898a28",
+    "size": 5981
+  },
+  "helpers": [
+    {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/prepare.py",
+      "sha256": "736ee36ccd486285630ee9e8b6ad50554e07710dc9d0e7ac1e54967ec4b459b1",
+      "size": 10039
+    },
+    {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/.git/order551-live-20261011/launch.py",
+      "sha256": "e81d1ee198a2509daaa5a4ff16b3ee87db97a94d4d5b88087afae6aeb1ae867a",
+      "size": 7785
+    }
+  ],
+  "run": {
+    "os_launches": 1,
+    "pid": 39066,
+    "launcher_pid": 39047,
+    "exit_code": 0,
+    "elapsed_seconds": 412.891141,
+    "wrapper_failure": null,
+    "wrapper_preservation_checks": 12,
+    "all_true": true,
+    "raw": "stdout/실제 Godot/보존 사본 각154B SHA6649181a45f1de194f4d5d937955a52c84af8255e87f9c93e5f27a656d7765b1, stderr0B. 세 stream 전량 ERROR/WARNING/parse/script/ObjectDB/leaked0. 정상 full GUI라 headless/native-entry success marker를 요구하거나 발명하지 않는다.",
+    "exit": "CmdQ 단독 마지막 UI와 이후 UI 접근0은 root 기록. 독립 fresh ps에서39066/39047 및 exact 실행파일 후보0, 사용자 editor61385 생존.",
+    "provenance": "초기 cgWindowNotFound와 임시 변수 할당 진단은 같은 생존 app 연결 절차로 journal 보존. 재실행/두 번째 OS process/제품 실패로 단정하지 않는다.",
+    "copied_saves": 1,
+    "state_edits": 0,
+    "rebuilds": 0
+  },
+  "actual_scope": {
+    "observer": "root only; KO/default1280×800 keyboard; independent pixels0",
+    "W45": "story_one_year6본문/2택/choice0/결과1; 정신90→100 cap. 선택하지 않은 두 번째 결과 미관측.",
+    "W47": "quietW46 별도 화면 미관측. 예약 callback_daeun_supportive_warmth1본문/2택/choice0/결과1.",
+    "W48": "arc_year1_close clean3본문/3택/choice0/결과2→같은 큐 arc_year1_scene3본문/실제4택/첫 선택/결과1.",
+    "curation_options": [
+      "편의점 밖 사십 분",
+      "현수의 새 길",
+      "또, 너",
+      "두 번째 커피"
+    ],
+    "stop": "W49 ‘챕터 2 / 확장 / 34세. 2027년.’ cinematic 카드 완문에서 첫 입력 전에 종료. StoryMode._chapter_card_advance 첫 입력이 choice0 적용/닫힘을 소유하므로 카드 종료/선택 영수증0은 정상 정지 경계다."
+  },
+  "state_and_receipts": {
+    "entry": {
+      "turn": 45,
+      "completed": 44,
+      "events_seen": 46,
+      "money": -3781703,
+      "health": 46,
+      "mental": 90,
+      "investment_skill": 24
+    },
+    "final": {
+      "turn": 49,
+      "age": 34,
+      "year": 2027,
+      "month": 1,
+      "week_of_month": 1,
+      "last_completed_turn": 48,
+      "completed": 48,
+      "routines": 48,
+      "events_seen": 50,
+      "money": -4151703,
+      "health": 44,
+      "mental": 90,
+      "social_skill": 60,
+      "investment_skill": 25,
+      "job": {},
+      "monthly_income": 0,
+      "housing_months": 12,
+      "year_scenes": {
+        "year_scene_1": "arc_daeun_02_regular"
+      },
+      "deferred_events": [
+        {
+          "event_id": "callback_investment_lesson_echo",
+          "trigger_turn": 31
+        }
+      ],
+      "chapter34_choice_applied": false,
+      "resume": {}
+    },
+    "once": "이전46 event prefix와 모든 기존 read/routine/completed 값 exact. 새 event/read 네 건 story_one_year(W45), callback_daeun_supportive_warmth(W47), arc_year1_close(W48), arc_year1_scene(W48), choice_index0·applied tuple/sequence47..50 각1. 완료/루틴45..48 각1/next_turn+1, last48; W49 read/routine/completed 및 chapter_34_seen 부재.",
+    "effects": "story_one_year mental+18, 다은 mental+15/social+2, 연말기록 mental+2는 실제100 cap. social58→60, 다른 cast/기존관계 payload exact. 선택하지 않은 결과나 후속을 실행하지 않았다.",
+    "economy": "-3781703 +4×70000 -650000 = -4151703. 자동 생계/회복45..48 각1, health−1/+1 net0·mental100 cap, 월말 health46→44/mental100→90, 고시원11→12개월. 월말 결산49 로그1. 월초 monthly_economy_turn41→45는12월 입구 처리이며 카드 첫 입력 전1월 월초 처리49를 주장하지 않는다.",
+    "passive": "investment_skill24→25 실제 변화. Sangchul mentoring/turn48 ‘임상철의 지나가는 말’ 로그와 GameState1730–1732 기존 패시브가 일치한다. 거래나 skill 불변으로 주장하지 않는다.",
+    "deferred": "예약 다은47만 소비, callback_investment_lesson_echo31 원예약 보존. portfolio{}·실제 매수 fact 부재 유지.",
+    "curation": "실제 첫 후보 arc_daeun_02_regular→year_scene_1 exact. W48 마지막 read의 year_scene {year:1,scene_id:arc_daeun_02_regular}·sequence50 및 동적 결과 원문이 일치한다.",
+    "backup": "168448B/a317e56f04e478206a1d384966fa5bafb99287657e6de7da396deabc39ff8983. W48/last47/event48/−3571703/h46/m100/year_scenes{} 정상 직전 checkpoint다. primary와 같거나 새 복사/복구한 파일이라고 주장하지 않는다.",
+    "action_log": "98→100 cap에 따라 과거 prefix7이 정상 제거되고 retained old suffix91은 값 exact, 실제 새9행(선택4+월말생산5)이 추가됐다. 원 event46/read/routine/completion은 그대로 보존. 과거 action_log 전량 prefix 보존으로 과장하지 않는다.",
+    "complete_diff": "전체 v4 payload를 비교해 calendar·주간분류·월초news/시장·월말/주거·실제 선택4·flow4·후속예약/동적curation·director/장면tracking에 귀속했다. 비교 필드 masking/경제 기대완화0."
+  },
+  "finding": {
+    "id": "story_one_year-completed-year-prose-at-month12-entry",
+    "verdict": "REWORK",
+    "exact_authored_text": [
+      "12개월.",
+      "작년 이맘때 이 방에 처음 짐을 풀었다.",
+      "어디 있든 — 1년을 버텼다는 건 사실이다."
+    ],
+    "actual_boundary": "W45 entry2026년12월1주, completed/routine1..44, 고시원11개월. 열두 번째 달 입구이고 아직 첫해를 끝내지 않았다.",
+    "root_pixels": "같은 W45 실제 six-body 완독에서 위 시간 표현을 직접 관측했다고 root journal이 기록한다. 독립 pixels는 아니다.",
+    "source": "content/events/story_events.json444–447 story_one_year 제목/description ↔ scenes/MainGame.gd8811–8838 _next_milestone_id의 me=(age−33)*12+month 및 me==12. 달력 월 서수와 경과 완료기간은 같지 않다. 이후 W48 연말회수/49챕터 입력 전 경계와 구분한다.",
+    "attribution": "MainGame/GameState/대상 사건 원문은 issued a0bc와 current79bdd에서 동일하다. 확인된 기존 산문/스케줄 정합 결함이며 최근 회귀·렌더 고장/이번 해결 GO가 아니다.",
+    "next_scope": "별도 source 수리 선언에서 완료기간 산문과 실제 도달/월말·챕터 우선순위를 함께 정합시킬 것. 551에서 원고/스케줄/저장 변경0.",
+    "not_confirmed": "다은 결과 ‘퇴근 뒤’는 단기 생계 실제 영수증이 있으므로 정규직 발명 확정 결함으로 추가하지 않는다. 직업·요일을 확정하는 근거가 충분하지 않아 명료성 위험만 남긴다."
+  },
+  "preservation": {
+    "population": {
+      "protected_groups": 128,
+      "protected_file_entries": 2017,
+      "protected_symlink_entries": 5,
+      "tracked": 3337,
+      "nonowned_tracked": 3335,
+      "app_files": 7,
+      "user_data_files": 5,
+      "historical_decisions": 294,
+      "player_files": 33,
+      "original_helpers": 5,
+      "seed_files": 2,
+      "W238_checkpoints": 1,
+      "runtime_processes": 1,
+      "runtime_streams": 3
+    },
+    "canonical_sha256": {
+      "protected": "0125ce1bc4bc532de4b819dc7ebf1c9b3923d3ac8c0cce5e5dc300b78dcd5d11",
+      "tracked": "cb5d77402f6d3753855a095d1a65c6f1d6e89776c0c17fec0fd38bc967bb419d",
+      "nonowned_tracked": "b6ac2b88a6c2b3fc3ab90af382e5d1f348eadb0293f178f5e7ddcc4b76078928",
+      "userdata": "62a2ecfd780c9bb1f495a9b233d6d560e594b4d1b5ec8530927a3842b2212566",
+      "player33": "4aa2066642a8f05259cce499975665d197a0d4aa6b18bbffa80b4f2a04e408bb",
+      "decisions294": "d9c7953939de80eaea3fb0bc48e52de324c4eae7c8fd16e51d5a13aef6c31dee"
+    },
+    "Human": {
+      "path": "/Users/junheelee/Documents/GitHub/GangnamDream/docs/human_gates.json",
+      "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+      "size": 103390
+    },
+    "historical294": {
+      "record": {
+        "path": "/Users/junheelee/Documents/GitHub/GangnamDream/docs/agent_review_decisions.json",
+        "sha256": "d34e5a834d928d8ce6d9540d6370d042b26a4c7565f3370c11f79be307b42208",
+        "size": 449810
+      },
+      "decisions": 294,
+      "canonical_decisions_sha256": "d9c7953939de80eaea3fb0bc48e52de324c4eae7c8fd16e51d5a13aef6c31dee",
+      "previous293_prefix_exact": true
+    },
+    "old_history": "294 전체 원장/이전 prefix·Human/player33/public·545/544/546/547/548/549/550 raw/report/runtime/도구·seed/W238 보존. 과거 retail log3 변화/194B 제거·사고 REWORK·strict FAIL을 복구하거나 소급 PASS로 바꾸지 않는다.",
+    "runtime": "새551 namespace만1→5파일 정상 UI 변화; native-result와 final fresh exact. primary171557B/9b6c4729…를 배타적 final-autosave.json raw byte copy로 보존했고 원seed160055B/a98ddfe4… 변경0.",
+    "release_boundary": "independent final seal과 hash 회신을 root의 선언된551 마감metadata 동결해제 경계로 삼았다. 제품/원문/기존보고/raw/helper/Human/저장 수정은 승인하지 않는다."
+  },
+  "package": {
+    "app_path": "/private/tmp/gd-order547-build-ze5249j0/app/GangnamDream.app",
+    "app_files": 7,
+    "ZIP": {
+      "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/build/macos/GangnamDream.zip",
+      "sha256": "b18cd1dafe65a36031db1bab480ab1978e34a0259873f903d1884029a669d3f1",
+      "size": 438023378
+    },
+    "PCK": {
+      "path": "/private/tmp/gd-order547-build-ze5249j0/app/GangnamDream.app/Contents/Resources/GangnamDream.pck",
+      "sha256": "2836e7dbd377e587b736b1564cb290078f0436e33e006ddd8422d0a763ed8557",
+      "size": 399841208
+    },
+    "build_text_manifest": {
+      "path": "/private/tmp/gd-order547-build-ze5249j0/checkout/GangnamDream/build/macos/MANIFEST.sha256",
+      "sha256": "aa86e8be2616b4b70d793a8384c33c93e45c13655ca63638bc2e4e5e51fb8c2b",
+      "size": 464
+    },
+    "manifest_copy": "package.json5564B/1569a682…와 byte-identical apply_patch 사본, cmp/hash exact. 원 admission PENDING 문구/발급 당시 경계 그대로이며 새 최종 판정은 이 보고가 별도로 결속한다.",
+    "old_verdicts": "원549 REWORK/550 source GO, 옛547 source41fef/packagea0bc HOLD와 post548 source 한정GO, 이전546/544/534 HOLD·strict FAIL·로그 사고 원형을 각각 유지한다. 551 package REWORK를 다른 후보/작업의 판정으로 확대하지 않는다."
+  },
+  "unobserved": [
+    "independent_runtime_pixels_or_persistent_PNG",
+    "human_playtest",
+    "native_reader",
+    "physical_controller_feel",
+    "audio_listening",
+    "other_choices_routes_locales_resolutions",
+    "quiet_W46_screen",
+    "W49_first_card_input_or_later",
+    "natural_full_240_week_play",
+    "fresh_NGplus_or_550repair_in_this_issued_app",
+    "new_build_signing_or_675payload_rescan",
+    "full_remote_CI",
+    "external_release"
+  ],
+  "acceptance": "ORDER-551 전체 REWORK/본편·출시 HOLD, 정상 진행·영수증·현재 보존 부분 GO. 자동 계약은 재미·깊이·문체 또는 인간 품질의 증거가 아니다."
+}

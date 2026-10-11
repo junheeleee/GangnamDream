@@ -12358,6 +12358,45 @@
         "path": "docs/agent_reviews/ORDER-550.json",
         "sha256": "080c9367746249002f4dd186a51880e92b300acf322c5949039fefcc761af4b2"
       }
+    },
+    {
+      "id": "order-551-package-m12-completed-year-prose-rework",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-11",
+      "decided_by": "/root/phone_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-551",
+      "subject": {
+        "kind": "package",
+        "commit": "a0bc2886faf34ca75c926b1492cfe5808413921f",
+        "tree": "9e21cfc5647f6f81b7999617453a9ffd8bb56ef4",
+        "manifest_sha256": "1569a68298b2f40086ddde46735e0f4be3e731b30e89d9e374bdffa7ef88ada7"
+      },
+      "verdict": "REWORK",
+      "evidence": [
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/agent_reviews/ORDER-551.json",
+          "sha256": "68b0d2b8167df19efe3f0ba085cbbbacfff8ceb201a994fa6ca2e36a03e8229b"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-551-manifest.json",
+          "sha256": "1569a68298b2f40086ddde46735e0f4be3e731b30e89d9e374bdffa7ef88ada7"
+        }
+      ],
+      "unobserved": [
+        "native_reader", "human_playtest", "physical_controller_feel",
+        "independent_native_pixels_or_audio_listening",
+        "other_choices_locales_or_resolutions", "quiet_W46_screen",
+        "W49_first_card_input_or_later", "temporal_prose_repair",
+        "new_build_with_548_or_550_repairs", "full_remote_CI_external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-551.json",
+        "sha256": "68b0d2b8167df19efe3f0ba085cbbbacfff8ceb201a994fa6ca2e36a03e8229b"
+      }
     }
   ]
 }
