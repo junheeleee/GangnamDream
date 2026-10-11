@@ -1,6 +1,6 @@
 # ORDER-560 — CJK 지원 데이터 full 후보 수리
 
-#### [~] ORDER-560 [패키지] 착수 — 2026-10-11
+#### [x] ORDER-560 [패키지] 완료 — 2026-10-11
 
 547·558 실제 Mac PCK에 ICU member가 없었다. JSON 번역은 Godot Translation
 resource가 아니므로 자동 감지가 이 요구를 찾지 못한다. 공개 데모는 바꾸지 않는다.
@@ -80,3 +80,36 @@ resource가 아니므로 자동 감지가 이 요구를 찾지 못한다. 공개
   실제 candidate 발급/ICU/PCK/서명/manifest/보호 검증은 아직0이며 이 오더는 진행 중이다.
 - selector의 기존 V2/state/order103 관련 후보는 해당 코드·preset 불변이므로 이번에
   반복 실행하지 않는다. 기존 identity 자체검사·actual full-rc·metadata 표적만 실행한다.
+
+### 실제 발급·독립 최종 검수
+
+- main 구현 e83468123fcc4502da2d167ec0d38dce28f0e900/tree4d6168d1c81aa715eeb2af4c65582168f5958445를
+  push한 뒤 prepare1회 actual0/7.820955s·보호6 true. root가 private2파일만 patch하고
+  clean child227c5ae58c407508c565b8a6b6be0eb869f52cc2/tree30891a8c35ee57175c6b74560dc314f94dcf4e53,
+  BUILD2026.10.11.2로 local commit했다. 원 root 프로젝트/preset/BuildInfo 변경0이다.
+- 독립 stage admission 뒤 build1회 actual0/95.893340s, full-rc0/85.771834s.
+  7실제단계 exit0·보호9 true. bundle678B/SHA3ec7e63e7bcbc1b0f1534f3d1fd0ae34a972cd433b90bc44dd78a690f2315ba3를
+  verify했으며 manifest4는 root base가 아닌 실제 private227c5ae/tree30891a8/clean을 쓴다.
+- Windows509304352B/SHA4888218983023153a92c6bf5e482a6845d5f9aef467cc96578b63ce70c2de4ef,
+  MacZIP440860442B/SHA2bbb3052ad84cc97e34e9c9ffdaab7bb9312147691d13bbd7619440f745d270a,
+  Linux475722800B/SHAf4af859adb0395d994f0f93030fc5f1ecb75cd5d315f039ffb31c53b77b3c822.
+  Mac deepstrict0/universal x86_64+arm64·ZIP/app7 exact.
+- 실제 Mac PCK404651024B/SHA39abeb3d7dae4f8bf9524670122586e1d0bfb94c60f819084a16ded403b2d0bd,
+  1893개 전MD5·고지12·arc_daeun bytes·이미지6 import binding PASS.
+  ICU icudt_godot.dat4797072B/SHA4025663065f82dd78e68981ad362cafa993396468b44f14853004ded3b3d665d가
+  설치4.6.2 원본과 byte-exact다. 세 exporter의 template-data 사용 메시지도 관측했다.
+- private560 build-package.json13554B/SHA656e830400b5011796f1d1c403bf6da0ce16e16015c74fc9fbb316a819fdbd25,
+  build-result.json7508B/SHA71582dcd5738c39a215e94d88fd4efec226b69580ac0574c1695f9a34824a7fe.
+  앱은 `/private/tmp/gd-order560-build-53iuu5un/app/GangnamDream.app`다.
+  raw full-rc stdout681987B/SHAd83e64c99715fe1f9a5c9a9fb2b9a98633407ef278f50cd186ea0d84d604b4cd,
+  stderr129B/SHA6cd9c4ae91911af6adea913966dedc07fe34e0b883591c03710e223386b11add.
+- phone_independent_review가 14원stream·산출/manifest/bundle/app/PCK와 fresh보호18그룹
+  207entries를 직접 대조해 발급보호·패키지 한정 GO다. outer ERROR/parse/script/
+  ObjectDB/leak/누락 경고0, 기존 nested-project WARNING3·서명교체129B는 보존했다.
+  숨긴 import 내부 warning0·native/CJK5화면/비MacPCK/WinLinux실기기/전체CI/출시 GO는 아니다.
+- native0·559 소득 약속 REWORK·전체번역 INCOMPLETE·옛FAIL/HOLD·공개GO·인간OPEN45
+  유지, 본편/출시 HOLD. 자동 계약은 재미·깊이·문체/인간 품질 증거가 아니다.
+  새 checker/등록/formal보고/판정원장행/STATUS단독커밋/누수탐침/전체audit0.
+  다음은 별도 M16·M18 소득 약속 문안 정렬, 뒤에 원559 W68 정상 이어보기다.
+- 마감 context/queue/diff PASS. WORK_LOG 상한 첫 실패는 원문40588B를
+  history/WORK_LOG_2026-10-11_pre_order561.md에 byteexact 이동 보존해 고쳤다.
