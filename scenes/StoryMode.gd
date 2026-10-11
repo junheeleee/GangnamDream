@@ -2638,6 +2638,7 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		_para_index = clampi(
 			int(context.get("paragraph_index", 0)), 0, _paragraphs.size() - 1)
 	var source_paragraph_index := _story_source_paragraph_index(_para_index)
+	_refresh_story_paragraph_presentation(source_paragraph_index)
 	_maybe_change_event_background(source_paragraph_index)
 	_maybe_reveal_event_portrait(source_paragraph_index)
 	_maybe_reveal_event_cg(source_paragraph_index)
@@ -3249,6 +3250,8 @@ func _restore_localized_story_text(
 	_para_index = int(restored_position.get("page_index", 0))
 	var localized_type_ratio := clampf(
 		float(restored_position.get("type_ratio", type_ratio)), 0.0, 1.0)
+	_refresh_story_paragraph_presentation(
+		_story_source_paragraph_index(_para_index), true)
 	if beat_was_waiting:
 		_direction_pending_text = str(_paragraphs[_para_index])
 		var previous_index := maxi(0, _para_index - 1)
@@ -5330,6 +5333,26 @@ func _configure_portrait_presentation() -> void:
 	_portrait_frame.add_theme_stylebox_override("panel", frame_style)
 	_update_communication_badge(channel, str(_current_presentation.get("state", "")))
 
+func _refresh_story_paragraph_presentation(
+		source_paragraph_index: int, force_refresh: bool = false) -> void:
+	if str(_current.get("id", "")) != "arc_hyunsu_new_path":
+		return
+	# The final authored block follows the call; screen pagination cannot move
+	# that boundary, and neither a cold result nor a locale refresh owns a new call.
+	var presentation := DataRegistry.get_story_presentation(
+		"arc_hyunsu_new_path").duplicate(true)
+	if _pending_after_result and _pending_result_choice_index == 0 \
+			and source_paragraph_index >= 2:
+		presentation["channel"] = "narration"
+		presentation["state"] = ""
+		presentation["portrait_role"] = "none"
+		presentation["nameplate_role"] = "hidden"
+	if not force_refresh and presentation == _current_presentation:
+		return
+	_current_presentation = presentation
+	_show_portrait(_resolved_story_surface_portrait_id(),
+		bool(_current.get("bg_focus", false)) or _current_uses_cg)
+
 func _update_communication_badge(channel: String, state: String) -> void:
 	if not is_instance_valid(_communication_badge) or not is_instance_valid(_communication_label):
 		return
@@ -5794,6 +5817,7 @@ func _on_advance():
 		var source_index := _story_source_paragraph_index(_para_index)
 		var entered_new_authored_paragraph := source_index != previous_source_index
 		if entered_new_authored_paragraph:
+			_refresh_story_paragraph_presentation(source_index)
 			_maybe_change_event_background(source_index)
 			_maybe_reveal_event_portrait(source_index)
 			_maybe_reveal_event_cg(source_index)
@@ -6541,6 +6565,8 @@ func _on_choice(idx: int):
 		_apply_story_page_data(_story_page_data(result))
 		_para_index = 0
 		_pending_after_result = true
+		_refresh_story_paragraph_presentation(
+			_story_source_paragraph_index(_para_index))
 		AudioManager.play_scene_result_paragraph_cues(
 			current_event_id, _event_cg_id, idx,
 			_story_source_paragraph_index(_para_index))

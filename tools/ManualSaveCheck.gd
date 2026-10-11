@@ -66,6 +66,12 @@ var _full_story_ngplus_only := false
 var _full_story_ngplus_checked := false
 var _full_story_ngplus_exclusion := ""
 var _full_story_ngplus_rejections := 0
+var _hyunsu_call_end_only := false
+var _hyunsu_call_end_checked := false
+var _hyunsu_call_end_pages := 0
+var _hyunsu_call_end_disk := 0
+var _hyunsu_call_end_languages := 0
+var _hyunsu_call_end_resets := 0
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -74,6 +80,11 @@ func _run() -> void:
 	_backup_settings_file()
 	_backup_meta_progression()
 	_backup_test_slots()
+	_hyunsu_call_end_only = OS.get_cmdline_user_args().has("--hyunsu-call-end-only")
+	if _hyunsu_call_end_only:
+		await _check_hyunsu_call_end()
+		await _finish()
+		return
 	_full_story_ngplus_only = OS.get_cmdline_user_args().has("--full-story-ngplus-only")
 	if _full_story_ngplus_only:
 		await _check_full_story_ngplus()
@@ -135,6 +146,7 @@ func _run() -> void:
 	await _check_prose_resume()
 	await _check_choice_and_result_resume()
 	await _check_w207_result_presentation_resume_and_locale()
+	await _check_hyunsu_call_end()
 	await _check_result_choice_receipt_index_guard()
 	await _check_year_scene_result_resume()
 	await _check_father_passed_result_variant_resume()
@@ -4677,6 +4689,203 @@ func _assert_w207_result_presentation(
 		})])
 
 
+func _check_hyunsu_call_end() -> void:
+	# Prepared W40 and explicit queue, not a native M10 route or new OS process.
+	# Every choice uses StoryMode's real transaction; disk uses the existing slot.
+	await _free_story()
+	var previous_language: String = LocaleManager.language
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var events_before: Dictionary = _full_story_event_snapshot()
+	var queue_before: Array = GameState.pending_story_queue.duplicate(true)
+	var return_before: String = GameState.story_return_scene
+	var replay_before: bool = GameState.story_replay_mode
+	var returning_before: bool = GameState.returning_from_story
+	var resume_before: Dictionary = {}
+	for key in ["_loaded_resume_context", "_loaded_slot_metadata", "_loaded_save_identity", "_last_load_diagnostic"]:
+		resume_before[key] = (SaveManager.get(key) as Dictionary).duplicate(true)
+	var failures_before: int = _failures.size()
+	for language in ["ko", "en", "ja", "zh-CN", "zh-TW"]:
+		LocaleManager.set_language(language)
+		var registry_event: Dictionary = DataRegistry.find_event("arc_hyunsu_new_path").duplicate(true)
+		var registry_presentation: Dictionary = DataRegistry.get_story_presentation("arc_hyunsu_new_path").duplicate(true)
+		for choice_index in range(3):
+			await _free_story()
+			GameState.start_new_game("HyunsuCallFixture")
+			GameState.turn = 40
+			GameState.month = 10
+			GameState.week_of_month = 4
+			GameState.flags["arc_hyunsu_drift_seen"] = true
+			if not await _spawn_pending_story_queue(
+					["arc_hyunsu_new_path", "story_prologue_dad"], "arc_hyunsu_new_path"):
+				break
+			var mental_before: int = GameState.mental
+			var social_before: int = GameState.social_skill
+			var intelligence_before: int = GameState.intelligence
+			var affinity_before: int = GameState.get_cast_affinity("hyunsu")
+			_advance_story_fixture_to_choices()
+			_story.call("_on_choice", choice_index)
+			await get_tree().process_frame
+			_story.call("_finish_story_scene_transition")
+			_expect(bool(_story.get("_pending_after_result")) \
+					and int(_story.get("_pending_result_choice_index")) == choice_index \
+					and GameState.mental == clampi(mental_before + [5, 3, 4][choice_index], 0, 100) \
+					and GameState.social_skill == clampi(social_before + (1 if choice_index == 0 else 0), 0, 100) \
+					and GameState.intelligence == clampi(intelligence_before + (1 if choice_index == 1 else 0), 0, 100) \
+					and GameState.get_cast_affinity("hyunsu") == clampi(affinity_before + [5, 4, 3][choice_index], -100, 100) \
+					and bool(GameState.flags.get("arc_hyunsu_new_path_seen", false)) \
+					and bool(GameState.flags.get("hyunsu_pivoted", false)) \
+					and _hyunsu_call_choice_count(choice_index) == 1,
+				"Hyunsu call did not apply its original choice once %s/%d" % [language, choice_index])
+			var applied: Dictionary = GameState.serialize().duplicate(true)
+			var seen_sources: Array[int] = []
+			var page_guard: int = 0
+			while bool(_story.get("_pending_after_result")) and page_guard < 64:
+				var source: int = int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index"))))
+				var first_page: bool = source not in seen_sources
+				if first_page:
+					seen_sources.append(source)
+				_assert_hyunsu_call_surface(choice_index, source, "live %s/%d" % [language, page_guard])
+				_hyunsu_call_end_pages += 1
+				if choice_index == 0 and first_page and source in [1, 2]:
+					await _check_hyunsu_call_disk(source, language, applied)
+					if language == "ko":
+						await _check_hyunsu_call_languages(source, applied)
+				_expect(_json_round_trip_dictionary(GameState.serialize()) == _json_round_trip_dictionary(applied) \
+						and _hyunsu_call_choice_count(choice_index) == 1,
+					"Hyunsu call reading/restoration replayed effects %s/%d/r%d" % [language, choice_index, source])
+				_story.call("_finish_story_scene_transition")
+				_story.call("_finish_direction_beat")
+				_story.call("_complete_typing")
+				_story.call("_on_advance")
+				page_guard += 1
+			_expect(not bool(_story.get("_pending_after_result")) \
+					and seen_sources == ([0, 1] if choice_index == 1 else [0, 1, 2]),
+				"Hyunsu call failed to consume every authored result block %s/%d" % [language, choice_index])
+			if choice_index == 0:
+				_story.call("_finish_story_scene_transition")
+				var next_presentation: Dictionary = _story.get("_current_presentation")
+				_expect(str((_story.get("_current") as Dictionary).get("id", "")) == "story_prologue_dad" \
+						and next_presentation == DataRegistry.get_story_presentation("story_prologue_dad") \
+						and bool(_story.get("_portrait_remote_inset")) \
+						and (_story.get("_communication_badge") as Control).visible \
+						and (_story.get("_portrait_frame") as Control).visible \
+						and (_story.get("_portrait") as TextureRect).texture != null \
+						and (_story.get("_name_panel") as Control).visible \
+						and _hyunsu_call_choice_count(0) == 1,
+					"Hyunsu ended-call override leaked into the next queued phone event %s" % language)
+				_hyunsu_call_end_resets += 1
+		_expect(DataRegistry.find_event("arc_hyunsu_new_path") == registry_event \
+				and DataRegistry.get_story_presentation("arc_hyunsu_new_path") == registry_presentation,
+			"Hyunsu paragraph presentation mutated Registry %s" % language)
+	await _free_story()
+	LocaleManager.set_language(previous_language)
+	GameState.call("_restore_serialized_snapshot_exact", state_before)
+	GameState.pending_story_queue = queue_before
+	GameState.story_return_scene = return_before
+	GameState.story_replay_mode = replay_before
+	GameState.returning_from_story = returning_before
+	for key in events_before:
+		EventManager.set(key, events_before[key].duplicate(true))
+	for key in resume_before:
+		SaveManager.set(key, resume_before[key].duplicate(true))
+	_expect(GameState.serialize() == state_before and _full_story_event_snapshot() == events_before \
+			and LocaleManager.language == previous_language \
+			and GameState.pending_story_queue == queue_before and GameState.story_return_scene == return_before \
+			and GameState.story_replay_mode == replay_before and GameState.returning_from_story == returning_before,
+		"Hyunsu call fixture did not restore the prior whole-check context")
+	_expect(_hyunsu_call_end_disk == 10 and _hyunsu_call_end_languages == 10 and _hyunsu_call_end_resets == 5,
+		"Hyunsu call fixture did not exercise its complete bounded matrix")
+	_hyunsu_call_end_checked = _failures.size() == failures_before
+
+
+func _hyunsu_call_choice_count(choice_index: int) -> int:
+	var count: int = 0
+	for entry in GameState.event_log:
+		if entry is Dictionary and str(entry.get("event_id", "")) == "arc_hyunsu_new_path" \
+				and int(entry.get("choice_index", -1)) == choice_index:
+			count += 1
+	return count
+
+
+func _assert_hyunsu_call_surface(choice_index: int, source: int, stage: String) -> void:
+	var ended: bool = choice_index == 0 and source >= 2
+	var expected: Dictionary = DataRegistry.get_story_presentation("arc_hyunsu_new_path").duplicate(true)
+	if ended:
+		expected.merge({"channel": "narration", "state": "", "portrait_role": "none", "nameplate_role": "hidden"}, true)
+	var portrait: TextureRect = _story.get("_portrait") as TextureRect
+	var frame: Control = _story.get("_portrait_frame") as Control
+	var badge: Control = _story.get("_communication_badge") as Control
+	var label: Label = _story.get("_communication_label") as Label
+	var name_panel: Control = _story.get("_name_panel") as Control
+	var name_tag: Label = _story.get("_name_tag") as Label
+	var expected_name: String = str(ImageRegistry.get_person_info("hyunsu").get("name", ""))
+	var expected_path: String = ImageRegistry.get_portrait("hyunsu")
+	_expect(str((_story.get("_current") as Dictionary).get("id", "")) == "arc_hyunsu_new_path" \
+			and bool(_story.get("_pending_after_result")) and int(_story.get("_pending_result_choice_index")) == choice_index \
+			and int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) == source \
+			and (_story.get("_current_presentation") as Dictionary) == expected \
+			and bool(_story.get("_portrait_remote_inset")) == (not ended) \
+			and badge.visible == (not ended) and frame.visible == (not ended) and name_panel.visible == (not ended) \
+			and (label.text.is_empty() if ended else label.text == LocaleManager.ui("통화 중", "VOICE CALL")) \
+			and (portrait.texture == null if ended else portrait.texture != null \
+				and portrait.texture.resource_path == expected_path) \
+			and (ended or name_tag.text == "%s  ·  %s" % [expected_name, LocaleManager.ui("전화 너머", "Voice call")]),
+		"Hyunsu call surface drifted %s choice=%d source=%d presentation=%s badge=%s portrait=%s name=%s" \
+			% [stage, choice_index, source, str(_story.get("_current_presentation")), badge.visible, frame.visible, name_panel.visible])
+
+
+func _check_hyunsu_call_disk(source: int, language: String, applied: Dictionary) -> void:
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var history: Array = (_story.get("_dialogue_log_entries") as Array).duplicate(true)
+	_expect(str(context.get("phase", "")) == "result" \
+			and int(context.get("pending_result_choice_index", -1)) == 0 \
+			and int(context.get("source_paragraph_index", -1)) == source \
+			and str(context.get("story_locale", "")) == language,
+		"Hyunsu result context lost its exact source %s/r%d" % [language, source])
+	_expect(SaveManager.save_game(TEST_SLOT, context), "Hyunsu call v4 save failed %s/r%d" % [language, source])
+	var disk: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveManager.slot_path(TEST_SLOT)))
+	_expect(disk is Dictionary and int(disk.get("version", -1)) == 4 \
+			and _json_round_trip_dictionary({"resume": context}) == {"resume": disk.get("resume", {})},
+		"Hyunsu call v4 disk changed its exact resume context %s/r%d" % [language, source])
+	await _free_story()
+	_expect(SaveManager.load_game(TEST_SLOT), "Hyunsu call v4 load failed %s/r%d" % [language, source])
+	if not await _spawn_loaded_story():
+		return
+	_assert_hyunsu_call_surface(0, source, "disk/new Story %s" % language)
+	_expect(_json_round_trip_dictionary(GameState.serialize()) == _json_round_trip_dictionary(applied) \
+			and _json_round_trip_dictionary({"entries": _story.get("_dialogue_log_entries")}) \
+				== _json_round_trip_dictionary({"entries": history}) and _hyunsu_call_choice_count(0) == 1,
+		"Hyunsu call new Story replayed effects/log/history %s/r%d" % [language, source])
+	_hyunsu_call_end_disk += 1
+
+
+func _check_hyunsu_call_languages(source: int, applied: Dictionary) -> void:
+	var history: Array = (_story.get("_dialogue_log_entries") as Array).duplicate(true)
+	for language in ["en", "ja", "zh-CN", "zh-TW", "ko"]:
+		if language in ["en", "ko"]:
+			_story.call("_set_story_language", language)
+			await get_tree().process_frame
+			await get_tree().process_frame
+			_story.call("_close_audio_settings")
+		else:
+			# Prepared locales are not retail-selectable. Reuse the actual internal
+			# localized-result/position consumer without changing the shipping gate.
+			LocaleManager.set_language(language)
+			var localized: Dictionary = _story.call("_localized_story_event", "arc_hyunsu_new_path")
+			_story.set("_current", localized)
+			EventManager.current_event = localized
+			_story.set("_current_presentation", DataRegistry.get_story_presentation("arc_hyunsu_new_path"))
+			_story.call("_restore_localized_story_text", _story.call("_localized_result_page_data", 0), \
+				source, 0.0, true, 0.0, false, false)
+			_story.call("_refresh_story_speaker_language")
+		_assert_hyunsu_call_surface(0, source, "same-source locale %s" % language)
+		_expect(LocaleManager.language == language \
+				and _json_round_trip_dictionary(GameState.serialize()) == _json_round_trip_dictionary(applied) \
+				and (_story.get("_dialogue_log_entries") as Array) == history and _hyunsu_call_choice_count(0) == 1,
+			"Hyunsu same-source locale switch changed effects/log/history %s/r%d" % [language, source])
+		_hyunsu_call_end_languages += 1
+
+
 func _check_result_choice_receipt_index_guard() -> void:
 	for receipt_case_value in [
 		"wrong_index", "wrong_index_fatal", "missing_event_fatal",
@@ -7211,6 +7420,11 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
+		if _hyunsu_call_end_only and _hyunsu_call_end_checked:
+			print("MANUAL_SAVE_HYUNSU_CALL_END_DETAIL live_pages=%d disk_new_Story=%d same_source_locale=%d next_event_reset=%d" % [_hyunsu_call_end_pages, _hyunsu_call_end_disk, _hyunsu_call_end_languages, _hyunsu_call_end_resets])
+			print("MANUAL_SAVE_HYUNSU_CALL_END_CHECK_OK choices=15 locales=5 disk_new_Story=10 same_source_locale=10 next_event_reset=5 r0/r1=connected r2_all_pages=hidden other_choices=unchanged effects/log/history/registry=once-preserved language=actual-ko-en/internal-ja-zh prepared_W40=1 natural_M10=0 new_OS_process=0")
+			get_tree().quit(0)
+			return
 		if _full_story_ngplus_checked and _full_story_ngplus_exclusion.is_empty():
 			print("MANUAL_SAVE_FULL_STORY_NGPLUS_CHECK_OK startmenu=0/1/3/4/negative flags=exact-bool/perks-preserved owner=only-add/idempotent rejects=%d cold=repeat/veteran/meta-changed/v4/new-main legacy=unmarked preview=8/12-not-promoted initializer=state/event/meta/rng-inert local=state/event/meta/locale/context-restored prepared=1 natural=0 new_OS_process=0" % _full_story_ngplus_rejections)
 		if _full_story_ngplus_checked and not _full_story_ngplus_exclusion.is_empty():
