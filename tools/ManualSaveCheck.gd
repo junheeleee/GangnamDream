@@ -4473,7 +4473,7 @@ func _check_narrative_name_resume() -> void:
 				"%s v4/new-Story changed stored name, prose or old history" % label)
 			_show_current_story_choices()
 			var count_before := GameState.event_log.size()
-			var mental_before := GameState.mental
+			var mental_before: float = GameState.mental
 			_story.call("_on_choice", 0)
 			var choices: Array = event.get("choices", [])
 			var result := str((choices[0] as Dictionary).get("result_text", ""))
@@ -4489,7 +4489,7 @@ func _check_narrative_name_resume() -> void:
 			context = _story.call("build_save_resume_context")
 			var result_entries: Array = (context.get("dialogue_log", {}) as Dictionary).get("entries", [])
 			result_entries = result_entries.duplicate(true)
-			var mental_after := GameState.mental
+			var mental_after: float = GameState.mental
 			_expect(SaveManager.save_game(TEST_SLOT, context), "%s result save failed" % label)
 			await _free_story()
 			_expect(SaveManager.load_game(TEST_SLOT), "%s result load failed" % label)
