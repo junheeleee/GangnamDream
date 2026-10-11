@@ -1,6 +1,6 @@
 # ORDER-558 — 수리를 포함한 full 검수 후보 발급
 
-#### [~] ORDER-558 착수 — 2026-10-11
+#### [x] ORDER-558 내부 발급 한정 GO — 2026-10-11
 
 사용자의 전체 출시 검수 지시를 따른다. 이전 a0bc 앱은 이름·통화 종료·시간·
 투자체험·NG+ 수리 이후의 소스가 아니므로 새 후보를 먼저 만든다. 외부 출시가
@@ -47,5 +47,32 @@
 
 ## 완료 증거
 
-후보 revision/tree·세 플랫폼 산출물/통합 manifest·PCK/서명·실제 로그·보존·
-비저자 판정으로 채운다. source/발급과 다음 native 제품 관측을 구분한다.
+- clean source `52369e6600f138cdc7fdda5175112056e2535763` /
+  tree `071ad8fc258e5506922e1f8047fc88d1fcab0fde`, BUILD `2026.10.11.1`.
+  BuildInfo 한 값만 변경, 기존 build_identity 날짜/first-parent PASS다.
+- private `.git/order558-build-20261011/`의 frozen helper로 정확1회 발급했다.
+  fresh clone `/private/tmp/gd-order558-build-u_wr0qm1/checkout/GangnamDream`,
+  시작 전 .godot 부재·fresh HOME/XDG·원본 source 변환0이다.
+  clone/checkout/full-rc/unpack/deepstrict/lipo actual exit 모두0, full-rc84.402741s.
+- Windows504507160B/SHA33568e280f2a93e4da8db3f76cffd131e2bda49db742435b068f718403991bf6,
+  macZIP438031194B/SHAab0c9838fb78a9e47f3a3ac6a4db37f6668aa5214fa4209885b9a8c704ea2aca,
+  Linux470925608B/SHAf0d64e3e5b2f7908770ab071fd4e3a5e5d0168fc9c6f147b769d2059f7b42d39.
+  통합 manifest669B/SHA4e15843081121d6d21813f43b65af1aa179ea6534e28ed63df9161eb21d75dab.
+- 새 앱 `/private/tmp/gd-order558-build-u_wr0qm1/app/GangnamDream.app`7파일,
+  arm64+x86_64·deep/strict 서명 PASS. PCK399853832B/
+  SHA3be1b3220d8d284ff88b6f07fdc3875e2070d0b8ea9c967d30efa82bc873738b의
+  1892 member MD5·필수고지12 exact·arc_daeun bytes·이미지6 import 연결 PASS다.
+- package12505B/SHA857ce67a45d45727c8e3c627c7fab127300b5d6bf873b7080ff9fa68c1dbca66,
+  result38611B/SHA7399316314bf8c17d3ceb9cf0219c10545cf2ed148f0874df2f24e4900b693c6.
+  원12 stdout/stderr 보존. outer 오류0·nested project 무시 WARNING3·서명 교체
+  stderr129B를 구분한다. 성공 import 내부 출력은 build.sh가 숨기므로 warning0 주장0.
+- phone_independent_review가 actual raw·산출3/manifest4/app7/PCK·현재 보호를
+  직접 재대조해 발급만 GO로 판정했다. 보호10·templates35·engine/source/helper/
+  roster exact=true. 원556 W62/raw·557raw·player33/public userdata9·Human/원장 불변;
+  build/story_demo는 입구부터 부재이며 새로 삭제하거나 생성하지 않았다.
+- ICU member=false를 실제 확인했다. CJK 줄바꿈 지원 데이터 포함 보증은 없으며
+  다국어 package 수리는 별도 범위다. 이 발급 GO를 새 native/W62 cold·5언어 화면·
+  Win/Linux 실기기·전체 CI·제품/출시 GO로 확대하지 않는다. 앱 실행0이다.
+  자동 계약은 재미·깊이·문체/인간품질 증거가 아니다. 옛 strict FAIL/HOLD·공개 GO와
+  Human 불변, 본편/출시 HOLD. gangnamdream-dev의 격리/표적 검증을 따랐다.
+  새규범0/일회성·formal오더보고/원장행0·STATUS단독커밋0·종료누수 탐침0이다.
