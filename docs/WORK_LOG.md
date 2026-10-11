@@ -3,6 +3,46 @@
 이전 기록은 [548 전 원문](history/WORK_LOG_2026-10-11_pre_order548.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39584B/SHA256 dd0c1275654b1596be7343c2542dba452e2817f0cbf6ca808342f43affb1341b이다.
 
+## 2026-10-11 — 본편 M15 실제 플레이·기본 본문 이름 REWORK
+
+- [556](queue_archive/ORDER-556.md)은 월별 한 커밋 예외로 선언·관측·독립검수·
+  마감을 묶었다. 원555 actualW57 한 저장만 새 HOME/XDG에 byteexact 복사하고
+  issued a0bc 앱 KO 정상 계속하기로 약 이름→W62 루틴의 덫 첫 본문까지 읽었다.
+  currentd8f88fd와 앱은 별개, source548/550/552/554 포함 주장0·새build/제품편집0이다.
+- root는 본문4/후보3/UI01(index0)/결과3문단을 완독했다. 아버지에게 직접 전화해
+  약 이름과 다음 통화 시각을 적었다. 다음 첫 본문 선택 전 CmdQ 단독 종료,
+  UI재선택0·AUTO/skip/연타/타자완성용 입력/내부helper0·quiet58–61 pixels미관측이다.
+- actual0/411.761770s/13checks true·원3stream154/0/154B·오류경고0.
+  final200847B/SHA0c9bd1f177d939ca19d2f614bc6e166660df8f75f005ceaa26cb28edd44e69bd:
+  W62/2027년4월2주/−5191703/h38/m94/AP0·resume{}/chain{}·last61.
+  M15의57..60 완료/루틴각1과 quiet61 추가1을 구분, read1추가/index0/seq56·old55
+  prefix exact·W62 read/routine/completion0이다. 현금5×7만원−65만원=−30만원,
+  정신90−5+19−10=94/건강−2·아버지호감+3/tint+5·W60 mentoring skill+1이다.
+  구매fact부재·예약31 불변과 선행 선택/로그를 함께 대조해 실제매수0으로 확인했다.
+- 본문/결과의 김민준 반복은 DECISIONS09-30/ORDER-399의 기본본문 민준 규칙에
+  위배된다. 원seed가 기본이름이며 StoryMode→DemoCore→GameState 치환 소비자는
+  issued/current exact라 custom 이름이나 미포함 새수리 문제가 아니다. 진행/once는
+  GO이나 이름은 REWORK다. UI/slot 전체이름·custom·공식 발화 예외를 보존하는 별도
+  수리로 잇고 이번 오더에서 제품·원문·번역·저장을 고치지는 않았다.
+- 비저자 private556/independent-final-preservation.json12010B/
+  SHAdfe6fb12ff0f7774c74da5530b6e89303f7475ab29e4cd919dddbd2112ce87bb에
+  tracked3344·fresh11그룹148파일·app7/Human295/player33/public9·원555seed/raw/runtime/
+  원554raw exact를 결속했다. 옛133/ZIP은552seal상속이며 재전수0이다. 원journal
+  전사 치킨→지킨 교정은 최종085ea875… pin과 경위를 seal에 남겼다. ownedapp/
+  launcher 종료·editor생존이다. 원판정·제품·사용자 상태는 불변이다.
+- 비저자 private556/independent-final-review.json15226B/
+  SHA988067a72958609123f4c0602e5f47afb37ee463c3a8aa255d527c8449ff1ea2는 원자료와
+  소비자를 직접 읽고 전체556 REWORK·진행/once/경제/보존만 한정GO로 판정했다.
+  action_log는 기존cap100의 old93 suffix exact+new7이다.
+- gangnamdream-dev에 따라 root 실제 관측·저장 대조와 Human을 구분했다.
+  자동 계약은 재미·깊이·문체/인간품질 증거가 아니다. 다른 경로/언어·독립pixels·
+  청취/원어민/인간/물리패드·이전source 수리의 새앱 검수는 남아 있다.
+  formal오더보고/원장행0·새규범0/일회성·STATUS단독커밋0·종료누수탐침/479·481/
+  전체감사/8·12·240주0, 옛REWORK/HOLD/strictFAIL/사고·공개GO1/인간OPEN45·
+  본편/출시HOLD 불변이다. 정상 다음 월은 원W62 M16이며 이름소비자 수리는 별도다.
+- 마감 context0/0.142956s·queue0/0.089857s(active81/in_progress79), 원4stream stderr0을
+  private556/metadata-close.json에 남겼다. diff/byte예산 통과·제품검사 반복0이다.
+
 ## 2026-10-11 — 본편 M14 실제 플레이·월 경계 확인
 
 - [555](queue_archive/ORDER-555.md)는 월별 한 커밋 예외로 선언·실제 관측·독립검수·
