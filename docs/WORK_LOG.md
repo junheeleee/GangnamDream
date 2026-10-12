@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — 일본어 정착지원금의 양의 부호·임시 도움 교정
+
+- [579](queue_archive/ORDER-579.md): 기존 JA 지원금 문구1의 빠진 `+30만원` 부호와 어색한 생존 지연 표현을 KO의 이번 달 임시 도움으로 고쳤다. legacy 결산 모달만의 correction/첫 source-bound accepted이며 정상 본편 노출·신규coverage·실제화면으로 세지 않는다. KO/EN/runtime·경제·CN/TW·저장/공개데모 불변이다.
+- 공식 exact1 check/import actual0·표적6 actual0·독립 source/receipt GO·보존19/19다. JA default invalid58→57은 표적1만 제거/나머지 inventory exact, UI2980 불변·receipted479→480, JA accepted13172/CN·TW14764 unchanged·batch322다. 옛321batch/accepted·4원본 raw inverse·보호57/1037·비소유3363·old578raw40 exact, 실제Gitmanifest9680…fb5d 불변이다. 상세 핀과 check병렬/patch 거부/판독 syntax 오류는 사양·새private에 보존했다.
+- gangnamdream-dev/I18N의 KO 직접저작·보존·source/실관찰 분리를 적용했다. 일회성/승격0·새tool/검사/엔진/월0·M17 OS잠금 HOLD 하나·해제 재요청0·인간/렌더/원어민/패드 OPEN·전체 INCOMPLETE·출시 HOLD다. 기준9d3 CI38303839800은 조회 당시 in_progress/null·새push CI는 별도 확인·현황판 단독후속0이다.
+
 ## 2026-10-13 — 본편 10억 알림의 잘못된 진행률 수리
 
 - [578](queue_archive/ORDER-578.md): 정상 MainGame 자산10억 알림의 “절반 왔다”를 달성 사실로 KO/EN 수리하고 JA/CN/TW도 KO 직접 작성했다. 30억 목표의 비율 오류와 CN/TW fallback을 닫되 threshold/id/한번 수령/정산/저장은 불변이다. JA 옛 고아키1만 제거했고 원값은 Git/새source_change에 보존했다. 실제 화면 관찰0이다.

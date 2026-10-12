@@ -13967,6 +13967,48 @@
         "zh-CN": "ad888c5de895a9d9f4dc1f036b047f4cb1c335d1fd5a8b4b91ec8bfc286491a1",
         "zh-TW": "aa942f46964aa42eaddc7ffb99d461ee25054b3e333fd6308815ce1dd0ce5794"
       }
+    },
+    {
+      "order": "ORDER-579",
+      "group": "ui_correction",
+      "roots": [
+        "정착 지원금 +30만원이 이번 달 생존을 잠시 밀어줬다."
+      ],
+      "source_leaves": 1,
+      "prior_target_revision": "9d3ae5bb1dfb246793db2628b2fe26d153a47349",
+      "prior_acceptance": "absent",
+      "before_target_sha256_by_locale": {
+        "ja": {
+          "ui:정착 지원금 +30만원이 이번 달 생존을 잠시 밀어줬다.:/정착 지원금 +30만원이 이번 달 생존을 잠시 밀어줬다.": "3517446673b924e38ac91341d235b978d9a2ea7ba3f265c7a5650b3ccf07de56"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean-source correction of one existing Japanese subsidy label: retain positive +300,000 Korean won and temporary help with this month, without adding a future guarantee or changing gameplay. Non-author manual_save_ci reviewed the exact source, old target, fresh official header/response and legacy caller before import. The legacy month-summary modal is skipped by normal FullStoryFlow show_summary=false; no normal-play exposure or new UI coverage claimed. First source-bound JA acceptance; all321 prior batches/accepted and source manifest preserved. Root discloses adjacent EN and old JA exposure, neither used as source. Existing-target correction is separately reviewed, not admitted through append-only/history proof. Rendered/native/human/controller OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "ab4f04686615fd961a81fb19f9d5a00234634a94",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9680f4d4e3106b6df3628f6796deba8a156ebe5323f3ac30c45c34abd374fb5d",
+          "selection_sha256": "7f9dd65c38ea64caac6093fc21e1f8d9e334fe56bb9504c4b3b788094b43cf38",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c098248d8da72c121ccddeb419a4d5a6283b910fca2f22dcb668ca0a088f2859"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "8d7c17748dd0dcce466b838cf524567b101cf511b0fd1a96f6322e3eb25fadf5"
+      }
     }
   ],
   "accepted": {
@@ -66654,6 +66696,10 @@
       "ui:⚡ 자산 10억 달성!:/⚡ 자산 10억 달성!": {
         "source_sha256": "dcd7aa5edcfc8f22673e0268c705dd465c7fbd37440c32eea9038ac0af73596f",
         "target_sha256": "26d444fae8e1a6dcea4e0bed39de2d636191fa351303eba1f7b3a01d5fbd1c87"
+      },
+      "ui:정착 지원금 +30만원이 이번 달 생존을 잠시 밀어줬다.:/정착 지원금 +30만원이 이번 달 생존을 잠시 밀어줬다.": {
+        "source_sha256": "8cc22350a7c27b3fd7ad9c2c29e3bee26db7df3e70958a4bc1fcb8b1139df222",
+        "target_sha256": "41369f9a9c7da7bbc66b28ac1bedb51e8cf36b165fb6cf7491b3984ebad0f591"
       }
     },
     "zh-CN": {
@@ -184773,7 +184819,7 @@
       }
     }
   },
-  "accepted_sha256": "761818be532424f2a2b73eb6665cf1faa97fbfa244707f9d60d3f9d4ec2f7ebe",
+  "accepted_sha256": "ee39446371b7cf1e6d021fb1b1f034f7b9909bcf1a76c2c4dc3c5255c03e7bce",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
