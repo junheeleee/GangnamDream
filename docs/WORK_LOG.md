@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — 경마 방어적 빈값 안내 중국어4 수용
+
+- [576](queue_archive/ORDER-576.md): 출전0·승리0/선택 부재 KO2키를 CN/TW 각각 직접 번역했다. 정상 HorseWorld는 horses/record를 생성하므로 방어적 fallback만 수용하며 정상 플레이 누락·월 검수로 세지 않는다. 기존 JA `0勝0敗`의 출전/패배 혼동은 별도 결함으로 남겼다.
+- 공식 export/check/import 각2×2·표적7 actual0, 비저자 전4 source/receipt GO·blocker0이다. accepted CN/TW14763씩·batch319·기존318batch/accepted/JA 포함4파일 exact inverse·보존18/18·보호54/951·비소유3359·old575raw36 exact, source manifest 불변이다. CN/TW inventory invalid[]·UIstatic2020/2980·전체 INCOMPLETE/OPEN이다. EN 검사2는 직전575 actual0와 KO/EN/runtime exact로 귀속, 변경 없는 자체검사 반복0·새 제품 게이트 실패0이다. 초기 읽기 진단2건·마감 CLAUDE 예산초과 FAIL1/현재행 압축은 사양에 보존한다.
+- gangnamdream-dev/I18N의 직접 저작·비소유 보존·source/실관찰 분리를 적용했다. 일회성/승격0·원문/runtime/저장/데모/검사/helper 변경0·엔진/새 월0·M17 OS잠금 HOLD 하나·해제 재요청0·렌더/원어민/인간/패드 OPEN·출시 HOLD다. 기준424a1b1/새 push CI는 미확정, 실제 commit 뒤 기존 Git proof로 한정 수용을 확인하며 현황판 단독 후속0이다.
+
 ## 2026-10-13 — 구저장 현황 화면 중국어 36문구 수용
 
 - [575](queue_archive/ORDER-575.md): 구저장 V2 호환 현황/재정/투자/발견 장소의 KO18키를 CN/TW 각각 직접 번역했다. 잔액·수입·원금·체납·보유/시세·발견/방문 구분과 공유 caller를 비저자36 전수 대조해 source/receipt GO·blocker0이다. 정상 본편 노출·실제 월 플레이로 세지 않는다.

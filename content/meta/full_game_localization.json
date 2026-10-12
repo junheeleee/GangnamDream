@@ -13804,6 +13804,56 @@
         "zh-CN": "03afffef172c7f7e69be55f057e348b957cffa0234d1e5bbe737e397813b5280",
         "zh-TW": "53361099ffded1f64004974c881b9e5cfa187fdefdd7c4cc22f3a6a4c7e378a9"
       }
+    },
+    {
+      "order": "ORDER-576",
+      "group": "ui",
+      "roots": [
+        "0전 0승",
+        "선택 없음"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 2,
+        "zh-TW": 2
+      },
+      "source_review": "Two defensive RaceTrack fallback keys, not normal-play exposure evidence. Korean source directly authored independently into Simplified and Taiwan Traditional Chinese; all4 targets independently compared by manual_save_ci before import, semantic blockers0. Zero starts and zero wins are preserved without inventing a zero-loss assertion; no-selection is a current status, not disabled options. Root disclosed incidental adjacent-English exposure; TW author disclosed the mandatory specification quotation of an excluded JA defect, not used as source. No pivot or cross-Chinese conversion. Original official headers and acceptance digests retained. Existing JA defect remains outside scope. Source/receipt acceptance only; rendered/native-reader/human/controller review OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "138ec7cfd82b7413a57a97aafe168c46966c143f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c13d47f56851ab9f26567d53a53db1f13e39d5931881f8f1bd2c7ab91a71e19b",
+          "selection_sha256": "b62e6596a5377eb7b43e2cdb776dbbf7a051e0f8183f0109d0e747d4c73c822c",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7b7d61f64e74804047d3842f629c25018e800a739e9b13a87b5096c03d6a2f74"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "138ec7cfd82b7413a57a97aafe168c46966c143f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c13d47f56851ab9f26567d53a53db1f13e39d5931881f8f1bd2c7ab91a71e19b",
+          "selection_sha256": "beb656fcaafc72e903a5925942aff2389b51e111e5ff6b1cb7bfc07491925429",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "333c535847af3626be746a4b39713e88780493e965a9735b8b01679222e6fe40"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "3e090089533bfdc6cfe59c7ad5e8f1798123fb11cf70e67921fabc9e4ffc263d",
+        "zh-TW": "0b438ac963bfcffed023972682244a2927dba48286d2bf2fa14ffc53219d9af9"
+      }
     }
   ],
   "accepted": {
@@ -125529,6 +125579,14 @@
       "ui:확인할 시세 없음:/확인할 시세 없음": {
         "source_sha256": "e794470fe32f25c4237178014a248b9da6f3e192e22ad3016ff5b4ca4e78b289",
         "target_sha256": "24303b6bf027c6fb21b0b5a2d0dac89823fc6bab5858a2614bb09974cee74f48"
+      },
+      "ui:0전 0승:/0전 0승": {
+        "source_sha256": "084306613ad63eea22eee5981b0ba6429cd72d270bf11d0ebdca37333b4a8c23",
+        "target_sha256": "6bee7339843a60c6c4471dfe955ec1ace0664b086ca37b983b505eda85041116"
+      },
+      "ui:선택 없음:/선택 없음": {
+        "source_sha256": "ae6d1da124090c18af535e0fc3ae14ad53a43c241d40133b76e13817c09cb81e",
+        "target_sha256": "7c796b28121b0f26df69a0dd417b1cea93bfde1bc75f0eebecabbc025bd5d426"
       }
     },
     "zh-TW": {
@@ -184575,10 +184633,18 @@
       "ui:확인할 시세 없음:/확인할 시세 없음": {
         "source_sha256": "e794470fe32f25c4237178014a248b9da6f3e192e22ad3016ff5b4ca4e78b289",
         "target_sha256": "3a6a77ee30f73a4f72c71fbbacea5e6c992e4d9dece0f83e7ee55e4990fda14d"
+      },
+      "ui:0전 0승:/0전 0승": {
+        "source_sha256": "084306613ad63eea22eee5981b0ba6429cd72d270bf11d0ebdca37333b4a8c23",
+        "target_sha256": "bf1ea7d3c208619e905dce878add999367f103a2f79862f11306fc98f8486479"
+      },
+      "ui:선택 없음:/선택 없음": {
+        "source_sha256": "ae6d1da124090c18af535e0fc3ae14ad53a43c241d40133b76e13817c09cb81e",
+        "target_sha256": "feaa9e964d89b31cc5b7ca7aa361f9b345bb82322173bf0ab74105a0d2d5dd34"
       }
     }
   },
-  "accepted_sha256": "b15db709879ec0dbab1bc80f132d2c578f1bf3fde0e63ece9a10410736c45209",
+  "accepted_sha256": "466851ae761c54bfef57984383cb5e503764e8205678e96ee277844e75bf421e",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
