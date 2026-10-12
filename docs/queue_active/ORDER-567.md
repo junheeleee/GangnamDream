@@ -45,3 +45,48 @@ RaceTrack/HorseWorld/HorseRace/GameState/SaveManager/MainGame·audit/KNOWN/통�
 
 새 규범0·작업 지시는 일회성이다. 자동 계약은 재미·깊이·문체/인간 관찰이
 아니며 원어민/패드/청취·전체 번역 INCOMPLETE·본편/출시 HOLD를 보존한다.
+
+## 2026-10-12 표적 결과 — 새 main CI 대기
+
+- 선언831436a9/treea3a08f21 뒤 검사 한 함수만 28+/9− 수정했다. 제품·정산
+  함수·확률·원 저장·기존 cold/once/AP 방어는 보존하며 성공 marker 소비자는
+  해당 함수 자신뿐인 것을 확인했다. countdown metadata 오용은 기존 bool
+  property로 정렬했다. 허용 오차·통과 기준·KNOWN 변경0이다.
+- 고정 child RNG는 `_ready` 뒤/cold `open` 전에만 지정한다. 실제 cold
+  checkpoint의 horse_world 부재도 assert하며 지우거나 주입하지 않는다.
+  말0/1만원 베팅, 실제 `_place_bet→_process`·착순 producer를 쓴다.
+
+| 준비 W29 표본 | RNG seed | raw 배당 | 1원 정산 | 실제 현금 2,904,933원에서 | 완료 |
+|---|---:|---:|---:|---:|---:|
+| 적중 | 3 | 48368.08881136045 | 48368 | 2943301 | 1 |
+| 낙첨 | 1 | 0 | 0 | 2894933 | 1 |
+
+- 기존 raw 현금식은 이 적중에서 실제 현금과 다르다. 기대식 결함은 표적으로
+  재현했지만 566 원CI에는 현금/횟수/승패 숫자가 없어 당시 분기 확정은 아니다.
+- `.git/order567-qa-20261012/`의 seed/compile/production/whole JSON에 actual
+  argv·HOME/3XDG·pre-autoload 실제 namespace·입출구 hash·원3stream을 결속했다.
+  각각 actual0, marker1, strict ERROR0, 보호45그룹/723항목·tracked3357 전후 exact다.
+  seed16표본1.711199s·compile69 4.615261s·production203.864642s·whole225.870818s.
+  production WARNING14는 의도된 저장 실패 주입이다. 원stderr를 보존하며
+  경고0이라고 하지 않는다. whole WARNING27은 기존 저장/호환13과 같은 주입14다.
+  전체 검사도 기존 오류 guard 그대로 통과했다.
+- 정적 원자료 static-initial/rest JSON: EN 한글·5장 route/selftest·일반 종막
+  selftest·feature·등록179·context·queue·diff 9종 PASS, 별도 일반 종막 audit1은
+  기존 FAIL이다. shipping 상수1708과 현재 정본1702의 차이며 packaged1813은 같다.
+  checker/직접입력은 선언HEAD·앞565/566와 byte-identical이다. selector 등록
+  extra지만 현재 audit.sh/CI에서 호출하지 않는다. 삭제/면제/원장 변경0이다.
+  initial orchestration은 네 번째 실패에서 중단되어 경과시간 미보존인 것을
+  static-initial에 명시했고 원stdout/stderr·actual exits는 그대로 보존했다.
+- 읽기전용 CI 진단 `ci-diagnostic.json` SHA5890e412bfdc6a7ba431c190d7c3ccf27ede4009e9c06aefaad00b9cf7355e15,
+  별도 extra 진단 `general-finale-static-diagnostic.json`
+  SHAb7b1432bf769c4d978acc6db2c4c61910ba0d7d2cd056b0aaf35ad7a60244263.
+  검사 상수 수리는 별도 후속 범위이며 아직 새 오더를 열지 않았다.
+- manual_save_ci의 원3stream/전체 diff 독립 검수는 source/headless 한정 GO,
+  blocker0이다. `source-review.md` 107줄/13187B,
+  SHAfb72fbeade4508a868ce5d7045c52caca176fe9a5e0aa60c5cfa06ce358ae7ac.
+  root가 전문을 직접 읽었다. fresh 보존 마감은 같은 디렉터리의
+  `independent-preservation-final.json`에 별도 결속하며 옛 봉인을 덮지 않는다.
+  gangnamdream-dev의 원출력/실제관찰 분리와 위임된 독립 검수를 적용했다.
+  이 수리와 결과를 함께 main에 올린다.
+  새 main CI 녹색 전 [~] 유지, M17 하나/새 월0·native0·OS 해제 재요청0이다.
+  headless 준비 표본은 자연 본편/새 OS 재개/실제 화면/출시 GO가 아니다.

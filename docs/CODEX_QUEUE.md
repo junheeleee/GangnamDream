@@ -53,7 +53,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-567 · 경마 지급 저장 검사 정산 경계 | [567](queue_active/ORDER-567.md) | CI 실패 수리 · 실제 배당/완료 once 보존 |
+| 1 | [~] | ORDER-567 · 경마 지급 저장 검사 정산 경계 | [567](queue_active/ORDER-567.md) | 원 단위 적중/낙첨·cold/once PASS · 새 main CI 대기 |
 | 2 | [~] | ORDER-562 · 본편 M17 실제 앱 이어보기 | [562](queue_active/ORDER-562.md) | OS잠금 HOLD/native0 · 원559 W68 재개 준비 보존 |
 | 3 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
 | 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · 실제 저장·재개·월 복귀 GO/나머지 HOLD |

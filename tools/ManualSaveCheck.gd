@@ -2792,7 +2792,8 @@ func _production_cold_checkpoint(main_game: Control, label: String, meta_total_a
 func _check_production_activity(checkpoint: Dictionary) -> void:
 	# W29's genuine W1-W28 prefix is preserved. The extra activity root is an
 	# explicitly prepared method fixture, not proof of natural mentor eligibility.
-	for mode in ["cancel", "tip-cancel", "round"]:
+	for mode in ["cancel", "tip-cancel", "round-win", "round-loss"]:
+		var is_round: bool = mode.begins_with("round-")
 		GameState.call("_restore_serialized_snapshot_exact", checkpoint)
 		SaveManager.clear_loaded_resume_context()
 		var main_game: Control = await _spawn_monthly_economy_main()
@@ -2866,6 +2867,13 @@ func _check_production_activity(checkpoint: Dictionary) -> void:
 		_expect(GameState.serialize() == pending and not bool(main_game.get("_minigame_overlay_active")) \
 				and not bool(main_game.call("_full_story_advance_week", at_turn)),
 			"pending cold Main bypassed direct activity into another story/month/AP")
+		if is_round:
+			_expect(not GameState.flags.has("horse_world"),
+				"seeded W29 activity expected its actual cold checkpoint to have no horse roster")
+			# Seed after this child's _ready(), before open() creates its card.
+			# The real model selects the winner; horse zero and stake stay fixed.
+			var race_rng: RandomNumberGenerator = (main_game.get("racetrack") as Control).get("_rng")
+			race_rng.seed = 3 if mode == "round-win" else 1
 		main_game.call("_full_story_continue_activity", at_turn, "entry")
 		var race: Control = main_game.get("racetrack") as Control
 		_expect(is_instance_valid(race) and race.visible and GameState.turn == at_turn,
@@ -2877,8 +2885,8 @@ func _check_production_activity(checkpoint: Dictionary) -> void:
 			_expect(GameState.money == money_before - 3_000.0 \
 					and GameState.addiction_tendency == addiction_before + 1,
 				"actual pre-bet tip did not apply its original price/addiction producer")
-		elif mode == "round":
-			race.set_meta("skip_countdown_for_smoke", true)
+		elif is_round:
+			race.set("skip_countdown_for_smoke", true)
 			race.call("_toggle_pick", 0)
 			race.call("_place_bet", 10_000.0)
 			race.set_process(false)
@@ -2888,9 +2896,18 @@ func _check_production_activity(checkpoint: Dictionary) -> void:
 			# process method, not a new payout implementation or a forced winner.
 			race.call("_process", float(race.get("_race_dur")) + 1.0)
 			var payout: float = float(race.get("_payout_amt"))
-			_expect(GameState.money == money_before - 10_000.0 + payout \
-					and int(race.get("_completed_races")) == 1,
-				"actual completed round lost/doubled its original payout")
+			var settled_payout: float = GameState.settle_cash(payout)
+			_expect((payout > 0.0 and payout != settled_payout) if mode == "round-win" else payout == 0.0,
+				"actual seeded activity did not cover its fractional WIN or zero LOSS: %s" % mode)
+			var payout_proof: String = JSON.stringify({"mode": mode,
+				"cash_before": money_before, "raw_payout": payout, "settled_payout": settled_payout,
+				"cash_after": GameState.money, "completed": int(race.get("_completed_races")),
+				"prepared_W29": true, "natural": false}, "", true, true)
+			print("MANUAL_SAVE_ACTIVITY_PAYOUT_PROOF " + payout_proof)
+			_expect(GameState.money == money_before - 10_000.0 + settled_payout,
+				"actual completed round lost/doubled its whole-won payout: " + payout_proof)
+			_expect(int(race.get("_completed_races")) == 1,
+				"actual completed round was not counted exactly once: " + payout_proof)
 			var paid: Dictionary = GameState.serialize().duplicate(true)
 			race.call("_process", float(race.get("_race_dur")) + 1.0)
 			_expect(GameState.serialize() == paid and int(race.get("_completed_races")) == 1,
@@ -2902,7 +2919,9 @@ func _check_production_activity(checkpoint: Dictionary) -> void:
 		if mode == "tip-cancel":
 			_expect(rounds == 0 and net == -3_000.0,
 				"pre-bet information cost disappeared from actual cancelled-session summary")
-		if mode == "round":
+		if is_round:
+			_expect(rounds == 1 and net == cash_after_activity - money_before,
+				"actual completed-session summary lost its once-only round or whole-won cash net: %s" % mode)
 			SaveManager.set_meta("_qa_fail_next_primary_replacement", true)
 		race.call("_on_exit")
 		_expect(GameState.turn == at_turn and GameState.money == cash_after_activity \
@@ -2910,7 +2929,7 @@ func _check_production_activity(checkpoint: Dictionary) -> void:
 				and FULL_STORY_FLOW.pending_activity_id().is_empty() \
 				and not bool(main_game.get("_minigame_overlay_active")),
 			"actual activity close repaid net, consumed AP, or changed the same story week")
-		if mode == "round":
+		if is_round:
 			_expect(bool(main_game.call("_full_story_pending_activity_save_is_valid")) \
 					and not bool(main_game.call("_full_story_advance_week", at_turn)),
 				"failed completed activity save did not freeze calendar retry")
@@ -2941,7 +2960,7 @@ func _check_production_activity(checkpoint: Dictionary) -> void:
 			"closed activity did not advance once without AP")
 		await _free_monthly_economy_main(main_game)
 	GameState.call("_restore_serialized_snapshot_exact", checkpoint)
-	print("MANUAL_SAVE_FULL_STORY_ACTIVITY_CHECK_OK root=actual-choice1 modes=cancel/tip-cancel/one-round checkpoint=pending-cold/closed-cold fault=entry/closed-write-only duplicate=receipt/callback payout=original/AP-preserved prepared-W29-root=1 natural=0")
+	print("MANUAL_SAVE_FULL_STORY_ACTIVITY_CHECK_OK root=actual-choice1 modes=cancel/tip-cancel/round-win/round-loss checkpoint=pending-cold/closed-cold fault=entry/closed-write-only duplicate=receipt/callback payout=whole-won/AP-preserved prepared-W29-root=1 natural=0")
 
 
 func _check_production_calendar_values() -> void:
