@@ -13441,6 +13441,50 @@
         "zh-CN": "a33b53fa97a2a10cff0a77fe4316a8ee838511e2f848f49ed2c0fd35e3db15b1",
         "zh-TW": "e1eae3a40af5e11914d9d0b39ce11ffa0cb6afcfc2e0235318dd77c54fbe55c0"
       }
+    },
+    {
+      "order": "ORDER-566",
+      "group": "ui_correction",
+      "roots": [
+        "선행",
+        "추입"
+      ],
+      "source_leaves": 2,
+      "legacy_origin_commit": "aaeba142d08278c310505000bcc126a699493479",
+      "prior_acceptance": "absent",
+      "before_target_sha256_by_locale": {
+        "ja": {
+          "ui:선행:/선행": "32bae304efde39c26f92d3aa1553ce6d6ca10321045f2d94aff35c50411a280f",
+          "ui:추입:/추입": "f97de5b3111b19f014e35c42f680f9de7b32199628d7542f071862958554b327"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct repair of two existing Japanese horse-racing style labels: 善行 becomes 先行 and 追加入金 becomes 追い込み. HorseWorld.style_name feeds the RaceTrack preference line; preserve the original two style classes, consumers, probabilities, routing, saves, all other dictionary values and every other locale. Independent source review accepted both responses before official import. Zero new UI keys or translated surface coverage; two first official accepted records replace unreceipted legacy values, not prior acceptance. Preserve all 312 previous batches, every prior accepted record and historical census identity. Agent source comparison only; native/rendered OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "7de38592a24e5b20b9d05bf30393b79fea74ce67",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "8231e096a45b716f8c6ee30d82641eac77900a213afced2173334b888200e452",
+          "selection_sha256": "0c9f49a487c44da898e7be183974e714c1ab3aab89431fdb5a39d12a370d94df",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "ece4d38655eeb16bc3774b573a5add98b588f367e8d8f487321709d26b82bb81"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "8bb2644a360979cc14957583e5a29ca85846d1aabe21465c7f84aee4e5e979fc"
+      }
     }
   ],
   "accepted": {
@@ -66080,6 +66124,14 @@
       "ui:아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.:/아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.": {
         "source_sha256": "cb2fc30a937726a74ef04e2e31cc5dd80a3f1d02bb5a05a16f173954b72399b1",
         "target_sha256": "c4c5e3f10fc6d23a406bf3ff35346965fffdb34ce3d814d99af82a0cb1c30ea0"
+      },
+      "ui:선행:/선행": {
+        "source_sha256": "a73a2ce86a52c03e229ccbf890c1226b3d8e679ad33868c0af768277d65e986f",
+        "target_sha256": "dd2081fd0067a9c9328568d0ed624edeb9163423bdcf33ebaa3506953ba7bef5"
+      },
+      "ui:추입:/추입": {
+        "source_sha256": "8f4de5fdbd4313994eb1274e67f714f321dd4316abb21b5619ceb6395d962c52",
+        "target_sha256": "9b9a4988f9c452639aabfe35104bb8ae783a614023172eeb4ad0b3b61b7ea4b5"
       }
     },
     "zh-CN": {
@@ -183655,7 +183707,7 @@
       }
     }
   },
-  "accepted_sha256": "e235ab7c034f94343b417b8c0c96d984793525d569480d18443594d83884ae44",
+  "accepted_sha256": "2567a9cabeed17704125bb94a4c9325b0ae847405789df8cab0b42a50657ba26",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

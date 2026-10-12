@@ -3,6 +3,14 @@
 이전 기록은 [561 전 원문](history/WORK_LOG_2026-10-11_pre_order561.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 40588B/SHA256 340f211da9b794b2cd47c6d033e6dd664b0efcb7e1e55a98f1d80d48c721f709이다.
 
+## 2026-10-12 — 일본어 경마 용어 교정
+
+- [566](queue_archive/ORDER-566.md): 善行/追加入金 → 先行/追い込み. JA 기존값2·첫영수증2만 수리, 경기/저장/다른언어 불변이다.
+- 선언7de38592 뒤 공식 exact2 check/import actual0, 표적8종 PASS. 비저자 지적으로 영수증 검수 순서 문구만 고쳤고 final fullbody54 PASS다.
+- 기존312 batch·모든 기존accepted 보존, 사전 신규키0·전체 INCOMPLETE/native OPEN. 원자료·독립 보고·보존 지문은 사양과 `.git/order566-20261012/`에 결속한다.
+- gangnamdream-dev의 source/실관찰 경계 유지. 열린 월 M17 하나·OS잠금 native0·기존앱 미반영. 선행565 CI는 진행 중, 본편/출시 HOLD·새 월0이다.
+- 사용자/공개/Human/project/seed/raw/app 불변. 엔진/전체audit/240주/새도구/STATUS 단독후속0·일회성/승격0이다.
+
 ## 2026-10-12 — 1년 반 회고의 고용 상태 문장 수리
 
 - [565](queue_archive/ORDER-565.md)는 562 후속에서 확인한 `story_one_half_year`의
