@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-12 — 구저장 연락처 화면 중국어 46문구 수용
+
+- [574](queue_archive/ORDER-574.md): 구저장 V2 호환 연락처의 KO23키를 간체/번체 각각 직접 번역했다. 정상 본편 누락·실제 월 플레이로 세지 않는다. 연락수단·익명·주도자·아직 없는 약속/이름 교환을 보존하고 CN의 저녁식사 한정·이유 추가·혼합 화법3곳은 독립 전수 검수 후 import 전에 고쳤다.
+- 공식 export/check/import 23×2·표적7명령 actual0, 원receipt46/UI batch1·accepted CN/TW14743씩이다. 기존316batch/accepted/JA와 사전·원장 4원본 exact inverse, 보호52/888·비소유3357·old573raw12 exact다. source/receipt/보존 GO만이며 inventory invalid0·UIstatic2000/2980·전역 INCOMPLETE/OPEN은 그대로다. EN 검사2개는 clean 선언 상태(import 전) actual0, 이후 KO/EN/runtime 보존으로 귀속·재실행0이다.
+- gangnamdream-dev/I18N의 직접 저작·비소유 보존·자동/실관찰 분리를 적용했다. 일회성/승격0·원문/runtime/저장/데모 변경0·엔진/새 월0·렌더/원어민/인간/패드 OPEN·M17 OS잠금 HOLD 하나·출시 HOLD다. 선행 CI는 배정된 전체 감사 step6 장시간 실행으로 관측됐으나 원인은 미확정이며 취소/재실행0이다. 실제 commit/새 CI는 마감 뒤 private로 확인하고 현황판 단독 후속 커밋은 만들지 않는다.
+
 ## 2026-10-12 — 일본어 엔딩에 잘못 붙던 기본 난이도 기록 수리
 
 - [573](queue_archive/ORDER-573.md): 엔딩 상세/결과 복사의 조건2줄이 안정 ID 현실을 JA 現実와 비교하던 결함을 고쳤다. 기본행 숨김·legacy 드라마/지옥고 행 표시가 번역값/community팩과 독립이다. 비교만 하던 JA 고아 멤버1개도 제거, 표시문구·밸런스·엔딩 라우팅/저장 불변이다.

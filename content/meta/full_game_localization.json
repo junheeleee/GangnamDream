@@ -13667,6 +13667,77 @@
         "zh-CN": "a1d358c64248727eedbc1b6abead1d9afb3658faa29308ca20bd1fb9e2c62168",
         "zh-TW": "be4ffb2174542e9adb43aded8ddd66b44bd1ba49c322bbca6b045b17aa25e1d9"
       }
+    },
+    {
+      "order": "ORDER-574",
+      "group": "ui",
+      "roots": [
+        "지금까지 만난 사람",
+        "연락수단 · 저장된 전화번호",
+        "연락수단 · 카카오톡 대화",
+        "연락수단 · 받은 명함의 번호",
+        "연락처 없음 · 찾아갈 편의점만 알고 있다",
+        "연락수단 없음 · 전화번호나 메시지를 주고받지 않았다",
+        "24시간 편의점 야간 직원",
+        "검은 세단 운전자",
+        "연락처는 저장돼 있다. 이번 달에는 아직 통화하지 않았다.",
+        "짧게 통화했다. 서로의 목소리를 듣고 통화를 마쳤다.",
+        "현수가 먼저 다시 공부하자고 했고, 같은 시간을 함께 쓰기로 했다.",
+        "공용 주방에서 만난 현수에게 내가 먼저 카카오톡을 보내 함께 공부할 날을 잡았다.",
+        "공용 주방에서 처음 이야기를 나눴다. 아직 함께할 약속은 없다.",
+        "내가 다시 찾아간 뒤, 다음 화요일에도 서로의 한 주를 묻기로 했다.",
+        "내가 다시 찾아간 뒤, 다음에는 서로 늦은 끼니를 거르지 않았는지 확인하기로 했다.",
+        "이름을 안 뒤 다시 편의점에 찾아가, 내가 먼저 세 번째 대화를 시작했다.",
+        "이름을 안 뒤 다시 편의점에 찾아가, 내가 먼저 다은의 야간 근무를 물었다.",
+        "내가 다시 편의점에 찾아가, 다은의 이름을 불러 말을 걸었다.",
+        "내가 다시 편의점에 찾아가, 다은에게 지난번 일을 고맙다고 말했다.",
+        "내가 편의점에 다시 찾아가 먼저 인사했고, 이번에는 서로 이름을 알았다.",
+        "내가 편의점에 다시 찾아가, 그날 못 한 고맙다는 말을 먼저 건넸다.",
+        "새벽 편의점에서 이름을 들었다. 다시 찾아갈지는 아직 정하지 않았다.",
+        "새벽 편의점에서 인사만 나눴다. 이름은 아직 모른다."
+      ],
+      "source_leaves": 23,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 23,
+        "zh-TW": 23
+      },
+      "source_review": "Legacy V2 compatible-save people screen only; not normal full-story missing coverage or observed native play. All23 Korean UI source keys and actual conditional consumers read. Simplified and Traditional Chinese authored independently from Korean; root disclosed incidental source-adjacent English exposure without using it as an intermediate, and no cross-Chinese conversion. Independent manual_save_ci compared all46 final response rows with Korean23 before official import: preserve anonymous identities, actual contact methods, who initiated, no already-fixed appointment/name exchange, next Tuesday, late meal without limiting meal type and third conversation. Simplified wording repaired dinner overrestriction, added time-shortage cause and mixed thanks narration before acceptance. Source comparison only; rendered/native-reader/human/controller evidence OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "1e0859fddcc6a7b525139399a453532487f59288",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c13d47f56851ab9f26567d53a53db1f13e39d5931881f8f1bd2c7ab91a71e19b",
+          "selection_sha256": "20f94d22af23bfc9146b2fb46a4b1ea72a56e9c31b665ddf60988815d084597f",
+          "count": 23,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c13ab0a81a3cce2665c57c0d4fa3078a5e5793b1435ef34597f43b5ae911fb35"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "1e0859fddcc6a7b525139399a453532487f59288",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c13d47f56851ab9f26567d53a53db1f13e39d5931881f8f1bd2c7ab91a71e19b",
+          "selection_sha256": "3627373e7bf9fbf5c58a0c5bcd6cc884c9b96a82ab356621d87bfd4a9053589d",
+          "count": 23,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d945f2a5f6a088f9f4c3988da0cd79ba78d1b69b1104f010db4c90cf10f75a2f"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "d98a3824e38f627b57a6ce280bde9c033b786012edf1873e13ed9499793c42c9",
+        "zh-TW": "e495ca5219ad76def2c56f88654b469d7513f684fabe315d188357c7baafecac"
+      }
     }
   ],
   "accepted": {
@@ -125228,6 +125299,98 @@
       "ui:최종 기록:/최종 기록": {
         "source_sha256": "c8ee28c9c1edbc427d00ea0994bb1a8700547b843fa3cec70898ade0e83777ec",
         "target_sha256": "b7c8ffc87c6fa7df1660072d4d44a8115f32b1a6f4909c56134d785cc0eb0be8"
+      },
+      "ui:24시간 편의점 야간 직원:/24시간 편의점 야간 직원": {
+        "source_sha256": "4f06776100abff229af8de7bea6f2c8cfa800703f1f01476d98ac35e5d542fe1",
+        "target_sha256": "224c63ffe6c404c8790a8e1b6b04c737cbc9cec068b24bba6d62e292cb07f2e9"
+      },
+      "ui:검은 세단 운전자:/검은 세단 운전자": {
+        "source_sha256": "d222fb7929d57a3589b3c005fd98f395eedaa8d147c11d3eb8de85d30ad87eab",
+        "target_sha256": "3058c4ae52d90cdc646558aca2b2202a46cdf0ca200b4146fe3d6586d5e1ad48"
+      },
+      "ui:공용 주방에서 만난 현수에게 내가 먼저 카카오톡을 보내 함께 공부할 날을 잡았다.:/공용 주방에서 만난 현수에게 내가 먼저 카카오톡을 보내 함께 공부할 날을 잡았다.": {
+        "source_sha256": "ccb91237c579043f5999a51ed344d7fa22db9ab8785599cdbcfe098ac528ecdd",
+        "target_sha256": "bfef594396a782b8d475e5043aa9e1c550b4db0ad3976a47aac101201935088b"
+      },
+      "ui:공용 주방에서 처음 이야기를 나눴다. 아직 함께할 약속은 없다.:/공용 주방에서 처음 이야기를 나눴다. 아직 함께할 약속은 없다.": {
+        "source_sha256": "4c3c1d24341491f6ffd990543f3c2f101deccc8d3dbf798bea6edf1f5a21adae",
+        "target_sha256": "3c21f23d5950d9551fb31f03c2c7d75c78ce24c8c4a89cffd83f26f11f1ec3b9"
+      },
+      "ui:내가 다시 찾아간 뒤, 다음 화요일에도 서로의 한 주를 묻기로 했다.:/내가 다시 찾아간 뒤, 다음 화요일에도 서로의 한 주를 묻기로 했다.": {
+        "source_sha256": "cbd47d028df5b1fa0609870927e3174133914f33655410ef8c9622dba68ec06f",
+        "target_sha256": "777334e35b167d7f0fbe244827e18d9c1c57845877faa7c6f6ccfd5fc947e385"
+      },
+      "ui:내가 다시 찾아간 뒤, 다음에는 서로 늦은 끼니를 거르지 않았는지 확인하기로 했다.:/내가 다시 찾아간 뒤, 다음에는 서로 늦은 끼니를 거르지 않았는지 확인하기로 했다.": {
+        "source_sha256": "3d13a923e729848c9937c1b7f24797fe27670e5a67219122e253f726a639731d",
+        "target_sha256": "6e05115a795019131bad08a8c88ec0a4b35a75cc4d39249b0cd0ec7445b6a2af"
+      },
+      "ui:내가 다시 편의점에 찾아가, 다은에게 지난번 일을 고맙다고 말했다.:/내가 다시 편의점에 찾아가, 다은에게 지난번 일을 고맙다고 말했다.": {
+        "source_sha256": "ea56b2a56c6625056870e787db846ab9cd25fe6a4149b09dabd5462970b89609",
+        "target_sha256": "fc9e3157b9a2f0e7d39499cad94d15c49551aeb319fca3fbfd027f02a6ce548e"
+      },
+      "ui:내가 다시 편의점에 찾아가, 다은의 이름을 불러 말을 걸었다.:/내가 다시 편의점에 찾아가, 다은의 이름을 불러 말을 걸었다.": {
+        "source_sha256": "1214c991e8511cf030ce67b2f40470a3d347288764b9f31752de077ec83769e2",
+        "target_sha256": "f45882e8f7e40b5361e500bfb26f93a8586d8f11b52a668e67bb4ea84f4062c3"
+      },
+      "ui:내가 편의점에 다시 찾아가 먼저 인사했고, 이번에는 서로 이름을 알았다.:/내가 편의점에 다시 찾아가 먼저 인사했고, 이번에는 서로 이름을 알았다.": {
+        "source_sha256": "ae7d8495c3361877fc441853338f43cfb9c1b76ece8005f64d078fcfbda1cdf4",
+        "target_sha256": "459e7fdcd20b3788997ed41804370d3a89efbded1b460428367c4cb0a5fce6f1"
+      },
+      "ui:내가 편의점에 다시 찾아가, 그날 못 한 고맙다는 말을 먼저 건넸다.:/내가 편의점에 다시 찾아가, 그날 못 한 고맙다는 말을 먼저 건넸다.": {
+        "source_sha256": "34c6ec7f85bb9ee69dc5e1235a9d861fd775121ccace7753df220ada7eb7bb13",
+        "target_sha256": "ca0512f5efd60e45da47516edc5a3f143773a2e9330126e15ce434f5a8c5c2e8"
+      },
+      "ui:새벽 편의점에서 이름을 들었다. 다시 찾아갈지는 아직 정하지 않았다.:/새벽 편의점에서 이름을 들었다. 다시 찾아갈지는 아직 정하지 않았다.": {
+        "source_sha256": "66202a192097bdfe546208bf19fb55394234ae7af0866bf45de2df03b505e690",
+        "target_sha256": "6e3a5f391a96539ac7f752936776773293282109e0a47823cdf1914115b639d5"
+      },
+      "ui:새벽 편의점에서 인사만 나눴다. 이름은 아직 모른다.:/새벽 편의점에서 인사만 나눴다. 이름은 아직 모른다.": {
+        "source_sha256": "ad19f960bc84ce66fda38cab2be5f3d42b4643eaddac81455fa04fbd064a7186",
+        "target_sha256": "c97c7025ea96da355a34e7d897bd5aadc7842abb9196bf5cdcad6d0681a5a99a"
+      },
+      "ui:연락수단 · 받은 명함의 번호:/연락수단 · 받은 명함의 번호": {
+        "source_sha256": "9f1d93f5b33fef9a0ccb4a24fd2d1d3e8e84a44dd28b6ef57c5f8a196c8ce628",
+        "target_sha256": "310dadf1080cfe48dd6023de7930b61a0db863594c95ac06dea156be51d30ced"
+      },
+      "ui:연락수단 · 저장된 전화번호:/연락수단 · 저장된 전화번호": {
+        "source_sha256": "e5dc8ad622a7366af646ee58b5d5b865c5fd2bf06f93e41e368fcab5d0b06676",
+        "target_sha256": "d183dc75c156038e64fe95bf7e8c699a5711f87a4eb87bf9ee6fcc6393f79911"
+      },
+      "ui:연락수단 · 카카오톡 대화:/연락수단 · 카카오톡 대화": {
+        "source_sha256": "39cf4f857287a36555a2ce00d9cac2b6065e7ee4e4111ef5feb9f979eded276e",
+        "target_sha256": "28b5e45e1c7e016414c34d8a16567da25f98f2b17a5f198a91f51d9a42b4ea1f"
+      },
+      "ui:연락수단 없음 · 전화번호나 메시지를 주고받지 않았다:/연락수단 없음 · 전화번호나 메시지를 주고받지 않았다": {
+        "source_sha256": "332f4ec608d679f1dd314fb70fc48717b656deb10fed419145978235c02f81c0",
+        "target_sha256": "c376fa1fd5300ff2d7906f8354aa6908dc9668dc42d9fdda4382d33e68e508dc"
+      },
+      "ui:연락처 없음 · 찾아갈 편의점만 알고 있다:/연락처 없음 · 찾아갈 편의점만 알고 있다": {
+        "source_sha256": "ea855bacfbc678903bce6c4491edd048cd59fb6426905073271dfac8d6888c00",
+        "target_sha256": "611116e3b215d762f43f4ea6cdb5c0dcd8b9c0da41bf2f9caf3b43db759ce5ab"
+      },
+      "ui:연락처는 저장돼 있다. 이번 달에는 아직 통화하지 않았다.:/연락처는 저장돼 있다. 이번 달에는 아직 통화하지 않았다.": {
+        "source_sha256": "027ef89f8c6091ff1309f6d593505d0fc0b2e8b66850e1861a1e7c311dd1e495",
+        "target_sha256": "82d0248404edb8e41a43cc1d4ae9297e4a422db9eeb5ddcb4c3ea49cf88061ec"
+      },
+      "ui:이름을 안 뒤 다시 편의점에 찾아가, 내가 먼저 다은의 야간 근무를 물었다.:/이름을 안 뒤 다시 편의점에 찾아가, 내가 먼저 다은의 야간 근무를 물었다.": {
+        "source_sha256": "b23df85029a8701c26402f11163948f2c18ff8d98e2c60b8764e8e9731391aa4",
+        "target_sha256": "fbedb1e1229fa5622924f3ebada45a95b40b354a3b34cf218d8ea1e2735ab6e6"
+      },
+      "ui:이름을 안 뒤 다시 편의점에 찾아가, 내가 먼저 세 번째 대화를 시작했다.:/이름을 안 뒤 다시 편의점에 찾아가, 내가 먼저 세 번째 대화를 시작했다.": {
+        "source_sha256": "8846d0679c71f9f5b909a50665ce3d9b6919563d953b574b8086965165bbaa02",
+        "target_sha256": "fa486b9d84dedc5edb607aa73be2cbe8b3afa67f9f6993447f2f7cac2f21f2df"
+      },
+      "ui:지금까지 만난 사람:/지금까지 만난 사람": {
+        "source_sha256": "57a4e92692204294eea547c167ca6053b2b45fe968513703087807066f97d107",
+        "target_sha256": "7ce9c26dfda6b335ab9a39622ae54afce0104614286c8a19659c121866bea2d1"
+      },
+      "ui:짧게 통화했다. 서로의 목소리를 듣고 통화를 마쳤다.:/짧게 통화했다. 서로의 목소리를 듣고 통화를 마쳤다.": {
+        "source_sha256": "2fbb5e50af5f9ebd465b7f76ca2519e1d3482eb92f5cd42d743968082edfbbdc",
+        "target_sha256": "87adba8b48dc0f7f6a5648a08a366bc641535c5daaa98e53ccda39009528cb93"
+      },
+      "ui:현수가 먼저 다시 공부하자고 했고, 같은 시간을 함께 쓰기로 했다.:/현수가 먼저 다시 공부하자고 했고, 같은 시간을 함께 쓰기로 했다.": {
+        "source_sha256": "99a0bd7381708679b5c3ef7e4a535163a2141fc4621f5c4014bdaba8b3029957",
+        "target_sha256": "e5dc38545c22b36c477af0ba83bb1b4468ad83fe7369a6d1ac655187d4056aee"
       }
     },
     "zh-TW": {
@@ -184110,10 +184273,102 @@
       "ui:최종 기록:/최종 기록": {
         "source_sha256": "c8ee28c9c1edbc427d00ea0994bb1a8700547b843fa3cec70898ade0e83777ec",
         "target_sha256": "89f9cff6bfdeaa58acdd972f8e8269feb92e0867826882ba2d73c87620fea090"
+      },
+      "ui:24시간 편의점 야간 직원:/24시간 편의점 야간 직원": {
+        "source_sha256": "4f06776100abff229af8de7bea6f2c8cfa800703f1f01476d98ac35e5d542fe1",
+        "target_sha256": "c8c7494df11b375830990b785e3e1ef2b1d25e0130359252b6e7602df94bcc3c"
+      },
+      "ui:검은 세단 운전자:/검은 세단 운전자": {
+        "source_sha256": "d222fb7929d57a3589b3c005fd98f395eedaa8d147c11d3eb8de85d30ad87eab",
+        "target_sha256": "1aed7e76ad22916a32debdd517d737d7792ebc64ffc5bdf6d93756f6360b3e0c"
+      },
+      "ui:공용 주방에서 만난 현수에게 내가 먼저 카카오톡을 보내 함께 공부할 날을 잡았다.:/공용 주방에서 만난 현수에게 내가 먼저 카카오톡을 보내 함께 공부할 날을 잡았다.": {
+        "source_sha256": "ccb91237c579043f5999a51ed344d7fa22db9ab8785599cdbcfe098ac528ecdd",
+        "target_sha256": "b831235331ab41716bc5e5d0e3b97b276e8f0407d4dca9f8bb9782eab7bec75f"
+      },
+      "ui:공용 주방에서 처음 이야기를 나눴다. 아직 함께할 약속은 없다.:/공용 주방에서 처음 이야기를 나눴다. 아직 함께할 약속은 없다.": {
+        "source_sha256": "4c3c1d24341491f6ffd990543f3c2f101deccc8d3dbf798bea6edf1f5a21adae",
+        "target_sha256": "3b3ddabd592b2c9acd006a53d6f002b2c8d260d3f914ce8f31b526da81874b8a"
+      },
+      "ui:내가 다시 찾아간 뒤, 다음 화요일에도 서로의 한 주를 묻기로 했다.:/내가 다시 찾아간 뒤, 다음 화요일에도 서로의 한 주를 묻기로 했다.": {
+        "source_sha256": "cbd47d028df5b1fa0609870927e3174133914f33655410ef8c9622dba68ec06f",
+        "target_sha256": "4f383baa91aeb5e4e17d3635df9ee658c194db58072d14b7bb189ea15631d1dc"
+      },
+      "ui:내가 다시 찾아간 뒤, 다음에는 서로 늦은 끼니를 거르지 않았는지 확인하기로 했다.:/내가 다시 찾아간 뒤, 다음에는 서로 늦은 끼니를 거르지 않았는지 확인하기로 했다.": {
+        "source_sha256": "3d13a923e729848c9937c1b7f24797fe27670e5a67219122e253f726a639731d",
+        "target_sha256": "85694bb5f3d7487b141b92e60b277abf6d1503bec862cbc91f44b0cb95c58d96"
+      },
+      "ui:내가 다시 편의점에 찾아가, 다은에게 지난번 일을 고맙다고 말했다.:/내가 다시 편의점에 찾아가, 다은에게 지난번 일을 고맙다고 말했다.": {
+        "source_sha256": "ea56b2a56c6625056870e787db846ab9cd25fe6a4149b09dabd5462970b89609",
+        "target_sha256": "cb4918597d5ce8034eac6f082ac55b112a403365cd5690354b3546b1df63fb78"
+      },
+      "ui:내가 다시 편의점에 찾아가, 다은의 이름을 불러 말을 걸었다.:/내가 다시 편의점에 찾아가, 다은의 이름을 불러 말을 걸었다.": {
+        "source_sha256": "1214c991e8511cf030ce67b2f40470a3d347288764b9f31752de077ec83769e2",
+        "target_sha256": "f4ac4f3a9b5f431581fc2b061b67540cd3af8f19e810ccbefaf69e13627f78d6"
+      },
+      "ui:내가 편의점에 다시 찾아가 먼저 인사했고, 이번에는 서로 이름을 알았다.:/내가 편의점에 다시 찾아가 먼저 인사했고, 이번에는 서로 이름을 알았다.": {
+        "source_sha256": "ae7d8495c3361877fc441853338f43cfb9c1b76ece8005f64d078fcfbda1cdf4",
+        "target_sha256": "f7cb2ed99915431ecca85151460da5157269f9722a48ecb10b19a3347069a28c"
+      },
+      "ui:내가 편의점에 다시 찾아가, 그날 못 한 고맙다는 말을 먼저 건넸다.:/내가 편의점에 다시 찾아가, 그날 못 한 고맙다는 말을 먼저 건넸다.": {
+        "source_sha256": "34c6ec7f85bb9ee69dc5e1235a9d861fd775121ccace7753df220ada7eb7bb13",
+        "target_sha256": "0bfd2903871adeaba5ef588e2006ea4dbe39f19a367f4d1bc8767b35b6942731"
+      },
+      "ui:새벽 편의점에서 이름을 들었다. 다시 찾아갈지는 아직 정하지 않았다.:/새벽 편의점에서 이름을 들었다. 다시 찾아갈지는 아직 정하지 않았다.": {
+        "source_sha256": "66202a192097bdfe546208bf19fb55394234ae7af0866bf45de2df03b505e690",
+        "target_sha256": "d06da18e88876d0716dba83a8e2625076c29de37f06bced8517d284d6e7904b2"
+      },
+      "ui:새벽 편의점에서 인사만 나눴다. 이름은 아직 모른다.:/새벽 편의점에서 인사만 나눴다. 이름은 아직 모른다.": {
+        "source_sha256": "ad19f960bc84ce66fda38cab2be5f3d42b4643eaddac81455fa04fbd064a7186",
+        "target_sha256": "2d47a14febde79f6d4a1e8383548b5c5e9357b3bf8cb94258cc5be92bef5a8f7"
+      },
+      "ui:연락수단 · 받은 명함의 번호:/연락수단 · 받은 명함의 번호": {
+        "source_sha256": "9f1d93f5b33fef9a0ccb4a24fd2d1d3e8e84a44dd28b6ef57c5f8a196c8ce628",
+        "target_sha256": "52d2a65f7d448f9c7a2b639d8c5e4cc0d3fba48154100f9a919b2e9df499ccdf"
+      },
+      "ui:연락수단 · 저장된 전화번호:/연락수단 · 저장된 전화번호": {
+        "source_sha256": "e5dc8ad622a7366af646ee58b5d5b865c5fd2bf06f93e41e368fcab5d0b06676",
+        "target_sha256": "81fe3d4de90af2d189bc61fb82d226ee33453d5c11ff9c433ee0b3c0b9058959"
+      },
+      "ui:연락수단 · 카카오톡 대화:/연락수단 · 카카오톡 대화": {
+        "source_sha256": "39cf4f857287a36555a2ce00d9cac2b6065e7ee4e4111ef5feb9f979eded276e",
+        "target_sha256": "189102823c62f439f4882a5973e46bd2f98e2248ab394f5856e64d04db2f4294"
+      },
+      "ui:연락수단 없음 · 전화번호나 메시지를 주고받지 않았다:/연락수단 없음 · 전화번호나 메시지를 주고받지 않았다": {
+        "source_sha256": "332f4ec608d679f1dd314fb70fc48717b656deb10fed419145978235c02f81c0",
+        "target_sha256": "5666497a07ca4c72674587133fff7f04260ee6bbdf3e052f91b35521258c9e08"
+      },
+      "ui:연락처 없음 · 찾아갈 편의점만 알고 있다:/연락처 없음 · 찾아갈 편의점만 알고 있다": {
+        "source_sha256": "ea855bacfbc678903bce6c4491edd048cd59fb6426905073271dfac8d6888c00",
+        "target_sha256": "d86b59f9af68bc8cbd44e4ce672d8ccabc412ad52e81f90356e14797bebefc09"
+      },
+      "ui:연락처는 저장돼 있다. 이번 달에는 아직 통화하지 않았다.:/연락처는 저장돼 있다. 이번 달에는 아직 통화하지 않았다.": {
+        "source_sha256": "027ef89f8c6091ff1309f6d593505d0fc0b2e8b66850e1861a1e7c311dd1e495",
+        "target_sha256": "3c9c6d614a43e5e4fe864733b346da6808cdec9f22110213f88b9651bdf3fd6a"
+      },
+      "ui:이름을 안 뒤 다시 편의점에 찾아가, 내가 먼저 다은의 야간 근무를 물었다.:/이름을 안 뒤 다시 편의점에 찾아가, 내가 먼저 다은의 야간 근무를 물었다.": {
+        "source_sha256": "b23df85029a8701c26402f11163948f2c18ff8d98e2c60b8764e8e9731391aa4",
+        "target_sha256": "80a1684b880c141529e07970b91899c80b6398d7c4fe60220b9fecc5d530dc61"
+      },
+      "ui:이름을 안 뒤 다시 편의점에 찾아가, 내가 먼저 세 번째 대화를 시작했다.:/이름을 안 뒤 다시 편의점에 찾아가, 내가 먼저 세 번째 대화를 시작했다.": {
+        "source_sha256": "8846d0679c71f9f5b909a50665ce3d9b6919563d953b574b8086965165bbaa02",
+        "target_sha256": "e9e2d2867ef45fa6fe8595d7b63ce605004def3949335c3e4d8fa676c4a21045"
+      },
+      "ui:지금까지 만난 사람:/지금까지 만난 사람": {
+        "source_sha256": "57a4e92692204294eea547c167ca6053b2b45fe968513703087807066f97d107",
+        "target_sha256": "1f8e1ada56e0e19cb6b51afd89a9e89e48ec7dda3ba8fc587cbece19e3ac67a6"
+      },
+      "ui:짧게 통화했다. 서로의 목소리를 듣고 통화를 마쳤다.:/짧게 통화했다. 서로의 목소리를 듣고 통화를 마쳤다.": {
+        "source_sha256": "2fbb5e50af5f9ebd465b7f76ca2519e1d3482eb92f5cd42d743968082edfbbdc",
+        "target_sha256": "fe4df94a8d4a41144cdcbab178af2f82cb47d868356f92d46789d571ad1bd923"
+      },
+      "ui:현수가 먼저 다시 공부하자고 했고, 같은 시간을 함께 쓰기로 했다.:/현수가 먼저 다시 공부하자고 했고, 같은 시간을 함께 쓰기로 했다.": {
+        "source_sha256": "99a0bd7381708679b5c3ef7e4a535163a2141fc4621f5c4014bdaba8b3029957",
+        "target_sha256": "6fa0a634d39fb9ab1277275d89f49860c19d3d33ba69ac39155b49f42eda4dff"
       }
     }
   },
-  "accepted_sha256": "6573b1363685d1b07b05fc24f08625dd419a9585cc082d06afafaeed584133cb",
+  "accepted_sha256": "818062cf81457638087057f53407fa3ae15c01a21fcda7e3563d1df248621b7c",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
