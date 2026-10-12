@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-12 — 월말·마지막 기록 중국어 16문구 수용
+
+- [572](queue_archive/ORDER-572.md): 실제 표시 소비자8키를 CN/TW 각각 KO 직접 번역했다. 월말의 부분 회복·미명명·거처·6개월/버튼 공백2+›를 보존했다. 비교용 현실 키는 제외, legacy 데모 안내는 공개 story_demo_rc 변경이 아니다.
+- 공식 export/check/import 각8×2 actual0·원receipt16/UI batch1 편입, 기존315 batch/accepted/사전4파일 exact inverse와 실제 Git source manifest 불변이다. 최초 CN check의 locale 누락 invocationFAIL1은 원자료 보존 후 올바른 호출로 actual0, 제품/checker 수리0이다. named lane11 actual0·비저자 전16 source/receipt GO·보호50/853·비소유3355/JA/옛571raw34 exact, 상세 핀은 사양에 결속했다.
+- gangnamdream-dev/I18N의 직접 저작·보존·자동/실관찰 구분을 적용했다. root의 인접 EN 노출은 공개하며 중역/간번 변환0·일회성/승격0이다. 원문/runtime/저장/데모/엔진/새 월0·M17 OS잠금 하나·렌더/원어민 OPEN·전체 번역 INCOMPLETE·출시 HOLD다. 새 push CI 미확정, 현황판 단독 후속0이다.
+
 ## 2026-10-12 — 엔딩 후일담 일본어·중국어 24문구 수용
 
 - [571](queue_archive/ORDER-571.md): KO 후일담8키를 JA/CN/TW 각8 직접 작성해 공식 export/check/import했다. 미답·미화해·미소유와 금액/시각을 보존, 사전3·accepted24/UI batch1만 추가했다. 기존314 batch/accepted/사전은 4파일 exact inverse이며 실제 Git source manifest 불변이다.
