@@ -1,6 +1,6 @@
 # ORDER-565 — 1년 반 회고의 고용 상태 문장 수리
 
-#### [~] ORDER-565 착수 — 2026-10-12
+#### [x] ORDER-565 source·번역 수리 완료 — 2026-10-12
 
 562의 읽기전용 후속에서 확인한 `story_one_half_year`만 수리한다.
 현재 MainGame `_next_milestone_id`는 경과18개월/미독으로 직접 진입하며
@@ -42,7 +42,7 @@ project.godot·사용자/공개 저장과 설정·Human·원seed/raw/app·M01~M0
 - 실제 구조diff: 5잎×5언어만, title/choice2/게임플레이/다른event 동일.
 - 공식15잎 export/check/import·accepted source/target hash와 이전receipt 보존.
 - en_coverage·english_hangul·narrative_continuity·scene_audio_contract_check·
-  speech_register·full-game-localization-overlays lane·story_demo locale·
+  speech_register·번역 원장/오버레이 표적 검사·story_demo locale·
   release_content_inventory·queue/context·diff. 영향 목록은 조회만 한다.
 - source 정합/번역 검수는 비저자가 전수 판단한다. 자동검사는 도달성과 계약
   증거이지 재미·깊이·문체 또는 인간 품질 증거가 아니다.
@@ -50,3 +50,17 @@ project.godot·사용자/공개 저장과 설정·Human·원seed/raw/app·M01~M0
   맥 해제 재요청/잠금우회·native 실행·새 월 시작·재빌드0이다.
 - 새 실패0 뒤 구현/마감을 main에 함께 정리한다. STATUS 단독후속0,
   전체audit/240주·종료누수 탐침·비용최적화0. 이 사양은 일회성·새규범0이다.
+
+## 실제 결과·한계
+
+- 원문5잎×5언어만 수리, title/choice2·게임플레이·코드/저장 불변이다.
+- 공식 CJK15잎 export/check/import·새 correction1, 이전311 batch/개수 보존.
+  CN 초안 하루 누락 check1은 v2 수리, 원자료 보존/검사 완화0이다.
+- 등록 정적 source/번역 구성15종 actual0, 초기 stale fullbody1→교정 뒤54case PASS.
+  명시 overlay lane은 KO/EN 범위를 거부했으며 lane 자체PASS로 기록하지 않는다.
+- 독립 전수 source·번역/보존 판독과 실제raw는 private565에 결속한다.
+  source report SHA4d6d0885…98bae/blocker0, preservation SHA74b03385…b0b4f/23checks exact.
+- inventory/report 지문 변경 불필요, native/engine0·새 월0·M17 OS잠금 HOLD.
+  기존 앱에는 이번 두 source 수리가 없다. 화면/원어민/전체판·출시 HOLD다.
+- 자동검사는 도달성과 계약 증거이지 재미·깊이·문체/인간 품질 증거가 아니다.
+  승격0·모두 일회성, STATUS 단독후속/전체audit/240주/비용도구/누수탐침0이다.

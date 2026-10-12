@@ -3,6 +3,37 @@
 이전 기록은 [561 전 원문](history/WORK_LOG_2026-10-11_pre_order561.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 40588B/SHA256 340f211da9b794b2cd47c6d033e6dd664b0efcb7e1e55a98f1d80d48c721f709이다.
 
+## 2026-10-12 — 1년 반 회고의 고용 상태 문장 수리
+
+- [565](queue_archive/ORDER-565.md)는 562 후속에서 확인한 `story_one_half_year`의
+  통근·현재 직장·이직 전제를 고용 중립 문장으로 수리했다. 18개월/미독 직접
+  진입에는 고용 조건이 없다. KO/EN/CJK 같은5잎씩만 바뀌며 title/choice2·
+  효과/flags/진입·다른event·코드/저장/자동생계는 불변이다. 실제 M18 관측0이다.
+- 선언aee23fa/treebb9ce8ec commit/push 뒤 root KO/EN·manual_save_ci 번역/원장을
+  분리했다. 공식 exact5 export/check/import 3지역 actual0/stderr0·accepted15 교정,
+  새 correction1만 추가했다. 기존311 batch·다른accepted/개수·역사 census는 보존했다.
+  source manifest8231e096…e452·accepted SHAe235ab7c…ae44, full INCOMPLETE/native OPEN이다.
+- 최초 CN 초안은 `하루`를 생략해 check1이었다. 원응답/raw를 보존하고 별도v2
+  문장만 고쳤다. 첫 fullbody selftest의 stale accepted FAIL1은 원장 교정 뒤
+  actual0/cases54로 풀었다. 검사기/숫자 기준·KNOWN·통과 기준 완화0이다.
+- 최종 source7검사와 번역 구성 검사8종 actual0: EN·한글·서사·음악·말투·
+  story-demo·심의 원장, full-localization265·ZH12783·JA76·fullbody54·
+  story-demo selftest55·다국어·정적audit·등록179이다. 심의 지문/report 변경 불필요다.
+  KO/EN 포함으로 named overlay lane은 거부2였으며 개별 구성 검사만 실행했다.
+  잘못된 queue 파일명/상충 lane 인자 거부도 private 초기 기록에 남겼다.
+  영향71개는 조회만, 전체audit/240주·엔진·UI·새도구/비용최적화0이다.
+- root가 실제25잎/원장diff/공식raw·독립 원문 검수를 직접 읽었다.
+  독립 source 보고12340B/SHA4d6d08852eaadc51f5366fa6c76c70f6ddbba324e1dc399e28ec299fd1f98bae,
+  보존23132B/SHA74b0338525152bb8368c6f5eb0d16ec3a8cc11b1805818bc01f40b7c4c5b0b4f.
+  `.git/order565-20261012/`에 결속하며 blocker0·fresh23/23·비소유3342·보호43/669 exact다.
+- gangnamdream-dev의 source/관찰 경계를 유지했다. 사용자/공개 저장·설정·
+  project·Human·seed/raw/app 불변, 인간 OPEN45·공개GO1·옛 REWORK 보존.
+  자동검사는 도달성과 계약 증거이지 재미·깊이·문체/인간 품질 증거가 아니다.
+  실제화면·원어민·물리패드·청취·M17/본편/출시 HOLD, 잠금 재요청/새 월0이다.
+  기존 BUILD2026.10.11.3 앱에는 이번 두 source 수리가 없다. 모든 지시는 일회성·
+  정본승격0, STATUS 단독후속0이며 구현/마감을 함께 커밋하고 새 CI를 확인한다.
+  선행c6ed0b8 CI38170779752/jobs2 전steps 성공은 이번 구현 CI 성공 주장이 아니다.
+
 ## 2026-10-12 — 프롤로그 통화 종료 표시 source 수리
 
 - [564](queue_archive/ORDER-564.md)는 실제534 fresh에서 통화가 끝난 뒤 남던

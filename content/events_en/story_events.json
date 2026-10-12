@@ -359,15 +359,15 @@
   {
     "id": "story_one_half_year",
     "title": "A Year and a Half",
-    "description": "Eighteen months.\n\nSeoul isn't strange to you anymore.\nThe commute, the convenience store you frequent, the diner where you have lunch.\nIt's all familiar now.\n\nBut you're not sure being familiar is a good thing.\nAre the things {name} wants still here?\nOr is this just becoming the way you live?\n\nYou were browsing job listings, then closed the window.",
+    "description": "Eighteen months.\n\nSeoul isn't strange to you anymore.\nThe familiar streets, the convenience store you frequent, the diner where you have lunch.\nIt's all familiar now.\n\nBut you're not sure being familiar is a good thing.\nAre the things {name} wants still here?\nOr is this just becoming the way you live?\n\nYou were browsing job listings, then closed the window.",
     "choices": [
       {
-        "text": "Now's the time. Prepare to switch jobs.",
-        "result_text": "You pulled out your resume again.\nYou organized what you'd learned at your current job.\nEven if it feels like you're not ready, the ones who move are the ones who catch the chance."
+        "text": "Now's the time. Prepare to look for a new job.",
+        "result_text": "You pulled out your resume again.\nYou organized what you'd learned and done so far.\nEven if it feels like you're not ready, the ones who move are the ones who catch the chance."
       },
       {
-        "text": "Hold on a bit longer. Build more where I am.",
-        "result_text": "Job-hopping later. For now you'll learn more here.\nThis is a time that needs depth more than haste.\n{name} held the position again today."
+        "text": "Hold on a bit longer. Keep my life as it is.",
+        "result_text": "Looking for a new job could wait.\nThis is a time that needs depth more than haste.\n{name} went through another familiar day."
       },
       {
         "text": "Decide not to think about it now. Just live today.",

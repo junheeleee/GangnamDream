@@ -13354,6 +13354,93 @@
         "zh-CN": "8555a3f431290453184c2d92e1b69154b51aac20d71ac967829fe8caf3639884",
         "zh-TW": "ce96fab196133ce1f28cb313e3b4e5dc544d7b5790d189e44c0229f7cd8b8f03"
       }
+    },
+    {
+      "order": "ORDER-565",
+      "group": "events_correction",
+      "roots": [
+        "story_one_half_year"
+      ],
+      "source_leaves": 5,
+      "prior_acceptance": "existing",
+      "before_target_sha256_by_locale": {
+        "ja": {
+          "events:story_one_half_year:/choices/0/result_text": "5684149b074accb2ff9c24bca5ed27fc48ebb9f1426d4f792cd87aefb65b196d",
+          "events:story_one_half_year:/choices/0/text": "f5e7c4c40d580f6597543d5e68cca6dd52bcb89d9a6a42a65034c566d4aa5ddd",
+          "events:story_one_half_year:/choices/1/result_text": "280fe79ae2ee53a04bf80f2cfd9e20f613a08c37a532ad8bbe2b2887ec88bb87",
+          "events:story_one_half_year:/choices/1/text": "c2d88329ded51163456c331620ed55f4b9c3dcdbae52e78f6fe5cb7e11789532",
+          "events:story_one_half_year:/description": "76ca741cb48b0e3ff1ffbf5bdcc0a581f4f7bde6df2edcebe89298ffd067825b"
+        },
+        "zh-CN": {
+          "events:story_one_half_year:/choices/0/result_text": "ce59882179a8c0a1ef7ea99b14e2b16473ca530b64e3cce8f73bf47d6dd2f832",
+          "events:story_one_half_year:/choices/0/text": "03d911d446e8889fa913fbf1fdc236e78ff48b18d84f0fad33ba8395200cb987",
+          "events:story_one_half_year:/choices/1/result_text": "f46d209ad8aa8136a50c324bcdadff6ca637578ecc7065da27219fa2fbece027",
+          "events:story_one_half_year:/choices/1/text": "0e08d74d154809ecc2d0fe6281ac89cefac0880794e4b7c408975028a97b27b5",
+          "events:story_one_half_year:/description": "ba878dd2fa65651295eb2b2211d56a65654331d7238b5a4957399b7f8692e14a"
+        },
+        "zh-TW": {
+          "events:story_one_half_year:/choices/0/result_text": "6f5ec524c6686a2a81c6871be2022f5bdc404923c6b22d1cf8b1f750adad4d87",
+          "events:story_one_half_year:/choices/0/text": "19aebe11a348fd3b9590c35587e0998b322f606a7416cb67d7b2b4a31377cb56",
+          "events:story_one_half_year:/choices/1/result_text": "23a5a8c42948938740784879b4f37d92ca5c37740fd7ca4b553574e9551cc196",
+          "events:story_one_half_year:/choices/1/text": "3cf728b2e9f39d4ff64d572557fde03a8510c14272decd5a698d5fcca1a2cbf9",
+          "events:story_one_half_year:/description": "4ba02c3b84a2c1c1f7e4ab598d9521d2664424de2a76597515551f56a2f6393d"
+        }
+      },
+      "target_leaves_by_locale": {
+        "ja": 5,
+        "zh-CN": 5,
+        "zh-TW": 5
+      },
+      "source_review": "Korean-direct correction of five existing leaves per locale. Familiar travel routes, new-job preparation, prior learning and activities, and continuing familiar daily life replace unsupported commuting, job-switching and current-employer assumptions. Preserve every other sentence, paragraph, placeholder, title, choice 2, gameplay key, effect, flag, routing, schedule, save and public-demo row. The initial Simplified Chinese response omitted the explicit one-day meaning in choice 1; its failed check and original draft remain private evidence, and the accepted v2 preserves that day. Root and independent source review accepted all fifteen final leaves before import. Export source_revision is declaration HEAD, not the revised Korean commit; exact live source manifest and accepted leaf hashes bind this implementation. Historical census identity and all 311 old batches remain unchanged. No new translation coverage; agent source comparison only; native/rendered OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "aee23fa19ec5b9b56f1d7f3bf004895ea13865a5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "8231e096a45b716f8c6ee30d82641eac77900a213afced2173334b888200e452",
+          "selection_sha256": "acc0189c59b9739853dfac81875389ddfdf92a2d4b01e46cf74121f8585708eb",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d315f666307bf57e21b5e55759928db3c3f5d44c081f5788faf4170e72dede45"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "aee23fa19ec5b9b56f1d7f3bf004895ea13865a5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "8231e096a45b716f8c6ee30d82641eac77900a213afced2173334b888200e452",
+          "selection_sha256": "0252bbc99f2fa54b6efc8b19f3985ecd711bf81702905ec5d5d550f8e92c4240",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d0846ec1142b7c5d63980b5664c36c3dd38af6008ae6d982477f72b210a97d6e"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "aee23fa19ec5b9b56f1d7f3bf004895ea13865a5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "8231e096a45b716f8c6ee30d82641eac77900a213afced2173334b888200e452",
+          "selection_sha256": "739efe183202b3b5fca688ee44b440130cd5542d2661faa0f1571a587b14bcb2",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "fc6df001c6e8effa031e2a16085bac688df26e299ec7f72d0c9c8501fe63a75a"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "f03bbec09bc0c70dff52c1f849902f3bab1c4c57458e7f378208af3c5c722257",
+        "zh-CN": "a33b53fa97a2a10cff0a77fe4316a8ee838511e2f848f49ed2c0fd35e3db15b1",
+        "zh-TW": "e1eae3a40af5e11914d9d0b39ce11ffa0cb6afcfc2e0235318dd77c54fbe55c0"
+      }
     }
   ],
   "accepted": {
@@ -35303,20 +35390,20 @@
         "target_sha256": "663de4841b652253295fe4cb05407734b2387a24e4fdd1b3fcf2c4bf3bfeda92"
       },
       "events:story_one_half_year:/choices/0/result_text": {
-        "source_sha256": "1dc3885d05f1e8c9d2ab3499a71ad894c4ae96d3a623424c8c132718a77de6fa",
-        "target_sha256": "5684149b074accb2ff9c24bca5ed27fc48ebb9f1426d4f792cd87aefb65b196d"
+        "source_sha256": "eb2b8689e253448ff6d3ae95ff0cb6e009a333cfbf269824f5c68a0d9a0dfc7b",
+        "target_sha256": "bbd8c14c61f4e247d8526ccc195d28517c4a8793019e2776d6ad1b6bf037377c"
       },
       "events:story_one_half_year:/choices/0/text": {
-        "source_sha256": "642037ff59d2444c982c60e681d648ed3ee36cd913d6af0d9ab74ebcfa8e0511",
-        "target_sha256": "f5e7c4c40d580f6597543d5e68cca6dd52bcb89d9a6a42a65034c566d4aa5ddd"
+        "source_sha256": "c875fa746d21c7f476f1654cf8abf06cbf256381bb384daea0dd21fd009ac44e",
+        "target_sha256": "84618b99d9442e04e30065978411bef6b4cbdafa6ab542e62d36a1c41e310f14"
       },
       "events:story_one_half_year:/choices/1/result_text": {
-        "source_sha256": "c7f5435f65a69520c03a20f4792f47df8dc3cc0495c56668226f247c642b94f2",
-        "target_sha256": "280fe79ae2ee53a04bf80f2cfd9e20f613a08c37a532ad8bbe2b2887ec88bb87"
+        "source_sha256": "a3fae007087d49873c455574b27cd269242b4820722375536e869a923700d0e3",
+        "target_sha256": "7ea87f206d493db402282110868cb59725aeaaa4fcf8d8e9b2cc35e6fd1d7e4c"
       },
       "events:story_one_half_year:/choices/1/text": {
-        "source_sha256": "77bc72cd81e50a397a3c94d1a83210336ead3cbca3152f562019d0a08e5962d4",
-        "target_sha256": "c2d88329ded51163456c331620ed55f4b9c3dcdbae52e78f6fe5cb7e11789532"
+        "source_sha256": "29916e58316290b2a9d02c803bd0819c9eb1da131b796a4477bf2a8d2f0db74d",
+        "target_sha256": "0e0d52fe1622fcd91e9cccd9bbb54f3452eea5c153a77202135f950e50816efe"
       },
       "events:story_one_half_year:/choices/2/result_text": {
         "source_sha256": "b4db54265abebf0a1d986bdba3cd753015e5bdf1385160ec2c0de3f778eca796",
@@ -35327,8 +35414,8 @@
         "target_sha256": "7ef08c16656c310ae33e816761b6e219cd5e234c996091339d9996a2071a852d"
       },
       "events:story_one_half_year:/description": {
-        "source_sha256": "e5ff06ad6ff66da32cdd9ea650a3b2b83b0b994a44cf28e4e5242405384fe74b",
-        "target_sha256": "76ca741cb48b0e3ff1ffbf5bdcc0a581f4f7bde6df2edcebe89298ffd067825b"
+        "source_sha256": "acdae752737431fa55d140a2710aacd6920232ac93aad909d39b605b1c37e59f",
+        "target_sha256": "871ca42a8d880c52bf7fe5e9e30e9ee80657ce34107e34e2089246c736c429f1"
       },
       "events:story_one_half_year:/title": {
         "source_sha256": "949dad06395f555fdb955f8e5254a72a76ca9e02d3839c4972889ea473632cf8",
@@ -87941,20 +88028,20 @@
         "target_sha256": "2f9c08cb2de7cef72e6520f5d56519533613ffdc18180e295d68dd6c70198e00"
       },
       "events:story_one_half_year:/choices/0/result_text": {
-        "source_sha256": "1dc3885d05f1e8c9d2ab3499a71ad894c4ae96d3a623424c8c132718a77de6fa",
-        "target_sha256": "ce59882179a8c0a1ef7ea99b14e2b16473ca530b64e3cce8f73bf47d6dd2f832"
+        "source_sha256": "eb2b8689e253448ff6d3ae95ff0cb6e009a333cfbf269824f5c68a0d9a0dfc7b",
+        "target_sha256": "01d37b84dec769ad884c9ec1a6053c863ff0495d33c8c8ef28b79929fa919a90"
       },
       "events:story_one_half_year:/choices/0/text": {
-        "source_sha256": "642037ff59d2444c982c60e681d648ed3ee36cd913d6af0d9ab74ebcfa8e0511",
-        "target_sha256": "03d911d446e8889fa913fbf1fdc236e78ff48b18d84f0fad33ba8395200cb987"
+        "source_sha256": "c875fa746d21c7f476f1654cf8abf06cbf256381bb384daea0dd21fd009ac44e",
+        "target_sha256": "5eb54613466442cfa9d1aecc8766cb7c6ba39ce4ca59997ff27cf81cac0214c0"
       },
       "events:story_one_half_year:/choices/1/result_text": {
-        "source_sha256": "c7f5435f65a69520c03a20f4792f47df8dc3cc0495c56668226f247c642b94f2",
-        "target_sha256": "f46d209ad8aa8136a50c324bcdadff6ca637578ecc7065da27219fa2fbece027"
+        "source_sha256": "a3fae007087d49873c455574b27cd269242b4820722375536e869a923700d0e3",
+        "target_sha256": "e88d27b68d816b2114603d2457de70cd5358e08c63a2af1bc195222a04c6cdc6"
       },
       "events:story_one_half_year:/choices/1/text": {
-        "source_sha256": "77bc72cd81e50a397a3c94d1a83210336ead3cbca3152f562019d0a08e5962d4",
-        "target_sha256": "0e08d74d154809ecc2d0fe6281ac89cefac0880794e4b7c408975028a97b27b5"
+        "source_sha256": "29916e58316290b2a9d02c803bd0819c9eb1da131b796a4477bf2a8d2f0db74d",
+        "target_sha256": "0b50d52265d523960e791f932069b317710a5d50e9fec3215e3e7a49f7d1560d"
       },
       "events:story_one_half_year:/choices/2/result_text": {
         "source_sha256": "b4db54265abebf0a1d986bdba3cd753015e5bdf1385160ec2c0de3f778eca796",
@@ -87965,8 +88052,8 @@
         "target_sha256": "8fc43b279494382082ece9cd0ee22b75249ba10f4420be2f345d98f2264f6147"
       },
       "events:story_one_half_year:/description": {
-        "source_sha256": "e5ff06ad6ff66da32cdd9ea650a3b2b83b0b994a44cf28e4e5242405384fe74b",
-        "target_sha256": "ba878dd2fa65651295eb2b2211d56a65654331d7238b5a4957399b7f8692e14a"
+        "source_sha256": "acdae752737431fa55d140a2710aacd6920232ac93aad909d39b605b1c37e59f",
+        "target_sha256": "0b8042589fa4f17e2e657b1ae7be33921cc382c9bbe99b9c04bbff19f0f5fb2e"
       },
       "events:story_one_half_year:/title": {
         "source_sha256": "949dad06395f555fdb955f8e5254a72a76ca9e02d3839c4972889ea473632cf8",
@@ -146727,20 +146814,20 @@
         "target_sha256": "2f9c08cb2de7cef72e6520f5d56519533613ffdc18180e295d68dd6c70198e00"
       },
       "events:story_one_half_year:/choices/0/result_text": {
-        "source_sha256": "1dc3885d05f1e8c9d2ab3499a71ad894c4ae96d3a623424c8c132718a77de6fa",
-        "target_sha256": "6f5ec524c6686a2a81c6871be2022f5bdc404923c6b22d1cf8b1f750adad4d87"
+        "source_sha256": "eb2b8689e253448ff6d3ae95ff0cb6e009a333cfbf269824f5c68a0d9a0dfc7b",
+        "target_sha256": "32990c77b0e2b14e17645514bb41e331778359108576f520cc3c2a97693fdc05"
       },
       "events:story_one_half_year:/choices/0/text": {
-        "source_sha256": "642037ff59d2444c982c60e681d648ed3ee36cd913d6af0d9ab74ebcfa8e0511",
-        "target_sha256": "19aebe11a348fd3b9590c35587e0998b322f606a7416cb67d7b2b4a31377cb56"
+        "source_sha256": "c875fa746d21c7f476f1654cf8abf06cbf256381bb384daea0dd21fd009ac44e",
+        "target_sha256": "d6eb14cb641fbb0facb19db8afa11f2adca5e7e82bd9edbba49e3c57ec403ae0"
       },
       "events:story_one_half_year:/choices/1/result_text": {
-        "source_sha256": "c7f5435f65a69520c03a20f4792f47df8dc3cc0495c56668226f247c642b94f2",
-        "target_sha256": "23a5a8c42948938740784879b4f37d92ca5c37740fd7ca4b553574e9551cc196"
+        "source_sha256": "a3fae007087d49873c455574b27cd269242b4820722375536e869a923700d0e3",
+        "target_sha256": "7f711cb48ca977d970c7e2100472fe3b2cf99fab6cd8da826d45d88510f5818c"
       },
       "events:story_one_half_year:/choices/1/text": {
-        "source_sha256": "77bc72cd81e50a397a3c94d1a83210336ead3cbca3152f562019d0a08e5962d4",
-        "target_sha256": "3cf728b2e9f39d4ff64d572557fde03a8510c14272decd5a698d5fcca1a2cbf9"
+        "source_sha256": "29916e58316290b2a9d02c803bd0819c9eb1da131b796a4477bf2a8d2f0db74d",
+        "target_sha256": "e8cd9ad7cbbe7c0462e680484a9bd20dbab1ff373a8bb7980014adfa1ce961b7"
       },
       "events:story_one_half_year:/choices/2/result_text": {
         "source_sha256": "b4db54265abebf0a1d986bdba3cd753015e5bdf1385160ec2c0de3f778eca796",
@@ -146751,8 +146838,8 @@
         "target_sha256": "0095fb823de276aed6e3f843cd028c5ed4eb54673aceb311fd7d108798aedeed"
       },
       "events:story_one_half_year:/description": {
-        "source_sha256": "e5ff06ad6ff66da32cdd9ea650a3b2b83b0b994a44cf28e4e5242405384fe74b",
-        "target_sha256": "4ba02c3b84a2c1c1f7e4ab598d9521d2664424de2a76597515551f56a2f6393d"
+        "source_sha256": "acdae752737431fa55d140a2710aacd6920232ac93aad909d39b605b1c37e59f",
+        "target_sha256": "c3cfa51462a299cb145d2ee73a07fd7b3b00acf47becb6a4c1821344fc2004ef"
       },
       "events:story_one_half_year:/title": {
         "source_sha256": "949dad06395f555fdb955f8e5254a72a76ca9e02d3839c4972889ea473632cf8",
@@ -183568,7 +183655,7 @@
       }
     }
   },
-  "accepted_sha256": "9814258378c008bfd3c0b2f302d6924c2851acfe624856e3e91b8de3fd0046f9",
+  "accepted_sha256": "e235ab7c034f94343b417b8c0c96d984793525d569480d18443594d83884ae44",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
