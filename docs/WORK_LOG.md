@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-12 — 엔딩 후일담 일본어·중국어 24문구 수용
+
+- [571](queue_archive/ORDER-571.md): KO 후일담8키를 JA/CN/TW 각8 직접 작성해 공식 export/check/import했다. 미답·미화해·미소유와 금액/시각을 보존, 사전3·accepted24/UI batch1만 추가했다. 기존314 batch/accepted/사전은 4파일 exact inverse이며 실제 Git source manifest 불변이다.
+- named lane11 actual0(271 self-test 포함)·비저자 KO24/공식receipt24 전수 source GO·의미 결함0. 최초 CN/TW checkFAIL3과 JA 탭5 정규화 inverseFAIL은 보존, 자연스러운 문장 수정/기존 탭 복원 뒤 해당 게이트 actual0이다. 기존 raw43/보호49그룹819/비소유3353 exact, 상세 핀·증거는 사양에 결속한다.
+- gangnamdream-dev의 원문·데모·저장 보존과 source/실관찰 경계를 적용했다. 인접 EN 노출은 공개하고 KO 직접 저작·중역/간번 변환0, 노출0 주장은 하지 않는다. 일회성/승격0·원문/runtime/엔진/새 월0·M17 OS잠금 하나·렌더/원어민 OPEN·전체 번역 INCOMPLETE·출시 HOLD다. 새 push CI 미확정, 현황판 단독 후속0이다.
+
 ## 2026-10-12 — 엔딩 후일담 번역 누락을 드러내는 소비자 등록 수리
 
 - [570](queue_archive/ORDER-570.md): 정상 본편 후일담8키만 미확정→검증된 UI로 등록했다. 실제 collector17505 불변/unsupported474→466/나머지 leaf·source manifest exact다. JA/ZH는 동일 source helper를 쓰며 공개/정적 분모·기존 필수 번역 방어는 그대로다. 실제8×3 번역은 아직 없으며 다음 별도 배치다.
