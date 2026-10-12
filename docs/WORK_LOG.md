@@ -3,6 +3,11 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — 구저장 현황 화면 중국어 누락 선언
+
+- [575](queue_active/ORDER-575.md): 현행 현황/재정/투자/발견 장소18키의 CN/TW 누락36개만 선언한다. JA 존재·양지역 누락·구저장 saved-plan의 표시 독자를 직접 확인, 정상 본편 누락이나 실제 월 플레이로 세지 않는다. 원문/runtime/저장/데모·Human 보존, 공식 export 전 target편집0이다.
+- exact main ed4448d CI38249242676 attempt1의 두 job/모든 step success를17:11:05Z 확인했다. MANUAL_SAVE/MOD_LAYER·compile69·KO/EN24주 입력·SimRun·Smoke marker를 직접 읽었다. 종료 resource ERROR4줄(2/3/1/1)은 남아 strict-clean/출시GO0이다. M17 OS잠금 HOLD 하나·새 월0·gangnamdream-dev 적용·일회성/승격0이다.
+
 ## 2026-10-12 — 구저장 연락처 화면 중국어 46문구 수용
 
 - [574](queue_archive/ORDER-574.md): 구저장 V2 호환 연락처의 KO23키를 간체/번체 각각 직접 번역했다. 정상 본편 누락·실제 월 플레이로 세지 않는다. 연락수단·익명·주도자·아직 없는 약속/이름 교환을 보존하고 CN의 저녁식사 한정·이유 추가·혼합 화법3곳은 독립 전수 검수 후 import 전에 고쳤다.
