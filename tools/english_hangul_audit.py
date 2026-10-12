@@ -479,6 +479,10 @@ def internal_only_runtime_line(target: str, line: str) -> bool:
             or "lower_title.find(" in line
             or 'for cat in ["주거"' in line
             or line.strip() == 'if theme_id != "자유런":'
+            or line.strip() in (
+                'if str(GameState.difficulty) != "현실":',
+                'if GameState.difficulty != "현실":',
+            )
         )
     if target == "autoloads/GameState.gd":
         return (
@@ -725,6 +729,32 @@ func valid() -> String:
         "surface_value": (
             'scenes/MainGame.gd', 'if theme_id != "자유 선택":', False
         ),
+        "difficulty_exact": (
+            'scenes/MainGame.gd', 'if GameState.difficulty != "현실":', True,
+        ),
+        "difficulty_str_exact": (
+            'scenes/MainGame.gd', 'if str(GameState.difficulty) != "현실":', True,
+        ),
+        "difficulty_inline_leak": (
+            'scenes/MainGame.gd',
+            'if GameState.difficulty != "현실": print("실제 누출")', False,
+        ),
+        "difficulty_str_inline_leak": (
+            'scenes/MainGame.gd',
+            'if str(GameState.difficulty) != "현실": print("실제 누출")', False,
+        ),
+        "difficulty_wrong_variable": (
+            'scenes/MainGame.gd', 'if visible_difficulty != "현실":', False,
+        ),
+        "difficulty_wrong_value": (
+            'scenes/MainGame.gd', 'if GameState.difficulty != "현실 모드":', False,
+        ),
+        "difficulty_wrong_file": (
+            'scenes/StoryMode.gd', 'if GameState.difficulty != "현실":', False,
+        ),
+        "difficulty_rendered_value": (
+            'scenes/MainGame.gd', 'print("현실")', False,
+        ),
     }
     for label, (target, line, expected) in internal_id_cases.items():
         observed_safe = internal_only_runtime_line(target, line)
@@ -747,7 +777,7 @@ func valid() -> String:
         for failure in failures:
             print(f"  {failure}")
         return 1
-    print("ENGLISH_HANGUL_SELF_TEST_OK cases=33")
+    print("ENGLISH_HANGUL_SELF_TEST_OK cases=41")
     return 0
 
 

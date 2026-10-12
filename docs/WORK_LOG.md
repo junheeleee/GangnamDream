@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-12 — 일본어 엔딩에 잘못 붙던 기본 난이도 기록 수리
+
+- [573](queue_archive/ORDER-573.md): 엔딩 상세/결과 복사의 조건2줄이 안정 ID 현실을 JA 現実와 비교하던 결함을 고쳤다. 기본행 숨김·legacy 드라마/지옥고 행 표시가 번역값/community팩과 독립이다. 비교만 하던 JA 고아 멤버1개도 제거, 표시문구·밸런스·엔딩 라우팅/저장 불변이다.
+- EN 감사의 정확한 내부 ID 예외2형태·기존 자체검사8추가/41 actual0을 포함해 표적8 actual0, 비저자 source/blocker0·보존17/17 GO다. 전체 source17505→17504 중 현실잎만 빠지고 나머지SHA exact, 기존 원장/accepted/batch316·CN/TW·보호51/876·비소유3356·old572raw23 exact다. 공식 default JA inventory는 invalid58·INCOMPLETE/OPEN이며 명령 성공을 전체 번역 GO로 바꾸지 않는다.
+- gangnamdream-dev/I18N의 내부 ID·번역 표면 분리와 증거 경계를 적용했다. 일회성/승격0·엔진/컴파일/렌더/새 월0·M17 OS잠금 HOLD 하나·본편/출시 HOLD다. 마감 metadata/context/queue/diff와 실제 commit/CI 신원은 따로 확인하며 현황판 단독 후속 커밋0이다.
+
 ## 2026-10-12 — 월말·마지막 기록 중국어 16문구 수용
 
 - [572](queue_archive/ORDER-572.md): 실제 표시 소비자8키를 CN/TW 각각 KO 직접 번역했다. 월말의 부분 회복·미명명·거처·6개월/버튼 공백2+›를 보존했다. 비교용 현실 키는 제외, legacy 데모 안내는 공개 story_demo_rc 변경이 아니다.

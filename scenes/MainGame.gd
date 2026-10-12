@@ -21628,7 +21628,7 @@ func _ending_add_unlocks(parent: VBoxContainer) -> void:
 	if theme_id != "자유런":
 		details.add_child(_wrap_label(
 			_tr("선택한 방식: %s", "Chosen Approach: %s") % _run_theme_display(theme_id), 11, "#7d9a90"))
-	if str(GameState.difficulty) != _tr("현실", "현실"):
+	if str(GameState.difficulty) != "현실":
 		details.add_child(_wrap_label(_tr("난이도: %s", "Difficulty: %s") %
 			str(GameState.get_difficulty_data().get("name", GameState.difficulty)), 11, "#9a8f7d"))
 	var mastery: Array[String] = []
@@ -22680,7 +22680,7 @@ func _run_card_text(ending_id: String) -> String:
 	lines.append(_tr("최종 자산: %s  (목표 달성률 %d%%)", "Final Assets: %s  (Goal %d%%)") % [GameState.format_money(total), pct])
 	lines.append(_tr("마지막 거처: %s", "Last Home: %s") % housing_name)
 	lines.append(_tr("만난 사건: %d / %d개", "Events Seen: %d / %d") % [seen, total_events])
-	if GameState.difficulty != _tr("현실", "현실"):
+	if GameState.difficulty != "현실":
 		lines.append(_tr("난이도: %s", "Difficulty: %s") % str(GameState.get_difficulty_data().get("name", GameState.difficulty)))
 	lines.append(_tr("엔딩: \"%s\"", "Ending: \"%s\"") % ending_title)
 	lines.append("━━━━━━━━━━━━━━━━━━")
