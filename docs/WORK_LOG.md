@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — 본편 10억 알림의 잘못된 진행률 수리
+
+- [578](queue_archive/ORDER-578.md): 정상 MainGame 자산10억 알림의 “절반 왔다”를 달성 사실로 KO/EN 수리하고 JA/CN/TW도 KO 직접 작성했다. 30억 목표의 비율 오류와 CN/TW fallback을 닫되 threshold/id/한번 수령/정산/저장은 불변이다. JA 옛 고아키1만 제거했고 원값은 Git/새source_change에 보존했다. 실제 화면 관찰0이다.
+- source00688ab 실제Gitmanifest9680…fb5d에 fresh3 export/check/import·표적10 actual0, 비저자 source/receipt GO·보존20/20이다. 제품5 raw inverse·old320batch/accepted·보호56/997·비소유3359·옛577raw17 exact. accepted JA13171/CN·TW14764·batch321, CN/TW static2021/2980·invalid0, JA기존invalid58 목록 exact다. 상세핀과 준비중 읽기/patch 오류·불필요queue자체검사1회는 사양/새private에 보존했다.
+- gangnamdream-dev/I18N의 KO 직접 저작·비소유 보존·source/실관찰 분리를 적용했다. source변경을 append-only로 수용0·일회성/승격0·새helper/검사/엔진/새월0·M17 OS잠금 HOLD 하나·인간/렌더/원어민/패드 OPEN·전체 INCOMPLETE·출시 HOLD다. 기준360f CI/새push CI 미확정·현황판 단독 후속0이며 카지노 내추럴 도움말 오류는 별도 후속으로 남긴다.
+
 ## 2026-10-13 — 일본어 전적의 출전·승리 의미 교정
 
 - [577](queue_archive/ORDER-577.md): 기존 `0勝0敗`를 KO `0전 0승`에 맞는 `0戦0勝`으로 고쳤다. 정상 HorseWorld record는 이미 생성되므로 방어적 fallback1 의미 수리·첫 source-bound accepted1이며 정상 노출/새 번역 coverage/실제 월 관찰로 세지 않는다.

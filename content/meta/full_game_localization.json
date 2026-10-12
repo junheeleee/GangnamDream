@@ -13896,6 +13896,77 @@
       "receipt_sha256_by_locale": {
         "ja": "5f75cd54c0a96013df3073b5548233f3c3a6ec9b3b754e0d35c3fd63da64668b"
       }
+    },
+    {
+      "order": "ORDER-578",
+      "group": "ui",
+      "roots": [
+        "⚡ 자산 10억 달성!"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "source_change": {
+        "source_revision": "00688ab99a3ada49b0cec985cfa9a784061bcc4e",
+        "prior_source_revision": "ce5dbc6a8eb639dc63d0897e2fd32ed768963b91",
+        "source_path": "scenes/MainGame.gd",
+        "old_korean_key": "⚡ 자산 10억! 절반 왔다.",
+        "retired_unreceipted_japanese": "⚡ 資産10億！半分来た。",
+        "prior_acceptance": "absent"
+      },
+      "source_review": "Normal full-story asset milestone source correction: removes the false halfway claim at one billion won, without fixing a goal ratio or changing threshold/id/order/effects/once-only/save behavior. Fresh official exports bind the separate actual KO/EN source commit. JA/CN/TW authored directly and independently from the corrected Korean key, with incidental English/legacy JA exposure disclosed. Non-author manual_save_ci compared all3 targets and headers before import; semantic blockers0. Existing JA orphan removed, original Git value and all320 prior batches/accepted preserved. Source-change review is separate from append-only translation proof; no append-only history gate used. Rendered/native/human/controller OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "00688ab99a3ada49b0cec985cfa9a784061bcc4e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9680f4d4e3106b6df3628f6796deba8a156ebe5323f3ac30c45c34abd374fb5d",
+          "selection_sha256": "8b3e1ab7b78ecd89e3ada92b24b36fc2081cf742203ffa08dfa1bc3977e6c41d",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "86c0a582265334fa9ee50446b6405a28aa98f61f27c5d5acb9b41416b9380986"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "00688ab99a3ada49b0cec985cfa9a784061bcc4e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9680f4d4e3106b6df3628f6796deba8a156ebe5323f3ac30c45c34abd374fb5d",
+          "selection_sha256": "9f29c11b0804ffb2ccc43e1d296535dc68ee0eaf71191fa3ae06cd9c660cfc8c",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "56842dce267ecc691970ee336dded96bdd48bc14d1c06791d2ba2f9a184d3df5"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "00688ab99a3ada49b0cec985cfa9a784061bcc4e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9680f4d4e3106b6df3628f6796deba8a156ebe5323f3ac30c45c34abd374fb5d",
+          "selection_sha256": "296fb046944c3bb3d85b6a1f957a2ae2a479808bd9cf1d1fa13a02f0f15a6de8",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a29e444edbb00ec5f93466c4883a8e039fa11cc56e380d76b4875d424de6512e"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "de9c2f296b11331d695316755d3f8835e239aa7abd83061e12569f3b6e083684",
+        "zh-CN": "ad888c5de895a9d9f4dc1f036b047f4cb1c335d1fd5a8b4b91ec8bfc286491a1",
+        "zh-TW": "aa942f46964aa42eaddc7ffb99d461ee25054b3e333fd6308815ce1dd0ce5794"
+      }
     }
   ],
   "accepted": {
@@ -66579,6 +66650,10 @@
       "ui:0전 0승:/0전 0승": {
         "source_sha256": "084306613ad63eea22eee5981b0ba6429cd72d270bf11d0ebdca37333b4a8c23",
         "target_sha256": "0c15c1d5da6d9b1c357ec69326ec255669b69307075ba4a4e9025014f52251fc"
+      },
+      "ui:⚡ 자산 10억 달성!:/⚡ 자산 10억 달성!": {
+        "source_sha256": "dcd7aa5edcfc8f22673e0268c705dd465c7fbd37440c32eea9038ac0af73596f",
+        "target_sha256": "26d444fae8e1a6dcea4e0bed39de2d636191fa351303eba1f7b3a01d5fbd1c87"
       }
     },
     "zh-CN": {
@@ -125633,6 +125708,10 @@
       "ui:선택 없음:/선택 없음": {
         "source_sha256": "ae6d1da124090c18af535e0fc3ae14ad53a43c241d40133b76e13817c09cb81e",
         "target_sha256": "7c796b28121b0f26df69a0dd417b1cea93bfde1bc75f0eebecabbc025bd5d426"
+      },
+      "ui:⚡ 자산 10억 달성!:/⚡ 자산 10억 달성!": {
+        "source_sha256": "dcd7aa5edcfc8f22673e0268c705dd465c7fbd37440c32eea9038ac0af73596f",
+        "target_sha256": "7a65f839cfc25c7b6fcbd14b553a0fc66b268633c429f38ba15ac1cf5a60e355"
       }
     },
     "zh-TW": {
@@ -184687,10 +184766,14 @@
       "ui:선택 없음:/선택 없음": {
         "source_sha256": "ae6d1da124090c18af535e0fc3ae14ad53a43c241d40133b76e13817c09cb81e",
         "target_sha256": "feaa9e964d89b31cc5b7ca7aa361f9b345bb82322173bf0ab74105a0d2d5dd34"
+      },
+      "ui:⚡ 자산 10억 달성!:/⚡ 자산 10억 달성!": {
+        "source_sha256": "dcd7aa5edcfc8f22673e0268c705dd465c7fbd37440c32eea9038ac0af73596f",
+        "target_sha256": "b84c9a0b5b30ad154ed93353bf5b2c3864ad2e0fd42c3a0ce6615471ed064898"
       }
     }
   },
-  "accepted_sha256": "16f894881d757d0d64a23462dc6f85613e4de24c7bd9a9ec75b0dbfe506a374f",
+  "accepted_sha256": "761818be532424f2a2b73eb6665cf1faa97fbfa244707f9d60d3f9d4ec2f7ebe",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
