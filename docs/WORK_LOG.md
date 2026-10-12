@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — 구저장 주간 시간·거처 중국어42 수용
+
+- [581](queue_archive/ORDER-581.md): 주간 시간4/거처 소리16/조립1을 CN/TW 각각 KO에서 독립 번역했다. 저녁을 해질녘으로 좁힌2잎을 독립 REWORK 뒤 고치고, 첫check2의 occurrence 미인식은 의미 등가 一次로 수리했다. 원초안·철회GO/HOLD·FAIL2를 보존했다. legacy source-only이며 정상 FullStoryFlow/실제 구저장 진입·화면 GO가 아니다.
+- 공식 repaired check/import4·표적8 actual0, 비저자 의미/receipt42 GO·보존24/24다. static2022→2043/2980·missing958→937·receipted1942→1963·invalid[] 외 inventory exact, source17504/unsupported466/manifest9680 unchanged다. accepted CN/TW각14786·JA13172 unchanged·batch324, old323batch/accepted·4원본 inverse·보호59/1108·비소유3364·옛580raw40 exact다. 전체핀·순번 정정/읽기 오류·한정판정은 사양/새private에 결속했다.
+- gangnamdream-dev/I18N의 KO 직접저작·비소유 보존·source/실관찰 분리를 적용했다. 일회성/승격0·새helper/검사수리/엔진/월/native0·KO/EN/runtime/JA/저장/공개데모 불변이다. M17 OS잠금 HOLD 하나·해제 재요청0·렌더/원어민/인간/패드 OPEN·전체 INCOMPLETE·출시 HOLD, 기준377 CI는 조회당시진행중·새push CI 별도확인·현황판 단독후속0이다.
+
 ## 2026-10-13 — 첫 월급·투자 거래 조건 안내 중국어 수용
 
 - [580](queue_archive/ORDER-580.md): 조건부 첫 월급/투자 거래 안내의 CN/TW 누락각1을 KO에서 독립 작성·수용했다. 계좌입금으로 좁혔던 CN 초안1을 독립 REWORK 뒤 수령 표현으로 고쳤고 원초안/HOLD를 보존했다. 정상 공유 월말의 조건부source만이며 실제 첫급여/guidance 겹침·주차·화면은 미관찰이다. KO/EN/runtime/JA·조건/경제/저장/공개데모 불변이다.
