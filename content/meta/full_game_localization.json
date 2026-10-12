@@ -13738,6 +13738,72 @@
         "zh-CN": "d98a3824e38f627b57a6ce280bde9c033b786012edf1873e13ed9499793c42c9",
         "zh-TW": "e495ca5219ad76def2c56f88654b469d7513f684fabe315d188357c7baafecac"
       }
+    },
+    {
+      "order": "ORDER-575",
+      "group": "ui",
+      "roots": [
+        "현황",
+        "지금 상태",
+        "현재 날짜",
+        "계좌 잔액",
+        "다음 고정비",
+        "체납",
+        "없음",
+        "대출 원금",
+        "월 수입",
+        "투자 현황",
+        "보유 내역",
+        "현재 시세",
+        "발견한 장소",
+        "알게 된 곳",
+        "확인할 시세 없음",
+        "경마장",
+        "홀덤 클럽",
+        "카지노"
+      ],
+      "source_leaves": 18,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 18,
+        "zh-TW": 18
+      },
+      "source_review": "Legacy V2 compatible-save status/finance/investment/discovered-place UI only, not a normal full-story exposure count or native-play evidence. Korean18 directly authored independently into Simplified and Traditional Chinese; root disclosed incidental source-adjacent English exposure and no pivot or cross-Chinese conversion. Independent manual_save_ci compared all36 responses and shared callers with Korean, preserving account balance versus income, next fixed outlay, arrears versus loan principal, holdings versus prices, absence and discovered versus visited places; semantic blockers0 before official import. Original headers and official acceptance digests retained. Source/receipt acceptance only; rendered/native-reader/human/controller review OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "2cbbc389b760159f5507b1ab647c2a22d67c2f9b",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c13d47f56851ab9f26567d53a53db1f13e39d5931881f8f1bd2c7ab91a71e19b",
+          "selection_sha256": "0e4ce90632d3bcc122b2dd234d06afcdee72d299bbf7c665df29fbcfd8ab1165",
+          "count": 18,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b8b9a9dbc9045824a565ebf0034bcf0d3150472c6abb2fdcada4852a5268da69"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "2cbbc389b760159f5507b1ab647c2a22d67c2f9b",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c13d47f56851ab9f26567d53a53db1f13e39d5931881f8f1bd2c7ab91a71e19b",
+          "selection_sha256": "6bbd3d674c2221179b4ded36da219a3ad78893c84c4fc7ce18aacf130a9ac65e",
+          "count": 18,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "dcba7074c0cb0b429cbbe83e6284847e485d633ab6568336d6405f5acfaa50e0"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "03afffef172c7f7e69be55f057e348b957cffa0234d1e5bbe737e397813b5280",
+        "zh-TW": "53361099ffded1f64004974c881b9e5cfa187fdefdd7c4cc22f3a6a4c7e378a9"
+      }
     }
   ],
   "accepted": {
@@ -125391,6 +125457,78 @@
       "ui:현수가 먼저 다시 공부하자고 했고, 같은 시간을 함께 쓰기로 했다.:/현수가 먼저 다시 공부하자고 했고, 같은 시간을 함께 쓰기로 했다.": {
         "source_sha256": "99a0bd7381708679b5c3ef7e4a535163a2141fc4621f5c4014bdaba8b3029957",
         "target_sha256": "e5dc38545c22b36c477af0ba83bb1b4468ad83fe7369a6d1ac655187d4056aee"
+      },
+      "ui:경마장:/경마장": {
+        "source_sha256": "8b06afbe560bdfcecef5737ebaa369b2b5559734fc37a9b3a7c440b0e479606c",
+        "target_sha256": "bcab72315d2bd38704a6f8f97122a485d61758a68109795b6eb7a0593cde8d50"
+      },
+      "ui:계좌 잔액:/계좌 잔액": {
+        "source_sha256": "8576d7a5b20c55fc3d7a24685bdd4e75fd2d24642ffe45742ae0c8c62c1822ff",
+        "target_sha256": "766ea196a57ab83290dfb4953603b3cd5a5eadc4c5788b4348fec6c10870d02e"
+      },
+      "ui:다음 고정비:/다음 고정비": {
+        "source_sha256": "7450b76d2935890d20fd2944fb487a0ea82ca42b2e539afb12c5ad4809453b11",
+        "target_sha256": "ffaa5dddbefa04a2bc96b31ad78cccc68d51eefd874934492b2bbbe3a905d380"
+      },
+      "ui:대출 원금:/대출 원금": {
+        "source_sha256": "3ea7400eecc5071888f755c8b733631e0dab80599c32bad7a397773bcb9e1645",
+        "target_sha256": "7868b45ccac69fd383dfddb1713714276b8b57c948b415366fda55c4f3521a89"
+      },
+      "ui:발견한 장소:/발견한 장소": {
+        "source_sha256": "16c8e7ad314eaed15e0e8c3baea04a25bc131ed57aca53feca2793cb019f6a61",
+        "target_sha256": "c5d6dd353852367f6178948ef0f3112a48d8f1ec3ed7a165635e4cd674c86638"
+      },
+      "ui:보유 내역:/보유 내역": {
+        "source_sha256": "6ea0905d73f3438076b11f6617ee6c7a5e64da2ffc7fa24fc41abfbc761c0f01",
+        "target_sha256": "5e950405cce6d39c9d9a313032bd1699e38f6dd2827a5f4471c45c87778bcadf"
+      },
+      "ui:알게 된 곳:/알게 된 곳": {
+        "source_sha256": "e1390269c1cd9e3ecbb79034b740c9a8cb924c6ba0ecc753bfe1a44d1798247a",
+        "target_sha256": "5104e74b1230926558c0ede170a9ace6793659ba3ea3359c84a1927cd6bcf0b1"
+      },
+      "ui:없음:/없음": {
+        "source_sha256": "f3e8a32323d88a1571b66809714ef35bb6904893ec84c406b613294438a11db2",
+        "target_sha256": "4872d213aefe6a8831b4c34c47f189682c33259221d6302621cff20dfebe4298"
+      },
+      "ui:월 수입:/월 수입": {
+        "source_sha256": "20aef79bd9df041078ca9a928500d666f3151358096334a936a9ec69340614ed",
+        "target_sha256": "9225560c8b6f8774724da4a2aaf359ae529d06e867e5b8bed7ab38b1cadc34da"
+      },
+      "ui:지금 상태:/지금 상태": {
+        "source_sha256": "d27c192d9217b4b59d9e144eaf6d0b549cb592eb9e04a5039a10dc73535b198e",
+        "target_sha256": "1a4b3ed40b27a742ccc4c117aa51d4a49e3723bcbd8264fa64bb9d0f83df01be"
+      },
+      "ui:체납:/체납": {
+        "source_sha256": "8bffdf190e5c0374399baecee90228e235e5189ed5a7523f2d39f988a933b64f",
+        "target_sha256": "40b23c1b4147a2cafd0899e6d09078401918e450aae609b002bcf72a82e2b50d"
+      },
+      "ui:카지노:/카지노": {
+        "source_sha256": "c2fce7ca6fe66304a0db62f07810439108dea7f499b0aec26a65751df6ef8b9e",
+        "target_sha256": "628427181720ec504c0912b039f9b6de60f0e4d1a3fd8b0e1feb30eea71ffc81"
+      },
+      "ui:투자 현황:/투자 현황": {
+        "source_sha256": "1b7dc63c4f990fd99c15a00014d08e005ef486156281d374f14c9b982cb8a0ca",
+        "target_sha256": "b4c2040e2e62784eba75c2159f307539e83aaefea4451531f9af407a198b37c9"
+      },
+      "ui:현재 날짜:/현재 날짜": {
+        "source_sha256": "f9434dfe1cbef04fff085b19b118446c2d1cedb739b55a66b3c58203cd26f4be",
+        "target_sha256": "8215a1fa656617afae026bd9d86bfa4eabb10fd4871d9969c8bd1ba97e268c57"
+      },
+      "ui:현재 시세:/현재 시세": {
+        "source_sha256": "1d841668adc46160043220b215459f3f3497a0dc55373e2a8f2f5eb9454572d4",
+        "target_sha256": "a5b20de79b54129fea7d42a5b088f25043320a089d4921dbf0c9205e30c90508"
+      },
+      "ui:현황:/현황": {
+        "source_sha256": "2ceaaa351d2808053d93a56b4bbfeb3248febb219f2c889727ed43dae60422be",
+        "target_sha256": "58c4f03ca52032ea11236d02a09019a9f45ee9c0ff0f51a7a31f6ff005d094d0"
+      },
+      "ui:홀덤 클럽:/홀덤 클럽": {
+        "source_sha256": "a5e3b3b21dc4915fdb697f098f8dd143068efd76fa6d193f2070e2c84b273bfc",
+        "target_sha256": "506de48227fbfe2305455d9acbf1e937c750b5f6796bbc76f020ff97d9e1c041"
+      },
+      "ui:확인할 시세 없음:/확인할 시세 없음": {
+        "source_sha256": "e794470fe32f25c4237178014a248b9da6f3e192e22ad3016ff5b4ca4e78b289",
+        "target_sha256": "24303b6bf027c6fb21b0b5a2d0dac89823fc6bab5858a2614bb09974cee74f48"
       }
     },
     "zh-TW": {
@@ -184365,10 +184503,82 @@
       "ui:현수가 먼저 다시 공부하자고 했고, 같은 시간을 함께 쓰기로 했다.:/현수가 먼저 다시 공부하자고 했고, 같은 시간을 함께 쓰기로 했다.": {
         "source_sha256": "99a0bd7381708679b5c3ef7e4a535163a2141fc4621f5c4014bdaba8b3029957",
         "target_sha256": "6fa0a634d39fb9ab1277275d89f49860c19d3d33ba69ac39155b49f42eda4dff"
+      },
+      "ui:경마장:/경마장": {
+        "source_sha256": "8b06afbe560bdfcecef5737ebaa369b2b5559734fc37a9b3a7c440b0e479606c",
+        "target_sha256": "0135753aaf57e6c36b22f15087ddbf3b755db27cf0a668cf404f326fa1725c96"
+      },
+      "ui:계좌 잔액:/계좌 잔액": {
+        "source_sha256": "8576d7a5b20c55fc3d7a24685bdd4e75fd2d24642ffe45742ae0c8c62c1822ff",
+        "target_sha256": "6c7db4467f831783737329ff3e806fe36c1473d41cd735b70daefce2964fafa6"
+      },
+      "ui:다음 고정비:/다음 고정비": {
+        "source_sha256": "7450b76d2935890d20fd2944fb487a0ea82ca42b2e539afb12c5ad4809453b11",
+        "target_sha256": "dddcd579e80b4574a1e9d4800c88cd8edfebd6157fd01513fe0cbaf351b42064"
+      },
+      "ui:대출 원금:/대출 원금": {
+        "source_sha256": "3ea7400eecc5071888f755c8b733631e0dab80599c32bad7a397773bcb9e1645",
+        "target_sha256": "6352ad03cf06781e5ca1250027548cf569ef8eb15fd4f440ed110a7e031b2ff5"
+      },
+      "ui:발견한 장소:/발견한 장소": {
+        "source_sha256": "16c8e7ad314eaed15e0e8c3baea04a25bc131ed57aca53feca2793cb019f6a61",
+        "target_sha256": "bb987844aa24e2de90c294c12c9c6027f1c43c2c864cece8c97ad54df7c606aa"
+      },
+      "ui:보유 내역:/보유 내역": {
+        "source_sha256": "6ea0905d73f3438076b11f6617ee6c7a5e64da2ffc7fa24fc41abfbc761c0f01",
+        "target_sha256": "a02acadf7870a3b0475117831d0cefcb25dc1df096ea55d7ae4d2c864a05397c"
+      },
+      "ui:알게 된 곳:/알게 된 곳": {
+        "source_sha256": "e1390269c1cd9e3ecbb79034b740c9a8cb924c6ba0ecc753bfe1a44d1798247a",
+        "target_sha256": "645a51656c312833bb3f5f3b476adfb8fa180331bbbb7ed67ce8787c949cc71c"
+      },
+      "ui:없음:/없음": {
+        "source_sha256": "f3e8a32323d88a1571b66809714ef35bb6904893ec84c406b613294438a11db2",
+        "target_sha256": "e921f347d458719524c1ef316f8723603e38308bb8775e0e290806491260d02f"
+      },
+      "ui:월 수입:/월 수입": {
+        "source_sha256": "20aef79bd9df041078ca9a928500d666f3151358096334a936a9ec69340614ed",
+        "target_sha256": "006ac6fa0645c20a89c16a34c9eb1d44ac13dda5eea9e3c84cf2380991936e07"
+      },
+      "ui:지금 상태:/지금 상태": {
+        "source_sha256": "d27c192d9217b4b59d9e144eaf6d0b549cb592eb9e04a5039a10dc73535b198e",
+        "target_sha256": "f29c6af964b28af518a4e6ffca83bcf7a3b4ed1e46301f2c2cb61973217ac1c3"
+      },
+      "ui:체납:/체납": {
+        "source_sha256": "8bffdf190e5c0374399baecee90228e235e5189ed5a7523f2d39f988a933b64f",
+        "target_sha256": "29ab172d481609926b8a976eb9a83e48f40e872df86e18ad591295213eb8b183"
+      },
+      "ui:카지노:/카지노": {
+        "source_sha256": "c2fce7ca6fe66304a0db62f07810439108dea7f499b0aec26a65751df6ef8b9e",
+        "target_sha256": "ed63ff3e458ecd40fe2766058ed138b41100be8e07c830263bc37cc2e9679864"
+      },
+      "ui:투자 현황:/투자 현황": {
+        "source_sha256": "1b7dc63c4f990fd99c15a00014d08e005ef486156281d374f14c9b982cb8a0ca",
+        "target_sha256": "0ab94dc07416b633c7b573ce50ab054045cdf913d18b96b85b53b278b8017843"
+      },
+      "ui:현재 날짜:/현재 날짜": {
+        "source_sha256": "f9434dfe1cbef04fff085b19b118446c2d1cedb739b55a66b3c58203cd26f4be",
+        "target_sha256": "078555192d5e1e51c7b306e96d07876bd9ed37cde5d3c70aa23cd3ca4e8c87c8"
+      },
+      "ui:현재 시세:/현재 시세": {
+        "source_sha256": "1d841668adc46160043220b215459f3f3497a0dc55373e2a8f2f5eb9454572d4",
+        "target_sha256": "af5d56673e2af842be744b05bda246791d6a2b6987fefe9da9d43e31a69cbfd1"
+      },
+      "ui:현황:/현황": {
+        "source_sha256": "2ceaaa351d2808053d93a56b4bbfeb3248febb219f2c889727ed43dae60422be",
+        "target_sha256": "ab9c0362695de3c1570fd24ef96f81541becd20590f9cb04792d3eddb297101b"
+      },
+      "ui:홀덤 클럽:/홀덤 클럽": {
+        "source_sha256": "a5e3b3b21dc4915fdb697f098f8dd143068efd76fa6d193f2070e2c84b273bfc",
+        "target_sha256": "c995491ae8b637622313de06d20098a7f31eace7d634ad9d54f92361b17b16c1"
+      },
+      "ui:확인할 시세 없음:/확인할 시세 없음": {
+        "source_sha256": "e794470fe32f25c4237178014a248b9da6f3e192e22ad3016ff5b4ca4e78b289",
+        "target_sha256": "3a6a77ee30f73a4f72c71fbbacea5e6c992e4d9dece0f83e7ee55e4990fda14d"
       }
     }
   },
-  "accepted_sha256": "818062cf81457638087057f53407fa3ae15c01a21fcda7e3563d1df248621b7c",
+  "accepted_sha256": "b15db709879ec0dbab1bc80f132d2c578f1bf3fde0e63ece9a10410736c45209",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

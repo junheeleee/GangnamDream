@@ -3,10 +3,11 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
-## 2026-10-13 — 구저장 현황 화면 중국어 누락 선언
+## 2026-10-13 — 구저장 현황 화면 중국어 36문구 수용
 
-- [575](queue_active/ORDER-575.md): 현행 현황/재정/투자/발견 장소18키의 CN/TW 누락36개만 선언한다. JA 존재·양지역 누락·구저장 saved-plan의 표시 독자를 직접 확인, 정상 본편 누락이나 실제 월 플레이로 세지 않는다. 원문/runtime/저장/데모·Human 보존, 공식 export 전 target편집0이다.
-- exact main ed4448d CI38249242676 attempt1의 두 job/모든 step success를17:11:05Z 확인했다. MANUAL_SAVE/MOD_LAYER·compile69·KO/EN24주 입력·SimRun·Smoke marker를 직접 읽었다. 종료 resource ERROR4줄(2/3/1/1)은 남아 strict-clean/출시GO0이다. M17 OS잠금 HOLD 하나·새 월0·gangnamdream-dev 적용·일회성/승격0이다.
+- [575](queue_archive/ORDER-575.md): 구저장 V2 호환 현황/재정/투자/발견 장소의 KO18키를 CN/TW 각각 직접 번역했다. 잔액·수입·원금·체납·보유/시세·발견/방문 구분과 공유 caller를 비저자36 전수 대조해 source/receipt GO·blocker0이다. 정상 본편 노출·실제 월 플레이로 세지 않는다.
+- 공식 export/check/import 각18×2·표적9 actual0, accepted CN/TW14761씩·batch318이다. 기존317batch/accepted·JA 포함4파일 exact inverse·보호53/915·비소유3358·old574raw27 exact, source manifest 불변이다. CN/TW inventory invalid0·UIstatic2018/2980·전역 INCOMPLETE/OPEN이다. 첫 선언 큐 순번0 FAIL1은 연속 순번으로 고친 뒤 마감에서 기존 순번 복원, 원장 patch 형식 거부(적용0)·미생성 private 조회·보존 보조 기대값 false도 사양에 보존/정정했다. 제품 게이트 새 실패0·helper/검사/원문/저장/데모 변경0이다.
+- exact main ed4448d CI38249242676 attempt1의 두 job/모든 step success를17:11:05Z 확인했다. MANUAL_SAVE/MOD_LAYER·compile69·KO/EN24주 입력·SimRun·Smoke marker를 직접 읽었지만 종료 resource ERROR4줄(2/3/1/1)은 남아 strict-clean/출시GO0이다. 새 push CI와 구분한다. gangnamdream-dev/I18N의 직접 저작·보존·source/실관찰 분리 적용·일회성/승격0·엔진/새 월0·M17 OS잠금 HOLD 하나·렌더/원어민/인간/물리패드 OPEN·출시 HOLD·현황판 단독 후속0이다.
 
 ## 2026-10-12 — 구저장 연락처 화면 중국어 46문구 수용
 

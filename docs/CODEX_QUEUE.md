@@ -53,7 +53,6 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 0 | [~] | ORDER-575 · 구저장 현황 화면 중국어 누락 | [575](queue_active/ORDER-575.md) | KO18키·CN/TW36 신규 번역·실제 화면 OPEN |
 | 1 | [~] | ORDER-562 · 본편 M17 실제 앱 이어보기 | [562](queue_active/ORDER-562.md) | OS잠금 HOLD/native0 · 원559 W68 재개 준비 보존 |
 | 2 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
 | 3 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · 실제 저장·재개·월 복귀 GO/나머지 HOLD |
