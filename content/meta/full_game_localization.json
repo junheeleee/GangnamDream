@@ -13485,6 +13485,62 @@
       "receipt_sha256_by_locale": {
         "ja": "8bb2644a360979cc14957583e5a29ca85846d1aabe21465c7f84aee4e5e979fc"
       }
+    },
+    {
+      "order": "ORDER-569",
+      "group": "ui",
+      "roots": [
+        "계단에서 숨이 찼다",
+        "새벽까지 잠이 오지 않았다",
+        "생각은 남아도 잠은 왔다",
+        "생각이 오래 남았다",
+        "숨이 고르게 돌아왔다",
+        "잠 뒤에도 떨림이 남았다",
+        "잠이 제때 왔다",
+        "하루 끝엔 몸이 무거웠다"
+      ],
+      "source_leaves": 8,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 8,
+        "zh-TW": 8
+      },
+      "source_review": "Eight body/night observation labels on the normal full-game ending record page. Root authored Simplified Chinese and manual_save_ci independently authored Traditional Chinese directly from the eight Korean literals; rework_batch_plan compared all sixteen responses to Korean before official import. Preserve thresholds, health/mental state, all old UI values and receipts, public demo and retail language allowlist. No added diagnosis, recovery guarantee, exact time or moral judgment. Agent source comparison only; rendered and native review OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "af60ac9dbf8b1213d4c98e0ce75295864227768d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "8231e096a45b716f8c6ee30d82641eac77900a213afced2173334b888200e452",
+          "selection_sha256": "16387668c40f3d809351a2d21b666259d4cf03a5160a71c2b826f0a452dbfcb4",
+          "count": 8,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8af71709e5b602c1a291c2c49bfa9dfabcc34dc863cb991bdee42603775642c3"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "af60ac9dbf8b1213d4c98e0ce75295864227768d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "8231e096a45b716f8c6ee30d82641eac77900a213afced2173334b888200e452",
+          "selection_sha256": "a133b89feb8497ea6afca54c0f7fbc9521572f90d73e520fb27d563ca0a82eb7",
+          "count": 8,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "1c0f80c0b444599294189cd4e95d111eafb85f571a62160ba236f87dc5e73a4c"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "ee63710a254abd415820c59a9b09f37a90bb38a4e304580760f0d9bf0e0ebcf3",
+        "zh-TW": "6e7caf9f11a390b809b687d3b6eb957aaa936dd7dd8b13f2dd2e91ad5cc14c39"
+      }
     }
   ],
   "accepted": {
@@ -124918,6 +124974,38 @@
       "ui:🔒 Tier %d 경력 필요 — 낮은 직급에서 먼저 경험 쌓기:/🔒 Tier %d 경력 필요 — 낮은 직급에서 먼저 경험 쌓기": {
         "source_sha256": "2d7d5d535321fd6edd320654e264ea4938104be49f58540922a074a0a05c2224",
         "target_sha256": "305106a69822aaa6cc737711776c702247d4d891119d1476ffc9705671d1f3ad"
+      },
+      "ui:계단에서 숨이 찼다:/계단에서 숨이 찼다": {
+        "source_sha256": "ad243c32eafa06985ddd7bb2a9818e8ad82b51310842ad81d76e6d091e3c4665",
+        "target_sha256": "2bd2649bd1aa37b6fa32017e70667b8e2975887c0347c3d1210ee53d3824b20a"
+      },
+      "ui:새벽까지 잠이 오지 않았다:/새벽까지 잠이 오지 않았다": {
+        "source_sha256": "3dfca1776830a46182b2d5d6da36711e1c8f1aa57da084cc04b31323ddaa2d56",
+        "target_sha256": "70d75c8a7cdca06c6f0112d28ba8f3b8d107057c8e2c338c20ef68de23b1ead1"
+      },
+      "ui:생각은 남아도 잠은 왔다:/생각은 남아도 잠은 왔다": {
+        "source_sha256": "b164c60618b71d86ef6d33ed4ad7db0b400f7deb0c53f88cfce0eec89eb08282",
+        "target_sha256": "a2e1cec05054425333443e6a1073ad732b2feab322a4600f7fca51074a86fd83"
+      },
+      "ui:생각이 오래 남았다:/생각이 오래 남았다": {
+        "source_sha256": "106b12a4a21d159be544d8f5d5e66b2e180a8f996b3b2b2eae9be83b89ff884c",
+        "target_sha256": "7f578304b9bebd395124277078c99ca8a1c94a9524b017641fd4a507cf34c03d"
+      },
+      "ui:숨이 고르게 돌아왔다:/숨이 고르게 돌아왔다": {
+        "source_sha256": "b6c3d327da8017b5538f43cdbc9b9f4f5f3f3cb55d327d2256885367d25822f4",
+        "target_sha256": "d8bbf6ace32ac5af8df44c12c87a62b23024eaf40992a41a63f570c965661ff6"
+      },
+      "ui:잠 뒤에도 떨림이 남았다:/잠 뒤에도 떨림이 남았다": {
+        "source_sha256": "30572a5af651f91dfe0910098b8742522ea6598fdc0e89ef43525debad872602",
+        "target_sha256": "fd0c1b65455c839509fdbd328971b39fc7c9f6f288ec41ad7181edab9eaccfc3"
+      },
+      "ui:잠이 제때 왔다:/잠이 제때 왔다": {
+        "source_sha256": "83619d6663db0ebfd568815b70bacf86ac01b7640bc6be3c418d5abd712b7200",
+        "target_sha256": "5fce2674a7afb7c9ba03d499d925cdf159f79f1cfa11093a565a8e7ef7e24d79"
+      },
+      "ui:하루 끝엔 몸이 무거웠다:/하루 끝엔 몸이 무거웠다": {
+        "source_sha256": "a6fcd08393eba9add51103ae514515833b163b6d586d9ca0d4263cc838c28c01",
+        "target_sha256": "f2619565d9995078a4c509bb95ba25ceb9f37eeda4b3b56d4f44518ac243b148"
       }
     },
     "zh-TW": {
@@ -183704,10 +183792,42 @@
       "ui:🔒 Tier %d 경력 필요 — 낮은 직급에서 먼저 경험 쌓기:/🔒 Tier %d 경력 필요 — 낮은 직급에서 먼저 경험 쌓기": {
         "source_sha256": "2d7d5d535321fd6edd320654e264ea4938104be49f58540922a074a0a05c2224",
         "target_sha256": "a0bf7ee168476b2b0964110be759d71e38e7682382e260328c8575be63002b52"
+      },
+      "ui:계단에서 숨이 찼다:/계단에서 숨이 찼다": {
+        "source_sha256": "ad243c32eafa06985ddd7bb2a9818e8ad82b51310842ad81d76e6d091e3c4665",
+        "target_sha256": "7f908cea4cbe41c1800994a7bc1c72a30fb111418c7d218fb800dfb1c83a946c"
+      },
+      "ui:새벽까지 잠이 오지 않았다:/새벽까지 잠이 오지 않았다": {
+        "source_sha256": "3dfca1776830a46182b2d5d6da36711e1c8f1aa57da084cc04b31323ddaa2d56",
+        "target_sha256": "961e0ddfdd6b967c53231f547e254cac6d9978931185925e74ab0701bc595d98"
+      },
+      "ui:생각은 남아도 잠은 왔다:/생각은 남아도 잠은 왔다": {
+        "source_sha256": "b164c60618b71d86ef6d33ed4ad7db0b400f7deb0c53f88cfce0eec89eb08282",
+        "target_sha256": "b5dc985eaa40b624fe2e3e82c0b0e2d7f4400d09dcb3df55dfc81e979c2983b7"
+      },
+      "ui:생각이 오래 남았다:/생각이 오래 남았다": {
+        "source_sha256": "106b12a4a21d159be544d8f5d5e66b2e180a8f996b3b2b2eae9be83b89ff884c",
+        "target_sha256": "a6d6be2f90b12c456f9d5b651a65dea427d0846b254529a1f60f94dd6d3b4be6"
+      },
+      "ui:숨이 고르게 돌아왔다:/숨이 고르게 돌아왔다": {
+        "source_sha256": "b6c3d327da8017b5538f43cdbc9b9f4f5f3f3cb55d327d2256885367d25822f4",
+        "target_sha256": "7ad2c28f644d2085e08b79987ccb388219d7c3f64b2348c0cd8df7af3aad5ac7"
+      },
+      "ui:잠 뒤에도 떨림이 남았다:/잠 뒤에도 떨림이 남았다": {
+        "source_sha256": "30572a5af651f91dfe0910098b8742522ea6598fdc0e89ef43525debad872602",
+        "target_sha256": "de34d9edb0d2026b242615defde6f0342a236c27013157b92f4c2aa45461b5a7"
+      },
+      "ui:잠이 제때 왔다:/잠이 제때 왔다": {
+        "source_sha256": "83619d6663db0ebfd568815b70bacf86ac01b7640bc6be3c418d5abd712b7200",
+        "target_sha256": "dac3171f1ac6f68cef83929e751fb87d0c65ced2e3b951f44792bc491439019c"
+      },
+      "ui:하루 끝엔 몸이 무거웠다:/하루 끝엔 몸이 무거웠다": {
+        "source_sha256": "a6fcd08393eba9add51103ae514515833b163b6d586d9ca0d4263cc838c28c01",
+        "target_sha256": "6e02f186f51114dc2498e45c7159b3acb00e70f9d9f0b7ba5b2f481c4fbe0505"
       }
     }
   },
-  "accepted_sha256": "2567a9cabeed17704125bb94a4c9325b0ae847405789df8cab0b42a50657ba26",
+  "accepted_sha256": "0bbe426c2cd850309b664dd8b6a26554b71ca9e6d972a0aeccd436aaa69697da",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
