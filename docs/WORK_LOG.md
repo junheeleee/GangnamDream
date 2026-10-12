@@ -3,9 +3,11 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
-## 2026-10-12 — 엔딩 후일담 번역 소비자 등록 착수
+## 2026-10-12 — 엔딩 후일담 번역 누락을 드러내는 소비자 등록 수리
 
-- [570](queue_active/ORDER-570.md): 실제 본편 EndingSystem→후일담 `_tr`가 읽는8키의 미확정 분류를 수리한다. collector/지역감사와 기존 self-test만 소유하며 원문·번역·저장·데모는 비소유다. 새 도구/월/엔진0, M17 OS잠금 HOLD·569 CI 진행 중이다. 등록 뒤 번역은 별도 오더, 원어민/렌더 OPEN·출시 HOLD다.
+- [570](queue_archive/ORDER-570.md): 정상 본편 후일담8키만 미확정→검증된 UI로 등록했다. 실제 collector17505 불변/unsupported474→466/나머지 leaf·source manifest exact다. JA/ZH는 동일 source helper를 쓰며 공개/정적 분모·기존 필수 번역 방어는 그대로다. 실제8×3 번역은 아직 없으며 다음 별도 배치다.
+- 표적27·독립 source16 반례/양성·비소유3351/46그룹776 exact 한정 GO. 최초 selector/빈 카드 모델 허점을 고쳐 검수받았고, 동시 self-test 편집에 따른 카지노 snapshot FAIL은 보존 후 동결 상태 단독 재검사 actual0으로 닫았다. 전체 self271은09a6 actual0/부분 stdout, 최종9b5f 변경 positive1은 actual0/완전 raw로 경계를 기록했다. 최종 pins/영수증 SHA는 사양과 `.git/order570-20261012/`에 결속한다.
+- 승격은 I18N의 ending aftermath provider 경계만, 모집단/순서/소유는 일회성이다. gangnamdream-dev의 source/실관찰·보존 경계를 적용, 원문·번역·원장·저장·데모·Human·project·옛 seed/app 수정0·엔진/새 월0이다. M17 OS잠금 하나·원어민/렌더 OPEN·번역 INCOMPLETE·출시 HOLD, 새 push CI는 미확정이며 현황판 단독 후속0이다.
 
 ## 2026-10-12 — 엔딩 몸·밤 관찰 중국어 누락 수용
 

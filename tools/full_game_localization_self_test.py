@@ -14,6 +14,304 @@ import full_game_localization as tool
 
 
 class ExchangeTests(unittest.TestCase):
+    def _ending_coda_sources(self):
+        paths = ("systems/EndingSystem.gd", "scenes/MainGame.gd",
+                 "autoloads/LocaleManager.gd")
+        self.assertEqual(tool.ENDING_CODA_SOURCE_PATHS, paths)
+        return {path: (tool.ROOT / path).read_text(encoding="utf-8") for path in paths}
+
+    def _ending_coda_source_rows(self, sources):
+        import ast
+        import re
+        # Independently read current literal blocks, not provider output or a
+        # historical prose pin. Only the declared 3+3+2 roles stay fixed.
+        roles = {
+            "CHAPTER5_FINALE_OUTBOUND_CODA_BY_CHOICE": ("meal", "apology", "distance"),
+            "CHAPTER5_GENERAL_OUTBOUND_CODA_BY_CHOICE": (
+                "minseo_answer_forward", "father_envelope_action", "minseo_meeting_request"),
+            "CHAPTER5_GENERAL_SACRIFICE_CODA_BY_CHOICE": ("addresses", "target"),
+        }
+        rows = []
+        for name, kinds in roles.items():
+            blocks = re.findall(r"^const " + name + r"\s*(?::=|=)\s*(\{.*?^\})",
+                                sources["systems/EndingSystem.gd"], re.M | re.S)
+            self.assertEqual(len(blocks), 1, name)
+            choices = ast.literal_eval(blocks[0])
+            self.assertEqual(set(choices), set(range(len(kinds))), name)
+            for index, kind in enumerate(kinds):
+                self.assertEqual(choices[index]["kind"], kind)
+                rows.append(choices[index])
+        self.assertEqual(len(rows), 8)
+        return rows
+
+    def _ending_coda_anchors(self, sources):
+        import re
+        body = sources["scenes/MainGame.gd"].split("func _ending_build_people_page()", 1)[1]
+        body = body.split("\nfunc ", 1)[0]
+        literals = re.findall(r'_tr\(\s*("(?:\\.|[^"\\])*")\s*,', body)
+        self.assertGreaterEqual(len(literals), 2)
+        return {json.loads(value) for value in literals[:2]}
+
+    def test_ending_coda_literal_sources_and_injected_reader(self):
+        import re
+        sources = self._ending_coda_sources()
+        keys = tuple(row["text"] for row in self._ending_coda_source_rows(sources))
+        # Source injection must not secretly read targets, caches or files.
+        with patch.object(Path, "read_text", side_effect=AssertionError("unexpected file read")):
+            leaves = tool.ending_coda_ui_leaves(set(), set(), sources=sources)
+        self.assertEqual(tuple(leaf.source for leaf in leaves), keys)
+        for leaf in leaves:
+            self.assertEqual(leaf, tool.Leaf("ui", leaf.source, "systems/EndingSystem.gd",
+                                             (leaf.source,), leaf.source, "ui_ending_coda"))
+        formatted = {path: "# source fixture comment\n\n" + text
+                     for path, text in sources.items()}
+        self.assertEqual(tool.ending_coda_ui_leaves(set(), set(), sources=formatted), leaves)
+        # This is a source contract, not an immutable historical prose hash.
+        changed = dict(sources)
+        title, body = keys[0].split("\n")
+        replacement = title + " · 시험\n" + body
+        changed["systems/EndingSystem.gd"] = changed["systems/EndingSystem.gd"].replace(
+            json.dumps(keys[0], ensure_ascii=False),
+            json.dumps(replacement, ensure_ascii=False), 1)
+        updated = tool.ending_coda_ui_leaves(set(), set(), sources=changed)
+        self.assertEqual(updated[0].source, replacement)
+        self.assertNotEqual(updated[0].source_sha256, leaves[0].source_sha256)
+        self.assertEqual(updated[1:], leaves[1:])
+        # Heading copy and card style are legitimate edits, not source pins.
+        main = "scenes/MainGame.gd"
+        anchors = self._ending_coda_anchors(sources)
+        heading = next(iter(sorted(anchors)))
+        page_start = sources[main].index("func _ending_build_people_page()")
+        changed_heading = {**sources, main: sources[main][:page_start] + sources[main][page_start:].replace(
+            json.dumps(heading, ensure_ascii=False),
+            json.dumps(heading + " · 시험", ensure_ascii=False), 1)}
+        new_anchors = self._ending_coda_anchors(changed_heading)
+        self.assertNotEqual(new_anchors, anchors)
+        self.assertEqual(tool.ending_coda_ui_leaves(
+            new_anchors, set(), sources=changed_heading, allow_partial_static=True), leaves)
+        self.assertEqual(tool.ending_coda_ui_leaves(
+            anchors, set(), sources=changed_heading, allow_partial_static=True), [])
+        card_start = sources[main].index("func _ending_epilogue_card(")
+        card_end = sources[main].index("\nfunc ", card_start)
+        styled_source = sources[main][:card_start] + re.sub(
+            r'(card.custom_minimum_size = Vector2\(0, )(\d+)(\))',
+            lambda match: match[1] + str(int(match[2]) + 8) + match[3],
+            sources[main][card_start:card_end], count=1) + sources[main][card_end:]
+        styled_source = re.sub(r'(card.add_child\(_wrap_label\(text, )(\d+), "[^"\n]*"\)\)',
+                               lambda match: match[1] + str(int(match[2]) + 2) + ', "#aabbcc"))',
+                               styled_source, count=1)
+        styled = {**sources, main: styled_source}
+        self.assertNotEqual(styled, sources)
+        self.assertEqual(tool.ending_coda_ui_leaves(set(), set(), sources=styled), leaves)
+
+    def test_ending_coda_missing_duplicate_and_expression_sources_reject(self):
+        sources = self._ending_coda_sources()
+        path = "systems/EndingSystem.gd"
+        rows = self._ending_coda_source_rows(sources)
+        first = json.dumps(rows[0]["text"], ensure_ascii=False)
+        second = json.dumps(rows[1]["text"], ensure_ascii=False)
+        english = json.dumps(rows[0]["text_en"], ensure_ascii=False)
+        mutants = {
+            "missing_constant": ("const CHAPTER5_FINALE_OUTBOUND_CODA_BY_CHOICE :=",
+                                 "const OTHER_CODA :="),
+            "duplicate_choice": ('1: {\n\t\t"kind": "apology"',
+                                 '0: {\n\t\t"kind": "apology"'),
+            "duplicate_field": ('"kind": "meal",', '"kind": "meal", "kind": "meal",'),
+            "expression_index": ('0: {\n\t\t"kind": "meal"',
+                                 '(0 + 0): {\n\t\t"kind": "meal"'),
+            "expression_value": ('"kind": "meal",', '"kind": "me" + "al",'),
+            "wrong_role": ('"kind": "meal",', '"kind": "other",'),
+            "extra_field": ('"kind": "meal",', '"kind": "meal", "other": "value",'),
+            "missing_english": ('"text_en": ' + english, '"other": ' + english),
+            "empty_body": (first, '"제목\\n"'),
+            "extra_paragraph": (first, first[:-1] + '\\n추가 문단"'),
+            "non_string": (first, "3"),
+            "duplicate_source": (second, first),
+            "non_korean_source": (first, '"TITLE\\nBody."'),
+            "korean_english": (english, '"한국어 제목\\n한국어 본문"'),
+        }
+        for name, (old, new) in mutants.items():
+            with self.subTest(mutation=name):
+                self.assertIn(old, sources[path])
+                changed = {**sources, path: sources[path].replace(old, new, 1)}
+                with self.assertRaises(tool.ContractError):
+                    tool.ending_coda_ui_leaves(set(), set(), sources=changed)
+        duplicate = {**sources, path: sources[path] +
+                     "\nconst CHAPTER5_FINALE_OUTBOUND_CODA_BY_CHOICE := {}\n"}
+        with self.assertRaises(tool.ContractError):
+            tool.ending_coda_ui_leaves(set(), set(), sources=duplicate)
+        for missing in sources:
+            with self.subTest(missing=missing), self.assertRaises(tool.ContractError):
+                tool.ending_coda_ui_leaves(set(), set(),
+                                          sources={key: value for key, value in sources.items()
+                                                   if key != missing})
+
+    def test_ending_coda_resolver_dispatch_guard_and_lookup_changes_reject(self):
+        import re
+        sources = self._ending_coda_sources()
+        ending, main, locale = tool.ENDING_CODA_SOURCE_PATHS
+        card_call = re.search(r'card.add_child\(_wrap_label\(text, \d+, "[^"\n]*"\)\)',
+                              sources[main]).group(0)
+        cases = (
+            (ending, "resolver_early_return", "\t\tending_id: Variant, raw_finale_state: Variant) -> Dictionary:\n",
+             "\t\tending_id: Variant, raw_finale_state: Variant) -> Dictionary:\n\treturn {}\n", 2),
+            (ending, "sacrifice_stage", 'canonical, "sacrifice")', 'canonical, "outbound")', 1),
+            (ending, "outbound_stage", 'canonical, "outbound")', 'canonical, "sacrifice")', 1),
+            (ending, "general_entry", "raw_finale_state, true, CHAPTER5_FINALE_ROUTE.GENERAL_ENTRY_TURN)",
+             "raw_finale_state, true, CHAPTER5_FINALE_ROUTE.ENTRY_TURN)", 1),
+            (ending, "consumed_guard", '!= "consumed"', '== "consumed"', 2),
+            (ending, "complete_guard", "or not CHAPTER5_FINALE_ROUTE.route_complete(canonical)",
+             "or CHAPTER5_FINALE_ROUTE.route_complete(canonical)", 2),
+            (ending, "receipt_event", '!= "arc_final_countdown_general_near_goal_passed"',
+             '!= "arc_final_countdown_general_near_goal_other"', 1),
+            (ending, "choice_default", 'receipt.get("choice_index", -1)', 'receipt.get("choice_index", 0)', 2),
+            (ending, "choice_lookup", "coda_by_choice = CHAPTER5_FINALE_OUTBOUND_CODA_BY_CHOICE",
+             "coda_by_choice = CHAPTER5_GENERAL_OUTBOUND_CODA_BY_CHOICE", 1),
+            (ending, "choice_guard", "if not coda_by_choice.has(choice_index):",
+             "if coda_by_choice.has(choice_index):", 1),
+            (main, "page_early_return", "func _ending_build_people_page() -> void:\n",
+             "func _ending_build_people_page() -> void:\n\treturn\n", 1),
+            (main, "page_dispatch", "2: _ending_build_people_page()", "3: _ending_build_people_page()", 1),
+            (main, "selector_input_overwrite", "\t_ending_page_index = clampi(page_index, 0, ENDING_PAGE_COUNT - 1)",
+             "\tpage_index = 0\n\t_ending_page_index = clampi(page_index, 0, ENDING_PAGE_COUNT - 1)", 1),
+            (main, "selector_output_overwrite", "\t_ending_page_index = clampi(page_index, 0, ENDING_PAGE_COUNT - 1)",
+             "\t_ending_page_index = clampi(page_index, 0, ENDING_PAGE_COUNT - 1)\n\t_ending_page_index += 1", 1),
+            (main, "page_guard", "if not outbound_coda.is_empty():", "if outbound_coda.is_empty():", 1),
+            (main, "page_reader", "EndingSystem.chapter5_finale_outbound_coda(\n\t\t_ending_id, GameState.chapter5_finale_state)",
+             "EndingSystem.chapter5_finale_outbound_coda(\n\t\t_ending_id, GameState.flags)", 1),
+            (main, "raw_key", 'str(outbound_coda.get("text", ""))', 'str(outbound_coda.get("kind", ""))', 1),
+            (main, "english_key", 'str(signature_coda.get("text_en", ""))',
+             'str(signature_coda.get("text", ""))', 1),
+            (main, "card_display", "page.add_child(outbound_card)", "pass", 1),
+            (main, "plain_text_empty_return", "func _ending_plain_text(text: String) -> String:\n",
+             'func _ending_plain_text(text: String) -> String:\n\treturn ""\n', 1),
+            (main, "card_empty_text", card_call, card_call.replace("_wrap_label(text,", '_wrap_label("",', 1), 1),
+            (main, "translation_binding", "return LocaleManager.ui(ko, en)", "return LocaleManager.ui(en, ko)", 1),
+            (locale, "lookup_key", "_lookup_legacy_ui(language, ko_text)",
+             "_lookup_legacy_ui(language, en_text)", 1),
+            (locale, "lookup_early_return", "func _lookup_legacy_ui(lang: String, source_text: String) -> Variant:\n",
+             "func _lookup_legacy_ui(lang: String, source_text: String) -> Variant:\n\treturn null\n", 1),
+            (locale, "community_key", "return str(community[source_text])", "return str(builtin[source_text])", 1),
+        )
+        for path, name, old, new, count in cases:
+            with self.subTest(mutation=name):
+                self.assertGreaterEqual(sources[path].count(old), count)
+                changed = {**sources, path: sources[path].replace(old, new, count)}
+                with self.assertRaises(tool.ContractError):
+                    tool.ending_coda_ui_leaves(set(), set(), sources=changed)
+
+    def test_ending_coda_partial_inventory_and_provider_collisions(self):
+        sources = self._ending_coda_sources()
+        keys = {row["text"] for row in self._ending_coda_source_rows(sources)}
+        full_anchors = self._ending_coda_anchors(sources)
+        for anchors in (set(), *({key} for key in full_anchors)):
+            self.assertEqual(tool.ending_coda_ui_leaves(
+                anchors, set(), sources=sources, allow_partial_static=True), [])
+        leaves = tool.ending_coda_ui_leaves(
+            full_anchors, set(), sources=sources, allow_partial_static=True)
+        self.assertEqual({leaf.source for leaf in leaves}, keys)
+        for key in keys:
+            for static, protected in (({key}, set()), (set(), {key})):
+                with self.subTest(collision=key, protected=bool(protected)), \
+                        self.assertRaises(tool.ContractError):
+                    tool.ending_coda_ui_leaves(static, protected, sources=sources,
+                                              allow_partial_static=True)
+        invalid = dict(sources)
+        invalid["scenes/MainGame.gd"] = invalid["scenes/MainGame.gd"].replace(
+            "2: _ending_build_people_page()", "2: other_page()", 1)
+        # A partial view must not conceal a broken source/consumer contract.
+        with self.assertRaises(tool.ContractError):
+            tool.ending_coda_ui_leaves(set(), set(), sources=invalid, allow_partial_static=True)
+
+    def test_ending_coda_real_collector_moves_only_eight_candidates(self):
+        with patch.object(tool, "ending_coda_ui_leaves", return_value=[]):
+            before = tool.collect()
+        after = tool.collect()
+        keys = {row["text"] for row in self._ending_coda_source_rows(self._ending_coda_sources())}
+        old = [leaf for leaf in before["leaves"] if leaf.group == "ui_unverified" and leaf.owner in keys]
+        new = [leaf for leaf in after["leaves"] if leaf.category == "ui_ending_coda"]
+        self.assertEqual({leaf.source for leaf in old}, keys)
+        self.assertEqual({leaf.source for leaf in new}, keys)
+        self.assertFalse(any(leaf.group == "ui_unverified" and leaf.owner in keys
+                             for leaf in after["leaves"]))
+        self.assertEqual([leaf for leaf in before["leaves"] if leaf not in old],
+                         [leaf for leaf in after["leaves"] if leaf not in new])
+        removed_ids = {leaf.id for leaf in old}
+        self.assertEqual([row for row in before["unsupported"]
+                          if not (row["kind"] == "unverified_dynamic_pair"
+                                  and row["source_id"] in removed_ids)], after["unsupported"])
+        for field in ("source_hashes", "source_manifest_sha256", "relationship_display_names",
+                      "internal_ending_notes", "events", "endings", "catalog"):
+            self.assertEqual(before[field], after[field], field)
+        self.assertEqual(after["source_counts"], {**before["source_counts"], "ui_ending_coda": 8})
+        self.assertEqual(len(before["leaves"]), len(after["leaves"]))
+
+    def _ending_coda_regional_seam(self, language, actual, *, strict=False,
+                                   validator_errors=(), source_error=False, additions=True):
+        import contextlib
+        import io
+        from types import SimpleNamespace
+        import ja_translation_audit as ja
+        import zh_translation_audit as zh
+        import third_party_notice_ui as notices
+        import holdem_tutorial_ui as holdem
+        import story_demo_localization_audit as public
+
+        leaves = [tool.Leaf("ui", f"후일담 시험 {index}", "systems/EndingSystem.gd",
+                            (f"후일담 시험 {index}",), f"후일담 시험 {index}", "ui_ending_coda")
+                  for index in range(8)]
+        inventory = SimpleNamespace(errors=[], entries=[], calls=[], blueprint={},
+                                    legacy_entries=[], planned_context_entries=[],
+                                    legacy_blueprint={}, planned_context_blueprint={},
+                                    stats={"migrated_context_ids": 0, "planned_context_ids": 0})
+        with contextlib.ExitStack() as stack:
+            stack.enter_context(patch.object(notices, "notice_ui_additions", return_value={}))
+            stack.enter_context(patch.object(holdem, "holdem_tutorial_ui_additions", return_value={}))
+            stack.enter_context(patch.object(public, "ui_pairs", return_value=({}, [], {})))
+            provider = stack.enter_context(patch.object(
+                tool, "ending_coda_ui_leaves", return_value=leaves if additions else [],
+                side_effect=tool.ContractError("fixture source changed") if source_error else None))
+            validate = stack.enter_context(patch.object(tool, "translation_errors",
+                                                        return_value=list(validator_errors)))
+            if language == "ja":
+                stack.enter_context(patch.object(ja, "collect_ui_inventory", return_value=inventory))
+                stack.enter_context(patch.object(ja, "_demo_runtime", return_value=({}, {"merged_pairs": {}})))
+                stack.enter_context(patch.object(ja, "retired_relationship_ui_entries", return_value=({}, [])))
+                errors = []
+                with contextlib.redirect_stdout(io.StringIO()):
+                    ja.check_ui_scope(actual, errors)
+            else:
+                stack.enter_context(patch.object(zh, "_static_ui_inventory", return_value=inventory))
+                stack.enter_context(patch.object(zh, "_story_demo_exclusive_ui_pairs", return_value=({}, [])))
+                errors = zh.static_ui_coverage(language, {"merged_pairs": {}}, strict,
+                                               actual_override=actual)[-1]
+            provider.assert_called_once()
+            self.assertIs(provider.call_args.kwargs["allow_partial_static"], True)
+            expected_calls = [(leaf, language, actual[leaf.owner]) for leaf in leaves
+                              if leaf.owner in actual and not source_error and additions]
+            self.assertEqual([call.args for call in validate.call_args_list], expected_calls)
+        return errors
+
+    def test_ending_coda_regional_present_missing_unknown_and_strict_seams(self):
+        for language, target in (("ja", "後日談"), ("zh-CN", "后日谈"), ("zh-TW", "後日談")):
+            actual = {f"후일담 시험 {index}": f"{target} {index}" for index in range(8)}
+            with self.subTest(language=language):
+                self.assertEqual(self._ending_coda_regional_seam(language, actual, strict=True), [])
+                self.assertEqual(self._ending_coda_regional_seam(language, {}, strict=False), [])
+                missing = self._ending_coda_regional_seam(language, {}, strict=True)
+                self.assertEqual(len(missing), 0 if language == "ja" else 8)
+                self.assertTrue(all("strict ending coda UI missing" in error for error in missing))
+                rejected = self._ending_coda_regional_seam(
+                    language, actual, validator_errors=("fixture target invalid",))
+                self.assertEqual(len(rejected), 8)
+                self.assertTrue(all("fixture target invalid" in error for error in rejected))
+                self.assertTrue(self._ending_coda_regional_seam(
+                    language, {**actual, "unregistered coda": target}))
+                self.assertTrue(self._ending_coda_regional_seam(language, actual, additions=False))
+                broken = self._ending_coda_regional_seam(language, actual, source_error=True)
+                self.assertTrue(any("fixture source changed" in error for error in broken))
+                self.assertTrue(any("unknown" in error for error in broken))
+
     def test_order367_ui_resume_four_answer_quantity(self):
         """Two actual targets, equivalent numerals and fail-closed boundaries."""
         from dataclasses import replace

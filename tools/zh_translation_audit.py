@@ -10546,16 +10546,32 @@ def static_ui_coverage(
             dynamic_keys, set(story_demo_pairs), allow_partial_static=True)
     except HoldemTutorialSourceError as exc:
         errors.append(f"{lang}:Holdem tutorial UI source: {exc}")
+    from full_game_localization import ContractError, ending_coda_ui_leaves, translation_errors
+    coda_entries = {}
+    try:
+        coda_entries = {leaf.owner: leaf for leaf in ending_coda_ui_leaves(
+            expected_legacy | expected_context | {entry.source for entry in inventory.entries}
+            | dynamic_keys | set(notice_entries) | set(tutorial_entries),
+            set(story_demo_pairs), allow_partial_static=True)}
+    except ContractError as exc:
+        errors.append(f"{lang}:ending coda UI source: {exc}")
     if not isinstance(actual, dict):
         return (
             0, len(expected_legacy), 0, len(expected_context),
             0, len(story_demo_exclusive_keys),
             errors + [f"{ui_path.relative_to(ROOT)}: expected object"],
         )
+    for key, leaf in coda_entries.items():
+        if key not in actual:
+            if strict:
+                errors.append(f"{lang}: strict ending coda UI missing {key!r}")
+            continue
+        errors.extend(f"{lang}:{leaf.id}: {error}"
+                      for error in translation_errors(leaf, lang, actual[key]))
 
     allowed = (
         expected_legacy | expected_context | dynamic_keys
-        | story_demo_exclusive_keys | set(notice_entries) | set(tutorial_entries)
+        | story_demo_exclusive_keys | set(notice_entries) | set(tutorial_entries) | set(coda_entries)
     )
     unknown = sorted(set(actual) - allowed)
     if unknown:

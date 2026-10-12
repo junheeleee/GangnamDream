@@ -154,11 +154,11 @@ def unsupported_relationship_display_names(owner: str, row: dict[str, Any], file
     return result
 
 
-def _relationship_source_functions(source: str) -> dict[str, list[tuple[int, tuple[str, ...]]]]:
+def _gd_source_statements(source: str) -> list[tuple[int, tuple[str, ...]]]:
     """Tokenize only: comments and multiline strings cannot impersonate code.
 
-    The supported projection/caller grammar below is deliberately finite; this
-    is not a general GDScript control-flow or reachability proof.
+    Callers apply finite projection/reader grammars; this is not a general
+    GDScript control-flow or reachability proof.
     """
     import io
     import tokenize
@@ -184,7 +184,12 @@ def _relationship_source_functions(source: str) -> dict[str, list[tuple[int, tup
                 indent = len(prefix.expandtabs(4))
             parts.append(token.string)
     except (tokenize.TokenError, IndentationError, IndexError) as exc:
-        raise ContractError(f"relationship source lexical error: {exc}") from exc
+        raise ContractError(f"GDScript source lexical error: {exc}") from exc
+    return statements
+
+
+def _relationship_source_functions(source: str) -> dict[str, list[tuple[int, tuple[str, ...]]]]:
+    statements = _gd_source_statements(source)
     functions: dict[str, list[tuple[int, tuple[str, ...]]]] = {}
     current = None
     for indentation, tokens in statements:
@@ -377,6 +382,280 @@ def notice_ui_leaves(static_keys: set[str], protected_ui: set[str], root: Path =
                  protected=key in protected_ui) for key in additions]
 
 
+ENDING_CODA_SOURCE_PATHS = (
+    "systems/EndingSystem.gd", "scenes/MainGame.gd", "autoloads/LocaleManager.gd",
+)
+
+
+def ending_coda_ui_leaves(
+    static_keys: set[str], protected_ui: set[str], root: Path = ROOT, *,
+    sources: dict[str, str] | None = None, allow_partial_static: bool = False,
+) -> list[Leaf]:
+    """Prove only consumed-finale coda literals and their raw-key UI reader.
+
+    Finite statement shapes describe the supported lookup, not a historical
+    file hash or a general reachability proof. Comments/formatting may change;
+    a changed resolver/reader must be reviewed before accepting new targets.
+    This provider reads no targets, receipts, inventory cache or other audit.
+    """
+    import ast
+    import textwrap
+
+    if sources is None:
+        sources = {path: (root / path).read_text(encoding="utf-8")
+                   for path in ENDING_CODA_SOURCE_PATHS}
+    try:
+        ending, main, locale = (sources[path] for path in ENDING_CODA_SOURCE_PATHS)
+    except KeyError as exc:
+        raise ContractError(f"ending coda source missing: {exc}") from exc
+    functions = [_relationship_source_functions(text) for text in (ending, main, locale)]
+    heading_rows = [tokens for level, tokens in functions[1].get("_ending_build_people_page", [])
+                    if level == 4 and tokens[:2] == ("_ending_add_page_heading", "(")]
+    if len(heading_rows) != 1:
+        raise ContractError("ending coda people-page heading missing/ambiguous")
+    try:
+        heading = ast.parse(" ".join(heading_rows[0]), mode="eval").body
+        if not isinstance(heading, ast.Call) or heading.keywords or len(heading.args) != 4 \
+                or not isinstance(heading.args[0], ast.Name) or heading.args[0].id != "page":
+            raise ValueError("unsupported heading arguments")
+        heading_keys = []
+        for pair in heading.args[1:]:
+            if not isinstance(pair, ast.Call) or not isinstance(pair.func, ast.Name) \
+                    or pair.func.id != "_tr" or pair.keywords or len(pair.args) != 2 \
+                    or any(not isinstance(arg, ast.Constant) or not isinstance(arg.value, str)
+                           or not arg.value.strip() for arg in pair.args):
+                raise ValueError("heading pairs must be nonempty literals")
+            heading_keys.append(pair.args[0].value)
+    except (SyntaxError, ValueError) as exc:
+        raise ContractError(f"ending coda people-page heading changed: {exc}") from exc
+
+    def shape(namespace: int, name: str, model: str, *, omit: set[str] = frozenset(),
+              visual_literals: bool = False):
+        expected = _relationship_source_functions(textwrap.dedent(model))[name]
+        actual = functions[namespace].get(name, [])
+        # Page headings/navigation/cast prose are not coda lookup inputs. Only
+        # these named, top-level UI calls are outside the supported projection.
+        actual = [(level, tokens) for level, tokens in actual
+                  if not (level == 4 and tokens[:2] in {(call, "(") for call in omit})]
+        if visual_literals:
+            # Card colors/sizes are not source ownership. Preserve statement
+            # structure and the text variable, not historical visual values.
+            def visual(rows):
+                return [(level, tuple("<visual>" if re.fullmatch(r'[0-9]+(?:\.[0-9]+)?', t)
+                                      or t.startswith(('"', "'")) else t for t in tokens))
+                        for level, tokens in rows]
+            actual, expected = visual(actual), visual(expected)
+        if actual != expected:
+            raise ContractError(f"ending coda consumer changed: {name}")
+
+    common = '''
+        var normalized_ending_id := str(ending_id).strip_edges()
+        if normalized_ending_id not in FINAL_SIGNATURE_CODA_ENDING_IDS or not raw_finale_state is Dictionary:
+            return {}
+        var canonical := CHAPTER5_FINALE_ROUTE.state_from_save(raw_finale_state, true, CHAPTER5_FINALE_ROUTE.ENTRY_TURN)
+        if str(canonical.get("status", "")) != "open" or str(canonical.get("ending_check", "")) != "consumed" or not CHAPTER5_FINALE_ROUTE.route_complete(canonical):
+            return {}
+    '''
+    def resolver(name: str, body: str, general: bool = False):
+        prefix = textwrap.dedent(common).lstrip("\n")
+        if general:
+            prefix = prefix.replace(".ENTRY_TURN)", ".GENERAL_ENTRY_TURN)")
+        model = (f"func {name}(ending_id: Variant, raw_finale_state: Variant) -> Dictionary:\n"
+                 + textwrap.indent(prefix + textwrap.dedent(body).lstrip("\n"), "    "))
+        shape(0, name, model)
+
+    resolver("chapter5_general_sacrifice_coda", '''
+        var receipt := CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_stage(canonical, "sacrifice")
+        if str(receipt.get("event_id", "")) != "arc_final_countdown_general_near_goal_passed":
+            return {}
+        var choice_index := int(receipt.get("choice_index", -1))
+        if not CHAPTER5_GENERAL_SACRIFICE_CODA_BY_CHOICE.has(choice_index):
+            return {}
+        return (CHAPTER5_GENERAL_SACRIFICE_CODA_BY_CHOICE[choice_index] as Dictionary).duplicate(true)
+    ''', general=True)
+    resolver("chapter5_finale_outbound_coda", '''
+        var receipt := CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_stage(canonical, "outbound")
+        var event_id := str(receipt.get("event_id", ""))
+        var coda_by_choice: Dictionary = {}
+        if event_id == "arc_y5_final_week_daeun_outbound":
+            coda_by_choice = CHAPTER5_FINALE_OUTBOUND_CODA_BY_CHOICE
+        elif event_id == "arc_y5_final_week_general_people_outbound":
+            coda_by_choice = CHAPTER5_GENERAL_OUTBOUND_CODA_BY_CHOICE
+        else:
+            return {}
+        var choice_index := int(receipt.get("choice_index", -1))
+        if not coda_by_choice.has(choice_index):
+            return {}
+        return (coda_by_choice[choice_index] as Dictionary).duplicate(true)
+    ''')
+    shape(1, "_ending_build_people_page", '''
+        func _ending_build_people_page() -> void:
+            var page := _ending_page_root("ending_people")
+            var signature_coda: Dictionary = EndingSystem.chapter5_general_sacrifice_coda(_ending_id, GameState.chapter5_finale_state)
+            if signature_coda.is_empty():
+                signature_coda = EndingSystem.final_signature_coda(_ending_id, GameState.flags)
+            if not signature_coda.is_empty():
+                var signature_card := _ending_epilogue_card(_ending_plain_text(_tr(str(signature_coda.get("text", "")), str(signature_coda.get("text_en", "")))))
+                signature_card.set_meta("ending_signature_coda", str(signature_coda.get("kind", "")))
+                page.add_child(signature_card)
+            var outbound_coda: Dictionary = EndingSystem.chapter5_finale_outbound_coda(_ending_id, GameState.chapter5_finale_state)
+            if not outbound_coda.is_empty():
+                var outbound_card := _ending_epilogue_card(_ending_plain_text(_tr(str(outbound_coda.get("text", "")), str(outbound_coda.get("text_en", "")))))
+                outbound_card.set_meta("ending_finale_outbound_coda", str(outbound_coda.get("kind", "")))
+                page.add_child(outbound_card)
+    ''', omit={"_ending_add_page_heading", "_ending_cast_epilogue", "_ending_add_navigation"})
+    shape(1, "_ending_show_page", '''
+        func _ending_show_page(page_index: int) -> void:
+            if _ending_data.is_empty():
+                return
+            _ending_page_index = clampi(page_index, 0, ENDING_PAGE_COUNT - 1)
+            _clear_box(modal_body)
+            modal_body.add_theme_constant_override("separation", 8)
+            _modal_cancelable = false
+            _modal_kind = "ending"
+            modal_layer.visible = true
+            modal_layer.mouse_filter = Control.MOUSE_FILTER_STOP
+            modal_layer.set_meta("ending_page", _ending_page_index)
+            modal_layer.set_meta("ending_page_count", ENDING_PAGE_COUNT)
+            _apply_ending_modal_layout()
+            _apply_ending_moral_palette()
+            match _ending_page_index:
+                0: _ending_build_finale_page()
+                1: _ending_build_credits_page()
+                2: _ending_build_people_page()
+                3: _ending_build_ledger_page()
+                4: _ending_build_record_page()
+                _: _ending_build_collection_page()
+            call_deferred("_focus_first_in_modal_body")
+    ''')
+    # Cleanup occurs after lookup. Permit only literal non-text icon tokens;
+    # swapping in words/expressions or returning empty text is unsupported.
+    cleanup = functions[1].get("_ending_plain_text", [])
+    icon_rows = [(index, tokens) for index, (level, tokens) in enumerate(cleanup)
+                 if level == 4 and tokens[:4] == ("for", "token", "in", "[")
+                 and tokens[-2:] == ("]", ":")]
+    if len(icon_rows) != 1:
+        raise ContractError("ending coda cleanup icon loop missing/ambiguous")
+    icon_index, icon_tokens = icon_rows[0]
+    try:
+        icons = ast.literal_eval(" ".join(icon_tokens[3:-1]))
+    except (SyntaxError, ValueError) as exc:
+        raise ContractError("ending coda cleanup requires literal icons") from exc
+    if not icons or any(not isinstance(icon, str) or not icon.strip()
+                        or any(c.isalnum() for c in icon) for icon in icons):
+        raise ContractError("ending coda cleanup must not remove text")
+    normalized_cleanup = list(cleanup)
+    normalized_cleanup[icon_index] = (4, ("for", "token", "in", "ICONS", ":"))
+    expected_cleanup = _gd_source_statements(textwrap.dedent('''
+        func _ending_plain_text(text: String) -> String:
+            var cleaned := text
+            for token in ICONS:
+                cleaned = cleaned.replace(token + "  ", "")
+                cleaned = cleaned.replace(token + " ", "")
+            return cleaned.strip_edges()
+    '''))
+    if normalized_cleanup != expected_cleanup:
+        raise ContractError("ending coda consumer changed: _ending_plain_text")
+    shape(1, "_ending_epilogue_card", '''
+        func _ending_epilogue_card(text: String) -> Control:
+            var card := PanelContainer.new()
+            card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+            card.custom_minimum_size = Vector2(0, 72)
+            var style := StyleBoxFlat.new()
+            style.bg_color = Color(1, 1, 1, 0.025)
+            style.border_color = Color("#343b45", 0.82)
+            style.set_border_width_all(1)
+            style.set_corner_radius_all(5)
+            style.content_margin_left = 13
+            style.content_margin_right = 13
+            style.content_margin_top = 10
+            style.content_margin_bottom = 10
+            card.add_theme_stylebox_override("panel", style)
+            card.add_child(_wrap_label(text, 12, "#929ca9"))
+            return card
+    ''', visual_literals=True)
+    shape(1, "_tr", '''
+        func _tr(ko: String, en: String) -> String:
+            return LocaleManager.ui(ko, en)
+    ''')
+    shape(2, "ui", '''
+        func ui(ko_text: String, en_text: String) -> String:
+            if language == "ko":
+                return ko_text
+            if language == "en":
+                return en_text
+            var localized: Variant = _lookup_legacy_ui(language, ko_text)
+            if localized != null:
+                return str(localized)
+            _record_ui_miss(language, ko_text)
+            return en_text
+    ''')
+    shape(2, "_lookup_legacy_ui", '''
+        func _lookup_legacy_ui(lang: String, source_text: String) -> Variant:
+            var builtin := _get_builtin_ui_table(lang)
+            var community := _get_community_ui_table(lang)
+            if community.has(source_text):
+                return str(community[source_text])
+            if builtin.has(source_text):
+                return str(builtin[source_text])
+            return null
+    ''')
+
+    def literal(node):
+        if isinstance(node, ast.Constant) and type(node.value) in (str, int):
+            return node.value
+        if isinstance(node, ast.Dict):
+            result = {}
+            for key_node, value_node in zip(node.keys, node.values):
+                key = literal(key_node)
+                if key in result:
+                    raise ContractError(f"ending coda duplicate dictionary key: {key!r}")
+                result[key] = literal(value_node)
+            return result
+        raise ContractError("ending coda requires literal dictionaries, indices and strings")
+
+    roles = {
+        "CHAPTER5_FINALE_OUTBOUND_CODA_BY_CHOICE": ("meal", "apology", "distance"),
+        "CHAPTER5_GENERAL_OUTBOUND_CODA_BY_CHOICE": (
+            "minseo_answer_forward", "father_envelope_action", "minseo_meeting_request"),
+        "CHAPTER5_GENERAL_SACRIFICE_CODA_BY_CHOICE": ("addresses", "target"),
+    }
+    statements = _gd_source_statements(ending)
+    leaves = []
+    seen: set[str] = set()
+    for name, kinds in roles.items():
+        matches = [tokens for level, tokens in statements
+                   if level == 0 and tokens[:2] == ("const", name)]
+        if len(matches) != 1 or matches[0][2:3] not in ((":=",), ("=",)):
+            raise ContractError(f"ending coda missing/duplicate/unsupported constant: {name}")
+        try:
+            rows = literal(ast.parse(" ".join(matches[0][3:]), mode="eval").body)
+        except (SyntaxError, TypeError) as exc:
+            raise ContractError(f"ending coda invalid constant: {name}: {exc}") from exc
+        if not isinstance(rows, dict) or set(rows) != set(range(len(kinds))):
+            raise ContractError(f"ending coda choice roles changed: {name}")
+        for index, kind in enumerate(kinds):
+            row = rows[index]
+            if not isinstance(row, dict) or set(row) != {"kind", "text", "text_en"} \
+                    or row["kind"] != kind:
+                raise ContractError(f"ending coda row role changed: {name}[{index}]")
+            for field in ("text", "text_en"):
+                value = row[field]
+                if not isinstance(value, str) or value.count("\n") != 1 \
+                        or not all(part.strip() for part in value.split("\n")):
+                    raise ContractError(f"ending coda title/body literal missing: {name}[{index}].{field}")
+            key = row["text"]
+            if not HANGUL.search(key) or HANGUL.search(row["text_en"]) or key in seen:
+                raise ContractError(f"ending coda duplicate/invalid bilingual source: {name}[{index}]")
+            seen.add(key)
+            leaves.append(Leaf("ui", key, ENDING_CODA_SOURCE_PATHS[0], (key,), key, "ui_ending_coda"))
+    if seen & (static_keys | protected_ui):
+        raise ContractError("ending coda overlaps an existing/protected UI provider")
+    if allow_partial_static and not set(heading_keys[:2]) <= static_keys:
+        return []
+    return leaves
+
+
 def collect(root: Path = ROOT) -> dict[str, Any]:
     """Collect source independently of targets; never infer coverage from a cache."""
     import ja_translation_pipeline as ja
@@ -525,6 +804,10 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
         add("ui", key, HOLDEM_TUTORIAL_PATH, (key,), key, HOLDEM_TUTORIAL_CATEGORY)
         ui_seen.add(key)
 
+    coda_leaves = ending_coda_ui_leaves(ui_seen, protected_ui, root)
+    leaves.extend(coda_leaves)
+    ui_seen.update(leaf.owner for leaf in coda_leaves)
+
     # Literal pairs outside the old demo are candidates until their runtime
     # consumer is proven. Counting them does not declare the lookup supported.
     candidates: dict[str, list[str]] = defaultdict(list)
@@ -577,6 +860,7 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
                               "author_only_events": len(author_only), "endings": len(source_endings),
                               "ui_static_context": len(ui.entries), "ui_notice_chrome": len(notice_leaves),
                               "ui_holdem_tutorial": len(tutorial_entries),
+                              "ui_ending_coda": len(coda_leaves),
                               "demo_dynamic_unique": len(demo_keys),
                               "demo_dynamic_overlap_static": len(demo_keys & {e.source for e in ui.entries})}}
 

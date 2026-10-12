@@ -278,10 +278,27 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
                         pair.source, CATEGORY)
             errors.extend(f"{pair.owner}: {error}"
                           for error in translation_errors(leaf, "ja", actual[key]))
+    # Consumed-finale cards are a separate full-game provider. Missing targets
+    # remain INCOMPLETE in that inventory; they do not change the retail static
+    # denominator or weaken any of its existing mandatory groups.
+    from full_game_localization import ContractError, ending_coda_ui_leaves, translation_errors
+    coda_entries = {}
+    try:
+        coda_entries = {leaf.owner: leaf for leaf in ending_coda_ui_leaves(
+            static_keys | {entry.source for entry in rows} | dynamic_keys
+            | set(notice_entries) | set(tutorial_entries), story_demo_keys,
+            allow_partial_static=True)}
+    except ContractError as exc:
+        errors.append(f"ui ending coda source: {exc}")
+    for key, leaf in coda_entries.items():
+        if key in actual:
+            check_text(Entry("ui::" + key, key, leaf.source_path), actual[key], errors)
+            errors.extend(f"{leaf.id}: {error}"
+                          for error in translation_errors(leaf, "ja", actual[key]))
     unknown_extra = (
         extra_keys - dynamic_keys - story_demo_exclusive_keys
         - premature_context - set(retired_entries) - set(notice_entries)
-        - set(tutorial_entries)
+        - set(tutorial_entries) - set(coda_entries)
     )
     if unknown_extra:
         errors.append(

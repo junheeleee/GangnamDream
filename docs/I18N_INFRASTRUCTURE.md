@@ -241,6 +241,25 @@ Unknown keys and malformed or overlapping sources are errors, not permission
 to enlarge an extra-key allowlist. This source contract supplies neither native
 quality approval nor a new shipping-language claim.
 
+### Full-game ending aftermath cards
+
+The consumed Chapter 5 sacrifice/outbound receipts select eight whole raw Korean
+title-and-body keys from three `EndingSystem.gd` choice maps. The existing
+`full_game_localization.ending_coda_ui_leaves` provider reads those literals and
+checks the finite resolver → people-page → `_tr` → legacy dictionary lookup
+statement shapes. It ignores comments/formatting, not changed guards, dispatch,
+arguments or early returns. Duplicate/malformed roles, missing consumers and
+overlap with existing/protected UI sources fail closed. Old signature-flag
+cards and other unverified candidates are not admitted by this provider.
+
+The full-game inventory and JA/ZH audits share the same source provider. These
+keys remain outside the static retail/demo denominators; absent targets stay
+missing in full-game inventory (and ZH strict mode), while present targets use
+the existing UI/translation validators. Partial static test inventories without
+the actual aftermath headings gain no extra-key allowance. Neither source
+registration nor a translation receipt supplies rendered/native approval or
+changes a shipping-language claim.
+
 ## Content Contract
 
 Localized content is an ID overlay, never a second gameplay database.
