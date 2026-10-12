@@ -14009,6 +14009,55 @@
       "receipt_sha256_by_locale": {
         "ja": "8d7c17748dd0dcce466b838cf524567b101cf511b0fd1a96f6322e3eb25fadf5"
       }
+    },
+    {
+      "order": "ORDER-580",
+      "group": "ui",
+      "roots": [
+        "첫 월급 수령! 투자 거래 조건을 갖췄습니다"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "source_review": "Direct Korean-source first-paycheck receipt and investment-trading eligibility notification, independently authored for Mainland Chinese and Taiwan Chinese without pivot or conversion. Non-author manual_save_ci reviewed both exact source/response/header bindings and conditional normal-path consumer before check/import. Initial CN account-credit wording was reworked to receipt without a payment method; original draft and REWORK remain private. Guidance must already be seen at the first paycheck; no retrospective toast, actual investment, profit guarantee, net cash increase, fixed week or rendered visibility claimed. Original source and all322 prior batches/accepted preserved. Adjacent foreign-text exposure disclosed. Native/rendered/human/controller OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "9d8f8ec95276d76f53e9aa6f4f835d1c6567c918",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9680f4d4e3106b6df3628f6796deba8a156ebe5323f3ac30c45c34abd374fb5d",
+          "selection_sha256": "b2aecda1494feb5f3e9dcc07221aede10feaaa5e4e8d2e36d937df7071d73ff5",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "41ec1734d2d6e0e457244a27591e5c29fcdb15f70939ea353eef6c81b145d3fb"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "9d8f8ec95276d76f53e9aa6f4f835d1c6567c918",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9680f4d4e3106b6df3628f6796deba8a156ebe5323f3ac30c45c34abd374fb5d",
+          "selection_sha256": "b274fed8c168f20f54df103c01828738b818ba3afb666a57f1bafd24e8102b64",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b4bb6410a6f25a7be8beb03caf267245f0b2bb4f3083f08adc554e5aabfe3b4b"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "cff374ded336a24459098b1261d7c022016cbfbe568ca2e6d25d077437d831b0",
+        "zh-TW": "9a9f6f89a1cab2b362c42daee86303fa5ae22ea49eb0a1cb9ea1817fa7a1539c"
+      }
     }
   ],
   "accepted": {
@@ -125758,6 +125807,10 @@
       "ui:⚡ 자산 10억 달성!:/⚡ 자산 10억 달성!": {
         "source_sha256": "dcd7aa5edcfc8f22673e0268c705dd465c7fbd37440c32eea9038ac0af73596f",
         "target_sha256": "7a65f839cfc25c7b6fcbd14b553a0fc66b268633c429f38ba15ac1cf5a60e355"
+      },
+      "ui:첫 월급 수령! 투자 거래 조건을 갖췄습니다:/첫 월급 수령! 투자 거래 조건을 갖췄습니다": {
+        "source_sha256": "bcf1712d1a25e2bf53c455b61cda400f9dc196a9b706001fe5868c77b4be5495",
+        "target_sha256": "f8a68e0912dd6073904cc88384d2e42a2c625203fdd5091802b7f7d4f24bbfda"
       }
     },
     "zh-TW": {
@@ -184816,10 +184869,14 @@
       "ui:⚡ 자산 10억 달성!:/⚡ 자산 10억 달성!": {
         "source_sha256": "dcd7aa5edcfc8f22673e0268c705dd465c7fbd37440c32eea9038ac0af73596f",
         "target_sha256": "b84c9a0b5b30ad154ed93353bf5b2c3864ad2e0fd42c3a0ce6615471ed064898"
+      },
+      "ui:첫 월급 수령! 투자 거래 조건을 갖췄습니다:/첫 월급 수령! 투자 거래 조건을 갖췄습니다": {
+        "source_sha256": "bcf1712d1a25e2bf53c455b61cda400f9dc196a9b706001fe5868c77b4be5495",
+        "target_sha256": "009d3b1c65df9227a739be7ba977bfefb0c0047c83625661fe7c251cc2ed6479"
       }
     }
   },
-  "accepted_sha256": "ee39446371b7cf1e6d021fb1b1f034f7b9909bcf1a76c2c4dc3c5255c03e7bce",
+  "accepted_sha256": "a38e81448d914ad2153830c3fccad69ebea3e182bb6c8628cfd2a7b0eaae4009",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

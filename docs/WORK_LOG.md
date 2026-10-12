@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — 첫 월급·투자 거래 조건 안내 중국어 수용
+
+- [580](queue_archive/ORDER-580.md): 조건부 첫 월급/투자 거래 안내의 CN/TW 누락각1을 KO에서 독립 작성·수용했다. 계좌입금으로 좁혔던 CN 초안1을 독립 REWORK 뒤 수령 표현으로 고쳤고 원초안/HOLD를 보존했다. 정상 공유 월말의 조건부source만이며 실제 첫급여/guidance 겹침·주차·화면은 미관찰이다. KO/EN/runtime/JA·조건/경제/저장/공개데모 불변이다.
+- 공식 check/import4·표적8 actual0, 독립 의미/receipt2/2 GO·보존24/24다. CN/TW UI2021→2022/2980·missing959→958·receipted1941→1942·invalid[] 외 inventory exact, accepted각14765/JA13172 unchanged·batch323이다. 기존322batch/accepted·4원본 inverse·보호58/1068·비소유3363·old579raw31 exact·manifest9680 unchanged다. 소유TW파일명 보완 선언/독립판독 null·size 오류/보조schema false의 원결과와 정정근거·전체pins는 사양/새private에 보존했다.
+- gangnamdream-dev/I18N의 KO 직접저작·비소유 보존·source/실관찰 분리를 적용했다. 일회성/승격0·새helper/검사/엔진/월0·M17 OS잠금 HOLD 하나·해제 재요청0·렌더/원어민/인간/패드 OPEN·전체 INCOMPLETE·출시 HOLD다. 기준011 CI38309378791은 조회당시진행중·새push CI는별도확인, 현황판 단독후속0이다.
+
 ## 2026-10-13 — 일본어 정착지원금의 양의 부호·임시 도움 교정
 
 - [579](queue_archive/ORDER-579.md): 기존 JA 지원금 문구1의 빠진 `+30만원` 부호와 어색한 생존 지연 표현을 KO의 이번 달 임시 도움으로 고쳤다. legacy 결산 모달만의 correction/첫 source-bound accepted이며 정상 본편 노출·신규coverage·실제화면으로 세지 않는다. KO/EN/runtime·경제·CN/TW·저장/공개데모 불변이다.
