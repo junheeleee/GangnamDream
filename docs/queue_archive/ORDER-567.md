@@ -1,6 +1,6 @@
 # ORDER-567 — 경마 지급의 저장 검사 정산 경계 수리
 
-#### [~] ORDER-567 [P0·CI] 착수 — 2026-10-12
+#### [x] ORDER-567 [P0·CI] 검사 수리·등록 CI 완료 — 2026-10-12
 
 main946315c0/tree693db793의 CI38190470970에서 MANUAL_SAVE_EXIT가 실패했다.
 이전565 CI38188149161은 같은 경마/검사 코드로 success다. 실패 원로그에는
@@ -90,3 +90,21 @@ RaceTrack/HorseWorld/HorseRace/GameState/SaveManager/MainGame·audit/KNOWN/통�
   이 수리와 결과를 함께 main에 올린다.
   새 main CI 녹색 전 [~] 유지, M17 하나/새 월0·native0·OS 해제 재요청0이다.
   headless 준비 표본은 자연 본편/새 OS 재개/실제 화면/출시 GO가 아니다.
+
+## 2026-10-12 최종 CI 결속·마감
+
+- 구현 ab66435c63adeba6a07dfc772c4c0ae1e9e2ed48/tree24f76847e3e8ea4029653663218d42206c251fb4,
+  push run38196803190/attempt1은 04:12:49Z completed/success다. jobs
+  114641162740·114641162941와 모든 표시 step success를 비저자가 직접 확인했다.
+  ManualSave 기존 최종 marker·compile69·등록 감사 known_failures0·KO/EN 입력·
+  SimRun·SmokeRace PASS다. 합본 marker2줄은 두 실행이 아니다.
+- 새 ci-final.json SHA966c7809723afe9ad3113542ba077ff3df446b89b212f5709c47e194720ac1b0을
+  root가 직접 읽었다. source b9d2dc96…587e8c·독립 검수 fb72fbea…58ae7ac·
+  보존45e814f3…565e303과 실제 구현 byte를 결속했다. 옛 pending 봉인 수정0이다.
+- 등록 CI 녹색이지 전체 raw strict-clean은 아니다. 별도 종료 resource ERROR3줄
+  (2/3/1 resources)과 extra 종막 FAIL1을 보존한다. 종료 잔여 재탐색0이며
+  extra의 제품 무관 옛 census 제거는 별도568에서 선언 후 처리한다.
+- 이 검사 수리 범위만 완료다. 제품/원장/사용자 저장 불변·M17 OS잠금 HOLD,
+  native/새 월0·실제 수정화면/CJK/인간/전체 번역/본편/출시 HOLD다.
+  자동 통과는 도달성과 계약 증거이지 재미·깊이·문체/인간 품질 증거가 아니다.
+  일회성/새 규범0·승격0이다.
