@@ -5,6 +5,8 @@
 
 ## 2026-10-12 — 일반 종막 검사의 제품 무관 이력 핀 제거
 
+- 후속 [569](queue_active/ORDER-569.md) 착수: 실제 본편 엔딩의 몸·밤 관찰 8키만 CN/TW 각각 KO 직접 번역한다. 사전2·원장 및 큐/사양/log/현재행만 소유, 공식 export 전 target 편집0·화면/원어민 OPEN이다. 568 CI38208386928은 exact f5989124에서 completed/success를 실제 조회했다. 새 월0·M17 OS잠금 HOLD다.
+
 - [568](queue_archive/ORDER-568.md): 삭제 전 표 de131523을 먼저 commit/push하고 그 뒤 전챕터 옛 census 상수2줄/counts8줄만 제거했다. 개수 일치는 종막 도달을 보장하지 않아 지키는 제품 동작이 없었다. 실제 root/선택/영수증/라우팅·비도달 방어 및 현재 코퍼스 counts/hash 검사는 그대로다. 전용 self-test0·기존32/27 유지.
 - 기존4검사 exit0/stderr0·비저자 actual diff/원출력 GO. 게임·번역·원장·저장 변경0이며 새 CI는 미확정이다. 원자료·보존은 [사양](queue_archive/ORDER-568.md)에 결속한다. M17 OS잠금 HOLD/native0·번역 INCOMPLETE·본편/출시 HOLD, 일회성/승격0이다.
 
