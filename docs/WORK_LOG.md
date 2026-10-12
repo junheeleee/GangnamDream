@@ -3,6 +3,10 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-12 — 엔딩 후일담 번역 소비자 등록 착수
+
+- [570](queue_active/ORDER-570.md): 실제 본편 EndingSystem→후일담 `_tr`가 읽는8키의 미확정 분류를 수리한다. collector/지역감사와 기존 self-test만 소유하며 원문·번역·저장·데모는 비소유다. 새 도구/월/엔진0, M17 OS잠금 HOLD·569 CI 진행 중이다. 등록 뒤 번역은 별도 오더, 원어민/렌더 OPEN·출시 HOLD다.
+
 ## 2026-10-12 — 엔딩 몸·밤 관찰 중국어 누락 수용
 
 - [569](queue_archive/ORDER-569.md): KO8키를 CN/TW 각각 직접 작성해 공식 export/check/import했다. 사전 각8·portable accepted16/UI batch1만 추가, 기존313 batch/accepted/사전 bytes·JA/KO/EN·게임/데모/저장 불변이다. 네 파일 exact inverse+실제 Git source manifest PASS, checksum0bbe426c…697da다.
