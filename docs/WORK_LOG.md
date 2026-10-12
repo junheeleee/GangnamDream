@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — 일본어 전적의 출전·승리 의미 교정
+
+- [577](queue_archive/ORDER-577.md): 기존 `0勝0敗`를 KO `0전 0승`에 맞는 `0戦0勝`으로 고쳤다. 정상 HorseWorld record는 이미 생성되므로 방어적 fallback1 의미 수리·첫 source-bound accepted1이며 정상 노출/새 번역 coverage/실제 월 관찰로 세지 않는다.
+- 공식 exact1 export/check/import --replace-existing actual0·표적5 actual0·비저자 source/receipt GO·blocker0이다. 기존 JA invalid58 목록 exact·UIstatic2980 불변/receipted477→478, JA accepted13170·batch320·CN/TW14763씩 불변이다. 기존319batch/accepted·4원본 raw inverse·보호55/980·비소유3361·old576raw29 exact, 실제 Git manifest c13d…e19b 불변이다. import 비소유 탭5는 원상 복원했다. 보존 보조 source-hash 기대값 false1은 기존 정의로 pure read 정정하며 원결과/탐색 읽기 오류를 보존했다. 상세 pins/원자료는 사양에 결속했다.
+- gangnamdream-dev/I18N의 KO 직접 저작·비소유 보존·source/실관찰 경계를 적용했다. 일회성/승격0·append-only proof0·helper/검사/원문/runtime/저장/데모 변경0·엔진/새 월0·M17 OS잠금 HOLD 하나·렌더/원어민/인간/물리패드 OPEN·전체 INCOMPLETE·출시 HOLD다. 기준b8021277/새 push CI 미확정, 실제 commit 뒤 신원만 별도 확인하며 현황판 단독 후속0이다.
+
 ## 2026-10-13 — 경마 방어적 빈값 안내 중국어4 수용
 
 - [576](queue_archive/ORDER-576.md): 출전0·승리0/선택 부재 KO2키를 CN/TW 각각 직접 번역했다. 정상 HorseWorld는 horses/record를 생성하므로 방어적 fallback만 수용하며 정상 플레이 누락·월 검수로 세지 않는다. 기존 JA `0勝0敗`의 출전/패배 혼동은 별도 결함으로 남겼다.

@@ -12,13 +12,13 @@
 | 상품 정의 | **"나는 민준이다. 눈앞의 사람·돈·몸 사이에서 실제로 무엇을 할지 고르고, 흐른 시간 속에서 그 대가를 산다."** 240주를 카드 목록이 아니라 한 편의 소설·영화처럼 인과·장면·연기·전환·여운으로 겪는다. 플레이어를 구경꾼으로 부르거나 숨은 도덕 점수를 설명하지 않는다. |
 | 현재 범위 | 1턴=1주, 240주·60개월(5년). **출시 데모는 M01~M06에서 끝나는** `story_demo_rc` BUILD `2026.08.31.1`이고 사용자 GO다. 본편은 M01~M60 전체의 장면·선택·회수·정점 상승을 한 작품으로 관리한다. 반복 행동판은 0이며 저장 호환 AP 데이터·엔진 삭제 GO는 아니다. |
 | 품질 게이트 | [`docs/MASTER_RELEASE_AUDIT.md`](docs/MASTER_RELEASE_AUDIT.md). 콘텐츠 수량보다 블랙박스 플레이, 한영 패리티, 패드 과업, 사람 기억·전환 증거로 판정한다. |
-| 최근 검증 | ed4448d CI38249242676 두 job/전 step success·저장/모드/compile69/KO·EN 입력/SimRun/Smoke marker 확인. 경마 빈값 안내 중국어4는 표적7·독립 source/receipt/보존 GO다. 정상 노출/실제 화면0·원문/runtime/저장/데모 불변. 424a1b1/새 push CI 미확정. 종료 resource ERROR4줄(2/3/1/1)·Presence resource4 strictFAIL·옛 FAIL·번역 INCOMPLETE·인간 OPEN45·출시 HOLD 보존. |
-| 바로 다음 | CODEX_QUEUE에 따라 OS 잠금 해제 시 원559 W68에서 보류 M17을 잇는다. 열린 월은 하나·해제 재요청0이다. 기존 BUILD2026.10.11.3에는 통화 종료/1년 반/경마 용어 수리가 없다. 사용자·공개 저장/설정·seed·옛 판정 보존, 수정화면/CJK/후반 검수·미확정 메모와 JA 전적의 출전/패배 혼동 수리는 남는다. |
+| 최근 검증 | ed4448d CI38249242676 두 job/전 step success·저장/모드/compile69/KO·EN 입력 marker 확인. JA 전적1값 교정·표적5·독립 source/receipt/보존 GO다. 정상 노출/화면0·원문/runtime/저장/데모 불변. b8021277/새 push CI 미확정. 종료 resource ERROR4줄·Presence resource4 strictFAIL·옛 FAIL·JA 기존invalid58·번역 INCOMPLETE·인간 OPEN45·출시 HOLD 보존. |
+| 바로 다음 | CODEX_QUEUE에 따라 OS 잠금 해제 시 원559 W68에서 보류 M17을 잇는다. 열린 월 하나·해제 재요청0이다. 기존 BUILD2026.10.11.3에는 통화 종료/1년 반/경마 용어 수리가 없다. 사용자·공개 저장/설정·seed·옛 판정 보존, 수정화면/CJK/후반 검수·미확정 메모는 남는다. |
 | 열려 있는 사람 게이트 | 실제 인간 관찰은 [`docs/human_gates.json`](docs/human_gates.json), 위임된 내부 판정은 [`docs/agent_review_decisions.json`](docs/agent_review_decisions.json)이 각각 소유한다. 역사 판정·공개 GO1·인간 OPEN45를 보존하며 현 본편은 HOLD다. 사용자 재판정을 기다리는 대신 남은 검수·수리를 Codex가 계속한다. |
 | 그다음 | 후속라운드/전체 정산의 더 넓은 경로와 Chapter5·종막·프롤로그·실제관찰은 남아 있다. 휴면route4·역사CI243 한정GO·종료resource/ObjectDB 잔여를 보존한다. 검수 도구의 한정GO를 게임 출시 GO로 확대하지 않는다. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |
 | 추가 검증 | 시장 국면 준비25·공식JA1·원장 파싱16→12/96항목·AP 준비35/정적80/표적7 증거 보존. 원장 공백 탐색만 수리하며 strict JSON·문자좌표·fresh 입출구 증명은 유지한다. 전체 파이프라인 단축·실제관찰·출시 GO 아님. |
-| 마지막 갱신 | 2026-10-13 (경마 빈값 안내 중국어4 수용·CI 진행/resource 잔여 보존·M17 OS잠금 HOLD) |
+| 마지막 갱신 | 2026-10-13 (JA 전적1 의미 교정·기존58/CI 미확정/resource 잔여·M17 OS잠금 HOLD) |
 
 사용자가 새 지시를 주면 그것이 위 순서보다 우선한다.
 
