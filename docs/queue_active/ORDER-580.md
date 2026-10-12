@@ -23,7 +23,7 @@ in_progress/null·OS잠금 True·M17/562 HOLD 하나다. 새월/엔진/native0�
 
 ## 정확한 소유·비소유
 
-- root: locale/ui_zh-CN.json에 위 신규1, content/meta/full_game_localization.json
+- root: locale/ui_zh-CN.json·locale/ui_zh-TW.json에 위 신규1씩, content/meta/full_game_localization.json
   accepted CN/TW각1·공식 receipt header/digest의 UI batch1·checksum만.
 - mod_layer_ci: 새 .git/order580-20261013/tw.response.jsonl·tw-draft-review.md만.
   KO에서 독립 작성한다. root가 공식 export 뒤 파일 소유를 넘긴다.
