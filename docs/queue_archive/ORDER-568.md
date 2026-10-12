@@ -1,6 +1,6 @@
 # ORDER-568 — 일반 종막 검사의 무관한 전체 사건 수 고정 제거
 
-#### [~] ORDER-568 [검사 오탐 정리] 착수 — 2026-10-12
+#### [x] ORDER-568 [검사 오탐 정리] source·표적 검사 완료 — 2026-10-12
 
 567 표적 검사에서 확인한 extra FAIL1만 처리한다. main ab66435c의
 CI38196803190은 completed/success다. 이 extra 검사는 audit.sh 호출 대상이
@@ -50,3 +50,29 @@ audit.sh/audit_scope/KNOWN_FAILURES와 기존 self-test 기준은 비소유다.
 - 자동 계약은 도달성과 계약 증거이지 재미·깊이·문체/인간 관찰이 아니다.
   실제 앱/CJK/원어민/패드/청취·전체 번역 INCOMPLETE·본편/출시 HOLD를 보존한다.
   월별 검수 마감 커밋0·새 월0·OS해제 재요청0, 모든 지시는 일회성/승격0이다.
+
+## 결과·한정 마감
+
+- 삭제 전 표/선언 de1315230b2514b24b3d5f48ccca1fd52be4c1fb/treec603597cf7a3c2529963042f810ac346bb83a45e를
+  먼저 commit/push했다. 그 뒤 검사 한 파일의 두 상수+counts 비교만 0+/10−로
+  제거했다. 종막 도달/선택/영수증/라우팅·object/array/ROOT_IDS 방어와 기존
+  self-test 전체는 byte-exact다. 제거할 census 전용 self-test는0이었다.
+- 삭제 목록은 표의10줄뿐이다. 전챕터 옛 개수의 일치는 종막 제품 동작을
+  보장하지 않았다. 현재 코퍼스 counts/hash·실제 shipping 분리의 소유자
+  event_lifecycle.py와 audit.sh 등록은 바꾸지 않았다. 새 상수 재고정0이다.
+- 실제 기존4검사 모두 exit0/stderr0: general audit·self-test32,
+  lifecycle·self-test27. packaged1813/shipping1702·author111·product ingress0이다.
+  raw8개680B·static-results.json SHA4be862b58c36b70af59753ac42dbe27478a0efd5e3e1c0145d9c16da7c5a9bed,
+  검사 source SHAdfe4f57fa8011403626d27bb869480d526f165f9c25b3fb7e5273698d4061438.
+  영향12개는 목록만 조회했다. 제품/엔진 입력 불변이므로 엔진·전체audit/240주0이다.
+- 비저자 source-review.md 2824B/SHA5b8193394f1be05625c5e1ffd2ff3bae6985fbb4c9ad35c93d59d6de6876db24를
+  root가 전문 판독했다. 실제 diff/남은 bytes/기존4검사 원출력을 직접 읽은
+  checker source 한정 GO·blocker0이다. 제품 후보/새 CI GO가 아니다.
+- 새 .git/order568-20261012/ 보존 before46그룹/776항목·비소유3353,
+  SHA89597b70c7a64bc3efbe697ffd4c8d48ca5c5b842f0cf9346b052905e7adcd18.
+  final은 같은 곳 independent-preservation-final.json으로 별도 결속한다.
+  옛567 FAIL/pending/CI 종료 ERROR 봉인·39872B WORK_LOG 원문은 보존했다.
+- gangnamdream-dev의 제품/이력 핀 분리와 비저자 실제 증거 판독을 적용했다.
+  source 수리만 완료하며 실제 main push/새 CI는 뒤의 읽기전용 snapshot에서
+  결속한다. M17 OS잠금 HOLD/native0·게임/원장/사용자 저장 불변·인간/원어민/
+  패드/청취·전체 번역 INCOMPLETE·본편/출시 HOLD는 유지한다. 일회성/승격0이다.
