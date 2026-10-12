@@ -23374,7 +23374,7 @@ func _check_milestones() -> void:
 		{"id": "50m",  "amount": 50_000_000.0,    "msg": _tr("💰 자산 5천만원 돌파!", "💰 Assets passed KRW 50M!"),            "color": "#fbbf24"},
 		{"id": "100m", "amount": 100_000_000.0,   "msg": _tr("🏆 자산 1억 돌파! 진짜 시작이다.", "🏆 Assets passed KRW 100M! The real start."), "color": "#f0b429"},
 		{"id": "500m", "amount": 500_000_000.0,   "msg": _tr("🔥 자산 5억! 강남이 보인다.", "🔥 Assets KRW 500M! Gangnam in sight."),      "color": "#f0b429"},
-		{"id": "1b",   "amount": 1_000_000_000.0, "msg": _tr("⚡ 자산 10억! 절반 왔다.", "⚡ Assets KRW 1B! Halfway there."),         "color": "#00c896"},
+		{"id": "1b",   "amount": 1_000_000_000.0, "msg": _tr("⚡ 자산 10억 달성!", "⚡ Assets reached 1 billion won!"),         "color": "#00c896"},
 		{"id": "2b",   "amount": 2_000_000_000.0, "msg": _tr("💎 자산 20억! 강남드림이 보인다.", "💎 Assets KRW 2B! The Gangnam Dream is in sight."), "color": "#00c896"},
 	]
 	for m in milestones:
