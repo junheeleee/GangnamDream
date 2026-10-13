@@ -1180,20 +1180,20 @@
   {
     "id": "arc_jaehyuk_04c_stand_up",
     "title": "Back from Zero",
-    "description": "A month since getting scammed.\n\nSat and calculated the amount lost.\nCalculated it again. The number didn't change.\n\n{name} took out a notebook.\n\nWhat was in the account when first coming to this city?\nAlmost nothing, back then too. And somehow it worked out.\n\nThe difference between now and then —\nMeeting someone like Choi Jaehyuk.\nAnd now knowing why those words sounded so sweet.\n\n{name} started writing.",
+    "description": "The word 'scam' would not leave his head.\n\nSat and calculated the amount lost.\nCalculated it again. The number didn't change.\n\n{name} took out a notebook.\n\nWhat was in the account when first coming to this city?\nAlmost nothing, back then too. And somehow it worked out.\n\nThe difference between now and then —\nMeeting someone like Choi Jaehyuk.\nAnd now knowing why those words sounded so sweet.\n\n{name} started writing.",
     "choices": [
       {
-        "text": "Write down what was learned, not what was lost — turn this into money",
+        "text": "Copied Jaehyuk's words into the notebook.",
         "result_text": "Wrote down everything Jaehyuk had said.\nHow he'd played on emotions. Which words had made the heart waver.\nThis was expensive tuition. But if tuition was paid, something had to be learned.\n{name} closed the notebook and turned the computer back on."
       },
       {
-        "text": "Get up early tomorrow morning — start over from the basics",
+        "text": "Set the alarm for 6 a.m. Start there.",
         "result_text": "Set the alarm for 6 a.m.\nNo grand plan. Just: get up in the morning, eat, do something.\nThat was all. That was where it started.\nThought of Jaehyuk for a moment — then opened the notebook."
       }
     ],
     "description_if_known": {
-      "jaehyuk_night_was_real": "A month since getting scammed.\n\nThe number hadn't changed.\n\nBut {name} didn't delete the photo.\nThe two of them in front of the pojangmacha.\nThat night was that night.\n\n{name} took out the notebook. Decided to write only what came after that night.",
-      "deleted_jaehyuk_photo": "A month since getting scammed.\n\nThe number hadn't changed.\n\n{name} deleted the photo too. Deleted the contact.\nThe pojangmacha, the army stories, the laughter of that night —\nerased all of it together.\n\n{name} took out the notebook. Started over from the beginning."
+      "jaehyuk_night_was_real": "The word 'scam' would not leave his head.\n\nThe number hadn't changed.\n\nBut {name} didn't delete the photo.\nThe two of them in front of the pojangmacha.\nThat night was that night.\n\n{name} took out the notebook. Decided to write only what came after that night.",
+      "deleted_jaehyuk_photo": "The word 'scam' would not leave his head.\n\nThe number hadn't changed.\n\n{name} deleted the photo.\nThe pojangmacha, the army stories, the laughter of that night —\nerased all of it together.\n\n{name} took out the notebook. Started over from the beginning."
     }
   },
   {
