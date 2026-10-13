@@ -1,6 +1,6 @@
 # ORDER-586 — M18 현수 회상 영어의 연수 단정
 
-#### [~] ORDER-586 [정합] EN 1잎 수리 착수 — 2026-10-13
+#### [x] ORDER-586 [정합] EN 1잎 source 수용 — 2026-10-13
 
 기준 clean main7912ff188fdf9f7831901a1868a8de821aba5dcd/
 tree9ff5323c49f38b31212d22028c11148e7c50e2d0. 사용자 지시대로 잠금 중
@@ -52,4 +52,36 @@ CJK source2잎 정합 빚은 그대로 남고 전체 번역/본편/출시는 HOL
 
 ## 실제 결과
 
-미완료. Mac locktrue/native0. 585 마감 exact clean source를 기준으로 한다.
+For years→For a long time 한 구절만 변경했다. EN 표적2·story consistency·speech·
+scene audio·i18n·demo scope·story demo·release inventory 총9 actual0이다.
+release 축7의 지문이 전부 같아 inventory/report 연동 변경0이다.
+독립 의미 manual_save_ci 전1잎 source GO/blocker0, 보존 rework_batch_plan
+14/14true다. 바뀐1span 역복원으로 EN원파일27163B exact, 나머지 JSON/조건/
+변형/게임플레이·KO/CJK/원장·비소유3369 mode/blob/SHA exact다.
+
+- `.git/order586-20261013/independent-review.md`3145B/
+  47babb330b2a880602824f39e398a5aeabcc524221ea64c79f30ea9b95abfb93.
+- `.git/order586-20261013/preservation-review.md`9121B/
+  19c7cf9f6fe1405d5216d7f1113707c3ab91a365c43d2cc38f1d58766206eba2.
+- 공식 collector collect/targets/status·공개14ID를 직접 읽어 이 EN events_* 파일이
+  KO source 집합과 CJK target/status 입력에 없음을 확인했다. 585 after3 inventory는
+  기존 관측의 재사용이며 새 collector/새 manifest 측정·언어 완료를 주장하지 않는다.
+  KO source/JA·CN·TW/원장 불변으로 585 source2잎 정합 빚/invalid추가 각1도 그대로다.
+- M18 신규 문턱: 현수 W70+ photo/memory/meet, 상철 W72–96 human/known/3결과,
+  me==18 milestone을 실제 selector와 읽었다. 문앞 회상은 공통 선행이므로 수리0,
+  이미 수리된 무직 직장 전제를 다시 수정0이다. 전체 backlog/모든 상태/화면 증거0이다.
+
+```
+도달 경로      : MainGame.gd:8341–8344 → arc_hyunsu.json root choice1 → memory → meet
+생산자 ↔ 독자   : arc_midgame.json:409/426/443 ↔ MainGame.gd:8342; KO:322 ↔ EN:142
+바꾸는 상태     : gameplay0; EN description1구절; KO/CJK/source/receipt delta0
+포기 시 잃는 것 : 신규 선택0; comforted DIK·명함 지급·재회 완료flag exact
+서사 위치       : M18 W70+ 현수 재회 중 memory 기본본문
+장면 계층       : 기존 미선언T3·추가/격상0·장면전체 승인0
+닫는 것         : EN 연수발명1; M18 실제 월/언어 전체/출시 닫지 않음
+```
+
+일회성/승격0. gangnamdream-dev의 최소 정합/소유·표적검수와 WORK_UNIT의 증거
+분리를 적용했다. Mac 잠금/source only·native0·실제M17/열린 월1 HOLD·공개/과거
+판정 보존, 다음 M19 읽기를 잇되 해제 즉시 실제 M17로 복귀한다. 새 push CI
+완료 미확정·현황판 단독후속0·전체 번역/본편/출시 HOLD·종료 잔여 유지다.

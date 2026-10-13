@@ -139,7 +139,7 @@
   {
     "id": "hyunsu_reunion_memory",
     "title": "At the Door on the Third Day",
-    "description": "{name}: \"I'm sorry I couldn't say anything outside your door back then.\"\n\nA reply came after a pause.\nHyunsu: \"I heard the convenience-store bag rustling outside. And that you didn't knock. Back then, that helped.\"\n\nFor years, whether leaving him alone had been neglect or patience stayed unclear. At least Hyunsu had carried his own answer.",
+    "description": "{name}: \"I'm sorry I couldn't say anything outside your door back then.\"\n\nA reply came after a pause.\nHyunsu: \"I heard the convenience-store bag rustling outside. And that you didn't knock. Back then, that helped.\"\n\nFor a long time, whether leaving him alone had been neglect or patience stayed unclear. At least Hyunsu had carried his own answer.",
     "description_if_known": {
       "hyunsu_comforted": "{name}: \"Remember when I knocked on your door?\"\n\nThe reply came at once.\nHyunsu: \"Even the sound of the cans opening. That was the loudest thing I heard that day.\"\n\n{name} watched the screen for a while. What had been only two drinks to him had remained, for someone else, as the day he opened the door again."
     },
