@@ -4,6 +4,13 @@
 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 40194B/SHA256 373faf4aaa09959645654add1650fe4934ca6ceb22991f2c388239988726f396이다.
 
+## 2026-10-14 — M34 서면 거절·M35 현재 거처 배경 수리
+
+- [620](queue_archive/ORDER-620.md): 서면거절 뒤 통화를끊던 KOEN2구절을 답장전송으로 맞췄다. 주거조건없는 firstcall의 정적원룸 alias를 기존 current_housing에 연결하고 기존감시domain에 housing만 추가·게임로직/선택/효과/자산 불변·전체3파일逆변환 exact다.
+- 제품f028558e/treea4e9cc63·source16/공식inventory3 actual0·release default0/원장보고·7scan불변. root봉인의미7386B/45acb889…d5ec·보존7498B/8870247b…c4d 전문판독·비소유3409/53·847/latest20/이전12보고 exact는20:36point한정·전체핀은사양결속. current11330/stale82·103·103/invalid94·17·17·CJK120KO잎 대기·고유KOEN253prose/배경1값 별도·JAzh다듬기/수용0.
+- 마감context/queue/self/advisory4종 actual0·STATUS참고경고 비차단 유지/현황판전용commit0·human617검사는 불변원장만 재사용/인간OPEN45·done1. 새push CI미확정·실제612/M18 OS잠금HOLD 하나·native/새월0·게임화면/청취관측0. 기존5주거→3배경클래스와 live presentation우선/갤러리snapshot분기는 source로만 확인했다.
+- gangnamdream-dev/WORK_UNIT 일회성·승격0·sourceGO≠전체월/장면/체인/native/인간/원어민/패드/5언어/출시GO. 다음M36의 남은100주 문구는 정확W144와 불일치 후보로 확인만 했고 아직수정0이다. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-14 — M34 거래 제안의 기간·소개 회상 수리
 
 - [619](queue_archive/ORDER-619.md): KOEN4잎의 나흘뒤/모임참가·번호교환 회상/진실뒤첫거래를 현재컨설턴트 메시지의소개인설명과 서명결정으로 정렬했다. no-network부친고백·used/NG선거래 반례도 대조·선택금액/flags/조건·3/2문단/name배열·전체파일逆변환 불변·독립4/4 sourceGO.
