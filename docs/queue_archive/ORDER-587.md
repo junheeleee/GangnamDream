@@ -1,6 +1,6 @@
 # ORDER-587 — M19 미실행 모임·근무 회상 정합
 
-#### [~] ORDER-587 [정합] KO/EN 4잎 수리 착수 — 2026-10-13
+#### [x] ORDER-587 [정합] KO/EN 4잎 source 수용 — 2026-10-13
 
 기준 clean maindbb3566d5d1893091bd26dbf7e69dea66fe30b04/
 tree1beda5c2528804cb7c23a041778d8a46c067b53b. M17→M18 판독/수리 뒤
@@ -66,4 +66,44 @@ gangnamdream-dev/WORK_UNIT의 조건·소유·한영/표적검수·관찰 분리
 
 ## 실제 결과
 
-미완료. Mac locktrue/native0. 본문·조건 판독은 실제 월 관측이 아니다.
+KO/EN4잎 수리·표적14 actual0·독립 전4잎 source GO/blocker0다.
+카지노는 현재 회신한 동행 목록으로, trace는 늦은 밤으로 맞췄다. 해당 EN 과거목격
+{name}1도 없애 KO원래0과 같아졌고 그 밖의 토큰/문단/게임플레이는 exact다.
+release gambling/fear의 실제 contentSHA2개와 생성보고2행만 연동했다.
+
+- 비저자 manual_save_ci `.git/order587-20261013/independent-review.md`4657B/
+  6f7489f572c0d05bac9681115747f68bd1e31e7d6f0033a08ad80de336a468c0.
+- rework_batch_plan 보존16/16·demo 직접대조7/7true: source4spans·지문2/
+  보고2 역복원, 비소유3367 mode/blob/SHA·CJK/원장/project/사람 원장 exact다.
+  `.git/order587-20261013/preservation-review.md`11854B/
+  daa92c701614cfd2600d020900b991490b44614cea1f7a170e07ac27b97b9274.
+  protected72 실물 slice/semantics4fc2e77e…·467잎40769/43ec49da…·공개14
+  KO/EN fullrow/rawslice exact, validator/manifest bytes 불변이다. pin 수정0은
+  누락이 아니라 현재 계약이 데모 밖 본문을 전체파일로 잠그지 않기 때문이다.
+- 공식3locale 전후6 actual0, source manifest5e73ab…→
+  ccaead5e4ada481a3045452675ae3dc8ded3f9067910b8ef4a8db69b2ecc4698,
+  KO source2잎만 전이·17504/466 불변이다. 각 current event receipt11448→11446,
+  stale1→3, JA invalid57/CN·TW1은 exact다. 새 번역 수용0·원문후속 정합대기다.
+- `.git/order587-20261013/before.json`1833B/
+  bcf303defa7342a6a8fcff4beb88030956bbe1346c112f90d3b58859f33ca6a7;
+  `inventory-observation.json`2445B/153940d56369000463b6a8f9dea78e65fbcac9ad4809a4b6b4944e7ac2826b7b;
+  `demo-roster.json`2481B/6c54a856cd1b803e6cd2a6b0424bee36074bad7eb9ab32379baa6545324f9769.
+  root는 기존 build_scope를 잘못된 인자로 불러 TypeError/쓰기0을 보존하고,
+  실제 무인자·반환순서를 읽어 source-only72목록을 포착했다. 비저자는 그 목록과
+  실제before/current를 직접 대조했으며 reachability collector/엔진 실행0이다.
+
+```
+도달 경로      : MainGame.gd:8041–8044 / 8254–8258; demo Scope actual0
+생산자 ↔ 독자   : arc_events coffee02/03 ↔ MainGame.gd:8041; daeun fork ↔ :8254
+바꾸는 상태     : gameplay0; KO/EN text4; CJK current receipts −2/locale
+포기 시 잃는 것 : 신규 선택0; 기존 카지노 후속·trace 3결과 exact
+서사 위치       : M19 W76+ 조건부 초대·W76–84 trace, fresh 실제 노출 주장0
+장면 계층       : 기존 미선언T3·격상0·전장면 승인0
+닫는 것         : 미실행모임/무근거야근2; 별도30억 단정/실제월/전체언어/출시 미완료
+```
+
+M19 판독에서 뒤늦게 확정된 daeun_04_morning의 30억 거리 단정은 별도 후속으로
+분리한다. 이 오더에 붙이지 않았으며 M20은 아직 미판독이다. 일회성/승격0·
+gangnamdream-dev/WORK_UNIT의 소유/조건/표적검수·관찰 구분 적용·native/새월0,
+Mac locktrue·실제M17 HOLD 하나·해제 즉시 원W68 우선·새push CI미확정,
+전체5언어 정합/본편/출시 HOLD·공개/사용자저장/옛판정·종료 잔여는 유지한다.

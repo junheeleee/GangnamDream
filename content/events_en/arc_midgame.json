@@ -478,7 +478,7 @@
   {
     "id": "arc_daeun_trace",
     "title": "Traces of Daeun",
-    "description": "After another late shift, the convenience-store doors opened with their familiar chime. {name} took a canned coffee from the refrigerator, looked toward the counter, and stopped.\n\nAnother clerk stood before the monitor where Daeun used to work. The uniform and name-tag placement were the same; the expression turned toward customers was not. Daeun had always spoken first when {name} came for hot water, then found one more thing to say after the payment was done.\n\nNow only the barcode scanner spoke. Condensation spread across his palm. Only after those conversations ended did he realize he had never counted them.",
+    "description": "Late at night, the convenience-store doors opened with their familiar chime. {name} took a canned coffee from the refrigerator, looked toward the counter, and stopped.\n\nAnother clerk stood before the monitor where Daeun used to work. The uniform and name-tag placement were the same; the expression turned toward customers was not. Daeun had always spoken first when {name} came for hot water, then found one more thing to say after the payment was done.\n\nNow only the barcode scanner spoke. Condensation spread across his palm. Only after those conversations ended did he realize he had never counted them.",
     "choices": [
       {
         "text": "Just paid and left — it's in the past.",

@@ -761,7 +761,7 @@
     "choices": [
       {
         "text": "\"Who else is going?\" - ask about the people first",
-        "result_text": "As soon as he sent the question, the read marker vanished. Sangchul replied as though he had been waiting, listing professions before names.\n\nTwo people in development, one small-business owner, and someone {name} had only glimpsed at the last gathering.\n\nThe final line was short. \"I've known all of them a long time.\""
+        "result_text": "As soon as he sent the question, the read marker vanished. Sangchul replied as though he had been waiting, listing professions before names.\n\nTwo people in development, one small-business owner, and one other acquaintance Sangchul said would be joining them.\n\nThe final line was short. \"I've known all of them a long time.\""
       },
       {
         "text": "Work out what the trip will really cost",

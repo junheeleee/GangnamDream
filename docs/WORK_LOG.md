@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — M19 미실행 모임 목격·근무 회상 한영 수리
+
+- [587](queue_archive/ORDER-587.md): M14 모임을 안 간 경로에도 생기던 카지노 초대의 과거 목격을 현재 상철이 회신한 동행 목록으로, 다은 흔적의 무조건 야근/반복 교대를 늦은 밤으로 고쳤다. KO/EN4잎·그 안 EN의 부당한 {name}목격토큰1만 변경, 선택·효과·조건·후속 불변이다. 현 다은 flag생산자는 M22라 fresh M19 실제 화면 주장0이다.
+- 표적14 actual0·비저자4/4 source GO·보존16/16+demo직접대조7/7다. source4+지문2/report2 역복원·비소유3367 exact, protected72/467본문·공개14KOEN/validator/manifest 불변으로 데모 pin 변경0이다. 공식3locale 전후에서 KO source2잎/manifestccaead…·각currentreceipt11448→11446/stale1→3만 전이, 기존 JAinvalid57/CN·TW1 exact·원장수용0·다국어 정합은 후일이다.
+- gangnamdream-dev의 조건·한영/소유/표적검수와 source·실제관찰 분리 적용·일회성/승격0·새tool/검사/엔진/새월0. 실제M17 OS잠금 HOLD 하나·출시5언어/공개·사용자저장/과거판정 보존·CI빨강 새월0·새push CI미확정·본편/출시HOLD다. M19의 추가30억 거리 단정은 별도 수리로 잇고 M20 선행0·현황판 단독후속0이다.
+
 ## 2026-10-13 — M18 현수 회상 영어의 근거 없는 수년 교정
 
 - [586](queue_archive/ORDER-586.md): M18 W70 재회에서 실패 후 1년도 안 지났는데 영어만 For years라고 회상하던 한 구절을 KO의 오래 모호했다에 맞춰 For a long time으로 고쳤다. 위로/혼자 있게 둔 기억 분기와 선택·후속·게임플레이는 그대로다. 문앞 방문은 공통 선행 사실이어서 고치지 않았다.
