@@ -1863,7 +1863,7 @@
   },
   {
     "id": "arc_after_scam",
-    "title": "사기 당한 다음 날",
+    "title": "사기가 남긴 자리",
     "background": "current_housing",
     "portrait": "player_tired",
     "category": "story",
@@ -1879,7 +1879,7 @@
       "internal"
     ],
     "cooldown": 9999,
-    "description": "재혁이 잠수를 탔다.\n\n계좌에 남은 돈을 확인했다. 생각보다 많이 빠져나가 있었다. 방에 혼자 앉아 있었다.\n\n화가 나야 하는데 그냥 멍했다. 어떻게 그 놈을 믿었지. 어떻게 나는.",
+    "description": "재혁이 잠수를 탔다.\n\n계좌를 열고 재혁에게 보낸 이체 내역을 다시 읽었다. 숫자는 그대로였다. 방에 혼자 앉아 있었다.\n\n화가 나야 하는데 그냥 멍했다. 어떻게 그 놈을 믿었지. 어떻게 나는.",
     "choices": [
       {
         "text": "다시 계획을 잡기 시작했다",

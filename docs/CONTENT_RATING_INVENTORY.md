@@ -136,7 +136,7 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 | 폭력성 | 17 / 14 | `b036299411ccb065182412b7accbfaf66efdab32d05c81d8b6c6bb6a3d3dc125` | `d9e1a6e138286682473b7da01099ce326284eaa7844446a2f0adf6d6e8f28d26` | mild |
 | 공포 | 146 / 51 | `6e3506f6830db61e7130a5cab95a029cc19dd0d25c6799b4e7764a9165e4a010` | `e920ef43c7a3617a16ffa8c2536b0229c4f6735278885f0abb189107217f8650` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `b7018e341076ee7951da874c3fe6cadd4f34d7f0c996feb2b67e83c0a44e98c2` | mild |
-| 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `045c62d77b24fa80ef7c02d5180ea9dddf314f6e2342101dad386c41c842649a` | moderate, strong |
+| 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `d332c7ad08863beda3543b1861f46f5d2be6c20ab44244dc32280866da16fff9` | moderate, strong |
 | 음주·흡연·약물 | 82 / 39 | `32942c5a49b64e9027b5a0071e1c95d6d205478ef05ea6ad25c5ad3c5d90433f` | `30a3173af59af0aad1772136335aaa49ffcc6e1289f40e00f1af46d480f80ed9` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |
