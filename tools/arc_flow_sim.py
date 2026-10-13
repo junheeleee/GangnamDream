@@ -1804,6 +1804,7 @@ HYUNSU_TEMPORAL_GATES = {
     "hyunsu_exam_day": 24,
     "hyunsu_result_pass": 25,
     "hyunsu_result_fail": 25,
+    "hyunsu_reunion_later": 73,
 }
 
 fail = 0
@@ -2417,6 +2418,38 @@ for event_id, minimum_week in HYUNSU_TEMPORAL_GATES.items():
         )
     else:
         print(f"  ✓ 현수 시간 게이트 {event_id}=t>={minimum_week}")
+
+# M19's reunion must not be consumed in M18. Test the actual parsed admission
+# conditions, including the legacy late-entry and already-completed guards.
+reunion_boundary_failures = []
+for week, pivoted, reconnected, expected in (
+    (69, True, False, False),
+    (70, True, False, False),
+    (72, True, False, False),
+    (73, True, False, True),
+    (76, True, False, True),
+    (90, True, False, True),
+    (73, False, False, False),
+    (73, True, True, False),
+):
+    state = graph_contract_fixture(week, {
+        "hyunsu_pivoted": pivoted,
+        "hyunsu_reconnected": reconnected,
+    })
+    active = any(
+        evalconds(conditions, state)
+        for event_id, conditions in triggers
+        if event_id == "hyunsu_reunion_later"
+    )
+    if active != expected:
+        reunion_boundary_failures.append(
+            f"W{week}/pivot={pivoted}/reconnected={reconnected}:"
+            f"{active}!={expected}")
+if reunion_boundary_failures:
+    fail += 1
+    print("  ✗ M19 reunion admission:", ", ".join(reunion_boundary_failures))
+else:
+    print("  ✓ M19 reunion admission: M18 closed/M19 open/late recovery/once 8 cases")
 
 for name, spine, traj, hook, choice_indices in PATHS:
     fired, firelog, repeats, S, bridge_log, story_queue_log = run(

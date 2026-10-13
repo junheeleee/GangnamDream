@@ -8337,8 +8337,8 @@ func _next_arc_id(
 			and not GameState.has_deferred_event("arc_hyunsu_exam_fail") \
 			and not f.get("hyunsu_pivoted", false):
 		return "hyunsu_pivot"
-	# ── 현수 — 나중에 다시 만난 날 (턴 70+, 피벗 이후) ──
-	if t >= 70 \
+	# ── 현수 — 나중에 다시 만난 날 (M19 입구: 턴 73+, 피벗 이후) ──
+	if t >= 73 \
 			and f.get("hyunsu_pivoted", false) \
 			and not f.get("hyunsu_reconnected", false):
 		return "hyunsu_reunion_later"
