@@ -1,6 +1,6 @@
 # ORDER-613 — 현수 재회의 M19 입구 정합
 
-#### [~] ORDER-613 [정합] 월 배치 하한 수리 — 2026-10-14
+#### [x] ORDER-613 [정합] 월 배치 하한 수리·source 완료 — 2026-10-14
 
 ## 근거와 깊이 3문
 
@@ -33,3 +33,22 @@ m17_native_admission: .git/order613-20261014/independent-review.md만.
 W73 경계 확인 전 612의 완료/출시 GO를 선언하지 않는다. 613 source 판정과
 612 native 판정을 분리한다. 게임 원문/번역/저장 편집0·새 실제 월0.
 일회성/승격0. 자동 계약은 재미·문체·인간 관찰을 대신하지 않는다.
+
+## 완료 · source 범위만
+
+제품 commit8c3078fc5e212d48590a0b22eaff8c293ce60470/
+tree9aba2ab32014a72db31e0a4b72f2948ac83b2fcc.
+MainGame t>=73·해당주석과 기존arc_flow의 temporal73/8입구반례만 변경했다.
+기존70코드에서 새경계 반례 actual1, 수정뒤 actual0·대표2경로jam0.
+story_map/consistency/graph/continuity/EN coverage/EN한글/release actual0.
+continuity최종출력은 표시가 잘려 전체stdout보존 주장을 하지 않으며 exit0/OK는 관측했다.
+비저자2파일/8반례 source 한정GO·root 최종보고 전문판독.
+.git/order613-20261014/independent-review.md6143B/
+SHA07944a0675e0681f58a4c601e88069faa46f591aff35702b75595b06f112e497.
+제품8c3078의 두 Git blob에만 결속하며 미커밋612metadata가 있는 현재checkout의
+전역resolverHOLD를 GO로 바꾸지 않는다.
+MainGame SHAdd5d2a1bc52441a9c26209575974b437af5b4cffeeaf427364a754883d1173ad,
+arc_flow SHAadc43d6ac22554e9526fb99643dbad8910808cdd6a911c333775097d5d042d16.
+모든원문/번역/저장/효과/예약/project·공개·인간불변. compile/native는612재발급/
+원W69→첫W73검수미완료이며 이소스마감을612경계GO로쓰지않는다.
+일회성/승격0·자동계약은 재미/문체/인간관찰을 대신하지 않는다.
