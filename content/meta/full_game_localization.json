@@ -14127,6 +14127,78 @@
         "zh-CN": "6b0e4d525ad72b8cd5bc964a5ea4ef2eff58129a4bd0c874a37b7f93bf991747",
         "zh-TW": "cb3ed073d3f3c55103e0f16fff5668c1f129380c0f861e7d4675e5515a86e77c"
       }
+    },
+    {
+      "order": "ORDER-582",
+      "group": "ui",
+      "roots": [
+        "내추럴 (바카라)",
+        "처음 두 장의 점수가 8 또는 9인 경우. 추가 카드를 받지 않고 점수를 비교한다. 높은 쪽이 이기며, 점수가 같을 때만 무승부."
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 2,
+        "zh-TW": 2
+      },
+      "source_change": {
+        "source_revision": "9e31ba16941157d95476a32ee258a05f2161cafc",
+        "prior_source_revision": "181268f6ff3c7b3d1a4359f0dd7ff3d9bb38ccea",
+        "source_path": "scenes/JeongseonCasino.gd",
+        "old_korean_key": "처음 두 장의 합이 8 또는 9인 경우. 추가 카드 없이 즉시 결판. 뱅커·플레이어 모두 내추럴이면 무승부.",
+        "retired_unreceipted_japanese": "最初の2枚の合計が8または9の場合。追加カードなしで即決。バンカー・プレイヤーともナチュラルなら引き分け。",
+        "prior_acceptance": "absent"
+      },
+      "source_review": "Correct the Korean and English baccarat natural explanation to match the unchanged score comparison: higher score wins, equal scores only tie, no further drawing after an initial two-card 8 or 9. The old Japanese explanation inherited the false automatic-tie claim; migrate only that unreceipted key. Direct and independent Korean authorship: JA explanation1, CN/TW title and explanation2 each. Exact fresh per-locale official exports and receipts bind actual source commit9e31ba1; different locale selections are recorded without an append-only/history proof. Initial JA numeric-contract FAIL and original response preserved, only 2枚 to equivalent 二枚 repaired and independently rereviewed before acceptance. Existing324 batches and all old accepted entries unchanged. Legacy/AP glossary consumer only; no normal full-story exposure, executed round, rendered/native/human/controller or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "9e31ba16941157d95476a32ee258a05f2161cafc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fb4b5874205d2ae0b78872fef31e52f5ce221b6764e7e6093d6e3643823ffb83",
+          "selection_sha256": "3252335dfdb98e63b2b4b06b8845648651917da240a776c81af4b5d2021e3fcf",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7fbef0326db9870204fe2ba20c2db5263d37579a814cd927ca0d98daba9a4e2c"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "9e31ba16941157d95476a32ee258a05f2161cafc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fb4b5874205d2ae0b78872fef31e52f5ce221b6764e7e6093d6e3643823ffb83",
+          "selection_sha256": "54fc4722cd8267967c00a0f7a15822b4ae4277e726f5e370d223d3bd7bd0e674",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "69526b54051ba544a6ada271471acb43243777f8abf63ff6b8653227c498558d"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "9e31ba16941157d95476a32ee258a05f2161cafc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "fb4b5874205d2ae0b78872fef31e52f5ce221b6764e7e6093d6e3643823ffb83",
+          "selection_sha256": "34592399345b078c13f04269c312075430b83a4a0d9854104c0c9caf1c06137e",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c42f01267f402fdb64c8622abaf7d2fc5d9720739c16202dfa49249366118450"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "cf58e044bd04000e6920c82fde6217a523473030638512065ffd4ffde9f6edf3",
+        "zh-CN": "a133245625f3d549edfbb5c17244e22304361c1b502cf1b489e68918836919e4",
+        "zh-TW": "260fae5fea692e13a74035f4b096a6372aaa1ca6f54fb0400de463e8a515af37"
+      }
     }
   ],
   "accepted": {
@@ -66818,6 +66890,10 @@
       "ui:정착 지원금 +30만원이 이번 달 생존을 잠시 밀어줬다.:/정착 지원금 +30만원이 이번 달 생존을 잠시 밀어줬다.": {
         "source_sha256": "8cc22350a7c27b3fd7ad9c2c29e3bee26db7df3e70958a4bc1fcb8b1139df222",
         "target_sha256": "41369f9a9c7da7bbc66b28ac1bedb51e8cf36b165fb6cf7491b3984ebad0f591"
+      },
+      "ui:처음 두 장의 점수가 8 또는 9인 경우. 추가 카드를 받지 않고 점수를 비교한다. 높은 쪽이 이기며, 점수가 같을 때만 무승부.:/처음 두 장의 점수가 8 또는 9인 경우. 추가 카드를 받지 않고 점수를 비교한다. 높은 쪽이 이기며, 점수가 같을 때만 무승부.": {
+        "source_sha256": "53bae217f1ed34ffc813d0fb428679e7ebf895be719bf643e646f7a139c6cf0e",
+        "target_sha256": "bad6e2f99fc1a033bd2c8876bd0b650742a259e19456ae0350092be550b3ec68"
       }
     },
     "zh-CN": {
@@ -125964,6 +126040,14 @@
       "ui:형광등이 한 번 떨리고 옆방에서 기침이 났다:/형광등이 한 번 떨리고 옆방에서 기침이 났다": {
         "source_sha256": "aeefb2dcbec4aa05ee6a12c061985956aef8d4521efc824d98bb5a6a17b384e8",
         "target_sha256": "0aca08b7cca19499e7eeadf40f33c0c221d3d283c71c9eb76e8227a972c03215"
+      },
+      "ui:내추럴 (바카라):/내추럴 (바카라)": {
+        "source_sha256": "ca3da584b9ec0a6ce26f646e5dab424b4c88c6306a41dff05761f6c79bab06aa",
+        "target_sha256": "626d9cd42ded7e768bd34c4d640f9bbaebe3af4405381cbf6903002748cea558"
+      },
+      "ui:처음 두 장의 점수가 8 또는 9인 경우. 추가 카드를 받지 않고 점수를 비교한다. 높은 쪽이 이기며, 점수가 같을 때만 무승부.:/처음 두 장의 점수가 8 또는 9인 경우. 추가 카드를 받지 않고 점수를 비교한다. 높은 쪽이 이기며, 점수가 같을 때만 무승부.": {
+        "source_sha256": "53bae217f1ed34ffc813d0fb428679e7ebf895be719bf643e646f7a139c6cf0e",
+        "target_sha256": "f9de19c323b9c4422b80b9b4270f8a59358b5c3204a71ecc36d7650c10a71734"
       }
     },
     "zh-TW": {
@@ -185110,10 +185194,18 @@
       "ui:형광등이 한 번 떨리고 옆방에서 기침이 났다:/형광등이 한 번 떨리고 옆방에서 기침이 났다": {
         "source_sha256": "aeefb2dcbec4aa05ee6a12c061985956aef8d4521efc824d98bb5a6a17b384e8",
         "target_sha256": "227e464e85aa5fe9b41ffb780bda35ac63f122e6668b6f3817817d461d6ae3ad"
+      },
+      "ui:내추럴 (바카라):/내추럴 (바카라)": {
+        "source_sha256": "ca3da584b9ec0a6ce26f646e5dab424b4c88c6306a41dff05761f6c79bab06aa",
+        "target_sha256": "55f38072a65d9b17efa31b9a9ab98ce29d56fbedad0a516a1362d0fa07c1b94f"
+      },
+      "ui:처음 두 장의 점수가 8 또는 9인 경우. 추가 카드를 받지 않고 점수를 비교한다. 높은 쪽이 이기며, 점수가 같을 때만 무승부.:/처음 두 장의 점수가 8 또는 9인 경우. 추가 카드를 받지 않고 점수를 비교한다. 높은 쪽이 이기며, 점수가 같을 때만 무승부.": {
+        "source_sha256": "53bae217f1ed34ffc813d0fb428679e7ebf895be719bf643e646f7a139c6cf0e",
+        "target_sha256": "efaf485991dc3191c27a431b827de3cef540f0fc46c38af230b3dae09cb76410"
       }
     }
   },
-  "accepted_sha256": "dbb0bba38256e132eed75afc395e777b361e7ed73fa485dc6c7d35343ef27358",
+  "accepted_sha256": "8a809a07127f951e571f11b0acb6341048c6314a0d8d6d33978a382e26447387",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

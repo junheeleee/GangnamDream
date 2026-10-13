@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — 바카라 내추럴의 잘못된 무승부 안내 수리
+
+- [582](queue_archive/ORDER-582.md): 양쪽 내추럴이면 모두 무승부라는 KO/JA 오설명을 고치고 EN도 높은 점수 승리·동점만 무승부로 명료화했다. JA 설명1 교체·옛 고아키1 제거, CN/TW 제목·설명 각2를 KO에서 직접 작성했다. 실제 Baccarat 규칙·배당·저장·공개데모는 그대로이며 legacy/AP 도움말 source/receipt만 닫는다. 정상 본편 노출·실제 화면·원어민 GO가 아니다.
+- 공식 repaired check3/import3·표적10 actual0, 비저자 source/receipt5 GO·보존24/24다. JA 최초 numeric FAIL1은 보존하고 의미 등가 二枚로 수리·재검수했다. JA 기존 invalid57→56은 해당1만 제거/나머지 exact, CN/TW UI2043→2045/2980·missing937→935·receipted1963→1965·invalid[]다. 실제 source9e31ba1/manifest fb4b…ffb83, accepted JA13173/CN·TW14788씩·batch325다. 제품5 raw inverse·old324batch/accepted·보호60/1152·비소유3363·옛581raw44 exact, 상세핀·읽기/표기 오류·JA 탭5 복원은 사양과 새private에 결속했다.
+- gangnamdream-dev/I18N의 KO 직접저작·비소유 보존·source/실관찰 분리를 적용했다. source변경을 append-only로 수용0·일회성/승격0·새helper/검사/엔진/월0·M17 OS잠금 HOLD 하나·해제 재요청0이다. 렌더/원어민/인간/패드 OPEN·전체 INCOMPLETE·출시 HOLD·종료resource/Presence 잔여를 유지한다. 기준c537 CI38322624849는 조회당시 진행중/결론null, 새push CI는 별도 확인·현황판 단독후속0이다.
+
 ## 2026-10-13 — 구저장 주간 시간·거처 중국어42 수용
 
 - [581](queue_archive/ORDER-581.md): 주간 시간4/거처 소리16/조립1을 CN/TW 각각 KO에서 독립 번역했다. 저녁을 해질녘으로 좁힌2잎을 독립 REWORK 뒤 고치고, 첫check2의 occurrence 미인식은 의미 등가 一次로 수리했다. 원초안·철회GO/HOLD·FAIL2를 보존했다. legacy source-only이며 정상 FullStoryFlow/실제 구저장 진입·화면 GO가 아니다.
