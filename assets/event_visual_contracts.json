@@ -151,7 +151,7 @@
     {"id": "arc_father_03_hospital", "background": "current_housing", "portrait": "player_shocked"},
     {"id": "arc_sangchul_mirror", "background": "pojangmacha", "portrait": "sangchul_serious"},
     {"id": "arc_sangchul_mirror_receipt", "background": "pojangmacha", "portrait": "sangchul_serious"},
-    {"id": "arc_career_ceiling", "background": "office", "portrait": "player_tired"},
+    {"id": "arc_career_ceiling", "background": "current_workplace", "portrait": "player_tired"},
     {"id": "arc_father_passing", "background": "current_housing", "portrait": "player_shocked"},
     {"id": "arc_father_passing_platform", "background": "seoul_station_ktx_platform_winter", "portrait": null},
     {"id": "arc_father_passing_deal_room", "background": "meeting", "portrait": "player_suit"},

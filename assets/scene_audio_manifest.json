@@ -1592,7 +1592,7 @@
     "arc_father_03_hospital": {"ambience": "current_housing", "suppress_music": true},
     "arc_sangchul_mirror": {"ambience": "street", "music": {"key": "reckoning", "start_paragraph": 3}},
     "arc_sangchul_mirror_receipt": {"ambience": "street", "music": {"key": "reckoning", "start_paragraph": 0}},
-    "arc_career_ceiling": {"ambience": "office", "music": {"key": "reckoning", "start_paragraph": 0}},
+    "arc_career_ceiling": {"ambience": "current_workplace", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_father_04_visit": {"ambience": "hospital", "music": {"key": "grief", "start_paragraph": 0}},
     "arc_36_trust_crack": {"ambience": "street", "suppress_music": true},
     "arc_36_unexpected_hand": {"ambience": "cafe", "music": {"key": "intimate", "start_paragraph": 0}},

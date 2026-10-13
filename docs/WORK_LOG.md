@@ -4,6 +4,12 @@
 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 40194B/SHA256 373faf4aaa09959645654add1650fe4934ca6ceb22991f2c388239988726f396이다.
 
+## 2026-10-13 — M24 월급 장면과 회수의 실제 직업·주거 수리
+
+- [599](queue_archive/ORDER-599.md): 편의점/배달에도 사무실·팀장·사원증을 전제하던 장면을 폰 명세서·다음근무로 KO/EN18잎 수리하고, 기존 실제일터/주거 resolver에 장소7값을 정렬했다. 모호한 다음날은 상대회상, 퇴사 후 회수는 현재수입/지출 점검이다. story_map 의도1구절도 정렬·게임상태/효과/저장 불변.
+- 표적14 actual0·독립18/18 source GO·보존10/10/demo7/7/비소유3376 exact. release gambling내용SHA/공식보고만 정렬. officialafter3 current11411/stale34/invalid61·5·5 불변·manifest9071…5943. KO9 중3중복, 고유KOEN누적83·CJK39KO잎 미수용대기다. continuity actual0/OK 원출력의75token truncation은 보존하고 lossless라고 쓰지 않는다. 상세 보고핀은 사양에 결속했다.
+- gangnamdream-dev의 원문·시청각 동시정렬과 WORK_UNIT 독립판정 적용·root 두 보고 전량 판독·일회성/승격0. 실제 M17 OS잠금 HOLD 하나·엔진/native/새월0·5언어/출시HOLD·새push CI미확정. 다음 재연락 후보는 실제 입구와 과거 선택을 읽어 매매/월급·신고·기간 발명을 확인, 별도 범위로 수리한다. 상철 신규 경로는 M33 이후이고 M25는 legacy 가능 범위로 분리한다.
+
 ## 2026-10-13 — M24 돈 대화의 투자 성공·보유종목 발명 수리
 
 - [598](queue_archive/ORDER-598.md): 다은 대화/12주 회수 KO7+EN6=13잎에서 무조건 배당·투자 성공·손실종목을 실제 커피 결제/돈 고민/현재 잔고와 지출로 바꿨다. 옛 저장도 참인 간접 회상과 다음 커피 약속으로 연결했다. 선택 효과·내부 flag·지연·구 event_log 불변, 말투 required/forbidden 세쌍의 보호 강도 유지다.

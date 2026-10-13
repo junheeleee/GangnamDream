@@ -1162,7 +1162,7 @@
               "work": "EXPAND",
               "root": "arc_career_ceiling",
               "rule_status": "mapped",
-              "intent": "W94–95에 취업 6개월 이상 경로만 월급의 수학적 천장과 전날 거울 선택의 값을 함께 정산한다.",
+              "intent": "W94–95에 취업 6개월 이상 경로만 월급의 수학적 천장과 앞선 거울 선택의 값을 함께 정산한다.",
               "channel": "internal",
               "cast": ["player"],
               "reads": {"memories": [], "decision": null, "carryovers": []},

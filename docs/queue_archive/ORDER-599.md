@@ -1,6 +1,6 @@
 # ORDER-599 — M24 실제 직업과 직장 회상
 
-#### [~] ORDER-599 [정합] KO/EN18잎·기존 장소 배선 — 2026-10-13
+#### [x] ORDER-599 [정합] KO/EN18잎·기존 장소 배선 — 2026-10-13
 
 사용자 위임 잠금 중 월순서 사실 수리. 598 뒤 같은 M24에서 확인한
 사무직 전제와 회수의 현재재직/투자성과 발명을 함께 고친다.
@@ -58,3 +58,35 @@ context/queue/diff, 비저자18잎 의미·직업입구/reader·wholeinverse·�
 증거와 실제화면 미관찰을 분리한다. 본편/실제월/5언어/출시HOLD 유지.
 gangnamdream-dev/WORK_UNIT 및 STORY_CONSISTENCY_SYSTEM의 ID별 원문·시청각
 동시정렬 원칙 적용. 한오더지시 일회성/정본승격0.
+
+## 결과·증거
+
+- 선언 dfbbcd410c04f4c918befbd16cf4b1629495db6f/tree756b3d9ef2d5f30f3f481085cffbc26dfdc10717.
+  구현 KO9/EN9 및 장소/의도8값, 독립18/18 의미GO·보존10/10/demo7/7·비소유3376 exact.
+  14표적 actual0, context/queue/diff 마감0. release gambling 실제내용SHA만
+  343abd1c0000a6e13d5230310b83bdb893fe1c9571442e327497f65cf1a2f40a로 공식보고와 정렬.
+- .git/order599-20261013/independent-review.md: m24_money_fact_review,
+  7473B/b1ee8112270829f53637308eaa5357555b4f92bfe54b64b2e79e14f1df9922cc.
+- 같은 곳 preservation-review.md: rework_batch_plan,
+  10600B/669feea6d114f609a05caf15cd8ebf74cdc1ded0206cc94da71cc38f72f9505e.
+  root 두 보고 전문 판독. before2352B/8428b48f34c0776801859f7f810bac17b9d09693576009c3102b367b73929982.
+  보고의10제품 SHA가 최종수정과 일치한다. continuity wrapper는 actual0/OK이나
+  원 tool output75token truncation을 보존했으며 lossless stdout이라고 주장하지 않는다.
+- 공식after3 actual0, manifest9071344c76925d8038d190151aa1526c1eaabdca89b4acf38f64129f2ad35943.
+  KO9 중 이전597의3잎 중복, 신규 stale6/current11411/stale34/invalid61·5·5 불변.
+  고유KOEN83잎·CJK39KO잎 미정합대기/수용0. 표시장소는 고쳤지만 실제 pixels/음향0.
+
+```
+도달 경로      : MainGame:7307–7312, story_rules:3233, EventManager:383–401
+생산자 ↔ 독자   : arc_career_ceiling choices0/1 ↔ callback45 kept_job/pivot
+바꾸는 상태     : KO/EN18잎+장소/의도8값, 게임상태0
+포기 시 잃는 것 : 기존3선택/후속12주/정신·의향flags 불변
+서사 위치       : M24 W94~95, 회수 min_turn50/과거의향; 실제월0
+장면 계층       : 기존 장면·격상0
+닫는 것         : 사무직·다음날·현재재직/투자성과 발명
+```
+
+자동 검사는 계약 증거이지 재미·인간·원어민·물리패드 관찰이 아니다.
+일회성/승격0·M17 잠금HOLD 하나·해제우선·새월0·5언어/본편/출시HOLD.
+598 CI38395772722는 조회시 진행중이며 현재/새push 성공으로 세지 않는다.
+다음은 M25부터 열릴 수 있는 재연락의 기간·거래 이력과 기사 회상, 새 범위로 분리한다.

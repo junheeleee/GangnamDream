@@ -473,7 +473,7 @@
   {
     "id": "callback_kept_job_as_base_echo",
     "title": "직장을 기반으로 삼은 것",
-    "background": "office",
+    "background": "current_housing",
     "portrait": "player_normal",
     "category": "jobs",
     "rarity": "uncommon",
@@ -492,14 +492,14 @@
     "description": "경력의 한계를 느꼈을 때, {name}은 '그래도 직장은 지킨다'며 안정의 기반으로 쓰기로 했었다.\n\n그 선택의 결과가 지금이다.\n\n오늘 다시 그 판단을 돌아본다.",
     "choices": [
       {
-        "text": "안정적 현금흐름이 도전을 가능하게 했다",
+        "text": "지금도 생활의 기반부터 지킨다",
         "effects": {
           "mental": 5,
           "investment_skill": 1
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "매달 들어오는 월급이 있어서, 투자에서 무리하지 않을 수 있었다.\n\n안전망이 있는 도전과 없는 도전은 다르다.\n{name}은 직장을 발판 삼아 더 멀리 뛰었다."
+        "result_text": "휴대폰에 현재 수입과 지출을 나란히 적었다.\n\n그때 지키려던 것은 직함이 아니라, 다음 선택을 서두르지 않을 여유였다.\n{name}은 지금 형편에서 지킬 수 있는 것부터 다시 짚었다."
       },
       {
         "text": "이젠 직장 너머를 본다 — 다음 단계로",
@@ -516,7 +516,7 @@
   {
     "id": "callback_career_pivot_intent_echo",
     "title": "더 크게 움직이려 했던 것",
-    "background": "office",
+    "background": "current_housing",
     "portrait": "player_determined",
     "category": "jobs",
     "rarity": "uncommon",

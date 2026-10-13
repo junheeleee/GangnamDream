@@ -3250,10 +3250,10 @@
       },
       "presentation": {
         "channel": "internal",
-        "scene_location": "office",
+        "scene_location": "current_workplace",
         "participants": ["player"],
         "portrait_role": "local",
-        "expected_background": "office",
+        "expected_background": "current_workplace",
         "expected_portrait": "player_tired"
       }
     },
