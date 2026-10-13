@@ -1,6 +1,6 @@
 # ORDER-585 — M17 조건부 본문의 기간·수량 정합
 
-#### [~] ORDER-585 [정합] KO/EN source 수리 착수 — 2026-10-13
+#### [x] ORDER-585 [정합] KO/EN 5잎 source 수용 — 2026-10-13
 
 기준 clean main64c7e35629166a60f1e0984a65ba336d7520af6e/tree
 abc1c49d1550226fa114b5b6e5557cc243c193d4. 최신 사용자 지시:
@@ -58,5 +58,48 @@ gangnamdream-dev의 소유 보존·한영 정합·표적 검수와 WORK_UNIT 증
 
 ## 실제 결과
 
-미완료. Mac locktrue, native0. 기준 CI38338119304는 03:51:44Z에도
-in_progress/null(시작02:41:55Z)이며 실패/완료 확정0·취소/재실행0이다.
+KO/EN 5잎 수리·비저자 전수 source 품질 GO/blocker0이다. Mac locktrue/native0,
+fresh M17 노출/월 완료/원어민/렌더/본편/출시 GO0이다. 기준 CI38338119304는
+03:51:44Z in_progress/null(시작02:41:55Z), 완료 확정0·취소/재실행0이다.
+
+- 실제 제품 변경: KO/EN year_one_half 제목을 도시 습관으로, 첫 문장을 두 번째
+  해로 맞췄고 EN date one bottle→one glass. 원문3파일의 나머지 바이트·게임플레이는
+  역복원 exact다. 지문 sexuality/alcohol의 content SHA2개와 생성 보고2행만 갱신했다.
+- 표적13 actual0: EN2·서사 continuity/spine2·story consistency·speech/audio2·
+  demo scope/story demo/JA demo/ZH demo/i18n5·release inventory/report1.
+  공식 inventory 전후6 actual0는 전체 번역 완료 검사가 아니라 미완료 측정이다.
+- source manifest98664e3985186e7173cfa8cde576aec6136f41f756cf185699d5020cd81177cb→
+  5e73ab715659b69adbaef7a46930cfe3664e3b6b7baa91c188cdbba183a9ce47,
+  정확 KO source2잎만 바뀌었다. source count17504/unsupported466은 exact다.
+  JA/CN/TW event current receipt11450→11448씩, JA invalid56→57(title),
+  CN/TW invalid0→1(description 2nd year vs18)이다. 기존 invalid 전부 보존,
+  사전/번역 원장/accepted receipt 변경0·새 수용0이며 이는 후속 정합 빚이다.
+  기본 표적검사 종료0을 다섯 언어 정합 실패0으로 쓰지 않는다.
+- 독립 manual_save_ci: `.git/order585-20261013/independent-review.md`5940B/
+  4d00814ad3dab5d13c901a8575c9906b1fc339206113f04e9ccc252fd37523bf.
+  실제5잎/조건/생산자·CJK 잔여를 직접 읽은 dirty-source 한정 판정이다.
+- 보존 rework_batch_plan: 제품5잎 span 역복원·SHA2/report2 역복원·before12·
+  CJK3dir 각각128·비소유tracked3366·조건/효과/후속/ID 모두 exact, 19/19true다.
+  사용자 저장은 이번 검사에서 접근/실행0이며 실제 디스크 저장 관찰로 확대하지 않는다.
+  `.git/order585-20261013/preservation-review.md`10683B/
+  fd81240f5a43b6a8afc188eb73940be3bab00ac717c100a7bb1b256b953b8795.
+- `.git/order585-20261013/before.json`2374B/
+  f648e4fd130d7bb6bafb1d14f707beaa4a567f4eb078290c017009d4342585b8;
+  `validation-observation.json` SHA e3744c0a43bf0fc0f89deebbd90044dcbf5ffadc6851532b2b922322ad12ee13.
+  처음 큰 before 출력 truncation/decode 거부(쓰기0), 큐 순번 FAIL/선언 전 수리,
+  잘못된 help 파일명 exit2/실제 게이트 탐색, 비본문 축 candidate_scan 조회 KeyError는
+  진단 그대로 보존한다. 제품 게이트 실패를 숨기거나 checker를 고친 일이 아니다.
+
+```
+도달 경로      : MainGame.gd:8356–8357 / 7853–7856; continuity actual0 t69 source-probe
+생산자 ↔ 독자   : arc_daeun.json:272 ↔ MainGame.gd:7853; arc_midgame.json:2890 ↔ StoryMode.gd
+바꾸는 상태     : gameplay delta0; KO/EN text5; CJK current receipt −2/locale
+포기 시 잃는 것 : 신규 선택0; 기존 arc_34_two_years_in +18주 후속 exact
+서사 위치       : M17 신규 문턱5 판독; 두 수리는 조건부/호환 consumer
+장면 계층       : 기존 미선언 기본T3(SCENE_TIER.md §1); 격상0·전장면 계약 승인0
+닫는 것         : KO/EN 기간·수량 사실2; 실제 M17/5언어 정합/출시 닫지 않음
+```
+
+일회성·승격0. Mac 잠금 중 다음 월 M18 KO/EN 읽기를 잇고, 해제 시 562 원W68
+정상 실제 플레이로 복귀한다. 최신 사용자 정책은 자동화 같은 cadence에 반영했다.
+공개 demo·프로젝트/저장·옛 판정·원어민/인간OPEN45·전체HOLD·종료 잔여는 보존한다.

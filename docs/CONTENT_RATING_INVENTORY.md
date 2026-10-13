@@ -132,12 +132,12 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
 | 사행성·도박 | 137 / 43 | `e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b` | `2a3365809134d49f933341381909e56839ed3afef05fb3f1c6f891e9be751fb8` | strong, moderate |
-| 선정성·성적 내용 | 124 / 26 | `b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa` | `e00ce592b939411a4a452d789e36d832f94cb1183fde5abaaf7be5362c64378f` | moderate, mild |
+| 선정성·성적 내용 | 124 / 26 | `b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa` | `d05cd9d46b988ea3a06cb5a5c019645e1bef2a3866dc549cd2bcfaee8e53e1fe` | moderate, mild |
 | 폭력성 | 17 / 14 | `b036299411ccb065182412b7accbfaf66efdab32d05c81d8b6c6bb6a3d3dc125` | `d9e1a6e138286682473b7da01099ce326284eaa7844446a2f0adf6d6e8f28d26` | mild |
 | 공포 | 145 / 51 | `a6a6ec729442836b7328d965a645391fc8d5c8750c22535ff2e6928a5750c2da` | `e91466d25648bf01fc7890a06c620fb8b76522d17d0ba0ea969e93401a096795` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `b7018e341076ee7951da874c3fe6cadd4f34d7f0c996feb2b67e83c0a44e98c2` | mild |
 | 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `bc586dad652822b52c8cc1fa09be1ce0d54b95fb376bc3a336fb2852744f56aa` | moderate, strong |
-| 음주·흡연·약물 | 82 / 39 | `32942c5a49b64e9027b5a0071e1c95d6d205478ef05ea6ad25c5ad3c5d90433f` | `5b3f699ef24b910258361697e88c58c02adfa3d969d8b5d17823b862701f777c` | moderate, mild |
+| 음주·흡연·약물 | 82 / 39 | `32942c5a49b64e9027b5a0071e1c95d6d205478ef05ea6ad25c5ad3c5d90433f` | `30c38f20999744ee7658a996022f67b7db415a8581055b2394cc0af3fae7aad7` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |
 

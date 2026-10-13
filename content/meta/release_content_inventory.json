@@ -530,7 +530,7 @@
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
         "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present"],
-        "expected_event_count": 124, "expected_file_count": 26, "expected_ids_sha256": "b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa", "expected_content_sha256": "e00ce592b939411a4a452d789e36d832f94cb1183fde5abaaf7be5362c64378f"
+        "expected_event_count": 124, "expected_file_count": 26, "expected_ids_sha256": "b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa", "expected_content_sha256": "d05cd9d46b988ea3a06cb5a5c019645e1bef2a3866dc549cd2bcfaee8e53e1fe"
       },
       "facts": [
         {
@@ -744,7 +744,7 @@
         "tokens_ko": ["소주", "맥주", "와인", "위스키", "막걸리", "술집", "술잔", "술자리", "술을", "취했", "숙취", "담배", "흡연", "마약", "수면제", "진통제", "처방약", "복용"],
         "tokens_en": ["soju", "beer", "wine", "whiskey", "drinking", "drunk", "hangover", "cigarette", "smoking", "narcotic", "sleeping pill", "painkiller", "prescription"],
         "reviewed_search_noise_ids": ["arc_36_body_signal"],
-        "expected_event_count": 82, "expected_file_count": 39, "expected_ids_sha256": "32942c5a49b64e9027b5a0071e1c95d6d205478ef05ea6ad25c5ad3c5d90433f", "expected_content_sha256": "5b3f699ef24b910258361697e88c58c02adfa3d969d8b5d17823b862701f777c"
+        "expected_event_count": 82, "expected_file_count": 39, "expected_ids_sha256": "32942c5a49b64e9027b5a0071e1c95d6d205478ef05ea6ad25c5ad3c5d90433f", "expected_content_sha256": "30c38f20999744ee7658a996022f67b7db415a8581055b2394cc0af3fae7aad7"
       },
       "facts": [
         {
