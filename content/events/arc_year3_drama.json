@@ -365,7 +365,7 @@
           "arc_y3_cost_of_knowing_seen",
           "cut_sangchul_network"
         ],
-      "result_text": "{name}은 제안을 거절하고, 같은 소개망에서 온 다음 연락도 받지 않겠다고 한 줄 덧붙였다. 컨설턴트는 이유를 묻지 않았다.\n\n전화를 끊은 뒤 연락처와 첨부파일을 함께 지웠다. 처음 서울에 왔던 때라면 출처를 몰랐을 것이다. 지금은 알았고, 그래서 실제 문 하나를 닫았다."
+      "result_text": "{name}은 제안을 거절하고, 같은 소개망에서 온 다음 연락도 받지 않겠다고 한 줄 덧붙였다. 컨설턴트는 이유를 묻지 않았다.\n\n답장을 보낸 뒤 연락처와 첨부파일을 함께 지웠다. 처음 서울에 왔던 때라면 출처를 몰랐을 것이다. 지금은 알았고, 그래서 실제 문 하나를 닫았다."
       },
       {
         "text": "거래는 하되, 이걸 마지막으로 한다. 선은 여기서 긋는다.",
@@ -534,7 +534,7 @@
   {
     "id": "arc_minjun_first_call",
     "title": "먼저 거는 전화",
-    "background": "apartment_balcony",
+    "background": "current_housing",
     "portrait": "player_normal",
     "category": "story",
     "rarity": "story",
