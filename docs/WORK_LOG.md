@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — M22 두 번째 해 회상의 기간·성과 단정 수리
+
+- [593](queue_archive/ORDER-593.md): 경로점수만으로 재직·저축·투자경험/승패·함정회피를 단정하던 KO/EN8잎을 현재 자기점검으로 수리했다. 보장되지 않는 현재연말/옛1.5년 회상도 기억형으로 바꾸고 key/도시습관·선택/효과/route/seen/+18예약은 그대로다. 초기v1의 불필요한 감정삭제는 원자료보존 후 v2에서 원KO/직접EN으로 복원했다.
+- 최종표적13 actual0·비저자 전8 의미GO/보존12/12/demo7/7·3375비소유/wholeinverse exact다. fear145/51/ID 불변·내용SHA/report1행만 연동했다. 공식final after3는 KO4잎 변경/manifest28329e…47bf1, 각current11437·JA stale11/invalid58(옛1年半 새numeric1), CN/TW stale12/invalid1 그대로·누적13KO잎 CJK정합대기다. source수리를5언어GO로 확대하지 않고 JAzh다듬기/원장수용0을 유지한다. 상세 핀은 사양에 결속했다.
+- gangnamdream-dev/WORK_UNIT의 사실/독자·비소유·한영/관찰분리 적용·일회성/승격0·엔진/native/새월0·실제M17 OS잠금HOLD 하나·해제우선·CI빨강새월0. prior d5749a9의 전체CI성공을07:00:41Z확인했으나 최신/새push CI는미확정·종료clean0/출시GO0다. 공개/저장/옛판정/5언어/종료잔여 보존·본편/출시HOLD·M22다은장소/주거후속·M23 후보수리0·현황판 단독후속0이다.
+
 ## 2026-10-13 — M22 지연 제안의 수리비·경과일 회상 수리
 
 - [592](queue_archive/ORDER-592.md): 실제8만원 수령경로에도 아무것도 안받았다고 하던 회상을 현재 사과로 바꾸고 추적하지 않는 며칠뒤를 제거했다. KO/EN2잎·4구절만·다른원문/선택/효과/flag/16주reader exact, release7축/공식report 실측불변이다.

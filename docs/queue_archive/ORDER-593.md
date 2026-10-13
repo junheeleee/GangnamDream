@@ -1,6 +1,6 @@
 # ORDER-593 — M22 두 번째 해 회상의 기간·성과 단정
 
-#### [~] ORDER-593 [정합] KO/EN title·본문8잎 착수 — 2026-10-13
+#### [x] ORDER-593 [정합] KO/EN title·본문8잎 source 수리 — 2026-10-13
 
 기준 clean main1ba55c24db8e443448df2e38b1f7dd9685d797f3/
 treefa42e5cf04c9f9580cfa8aeabf2686acb8e83f77. 실제M17 OS잠금HOLD 하나·
@@ -58,6 +58,53 @@ M22남은다은장소/무연애주거는 별도·M23 후보 조사/수리0.
 
 ## 실제 결과
 
-미완료. 선언前읽기에서 systems/StoryMode.gd 경로착오의rg2/sed1·쓰기0,
+최종v2 KO/EN8잎 source 의미/보존 GO·표적13 actual0다. 현재연말/1.5년 회상·
+저축/투자경험·승패/함정회피 보장을 지우고 현재 자기점검과 도시습관을 남겼다.
+새로운 선택/게임동작0이다. CJK는 아래의 새numeric불일치1 포함 정합대기다.
+
+선언前읽기에서 systems/StoryMode.gd 경로착오의rg2/sed1·쓰기0,
 요청줄범위착오로 무관인접원고도 출력됐으나 그후월후보조사/수리0이다.
 실제파일scenes/StoryMode.gd와 정확ID/실제줄을 찾아 위근거를 읽었다.
+
+- 실제선언2ea6142be06c87dafdf072db7683d8385854bd8a/
+  tree6ac487cbe77a9a8ae5744e13daaccb66ed4f78b8. before8핀1416B/
+  a95ac707c3ab235170fb3514ac3c7e423391978851f425c0fa2a541303cc1ca3.
+- manual_save_ci `.git/order593-20261013/independent-review.md`5966B/
+  94006a70268432fb8b0af6231c68ded20470b695c78586b6ad01958ea62cdf8f.
+  final8/8 의미·wholeinverse·name/문단 유지GO, derived/검사/실제월GO0이다.
+- rework_batch_plan `preservation-review.md`12875B/
+  7b412e25ff00fe7309d95833c78964e80289fec3d43771373eb6625b4effd301.
+  캡처07:11:14Z dirty4/index0·보존12/12/demo7/7·비소유3375 mode/blob/SHA exact.
+  root finalv2 check13 actual0 전부 직접읽음·재실행0이다.
+- KO최종297402B/8a25455086861c50e8365393b455864fe31a9c22a73de752c19396d2aae6722f,
+  EN218511B/0b8981c3a17d0423f5856ed2755ce9e638fa69e3649cf2779ce5ae8cdac84895.
+  8잎inverse KO→f1926cda8599ece47bb5de26b1dfe3ab64cf24bd7056ece514cbb65946e7a49e,
+  EN→e0f75be1d92f73b70b11001598213980372a7e49fbd6739ec305d5b904bafcc2.
+- 초기v1은 확정반례 밖 감정까지 지웠다. 최종v2는 KO 원 `겁이 좀 줄었다.`를 복원하고
+  EN직접대응만 보탰다. v1-source(8잎+파일핀)3054B/e435643f…4f33·after3/
+  baseline/check12 전부 보존·소급GO0. v1 fear145→144 관측은 count갱신 없이 남기고
+  최종145/51/IDhash exact·내용SHA만 eb050bee95c1d01e500b0b8a8bba7a634fd438e3d73f22c7a267c8044f7733be로
+  releaseJSON/report1행씩 연동했다. 다른6축 unchanged·단순토큰맞춤아닌 비소유감정보존이다.
+- 공식592after3 재사용before→이번final after-v2 3locale actual0. source17504/
+  unsupported466·target4KO잎만 변경·manifest28329e9149698dfb9a604b6e0ba19c3952f7e1640a5f27aa06655d37f6647bf1.
+  각current11441→11437; JA stale8→11/invalid57→58, CN/TW stale8→12/invalid1same.
+  새JA invalid는 base의 옛1年半 vs수리KO 숫자불일치1이며 원CJK/기존invalid exact다.
+  inventory명령0를5언어GO로 쓰지 않는다. 원장/CJK수용0·prior9+이번4=13잎 정합대기,
+  KOEN실제확정뒤 일괄정합·전체INCOMPLETE/OPEN 유지다.
+
+```
+도달 경로      : MainGame.gd:8356–8365; STORY_CONSISTENCY_AUDIT_OK
+생산자 ↔ 독자   : arc_midgame.json:2902–2928 ↔ StoryMode.gd:4412–4421; seen→MainGame:8364
+바꾸는 상태     : gameplay0; source8잎; KO4/CJK정합대기·JA numeric새1
+포기 시 잃는 것 : 기존choice0/1 route+1·seen·+18예약 불변; 새receipt0
+서사 위치       : chapter2 aftermath; M22 earliest예약W86; 실제월0
+장면 계층       : 기존미선언T3·격상0·전체장면승인0
+닫는 것         : 현재연말/옛1.5년·재직/성과/승패 단정; 실제월/5언어/출시 미완료
+```
+
+gangnamdream-dev/WORK_UNIT 적용·일회성/승격0·새tool/검사/엔진/native/새월0.
+실제M17 Mac잠금HOLD 하나·해제원W68우선·CI빨강새월0. 이전d5749a9 CI38350450684는
+07:00:41Z조회 completed/success·최신a09c4d5/1ba55c2는 당시진행중·새push CI미확정이다.
+원로그 clean0/출시GO0·공개/저장/옛판정/종료잔여 보존·본편/출시HOLD다.
+마감中 다은후속 경로추정 StopIteration/read1 두번·쓰기0은 정확rg소유파일로 정정,
+후속scope 선언前 구현0이다. M22장소/주거는 다음별도·M23 후보수리0이다.

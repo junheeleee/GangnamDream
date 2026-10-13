@@ -1253,10 +1253,10 @@
   },
   {
     "id": "arc_34_two_years_in",
-    "title": "The End of the Second Year",
-    "description": "His second year in Seoul was drawing to a close.\n\nAt the door, he felt for the key in his pocket. The room might have changed since the beginning, or it might not have. His body now knew the subway lines, the cheaper convenience stores, and the gukbap places that stayed open late.\n\nAnother season had passed since the night he counted a year and a half. Was he a Seoulite now?\n\nNot quite. Seoul was still strange, and home was no longer familiar in the old way. Somewhere between them was where he lived.",
-    "description_orthodox": "The second year in Seoul was drawing to a close.\n\nThe record was real: consistent work, money accumulating. But the gap between where he stood and where he needed to be was still enormous.\n\n{name} recalculated, quietly, without telling anyone.",
-    "description_unorthodox": "The second year in Seoul was drawing to a close.\n\nHe had taken angles others would not. Some paid off. Some did not.\n\nThe city was becoming familiar, not conquered.\n\n{name} could not tell whether that was progress or adaptation.",
+    "title": "Memories of the Second Year",
+    "description": "He thought of what had grown familiar during his second year in Seoul.\n\nAt the door, he felt for the key in his pocket. The room might have changed since the beginning, or it might not have. His body now knew the subway lines, the cheaper convenience stores, and the gukbap places that stayed open late.\n\nHis time here suddenly felt long. Was he a Seoulite now?\n\nNot quite. Seoul was still strange, and home was no longer familiar in the old way. Somewhere between them was where he lived.",
+    "description_orthodox": "He thought of what had grown familiar during his second year in Seoul.\n\nHe thought back over the time: what he had spent it on, how his money stood, whose face came to mind first.\n\nThe feeling of not having enough was hard to shake. {name} quietly separated what he had from what he still lacked.",
+    "description_unorthodox": "He thought of what had grown familiar during his second year in Seoul.\n\n{name} wondered — what had changed since he first arrived?\n\nHe felt a little less afraid. Among familiar signs, there were streets he still did not know. He was more curious about the terms behind \"opportunity\" than the word itself.\n\nThe key in his hand felt a little cold.",
     "choices": [
       {
       "text": "Closed his hand around the key. His body had memorized Seoul first.",
