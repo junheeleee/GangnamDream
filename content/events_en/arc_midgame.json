@@ -820,20 +820,20 @@
   },
   {
     "id": "arc_year_two_pressure",
-    "title": "Autumn of Year Two",
-    "description": "A wedding invitation from Mingi, a high school classmate.\n\nApartment photos appeared in the group chat too. 'Finally got my own place!' {name} went to hit like, then stopped. He still opened the calculator first whenever he saw a home price. He tried not to compare, but autumn always seemed to pull it out of him.",
+    "title": "Mingi’s Wedding Invitation",
+    "description": "A wedding invitation from Mingi, a high school classmate.\n\nApartment photos appeared in the group chat too. 'Finally got my own place!' {name} went to hit like, then stopped. He still opened the calculator first whenever he saw a home price. He tried not to compare, but as he scrolled through the photos, he found himself measuring his own circumstances against them again.",
     "choices": [
       {
-        "text": "Genuinely congratulate him. I'm on my own path.",
+        "text": "Sent Mingi a message: “Congratulations, seriously.”",
         "result_text": "'Congrats Mingi, for real.' Sent the message. Reply came quickly. Good people make any news feel welcome. He walks his own road."
       },
       {
-        "text": "Read it and set the phone down. My situation isn't something to be ashamed of.",
+        "text": "Closed the notification. Something complicated lingered.",
         "result_text": "Closed the notification. Something complicated lingered. Knowing he's not wrong doesn't make the feeling easy."
       },
       {
-        "text": "Delete social media. Comparison is poison to focus.",
-        "result_text": "Deleted the app. The first few days, the habit was still there. After two weeks, the stretches of focus got longer. The world felt simpler."
+        "text": "Deleted the app",
+        "result_text": "He deleted the app. Out of habit, he almost tapped where the icon had been, then stopped. He set the phone face down."
       }
     ]
   },
@@ -989,15 +989,15 @@
   },
   {
     "id": "arc_35_birthday",
-    "title": "Lunar New Year at Thirty-Five",
-    "description": "Thirty-five.\n\nHe started at thirty-three. That means two years have passed.\n\nIn Korea, thirty-five carries weight — an age by which things are supposed to have settled. Employment, marriage, a home. A thirty-five-year-old without those three things gets a certain label.\n\nA text from Dad: \"It's Lunar New Year, but don't push yourself to come down. Have you had your rice-cake soup?\"\n\n{name} holds the phone for a moment.",
+    "title": "Thirty-Five",
+    "description": "Thirty-five.\n\nHe started at thirty-three. That means two years have passed.\n\nIn Korea, thirty-five carries weight — an age by which things are supposed to have settled. Employment, marriage, a home. A thirty-five-year-old without those three things gets a certain label.\n\nA text from Dad: \"Don't push yourself to come down. Have you eaten?\"\n\n{name} holds the phone for a moment.",
     "choices": [
       {
         "text": "Replied \"Thank you\" and opened the planner",
-        "result_text": "Thirty-five is just a number. Three years to thirty-eight. The plan exists. {name} rewrote tomorrow's task list."
+        "result_text": "Thirty-five is just a number. He counted the time left until thirty-eight. The plan exists. {name} rewrote tomorrow's task list."
       },
       {
-        "text": "Let today be a holiday",
+        "text": "Take today off",
         "result_text": "Closed the planner. Needed one day as {name}, not as the person chasing 3 billion won. For once, that felt allowed."
       },
       {

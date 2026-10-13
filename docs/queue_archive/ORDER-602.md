@@ -1,6 +1,6 @@
 # ORDER-602 — M26~27 달력·즉시 결과 시간 사실 수리
 
-#### [~] ORDER-602 [정합] KO·EN 17잎 — 2026-10-13
+#### [x] ORDER-602 [정합] KO·EN 17잎 — 2026-10-13
 
 601 source 완료 뒤 사용자 위임 잠금 중 월순서 수리. 실제월562/M17 HOLD 하나.
 OS 해제 시 원559 W68 실제플레이 우선·CI빨강 새월0·JAzh 다듬기/수용0.
@@ -40,3 +40,27 @@ OS 해제 시 원559 W68 실제플레이 우선·CI빨강 새월0·JAzh 다듬�
 원장·CJK·project.godot·사용자 저장/설정·공개M01~06·과거인간판정 보존.
 전체audit/240주/엔진/native/새월0. 자동검사는 계약 증거이며 인간·원어민·물리패드
 관찰이나 5언어/본편/출시 GO가 아니다. gangnamdream-dev/WORK_UNIT 적용·일회성/승격0.
+
+## 완료 · source 한정
+
+선언b1d43bf 뒤 정확17text(KO7/EN10). title/일반안부/남은시간/휴식·현재사진비교/
+앱삭제 직후 손동작 및 EN선택3 정렬. 효과·조건·flag·저장·공개·배경·CJK 불변.
+표적13 actual0와 official inventory3 actual0. release7축·공식report bytes 불변.
+최종 KO297352B `84551f2ea8e3a1e490900da1d45334e2c2c513fc359f3bc511f1880d3a46abca`,
+EN218438B `78ae42540c5049d3364238f58c475593a714844dc9020dbf1030c98de62ec7cf`.
+
+root 전문 판독한 비저자17/17 source GO 및 보존10/10/demo7/7·비소유3385 exact:
+- `.git/order602-20261013/independent-review.md` 10937B /
+  `ea4a0704f9dd393e0399b764814602628fe11d1cb03ec34baa9aa14f5c1a0712`.
+- `.git/order602-20261013/preservation-review.md` /
+  `5c8159f8c5cc8f77757daabfb393d69aa7fb1cb550f2a7c2157c08cd38afd7fc`.
+- before1364B `145900497c035932306e82d73d1a289d3980c9850b5cf1be605a1b1c9c79d30c`.
+  보조집계 전송잘림/첫parse 거부(write0)는 같은 출력과 공식raw RO읽기로 보완했고
+  원검사 재실행·원실패 삭제·제품 재캡처로 처리하지 않았다.
+
+manifest `df34c0f5391f29f54431a9686bace47f39f0cf3f764796b2d5fb3ea135dca90c`,
+current11387/stale46·56·56/invalid73·7·7. JA 새numeric3, CN/TW pressure본문의
+옛영문Mingi 새감지1씩. source7 추가로 미수용 정합대기63KO/수용0·고유KOEN135.
+callback44 생일/지속SNS·54 정확인용은 원생산자에도 미보장인 기존 후월 부채다.
+실제M17 OS잠금HOLD·엔진/native/새월0·본편/5언어INCOMPLETE/인간OPEN45/출시HOLD.
+601과602선언 CI 조회시 in_progress, 새push 미확정. 일회성/승격0·현황판 단독후속0.
