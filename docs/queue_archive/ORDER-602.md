@@ -52,8 +52,11 @@ EN218438B `78ae42540c5049d3364238f58c475593a714844dc9020dbf1030c98de62ec7cf`.
 root 전문 판독한 비저자17/17 source GO 및 보존10/10/demo7/7·비소유3385 exact:
 - `.git/order602-20261013/independent-review.md` 10937B /
   `ea4a0704f9dd393e0399b764814602628fe11d1cb03ec34baa9aa14f5c1a0712`.
-- `.git/order602-20261013/preservation-review.md` /
-  `5c8159f8c5cc8f77757daabfb393d69aa7fb1cb550f2a7c2157c08cd38afd7fc`.
+- `.git/order602-20261013/preservation-review.md` 최종7608B /
+  `1a223450608ebef35e66eee15dec07ca67fe012503de240d1b7a81ec3da1a460`.
+  800ea88의 root 마감이 최종봉인 통지보다 앞서 중간보고핀을 적었다. 603 선언에서
+  최종 전문을 다시 읽고 정정했다. 수정은 보조전송 비교불가의 표현 한 문장이며
+  제품2핀·판정·측정값은 동일, 제품/검사 재실행0·원커밋을 숨기거나 되쓰지 않는다.
 - before1364B `145900497c035932306e82d73d1a289d3980c9850b5cf1be605a1b1c9c79d30c`.
   보조집계 전송잘림/첫parse 거부(write0)는 같은 출력과 공식raw RO읽기로 보완했고
   원검사 재실행·원실패 삭제·제품 재캡처로 처리하지 않았다.
