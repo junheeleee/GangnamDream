@@ -345,7 +345,7 @@
   {
     "id": "arc_goal_vertigo",
     "title": "The Number: 3 Billion Won",
-    "description": "It was past midnight. When the room light went out, only the spreadsheet remained. The laptop fan turned softly; the cursor blinked in the same total-assets cell.\n\n{name} stopped midway through typing three billion won into the target column. At the beginning, the number had been so large it felt weightless. Now it held every month's housing cost, every return, and every night surrendered to it.\n\nStill, it did not feel real. The longer {name} stared, the more meaning drained away until only commas and zeroes remained. Was the goal getting closer, or was {name} disappearing inside the number?",
+    "description": "It was past midnight. When the room light went out, only the spreadsheet remained. The laptop fan turned softly; the cursor blinked in the same total-assets cell.\n\n{name} stopped midway through typing three billion won into the target column. At the beginning, the number had been so large it felt weightless. Now it held the housing-cost figures and projected rates of return in his spreadsheet, and the blinking total-assets cell.\n\nStill, it did not feel real. The longer {name} stared, the more meaning drained away until only commas and zeroes remained. Was the goal getting closer, or was {name} disappearing inside the number?",
     "choices": [
       {
         "text": "Reopened the plan — go back to the numbers",
@@ -357,7 +357,7 @@
       },
       {
         "text": "Went out for some air. Walked all the way to the Han River.",
-        "result_text": "{name} put on his sneakers and walked to the Han River. Dawn wind slipped under his shirt; dew had made the bench cold. Across the water, lights stretched and trembled.\n\nThere was no target sum in the river, no rate of return. For thirty minutes, he kept his phone away and listened to the current.\n\nThe soles of his feet hurt on the walk back. The ache felt strangely welcome, proof that his body still existed somewhere outside the numbers."
+        "result_text": "{name} put on his sneakers and walked to the Han River. Dawn wind slipped under his shirt; dew had made the bench cold. Across the water, lights stretched and trembled.\n\nThere was no target sum in the river, no rate of return. For thirty minutes, he listened to the current with his phone out.\n\nThe soles of his feet hurt on the walk back. The ache felt strangely welcome, proof that his body still existed somewhere outside the numbers."
       }
     ]
   },
