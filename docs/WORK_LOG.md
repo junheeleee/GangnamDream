@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — 블랙잭 소프트17의 잘못된 정지 안내 수리
+
+- [583](queue_archive/ORDER-583.md): KO/EN 도움말2줄을 실제 H17 규칙(A를11로 세는 soft17에서는 더 받고 그 밖의17+에서는 정지)에 맞췄다. 규칙·배당·저장·사전/원장·공개데모 불변이다. legacy/AP source만이며 정상 본편·실제 화면 GO가 아니다. 미등록 Blackjack 전체본문/CJK 번역은 후속으로 남기며 수용/coverage 증가0이다.
+- 표적8 actual0·비저자 source2/2/locale경계 GO·보존25/25다. 제품2줄 inverse·보호61/1196·비소유3368·old582raw44·원장325/모든 accepted exact, 공식 JA inventory는 manifest fb4b…→98664…만 전이하고17504잎/466unsupported/invalid56/그밖의 JSON exact다. 전역 source 불변·append-only 수용0이며 실제핀/실행출력/읽기 오류·정정은 사양/새private에 보존했다.
+- gangnamdream-dev/I18N의 소유 보존·source/실관찰 분리를 적용했다. 새helper/검사/등록/엔진/월0·M17 OS잠금 HOLD 하나·해제 재요청0·렌더/원어민/인간/패드 OPEN·전체 INCOMPLETE·출시 HOLD·종료resource/Presence 잔여 유지다. 기준1eff CI38327756051은 조회당시 진행중/결론null, 새push CI 별도 확인·현황판 단독후속0이다.
+
 ## 2026-10-13 — 바카라 내추럴의 잘못된 무승부 안내 수리
 
 - [582](queue_archive/ORDER-582.md): 양쪽 내추럴이면 모두 무승부라는 KO/JA 오설명을 고치고 EN도 높은 점수 승리·동점만 무승부로 명료화했다. JA 설명1 교체·옛 고아키1 제거, CN/TW 제목·설명 각2를 KO에서 직접 작성했다. 실제 Baccarat 규칙·배당·저장·공개데모는 그대로이며 legacy/AP 도움말 source/receipt만 닫는다. 정상 본편 노출·실제 화면·원어민 GO가 아니다.
