@@ -3,6 +3,13 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — M20 이사 뒤에도 생기던 동거 회상·16주 질문 인용 수리
+
+- [589](queue_archive/ORDER-589.md)와 [590](queue_archive/ORDER-590.md): 이미 이사한 경로의 현수 발령 식사 질문/선후·미래 주방 직접관찰을 현재 방문/짐싸기/출발로 맞췄다. KOEN4result잎의6구절만 바꾸고, 독립검수에서 발견한16주callback 옛질문은 별도선언2quote로 연동했다. 중간불일치제품을 따로commit하지 않고 두단위를 한 구현커밋으로 묶는다. 선택/돈/효과/주거/flag/16주예약/최소W96·나머지원문 불변이다.
+- 589최종표적14/590최종15 actual0, 비저자 전4+2 source GO·현재union보존25/25다. 초기token KO1/EN2·CJK invalid+1 REWORK→최종추가token/cast0, 원v1 source/after/checks 보존이다. 589의 인용HOLD/옛HEAD·child비소유 기대false2(15/17)도 보존하고,590의 실제90a7/index0/dirty4 union·비소유3369/2callbackinverse/parent2핀 exact로 source정합만 해소했다. 보호72/467/공개14/validator/manifest/원장/CJK/저장/인간 exact·release7축 지문/report 변경0이다. 상세핀은 두 사양에 결속했다.
+- 공식locale 원관측→589v2→590은 KO source2+1잎/manifestbe1d…→cb2ab5…·각current11445→11443→11442/stale4→6→7, 기존invalid57/1/1 exact다. 기존과합쳐 source8잎 번역정합대기·JAzh다듬기/원장수용0·5언어유지/전체INCOMPLETE다. 추가 확인된 무직=수입0 문구는 FullStoryFlow caller0인 legacy/AP 한정으로 본편M20 화면결함/수리로 세지 않는다.
+- gangnamdream-dev/WORK_UNIT의 생산자↔독자/소유/표적검수·source/실관찰 분리를 적용했다. 일회성/승격0·새tool/검사/엔진/native/새월0·실제M17 OS잠금 HOLD 하나·해제즉시원W68 우선·CI빨강새월0. 공개GO/사용자저장/옛판정/종료잔여 보존·새push CI미확정·출시HOLD다. M20 새문턱4묶음만 source판독했으며 전체월완료0·다음M21 미판독·현황판 단독후속0이다.
+
 ## 2026-10-13 — M19 이미 달성한 목표 금액을 부정하던 한영 수리
 
 - [588](queue_archive/ORDER-588.md): 34세 이후 이미30억인 경로에도 열리는 다은 새벽에서 아직 멀었다는 단정을 숫자가 잠깐 머릿속에서 밀려났다는 현재 주의로 바꿨다. KO/EN2잎 각1문장, 선택/효과/조건·자산/목표달성 동작 exact다. 현 fork M22·fresh M19 화면 증거0이다.

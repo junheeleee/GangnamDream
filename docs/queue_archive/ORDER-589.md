@@ -1,6 +1,6 @@
 # ORDER-589 — M20 현수 발령의 무조건 동거 회상
 
-#### [~] ORDER-589 [정합] KO/EN 4잎 수리 착수 — 2026-10-13
+#### [x] ORDER-589 [정합] KO/EN 4잎·590 인용 정합 후 수용 — 2026-10-13
 
 기준 clean main717d5aee808d1e92b8a3f1dbd3575f93a93a4e0c/
 tree4bb7d0f26c2788c91127c3476ed2ca2cf4afde13. M17→19 뒤 M20의 story_map과
@@ -57,7 +57,45 @@ demo scope/story demo/JA/ZH demo·release 지문/보고·context/queue/diff.
 
 ## 실제 결과
 
-미완료。v1 새토큰 KO1/EN2와CJK invalid+1/locale를 보존하고 v2는 추가토큰/이름0으로
-수리했다. 최종표적14 actual0·독립4잎 문장GO이나16주reader가 옛질문을 인용하는
-새불일치를 비저자가 발견해 인과HOLD다. 별도590 종속수리를 선언하며 두 작업의
-정합전 완료0·한 구현커밋으로 묶는다. 실제M20/월 완료를 source 수리로 대신하지 않는다.
+최종 KO/EN 4잎·6구절 수리, 표적14 actual0·전4잎 독립 source GO다.
+단순 이사 질문/선후 단정과 미래 빈방·주방 직접 관찰을 현재 방문/출발로 맞췄다.
+선택/효과/돈/관계/예약16주/본문 나머지 바이트 불변·release7축 지문/report 불변이다.
+
+- 의미 manual_save_ci `.git/order589-20261013/independent-review.md`5976B/
+  824222aabe981532a9c8b1f83c0058febdbc6c24710ee03a2120ab513056af9e.
+- 보존 rework_batch_plan `preservation-review.md`9965B/
+  a5819317e92583e840a6561fee3c0827e17c1739b85bec8d8cfae56c4f5e55d6.
+  실제90a7d65/tree0bba5ed0/index0/dirty4 union 관측이다. 옛 HEAD/dirty2 기대값 및
+  child2를 비소유로 보던 검사 false2(15/17)를 보존했다. parent6span inverse와
+  child외3369 exact/데모7/7로 scope를 분리, 이를 단독17/17 PASS로 바꾸지 않는다.
+- v1 새{name} KO1/EN2 및 cast명 추가로 inventory invalid 각+1 REWORK가 났다.
+  v1 두원본/after3/check14를 보존하고 v2는 추가token/cast0·기존 문단 구조 유지로
+  고쳤다. v2 final-*.json14개 actual0·after-v2-3locale actual0이다. v1 narrative
+  출력은 중간 인간 상태 일부가 잘린 원수신이고, final 출력은 완전 수신/별도 보존했다.
+- 최종 parent핀 KO36593B/acb77fb682c80d4498dd6658dd67020337789d38ca03acfe2640c42f2fd2d1fd,
+  EN27198B/3dd2aec54ddc5bd2cd0ab6f7758e3b10d6846a5ecba090f9b4bfa078a9b99d89.
+  before8핀1185B/da6ff86b30f44c3209e154748ff9e76d8960156606c26eb830daa8b401ee562f.
+  두source 역복원은 선언원본658aafc…/b041f0… exact다.
+- 공식 before는588 after원관측을 재사용했다. v2는 KO result2잎만 전이,
+  manifestbe1d3da0133550b5695db0da923f40dfdb6cf4a28259b9c547ee17c1fa4d8a12,
+  각currentreceipt11445→11443/stale4→6·invalid JA57/CN1/TW1 exact다.
+  JAzh 수정/원장수용0·번역 정합대기·5언어 전체완료0이다.
+
+비저자가16주callback의 옛 직접인용을 발견해 한때 인과HOLD했다. 그 원보고/HOLD를
+지우지 않고 별도590 선언·KOEN2quote수리·현재 source정합GO/보존25/25로만 해소했다.
+590의 current90a7 union 판독에서 parent2 wholepins/나머지3369 및 보호demo72/467/
+공개14가 exact다. 중간 불일치제품을 따로 commit하지 않고 둘을 한 구현커밋에 묶는다.
+
+```
+도달 경로      : MainGame.gd:8152–8154; EXPOSED_STATE_CONSISTENCY_AUDIT_OK
+생산자 ↔ 독자   : arc_hyunsu.json:414–417 ↔ callback_events_41.json:94–99/590
+바꾸는 상태     : gameplay0; KOEN4result text; CJK currentreceipt−2/locale
+포기 시 잃는 것 : choice1에 식사flag/callback0; choice0의16주reader exact
+서사 위치       : M20 W80+ 발령·조건부 호환source; 실제월0
+장면 계층       : 기존미선언T3·격상0·전체장면 승인0
+닫는 것         : 무조건 동거/미래 직접관찰1묶음; 590 인용 연동 해소
+```
+
+gangnamdream-dev/WORK_UNIT 적용·일회성/승격0·엔진/native/새월0·Mac잠금true다.
+실제M17 HOLD 하나·해제즉시 원W68 우선·CI빨강 새월0·새push CI미확정.
+공개GO·사용자저장/과거인간/5언어·출시HOLD/종료잔여 보존, M21 미판독이다.

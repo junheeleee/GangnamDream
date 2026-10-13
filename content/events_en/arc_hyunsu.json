@@ -172,11 +172,11 @@
     "choices": [
       {
         "text": "Buy him dinner",
-        "result_text": "A sundae gukbap place nearby. Hyunsu ate a lot. The meal of a man with no exam tomorrow.\n\n\"When are you getting out of here, hyung?\"\n\"...Not sure yet.\"\n\nInstead of answering further, {name} pushed the dish of radish kimchi toward him. Hyunsu didn't press; he just smiled. That smile stayed a long time.\n\nSame starting line — and one of them had left first. Picking up the bill, {name} thought: strangely, he didn't begrudge this money at all."
+        "result_text": "A sundae gukbap place nearby. Hyunsu ate a lot. The meal of a man with no exam tomorrow.\n\n\"Where are you headed next, hyung?\"\n\"...Not sure yet.\"\n\nInstead of answering further, {name} pushed the dish of radish kimchi toward him. Hyunsu didn't press; he just smiled. That smile stayed a long time.\n\nNext week, Hyunsu would leave for his new posting. Picking up the bill, {name} thought: strangely, he didn't begrudge this money at all."
       },
       {
         "text": "Tell him it's great news. Say goodbye.",
-        "result_text": "\"Good for you. Take care of yourself out there.\"\n\"Thank you, hyung.\"\n\nNo handshake, no hug. The goshiwon hallway was too narrow for that, and the two of them too unpracticed at it.\n\nThe room was empty the next day. The shared kitchen, one ramyeon pot missing, looked strangely bigger than before.\n\nFor a few days, the absence of boiling water at two in the morning felt wrong."
+        "result_text": "\"Good for you. Take care of yourself out there.\"\n\"Thank you, hyung.\"\n\nNo handshake, no hug. The goshiwon hallway was too narrow for that, and the two of them too unpracticed at it.\n\nThe ramyeon pot went into a box. It brought back the sound of water boiling in the shared kitchen at two in the morning.\n\nHe could still hear tape being torn behind him as he walked down the hallway, down the stairs, and out the door."
       }
     ]
   },
