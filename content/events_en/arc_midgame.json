@@ -1309,19 +1309,19 @@
   {
     "id": "arc_y2_relationship_fork_unattached",
     "title": "Writing the Renewal Alone",
-    "description": "The new rent on the renewal notice overlaps a fold in the first lease. At 5:34 p.m. on Friday, {name} spreads the two papers side by side on the desk in his current room. The new rent is higher, and the new end date sits one year away. The landlord wants an answer by six.\n\nThere is one signature box. With no one else to decide or compare for him, he has to price the cost of keeping this address against the cost of moving again. Accepting a year preserves the room and reduces what he can spend each month. Asking for a shorter term changes the deposit. Refusing means beginning another room search tonight.\n\n{name} touches the new rent and the remaining cash with the tip of his pen. In twenty-six minutes, the thing he has to protect is not a relationship but his address for the next season.",
+    "description": "The new terms on the renewal notice overlap a fold in the first lease. At 5:34 p.m. on Friday, {name} spreads the two papers side by side on the desk in his current room. The notice gives the amount due now and a new end date one year away. The landlord wants an answer by six.\n\nThere is one signature box. With no one else to decide or compare for him, he has to price the cost of keeping this address against the cost of moving again. Accepting a year preserves the room but requires 300,000 won now. Asking for a shorter term changes the deposit. Refusing means beginning another room search tonight.\n\n{name} touches the renewal terms and the remaining cash with the tip of his pen. In twenty-six minutes, the thing he has to protect is not a relationship but his address for the next season.",
     "choices": [
       {
-        "text": "Accept the higher rent and sign a one-year renewal",
-        "result_text": "{name} rereads the new rent and end date, then signs the one-year renewal. The landlord confirms it at 5:49, and {name} immediately transfers the first 300,000 won of increased rent.\n\nThe address stays. In the first line of his notebook, {name} writes the amount he will have to cut each month. Filling one empty signature box fixes the cost of the next twelve months with it."
+        "text": "Pay 300,000 won now and sign a one-year renewal",
+        "result_text": "{name} rereads the new terms and end date, then signs the one-year renewal. The landlord confirms it at 5:49, and {name} immediately transfers the 300,000 won required for this renewal.\n\nThe address stays. In the first line of his notebook, {name} writes the amount transferred today. Filling one empty signature box leaves a commitment to use this room for the next twelve months."
       },
       {
         "text": "Ask for six months and compare the larger deposit",
-        "result_text": "{name} asks for six months instead of a year. The landlord keeps the rent unchanged but asks for another 1,000,000 won in deposit.\n\n{name} places the account balance beside the added deposit, transfers the 1,000,000 won, and signs the shorter term. Freedom to move will return sooner; the cash available now becomes trapped in the room instead."
+        "result_text": "{name} asks for six months instead of a year. In return for the shorter term, the landlord asks for another 1,000,000 won in deposit.\n\n{name} places the account balance beside the added deposit, transfers the 1,000,000 won, and signs the shorter term. Freedom to move will return sooner; the cash available now becomes trapped in the room instead."
       },
       {
         "text": "Decline renewal and set the move-out inspection now",
-        "result_text": "{name} declines the renewal and sets an inspection date with the landlord. At 6:02, the time by which the room has to be empty enters his calendar.\n\nHe avoids the higher rent and fixes the end of this address at the same time. The unsigned renewal and next month's schedule with no new address remain side by side on the desk."
+        "result_text": "{name} declines the renewal and sets an inspection date with the landlord. At 6:02, the time by which the room has to be empty enters his calendar.\n\nHe has rejected the new renewal terms but fixed the end of this address at the same time. The unsigned renewal and next month's schedule with no new address remain side by side on the desk."
       }
     ]
   },

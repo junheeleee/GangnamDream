@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — M22 무연애 갱신의 월세·반복비용 회상 수리
+
+- [595](queue_archive/ORDER-595.md): 전세에도 월세가 올랐다고 하던 M22갱신과 연말두독자를 KO/EN14잎으로 수리했다. 기존 일회30만원/100만원과 서명·기한설정만 설명하고 매달인상분 차감/연말현재주소/다음납부를 확정하지 않는다. 새경제/수수료/환급·강제이사0·효과/flags/typedfacts/DIK순서/6개월reader exact다.
+- 표적14 actual0(추가source-only recall40KO/40EN)·비저자 전14source GO/14span wholeinverse·보존11/11/demo7/7·3375비소유 exact다. release7축/report는실측불변. official after3 KO7잎/manifestda971…004dc·current11429/stale16/17/17·invalid61/4/4(옛CJK와금액/기간 새불일치3씩)·누적21KO잎 정합대기다. 원장/CJK수용0·source완료를5언어GO로확대0. capacity로미봉인된manual메시지/원pending은보존, 실제mod 새경로봉인보고를 root최종전량판독·별도결속했다. 상세핀은 사양에 결속한다.
+- gangnamdream-dev/WORK_UNIT 적용·일회성/승격0·엔진/native/새월0·실제M17 Mac잠금HOLD 하나·해제우선·CI빨강새월0. 이전bde9a600 전체CI성공을09:12:35Z확인·최신/새push는미확정·출시/종료cleanGO0다. 공개/저장/옛판정/5언어/종료잔여 보존·본편/출시HOLD. M22source동결뒤 M23를RO로읽어 방미방문회상·진행중투자 발명반례를확인·구현0/다음별도사양·현황판 단독후속0이다.
+
 ## 2026-10-13 — M22 다은 미래 대화의 현재 장소 수리
 
 - [594](queue_archive/ORDER-594.md): 편의점휴게의자라던 첫구절만 현재거처의 방안의자로 KO/EN2잎 직접 정렬했다. 기존5장소계약·배경/음악·4선택/12주후속/관계·카운터부터의 거리라는 과거비유는 그대로다. 새동거/방문/게임동작0이다.
