@@ -1,6 +1,6 @@
 # ORDER-601 — 다은 관계 기간과 현재 주거 사실 수리
 
-#### [~] ORDER-601 [정합] M24 이후/ M25 입구 KO·EN 17잎 — 2026-10-13
+#### [x] ORDER-601 [정합] M24 이후/ M25 입구 KO·EN 17잎 — 2026-10-13
 
 600 완료 뒤 사용자 위임 잠금 중 월순서 사실 수리. 실제월562/M17 HOLD 하나.
 Mac 해제 시 원559 W68 실제 M17 우선, CI빨강 새월0.
@@ -46,3 +46,28 @@ Mac 해제 시 원559 W68 실제 M17 우선, CI빨강 새월0.
 JAzh 다듬기/수용0·실제KOEN 확정뒤 정합대기. 전체audit/240주/엔진/native/새월0.
 gangnamdream-dev/WORK_UNIT 적용, 기존 장면 사실수리·격상0·일회성/승격0.
 자동검사는 계약 증거이지 재미/인간/원어민/물리패드 관찰 또는 출시 GO가 아니다.
+
+## 완료 · source 한정
+
+선언121f9a4 이후 KO8/EN9=17잎·current_housing1·말투 required2/forbidden2만 수리.
+효과/flag/DIK key/후속/저장/공개·CJK·원장 불변. sexuality SHA는
+`d068a0e64c8ebc8257dc265afdeb3d21629b615a185e9d563ac7fc88a77873f4`, 공식보고1값 정렬.
+최종14검사 actual0=재검증7+재사용7, 원21 wrapper는 모두 보존. v1의 새placeholder는
+같은 소유잎에서 제거 후 원KO0/EN1로 복원, final inventory3와 관련7검사를 새파일로 재검증했다.
+초기출력을 최종으로 덮지 않았고 원형 그대로 남긴다. 새검사/도구0.
+
+root 전문 판독한 독립 의미17/17 GO와 보존11/11/demo7/7·비소유3381 exact:
+- `.git/order601-20261013/independent-review.md` 10797B /
+  `6cda9a08d7fb9ba7aa27245c71739d8912f52edecf7f86a3a66a313425c60c39`.
+- `.git/order601-20261013/preservation-review.md` 10809B /
+  `e6c0374fb4a5144ee7525e6f370e016f94398184b13bba65020968f2dd3e8e8b`.
+- before1835B `8ba75a50bd6992bb27c762d839bcb7247a069a2397cc9f944521f3778465d789`.
+  보조 집계전송 truncation/parse 거부(write0)는 같은 원출력·wrapper 판독으로 복원했으며
+  제품 재캡처/검사 재실행 또는 원실패 삭제로 처리하지 않았다.
+
+final source manifest `655414534f9b98c53df683d2aad0a60a2ec8581a821c95fbb9853cd216bdb73f`,
+current11394/stale42·50·50/invalid70·6·6. 새KO8로 미수용 정합대기48→56,
+JA numeric 새불일치6·CN/TW 새invalid0를 숨기지 않는다. KOEN고유누적118, 수용/import0.
+기존 callback53 고정apartment/기간/정확인용은 수정 전에도 공통생산되지 않은 후월 부채다.
+실제 M17 OS잠금HOLD 하나·native/엔진/새월0·5언어INCOMPLETE/인간OPEN45/출시HOLD.
+600 CI 조회시 in_progress·새push 미확정. 일회성/승격0, 현황판 단독후속0.

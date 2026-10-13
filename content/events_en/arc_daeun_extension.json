@@ -1,16 +1,16 @@
 [
   {
     "id": "arc_daeun_year3_together",
-    "title": "Two Years",
-    "description": "Two years since {name} met Daeun.\n\nLooking at the calendar, she said, \"It's been exactly two years since we first met.\"\n\nTriangular kimbap, buy-one-get-one. Across the convenience store counter. That was two years ago.\n\nA lot had changed since. Gangnam was still far, the bank balance was different, the weight of Seoul was the same — and this person was still here, beside him.\n\n\"...We're okay like this, right?\" Daeun said the thing she seemed not to be asking.",
+    "title": "Still Beside Me",
+    "description": "Looking at the calendar with Daeun, {name} thought of the day they first met.\n\n\"Do you remember when we first met?\" she asked.\n\nTriangular kimbap, buy-one-get-one. Across the convenience store counter. He had not imagined then that they would become this close.\n\nLife in Seoul could still weigh on him. Wondering how far he had come, he looked away from the calendar at Daeun beside him.\n\n\"...We're okay like this, right?\" Daeun said the thing she seemed not to be asking.",
     "choices": [
       {
         "text": "\"We're okay. It means a lot, you being here.\" — evenly",
         "result_text": "Daeun looked at {name} for a long moment. \"I know. I just like to check sometimes.\"\n\nThe words were plain. Proof that this thing hadn't started to shake yet."
       },
       {
-        "text": "\"Two whole years. I can't believe it either.\" — honest",
-        "result_text": "Daeun laughed. \"Same.\"\n\nSo this is how two years pass. Moving along in a way that's not bad at all."
+        "text": "\"I still remember that day. I never imagined we'd become this close.\" — honestly",
+        "result_text": "Daeun laughed. \"Me neither.\"\n\nSomehow they had come this far. Moving along in a way that was not bad at all."
       },
       {
         "text": "\"Honestly — I'm struggling a lot lately.\" — first time admitting it",
@@ -18,17 +18,17 @@
       }
     ],
     "description_if_known": {
-      "daeun_romance_started": "A few seasons since they became a couple.\n\nSame room, same dawn, same ramyeon pot.\nThey fought sometimes — usually when {name} got sharp about money — but come morning they rode the same subway, side by side.\n\n\"What'll we do once we reach Gangnam?\" Daeun asked.\n\"No idea. But more than getting there — I hope this train I ride with you never stops running.\"\n\nDaeun rested her head on his shoulder. Two years lived inside that weight."
+      "daeun_romance_started": "Steam rose from the pot of ramyeon.\n\nThey sat side by side, sharing the ramyeon from the same pot.\n{name} started to bring up money, then stopped. Daeun served him a little more.\n\n\"What'll we do once we reach Gangnam?\" Daeun asked.\n\"No idea. But more than getting there — I wish this evening with you could last a little longer.\"\n\nDaeun rested her head on his shoulder. The words he had just spoken lingered in that weight."
     }
   },
   {
     "id": "arc_daeun_year3_apart",
     "title": "Wedding Photo",
-    "description": "A social-media alert appeared late at night. One of Daeun's friends had posted photographs from a wedding hall in Busan. {name} scrolled without thinking, then stopped at the second image.\n\nDaeun stood at the center of the flowers in a wedding dress. She was not a guest beside the bride. She was the bride. When he enlarged the image, the familiar narrowing of her eyes when she smiled met the unfamiliar white veil.\n\nTwo years ago, she had handed him triangle kimbap across a convenience-store counter in Seoul. Now she stood at the center of a life he did not know.",
+    "description": "A social-media alert appeared late at night. One of Daeun's friends had posted photographs from a wedding hall in Busan. {name} scrolled without thinking, then stopped at the second image.\n\nDaeun stood at the center of the flowers in a wedding dress. She was not a guest beside the bride. She was the bride. When he enlarged the image, the familiar narrowing of her eyes when she smiled met the unfamiliar white veil.\n\nWhen they first met, she had handed him triangle kimbap across a convenience-store counter in Seoul. Now she stood at the center of a life he did not know.",
     "choices": [
       {
         "text": "Liked it. Genuinely glad for her.",
-        "result_text": "{name} pressed the heart. The count rose by one; Daeun kept smiling in the photograph. He said, \"I'm glad,\" under his breath and closed the app.\n\nOnce, it would have taken longer to produce those words. This time the congratulations arrived first and the ache followed. Perhaps two years had changed him that much.\n\nThe phone went dark, but the white dress lingered in his palm for a moment."
+        "result_text": "{name} pressed the heart. The count rose by one; Daeun kept smiling in the photograph. He said, \"I'm glad,\" under his breath and closed the app.\n\nOnce, it would have taken longer to produce those words. This time the congratulations arrived first and the ache followed.\n\nThe phone went dark, but the white dress lingered in his palm for a moment."
       },
       {
         "text": "Closed the screen. Better not to see it.",
