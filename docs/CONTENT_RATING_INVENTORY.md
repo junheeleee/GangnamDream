@@ -132,7 +132,7 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
 | 사행성·도박 | 137 / 43 | `e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b` | `1fa49eab8bc4fb554a4a53efc772a909eb0eb2c5487f7530465ad4e74496802e` | strong, moderate |
-| 선정성·성적 내용 | 124 / 26 | `b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa` | `d05cd9d46b988ea3a06cb5a5c019645e1bef2a3866dc549cd2bcfaee8e53e1fe` | moderate, mild |
+| 선정성·성적 내용 | 124 / 26 | `b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa` | `4e713cebd867fa71b559464c8902de435ed7b3938b0fb99845e8b6c9a2532d88` | moderate, mild |
 | 폭력성 | 17 / 14 | `b036299411ccb065182412b7accbfaf66efdab32d05c81d8b6c6bb6a3d3dc125` | `d9e1a6e138286682473b7da01099ce326284eaa7844446a2f0adf6d6e8f28d26` | mild |
 | 공포 | 145 / 51 | `a6a6ec729442836b7328d965a645391fc8d5c8750c22535ff2e6928a5750c2da` | `4b26fd811bd14dab0449f2a7e6a786ea957e8ebc8a789dc603390cef701c7ba9` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `b7018e341076ee7951da874c3fe6cadd4f34d7f0c996feb2b67e83c0a44e98c2` | mild |

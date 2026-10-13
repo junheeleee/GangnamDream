@@ -152,7 +152,7 @@
   {
     "id": "arc_daeun_04_morning",
     "title": "The Reason at 3 A.M.",
-    "description": "3 A.M.\n\nA message from Daeun.\n\"You awake? ...Just can't sleep. Not exactly struggling — just.\"\n\n{name} stared at the screen, then looked out the window. Seoul doesn't go dark at 3 A.M.\n\nThree billion won was still far off. Time was always running short.\n\nBut right now, looking at this message — for the first time, it felt clear.\nWhy he was running.",
+    "description": "3 A.M.\n\nA message from Daeun.\n\"You awake? ...Just can't sleep. Not exactly struggling — just.\"\n\n{name} stared at the screen, then looked out the window. Seoul doesn't go dark at 3 A.M.\n\nFor a moment, the figure of three billion won slipped from his mind. Time was always running short.\n\nBut right now, looking at this message — for the first time, it felt clear.\nWhy he was running.",
     "choices": [
       {
         "text": "Reply: \"Me too. Don't worry\"",
