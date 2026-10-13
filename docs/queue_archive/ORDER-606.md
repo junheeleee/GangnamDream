@@ -1,6 +1,6 @@
 # ORDER-606 — 지연 출발의 미청취 계획 회상 수리
 
-#### [~] ORDER-606 [정합] KO·EN 본문 2잎 — 2026-10-13
+#### [x] ORDER-606 [정합] KO·EN 본문 2잎 — 2026-10-13
 
 605 source 마감 뒤 잠금 중 월순서 사실수리. MainGame t110~135/M28~34 입구.
 실제월562/M17 HOLD 하나, OS해제 시 원559 W68 실제플레이 우선·CI빨강 새월0.
@@ -33,3 +33,26 @@ rework_batch_plan: 같은 경로 preservation-review.md만. root는 독립보고
 엔진/native/새도구/전체audit0·사용자저장/설정/project·원장/CJK·과거인간판정 불변.
 gangnamdream-dev/WORK_UNIT 적용·사실수리/승격0·일회성. source GO는 실제플레이/
 인간·원어민·물리패드·5언어·출시 GO가 아니다.
+
+## 완료 · source 한정
+
+description KO1/EN1의 미청취 독립계획 회상을 공통 수험서 기억과 지금 받은
+자기이름의 중개사무소 계획/편도표로 수리했다. '처음 알았다'·합격/개업완료0.
+KO4/EN5문단·각{name}1·선택·효과·원격계약/장거리/후속 예약 불변.
+표적13·공식inventory3 actual0. release7축/공식보고는 실측 whole-byte 불변.
+
+root가 FINAL SEALED 통지 뒤 전문 판독한 두 private 보고:
+- .git/order606-20261013/independent-review.md 6620B/
+  106e9d936f6cdf4203ca7e7d0a7bba8236e10752eccd4591c85772c100272e90 — 의미2/2 GO.
+- .git/order606-20261013/preservation-review.md 5475B/
+  7c970fad425641b4b321155cfe5aab0a17ca059c5882f74e6293ecfc66ec0327 — 보존10/10/demo7/7·비소유3391 exact.
+보존 캡처의 의미pending은 그 기록 그대로 두고, root가 위 최종 의미보고와 동일제품2핀을
+전문 대조해 별도 결속했다. 이전 미완성 판정을 GO로 바꾸거나 보고를 수정하지 않았다.
+before1371B/964b277778b067557b41eda2b4a52273cbe2b686dacf9a7666966e3a7947867a.
+제품 KO102195B/416ee9eb954ef13253117f00574aec5d5daf9c48e29ee30c39dd9bce2530916d,
+EN71478B/d1eb417e6aed0baa048990d11223499e233c0e78e4f7d85f387744ada01125ae에 결속.
+manifest0225bbf525514ee55e2c07178741f1c55db909ff804a70210f1f507c30c3c490,
+current11374/stale56·67·67/invalid76·9·9 불변. CJK76KO잎 미수용대기/
+고유KOEN162·원장/CJK수용0. 5언어전체 INCOMPLETE·실제 M17 OS잠금HOLD 하나.
+source를 native/인간/원어민/물리패드/출시 GO로 확대0·새push CI미확정.
+일회성/승격0·현황판단독0. 다음 why의 금액돌파/정확3년을 별도범위로 수리한다.
