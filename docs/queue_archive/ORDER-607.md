@@ -1,6 +1,6 @@
 # ORDER-607 — 왜 강남인가의 자산 돌파·경과연수 발명 수리
 
-#### [~] ORDER-607 [정합] KO·EN 20잎 — 2026-10-13
+#### [x] ORDER-607 [정합] KO·EN 20잎 — 2026-10-13
 
 606 source 마감 뒤 잠금 중 월순서 사실수리. why fallback t115~140/M29~35.
 실제월562/M17 HOLD 하나·OS해제 원559 W68우선·CI빨강 새월0.
@@ -43,3 +43,27 @@ context/queue/diff 마감·새엔진/native/도구/전체audit0.
 사용자저장/설정/project·원장/CJK·공개·과거인간판정 보존.
 gangnamdream-dev/WORK_UNIT 적용·기존사실수리/승격0·일회성.
 source GO를 실제/원어민/인간/물리패드/본편/5언어/출시 GO로 쓰지 않는다.
+
+## 완료 · source 한정
+
+낮은 자산/이미 돌파한 경로도 보게 되던 첫돌파를 현재화면 관찰로, 계좌알림
+수신을 화면재열기로, 정확3년을 처음/지금 대비로 KO10/EN10=20잎 수리했다.
+near3 자체를 강제결함으로 세지 않았고 이미 소유본문의 최소시간정렬만 했다.
+밤11시·야경·이름/목표 대비·문단/placeholder·생사통화·동기노트회상·효과/예약 불변.
+표적13·공식inventory3 actual0. release7축/공식보고 whole-byte 불변.
+
+root가 최종봉인 뒤 전문 판독한 private 보고:
+- .git/order607-20261013/independent-review.md 6649B/
+  20580d21ef02bc696d9da683440bc1d42da6d11240c49410af6e107427a9a194 — 의미20/20 GO.
+- .git/order607-20261013/preservation-review.md 5741B/
+  290c2eff871d25e3bdfede47302c61630eb07a11ebbd1d1a775516300a9c4ef0 — 보존10/10/demo7/7·비소유3392 exact.
+보존캡처의 의미pending은 보존하고 root가 위 최종 의미/동일제품2핀을 별도 결속했다.
+before1360B/05077ebdabff35c28c83669187b1f888dfc5e341ffebb7f3a2a10486c10e4877.
+제품KO185728B/288ae3cbfb7a4ae426f4211f5af4ca2abae4af5f661e74007464b1dd49a85873,
+EN134984B/3391a8d532af8d02eb8bd3ef7639c63cb61b054db01aa28059bfa70adb462995.
+
+manifestf526283c8859dc24648e060113efa4a076da1b1ccf017ecb44c77bd2477e3e1b,
+current11364/stale58·77·77/invalid84·9·9. JA옛본문 숫자/횟수 불일치8 신규도
+CJK86KO잎 미수용대기에 명시·고유KOEN182/원장·CJK수용0·5언어 INCOMPLETE.
+midpoint의 고정120주는 다음시점 부채로 분리했다. 실제 M17 OS잠금HOLD 하나/
+새월·native·엔진0·본편/출시HOLD·새push CI미확정·일회성/승격0·현황판단독0.

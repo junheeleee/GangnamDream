@@ -466,10 +466,10 @@
   {
     "id": "arc_why_gangnam_real_father_passed",
     "title": "Why Gangnam",
-    "description": "Eleven at night.\n\nFor the first time, his assets had crossed that number.\n{name} stood alone where he could see the lights in the direction of Gangnam.\n\nSomeone asked.\nIt might have been the memory of Father's voice, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nAfter nearly three years of running, {name} had an answer different from the one he would have given at the start.",
+    "description": "Eleven at night.\n\nHe studied the number on the assets screen.\n{name} stood alone where he could see the lights in the direction of Gangnam.\n\nSomeone asked.\nIt might have been the memory of Father's voice, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nHaving come this far, {name} had an answer different from the one he would have given at the start.",
     "description_if_moral": {
-      "black": "Eleven at night.\n\nFor the first time, his assets had crossed that number. Before looking toward Gangnam's lights, {name} reopened the account alert. The number had not changed. He refreshed it once more.\n\nSomeone asked. It might have been the memory of Father's voice, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nThe next target came before the answer. What had changed in three years was less the reason than the speed of his calculation.",
-      "white": "Eleven at night.\n\nFor the first time, his assets had crossed that number. {name} stood alone where he could see the lights in the direction of Gangnam. Below them were people waiting for the last bus and shops whose owners had not yet gone home.\n\nSomeone asked. It might have been the memory of Father's voice, Hyunsu, or simply a voice carried from somewhere else. Every voice had a face.\n\n\"Why was it Gangnam in the first place?\"\n\nFor the first time, the answer arrived with names instead of a number."
+      "black": "Eleven at night.\n\nHe studied the number on the assets screen. Before looking toward Gangnam's lights, {name} reopened the assets screen. The number had not changed. He refreshed it once more.\n\nSomeone asked. It might have been the memory of Father's voice, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nThe next target came before the answer. What had changed since the start was less the reason than the speed of his calculation.",
+      "white": "Eleven at night.\n\nHe studied the number on the assets screen. {name} stood alone where he could see the lights in the direction of Gangnam. Below them were people waiting for the last bus and shops whose owners had not yet gone home.\n\nSomeone asked. It might have been the memory of Father's voice, Hyunsu, or simply a voice carried from somewhere else. Every voice had a face.\n\n\"Why was it Gangnam in the first place?\"\n\nFor the first time, the answer arrived with names instead of a number."
     },
     "choices": [
       {
@@ -485,11 +485,11 @@
       {
         "text": "\"I thought Gangnam would make things different. Now I'm not sure.\"",
         "text_if_moral": {"black": "\"I thought Gangnam would end it. But the number has not ended anything.\"", "white": "\"I thought Gangnam would make things different. Now I'm not sure.\""},
-        "result_text": "It was the most honest answer.\n\nAt first, Gangnam had felt like freedom. Now he could no longer say exactly what it was.\n\nKnowing that he did not know might itself be something he had learned in three years."
+        "result_text": "It was the most honest answer.\n\nAt first, Gangnam had felt like freedom. Now he could no longer say exactly what it was.\n\nKnowing that he did not know might itself be something he had learned along the way."
       }
     ],
     "description_if_known": {
-      "motive_clarified": "Eleven at night.\n\nFor the first time, his assets had crossed that number. {name} stood alone where he could see the lights in the direction of Gangnam.\n\nSomeone asked. It might have been the memory of Father's voice, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nAfter nearly three years of running, {name} had an answer different from the one he would have given at the start.\n\nHe had asked himself this question once before. On a day when pride and purpose had blurred, he had sorted through his reasons. So this time, the answer came at once."
+      "motive_clarified": "Eleven at night.\n\nHe studied the number on the assets screen. {name} stood alone where he could see the lights in the direction of Gangnam.\n\nSomeone asked. It might have been the memory of Father's voice, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nHaving come this far, {name} had an answer different from the one he would have given at the start.\n\nHe had asked himself this question once before. On a day when pride and purpose had blurred, he had sorted through his reasons. So this time, the answer came at once."
     }
   },
   {
@@ -575,10 +575,10 @@
   {
     "id": "arc_why_gangnam_real",
     "title": "Why Gangnam",
-    "description": "Eleven at night.\n\nFor the first time, his assets had crossed that number.\n{name} stood alone where he could see the lights in the direction of Gangnam.\n\nSomeone asked.\nIt might have been his father, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nAfter nearly three years of running, {name} had an answer different from the one he would have given at the start.",
+    "description": "Eleven at night.\n\nHe studied the number on the assets screen.\n{name} stood alone where he could see the lights in the direction of Gangnam.\n\nSomeone asked.\nIt might have been his father, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nHaving come this far, {name} had an answer different from the one he would have given at the start.",
     "description_if_moral": {
-      "black": "Eleven at night.\n\nFor the first time, his assets had crossed that number.\nBefore looking toward the lights of Gangnam, {name} reopened the account alert. The number had not changed. He refreshed it once more.\n\nSomeone asked.\nIt might have been his father, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nThe next target came to mind before an answer did. What had changed in three years was less the reason than the speed of his calculation.",
-      "white": "Eleven at night.\n\nFor the first time, his assets had crossed that number.\n{name} stood alone where he could see the lights in the direction of Gangnam. Below them were people waiting for the last bus and shops whose owners had not yet gone home.\n\nSomeone asked.\nIt might have been his father, Hyunsu, or simply a voice carried from somewhere else. Every voice had a face.\n\n\"Why was it Gangnam in the first place?\"\n\nFor the first time, the answer arrived with names instead of a number."
+      "black": "Eleven at night.\n\nHe studied the number on the assets screen.\nBefore looking toward the lights of Gangnam, {name} reopened the assets screen. The number had not changed. He refreshed it once more.\n\nSomeone asked.\nIt might have been his father, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nThe next target came to mind before an answer did. What had changed since the start was less the reason than the speed of his calculation.",
+      "white": "Eleven at night.\n\nHe studied the number on the assets screen.\n{name} stood alone where he could see the lights in the direction of Gangnam. Below them were people waiting for the last bus and shops whose owners had not yet gone home.\n\nSomeone asked.\nIt might have been his father, Hyunsu, or simply a voice carried from somewhere else. Every voice had a face.\n\n\"Why was it Gangnam in the first place?\"\n\nFor the first time, the answer arrived with names instead of a number."
     },
     "choices": [
       {
@@ -603,11 +603,11 @@
           "black": "\"I thought Gangnam would end it. But the number has not ended anything.\"",
           "white": "\"I thought Gangnam would make things different. Now I'm not sure.\""
         },
-        "result_text": "It was the most honest answer.\n\nAt first, Gangnam had felt like freedom.\nNow he could no longer say exactly what it was.\n\nKnowing that he did not know might itself be something he had learned in three years."
+        "result_text": "It was the most honest answer.\n\nAt first, Gangnam had felt like freedom.\nNow he could no longer say exactly what it was.\n\nKnowing that he did not know might itself be something he had learned along the way."
       }
     ],
     "description_if_known": {
-      "motive_clarified": "Eleven at night.\n\nFor the first time, his assets had crossed that number.\n{name} stood alone where he could see the lights in the direction of Gangnam.\n\nSomeone asked.\nIt might have been his father, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nAfter nearly three years of running, {name} had an answer different from the one he would have given at the start.\n\nHe had asked himself this question once before.\nOn a day when pride and purpose had blurred together, he had sorted through his reasons.\nSo this time, the answer came at once."
+      "motive_clarified": "Eleven at night.\n\nHe studied the number on the assets screen.\n{name} stood alone where he could see the lights in the direction of Gangnam.\n\nSomeone asked.\nIt might have been his father, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nHaving come this far, {name} had an answer different from the one he would have given at the start.\n\nHe had asked himself this question once before.\nOn a day when pride and purpose had blurred together, he had sorted through his reasons.\nSo this time, the answer came at once."
     }
   },
   {
