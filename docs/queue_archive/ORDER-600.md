@@ -1,6 +1,6 @@
 # ORDER-600 — 재연락과 기사에서 없는 이력 회상 제거
 
-#### [~] ORDER-600 [정합] M25 입구/후속 경로 KO·EN 18잎 — 2026-10-13
+#### [x] ORDER-600 [정합] M25 입구/후속 경로 KO·EN 18잎 — 2026-10-13
 
 사용자 위임 잠금 중 월순서 사실 수리. 599 뒤 M25의 t>=100 재연락 입구를
 읽고 확인한 지연의 거래/직업/기간, 상철의 신고/손절 발명을 고친다.
@@ -50,3 +50,35 @@ context/queue/diff 확인 후 같은 완료commit으로 닫는다. 새툴/검사
 240주/엔진/native/저장접근0. CI빨강 새월0·해제즉시 원559 W68 실제M17 우선.
 gangnamdream-dev/WORK_UNIT 적용·일회성/승격0.
 자동검사는 계약 증거이지 재미/인간/원어민/물리패드 관찰이나 출시 GO가 아니다.
+
+## 결과·증거
+
+- 선언 c15c40fb280be9498cd740606180a51d1d40d9b1/treef61f7382e9276d39b4947a4b6da059340bd19490.
+  KO9/EN9 전18잎 의미GO·보존10/10/demo7/7·비소유3383 exact.
+  표적13/공식inventory3 actual0. crime SHA만
+  f958f5d21df6266e3115ec7fca8ba1e9faf7fe1db546ca8b4461883838c5c13d로 공식보고와 정렬.
+- .git/order600-20261013/independent-review.md: m24_money_fact_review,
+  8616B/50feab87c3b84a581e0ef9725735ca85aef006b5c871d50a8d69e714c15d6c25.
+  preservation-review.md: rework_batch_plan,
+  9447B/a19f6e5a108a23c159a4cba5cf8b3f03f0323e2bb75ddb9f6765cb626d868829.
+  root 두 보고 전문 판독. before1423B/db66ef042fe2c7d65e675e50c19f96001166ab35c84cdbb51374c79267fdd269.
+  보고서의 제품4 SHA 일치·wholeinverse exact. EN 지연 description의{name}2→1은
+  소유 첫문장 재서술 예외이며 문단18/18·나머지17잎 토큰은 exact다.
+- source manifest1d9f6cbc97d6b6312a7541f693d2342a249c25bd082d4a71dd8b271c30037fe0.
+  current11402/stale40·42·42/invalid64·6·6. 옛 CJK의 연수 표현이 남아 생긴
+  JA3/CN1/TW1 numeric mismatch를 미수용 대기로 기록·숨김0. 고유KOEN101/CJK48KO잎.
+- callback39 jiyeon_real_talk의 골목/정확인용은 다른 카페 생산자도 있어 보장되지 않는
+  기존 부채다. 수정 전에도 성립하지 않았고 min_turn136 후속 별도 수리로 남긴다.
+
+```
+도달 경로      : MainGame:8463/8468, EventManager:856, MainGame:7066
+생산자 ↔ 독자   : offer/truth/epilogue → 지연; confrontation_seen → 상철
+바꾸는 상태     : KO/EN18잎·게임상태0
+포기 시 잃는 것 : 기존 선택·정신/관계효과·8주후속 불변
+서사 위치       : 지연 M25 가능/상철 fresh M33 이후·legacy t100, 실제월0
+장면 계층       : 기존 장면·격상0
+닫는 것         : 없는 거래·월급·연수·신고·관계종료 발명
+```
+
+일회성/승격0. 실제 M17 OS잠금HOLD 하나·해제우선·새월0·5언어/본편/출시HOLD.
+599 CI38397776159 조회시 진행중·이번push 성공 미확정. 다음 다은 기간/주거는 별도단위다.

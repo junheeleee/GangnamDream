@@ -2,11 +2,11 @@
   {
     "id": "arc_sangchul_year3",
     "title": "News Article",
-    "description": "Saw the name in a portal news headline.\n\n\"Real estate broker Im arrested on suspicion of defrauding multiple investors\"\n\nThere was a photo. Definitely Im Sangchul.\n\nSeparate from what {name} did — another case had surfaced elsewhere. The father's situation wasn't the only one.\n\nClosed the article and looked out the window. Learned a lot from that man. That man destroyed his father. Both things are true at once.",
+    "description": "Saw the name in a portal news headline.\n\n\"Real estate broker Im under investigation over suspected fraud against multiple investors\"\n\nThere was a photo. Definitely Im Sangchul.\n\nSeparate from what {name} did — another case had surfaced elsewhere. The father's situation wasn't the only one.\n\nClosed the article and looked up. Learned a lot from that man. That man destroyed his father. Both things are true at once.",
     "choices": [
       {
-        "text": "Just moved past it. That relationship is over.",
-        "result_text": "Closed the article. The connection with Im Sangchul ended at that café.\n\nWho {name} is now — got here without his help, and without his weight."
+        "text": "Closed the article. Back to what needs doing now.",
+        "result_text": "He closed the article. The words spoken in that café remained. Instead of going over them again, {name} slipped the phone into his pocket.\n\nHe did not want the article to dictate what he did with the rest of his day."
       },
       {
         "text": "Called his father. He should know about this.",
@@ -20,8 +20,8 @@
   },
   {
     "id": "arc_jiyeon_year3",
-    "title": "Three Years Later",
-    "description": "Han Jiyeon's name appeared in a KakaoTalk alert. {name} would have had to scroll a long way to find where their last conversation ended. The new message was brief and polite.\n\n\"It's been a while. How have you been since then?\"\n\nThe accident on the rain-slick road. The first short trades. A day when two different worlds had briefly touched. Two years had passed. \"Life got busy\" did not quite explain how neatly the silence had accumulated.\n\n{name} opened the reply field. Before the typing indicator vanished, he had to decide how much truth to send.",
+    "title": "Asking Again",
+    "description": "Han Jiyeon's name appeared in a KakaoTalk alert. A new message sat below their earlier exchanges. It was a brief, polite inquiry.\n\n\"How have you been lately?\"\n\nThe accident on the rain-slick road came back to him: a day when two different worlds had briefly touched. The stranger from that day was now asking how he was. There had been days that would not fit inside a simple \"I'm doing well.\"\n\n{name} opened the reply field. Before the typing indicator vanished, he had to decide how much truth to send.",
     "choices": [
       {
         "text": "\"I'm doing okay. Nice to hear from you.\" — straightforward",
@@ -29,7 +29,7 @@
       },
       {
         "text": "\"You helped me a lot back then. I think I've found my own way now.\" — honest",
-        "result_text": "\"You helped me a great deal back then. I think I've started finding my own way.\"\n\nAfter a pause, Jiyeon asked, \"What kind of way?\" {name} expected to answer in a few lines. Writing about failed trades, salaries, and rebuilt rules gave the last two years a shape for the first time.\n\nJiyeon sent a long reply of her own. \"I'm looking for something I can do under my own name too.\" After years of silence, the conversation resumed as though it had stopped yesterday."
+        "result_text": "\"You helped me a great deal back then. I think I've started finding my own way.\"\n\nAfter a pause, Jiyeon asked, \"What kind of way?\" {name} expected to answer in a few lines. Writing about what he had chosen, what he had hesitated over, and the standards he had reconsidered gave the intervening time a shape for the first time.\n\nJiyeon sent a long reply of her own. \"I'm looking for something I can do under my own name too.\" What began as a brief inquiry opened into things they had not finished saying."
       }
     ]
   },
@@ -622,11 +622,11 @@
   {
     "id": "arc_sangchul_year3_father_passed",
     "title": "News Article",
-    "description": "Saw the name in a portal news headline.\n\n\"Real estate broker Im arrested on suspicion of defrauding multiple investors\"\n\nThere was a photo. Definitely Im Sangchul.\n\nSeparate from what {name} did — another case had surfaced elsewhere. The father's situation wasn't the only one.\n\nClosed the article and looked out the window. Learned a lot from that man. That man destroyed his father. Both things are true at once.",
+    "description": "Saw the name in a portal news headline.\n\n\"Real estate broker Im under investigation over suspected fraud against multiple investors\"\n\nThere was a photo. Definitely Im Sangchul.\n\nSeparate from what {name} did — another case had surfaced elsewhere. The father's situation wasn't the only one.\n\nClosed the article and looked up. Learned a lot from that man. That man destroyed his father. Both things are true at once.",
     "choices": [
       {
-        "text": "Just moved past it. That relationship is over.",
-        "result_text": "Closed the article. The connection with Im Sangchul ended at that café.\n\nWho {name} is now — got here without his help, and without his weight."
+        "text": "Closed the article. Back to what needs doing now.",
+        "result_text": "He closed the article. The words spoken in that café remained. Instead of going over them again, {name} slipped the phone into his pocket.\n\nHe did not want the article to dictate what he did with the rest of his day."
       },
       {
         "text": "Opened Father's number — wanting to tell him the news.",
