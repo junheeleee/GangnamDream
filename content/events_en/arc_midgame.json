@@ -516,15 +516,15 @@
   {
     "id": "arc_daeun_money_gap",
     "title": "What Daeun Doesn't Know",
-    "description": "Daeun tried to pay for the coffee.\n\n{name} paid first. At that moment, a notification came up on his phone — a two-digit dividend from an investment account.\n\nDaeun didn't notice. {name} quickly turned off the screen.\n\nCould he show this person his bank account someday? It doesn't feel like they're at that stage yet.",
+    "description": "Daeun tried to pay for the coffee.\n\n{name} paid first. At that moment, a notification came up on his phone — the card charge for the coffee he had just paid for.\n\nDaeun didn't notice. {name} quickly turned off the screen.\n\nCould he show this person his bank account someday? It doesn't feel like they're at that stage yet.",
     "choices": [
       {
         "text": "Let it pass — too early to talk about it.",
         "result_text": "Daeun said, \"I'll buy the coffee next time.\" {name} smiled and said \"Sure.\" It wasn't a lie, but it left a feeling like something was hidden."
       },
       {
-        "text": "\"I've actually been doing okay with some investments lately\" — said just a little.",
-        "result_text": "\"Really? How much?\" Daeun asked. {name} said \"A bit.\" That was enough. Felt like something was shared even without the numbers."
+        "text": "\"Money has been on my mind a lot lately.\" — said just a little.",
+        "result_text": "\"What kind of thoughts?\" Daeun asked. {name} said \"What I should do from here.\" That was enough. Felt like something was shared even without the numbers."
       },
       {
         "text": "Decided to tell everything — this person can be trusted.",

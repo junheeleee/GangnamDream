@@ -1,6 +1,6 @@
 # ORDER-598 — M24 다은 돈 대화의 투자 실적 발명
 
-#### [~] ORDER-598 [정합] 생산자·12주 회수 KO/EN 수리 — 2026-10-13
+#### [x] ORDER-598 [정합] 생산자·12주 회수 KO/EN 수리 — 2026-10-13
 
 사용자 위임의 잠금 중 월순서 KO/EN 검토. 직전597 수리 뒤 M24의 다른
 확정 결함을 처리한다. 실제월은562/M17 하나만 HOLD, 해제 즉시 원559 W68 우선.
@@ -50,3 +50,38 @@ audio·i18n·demo scope/story/JA/ZH·release inventory·context/queue/diff를 �
 새 도구/검사/등록·전체audit/240주/엔진/native/장면추가/격상0. 기존 장면의 사실 수리다.
 gangnamdream-dev/WORK_UNIT 적용·일회성/승격0. 자동검사는 인간·원어민·물리패드
 증거가 아니며 실제월/전체5언어/본편출시 HOLD를 유지한다.
+
+## 결과와 증거
+
+KO7/EN6 원문 및 speech required3/forbidden3만 수리했다. 선언
+89b1a1191d32aa44a65584bfeccd4d5a87e711a2/tree42c79be665b88493d35ef8d9e9c149716f21c19a
+위 실제 후보는 두 보고의 파일 SHA로 결속한다. final13표적 actual0,
+비저자 의미13/13 GO·보존11/11/demo7/7·3378비소유 exact다.
+release 최초exit1은 sexuality SHA 불일치였으며 실제SHA
+1f8eccc6010c2b4159432528726d5bff97c27222cac8b9890054f66a12eb1e9a와
+공식보고만 맞춰 finalexit0, 원실패 wrapper는 보존한다.
+
+- .git/order598-20261013/independent-review.md: m24_money_fact_review,
+  8281B/b7d34a86e1ccb18535c37a6bd4d2567ca650b976177c2ccb3d58e823f4a67ea8.
+- 같은 곳 preservation-review.md: rework_batch_plan,
+  10137B/8344ee6efee2d75b8426d2c14d8e622c08f2a992a0a3f1cb2f642b2a079ead0d.
+- root 두 원문 전문 판독. before1891B/91403a9555a57afab9655c043fb4e7e6eb423171733253c316c8be4809963907,
+  13span+6감사literal+release/report 역복원 exact. 방법·7제품핀·원raw핀은 보고에 있다.
+- 공식597after→598after3 actual0, source7만 변경, manifest
+  410bf30f2dec11446e5748cf0b8f2761a68f4307cb0766655e246689143b3b79.
+  current11417/stale28 각, invalid JA61/CN5/TW5. CN/TW 각 새1은 옛 번역의
+  두자릿수 배당 quantity2 불일치다. 최신 지시대로 미수용/미정합33KO잎 대기이며
+  source표적 통과를 전체5언어 통과로 바꾸지 않는다.
+
+```
+도달 경로      : MainGame:7315–7320, story_rules:1054–1068
+생산자 ↔ 독자   : arc_daeun_money_gap.choice1 ↔ callback_told_daeun_investing_echo
+바꾸는 상태     : gameplay0, KO7/EN6 text + 말투6literal
+포기 시 잃는 것 : 기존 공개3방식·affinity·12주reader 불변
+서사 위치       : M24 W95, 실제월0
+장면 계층       : 기존 장면·격상0
+닫는 것         : 투자하지 않은 경로의 배당/성과/보유종목 발명
+```
+
+자동 게이트는 계약 증거이지 재미·인간·원어민·물리패드 관찰이 아니다.
+실제M17/5언어/출시HOLD·공개/저장/옛판정 보존. 다음 직업 전제 결함은 별도599.
