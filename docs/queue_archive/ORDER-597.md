@@ -1,6 +1,6 @@
 # ORDER-597 — M24 월급 계산의 주거 형태 정합
 
-#### [~] ORDER-597 [정합] KO/EN 6잎 수리 — 2026-10-13
+#### [x] ORDER-597 [정합] KO/EN 6잎 source 수리 — 2026-10-13
 
 기준 main87f34d96954612759dc3b26a67a486da9bc80bb4. 사용자 지시로 Mac 잠금 중
 M17~M60의 KO/EN 사실을 월 순서대로 수리한다. 현재 M24이며 실제 앱 M17은
@@ -45,3 +45,40 @@ release inventory와 context/queue/diff 검사를 실행한다.
 표적 새 실패0·source 독립 GO 뒤 마감한다. 새 검사/도구/등록·엔진/전체 audit/
 240주·실제 월/새 장면/격상0. 자동 계약은 재미·인간·원어민·물리 패드 증거가 아니다.
 본편/출시 HOLD 유지. gangnamdream-dev/WORK_UNIT 적용·일회성 지시·정본 승격0.
+
+## 결과
+
+세 본문×두 언어의 월세/rent만 주거비/housing costs로 고쳤다. 표적13 actual0,
+독립6/6 source GO, 보존10/10·공개 demo7/7·비소유3380 mode/blob/SHA 일치.
+선언52e65476f6220db820017eebbddf60beda931da8/tree0c7a49e2f7685ff6695b468cde8dd6eb87f80bfa.
+KO297449B/0bea035b51c5b7a26dddf0e98fb1c0336e0f4a0fb5521d07a1fff0097978505a,
+EN218553B/7484cce409cbfade6ee5ec34ebe01cd540a3074316f439e7ca4b96b091d82664.
+각6span 역치환으로 before 두 파일 전체 bytes가 재구성된다. release7축/공식보고 불변.
+
+- mod_layer_ci independent-review.md 6418B/
+  a22a53c739156c7866871a657faa4b4a1cdb60f898f8d2948bf5384cc1d45f83.
+- rework_batch_plan preservation-review.md 8610B/
+  02e9c3a8a94d45f7516617f016a845c2d244e845387a88bf28f9465936a9ef60.
+- 두 원보고는 .git/order597-20261013/에 보존, root 전문 판독. source 작성 뒤
+  capacity로 SHA 회신이 누락됐지만 비저자가 완결 원파일/실물6구절/핀을 다시 읽어
+  원6span GO에 결속했다. 원보고 수정0, 별도 EN주체 후보는 미확정으로 보존한다.
+  root가 실제 거울 원발화도 읽었으며 이는 상철이 민준에게 한 평가였다.
+- 공식596after→597after3 actual0: KO3 source만 변경, manifest
+  77916f0d8968dff5a70f1ab0a467512045a8605fc45f9c025430efcffcea1461.
+  각current11424, stale21/22/22, invalid61/4/4 목록 불변. 누적26KO잎 CJK정합대기.
+  CN/TW 원pending 응답과 별도 final0는 구별해 보존한다. 수용/다듬기0.
+
+```
+도달 경로      : MainGame:7307–7312, story_rules:3233–3249
+생산자 ↔ 독자   : arc_career_ceiling ↔ callback_kept_job_as_base_echo/career_pivot_intent_echo
+바꾸는 상태     : gameplay0, KO3/EN3의 주거 명사만
+포기 시 잃는 것 : 기존 세 선택/독자 불변, 새 선택0
+서사 위치       : M24 W94–95, 실제 월0
+장면 계층       : 기존 장면·격상0·전체 장면 승인0
+닫는 것         : 전세 경로의 월세 납부 발명6곳
+```
+
+엔진/native/사용자 저장 접근0·5언어/인간OPEN/공개GO/종료잔여 보존·출시HOLD.
+다음 읽기에서 M24 다은 돈대화의 투자배당/수익 및12주독자 보유종목 발명을
+확인했다. 별도 다음 사양에서 생산자·독자를 함께 수리하며 이 범위에 섞지 않는다.
+원장 구조를 실제 화면/품질/출시GO로 바꾸지 않았고 현황판 단독후속0이다.
