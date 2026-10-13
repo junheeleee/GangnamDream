@@ -57,4 +57,7 @@ demo scope/story demo/JA/ZH demo·release 지문/보고·context/queue/diff.
 
 ## 실제 결과
 
-미완료. 실제M20/월 완료를 source 수리로 대신하지 않는다.
+미완료。v1 새토큰 KO1/EN2와CJK invalid+1/locale를 보존하고 v2는 추가토큰/이름0으로
+수리했다. 최종표적14 actual0·독립4잎 문장GO이나16주reader가 옛질문을 인용하는
+새불일치를 비저자가 발견해 인과HOLD다. 별도590 종속수리를 선언하며 두 작업의
+정합전 완료0·한 구현커밋으로 묶는다. 실제M20/월 완료를 source 수리로 대신하지 않는다.
