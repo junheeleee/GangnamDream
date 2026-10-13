@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — M22 다은 미래 대화의 현재 장소 수리
+
+- [594](queue_archive/ORDER-594.md): 편의점휴게의자라던 첫구절만 현재거처의 방안의자로 KO/EN2잎 직접 정렬했다. 기존5장소계약·배경/음악·4선택/12주후속/관계·카운터부터의 거리라는 과거비유는 그대로다. 새동거/방문/게임동작0이다.
+- 표적13 actual0·비저자 source2/2 GO·보존12/12/demo7/7·3376비소유/wholeinverse exact다. sexuality/fear/alcohol contentSHA/report3행만 연동·counts/IDs/나머지4축 exact. 공식after3 KO1잎/manifestf8e49…7be63·각current11436/stale12/13/13·invalid58/1/1 불변·누적14KO잎 CJK정합대기·수용0이다. preservation캡처 의미pending은 보존하고 이후별도mod source보고를 root전량판독해 결속했다. capacity/noverdict·소유재개혼선은 쓰기/덮기0로 차단·실제검수자mod·새에이전트0·핀은 사양에 결속한다.
+- gangnamdream-dev/WORK_UNIT 적용·일회성/승격0·엔진/native/새월0·실제M17 OS잠금HOLD 하나·해제우선·CI빨강새월0. 공개/사용자저장/옛판정/5언어/종료잔여 보존·새push CI미확정·본편/출시HOLD다. 기존callback의 KO이번달/ENnext month는 후월 source대상으로 남겼고 새회귀로 세지 않았다. M22무연애주거/연말reader가 다음·M23 후보수리0·현황판 단독후속0이다.
+
 ## 2026-10-13 — M22 두 번째 해 회상의 기간·성과 단정 수리
 
 - [593](queue_archive/ORDER-593.md): 경로점수만으로 재직·저축·투자경험/승패·함정회피를 단정하던 KO/EN8잎을 현재 자기점검으로 수리했다. 보장되지 않는 현재연말/옛1.5년 회상도 기억형으로 바꾸고 key/도시습관·선택/효과/route/seen/+18예약은 그대로다. 초기v1의 불필요한 감정삭제는 원자료보존 후 v2에서 원KO/직접EN으로 복원했다.
