@@ -1028,7 +1028,7 @@
   {
     "id": "arc_35_alone",
     "title": "Saturday Morning",
-    "description": "On Saturday morning, the second coffee went cold because {name} had no reason to leave the café. The chair opposite was empty. At the next table, three people laughed while settling on dates for a trip.\n\nHe had lived in Seoul for more than two years. At some point, having no one to spend a weekend with had ceased to be either a problem or an event. His contacts were not empty. It was more that he had slowly stopped using the part of himself that reached first.\n\n{name} opened his phone, then set it down. Outside, everyone seemed to be walking toward an appointment. His face wavered faintly on the cold coffee.",
+    "description": "On Saturday morning, the second coffee went cold because {name} had no reason to leave the café. The chair opposite was empty. At the next table, three people laughed while settling on dates for a trip.\n\nHe had lived in Seoul for more than two years. Familiar faces came to mind when he thought of his contacts. Yet the chair opposite was empty now. He hesitated over what to say first, whether to ask someone to sit with him for a while.\n\n{name} opened his phone, then set it down. Outside, everyone seemed to be walking toward an appointment. His face wavered faintly on the cold coffee.",
     "choices": [
       {
         "text": "He reached out first. To anyone.",
@@ -1040,7 +1040,7 @@
       },
       {
         "text": "He stayed alone. This was part of him too.",
-        "result_text": "{name} called no one. He finished the coffee, went home, and started the washing machine. He ate a late lunch while clothes turned behind the glass.\n\nAt first, wasting a day made him restless. As the afternoon leaned toward evening, the feeling quieted. Whether solitude was loneliness or peace changed from one day to the next.\n\nHe stretched out on the sofa. He could not remember when being alone had become this familiar. Familiarity was not an answer either."
+        "result_text": "{name} called no one. He finished the coffee, went home, and started the washing machine. He ate a late lunch while clothes turned behind the glass.\n\nAt first, wasting a day made him restless. As the afternoon leaned toward evening, the feeling quieted. Whether solitude was loneliness or peace changed from one day to the next.\n\nHe stretched his arms out. The empty chair in the café that morning came back to him. He could not readily say whom he had wanted to ask to sit there."
       }
     ]
   },
