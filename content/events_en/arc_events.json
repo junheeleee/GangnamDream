@@ -452,7 +452,7 @@
     "choices": [
       {
         "text": "Stay in bed for the next few days.",
-        "result_text": "For days, {name} stayed in bed and stared at the ceiling. The account was empty. Gangnam felt farther away.\n\nBut at rock bottom, there was nowhere lower to go. Getting back up was the only thing left. Someday, no matter what, he would get that money back."
+        "result_text": "For days, {name} stayed in bed and stared at the ceiling. He kept thinking about the money Jaehyuk had not returned. Gangnam felt farther away.\n\nBut at rock bottom, there was nowhere lower to go. Getting back up was the only thing left. Someday, no matter what, he would get that money back."
       },
       {
         "text": "Join the forum and post: 'He scammed me too.'",
@@ -474,8 +474,8 @@
         "result_text": "He handed the evidence to the police, along with the victims' statements.\nJaehyuk was arrested. {name} put copies of the papers he had submitted\nin an envelope and took them with him.\n\nIm Sangchul said, 'Good. You protected something more important than money.'\n{name} folded the envelope closed. A corner of the paper pressed into his palm."
       },
       {
-        "text": "Hold the leverage and negotiate — get my money back, and then some.",
-        "result_text": "'you won't report you. But give you triple your money back. One week.'\nJaehyuk nodded, trembling. The money came.\n\nOne step closer to Gangnam. But that night,\n{name} spent a long time thinking about how they were any different from Jaehyuk.\nCouldn't find an answer."
+        "text": "\"I won't report you. Send me eight million won instead.\"",
+        "result_text": "\"I won't report you. Send me eight million won instead. Now.\"\nJaehyuk nodded, trembling. The money came.\n\nOne step closer to Gangnam. But that night,\n{name} spent a long time thinking about how they were any different from Jaehyuk.\nCouldn't find an answer."
       },
       {
         "text": "Pull him in and run a bigger scheme — turn fraud into business.",

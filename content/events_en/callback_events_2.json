@@ -110,15 +110,15 @@
   {
     "id": "callback_jaehyuk_exploited_retaliate",
     "title": "Jaehyuk's Counteroffer",
-    "description": "A call from Jaehyuk.\n'Hey. I thought about it. This isn't fair.\nI don't have money to give you three times. But you've got leverage on me too, haven't you.'\nCan't tell if he's bluffing.",
+    "description": "A call from Jaehyuk.\n'Hey. I thought about it. This isn't fair.\nI want some of what I paid you back. Don't forget I've got leverage on you too.'\nCan't tell if he's bluffing.",
     "choices": [
       {
-        "text": "\"I'll report you\" — I have evidence",
-        "result_text": "'I have everything recorded. I can file first.'\nJaehyuk went silent, then hung up.\nA week later you settled the account. You sent back 3 million won from what he had already paid and kept only the principal portion."
+        "text": "\"I'm keeping the evidence.\" Return 3 million won and refuse any further demands.",
+        "result_text": "'I have everything recorded. I'll send back 3 million won. Don't ask for more.'\nJaehyuk went silent, then hung up.\nYou sent back 3 million won from what he had already paid and saved the transfer record with the evidence."
       },
       {
-        "text": "Compromise — just take the principal",
-        "result_text": "'Just give me the principal. Let's end this.'\nJaehyuk said 'Yeah, better that way.'\nThe money arrived. You never wanted to hear his voice again."
+        "text": "Agree to end it here — no further payments either way.",
+        "result_text": "'No more payments either way. We end this here.'\nJaehyuk said, 'Yeah. Better that way.'\nYou did not open a transfer screen. You never wanted to hear that voice again."
       }
     ]
   },
