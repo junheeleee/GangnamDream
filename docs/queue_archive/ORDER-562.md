@@ -1,6 +1,6 @@
 # ORDER-562 — 수정 후보의 본편 M17 실제 앱 이어보기
 
-#### [~] ORDER-562 [월별 실제 앱 검수] HOLD — 2026-10-12
+#### [x] ORDER-562 [월별 실제 앱 검수] 원W68 제한 경계 완료 — 2026-10-14
 
 main efa6ed38 CI38143017191 jobs2·전체 step 성공을 2026-10-11T14:53 UTC에 확인했다.
 534의 최신 지정 수정화면 묶음 마감 뒤, 원559 W68의 정상 이어보기를 재개한다.
@@ -133,3 +133,53 @@ root OS 읽기 `CGSSessionScreenIsLocked=Yes` 근거를 귀속하며 독립 pixe
 `story_one_half_year`의 무직 상태 직장 문구를 확인했다. 금융 엔진/545 매수 사실
 게이트와 다른 결함 후보이며 현재 오더에서 원문/코드/새 행동판을 수정하지 않았다.
 정상 월별 관측과 별도 수리 선언에서 다루며 이 분석을 실제 화면으로 쓰지 않는다.
+
+### 사용자 잠금 해제 후 재개 — 2026-10-14
+
+원559 W68/발급a4bbe275 BUILD2026.10.11.3을 기존 M17 경계 그대로 이어본다.
+root는 새 .git/order562-resume-20261014/의 기존 prepare/launch 최소사본과
+격리 HOME/3XDG/실제 macOS userdir, 원seed byteexact 복사1개만 준비한다.
+원retry2 helper/package/seed/raw는 봉인 보존하고 새보호 roster에 포함한다.
+비저자 m17_native_admission이 helper 전문/새 baseline·보호·앱·seed를 읽고
+별도 입구를 승인한 뒤 실행한다. native UI는 root만, 정상 Continue/한선택/
+결과/월말/첫W69본문까지이며 다음선택 전 종료한다. 월별 마감은 한 커밋이다.
+최근605선언/완료CI 성공과 현재main CI 진행/대기는 별도 기록한다.
+현재CI 빨강이면 실행0, pending은 녹색으로 승격하지 않고 기존562 제한입구만
+위임판정한다. 이 앱에는585~611 이후수리가 들어 있지 않으며 그 화면GO로 쓰지 않는다.
+제품/사용자저장/설정·project·공개·과거판정 불변, 새월0·일회성/승격0.
+
+## 완료 — 원559 W68 제한 경계 실제 검수, 2026-10-14
+
+사용자 잠금해제 후 별도입구 승인·fresh HOME/3XDG에서 기존앱 무인자1회.
+KO 정상Continue→형동생3문단→키보드Down2/선택03→결과→정상주/월말처리→
+첫W69본문 완독 후 다음선택0/CmdQ마지막. native actual0/254.766860s/원14checks
+true, 독립33/33true·보호42그룹625항목/tracked3403·실제PNG13전수판독.
+원금이체0·선택intelligence+5/mental−3/재혁친밀8→10·suspect/doubting,
+생계+70000/mental실제+3·월지출−650000/mental−10/health−2가 각각1회.
+cash−5421703→−6001703/h36→34/m100→90/W68→69·job{}/income0·gosiwon 유지.
+old완료/루틴67·read38주57tuple/event57prefix 보존, 새68각1/read69없음.
+상철월간mentoring 투자숙련+1은 선택효과가 아니다.
+월말 별도modal 관측이 아니라 실제저장/정산기록1/HUD44→43과 흐름으로 확인했다.
+
+root 최종봉인 보고4개 전문판독·신원결속:
+- admission-review.md6333B/da5e47b6f6ab728f8b40b9f8e106218396d9799e544c9bc5935652220c93000d
+- independent-native-admission.json10070B/f5e34ff5b55f064071337961e9f6b8419b415337b8a4c6ff43ea8028fb6dcbd5
+- exit-review.md8193B/a1dc0c86916d5359866531cdf3817b3138b4de1f30420d78e236fb2dd87daed3
+- independent-native-preservation.json22761B/ffea1f3c89094f6e54bcbde0c5ad6bc5d11a493ea0651165a65aa59d73bd0d7e
+경로 .git/order562-resume-20261014/. observation4852B/
+6b9be522dbd11091f92b872c16f161b902a96518c765df1ad110f4c5628c45ed,
+native-result138880B/b8ad17a7197eec30ef4ad1c252a565c4c074fd31660f11bf75c82415a4630354,
+final-autosave211564B/9f80b67cb239bd7a8f2e61a0c33b61d9a99bdd1f43addffc75757c37faca0743.
+
+발급a4bbe275/treea7aa2f1b와 검사main8e7c662/tree9220a06e를 구분한다.
+실행직전CI38419047009 static성공/Godot진행·failed0이며 pending을녹색으로쓰지않았다.
+원seed/backup은559209392B/SHA7fa076… exact·새저장1copy·state편집0.
+빌드ID차이예상WARNING1/engineerror0·ObjectDB종료잔여0(이실행한정).
+소유PID60799/launcher60781 종료·사용자editor61385 유지·종료후CUA0.
+초기주거문구시각오독은 source/pixels의 ‘바뀌었든그대로든’으로 정정, 새결함0.
+
+이완료는 정의한 W68→첫W69 경계에만 유효하다. M17W65~67화면/다른선택/
+장기회수·585~611수리현재화면·EN/CJK·실물패드/사람/청취·전체본편/출시HOLD.
+옛559 REWORK/strictFAIL/562잠금HOLD·공개GO/인간OPEN을 역사대로 보존한다.
+다음 M18은 최신수리를포함한 새격리후보에서 원W69저장으로 별도범위 선언한다.
+월별실제검수한커밋·gangnamdream-dev/WORK_UNIT 적용·일회성/승격0.
