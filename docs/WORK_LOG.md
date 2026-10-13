@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — M22 지연 제안의 수리비·경과일 회상 수리
+
+- [592](queue_archive/ORDER-592.md): 실제8만원 수령경로에도 아무것도 안받았다고 하던 회상을 현재 사과로 바꾸고 추적하지 않는 며칠뒤를 제거했다. KO/EN2잎·4구절만·다른원문/선택/효과/flag/16주reader exact, release7축/공식report 실측불변이다.
+- 표적13 actual0·비저자 의미2/2 source GO·3374비소유/wholeinverse/demo7/7 exact다. 원보존11/12의false1은 invalid+1 잘못된 기대라 원출력보존·같은원자료의 invalid57/1/1불변으로 정정, schema KeyError/write0와 실제before8핀도 기록했다. 비저자캡처8검사/이후root5검사 완료는 구분한다. 새official after3에서 KO1잎/manifest a580…e388·각current11441/stale8·누적source9잎 CJK정합대기, 원장수용/JAzh다듬기0·전체INCOMPLETE다. 상세핀은 사양에 결속했다.
+- gangnamdream-dev/WORK_UNIT의 생산자↔독자·소유·관찰분리를 적용·일회성/승격0·엔진/native/새월0·실제M17 OS잠금HOLD 하나·해제우선·CI빨강새월0. 사용자저장/공개/옛판정/5언어/종료잔여 보존·새push CI미확정·본편/출시HOLD다. M22 경과연수/성과·다은장소·무연애주거 후보는 별도이며 M23 후보조사0·callback EN화자결함은 해당후월대상·현황판 단독후속0이다.
+
 ## 2026-10-13 — M21 부동산 거절 영어의 미래뉴스·연락 반대발명 수리
 
 - [591](queue_archive/ORDER-591.md): realty 거절 EN1잎을 KO의 현재 상철반응에 직접 맞췄다. 몇달뒤뉴스/상철이말안함/민준직접발견 발명을 제거해 실제16주callback의 상철전화와 충돌하지 않는다. KO/조건/효과/flags/비용/후속 불변·EN불필요{name}1→0(KO0)만, gameplay0이다. M21새창/호환묶음4를 읽었지만 차트=투자소유·일=재직·half bet=자산50%로 과잉확정하지 않았다.
