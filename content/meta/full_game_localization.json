@@ -14199,6 +14199,75 @@
         "zh-CN": "a133245625f3d549edfbb5c17244e22304361c1b502cf1b489e68918836919e4",
         "zh-TW": "260fae5fea692e13a74035f4b096a6372aaa1ca6f54fb0400de463e8a515af37"
       }
+    },
+    {
+      "order": "ORDER-584",
+      "group": "ui",
+      "roots": [
+        "1년이 채 남지 않았다. 통장 숫자가 더 크게 보인다.",
+        "1평 반에서 1년이 넘었다. 좁지만, 그래도 내 방이다.",
+        "1평 반에서 2년이 넘었다. 이 방이 익숙해지는 게 무서워졌다.",
+        "2년이 지났다. 서울이 조금 익숙해졌다.",
+        "6개월이 남았다. 아직 늦지 않았다고 — 믿어야 한다.",
+        "가을. 어딘가에서 금방 되겠다고 했던 1년 전의 자신이 생각났다.",
+        "가을. 이 가을을 어떻게 보내느냐가 결말을 바꿀지도 모른다.",
+        "가을. 한 해가 또 저문다. %s은 수첩의 숫자를 본다.",
+        "강남에 왔다. 그런데 강남에서도 여전히 올라가야 할 곳이 있었다.",
+        "강남이 멀지 않다. 아니, 아직 멀다. 그 경계 어딘가.",
+        "겨울 서울. 고시원 창문에 성에가 꼈다. 오늘 하루도 버텼다.",
+        "겨울. 시간이 별로 없다는 걸 겨울이 되면 더 실감한다.",
+        "겨울이 또 왔다. 작년보다 통장 숫자가 달라졌다.",
+        "더위가 기승이다. 땀 흘리는 것도 시간이고, 시간이 곧 돈이었다.",
+        "봄. 1년 전 봄과 지금 봄이 다르다는 걸 느꼈다.",
+        "봄이 왔다. 이 봄이 강남드림의 마지막 봄일 수도 있다.",
+        "봄이 왔다. 취업 공고가 넘쳐났다. 이번엔 될 것 같았다.",
+        "서울에 올라온 지 1년이 됐다. 통장 숫자와 체중이 다 줄었다.",
+        "아파트 창에서 보이는 서울은 다르다. 이 풍경에 익숙해지면 안 된다고 생각했다.",
+        "여름. 고시원은 덥고, 에어컨은 사치다. 땀 흘리며 이력서를 수정했다.",
+        "이 여름도 지나면 또 반년이 줄어든다."
+      ],
+      "source_leaves": 21,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 21,
+        "zh-TW": 21
+      },
+      "source_review": "Direct Korean-source monthly elapsed-time, home and seasonal observations, independently authored for Mainland and Taiwan Chinese. Non-author manual_save_ci reread all42 pairs; initial CN past-utterance-location drift was REWORK/HOLD, original full response retained, and repaired CN21 plus TW21 fully rereviewed before check/import. Half-pyeong area, elapsed/remaining duration, one name placeholder, changed-not-increased balances and uncertainty are preserved. Legacy AP only: full-story and scene-first early returns plus preceding narration guards are unchanged; no normal full-story or realized screen exposure claimed. All325 prior batches/accepted and Japanese preserved. Native/rendered/human/controller OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "34c2eddb30ccf3e61674193886412420f46b1553",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "98664e3985186e7173cfa8cde576aec6136f41f756cf185699d5020cd81177cb",
+          "selection_sha256": "e6a68488ee5076496f1d639acc6bcc8767b1ffb2ab62ecd1b00ac0603a8ee533",
+          "count": 21,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "3ccd462078cf3b2cb7b7e3a9f0a7d5acf3525acc6d1b137364a62497e1f5480c"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "34c2eddb30ccf3e61674193886412420f46b1553",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "98664e3985186e7173cfa8cde576aec6136f41f756cf185699d5020cd81177cb",
+          "selection_sha256": "b9234ca6a5153a9a251679d5efb76b7ee314588e94c84f246f54ba34fb74b96d",
+          "count": 21,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7cbe9ccfb66c840343bb48b26ecceac03314923fe11d300f0b0194f97b8f95f9"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "7da13f19e45a8cdf33e3f62e9abe3a371fa0bdb814f0be3645e93f479e85bc1d",
+        "zh-TW": "66fa9e9aed952117f131d3ebfbdb4698d0e49263f19337b71c5aa49aae89aa46"
+      }
     }
   ],
   "accepted": {
@@ -126048,6 +126117,90 @@
       "ui:처음 두 장의 점수가 8 또는 9인 경우. 추가 카드를 받지 않고 점수를 비교한다. 높은 쪽이 이기며, 점수가 같을 때만 무승부.:/처음 두 장의 점수가 8 또는 9인 경우. 추가 카드를 받지 않고 점수를 비교한다. 높은 쪽이 이기며, 점수가 같을 때만 무승부.": {
         "source_sha256": "53bae217f1ed34ffc813d0fb428679e7ebf895be719bf643e646f7a139c6cf0e",
         "target_sha256": "f9de19c323b9c4422b80b9b4270f8a59358b5c3204a71ecc36d7650c10a71734"
+      },
+      "ui:1년이 채 남지 않았다. 통장 숫자가 더 크게 보인다.:/1년이 채 남지 않았다. 통장 숫자가 더 크게 보인다.": {
+        "source_sha256": "d47742a9574bf889822aeb8be8c2760d95c33505b9945fc601b0b94b74a40531",
+        "target_sha256": "5d5a202168e7473614572c4c98b253921672e839d59170b205b5c7117aae22b1"
+      },
+      "ui:1평 반에서 1년이 넘었다. 좁지만, 그래도 내 방이다.:/1평 반에서 1년이 넘었다. 좁지만, 그래도 내 방이다.": {
+        "source_sha256": "9be9f52faa19127a9ac22dc0c1ed08b60f4d6739c82940c13ce0a731c2e61149",
+        "target_sha256": "9ee78401cea567a8c399046bdc3e5265d02fab5cb7c63aa71f4f298eb488e6e8"
+      },
+      "ui:1평 반에서 2년이 넘었다. 이 방이 익숙해지는 게 무서워졌다.:/1평 반에서 2년이 넘었다. 이 방이 익숙해지는 게 무서워졌다.": {
+        "source_sha256": "13e09c6e082e532c37d343a92f77dde8eb99bafdef7362c46bbe0dfda4235717",
+        "target_sha256": "71120922280cc8429ee938aa32cf65e93ebc30db875c3e1db15b34db325c78e5"
+      },
+      "ui:2년이 지났다. 서울이 조금 익숙해졌다.:/2년이 지났다. 서울이 조금 익숙해졌다.": {
+        "source_sha256": "1cb29344a0718674412d266f0959a2efb1657c002e1b8247a0e41e90c51df2fb",
+        "target_sha256": "e345a06f1d4c8d790e51acb87738cbb1a4adeb31c76550ecd8e26b8b1a479333"
+      },
+      "ui:6개월이 남았다. 아직 늦지 않았다고 — 믿어야 한다.:/6개월이 남았다. 아직 늦지 않았다고 — 믿어야 한다.": {
+        "source_sha256": "9ed5ebfd65e2a82854545f98f6ba7a4976cdff9dee9655ac8b1443f76fb454b1",
+        "target_sha256": "78768ea500acfe1aa173acdff66310c0ba4308f22a30e8615ac30d15f946a068"
+      },
+      "ui:가을. 어딘가에서 금방 되겠다고 했던 1년 전의 자신이 생각났다.:/가을. 어딘가에서 금방 되겠다고 했던 1년 전의 자신이 생각났다.": {
+        "source_sha256": "1e0515b3d383cb84d777b708249899c93ea22eead998e846a4439328488a6690",
+        "target_sha256": "29b9f369903821d6502bc701d69028ef8681f0f87153a0dd79b76863eaeda56e"
+      },
+      "ui:가을. 이 가을을 어떻게 보내느냐가 결말을 바꿀지도 모른다.:/가을. 이 가을을 어떻게 보내느냐가 결말을 바꿀지도 모른다.": {
+        "source_sha256": "588f935cca2b2c087678b952ab107d39d280e94dcc2d9a2aff75d27c204a3dda",
+        "target_sha256": "89c48f34e50d991a59b17ee20003d97b044262b9caa4b5c4f0a952136413f632"
+      },
+      "ui:가을. 한 해가 또 저문다. %s은 수첩의 숫자를 본다.:/가을. 한 해가 또 저문다. %s은 수첩의 숫자를 본다.": {
+        "source_sha256": "b619a62aa12a2672a94cc960b5379646e7676e3e6fcc5ba6ba7134fb68d3892a",
+        "target_sha256": "e011858b18b28e0a7d9237194c79e998ba65e01526abfce8f5bb5d800564f255"
+      },
+      "ui:강남에 왔다. 그런데 강남에서도 여전히 올라가야 할 곳이 있었다.:/강남에 왔다. 그런데 강남에서도 여전히 올라가야 할 곳이 있었다.": {
+        "source_sha256": "9ba8978093ab66bf380417b3c1b2107ad2e19f2131dea54e44a736da0da2ce65",
+        "target_sha256": "babd2a091342ca2a96d30ad4982c54103eaad2e1a302eedeb7a08af76e6c72c0"
+      },
+      "ui:강남이 멀지 않다. 아니, 아직 멀다. 그 경계 어딘가.:/강남이 멀지 않다. 아니, 아직 멀다. 그 경계 어딘가.": {
+        "source_sha256": "cc0118661bc853e4736b040059e4a4e3d3d8415932085f43bc08d3c81046e425",
+        "target_sha256": "dfb8090b6a4291fcfbe94878a2600b8cccaebeafe2e2a374387eb2905b0b0230"
+      },
+      "ui:겨울 서울. 고시원 창문에 성에가 꼈다. 오늘 하루도 버텼다.:/겨울 서울. 고시원 창문에 성에가 꼈다. 오늘 하루도 버텼다.": {
+        "source_sha256": "34c085a2613614910579b2267bef1c5015c5d617712b618abfda480658f89587",
+        "target_sha256": "77db861d38b3b1200371cebbe6a0d7fa8fa5cb6f39fe1e7a9d0ec8370e18c23f"
+      },
+      "ui:겨울. 시간이 별로 없다는 걸 겨울이 되면 더 실감한다.:/겨울. 시간이 별로 없다는 걸 겨울이 되면 더 실감한다.": {
+        "source_sha256": "4791c4ff760667746a930be8d59fb8413abf08a3795c079e4c7295ebdcc0077b",
+        "target_sha256": "8ec0c85e1999a11a05ea1edb0ce2a6fdbe548f4d4467eb038b2b028a0ad4faba"
+      },
+      "ui:겨울이 또 왔다. 작년보다 통장 숫자가 달라졌다.:/겨울이 또 왔다. 작년보다 통장 숫자가 달라졌다.": {
+        "source_sha256": "1487b6fa0026976b756a665eec86bada6972e826e2253f86eec42821de2451b6",
+        "target_sha256": "4171c9651e18a63178e93ef0c93157696267abae2dc6d9a0eb957cd71c1a1eb7"
+      },
+      "ui:더위가 기승이다. 땀 흘리는 것도 시간이고, 시간이 곧 돈이었다.:/더위가 기승이다. 땀 흘리는 것도 시간이고, 시간이 곧 돈이었다.": {
+        "source_sha256": "dd45e913cf6a5a70e5c8de7b16e7685c10291d90a9573a7e94d760b2ff0ff944",
+        "target_sha256": "6461d5b8406b84cf0ed924b3ff5fbd9d7a747a15d88865d7c833f31416e1b910"
+      },
+      "ui:봄. 1년 전 봄과 지금 봄이 다르다는 걸 느꼈다.:/봄. 1년 전 봄과 지금 봄이 다르다는 걸 느꼈다.": {
+        "source_sha256": "e28c7ed5bd1b3818ea53ebac358d0d20fb83087e2c7db1d22348d7ed89800303",
+        "target_sha256": "7b2f4ce5f318b5d4131087a3fc79a151d6f46f4acdfb1e2c37d041128639da14"
+      },
+      "ui:봄이 왔다. 이 봄이 강남드림의 마지막 봄일 수도 있다.:/봄이 왔다. 이 봄이 강남드림의 마지막 봄일 수도 있다.": {
+        "source_sha256": "1c312803d55571672acb80b09bf6552216bfbfd089d16619d5d0fe78bc85d43c",
+        "target_sha256": "40cbb3cc7f7b72621d905431044aa5d0bb56052cc5fb467e45dbee1996d455d1"
+      },
+      "ui:봄이 왔다. 취업 공고가 넘쳐났다. 이번엔 될 것 같았다.:/봄이 왔다. 취업 공고가 넘쳐났다. 이번엔 될 것 같았다.": {
+        "source_sha256": "31788a6079aa44d47fe6374d344a9949856d12936ead9eef58532aa0c57d8ba3",
+        "target_sha256": "b684250d89518382bc112fdd3151c20faa624e7ad053e8903a2921872c8d7a92"
+      },
+      "ui:서울에 올라온 지 1년이 됐다. 통장 숫자와 체중이 다 줄었다.:/서울에 올라온 지 1년이 됐다. 통장 숫자와 체중이 다 줄었다.": {
+        "source_sha256": "4b59371646bf5d2d4ab37398ed64fe086dd5561f8d299c42c56ab7099f21f88a",
+        "target_sha256": "c9e226df38174e76d5d3d6892eaf70265e6c29df65b1e4415d61fcf470e9a8bc"
+      },
+      "ui:아파트 창에서 보이는 서울은 다르다. 이 풍경에 익숙해지면 안 된다고 생각했다.:/아파트 창에서 보이는 서울은 다르다. 이 풍경에 익숙해지면 안 된다고 생각했다.": {
+        "source_sha256": "0124621860f39e189124c9d5c8a7cdb12d5c9eacab0ece2caa44a697ea4c4df1",
+        "target_sha256": "b12740161b4d23c74dcd8224226f32f57dad6d513fe1694c8447f8a0bfed358b"
+      },
+      "ui:여름. 고시원은 덥고, 에어컨은 사치다. 땀 흘리며 이력서를 수정했다.:/여름. 고시원은 덥고, 에어컨은 사치다. 땀 흘리며 이력서를 수정했다.": {
+        "source_sha256": "e46c71ccada9d70e82537239f2c134183c3c5b4f42c2f3152b3a1a109030a79f",
+        "target_sha256": "50ca5693e0aa2c63a91f7fc15b18dff16aab7ee4a8f4bff38fa8d3b52e98b9ab"
+      },
+      "ui:이 여름도 지나면 또 반년이 줄어든다.:/이 여름도 지나면 또 반년이 줄어든다.": {
+        "source_sha256": "1d61811e46cd5294d3418e3525c314faf7e84d5e587c00d5fbd9fc9f274aa919",
+        "target_sha256": "5af2176eebafaf2e7932c9fb14b4ede628ab6add8d276cdc21c243a4d1b5a193"
       }
     },
     "zh-TW": {
@@ -185202,10 +185355,94 @@
       "ui:처음 두 장의 점수가 8 또는 9인 경우. 추가 카드를 받지 않고 점수를 비교한다. 높은 쪽이 이기며, 점수가 같을 때만 무승부.:/처음 두 장의 점수가 8 또는 9인 경우. 추가 카드를 받지 않고 점수를 비교한다. 높은 쪽이 이기며, 점수가 같을 때만 무승부.": {
         "source_sha256": "53bae217f1ed34ffc813d0fb428679e7ebf895be719bf643e646f7a139c6cf0e",
         "target_sha256": "efaf485991dc3191c27a431b827de3cef540f0fc46c38af230b3dae09cb76410"
+      },
+      "ui:1년이 채 남지 않았다. 통장 숫자가 더 크게 보인다.:/1년이 채 남지 않았다. 통장 숫자가 더 크게 보인다.": {
+        "source_sha256": "d47742a9574bf889822aeb8be8c2760d95c33505b9945fc601b0b94b74a40531",
+        "target_sha256": "f6ad15c55e40a423e869b60cb397c639971faa05fce9477c53c1c677771dd4a6"
+      },
+      "ui:1평 반에서 1년이 넘었다. 좁지만, 그래도 내 방이다.:/1평 반에서 1년이 넘었다. 좁지만, 그래도 내 방이다.": {
+        "source_sha256": "9be9f52faa19127a9ac22dc0c1ed08b60f4d6739c82940c13ce0a731c2e61149",
+        "target_sha256": "91d6d3a23b7126a8bf5adb60af867fd54cbf0ff7250ed479786b6ac1fe187c37"
+      },
+      "ui:1평 반에서 2년이 넘었다. 이 방이 익숙해지는 게 무서워졌다.:/1평 반에서 2년이 넘었다. 이 방이 익숙해지는 게 무서워졌다.": {
+        "source_sha256": "13e09c6e082e532c37d343a92f77dde8eb99bafdef7362c46bbe0dfda4235717",
+        "target_sha256": "2f09179144382ed81e45948b96fbe76a020e242a0ad56edaf3fbe11d18b342c2"
+      },
+      "ui:2년이 지났다. 서울이 조금 익숙해졌다.:/2년이 지났다. 서울이 조금 익숙해졌다.": {
+        "source_sha256": "1cb29344a0718674412d266f0959a2efb1657c002e1b8247a0e41e90c51df2fb",
+        "target_sha256": "9137e1d2964af132423f70306a264edfb8afb3e10c6fdb6e2a01784bdb02f611"
+      },
+      "ui:6개월이 남았다. 아직 늦지 않았다고 — 믿어야 한다.:/6개월이 남았다. 아직 늦지 않았다고 — 믿어야 한다.": {
+        "source_sha256": "9ed5ebfd65e2a82854545f98f6ba7a4976cdff9dee9655ac8b1443f76fb454b1",
+        "target_sha256": "e09bb212e44a493794eb95f332769e40972954bec05eb294f85c9f670347662f"
+      },
+      "ui:가을. 어딘가에서 금방 되겠다고 했던 1년 전의 자신이 생각났다.:/가을. 어딘가에서 금방 되겠다고 했던 1년 전의 자신이 생각났다.": {
+        "source_sha256": "1e0515b3d383cb84d777b708249899c93ea22eead998e846a4439328488a6690",
+        "target_sha256": "43629a10d864a1fe4fb8e15412489a4e1978176177e09b436a8a10a19f81a70d"
+      },
+      "ui:가을. 이 가을을 어떻게 보내느냐가 결말을 바꿀지도 모른다.:/가을. 이 가을을 어떻게 보내느냐가 결말을 바꿀지도 모른다.": {
+        "source_sha256": "588f935cca2b2c087678b952ab107d39d280e94dcc2d9a2aff75d27c204a3dda",
+        "target_sha256": "65101fa1b40a7686f7c5f13d914deabc9adeea29e2d8c103561ca4df04358823"
+      },
+      "ui:가을. 한 해가 또 저문다. %s은 수첩의 숫자를 본다.:/가을. 한 해가 또 저문다. %s은 수첩의 숫자를 본다.": {
+        "source_sha256": "b619a62aa12a2672a94cc960b5379646e7676e3e6fcc5ba6ba7134fb68d3892a",
+        "target_sha256": "dfee1e90e804d42bebdc8805ecc87cadae140c9539658cf669c03abdd8fb3ff5"
+      },
+      "ui:강남에 왔다. 그런데 강남에서도 여전히 올라가야 할 곳이 있었다.:/강남에 왔다. 그런데 강남에서도 여전히 올라가야 할 곳이 있었다.": {
+        "source_sha256": "9ba8978093ab66bf380417b3c1b2107ad2e19f2131dea54e44a736da0da2ce65",
+        "target_sha256": "62d1d61bd69f04df9ab99f75bba7c07559c31e74cfc536dddfa8beccf660f306"
+      },
+      "ui:강남이 멀지 않다. 아니, 아직 멀다. 그 경계 어딘가.:/강남이 멀지 않다. 아니, 아직 멀다. 그 경계 어딘가.": {
+        "source_sha256": "cc0118661bc853e4736b040059e4a4e3d3d8415932085f43bc08d3c81046e425",
+        "target_sha256": "fd17878ee0ea0001ba0f86e98151fd74b81d13b0c8faba6b5f9be477331e588b"
+      },
+      "ui:겨울 서울. 고시원 창문에 성에가 꼈다. 오늘 하루도 버텼다.:/겨울 서울. 고시원 창문에 성에가 꼈다. 오늘 하루도 버텼다.": {
+        "source_sha256": "34c085a2613614910579b2267bef1c5015c5d617712b618abfda480658f89587",
+        "target_sha256": "ee7322cfee9be4361973e6f189af645f84ebe48c9ad74d287a4aadf00ad3042d"
+      },
+      "ui:겨울. 시간이 별로 없다는 걸 겨울이 되면 더 실감한다.:/겨울. 시간이 별로 없다는 걸 겨울이 되면 더 실감한다.": {
+        "source_sha256": "4791c4ff760667746a930be8d59fb8413abf08a3795c079e4c7295ebdcc0077b",
+        "target_sha256": "1301b05f351c542fa238ab15f2c3aa9ff8ac7f4499e00301cec47790a958723c"
+      },
+      "ui:겨울이 또 왔다. 작년보다 통장 숫자가 달라졌다.:/겨울이 또 왔다. 작년보다 통장 숫자가 달라졌다.": {
+        "source_sha256": "1487b6fa0026976b756a665eec86bada6972e826e2253f86eec42821de2451b6",
+        "target_sha256": "8ee7cce7bb0203aa57b554615d6d651ef0ba076759d7b4de8e8153f7a6395c9f"
+      },
+      "ui:더위가 기승이다. 땀 흘리는 것도 시간이고, 시간이 곧 돈이었다.:/더위가 기승이다. 땀 흘리는 것도 시간이고, 시간이 곧 돈이었다.": {
+        "source_sha256": "dd45e913cf6a5a70e5c8de7b16e7685c10291d90a9573a7e94d760b2ff0ff944",
+        "target_sha256": "097107ba9b291da8ffe3d3209306aabb78e12049ae03477637ac0e8edf92559c"
+      },
+      "ui:봄. 1년 전 봄과 지금 봄이 다르다는 걸 느꼈다.:/봄. 1년 전 봄과 지금 봄이 다르다는 걸 느꼈다.": {
+        "source_sha256": "e28c7ed5bd1b3818ea53ebac358d0d20fb83087e2c7db1d22348d7ed89800303",
+        "target_sha256": "f0c09b086c23bd2334967cd617bb0b9c2e0bef073d982108cea7daa009aababf"
+      },
+      "ui:봄이 왔다. 이 봄이 강남드림의 마지막 봄일 수도 있다.:/봄이 왔다. 이 봄이 강남드림의 마지막 봄일 수도 있다.": {
+        "source_sha256": "1c312803d55571672acb80b09bf6552216bfbfd089d16619d5d0fe78bc85d43c",
+        "target_sha256": "c2b939aa02b9d7f60351b1fa9b5a177c2c06101ee3dcd58fb0b7d11f0cd185e4"
+      },
+      "ui:봄이 왔다. 취업 공고가 넘쳐났다. 이번엔 될 것 같았다.:/봄이 왔다. 취업 공고가 넘쳐났다. 이번엔 될 것 같았다.": {
+        "source_sha256": "31788a6079aa44d47fe6374d344a9949856d12936ead9eef58532aa0c57d8ba3",
+        "target_sha256": "884589b958772d882e2270e3b24e4cf075128d14d9cb9203b88e656073e7b684"
+      },
+      "ui:서울에 올라온 지 1년이 됐다. 통장 숫자와 체중이 다 줄었다.:/서울에 올라온 지 1년이 됐다. 통장 숫자와 체중이 다 줄었다.": {
+        "source_sha256": "4b59371646bf5d2d4ab37398ed64fe086dd5561f8d299c42c56ab7099f21f88a",
+        "target_sha256": "9f14d0e4d0fbf2161b9eb29c62bcb302f886f98f6e5bd916c51ebe134015e3d3"
+      },
+      "ui:아파트 창에서 보이는 서울은 다르다. 이 풍경에 익숙해지면 안 된다고 생각했다.:/아파트 창에서 보이는 서울은 다르다. 이 풍경에 익숙해지면 안 된다고 생각했다.": {
+        "source_sha256": "0124621860f39e189124c9d5c8a7cdb12d5c9eacab0ece2caa44a697ea4c4df1",
+        "target_sha256": "0585d26fb8f2d256e8451e127fc9c4e5c3e6eb2754eb5e34db7d409b68a09d14"
+      },
+      "ui:여름. 고시원은 덥고, 에어컨은 사치다. 땀 흘리며 이력서를 수정했다.:/여름. 고시원은 덥고, 에어컨은 사치다. 땀 흘리며 이력서를 수정했다.": {
+        "source_sha256": "e46c71ccada9d70e82537239f2c134183c3c5b4f42c2f3152b3a1a109030a79f",
+        "target_sha256": "4dd50a61df3b286a15147b58ecf5c140a79f2b3c3d0bc4a3f15346db6ef4ef0b"
+      },
+      "ui:이 여름도 지나면 또 반년이 줄어든다.:/이 여름도 지나면 또 반년이 줄어든다.": {
+        "source_sha256": "1d61811e46cd5294d3418e3525c314faf7e84d5e587c00d5fbd9fc9f274aa919",
+        "target_sha256": "34439ebff142e6dfa501720d21304a0f59bfbc6dbb412717245f01cd1b257846"
       }
     }
   },
-  "accepted_sha256": "8a809a07127f951e571f11b0acb6341048c6314a0d8d6d33978a382e26447387",
+  "accepted_sha256": "c51b51d3eaba81ff2529377a54544b833fc16d11d74bdd441ad6df2551984f0e",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

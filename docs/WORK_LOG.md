@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — 구저장 월 상황판 시간·거처·계절 중국어42 수용
+
+- [584](queue_archive/ORDER-584.md): 경과개월5·거처4·계절12를 CN/TW 각각 KO에서 직접 번역했다. 간체의 가을 회상1이 미래 장소의 확신을 더해 독립 REWORK 뒤 과거 발화/당시 기대로 수리, 원초안을 보존하고 전42를 재검수했다. legacy/AP 조건부 source-only이며 정상 본편/실제21조건/화면 GO가 아니다.
+- 공식 check/import4·표적7·선언시 EN2 actual0, 비저자 의미/receipt42 GO다. static2045→2066/2980·missing935→914·receipted1965→1986·invalid[] 외 inventory 전체 exact·source98664 불변이다. accepted CN/TW14809·JA13173·batch326, 제품4 raw inverse·old325/accepted·보호62/1209·비소유3367·old583raw13 exact다. 보존 원25/26의 dirty3 보조 false1은 실제 제품3+허용metadata3으로 같은 캡처에서 분리 정정·재snapshot0이며 원결과/핀/읽기·UTF8 구성 오류는 사양/새private에 보존했다.
+- gangnamdream-dev/I18N의 직접 저작·소유 보존·source/실관찰 분리를 적용했다. 일회성/승격0·새tool/검사/엔진/월0·KO/EN/runtime/JA·저장/공개데모 불변이다. M17 OS잠금 HOLD 하나·해제 재요청0·렌더/원어민/인간/패드 OPEN·전체 INCOMPLETE·출시 HOLD·종료resource/Presence 잔여 유지, 기준51f7 CI는 정적job 성공/engine audit 진행중·새push CI 별도 확인·현황판 단독후속0이다.
+
 ## 2026-10-13 — 블랙잭 소프트17의 잘못된 정지 안내 수리
 
 - [583](queue_archive/ORDER-583.md): KO/EN 도움말2줄을 실제 H17 규칙(A를11로 세는 soft17에서는 더 받고 그 밖의17+에서는 정지)에 맞췄다. 규칙·배당·저장·사전/원장·공개데모 불변이다. legacy/AP source만이며 정상 본편·실제 화면 GO가 아니다. 미등록 Blackjack 전체본문/CJK 번역은 후속으로 남기며 수용/coverage 증가0이다.
