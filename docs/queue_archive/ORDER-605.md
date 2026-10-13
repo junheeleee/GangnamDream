@@ -1,6 +1,6 @@
 # ORDER-605 — 재혁 정산대기의 지급일·경과시간 발명 수리
 
-#### [~] ORDER-605 [정합] KO·EN 8잎 — 2026-10-13
+#### [x] ORDER-605 [정합] KO·EN 8잎 — 2026-10-13
 
 603·604 source 마감 뒤 잠금 중 월순서 사실수리. map M29 wait는 현재 MainGame
 fallback t106~114로 M27~29에도 들어온다. 실제월562/M17 HOLD 하나 유지,
@@ -34,3 +34,27 @@ rework_batch_plan은 같은경로 preservation-review.md만. root는 독립보�
 gangnamdream-dev/WORK_UNIT 적용·일회성/승격0. 출시5언어유지/CJK일괄정합은
 KO/EN 실제확정 뒤다. source GO를 실제/인간/원어민/물리패드/본편/출시 GO로 쓰지 않는다.
 
+
+## 완료 · source 한정
+
+KO4/EN4 전8잎에서 지급일·한달 연락공백·3주전 대화와 즉시결과의 일주일 경과를
+현재 기다림/입력칸/휴대폰을 뒤집는 행동으로 수리했다. 실제 투자·다른 두 선택의
+당일 시간·효과/flags·현수경고 예약2는 보존했다. 표적13종·공식inventory3 actual0.
+fear 현재내용SHA 628f8c858f005bf90637b156f205ffec675843c548d0314939c85f8bd5d0aae4
+및 공식보고 한 행만 정렬, 후보수/ID/공개이력 불변이다.
+
+root가 최종봉인 뒤 전문 판독한 비저자 보고:
+- independent-review.md 5317B/f0101999f07b34cd9345f7952312a1a3ea23e253a4a4762943b75b460ab28778
+  (경로 .git/order605-20261013/) — 의미8/8 GO.
+- preservation-review.md 4893B/9e187faca69e8e0bad2ac268f48e58eafe2234cd3950a4d25da3294801b36c70
+  (같은 경로) — 보존11/11·demo7/7·비소유3388 exact·8잎 whole inverse.
+before1364B/45bf52d674e41bc899aa2e586e7788835e4b5ba57f7633f90a006b226f22563e.
+최종 KO297407B/6f2081bd7b6640d38f620bc7006d7c27d7c1f91549e6665e5bdae05a6c103a24,
+EN218550B/8f4faeb25ca8b300549d624eeecdc9379c31bdafb730780b8edeef6224eba64c에 결속한다.
+
+manifest c4acb5608cc805b48592d9b366e9d0ac08855fb2bea7f31ada7c5894ae5f50b8,
+current11375/stale55·66·66/invalid76·9·9. JA 기존 번역의 기간 숫자 새불일치1도
+숨기지 않고 CJK75KO잎 미수용 정합대기에 포함·고유KOEN160/원장·CJK수용0.
+ghost의 대면/다음달 회상은 후월부채, callback54는 입구 없는 dormant로 구분한다.
+실제 M17 OS잠금HOLD 하나·native/엔진/새월0·본편/5언어/출시HOLD.
+선언CI38407008776 조회시진행중·새push 미확정. 일회성/승격0·현황판단독0.

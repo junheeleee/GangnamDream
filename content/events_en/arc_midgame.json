@@ -287,16 +287,16 @@
   },
   {
     "id": "arc_jaehyuk_wait",
-    "title": "Settlement Day",
-    "description": "The profit settlement Jaehyuk promised is next week.\n\nNo word from him yesterday. Or today. It's been like this for the past month — maybe that isn't strange.\n\nAnd yet. Why does he keep checking his phone?\n\nHe opens KakaoTalk. The last message is Jaehyuk's \"How are you\" from three weeks ago.\n{name}'s reply, \"Fine, you?\" got back just an emoji.\n\nThe money put in keeps cycling as a number in his head.",
+    "title": "Waiting for the Money",
+    "description": "He kept wondering when the money he had entrusted to Jaehyuk would come back.\n\nStill no word about the payout today. Maybe he was busy — that thought brought a moment of relief.\n\nAnd yet. Why does he keep checking his phone?\n\nHe taps Jaehyuk's name in KakaoTalk.\n{name} touches the empty message field, then pulls his hand away without typing anything.\n\nThe money put in keeps cycling as a number in his head.",
     "choices": [
       {
         "text": "\"Hey Jaehyuk, how's everything?\" — reach out first",
         "result_text": "No read receipt appeared. One hour. Three hours.\n\n{name} put the phone face-down and tried doing something else. It didn't really work."
       },
       {
-        "text": "Wait until settlement day. The message will come.",
-        "result_text": "Held out for a week. Learned this time that waiting also takes energy.\n\nThe morning of settlement day, {name} woke up early."
+        "text": "Wait a little longer. The message will come.",
+        "result_text": "He told himself the message would come and turned off the screen. Even after deciding to wait, his hand moved toward the phone again.\n\n{name} pulled his hand back and turned the phone face-down. Just sitting beside it was draining."
       },
       {
         "text": "Message asking to get at least part of it back.",
