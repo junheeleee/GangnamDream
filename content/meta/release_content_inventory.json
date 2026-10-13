@@ -454,10 +454,10 @@
         "tags": ["gambling", "addiction"],
         "tokens_ko": ["도박", "베팅", "카지노", "경마", "마권", "바카라", "블랙잭", "룰렛", "슬롯", "홀덤", "다이사이", "식보"],
         "tokens_en": ["gambl", "betting", "casino", "racetrack", "baccarat", "blackjack", "roulette", "slot machine", "hold'em", "sic bo"],
-        "expected_event_count": 137,
+        "expected_event_count": 136,
         "expected_file_count": 43,
-        "expected_ids_sha256": "e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b",
-        "expected_content_sha256": "343abd1c0000a6e13d5230310b83bdb893fe1c9571442e327497f65cf1a2f40a"
+        "expected_ids_sha256": "d41c2decfd20cbb8c4c5abe0f751009fd00e8a7de5c303b3227d0e81476a062a",
+        "expected_content_sha256": "8a4cd214e94fd3800240310015f2544965149127a7b764d7169775bbfcb8f6d1"
       },
       "facts": [
         {
@@ -530,7 +530,7 @@
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
         "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present"],
-        "expected_event_count": 124, "expected_file_count": 26, "expected_ids_sha256": "b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa", "expected_content_sha256": "d068a0e64c8ebc8257dc265afdeb3d21629b615a185e9d563ac7fc88a77873f4"
+        "expected_event_count": 124, "expected_file_count": 26, "expected_ids_sha256": "b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa", "expected_content_sha256": "d012c37438cfd025fbbb0e53073ecefb4d5179cbd081013d8715843a8f8bbd43"
       },
       "facts": [
         {
@@ -616,7 +616,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 145, "expected_file_count": 51, "expected_ids_sha256": "a6a6ec729442836b7328d965a645391fc8d5c8750c22535ff2e6928a5750c2da", "expected_content_sha256": "c91af03e2138544b1e85d008f87ec8eef9c04654e2428d5688451ae7ee205d47"
+        "expected_event_count": 145, "expected_file_count": 51, "expected_ids_sha256": "a6a6ec729442836b7328d965a645391fc8d5c8750c22535ff2e6928a5750c2da", "expected_content_sha256": "9746e714031f8472d219c2e9f2b457854b2d6be23e99faf54ff1c49e45defedb"
       },
       "facts": [
         {
@@ -686,7 +686,7 @@
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
         "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
-        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "f958f5d21df6266e3115ec7fca8ba1e9faf7fe1db546ca8b4461883838c5c13d"
+        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "92fcdc339bcb4091ad7a826c415b9811e68629dcf90430d8dbfe6d7f780b7f2c"
       },
       "facts": [
         {

@@ -1789,7 +1789,7 @@
     "callback_daeun_breakup_begged_echo": {"ambience": "current_housing", "suppress_music": true},
     "callback_daeun_daily_life_echo": {"ambience": "current_housing", "suppress_music": true},
     "callback_father_confession_echo": {"ambience": "cafe", "music": {"key": "reckoning", "start_paragraph": 2}},
-    "arc_35_unorthodox_weight": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 2}},
+    "arc_35_unorthodox_weight": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},
     "arc_why_gangnam_real": {"ambience": "street", "music": {"key": "wonder", "start_paragraph": 2}},
     "arc_why_gangnam_real_father_passed": {"ambience": "street", "music": {"key": "wonder", "start_paragraph": 2}},
     "arc_midpoint_reckoning": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},

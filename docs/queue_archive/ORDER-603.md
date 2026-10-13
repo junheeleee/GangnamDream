@@ -1,6 +1,6 @@
 # ORDER-603 — M27~28 경로점수의 거래이력·수익 발명 수리
 
-#### [~] ORDER-603 [정합] KO·EN 17잎·실제 주거 표시 — 2026-10-13
+#### [x] ORDER-603 [정합] KO·EN 17잎·실제 주거 표시 — 2026-10-13
 
 602 source 완료 뒤 잠금 중 사용자 위임 사실수리. 실제월562/M17 HOLD 하나.
 해제 시 원559 W68 실제플레이 즉시우선, CI빨강 새월0·JAzh다듬기/수용0.
@@ -46,3 +46,33 @@ arc_events 전체이력핀을 고정하지 않는다. 보호사건/manifest/pin/
 원장·CJK·사용자저장/설정·project.godot·공개·과거인간판정 보존. 전체audit/엔진/native0.
 gangnamdream-dev/WORK_UNIT 적용·기존 사실수리/계층격상0·일회성/승격0.
 자동검사는 계약 증거이며 인간·원어민·물리패드 관찰 및 본편/출시 GO가 아니다.
+
+## 완료 · source/표시 계약 한정
+
+선언9fd9a7f 뒤 KO8/EN9=17잎·표시4값 수리. 경로점수만으로 주식/경마 실행,
+수익 두배/반토막·3년 이력을 발명하지 않는다. 자산이체 효과 없는 선택은 현재
+메모/확인으로, 다른방/거실·전용매매방은 실제 주거와 폰을 멀리 두는 행동으로.
+gameplay·조건·flags·저장·선택순서·6/7주 예약은 불변이다.
+
+표적15종 최종 actual0. 최초 exposed actual1은601의 주거 도메인 누락으로
+별도604에서 고쳐 재검사0, 원실패 보존·16회 실행(성공15/실패1), 원영수증을
+복사한604/603 exposed를 별도 성공으로 중복하지 않는다. 공식 inventory3 actual0.
+release 현재도박 후보는 orthodox의 '큰 베팅' 삭제로137→136(ID1만 제외),
+도박/선정성/공포/범죄 SHA·공식표4행을 실측 정렬했다. 다른축·공개history 불변.
+
+root는 최종봉인 통지 뒤 다음 두 보고 전문/핀을 판독했다:
+- `.git/order603-20261013/independent-review.md` 11211B /
+  `542523dbd89584426064aad12446cf8bfa18347e5ccdcf923b5c797d9d29ffae` —17/17·표시4 GO.
+- `.git/order603-20261013/preservation-review.md` 6114B /
+  `33eddd8dacafaabf2ef99a406c46bcbe674f9941827a5a42f525543068598560` —보존11/11·demo7/7·비소유3382 exact.
+before2166B/71686e4d…cc25,604확정cb784e2의 한 domain만 분리한 effectivebase로
+whole inverse를 확인했다. 최종4원문·표시3·release/report2 핀은 두 보고에 결속했다.
+초기 인코딩/상대경로 계산 오류는 write0 후 정정했고, 잘린 diff의 이름대입 경고는
+선언 Git전문으로 before1/current1을 확인해 철회했다. 제품을 바꾸어 맞추지 않았다.
+
+manifest89ab4788fedb5f3a33229931413846f9c7f9ea4e2729be33489b2f6885c8a7ea,
+current11379/stale52·62·62/invalid75·9·9. 새invalid는 두 weight본문의 기존번역
+숫자/횟수 불일치2씩으로 숨기지 않고 KO확정 뒤 일괄정합에 둔다. CJK71KO잎 미수용
+대기·고유KOEN152/원장·CJK import0. M49 callback의 고정2년·성과 회고는 기존부채.
+실제 M17 OS잠금HOLD 하나·엔진/native/새월0·인간OPEN45·본편/5언어/출시HOLD.
+603선언 CI38403509123 조회시 진행중·마감push 미확정. 일회성/승격0·현황판단독0.

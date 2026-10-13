@@ -330,7 +330,7 @@
     {"id": "callback_daeun_breakup_begged_echo", "background": "current_housing", "portrait": "player_tired"},
     {"id": "callback_daeun_daily_life_echo", "background": "current_housing", "portrait": "daeun_smile"},
     {"id": "callback_father_confession_echo", "background": "cafe", "portrait": "player_shocked"},
-    {"id": "arc_35_unorthodox_weight", "background": "scalping_room", "portrait": "player_tired"},
+    {"id": "arc_35_unorthodox_weight", "background": "current_housing", "portrait": "player_tired"},
     {"id": "arc_why_gangnam_real", "background": "gangnam_night", "portrait": "player_normal"},
     {"id": "arc_midpoint_reckoning", "background": "current_housing", "portrait": "player_tired"},
     {"id": "arc_year_two_half", "background": "current_housing", "portrait": "player_tired"},
