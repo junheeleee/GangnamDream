@@ -911,12 +911,12 @@
   },
   {
     "id": "arc_year_two_half",
-    "title": "Two and a Half Years",
-    "description": "The morning after the midpoint calculation, yesterday's figures were still on the screen.\n\nTwo and a half years in Seoul. Calling it halfway made the time sound smaller, but it contained deleted contacts, new passwords, and the familiar sounds of the room.\n\nWhenever news from Changwon appeared, {name} usually scrolled past. Today, the finger stopped. Before calculating the second half, it seemed necessary to read who the first half had made.",
+    "title": "The Ledger, Reopened",
+    "description": "He reopened the figures he had written at the midpoint. Beside that calculation, he wrote today's balance.\n\nThe page seemed heavier than when it had held only the target. His fingertip followed an empty line beneath the numbers, then stopped.\n\n{name} pictured himself when he first arrived in Seoul. What would that person say about this record? His wrist ached as he poised the pen to write an answer. He had not turned the page yet.",
     "choices": [
       {
-        "text": "What would Minjun from two and a half years ago say if he saw this?",
-        "result_text": "The Minjun from two and a half years ago — looking at this room, this account, these numbers now — would probably say it's enough. That's all that's needed."
+        "text": "What would Minjun from his first days in Seoul say if he saw this?",
+        "result_text": "The Minjun who first arrived in Seoul — looking at this room, this account, these numbers now — would probably say it's enough. That's all that's needed."
       },
       {
         "text": "Admitted the exhaustion. It was time to stop for a moment.",
