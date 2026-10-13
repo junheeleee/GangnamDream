@@ -1084,18 +1084,18 @@
   {
     "id": "arc_father_03_hospital",
     "title": "Mom's Call",
-    "description": "Four days after his parents returned from Seoul, Mom called.\n\n\"Minjun.\"\n\nHer voice carried what neither of them had said in the room or at dinner.\n\nDad had collapsed. A cerebrovascular warning. Changwon Sungsim Hospital ER. He was stable now, conscious and talking.\n\n\"They think he only needs a few days in hospital. No surgery. But he has to be careful from now on. The doctor said... if he doesn't manage it properly, it could happen again anytime.\"\n\n{name} remembered Dad's face from their last meeting, the face that had come all the way to Seoul and still said everything was fine. His hand trembled.",
+    "description": "Four days after his parents returned from Seoul, Mom called.\n\n\"Minjun.\"\n\nHer voice carried what neither of them had said at dinner.\n\nDad had collapsed. A cerebrovascular warning. Changwon Sungsim Hospital ER. He was stable now, conscious and talking.\n\n\"They think he only needs a few days in hospital. No surgery. But he has to be careful from now on. The doctor said... if he doesn't manage it properly, it could happen again anytime.\"\n\n{name} remembered Dad's face from their last meeting, the face that had come all the way to Seoul and still said everything was fine. His hand trembled.",
     "choices": [
       {
-        "text": "Go down right now",
+        "text": "Book the first KTX to Changwon",
         "result_text": "Booked the first KTX to Changwon. 5 a.m. from Seoul Station.\nOn the train, tried to picture Dad's face.\nStarted calculating when the last time was —\nStopped. Too long ago."
       },
       {
-        "text": "Say you'll go down within the week",
+        "text": "“I'll come on the weekend.”",
         "result_text": "\"I'll come on the weekend.\"\nMom went quiet for a moment.\n\"Yeah. I called because I thought your dad would worry a lot.\"\nSomething buried under those words.\n{name} hung up, then thought about how far away the weekend felt."
       },
       {
-        "text": "Send money — too busy with things here",
+        "text": "Send money for hospital expenses",
         "result_text": "Transferred the money. For hospital expenses.\nMom said \"Thank you.\"\nDad would ask whose money it was.\n{name} decided not to think about what Mom would say."
       },
       {
@@ -1103,7 +1103,7 @@
         "result_text": "Sangchul picked up and within minutes had connected a doctor he knew near Changwon.\nFast. No questions.\n\"This is the kind of thing you have to handle,\" was all he said.\n\nDad was moved to a better room.\nMom asked what had happened.\n{name} just said, \"Someone I know helped out.\""
       }
     ],
-    "description_unorthodox": "Four days after his parents returned from Seoul, Mom called.\n\n\"Minjun.\"\n\nDad had collapsed. A cerebrovascular warning. Changwon Sungsim Hospital.\n\nBefore remembering Dad's face from their last meeting, {name} thought of the moves he had in play: investments underway, timing he had to catch, things that would wobble if he stepped away.\n\nThen he hated himself for noticing the order. His father was down, and the money math had spun up first.",
+    "description_unorthodox": "Four days after his parents returned from Seoul, Mom called.\n\n\"Minjun.\"\n\nDad had collapsed. A cerebrovascular warning. Changwon Sungsim Hospital.\n\nBefore remembering Dad's face from their last meeting, {name} began calculating time and money: when he would need to leave if he went to the hospital, how much the fare would cost, how much cash he could use now.\n\nThen he hated himself for noticing the order. His father was down, and the money math had spun up first.",
     "description_low_mental": "Four days after his parents returned from Seoul, Mom called.\n\n\"Minjun.\"\n\nDad's face from their last meeting came back first. He had collapsed. A cerebrovascular warning. Changwon Sungsim Hospital. Stable now, conscious and talking.\n\n{name}'s hands shook. His mind was already at the bottom, and now this landed on top of it. Telling himself he could not fall apart, he felt himself already falling apart."
   },
   {
