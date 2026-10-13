@@ -1,0 +1,47 @@
+# ORDER-618 — M33 대면의 고정 한 달 단정 수리
+
+#### [~] ORDER-618 [정합] 한 장면 KO·EN 16잎 — 2026-10-14
+
+617 완료 뒤 월순서 M33 arc_sangchul_confrontation만. 실제612/M18은
+OS잠금HOLD 하나이며 명확한 해제전 반복/native/새월0.
+5언어유지·KOEN 실제확정전 JAzh다듬기/수용0·추후일괄정합.
+
+## 근거·깊이 3문
+
+MainGame:7373~7390 실제입구 W132/진실flag만; 진실producer의104하한·
+아버지고백102하한·NG과거지는 W128 취득/+4경과를 보장하지 않는다.
+본문 기본+DIK7종 전부 '한달동안아무것도하지않음'을 기간없는
+해당 질문의 미룸으로 정렬한다. 행동전체정지가 아니라 아직묻지않은질문이다.
+기존 offscreen 만남/시장대화·팔십번같은주관적표현·앞뒤 인과는 이번범위0.
+이 장면을 지우면 진실의 소유/이용/결별이 정점선택으로 이어지지 않는다.
+24주뒤 차이는 기존reckoning·buried·distanced 결과와 후속이 소유한다.
+같은자리의 질문/침묵/떠남이 경쟁하며 새flag/효과/회수는 만들지 않는다.
+
+## 정확 소유
+
+root: content/events/arc_drama.json + content/events_en/arc_drama.json,
+arc_sangchul_confrontation.description 및 description_if_known 7종 =16잎.
+각잎의 첫 '한달/아무것도안함' 문장만, 기본은 '한달이었다'까지.
+나머지문장/문단/placeholder배열·선택/결과/effect/flag/입구/예약/
+배경/초상/audio/save/project 불변. '또한달갈것같다'는 미래주관이라 그대로.
+sangchul_trust_deepened 팁수익/감사는 callback_sangchul_tip_win_payoff
+실제producer가소유하므로 보존한다. used 경로 수익은 offer의실제money1800000/
+선택이소유하며이번에바꾸지않는다. father고백/known_offer 별도원고쓰기0.
+release current 실제영향내용지문/공식보고만 필요시최소정렬·공개history/pin불변.
+큐2/사양/archive·WORK_LOG·CLAUDE 현재행 root.
+m17_native_admission/read_only_admission_crosscheck:
+.git/order618-20261014/independent-review.md만.
+m17_native_admission: 같은경로 preservation-review.md만.
+before는선언Gitblob·617/614~616봉인·53그룹847/latest612resume20핀·
+사용자/저장설정/project·공개데모/인간·oldraw/build/runtime·dirty612 보존.
+
+## 검증·증거
+
+선언commit/push→정확16잎·첫문장치환역산/전체byteexact·독립전수.
+W104→132/늦은진실·NG/무직·비거래·음수·수익flag대조.
+audit_select --list→기존source13+story_graph_contract_audit(선택topology보존)·
+공식inventory3·context/queue/diff. 조건/로직불변으로engine/arcflow0.
+새checker/self-test/tool·비용사업·native/전체audit/240주0.
+gangnamdream-dev/WORK_UNIT 적용·일회성/승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+sourceGO≠전체장면/체인/native/인간/원어민/패드/청취/5언어/출시GO.
