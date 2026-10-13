@@ -3,6 +3,12 @@
 이전 기록은 [568 전 원문](history/WORK_LOG_2026-10-12_pre_order568.md)에 바이트 그대로 보존했다. 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39872B/SHA256 f733be0a4de292acfa40d7717be6180b5d5847dfa37e963628043eae5b8ce652이다.
 
+## 2026-10-13 — M21 부동산 거절 영어의 미래뉴스·연락 반대발명 수리
+
+- [591](queue_archive/ORDER-591.md): realty 거절 EN1잎을 KO의 현재 상철반응에 직접 맞췄다. 몇달뒤뉴스/상철이말안함/민준직접발견 발명을 제거해 실제16주callback의 상철전화와 충돌하지 않는다. KO/조건/효과/flags/비용/후속 불변·EN불필요{name}1→0(KO0)만, gameplay0이다. M21새창/호환묶음4를 읽었지만 차트=투자소유·일=재직·half bet=자산50%로 과잉확정하지 않았다.
+- 표적13 actual0·독립전1잎 source/후속 GO·제품3 wholeinverse/비소유3374/demo7/7 exact다. gamblingSHA1/report1만 연동, 보존보조12/13의false1은 parser기존diagnostics29/pairs0가 전후동일인 과도한 기대라 원결과보존/해석정정했다. root 구조TypeError/수동patch불일치쓰기0도 보존했다. 실제 Git source manifestcb2…불변으로 직전590공식3locale 원관측을 재사용(새수집PASS0)·CJK/원장/누적source8잎 정합대기/invalid57·1·1 그대로다. 상세핀은 사양에 결속했다.
+- gangnamdream-dev/WORK_UNIT의 KO직접대조/생산자↔독자·소유/표적검수·관찰분리 적용·일회성/승격0·엔진/native/새월0·실제M17 OS잠금 HOLD 하나·해제우선·CI빨강 새월0. 공개/사용자저장/옛판정/5언어/종료잔여 보존·새push CI미확정·전체언어/본편/출시HOLD·M22 미판독·현황판 단독후속0이다.
+
 ## 2026-10-13 — M20 이사 뒤에도 생기던 동거 회상·16주 질문 인용 수리
 
 - [589](queue_archive/ORDER-589.md)와 [590](queue_archive/ORDER-590.md): 이미 이사한 경로의 현수 발령 식사 질문/선후·미래 주방 직접관찰을 현재 방문/짐싸기/출발로 맞췄다. KOEN4result잎의6구절만 바꾸고, 독립검수에서 발견한16주callback 옛질문은 별도선언2quote로 연동했다. 중간불일치제품을 따로commit하지 않고 두단위를 한 구현커밋으로 묶는다. 선택/돈/효과/주거/flag/16주예약/최소W96·나머지원문 불변이다.

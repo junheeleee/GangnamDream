@@ -1,6 +1,6 @@
 # ORDER-591 — M21 부동산 거절 영어의 미래 발명
 
-#### [~] ORDER-591 [정합] EN 1잎 KO 직접 정합 착수 — 2026-10-13
+#### [x] ORDER-591 [정합] EN 1잎 KO 직접 정합 수용 — 2026-10-13
 
 기준 clean maind5749a921b18924f23e4300a79641651dab38ce1/
 treebb578492ee0fd297b4f1f62abcf2190cefcf3b36. Mac잠금/source월순서 M21 W81–84를
@@ -55,4 +55,44 @@ gangnamdream-dev/WORK_UNIT의 KO직접대조·생산자↔독자/소유/관찰�
 
 ## 실제 결과
 
-미완료. source修理를 실제M21/전체월 완료로 대신하지 않는다.
+EN1잎 KO직접정합·표적13 actual0·독립 전1잎 의미/후속 정합GO·blocker0다.
+현재 상철반응으로 닫아 미래뉴스·비통보·민준직접발견 발명을 제거했다.
+KO/choices/효과/flag·조건/실제16주callback/저장/데모/CJK/원장 불변이다.
+gambling의 실제 contentSHA1 및 공식report1행만 b5ce029c54e2dbe819ad9d03de08975fe268a4b50cac3c5ffdb1fe35483e5a25로 연동,
+다른6축/ID/사건수는 불변이다. 결과의 newline수/{name}1→0 변경은 의도된KO0정합이다.
+
+- 실제 선언cb885d4bf4fe4f73457a363d539261978d8b29a6/
+  treeece2b52fc6b3c82b816a8ecc878554847feedf46 + 소유dirty3/index0.
+- manual_save_ci `.git/order591-20261013/independent-review.md`4055B/
+  c94854dbf0bef0a0520b8db42934ed9a12b3ad2bd2fbbe5b6aaa1cec8e239ee1.
+- rework_batch_plan `preservation-review.md`10889B/
+  aa08445c8c1996cd654b10546701bfec15f0878d19a225b87bb704281ad2fbfd.
+  제품3 wholeinverse/비소유3374 mode/blob/SHA·demo7/7 exact다. 原12/13 보조false1
+  (releaseJSON parser오류0 기대)는 보존, 실제 pair0/기존diagnostics29 before/current
+  동일로 같은데이터 해석만 정정했다. 전13PASS로 덮거나 제품/검사를 고치지 않았다.
+- EN최종165822B/d47302bfb426c42077729464fa9e04d011d25f6e66dea4e327f65ff324a6084f,
+  1span inverse→원165829B/fa2989387531913f71da96a8e6706fe4cf8123887eb3c6c0a2958519be92fbe6.
+  before10핀1682B/b0d54c13e11f07a39d6d81722b2925270c5da1704992353726ad24cda30139b7.
+- ENevent는 collector source0·releaseJSON pairs0·나머지입력불변. 실제 Git source
+  manifestcb2ab57d9f2eb6b87068607910985547d1e43e017e7305ab720e7075f0dfb7d0로
+  직전590공식after3를 원관측으로 재사용했다. source17504/unsupported466·event
+  receipt11442/stale7/invalid JA57/CN1/TW1·INCOMPLETE/OPEN 그대로다.
+  새collector/inventory/status0·JAzh수용0·누적source8잎 정합대기를 지우지 않는다.
+- 원check-*.json13 actual0. 비저자는 그중8완료만 직접 읽었고 pending5는 root가
+  이후 동일세션 exit0/원출력을 수신해 별도로 보존했다. 엔진/새검사 실행0이다.
+  root 구조탐색 TypeError와 수동patch행 불일치는 쓰기0/검사시작0로 보존하고,
+  실제content_axes list/원행을 읽어SHA1만 patch했다. 성공결과로 원진단을 덮지 않는다.
+
+```
+도달 경로      : MainGame.gd:7143–7152; STORY_CONSISTENCY_AUDIT_OK
+생산자 ↔ 독자   : arc_events.json:1767–1773 ↔ callback_events_5.json:107–124
+바꾸는 상태     : gameplay0; ENresult1; source/target CJK 원관측불변
+포기 시 잃는 것 : realty choice2 거절flag·16주reader; 투자choice0/1 불변
+서사 위치       : M21 W82+ optional investor ladder; 실제월0
+장면 계층       : 기존미선언T3·격상0·전체장면승인0
+닫는 것         : KO에없는 미래뉴스/연락 반대발명1; 실제월/5언어/출시 미완료
+```
+
+gangnamdream-dev/WORK_UNIT 적용·일회성/승격0·새tool/검사/엔진/native/새월0.
+실제M17 Mac잠금HOLD 하나·해제원W68우선·CI빨강새월0·새push CI미확정,
+공개GO/저장/옛판정/5언어/종료잔여 보존·본편/출시HOLD·M22 미판독이다.
