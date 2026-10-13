@@ -1,6 +1,6 @@
 # ORDER-617 — M32 추론 기간·수익 회상·한영 동작 수리
 
-#### [~] ORDER-617 [정합] 두장면 KO·EN 5잎 — 2026-10-14
+#### [x] ORDER-617 [정합] 두장면 KO·EN 5잎 — 2026-10-14
 
 616 뒤 월순서 M32 mapped추론과 t126 현기증만. 실제월612/M18 OS잠금HOLD
 하나·명확한해제전재시도/새월0. 5언어유지/JAzh다듬기·원장수용0/추후일괄정합.
@@ -47,3 +47,32 @@ network56/추론104·늦은입구·비거래/무직·음수/목표초과·폰동
 gangnamdream-dev/WORK_UNIT 적용·일회성/승격0.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
 source GO≠실제/native/인간/원어민/패드/청취/5언어/전체제품/출시GO.
+
+## 완료 · source 한정 — 2026-10-14
+
+제품108e4eff18bce28d9b0d7cc9287808e4075160e5/tree60d83af624022ec4bcfde297e6c47790b9c21dad.
+추론의 정확기간 단정을 현재 이름회상으로, 현기증의 실현수익 회상을
+현재계산표의 예상수익률/주거비·총자산칸으로 수리했다. EN폰꺼냄은 KO와 정렬.
+5잎 placeholder배열·6/3문단·비소유문단·선택/효과/입구/예약 불변.
+root 최종봉인2보고 전문판독·.git/order617-20261014/:
+- independent-review.md8068B/5abfd87c2eda6adf50bc7c30e548c8757b1ea153dd52beb62c29d401a133d4f6.
+- preservation-review.md8988B/008cb24a6c8cb453313c73771259580ca06b352a281c87b14991859dae42fec8.
+독립5/5 의미GO·보존3404/53그룹847/latest20·614~616보고6개/user/demo exact는
+18:29:34 UTC 제품point 한정이며 이후closuremetadata 불변주장0.
+기존source13종·공식inventory3 finalactual0. 원release default1 보존 후
+실제 --write-report 호출0로 crime73/40·IDs불변 내용SHA한값
+a8eb5f330b01f80f12e894e74325552a7a4d696e71d6369cd9b782ac82cba745/보고1행 정렬.
+summary467e5487…140e의 release cmd표시가 계획default였음을
+release-command-clarification.json699B/07bbd7bbfd253db2b8123e66d2e3c995ebb689dd335190027c18c055ce869913로
+명시했다. 실제명령 정본은 check-release-aligned.json이며 추가재실행0.
+manifest b32a9c9578e94ab569b977b90dddc2c955ce8d3d0b2b7a01dec16676e0c58872.
+current11341/stale71·92·92/invalid94·17·17·CJK109KO잎 정합대기/고유KOEN231.
+JAzh다듬기/원장수용0·5언어INCOMPLETE/인간OPEN45·done1/출시HOLD.
+queue행을먼저지워 active파일존재 transient1이났고 archive이동후기존검사0복구.
+마감 context/queue/index self-test/STATUS advisory/human계약5종 actual0.
+STATUS낡음은비차단·STATUS전용commit0·제품검사삭제0.
+실제612/M18 OS잠금HOLD 하나·명확한해제전재시도/새월0.
+직전616CI38444466616은 여전히진행중이었고 현재제품/metadata CI녹색미확정.
+다음탐색에서 M33본문8변형의고정한달/행동없음 조건미보장 확인·아직수정0/별도범위.
+gangnamdream-dev/WORK_UNIT 적용·일회성/승격0·source범위GO≠체인/
+native/인간/원어민/패드/청취/5언어/출시GO.
