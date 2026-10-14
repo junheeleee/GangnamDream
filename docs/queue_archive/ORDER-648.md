@@ -1,6 +1,6 @@
 # ORDER-648 — 지난주 받은 보증 PDF의 당일 수신 회상 수리
 
-#### [~] ORDER-648 [정합] M53 동일 문서의 선행 수신 시점 보존 — 2026-10-15
+#### [x] ORDER-648 [정합] M53 동일 문서의 선행 수신 시점 보존 — 2026-10-15
 
 현재main d9b3a66/run38646565047 정적성공/Godot진행/failedstep0·전체녹색미확정·새월0.
 실제612/M18하나HOLD·readonly22:40UTC sessionlockedtrue/IOConsolefalse·native0.
@@ -40,3 +40,26 @@ context/queue/diff0·engine/전체audit/자연240/새checker/비용계측/최적
 독립sourcefact한정GO·실제M53/native/전체계약경제/wholechain/5언어/352선행/출시HOLD.
 이전required서사정본전문읽기는최신commit6216a1bd불변을확인해재사용한다.
 일회성2잎수리/새정본승격0·자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 증거 — 2026-10-15
+
+후보b4d110e5b63dda15b62d3a8c66aabb4db7392908/tree79fff8607ddfaeef312c26c74edfaf176cc54eca.
+KO185261B/SHA71f962dfb20414d9c9bf2e4e799ea0d4e2ceb002543d8f4484911993fac91a86/blobd59935d9cdebea4aa7e7b73593dfd77b9f6c60b3;
+EN134793B/SHA8fd94f8580623c2fe0664875593930ab2679f033517ef23e75dd6606bdd6f4f3/blob957153ed67ba85c1ce6839ef367a4976d371ba70.
+KOEN2잎inversebytes/3문단/name2/digits0 exact·선행W209PDF→W210비교보존·새수신/시간payload0.
+표적8actual0/selection68실행아님/release정렬불필요/engine·전체audit·자연240·새checker0.
+공식3inventoryactual0·manifest4545dc6ffbc79112f46f9784fe472ecdbd12104b42f4ac30bda9614bf2f2b1b9.
+event현재11221/stale176·193·193·chapter5reader131/133 stale2·invalid109·36·36/INCOMPLETE/nativeOPEN·CJK수용0.
+.git/order648-20261015/authored-leaf-map.json3686B/a9c7def5abcc403faa599e25a6f867b12aa63edea4ce1337e0d5c30ad0cfadd1;
+source-proof.json1178B/a6c97021d7c9f1c772792f6f89677c403f197dc811c880632eb9cffb9a0f6490;
+targeted-results.json11108B/44a45021f655a846e732a2a5a3994940f826441fe3e02383e1b2cfbaf31460a8;
+inventory-completions.json2684B/d536bbbdbe5034f44538e16e2efe5e21b82c4440e44c0877c950242a96341b9c.
+독립a1_qa_release_audit GO_M53_SOURCE_FACT_ONLY/차단0·root전문/2blob/8증거핀확인.
+review.md4335B/513839c54840964e8f794bb12bf6bcd1845e3a7c730fc37991c4b042890e86c2;
+review.json4952B/150f438532c23974926280e3bd35382106824e289ca9f38154b363c55d253ae5.
+원문2잎밖제품불변·612dirty4전커밋제외·실제월1/새월0·native/설정변경0.
+M54읽기에서계획flag로1년전베팅·손익을단정하는6DIK잎과거래없는체결약속4잎확인·별도판단전미수리.
+마지막24주창의추가지연반례는확인중이며확정수리로세지않는다.
+실제M53/M18/native/전체보증체인/5언어/352선행/출시HOLD·mainCI진행≠녹색.
+일회성2잎수리/승격0·개발스킬표적검증·독립판정·사용자보존적용.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
