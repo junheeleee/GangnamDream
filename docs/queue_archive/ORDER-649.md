@@ -1,6 +1,6 @@
 # ORDER-649 — 마지막 구간의 계획 회상·남은 기간 사실 정렬
 
-#### [~] ORDER-649 [정합] M54 generic 회상의 실제 계획·마지막 구간만 보존 — 2026-10-15
+#### [x] ORDER-649 [정합] M54 generic 회상의 실제 계획·마지막 구간만 보존 — 2026-10-15
 
 648 sourceGO뒤M54읽기에서확인한사실수리·실제612/M18하나HOLD·새월0.
 5언어유지·KOEN실제확정전JAzh다듬기중단/누락만·번역수용0·접근복구시같은M18우선.
@@ -40,8 +40,27 @@ docs/CONTENT_RATING_INVENTORY.md 동일생성row정렬·count/IDs/다른축/publ
 ## 검증과 한계
 
 12잎map/KOEN의미/문단name/의도숫자제거목록/2원고inversebytes·공식3inventory각1회/수용0.
+이단위patch는실제원문행순서로정렬하고역변환은따옴표포함JSONtoken으로해title/본문접두어충돌을피한다.
 audit_select --list만·기존audit/consistency/ENcoverage/영어한글/spine/chapter5/continuity/release 표적8.
 context/queue/diff0·engine/전체audit/자연240/새checker/비용계측/최적화0.
 독립sourcefact한정GO·choice0거래약속4잎미수리/실제M54/native/전체경제/wholechain/5언어/352선행/출시HOLD.
 M55 EN years earlier1잎은다음별도범위·이단위추가0·일회성12잎수리/새정본승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 증거 — source 사실 수리에 한정
+
+- 후보: 6669029660476dafa189f9dcd958a90799a0b665 / tree 57370130066a60417a3157a3e1bfaee775711600.
+- 원모집단 KO6+EN6 전수. 계획은 성과가 아니며 실제 남은 기간과 현재 창가만 말한다.
+- 최초 후보 82c4653의 owned base '5년 동안/For five years' REWORK도 '지금까지/Until now'로 수리했다.
+- 4제품 경로 중 원고2 inverse byte exact, release metadata2는 실제 stale3 content SHA/생성3셀만 정렬했다. counts/IDs/다른 축/public snapshot 불변.
+- 최종 정적8 actual0, 수정 후 공식 inventory3 actual0. manifest 5255146936648bd2498107b4ae168335d72e1538b4264aee23e0ef609261f221.
+- JA/CN/TW invalid115/42/41, INCOMPLETE/native OPEN. 다듬기·수용0.
+- 비저자 a1_qa_release_audit GO_M54_SOURCE_FACT_ONLY. root는 보고 전문·4제품/현재8/역사6 증거 핀을 확인했다.
+- .git/order649-20261015/review.md 5713B/SHA256 640059ffb9b081a2dd1c6cb3fb487c79cbfa26fa895869eec6aaac91b48a5837.
+- review.json 6525B/SHA256 f6781b8d1a0442640fa1e3ba748ac2e6a201e34a6df26bbe1cedc170fab49d96.
+- 같은 폴더 authored-leaf-map/final-source-proof/final-targeted-results/final-inventory-completions/final-corrections에 최종 원문·실제 검사·시도 실패를 결속했다. 최초 후보와 실패는 보존하며 GO로 바꾸지 않는다.
+- choice0 거래 약속은 미수리 HOLD, 다음 별도 내부 판단 범위. M55 EN1잎 및 M56 KOEN4잎은 읽기만/미착수.
+- 실제 M54/M18·native·전체경제/전체체인·구로그·5언어·352선행·출시는 HOLD다. engine/전체audit/자연240/새checker0.
+- readonly 세션잠금 true, native/설정변경0. 새 월0/열린 실제월1/612 dirty4 제외.
+- 일회성 수리·새 정본 승격 없음. 개발스킬 표적 검증·독립 검수·사용자 변경 보존 적용.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.

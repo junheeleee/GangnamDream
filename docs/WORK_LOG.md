@@ -3,6 +3,13 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 계획을 투자 성과로, 남은 구간을 고정 기간으로 말하던 M54 수리
+
+- [649](queue_archive/ORDER-649.md): KO6/EN6 총12잎. W193의 비용 목록·보호 계획·빈칸을 실제 투자/손익으로 늘리지 않고, W216~237 입구에 맞춰 고정 24주·반년·1년 전과 이미 5년 경과 표현을 제거했다. 주거 이동 없이 넓어진 전망도 현재 창가 감각으로 맞췄다.
+- 후보6669029660476dafa189f9dcd958a90799a0b665/tree57370130066a60417a3157a3e1bfaee775711600. 효과/flags/금액/조건/receipt/코드/저장/JAzh/사용자 설정/project/demo/human 불변. 원고2 inverse exact, release metadata는 실제 stale3 content SHA와 보고3셀만 정렬·counts/IDs/다른 축/public snapshot exact. 최종 정적8 및 공식 inventory3 actual0·engine/전체audit/자연240/새checker0.
+- 최초82c4653은 owned 본문의 5년 과거완료로 독립 REWORK, 같은12잎 전량 재검수 후 GO_M54_SOURCE_FACT_ONLY. .git/order649-20261015/review.md 5713B/640059ffb9b081a2dd1c6cb3fb487c79cbfa26fa895869eec6aaac91b48a5837·JSON6525B/f6781b8d1a0442640fa1e3ba748ac2e6a201e34a6df26bbe1cedc170fab49d96. root 전문/4제품/현재8/역사6 핀 확인. 초기 patch·inverse·인코딩/read guard/wrapper·metadata 실패는 보존하고 성공으로 승격하지 않았다.
+- 최종 번역 manifest5255146936648bd2498107b4ae168335d72e1538b4264aee23e0ef609261f221·invalid115/42/41·INCOMPLETE/native OPEN·다듬기/수용0. 거래 없는 choice0 주문 약속은 별도 다음 범위, M55 EN1/M56 KOEN4는 발견만. 실제 M18/M54/전체경제·체인/5언어/352선행/출시 HOLD. 세션잠금 true/native·설정변경0·열린 실제월1/새월0/612 dirty4 미포함. 개발스킬 표적·독립 검수·보존 적용·일회성/새 승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 지난주 보증 PDF를 오늘 받았다고 하던 M53 수리
 
 - [648](queue_archive/ORDER-648.md): W209 document_custody/m53_jaehyuk_request_pdf_arrival의동일JAEHYUK-GUARANTEE-PDF를W210통화뒤비교하므로오늘도착/receivedtoday는거짓이다. KOENdescription2잎만앞서받은/receivedearlier로맞췄다. 새PDF/재수신/정확경과/시각payload0·비교본과아버지서명/자기빈서명란/기존선택·결과·receipt·코드·저장·JAzh·원장·자산음악·project·사용자설정/demo/human불변.
