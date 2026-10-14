@@ -434,7 +434,7 @@
   {
     "id": "arc_y4_body_witness",
     "title": "Daeun at Two A.M.",
-    "description": "At 2:12 a.m., the bell rang for the third time. When {name} opened the door, Daeun saw his sweat-soaked shirt, shaking hand, and the cup on the floor. She stopped one step short. \"Minjun, may I hold your arm? Or should I call emergency services first?\"\n\nThe laptop showed a client-file deadline of 2:30. After-hours intake was an eleven-minute taxi ride away; eighteen minutes remained to finish the file. He could not do both.\n\nDaeun stood in the entryway, looking only at {name}'s wrist.",
+    "description": "At 2:12 a.m., the bell rang for the third time. When {name} opened the door, Daeun saw his sweat-soaked shirt, shaking hand, and the cup on the floor. She stopped one step short. \"Minjun, may I hold your arm? Or should I call emergency services first?\"\n\nThe laptop showed a file deadline of 2:30. After-hours intake was an eleven-minute taxi ride away; eighteen minutes remained to finish the file. He could not do both.\n\nDaeun stood in the entryway, looking only at {name}'s wrist.",
     "description_memory_if_known": {
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_father": "Just before this, {name} had called the ward and confirmed Tuesday's medication-review time with Father. That call did not decide the medical outcome, and tonight still left a real choice between his own body and the deadline.",
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "Earlier, {name} had allowed for travel time and set down a time to return in his calendar. Tonight he looked between the laptop's deadline and the late-night clinic information. Daeun was still waiting in front of him, watching his trembling wrist.",
@@ -443,22 +443,22 @@
     "choices": [
       {
         "text": "Let Daeun support his arm and go to after-hours intake",
-        "result_text": "\"Below the elbow. I'll call the taxi myself.\" Daeun held only the place {name} allowed and matched his pace into the hall. At intake, {name} gave the onset time and the moment his vision doubled.\n\nAt 2:30, the client file closed unsubmitted. Daeun sat outside the exam-room door, and {name}'s name remained on the night intake list."
+        "result_text": "\"Below the elbow. I'll call the taxi myself.\" Daeun held only the place {name} allowed and matched his pace into the hall. At intake, {name} gave the onset time and the moment his vision doubled.\n\nAt 2:30, the file closed unsubmitted. Daeun sat outside the exam-room door, and {name}'s name remained on the night intake list."
       },
       {
-        "text": "Ask Daeun to leave and finish the client file",
+        "text": "Ask Daeun to leave and finish the file",
         "result_text": "Holding the handle, {name} said, \"I have to send this file. I'll contact you when it is done. Please go now.\" Daeun sent the clinic address and stood outside until the door closed.\n\nThe file was submitted at 2:28. Intake ended, and Daeun's final message gained only a read mark. The tremor continued above the keyboard."
       },
       {
         "text": "Close the door and endure alone without handing it to anyone",
-        "result_text": "{name} accepted only the water bottle and closed the door. Daeun said from the hall, \"I'll contact you once in ten minutes,\" but {name} turned the phone facedown.\n\nThe client file was not sent, and he did not reach intake. After the corridor light went out, only the refrigerator motor and uneven breathing remained in the room."
+        "result_text": "{name} accepted only the water bottle and closed the door. Daeun said from the hall, \"I'll contact you once in ten minutes,\" but {name} turned the phone facedown.\n\nThe file was not sent, and he did not reach intake. After the corridor light went out, only the refrigerator motor and uneven breathing remained in the room."
       }
     ]
   },
   {
     "id": "arc_y4_body_witness_jiyeon",
     "title": "A Call Open from Busan",
-    "description": "At 2:12 a.m., Jiyeon in Busan saw {name}'s hand slip twice on their video call. Only her own window and rain showed behind her. She had not arrived in his Seoul entryway and could not arrive soon.\n\n\"Minjun, set the phone on the floor and give only the onset time. I will not decide for you.\" His laptop showed a client deadline of 2:30, and after-hours intake in Seoul was an eleven-minute taxi ride away.\n\nFrom Busan, Jiyeon could remain on the line while he contacted emergency services. In Seoul, {name} could open the door. Or he could return to the deadline, or end the call and remain alone.",
+    "description": "At 2:12 a.m., Jiyeon in Busan saw {name}'s hand slip twice on their video call. Only her own window and rain showed behind her. She had not arrived in his Seoul entryway and could not arrive soon.\n\n\"Minjun, set the phone on the floor and give only the onset time. I will not decide for you.\" His laptop showed a deadline of 2:30, and after-hours intake in Seoul was an eleven-minute taxi ride away.\n\nFrom Busan, Jiyeon could remain on the line while he contacted emergency services. In Seoul, {name} could open the door. Or he could return to the deadline, or end the call and remain alone.",
     "description_memory_if_known": {
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_father": "Just before this, {name} had called the ward and confirmed Tuesday's medication-review time with Father. The call did not decide the medical outcome, and Jiyeon in Busan could not open his own medical channel tonight.",
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "Just before this, {name} had sent Jiyeon in Busan two workable times and locked the confirmed one into his calendar. The distance remained, and tonight again demanded one choice between his body and the deadline.",
@@ -467,10 +467,10 @@
     "choices": [
       {
         "text": "Confirm the address, contact emergency services, and unlock the door",
-        "result_text": "{name} read his Seoul address and unit number himself and connected to emergency services. From the Busan screen, Jiyeon recorded only the call time and spoke less until help arrived. When footsteps sounded in the hall, {name} unlocked the door himself.\n\nThe client file closed unsubmitted. Jiyeon was not depicted as if she had come to Seoul; she watched the open door from the other side of the screen."
+        "result_text": "{name} read his Seoul address and unit number himself and connected to emergency services. From the Busan screen, Jiyeon recorded only the call time and spoke less until help arrived. When footsteps sounded in the hall, {name} unlocked the door himself.\n\nThe file closed unsubmitted. Jiyeon was not depicted as if she had come to Seoul; she watched the open door from the other side of the screen."
       },
       {
-        "text": "End the call and submit the client file by 2:30",
+        "text": "End the call and submit the file by 2:30",
         "result_text": "{name} said, \"I will finish the deadline first,\" and ended the call. Jiyeon did not argue. She left the Seoul clinic address and final intake time by text.\n\nThe file was submitted at 2:28. Intake passed, and Jiyeon's message received no answer. Only the last call time remained on the black screen between Busan and Seoul."
       },
       {
@@ -482,27 +482,27 @@
   {
     "id": "arc_y4_body_witness_hyunsu",
     "title": "The Door Still Shut",
-    "description": "At 2:12 a.m., {name} sat on the entryway floor with an after-hours help page open. His fingertips shook, and a tight line ran from his left temple into his neck. The screen held an emergency-call button, a client-file deadline of 2:30, and the final intake time.\n\nThe corridor sensor light went off and on again. The cold of the floor tiles came up through his trousers, and the palm gripping his phone was slick. Only the laptop fan kept a steady hum deeper in the room.\n\nUnless {name} spoke, no one knew what was happening to his body.",
+    "description": "At 2:12 a.m., {name} sat on the entryway floor with an after-hours help page open. His fingertips shook, and a tight line ran from his left temple into his neck. The screen held an emergency-call button, a file deadline of 2:30, and the final intake time.\n\nThe corridor sensor light went off and on again. The cold of the floor tiles came up through his trousers, and the palm gripping his phone was slick. Only the laptop fan kept a steady hum deeper in the room.\n\nUnless {name} spoke, no one knew what was happening to his body.",
     "description_memory_if_known": {
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_father": "Just before this, {name} had called the ward and confirmed Tuesday's medication-review time with Father. The call did not decide the medical outcome, and no new person appeared to handle his own care tonight.",
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "Earlier, {name} had allowed for travel time and set down a time to return in his calendar. Tonight the screen held a 2:30 deadline and the last intake time. His fingertips trembled as he read the same line again.",
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_deal": "Just before this, {name} had confirmed another source-contract review seat and its added deposit. The recovered review time sharpened tonight's deadline but did not examine his trembling hand."
     },
     "description_if_known": {
-      "hyunsu_reconnected": "At 2:12 a.m., a reconnected Hyunsu saw {name}'s fingertips shake on a video call. The room behind Hyunsu on the screen was dark. \"Hyung, read your address to emergency services first. I won't end the call.\"\n\nThe laptop showed the client deadline of 2:30 and the final after-hours intake time. Hyunsu could neither call nor open the door for him."
+      "hyunsu_reconnected": "At 2:12 a.m., a reconnected Hyunsu saw {name}'s fingertips shake on a video call. The room behind Hyunsu on the screen was dark. \"Hyung, read your address to emergency services first. I won't end the call.\"\n\nThe laptop showed the deadline of 2:30 and the final after-hours intake time. Hyunsu could neither call nor open the door for him."
     },
     "choices": [
       {
         "text": "Read the address and onset time to emergency services, then unlock the door",
-        "result_text": "{name} read the address, onset time, and location of the pain in separate sentences. He kept the call open, unlocked the entryway, and let the corridor light into the room.\n\nThe client file closed unsubmitted. A little later, paramedics' footsteps sounded in the corridor."
+        "result_text": "{name} read the address, onset time, and location of the pain in separate sentences. He kept the call open, unlocked the entryway, and let the corridor light into the room.\n\nThe file closed unsubmitted. A little later, paramedics' footsteps sounded in the corridor."
       },
       {
-        "text": "Close the help screen and submit the client file by 2:30",
-        "result_text": "{name} canceled the assistance screen and returned to the keyboard. The file was submitted at 2:29, and the client server returned an intake time.\n\nAfter-hours care closed. Even after the completed mark appeared, his fingertips did not stop, and no one verified that fact."
+        "text": "Close the help screen and submit the file by 2:30",
+        "result_text": "{name} canceled the assistance screen and returned to the keyboard. The file was submitted at 2:29, and the submission screen showed its timestamp.\n\nAfter-hours care closed. Even after the completed mark appeared, his fingertips did not stop, and no one verified that fact."
       },
       {
         "text": "Close the call and file, lock the door, and endure alone",
-        "result_text": "{name} shut every screen and checked the entryway lock. He lay back against the floor and waited for the shaking to ease.\n\nThe client file was not sent, and no medical intake was created. Until morning, the only evidence was the time the work log stopped."
+        "result_text": "{name} shut every screen and checked the entryway lock. He lay back against the floor and waited for the shaking to ease.\n\nThe file was not sent, and no medical intake was created. Until morning, the only evidence was the time the work log stopped."
       }
     ]
   },
