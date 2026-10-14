@@ -2650,6 +2650,11 @@
       "milestone"
     ],
     "cooldown": 9999,
+    "description_memory_if_known": {
+      "arc_year_three_crossroads_seen&never_stop": "횡단보도에서 계획을 바꾸지 않기로 했던 때가 떠올랐다. 그때의 선택을 오늘도 따를지는 이 빈 페이지에서 다시 정해야 했다.",
+      "arc_year_three_crossroads_seen&pivoted_to_safe": "횡단보도에서 방향을 틀기로 했었다. 그 뒤 무엇이 나아졌는지는 따로 확인할 일이었다. 오늘 지킬 선을 적으려니, 그때의 선택도 다시 살펴야 했다.",
+      "arc_year_three_crossroads_seen&plays_hand": "횡단보도에서는 돈과 기술, 연락할 사람을 항목으로 나눠 적었었다. 지금 이 빈 페이지에 옮기기 전에, 오늘도 맞는 항목인지 확인해야 했다."
+    },
     "choices": [
       {
         "text": "남은 패를 전부 건다 — 대가까지 내 몫이다",

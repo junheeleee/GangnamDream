@@ -870,6 +870,11 @@
       "final_year_realistic": "The morning after the reckoning, the plan remained open with a new save time.\n\nLowering the expected return and entering real expenses had reduced the chance of arrival. It had also shown, for the first time, exactly where the plan might break. The numbers offered no comfort, which made them useful.\n\n{name} opened a blank page. Now the person willing to see without exaggeration had to decide how much to risk.",
       "final_year_open": "The morning after the reckoning, {name} remembered the calculator display fading in the dark.\n\nHe had not forced an answer. He had admitted only that the largest turns of the past four years had come from beyond the calculation.\n\n{name} opened a blank page. Even without writing the ending in advance, he still had to decide what to put at stake today."
     },
+    "description_memory_if_known": {
+      "arc_year_three_crossroads_seen&never_stop": "He remembered choosing not to change his plan at the crosswalk. On this blank page, he had to decide again whether to follow that choice today.",
+      "arc_year_three_crossroads_seen&pivoted_to_safe": "At the crosswalk, he had chosen to change direction. What had improved since then was a separate question to check. Writing down what to protect today meant looking again at that earlier choice.",
+      "arc_year_three_crossroads_seen&plays_hand": "At the crosswalk, he had listed money, skills, and people to contact under separate headings. Before carrying those entries onto this blank page, he had to check whether they still held true today."
+    },
     "choices": [
       {
         "text": "Put every remaining card down — and own the cost.",

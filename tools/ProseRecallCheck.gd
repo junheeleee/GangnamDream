@@ -563,6 +563,79 @@ func _check_followups_and_callback(story: Node) -> void:
 			"actual": actual, "expected": row["expected"], "producer_committed": committed})
 
 
+func _crossroads_case(story: Node, label: String, active: Array,
+		body_key: String, memory_key: String) -> void:
+	_prepare(193)
+	for flag: String in active:
+		GameState.flags[flag] = true
+	if not body_key.is_empty():
+		GameState.flags[body_key] = true
+	var event: Dictionary = DataRegistry.find_event("arc_final_year_start")
+	var raw: String = str(event.get("description", "")) if body_key.is_empty() \
+		else str(event.get("description_if_known", {}).get(body_key, ""))
+	var memories: Dictionary = event.get("description_memory_if_known", {})
+	if not memory_key.is_empty():
+		raw += "\n\n" + str(memories.get(memory_key, ""))
+	story.set("_current", event)
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var expected: String = story.call("_fmt", raw)
+	var actual: String = story.call("_resolved_story_description", event)
+	var unchanged: bool = GameState.serialize() == before
+	_case("crossroads_memory", label + "/" + body_key,
+		unchanged and not raw.is_empty() and actual == expected
+		and actual.split("\n\n", false).size() == (3 if memory_key.is_empty() else 4), {
+		"active": active, "body_key": body_key, "memory_key": memory_key,
+		"expected_sha256": expected.sha256_text(), "actual_sha256": actual.sha256_text(),
+		"state_unchanged": unchanged, "prepared_reader_turn": 193,
+	})
+
+
+func _check_crossroads(story: Node, ko: Dictionary, source: Dictionary) -> void:
+	var reader: Dictionary = DataRegistry.find_event("arc_final_year_start")
+	var keys: Array = []
+	for outcome: String in ["never_stop", "pivoted_to_safe", "plays_hand"]:
+		keys.append("arc_year_three_crossroads_seen&" + outcome)
+	_case("crossroads_loaded", "arc_final_year_start",
+		_source_text_matches(reader, source["arc_final_year_start"])
+		and _ordered_equal(_gameplay(reader), _gameplay(ko["arc_final_year_start"]))
+		and reader.get("description_memory_if_known", {}).keys() == keys,
+		{"ordered_keys": reader.get("description_memory_if_known", {}).keys()})
+	for body_key: String in ["", "final_year_resolve", "final_year_realistic", "final_year_open"]:
+		_crossroads_case(story, "none", [], body_key, "")
+		_crossroads_case(story, "seen_only", ["arc_year_three_crossroads_seen"], body_key, "")
+		for index: int in range(3):
+			var outcome: String = ["never_stop", "pivoted_to_safe", "plays_hand"][index]
+			_crossroads_case(story, "orphan/" + outcome, [outcome], body_key, "")
+			_crossroads_case(story, "valid/" + outcome,
+				["arc_year_three_crossroads_seen", outcome], body_key, str(keys[index]))
+		_crossroads_case(story, "multiple", ["arc_year_three_crossroads_seen",
+			"never_stop", "pivoted_to_safe", "plays_hand"], body_key, str(keys[0]))
+	for index: int in range(3):
+		_prepare(154)
+		var producer: Dictionary = DataRegistry.find_event("arc_year_three_crossroads")
+		var committed: bool = GameState.apply_choice(producer, producer["choices"][index])
+		var outcome: String = ["never_stop", "pivoted_to_safe", "plays_hand"][index]
+		var flags_match: bool = GameState.flags.get("arc_year_three_crossroads_seen", false) \
+			and GameState.flags.get(outcome, false)
+		GameState.turn = 193
+		story.set("_current", reader)
+		var before: Dictionary = GameState.serialize().duplicate(true)
+		var actual: String = story.call("_resolved_story_description", reader)
+		var expected: String = story.call("_fmt", str(reader["description"]) + "\n\n" \
+			+ str(reader["description_memory_if_known"][keys[index]]))
+		var reckoning: Dictionary = DataRegistry.find_event("arc_37_reckoning")
+		var followup: String = story.call("_choice_follow_up_id",
+			reckoning["choices"][index], "arc_37_reckoning", index)
+		_case("crossroads_producer", str(index), committed and flags_match
+			and actual == expected and GameState.serialize() == before
+			and followup == "arc_final_year_start", {
+			"choice_index": index, "committed": committed, "flags_match": flags_match,
+			"producer_turn": 154, "prepared_reader_turn": 193, "followup": followup,
+			"expected_sha256": expected.sha256_text(), "actual_sha256": actual.sha256_text(),
+			"state_unchanged": GameState.serialize() == before,
+		})
+
+
 func _run() -> void:
 	var qa_namespace472: String = OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")
 	if not qa_namespace472.begins_with("GangnamDream_StoryNameplateQA_") \
@@ -582,18 +655,23 @@ func _run() -> void:
 	var story: Node = STORY.new()
 	story.set("_read_only_replay", false)
 	var ko: Dictionary = _source_events("ko")
+	var crossroads_only: bool = "--crossroads-only" in OS.get_cmdline_user_args()
 	for language: String in LOCALES:
 		LocaleManager.language = language
 		DataRegistry.reload()
+		if crossroads_only:
+			_check_crossroads(story, ko, _source_events(language))
+			continue
 		_check_loaded(ko, _source_events(language))
 		_check_bodies(story)
 		_check_memories(game, story)
 	LocaleManager.language = "ko"
 	DataRegistry.reload()
-	_check_choices()
-	_check_routes(game)
-	_check_father()
-	_check_followups_and_callback(story)
+	if not crossroads_only:
+		_check_choices()
+		_check_routes(game)
+		_check_father()
+		_check_followups_and_callback(story)
 	story.free()
 	game.free()
 	LocaleManager.language = old_language
@@ -611,7 +689,9 @@ func _run() -> void:
 	print("PROSE_RECALL_RESTORED=" + JSON.stringify(restored))
 	if not restored:
 		failures.append("singleton restoration failed")
-	if counts != POPULATION or case_ids.size() != 337:
+	var expected_population: Dictionary = {"crossroads_loaded": 5,
+		"crossroads_memory": 180, "crossroads_producer": 15} if crossroads_only else POPULATION
+	if counts != expected_population or case_ids.size() != (200 if crossroads_only else 337):
 		failures.append("case population drift: " + JSON.stringify(counts))
 	print("PROSE_RECALL_POPULATION=" + JSON.stringify(counts))
 	if not failures.is_empty():
@@ -619,5 +699,8 @@ func _run() -> void:
 			push_error("PROSE_RECALL_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("PROSE_RECALL_CHECK_OK locales=5 cases=337 loaded=40 body=185 memory=50 choice=14 route=36 father=6 callback=3 followup=3 prepared_component_only=true")
+	if crossroads_only:
+		print("PROSE_RECALL_CROSSROADS_CHECK_OK locales=5 cases=200 loaded=5 memory=180 producer=15 prepared_component_only=true")
+	else:
+		print("PROSE_RECALL_CHECK_OK locales=5 cases=337 loaded=40 body=185 memory=50 choice=14 route=36 father=6 callback=3 followup=3 prepared_component_only=true")
 	get_tree().quit(0)
