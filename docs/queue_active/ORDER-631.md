@@ -32,7 +32,7 @@ EN 첫/둘째 선택은 KO의 계획 다시짜기/계산기 덮기 행동과 맞
 새 계획편집 기능·동적 UI·새숫자/flag/시스템을 만들지 않는다.
 
 release 내용지문이 실제 stale일 때만 content/meta/release_content_inventory.json의
-해당 내용hash와 docs/RELEASE_CONTENT_INVENTORY.md 생성 지문을 최소정렬한다.
+해당 내용hash와 실제 REPORT_PATH인 docs/CONTENT_RATING_INVENTORY.md 생성 지문을 최소정렬한다.
 root 큐2/이사양/archive/CLAUDE현재행/WORK_LOG/.git/order631-20261015/ 증거 소유.
 독립 a1_qa_release_audit는 private review.md/review.json만 소유한다.
 추가agent/제품/정본/Git/engine/UI쓰기·대규모보호census0이다.
@@ -48,3 +48,10 @@ context/queue/self/diff·STATUS advisory·전용현황판commit0.
 전체audit/자연240/native/새월/새checker/검증비용·재사용사업0.
 구저장산문 migration0·source한정·월/chain/5언어/인간/출시HOLD.
 일회성·새정본승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 파일명 정정 — source 쓰기 뒤 정렬 전
+
+기본 release 검사 실제fail은 fear 내용SHA와 CONTENT_RATING_INVENTORY 보고만 stale이다.
+사양의 RELEASE_CONTENT_INVENTORY.md는 생성기 소유경로가 아니므로 위에서 바로잡았다.
+생성기 REPORT_PATH를 직접 읽고 실제 지정 경로만 쓰며 원실패출력은 private에 보존한다.
+expected event146/file51/IDs hash·나머지축/출시결정은 바꾸지 않는다.
