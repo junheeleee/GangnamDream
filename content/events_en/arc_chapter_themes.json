@@ -585,14 +585,14 @@
   {
     "id": "arc_y4_borrowed_name",
     "title": "The Blank for a Name",
-    "description": "A proposed co-obligor agreement lay open in the review room. It named Hangang First Finance as lender, 180 million won as principal, November 30, 2030 as maturity, and the project interest plus {name}'s deposit-return claim as collateral. Daeun's proposed box was empty, and neither signature line held a mark.\n\nAfter reading early recovery and joint liability, Daeun said, \"Time we spent living together does not mean you may borrow my name. Decide whether you want time to review or a person to carry the liability.\"",
+    "description": "A proposed co-obligor agreement lay open in the review room. It named Hangang First Finance as lender, 180 million won as principal, November 30, 2030 as maturity, and the project interest plus any deposit-return claim {name} held as collateral. Daeun's proposed box was empty, and neither signature line held a mark.\n\nAfter reading early recovery and joint liability, Daeun said, \"The time we have spent together does not mean you may borrow my name. Decide whether you want time to review or a person to carry the liability.\"",
     "description_memory_if_known": {
       "arc_y4_family_partner_daeun": "The earlier family-table record identified Daeun as the person in the relationship route. It did not decide whether she attended that table, and her name and signature still required separate consent here."
     },
     "choices": [
       {
         "text": "Delete the co-obligor box and receive a revision under his name",
-        "result_text": "{name} struck out the co-obligor box and requested a revision with only his name. The principal ceiling fell to 110 million won, and the required equity line grew.\n\nDaeun checked the deleted box and put down the pen. \"I can see that time we lived together was not converted into contract scale.\""
+        "result_text": "{name} struck out the co-obligor box and requested a revision with only his name. The principal ceiling fell to 110 million won, and the required equity line grew.\n\nDaeun checked the deleted box and put down the pen. \"I can see that the time we have spent together was not converted into contract scale.\""
       },
       {
         "text": "Give Daeun the full copy and ask only about review in three days",
@@ -607,7 +607,7 @@
   {
     "id": "arc_y4_borrowed_name_jiyeon",
     "title": "A Deadline Before the Name",
-    "description": "Before Jiyeon, who had traveled up from Busan, lay a proposed co-obligor agreement. It named Hangang First Finance as lender, 180 million won as principal, November 30, 2030 as maturity, and the project interest plus {name}'s deposit-return claim as collateral. Jiyeon matched page numbers and issue times without touching the blank name box.\n\n\"If my name preserves the scale, first say who retains ownership and control,\" she said. Her travel from Busan did not become a duty to answer today.\n\n{name} could reduce the agreement to his name, guarantee the full copy and independent review time while asking only whether she wished to continue, or withdraw the name request and close the window. No signature or consent existed yet.",
+    "description": "Before Jiyeon, who had traveled up from Busan, lay a proposed co-obligor agreement. It named Hangang First Finance as lender, 180 million won as principal, November 30, 2030 as maturity, and the project interest plus any deposit-return claim {name} held as collateral. Jiyeon matched page numbers and issue times without touching the blank name box.\n\n\"If my name preserves the scale, first say who retains ownership and control,\" she said. Her travel from Busan did not become a duty to answer today.\n\n{name} could reduce the agreement to his name, guarantee the full copy and independent review time while asking only whether she wished to continue, or withdraw the name request and close the window. No signature or consent existed yet.",
     "description_memory_if_known": {
       "arc_y4_family_partner_jiyeon": "The earlier family-table record identified Jiyeon in Busan as the person in the relationship route. It did not decide whether she attended the Seoul table, and long-distance travel was not consent to use her name or signature now."
     },
@@ -629,7 +629,7 @@
   {
     "id": "arc_y4_borrowed_name_self",
     "title": "The Co-Obligor Box Left Blank",
-    "description": "The proposal before the deal lead named Hangang First Finance as lender, 180 million won as principal, November 30, 2030 as maturity, and the project interest plus {name}'s deposit-return claim as collateral. The co-obligor box was blank, and no other person's name entered the room.\n\n\"One other name restores the scale. It does not have to be a lover,\" the lead said.",
+    "description": "The proposal before the deal lead named Hangang First Finance as lender, 180 million won as principal, November 30, 2030 as maturity, and the project interest plus any deposit-return claim {name} held as collateral. The co-obligor box was blank, and no other person's name entered the room.\n\n\"One other name restores the scale. It does not have to be a lover,\" the lead said.",
     "description_memory_if_known": {
       "arc_y4_family_no_partner": "The earlier family-table record had no partner who might attend. This co-obligor box could not be filled by inventing a lover or friend later; only terms {name} actually filed under his own name remained."
     },
