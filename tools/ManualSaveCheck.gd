@@ -2501,14 +2501,36 @@ func _check_full_story_production() -> void:
 			if expected_turn == 11 and study_choice == 0:
 				study_checkpoint = GameState.serialize().duplicate(true)
 			var saved_month_opening: Dictionary = {}
+			var saved_opening_prev_prices: Dictionary = {}
+			var saved_opening_market_prices: Dictionary = {}
 			if expected_turn > 1 and GameState.week_of_month == 1:
 				saved_month_opening = _monthly_economy_snapshot()
+				saved_opening_prev_prices = (main_game.get("prev_prices") as Dictionary).duplicate(true)
+				saved_opening_market_prices = GameState.market_prices.duplicate(true)
 				_expect(int(GameState.flags.get("monthly_economy_turn", -1)) == expected_turn,
 					"normal W%d entered before its durable monthly economy opening" % expected_turn)
+				_expect(int(main_game.get("_full_story_opening_prices_turn")) == expected_turn \
+						and not saved_opening_prev_prices.is_empty() \
+						and _json_round_trip_dictionary(saved_opening_prev_prices) \
+							!= _json_round_trip_dictionary(saved_opening_market_prices),
+					"normal W%d lost its live pre-roll price handoff" % expected_turn)
+			var begin_month_expected_random: int = 0
+			if not saved_month_opening.is_empty():
+				seed(542_000 + expected_turn)
+				begin_month_expected_random = randi()
+				seed(542_000 + expected_turn)
 			main_game.call("_begin_month")
 			if not saved_month_opening.is_empty():
+				var begin_month_actual_random: int = randi()
 				_expect(_json_round_trip_dictionary(_monthly_economy_snapshot()) \
-						== _json_round_trip_dictionary(saved_month_opening),
+						== _json_round_trip_dictionary(saved_month_opening) \
+						and _json_round_trip_dictionary(GameState.market_prices) \
+							== _json_round_trip_dictionary(saved_opening_market_prices) \
+						and _json_round_trip_dictionary(
+							main_game.get("prev_prices") as Dictionary) \
+							== _json_round_trip_dictionary(saved_opening_prev_prices) \
+						and int(main_game.get("_full_story_opening_prices_turn")) == -1 \
+						and begin_month_actual_random == begin_month_expected_random,
 					"normal W%d begin-month reran its saved economy" % expected_turn)
 				_expect_monthly_economy_inert(
 					main_game, "normal W%d saved opening" % expected_turn)
@@ -2551,6 +2573,7 @@ func _check_full_story_production() -> void:
 						"turn": GameState.turn,
 						"money": GameState.money,
 						"action_points": GameState.action_points,
+						"market_prices": GameState.market_prices.duplicate(true),
 					})
 			GameState.turn_advanced.connect(capture_settled_calendar)
 			if expected_turn in [24, 28] and study_choice == 0:
@@ -2560,12 +2583,19 @@ func _check_full_story_production() -> void:
 					"normal full could not advance actual W%d" % expected_turn)
 			GameState.turn_advanced.disconnect(capture_settled_calendar)
 			var settled_calendar_exact := not settled_calendar_snapshots.is_empty()
+			var pre_roll_market_prices: Dictionary = {}
 			for settled_snapshot in settled_calendar_snapshots:
+				var observed_market_prices: Dictionary = (
+					settled_snapshot["market_prices"] as Dictionary).duplicate(true)
+				if pre_roll_market_prices.is_empty():
+					pre_roll_market_prices = observed_market_prices
 				settled_calendar_exact = settled_calendar_exact \
 					and int(settled_snapshot["turn"]) == expected_turn + 1 \
 					and float(settled_snapshot["money"]) == expected_cash \
 					and int(settled_snapshot["action_points"]) \
-						== int(before["action_points"])
+						== int(before["action_points"]) \
+					and _json_round_trip_dictionary(observed_market_prices) \
+						== _json_round_trip_dictionary(pre_roll_market_prices)
 			_expect(settled_calendar_exact,
 				"normal W%d pre-opening settlement lost/doubled livelihood/pay/bills/subsidy or spent AP" \
 					% expected_turn)
@@ -2580,6 +2610,14 @@ func _check_full_story_production() -> void:
 				_expect(int(GameState.flags.get("monthly_economy_turn", -1)) \
 						== expected_turn + 1 \
 						and GameState.news_log.size() > news_before_advance \
+						and not pre_roll_market_prices.is_empty() \
+						and _json_round_trip_dictionary(
+							main_game.get("prev_prices") as Dictionary) \
+							== _json_round_trip_dictionary(pre_roll_market_prices) \
+						and _json_round_trip_dictionary(GameState.market_prices) \
+							!= _json_round_trip_dictionary(pre_roll_market_prices) \
+						and int(main_game.get("_full_story_opening_prices_turn")) \
+							== expected_turn + 1 \
 						and not disk_state.is_empty() \
 						and int((disk_state.get("flags", {}) as Dictionary).get(
 							"monthly_economy_turn", -1)) == expected_turn + 1 \
@@ -2855,7 +2893,8 @@ func _production_cold_checkpoint(main_game: Control, label: String, meta_total_a
 	var resumed: Control = await _spawn_monthly_economy_main()
 	_report_full_story_state_diff(expected, "production-" + label)
 	_expect(FULL_STORY_FLOW.is_full_run() and FULL_STORY_FLOW.valid_session() \
-			and GameState.serialize() == expected,
+			and GameState.serialize() == expected \
+			and int(resumed.get("_full_story_opening_prices_turn")) == -1,
 		"normal %s new Main changed settled state or inferred another profile" % label)
 	await _free_monthly_economy_main(resumed)
 	SaveManager.clear_loaded_resume_context()
@@ -3885,6 +3924,9 @@ func _check_full_story_flow() -> void:
 			_expect(GameState.turn == expected_turn + 1 \
 					and GameState.week_of_month == expected_turn % 4 + 1,
 				"full story calendar did not advance exactly one week")
+			_expect(int(main_game.get("_full_story_opening_prices_turn")) == -1,
+				"eight-week preview armed the retail pre-roll price handoff at W%d" \
+					% expected_turn)
 			var expected_money := float(before["money"]) + 70_000.0
 			if expected_turn % 4 == 0:
 				expected_money += payable_income - required_cash
@@ -4032,6 +4074,9 @@ func _check_full_story_third_month_flow(previous_language: String) -> void:
 					and GameState.money == expected_money \
 					and GameState.current_job.is_empty() and GameState.monthly_income == 0.0,
 				"third-month W%d lost/doubled calendar, real bills, subsidy, or background" % expected_turn)
+			_expect(int(main_game.get("_full_story_opening_prices_turn")) == -1,
+				"third-month preview armed the retail pre-roll price handoff at W%d" \
+					% expected_turn)
 			_expect(GameState.action_points == int(before["action_points"]) \
 					and GameState.action_axis_this_week == {"money": 0, "human": 0} \
 					and GameState.action_records_this_week.is_empty() \
@@ -4292,6 +4337,8 @@ func _read_full_story_fixture(main_game: Control, route_case: Dictionary) -> voi
 
 func _check_full_story_calendar_save_retry(main_game: Control, expected_turn: int = 4) -> void:
 	var before: Dictionary = GameState.serialize().duplicate(true)
+	var before_market_prices: Dictionary = (
+		before["market_prices"] as Dictionary).duplicate(true)
 	var event_before := _full_story_event_snapshot()
 	var news_before: int = GameState.news_log.size()
 	_expect(SaveManager.autosave(), "full save-fault fixture could not create its prior checkpoint")
@@ -4316,6 +4363,13 @@ func _check_full_story_calendar_save_retry(main_game: Control, expected_turn: in
 	if saves_next_month_opening:
 		_expect(int(GameState.flags.get("monthly_economy_turn", -1)) == expected_turn + 1 \
 				and GameState.news_log.size() > news_before \
+				and _json_round_trip_dictionary(
+					main_game.get("prev_prices") as Dictionary) \
+					== _json_round_trip_dictionary(before_market_prices) \
+				and _json_round_trip_dictionary(GameState.market_prices) \
+					!= _json_round_trip_dictionary(before_market_prices) \
+				and int(main_game.get("_full_story_opening_prices_turn")) \
+					== expected_turn + 1 \
 				and int((control_disk_state.get("flags", {}) as Dictionary).get(
 					"monthly_economy_turn", -1)) == expected_turn + 1,
 			"no-fault full W%d save omitted its W%d monthly economy opening" % [
@@ -4338,7 +4392,14 @@ func _check_full_story_calendar_save_retry(main_game: Control, expected_turn: in
 	_expect(_json_round_trip_dictionary(_monthly_economy_snapshot(pending)) \
 			== _json_round_trip_dictionary(_monthly_economy_snapshot(control)) \
 			and (not saves_next_month_opening \
-				or int(GameState.flags.get("monthly_economy_turn", -1)) == expected_turn + 1),
+				or (int(GameState.flags.get("monthly_economy_turn", -1)) == expected_turn + 1 \
+					and _json_round_trip_dictionary(
+						main_game.get("prev_prices") as Dictionary) \
+						== _json_round_trip_dictionary(before_market_prices) \
+					and _json_round_trip_dictionary(GameState.market_prices) \
+						!= _json_round_trip_dictionary(before_market_prices) \
+					and int(main_game.get("_full_story_opening_prices_turn")) \
+						== expected_turn + 1)),
 		"failed full W%d calendar save reran or discarded its live monthly economy" \
 			% expected_turn)
 	var pending_events := _full_story_event_snapshot()
@@ -4380,7 +4441,12 @@ func _check_full_story_calendar_save_retry(main_game: Control, expected_turn: in
 			new_main.call("_full_story_pending_save_is_valid")])
 	_expect(GameState.serialize() == expected_pending \
 			and GameState.pending_story_queue.is_empty() \
-			and not (new_main.get("next_button") as Control).visible,
+			and not (new_main.get("next_button") as Control).visible \
+			and (not saves_next_month_opening \
+				or (int(main_game.get("_full_story_opening_prices_turn")) \
+						== expected_turn + 1 \
+					and int(new_main.get("_full_story_opening_prices_turn")) == -1 \
+					and (new_main.get("prev_prices") as Dictionary).is_empty())),
 		"new MainGame bypassed pending save into another month/story/AP")
 	var retry_succeeded: bool = new_main.call("_full_story_advance_week", expected_turn)
 	var retry_random: int = randi()
@@ -4404,6 +4470,9 @@ func _check_full_story_calendar_save_retry(main_game: Control, expected_turn: in
 			% expected_turn)
 	if saves_next_month_opening:
 		_expect(int(GameState.flags.get("monthly_economy_turn", -1)) == expected_turn + 1 \
+				and int(main_game.get("_full_story_opening_prices_turn")) \
+					== expected_turn + 1 \
+				and int(new_main.get("_full_story_opening_prices_turn")) == -1 \
 				and int((retry_disk_state.get("flags", {}) as Dictionary).get(
 					"monthly_economy_turn", -1)) == expected_turn + 1,
 			"retried full W%d calendar save lost its W%d monthly economy marker" % [

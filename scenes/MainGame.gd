@@ -274,6 +274,7 @@ const UI_ICON_PATHS := {
 
 var current_event: Dictionary = {}
 var prev_prices: Dictionary = {}
+var _full_story_opening_prices_turn: int = -1
 var _last_market_ticker_pulse_turn: int = -1
 var _last_market_asset_pulse_turn: int = -1
 var pending_result_text: String = ""
@@ -730,7 +731,9 @@ func _full_story_advance_week(expected_turn: int) -> bool:
 	# The existing calendar-save retry writes this state without rerolling it.
 	if FULL_STORY_FLOW.is_full_run() and GameState.week_of_month == 1 \
 			and not FULL_STORY_FLOW.at_boundary():
+		prev_prices = GameState.market_prices.duplicate()
 		_run_week_start_economy()
+		_full_story_opening_prices_turn = GameState.turn
 	return _full_story_save_calendar(expected_turn)
 
 
@@ -6628,7 +6631,11 @@ func _begin_month():
 		GameState.restore_ap()
 		_animate_ap_refill()
 	turn_action_log.clear()
-	prev_prices = GameState.market_prices.duplicate()
+	# A newly saved full-run month already captured its pre-roll ticker prices.
+	# Consume this live-instance handoff once; cold entry keeps the usual copy.
+	if _full_story_opening_prices_turn != GameState.turn:
+		prev_prices = GameState.market_prices.duplicate()
+	_full_story_opening_prices_turn = -1
 	_run_week_start_economy()
 	_begin_month_story_and_render()
 
