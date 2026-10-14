@@ -4,6 +4,15 @@
 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39623B/SHA256 a395e47473c5e27ec50e9e8fbb5df4170006621f714d3ea9ab0b93fbe43fa8bc이다.
 
+## 2026-10-14 — M36 공통 선택이 지어내던 과거 서류 열람 수리
+
+- [625](queue_archive/ORDER-625.md): base의 과거재열람을 현재열람으로, 공통3선택의 이미다시본서류/특정보증서미리보기를 지금고를기록사본으로 KOEN14잎 정렬했다. 첫열람/이전다운로드시점 발명0·ghost의실제PDF열람 보존·폴더날짜/출력봉투/잠금·모든대화알림삭제 차이는 그대로다. 원고2全byte逆변환/다른8base문단·DIK6·name배열·선택효과 exact·독립14잎 sourceGO.
+- 제품9d839d62/tree32a0c0a2·nonrelease13 actual0/원defaultrelease1보존→실제--write-report0·violence17/14·IDs불변 내용SHA한값/공식보고1행만 정렬. continuity완전원stdout1회0·재확보/검사반복0. 공식inventory3 actual0·manifestd56fe010…4485/current11319/stale91·110·110/invalid96·21·21·INCOMPLETE·base기존잎중복가산0/새12KOEN·6KO만더해 누적275/CJK131KO잎재정합대기·JAzh다듬기/수용0.
+- root 사전7274B/10c019ef…5820·최종의미9924B/490eabe4…112a·보존9601B/8d9f430b…9400 전문판독·전체핀은사양결속. 사전14본문90문단/12공통field/12후속reader+readonlychild와 최종14잎/22문단+6선택을 구분했다. 비소유3415/53·847/latest20/봉인22보고/621history·사용자데모 exact는07:49:26→07:49:48UTC point한정·후속closure메타분리/dirty612큐·사양commit제외·전역HOLD.
+- 새 확인 잔여: 초기08100ca6의year3동일flags는 감정선택이라 기존M48사물회상이모든옛저장에서성립하지는않는다. event_log choice/result와StoryMode dialogue실제산문도저장·재개되므로 'flags만저장'이라고하지않고, source수리로옛산문소급변경/migration/wholechainGO0을분명히했다. 구year3회수부채는현재행에도남겼다.
+- 마감context/queue/self/advisory/diff actual0·STATUS참고경고비차단/전용commit0·human617 actual0은불변원장만재사용/OPEN45·done1/새인간0. CI623마감d6aed4b 성공관측/624당시진행·이번push미확정. 실제M18 OS잠금HOLD 하나·새월/native/engine/전체audit/청취0·5언어/출시HOLD. 다음M36남은진실회상조건/NG·선택경로 대조 뒤월순서; JiYeon3결과발신이확인돼그회상은미수정.
+- gangnamdream-dev의 사용자보존·한영표적수리·독립판정 경계 적용/WORK_UNIT 일회성·승격0. sourceGO≠전체장면/월/chain/구저장/native/인간/원어민/패드/5언어/출시GO. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-14 — M36 성인 시절을 어린 시절로 바꾸던 회상 수리
 
 - [624](queue_archive/ORDER-624.md): 부친고백 DIK의 '어릴 때는/As a child'를 '그때는/Back then'으로 KOEN2잎에서 교체했다. 정본 성인 상환·27세 무릎/현재 고백 producer3결과·W144 reader 직접 대조·정확 서명나이는 추정0. 각7문단/다른12/name2·4/원고전체逆변환 exact·선택/효과/저장 불변·독립 두구절 sourceGO.

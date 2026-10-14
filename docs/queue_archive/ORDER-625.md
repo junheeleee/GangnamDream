@@ -1,6 +1,6 @@
 # ORDER-625 — M36 공통 기록 선택의 과거 열람 정합
 
-#### [~] ORDER-625 [정합] 선택하지 않은 서류 열람 회상 1건 — 2026-10-14
+#### [x] ORDER-625 [정합] 선택하지 않은 서류 열람 회상 1건 — 2026-10-14
 
 624 뒤 M36 순서·실제612/M18 OS잠금HOLD 하나/native·새월0.
 5출시언어 유지·KOEN 실제확정 전 JAzh다듬기·수용0/누락만·추후일괄정합.
@@ -54,4 +54,59 @@ audit_select --list로 영향확인·기존source14·공식inventory3·context/q
 human617 actual0은 불변원장만 재사용·새인간/원어민/물리패드관찰0.
 이 오더의 수리/소유·절차는 gangnamdream-dev/WORK_UNIT 일회성·승격0.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+sourceGO≠전체장면/월/chain/native/인간/5언어/출시GO.
+
+## 마감 — 2026-10-14
+
+선언32dc02d3dd363b42c1463e18426e73cf3d299221/treefd8a0fc2dab32d6396b29ab6dd9f3900314ee9e3.
+제품9d839d62a1c5100e4f21b7e7b9cb9445777146dd/tree32a0c0a203a1434359e28a4426c9bf3e14000f35.
+KO80890B/413a5f1de57722d33e86cc972c16d8240b5a6aa3380a0147c1abcc3cf149ad5b;
+EN65859B/89219e1c9a635078df572b8c1ff1315532449a6ba964a1c7bc9d6c62ebda2585.
+정확14잎·base각5문단/다른8문단·DIK6 전량 exact·choice각result2문단.
+name baseKO1·EN3/선택0/각result2·1·2·배열 exact·원고2전체byte逆변환 true.
+현재 사본선택/폴더날짜/출력봉투/잠금·모든대화알림삭제를 유지하며
+이전재열람·특정보증서 미리보기를 공통경로에 발명하지 않는다.
+base현재열람은 최초열람/이전취득시점의 증거가 아니며 ghost의 실제과거열람은 보존한다.
+
+root 봉인보고 전문 직접 판독·실제size/SHA 확인:
+.git/order625-20261014/preimplementation-review.md7274B/
+10c019ef03ff5ca21334cec0fe5579b065b58ce39e0bf1e9b2d6642bd6da5820;
+independent-review.md9924B/
+490eabe4110370aeb2500787929ba70966a6f5b972c78080b95e3ea29db8112a;
+preservation-review.md9601B/
+8d9f430bd98f676ff15293766e07ed7b6576cc4bc527e00bb868a1872b049400.
+사전방향권고≠구현GO·최종두보고는 위제품14잎 source한정GO다.
+사전14본문90문단·12공통field/12다음연말reader와 readonlychild 교차대조,
+최종14잎/22본문·결과문단+6선택문 directread를 구분했다.
+
+비소유3415맵63835d9f85c7c0b6e73bb432109f104afc3cbb61de468ff00a18bfc82675e9a1
+(선언release2 records만 before정규화)·53그룹847/latest612resume20/
+614~624봉인22보고/621역사보관본/사용자·데모 exact.
+07:49:26source→07:49:48UTC 보호point 이후 closure메타는 별도변경이다.
+inherited612 큐2/사양은 이commit제외·전역resolverHOLD 유지.
+
+targeted-summary.json9589B/
+c94c572215b07a1931a0978a1508c89dff49fe9a2145bdd96e843a3f1fce7d4e.
+선택14 중nonrelease13 actual0/원defaultrelease1보존→실제--write-report0.
+violence17/14·IDs불변 내용SHAc6fdc029574fbd067042ad16e7febddeb7b22d417ae246b5b374332575249fcb
+한값/공식보고1행만 정렬·다른6scan/공개pin/history 불변·default재실행횟수0.
+continuity완전 원stdout actual0 단1회/재확보0·직전624의잘린출력이력과 구분했다.
+공식inventory3 actual0/manifestd56fe01058128855d1a5f11aa7756347ffc8057e7c31e3e6c39b555041e14485.
+current11319/stale91·110·110/invalid96·21·21·전체INCOMPLETE/원어민OPEN.
+base2기존잎은 중복가산0·새공통12KOEN/6KO만 더해 누적275/CJK131KO잎 대기.
+JAzh다듬기/수용0·5언어 유지/추후일괄정합.
+
+초기08100ca6 year3동일flags는 감정선택이었다. 기존다음연말의folder/봉투/잠금
+회상은 모든옛flag역사를 보증하지 못한다·별도부채/저장수정·migration0.
+year_close는curation/galleryroot 제외지만 event_log의choice/result문자열과
+StoryMode dialogue실제문장은 저장·재개된다. source수리로 옛저장산문을 고치지 않았다.
+다음연말전체/구저장chainGO0·새실화면/입력/labelwrap·native검증0.
+
+context/queue/self/advisory/diff actual0·STATUS낡음 경고비차단·전용commit0.
+human617 actual0은불변원장만 재사용/OPEN45·done1·새인간관찰0.
+623마감d6aed4b CI완료success/624마감9d3beea 당시진행·이번pushCI미확정.
+실제612/M18 OS잠금HOLD 하나·engine/전체audit/240주/새월/실화면/청취0.
+해제후 동일M18우선·그전M36 남은진실회상조건/NG·선택경로 대조 뒤 다음월순서.
+JiYeon떠남3결과는 모두답장발신을 직접쓰기 때문에 보낸문장회상은 이번미수정.
+새tool/checker/479·481사업0·gangnamdream-dev/WORK_UNIT 일회성/승격0.
 sourceGO≠전체장면/월/chain/native/인간/5언어/출시GO.
