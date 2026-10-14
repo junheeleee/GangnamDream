@@ -1,6 +1,6 @@
 # ORDER-640 — 청구서의 실제 결제와 가용 현금 수리
 
-#### [~] ORDER-640 [버그] M46 487300원 송금을 실제 현금과 결속 — 2026-10-15
+#### [x] ORDER-640 [버그] M46 487300원 송금을 실제 현금과 결속 — 2026-10-15
 
 실제M18/612하나HOLD·새월0·접근복구시동일M18 수정앱우선.
 5언어유지·원고/JAzh다듬기/원장수용0. 선택본문은5언어모두불변.
@@ -56,3 +56,21 @@ runtime/live2를3으로세지않는다. 숫자는Godot JSON float와정수리터
 독립검수추가: untyped money의문자/불린/배열/객체/null은float변환전에거부한다.
 비정상현금반례는정상snapshot→주입→거부/원값관측→현금만복원뒤나머지상태비교를
 사용한다. serialize는NaN/Inf를의도적으로거부하므로그함수에비정상값을보내지않는다.
+
+## 마감 — 2026-10-15
+
+제품7080b368363a63cea3869ed2a20dff77c6e3270c/treea138a30d77ecc6af2fc08db2fe89568ace3252ba.
+독립GO_PAYMENT_CONTRACT_ONLY·범위내차단0·root전문/5blob/영수증핀확인.
+review.md6429B/e4af07e493821b3274e275ef3b959f4ee3c1057eaf13625670d4d137fc5725bd,
+review.json7470B/4d575167961901aa2f5bb76954c2c3e832985d421e125a2c3258cde3f6850d02.
+도달 경로: MainGame W181→live2; choice_available→StoryMode visible/livegallery/apply_choice 재검사.
+생산자 ↔ 독자: 원487300원effects+paidflag ↔ M47 father_crisis_contact 3memory/기존resultreceipt.
+바꾸는 상태: 선택0 cash -487300 1회·원flags/choiceindex0; 거부시serialize/cooldown/log/meta 불변.
+포기 시 잃는 것: 자기진료/병동조정의원마감·의료2of3는불변.
+서사 위치: chapter4 consequence·기존계층/승격0; 닫는것: 무상송금/부족잔고/중복·교차결제.
+정적10각0·4fresh격리facts합계8751/Compile69/ManualSaveproduction/ModLayer actual0·양로그오류0·보존true.
+source본문/번역/원장/schema불변·author_only지연runtime활성화0·원paid구save역보정0.
+초기fail/중간REWORK/짧은wrappermarker실패보존·최종후보전부재검증0·QA완화0.
+추가legacybalance명령은범위밖3000×240모델을확인후ownPID14786만중단/exit143·PASS주장/재실행0.
+전체balance/모델·자연240/wholechain/native/월/5언어원어민/출시HOLD.
+612실제월metadata제외·사용자보호대상불변·일회성/승격0.

@@ -3,6 +3,14 @@
 이전 기록은 [633 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order633_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36166B/SHA256 e02371cbbaa42b82e3b6e65b016e284af58107587062f0e39baead129d3ed92e이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 병원 청구서의 결제와 실제 현금을 결속
+
+- [640](queue_archive/ORDER-640.md): M46 live2의487300원 송금이effects0·잔고조건0이던버그를수리했다. KO3원고choice0 effects.money=-487300만추가(live2+author_only지연1). live2만순수guard·원choice0 identity/효과단일키·정확액/원flags/seen+3outcome/numeric finite integercash검사. 부족잔고/중복/다른행동뒤결제/손상값은노출과commit에서무변경거부·다른선택indices1/2유지. 기존paid구save 역추징0·result/gallery 재결제0·monthly이중과금0.
+- 선언611d0d0b215f25c3543f080f65e49fcf564187ac → 중간e19c431b67dc572de59540037bd65759dc46c2b6 → 최종7080b368363a63cea3869ed2a20dff77c6e3270c/treea138a30d77ecc6af2fc08db2fe89568ace3252ba. 최종관련정적10각0·fresh pre-autoload4격리 facts(기존회귀+결제/5locale합계8751)/Compile69/ManualSaveproduction/ModLayer 각actual0·정확marker1/양로그오류0/보존true. 전체audit/자연240/새checker0·원고텍스트/flags/조건/번역/원장/저장schema불변·KO3effects제거시전체파일byte exact.
+- 독립a1_qa_release_audit GO_PAYMENT_CONTRACT_ONLY·차단0·root전문/후보tree/5blob·증거핀확인. .git/order640-20261015/review.md6429B/e4af07e493821b3274e275ef3b959f4ee3c1057eaf13625670d4d137fc5725bd·review.json7470B/4d575167961901aa2f5bb76954c2c3e832985d421e125a2c3258cde3f6850d02. source-proof-v3.json1660B/482fd6fe5ecc41ae1f8c17ca7992f3932dd58cadc3ffc4475dff7fdca05fa690·final-static-receipts3819B/95c412f8e0dd5f54f8fba4ec5287f520f8d186e14cfb1125d5da94d6993e936e·final-runtime-receipts6764B/f9ba706be78db822fc7dd5cb951ff495d5b06b79013d496f465028db19f0e830.
+- 독립지적으로commonseen/교차outcome·identity·untyped문자cash의변환전typeguard와반례를보완했다. 초기author_only제품literal/lifecycle fail·JSONfloat vs literalDict 실패·NaN/Inf serialize fixture오류·짧은save wrapper marker오류는원영수증보존→최종4전부재실행0·필터완화0. 과도한추가balance_check(legacy3000×240 convergence 포함)는자체관측PID14786만SIGTERM/exit143으로중단·PASS/재실행0. extra-band-check-aborted.json697B/edb4a008ab1081adecc822f96dfa8c31830497afeb76929cebdf911f5a48ae73에범위착오보존·광범위balance/model은HOLD.
+- gangnamdream-dev의기존표적재사용·pre-autoload격리·독립검수·보존이수리범위와증거를결정했다. 일회성/승격0·이결제contractGO≠실제M46화면/wholechain/전체경제/구save전체/native/인간/원어민/패드/청취/5언어/출시GO. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다. 실제M18하나HOLD/새월0·612월별metadata제외·JAzh다듬기/번역수용0·모든사용자보호대상불변. readonly20:28UTC 세션잠금true/IOConsolefalse·native재시도/설정변경0. 다음M47의미성립취소수입과실제현금출금/M48미보장유급일정 수리범위판단·접근복구시같은M18 우선·이번CI미확정.
+
 ## 2026-10-15 — 관계 시간과 실제 보유 채권을 구분한 이름 요청 장면
 
 - [639](queue_archive/ORDER-639.md): M45 KOEN각4/8잎의 동거 단정을 함께 보낸 시간으로, 보증금 반환채권은 보유한 경우로 한정했다. 연애시작만 읽는W177/partner helper와 기본gosiwon deposit0 반례를 확인했다. live다은/혼자+document_gap·지연author_only 보존/활성화0·원제안/빈서명/대주/원금/만기/선택/효과flags·문단/name/digits·2파일byte역변환 exact.
