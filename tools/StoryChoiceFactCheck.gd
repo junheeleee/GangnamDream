@@ -323,6 +323,57 @@ func _check_hospital_payment(story: Node) -> void:
 	_restore_game(baseline)
 
 
+func _check_father_care_time(story: Node) -> void:
+	var baseline: Dictionary = GameState.serialize().duplicate(true)
+	var event: Dictionary = DataRegistry.find_event("arc_y4_father_crisis_stabilized")
+	_expect(not event.is_empty(), "father care source exists")
+	if event.is_empty():
+		return
+	var choice: Dictionary = event["choices"][1]
+	_expect(choice.get("effects", {}).keys() == ["mental"]
+		and int(choice["effects"].get("mental", 0)) == -4,
+		"father care has no invented wage debit")
+	for cash in [-500000.0, 0.0, 500000.0]:
+		_restore_game(baseline)
+		GameState.turn = 188
+		GameState.money = cash
+		GameState.mental = 50
+		GameState.current_job = {}
+		GameState.monthly_income = 0.0
+		GameState.cast = {"father": {"stage": "health_crisis", "affinity": 30,
+			"met": true, "flags": {}}}
+		var medical := {"arc_father_medication_seen": true, "called_about_medication": true,
+			"arc_father_03_seen": true, "arc_y4_bill_night_seen": true,
+			"father_care_coordinated": true}
+		_visible(story, event, medical, [0, 1], "father care no-job cash " + str(cash))
+		_expect(GameState.apply_choice(event, choice), "father care direct commit")
+		_expect(GameState.money == cash and GameState.mental == 46,
+			"father care cash unchanged and actual mental cost")
+		_expect(GameState.current_job.is_empty() and GameState.monthly_income == 0.0,
+			"father care invents no job or income")
+		_expect(GameState.get_cast_affinity("father") == 32
+			and GameState.get_cast_stage("father") == "health_crisis"
+			and GameState.flags.get("arc_y4_father_crisis_stabilized_seen", false)
+			and GameState.flags.get("father_crisis_stabilized", false),
+			"father care keeps original relationship and hospitalization receipts")
+		_expect(GameState.event_log.back().get("event_id", "") == event["id"]
+			and GameState.event_log.back().get("choice_index", -1) == 1,
+			"father care keeps authored receipt index one")
+		var applied: Dictionary = JSON.parse_string(JSON.stringify(GameState.serialize()))
+		GameState.call("_restore_serialized_snapshot_exact", applied)
+		_expect(GameState.money == cash and GameState.mental == 46
+			and story.call("_applied_result_choice_receipt_matches", event["id"], 1, choice, {}),
+			"father care serialized result does not reapply any cost")
+		story.set("_current", event)
+		story.set("_read_only_replay", true)
+		story.set("_gallery_replay_snapshot", {"visible_choice_indices": {event["id"]: [0, 1]}})
+		var before: Dictionary = GameState.serialize().duplicate(true)
+		_expect(story.call("_visible_choice_indices", event) == [0, 1]
+			and GameState.serialize() == before, "father care frozen gallery is inert")
+		story.set("_read_only_replay", false)
+	_restore_game(baseline)
+
+
 func _run() -> void:
 	var qa_namespace470 := OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")
 	if not qa_namespace470.begins_with("GangnamDream_StoryNameplateQA_") \
@@ -355,6 +406,7 @@ func _run() -> void:
 		_check_mods(aftermath, echo)
 		_check_legacy_availability(story)
 		_check_hospital_payment(story)
+		_check_father_care_time(story)
 		print("STORY_CHOICE_FACT_LOCALE=" + language + " assertions=" + str(cases))
 	story.free()
 	LocaleManager.language = old_language

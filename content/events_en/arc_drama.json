@@ -807,8 +807,8 @@
         "result_text": "{name} read back each medication name and administration time, the oxygen-check time, and the next test. The nurse corrected one time, and {name}'s number remained first on the guardian contact list.\n\nNo sentence said that Father was cured. What had been settled was who would answer the next call and what he would ask. {name} left the list open and set the first alarm."
       },
       {
-        "text": "Cancel work through the next test and make time in which he cannot miss the ward's call",
-        "result_text": "{name} canceled what overlapped the next test. One confirmed payment disappeared from his ledger. He told the other party only that he needed to receive a family ward call, adding neither the diagnosis nor a claim that Father was better.\n\nHe disabled silent mode and exempted the ward number. The acute deterioration had stopped, but admission and chronic illness continued. The time he cleared was not a reward for a cure. It was space in which not to miss the next change."
+        "text": "Keep the next test time free on his calendar and make time to receive ward calls",
+        "result_text": "{name} marked the next test time on his calendar and kept that time free. He would not schedule anything else over it.\n\nHe disabled silent mode and exempted the ward number. The acute deterioration had stopped, but admission and chronic illness continued. The time he cleared was not a reward for a cure. It was space in which not to miss the next change."
       }
     ]
   },
