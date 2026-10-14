@@ -3,6 +3,14 @@
 이전 기록은 [633 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order633_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36166B/SHA256 e02371cbbaa42b82e3b6e65b016e284af58107587062f0e39baead129d3ed92e이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 취소한 유급 일이 없는데 현금을 잃던 병원 선택 수리
+
+- [641](queue_archive/ORDER-641.md): M47 안정경과 choice1의확정유급일감/상대/수입취소를현재검사시각·달력·병동전화를받을자리로고쳤다. W188의의료2of3는직업/소득/지급영수증을읽지않아 KO effect.money=-300000만제거했다. mental-4/아버지affinity+2/health_crisis/두flags/index1과choice0은유지·새병원비/송금/보상0·구save환불역추징0. KOEN4잎+KO1효과외전체2파일byte역변환exact.
+- 선언c1897fbd1ba8b6c43d733171c28117bfcd990c73 → 제품fcdefe2689831993f85b43b18ad4c5e4f22d68b7/treee03200cf6d2c669658187c51767e77dc7da354c0. BALANCE에이선택국소cash차이만기록/기존밴드불변. 기존facts8751 보존+175=8926/5locale×무직·수입0·3cashstate·현금불변/기존mental·cast·flags·receipt·JSON왕복/gallery무재적용·fresh pre-autoload actual0/정확marker1/세로그오류0/보호및tracked불변. 정적8각actual0·release정렬필요0·전체audit/balance/자연240/새checker0.
+- 독립a1_qa_release_audit GO_M47_SOURCE_EFFECT_ONLY·차단0·root전문/4제품blob/11증거핀확인. .git/order641-20261015/review.md7345B/a868fede5e6649b740a5daad297f70f54f67c9c5b686c34908459521db9f3ab4·review.json8880B/3d9e0cb48c784b0a6f3bd776444278edf324578f41b8df4c106e33537996c2f5. source-proof4051B/413505eec307165f50e5d6094ce6b331e054b42c3c62b49d7e9a67e8d0adb2de·targeted2909B/4d076271cc964ba84723a76e5e22970c2aaced3b09947fab020e40c5d2d76833·facts-result15005B/5e59eea1b536ff5f0339a6b53704d23b7193199543ee36235db6219c785092d6·inventory-completions1471B/36a7691f6e45c6e1fd2085f2462a4d74596529e74e3b720392b693eef9515a2c.
+- 공식3inventory actual0·manifestb4a75cb6ac4d568225ea7d38b2e10fc8c53aa805fd8eb92f2f7dcaee1fd4d905/current11249/stale149·166·166/invalid108·35·35/INCOMPLETE/nativeOPEN·JAzh다듬기/번역수용0. source/effectGO≠실제M47/전체경제/wholechain/구save전체/native/5언어/인간/패드/청취/출시GO.
+- gangnamdream-dev 표적재사용·격리검증·독립검수·보존 적용·일회성/승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다. 실제M18하나HOLD/새월0·612월별metadata제외·모든사용자보호대상불변·readonly20:36UTC 세션잠금true/IOConsolefalse/추가native0. 이번CI진행중/녹색미확정·다음M48의미보장유급일정과연말회상 수리범위선언·접근복구시같은M18 우선.
+
 ## 2026-10-15 — 병원 청구서의 결제와 실제 현금을 결속
 
 - [640](queue_archive/ORDER-640.md): M46 live2의487300원 송금이effects0·잔고조건0이던버그를수리했다. KO3원고choice0 effects.money=-487300만추가(live2+author_only지연1). live2만순수guard·원choice0 identity/효과단일키·정확액/원flags/seen+3outcome/numeric finite integercash검사. 부족잔고/중복/다른행동뒤결제/손상값은노출과commit에서무변경거부·다른선택indices1/2유지. 기존paid구save 역추징0·result/gallery 재결제0·monthly이중과금0.

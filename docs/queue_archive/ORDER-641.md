@@ -1,6 +1,6 @@
 # ORDER-641 — 안정 경과의 허위 취소수입과 현금 차감 수리
 
-#### [~] ORDER-641 [정합] M47 현재 시간 행동과 실제 비용 정렬 — 2026-10-15
+#### [x] ORDER-641 [정합] M47 현재 시간 행동과 실제 비용 정렬 — 2026-10-15
 
 실제M18/612 하나HOLD·새월0·맥접근복구시동일M18 수정앱우선.
 5출시언어유지·KOEN실제확정전JAzh다듬기중단/누락만·이번누락추가0.
@@ -55,3 +55,22 @@ KOEN4잎+KO1효과 외byte역변환·문단/name·다른선택/flags/금액변�
 독립GO는이source/effect수리한정·전체경제/장기reader/실제M47/구save전체/native/5언어/출시HOLD.
 context/queue/diff 통과뒤마감·STATUS전용commit0·일회성/승격0.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — 2026-10-15
+
+선언c1897fbd1ba8b6c43d733171c28117bfcd990c73 → 제품fcdefe2689831993f85b43b18ad4c5e4f22d68b7/treee03200cf6d2c669658187c51767e77dc7da354c0.
+독립a1_qa_release_audit GO_M47_SOURCE_EFFECT_ONLY·차단0·root전문/4blob/11증거핀확인.
+review.md7345B/a868fede5e6649b740a5daad297f70f54f67c9c5b686c34908459521db9f3ab4,
+review.json8880B/3d9e0cb48c784b0a6f3bd776444278edf324578f41b8df4c106e33537996c2f5.
+도달 경로: MainGame W188 의료2of3→stabilized; 격리facts8926/5locale/무직3cash actual0.
+생산자 ↔ 독자: choices1 기존두flags/cast/receipt ↔ 기존result receipt/동결gallery.
+바꾸는 상태: cash -300000→0·mental50→46·father affinity30→32/health_crisis·index1.
+포기 시 잃는 것: 동일자리choice0 지력+1/mental-6/affinity+3; 선택별새24주독자0/HOLD.
+서사 위치: chapter4 medical_outcome consequence·기존계층유지/승격0.
+닫는 것: 없는확정수입/상대/취소의회상과근거없는현금출금.
+KOEN4잎+KO1효과외byte역변환exact·정적8각actual0·정확marker1/세로그오류0/보호및tracked불변.
+원8751assertions 보존+175추가; JSON왕복/receipt/gallery무재적용·구save환불역추징0.
+공식3inventory actual0·manifestb4a75cb6ac4d568225ea7d38b2e10fc8c53aa805fd8eb92f2f7dcaee1fd4d905/current11249/stale149·166·166/invalid108·35·35/INCOMPLETE/nativeOPEN.
+JAzh다듬기/원장수용/전체audit/전체balance/자연240/새checker0.
+source/effectGO≠실제M18/M47/native/wholechain/전체경제/5언어/인간/패드/출시GO.
+612월별metadata제외·실제월1/HOLD·사용자보호대상불변·일회성/승격0.
