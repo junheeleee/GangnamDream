@@ -4,6 +4,15 @@
 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39623B/SHA256 a395e47473c5e27ec50e9e8fbb5df4170006621f714d3ea9ab0b93fbe43fa8bc이다.
 
+## 2026-10-15 — M38 계산의 기간·자산·최초 경험 단정 수리
+
+- [631](queue_archive/ORDER-631.md): 자산·소득·목표미달을 읽지 않는 t154..166 입구에서 고정25개월·미래실패·3년전 동일생각·처음 흔들림을 제거했다. KO2/EN4 지정6잎·각5문단/name1/첫3년·전체파일 역변환 exact. 현재 자산/목표/남은시간을 검토하는 행동으로 맞추고 EN세선택을 KO에 정렬했다. 모든 결과/효과/flags/후속/다른 사건·저장/경제 불변이다.
+- 선언57835c1 → 생성보고 소유경로 정정59f27bf → 첫제품b12d6be는 양의 미달gap을 전제해 독립 REWORK_FACT_BOUNDARY → description2잎 최소수리 최종fdef3a234587d2a6b9d6edf8208969419bf74594/tree5e0a4defc635a6ebd3a35a73828ef47a719ffe57·amend0. 최종은 이미목표달성/초과에도 안전하다. source6 actual0/선택목록74 실행아님·전체audit/engine/native/자연240/신규검사0.
+- 최초 release fail1 원출력3524B/eaf352b5f33c9c9d734ec5ac2113f609c6cba2489b358f6fb22001418daff9ac 보존. 실제 docs/CONTENT_RATING_INVENTORY.md 소유를 정렬 전에 바로잡았다. fear 내용SHA 한값+생성fear행만720f66912721a580a98308882ff47cdc33a5813eb4fb4c563bbc6a8f9b67760b로 정렬·146사건/51파일/IDs/나머지축·등급결정 불변·최종default0이다.
+- .git/order631-20261015/final-results.json9301B/e9bc5a5c198c384cc0df82f3669b97e48e36105cdc5a4b34df4eb1a5bf7e808d, 비저자 sourceGO review.md5883B/938f520b7715c39d9a6d41226046d26db6adacc19f766f384c0ad804932e34db·JSON10005B/ccd8f369c81585900995018f38a373f46f6f0e204453aa22f6fc58743a4289e6 root전문/실제핀확인. M48 reckoning의 성장/작년/처음/지속은 별도debt·chainGO아님.
+- 최초inventory3와 최종KO REWORK뒤 추가3 원증거를 분리보존했다. 최종manifestc2a5e4a38be5f796b0a34851b9c9c62b015794a2b7e8af972819a8180ffcfafc/current11306·stale98/117/116·invalid102/27/28·INCOMPLETE/nativeOPEN·JAzh원고/원장수용/다듬기0. 5언어 유지·KOEN 실제확정 뒤 일괄정합. 실제M18 하나 보류/새월0/이번최종CI미확정·기존앱/원W69/구raw/사용자저장/설정/project/데모/인간원장불변·옛native핀새HEAD허가아님. 월별612metadata는 이번commit제외.
+- gangnamdream-dev 표적검증/독립검수/보존 적용·일회성·새정본승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다. sourceGO≠월/chain/실화면/구저장산문/원어민/인간/패드/5언어/출시GO. 다음은 현실계산 뒤 갈림길의 조건대조이며 접근복구시 같은M18이 먼저다.
+
 ## 2026-10-15 — M38 루틴이 지어내던 투자·생활·운동 이력 수리
 
 - [630](queue_archive/ORDER-630.md): 차트 확인·일/공부 고정 일과·2년 반복·1년 준수·반년 운동 공백을 현재 수첩 점검/내일 시간 비우기/현재3km 달리기로 바꿨다. KO8/EN9 지정17잎, 문단4/DIK5·name1·공통 첫/끝·godsaeng 마지막·DIK순서/선택3/효과/flags/후속/다른 사건·전체파일 역변환 exact. 저장·런타임·자산·JAzh 원고/원장 쓰기0.
