@@ -509,11 +509,11 @@
   {
     "id": "arc_y4_family_partner_collision",
     "title": "A Future at the Same Table",
-    "description": "At three on Saturday afternoon, Father had come to Seoul for the first time since leaving hospital. His restaurant reservation was for six. Daeun said she could open the door with {name} if she received the address by 5:30. At the same time, a client offered the full overdue fee if {name} worked on-site from five to ten.\n\nThe restaurant address sat copied on {name}'s phone, not yet sent to anyone.",
+    "description": "At three on Saturday afternoon, Father had come to Seoul for the first time since leaving hospital. His restaurant reservation was for six. Daeun said she could open the door with {name} if she received the address by 5:30. At the same time, a notice offered {name} paid on-site work from five to ten.\n\nThe restaurant address sat copied on {name}'s phone, not yet sent to anyone.",
     "choices": [
       {
         "text": "Send Daeun the address and open the restaurant door together",
-        "result_text": "{name} sent the address and reservation name, then waited outside for Daeun. At 6:02, they opened the door side by side. Looking at three bowls, Father asked Daeun, \"Will you stay in Seoul to fit Minjun's plan?\"\n\nDaeun set down her glass. \"I will speak for my own plan, sir.\" {name} did not answer for her. The paid assignment marked him absent, and the uncomfortable table truly began."
+        "result_text": "{name} sent the address and reservation name, then waited outside for Daeun. At 6:02, they opened the door side by side. Looking at three bowls, Father asked Daeun, \"Will you stay in Seoul to fit Minjun's plan?\"\n\nDaeun set down her glass. \"I will speak for my own plan, sir.\" {name} did not answer for her. He had turned down the paid assignment, and the uncomfortable table truly began."
       },
       {
         "text": "Tell Daeun he will go alone and arrive at the family table",
@@ -521,14 +521,14 @@
       },
       {
         "text": "Cancel the restaurant and go to the paid site at five",
-        "result_text": "{name} canceled two places at the restaurant and sent Daeun and Father the same line separately: ‘I have to go to the site today. I'm sorry.’\n\nHis site entry was recorded at five, and the fee was paid. No soup was served at the restaurant. Daeun and Father remained people who had never seen each other's expression."
+        "result_text": "{name} canceled two places at the restaurant and sent Daeun and Father the same line separately: ‘I have to go to the site today. I'm sorry.’\n\nHis site entry was recorded at five. He sent a request to confirm the fee. No soup was served at the restaurant. Daeun and Father remained people who had never seen each other's expression."
       }
     ]
   },
   {
     "id": "arc_y4_family_partner_collision_jiyeon",
     "title": "Three People's Right to Correct",
-    "description": "At 12:40 on Saturday, Father had come to Seoul for the first time since leaving hospital. His restaurant reservation was for six, and the last train that gave Jiyeon comfortable time to travel from Busan left at 1:10. She wrote, \"If you confirm by 12:55 that you want me there, I will buy my own ticket.\" She was not described as already in Seoul.\n\nAt the same time, a client offered the overdue fee if {name} worked on-site from five to ten. He could ask Jiyeon to travel and attend together, meet family alone, or go to the paid site.\n\nOne choice cost a Busan-Seoul round trip, one left an empty chair, and one spent the entire table.",
+    "description": "At 12:40 on Saturday, Father had come to Seoul for the first time since leaving hospital. His restaurant reservation was for six, and the last train that gave Jiyeon comfortable time to travel from Busan left at 1:10. She wrote, \"If you confirm by 12:55 that you want me there, I will buy my own ticket.\" She was not described as already in Seoul.\n\nAt the same time, a notice offered {name} paid on-site work from five to ten. He could ask Jiyeon to travel and attend together, meet family alone, or go to the paid site.\n\nOne choice cost a Busan-Seoul round trip, one left an empty chair, and one spent the entire table.",
     "choices": [
       {
         "text": "Confirm with Jiyeon and let her book the trip from Busan to Seoul",
@@ -540,26 +540,26 @@
       },
       {
         "text": "Close the restaurant and travel plan; go to the paid site at five",
-        "result_text": "Before Jiyeon bought a ticket, {name} withdrew the travel request and canceled the restaurant. He separately told Jiyeon and Father that he would not speak as if they had met.\n\nHis site entry was recorded at five, and the fee was paid. Neither the Busan departure nor the Seoul table opened. What remained was the payment time and a cancellation sent to two people."
+        "result_text": "Before Jiyeon bought a ticket, {name} withdrew the travel request and canceled the restaurant. He separately told Jiyeon and Father that he would not speak as if they had met.\n\nHis site entry was recorded at five. He sent a request to confirm the fee. Neither the Busan departure nor the Seoul table opened. What remained was the site entry time and a cancellation sent to two people."
       }
     ]
   },
   {
     "id": "arc_y4_family_commitment_none",
     "title": "Soup Set for Two",
-    "description": "At three on Saturday afternoon, the family restaurant reservation was for six. At the same time, a client offered the overdue fee if {name} worked on-site from five to ten.\n\nThe reservation text read: six o'clock, two people. {name} switched between that message and the site notice. The phone's glow spread across a cup of cold barley tea on the desk. A delivery motorbike passed the window twice; three hours remained until six. The battery icon in the corner of the screen had quietly turned red.",
+    "description": "At three on Saturday afternoon, the family restaurant reservation was for six. At the same time, a notice offered {name} paid on-site work from five to ten.\n\nThe reservation text read: six o'clock, two people. {name} switched between that message and the site notice. The phone's glow spread across a cup of cold barley tea on the desk. A delivery motorbike passed the window twice; three hours remained until six. The battery icon in the corner of the screen had quietly turned red.",
     "choices": [
       {
         "text": "Decline the paid site and arrive alone at the family table",
-        "result_text": "{name} declined the site and entered the restaurant before six. The family member looked once at the empty chair and said only, \"You came alone.\"\n\nTwo bowls arrived, and the paid fee went to someone else."
+        "result_text": "{name} declined the site and entered the restaurant before six. The family member looked once at the empty chair and said only, \"You came alone.\"\n\nTwo bowls arrived. He did not go to the paid site."
       },
       {
         "text": "Confirm next Saturday with family, then go to the paid site",
-        "result_text": "{name} did not write ‘next time.’ He sent next Saturday at six, the restaurant, and the reservation name. After the family member confirmed the time, he traveled to the five o'clock site.\n\nToday's table did not open, and the fee was paid. A new promise appeared in the calendar without erasing the place he left empty today."
+        "result_text": "{name} did not write ‘next time.’ He sent next Saturday at six, the restaurant, and the reservation name. After the family member confirmed the time, he traveled to the five o'clock site.\n\nToday's table did not open. At the site, he left a request to confirm the fee. A new promise appeared in the calendar without erasing the place he left empty today."
       },
       {
         "text": "Cancel the table without a new date and go to the paid site",
-        "result_text": "{name} told the restaurant and family that he would not come, adding no new date. At five, his name entered the site log.\n\nThe fee was paid, and the family table expired."
+        "result_text": "{name} told the restaurant and family that he would not come, adding no new date. At five, his name entered the site log.\n\nHe left a request to confirm the fee, and the family table expired."
       }
     ]
   },
