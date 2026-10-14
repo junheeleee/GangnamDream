@@ -3,6 +3,14 @@
 이전 기록은 [633 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order633_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36166B/SHA256 e02371cbbaa42b82e3b6e65b016e284af58107587062f0e39baead129d3ed92e이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 관계 시간과 실제 보유 채권을 구분한 이름 요청 장면
+
+- [639](queue_archive/ORDER-639.md): M45 KOEN각4/8잎의 동거 단정을 함께 보낸 시간으로, 보증금 반환채권은 보유한 경우로 한정했다. 연애시작만 읽는W177/partner helper와 기본gosiwon deposit0 반례를 확인했다. live다은/혼자+document_gap·지연author_only 보존/활성화0·원제안/빈서명/대주/원금/만기/선택/효과flags·문단/name/digits·2파일byte역변환 exact.
+- 선언5fbf38d62a66444c6dbad7f67dc0e800782e8063 → 제품d5f255cd77b3e6f70b5a5f206e43cf1d7415d09e/treeebd1a6aa31fb98460e68e3c38987cea5455da6ca. 기존관련정적7각actual0·release정렬불필요·engine/전체audit/새checker0.
+- 독립a1_qa_release_audit GO_SOURCE_FACT_ONLY·범위내차단0·root전문/후보tree/2blob/증거핀확인. .git/order639-20261015/review.md6211B/d99ce0d55cc1531a5bffbd2273119708859cb5173dd8b9f9b27194b15ed8f679·review.json5855B/d73716ce8e77f53acee81b37fe1841cd42df467fae7474384747e46d214aa411. map13845B/7b8b18433e2eec8b07c60d3d755c8f1787b4eb77dbbd2d7c8a670f212250a064·targeted3220B/d956b9c7593fc2c4050a7cd24c2812fa6aacb152f0f1d6092c74f070695269fd·inventory-completions363B/bedc089fb38398f5d876a06acbf989bb0803c673ecf5fd7c357087aca8c3f67c.
+- 공식3inventory actual0·manifestf385ca5de41610bb3a6ee527eab8ef3ff493fdaa71d1cab92cb1e6a66683d7e2/current11251/stale147·164·164/invalid108·35·35/INCOMPLETE/nativeOPEN·새번역수용/QA완화0. 계약성립/채무/입금/경제기능을 새로 만들지 않았다.
+- gangnamdream-dev 표적검증·독립판정·보존 적용·일회성/승격0·source사실GO≠wholechain/경제/native/월/인간/원어민/패드/청취/5언어/출시GO. 실제M18하나HOLD/새월0·612월별metadata제외·사용자보호대상불변·현재CI미확정. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다. 읽기전용 후행검수에서M46결제487300원 effects/잔고조건0, M47수입취소와실제현금출금불일치, M48미보장유급일정 발견·미구현. 새범위분리·접근복구시같은M18 우선.
+
 ## 2026-10-15 — 저장하지 않은 23초 통화 사진을 회상하지 않도록 수리
 
 - [638](queue_archive/ORDER-638.md): M44미통화후행 description/choice0result의과거23초사진보유단정 한문장씩×KOEN4잎만제거했다. 무유물정상분기W174→number→미통화에서도참인현재열차앱/미전송메모/오늘저장두화면만남겼다. 보유자의원root/memory와현재answered23초·원itemgate/공개demo생산자·선택text/효과flags·모든이웃byte불변·description3/result2문단/name/digits exact.

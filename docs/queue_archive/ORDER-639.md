@@ -1,6 +1,6 @@
 # ORDER-639 — 이름 요청 장면의 동거·보증금 전제 수리
 
-#### [~] ORDER-639 [정합] M45 관계와 담보 제안을 실제 상태에서 분리 — 2026-10-15
+#### [x] ORDER-639 [정합] M45 관계와 담보 제안을 실제 상태에서 분리 — 2026-10-15
 
 실제M18/612하나HOLD·새월0·접근복구시동일M18 수정앱 우선.
 5언어유지·KOEN실제확정전JAzh다듬기중단/누락만·이번추가누락0.
@@ -42,3 +42,19 @@ audit_select --list 뒤기존chapter4/audit/consistency/ENcoverage/영어한글/
 source사실GO≠계약/금전기능/wholechain/구저장실재생/월/native/인간/원어민/패드/출시GO.
 engine/전체audit/새checker0·context/queue/diff통과뒤commit·STATUS전용commit0.
 일회성/승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — 2026-10-15
+
+제품d5f255cd77b3e6f70b5a5f206e43cf1d7415d09e/treeebd1a6aa31fb98460e68e3c38987cea5455da6ca.
+독립8잎 GO_SOURCE_FACT_ONLY·2파일byte역변환/문단/name/digits/원선택 exact.
+review.md6211B/d99ce0d55cc1531a5bffbd2273119708859cb5173dd8b9f9b27194b15ed8f679,
+review.json5855B/d73716ce8e77f53acee81b37fe1841cd42df467fae7474384747e46d214aa411 root전문/핀확인.
+도달 경로: MainGame7503 W177 unseen→relationship helper·housing/deposit조건0.
+생산자 ↔ 독자: romance_started ↔ partner helper/원borrowed_name결정→W181후행.
+바꾸는 상태: KOEN8문자열만·효과/flags/금액/만기/schema before=after.
+포기 시 잃는 것: 자기명의축소/검토의향/철회의원결정·서명동의갈등은유지.
+서사 위치: chapter4 consequence/기존계층·승격0; 닫는것: 미성립동거/무조건보증금채권단정.
+관련정적7각0·공식inventory3actual0/current11251/stale147·164·164/invalid108·35·35/INCOMPLETE/nativeOPEN.
+계약/경제/전체후행chain/구저장실재생/실제M18·M45/5언어/출시HOLD.
+612월별metadata제외·사용자보호대상불변·일회성/승격0.
+다음확인결함M46청구서결제의현금effects/잔고조건누락은새범위전까지구현0.
