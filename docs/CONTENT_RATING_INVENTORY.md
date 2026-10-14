@@ -137,7 +137,7 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 | 공포 | 146 / 51 | `6e3506f6830db61e7130a5cab95a029cc19dd0d25c6799b4e7764a9165e4a010` | `e5abc40033b0dee76cc23b617d421b74d71acfe021c417773bf96e78a1c1e3bf` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `b7018e341076ee7951da874c3fe6cadd4f34d7f0c996feb2b67e83c0a44e98c2` | mild |
 | 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `a8eb5f330b01f80f12e894e74325552a7a4d696e71d6369cd9b782ac82cba745` | moderate, strong |
-| 음주·흡연·약물 | 82 / 39 | `32942c5a49b64e9027b5a0071e1c95d6d205478ef05ea6ad25c5ad3c5d90433f` | `f33aaf1b164d018eec0e502481b0c024d97d0aeaaf151e842b929f22514ae0e7` | moderate, mild |
+| 음주·흡연·약물 | 81 / 39 | `5278834de7aee9d4d9135a32561844a97c5a4e245c0ab346f27c706e97f689fd` | `273e9fdc3dc2a29603817c483127474a22fbe1897790286df9d9f1eb8ddae3ac` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |
 
@@ -145,7 +145,6 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 - 선정성·성적 내용: `arc_y4_father_final_contact_present`
 - 폭력성: `amb_coin_00`, `arc_daeun_first_night`, `arc_sangchul_confrontation`, `arc_year3_close`, `cafe_bluff_caught`, `callback_ignored_hyunsu_warning_echo`, `callback_recommitted_to_job_echo`, `inv_portfolio_review`, `job_colleague_conflict`, `kx_coin_noraebang`, `startup_team_conflict`, `story_knee_choice`, `story_knee_witness`
 - 범죄: `arc_y4_family_partner_collision_jiyeon`
-- 음주·흡연·약물: `arc_36_body_signal`
 
 ## ImageRegistry 외부 source raster 56장
 
