@@ -3,6 +3,14 @@
 이전 기록은 [633 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order633_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36166B/SHA256 e02371cbbaa42b82e3b6e65b016e284af58107587062f0e39baead129d3ed92e이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 없던 수주·삭제 요청 대신 현재 문서를 비교하는 M50
+
+- [644](queue_archive/ORDER-644.md): KOEN각4/8잎. 이미맡은자문건/확정수수료를현재매입자문안회신/제시수수료로한정하고, 민준의삭제요청반영·시각/경과일을R3이름/R4빈칸·상한차이·작성/수정시각비교로맞췄다. 다은은무동의이름/일방결정을그대로묻는다. 새수주/지급/요청action/동의/서명/현금효과0·원금액/선택0·2/receiptlegacyID/schema/조건/코드불변·2원고전체byte역변환/문단name숫자exact.
+- 선언c0024985044a0c61c1d480515e4b8383533d2deb → 제품94220116cad89875988bde590c0c14e908e36873/tree83bc3c016fcbeeb191c6eecb8389992dc6bf6a88. 관련정적7각actual0·release정렬필요0·engine/전체audit/자연240/새checker0. 독립a1_qa_release_audit GO_M50_SOURCE_FACT_ONLY·범위내차단0·root전문/2blob/8증거핀확인.
+- .git/order644-20261015/review.md5751B/d44e0e8d63a1e924d054ec3fe0ed7d1d85904769b9cfc64f2645ce0d24a9c20a·review.json7031B/42a22b7ba70caa44017b11bf2c33be0e6b5dad5c53e7244c1cc3efc8c1efa56b. map9685B/3a36d439ac203f86224d312bb8df668da70e8ccb1110178c784264d18e5527fc·proof1130B/b60170ffdb53d7616031b71afcc781525301189cc30dba443cfce743eaf2e604·targeted2767B/ab9597a8706c1b97d037d2f96914c1c7979897d81c0f6072adba4d32df3420fc·inventory-completions2765B/eb16319ef6d7d205bd739f31f9c3558560f6d1bd74d1a29227666cdeb8d07b22.
+- 독립다음월읽기에서M51 burnout KOEN reader가삭제요청시각을재도입함을발견·선언/후보byte불변인기존범위밖채무다. 최초사양의후행0기대는전체chain범위를넘어정정했고Git원문보존/downstream-correction857B/e4efe67137177ad2ccd19a872d9f0ef5d77e9ae6e4323814fef2dcc12822d142에결속했다. 현재8잎GO와M51 reader/wholechainHOLD를분리·다음645정확2잎+진료전날5잎으로즉시수리한다.
+- 공식3inventory actual0·manifest9e975b3d68eaf12a9a84572aeb3eeb8f3c0592c08f3f1c0c1e3421d5e010c0c4/current11227/stale171·188·188/ch5reader132/133 stale1/invalid108·35·35/INCOMPLETE/nativeOPEN·JAzh다듬기/수용0. gangnamdream-dev 표적재사용·독립검수·보존 적용·일회성/승격0·sourceGO≠삭제인과/계약경제/실제월/native/wholechain/5언어/인간/패드/청취/출시GO. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다. 실제M18하나HOLD/새월0·612월별metadata제외·사용자원본쓰기0·readonly21:35UTC 세션잠금true/IOConsolefalse·현재main정적CI성공/Godot진행/전체녹색미확정.
+
 ## 2026-10-15 — 큰 계획을 실제 자산 증가로 부풀리지 않는 마지막 정산
 
 - [643](queue_archive/ORDER-643.md): M49 KO4EN3/7잎. reality_check의계획확대/계산기덮기flag를자산증가·균일입출금·우연없는성과·수면연락공백으로회상하던2DIK와기본fallback을실제선택행동/현재숫자로한정했다. W195월요일→W196수요일KO reader의전날→앞서만수리/EN동잎불변. 기본문은누락flags source반례만·정상live관측0. 문단/name/digits/2원고전체byte역변환exact·조건/효과/금액/flags/receipt/코드/schema/번역/원장/Human REJECT·352선행불변.

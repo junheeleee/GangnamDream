@@ -1,6 +1,6 @@
 # ORDER-644 — 수주·삭제 요청을 발명하지 않는 M50 문서 비교
 
-#### [~] ORDER-644 [정합] M50 현재 제안과 문서 수정 사실 정렬 — 2026-10-15
+#### [x] ORDER-644 [정합] M50 현재 제안과 문서 수정 사실 정렬 — 2026-10-15
 
 실제M18/612 하나HOLD·새월0·맥접근복구시동일M18 수정앱우선.
 5출시언어유지·KOEN실제확정전JAzh다듬기중단/누락만·이번번역수용0.
@@ -42,8 +42,34 @@ docs/CONTENT_RATING_INVENTORY.md 동일생성row만정렬·count/IDs/다른축/p
 
 audit_select --list만·기존audit/consistency/ENcoverage/영어한글/spine/chapter5/release 표적.
 8잎map/KOEN의미/문단name숫자/2원고byte역변환exact·공식3inventory각1회/수용0.
-소유밖삭제요청/receipt명 참조는실제producer가아님과후행reader재발명0 직접대조.
+소유밖삭제요청/receipt명 참조를대조하고잔여reader는다음월별도범위/wholechainHOLD로남긴다.
 코드/효과/분기불변이므로engine/전체audit/자연240/새checker/비용계측/최적화0.
 source-fact한정GO·전체수주/계약경제/삭제인과/실제M50/native/wholechain/5언어/출시HOLD.
 context/queue/diff0뒤마감·STATUS전용commit0·일회성/승격0.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 후행 읽기 정정 — 제품 범위 확대 없음
+
+M51 독립읽기에서 arc_new_characters의burnout causal_reads.texts[0][1] KOEN이
+W200 문서비교를삭제요청시각으로되부르는기존채무를발견했다. 이파일은644선언/후보에서불변이다.
+앞선검증문구의후행reader재발명0 기대는소유8잎밖전체chain판정이므로위와같이정정한다.
+선언원문은c002498 Git에보존·현재8잎한정sourceGO와wholechainHOLD를분리한다.
+다음M51 별도사양에정확2잎을포함해수리하며이번원문/코드범위는늘리지않는다.
+
+## 마감 — 2026-10-15
+
+제품94220116cad89875988bde590c0c14e908e36873/tree83bc3c016fcbeeb191c6eecb8389992dc6bf6a88.
+독립a1_qa_release_audit GO_M50_SOURCE_FACT_ONLY·범위내차단0·root전문/2blob/8증거핀확인.
+review.md5751B/d44e0e8d63a1e924d054ec3fe0ed7d1d85904769b9cfc64f2645ce0d24a9c20a,
+review.json7031B/42a22b7ba70caa44017b11bf2c33be0e6b5dad5c53e7244c1cc3efc8c1efa56b.
+도달 경로: typed투자20억/인물entry→W197/W200 condition/requires_choice null.
+생산자 ↔ 독자: W195기록/W196원문전송/W197응답 ↔ W200문서비교; M51요청회상잔여HOLD.
+바꾸는 상태: 원receipt/금액만·새수주/지급/요청/동의/서명/현금effect0.
+포기 시 잃는 것: 동일자리마감3응답·현재상한/문서시각/야간조항3비교; 원후행reader유지.
+서사 위치: chapter5 M50 T2·352선행/Human REJECT 그대로·승격0.
+닫는 것: 없는수주·확정수수료·삭제요청주체/시각·경과일회상 8잎.
+KOEN4+4 전수/2파일byte역변환/문단name숫자exact·정적7각actual0·release정렬필요0.
+공식3inventory actual0·manifest9e975b3d68eaf12a9a84572aeb3eeb8f3c0592c08f3f1c0c1e3421d5e010c0c4/eventcurrent11227/stale171·188·188/ch5reader132/133 stale1/invalid108·35·35/INCOMPLETE/nativeOPEN.
+번역수용/engine/전체audit/자연240/새checker0·sourceGO≠전체계약경제/삭제인과/실제월/native/wholechain/5언어/출시GO.
+612월별metadata제외·실제월1/HOLD·사용자원본쓰기0·일회성/승격0.
+초기부팅통합출력절단은개별문서로끝까지다시읽어복구·새제품검사재실행으로세지않는다.
