@@ -1071,18 +1071,18 @@
   {
     "id": "arc_36_reality_check",
     "title": "Three Years, Calculated",
-    "description": "Three years have passed.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining: twenty-five months.\n\nCan that gap be closed in twenty-five months?\n\nThe number came out. {name} stared at the screen and said nothing. At the current pace — no. Something had to change.\n\nThen remembered having the exact same thought three years ago.",
+    "description": "Three years have passed.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nWhat would have to change to close that gap in the time left?\n\nThe number came out. {name} stared at the screen and said nothing. It showed his current assets, not what the next months would bring.\n\nHe set a sheet of paper beside the calculator. Before writing what to keep and what to change in the plan, he stared at the blank page for a while.",
     "choices": [
       {
-        "text": "Need to move faster. Everything so far was a warm-up.",
+        "text": "Rebuilt the plan. Bigger.",
         "result_text": "Fear was there. But fear means there's still something to lose. {name} rebuilt the plan. Bigger."
       },
       {
-        "text": "Keeping the current pace. Rushing leads to mistakes.",
+        "text": "Closed the calculator. Rushing leads to mistakes.",
         "result_text": "Impatient people make the first mistakes. If the direction is right — time handles the rest. {name} closed the calculator."
       },
       {
-        "text": "For the first time, completely shaken about whether this path is right.",
+        "text": "Couldn't revise the plan for a while.",
         "result_text": "Being shaken might not be bad. Self-awareness can redirect. The confusion lasted a while. Took a few days before sitting back down."
       }
     ]
