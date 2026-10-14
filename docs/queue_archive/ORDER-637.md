@@ -1,6 +1,6 @@
 # ORDER-637 — 정산 회상의 계약 검토·기록 사실 수리
 
-#### [~] ORDER-637 [정합] M43 확인한 기록과 성사·수입을 분리 — 2026-10-15
+#### [x] ORDER-637 [정합] M43 확인한 기록과 성사·수입을 분리 — 2026-10-15
 
 실제M18/612하나HOLD·새월0·접근복구시같은M18 수정앱우선.
 KOEN확정전JAzh다듬기중단/누락만·5언어유지/이번누락추가0.
@@ -42,4 +42,22 @@ audit_select --list 뒤기존chapter4/audit/consistency/ENcoverage/영어한글/
 공식3locale inventory각1회최종KO관측·수용0·기존CJK본문동결채무.
 독립source사실GO≠wholechain/경제기능/구저장전체/native/월/인간/원어민/패드/청취/출시GO.
 engine/전체audit/새checker0·context/queue/diff통과뒤commit·STATUS전용commit0.
+대형JSON은전체출력의절단을피하도록 선언한leaf의원문행과행번호만읽어patch한다.
 일회성/정본승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — 2026-10-15
+
+제품5622ac5e4ebc707152a7e805e8235dbbb04b5627/tree5a158ba04fe66ac2a9cad91ca1b06880e7fd748e.
+독립22잎전수 GO_SOURCE_FACT_ONLY·2파일역변환/문단/name/digits/키/선택계약exact.
+review.md5927B/5e229b61edac16f9849a801d2d1173206b801dff83f3c2312508486d71ed70f7,
+review.json6268B/1eca07541d7412228343dc3961a684cc8fc2d3715669dcf514a5bc5c897d38dc root전문/후보핀확인.
+관련정적7각0·release내용정렬불필요·engine/native/새검사0.
+도달 경로: W169family_seen direct; W169..184 fallback은선행3기록불필요.
+생산자 ↔ 독자: M39protected_deal검토완료 ↔ M43DIK9; midpoint_receipt_seen ↔ night_doubt.
+바꾸는 상태: 확인산문22잎만·효과/flags/schema before=after.
+포기 시 잃는 것: 약속/몸/가족을점수로합치지않는정산과후행reader연결보존.
+서사 위치: chapter4 escalation/기존장면계층유지·승격0; 닫는것: 허위기간/거래성과회상한정.
+officialcurrent11257/stale141·158·158/invalid108·35·35/INCOMPLETE/nativeOPEN·수용0.
+CJK기존base의미보장수량각1추가invalid와후행고정11주채무는숨기지않고HOLD.
+실제M18하나HOLD/새월0·612월별metadata제외·wholechain/5언어/출시GO아님.
+일회성/승격0·다음M44미보유23초화면후행4잎·접근복구시같은M18 우선.
