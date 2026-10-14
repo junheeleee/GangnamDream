@@ -19,7 +19,8 @@ full-story의 정상calendar advance+complete_turn 뒤, 기존 durable calendar 
 경제/RNG를 재실행하지 않아야 한다. StoryMode 전역종료저장은 확장하지 않는다.
 이로써 월경계직후coldContinue와 저장실패재시도까지같은결과가이어진다.
 
-root 소유: scenes/MainGame.gd의 _full_story_advance_week 한정 호출순서,
+root 소유: scenes/MainGame.gd의 _full_story_advance_week 호출순서와
+_begin_month의 prev_prices 소비자·비직렬화 일회성 local 가격인계값,
 큐2/이사양/archive·CLAUDE현재행/WORK_LOG·.git/order628-20261014/ 새표적증거.
 a1_state_economy_audit 소유: tools/ManualSaveCheck.gd의 기존 full-story production/
 third-month/calendar-save-retry fixture 내 월초disk/live/marker/RNG회귀 assertions만.
@@ -39,3 +40,14 @@ source수리GO는 실제새앱검수GO가아니다. 612한달기록은이번선�
 제외하고, 새후보발급후 같은원W69→첫W73 실제재검수와한commit마감을이어간다.
 다음월플레이0·CI빨강일때새월0·5언어/인간/원어민/패드/청취/출시HOLD유지.
 이번지시는일회성·승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 첫 후보 독립 REWORK·필수 소비자 보완 선언
+
+local 제품f1e7e8f의4표적runtime은통과했으나 독립검수자가 _begin_month의
+prev_prices=post-roll 덮어쓰기를지적했다. 시세등락/portfolio pulse의 pre-roll
+가격소비자를잃으므로 sourceGO로닫거나push하지않는다. 기존후보/12raw 불변.
+같은파일에서 early-roll 직전가격을 prev_prices에담고 현재turn을 비직렬화local에
+인계한다. 다음 _begin_month에서 같은turn일때만 가격대입을1회건너뛰고local을
+소비한다. 새Main/cold·preview·다음동일주호출은원래동작, 저장flag/schema변경0.
+같은production fixture에 pre-roll prev_prices/rolled market 및 바로이어진
+_begin_month 인계소비 회귀를 추가한다. 원정산/AP/저장실패/RNG 검사는유지한다.
