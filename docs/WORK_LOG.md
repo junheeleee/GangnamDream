@@ -3,6 +3,14 @@
 이전 기록은 [633 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order633_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36166B/SHA256 e02371cbbaa42b82e3b6e65b016e284af58107587062f0e39baead129d3ed92e이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 큰 계획을 실제 자산 증가로 부풀리지 않는 마지막 정산
+
+- [643](queue_archive/ORDER-643.md): M49 KO4EN3/7잎. reality_check의계획확대/계산기덮기flag를자산증가·균일입출금·우연없는성과·수면연락공백으로회상하던2DIK와기본fallback을실제선택행동/현재숫자로한정했다. W195월요일→W196수요일KO reader의전날→앞서만수리/EN동잎불변. 기본문은누락flags source반례만·정상live관측0. 문단/name/digits/2원고전체byte역변환exact·조건/효과/금액/flags/receipt/코드/schema/번역/원장/Human REJECT·352선행불변.
+- 선언f77ce145003612dde4f5ecd227f80de3dd8480fc → 제품e58d92c1cfba098d017b647674d51e1162821613/treeffc8a58e362ef1186d3b19f2b70addd657dbfade. 관련정적7각actual0·최초release sexuality/fear contenthash/report stale1보존→해당SHA2+생성동일행2만정렬/final --write-report0. count124/26·146/51/IDs/다른축/공개snapshot 불변·4제품파일byte역변환exact·engine/전체audit/자연240/새checker0.
+- 독립a1_qa_release_audit GO_M49_SOURCE_FACT_ONLY·차단0·root전문/4blob/7증거핀확인. .git/order643-20261015/review.md6617B/adf37847074b36d568950a188b444961837a3e6306795931617178003c64147e·review.json7086B/6e249239576e5f781e74543bdb944c395d8d39e0383bffa1ddfb273d1ce7a8dd. map9792B/adf0cb6617a07a7ff6ec0ca365005743b6f9d3a114607224658f2f6a3d939434·proof1716B/07904e1b044ca957f8137ef0db3d63343420d39c4a621d6376aee369cadd0e2d·targeted3594B/5b6e0c87a42c7546fa95521bb5c38777205efea7b397a849770f4217ecf3d045·inventory-completions2765B/4759e572920936f58dcf7024ddd2db20069651c162dd4ba5a52fa292c491e01e.
+- 공식3inventory actual0·manifest35c96fe1f282e42dfafb5b2bd8f05cda29f0fdd3640db2dee6f883a24c1ecccc/eventcurrent11231/stale167·184·184/ch5reader132/133 stale1/invalid108·35·35/INCOMPLETE/nativeOPEN·JAzh다듬기/수용0. gangnamdream-dev 표적재사용·독립검수·보존 적용·일회성/승격0·sourceGO≠실제M49/구saveUI/native/전체경제/wholechain/5언어/인간/패드/청취/출시GO. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+- 실제M18하나HOLD/새월0·612월별metadata제외·사용자보호대상불변·21:07UTC readonly 세션잠금true/IOConsolefalse/추가native0·이번CI미확정. 다음읽기M50은이미맡은자문수주와현재R3→R4의민준삭제요청/시각 producer0를KOEN8잎에서지적했다. M45일반이름제거는다른문서·R4빈이름/상한은현재문서사실과분리·새수주/요청action/지급을발명해메우지않음. 미구현/새scope전선언·접근복구시같은M18 우선.
+
 ## 2026-10-15 — 연말 회상이 없는 야간 일·수입·관계를 만들지 않도록 수리
 
 - [642](queue_archive/ORDER-642.md): M48 live다은/혼자choice0/1의미보장유급야간일/취소상대/수입금액을현재달력시간확보와새일정거절로맞췄다. KOEN각15/총30잎·다은요구대사/normal2·사별1 DIK/두공통결과/기본fallback까지정렬·솔로약속상대없음/사별부재유지. 기본fallback은누락flags구save의source반례만이며정상live관측주장0·금액/효과/flags/indices/조건/코드/경제/schema/자산/번역/원장불변·2파일전체byte역변환/문단/name/digits exact.
