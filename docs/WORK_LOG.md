@@ -4,6 +4,13 @@
 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39623B/SHA256 a395e47473c5e27ec50e9e8fbb5df4170006621f714d3ea9ab0b93fbe43fa8bc이다.
 
+## 2026-10-14 — M37 민서 소개의 영어 무대출 단정 수리
+
+- [627](queue_archive/ORDER-627.md): KO현재명의아파트/후속KOEN대출과 달리 EN첫소개만발명한 outright를 소유주택에거주한다는말로 맞췄다. 같은옛전세물건매입/완납/대출시점은확정0·EN1잎1구절/4문단/name1·나머지3문단·원고全byte期待/逆변환exact·KO/모든선택/효과/저장 불변·독립한구절 sourceGO.
+- 제품660992b8/treec1f0a62d·목록37은실행아님/실제영향source8 actual0·원releasedefault0/정렬0/원장보고불변·continuity/demo/engine중복검사0. KOcollector의input불변/ENoverlay제외를직접대조해 CJKinventory재실행0·626실제manifest38951a4e…ba4e/current11318/stale92·111·111/invalid96·21·21을재사용했다·INCOMPLETE·새EN1만더해 누적278/CJK132KO잎대기불변·JAzh다듬기/수용0.
+- root의미6471B/aa88c4b3…8106·보존7726B/8060f0fc…b841 전문판독·전체핀은사양결속. 비소유3418/정규화0·53/847/latest20/614..626봉인26보고·625사전/621history/사용자데모 exact는10:46:25→10:46:41UTC point한정·후속closure메타분리/inherited612큐2/사양commit제외·globalresolverHOLD. 구year3/M48 및이미저장산문 미수리·migration0.
+- 마감context/queue/self/advisory/diff actual0·STATUS참고경고비차단/전용commit0. 실제M18접근보류 하나·이번새Mac진단/게임실행입력/새월0·실제잠금원인미확정·5언어/출시HOLD. gangnamdream-dev/WORK_UNIT 표적검증·보존·독립판정 적용/일회성·승격0·다음M37미보장회상조건대조/접근복구시동일M18우선. sourceGO≠전체M37/장면/chain/native/원어민/인간/패드/청취/출시GO. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-14 — M36의 미관측 대화·끊어진 관계 회상 수리
 
 - [626](queue_archive/ORDER-626.md): 부친고백 DIK의 현재열어주는문을 실제커피제안으로, 두DIK의 진실뒤계속된조언/기회를 관계지속·단절중립 회고로 맞췄다. 재혁의피해자→가해발언청취/반복계산버릇·실제다짐을 지금의 신뢰질문/조건형으로 KOEN4잎·10문단 정렬·인물거울/earned생산자 보존. 각7/총28/비소유18·placeholder배열·원고2全byte逆변환 exact·truth둘째name5→4는선언한이동·선택/효과/저장 불변.
