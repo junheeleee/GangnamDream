@@ -1071,7 +1071,7 @@
   {
     "id": "arc_36_reality_check",
     "title": "Three Years, Calculated",
-    "description": "Three years have passed.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nWhat would have to change to close that gap in the time left?\n\nThe number came out. {name} stared at the screen and said nothing. It showed his current assets, not what the next months would bring.\n\nHe set a sheet of paper beside the calculator. Before writing what to keep and what to change in the plan, he stared at the blank page for a while.",
+    "description": "Three years have passed.\n\nPulled out the calculator. Current assets. The goal. Time remaining.\n\nHe compared his current assets with the goal and considered the time left. Where should he start reviewing the plan?\n\nThe calculator showed only his current assets. {name} stared at the screen and said nothing. That number could not tell him what the next months would bring.\n\nHe set a sheet of paper beside the calculator. Before writing what to keep and what to change in the plan, he stared at the blank page for a while.",
     "choices": [
       {
         "text": "Rebuilt the plan. Bigger.",
