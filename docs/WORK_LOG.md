@@ -3,6 +3,13 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 거래 없는 선택의 체결 약속을 고위험 계획 저장으로 정렬
+
+- [650](queue_archive/ORDER-650.md): 현재 주문/포지션/체결/정산이 없는 선택0을 실제 거래처럼 말하던 KOEN4잎과 마지막 주 회상2잎을 수리했다. 돈·감수할 손실·멈출 조건을 적고 계획을 저장한다는 행동이며, 실제 주문·손익은 발명하지 않는다. 안전한 계획/창가 선택과 경쟁하고 기존 luck+4/mental−6/tint−2·legacy flag는 그대로다. 위임된 내부 판단과 비저자 선행 읽기에 따라 없는 시스템을 새로 만들거나 제거하지 않고 거짓 약속을 바로잡았다.
+- 후보a402e402dee64bd5f58889dfbd5ca4ee80c68120/tree94023a882ce6f1e895ced59e0d4e6bbfeb781f77·4원고 inverse exact6잎/문단name 보존·실제 W216~237→W240 독자만 회수/first-true shadow 불변. release3 contentSHA/보고3셀만 정렬·counts/IDs/다른축/public snapshot exact. 표적8 및 공식3inventory actual0·engine/전체audit/자연240/새checker0. 최초 JS예약어 구문오류는 도구호출 전 무쓰기였으며 private correction에 보존했다.
+- 독립 GO_ORDER650_SOURCE_FACT_ONLY/차단0·root 전문/6제품/5증거/3원 inventory 핀 확인. .git/order650-20261015/review.md6301B/84aebdc99cb49934fc2f238a59d5366ce14cf8a60e3185035a986751f3e34bc2·JSON6367B/b66eb3277db61e0917694ef8c0f14ec957f8c048ea4badf9159635b30f2d8a56. manifest9471d2adbc7ab614ecfa9168c91f8ed17279ea0d809355ad4137af80a831f879·CJK invalid117/44/42/INCOMPLETE/native OPEN·다듬기/수용0.
+- 옛 저장 로그의 실행 문구와 동결 CJK는 남으며 UI에서 해결됐다고 하지 않는다. 실제M18/M54/native/전체경제·체인/5언어/352선행/출시 HOLD. 다음은 M55EN1/M56KOEN4의 확인된 사실 수리; M56 모호한 며칠/days는 추가 확정 결함으로 세지 않음. 열린 실제월1/새월0/612dirty4 미포함/사용자보존. 개발스킬 표적·독립·보존 적용·일회성/새승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 계획을 투자 성과로, 남은 구간을 고정 기간으로 말하던 M54 수리
 
 - [649](queue_archive/ORDER-649.md): KO6/EN6 총12잎. W193의 비용 목록·보호 계획·빈칸을 실제 투자/손익으로 늘리지 않고, W216~237 입구에 맞춰 고정 24주·반년·1년 전과 이미 5년 경과 표현을 제거했다. 주거 이동 없이 넓어진 전망도 현재 창가 감각으로 맞췄다.
