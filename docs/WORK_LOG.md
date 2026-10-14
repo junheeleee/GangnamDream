@@ -4,6 +4,15 @@
 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39623B/SHA256 a395e47473c5e27ec50e9e8fbb5df4170006621f714d3ea9ab0b93fbe43fa8bc이다.
 
+## 2026-10-14 — M36 성인 시절을 어린 시절로 바꾸던 회상 수리
+
+- [624](queue_archive/ORDER-624.md): 부친고백 DIK의 '어릴 때는/As a child'를 '그때는/Back then'으로 KOEN2잎에서 교체했다. 정본 성인 상환·27세 무릎/현재 고백 producer3결과·W144 reader 직접 대조·정확 서명나이는 추정0. 각7문단/다른12/name2·4/원고전체逆변환 exact·선택/효과/저장 불변·독립 두구절 sourceGO.
+- 제품00b321b1/tree42101e56·nonrelease13 actual0/원defaultrelease1보존→실제--write-report0·violence17/14·IDs불변 내용SHA한값/공식보고1행만 정렬. continuity원완료0지만 stdout2075token을2000한도로 받아 원fullstdout미봉인·단1회완전재확보0을 따로 봉인했다. 새tool/checker/engine/전체audit0·default재실행횟수0.
+- 공식inventory3 actual0·manifest66eccc49…b95e/current11325/stale85·104·104/invalid96·21·21·전체INCOMPLETE. 새2KOEN/1KO잎·누적고유KOEN263/CJK125KO잎재정합대기·JAzh다듬기/수용0.
+- root 봉인의미8229B/827c9ba0…487f·보존9005B/dadaf766…41b1 전문판독·전체핀은사양결속. 비소유3414/53·847/latest20/봉인20보고/621history·사용자데모 exact는06:49:10→06:49:33UTC point한정·후속closure메타와dirty612전역HOLD 분리/월별612큐·사양은이commit제외다.
+- 마감context/queue/self/advisory/diff actual0·STATUS참고경고비차단/현황판전용commit0·human617 actual0은불변원장만재사용/OPEN45·done1/새인간관찰0. CI622마감762c54a 성공관측·623당시진행/이번pushCI미확정. 실제M18 OS잠금HOLD 하나·새월/native/실화면/청취0·5언어/출시HOLD. 다음M36 나머지회상·서류선택조건대조/새구현0.
+- gangnamdream-dev는 사용자 보존·한영 표적수리·독립판정 경계에 적용/WORK_UNIT 일회성·승격0. sourceGO≠전체장면/월/chain/native/인간/원어민/물리패드/5언어/출시GO. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-14 — M36의 미확인 진실 수신자 회상 수리
 
 - [623](queue_archive/ORDER-623.md): base/ghost KOEN4잎의 셋째문단에서 '진실을들은사람'을 기존대화창/문장밖속마음의불확실성으로 맞췄다. 실제firstcall3결과/130..155입구와 author_only listener3/needs_rule계획은 진실전달·응답·미발신의증거가아님을 대조했다. 다른16문단/각5/name1·1·3·4/96주·선택효과·저장 불변, wholebyte逆변환 exact·독립지정4문단 sourceGO.
