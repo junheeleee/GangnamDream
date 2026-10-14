@@ -1399,7 +1399,7 @@
   {
     "id": "arc_y5_final_push_deadline_investment",
     "title": "The Six O'Clock Answer",
-    "description": "At 4:12 the following Monday, the closing manager on an existing acquisition-advisory job demanded an answer. The final fee was 18 million won. Delivering the reconciled material by midnight kept the terms intact. Disclosing R3's 70 million won additional-funding figure allowed a request for one more day. A third closing sheet reduced the fee to 12 million won in exchange for providing no additional joint-liability material.\n\nThe response window ended at 6 p.m. R3 was already open behind it. At six, the thing that would close was not the contract but this reply field. {name} set the clear folder holding R3 beside the keyboard and moved one of the three sentences into the actual reply field.",
+    "description": "At 4:12 the following Monday, the coordinator for an acquisition-advisory proposal asked for a reply. The proposed fee for the final reconciliation was 18 million won. Delivering the reconciled material by midnight kept the terms intact. Disclosing R3's 70 million won additional-funding figure allowed a request for one more day. A third closing sheet reduced the fee to 12 million won in exchange for providing no additional joint-liability material.\n\nThe response window ended at 6 p.m. R3 was already open behind it. At six, the thing that would close was not the contract but this reply field. {name} set the clear folder holding R3 beside the keyboard and moved one of the three sentences into the actual reply field.",
     "chapter5_causal_reads": {
       "texts": [
         [
@@ -1427,7 +1427,7 @@
   {
     "id": "arc_y5_protection_boundary_daeun",
     "title": "Where Her Name Was Removed",
-    "description": "At 8:10 Saturday night, {name} opened a clear folder at the last window table in a cafe. The final page of R3 contained ‘Kim Daeun.’ The same field in R4-SELF, revised after the removal request, was blank. Without her name, the financing ceiling had fallen from 1.18 billion won to 760 million won. The 420 million won difference lay at the center of the table.\n\nDaeun looked first at her unsigned name, then at the blank. She set a blue mechanical pencil between the two documents.\n\n“Minjun, am I supposed to thank you for taking it out? Why didn't you tell me when it went in?”\n\n{name} could not answer with the word protection. Only the order in which he exposed the removed name and the lost figure remained.",
+    "description": "At 8:10 Saturday night, {name} opened a clear folder at the last window table in a cafe. The final page of R3 contained ‘Kim Daeun.’ The same field in R4-SELF was blank. The financing ceiling had changed from 1.18 billion won to 760 million won. The 420 million won difference lay at the center of the table.\n\nDaeun looked first at her unsigned name, then at the blank. She set a blue mechanical pencil between the two documents.\n\n“Minjun, am I supposed to say it's all right now that my name is gone? Why didn't you tell me when it went in?”\n\n{name} could not answer with the word protection. Only the order in which he would show the blank name field and the changed figure remained.",
     "chapter5_causal_reads": {
       "texts": [
         [
@@ -1443,8 +1443,8 @@
         "result_text": "{name} read the old ceiling, the new ceiling, and the difference in order. Daeun drew a short line beneath 420 million won.\n\n“Don't say it like that was the price of my name. If it's money you gave up, tell me in your own words why you gave it up.”\n\n{name} could not erase the figure. The blue line remained under it, and the empty name field looked whiter beside it."
       },
       {
-        "text": "Show the original draft time beside the removal-request time",
-        "result_text": "{name} placed the R3 authoring time beside the time he requested the removal. Daeun traced the time between them with one finger.\n\n“Keeping me safe and deciding without me aren't the same. During that time, I didn't even know where my name was.”\n\n{name} looked up without turning off the screen. The corners of the two versions sat misaligned inside the clear folder."
+        "text": "Show the draft's authoring time beside the revised document's modification time",
+        "result_text": "{name} placed the R3 authoring time beside the revised document's modification time. Daeun traced the times and the name fields in turn with one finger.\n\n“Keeping me safe and deciding without me aren't the same. During that time, I didn't even know where my name was.”\n\n{name} looked up without turning off the screen. The corners of the two versions sat misaligned inside the clear folder."
       },
       {
         "text": "Open the weekend-and-night clause beside the name field",
