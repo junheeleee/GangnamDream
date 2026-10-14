@@ -1,6 +1,6 @@
 # ORDER-636 — 가족 약속의 미성립 고객·체불·입금 사실 수리
 
-#### [~] ORDER-636 [정합] M42 현장 제안과 실제 기록 구분 — 2026-10-15
+#### [x] ORDER-636 [정합] M42 현장 제안과 실제 기록 구분 — 2026-10-15
 
 실제M18/612 하나HOLD·새월0·화면접근복구시같은M18 수정앱 우선.
 5언어유지·KOEN실제확정전JAzh다듬기중단/누락만·이번추가누락0.
@@ -49,3 +49,22 @@ audit_select --list 뒤기존chapter4/audit/consistency/ENcoverage/영어한글/
 독립전수 sourceGO만·금전보상기능/wholechain/월/native/자연240/인간/원어민/패드/청취/출시GO아님.
 engine/전체audit/새checker0·마감context/queue/diff·STATUS전용commit0.
 일회성/정본승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — 2026-10-15
+
+제품d7b4d7f32271918d0db61f9cc9b65f77f04ac35a/tree7b329d4418bac7f2483a70fb5f55483170aa0076.
+독립 GO_SOURCE_FACT_ONLY·18잎전수/4경로최소정렬/비소유byte·문단/name/숫자/선택계약보존.
+review.md5972B/979b29cd35281623510dd79465ae9990bbd91d0f262abfdb8a130c83106f8775,
+review.json7114B/4252de62a463b45e3cba161e1a4f06378df92875f70c7c0b697a2024ce2c9510 root전문/후보핀확인.
+초기name토큰3감소와crime지문stale 원fail보존→수리뒤정적6/release각0.
+crime73/40/IDs/다른축그대로·내용SHA655c9abb24d00c4703460bf4dfe7f05405041446e843981289326c89aad5b67c만정렬.
+3inventory각0·current11268/stale130·148·148/invalid108·34·34/INCOMPLETE/nativeOPEN·수용0.
+도달 경로: MainGame7484..7495 W167/family·father·관계게이트·직업/수입검사0.
+생산자 ↔ 독자: body_witness_seen ↔ W167; family_table_seen ↔ W169정산.
+바꾸는 상태: 허위고객/체불/입금산문18잎; effects/flags/schema before=after.
+포기 시 잃는 것: 가족동석/혼자/불참과수입기회의기존갈등·기존outcome차이보존.
+서사 위치: chapter4 escalation/기존장면계층유지·승격0.
+닫는 것: 확정입금/직업전제문장한정; 실제금전보상/정산consumer/전체선택·경제·chain HOLD.
+family_missed9후행회상에는입금단정0·protected_deal후행회상은별도채무.
+실제M18하나HOLD/새월0·612월별metadata이번commit제외·engine/native실행0·출시GO0.
+일회성/승격0·다음M43 검토영수증과미확인기록 수리·접근복구시동일M18 우선.
