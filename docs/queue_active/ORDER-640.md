@@ -53,3 +53,6 @@ context/queue/diff통과뒤commit·STATUS전용commit0·일회성/승격0.
 lifecycle이제품참조로검출하므로그등록을제거했다. 지연은원고effects정합만검사하며
 runtime/live2를3으로세지않는다. 숫자는Godot JSON float와정수리터럴의Dictionary
 등가차이를피해단일money키/수치type/정확액을직접검증한다. 원실패영수증은보존한다.
+독립검수추가: untyped money의문자/불린/배열/객체/null은float변환전에거부한다.
+비정상현금반례는정상snapshot→주입→거부/원값관측→현금만복원뒤나머지상태비교를
+사용한다. serialize는NaN/Inf를의도적으로거부하므로그함수에비정상값을보내지않는다.

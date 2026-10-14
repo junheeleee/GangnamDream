@@ -1926,6 +1926,8 @@ func _chapter4_bill_payment_available(event: Dictionary, choice: Dictionary) -> 
 		var selected: Variant = flags.get(outcome, false)
 		if not selected is bool or selected:
 			return false
+	if typeof(money) not in [TYPE_INT, TYPE_FLOAT]:
+		return false
 	var cash := float(money)
 	return is_finite(cash) and floor(cash) == cash and cash >= 487300.0
 

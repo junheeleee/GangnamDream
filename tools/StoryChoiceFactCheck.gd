@@ -302,18 +302,23 @@ func _check_hospital_payment(story: Node) -> void:
 			var malformed: Dictionary = event.duplicate(true)
 			malformed["choices"][0]["effects"] = bad_effect
 			_visible(story, malformed, {}, [1, 2], "hospital bad debit " + str(bad_effect))
-		for bad_cash in [487299.5, 487300.5, NAN, INF, -INF]:
+		for bad_cash in [487299.5, 487300.5, NAN, INF, -INF, null, true,
+				"500000", {}, []]:
 			_restore_game(baseline)
 			GameState.flags = {}
-			GameState.money = bad_cash
 			var before: Dictionary = GameState.serialize().duplicate(true)
-			before.erase("money")
+			GameState.money = bad_cash
 			_expect(not GameState.choice_available(event, payment)
 				and not GameState.apply_choice(event, payment), "hospital invalid cash reject")
-			var after: Dictionary = GameState.serialize().duplicate(true)
-			after.erase("money")
-			_expect(after == before and (is_nan(GameState.money)
-				if is_nan(bad_cash) else GameState.money == bad_cash),
+			var retained := typeof(GameState.money) == typeof(bad_cash)
+			if typeof(bad_cash) == TYPE_FLOAT and is_nan(bad_cash):
+				retained = retained and is_nan(GameState.money)
+			else:
+				retained = retained and GameState.money == bad_cash
+			# Serialization intentionally rejects non-finite cash. Observe the
+			# rejected value first, then restore only cash to compare other state.
+			GameState.money = before["money"]
+			_expect(GameState.serialize() == before and retained,
 				"hospital invalid cash and other state preserved")
 	_restore_game(baseline)
 
