@@ -1,6 +1,6 @@
 # ORDER-628 — 본편 월초 경제의 저장 경계 수리
 
-#### [~] ORDER-628 [저장 정합] 착수 — 2026-10-14
+#### [x] ORDER-628 [저장 정합] source 한정 수리 완료 — 2026-10-14
 
 실제612/M18의 첫W73에서 HUD−657만원/정신77과 디스크−6371703/정신87이
 달랐다. 월말값은 정상1회이며, 달력autosave 뒤 _begin_month의 월초경제가
@@ -51,3 +51,34 @@ prev_prices=post-roll 덮어쓰기를지적했다. 시세등락/portfolio pulse�
 소비한다. 새Main/cold·preview·다음동일주호출은원래동작, 저장flag/schema변경0.
 같은production fixture에 pre-roll prev_prices/rolled market 및 바로이어진
 _begin_month 인계소비 회귀를 추가한다. 원정산/AP/저장실패/RNG 검사는유지한다.
+
+## 마감 — source GO / 동일월 실제앱은 미관측
+
+선언f174a8c → 첫제품f1e7e8f REWORK → 보완선언8811098 → 최종제품
+1f2a59298eb29fd633fcda0ba7dfca20d307fb28 /
+tree7773137ca5aba007959ab09a18b905d43a00161e.
+MainGame SHA693d08fd8f154b11edbe7198524723f2610dc978c89ca2471a59b2481b9ab61f,
+ManualSaveCheck SHAff693e581e1a5082695db69eae72b30c33a0f99225bd1b15cc5fe7459930411f.
+최종production79365/preview8 80120/preview12 21721/monthly46878 각exit0,
+원stdout/Godot exactmarker각1·12로그오류0·expected injected save경고보존.
+원정산/AP 관측은 turn_advanced에서 월초계산전 대조해 약화하지 않았다.
+durable경제/시세 pre-roll·rolled/다음begin_month inert·인계소비·colddefault−1,
+preview제외·실패old disk보존/pending/retry/control/RNG를 기존fixture로 검증했다.
+
+.git/order628-20261014/price-handoff/validation.json
+5548B/SHA3b17429652d20c4f90c22a89e3946f110275fbc46c9e4d16f664963291c94163;
+independent-source-review.md7377B/
+c9324e37ad8d742f8fc020dd833366a19a798b2991a7d18b17d7d83f5e29183c,
+independent-source-review.json6259B/
+7def8837e6b9dfbf6be6883b27f6d76e2f5c32f6160d17f6afca01df666262cc.
+비저자a1_qa_release_audit 소스·12raw578줄실독/sourceGO·root전문/핀확인.
+project/preset/human불변·사용자33비shader파일전후exact(root증거)·공개demo변경0,
+독립전역55그룹/app400MB census재실행0·구f1e7/12raw/receipt 불변.
+
+새앱export/같은원W69→첫W73 실제화면·HUD/저장 재검수는612에 남는다.
+뒤nativeinventory한번은 자동해제실패·세션잠금Yes/IOConsoleNo·전원sleep/display0,
+세부원인미확정·Mac설정변경0·새월실행0이다. 같은M18외 다음월0.
+612월별큐/사양/관측기록은 이마감commit제외·전역candidateHOLD와 분리한다.
+sourceGO≠새앱/native/인간/원어민/물리패드/청취/자연240/전체CI/5언어/출시GO.
+마감context/queue/self/diff actual0·현황판전용commit0·새push CI미확정.
+일회성·승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.

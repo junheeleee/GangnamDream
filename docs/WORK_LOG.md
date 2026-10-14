@@ -4,6 +4,16 @@
 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39623B/SHA256 a395e47473c5e27ec50e9e8fbb5df4170006621f714d3ea9ab0b93fbe43fa8bc이다.
 
+## 2026-10-14 — 월초에 본 돈·정신·시세가 그대로 저장되도록 수리
+
+- [628](queue_archive/ORDER-628.md): 실제M18 첫W73의 화면/저장 차이 원인은 calendar autosave 뒤 월초경제 실행이었다. 정상full-run 새달 첫주·종료boundary제외에서 월초계산을 기존저장 직전으로 옮겼다. pending실패재시도는 저장만·경제/RNG재실행0·preview8/12/저장schema/확률/수치/원문/번역 불변.
+- 최초제품f1e7e8f의4표적PASS 뒤 독립검수에서 prev_prices 덮어쓰기 REWORK를 발견했다. 원후보/12raw/receipt를 그대로 남기고 8811098 범위보완뒤 비직렬화turn 인계를1회 소비하도록 수리했다. 최종제품1f2a59298eb29fd633fcda0ba7dfca20d307fb28/tree7773137ca5aba007959ab09a18b905d43a00161e·Main SHA693d08fd…b61f/Testff693e58…411f·원정산/AP 검증 약화0.
+- 새격리production/preview8/preview12/monthly 각exit0·exactmarker1/원stdout+Godot오류0. 새12raw/578줄·validation5548B/SHA3b17429652d20c4f90c22a89e3946f110275fbc46c9e4d16f664963291c94163는 .git/order628-20261014/price-handoff/에 봉인했다. W5/9/13/17/21/25/29 durable경제·pre-roll가격·다음begin_month inert/인계소비·failedsave disk/pending/control/RNG/재시도 검사다. 목록85는 실행아님·전audit/자연240/새영구checker/479·481사업0.
+- 비저자 a1_qa_release_audit sourceGO: independent-source-review.md7377B/SHAc9324e37ad8d742f8fc020dd833366a19a798b2991a7d18b17d7d83f5e29183c, .json6259B/SHA7def8837e6b9dfbf6be6883b27f6d76e2f5c32f6160d17f6afca01df666262cc. root전문/실제SHA확인. project/preset/human불변·사용자33비shader파일전후exact는root표적보존·독립대규모census주장0. 과거데모GO/인간OPEN45·done1/구raw 불변.
+- source한정마감이며 수정앱 발급·동일M18 재검수는 아직HOLD다. 화면재접근은 자동해제실패/CGSSession잠금Yes·IOConsoleNo로 차단·전원display/sleep0 그대로·이번세부원인미확정·설정/권한/암호변경0. 다음은 같은원W69→첫W73 수정앱이며 새월0·월별612 큐/사양/관측기록은 이번commit제외·전역resolver/5언어/출시HOLD.
+- 마감context/queue/self/diff actual0·현황판별도commit0·새push CI미확정.
+- gangnamdream-dev의 격리·실제증거·독립판정 적용/일회성·승격0. sourceGO≠실화면/원어민/인간/물리패드/청취/전체출시GO. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-14 — M37 민서 소개의 영어 무대출 단정 수리
 
 - [627](queue_archive/ORDER-627.md): KO현재명의아파트/후속KOEN대출과 달리 EN첫소개만발명한 outright를 소유주택에거주한다는말로 맞췄다. 같은옛전세물건매입/완납/대출시점은확정0·EN1잎1구절/4문단/name1·나머지3문단·원고全byte期待/逆변환exact·KO/모든선택/효과/저장 불변·독립한구절 sourceGO.
