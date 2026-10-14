@@ -1,6 +1,6 @@
 # ORDER-646 — 실제 선택 기록으로 연결된 몸 장면의 고립 오판 수리
 
-#### [~] ORDER-646 [QA] 서사 연속성의 W161→164→167 인과 확인 — 2026-10-15
+#### [x] ORDER-646 [QA] 서사 연속성의 W161→164→167 인과 확인 — 2026-10-15
 
 CI빨강원인우선·새월0·실제612/M18하나HOLD·접근복구시같은M18우선.
 M52 exact열두주4잎발견은별도미착수·이단위에제품수리추가0.
@@ -42,4 +42,25 @@ continuity가원래읽는Python대표모델은표적차선이며실제240주플�
 제품전체바이트불변·비저자검수GO후main반영·main CI결과는실제상태만기록한다.
 원어민/인간/물리패드/native/전체서사/5언어/실제월/출시HOLD.
 일회성검사오판수리·새정본승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 증거 — 2026-10-15
+
+후보52ff65cf149ff699af6904db0dce5301018637ea/tree79f4326a59a490cdc8f4f91cc7dd38213d1ce276.
+검사1파일39315B/SHA204ffd40e81c775ae2aa73da7a0605690eae440e25c347d108851dcba766b818/blob6166330d62eca847dc2f8592861d7d7bd55ed3dd.
+6root×3choices공통receipt와runtime3guard/관계selector·모델동일guard/selector확인뒤에만연결로센다.
+기존420/421·CHAPTER_RATCHETS·scene_metric·is_short_standalone·대표모델호출/load ASTexact.
+최종selftest20(기존5+양성1+파괴변형13+무관short1)actual0·최종continuityactual0/ACh4isolated0.
+chapter4audit/73self/정적audit/영향등록verify/페이싱모델actual0·총7표적.
+페이싱모델은마지막parity수리전수집·해당import2함수ASTexact지원증거로만한정·최종helper는최종continuity가직접검증.
+원CIlog229207B/02c5683d0fb19fdbb051fc99a134d0000fecceb5532650d0bf9579ab4520b6cb 보존.
+.git/order646-20261015/source-proof.json2560B/42fe95a0aa6462d40adc51c0170fed525a2dbd58b7b3b7f15f2300d36443626b;
+targeted-results.json16834B/1f7a23a3a4c07b098f26642e80de8a3dc953dc3ee80285db705ece9df6aaf12c.
+독립a1_qa_release_audit GO_AUDIT_FIDELITY_ONLY/차단0·root보고전문/1blob/5증거핀확인.
+review.md4771B/84baf0091be5a05cc4400934a33107b7ad73ca35ebf57653e3314eb908b1cfbb;
+review.json3867B/fe1f30c4797acc8fd5cd1021b515681d655f2a8a560abd3c42a5630131b260a5.
+게임원문/번역/runtime/조건/효과/save/원장/project/공개demo/인간증거불변·612dirty4제외.
+engine/전체audit/자연240/새검사/검증비용사업0·full CI녹색은별도실제결과대기·새월0.
+실제M18/native/전체서사/5언어/출시HOLD·M52발견은별도선언전미착수.
+일회성검사오판수리/승격0·개발스킬표적검증·독립검수·사용자보존적용.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.

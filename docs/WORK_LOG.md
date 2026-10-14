@@ -3,6 +3,13 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 실제 인과를 고립 단편으로 오판한 CI 연속성 수리
+
+- [646](queue_archive/ORDER-646.md): run38638011023/headf77ce145/job116106045216 실제실패는NARRATIVE_CONTINUITY_EXIT/ACh4isolated1>0 한건·ManualSave/ModLayer성공. 고객전제제거635뒤body_witness_hyunsu길이409..424→403..417로경계아래가됐으나 W161seen→W164seen→W167의제품인과는이미있었다. JSON/Ch5밖의실제연쇄를감사가몰랐던오판이며641/642수리는원인이아니다.
+- 후보52ff65cf149ff699af6904db0dce5301018637ea/tree79f4326a59a490cdc8f4f91cc7dd38213d1ce276·검사파일1개39315B/SHA204ffd40e81c775ae2aa73da7a0605690eae440e25c347d108851dcba766b818/blob6166330d62eca847dc2f8592861d7d7bd55ed3dd. exact6root/각3choicesreceipt/runtime3guard·Daeun분기/모델parity를증명한경우만연결로센다. ID예외/원문패딩/고객전제복구/420·isolated0완화0. 원래metric/래칫/대표모델호출·load ASTexact·제품원고/번역/코드/저장/조건/효과/원장/project/demo/인간증거불변.
+- 최종연속성self20(기존5+양성1+파괴13+무관short1)/최종continuity/ACh4isolated0·chapter4audit/self73·정적audit·등록verify·페이싱모델 총7표적actual0. 마지막parity수리전페이싱모델은import2함수ASTexact지원증거만·최종helper는최종continuity가직접읽었다. selection6실행아님·engine/전체audit/자연240/새검사/비용계측·최적화0. 앞645의정적7만으로전체연속성을통과했다고확대하지않으며실제CI실패를우선처리했다.
+- .git/order646-20261015/ 원CIlog229207B/02c5683d0fb19fdbb051fc99a134d0000fecceb5532650d0bf9579ab4520b6cb·proof2560B/42fe95a0aa6462d40adc51c0170fed525a2dbd58b7b3b7f15f2300d36443626b·targeted16834B/1f7a23a3a4c07b098f26642e80de8a3dc953dc3ee80285db705ece9df6aaf12c 보존. 독립a1_qa_release_audit GO_AUDIT_FIDELITY_ONLY/차단0·root전문/1blob/5증거핀확인·MD4771B/84baf0091be5a05cc4400934a33107b7ad73ca35ebf57653e3314eb908b1cfbb·JSON3867B/fe1f30c4797acc8fd5cd1021b515681d655f2a8a560abd3c42a5630131b260a5. main전체CI녹색은별도결과대기·새월0/612dirty4미포함·같은M18/native/전체서사/5언어/출시HOLD. M52열두주오류4잎은발견만/별도선언전미착수. 개발스킬표적검증·독립판정·보존적용·일회성/새승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 삭제 요청 회상 재발과 진료의 잘못된 전날 표현 수리
 
 - [645](queue_archive/ORDER-645.md): source 후보3d365f78db45fcf68af786c84b6f040ff2935ad8/treee486261097fc465d717d090192a629610f31f8fd·선언06bd9c56. M51 live W201 burnout 후행KOEN2잎은 W200 실제R3작성/R4수정시각비교만회수한다. 삭제요청시각/경과며칠을새로발명하지않으며legacyreceiptID는호환표시그대로다. W201금요일→W203토요일2주차거리의전날진료5잎은앞선진료/접수사본으로맞췄다. KO4EN3=7잎·ENchoice0.text불변·새요청/진료/재수령/주차이동0.
