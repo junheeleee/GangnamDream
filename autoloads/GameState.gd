@@ -1899,6 +1899,37 @@ func _story_choice_fact_available(event: Dictionary, choice: Dictionary) -> bool
 	return false
 
 
+## The authored hospital transfer is a cash payment, not an opportunity or
+## monthly bill. Keep its existing amount and receipt, and never charge an
+## already-paid save again. Other events retain their historical cash rules.
+func _chapter4_bill_payment_available(event: Dictionary, choice: Dictionary) -> bool:
+	if event.get("id", "") not in ["arc_y4_bill_night", "arc_y4_bill_night_unattached"]:
+		return true
+	var choices: Variant = event.get("choices", [])
+	if not choices is Array or choices.size() != 3 or not choices.has(choice):
+		return false
+	if choice != choices[0]:
+		return true
+	if not is_same(choice, choices[0]):
+		return false
+	var effects: Variant = choice.get("effects", {})
+	if not effects is Dictionary or effects.size() != 1 \
+			or typeof(effects.get("money")) not in [TYPE_INT, TYPE_FLOAT] \
+			or float(effects.get("money")) != -487300.0:
+		return false
+	if choice.get("choice_kind", "") != "decision" \
+			or choice.get("flags", []) != ["arc_y4_bill_night_seen",
+				"arc_y4_bill_chose_payment", "father_care_left_open"]:
+		return false
+	for outcome in ["arc_y4_bill_night_seen", "arc_y4_bill_chose_payment",
+			"arc_y4_bill_chose_body_care", "arc_y4_bill_chose_father_care"]:
+		var selected: Variant = flags.get(outcome, false)
+		if not selected is bool or selected:
+			return false
+	var cash := float(money)
+	return is_finite(cash) and floor(cash) == cash and cash >= 487300.0
+
+
 ## Single pure availability contract for authored choice exposure and commit.
 ## The fallback marker belongs to a separate, state-free choice and appears
 ## only when every opportunity sibling is unfunded. This preserves original
@@ -1907,6 +1938,8 @@ func choice_available(event: Variant, choice: Variant) -> bool:
 	if not event is Dictionary or not choice is Dictionary:
 		return false
 	var authored: Dictionary = choice
+	if not _chapter4_bill_payment_available(event, authored):
+		return false
 	if not _story_choice_fact_available(event, authored):
 		return false
 	var required_item := str(authored.get("requires_item", ""))

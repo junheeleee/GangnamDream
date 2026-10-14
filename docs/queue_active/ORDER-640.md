@@ -22,9 +22,10 @@ CHOICE_CONSEQUENCE_SYSTEM §2 물질상태와월흐름1~4/행동의즉시돈비�
 
 root content/events/arc_chapter_themes.json: bill_night, _jiyeon, _unattached
 choice0에 effects.money=-487300만추가. 기존텍스트/조건/flags/다른선택/비소유byte불변.
-root autoloads/GameState.gd: 이3event의원choice0에만한정한pure결제guard를
+root autoloads/GameState.gd: live2event의원choice0에만한정한pure결제guard를
 choice_available에연결. 기존effects정확액/원choice membership·가용whole-won현금/
-기존paid flag를검사하여부족잔고/잘못된효과/중복결제를노출과직접commit양쪽에서거부.
+기존common seen/3outcome flags를검사하여부족잔고/잘못된효과/중복·교차결제를
+노출과직접commit양쪽에서거부. 원choice0 identity필수·fractional/NaN/Inf현금거부.
 다른event의음수현금/부채/기회/선택계약은변경0·새generic field/API/schema0.
 기존apply_effects/add_money로출금1회·paidflag/receipt원경로만사용·신규저장필드0.
 이미결제한구저장에는역추징/환불/보정0. frozen replay/저장결과는기존receipt를읽고재결제0.
@@ -47,3 +48,8 @@ JSON3effects외역변환·원indices/flags/본문/원monthly불변·월정산에
 runtime 준비증거≠실제M46UI/native/자연240/인간/원어민/5언어전체/출시GO.
 context/queue/diff통과뒤commit·STATUS전용commit0·일회성/승격0.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+초기검증수리: author_only 지연ID를제품코드guard에등록하면실제비도달이어도
+lifecycle이제품참조로검출하므로그등록을제거했다. 지연은원고effects정합만검사하며
+runtime/live2를3으로세지않는다. 숫자는Godot JSON float와정수리터럴의Dictionary
+등가차이를피해단일money키/수치type/정확액을직접검증한다. 원실패영수증은보존한다.

@@ -839,8 +839,14 @@ def validate_model(
                 if expression(choice):
                     errors.append(f"{event_id}[{index}]: actual action became expression")
 
-    for event_id in GROUPS["m46"]:
+    for event_id in (*GROUPS["m46"], "arc_y4_bill_night_jiyeon"):
         for index, choice in enumerate(ko[event_id]["choices"]):
+            if index == 0 and choice.get("effects") != {"money": -487300}:
+                errors.append(f"{event_id}[0]: hospital transfer must debit exactly 487300 won")
+            if index != 0 and choice.get("effects") not in (None, {}):
+                errors.append(f"{event_id}[{index}]: hospital debit leaked to another action")
+            if ("arc_y4_bill_chose_payment" in choice_flags(choice)) != (index == 0):
+                errors.append(f"{event_id}[{index}]: payment receipt moved from its authored option")
             flags = choice_flags(choice)
             if "arc_y4_bill_night_seen" not in flags:
                 errors.append(f"{event_id}[{index}]: M46 common receipt missing")

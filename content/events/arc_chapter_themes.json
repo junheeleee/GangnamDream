@@ -1679,6 +1679,9 @@
       {
         "text": "원무과 487,300원을 자정 전에 결제한다",
         "choice_kind": "decision",
+        "effects": {
+          "money": -487300
+        },
         "flags": [
           "arc_y4_bill_night_seen",
           "arc_y4_bill_chose_payment",
@@ -1740,6 +1743,9 @@
       {
         "text": "원무과 487,300원을 자정 전에 결제한다",
         "choice_kind": "decision",
+        "effects": {
+          "money": -487300
+        },
         "flags": [
           "arc_y4_bill_night_seen",
           "arc_y4_bill_chose_payment",
@@ -1801,6 +1807,9 @@
       {
         "text": "원무과 487,300원을 자정 전에 결제한다",
         "choice_kind": "decision",
+        "effects": {
+          "money": -487300
+        },
         "flags": [
           "arc_y4_bill_night_seen",
           "arc_y4_bill_chose_payment",

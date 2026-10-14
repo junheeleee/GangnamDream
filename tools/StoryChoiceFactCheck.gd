@@ -235,6 +235,89 @@ func _check_legacy_availability(story: Node) -> void:
 		"legacy fallback has no cash or flag reward")
 
 
+func _check_hospital_payment(story: Node) -> void:
+	var baseline: Dictionary = GameState.serialize().duplicate(true)
+	for event_id in ["arc_y4_bill_night", "arc_y4_bill_night_jiyeon",
+			"arc_y4_bill_night_unattached"]:
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		_expect(not event.is_empty(), "hospital source " + event_id)
+		if event.is_empty():
+			continue
+		var payment: Dictionary = event["choices"][0]
+		_expect(payment.get("effects", {}).keys() == ["money"]
+			and float(payment["effects"].get("money", 0.0)) == -487300.0,
+			"hospital source-owned exact debit " + event_id)
+		# Author-only manuscript parity is not a live runtime ingress.
+		if event_id == "arc_y4_bill_night_jiyeon":
+			continue
+		for cash in [-1.0, 0.0, 100000.0, 487299.0, 487300.0, 1000000.0]:
+			_restore_game(baseline)
+			GameState.money = cash
+			GameState.current_job = {}
+			GameState.monthly_income = 0.0
+			var expected: Array = [0, 1, 2] if cash >= 487300.0 else [1, 2]
+			_visible(story, event, {}, expected, "hospital cash " + str(cash))
+			if cash < 487300.0:
+				continue
+			_expect(GameState.apply_choice(event, payment), "hospital funded commit")
+			_expect(GameState.money == cash - 487300.0
+				and GameState.monthly_income == 0.0 and GameState.current_job.is_empty()
+				and GameState.flags.get("arc_y4_bill_chose_payment", false)
+				and GameState.flags.get("father_care_left_open", false)
+				and not GameState.flags.get("father_care_coordinated", false),
+				"hospital exact debit without invented income or care")
+			_expect(GameState.event_log.back().get("choice_index", -1) == 0,
+				"hospital original receipt index")
+			_rejected(event, payment, "hospital duplicate payment")
+			# Loaded results and frozen galleries observe an existing receipt.
+			# They must not require today's funds or execute the transfer again.
+			GameState.money = 0.0
+			var before: Dictionary = GameState.serialize().duplicate(true)
+			_expect(story.call("_applied_result_choice_receipt_matches",
+				event_id, 0, payment, {}), "hospital saved result receipt")
+			story.set("_current", event)
+			story.set("_read_only_replay", true)
+			story.set("_gallery_replay_snapshot", {"visible_choice_indices": {event_id: [0, 1, 2]}})
+			_expect(story.call("_visible_choice_indices", event) == [0, 1, 2]
+				and GameState.serialize() == before, "hospital frozen replay is inert")
+			story.set("_read_only_replay", false)
+		_restore_game(baseline)
+		GameState.money = 1000000.0
+		GameState.flags = {}
+		_expect(not GameState.choice_available(event, payment.duplicate(true)),
+			"hospital detached payment is not an authored option")
+		_rejected(event, payment.duplicate(true), "hospital detached direct reject")
+		for completed in ["arc_y4_bill_night_seen", "arc_y4_bill_chose_body_care",
+				"arc_y4_bill_chose_father_care"]:
+			_visible(story, event, {completed: true}, [1, 2],
+				"hospital completed alternative cannot become a payment")
+		_visible(story, event, {"arc_y4_bill_chose_payment": true}, [1, 2],
+			"hospital old paid save never retrocharged")
+		for bad in [null, 1, "true"]:
+			_visible(story, event, {"arc_y4_bill_chose_payment": bad}, [1, 2],
+				"hospital malformed paid history")
+		for bad_effect in [{}, {"money": 487300}, {"money": -1},
+				{"money": -487300, "mental": 1}, {"money": "-487300"},
+				{"money": true}, {"money": -487300.5}, {"money": NAN}, {"money": INF}]:
+			var malformed: Dictionary = event.duplicate(true)
+			malformed["choices"][0]["effects"] = bad_effect
+			_visible(story, malformed, {}, [1, 2], "hospital bad debit " + str(bad_effect))
+		for bad_cash in [487299.5, 487300.5, NAN, INF, -INF]:
+			_restore_game(baseline)
+			GameState.flags = {}
+			GameState.money = bad_cash
+			var before: Dictionary = GameState.serialize().duplicate(true)
+			before.erase("money")
+			_expect(not GameState.choice_available(event, payment)
+				and not GameState.apply_choice(event, payment), "hospital invalid cash reject")
+			var after: Dictionary = GameState.serialize().duplicate(true)
+			after.erase("money")
+			_expect(after == before and (is_nan(GameState.money)
+				if is_nan(bad_cash) else GameState.money == bad_cash),
+				"hospital invalid cash and other state preserved")
+	_restore_game(baseline)
+
+
 func _run() -> void:
 	var qa_namespace470 := OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")
 	if not qa_namespace470.begins_with("GangnamDream_StoryNameplateQA_") \
@@ -266,6 +349,7 @@ func _run() -> void:
 		_check_receipts(story, aftermath)
 		_check_mods(aftermath, echo)
 		_check_legacy_availability(story)
+		_check_hospital_payment(story)
 		print("STORY_CHOICE_FACT_LOCALE=" + language + " assertions=" + str(cases))
 	story.free()
 	LocaleManager.language = old_language
