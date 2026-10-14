@@ -1,6 +1,6 @@
 # ORDER-651 — M55 영어 카페 회상의 잘못된 수년 경과 수리
 
-#### [~] ORDER-651 [정합] 이전 카페 만남을 수년 전으로 늘리지 않는다 — 2026-10-15
+#### [x] ORDER-651 [정합] 이전 카페 만남을 수년 전으로 늘리지 않는다 — 2026-10-15
 
 650 source 마감 뒤 확인된 M55 EN 한 문장만 수리한다.
 실제 M18/612는 같은 수정 앱 재검수 HOLD, 새 월0/열린 실제월1.
@@ -40,4 +40,17 @@ context/queue/diff0·정확stage목록·독립 source-fact 한정 GO.
 engine/전체audit/새checker/비용/최적화0. 실제 M55/M18/native/전체체인/5언어/352선행/출시 HOLD.
 M56 missed4잎은 다음 별도범위·M57 읽기는 쓰기 없는 독립 발견만·이번 원고 모집단에 추가0.
 일회성 수리·새 정본 승격 없음.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — source 사실 수리 한정
+
+- 후보23deb531c502a4d5fd109bc7faff8e54c59524af/tree77d532d806c004e17ca3e51a861cba05f7af2fce.
+- EN1잎의 years earlier만 제거·본문 inverse/문단/name/digits/비소유 byte exact. 새 만남/연락/기간/상태0·release 정렬 불필요.
+- 표적5 actual0·selection36은 실행 아님. KO tracked collector 입력 불변, 650 공식 inventory3/manifest9471d2adbc7ab614ecfa9168c91f8ed17279ea0d809355ad4137af80a831f879는 이전 증거 재사용이다. 새 inventory0/새 번역수용0·INCOMPLETE/native OPEN/invalid117·44·42.
+- 비저자 a1_qa_release_audit GO_SOURCE_FACT_ONLY·차단0. root 전문/1제품/4증거/3이전 inventory 핀 확인.
+- .git/order651-20261015/review.md4273B/SHA256841787116d99886abd0a658e87109fce87e6e933f6f6b5260512efc1a66b7aa8.
+- review.json4574B/SHA256cc8bceb6c4dab830268503845b8ce1151d8a7e8d017a8fab576263fa5b705c51. 같은 폴더 map/proof/targeted/inventory-reuse가 실제 후보·원문·검사·재사용 경계를 결속한다.
+- 부팅 출력 일부 잘림은 CLAUDE/큐 개별 전문 읽기로 복구했고, 이미 main이 읽은 필수 서사 정본은 6216a1bd 불변 확인 후 재사용했다.
+- 실제M18/M55/native/전체체인/5언어/352선행/출시 HOLD·engine/전체audit/자연240/새checker0·사용자 저장/설정/project/demo/human 보존·612 dirty4 제외/새월0.
+- 다음은 M56 missed4잎 별도 수리이며 M57 발견2잎은 미착수다. 일회성/새 정본 승격0·개발스킬 표적·독립·보존 적용.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.

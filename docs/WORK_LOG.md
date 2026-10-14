@@ -3,6 +3,12 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — M55 영어 회상에서 성립하지 않는 수년 경과 제거
+
+- [651](queue_archive/ORDER-651.md): W160 이후 첫 카페 동석→exact W220 회상은 최대60주이며 수년 경과 조건이 없다. EN choices1 결과1잎의 years earlier만 제거했다. KO는 고정 연수가 없어 그대로다. 역변환/문단name숫자/비소유 byte exact·게임 효과/조건/저장/JAzh/사용자 project설정/demo/human 불변.
+- 후보23deb531c502a4d5fd109bc7faff8e54c59524af/tree77d532d806c004e17ca3e51a861cba05f7af2fce·EN165081B/SHA8acf9f6bc076f6ac8a0596170e5a5cceafd2b9132e3bdee89e3ce57b28b3dff9. 표적5 actual0·release정렬불필요·selection36 실행아님·engine/전체audit/continuity/자연240/새checker0. KO입력 불변으로 650 공식3 inventory/manifest9471d2ad…f879 재사용·새관측/수용/다듬기0·INCOMPLETE/native OPEN/invalid117·44·42.
+- 독립 GO_SOURCE_FACT_ONLY/차단0·root 전문/1제품/4증거/3이전 inventory 핀 확인. .git/order651-20261015/review.md4273B/841787116d99886abd0a658e87109fce87e6e933f6f6b5260512efc1a66b7aa8·JSON4574B/cc8bceb6c4dab830268503845b8ce1151d8a7e8d017a8fab576263fa5b705c51. 부팅 출력 잘림은 개별 전문 읽기로 복구·기존 필수정본6216a1bd 불변 재사용. 실제M18/M55/native/전체체인/5언어/352선행/출시 HOLD·열린 실제월1/새월0/612dirty4 제외. 다음 M56 missed4잎·M57 발견2잎 미착수. 개발스킬 표적·독립·보존 적용·일회성/새승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 거래 없는 선택의 체결 약속을 고위험 계획 저장으로 정렬
 
 - [650](queue_archive/ORDER-650.md): 현재 주문/포지션/체결/정산이 없는 선택0을 실제 거래처럼 말하던 KOEN4잎과 마지막 주 회상2잎을 수리했다. 돈·감수할 손실·멈출 조건을 적고 계획을 저장한다는 행동이며, 실제 주문·손익은 발명하지 않는다. 안전한 계획/창가 선택과 경쟁하고 기존 luck+4/mental−6/tint−2·legacy flag는 그대로다. 위임된 내부 판단과 비저자 선행 읽기에 따라 없는 시스템을 새로 만들거나 제거하지 않고 거짓 약속을 바로잡았다.
