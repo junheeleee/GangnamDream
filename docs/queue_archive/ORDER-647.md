@@ -1,6 +1,6 @@
 # ORDER-647 — 마지막 해 점검의 고정 열두 주 단정 수리
 
-#### [~] ORDER-647 [정합] M52 현재 열린 투자 점검 시점만 표시 — 2026-10-15
+#### [x] ORDER-647 [정합] M52 현재 열린 투자 점검 시점만 표시 — 2026-10-15
 
 646 CI원인수리main0c55fdc·현재run38645775892진행/전체녹색미확정·새월플레이0.
 실제612/M18하나HOLD·접근복구시같은M18우선·5언어유지/JAzh다듬기·수용0.
@@ -39,3 +39,26 @@ audit_select --list만·기존audit/consistency/ENcoverage/영어한글/spine/ch
 context/queue/diff0·engine/전체audit/자연240/새checker/비용계측/최적화0.
 독립sourcefact한정GO·실제M52/native/전체계약경제/wholechain/5언어/352선행/출시HOLD.
 일회성4잎수리/새정본승격0·자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 증거 — 2026-10-15
+
+후보caff7429448dcb33531db466710a9d2d0ac17c6e/tree0848a80d2ea41614f28f8a1503c07723a2ca3e19.
+KO298584B/SHAaeadad8b5b21cbc4a3c19a24cb19c8bc5f42c5a9076ac3ec5f48fc0765147d4e/blob3d8b35664cae6b1fc7431ca92e168aa5c3ef43ba;
+EN219976B/SHAfd2b2e81150d328ef75b9f37a8a9fc1729fa2cf830ba1de271f3475b35acbdcf/blob33a72be8d3bc558f1270ae90587239d02d4c1342.
+4잎inversebytes/본문문단name숫자exact·titleKO12제거의도·그외제품변경0.
+정적8actual0/selection74실행아님/release정렬불필요/engine·전체audit·자연240·새checker0.
+공식3inventoryactual0·manifest1ff6905c4ee16b7f26115c4f96f13c277fdaeeb6f56af0ebf45cda1dc41f6604.
+event현재11222/stale175·192·192·chapter5reader131/133 stale2·invalid109·36·36/INCOMPLETE/nativeOPEN.
+동결CJK arc_late_game_push title의12가새KO와달라invalid각+1이다·QA완화/번역수용0·일괄정합잔여로보존.
+.git/order647-20261015/map4078B/9f7f9f7626c0a4ec054a935493ef025df3120c8fa0cfc446444f942b0e5c206b;
+source-proof.json1118B/31c687eac00fa02e36ce31cd069344737f392bf016298223f32759296b6f0b4b;
+targeted-results.json11108B/8bc833340dca5c6f57a824547f25c25b0c5887897d270e78b5ba8cbb689eef1a;
+inventory-completions.json2684B/69623685bc42da9bf25a2f1c522e964d61a91dc09d922855fc46efd6b43186a7.
+독립a1_qa_release_audit GO_M52_SOURCE_FACT_ONLY/차단0·root전문/2blob/8증거핀확인.
+review.md4600B/8a244ba461a1806dc19fe9e3e78bb99ef4c57b8c7c8d0be04243803883c90281;
+review.json4189B/09ae63c83188a41f99a3283549e5f8eab566a82a67fdcb215bb6833e08b4b635.
+readonly22:12:57UTC 세션잠금true/IOConsolefalse·native/설정변경0·같은M18HOLD.
+CI수리0c55fdc결과진행중미확정·새월0/열린실제월1/612dirty4전커밋제외.
+실제M52/native/전체경제/wholechain/5언어/352선행/출시HOLD·원문source수리≠월별실제마감.
+일회성4잎수리/승격0·개발스킬표적검증·독립판정·사용자보존적용.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.

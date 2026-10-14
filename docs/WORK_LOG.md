@@ -3,6 +3,14 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 늦게 열린 점검을 정확히 열두 주라고 하던 M52 수리
+
+- [647](queue_archive/ORDER-647.md): arc_late_game_push는실제W205~215/투자/마지막해시작·reckoning/현재자산28억미만/미열람입구다. 정상W20528.1억→W20627.9억이면13주째열려고정12주가거짓이다. title/description KO2EN2=4잎만마지막해점검/그해기록검토로수리·새기간counter/조건축소0. 세선택/결과/효과/flags/receipt/코드/저장/원장/자산음악/JAzh/사용자project설정/demo불변.
+- 후보caff7429448dcb33531db466710a9d2d0ac17c6e/tree0848a80d2ea41614f28f8a1503c07723a2ca3e19·KO298584B/aeadad8b5b21cbc4a3c19a24cb19c8bc5f42c5a9076ac3ec5f48fc0765147d4e·EN219976B/fd2b2e81150d328ef75b9f37a8a9fc1729fa2cf830ba1de271f3475b35acbdcf. 2파일inversebyte/본문문단name숫자exact·KOtitle12제거의도·정적8actual0(수리된continuity포함)/release정렬불필요·selection74실행아님·engine/전체audit/자연240/새checker/최적화0.
+- 공식3inventoryactual0·manifest1ff6905c4ee16b7f26115c4f96f13c277fdaeeb6f56af0ebf45cda1dc41f6604·event현재11222/stale175·192·192·ch5reader131/133 stale2·invalid109·36·36/INCOMPLETE/nativeOPEN. 동결CJKtitle의기존12때문에invalid각+1인것을숨기지않고일괄정합잔여로둔다·번역다듬기/수용/QA완화0.
+- .git/order647-20261015/ map4078B/9f7f9f7626c0a4ec054a935493ef025df3120c8fa0cfc446444f942b0e5c206b·proof1118B/31c687eac00fa02e36ce31cd069344737f392bf016298223f32759296b6f0b4b·targeted11108B/8bc833340dca5c6f57a824547f25c25b0c5887897d270e78b5ba8cbb689eef1a·inventory2684B/69623685bc42da9bf25a2f1c522e964d61a91dc09d922855fc46efd6b43186a7. 독립a1_qa_release_audit GO_M52_SOURCE_FACT_ONLY/차단0·root전문/2blob/8증거핀확인·MD4600B/8a244ba461a1806dc19fe9e3e78bb99ef4c57b8c7c8d0be04243803883c90281·JSON4189B/09ae63c83188a41f99a3283549e5f8eab566a82a67fdcb215bb6833e08b4b635.
+- readonly22:12:57UTC 세션잠금true/IOConsolefalse·native/설정변경0·현재CI녹색미확정/새월0/열린실제월1/612dirty4미포함. M53읽기에서동일W209 PDF를W210에오늘받았다고하는KOEN2잎을확인(arc_drama/arc_y5_jaehyuk_father_document_reference.description)·다음별도범위선언전미착수. source수리≠실제월마감·실제M18/M52/native/전체경제/wholechain/5언어/352선행/출시HOLD. 개발스킬표적검증·독립검수·사용자보존적용·일회성/새승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 실제 인과를 고립 단편으로 오판한 CI 연속성 수리
 
 - [646](queue_archive/ORDER-646.md): run38638011023/headf77ce145/job116106045216 실제실패는NARRATIVE_CONTINUITY_EXIT/ACh4isolated1>0 한건·ManualSave/ModLayer성공. 고객전제제거635뒤body_witness_hyunsu길이409..424→403..417로경계아래가됐으나 W161seen→W164seen→W167의제품인과는이미있었다. JSON/Ch5밖의실제연쇄를감사가몰랐던오판이며641/642수리는원인이아니다.
