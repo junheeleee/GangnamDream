@@ -726,6 +726,11 @@ func _full_story_advance_week(expected_turn: int) -> bool:
 	if not FULL_STORY_FLOW.complete_turn(expected_turn):
 		push_error("Full story preview could not seal the advanced week")
 		return false
+	# Persist the new month's opening before its first story can be read/quit.
+	# The existing calendar-save retry writes this state without rerolling it.
+	if FULL_STORY_FLOW.is_full_run() and GameState.week_of_month == 1 \
+			and not FULL_STORY_FLOW.at_boundary():
+		_run_week_start_economy()
 	return _full_story_save_calendar(expected_turn)
 
 

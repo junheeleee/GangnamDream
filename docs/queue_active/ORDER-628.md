@@ -14,6 +14,7 @@
 추첨되지 않도록 한다. 계산을 지우거나 숫자/확률/원문/저장스키마를 바꾸지 않는다.
 full-story의 정상calendar advance+complete_turn 뒤, 기존 durable calendar save
 직전에 새달 첫주 경제를 계산한다. 이후 _begin_month는 기존marker로 inert다.
+정상 full profile(is_full_run)에만 적용하며 명시8/12주 preview와 종료boundary는 그대로 둔다.
 실패 재시도는 기존 full_story_calendar_save_pending 소유의 저장만 재시도하며
 경제/RNG를 재실행하지 않아야 한다. StoryMode 전역종료저장은 확장하지 않는다.
 이로써 월경계직후coldContinue와 저장실패재시도까지같은결과가이어진다.
