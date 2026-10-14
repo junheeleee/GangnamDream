@@ -4,6 +4,14 @@
 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39623B/SHA256 a395e47473c5e27ec50e9e8fbb5df4170006621f714d3ea9ab0b93fbe43fa8bc이다.
 
+## 2026-10-14 — M36 전년도 선택의 잘못된 회상 수리
+
+- [622](queue_archive/ORDER-622.md): 전년도 일정선택을 재산성공으로/기록선택을 결산미룸으로 회상하던 KOEN4잎·10문단을 현재기록 재독으로 맞췄다. 같은flag에 감정·명함/스티커·달력/명세표가 결속된 구버전 반례를 실제Git/SaveManager로 확인해 특정과거행동안은 구현전HOLD/쓰기0보존→보완선언후V2만구현. 저장/flags/효과 불변, 각7문단/name3·1·2·3/비소유18문단·전체원고逆변환 exact다.
+- 제품3ee7cb66/treec841a18e·nonrelease13 actual0/원defaultrelease1보존→실제--write-report0·violence17/14·IDs불변 내용SHA한값/공식보고1행만 정렬. 공식inventory3 actual0·manifestd28d…9b4a/current11326/stale84·103·103/invalid96·21·21(CN/TW2씩증가)·CJK124KO잎/고유KOEN261 미수용대기·JAzh다듬기/수용0.
+- root봉인 의미9334B/5e86ea9a…ddb5·보존9424B/4c3569a3…b6ea 전문판독·전체핀은사양결속. 비소유3412맵/53·847/latest20/봉인16보고/621역사보관본 exact는03:33:46→03:34:08UTC point한정. 후속마감메타와dirty612전역HOLD를분리·월별612큐/사양은이commit제외다.
+- 마감context/queue/self/advisory actual0·STATUS참고경고비차단/전용commit0·human617 actual0은불변원장만재사용/OPEN45·done1. 622최초선언c8bcb52와621마감e0da4e0 CI성공 관측·새제품/마감pushCI미확정. 실제M18 OS잠금HOLD 하나·engine/native/새월0·5언어/출시HOLD. M36나머지진실·연락회상은 다음조건대조·아직수정0.
+- gangnamdream-dev/WORK_UNIT 일회성·승격0·sourceGO≠전체월/장면/체인/native/인간/원어민/패드/청취/5언어/출시GO. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-14 — M36 연말 뒤 남은 주수 수리
 
 - [621](queue_archive/ORDER-621.md): 정확W144의 연말 base+ghost KOEN4잎에서100주를 '올해가 끝나면96주'로 고쳤다. 현재포함97은 산술이며 W144실제HUD는월수분기·97주관측 주장0. 모든5문단/나머지4/name1·1·3·4/선택·효과·후속 unchanged·wholefile逆변환 exact·독립4/4 sourceGO.

@@ -1,6 +1,6 @@
 # ORDER-622 — M36 전년도 선택 회상 정합
 
-#### [~] ORDER-622 [정합] 전년도 선택 회수 2건 — 2026-10-14
+#### [x] ORDER-622 [정합] 전년도 선택 회수 2건 — 2026-10-14
 
 621뒤 M36순서. OS CGSSessionScreenIsLocked=Yes로612/M18 재시도0.
 현재 실제월은612하나·새월0·해제후동일월우선.
@@ -60,3 +60,40 @@ SaveManager165..175는 authored flags를보존하며 이두flag의원고버전�
 같은4잎/지정10문단안에서 현재기록을살피는행동과미확인칸으로고친다.
 옛플레이어의과거를특정소품/이행으로재작성하지않고현재선택/코드/저장은안바꾼다.
 before는이보완선언commit의원고blob(기존c8bcb52와byteexact)이다.
+
+## 마감 — 2026-10-14
+
+최초선언c8bcb52cbeac60d4108e42983595c1f38c4239d9;
+보완98c7978fc666473f6c3cdf24345db87a981ddfd0/tree29bd47e0174243740658c8863d66557ef4f6dd9e.
+제품3ee7cb66390d8392fd3a59ec9068be41a107450e/treec841a18e7b494896bcbf77fa317ad0d360033f09.
+정확4파일·원고4잎/지정10문단+release내용SHA한값/공식보고1행.
+각7문단/name3·1·2·3/비소유18문단·全원고byte逆변환exact.
+특정과거소품을발명한최초안은구현전HOLD로보존·제품/검사실패아님:
+.git/order622-20261014/preimplementation-proposal-hold.json2801B/
+1356ab4eb73b459a2d9b185ed6737d00031d37b95893c9a22fdada7dff4eb528.
+V2는현재기록을읽고미확인칸을남기며 원버전/과거이행/재산성공을추론하지않는다.
+
+root가봉인2보고전량판독·실제size/SHA확인:
+.git/order622-20261014/independent-review.md9334B/
+5e86ea9ade1d84714713eb329744e8bf4aae003e6a24506f14f31ee9eb66ddb5;
+preservation-review.md9424B/
+4c3569a30d639c10074da695f6b21eeaa09cf3688c292d4bc9530420b6adb6ea.
+의미/보존source한정GO·03:33:46source→03:34:08UTC보호point한정.
+비소유3412맵f8f3b498f0fcb0c7ffc517effb825d1a35d63f6ad2a9c0ca92c3878f7602cceb exact,
+53그룹847/latest612resume20/614~621봉인16보고/621역사보관본/사용자·데모 exact.
+이후closure메타불변주장0·inherited612큐2/사양은이마감commit제외·전역resolverHOLD.
+
+targeted-summary.json5137B/
+27b7c56b6558ae48e27c5fb72528b4f114757d60a0ee1b8786be0f0cbf95ea33.
+nonrelease13 actual0/원defaultrelease1보존→실제--write-report0·default재실행0.
+violence17/14·IDs불변 content14970fde272a098858b235b04ff93385142e84c6c5cdd8e76f6020936f597c6d;
+다른6scan전필드·공개history/pin·법무판정 불변.
+공식inventory3actual0/manifestd28d0e2672e7b791e489d5c2ed824eae1b76de71ac5674c3121dc41239ce9b4a.
+current11326/stale84·103·103/invalid96·21·21·CN/TW새numeric2씩 숨기지않음.
+CJK124KO잎/고유KOEN261정합대기·JAzh다듬기/원장수용0·전체INCOMPLETE.
+context/queue/self/advisory actual0·STATUS경고비차단·현황판전용commit0.
+human617은불변원장만재사용/OPEN45·done1·실제인간관찰아님.
+CI최초622선언c8bcb52/621마감e0da4e0 완료success관측·새제품/마감CI미확정.
+실제612/M18 OS잠금HOLD하나·engine/native/새월/실화면/청취0·해제후동일월우선.
+나머지M36회상/전체장면·체인/5언어/출시는HOLD·다음별도조건대조.
+gangnamdream-dev/WORK_UNIT 적용·일회성/승격0·새checker/tool/479·481사업0.
