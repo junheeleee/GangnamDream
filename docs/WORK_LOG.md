@@ -4,6 +4,14 @@
 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39623B/SHA256 a395e47473c5e27ec50e9e8fbb5df4170006621f714d3ea9ab0b93fbe43fa8bc이다.
 
+## 2026-10-15 — M38 루틴이 지어내던 투자·생활·운동 이력 수리
+
+- [630](queue_archive/ORDER-630.md): 차트 확인·일/공부 고정 일과·2년 반복·1년 준수·반년 운동 공백을 현재 수첩 점검/내일 시간 비우기/현재3km 달리기로 바꿨다. KO8/EN9 지정17잎, 문단4/DIK5·name1·공통 첫/끝·godsaeng 마지막·DIK순서/선택3/효과/flags/후속/다른 사건·전체파일 역변환 exact. 저장·런타임·자산·JAzh 원고/원장 쓰기0.
+- 선언1edea04 → 첫제품d1df2cb의 EN 결과2잎은 독립 REWORK_LANGUAGE_QUALITY → 최소리터치 최종2c9cd59d19e7f336d678fa7cfe4d0c829171000b/treea50fd13b48a6f1b3caf7a7fac8ffab133d9e0fea, amend0. 비엔진source12 actual0, 최종2EN 변화는 exact17/전체byte·ENcoverage/한글누출/release 재검사PASS. 목록74 실행아님·release 정렬0·전체audit/engine/native/자연240/새checker0. pacing은 정적 모델뿐이다.
+- .git/order630-20261015/targeted-results.json6660B/SHA3c96c1b96f1920030f2c445691b87d3856a9ecac963bb2bfd8114d818bdd4f72, final-results.json2384B/ea4be5e54642ff636c74695c34925f23b61dd85e19bb9ee397ca0917dadc98e2. 비저자 sourceGO review.md6005B/cad2f5faa7115871f799acd5e6bd0041b39451306fbdfea8bf6cc3116f3b0c7c·JSON10371B/c9d06313f636f0db77e184d6729eb52c12a8b9dbf1843b27c84aef68fea4c50e root전문/실제핀확인. M41 body_signal의 작년/운동2년/예방 회상은 별도 debt이므로 chainGO아님.
+- 공식 JA/CN/TW inventory 각1회0·manifestfad7c668b594e011c6c4b7160ddbea090d50d87b971627344d1051804ceb7806/current11308·stale97/116/115·invalid101/26/27·INCOMPLETE/원어민OPEN. 5언어유지·KOEN 실제확정 뒤 JAzh 일괄정합·이번수용/다듬기0. 직전629 main CI38582920284 16:29:26UTC success, 이번최종CI미확정. 실제M18 하나/화면접근HOLD·새월0·기존수정앱/격리W69/구raw 보존·old native pin새HEAD허가아님. 612 월별metadata는 한커밋 마감 전까지 이번commit제외.
+- gangnamdream-dev의 표적검증/독립검수/보존 적용·일회성·새정본승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다. sourceGO≠월/실화면/구저장산문/원어민/인간/패드/5언어/출시GO. 다음은 M38 현실 계산의 확인된 사실 오류, 접근복구시 같은M18 우선이다.
+
 ## 2026-10-14 — M37 회고의 생활 이력 단정 수리
 
 - [629](queue_archive/ORDER-629.md): 약속 거절·짧은 부모 통화·수년 검진 연기·지친 얼굴을 조건 없이 확정하던 KO/EN 회고를 현재 항목 점검으로 바꾸고, 이전에 미뤘던 전화는 지금 연락처를 열어 거는 행동으로 맞췄다. 4잎·description KO1/EN2 name·각4문단/result 각1문단/name1, 전체파일 기대/역변환 exact·다른 문단/선택text/효과/flags/후속/저장 불변이다.

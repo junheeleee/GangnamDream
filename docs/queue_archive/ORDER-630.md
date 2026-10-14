@@ -1,6 +1,6 @@
 # ORDER-630 — M38 루틴 점검의 조건 없는 생활 이력 수리
 
-#### [~] ORDER-630 [정합] 차트·반복 기간·운동 공백 단정 — 2026-10-15
+#### [x] ORDER-630 [정합] 차트·반복 기간·운동 공백 단정 — 2026-10-15
 
 Mac 접근 보류 중 KO/EN 월순서 사실 수리다. 실제 M18/612 하나는 보류 유지,
 새 월 플레이0·5언어 유지·JAzh다듬기/수용0·누락만이다.
@@ -54,3 +54,29 @@ context/queue/self/diff·STATUS advisory·전용 현황판 commit0.
 옛 native 준비의 source pin은 새 HEAD에 미적용·재빌드 반복/조용한 재실행0.
 일회성/새정본승격0·구저장 산문 migration0·실화면/5언어/인간/출시HOLD.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — 2026-10-15
+
+선언1edea04dd5dc0270bf9a4cf95c30bec578f75641 → 첫제품d1df2cb
+→ EN 결과2잎 독립 REWORK → 최종2c9cd59d19e7f336d678fa7cfe4d0c829171000b /
+treea50fd13b48a6f1b3caf7a7fac8ffab133d9e0fea. 첫 후보 이력은 보존했다.
+KO8/EN9 exact17잎·전체파일 byte 역변환·문단4/DIK5/name1·공통 첫/끝과
+godsaeng 꼬리/DIK순서/선택3/효과/flags/후속/다른 사건 불변이다.
+KO297764B/920d35cab4c7195b532c0f8e87ef7822b341bd3cf00468647944c1056f42de3b,
+EN219082B/a2f4ee852fbc232755afd3d8b31d52e84bface4550b8df23f7c7b1db166ed5ab.
+
+비엔진source12 actual0·최종EN2잎 exact17/byte·coverage/zeroHangul/release PASS,
+선택목록74는 실행 아님·release 내용 지문 정렬0·engine/UI/native/자연240/신규검사0.
+targeted-results.json6660B/3c96c1b96f1920030f2c445691b87d3856a9ecac963bb2bfd8114d818bdd4f72,
+final-results.json2384B/ea4be5e54642ff636c74695c34925f23b61dd85e19bb9ee397ca0917dadc98e2,
+review.md6005B/cad2f5faa7115871f799acd5e6bd0041b39451306fbdfea8bf6cc3116f3b0c7c,
+review.json10371B/c9d06313f636f0db77e184d6729eb52c12a8b9dbf1843b27c84aef68fea4c50e는
+.git/order630-20261015/에 보존했고 root전문/실제SHA 대조했다. 최종17잎 독립GO_SOURCE_ONLY다.
+
+공식inventory3 각0·manifestfad7c668b594e011c6c4b7160ddbea090d50d87b971627344d1051804ceb7806,
+current event11308·stale97/116/115·invalid101/26/27·INCOMPLETE·native reviewOPEN,
+번역/원장 쓰기0. 직전629 CI38582920284 success와 이번최종CI 미확정을 구분한다.
+612 월별metadata는 이번commit제외·실제M18 하나 보류·새월0·옛앱/격리원W69불변,
+old native inspection pin은 새HEAD에 적용하지 않는다. M41 body_signal 사실debt와
+M38 reality_check 후속 수리는 별도이므로 chain/실화면/5언어/출시는 HOLD다.
+일회성·새정본승격0. 다음은 M38 현실계산 조건대조, 화면복구시 동일M18 우선이다.
