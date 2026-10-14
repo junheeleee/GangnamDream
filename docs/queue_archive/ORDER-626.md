@@ -1,6 +1,6 @@
 # ORDER-626 — M36 진실 회상의 미관측 대화·관계 정합
 
-#### [~] ORDER-626 [정합] 미관측 대화·이어지는 관계 회상 1건 — 2026-10-14
+#### [x] ORDER-626 [정합] 미관측 대화·이어지는 관계 회상 1건 — 2026-10-14
 
 625 뒤 같은M36순서·실제612/M18 OS잠금HOLD 하나/native·새월0.
 5언어 유지·KOEN 실제확정 전 JAzh다듬기/수용0·누락만/추후일괄정합.
@@ -68,3 +68,49 @@ sourceGO≠전체장면/월/chain/native/인간/5언어/출시GO.
 8→10수정문단/20→18비소유문단이며 파일/잎/코드/상태 소유 증가는 없다.
 새 사실은 아버지빚·그이름의 연결과 알고고르는 현재입장뿐,
 관계연장/재개·예전대화·새기회/정확한수익·현재상대답변은 만들지 않는다.
+
+## 마감 — 2026-10-14
+
+제품 c66877979a6b7ebaf7a3472138519ad50eff6734 /
+tree63e695e3e4af9fb16875e2078f629dd4b462a17e에 지정4잎·10문단만 수리했다.
+전체28/각7/비소유18·father3문단 앞두문장·placeholder배열 exact,
+truth둘째name5→4는 의도적이고 원고2 전체byte逆변환 exact다.
+KO80976B/48e9a66a2a6792867c788b2eb0d13a94186ee83900c4f8e6ebca6348f1c3edd6,
+EN65884B/cc35c006a6de191c379c23dd036a0c38bf6d0ad8d5744d57fa3d283b2ce0242b.
+earned echo/reflex·624/625수리·모든선택/효과/입구/저장 불변.
+
+.git/order626-20261014/targeted-summary.json
+12510B/a1351774fe74400bac2e57e9f9f8203ee3042d0a7eecc6e751fb586e50ac782f,
+independent-review.md
+10427B/5d8dfb31da6b72d4f807fda849c30af4cc5367ce239660e83ed6ff9b9237af18,
+preservation-review.md
+9808B/24e9f709ea8ac0e8138ac39fe70ffd7c9eae9ad0289bc2eccb9f39d6651ecf16:
+root 전문판독·실제크기SHA확인·지정source GO/보존 GO.
+독립4전체잎28문단 전수·초기truth3누락은 구현전 보완e5154d1/
+원dfbbcd9 보존·제품실패/amend/강제push0이다.
+보존point09:43:55→09:44:17UTC의 비소유3416map
+617f44d7d90ec12e742cbc8e7393c9895c6bac60b628449d10befdbce4d06c14,
+53/847/latest612resume20/614..625봉인24보고·625사전·621history/
+사용자설정저장/project·공개데모 exact를 이후closuremetadata와 분리했다.
+inherited612 큐2·사양은 월별commit전까지 제외/전역resolver HOLD.
+
+13nonrelease actual0·원release default1보존→실제
+python3 tools/release_content_inventory.py --write-report actual0(default재실행0).
+violence17/14·IDs b036299411ccb065182412b7accbfaf66efdab32d05c81d8b6c6bb6a3d3dc125 불변,
+내용SHA만 fa5cbaaf369c53e93869de0129cca7366869eb5bf702b0b1f898bde93d6405fc/
+원장1값·공식보고1행 정렬/나머지6scan exact.
+continuity완전원stdout1회0·재확보0/새검사도구0.
+공식inventory3actual0·manifest38951a4e808b4be0197e834b4797068a4ee4611c58184a4e38e7a8026da1ba4e,
+current11318/stale92·111·111/invalid96·21·21/INCOMPLETE·humanOPEN.
+father중복가산0·새truthKOEN2/KO1→누적277/CJK132KO잎정합대기·JAzh다듬기/수용0.
+
+직접사용자질문 진단은 화면꺼짐=잠금추정이아니다.
+OS지표No/Yes상충·nativeinventory/연결초기화뒤도접근거부,
+도구오판/실제OS잠금원인 미확정·Mac설정/재시작/게임실행입력0.
+실제612/M18보류·새월0·인간/원어민/패드/청취/engine/전체audit0.
+구year3감정flag/M48사물회수 및 이미저장산문은 미수리·migration0.
+마감context/queue/self/diff actual0. dashboard첫호출은--md누락으로exit2/
+원receipt보존→python3 tools/project_dashboard.py --md docs/STATUS.md --check --advisory
+실제final0·stale경고비차단/STATUS생성·전용commit0.
+5언어/출시HOLD·본범위일회성/승격0·다음M37부터 월순서조건대조.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.

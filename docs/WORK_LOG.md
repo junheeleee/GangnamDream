@@ -4,6 +4,14 @@
 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39623B/SHA256 a395e47473c5e27ec50e9e8fbb5df4170006621f714d3ea9ab0b93fbe43fa8bc이다.
 
+## 2026-10-14 — M36의 미관측 대화·끊어진 관계 회상 수리
+
+- [626](queue_archive/ORDER-626.md): 부친고백 DIK의 현재열어주는문을 실제커피제안으로, 두DIK의 진실뒤계속된조언/기회를 관계지속·단절중립 회고로 맞췄다. 재혁의피해자→가해발언청취/반복계산버릇·실제다짐을 지금의 신뢰질문/조건형으로 KOEN4잎·10문단 정렬·인물거울/earned생산자 보존. 각7/총28/비소유18·placeholder배열·원고2全byte逆변환 exact·truth둘째name5→4는선언한이동·선택/효과/저장 불변.
+- 제품c6687797/tree63e695e3·초기dfbbcd9의truth3누락은 source쓰기전 독립지적→보완e5154d1선언 후구현·역사보존/amend0. nonrelease13 actual0/원defaultrelease1보존→실제--write-report0·violence17/14·IDs불변 내용SHA한값/공식보고1행만정렬·continuity완전원stdout1회0/재확보0. 공식inventory3 actual0·manifest38951a4e…ba4e/current11318/stale92·111·111/invalid96·21·21·INCOMPLETE·새2KOEN/1KO만더해 누적277/CJK132KO잎정합대기·JAzh다듬기/수용0.
+- root 독립의미10427B/5d8dfb31…af18·보존9808B/24e9f709…cf16 전문판독·전체핀은사양결속. 비소유3416/53·847/latest20/614..625봉인24보고·625사전·621history/사용자데모 exact는09:43:55→09:44:17UTC point한정·후속closure메타분리·inherited612 큐2/사양commit제외·전역resolverHOLD. 구year3감정flags/M48사물회수와 이미저장된실제산문은 미수리·migration/wholechainGO0이다.
+- 화면질문 진단: OS지표No/Yes상충·nativeinventory/연결초기화후에도접근거부 확인·검은화면을잠금으로추정0/실제잠금원인·도구오판미확정·Mac설정/재시작/게임실행입력0. 실제M18보류 하나·새월/engine/전체audit/청취0·공개데모/인간OPEN45·done1 보존·5언어/출시HOLD. CI625마감cabf1bd와선언32dc02d 성공관측/626선언진행·새push미확정. 다음M37입구·본문조건대조/접근복구시동일M18우선이다.
+- 마감context/queue/self/diff actual0·dashboard초기--md누락exit2보존→`python3 tools/project_dashboard.py --md docs/STATUS.md --check --advisory` final0·stale경고비차단/STATUS전용commit0. gangnamdream-dev의 한영표적수리·사용자보존·독립품질경계 적용/WORK_UNIT 일회성·승격0. sourceGO≠전체장면/월/chain/구저장/native/인간/원어민/패드/5언어/출시GO. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-14 — M36 공통 선택이 지어내던 과거 서류 열람 수리
 
 - [625](queue_archive/ORDER-625.md): base의 과거재열람을 현재열람으로, 공통3선택의 이미다시본서류/특정보증서미리보기를 지금고를기록사본으로 KOEN14잎 정렬했다. 첫열람/이전다운로드시점 발명0·ghost의실제PDF열람 보존·폴더날짜/출력봉투/잠금·모든대화알림삭제 차이는 그대로다. 원고2全byte逆변환/다른8base문단·DIK6·name배열·선택효과 exact·독립14잎 sourceGO.
