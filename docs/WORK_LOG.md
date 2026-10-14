@@ -4,6 +4,15 @@
 그 보존본이 앞선 원문 링크를 가진다.
 보존 원문은 39623B/SHA256 a395e47473c5e27ec50e9e8fbb5df4170006621f714d3ea9ab0b93fbe43fa8bc이다.
 
+## 2026-10-15 — 갈림길의 지속 이력·보유 자원 단정 수리
+
+- [632](queue_archive/ORDER-632.md): KOEN 갈림길에서3년내내멈추지않음/다음appointment·수면회복/도착확률·긍정돈/기술/실패학습/응답인맥·두페이지/충분함을 현재선택·확인목록으로 바꿨다. envy 한선택과 오늘까지의 지속도 분리했다. KO6/EN6 exact12잎·result각3문단/name1·DIK각4/name1/앞2끝문단·base/trustingDIK·선택0/1text/효과/flags/다른사건/전체byte역변환 exact·저장/코드/수치 불변.
+- 선언db49769237a6fdadc23c468e77691407502ebbba → 제품8bc00b987936e06c4639fdaa6f8c94b994cf14a4/treed58834dd15f0ba17135781b70b28620a5b498c14. 비엔진source5 actual0·release 최초SHA/보고stale fail1 보존→fear내용SHA1/생성fear행만 e5abc40033b0dee76cc23b617d421b74d71acfe021c417773bf96e78a1c1e3bf 정렬/default0. 146사건/51파일/IDs·나머지축/등급결정 불변·목록74는실행아님·전체audit/engine/native/자연240/신규검사0.
+- .git/order632-20261015/targeted-results.json9318B/0b6acac508f3fc27333a1fc8f577524b23038775c3e3d427c682bdef71ad3494, 독립sourceGO review.md7036B/f1517869d9e784dd791f98df3a7eab5fcdf10758d6a3234ff7d0e4e951c7eb84·JSON10724B/20963d6e40b859452522b520c3c76e0020b2fcde7dba2399511464e06770e532 root전문/실제핀확인. EN fragment 잠정지적은40개기존UI문체대조뒤철회·제품재수정0.
+- 독립과root가 MainGame7452..7456의 three_promises t153과 crossroads fallback8426..8429 t154..170 순서결함을확인했다. 원영수증W156오기는 evidence-correction.json810B/ec92e62da02eb5d39de49c4e58876adfca96c3abf15d3d54c1ef8b0130abea8c에별도정정·원raw불변. flags이름독자보존과fresh24주인과미입증을구분하며 absolute unreachable주장0이다. 세 plays_hand의과거응답인맥회고와함께chainHOLD·runtime수리는이번범위에붙이지않는다.
+- 공식inventory3각0·manifestd363184a4567ace9af5d368effb96bfbecee9612001367cb7e0e33656a473896/current11300·stale103/121/120·invalid103/29/30·INCOMPLETE/nativeOPEN·JAzh원고/원장쓰기0. 5언어유지·KOEN실제확정뒤정합·실제M18하나보류/새월0/월별612metadata이번commit제외·옛앱/격리W69/구증거·사용자저장/설정/project/데모/인간원장불변. 시작b907CI38601824408 static성공/Godot전체audit진행·실패step0/green미확정·이번새후보CI미확정.
+- gangnamdream-dev 표적검증/독립검수/보존 적용·일회성·승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다. sourceGO≠월/chain/native/구저장산문/원어민/인간/패드/5언어/출시GO. 다음은M39독자사실과153/154선후의최소수리범위이며 화면복구시같은M18 우선이다.
+
 ## 2026-10-15 — M38 계산의 기간·자산·최초 경험 단정 수리
 
 - [631](queue_archive/ORDER-631.md): 자산·소득·목표미달을 읽지 않는 t154..166 입구에서 고정25개월·미래실패·3년전 동일생각·처음 흔들림을 제거했다. KO2/EN4 지정6잎·각5문단/name1/첫3년·전체파일 역변환 exact. 현재 자산/목표/남은시간을 검토하는 행동으로 맞추고 EN세선택을 KO에 정렬했다. 모든 결과/효과/flags/후속/다른 사건·저장/경제 불변이다.
