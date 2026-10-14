@@ -1,6 +1,6 @@
 # ORDER-642 — 연말의 미보장 유급 일정·수입 회상 수리
 
-#### [~] ORDER-642 [정합] M48 현재 시간 확보와 후행 기록 정렬 — 2026-10-15
+#### [x] ORDER-642 [정합] M48 현재 시간 확보와 후행 기록 정렬 — 2026-10-15
 
 실제월은612/M18 하나HOLD·새월0·접근복구시동일M18 수정앱우선.
 5출시언어유지·KOEN실제확정전JAzh다듬기중단/누락만·이번누락추가0.
@@ -54,3 +54,21 @@ release 표적각1회·공식3locale inventory각1회/수용0.
 독립source-factGO만·누락기록fallback의실제노출/구saveUI/실제M48/chain/출시HOLD.
 context/queue/diff0뒤마감·STATUS전용commit0·일회성/승격0.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — 2026-10-15
+
+제품f1e3a82aa14733d2a099c3eed1b07c7db043e45f/treea065e39ee2a6cb0d6239a4e09f4bbff737787894.
+독립a1_qa_release_audit GO_M48_SOURCE_FACT_ONLY·차단0·root전문/2blob/7증거핀확인.
+review.md5580B/d449256f4663bcc2de9fbd03d23021b5f7aeda590446265202a6dac3a03dcda1,
+review.json5637B/6c4c0e7f2a61b778ed533b673cd8a72ba1f3cf5c85254aa7db118d7be54d442c.
+도달 경로: MainGame7521 W190→live2 /7567 W192→close·EventManager818 사별변형.
+생산자 ↔ 독자: live2 choices0/1 원protected flags ↔ normal2/사별1 DIK·StoryMode4383.
+바꾸는 상태: 기존flags만·금전/효과/조건/indices불변·새취소·보상·고용0.
+포기 시 잃는 것: 같은자리몸후속/사람시간/가족청구응답·W192 각DIK; 새24주직접독자0.
+서사 위치: chapter4 year_close·기존계층유지/승격0.
+닫는 것: 없는유급야간일/취소상대/수입금액·솔로관계단정·공통결과취소회상.
+KOEN15잎씩30전수/비소유byte역변환exact/문단name숫자exact·정적7각actual0·release정렬필요0.
+기본fallback1잎/언어는누락flags구save source반례만수리·정상live관측주장0.
+공식3inventory actual0·manifestfee64f710c27e64452faa9065c775027889fe5f8f4b57e25ffee4cba28883867/current11234/stale164·181·181/invalid108·35·35/INCOMPLETE/nativeOPEN.
+JAzh/원장수용·engine/전체audit/자연240/새checker0·sourceGO≠실제월/native/wholechain/5언어/출시GO.
+실제M18하나HOLD·새월0/612월별metadata제외·사용자보호대상불변·일회성/승격0.

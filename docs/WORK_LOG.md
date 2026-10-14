@@ -3,6 +3,14 @@
 이전 기록은 [633 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order633_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36166B/SHA256 e02371cbbaa42b82e3b6e65b016e284af58107587062f0e39baead129d3ed92e이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 연말 회상이 없는 야간 일·수입·관계를 만들지 않도록 수리
+
+- [642](queue_archive/ORDER-642.md): M48 live다은/혼자choice0/1의미보장유급야간일/취소상대/수입금액을현재달력시간확보와새일정거절로맞췄다. KOEN각15/총30잎·다은요구대사/normal2·사별1 DIK/두공통결과/기본fallback까지정렬·솔로약속상대없음/사별부재유지. 기본fallback은누락flags구save의source반례만이며정상live관측주장0·금액/효과/flags/indices/조건/코드/경제/schema/자산/번역/원장불변·2파일전체byte역변환/문단/name/digits exact.
+- 선언c59855771d009cccb83f76f5843f9c329cea631c → 제품f1e3a82aa14733d2a099c3eed1b07c7db043e45f/treea065e39ee2a6cb0d6239a4e09f4bbff737787894. 기존관련정적7각actual0·release정렬필요0·engine/전체audit/자연240/새checker0. 독립a1_qa_release_audit GO_M48_SOURCE_FACT_ONLY·차단0·root전문/2blob/7증거핀확인.
+- .git/order642-20261015/review.md5580B/d449256f4663bcc2de9fbd03d23021b5f7aeda590446265202a6dac3a03dcda1·review.json5637B/6c4c0e7f2a61b778ed533b673cd8a72ba1f3cf5c85254aa7db118d7be54d442c. map23344B/4ec8532e13b0aefe12dd626705e49e07ab67f17454af021a177524e934cc05a9·proof1115B/fb08c4a3bcb9c8eace4e79925dd302814aaf0d8b83e2fdfa92be900cab3e9636·targeted2567B/ce8e697c411ecf036cbbdc99c0252bf32f2e9a7e39504fa5930b14e07345be26·inventory-completions2222B/b7449e9b8ff2b3317fa621f1a526da84ee3a6f392b4c3a73834a7e2927619ce3.
+- 공식3inventory actual0·manifestfee64f710c27e64452faa9065c775027889fe5f8f4b57e25ffee4cba28883867/current11234/stale164·181·181/invalid108·35·35/INCOMPLETE/nativeOPEN·JAzh다듬기/수용0·새invalid0. gangnamdream-dev 표적검증·독립검수·보존 적용·일회성/승격0·sourceGO≠실제월/구saveUI/native/wholechain/5언어/인간/패드/청취/출시GO. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+- 실제M18하나HOLD/새월0·612월별metadata제외·모든사용자보호대상불변. readonly21:07UTC 세션잠금true/IOConsolefalse·native/설정변경0·이번CI미확정. 읽기전용M49검수는계획확대/유지flag가실제자산증가·균일입출금을보장하지않음과월요일→수요일을전날로부르는KO상대시점5잎을확인·미구현. 같은generic의자산증가fallback2잎도source판단대상·접근복구시같은M18 우선.
+
 ## 2026-10-15 — 취소한 유급 일이 없는데 현금을 잃던 병원 선택 수리
 
 - [641](queue_archive/ORDER-641.md): M47 안정경과 choice1의확정유급일감/상대/수입취소를현재검사시각·달력·병동전화를받을자리로고쳤다. W188의의료2of3는직업/소득/지급영수증을읽지않아 KO effect.money=-300000만제거했다. mental-4/아버지affinity+2/health_crisis/두flags/index1과choice0은유지·새병원비/송금/보상0·구save환불역추징0. KOEN4잎+KO1효과외전체2파일byte역변환exact.
