@@ -692,11 +692,11 @@
   {
     "id": "arc_y4_father_call_missed_on_ktx",
     "title": "The Number He Did Not Dial",
-    "description": "The Seoul-bound KTX emerged from its first tunnel after leaving Changwon Jungang Station. {name} kept Father's contact open and moved his hand away from the call button. No new outgoing call appeared. No missed call had come in from Father either.\n\nHis photos still held the screen from a twenty-three-second call years ago. The train app showed the Changwon departure and expected Seoul arrival. His notes held half a sentence to Father. None could turn the call he had not made into a conversation.\n\n{name} chose to leave one exact sentence about what he had and had not done, so he could not improve the story later.",
+    "description": "The Seoul-bound KTX emerged from its first tunnel after leaving Changwon Jungang Station. {name} kept Father's contact open and moved his hand away from the call button. No new outgoing call appeared. No missed call had come in from Father either.\n\nThe train app showed the Changwon departure and expected Seoul arrival. His notes held half a sentence to Father. None could turn the call he had not made into a conversation.\n\n{name} chose to leave one exact sentence about what he had and had not done, so he could not improve the story later.",
     "choices": [
       {
         "text": "Save Father's contact screen and the Seoul-bound train number at the same time",
-        "result_text": "{name} saved Father's contact and the Seoul-bound train number in sequence, giving both the same time. Today's call log held no outgoing call.\n\nThe two images did not prove that he had called. They recorded that he had opened the number while moving away from Changwon. The old twenty-three-second screen remained under its own date."
+        "result_text": "{name} saved Father's contact and the Seoul-bound train number in sequence, giving both the same time. Today's call log held no outgoing call.\n\nThe two images did not prove that he had called. They recorded that he had opened the number while moving away from Changwon."
       },
       {
         "text": "Write only the Changwon departure time and the fact that he did not call",
