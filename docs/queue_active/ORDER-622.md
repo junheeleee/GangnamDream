@@ -24,10 +24,10 @@ goal_vertigo는 MainGame8108..111의 midpoint/yearhalf seen추가조건을요구
 root content/events/arc_year_close.json 및 content/events_en/arc_year_close.json:
 arc_year3_close.description_if_known.year2_confident의1·2·7문단,
 year2_conflicted의1·4문단만 한영직접정렬(각2잎/총4잎·각7문단 유지).
-confident: 작년일정과시각을쓴사실·올해기록과비교하되 약속실제이행을발명0;
+confident: 현재올해기록에서계획과실제를비교하되 작년구체행동/약속이행을발명0;
 멘토/친구pitch/현기증의보장없는열거0·궤도유지단정을앞으로고를선로로.
-conflicted: 실제명세표앞뒤기록/미확인시간가로줄과한합계가안되는기록을회수,
-작년에결산을안함/올해처음돈사람함께기록했다는단정0.
+conflicted: 현재숫자와시간을나란히읽고미확인칸을남긴다.
+작년에결산을안함/함/특정소품작성·올해처음함께기록했다는단정0.
 나머지각4/5문단·name배열·title/base/다른DIK/choices/results/effects/flags/
 입구/예약/96주문구·배경음악·코드·asset 불변.
 release current내용SHA/공식보고는 실제영향시만최소정렬·공개history/pin 불변.
@@ -49,3 +49,14 @@ human617 actual0은불변원장만재사용·새인간/원어민/패드/청취�
 gangnamdream-dev/WORK_UNIT 적용·일회성/승격0.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
 sourceGO≠전체월/장면/체인/native/인간/5언어/출시GO.
+
+## 구현 전 조정 — legacy 반례, 파일/문단 범위 불변
+
+최초08100ca6의동일두flag는 자신감/결산미룸 표현이었다.
+7f1e9ebe직전에는 명함/병원스티커를 지갑/맞은편페이지에두는선택이었고,
+7f1e9ebe의일정/기록 뒤8510be22는명세표로바뀌었다.
+SaveManager165..175는 authored flags를보존하며 이두flag의원고버전증명은없다.
+따라서작년calendar/slip회상안은 구현전HOLD·본문쓰기/제품검사실패0으로보존한다.
+같은4잎/지정10문단안에서 현재기록을살피는행동과미확인칸으로고친다.
+옛플레이어의과거를특정소품/이행으로재작성하지않고현재선택/코드/저장은안바꾼다.
+before는이보완선언commit의원고blob(기존c8bcb52와byteexact)이다.
