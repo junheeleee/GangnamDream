@@ -1047,25 +1047,25 @@
   {
     "id": "arc_35_habit_check",
     "title": "This Is My Routine",
-    "description": "Midnight.\n\nSame pattern again today. Morning — check charts. Afternoon — work or study. Evening — news. Night — adjust the plan. Late night — wind down, sleep.\n\nThis has been the routine for over two years. At some point, it became unclear whether it was something chosen or just something that stuck.\n\nGood or bad — hard to say. This is just {name} now.",
+    "description": "Midnight.\n\nIn his notebook, he wrote down how he had spent today. One line for each task and time he could remember from morning to night; the gaps stayed blank.\n\nWhat had he repeated, and what had he changed? He tried to separate the things he had chosen from the things his body had done first, but the boundary wasn't clear.\n\nGood or bad — hard to say. This is just {name} now.",
     "choices": [
       {
-        "text": "This routine is building me. Keeping it.",
+        "text": "Rewrote tomorrow's schedule. This is who I am.",
         "result_text": "Consistency is the result. Wobbling means losing. {name} rewrote tomorrow's schedule."
       },
       {
-        "text": "Going to change one thing. A routine can become a trap.",
-        "result_text": "Cut an hour from the chart-watching time. An empty slot appeared. Strangely, things felt sharper. The routine had started to become the point."
+        "text": "Left one hour free in tomorrow's schedule.",
+        "result_text": "He left one hour blank under tomorrow in the notebook and decided not to fill it with another task. Looking at the empty space, his thoughts felt a little clearer. The routine had started to become the point."
       },
       {
-        "text": "Started exercising again. Need to use the body.",
-        "result_text": "Dug out the running shoes after half a year. Three kilometers on the first day and nearly died. Still — the feeling wasn't bad. Something was coming back."
+        "text": "Made time to exercise. Need to move.",
+        "result_text": "He took out his running shoes. Three kilometers left him out of breath. Still, it didn't feel bad. The feeling of having used his body stayed with him."
       }
     ],
     "description_if_known": {
-      "kept_routine": "Midnight.\n\nSame pattern again today. Morning — check charts. Afternoon — work or study. Evening — news. Night — adjust the plan. Late night — wind down, sleep.\n\nThis has been the routine for over two years. At some point, it became unclear whether it was something chosen or just something that stuck.\n\nGood or bad — hard to say. This is just {name} now.\n\nLast year, trap or not, he'd chosen to keep the routine.\nHe kept it for a year. Today is lived in a body built of what was kept.",
-      "broke_routine": "Midnight.\n\nSame pattern again today. Morning — check charts. Afternoon — work or study. Evening — news. Night — adjust the plan. Late night — wind down, sleep.\n\nThis has been the routine for over two years. At some point, it became unclear whether it was something chosen or just something that stuck.\n\nGood or bad — hard to say. This is just {name} now.\n\nLast year, he'd smashed the treadmill once.\nWhat he laid down in its place became today. Breaking, too, was a skill.",
-      "godsaeng_paradox_seen": "Midnight.\n\nSame pattern again today. Morning — check charts. Afternoon — work or study. Evening — news. Night — adjust the plan. Late night — wind down, sleep.\n\nThis has been the routine for over two years. At some point, it became unclear whether it was something chosen or just something that stuck.\n\nGood or bad — hard to say. This is just {name} now.\n\nHe'd seen the godsaeng paradox — people whose routines live their lives for them.\nWhich is why this check matters: does the routine exist for him, or he for the routine."
+      "kept_routine": "Midnight.\n\nIn his notebook, he wrote down how he had spent today. One line for each task and time he could remember from morning to night; the gaps stayed blank.\n\nWhat had he repeated, and what had he changed? He tried to separate the things he had chosen from the things his body had done first, but the boundary wasn't clear.\n\nGood or bad — hard to say. This is just {name} now.\n\nOnce, he had chosen to keep the routine.\nHow that choice had carried into today was something he had to check against the day he had just written down.",
+      "broke_routine": "Midnight.\n\nIn his notebook, he wrote down how he had spent today. One line for each task and time he could remember from morning to night; the gaps stayed blank.\n\nWhat had he repeated, and what had he changed? He tried to separate the things he had chosen from the things his body had done first, but the boundary wasn't clear.\n\nGood or bad — hard to say. This is just {name} now.\n\nOnce, he had chosen to change the routine.\nThe days after that had not rearranged themselves. He went back through the repetitions that remained, one line at a time.",
+      "godsaeng_paradox_seen": "Midnight.\n\nIn his notebook, he wrote down how he had spent today. One line for each task and time he could remember from morning to night; the gaps stayed blank.\n\nWhat had he repeated, and what had he changed? He tried to separate the things he had chosen from the things his body had done first, but the boundary wasn't clear.\n\nGood or bad — hard to say. This is just {name} now.\n\nHe'd seen the godsaeng paradox — people whose routines live their lives for them.\nWhich is why this check matters: does the routine exist for him, or he for the routine."
     }
   },
   {
