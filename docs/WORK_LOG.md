@@ -3,6 +3,14 @@
 이전 기록은 [633 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order633_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36166B/SHA256 e02371cbbaa42b82e3b6e65b016e284af58107587062f0e39baead129d3ed92e이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 고객 일을 하지 않아도 성립하는 몸과 마감 장면
+
+- [635](queue_archive/ORDER-635.md): M41 body_witness 다은4/부산지연reference3/혼자+현수6 × KOEN=26잎에서 고객/client 직업 전제를 현재 파일·제출 마감·접수 시각으로 한정했다. 직업/계약/보수·지원서/새상태를 만들지 않고 care/deadline/alone 갈등·성공실패·119/시각/서울부산·문단/name/숫자·효과flags·다른바이트를 보존했다. W164 live2+author_only1이며 지연 활성화0, 직접공통seen 독자는 W167이다. 최초W169 사양오기는Git에보존해정정했다.
+- 선언e4cad8582eb6d8f9eb84e0b72430fd266ffc2aa5 → 제품20b8ab562b271f2a9043d1b6056cb4c0432d10f1/tree8491b73ae17d17aec19da56b35bae2c976b85b7b. 기존 chapter4/정적audit/consistency/ENcoverage/영어한글/spine/release 개별exit각0·2파일 byte역변환 exact·engine/전체audit/자연240/새검사0·release메타변경0.
+- 독립a1_qa_release_audit GO_SOURCE_ONLY·26잎전수·범위내결함0. root전문/후보tree/2blob핀확인; .git/order635-20261015/review.md4079B/1a8544a4d3aa83691fcd685f2c6fbadb6e14c14625833dece49ccfe86b6c1307·review.json4710B/a91a83b751dd6e827d8b0c92cfae150d65a0e6dc78db44a3e643c4f0b0ddc002. authored-leaf-map20683B/54c0f3bb58a6941994c3fd2074bb699ac36404acf75a15a576ffab3c19fcb9b1·targeted-results3222B/3665f6a0163da8d695d06ee48e998fe1a51ba5b5f75ec789c3608a4648b5e79d.
+- 공식3inventory manifestd1938148ca1fc890ba3c7841faa281c95c21bc19579ee7ee2389b54330737e44/current11277·stale121/139/139·전체invalid108/34/34·INCOMPLETE/nativeOPEN. 기존CJK 고객본문/원장수용0·story_map의client label은별도정합채무·후행건강/가족수입 사실전제는별도수리대상. 실제M18 하나HOLD/새월0·612월별metadata이번commit제외·현재후보CI미확정.
+- gangnamdream-dev 표적검증·독립검수·보존 적용·일회성/승격0. sourceGO≠wholechain/월/native/구저장산문/인간/원어민/물리패드/청취/5언어/출시GO. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다. 다음M42의미성립고객/과거보수/입금 단정대조·접근복구시같은M18 수정앱 우선.
+
 ## 2026-10-15 — 몸 상태에 직업·식사·운동 이력을 지어내지 않도록 수리
 
 - [634](queue_archive/ORDER-634.md): KO퇴근길/KOEN전례없는증상·2시수면/2년운동공백/3년생활·작년루틴·운동예방확신·첫진료기록·늘지나친식당/하루커피와물/3년식생활/추가커피를 현재몸과실제루틴선택으로 맞췄다. KOEN각7/14잎·base6/DIK5/result4문단/name배열·전체2파일byte역변환 exact. 선택text/효과/flags/조건·코드/경제/저장/자산/JAzh/번역원장 불변.
