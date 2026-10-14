@@ -1,6 +1,6 @@
 # ORDER-629 — M37 영수증 회고가 발명한 생활 이력 수리
 
-#### [~] ORDER-629 [정합] 약속 거절·짧은 통화·검진 미룸 단정 — 2026-10-14
+#### [x] ORDER-629 [정합] 약속 거절·짧은 통화·검진 미룸 단정 — 2026-10-14
 
 Mac 접근 보류 중 최신 사용자 지시의 KO/EN 월순서 사실 점검이다.
 실제 M18/612 하나는 그대로 열어 두며 새 월 플레이를 시작하지 않는다.
@@ -54,3 +54,32 @@ context/queue/self/diff, STATUS advisory만 수행·STATUS 전용 commit0.
 source 한정 판단이며 구저장 산문 migration0, 실제 월/5언어/인간/출시 GO가 아니다.
 일회성 범위·새 정본 승격0.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — 2026-10-14
+
+선언6f0c033b0cb8d77bd6cbf328d625a99ddb7033b9 뒤
+제품fa21cc00618423f8d0a61f5c06224226ea45eb04 /
+tree319714611eed4f9464906257f26c07bc9d90fc40의 KOEN4잎만 수리했다.
+KO118736B/ae318e9744cc9f8ea532570f3b8b33082e2619a9aa1b56d871a07c3742da4ad9,
+EN83785B/55c2aedb6c9801aec10512bcd938a8331163ee3609014b23e5411b84588e3c2f.
+description 각4문단/name KO1·EN2, result각1/name1·나머지3문단과
+선택text/효과/flags/deferred·전체JSON 기대/역변환 exact다.
+선언의 EN name1 오기는 실제2로 제품commit에서 바로잡았으며 감소시킨 것이 아니다.
+
+관련 비엔진 source12 actual0, audit_select 목록69는 실행이 아니다.
+release default0·지문/공식보고 정렬0·전체audit/engine/자연240/native0.
+targeted-results.json5877B/916d895793987c8c1035e44d63824b16230acc9c18301be96925233a245cdb84,
+독립review.md5762B/3f27880eaaa4bb62dcae68df6c3db08f18ecf8988f046b1e6e98a822fa87f71d,
+review.json7353B/245b70e4451bea7b48aa003595da19c83e85261001a97a65d68a975dfd5c91f0는
+.git/order629-20261014/에 보존했고 root전문/실제SHA 대조했다.
+독립4/4잎 의미·전파일역변환·생산자3/선택3/후속3 직접검수 sourceGO다.
+대규모 보호census/인간관찰/실제체감 GO로 확대하지 않는다.
+
+공식inventory3 actual0·manifest287b820b09a48f926889db607b1eaaf104f24a321f3b3a7976eb54f066888c36,
+current event11316·stale93/112/112·invalid97/22/22·INCOMPLETE·humanOPEN,
+source2KO잎 정합대기는 추가했으나 JAzh다듬기/원장수용/게임플레이이관0이다.
+기존 e565 월초저장main CI38564652323 성공은 이 새제품 CI승인이 아니다.
+612 월별metadata는 이번마감commit에서도 분리·같은M18 하나HOLD/새월0,
+옛native 준비inspection source guard는 새HEAD에 미적용이며 원앱/영수증 불변이다.
+일회성·새정본승격0·구저장 산문 migration0·전체M37/실화면/5언어/출시HOLD.
+다음은 M38의 루틴점검·현실/갈림길 조건대조이며 화면접근복구시 동일M18 우선이다.
