@@ -1,6 +1,6 @@
 # ORDER-633 — 갈림길 선택 뒤 실제 후행 회상 연결
 
-#### [~] ORDER-633 [정합] 독자 선후·미보장 인맥 사실 최소 수리 — 2026-10-15
+#### [x] ORDER-633 [정합] 독자 선후·미보장 인맥 사실 최소 수리 — 2026-10-15
 
 실제 M18/612 하나 HOLD·새월0. 접근복구시 동일M18 우선, CI빨강 새월0.
 5출시언어 유지·KOEN확정 전 JAzh다듬기/기존수용0·신규누락만 채운다.
@@ -57,3 +57,28 @@ L2 전수21잎/문단·토큰·비소유byte역변환, independent 전수 source
 일회성 지시·새정본승격0.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
 
+## 마감 — 2026-10-15
+
+제품469aad02fe7ab857f7c7c4bb6c303e80c220f19a/tree445ea0521f60a912ce7a482d269df3ec22d97ac9.
+기존6잎/new15잎 전수·7파일 역변환·새CJK9잎translation_errors0.
+기존opt-in200/200+정상337/337·별도freshbootstrap격리·exit0·양로그오류0·state복원.
+독립 GO_SOURCE_ONLY review.md7994B/737a2ef41a041ad7c88ddc841695222ab80001bacf43e8cd7f4201f21ca4a2f4,
+review.json6349B/f4209c9880e56326e968db3f533b7ad54af49900e7226d2df17db43dac37d95d.
+root전문/실제10blob/후보핀 확인·범위내결함0·raw는 .git/order633-20261015/ 보존.
+마감 WORK_LOG 예산초과는 이전committed 원문36166B를
+docs/history/WORK_LOG_2026-10-15_order633_budget_snapshot.md에 byteexact 보관해 해결했다.
+612 미커밋 월별기록은 현WORK_LOG에 그대로 남기고 이번index에서 제외한다.
+기존prose defaultCJK3오류 base동일·source-onlyKO40/EN40 PASS·검사/번역원장수정0.
+release실제stalealcohol hash1/동일생성행1만정렬·다른축/IDs/82·39불변.
+공식inventory3각1회0·manifest87eb564df97e86784ffbe5ff20c29ea04ff83663b258b3923fa02fc1aeccb447;
+current11297/stale106·124·123/전체invalid103·29·30/INCOMPLETE/nativeOPEN.
+기존CJKearly9·23~39주회수/24주즉시보장없음·실제M18/월/전체/native/출시HOLD.
+현재Macreadonly CGSSessionlockedtrue·native재시도0·612월별metadata별도한commit보존.
+도달 경로: 기존W192→193정산→모든선택final_year_start; preparedconsumer200/200.
+생산자 ↔ 독자: crossroads seen+선택3flag ↔ final_year_start compoundmemory3.
+바꾸는 상태: 21text잎/효과·flags·serialized schema before=after.
+포기 시 잃는 것: 선택하지않은 두조건회상은붙지않음; 새경로폐쇄없음.
+서사 위치: chapter4.setup→chapter5.setup.
+장면 계층: 기존 defaultT3·승격0.
+닫는 것: 관측한독자선후결함과KOEN 응답보장6잎 한정; wholechain판정아님.
+일회성·새정본승격0·다음M41 사실수리/접근복구시같은M18 우선.
