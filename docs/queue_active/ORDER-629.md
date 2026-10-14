@@ -26,7 +26,7 @@ root: content/events/arc_chapter_themes.json 및
 content/events_en/arc_chapter_themes.json의 arc_35_path_cost만.
 description 2잎에서 세 번째 문단을 현재 생활 항목을 살피는 질문으로 바꾸고,
 choices[1].result_text 2잎의 미뤘던 전화는 현재 거는 전화로 바꾼다.
-총 KO/EN 4잎, description 각4문단/name1·result 각1문단/name1 유지.
+총 KO/EN 4잎, description 각4문단/name KO1·EN2·result 각1문단/name1 유지.
 나머지 문단·제목·모든 선택text·효과·flag·deferred/조건·다른 사건은 byte exact.
 release inventory 내용 지문이 실제 달라질 경우
 content/meta/release_content_inventory.json의 해당 content hash와

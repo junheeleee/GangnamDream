@@ -40,7 +40,7 @@
   {
     "id": "arc_35_path_cost",
     "title": "A Three-Year Receipt",
-    "description": "Out of nowhere, {name} added up the last three years.\n\nNot just the money. The losses had stacked up too, like receipts.\n\nThe number of weekend plans turned down. The days a parent's call got cut short. The years a checkup got pushed back. And — the face in the mirror, clearly more worn than three years ago.\n\nComing this far toward the goal was real. But the road had a price tag, and {name} was only now reading the bill.",
+    "description": "Out of nowhere, {name} added up the last three years.\n\nNot just the money. The losses had stacked up too, like receipts.\n\nWhere had his weekends gone? When had he spoken with his parents, and for how long? What dates remained in his checkup records? His face in the mirror, too. He went through the items that never appeared on a bank statement, one by one.\n\nComing this far toward the goal was real. But the road had a price tag, and {name} was only now reading the bill.",
     "choices": [
       {
         "text": "Knew the cost going in. See it through.",
@@ -48,7 +48,7 @@
       },
       {
         "text": "Decided to reclaim one of the things lost",
-        "result_text": "Can't undo it all, but one was possible. {name} made the call that kept getting pushed back. A small thing. And breathing got a little easier."
+        "result_text": "He couldn't undo it all, but there was something he could do now. {name} opened his contacts and made a call. A small thing. And breathing got a little easier."
       },
       {
         "text": "Stared at the bill a long time. No answer came",
