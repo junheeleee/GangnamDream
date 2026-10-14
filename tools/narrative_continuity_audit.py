@@ -11,6 +11,7 @@ novel cannot silently collapse back into disconnected cards.
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import re
 import subprocess
@@ -53,6 +54,29 @@ CHAPTER5_GENERAL_SELECTOR_ROOTS = {
     "arc_y5_general_name_boundary_exact",
     "arc_y5_general_debt_memory_reconnect",
 }
+CHAPTER4_BODY_RECEIPT_GROUPS = (
+    (("arc_36_body_signal",), "arc_36_body_signal_seen"),
+    (("arc_y4_body_witness", "arc_y4_body_witness_hyunsu"),
+     "arc_y4_body_witness_seen"),
+    (("arc_y4_family_partner_collision", "arc_y4_family_commitment_none",
+      "arc_y4_family_table_missed"), "arc_y4_family_table_seen"),
+)
+CHAPTER4_BODY_GUARDS = (
+    '''if t == 161 and not f.get("arc_36_body_signal_seen", false):
+        return "arc_36_body_signal"''',
+    '''if t == 164 and f.get("arc_36_body_signal_seen", false) \\
+            and not f.get("arc_y4_body_witness_seen", false):
+        return _chapter_four_relationship_event_id(
+            "arc_y4_body_witness", "arc_y4_body_witness_hyunsu")''',
+    '''if t == 167 and not father_is_passed \\
+            and f.get("arc_y4_body_witness_seen", false) \\
+            and not f.get("arc_y4_family_table_seen", false):
+        var unattached_family_id := "arc_y4_family_commitment_none"
+        if f.get("arc_y4_three_promises_missed_father", false):
+            unattached_family_id = "arc_y4_family_table_missed"
+        return _chapter_four_relationship_event_id(
+            "arc_y4_family_partner_collision", unattached_family_id)''',
+)
 WEEKS_PER_CHAPTER = 48
 TOTAL_CHAPTERS = 5
 CHAPTER_RATCHETS = {
@@ -153,6 +177,69 @@ def typed_chapter5_chain_members(events: dict[str, dict[str, Any]]) -> set[str]:
 
 def paragraph_count(value: Any) -> int:
     return sum(1 for block in str(value or "").split("\n\n") if block.strip())
+
+
+def chapter4_body_chain_members(
+        events: dict[str, dict[str, Any]], source: str,
+        model_source: str) -> set[str]:
+    """Count the existing runtime receipt chain, never an ID-only exemption.
+
+    These links are scheduled by MainGame, not JSON follow_up_event. Every
+    choice must write the receipt, and both downstream selectors must still
+    require it. Missing evidence fails rather than relaxing the micro ratchet.
+    """
+    from chapter4_causal_route_audit import source_function_block
+
+    function = source_function_block(source, "_chapter_four_causal_arc_id")
+    code = "\n".join(line for line in function.splitlines()
+                     if not line.lstrip().startswith("#"))
+
+    def compact(value: str) -> str:
+        return re.sub(r"\s+", "", value.replace("\\\n", ""))
+
+    for guard in CHAPTER4_BODY_GUARDS:
+        if compact(guard) not in compact(code):
+            raise ValueError("Chapter 4 body receipt chain lost runtime guard/selector")
+    runtime_selector = source_function_block(source, "_chapter_four_relationship_event_id")
+    if compact('''var partner_id := _romance_partner_id()
+        if partner_id == "daeun":
+            return daeun_id
+        return unattached_id''') not in compact(runtime_selector):
+        raise ValueError("Chapter 4 body receipt chain lost runtime partner selector")
+    if any(marker not in model_source for marker in (
+            "def chapter_four_causal_event(", "def chapter_four_relationship_event(")):
+        raise ValueError("Chapter 4 body receipt chain lost model function")
+    model_function = model_source.split("def chapter_four_causal_event", 1)[1].split(
+        "\ndef ", 1)[0]
+    for guard in CHAPTER4_BODY_GUARDS:
+        model_guard = guard.replace(', false', '').replace('var ', '').replace(':=', '=')
+        model_guard = model_guard.replace('not father_is_passed',
+                                          'not father_death_is_monotonic(S)')
+        model_guard = model_guard.replace('_chapter_four_relationship_event_id(',
+                                          'chapter_four_relationship_event(S,')
+        model_guard = model_guard.replace('unattached_family_id', 'unattached_id')
+        if compact(model_guard) not in compact(model_function):
+            raise ValueError("Chapter 4 body receipt chain lost model guard/selector parity")
+    model_selector = model_source.split("def chapter_four_relationship_event", 1)[1].split(
+        "\ndef ", 1)[0]
+    if compact('''partner_id = chapter_four_partner_id(S)
+        if partner_id == "daeun":
+            return daeun_id
+        return unattached_id''') not in compact(model_selector):
+        raise ValueError("Chapter 4 body receipt chain lost model partner selector")
+    members: set[str] = set()
+    for roots, receipt in CHAPTER4_BODY_RECEIPT_GROUPS:
+        for event_id in roots:
+            event = events.get(event_id, {})
+            choices = event.get("choices", [])
+            if len(choices) != 3 or any(
+                    not isinstance(choice, dict)
+                    or receipt not in choice.get("flags", [])
+                    for choice in choices):
+                raise ValueError(
+                    f"Chapter 4 body receipt chain lost producer: {event_id}/{receipt}")
+            members.add(event_id)
+    return members
 
 
 def dialogue_count(value: Any) -> int:
@@ -470,6 +557,86 @@ def run_self_test() -> None:
     if is_short_standalone(mixed_boundary):
         raise AssertionError("one 421-character branch must keep the scene out of micro")
 
+    body_events = {
+        event_id: {"id": event_id, "choices": [{"flags": [receipt]} for _ in range(3)]}
+        for roots, receipt in CHAPTER4_BODY_RECEIPT_GROUPS for event_id in roots
+    }
+    body_source = ("func _chapter_four_causal_arc_id():\n"
+                   + "\n".join(CHAPTER4_BODY_GUARDS)
+                   + '''\nfunc _chapter_four_relationship_event_id():
+    var partner_id := _romance_partner_id()
+    if partner_id == "daeun":
+        return daeun_id
+    return unattached_id
+func next(): pass\n''')
+    model_source = '''def chapter_four_causal_event(S):
+    if t == 161 and not f.get("arc_36_body_signal_seen"):
+        return "arc_36_body_signal"
+    if t == 164 and f.get("arc_36_body_signal_seen") \\
+            and not f.get("arc_y4_body_witness_seen"):
+        return chapter_four_relationship_event(
+            S, "arc_y4_body_witness", "arc_y4_body_witness_hyunsu")
+    if t == 167 and not father_death_is_monotonic(S) \\
+            and f.get("arc_y4_body_witness_seen") \\
+            and not f.get("arc_y4_family_table_seen"):
+        unattached_id = "arc_y4_family_commitment_none"
+        if f.get("arc_y4_three_promises_missed_father"):
+            unattached_id = "arc_y4_family_table_missed"
+        return chapter_four_relationship_event(
+            S, "arc_y4_family_partner_collision", unattached_id)
+def chapter_four_relationship_event(S, daeun_id, unattached_id):
+    partner_id = chapter_four_partner_id(S)
+    if partner_id == "daeun":
+        return daeun_id
+    return unattached_id
+def next(): pass
+'''
+    members = chapter4_body_chain_members(body_events, body_source, model_source)
+    if len(members) != 6:
+        raise AssertionError("receipt chain must contain exactly its six runtime roots")
+    mutations = []
+    missing = copy.deepcopy(body_events)
+    missing.pop("arc_y4_body_witness_hyunsu")
+    mutations.append((missing, body_source))
+    for event_id, index in (("arc_36_body_signal", 0),
+                            ("arc_y4_body_witness_hyunsu", 2),
+                            ("arc_y4_family_table_missed", 1)):
+        damaged = copy.deepcopy(body_events)
+        damaged[event_id]["choices"][index]["flags"] = []
+        mutations.append((damaged, body_source))
+    for old, new in (
+            ('not f.get("arc_36_body_signal_seen", false)', 'true'),
+            ('if t == 164 and f.get("arc_36_body_signal_seen", false)',
+             'if t == 164 and true'),
+            ('and f.get("arc_y4_body_witness_seen", false)', 'and true'),
+            ('"arc_y4_body_witness_hyunsu"', '"unrelated"'),
+            ('t == 167', 't == 168')):
+        mutations.append((body_events, body_source.replace(old, new, 1)))
+    for damaged, source in mutations:
+        try:
+            chapter4_body_chain_members(damaged, source, model_source)
+        except ValueError:
+            continue
+        raise AssertionError("broken runtime receipt chain was counted as connected")
+    for runtime_source, simulated_source in (
+            (body_source.replace('if partner_id == "daeun"',
+                                 'if partner_id == "jiyeon"'), model_source),
+            (body_source, model_source.replace('t == 164', 't == 165')),
+            (body_source, model_source.replace('def chapter_four_causal_event(',
+                                               'def unrelated_event(')),
+            (body_source, model_source.replace('if partner_id == "daeun"',
+                                               'if partner_id == "jiyeon"'))):
+        try:
+            chapter4_body_chain_members(body_events, runtime_source, simulated_source)
+        except ValueError:
+            continue
+        raise AssertionError("runtime/model selector or guard drift was accepted")
+    # The same 417-character shape remains short. Only proven receipt members
+    # are connected; unrelated short scenes still enter the isolation ratchet.
+    short = SceneMetric(1, 1, 6, 6, 1, 1, 0, 0, 403, 417)
+    if not is_short_standalone(short) or "unrelated" in members:
+        raise AssertionError("receipt proof weakened unrelated micro-scene detection")
+
 
 def build_report() -> dict[str, Any]:
     events = load_events()
@@ -512,6 +679,10 @@ def build_report() -> dict[str, Any]:
             "missing Chapter 5 general selector roots: "
             f"{sorted(missing_general_selectors)}")
     chain_members.update(CHAPTER5_GENERAL_SELECTOR_ROOTS)
+    body_chain = chapter4_body_chain_members(
+        events, (ROOT / "scenes" / "MainGame.gd").read_text(encoding="utf-8"),
+        (ROOT / "tools" / "arc_flow_sim.py").read_text(encoding="utf-8"))
+    chain_members.update(body_chain)
     temporal_sources = {
         event_id for event_id, event in events.items() if deferred_followups(event)
     }
@@ -704,6 +875,7 @@ def build_report() -> dict[str, Any]:
             "followup_edges": immediate_edge_count,
             "temporal_edges": temporal_edge_count,
             "chain_members": len(chain_members),
+            "runtime_body_receipt_members": len(body_chain),
             "temporal_members": len(temporal_members),
             "peak_members": len(peaks),
             "standalone": len(standalone),
@@ -773,7 +945,8 @@ def main() -> int:
             return 1
         print(
             "NARRATIVE_CONTINUITY_SELF_TEST_OK "
-            "cases=5 boundary=420/421 mixed=420-421"
+            "cases=20 boundary=420/421 mixed=420-421 "
+            "runtime_receipt=positive+13_mutations unrelated_micro=preserved"
         )
         return 0
     try:
