@@ -1,6 +1,6 @@
 # ORDER-652 — M56 미룬 연락을 실패한 발신으로 회상하는 오류 수리
 
-#### [~] ORDER-652 [정합] 아버지 접촉 missed 독자의 실제 답신 회수 — 2026-10-15
+#### [x] ORDER-652 [정합] 아버지 접촉 missed 독자의 실제 답신 회수 — 2026-10-15
 
 651 M55 source 사실 수리 마감 뒤 M56 confirmed4잎만 고친다.
 실제 M18/612는 동일 수정 앱 재검수 HOLD·새 월0/열린 실제월1.
@@ -48,4 +48,21 @@ engine/전체audit/자연240/새checker/비용·최적화0.
 실제M18/M56/native/전체부자관계·의료·후일체인/5언어/352선행/출시 HOLD.
 M57 전달/자필 전제2잎은 다음 별도범위, M58 이상 미검수. 원고 모집단 추가0.
 일회성 수리·새 정본 승격 없음.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — source 사실 수리 한정
+
+- 후보d6a7921fde272cafeadf8c9628b1b708036bdfe9/tree064cb3f8aac31ef74653ea2a7a10f123f2090ad6.
+- KO2EN2 실제 답신→exact-one missed→W221 index2 독자 전수. 새 전화/부재중/아버지 답장/의료·경제 결과0. 2원고 full inverse/parsed expected/문단name숫자 exact.
+- 표적8 및 공식3 inventory actual0·selection69는 실행 아님·release 정렬 불필요·engine/전체audit/자연240/새checker0.
+- manifest765f7d6fe2f9cacac97d08d6484b7ca9d7fd1b59c92d06c4935714f311d39fe5.
+- event현재11212 불변·chapter5reader129/133 stale4·CJK invalid117/44/42·INCOMPLETE/native OPEN·수용/다듬기0.
+- 비저자 a1_qa_release_audit GO_SOURCE_FACT_ONLY/차단0. root 전문/2제품/4증거/3원 inventory 핀 확인.
+- .git/order652-20261015/review.md5123B/SHA2566836b70cb5006ead4b53aa3dad2b24c0a8d3b0701b21669be197b3746b7b0191.
+- review.json5818B/SHA25692745e356aea233e606c6d61b2f4645787a59c6d421188d4e40d2a7afbe974e0.
+- map/proof/targeted/inventory-completions는 같은 폴더에 실제 후보·원문·검사·번역 freshness 한계로 결속.
+- 사전 읽기의 무결함 메시지를 최종 GO로 대신하지 않고, 후보 고정 뒤 같은4잎 재결속/봉인 보고로 판정했다.
+- 실제M18/M56/native/전체부자·의료·후일체인/5언어/352선행/출시 HOLD. 사용자 save/설정/project/demo/human 보존·612 dirty4 미포함/새월0.
+- M57 미전달·미자필 전제2잎, M58 지연기억의 고정5년2잎은 발견만/별도 다음. 모호한 며칠/days 불변.
+- 일회성/새 정본 승격0·개발스킬 표적·독립·보존 적용.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.

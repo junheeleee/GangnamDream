@@ -3,6 +3,12 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 미룬 연락을 실패한 전화로 바꾸던 M56 회상 수리
+
+- [652](queue_archive/ORDER-652.md): W185 실제 이동·통화 불가 답신과 후속 발신/부재중0을 W221 alive/passed 독자가 정확히 회수하도록 KO2EN2를 수리했다. exactly-one missed snapshot/index2/prepend는 그대로이며 새 전화·답장·의료 결과0. typed rows/선택/효과/flags/조건/receipt/schema/코드/저장/JAzh/사용자 불변.
+- 후보d6a7921fde272cafeadf8c9628b1b708036bdfe9/tree064cb3f8aac31ef74653ea2a7a10f123f2090ad6·2원고 inverse/parsedexpected/문단name숫자 exact. 최종표적8 및 공식inventory3 actual0·selection69 실행아님/release정렬불필요·engine/전체audit/자연240/새checker0. manifest765f7d6fe2f9cacac97d08d6484b7ca9d7fd1b59c92d06c4935714f311d39fe5·event현재11212/ch5reader129/133stale4·invalid117/44/42 INCOMPLETE/native OPEN·다듬기/수용0.
+- 독립 GO_SOURCE_FACT_ONLY/차단0·root 전문/2제품/4증거/3원 inventory 핀 확인. .git/order652-20261015/review.md5123B/6836b70cb5006ead4b53aa3dad2b24c0a8d3b0701b21669be197b3746b7b0191·JSON5818B/92745e356aea233e606c6d61b2f4645787a59c6d421188d4e40d2a7afbe974e0. 사전검수만으로 판정하지 않고 고정 후보로 최종 봉인했다. 실제M18/M56/native/전체부자·의료·후일체인/5언어/352선행/출시 HOLD·새월0/612dirty4미포함. 다음 M57 전제2잎/M58 기간2잎 발견만. 개발스킬 표적·독립·보존 적용·일회성/새승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — M55 영어 회상에서 성립하지 않는 수년 경과 제거
 
 - [651](queue_archive/ORDER-651.md): W160 이후 첫 카페 동석→exact W220 회상은 최대60주이며 수년 경과 조건이 없다. EN choices1 결과1잎의 years earlier만 제거했다. KO는 고정 연수가 없어 그대로다. 역변환/문단name숫자/비소유 byte exact·게임 효과/조건/저장/JAzh/사용자 project설정/demo/human 불변.
