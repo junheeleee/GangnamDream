@@ -1,6 +1,6 @@
 # ORDER-638 — 미통화 후행의 미보유 스크린샷 회상 수리
 
-#### [~] ORDER-638 [정합] M44 실제 통화 유물 보유와 후행 기억 분리 — 2026-10-15
+#### [x] ORDER-638 [정합] M44 실제 통화 유물 보유와 후행 기억 분리 — 2026-10-15
 
 실제M18/612하나HOLD·새월0·맥접근복구시동일M18 수정앱 우선.
 5언어유지·KOEN실제확정전JAzh다듬기중단/누락만·이번누락추가0.
@@ -39,3 +39,20 @@ audit_select --list 뒤chapter4/audit/consistency/ENcoverage/영어한글/spine/
 독립source사실GO만·wholechain/native/실제M44·월/인간/원어민/패드/청취/출시GO아님.
 engine/전체audit/새checker0·context/queue/diff통과뒤commit·STATUS전용commit0.
 일회성/승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — 2026-10-15
+
+제품8c70b5208f9af0034a81e2fa389f886dc198a4a9/tree8f63b5d51bd2b8c3ccce8d0720a8f6a4acefc1f1.
+독립4잎전수 GO_SOURCE_FACT_ONLY·2파일역변환/문단/name/digits/선택계약exact.
+review.md5240B/ab36700867432654a86e3b04d845afe1e87a4edc16a493218e0d110c1516a421,
+review.json5748B/6d320a05bcaa56b968128b899e3a55cb285e63d58e0c8b247f8d1c3fe600207c root전문/핀확인.
+관련정적7각0·release정렬불필요·engine/native/새검사0.
+도달 경로: MainGame7497..7502 W174·아이템없음→number choice1→missed_on_ktx.
+생산자 ↔ 독자: arc_father_01 choice2만artifact생산 ↔ root itemgate; 무아이템미통화후행허위회상제거.
+바꾸는 상태: 미보유사진산문4잎만·효과/flags/schema before=after.
+포기 시 잃는 것: 지금전화를걸거나미루는결정·보유자의실제23초회상은그대로.
+서사 위치: chapter4 consequence/기존계층유지·승격0; 닫는것: 미보유과거화면단정한정.
+officialcurrent11255/stale143·160·160/invalid108·35·35/INCOMPLETE/nativeOPEN·새invalid/수용0.
+wholechain/구저장실재생/실제M18·M44native/인간/5언어/출시HOLD.
+실제M18하나HOLD/새월0·612월별metadata제외·사용자보호대상불변.
+일회성/승격0·다음M45동거/보증금조건대조는읽기만·접근복구시동일M18 우선.
