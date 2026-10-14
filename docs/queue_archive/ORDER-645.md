@@ -1,6 +1,6 @@
 # ORDER-645 — 삭제 요청 회상의 후행 재발과 진료 상대시점 수리
 
-#### [~] ORDER-645 [정합] M51 실제 문서 비교·선행 진료만 회수 — 2026-10-15
+#### [x] ORDER-645 [정합] M51 실제 문서 비교·선행 진료만 회수 — 2026-10-15
 
 실제M18/612 하나HOLD·새월0·접근복구시동일M18 수정앱우선.
 5언어유지·KOEN실제확정전JAzh다듬기중단/누락만·이번번역수용0.
@@ -46,4 +46,24 @@ audit_select --list만·기존audit/consistency/ENcoverage/영어한글/spine/ch
 typedreceipt/분기/코드/효과불변이므로engine/전체audit/자연240/새checker/비용계측/최적화0.
 독립sourcefact한정GO·M50기존reader의요청재발만해소·전체의료/계약경제/실제월/native/
 wholechain/5언어/출시HOLD. context/queue/diff0뒤마감·STATUS전용commit0·일회성/승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 증거 — 2026-10-15
+
+후보3d365f78db45fcf68af786c84b6f040ff2935ad8/treee486261097fc465d717d090192a629610f31f8fd.
+KO38880B/SHA5911c30760b1020924340c210ec789f0242e2aac318fe434cd02f588a96b060d/blob a6a0e84d97a6bf8fdbb8e6c6f8f3f9318cca548a;
+EN29801B/SHA42f675a34e37f597699ae8f027753cbe44f32ac5f6070ce31d8ba5e72de44ebf/blob caff1bb7052928b08c0d5671071db29ac2e0fa0d.
+KO4+EN3=7잎 inversebyte/문단/name/digits exact·효과/receipt/코드불변.
+표적정적7actual0·선택70은실행아님·release정렬불필요·engine/전체audit/240/새checker0.
+공식3inventoryactual0·manifest8cb9b6a653df98a830f622c53fda2f0c976ec42a856718f6b58a8c8e12801c9b.
+event현재11224/stale174·191·191·chapter5reader131/133 stale2·invalid108·35·35/INCOMPLETE/nativeOPEN·번역수용0.
+독립a1_qa_release_audit GO_M51_SOURCE_FACT_ONLY·범위내차단0·root전문/2blob/7증거핀확인.
+.git/order645-20261015/review.md 5317B/SHA4a6e370be2d57fef12695a6df1d33cec36bef581b39bd96508a7d3b419918b99;
+review.json6535B/SHAdf571382e8534bc47f1de9bc99a80a8272231e1cfb2d515b4dd9e89a0e659951.
+map/proof/targeted/inventory완료영수증과3inventory전체SHA는위보고서7핀에결속한다.
+commit된WORK_LOG만31115B/SHA035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099
+선언한snapshot에byteexact이동·612미커밋3555B는보존본/마감commit에포함0.
+readonly21:56:32UTC 세션잠금true/IOConsolefalse·native/input/설정변경0·같은M18HOLD.
+M50삭제요청후행재발은해소하되전체의료/계약경제/실제월/native/wholechain/5언어/352선행/출시HOLD.
+일회성7잎 sourcefacts수리·새정본승격0·개발스킬의격리/표적검수/보존적용.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
