@@ -230,8 +230,8 @@
   },
   {
     "id": "arc_late_game_push",
-    "title": "Twelve-Week Check",
-    "description": "At 5:47 on Wednesday morning, exactly twelve weeks had passed since the final year began. {name} pushed aside the order window left open overnight and printed the fills in date order. As the printer released the last page, the first train scraped along the wet tracks outside.\n\nThere were two more red lines than green ones. Each losing date had a written reason for entry, but some rows left the reason for exit blank. One square remained before the loss limit on the notebook's first page. Raising it would make more orders possible; keeping it would leave the distance to the Gangnam price alert unchanged for now.\n\nA little over three hours remained before the 9 a.m. scheduled-order cutoff. Quantity and price sat in a draft with only Confirm untouched.",
+    "title": "Final-Year Check",
+    "description": "At 5:47 on Wednesday morning, {name} pushed aside the order window left open overnight and printed the fills recorded since the final year began in date order. As the printer released the last page, the first train scraped along the wet tracks outside.\n\nThere were two more red lines than green ones. Each losing date had a written reason for entry, but some rows left the reason for exit blank. One square remained before the loss limit on the notebook's first page. Raising it would make more orders possible; keeping it would leave the distance to the Gangnam price alert unchanged for now.\n\nA little over three hours remained before the 9 a.m. scheduled-order cutoff. Quantity and price sat in a draft with only Confirm untouched.",
     "choices": [
       {
         "text": "Raise the loss limit by one square and write the order conditions.",
