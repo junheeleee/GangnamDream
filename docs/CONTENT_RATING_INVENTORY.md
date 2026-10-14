@@ -133,7 +133,7 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 |---|---:|---|---|---|
 | 사행성·도박 | 136 / 43 | `d41c2decfd20cbb8c4c5abe0f751009fd00e8a7de5c303b3227d0e81476a062a` | `8a4cd214e94fd3800240310015f2544965149127a7b764d7169775bbfcb8f6d1` | strong, moderate |
 | 선정성·성적 내용 | 124 / 26 | `b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa` | `d012c37438cfd025fbbb0e53073ecefb4d5179cbd081013d8715843a8f8bbd43` | moderate, mild |
-| 폭력성 | 17 / 14 | `b036299411ccb065182412b7accbfaf66efdab32d05c81d8b6c6bb6a3d3dc125` | `a70e338639f160e935ffd3beb75fb9db0c3e58289199aaf3f5510a4a70a0b590` | mild |
+| 폭력성 | 17 / 14 | `b036299411ccb065182412b7accbfaf66efdab32d05c81d8b6c6bb6a3d3dc125` | `c6fdc029574fbd067042ad16e7febddeb7b22d417ae246b5b374332575249fcb` | mild |
 | 공포 | 146 / 51 | `6e3506f6830db61e7130a5cab95a029cc19dd0d25c6799b4e7764a9165e4a010` | `0dba6ca90af1b3dd5559e1fd92cf261764c947fc625f31ed8d37c7cd99bc47c2` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `b7018e341076ee7951da874c3fe6cadd4f34d7f0c996feb2b67e83c0a44e98c2` | mild |
 | 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `a8eb5f330b01f80f12e894e74325552a7a4d696e71d6369cd9b782ac82cba745` | moderate, strong |
