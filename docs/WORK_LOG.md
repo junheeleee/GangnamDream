@@ -3,6 +3,16 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 실제 선택보다 큰 독립자금·전액투자 엔딩 회상 수리
+
+- [660](queue_archive/ORDER-660.md): gangnam_dream quiet/jaehyuk DK KOEN4잎 수리. quiet→M34소개망거래0/2도가능하므로 네트워크전부버림·몇배먼길·완전자금독립·빌리지않음 대신 그날카페퇴장/듣지않음/붙잡지않음을 회수한다. jaehyuk 일부100만원→scammed→재기0/1에도통장털어/put everything을 말하던규모만 돈맡김으로좁혔다. 미래거래/자금provenance/새비율은발명0.
+- 후보f7873ac4342321589d23c1e248ab31c638ebc62a/tree743895fea6aca638f94400a832728fb5e6edca86·2원고 fullinverse/parsed/문단newline/name/digits·비소유exact. 14source조합은 runtime아님. 표적9/공식inventory3 actual0·selection33실행아님·release currentSHA/보고1셀만사전정렬/수량ID타축public불변·engine/전체audit/자연240/새checker0.
+- manifest53303c5bbe3c823c0511bc5a9ba2761b2276e5a89c188a905f32b1f60b2f73b2·동결3언어ending현재231/235 stale3 invalid1·전체invalid119·48·46 INCOMPLETE/nativeOPEN·전체raw대조는ending현재−2/stale+2와manifest뿐/invalid집합실제불변·다듬기/수용0.
+- 독립 GO_SOURCE_FACT_ONLY/4잎전수·root 전문/spec1/제품4/증거4/raw3/보고2핀 확인. .git/order660-20261015/review.md7770B/8becf523b8bbecac06dc8679d74b319a74d45326a0a169c3d9ca77dadf0eb6fa·JSON10334B/c2fa38e4920514560bc27cdc0bcd528957319b167abfbed19ca570913eeabdfe.
+- 마감전 read-only 콘솔CG잠금true/화면복구없음·native/설정변경0. 진단plist shape실패2건 뒤 실제True를확인한원기록은 private access-recheck.json/게임검사통과로세지않음. 실제M18/엔딩/native/전체경제·관계/카탈로그/5언어/352선행/출시 HOLD·새월0·612dirty4바이트보존/제외.
+- 별도 비저자다음22잎 source사전읽기 진행(강남남은DK6쌍/빈집base+DK4쌍)·추가판정 미봉인/원문쓰기0. 개발스킬 표적·독립·보존 적용·일회성/새정본승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 배상 엔딩의 없는 독립성공과 아버지 중복도착 수리
 
 - [659](queue_archive/ORDER-659.md): 배상요구 뒤 M34 인맥거래0/2를 고를수있는데도 상철사다리없이/집자금어떤원화도거치지않음/스스로등반을 단정하던 KOEN2잎을 실제환급과 돌아오지않는아버지시간으로 바꿨다. 첫방문 뒤 다시초인종을 누르던 장면도 같은방문으로 이어진다. 배상은아버지계좌/민준money0·집자금유입으로재해석0.
