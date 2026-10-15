@@ -3,6 +3,15 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 배상 엔딩의 없는 독립성공과 아버지 중복도착 수리
+
+- [659](queue_archive/ORDER-659.md): 배상요구 뒤 M34 인맥거래0/2를 고를수있는데도 상철사다리없이/집자금어떤원화도거치지않음/스스로등반을 단정하던 KOEN2잎을 실제환급과 돌아오지않는아버지시간으로 바꿨다. 첫방문 뒤 다시초인종을 누르던 장면도 같은방문으로 이어진다. 배상은아버지계좌/민준money0·집자금유입으로재해석0.
+- 후보7bcefd615fdc4300bc0dc210cc6dd7ba28f9879f/tree9d504cce2fb2c28c3a8d6e8137c6e7de0edc41f9·2원고 inverse/parsed/문단name숫자·첫도착 exact/비소유불변·6source조합은 실제runtime아님. 표적9 및 공식inventory3 actual0·selection33실행아님·release공식동일canonical SHA를 사전정렬해기지stale실패중복0/보고1셀·수량ID타축public불변·engine/전체audit/자연240/새checker0.
+- manifestb83695647e78a247088abeae284f2c7a703f36bee600acded13e0a36e3d338c8·3언어ending현재233/235 stale1 invalid1·전체invalid119·48·46 INCOMPLETE/nativeOPEN. 정확해당cleared잎1개씩만 줄수/원화수사 불일치추가/다른raw필드불변·다듬기/수용0. root의invalid집합불변예상assert2회실패는 private author-check-correction에보존→실측delta로정정/제품검사실패통과승격0.
+- 독립 GO_SOURCE_FACT_ONLY/2잎전수·root 전문/spec1/제품4/증거5/raw3/보고2핀 확인. .git/order659-20261015/review.md7890B/03c6790b433cf4404e34eaa5f8f7bc070ca463f592dbe0c0dcd9327868c142fa·JSON10576B/0d20e444b806626019098c85126e078fdd7dc037ac8f3bb4a66fe795c98b8a6b. 인맥수익이 집자금 provenance까지증명한다는 검수문장과장은 root요청으로 명시정정/제품변경0.
+- 실제M18/엔딩/native/전체경제·관계·인맥/카탈로그/5언어/352선행/출시 HOLD·612dirty4바이트보존/제외·새월0. 비저자 다음18잎 읽기전용 조사는 별도사전조사이며 새GO아님. 개발스킬 표적·독립·보존 적용·일회성/새정본승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 침묵을 자금 절반으로 바꾸던 엔딩 회상 수리
 
 - [658](queue_archive/ORDER-658.md): gangnam_dream/sangchul_truth_buried의 KOEN2잎에서 상철을 거친 집값 절반이라는 무보장 사실을, 실제 카페에서 진실을 묻기로 한 선택의 회수로 바꿨다. 다른 비율·자금 출처도 새로 단정하지 않는다. DK순서/ending분기·IDs35/효과/flags/저장/JAzh·공개/사용자 불변.
