@@ -3,9 +3,11 @@
 이전 기록은 [684 착수 예산 스냅샷](history/WORK_LOG_2026-10-15_order684_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문 39207B/SHA256 4da76135c3fae8347545bfe679bb9c3788cff6efa53f876b2fcc9639ce14c63e; 앞선 보존 링크도 원형 그대로다.
 
-## 2026-10-16 — 사용자 본편 테스트 환경 준비 착수
+## 2026-10-16 — 사용자 본편 테스트 환경 인계 완료
 
-- [696](queue_active/ORDER-696.md): 사용자 직접 요청. basead230fd 별도cleanclone의 projectcustomdir/ICU·BuildInfo16.2 두파일만 build-only 변경해 기존macOS 차선재사용·새바탕화면app/안내/전용userdir로인계한다. mainproject/원문/사용자기존자료/대표694W126·제품검사불변·HOME/OS설정변경0. root소유 exact범위 사양선언·독립격리/package검수·정상제목화면만·인계후UI/저장사용자소유. 새월/C4사람GO/출시GO/외부0.
+- [696](queue_archive/ORDER-696.md): 사용자요청으로 새본편16.2 앱을 Applications/GangnamDream-HumanTest-20261016.2에 설치·바탕화면바로가기/안내·영구userdir격리. 정상1boot→KO→한국어새이야기메뉴/continue비활성·4원이미지/새게임입력0/PID47625실행중사용자에게양보·이후UI0. 제목시점settingsko/진행save0·이후사용자소유가변·0B로그는오류0인증아님.
+- 선언36e6c05뒤basead230fd→privatecf5851d/tree9f6c215a 정확projectcustomdir/ICU+BuildInfo두파일·main불변. 성공import1/export1·원Godot설정97/보호10그룹118exact·signeduniversal/app7/PCK1893/MD5/675JSON/ICU/notice확인·독립인계한정GO/root전문/불변핀실물검증. barebinary-9/빈objectdbdir가드/초기iCloud사본FinderInfo서명실패는원증거보존·원ZIP을Applications에풀어정상원서명0/보안속성제거0. ZIP/manifest/보고/실행사양핀은사양에보존. 표적문서5/context·queue·diff actual0·스킬저장보호/독립/표적/실제입구·새런처/검사/전체audit/240주/HOME/OS변경0. 원694W126/public/Human/제품검사보존·사용자앱실행중엔UI/저장양보·C4사람2~3h/저장왕복/5언어/C1완주/mainCI전체녹색/fullRC/출시/외부GO0·승격0/일회성.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
 
 ## 2026-10-16 — 콘텐츠 원장 지문 CI 실패 source 수리 완료
 
