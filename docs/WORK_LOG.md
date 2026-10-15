@@ -3,6 +3,14 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 첫 문자를 5년 전으로 고정하던 M58 지연 기억 수리
+
+- [654](queue_archive/ORDER-654.md): t>=64 이후 받은 첫 문자→t>=228 판결/전체240주 안의 최대176주를 5년으로 회상하던 KOEN2잎을 수리했다. 그 새벽/at that dawn으로 고정기간만 제거하고 첫 문자·질문·답신·관계·3선택·효과·flags·item·코드·저장·JAzh·사용자 바이트를 보존했다.
+- 후보b5eea6a1d7b3813ec4829d5f2fd82730fab0ff28/tree8d0a4e1832ea6b2def0fb13e4c7d7b3edfeb7b66·2원고 inverse/parsed/문단name exact·표적7 및 공식3inventory actual0·selection67실행아님/release정렬불필요·engine/전체audit/자연240/새checker0.
+- manifestb5ab3940d8fbd510e14604155646301299722601d2d0e70868b3723a24f7f597·event현재11210/ch5reader129/133stale4·invalid118·45·43/INCOMPLETE/nativeOPEN. 동결 CJK의 숫자5 불일치가 정확히 대상ID1개씩 증가·기타invalid변경0·다듬기/수용0.
+- 독립 GO_SOURCE_FACT_ONLY/2잎 전수/차단0·root 전문/2제품/4증거/3원inventory 핀 확인. .git/order654-20261015/review.md5475B/d4bc0e27d61a178e44ba71e38ad34cafe96b485c037a627101e9db099ae7c953·JSON5884B/a857b630be724419d78117ee90184587a0d96dc883126680f00e8b7b8e61814f. 실제M18/M58/native/전체관계체인/5언어/352선행/출시 HOLD·새월0·612dirty4미포함. 다음 다은 artifact4잎 별도수리→M59~60. 개발스킬 표적·독립·보존 적용·일회성/새승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 선택하지 않은 전달·자필을 덧붙이던 M57 공통문 수리
 
 - [653](queue_archive/ORDER-653.md): W219 자필 없는0/2·W224 미전달1에도 공통문이 전달 시각/내가 쓴 범위를 말하던 KOEN2잎을 수리했다. 실제 분기 회상3×2는 그대로, 공통 대사는 오늘의 동의 범위를 먼저 묻는다. 4선택·결과·경제{}·조건·receipt·코드·저장·JAzh·사용자 불변.

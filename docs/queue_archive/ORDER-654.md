@@ -1,6 +1,6 @@
 # ORDER-654 — M58 첫 문자에 성립하지 않는 고정 5년 회상 수리
 
-#### [~] ORDER-654 [정합] 실제 첫 문자와 같은 기억을 기간 발명 없이 회수 — 2026-10-15
+#### [x] ORDER-654 [정합] 실제 첫 문자와 같은 기억을 기간 발명 없이 회수 — 2026-10-15
 
 653 마감 뒤 M58 지연 기억물 KOEN2잎만 수리한다.
 현재 Mac CGSSessionScreenIsLocked=Yes·같은 M18/612 실제 재검수 HOLD·새월0.
@@ -33,4 +33,19 @@ context/queue/diff0·고정 제품 commit/tree/핀/독립 source 사실 한정 �
 engine/전체audit/자연240/새checker/비용·최적화0·사용자save설정/project/demo/human 보존.
 다은 artifact4잎·M59~60는 이 범위에서 쓰지 않는다. 실제M18/M58/native/전체관계체인/
 5언어/352선행/출시 HOLD. 일회성 수리/새 정본 승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — source 사실 수리 한정
+
+- 후보b5eea6a1d7b3813ec4829d5f2fd82730fab0ff28/tree8d0a4e1832ea6b2def0fb13e4c7d7b3edfeb7b66.
+- KOEN2잎/full inverse/parsed/문단name exact·나머지 선택/조건/효과/flags/item/코드/저장 불변.
+- 표적7+공식inventory3 actual0·release정렬불필요·selection67은 실행목록 관찰뿐·engine/전체audit/자연240/새checker0.
+- source manifestb5ab3940d8fbd510e14604155646301299722601d2d0e70868b3723a24f7f597.
+- event현재11210/ch5reader129/133stale4·invalid118·45·43 INCOMPLETE/nativeOPEN·각locale 대상숫자불일치1증가/기타invalid변경0·다듬기/수용0.
+- 독립 GO_SOURCE_FACT_ONLY/2잎 전수/차단0·root 전문/2제품/4증거/3rawinventory핀 확인.
+- .git/order654-20261015/review.md5475B/SHA256d4bc0e27d61a178e44ba71e38ad34cafe96b485c037a627101e9db099ae7c953.
+- review.json5884B/SHA256a857b630be724419d78117ee90184587a0d96dc883126680f00e8b7b8e61814f.
+- map/source-proof/targeted-results/inventory-completions 및 raw3은 같은 폴더.
+- 실제M18/M58/native/전체관계체인/5언어/352선행/출시 HOLD·612dirty4 바이트보존/제외·새월0.
+- 다음 다은artifact4잎 별도선언→M59~60·일회성/새정본승격0·개발스킬 표적·독립·보존 적용.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
