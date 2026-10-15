@@ -3,6 +3,13 @@
 이전 기록은 [663 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order663_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36266B/SHA256 c080667791b8306d7e7d4cb2c60b94257e63c40de6bfb825f95c0ea87571426a이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 트레일러의 색 설명 자막을 판돈 질문으로
+
+- [676](queue_archive/ORDER-676.md): 기존발견보존정본과충돌한KOEN자막1쌍을 "누구에게 시간을 쓸까."/"Who gets your time?"로수리,30/60초4scalar만변경했다. 제품c12e6b0687c3a22edfa6f31c37ea3195c98a1f9e/tree10982950731bb7f1e8a25aca2a24b3ecc09b064c. 비저자4전수GO_TRAILER_SOURCE_CAPTION_ONLY.
+- old5982B raw역변환/JSON4差exact·컷/시각/style/audio/기타자막/게임불변. 기존trailer static·context/queue/diff actual0; selector미매칭의full요구는PASS로세지않고C3별도/engine0. 초기큐예산25B초과는제목/gate만줄여해결·checker/등록/예외/기준선변경0.
+- root보고2전문/6핀·보호9대조PASS,61211314B/suffix3555B exact/stage제외. 기존MP4/SRT재생성·촬영/재생/가독성/믹스·Steam/실제앱/CIgreen·C5전체/출시GO0. 개발스킬의정본/독립/표적/보존적용;새규범0/일회성입력수리다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 발견을 남기는 상점 긴 소개 다섯 언어
 
 - [675](queue_archive/ORDER-675.md): KOEN About의색/선악·재독·유물/개별엔딩결과와EN만의6년상환/자격평가를걷고,JA/CN/TW누락5각15블록을KO직접독립저작했다. 시작사정·시간/기회경쟁·장면선택·240주35결말·경고5블록을5언어25개로맞췄다. 제품30aedf86d63561c31f549ebce77254b259b38355/tree9e968621bc1103b39664d9f00ca0c40fa09a79fc.
