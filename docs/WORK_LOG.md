@@ -3,6 +3,15 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 빈집 엔딩의 하지 않은 방문 약속 회상 수리
+
+- [661](queue_archive/ORDER-661.md): W185에서 다음 방문 약속을 하지 않은 경로에도 붙던 “다음 달에 꼭 내려가겠다”/미이행 회상을 KO/EN 각 한 문장씩 고쳤다. 지금 아버지와 이 집의 창밖을 함께 볼 수 없다는 사실만 남기고, 집·등기·작년 겨울·병원·머그·금액 및 분기·저장을 보존했다.
+- 제품 후보 7dbf21ade6e27171d01a1bddea4a6006c907a549/tree 6498927ebf40150c7760c3e3136329ab22abff2e. 원고2 inverse/parsed/문단·newline·name·digits와 비소유 바이트 exact. 의료증거1→W188 사망/앞 DK3 false 반례4는 source 합성이지 실제 플레이가 아니다. 표적9/공식 inventory3 actual0, selection33은 목록만. release ending SHA와 같은 생성보고1셀만 정렬/수량·ID·타축·public 불변. engine/전체audit/자연240/새checker0.
+- manifest 5f9cae7b56cc3efad5ba66a5f527037967b03bb10abf325e5ff70e0225978883. 동결3언어 ending230/235 current·stale4·invalid1, 전체invalid119/48/46·INCOMPLETE/nativeOPEN. 전체 raw 대조는 manifest와 ending current−1/stale+1만/invalid 집합 동일. 다듬기·수용0.
+- 독립 GO_SOURCE_FACT_ONLY/2잎 전수. root 전문/spec1/제품4/증거4/raw3/보고2핀 확인: .git/order661-20261015/review.md6719B/b6b8eeac00faf8f09b51d99d848516e72dd56a7fd82dbd6172f7b0249d8a317d; JSON9657B/7d3b442834281010d4e18d936fdd81fdc814d79009169be9a89c847314bd3706.
+- 실제M18/엔딩/native/전체부자·의료·경제/카탈로그/5언어/352선행/출시 HOLD. 세션잠금true/실제재시도0·새월0·612dirty4/WORK_LOGsuffix3555B 제외·보존. 비저자 다음24잎 source 사전조사에서 다은 엔딩의 첫 라면·미실행 투자실패·작은예식 회상 후보를 확인 중이며 아직 수리·최종GO가 아니다. 스킬의 표적·독립·보존 절차 적용; 일회성/새정본승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 실제 선택보다 큰 독립자금·전액투자 엔딩 회상 수리
 
 - [660](queue_archive/ORDER-660.md): gangnam_dream quiet/jaehyuk DK KOEN4잎 수리. quiet→M34소개망거래0/2도가능하므로 네트워크전부버림·몇배먼길·완전자금독립·빌리지않음 대신 그날카페퇴장/듣지않음/붙잡지않음을 회수한다. jaehyuk 일부100만원→scammed→재기0/1에도통장털어/put everything을 말하던규모만 돈맡김으로좁혔다. 미래거래/자금provenance/새비율은발명0.
