@@ -1,5 +1,14 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-10-15 — 새 발급본으로 M22 실제 앱 검수 완료
+
+- [682](queue_archive/ORDER-682.md): 새 BUILD15.1/08cd74ab/treebe8e3d97, 원681W85 한복사/freshHOME3XDG 정상Continue. fork0→hold1→W86date0→W87two_years0→W88morning0→첫W89parents본문/다음문단·선택0에서CmdQ. 실제40JPEG 전수·포커스/본문폭/메시지/수정W87기본문안 정상. 첫언어선택 AI보조번역 영문고지1개도 실제관측; 설정/5언어/상점·C4전체GO는아니다.
+- final250352B/SHAe92c478a2b2be77daf6c512ed2136322f22aa0b88c3b895d7fb88085b43db6e5. 원prefix66exact+seq67..71, 다은20→70/close만cast변경·아이템3+메모1·W87예약회수. receipt85..88각1회/marker89/last88/resume{}·월말1/11월뉴스4. HUD−785만원/24/90/38개월과durable−7851703/24/90 일치, W85루틴정신+4→98/이후cap반영. 동행은일정약속·발권/결제/방문완료0·M23/병원/중간결과quit/reload인증0.
+- native32099 exit0/failure null/14true·76그룹1264항목exact·editor생존·마지막CmdQ/재선택0. raw3전독·예상build_id_mismatch경고1만/ERROR·ObjectDB0. 비저자40화면/출구GO+별도저장의미GO, root전문/70실제핀확인. 원681/680/679/612·저장/설정/project/공개/Human·게임/번역/제품검사불변·월별한commit. 상세보고핀/초기본사양/private보존.
+- 새발급은별도clone두파일ICU/ID만directchild1/원격push0, prepare25533/7true→독립입구→full-rc83646 한회/7명령0/10true·3산출물4manifest·서명/universal·1893PCK/ICU·W87KOEN bytes검수. root입구12/package39/native입구16핀확인, 기존6자산을W87관련으로쓴보고표현은initial보존후정정·재빌드0. helper신구핀전사는prepare전수리·실패run/체커완화0. 전체audit/24·240주/새tool·비용사업/외부Steam0.
+- main1e4 CI38743247513 static성공/Godot진행·실패0/예외0/만료0·녹색미확정. 표적context/queue/EN/diff·개발스킬의격리/보존/동일후보/독립검수적용. 다음M23원W89·완료월반복0. M60완주·현재main전체5언어/EN·CJK실화면/사람2~3h/원어민·패드·청취/상점/출시GO0·규범승격0·일회성이다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 막차 M21 실제 앱 선택과 저장 검수 완료
 
 - [681](queue_archive/ORDER-681.md): 원680 W82 한복사/freshHOME3XDG·같은BUILD14.3, 정상Continue 막차0(터미널배웅)→결과3개→W83/84quiet→첫W85갈림길본문/선택0에서CmdQ. 실제14JPEG 전부읽음·전화→터미널 이동/키보드/본문폭 정상. W81은기존정산보존·재실행0, M21네주각1회완료/M22입구만이다.
