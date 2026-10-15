@@ -21510,7 +21510,7 @@ func _ending_build_credits_page() -> void:
 		credit.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		page.add_child(credit)
 	var thanks := _wrap_label(
-		_tr("그리고 이 5년을 살아 준 당신에게.", "And to you, who lived these five years."),
+		_tr("그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.", "And to you, here in the light of this screen."),
 		15, "#d5dbe2")
 	thanks.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	page.add_child(thanks)
