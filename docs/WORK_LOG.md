@@ -3,6 +3,14 @@
 이전 기록은 [684 착수 예산 스냅샷](history/WORK_LOG_2026-10-15_order684_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문 39207B/SHA256 4da76135c3fae8347545bfe679bb9c3788cff6efa53f876b2fcc9639ce14c63e; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — M25 새해·다은 저녁·부친 통화 실제 검수 완료
+
+- [687](queue_archive/ORDER-687.md): 같은BUILD15.2·원685W97에서 새해0→W98다은05요리0→W99자동quiet→W100부친통화0→첫W101생일첫문장/선택0/CmdQ. 원21JPEG root/비저자전수·semantic11/21GO, root전문/출구35+semantic8actual핀확인. 05는chapter제목뿐/07파일명W97결과는실제W98첫본문·W99별도화면0. W101 HUD−927만원/건강21/정신81/35개월과durable일치. first언어 영문AI고지1개는5언어/설정/상점인증아님.
+- final278357B/SHA94572af3394bf13b04085076fbe5417966bea4bf0e0494c22d1b589d0b6a3661 runtimecmp0. prefix80exact+seq81..83·routine/completed97..100각1/last100/chain{}/resume{}·정산97원형/101새1회·뉴스4append/앞4trim/잔존56exact. 다은87→95close/부친92quiet→100connected(cap)만cast변경·items4/무직/portfolio{}·대출0/관계[]/year_scenes보존·callback110/112생산. 돈−8384255+280000−650000−519721차액유도=−9273976·긴급지출52만원log/source일치/원RNG·toast실관측0. 정신cap100→월91→stress10차감81·건강20+3−2=21. 투자/송금/취업/새연애·저장손실발명0.
+- native29865 parent62439/child62450 exit0/218.012826s/failure null/14true·89그룹1491exact·editor생존·CmdQ마지막/재선택0·raw154/0/154전독오류/경고/ObjectDB0. 초기prepare10true/입구GO는직전AX차단/quiet예상누락으로미실행보존. 실제화면off00:45:52→on00:49:38/암호잠금off·AC설정0/0→freshAX정상복귀, 모든과거정지원인/암호잠금단정0·설정변경0. 실제guard확인후corrected89범위를먼저선언·별도prepare/입구GO·정상1실행. 초기/수정준비각1seed복사·초기native11핀/oldruntime원seed1보존, oldruntime전체snapshot주장0. 원685buildfalse/tmp47HOLD는그대로다. rootsemantic핀검증의verdict/size형식가정오류는decision/bytes·명시8파일맵으로고침·봉인보고수정0.
+- main c7aa CI38762930632 static성공/Godot진행·실패0/예외0/만료0·녹색미확정. 표적문서5/EN누출0·마감context/queue/diff·월별한commit. 다음원W101/M26·완료M01~M25반복0·새build/전체audit/240주/새tool/비용사업/외부0·게임/원문/번역/저장/제품검사/Human/공개/project변경0. 상세사양/보고private핀보존·개발스킬격리/보존/독립/표적적용·승격0/일회성. M60엔딩/EN·CJK실화면/5언어최종정합/사람2~3h/원어민/물리pad/청취/Steam/출시GO0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-16 — 승인된 정리와 대체된 P-19 문서 실패 수리 완료
 
 - [686](queue_archive/ORDER-686.md): 685 표적 검사에서 날짜 전환 뒤 P-19 22일/상한21일 exit1을 확인했다. 722d4e7 로컬 선언 뒤 최신 승인/완료487에 대조하여 대체 종결했다. 원안3개 전부삭제 승인 아님·현재 causal 제품 self-test 유지. 원문1947B/SHA5925c26749cbc5339a421882a2226afdc72eea2bf65182d8836d7c4d373ef99c를 POST_LAUNCH에exact보존·root/비저자 독립 추출/현재3행·코드·승인 전독GO.
