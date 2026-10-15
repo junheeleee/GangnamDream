@@ -80,6 +80,31 @@
   - ② 선택이 실제로 보유 자산을 고위험 자산으로 옮기게 한다(정점 회복, 밸런스·엔딩 분포 변경 → 사용자 승인과 경제 시뮬 필요).
   - ③ 실제 거래 없이도 되돌릴 수 없는 행동으로 바꾼다(예: 다음 달 매매를 미리 예약하고 취소 버튼을 지운다, 증권사 앱 알림을 끈다). 문장과 시스템이 일치하고 밸런스는 그대로.
 - **권고: ③.** 밸런스를 건드리지 않으면서 "돌이킬 수 없음"을 회복한다.
+- **2026-10-15 사용자 결정: ③** ("너 권고대로 해", DECISIONS 2026-10-15). 효과·플래그(`final_gamble_taken`)·조건은 그대로 두고 문장만 바꾼다.
+  실제 거래나 예약 기능은 만들지 않는다. 돌이킬 수 없는 행동은 "멈출 조건 칸을 비운 채 저장한다"이다(시스템이 없어도 참인 행동).
+
+  선택1 text
+  - KO: 멈출 조건 칸을 비운 채, 큰 위험을 감수할 계획을 저장한다
+  - EN: Leave the stop line blank and save a high-risk plan
+
+  선택1 result_text (3문단 유지)
+  - KO:
+    > 사용할 돈과 감수할 손실을 빈칸에 적었다. 마지막 줄, '여기서 멈춘다'에 쓸 숫자 앞에서 펜이 오래 멈췄다. {name}은 그 줄을 비워 둔 채 저장 버튼을 눌렀다. 손이 떨렸지만 눌렀다.
+    >
+    > 저장된 계획을 다시 열자 빈 줄 하나가 화면 아래쪽에 하얗게 남아 있었다. {name}은 그 줄을 건드리지 않고 폰을 엎어 놓았다.
+    >
+    > 손끝의 떨림은 멈추지 않았다. 엎어 놓은 폰 아래에서, 빈 줄 하나가 남은 반년을 기다리고 있었다.
+  - EN:
+    > He filled in the money he would use and the loss he would accept. At the last line, "Stop here," the pen hovered for a long time. {name} left it blank and pressed save. His hand shook, but he pressed it.
+    >
+    > When he reopened the saved plan, the one empty line sat white at the bottom of the screen. {name} turned the phone facedown without touching it.
+    >
+    > The tremor in his fingertips didn't stop. Under the facedown phone, one blank line waited for the last six months.
+
+  회수 `arc_final_week` DIK `final_gamble_taken`의 해당 줄
+  - KO: "마지막 구간 어느 밤, 멈출 조건 칸을 비운 채 위험한 계획을 저장했다."
+  - EN: "One night in the final stretch, he left the stop line blank and saved a risky plan."
+  - 다음 줄("그 밤도 이 5년의 일부다. 부정하지 않기로 했다.")은 유지한다. JA/zh는 일괄 정합 때 맞춘다.
 
 ## Codex 적용 규칙 (다음 사실 수리부터)
 

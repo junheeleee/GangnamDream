@@ -1,5 +1,14 @@
 # Gangnam Dream Decisions
 
+## 2026-10-15 (마지막 6개월 "전부 건다" 선택은 돌이킬 수 없는 행동으로 쓴다 — 사용자 승인)
+
+사용자가 Claude 권고 ③을 승인했다("너 권고대로 해"). `arc_endgame_sixmonths` 선택1은 실제 거래가 없는 선택이다(효과 luck/mental/tint, 플래그 `final_gamble_taken`).
+옛 문장은 실행하지 않은 주문을 묘사했고, 사실 수리(`a402e402`)는 "계획 저장"으로 바꿔 마지막 정점이 약해졌다.
+
+- 실제 거래·매매 예약 기능은 만들지 않는다(밸런스·엔딩 분포 불변).
+- 선택은 시스템 없이도 참인 돌이킬 수 없는 행동, 즉 **"멈출 조건 칸을 비운 채 저장한다"**로 쓴다. `arc_final_week`의 `final_gamble_taken` 회수 줄도 같은 행동을 가리킨다.
+- 문안 정본: [PROSE_FLATTENING_REVIEW_2026-10-15.md](queue_backlog/PROSE_FLATTENING_REVIEW_2026-10-15.md) E절. 구현 소유: Codex(KO/EN 먼저, JA/zh는 일괄 정합 때).
+
 ## 2026-10-08 (검수 비용 상한과 녹색 CI 기준선 — 사용자 승인)
 
 사용자가 Claude 권고를 승인했다("응 승인할게"). 배경: 10/3~10/8 main 커밋이 건드린 파일 중 게임
