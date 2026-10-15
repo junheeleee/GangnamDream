@@ -1,5 +1,14 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-10-15 — M18 화면과 저장 불일치 실제 앱 재검수 완료
+
+- [612](queue_archive/ORDER-612.md): 사용자 수동해제 뒤 동일 BUILD2026.10.14.3/30575afd를 원W69 한복사·fresh HOME/3XDG로 정상Continue. W69선택02/index1→W70선택01/index0→첫W73본문 선택0/CmdQ 마지막UI, 19화면 실독·키보드포커스/본문폭 정상. 실제 월별관측·검수·마감은 이 한commit에 묶었다.
+- 이전−657만원/정신77 HUD↔−6371703/87 저장 불일치가 이번에는 재현되지 않았다. 실제HUD−637만원/건강32/정신87과 durable−6371703/32/87 일치. 원prefix/cast exact·routine/completed69..72 각1회·marker73·6/7월뉴스5각·W73선택0. 최종save218349B/SHAbcc02aded22af3b8dd0865c9b32a47870e90df559d653c548d291b612849b1a5.
+- launcher35347 exit0/failure null·14/14보존·62그룹/1003항목 exact·editor생존, raw3 errors/ObjectDB0·예상build_id_mismatch경고1. 독립19화면/출구GO와 별도source/저장 의미GO, root보고전문·36핀검증. 과거실패/중단raw·저장·설정/project·공개demo·Human 불변. 캡처는JPEGunder.png 원바이트며 최초PNG표현오류도initial문서에보존·정정했다.
+- main2a3bca13 CI38720848564 completed/success·CI예외0/만료0 확인. context/queue/EN누출/diff 표적0·게임/번역/검사수정/새전체audit0. 개발스킬의동일후보·격리·독립검수·원본보존을적용했다. 상세후보/보고SHA·실제raw는마감사양/private에결속했다.
+- M18 대표경로 한정마감·다음M19 별도선언, 명함소품/서울회고 문체잔여는C2아닌출시후보류다. 새HEAD CI/현재main전체native·EN/CJK실화면/사람2~3h/패드/청취/M60엔딩·C1~C5전체/출시GO0. 규범승격0·작업지시전부일회성.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 이전 기록은 [663 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order663_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36266B/SHA256 c080667791b8306d7e7d4cb2c60b94257e63c40de6bfb825f95c0ea87571426a이며, 앞선 보존본 링크도 그대로 남아 있다.
 
@@ -122,3 +131,12 @@
 - manifeste476ee04437b180fa42e429d1e4fdc10553083a7fb018ed656cb21fb4e508845. 동결CJK ending222/235 current·stale11·invalid2; 전체invalid120/49/47. 신규각1은 late_call에남은5년의 숫자불일치이고 기존invalid 동일. INCOMPLETE/nativeOPEN·다듬기/수용0.
 - 실제M18/엔딩/native/전체정산·카탈로그/5언어/출시HOLD. CG잠금true·새월0·612dirty4/suffix3555B 제외·보존. 초기원고patch의 base들여쓰기 inverse실패는 원래공백으로고치고 기록보존/정본검사약화0. 이미닫힌로그만 위스냅샷으로이동·진행중월기록미포함. 다음24잎 source사전조사 중·접근복구시같은M18우선. 개발스킬표적·독립·보존 적용; 일회성/새정본승격0.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 2026-10-14 — 화면 접근 복구 뒤 M18 실제 재개·저장 REWORK
+
+- [612](queue_active/ORDER-612.md): 사용자 직접해제 뒤 nativeinventory errors0/설정AX 정상 확인, 같은 발급9dea518f/treea360cb76/BUILD14.2를 재빌드 없이 원562 W69복사1개로 실행했다. 현재maina5b36d6/tree4acc2773과 구분한다. 정상KO Continue→W69 화면02/index1→W70 화면01/index0→첫W73 현수메시지본문 선택0/CmdQ마지막·16실제PNG/launcher exit0·보호14true. 사용자editor61385와 원저장·설정·project·공개데모 불변. W71/72 별도본문0이며 completed/routine69..72 각1회는 actual저장 근거다.
+- 첫W73 HUD현금−657만원/정신77과 actualsave−6371703/정신87 차이가 있어 완료HOLD다. 현금표시는만원단위이므로 약20만원이지 정확live액수관측은 아니다. final218526B/SHA142167627ea9e01a92898efa00aaa1762ac3713aab74c38a39b5f9cedf496b61·resume{}의selector재진입/문단cold복원GO아님. 월초경제와 달력autosave순서를 독립대조하며 새월0·이월선언/관측/마감은한commit으로묶기위해아직commit0이다. 원W77경계REWORK/두잠금중단raw는불변이다.
+- 맥실제설정은 암호요구안함/ACdisplay0·sleep0/배터리display5·sleep1/AC80%, 우상단핫코너displaySleep·우하단QuickNote다. 최초실패raw가 물리입력감지로자동해제pause를명시하며 공식LockedUse동작과맞는다. 모든후속실패의원인·물리입력주체/장치는미확정이다. 디스플레이꺼짐=잠금으로단정0·설정/권한/암호변경0·화면항시켜기요구0. 개발스킬은 격리·실제UI·월별증거보존에, openai-docs는 도구잠금공식문서대조에 적용했다.
+- 표적목록5는실행아님·context/queue/self actual0·diff0. 초기에존재하지않는codex_queue_check.py 호출exit2/검사0은 실제queue_consistency_check.py로정정해0이었다. 당시CI38552442826 static성공/Godot진행/failedjob·step0·green미확정. 원build_id_mismatch WARNING만관측·이번종료ObjectDB경고0을과거잔여해결로승격0. 독립exit-review9181B/1e37b4f9…a007·preservation19444B/c68d60c6…73a4 전문/핀확인·첫W73P1/nochoice·보존GO와visible/durable REWORK 분리. 628은4표적/source독립GO로닫아main e565eaf에반영했으나 새앱화면은미실행이다.
+- 재접근12:30UTC nativeinventory의generic auto-unlock실패·세션잠금Yes/IOConsoleNo·ACdisplay/sleep0 그대로, 추가15분targeted로그0은원인확정이아니다. 새게임launch/input0·암호/권한/설정변경0. 같은M18 savefix 후보는 .git/order612-savefix-20261014/build/ 최소helper·cleanbasee565/tree50ceb612/BUILD2026.10.14.3로선언했다. source수리≠월별실제마감·새월0·5언어/출시HOLD. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+- 수정검수앱 stage30575afd/tree908f/BUILD14.3 발급1회exit0·7명령0/보호10true·원project와BuildInfo불변. 3플랫폼/4manifest/PCK1893·고지12/ICU/5locale70/import6 정합, 비저자package-onlyGO MD5010B/a2816736…3c3c·JSON8266B/65ddc773…4ae8 root전문/핀확인. 실제주소·전체SHA는612사양결속·원16PNG/HUD-save REWORK/새앱launch0·UIHOLD. 현재main CI38564652323 static성공/Godot전체audit진행/failed0·green미확정. 다음수동해제때바로같은M18을읽도록 비GUI원W69격리복사준비를선행한다. 월별관측/선언/마감commit분리0·이번612기록아직미커밋이다.
