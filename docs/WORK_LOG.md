@@ -3,6 +3,13 @@
 이전 기록은 [684 착수 예산 스냅샷](history/WORK_LOG_2026-10-15_order684_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문 39207B/SHA256 4da76135c3fae8347545bfe679bb9c3788cff6efa53f876b2fcc9639ce14c63e; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — M31 반환점·상철의 차 실제 검수 완료
+
+- [694](queue_archive/ORDER-694.md): 원693W121/freshHOME3XDG·같은16.1 EN Continue→midpoint1→yearhalf122c0→전경없는123자동→father echo124c1→전경없는125자동→첫goal126 첫문단/선택없음/CmdQ. 본문/결과 완전표시·root/출구38JPEG5582954B 전수·semantic12/38·독립2GO/root전문/실제51+21핀확인. 출구인용2오기만 원보고exact보존뒤수정·제품수정0. W123decision_week정본분류는 그대로/quiet일반인증0다.
+- final326954B/SHAf8f3206d19ea8962d76cfa875dc1348fe0142d2b3c495e6e1ae11fb3d49b8012 runtimecmp0·W126/last125/chain{}/resume{}. read99exact→102·새3선택·121..125루틴각1/126선택0/원121재정산0. event_log99+3−앞2=100상한/원뒤97exact·read99전체보존. 돈−11123976+350000−650000=−11423976·건강9−2=7·정신cap100→father−7=93→124routine+4=97→월−9=88→125routine+4=92. 사전약96산술오류폐기/저장결함0·cast6/items4/무직/portfolio/대출/관계/주거/phone/year_scenes/clues불변·flag삭제0/AP3보존·월125정산1/뉴스3append·뒤57exact/action8·뒤92exact. goal126예약/seen0보존·cold재개는다음범위다.
+- prepare97193/null10true→독립입구→freshCI실패0/Finder정상→native14782/28559·28568 exit0/517.887235초/null14true/116그룹1963exact·editor생존/CmdQ마지막/재선택0·raw154/0/154오류/경고/ObjectDB0. main4c7edaf CI38785691250 static성공/Godot진행·실패0/예외0/만료0·녹색미확정. 표적문서5/마감context·queue·diff actual0·현황판참고경고·월별한commit. 새build/제품/번역/사용자저장설정/project/공개/Human/제품검사변경0·원691/693타이머한계/685false/tmp47HOLD보존·개발스킬격리/독립/표적/보존적용·승격0/일회성. 다음M32원W126·완료월반복0·M60/CJK/사람/Steam/출시GO0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-16 — M30 신고 후속·보증 거절·회복 실제 검수 완료
 
 - [693](queue_archive/ORDER-693.md): 원692W117/freshHOME3XDG·같은16.1 EN Continue→신고후속0→mirror기억1/0/거절0→119걷기1→120기반1→첫midpoint121 첫문단/선택없음/CmdQ. root/출구59JPEG8809923B 전수·semantic15/59·독립2GO/root전문/실제72+26핀 확인. timed본문3 전체는 미관측·연출hold뒤TIME9/focus0→다음별도Return/결과0·mtime8초다. 같은호출 미준수/JPEG단독timeout구분0을 명시·오파일명은 내용기준으로 정정/원본보존.
