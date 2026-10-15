@@ -3,6 +3,15 @@
 이전 기록은 [663 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order663_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36266B/SHA256 c080667791b8306d7e7d4cb2c60b94257e63c40de6bfb825f95c0ea87571426a이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 사실 수리 뒤 한영 장면 감각 복원
+
+- [667](queue_archive/ORDER-667.md): PR #33 main병합 확인. 표44곳 KO/EN 전수에서42쌍수리/2쌍유지, 승인E3쌍을별도로적용했다. 총47쌍/94잎 독립source품질GO·차단0. 지어낸과거를되살리지않고 현재종이·손·숨·소리로복원; A/B/E exact와C/D생산사실에맞춘좁힘. 승격: SCENE_TIER 공통산문계약, DECISIONS는이유/링크만. 나머지오더지시는일회성.
+- 제품88cd5fa4580df65323ba12c3dff1e63514a4e7d7/tree d168f4925a460f07ec80932176ce9da2e0b69f7d. 원고16 inverseexact/변경90scalar/비산문·flags·효과·순서·분기·저장·demo불변. 정본2+release2 포함제품20. 독립품질/증거4보고전문·제품20+증거36핀 root대조PASS·정확보고핀은마감사양.
+- 최종비엔진표적9 actual0(final6/release1/후수정continuity·distinctness2)·공식afterinventory3 actual0·context/queue/diff0·selection89목록만. 초기검사6개를현후보실행으로승격0. strictProseRecall 동결JA실패firstfail1 보존/source-only40/40과구분; 미증명실패3건표현은보고에서삭제교정했다. release초기실패/실측membership·지문정렬/입술부분일치오탐을보존·정성등급/공개roster불변.
+- CJK manifest65224b25ac1fb8bfbf16450bf735a8efc483b51b59c99951a9ab2bab5f21ce0c·invalid135/70/70·해결0/INCOMPLETE/nativeOPEN/다듬기수용0. E남은반년 지연입구는정상반례미폐쇄·미확정으로남기고승인문안자동수정0. root메타키/EN파일매핑읽기오류2원인교정/제품·도구변경0.
+- 같은M18/native/실제저장내구성/원어민/물리패드/엔딩전체/5언어/출시/CI전체녹색HOLD. CG세션잠금true·새월0·612dirty4/suffix3555B SHAexact commit제외·보존. 개발스킬표적/독립/보존·장면계층 사실/감각계약 적용.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 경마만 한 경로의 거래소 회상 수리
 
 - [666](queue_archive/ORDER-666.md): crypto_ghost 기본KOEN2잎의 호가창·거래소앱·차트·스마트폰 전제를 다음판숫자집착으로 고쳤다. typed경마 입구→베팅 addiction≥90→닫힘/정상종료guard→DK없는base의 source연결반례이며 실제앱관찰아니다. 식은밥/잠자리/심장/강남목표/삶의대가5문단, title/CG/DK/조건/분기/저장/공개를보존했다.

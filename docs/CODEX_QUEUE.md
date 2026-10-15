@@ -83,7 +83,6 @@
 | 75 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 사용자 확인 대기 |
 | 76 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | L3 대기 |
 | 77 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 물리 패드 L3 OPEN |
-| 78 | [~] | ORDER-667 · 사실 수리 뒤 KO/EN 장면 감각 복원 | [667](queue_active/ORDER-667.md) | 사용자 직접 지시 · 44곳 전수와 승인 E문안 재검토 |
 
 
 ### legacy V2 보존선과 본편 M07~M60 관리선
