@@ -2,7 +2,7 @@
 
 #### [~] ORDER-667 [산문·정합] PR #33의 44곳을 한영으로 다시 읽는다 — 2026-10-15
 
-사용자 직접 지시: PR #33 main 병합, 앞으로 사실 수리의 빈자리에 현재 장면의 감각 하나를 넣고 목록 44곳 KO/EN 재검토.
+사용자 직접 지시: PR #33 main 병합, E절 문안과 A~D 대안을 KO/EN에 적용하고 목록 44곳을 재검토한다. 앞으로 사실 수리의 빈자리에 현재 장면의 감각 하나를 넣는다.
 PR 병합 abda6a7. 모집단은 [검수 문서](../queue_backlog/PROSE_FLATTENING_REVIEW_2026-10-15.md)의 표 순서와 E절이다.
 
 ## 근거·깊이 3문
@@ -18,14 +18,14 @@ DIK는 실제 생산 선택을 대조한다. 목표 달성·생사·관계·주�
 
 ## 배치 B
 
-표 23~44번 KO/EN 전수와 승인된 E절의 선택 text/result_text 및 final_gamble_taken 회수 각 한 쌍. E는 실제 거래·예약 기능을 만들지 않고 멈출 조건을 비운 계획 저장으로 맞춘다. 펜·종이와 폰의 동작이 혼선이면 같은 승인 행동 안에서 문장을 정렬한다.
+표 23~44번 KO/EN 전수와 승인된 E절의 선택 text/result_text 및 final_gamble_taken 회수 각 한 쌍. E는 승인 문안을 쓰고 실제 거래·예약 기능을 만들지 않는다. A~D 대안은 해당 잎에 적용하며, 실제 정본과 충돌하는 사실이 발견되면 근거와 수정 이유를 명시한다.
 
 ## 정확한 파일 소유권
 
 - content/events/ 및 content/events_en/의 arc_daeun_extension.json, arc_drama.json, arc_events.json, arc_hyunsu.json, arc_midgame.json, arc_year3_drama.json, arc_year_close.json: 표의 잎만. E의 선택 text/result_text 두 잎은 arc_midgame, final_week 회수 한 잎은 실제 소유 파일 arc_drama에 추가한다.
 - content/endings.json, content/endings_en.json: crypto_ghost description, empty_house description_if_known/father_passed만.
 - docs/SCENE_TIER.md 공통 산문 계약에 지속 규칙 승격, docs/DECISIONS.md 이유, CLAUDE.md 현재 상태, docs/WORK_LOG.md 이번 항목, 큐의 이번 행·active/archive 사양.
-- 실제 내용 SHA가 바뀌면 content/meta/release_content_inventory.json 및 생성 docs/CONTENT_RATING_INVENTORY.md의 내용 지문만 정렬.
+- 실제 내용 SHA가 바뀌면 content/meta/release_content_inventory.json 및 생성 docs/CONTENT_RATING_INVENTORY.md의 내용 지문을 정렬한다. 문장 변경으로 키워드 탐색 후보가 달라지면 관측 count·file count·ID 지문도 함께 정렬하되 사건/엔딩 roster·공개 후보·정성 내용축·등급 판단은 불변이다. 새 ‘입술을’의 ‘술을’ 부분일치도 후보 관측일 뿐 실제 음주 추가가 아니다.
 - 사적 검수·대조 증거: .git/prose-review-20261015/. 새 검사 도구·오더별 상설 보고를 만들지 않는다.
 
 조건·효과·flags·선택 순서·DIK 순서·엔딩 라우팅·자산·저장·경제·공개 데모·project.godot·JA/zh·번역 원장은 불변. 시작 시 dirty M18 4파일은 별도 바이트로 보존하고 커밋에서 제외한다.
