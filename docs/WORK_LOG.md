@@ -3,6 +3,14 @@
 이전 기록은 [663 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order663_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36266B/SHA256 c080667791b8306d7e7d4cb2c60b94257e63c40de6bfb825f95c0ea87571426a이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 거래 화면 중국어 누락 19키 보충
+
+- [669](queue_archive/ORDER-669.md): 거래HUD·보유시가·매수매도·시간/MA차트19키의 CN/TW신규38만독립KO저작/상호비저자전수GO로수용했다. 기존JA/CN/TW대상다듬기0·코드/저장/공개/retail언어불변. 실제정상입구/화면/nativeGO아님.
+- 제품986a36bb6679fead87a1f62609583cb2c85434c2/tree527d6d30529a0b3f8f6f9c3d2f9ddf57438751a6. 초기영어K2실패/안내REWORK전체19각수용0→자연candlestick/닫고이후별도월이동/CN시가·시간·MA병렬수리→같은38전수재검수. 초기원응답/보고/raw보존. 최종check/import2각0·표적7actual0.
+- 사전기존2270키/order/bytes·old326batch/accepted·JA exact, 신규38receipt/327batch1·4파일inverse/Git sourceproofPASS. locale별static2066→2085/2980·missing914→895·current1986→2005; source3339c82e…4405/invalid137·70·72불변·INCOMPLETE/nativeOPEN. root최종보고6전문/CN9·TW5·보존35핀대조PASS·보존판정과TW저자산문자가승인을분리했다.
+- namedlane은612범위밖/explicit병행CLI거부로미실행·진단보존/숨김·검사변경0. explicit31목록조회만/관련7실행. 같은M18/612/BUILD14.3/첫W73·실제UI/5언어전체/CI전체녹색/출시HOLD, Mac잠금·새월/engine/설정0·612dirty4/suffix3555B보존. 개발스킬/I18N직접번역·증분·독립보존적용; 일회성/승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 회복·약속 엔딩의 지표와 기간 정밀화
 
 - [668](queue_archive/ORDER-668.md): 회복8쌍의 통장/한참미달을 순자산 목표미달+책상접촉으로, white2쌍의 근거없는5년수첩이력을 열린방빛/현재종이감각으로 맞췄다. KOEN10쌍20잎 source품질·보존독립GO. 새natural-live결함/엔딩전체승인아님.
