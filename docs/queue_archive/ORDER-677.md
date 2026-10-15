@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-677
+# Closed Queue Spec: ORDER-677
 
 > 우선순위·상태 정본: [CODEX_QUEUE](../CODEX_QUEUE.md).
 
-#### [~] ORDER-677 [C2·크레딧] 조기 결말에도 5년을 살았다고 단정하는 감사 문구를 수리한다
+#### [x] ORDER-677 [C2·크레딧] 조기 결말에도 5년을 살았다고 단정하는 감사 문구를 수리한다
 
 ## 대상·깊이
 
@@ -65,3 +65,46 @@ Mac잠금이면 같은612/M18 app14.3을 보존하며 새월0; 해제시 해당�
 공식 source batch는 수정source에서 다시export/검수/import하고 원batch·영수증은
 private에 보존한다. 같은 KO신규문구의 CJK3값은 재저작하지 않는다. 현재미커밋677
 batch의 header/digest만 실제 새영수증으로 결속하며 기존330batch/accepted는 불변이다.
+
+## 2026-10-15 수용 — 기간 사실·신규번역 한정
+
+재선언7d31e4b→source97cd43461fd16556e27a8f8bad1174c89d688b39/
+tree815f8a87953d7988b77e153b35550bb18a409c8e→최종target
+762e16580685a2b9bcdb3603346c005944c0f0d2/treee2f69b67719b2c8aefce2254d716b0b9e191475d.
+공통 credits Label의 기존240주 기준 읽기만 수리했다. W14/239는 현재 화면불빛 감사,
+240/241은 기존5년 감사다. 종료/경주/돈/턴/저장·다른UI 불변이며 source블록을
+옛3줄로 역치환하면 before MainGame 전체raw가 exact다.
+
+KO/EN 사실경계와 신규JA/CN/TW1각3값을 비저자가 전수 수용했다. 첫CN/TW
+微光은 원문에 없는 희미함이라 반려·微만삭제했고 원안/검사출력은 보존했다.
+첫source1e49의 무조건 새문구는 JA unknown-extra1로 실제실패했으며, 죽은키/예외
+신설 대신 정상5년 소비자를 조건 안에 유지해 같은JA검사를 통과했다.
+
+공식accepted.source/response3과 import3(내장check actualPASS)을 source97에 결속,
+UI신규3·accepted3·batch330→331만 append했다. 최종 current_proof는 네파일
+full raw inverse/기존원장exact·first-parent 전이1·실제Git source census
+b8fac880399ade9b7f0582783d1792fc8090386b81f89e78a9adc45bade33540을 확인했다.
+잘못된 present-target 재export의 첫target1f1656b는 current_proof에서 실제실패했다.
+원격push0 상태에서 별도 refs/codex/order677-rejected-target에 보존하고, root소유
+해당commit만 soft-reset해 파일손실 없이 새 missing-target export로 재수용했다.
+실패candidate/로그를 감추거나 baseline/checker/기존330batch를 바꾸지 않았다.
+공식import가 정규화한 JA기존5줄 탭만 원형으로 복원했다.
+
+최종source의 격리 CompileCheck69 marker/stdout·Godot로그 오류/경고/잔여0,
+JA UI2982 오류0·ZH audit·EN한글0/coverage·i18n EN1813/35·publicdemo82/121과
+context/queue/diff 통과. UI3는 위검사 입력과 byte exact여서 영수증header 재결속 후
+무관한검사를 반복하지 않았다. 전체audit/240주/새tool/selftest/검사등록·삭제·예외0.
+broader JA/CN/TW inventory invalid137/70/72·INCOMPLETE/nativeOPEN은 그대로이며
+새치명결함/출시준비 완료로 바꾸지 않는다.
+
+비저자 final GO_ORDER_677_FINAL_PRODUCT_ONLY:
+private final-review.md5603B/SHAba7ab0983b13ae6fb9e32b72b5697e3032fe6697e05cfffa05032ae2b57884a0,
+final-review.json13862B/SHAd07a4eddb6db6c7384dc68616a0d8317ac6501884a367802c3b633bbc11521f4.
+history-proof.json852B/SHA42fa9868a40dba132fca88aeec32e1bb0f459a40c7a46ec38b326be6223b5aca,
+preservation-proof.json6577B/SHA7241f24deb5381139d25d0596344c8c7645459ac2410b59be44f5d43934c6731.
+root보고전문·actual35핀/Git identity 확인. 612사양11314B·월로그suffix3555B,
+project/LocaleManager/인간·agent원장·실제player33files exact/stage제외.
+
+Mac잠금 지속·같은612/M18 app14.3 보존/새월0. actual credits/조기경로플레이·native/
+원어민/물리패드·C1/C2전체·mainCIgreen·C4/C5전체·외부Steam/출시GO0이다.
+개발스킬의조건대조·독립KO번역/비저자검수·표적/보존 적용;승격0/일회성수리다.

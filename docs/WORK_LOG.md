@@ -3,6 +3,14 @@
 이전 기록은 [663 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order663_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36266B/SHA256 c080667791b8306d7e7d4cb2c60b94257e63c40de6bfb825f95c0ea87571426a이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 조기 결말의 거짓 5년 감사문 수리
+
+- [677](queue_archive/ORDER-677.md): 정상 source의 조기종료→공통credits 반례를 확인했다. 기존240주 상수로 감사 Label만 골라 W14/239는 현재 화면빛,240/241은 기존5년문구로 맞췄다. 종료조건/라우팅·돈·턴·저장 불변. source97cd43461fd16556e27a8f8bad1174c89d688b39/tree815f8a87953d7988b77e153b35550bb18a409c8e, target762e16580685a2b9bcdb3603346c005944c0f0d2/treee2f69b67719b2c8aefce2254d716b0b9e191475d.
+- 신규JA/CN/TW1각3값·accepted3/batch330→331만 수용, 공식missing-target export/import와 기존current_proof의sourceGitcensus/first-parent전이1/네파일rawinverse PASS. 기존사전/원장 불변. source 무조건교체의JA extra키FAIL·CN/TW 微光 의미REWORK·present-target 재export의proofFAIL을 모두 보존하고 원인만 고쳤다. 무효local1f1656b는 별도ref보존·원격0, verifier/기준선/CI예외변경0.
+- 격리Compile69 양쪽로그 오류/경고0, JA2982오류0·ZH audit·EN한글/coverage·i18n1813/35·공개demo82/121·context/queue/diff 통과. 동일source/UI 바이트 검사와 새영수증proof를 구분했다. 독립GO_ORDER_677_FINAL_PRODUCT_ONLY, root보고전문/35핀 확인; 상세핀·실패는 마감사양/private.
+- 612사양11314B/suffix3555B·project/LocaleManager/인간·agent원장·player33files exact/stage제외. Mac잠금·같은M18/app14.3 유지·새월/외부실행0. 실제credits/조기play·native/원어민·C1/C2전체·mainCIgreen·C4/C5/출시GO0. broader CJK137/70/72·INCOMPLETE는 미완료 그대로다. 개발스킬의 조건대조·독립번역/비저자·표적/보존 적용, 승격0/일회성수리다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 트레일러의 색 설명 자막을 판돈 질문으로
 
 - [676](queue_archive/ORDER-676.md): 기존발견보존정본과충돌한KOEN자막1쌍을 "누구에게 시간을 쓸까."/"Who gets your time?"로수리,30/60초4scalar만변경했다. 제품c12e6b0687c3a22edfa6f31c37ea3195c98a1f9e/tree10982950731bb7f1e8a25aca2a24b3ecc09b064c. 비저자4전수GO_TRAILER_SOURCE_CAPTION_ONLY.
