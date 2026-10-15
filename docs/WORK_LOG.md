@@ -3,6 +3,14 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — M59 삭제된 음성 원본과 하지 않은 이사 회상 수리
+
+- [656](queue_archive/ORDER-656.md): W229 음성삭제1/카페방보관1에 붙는 W234 공통행을 지금 부동산 상담책상에 해당흔적이 없다는 사실로 좁혔다. 고시원유지·정신>20에도 여러방/풍경변경을 말하던 겨울 기본문은 현재방만 관측하도록 KOEN4잎 수리했다. readrow0/5주/선택·결과·효과·receipt·코드·저장·JAzh·사용자 불변. 6source구성은 실제관측 아님.
+- 후보a45e20a886422e6e624487860ba8a54557cf96e7/treebd5165e332d462551eacc019060eb061ae9838f5·2원고 inverse/parsed/문단name숫자 exact. release최초1실패 원기록보존→공포 contentSHA750b…da0를450d…f99로/동일보고셀만 정렬·146사건/51파일/IDs/다른축/publicexact→final0. 최종표적8/공식inventory3 actual0·selection71실행아님·engine/전체audit/자연240/새checker0.
+- manifestb4ad7d0ee4e7f90666a2d80bf6714ad7d68adfd16b278d7928bd3299ff851b3f·event현재11208/stale180·196·198/ch5reader128/133stale5/invalid118·47·45 INCOMPLETE/nativeOPEN. release정렬은collector입력밖/manifest불변 직접확인해inventory중복실행0·invalid집합그대로/다듬기·수용0.
+- 독립 GO_SOURCE_FACT_ONLY/4잎 전수·root 전문/4제품/5증거/3raw핀 확인. .git/order656-20261015/review.md7152B/9a25169bb7199e7f258fecf94df74870c4183781170bee5e510743bbafac6043·JSON8307B/d1b231c4fc7c7daf50c2a246cfc8a263112f112e3f93f6372aba6785685acc64. 최초patch중복파일거절은 적용/검사0·파일별hunk로복구/일회성한줄기록·실패승격0. 실제M18/M59/native/전체종막·경제/5언어/352선행/출시 HOLD·612dirty4미포함/새월0. 다음M60 읽기전용 조사에서 같은 삭제원본 위치 오회상2잎 발견·미수리/날짜대조 진행. 개발스킬 표적·독립·보존 적용·일회성/새승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — M58 다은의 실제 포스트잇 인용과 잘못 센 글자·단어 수 수리
 
 - [655](queue_archive/ORDER-655.md): item원문 밥 먹고 다녀./Eat properly.를 보존하고 KO consumer의 다른 인용을 원물로 맞췄다. item KOEN/consumer KOEN4잎의 세 글자·Three words를 비수량 글귀/words로 정렬·새숫자0. 문단/name·3선택/효과/flags/itemgive·조건·DataRegistry단일문자열 외 코드·저장·JAzh·사용자 불변. 서랍 몇 년은 미확정/이번수리GO범위아님.

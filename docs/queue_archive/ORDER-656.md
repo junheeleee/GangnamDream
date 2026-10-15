@@ -1,6 +1,6 @@
 # ORDER-656 — M59 삭제된 원본·이사하지 않은 주거 회상 수리
 
-#### [~] ORDER-656 [정합] 실제 없는 원본·이사 이력을 발명하지 않는다 — 2026-10-15
+#### [x] ORDER-656 [정합] 실제 없는 원본·이사 이력을 발명하지 않는다 — 2026-10-15
 
 655 마감 뒤 M59 KOEN4잎만. Mac 잠금중 같은 M18/612 재검수 HOLD·새월0.
 5언어 유지·KOEN 실제확정 전 JAzh 다듬기중단/누락만.
@@ -35,10 +35,30 @@ flags/조건/코드/음악/schema/저장·JAzh/번역원장·사용자save설정
 a1_qa_release_audit private review.md/json만·제품/Git/engineUI/새agent쓰기0.
 612dirty4/WORK_LOG suffix3555B 모든commit제외·바이트보존.
 4잎 fullinverse/parsed/문단name숫자·voice/cafe 두choice1 source반례·겨울비이사조건 대조.
+같은 파일의 여러 잎은 한 Update File 안의 여러 hunk로 묶는다.
 audit_select --list만·audit/consistency/ENcoverage/영어한글/spine/continuity/
 chapter5_general_finale/release 표적8·공식JA/CN/TW inventory각1/수용·다듬기0.
 context/queue/diff0·고정제품commit/tree/핀·독립4잎 전수 source사실 한정검수.
 engine/전체audit/자연240/새checker/비용·최적화0.
 실제M18/M59/native/전체경제·종막체인/5언어/352선행/출시 HOLD.
 M60미독·범위추가0·일회성수리/새정본승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — source 사실 수리 한정
+
+- 후보a45e20a886422e6e624487860ba8a54557cf96e7/treebd5165e332d462551eacc019060eb061ae9838f5.
+- KOEN4잎/2원고 fullinverse/parsed/문단name숫자 exact·비소유/row0/5주/receipt/효과/코드/저장 보존.
+- voice삭제1/cafe방보관1/무이사겨울 ×KOEN=6source구성·실제runtime관측 아님.
+- release공포 contentSHA750b…da0→450d…f99/동일생성셀만·146사건51파일/ID/타축/publicexact.
+- 최초release1실패 원기록보존/정렬후final0·최종표적8/공식inventory3 actual0·selection71실행아님·engine/전체audit/자연240/새checker0.
+- source manifestb4ad7d0ee4e7f90666a2d80bf6714ad7d68adfd16b278d7928bd3299ff851b3f.
+- event현재11208/stale180·196·198/ch5reader128/133stale5/invalid118·47·45 INCOMPLETE/nativeOPEN·invalid집합불변·다듬기/수용0.
+- release정렬은collector입력밖/manifest불변 직접확인·inventory불필요재실행0.
+- 독립 GO_SOURCE_FACT_ONLY/4잎 전수·root 전문/4제품/5증거/3rawinventory핀 확인.
+- .git/order656-20261015/review.md7152B/SHA2569a25169bb7199e7f258fecf94df74870c4183781170bee5e510743bbafac6043.
+- review.json8307B/SHA256d1b231c4fc7c7daf50c2a246cfc8a263112f112e3f93f6372aba6785685acc64.
+- map/source-proof/targeted-results/inventory-completions/author-check-correction/raw3은 같은 폴더.
+- 최초patch중복파일거절은 적용0/검사0·파일별hunk로복구/선언spec일회성한줄·실패승격0.
+- 실제M18/M59/native/전체종막·경제/5언어/352선행/출시 HOLD·612dirty4보존/제외·새월0.
+- 다음 M60 읽기전용 조사/같은삭제원본회상2잎 발견만·날짜대조 중. 일회성/새정본승격0·개발스킬 표적·독립·보존 적용.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
