@@ -1,5 +1,14 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-10-15 — 설명회·재혁 M20 실제 앱 선택과 저장 검수 완료
+
+- [680](queue_archive/ORDER-680.md): 원679 W77 한복사/freshHOME3XDG·동일BUILD14.3, W77기준/비용질문1→W80재혁동기질문1 완료·실제24JPEG 읽음. 사전 W85예측과 달리 정상H2후단fallback이 W82막차를열어 첫본문/선택0즉시중지·CmdQ마지막UI. 예측오류는철회하고원선언보존·제품bug로분류0. M20네주완료/M21은quiet81한주+82입구만·W85미도달이며 완료월반복0.
+- final234818B/SHA1cd467c47df6fcc72b2d751050c6e3faac819d82f2760f5e17c2539adb954e85, prefix63/아이템3보존·재혁10→4/uncomfortable만cast변경·seq64/65지속. routine/completed77..81각1회·월말1/marker81/last81/9월뉴스5. HUD−704만원/28/94와durable−7041703/28/94 일치. W80중간복사는PREchoice저장이며중간결과quitreload검증으로세지않는다.
+- native51859 exit0/failure null·14true/68그룹1115항목exact·editor생존·raw3오류/경고/ObjectDB0. 비저자24화면/출구GO+별도저장의미GO, root전문/실제48핀확인. 원679/612/저장/설정/project/공개/Human·게임/번역/제품검사변경0. 선언·관측·검수·마감한commit; 상세핀/예측오류·최초보고는사양/private보존.
+- 준비첫실패는 normalized jobs의head_sha누락으로출력/격리/복사전exit1, rawGitHub jobHEAD 영수증만수리해독립재입구·성공prepare88816/10true. helper/체커완화0·새검사/비용사업/전체audit/engine0. 후속CI관측은 원jobHEAD를남기는raw응답을사용했다. main626 CI38736873874 static성공/Godot진행/실패0·예외0/만료0, 녹색미확정. context/queue/EN누출/diff표적·개발스킬의보존/동일후보/독립검수적용.
+- 다음M21원W82별도선언·W87재사용제외. 현재main전체native/EN·CJK실화면/사람2~3h/원어민·물리pad·청취/M60완주·C1~C5/출시GO0. 규범승격0/일회성이다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 현수 재회 M19 대표 경로 실제 앱 검수 완료
 
 - [679](queue_archive/ORDER-679.md): 원612 W73 한복사·fresh HOME/3XDG, 동일발급BUILD14.3의 현행동등 M19 경로를 정상Continue로 읽었다. W73 later0→photo0→meet1→첫W77본문/선택0, 실제28JPEG·채널/키보드/본문폭 정상. 취업 주체는 현수·민준 새직업/거래/선택비용0. 선언·실제관측·독립검수·마감을 한commit에 묶었다.
