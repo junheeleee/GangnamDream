@@ -61,6 +61,18 @@ Description이 그 뒤로 정렬되지 않아 **세 안 모두 메커니즘을 �
 
 > **500,000 won. Five years. Three billion to reach Gangnam.**
 
+日本語:
+
+> **50万ウォン。5年。カンナムまで30億ウォン。**
+
+简体中文:
+
+> **50万韩元。5年。距象征财富与阶层跃升的首尔江南，还有30亿韩元。**
+
+繁體中文:
+
+> **50萬韓元。5年。想踏進象徵財富與階級躍升的首爾江南，門檻是30億韓元。**
+
 소형 캡슐에는 태그라인을 넣지 않는다. 제목과 세 인물의 실루엣이 120x45 축소에서도 먼저 읽혀야 한다.
 
 ## 3. Short Description — A안 확정 (B·C는 1.5 위반으로 폐기, 기록만 보존)
@@ -78,7 +90,25 @@ Description이 그 뒤로 정렬되지 않아 **세 안 모두 메커니즘을 �
 English:
 
 ```text
-Thirty-three, unemployed, in a four-pyeong Seoul goshiwon with 500,000 won. Five years to reach a three-billion-won Gangnam apartment. Each month you decide who gets your time and what you let go. Minjun knows why his father once knelt.
+Thirty-three, unemployed, in a 4.5-pyeong Seoul goshiwon with 500,000 won. Five years to reach a three-billion-won Gangnam apartment. Each month you decide who gets your time and what you let go. Minjun knows why his father once knelt.
+```
+
+日本語:
+
+```text
+33歳、無職。ソウルの簡易個室型住宅「コシウォン」の4.5坪の部屋から始まる。口座には50万ウォン。期限は5年、目標はソウルの富と成功を象徴する街、カンナムの30億ウォンのマンションだ。毎月、誰に時間を割き、何を逃すかを選ぶ。父がひざまずいた理由を、ミンジュンは知っている。
+```
+
+简体中文:
+
+```text
+33岁的无业者Minjun，从首尔一间4.5坪（约15平方米）的考试院（goshiwon，韩国的超小型单间住所）起步。账户里有50万韩元，期限5年，目标是在象征财富与阶层跃升的首尔江南，买下一套价值30亿韩元的公寓。每个月，他都要决定把时间花在谁身上，又会错过什么。Minjun知道父亲当年为何下跪。
+```
+
+繁體中文:
+
+```text
+33歲，沒有工作；Minjun的起點，是首爾一間4.5坪（約15平方公尺）的考試院（goshiwon，韓國的極小單間住處）。帳戶裡有50萬韓元，期限5年，目標是在象徵財富與階級躍升的首爾江南，買下一戶價值30億韓元的公寓。每個月，他得決定時間要留給誰，又有哪些事只能錯過。Minjun知道父親當年為什麼跪下。
 ```
 
 판정: 목표와 위기가 가장 빨리 읽힌다. 현재 캡슐 아트와 함께 쓸 기본안이다.
