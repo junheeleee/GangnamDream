@@ -1,5 +1,9 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-10-15 — 24개월차 기간 정합 범위 선언
+
+- [684](queue_active/ORDER-684.md): 683실제W93첫문구+달력/source완료단정 근거, KOEN story_two_year.description각1잎만수리. rootKO/EN별도저자·비저자원고/보존보고 분리. 상세exact소유/조건부releasefingerprint/손실없는WORK_LOG예산보존은사양. 첫문장월차·끝현재종이빛으로정합, 선택/효과/저장/공개/CJK수용·다듬기/일반AP표면불변. 새실제월/엔진/전체audit/비용사업/외부0·M24/출시GO아님.
+
 ## 2026-10-15 — 부모님 방문 M23 실제 앱·저장 검수 완료
 
 - [683](queue_archive/ORDER-683.md): 원682W89 한복사/freshHOME3XDG·같은BUILD15.1, parents0→같은W89hospital1→W90future0→W91자동→W92social2→첫W93본문/선택0에서CmdQ. root/비저자40JPEG전수·포커스/통화/본문/결과정상. 31파일명quiet오기(실제socialpartial→32완성)를명시·W91실화면주장0.
