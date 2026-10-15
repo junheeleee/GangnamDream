@@ -1,6 +1,6 @@
 # ORDER-662 — 다은 엔딩의 실제 만남·투자·예식 선택과 어긋나는 기억 KOEN10잎 수리
 
-#### [~] ORDER-662 [정합] 다은과 실제로 한 일만 회수한다 — 2026-10-15
+#### [x] ORDER-662 [정합] 다은과 실제로 한 일만 회수한다 — 2026-10-15
 
 661 마감 뒤 with_daeun base와 DK4변주 KOEN10잎만 수리한다.
 Mac CG세션잠금true·같은M18/612 수정앱재검수HOLD·열린실제월1/새월0.
@@ -55,3 +55,29 @@ engine/전체audit/자연240/새checker/비용작업0.
 실제M18/엔딩/native/전체관계·경제·예식/다른카탈로그/5언어/352선행/출시HOLD.
 일회성수리/새정본승격0.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — 2026-10-15
+
+제품2b557bac11babc6ed69ce4c448bf6726b3adb32f/tree d514e411b75239efff9386e9d4fe090ec305a0c1.
+원래10잎 전수/NG+삼각김밥 same-batch 재작업 완료. 첫draft·map·검사·raw 보존.
+최종표적9/공식inventory3 actual0·selection33 목록만·fullinverse/parsed/
+문단newline/name/digits/비소유바이트/DK순서exact. release currentendingSHA+
+동일생성보고1셀만 정렬; counts/ID/다른축/public 불변.
+manifest bf3161e0a5419afca2b8d33e09d922d06b1f4a763a6a2d86796b97dd2d10ac69.
+동결3언어ending225/235 current·stale9·invalid1, 전체invalid119/48/46 동일,
+eventcurrent11208/reader126/133 stale7·INCOMPLETE/nativeOPEN·다듬기/수용0.
+final --include-leaves read-only17507 추가; 공통official필드 delta는manifest와
+ending230→225/stale4→9만. 별도 rawshape authorassertion/probe2실패와수정근거 보존.
+독립 GO_SOURCE_FACT_ONLY; root 전문2/spec1/제품4/증거5/raw3/보고2핀 확인.
+.git/order662-20261015/review.md7675B/80b678e4f5a8a56575a57292cbb8ae975b6644f8df8cacd2edb1cde7b9b37c48;
+review.json12801B/47eef9009c5f676427feda7a26ab7bbdb52f76b0aaeb318a18b022fe5e144120.
+원고·매핑·source-proof·targeted-results·inventory-completions·inventory-delta/raw의
+실제bytes/SHA는고정독립보고서에결속했다.
+예식GO는normalprep+day source조합한정; proposal-only구save/전체예식GO아님.
+야근은반례미입증/그대로이며이번GO로인증하지않음. 진입미확정DK2쌍 미변경/
+공식author_only승격0. 실제M18/ending/native/전체관계·경제·예식/다른카탈로그/
+5언어/352선행/출시HOLD. CG잠금true·실제재시도/engine/전체audit/자연240/
+새checker/새월/설정변경0. CI선언991e7a6static성공·engine진행중/전체녹색미확정.
+612dirty4/WORK_LOGsuffix3555B/a9da54e58a91283d1732eae4d0581400cf8dc499274eb1b8aa2ec95c3a7c693b 제외·보존.
+다음 재혁·상철3종6잎은별도선언. 개발스킬표적·독립·보존 적용.
+일회성수리/새정본승격0.
