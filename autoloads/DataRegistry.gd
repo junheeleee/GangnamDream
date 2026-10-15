@@ -250,7 +250,7 @@ const ASSET_TEXT_EN := {
 
 const ITEM_TEXT_EN := {
 	"artifact_sangchul_card": {"name": "Lim Sangchul's Business Card", "description": "He handed it over the first day you met.\nA private number was written on the back.\nOnly later did you understand what that meant."},
-	"artifact_daeun_note": {"name": "Daeun's Post-it Note", "description": "She left it on the fridge before going out.\n'Eat properly.' Three words."},
+	"artifact_daeun_note": {"name": "Daeun's Post-it Note", "description": "She left it on the fridge before going out.\n'Eat properly.' A short note."},
 	"artifact_father_call": {"name": "23-Second Call", "description": "Saved as a screenshot of the call log.\nExplaining why it was saved is difficult."},
 	"artifact_jiyeon_text": {"name": "That Morning's Text", "description": "It was the first text she sent.\n'Am I kind of strange?'\nYou answered that she was not."},
 	"artifact_jaehyuk_photo": {"name": "Pojangmacha Selfie", "description": "Taken together on the night you met again.\nWhatever happened after, that night he was truly an old friend."},
