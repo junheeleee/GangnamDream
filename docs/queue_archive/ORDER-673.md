@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-673
+# Closed Queue Spec: ORDER-673
 
 > 우선순위·상태 정본: [CODEX_QUEUE](../CODEX_QUEUE.md).
 
-#### [~] ORDER-673 [C4·고지] 상점 초안과 게임 언어 선택에 AI 보조 번역을 밝힌다
+#### [x] ORDER-673 [C4·고지] 상점 초안과 게임 언어 선택에 AI 보조 번역을 밝힌다
 
 ## 위임·대상
 
@@ -42,7 +42,8 @@ Splash 첫언어gate, StartMenu 설정, StoryMode 장면설정의 3소비자×5�
   official export/check/import와 ui_translation_append로 source hash/old bytes를 결속한다.
 - 번역·상점 저자 m46_48_fact_read: docs/STEAM_PAGE.md의 언어/AI 고지/업로드 문구만,
   .git/order673-ai-notice/translation-response.json 초안. 이 외 제품·큐·Git 쓰기0.
-- root: docs/I18N_INFRASTRUCTURE.md 최신 출시 고지/정책 라우팅만, CLAUDE 현재상태,
+- root: docs/I18N_INFRASTRUCTURE.md 최신 출시 고지/정책 라우팅만,
+  docs/queue_active/ORDER-157.md의 현재 C4 gap 한 문장 갱신만, CLAUDE 현재상태,
   큐2·이 사양(마감시 queue_archive/ORDER-673.md)·WORK_LOG 새 앞부분.
 - 비저자 a1_qa_release_audit: .git/order673-ai-notice/preflight*, review* 읽기 검수만.
 - root: .git/order673-ai-notice/*의 batch/response/receipt/기존검사·격리 런처 증거.
@@ -69,3 +70,38 @@ C4의 인간2~3시간, 실제상점게시, 실제UI관찰, 전체5언어 출시/
 출시5조건의 정본은 기존 DECISIONS다. 고지 문구는 STEAM_PAGE, 현지화 배선은
 I18N_INFRASTRUCTURE를 참조한다. exact 파일 소유·15표면·수용·검증은 일회성이다.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 2026-10-15 수용 — 구현·신규번역 한정
+
+source262efe1f54b5781f72cb4bf9ba3a31c4c020d779/tree375fe572cd1835206beb8bfea6cb0fde84d6c778,
+targetba8f90b5af5957d2502f347c69b86881c3458f7d에 결속했다. UIStyle 단일 고지1개와
+3소비자·상점5언어 초안, 신규JA/CN/TW1각3값/accepted3/batch1만 수용했다.
+official export3·import3의 내부check와 기존 current_proof의 실제Git source census,
+first-parent transition 및 네 파일 full raw inverse가 통과했다. 새 사전 row만 수용했고
+기존 사전/원장·공개demo82/121·콜렉터/스타일기준선은 불변이다.
+
+처음 3scene literal 추가는 demo83/122로 차단되어 소유 선언 뒤 공통UIStyle로 옮겼다.
+공식 import의 JA기존5줄 들여쓰기 정규화는 원탭으로 복원했고 repaired inverse PASS다.
+해당 실패를 성공으로 덮거나 제품 검사를 완화하지 않았다.
+
+격리 pre-autoload fresh namespace의 CompileCheck69, StoryAudioSettings KO/EN,
+I18nInfrastructure3, First30Seconds가 exit0/성공marker·engine/script/parse오류0이었다.
+EN한글0·surface coherence·first-start self17도 통과했다. 추가 LocaleSurfaceCheck는
+exit0/markerOK지만 ObjectDB/resource1 종료잔여로 strictPASS가 아니다. 사용자지시대로
+추적중단·CI예외신설0이며 플레이 영향이나 무영향을 새로 확정하지 않았다.
+
+비저자 source5값·배선검수와 별도 비소유 보존 검토를 수행했다. private 증거:
+`.git/order673-ai-notice/history-proof.json`1756B/SHA61dc7fc74d00815bdcc8c2207a6fef705d12078027ed50ae301241eef517c132,
+`targeted-evidence.json`4511B/SHA10fda0b7f6572ce56915901d442fc70fad41783e71412624ec9199800b030c92,
+`review-source.md`6541B/SHAaf279044a600d1bb549e949e5dfd2314ab358071a2a1e8ee0339726cd45bf55d,
+`preservation-review.md`4244B/SHAbe4d2c5eb79c53d91edf4570a77bd48cb246a68ff2702d3bfc3998a8a6588f12.
+최종 target/ledger 독립GO는 `review-final.md`7765B/
+SHAe1afc8ec44096a587ac4d8592c24aadee6488b87fe69dd409683048b265f281e와
+`.json`11841B/SHA2cf7053d4fd0f37857717ea1f21b13916e72f5bd7110d43311b1a3809e0ae341다.
+후속 기존 I18N coverage(EN1813/1813·ending35/35)와 multilingual surface도 통과했다.
+
+완료 표시는 구현·신규번역 범위만 뜻하며 화면 관찰이나 출시 판정이 아니다.
+실제 렌더3×5·CJK폰트/줄바꿈·native/물리패드·외부Steam반영·사람2~3h·C4전체/
+C5/출시GO는 발급하지 않는다. 기존발급앱/공개demo GO를 새source에 상속하지 않는다.
+612사양11314B/suffix3555B·project/LocaleManager/인간원장·사용자저장/설정 보존,
+새월0·전체audit/240주 재실행0. 남은 C4 실제반영·사람확인은 부모157/큐에 유지한다.

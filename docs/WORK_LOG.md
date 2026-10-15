@@ -3,6 +3,14 @@
 이전 기록은 [663 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order663_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36266B/SHA256 c080667791b8306d7e7d4cb2c60b94257e63c40de6bfb825f95c0ea87571426a이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — AI 보조 번역 고지 구현·신규3값 수용
+
+- [673](queue_archive/ORDER-673.md): KO/EN 공통고지1개를 첫 언어선택·제목설정·장면설정에 연결하고 JA/CN/TW 신규1각3값만 수용. 상점5언어 고지 초안 작성, 현재retailKOEN/목표5언어·역사nativeOPEN·외부게시를 구분했다. 기존CJK 다듬기/게임원문/저장 변경0.
+- source262efe1/tree375fe572→targetba8f90b의 official export/import3 내부check0·accepted3/batch1·기존사전/원장 raw inverse 및 실제Git source census PASS. 단일UI source2980→2981, 공개demo82/121·검사/스타일기준선 불변. 직접scene literal 시도는 demo계수로 차단되어 공통UIStyle owner에 모았고, import의 JA기존5줄 들여쓰기 변경은 원탭으로 복원 후 검증했다.
+- 독립5값/source 배선검수·비소유보존 확인. 격리headless Compile/StoryAudioSettings/I18n/First30 성공, EN한글0·style·첫고지self17 통과. 추가LocaleSurface는 exit0/markerOK지만 종료ObjectDB/resource1잔여로 strictPASS아님; 사용자지시대로 추적중단·CI예외발급0. 실제UI3×5 렌더/물리패드/native·상점게시·사람2~3h·C4전체/출시GO0.
+- 612사양11314B·월로그suffix3555B exact/stage제외, project/LocaleManager/인간원장/공개제품·사용자저장/설정 보존. 당시원격347ab2a CI는 static성공/Godot진행·green미확정. 재서명·외부실행·새월0. 개발스킬의 정본·표적검증·독립검수·보존을 적용했다. 상세후보/실패·검수핀은 마감사양과 private증거.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — PR #34 출시5조건으로 큐 축소
 
 - [672](queue_archive/ORDER-672.md): PR34 문서1건/22줄을 main7c08e0b에 병합·push/GitHub merged확인. 기존78개를 612유지1/157조건부1/76출시후보류로 전수정렬·개별근거보존. 미완료/원어민OPEN·역사REJECT·공개GO를 완료로 바꾸지 않았다.
