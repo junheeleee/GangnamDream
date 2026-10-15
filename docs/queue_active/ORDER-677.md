@@ -19,10 +19,12 @@ GameState.finish_run은 turn을240으로 올리지 않는다. 공통 ending cred
 
 ## exact 소유·배치
 
-- root: scenes/MainGame.gd의 _ending_build_credits_page thanks KO/EN1쌍만.
+- root: scenes/MainGame.gd의 _ending_build_credits_page thanks Label 선택만.
   후보 KO "그리고 지금, 이 화면의 불빛 앞에 있는 당신에게." /
   EN "And to you, here in the light of this screen."
-  경주/중독/돈/턴/finish_run/엔딩라우팅/저장/다른 credits 불변, 새 장면 저작0.
+  int(GameState.turn) >= 기존 RUN_TURN_LIMIT(240)이면 기존5년 감사문,
+  그전이면 위 현재불빛 문구를 쓴다. 경주/중독/돈/턴/finish_run/엔딩라우팅/
+  저장/다른 credits 불변, 새 장면 저작0. UI 읽기조건만 추가한다.
 - root: locale/ui_ja.json, locale/ui_zh-CN.json, locale/ui_zh-TW.json의 신규 thanks
   1키씩과 content/meta/full_game_localization.json의 accepted3·UIbatch1 append만.
   이전 기간 키/번역/영수증은 역사로 보존하며 기존 JA/zh 다듬기는 하지 않는다.
@@ -36,7 +38,7 @@ GameState.finish_run은 turn을240으로 올리지 않는다. 공통 ending cred
 
 ## 검증·닫는 범위
 
-source 독립GO 뒤 literal2를 로컬 Git에 결속하고 공식 export/check/import로
+source 독립GO 뒤 thanks Label만 로컬 Git에 결속하고 공식 export/check/import로
 새 UI3값을 수용한다. ui_translation_append의 기존4파일 raw inverse·실제Git
 source census·영수증 hash를 쓴다. source/target review와 context/queue/diff,
 관련 EN한글/coverage·JA/ZH UI·번역원장·공개demo 검사만 표적 실행한다.
@@ -50,3 +52,16 @@ Mac잠금이면 같은612/M18 app14.3을 보존하며 새월0; 해제시 해당�
 사용자저장/설정/project.godot·공개demo·인간판정·보류76오더 불변.
 승격0(기존 DECISIONS C2·SCENE_TIER 소유), 위 소유·배치·수용은 일회성이다.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 2026-10-15 표적 실패와 같은 범위 재설계
+
+첫 source1e49e7d의 무조건 새문구 교체는 JA_UI에서 old5년키 unknown extra로
+실제로 실패했다(.git/order677-ending-thanks/ja-ui.log). 검사나 이전사전/원장을
+고쳐 숨기지 않는다. 공통 credits의 현재 turn을 기존 RUN_TURN_LIMIT에 대조해
+5년을 마친 경우에만 옛 감사문을 유지하고 조기 결말에서 새문구를 쓴다.
+검사만 위한 죽은 literal이 아니라 정상5년 credits를 보존하는 실제소비자다.
+239/240경계·W14/241의 UI조건을 직접 대조하고 격리 CompileCheck를 새source로
+재실행한다. 소유는 같은 Label 선택 안이며 엔딩 ID/라우팅/상태/저장 변경0이다.
+공식 source batch는 수정source에서 다시export/검수/import하고 원batch·영수증은
+private에 보존한다. 같은 KO신규문구의 CJK3값은 재저작하지 않는다. 현재미커밋677
+batch의 header/digest만 실제 새영수증으로 결속하며 기존330batch/accepted는 불변이다.
