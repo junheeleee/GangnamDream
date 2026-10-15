@@ -14544,6 +14544,69 @@
         "zh-CN": "a99a30bfe6333a54bd45cde397e1631c05382030be39a2b0b02990512c733e0c",
         "zh-TW": "663ededcafb3d979dc43f9af3b8aa9a44a7959657041ef9cabe5089f784bb9bd"
       }
+    },
+    {
+      "order": "ORDER-677",
+      "group": "ui",
+      "roots": [
+        "그리고 지금, 이 화면의 불빛 앞에 있는 당신에게."
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "source_review": "Independently reviewed common credits KO/EN period repair and three KO-direct target values; present screen light only. Original dim-light CN/TW draft rejected and only its added intensity removed. No actual credits/native/release claim.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "97cd43461fd16556e27a8f8bad1174c89d688b39",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b8fac880399ade9b7f0582783d1792fc8090386b81f89e78a9adc45bade33540",
+          "selection_sha256": "2ea8ae18a2ae11b8cdcb35a623023085b45fde804d746d55a18646cdec729487",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7fb81ac45e516a75f03260327ac6980b59d387f663f471a8ae0ed3a58c0eac91"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "97cd43461fd16556e27a8f8bad1174c89d688b39",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b8fac880399ade9b7f0582783d1792fc8090386b81f89e78a9adc45bade33540",
+          "selection_sha256": "9f42a2db6de169fd86dd1e622b563177c7e1fc630a5228b96f4b5f0fc80fb1e6",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "bd26a712cf7e2bf9b4dd9b774a588e1075f2eee78c1321ff321de9bb639654e9"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "97cd43461fd16556e27a8f8bad1174c89d688b39",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b8fac880399ade9b7f0582783d1792fc8090386b81f89e78a9adc45bade33540",
+          "selection_sha256": "555d9466da726f5a2ce7cb6f44683dec2ffc8dbdf50da245963ed31c1d5bd58a",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9abc22474e605b6fc89e3c769f99b54ce66925b1b13092a0f10b3df44e149f65"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "8532f601afc1f0342fcbc44bd7c510f9feb94c367b5a4e1c06f79158f3f44c60",
+        "zh-CN": "5bf9d4fd678bda2e13af8d8817b2700aebd46d47878f0227b16feee3f2537489",
+        "zh-TW": "0f3e668f84110ba0b0594ab7470cc28ffcce3eab03baed3e9bfc801db86ffd30"
+      }
     }
   ],
   "accepted": {
@@ -67243,6 +67306,10 @@
       "ui:일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다.:/일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다.": {
         "source_sha256": "a85ec8b4edc90f7f89e0d66691998fc16e09b88ca45b290a3b3f63fcd3e2d828",
         "target_sha256": "a4e8edb94412e19b5d4abeb97feffb28e1d50437fd1f9549fa39f06a369cdbcb"
+      },
+      "ui:그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.:/그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.": {
+        "source_sha256": "ae3a1edf604f4c60b9b22b7f8ddf5d8ad55bdb56cf093737e5fb36f1735f6f1c",
+        "target_sha256": "3b297b7a4e4e3abccb287fb779707897e8ba5eedb128f39e885ff65a83ca6e79"
       }
     },
     "zh-CN": {
@@ -126761,6 +126828,10 @@
       "ui:일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다.:/일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다.": {
         "source_sha256": "a85ec8b4edc90f7f89e0d66691998fc16e09b88ca45b290a3b3f63fcd3e2d828",
         "target_sha256": "8932d8a0458a5bdc91c6fee6212c34331bcf4a2323531e0219b23110960c272b"
+      },
+      "ui:그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.:/그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.": {
+        "source_sha256": "ae3a1edf604f4c60b9b22b7f8ddf5d8ad55bdb56cf093737e5fb36f1735f6f1c",
+        "target_sha256": "f3669e8b230a1c56cfaff6fba85311566b4a0d0a3511f6a969e5a0ef8f95a91e"
       }
     },
     "zh-TW": {
@@ -186279,10 +186350,14 @@
       "ui:일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다.:/일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다.": {
         "source_sha256": "a85ec8b4edc90f7f89e0d66691998fc16e09b88ca45b290a3b3f63fcd3e2d828",
         "target_sha256": "2faa5dc4e43d80f92b4cef7322e82a47c57d18bb8d3ea6c5e13e24c7292cf683"
+      },
+      "ui:그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.:/그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.": {
+        "source_sha256": "ae3a1edf604f4c60b9b22b7f8ddf5d8ad55bdb56cf093737e5fb36f1735f6f1c",
+        "target_sha256": "ce30a30d972d03c17e6a8da14d22b1faaf4f02083667ba1a751034b27d5b68e2"
       }
     }
   },
-  "accepted_sha256": "d5a53fbe2a42a826d4a5b0a1456491cac8af5ced1bd97f8525d3360ff4c65c8e",
+  "accepted_sha256": "017113a3864fce08e4b33d324fe6fbeed872a6e432c05ddc7e77af4854283a24",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
