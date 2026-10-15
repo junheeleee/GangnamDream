@@ -14607,6 +14607,55 @@
         "zh-CN": "5bf9d4fd678bda2e13af8d8817b2700aebd46d47878f0227b16feee3f2537489",
         "zh-TW": "0f3e668f84110ba0b0594ab7470cc28ffcce3eab03baed3e9bfc801db86ffd30"
       }
+    },
+    {
+      "order": "ORDER-678",
+      "group": "ui",
+      "roots": [
+        "서울, 2026. 정답도 보장도 없다."
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "source_review": "Independently reviewed two KO-direct missing CN/TW Splash context values. Seoul, 2026, no correct answer and no guarantee preserved. Existing KO/EN/JA, source, UI, allowlist and prior translations unchanged. No actual rendered/native/retail-five-language or release claim.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "900c0c34c055682ac14acd7aaf0739eefd91c2fa",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b8fac880399ade9b7f0582783d1792fc8090386b81f89e78a9adc45bade33540",
+          "selection_sha256": "b26b91b77914bbc26cc710d5eca5ffa273902347736f4141b5c4516c56d79c2f",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "cda8a1fa1c0ed4e918442fd4800cb5971e1e36ff640f5a478c6a9553542c4de4"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "900c0c34c055682ac14acd7aaf0739eefd91c2fa",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b8fac880399ade9b7f0582783d1792fc8090386b81f89e78a9adc45bade33540",
+          "selection_sha256": "d0d8f6842300bdf1d0c46b951efa577f598bcf4a6d2bf4fd6e951efe62f6c066",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6fe1399e2160df0012ba3f0368e8098977fb83e2d5ad0bb7cc17dd8ff82d54c6"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "9232a25b08b28658083a0be4b8c81ead6127817d148c591af504f2420f37593d",
+        "zh-TW": "ae120baa09940f0d4646af10c3bf099152ccee4cd0329d438e3e8a5bfed8231a"
+      }
     }
   ],
   "accepted": {
@@ -126832,6 +126881,10 @@
       "ui:그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.:/그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.": {
         "source_sha256": "ae3a1edf604f4c60b9b22b7f8ddf5d8ad55bdb56cf093737e5fb36f1735f6f1c",
         "target_sha256": "f3669e8b230a1c56cfaff6fba85311566b4a0d0a3511f6a969e5a0ef8f95a91e"
+      },
+      "ui:서울, 2026. 정답도 보장도 없다.:/서울, 2026. 정답도 보장도 없다.": {
+        "source_sha256": "345c282590883d5a42a2b57422abc6bcea2c6c55c548ffe748ce2d6878ef3542",
+        "target_sha256": "4396ddb973c7036a7e7233af99395794a1b7cdcf0bfcfd687652d843c8b97c2b"
       }
     },
     "zh-TW": {
@@ -186354,10 +186407,14 @@
       "ui:그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.:/그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.": {
         "source_sha256": "ae3a1edf604f4c60b9b22b7f8ddf5d8ad55bdb56cf093737e5fb36f1735f6f1c",
         "target_sha256": "ce30a30d972d03c17e6a8da14d22b1faaf4f02083667ba1a751034b27d5b68e2"
+      },
+      "ui:서울, 2026. 정답도 보장도 없다.:/서울, 2026. 정답도 보장도 없다.": {
+        "source_sha256": "345c282590883d5a42a2b57422abc6bcea2c6c55c548ffe748ce2d6878ef3542",
+        "target_sha256": "52b1d8eabdc2b691b0ab6f8078a09c884870a79bdabee6c24ca666240b526ff1"
       }
     }
   },
-  "accepted_sha256": "017113a3864fce08e4b33d324fe6fbeed872a6e432c05ddc7e77af4854283a24",
+  "accepted_sha256": "1e6f41ed217a4f763a711ca7196ebd72531547e0eb086b5a8e3f04f2ccf7977f",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
