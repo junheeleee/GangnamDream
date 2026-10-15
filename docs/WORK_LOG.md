@@ -3,6 +3,15 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 침묵을 자금 절반으로 바꾸던 엔딩 회상 수리
+
+- [658](queue_archive/ORDER-658.md): gangnam_dream/sangchul_truth_buried의 KOEN2잎에서 상철을 거친 집값 절반이라는 무보장 사실을, 실제 카페에서 진실을 묻기로 한 선택의 회수로 바꿨다. 다른 비율·자금 출처도 새로 단정하지 않는다. DK순서/ending분기·IDs35/효과/flags/저장/JAzh·공개/사용자 불변.
+- 후보a696858b61a58333d94b9cb42ba95760045fdc28/treeaef12114212c7ccf977c09e8058b0380f2cb24ee·2원고 inverse/parsed/문단name숫자 exact·2source구성은 실제runtime아님. release초기1은 보존→current ending SHA 5d7f…650를4a89…570로/동일 생성보고1셀만 정렬·수량ID타축publicexact→최종표적9 actual0. selection20실행아님·공식inventory3 actual0·engine/전체audit/자연240/새checker0.
+- manifestb20701e2f731e234c06256685b52c01ca49271a13da369da0d2ee8508d75d285·동결3언어 ending현재234/235 stale1·event현재11208/ch5reader126/133stale7/invalid118·47·45세트불변·INCOMPLETE/nativeOPEN·다듬기/수용0. 기존105금액잎검사 통과는 전체엔딩·5언어GO아님.
+- 독립 GO_SOURCE_FACT_ONLY/2잎전수·root 전문/spec1/제품4/증거7/보고2핀 확인. .git/order658-20261015/review.md6575B/e11edc700d5b07659396b1f9ce809073a946e8358b2db65f9589de5de72770e6·JSON8629B/8e747b32d461af26ab28d168ec36e44b7aad0fb922aee733cad380a673315e8a. 실제M18/엔딩/native/전체체인·카탈로그/5언어/352선행/출시 HOLD·새월0·612dirty4미포함. 다음 cleared변주의 무보장 독립성공·중복도착은 별도범위로 수리한다.
+- 개발스킬 표적·독립·보존 적용·일회성/새정본승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — M60 후행의 삭제원본 위치·기록 날짜 회수 수리
 
 - [657](queue_archive/ORDER-657.md): W237 readrow1/1은 W234 부동산 상담책상에 해당흔적을 가져가지 않았다는 실제과거만 회수한다. W229 voice삭제1/cafe방보관1에 공통으로 참이며, 현재자기방의종이존재/부재를 단정하지 않는다. W240 father_answer2는 alive/pass 전날밤 그날기록을 오늘날짜로 바꾸지 않도록 그날/that day로 KOEN4잎 정렬했다.
