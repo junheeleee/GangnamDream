@@ -158,40 +158,19 @@ Five years, 500,000 won, and relationships that will not wait for success. Chase
 
 ```text
 [h2]50만원으로 시작하는 서울의 5년[/h2]
-
 김민준, 서른셋, 무직.
-빚을 다 갚고 남은 것은 고시원 한 칸과 통장 속 50만원이다.
-그가 바라보는 강남 아파트까지는 30억이 필요하다.
+서울의 고시원 한 칸과 통장 속 50만원에서 시작한다. 기한은 5년. 목표는 30억원짜리 강남 아파트다.
 
-한 주씩 살아간다. 취업을 준비하고, 월세를 버티고, 시장에 돈을 넣고, 사람에게 시간을 낸다. 때로는 너무 쉬워 보이는 지름길이 눈앞에 놓인다.
+[h2]이번 달 월세, 오늘 온 연락[/h2]
+일자리를 구하고, 생활비를 버티고, 돈을 넣을 기회를 살핀다. 그 사이 가족과 친구에게서 연락이 온다.
+누구에게 시간을 낼지, 눈앞의 기회를 잡을지 고른다. 한쪽에 시간을 쓰는 동안 다른 일은 기다려 주지 않을 수 있다.
 
-[b]같은 길을 오르면서, 같은 사람으로 남을 수 있을까.[/b]
+[h2]중요한 순간에는 직접 선택한다[/h2]
+조용한 주는 빠르게 흘러가고, 중요한 장면에서는 민준의 다음 행동을 직접 고른다.
+일과 돈만이 아니라 사람과의 거리, 약속, 몸과 마음도 그 5년 안에 있다.
 
-[h2]숫자로 보여 주지 않는 변화[/h2]
-
-강남드림에는 선악 게이지가 없다. 대신 같은 방, 같은 거리, 같은 얼굴이 조금씩 다르게 보이기 시작한다. 화면의 색과 질감, 인물이 먼저 바라보는 것, 선택지의 말투가 지난 선택을 기억한다.
-
-진실을 알게 되면 이미 지나온 장면도 다르게 읽힌다. 다음 플레이의 차이는 단순한 숫자 보너스가 아니라, 전에는 보지 못했던 의미다.
-
-[h2]돈만으로 끝나지 않는 인생 시뮬레이션[/h2]
-
-[list]
-[*][b]240주의 삶[/b] - 조용한 주는 몽타주로 접고, 위기와 인물 장면에서는 반드시 멈춘다.
-[*][b]일과 시장[/b] - 구직, 직장, 부수입, 주식, 코인, 레버리지, 부동산과 창업 기회를 선택한다.
-[*][b]사람과 결혼[/b] - 가족, 친구, 두 사람과의 사랑은 성공을 기다려 주지 않는다. 결혼도 선택에 따라 잃을 수 있다.
-[*][b]유혹과 회복[/b] - 카지노와 베팅은 별도 미니게임이면서 중독, 빚, 회복의 서사와 연결된다.
-[*][b]계절의 기억[/b] - 벚꽃, 바다, 불꽃, 첫눈을 함께 보낸 사람이 5년의 얼굴을 바꾼다.
-[*][b]간직한 것들[/b] - 선택에서 얻은 물건을 제시하거나, 이사할 때 두고 갈 수 있다. 작은 물건이 뒤의 장면을 바꾼다.
-[*][b]기록 보관소[/b] - 발견한 CG와 명장면을 다시 보고, 아직 보지 못한 장면은 스포일러 없이 남겨 둔다.
-[/list]
-
-[h2]35개의 결말, 하나뿐인 기록[/h2]
-
-강남 입성, 조용한 성공, 고독한 부자, 사랑, 이혼, 회복, 번아웃과 파산까지. 같은 자산으로 끝나도 누구와 어떤 사람으로 도착했는지가 결말을 바꾼다.
-
-마지막에는 돈만 세지 않는다. 돈을 택한 주와 사람을 택한 주(때로는 같은 주), 마지막 연락, 간직한 물건, 그리고 각 해에 당신이 직접 고른 다섯 장면이 한 장의 기록으로 돌아온다.
-
-1,400개가 넘는 사건 가운데 한 번의 5년에서 볼 수 있는 것은 일부다. 게임은 당신이 무엇을 했는지만이 아니라, 무엇을 알아버렸는지도 기억한다.
+[h2]240주, 35개의 결말[/h2]
+한 번의 5년에서 모든 갈림길을 지날 수는 없다. 어떤 마지막에 닿는지는 민준이 지나온 선택과 관계에 달려 있다.
 
 [i]실직, 부채, 도박 중독, 정신적 위기, 가족의 상실과 관계 파탄을 다룹니다.[/i]
 ```
@@ -200,39 +179,19 @@ Five years, 500,000 won, and relationships that will not wait for success. Chase
 
 ```text
 [h2]Five years in Seoul, starting with 500,000 won[/h2]
-
 Kim Minjun is thirty-three and unemployed.
-After six years of repaying debt, all he has left is a tiny goshiwon room and 500,000 won in the bank. The Gangnam apartment he wants costs three billion.
+Start with a tiny Korean single-room lodging called a goshiwon and 500,000 won in the bank. The deadline is five years. The goal is a three-billion-won apartment in Gangnam, Seoul's status district.
 
-Live one week at a time. Search for work, survive rent, enter the market, and decide whether people still deserve your time. Some shortcuts look almost too easy.
+[h2]This month's rent. Today's messages.[/h2]
+Look for work, cover living costs, and weigh opportunities to invest. Family and friends call in between.
+Decide whom to make time for and whether to take the opportunity in front of you. While you give one part of your life your time, another may not wait.
 
-[b]Can you climb the same road without becoming the same kind of person?[/b]
+[h2]Make the choices that matter in the scene[/h2]
+Quiet weeks pass quickly. At important moments, you choose what Minjun does next.
+Work and money share those five years with relationships, promises, health, and state of mind.
 
-[h2]Change the game never reduces to a morality meter[/h2]
-
-Gangnam Dream never displays a good-or-evil score. Instead, the same room, street, and face begin to look different. Color, texture, attention, and even the language of your choices remember how you have lived.
-
-Discovering the truth can also rewrite scenes you thought you understood. A second playthrough reveals meaning, not just bonuses.
-
-[h2]A life sim where money is only one part of the ending[/h2]
-
-[list]
-[*][b]240 weeks of life[/b] - Quiet weeks fold into montages. Crises and character scenes always stop the clock.
-[*][b]Work and markets[/b] - Navigate job searches, careers, side work, stocks, crypto, leverage, property, and startup opportunities.
-[*][b]People and marriage[/b] - Family, friends, and two very different romances will not wait for success. Even a marriage can be lost.
-[*][b]Temptation and recovery[/b] - Casino and betting minigames feed into stories of addiction, debt, and recovery.
-[*][b]Memories across seasons[/b] - Cherry blossoms, the sea, fireworks, and first snow change depending on who stands beside you.
-[*][b]What you keep[/b] - Present objects earned through choices, or leave one behind when you move. Small keepsakes can alter later scenes.
-[*][b]Archive[/b] - Revisit unlocked CGs and pivotal scenes while undiscovered secrets remain hidden.
-[/list]
-
-[h2]35 endings, one personal record[/h2]
-
-Reach Gangnam, build a quieter life, become rich and alone, fall in love, lose a marriage, recover, burn out, or go bankrupt. The same net worth can lead somewhere different depending on who arrived and who was left behind.
-
-The finale counts more than money. It returns the weeks when you chose ambition and the weeks when you chose people, sometimes both, the last person you called, the keepsakes you carried, and five scenes you chose to remember from your five years.
-
-Across more than 1,400 events, a single life can reveal only part of the story. The game remembers not only what you did, but what you learned.
+[h2]240 weeks, 35 endings[/h2]
+You cannot take every branch in a single five-year life. The ending depends on Minjun's choices and relationships along the way.
 
 [i]Contains unemployment, debt, gambling addiction, mental distress, family loss, and relationship breakdown.[/i]
 ```
