@@ -3,6 +3,13 @@
 이전 기록은 [663 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order663_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36266B/SHA256 c080667791b8306d7e7d4cb2c60b94257e63c40de6bfb825f95c0ea87571426a이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 시작 문맥의 중국어 누락2값 보충
+
+- [678](queue_archive/ORDER-678.md): Splash의 "서울, 2026. 정답도 보장도 없다." CN/TW1각2값을 KO직접 독립저작·비저자전수수용했다. 영어폴백을빈문자/치명결함으로세지않고C5시작표면만준비했다. 제품c3a54ed5374afbafe3bb96bed6d569afe0794721/treefd09b2850c75048342b817b4bd2b20858d41e5fb,source/KOEN/JA/retail언어목록변경0.
+- missing-target 공식export/check/import2각actual0, accepted2/batch331→332·기존네파일rawinverse/sourceGitcensus/first-parent전이1 PASS. ZH/i18n/publicdemo82/121 표적3actual0·context/queue/diff통과. 기존번역/원장·source/UI설계·저장불변,engine/전체audit/240주/새tool·checker/기준선/예외변경0.
+- 독립GO_ORDER_678_FINAL_PRODUCT_ONLY·root보고전문/17핀확인. 보호8·612사양11314B/suffix3555B/player33exact·pending612stage제외. 초기EOF/index준비재시도는private보존·선언전수리. Mac잠금/같은M18/app14.3 유지/새월0,actualSplash/폰트/폭/native/원어민·retail5언어/CIgreen·C1~C5/외부Steam/출시GO0. 개발스킬의직접번역/비저자/표적/보존적용;승격0/일회성준비다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 조기 결말의 거짓 5년 감사문 수리
 
 - [677](queue_archive/ORDER-677.md): 정상 source의 조기종료→공통credits 반례를 확인했다. 기존240주 상수로 감사 Label만 골라 W14/239는 현재 화면빛,240/241은 기존5년문구로 맞췄다. 종료조건/라우팅·돈·턴·저장 불변. source97cd43461fd16556e27a8f8bad1174c89d688b39/tree815f8a87953d7988b77e153b35550bb18a409c8e, target762e16580685a2b9bcdb3603346c005944c0f0d2/treee2f69b67719b2c8aefce2254d716b0b9e191475d.
