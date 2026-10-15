@@ -14335,6 +14335,79 @@
         "zh-CN": "13dbab2661432768036211cb0e79b40d39c5df6a2a736b6a9627ce76dbfb7dc9",
         "zh-TW": "c6076dc14c90b8ff39830c5d60e94023bf25a5db1670c8f2e140976eb189a3fe"
       }
+    },
+    {
+      "order": "ORDER-670",
+      "group": "ui",
+      "roots": [
+        "777 잭팟 200배\n체리 조합으로 소액 당첨\n이론 RTP 90%",
+        "결과",
+        "기본전략 힌트 내장\n더블다운 · 스플릿\n하우스엣지 0.5%~",
+        "기본전략: [color=%s][b]%s[/b][/color]  [color=#3a4a5a](이 힌트를 매번 따르면 기댓값 손실 ~0.5%%)[/color]",
+        "다이사이 테이블을 불러올 수 없습니다.",
+        "딜러 버스트 +%s",
+        "딜러 블랙잭 -%s",
+        "룰렛 테이블을 불러올 수 없습니다.",
+        "룰렛",
+        "바늘이 멈춘 구역 배당\n조커 45:1 최고배당\n가장 단순한 카지노 게임",
+        "바카라 테이블을 불러올 수 없습니다.",
+        "뱅커 vs 플레이어\n6덱 슈 · 로드맵 · 커미션\n하우스엣지 1.06%~",
+        "버스트  %s",
+        "버스트 -%s",
+        "블랙잭 %s",
+        "블랙잭 3:2  ·  딜러 소프트17 히트  ·  더블·스플릿 가능  ·  6덱  ·  기본전략 힌트 제공",
+        "블랙잭 타이 (반환)",
+        "블랙잭 테이블을 불러올 수 없습니다.",
+        "빅휠",
+        "빅휠을 불러올 수 없습니다.",
+        "슬롯머신",
+        "슬롯머신을 불러올 수 없습니다.",
+        "유럽식 룰렛 0~36\n단일숫자 35:1 최고배당\n하우스엣지 2.70%",
+        "주사위 3개 합계 승부\nBIG·SMALL·페어·트리플\n최고배당 150:1",
+        "타이 — 베팅 환불"
+      ],
+      "source_leaves": 25,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 25,
+        "zh-TW": 25
+      },
+      "source_review": "KO direct independent CN/TW authors; all25 each reviewed by non-author and root. CN terminology whole-batch rework repaired and all25 re-reviewed. Source-only; no normal FullStoryFlow ingress, rendered, native-speaker or release claim.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "0898546349027ee9541c7c5beb5a2c32b4ee239b",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3339c82ed736e8df7542dd304ef15cf813b6418fa1bdb23f4b1d8e8c5b994405",
+          "selection_sha256": "3668df04faf150ddaa210e4ab15186e97a9094f14564197f5afb5f76207e89d5",
+          "count": 25,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "56dcefb4dce2d92ddedfbf9d0f63ef57b54c5f82f74783766aea95a4e827976f"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "0898546349027ee9541c7c5beb5a2c32b4ee239b",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3339c82ed736e8df7542dd304ef15cf813b6418fa1bdb23f4b1d8e8c5b994405",
+          "selection_sha256": "9da0f64e3d320200ea7b206c6e8f7f92c2d0dba815f694c5a5e26cba3c6164e4",
+          "count": 25,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "eed0676a17a5dd8e5fe1e36476949cec53d71c7e47980d53f1ca2764f8f8dda0"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "840336fa830271d7fb2defe226c08d3c8309c76f1bc79c4aa65af85e9ff770ef",
+        "zh-TW": "fd88592f6e353dadae8027ac1b5368022133d779ecc657c6e754ad2643e3d790"
+      }
     }
   ],
   "accepted": {
@@ -126344,6 +126417,106 @@
       "ui:🟢 상승장:/🟢 상승장": {
         "source_sha256": "cd236d3f5eb857c6a7417dcc393bfa61894e7769168107e1666e21d66323dc58",
         "target_sha256": "aec61597f9b95828914c2118cf71639c029584fd8b7f693a9524b1aaf5d4ab63"
+      },
+      "ui:777 잭팟 200배\n체리 조합으로 소액 당첨\n이론 RTP 90%:/777 잭팟 200배\n체리 조합으로 소액 당첨\n이론 RTP 90%": {
+        "source_sha256": "545f1e16c839763c7d9b0c2f7a7014578f2fad10d1525afdedbf1e52c3049303",
+        "target_sha256": "48e39a64f6294385da436859dfaefe5dd0d3cf492c3eb98bfa9a8420edaf2254"
+      },
+      "ui:결과:/결과": {
+        "source_sha256": "8e72c6703bf8b4b7457d616aa3abd0c2129e29e369b63f9203e51b4833ac6273",
+        "target_sha256": "43ceb88957f21ccd9dff38de21d0677070de6323749cff4db06da8b5f0314c1f"
+      },
+      "ui:기본전략 힌트 내장\n더블다운 · 스플릿\n하우스엣지 0.5%~:/기본전략 힌트 내장\n더블다운 · 스플릿\n하우스엣지 0.5%~0": {
+        "source_sha256": "1eace076a72b35609925244d35793fa58af8ac4eddf39dbfa4ac75d572221492",
+        "target_sha256": "d0283b7be7de3e61e18dccd5865ed27e0794f05caf15c64e2acf4c19b5f7344c"
+      },
+      "ui:기본전략: [color=%s][b]%s[/b][/color]  [color=#3a4a5a](이 힌트를 매번 따르면 기댓값 손실 ~0.5%%)[/color]:/기본전략: [color=%s][b]%s[~1b][~1color]  [color=#3a4a5a](이 힌트를 매번 따르면 기댓값 손실 ~00.5%%)[~1color]": {
+        "source_sha256": "25f502db79f4878d4f4021771ff7b122dc26437f7cf0c64586c3534ad6ab13c0",
+        "target_sha256": "bc90f82d07731a637252ec0db09b39f7ae8a6f8de89f9e07fd96ee18740e93ec"
+      },
+      "ui:다이사이 테이블을 불러올 수 없습니다.:/다이사이 테이블을 불러올 수 없습니다.": {
+        "source_sha256": "ffcc6f5e98b248b7f890c4a0f0c19ec9139bb5c2badbc6b82507bf9f42b6b36f",
+        "target_sha256": "8c231bb1cbe3dce829ae785626641f414c52263db0a4031c9bb798052aae19fa"
+      },
+      "ui:딜러 버스트 +%s:/딜러 버스트 +%s": {
+        "source_sha256": "a3c889a5fcfce80f63755879c02f84aa3976a3a1ab18313219bafc9bb211eaf0",
+        "target_sha256": "b3d1118377f797bfe94a393f99c03d9c10e4b85ceb2531582508f9df18fb6346"
+      },
+      "ui:딜러 블랙잭 -%s:/딜러 블랙잭 -%s": {
+        "source_sha256": "e4ca11ef1ac4c4e1a31bce8843b2c5f980baa29c0f14b6f0ddd24c4fe3713db4",
+        "target_sha256": "552b06b5ecc7e751f6a5011a00c6b0b817f17085c31664a8aae72cada0f86213"
+      },
+      "ui:룰렛 테이블을 불러올 수 없습니다.:/룰렛 테이블을 불러올 수 없습니다.": {
+        "source_sha256": "ea75a34b3bfcb69962ef8a539cfcc5f56d107e7359ac9c60f44fd207dcab25e6",
+        "target_sha256": "579dd5bba244b08543c09401db79db0054896841591baaef7bbe9f801886e5f0"
+      },
+      "ui:룰렛:/룰렛": {
+        "source_sha256": "e31339d65826f0646a917b7d37db28d4f8ac2992146459e5b126bd67a6580f1a",
+        "target_sha256": "8fab4b104307eb563c54891c14f8faa5c443e40843ade8ede1a4317f4e431b48"
+      },
+      "ui:바늘이 멈춘 구역 배당\n조커 45:1 최고배당\n가장 단순한 카지노 게임:/바늘이 멈춘 구역 배당\n조커 45:1 최고배당\n가장 단순한 카지노 게임": {
+        "source_sha256": "079c889715988d3a19197aca0cbbecfb1a0cd1a4965d92c55653dd7ea2829a9f",
+        "target_sha256": "8806d1ce7068622dc830f3549f424b6f8eb3664982e694dd41a529740c596c69"
+      },
+      "ui:바카라 테이블을 불러올 수 없습니다.:/바카라 테이블을 불러올 수 없습니다.": {
+        "source_sha256": "22169e1b6320cd7fb496c82fe5e4a32afd397b35ee00a077969a63ba1110e30c",
+        "target_sha256": "4ee1fe99097e861dd8267f950ecab76bb8af3bb5fe543772f55bfe6fc70aea95"
+      },
+      "ui:뱅커 vs 플레이어\n6덱 슈 · 로드맵 · 커미션\n하우스엣지 1.06%~:/뱅커 vs 플레이어\n6덱 슈 · 로드맵 · 커미션\n하우스엣지 1.06%~0": {
+        "source_sha256": "cff6d2ba08954cb362627ebd06cbd1b1d4a5a3304a891d1c8cfe9beba44249b1",
+        "target_sha256": "139dbb9c275d6ced6a70659069be2c476c974d269eb8c4e48bdf3fcc1e2b9639"
+      },
+      "ui:버스트  %s:/버스트  %s": {
+        "source_sha256": "3ff43caded5055c950ae1f4d5d0783325e9c18844e92afd8999ac0a43a7a466f",
+        "target_sha256": "b800b8c098b39bcda3ee24b9e2a8942823b3aa6e80e02365ea6cbb08366d6e80"
+      },
+      "ui:버스트 -%s:/버스트 -%s": {
+        "source_sha256": "ebc46c089e172b0fc8396f478b72f1cc29dd51eba71923fec495a59ce2051e76",
+        "target_sha256": "9f82cbdae1880c9c680aa6e016b02a7468c7e962522ba6e92d3733557b9f9b7e"
+      },
+      "ui:블랙잭 %s:/블랙잭 %s": {
+        "source_sha256": "4fa59e33c30c0a3f1631322dded039abb8907c2851925ebe0c5c1c1fbf06a271",
+        "target_sha256": "68bc2497e6d2987a5403ad162d3331d3cede7f75a897d99c8d4695d1f75373aa"
+      },
+      "ui:블랙잭 3:2  ·  딜러 소프트17 히트  ·  더블·스플릿 가능  ·  6덱  ·  기본전략 힌트 제공:/블랙잭 3:2  ·  딜러 소프트17 히트  ·  더블·스플릿 가능  ·  6덱  ·  기본전략 힌트 제공": {
+        "source_sha256": "e67f90811bba2e8f63a7dcc669055a123ed84c4fabf51389b3e7290205ee37c8",
+        "target_sha256": "a7df4d9331bcc85c9715eb46411a6b32b268006276ce1298c1bc716645f0dee5"
+      },
+      "ui:블랙잭 타이 (반환):/블랙잭 타이 (반환)": {
+        "source_sha256": "0dd0fef1bddbb8ab49ca847874292d4d7824c1de42263092eed75e9eec326499",
+        "target_sha256": "8c1b1dfd29f2f6182ad01c0958538df2c8d51a0bb2c9a02db4f2ac20c1ffa1db"
+      },
+      "ui:블랙잭 테이블을 불러올 수 없습니다.:/블랙잭 테이블을 불러올 수 없습니다.": {
+        "source_sha256": "be0a9026361636e3f553622bed114fb145a57e304d3d175a688f892365b4ad0b",
+        "target_sha256": "e2a762f1ae24bd795a6ee5608fc53e070fe4a4c44a658ae040ecb323c404dc29"
+      },
+      "ui:빅휠:/빅휠": {
+        "source_sha256": "9f51edfa939d87a502c6872c702c830b2a456b4a4c521ad19eb0d5fc0921a0af",
+        "target_sha256": "a43871eb8e88b36e768155f1aceb6eb5b8f9da3b63841a5c59bd96078979a6dc"
+      },
+      "ui:빅휠을 불러올 수 없습니다.:/빅휠을 불러올 수 없습니다.": {
+        "source_sha256": "57e3799aeabe3bde76cbe0a1458bfb0f5fa7d858d3c4d6947f648dc0094c579c",
+        "target_sha256": "bbc092da571e4b42fb6bfc2830c0911fb98a9d8e360ce9a0e3d07e2cb052b18a"
+      },
+      "ui:슬롯머신:/슬롯머신": {
+        "source_sha256": "b26d302862052ea01cfa22201717da665ee49e478ce85237def94befe7687ca3",
+        "target_sha256": "f463a4da35de4fc9c07547c316a34be4f30abf94e80da9ce2410759621afb897"
+      },
+      "ui:슬롯머신을 불러올 수 없습니다.:/슬롯머신을 불러올 수 없습니다.": {
+        "source_sha256": "94a62eb12f295e8f8c2cd7a4c9fd63da38d0d9f37ceffe60184698ce6f6372de",
+        "target_sha256": "adc7a7a37e94e6c6977b3b3bb9ace5ce894fc58ba567375ea6e41e9c0783a9b6"
+      },
+      "ui:유럽식 룰렛 0~36\n단일숫자 35:1 최고배당\n하우스엣지 2.70%:/유럽식 룰렛 0~036\n단일숫자 35:1 최고배당\n하우스엣지 2.70%": {
+        "source_sha256": "38b6038284f91f067ba118e4cc5f782d75ba7f669b6bbdb548a6d1301175d613",
+        "target_sha256": "b5da375a57150042f803b6fc92435682913675c1fcbff8eb205d47d2c58ece3b"
+      },
+      "ui:주사위 3개 합계 승부\nBIG·SMALL·페어·트리플\n최고배당 150:1:/주사위 3개 합계 승부\nBIG·SMALL·페어·트리플\n최고배당 150:1": {
+        "source_sha256": "f6aedb8a4edbae9a2cfd009a73b76dab050cbc5938927d267ddedad4e109c6bf",
+        "target_sha256": "c85da4ef20e66d591e088cebee83da12f4f90520a365e59772c249bf7822842b"
+      },
+      "ui:타이 — 베팅 환불:/타이 — 베팅 환불": {
+        "source_sha256": "3df054a495eb766d48189849c65b175439563545258a86d2fbe6bdc1b4291794",
+        "target_sha256": "5557daddd0c888bbe14462acfa23561bb844313258fd0b4b91f79b28cfd3661f"
       }
     },
     "zh-TW": {
@@ -185658,10 +185831,110 @@
       "ui:🟢 상승장:/🟢 상승장": {
         "source_sha256": "cd236d3f5eb857c6a7417dcc393bfa61894e7769168107e1666e21d66323dc58",
         "target_sha256": "a12c687131be922f03e162f0d24d1c501cbd0bab1f096fc1427ebe22c4487e70"
+      },
+      "ui:777 잭팟 200배\n체리 조합으로 소액 당첨\n이론 RTP 90%:/777 잭팟 200배\n체리 조합으로 소액 당첨\n이론 RTP 90%": {
+        "source_sha256": "545f1e16c839763c7d9b0c2f7a7014578f2fad10d1525afdedbf1e52c3049303",
+        "target_sha256": "26e9a2ae51dfbf0702034c50b776d162fa243c65a1d56dd5db702483aafe069a"
+      },
+      "ui:결과:/결과": {
+        "source_sha256": "8e72c6703bf8b4b7457d616aa3abd0c2129e29e369b63f9203e51b4833ac6273",
+        "target_sha256": "f35d4e86ebe39f55aedaca7a9d8a29e9f4dabe1cea2681513e35f3e9318be278"
+      },
+      "ui:기본전략 힌트 내장\n더블다운 · 스플릿\n하우스엣지 0.5%~:/기본전략 힌트 내장\n더블다운 · 스플릿\n하우스엣지 0.5%~0": {
+        "source_sha256": "1eace076a72b35609925244d35793fa58af8ac4eddf39dbfa4ac75d572221492",
+        "target_sha256": "57afac9ed6a9e9334e11d4a37d098dd22420e96ae9e411aa926113cb4581911b"
+      },
+      "ui:기본전략: [color=%s][b]%s[/b][/color]  [color=#3a4a5a](이 힌트를 매번 따르면 기댓값 손실 ~0.5%%)[/color]:/기본전략: [color=%s][b]%s[~1b][~1color]  [color=#3a4a5a](이 힌트를 매번 따르면 기댓값 손실 ~00.5%%)[~1color]": {
+        "source_sha256": "25f502db79f4878d4f4021771ff7b122dc26437f7cf0c64586c3534ad6ab13c0",
+        "target_sha256": "f180e04435823947bf42bed4c77116e1b8d3d72d5abeac3997ea599475e906f8"
+      },
+      "ui:다이사이 테이블을 불러올 수 없습니다.:/다이사이 테이블을 불러올 수 없습니다.": {
+        "source_sha256": "ffcc6f5e98b248b7f890c4a0f0c19ec9139bb5c2badbc6b82507bf9f42b6b36f",
+        "target_sha256": "dbe2bf85d60b88f8401e420671f4845a275b494b04960ea24e76446a0517754b"
+      },
+      "ui:딜러 버스트 +%s:/딜러 버스트 +%s": {
+        "source_sha256": "a3c889a5fcfce80f63755879c02f84aa3976a3a1ab18313219bafc9bb211eaf0",
+        "target_sha256": "57c182d6a6908ed32353a981aa62b08ad18e2c8f7128da4988b8de27220eb937"
+      },
+      "ui:딜러 블랙잭 -%s:/딜러 블랙잭 -%s": {
+        "source_sha256": "e4ca11ef1ac4c4e1a31bce8843b2c5f980baa29c0f14b6f0ddd24c4fe3713db4",
+        "target_sha256": "a922cbb95d0d1296667ae3cb8918923b4f712860b191926a8945023b22fbbdda"
+      },
+      "ui:룰렛 테이블을 불러올 수 없습니다.:/룰렛 테이블을 불러올 수 없습니다.": {
+        "source_sha256": "ea75a34b3bfcb69962ef8a539cfcc5f56d107e7359ac9c60f44fd207dcab25e6",
+        "target_sha256": "d52115647035c5dd25e10ecc73b7f1995de0fe06e41787dca257bc933426ad10"
+      },
+      "ui:룰렛:/룰렛": {
+        "source_sha256": "e31339d65826f0646a917b7d37db28d4f8ac2992146459e5b126bd67a6580f1a",
+        "target_sha256": "c2c8d3514eb12c04ad615d92ade0956bee7868f4318beb347048098865e26922"
+      },
+      "ui:바늘이 멈춘 구역 배당\n조커 45:1 최고배당\n가장 단순한 카지노 게임:/바늘이 멈춘 구역 배당\n조커 45:1 최고배당\n가장 단순한 카지노 게임": {
+        "source_sha256": "079c889715988d3a19197aca0cbbecfb1a0cd1a4965d92c55653dd7ea2829a9f",
+        "target_sha256": "f508bb1cf5ec20e7fdd8ae6b7b6088168acc7ea0a527a4c92dd582998532644b"
+      },
+      "ui:바카라 테이블을 불러올 수 없습니다.:/바카라 테이블을 불러올 수 없습니다.": {
+        "source_sha256": "22169e1b6320cd7fb496c82fe5e4a32afd397b35ee00a077969a63ba1110e30c",
+        "target_sha256": "1837c772609bda0c8c53af5d242528b649502df84715eaa7226920ca47134d08"
+      },
+      "ui:뱅커 vs 플레이어\n6덱 슈 · 로드맵 · 커미션\n하우스엣지 1.06%~:/뱅커 vs 플레이어\n6덱 슈 · 로드맵 · 커미션\n하우스엣지 1.06%~0": {
+        "source_sha256": "cff6d2ba08954cb362627ebd06cbd1b1d4a5a3304a891d1c8cfe9beba44249b1",
+        "target_sha256": "873380f00512371e25cafe17b8589662956ef89f32051c015a3b4afe6deea5b4"
+      },
+      "ui:버스트  %s:/버스트  %s": {
+        "source_sha256": "3ff43caded5055c950ae1f4d5d0783325e9c18844e92afd8999ac0a43a7a466f",
+        "target_sha256": "b800b8c098b39bcda3ee24b9e2a8942823b3aa6e80e02365ea6cbb08366d6e80"
+      },
+      "ui:버스트 -%s:/버스트 -%s": {
+        "source_sha256": "ebc46c089e172b0fc8396f478b72f1cc29dd51eba71923fec495a59ce2051e76",
+        "target_sha256": "9f82cbdae1880c9c680aa6e016b02a7468c7e962522ba6e92d3733557b9f9b7e"
+      },
+      "ui:블랙잭 %s:/블랙잭 %s": {
+        "source_sha256": "4fa59e33c30c0a3f1631322dded039abb8907c2851925ebe0c5c1c1fbf06a271",
+        "target_sha256": "2c34c7b7863ef7c6eb9244fa35785a4897ffcf4a0e19abbf44a1884cf42d2b9e"
+      },
+      "ui:블랙잭 3:2  ·  딜러 소프트17 히트  ·  더블·스플릿 가능  ·  6덱  ·  기본전략 힌트 제공:/블랙잭 3:2  ·  딜러 소프트17 히트  ·  더블·스플릿 가능  ·  6덱  ·  기본전략 힌트 제공": {
+        "source_sha256": "e67f90811bba2e8f63a7dcc669055a123ed84c4fabf51389b3e7290205ee37c8",
+        "target_sha256": "5d34f7acdc95862c4164c0d95f5ad623536cf2d2217ff895fef9dbba61c7784f"
+      },
+      "ui:블랙잭 타이 (반환):/블랙잭 타이 (반환)": {
+        "source_sha256": "0dd0fef1bddbb8ab49ca847874292d4d7824c1de42263092eed75e9eec326499",
+        "target_sha256": "e383de72e086dbb7cf4a85ed6953867ca6a241f6462bc7536b3339bef7590982"
+      },
+      "ui:블랙잭 테이블을 불러올 수 없습니다.:/블랙잭 테이블을 불러올 수 없습니다.": {
+        "source_sha256": "be0a9026361636e3f553622bed114fb145a57e304d3d175a688f892365b4ad0b",
+        "target_sha256": "4e46d48d71f9c869301dbcf2a31dd6b0d4b101e0da5b105eb4b568d683df0859"
+      },
+      "ui:빅휠:/빅휠": {
+        "source_sha256": "9f51edfa939d87a502c6872c702c830b2a456b4a4c521ad19eb0d5fc0921a0af",
+        "target_sha256": "33c54fdda3f78854a6e832a1d8027aecf53eab3433b425e97ac3ddc319fbf879"
+      },
+      "ui:빅휠을 불러올 수 없습니다.:/빅휠을 불러올 수 없습니다.": {
+        "source_sha256": "57e3799aeabe3bde76cbe0a1458bfb0f5fa7d858d3c4d6947f648dc0094c579c",
+        "target_sha256": "4fb04e75feab04b32343a8d8865405482dfa97249b16dafd73d11da9d8d9a3a8"
+      },
+      "ui:슬롯머신:/슬롯머신": {
+        "source_sha256": "b26d302862052ea01cfa22201717da665ee49e478ce85237def94befe7687ca3",
+        "target_sha256": "612389cd3616730b289624f35409f56e9a1417293e0e8ba6fc52c56247d54a0f"
+      },
+      "ui:슬롯머신을 불러올 수 없습니다.:/슬롯머신을 불러올 수 없습니다.": {
+        "source_sha256": "94a62eb12f295e8f8c2cd7a4c9fd63da38d0d9f37ceffe60184698ce6f6372de",
+        "target_sha256": "9f3e9b6ef28dbc9178c6b3521a39b6ffe3d2eefae706cd3a5bdded32bbd32d75"
+      },
+      "ui:유럽식 룰렛 0~36\n단일숫자 35:1 최고배당\n하우스엣지 2.70%:/유럽식 룰렛 0~036\n단일숫자 35:1 최고배당\n하우스엣지 2.70%": {
+        "source_sha256": "38b6038284f91f067ba118e4cc5f782d75ba7f669b6bbdb548a6d1301175d613",
+        "target_sha256": "6f68762f3b55edeff27884af71465e36e07018a8a28c65131e997595dcfb241d"
+      },
+      "ui:주사위 3개 합계 승부\nBIG·SMALL·페어·트리플\n최고배당 150:1:/주사위 3개 합계 승부\nBIG·SMALL·페어·트리플\n최고배당 150:1": {
+        "source_sha256": "f6aedb8a4edbae9a2cfd009a73b76dab050cbc5938927d267ddedad4e109c6bf",
+        "target_sha256": "ad39c39e06c70e7e12eec0b47ccf900cc557ec1839aee7e1ee262dc9a24ce8d8"
+      },
+      "ui:타이 — 베팅 환불:/타이 — 베팅 환불": {
+        "source_sha256": "3df054a495eb766d48189849c65b175439563545258a86d2fbe6bdc1b4291794",
+        "target_sha256": "0621814a9493a41380c5db11efec8a084e8cd4f0525bf6f53bf6a31f51bc2389"
       }
     }
   },
-  "accepted_sha256": "691aed7540a05c9879b15f38aac39d86373abe1edca04d86d1ceb034acb9025a",
+  "accepted_sha256": "516e39a1f9f81a88a2afa7242f244ae3305d4f656fd6cfa078dee9bed8002b69",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
