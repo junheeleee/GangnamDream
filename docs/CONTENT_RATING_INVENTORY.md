@@ -123,7 +123,7 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 - 게임 pack 대상 raster: 311장 · ImageRegistry 외부 pack 대상: 48장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
 - 사건 ID SHA-256: `4b51a9170bb3bcd7362be3175dbaec77c96a8c928e8747dd5479e14d54845a4b`
-- KO/EN 엔딩 본문 SHA-256: `b65e9b108cbf2db950f811eec36a68b2b4a8a56caf2f174bec09e26ae014eacc`
+- KO/EN 엔딩 본문 SHA-256: `53fe7f4a082a5fea5b3f2e30a89c9d43bb6ee98783b3e9c6a2758a99de01f052`
 
 아래 current-source fingerprint는 표현의 최종 등급이 아니라 개발 코퍼스가 조용히 바뀌는 것을
 막는 자동검색 래칫이다. fact의 사건 ID는 결정적 증거 앵커이지 후보 전부의 1:1
@@ -131,20 +131,21 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
-| 사행성·도박 | 136 / 43 | `d41c2decfd20cbb8c4c5abe0f751009fd00e8a7de5c303b3227d0e81476a062a` | `12343b8963cad71cff43658dda235d1e2c3612a46d1f9bcb34e6e1879b399e2e` | strong, moderate |
-| 선정성·성적 내용 | 124 / 26 | `b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa` | `ae5c5ae04058633dca7a92807368a92d03d0e99bfc06718ea2e0c19f38dc5c6c` | moderate, mild |
-| 폭력성 | 17 / 14 | `b036299411ccb065182412b7accbfaf66efdab32d05c81d8b6c6bb6a3d3dc125` | `fa5cbaaf369c53e93869de0129cca7366869eb5bf702b0b1f898bde93d6405fc` | mild |
-| 공포 | 146 / 51 | `6e3506f6830db61e7130a5cab95a029cc19dd0d25c6799b4e7764a9165e4a010` | `450d76bc5ad0a78550812f32d863022ac635fe228f4b61235b40e11632b22f99` | moderate |
+| 사행성·도박 | 136 / 43 | `d41c2decfd20cbb8c4c5abe0f751009fd00e8a7de5c303b3227d0e81476a062a` | `7e422c31fd144985bfc3516c7b0cad27eff3e6ae9fd1f3cfd93a0043431248b7` | strong, moderate |
+| 선정성·성적 내용 | 124 / 26 | `b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa` | `6fe4dc0e539a86905da7e3303ad7d29a165b423de730f2c836d3de4c8eaa02c6` | moderate, mild |
+| 폭력성 | 16 / 13 | `fd37228bc8f4bfdc6c0eccc9b3a3d8aa084f52c3d2373d9a45b24eddbeab0c91` | `9fb867fafde36e279db05ce64e4ec7547f5682135cdb441c6f0c03dc6c9f31c8` | mild |
+| 공포 | 144 / 51 | `2cee5a032017af58d7bb853446da56393ee891f51a499c6db0b1676d578990d2` | `0b5cfadce42f45a5d83f6cadab98032ac648a3a8ece45797a43fb18c1d77e717` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `b7018e341076ee7951da874c3fe6cadd4f34d7f0c996feb2b67e83c0a44e98c2` | mild |
-| 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `44be6804fa95437f4c8cf6c9d558cfb90fd3c9ef8614c55941c31e2bb46d7178` | moderate, strong |
-| 음주·흡연·약물 | 81 / 39 | `5278834de7aee9d4d9135a32561844a97c5a4e245c0ab346f27c706e97f689fd` | `273e9fdc3dc2a29603817c483127474a22fbe1897790286df9d9f1eb8ddae3ac` | moderate, mild |
+| 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `6f7fcf63efdabeea6cdf46d8feb80a6989d69ea3c1b1295b1b48ac254b8c43b7` | moderate, strong |
+| 음주·흡연·약물 | 83 / 40 | `9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e` | `19175259bc8c33a509d648553c2bc4cfece17bfa5726c9286bc8c5a488cd8e40` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |
 
 명시 검토한 검색 오탐(후보 해시에는 남겨 검색 규칙 변화도 드러낸다):
 - 선정성·성적 내용: `arc_y4_father_final_contact_present`
-- 폭력성: `amb_coin_00`, `arc_daeun_first_night`, `arc_sangchul_confrontation`, `arc_year3_close`, `cafe_bluff_caught`, `callback_ignored_hyunsu_warning_echo`, `callback_recommitted_to_job_echo`, `inv_portfolio_review`, `job_colleague_conflict`, `kx_coin_noraebang`, `startup_team_conflict`, `story_knee_choice`, `story_knee_witness`
+- 폭력성: `amb_coin_00`, `arc_daeun_first_night`, `arc_sangchul_confrontation`, `cafe_bluff_caught`, `callback_ignored_hyunsu_warning_echo`, `callback_recommitted_to_job_echo`, `inv_portfolio_review`, `job_colleague_conflict`, `kx_coin_noraebang`, `startup_team_conflict`, `story_knee_choice`, `story_knee_witness`
 - 범죄: `arc_y4_family_partner_collision_jiyeon`
+- 음주·흡연·약물: `arc_36_body_signal`, `arc_year3_close`
 
 ## ImageRegistry 외부 source raster 56장
 

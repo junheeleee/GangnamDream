@@ -21,7 +21,7 @@
   {
     "id": "arc_jiyeon_year3",
     "title": "Asking Again",
-    "description": "Han Jiyeon's name appeared in a KakaoTalk alert. A new message sat below their earlier exchanges. It was a brief, polite inquiry.\n\n\"How have you been lately?\"\n\nThe accident on the rain-slick road came back to him: a day when two different worlds had briefly touched. The stranger from that day was now asking how he was. There had been days that would not fit inside a simple \"I'm doing well.\"\n\n{name} opened the reply field. Before the typing indicator vanished, he had to decide how much truth to send.",
+    "description": "Han Jiyeon's name appeared in a KakaoTalk alert. A new message sat below their earlier exchanges. It was a brief, polite inquiry.\n\n\"How have you been lately?\"\n\n{name} swiped up on the screen once, then returned to the new message. His thumb stopped at \"How.\" Saying he was doing well would take only a few words. Choosing the days to put behind those words took longer.\n\nTapping the reply field raised a keyboard that covered their earlier exchanges. {name} shifted the phone into both hands. Jiyeon's single line of inquiry remained above the keys.",
     "choices": [
       {
         "text": "\"I'm doing okay. Nice to hear from you.\" — straightforward",
@@ -105,7 +105,7 @@
   {
     "id": "arc_y3_cost_of_knowing",
     "title": "The Cost of Knowing",
-    "description": "After {name}'s café meeting with Sangchul, a real-estate consultant sent a message and a proposal, saying Sangchul had passed on the contact details. The review deadline was six that evening.\n\nSangchul's name appeared nowhere in the attachment. But {name} could not ignore the introducer named in the message. The return looked good, and declining would close this contact for good.\n\nBefore touching the e-signature field, {name} wrote the contact's source in the notebook. He had to decide whether to sign, knowing whose name was behind the introduction. The pen tip hovered a long while beside the clock, which read 5:12.",
+    "description": "After {name}'s café meeting with Sangchul, a real-estate consultant sent a message and a proposal, saying Sangchul had passed on the contact details. The review deadline was 6 p.m.\n\nSangchul's name appeared nowhere in the attachment. {name} returned to the conversation and touched the introducer's name. Reopening the proposal put the return terms beside the e-signature field. Declining this contact would close it for good.\n\nAt the roadside, {name} supported the notebook in his palm and wrote the contact's source. Im Sangchul. The pen caught on the last stroke, deepening a black dot. The phone read 5:12 p.m. The e-signature field was still empty.",
     "choices": [
       {
         "text": "Use it. This is my network now. His crimes don't transfer to me.",
@@ -143,7 +143,7 @@
   {
     "id": "arc_y3_jiyeon_departure",
     "title": "Different Directions",
-    "description": "A photograph of a train ticket arrived from Han Jiyeon, one way from Seoul Station to Busan.\n\n\"I'm moving down to Busan. I'm going to open a small brokerage under my own name.\"\n\n{name} read the departure time and seat number three times for no reason. He remembered the exam guide protruding from Jiyeon's bag at the cafe.\n\nHe read again that she planned to open a brokerage under her own name. With a one-way ticket beside it, that sentence carried a different weight.\n\nThe cursor blinked in the reply field. On a screen, the distance between sending someone off and asking her to stay was only a few words.",
+    "description": "A photograph of a train ticket and a short message arrived from Han Jiyeon. It was one way from Seoul Station to Busan.\n\n\"I'm moving down to Busan. I'm going to open a small brokerage under my own name.\"\n\n{name} read the departure time and seat number three times for no reason. He tapped the photograph to open it, then spread two fingers over it. The arrow between Seoul and Busan stretched across the screen. The words \"under my own name\" were hidden behind the image.\n\nPressing Back returned him to the conversation, bringing those words and the one-way ticket onto the same screen again.\n\nThe cursor blinked in the reply field. On a screen, the distance between sending someone off and asking her to stay was only a few words.",
     "choices": [
       {
         "text": "\"Take care. Sincerely.\" — let her go",
