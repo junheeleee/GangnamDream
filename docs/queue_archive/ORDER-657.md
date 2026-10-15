@@ -1,6 +1,6 @@
 # ORDER-657 — M60 삭제 원본 위치와 전날 기록한 날짜 회수 수리
 
-#### [~] ORDER-657 [정합] W237·W240은 실제 선행 상태만 회수 — 2026-10-15
+#### [x] ORDER-657 [정합] W237·W240은 실제 선행 상태만 회수 — 2026-10-15
 
 656 마감 뒤 M60 KOEN4잎. Mac잠금중 같은M18/612 재검수HOLD/새월0.
 5언어유지·KOEN실제확정 전 JAzh다듬기중단/누락만.
@@ -37,4 +37,23 @@ chapter5_general_finale/chapter5_finale/release 표적9·공식JA/CN/TW inventor
 context/queue/diff0·고정제품commit/tree/핀·독립4잎전수 source사실한정검수.
 engine/전체audit/자연240/새checker/비용최적화0·실제M18/M60/native/전체종막·경제/
 coda엔딩/5언어/352선행/출시 HOLD. 일회성수리/새정본승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — source 사실 수리 한정
+
+- 후보79a5fe0af60535a38d5afe63ca6db53c1873b2d2/treee618f16548520410be5e1c02b7113e25c63e4412.
+- KOEN4잎/2원고 inverse/parsed/문단name숫자·비소유 byte exact·8source구성은 실제runtime아님.
+- W237은 W234상담책상에흔적을가져가지않은과거만·현재방의cafe종이위치/voice복원단정0.
+- W240은 alive/pass W239전날밤 기록한그날날짜만·오늘날짜발명0/전날구조유지.
+- 효과/flags/선택·결과/다른readrows/receipt/소스/모드/코드/저장/JAzh/사용자 불변.
+- 표적9/공식inventory3 actual0·release정렬불필요·selection71실행아님·engine/전체audit/자연240/새checker0.
+- source manifest8564e34536b32a327ce4e2011e1fb7844761682403360b6cdb3618f6b03eb3b6.
+- event현재11208/stale180·196·198/ch5reader126/133stale7/invalid118·47·45 INCOMPLETE/nativeOPEN·reader stale2추가/invalid집합불변·다듬기수용0.
+- 독립 GO_SOURCE_FACT_ONLY/4잎전수·root 전문/spec/2제품/4증거/3rawinventory핀 확인.
+- .git/order657-20261015/review.md6912B/SHA256f30097e2e11a172c3be22ed06bb027f068e70f56599dc8d68714557e6ff00257.
+- review.json7955B/SHA2565f48bef7eb1e61b7df5542230ba462e841e1629bb3c1db8f8bff0d799148d454.
+- map/source-proof/targeted-results/inventory-completions/raw3은 같은 폴더.
+- 실제M18/M60/native/전체종막·경제/coda엔딩/5언어/352선행/출시 HOLD·612dirty4바이트보존/제외·새월0.
+- 별도비저자typedcoda22잎읽기전용보고 추가확정0/정식GO0·기본ending description/DK/인물후일담 전수밖.
+- 일회성/새정본승격0·개발스킬 표적·독립·보존 적용.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.

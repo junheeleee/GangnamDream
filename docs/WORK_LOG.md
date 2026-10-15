@@ -3,6 +3,15 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — M60 후행의 삭제원본 위치·기록 날짜 회수 수리
+
+- [657](queue_archive/ORDER-657.md): W237 readrow1/1은 W234 부동산 상담책상에 해당흔적을 가져가지 않았다는 실제과거만 회수한다. W229 voice삭제1/cafe방보관1에 공통으로 참이며, 현재자기방의종이존재/부재를 단정하지 않는다. W240 father_answer2는 alive/pass 전날밤 그날기록을 오늘날짜로 바꾸지 않도록 그날/that day로 KOEN4잎 정렬했다.
+- 후보79a5fe0af60535a38d5afe63ca6db53c1873b2d2/treee618f16548520410be5e1c02b7113e25c63e4412·2원고 fullinverse/parsed/문단name숫자 exact·다른readrows/선택/효과/flags/receipt/소스/모드/코드/저장/JAzh/사용자 불변. 8source구성은 실제runtime아님. 표적9/공식inventory3 actual0·release정렬불필요·selection71실행아님·engine/전체audit/자연240/새checker0.
+- manifest8564e34536b32a327ce4e2011e1fb7844761682403360b6cdb3618f6b03eb3b6·event현재11208/stale180·196·198/ch5reader126/133stale7/invalid118·47·45 INCOMPLETE/nativeOPEN·이전656대비reader stale2추가만/invalid집합불변·다듬기/수용0.
+- 독립 GO_SOURCE_FACT_ONLY/4잎 전수·root 전문/spec/2제품/4증거/3raw핀 확인. .git/order657-20261015/review.md6912B/f30097e2e11a172c3be22ed06bb027f068e70f56599dc8d68714557e6ff00257·JSON7955B/5f48bef7eb1e61b7df5542230ba462e841e1629bb3c1db8f8bff0d799148d454. 실제M18/M60/native/전체종막·경제/coda엔딩/5언어/352선행/출시 HOLD·612dirty4미포함/새월0.
+- 별도 읽기전용 사전조사: m46_48_fact_read는 M60 live후보10roots/27선택·42typedread/DK19/기억5/moral본문2·선택12+author_only서명3을 읽어 위4잎을 발견했다. 뒤이어 EndingSystem.gd의 실제typedcoda 11KOEN쌍22잎과 MainGame:21537의 실제append/receipt가드를 읽어 추가확정결함0으로 보고했다. 기존 ending descriptions/DK/인물후일담/author_only6본문은 전수밖·정식GO/실제플레이/출시승격0. 기본엔딩/후일담과 다은서랍기간은 남은 source확인 범위다. 개발스킬 표적·독립·보존 적용·일회성/새승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — M59 삭제된 음성 원본과 하지 않은 이사 회상 수리
 
 - [656](queue_archive/ORDER-656.md): W229 음성삭제1/카페방보관1에 붙는 W234 공통행을 지금 부동산 상담책상에 해당흔적이 없다는 사실로 좁혔다. 고시원유지·정신>20에도 여러방/풍경변경을 말하던 겨울 기본문은 현재방만 관측하도록 KOEN4잎 수리했다. readrow0/5주/선택·결과·효과·receipt·코드·저장·JAzh·사용자 불변. 6source구성은 실제관측 아님.
