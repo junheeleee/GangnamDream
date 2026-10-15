@@ -1,5 +1,13 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-10-15 — 막차 M21 실제 앱 선택과 저장 검수 완료
+
+- [681](queue_archive/ORDER-681.md): 원680 W82 한복사/freshHOME3XDG·같은BUILD14.3, 정상Continue 막차0(터미널배웅)→결과3개→W83/84quiet→첫W85갈림길본문/선택0에서CmdQ. 실제14JPEG 전부읽음·전화→터미널 이동/키보드/본문폭 정상. W81은기존정산보존·재실행0, M21네주각1회완료/M22입구만이다.
+- final239519B/SHAcb35ad0ea3fa4277954210ca7ac4f3873deb643e4e791eb22f731e2368bc51b3. 원prefix65/cast/아이템3/deferred exact·seq66막차0/seen/tint+3, receipt82..84각1회·marker85/last84/resume{}·월말1/10월뉴스3. HUD−748만원/26/90/39개월과durable−7481703/26/90 일치. 택시비/취업/아이템grant/미선택현금효과0·중간결과quit/reload인증0.
+- native73440 exit0/failure null·14true/71그룹1178항목exact·editor생존·마지막CmdQ/재선택0·raw3오류/경고/ObjectDB0. 비저자14화면/출구GO+저장/source의미GO·root전문/실제34핀확인. 원680/679/612·저장/설정/project/공개/Human·게임/번역/제품검사불변. 선언·관측·검수·마감한commit·상세핀사양/private보존.
+- main5f96 CI38740436342 static성공/Godot진행·실패0/예외0/만료0·녹색미확정. 표적context/queue/EN누출/diff·새build/전체audit/240주/새tool0. 개발스킬의격리/원본보존/독립·표적검수적용. 다음M22원W85·W87현행산문에새build필요/완료월반복0. 현재main전체native/EN·CJK실화면/사람2~3h/원어민·물리pad·청취/M60완주/C1~C5·출시GO0. 승격0·일회성이다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 설명회·재혁 M20 실제 앱 선택과 저장 검수 완료
 
 - [680](queue_archive/ORDER-680.md): 원679 W77 한복사/freshHOME3XDG·동일BUILD14.3, W77기준/비용질문1→W80재혁동기질문1 완료·실제24JPEG 읽음. 사전 W85예측과 달리 정상H2후단fallback이 W82막차를열어 첫본문/선택0즉시중지·CmdQ마지막UI. 예측오류는철회하고원선언보존·제품bug로분류0. M20네주완료/M21은quiet81한주+82입구만·W85미도달이며 완료월반복0.
