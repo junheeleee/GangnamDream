@@ -3,6 +3,11 @@
 이전 기록은 [663 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order663_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36266B/SHA256 c080667791b8306d7e7d4cb2c60b94257e63c40de6bfb825f95c0ea87571426a이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 카지노 중국어 누락 50문구
+
+- [670](queue_archive/ORDER-670.md): CN/TW 신규25각50만수용. 용어3행REWORK후독립50 source/appendGO·최종check/import2각0·표적7actual0. 기존2289키/327batch/JA/612dirty4보존. static2110/2980·missing870각/invalid137·70·72불변. 실제M18/native/5언어전체/출시HOLD. 제품·실패raw·최종보고핀은마감사양.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 거래 화면 중국어 누락 19키 보충
 
 - [669](queue_archive/ORDER-669.md): 거래HUD·보유시가·매수매도·시간/MA차트19키의 CN/TW신규38만독립KO저작/상호비저자전수GO로수용했다. 기존JA/CN/TW대상다듬기0·코드/저장/공개/retail언어불변. 실제정상입구/화면/nativeGO아님.
