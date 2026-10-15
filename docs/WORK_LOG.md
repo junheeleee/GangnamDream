@@ -3,6 +3,10 @@
 이전 기록은 [684 착수 예산 스냅샷](history/WORK_LOG_2026-10-15_order684_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문 39207B/SHA256 4da76135c3fae8347545bfe679bb9c3788cff6efa53f876b2fcc9639ce14c63e; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — 콘텐츠 원장 지문 CI 실패 수리 착수
+
+- [695](queue_active/ORDER-695.md): CI38779703675/job116576401592 완료실패 RELEASE_CONTENT_EXIT 하나·main d657a4c 기존inventory exit1 재현. sexuality 해시 불일치/생성보고 stale2진단이며690 EN대명사 한잎 이후 제품변경0. 해당ledger해시1개/생성보고와 spec·queue/L3순번·log·CLAUDE만 root 소유. 독립2명 읽기전용 원인·모집단·역산확인 뒤 수리·기존45 self-test/표적검수. 새월/제품검사약화/예외추가/등급인증/외부0·다음원W126/M32 보존·선언뒤구현.
+
 ## 2026-10-16 — M31 반환점·상철의 차 실제 검수 완료
 
 - [694](queue_archive/ORDER-694.md): 원693W121/freshHOME3XDG·같은16.1 EN Continue→midpoint1→yearhalf122c0→전경없는123자동→father echo124c1→전경없는125자동→첫goal126 첫문단/선택없음/CmdQ. 본문/결과 완전표시·root/출구38JPEG5582954B 전수·semantic12/38·독립2GO/root전문/실제51+21핀확인. 출구인용2오기만 원보고exact보존뒤수정·제품수정0. W123decision_week정본분류는 그대로/quiet일반인증0다.
