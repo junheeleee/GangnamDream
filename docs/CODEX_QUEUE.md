@@ -35,78 +35,74 @@
 **Codex 사전 승인 대기 항목**(오더 없이 착수 금지): 정본 규칙 변경 / finish_run·엔딩 라우팅 / 밸런스 밴드 밖 수치 / 오더에 없는 신규 시스템 / **반쪽 기능의 완성 또는 제거**. 반쪽을 자기 판단으로 완성하는 것은 수리처럼 보이는 오더 밖 신규 작업이며, 이 저장소가 반쪽을 쌓아 온 경로다. 만들 근거도 지울 근거도 정본 인용이어야 하고, 인용할 정본이 없으면 판단이 아니라 의견이므로 `POST_LAUNCH_NOTES.md`에 기록만 한다. 그 외(표면·아트·QA·기존 큐 항목)는 기존처럼 자율.
 **Tier1 정점 산문**(§8 레지스트리)은 Codex가 초안 작성까지, 커밋 후 Claude 판정·리터치를 받는다(불합격 시 리라이트).
 
+### 출시 기준 실행 필터 (2026-10-15)
+
+출시 완료 조건·목표일·최종 판정의 정본은 [DECISIONS의 승인 결정](DECISIONS.md#2026-10-15-본편-출시-완료-조건과-목표일--사용자-승인)이다.
+목표는 **2026년 12월 중순**, 최종 출시 판단은 사용자다. 조건 밖 개선으로 날짜를 자동 연장하지 않는다.
+
+| 기준 | 현재 실행 범위·남은 일 |
+|---|---|
+| C3 CI | main의 목록 밖 실패·만료 예외가 있으면 먼저 수리. 진행 중 CI는 녹색으로 세지 않고 빨강 동안 새 월을 열지 않는다. |
+| C1 대표 완주 | 가장 앞선 보류 월의 동일 후보 재검수부터 M60 엔딩까지 1경로. Mac 접근 복구 시 즉시 재개; 완료 월·보조 경로 전수 반복 금지. |
+| C2 치명 결함 | 진행/저장 손실·EN 한글/빈 번역·선택과 반대 사실만 exact 수리. 문체·밀도·정점 개선은 보류. |
+| C4 사람·고지 | 사람 2~3시간 확인은 아직 별도. JA/zh AI 보조 번역 고지(상점+언어선택) 미구현이며 157의 좁은 자식 범위로 선언한다. |
+| C5 출시 준비물 | retail 5언어 선택·최종 CJK 정합 및 Steam 빌드/5언어 설명·샷·트레일러/등급 설문 gap을 준비한다. 외부 실행은 별도 권한. |
+
+5언어 유지. KO/EN 실제 플레이 확정 전 JA/zh 다듬기 중단, 누락 보충도 C2/C5 직접
+기여가 입증된 작은 범위만 선언한다. 확정 뒤 CJK 정합은 한 번에 한다.
+기존 78개는 **612 유지·157 조건부 축소 유지·76개 출시 후 보류**로 분류했다.
+[개별 근거와 미충족 조건](queue_backlog/RELEASE_PRIORITY_2026-10-15.md)을 참조한다.
+새 오더는 C1~C5 기여를 선언해야 하며, 어느 기준에도 기여하지 않으면 사용자 승인 전 착수하지 않는다.
+
 ### 실행 오더 인덱스
 
-> **우선순위와 상태의 단일 정본은 이 표다.** `CLAUDE.md`와 `HANDOFF.md`는
-> 순서를 복사하지 않고 이 표만 가리킨다. `queue_active/`에는 지금 착수 가능한
-> 1~2배치 사양만 둔다. 큰 부모 계획은 `queue_backlog/`, 사람 판정은
-> `human_gates.json`, 완료 기록은 `queue_archive/`가 소유한다.
->
-> 실행자는 맨 위의 막히지 않은 항목 하나만 읽고 선언 커밋을 만든다. 상태는 이
-> 표와 사양 머리말을 함께 바꾸며, 불일치는 자동 검사가 실패시킨다.
+> **우선순위와 상태의 단일 정본은 이 표다.** 실제 월은 최대 2개, 한 달 관측·검수·마감은 한 커밋이다.
+> 맨 위의 실행 가능한 범위만 고른다. **gate가 `출시 후 보류`면 실행 제외**다.
+> `[~]`는 과거 착수 후 미완료라는 이력이지 동시 실행/출시 차단이 아니다.
+> 역사 사양 경로와 상태·원어민 OPEN·인간 REJECT는 보존하며 완료로 위장하지 않는다.
+> 157은 부모 조정 항목이다. 새 제품/고지/준비물 구현은 exact 파일을 소유하는 작은 자식 선언 뒤에만 한다.
 
-이어보기 링크 한 곳은 `CODEX_QUEUE_L3_PENDING.md`의 활성 행을 그 위치에 펼친다.
-별도 큐나 완료 보관본이 아니며, 행의 순번·문구·상태·사양 링크를 그대로 읽는다.
-해당 검수 의무를 볼 때 이어보기를 읽고, 기계 검사와 현황은 항상 두 파일 전체를 읽는다.
-이어보기는 `[~]`·`L3 OPEN` 행만 담으며 순서 정렬이나 사람 판정 승격을 하지 않는다.
-파서가 읽는 이어보기 게이트는 `· L3 OPEN`으로 끝내며 L3 표기는 한 번만 쓴다.
+이어보기 한 곳은 동일 인덱스의 보류 L3 행을 그 위치에 펼친다. 별도 실행 큐가 아니다.
+파서 계약상 `[~]`·`· L3 OPEN`을 보존하되 보류 gate가 우선하므로 자동 재착수하지 않는다.
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-672 · 출시5조건 큐 정렬 | [672](queue_active/ORDER-672.md) | PR34 병합 확인 · 문서/보류 분류만 |
-| 2 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN |
-| 3 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · 실제 저장·재개·월 복귀 GO/나머지 HOLD |
-| 4 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
-
+| 1 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | C2/C4/C5 · 고지/빈표면/5언어만 · CJK 다듬기 보류 |
+| 2 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 3 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 4 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 5 | [~] | ORDER-158 · 본편 8장면 번역 | [158](queue_active/ORDER-158.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 6 | [~] | ORDER-156 · Ch5 생활 routine 실제 배경 | [156](queue_active/ORDER-156.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 7 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 8 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 9 | [ ] | ORDER-148 · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | [148](queue_active/ORDER-148.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 10 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 11 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 12 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 13 | [~] | ORDER-143 · graph | [143](queue_active/ORDER-143.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 14 | [~] | ORDER-144 · trace | [144](queue_active/ORDER-144.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 15 | [~] | ORDER-142 · volume | [142](queue_active/ORDER-142.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 16 | [~] | ORDER-138 · finale | [138](queue_active/ORDER-138.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 17 | [~] | ORDER-137 · Ch5 수리 | [137](queue_active/ORDER-137.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 18 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 19 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 20 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 21 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 22 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 23 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 24 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
-| 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
-|---:|:---:|---|---|---|
-| 58 | [~] | ORDER-158 · 본편 8장면 번역 | [158](queue_active/ORDER-158.md) | L1/L2 PASS · 원어민 OPEN |
-| 59 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | 전체 INCOMPLETE · 원어민 OPEN |
-| 60 | [~] | ORDER-156 · Ch5 생활 routine 실제 배경 | [156](queue_active/ORDER-156.md) | 입력 QA 잔여 · 사람 OPEN·HOLD |
-| 61 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | 후속 156 · 사람 OPEN·HOLD |
-| 62 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 후속 151 exact 재플레이 대기 · 두 사람 gate OPEN · HOLD |
-| 63 | [ ] | ORDER-148 · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | [148](queue_active/ORDER-148.md) | ORDER-150 exact 제품 뒤 재계측 · 금지 사실은 한 건도 삭제 금지 · 선행 대기 |
-| 64 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | human REJECT |
-| 65 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | 후속 151 새 exact 후보 · 두 replay OPEN |
-| 66 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | HOLD |
-| 67 | [~] | ORDER-143 · graph | [143](queue_active/ORDER-143.md) | M01~M06 보호 · HOLD |
-| 68 | [~] | ORDER-144 · trace | [144](queue_active/ORDER-144.md) | PENDING · human OPEN |
-| 69 | [~] | ORDER-142 · volume | [142](queue_active/ORDER-142.md) | M01~M60 · HOLD |
-| 70 | [~] | ORDER-138 · finale | [138](queue_active/ORDER-138.md) | human REJECT · HOLD |
-| 71 | [~] | ORDER-137 · Ch5 수리 | [137](queue_active/ORDER-137.md) | human REJECT · HOLD |
-| 72 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | human REJECT · HOLD |
-| 73 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 사용자 GO OPEN |
-| 74 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 사용자 GO OPEN · R1b HOLD |
-| 75 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 사용자 GO OPEN · R1b HOLD |
-| 76 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 사용자 확인 대기 |
-| 77 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | L3 대기 |
-| 78 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 물리 패드 L3 OPEN |
-
-
 ### legacy V2 보존선과 본편 M07~M60 관리선
 
-공개 출시 데모는 active `story_demo_rc` BUILD `2026.08.31.1`의 **M01~M06**에서
-끝나며 사용자 GO다. 한 달 네 주라 내부 계측이 `weeks=24`인 것은 범위를
-M07~M24로 늘린다는 뜻이 아니다. M01~M06 공개 데모를 더 확장하거나 새
-`demo_rc`로 교체하는 자식 대기선은 없다. JA·zh-CN·zh-TW 원어민 판정은 각각
-OPEN으로 남는다.
+공개 M01~M06 `story_demo_rc` BUILD `2026.08.31.1`의 사용자 GO와 저장 호환을 보존한다.
+내부 24주 범위·옛 V2 경계 원문은 [이동 기록](queue_backlog/RELEASE_PRIORITY_2026-10-15.md#공개-데모legacy-원문)에 있다.
 
-옛 내부 V2의 호환·재발급 금지는 [보존선](queue_archive/CODEX_QUEUE_2026-09.md#legacy-v2-호환-보존선)을 따른다.
-
-이후 자식 작업은 공개 데모 증량이 아니라 **본편 M07~M60**의 장면·선택·회수·
-정점 밀도를 M01~M60 전체에서 관리한다. 앞 작업의 실측값을 입력으로 쓰고, 차례가
-오면 서로 의존하지 않는 15~25단위의 1~2배치 오더로 위 표에 올린다.
-
-1. M01~M06 제품 바이트와 사용자 GO를 동결하고 세 원어민 게이트만 별도로 닫는다.
-2. legacy W1~W24 V2의 저장·영수증·회귀 계약은 호환 경로에서만 보존한다.
-3. M07~M60은 story map·typed graph·fresh-title trace로 공백과 잘못된 ingress를 먼저 찾는다.
-4. 장면 수를 맞추지 않고 실측 결손만 15~25단위 표적 원고·연출 배치로 수리한다.
-5. Chapter 5 두 경로는 새 exact 후보의 M49~M60 정상 속도 재플레이 전까지 HOLD다.
-6. 2026-09-07 사용자 지시로 M01~M60 JA·zh-CN·zh-TW 번역을 지금 시작한다. 원문 hash로 이후 변경을 검출하며 출시·원어민 GO는 별도다.
-7. 현재 전체 본편은 HOLD다. 앞으로의 내부 제품 판단은 WORK_UNIT과 agent_review_decisions를 따르며, 역사 인간 gate OPEN을 가짜 done으로 바꾸거나 공개 출고 권한으로 확대하지 않는다.
+본편 관리·출시 전 착수는 위 C1~C5 필터를 따른다. 과거의 전수 원어민·밀도·
+Chapter 5 두 경로 재플레이 요구는 [보류 분류 기록](queue_backlog/RELEASE_PRIORITY_2026-10-15.md)에
+역사 지시로 보존했으며 별도 출시 차단 조건이 아니다. 공개 데모 바이트와 사용자 GO,
+legacy 저장 호환·제품 동작 검사는 유지한다. 역사 인간 OPEN45는 가짜 done으로 바꾸지 않는다.
 
 ### legacy 부모 계획과 본편 범위
 
@@ -127,11 +123,7 @@ OPEN으로 남는다.
 python3 tools/audit_select.py --list -- <변경 파일...>  # 영향 목록만 확인
 git diff --check
 ```
-- ORDER-124는 전용 M01~M06 스토리 선택 차선만 쓰며 기존 24주·240주 검사를 실행하지 않는다.
-- ORDER-118은 startup 16편·코드 토큰 표면·invalidated 계약만 검사한다. R1b·save·
-  dispatcher·transaction·ending·JA/ZH는 건드리지 않고 전체 감사·240주를 생략한다.
-- ORDER-117은 지목 2편과 career 15편·보존 1편만 검사하며 story map·계약·runtime·
-  save·ending을 byte-exact로 둔다.
+- 보류 legacy 오더별 표적 검증 지시는 [보존 기록](queue_backlog/RELEASE_PRIORITY_2026-10-15.md#보류-legacy-검증-지시-원문)으로 이동했다. 제품 검사는 삭제하지 않았다.
 - 카피·번역 변경은 해당 언어 감사, 화면 변경은 해당 ScreenshotQA 범위만 더한다.
 - `./tools/audit.sh`와 240주 검사는 활성 사양이 공통 스키마·스케줄러·엔딩을
   바꾸거나 챕터 승인·demo/full RC를 판정할 때만 실행한다.

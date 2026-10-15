@@ -1,10 +1,25 @@
 # Gangnam Dream Master Release Audit
 
-Updated: 2026-09-01
+Quality-reference baseline: 2026-09-01; launch-policy routing updated: 2026-10-15
 
 ## Mission
 
-This is the final cross-discipline quality gate for Gangnam Dream. It covers the work as a game, a story, a bilingual release, a controller product, a visual IP, and a commercial Steam package.
+This is the cross-discipline quality reference for Gangnam Dream. It covers the work as a game, a story, a bilingual release, a controller product, a visual IP, and a commercial Steam package.
+
+## Current Launch Policy — 2026-10-15
+
+The user-approved [DECISIONS launch-completion entry](DECISIONS.md#2026-10-15-본편-출시-완료-조건과-목표일--사용자-승인)
+is the sole owner of the five launch conditions, the mid-December 2026 target,
+and the user's final launch judgment. The quality goals and older HOLD/OPEN
+requirements below are historical/reference evidence, not additional launch
+blockers outside those five conditions. Native-language full review, all
+physical controller models, extra routes, prose polish, and prestige/commercial
+research do not reopen prelaunch work by themselves.
+
+This does not change historical human/native/physical observations, the public
+demo GO, or product-behavior regression checks. Automated and agent evidence do
+not become the required human 2–3-hour play judgment. External Steam upload,
+store edits, spending, and legal certification still need separate authority.
 
 Adjacent and top-selling execution references are assigned by surface in `docs/STEAM_QUALITY_BENCHMARKS.md`.
 
@@ -359,10 +374,12 @@ If a feature does not strengthen one of these, improve usability or create delig
 
 ## Current Execution Order
 
-1. Freeze the exact M01–M06 `story_demo_rc` public-demo scope and identity.
-2. Keep JA, zh-CN, and zh-TW native-language release claims OPEN until reviewed.
-3. Manage story, choice, callback, and climax density across M01–M60 as one full game.
-4. Repair and replay the two Chapter 5 M49–M60 paths on one new exact candidate.
-5. Close full-run stability, platform, localization, and commercial package gates.
-
-This order can move only when a newly discovered P0 blocks it.
+[CODEX_QUEUE](CODEX_QUEUE.md) alone owns execution order, holds, and bounded
+child declarations under the latest launch decision. Resolve failures outside
+KNOWN_FAILURES and expired exceptions before opening another month; resume the earliest
+unfinished representative-path month when native access returns. Only confirmed
+critical product defects, required translation disclosure/five-language release
+readiness, and the required release package may create new prelaunch work.
+Historical two-path Chapter 5 replays and native-review OPENs remain recorded
+but are no longer independent launch gates. No completion or launch GO is
+issued by this routing change.
