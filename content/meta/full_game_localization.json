@@ -14268,6 +14268,73 @@
         "zh-CN": "7da13f19e45a8cdf33e3f62e9abe3a371fa0bdb814f0be3645e93f479e85bc1d",
         "zh-TW": "66fa9e9aed952117f131d3ebfbdb4698d0e49263f19337b71c5aa49aae89aa46"
       }
+    },
+    {
+      "order": "ORDER-669",
+      "group": "ui",
+      "roots": [
+        "   [color=#c8a050]보유 %s[/color]  [color=%s]%s %+.1f%%  %s[/color]",
+        "  매도 ",
+        "  매수 ",
+        "[b]💰 현금 %s[/b]    📊 총자산 [b]%s[/b] / %s [color=#aaa](%d%%)[/color]    %s  공포·탐욕 %d    [color=%s]⚡%d[/color]",
+        "──  종목  ──  (눌러서 선택)",
+        "⚡ 시간이 없다 — 이번 달은 관망만. (닫고 다음 달)",
+        "⚡ 시간이 없다",
+        "⚪ 횡보",
+        "✕  닫기",
+        "가격 데이터 없음",
+        "거래가 쌓이면 캔들 차트가 그려집니다",
+        "매수/매도 시 시간(⚡) 1 소비  |  캔들 MA5=5개월 MA20=20개월 평균",
+        "보유 수량이 없다",
+        "평단 ",
+        "📈 [b]%s[/b] 매수  %s",
+        "📉 %s 매도  %s  (%+.1f%%)",
+        "📉 %s 매도  +%s  (%+.1f%%)",
+        "🔴 하락장",
+        "🟢 상승장"
+      ],
+      "source_leaves": 19,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 19,
+        "zh-TW": 19
+      },
+      "source_review": "Direct Korean-source TradingFloor labels, HUD, chart and trade messages; independently authored for Mainland and Taiwan Chinese. Non-author cross-review fully reread all38 after whole-batch REWORK; original responses, reports and failed checks retained. Hold value, sale proceeds versus P/L, AP1, MA5/5months, MA20/20months, printf and BBCode preserved. Close then separately advance, not automatic month advance. Nineteen genuinely missing keys per locale only; no existing-target polishing or Japanese change. Normal FullStoryFlow ingress, rendered/native/human/controller and full five-language release unobserved.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "e4db61770d7cf7d88091120fae52e129da572ac5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3339c82ed736e8df7542dd304ef15cf813b6418fa1bdb23f4b1d8e8c5b994405",
+          "selection_sha256": "e502443ce32094db8af957540feb101610efa24d703c0b985a358cfa87db196f",
+          "count": 19,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "3aefdc103e0fa45decd4036633aefb664acd07bb127898bd89d67288100b0b83"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "e4db61770d7cf7d88091120fae52e129da572ac5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3339c82ed736e8df7542dd304ef15cf813b6418fa1bdb23f4b1d8e8c5b994405",
+          "selection_sha256": "91235753219ce696c89ac4ae02a03a7fe08cfe0e4dc2f3f8ae733ce6a3b2e94f",
+          "count": 19,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "90e9501126bd21203eb4e99937882fa727588a783a8bf56234e404d52c308f24"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "13dbab2661432768036211cb0e79b40d39c5df6a2a736b6a9627ce76dbfb7dc9",
+        "zh-TW": "c6076dc14c90b8ff39830c5d60e94023bf25a5db1670c8f2e140976eb189a3fe"
+      }
     }
   ],
   "accepted": {
@@ -126201,6 +126268,82 @@
       "ui:이 여름도 지나면 또 반년이 줄어든다.:/이 여름도 지나면 또 반년이 줄어든다.": {
         "source_sha256": "1d61811e46cd5294d3418e3525c314faf7e84d5e587c00d5fbd9fc9f274aa919",
         "target_sha256": "5af2176eebafaf2e7932c9fb14b4ede628ab6add8d276cdc21c243a4d1b5a193"
+      },
+      "ui:   [color=#c8a050]보유 %s[/color]  [color=%s]%s %+.1f%%  %s[/color]:/   [color=#c8a050]보유 %s[~1color]  [color=%s]%s %+.1f%%  %s[~1color]": {
+        "source_sha256": "dc185853ed7c747044f30a8b77cdfe59cc7a880349060f29dc30975a4a4d9a64",
+        "target_sha256": "a70e0bf48ae34f2734da533159a0eb958c52f4e1fd557dfa2a52b62e8bcf0813"
+      },
+      "ui:  매도 :/  매도 ": {
+        "source_sha256": "5d4bb165a4e147815e9475b3b883e5b7b2ab5368ba7e263e13f1df3e7dd14904",
+        "target_sha256": "e628326ceebde970b4090f40f0f87134ba9a30f0dd8fccb42b49a547b9a5cd20"
+      },
+      "ui:  매수 :/  매수 ": {
+        "source_sha256": "a659c2166ffe14678c7745a86937f9368ad192be4d28e3e1dc5a9850fa61cf1e",
+        "target_sha256": "b42ef12ae043d420e9703319ede7724af0d3ce1aadc6194cf86749c64e24a11b"
+      },
+      "ui:[b]💰 현금 %s[/b]    📊 총자산 [b]%s[/b] / %s [color=#aaa](%d%%)[/color]    %s  공포·탐욕 %d    [color=%s]⚡%d[/color]:/[b]💰 현금 %s[~1b]    📊 총자산 [b]%s[~1b] ~1 %s [color=#aaa](%d%%)[~1color]    %s  공포·탐욕 %d    [color=%s]⚡%d[~1color]": {
+        "source_sha256": "eefb74df6f9fe5285b3ec335d72c7392bbe41a6f5288f2e08df2439919c6480c",
+        "target_sha256": "7789fc01adbcb3a6af48814cad882e815d76d2d1c874459141beba233bbb8c73"
+      },
+      "ui:──  종목  ──  (눌러서 선택):/──  종목  ──  (눌러서 선택)": {
+        "source_sha256": "dc76a6202b506819093fc4cb589da072dabc3ed48c109d318b910120598e2d03",
+        "target_sha256": "1284d556837866b3b7b33ba6edea5f69afca7d73db6975e5b3521e926457534d"
+      },
+      "ui:⚡ 시간이 없다 — 이번 달은 관망만. (닫고 다음 달):/⚡ 시간이 없다 — 이번 달은 관망만. (닫고 다음 달)": {
+        "source_sha256": "1450d645f193f9114b7863a34c750fbc0c3688a051dc35758ca3efa1e95df096",
+        "target_sha256": "61aa4bcbdbd8622e3c88832bdea3511246860ebc232349205695355af2025e09"
+      },
+      "ui:⚡ 시간이 없다:/⚡ 시간이 없다": {
+        "source_sha256": "ab365ed1a5a4d5cd0d654166f7868ea8f13bc3434ba336dc8d459c8b81b625fb",
+        "target_sha256": "e64910962d3e23cc50da3d85c7da32390cf574930b4a22ad4c3aede11360296b"
+      },
+      "ui:⚪ 횡보:/⚪ 횡보": {
+        "source_sha256": "ac42acc5a47dd6e1d1a4f16fecb92373b5ee6150081c705987d19435dd079471",
+        "target_sha256": "90e74a7313f2d1063833071d5605660568b79ab4791f079d59eea72a703e6250"
+      },
+      "ui:✕  닫기:/✕  닫기": {
+        "source_sha256": "2cd29781d44ae42c8120405f338400f32fb44ba540470e0adeb689b1969d19cc",
+        "target_sha256": "8a89a3cdadde6d612bada9785016f8cc6a1f396fae00fa8d58212d7f6ea56795"
+      },
+      "ui:가격 데이터 없음:/가격 데이터 없음": {
+        "source_sha256": "23d488b46d08084f7caf8e324aa203b23fec36def132df40359f645c2d131766",
+        "target_sha256": "4e745795f98912e4d9a297b5b1a717393e888c6a934ca6805c507d807dfd3970"
+      },
+      "ui:거래가 쌓이면 캔들 차트가 그려집니다:/거래가 쌓이면 캔들 차트가 그려집니다": {
+        "source_sha256": "21fd99bc560f14aad97dd019a62446997a02913d98da259b4b64b330496c4074",
+        "target_sha256": "314f622b1cc98f1b9b48d6c69a2cc740972735ff0a7bd334df7715bcb3a18842"
+      },
+      "ui:매수/매도 시 시간(⚡) 1 소비  |  캔들 MA5=5개월 MA20=20개월 평균:/매수~1매도 시 시간(⚡) 1 소비  |  캔들 MA5=5개월 MA20=20개월 평균": {
+        "source_sha256": "927ff27b9cabd25c94a1a3a8f69603e719747de5bcaa4c27ecf6bcd1dbb5f8d7",
+        "target_sha256": "9f993cb35c592fe2edaa44b3cc13ea04f1fff8762bdc1817eeaa23373f48e8a6"
+      },
+      "ui:보유 수량이 없다:/보유 수량이 없다": {
+        "source_sha256": "fddab26bcec492c3d9794348e6eb321cb838c14982ad3f285e0aeeb267abc856",
+        "target_sha256": "a2b6d7ce8ebb82dbab9f45d94f90bbf8c86ed5d4a7b7d5372e53c5443c702d9b"
+      },
+      "ui:평단 :/평단 ": {
+        "source_sha256": "7e4fc99c8212b7a9ab8f31f8a169cec50e58e58cfeefdc594874ee8a84448d50",
+        "target_sha256": "593c35061235d6a86f69d28a120b3c078075cc1208cf380b213439d1cb63da8b"
+      },
+      "ui:📈 [b]%s[/b] 매수  %s:/📈 [b]%s[~1b] 매수  %s": {
+        "source_sha256": "15a0fad0440704055ed6e312ecfaa466f845a04a13b19830a65ac1da20351057",
+        "target_sha256": "d9f6a0a0f18cc243ae86128128c6312623f299bc9c626f06c2a199d40ef8c4a5"
+      },
+      "ui:📉 %s 매도  %s  (%+.1f%%):/📉 %s 매도  %s  (%+.1f%%)": {
+        "source_sha256": "b5f0573b890d2377c3eb9ba266fce84b6433288dce49aefbbf31c668ba5689f2",
+        "target_sha256": "142853515da31e40c4a726a6ca857aef4c4ca8141a0a506fd50baa4bc033afa7"
+      },
+      "ui:📉 %s 매도  +%s  (%+.1f%%):/📉 %s 매도  +%s  (%+.1f%%)": {
+        "source_sha256": "c9648c6535c725026618ec8b97cc97d41a76a683b812e2b3a39b13641649bb93",
+        "target_sha256": "cf1703e6efe21d6ecac27c47ad05145da0200fbd5aeffd51b51f4afaca8e7f12"
+      },
+      "ui:🔴 하락장:/🔴 하락장": {
+        "source_sha256": "3bb2be4b7863da71b268bf18df375888d2aa799c5458686b58128ea258d20b26",
+        "target_sha256": "38189f52c037da559deb00ec51e539d7aea06cabdbcf1aaa71a458674ace74bc"
+      },
+      "ui:🟢 상승장:/🟢 상승장": {
+        "source_sha256": "cd236d3f5eb857c6a7417dcc393bfa61894e7769168107e1666e21d66323dc58",
+        "target_sha256": "aec61597f9b95828914c2118cf71639c029584fd8b7f693a9524b1aaf5d4ab63"
       }
     },
     "zh-TW": {
@@ -185439,10 +185582,86 @@
       "ui:이 여름도 지나면 또 반년이 줄어든다.:/이 여름도 지나면 또 반년이 줄어든다.": {
         "source_sha256": "1d61811e46cd5294d3418e3525c314faf7e84d5e587c00d5fbd9fc9f274aa919",
         "target_sha256": "34439ebff142e6dfa501720d21304a0f59bfbc6dbb412717245f01cd1b257846"
+      },
+      "ui:   [color=#c8a050]보유 %s[/color]  [color=%s]%s %+.1f%%  %s[/color]:/   [color=#c8a050]보유 %s[~1color]  [color=%s]%s %+.1f%%  %s[~1color]": {
+        "source_sha256": "dc185853ed7c747044f30a8b77cdfe59cc7a880349060f29dc30975a4a4d9a64",
+        "target_sha256": "3207b6ea13cdb137b8dc5a12be64c4a182677047262477f7f077c7adfe8687ec"
+      },
+      "ui:  매도 :/  매도 ": {
+        "source_sha256": "5d4bb165a4e147815e9475b3b883e5b7b2ab5368ba7e263e13f1df3e7dd14904",
+        "target_sha256": "9a5ddb6bd1d6cb88fee38fc1792d2f8dd6c348d8fc1caf2ff198e82d5ae1f549"
+      },
+      "ui:  매수 :/  매수 ": {
+        "source_sha256": "a659c2166ffe14678c7745a86937f9368ad192be4d28e3e1dc5a9850fa61cf1e",
+        "target_sha256": "3b57269591ce34f16b35409673f9721d885fd452ef7a22d26767314aad387c9e"
+      },
+      "ui:[b]💰 현금 %s[/b]    📊 총자산 [b]%s[/b] / %s [color=#aaa](%d%%)[/color]    %s  공포·탐욕 %d    [color=%s]⚡%d[/color]:/[b]💰 현금 %s[~1b]    📊 총자산 [b]%s[~1b] ~1 %s [color=#aaa](%d%%)[~1color]    %s  공포·탐욕 %d    [color=%s]⚡%d[~1color]": {
+        "source_sha256": "eefb74df6f9fe5285b3ec335d72c7392bbe41a6f5288f2e08df2439919c6480c",
+        "target_sha256": "c2128506dad1f097db687850d662d5d0dd04e3d29db50980f17699aa85b20fe3"
+      },
+      "ui:──  종목  ──  (눌러서 선택):/──  종목  ──  (눌러서 선택)": {
+        "source_sha256": "dc76a6202b506819093fc4cb589da072dabc3ed48c109d318b910120598e2d03",
+        "target_sha256": "858154bae3523ca9fc45fbf596c908fa2a6e6bb7082e970a22ad6ac33a7b02b8"
+      },
+      "ui:⚡ 시간이 없다 — 이번 달은 관망만. (닫고 다음 달):/⚡ 시간이 없다 — 이번 달은 관망만. (닫고 다음 달)": {
+        "source_sha256": "1450d645f193f9114b7863a34c750fbc0c3688a051dc35758ca3efa1e95df096",
+        "target_sha256": "d4924d24914c47de241ebbcc7820cf9c7fb24c93beeebc233cecfc8044cb34ab"
+      },
+      "ui:⚡ 시간이 없다:/⚡ 시간이 없다": {
+        "source_sha256": "ab365ed1a5a4d5cd0d654166f7868ea8f13bc3434ba336dc8d459c8b81b625fb",
+        "target_sha256": "1567525b1388e68150024066799afb77513ba21c32cd5cf803a8f55b464d7502"
+      },
+      "ui:⚪ 횡보:/⚪ 횡보": {
+        "source_sha256": "ac42acc5a47dd6e1d1a4f16fecb92373b5ee6150081c705987d19435dd079471",
+        "target_sha256": "f66ec4ffaea367f96376211f0cb9ac0c2a9f0ed52ee58f6e16a6e552d8c56c5f"
+      },
+      "ui:✕  닫기:/✕  닫기": {
+        "source_sha256": "2cd29781d44ae42c8120405f338400f32fb44ba540470e0adeb689b1969d19cc",
+        "target_sha256": "65f2d2ac045be0855028170700af38212a6d52f3d2e834e5f73042050f034a18"
+      },
+      "ui:가격 데이터 없음:/가격 데이터 없음": {
+        "source_sha256": "23d488b46d08084f7caf8e324aa203b23fec36def132df40359f645c2d131766",
+        "target_sha256": "fb768f1df8daac2b13bf0bc73f49177ee8bd3408e59edfad63bca8cae21595c8"
+      },
+      "ui:거래가 쌓이면 캔들 차트가 그려집니다:/거래가 쌓이면 캔들 차트가 그려집니다": {
+        "source_sha256": "21fd99bc560f14aad97dd019a62446997a02913d98da259b4b64b330496c4074",
+        "target_sha256": "092fd0a7fe768fe7e5310318b16dde237566a8bc7300b69ebb03e77ca353c722"
+      },
+      "ui:매수/매도 시 시간(⚡) 1 소비  |  캔들 MA5=5개월 MA20=20개월 평균:/매수~1매도 시 시간(⚡) 1 소비  |  캔들 MA5=5개월 MA20=20개월 평균": {
+        "source_sha256": "927ff27b9cabd25c94a1a3a8f69603e719747de5bcaa4c27ecf6bcd1dbb5f8d7",
+        "target_sha256": "9a4f3197d3ab6a633899498e79e420dd379479a7e1d84e8837538f6b9a111abb"
+      },
+      "ui:보유 수량이 없다:/보유 수량이 없다": {
+        "source_sha256": "fddab26bcec492c3d9794348e6eb321cb838c14982ad3f285e0aeeb267abc856",
+        "target_sha256": "e5c3bede12671f35765b69c423505c88b8edac9f07cf0b5f21c8c46a346428c9"
+      },
+      "ui:평단 :/평단 ": {
+        "source_sha256": "7e4fc99c8212b7a9ab8f31f8a169cec50e58e58cfeefdc594874ee8a84448d50",
+        "target_sha256": "876244c23adc12c3466b2691aab939069d72b99cb8f589fb860fae25d95b0ddc"
+      },
+      "ui:📈 [b]%s[/b] 매수  %s:/📈 [b]%s[~1b] 매수  %s": {
+        "source_sha256": "15a0fad0440704055ed6e312ecfaa466f845a04a13b19830a65ac1da20351057",
+        "target_sha256": "4669f409031b78d3a12ca0510c04da3ec366e6ed76792d3430b2ba32dbf3aeb2"
+      },
+      "ui:📉 %s 매도  %s  (%+.1f%%):/📉 %s 매도  %s  (%+.1f%%)": {
+        "source_sha256": "b5f0573b890d2377c3eb9ba266fce84b6433288dce49aefbbf31c668ba5689f2",
+        "target_sha256": "b973f585aec8382e7f3ae34da83d7f37ec6774ff8a867c5c9bfcd72354dc5c47"
+      },
+      "ui:📉 %s 매도  +%s  (%+.1f%%):/📉 %s 매도  +%s  (%+.1f%%)": {
+        "source_sha256": "c9648c6535c725026618ec8b97cc97d41a76a683b812e2b3a39b13641649bb93",
+        "target_sha256": "561951d8a68943d2c280635a063e48cdd195bdb418118418b1f3bf770069d443"
+      },
+      "ui:🔴 하락장:/🔴 하락장": {
+        "source_sha256": "3bb2be4b7863da71b268bf18df375888d2aa799c5458686b58128ea258d20b26",
+        "target_sha256": "6af31eba1d2e0eb2ebc07dc0a53427dc242bd18e81fa84df0a064732d89d1d84"
+      },
+      "ui:🟢 상승장:/🟢 상승장": {
+        "source_sha256": "cd236d3f5eb857c6a7417dcc393bfa61894e7769168107e1666e21d66323dc58",
+        "target_sha256": "a12c687131be922f03e162f0d24d1c501cbd0bab1f096fc1427ebe22c4487e70"
       }
     }
   },
-  "accepted_sha256": "c51b51d3eaba81ff2529377a54544b833fc16d11d74bdd441ad6df2551984f0e",
+  "accepted_sha256": "691aed7540a05c9879b15f38aac39d86373abe1edca04d86d1ceb034acb9025a",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
