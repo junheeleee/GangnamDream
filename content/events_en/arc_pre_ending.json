@@ -19,7 +19,7 @@
   {
     "id": "arc_pre_ending_winter",
     "title": "The Fifth Winter",
-    "description": "The fifth winter came.\n\n{name} opened the assets screen. Closed it. Didn't open it again.\n\nIt wasn't 3 billion. That much was clear now.\nIt wasn't a number the remaining weeks could turn around.\n\nThe goal he'd set five years ago — Gangnam. Those words felt far away now.\nWas it failure? The question rose, and strangely didn't linger long.\n\nSnow began to fall beyond the window of the room where he now lived.\nThe room and the view had changed more than once, but tonight this place was unmistakably {name}'s own.\n\nIt was the same winter as five years ago. The person watching it was not the same.",
+    "description": "The fifth winter came.\n\n{name} opened the assets screen. Closed it. Didn't open it again.\n\nIt wasn't 3 billion. That much was clear now.\nIt wasn't a number the remaining weeks could turn around.\n\nThe goal he'd set five years ago — Gangnam. Those words felt far away now.\nWas it failure? The question rose, and strangely didn't linger long.\n\nSnow began to fall beyond the window of the room where he now lived.\nTonight this place was unmistakably {name}'s own.\n\nIt was the same winter as five years ago. The person watching it was not the same.",
     "description_low_mental": "The fifth winter.\n\n{name} didn't even have the strength to open the assets screen.\n\nNot 3 billion. Gangnam was far.\nThe fact pressed on his chest — and what scared him more was how used to the weight he'd become.\n\nWhen did it get like this.\nA life where just getting up burned all of the day's energy.\n\nOutside, snow fell.\n{name} watched it for a long time. Thinking nothing.",
     "choices": [
       {
@@ -301,7 +301,7 @@
       "texts": [
         [
           "As decided five weeks earlier, the trace joining the repayment date to the answer he had actually given Minseo crossed the threshold and lay on {name}'s side.",
-          "As decided five weeks earlier, the trace joining the repayment date to the answer he had actually given Minseo remained outside the threshold, leaving its place empty on {name}'s side of the desk."
+          "As decided five weeks earlier, the trace joining the repayment date to the answer he had actually given Minseo was absent from {name}'s side of the desk."
         ]
       ]
     },
