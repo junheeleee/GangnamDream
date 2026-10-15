@@ -3,6 +3,13 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 선택하지 않은 전달·자필을 덧붙이던 M57 공통문 수리
+
+- [653](queue_archive/ORDER-653.md): W219 자필 없는0/2·W224 미전달1에도 공통문이 전달 시각/내가 쓴 범위를 말하던 KOEN2잎을 수리했다. 실제 분기 회상3×2는 그대로, 공통 대사는 오늘의 동의 범위를 먼저 묻는다. 4선택·결과·경제{}·조건·receipt·코드·저장·JAzh·사용자 불변.
+- 후보095aabf2582b18c7c8208d365244ab7d2398b303/treec1f31c5326a76ce6e94db8f8a2a6f93691b03230·2원고 inverse/문단name숫자227 exact·12 authored조합은 source구성일뿐 실제 runtime이 아니다. 표적8 및 공식3inventory actual0·selection71실행아님/release정렬불필요·engine/전체audit/자연240/새checker0. manifest7c9099f49f94b4939ec0f7fb6fc0fe6810320b186826f047b1f3e0e52eaead11·event현재11211/stale178·195·197/ch5reader129/133stale4·invalid117·44·42 INCOMPLETE/native OPEN·다듬기/수용0.
+- 독립 GO_SOURCE_FACT_ONLY/차단0·root 전문/2제품/5증거/3원 inventory 핀 확인. .git/order653-20261015/review.md5711B/739e10be8bd5ea7370e83644387abf4e89fd91e8f970644051a680bb61151b4f·JSON6254B/a308a890f2211a390246195860704ac67de1e4c1ad8bc71b46458a33ca971c29. store(undefined)는 source/inverse 성공 후 orchestration 오류·동일 baseline26631 재개로 복구/통과승격0.
+- 다음 M58 지연 문자 고정5년2잎과 다은 포스트잇 글귀·개수4잎은 두 별도 수리 범위다. quote가 맞아도 Eat properly를 Three words로 센 EN 오류와 KO item 자체 세 글자 오류를 root가 추가 발견해 초기 독립읽기 판단을 정정·미수리다. 실제M18/M57/native/전체명의·경제·후일체인/5언어/352선행/출시 HOLD·새월0/612dirty4미포함. 개발스킬 표적·독립·보존 적용·일회성/새승격0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 미룬 연락을 실패한 전화로 바꾸던 M56 회상 수리
 
 - [652](queue_archive/ORDER-652.md): W185 실제 이동·통화 불가 답신과 후속 발신/부재중0을 W221 alive/passed 독자가 정확히 회수하도록 KO2EN2를 수리했다. exactly-one missed snapshot/index2/prepend는 그대로이며 새 전화·답장·의료 결과0. typed rows/선택/효과/flags/조건/receipt/schema/코드/저장/JAzh/사용자 불변.

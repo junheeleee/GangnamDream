@@ -1,6 +1,6 @@
 # ORDER-653 — M57 공통 본문이 미전달·미자필 분기를 덮는 오류 수리
 
-#### [~] ORDER-653 [정합] 전달·동의는 실제로 선택한 경로에서만 회수 — 2026-10-15
+#### [x] ORDER-653 [정합] 전달·동의는 실제로 선택한 경로에서만 회수 — 2026-10-15
 
 652 M56 source 수리 마감 뒤 M57 confirmed KOEN2잎만 고친다.
 실제 M18/612 동일 수정 앱 재검수 HOLD·새 월0/열린 실제월1.
@@ -37,6 +37,7 @@ docs/CONTENT_RATING_INVENTORY.md 동일 생성 셀 정렬·counts/IDs/다른축/
 ## 검증·한계
 
 2잎 전수 map·한영 의미·3×2 조합의 producer/readrow/공통 본문 대조·2원고 full inverse byte.
+실행 중 session ID는 직렬화 가능한 숫자/객체로 저장하며 undefined는 저장하지 않는다.
 audit_select --list 선택만·audit/consistency/ENcoverage/영어한글/spine/continuity/chapter5_finale/release 표적8.
 공식 JA/CN/TW inventory 각1회·수용0/다듬기0/동결 freshness 차이 보존.
 context/queue/diff0·정확stage·독립 source 사실 한정 GO.
@@ -44,4 +45,21 @@ engine/전체audit/자연240/새checker/비용·최적화0.
 실제M18/M57/native/전체명의·경제·후일체인/5언어/352선행/출시 HOLD.
 M58 기억물 기간·글귀3잎은 다음 별도범위, M59 이상 미검수. 이 원고 모집단에 추가0.
 일회성 수리·새 정본 승격 없음.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — source 사실 수리에 한정
+
+- 후보095aabf2582b18c7c8208d365244ab7d2398b303/treec1f31c5326a76ce6e94db8f8a2a6f93691b03230.
+- KOEN description2잎·W2193행×W2242행×2언어=12 source 구성 전수. runtime/UI/저장 관측이 아니다.
+- 공통문은 과거 전달·자필을 단정하지 않고 현재 동의 범위를 먼저 묻는다. 기존 조건부회수·4choices/results·경제{}·read source/모드/receipt/효과/코드/저장 보존.
+- 2원고 full inverse/문단name숫자227 exact·표적8 및 공식3inventory actual0·release 정렬 불필요·selection71 실행아님·engine/전체audit/자연240/새checker0.
+- manifest7c9099f49f94b4939ec0f7fb6fc0fe6810320b186826f047b1f3e0e52eaead11.
+- event현재11211/stale178·195·197·reader129/133 stale4·invalid117·44·42/INCOMPLETE/native OPEN·번역수용/다듬기0.
+- 비저자 a1_qa_release_audit GO_SOURCE_FACT_ONLY/차단0·root 전문/2제품/5증거/3원 inventory 핀 확인.
+- .git/order653-20261015/review.md5711B/SHA256739e10be8bd5ea7370e83644387abf4e89fd91e8f970644051a680bb61151b4f.
+- review.json6254B/SHA256a308a890f2211a390246195860704ac67de1e4c1ad8bc71b46458a33ca971c29.
+- map/proof/targeted/inventory/correction는 같은 폴더로 결속. store(undefined) 직렬화 오류는 source patch·inverse 성공 뒤 orchestration 실패였고 동일 baseline26631을 resume하여 복구·중복실행/통과승격0.
+- 다음 M58은 지연 기억의 고정5년 KOEN2잎과 다은 기억물의 글귀·잘못된 개수4잎을 별도 범위로 분리한다. 초기 다은 EN 무결함 판단은 quote 일치와 별개인 three words 오류를 root가 찾아 정정했다. 아직 수리/판정0.
+- 실제M18/M57/native/전체명의·경제·후일체인/5언어/352선행/출시 HOLD·사용자 save설정/project/demo/human 보존·612dirty4 제외/새월0.
+- 일회성/새 정본 승격0·개발스킬 표적·독립·보존 적용.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
