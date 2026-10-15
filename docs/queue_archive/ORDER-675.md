@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-675
+# Closed Queue Spec: ORDER-675
 
 > 우선순위·상태 정본: [CODEX_QUEUE](../CODEX_QUEUE.md).
 
-#### [~] ORDER-675 [C5·상점] 발견을 남기는 긴 소개문을 5개 언어로 준비한다
+#### [x] ORDER-675 [C5·상점] 발견을 남기는 긴 소개문을 5개 언어로 준비한다
 
 ## 대상·기여
 
@@ -55,3 +55,42 @@ engine·실제앱·외부등록·사용자설정변경0이다. C3 실제실패�
 C1~C5전체/출시GO는 발급하지 않는다. 실제Mac은현재잠김이므로native재시도0이다.
 판매경계는 STEAM_PAGE §1.5/발견 보존이 이미소유, 새규범승격0·exact5블록과소유는일회성.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 2026-10-15 긴 소개문 준비 수용 — C5 전체 아님
+
+| 항목 | 실제 관측 |
+|---|---|
+| 시작·선언 | a38d0765824ced449b34b21fbac2420667422bda → 994eb7d2b89b7c9b73c58ff669dbe35ac87b0315 |
+| KOEN source | fda8582f543aa3c3b09e7bf5d14ba84fc8658ed8/tree6c626355e7672062b0b16b9907f46298e610620a |
+| 최종 제품 | 30aedf86d63561c31f549ebce77254b259b38355/tree9e968621bc1103b39664d9f00ca0c40fa09a79fc |
+| 문서 | STEAM_PAGE33731B/SHA64781a2fb118f3b4c50aaa9b16e170723a05302d6d0a9946e5fc79fd0f1d20dd |
+| 생산자↔독자 | 같은 문서§4 KO5블록 ↔ §5 EN5/신규§5.1~5.3 JA·CN·TW5각15 |
+| 상태 변화 | 기존KOEN About 정렬·CJK 긴소개0→5각15블록; 게임/선택/저장 상태변화0 |
+| 서사·장면계층 | 해당없음·상점상황카피; 게임 scene 저작/본문확정 아님 |
+| 독립검수 | a1_qa_release_audit·source10/최종25블록 전수·GO_STORE_ABOUT_COPY_ONLY |
+| 보존 | 신규3절과KOEN수리를역변환하면old문서exact; §1~3/§6~13·674·공시·가격·다른제품 불변 |
+| 표적 | 최종수리뒤 existing release inventory/context/queue3 actual0·diff0 |
+| 비소유 | 보호9 SHAexact·612사양11314B/WORK_LOG suffix3555B exact·stage제외 |
+| 닫는 것 | 발견을설명하던KOEN About 불일치와긴소개3언어누락만 |
+
+최초5c86938의 EN 어순을수리해source10을재전수했다. CJK첫15블록은JA지명쉼표·
+CN/TW월세/생활비·TW표제/약속의최소수리뒤같은15전량을재검수했다. 최초버전과
+진단은private first/second-cjk-checks 및저작보고의전후핀에보존했다.
+지역문자15블록/JAtext5오류0. generic ZH text의방한칸(cell)2·한번의5년(occurrence)1
+진단은검수자가원문과一间房/一間房·一段5年的歷程의동등함을직접확인한오탐이다.
+진단을숨기거나기계완전PASS로바꾸지않았고checker/기준선/CI예외변경0이다.
+
+private `.git/order675-store-about/review-source.md`4332B/
+SHA26ba04c99af61d41b7cc71349aef1ea6fe79d2761b8e2051aa30d0cb4d7d28e7,
+`review-source.json`4855B/SHA361ab3eece6c4d046aa8a04021eb91653c6b115f56c47012f91a623eb7b9aa4f.
+`review-final.md`4684B/SHA6230c1e089f263ea24fef52f14c3f8e863a4eeebbdfcdfca38eea78ed49089eb,
+`review-final.json`12229B/SHA1390b82667ff411972de5a378a82ad419e3ee46e583bbe0649253ebba04feaf1.
+root가두최종보고전문·실제Git·보고16핀/보호9를전부대조했다.
+`preservation-and-text-checks.json`6246B/SHA422c90dbe40415c601bf9a3ac79ad69f4fdcfd3ca1639ad88695711b4045f502,
+`targeted-audits.md`1469B/SHA953550f6c39c7d4ee622fa90623d28bda6004164fdab622720c3717265287d1e.
+
+240주·35엔딩은source상수/KOEN35 ID목록근거이며실제240주완주가아니다.
+Steam필드허용량/렌더/게시·실제앱/retail5언어·원어민/사람·현재CIgreen·C1~C5전체/
+출시GO는미관찰/HOLD다. Mac잠금중engine/새월/OS설정·외부실행0, 공개demo/인간판정/
+사용자저장·project 보존. 개발스킬의KO직접번역·독립검수·표적/보존규칙적용.
+승격: 새규범0(판매경계는기존STEAM_PAGE§1.5/발견보존소유);이카피준비/소유/배치는일회성.

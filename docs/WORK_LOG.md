@@ -3,6 +3,14 @@
 이전 기록은 [663 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order663_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36266B/SHA256 c080667791b8306d7e7d4cb2c60b94257e63c40de6bfb825f95c0ea87571426a이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 발견을 남기는 상점 긴 소개 다섯 언어
+
+- [675](queue_archive/ORDER-675.md): KOEN About의색/선악·재독·유물/개별엔딩결과와EN만의6년상환/자격평가를걷고,JA/CN/TW누락5각15블록을KO직접독립저작했다. 시작사정·시간/기회경쟁·장면선택·240주35결말·경고5블록을5언어25개로맞췄다. 제품30aedf86d63561c31f549ebce77254b259b38355/tree9e968621bc1103b39664d9f00ca0c40fa09a79fc.
+- sourceEN어순1수리/10재전수, CJK용어·구두점·생활비/약속최소수리뒤15재전수·독립GO_STORE_ABOUT_COPY_ONLY. generic방/횟수진단3은실제동등표현오탐으로분리하고전체machinePASS발급0·checker/예외변경0. 실패/전후핀·최종보고는마감사양/private에보존했다.
+- 최종기존release/context/queue3actual0·diff0, About역변환old문서exact/§1~3·6~13/674카피·가격/공시/게임·사전/번역원장/제품검사불변. root보고전문/16핀·보호9대조PASS. 개발스킬의독립KO번역·비저자전수·표적/보존규칙적용;새규범0/일회성준비물이다.
+- Steam렌더/허용량·외부등록·실제앱/5언어retail·C5전체/출시GO0. Mac잠금·새월/engine/OS설정0,612사양11314B·월로그suffix3555B exact/stage제외. 당시main CI static성공/Godot진행·green미확정/예외0, 공개demo/과거인간/사용자저장보존.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 상점 태그라인·짧은 설명 세 언어 누락 보충
 
 - [674](queue_archive/ORDER-674.md): 확정 KO 태그라인/Short A에서 JA/CN/TW 신규2각6값을 독립 저작·수용했다. EN의 four-pyeong→4.5-pyeong1값도 KO와 맞췄다. 제품52591ab1d5793d515c26425b18e5ddd0cb584de2/tree451fe83dda7a1ab83711d5b8901c4724bb1d6b0f, STEAM_PAGE1파일만31추가1삭제.
