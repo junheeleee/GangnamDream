@@ -3,6 +3,19 @@
 이전 기록은 [684 착수 예산 스냅샷](history/WORK_LOG_2026-10-15_order684_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문 39207B/SHA256 4da76135c3fae8347545bfe679bb9c3788cff6efa53f876b2fcc9639ce14c63e; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — 승인된 정리와 대체된 P-19 문서 실패 수리 착수
+
+- [686](queue_active/ORDER-686.md): 685 표적 검사에서 날짜 전환 뒤 P-19 22일/상한21일 exit1을 확인했다. 이미 승인·완료487과 현재 제품 검사 보존을 대조해 원문 보관/닫힌 대체 근거만 정리한다. exact 파일은 사양에 선언했으며 이 로컬 선언 커밋 전 구현0·새 월0·제품/검사/예외 수정0이다. 685 월별 마감과 함께 로컬 선언 후, 수리 검증 뒤 두 커밋을 동기화한다.
+
+## 2026-10-16 — 둘째 해 마지막 달 M24 실제 앱·저장 검수 완료
+
+- [685](queue_archive/ORDER-685.md): 원683W93 한복사/freshHOME3XDG·새BUILD15.2로수정24개월KO첫/끝실화면→two_year0→W94자동quiet→돈고민1→부친방문2→같은W96연말1/실제「창원」기록0→첫W97/35세2028본문Continue0/CmdQ. root/비저자40JPEG전수·별도semantic15/40GO, root보고전문/출구64+semantic8실제핀검증. 09partial파일명은완성본문, W94실화면·W97최종HUD주장0.
+- final270905B/SHAd19dd2ef1562db3cecdfc5a26bffff6a3ffe6c2590d0a75c83021f8c658dd637. prefix75exact+seq76..80·routine/completed93..96각1/last96/marker97/chain{}/resume{}·월말1/뉴스4append·앞4trim/잔존56exact. 돈−8301703+280000−650000+287448차액유도=−8384255; W97뜻밖수입29만원로그/source와합치/RNG원값·toast실관측0. 건강22→20/정신cap100→90·아버지80crisis→92quiet/다은85→87close만cast변경·items4/무직/대출0/portfolio{}보존. year_scene2father04/callback107추가·매수/송금/미선택고향방문발명0.
+- native92834 exit0/421.50962s/failure null/14true·85그룹1412항목현재baselineexact·editor생존·CmdQ마지막/재선택0. raw3전독·old15.1→new15.2 build_id_mismatch경고1만/parse·script·engineerror·ObjectDB0. 별도40화면출구GO와저장의미GO·보존된원실행사양/보고핀은마감사양/private.
+- 새발급clone두파일ICU+ID directchild1/원격push0·full-rc1회7명령0/3export4manifest/1893PCK·ICU·서명/universal·수정KOEN/원문70exact. 그러나자정old/tmp10그룹47파일(1,586,930,952B)상실로원wrapperexit1/protected_exact=false/HOLD는그대로다. 실제저장/현재제품/원.gitraw/최신W93변경0, OS Hour0 tmp_cleaner와시각일치는강한추론/actor확정0. root첫48/guide6집계오기는47/guide5로수정. 원실패/과거손실을PASS로바꾸거나복원/재build하지않고, 별도packageidentityGO+incident현85준비GO→strict새prepare10true→별도native입구를거쳤다. OS설정변경0/사용자자료삭제0.
+- main d29 CI38754678031 static성공/Godot진행·실제실패0/예외0/만료0·녹색미확정. 표적문서5 중 context_manifest만 P-19 22일/21일로exit1·나머지4/EN누출/diff통과. 실패는별도686에선언하고 새월0·월별한commit·게임/원문/번역/제품검사수정0/새tool·비용사업/전체audit/240주/외부0. 다음686뒤원W97/M25·완료월반복0. CJK동결/EN실화면·사람2~3h·원어민/물리pad/청취/M60엔딩/5언어최종정합/출시GO0. 개발스킬격리/보존/독립/표적적용·승격0/일회성.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 24개월차 한국어·영어 기간 source 수리
 
 - [684](queue_archive/ORDER-684.md): story_two_year.description KOEN각1잎만24번째달/둘째해마지막달+현재책상종이빛으로맞췄다. rootKO/별도EN저자, 비저자원고2전수GO+보존GO·root전문/원고·문자열/보존27핀확인. fullraw/parsedinverseexact·중간3문단·5문단/newline12/name1/선택/효과/분기/달력/저장불변. 정확후보/보고핀은마감사양.
