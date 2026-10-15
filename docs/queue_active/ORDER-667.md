@@ -22,7 +22,7 @@ DIK는 실제 생산 선택을 대조한다. 목표 달성·생사·관계·주�
 
 ## 정확한 파일 소유권
 
-- content/events/ 및 content/events_en/의 arc_daeun_extension.json, arc_drama.json, arc_events.json, arc_hyunsu.json, arc_midgame.json, arc_year3_drama.json, arc_year_close.json: 표의 잎만, arc_midgame은 E 세 잎 추가.
+- content/events/ 및 content/events_en/의 arc_daeun_extension.json, arc_drama.json, arc_events.json, arc_hyunsu.json, arc_midgame.json, arc_year3_drama.json, arc_year_close.json: 표의 잎만. E의 선택 text/result_text 두 잎은 arc_midgame, final_week 회수 한 잎은 실제 소유 파일 arc_drama에 추가한다.
 - content/endings.json, content/endings_en.json: crypto_ghost description, empty_house description_if_known/father_passed만.
 - docs/SCENE_TIER.md 공통 산문 계약에 지속 규칙 승격, docs/DECISIONS.md 이유, CLAUDE.md 현재 상태, docs/WORK_LOG.md 이번 항목, 큐의 이번 행·active/archive 사양.
 - 실제 내용 SHA가 바뀌면 content/meta/release_content_inventory.json 및 생성 docs/CONTENT_RATING_INVENTORY.md의 내용 지문만 정렬.
