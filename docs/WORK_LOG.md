@@ -3,6 +3,12 @@
 이전 기록은 [684 착수 예산 스냅샷](history/WORK_LOG_2026-10-15_order684_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문 39207B/SHA256 4da76135c3fae8347545bfe679bb9c3788cff6efa53f876b2fcc9639ce14c63e; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — M27 비교 압박·돈 공유·휴식 실제 검수 완료
+
+- [689](queue_archive/ORDER-689.md): 원688W105/같은BUILD15.2·축하0→W106quiet→W107돈공유0→W108일찍잠2→W109quiet/자동월경계→첫W110일상첫문장만/선택0. root/출구24/24JPEG·semantic11/24/독립2GO·root보고전문/actual34+21핀확인. 건강회복19→22/최종HUD−994만원/H20M95/33개월·W106/109별도전경시각인증0.
+- final295531B/SHA695c39e7184063d467829e407312bcca6bb20405083885490e76f681a72c2743 runtimecmp0·W110AprilW2/resume{}·prefix86exact→89/새3선택·루틴105..109각1/last109/chain{}/W110read·루틴0·월105원형/109새1. 돈−9643976+350000−650000=−9943976/선택cash0/추가차액0·정신cap100→월91→루틴95/건강19+3−2=20. cast6/items4/무직/portfolio{}/대출0/관계[]/year_scenes보존·money107소비/daily110예약보존/why114추가·뉴스5append/앞5trim/잔존55exact·W110coldreload는미관측구조판정이다.
+- native3665 parent87338/child87349 exit0/317.519266s/null14true/98그룹1629exact·editor생존/CmdQ마지막/재선택0/raw154/0/154오류/경고/ObjectDB0. 표적문서5/마감context·queue·diff actual0, EN누출0은불변source증거재사용/재실행0·월별한commit. main97800ac CI38770711234 static성공/Godot진행·실패0/예외0/만료0·녹색미확정. 다음W110/M28 전에 EN두부화자반전1건은별도C2수리·이번KO월GO로승인하지않는다. 원685buildfalse/tmp47HOLD·초기688중지보존·게임/번역/사용자저장/설정/project/공개/Human/제품검사변경0·새build/전체audit/240주/새tool/비용사업/외부0·M60/EN·CJK실화면/5언어최종정합/사람2~3h/원어민/물리pad/청취/Steam/출시GO0. 개발스킬격리/독립/표적/보존·규범승격0/일회성.
+
 ## 2026-10-16 — M26 생일·다은·재혁 조사 실제 검수 완료
 
 - [688](queue_archive/ORDER-688.md): 초기실행은 생일휴식1 뒤 예상quiet가 아닌W102다은첫본문에서 입력중지/CmdQ·305.917489s exit0/14true/92그룹1539exact/13JPEG. root/독립입구의 t>=100close_bond selector누락이며 제품C2가 아니다. 원raw/사양/부분보고보존·원W102280703B/7c4eae4153cf239d1fd99d89fe296f0844b776d3effd78335d45b96a4b92dcbf에서만 같은달범위를선언해이어갔다.
