@@ -3,6 +3,14 @@
 이전 기록은 [663 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order663_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36266B/SHA256 c080667791b8306d7e7d4cb2c60b94257e63c40de6bfb825f95c0ea87571426a이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 아버지가 말한 사실·전세 없는 주거 회상 수리
+
+- [664](queue_archive/ORDER-664.md): 늦은전화의 부친무지/혼자진실 이력과 안정성공의 전세만료를 고쳤다. 확정2종3잎(KO2EN1)+영어 주거비패리티1잎, 총4잎이다. 이름의 현재 무게·이번통화에서 꺼내지않음과 실제 방값만 남기고 기차/반가움/경제여유/여운 및 분기·저장·공개를 보존했다.
+- 제품bf89a4ef27baded8351f4646e274da545aadfacc/tree1a7f2462d823ecf803232755224c3a6c880278cd. fullinverse/parsed4/문단newline/name/digits·비소유exact, 수백/hundreds 과거횟수만현재망설임으로수리. 표적9/공식inventory3 actual0/selection33목록만; releaseendingSHA/생성보고1셀만정렬. 독립4잎source판정·핀은마감사양.
+- manifest0f07d9819259894b1b199ef2548f1494f6455ae3d955b53bb2ef6f2fb87b3ce7. 동결CJKending220/235 current/stale13/invalid2, 전체invalid120/49/47동일·INCOMPLETE/nativeOPEN. fullraw delta는manifest+endingcurrent/stale뿐/다듬기수용0.
+- source반례는실제플레이아님. 다른월급/의료회상·stablecut자산출처미확정·후행DK가림을GO로확장하지않음. 실제M18/native/전체카탈로그/5언어/CI전체녹색/출시HOLD·CG잠금true/새월0·612dirty4/suffix3555B 제외보존. 개발스킬표적·독립·보존 적용/일회성/새정본승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 재혁·상철 엔딩의 미행위·전액·기간 회상 수리
 
 - [663](queue_archive/ORDER-663.md): 재혁 엔딩 base의 미실행 부정행위3종, trusted_fully의 전액 단정, 상철 이용의 5년 단정을 KOEN6잎에서 실제 선택만 남도록 수리했다. 같은6잎 독립 반려에서 남은 자금출처/선행사 단정도 도착한집으로 재작업했다. 사기·죄책감·아버지·현재통화·여운/분기/저장/공개는 보존했다.
