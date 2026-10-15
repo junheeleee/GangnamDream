@@ -1,6 +1,6 @@
 # ORDER-668 — 엔딩의 순자산 지표·약속 기간을 현재 장면으로 맞춘다
 
-#### [~] ORDER-668 [수리] KO/EN 10쌍 source 정밀화 — 2026-10-15
+#### [x] ORDER-668 [수리] KO/EN 10쌍 source 정밀화 — 2026-10-15
 
 기준 main8515fea310fee47239f876baf20311afba24428f. 사용자 최신 지시:
 Mac잠금 중 실제 플레이 없이 나머지 개발. 같은 M18/612는 계속 HOLD,
@@ -62,3 +62,46 @@ a9da54e58a91283d1732eae4d0581400cf8dc499274eb1b8aa2ec95c3a7c693b는
 source 한정 GO와 실제 앱/렌더/원어민/physical/5언어/출시GO는 별도다.
 일회성 source정밀화/새정본승격0; 기존 SCENE_TIER 공통 산문 계약을 적용한다.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — 2026-10-15
+
+최종제품 a0a694636e53d234736a6b60c5c54f7f090465ac /
+tree0aad49d9eaaa08761f371de35fdac4560bd5d139. 선언1d13975·첫제품5ea2fce는
+clean {name}1→2 증가로 REWORK. 원초안/영수증/초기GO를 보존하고 처음
+문장 주어만 생략/He로 바꿔 토큰1회복원·같은20잎독립전수재검수로 닫았다.
+초기자가/독립검수의 token비교누락을 숨기지 않았다.
+
+| 완료 증거 | 측정값 또는 file:line |
+|---|---|
+| 도달 경로 | GameState:4355–4361/4455–4482/4491–4509 · natural/실제앱0 |
+| 생산자 ↔ 독자 | callback_events:417–446·arc_events:1847–1880 ↔ endings KO415–416/448–456·EN316–317/337–345 ↔ MainGame:21662–21687 |
+| 바꾸는 상태 | KO10+EN10 scalar·rawinverse2/paragraph/newline/name20 exact·원본문/꼬리/비소유 불변 |
+| 포기 시 잃는 것 | 순자산 목표미달·부친약속·계좌대여거절 회수·현재 책상/빛/종이 감각 |
+| 서사 위치 | 기존 white/회복 엔딩 모달·순서/종료/경제/저장 불변 |
+| 장면 계층 | 기존 후일담 정밀화·신규 장면/계층/CG/연출0 |
+| 닫는 것 | 정확20 source품질GO·제품4/보호6/612dirty 보존GO·실제앱/전체엔딩/5언어/출시GO0 |
+
+독립 prose-review-final.md6815B/8e91737c6dcff8ccd1f2c2cefbfb01e692a18e01888fe2ced005dc37d2e7f401,
+json5986B/33ff0b84429fa413fad97dd0f1164b35a0741108ad7b85887d0d040dd47225a2.
+preservation-review-final2.md4367B/fb721653acc61c312e6d6130e104ad5c98cb4a807c49459a579b6d706b4ccb1a,
+json5934B/6f917f71213a5e8293dc66206e7ff5d748f0785024729280cdd3e94a05410b1a.
+root 최종보고4전문+prose5/보존17 핀 직접대조PASS. 보존JSON의CN핀 전사누락1은
+원보고2바이트보존후그필드만교정·제품/판정변경0; correction-note950B/
+6a64317972a8af43bf0bed1afcc3a1fbc7879397200e400301125f55861cde0c.
+새 .git/order668-20261015/만 저작·과거raw/실패/첫후보보고 불변.
+
+초기8표적actual0는5ea2 이전원문영수증이며 최종a0의재실행으로세지않는다.
+최종a0는 ENcoverage/release/officialinventory3 actual0 + direct20/inverse2 증거다.
+release원장SHA/보고1셀만110f2c8f6748b2cf9615794e26212b5e4e4dd241beea7d85a79f5684bf753b24로정렬.
+final manifest3339c82ed736e8df7542dd304ef15cf813b6418fa1bdb23f4b1d8e8c5b994405.
+CJK invalid137/70/72·endingcurrent208/235; JA/TW새2각각은제거한5년숫자와동결target,
+CN신규0·placeholder신규0. manifest/ending/invalid밖전체JSONexact·INCOMPLETE/nativeOPEN.
+JAzh다듬기/수용0·5언어유지·실제확정뒤일괄정합.
+
+남은ending47쌍94잎readonly A12/B12/C12/D11 읽기완료. 다른후보의 넓은guard/
+입구·firsttrue미폐쇄/미관측·미래후일담을 자연결함·author_only·전체GO로승격0.
+career/guardian/secondlove/신고완료·앱삭제 회상 단서는 다음원문판단 대상으로남는다.
+KOENactual확정/같은M18/612/BUILD14.3/첫W73 HUD저장/native/CI전체녹색/출시HOLD.
+Mac잠금사용자확인·새월0·engine/전체audit/자연240/새검사/비용작업/설정변경0.
+612dirty4/suffix3555B SHAexact를모든commit에서제외·보존.
+개발스킬표적/독립/보존·SCENE_TIER사실/감각계약 적용·일회성수리/승격0.

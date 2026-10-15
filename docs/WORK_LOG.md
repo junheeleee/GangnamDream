@@ -3,6 +3,14 @@
 이전 기록은 [663 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order663_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36266B/SHA256 c080667791b8306d7e7d4cb2c60b94257e63c40de6bfb825f95c0ea87571426a이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 회복·약속 엔딩의 지표와 기간 정밀화
+
+- [668](queue_archive/ORDER-668.md): 회복8쌍의 통장/한참미달을 순자산 목표미달+책상접촉으로, white2쌍의 근거없는5년수첩이력을 열린방빛/현재종이감각으로 맞췄다. KOEN10쌍20잎 source품질·보존독립GO. 새natural-live결함/엔딩전체승인아님.
+- 최종a0a694636e53d234736a6b60c5c54f7f090465ac/tree0aad49d9eaaa08761f371de35fdac4560bd5d139. 첫5ea2의이름토큰증가REWORK→주어복원/같은20전수재검수; 원증거보존. rawinverse2/비소유/문단newline/name20·제품4/보호6/612suffix3555B SHAexact. 최종보고4전문/prose5·보존17핀root대조PASS, CN핀전사오기1은원보고보존후교정.
+- 초기8표적actual0는첫후보역사이며최종재실행으로승격0. 최종EN/release/officialinventory3 actual0·manifest3339c82e…4405·CJKinvalid137/70/72, JA/TW새각2는허위5년삭제와동결target·placeholder신규0. manifest/ending/invalid밖exact·다듬기/수용0·INCOMPLETE/nativeOPEN.
+- 남은ending47쌍94잎readonly대조완료/전체GO아님. 실제M18/612/BUILD14.3/첫W73 HUD저장/실제플레이/native/CI전체녹색/5언어/출시HOLD. Mac잠금·새월/engine/설정변경0·dirty612별도보존. 개발스킬표적·독립·장면감각계약적용, 일회성수리/새정본승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 사실 수리 뒤 한영 장면 감각 복원
 
 - [667](queue_archive/ORDER-667.md): PR #33 main병합 확인. 표44곳 KO/EN 전수에서42쌍수리/2쌍유지, 승인E3쌍을별도로적용했다. 총47쌍/94잎 독립source품질GO·차단0. 지어낸과거를되살리지않고 현재종이·손·숨·소리로복원; A/B/E exact와C/D생산사실에맞춘좁힘. 승격: SCENE_TIER 공통산문계약, DECISIONS는이유/링크만. 나머지오더지시는일회성.
