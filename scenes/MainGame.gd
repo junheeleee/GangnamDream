@@ -21509,9 +21509,10 @@ func _ending_build_credits_page() -> void:
 		var credit := _label(str(line), 13 if str(line) != "JUNPAC GAMES" else 20, "#aab3bf")
 		credit.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		page.add_child(credit)
-	var thanks := _wrap_label(
-		_tr("그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.", "And to you, here in the light of this screen."),
-		15, "#d5dbe2")
+	var thanks_line := _tr("그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.", "And to you, here in the light of this screen.")
+	if int(GameState.turn) >= GameState.RUN_TURN_LIMIT:
+		thanks_line = _tr("그리고 이 5년을 살아 준 당신에게.", "And to you, who lived these five years.")
+	var thanks := _wrap_label(thanks_line, 15, "#d5dbe2")
 	thanks.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	page.add_child(thanks)
 	page.add_child(_ending_page_spacer())
