@@ -184,7 +184,7 @@ Start with a tiny Korean single-room lodging called a goshiwon and 500,000 won i
 
 [h2]This month's rent. Today's messages.[/h2]
 Look for work, cover living costs, and weigh opportunities to invest. Family and friends call in between.
-Decide whom to make time for and whether to take the opportunity in front of you. While you give one part of your life your time, another may not wait.
+Decide whom to make time for and whether to take the opportunity in front of you. While you give your time to one part of your life, another may not wait.
 
 [h2]Make the choices that matter in the scene[/h2]
 Quiet weeks pass quickly. At important moments, you choose what Minjun does next.
