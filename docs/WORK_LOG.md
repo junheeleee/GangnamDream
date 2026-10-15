@@ -3,6 +3,14 @@
 이전 기록은 [684 착수 예산 스냅샷](history/WORK_LOG_2026-10-15_order684_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문 39207B/SHA256 4da76135c3fae8347545bfe679bb9c3788cff6efa53f876b2fcc9639ce14c63e; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — M29 강남의 이유·재혁 신고 실제 검수 완료
+
+- [692](queue_archive/ORDER-692.md): 원691W115 한복사/freshHOME3XDG·같은16.1 EN Continue→white통화1→counter116신고0→첫aftermath117 본문첫문단/선택0에서CmdQ. why본문5/결과3·counter본문4/결과2 완전표시, 포커스/폭/HUD 정상. root/출구28JPEG5374647B 전수·semantic12/28·독립2GO/root전문/실제40+21핀 확인. W117본문 이후/선택은 미검수다.
+- final308472B/SHA7457a1bb6ed3d3ec37350c831c0e029dbb73f35d678cf9d748ed3ebf738c27e0 runtimecmp0·W117/last116/chain{}/resume{}. prefix91exact→93/새2선택·루틴115/116각1·기존113/114 재처리0. 돈−10243976+140000−650000=−10753976/추가손실0·건강1+3−2=2·정신96→100cap→월91. 새위기log0·113marker/뉴스보존·117정산1회·June뉴스3append/잔존57exact·action7append/잔존93exact.
+- 재혁만−100cap/reported·다른cast5/items4/무직/portfolio{}/대출/관계/주거/phone/year_scenes/name 불변·평판17/정통7/새flag6/기존삭제0. counter116제거·midpoint121/aftermath117추가·31/124보존. durable에는aftermath117예약/seen0가 남으며 livefallback본문을 내구저장으로 세지 않는다. 건강2의 후속생존/일반 중간결과복원 미보장·W117cold 재개는 다음월 범위다.
+- prepare19640 10true→독립입구→같은HEAD freshCI실패0/Finder정상→native85856/12116·12124 exit0/311.066305초/null14true/110그룹1824exact·editor생존/CmdQ마지막/재선택0·raw154/0/154 오류/경고/ObjectDB0. source d57330e CI38779703675 static성공/Godot진행·실패0/예외0/만료0/녹색미확정. 표적문서5/마감context·queue·diff actual0·현황판 참고경고·월별한commit. 새build/제품/번역/저장설정/project/공개/Human/제품검사변경0·원691초기중지/685buildfalse/tmp47HOLD보존·개발스킬격리/독립/표적/보존 적용·승격0/일회성. 다음M30 원W117·완료월반복0·M60/CJK/사람/Steam/출시GO0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-16 — M28 새 macOS 발급본·영어 실제 검수 완료
 
 - [691](queue_archive/ORDER-691.md): 새 BUILD16.1 mac-only 발급·독립 입구/package GO. 격리 import1/export1·10명령0/null10true/102그룹1682exact, ZIP/manifest/PCK1893/ICU/12notices/서명/universal/KOEN bytes 확인. base624c2a6→private stage91d98af3/tree f69c8474 두파일 ICU/ID만·main project/BuildInfo 불변·새3플랫폼/full-RC GO0.
