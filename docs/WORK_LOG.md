@@ -3,6 +3,12 @@
 이전 기록은 [684 착수 예산 스냅샷](history/WORK_LOG_2026-10-15_order684_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문 39207B/SHA256 4da76135c3fae8347545bfe679bb9c3788cff6efa53f876b2fcc9639ce14c63e; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — 다은 두부 대사 영어 행동 주체 수리
+
+- [690](queue_archive/ORDER-690.md): callback_daeun_daily_life_echo.description의 you/your→I/my만 복구. 다은의 행동을 플레이어에게 넘기던 번역을 KO와 정렬했다. EN5227B/SHA7dd6b58b77630613ae537031d0f0c51650e682aa6802b3dd42888e3d1934a9e3·KO10575B/6bd394ed64881a42d67fde1a5e310df60431b52567798f6c0335bd0453a21ba9 불변. 조건/효과/선택/문단·다른 잎·CJK 변경0.
+- 별도 저자/비저자 한 잎 전수GO·root 원문/보고 전문/실제 핀 확인·raw inverse exact/parsed1/newline7/token0 유지. EN coverage·EN Hangul·i18n actual0(EN1813/1813·ending35/35, CJK skeleton은 수용 아님). 표적문서5/마감context·queue·diff actual0·현황판 낡음만 참고 경고·새 checker/전체audit/240주/새 앱 실행0.
+- main f66dc42 CI38773816273 static 성공/Godot 진행·실패0·예외0/만료0·녹색 미확정. 15.2에는 수정본이 없으므로 다음 새 macOS 후보로 원W110/M28을 잇는다. source GO를 실제 EN 화면·M28·사람/원어민/패드·CJK·M60/출시 GO로 넓히지 않는다. 사용자 저장/설정/project/공개/Human/제품검사·과거 HOLD 보존·개발스킬의 독립/표적/보존 적용·승격0/일회성.
+
 ## 2026-10-16 — M27 비교 압박·돈 공유·휴식 실제 검수 완료
 
 - [689](queue_archive/ORDER-689.md): 원688W105/같은BUILD15.2·축하0→W106quiet→W107돈공유0→W108일찍잠2→W109quiet/자동월경계→첫W110일상첫문장만/선택0. root/출구24/24JPEG·semantic11/24/독립2GO·root보고전문/actual34+21핀확인. 건강회복19→22/최종HUD−994만원/H20M95/33개월·W106/109별도전경시각인증0.
