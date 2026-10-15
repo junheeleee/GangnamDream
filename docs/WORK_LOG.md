@@ -3,6 +3,13 @@
 이전 기록은 [684 착수 예산 스냅샷](history/WORK_LOG_2026-10-15_order684_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문 39207B/SHA256 4da76135c3fae8347545bfe679bb9c3788cff6efa53f876b2fcc9639ce14c63e; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — M32 목표·상철의 문 실제 검수 완료
+
+- [697](queue_archive/ORDER-697.md): 원694W126 한복사·전용16.3 userdir/원HOME·정상EN Continue→goal126c2→비전경127자동→known-truth inner-room128c1→비전경129정산/루틴→first130 Sunday morning/선택0/CmdQ. root/출구35JPEG4759913B 전수·semantic9/35·독립2한정GO·root전문/실제50+9핀확인. 126본문2는partial08/09이미본문3·10대화기록에서전문을읽었으며VN전체패널관측0. 산책방배경/복도회의실·상철잔류2연출부채보존·새C2/visualGO/추가출시차단0.
+- final333694B/SHAdd0df1f312a9239b5b3f04a84808acedc74211abfcfdfc188258066fa5696ab0 runtimecmp0·W130/2028SeptemberW2/last129/foreground128/resume·chain{}. 원read102/routine125/completed125exact·새2선택/read104·126..129루틴/완료각1·130선택/루틴/완료0. 돈−11423976+280000−650000=−11793976/H7+3−2=8/M92→cap100→월91→129루틴95. cast6/items4/무직/portfolio/대출/관계보존·목표126소비/path_cost148추가/미매수투자31보존. event100=원뒤98+새2·action100=원뒤93+새7·news60=원뒤57+9월3·시장18각1append. logtrim2는read손실아님·새건강위기잔차0/RNG값·toast미관측.
+- base7fcefc5→private0c343d0/tree97a5e5f projectcustomdir/ICU+BuildInfo16.3 두파일·원main/project/사용자16.2불변·signedGodot/self-contained editor_data·import1/export1·서명/universal/앱7/PCK1893/675JSON/ICUexact. 초기stage앱경로/PCKbarekey read가정오류private보존·build/native재실행0. native52314/parent52304 exit0/245.778242s/null7checks true/121그룹2134exact/editor61385생존·CmdQ마지막/재선택0. raw154/111/263B의build_id_mismatch경고1보존·실제error/ObjectDB0. 보고/실행사양/패키지핀은사양참조. 표적문서5/마감context·queue·diff actual0·현황판stale참고/월별한commit·main7fcefc5 CI38792682943 전체녹색확인/이번commitCI별도·제품검사/전체audit/240주/새영구tool/HOME·XDG/OS변경0. 개발스킬격리/독립/표적/보존적용·승격0/일회성·원691/693타이머·685false/tmp47/Human/공개보존·다음원W130/M33·완료M01~M32반복0·사람/CJK최종정합/5언어실화면/M60엔딩/fullRC/Steam/출시GO0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-16 — 사용자 본편 테스트 환경 인계 완료
 
 - [696](queue_archive/ORDER-696.md): 사용자요청으로 새본편16.2 앱을 Applications/GangnamDream-HumanTest-20261016.2에 설치·바탕화면바로가기/안내·영구userdir격리. 정상1boot→KO→한국어새이야기메뉴/continue비활성·4원이미지/새게임입력0/PID47625실행중사용자에게양보·이후UI0. 제목시점settingsko/진행save0·이후사용자소유가변·0B로그는오류0인증아님.
