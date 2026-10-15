@@ -3,6 +3,13 @@
 이전 기록은 [645 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order645_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 31115B/SHA256 035c7ffd04c58e3cbdf1ee7e2ca5971e285170242740f0427416851204735099이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — M58 다은의 실제 포스트잇 인용과 잘못 센 글자·단어 수 수리
+
+- [655](queue_archive/ORDER-655.md): item원문 밥 먹고 다녀./Eat properly.를 보존하고 KO consumer의 다른 인용을 원물로 맞췄다. item KOEN/consumer KOEN4잎의 세 글자·Three words를 비수량 글귀/words로 정렬·새숫자0. 문단/name·3선택/효과/flags/itemgive·조건·DataRegistry단일문자열 외 코드·저장·JAzh·사용자 불변. 서랍 몇 년은 미확정/이번수리GO범위아님.
+- 후보11582f406176628ba15a6c1ede9084b08da07456/treee55b0c828b591bf665f1e134fd1732b66da45a99·4파일 inverse/parsed/단일문자열 exact·표적7+공식inventory3 actual0·selection90실행아님/release정렬불필요·engine/전체audit/자연240/새checker0. manifestb4bf64d5f11aa0944b183dba69e7e5891fa7e04b15f83e4707dd26591aa5f18b·event현재11209/ch5reader129/133stale4/invalid118·47·45 INCOMPLETE/nativeOPEN. 동결CN/TW item/consumer 대상수량3 불일치 각2추가/JA invalid변경0·기타변경0·다듬기/수용0.
+- 독립 GO_SOURCE_FACT_ONLY/4잎 전수·root 전문/4제품/4증거/3raw핀 확인. .git/order655-20261015/review.md6278B/993232011aa43f3d6cc07ec67ae514d560e0456a62751a0a6b976c44eae3d574·JSON7166B/e191034991e679c38a7faa06a7f3653a75279712e806b723548adcb4e73d476f. 실제M18/M58/native/전체부부·관계체인/5언어/352선행/출시 HOLD·612dirty4미포함/새월0. M59 읽기전용 사전조사 시작·M60 미독.개발스킬 표적·독립·보존 적용·일회성/새승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 첫 문자를 5년 전으로 고정하던 M58 지연 기억 수리
 
 - [654](queue_archive/ORDER-654.md): t>=64 이후 받은 첫 문자→t>=228 판결/전체240주 안의 최대176주를 5년으로 회상하던 KOEN2잎을 수리했다. 그 새벽/at that dawn으로 고정기간만 제거하고 첫 문자·질문·답신·관계·3선택·효과·flags·item·코드·저장·JAzh·사용자 바이트를 보존했다.
