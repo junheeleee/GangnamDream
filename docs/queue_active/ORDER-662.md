@@ -24,6 +24,16 @@ married firsttrue는규모를구분하지않는다. married KOEN2잎의 작은�
 수리는행동결과를없애지않고 실제고른길보다큰과거단정을거둔다. 경쟁DK와24주뒤관계/
 자산·선택효과·엔딩입력은그대로이며 고르지않은거래/예식규모가합류로발명되지않게한다.
 
+## 원래 10잎의 독립 전수 검수에 따른 재작업
+
+동일모집단 married KOEN2잎에서 NG+ 첫만남의 음식 단정이 추가로 반려됐다.
+MainGame은 daeun_ending_ever_seen/t>=9일 때 arc_daeun_ng_meet로 일반첫만남을 대체한다.
+그 description/choice0/1에는 삼각김밥 건넴이 없고 arc_daeun_met/관계후속은 열린다.
+married의 삼각김밥 단정도 카운터 너머에서 마주친 공통사실로 좁힌다.
+단위·원래10잎·파일소유·DK·상태·새금액범위 증가0/새기능·분기0이다.
+첫draft/map/검사·inventory영수증은 private attempt1로 보존하고 최종원고로 재검수한다.
+예식은 prep small/full+정상day후일담 source한정이며 proposal flag만있는 구save/전체관계GO는아니다.
+
 ## 소유·검증
 
 root content/endings.json 및 content/endings_en.json:
