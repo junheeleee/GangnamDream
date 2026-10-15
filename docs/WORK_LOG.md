@@ -3,6 +3,11 @@
 이전 기록은 [663 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order663_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36266B/SHA256 c080667791b8306d7e7d4cb2c60b94257e63c40de6bfb825f95c0ea87571426a이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 대출·주거·물품 중국어 누락 50문구
+
+- [671](queue_archive/ORDER-671.md): CN/TW 신규25각50만수용. 차입/상환잔액·계약갱신/이사·월세감당/납부·물품AP/진열대시간을구분했다. TW용어2행REWORK후독립50 source/appendGO·check/import2각0·표적7actual0. 기존2314키/328batch/JA·612dirty4보존. static2135/2980·missing845각/invalid137·70·72불변·실제M18/5언어전체/출시HOLD. 상세핀/실패raw는마감사양.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 카지노 중국어 누락 50문구
 
 - [670](queue_archive/ORDER-670.md): CN/TW 신규25각50만수용. 용어3행REWORK후독립50 source/appendGO·최종check/import2각0·표적7actual0. 기존2289키/327batch/JA/612dirty4보존. static2110/2980·missing870각/invalid137·70·72불변. 실제M18/native/5언어전체/출시HOLD. 제품·실패raw·최종보고핀은마감사양.
