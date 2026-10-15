@@ -14481,6 +14481,69 @@
         "zh-CN": "8b30d620802dab7ba24f1c63058d4b7344de88aafbf0c657c2fe2f39fa2dbf6c",
         "zh-TW": "9e385b0285a037c3190c8b2aa1d0999757304a620bb3a31d32a571eb19bedf69"
       }
+    },
+    {
+      "order": "ORDER-673",
+      "group": "ui",
+      "roots": [
+        "일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다."
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "source_review": "One KO notice with independently authored JA/CN/TW values; non-author source/copy review of all five values. Passive UIStyle producer and three language-surface consumers; no retail language enablement or native/store/release claim.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "262efe1f54b5781f72cb4bf9ba3a31c4c020d779",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d9f0ec40be04c63a6ddf91eb7f419da742c3be00ebdfd7dce555bb313bbdea2f",
+          "selection_sha256": "7b46807380f19d261ceefda9e094a348454224d8044109fbdab477dada7825eb",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "23653c61c30e9df390f435f5f17a278d79908660a964f7c7cb29edd55c2d7a05"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "262efe1f54b5781f72cb4bf9ba3a31c4c020d779",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d9f0ec40be04c63a6ddf91eb7f419da742c3be00ebdfd7dce555bb313bbdea2f",
+          "selection_sha256": "4885bb4fcf921e2faed5d2c5b47da35194524ec33be5281b315fdc391143904d",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "5a51942e38d353e12ece2c5b75f756349c1dddcdedc7ff30c57902ab77db24f5"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "262efe1f54b5781f72cb4bf9ba3a31c4c020d779",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d9f0ec40be04c63a6ddf91eb7f419da742c3be00ebdfd7dce555bb313bbdea2f",
+          "selection_sha256": "2fd5df3b5bc2a855bd18eda5916c090f51cdf38ce7d3a3480902a4eb8293172e",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b53d98b187f0a8dae28aba15b2bd98007267a7531971c57cc98fcefed03cc024"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "516baaf21c3b9f2685114a0705238a4b3916cc1442b32e096a6c47504810e272",
+        "zh-CN": "a99a30bfe6333a54bd45cde397e1631c05382030be39a2b0b02990512c733e0c",
+        "zh-TW": "663ededcafb3d979dc43f9af3b8aa9a44a7959657041ef9cabe5089f784bb9bd"
+      }
     }
   ],
   "accepted": {
@@ -67176,6 +67239,10 @@
       "ui:처음 두 장의 점수가 8 또는 9인 경우. 추가 카드를 받지 않고 점수를 비교한다. 높은 쪽이 이기며, 점수가 같을 때만 무승부.:/처음 두 장의 점수가 8 또는 9인 경우. 추가 카드를 받지 않고 점수를 비교한다. 높은 쪽이 이기며, 점수가 같을 때만 무승부.": {
         "source_sha256": "53bae217f1ed34ffc813d0fb428679e7ebf895be719bf643e646f7a139c6cf0e",
         "target_sha256": "bad6e2f99fc1a033bd2c8876bd0b650742a259e19456ae0350092be550b3ec68"
+      },
+      "ui:일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다.:/일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다.": {
+        "source_sha256": "a85ec8b4edc90f7f89e0d66691998fc16e09b88ca45b290a3b3f63fcd3e2d828",
+        "target_sha256": "a4e8edb94412e19b5d4abeb97feffb28e1d50437fd1f9549fa39f06a369cdbcb"
       }
     },
     "zh-CN": {
@@ -126690,6 +126757,10 @@
       "ui:이사·선물 진열대. 시간 소모 없음:/이사·선물 진열대. 시간 소모 없음": {
         "source_sha256": "bcc8c4fa1e1cf889241fc82bc60a87ba6e69fceff0efb28c8524447357fc2cc4",
         "target_sha256": "0f1a0a4eeaa4b14f4d387023f2754f3acdba4f5bd12aaec109513738bcbbc158"
+      },
+      "ui:일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다.:/일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다.": {
+        "source_sha256": "a85ec8b4edc90f7f89e0d66691998fc16e09b88ca45b290a3b3f63fcd3e2d828",
+        "target_sha256": "8932d8a0458a5bdc91c6fee6212c34331bcf4a2323531e0219b23110960c272b"
       }
     },
     "zh-TW": {
@@ -186204,10 +186275,14 @@
       "ui:이사·선물 진열대. 시간 소모 없음:/이사·선물 진열대. 시간 소모 없음": {
         "source_sha256": "bcc8c4fa1e1cf889241fc82bc60a87ba6e69fceff0efb28c8524447357fc2cc4",
         "target_sha256": "74041ea2eed25fa9a768c4dc84e2ada06e616d818fa0e5b8d5ea8a7585fb8b4e"
+      },
+      "ui:일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다.:/일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다.": {
+        "source_sha256": "a85ec8b4edc90f7f89e0d66691998fc16e09b88ca45b290a3b3f63fcd3e2d828",
+        "target_sha256": "2faa5dc4e43d80f92b4cef7322e82a47c57d18bb8d3ea6c5e13e24c7292cf683"
       }
     }
   },
-  "accepted_sha256": "2352ddd70fd6b71e17e080e0afa17cd7282b2104243ffba3915e3818e51be81b",
+  "accepted_sha256": "d5a53fbe2a42a826d4a5b0a1456491cac8af5ced1bd97f8525d3360ff4c65c8e",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
