@@ -3,6 +3,16 @@
 이전 기록은 [684 착수 예산 스냅샷](history/WORK_LOG_2026-10-15_order684_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문 39207B/SHA256 4da76135c3fae8347545bfe679bb9c3788cff6efa53f876b2fcc9639ce14c63e; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — M28 새 macOS 발급본·영어 실제 검수 완료
+
+- [691](queue_archive/ORDER-691.md): 새 BUILD16.1 mac-only 발급·독립 입구/package GO. 격리 import1/export1·10명령0/null10true/102그룹1682exact, ZIP/manifest/PCK1893/ICU/12notices/서명/universal/KOEN bytes 확인. base624c2a6→private stage91d98af3/tree f69c8474 두파일 ICU/ID만·main project/BuildInfo 불변·새3플랫폼/full-RC GO0.
+- native1은 실제 EN I/my·요리0 뒤 타이머 왕복 중 기본0이 실행돼 결과 둘째문단/M90에서 즉시CmdQ했다. exit0/null14true/104그룹1727exact·원23JPEG/raw/5605B사양 보존. 실제저장299203B/b24d2bcf…fb4는 W112선택전/M100/prefix90/resume{}·father미저장. 이미durable한선택손실 C2확정0·중간결과복원 HOLD 보존. why114→quiet/115 fallback 사전예측 정정의 원5009B사양도 보존했다.
+- 같은월 실제W112에서 freshEN Continue→father0 즉시명시→결과→W113/114quiet→첫Why115 “Eleven at night.”/선택0. session6652/4285·4296 exit0/191.888022초/null14true/107그룹1777exact·editor생존·CmdQ마지막/재선택0·raw154/0/154 오류/경고/ObjectDB0. root/출구21JPEG2744352B 전수·semantic7/21. 결과4는 앞2문장만 캡처·사무소 마지막절 렌더미인증, 다른4결과/첫Why문장은 완전. 이전W110/W111 반복/저장편집/재build0.
+- final303398B/SHA3e9726b9732d73ad475127b1aae81a3d0e70c107ced8fc27679f937a3dff6fac runtimecmp0·W115/last114/chain{}/resume{}. 원prefix89→중간90→91/father0만 신규·루틴112/113/114각1. cast6/items4/무직/portfolio{}/대출/관계/phone/year_scenes 불변·단서1/flag3/callback124추가·31/116보존·father112/why114제거. 뉴스5append/잔존55exact·action8append/잔존92exact·정산113한번.
+- 돈−9803976+210000−650000=−10243976/추가현금손실0. 실제H1/M81은 W113 Body Warning·월압박/하한/회복과 일치: 정신100−10+4−9−12+8=81, 건강20−2→위기0→회복1. source범위와 차액으로 피해18 유도·RNG raw/toast 관측0·예상18/93 폐기. 건강1의 후속생존은 미보장이다. 독립 출구/저장의미 한정2GO·root보고전문/실제35+18핀 확인·상세보고핀/실행사양7638B private 보존.
+- main624c2a6 CI38774491097 static성공/Godot진행·실패0/예외0/만료0·녹색미확정. 표적문서5/마감context·queue·diff만·EN source재실행0/현황판참고경고·월별한commit. 사용자저장/설정/project/공개/Human·게임/번역/제품검사불변·원685 buildfalse/tmp47/HOLD보존. 다음실제W115/M29·완료월반복0·CJK/사람2~3h/M60/Steam/출시GO0. 개발스킬격리/독립/표적/보존·규범승격0·일회성이다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-16 — 다은 두부 대사 영어 행동 주체 수리
 
 - [690](queue_archive/ORDER-690.md): callback_daeun_daily_life_echo.description의 you/your→I/my만 복구. 다은의 행동을 플레이어에게 넘기던 번역을 KO와 정렬했다. EN5227B/SHA7dd6b58b77630613ae537031d0f0c51650e682aa6802b3dd42888e3d1934a9e3·KO10575B/6bd394ed64881a42d67fde1a5e310df60431b52567798f6c0335bd0453a21ba9 불변. 조건/효과/선택/문단·다른 잎·CJK 변경0.
