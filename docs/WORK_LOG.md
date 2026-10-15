@@ -3,6 +3,13 @@
 이전 기록은 [684 착수 예산 스냅샷](history/WORK_LOG_2026-10-15_order684_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문 39207B/SHA256 4da76135c3fae8347545bfe679bb9c3788cff6efa53f876b2fcc9639ce14c63e; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — M26 생일·다은·재혁 조사 실제 검수 완료
+
+- [688](queue_archive/ORDER-688.md): 초기실행은 생일휴식1 뒤 예상quiet가 아닌W102다은첫본문에서 입력중지/CmdQ·305.917489s exit0/14true/92그룹1539exact/13JPEG. root/독립입구의 t>=100close_bond selector누락이며 제품C2가 아니다. 원raw/사양/부분보고보존·원W102280703B/7c4eae4153cf239d1fd99d89fe296f0844b776d3effd78335d45b96a4b92dcbf에서만 같은달범위를선언해이어갔다.
+- corrected prepare10true/독립입구 뒤 native2977 parent78185/child78196 exit0/248.659972s/null14true/95그룹1579exact·editor61385생존/CmdQ마지막/재선택0·raw154/0/154오류/경고/ObjectDB0. root/출구23/23JPEG·semantic9/23전독GO·root보고전문/actual46+semantic7핀확인. W102다은0→W103별도전경없는quiet→W104재혁조사2→첫W105청첩장첫문장만/선택0. 18파일명body6은선택지·0.5초회상문단관측0·pitchHUD비노출·최종HUD−964만원/H19/M89/34개월이다.
+- final286380B/SHAef2ceda6c61460d98799e4acbae0d7a6b518982611acb8cb63a7c48b9123aec7 runtimecmp0. 원prefix83/84exact→86/seq85다은0·86재혁2·old루틴1..101exact/새102..104각1/last104/chain{}/resume{}·원W101재실행0/W105선택·루틴0. 정산105새1/101원형·돈−9203976+210000−650000=−9643976/추가cash위기차액0·정신93→다은cap100→재혁94→루틴98→월−9=89/건강21−2=19. 다은95→100close(cap)·재혁4→−1suspect/counter116추가·다른cast/items4/year_scenes/무직/portfolio{}/대출0/관계[]/old예약보존·뉴스5append/앞5trim/잔존55exact. 송금/매수/취업/연애·결혼/저장손실발명0.
+- main83de9ce CI38766448421 static성공/Godot진행·실패0/예외0/만료0·녹색미확정. 표적문서5/EN누출/diff actual0·마감context/queue/diff·월별한commit·다음원W105/M27·완료M01~M26반복0. 원685buildfalse/tmp47HOLD·초기687미실행/초기688오예측은그대로다. 게임/원문/번역/사용자저장/설정/project/공개/Human/제품검사변경0·새build/전체audit/240주/새tool/비용사업/외부0·EN/CJK실화면/5언어최종정합/사람2~3h/원어민/물리pad/청취/M60엔딩/Steam/출시GO0. 개발스킬격리/보존/독립/표적적용·규범승격0/일회성.
+
 ## 2026-10-16 — M25 새해·다은 저녁·부친 통화 실제 검수 완료
 
 - [687](queue_archive/ORDER-687.md): 같은BUILD15.2·원685W97에서 새해0→W98다은05요리0→W99자동quiet→W100부친통화0→첫W101생일첫문장/선택0/CmdQ. 원21JPEG root/비저자전수·semantic11/21GO, root전문/출구35+semantic8actual핀확인. 05는chapter제목뿐/07파일명W97결과는실제W98첫본문·W99별도화면0. W101 HUD−927만원/건강21/정신81/35개월과durable일치. first언어 영문AI고지1개는5언어/설정/상점인증아님.
