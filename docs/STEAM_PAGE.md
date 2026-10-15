@@ -273,12 +273,25 @@ Across more than 1,400 events, a single life can reveal only part of the story. 
 
 ## 10. 언어와 가격
 
-- 출시 언어 정본: 한국어와 영어 모두 첫날 완전 지원.
+- 출시 목표 언어는 한국어·영어·일본어·중국어 간체·중국어 번체 5개다.
+  최신 [출시 결정](DECISIONS.md#2026-10-15-본편-출시-완료-조건과-목표일--사용자-승인)을 따르며, 목표가 현재 지원 완료를 뜻하지는 않는다.
 - 영어는 번역 예정 기능이 아니다. 스토어 캡처와 데모도 영문으로 검증한다.
-- 현재 M01~M06 패키지에는 일본어, 중국어 간체, 중국어 번체 번역과 자동
-  패리티 검사가 들어 있지만 원어민 자연스러움 판정은 각각 OPEN이다. 그
-  게이트를 닫기 전에는 Steam 지원 언어로 표시하지 않는다. 본편 240주 번역
-  claim은 한국어 원고·런타임 동결 뒤 별도다.
+- 현재 retail 언어 선택은 KO/EN이며, JA·zh-CN·zh-TW 선택 활성화와 최종
+  5언어 패키징은 아직 별도 C5 작업이다. KO/EN 문장 확정 뒤 JA/zh를 한 번에
+  정합한다. 이 문서의 고지 초안은 언어 활성화·번역 완료·외부 게시의 증거가 아니다.
+- 일본어·중국어 원어민 전수 검수의 출시 차단 의무는 최신 결정의 C4에 따라
+  상점과 게임 내 언어 선택 화면의 [AI 보조 번역 고지](#ai-보조-번역-고지)로
+  대체한다. 실제 원어민 판정 OPEN과 공개 데모 GO는 그대로 보존하며,
+  사람 1명의 2~3시간 플레이·사용자 최종 출시 판단도 별개다.
+
+> 이전 언어 판정 기준 — 아래 원문은 역사 기록이며, 원어민 전수 검수를 추가
+> 출시 차단으로 삼는 의미는 최신 DECISIONS로 대체되었다.
+>
+> 현재 M01~M06 패키지에는 일본어, 중국어 간체, 중국어 번체 번역과 자동
+> 패리티 검사가 들어 있지만 원어민 자연스러움 판정은 각각 OPEN이다. 그
+> 게이트를 닫기 전에는 Steam 지원 언어로 표시하지 않는다. 본편 240주 번역
+> claim은 한국어 원고·런타임 동결 뒤 별도다.
+
 - 가격 작업안: USD 14.99 / KRW 19,500. 최종 가격과 출시 할인은 데모 외부 플레이테스트, 플레이타임, 지역 가격표 확인 뒤 확정한다.
 
 ## 11. 한 줄 피치
@@ -317,6 +330,23 @@ Pre-generated generative AI tools assisted with initial drafts of some 2D backgr
 Generative AI tools assisted with early production of some 2D art, writing, English localization, programming, and recording/sample-based audio production. Included output was selected, edited, and corrected by the developer; active images were fully inventoried, while other surfaces use automated checks and representative runtime review. No AI content is generated during play.
 ```
 
+### AI 보조 번역 고지
+
+최신 DECISIONS C4에 따른 상점·게임 내 언어 선택의 공통 문안이다. 위의 일반
+생성형 AI 제작 공시와 별도로 사용한다. 기존 Content Survey 초안과 확인일·제작
+증거·법률 판단 경계는 바꾸지 않는다.
+
+| 언어 | 고지 문안 |
+|---|---|
+| 한국어 | 일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다. |
+| English | Japanese and Chinese (Simplified/Traditional) use AI-assisted translation. |
+| 日本語 | 日本語・中国語（簡体字・繁体字）は、AIの支援を受けて翻訳されています。 |
+| 简体中文 | 日语和中文（简体、繁体）采用 AI 辅助翻译。 |
+| 繁體中文 | 日文及中文（簡體、繁體）使用 AI 輔助翻譯。 |
+
+상점 게시와 게임 내 표시는 별도 구현·검수 대상이다. 이 표의 작성만으로 외부
+Steam 게시, 실제 UI 관찰, 원어민 GO나 5언어 출시 완료를 주장하지 않는다.
+
 ### 제출 사실 경계 — 공개 마케팅 문구가 아님
 
 심의·설문에 답할 실제 패키지 내용은 `docs/CONTENT_RATING_INVENTORY.md`가
@@ -348,6 +378,11 @@ package inventory를 따로 대조한다. Steam 공개 문서는 업로드된 �
 
 ## 13. 업로드 전 게이트
 
+현재 출시 완료 조건·목표일·최종 사용자 판단은 [DECISIONS의 승인 결정](DECISIONS.md#2026-10-15-본편-출시-완료-조건과-목표일--사용자-승인)이 소유한다.
+아래 기존 품질 문항 중 그 5조건 밖의 표본·연출 개선은 추가 출시 차단이 아니라
+출시 후 관리 대상이다. 제출 패키지·상점 소재·설문은 C5에 맞춰 확인하며, 이
+문서의 체크 목록 자체가 외부 업로드·상점 변경·설문 제출을 승인하지 않는다.
+
 - [ ] Short Description A/B 중 하나를 캡슐과 함께 5명에게 3초 노출하고, “무슨 게임인가”를 설명 없이 회수한다.
 - [ ] 8장 모두 `python3 tools/store_shot_check.py` 통과.
 - [ ] 5번과 6번이 같은 장면·같은 크롭인지 육안 확인.
@@ -356,7 +391,9 @@ package inventory를 따로 대조한다. Steam 공개 문서는 업로드된 �
 - [ ] 지원 언어, 엔딩 수, 데모 범위가 현재 빌드와 일치하는지 출시 후보마다 재확인.
 - [ ] 데모 업로드가 exact `story_demo_rc` BUILD `2026.08.31.1` identity와
       일치하고 legacy W1~W24 앱이 아닌지 확인.
-- [ ] JA·zh-CN·zh-TW를 지원 언어로 표시하기 전에 각 원어민 게이트를 확인.
+- [ ] 상점 페이지와 게임 내 언어 선택 화면에 §12의 AI 보조 번역 고지가 실제로 반영됐는지 각각 확인.
+- [ ] 5언어 출시 목표와 현재 KO/EN retail 선택을 구분하고, 최종 후보의 언어 선택·패키징·KO/EN 확정 후 CJK 정합 상태를 확인.
+- **역사·출시 후 보류:** 기존 문항 “JA·zh-CN·zh-TW를 지원 언어로 표시하기 전에 각 원어민 게이트를 확인.”은 최신 C4 고지 기준으로 대체한다. 원어민 판정 OPEN을 GO로 바꾸는 것은 아니다.
 - [ ] 제출 후보의 실제 export와 `docs/CONTENT_RATING_INVENTORY.md`의 패키지·도달 범위를 대조.
 - [ ] 제출 당일 Steam 파트너 설문과 국내 접수 화면을 캡처하고 공개 근거의 최신성을 재확인.
 - [x] AI 보조 콘텐츠 공시 초안이 실제 사용 범위와 `docs/ART_AI_AUDIT.md` 전수 감사 결과를 반영함.

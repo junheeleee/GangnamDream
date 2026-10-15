@@ -2830,6 +2830,8 @@ func _build_language_toggle(parent: Control):
 	)
 	row.add_child(selector)
 
+	parent.add_child(UIStyle.make_ai_translation_notice())
+
 func _add_mod_status_label(parent: Control) -> void:
 	if not ModLoader.is_active(LocaleManager.language):
 		return

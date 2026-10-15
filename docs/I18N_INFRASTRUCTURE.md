@@ -4,6 +4,18 @@ Updated: 2026-09-07
 
 ## Status
 
+Current first-launch policy is owned by the user-approved
+[2026-10-15 launch decision](DECISIONS.md#2026-10-15-본편-출시-완료-조건과-목표일--사용자-승인).
+KO/EN/JA/zh-CN/zh-TW remain the five intended launch languages. Native-language
+review OPENs below are preserved historical observations, not additional first-launch
+blockers. The required AI-assisted translation notice is distinct from those reviews;
+its [copy owner](STEAM_PAGE.md#ai-보조-번역-고지) supplies the store draft and the
+in-game language-selection notice. Disclosure is not a claim of native review,
+completed localization, or legal certification. Retail still exposing only KO/EN
+is an implementation gap, not permission to reduce the intended launch to two languages.
+The earlier status and wave-gate requirements below remain dated evidence under this
+new launch-policy boundary. Actual Steam publication remains separately authorized.
+
 The user's 2026-09-07 instruction authorizes full-game Japanese, Simplified
 Chinese, and Traditional Chinese translation now; waiting for a final full-game
 GO is no longer a prerequisite to authoring translation drafts. It does not
@@ -92,6 +104,14 @@ story-demo custom namespace, is not permission to add it to retail first-run or
 Steam metadata.
 
 ## UI Contract
+
+The first-run language gate, title settings, and StoryMode language settings use
+the same Korean/English notice pair with the existing legacy lookup. Japanese,
+Simplified Chinese, and Traditional Chinese each receive one independently authored
+dictionary value. These labels are read-only, wrap inside their parent, and never
+become focus destinations or change the language allowlist, input handlers, or saves.
+Source/translation acceptance and automated layout checks do not supply actual
+screen or human observations; those limits remain explicit in the work record.
 
 Unparameterized call sites continue to use `LocaleManager.ui(korean, english)`
 or `_tr(korean, english)`. For a prepared language, the Korean source string is

@@ -68,6 +68,23 @@ func _bind_locale_font_route() -> void:
 func _on_font_language_changed(language: String) -> void:
 	FontKit.configure_language(language)
 
+func make_ai_translation_notice(centered: bool = false) -> Label:
+	var notice := Label.new()
+	notice.text = LocaleManager.ui(
+		"일본어·중국어(간체·번체)는 AI 보조 번역을 사용합니다.",
+		"Japanese and Chinese (Simplified/Traditional) use AI-assisted translation.")
+	notice.set_meta("ai_translation_notice", true)
+	notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	notice.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	notice.focus_mode = Control.FOCUS_NONE
+	notice.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if centered:
+		notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	notice.add_theme_font_size_override("font_size", 14)
+	notice.add_theme_color_override("font_color", Color(C_TEXT_SECONDARY))
+	apply_font(notice)
+	return notice
+
 # ── 스타일박스 헬퍼 ──────────────────────────────────────────────
 func panel_style(bg: String, border: String = C_BORDER, radius: int = 8) -> StyleBoxFlat:
 	var s = StyleBoxFlat.new()

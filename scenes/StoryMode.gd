@@ -1143,6 +1143,7 @@ func _create_story_settings_popup(focus_key: String, play_open_sound: bool) -> v
 		_story_language_options(),
 		LocaleManager.language,
 		func(lang: String): _set_story_language(lang))
+	column.add_child(UIStyle.make_ai_translation_notice())
 	_audio_bgm_slider = _add_story_volume_row(
 		column, _tr("음악 / 환경음", "Music / Ambience"), AudioManager.bgm_volume,
 		func(value: float): AudioManager.set_bgm_volume(value))

@@ -153,6 +153,8 @@ func _build_language_gate(saved_language: String = "") -> void:
 	_apply_font(instruction)
 	content.add_child(instruction)
 
+	content.add_child(UIStyle.make_ai_translation_notice(true))
+
 	var spacer := Control.new()
 	spacer.custom_minimum_size = Vector2(0, 6)
 	content.add_child(spacer)
