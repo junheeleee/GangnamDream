@@ -14408,6 +14408,79 @@
         "zh-CN": "840336fa830271d7fb2defe226c08d3c8309c76f1bc79c4aa65af85e9ff770ef",
         "zh-TW": "fd88592f6e353dadae8027ac1b5368022133d779ecc657c6e754ad2643e3d790"
       }
+    },
+    {
+      "order": "ORDER-671",
+      "group": "ui",
+      "roots": [
+        "%s %s %s 대출 실행 — 매달 이자가 먼저 나간다.",
+        "%s %s %s 상환 — 남은 원금 %s.",
+        "%s 구매",
+        "%s 사용",
+        "%s 이사 완료!",
+        "✓ 내 주거 계약 → %s (월 %s)",
+        "✓ 이사 → %s (월 %s)",
+        "구매 실패",
+        "구매 완료",
+        "내 주거 계약 갱신 가능!",
+        "내 주거 계약을 %s 단계로 갱신했다.",
+        "대출 실행 +%s",
+        "사용 불가",
+        "사용 완료",
+        "사용함",
+        "상환 완료",
+        "상환할 현금이 없습니다",
+        "아이템 사용 (행동력 -1)",
+        "월세 %s 필요",
+        "월세 방어됨",
+        "이미 최고 등급 주거입니다.",
+        "이사 가능!",
+        "이사 실패",
+        "이사: %s → %s (보증금 %s)",
+        "이사·선물 진열대. 시간 소모 없음"
+      ],
+      "source_leaves": 25,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 25,
+        "zh-TW": 25
+      },
+      "source_review": "KO direct independent CN/TW authors; each full25 reviewed by non-author and root. TW regional rent terminology whole-batch rework repaired and all25 re-reviewed. Loan/repayment, housing contract/move, rent capacity/payment and item/shelf time states kept distinct. Source-only; no normal ingress, rendered, native-speaker or release claim.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "a71a10aa5dd93137bcb54a3f56b8bc8f068a77dd",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3339c82ed736e8df7542dd304ef15cf813b6418fa1bdb23f4b1d8e8c5b994405",
+          "selection_sha256": "9fb0decea28522eea1c7b0b0f230eee9786cce99d9bc45cbfb6dd7f2cc8b205b",
+          "count": 25,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "237dc6a1214b4223bd5b3a14dfb6fa7175e8845c8586d42285e1b1a0ebf10b17"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "a71a10aa5dd93137bcb54a3f56b8bc8f068a77dd",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3339c82ed736e8df7542dd304ef15cf813b6418fa1bdb23f4b1d8e8c5b994405",
+          "selection_sha256": "97b9a0e7da153c0d4484e8923ac2e0d239fe7ea53dad8c04e05586bdc495e3b6",
+          "count": 25,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "48106d0d744e259c138d6b3860c0999307318c7aca2af6f27cb637cd6ec0e430"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "8b30d620802dab7ba24f1c63058d4b7344de88aafbf0c657c2fe2f39fa2dbf6c",
+        "zh-TW": "9e385b0285a037c3190c8b2aa1d0999757304a620bb3a31d32a571eb19bedf69"
+      }
     }
   ],
   "accepted": {
@@ -126517,6 +126590,106 @@
       "ui:타이 — 베팅 환불:/타이 — 베팅 환불": {
         "source_sha256": "3df054a495eb766d48189849c65b175439563545258a86d2fbe6bdc1b4291794",
         "target_sha256": "5557daddd0c888bbe14462acfa23561bb844313258fd0b4b91f79b28cfd3661f"
+      },
+      "ui:%s %s %s 대출 실행 — 매달 이자가 먼저 나간다.:/%s %s %s 대출 실행 — 매달 이자가 먼저 나간다.": {
+        "source_sha256": "0f8c84d2a80c73adcdc6a7da60a3a5846084264e620ba4ccb6ce634128a6a407",
+        "target_sha256": "90c4be037e824f5e480739349d07577f4ce2e2ed02e07773d9ff68652de2f3d9"
+      },
+      "ui:%s %s %s 상환 — 남은 원금 %s.:/%s %s %s 상환 — 남은 원금 %s.": {
+        "source_sha256": "f53c7fe372943c770e1bab3c7f4956aab25d2e52e5f43e1a218b74389fee7551",
+        "target_sha256": "3140bab8b113f784ed3ba085c793b8dccbd416b3c477f0edd93a949821dd7825"
+      },
+      "ui:%s 구매:/%s 구매": {
+        "source_sha256": "4ab77e52937031beb8b5039feb91596b4603af45f8d43722da08f760d4d493dc",
+        "target_sha256": "5d1a0550ce10caec4ee174dc388ffb49eb74259dab5f64e7bcd088ae72576114"
+      },
+      "ui:%s 사용:/%s 사용": {
+        "source_sha256": "c5fc85f7331fce0711f3ca594d8e285d8b6eceec53fdd222cdc845624e3b7626",
+        "target_sha256": "63743d3ae17ce77f50518a2d6285af9776551bf0a337a3f53a5daf4b3815191b"
+      },
+      "ui:%s 이사 완료!:/%s 이사 완료!": {
+        "source_sha256": "b9d80e2c34c3b0aaf21aee2188162700656246b2f56a3fb7deb8480d3f9e96e1",
+        "target_sha256": "7e2ff66d47375d5d6d387376cf9aa878c4ef6b1233ef4b8679daea3d2249a45f"
+      },
+      "ui:✓ 내 주거 계약 → %s (월 %s):/✓ 내 주거 계약 → %s (월 %s)": {
+        "source_sha256": "b5874311ad78c01bf3b5a9f618e223bcdfb7fa208c0e6985624503f48fe97bfa",
+        "target_sha256": "a802ba64eddafab43aacee9b0b9ede8056c7c32fe0cc52a5aff0f4eb13a4c5b0"
+      },
+      "ui:✓ 이사 → %s (월 %s):/✓ 이사 → %s (월 %s)": {
+        "source_sha256": "12fad5a99c2b0fe0e21b39a9482d77bac3bbdee58a2f78d62f24e28d041b6ade",
+        "target_sha256": "c2af89c0618547c1a3f6d89ffa514d13abef61804d83aec90ac29f56ba10af27"
+      },
+      "ui:구매 실패:/구매 실패": {
+        "source_sha256": "f961376b42e3a466c396820d51b10f5885dfad32f3b7239245fad8809df54e42",
+        "target_sha256": "e3a49e0221e5d500222971f6e0dc105c138375a28209d1a208089948b8d385fe"
+      },
+      "ui:구매 완료:/구매 완료": {
+        "source_sha256": "fc1b450798bc916e9a63fa03fb211f76e203565e665186a6e03cdde87a8dc6e9",
+        "target_sha256": "d06004df71eaa5b57b95ac9ec34a51f29f06c37f0d361a9001c0cb42e8f96349"
+      },
+      "ui:내 주거 계약 갱신 가능!:/내 주거 계약 갱신 가능!": {
+        "source_sha256": "73c752b13288c14252c44d32cb4ea96f894f326efab1b4adadfd27cfa38471e1",
+        "target_sha256": "9c804795e94592ee9ec69aac6f58eb60bff868bab498f1b3f5a015a2997ba709"
+      },
+      "ui:내 주거 계약을 %s 단계로 갱신했다.:/내 주거 계약을 %s 단계로 갱신했다.": {
+        "source_sha256": "fab9973c3961a1d1e67f8f5b2c50156ff6e8a534ca0891c18d187364492830a8",
+        "target_sha256": "52ba33fa784b3ffc2f7c7c5e8db6076218abd9437426767d469cef14d16b1cd9"
+      },
+      "ui:대출 실행 +%s:/대출 실행 +%s": {
+        "source_sha256": "9095fcac64fdde2776cb892c8851da7d8be787a49d3d8da0b7e9156d871f59d6",
+        "target_sha256": "f54c30fbd0ddb9d5adffbfad0760eb402d9fe0ad93d24cc53c589f3d28fc1d20"
+      },
+      "ui:사용 불가:/사용 불가": {
+        "source_sha256": "283a5d63b2686157e8412f9d854bd9ad1b6dc4a5e0848b0d875b3cb3f20bb9e8",
+        "target_sha256": "051333d0520e6c3a566523e1181f319cd7686bd5b2d4a36485fa076d3a0dc23c"
+      },
+      "ui:사용 완료:/사용 완료": {
+        "source_sha256": "f548990cc7ba83062ff2cc9ab78de57ade20b0037cd636ea79f9fcea6658cf46",
+        "target_sha256": "9c11468fe3d1264411c189e8a53cedf1e8d286b08703cd87ba45a53e189fcc48"
+      },
+      "ui:사용함:/사용함": {
+        "source_sha256": "248c5684b2c25bca657cc036c24b382a761cb9e2dc96e97d8f49bdb457e21793",
+        "target_sha256": "7bae3f54bc28dcfbf469b3258a8642e79022738e8c52da353aaa3de67bc7c80c"
+      },
+      "ui:상환 완료:/상환 완료": {
+        "source_sha256": "50942cbfebd9acf0935f237de296bad2099e21e1dabdd225cc2b1b316136900e",
+        "target_sha256": "53fa36271bb6597dc9a3092ead41cb272339ed7dd96c352753a7b7bf0c8d461e"
+      },
+      "ui:상환할 현금이 없습니다:/상환할 현금이 없습니다": {
+        "source_sha256": "733835695f7d0cac0faa046b11576ccbc19f570080a2d6493604a45d6bb6a810",
+        "target_sha256": "98165866c9a15c7e2e11ce285429092eee14f0cabda0fa48d0c2821be9646198"
+      },
+      "ui:아이템 사용 (행동력 -1):/아이템 사용 (행동력 -1)": {
+        "source_sha256": "29275d330876c41a6bb12caec05932f68cdecf5d981d528248b24f2ec841f77f",
+        "target_sha256": "3c54d1d9f5d6462df16c7b6a080b8284d3e3d6f5722f7cc4852585c7933668e1"
+      },
+      "ui:월세 %s 필요:/월세 %s 필요": {
+        "source_sha256": "ce10ff2e8ed1eb67209aa06022cf235daa531e280c412091f58fd8fbc82cac3a",
+        "target_sha256": "08e87b981411422109ed11a89405be0f4f24ac815de6b9ce269fd28766ca3905"
+      },
+      "ui:월세 방어됨:/월세 방어됨": {
+        "source_sha256": "2620b2c8dca490226ffe9e7b5b5646fcdaf8e3feb2769bc65ef4e40907283af9",
+        "target_sha256": "390f055928304cc87c9735a0f766989a297ff94b77ed62aa336aa40234ce9e11"
+      },
+      "ui:이미 최고 등급 주거입니다.:/이미 최고 등급 주거입니다.": {
+        "source_sha256": "d37ec5f32d4cec6688148da776544926f097f8562b52e0f6ab98b3bd1a6c329c",
+        "target_sha256": "16e956c83b0c7c9823f456a80742ad2ad9be4dabfa489d1b8a429331d46bae2f"
+      },
+      "ui:이사 가능!:/이사 가능!": {
+        "source_sha256": "1bd0d8560146a38ec9e763e0780c69ed6a516a8e76cba37aebf5c711183a3f91",
+        "target_sha256": "a7609d591e62a56243677afd93301fe75b30b1b6d0e63547771e61999780b75e"
+      },
+      "ui:이사 실패:/이사 실패": {
+        "source_sha256": "fb26ec2aeab910b72be22f508fbb86fed9ed3156d2b6c06a8dc1bfa4b39cf47a",
+        "target_sha256": "9b93f4109d79a3a06949f7248527825b0642665d4f6591e39c11dc1ad935655f"
+      },
+      "ui:이사: %s → %s (보증금 %s):/이사: %s → %s (보증금 %s)": {
+        "source_sha256": "cc89553bf7fb93f801dd85bc2c4a67c6b287602bb6ac010feae6fc38e66b8f84",
+        "target_sha256": "72f0eb0a9b8bb69c84cf5c796762193a045582ca03e1e6c3114100bb90c43b25"
+      },
+      "ui:이사·선물 진열대. 시간 소모 없음:/이사·선물 진열대. 시간 소모 없음": {
+        "source_sha256": "bcc8c4fa1e1cf889241fc82bc60a87ba6e69fceff0efb28c8524447357fc2cc4",
+        "target_sha256": "0f1a0a4eeaa4b14f4d387023f2754f3acdba4f5bd12aaec109513738bcbbc158"
       }
     },
     "zh-TW": {
@@ -185931,10 +186104,110 @@
       "ui:타이 — 베팅 환불:/타이 — 베팅 환불": {
         "source_sha256": "3df054a495eb766d48189849c65b175439563545258a86d2fbe6bdc1b4291794",
         "target_sha256": "0621814a9493a41380c5db11efec8a084e8cd4f0525bf6f53bf6a31f51bc2389"
+      },
+      "ui:%s %s %s 대출 실행 — 매달 이자가 먼저 나간다.:/%s %s %s 대출 실행 — 매달 이자가 먼저 나간다.": {
+        "source_sha256": "0f8c84d2a80c73adcdc6a7da60a3a5846084264e620ba4ccb6ce634128a6a407",
+        "target_sha256": "2e82faa8e7f7347be107c812661c7fd206672389782bf4c443226fbe32a43b25"
+      },
+      "ui:%s %s %s 상환 — 남은 원금 %s.:/%s %s %s 상환 — 남은 원금 %s.": {
+        "source_sha256": "f53c7fe372943c770e1bab3c7f4956aab25d2e52e5f43e1a218b74389fee7551",
+        "target_sha256": "147d606ea04f5df44b9b47729bbe793321336a18540ab9c4ac20633e38d9ade0"
+      },
+      "ui:%s 구매:/%s 구매": {
+        "source_sha256": "4ab77e52937031beb8b5039feb91596b4603af45f8d43722da08f760d4d493dc",
+        "target_sha256": "df73a93468546e4a8c1429e6e234d848684b22d40f1d989724ce9164be51fdd5"
+      },
+      "ui:%s 사용:/%s 사용": {
+        "source_sha256": "c5fc85f7331fce0711f3ca594d8e285d8b6eceec53fdd222cdc845624e3b7626",
+        "target_sha256": "775d7661fe2c3f241d56a8d88257dfe5b0462bee8d484a397a03a842d6837358"
+      },
+      "ui:%s 이사 완료!:/%s 이사 완료!": {
+        "source_sha256": "b9d80e2c34c3b0aaf21aee2188162700656246b2f56a3fb7deb8480d3f9e96e1",
+        "target_sha256": "0471f46dec215853a849599b9d980f82512bc19a8cb8efd1562c6932452f4a4d"
+      },
+      "ui:✓ 내 주거 계약 → %s (월 %s):/✓ 내 주거 계약 → %s (월 %s)": {
+        "source_sha256": "b5874311ad78c01bf3b5a9f618e223bcdfb7fa208c0e6985624503f48fe97bfa",
+        "target_sha256": "9941f6c675dfb281a099638bb0e31c71283c0f3aab615961f7e6693952fb91ab"
+      },
+      "ui:✓ 이사 → %s (월 %s):/✓ 이사 → %s (월 %s)": {
+        "source_sha256": "12fad5a99c2b0fe0e21b39a9482d77bac3bbdee58a2f78d62f24e28d041b6ade",
+        "target_sha256": "7d20ad58362d3c23dfb6e62e157764d996b739675a06871f78a5b6d60b8b0be6"
+      },
+      "ui:구매 실패:/구매 실패": {
+        "source_sha256": "f961376b42e3a466c396820d51b10f5885dfad32f3b7239245fad8809df54e42",
+        "target_sha256": "b2210615998937a28769f371c2a12181322a7af06a919bcc7d9f435807b7476b"
+      },
+      "ui:구매 완료:/구매 완료": {
+        "source_sha256": "fc1b450798bc916e9a63fa03fb211f76e203565e665186a6e03cdde87a8dc6e9",
+        "target_sha256": "9d663aee3333c82a0bc1837dbe0710b02fd148bb9506d00c5b9fa44eff07477a"
+      },
+      "ui:내 주거 계약 갱신 가능!:/내 주거 계약 갱신 가능!": {
+        "source_sha256": "73c752b13288c14252c44d32cb4ea96f894f326efab1b4adadfd27cfa38471e1",
+        "target_sha256": "b21ec15ac745f5583af3395819c494d9cfa70c6e97b47f023fdd674bd85e70ca"
+      },
+      "ui:내 주거 계약을 %s 단계로 갱신했다.:/내 주거 계약을 %s 단계로 갱신했다.": {
+        "source_sha256": "fab9973c3961a1d1e67f8f5b2c50156ff6e8a534ca0891c18d187364492830a8",
+        "target_sha256": "e5b713367134eb82987a82a8ab65c9a6235ac5ef94a827db7c0f031bc3eebec1"
+      },
+      "ui:대출 실행 +%s:/대출 실행 +%s": {
+        "source_sha256": "9095fcac64fdde2776cb892c8851da7d8be787a49d3d8da0b7e9156d871f59d6",
+        "target_sha256": "e79aa7a72b08b22ddbcd11c77d9bfd42f5f375d02b3046e35eb2511383aec098"
+      },
+      "ui:사용 불가:/사용 불가": {
+        "source_sha256": "283a5d63b2686157e8412f9d854bd9ad1b6dc4a5e0848b0d875b3cb3f20bb9e8",
+        "target_sha256": "9fa21c5646122df0509142b7fd0ac9a102dd3a38edfce37f3b43490978ca1860"
+      },
+      "ui:사용 완료:/사용 완료": {
+        "source_sha256": "f548990cc7ba83062ff2cc9ab78de57ade20b0037cd636ea79f9fcea6658cf46",
+        "target_sha256": "9c11468fe3d1264411c189e8a53cedf1e8d286b08703cd87ba45a53e189fcc48"
+      },
+      "ui:사용함:/사용함": {
+        "source_sha256": "248c5684b2c25bca657cc036c24b382a761cb9e2dc96e97d8f49bdb457e21793",
+        "target_sha256": "7bae3f54bc28dcfbf469b3258a8642e79022738e8c52da353aaa3de67bc7c80c"
+      },
+      "ui:상환 완료:/상환 완료": {
+        "source_sha256": "50942cbfebd9acf0935f237de296bad2099e21e1dabdd225cc2b1b316136900e",
+        "target_sha256": "227793354817d598857c830df508aa9606ae64797d9351486b51ed2d8a52d03e"
+      },
+      "ui:상환할 현금이 없습니다:/상환할 현금이 없습니다": {
+        "source_sha256": "733835695f7d0cac0faa046b11576ccbc19f570080a2d6493604a45d6bb6a810",
+        "target_sha256": "f69a167a6f4b7df9d57d72c8b6f4848926eef2044c8713c346bb81d13ff0d9e3"
+      },
+      "ui:아이템 사용 (행동력 -1):/아이템 사용 (행동력 -1)": {
+        "source_sha256": "29275d330876c41a6bb12caec05932f68cdecf5d981d528248b24f2ec841f77f",
+        "target_sha256": "3c56a7e1611e4f3fc41d6f770990d0341b21ef29289a8cbdef3b4013739e96f0"
+      },
+      "ui:월세 %s 필요:/월세 %s 필요": {
+        "source_sha256": "ce10ff2e8ed1eb67209aa06022cf235daa531e280c412091f58fd8fbc82cac3a",
+        "target_sha256": "08e87b981411422109ed11a89405be0f4f24ac815de6b9ce269fd28766ca3905"
+      },
+      "ui:월세 방어됨:/월세 방어됨": {
+        "source_sha256": "2620b2c8dca490226ffe9e7b5b5646fcdaf8e3feb2769bc65ef4e40907283af9",
+        "target_sha256": "e93008b381c10e23a1330a16e1db4ba98a15f18159eb157c5fe5db5c2a9d3e70"
+      },
+      "ui:이미 최고 등급 주거입니다.:/이미 최고 등급 주거입니다.": {
+        "source_sha256": "d37ec5f32d4cec6688148da776544926f097f8562b52e0f6ab98b3bd1a6c329c",
+        "target_sha256": "d22eb55534e86f7a75b1bc4579cd92f8d9d760d761af8662957de5798c8d310d"
+      },
+      "ui:이사 가능!:/이사 가능!": {
+        "source_sha256": "1bd0d8560146a38ec9e763e0780c69ed6a516a8e76cba37aebf5c711183a3f91",
+        "target_sha256": "13c8493fb4be88813151df78fcfc77809d1c2b983fc6fd3073ee279c41917104"
+      },
+      "ui:이사 실패:/이사 실패": {
+        "source_sha256": "fb26ec2aeab910b72be22f508fbb86fed9ed3156d2b6c06a8dc1bfa4b39cf47a",
+        "target_sha256": "b89e5972810e0c768c5bd7146edac9283d7c8d175d6f71dd5be8cc8083b49b0e"
+      },
+      "ui:이사: %s → %s (보증금 %s):/이사: %s → %s (보증금 %s)": {
+        "source_sha256": "cc89553bf7fb93f801dd85bc2c4a67c6b287602bb6ac010feae6fc38e66b8f84",
+        "target_sha256": "f6bb7f7dc1e3a8d719252b3a36df170e4e201ba6127c3b64cce6090761b16f3d"
+      },
+      "ui:이사·선물 진열대. 시간 소모 없음:/이사·선물 진열대. 시간 소모 없음": {
+        "source_sha256": "bcc8c4fa1e1cf889241fc82bc60a87ba6e69fceff0efb28c8524447357fc2cc4",
+        "target_sha256": "74041ea2eed25fa9a768c4dc84e2ada06e616d818fa0e5b8d5ea8a7585fb8b4e"
       }
     }
   },
-  "accepted_sha256": "516e39a1f9f81a88a2afa7242f244ae3305d4f656fd6cfa078dee9bed8002b69",
+  "accepted_sha256": "2352ddd70fd6b71e17e080e0afa17cd7282b2104243ffba3915e3818e51be81b",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
