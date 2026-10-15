@@ -3,6 +3,14 @@
 이전 기록은 [663 마감 예산 스냅샷](history/WORK_LOG_2026-10-15_order663_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문은 36266B/SHA256 c080667791b8306d7e7d4cb2c60b94257e63c40de6bfb825f95c0ea87571426a이며, 앞선 보존본 링크도 그대로 남아 있다.
 
+## 2026-10-15 — 경마만 한 경로의 거래소 회상 수리
+
+- [666](queue_archive/ORDER-666.md): crypto_ghost 기본KOEN2잎의 호가창·거래소앱·차트·스마트폰 전제를 다음판숫자집착으로 고쳤다. typed경마 입구→베팅 addiction≥90→닫힘/정상종료guard→DK없는base의 source연결반례이며 실제앱관찰아니다. 식은밥/잠자리/심장/강남목표/삶의대가5문단, title/CG/DK/조건/분기/저장/공개를보존했다.
+- 제품6d277fb5301cb0ccb22728ee98d098af5a313a62/tree8b4e19d7409d314bb03dd2acd836a4d3fcec47e6. fullinverse/parsed2/newline/name/digits·비소유exact·표적9/공식inventory3 actual0/selection33목록만. releaseendingSHA/보고1셀만정렬. root독립최종보고2전문/spec1/제품4/증거10/future1=16핀대조PASS·정확보고핀은마감사양.
+- manifestd14c775a2f698d0fe93e69108a3186e85b35d084c18644c99f5506d391e07148. JA ending218/235 current/stale15/invalid2, CN·TW218/stale14/invalid3·전체invalid120/50/48·INCOMPLETE/nativeOPEN. CN/TW각새1은정확crypto base동결번역 occurrence1누락+옛App·기존invalid동일/다듬기수용0. 사적rawdelta가정·suffix선행newline추출오류2는원인/실패보존후정확대조로교정·제품/검사약화0.
+- source후행24×3 확정후보0/전체GO아님·입구미확정/firstDK가림/후일담경계보존·다음orthodox salary_raised부터readonly. 실제M18/경마/엔딩/native/전체카탈로그/5언어/352선행/CI전체녹색/출시HOLD. CG잠금true·새월0·612dirty4/suffix3555B 제외보존. 개발스킬표적·독립·보존 적용·일회성수리/새정본승격0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-15 — 이혼 엔딩의 현금·순자산 지표 정밀화
 
 - [665](queue_archive/ORDER-665.md): ordinary_life/daeun_divorced KOEN2잎에서 통장숫자/balance만 순자산/his net worth로 맞췄다. 실제 deadline/earlier peak 판정의 지표와 일치시키는 저작 판단이며, 추가확정 natural-live결함0이다. 금액·기간·이혼 결과·관계·분기·저장·공개를 보존했다.

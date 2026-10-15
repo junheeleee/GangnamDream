@@ -1,6 +1,6 @@
 # ORDER-666 — 도박 중독 기본 엔딩의 미실행 거래소 회상 수리
 
-#### [~] ORDER-666 [수리] 경마만 한 경로에 거래소 이력을 만들지 않는다 — 2026-10-15
+#### [x] ORDER-666 [수리] 경마만 한 경로에 거래소 이력을 만들지 않는다 — 2026-10-15
 
 665 뒤 24잎 read-only 사전조사에서 crypto_ghost 기본 KOEN2만 채택한다.
 Mac CG세션잠금true·같은M18/612/BUILD14.3 재검수HOLD·열린실제월1/새월0.
@@ -41,3 +41,30 @@ context/queue/diff0·고정제품commit/tree/pins·독립2잎전수 source판정
 CI전체녹색/352선행/출시HOLD·나머지22잎GO/author_only승격0.
 engine/전체audit/자연240/새checker/비용작업0·일회성수리/새정본승격0.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 마감 — 2026-10-15
+
+제품6d277fb5301cb0ccb22728ee98d098af5a313a62/tree8b4e19d7409d314bb03dd2acd836a4d3fcec47e6.
+선언70a5bf7736b97dddbd83ee9490bc32c1ae170dd1. crypto_ghost 기본KOEN2잎
+GO_SOURCE_FACT_REPAIR_ONLY·경마only source연결반례/실제앱관찰0.
+호가창/거래소앱/차트/스마트폰전제만다음판숫자집착으로수리·식은밥/잠자리/
+심장/강남목표/삶의대가5문단보존. fullinverse/parsed2/newline/name/digits·비소유exact.
+title/CG/배경/DK/조건/ID/효과/저장/공개불변·전체crypto엔딩승인아님.
+releaseendingSHAb65e9b108cbf2db950f811eec36a68b2b4a8a56caf2f174bec09e26ae014eacc/
+같은보고1셀만정렬/countsID타축public불변. 표적9/공식inventory3 actual0/selection33목록만.
+manifestd14c775a2f698d0fe93e69108a3186e85b35d084c18644c99f5506d391e07148.
+동결JA ending218/235current·stale15·invalid2, CN/TW218·stale14·invalid3.
+전체invalid120/50/48·INCOMPLETE/nativeOPEN·다듬기수용0.
+CN/TW 신규각1은 정확crypto base의 occurrence1누락+옛App 불일치, 기존invalid동일.
+rawdelta/모든제품4/spec1/증거10/future1핀은독립보고결속·root전문2+16핀대조PASS.
+.git/order666-20261015/review.md8154B/ffd491f8f244fccb774ee043ebd44fe147fb7c21cf520e2a84b44b7f2ff8af7b;
+review.json10320B/c48946b3005310f2cf58166a70c51765abc767b98298e64d13ea5365bc4cfc12.
+사적rawdelta가정/suffix선행newline추출 assertion실패2는validation-failures에보존/
+정확원인교정·제품변경/검사약화0. WORK_LOGsuffix마지막3555B SHAexact로보존.
+앞24의나머지22와 다음24×3 source확정후보0은 전체GO아님·미확정입구/firstDK가림/
+후일담을거짓으로승격0·author_only분류0. next-preflight/next2/next3 각각readonly 경계.
+그다음24는orthodox_pinnacle salary_raised부터사전조사중·새오더자동개설0.
+실제M18/native/경마/엔딩/카탈로그/5언어/352선행/CI전체녹색/출시HOLD.
+CG잠금true·engine/전체audit/자연240/새checker/새월/설정변경0.
+612dirty4/WORK_LOGsuffix3555B/a9da54e58a91283d1732eae4d0581400cf8dc499274eb1b8aa2ec95c3a7c693b 제외·보존.
+개발스킬표적·독립·보존 적용·일회성수리/새정본승격0.
