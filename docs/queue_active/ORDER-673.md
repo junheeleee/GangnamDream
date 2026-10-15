@@ -34,7 +34,8 @@ Splash 첫언어gate, StartMenu 설정, StoryMode 장면설정의 3소비자×5�
 
 ## 파일 소유권
 
-- root: scenes/SplashScreen.gd, scenes/StartMenu.gd, scenes/StoryMode.gd의 고지 Label과
+- root: autoloads/UIStyle.gd의 공통 고지 Label 생산자1개와
+  scenes/SplashScreen.gd, scenes/StartMenu.gd, scenes/StoryMode.gd의 해당 소비자 연결 및
   필요한 해당 패널 여백만. 입력 핸들러/언어선택/저장/게임 로직은 비소유.
 - root: locale/ui_ja.json, locale/ui_zh-CN.json, locale/ui_zh-TW.json 신규 고지1키씩,
   content/meta/full_game_localization.json의 해당 accepted3·batch1 append만.
@@ -48,6 +49,12 @@ Splash 첫언어gate, StartMenu 설정, StoryMode 장면설정의 3소비자×5�
   필요 임시 프로젝트는 /private/tmp/gd-order673-* 아래만. 원 project.godot/저장/설정 불변.
 
 ## 검증·판정 경계
+
+구현 방식 정정: 3장면에 literal을 각각 넣은 첫 시도는 실제 inventory에서 공개 데모의
+고정 UI source 수(StoryMode82/target121)를 늘려 차단됐다. 그 시도는 수용하지 않는다.
+기존 공통 스타일 소유자 UIStyle에 수집 가능한 literal pair1·수동 Label 생산자를 두고
+3장면이 소비하게 한다. 이는 동일 고지 객체의 배선 정정이며 새 API·UI 재설계 오더가
+아니다. 데모 보호 수치와 스타일 기준선을 바꾸지 않고 실제 inventory로 재확인한다.
 
 기존 relevant UI/한영·사전·원장 검사를 선택 목록으로 먼저 확인한다.
 콜렉터/기준선/제품 검사를 삭제·완화하거나 미승인 예외를 추가하지 않는다.
