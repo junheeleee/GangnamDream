@@ -3,6 +3,10 @@
 이전 기록은 [684 착수 예산 스냅샷](history/WORK_LOG_2026-10-15_order684_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문 39207B/SHA256 4da76135c3fae8347545bfe679bb9c3788cff6efa53f876b2fcc9639ce14c63e; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — 사용자 본편 테스트 환경 준비 착수
+
+- [696](queue_active/ORDER-696.md): 사용자 직접 요청. basead230fd 별도cleanclone의 projectcustomdir/ICU·BuildInfo16.2 두파일만 build-only 변경해 기존macOS 차선재사용·새바탕화면app/안내/전용userdir로인계한다. mainproject/원문/사용자기존자료/대표694W126·제품검사불변·HOME/OS설정변경0. root소유 exact범위 사양선언·독립격리/package검수·정상제목화면만·인계후UI/저장사용자소유. 새월/C4사람GO/출시GO/외부0.
+
 ## 2026-10-16 — 콘텐츠 원장 지문 CI 실패 source 수리 완료
 
 - [695](queue_archive/ORDER-695.md): 624/d573 CI의 RELEASE_CONTENT_EXIT 하나·현main 기존inventory exit1 재현. 690 EN대명사 한잎의 romance-tag 전체객체 지문 누락이다. 선언bdd2151뒤 ledger sexuality해시1필드/report생성1셀만정합. 후보124/26/ID·facts/intensity/selector/noise/다른6축/frozen demo·게임/저장/검사불변. 비저자2명 current↔old메모리역산exact·독립수리한정GO·root전문/실제9핀/3신원확인. inventory생성/후속exact·selftest45·문서5/마감context·queue·diff actual0·현황stale참고만. 원CI로그/표적영수증/보고핀은사양에보존·새도구/엔진/전체audit/240주/예외추가0. 선언CI static성공/Godot진행은수정전후보라수리GO로세지않음·수정후mainCI전체녹색미확정/C3전체완료0. 새월0/원694W126·완료M01~M31/과거HOLD보존·개발스킬표적/독립/보존·승격0/일회성·등급인증/외부/출시GO0.
