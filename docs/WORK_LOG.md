@@ -3,6 +3,13 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-17 — 대표 경로 M19~M36 그림 가시성 표본 집계 완료
+
+- [712](queue_archive/ORDER-712.md): 선언9c620ea/product9c7dee4·read53 중 chapter1 제외 일반52/intro-result104구성·105원컷/16,652,651B·도달 tuple52/원핀105 exact. BG101+CG소유3·초상95+CG3/미할당6·CG3+미할당101, 그림전무/필수누락0. KO28/EN24 사건·M35 read0 비대상·전페이지/5언어/currentrender 통과로 확대0.
+- 저자2 보고6/비저자105전독·source140/anchor104/영수증18·시각구성52대조·미명시BG3 KOEN 추론입력5필드 exact. root16재독/consumer7핀/제품tree·W145 exact. 독립 ACCEPT_HISTORICAL_M19_M36_MINIMUM_STATIC_PHASE_CENSUS_ONLY·MD5161B/12b5ffde…b994·JSON13345B/dbd8f56c…3185·전체핀과 원raw는 사양 private 경로, [범위 보고](queue_backlog/A2_VISUAL_CENSUS_2026-10-16.md)에 결속. M34 네컷은 원26컷 aggregate이며 개별핀 위장0.
+- 원격초상/추론장소/반복카드/강변카페/도착전상철/종료뒤전화표시는 배치 메모로 분리·새C2/그림제작/제품수리0. 문서5+diff exit0/stderr0·context boot30644/queue77/75/self25·STATUS advisory·사람OPEN45/done1/agentHOLD 보존·전체로컬/engine/240주0. 개발스킬 독립·표적·비소유 적용/승격0·기존정본/일회성. 사용자경로·앱·입력0/제품·자산·project·공개·옛판정·M24/tmp47·복원HOLD/H3 보존. A2전체/M01~18/미래월/currentrender/사람·원어민·패드·청취/출시GO0. 9c7dee4 CI38915933286 진행≠녹색·새월0; 전체success 뒤 W145/M37 C1 우선, 과거집계로 지연0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-16 — PR39 선택 회수 표식 5언어 검수 완료
 
 - [711](queue_archive/ORDER-711.md): 선언de1631e 뒤 StoryMode의 실제 memory append 한 곳에 승인 일반 표식·CJK UI 키 하나씩만 추가. 조건/빈값/중복 배제·전체교체-only·갤러리 저장 selector 원형, 단일 줄바꿈으로 source 문단 index 보존. 본문/id/flags/effects/조건/순서/710 넘김 수리 불변.
