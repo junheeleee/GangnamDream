@@ -3,6 +3,13 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-17 — M37 무직 경로의 퇴근 전제 수리
+
+- [716](queue_archive/ORDER-716.md): 선언e6f8852 뒤 실제W147/r13과 current_job{}로 확인한 KO퇴근길/ENcommute home 두 구절을 기존 열차 장면의 덜컹거림으로 교체. 원2JSON 역치환 byte-exact·그 외본문/변형/flags/effects/조건/id/순서/자산·CJK/번역원장 불변. inventory의본문SHA2칸과생성보고2셀만결속·등급/집합/개수/검사/예외변경0.
+- 원17표적15pass/2fail을보존: 기본5언어recall의보류JA정합/본문지문불일치. 대상KO/EN source-only40+40 및inventory normal/self45 정정3/3 exit0/stderr0, relevant source12+docs5와추가self를구분. defaultCJK실패를합격/CI실패수리로위장0. 독립GO_SOURCE_REPAIR_ONLY·MD3937B/20f1ab52…a4d·JSON37078B/c251d295…5d84, 전체핀/private원자료는사양참조.
+- 개발·장면스킬의현재감각/독립·표적계약적용·승격0/일회성. 엔진/앱/사용자경로쓰기0, 실제17.1의20원컷/두세션과W147미선택저장359573B/243a…0ce 보존. 수정앱·전체mainCI·M37/대표완주/사람·청취/CJK최종/출시GO0. 714M37은수정화면재검수전HOLD, 715M38미진입·완료월반복0/월최대2 유지.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-17 — 앞부분 그림 자료와 미관측 경계 집계 완료
 
 - [713](queue_archive/ORDER-713.md): 선언f68c5b9/product9c7dee4·60도달/카드2/일반58/M11read0. 실제3사건/6구성·6원컷1,256,121B·BG6/초상4·미할당초상2/CG6, 누락/그림전무0은 그6만. A37+B18=55사건 그림unknown·actual layer null. A74phase/75구성은 원source 예상/관측0·B18 segment수 미확정/116발명0.
