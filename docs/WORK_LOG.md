@@ -3,6 +3,15 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — PR39 선택 회수 표식 5언어 검수 완료
+
+- [711](queue_archive/ORDER-711.md): 선언de1631e 뒤 StoryMode의 실제 memory append 한 곳에 승인 일반 표식·CJK UI 키 하나씩만 추가. 조건/빈값/중복 배제·전체교체-only·갤러리 저장 selector 원형, 단일 줄바꿈으로 source 문단 index 보존. 본문/id/flags/effects/조건/순서/710 넘김 수리 불변.
+- 기존 UI120pair+새1/old English exact·controller38/Story83/target122. CJK raw 역산3/3·기존 checker27함수 exact/새1+_ready2삽입·보호819/34,137,686B drift0·manifest/번역원장 재결속0. 초기 들여쓰기 오류는 동결 전 교정·없는 queue 도구 호출 실패도 원raw 보존/정상 도구 정정.
+- old renderer negative KO/matching exit1→수정 full11.993795초 exit0/오류0·표식5언어50사례/20페이지·7108/기존156case1044page 보존. 별도 opt-in GUI9.726649초 exit0/오류0·1280×800 PNG5장 root/비저자 전수 직접 관찰, 표식/회상 순서·잘림/겹침0. 자동 실제 렌더와 native/사람 관찰을 구분. demo UI122/122/self55/JA UI2954/2954/EN 한글0/zh UI contract0/context·queue·diff 통과.
+- 비저자 source6/raw32/PNG5/보호819/26핀 수용·한정 GO, 보고/원raw/통합 핀은 사양 private 경로. 기존 엔딩에 종막 선택 coda와 연말 선택 제목·CHOICE PATTERN 있음(소스 확인만), 새 엔딩UI0. 개발 스킬 격리·독립·표적 적용/승격0·DECISIONS가 규범 소유/일회성.
+- 711 사용자 경로 접근0·project/preset/공개/과거 사람·agent 판정/W145/H3 보존, 710 설정mtime 사고 소급삭제0. 709 CI38904281491 전체success·710/711 수정 CI는 별도/진행≠녹색. 새export/실제월/사람·원어민·패드·청취/전체C2/M60/출시GO0. 다음 결정2 별도선언·새main 전체녹색 뒤 M37.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-16 — PR38/39 병합·초반 넘김 읽기 경계 수리
 
 - [710](queue_archive/ORDER-710.md): PR38→43e340f/PR39→9f0d077 병합·원문 두 삽입과R5기록 보존. 원16.2PCK/고유공식진단engine의그날의나에서 AUTO OFF 마지막본문→무입력선택레일 자동숨김을57~59캡처로확인. StoryMode hold만료 한분기만수리·MainGame/원고/조건/effects/id/CJK/경제 불변.

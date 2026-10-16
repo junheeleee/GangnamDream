@@ -4439,7 +4439,8 @@ func _resolved_story_description(event: Dictionary) -> String:
 					continue
 				else:
 					obligation_dispositions_added[disposition] = true
-				desc_raw += "\n\n" + memory_text
+				desc_raw += "\n\n[color=#9aa4b2][i]%s[/i][/color]\n%s" % [
+					_tr("지난 선택", "An earlier choice"), memory_text]
 	var desc := _fmt(_full_story_meeting_description(event_id, desc_raw))
 	# The schema does not store a current-run action echo. Gallery roots are
 	# authored without one, so a later run must not invent a new preface.

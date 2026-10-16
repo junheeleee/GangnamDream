@@ -52,6 +52,13 @@ func _ready() -> void:
 	print("STORY_PLAYBACK_QA_USER_DIR=%s" % OS.get_user_data_dir())
 	# Let deferred autoload settings load before the matrix selects KO/EN.
 	await get_tree().process_frame
+	if "--choice-recall-marker-only" in OS.get_cmdline_user_args():
+		if not await _check_choice_recall_marker():
+			return
+		await _stop_test_audio()
+		print("STORY_CHOICE_RECALL_MARKER_ONLY_OK cases=50 locales=5 no_choice_commit=1")
+		get_tree().quit(0)
+		return
 	if "--chapter5-scene-context-only" in OS.get_cmdline_user_args():
 		if not await _check_chapter5_scene_context_playback():
 			return
@@ -70,6 +77,9 @@ func _ready() -> void:
 		return
 	await _free_story_fixture()
 	if not await _check_direction_hold_reading_boundary():
+		return
+	await _free_story_fixture()
+	if not await _check_choice_recall_marker():
 		return
 	await _free_story_fixture()
 	if not await _spawn_story_fixture():
@@ -494,6 +504,172 @@ func _check_direction_hold_reading_boundary() -> bool:
 		_fail("authored-hold reading fixture inventory did not complete")
 		return false
 	print("STORY_DIRECTION_HOLD_READING_OK cases=8 ko_en=1 manual=4 held=1 auto=1 modal=2")
+	return true
+
+func _check_choice_recall_marker() -> bool:
+	# These are renderer contracts, not human or native-player observations.
+	# The positive path uses a real localized event and its real selected flag;
+	# copied-object edge cases never edit DataRegistry or commit a choice.
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var pending_before: Array = GameState.pending_story_queue.duplicate(true)
+	var return_before := GameState.story_return_scene
+	var event_before: Dictionary = EventManager.current_event.duplicate(true)
+	var meta_before: Dictionary = MetaProgression.data.duplicate(true)
+	var language_before := LocaleManager.language
+	var labels := {
+		"ko": "지난 선택", "en": "An earlier choice", "ja": "以前の選択",
+		"zh-CN": "之前的选择", "zh-TW": "之前的選擇",
+	}
+	var event_id := "arc_housing_new_life"
+	var memory_flags := [
+		"m4_housing_priority_runway", "m4_housing_priority_privacy",
+		"m4_housing_priority_time",
+	]
+	var completed := 0
+	var pages_read := 0
+	var failure := ""
+	for language in labels:
+		await _free_story_fixture()
+		LocaleManager.set_language(str(language))
+		for flag in memory_flags:
+			GameState.flags.erase(flag)
+		GameState.flags[memory_flags[0]] = true
+		GameState.housing = "oneroom"
+		if not await _spawn_story_fixture(event_id):
+			return false
+		if bool(_story.get("_story_scene_transition_active")):
+			_story.call("_finish_story_scene_transition")
+		var event: Dictionary = (_story.get("_current") as Dictionary).duplicate(true)
+		var memory: Dictionary = event.get("description_memory_if_known", {})
+		if memory.size() != 3 or not memory.has(memory_flags[0]) \
+				or not memory.has(memory_flags[1]) or not memory.has(memory_flags[2]):
+			failure = "%s: actual recall fixture lost its authored memory selectors" % language
+			break
+		var base := str(event.get("description", ""))
+		var first := str(memory[memory_flags[0]]).strip_edges()
+		var second := str(memory[memory_flags[1]]).strip_edges()
+		var third := str(memory[memory_flags[2]]).strip_edges()
+		var marker := "[color=#9aa4b2][i]%s[/i][/color]" % labels[language]
+		var prefix := "\n\n" + marker + "\n"
+		var actual_expected := base + prefix + first
+		var live_flags: Dictionary = GameState.flags.duplicate(true)
+		var selected := "obligation_receipt:recall_qa:selected:first"
+		var selected_duplicate := "obligation_receipt:recall_qa:selected:second"
+		var deferred := "obligation_receipt:recall_qa:deferred:third"
+		var cases := [
+			{"name": "matching", "flags": [memory_flags[0]],
+				"expected": actual_expected, "markers": 1},
+			{"name": "unmatched", "flags": [], "expected": base, "markers": 0},
+			{"name": "empty", "flags": [memory_flags[0]],
+				"memory": {memory_flags[0]: " \n\t "}, "expected": base, "markers": 0},
+			{"name": "empty-before-valid", "flags": [memory_flags[0], memory_flags[1]],
+				"memory": {memory_flags[0]: " ", memory_flags[1]: second},
+				"expected": base + prefix + second, "markers": 1},
+			{"name": "ordinary-duplicate", "flags": memory_flags,
+				"expected": actual_expected, "markers": 1},
+			{"name": "replacement-only", "flags": [memory_flags[0]],
+				"replacement": second, "memory": {}, "expected": second, "markers": 0},
+			{"name": "replacement-and-memory", "flags": [memory_flags[0]],
+				"replacement": second, "expected": second + prefix + first, "markers": 1},
+			{"name": "gallery-retained", "flags": [], "replay": [memory_flags[0]],
+				"expected": actual_expected, "markers": 1},
+			{"name": "gallery-unmatched-live-flag", "flags": [memory_flags[0]],
+				"replay": [], "expected": base, "markers": 0},
+			{"name": "gallery-disposition-order", "flags": [],
+				"replay": [memory_flags[0], selected, selected_duplicate, deferred],
+				"memory": {memory_flags[0]: first, selected: second,
+					selected_duplicate: third, deferred: third},
+				"expected": actual_expected + prefix + second + prefix + third, "markers": 3},
+		]
+		for case in cases:
+			GameState.flags = live_flags.duplicate(true)
+			for flag in memory_flags:
+				GameState.flags.erase(flag)
+			for flag in case["flags"]:
+				GameState.flags[str(flag)] = true
+			var candidate := event.duplicate(true)
+			if case.has("memory"):
+				candidate["description_memory_if_known"] = case["memory"]
+			if case.has("replacement"):
+				candidate["description_if_known"] = {memory_flags[0]: case["replacement"]}
+			_story.set("_read_only_replay", case.has("replay"))
+			# A synthetic saved-selector fixture exercises the existing gallery
+			# reader independently of today's live flags; it is not a replay GO.
+			var selectors := {}
+			selectors[event_id] = case.get("replay", [])
+			_story.set("_gallery_replay_snapshot", {"selector_matches": selectors})
+			var candidate_before := candidate.duplicate(true)
+			var state_at_resolve: Dictionary = GameState.serialize().duplicate(true)
+			var resolved := str(_story.call("_resolved_story_description", candidate))
+			var expected := str(_story.call("_fmt", str(case["expected"])))
+			if resolved != expected or resolved.count(marker) != int(case["markers"]) \
+					or candidate != candidate_before or GameState.serialize() != state_at_resolve \
+					or (_story.get("_current") as Dictionary) != event \
+					or bool(_story.get("_showing_choices")) \
+					or bool(_story.get("_pending_after_result")):
+				failure = "%s/%s: recall marker text/style/order/selection boundary changed" % [
+					language, case["name"]]
+				break
+			completed += 1
+		if not failure.is_empty():
+			break
+		GameState.flags = live_flags
+		_story.set("_read_only_replay", false)
+		_story.set("_gallery_replay_snapshot", {})
+		var state_at_read: Dictionary = GameState.serialize().duplicate(true)
+		var pages: Array = _story.get("_paragraphs")
+		var body := _story.get("_body_lbl") as RichTextLabel
+		var panel := _story.get("_text_panel") as Control
+		var marker_pages := 0
+		for page_index in range(pages.size()):
+			if int(_story.get("_para_index")) != page_index:
+				failure = "%s: recall playback skipped actual decoded page %d" % [language, page_index]
+				break
+			if bool(_story.get("_direction_beat_waiting")):
+				_story.call("_on_advance")
+			_story.call("_complete_typing")
+			var page := str(pages[page_index])
+			if body.text != page or not body.bbcode_enabled or not panel.visible \
+					or bool(_story.get("_showing_choices")) \
+					or bool(_story.get("_pending_after_result")) \
+					or GameState.serialize() != state_at_read \
+					or (_story.get("_current") as Dictionary) != event:
+				failure = "%s: recall page changed original text/order/choice state" % language
+				break
+			if page.contains(marker):
+				marker_pages += 1
+				if not body.get_parsed_text().contains(str(labels[language])) \
+						or body.get_parsed_text().contains("[color="):
+					failure = "%s: recall marker did not parse as styled visible text" % language
+					break
+				# Reuse the opt-in existing capture route; no new launcher or path.
+				var capture_error := await _capture_chapter5_surface(event_id, "memory", 0, "recall")
+				if not capture_error.is_empty():
+					failure = "%s: %s" % [language, capture_error]
+					break
+			pages_read += 1
+			if page_index + 1 < pages.size():
+				_story.call("_on_advance")
+		if not failure.is_empty():
+			break
+		if marker_pages != 1:
+			failure = "%s: actual selected memory did not render exactly one marker" % language
+			break
+	await _free_story_fixture()
+	GameState.call("_restore_serialized_snapshot_exact", state_before)
+	GameState.pending_story_queue = pending_before
+	GameState.story_return_scene = return_before
+	EventManager.current_event = event_before
+	MetaProgression.data = meta_before
+	LocaleManager.set_language(language_before)
+	if not failure.is_empty():
+		_fail(failure)
+		return false
+	if completed != labels.size() * 10:
+		_fail("recall marker fixture inventory did not complete")
+		return false
+	print("STORY_CHOICE_RECALL_MARKER_OK cases=%d locales=5 actual_pages=%d no_choice_commit=1" % [
+		completed, pages_read])
 	return true
 
 func _check_direct_continue_contract() -> bool:
