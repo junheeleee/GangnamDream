@@ -42,8 +42,8 @@
 
 | 기준 | 현재 실행 범위·남은 일 |
 |---|---|
-| C3 CI | main7fcefc5 CI38792682943 전체 completed/success·예외0/만료0. [695](queue_archive/ORDER-695.md) 수리 뒤 녹색 확인·제품검사 불변. |
-| C1 대표 완주 | [697 M32](queue_archive/ORDER-697.md) 완료·원W130/건강8·first130미선택. 다음M33·완료M01~M32 반복0·월별1커밋. |
+| C3 CI | main7f12884 CI38820097461 전체 completed/success·예외0/만료0. [695](queue_archive/ORDER-695.md) 수리 뒤 녹색 확인·제품검사 불변. |
+| C1 대표 완주 | [698 M33](queue_archive/ORDER-698.md) 완료·원W133/건강9·first133미선택. 다음M34·완료M01~M33 반복0·월별1커밋. |
 | C2 치명 결함 | [690](queue_archive/ORDER-690.md) EN 두부 I/my 수리·[691](queue_archive/ORDER-691.md) 실제표시 확인. 문체 개선 보류. |
 | C4 사람·고지 | [696](queue_archive/ORDER-696.md) 본편16.2 전용앱/저장·KO메뉴를 사용자에게 인계. 실행 중 사용자 UI 양보·사람2~3시간 평가는 미완료. [673](queue_archive/ORDER-673.md) 고지초안 보존. |
 | C5 출시 준비물 | [674](queue_archive/ORDER-674.md) 태그라인/짧은 설명·[675](queue_archive/ORDER-675.md) 긴 소개5언어 초안 준비. 샷/트레일러·retail5언어/최종정합·빌드/등급 설문은 남았다. 외부 실행 별도 권한. |
