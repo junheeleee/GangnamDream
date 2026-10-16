@@ -495,7 +495,7 @@
   {
     "id": "arc_y5_final_week_general_people_outbound",
     "title": "One Thing First",
-    "description": "A few minutes passed after {name} wrote his name beneath the time of what he had erased. He was alone in the room. The channel he had actually used with Minseo remained on the phone, while Father's record envelope lay separately on the desk. The two people were not together in this room.\n\nThere was no new reply, confirmed meeting, or forgiveness. The only thing he could settle was one action sent or written from his side. Whichever action he left first would place the other two outside the record of this night.\n\n{name} stopped between the empty input field and the blank line on the envelope.",
+    "description": "A few minutes had passed since he wrote his name beneath the erased time. {name} was alone in the room. On the phone was the conversation with Minseo; on the desk, his father's envelope of records.\n\nHe could send Minseo something, or leave a line on the envelope. Tonight, it seemed, he could do only one.\n\n{name}'s hand stopped between the empty text box and the blank line on the envelope.",
     "chapter5_finale_reads": {
       "texts": [
         [
@@ -515,15 +515,15 @@
     "choices": [
       {
         "text": "Send Minseo that day's answer and say he will not use a home to postpone her next question",
-        "result_text": "In the channel they had actually used, {name} wrote:\n\n‘I still remember the answer I gave you that day. I won't keep saying I need a home before I can answer the question that comes next.’\n\nWhen he pressed send, only a sent time appeared beneath his bubble. No read receipt, reply, or next meeting appeared. He added no new line to Father's envelope and proposed no date to meet."
+        "result_text": "{name} wrote in the conversation with Minseo.\n\n\"I still remember the answer I gave you then. I won't keep putting off your next question by saying I have to get a home first.\"\n\nHe pressed send, and a small timestamp appeared beside the bubble. {name} watched it until the screen went dark."
       },
       {
         "text": "Leave the empty-chair action and what he erased today on Father's envelope",
-        "result_text": "On the outside of Father's record envelope, {name} copied what he had actually done before the empty chair. Beneath it, he wrote the exact name of what he had erased today, then wrote NOT OWNERSHIP, NOT ARRIVAL beside what he had left intact.\n\n‘I will not write that a home appeared. I will not restore what I erased, or call what I kept something I had already achieved.’\n\nHe added today's date and turned the envelope facedown. No answer appeared in the room. He sent Minseo no new sentence and proposed no date to meet."
+        "result_text": "On the outside of his father's envelope, {name} wrote once more what he had done in front of the empty chair. Beneath it, he wrote the name of what he had erased today.\n\n\"I won't write that I have a home. I won't grab back what I erased, and I won't call what I kept something I've already achieved.\"\n\nHe wrote today's date and turned the envelope over. The pen marks stood out through the back and caught on his fingertips."
       },
       {
         "text": "Ask Minseo if she can meet at that cafe next Tuesday at seven thirty",
-        "result_text": "{name} opened the channel he had actually used with Minseo and wrote:\n\n‘Could we talk for thirty minutes at that cafe next Tuesday at seven thirty? I'll bring the answer I chose for the question after arrival.’\n\nOnly a sent time appeared beneath his bubble. No read receipt, reply, or confirmed meeting appeared. He did not explain today's document and left the outside of Father's envelope unchanged."
+        "result_text": "{name} opened the conversation with Minseo and wrote.\n\n\"Next Tuesday at seven-thirty in the evening, could we talk for just thirty minutes at that café? I'll bring the answer I chose to your question about what comes after arriving.\"\n\nAfter sending it, {name} set the phone down beside the envelope. The screen stayed lit for a while, then went dark."
       }
     ]
   },

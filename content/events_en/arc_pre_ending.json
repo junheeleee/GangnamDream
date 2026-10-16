@@ -231,26 +231,26 @@
   {
     "id": "arc_y5_general_debt_memory_reconnect",
     "title": "After Repayment, Before Arrival",
-    "description": "With twenty weeks left in the final year, {name} set a copy of the final repayment confirmation beside the notebook page from the week he answered Minseo's message. Three saved addresses remained on his phone.\n\nNo line yet joined the date the repayment ended to the answer he had actually sent Minseo. He would invent no answer Minseo had not given, no answer Father was no longer there to give, and no home he did not own.",
+    "description": "With twenty weeks left in the final year, {name} set a copy of the final repayment confirmation beside the notebook page from the week he answered Minseo's message. Three saved addresses remained on his phone.\n\nThe date the debt was paid off, and the answer he had sent Minseo. {name} still hadn't drawn a line between the two dates.",
     "description_memory_if_known": {
-      "chapter5_general_name_boundary_0": "Nine weeks earlier, {name} asked to see only the range possible with his name and his money. The cost of using no other name was a narrower range.\n\nTonight he would carry that rule into a private record sent to no one. Between the record button and the folded copy, {name} had to choose one medium on his side.",
-      "chapter5_general_name_boundary_1": "Nine weeks earlier, {name} ended the consultation without adding another name. No new listing sheet or viewing time appeared.\n\nTonight he would carry that stop into a private record sent to no one. Between the record button and the folded copy, {name} had to choose one medium on his side."
+      "chapter5_general_name_boundary_0": "Nine weeks earlier, {name} asked to see only the range possible with his name and his money. The cost of using no other name was a narrower range.\n\nThe phone's record button and the folded copy lay side by side on the desk.",
+      "chapter5_general_name_boundary_1": "Nine weeks earlier, {name} ended the consultation without adding another name. No new listing sheet or viewing time appeared.\n\nThe phone's record button and the folded copy lay side by side on the desk."
     },
     "choices": [
       {
         "text": "Put the repayment date and that day's answer into one private voice memo",
-      "result_text": "{name} started recording and read the final repayment-confirmation date. Then he spoke only the answer he had actually sent in reply to Minseo's message. He stopped after thirty-one seconds and put both dates in the title.\n\nThe memo stayed on his phone. He sent it to no one, and no read receipt or reply appeared. The three saved addresses remained comparison information."
+      "result_text": "{name} started recording and read the final repayment-confirmation date. Then he spoke only the answer he had sent to Minseo's message. He stopped after thirty-one seconds and put both dates in the title.\n\n{name} sent the memo to no one. At the top of the recordings list sat 00:31."
       },
       {
         "text": "Carry the repayment copy and a note bearing that day's answer to the cafe, and sit alone",
-      "result_text": "On a small note, {name} wrote only the answer he had actually sent in reply to Minseo's message. He tucked it into the repayment-confirmation copy and went to the cafe. Without calling or sending her a new message, he opened both sheets at the table where they had first sat across from each other.\n\nThe seat across from him stayed empty until the coffee cooled. Minseo did not come, and no new message appeared. The note remained separate inside the copy; it did not alter the repayment confirmation's text."
+      "result_text": "On a small note, {name} wrote down only the answer he had sent to Minseo's message. He tucked it into the repayment-confirmation copy and went to the cafe. Without calling or sending her a new message, he opened both sheets at the table where they had first sat across from each other.\n\nThe seat across from him stayed empty until the coffee went cold. {name} folded the two sheets again and tucked the note back into the copy."
       }
     ]
   },
   {
     "id": "arc_y5_general_debt_memory_voice_exact",
     "title": "Where Thirty-One Seconds Stay",
-    "description": "With eleven weeks left in the final year, {name} opened the voice-memo list in his room. The file that joined the final repayment-confirmation date to the answer he had actually given Minseo was still exactly 00:31 long.\n\n[[c5read:0]]\n\nKeeping the original would not deliver it to Minseo; deleting it would not change the conversation that had already happened. Only the state of the trace he would carry toward the final threshold could change.\n\n{name} stopped between the filename and the delete button.",
+    "description": "With eleven weeks left in the final year, {name} opened the voice-memo list in his room. The file that joined the final repayment-confirmation date to the answer he had given Minseo was still exactly 00:31 long.\n\n[[c5read:0]]\n\n{name} stopped between the filename and the delete button.",
     "chapter5_finale_reads": {
       "texts": [
         [
@@ -262,18 +262,18 @@
     "choices": [
       {
         "text": "Keep the original thirty-one seconds and send it to no one",
-        "result_text": "{name} checked the filename and its 00:31 runtime, then closed the screen. The original remained on his phone, where he could verify its state himself at the final threshold.\n\nHe did not press share. No file reached Minseo, and no read receipt, reply, or meeting time appeared. The three saved addresses remained comparison data, not contracts or ownership."
+        "result_text": "{name} checked the filename and its 00:31 runtime, then closed the screen. The original stayed on his phone, untouched.\n\nHe didn't press share. Even after the screen went off, thirty-one seconds of his own voice stayed in his ear."
       },
       {
         "text": "Delete the original and keep only the deletion time",
-        "result_text": "{name} deleted the 00:31 original. In place of the file, he wrote down only the time when he confirmed the deletion. At the final threshold, he could carry that time, not the sound.\n\nHe had not sent a file or erased the conversation that had happened. No read receipt, reply, or new meeting appeared from Minseo, and he supplied no answer Father could no longer give. No money or assets moved."
+        "result_text": "{name} deleted the 00:31 original. In place of the file, he wrote down only the time when he confirmed the deletion. At the final threshold, he could carry that time, not the sound."
       }
     ]
   },
   {
     "id": "arc_y5_general_debt_memory_cafe_exact",
     "title": "Two Sheets in the Bag",
-    "description": "With eleven weeks left in the final year, {name} set the twice-folded final repayment-confirmation copy on his desk. A small note bearing the answer he had actually given Minseo remained tucked separately inside it. These were the same two sheets he had carried to the cafe and later placed beside Father's photograph.\n\n[[c5read:0]]\n\nPutting the copy and note in his bag would not turn either into a contract; leaving them in the room would produce no answer from Minseo or Father. Only whether the two traces would sit on his side when he crossed the final threshold could change.\n\n{name} held both sheets between the clear inner pocket of his bag and Father's record envelope.",
+    "description": "With eleven weeks left in the final year, {name} set the twice-folded final repayment-confirmation copy on his desk. A small note bearing the answer he had given Minseo remained tucked separately inside it. These were the same two sheets he had carried to the cafe and later placed beside Father's photograph.\n\n[[c5read:0]]\n\n{name} held both sheets between the clear inner pocket of his bag and Father's record envelope.",
     "chapter5_finale_reads": {
       "texts": [
         [
@@ -285,11 +285,11 @@
     "choices": [
       {
         "text": "Put the folded copy and note in his bag and carry them when he goes to see the listings",
-        "result_text": "{name} folded the copy and separate note along the same creases and placed them in the clear inner pocket of his bag. When he next opened the listings, the repayment date and his own answer would remain on his side as two distinct sheets.\n\nHe did not call or message Minseo. He added no new words to Father's record envelope. Neither sheet was a purchase agreement or registration document, and no money or ownership moved."
+        "result_text": "{name} folded the copy and separate note along the same creases and placed them in the clear inner pocket of his bag. When he next opened the listings, the repayment date and his own answer would remain on his side as two distinct sheets.\n\nWhen he zipped the bag shut, the paper rustled inside the clear pocket."
       },
       {
         "text": "Leave the copy and note beside Father's record envelope and go without either sheet",
-        "result_text": "{name} placed the folded copy and note beside Father's record envelope and zipped the bag shut. Neither sheet would be on the desk where he next opened the listings.\n\nThe envelope and two sheets remained in his room. Father did not return, and Minseo did not read the note. Neither sheet was ownership, and no money or assets moved."
+        "result_text": "{name} placed the folded copy and note beside Father's record envelope and zipped the bag shut. Neither sheet would be on the desk where he next opened the listings.\n\nThe envelope and the two sheets stayed in the room. Before closing the door, {name} looked back at the desk once."
       }
     ]
   },

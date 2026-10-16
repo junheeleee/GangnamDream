@@ -434,9 +434,9 @@
     "id": "arc_y4_year_close_daeun",
     "title": "비워 둔 한 칸",
     "description_memory_if_known": {
-      "father_crisis_contact_present": "병실에 직접 도착한 밤의 표·취소 시각·의자 위치가 장부에 남아 있었다. 방문은 생사를 결정한 공로가 아니라, 그 위기에서 실제로 움직인 관계 영수증이었다.",
-      "father_crisis_contact_called": "병동 통화가 연결된 초와 창원에 도착하지 못한 거리가 함께 남았다. 통화는 생사를 결정하지 않았지만 그 위기에서 어떤 행동을 했는지는 바꿨다.",
-      "father_crisis_contact_missed": "병동 연락과 ‘오늘은 어렵다’고 답한 시각이 나란히 남았다. 확인되지 않은 경과를 발명하지 않아도, 미룬 행동의 시간은 지워지지 않았다."
+      "father_crisis_contact_present": "그 밤의 창원행 열차표가 아직 수첩 사이에 끼어 있었다.",
+      "father_crisis_contact_called": "병동과 연결됐던 그 밤의 통화가 아직 통화 목록에 남아 있었다.",
+      "father_crisis_contact_missed": "‘오늘은 창원에 가거나 통화할 수 없습니다’라고 보냈던 문자가 아직 병동 대화창에 남아 있었다."
     },
     "category": "story",
     "rarity": "story",
@@ -447,7 +447,7 @@
     "tags": ["story", "arc", "year4", "daeun", "year_close"],
     "portrait": "daeun_normal",
     "background": "cafe",
-    "description": "연말 카페의 마감 방송이 두 번 나간 뒤에도 다은은 코트를 입은 채 맞은편에 앉아 있었다. 테이블에는 올해 실제로 끝낸 일의 시각과 놓친 일의 빈칸, 몸 후속 안내, 가족 쪽 남은 청구가 나란히 놓였다.\n\n\"민준씨, 이번에는 말로 정하지 말아요. 지금 하나를 하세요. 그 일에 내줄 시간도 지금 달력에 남겨요.\"",
+    "description": "연말 카페의 마감 방송이 두 번 나간 뒤에도 다은은 코트를 입은 채 맞은편에 앉아 있었다. 테이블에는 올해 끝낸 일과 놓친 일을 적은 수첩, 병원의 후속 진료 안내문, 가족 쪽에서 온 청구서가 나란히 놓여 있었다.\n\n\"민준씨, 이번에는 말로 정하지 말아요. 지금 하나를 하세요. 그 일에 내줄 시간도 지금 달력에 남겨요.\"",
     "choices": [
       {
         "text": "토요일 저녁을 다은과 확정하고 그 시간에 다른 일정을 잡지 않는다",
@@ -474,7 +474,7 @@
           "arc_y4_year_close_boundary_seen",
           "arc_y4_year_close_protected_family"
         ],
-        "result_text": "{name}은 청구서 발행처에 전화해 금액과 기한을 다시 읽어 달라고 했다. 확인한 원문 아래에 자신이 지금 감당할 한도를 적어 회신했다.\n\n다은은 도착 시각과 답한 시각을 나란히 봤다. \"이제 돈 냈다는 말 하나로 끝내지는 못하겠네요.\""
+        "result_text": "{name}은 청구서 발행처에 전화해 금액과 기한을 다시 읽어 달라고 했다. 확인한 원문 아래에 자신이 지금 감당할 한도를 적어 회신했다.\n\n다은은 그가 적은 한도를 잠깐 들여다봤다. \"이제 돈 냈다는 말 하나로 끝내지는 못하겠네요.\""
       }
     ]
   },
@@ -530,9 +530,9 @@
     "id": "arc_y4_year_close_unattached",
     "title": "혼자 잠그는 경계",
     "description_memory_if_known": {
-      "father_crisis_contact_present": "병실에 직접 도착한 밤의 표·취소 시각·의자 위치가 장부에 남아 있었다. 방문은 생사를 결정한 공로가 아니라, 그 위기에서 실제로 움직인 관계 영수증이었다.",
-      "father_crisis_contact_called": "병동 통화가 연결된 초와 창원에 도착하지 못한 거리가 함께 남았다. 통화는 생사를 결정하지 않았지만 그 위기에서 어떤 행동을 했는지는 바꿨다.",
-      "father_crisis_contact_missed": "병동 연락과 ‘오늘은 어렵다’고 답한 시각이 나란히 남았다. 확인되지 않은 경과를 발명하지 않아도, 미룬 행동의 시간은 지워지지 않았다."
+      "father_crisis_contact_present": "그 밤의 창원행 열차표가 아직 수첩 사이에 끼어 있었다.",
+      "father_crisis_contact_called": "병동과 연결됐던 그 밤의 통화가 아직 통화 목록에 남아 있었다.",
+      "father_crisis_contact_missed": "‘오늘은 창원에 가거나 통화할 수 없습니다’라고 보냈던 문자가 아직 병동 대화창에 남아 있었다."
     },
     "category": "story",
     "rarity": "story",
@@ -543,7 +543,7 @@
     "tags": ["story", "arc", "year4", "year_close", "internal"],
     "portrait": "player_determined",
     "background": "current_housing",
-    "description": "늦은 밤, {name}은 현재 방 책상에 올해의 기록을 펼쳤다. 실제로 끝낸 일과 놓친 일, 몸 후속 안내, 가족 쪽 남은 청구가 서로 다른 시각으로 찍혀 있었다. 맞은편 의자는 비어 있었다.",
+    "description": "늦은 밤, {name}은 현재 방 책상에 올해의 기록을 펼쳤다. 끝낸 일과 놓친 일을 적은 수첩, 후속 진료 안내문, 가족 쪽에서 온 청구서가 펼쳐져 있었다. 맞은편 의자는 비어 있었다.",
     "choices": [
       {
         "text": "사람에게 내줄 다음 주 한 시간을 비우고 그 칸에 새 일정을 잡지 않는다",
@@ -570,7 +570,7 @@
           "arc_y4_year_close_boundary_seen",
           "arc_y4_year_close_protected_family"
         ],
-        "result_text": "{name}은 청구서 발행처에 전화해 원문·금액·기한을 다시 확인했다. 전부 대신 갚겠다는 말도, 다른 사람 이름으로 막겠다는 말도 하지 않고 지금 감당할 한도를 회신했다.\n\n통화를 끊자 답한 시각과 답하지 못한 범위가 함께 남았다."
+        "result_text": "{name}은 청구서 발행처에 전화해 원문·금액·기한을 다시 확인했다. 확인한 원문 아래에 지금 감당할 수 있는 한도를 적어 회신했다.\n\n통화를 끊고 나서야 {name}은 청구서를 쥔 손에 땀이 배어 있다는 걸 알았다."
       }
     ]
   },

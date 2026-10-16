@@ -78,9 +78,9 @@
   {
     "id": "arc_36_unexpected_hand",
     "title": "The Cost of Two Empty Places",
-    "description": "Monday morning, the ward call with Father and the other plan {name} had missed over the weekend both turned gray. A hospital rescheduling fee and the fare required to move again appeared on separate ledger lines. The two contact windows kept only their unanswered times.\n\n{name} opened and closed the two contact windows in turn. This week's calendar had few hours he could actually clear.",
+    "description": "Monday morning, the ward call with Father and the other plan {name} had missed over the weekend both turned gray. The hospital's rescheduling fee and the fare for going back showed up as separate lines on his card statement. Both conversations still held messages he hadn't answered.\n\n{name} opened and closed the two contact windows in turn. There weren't many slots he could clear on this week's calendar.",
     "description_if_known": {
-      "arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person": "Monday morning, Father’s appointment and the other plan {name} had missed that day both turned gray. A hospital rescheduling fee and the fare required to move again appeared on separate ledger lines. The two contact windows kept only their unanswered times.\n\n{name} opened and closed the two contact windows in turn. This week's calendar had few hours he could actually clear."
+      "arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person": "Monday morning, Father’s appointment and the other plan {name} had missed that day both turned gray. The hospital's rescheduling fee and the fare for going back showed up as separate lines on his card statement. Both conversations still held messages he hadn't answered.\n\n{name} opened and closed the two contact windows in turn. There weren't many slots he could clear on this week's calendar."
     },
     "choices": [
       {
@@ -89,14 +89,14 @@
       },
       {
         "text": "Set aside a time this week for the visit he missed that day",
-        "result_text": "{name} opened the other contact window he had missed alongside the ward. He deleted 'any time,' sent two hours he could truly clear plus travel time, and locked only the confirmed slot into the calendar.\n\nThe new time did not erase the earlier wait. At least he now had a definite time to be there."
+        "result_text": "{name} opened the other contact window he had missed alongside the ward. He deleted 'any time,' sent two times he could clear this week plus travel time, and locked only the confirmed slot into the calendar.\n\nThat one slot was the darkest square on this week's calendar."
       }
     ]
   },
   {
     "id": "arc_36_unexpected_hand_father_deal",
     "title": "Between the Ward and the Review Room",
-    "description": "Monday morning, the missed ward call with Father and the canceled contract-review seat remained on one screen. One side showed the next window for reviewing his medication; the other showed the deadline for paying for another source-document review.\n\nHe could repair only one channel this week.\n\nThe canceled deposit was not coming back. The ward had only one more call window that week.",
+    "description": "Monday morning, the missed ward call with Father and the canceled contract-review seat remained on one screen. One side showed the next window for reviewing his medication; the other showed the deadline for paying for another source-document review.\n\nOnly one of them could be rebooked this week.\n\nThe canceled deposit was not coming back. The ward had only one more call window that week.",
     "choices": [
       {
         "text": "Call the ward again and confirm a time to review Father's medication",
@@ -699,26 +699,26 @@
   {
     "id": "arc_y4_bill_night_jiyeon",
     "title": "Three Timestamps",
-    "description": "At 11:47 p.m., a 487,300-won bill from Changwon Sungsim Hospital and Seoul East After-Hours Clinic's midnight intake deadline appeared on one screen. Father's ward offered one 11:50 call to reconcile medications, the transfer referral, and the guardian contact chain.\n\nOn a video call from Busan, Jiyeon recorded each issuer and time separately. She was not in {name}'s Seoul entryway and could neither pay nor register for him. \"Do not merge money, your body, and Father's ward. Choose the one action you will finish tonight.\"\n\n{name} had twelve minutes. He did not turn Jiyeon's travel or name into consent.",
+    "description": "11:47 p.m. The virtual account the billing office at Changwon Sungsim Hospital had sent was due by 11:59 tonight. 487,300 won. Miss it, and he'd have to request a new account.\n\n{name}'s fingertips had been trembling since evening. Seoul East After-Hours Clinic stopped taking patients at midnight. And the night nurse on his father's ward had left a text: at 11:50, before shift change, she wanted to go over the medication list, transfer hospital, and contact order with family.\n\nFrom Busan, Jiyeon watched his face through the video call. She wrote the three times down on paper. \"Minjun, pick one. Try all three and you'll finish none.\"\n\nTwelve minutes. He could finish only one of the three.",
     "description_memory_if_known": {
-      "arc_y4_borrowed_name_reduced_to_self": "At the earlier name window, {name} deleted the other-person box and left only a reduced offer under his name. The lower scale was fixed, but it paid none of tonight's bill and completed no medical action.",
-      "arc_y4_borrowed_name_partner_review_only": "At the earlier name window, {name} gave his partner a review copy only and asked for neither a name nor a signature. Jiyeon seeing tonight's screen from Busan was likewise no delegation of payment or medical choice.",
-      "arc_y4_borrowed_name_withdrew_request": "At the earlier name window, {name} withdrew both the other-name request and that deal window. Its closure did not automatically open or close any of tonight's three deadlines.",
-      "arc_y4_borrowed_name_own_name_counteroffer": "At the earlier name window, {name} filed a counteroffer under his name and received only a filing number. An unapproved proposal did not count as money available or treatment completed tonight.",
-      "arc_y4_borrowed_name_requested_complete_terms": "At the earlier name window, {name} requested source terms naming lender, principal, maturity, and collateral, then paused. No new document could be assumed to have arrived, and tonight's three windows remained."
+      "arc_y4_borrowed_name_reduced_to_self": "Earlier, {name} had struck the other names from the documents and left only a reduced proposal in his own name. He lowered his trembling hand beside tonight's bill.",
+      "arc_y4_borrowed_name_partner_review_only": "Earlier, he had handed over only a review copy of the loan papers, and asked for neither name nor signature.",
+      "arc_y4_borrowed_name_withdrew_request": "Earlier, {name} had withdrawn the request to borrow someone else's name. That deal closed the same day.",
+      "arc_y4_borrowed_name_own_name_counteroffer": "Earlier, he had submitted a counteroffer in his own name only and received a reference number. No approval text had come yet.",
+      "arc_y4_borrowed_name_requested_complete_terms": "Earlier, {name} had paused the process and asked first for the full terms: lender, principal, maturity, collateral. They hadn't arrived yet."
     },
     "choices": [
       {
         "text": "Pay the billing office 487,300 won before midnight",
-        "result_text": "Sharing the screen with Jiyeon, {name} completed identity and item verification and sent 487,300 won at 11:58. Jiyeon confirmed only the receipt issuer and time.\n\nSeoul intake and the coordination call passed. A payment receipt remained on the Busan screen, but Father's medication, transfer, and guardian links were unconfirmed."
+        "result_text": "With the screen turned toward Jiyeon, {name} finished verifying his identity and sent 487,300 won at 11:58. Jiyeon read the receipt number aloud once.\n\nMeanwhile the 11:50 text from the ward went unanswered, and the night clinic's window passed. On the other side of the screen, Jiyeon set down her pen."
       },
       {
         "text": "End the call with Jiyeon and register at the Seoul clinic",
-        "result_text": "{name} sent Jiyeon his Seoul address and route, then entered a taxi. At 11:59, he gave the tremor time and double vision at after-hours intake.\n\nThe payment and ward coordination call closed. Jiyeon remained in Busan and confirmed only {name}'s arrival for care. Father's three ward links stayed unconfirmed."
+        "result_text": "{name} sent Jiyeon his Seoul address and his route, ended the call, and got into a taxi. At 11:59, at the front desk, he told them himself when the trembling had started and when his vision had doubled.\n\nThe payment deadline and the ward's text passed in the meantime. When he sat down on the bench outside the exam room, a single line from Jiyeon was waiting: \"Did you get there?\""
       },
       {
         "text": "Confirm medications, transfer referral, and guardian contacts with the ward",
-        "result_text": "{name} connected to the ward, matched medicine packets to the nurse's list, and confirmed the next-day referral number, transfer hospital, and night guardian order. Jiyeon recorded only each source and time from Busan.\n\nAt midnight, payment and {name}'s intake closed. Father was not cured. A ward procedure for acute deterioration had been connected."
+        "result_text": "{name} got through to the ward and matched his father's medicine packets against the nursing record, then confirmed tomorrow's referral number, the transfer hospital if things worsened, and the overnight contact order. In the video call, Jiyeon wrote the same order down after him.\n\nAt midnight the payment deadline and his own clinic window closed. His father was not better. But if his breathing worsened tonight, it was settled now who would call whom first."
       }
     ]
   },

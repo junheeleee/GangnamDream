@@ -209,11 +209,11 @@
     "id": "arc_y4_year_close_daeun",
     "title": "One Square Left Open",
     "description_memory_if_known": {
-      "father_crisis_contact_present": "The ticket, cancellation time, and chair beside the bed remained in the ledger. The visit was a relationship receipt for having moved in the crisis, not merit that decided the medical outcome.",
-      "father_crisis_contact_called": "The seconds of the connected ward call remained beside the distance he had not traveled to Changwon. The call did not decide the medical outcome, but it changed what he had actually done during the crisis.",
-      "father_crisis_contact_missed": "The ward's message and the time he replied that today was impossible remained side by side. He did not need to invent the unknown outcome for the time of his deferral to remain."
+      "father_crisis_contact_present": "The train ticket to Changwon from that night was still tucked in the notebook.",
+      "father_crisis_contact_called": "The call that had connected to the ward that night was still in the call log.",
+      "father_crisis_contact_missed": "The text he'd sent — \"I can't come to Changwon or call today\" — was still in the ward's thread."
     },
-    "description": "The cafe had played its year-end closing announcement twice, but Daeun still sat across from {name} in her coat. The table held the actual times of what he had completed, the blanks left by what he had missed, a physical follow-up notice, and a family bill still waiting for an answer.\n\n\"Minjun, don't decide it with a promise this time. Do one thing now. Show me the time you are setting aside for it too.\"",
+    "description": "The cafe had played its year-end closing announcement twice, but Daeun still sat across from {name} in her coat. On the table lay the notebook of what he had finished and missed this year, the hospital's follow-up notice, and the bill from his family's side.\n\n\"Minjun, don't decide it with a promise this time. Do one thing now. Show me the time you are setting aside for it too.\"",
     "choices": [
       {
         "text": "Confirm Saturday evening with Daeun and keep that time free of other plans",
@@ -225,7 +225,7 @@
       },
       {
         "text": "Verify the family bill's issuer, amount, and deadline, then answer with his own limit",
-        "result_text": "{name} called the issuer and asked them to read the amount and deadline back to him. Beneath the verified text, he wrote the limit he could bear now and sent the answer.\n\nDaeun looked at the arrival and response times side by side. \"Now you can't end it by saying only that you paid.\""
+        "result_text": "{name} called the issuer and asked them to read the amount and deadline back to him. Beneath the verified text, he wrote the limit he could bear now and sent the answer.\n\nDaeun glanced at the limit he had written. \"So you can't just say 'I paid' and be done with it now.\""
       }
     ]
   },
@@ -257,11 +257,11 @@
     "id": "arc_y4_year_close_unattached",
     "title": "A Boundary Locked Alone",
     "description_memory_if_known": {
-      "father_crisis_contact_present": "The ticket, cancellation time, and chair beside the bed remained in the ledger. The visit was a relationship receipt for having moved in the crisis, not merit that decided the medical outcome.",
-      "father_crisis_contact_called": "The seconds of the connected ward call remained beside the distance he had not traveled to Changwon. The call did not decide the medical outcome, but it changed what he had actually done during the crisis.",
-      "father_crisis_contact_missed": "The ward's message and the time he replied that today was impossible remained side by side. He did not need to invent the unknown outcome for the time of his deferral to remain."
+      "father_crisis_contact_present": "The train ticket to Changwon from that night was still tucked in the notebook.",
+      "father_crisis_contact_called": "The call that had connected to the ward that night was still in the call log.",
+      "father_crisis_contact_missed": "The text he'd sent — \"I can't come to Changwon or call today\" — was still in the ward's thread."
     },
-    "description": "Late at night, {name} opened the year's records at the desk in his current room. What he had actually completed, what he had missed, a physical follow-up notice, and a family bill still waiting for an answer carried different timestamps. The chair across from him was empty.",
+    "description": "Late at night, {name} opened the year's records at the desk in his current room. The notebook of what he had finished and missed, the follow-up notice, and the bill from his family's side lay open. The chair across from him was empty.",
     "choices": [
       {
         "text": "Leave one hour next week for another person and keep it free of new plans",
@@ -273,7 +273,7 @@
       },
       {
         "text": "Verify the family bill's issuer, amount, and deadline, then answer with the limit he can bear",
-        "result_text": "{name} called the issuer and verified the text, amount, and deadline. He neither promised to repay everything nor cover it with someone else's name. He sent the limit he could bear now.\n\nWhen the call ended, both the response time and the range he could not answer remained."
+        "result_text": "{name} called the issuer and confirmed the wording, amount, and due date again. Beneath the confirmed text, he wrote the limit he could carry now and sent it back.\n\nOnly after hanging up did {name} notice his palm was damp where he held the bill."
       }
     ]
   },
