@@ -67,8 +67,8 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-718 · 월말 현금 | [718](queue_active/ORDER-718.md) | C2/C5 · 기존 결산/private 저작 |
-| 2 | [~] | ORDER-719 · 상점 | [719](queue_active/ORDER-719.md) | C5 · 718 검수 뒤 |
+| 1 | [~] | ORDER-718 · 월말 현금 | [718](queue_active/ORDER-718.md) | C2/C5 · private 수용/통합대기 |
+| 2 | [~] | ORDER-720 · 고지 | [720](queue_active/ORDER-720.md) | C4 · 렌더만 |
 | 3 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | C2/C4/C5 · 고지/빈표면/5언어만 · CJK 다듬기 보류 |
 | 4 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 | 5 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |

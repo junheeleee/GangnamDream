@@ -3,6 +3,13 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-17 — 5언어 상점 기대치 정렬·결산 private 후보 검수 수용
+
+- [719](queue_archive/ORDER-719.md): 선언db34b5a 뒤 장르/Short5/About첫줄5·날짜만. 원33731B/64781a2f…20dd→34678B/c6cab8a2…e216·12span inverse rawexact. Short139/270/159/168/173·AI5고지/본문/태그/B·C 보존·제시된선택지의다음행동만약속. 비저자 GO_DOCUMENT_COPY_ONLY·MD3787B/2051aeef…0e18·JSON20996B/a02f2ad4…7ba·private719에전핀/원문/receipt. CJK새소개만·기존다듬기0·주도권/제품/엔진/앱/외부변경0.
+- [718](queue_active/ORDER-718.md): 기존경제·저장3fixture pass, 초기static3축/KO CTAfail보존. v2고유생계키/명시bool/월세용어→진단금액폭1px/partialfocus없음→v3레이아웃6컷pass지만 EN20k축약차이REWORK→v4 기존whole_won재사용. 마지막audit/KO/EN exit0·8raw오류0·6컷8금액/5원인/CTA exact. 비저자 GO_PRIVATE_SOURCE_AND_SYNTHETIC_PANEL_ONLY·MD4430B/bbaa3218…71a6·JSON26669B/18245645…0dcf·115frozen/보호379·748 exact. 전체핀/private718·진단source 후대exact재구성과원raw구분.
+- 718 main통합/새패키지/실제M37/전체CI 미완료. 제품370 CI진행≠녹색·새월0·월최대2/월별1commit·원714/715 미스테이징. 사용자16.2/17.1/17.2·저장/설정/project/preset/공개/과거판정·710설정사고보존. 사람/원어민/물리패드/청취/Steam게시/C4·C5전체/출시GO0. 개발스킬의분리저작·독립·표적·비소유보존적용·승격0/기존정본현행화·나머지일회성. docs영향6+diff통과·STATUS staleadvisory/queue25·4; 잘못된queue명/누락title는commit전정정·제품검사완화0. 720은고지15준비렌더만선언·아직실행0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-17 — M37 수리 후보의 별도 검수 앱 준비 완료
 
 - [717](queue_archive/ORDER-717.md): source37089e77→private980a55fe/tree80c925a0·내장customdir_2/ICU+BuildInfo17.2 두파일만. freshimport1 24.900991초/export1 47.874826초·후속3 exit0, ZIP440943318B/dc1d06…53dd/app7/PCK1893 MD5·JSON675·ICU exact. ECFG41 직접해독/Splash·격리bool/string, packedBuildInfo remap/GDSC 핀·상수실행/창/OS소비미관측.

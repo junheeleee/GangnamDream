@@ -32,6 +32,9 @@ private clone base37089e77b05b2b6c4aceeadf733d22e4c536283f, codex/month-cash-sum
 - `tools/ManualSaveCheck.gd`, `tools/ScreenshotQA.gd`의 기존검증에 좁은새사례만.
 - private author-report.{md,json}·source-diff.patch만. 제품root/타인파일/Git/엔진/UI실행0.
 `FullStoryFlow.gd`, `GameState.gd` 및 기존publicdemo 흐름은 읽기만·변경필요하면먼저root에보고.
+`/root/av_audio_status`: private `qa-admission.{md,json}`만·root의fixture helper/
+fresh공식engine사본/원project대조·pre-autoload Bootstrap/6소유파일만검수한다.
+실행0·제품/userpath쓰기0·기존717보고동결·표적QA격리한정, 최종제품GO대신아님.
 root만추후 exact diff통합·proven pre-autoload 격리QA를실행한다.
 `/root/m32_isolation_review`: private independent-review.{md,json}만·실제코드/패널/원raw직독.
 검수자 Git/QA/engine/UI/실사용자경로/제품쓰기0. 717지정보고와충돌하지않는다.
@@ -47,3 +50,46 @@ quiet월/재로드/저장실패/oldsave앵커없음 사례를더한다. 기존�
 회수한다. 경쟁은기존돈/몸/사람선택이고 새배분기능을만들지않는다. 계층/산문저작0.
 승격0·승인DECISIONS/기존UI·저장계약적용·나머지일회성.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 선언 정정·실행 메모
+
+db8254e의L3이동행gate누락을d9141be에서즉시교정했다. 원human98 두OPEN과출시후보류는
+그대로이며 새사람판정0. 이단위의표적검증→stage→commit 묶음은 fail-fast로 실행해
+앞검사실패뒤commit으로흘러가지않게한다. 제품예외/검사완화가아닌일회성실행교정이다.
+
+초안QA의확인된UI오류는생계→Livelihood가기존ambiguous키와충돌한것이다.
+원source6/author보고/원patch·원5호출은동결보존한다. 같은6파일만 private `source-v2/`
+사본에서저작자가수리하며 `author-report-v2.{md,json}`/`source-diff-v2.patch`만추가한다.
+생계수입의고유KO/EN키와필요한JAzh신규키만교정·정산/receipt/조건/검사registry완화0.
+root는원QA완료뒤같은fixture에수리byte만기계복사하고기존cache로표적UI/static/render만
+재검수한다. label-only라통과한정산·저장전체검사를이유없이반복하지않으며원실패는보존한다.
+
+첫KO render는 complete1컷뒤 partial CTA기하검사에서실패·EN미실행이다. 원PNG의원인5금액도
+보이지않으므로 v2까지동결하고 같은6파일의 `source-v3/`에서 표시너비/모달배치만수리한다.
+저자는 `author-report-v3.{md,json}`/`source-diff-v3.patch`, root는 `recheck-helper.py`/
+`recheck-plan.json`/`recheck-*` 원로그·결과/`rendered-v3/`만추가한다. 숫자5개실표시와CTA
+내부영역을기존ScreenshotQA에검증·상세기하진단을더하되 경제/저장/RNG/기존assert완화0.
+기존cache의UI/정적/KOEN3컷만재검수·새import/통과한전체저장반복0. 별도native와겹치지않는다.
+수리전원인확정은 root의 `recheck-diagnostic.py`/`recheck-diagnostic-*`에서 v2제품+
+진단출력만더한ScreenshotQA로 KO1회 수행한다. 실패예상원raw/별도PNG를보존하고 검사완화0.
+`/root/av_audio_status`는 추가 `qa-admission-v3.{md,json}`만소유해 새helper/plan/동결후보의
+기존격리재사용입구를검수한다. 원admission보고는동결·실행권한/제품GO로확대0.
+
+v3 static4/KOEN6컷은통과했으나 EN기타−1.18m이−1.2m으로축약되어 화면합계와Δ가
+2만원달라보임을독립검수에서확인했다. 새C2/경제결함으로확대하지않고 같은단위의표시만
+`source-v4/`에서수리한다. 저자는같은6파일/`author-report-v4.{md,json}`/
+`source-diff-v4.patch`만소유·실수정은MainGame/ScreenshotQA2파일한정이다. 기존
+`LocaleManager.format_whole_won`을Δ/시작끝/원인5에재사용·새정산/전역formatter/locale키0.
+root는 `recheck-v4.py`/`recheck-v4-*`/`rendered-v4/{ko,en}`·기존cache의정적1/화면2만,
+av는 `qa-admission-v4.{md,json}`만검수한다. v3의모든소스/보고/raw/6PNG는동결한다.
+
+## private 수용 — main 통합 전
+
+v4 기존audit1/KOEN화면2 exit0·8raw오류0·6PNG 전독. 8금액exact원화/
+5원인합−560000=월초1000000→월말440000, 부분기록/저장재시도/CTA잘림0.
+원경제·저장3fixture 통과와v3 UI3축정정은유효·통과전체반복0·원실패보존.
+비저자 GO_PRIVATE_SOURCE_AND_SYNTHETIC_PANEL_ONLY·MD4430B/bbaa3218…71a6/
+JSON26669B/18245645…0dcf·base370+v4patchad3527…84a5/6source핀결속.
+115원자료/보호379그룹748기록exact·파생진단source를원시점사본으로바꾸지않았다.
+실제M37수정앱검수·root통합/새패키지/전체CI/원어민/사람/청취/출시GO0.
+현재[~]는 통합미완료이며 source-v4만수용·원717/714사용자경로변경0이다.

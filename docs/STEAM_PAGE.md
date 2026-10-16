@@ -1,6 +1,6 @@
 # 강남드림 Steam 스토어 페이지 정본
 
-> 최종 현행화: 2026-09-01. Steam 파트너 대시보드의 문구, 태그, 스크린샷은 이 문서를 기준으로 한다.
+> 최종 현행화: 2026-10-17. Steam 파트너 대시보드의 문구, 태그, 스크린샷은 이 문서를 기준으로 한다.
 > 과거 초안인 `docs/STORE_PAGE.md`는 사용하지 않는다.
 
 ## 1. 상품 정의
@@ -9,7 +9,7 @@
 |---|---|
 | 한국어 제목 | 강남드림 |
 | 영어 제목 | Gangnam Dream |
-| 장르 | 한국 사회 리얼리즘 인터랙티브 드라마 / 라이프 심 / 비주얼 노벨 |
+| 장르 | 한국 사회 리얼리즘 선택형 서사 게임(인터랙티브 소설) / 비주얼 노벨 |
 | 핵심 약속 | 돈을 향한 선택이 관계와 세계를 바라보는 방식까지 바꾸는 5년 |
 | 플레이 구조 | 1주 1턴, 총 240주. 조용한 주는 몽타주로 압축하고 결정적 장면에 멈춘다 |
 | 핵심 차별점 | 수치로 공개되지 않는 색 변화, 다시 읽히는 장면, 잃을 수 있는 결혼, 5년의 개인 기록 |
@@ -84,31 +84,31 @@ Description이 그 뒤로 정렬되지 않아 **세 안 모두 메커니즘을 �
 한국어:
 
 ```text
-서울 고시원 4.5평에서 시작한 33세 백수. 통장에 50만원, 기한은 5년, 목표는 30억짜리 강남 아파트다. 매달 누구에게 시간을 쓰고 무엇을 놓칠지 고른다. 아버지가 무릎을 꿇었던 이유를 민준은 알고 있다.
+선택형 서사 게임(인터랙티브 소설). 서울 고시원 4.5평에서 시작한 33세 백수. 통장에 50만원, 기한은 5년, 목표는 30억짜리 강남 아파트다. 매달 누구에게 시간을 쓰고 무엇을 놓칠지 고른다. 아버지가 무릎을 꿇었던 이유를 민준은 알고 있다.
 ```
 
 English:
 
 ```text
-Thirty-three, unemployed, in a 4.5-pyeong Seoul goshiwon with 500,000 won. Five years to reach a three-billion-won Gangnam apartment. Each month you decide who gets your time and what you let go. Minjun knows why his father once knelt.
+A choice-driven interactive novel. Thirty-three, unemployed, in a 4.5-pyeong Seoul goshiwon with 500,000 won. Five years to reach a three-billion-won Gangnam apartment. Each month you decide who gets your time and what you let go. Minjun knows why his father once knelt.
 ```
 
 日本語:
 
 ```text
-33歳、無職。ソウルの簡易個室型住宅「コシウォン」の4.5坪の部屋から始まる。口座には50万ウォン。期限は5年、目標はソウルの富と成功を象徴する街、カンナムの30億ウォンのマンションだ。毎月、誰に時間を割き、何を逃すかを選ぶ。父がひざまずいた理由を、ミンジュンは知っている。
+選択型の物語ゲーム（インタラクティブ小説）。33歳、無職。ソウルの簡易個室型住宅「コシウォン」の4.5坪の部屋から始まる。口座には50万ウォン。期限は5年、目標はソウルの富と成功を象徴する街、カンナムの30億ウォンのマンションだ。毎月、誰に時間を割き、何を逃すかを選ぶ。父がひざまずいた理由を、ミンジュンは知っている。
 ```
 
 简体中文:
 
 ```text
-33岁的无业者Minjun，从首尔一间4.5坪（约15平方米）的考试院（goshiwon，韩国的超小型单间住所）起步。账户里有50万韩元，期限5年，目标是在象征财富与阶层跃升的首尔江南，买下一套价值30亿韩元的公寓。每个月，他都要决定把时间花在谁身上，又会错过什么。Minjun知道父亲当年为何下跪。
+一款选择驱动的叙事游戏（互动小说）。33岁的无业者Minjun，从首尔一间4.5坪（约15平方米）的考试院（goshiwon，韩国的超小型单间住所）起步。账户里有50万韩元，期限5年，目标是在象征财富与阶层跃升的首尔江南，买下一套价值30亿韩元的公寓。每个月，他都要决定把时间花在谁身上，又会错过什么。Minjun知道父亲当年为何下跪。
 ```
 
 繁體中文:
 
 ```text
-33歲，沒有工作；Minjun的起點，是首爾一間4.5坪（約15平方公尺）的考試院（goshiwon，韓國的極小單間住處）。帳戶裡有50萬韓元，期限5年，目標是在象徵財富與階級躍升的首爾江南，買下一戶價值30億韓元的公寓。每個月，他得決定時間要留給誰，又有哪些事只能錯過。Minjun知道父親當年為什麼跪下。
+一款以選擇推進的敘事遊戲（互動小說）。33歲，沒有工作；Minjun的起點，是首爾一間4.5坪（約15平方公尺）的考試院（goshiwon，韓國的極小單間住處）。帳戶裡有50萬韓元，期限5年，目標是在象徵財富與階級躍升的首爾江南，買下一戶價值30億韓元的公寓。每個月，他得決定時間要留給誰，又有哪些事只能錯過。Minjun知道父親當年為什麼跪下。
 ```
 
 판정: 목표와 위기가 가장 빨리 읽힌다. 현재 캡슐 아트와 함께 쓸 기본안이다.
@@ -157,6 +157,8 @@ Five years, 500,000 won, and relationships that will not wait for success. Chase
 ## 4. About This Game - 한국어
 
 ```text
+장면을 읽고 제시된 선택지에서 민준의 다음 행동을 고르는 선택형 서사 게임(인터랙티브 소설)입니다.
+
 [h2]50만원으로 시작하는 서울의 5년[/h2]
 김민준, 서른셋, 무직.
 서울의 고시원 한 칸과 통장 속 50만원에서 시작한다. 기한은 5년. 목표는 30억원짜리 강남 아파트다.
@@ -178,6 +180,8 @@ Five years, 500,000 won, and relationships that will not wait for success. Chase
 ## 5. About This Game - English
 
 ```text
+A choice-driven interactive novel: read the scenes and choose Minjun's next action from the options presented.
+
 [h2]Five years in Seoul, starting with 500,000 won[/h2]
 Kim Minjun is thirty-three and unemployed.
 Start with a tiny Korean single-room lodging called a goshiwon and 500,000 won in the bank. The deadline is five years. The goal is a three-billion-won apartment in Gangnam, Seoul's status district.
@@ -199,6 +203,8 @@ You cannot take every branch in a single five-year life. The ending depends on M
 ## 5.1. About This Game - 日本語
 
 ```text
+場面を読み、提示された選択肢からミンジュンの次の行動を選ぶ、選択型の物語ゲーム（インタラクティブ小説）です。
+
 [h2]50万ウォンから始まる、ソウルでの5年[/h2]
 キム・ミンジュン、33歳、無職。
 ソウルの簡易個室型住宅「コシウォン」の一室と、口座の50万ウォンから始まる。期限は5年。目標は、ソウルの富と成功を象徴する街、カンナムにある30億ウォンのマンションだ。
@@ -220,6 +226,8 @@ You cannot take every branch in a single five-year life. The ending depends on M
 ## 5.2. About This Game - 简体中文
 
 ```text
+这是一款选择驱动的叙事游戏（互动小说）：阅读场景，从给出的选项中选择Minjun下一步的行动。
+
 [h2]从50万韩元起步，在首尔走过5年[/h2]
 Kim Minjun，33岁，无业。
 起点是首尔考试院（goshiwon，韩国的超小型单间住所）里的一间房，以及银行账户里的50万韩元。期限5年。目标是在象征财富与阶层跃升的首尔江南，拥有一套价值30亿韩元的公寓。
@@ -241,6 +249,8 @@ Kim Minjun，33岁，无业。
 ## 5.3. About This Game - 繁體中文
 
 ```text
+這是一款以選擇推進的敘事遊戲（互動小說）：閱讀場景，從提供的選項中選擇Minjun下一步的行動。
+
 [h2]從50萬韓元開始，在首爾過5年[/h2]
 Kim Minjun，33歲，沒有工作。
 起點是首爾考試院（goshiwon，韓國的極小單間住處）裡的一間房，和銀行帳戶裡的50萬韓元。期限是5年。目標是在象徵財富與階級躍升的首爾江南，擁有一戶價值30億韓元的公寓。
