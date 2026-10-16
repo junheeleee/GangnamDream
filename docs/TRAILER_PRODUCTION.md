@@ -8,12 +8,19 @@
 - Canonical timeline: `tools/trailer/timeline.json`. Cut totals, caption timing, source paths, audio spans, and both locales are machine checked.
 - Generated videos stay under ignored `build/trailer/`; they are release artifacts, not runtime assets.
 
+Current C5 preparation status (2026-10-16): the goal-frame producer now targets
+the existing StoryMode notebook choice and goal HUD, not the retired AP board.
+The legacy filename `trailer_02_goal_dashboard.png` remains compatible with both
+edits. Fresh KO/EN frame-02 capture, four MP4s, visual review and normal-speed
+listening are still pending. The 2026-07-13 production proof below is historical;
+it does not certify this source change, the other cuts, or a current release candidate.
+
 ## Locked 30-Second Cut
 
 | Time | In-game material | Message / sound |
 |---|---|---|
 | 0-4s | 2031 Gangnam cold open | Who Minjun becomes is the player's decision. |
-| 4-8s | Actual week-one AP board, 500,000 won against 3 billion won | Five-year pressure. |
+| 4-8s | Existing StoryMode notebook motive choices and goal HUD: 500,000 won against 3 billion won | Five-year pressure. |
 | 8-12s | Actual money-mule choice at 12, 7, and 3 seconds | Countdown and event/choice impacts. |
 | 12-17s | The same StoryMode surface at White, Gray, and Black | BGM closes through two low-pass stages. |
 | 17-22s | Cherry blossom, sea, fireworks, and first married morning | A marriage that can be lost. |

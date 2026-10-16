@@ -17789,15 +17789,10 @@ func _shot_trailer_goal_dashboard() -> void:
 	GameState.action_points = 2
 	GameState.flags.erase("has_received_paycheck")
 	GameState.flags.erase("is_employed")
-	await _boot_main_game()
-	_mg.set("current_event", {})
-	if _mg.has_method("_render_ap_actions"):
-		_mg.call("_render_ap_actions")
-	if _mg.has_method("_finish_typing"):
-		_mg.call("_finish_typing")
-	await _settle(0.55)
-	await _save("trailer_02_goal_dashboard")
-	await _dispose_main_game()
+	# Retain the timeline's frame key, but capture the current in-scene notebook,
+	# not the retired AP board or an empty MainGame surface.
+	await _shot_story_event(
+		"story_prologue_goal", "trailer_02_goal_dashboard", "", 0.55, true, true)
 
 func _shot_trailer_timer_sequence() -> void:
 	_prepare_main_game_state()
