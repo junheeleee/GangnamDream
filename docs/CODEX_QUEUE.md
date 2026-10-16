@@ -44,7 +44,7 @@
 |---|---|
 | C3 CI | 709 CI38904281491 success. 710/711 제품9c7dee4 CI38915933286 진행·예외/만료0·진행≠녹색·새월0. |
 | C1 대표 완주 | [706 M36](queue_archive/ORDER-706.md) EN 실제완료·3선택/read113/저장독립GO·첫W145미선택·H3M91. 수정mainCI 전체녹색뒤 M37·완료월 반복0. |
-| C2 치명 결함 | [710](queue_archive/ORDER-710.md) 넘김 수리·[711](queue_archive/ORDER-711.md) 회수표식5언어 한정수용. 712 M19~M36 그림표본 한정·2 잔여 별도선언·전체C2/새export0. |
+| C2 치명 결함 | [710](queue_archive/ORDER-710.md) 넘김 수리·[711](queue_archive/ORDER-711.md) 회수표식5언어 한정수용. 712/713 현존그림자료 집계·55미관측·미래월C1/전체C2·새export0. |
 | C4 사람·고지 | [696](queue_archive/ORDER-696.md) 본편16.2 전용앱/저장·KO메뉴를 사용자에게 인계. 실행 중 사용자 UI 양보·사람2~3시간 평가는 미완료. [673](queue_archive/ORDER-673.md) 고지초안 보존. |
 | C5 출시 준비물 | [704](queue_archive/ORDER-704.md) trailer02 수첩 source 수용·새capture/영상 미검수. [674](queue_archive/ORDER-674.md)/[675](queue_archive/ORDER-675.md) 설명5언어 보존·retail/빌드/설문/외부 남음. |
 
@@ -67,31 +67,30 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-713 · 앞부분 그림 자료 | [713](queue_active/ORDER-713.md) | C1/C2 · A2 M01~18 · C1 우선 |
-| 2 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | C2/C4/C5 · 고지/빈표면/5언어만 · CJK 다듬기 보류 |
-| 3 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 5 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 6 | [~] | ORDER-158 · 본편 8장면 번역 | [158](queue_active/ORDER-158.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 7 | [~] | ORDER-156 · Ch5 생활 routine 실제 배경 | [156](queue_active/ORDER-156.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 8 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 9 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 10 | [ ] | ORDER-148 · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | [148](queue_active/ORDER-148.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 11 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 12 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 13 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 14 | [~] | ORDER-143 · graph | [143](queue_active/ORDER-143.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 15 | [~] | ORDER-144 · trace | [144](queue_active/ORDER-144.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 16 | [~] | ORDER-142 · volume | [142](queue_active/ORDER-142.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 17 | [~] | ORDER-138 · finale | [138](queue_active/ORDER-138.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 18 | [~] | ORDER-137 · Ch5 수리 | [137](queue_active/ORDER-137.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 19 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 20 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 21 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 22 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 23 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 24 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 25 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 1 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | C2/C4/C5 · 고지/빈표면/5언어만 · CJK 다듬기 보류 |
+| 2 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 3 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 4 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 5 | [~] | ORDER-158 · 본편 8장면 번역 | [158](queue_active/ORDER-158.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 6 | [~] | ORDER-156 · Ch5 생활 routine 실제 배경 | [156](queue_active/ORDER-156.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 7 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 8 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 9 | [ ] | ORDER-148 · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | [148](queue_active/ORDER-148.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 10 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 11 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 12 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 13 | [~] | ORDER-143 · graph | [143](queue_active/ORDER-143.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 14 | [~] | ORDER-144 · trace | [144](queue_active/ORDER-144.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 15 | [~] | ORDER-142 · volume | [142](queue_active/ORDER-142.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 16 | [~] | ORDER-138 · finale | [138](queue_active/ORDER-138.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 17 | [~] | ORDER-137 · Ch5 수리 | [137](queue_active/ORDER-137.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 18 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 19 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 20 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 21 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 22 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 23 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 24 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 

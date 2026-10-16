@@ -3,6 +3,13 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-17 — 앞부분 그림 자료와 미관측 경계 집계 완료
+
+- [713](queue_archive/ORDER-713.md): 선언f68c5b9/product9c7dee4·60도달/카드2/일반58/M11read0. 실제3사건/6구성·6원컷1,256,121B·BG6/초상4·미할당초상2/CG6, 누락/그림전무0은 그6만. A37+B18=55사건 그림unknown·actual layer null. A74phase/75구성은 원source 예상/관측0·B18 segment수 미확정/116발명0.
+- 저자2 보고4·비저자6원컷전독·58tuple/63근거핀/20inline/6anchor·원562/612 build-only·9개prefix4→22 numeric drift0. byte/type/저장전체/cold/그림identity로 확대0·presentation18행은요약. root6재독/원W145·제품tree exact. 독립 ACCEPT_HISTORICAL_PREFIX_EVIDENCE_CENSUS_WITH_55_UNOBSERVED_VISITS·MD4144B/170289ee…b0b6·JSON15429B/4f245613…bec7·전체핀/private 원자료는사양/[공개보고](queue_backlog/A2_VISUAL_PREFIX_CENSUS_2026-10-17.md) 참조.
+- 712와합쳐 M01~M36 일반110 중 관측55/미관측55·111원컷. 문서5+diff exit0/stderr0·context boot30659/queue77/75/self25·STATUS advisory·사람OPEN45/done1/agentHOLD 보존·전체로컬/engine/240주0. 현재render/전페이지/5언어/A2전체/C1완주/전체C2/사람·원어민·패드·청취/출시GO0. 원556부재/과거REWORK/HOLD·격리/710설정사고/H3·복원HOLD/공개·사람판정 보존·원자료 재구성/완료월 반복0/unknown해소를C1 gate로추가0. 개발스킬 표적·독립·비소유·승격0/기존정본/일회성·사용자경로/제품·자산·712/engine·앱·UI 변경0. 9c7dee4 CI진행≠녹색/새월0·다음 C1재개준비와3/4별도범위.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-17 — 대표 경로 M19~M36 그림 가시성 표본 집계 완료
 
 - [712](queue_archive/ORDER-712.md): 선언9c620ea/product9c7dee4·read53 중 chapter1 제외 일반52/intro-result104구성·105원컷/16,652,651B·도달 tuple52/원핀105 exact. BG101+CG소유3·초상95+CG3/미할당6·CG3+미할당101, 그림전무/필수누락0. KO28/EN24 사건·M35 read0 비대상·전페이지/5언어/currentrender 통과로 확대0.
