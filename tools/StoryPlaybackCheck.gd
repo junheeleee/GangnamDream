@@ -69,6 +69,9 @@ func _ready() -> void:
 	if not await _check_accept_hold_boundary():
 		return
 	await _free_story_fixture()
+	if not await _check_direction_hold_reading_boundary():
+		return
+	await _free_story_fixture()
 	if not await _spawn_story_fixture():
 		return
 
@@ -353,6 +356,144 @@ func _check_accept_hold_boundary() -> bool:
 	await _send_accept_action(false)
 	ControllerHints.clear_qa_override()
 	LocaleManager.set_language(original_language)
+	return true
+
+func _check_direction_hold_reading_boundary() -> bool:
+	# Contract regression only: the real localized multi-choice root must retain
+	# its final page after authored hold. This is not a native/user repro claim.
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var pending_before: Array = GameState.pending_story_queue.duplicate(true)
+	var return_before := GameState.story_return_scene
+	var event_before: Dictionary = EventManager.current_event.duplicate(true)
+	var meta_before: Dictionary = MetaProgression.data.duplicate(true)
+	var language_before := LocaleManager.language
+	var cases := [
+		{"language": "ko", "mode": "natural"},
+		{"language": "ko", "mode": "instant"},
+		{"language": "en", "mode": "natural"},
+		{"language": "en", "mode": "instant"},
+		{"language": "en", "mode": "held"},
+		{"language": "en", "mode": "auto"},
+		{"language": "en", "mode": "settings"},
+		{"language": "en", "mode": "history"},
+	]
+	var completed := 0
+	var failure := ""
+	for case in cases:
+		await _free_story_fixture()
+		LocaleManager.set_language(str(case["language"]))
+		if not await _spawn_story_fixture("story_prologue_goal"):
+			return false
+		if bool(_story.get("_story_scene_transition_active")):
+			_story.call("_finish_story_scene_transition")
+		var mode := str(case["mode"])
+		var pages: Array = _story.get("_paragraphs")
+		var event: Dictionary = _story.get("_current")
+		var context := "%s/%s" % [case["language"], mode]
+		if pages.is_empty() or (event.get("choices", []) as Array).size() != 3 \
+				or bool(event.get("timed", false)) \
+				or float((event.get("direction", {}) as Dictionary).get("hold", 0.0)) < 0.5:
+			failure = "%s: actual hold/multi-choice fixture contract changed" % context
+			break
+		# Decode every page in order; never substitute a synthetic final string or
+		# jump _para_index past the text whose reading boundary is under test.
+		for page_index in range(pages.size()):
+			if int(_story.get("_para_index")) != page_index:
+				failure = "%s: skipped decoded page %d" % [context, page_index]
+				break
+			if bool(_story.get("_direction_beat_waiting")):
+				_story.call("_on_advance")
+			if page_index + 1 < pages.size():
+				_story.call("_complete_typing")
+				_story.call("_on_advance")
+				continue
+			if mode == "auto":
+				_story.call("_set_auto_mode", true, false, false)
+			if mode == "natural":
+				var interval := float(_story.call("_direction_type_interval"))
+				_story.call("_process", interval * str(pages[page_index]).length() + 0.02)
+			elif mode == "held":
+				await _send_accept_action(true)
+			else:
+				_story.call("_on_advance")
+		if not failure.is_empty():
+			break
+		var body := _story.get("_body_lbl") as RichTextLabel
+		var panel := _story.get("_text_panel") as Control
+		var hint := _story.get("_continue_hint") as Label
+		var final_text := str(pages[-1])
+		if bool(_story.get("_typing")) or not bool(_story.get("_direction_hold_active")) \
+				or body.text != final_text or not panel.visible:
+			failure = "%s: final text did not enter its visible authored hold" % context
+			break
+		var before_release: Dictionary = GameState.serialize().duplicate(true)
+		if mode in ["settings", "history"]:
+			var popup_key := "_audio_settings_popup" if mode == "settings" else "_dialogue_log_popup"
+			_story.call("_open_audio_settings" if mode == "settings" else "_open_dialogue_log")
+			await get_tree().process_frame
+			var remaining := float(_story.get("_direction_hold_remaining"))
+			if not is_instance_valid(_story.get(popup_key)):
+				failure = "%s: actual modal did not open" % context
+				break
+			_story.call("_process", 10.0)
+			if not is_equal_approx(float(_story.get("_direction_hold_remaining")), remaining) \
+					or body.text != final_text or bool(_story.get("_showing_choices")):
+				failure = "%s: authored hold advanced behind the modal" % context
+				break
+			_story.call("_close_audio_settings" if mode == "settings" else "_close_dialogue_log")
+			await get_tree().process_frame
+		_story.call("_process", float(_story.get("_direction_hold_remaining")) + 0.10)
+		if bool(_story.get("_direction_hold_active")) or bool(_story.get("_showing_choices")) \
+				or body.text != final_text or not panel.visible or not hint.visible \
+				or int(_story.get("_para_index")) != pages.size() - 1 \
+				or GameState.serialize() != before_release:
+			failure = "%s: hold expiry hid or committed final prose before a reading advance" % context
+			break
+		if mode == "auto":
+			var wait := float(_story.get("_auto_wait"))
+			if wait <= 0.0:
+				failure = "%s: AUTO lost its reading wait after the authored hold" % context
+				break
+			_story.call("_process", wait * 0.5)
+			if bool(_story.get("_showing_choices")) or not panel.visible:
+				failure = "%s: AUTO hid prose before its reading delay elapsed" % context
+				break
+			_story.call("_process", wait)
+		else:
+			_story.call("_process", 10.0)
+			if bool(_story.get("_showing_choices")) or not panel.visible \
+					or float(_story.get("_auto_wait")) >= 0.0:
+				failure = "%s: manual prose advanced without fresh input" % context
+				break
+			await _send_accept_action(false)
+			await _send_accept_action(true)
+		if not bool(_story.get("_showing_choices")) \
+				or bool(_story.get("_pending_after_result")) \
+				or str((_story.get("_current") as Dictionary).get("id", "")) != "story_prologue_goal" \
+				or GameState.serialize() != before_release:
+			failure = "%s: fresh advance did not open only the authored choices" % context
+			break
+		_story.call("_process", 10.0)
+		if not bool(_story.get("_showing_choices")) or bool(_story.get("_pending_after_result")) \
+				or GameState.serialize() != before_release:
+			failure = "%s: AUTO/held input committed a choice without a new choice action" % context
+			break
+		await _send_accept_action(false)
+		completed += 1
+	await _free_story_fixture()
+	GameState.call("_restore_serialized_snapshot_exact", state_before)
+	GameState.pending_story_queue = pending_before
+	GameState.story_return_scene = return_before
+	EventManager.current_event = event_before
+	MetaProgression.data = meta_before
+	LocaleManager.set_language(language_before)
+	if not failure.is_empty():
+		_fail(failure)
+		return false
+	if completed != cases.size():
+		_fail("authored-hold reading fixture inventory did not complete")
+		return false
+	print("STORY_DIRECTION_HOLD_READING_OK cases=8 ko_en=1 manual=4 held=1 auto=1 modal=2")
 	return true
 
 func _check_direct_continue_contract() -> bool:

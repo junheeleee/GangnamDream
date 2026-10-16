@@ -5730,12 +5730,12 @@ func _process(delta):
 		if _direction_hold_remaining <= 0.0:
 			_direction_hold_active = false
 			_direction_hold_remaining = 0.0
-			if _direct_continue_choice_index() >= 0:
-				_refresh_continue_hint_text()
-				_continue_hint.visible = true
-				_arm_auto_advance(_type_full)
-			else:
-				_show_choices()
+			# An authored hold is a minimum dramatic beat, not permission to hide
+			# unread final prose. Manual reading still needs a fresh advance;
+			# opted-in AUTO returns to its normal reading delay before choices.
+			_refresh_continue_hint_text()
+			_continue_hint.visible = true
+			_arm_auto_advance(_type_full)
 		return
 	if _direction_beat_waiting:
 		_direction_beat_remaining -= delta

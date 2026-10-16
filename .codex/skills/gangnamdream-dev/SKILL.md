@@ -81,6 +81,8 @@ Use only relevant ScreenshotQA scopes while iterating. Treat automated visual/au
 
 After quitting an isolated native app, do not reselect/reactivate its UI binding: that can relaunch it without the isolated environment. Confirm exit with read-only process/log checks instead.
 
+If a release executable refuses path overrides or fails pre-autoload isolation admission, do not retry its normal boot: startup alone can write player settings; use an already namespaced build or a clearly labelled official-engine/PCK diagnostic.
+
 For headless Godot checks, require the exact success marker **and** scan both stdout and the Godot log for parse/script/engine errors. Godot may exit `0` or print a late marker after a script error, so exit status or marker alone is not evidence.
 
 Even `--check-only` can touch the real recovery lock and cannot validate autoload-dependent fixtures alone; use the proven pre-autoload isolated bootstrap for project checks, never a late Node `_ready()` override or an unisolated parse shortcut.

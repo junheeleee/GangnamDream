@@ -3,6 +3,14 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — PR38/39 병합·초반 넘김 읽기 경계 수리
+
+- [710](queue_archive/ORDER-710.md): PR38→43e340f/PR39→9f0d077 병합·원문 두 삽입과R5기록 보존. 원16.2PCK/고유공식진단engine의그날의나에서 AUTO OFF 마지막본문→무입력선택레일 자동숨김을57~59캡처로확인. StoryMode hold만료 한분기만수리·MainGame/원고/조건/effects/id/CJK/경제 불변.
+- KOEN 자연/즉시·hold·AUTO·설정/기록 8사례 red→green·기존156case/1044page 유지. prefix준wrapper오류는unchanged raw의full exactmarker로정정·재실행0. 수정source-native81~83 24.3초본문유지→freshEnter84 선택만열림·정상native두실행 exit0/오류0. 독립8JPEG/19핀·1287보호핀/기존checker역산 GO_A1_AUTHORED_HOLD_READING_BOUNDARY_ONLY.
+- 원releasebinary bootstrap무시로기존제목을열고게임입력0종료한격리실패/원설정77B mtime갱신사고를사용자에게알림·추정복원0·진행mtime만확인/저장byteexact주장0. 고유engine metadata3키·사본FinderInfo만정리/보안속성보존/strictpass; 원사용자앱7파일exact·HOME/XDG/OS권한0. 실패원장모두보존.
+- source5표적/context·queue·diff통과·범위선택실행오류 TERM143은PASS0. 개발스킬격리/독립/표적/증거분리·제품정본승격0/일회성. 승격: `.codex/skills/gangnamdream-dev/SKILL.md`:Verify 에격리실패release일반boot재시도금지1줄. 원PCK16.2 진단과수정source Build10.11.1를구분·원releasebinary/새export/전체CI/EN·AUTO native/사람·패드/C2전체/M37/M60/출시GO0. 다음 PR39 결정5 별도선언·1→5→2→3→4, 대표W145/H3·완료월/공개/복원HOLD보존.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-16 — PR37 R4/R5 승인 KO/EN 문안 적용 완료
 
 - [709](queue_archive/ORDER-709.md): 선언f47e4f6 뒤 PR37 exacthead4c2e051를b107cbf로병합/push·GitHub merged확인. R4§1~8/R5§1·2 실제13사건·KO29/EN29 총58잎·10파일 적용. 사별앨범/생선·어머니사과문자는실제생산자대로, 병실23초는공통연락처이름으로수리·로그/서류위치최소중립화. R2/R3 재적용0/R5§3기록만/SELF후속선택보존.
