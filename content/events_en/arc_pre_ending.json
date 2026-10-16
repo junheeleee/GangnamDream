@@ -296,7 +296,7 @@
   {
     "id": "arc_y5_general_pre_ending_summit_exact",
     "title": "Listings at the Threshold",
-    "description": "A real estate office in Gangnam. Evening clung to the glass door, and {name} sat alone at the consultation desk. [[c5read:0]]\n\nThe bold figures on all three listing sheets hovered around 2.5 billion won. {name}'s assets had reached that threshold, but the distance between the three-billion-won line on the notebook's first page and the current figure remained.\n\nHis lower back and calves tightened after the long sitting. Each change of the light outside stretched his reflection across the door handle. His phone lay facedown within reach.\n\nThere was no signed contract, registration receipt, or key; the three sheets were still comparison information. {name} placed one hand over the phone and the other near the door. The choice was not a home, but the first action his body would take at this threshold.",
+    "description": "A real estate office in Gangnam. Evening clung to the glass door, and {name} sat alone at the consultation desk. [[c5read:0]]\n\nThe bold figures on all three listing sheets hovered around 2.5 billion won. {name}'s assets had reached that threshold, but the distance between the three-billion-won line on the notebook's first page and the current figure remained.\n\nHis lower back and calves tightened after the long sitting. Each change of the light outside stretched his reflection across the door handle. His phone lay facedown within reach.\n\n{name} rested one hand on the phone and the other near the door handle.",
     "chapter5_finale_reads": {
       "texts": [
         [
@@ -308,18 +308,18 @@
     "choices": [
       {
         "text": "Open Father's name in his contacts",
-        "result_text": "{name} found Father in his contacts and opened the entry. Beneath the saved name were only a call button and old records.\n\nHe held a finger above the button but did not press it. His lips formed the words that he had not bought a home, that his assets had reached the 2.5-billion-won threshold, and that he was comparing the current figure with the first goal of 3 billion won.\n\nNo outgoing time, ring, or answer appeared on the screen. {name} gathered his own belongings and the listings and left the office. No signed contract, registration receipt, or key came into being."
+        "result_text": "{name} found Father in his contacts and opened the entry. Beneath the saved name were only a call button and old records.\n\nHe held a finger above the button but did not press it. His lips formed the words that he had not bought a home, that his assets had reached the 2.5-billion-won threshold, and that he was comparing the current figure with the first goal of 3 billion won.\n\n{name} turned off the screen, gathered the listing sheets, and left the office. The glass door eased shut behind him."
       },
       {
         "text": "Walk Gangnam-daero alone, slowly",
-        "result_text": "{name} pushed through the glass door and stepped onto Gangnam-daero in the same evening. What he held open was a listing, not a contract.\n\nTwo lights changed over the length of one block. His lower back and calves tightened after the long sitting, and {name} slowed at the second crossing.\n\nHe could now ask prices and do the sums, but neither gave him ownership. When the second light changed, he swallowed the urge to say ‘I've arrived’ as if the listing were a deed, then crossed."
+        "result_text": "{name} pushed through the glass door and stepped onto Gangnam-daero in the same evening. What he held open was a listing, not a contract.\n\nTwo lights changed over the length of one block. His lower back and calves tightened after the long sitting, and {name} slowed at the second crossing.\n\nWhen the second signal turned, he felt the words \"I've arrived\" circling in his mouth. He swallowed them and crossed the street."
       }
     ]
   },
   {
     "id": "arc_y5_general_final_record_seal",
     "title": "The Screen to Close Tonight",
-    "description": "On the night the final three weeks began, price alerts for three saved addresses climbed across {name}'s phone. [[c5read:0]] [[c5read:1]]\n\n[[c5read:2]] Even after he returned to his room, the listings had not become a contract, and the three addresses remained comparison data, not ownership.\n\nTurning off the alerts for the thirty minutes left tonight meant giving up live price comparison for that interval. Watching them to the end meant losing the part of the night in which he could return to the repayment, his answer, and the action before the empty chair. Neither choice bought a home or produced an answer from Minseo or Father.\n\n{name} had to choose which screen to close tonight.",
+    "description": "On the night the final three weeks began, price alerts for three saved addresses climbed across {name}'s phone. [[c5read:0]] [[c5read:1]]\n\n[[c5read:2]]\n\nAbout thirty minutes were left tonight. Turn the alerts off, and he'd miss the prices in that window. Watch to the end, and his hands would never reach the repayment slip or the empty chair.\n\nThe phone buzzed again.",
     "chapter5_finale_reads": {
       "texts": [
         [
@@ -339,11 +339,11 @@
     "choices": [
       {
         "text": "Turn off the price alerts now and spend tonight's thirty minutes on the two human traces",
-        "result_text": "{name} turned off the alerts for all three addresses until morning. Once the screen went dark, he returned to the trace of repayment and his answer, then named aloud the action he had actually taken before the empty chair.\n\nThe thirty minutes with the alerts off ended, and he could not repeat the live comparison for that interval. He sent nothing to Minseo, and no read receipt or reply appeared. No new answer came from Father. This became the night he spent time not watching the numbers."
+        "result_text": "{name} turned off the alerts for all three addresses until morning. Once the screen went dark, he returned to the trace of repayment and his answer, then named aloud what he had done in front of the empty chair.\n\nFor thirty minutes the phone didn't ring once. The only sound in the room was paper turning."
       },
       {
         "text": "Watch the price alerts through all thirty minutes and set the two human traces aside tonight",
-        "result_text": "{name} left the alerts for all three addresses on. Whenever the screen lit, he checked the price, but he pressed no buy button and opened no order page. After thirty minutes, only the check times remained.\n\nHe did not return tonight to the trace of repayment and his answer or to the action before the empty chair. He sent Minseo no new sentence, and no read receipt or reply appeared. The cost of watching the numbers was that the night for people ended first."
+        "result_text": "{name} left the alerts for all three addresses on. Whenever the screen lit, he checked the price, but he pressed no buy button and opened no order page. When thirty minutes had passed, the tip of his thumb was warm from the screen.\n\nThe repayment slip and the empty chair stayed where they were across the desk. Before turning off the light, {name} realized he hadn't looked their way once."
       }
     ]
   },
@@ -528,7 +528,7 @@
   {
     "id": "arc_y5_people_verdict_daeun_exact",
     "title": "Daeun's Time, Minseo's Procedure",
-    "description": "Once Minseo was seated, Daeun counted the evenings she had spent reading the papers; Minseo ran a fingertip from the label and number to the last state the document had reached.\n\n“Whatever state today's paper ended in, that doesn't erase the nights I gave up because of it,” Daeun said. Minseo stopped at the final notation. “This still shows how far the paper got.” {name} had to decide whose words would enter the notebook first.",
+    "description": "Minseo sat down. Daeun counted on her fingers the evenings she'd given up to read these papers, and Minseo touched the place in the file where its latest status was recorded.\n\n“Whatever state today's paper ended in, that doesn't erase the nights I gave up because of it,” Daeun said. Minseo stopped at the final notation. “This still shows how far the paper got.” {name} had to decide whose words would enter the notebook first.",
     "chapter5_finale_reads": {
       "texts": [
         [

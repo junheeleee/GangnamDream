@@ -59,7 +59,7 @@
   {
     "id": "arc_y5_general_father_legacy_voice_exact",
     "title": "The Empty Chair, Thirty-One Seconds",
-    "description": "Summer deepened in the final year after Father was gone. In the room {name} now called home in Seoul, he stood Father's photograph beside the folded medicine packet and placed an empty chair across from it.\n\n[[c5read:0]]\n\nThe work clothes and braced shoulders in the photograph had not changed. His own words were already on the phone, but playing them would not let Father hear, and leaving them untouched would not erase them.\n\n{name} set the phone between the photograph and the empty chair. He had to choose whether to leave sound in this room or move the chair without a word. Neither action could produce an answer from Father or a new word from Minseo.",
+    "description": "Summer deepened in the final year after Father was gone. In the room {name} now called home in Seoul, he stood Father's photograph beside the folded medicine packet and placed an empty chair across from it.\n\n[[c5read:0]]\n\nThe work clothes and braced shoulders in the photograph had not changed. On his phone were thirty-one seconds in his own voice.\n\n{name} set the phone between the photograph and the empty chair. He had to choose whether to leave sound in this room or move the chair without a word.",
     "chapter5_finale_reads": {
       "texts": [
         [
@@ -71,18 +71,18 @@
     "choices": [
       {
         "text": "Play all thirty-one seconds, then leave one sentence aloud when it ends",
-        "result_text": "The final repayment date played first, followed by the answer {name} had actually given that day. When the thirty-one seconds ended, he looked at Father's photograph and said:\n\n\"Debt has a date when it ends. I still have an answer I haven't finished.\"\n\nHe did not press record. No new file, sent time, listener, or answer appeared. The chair across from him was still empty after the screen went dark."
+        "result_text": "The final repayment date played first, followed by the answer {name} had given that day. When the thirty-one seconds ended, he looked at Father's photograph and said:\n\n\"Debt has a date when it ends. I still have an answer I haven't finished.\"\n\nHe didn't press record. Even after the screen went dark, the chair across from him stayed empty."
       },
       {
         "text": "Leave it unplayed, turn off the phone, and pull the empty chair beside his own",
-        "result_text": "{name} drew his hand away from the play button and powered off the phone. He lifted the empty chair from across the photograph, set it beside his own, and aligned both backs toward the same wall.\n\nThe memo was neither played nor sent. No read receipt, reply, or Father's voice appeared. The space before the photograph stayed empty, but the empty chair now stood beside {name}."
+        "result_text": "{name} drew his hand away from the play button and powered off the phone. He lifted the empty chair from across the photograph, set it beside his own, and aligned both backs toward the same wall.\n\nThe place before the photo was empty. The empty chair was beside {name} now."
       }
     ]
   },
   {
     "id": "arc_y5_general_father_legacy_cafe_exact",
     "title": "The Empty Chair, Two Sheets",
-    "description": "Summer deepened in the final year after Father was gone. In the room {name} now called home in Seoul, he stood Father's photograph beside the folded medicine packet and placed an empty chair across from it.\n\n[[c5read:0]]\n\nA small note bearing his own answer remained tucked separately into the repayment-confirmation copy he had carried that day. Only those two distinct sheets joined the empty seat across from him at the cafe to the empty chair here. Minseo had not entered this room, and Father had not returned.\n\n{name} rested a hand on the folded copy and note. He could open both and read his own answer aloud, or leave them closed and move only the chair.",
+    "description": "Summer deepened in the final year after Father was gone. In the room {name} now called home in Seoul, he stood Father's photograph beside the folded medicine packet and placed an empty chair across from it.\n\n[[c5read:0]]\n\nA small note bearing his own answer remained tucked separately into the repayment-confirmation copy he had carried that day. At the café, the seat across from him had been empty. The chair in this room was empty now, too.\n\n{name} rested a hand on the folded copy and note. He could open both and read his own answer aloud, or leave them closed and move only the chair.",
     "chapter5_finale_reads": {
       "texts": [
         [
@@ -94,11 +94,11 @@
     "choices": [
       {
         "text": "Open the copy and note, then read the repayment date and that day's answer before Father's photograph",
-      "result_text": "{name} opened the repayment-confirmation copy and read the final repayment date first. Then he spoke only the actual answer on the separate note—the one he had sent in reply to Minseo's message. He kept the two sheets distinct and folded them back along the same creases.\n\nNo one was there to hear. He sent Minseo no message, and no read receipt or reply appeared. Father's photograph did not answer. The two folded sheets and the empty chair faced one another."
+      "result_text": "{name} opened the repayment-confirmation copy and read the final repayment date first. From the separate note, he spoke only the answer he had sent to Minseo's message. He kept the two sheets distinct and folded them back along the same creases.\n\nNo one was listening. Only the two folded sheets and the empty chair faced each other."
       },
       {
         "text": "Leave the copy and note folded, and pull the empty chair beside his own",
-        "result_text": "{name} did not open the copy or note. He lifted the empty chair from across the photograph, set it beside his own, and left the two folded sheets by the photograph.\n\nHe sent Minseo no message, and no read receipt or reply appeared. Father's photograph did not answer. The space before the photograph stayed empty, but the empty chair now stood beside {name}."
+        "result_text": "{name} did not open the copy or note. He lifted the empty chair from across the photograph, set it beside his own, and left the two folded sheets by the photograph.\n\nThe place before the photo was empty. The empty chair was beside {name} now."
       }
     ]
   },
@@ -541,7 +541,7 @@
   {
     "id": "arc_y5_final_father_answer_alive",
     "title": "What to Leave While Father Is Still Here",
-    "description": "On the night before the final signature, {name} opened Father's contact beside the sent time on the non-transfer notice to Sangchul. Between the guarantor field from more than ten years ago and the paper that had stopped today, only one sentence remained for him to carry across.\n\nThis was no longer a night for sorting records. {name} could send a sentence of responsibility now, save the first question he would not evade on their next call, or close the contact and leave today's name between the two papers.",
+    "description": "On the night before the final signature, {name} opened Father's contact beside the sent time on the non-transfer notice to Sangchul. Between the guarantor field from more than ten years ago and the paper that had stopped today, only one sentence remained for him to carry across.\n\n{name} could send a sentence of responsibility now, save the first question he would not evade on their next call, or close the contact and leave today's name between the two papers.",
     "chapter5_finale_reads": {
       "texts": [
         [
@@ -572,7 +572,7 @@
   {
     "id": "arc_y5_final_father_answer_passed",
     "title": "The Last Sentence Where No Answer Can Come",
-    "description": "On the night before the final signature, the folded medicine bag, Father's old guarantee, and the non-transfer notice sent to Sangchul lay around the notebook. The chair across from {name} was empty.\n\nThis was no longer a night for sorting the records again. {name} could place one sentence for Father inside the envelope, read the words aloud toward the empty chair, or keep the two papers together without adding words.",
+    "description": "On the night before the final signature, the folded medicine bag, Father's old guarantee, and the non-transfer notice sent to Sangchul lay around the notebook. The chair across from {name} was empty.\n\n{name} could place one sentence for Father inside the envelope, read the words aloud toward the empty chair, or keep the two papers together without adding words.",
     "chapter5_finale_reads": {
       "texts": [
         [

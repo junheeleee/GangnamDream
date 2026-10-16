@@ -3,6 +3,14 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — PR37 R4/R5 승인 KO/EN 문안 적용 완료
+
+- [709](queue_archive/ORDER-709.md): 선언f47e4f6 뒤 PR37 exacthead4c2e051를b107cbf로병합/push·GitHub merged확인. R4§1~8/R5§1·2 실제13사건·KO29/EN29 총58잎·10파일 적용. 사별앨범/생선·어머니사과문자는실제생산자대로, 병실23초는공통연락처이름으로수리·로그/서류위치최소중립화. R2/R3 재적용0/R5§3기록만/SELF후속선택보존.
+- root/비저자58전후전독·10raw역산exact·482event-locale중26객체만변경·조건/효과/id/순서/typed/c5read24토큰불변. 일반{name}변화5잎은승인표안·typed보존과분리. 비소유1105/49555397B drift0/CJK384/번역원장exact·재결속0. 저자4보고/원before/raw/최종핀·수용영수증은사양private경로참조.
+- source12 최초11pass/1inventoryfail 원raw/stderr0; sexuality/fear본문hash2칸과생성뷰2셀만정합뒤같은표적재검사pass. normal/self109·peak31/debt0·등급/집합/개수/검사/예외/래칫변경0. CJK-only 첫계수128경로오타는원1105보호와별개측정오류·초판보존/v2 384정정/QA반복0. 개발·장면스킬현재감각/생산조건/독립표적적용·승격0/일회성.
+- f4c3201 CI38891115471 전체success확인·709수정CI는별도. 사용자16.2/저장/설정/project/preset/공개/판정/HOLD/H3위험보존·엔진/앱/새월/UI경쟁0. 새화면/사람2~3h/청취/재미·피로/CJK최종/전체C2/M60/Steam/출시GO0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-16 — 승인 R3 선발신 문안의 CI 사실검사 수리 완료
 
 - [708](queue_archive/ORDER-708.md): main1034610 CI38877392523의 유일 unexpected CHAPTER5_HUMAN_REJECT_EXIT는 승인삭제6literal 요구였다. 선언2a918ab 뒤 checker1파일만 본문/세결과 행동별 검사로 수리·KO/EN 제품문안 복원/변경0. 허위 동석/읽음/회신/확정만남·부친응답/봉투무단발신·게임플레이 변조 거부, 비산문 영수증/presentation 경계 보존·예외/비차단/래칫 완화0.
