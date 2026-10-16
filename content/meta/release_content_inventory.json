@@ -529,8 +529,8 @@
         "categories": [], "tags": ["romance"],
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
-        "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present"],
-        "expected_event_count": 124, "expected_file_count": 26, "expected_ids_sha256": "b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa", "expected_content_sha256": "a2ae16b6263de035beb91061bdca8dd0417050fc363699f1744945133a26d613"
+        "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present", "arc_final_week"],
+        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "da15153cc522214b81a6920bdef524a7586712efc5398fecf30cc19728303b17"
       },
       "facts": [
         {
@@ -616,7 +616,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 144, "expected_file_count": 51, "expected_ids_sha256": "2cee5a032017af58d7bb853446da56393ee891f51a499c6db0b1676d578990d2", "expected_content_sha256": "0b5cfadce42f45a5d83f6cadab98032ac648a3a8ece45797a43fb18c1d77e717"
+        "expected_event_count": 143, "expected_file_count": 51, "expected_ids_sha256": "d1a6636fccb0c6cf69f2802e77dbf78497266205d8bbe9f9b6129b6d3569a63a", "expected_content_sha256": "c105e8b72844a6cf010321ecb37cf1e5ed3eec18d992d5a2f0a5f54f8dccecdb"
       },
       "facts": [
         {

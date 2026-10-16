@@ -3,6 +3,13 @@
 이전 기록은 [684 착수 예산 스냅샷](history/WORK_LOG_2026-10-15_order684_budget_snapshot.md)에 바이트 그대로 보존했다.
 보존 원문 39207B/SHA256 4da76135c3fae8347545bfe679bb9c3788cff6efa53f876b2fcc9639ce14c63e; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — 승인 R1 다섯 장면 KO/EN 적용 완료
+
+- [699](queue_archive/ORDER-699.md)/[700](queue_archive/ORDER-700.md): PR35 문서만 main98fde7f 병합·GitHub merged 확인. 선언15946ee/ea75976 뒤 KO/EN7사건65잎씩. 검수 낭독 대신 행동/감각·수첩3갈래×생사2 제목 선행/결과0 통일·병원 마감 개연성 수리. 직업/기간·새SMS/로그 위치·번호/최초연락·감액/상대/차입 가정을 최소 조정했다. 상태·선택순서·조건/id/효과·비소유/R2 원문은 raw 역산 exact.
+- KO/EN 저작 분리·비저자130잎 전수/생산 선택·조건/파생지문 GO 한정. root 새원문/보고 전문·현재12/참조5/실행11·원출력26핀 확인. CJK12파일/원장 불변·accepted digest 재계산 일치; 옛65×3 영수증은 새source stale이며 승인 재결속0. rating 검색2축/불끄기오탐1·생성3셀만 정합, 사실·강도·selector/frozen 불변. 기존 peak2함수 문안 정합·다른44 exact/허위 사실 거부·기존21변이/no-op0 보존. source11 exit0/28.78s+peak31/21·제품검사 유지·전체audit/새tool/엔진/240주/앱·실저장 접근0. 원API403/진단오류도 private 보존.
+- 승격: SCENE_TIER 공통 산문 계약 작성 규칙1줄. 나머지 일회성. 원698 W133/M34·H9M91/복원HOLD/연출부채·Human/공개/사용자 앱 보존. 기존앱은 새문안 미반영이며 후속 검수는 새source 후보 결속. 새 main CI 진행을 녹색으로 세지 않고 새월0. CJK최종/화면/사람2~3h/물리·원어민/M60·출시 GO0. 상세 보고·SHA는 사양에 보존했다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-16 — M33 부친 통화·상철 진실 실제 검수 완료
 
 - [698](queue_archive/ORDER-698.md): 같은16.3 원W130 정상EN Continue→부친0/131완료→132명함/질문live중타임관측실패즉시CmdQ. 마지막기억완성후1.5초홀드가자동선택을여는원인·root/forecast가정오류보존. 원37JPEG/PRE132/초기exit0·raw/사양불변·중간복원HOLD미해결. 같은월실제PRE132서미완료132만정상Continue→명함0→TIME10/focus0원캡처+같은callReturn0(4034ms)→신고0→first133첫문단미선택/CmdQ. 완료130/131반복0. root86원컷/출구41·semantic17표본전독·독립2한정GO/root보고전문·106+13핀확인. 도착전초상/계단카페잔류2연출부채보류·새C2/visualGO0.

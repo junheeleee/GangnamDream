@@ -2678,30 +2678,33 @@ def _validate_finale_meanings(
                 locale, f"arc_pre_ending_summit.choices[{index}].result_text",
                 result, requirements)
 
+    # Positive functions follow the approved actions and present objects. False
+    # achievement, ownership, transfer, and recovery claims remain prohibited by
+    # _validate_finale_false_facts; prose need not narrate those audit rules.
     countdown_common = {
         "ko": {
             "countdown.independent_opening": ((r"다섯 해의 마지막 달",), (r"수첩을 편 책상",)),
             "countdown.start_and_goal": ((r"50\s*만원",), (r"30\s*억원",), (r"목표",)),
-            "countdown.current_result": ((r"자산 화면",), (r"목표[^.]{0,30}(?:위|아래|넘|닿|못 닿)",)),
-            "countdown.actual_record": ((r"실제로",), (r"금액",), (r"날짜",), (r"이름",), (r"만남",), (r"답",), (r"빈칸",)),
-            "countdown.money_people_ledger": ((r"돈",), (r"사람[^.]{0,25}시간",), (r"장부",)),
-            "countdown.not_a_contract": ((r"빈 줄",), (r"수첩",), (r"계약서[^.]{0,15}아니",), (r"접수본[^.]{0,15}아니",)),
+            "countdown.current_result": ((r"자산 화면",), (r"지금 숫자[^.]{0,30}위인지 아래인지",), (r"화면을 엎어",)),
+            "countdown.actual_record": ((r"금액",), (r"날짜",), (r"이름",), (r"수첩을 넘겼",)),
+            "countdown.money_people_ledger": ((r"돈",), (r"한 열[^.]{0,25}더해지고 빠졌",), (r"이름 옆의 시간[^.]{0,30}어느 열에도 들어가지",)),
+            "countdown.notebook_line": ((r"마지막 장",), (r"빈 줄",), (r"수첩",)),
             "countdown.three_signature_meanings": ((r"책임|결과는 내 것",), (r"이름[^.]{0,20}(?:계산|값|가치)",), (r"사람부터",)),
-            "countdown.mutual_exclusion": ((r"하나",), (r"다른 (?:둘|두)",), (r"모두|셋",)),
-            "countdown.no_proxy_signer": ((r"대신 서명",), (r"펜[^.]{0,25}(?:함께|같이)",)),
-            "countdown.cost_after_choice": ((r"대가",), (r"한 줄",)),
+            "countdown.mutual_exclusion": ((r"셋 중 하나",), (r"하나를 쓰면 나머지 둘[^.]{0,25}쓸 자리가 없",)),
+            "countdown.single_writer": ((r"방에는 \{name\} 혼자",), (r"\{name\}은 검은 펜 끝",)),
+            "countdown.held_pen": ((r"펜 끝을 빈 줄 바로 위",), (r"잉크가 둥글게 맺혔",)),
         },
         "en": {
-            "countdown.independent_opening": ((r"final month of the five years",), (r"notebook open",)),
+            "countdown.independent_opening": ((r"last month of the fifth year",), (r"notebook open",)),
             "countdown.start_and_goal": ((r"500,000 won",), (r"3[- ]billion(?:-won)?",), (r"goal",)),
-            "countdown.current_result": ((r"assets screen",), (r"(?:above|past)[^.]{0,20}(?:below|goal)|(?:reaching|arrival)[^.]{0,20}(?:missing|failure)",)),
-            "countdown.actual_record": ((r"actually",), (r"amount",), (r"date",), (r"name",), (r"meeting",), (r"answer",), (r"blank",)),
-            "countdown.money_people_ledger": ((r"money",), (r"time borrowed from people",), (r"ledger",)),
-            "countdown.not_a_contract": ((r"blank line",), (r"notebook",), (r"no contract|not a contract",), (r"no filed copy|not a filed copy|no contract or filed copy",)),
-            "countdown.three_signature_meanings": ((r"responsibility|outcome is mine",), (r"price the names|names[^.]{0,35}(?:value|cost)",), (r"people first",)),
-            "countdown.mutual_exclusion": ((r"one meaning|one of|writing one",), (r"other two",), (r"all three",)),
-            "countdown.no_proxy_signer": ((r"sign for him|sign in his place",), (r"hold the pen with him",)),
-            "countdown.cost_after_choice": ((r"cost",), (r"one line|the line",)),
+            "countdown.current_result": ((r"asset screen",), (r"current number[^.]{0,30}above or below",), (r"turned the screen face down",)),
+            "countdown.actual_record": ((r"amount",), (r"date",), (r"name",), (r"leafed through the notebook",)),
+            "countdown.money_people_ledger": ((r"money added and subtracted",), (r"single column",), (r"time beside each name[^.]{0,30}fit in no column",)),
+            "countdown.notebook_line": ((r"last page",), (r"blank line",), (r"notebook",)),
+            "countdown.three_signature_meanings": ((r"responsibility|outcome is mine",), (r"(?:count|price) the names|names[^.]{0,35}(?:value|cost)",), (r"people (?:come |put )?first|put people first",)),
+            "countdown.mutual_exclusion": ((r"one of three",), (r"writing one left no room for the other two",)),
+            "countdown.single_writer": ((r"\{name\} was alone in the room",), (r"\{name\} held the tip of the black pen",)),
+            "countdown.held_pen": ((r"pen just above the blank line",), (r"round bead of ink formed",)),
         },
     }
     countdown_route = {
@@ -2718,7 +2721,7 @@ def _validate_finale_meanings(
         },
         "en": {
             "description": {
-                "countdown.base_signature": ((r"take responsibility",), (r"price the names",), (r"people first",)),
+                "countdown.base_signature": ((r"take responsibility",), (r"count the names",), (r"people come first",)),
             },
             "black": {
                 "countdown.black_signature": ((r"outcome is mine",), (r"names[^.]{0,35}cost",), (r"voices?[^.]{0,35}cost",)),
@@ -2749,24 +2752,24 @@ def _validate_finale_meanings(
     countdown_results = {
         "ko": (
             {
-                "countdown.owned_result": ((r"자기 이름",), (r"계약서가 아닌|계약[^.]{0,15}아니",), (r"도움[^.]{0,25}(?:지우지|없던 일)",), (r"책임",), (r"관계[^.]{0,30}(?:돌아오|회복|움직)[^.]{0,15}(?:않|아니)",)),
+                "countdown.owned_result": ((r"수첩의 빈 줄에 자기 이름",), (r"날짜와 이름은 지우지",), (r"도와준 사람",), (r"책임만 자기 쪽",), (r"잉크가 마를 때까지 기다렸",), (r"창밖의 불빛[^.]{0,25}꺼졌",)),
             },
             {
-                "countdown.collateral_result": ((r"실제로[^.]{0,25}이름",), (r"수익|얻은 것",), (r"비용|잃은 것",), (r"30\s*억원",), (r"사람[^.]{0,20}자원|목소리[^.]{0,25}작아",), (r"계약[^.]{0,25}(?:실행하지|실행되지|아니|뒤따르지)",), (r"이체[^.]{0,25}(?:실행하지|실행되지|아니|뒤따르지)",)),
+                "countdown.collateral_result": ((r"수첩에 적힌 이름",), (r"수익|얻은 것",), (r"비용|잃은 것",), (r"화살표를 30\s*억 쪽",), (r"목소리[^.]{0,25}작아",), (r"마지막 줄에 자기 이름",), (r"표지[^.]{0,25}화살표 자국",)),
             },
             {
-                "countdown.people_result": ((r"실제로[^.]{0,35}이름",), (r"곁에[^.]{0,20}(?:아니|뜻도|있거나)",), (r"관계[^.]{0,20}(?:증명하지|아니)|떠난 사람[^.]{0,25}돌아온",), (r"자기 이름[^.]{0,15}(?:마지막|맨 마지막)",), (r"답장",), (r"만남",), (r"화해",)),
+                "countdown.people_result": ((r"자산 화면을 끄고",), (r"앞장의 이름[^.]{0,30}옮겨 적었",), (r"마지막으로 나눈 말",), (r"자기 이름[^.]{0,15}맨 마지막",), (r"조용한 휴대폰",), (r"페이지[^.]{0,25}스탠드 불빛",)),
             },
         ),
         "en": (
             {
-                "countdown.owned_result": ((r"his name",), (r"not a contract",), (r"did not erase[^.]{0,30}(?:help|dates and names)",), (r"responsibility",), (r"did not[^.]{0,30}restore[^.]{0,20}relationship|restored no[^.]{0,20}relationship|neither[^.]{0,45}relationships? moved|no distant relationship returned",)),
+                "countdown.owned_result": ((r"his own name on the blank line",), (r"didn't erase the dates and names",), (r"people who had helped him",), (r"took only the responsibility",), (r"waited for the ink to dry",), (r"lights outside went out",)),
             },
             {
-                "countdown.collateral_result": ((r"names actually written",), (r"return",), (r"cost",), (r"3-billion-won",), (r"people as resources|voices?[^.]{0,25}shrank",), (r"no(?: new)? contract",), (r"no[^.]{0,25}transfer|transfer[^.]{0,20}did not follow",)),
+                "countdown.collateral_result": ((r"names in the notebook",), (r"gain",), (r"cost",), (r"arrow[^.]{0,55}toward the 3 billion",), (r"voices grew small",), (r"his own name large on the last line",), (r"arrows showed faintly through the cover",)),
             },
             {
-                "countdown.people_result": ((r"names that (?:already appeared|remained)",), (r"still beside him|had returned",), (r"could not prove[^.]{0,25}relationship|someone who had left had returned",), (r"his own name last",), (r"reply",), (r"meeting",), (r"reconciliation",)),
+                "countdown.people_result": ((r"switched off the asset screen",), (r"copied the names from the earlier pages",), (r"last words he had shared",), (r"his own name last",), (r"silent phone",), (r"page of names caught the lamplight",)),
             },
         ),
     }
@@ -2783,45 +2786,45 @@ def _validate_finale_meanings(
         "ko": {
             "final_week.same_scene": ((r"몇 분",), (r"같은 밤",), (r"같은 방",), (r"같은 책상|책상",)),
             "final_week.previous_signature": ((r"서명",), (r"수첩",)),
-            "final_week.actual_conversation": ((r"실제로[^.]{0,25}(?:주고받|대화)",), (r"전송 시각",), (r"대화방|대화[^.]{0,20}방",), (r"증명[^.]{0,20}(?:아니|못)",)),
-            "final_week.unsettled_state": ((r"답장",), (r"만남",), (r"화해",), (r"확정[^.]{0,15}(?:아니|않)",)),
-            "final_week.outbound_actions": ((r"밥",), (r"사과",), (r"거리",), (r"연락[^.]{0,15}시각",)),
-            "final_week.other_person_choice": ((r"강제로[^.]{0,20}(?:만들|할 수 없)",), (r"상대[^.]{0,25}선택|화면 반대편 사람[^.]{0,25}선택",)),
+            "final_week.actual_conversation": ((r"대화 목록",), (r"엄지[^.]{0,35}한 사람의 이름에서 멈췄",), (r"마지막 말풍선 아래로는 아무것도 오지",)),
+            "final_week.unsettled_state": ((r"빈 입력 칸",), (r"커서가 깜빡",)),
+            "final_week.outbound_actions": ((r"밥 한 끼를 청할",), (r"사과를 먼저 보낼",), (r"오늘은 혼자 있겠",)),
+            "final_week.other_person_choice": ((r"답은 저쪽에서 올",), (r"혹은 오지 않을",)),
             "final_week.present_objects": ((r"휴대폰",), (r"커서",), (r"충전선|배터리",)),
-            "final_week.minjun_goes_first": ((r"먼저 보낼 행동", r"자기 쪽에서 먼저"),),
+            "final_week.minjun_holds_phone": ((r"휴대폰을 두 손으로 감싸 쥐었",),),
         },
         "en": {
             "final_week.same_scene": ((r"few minutes",), (r"same night",), (r"same room",), (r"same desk|desk",)),
             "final_week.previous_signature": ((r"signature",), (r"notebook",)),
-            "final_week.actual_conversation": ((r"actually exchanged|real words",), (r"sent times?",), (r"conversation",), (r"did not prove",)),
-            "final_week.unsettled_state": ((r"reply",), (r"meeting",), (r"reconciliation",), (r"not been settled|no[^.]{0,80}settled",)),
-            "final_week.outbound_actions": ((r"meal",), (r"apology",), (r"distance",), (r"contact[^.]{0,25}(?:time|tomorrow)",)),
-            "final_week.other_person_choice": ((r"could not force|no sentence could force",), (r"choices? for the person|other person[^.]{0,20}choice",)),
+            "final_week.actual_conversation": ((r"conversation list",), (r"scrolled slowly with his thumb and stopped at one name",), (r"nothing had come after the last bubble",)),
+            "final_week.unsettled_state": ((r"empty box",), (r"cursor blinked",)),
+            "final_week.outbound_actions": ((r"ask for a meal",), (r"send the apology",), (r"alone tonight",)),
+            "final_week.other_person_choice": ((r"answer would come from the other side",), (r"or it wouldn't",)),
             "final_week.present_objects": ((r"phone",), (r"cursor",), (r"charging cable|battery",)),
-            "final_week.minjun_goes_first": ((r"action he would send first|his side[^.]{0,20}first",),),
+            "final_week.minjun_holds_phone": ((r"held the phone in both hands",),),
         },
     }
     final_week_route = {
         "ko": {
             "final_signature_owned": {
-                "final_week.owned_signature": ((r"이름",), (r"책임",), (r"빚[^.]{0,20}(?:갚|아니)",), (r"관계[^.]{0,20}(?:돌아오|되돌리|회복)[^.]{0,18}(?:않|아니)",)),
+                "final_week.owned_signature": ((r"자기 이름이 마른 수첩",), (r"표지[^.]{0,20}잉크 냄새",)),
             },
             "final_signature_collateral": {
-                "final_week.collateral_signature": ((r"이름",), (r"수익|얻은 것",), (r"비용|잃은 것",), (r"목소리",), (r"관계[^.]{0,25}(?:돌아오|되돌리|회복)[^.]{0,18}(?:않|아니)",)),
+                "final_week.collateral_signature": ((r"이름",), (r"수익",), (r"비용",), (r"화살표[^.]{0,25}한 방향",)),
             },
             "final_signature_people": {
-                "final_week.people_signature": ((r"실제로[^.]{0,30}이름",), (r"순서",), (r"떠난 사람[^.]{0,30}돌아오",), (r"관계[^.]{0,20}(?:회복|돌아오|되돌리)[^.]{0,18}(?:않|아니)",)),
+                "final_week.people_signature": ((r"이름들을 먼저 옮겨 적은 수첩",), (r"맨 아래 줄에 자기 이름",)),
             },
         },
         "en": {
             "final_signature_owned": {
-                "final_week.owned_signature": ((r"his name",), (r"responsibility",), (r"repaid no debt",), (r"restored no relationship",)),
+                "final_week.owned_signature": ((r"notebook after his name dried",), (r"smell of ink stayed on the cover",)),
             },
             "final_signature_collateral": {
-                "final_week.collateral_signature": ((r"names",), (r"return",), (r"cost",), (r"voices",), (r"did not restore[^.]{0,80}relationships?",)),
+                "final_week.collateral_signature": ((r"names",), (r"return",), (r"cost",), (r"every arrow pointed the same way",)),
             },
             "final_signature_people": {
-                "final_week.people_signature": ((r"names actually written",), (r"order",), (r"did not bring anyone back",), (r"restore a relationship",)),
+                "final_week.people_signature": ((r"notebook where he had copied the names first",), (r"his own name sat on the bottom line",)),
             },
         },
     }
@@ -2848,24 +2851,24 @@ def _validate_finale_meanings(
     final_week_results = {
         "ko": (
             {
-                "final_week.meal_result": ((r"다섯 해 전",), (r"잘했다",), (r"버틴 시간",), (r"밥",), (r"제안",), (r"날짜",), (r"장소",), (r"동의",), (r"전송|보낸 시각",), (r"침묵|거절",)),
+                "final_week.meal_result": ((r"다섯 해 전",), (r"50\s*만원",), (r"잘했다",), (r"버텼네",), (r"다음 주에 밥 한 끼[^.]{0,40}물었",), (r"전송[^.]{0,35}시각이 찍혔",), (r"숫자 1[^.]{0,25}지워지지",)),
             },
             {
-                "final_week.apology_result": ((r"미뤄 둔 사과",), (r"잘못",), (r"해명[^.]{0,50}(?:않|없|붙이지)",), (r"용서[^.]{0,20}(?:요구하지|바라지 않)",), (r"읽음|답장",), (r"화해[^.]{0,12}(?:아니|않)",)),
+                "final_week.apology_result": ((r"무엇을 잘못했는지",), (r"늦은 이유는 붙이지",), (r"이뤘는지도 쓰지",), (r"사과",), (r"답하지 않아도 괜찮",), (r"두 번 지웠다가 다시 썼",), (r"전송[^.]{0,35}휴대폰을 엎어",), (r"스탠드 불빛",)),
             },
             {
-                "final_week.distance_result": ((r"포기하지",), (r"다행",), (r"고마",), (r"혼자|거리",), (r"내일|다시 연락",), (r"8시|여덟 시",), (r"자기 쪽|이쪽",), (r"충전선|충전",), (r"답[^.]{0,15}(?:오지|없)",)),
+                "final_week.distance_result": ((r"포기하지",), (r"다행",), (r"고마",), (r"오늘은 혼자",), (r"내일 저녁 여덟 시에 자기가 먼저 연락",), (r"충전선에 꽂고 불을 껐",), (r"충전 표시등이 초록색",), (r"내일 여덟 시는 그의 몫",)),
             },
         ),
         "en": (
             {
-                "final_week.meal_result": ((r"five years ago",), (r"you did well",), (r"endured|held on",), (r"meal",), (r"proposal",), (r"date",), (r"place",), (r"consent",), (r"sent time",), (r"silence|refusal",)),
+                "final_week.meal_result": ((r"five years ago",), (r"500,000 won",), (r"good",), (r"you held on this far",), (r"asked whether[^.]{0,55}next week[^.]{0,30}eat together",), (r"pressed send[^.]{0,35}timestamp",), (r"unread mark stayed",)),
             },
             {
-                "final_week.apology_result": ((r"delayed apology",), (r"done wrong|fault",), (r"no explanation",), (r"neither[^.]{0,20}forgiveness|did not demand[^.]{0,20}forgiveness",), (r"read mark|reply",), (r"reconciliation[^.]{0,15}(?:not|were not)|no[^.]{0,60}reconciliation appeared",)),
+                "final_week.apology_result": ((r"what he had done wrong",), (r"didn't add why he was late",), (r"didn't mention what he had achieved",), (r"apology",), (r"didn't have to answer",), (r"deleted that line twice and wrote it again",), (r"pressing send[^.]{0,35}phone face down",), (r"lamplight",)),
             },
             {
-                "final_week.distance_result": ((r"didn't give up|did not give up",), (r"glad",), (r"gratitude",), (r"alone tonight|distance",), (r"contact[^.]{0,25}tomorrow",), (r"eight",), (r"his side|this side",), (r"charging cable|plugged",), (r"no new answer",)),
+                "final_week.distance_result": ((r"given up here",), (r"good thing i didn't",), (r"grateful",), (r"alone tonight",), (r"reach out first, tomorrow at eight",), (r"plugged in the phone and turned off the light",), (r"charging light turned green",), (r"tomorrow was his to keep",)),
             },
         ),
     }
@@ -2970,12 +2973,12 @@ def _validate_finale_choice_and_chain_contract(
              ["arc_final_countdown_seen", "final_signature_people"], "arc_final_week"),
         ),
         "arc_final_week": (
-            ("다섯 해 전의 내가 지금의 나에게 ‘잘했다’고 말하는 장면을 떠올리고, 그 사람에게 다음 주 밥을 제안한다",
+            ("‘잘 버텼다’고 스스로에게 말한 뒤, 다음 주 밥을 먼저 청한다",
              {"mental": 15, "health": 5, "tint": 5},
              ["arc_final_week_seen", "final_week_self_approval"], ""),
             ("다음 주를 부탁하기 전에, 미뤄 둔 사과를 먼저 보낸다",
              {"intelligence": 3, "tint": -1}, ["arc_final_week_seen"], ""),
-            ("포기하지 않은 것이 다행이라고 스스로 답하고, 오늘 필요한 거리와 다음 연락 시각을 보낸다",
+            ("오늘은 혼자 있겠다고, 내일 여덟 시에 먼저 연락하겠다고 보낸다",
              {"mental": 10, "health": 3, "tint": 4},
              ["arc_final_week_seen", "final_week_gratitude"], ""),
         ),
@@ -2991,9 +2994,9 @@ def _validate_finale_choice_and_chain_contract(
             "Write the names of the people who called him back to himself.",
         ),
         "arc_final_week": (
-            "Imagine his five-years-ago self telling him, ‘You did well,’ then suggest a meal next week",
+            "Tell yourself \"you held on,\" then ask them to eat together next week",
             "Send the delayed apology before asking for next week",
-            "Tell himself he is glad he did not give up, then send the distance he needs and the next contact time",
+            "Say you need tonight alone, and that you'll reach out tomorrow at eight",
         ),
     }
     for event_id, contracts in expected_ko.items():

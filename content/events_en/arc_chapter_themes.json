@@ -673,26 +673,26 @@
   {
     "id": "arc_y4_bill_night",
     "title": "The Night the Bills Arrived",
-    "description": "At 11:47 p.m., a 487,300-won bill issued by Changwon Sungsim Hospital's billing office would close at 11:59. Seoul East After-Hours Clinic also ended intake at midnight for {name}'s trembling fingers and double vision. Father's ward offered one 11:50 call to reconcile medications, the transfer referral, and the guardian contact chain.\n\nDaeun had come inside after {name}'s message, but she touched no button. \"Minjun, your hands are shaking. Just do the one thing you can do now.\"\n\nOnly one action could finish in twelve minutes.",
+    "description": "11:47 p.m. The virtual account the billing office at Changwon Sungsim Hospital had sent was due by 11:59 tonight. 487,300 won. Miss it, and he'd have to request a new account.\n\n{name}'s fingertips had been trembling since evening. Seoul East After-Hours Clinic stopped taking patients at midnight. And the night nurse on his father's ward had left a text: at 11:50, before shift change, she wanted to go over the medication list, transfer hospital, and contact order with family.\n\nDaeun had come after {name}'s message and was standing just inside the door. She looked down at {name}'s hands. \"Minjun, your hands are shaking. Just do one thing you can do right now.\"\n\nTwelve minutes. He could finish only one of the three.",
     "description_memory_if_known": {
-      "arc_y4_borrowed_name_reduced_to_self": "At the earlier name window, {name} deleted the other-person box and left only a reduced offer under his name. The lower scale was fixed, but it paid none of tonight's bill and completed no medical action.",
-      "arc_y4_borrowed_name_partner_review_only": "At the earlier name window, {name} gave his partner a review copy only and asked for neither a name nor a signature. That limit still meant Daeun had not made tonight's payment or medical decision for him.",
-      "arc_y4_borrowed_name_withdrew_request": "At the earlier name window, {name} withdrew both the other-name request and that deal window. Its closure did not automatically open or close any of tonight's three deadlines.",
-      "arc_y4_borrowed_name_own_name_counteroffer": "At the earlier name window, {name} filed a counteroffer under his name and received only a filing number. An unapproved proposal did not count as money available or treatment completed tonight.",
-      "arc_y4_borrowed_name_requested_complete_terms": "At the earlier name window, {name} requested source terms naming lender, principal, maturity, and collateral, then paused. No new document could be assumed to have arrived, and tonight's three windows remained."
+      "arc_y4_borrowed_name_reduced_to_self": "Earlier, {name} had struck the other names from the documents and left only a reduced proposal in his own name. He lowered his trembling hand beside tonight's bill.",
+      "arc_y4_borrowed_name_partner_review_only": "Earlier, he had handed the other person only a review copy of the documents, and asked for neither name nor signature.",
+      "arc_y4_borrowed_name_withdrew_request": "Earlier, {name} had withdrawn the request to borrow someone else's name. That deal closed the same day.",
+      "arc_y4_borrowed_name_own_name_counteroffer": "Earlier, he had submitted a counteroffer in his own name only and received a reference number. No approval text had come yet.",
+      "arc_y4_borrowed_name_requested_complete_terms": "Earlier, {name} had paused the process and asked first for the full terms: lender, principal, maturity, collateral. They hadn't arrived yet."
     },
     "choices": [
       {
         "text": "Pay the billing office 487,300 won before midnight",
-        "result_text": "{name} completed identity and item verification and sent 487,300 won at 11:58. A receipt number from Changwon Sungsim Hospital appeared.\n\nAfter-hours intake and the 11:50 coordination call passed. The money arrived, but Father's current medication list, transfer referral, and guardian contact chain were not confirmed. Daeun looked at the payment screen without a word."
+        "result_text": "{name} completed identity and item verification and sent 487,300 won at 11:58. A receipt number from Changwon Sungsim Hospital appeared.\n\nMeanwhile the 11:50 text from the ward went unanswered, and the night clinic's window passed. Daeun looked at the payment screen without a word, then rested her hand briefly on {name}'s trembling one."
       },
       {
         "text": "Leave for after-hours intake and register his own symptoms",
-        "result_text": "{name} asked Daeun to hold below the elbow and entered a taxi. At 11:59, he gave the tremor onset and moment of double vision at intake.\n\nThe billing window and ward coordination call closed. {name}'s body reached medical staff, but Father's medication, transfer, and guardian links remained unconfirmed."
+        "result_text": "{name} asked Daeun to hold below the elbow and entered a taxi. At 11:59, he told them himself when the trembling had started and when his vision had doubled.\n\nThe payment deadline and the ward's text passed in the meantime. On the bench outside the exam room, {name} kept his phone face down on his knee."
       },
       {
         "text": "Confirm medications, transfer referral, and guardian contacts with the ward",
-        "result_text": "At 11:50, {name} connected to the ward and matched Father's packets against the nurse's list. He confirmed the next-day cardiology referral number, transfer hospital if symptoms worsened, and order of night guardian calls.\n\nAt midnight, the 487,300-won payment and {name}'s own intake closed. Father was not cured. People and procedures had been connected to manage an acute deterioration in the ward."
+        "result_text": "At 11:50, {name} connected to the ward and matched Father's packets against the nurse's list. He confirmed the next-day cardiology referral number, transfer hospital if symptoms worsened, and order of night guardian calls.\n\nAt midnight the payment deadline and {name}'s own clinic window closed. His father was not better. But if his breathing worsened tonight, it was settled now who would call whom first."
       }
     ]
   },
@@ -725,26 +725,26 @@
   {
     "id": "arc_y4_bill_night_unattached",
     "title": "One Call and Open Screens",
-    "description": "At 11:47 p.m., the 487,300-won bill from Changwon Sungsim Hospital would close at 11:59, and Seoul East After-Hours Clinic ended intake at midnight. Father's ward offered one 11:50 call to reconcile medications, the transfer referral, and the guardian contact chain.\n\n{name} was alone in the room. His fingertips shook, and every window opened only to his own identity, movement, or voice. Three notifications stacked at the top of the phone, and his shaking hand knocked the water glass on the desk once.\n\nTwelve minutes remained.",
+    "description": "11:47 p.m. The virtual account the billing office at Changwon Sungsim Hospital had sent was due by 11:59 tonight. 487,300 won. Miss it, and he'd have to request a new account.\n\n{name}'s fingertips had been trembling since evening. Seoul East After-Hours Clinic stopped taking patients at midnight. And the night nurse on his father's ward had left a text: at 11:50, before shift change, she wanted to go over the medication list, transfer hospital, and contact order with family.\n\n{name} was alone in the room. Three notifications were stacked at the top of his phone. The back of his trembling hand knocked the water glass on the desk once.\n\nTwelve minutes were left.",
     "description_memory_if_known": {
-      "arc_y4_borrowed_name_reduced_to_self": "At the earlier name window, {name} deleted the other-person box and left only a reduced offer under his name. The lower scale was fixed, but it paid none of tonight's bill and completed no medical action.",
-      "arc_y4_borrowed_name_partner_review_only": "At the earlier name window, {name} gave the other side a review copy only and asked for neither a name nor a signature. That record could not invent a partner in this room or delegate tonight's choice.",
-      "arc_y4_borrowed_name_withdrew_request": "At the earlier name window, {name} withdrew both the other-name request and that deal window. Its closure did not automatically open or close any of tonight's three deadlines.",
-      "arc_y4_borrowed_name_own_name_counteroffer": "At the earlier name window, {name} filed a counteroffer under his name and received only a filing number. An unapproved proposal did not count as money available or treatment completed tonight.",
-      "arc_y4_borrowed_name_requested_complete_terms": "At the earlier name window, {name} requested source terms naming lender, principal, maturity, and collateral, then paused. No new document could be assumed to have arrived, and tonight's three windows remained."
+      "arc_y4_borrowed_name_reduced_to_self": "Earlier, {name} had struck the other names from the documents and left only a reduced proposal in his own name. He lowered his trembling hand beside tonight's bill.",
+      "arc_y4_borrowed_name_partner_review_only": "Earlier, he had handed the other person only a review copy of the documents, and asked for neither name nor signature.",
+      "arc_y4_borrowed_name_withdrew_request": "Earlier, {name} had withdrawn the request to borrow someone else's name. That deal closed the same day.",
+      "arc_y4_borrowed_name_own_name_counteroffer": "Earlier, he had submitted a counteroffer in his own name only and received a reference number. No approval text had come yet.",
+      "arc_y4_borrowed_name_requested_complete_terms": "Earlier, {name} had paused the process and asked first for the full terms: lender, principal, maturity, collateral. They hadn't arrived yet."
     },
     "choices": [
       {
         "text": "Pay the billing office 487,300 won before midnight",
-        "result_text": "{name} verified the bill items and issuer and sent 487,300 won at 11:58. A receipt number from Changwon Sungsim Hospital remained on-screen.\n\nSeoul intake and the ward coordination call closed. The money arrived; Father's medication, transfer, and guardian links did not."
+        "result_text": "{name} verified the bill items and issuer and sent 487,300 won at 11:58. A receipt number from Changwon Sungsim Hospital remained on-screen.\n\nMeanwhile the 11:50 text from the ward went unanswered, and the night clinic's window passed. Below the receipt number, his trembling finger left smudges on the screen."
       },
       {
         "text": "Go to the Seoul clinic and register his own symptoms",
-        "result_text": "{name} entered a taxi and reached after-hours intake at 11:59. He presented identification and personally gave the onset time and visual symptoms.\n\nThe payment and ward coordination call closed. {name}'s body reached medical staff, while Father's three ward links remained unconfirmed."
+        "result_text": "{name} entered a taxi and reached after-hours intake at 11:59. He presented identification and told them himself when the trembling had started and when his vision had doubled.\n\nThe payment deadline and the ward's text passed in the meantime. On the bench outside the exam room, {name} kept his phone face down on his knee."
       },
       {
         "text": "Confirm medications, transfer referral, and guardian contacts with the ward",
-        "result_text": "{name} connected to the ward and matched Father's medicine packets against the nursing record. He confirmed the next-day referral number, transfer hospital, and order of night guardian calls, then read each item back.\n\nAt midnight, payment and {name}'s intake closed. Father remained in the ward. Only the medical procedure for handling acute deterioration continued."
+        "result_text": "{name} connected to the ward and matched Father's medicine packets against the nursing record. He confirmed the next-day referral number, transfer hospital, and order of night guardian calls, then read each item back.\n\nAt midnight the payment deadline and {name}'s own clinic window closed. His father was not better. But if his breathing worsened tonight, it was settled now who would call whom first."
       }
     ]
   }

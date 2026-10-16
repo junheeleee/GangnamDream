@@ -132,9 +132,9 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
 | 사행성·도박 | 136 / 43 | `d41c2decfd20cbb8c4c5abe0f751009fd00e8a7de5c303b3227d0e81476a062a` | `7e422c31fd144985bfc3516c7b0cad27eff3e6ae9fd1f3cfd93a0043431248b7` | strong, moderate |
-| 선정성·성적 내용 | 124 / 26 | `b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa` | `a2ae16b6263de035beb91061bdca8dd0417050fc363699f1744945133a26d613` | moderate, mild |
+| 선정성·성적 내용 | 125 / 26 | `6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a` | `da15153cc522214b81a6920bdef524a7586712efc5398fecf30cc19728303b17` | moderate, mild |
 | 폭력성 | 16 / 13 | `fd37228bc8f4bfdc6c0eccc9b3a3d8aa084f52c3d2373d9a45b24eddbeab0c91` | `9fb867fafde36e279db05ce64e4ec7547f5682135cdb441c6f0c03dc6c9f31c8` | mild |
-| 공포 | 144 / 51 | `2cee5a032017af58d7bb853446da56393ee891f51a499c6db0b1676d578990d2` | `0b5cfadce42f45a5d83f6cadab98032ac648a3a8ece45797a43fb18c1d77e717` | moderate |
+| 공포 | 143 / 51 | `d1a6636fccb0c6cf69f2802e77dbf78497266205d8bbe9f9b6129b6d3569a63a` | `c105e8b72844a6cf010321ecb37cf1e5ed3eec18d992d5a2f0a5f54f8dccecdb` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `b7018e341076ee7951da874c3fe6cadd4f34d7f0c996feb2b67e83c0a44e98c2` | mild |
 | 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `6f7fcf63efdabeea6cdf46d8feb80a6989d69ea3c1b1295b1b48ac254b8c43b7` | moderate, strong |
 | 음주·흡연·약물 | 83 / 40 | `9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e` | `19175259bc8c33a509d648553c2bc4cfece17bfa5726c9286bc8c5a488cd8e40` | moderate, mild |
@@ -142,7 +142,7 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |
 
 명시 검토한 검색 오탐(후보 해시에는 남겨 검색 규칙 변화도 드러낸다):
-- 선정성·성적 내용: `arc_y4_father_final_contact_present`
+- 선정성·성적 내용: `arc_y4_father_final_contact_present`, `arc_final_week`
 - 폭력성: `amb_coin_00`, `arc_daeun_first_night`, `arc_sangchul_confrontation`, `cafe_bluff_caught`, `callback_ignored_hyunsu_warning_echo`, `callback_recommitted_to_job_echo`, `inv_portfolio_review`, `job_colleague_conflict`, `kx_coin_noraebang`, `startup_team_conflict`, `story_knee_choice`, `story_knee_witness`
 - 범죄: `arc_y4_family_partner_collision_jiyeon`
 - 음주·흡연·약물: `arc_36_body_signal`, `arc_year3_close`
