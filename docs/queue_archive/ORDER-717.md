@@ -1,6 +1,6 @@
 # ORDER-717 — M37 사실 수리 후보의 격리 검수 앱 준비
 
-#### [~] ORDER-717 [C1/C2 패키지] 착수 — 2026-10-17
+#### [x] ORDER-717 [C1/C2 패키지] 준비 완료 — 2026-10-17
 
 716의 KO/EN 두 구절 수리를 실제 같은 M37에서 재검수할 패키지 하나만 만든다.
 루트 제품37089e77b05b2b6c4aceeadf733d22e4c536283f/tree88b424ab에 고정한다.
@@ -40,4 +40,26 @@ entry/ICU와 BuildInfo를결속한다. 서명·universal·원12raw/누수·보�
 714의실제W147359573B/SHA243a…0ce는읽기핀만·이단위에서복사/편집0.
 완료뒤714가 수정후보전체CI·잠금해제·사용자앱부재를다시확인하고 normalContinue로
 동일W147미선택장면을재검수할 별도입력안을봉인한다. 월별관측/검수/마감commit은714소유.
+
+## 패키지 한정 완료
+
+private980a55fe/tree80c925a0·source37089e77, 명시import1 24.900991초/export1 47.874826초,
+후속unpack/signature/universal3명령 exit0. ZIP440943318B/dc1d06c0…53dd,
+app7/tree51a056d1…ae68, PCK404889008B/b2933fa8…b45/1893 payloadMD5·JSON675 exact,
+ICU4797072B/40256630…65d. ECFG41의Splash/customdir_2=true/ICU=true를독립직접해독.
+BuildInfo stage17.2/packedGDSC 지문결속·bytecode상수decompile/창표식/OS소비는미관측.
+원12stream 오류/누수0, nestedproject WARNING2명령/4stream·재서명stderr보존.
+보호377그룹741기록/707unique파일·전후raw241672B byteexact, 새namespace파일0.
+native/seed/engine추가0·사용자16.2/17.1/714/716/공개/원판정불변.
+
+비저자GO_PACKAGE_ONLY·MD4118B/SHA3b8c7f592d98f03a66626656aad75b46ee53d6b533d3875fbe27e8daebf12d1c,
+JSON30407B/SHAdc15c6983c7d30484fc0b69a39a01837c18ecae8981041cb87bccee5882ff10a.
+root는보고전문/원패키지receipt·후보/지문경계를대조했다. 준비보고2쌍은동결원형이다.
+현재제품전체CI는진행중이므로 package준비만완료·714M37HOLD/715M38미진입이다.
+새규범승격0·기존격리/증거계약사용·이단위실행지시는일회성.
+714의수정실행helper/입력안/CI/원컷은714소유이며준비helper재실행금지.
+문서표적은context/queue 최초2pass 뒤 dashboard의--md누락 exit2를원raw보존했다.
+정정dashboard(advisory)/human/queue-self/diff4/4 exit0·stderr0. context boot30659/
+docs848/links315/invariants15, queue80/78/max2, self25/fence4·humanOPEN45/done1보존.
+기존통과2검사 재실행0·STATUS stale비차단·전체로컬/240주0. 문서입력오류는제품실패가아니다.
 승격0/기존격리정본적용·나머지일회성. 자동검사는재미·깊이·문체증거가아니다.

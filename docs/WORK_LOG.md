@@ -3,6 +3,14 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-17 — M37 수리 후보의 별도 검수 앱 준비 완료
+
+- [717](queue_archive/ORDER-717.md): source37089e77→private980a55fe/tree80c925a0·내장customdir_2/ICU+BuildInfo17.2 두파일만. freshimport1 24.900991초/export1 47.874826초·후속3 exit0, ZIP440943318B/dc1d06…53dd/app7/PCK1893 MD5·JSON675·ICU exact. ECFG41 직접해독/Splash·격리bool/string, packedBuildInfo remap/GDSC 핀·상수실행/창/OS소비미관측.
+- 비저자GO_PACKAGE_ONLY·원12stream/error·누수0/중첩WARNING2명령4사본·재서명stderr보존. 보호377그룹741기록/707unique파일·241672B raw전후exact·새namespace파일0. MD4118B/3b8c7f59…2d1c·JSON30407B/dc15c698…f10a, 전체핀/원receipt는private717. root전문대조/준비보고동결·일회성/승격0·개발스킬격리·표적·독립적용.
+- native/seed0·수정앱실화면/전체CI/M37/M38/5언어최종/사람·청취/출시GO0. 사용자16.2/원17.1/W147359573B/714/716/공개/옛HOLD/710설정사고보존. 제품370 CI진행≠녹색·714동일W147재검수 뒤월별한commit, 718 private저작만병렬/주도권변경0.
+- 문서5+diff: context30659/docs848/queue80·78/self25·4/human45OPEN+1done, STATUS staleadvisory. dashboard--md 누락exit2원raw→정정잔여4/4 exit0/stderr0·통과2반복0/전체로컬0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-17 — M37 무직 경로의 퇴근 전제 수리
 
 - [716](queue_archive/ORDER-716.md): 선언e6f8852 뒤 실제W147/r13과 current_job{}로 확인한 KO퇴근길/ENcommute home 두 구절을 기존 열차 장면의 덜컹거림으로 교체. 원2JSON 역치환 byte-exact·그 외본문/변형/flags/effects/조건/id/순서/자산·CJK/번역원장 불변. inventory의본문SHA2칸과생성보고2셀만결속·등급/집합/개수/검사/예외변경0.
