@@ -3,6 +3,13 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — M36 실제 플레이·저장 검수 완료
+
+- [706](queue_archive/ORDER-706.md): accc CI38859810652 전체success 뒤 새고정16.5/원W141한복사·EN정상Continue→141story c0→142/143auto→144close c0→144scene c0→첫145Chapter4카드미선택CmdQ. root43원컷·독립27직접화면/별도11실제값·prefix6064leaf검수, 월한정두GO. 703나이/705자산본문수리는11대화기록/실본문에서확인·새C2관측0. 707미래문안은이앱미반영·실행시간41분은병행작업대기포함/사람플레이시간아님.
+- final356249B/ec74f442…8a93 actualbyteexact·145/last144/age36/2029Jan/H3M91/−11343976/read113/routine144/completed144/resume·chain{}·145read0. 원110/140/140 값drift0/intfloat178·옛118효과재실행0·cast6/items4/무직/portfolio/대출/관계불변. 월정산−650000/4루틴+280000·실제Januarynews5/18prices/APpenalty/Bear변화보존·noRNG주장0.
+- native27076 exit0/2461.559563초/경고1·오류ObjectDB0·보호128/2235exact/app/seed/HOME-XDGtrue/editor생존/종료후UI0. build-only두파일/freshimport1/export1/서명universal/PCK675JSON·원보고/실행사양/패키지SHA는사양참조. 개발스킬격리/독립/표적·일회성/승격0·월별한commit/STATUS전용0. 옛복원HOLD·H3다음생존위험유지. 2508811정적CIpass/engine진행≠녹색·마감후CI별도·M37/전체C2/KO-CJK/사람/청취/M60/Steam/출시GO0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-16 — PR36 R2/R3 승인 문안 적용 완료
 
 - [707](queue_archive/ORDER-707.md): PR36 merged4bde546·R2§1·2/R3§1~7을 KO77/EN77 총154잎·12사건에 적용. 비저자전수/전체raw10·순서/typedreader 보존, flags/effects/조건/id/선택index/자산/라우팅0. 현재수용R1기억4키사용·허위제출복원0, 병동정확인용+로그위치중립화8잎. R2§3/연속성메모는출시후기록·person_deal/28th/final_week원형·R4문서는병합만/데이터0.

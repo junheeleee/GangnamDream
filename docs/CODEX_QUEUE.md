@@ -42,9 +42,9 @@
 
 | 기준 | 현재 실행 범위·남은 일 |
 |---|---|
-| C3 CI | 확정accc7ba CI38859810652 success·예외/만료0. 707수정후mainCI 별도/진행≠녹색·제품검사 보존. |
-| C1 대표 완주 | [701 M34](queue_archive/ORDER-701.md)·[702 M35자동](queue_archive/ORDER-702.md) 완료·W141 미선택. 새source 후보/CI녹색 뒤 M36·완료월 반복0. |
-| C2 치명 결함 | [707](queue_archive/ORDER-707.md) R2§1·2/R3§1~7 KO/EN154잎 source 수용·flags/조건/id/CJK보존·미래화면미검수. [703](queue_archive/ORDER-703.md)/[705](queue_archive/ORDER-705.md) 수리M36 별도진행·R2§3기록/R4적용0. |
+| C3 CI | 확정accc7ba CI38859810652 success·예외/만료0. 2508811 CI38875317606 정적success/engine진행≠녹색·마감후mainCI별도/제품검사 보존. |
+| C1 대표 완주 | [706 M36](queue_archive/ORDER-706.md) EN 실제완료·3선택/read113/저장독립GO·첫W145미선택·H3M91. 수정mainCI 전체녹색뒤 M37·완료월 반복0. |
+| C2 치명 결함 | [703](queue_archive/ORDER-703.md)/[705](queue_archive/ORDER-705.md) 수리M36에서확인. [707](queue_archive/ORDER-707.md) R2§1·2/R3§1~7 KO/EN154잎 source 수용·flags/조건/id/CJK보존·미래화면미검수. R2§3기록/R4적용0·전체C2미발급. |
 | C4 사람·고지 | [696](queue_archive/ORDER-696.md) 본편16.2 전용앱/저장·KO메뉴를 사용자에게 인계. 실행 중 사용자 UI 양보·사람2~3시간 평가는 미완료. [673](queue_archive/ORDER-673.md) 고지초안 보존. |
 | C5 출시 준비물 | [704](queue_archive/ORDER-704.md) trailer02 수첩 source 수용·새capture/영상 미검수. [674](queue_archive/ORDER-674.md)/[675](queue_archive/ORDER-675.md) 설명5언어 보존·retail/빌드/설문/외부 남음. |
 
