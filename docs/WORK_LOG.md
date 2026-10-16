@@ -3,6 +3,12 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — M36 입구 나이 첫문단 source 수리 완료
+
+- [703](queue_archive/ORDER-703.md): 선언5332d92 push 뒤 actualW141 화면36세/저장35세 모순 KO/EN 첫문단2잎만 현재채팅창/손끝빛으로수리. 비저자2/2 전수·다른6문단/4토큰/선택·효과·조건/id·다른각30사건 exact·전체raw2역산·content673 직접지문/보호9 root대조 exact. 새나이/기간/관계/직업/거래/계층·direction·자산0. 독립 GO_SOURCE_AGE_FIRST_PARAGRAPHS_ONLY·root보고전문/11핀확인·새화면/M36선택결과/후반다른본문 GO0.
+- 기존source9 exit0/43.443916초/18raw전독·stderr0/마감문서5/context·queue·diff·release inventory 변화0. CJK384event/원장 불변·description 영수증3 stale/재결속0; rootrawSHA와Leaf공식혼용 최초분석 보존 뒤 기존Leaf식으로정정·독립결과와일치. 후보2파일SHA/보고/실행사양핀은사양참조. 개발스킬비소유보존/독립/표적·일회성/승격0·새tool/engine/build/앱/OS/저장설정/project/공개/제품검사 변경0. 선언5332 CI는static success/engine진행≠녹색·수정CI별도·새월0. 다음 새source 후보/CI녹색 뒤 원W141 M36·완료월반복0/옛16.4미반영·CJK최종/사람2~3h/청취/물리/M60/Steam/출시GO0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-16 — M35 조용한 주 자동처리 검수 완료
 
 - [702](queue_archive/ORDER-702.md): 701 같은 단일16.4 native의137~140 자동주만·추가입력/재실행/build/seed0. 실제전경 없이각루틴·완료1/신규read0/141정산1·W137−10603976+280000−650000=−10973976/H5M91. W141 market_shock 실제발생/빈portfolio 직접손실0·뉴스3/시장18가격1 추가. 무직/관계/cast/items불변·원108/132/132 값보존/표현차이경계 보존. root26전수·독립출구18/의미11 표본·두검수자 월범위한정GO; 주별별도화면/중간checkpoint를꾸미지않음.
