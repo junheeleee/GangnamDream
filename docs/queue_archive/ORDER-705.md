@@ -1,6 +1,41 @@
 # ORDER-705 — M36 자산 전진 단정의 source 사실 수리
 
-#### [~] ORDER-705 [C2 source-only] 착수 — 만지는 제품 파일: story_events KO/EN 두 파일
+#### [x] ORDER-705 [C2 source-only] 자산 전진 반대사실 KO/EN 수리 — 2026-10-16
+
+## 완료 결과·한정 판정
+
+선언9aea1f051848eb837f917ec7420e152a6e4c6549/tree95d34c9f812a2eae1ab8a70be2fdadcd716e1961
+main push 뒤 본문3 KO/EN 각1잎만 아래 문안 적용. 시작50만원→현재총자산
+−10973976이므로 30억까지 거리는11473976원 더 멀다. 자산조건 없는 진전
+단정을 현재 집들이사진/손끝/매끈한화면 감각으로 수리·새과거/직업/거래0.
+비저자 `/root/m32_path_review` 전수2/2·전체raw2 역치환 exact·다른6문단/4토큰/
+각30사건·선택/효과/조건/id/order 불변을 확인했다. 703 첫문단/출근work 결과
+보존·무직단기생계와 양립하는 work를 허위직장 C2로 만들지 않았다.
+
+GO_TWO_SOURCE_BLOBS_PROGRESS_FACT_ONLY. KO70886B/SHA0539af1f9ae874134118dfdbb2b0c24e40453f81a7bd1e5f2eae06dea4116d93,
+blob7151a2af96d455f02c08fd3888431082c8c1fe6e; EN50792B/SHAae13695a6b4d6fa63828a7f490805dbdfd61006312fb456aa61bcfebc12af491,
+blob86305196c142d0f6612790968f01d84fd17ddbaa. 독립 content673+기타source75
+지문748/748 exact·원actual final350009B/3a6bacb6…c0b37 exact. 실사용자path/
+engine/UI/저장 변경0·원16.4 및 사용자16.2 보존. CJK384파일/원장exact;
+description Leaf06844736…→83c4de09…; accepted44cc7254…3은원래stale/
+신규stale0·재결속0. 계층/direction/자산/정본/밸런스 변경0.
+
+private `.git/order705-progress-20261016/`:
+- executed-spec-before-close.md4185B/eb38e4cf6f43f70bb111eba3b86bf4fa322f2d3502af640e68094e4342582924
+- before.json165742B/f24343d82384ed0d63231771483137c705f45166bf6c03134cbd1176176de695
+- after-root.json2066B/343128e24aadb6b607ce7f01cee202750f48f2df78bb80f22711faed11a4cdb8
+- target-result.json8489B/845b22dc3c514c28ee2b7a88312cecf9d1aa62ec61a94947797584447c9b0f16
+- independent-review.md6364B/af727de9c2acb3103499c201a87ebd0e60b2cd30c1c28d8fa04010c52b0fda2f
+- independent-review.json7285B/a117c0b7cdbc1875b82411608426439ba6998b6c2f3c723a946fa2136677164a.
+
+root 보고전문/2source+5입력+2before/원출력18핀 확인. 기존source9 exit0/
+41.547114초/stderr0·release inventory 불변·문서표적5/context·queue·diff로 마감.
+개발스킬 비소유/독립/표적 적용·일회성/승격0·새tool/전체audit/240주/engine0.
+388db78 CI38851221082 success 확인·현재후속main은진행≠녹색/새월0.
+이두blob source GO는 미커밋전체후보/새화면/M36결과/전체C2/기존HOLD해결/
+사람/청취/원어민/물리패드/최종5언어/M60/Steam/출시GO가 아니다.
+
+아래는 실행 전 선언 원문이다.
 
 ## 확인 근거와 범위
 

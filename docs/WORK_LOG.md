@@ -3,6 +3,12 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — M36 실제 자산과 반대인 전진 단정 source 수리 완료
+
+- [705](queue_archive/ORDER-705.md): 선언9aea1f0 push 뒤 보존W141 총자산−10973976/시작500000/목표30억까지거리11473976증가와 충돌하는 무조건“처음보다가까움” 본문3 KO/EN2잎만 현재집들이사진/손끝/매끈한화면으로수리. 비저자2/2전수 GO_TWO_SOURCE_BLOBS_PROGRESS_FACT_ONLY·raw2전체역산exact·다른6문단/4토큰/각30사건/선택·효과·조건/id/order exact. 703첫문단/출근work 보존·무직단기생계와양립하므로허위직장으로오등록0. 실제후반frame/선택결과관측0.
+- 기존source9 exit0/41.547114초/stderr0·raw18전독/핀확인·release inventory 불변·독립content673+기타source75 exact·원final byteexact/실사용자path접근0. CJK384/원장불변·description이미stale3/신규0/재결속0. 보고전문/2source+5입력+2before핀확인·SHA/후보blob사양참조·문서표적5/context·queue·diff. 개발스킬 비소유/독립/표적·일회성/승격0·정본/계층/자산/밸런스/engine/앱/저장/공개/제품검사 변경0. 388db78 CI38851221082 success·후속진행≠녹색/새월0·다음새source후보로원W141/M36. wholeGit/새화면/전체C2/기존HOLD/사람/청취/5언어최종/M60/Steam/출시GO0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-16 — 트레일러 목표 컷의 현재 수첩 source 준비 완료
 
 - [704](queue_archive/ORDER-704.md): 선언cb1ffe2 push 뒤 trailer02의구MainGame/AP 진입꼬리만 현재 StoryMode수첩3동기선택 호출로대체·50만원/무직/W1초기12줄·기존frame key/두4초consumer/음향·자막 보존. 문서한행+source/실물경계7줄·July13역사proof exact. 비저자helper1/문서전체/생산소비자전수 GO_SOURCE_PREPARATION_ONLY·515중514함수exact/전체raw역산·source비소유748/content675exact. root760은기존이미지8/MP4 4보존도포함·독립media관찰0. 3오디오manifest선언clean원본대조exact·대본/효과/조건·gameplay·CJK·사용자path접근0.
