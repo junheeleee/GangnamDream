@@ -1,6 +1,6 @@
 # ORDER-720 — 기존 AI 번역 고지의 실제 UI 렌더 확인
 
-#### [~] ORDER-720 [C4 고지 준비] 착수 — 2026-10-17
+#### [x] ORDER-720 [C4 고지 준비] 준비 렌더 검수 완료 — 2026-10-17
 
 673의 공통고지/3소비자는이미구현수용됐다. 719 상점기대치정렬 뒤 남은 고지의
 화면준비만확인한다. C1/사용자앱/CI가우선·새출시조건/기존673재구현0. shipping
@@ -34,3 +34,22 @@ FOCUS_NONE·mouseIGNORE·기존선택rail을확인하고 실제font base/path를
 한정공간만검수한다. 승격0·기존고지/격리계약적용·작업절차일회성. 자동렌더/에이전트
 관찰을native앱/실제사람/CJKshipping/C4전체/출시GO로바꾸지않는다.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 실제 결과 — 준비 화면 한정
+
+선언5b65849·private source1146166B/9bcc4801…01a·기존517함수와
+assertion 보존/새3함수. 별도APFS사본·기존공식engine/cache/Bootstrap만재사용,
+freshUUID5·OpenGL3/1280×800·import/native0. 실제5회8.966502/8.943207/
+9.549022/9.618628/9.723576초 각exit0·원15stream 오류0·success/pre-autoload각1.
+원15PNG root/비저자전독·고지5문안/14px/Pretendard·NotoJP/SC/TC/경계/rail정상.
+EN/JA타이틀설정2줄도전부표시·겹침0·Story상태변경0. shipping KOEN그대로,
+CJK강제렌더는prepared_only=1이다. 사용자16.2/717앱/714/공개/원설정보호379그룹
+748기록·718원fixture/cache4704·과거증거146·fallback namespace 전후exact.
+비저자GO_DISCLOSURE_RENDER_PREPARATION_ONLY·MD3504B/721ecea7…a27e·
+JSON28262B/65ba4a72…c789. 원보고/전체핀/raw는
+`.git/order720-ai-notice-surfaces-20261017/independent-review.{md,json}`에결속한다.
+제품UI/사전/allowlist/경제/스토리·root코드변경0·QA사례는private만. 673재구현0,
+새규범승격0·기존격리/고지계약적용·작업절차일회성. CJKretail활성화/원어민/
+사람2~3h/native앱/C4전체/C1/출시GO는미완료다. C1수정CI전체success뒤714우선.
+문서영향5·working/staged diff exit0, STATUS staleadvisory·queue self25/fence4.
+714/715 월별선언은이마감에스테이징하지않았다.

@@ -3,6 +3,14 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-17 — AI 번역 고지 15개 준비 화면 검수 완료
+
+- [720](queue_archive/ORDER-720.md): 선언5b65849·실제Splash/타이틀설정/장면설정×5언어, 기존공식engine/cache의별도APFS사본·freshUUID5·OpenGL3/1280×800·import0/native0. 새privateQA3함수만·기존517함수/assertion/제품UI/사전/allowlist/스토리/effects/id 불변.
+- 5회각exit0·8.966502/8.943207/9.549022/9.618628/9.723576초·15raw오류0/fullmarker·preautoload각1. 15PNG root/비저자전독·고지exact5/14px/실제Pretendard·Noto3/전체줄/경계/겹침/포커스rail/Story상태불변. EN/JA타이틀설정2줄정상. 비저자GO_DISCLOSURE_RENDER_PREPARATION_ONLY·전체핀/원보고는private720 `independent-review.{md,json}`.
+- 비저자MD3504B/721ecea7…a27e·JSON28262B/65ba4a72…c789. 보호payload379그룹748기록/718원fixture-cache4704/과거증거146/fallback 전후exact·보호문서전체byte동일주장0. 사용자앱/저장/설정/project/preset/공개/714·717/710사고보존. KOEN shipping그대로·CJK강제준비만; retail5활성화/사람2~3h/원어민/패드/청취/native/C4전체/C1/출시GO0. 개발스킬의격리·독립·표적·증거경계적용·승격0/일회성. 370수정CI의남은영어/Sim완료뒤714 실제W147재검수 우선·월별1commit/최대2 유지.
+문서영향5/working·staged diff exit0·STATUS staleadvisory·queue self25/fence4. 714/715 월별선언은별도마감까지미스테이징.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-17 — 5언어 상점 기대치 정렬·결산 private 후보 검수 수용
 
 - [719](queue_archive/ORDER-719.md): 선언db34b5a 뒤 장르/Short5/About첫줄5·날짜만. 원33731B/64781a2f…20dd→34678B/c6cab8a2…e216·12span inverse rawexact. Short139/270/159/168/173·AI5고지/본문/태그/B·C 보존·제시된선택지의다음행동만약속. 비저자 GO_DOCUMENT_COPY_ONLY·MD3787B/2051aeef…0e18·JSON20996B/a02f2ad4…7ba·private719에전핀/원문/receipt. CJK새소개만·기존다듬기0·주도권/제품/엔진/앱/외부변경0.
