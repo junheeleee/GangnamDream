@@ -58,6 +58,8 @@ An unmatched path deliberately demands the full audit; that is the safe default,
 
 Use `audit_select.py --list -- <paths...>` to inspect the selection only; omitting `--list` executes it, including engine checks, and is not a safe substitute for isolated targeted runs.
 
+When approved prose replaces a fact-guard phrase, check the affected required/forbidden literals and real-object negative tests together; preserve the fact boundary without requiring the deleted wording.
+
 Before completion:
 
 ```bash

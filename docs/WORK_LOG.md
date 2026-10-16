@@ -3,6 +3,13 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-16 — 승인 R3 선발신 문안의 CI 사실검사 수리 완료
+
+- [708](queue_archive/ORDER-708.md): main1034610 CI38877392523의 유일 unexpected CHAPTER5_HUMAN_REJECT_EXIT는 승인삭제6literal 요구였다. 선언2a918ab 뒤 checker1파일만 본문/세결과 행동별 검사로 수리·KO/EN 제품문안 복원/변경0. 허위 동석/읽음/회신/확정만남·부친응답/봉투무단발신·게임플레이 변조 거부, 비산문 영수증/presentation 경계 보존·예외/비차단/래칫 완화0.
+- 기존76사례/38함수·module prefix·비대상 구간 exact, 실제정상1+음성32 추가. normal0.320432초/self6.549362초 exit0·self109·stderr0·raw4 전독/핀확인. 비저자 전diff/33추가사례/현재제품·생산소비자·raw 전수 수용, 보호1115/50935290B drift0. checker SHA c1ce8fd0…e5c54·보고/원실패/실행 핀은 사양 참조. 문서표적5/context·queue·advisory STATUS·diff·전체로컬/engine/앱/새월0.
+- 개발 스킬 표적·독립 검수 적용, 승격은 SKILL Verify 승인본문과 fact-guard 회귀를 함께 확인하는 한줄·나머지 일회성. 사용자 앱/저장·root project/preset·공개demo·과거 사람/agent 원장/CJK/번역원장 불변. 수리 후 전체 main CI 별도·진행≠녹색·M37입력0/H3위험 유지. 전체C2/대표완주/사람·청취/CJK최종/Steam/출시GO0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-16 — M36 실제 플레이·저장 검수 완료
 
 - [706](queue_archive/ORDER-706.md): accc CI38859810652 전체success 뒤 새고정16.5/원W141한복사·EN정상Continue→141story c0→142/143auto→144close c0→144scene c0→첫145Chapter4카드미선택CmdQ. root43원컷·독립27직접화면/별도11실제값·prefix6064leaf검수, 월한정두GO. 703나이/705자산본문수리는11대화기록/실본문에서확인·새C2관측0. 707미래문안은이앱미반영·실행시간41분은병행작업대기포함/사람플레이시간아님.

@@ -1493,6 +1493,116 @@ def validate_authored_location_repair(
     errors.extend(_authored_location_errors(model))
 
 
+def _general_outbound_errors(
+    language: str,
+    event: dict[str, Any],
+    presentation: dict[str, Any],
+) -> list[str]:
+    """Guard actions and delivery scope, not the removed R3 audit narration."""
+    errors: list[str] = []
+    event_id = "arc_y5_final_week_general_people_outbound"
+    label = f"{language} W240 general outbound"
+    errors.extend(_presentation_errors(event_id, presentation, {
+        "channel": "internal", "scene_location": "current_housing",
+        "participants": ["player"], "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired",
+    }))
+    contracts = {
+        "KO": {
+            "description": ("방에는 {name} 혼자였다", "민서와 주고받던 대화창",
+                            "아버지 기록 봉투", "빈 입력 칸", "봉투의 빈 줄"),
+            "results": (
+                ("민서와의 대화창에 적었다", "전송을 누르자", "말풍선 옆에 작은 시각",
+                 "화면이 꺼질 때까지"),
+                ("아버지 봉투 겉면에", "오늘 날짜를 적고 봉투를 뒤집어", "볼펜 자국",
+                 "손끝에 걸렸다"),
+                ("다음 주 화요일 저녁 일곱 시 반", "그 카페에서 삼십 분만 이야기할 수 있을까요?",
+                 "전송을 누른 뒤", "휴대폰을 봉투 옆에 내려놓았다", "화면은 한동안 밝았다가 꺼졌다"),
+            ),
+            "forbidden": (
+                "민서가 이 방에 들어왔다", "민서는 옆에 앉아 있었다", "민서와 함께 앉았다",
+                "민서가 답했다", "민서가 웃었다", "민서가 고개를 끄덕였다",
+                "읽음 표시가 떴다", "답장이 왔다", "약속이 확정됐다", "만남을 확정했다",
+                "민서와 만나기로 했다", "아버지가 답했다", "아버지에게서 답장이 왔다",
+            ),
+            "record_forbidden": ("전송을 누", "민서에게 보냈", "민서에게 전송"),
+        },
+        "EN": {
+            "description": ("{name} was alone in the room", "conversation with Minseo",
+                            "father's envelope of records", "empty text box", "blank line on the envelope"),
+            "results": (
+                ("wrote in the conversation with Minseo", "pressed send", "timestamp appeared beside the bubble",
+                 "until the screen went dark"),
+                ("outside of his father's envelope", "wrote today's date and turned the envelope over",
+                 "pen marks", "caught on his fingertips"),
+                ("Next Tuesday at seven-thirty in the evening", "could we talk for just thirty minutes at that café?",
+                 "After sending it", "set the phone down beside the envelope",
+                 "screen stayed lit for a while, then went dark"),
+            ),
+            "forbidden": (
+                "Minseo entered this room", "Minseo sat beside him", "He sat with Minseo",
+                "Minseo replied", "Minseo smiled", "Minseo nodded", "A read receipt appeared",
+                "A reply came", "The meeting was confirmed", "They confirmed the meeting",
+                "They agreed to meet", "Father replied", "A reply came from his father",
+            ),
+            "record_forbidden": ("pressed send", "After sending", "sent Minseo", "sent it to Minseo"),
+        },
+    }
+    contract = contracts[language]
+    _require_tokens(label + " description", str(event.get("description", "")),
+                    contract["description"], errors)
+    _forbid_tokens(label + " unearned reaction", _event_text(event).casefold(),
+                   (token.casefold() for token in contract["forbidden"]), errors)
+    choices = event.get("choices", [])
+    if not isinstance(choices, list) or len(choices) != 3 \
+            or any(not isinstance(choice, dict) for choice in choices):
+        errors.append(f"{label} must keep exactly three ordered choices")
+        return errors
+    for index, required in enumerate(contract["results"]):
+        result = str(choices[index].get("result_text", ""))
+        _require_tokens(f"{label} choice {index} action", result, required, errors)
+    _forbid_tokens(label + " envelope-only choice", str(choices[1].get("result_text", "")).casefold(),
+                   (token.casefold() for token in contract["record_forbidden"]), errors)
+
+    # Freeze non-prose routing/receipts only. The three outcomes remain a sent
+    # answer, a local envelope record, and a sent invitation, never a reply.
+    projection = {key: value for key, value in event.items() if key not in {
+        "title", "description", "chapter5_finale_reads", "choices",
+    }}
+    reads = event.get("chapter5_finale_reads", {})
+    projection["chapter5_finale_reads"] = {
+        key: value for key, value in reads.items() if key != "texts"
+    } if isinstance(reads, dict) else reads
+    projection["choices"] = [
+        {key: value for key, value in choice.items() if key not in {"text", "result_text"}}
+        for choice in choices
+    ]
+    expected: dict[str, Any] = {
+        "id": event_id, "chapter5_finale_reads": {}, "choices": [{}, {}, {}],
+    }
+    if language == "KO":
+        expected.update({
+            "background": "current_housing", "portrait": "player_tired",
+            "category": "relationship", "rarity": "story", "weight": 0,
+            "hidden": True, "conditions": {"min_turn": 9999},
+            "tags": ["story", "arc", "year5", "father", "minseo", "finale"],
+            "cooldown": 9999,
+            "chapter5_finale_reads": {
+                "sources": [
+                    {"kind": "finale_stage", "id": "sacrifice"},
+                    {"kind": "entry_value", "path": "source_choices.m51_minseo_arrival", "values": [0, 1]},
+                    {"kind": "finale_stage", "id": "father_legacy"},
+                ],
+                "mode": "prepend",
+            },
+            "choices": [{"flags": ["arc_final_week_seen"]} for _ in range(3)],
+        })
+    if projection != expected:
+        errors.append(f"{label} non-prose gameplay/receipt projection changed")
+    return errors
+
+
 def validate_remote_and_no_reply(model: AuditModel, errors: list[str]) -> None:
     ko_minseo = _event(model.ko, "arc_minseo_03_arrival", "KO", errors)
     if str(ko_minseo.get("background", "")) != "current_housing":
@@ -1578,24 +1688,17 @@ def validate_remote_and_no_reply(model: AuditModel, errors: list[str]) -> None:
             )
             _forbid_tokens(f"{language} {event_id}", text, forbidden, errors)
 
-    outbound_ko = _event_text(_event(
-        model.ko, "arc_y5_final_week_general_people_outbound", "KO", errors))
-    outbound_en = _event_text(_event(
-        model.en, "arc_y5_final_week_general_people_outbound", "EN", errors))
-    _require_tokens(
-        "KO W240 general outbound",
-        outbound_ko,
-        ("같은 방에는 {name} 혼자였다", "읽음도 답장도 다음 만남도 생기지 않았다",
-         "읽음도 답장도 약속된 만남도 생기지 않았다"),
-        errors,
-    )
-    _require_tokens(
-        "EN W240 general outbound",
-        outbound_en,
-        ("He was alone in the room", "No read receipt, reply, or next meeting appeared",
-         "No read receipt, reply, or confirmed meeting appeared"),
-        errors,
-    )
+    outbound_id = "arc_y5_final_week_general_people_outbound"
+    outbound_rules = model.rules.get("events", {})
+    outbound_rule = outbound_rules.get(outbound_id, {}) \
+        if isinstance(outbound_rules, dict) else {}
+    presentation = outbound_rule.get("presentation", {}) \
+        if isinstance(outbound_rule, dict) else {}
+    if not isinstance(presentation, dict):
+        presentation = {}
+    for language, catalog in (("KO", model.ko), ("EN", model.en)):
+        errors.extend(_general_outbound_errors(
+            language, _event(catalog, outbound_id, language, errors), presentation))
 
     reaction_contracts = {
         "callback_hoesik_left_early_office": {
@@ -2292,6 +2395,89 @@ def run_self_test() -> int:
 
     collected = _event_text({"description": "first", "choices": [{"result_text": "second"}]})
     check("first" in collected and "second" in collected, "event prose traversal drifted")
+
+    # R3 removed audit-like denials from this scene. Mutate the actual approved
+    # objects while retaining their valid action anchors, so fake reactions
+    # cannot pass merely because the original timestamp/envelope is still there.
+    outbound_fixture = _load_model()
+    outbound_id = "arc_y5_final_week_general_people_outbound"
+
+    def remote_errors(candidate: AuditModel) -> list[str]:
+        result: list[str] = []
+        validate_remote_and_no_reply(candidate, result)
+        return result
+
+    check(not remote_errors(outbound_fixture),
+          "live R3 outbound control failed: " + "; ".join(remote_errors(outbound_fixture)))
+    false_reactions = {
+        "ko": (
+            (None, " 민서는 옆에 앉아 있었다.", "copresence"),
+            (0, " 민서가 답했다.", "reply"),
+            (0, " 읽음 표시가 떴다.", "read receipt"),
+            (1, " 아버지가 답했다.", "passed father's response"),
+            (2, " 약속이 확정됐다.", "confirmed meeting"),
+            (1, " 전송을 누르자 민서에게 보냈다.", "envelope-only send"),
+        ),
+        "en": (
+            (None, " Minseo sat beside him.", "copresence"),
+            (0, " MINSEO REPLIED.", "case-insensitive reply"),
+            (0, " A read receipt appeared.", "read receipt"),
+            (1, " Father replied.", "passed father's response"),
+            (2, " The meeting was confirmed.", "confirmed meeting"),
+            (1, " He pressed send.", "envelope-only send"),
+        ),
+    }
+    for catalog, mutations in false_reactions.items():
+        for choice_index, suffix, label in mutations:
+            mutated = copy.deepcopy(outbound_fixture)
+            event = getattr(mutated, catalog)[outbound_id]
+            target = event if choice_index is None else event["choices"][choice_index]
+            field = "description" if choice_index is None else "result_text"
+            target[field] += suffix
+            check(bool(remote_errors(mutated)), f"R3 {catalog} false {label} accepted")
+
+    action_mutations = {
+        "ko": ((None, "방에는 {name} 혼자였다"), (0, "전송을 누르자"),
+               (1, "볼펜 자국"), (2, "그 카페에서 삼십 분만 이야기할 수 있을까요?")),
+        "en": ((None, "{name} was alone in the room"), (0, "pressed send"),
+               (1, "pen marks"), (2, "could we talk for just thirty minutes at that café?")),
+    }
+    for catalog, mutations in action_mutations.items():
+        for choice_index, token in mutations:
+            mutated = copy.deepcopy(outbound_fixture)
+            event = getattr(mutated, catalog)[outbound_id]
+            target = event if choice_index is None else event["choices"][choice_index]
+            field = "description" if choice_index is None else "result_text"
+            target[field] = target[field].replace(token, "")
+            check(bool(remote_errors(mutated)),
+                  f"R3 {catalog} missing action accepted: {choice_index}/{token}")
+        mutated = copy.deepcopy(outbound_fixture)
+        getattr(mutated, catalog)[outbound_id]["choices"].reverse()
+        check(bool(remote_errors(mutated)), f"R3 {catalog} reordered choices accepted")
+        mutated = copy.deepcopy(outbound_fixture)
+        getattr(mutated, catalog)[outbound_id]["choices"].pop()
+        check(bool(remote_errors(mutated)), f"R3 {catalog} missing choice accepted")
+
+    for field, value in (("flags", ["arc_final_week_seen", "minseo_replied"]),
+                         ("effects", {"cash": 1})):
+        mutated = copy.deepcopy(outbound_fixture)
+        mutated.ko[outbound_id]["choices"][0][field] = value
+        check(bool(remote_errors(mutated)), f"R3 KO changed choice {field} accepted")
+    mutated = copy.deepcopy(outbound_fixture)
+    mutated.ko[outbound_id]["conditions"]["min_turn"] = 240
+    check(bool(remote_errors(mutated)), "R3 KO changed ingress condition accepted")
+    for field, value in (("effects", {"cash": 1}), ("conditions", {"min_turn": 240})):
+        mutated = copy.deepcopy(outbound_fixture)
+        if field == "effects":
+            mutated.en[outbound_id]["choices"][0][field] = value
+        else:
+            mutated.en[outbound_id][field] = value
+        check(bool(remote_errors(mutated)), f"R3 EN overlay gameplay {field} accepted")
+    for field, value in (("channel", "in_person"), ("participants", ["player", "minseo"]),
+                         ("expected_portrait", "minseo_normal")):
+        mutated = copy.deepcopy(outbound_fixture)
+        mutated.rules["events"][outbound_id]["presentation"][field] = value
+        check(bool(remote_errors(mutated)), f"R3 changed presentation {field} accepted")
 
     instant_fixture = (
         "func check_game_over():\n"
