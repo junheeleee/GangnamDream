@@ -3,6 +3,14 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-17 — 실제 현수 기간 오류의 KO/EN source 수리
+
+- [721](queue_archive/ORDER-721.md): 선언9a2933a. 실제715 원8/8컷·마지막완전EN “Four years ago…” vsW9seq19c0/W23seq37c1/current150,141/127주를독립확정. 원715운영/저장GO와본문REWORK·M38미완료보존. 선택0/원365171B/dd3c…910d exact/nativewait0/93.028712초·610/980 보호,한도중단뒤지정보고실제발급을분리했다.
+- KO/EN 기본/합격변형 첫기간문장만4leaf→현재폰화면빛/손끝 감각. KO36575B/dfe44180…de7a1·EN27151B/4a7c1636…767a·전byte대체/역산/4음성대조·5문단/{name}/나머지본문·게임플레이/선택/조건/아트/CJK/ledger값불변. inventory실측0/axisdelta0으로원장/보고갱신0·공개데모변경0.
+- 비저자 GO_SOURCE_FOUR_LEAF_FACT_REPAIR_ONLY·MD4068B/713eafc0…e71c·JSON22750B/03532d17…59a3·표적17개원출력34전독/핀일치. source12/docs5 전부exit0/stderr0·engine0·STATUS낡음참고경고/기존사람OPEN45/복원HOLD/710사고보존. 경로선택74전체/240주/CJK다듬기·sourcehash재결속/새native0.
+- 개발·장면스킬의exact격리/현재감각계약을적용·계층/연출승격0·일회성. 34f24ef CI2job22step success,9a선언CI진행≠녹색·새source마감CI별도. 수정앱/전체C2/M38/M60/사람/출시GO0. 715월마감은이commit제외·다음718통합후새후보를같은W150에서재검수한다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-17 — M37 수정 앱 재검수·대표 경로 마감
 
 - [714](queue_archive/ORDER-714.md): 원17.1 두세션20원컷/HOLD와716수리·717package 보존. 수정17.2/370→980a55fe/tree80c925a0 실제31JPEG·다은5+3/0·path4+1/1 전독→자동149→첫150한문단완전표시/무선택STOP. M37전체145카드0/146민서0/147다은0/148path1, read113→117·routine144→149는M37네주+다음quiet149한주. 완료월반복/보조경로/새export·reroll0.

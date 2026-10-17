@@ -183,9 +183,9 @@
   {
     "id": "hyunsu_year4_echo",
     "title": "Someone Who Settled In",
-    "description": "Hyunsu reached out after a long while.\n\nA photo. Hyunsu laughing at a work dinner. A suit. Coworkers.\n\n\"Hyung, you good? I've kind of found my footing now.\"\n\n{name} looked at the photo for a long time.\n\nFour years ago they were eating cup ramyeon in the same goshiwon. Hyunsu found his place. {name} is still — running.",
+    "description": "Hyunsu reached out after a long while.\n\nA photo. Hyunsu laughing at a work dinner. A suit. Coworkers.\n\n\"Hyung, you good? I've kind of found my footing now.\"\n\n{name} looked at the photo for a long time.\n\nLight from the phone screen fell across his fingertips. Hyunsu found his place. {name} is still — running.",
     "description_if_known": {
-      "hyunsu_passed": "Hyunsu reached out after a long while.\n\nA photo. In front of a county office. Hyunsu, name tag on, smiling awkwardly.\n\n\"Hyung, I'm a public officer now. All settled in.\"\n\n{name} looked at the photo for a long time.\n\nFour years ago they were eating cup ramyeon in the same goshiwon. Hyunsu crossed the starting line first. {name} is still — running."
+      "hyunsu_passed": "Hyunsu reached out after a long while.\n\nA photo. In front of a county office. Hyunsu, name tag on, smiling awkwardly.\n\n\"Hyung, I'm a public officer now. All settled in.\"\n\n{name} looked at the photo for a long time.\n\nLight from the phone screen fell across his fingertips. Hyunsu crossed the starting line first. {name} is still — running."
     },
     "choices": [
       {
