@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 from collections import Counter
+from contextlib import contextmanager
 from dataclasses import replace
 import json
 from pathlib import Path
 import re
+from unittest.mock import patch
 
 import ja_translation_pipeline as pipeline
 
@@ -88,6 +90,86 @@ def whole_won_errors(source):
     return [] if body.count("return") == 1 and body.endswith(
         "returnLocaleManager.format_whole_won(int(amount))") else [
         "Holdem formatter must preserve exact whole-won presentation"]
+
+
+@contextmanager
+def month_cash_source_view(source):
+    """Replace one real source read in memory; keep the actual collector intact."""
+    original = Path.read_text
+
+    def read(path, *args, **kwargs):
+        if path == ROOT / "scenes/MainGame.gd":
+            return source
+        return original(path, *args, **kwargs)
+
+    with patch.object(Path, "read_text", read):
+        yield
+    if Path.read_text is not original:
+        raise AssertionError("month cash source read seam was not restored")
+
+
+def check_month_cash_collectors(check, contract, inventory):
+    source = (ROOT / "scenes/MainGame.gd").read_text(encoding="utf-8")
+    signed = pipeline._gd_function_source(source, "_full_story_cash_signed")
+    balances = pipeline._gd_function_source(source, "_show_full_story_month_cash")
+    signed_call = "return LocaleManager.format_whole_won(int(amount), true)"
+    balance_call = 'LocaleManager.format_whole_won(int(snap[key]))'
+    feature_functions = [m.group(1) for m in pipeline.GD_FUNCTION.finditer(source)
+                         if "full_story" in m.group(1) and "cash" in m.group(1)]
+    if not feature_functions:
+        check(not inventory.errors and
+              inventory.stats.get("parameter_supplemental_month_cash_money_calls") == 0 and
+              inventory.stats.get("parameter_raw_candidates") == 56 and
+              inventory.stats.get("parameter_money_formatter_migrations") == 2,
+              "actual collector supports current whole-feature absence")
+        return
+    check(not inventory.errors and
+          inventory.stats.get("parameter_supplemental_month_cash_money_calls") == 2 and
+          inventory.stats.get("parameter_raw_candidates") == 56 and
+          inventory.stats.get("parameter_money_formatter_migrations") == 2,
+          "actual collector registers two later money calls without rewriting raw-56")
+
+    def collect(changed):
+        with month_cash_source_view(changed):
+            return pipeline.collect_ui_inventory(contract)
+
+    check(not collect(source + "\n# unrelated source layout\n").errors,
+          "actual month cash collector ignores unrelated layout/comments")
+    # A genuine old source has none of this feature's functions. Removing just
+    # one consumer or both calls from a still-present feature is not that case.
+    absent = source
+    for name in feature_functions:
+        body = pipeline._gd_function_source(absent, name)
+        absent = absent.replace(body, "", 1)
+    old_inventory = collect(absent)
+    check(bool(feature_functions) and absent != source and not old_inventory.errors and
+          old_inventory.stats.get("parameter_supplemental_month_cash_money_calls") == 0,
+          "actual collector supports whole-feature absence in older source")
+
+    mutants = (
+        ("missing signed owner", signed, ""),
+        ("missing balance owner", balances, ""),
+        ("duplicated signed call", signed_call, signed_call + "\n\t" + signed_call),
+        ("duplicated balance call", balance_call, balance_call + " + " + balance_call),
+        ("moved signed owner", "func _full_story_cash_signed(", "func _unowned_cash_signed("),
+        ("moved balance owner", "func _show_full_story_month_cash(", "func _unowned_month_cash("),
+        ("changed signed amount", "int(amount), true", "int(amount + 1), true"),
+        ("lost signed integer conversion", "int(amount), true", "amount, true"),
+        ("lost positive sign", "int(amount), true", "int(amount), false"),
+        ("lossy signed formatter", signed_call, "return LocaleManager.format_money(float(amount))"),
+        ("changed balance amount", balance_call, 'LocaleManager.format_whole_won(int(snap["cash_change"]))'),
+        ("lost balance integer conversion", balance_call, "LocaleManager.format_whole_won(snap[key])"),
+        ("lossy balance formatter", balance_call, "LocaleManager.format_money(float(snap[key]))"),
+        ("changed snapshot key producer", '["opening_money", "closing_money"]', '["opening_money", "cash_change"]'),
+        ("reassigned snapshot key", 'for key in ["opening_money", "closing_money"]:',
+         'for key in ["opening_money", "closing_money"]:\n\t\tkey = "cash_change"'),
+        ("balance consumer outside key loop", '\t\tcolumn.add_child(_label(' + balance_call,
+         '\tcolumn.add_child(_label(' + balance_call),
+    )
+    for label, before, after in mutants:
+        changed = source.replace(before, after, 1)
+        check(bool(before) and changed != source and bool(collect(changed).errors),
+              "actual collector rejects month cash " + label)
 
 
 def run_self_test():
@@ -176,6 +258,7 @@ def run_self_test():
                                                "return LocaleManager.format_money(float(amount))", 1))),
           "reject lossy or compact Holdem money formatting")
     check(not whole_won_errors(holdem + "\n"), "whole-won ignores unrelated whitespace")
+    check_month_cash_collectors(check, contract, inventory)
     return failures, cases
 
 

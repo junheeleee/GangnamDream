@@ -2099,7 +2099,7 @@
     {
       "tool": "tools/new_run_log_locale_self_test.py",
       "why": "현행 제품 계약과 잘못된 입력 반례를 검증한다. 닫힌 오더의 Git·전체 파일 이력 고정/비용 도구는 ORDER-487에서 분리했다.",
-      "paths": ["autoloads/GameState.gd", "tools/new_run_log_locale_self_test.py", "tools/ja_translation_pipeline.py", "tools/year5_reference_route_audit.py", "tools/chapter1_core_loop_v2_causal_ledger_check.py", "tools/gift_caption_locale_self_test.py"]
+      "paths": ["autoloads/GameState.gd", "scenes/MainGame.gd", "tools/new_run_log_locale_self_test.py", "tools/ja_translation_pipeline.py", "tools/year5_reference_route_audit.py", "tools/chapter1_core_loop_v2_causal_ledger_check.py", "tools/gift_caption_locale_self_test.py"]
     },
     {
       "tool": "tools/run_new_run_log_locale_qa.sh",

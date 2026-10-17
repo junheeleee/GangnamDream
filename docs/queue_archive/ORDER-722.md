@@ -1,6 +1,6 @@
 # ORDER-722 — 월말 원화 표시의 정식 호출 계약
 
-#### [~] ORDER-722 [C3 검증 결함] 착수 — 2026-10-17
+#### [x] ORDER-722 [C3 검증 결함] 수리 완료 — 2026-10-18
 
 718 root통합JA UI검사exit1에서 실제두새원화consumer가미등록임을확인했다.
 `MainGame::_full_story_cash_signed`와`::_show_full_story_month_cash` 각1회다.
@@ -49,3 +49,20 @@ oldraw56원장/locale/CJK본문/gameplay/프로젝트/사용자앱/공개demo �
 깊이3문: 등록없으면정밀원화표시를검증못함·24주상태/비용불변·현재cashUI의표현만지원.
 승격: I18N_INFRASTRUCTURE UI계약의보조원화consumer 설명·나머지일회성.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 검사 계약 한정 완료
+
+두도구 additive수리·audit_scope Main경로1개/인프라8줄만. 기존정의71/72·6/7 exact,
+삽입제거시원전체byte복원. 실제collector current66=원47+양성3+음성16,
+실제legacy원본view48/보조0은저자실행으로분리했다. raw56/옛money2/Holdem변경0.
+root표적7 exit0/14stream stderr0·pipeline76/JAUI2994 오류0·EN한글0·registry179,
+full-game static_ui_contract0/unsupported466보존. engine/새화면/저장fixture반복0.
+비저자GO_CHECKER_CONTRACT_REPAIR_ONLY·MD4137B/590771aa…04b4·JSON17951B/
+382f376d…3333; 4delta/원14stream/135핀685602967B/제품12핀직독exact.
+private722 parity3993B/d0a64ee9…4e53·targeted5753B/596e9d05…81cb·원보고동결.
+원preflight비존재ledger경로오류는target0/파일0로보존후실제경로정정·제품실패0.
+검수한도중단을미완료로보존하고17:40UTC재개뒤보고를발급했다. main04a CI2job22step
+success/예외·만료0은관측했고새수리commit의CI와구분한다. 7186blob/721본문2/715월
+미스테이징·원718REWORK/복원HOLD/710사고/사용자앱·설정·프로젝트·공개판정보존.
+승격: I18N_INFRASTRUCTURE UI Contract의보조원화consumer한곳·나머지일회성.
+다음718는실패JAUI만재검수한다. 통합/새패키지/수정앱/M38/CJK/사람/출시GO0.

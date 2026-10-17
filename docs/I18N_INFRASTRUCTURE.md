@@ -214,6 +214,14 @@ suffix; Japanese, Simplified Chinese, and Traditional Chinese emit `ウォン`,
 large-number formatter use an explicit English producer, never the active-locale
 formatter.
 
+The full-story month-cash panel has two supplemental whole-won consumers,
+`MainGame::_full_story_cash_signed` and `MainGame::_show_full_story_month_cash`.
+They are outside the historical raw-56/two-owner census. Validation binds one
+signed `int(amount)` call and one opening/closing `int(snap[key])` call to their
+actual producers; missing, duplicate, moved, or lossy calls fail closed. A source
+without this entire feature remains a supported legacy case, not a partial-use
+exemption. The real UI collector and its mutation tests enforce this boundary.
+
 Every locale UI file is also a raw JSON source contract. Object keys must be
 unique in the file itself; accepting the last value returned by `json.load` does
 not make a duplicate key valid. Generation and audit tooling must reject raw

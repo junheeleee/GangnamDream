@@ -3,6 +3,15 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-18 — 월말 원화 표시 검사 계약 수리
+
+- [722](queue_archive/ORDER-722.md): 선언04a5e81. 718 실제통합 JAUI 미등록2 실패를유지하고 supplemental signed/balance owner 각1·int/양의부호·opening/closing 실제loop 생산자·원화정밀도를검증했다. 기존raw56/돈owner2/Holdem/원정의71·6 exact·기존음성47 보존. 도구2/audit경로1/인프라8줄외제품수정0.
+- root표적7 exit0/14stream stderr0, new-run66(47+3+16)/pipeline76/JAUI2994 오류0/EN한글0/registry179. 실제full-game static_ui_contract0·기존unsupported466은전체채무로유지. 실제legacy MainGame view48/보조0은저자검증·원root실행과구분한다. 엔진/새화면/경제·저장fixture 반복0.
+- 비저자GO_CHECKER_CONTRACT_REPAIR_ONLY·MD4137B/590771aa…04b4·JSON17951B/382f376d…3333, private722에4delta/135과거핀685602967B/제품12핀/원14stream 결속. 원718 REWORK·원보고/본문/6blob/ledger/프로젝트/사용자앱·저장·과거인간판정보존. root preflight ledger경로오류는대상실행·파일생성전exit1로보존후정정했다.
+- 한도중단구간을완료로세지않고17:40UTC재개후보고실제발급. 현재main04a CI2job22step success/예외·만료0, 새수리commit CI별도. 715월선언/관측·718제품은이commit제외. 다음실패JAUI한개만재검수→718통합→새후보 같은W150, 152뒤153월초경제가모달전실행되므로M39사전선언필요. 새앱/M38/전체C2/사람/CJK全体/출시GO0.
+- 개발스킬의파일분리·표적·기존증거보존을적용. 승격: I18N_INFRASTRUCTURE UI Contract 보조원화consumer 설명한곳, 나머지일회성.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-17 — 실제 현수 기간 오류의 KO/EN source 수리
 
 - [721](queue_archive/ORDER-721.md): 선언9a2933a. 실제715 원8/8컷·마지막완전EN “Four years ago…” vsW9seq19c0/W23seq37c1/current150,141/127주를독립확정. 원715운영/저장GO와본문REWORK·M38미완료보존. 선택0/원365171B/dd3c…910d exact/nativewait0/93.028712초·610/980 보호,한도중단뒤지정보고실제발급을분리했다.

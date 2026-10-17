@@ -115,6 +115,10 @@ UI_CONTEXT_PAIR = re.compile(
 RAW_UI_CONTEXT_CALL = re.compile(r"LocaleManager\.ui_context\s*\(")
 RAW_UI_FORMAT_CALL = re.compile(r"LocaleManager\.ui_format\s*\(")
 RAW_WHOLE_WON_CALL = re.compile(r"LocaleManager\.format_whole_won\s*\(")
+MONTH_CASH_MONEY_OWNERS = (
+    ("scenes/MainGame.gd", "_full_story_cash_signed"),
+    ("scenes/MainGame.gd", "_show_full_story_month_cash"),
+)
 UI_PAIR_CALL_START = re.compile(
     r"(?<![A-Za-z0-9_])(?:LocaleManager\.ui(?![_A-Za-z0-9])|_tr)\s*\("
 )
@@ -917,6 +921,61 @@ def _function_owner(
     function_offsets = [position for position, _name in functions]
     index = bisect.bisect_right(function_offsets, offset) - 1
     return functions[index][1] if index >= 0 else "<module>"
+
+
+def _month_cash_money_errors(
+    source: str, observed: dict[tuple[str, str], int],
+) -> list[str]:
+    """Validate later cash-summary consumers, not the historical raw-56 set."""
+    functions = [match.group(1) for match in GD_FUNCTION.finditer(source)]
+    feature_functions = [
+        name for name in functions if "full_story" in name and "cash" in name
+    ]
+    if not feature_functions:
+        # An older source without the entire feature is a valid source view.
+        return []
+    errors: list[str] = []
+    for owner in MONTH_CASH_MONEY_OWNERS:
+        if functions.count(owner[1]) != 1 or observed.get(owner, 0) != 1:
+            errors.append(f"source: month cash whole-won owner/count differs {owner!r}")
+    signed = _normalize_gd_expression(
+        _gd_function_source(source, "_full_story_cash_signed")
+    )
+    if signed != (
+        "func_full_story_cash_signed(amount:float)->String:"
+        "returnLocaleManager.format_whole_won(int(amount),true)"
+    ):
+        errors.append("source: month cash signed whole-won amount/sign contract differs")
+    balance_source = _gd_function_source(source, "_show_full_story_month_cash")
+    balances = _normalize_gd_expression(balance_source)
+    if not balances.startswith(
+        "func_show_full_story_month_cash(snap:Dictionary)->void:"
+    ):
+        errors.append("source: month cash balance snapshot owner differs")
+    producer = 'forkeyin["opening_money","closing_money"]:'
+    consumer = (
+        'column.add_child(_label(LocaleManager.format_whole_won(int(snap[key])),'
+        '18,"#dce6ee"))balances.add_child(column)'
+    )
+    lines = balance_source.splitlines()
+    loop_body = ""
+    for index, line in enumerate(lines):
+        if _normalize_gd_expression(line) != producer:
+            continue
+        indent = len(line.expandtabs(4)) - len(line.expandtabs(4).lstrip())
+        children: list[str] = []
+        for child in lines[index + 1:]:
+            if child.strip() and not child.lstrip().startswith("#"):
+                depth = len(child.expandtabs(4)) - len(child.expandtabs(4).lstrip())
+                if depth <= indent:
+                    break
+            children.append(child)
+        loop_body = _normalize_gd_expression("\n".join(children))
+    reassigned_key = re.search(r"(?<![A-Za-z0-9_])key(?:[+*/%-]?=|:=)(?!=)", balances)
+    if balances.count(producer) != 1 or balances.count(consumer) != 1 \
+            or loop_body.count(consumer) != 1 or reassigned_key:
+        errors.append("source: month cash opening/closing whole-won producer/consumer differs")
+    return errors
 
 
 def collect_ui_parameterized_observations() -> tuple[
@@ -2023,6 +2082,13 @@ def validate_ui_parameterized_contract(
     money_owners.add(("scenes/HoldemClub.gd", "_fmt"))
     if money_migrated_counts.get(("scenes/HoldemClub.gd", "_fmt"), 0) != 1:
         errors.append("source: Holdem whole-won formatter owner differs")
+    # These later decision-surface consumers are supplemental, not new entries
+    # in the frozen raw-56 migration census or its two historical money owners.
+    money_owners.update(MONTH_CASH_MONEY_OWNERS)
+    errors.extend(_month_cash_money_errors(
+        (ROOT / "scenes/MainGame.gd").read_text(encoding="utf-8"),
+        money_migrated_counts,
+    ))
     for owner, count in sorted(money_migrated_counts.items()):
         if owner not in money_owners:
             errors.append(f"source: extra locale money formatter call {owner!r} x{count}")
@@ -2196,6 +2262,10 @@ def validate_ui_parameterized_contract(
         ),
         "existing_lookup_before_format_migrations": observed_existing_templates,
         "money_formatter_migrations": money_migrated_total,
+        "supplemental_month_cash_money_calls": sum(
+            money_migrated_counts.get(owner, 0)
+            for owner in MONTH_CASH_MONEY_OWNERS
+        ),
         "localized_argument_calls": observed_supplemental,
         "migrated_branch_literal_calls": observed_split_literals,
         "total_ui_call_occurrences": len(call_rows),
