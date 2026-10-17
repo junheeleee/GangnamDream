@@ -172,6 +172,7 @@ const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_IMMERSION_LOOP := "immersion_loop"
 const QA_SCOPE_MOTIVATION_IMPRINT := "motivation_imprint"
+const QA_SCOPE_FULL_STORY_MONTH_CASH := "full_story_month_cash"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
 const QA_SCOPE_ENDING_P0 := "ending_p0"
 const QA_SCOPE_ENDING_P1 := "ending_p1"
@@ -1137,6 +1138,15 @@ func _ready() -> void:
 		print("SCREENSHOT_QA_DONE scope=immersion-loop lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
+	if scope == QA_SCOPE_FULL_STORY_MONTH_CASH:
+		var lang := _qa_language("en")
+		await _shot_full_story_month_cash(lang)
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=full-story-month-cash lang=%s dir=%s synthetic=1 native=0" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
 	if scope == QA_SCOPE_MOTIVATION_IMPRINT:
 		var lang := _qa_language("en")
 		await _shot_motivation_imprint_surfaces(lang, "motivation_en_" if lang == "en" else "motivation_ko_")
@@ -1586,6 +1596,10 @@ func _qa_scope() -> String:
 				"qa=immersion-loop", "--qa=immersion-loop", "qa=immersion_loop", "--qa=immersion_loop",
 				"scope=immersion-loop", "--scope=immersion-loop"]:
 			return QA_SCOPE_IMMERSION_LOOP
+		if arg in ["full-story-month-cash", "--full-story-month-cash",
+				"qa=full-story-month-cash", "--qa=full-story-month-cash",
+				"scope=full-story-month-cash", "--scope=full-story-month-cash"]:
+			return QA_SCOPE_FULL_STORY_MONTH_CASH
 		if arg in ["motivation-imprint", "motivation_imprint", "motivation", "--motivation-imprint",
 				"--motivation_imprint", "qa=motivation-imprint", "--qa=motivation-imprint",
 				"qa=motivation_imprint", "--qa=motivation_imprint",
@@ -23272,6 +23286,153 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 		}],
 	}]
 	await _shot_story_event("rare_rejection_then_call", prefix + "05_action_causal_frame", "", 0.55, true)
+
+func _month_cash_geometry_nodes(node: Node, rows: Array) -> void:
+	if node is Control:
+		var control := node as Control
+		var rect := control.get_global_rect()
+		var minimum := control.get_combined_minimum_size()
+		var row := {
+			"type": control.get_class(), "name": str(control.name),
+			"rect": [rect.position.x, rect.position.y, rect.size.x, rect.size.y],
+			"minimum": [minimum.x, minimum.y], "visible": control.is_visible_in_tree(),
+			"focus": control.has_focus(), "clip_contents": control.clip_contents,
+			"queued_for_deletion": control.is_queued_for_deletion(),
+			"scale": [control.scale.x, control.scale.y],
+		}
+		if control is Label:
+			var label := control as Label
+			row["text"] = label.text
+			row["clip_text"] = label.clip_text
+			row["text_width"] = label.get_theme_font("font").get_string_size(
+				label.text, HORIZONTAL_ALIGNMENT_LEFT, -1.0, label.get_theme_font_size("font_size")).x
+		if control is Button:
+			row["text"] = (control as Button).text
+			row["disabled"] = (control as Button).disabled
+		rows.append(row)
+	for child in node.get_children():
+		_month_cash_geometry_nodes(child, rows)
+
+
+func _shot_full_story_month_cash(lang: String) -> void:
+	# Synthetic display payloads exercise the existing panel, not played months
+	# or a rendered/current-native release certificate.
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	await _boot_main_game()
+	var payload := {
+		"full_story_cash_summary": true, "closing_turn": 16,
+		"year": 2026, "month": 4, "complete_month": true, "baseline_turn": 13,
+		"opening_money": 1_000_000.0, "closing_money": 440_000.0,
+		"cash_change": -560_000.0, "routine_cash": 280_000.0,
+		"monthly_income": 1_000_000.0, "housing_expense": 650_000.0,
+		"loan_interest": 10_000.0, "other_cash": -1_180_000.0,
+	}
+	# KO/EN fixture expectations are literal whole-won text, independent of
+	# both display formatter APIs. In particular -1,180,000 must not round to -1.2m.
+	var cash_literals: Array[String] = [
+		"-560,000원", "1,000,000원", "440,000원", "+280,000원", "+1,000,000원",
+		"-650,000원", "-10,000원", "-1,180,000원",
+	]
+	if lang == "en":
+		cash_literals = [
+			"-560,000 won", "1,000,000 won", "440,000 won", "+280,000 won", "+1,000,000 won",
+			"-650,000 won", "-10,000 won", "-1,180,000 won",
+		]
+	var cases := ["complete", "partial", "partial_save_failure"]
+	for kind in cases:
+		payload["complete_month"] = kind == "complete"
+		_mg.set("_full_story_month_cash_ack_failed", kind == "partial_save_failure")
+		_mg.call("_show_month_summary", payload)
+		await _settle(0.4)
+		var body := _mg.get("modal_body") as Control
+		var text := _collect_control_text(body)
+		if str(_mg.call("_full_story_cash_signed", 0.0)) != ("0원" if lang == "ko" else "0 won"):
+			_fail("Month cash zero must use exact whole-won text without an invented positive change.")
+			return
+		var geometry: Array = []
+		_month_cash_geometry_nodes(_mg.get("modal_panel") as Node, geometry)
+		var cash_scroll := _mg.get("modal_scroll") as ScrollContainer
+		var focus_owner: Control = get_viewport().gui_get_focus_owner()
+		print("MONTH_CASH_LAYOUT " + JSON.stringify({
+			"lang": lang, "case": kind, "viewport": str(get_viewport().get_visible_rect()),
+			"focus_owner": str(focus_owner.get_path()) if is_instance_valid(focus_owner) else "",
+			"horizontal_scroll": [cash_scroll.get_h_scroll_bar().max_value, cash_scroll.get_h_scroll_bar().page],
+			"vertical_scroll": [cash_scroll.get_v_scroll_bar().max_value, cash_scroll.get_v_scroll_bar().page],
+			"nodes": geometry,
+		}))
+		var expected: Array[String] = [
+			_tr("이번 달 현금 변화", "This month's cash change") if kind == "complete" else
+				_tr("기록 이후 현금 변화", "Cash change since recorded"),
+			cash_literals[0], cash_literals[1], cash_literals[2],
+			_tr("생계 수입", "Livelihood income"), _tr("월 수입", "Monthly income"),
+			_tr("월세", "Rent"), _tr("대출 이자", "Loan interest"),
+			_tr("기타 현금 변화", "Other cash changes"),
+		]
+		for fragment in expected:
+			if fragment not in text:
+				_fail("Month cash %s lost %s in %s." % [kind, fragment, lang])
+				return
+		if kind != "complete" and _tr("월초 현금", "Month-opening cash") in text:
+			_fail("Partial month cash claimed an unrecorded month-opening balance.")
+			return
+		if "순이익" in text or "Net Profit" in text or "투자 포함" in text or "Including investments" in text:
+			_fail("Full story month cash reused an unsupported legacy profit/asset claim.")
+			return
+		if lang == "en":
+			for character_index in range(text.length()):
+				var codepoint: int = text.unicode_at(character_index)
+				if codepoint >= 0xAC00 and codepoint <= 0xD7A3:
+					_fail("English month cash contains untranslated Hangul.")
+					return
+		var confirm: Button = null
+		for child in body.get_children():
+			if child is Button and child.has_meta("full_story_month_cash_confirm"):
+				confirm = child
+		if confirm == null or confirm.disabled or not confirm.is_visible_in_tree() \
+				or not confirm.has_focus() or (not get_viewport().get_visible_rect().encloses(confirm.get_global_rect())):
+			_fail("Month cash confirmation is missing, unarmed, unfocused, or outside the viewport.")
+			return
+		var visible_cash_area: Rect2 = get_viewport().get_visible_rect().intersection(
+			(_mg.get("modal_panel") as Control).get_global_rect()).intersection(cash_scroll.get_global_rect())
+		if not visible_cash_area.encloses(confirm.get_global_rect()):
+			_fail("Month cash %s CTA clips inside its modal: CTA=%s visible=%s scale=%s." % [
+				kind, confirm.get_global_rect(), visible_cash_area, confirm.scale])
+			return
+		var expected_amounts: Array[String] = [
+			cash_literals[3], cash_literals[4], cash_literals[5], cash_literals[6], cash_literals[7],
+		]
+		var amount_index := 0
+		for raw_node in geometry:
+			var geometry_node: Dictionary = raw_node
+			if geometry_node.get("name", "") != "FullStoryCashAmount":
+				continue
+			var amount_rect_values: Array = geometry_node["rect"]
+			var amount_rect := Rect2(float(amount_rect_values[0]), float(amount_rect_values[1]),
+				float(amount_rect_values[2]), float(amount_rect_values[3]))
+			var text_width: float = float(geometry_node.get("text_width", 0.0))
+			var minimum: Array = geometry_node["minimum"]
+			if amount_index >= expected_amounts.size() \
+					or str(geometry_node.get("text", "")) != expected_amounts[amount_index] \
+					or not bool(geometry_node.get("visible", false)) \
+					or bool(geometry_node.get("clip_text", true)) \
+					or text_width <= 0.0 or float(minimum[0]) <= 1.0 \
+					or amount_rect.size.x < text_width \
+					or not visible_cash_area.encloses(amount_rect):
+				_fail("Month cash %s amount %d is invisible, clipped, wrong, or outside modal: %s." % [
+					kind, amount_index, JSON.stringify(geometry_node)])
+				return
+			amount_index += 1
+		if amount_index != 5:
+			_fail("Month cash %s must visibly render five named cause amounts, got %d." % [kind, amount_index])
+			return
+		if (_mg.get("modal_close_button") as Control).visible or bool(_mg.get("_modal_cancelable")):
+			_fail("Full story month cash permits a bypass close.")
+			return
+		_assert_modal_no_vertical_overflow("full-story month cash %s" % kind)
+		await _save("month_cash_%s_%s" % [lang, kind])
+	await _dispose_main_game()
+
 
 func _shot_motivation_imprint_surfaces(lang: String = "en", prefix: String = "motivation_en_") -> void:
 	_set_qa_language(lang)

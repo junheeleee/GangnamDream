@@ -81,6 +81,8 @@ var _prologue_call_end_resets := 0
 var _prologue_call_end_reads := 0
 var _narrative_name_only := false
 var _narrative_name_checked := false
+var _full_story_cash_summary_only := false
+var _full_story_cash_summary_checked := false
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -89,6 +91,11 @@ func _run() -> void:
 	_backup_settings_file()
 	_backup_meta_progression()
 	_backup_test_slots()
+	_full_story_cash_summary_only = OS.get_cmdline_user_args().has("--full-story-cash-summary-only")
+	if _full_story_cash_summary_only:
+		await _check_full_story_cash_summary()
+		await _finish()
+		return
 	_narrative_name_only = OS.get_cmdline_user_args().has("--narrative-name-only")
 	if _narrative_name_only:
 		await _check_narrative_name_resume()
@@ -156,6 +163,7 @@ func _run() -> void:
 	await _check_full_story_flow()
 	await _check_paycheck_window()
 	await _check_full_story_production()
+	await _check_full_story_cash_summary()
 	await _check_full_story_meeting_date()
 	await _check_full_story_purchase()
 	await _check_full_story_ngplus()
@@ -2643,6 +2651,14 @@ func _check_full_story_production() -> void:
 				"normal duplicate calendar advance changed state/RNG")
 			if expected_turn in [20, 24, 28]:
 				await _production_cold_checkpoint(main_game, "W%d" % (expected_turn + 1))
+			if expected_turn % 4 == 0:
+				# The new mandatory surface must be acknowledged by this input-less
+				# harness just as a player would. All old economic/read assertions
+				# above run BEFORE acknowledgment and remain unchanged.
+				_expect(bool(main_game.call("_full_story_cash_has_pending")) \
+						and bool(main_game.call("_full_story_ack_month_cash", expected_turn)) \
+						and not bool(main_game.call("_full_story_cash_has_pending")),
+					"normal W%d cash summary did not require/exactly clear confirmation" % expected_turn)
 		_expect(GameState.turn == 29 and GameState.month == 8 and GameState.year == 2026 \
 				and GameState.age == 33 and FULL_STORY_FLOW.valid_session() \
 				and not FULL_STORY_FLOW.at_boundary(),
@@ -2692,6 +2708,150 @@ func _check_full_story_production() -> void:
 	SaveManager.clear_loaded_resume_context()
 	LocaleManager.set_language(previous_language)
 	_full_story_production_checked = _failures.size() == failures_before
+
+
+func _check_full_story_cash_summary() -> void:
+	# Bounded product-method fixtures; no native input, natural quiet-month
+	# reading, new OS process, or full-run completion is claimed.
+	await _free_story()
+	var original: Dictionary = GameState.serialize().duplicate(true)
+	var events_before := _full_story_event_snapshot()
+	var language_before: String = LocaleManager.language
+	var failures_before: int = _failures.size()
+	await _production_fresh_start()
+	if not FULL_STORY_FLOW.is_full_run():
+		_expect(not GameState.flags.has("full_story_month_cash_view"),
+			"cash summary promoted a demo/preview/unmarked run")
+		GameState.call("_restore_serialized_snapshot_exact", original)
+		for key in events_before:
+			EventManager.set(key, events_before[key].duplicate(true))
+		print("MANUAL_SAVE_FULL_STORY_CASH_SUMMARY_EXCLUSION_CHECK_OK full_owner=0 display_flag=not-issued")
+		return
+	LocaleManager.set_language("en")
+	var main_game: Control = await _spawn_monthly_economy_main()
+	var first_closing_state: Dictionary = {}
+	var first_pending_state: Dictionary = {}
+	var first_payload: Dictionary = {}
+	var reads: Array[String] = []
+	for at_turn in range(1, 13):
+		main_game.call("_begin_month")
+		var handoffs := 0
+		while not GameState.pending_story_queue.is_empty() and handoffs < 12:
+			if not await _spawn_full_story_fixture():
+				break
+			await _read_production_story(main_game, {}, reads)
+			await _free_story()
+			GameState.returning_from_story = false
+			main_game.call("_continue_after_story")
+			handoffs += 1
+		_expect(handoffs < 12 and FULL_STORY_FLOW.ready_to_advance(),
+			"cash fixture could not close actual W%d readers" % at_turn)
+		if not FULL_STORY_FLOW.ready_to_advance():
+			break
+		if at_turn == 2:
+			GameState.add_money(-12_345) # Known non-routine cash must stay residual.
+		if at_turn == 4:
+			first_closing_state = GameState.serialize().duplicate(true)
+		_expect(bool(main_game.call("_full_story_advance_week", at_turn)),
+			"cash fixture failed actual W%d calendar advance" % at_turn)
+		if at_turn % 4 == 0:
+			var pending: Dictionary = main_game.call("_full_story_pending_month_cash")
+			_expect(not pending.is_empty() and bool(pending.get("complete_month", false)) \
+					and float(pending.get("closing_money", 0.0)) \
+						- float(pending.get("opening_money", 0.0)) == float(pending.get("cash_change", 1.0)),
+				"cash fixture lost actual opening/closing delta at W%d" % at_turn)
+			if at_turn == 4:
+				first_pending_state = GameState.serialize().duplicate(true)
+				first_payload = pending.duplicate(true)
+				var opening: Dictionary = (first_closing_state["flags"] as Dictionary)["full_story_month_cash_view"]["opening"]
+				var actual_routine := 0.0
+				for receipt in (FULL_STORY_FLOW.snapshot()["routine_receipts"] as Dictionary).values():
+					actual_routine += float((receipt["effects"] as Dictionary).get("money", 0.0))
+				_expect(float(pending["opening_money"]) == float(opening["money"]) \
+						and float(pending["routine_cash"]) == actual_routine \
+						and float(pending["routine_cash"]) == 280_000.0 \
+						and float(pending["other_cash"]) != 0.0,
+					"first month omitted first-week/closing-week livelihood or residual cash")
+			_expect(bool(main_game.call("_full_story_ack_month_cash", at_turn)),
+				"cash fixture could not acknowledge W%d" % at_turn)
+	# Prepare only the absence of foreground input in W13..16; these real
+	# routine/settlement calls prove a quiet month still owns one summary, not
+	# that the natural route has no authored W13..16 story.
+	if GameState.turn == 13 and FULL_STORY_FLOW.valid_session():
+		var reads_before := (FULL_STORY_FLOW.snapshot()["read_receipts"] as Dictionary).duplicate(true)
+		for quiet_turn in range(13, 17):
+			_expect(bool(main_game.call("_full_story_advance_week", quiet_turn)),
+				"prepared quiet month could not advance W%d" % quiet_turn)
+		var quiet_pending: Dictionary = main_game.call("_full_story_pending_month_cash")
+		_expect(int(quiet_pending.get("closing_turn", -1)) == 16 \
+				and (FULL_STORY_FLOW.snapshot()["read_receipts"] as Dictionary) == reads_before \
+				and bool(main_game.call("_full_story_cash_has_pending")) \
+				and not bool(main_game.call("_full_story_advance_week", 17)),
+			"prepared quiet month lost its summary or advanced before acknowledgment")
+	_expect(not first_pending_state.is_empty() and not first_closing_state.is_empty(),
+		"cash fixture never captured its first settled month")
+	if not first_pending_state.is_empty():
+		GameState.call("_restore_serialized_snapshot_exact", first_pending_state)
+		_expect(SaveManager.autosave(), "cash pending checkpoint failed to save")
+		var disk_before := FileAccess.get_file_as_bytes(SaveManager.slot_path(SaveManager.AUTOSAVE_SLOT))
+		GameState.start_new_game()
+		_expect(SaveManager.load_game(SaveManager.AUTOSAVE_SLOT), "cash pending cold load failed")
+		var cold: Control = await _spawn_monthly_economy_main()
+		var loaded: Dictionary = GameState.serialize().duplicate(true)
+		seed(718_001)
+		var next_random := randi()
+		seed(718_001)
+		cold.call("_begin_month")
+		_expect(GameState.serialize() == loaded and randi() == next_random \
+				and GameState.pending_story_queue.is_empty() \
+				and (cold.get("modal_layer") as Control).visible \
+				and str(cold.get("_modal_kind")) == "full_story_month_cash" \
+				and cold.call("_full_story_pending_month_cash") == _json_round_trip_dictionary(first_payload),
+			"cold pending summary changed economics/RNG or entered a new story before confirmation")
+		SaveManager.set_meta("_qa_fail_next_primary_replacement", true)
+		seed(718_002)
+		next_random = randi()
+		seed(718_002)
+		_expect(not bool(cold.call("_full_story_ack_month_cash", 4)) \
+				and GameState.serialize() == loaded and randi() == next_random \
+				and FileAccess.get_file_as_bytes(SaveManager.slot_path(SaveManager.AUTOSAVE_SLOT)) == disk_before,
+			"failed confirmation lost pending/durable state or reran economics/RNG")
+		_expect(bool(cold.call("_full_story_ack_month_cash", 4)),
+			"confirmation retry did not save the already-calculated month")
+		var acknowledged: Dictionary = GameState.serialize().duplicate(true)
+		var stripped_loaded: Dictionary = loaded.duplicate(true)
+		var stripped_ack: Dictionary = acknowledged.duplicate(true)
+		(stripped_loaded["flags"] as Dictionary).erase("full_story_month_cash_view")
+		(stripped_ack["flags"] as Dictionary).erase("full_story_month_cash_view")
+		_expect(stripped_loaded == stripped_ack \
+				and not bool(cold.call("_full_story_ack_month_cash", 4)) \
+				and GameState.serialize() == acknowledged,
+			"confirmation changed economic/read state or duplicate confirmation wrote again")
+		_expect(SaveManager.load_game(SaveManager.AUTOSAVE_SLOT) \
+				and not bool(cold.call("_full_story_cash_has_pending")),
+			"cold acknowledged checkpoint resurrected its pending month")
+		await _free_monthly_economy_main(cold)
+	if not first_closing_state.is_empty():
+		GameState.call("_restore_serialized_snapshot_exact", first_closing_state)
+		GameState.flags.erase("full_story_month_cash_view")
+		_expect(bool(main_game.call("_full_story_advance_week", 4)), "old-save partial month failed")
+		var partial: Dictionary = main_game.call("_full_story_pending_month_cash")
+		var first_routine: Dictionary = FULL_STORY_FLOW.snapshot()["routine_receipts"]["1"]
+		_expect(not bool(partial.get("complete_month", true)) \
+				and float(partial.get("opening_money", 0.0)) == float(first_routine["units"][0]["before"]["money"]),
+			"old-save fallback invented a month-opening balance")
+		GameState.call("_restore_serialized_snapshot_exact", first_closing_state)
+		await _check_full_story_calendar_save_retry(main_game, 4)
+		_expect(bool(main_game.call("_full_story_cash_has_pending")) \
+				and main_game.call("_full_story_pending_month_cash") == first_payload,
+			"calendar retry lost/doubled its frozen summary")
+	await _free_monthly_economy_main(main_game)
+	GameState.call("_restore_serialized_snapshot_exact", original)
+	for key in events_before:
+		EventManager.set(key, events_before[key].duplicate(true))
+	SaveManager.clear_loaded_resume_context()
+	LocaleManager.set_language(language_before)
+	_full_story_cash_summary_checked = _failures.size() == failures_before
 
 
 func _production_fresh_start() -> void:
@@ -8079,6 +8239,11 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
+		if _full_story_cash_summary_checked:
+			print("MANUAL_SAVE_FULL_STORY_CASH_SUMMARY_CHECK_OK source=actual-routine-money/month-opening/frozen-close residual=unclassified oldsave=partial pending=cold-before-story/ack-write-fault/retry/duplicate calendar=existing-fault-rng quiet=prepared-W13-W16-read0 native=0 new_OS_process=0")
+		if _full_story_cash_summary_only:
+			get_tree().quit(0)
+			return
 		if _narrative_name_checked:
 			print("MANUAL_SAVE_NARRATIVE_NAME_CHECK_OK locales=5 cases=default/custom prose/result=v4-disk/new-Story20 name=stored-full/custom nameplate=full result/effects/log=once old-history=literal-preserved prepared=1 new_OS_process=0")
 		if _narrative_name_only:

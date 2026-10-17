@@ -46,6 +46,7 @@ var modal_close_button: Button
 var next_button: Button
 var _modal_cancelable: bool = false
 var _modal_kind: String = ""
+var _full_story_month_cash_ack_failed: bool = false
 var _save_load_page_idx: int = 0
 var _save_load_slot_list: VBoxContainer = null
 var _save_load_page_label: Label = null
@@ -643,6 +644,8 @@ func _full_story_route_week() -> bool:
 			call_deferred("_full_story_continue_week", int(
 				GameState.flags["full_story_calendar_save_pending"]["from_turn"]))
 		return true
+	if _full_story_show_pending_month_cash():
+		return true
 	if GameState.flags.has("full_story_activity_save_pending"):
 		if not _full_story_pending_activity_save_is_valid():
 			push_error("Full story has an invalid pending activity save")
@@ -686,6 +689,8 @@ func _full_story_continue_week(expected_turn: int) -> void:
 		return
 	_full_story_advancing = false
 	if not GameState.is_game_over:
+		if _full_story_show_pending_month_cash():
+			return
 		_begin_month()
 
 
@@ -699,6 +704,8 @@ func _full_story_advance_week(expected_turn: int) -> bool:
 	if not FULL_STORY_FLOW.valid_session() or FULL_STORY_FLOW.at_boundary() \
 			or GameState.turn != expected_turn or GameState.is_game_over \
 			or not FULL_STORY_FLOW.ready_to_advance():
+		return false
+	if FULL_STORY_FLOW.is_full_run() and _full_story_cash_has_pending():
 		return false
 	if not FULL_STORY_FLOW.apply_background_for_turn(expected_turn):
 		return false
@@ -735,6 +742,175 @@ func _full_story_advance_week(expected_turn: int) -> bool:
 		_run_week_start_economy()
 		_full_story_opening_prices_turn = GameState.turn
 	return _full_story_save_calendar(expected_turn)
+
+
+func _full_story_cash_number(value: Variant) -> bool:
+	return (value is int or value is float) and is_finite(float(value)) \
+		and float(value) == floor(float(value))
+
+
+func _full_story_cash_has_pending() -> bool:
+	if not FULL_STORY_FLOW.is_full_run():
+		return false
+	var view: Variant = GameState.flags.get("full_story_month_cash_view", {})
+	# A malformed owned display receipt must not license another economic turn.
+	return not view is Dictionary or not view.get("pending", {}) is Dictionary \
+		or not (view.get("pending", {}) as Dictionary).is_empty()
+
+
+func _full_story_record_month_cash_opening() -> void:
+	if not FULL_STORY_FLOW.is_full_run() or not FULL_STORY_FLOW.valid_session():
+		return
+	var view: Dictionary = GameState.flags.get("full_story_month_cash_view", {}).duplicate(true)
+	# Called only before a genuinely unprocessed opening, never on an old-save
+	# latch/re-entry. Keep one opening and one frozen pending month, not a ledger.
+	view["opening"] = {"turn": GameState.turn, "money": GameState.money}
+	view["pending"] = view.get("pending", {})
+	view["acknowledged_turn"] = view.get("acknowledged_turn", 0)
+	GameState.flags["full_story_month_cash_view"] = view
+
+
+func _full_story_record_month_cash_closing(snap: Dictionary) -> void:
+	var view: Dictionary = GameState.flags.get("full_story_month_cash_view", {}).duplicate(true)
+	var first_turn: int = GameState.turn - 3
+	var opening: Dictionary = view.get("opening", {})
+	var complete_month: bool = _economy_integer_matches(opening.get("turn"), first_turn) \
+		and _full_story_cash_number(opening.get("money"))
+	var baseline: float = float(opening["money"]) if complete_month else float(snap["money_before"])
+	var baseline_turn: int = first_turn if complete_month else GameState.turn
+	var routine_cash: float = 0.0
+	var receipts: Dictionary = FULL_STORY_FLOW.snapshot()["routine_receipts"]
+	var found_partial_start := complete_month
+	for routine_turn in range(first_turn, GameState.turn + 1):
+		var receipt: Dictionary = receipts.get(str(routine_turn), {})
+		if str(receipt.get("status", "")) != "applied":
+			continue
+		var units: Array = receipt.get("units", [])
+		if not found_partial_start and not units.is_empty():
+			var before: Dictionary = (units[0] as Dictionary).get("before", {})
+			if _full_story_cash_number(before.get("money")):
+				# This is AFTER that week's foreground, not an invented month start.
+				baseline = float(before["money"])
+				baseline_turn = routine_turn
+				found_partial_start = true
+		if found_partial_start:
+			routine_cash += float((receipt.get("effects", {}) as Dictionary).get("money", 0.0))
+	var housing: float = float(snap["housing_expense"])
+	var interest: float = float(snap["loan_interest"])
+	# Match the existing owner's single settlement of income minus housing;
+	# first-pay fractions are not rounded independently into a fictitious total.
+	var income: float = GameState.settle_cash(float(snap["monthly_income"]) - housing) + housing
+	var change: float = float(GameState.money) - baseline
+	view["pending"] = {
+		"full_story_cash_summary": true,
+		"closing_turn": GameState.turn, "year": GameState.year, "month": GameState.month,
+		"complete_month": complete_month, "baseline_turn": baseline_turn,
+		"opening_money": baseline, "closing_money": GameState.money,
+		"cash_change": change, "routine_cash": routine_cash,
+		"monthly_income": income, "housing_expense": housing, "loan_interest": interest,
+		"other_cash": change - routine_cash - income + housing + interest,
+	}
+	GameState.flags["full_story_month_cash_view"] = view
+
+
+func _full_story_pending_month_cash() -> Dictionary:
+	var view: Variant = GameState.flags.get("full_story_month_cash_view", {})
+	if not view is Dictionary or not view.get("pending", {}) is Dictionary:
+		return {}
+	var pending: Dictionary = view.get("pending", {})
+	if pending.is_empty():
+		return {}
+	if pending.get("full_story_cash_summary") != true \
+			or not pending.get("complete_month") is bool \
+			or not _economy_integer_matches(pending.get("closing_turn"), GameState.turn - 1) \
+			or (GameState.turn - 1) % 4 != 0 \
+			or not _full_story_cash_number(pending.get("year")) \
+			or not _full_story_cash_number(pending.get("month")) \
+			or int(pending["month"]) < 1 or int(pending["month"]) > 12 \
+			or not _full_story_cash_number(pending.get("baseline_turn")):
+		return {}
+	for key in ["opening_money", "closing_money", "cash_change", "routine_cash",
+			"monthly_income", "housing_expense", "loan_interest", "other_cash"]:
+		if not _full_story_cash_number(pending.get(key)):
+			return {}
+	if float(pending["closing_money"]) - float(pending["opening_money"]) != float(pending["cash_change"]) \
+			or float(pending["routine_cash"]) + float(pending["monthly_income"]) \
+				- float(pending["housing_expense"]) - float(pending["loan_interest"]) \
+				+ float(pending["other_cash"]) != float(pending["cash_change"]):
+		return {}
+	return pending.duplicate(true)
+
+
+func _full_story_show_pending_month_cash() -> bool:
+	if not FULL_STORY_FLOW.is_full_run() or not _full_story_cash_has_pending():
+		return false
+	if not FULL_STORY_FLOW.valid_session():
+		return true
+	# Calendar retry owns the already-applied economics; never show a panel
+	# whose closing/opening checkpoint has not yet reached durable storage.
+	if GameState.flags.has("full_story_calendar_save_pending"):
+		return true
+	var pending := _full_story_pending_month_cash()
+	if pending.is_empty():
+		push_error("Full story has an invalid month cash display receipt")
+		return true
+	_full_story_seal_surface()
+	if not modal_layer.visible or _modal_kind != "full_story_month_cash":
+		_show_month_summary(pending)
+	return true
+
+
+func _full_story_ack_month_cash(closing_turn: int) -> bool:
+	if not FULL_STORY_FLOW.is_full_run() or not FULL_STORY_FLOW.valid_session() \
+			or GameState.flags.has("full_story_calendar_save_pending"):
+		return false
+	var pending := _full_story_pending_month_cash()
+	if pending.is_empty() or int(pending["closing_turn"]) != closing_turn:
+		return false
+	var old_view: Dictionary = GameState.flags["full_story_month_cash_view"].duplicate(true)
+	var acknowledged: Dictionary = old_view.duplicate(true)
+	acknowledged["pending"] = {}
+	acknowledged["acknowledged_turn"] = closing_turn
+	GameState.flags["full_story_month_cash_view"] = acknowledged
+	if not SaveManager.autosave():
+		GameState.flags["full_story_month_cash_view"] = old_view
+		return false
+	return true
+
+
+func _confirm_full_story_month_cash(closing_turn: int) -> void:
+	# Duplicate queued presses cannot enter another week or acknowledge again.
+	if not _full_story_cash_has_pending():
+		return
+	if not _full_story_ack_month_cash(closing_turn):
+		_full_story_month_cash_ack_failed = true
+		var pending := _full_story_pending_month_cash()
+		if not pending.is_empty():
+			_show_month_summary(pending)
+		return
+	_full_story_month_cash_ack_failed = false
+	_pending_month_summary = false
+	_close_modal(false, false)
+	_begin_month()
+
+
+func _arm_full_story_month_confirm(button: Button) -> void:
+	button.disabled = true
+	# Let the old queued children and _open_modal's deferred focus complete.
+	# Otherwise a rerender can focus the old button after this new one, then
+	# lose focus when that old button is deleted at the end of the frame.
+	await get_tree().process_frame
+	if not is_instance_valid(button) or not button.is_inside_tree():
+		return
+	# No timer or AUTO: require the input that reached the boundary to be
+	# released before this new mandatory surface can accept a fresh press.
+	while Input.is_action_pressed("ui_accept") or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		await get_tree().process_frame
+		if not is_instance_valid(button) or not button.is_inside_tree():
+			return
+	if is_instance_valid(button) and button.is_inside_tree():
+		button.disabled = false
+		button.grab_focus()
 
 
 func _full_story_pending_save_is_valid() -> bool:
@@ -6561,6 +6737,7 @@ func _run_week_start_economy() -> void:
 			GameState.flags["monthly_economy_turn"] = GameState.turn
 			return
 	# Reserve before synchronous news/price signals can re-enter MainGame.
+	_full_story_record_month_cash_opening()
 	GameState.flags["monthly_economy_turn"] = GameState.turn
 	if GameState.turn > 4:  # 튜토리얼 1달(4주) 이후부터 크라이시스
 		var crisis = _roll_monthly_crisis()
@@ -6585,6 +6762,9 @@ func _economy_integer_matches(value: Variant, expected: int) -> bool:
 
 func _begin_month():
 	if _full_story_resume_ending():
+		return
+	if not GameState.flags.has("full_story_calendar_save_pending") \
+			and _full_story_show_pending_month_cash():
 		return
 	if FULL_STORY_FLOW.owns_session() and (
 			not FULL_STORY_FLOW.valid_session()
@@ -9040,12 +9220,17 @@ func _run_month_end_transition(
 		"actions": turn_action_log.duplicate(),
 		"subsidy": subsidy_applied,
 	}
+	if FULL_STORY_FLOW.is_full_run():
+		snap["housing_expense"] = GameState.get_housing_expense()
+		snap["loan_interest"] = GameState.get_monthly_loan_interest()
 
 	var had_paycheck_before: bool = GameState.flags.get("has_received_paycheck", false)
 	# apply_monthly_pressure performs an immediate ending check before the
 	# calendar/router gets another chance to reconcile an old terminal receipt.
 	_normalize_monotonic_story_state()
 	GameState.apply_monthly_pressure()
+	if FULL_STORY_FLOW.is_full_run() and not GameState.is_game_over:
+		_full_story_record_month_cash_closing(snap)
 	GameState.advance_calendar()
 	# Monthly pressure checks the pre-rollover age. Re-evaluate after the
 	# calendar crosses into age 38 so week 240 resolves into an ending.
@@ -22887,7 +23072,100 @@ func _ending_playstyle(parent: Control):
 			_tr("  최고 자산 %s 중 결말에 %d%% 지킴", "  Peak assets %s — kept %d%% at the end") % [GameState.format_money(peak), kept_pct],
 			12, "#7a8496"))
 
+func _full_story_cash_signed(amount: float) -> String:
+	# The frozen receipt is already whole-won; this is display, not settlement.
+	return LocaleManager.format_whole_won(int(amount), true)
+
+
+func _full_story_cash_line(title: String, amount: float) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.custom_minimum_size.y = 30
+	var name_label := _label(title, 14, "#c8d0df")
+	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(name_label)
+	var value := _label(_full_story_cash_signed(amount), 15,
+		"#00c896" if amount >= 0.0 else "#ff6b6b")
+	# A clipped Label advertises a one-pixel minimum to HBoxContainer; reserve
+	# the real glyph width instead of allowing the expandable title to take it.
+	value.clip_text = false
+	value.name = "FullStoryCashAmount"
+	value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	row.add_child(value)
+	return row
+
+
+func _show_full_story_month_cash(snap: Dictionary) -> void:
+	_clear_week_reading_surface()
+	_pending_month_summary = true
+	var month_name := "%d-%02d" % [int(snap["year"]), int(snap["month"])]
+	_open_modal(_tr("%s 결산", "%s Summary") % month_name, false, "full_story_month_cash")
+	if is_instance_valid(modal_close_button):
+		modal_close_button.visible = false
+	modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	modal_panel.custom_minimum_size = Vector2(720, 660)
+	modal_panel.offset_left = -360
+	modal_panel.offset_right = 360
+	modal_panel.offset_top = -330
+	modal_panel.offset_bottom = 330
+	modal_body.add_theme_constant_override("separation", 8)
+	var change: float = float(snap["cash_change"])
+	var accent := "#00c896" if change >= 0.0 else "#ff6b6b"
+	var hero := _info_card(accent)
+	var hero_body := VBoxContainer.new()
+	hero_body.add_theme_constant_override("separation", 6)
+	hero.add_child(hero_body)
+	var complete_month: bool = snap["complete_month"]
+	hero_body.add_child(_label(
+		_tr("이번 달 현금 변화", "This month's cash change") if complete_month else
+		_tr("기록 이후 현금 변화", "Cash change since recorded"), 15, "#c8d0df"))
+	hero_body.add_child(_label(_full_story_cash_signed(change), 26, accent))
+	modal_body.add_child(hero)
+	var balances := HBoxContainer.new()
+	balances.add_theme_constant_override("separation", 16)
+	for key in ["opening_money", "closing_money"]:
+		var column := VBoxContainer.new()
+		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		column.add_child(_label(
+			_tr("월말 현금", "Month-end cash") if key == "closing_money" else (
+				_tr("월초 현금", "Month-opening cash") if complete_month else
+				_tr("기록 시작 현금", "Cash at record start")), 13, "#a7b1c2"))
+		column.add_child(_label(LocaleManager.format_whole_won(int(snap[key])), 18, "#dce6ee"))
+		balances.add_child(column)
+	modal_body.add_child(balances)
+	var causes := _info_card("#64748b")
+	var cause_rows := VBoxContainer.new()
+	cause_rows.add_theme_constant_override("separation", 2)
+	causes.add_child(cause_rows)
+	cause_rows.add_child(_full_story_cash_line(_tr("생계 수입", "Livelihood income"), float(snap["routine_cash"])))
+	cause_rows.add_child(_full_story_cash_line(_tr("월 수입", "Monthly income"), float(snap["monthly_income"])))
+	cause_rows.add_child(_full_story_cash_line(_tr("월세", "Rent"), -float(snap["housing_expense"])))
+	cause_rows.add_child(_full_story_cash_line(_tr("대출 이자", "Loan interest"), -float(snap["loan_interest"])))
+	cause_rows.add_child(_full_story_cash_line(_tr("기타 현금 변화", "Other cash changes"), float(snap["other_cash"])))
+	modal_body.add_child(causes)
+	if not complete_month:
+		modal_body.add_child(_wrap_label(_tr(
+			"월초 기록이 없어, 남아 있는 첫 현금 기록부터의 변화만 표시합니다.",
+			"No month-opening record exists. Changes start at the earliest remaining cash record."), 13, "#a7b1c2"))
+	if _full_story_month_cash_ack_failed:
+		modal_body.add_child(_wrap_label(_tr(
+			"확인을 저장하지 못했습니다. 다시 확인해 주세요. 결산은 다시 적용되지 않습니다.",
+			"Could not save confirmation. Please try again. The settlement will not be applied again."), 13, "#ffb86b"))
+	var confirm := _primary_cta_button(_tr("다음 달 시작  ▶", "Start Next Month  ▶"))
+	# Keep the existing tactile focus/hover animation inside this panel's
+	# clipped scroll area. The common CTA and other modal paths stay untouched.
+	confirm.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	confirm.custom_minimum_size.x = modal_panel.custom_minimum_size.x - 48.0
+	confirm.set_meta("full_story_month_cash_confirm", int(snap["closing_turn"]))
+	confirm.pressed.connect(_confirm_full_story_month_cash.bind(int(snap["closing_turn"])))
+	modal_body.add_child(confirm)
+	_arm_full_story_month_confirm(confirm)
+	SceneTransition.fade_in()
+
+
 func _show_month_summary(snap: Dictionary):
+	if bool(snap.get("full_story_cash_summary", false)):
+		_show_full_story_month_cash(snap)
+		return
 	# 결산이 열릴 때 직전 주간 카드와 문장을 뒤에 남기지 않는다.
 	_clear_week_reading_surface()
 	_pending_month_summary = true

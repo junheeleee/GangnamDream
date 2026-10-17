@@ -1,6 +1,6 @@
 # ORDER-718 — 기존 본편 월말 결산의 실제 현금 변화·원인
 
-#### [~] ORDER-718 [C2/C5 기존 UI] 착수 — 2026-10-17
+#### [x] ORDER-718 [C2/C5 기존 UI] source 통합 완료 — 2026-10-18
 
 DECISIONS 2026-10-16 3번. 1/5수리·과거2그림집계 뒤, 실제C1과병렬로 한결산화면만
 다듬는다. 새화면·AP·행동판·주도권/밸런스/정산순서 변경0. 717패키지/714수정앱·CI를
@@ -93,3 +93,48 @@ JSON26669B/18245645…0dcf·base370+v4patchad3527…84a5/6source핀결속.
 115원자료/보호379그룹748기록exact·파생진단source를원시점사본으로바꾸지않았다.
 실제M37수정앱검수·root통합/새패키지/전체CI/원어민/사람/청취/출시GO0.
 현재[~]는 통합미완료이며 source-v4만수용·원717/714사용자경로변경0이다.
+
+## main 통합 — 실제 checkpoint 뒤
+
+714 M37은34f24ef로마감했다. 715는같은17.2/W150에서5본문뒤선택0 STOP·
+nativewait0/저장dd3c…910d byteexact로종료했다. 실제기간REWORK는별도721의
+34c1e7f에서KOEN4leaf만수리했고 수정앱/M38미완료는보존한다.
+이제고정370→source-v4의6파일을34c1e7f에exact통합한다. 충돌/비소유delta면중단.
+721의두본문과CJK본문/기존UI/원ledger/project/preset/사용자앱은변경하지않는다.
+
+root 추가exact: private718 `integration-proof.json`, `integration-checks.py`,
+`integration-results.json`, `integration-*.stdout.log`, `integration-*.stderr.log`,
+`closure-{queue,l3}.md`, `closure-checks.{stdout,stderr}.log`, `closure-receipt.json`.
+`/root/m32_isolation_review`는 `integration-review.{md,json}`만 추가소유한다.
+기존v4보고/115핀/모든원실패/6PNG/경제·저장3fixture는동결하고반복하지않는다.
+root6파일전바이트=검수v4·기존370본문대비721네prefix외제품delta0을증명한다.
+현재root의audit/JA UI/다국어표면/영문한글만표적검수·새engine/import/export/native0.
+경로선택의넓은엔진/240주검사는이번통합에서열지않고새main CI는별도판정한다.
+통합GO≠새패키지/실제월말/키홀드감각/사람/CJK全体/전체C2/M38/출시GO다.
+실제다음후보는같은W150에서721수리와기존월말화면을함께관측한다.
+
+### 통합 REWORK와 한정 재검수
+
+root통합4검사중audit/다국어/EN한글3통과·JAUI만새whole_won2호출미등록으로실패했다.
+원실패927B/070b8113…0b42와비저자`integration-review.{md,json}`의
+REWORK_JA_UI_FORMATTER_REGISTRY를동결한다. private GO를통합GO로가져오지않는다.
+별도722는두consumer의정식등록/실제collector음성을수리한다. source718 6개와721
+본문2개는동결한다. 722완료commit뒤root는추가exact `integration-retry.py`,
+`integration-retry-results.json`, `integration-ja-ui-retry.{stdout,stderr}.log`로
+실패JAUI하나만다시검수한다. 비저자는새 `integration-review-v2.{md,json}`만소유해
+722수리/원REWORK/새raw/동일6blob을직독한다. 원경제·저장·6PNG/통과3static/엔진반복0.
+
+## source 통합 한정 완료
+
+722수리 local1f10f824 뒤 실패JAUI하나만실제재검수: exit0/2.964899초·stdout214B/
+bb866b4b…8beb·stderr0/errors0/2994 beta strings. 원실패927B/070b8113…0b42와
+원8integration raw/REWORK2보고는그대로다. 6blob/721본문2/722source4/135원핀exact.
+비저자GO_SOURCE_INTEGRATION_ONLY·새v2 MD3469B/da30c155…fd49·JSON14018B/
+153d4cde…9680, 원6PNG관측은동일byte범위로만재사용했다. 새그림/저장·경제fixture/
+엔진·native/통과3static 반복0. 722 collector가분리한unsupported466은전체채무로유지.
+기존월말의8정밀금액·실제원인5·부분기록고지·저장뒤모달·ack실패재시도/once만통합했다.
+새게임선택/AP/경제/정산순서/RNG/공개demo/사용자앱·저장·project/preset·CJK기존본문0변경.
+새main전체CI/패키지/실제월말/수정현수앱/M38/사람·원어민·패드·청취/출시GO0.
+다음별도선언의새검수앱은같은W150미선택저장을잇는다. M39경제는152종료뒤모달전
+실행되므로152경계전에M39를선언한다. H5/복원HOLD/nativeexitnull/710사고는보존한다.
+승격0·승인된기존UI/격리/저장계약적용·본사양의실행지시는일회성.

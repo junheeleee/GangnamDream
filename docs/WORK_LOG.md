@@ -3,6 +3,14 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-18 — 월말 현금 변화·원인 화면 source 통합
+
+- [718](queue_archive/ORDER-718.md): 원private v4 6blob을현재root에exact통합. 월초앵커/월말frozen cashΔ·원인5·끝잔액을기존결산한화면에보이고oldsave는partial고지. 실제routine money/정산income/rent/interest/잔차만계산·게임선택/AP/새화면/경제·RNG순서변경0. 기존flags의작은표시pending/ack·저장성공뒤모달/실패retry/중복방지·UI금액8개whole-won exact. CJK 신규UI11개씩만, 기존본문/키/번역원장/retail allowlist불변.
+- 원통합audit/다국어/EN한글3pass·JAUI927B/070b8113…0b42 실패는보존. 722도구수리1f10f824 뒤실패JA만실제재검수exit0/2.964899초·stdout214B/bb866b4b…8beb/stderr0/errors0. 통과했던3static·경제/저장3fixture/그림6/engine 반복0·source-v4/721본문2/722source4/135원핀685602967B exact.
+- 비저자GO_SOURCE_INTEGRATION_ONLY·private718 v2 MD3469B/da30c155…fd49·JSON14018B/153d4cde…9680. 원REWORK 보고와과거모든실패동결, 원6PNG직독은같은byte한정재사용. 새원어민/사람/패드/청취/native/수정721앱/실제월말/M38/전체C2/새전체CI/출시GO0. main04a CI2job22step success·예외/만료0과새후보CI를분리했다.
+- 개발스킬의분리소유·표적재검수·원증거보존적용·승격0/기존UI·저장계약·일회성. 715월선언/실제/교정forecast는이commit제외. 다음새패키지는같은W150/dd3c미선택저장만잇는다. 152뒤153경제가모달전실행되므로152선택전M39별도선언·최대2월. H5/RNG/복원HOLD/714nativeexitnull/710설정사고/사용자16.2·프로젝트·공개·과거인간판정보존.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-18 — 월말 원화 표시 검사 계약 수리
 
 - [722](queue_archive/ORDER-722.md): 선언04a5e81. 718 실제통합 JAUI 미등록2 실패를유지하고 supplemental signed/balance owner 각1·int/양의부호·opening/closing 실제loop 생산자·원화정밀도를검증했다. 기존raw56/돈owner2/Holdem/원정의71·6 exact·기존음성47 보존. 도구2/audit경로1/인프라8줄외제품수정0.
