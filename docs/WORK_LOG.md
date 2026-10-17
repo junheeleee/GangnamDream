@@ -3,6 +3,13 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-18 — 수정 본문·월말 화면의 새 검수 앱 준비
+
+- [723](queue_archive/ORDER-723.md): source87508a4f→privatef738a807/tree d8ae21ac·18.1 내장customdir/ICU와BuildInfo2파일만build-only변경. freshimport1 24.664909초/export1 46.472872초·후속3 exit0, app7/tree7f2efef4…157a/ZIP440951185B/1afa9acd…2fd8/PCK404898592B/60f4db2a…5505·1893MD5/JSON675 exact. ECFG41 typed Splash/customdir18_1/ICUtrue·ICU4797072B/40256630…65d·stage/manifest/GDSC 지문결속, 실제라벨/OS소비는미관측.
+- 비저자GO_PACKAGE_ONLY·MD4364B/c668229e…078b·JSON32353B/7ea6d318…57f9·root전문대조, 전체핀/private723. 원12stream630023B 오류·누수0/nestedproject WARNING4사본·서명교체info보존. 번호hunk거절은stage쓰기/engine전입구실패·정정원receipt보존. wideCRASH16진행파일명은실제오류0과구분했다. 보호681그룹1056기록 전후exact·namespace파일0·seed/native0.
+- 개발스킬의격리·독립·표적·원증거보존적용/승격0·일회성. 715/724 월선언은이commit제외·같은W150/dd3c 원저장1회복사권한은별도715입구검수뒤만. 보고발급시CI진행·마감전875 CI39055445203 실제2job22step success를別途확인·마감CI별도. 새native/수정본문/실제월말/M38/C2전체/사람/출시GO0. 사용자16.2/기존17.2/저장·설정/project/preset/공개·원REWORK/714exitnull/복원HOLD/710사고보존. 152뒤153경제가모달전에실행되므로152전M39선행선언·열린월최대2·생존/reroll보장0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-18 — 월말 현금 변화·원인 화면 source 통합
 
 - [718](queue_archive/ORDER-718.md): 원private v4 6blob을현재root에exact통합. 월초앵커/월말frozen cashΔ·원인5·끝잔액을기존결산한화면에보이고oldsave는partial고지. 실제routine money/정산income/rent/interest/잔차만계산·게임선택/AP/새화면/경제·RNG순서변경0. 기존flags의작은표시pending/ack·저장성공뒤모달/실패retry/중복방지·UI금액8개whole-won exact. CJK 신규UI11개씩만, 기존본문/키/번역원장/retail allowlist불변.
