@@ -3,6 +3,16 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-17 — M37 수정 앱 재검수·대표 경로 마감
+
+- [714](queue_archive/ORDER-714.md): 원17.1 두세션20원컷/HOLD와716수리·717package 보존. 수정17.2/370→980a55fe/tree80c925a0 실제31JPEG·다은5+3/0·path4+1/1 전독→자동149→첫150한문단완전표시/무선택STOP. M37전체145카드0/146민서0/147다은0/148path1, read113→117·routine144→149는M37네주+다음quiet149한주. 완료월반복/보조경로/새export·reroll0.
+- 실제final365171B/dd3cf71c…910d·W150/last149/2029Feb2/H5M95/돈−11643976/job{}/resume·chain{}·선택seq116/117 및routine147..149 once/정산1. 원115read/146routine·completed/6328leaf 값drift0·numeric type-only26, cast7/item4/예약/뉴스4/market18 once 보존. 월C1GO는동일후보·원51컷의각phase범위이고KO/CJK·사람·전체C2/M60 GO0.
+- 비저자 GO_M37_REPRESENTATIVE_CHECKPOINT_ONLY·MD5055B/cfe9eb86…1c0f·JSON32886B/47db527d…9ed6, 별도save GO·MD4980B/dfda57c6…8f07·JSON24967B/fa931abe…bdb2. 실제31전독과save검수9/31표본/원prefix전수는분리. 전체핀/원보고는private714 corrected-{native,save}-review.{md,json}.
+- 감독연결단절로원native종료코드null·재launch/seed추가0, 복구observer703.735635초/exit0·3raw오류0/기존build mismatch경고·보호payload436/806exact. 입력21=성공20+stale사전거절1/CmdQ마지막/종료뒤UI0. 입구전FileNotFound/exit1·원01:16receipt와07:34conversation freshCI/잠금관측출처를보존. 복원HOLD/H5/remote다은·열차BG·청취·710설정사고는남고새사람GO0.
+- 개발스킬의격리·표적·독립·증거경계적용/승격0·일회성. 월선언/실제/독립/마감한commit·715선행선언은로컬보존·M38첫본문만. c966/제품370 CI2job22step success·예외/만료0, 새마감CI는별도미판정. 사용자16.2/설정/project/preset/공개/과거판정/717앱 보존·Steam/출시GO0. 다음같은W150에서미확정본문을잇고718통합한다.
+- 마감문서 표적5 전부통과/77.802604초·engine0·stderr0, STATUS낡음은비차단참고경고로보존. 715는이마감index에서제외했다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-17 — AI 번역 고지 15개 준비 화면 검수 완료
 
 - [720](queue_archive/ORDER-720.md): 선언5b65849·실제Splash/타이틀설정/장면설정×5언어, 기존공식engine/cache의별도APFS사본·freshUUID5·OpenGL3/1280×800·import0/native0. 새privateQA3함수만·기존517함수/assertion/제품UI/사전/allowlist/스토리/effects/id 불변.

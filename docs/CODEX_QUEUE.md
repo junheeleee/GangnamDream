@@ -42,9 +42,9 @@
 
 | 기준 | 현재 실행 범위·남은 일 |
 |---|---|
-| C3 CI | 9c7dee4 CI2job/22step success·예외/만료0. 수정37089e7 CI진행≠녹색. |
-| C1 대표 완주 | [706 M36](queue_archive/ORDER-706.md) EN 실제완료·3선택/read113/저장독립GO·첫W145미선택·H3M91. 수정mainCI 전체녹색뒤 M37·완료월 반복0. |
-| C2 치명 결함 | [710](queue_archive/ORDER-710.md)/[711](queue_archive/ORDER-711.md) 수용. [716](queue_archive/ORDER-716.md) 고용전제 source수리·수정앱 재검수 전. C2 미완료. |
+| C3 CI | c966a51/제품37089e7 CI2job/22step success·예외/만료0. 새마감CI 별도. |
+| C1 대표 완주 | [714 M37](queue_archive/ORDER-714.md) EN 대표완료·첫W150미선택/H5M95/read117·M38은첫본문만. 완료월반복0. |
+| C2 치명 결함 | [710](queue_archive/ORDER-710.md)/[711](queue_archive/ORDER-711.md) 수용. [716](queue_archive/ORDER-716.md) 고용전제 EN수정앱관측·KOsource. 전체C2 미완료. |
 | C4 사람·고지 | [696](queue_archive/ORDER-696.md) 사용자16.2 인계·사람2~3h 미완료/UI양보. [720](queue_archive/ORDER-720.md) 고지3화면×5언어 준비렌더15 수용·CJKshipping0. |
 | C5 출시 준비물 | [704](queue_archive/ORDER-704.md) trailer02 수첩 source 수용·새capture/영상 미검수. [674](queue_archive/ORDER-674.md)/[675](queue_archive/ORDER-675.md) 설명5언어 보존·retail/빌드/설문/외부 남음. |
 
