@@ -3,6 +3,12 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-18 — 스토어 옛 촬영 안내 중단
+
+- [726](queue_archive/ORDER-726.md): 일반부팅/공용tmp삭제·복사예제제거·readonly 검사와미구현격리입구분리. 2문서만/그림·도구·게임변경0. 문서5+diff pass·89보호/12raw exact.
+- 비저자문서GO·private726 MD2823B/808918d2…5875·JSON17328B/66dfeaf0…889e. 개발스킬의저장보호·독립검수적용·승격STORE_SHOTLIST재생성/QA링크·나머지일회성. 3d6 CI22step success·새CI別途·715/724월commit제외/M38 HOLD·新촬영/전체C5/출시GO0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-18 — 트레일러 캡처 저장 격리·새 출력 수리
 
 - [725](queue_archive/ORDER-725.md): 기존bootstrap의pre-autoload 새32hex·locale별fresh22PNG/원3로그·exit/marker/error 검증·새run4MP4 경로. 이전출력삭제/복사폴백0·기존timeline/normal검사/encoder불변. 모의25 pass는tool transcript만·실engine/촬영/영상/청취0.

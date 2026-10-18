@@ -40,24 +40,35 @@
 
 ## 재생성 절차
 
+**현재 새 촬영·내보내기 절차는 미승인이다.** 옛 일반 프로젝트 부팅과 공용 임시
+출력 복사 명령은 실행하지 않는다. 기존 8장과 그 역사적 렌더 근거는 보존하지만,
+현재 본편 후보의 화면·문장·선택을 새로 검수한 것으로 세지 않는다.
+
+기존 파일의 읽기 전용 구조 검사는 다음 명령뿐이다. 이 검사는 촬영·게임 부팅·
+내보내기·그림 교체를 하지 않으며, 최신 후보 여부나 화면 내용의 정확성은 판정하지 않는다.
+
 ```bash
-/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
-  --path . \
-  --rendering-driver opengl3 \
-  --resolution 1280x800 \
-  res://tools/ScreenshotQA.tscn -- --qa=store --lang=en
-
-/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
-  --path . \
-  --headless \
-  res://tools/StoreScreenshotExport.tscn
-
-mkdir -p assets/store/screenshots
-cp /tmp/gangnamdream_store_screenshots/*.png assets/store/screenshots/
 python3 tools/store_shot_check.py
 ```
 
-`ScreenshotQA`는 `/tmp/gangnamdream_qa`를, `StoreScreenshotExport`는 `/tmp/gangnamdream_store_screenshots`를 매 실행 때 정리한다. 내보내기는 1280x800 원본의 중앙 1280x720을 잘라 Steam용 16:9로 고정한다.
+현재 `StoreScreenshotExport.gd`는 입력 `/tmp/gangnamdream_qa`와 출력
+`/tmp/gangnamdream_store_screenshots`를 고정하고, 출력의 PNG·Markdown·JSON을
+먼저 삭제한다. `GANGNAM_QA_OUT`는 `ScreenshotQA`에만 적용되므로 그것 하나를
+지정해도 exporter가 같은 새 입력을 읽는다는 보장이 없다. 트레일러의 격리 runner도
+트레일러 전용이며 스토어 촬영에 대신 쓰지 않는다.
+
+다음 새 촬영은 별도 파일 범위를 선언하고 아래 입구를 마련한 뒤에만 실행한다.
+
+- 사용자 저장·설정과 분리된 저장 경로를 autoload 이전에 확정한다.
+- 새 전용 입력·출력 디렉터리를 양쪽 도구에 결속한다. 이전 캡처 삭제·공용 임시
+  파일 폴백·`assets/store/screenshots/` 덮어쓰기를 촬영 단계에 섞지 않는다.
+- 동일 후보의 영어 원본 8장과 1280x720 크롭 8장을 이름·SHA로 연결하고,
+  실제 종료코드·원 stdout/stderr/Godot 로그·격리/완료 표식·오류를 함께 보존한다.
+- 위 육안 판정으로 새 8장을 검수한 뒤에만 교체를 별도 확정한다. 1280x800 원본의
+  중앙 1280x720 크롭과 기존 컷·캡션 계약은 유지한다.
+
+이는 필요한 안전 입구이지 구현 완료·새 촬영 승인·C5 완료가 아니다. Mac 잠금 중에는
+실제 촬영을 시작하지 않으며, 잠금 해제 시 보류 중인 본편 대표 경로 플레이가 우선이다.
 
 ## 이번 8장에서 제외한 것
 

@@ -639,9 +639,10 @@ Automated year-identity gates:
 
 Automated store-asset gate:
 
+- New capture/export is currently on hold: follow the [store regeneration safety boundary](STORE_SHOTLIST.md#재생성-절차), not a normal project boot or the legacy shared-temp export. The following producer contracts do not authorize that unsafe execution.
 - `ScreenshotQA --qa=store --lang=en` must generate exactly eight named source frames from actual game state, including the same Daeun cafe event at Moral Tint +80 and -80.
-- `StoreScreenshotExport.tscn` must crop those sources to the canonical 1280x720 filenames in `/tmp/gangnamdream_store_screenshots`.
-- `python3 tools/store_shot_check.py` must print `STORE_SHOT_CHECK_OK count=8 size=1280x720 unique=8`; missing, stale, duplicate, undersized, or wrongly sized PNGs fail the gate.
+- The legacy `StoreScreenshotExport.tscn` crops to canonical 1280x720 filenames in the fixed `/tmp/gangnamdream_store_screenshots` directory and clears prior output. Its input/output isolation must be prepared separately before any new export.
+- `python3 tools/store_shot_check.py` is read-only and must print `STORE_SHOT_CHECK_OK count=8 size=1280x720 unique=8`; missing, extra, duplicate, undersized, or wrongly sized PNGs fail the gate. It does not identify stale candidate footage or judge image contents; bind fresh source/crop hashes and review the actual new images separately.
 
 Automated art-quality gate:
 
