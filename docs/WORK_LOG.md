@@ -3,6 +3,13 @@
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
+## 2026-10-18 — 트레일러 캡처 저장 격리·새 출력 수리
+
+- [725](queue_archive/ORDER-725.md): 기존bootstrap의pre-autoload 새32hex·locale별fresh22PNG/원3로그·exit/marker/error 검증·새run4MP4 경로. 이전출력삭제/복사폴백0·기존timeline/normal검사/encoder불변. 모의25 pass는tool transcript만·실engine/촬영/영상/청취0.
+- 비저자GO_SOURCE_RUNNER_CONTRACT_ONLY·private725 MD4305B/eaf59545…c52c·JSON29130B/f17c1efa…17b. 5source역산/87보호/22raw exact. 원인자exit2보존→retry7 pass·통과3반복0·STATUS advisory/인간OPEN45 유지. 723전후핀은이번미발급.
+- 개발스킬의격리·표적·독립검수적용. 승격: TRAILER_PRODUCTION Capture safety and evidence·나머지일회성. 3c1 mainCI2job22step success/예외0·새sourceCI별도. 715/724월메타commit제외·W151/M38 HOLD보존·C5전체/사람/출시GO0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-18 — 수정 본문·월말 화면의 새 검수 앱 준비
 
 - [723](queue_archive/ORDER-723.md): source87508a4f→privatef738a807/tree d8ae21ac·18.1 내장customdir/ICU와BuildInfo2파일만build-only변경. freshimport1 24.664909초/export1 46.472872초·후속3 exit0, app7/tree7f2efef4…157a/ZIP440951185B/1afa9acd…2fd8/PCK404898592B/60f4db2a…5505·1893MD5/JSON675 exact. ECFG41 typed Splash/customdir18_1/ICUtrue·ICU4797072B/40256630…65d·stage/manifest/GDSC 지문결속, 실제라벨/OS소비는미관측.

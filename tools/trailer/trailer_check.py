@@ -5,10 +5,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import struct
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 
@@ -136,14 +138,130 @@ def probe_video(video: Path, ffmpeg: Path, expected_seconds: float) -> None:
         fail(f"{video.name} is missing the 48 kHz stereo AAC mix")
 
 
+def capture_self_test() -> None:
+    """Mocked process/PNG-header I/O only: never run Godot or claim rendered frames."""
+    fake_source = r'''#!/usr/bin/env python3
+import json, os, struct, sys, time
+from pathlib import Path
+argv = sys.argv
+assert argv[argv.index('--script')+1] == 'res://tools/StoryNameplateBootstrap.gd'
+assert argv[argv.index('--scene')+1] == 'res://tools/ScreenshotQA.tscn'
+assert argv[argv.index('--resolution')+1] == '1920x1080'
+assert '--qa=trailer' in argv
+lang = next(a.split('=',1)[1] for a in argv if a.startswith('--lang='))
+assert lang == os.environ['MOCK_TRAILER_LANG']
+out = Path(os.environ['GANGNAM_QA_OUT'])
+assert out == Path(os.environ['MOCK_TRAILER_OUT'])
+root = Path(argv[argv.index('--path')+1])
+mode = os.environ.get('MOCK_TRAILER_CASE', 'ok')
+if mode == 'timeout': time.sleep(3)
+namespace = os.environ['STORY_NAMEPLATE_QA_NAMESPACE']
+assert namespace.startswith('GangnamDream_StoryNameplateQA_') and len(namespace.rsplit('_',1)[-1]) == 32
+if sys.platform == 'darwin': parent = Path.home() / 'Library/Application Support'
+elif os.name == 'nt': parent = Path(os.environ['APPDATA'])
+else: parent = Path(os.environ.get('XDG_DATA_HOME', str(Path.home()/'.local/share')))
+pre = 'STORY_NAMEPLATE_PRE_AUTOLOAD_USER_DIR=' + str(parent/namespace)
+done = 'SCREENSHOT_QA_DONE scope=trailer lang=' + lang + ' dir=' + str(out)
+data = json.loads((root/'tools/trailer/timeline.json').read_bytes())
+names = sorted({c['frame'] for e in data['edits'].values() for c in e['cuts'] if c['frame'] != '@keyart'})
+for i, name in enumerate(names):
+ if mode == 'missing_frame' and i == 0: continue
+ width = 1 if mode == 'bad_size' and i == 0 else 1920
+ (out/name).write_bytes(b'\x89PNG\r\n\x1a\n'+b'\x00\x00\x00\rIHDR'+struct.pack('>II',width,1080))
+if mode == 'extra_frame': (out/'trailer_99_stale.png').write_bytes(b'stale')
+if mode == 'symlink_frame':
+ (out/names[0]).unlink(); (out/names[0]).symlink_to(out/names[1])
+if mode != 'no_log': Path(argv[argv.index('--log-file')+1]).write_text('SCRIPT ERROR: mocked\n' if mode == 'log_error' else 'mock only\n')
+if mode == 'invalid_log': Path(argv[argv.index('--log-file')+1]).write_bytes(b'\xff')
+if mode != 'no_pre': print(pre if mode != 'wrong_pre' else pre+'wrong')
+if mode == 'duplicate_pre': print(pre)
+if mode == 'stdout_error': print('ERROR: mocked after zero exit')
+if mode == 'stderr_error': print('Parse Error: mocked',file=sys.stderr)
+if mode == 'leak': print('WARNING: ObjectDB instances leaked at exit')
+if mode == 'warning': print('WARNING: retained mock warning')
+if mode != 'no_done': print(done if mode != 'wrong_locale' else done.replace('lang='+lang,'lang=other'))
+if mode == 'duplicate_done': print(done)
+if mode == 'nonzero': sys.exit(7)
+'''
+    modes = ('ok', 'warning', 'no_pre', 'wrong_pre', 'duplicate_pre', 'no_done',
+             'wrong_locale', 'duplicate_done', 'stdout_error', 'stderr_error',
+             'log_error', 'leak', 'no_log', 'nonzero', 'missing_frame', 'extra_frame',
+             'bad_size', 'symlink_frame', 'timeout', 'invalid_log')
+    cases = 0
+    with tempfile.TemporaryDirectory(prefix='gd-trailer-contract-') as raw:
+        base = Path(raw).resolve()
+        fake = base/'mock-engine'
+        fake.write_text(fake_source, encoding='utf-8')
+        fake.chmod(0o700)
+        wrapper = ROOT/'tools/trailer/capture_frames.sh'
+        env = os.environ.copy()
+        for key in ('STORY_NAMEPLATE_QA_NAMESPACE', 'GANGNAM_QA_OUT',
+                    'STORY_DEMO_QA_BOOTSTRAP_NAME', 'STORY_DEMO_ALLOW_ISOLATED_QA'):
+            env.pop(key, None)
+        env['GODOT'] = str(fake)
+        namespaces = set()
+        for index, mode in enumerate(modes):
+            lang = 'en' if index % 2 else 'ko'
+            output = base/mode
+            child = dict(env, MOCK_TRAILER_CASE=mode, MOCK_TRAILER_LANG=lang, MOCK_TRAILER_OUT=str(output))
+            argv = ['bash',str(wrapper),lang,str(output)]
+            if mode == 'timeout': argv += ['--timeout', '1']
+            result = subprocess.run(argv,env=child,capture_output=True,text=True,timeout=20)
+            if not (output/'capture-result.json').is_file():
+                fail('mock failed before receipt: '+mode+' '+result.stdout+result.stderr)
+            record = json.loads((output/'capture-result.json').read_bytes())
+            should_pass = mode in ('ok', 'warning')
+            if (result.returncode == 0) != should_pass or (record['status'] == 'passed') != should_pass:
+                fail('mock capture status mismatch: '+mode+' '+result.stdout+result.stderr)
+            if mode == 'timeout':
+                if record['engine_exit'] in (None, 0): fail('timeout outcome not retained')
+            elif record['engine_exit'] != (7 if mode == 'nonzero' else 0):
+                fail('raw engine outcome changed: '+mode)
+            if should_pass and len(record['frames']) != 22:
+                fail('mock accepted roster not 22')
+            if mode == 'warning' and not record['warning_lines']:
+                fail('warning was discarded')
+            namespaces.add(record['expected_user_dir'])
+            cases += 1
+        if len(namespaces) != len(modes):
+            fail('namespace reused between mocked cases')
+        old = base/'existing'
+        old.mkdir(); sentinel=old/'trailer_01_kept.png'; sentinel.write_bytes(b'keep old artifact')
+        for arg, extra in [('existing',{}), ('new-override',{'GANGNAM_QA_OUT':str(base/'foreign')})]:
+            result = subprocess.run(['bash',str(wrapper),'ko',str(base/arg)],env=dict(env,**extra),capture_output=True,timeout=10)
+            if result.returncode == 0 or sentinel.read_bytes() != b'keep old artifact':
+                fail('fresh-path/override refusal failed')
+            cases += 1
+        bad=base/'bad-language'
+        result=subprocess.run(['bash',str(wrapper),'ja',str(bad)],env=env,capture_output=True,timeout=10)
+        if result.returncode == 0 or bad.exists(): fail('unsupported capture language admitted')
+        cases += 1
+        link=base/'link'; link.symlink_to(old,target_is_directory=True)
+        result=subprocess.run(['bash',str(wrapper),'en',str(link/'child')],env=env,capture_output=True,timeout=10)
+        if result.returncode == 0 or (old/'child').exists(): fail('symlink ancestor admitted')
+        cases += 1
+        broken = base/'broken-engine'; broken.write_text('not an executable format'); broken.chmod(0o700)
+        output = base/'launch-failure'
+        result=subprocess.run(['bash',str(wrapper),'ko',str(output)],env=dict(env,GODOT=str(broken)),capture_output=True,timeout=10)
+        record=json.loads((output/'capture-result.json').read_bytes())
+        if result.returncode == 0 or record['engine_exit'] is not None or not record['errors']:
+            fail('launch failure outcome not retained')
+        cases += 1
+    print(f'TRAILER_CAPTURE_SELF_TEST_OK mocked_cases={cases} real_engine=0 rendered_claim=0')
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--captures", type=Path)
     parser.add_argument("--video", type=Path)
     parser.add_argument("--ffmpeg", type=Path)
     parser.add_argument("--seconds", type=float)
+    parser.add_argument("--capture-self-test", action="store_true")
     args = parser.parse_args()
     try:
+        if args.capture_self_test:
+            capture_self_test()
+            return 0
         data = load_timeline()
         check_static(data, args.captures)
         if args.video is not None:

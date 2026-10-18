@@ -8,12 +8,15 @@
 - Canonical timeline: `tools/trailer/timeline.json`. Cut totals, caption timing, source paths, audio spans, and both locales are machine checked.
 - Generated videos stay under ignored `build/trailer/`; they are release artifacts, not runtime assets.
 
-Current C5 preparation status (2026-10-16): the goal-frame producer now targets
+Current C5 preparation status (2026-10-18): the goal-frame producer now targets
 the existing StoryMode notebook choice and goal HUD, not the retired AP board.
 The legacy filename `trailer_02_goal_dashboard.png` remains compatible with both
 edits. Fresh KO/EN frame-02 capture, four MP4s, visual review and normal-speed
 listening are still pending. The 2026-07-13 production proof below is historical;
 it does not certify this source change, the other cuts, or a current release candidate.
+The capture wrapper now selects fresh storage before autoloads and a private
+output for each locale. Its mocked process/PNG-header self-test is source/runner
+evidence only; new Godot captures, four videos and listening remain pending.
 
 ## Locked 30-Second Cut
 
@@ -37,14 +40,41 @@ GODOT=/absolute/path/to/godot ./tools/trailer/render_all.sh
 
 `resolve_ffmpeg.sh` uses, in order, `$FFMPEG`, a system ffmpeg, an existing build-local `imageio-ffmpeg`, or installs pinned `imageio-ffmpeg==0.6.0` under ignored `build/trailer-tools/`. No global tool install is required.
 
-Outputs:
+Each rebuild creates `build/trailer/run.<unique>/`, captures both locales there,
+and passes those exact directories to the existing encoder. Previous captures
+and videos are retained, not deleted or overwritten. `TRAILER_ALL_OK dir=...`
+reports the actual new final directory. Outputs inside it:
 
-- `build/trailer/final/gangnam_dream_30s_ko.mp4`
-- `build/trailer/final/gangnam_dream_30s_en.mp4`
-- `build/trailer/final/gangnam_dream_60s_ko.mp4`
-- `build/trailer/final/gangnam_dream_60s_en.mp4`
+- `gangnam_dream_30s_ko.mp4`
+- `gangnam_dream_30s_en.mp4`
+- `gangnam_dream_60s_ko.mp4`
+- `gangnam_dream_60s_en.mp4`
 
-Each MP4 has a matching SRT and JSON SHA-256 manifest. Five review frames per edit are exported to `build/trailer/final/qa/`.
+Each MP4 has a matching SRT and JSON SHA-256 manifest. Five review frames per
+edit are exported to that run's `final/qa/`.
+
+### Capture safety and evidence
+
+`capture_frames.sh <ko|en> [new-output-directory]` refuses an existing output,
+symlink path or inherited QA override. It uses the existing
+`StoryNameplateBootstrap.gd` and a fresh 32-hex namespace before game autoloads;
+HOME, XDG and player files are not redirected or copied. The default single-locale
+path is `build/trailer/captures/<locale>` and must not already exist. Use a new
+explicit path for subsequent standalone captures.
+
+The locale writes directly into its own output, never the shared
+`/tmp/gangnamdream_qa`. Original stdout, stderr, Godot log and result JSON are
+retained on failure. Success requires exit zero, one exact pre-autoload namespace
+marker before one exact completion marker, no script/engine errors or leak
+matches, unchanged source pins, exactly 22 fresh regular PNGs and the existing
+timeline/dimension check. Warnings remain in the receipt. The old dense-capture
+cleanup warnings in the historical proof below are not a current strict pass.
+
+`python3 tools/trailer/trailer_check.py --capture-self-test` exercises mocked
+process outcomes and synthetic PNG headers without Godot, user-data writes,
+screen capture, ffmpeg or playback. It does not prove rendered contents, native
+storage isolation, visual quality or the mix. Actual graphical capture remains
+a separate admitted task; do not run it as a substitute for locked-screen play.
 
 ## Release QA
 

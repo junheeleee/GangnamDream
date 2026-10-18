@@ -1,6 +1,6 @@
 # ORDER-725 — 트레일러 캡처의 저장 격리·새 출력 계약
 
-#### [~] ORDER-725 [C5 화면 없는 준비] 착수 — 2026-10-18
+#### [x] ORDER-725 [C5 화면 없는 준비] 완료 — 2026-10-18
 
 Mac실측잠금. C1 715/724의원자료·W151/f022는동결하고새월을열지않는다.
 실제확인한capture_frames.sh는root의ScreenshotQA.tscn으로직접부팅해기존저장경로를
@@ -18,6 +18,8 @@ root: 이사양/archive·CODEX_QUEUE/L3·CLAUDE그다음행·WORK_LOG새기록,
 private .git/order725-trailer-capture-20261018/의 baseline.json, checks.py,
 checks.json, logs/, declaration-{queue,l3}.md, closure-{queue,l3,claude,worklog}.md,
 completion-receipt.json만. 715/724월선언과그관련미커밋현황은선언/마감commit에서제외한다.
+표적실행인자의사전오류원checks/logs는보존하고, root는추가 exact
+checks-retry.py, checks-retry.json, retry-logs/만소유한다. 통과3검사는반복하지않는다.
 /root/m32_isolation_review: private independent-review.{md,json} 두파일만.
 검수자는Git/엔진/QA/UI/실사용자접근0·실제diff/테스트/raw/보존핀을직독한다.
 
@@ -40,3 +42,18 @@ Mac잠금중실제engine/ffmpeg/촬영은실행하지않는다. self-test는모�
 승격: TRAILER_PRODUCTION 실행의격리·fresh출력계약만, 나머지일회성.
 source수리완료≠새22컷/4영상/실제청취/Steam게시/C5전체/사람/출시GO.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 완료 증거·한계
+
+선언3c1df29·비저자 /root/m32_isolation_review GO_SOURCE_RUNNER_CONTRACT_ONLY.
+private .git/order725-trailer-capture-20261018/independent-review.md
+4305B/SHA256 eaf59545a2416788f4f71ad3288368173cd7dcea561c3e39b88e385a495ec52c,
+JSON29130B/SHA256 f17c1efa063248919fd09500328c2c7bc3fbe6482318d760fb93314bbeb3517b.
+root전문대조·source5핀/역산exact·보호87파일(repo18/private715 69)·원22raw67961B exact.
+723즉시핀은今回87개외·전후검증주장0. 원715 W151/f022·관측HOLD 유지.
+모의25 pass는원tool transcript기록만·per-case raw/그림/native 저장격리관측0.
+원checks exit[0,0,0,2]의인자충돌205B 보존→auto선택·별도render구문·문서5 retry7 exit0.
+기존normal checker모듈·108lane/215check·나머지scope원형exact, 신규1lane/2check만.
+새source실행0·실22×2컷/4MP4/청취/wholeCI/C5/사람/출시GO0.
+승격: docs/TRAILER_PRODUCTION.md Capture safety and evidence. 이실행·보고/권한은일회성.
+게임상태/원문/JAzh/경제·선택/공개데모 변경0·월715/724는분리보존한다.
