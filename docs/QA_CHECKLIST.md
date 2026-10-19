@@ -426,7 +426,7 @@ python3 tools/release_content_inventory.py \
 | Archive CG silhouettes/fullscreen preview, hidden-name secrecy, and exact gallery replay integrity: 20 roots, 51 authored events (ordinary 48 + First Bill 3), conditional runtime maximum 52, first valid seen+snapshot atomic/write-once pairs, locale-neutral name/turn/moral/housing/selectors/choice indices, frozen 1·3·5-year portraits and seasonal audio, HUD/result-card zero, GameState/meta mutation zero, and seen-only/orphan/corrupt/direct-request fail-closed. First Bill additionally freezes both Month-Three ledger memories plus empty, normalizes an old missing field to empty, and rejects wrong type/value or mutually contradictory live flags | `GalleryReplaySnapshotCheck.tscn`, `CoreLoopV2ECheck.tscn`, `ManualSaveCheck.tscn`, `StoryPlaybackCheck.tscn`, then real-render `--qa=gallery --lang=ko/en`; the dedicated marker must report `roots=20 authored_closure=51 runtime_max=52 ... frozen=7 hud=0 mutation=0 m3=3+legacy` |
 | Five year identities, year-scene curation, Y1 timed choice, Y5 week countdown, and ending five-scene recap | `--qa=year-identity --lang=ko/en` |
 | Cast 1/3/5-year visual axis: turn windows 1-96/97-192/193-240, seven core identities, four Minjun job variants, relationship-stage independence, fixed hospital/wedding/season/romance/2020 portraits, missing-file fallback, and 21 face-safe anchors at 960x600 English and 1280x800 Korean | `CastVisualTimeCheck.tscn`, then `--qa=year-identity --lang=ko/en` |
-| Steam store sequence: cold-open, money-mule timer, montage, time ledger, identical bright/dark scene pair, seasonal date CG, and five-scene ending recap | `--qa=store --lang=en` then `StoreScreenshotExport.tscn` |
+| Steam store sequence: cold-open, money-mule timer, montage, time ledger, identical bright/dark scene pair, seasonal date CG, and five-scene ending recap | Capture on hold; [isolated capture boundary and offline crop](STORE_SHOTLIST.md#재생성-절차) |
 | Active raster inventory and completed human verdict ledger for every CG, portrait, and background | `python3 tools/art_ai_audit.py` |
 | Active raster dimensions, 1080p/4K cover enlargement bands, exact path baseline, and low-resolution regression ratchet | `python3 tools/art_resolution_audit.py` |
 | Promoted high-resolution master provenance, official tool/model hashes, full-frame tile policy, three-or-more 100% crop verdicts, and exact runtime hash | `python3 tools/art_master_audit.py` |
@@ -639,9 +639,10 @@ Automated year-identity gates:
 
 Automated store-asset gate:
 
-- New capture/export is currently on hold: follow the [store regeneration safety boundary](STORE_SHOTLIST.md#재생성-절차), not a normal project boot or the legacy shared-temp export. The following producer contracts do not authorize that unsafe execution.
+- New capture remains on hold: follow the [store regeneration safety boundary](STORE_SHOTLIST.md#재생성-절차), not a normal project boot or the legacy shared-temp export. The offline Python exporter handles existing receipt-bound inputs without running the game; it does not authorize new capture.
 - `ScreenshotQA --qa=store --lang=en` must generate exactly eight named source frames from actual game state, including the same Daeun cafe event at Moral Tint +80 and -80.
 - The legacy `StoreScreenshotExport.tscn` crops to canonical 1280x720 filenames in the fixed `/tmp/gangnamdream_store_screenshots` directory and clears prior output. Its input/output isolation must be prepared separately before any new export.
+- Use `tools/store_shot_export.py` for offline crops into a fresh external directory; its synthetic self-test requires Pillow. `STORE_SHOT_EXPORT_OK` proves file/receipt consistency only. Actual candidate identity, capture isolation, and source/crop visual review remain separate.
 - `python3 tools/store_shot_check.py` is read-only and must print `STORE_SHOT_CHECK_OK count=8 size=1280x720 unique=8`; missing, extra, duplicate, undersized, or wrongly sized PNGs fail the gate. It does not identify stale candidate footage or judge image contents; bind fresh source/crop hashes and review the actual new images separately.
 
 Automated art-quality gate:

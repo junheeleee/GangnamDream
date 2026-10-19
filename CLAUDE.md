@@ -15,7 +15,7 @@
 | 최근 검증 | M37 EN대표GO. M38 기간REWORK→721 KOEN4leaf sourceGO·수정앱미관측. 718월말/722검사sourceGO·723 새18.1 packageGO·원실패보존·875 CI2job22step success·전체C2미완료. |
 | 바로 다음 | 18.1 같은W150 M38재검수·whole875 CI/별도입구 뒤만. H5M95/read117·nativeexitnull/복원HOLD/710사고보존·152전M39선행선언·미래그림C1결합·주도권/월별1commit·완료월반복0. |
 | 열려 있는 사람 게이트 | [`human_gates.json`](docs/human_gates.json)의 공개 GO1·역사 OPEN45와 [`agent_review_decisions.json`](docs/agent_review_decisions.json)의 내부 판정을 보존한다. OPEN45 전부 닫기는 현재 출시 조건이 아니다. 사람 1명 2~3시간 플레이·최종 출시 판정은 사용자이며 아직 발급하지 않았다. |
-| 그다음 | AI고지 준비렌더15·상점초안5 보존, retail5언어/사람2~3h 미완. trailer격리 source수용/모의25·実撮影/4영상/청취未完. store옛촬영안내중단·격리export미구현. KO/EN 뒤 CJK1회·샷/등급/외부/C5전체GO0. |
+| 그다음 | AI고지 준비렌더15·상점초안5 보존, retail5언어/사람2~3h 미완. trailer runner·store 오프라인 export 수용(합성17·독립검수). 실제 촬영격리/4영상/청취 미완. KO/EN 뒤 CJK1회·샷/등급/외부/C5전체GO0. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |
 | 추가 검증 | 저장·컴파일·EN 한글·번역 원장·서사 연속성·음악·공개 데모 제품 동작 검사는 유지한다. 과거 source/표적GO를 현재 main CI 녹색·대표 완주·사람 확인으로 확대하지 않는다. 외부 업로드/스토어 변경/지출/법률 인증은 별도 권한. |
 | 마지막 갱신 | 2026-10-18 (M38 수정후보 준비·월말 통합·최종 C4 미완료) |

@@ -46,7 +46,7 @@
 | C1 대표 완주 | [714 M37](queue_archive/ORDER-714.md) EN 대표완료·W150미선택/H5M95/read117. M38 현수기간REWORK·같은저장재검수. 완료월반복0. |
 | C2 치명 결함 | 710/711/716 수용. [721](queue_archive/ORDER-721.md) 현수기간 KOEN4leaf source수리·수정앱미관측. 전체C2 미완료. |
 | C4 사람·고지 | [696](queue_archive/ORDER-696.md) 사용자16.2 인계·사람2~3h 미완료/UI양보. [720](queue_archive/ORDER-720.md) 고지3화면×5언어 준비렌더15 수용·CJKshipping0. |
-| C5 출시 준비물 | [704](queue_archive/ORDER-704.md) trailer02 수첩 source 수용·새capture/영상 미검수. [674](queue_archive/ORDER-674.md)/[675](queue_archive/ORDER-675.md) 설명5언어 보존·retail/빌드/설문/외부 남음. |
+| C5 출시 준비물 | [725](queue_archive/ORDER-725.md) trailer runner·[727](queue_archive/ORDER-727.md) store 오프라인 export 수용. 실촬영격리/영상/5언어최종/외부 미완. |
 
 5언어 유지. KO/EN 실제 플레이 확정 전 JA/zh 다듬기 중단, 누락 보충도 C2/C5 직접
 기여가 입증된 작은 범위만 선언한다. 확정 뒤 CJK 정합은 한 번에 한다.
@@ -90,7 +90,6 @@
 | 21 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 | 22 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 | 23 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 24 | [~] | ORDER-727 · 오프라인 export | [727](queue_active/ORDER-727.md) | C5 · 화면 없는 도구 |
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 

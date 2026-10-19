@@ -1,5 +1,13 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-10-19 — 상점 이미지 오프라인 내보내기 (727)
+
+- 선언4c6c6d8 뒤 Python/Pillow exporter와 합성검사 구현. 게임 부팅0, 원본8장 실제decode/receipt SHA/순서·크기 검증→중앙1280x720→새 전용 출력. 기존파일삭제/덮어쓰기0, 실패부분보존·완료manifest 마지막발급. 후보claim과 실제촬영/시각검수 구분.
+- 독립 /root/store_export_review GO_OFFLINE_EXPORT_SOURCE_CONTRACT_ONLY. private `.git/order727-store-export-20261019/independent-review.md/json`의 source5핀 전수대조. 저자·비저자 합성17검사 각각PASS. 첫 표적 전체exit1(queue순번 충돌)은 원로그보존, 순번수리뒤 문서5검사exit0·verify181·diff통과. 진행중빈docs.log는 완료증거에서제외.
+- QA표에 남은 옛실행안내1행도 선언후 오프라인안내로 교체. 기존GDScript·제품검사·상점8장·게임플레이/JAzh 변경0. 보호7그룹924파일은마감원장재대조. 개발스킬의범위분리·독립검수 적용, 지속사용법은STORE_SHOTLIST 승격·나머지일회성.
+- Mac잠금유지·715/724월기록 미커밋보존·대표플레이진행0. 새 실제촬영의격리/로그입구와시각검수·영상/청취·사람2~3h·전체C5/출시GO 미완. 새727코드가다음native의옛tools4핀에포함됐다고가정하지않는다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
 원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
 
