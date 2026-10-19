@@ -90,6 +90,7 @@
 | 21 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 | 22 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 | 23 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 24 | [~] | ORDER-727 · 오프라인 export | [727](queue_active/ORDER-727.md) | C5 · 화면 없는 도구 |
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
