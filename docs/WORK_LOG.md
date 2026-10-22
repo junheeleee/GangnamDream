@@ -1,5 +1,44 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-10-22 — M38 대표 월말 경계 마감·M39 첫 문단 도달
+
+- [715](queue_archive/ORDER-715.md) 월별 한정마감. 같은18.1/source875/privatef738/tree d8ae2·v f9d2저장으로1회 native. main a1ab/run39204213025·source875/run39055445203 각2job22step completed/success·예외0 확인후실행. 초기CI시각Z파싱오류는Popen전차단, 같은관측시각+00:00표기만수리·실제게임중복실행0.
+- 직접UI+비저자같은SHA원컷: pending2029-02 부분정산 수치/고지일치→StartNextMonth1회→153 첫문단(토요일3:18/병동4시/거래4:30/본인진료5:10)전독. 원5컷중04타이핑중은완독제외·4입력·P2/선택0. 회의실BG/민준초상·H8M91/현금−12083976/22개월. CmdQ최후/종료뒤재선택0.
+- PID39692/parent39683 실제wait0·249.015304초(사람시간아님), 읽기전용PID부재·3로그154/0/154B/error0·보호953묶음1334항목exact. final370074B/cffc4b326ad5f6117c9a5b99c0356959fb8c894a564c6df0ba6f550cdd4cd6b2. saved_at·ack0→152·pending14키→{} 외 전체저장값동일. 기존120read/152routine·완료/경제/뉴스/시장·관계보존·새153영수증0. 숫자타입54곳수치동일은손실/재적용이아니다.
+- native GO_OBSERVED_PENDING_MODAL_ACK_AND_W153_P1_STOP_ONLY(MD3562B/738a02c0…44e2,JSON10035B/a64fe084…eaa1), save GO_PENDING_ACK_SAVE_NO_REPLAY(MD3572B/f2e609f9…1f3c,JSON12566B/2a9f89b9…82e8). root전문/20·24핀exact 뒤두한정판정을결합. 이번마감은대표월경계이며 모든M38결과완독이나원W150 HOLD의GO승격이아니다. 과거미관측/실패/복원/710/사람판정은보존한다.
+- 다음724는같은cffc저장·pending없는153첫문단재개를source예상으로만인계한다. 첫문단관측은선택영수증아님·P2이후별도계획. 제품/설정/project/공개데모/추가seed변경0. 강남드림개발스킬의저장보호·독립검수·표적검증적용, 새규범승격0·실행계약일회성. 전체C1/C2/C4/C5·출시GO0.
+- 마감문서 표적5개 통과: manifest/queue(active78)/human계약/index25fixtures, STATUS stale은비차단advisory. diffcheck통과·제품검사반복0. 월전체관측/독립검수/실패이력/마감은한commit에묶으며 후속 main CI는별도실제결과로확인한다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 2026-10-22 — M38 W152 실제 결과·월말 부분 정산 확인 (진행 기록)
+
+- C1 동일18.1/source875, main a1ab의 각2job22step completed-success·예외0·unlock·사용자앱부재 뒤 v만1회 실행. 새seed/저장편집/빌드/제품변경0. 입구/예측 독립 검수와 root 전문독해·19핀 대조. 예측은 실행/생존 GO가 아니며 H8 건강위기 위험을 유지했다.
+- 직접UI+동일SHA 비저자판독으로 title/Continue·152본문5문단/선택직전·c1 실제결과·월말 모달 일치. 원12JPEG중03/07은타이핑중이라완독근거제외, 전달10입력. c1(화면02 이해하려했다)1회: 서명하지않고 듣되 이해와보증을구분하는 실제결과 전독. 관측범위 빈EN/한글/확정반대사실0. more-than-once는 원133거래증거와118보증거절의대상차이를대조했으나 동일인복수거래확정/반대사실확정 모두0.
+- 2029-02 Summary: 기록시작−11713976/마감−12083976/변화−370000·생계+280000/월세−650000/월수입·이자·기타0, 월초기록없음 고지. 다음달시작未입력. 153자동경제/달력 뒤H8M91·생존,153스토리본문/선택0. 모달ack0에서CmdQ최후UI·이후재선택0.
+- PID38425 actualwait0/328.316119초(독립검수대기포함·인간플레이시간아님), read-only PID부재. 3로그154/0/154B/error0·보호919그룹exact. final370364B/f9d2e8cf7cd9c274c8ead124915164208dc7804571242d3cf2c9cae94fdb6c49는W153/last152/H8M91/현금−12083976/read120/resume{}/월latch153/pending정산ack0. 출구native/save 독립보고는별도.
+- 활성715 원15917B/SHA9d1a1f46…6df9를queue_archive/ORDER-715_phases_2026-10-22.md에byteexact보관, 과거증거삭제0. 큐예산초과는exact목록을활성사양으로옮겨수리. 첫표적검사manifest/human/index25PASS이나포인터가표안으로해석돼dashboard/queue실패; 포인터를인덱스앞으로옮겨실패2개만재검사PASS(STATUS stale advisory). forecast의옛큐핀/원보고핀은metadata부기로보존, 소스/시작/선택/범위불변. 엔진검사 재실행0.
+- 강남드림 개발 스킬의 격리저장보호·관측과독립검수분리를적용. 과거W150결과미관측·원HOLD/710/복원/인간판정 유지, 전체M38/M60/C2/C4/출시GO0. 월별관측·검수·마감1commit 원칙으로미커밋유지; 다음같은W153 pending모달의후속입력계획으로잇는다.
+- 독립출구 native GO_OBSERVED_W152_C1_RESULT_AND_MONTH_MODAL_STOP_ONLY(MD3381B/2e0b87c4…936a·JSON11604B/9c1108b4…5c7a), save GO_W152_C1_ONCE_PENDING_MONTH_SAVE_ONLY(MD5522B/36c41caf…05c3·JSON28229B/af34d74a…ca64). root두보고전문/27·35핀exact. 기존119reads/151routine·완료전수값보존,152각1회/153story영수증0. retained int→float32곳(영수증26+로그·최근주6)수치동일, action5/event1/news5와18자산이력cap정상순환. 보호919묶음1300항목동일. 다음같은pending모달은source근거이고실제reload未검증. 마지막문서변경후manifest/queue/diff표적통과·제품검사/신규실행0.
+
+## 2026-10-22 — M38 W151 실제 선택·결과 확인과 W152 저장 (진행 기록)
+
+- 사용자 Mac해제 통보 뒤 개발스킬의 동일저장·격리·독립판독 절차 적용. main a1ab/run39204213025와 source875/run39055445203 모두2job22step completed/success·CI예외0. u 별도 exact 선언/비저자 입구GO·fresh guard/seal 뒤 동일18.1/f022 1회 실행, 새seed/빌드/설정/제품수정0.
+- root 직접UI와 동일SHA 원컷 비저자독해를 타이틀/Continue·151 전5문단/선택직전·실제결과·152 전5문단/정지경계에서 대조했다. 원14JPEG/전달14입력, 151c2 운동 1회만 선택. 실제3km달리기 결과와 H5→10/M100 유지 일치. 152는 포장마차/봉투/이름을 빌려달라는 요청 본문까지, 선택지 열기/선택0·153/월말0. 관측범위 EN한글/빈문장/확정반대사실0; ‘more than once’는 미확정 watchpoint일 뿐 새C2로 세지 않는다.
+- PID17611 actualwait0/415.157238초(검수대기 포함·사람플레이시간 아님). CmdQ 마지막UI/종료뒤재선택0·read-only PID부재 확인. 원3로그154/0/154B/error0·보호exact. final368327B/c3f7ca89b140483c8e4a12f6eeeda28c79954f4b7950930f8ab1ede252709a9e: W152/last151/H10M100/돈−11503976/read119/resume{}. 다음 정상Continue는152본문을 다시 시작할 수 있으며 정확한 문단커서 저장을 주장하지 않는다.
+- private715 w151u inputs/captures/postcheck/입구/출구/전후/최종저장/원컷 동결. 첫 capture helper의 null closure 오류는 UI호출 전 발생했고 명시적 app 인수로 해결; 게임입력/재실행/제품결함이 아니다. 원관측 불일치 원인해결이나 renderer수리 주장은0. 과거W150 실제결과 미관측·HOLD·710/복원HOLD·사용자파일·인간판정 보존.
+- 독립 native GO_OBSERVED_W151_C2_RESULT_AND_W152_BODY_STOP_ONLY: MD3618B/baa3c610…209b·JSON11557B/b366af55…0409. save GO_W151_C2_ONCE_SAVE_SEMANTICS_ONLY/HOLD_M38_INCOMPLETE: MD4925B/2e3b1973…348d·JSON16671B/130f5239…9652. root 두보고 전문독해·28/36핀 exact. 기존118reads/150routine/150완료 값손실0·151 각1회·보호885group1266entry exact. 기존영수증 int→float26곳(로그/recent포함32곳)은값동일이며 타입exact주장0. cap100 로그99보존+신규1을 손실과구분했다.
+- 문서표적5개 exit0·manifest/queue/human계약/index25fixture 통과·STATUS stale은advisory 보존. 최종판정 문구만 반영후 예산/diff 재확인, 엔진/제품검사 재실행0. M38 전체/대표완주/사람2~3h/C4/출시GO0. 월기록 미커밋 유지·월관측/검수/마감 한commit 원칙, 다음은 같은W152 선택/월말의 별도 입력계획이다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 2026-10-21 — M38 타이틀 관측 불일치 재현·동일 저장 보존 (진행 기록)
+
+- main a1ab330/run39204213025·source875/run39055445203 각각2job22step completed/success·예외0 재관측. t 독립입구 보고쌍은 완성, 최종메시지전달만 사용량제한실패. root전문확인·helper11982B/1a0b4673…b14e·plan1935B/5afd2af9…5d24·liveguard/seal통과후 같은18.1 한번실행.
+- PID83032 actualwait0/37.40337초·CmdQ마지막UI/종료뒤재선택0. 단일image·별도call에서도 direct정상타이틀/saved재독검은영역 관측차이로 STOP. 원1JPEG152982B/43777e7d…292f·같은SHA·게임입력/Continue0. 새게임렌더C2확정0·동일방식타이틀재실행반복중단.
+- 원3로그154/0/154B/error0·보호exact·final366739B/f022 byteexact·W151유지. M38/대표완주/사람2~3h완료0. private715 w151t inputs/captures/postcheck/entry/exit/전후/raw보존. 이전r 정상타이틀·출구·저장한정독립GO는전문확인했다.
+- s/t 출구 독립검수 완료: s MD5193B/8eafd66b…1576·JSON6732B/26446417…533b, t MD4232B/2e75478e…c663·JSON7037B/ab7c5fea…df67. root전문독해·각17/12증거핀 exact. 두 원컷 판독은 완전타이틀이며 보호849/866레코드·저장전체 bytes/JSON exact·정상종료 한정GO, 실제W151/M38는HOLD다. 향후 별도 사전선언에서 직접UI+같은SHA원컷 독립판독을 사용하고,151c2전 내용일치 필수·어느쪽독해불가/핀/내용불일치STOP을 유지한다. root중복이미지 표시만 필수에서제외하며 과거불일치원인해결/제품수리/자동재실행승인으로 세지 않는다.
+- 사용자앱/저장/설정/project.godot/공개데모/제품source 변경0. 월기록은 미커밋유지하며 M38전체 마감 한commit에 묶는다. 개발스킬의 정상종료 후 UI재선택금지·원증거/인간판정분리를 적용했다. 관측수리 전 새월/완료월재개0.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-19 — 상점 이미지 오프라인 내보내기 (727)
 
 - 선언4c6c6d8 뒤 Python/Pillow exporter와 합성검사 구현. 게임 부팅0, 원본8장 실제decode/receipt SHA/순서·크기 검증→중앙1280x720→새 전용 출력. 기존파일삭제/덮어쓰기0, 실패부분보존·완료manifest 마지막발급. 후보claim과 실제촬영/시각검수 구분.
@@ -8,180 +47,25 @@
 - Mac잠금유지·715/724월기록 미커밋보존·대표플레이진행0. 새 실제촬영의격리/로그입구와시각검수·영상/청취·사람2~3h·전체C5/출시GO 미완. 새727코드가다음native의옛tools4핀에포함됐다고가정하지않는다.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
 
-이전 기록은 [701 예산 스냅샷](history/WORK_LOG_2026-10-16_order701_budget_snapshot.md)에 바이트 그대로 보존했다.
-원문37933B/SHA256 2791e2f5d57f95fd66e87ddc38d7b9c8851d8326988ac5cdc85844f5f995d96a; 앞선 보존 링크도 원형 그대로다.
+이전 기커밋 기록은 [715 예산 스냅샷](history/WORK_LOG_2026-10-19_order715_checkpoint.md)에 바이트 그대로 보존했다.
+원문37875B/SHA256 f2acf43fc3aa49c2f6cdb3930a1e80dddbc98ac361c1c5660152401aacfa2a68; 미커밋 월 진행 기록은 아래에 유지한다.
 
-## 2026-10-18 — 스토어 옛 촬영 안내 중단
+## 2026-10-19 — M38 같은 저장 재개·화면 제어 연결 보류 (진행 기록)
 
-- [726](queue_archive/ORDER-726.md): 일반부팅/공용tmp삭제·복사예제제거·readonly 검사와미구현격리입구분리. 2문서만/그림·도구·게임변경0. 문서5+diff pass·89보호/12raw exact.
-- 비저자문서GO·private726 MD2823B/808918d2…5875·JSON17328B/66dfeaf0…889e. 개발스킬의저장보호·독립검수적용·승격STORE_SHOTLIST재생성/QA링크·나머지일회성. 3d6 CI22step success·새CI別途·715/724월commit제외/M38 HOLD·新촬영/전체C5/출시GO0.
+- 715 월미마감/commit0. source875/현재20d CI 각각2job22step success·예외0·ioregNo 뒤 원18.1/W151 f022로재개. seed追加/저장편집/Continue/게임입력0. helper3REWORK는실행전수리·비저자조건부입구GO MD3609B/7d0d56fb…ac5·JSON12076B/f98472a7…2ad·helper9692B/3ecfd728…6101/plan1477B/aeffd26f…0531. 원69/723/tools4핀보존.
+- PID34659/parent34647·실wait−15/66.682265초. 첫directCUA 자동preview는완전EN타이틀, 반환bytes wx저장→즉시raw view는同BUILD표제/검은본문영역·원1JPEG153144B/0aae1189…bf61. auto preview는대화tool근거만·別원image0. 관측불일치STOP 뒤CmdQ한번은Maclocked/physical-input-paused 오류로거절·전달미확인, 직후ioregNo와tool차단을구분한다. exactPID/parent/binary확인뒤ownSIGTERM1·helperexit1 실패보존·정상CmdQ/exit0주장0·종료뒤UI재선택0.
+- 원3raw 모두0B/오류문자0을정상렌더로세지않는다. final366739B/f022 전byteexact·W151/last150/H5M100/돈−11573976·보호811group1192entry exact. 151본문/c2/결과/152/새월0·새제품C2확정/수리0. 기존HOLD/715原자료/復元HOLD/710사고·사람판정보존.
+- 독립native HOLD_OBSERVATION_CONTROL_ABORTED·MD3557B/760b93a2…2b1·JSON13099B/7ba5892a…8a8、save GO_SAVE_PRESERVATION_ONLY+HOLD_OBSERVATION_AND_M38_INCOMPLETE·MD3544B/9bf3b71a…bf7·JSON30319B/fab8cce7…14d。root두MD전문/JSON핀대조·전체93키/값/타입/bytes exact·새효과/메타시각drift0. 입구715사양14940B핀은당시값이며종료뒤live보관이동과구분한다. null문미실행으로남은REPLbinding은종료뒤미사용/재선택0·원자료/보고동결·추가실행0.
+- 해석정정: 같은1JPEG153144B/0aae1189…bf61를두비저자가직접재독했을때완전EN타이틀/art/PRESS ANY KEY였다. root當時/再讀black회고와원captures/postcheck를삭제하지않되파일내용부재/제품렌더C2로단정0·표시전달/해석원인미정이다. 입력거절·게임진행0·실wait−15는동일하다.
+- 개발스킬의저장보호·직접관측/원raw재독·독립검수적용. WORK_LOG한도39953/40000으로HEAD20d기커밋부분만위snapshot에exact이동·미커밋715기록live유지. 이월전체관측/독립/마감한commit原則·sourcecommit0·승격0/일회성. 자동/agent증거≠사람/원어민/패드/청취·M38/전체C2/출시GO0.
+- 활성715한도초과원사양16633B/cd5cfbf6…d7f9도queue_archive/ORDER-715_phases_2026-10-19.md에byteexact보존·기본범위/W151 live유지. 과거본문/실패/후보/원판정삭제0·예산예외추가0·별도commit0.
+- 문서한정표적5개/exit0·manifest/queue/human계약/index25fixtures 통과·STATUS낡음은advisory로보존·diffcheck0. 엔진/제품검사재실행0·진행중결과를녹색으로세지않았으며원stdout은대화tool출력에만있다.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
 
-## 2026-10-18 — 트레일러 캡처 저장 격리·새 출력 수리
+## 2026-10-18 — M38 수정 문단 실관측·결과 화면 검수 보류 (진행 기록)
 
-- [725](queue_archive/ORDER-725.md): 기존bootstrap의pre-autoload 새32hex·locale별fresh22PNG/원3로그·exit/marker/error 검증·새run4MP4 경로. 이전출력삭제/복사폴백0·기존timeline/normal검사/encoder불변. 모의25 pass는tool transcript만·실engine/촬영/영상/청취0.
-- 비저자GO_SOURCE_RUNNER_CONTRACT_ONLY·private725 MD4305B/eaf59545…c52c·JSON29130B/f17c1efa…17b. 5source역산/87보호/22raw exact. 원인자exit2보존→retry7 pass·통과3반복0·STATUS advisory/인간OPEN45 유지. 723전후핀은이번미발급.
-- 개발스킬의격리·표적·독립검수적용. 승격: TRAILER_PRODUCTION Capture safety and evidence·나머지일회성. 3c1 mainCI2job22step success/예외0·새sourceCI별도. 715/724월메타commit제외·W151/M38 HOLD보존·C5전체/사람/출시GO0.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-18 — 수정 본문·월말 화면의 새 검수 앱 준비
-
-- [723](queue_archive/ORDER-723.md): source87508a4f→privatef738a807/tree d8ae21ac·18.1 내장customdir/ICU와BuildInfo2파일만build-only변경. freshimport1 24.664909초/export1 46.472872초·후속3 exit0, app7/tree7f2efef4…157a/ZIP440951185B/1afa9acd…2fd8/PCK404898592B/60f4db2a…5505·1893MD5/JSON675 exact. ECFG41 typed Splash/customdir18_1/ICUtrue·ICU4797072B/40256630…65d·stage/manifest/GDSC 지문결속, 실제라벨/OS소비는미관측.
-- 비저자GO_PACKAGE_ONLY·MD4364B/c668229e…078b·JSON32353B/7ea6d318…57f9·root전문대조, 전체핀/private723. 원12stream630023B 오류·누수0/nestedproject WARNING4사본·서명교체info보존. 번호hunk거절은stage쓰기/engine전입구실패·정정원receipt보존. wideCRASH16진행파일명은실제오류0과구분했다. 보호681그룹1056기록 전후exact·namespace파일0·seed/native0.
-- 개발스킬의격리·독립·표적·원증거보존적용/승격0·일회성. 715/724 월선언은이commit제외·같은W150/dd3c 원저장1회복사권한은별도715입구검수뒤만. 보고발급시CI진행·마감전875 CI39055445203 실제2job22step success를別途확인·마감CI별도. 새native/수정본문/실제월말/M38/C2전체/사람/출시GO0. 사용자16.2/기존17.2/저장·설정/project/preset/공개·원REWORK/714exitnull/복원HOLD/710사고보존. 152뒤153경제가모달전에실행되므로152전M39선행선언·열린월최대2·생존/reroll보장0.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-18 — 월말 현금 변화·원인 화면 source 통합
-
-- [718](queue_archive/ORDER-718.md): 원private v4 6blob을현재root에exact통합. 월초앵커/월말frozen cashΔ·원인5·끝잔액을기존결산한화면에보이고oldsave는partial고지. 실제routine money/정산income/rent/interest/잔차만계산·게임선택/AP/새화면/경제·RNG순서변경0. 기존flags의작은표시pending/ack·저장성공뒤모달/실패retry/중복방지·UI금액8개whole-won exact. CJK 신규UI11개씩만, 기존본문/키/번역원장/retail allowlist불변.
-- 원통합audit/다국어/EN한글3pass·JAUI927B/070b8113…0b42 실패는보존. 722도구수리1f10f824 뒤실패JA만실제재검수exit0/2.964899초·stdout214B/bb866b4b…8beb/stderr0/errors0. 통과했던3static·경제/저장3fixture/그림6/engine 반복0·source-v4/721본문2/722source4/135원핀685602967B exact.
-- 비저자GO_SOURCE_INTEGRATION_ONLY·private718 v2 MD3469B/da30c155…fd49·JSON14018B/153d4cde…9680. 원REWORK 보고와과거모든실패동결, 원6PNG직독은같은byte한정재사용. 새원어민/사람/패드/청취/native/수정721앱/실제월말/M38/전체C2/새전체CI/출시GO0. main04a CI2job22step success·예외/만료0과새후보CI를분리했다.
-- 개발스킬의분리소유·표적재검수·원증거보존적용·승격0/기존UI·저장계약·일회성. 715월선언/실제/교정forecast는이commit제외. 다음새패키지는같은W150/dd3c미선택저장만잇는다. 152뒤153경제가모달전실행되므로152선택전M39별도선언·최대2월. H5/RNG/복원HOLD/714nativeexitnull/710설정사고/사용자16.2·프로젝트·공개·과거인간판정보존.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-18 — 월말 원화 표시 검사 계약 수리
-
-- [722](queue_archive/ORDER-722.md): 선언04a5e81. 718 실제통합 JAUI 미등록2 실패를유지하고 supplemental signed/balance owner 각1·int/양의부호·opening/closing 실제loop 생산자·원화정밀도를검증했다. 기존raw56/돈owner2/Holdem/원정의71·6 exact·기존음성47 보존. 도구2/audit경로1/인프라8줄외제품수정0.
-- root표적7 exit0/14stream stderr0, new-run66(47+3+16)/pipeline76/JAUI2994 오류0/EN한글0/registry179. 실제full-game static_ui_contract0·기존unsupported466은전체채무로유지. 실제legacy MainGame view48/보조0은저자검증·원root실행과구분한다. 엔진/새화면/경제·저장fixture 반복0.
-- 비저자GO_CHECKER_CONTRACT_REPAIR_ONLY·MD4137B/590771aa…04b4·JSON17951B/382f376d…3333, private722에4delta/135과거핀685602967B/제품12핀/원14stream 결속. 원718 REWORK·원보고/본문/6blob/ledger/프로젝트/사용자앱·저장·과거인간판정보존. root preflight ledger경로오류는대상실행·파일생성전exit1로보존후정정했다.
-- 한도중단구간을완료로세지않고17:40UTC재개후보고실제발급. 현재main04a CI2job22step success/예외·만료0, 새수리commit CI별도. 715월선언/관측·718제품은이commit제외. 다음실패JAUI한개만재검수→718통합→새후보 같은W150, 152뒤153월초경제가모달전실행되므로M39사전선언필요. 새앱/M38/전체C2/사람/CJK全体/출시GO0.
-- 개발스킬의파일분리·표적·기존증거보존을적용. 승격: I18N_INFRASTRUCTURE UI Contract 보조원화consumer 설명한곳, 나머지일회성.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-17 — 실제 현수 기간 오류의 KO/EN source 수리
-
-- [721](queue_archive/ORDER-721.md): 선언9a2933a. 실제715 원8/8컷·마지막완전EN “Four years ago…” vsW9seq19c0/W23seq37c1/current150,141/127주를독립확정. 원715운영/저장GO와본문REWORK·M38미완료보존. 선택0/원365171B/dd3c…910d exact/nativewait0/93.028712초·610/980 보호,한도중단뒤지정보고실제발급을분리했다.
-- KO/EN 기본/합격변형 첫기간문장만4leaf→현재폰화면빛/손끝 감각. KO36575B/dfe44180…de7a1·EN27151B/4a7c1636…767a·전byte대체/역산/4음성대조·5문단/{name}/나머지본문·게임플레이/선택/조건/아트/CJK/ledger값불변. inventory실측0/axisdelta0으로원장/보고갱신0·공개데모변경0.
-- 비저자 GO_SOURCE_FOUR_LEAF_FACT_REPAIR_ONLY·MD4068B/713eafc0…e71c·JSON22750B/03532d17…59a3·표적17개원출력34전독/핀일치. source12/docs5 전부exit0/stderr0·engine0·STATUS낡음참고경고/기존사람OPEN45/복원HOLD/710사고보존. 경로선택74전체/240주/CJK다듬기·sourcehash재결속/새native0.
-- 개발·장면스킬의exact격리/현재감각계약을적용·계층/연출승격0·일회성. 34f24ef CI2job22step success,9a선언CI진행≠녹색·새source마감CI별도. 수정앱/전체C2/M38/M60/사람/출시GO0. 715월마감은이commit제외·다음718통합후새후보를같은W150에서재검수한다.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-17 — M37 수정 앱 재검수·대표 경로 마감
-
-- [714](queue_archive/ORDER-714.md): 원17.1 두세션20원컷/HOLD와716수리·717package 보존. 수정17.2/370→980a55fe/tree80c925a0 실제31JPEG·다은5+3/0·path4+1/1 전독→자동149→첫150한문단완전표시/무선택STOP. M37전체145카드0/146민서0/147다은0/148path1, read113→117·routine144→149는M37네주+다음quiet149한주. 완료월반복/보조경로/새export·reroll0.
-- 실제final365171B/dd3cf71c…910d·W150/last149/2029Feb2/H5M95/돈−11643976/job{}/resume·chain{}·선택seq116/117 및routine147..149 once/정산1. 원115read/146routine·completed/6328leaf 값drift0·numeric type-only26, cast7/item4/예약/뉴스4/market18 once 보존. 월C1GO는동일후보·원51컷의각phase범위이고KO/CJK·사람·전체C2/M60 GO0.
-- 비저자 GO_M37_REPRESENTATIVE_CHECKPOINT_ONLY·MD5055B/cfe9eb86…1c0f·JSON32886B/47db527d…9ed6, 별도save GO·MD4980B/dfda57c6…8f07·JSON24967B/fa931abe…bdb2. 실제31전독과save검수9/31표본/원prefix전수는분리. 전체핀/원보고는private714 corrected-{native,save}-review.{md,json}.
-- 감독연결단절로원native종료코드null·재launch/seed추가0, 복구observer703.735635초/exit0·3raw오류0/기존build mismatch경고·보호payload436/806exact. 입력21=성공20+stale사전거절1/CmdQ마지막/종료뒤UI0. 입구전FileNotFound/exit1·원01:16receipt와07:34conversation freshCI/잠금관측출처를보존. 복원HOLD/H5/remote다은·열차BG·청취·710설정사고는남고새사람GO0.
-- 개발스킬의격리·표적·독립·증거경계적용/승격0·일회성. 월선언/실제/독립/마감한commit·715선행선언은로컬보존·M38첫본문만. c966/제품370 CI2job22step success·예외/만료0, 새마감CI는별도미판정. 사용자16.2/설정/project/preset/공개/과거판정/717앱 보존·Steam/출시GO0. 다음같은W150에서미확정본문을잇고718통합한다.
-- 마감문서 표적5 전부통과/77.802604초·engine0·stderr0, STATUS낡음은비차단참고경고로보존. 715는이마감index에서제외했다.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-17 — AI 번역 고지 15개 준비 화면 검수 완료
-
-- [720](queue_archive/ORDER-720.md): 선언5b65849·실제Splash/타이틀설정/장면설정×5언어, 기존공식engine/cache의별도APFS사본·freshUUID5·OpenGL3/1280×800·import0/native0. 새privateQA3함수만·기존517함수/assertion/제품UI/사전/allowlist/스토리/effects/id 불변.
-- 5회각exit0·8.966502/8.943207/9.549022/9.618628/9.723576초·15raw오류0/fullmarker·preautoload각1. 15PNG root/비저자전독·고지exact5/14px/실제Pretendard·Noto3/전체줄/경계/겹침/포커스rail/Story상태불변. EN/JA타이틀설정2줄정상. 비저자GO_DISCLOSURE_RENDER_PREPARATION_ONLY·전체핀/원보고는private720 `independent-review.{md,json}`.
-- 비저자MD3504B/721ecea7…a27e·JSON28262B/65ba4a72…c789. 보호payload379그룹748기록/718원fixture-cache4704/과거증거146/fallback 전후exact·보호문서전체byte동일주장0. 사용자앱/저장/설정/project/preset/공개/714·717/710사고보존. KOEN shipping그대로·CJK강제준비만; retail5활성화/사람2~3h/원어민/패드/청취/native/C4전체/C1/출시GO0. 개발스킬의격리·독립·표적·증거경계적용·승격0/일회성. 370수정CI의남은영어/Sim완료뒤714 실제W147재검수 우선·월별1commit/최대2 유지.
-문서영향5/working·staged diff exit0·STATUS staleadvisory·queue self25/fence4. 714/715 월별선언은별도마감까지미스테이징.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-17 — 5언어 상점 기대치 정렬·결산 private 후보 검수 수용
-
-- [719](queue_archive/ORDER-719.md): 선언db34b5a 뒤 장르/Short5/About첫줄5·날짜만. 원33731B/64781a2f…20dd→34678B/c6cab8a2…e216·12span inverse rawexact. Short139/270/159/168/173·AI5고지/본문/태그/B·C 보존·제시된선택지의다음행동만약속. 비저자 GO_DOCUMENT_COPY_ONLY·MD3787B/2051aeef…0e18·JSON20996B/a02f2ad4…7ba·private719에전핀/원문/receipt. CJK새소개만·기존다듬기0·주도권/제품/엔진/앱/외부변경0.
-- [718](queue_active/ORDER-718.md): 기존경제·저장3fixture pass, 초기static3축/KO CTAfail보존. v2고유생계키/명시bool/월세용어→진단금액폭1px/partialfocus없음→v3레이아웃6컷pass지만 EN20k축약차이REWORK→v4 기존whole_won재사용. 마지막audit/KO/EN exit0·8raw오류0·6컷8금액/5원인/CTA exact. 비저자 GO_PRIVATE_SOURCE_AND_SYNTHETIC_PANEL_ONLY·MD4430B/bbaa3218…71a6·JSON26669B/18245645…0dcf·115frozen/보호379·748 exact. 전체핀/private718·진단source 후대exact재구성과원raw구분.
-- 718 main통합/새패키지/실제M37/전체CI 미완료. 제품370 CI진행≠녹색·새월0·월최대2/월별1commit·원714/715 미스테이징. 사용자16.2/17.1/17.2·저장/설정/project/preset/공개/과거판정·710설정사고보존. 사람/원어민/물리패드/청취/Steam게시/C4·C5전체/출시GO0. 개발스킬의분리저작·독립·표적·비소유보존적용·승격0/기존정본현행화·나머지일회성. docs영향6+diff통과·STATUS staleadvisory/queue25·4; 잘못된queue명/누락title는commit전정정·제품검사완화0. 720은고지15준비렌더만선언·아직실행0.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-17 — M37 수리 후보의 별도 검수 앱 준비 완료
-
-- [717](queue_archive/ORDER-717.md): source37089e77→private980a55fe/tree80c925a0·내장customdir_2/ICU+BuildInfo17.2 두파일만. freshimport1 24.900991초/export1 47.874826초·후속3 exit0, ZIP440943318B/dc1d06…53dd/app7/PCK1893 MD5·JSON675·ICU exact. ECFG41 직접해독/Splash·격리bool/string, packedBuildInfo remap/GDSC 핀·상수실행/창/OS소비미관측.
-- 비저자GO_PACKAGE_ONLY·원12stream/error·누수0/중첩WARNING2명령4사본·재서명stderr보존. 보호377그룹741기록/707unique파일·241672B raw전후exact·새namespace파일0. MD4118B/3b8c7f59…2d1c·JSON30407B/dc15c698…f10a, 전체핀/원receipt는private717. root전문대조/준비보고동결·일회성/승격0·개발스킬격리·표적·독립적용.
-- native/seed0·수정앱실화면/전체CI/M37/M38/5언어최종/사람·청취/출시GO0. 사용자16.2/원17.1/W147359573B/714/716/공개/옛HOLD/710설정사고보존. 제품370 CI진행≠녹색·714동일W147재검수 뒤월별한commit, 718 private저작만병렬/주도권변경0.
-- 문서5+diff: context30659/docs848/queue80·78/self25·4/human45OPEN+1done, STATUS staleadvisory. dashboard--md 누락exit2원raw→정정잔여4/4 exit0/stderr0·통과2반복0/전체로컬0.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-17 — M37 무직 경로의 퇴근 전제 수리
-
-- [716](queue_archive/ORDER-716.md): 선언e6f8852 뒤 실제W147/r13과 current_job{}로 확인한 KO퇴근길/ENcommute home 두 구절을 기존 열차 장면의 덜컹거림으로 교체. 원2JSON 역치환 byte-exact·그 외본문/변형/flags/effects/조건/id/순서/자산·CJK/번역원장 불변. inventory의본문SHA2칸과생성보고2셀만결속·등급/집합/개수/검사/예외변경0.
-- 원17표적15pass/2fail을보존: 기본5언어recall의보류JA정합/본문지문불일치. 대상KO/EN source-only40+40 및inventory normal/self45 정정3/3 exit0/stderr0, relevant source12+docs5와추가self를구분. defaultCJK실패를합격/CI실패수리로위장0. 독립GO_SOURCE_REPAIR_ONLY·MD3937B/20f1ab52…a4d·JSON37078B/c251d295…5d84, 전체핀/private원자료는사양참조.
-- 개발·장면스킬의현재감각/독립·표적계약적용·승격0/일회성. 엔진/앱/사용자경로쓰기0, 실제17.1의20원컷/두세션과W147미선택저장359573B/243a…0ce 보존. 수정앱·전체mainCI·M37/대표완주/사람·청취/CJK최종/출시GO0. 714M37은수정화면재검수전HOLD, 715M38미진입·완료월반복0/월최대2 유지.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-17 — 앞부분 그림 자료와 미관측 경계 집계 완료
-
-- [713](queue_archive/ORDER-713.md): 선언f68c5b9/product9c7dee4·60도달/카드2/일반58/M11read0. 실제3사건/6구성·6원컷1,256,121B·BG6/초상4·미할당초상2/CG6, 누락/그림전무0은 그6만. A37+B18=55사건 그림unknown·actual layer null. A74phase/75구성은 원source 예상/관측0·B18 segment수 미확정/116발명0.
-- 저자2 보고4·비저자6원컷전독·58tuple/63근거핀/20inline/6anchor·원562/612 build-only·9개prefix4→22 numeric drift0. byte/type/저장전체/cold/그림identity로 확대0·presentation18행은요약. root6재독/원W145·제품tree exact. 독립 ACCEPT_HISTORICAL_PREFIX_EVIDENCE_CENSUS_WITH_55_UNOBSERVED_VISITS·MD4144B/170289ee…b0b6·JSON15429B/4f245613…bec7·전체핀/private 원자료는사양/[공개보고](queue_backlog/A2_VISUAL_PREFIX_CENSUS_2026-10-17.md) 참조.
-- 712와합쳐 M01~M36 일반110 중 관측55/미관측55·111원컷. 문서5+diff exit0/stderr0·context boot30659/queue77/75/self25·STATUS advisory·사람OPEN45/done1/agentHOLD 보존·전체로컬/engine/240주0. 현재render/전페이지/5언어/A2전체/C1완주/전체C2/사람·원어민·패드·청취/출시GO0. 원556부재/과거REWORK/HOLD·격리/710설정사고/H3·복원HOLD/공개·사람판정 보존·원자료 재구성/완료월 반복0/unknown해소를C1 gate로추가0. 개발스킬 표적·독립·비소유·승격0/기존정본/일회성·사용자경로/제품·자산·712/engine·앱·UI 변경0. 9c7dee4 CI진행≠녹색/새월0·다음 C1재개준비와3/4별도범위.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-17 — 대표 경로 M19~M36 그림 가시성 표본 집계 완료
-
-- [712](queue_archive/ORDER-712.md): 선언9c620ea/product9c7dee4·read53 중 chapter1 제외 일반52/intro-result104구성·105원컷/16,652,651B·도달 tuple52/원핀105 exact. BG101+CG소유3·초상95+CG3/미할당6·CG3+미할당101, 그림전무/필수누락0. KO28/EN24 사건·M35 read0 비대상·전페이지/5언어/currentrender 통과로 확대0.
-- 저자2 보고6/비저자105전독·source140/anchor104/영수증18·시각구성52대조·미명시BG3 KOEN 추론입력5필드 exact. root16재독/consumer7핀/제품tree·W145 exact. 독립 ACCEPT_HISTORICAL_M19_M36_MINIMUM_STATIC_PHASE_CENSUS_ONLY·MD5161B/12b5ffde…b994·JSON13345B/dbd8f56c…3185·전체핀과 원raw는 사양 private 경로, [범위 보고](queue_backlog/A2_VISUAL_CENSUS_2026-10-16.md)에 결속. M34 네컷은 원26컷 aggregate이며 개별핀 위장0.
-- 원격초상/추론장소/반복카드/강변카페/도착전상철/종료뒤전화표시는 배치 메모로 분리·새C2/그림제작/제품수리0. 문서5+diff exit0/stderr0·context boot30644/queue77/75/self25·STATUS advisory·사람OPEN45/done1/agentHOLD 보존·전체로컬/engine/240주0. 개발스킬 독립·표적·비소유 적용/승격0·기존정본/일회성. 사용자경로·앱·입력0/제품·자산·project·공개·옛판정·M24/tmp47·복원HOLD/H3 보존. A2전체/M01~18/미래월/currentrender/사람·원어민·패드·청취/출시GO0. 9c7dee4 CI38915933286 진행≠녹색·새월0; 전체success 뒤 W145/M37 C1 우선, 과거집계로 지연0.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-16 — PR39 선택 회수 표식 5언어 검수 완료
-
-- [711](queue_archive/ORDER-711.md): 선언de1631e 뒤 StoryMode의 실제 memory append 한 곳에 승인 일반 표식·CJK UI 키 하나씩만 추가. 조건/빈값/중복 배제·전체교체-only·갤러리 저장 selector 원형, 단일 줄바꿈으로 source 문단 index 보존. 본문/id/flags/effects/조건/순서/710 넘김 수리 불변.
-- 기존 UI120pair+새1/old English exact·controller38/Story83/target122. CJK raw 역산3/3·기존 checker27함수 exact/새1+_ready2삽입·보호819/34,137,686B drift0·manifest/번역원장 재결속0. 초기 들여쓰기 오류는 동결 전 교정·없는 queue 도구 호출 실패도 원raw 보존/정상 도구 정정.
-- old renderer negative KO/matching exit1→수정 full11.993795초 exit0/오류0·표식5언어50사례/20페이지·7108/기존156case1044page 보존. 별도 opt-in GUI9.726649초 exit0/오류0·1280×800 PNG5장 root/비저자 전수 직접 관찰, 표식/회상 순서·잘림/겹침0. 자동 실제 렌더와 native/사람 관찰을 구분. demo UI122/122/self55/JA UI2954/2954/EN 한글0/zh UI contract0/context·queue·diff 통과.
-- 비저자 source6/raw32/PNG5/보호819/26핀 수용·한정 GO, 보고/원raw/통합 핀은 사양 private 경로. 기존 엔딩에 종막 선택 coda와 연말 선택 제목·CHOICE PATTERN 있음(소스 확인만), 새 엔딩UI0. 개발 스킬 격리·독립·표적 적용/승격0·DECISIONS가 규범 소유/일회성.
-- 711 사용자 경로 접근0·project/preset/공개/과거 사람·agent 판정/W145/H3 보존, 710 설정mtime 사고 소급삭제0. 709 CI38904281491 전체success·710/711 수정 CI는 별도/진행≠녹색. 새export/실제월/사람·원어민·패드·청취/전체C2/M60/출시GO0. 다음 결정2 별도선언·새main 전체녹색 뒤 M37.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-16 — PR38/39 병합·초반 넘김 읽기 경계 수리
-
-- [710](queue_archive/ORDER-710.md): PR38→43e340f/PR39→9f0d077 병합·원문 두 삽입과R5기록 보존. 원16.2PCK/고유공식진단engine의그날의나에서 AUTO OFF 마지막본문→무입력선택레일 자동숨김을57~59캡처로확인. StoryMode hold만료 한분기만수리·MainGame/원고/조건/effects/id/CJK/경제 불변.
-- KOEN 자연/즉시·hold·AUTO·설정/기록 8사례 red→green·기존156case/1044page 유지. prefix준wrapper오류는unchanged raw의full exactmarker로정정·재실행0. 수정source-native81~83 24.3초본문유지→freshEnter84 선택만열림·정상native두실행 exit0/오류0. 독립8JPEG/19핀·1287보호핀/기존checker역산 GO_A1_AUTHORED_HOLD_READING_BOUNDARY_ONLY.
-- 원releasebinary bootstrap무시로기존제목을열고게임입력0종료한격리실패/원설정77B mtime갱신사고를사용자에게알림·추정복원0·진행mtime만확인/저장byteexact주장0. 고유engine metadata3키·사본FinderInfo만정리/보안속성보존/strictpass; 원사용자앱7파일exact·HOME/XDG/OS권한0. 실패원장모두보존.
-- source5표적/context·queue·diff통과·범위선택실행오류 TERM143은PASS0. 개발스킬격리/독립/표적/증거분리·제품정본승격0/일회성. 승격: `.codex/skills/gangnamdream-dev/SKILL.md`:Verify 에격리실패release일반boot재시도금지1줄. 원PCK16.2 진단과수정source Build10.11.1를구분·원releasebinary/새export/전체CI/EN·AUTO native/사람·패드/C2전체/M37/M60/출시GO0. 다음 PR39 결정5 별도선언·1→5→2→3→4, 대표W145/H3·완료월/공개/복원HOLD보존.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-16 — PR37 R4/R5 승인 KO/EN 문안 적용 완료
-
-- [709](queue_archive/ORDER-709.md): 선언f47e4f6 뒤 PR37 exacthead4c2e051를b107cbf로병합/push·GitHub merged확인. R4§1~8/R5§1·2 실제13사건·KO29/EN29 총58잎·10파일 적용. 사별앨범/생선·어머니사과문자는실제생산자대로, 병실23초는공통연락처이름으로수리·로그/서류위치최소중립화. R2/R3 재적용0/R5§3기록만/SELF후속선택보존.
-- root/비저자58전후전독·10raw역산exact·482event-locale중26객체만변경·조건/효과/id/순서/typed/c5read24토큰불변. 일반{name}변화5잎은승인표안·typed보존과분리. 비소유1105/49555397B drift0/CJK384/번역원장exact·재결속0. 저자4보고/원before/raw/최종핀·수용영수증은사양private경로참조.
-- source12 최초11pass/1inventoryfail 원raw/stderr0; sexuality/fear본문hash2칸과생성뷰2셀만정합뒤같은표적재검사pass. normal/self109·peak31/debt0·등급/집합/개수/검사/예외/래칫변경0. CJK-only 첫계수128경로오타는원1105보호와별개측정오류·초판보존/v2 384정정/QA반복0. 개발·장면스킬현재감각/생산조건/독립표적적용·승격0/일회성.
-- f4c3201 CI38891115471 전체success확인·709수정CI는별도. 사용자16.2/저장/설정/project/preset/공개/판정/HOLD/H3위험보존·엔진/앱/새월/UI경쟁0. 새화면/사람2~3h/청취/재미·피로/CJK최종/전체C2/M60/Steam/출시GO0.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-16 — 승인 R3 선발신 문안의 CI 사실검사 수리 완료
-
-- [708](queue_archive/ORDER-708.md): main1034610 CI38877392523의 유일 unexpected CHAPTER5_HUMAN_REJECT_EXIT는 승인삭제6literal 요구였다. 선언2a918ab 뒤 checker1파일만 본문/세결과 행동별 검사로 수리·KO/EN 제품문안 복원/변경0. 허위 동석/읽음/회신/확정만남·부친응답/봉투무단발신·게임플레이 변조 거부, 비산문 영수증/presentation 경계 보존·예외/비차단/래칫 완화0.
-- 기존76사례/38함수·module prefix·비대상 구간 exact, 실제정상1+음성32 추가. normal0.320432초/self6.549362초 exit0·self109·stderr0·raw4 전독/핀확인. 비저자 전diff/33추가사례/현재제품·생산소비자·raw 전수 수용, 보호1115/50935290B drift0. checker SHA c1ce8fd0…e5c54·보고/원실패/실행 핀은 사양 참조. 문서표적5/context·queue·advisory STATUS·diff·전체로컬/engine/앱/새월0.
-- 개발 스킬 표적·독립 검수 적용, 승격은 SKILL Verify 승인본문과 fact-guard 회귀를 함께 확인하는 한줄·나머지 일회성. 사용자 앱/저장·root project/preset·공개demo·과거 사람/agent 원장/CJK/번역원장 불변. 수리 후 전체 main CI 별도·진행≠녹색·M37입력0/H3위험 유지. 전체C2/대표완주/사람·청취/CJK최종/Steam/출시GO0.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-16 — M36 실제 플레이·저장 검수 완료
-
-- [706](queue_archive/ORDER-706.md): accc CI38859810652 전체success 뒤 새고정16.5/원W141한복사·EN정상Continue→141story c0→142/143auto→144close c0→144scene c0→첫145Chapter4카드미선택CmdQ. root43원컷·독립27직접화면/별도11실제값·prefix6064leaf검수, 월한정두GO. 703나이/705자산본문수리는11대화기록/실본문에서확인·새C2관측0. 707미래문안은이앱미반영·실행시간41분은병행작업대기포함/사람플레이시간아님.
-- final356249B/ec74f442…8a93 actualbyteexact·145/last144/age36/2029Jan/H3M91/−11343976/read113/routine144/completed144/resume·chain{}·145read0. 원110/140/140 값drift0/intfloat178·옛118효과재실행0·cast6/items4/무직/portfolio/대출/관계불변. 월정산−650000/4루틴+280000·실제Januarynews5/18prices/APpenalty/Bear변화보존·noRNG주장0.
-- native27076 exit0/2461.559563초/경고1·오류ObjectDB0·보호128/2235exact/app/seed/HOME-XDGtrue/editor생존/종료후UI0. build-only두파일/freshimport1/export1/서명universal/PCK675JSON·원보고/실행사양/패키지SHA는사양참조. 개발스킬격리/독립/표적·일회성/승격0·월별한commit/STATUS전용0. 옛복원HOLD·H3다음생존위험유지. 2508811정적CIpass/engine진행≠녹색·마감후CI별도·M37/전체C2/KO-CJK/사람/청취/M60/Steam/출시GO0.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-16 — PR36 R2/R3 승인 문안 적용 완료
-
-- [707](queue_archive/ORDER-707.md): PR36 merged4bde546·R2§1·2/R3§1~7을 KO77/EN77 총154잎·12사건에 적용. 비저자전수/전체raw10·순서/typedreader 보존, flags/effects/조건/id/선택index/자산/라우팅0. 현재수용R1기억4키사용·허위제출복원0, 병동정확인용+로그위치중립화8잎. R2§3/연속성메모는출시후기록·person_deal/28th/final_week원형·R4문서는병합만/데이터0.
-- 기존9표적초기8pass/1fail 원raw보존; fear/crime본문hash2와생성뷰2셀만정합후실패표적재검사pass. 739비소유/CJK384/번역원장exact·재결속0·등급/설문/제품검사변경0. 독립보고/14입력·10after·22raw핀root확인·SHA는사양참조. 개발·장면스킬 현재감각/생산조건/독립검수 적용·일회성/승격0. 고정accc/16.5 M36플레이와분리·수정후mainCI 별도/진행≠녹색·새화면/사람/청취/CJK최종/전체C2/M60/출시GO0.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-16 — M36 실제 자산과 반대인 전진 단정 source 수리 완료
-
-- [705](queue_archive/ORDER-705.md): 선언9aea1f0 push 뒤 보존W141 총자산−10973976/시작500000/목표30억까지거리11473976증가와 충돌하는 무조건“처음보다가까움” 본문3 KO/EN2잎만 현재집들이사진/손끝/매끈한화면으로수리. 비저자2/2전수 GO_TWO_SOURCE_BLOBS_PROGRESS_FACT_ONLY·raw2전체역산exact·다른6문단/4토큰/각30사건/선택·효과·조건/id/order exact. 703첫문단/출근work 보존·무직단기생계와양립하므로허위직장으로오등록0. 실제후반frame/선택결과관측0.
-- 기존source9 exit0/41.547114초/stderr0·raw18전독/핀확인·release inventory 불변·독립content673+기타source75 exact·원final byteexact/실사용자path접근0. CJK384/원장불변·description이미stale3/신규0/재결속0. 보고전문/2source+5입력+2before핀확인·SHA/후보blob사양참조·문서표적5/context·queue·diff. 개발스킬 비소유/독립/표적·일회성/승격0·정본/계층/자산/밸런스/engine/앱/저장/공개/제품검사 변경0. 388db78 CI38851221082 success·후속진행≠녹색/새월0·다음새source후보로원W141/M36. wholeGit/새화면/전체C2/기존HOLD/사람/청취/5언어최종/M60/Steam/출시GO0.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-16 — 트레일러 목표 컷의 현재 수첩 source 준비 완료
-
-- [704](queue_archive/ORDER-704.md): 선언cb1ffe2 push 뒤 trailer02의구MainGame/AP 진입꼬리만 현재 StoryMode수첩3동기선택 호출로대체·50만원/무직/W1초기12줄·기존frame key/두4초consumer/음향·자막 보존. 문서한행+source/실물경계7줄·July13역사proof exact. 비저자helper1/문서전체/생산소비자전수 GO_SOURCE_PREPARATION_ONLY·515중514함수exact/전체raw역산·source비소유748/content675exact. root760은기존이미지8/MP4 4보존도포함·독립media관찰0. 3오디오manifest선언clean원본대조exact·대본/효과/조건·gameplay·CJK·사용자path접근0.
-- 기존정적5 exit0/18.719866초/10raw전독·표적문서5/context·queue·diff. trailer22frame/2edits/2languages·surface self97/위반0·featureknown2/안내보존. root보고전문/2source+3입력·raw10핀확인·후보/blob/보고SHA사양참조. 개발스킬독립/비소유/표적·일회성/승격0·새tool/engine/compile/capture/앱/영상/청취/외부0. 388db78 CI전체감사/KO입력success·EN진행≠녹색·수정후CI별도/새월0. 후속KO/EN02실화면·네MP4/청취/다른컷검수 남음·C5전체/출시GO0. main녹색뒤원W141/M36 재개·완료월반복0.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-16 — M36 입구 나이 첫문단 source 수리 완료
-
-- [703](queue_archive/ORDER-703.md): 선언5332d92 push 뒤 actualW141 화면36세/저장35세 모순 KO/EN 첫문단2잎만 현재채팅창/손끝빛으로수리. 비저자2/2 전수·다른6문단/4토큰/선택·효과·조건/id·다른각30사건 exact·전체raw2역산·content673 직접지문/보호9 root대조 exact. 새나이/기간/관계/직업/거래/계층·direction·자산0. 독립 GO_SOURCE_AGE_FIRST_PARAGRAPHS_ONLY·root보고전문/11핀확인·새화면/M36선택결과/후반다른본문 GO0.
-- 기존source9 exit0/43.443916초/18raw전독·stderr0/마감문서5/context·queue·diff·release inventory 변화0. CJK384event/원장 불변·description 영수증3 stale/재결속0; rootrawSHA와Leaf공식혼용 최초분석 보존 뒤 기존Leaf식으로정정·독립결과와일치. 후보2파일SHA/보고/실행사양핀은사양참조. 개발스킬비소유보존/독립/표적·일회성/승격0·새tool/engine/build/앱/OS/저장설정/project/공개/제품검사 변경0. 선언5332 CI는static success/engine진행≠녹색·수정CI별도·새월0. 다음 새source 후보/CI녹색 뒤 원W141 M36·완료월반복0/옛16.4미반영·CJK최종/사람2~3h/청취/물리/M60/Steam/출시GO0.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-16 — M35 조용한 주 자동처리 검수 완료
-
-- [702](queue_archive/ORDER-702.md): 701 같은 단일16.4 native의137~140 자동주만·추가입력/재실행/build/seed0. 실제전경 없이각루틴·완료1/신규read0/141정산1·W137−10603976+280000−650000=−10973976/H5M91. W141 market_shock 실제발생/빈portfolio 직접손실0·뉴스3/시장18가격1 추가. 무직/관계/cast/items불변·원108/132/132 값보존/표현차이경계 보존. root26전수·독립출구18/의미11 표본·두검수자 월범위한정GO; 주별별도화면/중간checkpoint를꾸미지않음.
-- 같은final350009B/3a6bacb6…c0b37 actualcmp0·W141/last140/read110/routine140/completed140/resume·chain{}/141선택0. 실행사양/원보고/후보·패키지 핀은701/702사양참조. 한달한커밋·701과합친문서표적5/context·queue·diff·후속CI별도/진행≠녹색. first141‘36세’vs저장35 별도C2수리 전 M36선택0·완료M01~M35 반복0. H5/옛복원HOLD·연출부채·사용자16.2/공개/Human보존·일회성/승격0·C2전체0/사람·청취/5언어최종/M60/Steam/출시GO0.
-자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-## 2026-10-16 — M34 인맥의 값·기사 실제 검수 완료
-
-- [701](queue_archive/ORDER-701.md): mainff90362 CI38839510927 모든job/step success·예외0/만료0 뒤 새16.4 R1격리후보/원W133 한복사. 정상EN Continue→cost133c0→article134c0→135~140자동→first141 첫본문 미선택CmdQ. root26JPEG전수/출구18·의미11표본 직접관측·독립2인 월범위한정GO. cost본문3/결과2·기사본문5/결과2/선택focus0 완전. M34신규read2/루틴·완료4·W137경계 돈−10603976/H7M91. 자동M35는702별도한달커밋.
-- final350009B/SHA3a6bacb6cdb24fa0c3c9d13964dfeac0583dc23f4223fdb2a6131a46777c0b37 runtimecmp0·W141/last140/H5M91/돈−10973976/age35/resume·chain{}·141read/선택0. 원108/132/132 값보존(W132 intfloat36표현차이/값차이0)·새선택2/루틴8/정산2; cast6/items4/무직/portfolio/대출/관계불변. native89491 exit0/388.721977초/null9true/124그룹2221exact/editor생존·CmdQ마지막/종료후UI0. raw154/111/263B는빌드불일치경고1만/오류·ObjectDB0. 관측실패1→같은live binding1회회복·입력반복/재실행0. first141‘36세’vs저장35 확인·M36별도수리/선택0.
-- baseff90362→private4baefe67/treef11e67e projectcustomdir/ICU+BuildInfo 두파일만·원source18핀exact. signed/self-contained별도editor_data·import1/export1·ZIP440947098B/PCK1893/675JSON/ICU/서명/universal 검증. FinderInfo서명실패/빈objectdb폴더가드 진단 보존·속성/권한/HOME/XDG/사용자16.2/공개/제품검사 변경0. 보고/패키지/실행사양SHA는사양참조. 원37933B로그byteexact이동·개발스킬격리/독립/표적·일회성/승격0/월별1commit. 문서표적5는702와합쳐1회·후속CI별도. 옛복원HOLD/연출부채·H5위험보존·C2전체0/KO·CJK/사람/청취/원어민/물리/M60/Steam/출시GO0.
+- 715 월미마감/commit0. 723 새18.1/source875 wholeCI2job22step success 뒤 같은W150/dd3c 원저장을exclusive1회복사·정상English Continue. 입구dict87/총read117 집계혼동은실행전수리·비저자조건부입구GO, source/원save/원plan변경0. PID11379/parent11374 wait0/178.203146초·원3stream154/111/263B/error0·원build_id_mismatch warning보존·보호738group1119entry exact.
+- 실제15JPEG/전달13입력·현수5문단/P5폰빛수리완전문장을직독했다. 후반12~15컷은c0 Return/클릭/Space 뒤에도선택지/H5M95로보였다. CmdQ마지막·종료뒤UI0. 진짜final366739B/f022df34…6954는W151/last150/read118(seq118c0)/routine150once/H5M100/돈−11573976/resume{}다. 결과/151본문미관측을저장read로대체0·‘진행불가’C2확정0·원화면/입력차이독립검수중. 첫setup raw01/02에는모두버튼이있으며tool표시와원회고의background-only인상은재독정정·원자료보존.
+- 독립native HOLD_OBSERVATION_STATE_DISCREPANCY·MD5159B/9fb5d7ce…a0e6/JSON27809B/b4ce924e…00fc·15原컷직독. save HOLD_M38_INCOMPLETE+GO_PREFIX_AND_W150_ONCE_SEMANTICS_ONLY·MD4313B/ba797b98…9172/JSON44054B/461a7e41…7b3c·원4컷직독. root두보고전문대조·원prefix값drift0/숫자type73prefix·전체97/로그captrim1을손실과구분·원postcheck1651B/f33b6b8b…ecd0e까지동결. 원인확정/실제결과독해/M38GO0.
+- 724 M39는선행선언만/진입0·월말미관측/M38未完·새native再開0. 다음동일W151·선택再適用/seed追加/저장편집/reroll 없이관측경계부터별도입구선언뒤검수한다. 사용자앱/저장·설정/project/preset/공개·원REWORK/714exitnull/710설정사고/복원HOLD/과거인간판정보존. 사람/원어민/패드/청취/전체C2/출시GO0. 개발스킬의분리검수·원증거보존적용·일회성/승격0.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
