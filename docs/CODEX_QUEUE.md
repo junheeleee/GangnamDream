@@ -98,6 +98,8 @@
 | 23 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 | 24 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 
+| 25 | [~] | ORDER-728 · 본편 사람 확인 기록지 | [728](queue_active/ORDER-728.md) | C4 · 화면 없는 빈 기록지 준비·사람 미완료 |
+
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
 ### legacy V2 보존선과 본편 M07~M60 관리선

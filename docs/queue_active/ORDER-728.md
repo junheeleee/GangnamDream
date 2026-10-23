@@ -11,8 +11,10 @@ PLAYTEST_KIT은 공개 데모와 legacy만 안내하므로 본편 2~3시간 확�
 root: docs/PLAYTEST_KIT.md 상단 라우팅과 새 본편 C4 절만,
 이 사양/동일명 archive, docs/CODEX_QUEUE.md의728 선언과C4행,
 CLAUDE.md의그다음C4준비구, docs/WORK_LOG.md 새728기록만.
+docs/CODEX_QUEUE_L3_PENDING.md 순번만 임시+1/마감복원한다.
 private .git/order728-human-session-20261023/declaration.patch 및 closure.patch는
 기존 M39 미커밋 변경을 분리하는 Git index용 일회성 패치다.
+추가 private index-correction.patch는 실행표 누락 교정만 소유한다.
 비저자: 같은 private 폴더 independent-review.md만. 제품/앱/UI/저장 접근·실행0.
 원724 월기록·사용자16.2앱/저장/바탕화면안내·project.godot·공개데모·사람원장 수정0.
 
