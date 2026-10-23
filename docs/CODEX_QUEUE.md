@@ -7,10 +7,6 @@
 
 ## 운영 프로토콜 v3 (2026-08-03 사용자 지시 — 분석·계획·설계·검토 반복)
 
-현재 화면 없는 C4 단위: [ORDER-728](queue_active/ORDER-728.md) [~] 착수 —
-`docs/PLAYTEST_KIT.md`의 본편 사람 확인 안내·빈 기록지만 추가한다. 기존 데모/legacy
-규약·사람 판정은 보존한다. 정확한 기록·검수 소유는 사양 참조. M39 실행/저장 변경0.
-
 > 사용자 결정: Codex와 Claude 모두 분석·오더 분해·구현·검토를 할 수 있다.
 > 사람 이름으로 지휘권을 나누지 않고 **단일 실행 큐, 작은 사양, 선언 커밋,
 > 정확한 파일 소유권과 증거**로 충돌을 막는다. 현재 개발·최종 검수 위임의
@@ -49,7 +45,7 @@
 | C3 CI | source875/run39055445203·maina1ab330/run39204213025 각각2job22step success·예외0(10-22 KST 재관측). 새실행 전 fresh 관측. |
 | C1 대표 완주 | [715 M38](queue_archive/ORDER-715.md) 대표월말 경계 마감·저장보존GO. W150 결과미관측 보존. M39 첫문단 도달·선택전. |
 | C2 치명 결함 | 710/711/716 수용. [721](queue_archive/ORDER-721.md) 현수기간 KOEN4leaf source수리·18.1 EN P5 실관측. 전체C2 미완료. |
-| C4 사람·고지 | [696](queue_archive/ORDER-696.md) 사용자16.2 인계·사람2~3h 미완료/UI양보. [720](queue_archive/ORDER-720.md) 고지3화면×5언어 준비렌더15 수용·CJKshipping0. |
+| C4 사람·고지 | [696](queue_archive/ORDER-696.md) 16.2 인계·[728](queue_archive/ORDER-728.md) 본편 빈 기록지 준비·사람2~3h 미완료. [720](queue_archive/ORDER-720.md) 고지 준비렌더15·CJKshipping0. |
 | C5 출시 준비물 | [725](queue_archive/ORDER-725.md) trailer runner·[727](queue_archive/ORDER-727.md) store 오프라인 export 수용. 실촬영격리/영상/5언어최종/외부 미완. |
 
 5언어 유지. KO/EN 실제 플레이 확정 전 JA/zh 다듬기 중단, 누락 보충도 C2/C5 직접
@@ -97,8 +93,6 @@
 | 22 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 | 23 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 | 24 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-
-| 25 | [~] | ORDER-728 · 본편 사람 확인 기록지 | [728](queue_active/ORDER-728.md) | C4 · 화면 없는 빈 기록지 준비·사람 미완료 |
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
