@@ -17,12 +17,18 @@ SCENE_TIER 공통산문계약·용어집의 화자→청자 경계를 적용한�
 
 ## exact 파일 소유
 root 제품: `content/events_en/callback_events_39.json` 위 인용문 1곳만.
+파생 핀 exact 추가: `content/meta/release_content_inventory.json`의 sexuality
+expected_content_sha256와 `docs/CONTENT_RATING_INVENTORY.md`의 대응 hash만.
+첫 표적 검사에서 EN 한 문장으로 해당 코퍼스 hash가 실제 바뀐 것을 확인했다.
+내용 축·등급·공개demo·포함범위 변경 없이 실제 바이트에 재결속한다.
 root metadata: 본사양→`docs/queue_archive/ORDER-729.md`,
 `docs/CODEX_QUEUE.md`, `docs/CODEX_QUEUE_L3_PENDING.md` 순번,
 `CLAUDE.md` 현재행, `docs/WORK_LOG.md` 최신항목.
 root private `.git/order729-daeun-person-20261024/`:
 `declaration.patch`, `closure.patch`, `verify.py`, `verification.json`,
 `checks.stdout.log`, `checks.stderr.log`, `index-receipt.json`.
+실패 원로그를 보존하며 `recheck.stdout.log`, `recheck.stderr.log`,
+`recheck.json`에 파생 핀 수리 뒤 실패 검사만 다시 기록한다.
 독립 /root/m39aa_source: 같은 private 디렉터리의 `independent-review.md`,
 `independent-review.json`만. 724 저장검수 후 별도 원문·수정·실제컷·검증을 직접 읽는다.
 724 월별 기존 dirty 4문서는 이 수리 커밋과 분리하여 보존한다.
