@@ -14,6 +14,7 @@
 | 품질 게이트 | 출시 완료 조건·목표일은 [`DECISIONS 2026-10-15`](docs/DECISIONS.md#2026-10-15-본편-출시-완료-조건과-목표일--사용자-승인)가 소유한다. [`MASTER_RELEASE_AUDIT`](docs/MASTER_RELEASE_AUDIT.md)는 품질 목표·과거 증거 참조이며 새 5조건 밖 추가 출시 차단이 아니다. |
 | 최근 검증 | M38 대표월말 경계 마감·직접UI/독립원컷/저장보존GO. 같은정산재개·확인1회→M39 첫문단, W153/last152/H8M91/read120·ack152/pending{}·경제재적용0. W150 실제결과 미관측 보존·전체C2未完. |
 | 바로 다음 | ORDER-724 M39: 동일18.1/W153 cffc4b32…d6b2 저장에서 별도 입력계획·fresh main CI·입구 뒤. 첫문단관측≠선택완료·153선택0. 과거HOLD/복원/710·월별1commit/완료월반복0 보존. |
+| 최근 수리 | [729](docs/queue_archive/ORDER-729.md) 다은 취업 EN 인용문1곳·파생SHA2셀 수리/독립source GO. 수정앱 실제검수·새main CI 완료는 별도이며18.1·05ee 저장불변. |
 | 열려 있는 사람 게이트 | [`human_gates.json`](docs/human_gates.json)의 공개 GO1·역사 OPEN45와 [`agent_review_decisions.json`](docs/agent_review_decisions.json)의 내부 판정을 보존한다. OPEN45 전부 닫기는 현재 출시 조건이 아니다. 사람 1명 2~3시간 플레이·최종 출시 판정은 사용자이며 아직 발급하지 않았다. |
 | 그다음 | AI고지 준비렌더15·상점초안5·본편 사람확인 빈 기록지 준비, retail5언어/사람2~3h 미완. trailer runner·store 오프라인 export 수용(합성17·독립검수). 실제 촬영격리/4영상/청취 미완. KO/EN 뒤 CJK1회·샷/등급/외부/C5전체GO0. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |

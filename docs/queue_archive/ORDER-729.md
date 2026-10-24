@@ -1,6 +1,6 @@
 # ORDER-729 — 다은 취업 발화의 영어 인칭 수리
 
-#### [~] ORDER-729 [C2 EN 사실] 착수 — 2026-10-24
+#### [x] ORDER-729 [C2 EN 사실] source 한정 완료 — 2026-10-24
 
 ## 실제 결함과 한 단위
 724 aa 동일18.1 W155 카페약속 c0 결과P1 실제 원컷
@@ -45,3 +45,18 @@ CJK다듬기/원번역원장/project/사용자저장·설정/18.1/PCK/공개demo
 보고는 실제source SHA/원컷/표적결과에 결속하고 source 한정GO만 발급한다.
 승격0·기존정본적용·나머지 지시는 일회성.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## source 수용 — 2026-10-24
+
+EN 4890B/44c83bcb9eab3b2a194ff9ad5db13dbe2f0e8471578f092c248ddd2837dc942e,
+1인용문 역산 원바이트exact·다른leaf/KO/토큰/4newline/2문단/게임플레이불변.
+초기 source10검사통과·inventory1실패 원로그 보존. 파생SHA 두셀만 재결속한 뒤
+실패검사만 재실행 exit0/stderr0; 후보125/26/IDs·내용축·강도불변.
+음성대조3개거절·engine0. source-only 비저자GO:
+`.git/order729-daeun-person-20261024/independent-review.md` 3324B/
+2c03d3ff024dac253524f0424fb6882ac79dbb6284605d444b97a129d3555cea,
+JSON12236B/79f7d955be2ee344f36d25f2c183dd4838f03a09919d4dba154adff1c03364dc.
+root 전문·핀 확인. 새 main CI는 별도 완료관측 전 녹색 아님.
+수정앱·M39/W155완료·전체C2·사람·출시GO0; 724 실제HOLD와05ee 원저장 보존.
+후속은 새격리수정후보를 같은체크포인트에 연결하는 별도작업이다.
+승격0·기존정본적용·일회성. 724 월별 진행·보존 archive는 이번commit에 넣지 않는다.
