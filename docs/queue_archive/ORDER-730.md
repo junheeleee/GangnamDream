@@ -1,6 +1,6 @@
 # ORDER-730 — 수정된 M39 검수 후보 발급
 
-## [~] 착수 — 2026-10-29
+#### [x] ORDER-730 발급 완료 — 2026-10-30
 
 사용자 최신 지시 `게임 완성시켜`에 따라 본편 C1/C2를 재개한다.
 Steam 계정 응답 대기는 본편 개발을 막지 않는다. C3 실제 main9499f92의
@@ -29,3 +29,16 @@ private stage에서만 project.godot(custom user dir·ICU), systems/BuildInfo.gd
 검증: base→stage exact2파일, clean stage, 엔진 SHA·ICU·서명·universal,
 3로그 오류/누락 경고0, 보호 exact, 비저자 실제 산출물 검수.
 새 규범0·일회성. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 실제 발급·독립 검수
+
+source9499→stage3b1e251d5646f7b7eb40ae702c55b47d5d0f58bc/tree2942e5b29fabe84caaded8cfdf589057235c1529.
+BUILD29.1·ZIP440951180B/9484c0b0…e51d·PCK404898592B/cba729d9…b263.
+import26.421385s/export46.180840s/서명/universal exit0·실제ICU4797072B·EN4890B/44c83…942e.
+비저자 /root/candidate_independent가1893payload/675JSON/7appfiles와typed프로젝트41값 확인.
+private730 package-review JSON11474B/b2cf09f993f52287dcfb01ea077cf480890934183a946a036092e44964e04627,
+MD2213B/86213237a3e591a5f461d083971f93cd6f85e9bf4d0bf2793b2081f03b8f0ba7.
+GO_PACKAGE_ONLY. 원894group1434entry byteexact·빌드당시native0/seed0.
+중첩project무시warning과서명교체정보는보존, warning0주장없음.
+이후 실제앱/저장 검수는724 ab가 소유하며 발급 판정을 본편완주로 확대하지 않는다.
+승격0·일회성. 루트제품/원18.1/사용자/공개데모 변경0.
