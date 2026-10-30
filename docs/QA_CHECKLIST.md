@@ -639,7 +639,7 @@ Automated year-identity gates:
 
 Automated store-asset gate:
 
-- New capture remains on hold: follow the [store regeneration safety boundary](STORE_SHOTLIST.md#재생성-절차), not a normal project boot or the legacy shared-temp export. The offline Python exporter handles existing receipt-bound inputs without running the game; it does not authorize new capture.
+- New actual capture remains unexecuted: follow the [store regeneration safety boundary](STORE_SHOTLIST.md#재생성-절차), not a normal project boot or the legacy shared-temp export. `store_shot_capture.py` requires a clean dedicated checkout, fresh external output, pre-autoload namespace, source/engine SHA stability, original logs/exit/markers/error checks and eight decoded originals before publishing an offline-export receipt. Its self-test mocks the engine; it is not a rendered or native-play pass. The offline exporter does not authorize new capture.
 - `ScreenshotQA --qa=store --lang=en` must generate exactly eight named source frames from actual game state, including the same Daeun cafe event at Moral Tint +80 and -80.
 - The legacy `StoreScreenshotExport.tscn` crops to canonical 1280x720 filenames in the fixed `/tmp/gangnamdream_store_screenshots` directory and clears prior output. Its input/output isolation must be prepared separately before any new export.
 - Use `tools/store_shot_export.py` for offline crops into a fresh external directory; its synthetic self-test requires Pillow. `STORE_SHOT_EXPORT_OK` proves file/receipt consistency only. Actual candidate identity, capture isolation, and source/crop visual review remain separate.

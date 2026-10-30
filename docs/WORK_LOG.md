@@ -1,5 +1,12 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-10-30 — 상점 새 촬영의 안전한 실행 도구
+
+- C5/733 선언be8461c 뒤 전용 runner·모의 실패검사 신설. pre-autoload 새namespace/외부출력·원로그3종·exit/timeout/프로세스회수·exact8 decode·source/engine 전후SHA·공식 exporter receipt 연결. 기존 저장/출력/이미지 삭제0.
+- dirty Git뿐 아니라 assume-unchanged/skip-worktree 숨은 편집도 HEAD blob 직접대조로 거부. 합성27검사·등록182·queue/context/diff 통과. 독립검수 보고서는 마감 사양에 결속.
+- 실제엔진/촬영/화면판정0. live378570B/53a3abed036ffc08516ee4455a268e41457276df278fad66342dd5d7d1a009d5 불변. 현재 1280계약은 현행 Steam 최소1920x1080 미충족이므로 다음 별도 수리로 이관한다. 5언어 상점 본문은 이미 존재, retail활성화/CJK정합은KOEN실플레이 뒤 유지.
+- 승격: STORE_SHOTLIST 격리된 새 원본 촬영·QA_CHECKLIST store실행계약. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다. 월별진행 미커밋·공개데모·사용자설정 보존.
+
 ## 2026-10-30 — 본편 SteamPipe 인계 절차 준비
 
 - C5/732 선언02d9120 뒤 BUILD_PIPELINE에93줄 추가. OS별 파일/실행 경로·미확정AppID/depot/RC/앱별권한 기록지·Preview1 VDF예시·테스트설치 인계만. AgentReview/HumanTest/공개데모와본편분리·자격증명/SetLive0·preview도통신차단보장아님명시.

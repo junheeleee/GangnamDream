@@ -40,7 +40,7 @@
 
 ## 재생성 절차
 
-**현재 새 촬영은 보류다.** 옛 일반 프로젝트 부팅과 공용 임시
+**현재 실제 새 촬영은 미실행이다.** 옛 일반 프로젝트 부팅과 공용 임시
 출력 복사 명령은 실행하지 않는다. 기존 8장과 그 역사적 렌더 근거는 보존하지만,
 현재 본편 후보의 화면·문장·선택을 새로 검수한 것으로 세지 않는다.
 
@@ -57,7 +57,7 @@ python3 tools/store_shot_check.py
 지정해도 exporter가 같은 새 입력을 읽는다는 보장이 없다. 트레일러의 격리 runner도
 트레일러 전용이며 스토어 촬영에 대신 쓰지 않는다.
 
-다음 새 촬영은 별도 파일 범위를 선언하고 아래 입구를 마련한 뒤에만 실행한다.
+새 촬영의 실행 입구는 `tools/store_shot_capture.py`다. 아래 계약을 적용한다.
 
 - 사용자 저장·설정과 분리된 저장 경로를 autoload 이전에 확정한다.
 - 새 전용 입력·출력 디렉터리를 양쪽 도구에 결속한다. 이전 캡처 삭제·공용 임시
@@ -69,6 +69,34 @@ python3 tools/store_shot_check.py
 
 이는 새 촬영에 필요한 안전 입구이지 새 촬영 승인·C5 완료가 아니다. Mac 잠금 중에는
 실제 촬영을 시작하지 않으며, 잠금 해제 시 보류 중인 본편 대표 경로 플레이가 우선이다.
+
+### 격리된 새 원본 촬영
+
+실제 촬영 대상으로 별도 확정한 **깨끗한 전용 checkout**에서만 다음을 실행한다.
+미커밋·미추적 파일이 있으면 시작 전에 거부한다. 현재 월별 검수 작업을 정리하려고
+기존 파일을 지우거나 저장을 옮기지 않는다. 출력 부모는 이미 존재하고 저장소·
+Godot 사용자 데이터 밖의 일반 디렉터리여야 한다. 심볼릭 링크도 거부한다.
+
+```bash
+python3 tools/store_shot_capture.py --godot /absolute/path/to/trusted/godot --output-parent /absolute/capture-parent
+```
+
+도구는 새 `gangnam-store-capture-*` 출력과 새 32자리 namespace를 생성하고,
+기존 `StoryNameplateBootstrap.gd`로 autoload 전에 저장 위치를 선택한다.
+HOME/XDG·원본 저장을 변경/복사하지 않고 영어 store scope만 1280x800으로 실행한다.
+실제 Git commit/tree/BuildInfo BUILD와 tracked 파일 SHA 전체, 엔진 SHA를 결속하고
+전후 변경·exit·timeout·표식 순서·3개 원로그의 오류/누수·PNG decode를 검사한다.
+원본 8장 이름·순서·치수·비중복 조건이 맞아야 `receipt.json`을 발급한다.
+
+`capture-start.json`, `source-manifest.json`, `stdout.log`, `stderr.log`, `godot.log`,
+`capture-result.json`과 QA 저장은 남긴다. 실패·중단 시 부분 출력도 보존하고
+성공 receipt를 발급하지 않는다. 기존 파일을 삭제하는 legacy exporter는 실행하지 않는다.
+성공 receipt는 아래 오프라인 exporter에 그대로 전달한다. `STORE_SHOT_CAPTURE_OK`는
+해당 source 촬영의 실행 계약만 뜻하며, 29.1 패키지 신원·실제 대표 플레이·
+원본/크롭 육안 판정·사람 검수·출시 허가를 뜻하지 않는다.
+
+`python3 tools/store_shot_capture_self_test.py`는 모의 프로세스와 합성 PNG만
+사용한다. 엔진·사용자 저장·실제 촬영은 실행하지 않으며 그 한계를 성공 출력에도 남긴다.
 
 ### 게임을 부팅하지 않는 내보내기
 
@@ -116,7 +144,7 @@ python3 tools/store_shot_export.py --manifest /absolute/capture-run/receipt.json
 그림 품질, 출시 승인은 검사하지 않는다. 합성 시험용 이미지도 형식이 맞으면 통과하므로
 성공표식을 실제 게임 화면 증거나 C5 완료로 쓰지 않는다.
 
-새 실제 촬영에는 여전히 위 pre-autoload 격리와 원로그 입구가 필요하다. 원본과 크롭의
+새 실제 촬영은 위 전용 runner의 pre-autoload 격리와 원로그 입구를 사용한다. 원본과 크롭의
 시각 검수 뒤에만 기존 상점 8장 교체를 별도로 확정한다. 도구 자체의 합성 시험은
 `python3 tools/store_shot_export_self_test.py`이며 엔진·실제 캡처·기존 자산을 건드리지 않는다.
 

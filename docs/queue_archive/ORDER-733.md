@@ -1,6 +1,8 @@
 # ORDER-733 — 상점 원본 촬영의 안전한 실행 입구
 
-상태: [~] 2026-10-30 착수. 사용자 `그럼해`의 잠금 중 잔여 완성 지시.
+#### [x] ORDER-733 — 2026-10-30 안전 입구 source 검수 완료
+
+사용자 `그럼해`의 잠금 중 잔여 완성 지시.
 기여: C5. 실제 촬영·화면 판정·업로드가 아니라 그 전에 빠진 실행 안전장치.
 
 ## 깊이 3문
@@ -35,6 +37,28 @@
 - audit_select --list 먼저, source-only 표적 검사, manifest/queue/diff 확인.
 
 ## 마감
+
+도달 경로: STORE_SHOT_CAPTURE_SELF_TEST_OK tests=27 synthetic_only=1 engine_runs=0.
+생산자↔독자: store_shot_capture.capture → receipt.json → store_shot_export.export.
+바꾸는 상태: 안전 runner 없음→source/실패 검사 수용; 제품 상태 변경0.
+포기 시 잃는 것: 새 촬영의 source/원로그/격리/원본8 결속.
+서사 위치·계층: C5 도구, 비해당. 닫는 것: source 준비만.
+
+독립 /root/locked_media_audit GO_SOURCE_RUNNER_PREPARATION_ONLY.
+전수 코드/문서와 최종27모의검사 3.699s exit0. root 발견 숨은 Git 편집 허점은
+HEAD blob 전수 대조와 assume-unchanged/skip-worktree 반례로 수리·재검수했다.
+보고 `.git/order733-store-capture-20261030/independent-review.json` 5999B
+SHA0521275dd0486e37eee7ca834345e73eec35fcc955ce7f29c0963ecad02b77a5,
+MD3704B SHA3b855c116efb968d0854632630cd524cc4af998a2894a8b591d28c34db2ec58b.
+대상 runner13253B SHA967d2fc8(전체SHA는보고), tests23672B
+SHA0af7edb04ebf14eb64d2fe84387869f00f5d714ca1b30580c982f1a6ff65b813.
+audit 등록182/context/queue/diff 통과. 일반 영향목록의 엔진 검사 실행0.
+기존 월별 dirty 파일을 차선에 추가하지 않고 선택된 source-only 검사를 직접 실행했다.
+
+미관찰: 실제 엔진/격리/화면/패키지/사람/원어민/패드/출시0. 원본/공개 자산 교체0.
+현행 Steam은 최소1920x1080을 요구하므로 기존1280 pipeline은 제출 준비완료가
+아니다. 해상도는 다음 작은 범위로 별도 수리한다. 기존27시험은 합성이다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
 
 반복 사용 규칙은 STORE_SHOTLIST/QA_CHECKLIST에 승격한다. 나머지 범위와
 모의 검증 지시는 일회성이다. 실제 촬영은 잠금 해제 후 대표 경로 우선순위를
