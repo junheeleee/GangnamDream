@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "master": {
+    "file": "assets/keyart/gangnam_dream_keyart_cast_v1.png",
+    "sha256": "3883727682c02ab78e3ce0980800a4aa04912a939b363d31ceed5496072c388b",
+    "size": [1920, 1080]
+  },
+  "capsules": [
+    {
+      "id": "main", "file": "steam_capsule_main.png", "size": [1232, 706],
+      "font_size": 54, "source_crop": [0, 0, 1920, 1080],
+      "art_rect": [0, 0, 1232, 706], "title_rect": [40, 0, 370, 706],
+      "subjects": ["minjun", "daeun", "jiyeon"]
+    },
+    {
+      "id": "header", "file": "steam_header.png", "size": [920, 430],
+      "font_size": 42, "source_crop": [0, 0, 1920, 898],
+      "art_rect": [0, 0, 920, 430], "title_rect": [26, 0, 280, 430],
+      "subjects": ["minjun", "daeun", "jiyeon"]
+    },
+    {
+      "id": "small", "file": "steam_capsule_small.png", "size": [462, 174],
+      "font_size": 40, "source_crop": [820, 60, 560, 440],
+      "art_rect": [252, 0, 210, 174], "title_rect": [12, 0, 236, 174],
+      "subjects": ["minjun"]
+    },
+    {
+      "id": "vertical", "file": "steam_capsule_vertical.png", "size": [748, 896],
+      "font_size": 76, "source_crop": [420, 0, 1500, 1080],
+      "art_rect": [0, 50, 748, 539], "title_rect": [60, 640, 628, 216],
+      "subjects": ["minjun", "daeun", "jiyeon"]
+    }
+  ]
+}

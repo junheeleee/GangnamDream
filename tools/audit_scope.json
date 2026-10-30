@@ -14,6 +14,13 @@
   ],
   "fast_lanes": [
     {
+      "id": "steam-capsule-source",
+      "paths": ["tools/steam_capsules.json", "tools/SteamCapsuleExport.gd", "tools/SteamCapsuleExport.tscn", "tools/steam_capsule_export.py", "tools/steam_capsule_export_self_test.py"],
+      "owned_paths": ["tools/steam_capsules.json", "tools/SteamCapsuleExport.gd", "tools/SteamCapsuleExport.tscn", "tools/steam_capsule_export.py", "tools/steam_capsule_export_self_test.py", "tools/audit_scope.json", "docs/STEAM_PAGE.md", "docs/IP_VISUAL_IDENTITY.md", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/WORK_LOG.md", "docs/queue_active/ORDER-735.md", "docs/queue_archive/ORDER-735.md"],
+      "tools": ["tools/steam_capsule_export.py --check", "tools/steam_capsule_export_self_test.py", "tools/keyart_asset_check.py", "tools/audit_select.py --verify"],
+      "why": "Current capsule source contract and mocked process/PNG safety only; no Godot compilation/render, old image replacement, visual or release approval."
+    },
+    {
       "id": "store-capture-isolation",
       "paths": ["tools/store_shot_capture.py", "tools/store_shot_capture_self_test.py"],
       "owned_paths": ["tools/store_shot_capture.py", "tools/store_shot_capture_self_test.py", "tools/audit_scope.json", "docs/STORE_SHOTLIST.md", "docs/QA_CHECKLIST.md", "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/WORK_LOG.md", "docs/queue_active/ORDER-733.md", "docs/queue_archive/ORDER-733.md"],
@@ -1984,6 +1991,16 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/steam_capsule_export.py --check",
+      "why": "Current four Steam capsule dimensions/master/geometry/title-only native bindings; no game startup or compilation.",
+      "paths": ["tools/steam_capsules.json", "tools/SteamCapsuleExport.gd", "tools/SteamCapsuleExport.tscn", "tools/steam_capsule_export.py"]
+    },
+    {
+      "tool": "tools/steam_capsule_export_self_test.py",
+      "why": "Synthetic PNG and mocked process/storage/source/console/error failures; no engine, asset editing or actual capsule approval.",
+      "paths": ["tools/steam_capsules.json", "tools/SteamCapsuleExport.gd", "tools/SteamCapsuleExport.tscn", "tools/steam_capsule_export.py", "tools/steam_capsule_export_self_test.py"]
+    },
     {
       "tool": "tools/store_shot_capture_self_test.py",
       "why": "Mocked store capture safety and receipt/exporter integration; synthetic frames only, never boots Godot.",

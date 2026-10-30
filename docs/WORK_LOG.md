@@ -1,5 +1,12 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-10-30 — 현행 Steam 캡슐 4규격 source 준비
+
+- C5/735 선언82ad108 뒤 native JSON/GD/scene와 전용runner/31모의검사 추가. main1232x706/header920x430/small462x174/vertical748x896, 제목만·장르부제0·기존master/wordmark 재사용. 새 외부출력/pre-autoload격리/잠금거부/원로그·실패보존을 결속.
+- 독립 capsule_review GO_SOURCE_PREPARATION_ONLY. 작은형font넘침위험→40/minimum선언box거부, §2태그라인충돌→캡슐밖카피로수리. source4/mock31/keyart/등록184/context/queue/diff통과. MD2739757a0ebd0a1cfaee0eb8558b269e23dce563c24fff96744c640aae3f4099/JSON13b93cc679ffe577dd783ea69afeb99a18a2559f637755fef1eabed53de30720.
+- 원master·8PNG·legacy exporter·wordmark·bootstrap·project/user/demo 보존. 실제엔진/렌더/시각/출시0. 코드변경으로frozen89d8의ad2는자동재사용불가·원근거/HOLD/53a3보존, 실제재개전새pin/독립입구필수.
+- 승격: STEAM_PAGE §2/7/8·IP_VISUAL_IDENTITY 캡슐/wordmark계약. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-30 — 새 Steam 스크린샷 native 해상도 수리
 
 - C5/734 선언1e5e0c8 뒤 새 촬영은1920x1200만, 명시steam export는(0,60,1920,1140)→1920x1080. 확대/리사이즈0·저해상도/혼합입력거부. legacy1280재현·기존PNG8장·캡션·receipt형식 보존.

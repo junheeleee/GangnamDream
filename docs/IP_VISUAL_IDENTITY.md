@@ -1,6 +1,6 @@
 # Gangnam Dream IP Visual Identity
 
-Updated: 2026-07-10
+Updated: 2026-10-30 (current Steam capsule contract; master unchanged)
 
 ## Why This Exists
 
@@ -88,7 +88,7 @@ The launch image must be character-led and readable at Steam capsule scale.
 - Daeun belongs to the lived-in convenience-store/window-light side.
 - Gangnam exists beyond the glass as pressure, not as a tourism skyline.
 - Father may appear only as a faint secondary reflection or owned prop, never as a sixth floating head.
-- Leave a stable logo/menu safe zone on the left third and face-safe crops for 616x353, 460x215, and 231x87 Steam capsules.
+- Leave a stable logo/menu safe zone on the left third and face-safe crops for current 1232x706 main and 920x430 header capsules. The 462x174 small capsule may foreground Minjun alone with a larger title. The 748x896 vertical layout must preserve cast identities and use a separate title-safe area rather than blindly center-cropping the wide master.
 
 ### Forbidden
 
@@ -120,7 +120,7 @@ composited after art approval.
 
 A candidate is production-ready only when all rows pass:
 
-| Gate | 1920x1080 master | 616x353 main capsule | 460x215 header | 231x87 small capsule |
+| Gate | 1920x1080 master | 1232x706 main capsule | 920x430 header | 462x174 small capsule |
 |---|---|---|---|---|
 | Minjun recognition | Face and reflected face agree | Face reads before skyline | Silhouette and eyes survive | Silhouette remains the primary human signal |
 | Heroine polarity | Both women occupy distinct material worlds | Hair and clothing blocks stay separate | At least one heroine plus Minjun survives | Do not force three tiny floating heads |
@@ -132,10 +132,23 @@ Rejected candidates stay versioned and disconnected from runtime. A candidate
 must not replace an existing asset merely because it is newer.
 
 Approved launch master: `assets/keyart/gangnam_dream_keyart_cast_v1.png`.
-Steam derivatives are rendered with `tools/KeyArtExport.tscn` so the same local
-wordmark, title-safe area, and crop logic are used at every store size. The
-versioned `*_v2.png` files are approval proofs; the filenames without `_v2`
-are the current upload-ready exports.
+Its bytes are preserved. Current Steam sizes and native crop/title rectangles
+are owned by `tools/steam_capsules.json`, rendered with
+`tools/SteamCapsuleExport.tscn` and admitted through `tools/steam_capsule_export.py`.
+The shared local wordmark receives an empty subtitle: capsules contain only the
+game title, not genre text, reviews or promotional copy. The native layout must
+reject a wordmark whose actual minimum size exceeds its declared face-safe box.
+The vertical preparation keeps the three cast members in an art band and the
+title below; its final composition must still be judged after actual rendering.
+
+The old `KeyArtExport.tscn`, versioned `*_v2.png` and their unversioned copies are
+historical 616x353/460x215/231x87 evidence, not current upload-ready files. Do not
+overwrite them to fabricate an updated approval. New output stays in a fresh
+external directory. Source checks and synthetic PNG tests establish contracts,
+not Godot compilation, rendered faces/title quality, publication or release.
+Apply the matrix above at native size and inspect small-capsule reductions at
+120x45 and 184x69. The vertical image must pass the same face/identity/material
+rules and keep its title clear of all faces. No current render is implied here.
 
 ## Wordmark Contract
 
@@ -146,7 +159,7 @@ The current gold skyline logo is a concept asset, not production identity.
 - Primary wordmark is pale concrete on dark glass. Black and light monochrome variants are required.
 - English `GANGNAM DREAM` is a compact secondary lockup, not a larger separate brand.
 - No coin, crown, stock arrow, luxury-car badge, or gold gradient.
-- The wordmark must remain readable at 231x87 and as a monochrome enamel-pin silhouette.
+- The wordmark must remain readable in the current 462x174 capsule and its 120x45/184x69 reductions, and as a monochrome enamel-pin silhouette. Historical 231x87 proof remains historical.
 
 ## Start Screen Contract
 

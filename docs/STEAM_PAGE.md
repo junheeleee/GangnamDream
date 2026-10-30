@@ -51,7 +51,10 @@ Description이 그 뒤로 정렬되지 않아 **세 안 모두 메커니즘을 �
 
 정본이 서도 기존 확정안을 소급 정렬하지 않으면 규칙이 문서에만 남는다.
 
-## 2. 캡슐 태그라인
+## 2. 태그라인 — 캡슐 밖 상점 설명·트레일러용
+
+아래 5언어 카피는 보존하되 캡슐에는 넣지 않는다. 현행 캡슐 네 종류 모두
+제목 외 문구0 규칙을 따른다. 사용처는 상점 설명·트레일러 등 별도 카피 영역이다.
 
 한국어:
 
@@ -73,7 +76,8 @@ Description이 그 뒤로 정렬되지 않아 **세 안 모두 메커니즘을 �
 
 > **50萬韓元。5年。想踏進象徵財富與階級躍升的首爾江南，門檻是30億韓元。**
 
-소형 캡슐에는 태그라인을 넣지 않는다. 제목과 세 인물의 실루엣이 120x45 축소에서도 먼저 읽혀야 한다.
+작은 캡슐은 민준과 큰 제목을 우선한다. 120x45·184x69 축소에서 제목과
+민준이 읽혀야 하며, 세 인물을 억지로 작은 얼굴로 나란히 넣지 않는다.
 
 ## 3. Short Description — A안 확정 (B·C는 1.5 위반으로 폐기, 기록만 보존)
 
@@ -288,7 +292,9 @@ Kim Minjun，33歲，沒有工作。
 
 ## 7. 스토어 스크린샷
 
-업로드 정본은 `assets/store/screenshots/`의 1280x720 PNG 8장이다. 장면별 메시지, 순서, 캡션, 재생성 절차는 `docs/STORE_SHOTLIST.md`를 따른다.
+`assets/store/screenshots/`의 1280x720 PNG 8장은 보존된 기존 세트다.
+현재 Steam 제출용 새 세트는 실제1920x1200 원본→1920x1080 출력으로 별도 발급·
+검수해야 하며 아직 촬영하지 않았다. 컷·순서·캡션·안전 실행은 `docs/STORE_SHOTLIST.md`가 소유한다.
 
 | 순서 | 파일 | 전달하는 단 하나의 것 |
 |---:|---|---|
@@ -305,12 +311,45 @@ Kim Minjun，33歲，沒有工作。
 
 ## 8. 캡슐과 키아트 정본
 
-| 용도 | 파일 | 크기 |
+현행 [Steam 공식 캡슐 규격](https://partner.steamgames.com/doc/store/assets/standard)을
+2026-10-30 확인했다. 제목 외 장르부제·리뷰·홍보문구를 새 캡슐에 넣지 않는다.
+
+| 용도 | 새 출력 파일명(외부 전용 폴더) | 요구 크기 |
 |---|---|---:|
-| Main Capsule | `assets/keyart/steam_capsule_main_v2.png` | 616x353 |
-| Small Capsule | `assets/keyart/steam_capsule_small_v2.png` | 231x87 |
-| Header Capsule | `assets/keyart/steam_header_v2.png` | 460x215 |
-| 원본 키아트 | `assets/keyart/gangnam_dream_keyart_cast_v1.png` | 1920x1080 |
+| Main Capsule | `steam_capsule_main.png` | 1232x706 |
+| Small Capsule | `steam_capsule_small.png` | 462x174 |
+| Header Capsule | `steam_header.png` | 920x430 |
+| Vertical Capsule | `steam_capsule_vertical.png` | 748x896 |
+
+구규격 `assets/keyart/steam_capsule_main_v2.png`(616x353),
+`steam_capsule_small_v2.png`(231x87), `steam_header_v2.png`(460x215)와 무버전 사본은
+과거 승인 근거로 보존한다. 현재 제출 적합 파일로 부르거나 새 출력으로 덮지 않는다.
+승인된 원본 `assets/keyart/gangnam_dream_keyart_cast_v1.png`(1920x1080)은 그대로 쓴다.
+
+native 출력 정본은 `tools/steam_capsules.json`과 `tools/SteamCapsuleExport.tscn`이다.
+기존 `GangnamWordmark`를 제목만으로 재사용하며, 작은형은 민준과 큰 제목을,
+세로형은 세 인물을 보존한 그림 영역과 별도 하단 제목을 쓴다. 이는 준비 레이아웃이다.
+실제 네 PNG·얼굴/제목 가독성·120x45 축소·세로 구도는 렌더 뒤 별도로 검수한다.
+원본 그림·기존 승인 파일·게임 타이틀/공개 데모·Steam 게시 상태를 바꾸는 작업이 아니다.
+
+게임을 시작하지 않는 source 검사:
+
+```bash
+python3 tools/steam_capsule_export.py --check
+python3 tools/steam_capsule_export_self_test.py
+```
+
+실제 렌더는 잠금 해제 뒤, 본편 대표 경로 우선순위를 유지하는 별도 실행이다.
+깨끗한 전용 checkout에서 신뢰할 공식 Godot와 이미 존재하는 외부 출력 부모를 지정한다.
+
+```bash
+python3 tools/steam_capsule_export.py --render --godot /absolute/path/to/godot --output-parent /absolute/capsule-parent
+```
+
+새 namespace는 autoload 이전에 선택한다. HOME/XDG·사용자 저장 복사0, 기존 파일 삭제0.
+새 폴더의 원3로그·exit·완료표식·입력/엔진 SHA 전후·4PNG decode/규격을 확인해야 한다.
+도구의 source/모의검사 통과는 실제 Godot 컴파일·렌더·시각 검수·패키지·출시 GO가 아니다.
+기존 `KeyArtExport.tscn`은 구규격 역사 재현이며 새 캡슐 생성에 사용하지 않는다.
 
 현재 키아트의 정본 구도는 유리와 반사 사이의 민준, 편의점의 다은, 도시의 지연이다. 고시원 대 강남 단순 분할 구도로 되돌리지 않는다. 세 인물과 차가운 서울, 반사된 자아가 이 게임의 IP 얼굴이다.
 
