@@ -149,6 +149,18 @@ class CapsuleTests(unittest.TestCase):
         self.assertIn('pattern.search(qa_namespace)', script)
         self.assertIn('OS.get_user_data_dir().get_file() != qa_namespace', script)
 
+    def test_vertical_title_box_reserves_measured_height(self):
+        contract = exporter.check_contract(self.root)
+        self.assertFalse(contract['native_render'])
+        profile = json.loads((self.root / exporter.CONTRACT_FILE).read_bytes())["capsules"][3]
+        # ORDER-736 actual pinned-font minimum: 427x231; this is a regression,
+        # not a replacement for the renderer's live minimum-size guard.
+        x, y, width, height = profile["title_rect"]
+        self.assertGreaterEqual(width, 427)
+        self.assertGreaterEqual(height, 231 + 16)
+        self.assertLessEqual(x + width, profile["size"][0])
+        self.assertLessEqual(y + height, profile["size"][1])
+
     def test_contract_rejects_wrong_schema_master_extra_text_and_dimensions(self):
         path = self.root / exporter.CONTRACT_FILE
         original = path.read_bytes()

@@ -53,3 +53,9 @@ attempt2는 actual vertical minimum overflow로HOLD(exit1·보호898exact).
 실패조기종료로치수누락/fixture정리누수도보존한다. `compile-check3.gd/.tscn`,
 `run3.py`, `attempt3/`를추가하여4치수를실패전모두기록하고모든임시노드를
 정리한뒤overflow를보고한다. 제품값은실측후에만최소수리한다.
+
+attempt3실측 main306x167/header237x133/small225x127/vertical427x231,
+세로선언216높이만15부족. master/art/font는유지하고title높이248로32확대,
+하단888≤896·실측여유17 확보. 정적회귀반례1추가·새 `run4.py`/
+`attempt4/`에서동일fixture3·source새pin·격리/서명/원로그/보호전후 재검사.
+원attempt1/2/3 실패를보존하며 RID단독누수도명시거부한다.

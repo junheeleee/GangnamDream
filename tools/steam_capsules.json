@@ -27,7 +27,7 @@
     {
       "id": "vertical", "file": "steam_capsule_vertical.png", "size": [748, 896],
       "font_size": 76, "source_crop": [420, 0, 1500, 1080],
-      "art_rect": [0, 50, 748, 539], "title_rect": [60, 640, 628, 216],
+      "art_rect": [0, 50, 748, 539], "title_rect": [60, 640, 628, 248],
       "subjects": ["minjun", "daeun", "jiyeon"]
     }
   ]
