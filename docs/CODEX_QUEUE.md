@@ -96,6 +96,7 @@
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
+| 79 | [~] | ORDER-735 · 현행 Steam 캡슐 4규격 | [735](queue_active/ORDER-735.md) | C5 · native출력/모의검사·렌더0 |
 ### legacy V2 보존선과 본편 M07~M60 관리선
 
 공개 M01~M06 `story_demo_rc` BUILD `2026.08.31.1`의 사용자 GO와 저장 호환을 보존한다.
