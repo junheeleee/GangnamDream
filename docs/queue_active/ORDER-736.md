@@ -48,3 +48,8 @@ private `engine-location.json`·`signature-failure.json`·새 `codesign2.*.log`�
 `run2.py`, `attempt2/`의원3로그/before/result/서명로그만 추가한다.
 기존 /private/tmp 사본은 exactbinarySHA/서명 재확인 후 재사용한다.
 최초GO상속0·비저자새입구뒤 headless 컴파일/치수만 재검사한다.
+
+attempt2는 actual vertical minimum overflow로HOLD(exit1·보호898exact).
+실패조기종료로치수누락/fixture정리누수도보존한다. `compile-check3.gd/.tscn`,
+`run3.py`, `attempt3/`를추가하여4치수를실패전모두기록하고모든임시노드를
+정리한뒤overflow를보고한다. 제품값은실측후에만최소수리한다.
