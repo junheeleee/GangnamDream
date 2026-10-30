@@ -1,7 +1,13 @@
 # Steam Store Screenshot Shotlist
 
-> 정본 세트: `assets/store/screenshots/`의 영문 1280x720 PNG 8장.
+> 보존된 기존 세트: `assets/store/screenshots/`의 영문 1280x720 PNG 8장.
 > 모든 이미지는 실제 Godot 인게임 렌더다. 외부 카피, 합성 HUD, 콘셉트 목업을 섞지 않는다.
+> 새 Steam 제출용은 실제 1920x1200 원본→1920x1080 PNG 8장으로 별도 발급한다.
+> 기존1280 세트는 구규격 증거이며 현재 제출 준비완료로 세지 않는다.
+
+[Steam 공식 Store Graphical Assets](https://partner.steamgames.com/doc/store/assets/standard)의
+최소1920x1080·16:9 조건을 2026-10-30 확인했다. 저해상도 기존 이미지를 확대해
+새 원본으로 부르지 않는다. 아래 컷·캡션·역사 근거는 보존한다.
 
 ## 배열 원칙
 
@@ -62,10 +68,11 @@ python3 tools/store_shot_check.py
 - 사용자 저장·설정과 분리된 저장 경로를 autoload 이전에 확정한다.
 - 새 전용 입력·출력 디렉터리를 양쪽 도구에 결속한다. 이전 캡처 삭제·공용 임시
   파일 폴백·`assets/store/screenshots/` 덮어쓰기를 촬영 단계에 섞지 않는다.
-- 동일 후보의 영어 원본 8장과 1280x720 크롭 8장을 이름·SHA로 연결하고,
+- 동일 후보의 영어 원본 8장과 1920x1080 크롭 8장을 이름·SHA로 연결하고,
   실제 종료코드·원 stdout/stderr/Godot 로그·격리/완료 표식·오류를 함께 보존한다.
 - 위 육안 판정으로 새 8장을 검수한 뒤에만 교체를 별도 확정한다. 1280x800 원본의
-  중앙 1280x720 크롭과 기존 컷·캡션 계약은 유지한다.
+  중앙 크롭의 구도를 유지하되 새 촬영은1920x1200 원본의 중앙1920x1080을 쓴다.
+  기존1280x800→1280x720 크롭은 legacy 재현만 유지한다.
 
 이는 새 촬영에 필요한 안전 입구이지 새 촬영 승인·C5 완료가 아니다. Mac 잠금 중에는
 실제 촬영을 시작하지 않으며, 잠금 해제 시 보류 중인 본편 대표 경로 플레이가 우선이다.
@@ -83,7 +90,7 @@ python3 tools/store_shot_capture.py --godot /absolute/path/to/trusted/godot --ou
 
 도구는 새 `gangnam-store-capture-*` 출력과 새 32자리 namespace를 생성하고,
 기존 `StoryNameplateBootstrap.gd`로 autoload 전에 저장 위치를 선택한다.
-HOME/XDG·원본 저장을 변경/복사하지 않고 영어 store scope만 1280x800으로 실행한다.
+HOME/XDG·원본 저장을 변경/복사하지 않고 영어 store scope만 1920x1200으로 실행한다.
 실제 Git commit/tree/BuildInfo BUILD와 tracked 파일 SHA 전체, 엔진 SHA를 결속하고
 전후 변경·exit·timeout·표식 순서·3개 원로그의 오류/누수·PNG decode를 검사한다.
 원본 8장 이름·순서·치수·비중복 조건이 맞아야 `receipt.json`을 발급한다.
@@ -102,8 +109,11 @@ HOME/XDG·원본 저장을 변경/복사하지 않고 영어 store scope만 1280
 
 `tools/store_shot_export.py`는 이미 확보한 원본만 처리하는 별도 오프라인 도구다.
 Python과 Pillow가 필요하다. 게임·Godot·autoload를 실행하지 않고, 기존 GDScript의
-8컷 이름·KO/EN 캡션 상수를 텍스트로 읽는다. PNG 1280x800의 중앙 y=40..759를
-1280x720으로 자르며 리사이즈·합성·새 카피 추가는 하지 않는다.
+8컷 이름·KO/EN 캡션 상수를 텍스트로 읽는다. `--profile steam`은 실제 PNG
+1920x1200의 중앙 y=60..1139를1920x1080으로 자른다. 저해상도 확대·리사이즈·
+합성·새 카피 추가는 하지 않는다. 프로필마다 원본8장의 치수가 모두 같아야 한다.
+기본 `legacy` 프로필은 과거1280x800의 y=40..759→1280x720 재현 전용이며
+현재 Steam 제출 규격을 충족하지 않는다.
 
 입력은 전용 디렉터리의 `receipt.json`과 원본8장, 별도의 촬영 기록 파일이다.
 receipt는 아래 구조로 실제 촬영 기록에서 작성한다(예시 placeholder는 실행값이 아니다).
@@ -127,7 +137,7 @@ frames에는 위 표 순서대로 8개의 `store_en_01_cold_open.png`부터
 유효한 receipt와 검수할 원본을 준비한 뒤 사용한다. 경로는 작업자가 지정한다.
 
 ```bash
-python3 tools/store_shot_export.py --manifest /absolute/capture-run/receipt.json --output-parent /absolute/export-parent
+python3 tools/store_shot_export.py --profile steam --manifest /absolute/capture-run/receipt.json --output-parent /absolute/export-parent
 ```
 
 출력 부모는 이미 존재하고 저장소·입력 폴더 밖이어야 한다. 매번 그 아래 새

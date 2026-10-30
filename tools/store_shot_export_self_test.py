@@ -207,8 +207,96 @@ class ExportTests(unittest.TestCase):
         self.assertNotIn("STORE_SHOT_EXPORT_OK", result.stdout)
 
 
+class SteamExportTests(ExportTests):
+    """Repeat the legacy safety contracts with real-size synthetic inputs."""
+
+    def setUp(self):
+        super().setUp()
+        for n, entry in enumerate(self.entries):
+            image = Image.new("RGB", (1920, 1200), (n * 21, 42, 63))
+            draw = ImageDraw.Draw(image)
+            draw.rectangle((0, 0, 1919, 59), fill=(255, 0, 0))
+            draw.rectangle((0, 1140, 1919, 1199), fill=(0, 0, 255))
+            draw.point((0, 60), fill=(0, 255, 0))
+            draw.point((1919, 1139), fill=(255, 255, 0))
+            path = self.source / entry["src"]
+            image.save(path)
+            self.receipt["frames"][n]["sha256"] = exporter.sha(path.read_bytes())
+        self.save_receipt()
+
+    def run_export(self):
+        return exporter.export(self.manifest, self.outputs, profile="steam")
+
+    def test_success_pixels_captions_receipts_and_preservation(self):
+        before = {path.name: path.read_bytes() for path in self.source.iterdir()}
+        # A native Steam export must crop pixels, never resize legacy footage.
+        with patch.object(Image.Image, "resize", side_effect=AssertionError("upscaling prohibited")):
+            out = self.run_export()
+        self.assertEqual({path.name: path.read_bytes() for path in self.source.iterdir()}, before)
+        manifest = json.loads((out / "manifest.json").read_bytes())
+        self.assertEqual(manifest["scope"], "offline_crop_only")
+        self.assertEqual(manifest["profile"], "steam")
+        self.assertIn("candidate_match", manifest["unverified"])
+        self.assertIn("visual_quality", manifest["unverified"])
+        self.assertEqual(manifest["source_manifest_sha256"], exporter.sha(self.manifest.read_bytes()))
+        self.assertEqual((out / "capture-record.bin").read_bytes(), before["capture.json"])
+        for n, row in enumerate(manifest["frames"]):
+            self.assertEqual(row["source_size"], [1920, 1200])
+            self.assertEqual(row["crop_box"], [0, 60, 1920, 1140])
+            self.assertEqual(row["size"], [1920, 1080])
+            self.assertEqual(row["file"], self.entries[n]["dst"])
+            self.assertEqual(row["caption_en"], self.entries[n]["en"])
+            self.assertEqual(row["caption_ko"], self.entries[n]["ko"])
+            self.assertEqual(row["source_sha256"], exporter.sha(before[row["source"]]))
+            self.assertEqual(row["sha256"], exporter.sha((out / row["file"]).read_bytes()))
+            with Image.open(out / row["file"]) as image:
+                self.assertEqual(image.size, (1920, 1080))
+                self.assertEqual(image.getpixel((0, 0)), (0, 255, 0))
+                self.assertEqual(image.getpixel((1919, 1079)), (255, 255, 0))
+                self.assertEqual(image.getpixel((960, 540)), (n * 21, 42, 63))
+        second = self.run_export()
+        self.assertNotEqual(second, out)
+        self.assertTrue((out / "manifest.json").is_file())
+        self.assertEqual(self.sentinel.read_bytes(), b"previous user output")
+
+    def test_legacy_or_mixed_source_sizes_never_promoted(self):
+        for count in (1, 8):
+            with self.subTest(legacy_frames=count):
+                for n, entry in enumerate(self.entries[:count]):
+                    path = self.source / entry["src"]
+                    Image.new("RGB", (1280, 800), (n * 21, 42, 63)).save(path)
+                    self.receipt["frames"][n]["sha256"] = exporter.sha(path.read_bytes())
+                self.save_receipt()
+                self.rejected()
+
+    def test_native_steam_inputs_require_explicit_steam_profile(self):
+        for profile in ("legacy",):
+            with self.subTest(profile=profile), self.assertRaisesRegex(ValueError, "1280x800"):
+                exporter.export(self.manifest, self.outputs, profile=profile)
+        with self.assertRaisesRegex(ValueError, "1280x800"):
+            exporter.export(self.manifest, self.outputs)
+        self.assertEqual(list(self.outputs.iterdir()), [self.sentinel])
+
+    def test_unknown_or_nonstring_profile_rejected_without_outputs(self):
+        for profile in ("Steam", "automatic", "", None, True, []):
+            with self.subTest(profile=profile), self.assertRaisesRegex(ValueError, "profile"):
+                exporter.export(self.manifest, self.outputs, profile=profile)
+        self.assertEqual(list(self.outputs.iterdir()), [self.sentinel])
+
+    def test_cli_explicit_steam_profile_reports_native_output(self):
+        result = subprocess.run([sys.executable, str(exporter.ROOT / "tools/store_shot_export.py"),
+                                 "--manifest", str(self.manifest), "--output-parent", str(self.outputs),
+                                 "--profile", "steam"], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("STORE_SHOT_EXPORT_OK count=8 size=1920x1080", result.stdout)
+        outputs = list(self.outputs.glob("gangnam-store-export-*"))
+        self.assertEqual(len(outputs), 1)
+        self.assertEqual(json.loads((outputs[0] / "manifest.json").read_bytes())["profile"], "steam")
+
+
 if __name__ == "__main__":
-    suite = unittest.defaultTestLoader.loadTestsFromTestCase(ExportTests)
+    suite = unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromTestCase(case)
+                               for case in (ExportTests, SteamExportTests))
     result = unittest.TextTestRunner(verbosity=2).run(suite)
     if result.wasSuccessful():
         print(f"STORE_SHOT_EXPORT_SELF_TEST_OK tests={result.testsRun} synthetic_only=1 engine_runs=0")

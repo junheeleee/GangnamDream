@@ -1,6 +1,6 @@
 # ORDER-734 — 현재 Steam 스크린샷 크기와 기존 자료를 분리
 
-#### [~] ORDER-734 — 2026-10-30 착수
+#### [x] ORDER-734 — 2026-10-30 native 규격 source 준비 완료
 
 C5 직접 기여. 사용자 `그럼해`의 잠금 중 잔여 완성 지시.
 발견: 공식 Store Graphical Assets는 스크린샷 최소1920x1080·16:9를 요구한다.
@@ -27,3 +27,20 @@ C5 직접 기여. 사용자 `그럼해`의 잠금 중 잔여 완성 지시.
 시작 전 impact --list. 합성 source-only 검사와 독립전수리뷰 후 수용.
 Mac잠금중 엔진/실촬영/기존이미지교체0. 시각/사람/출시/C5전체GO0.
 계속사용규칙은 STORE_SHOTLIST/QA_CHECKLIST로 승격, 작업범위는 일회성.
+
+## 마감 증거
+
+도달 경로: STORE_SHOT_EXPORT_SELF_TEST_OK tests=38 synthetic_only=1 engine_runs=0;
+STORE_SHOT_CAPTURE_SELF_TEST_OK tests=28 synthetic_only=1 engine_runs=0.
+생산자↔독자:1920x1200 mockcapture receipt→export(profile=steam)→1920x1080.
+바꾸는 상태: current규격경로없음→검증된source준비; 제품상태변경0.
+포기시손실: 저해상도확대없는 새Steam이미지 생성경로. 서사/Tier비해당.
+닫는것:도구source준비만. 실제원본/시각/사람/패키지/출시0.
+
+독립 /root/locked_media_audit GO_NATIVE_SIZE_SOURCE_PREPARATION_ONLY.
+최종38+28 반례전수·경계pixel·noresize·legacy회귀·receipt연동·실viewport경로source
+검토완료. `.git/order734-steam-screenshot-size-20261030/independent-review.json`
+5584B SHAcbb0d4fd21c8dd6ce9d970d855bb2a43a1c57b4c4d985b5e07d32998a16ccba3,
+MD3128B SHAd19d122e78b3fd4431204ef89c37d8aa14f5ff75c2462b639434b4da95f8a2bb.
+코드4파일·문서2파일의 SHA는 보고에 결속. 영향 목록 뒤 source-only 검사·queue/context/diff.
+기존1280PNG·공개데모·29.1/live53a3 불변. 자동 게이트는 계약 증거이며 인간 관찰이 아니다.

@@ -1,5 +1,12 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-10-30 — 새 Steam 스크린샷 native 해상도 수리
+
+- C5/734 선언1e5e0c8 뒤 새 촬영은1920x1200만, 명시steam export는(0,60,1920,1140)→1920x1080. 확대/리사이즈0·저해상도/혼합입력거부. legacy1280재현·기존PNG8장·캡션·receipt형식 보존.
+- 독립 /root/locked_media_audit GO_NATIVE_SIZE_SOURCE_PREPARATION_ONLY. export38/capture28 합성검사 exit0, 경계pixel·resize금지·모의capture→export·기존실패반례 전독. JSONcbb0d4fd21c8dd6ce9d970d855bb2a43a1c57b4c4d985b5e07d32998a16ccba3/MDd19d122e78b3fd4431204ef89c37d8aa14f5ff75c2462b639434b4da95f8a2bb.
+- Steam공식 최소1920x1080·16:9 확인. 실제viewport source경로는검토했으나 엔진/촬영/육안/사람/업로드0, 기존1280이미지제출GO0. 도구검증을현재앱완주/제품GO로확대하지않는다.
+- 승격: STORE_SHOTLIST 신규촬영/프로필·QA_CHECKLIST store계약. 작업범위 일회성. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-30 — 상점 새 촬영의 안전한 실행 도구
 
 - C5/733 선언be8461c 뒤 전용 runner·모의 실패검사 신설. pre-autoload 새namespace/외부출력·원로그3종·exit/timeout/프로세스회수·exact8 decode·source/engine 전후SHA·공식 exporter receipt 연결. 기존 저장/출력/이미지 삭제0.

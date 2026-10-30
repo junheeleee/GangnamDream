@@ -45,7 +45,7 @@ class CaptureTests(unittest.TestCase):
         self.pngs = {}
         for index, row in enumerate(self.entries):
             buffer = io.BytesIO()
-            Image.new("RGB", (1280, 800), (index * 23, 50, 80)).save(buffer, format="PNG")
+            Image.new("RGB", (1920, 1200), (index * 23, 50, 80)).save(buffer, format="PNG")
             self.pngs[row["src"]] = buffer.getvalue()
         self.mutate = lambda output, stdout, stderr, godot: (stdout, stderr, godot)
         self.returncode = 0
@@ -137,7 +137,7 @@ class CaptureTests(unittest.TestCase):
         self.assertIn("--qa=store", command)
         self.assertIn("--lang=en", command)
         self.assertEqual(command[command.index("--script") + 1], "res://tools/StoryNameplateBootstrap.gd")
-        self.assertEqual(command[command.index("--resolution") + 1], "1280x800")
+        self.assertEqual(command[command.index("--resolution") + 1], "1920x1200")
         self.assertEqual(kwargs["cwd"], self.root)
         self.assertEqual(kwargs["env"]["GANGNAM_QA_OUT"], str(output))
         for key in ("HOME", "XDG_DATA_HOME", "XDG_CONFIG_HOME", "APPDATA"):
@@ -148,11 +148,14 @@ class CaptureTests(unittest.TestCase):
         self.kill.assert_called_once()
         self.terminate.assert_not_called()
         receipt = json.loads((output / "receipt.json").read_bytes())
+        self.assertEqual(set(receipt), {"schema_version", "language", "candidate", "capture_record", "frames"})
         self.assertEqual(receipt["candidate"], self.source["candidate"])
         raw = (output / "capture-result.json").read_bytes()
         self.assertEqual(receipt["capture_record"], {"file": "capture-result.json", "sha256": exporter.sha(raw)})
         record = json.loads(raw)
         self.assertEqual(record["status"], "passed")
+        self.assertEqual(record["export_profile"], "steam")
+        self.assertEqual(record["source_size"], [1920, 1200])
         self.assertEqual(record["error_lines"], [])
         self.assertEqual(record["source_manifest_sha256"], exporter.sha((output / "source-manifest.json").read_bytes()))
         for key in ("native_play", "human_observation", "visual_review", "package_identity_verified",
@@ -162,9 +165,12 @@ class CaptureTests(unittest.TestCase):
         before = {path.name: path.read_bytes() for path in output.iterdir()}
         export_parent = self.base / "exported"
         export_parent.mkdir()
-        exported = exporter.export(output / "receipt.json", export_parent)
+        exported = exporter.export(output / "receipt.json", export_parent, profile="steam")
         self.assertEqual({path.name: path.read_bytes() for path in output.iterdir()}, before)
         self.assertEqual(len(list(exported.glob("*.png"))), 8)
+        for image_path in exported.glob("*.png"):
+            with Image.open(image_path) as image:
+                self.assertEqual(image.size, (1920, 1080))
         self.assertIn("candidate_match", json.loads((exported / "manifest.json").read_bytes())["unverified"])
         self.assert_old_output_preserved()
 
@@ -275,11 +281,11 @@ class CaptureTests(unittest.TestCase):
     def test_non_rgb_and_animated_pngs_rejected(self):
         first = self.entries[0]["src"]
         def grayscale(output):
-            Image.new("L", (1280, 800), 40).save(output / first)
+            Image.new("L", (1920, 1200), 40).save(output / first)
         def animated(output):
-            Image.new("RGB", (1280, 800), (0, 0, 0)).save(
+            Image.new("RGB", (1920, 1200), (0, 0, 0)).save(
                 output / first, save_all=True,
-                append_images=[Image.new("RGB", (1280, 800), (255, 255, 255))],
+                append_images=[Image.new("RGB", (1920, 1200), (255, 255, 255))],
                 duration=100, loop=0)
         for mutation in (grayscale, animated):
             with self.subTest(mutation=mutation):
@@ -288,6 +294,17 @@ class CaptureTests(unittest.TestCase):
                     return stdout, stderr, godot
                 self.mutate = mutate
                 self.rejected()
+
+    def test_legacy_and_mixed_source_sizes_never_get_capture_receipt(self):
+        for count in (1, 8):
+            with self.subTest(legacy_frames=count):
+                def mutate(output, stdout, stderr, godot):
+                    for index, entry in enumerate(self.entries[:count]):
+                        Image.new("RGB", (1280, 800), (index * 23, 50, 80)).save(output / entry["src"])
+                    return stdout, stderr, godot
+                self.mutate = mutate
+                output, record = self.rejected()
+                self.assertTrue(any("1920x1200" in error for error in record["errors"]))
 
     def test_symlink_godot_log_rejected_without_following(self):
         outside = self.base / "outside-log.txt"

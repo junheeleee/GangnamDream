@@ -22,7 +22,7 @@ import time
 
 import run_routine_background_context_check as safety
 from store_shot_export import (json_bytes, load_contract, read_regular, sha,
-                               write_new, SOURCE_SIZE)
+                               write_new, STEAM_SOURCE_SIZE)
 
 ROOT = Path(__file__).resolve().parents[1]
 OVERRIDES = ("STORY_NAMEPLATE_QA_NAMESPACE", "GANGNAM_QA_OUT",
@@ -122,9 +122,10 @@ def validate_frames(output: Path) -> list[dict]:
         if digest in seen:
             raise ValueError("duplicate capture frames")
         with Image.open(io.BytesIO(data)) as image:
-            if (image.format != "PNG" or image.size != SOURCE_SIZE or
+            if (image.format != "PNG" or image.size != STEAM_SOURCE_SIZE or
                     image.mode not in ("RGB", "RGBA") or getattr(image, "n_frames", 1) != 1):
-                raise ValueError(f"expected single RGB/RGBA PNG 1280x800: {name}")
+                raise ValueError(f"expected native single RGB/RGBA PNG "
+                                 f"{STEAM_SOURCE_SIZE[0]}x{STEAM_SOURCE_SIZE[1]}: {name}")
             image.verify()
         with Image.open(io.BytesIO(data)) as image:
             image.load()
@@ -179,11 +180,13 @@ def capture(output_parent: Path, godot: str, timeout: int, root: Path = ROOT) ->
     env = os.environ.copy()
     env.update(STORY_NAMEPLATE_QA_NAMESPACE=namespace, GANGNAM_QA_OUT=str(output))
     command = [str(engine), "--path", str(root), "--rendering-driver", "opengl3",
-               "--audio-driver", "Dummy", "--resolution", "1280x800", "--max-fps", "60",
+               "--audio-driver", "Dummy", "--resolution",
+               f"{STEAM_SOURCE_SIZE[0]}x{STEAM_SOURCE_SIZE[1]}", "--max-fps", "60",
                "--log-file", str(output / "godot.log"),
                "--script", "res://tools/StoryNameplateBootstrap.gd",
                "--scene", "res://tools/ScreenshotQA.tscn", "--", "--qa=store", "--lang=en"]
     record = {"schema_version": 1, "scope": "isolated_store_capture", "language": "en",
+              "export_profile": "steam", "source_size": list(STEAM_SOURCE_SIZE),
               "candidate": before["candidate"], "command": command, "engine": engine_pin,
               "expected_user_dir": str(user_dir), "source_manifest_sha256":
               sha(json_bytes(before)), "native_play": False, "human_observation": False,

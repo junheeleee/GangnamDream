@@ -25,6 +25,11 @@ CONTRACT = ROOT / "tools/StoreScreenshotExport.gd"
 MAX_BYTES = 20 * 1024 * 1024
 SOURCE_SIZE = (1280, 800)
 CROP = (0, 40, 1280, 760)
+# Keep historical 1280px evidence reproducible. Steam is an explicit native-
+# resolution input contract, never an instruction to enlarge legacy frames.
+STEAM_SOURCE_SIZE = (1920, 1200)
+STEAM_CROP = (0, 60, 1920, 1140)
+PROFILES = {"legacy": (SOURCE_SIZE, CROP), "steam": (STEAM_SOURCE_SIZE, STEAM_CROP)}
 
 
 def sha(data: bytes) -> str:
@@ -85,7 +90,11 @@ def write_new(path: Path, data: bytes) -> None:
         raise OSError(f"output readback mismatch: {path}")
 
 
-def export(manifest_path: Path, output_parent: Path) -> Path:
+def export(manifest_path: Path, output_parent: Path, profile: str = "legacy") -> Path:
+    if not isinstance(profile, str) or profile not in PROFILES:
+        raise ValueError("export profile must be legacy or steam")
+    source_size, crop = PROFILES[profile]
+    target_size = (crop[2] - crop[0], crop[3] - crop[1])
     try:
         from PIL import Image
     except ImportError as exc:
@@ -141,13 +150,14 @@ def export(manifest_path: Path, output_parent: Path) -> Path:
         if source_sha != digest(frame["sha256"]) or source_sha in source_hashes:
             raise ValueError(f"source hash mismatch or duplicate: {entry['src']}")
         with Image.open(io.BytesIO(data)) as image:
-            if (image.format != "PNG" or image.size != SOURCE_SIZE
+            if (image.format != "PNG" or image.size != source_size
                     or image.mode not in ("RGB", "RGBA") or getattr(image, "n_frames", 1) != 1):
-                raise ValueError(f"expected single RGB/RGBA PNG 1280x800: {entry['src']}")
+                raise ValueError(f"profile {profile} requires single RGB/RGBA PNG "
+                                 f"{source_size[0]}x{source_size[1]}: {entry['src']}")
             image.verify()
         with Image.open(io.BytesIO(data)) as image:
             image.load()
-            cropped = image.crop(CROP)
+            cropped = image.crop(crop)
             buffer = io.BytesIO()
             cropped.save(buffer, format="PNG")
         output_bytes = buffer.getvalue()
@@ -159,7 +169,7 @@ def export(manifest_path: Path, output_parent: Path) -> Path:
         prepared.append((output_bytes, {
             "file": entry["dst"], "sha256": output_sha, "bytes": len(output_bytes),
             "source": entry["src"], "source_sha256": source_sha, "source_bytes": len(data),
-            "source_size": list(SOURCE_SIZE), "crop_box": list(CROP), "size": [1280, 720],
+            "source_size": list(source_size), "crop_box": list(crop), "size": list(target_size),
             "caption_ko": entry["ko"], "caption_en": entry["en"],
         }))
 
@@ -170,7 +180,7 @@ def export(manifest_path: Path, output_parent: Path) -> Path:
         for data, entry in prepared:
             write_new(out / entry["file"], data)
         complete = {
-            "schema_version": 1, "scope": "offline_crop_only", "language": "en",
+            "schema_version": 1, "scope": "offline_crop_only", "language": "en", "profile": profile,
             "candidate_claim": candidate, "source_directory": str(source),
             "source_manifest_sha256": sha(raw_manifest), "capture_record": capture,
             "capture_record_copy": "capture-record.bin", "contract_sha256": contract_sha,
@@ -193,13 +203,17 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--output-parent", type=Path, required=True)
+    parser.add_argument("--profile", choices=tuple(PROFILES), default="legacy",
+                        help="steam requires native 1920x1200 sources; legacy preserves 1280x800 evidence")
     args = parser.parse_args()
     try:
-        out = export(args.manifest, args.output_parent)
+        out = export(args.manifest, args.output_parent, profile=args.profile)
     except (OSError, ValueError, SyntaxError) as exc:
         print(f"STORE_SHOT_EXPORT_ERROR {exc}", file=sys.stderr)
         return 1
-    print(f"STORE_SHOT_EXPORT_OK count=8 size=1280x720 scope=offline_crop_only dir={out}")
+    _, crop = PROFILES[args.profile]
+    size = f"{crop[2] - crop[0]}x{crop[3] - crop[1]}"
+    print(f"STORE_SHOT_EXPORT_OK count=8 size={size} scope=offline_crop_only dir={out}")
     return 0
 
 
