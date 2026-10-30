@@ -1,6 +1,6 @@
 # ORDER-736 — 캡슐 코드·실제 글꼴 치수의 headless 확인
 
-#### [~] ORDER-736 — 2026-10-30 착수
+#### [x] ORDER-736 — 2026-10-30 실제 컴파일·폰트 치수 수용
 
 C5. 사용자 `고` 뒤735의 source/모의GO와 실제 컴파일/글꼴치수를 분리해 검증한다.
 Mac잠금 중 앱화면이 필요 없는 headless QA만. 실제 캡슐렌더/PNG저장/게임플레이0.
@@ -59,3 +59,28 @@ attempt3실측 main306x167/header237x133/small225x127/vertical427x231,
 하단888≤896·실측여유17 확보. 정적회귀반례1추가·새 `run4.py`/
 `attempt4/`에서동일fixture3·source새pin·격리/서명/원로그/보호전후 재검사.
 원attempt1/2/3 실패를보존하며 RID단독누수도명시거부한다.
+
+## 최종 실측 증거
+
+도달: `STEAM_CAPSULE_COMPILE_OK count=4 display=headless png=0 gameplay=0`.
+생산자↔독자: steam_capsules.json→renderer `_build_surface`→동일Wordmark/FontKit
+→privatefixture3 actual minimum. 제품선택/서사/Tier 비해당·상태/저장편집0.
+포기시손실: 구규격 source검사만으로실제컴파일/폰트넘침을놓침.
+닫는것: 컴파일/치수만. 실제PNG/시각/원어민/사람/패드/패키지/출시0.
+
+attempt4 HEAD9d63a833eef948fb28527982fe8b3a4fc304a0a0,
+tree7a306f48b2074c8c8f5a735c845da943d97ac555.
+exit0/8.268506s·격리선행·원3로그오류/누수0·서명stderr0B.
+main306x167≤370x706/header237x133≤280x430/small225x127≤236x174/
+vertical427x231≤628x248. 원이미지/wordmark/font/project/user/demo 불변.
+현재소스2398row/보호898그룹1555항목exact·live378570B/53a3불변.
+source4/합성33/keyart/등록184 통과. 비저자 capsule_review 직접 원자료·현재
+소스/보호 재계산 수용. GO_COMPILE_AND_FONT_METRICS_ONLY.
+독립보고 `.git/order736-steam-capsule-compile-20261030/review.md`
+SHA7910108fb3a768dab2ef3a1975699f2aada6fb6a007a6d5d4fc9805909dc9f87,
+JSON SHAd68fe85fe091175780cfbddee2acc7e183baa3bc8e1f8987c4fa8e377d15aa8f.
+root MD/JSON 전독·SHA확인. 현재 dirty whole-product/formal제품GO 아님.
+원735의합성31·engine0판정은당시범위로보존하고736변경에자동상속하지않음.
+작업/fixture/실측기록은일회성. 지속규범추가0·기존STEAM_PAGE/
+IP_VISUAL_IDENTITY 캡슐계약 및preautoload격리/원로그계약사용.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.

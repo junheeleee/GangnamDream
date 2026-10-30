@@ -1,5 +1,12 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-10-30 — 실제 엔진으로 캡슐 컴파일·글꼴 치수 확인
+
+- C5/736: repo내엔진사본 Finder정보 서명거부는실행전HOLD·원로그/사본보존. 속성삭제0, 새 `/private/tmp/gd-order736-engine.YuH0qQRY` 사본의 strict서명통과뒤 pre-autoload freshnamespace/headless만 사용했다. 실제PNG/본편플레이/seed0.
+- 확인된 `namespace` 예약어 컴파일오류→`qa_namespace`, 세로427x231 실측대선언높이216 넘침→248로수리했다. 기존master/art/font불변·높이여유17/하단888≤896. 원실패1/2/3·원3로그 보존, fixture실패정리누수도숨기지않았다.
+- 최종attempt4 HEAD9d63a83/tree7a306f48: exit0/8.268506s·정확격리/성공표식·원3로그오류/누수0·소스2398/보호898그룹1555항목exact. main306x167/header237x133/small225x127/vertical427x231 모두선언box내. source4/모의33/keyart/등록184통과, live378570B/53a3불변. 독립 raw재검산 확인, 최종보고SHA는736마감사양에결속한다.
+- 코드/치수수용만이며 raster/시각/사람/패키지/출시GO0. whole-product dirty source HOLD와원ad/ad2근거보존, frozen89d8 재개입구자동재사용금지. 자동이어보기의낡은캡슐미구현상태를교정했다. 승격규범추가0·일회성검증, 기존 STEAM_PAGE/IP_VISUAL_IDENTITY/격리계약사용. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
 ## 2026-10-30 — 현행 Steam 캡슐 4규격 source 준비
 
 - C5/735 선언82ad108 뒤 native JSON/GD/scene와 전용runner/31모의검사 추가. main1232x706/header920x430/small462x174/vertical748x896, 제목만·장르부제0·기존master/wordmark 재사용. 새 외부출력/pre-autoload격리/잠금거부/원로그·실패보존을 결속.

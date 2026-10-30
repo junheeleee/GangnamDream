@@ -96,7 +96,6 @@
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
-| 79 | [~] | ORDER-736 · 캡슐 headless 치수 확인 | [736](queue_active/ORDER-736.md) | C5 · preautoload격리·렌더/플레이0 |
 ### legacy V2 보존선과 본편 M07~M60 관리선
 
 공개 M01~M06 `story_demo_rc` BUILD `2026.08.31.1`의 사용자 GO와 저장 호환을 보존한다.
