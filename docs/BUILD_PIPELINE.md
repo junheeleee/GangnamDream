@@ -120,6 +120,99 @@ export가 성공 상태와 새 파일을 남겨도 text-server-data 누락 경�
 manifest·서명·PCK 데이터 검증은 발급 증거이며 실제 다섯 언어 줄바꿈 품질,
 Win/Linux 실기기, 정상 플레이·원어민·물리 패드·청취·출시 GO를 대신하지 않는다.
 
+### 본편 SteamPipe 인계 — 오프라인 준비
+
+이 절은 본편 `full`의 업로드 준비 양식이다. **실제 AppID·DepotID와 제출 RC는
+아직 미확정**이며, 아래 작성만으로 업로드·상점 변경·심사·출시를 승인하지 않는다.
+공개 M01~M06 `story_demo_rc`와 본편은 별개다. 데모 ID·과거 GO를 본편에 쓰지 않는다.
+AgentReview/HumanTest 또는 custom user dir를 둔 내부 후보는 제출 RC가 아니다.
+`full/legacy` 헤더만 같다고 내부 후보를 출시용으로 바꾸지 않는다.
+
+#### 인계 시 채울 값
+
+실제 파트너 앱 화면과 지정 RC 실물을 대조한 뒤 기록한다. 예제 숫자·검수 BUILD로
+빈칸을 대신 채우지 않는다. 비밀번호·Steam Guard·세션 토큰은 기록하지 않는다.
+
+| 항목 | 값·확인 근거 |
+|---|---|
+| 본편 AppID / 파트너 앱 URL | 미확정 |
+| OS별 DepotID / OS 설정 | Windows·macOS·Linux 각각 미확정 |
+| 패키지의 depot 포함 / 테스트 계정 소유권 | 미확인 |
+| 빌드 계정의 앱별 Edit App Metadata / Publish App Changes To Steam 권한 | 미확인·부여/변경은 별도 승인 |
+| 지정 RC source commit/tree / 실제 발급 stage | 미확정 |
+| BUILD / manifest 경로·SHA / 배포 파일 SHA | 미확정 |
+| 아래 OS별 실제 ContentRoot·파일 목록·SHA | 미확정 |
+| 업로드 별도 권한 / 대상 / 담당 | 미부여 |
+| 반환 Steam BuildID / depot manifest ID | 미실행 |
+
+로컬 manifest의 `build_id`는 게임 BUILD다. 업로드 후 Steam이 발급하는 BuildID와
+같은 값으로 취급하지 않는다. SDK·SteamCmd 설치나 로그인도 이 문서 작업에서 실행하지 않는다.
+
+#### OS별 파일과 실행 경로
+
+아래는 현재 `build.sh`와 `export_presets.cfg`의 경로다. 지정 RC의 실물에서 다시
+확인하며, 이 표 자체가 세 OS 빌드·설치 테스트 완료 증거는 아니다.
+
+| OS | 별도 content 폴더에 넣을 실물 | Steam 실행 경로 후보 |
+|---|---|---|
+| Windows | 지정 export의 `GangnamDream.exe`와 실제 필요한 동반 파일 | `GangnamDream.exe` |
+| macOS | 지정 ZIP에서 새 빈 폴더로 풀어 검증한 **`GangnamDream.app` 전체** | `GangnamDream.app` |
+| Linux / Deck | 지정 export의 `GangnamDream.x86_64`와 실제 필요한 동반 파일 | `GangnamDream.x86_64` |
+
+Win/Linux 현재 preset은 `embed_pck=true`다. `.pck`가 항상 따로 있다고 가정하거나,
+반대로 실제 동반 파일을 누락하지 않는다. Linux 실행 권한도 보존한다. Mac ZIP 자체를
+게임 설치 파일로 매핑하지 않고, bundle의 리소스·ICU·서명을 유지한다. Mac 실행 옵션은
+bundle을 우선하며 설치 후 실제 동작으로 확인한다.
+
+ContentRoot는 지정한 **한 OS의 제출 콘텐츠만** 들어 있는 새 전용 폴더다.
+저장소·사용자 홈·검수 namespace·빌드 캐시를 루트로 쓰지 않는다. 배포 대상 목록과
+해시를 기록하고 실제 리소스/고지 파일 누락 및 저장·설정·로그·임시 산출물 혼입을 확인한다.
+필터만 믿고 원본을 삭제하지 않는다. BuildOutput은 ContentRoot 밖에 둔다.
+
+#### Preview 전용 VDF 예시 — 실행하지 않은 템플릿
+
+한 OS/한 depot 형태다. 실제 ID·폴더로 바꾼 별도 로컬 사본에서만 사용한다.
+다른 OS에는 검증된 별도 DepotID/ContentRoot를 사용하고, 언어 공용 depot라면
+파트너 설정의 언어를 All languages로 대조한다. 이 예시는 depot/패키지를 생성하지 않는다.
+
+```text
+"AppBuild"
+{
+    "AppID" "REPLACE_WITH_FULL_APP_ID"
+    "Desc" "REPLACE_WITH_RC_BUILD_AND_SOURCE"
+    "Preview" "1"
+    "ContentRoot" "REPLACE_WITH_SINGLE_OS_CONTENT_ROOT"
+    "BuildOutput" "REPLACE_WITH_OUTPUT_OUTSIDE_CONTENT_ROOT"
+    "Depots"
+    {
+        "REPLACE_WITH_THIS_OS_DEPOT_ID"
+        {
+            "FileMapping"
+            {
+                "LocalPath" "*"
+                "DepotPath" "."
+                "Recursive" "1"
+            }
+        }
+    }
+}
+```
+
+모든 대체값을 채우기 전에는 실행하지 않는다. `Preview=1`은 파일 대응표·로그를 만드는
+업로드 없는 설정이지만 SteamCmd 업데이트·로그인·통신까지 없다는 보장은 아니다.
+이번에는 preview도 실행하지 않는다. `SetLive`를 넣지 않으며 preview 성공을 업로드나
+공개 성공으로 바꾸어 쓰지 않는다. preview의 전체 파일·배치를 지정 RC 목록과 대조한다.
+
+별도 업로드 권한을 받은 실행자가 대상 ID·같은 RC·전송 파일을 재확인한 뒤
+preview와 분리된 업로드 설정을 만든다. 반환 Steam BuildID/depot manifest ID와 로그를
+기록하고, 허용된 테스트 branch 반영·실제 Steam 클라이언트 신규 설치·각 OS의
+시작/리소스/저장/재개를 검증한다. branch 반영도 외부 변경이므로 무단 실행하지 않는다.
+업로드만으로 배포 branch 반영·심사 승인·공개까지 완료됐다고 취급하지 않는다.
+
+작성 근거: [Steamworks Uploading to Steam](https://partner.steamgames.com/doc/sdk/uploading)
+(2026-10-30 확인)의 Initial Setup, build config, Preview, SetLive, Mac bundle 안내.
+실제 파트너 화면과 SDK 버전은 실행 시 재확인한다. 현재 준비물은 절차뿐이며 C5 전체는 미완료다.
+
 ## 2. legacy/internal V2 준비
 
 이 절과 다음 V2 생성 절은 호환·회귀 증거를 재현할 때만 쓴다. 현재 공개

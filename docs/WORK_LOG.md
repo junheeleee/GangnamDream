@@ -1,5 +1,13 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-10-30 — 본편 SteamPipe 인계 절차 준비
+
+- C5/732 선언02d9120 뒤 BUILD_PIPELINE에93줄 추가. OS별 파일/실행 경로·미확정AppID/depot/RC/앱별권한 기록지·Preview1 VDF예시·테스트설치 인계만. AgentReview/HumanTest/공개데모와본편분리·자격증명/SetLive0·preview도통신차단보장아님명시.
+- 비저자 /root/steam_handoff_review GO_DOCUMENTATION_PREPARATION_ONLY. MD5f5945c74e10f936be28b9d6c714ee43a36799dd124a05b8ca35722c4797d61d/JSON57ef0013634207b8e3b65aeaeddc45f603ccda4bdeeaf217a984e5b69fa2a876. 권한확인행보완후문서결함0. source59228B/ffebee98081de027f9cdfbf6f64080449882b90a5d612316181ec2d68a6b1018,신규절외원문byteexact.
+- 문서표적4검사/context/queue/diff통과·보호12그룹exact/live53a3유지. SDK/SteamCmd/엔진/preview/업로드/상점/설문/지출/법률0. 실제RC/ID/권한/설치/C5전체未完·현재Mac잠금으로724ad실행0.
+- 개발스킬의선행선언·파일소유·비저자검수·저장보호적용. 승격: BUILD_PIPELINE 본편SteamPipe인계절. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+
 ## 2026-10-24 — 다은 취업 영어 발화 source 수리
 
 - C2/729: 실제18.1 카페결과에서확인한 다은→민준 취업주체 오류를 EN한인용문 “I can't believe I work here now.”로수리. 선언7c1dcc8/파생범위bf12118. KO/다른leaf/선택효과/문단/토큰/앱/사용자저장·설정불변.
