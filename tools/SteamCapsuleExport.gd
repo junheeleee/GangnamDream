@@ -7,11 +7,11 @@ const CONTRACT_PATH := "res://tools/steam_capsules.json"
 
 
 func _ready() -> void:
-	var namespace := OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")
+	var qa_namespace := OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")
 	var pattern := RegEx.new()
 	if pattern.compile("^GangnamDream_StoryNameplateQA_[0-9a-f]{32}$") != OK \
-			or pattern.search(namespace) == null \
-			or OS.get_user_data_dir().get_file() != namespace:
+			or pattern.search(qa_namespace) == null \
+			or OS.get_user_data_dir().get_file() != qa_namespace:
 		_fail("pre-autoload isolated namespace required")
 		return
 	var output := OS.get_environment("GANGNAM_QA_OUT")

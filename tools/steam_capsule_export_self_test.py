@@ -142,6 +142,13 @@ class CapsuleTests(unittest.TestCase):
         self.popen.assert_not_called()
         self.console.assert_not_called()
 
+    def test_renderer_avoids_namespace_reserved_identifier(self):
+        script = (self.root / exporter.RENDERER).read_text()
+        self.assertNotRegex(script, r"\bvar\s+namespace\b")
+        self.assertIn('var qa_namespace := OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")', script)
+        self.assertIn('pattern.search(qa_namespace)', script)
+        self.assertIn('OS.get_user_data_dir().get_file() != qa_namespace', script)
+
     def test_contract_rejects_wrong_schema_master_extra_text_and_dimensions(self):
         path = self.root / exporter.CONTRACT_FILE
         original = path.read_bytes()

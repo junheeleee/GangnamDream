@@ -38,3 +38,13 @@ root 소유 exact: 같은private `.git/order736-steam-capsule-compile-20261030/`
 private `engine-location.json`·`signature-failure.json`·새 `codesign2.*.log`를
 추가하며 root `run.py`는 새 사본/서명 로그와 과거 engine 제외만 변경한다.
 비저자 변경분 검수 뒤 새 서명 통과 시에만 최초 headless 엔진 실행을 허용한다.
+
+### 실제 컴파일 결함 수리 — 재검사 전 범위
+
+서명2통과 뒤 최초 엔진은 fixture `var namespace` 예약어 ParseError로HOLD.
+원fixture/run/before/result/원3로그 보존. helper의 signal회수 exit−9,
+보호898그룹exact·소스2398불변. 같은구문을쓴 제품renderer도 `qa_namespace`로
+수리하고 정적회귀반례를 추가한다. root exact새 `compile-check2.gd/.tscn`,
+`run2.py`, `attempt2/`의원3로그/before/result/서명로그만 추가한다.
+기존 /private/tmp 사본은 exactbinarySHA/서명 재확인 후 재사용한다.
+최초GO상속0·비저자새입구뒤 headless 컴파일/치수만 재검사한다.
