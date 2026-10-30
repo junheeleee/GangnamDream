@@ -42,19 +42,18 @@
 
 | 기준 | 현재 실행 범위·남은 일 |
 |---|---|
-| C3 CI | source875/run39055445203·maina1ab330/run39204213025 각각2job22step success·예외0(10-22 KST 재관측). 새실행 전 fresh 관측. |
-| C1 대표 완주 | [715 M38](queue_archive/ORDER-715.md) 대표월말 경계 마감·저장보존GO. W150 결과미관측 보존. M39 첫문단 도달·선택전. |
-| C2 치명 결함 | [729](queue_archive/ORDER-729.md) EN인칭 source수리·수정앱未검수. 710/711/716 수용. [721](queue_archive/ORDER-721.md) 현수기간 KOEN4leaf source수리·18.1 EN P5 실관측. 전체C2 미완료. |
+| C3 CI | remote main/제품9499f92/run40066478582 두job22step completed/success(10-31조회)·예외0. local도구/문서/월기록 미포함·실행전fresh관측. |
+| C1 대표 완주 | [724 M39](queue_archive/ORDER-724.md) 대표월경계 마감·W150미관측 보존. M40 157P1실관측/8df231未선택·전체완주未完. |
+| C2 치명 결함 | [729](queue_archive/ORDER-729.md) EN인칭 29.1실제수정화면GO. 710/711/716/721수용. 全体C2 미완료. |
 | C4 사람·고지 | [696](queue_archive/ORDER-696.md) 16.2 인계·[728](queue_archive/ORDER-728.md) 본편 빈 기록지 준비·사람2~3h 미완료. [720](queue_archive/ORDER-720.md) 고지 준비렌더15·CJKshipping0. |
 | C5 출시 준비물 | [725](queue_archive/ORDER-725.md) trailer runner·[727](queue_archive/ORDER-727.md) store 오프라인 export 수용. 실촬영격리/영상/5언어최종/외부 미완. |
 
-5언어 유지. KO/EN 실제 플레이 확정 전 JA/zh 다듬기 중단, 누락 보충도 C2/C5 직접
-기여가 입증된 작은 범위만 선언한다. 확정 뒤 CJK 정합은 한 번에 한다.
+5언어 유지. KO/EN 확정 전 CJK 다듬기 보류·C2/C5 누락만, 확정 뒤 일괄 정합.
 기존 78개 중 **612는 M18 마감**, 현재 **157 조건부 축소 유지·76개 출시 후 보류**다.
 [개별 근거와 미충족 조건](queue_backlog/RELEASE_PRIORITY_2026-10-15.md)을 참조한다.
 새 오더는 C1~C5 기여를 선언해야 하며, 어느 기준에도 기여하지 않으면 사용자 승인 전 착수하지 않는다.
 
-715 [월마감·한계](queue_archive/ORDER-715.md#월별-마감--대표-월말-경계-한정). 다음은724 같은저장.
+724 [월마감·한계](queue_archive/ORDER-724.md). 다음은731 같은저장.
 
 ### 실행 오더 인덱스
 
@@ -69,7 +68,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-724 · M39 경계 | [724](queue_active/ORDER-724.md) | C1 · 같은153 첫문단/ack152저장·선택전·후속계획 |
+| 1 | [~] | ORDER-731 · M40 자동 경계 | [731](queue_active/ORDER-731.md) | C1/C2 · 157P1実観測/8df231未선택·후속계획 |
 | 2 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | C2/C4/C5 · 고지/빈표면/5언어만 · CJK 다듬기 보류 |
 | 3 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 | 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
@@ -95,6 +94,10 @@
 | 24 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
+
+
+
+
 
 ### legacy V2 보존선과 본편 M07~M60 관리선
 
