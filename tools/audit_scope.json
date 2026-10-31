@@ -4032,9 +4032,10 @@
     {
       "tool": "tools/SceneDirectionCheck.tscn",
       "godot": true,
-      "why": "장면 전환·활동·Reduce Motion 런타임",
+      "why": "장면 전환·활동·Reduce Motion 런타임; 자동 엔딩 cover 회귀는 fresh pre-autoload 격리에서만 실행",
       "paths": [
         "assets/scene_direction_manifest.json",
+        "scenes/MainGame.gd",
         "scenes/StoryMode.gd",
         "autoloads/SceneTransition.gd",
         "tools/SceneDirectionCheck.gd",

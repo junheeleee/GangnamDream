@@ -9,6 +9,7 @@ const ACTIVITY_IDS := [
 	"investment", "job_hunt", "delivery", "racetrack", "holdem", "scalping",
 	"casino",
 ]
+const FULL_STORY_FLOW := preload("res://systems/FullStoryFlow.gd")
 
 var _failures: Array[String] = []
 var _shipping_event_count := 0
@@ -19,6 +20,7 @@ func _ready() -> void:
 	_check_activity_and_ending_contracts()
 	_check_runtime_fail_closed()
 	_check_activity_runtime_mapping()
+	await _check_automatic_terminal_reveal()
 	if _failures.is_empty():
 		print(
 			"SCENE_DIRECTION_CHECK_OK events=%d backgrounds=%d activities=%d endings=%d" % [
@@ -236,3 +238,108 @@ func _check_activity_runtime_mapping() -> void:
 func _expect(condition: bool, message: String) -> void:
 	if not condition:
 		_failures.append(message)
+
+
+func _close_prepared_story_root(event_id: String) -> bool:
+	# Synthetic fixture preparation through real choice/receipt APIs, not played weeks.
+	if not FULL_STORY_FLOW.begin_chain([event_id]):
+		return false
+	for _guard in range(32):
+		var pending: Array = FULL_STORY_FLOW.snapshot()["chain"]["pending_event_ids"]
+		if pending.is_empty():
+			return FULL_STORY_FLOW.close_chain()
+		var next_id := str(pending[0])
+		var event: Dictionary = DataRegistry.find_event(next_id)
+		var choices: Array = event.get("choices", [])
+		if choices.is_empty() or not GameState.apply_choice(event, choices[0]) \
+				or not FULL_STORY_FLOW.close_result(next_id, 0,
+						GameState.is_expression_choice(choices[0])):
+			return false
+	return false
+
+
+func _check_automatic_terminal_reveal() -> void:
+	# The legacy pure-check lane must not touch ordinary player storage. Only the
+	# pre-autoload bootstrap can supply this distinct, fresh user-data namespace.
+	var qa_namespace := OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")
+	var pattern := RegEx.new()
+	if pattern.compile("^GangnamDream_StoryNameplateQA_[0-9a-f]{32}$") != OK \
+			or pattern.search(qa_namespace) == null or OS.get_user_data_dir().get_file() != qa_namespace:
+		print("SCENE_DIRECTION_TERMINAL_REVEAL_NOT_RUN pre_autoload_isolation_required=1")
+		return
+	var failures_before := _failures.size()
+	var original: Dictionary = GameState.serialize().duplicate(true)
+	var previous_language: String = LocaleManager.language
+	var meta_before: Dictionary = MetaProgression.data.duplicate(true)
+	var unlocks_before: Dictionary = (MetaProgression.get("_new_this_run") as Dictionary).duplicate(true)
+	var sfx_before: bool = AudioManager.sfx_enabled
+	AudioManager.sfx_enabled = false # Visual contract only; no retained ending-stinger voices.
+	GameState.start_new_game("TerminalRevealFixture")
+	LocaleManager.language = "en"
+	var prepared := FULL_STORY_FLOW.initialize_fresh_run() \
+			and _close_prepared_story_root("story_flashforward")
+	if prepared and not FULL_STORY_FLOW.snapshot()["read_receipts"].get("1", []).any(
+			func(row: Dictionary) -> bool: return row.get("event_id") == "chapter_card_33"):
+		prepared = _close_prepared_story_root("chapter_card_33")
+	for prior_turn in range(1, 4):
+		if not prepared or not FULL_STORY_FLOW.apply_background_for_turn(prior_turn):
+			prepared = false
+			break
+		GameState.advance_calendar()
+		prepared = FULL_STORY_FLOW.complete_turn(prior_turn)
+	prepared = prepared and _close_prepared_story_root("arc_temptation_01")
+	_expect(prepared and GameState.turn == 4 and FULL_STORY_FLOW.ready_to_advance(),
+			"terminal reveal fixture could not prepare the real automatic W4 boundary")
+	if prepared:
+		# Start alive. The ordinary W4 routine is health-neutral; the existing
+		# month-end pressure then selects burnout. No ending is forced by this test.
+		GameState.health = 2
+		GameState.mental = 80
+		GameState.moral_tint = 100.0
+		var game: Control = load("res://scenes/MainGame.tscn").instantiate()
+		game.set_meta("_screenshot_qa_static_surface", true)
+		add_child(game)
+		await get_tree().process_frame
+		await get_tree().process_frame
+		# Recreate the still-opaque StoryMode return, not the already-fatal branch
+		# which had its own fade-in and therefore missed the real regression.
+		var transition_tween: Tween = SceneTransition.get("_tween")
+		if transition_tween:
+			transition_tween.kill()
+		SceneTransition._set_transition_alpha(1.0)
+		var cover: ColorRect = SceneTransition.get("_overlay")
+		cover.mouse_filter = Control.MOUSE_FILTER_STOP
+		GameState.flags["foreground_story_turn"] = 4
+		game.remove_meta("_screenshot_qa_static_surface")
+		_expect(not GameState.is_game_over and GameState.health == 2,
+				"automatic terminal fixture entered through an already-fatal shortcut")
+		game.call("_continue_after_story")
+		await get_tree().process_frame
+		await get_tree().process_frame
+		_expect(GameState.is_game_over and GameState.health == 0 and GameState.turn == 4 \
+				and game.get("_ending_id") == "burnout",
+				"automatic month-end path did not select the original burnout ending")
+		var terminal: Dictionary = GameState.serialize().duplicate(true)
+		await get_tree().create_timer(0.65).timeout
+		_expect(float(SceneTransition.get("_transition_alpha")) <= 0.001 \
+				and cover.color.a <= 0.001 and cover.mouse_filter == Control.MOUSE_FILTER_IGNORE,
+				"automatic terminal ending remained covered or input-blocked")
+		var modal: Control = game.get("modal_layer")
+		var body: Control = game.get("modal_body")
+		_expect(modal.is_visible_in_tree() and game.get("_modal_kind") == "ending" \
+				and body.get_child_count() > 0,
+				"automatic terminal ending did not retain its visible first page")
+		_expect(GameState.serialize() == terminal,
+				"terminal reveal tween changed the terminal game/economy/save state")
+		await get_tree().create_timer(0.5).timeout # Finish the ending background's own reveal.
+		remove_child(game)
+		game.free()
+		BGMPlayer.stop()
+		await get_tree().process_frame
+	GameState.call("_restore_serialized_snapshot_exact", original)
+	MetaProgression.data = meta_before
+	MetaProgression.set("_new_this_run", unlocks_before)
+	AudioManager.sfx_enabled = sfx_before
+	LocaleManager.language = previous_language
+	if _failures.size() == failures_before:
+		print("SCENE_DIRECTION_TERMINAL_REVEAL_OK automatic_month_end=1 cover=0 input=ignore terminal_state=unchanged prepared_fixture=1 native_play=0")

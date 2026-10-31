@@ -21383,6 +21383,7 @@ func _show_ending(ending_id: String) -> void:
 			str(ending_direction.get("family", "quiet_resolve")))
 	modal_layer.set_meta("scene_direction_reduce_motion", reduce_motion)
 	_ending_show_page(0)
+	SceneTransition.fade_in()
 
 func _ending_show_page(page_index: int) -> void:
 	if _ending_data.is_empty():

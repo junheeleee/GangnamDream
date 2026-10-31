@@ -1,5 +1,42 @@
 # ORDER-731 — M40 자동 월초 경계
 
+> **2026-11-01 이후 실행은 사용자 연속 플레이 지시가 우선한다.** 새 월별 빌드·
+> 독립 입구·해시 고정·마감은 만들지 않는다. 실제 최신 위치와 C2·비긴급 항목은
+> [일일 기록](../WORK_LOG.md#2026-11-01--연속-대표-플레이와-c2-중단) 한 곳이 소유한다.
+> 아래 a는 이미 실행된 역사다. W157/160 미선택 저장으로 자동복원하지 않는다.
+
+## a — 2026-11-01 사용자 Mac 해제 뒤 W157 대표 선택
+
+C1/C2. `맥해제했어` 뒤 strict IOConsoleLocked=No. 고정29.1/source9499/
+stage3b1e251/tree2942e5와 현재152d8ab 작업공간은 별개다. 원ad/ad2/ad3·737
+산출/실패/HOLD/저장·공개데모/사람판정을 덮거나 GO를 상속하지 않는다.
+실제 시작은 같은live/ad3final378278B·8df231f1f61cadd2df2f17254d985fc1113dda28644c457e24e0b8a4a85a3787,
+W157미선택/last156/H11M81/돈−12637619/read125/pending{}ack156/latch157.
+정상Continue→157본문 전독→c0 병동 약확인 재예약→전체결과 전독→정상닫기1회→
+자동158/159→다음실제전경160 첫완전문단STOP을 계획한다. source 독립 예측에서
+달라지면 실행 전에 경계를 수정하며 158본문을 발명하지 않는다. 160P2/선택0.
+게임오버/빈EN/반대사실/오류/예상밖전경·수치·저장손실이면 STOP, reroll0.
+
+exact 새 private `.git/order731-m40-20261101/` 소유:
+- 제작 capsule_pipeline: `a-native.py`, `a-plan.json`, `a-workspace.json`,
+  `a-preservation.json`, `a-self-test.py`, `a-preparation-check.json`만.
+- 독립 source/저장 locked_media_audit: `a-forecast.md/.json`, `a-save-review.md/.json`만.
+- 독립 입구/화면 capsule_review: `a-admission.md/.json`, `a-native-review.md/.json`만.
+- root: `a-ci.json`, `a-before/entry/exit/after/postcheck/captures/inputs.json`,
+  `a-final-autosave.json`, `a.stdout/stderr/godot.log`, `a-NN-label.jpg`,
+  `a-observation.md`, `a-parent-wait.json`; 월별 사양/큐/CLAUDE/WORK_LOG만.
+
+제작자는 현재 NUL경로·실blob/mode·현재10tools 차이와 월별dirty문서를 exact핀하고
+고정app/PCK/ZIP을 별도로 대조한다. 기존 원724/730/737전체 증거와 사용자 저장·설정·
+project/preset·18.1/05ee를 보호하고 active29.1 저장은 예상 정상진행만 허용한다.
+새seed/저장편집/설정/빌드/AUTO/skip/경제·뉴스·RNG수동재실행0.
+fresh actual remote main/product CI·예외/만료0·보호·프로세스·strictNo·독립입구를
+새로 확인한 뒤 root만 seal/launch/UI. 기존 헬퍼를 그대로 실행하지 않는다.
+workspace 봉인 뒤 실제종료까지 문서/제품 변경0, CmdQ최후·종료후재선택0.
+실parentwait/원3로그/보호exact·전체저장 독립대조, M40마감 전 미커밋 보존·월별1commit.
+열린실제월731 하나. 깊이3문: 대표길 검증 공백 제거/선택결과만 정상진행/
+완료월·보조경로와 경쟁하지 않음. 신규규범0·일회성, M40전체/M60/사람/출시GO0.
+
 ## 최신 실제 출구 — 2026-10-31
 
 724의 [M39 경계 마감](../queue_archive/ORDER-724.md#월별-마감--대표-m39-월경계-한정-2026-10-31)
