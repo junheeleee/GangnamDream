@@ -1,6 +1,6 @@
 # ORDER-737 — 잠금 중 실제 오프라인 캡슐 4종 제작
 
-#### [~] ORDER-737 C5 — 2026-10-31 착수
+#### [x] ORDER-737 C5 — 2026-10-31 완료
 
 사용자 `응 잠긴상태에서 할수잇는일을해`. 이미 끝난 검사를 반복하는 대신
 735의 고정 원화/4규격과 GangnamWordmark 규칙에서 실제 오프라인 PNG를 만든다.
@@ -56,3 +56,43 @@ Pillow/FreeType CPU 합성만. native나 잠금 확인을 무력화하는 환경
 장기 재사용 도구 승격/새 파이프라인/스타일 폴리시는 이번 범위가 아니다.
 
 자동 게이트는 계약 증거이지 재미·깊이·문체·인간 관찰의 증거가 아니다.
+
+## 실제 마감 — GO_OFFLINE_ASSETS_ONLY
+
+선언 commit08ffa61a712097a03858be4307f0acf480a6c320/tree
+d990f2ab9668f1b22ae3d6018ab134ac30707fca의 clean3558파일에서 root가 CPU합성1회.
+PID98476/wait exit0/3.823085167초/stdout176B·stderr0B.
+제작자 합성검사15와 독립 합성검사15 PASS. 초안 contact-sheet의 root roster
+불일치는 실제 실행 전에 previews로 옮기고 root4PNG 검사 회귀를 추가해 수리했다.
+실제 실행 실패/재생성0이며 이전735/736 실패·HOLD는 그대로다.
+
+산출 폴더는 `/Users/junheelee/Documents/GangnamDream-Release-Assets/steam-capsules-20261031-y33uh_11`.
+manifest882811B/SHA256 fd6ba8c01682c9bf7306c3787bed1ded9c3a87bf642ce533ee96a9d50348e50d.
+
+| 파일 | 실제 크기 | SHA256 |
+|---|---|---|
+| steam_capsule_main.png | 1232x706 | bd0d7fa02d1d23dc27221033132e24b458bd0c2815c40d6b50ed2920cf750eb7 |
+| steam_header.png | 920x430 | 525dd1b5b44cbd8f142c277b246cbb1eefa885409de2b08788acfbe2279f0428 |
+| steam_capsule_small.png | 462x174 | 7777b996e9681ace6eb7b12cfada29aadfe9ba3cb958d062275f5c77ad4d5668 |
+| steam_capsule_vertical.png | 748x896 | 2948f0ee2ad0f52df5e2ba99acbeecfb4358d627d77d1a6bf17b5c70815d77f1 |
+
+root와 비저자가 실제4장·small120x45/184x69를 원본크기로 전독했다.
+얼굴 비겹침/3인·민준crop/제목가독성/재질 보존, RGB·규격·7파일SHA·4ink+shadow
+bbox·root4/previews3 roster exact. contact-sheet는 원본 전독의 대체물이 아니다.
+독립 보고는 private737 `review.md`3302B/SHA
+de413fccd80290c257c62915d2b30dec691abd34e597ab6ec6a85f706e901690,
+`review.json`5667B/SHA b7b5bb850dd631b910de630ee154b47ee034fe852cc75caa81134535f8c189f0.
+source3558파일·입력6·helper2 전후/현재 exact, 보호1147그룹1815항목 현재바이트/roster exact.
+실제29.1 live378278B/SHA8df231f1f61cadd2df2f17254d985fc1113dda28644c457e24e0b8a4a85a3787 불변.
+
+offline4/native0, Pillow/FreeType rendition으로 native pixel/layout parity0.
+잠금 중 엔진/UI/namespace/저장편집/업로드0. 실제게임 screenshot·영상·청취·사람2~3h·
+retail5언어·M40/M60·전체C2/C5·출시GO를 부여하지 않았다. 로컬 문서커밋은 remote main CI 실행이 아니다.
+규범 판정: 전부 **일회성** 산출·검수 기록. 기존 IP/JSON/native 정본 변경·도구 승격0.
+후속이 같은 완성4종을 이유 없이 재생성하지 않도록 STEAM_PAGE §8에 실물과 한계를 구분해 남긴다.
+
+마감 문서 표적검증: release_content_inventory OK(10preset/1813events/9axes),
+context_manifest OK(872문서/15invariants), queue_consistency OK(78active/76in_progress/최대2),
+queue_index_self_test OK(25fixtures), HUMAN_GATES_OK(open45/done1 불변).
+dashboard는 stale 참고 경고만/exit0이며 STATUS를 별도 재생성하지 않았다.
+diffcheck PASS. 이 문서 검사는 remote CI/제품 완주/사람 관찰의 대체물이 아니다.

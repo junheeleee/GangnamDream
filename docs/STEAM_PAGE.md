@@ -353,6 +353,22 @@ python3 tools/steam_capsule_export.py --render --godot /absolute/path/to/godot -
 
 현재 키아트의 정본 구도는 유리와 반사 사이의 민준, 편의점의 다은, 도시의 지연이다. 고시원 대 강남 단순 분할 구도로 되돌리지 않는다. 세 인물과 차가운 서울, 반사된 자아가 이 게임의 IP 얼굴이다.
 
+### 별도 오프라인 실물 — 2026-10-31
+
+[실물·독립 검수 기록](queue_archive/ORDER-737.md)의 CPU/Pillow 파생본은
+`/Users/junheelee/Documents/GangnamDream-Release-Assets/steam-capsules-20261031-y33uh_11`에 있다.
+위 표의4파일이 실제 생성됐고, `previews/small-120x45.png`·`small-184x69.png`와
+`contact-sheet.png`가 별도 있다. manifest SHA256은
+`fd6ba8c01682c9bf7306c3787bed1ded9c3a87bf642ce533ee96a9d50348e50d`다.
+
+clean source08ffa61의 고정 원화/폰트/JSON과 GangnamWordmark 규칙을 재사용했다.
+네 원본과 두 축소본의 제목 가독성·얼굴 비겹침·인물/재질 보존은 비저자 에이전트가
+독립 전독했고, 정확 규격/RGB/bbox/입력·보호 바이트도 수용했다.
+이는 **offline PNG4/native PNG0**이며 native 출력 또는 게임 screenshot이 아니다.
+Pillow/FreeType의 hinting·lineheight·filter 차이가 있어 Godot pixel/layout 동등성을
+주장하지 않는다. 위 native 렌더의 잠금 해제 조건·정본·기존 파일은 그대로다.
+원그림/저장/설정 변경·업로드0, 전체 C5/사람/출시 GO가 아니다.
+
 ## 9. 데모 표기
 
 - 공개 데모 제품 범위는 **M01~M06**이며, exact `story_demo_rc` BUILD
