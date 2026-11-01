@@ -20,6 +20,7 @@ func _ready() -> void:
 	_check_activity_and_ending_contracts()
 	_check_runtime_fail_closed()
 	_check_activity_runtime_mapping()
+	_check_transition_cover_opacity()
 	await _check_automatic_terminal_reveal()
 	if _failures.is_empty():
 		print(
@@ -258,6 +259,84 @@ func _close_prepared_story_root(event_id: String) -> bool:
 	return false
 
 
+func _check_transition_cover_opacity() -> void:
+	var before: float = GameState.moral_tint
+	var failures_before := _failures.size()
+	for tint in [-100.0, -50.0, 0.0, 50.0, 100.0]:
+		GameState.moral_tint = tint
+		var covered: Color = SceneTransition._transition_color(1.0)
+		for alpha in [-0.1, 0.0, 0.001, 0.5, 0.999, 1.0, 1.1]:
+			var actual: Color = SceneTransition._transition_color(alpha)
+			_expect(is_equal_approx(actual.a, clampf(alpha, 0.0, 1.0)),
+					"transition cover opacity leaked tint=%s alpha=%s" % [tint, alpha])
+			_expect(Vector3(actual.r, actual.g, actual.b).is_equal_approx(
+					Vector3(covered.r, covered.g, covered.b)), "transition fade changed its tint RGB")
+	GameState.moral_tint = before
+	if _failures.size() == failures_before:
+		print("SCENE_DIRECTION_TRANSITION_COVER_OK tints=5 alpha_boundaries=7 opaque=1")
+
+
+func _check_full_story_shell(prepared_state: Dictionary) -> void:
+	var failures_before := _failures.size()
+	# Non-owner compatibility UI remains visible, including ordinary activity return.
+	GameState.start_new_game("LegacyShellFixture")
+	var legacy: Control = load("res://scenes/MainGame.tscn").instantiate()
+	legacy.set_meta("_screenshot_qa_static_surface", true)
+	add_child(legacy)
+	var legacy_root: Control = legacy.get("_main_ui_root")
+	_expect(not FULL_STORY_FLOW.owns_session() and legacy_root.visible,
+			"non-owner legacy shell disappeared during construction")
+	legacy.call("_enter_minigame_overlay", legacy.get("racetrack"))
+	legacy.call("_exit_minigame_overlay")
+	_expect(legacy_root.visible, "non-owner legacy activity return lost its shell")
+	remove_child(legacy)
+	legacy.free()
+	BGMPlayer.stop()
+	await get_tree().create_timer(0.1).timeout
+	GameState.call("_restore_serialized_snapshot_exact", prepared_state)
+	GameState.health = 100
+	GameState.mental = 100
+	var game: Control = load("res://scenes/MainGame.tscn").instantiate()
+	game.set_meta("_screenshot_qa_static_surface", true)
+	add_child(game)
+	var shell: Control = game.get("_main_ui_root")
+	var modal: Control = game.get("modal_layer")
+	_expect(not shell.visible, "full-owner legacy shell visible in first ready frame")
+	_expect(not shell.is_ancestor_of(modal), "full-owner modal was hidden inside legacy shell")
+	# Direct activity panels remain siblings and do not restore AP on return.
+	var activity: Control = game.get("racetrack")
+	game.call("_enter_minigame_overlay", activity)
+	activity.visible = true
+	_expect(activity.is_visible_in_tree() and not shell.visible,
+			"hiding legacy shell concealed the legitimate direct activity")
+	activity.visible = false
+	game.call("_exit_minigame_overlay")
+	_expect(not shell.visible, "full-owner activity return exposed the legacy shell")
+	game.call("_on_core_loop_v2_planner_closed")
+	_expect(not shell.visible, "late planner callback exposed the full-owner legacy shell")
+	await get_tree().process_frame
+	_expect(not shell.visible, "deferred planner focus restored the full-owner legacy shell")
+	# Exercise the real routine/calendar/summary and confirmation handoff. Static
+	# ownership suppresses only actual scene replacement, not these production APIs.
+	game.call("_full_story_continue_week", 4)
+	_expect(GameState.turn == 5 and not GameState.is_game_over \
+			and game.get("_modal_kind") == "full_story_month_cash" and modal.visible,
+			"full-owner automatic week did not retain its legitimate month summary")
+	_expect(not shell.visible, "full-owner automatic week exposed the legacy shell")
+	game.call("_confirm_full_story_month_cash", 4)
+	_expect(not shell.visible and not modal.visible and not GameState.pending_story_queue.is_empty(),
+			"month summary confirmation exposed AP before the next story handoff")
+	await get_tree().process_frame
+	_expect(not shell.visible, "full-owner legacy shell returned on a deferred frame")
+	remove_child(game)
+	game.free()
+	BGMPlayer.stop()
+	await get_tree().create_timer(0.1).timeout
+	GameState.call("_restore_serialized_snapshot_exact", prepared_state)
+	if _failures.size() == failures_before:
+		print("SCENE_DIRECTION_FULL_OWNER_SHELL_OK first_frame=hidden automatic_week=hidden summary_handoff=hidden activity_return=hidden nonowner=visible prepared_fixture=1 native_play=0")
+
+
 func _check_automatic_terminal_reveal() -> void:
 	# The legacy pure-check lane must not touch ordinary player storage. Only the
 	# pre-autoload bootstrap can supply this distinct, fresh user-data namespace.
@@ -291,6 +370,7 @@ func _check_automatic_terminal_reveal() -> void:
 	_expect(prepared and GameState.turn == 4 and FULL_STORY_FLOW.ready_to_advance(),
 			"terminal reveal fixture could not prepare the real automatic W4 boundary")
 	if prepared:
+		await _check_full_story_shell(GameState.serialize().duplicate(true))
 		# Start alive. The ordinary W4 routine is health-neutral; the existing
 		# month-end pressure then selects burnout. No ending is forced by this test.
 		GameState.health = 2
@@ -335,7 +415,7 @@ func _check_automatic_terminal_reveal() -> void:
 		remove_child(game)
 		game.free()
 		BGMPlayer.stop()
-		await get_tree().process_frame
+		await get_tree().create_timer(0.2).timeout # Let stopped fixture playback retire.
 	GameState.call("_restore_serialized_snapshot_exact", original)
 	MetaProgression.data = meta_before
 	MetaProgression.set("_new_this_run", unlocks_before)

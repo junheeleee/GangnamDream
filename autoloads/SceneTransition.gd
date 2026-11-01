@@ -183,9 +183,6 @@ func _set_transition_alpha(alpha: float) -> void:
 
 func _transition_color(alpha: float) -> Color:
 	var stage: int = GameState.moral_stage()
-	var norm: float = GameState.moral_tint_norm()
-	var black: float = clampf(-norm, 0.0, 1.0)
-	var white: float = clampf(norm, 0.0, 1.0)
 	var base := Color("#050609")
 	if stage <= -2:
 		base = Color("#020303")
@@ -197,12 +194,8 @@ func _transition_color(alpha: float) -> Color:
 		base = Color("#cfd8df")
 	else:
 		base = Color("#0a0b0f")
-	var cover_alpha: float = alpha
-	if white > 0.01:
-		cover_alpha = alpha * lerpf(0.92, 0.98, white)
-	if black > 0.01:
-		cover_alpha = alpha * lerpf(0.96, 1.0, black)
-	base.a = cover_alpha
+	# Tint changes the ink, never the coverage: a covered handoff must be opaque.
+	base.a = clampf(alpha, 0.0, 1.0)
 	return base
 
 func _fade_time_for_state() -> float:

@@ -2,6 +2,8 @@
 
 ## 2026-11-01 — 연속 대표 플레이와 C2 중단
 
+- 사용자31.1 직접 플레이 중 주차 전환에 옛 AP 화면이 잠깐 비친다고 제보한 뒤 `막아줘` 수리 요청. full owner의 legacy VBox를 생성 첫 프레임·seal·복귀에서 숨기고 전환 색은 유지/완전 덮기 alpha1을 보장했다. 결산/엔딩/활동은 sibling으로 유지, 게임 수치·선택·라우팅·저장 로직 변경0. 기존 SceneDirectionCheck의 cover5색×7alpha·본편 첫frame/자동주/월결산확인/활동복귀/planner-close·nonowner표시·기존terminal 회귀 positive4 exit0/stderr0/오류·누수0. 같은 fixture의 원본 반례는 해당29 assertion만 실패, 별도 런타임 오류0. 최초 fixture 종료누수 로그도 보존했다. capsule_review 독립 전독·root 원로그 확인 완료, 나머지 V2 경로는 소스 guard 검수이며 실제 재플레이로 세지 않는다.
+- 수리 앱31.2를 별도 경로·같은 저장 namespace로 준비한다. 사용자 실행 중31.1/저장/설정은 조작·종료·덮기0이며, 빌드 엔진의 활성 저장 접근은 프로세스 차단한다. 사용자가 저장·종료한 뒤에만 재실행 인계한다. source/표적회귀 완료는 수정 앱 실제 화면·M60·새 remote CI 통과가 아니다. 새 월별 마감/입구/보고서는 만들지 않고 이 일일 항목에만 합친다.
 - 후속 사용자 답변 `새 정상 플레이로 다시 시도`로 새 정상 런을 승인했고, 이어 `나도 게임 해볼래`로 직접 플레이를 요청했다. 기존 M44 종료 저장과29.1 앱을 보존한 채 수정631da85의 별도 저장 full 앱2026.11.01.1을 한 번 준비했다. root는 앱만 열고 정상 New Game/선택은 사용자에게 인계한다. 월별 게이트는 재개하지 않는다.
 - 사용자 인계: `/Users/junheelee/Applications/GangnamDream-ContinuousPlay-20261101.1/GangnamDream.app` 실제 실행·BUILD 확인, 최초 언어 선택 화면(KO/EN)과 JA/zh AI보조 번역 고지 문장 관측. 게임 입력/새게임/선택0, 사용자 조작 중 에이전트 입력/종료/재시작 금지로 자동 이어가기도 갱신했다. 사람2~3h/수정 엔딩 실화면/M60/새 remote CI 완료가 아니다.
 - 1회 앱 준비의 도구 실패(bootstrap+editor 종료누수, 신규도구 UID 허용, legacy Git manifest, PCK key reader)는 원로그 보존. editor-only 재시도와 기존 export ZIP 전달로 완료했으며 재export/새stage월반복0. 서명/universal/실제 packed namespace·일반 Splash·ICU·ZIP 대조는 별도 통과, 전체 build.sh 성공으로 포장하지 않는다. 기존 앱/데이터는 전달 전 exact 보존, 새 저장 주입0. private 빌드 원자료는 active731의 단일 준비 폴더가 소유한다.

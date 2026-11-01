@@ -1,5 +1,17 @@
 # ORDER-731 — M40 자동 월초 경계
 
+2026-11-01 사용자 AP 화면 순간 노출 제보·`막아줘` 수리 승인.
+계산/선택/저장/엔딩 라우팅은 유지하고 full 본편의 legacy 표면 누출만 막는다.
+capsule_pipeline 소유: `scenes/MainGame.gd`, `autoloads/SceneTransition.gd`,
+`tools/SceneDirectionCheck.gd`의 수리·표적 회귀만. capsule_review는 읽기 전용 검수,
+root는 일일 기록/큐와 수정 앱 준비. 현재31.1 앱/사용자 저장/설정은 수정·종료0.
+수정본은 별도 앱으로 준비하며 사용자가 저장·종료하기 전에는 교체/실행하지 않는다.
+월별 빌드/입구/마감 재개0, 현재 제보만으로 치명 진행불가라고 확대하지 않는다.
+locked_media_audit는 `.git/ap-flash-fix-20261101/`의 준비 helper·stage·원로그와
+별도 `GangnamDream-ContinuousPlay-20261101.2` 앱만 준비한다. 기존31.1은 그대로,
+같은 저장 namespace를 유지하되 빌드/QA가 활성 사용자 저장을 읽거나 쓰지 않게 한다.
+root가 수리 commit을 확정한 뒤만 package를 만들고 사용자가 종료한 뒤에만 인계한다.
+
 2026-11-01 사용자 `새 정상 플레이로 다시 시도` 승인. 기존 M44 종료 저장/29.1
 앱은 보존하고, 수정631da85의 새 full 앱을 한 번만 준비해 정상 New Game으로 시작한다.
 월별 빌드/독립 게이트/핀/마감0·수치편집/체크포인트복원0. capsule_pipeline은

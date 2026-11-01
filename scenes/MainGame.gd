@@ -612,6 +612,8 @@ var _full_story_advancing := false
 
 
 func _full_story_seal_surface() -> void:
+	if is_instance_valid(_main_ui_root):
+		_main_ui_root.visible = false
 	_clear_week_reading_surface()
 	if top_labels.has("ap_chip"):
 		(top_labels["ap_chip"] as Control).visible = false
@@ -1491,7 +1493,7 @@ func _core_loop_v2_open_planner(
 	_core_loop_planner.move_to_front()
 	if not bool(_core_loop_planner.open(month_index, read_only)):
 		if is_instance_valid(_main_ui_root):
-			_main_ui_root.visible = true
+			_main_ui_root.visible = not FULL_STORY_FLOW.owns_session()
 		_planner_focus_restore = null
 		return false
 	if not read_only:
@@ -1626,7 +1628,7 @@ func _core_loop_v2_open_seoul_cycle_board(
 		_core_loop_v2_cycle_surface_snapshot(), read_only))
 	if not opened:
 		if is_instance_valid(_main_ui_root):
-			_main_ui_root.visible = true
+			_main_ui_root.visible = not FULL_STORY_FLOW.owns_session()
 		_seoul_cycle_focus_restore = null
 		return false
 	if not read_only:
@@ -1810,7 +1812,7 @@ func _on_core_loop_v2_phone_closed() -> void:
 
 func _on_core_loop_v2_planner_closed() -> void:
 	if is_instance_valid(_main_ui_root):
-		_main_ui_root.visible = true
+		_main_ui_root.visible = not FULL_STORY_FLOW.owns_session()
 	call_deferred("_core_loop_v2_restore_planner_focus")
 
 func _on_seoul_cycle_board_closed() -> void:
@@ -1819,7 +1821,7 @@ func _on_seoul_cycle_board_closed() -> void:
 			_main_ui_root.visible = false
 		return
 	if is_instance_valid(_main_ui_root):
-		_main_ui_root.visible = true
+		_main_ui_root.visible = not FULL_STORY_FLOW.owns_session()
 	if _seoul_cycle_allocation_in_flight:
 		return
 	if _core_loop_v2_seoul_cycle_blocks_manual_advance():
@@ -2115,7 +2117,7 @@ func _core_loop_v2_continue_after_durable_allocation(
 	if is_instance_valid(_seoul_cycle_board):
 		_seoul_cycle_board.close()
 	if is_instance_valid(_main_ui_root):
-		_main_ui_root.visible = true
+		_main_ui_root.visible = not FULL_STORY_FLOW.owns_session()
 	_seoul_cycle_allocation_in_flight = false
 	_seoul_cycle_focus_restore = null
 	call_deferred("_core_loop_v2_route_week")
@@ -2124,7 +2126,7 @@ func _core_loop_v2_finish_plan_commit() -> void:
 	if is_instance_valid(_core_loop_planner):
 		_core_loop_planner.close()
 	if is_instance_valid(_main_ui_root):
-		_main_ui_root.visible = true
+		_main_ui_root.visible = not FULL_STORY_FLOW.owns_session()
 	_refresh_all()
 	if not bool(get_meta("_screenshot_qa_static_surface", false)):
 		SaveManager.autosave()
@@ -3842,7 +3844,7 @@ func _core_loop_v2_show_completion(
 	if is_instance_valid(_core_loop_planner):
 		_core_loop_planner.close()
 	if is_instance_valid(_main_ui_root):
-		_main_ui_root.visible = true
+		_main_ui_root.visible = not FULL_STORY_FLOW.owns_session()
 	if is_instance_valid(info_panel):
 		info_panel.visible = false
 	current_event = {}
@@ -5261,6 +5263,8 @@ func _build_ui():
 	# ── 4. 메인 레이아웃 ──
 	var root = VBoxContainer.new()
 	_main_ui_root = root
+	# Story ownership excludes the legacy AP shell from its very first frame.
+	root.visible = not FULL_STORY_FLOW.owns_session()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.add_theme_constant_override("separation", 0)
 	add_child(root)
@@ -18352,7 +18356,7 @@ func _exit_minigame_overlay() -> void:
 		return
 	_minigame_overlay_active = false
 	if is_instance_valid(_main_ui_root):
-		_main_ui_root.visible = true
+		_main_ui_root.visible = not FULL_STORY_FLOW.owns_session()
 		_main_ui_root.set_meta("scene_direction_returned_from", _active_activity_id)
 		_main_ui_root.set_meta(
 				"scene_direction_return_contract",

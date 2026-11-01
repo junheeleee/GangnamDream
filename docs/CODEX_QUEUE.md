@@ -10,8 +10,8 @@
 월별 빌드/독립 검수/해시 고정/마감 없이 M60까지 연속 플레이. 확인 C2만 중단,
 비긴급은 엔딩 뒤 검토·기록은 하루 한 번. 아래 구 월별 절차보다 우선한다.
 실제 위치는 [오늘 기록](WORK_LOG.md#2026-11-01--연속-대표-플레이와-c2-중단).
-C2 전환막 수리 소유: capsule_pipeline `scenes/MainGame.gd`,
-`tools/SceneDirectionCheck.gd`, `tools/audit_scope.json` 해당 검사만.
+AP 노출 수리 소유: capsule_pipeline `scenes/MainGame.gd`,
+`autoloads/SceneTransition.gd`, `tools/SceneDirectionCheck.gd`만.
 root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0·새월별작업0.
 
 ## 운영 프로토콜 v3 (2026-08-03 사용자 지시 — 분석·계획·설계·검토 반복)
@@ -73,7 +73,7 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-731 · 연속 대표 플레이 | [731](queue_active/ORDER-731.md) | C1/C2 · M44보존·새31.1 언어선택에서 사용자 인계·AI입력중단 |
+| 1 | [~] | ORDER-731 · 연속 대표 플레이 | [731](queue_active/ORDER-731.md) | C1/C2 · 사용자31.1 플레이·AP노출수리/표적통과·별도31.2준비 |
 | 2 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | C2/C4/C5 · 고지/빈표면/5언어만 · CJK 다듬기 보류 |
 | 3 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 | 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
