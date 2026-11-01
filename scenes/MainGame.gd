@@ -6958,6 +6958,16 @@ func _go_story_mode(event_ids: Array, keep_cover: bool = false):
 			story_queue.append("arc_37_reckoning")
 	var opening_prologue: bool = GameState.turn == 1 \
 			and first_event_id in ["story_flashforward", "story_arrival"]
+	# Assemble year curation from the authored root first, then reserve exactly
+	# the live IDs StoryMode will play. A death-safe replacement is not an alias
+	# for its source's applied/read receipt.
+	if FULL_STORY_FLOW.owns_session():
+		for queue_index in range(story_queue.size()):
+			var live_id := EventManager.live_event_variant_id(str(story_queue[queue_index]))
+			if live_id.is_empty():
+				push_error("Full story could not resolve its live root")
+				return
+			story_queue[queue_index] = live_id
 	if FULL_STORY_FLOW.owns_session() \
 			and not FULL_STORY_FLOW.begin_chain(story_queue):
 		push_error("Full story preview could not reserve its authored chain")

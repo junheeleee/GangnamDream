@@ -282,6 +282,44 @@ static func append_finale_ingress(
 	return true
 
 
+static func bind_current_live_root(event_id: String) -> bool:
+	# Normal resume of an old, still-open root may carry the source ID while
+	# StoryMode and its already-applied choice carry the declared live variant.
+	# Rebind that one unread root, never historical receipts or arbitrary aliases.
+	if not valid_session():
+		return false
+	var state := snapshot()
+	if not _current_uncompleted_turn(state):
+		return false
+	var chain: Dictionary = state["chain"]
+	if chain.is_empty() or bool(chain["closed"]):
+		return false
+	var pending: Array = chain["pending_event_ids"]
+	if pending.is_empty():
+		return false
+	if str(pending.front()) == event_id:
+		return true
+	var source_id := str(pending.front())
+	var roots: Array = chain["roots"]
+	if EventManager.state_variant_source_event_id(event_id) != source_id \
+			or EventManager.live_event_variant_id(source_id) != event_id \
+			or roots.count(source_id) != 1 or roots.has(event_id) \
+			or not _read_record(state, GameState.turn, source_id).is_empty() \
+			or not _read_record(state, GameState.turn, event_id).is_empty() \
+			or (state["routine_receipts"] as Dictionary).has(str(GameState.turn)):
+		return false
+	for raw in GameState.event_log:
+		if raw is Dictionary and (raw as Dictionary).get("event_id", "") == source_id \
+				and _integer_equals((raw as Dictionary).get("turn", null), GameState.turn):
+			return false
+	roots[roots.find(source_id)] = event_id
+	pending[0] = event_id
+	if not _valid_state(state):
+		return false
+	_store(state)
+	return true
+
+
 static func close_result(
 		event_id: String, choice_index: int, expression: bool = false) -> bool:
 	if not valid_session():

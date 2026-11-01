@@ -4075,6 +4075,10 @@ func _load_next_event():
 							_finish_all()
 							return
 						continue
+		if not _read_only_replay and FULL_STORY_FLOW.owns_session() \
+				and not FULL_STORY_FLOW.bind_current_live_root(event_id):
+			push_error("Full story could not bind its exact live root")
+			return
 		# Materialize the run-specific year candidates before validating a saved
 		# result choice. The catalog root owns only a placeholder option, while a
 		# live result receipt may legally point at dynamic index 1, 2, or 3.

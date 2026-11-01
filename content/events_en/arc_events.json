@@ -1088,7 +1088,7 @@
     "choices": [
       {
         "text": "Book the first KTX to Changwon",
-        "result_text": "Booked the first KTX to Changwon. 5 a.m. from Seoul Station.\nOn the train, tried to picture Dad's face.\nStarted calculating when the last time was —\nStopped. Too long ago."
+        "result_text": "Booked the first KTX to Changwon. 5 a.m. from Seoul Station.\nOn the train, tried to picture Dad's face.\nHe clasped his hands in his lap. Each sway of the train pressed his knuckles together."
       },
       {
         "text": "“I'll come on the weekend.”",
@@ -1109,9 +1109,9 @@
   {
     "id": "arc_father_04_visit",
     "title": "Changwon",
-    "description": "Weeks after the call about the admission, holding on to Mother's text — \"Changwon Sungsim Hospital, Room 301. He's stable now\" — {name} took the first KTX south. The third-floor corridor smelled of disinfectant. Through the narrow window, Father sat at the edge of the bed and asked a nurse, \"Can I go back to the factory Monday?\" She shook her head before she answered. Father said nothing and looked toward the smokestacks outside.\n\nThe hands that had worked a factory floor all his life kept smoothing the blanket even here. {name} held the handle without moving. The time spent coming down and the six years he could no longer avoid overlapped across one palm.\n\nThe trip from Seoul had taken nearly three hours. Opening the door would take one second. Father still did not know his son was there.",
+    "description": "Changwon Sungsim Hospital, Room 301. {name} checked Mother's message again in the third-floor corridor. The air smelled of disinfectant. Through the narrow window, Father sat at the edge of the bed and asked a nurse, \"Can I go back to the factory Monday?\" She shook her head before she answered. Father said nothing and looked toward the smokestacks outside.\n\nThe hands that had worked a factory floor all his life kept smoothing the blanket even here. {name} held the handle without moving. The time spent coming down and the six years he could no longer avoid overlapped across one palm.\n\nThe trip from Seoul had taken nearly three hours. Opening the door would take one second. Father still did not know his son was there.",
     "description_if_known": {
-      "arc_sangchul_03_seen": "Weeks after the call about the admission, holding on to Mother's text — \"Changwon Sungsim Hospital, Room 301. He's stable now\" — {name} took the first KTX south. As the train reached Daejeon, a contact he had met through Sangchul wrote: \"A seat opened tonight. You can come straight back to Seoul, right?\"\n\nThe third-floor corridor smelled of disinfectant. Through the narrow window, Father asked a nurse, \"Can I go back to the factory Monday?\" She shook her head. Father said nothing and looked toward the smokestacks outside.\n\nWhen {name} touched the handle, the phone buzzed again: \"Please answer by seven.\" The trip from Seoul had taken nearly three hours. Opening the door would take one second. Father still did not know his son was there."
+      "arc_sangchul_03_seen": "Outside Room 301 at Changwon Sungsim Hospital, {name} checked his phone. A message sent by a contact he had met through Sangchul, when the train reached Daejeon on the way down, was still on the screen: \"A seat opened tonight. You can come straight back to Seoul, right?\"\n\nThe third-floor corridor smelled of disinfectant. Through the narrow window, Father asked a nurse, \"Can I go back to the factory Monday?\" She shook her head. Father said nothing and looked toward the smokestacks outside.\n\nWhen {name} touched the handle, the phone buzzed again: \"Please answer by seven.\" The trip from Seoul had taken nearly three hours. Opening the door would take one second. Father still did not know his son was there."
     },
     "choices": [
       {

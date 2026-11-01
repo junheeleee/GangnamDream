@@ -1,5 +1,39 @@
 # ORDER-731 — M40 자동 월초 경계
 
+최신 사용자 재위임: `이제 나는 게임 안할거야 씻고 나갈거니까 너가 작업이어서해`.
+root가 현재31.2/같은31_1 정상저장을 Continue해 연속 대표 플레이한다. 월별 절차0,
+확인C2만 중단·비긴급은 목록·진행은 오늘 WORK_LOG 한 항목에 합친다. 아래 인계 대기는 종료.
+
+연속 실제 M23/부모님 방문c1→나흘 뒤 `arc_father_03_hospital` c0에서 시간 모순 관측.
+root 소유: `content/events/arc_events.json`, `content/events_en/arc_events.json`의 해당
+c0 결과 마지막 두 문장과 `tools/story_graph_contract_audit.py`의 표적 회귀만.
+나흘 전 만남을 오래된 부재로 바꾸는 문장을 현재 열차 안 손의 감각으로 교체한다.
+수치/flags/선택/라우팅/저장/실행 앱 변경0, 원결과 화면 보존·재실행0.
+월별 빌드 없이 source 수리/표적 검사 뒤 같은 정상 런을 계속하며, 현앱은 원문임을 구분한다.
+같은 런 W96 `arc_father_04_visit`에서도 W89 즉시 KTX 선택 뒤 몇 주 늦은 출발로
+되돌리는 도입을 관측했다. 같은 KO/EN 파일의 해당 기본본문·sangchul03 DIK 도입과
+같은 검사 파일의 반례까지 범위를 확장한다. 현재301호/복도/문자에서 시작하며
+첫 방문/재방문·과거 병실 출입은 새로 확정하지 않는다. 나머지 본문·결과·상태 불변.
+같은 런 W132 `arc_sangchul_reckoning` c1 사과 수용 결과에서 살아 있는 아버지의
+사망을 전제하는 KO/EN 문장을 실제 관측했다. `content/events/arc_drama.json`,
+`content/events_en/arc_drama.json`의 해당 결과 한 문장만 현재 커피잔/손 감각으로
+교체하고 같은 표적 검사 파일에 KO/EN 원문 재삽입 반례를 추가한다. 아버지 상태나
+선택 의미·flags·수치·라우팅·저장은 바꾸지 않는다. 원문 앱은 재시작하지 않는다.
+W152 `arc_36_trust_crack` 도입에서도 투자를 거절해 온 실제 경로에 공동 운용 과거를
+무조건 부여했다. `content/events/arc_chapter_themes.json` 및 EN 대응의 첫 문단
+두 번째 문장만 현재 맞은편 인물/물컵 행동으로 교체하고 같은 검사에 KO/EN 원문
+반례를 추가한다. 새 거래·친밀 관계·과거 접촉을 만들지 않고 나머지 문장/제품 상태 불변.
+
+같은 실제 런 W192/M48 `arc_year4_close_father_passed` c1 결과 끝에서 정상
+Enter/클릭이 진행하지 못하고 exact result 닫기 오류3건을 남겼다. 확인 C2로만
+입력을 중단한다. root 소유 추가: `scenes/MainGame.gd`, `scenes/StoryMode.gd`,
+`systems/FullStoryFlow.gd`의 원본/현재 변형 root 정체성 정렬·미완 root 정상 재개,
+`tools/SceneDirectionCheck.gd`의 표적 회귀, `.git/year4-result-fix-20261101/`의
+격리 검사/별도 수정 앱 준비만. capsule_review 읽기 전용 독립 원인/수리 검수.
+이미 닫힌 과거 영수증을 재해석하거나 ID 검사를 느슨하게 우회하지 않는다.
+실제 저장은 정상 저장 UI로만 보존하며 원선택/경제/RNG 재실행·복원·수치편집0.
+이번 확인 진행불가를 위한 빌드1회이며 월별 게이트 재개가 아니다.
+
 2026-11-01 사용자 AP 화면 순간 노출 제보·`막아줘` 수리 승인.
 계산/선택/저장/엔딩 라우팅은 유지하고 full 본편의 legacy 표면 누출만 막는다.
 capsule_pipeline 소유: `scenes/MainGame.gd`, `autoloads/SceneTransition.gd`,

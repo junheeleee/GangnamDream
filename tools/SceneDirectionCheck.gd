@@ -15,6 +15,16 @@ var _failures: Array[String] = []
 var _shipping_event_count := 0
 
 func _ready() -> void:
+	if OS.get_cmdline_user_args().has("--live-root-variant-only"):
+		await _check_live_root_variant_resume()
+		if _failures.is_empty():
+			print("LIVE_ROOT_VARIANT_CHECK_OK fresh_root=exact curation=retained cold_result=closed duplicate=idempotent rejects=4 effects=unchanged prepared_fixture=1 native_play=0")
+			get_tree().quit(0)
+		else:
+			for failure in _failures:
+				push_error("LIVE_ROOT_VARIANT_CHECK_FAIL: %s" % failure)
+			get_tree().quit(1)
+		return
 	_check_event_and_edge_registry()
 	_check_background_profiles()
 	_check_activity_and_ending_contracts()
@@ -239,6 +249,80 @@ func _check_activity_runtime_mapping() -> void:
 func _expect(condition: bool, message: String) -> void:
 	if not condition:
 		_failures.append(message)
+
+
+func _check_live_root_variant_resume() -> void:
+	var qa := OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")
+	if not qa.begins_with("GangnamDream_StoryNameplateQA_") \
+			or OS.get_user_data_dir().get_file() != qa:
+		_expect(false, "pre-autoload isolation required")
+		return
+	# Private copied fixtures, never a path into the user's active namespace.
+	var before: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(
+		"res://__qa_year4_prechoice.json"))
+	var saved: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(
+		"res://__qa_year4_result.json"))
+	var source := "arc_year4_close"
+	var live := "arc_year4_close_father_passed"
+	GameState.load_from_dict(before["state"].duplicate(true))
+	_expect(GameState.turn == 192 and FULL_STORY_FLOW.valid_session(), "fixture entry invalid")
+	var game = load("res://scenes/MainGame.gd").new()
+	game.set_meta("_screenshot_qa_static_surface", true)
+	game.call("_go_story_mode", [source])
+	_expect(GameState.pending_story_queue == [live, "arc_year4_scene"] \
+		and FULL_STORY_FLOW.snapshot()["chain"]["roots"] == GameState.pending_story_queue,
+		"fresh year root did not reserve exact variant plus curation")
+	game.free()
+	# Old result contains its one real choice already. Binding must not apply it again.
+	GameState.load_from_dict(saved["state"].duplicate(true))
+	var original: Dictionary = GameState.serialize().duplicate(true)
+	for rejected in ["arc_year1_close_father_passed", "arc_year4_scene"]:
+		_expect(not FULL_STORY_FLOW.bind_current_live_root(rejected) \
+			and GameState.serialize() == original, "unrelated root rebound")
+	GameState.flags.erase("father_passed")
+	GameState.flags.erase("arc_father_passing_seen")
+	GameState.cast["father"]["stage"] = "unknown"
+	var living: Dictionary = GameState.serialize().duplicate(true)
+	_expect(not FULL_STORY_FLOW.bind_current_live_root(live) \
+		and GameState.serialize() == living, "living father admitted passed variant")
+	GameState.load_from_dict(saved["state"].duplicate(true))
+	# Keep the retained suffix at 100 so historical truncated receipts remain
+	# independently valid; only the current selected tuple is absent.
+	GameState.event_log[-1]["choice_index"] = 0
+	_expect(FULL_STORY_FLOW.bind_current_live_root(live), "no-receipt fixture root bind failed")
+	var no_receipt: Dictionary = GameState.serialize().duplicate(true)
+	_expect(not FULL_STORY_FLOW.close_result(live, 1) \
+		and GameState.serialize() == no_receipt, "missing applied receipt accepted")
+	GameState.load_from_dict(saved["state"].duplicate(true))
+	var money_before: float = GameState.money
+	var health_before: int = GameState.health
+	var mental_before: int = GameState.mental
+	var events_before: int = GameState.events_seen
+	var log_before: Array = GameState.event_log.duplicate(true)
+	SaveManager.set("_loaded_resume_context", saved["resume"].duplicate(true))
+	GameState.pending_story_queue = [live, "arc_year4_scene"]
+	var story: Control = load("res://scenes/StoryMode.tscn").instantiate()
+	add_child(story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_expect(story.get("_pending_after_result") and story.get("_pending_result_choice_index") == 1,
+		"cold result did not restore its exact selected option")
+	story.set("_typing", false)
+	story.set("_para_index", (story.get("_paragraphs") as Array).size())
+	story.call("_after_result")
+	_expect(str((story.get("_current") as Dictionary).get("id", "")) == "arc_year4_scene" \
+		and not story.get("_pending_after_result") and FULL_STORY_FLOW.valid_session(),
+		"cold result did not close into year curation")
+	var closed: Dictionary = GameState.serialize().duplicate(true)
+	_expect(FULL_STORY_FLOW.close_result(live, 1) and GameState.serialize() == closed,
+		"duplicate result close mutated state")
+	_expect(GameState.money == money_before and GameState.health == health_before \
+		and GameState.mental == mental_before and GameState.events_seen == events_before \
+		and GameState.event_log == log_before, "result resume reapplied choice/economy")
+	remove_child(story)
+	story.free()
+	BGMPlayer.stop()
+	await get_tree().create_timer(0.2).timeout
 
 
 func _close_prepared_story_root(event_id: String) -> bool:

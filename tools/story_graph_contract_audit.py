@@ -626,6 +626,35 @@ def validate(data: Inputs) -> list[str]:
             or parent_cut.get("arrival_cue_ko") != "부모님이 서울에서 내려간 지 나흘째" \
             or parent_cut.get("arrival_cue_en") != "Four days after his parents returned from Seoul":
         errors.append("M23 parents-to-hospital four-day time cut drifted")
+    # The parents were seen four days ago on either visit choice. Do not turn
+    # the immediate KTX result into an invented long absence again.
+    for language, events, forbidden in (
+        ("KO", data.events_ko, ("마지막으로 봤던 게 언제인지", "너무 오래됐다")),
+        ("EN", data.events_en, ("when the last time was", "Too long ago")),
+    ):
+        result = events.get("arc_father_03_hospital", {}).get("choices", [{}])[0].get(
+            "result_text", "")
+        if not result or any(fragment in result for fragment in forbidden):
+            errors.append(f"M23 {language} first-KTX result contradicts the four-day visit")
+    # W152 does not require any joint investment history. Keep the shared
+    # introduction truthful for players who declined every investment offer.
+    for language, events, forbidden in (
+        ("KO", data.events_ko, "몇 번이나 함께 돈을 굴렸고"),
+        ("EN", data.events_en, "moved money with more than once"),
+    ):
+        description = events.get("arc_36_trust_crack", {}).get("description", "")
+        if not description or forbidden in description:
+            errors.append(f"M38 {language} trust crack invents joint investment history")
+    # The M33 reckoning can be reached while Father is alive. Its shared
+    # acceptance result must not presuppose his death.
+    for language, events, forbidden in (
+        ("KO", data.events_ko, "아버지가 돌아오는 건 아니었다"),
+        ("EN", data.events_en, "wouldn't bring Father back"),
+    ):
+        result = events.get("arc_sangchul_reckoning", {}).get(
+            "choices", [{}, {}])[1].get("result_text", "")
+        if not result or forbidden in result:
+            errors.append(f"M33 {language} acceptance invents Father's death")
     for event_id in M33_IDS:
         event = data.events_ko.get(event_id, {})
         presentation = rules.get(event_id, {}).get("presentation", {})
@@ -672,6 +701,18 @@ def validate(data: Inputs) -> list[str]:
         if event_id in set(data.lifecycle.get("author_only_event_ids", [])):
             errors.append(f"activated fallback remains author-only: {event_id}")
     father_logic = rules.get("arc_father_04_visit", {}).get("logic", {})
+    # W89 can already put the player on the KTX. W96 must not retell that
+    # departure as something delayed until now, on either shared prose leaf.
+    for language, events, forbidden in (
+        ("KO", data.events_ko, ("몇 주가 지나서야", "첫 KTX를 탔다")),
+        ("EN", data.events_en, ("Weeks after the call", "took the first KTX south")),
+    ):
+        visit = events.get("arc_father_04_visit", {})
+        surfaces = [visit.get("description", ""), visit.get(
+            "description_if_known", {}).get("arc_sangchul_03_seen", "")]
+        if any(not surface or any(fragment in surface for fragment in forbidden)
+               for surface in surfaces):
+            errors.append(f"M24 {language} hospital arrival rewinds the immediate KTX choice")
     if {row.get("is") for row in father_logic.get("requires", [])} != {"hospitalized"}:
         errors.append("father_04_visit lacks hospitalized typed ingress")
     father_prereqs = father_logic.get("prerequisites", {}).get("all", [])
@@ -1377,6 +1418,56 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
     def _(data: Inputs) -> None:
         beats = month(data.story_map, 24)["beats"]
         beats[0], beats[2] = beats[2], beats[0]
+
+    @case("m23_ko_ktx_invented_long_absence")
+    def _(data: Inputs) -> None:
+        data.events_ko["arc_father_03_hospital"]["choices"][0]["result_text"] = (
+            "창원행 KTX 첫 차를 예매했다. 새벽 다섯 시 서울역.\n"
+            "기차 안에서 아버지 얼굴을 떠올렸다.\n"
+            "마지막으로 봤던 게 언제인지 — 계산하다가 멈췄다.\n너무 오래됐다."
+        )
+
+    @case("m23_en_ktx_invented_long_absence")
+    def _(data: Inputs) -> None:
+        data.events_en["arc_father_03_hospital"]["choices"][0]["result_text"] = (
+            "Booked the first KTX to Changwon. 5 a.m. from Seoul Station.\n"
+            "On the train, tried to picture Dad's face.\n"
+            "Started calculating when the last time was —\nStopped. Too long ago."
+        )
+
+    for language, field in (
+        ("KO", "description"), ("KO", "arc_sangchul_03_seen"),
+        ("EN", "description"), ("EN", "arc_sangchul_03_seen"),
+    ):
+        def delayed_departure(data: Inputs, language=language, field=field) -> None:
+            events = data.events_ko if language == "KO" else data.events_en
+            visit = events["arc_father_04_visit"]
+            prefix = ("입원 소식을 들은 지 몇 주가 지나서야 첫 KTX를 탔다. "
+                      if language == "KO" else
+                      "Weeks after the call, he took the first KTX south. ")
+            if field == "description":
+                visit[field] = prefix + visit[field]
+            else:
+                visit["description_if_known"][field] = prefix + visit[
+                    "description_if_known"][field]
+        cases.append((f"m24_{language}_{field}_delayed_departure", delayed_departure))
+
+    for language in ("KO", "EN"):
+        def invented_death(data: Inputs, language=language) -> None:
+            events = data.events_ko if language == "KO" else data.events_en
+            events["arc_sangchul_reckoning"]["choices"][1]["result_text"] += (
+                " 다 파헤치고 다 부순다고 아버지가 돌아오는 건 아니었다."
+                if language == "KO" else
+                " Tearing it all open, breaking it all down, wouldn't bring Father back.")
+        cases.append((f"m33_{language}_acceptance_invented_death", invented_death))
+
+    for language in ("KO", "EN"):
+        def invented_investment(data: Inputs, language=language) -> None:
+            events = data.events_ko if language == "KO" else data.events_en
+            events["arc_36_trust_crack"]["description"] += (
+                " 몇 번이나 함께 돈을 굴렸고"
+                if language == "KO" else " moved money with more than once")
+        cases.append((f"m38_{language}_invented_joint_investment", invented_investment))
 
     baseline_before = copy.deepcopy(base)
     baseline_errors = validate(base)
