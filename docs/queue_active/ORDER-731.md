@@ -11,6 +11,8 @@ locked_media_audit는 `.git/ap-flash-fix-20261101/`의 준비 helper·stage·원
 별도 `GangnamDream-ContinuousPlay-20261101.2` 앱만 준비한다. 기존31.1은 그대로,
 같은 저장 namespace를 유지하되 빌드/QA가 활성 사용자 저장을 읽거나 쓰지 않게 한다.
 root가 수리 commit을 확정한 뒤만 package를 만들고 사용자가 종료한 뒤에만 인계한다.
+수리73730c7·표적positive4/원본negative 완료, 수정31.2 패키지 준비·서명/PCK 검증 완료.
+실행0·사용자 저장/종료 답변 대기, 같은31_1 저장 위치이며31.1을 덮지 않았다.
 
 2026-11-01 사용자 `새 정상 플레이로 다시 시도` 승인. 기존 M44 종료 저장/29.1
 앱은 보존하고, 수정631da85의 새 full 앱을 한 번만 준비해 정상 New Game으로 시작한다.
