@@ -13,7 +13,7 @@
 | 현재 범위 | 1턴=1주, 240주·60개월(5년). **출시 데모는 M01~M06에서 끝나는** `story_demo_rc` BUILD `2026.08.31.1`이고 사용자 GO다. 본편은 M01~M60 전체의 장면·선택·회수·정점 상승을 한 작품으로 관리한다. 반복 행동판은 0이며 저장 호환 AP 데이터·엔진 삭제 GO는 아니다. |
 | 품질 게이트 | 출시 완료 조건·목표일은 [`DECISIONS 2026-10-15`](docs/DECISIONS.md#2026-10-15-본편-출시-완료-조건과-목표일--사용자-승인)가 소유한다. [`MASTER_RELEASE_AUDIT`](docs/MASTER_RELEASE_AUDIT.md)는 품질 목표·과거 증거 참조이며 새 5조건 밖 추가 출시 차단이 아니다. |
 | 최근 검증 | 사용자 재위임 뒤31.2/같은31_1 정상 런 W6→M48/W192 연속 플레이. 이번 M44 생존, W192 사망변형 root ID 불일치로 결과 닫기 C2. slot1 정상저장·종료, M60 미도달. [일일 기록](docs/WORK_LOG.md#2026-11-01--연속-대표-플레이와-c2-중단). |
-| 바로 다음 | root ID 정렬/정상재개 수리·격리 positive5 통과. 수정앱에서 같은 slot1 W192c1 결과를 불러와 이어간다. 새게임/복원/수치편집/선택재적용0, 옛29.1 보존·월별 게이트0·일일 기록 한 곳. |
+| 바로 다음 | root ID 수리·positive5/31.3 패키지 완료, Mac 잠금으로 실행0. 해제 뒤31.3 정상 Load→slot1 W192c1 결과P2에서 이어간다(자동Continue 재선택0). 옛29.1 보존·월별 게이트0·일일 기록 한 곳. |
 | 최근 수리 | [729](docs/queue_archive/ORDER-729.md) 다은 취업 EN 인용문1곳·파생SHA2셀 수리/독립source GO. 수정앱 실제검수·새main CI 완료는 별도이며18.1·05ee 저장불변. |
 | 열려 있는 사람 게이트 | [`human_gates.json`](docs/human_gates.json)의 공개 GO1·역사 OPEN45와 [`agent_review_decisions.json`](docs/agent_review_decisions.json)의 내부 판정을 보존한다. OPEN45 전부 닫기는 현재 출시 조건이 아니다. 사람 1명 2~3시간 플레이·최종 출시 판정은 사용자이며 아직 발급하지 않았다. |
 | 그다음 | 737 offline캡슐 실물4·소형2 독립GO/native0·원본保全. AI고지15·상점초안5·사람기록지 준비, retail5언어/사람2~3h·실촬영/4영상/청취 미완. SteamPipe 절차만/업로드0. KOEN 뒤 CJK1회·등급/외부/C5전체GO0. |
