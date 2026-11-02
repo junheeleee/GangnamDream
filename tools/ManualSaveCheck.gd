@@ -5518,9 +5518,21 @@ func _check_prologue_call_end() -> void:
 				"Prologue duplicate read close was not state-inert %s/%d" % [language, choice_index])
 			_prologue_call_end_reads += 1
 			# Both authored choices lead to goal, not directly to another phone.
-			# After proving that real ingress, explicitly hand the SAME StoryMode
-			# its remaining prepared phone root without reading/choosing goal.
-			# Normal entry may write run/meta seen-scenes; it is not a pure render.
+			# Prove the unread goal cannot be skipped by the production owner.
+			# Presentation reset is a separate prepared phone-root fixture, not
+			# an authored goal -> phone transition or a read receipt for goal.
+			var before_phone_fixture: Dictionary = GameState.serialize().duplicate(true)
+			_expect(not FULL_STORY_FLOW.bind_current_live_root("arc_hyunsu_new_path") \
+					and GameState.serialize() == before_phone_fixture,
+				"Prologue owner accepted an unread goal bypass %s/%d" % [language, choice_index])
+			var phone_fixture_owner: Dictionary = FULL_STORY_FLOW.snapshot()
+			phone_fixture_owner["chain"] = {}
+			GameState.flags[FULL_STORY_FLOW.STATE_KEY] = phone_fixture_owner
+			_expect(FULL_STORY_FLOW.valid_session() \
+					and FULL_STORY_FLOW.begin_chain(["arc_hyunsu_new_path"]),
+				"Prepared phone fixture has no exact owner %s/%d" % [language, choice_index])
+			# Only test-owned in-memory flow changes; gameplay/read assertions below
+			# remain tied to the original applied prologue choice.
 			_story.call("_finish_story_scene_transition")
 			_story.call("_load_next_event")
 			_story.call("_finish_story_scene_transition")
