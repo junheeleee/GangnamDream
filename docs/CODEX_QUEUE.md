@@ -52,7 +52,7 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 | 기준 | 현재 실행 범위·남은 일 |
 |---|---|
-| C3 CI | 26commit push→96a39af/run41540805323. 정적job 성공·엔진job 진행중(11-03), 전체성공 미판정·예외0. |
+| C3 CI | run41540805323 실패2: ManualSave fixture·content지문. [수리범위](queue_active/ORDER-731.md)·예외0. |
 | C1 대표 완주 | 옛29.1 M44 종료 보존. 새 정상31.2 런을 재위임받아 M48/W192 도달·결과닫기 C2 수리/정상재개 준비, M60 미도달. [오늘 기록](WORK_LOG.md#2026-11-01--연속-대표-플레이와-c2-중단). |
 | C2 치명 결함 | 엔딩 전환막 source수리·표적회귀 통과/수정앱 미관측. 조기burnout 정상·전체C2 미완. |
 | C4 사람·고지 | [696](queue_archive/ORDER-696.md) 16.2 인계·[728](queue_archive/ORDER-728.md) 본편 빈 기록지 준비·사람2~3h 미완료. [720](queue_archive/ORDER-720.md) 고지 준비렌더15·CJKshipping0. |

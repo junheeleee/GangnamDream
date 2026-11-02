@@ -1,5 +1,15 @@
 # ORDER-731 — M40 자동 월초 경계
 
+2026-11-03 C3 실제 CI run41540805323 실패 수리: `MANUAL_SAVE_EXIT`는 프롤로그
+검사에서 미독 goal을 건너뛴 준비 큐와 새 exact root guard 충돌이다. 제품 guard를
+완화하지 않고 `tools/ManualSaveCheck.gd`의 해당 준비 handoff만 정렬·표적 반례 검증한다.
+`RELEASE_CONTENT_EXIT`는 승인된 KO/EN 사실수리 뒤 sexuality/crime content 지문2개와
+생성보고서 미갱신이다. `content/meta/release_content_inventory.json`의 해당2셀과
+`docs/CONTENT_RATING_INVENTORY.md`만 원문 delta 대조 후 현행화한다. 범위·등급·
+노이즈 예외·사건수/ID·공개데모·원문/사용자저장/실행앱 변경0. 원로그와 격리 표적
+자료는 새 `.git/ci-repair-20261103/`만 소유한다. root는 큐/CLAUDE/오늘WORK_LOG 상태.
+CI 예외 추가/실패 은폐0·미관측 성공0·월별 게이트0. 준비 fixture와 실제플레이를 구분한다.
+
 최신 사용자 재위임: `이제 나는 게임 안할거야 씻고 나갈거니까 너가 작업이어서해`.
 root가 현재31.2/같은31_1 정상저장을 Continue해 연속 대표 플레이한다. 월별 절차0,
 확인C2만 중단·비긴급은 목록·진행은 오늘 WORK_LOG 한 항목에 합친다. 아래 인계 대기는 종료.
