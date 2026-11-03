@@ -99,6 +99,8 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
+| 79 | [~] | ORDER-760 · 연말 관계·흔적 JA/zh | [760](queue_active/ORDER-760.md) | C5 · KR18×3 정합 |
+
 
 
 
