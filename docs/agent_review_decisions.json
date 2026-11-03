@@ -12818,6 +12818,49 @@
         "path": "docs/agent_reviews/order747-question-goal-cjk.json",
         "sha256": "a3d44f51e41d9d65ec81c68786495615d58683c115d042c61412ef5dcbbf33d8"
       }
+    },
+    {
+      "id": "order748-news-cost-cjk-corrections-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-03",
+      "decided_by": "/root/capsule_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-748",
+      "subject": {
+        "kind": "source",
+        "commit": "3314874c8c7ff9b9198defcea3e3c3d4cb3025a4",
+        "tree": "e1bc957e9bf54c4cee6290d02fef3a7d2b844c18",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order748-news-cost-cjk.md",
+          "sha256": "369aa4455c14e71a1698dad7462c8197d6008c816a0153e970783f86e2cd0e9f"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order748-news-cost-cjk.json",
+          "sha256": "812c1891639c9572784a6be3f8c2d5f519e6766abe555bca75f983338359b9db"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order748-news-cost-cjk.json",
+        "sha256": "812c1891639c9572784a6be3f8c2d5f519e6766abe555bca75f983338359b9db"
+      }
     }
   ]
 }

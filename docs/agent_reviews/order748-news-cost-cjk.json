@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-748",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "3314874c8c7ff9b9198defcea3e3c3d4cb3025a4",
+    "tree": "e1bc957e9bf54c4cee6290d02fef3a7d2b844c18",
+    "manifest_sha256": null
+  },
+  "scope": "Five news/promise-cost roots only: Korean13 × JA/zh-CN/zh-TW =39 existing-target corrections; new coverage0.",
+  "population": {
+    "source_leaves": 13,
+    "target_leaves": 39,
+    "scene_language_units": 15,
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/{arc_year3_drama,arc_chapter_themes,arc_midgame}.json",
+    "selection": "arc_sangchul_year3 and father_passed: description/choices0 text/result each; arc_36_unexpected_hand: description/known missed_father&missed_person/choices1 result; father_deal: description; arc_37_reckoning: description/known doubled_down/steady_path."
+  },
+  "review": {
+    "method": "Read Korean13/targets39 and all five Korean/current-locale roots/choices/known. Directly checked MainGame7645-7674/8667-8672, EventManager father-passed remap, StoryMode4384-4450 first matching known replacement/memory append and DataRegistry overlay consumer.",
+    "final_blocking_findings": [],
+    "news": "Other cases surface regardless of player choice, not an invented report. Cafe words and mixed gratitude/harm remain; no guaranteed severance or erased burden. Living father choice calls; passed father choice stops at contact/share link without sending or inventing a hearer.",
+    "cost": "Separate actual card charges and unanswered messages preserved. Two offered times/travel time yield only one confirmed calendar slot. Father/deal cancellation retains lost deposit and this-week single ward-call opportunity. Exact missed2 and passed-father ward blocking agree with runtime source.",
+    "reckoning": "37/4years/500000won/3000000000won/final1year preserved. Current date, ink, pen, button marks and hand carry the goal question; no invented returns, sleep/contact losses, fixed recurring cash or moral guarantee.",
+    "repairs": "CN/TW both-side chat-window reference plus explicit two contact windows naturally retains the two contacts. CN round-trip wording narrowed to sourced renewed travel only. Draft chains change only base/known2 per locale, other11 texts/header/metadata exact; original counter rejections and intermediate VALID retained.",
+    "format": "All39 shipping rows checked for tokens, paragraph breaks, names, won amounts, offered times and regional terms against Korean. Agent source reading is not native-reader observation."
+  },
+  "preservation": {
+    "prior_batches": 342,
+    "prior_decisions": 305,
+    "ledger": "Prior342 batches exact; original acceptance/previous-target fingerprints retained; receipt3 independently recomputed. Restoring owned acceptance and batch/hash fields yields the entire prior ledger exactly.",
+    "overlays": "Actual39 equal reviewed responses. Restoring only owned39 yields all9 prior overlay JSON files exactly; nonowned choices/known/text/order unchanged.",
+    "boundaries": "KO/EN/gameplay/runtime/demo/allowlist/validators and earlier reports/decisions unchanged. Read five declared doc diffs: CLAUDE/queue/parent157/active748/WORK_LOG."
+  },
+  "validation": {
+    "final_check_import": "Three final check/import pairs:13 leaves/3files each, VALID/INCOMPLETE/OPEN markers and stderr0; author exit0. All raw logs directly read.",
+    "delta": "changed_leaves39 overlay_files9 new_coverage0; independent whole-JSON/receipt reconstruction passed.",
+    "story_demo": "locales5 source_events14 leaves100 target_ui122",
+    "coverage": "EN strict1813/1813 events35/35 endings; CJK skeleton1708/1813.",
+    "history": "CN original unmatched-entity2 rejection and second missing-contact-window2 rejection are separate failed preparations, not final success. CN draft3 intermediate VALID predates travel refinement. No validator relaxation/old-export recheck/unchanged selftest repetition; reviewer app/engine/UI/save actions0."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 864,
+    "stale_source": 861,
+    "each_locale_stale": 287,
+    "summary_diagnostics": 3,
+    "change": "903 ->864: reviewed39 only; pure scope recomputation confirms counts. Broad translation/UI debt remains."
+  },
+  "identity": {
+    "original_export_source_revision": "31f4eafd6743e046ddb5c8a30d47780cca8fdb88",
+    "final_receipt_sha256_by_locale": {
+      "ja": "9097702b8a8d04330440f862ec2e45942eee0e2c1caf3e32a2024e925e7faaa5",
+      "zh-CN": "a35a9e3dc8b11005725a1f81bacf61eb7e260803b7517fe77d365ed972007fce",
+      "zh-TW": "5744198b4e719b4f9ab0ed63100bce06cd4d4ba348407ff5e45c2914f40b6c75"
+    },
+    "reviewed_rows_sha256": "6e3d6b1e294f36536a9fe528e01a521ecc7dc4c59070a14a1c89b77980452574",
+    "reviewed_rows_encoding": "canonical JSON, locale/export order: [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-news-cost-20261103/",
+    "raw_files": 37,
+    "raw_population_sha256": "9d897e6f69e63117e9e86f0843f7c13364d7999b08a3b3acca372c36ddca7b6e",
+    "raw_population_encoding": "canonical JSON: basename-sorted [basename,bytes,sha256] for all .jsonl/.log; same encoding for disjoint subsets",
+    "used_final": {
+      "files": 26,
+      "sha256": "aad3a3ab8c43c944285f93e99de8e784dc6342eb906b647c8f1c3f81b5826394",
+      "selection": "Final source/response3 pairs, check/import3 stdout/stderr pairs, delta/scope/demo/coverage stdout/stderr4 pairs"
+    },
+    "repair_history": {
+      "files": 11,
+      "sha256": "29cb95b43293d6e7fd30c86f14c5740417bf7b1b2df7a407629e54673bb05c47",
+      "selection": "CN draft1/2 failed check stdout/stderr4; CN/TW draft1/2 responses4; CN draft3 response/intermediate VALID stdout/stderr3"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ],
+  "conclusion": "GO for exact39 source corrections only, not failed/intermediate preparation, whole translation/lane, actual runtime, M60 or release."
+}

@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-748 · 기사·약속 비용의 JA/zh 정합
+#### [x] ORDER-748 · 기사·약속 비용의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. 다섯 root×세 언어=15장면-언어 단위,
 shipping KR13×3=39개 기존 번역 정정만 소유한다.
@@ -51,4 +51,8 @@ CN/TW두대화창은‘两边的聊天窗口/兩邊的對話視窗’와명시�
 최종check/import13×3 exit0/stderr0, receipt/순수검증/delta39/9파일·원342배치/
 수용/이전target/비소유값불변. scope903→864(stale861=각287+요약3),
 demo5언어14사건100leaf122UI·EN1813/35 clean. 원자료
-`.git/localization-news-cost-20261103/` 소유·최종제품 독립판정 대기다.
+`.git/localization-news-cost-20261103/` 소유다. 제품 `3314874`의
+[독립 전독](../agent_reviews/order748-news-cost-cjk.md)은실수용39/9파일·원342배치/
+수용/previous-target/비소유값·receipt3개를직접대조해 이39정정만GO로판정했다.
+raw37은최종26/수리11로분리SHA결속·기존305판정/보고불변.
+2026-11-03 완료·규범일회성, 전체언어/차선·화면/원어민·최신CI/M60/출시GO별도.
