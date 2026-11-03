@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-749 · 인맥의 출처·3년차 기록의 JA/zh 정합
+#### [x] ORDER-749 · 인맥의 출처·3년차 기록의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. 인맥 장면과 결산 기본/지식·작년선택·재혁
 변형을 각각 판정하는 7장면-문맥×3언어=21단위, KR15×3=45 기존 번역 정정이다.
@@ -48,4 +48,8 @@ MainGame W133~136/정확W144, story_rules message/연말same-location queue·Sto
 최종check/import15×3 exit0/stderr0, receipt/순수검증/delta45/6파일·원343배치/
 수용/이전target/비소유값불변. scope864→819(stale816=각272+요약3),
 demo5언어14사건100leaf122UI·EN1813/35 clean. 원자료
-`.git/localization-year3-records-20261103/` 소유. 제품후보 실수용 독립최종판정은다음.
+`.git/localization-year3-records-20261103/` 소유. 제품 `1c1ea254`의
+[독립 전독](../agent_reviews/order749-year3-records-cjk.md)은실수용45/6파일·원343배치/
+수용/previous-target/비소유값·receipt3개를직접대조해 이45정정만GO로판정했다.
+raw43은최종26/수리17로분리SHA결속·기존306판정/보고불변.
+2026-11-03 완료·규범일회성, 전체언어/차선·화면/원어민·최신CI/M60/출시GO별도.

@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-749",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "1c1ea2541f4f664ca774af234fd85c7e751f692d",
+    "tree": "29baa884d02257105c2ce17b8c2f4a05a3ff8fdc",
+    "manifest_sha256": null
+  },
+  "scope": "Korean15 × JA/zh-CN/zh-TW =45 existing-target corrections only; two roots/seven scene-contexts ×3=21 units; new coverage0.",
+  "population": {
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/{arc_year3_drama,arc_year_close}.json",
+    "selection": "arc_y3_cost_of_knowing: description/choices0,1 result_text(3); arc_year3_close: description, choices0,1,2 text/result_text, known father_confession_heard/sangchul_truth_known/year2_confident/year2_conflicted/arc_jaehyuk_ghost_seen(12)."
+  },
+  "review": {
+    "method": "Read Korean15/targets45 directly, both roots' full choices/known including nonowned Jiyeon variant; read actual year2_close calendar/statement choices, father surname clue, story_rules message/same-location queue, lifecycle, MainGame7596-7604/7759-7760 and StoryMode4384-4450.",
+    "final_blocking_findings": [],
+    "meaning": "Introduced message names its source, not invented4days/meeting/first transaction or phone ending. Father says only Im surname over phone; player recognizes Sangchul. Jaehyuk application carries player's own signature. Calendar's two-character first/事先/先に and statement front amounts/back time remain conditional. This-year selected copies, shared folder/printing/locking differ without forcing one fixed reopened document into all routes.",
+    "repairs": "Independent finding: literal balance-back obscured an actual statement. Final JA/CN/TW explicitly name the already-present statement's reverse; exactly1phrase in year2_conflicted per locale, other14/header/metadata unchanged. Prior JA fold-and-put-away clarification and CN two-pages→two-screens retain meaning; draft1→pre-review also exactly1phrase each.",
+    "format": "96weeks/2years/35years/3000000000won,18:00/17:12, tokens/newlines/names/regional terms preserved. First matching known replaces base; memory appends separately. Message recipient is not physically present."
+  },
+  "preservation": {
+    "prior_batches": 343,
+    "prior_decisions": 306,
+    "proof": "Actual45=response exact. Restoring only owned45 yields all6 prior overlay JSONs exactly. Prior343 batches/acceptance/previous-target fingerprints/nonowned values retained; restoring owned acceptance and batch/hash fields yields entire prior ledger exactly. Actual private accepted receipts3 equal independent reconstruction and canonical hashes.",
+    "boundaries": "KO/EN/gameplay/runtime/demo/validators/allowlist and earlier reports/decisions unchanged. Read five declared metadata diffs: CLAUDE/queue/parent157/active749/WORK_LOG."
+  },
+  "validation": {
+    "final_check_import": "Final-check/import3 pairs:15 leaves/2files each, VALID/INCOMPLETE/OPEN, stderr0; author exit0. All raw logs read.",
+    "delta": "changed_leaves45 overlay_files6 new_coverage0; independently reconstructed whole JSON/receipts/source binding.",
+    "story_demo": "locales5 source_events14 leaves100 target_ui122",
+    "i18n": "EN strict1813/1813 events35/35 endings; CJK skeleton1708/1813.",
+    "lane": "lane.log lists11 selected checks only; not execution/pass evidence for that whole lane. No unchanged selftest/old-export CLI rerun by reviewer.",
+    "history": "Original CN screen_count2 rejection and initial/intermediate VALID logs retained separately. Drafts/independent review corrections preserved; no validator relaxation. App/engine/UI/save actions0."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 819,
+    "stale_source": 816,
+    "each_locale_stale": 272,
+    "summary_diagnostics": 3,
+    "change": "864 ->819: reviewed45 only; independent pure scope recomputation matches. Broad translation/UI debt remains."
+  },
+  "identity": {
+    "original_export_source_revision": "9cc5463aabf93fa88bff21feb66b997a6feb8087",
+    "final_receipt_sha256_by_locale": {
+      "ja": "6f3baf470340f2c3524861a09a4582c575178c2ea27b94452ebe9a252bcf01f0",
+      "zh-CN": "63e77760bcb2dd9eb182190296c4b67983b359203302b10325dd350db66a2183",
+      "zh-TW": "07445c69f9c93a9b5c8e6fff74292d2c087a19b6020dffa513f2f4bc69dd09ed"
+    },
+    "accepted_receipt_raw_bytes_sha256": {
+      "ja": [4479, "09cf90d43f992821de089f2a4d0985ee59134e759feb03dac763d25ffd9b3a3f"],
+      "zh-CN": [4482, "099c7902ab9b0fdfaa5834f4c368e89e91052d0a16e2e83600d4de45f8d8902e"],
+      "zh-TW": [4482, "8f9ae6190df0140e781c5ed9252bea9868c1488a041ceca1d4bc913977679c17"]
+    },
+    "reviewed_rows_sha256": "c805667096f0d3fc846be04e0d8c7b8064a890925fa0416d6f713f0155135791",
+    "reviewed_rows_encoding": "canonical JSON, locale/export order: [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-year3-records-20261103/",
+    "raw_files": 43,
+    "raw_population_sha256": "16ef0b749d39ce2ad616bc0750864012e131dd6406276e495aad10e6edd13ffc",
+    "raw_population_encoding": "All regular files, including helpers/leaf IDs; canonical JSON basename-sorted [basename,bytes,sha256]; same for disjoint subsets",
+    "used_final": {
+      "files": 26,
+      "sha256": "282e2bd69070c50cde5c772425594771b239b556d69379a698da193a34a1dde3",
+      "selection": "prepare-correction.py/check-delta.py/leaf-ids.json; source/response3 pairs; final-check/import3 stdout/stderr pairs; delta/demo/i18n/lane/scope5 logs"
+    },
+    "repair_history": {
+      "files": 17,
+      "sha256": "db672a9352b112972c199051d4dccd00c33deb57d1c9e4345dd179bb11b07010",
+      "selection": "Initial draft-check3 stdout/stderr pairs; pre-review check3 stdout/stderr pairs; JA/CN draft1 responses2; pre-review responses3"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ],
+  "conclusion": "GO exact45 source corrections only; not initial/intermediate preparation, whole lane/translation, actual runtime, latest CI, M60 or release."
+}

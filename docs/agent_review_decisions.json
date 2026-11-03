@@ -12861,6 +12861,49 @@
         "path": "docs/agent_reviews/order748-news-cost-cjk.json",
         "sha256": "812c1891639c9572784a6be3f8c2d5f519e6766abe555bca75f983338359b9db"
       }
+    },
+    {
+      "id": "order749-year3-records-cjk-corrections-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-03",
+      "decided_by": "/root/capsule_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-749",
+      "subject": {
+        "kind": "source",
+        "commit": "1c1ea2541f4f664ca774af234fd85c7e751f692d",
+        "tree": "29baa884d02257105c2ce17b8c2f4a05a3ff8fdc",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order749-year3-records-cjk.md",
+          "sha256": "84ca279e4bfc4af8d0e770aaef608de41932b0f74381c2e421ae5f78bcb07310"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order749-year3-records-cjk.json",
+          "sha256": "b22e5c535bf7d21b7459b938f18b669251311405f23cd23462358ddb1f420f4e"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order749-year3-records-cjk.json",
+        "sha256": "b22e5c535bf7d21b7459b938f18b669251311405f23cd23462358ddb1f420f4e"
+      }
     }
   ]
 }
