@@ -15904,6 +15904,276 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-743",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_father_03_hospital",
+        "arc_jiyeon_03_offer",
+        "arc_y2_relationship_fork_unattached",
+        "arc_daeun_04_morning",
+        "arc_daeun_04b_future",
+        "arc_daeun_05_together"
+      ],
+      "source_leaves": 12,
+      "target_leaves_by_locale": {
+        "ja": 12,
+        "zh-CN": 12,
+        "zh-TW": 12
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean comparison and independent full reading of 36 targets before import: present phone hospital news, travel-time and cash calculation, apology without invented gift refusal, room/message locations and open romance duration, one-time renewal payment and deposit/exit tradeoffs. No invented monthly rent increase, investment portfolio, extra past or dating duration. Prior acceptance and target hashes retained.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "0de0c98e213feb8292e714b1d99ccd47449881d0",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "a61476030a71f20e9193a45873f7e9538ebed8381ef1e000e4e24b1b8b044f97",
+          "count": 12,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "82c45e2f78bcb818e8cd34502ba32e338d27bf538811e6792a589ba4df3141d3"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "0de0c98e213feb8292e714b1d99ccd47449881d0",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "9b04cba94a9cb3eb83b32439b782dfd612be37c2a578d753e4c4cfa56bd22994",
+          "count": 12,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "edebbda95b82d9b22fcecf68287e74537780e2659580cc096951ec2209c2ecfe"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "0de0c98e213feb8292e714b1d99ccd47449881d0",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "653fe08e43040bb88c2492dacff201b5c392becde076df1a3ca6dced52fbfb19",
+          "count": 12,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "4273a4ef1b66f173f33319435acc2cdf869d80706762a0838ba9e0698070e0cc"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "c2014bfca36c9ed6fd5267a288e0ec8479938b607a4328515feba8a78f8fb3d2",
+        "zh-CN": "5527f19407c1c21e43e70ddb551f740497eb0a031bfba29929c603a6a299c49b",
+        "zh-TW": "cbbbb49b5af42041aa01e84b8b5fccdd281415e126b690bde08d4443e3a92a08"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_daeun_04_morning:/description": "5ed5d94e463c0e2ff77c3105e2b77caf37a37591b724602f68bd2d50ee7b17f2",
+          "events:arc_daeun_04b_future:/description": "24ebaf070ad4c174c35db179fb8d237d6517d995ca40c7041a2e9510d16f1d15",
+          "events:arc_daeun_05_together:/description_if_known/daeun_romance_started": "1fdb831a7f52d1511600e2001eb111f6afdf79e53f7cfbc43cdbe8cfcdcfe17a",
+          "events:arc_daeun_05_together:/title": "18956f9bb28af3de725210c4f5ee4e5a4feebf1a50602db6ed35302c85570d59",
+          "events:arc_father_03_hospital:/description": "35d3348d1ea44bccc72ada2280f5a4ec4b4c74cf82ae145e8b9918bf5138b62d",
+          "events:arc_father_03_hospital:/description_unorthodox": "fb62bf4e3b04caf8d9e7667f4d0378e9fd9d2df5675e9151297001aa0394aac6",
+          "events:arc_jiyeon_03_offer:/description": "a8f8781b813180a7a715106ed687e1466fb9c8b3e604a060014b5cac22da2c18",
+          "events:arc_y2_relationship_fork_unattached:/choices/0/result_text": "72689f51c17fc43589019a93cb4f59b0489b5b120b1e8a73fbcce05b7271ff1d",
+          "events:arc_y2_relationship_fork_unattached:/choices/0/text": "c02ed4462d3bf628becaf88497d4016c57d14119b286dd8e9a4d0698f7dc79e8",
+          "events:arc_y2_relationship_fork_unattached:/choices/1/result_text": "09016bff7ca643dace4eb0ad50444754ac5f5a33d88f4b56b39b9dcee2ed087e",
+          "events:arc_y2_relationship_fork_unattached:/choices/2/result_text": "37cdcf03217020c9baa3574c11c7ff7586bac38182abf2cb1690984c6a552064",
+          "events:arc_y2_relationship_fork_unattached:/description": "d4911644232e5e99ab02090a753194cecc3c4abf015e6920269e876bc270e955"
+        },
+        "zh-CN": {
+          "events:arc_daeun_04_morning:/description": "39ec14448f8740d6ac4b4f70e91f42826ae2b924df4c62d1d31c0b71a4648f95",
+          "events:arc_daeun_04b_future:/description": "2301617d0d2e1767908b04782e2fdcbdf41837a29a591e774efca26fcfd9e976",
+          "events:arc_daeun_05_together:/description_if_known/daeun_romance_started": "aa46a9adb4204537107172b891ee8d250c8260cfec038619facbc44dc7d6c4a9",
+          "events:arc_daeun_05_together:/title": "433a8012d3db10aea9e60cea1a2a8db30405dedf9d4ed0bf2a142c46bb437b28",
+          "events:arc_father_03_hospital:/description": "152f2ff2763af68cb09d9a3f8028bfe6a2906c648971f725459f7405efe92ecc",
+          "events:arc_father_03_hospital:/description_unorthodox": "fe2b36a7a3903eec64dbbf5b04cfb79de040c172260e9ba4d2cf6781b07eb074",
+          "events:arc_jiyeon_03_offer:/description": "181866072e0a983b44f6d4fd79d7eca28679222a59c35898285d96d75b21e681",
+          "events:arc_y2_relationship_fork_unattached:/choices/0/result_text": "f26829a51fb362d66881684e5d7998c0fa6cdb10417771f8f841935870b7df88",
+          "events:arc_y2_relationship_fork_unattached:/choices/0/text": "fc925d2948749550525488b1b6e3dc9787de43bcada5d2b888309b86acc1f226",
+          "events:arc_y2_relationship_fork_unattached:/choices/1/result_text": "e83fbf42363e63433f8c1dfd8b17488d3342c2e3032cbe3240b1eee7c4017476",
+          "events:arc_y2_relationship_fork_unattached:/choices/2/result_text": "a606bd3fb1ae2a0d5cd9ab787e102ff331a1aa3495d6e31f5a755afec300ab2e",
+          "events:arc_y2_relationship_fork_unattached:/description": "ca11f8180aad5ee04994c5c0338a0fa9fc5f59f21410dd6d14d5e6a8b3325643"
+        },
+        "zh-TW": {
+          "events:arc_daeun_04_morning:/description": "325df8942c9a5e7490e8bd534a44582a545f7f4705282acc090d82325b54c94d",
+          "events:arc_daeun_04b_future:/description": "636216deef1059539c9ba404008c03badc51eb834ff85506257c97adddf957a9",
+          "events:arc_daeun_05_together:/description_if_known/daeun_romance_started": "dbc4559181d95a3f742f0194a236f29b689a8d30b09c1cf4a55fd5836fe29866",
+          "events:arc_daeun_05_together:/title": "433a8012d3db10aea9e60cea1a2a8db30405dedf9d4ed0bf2a142c46bb437b28",
+          "events:arc_father_03_hospital:/description": "a618f2162449d471b595d2b85aceda4f6175a258e95f86298616ca40fe630913",
+          "events:arc_father_03_hospital:/description_unorthodox": "f9273789cfea4ac7e5a6bb591a21dc548044d72936bf42550cdfb90fd497ce69",
+          "events:arc_jiyeon_03_offer:/description": "a9693ca21a3512c07aff3a09f35cd3b67aadffd7f5d3d97a1994724e3bfb3146",
+          "events:arc_y2_relationship_fork_unattached:/choices/0/result_text": "27749ba7f07e55f4273d5df324de9fb17bfdbfd8cbfbcb04994420c2bd7a802e",
+          "events:arc_y2_relationship_fork_unattached:/choices/0/text": "7ed9db71f12986b68b6d50bd1bf8ff836545ef6bfbdb2baa3eb243e71469e7e3",
+          "events:arc_y2_relationship_fork_unattached:/choices/1/result_text": "eae5cfdbfa740a761d299ecad359e7c8f4d1bf3f624cb3aa0b05c53c5503b2e0",
+          "events:arc_y2_relationship_fork_unattached:/choices/2/result_text": "e9ba3fb494cfcf8f6ce1d1d67cf946c0db16a6c9f36d006ef44239a4a606aff1",
+          "events:arc_y2_relationship_fork_unattached:/description": "16a5efac5ff97ac00bd7b531b87eece0dd466ae22673da4901322b045a62e756"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_daeun_04_morning:/description": {
+            "source_sha256": "3f5ba75205fa6ca110278d10c4e4a178798279b298183c315290d3ba36069cf4",
+            "target_sha256": "5ed5d94e463c0e2ff77c3105e2b77caf37a37591b724602f68bd2d50ee7b17f2"
+          },
+          "events:arc_daeun_04b_future:/description": {
+            "source_sha256": "21aaee8650d17157c800339bc92b4cee65380b5819343af63580a65642930ab7",
+            "target_sha256": "24ebaf070ad4c174c35db179fb8d237d6517d995ca40c7041a2e9510d16f1d15"
+          },
+          "events:arc_daeun_05_together:/description_if_known/daeun_romance_started": {
+            "source_sha256": "96d3736c59d888b67c385ca6f4ec204170d44bbece0a3eb1d8a2a35ba0b721bc",
+            "target_sha256": "1fdb831a7f52d1511600e2001eb111f6afdf79e53f7cfbc43cdbe8cfcdcfe17a"
+          },
+          "events:arc_daeun_05_together:/title": {
+            "source_sha256": "166af2d8532e95830be668c267b26111488260a15db7e8f51ed702ee1b337838",
+            "target_sha256": "18956f9bb28af3de725210c4f5ee4e5a4feebf1a50602db6ed35302c85570d59"
+          },
+          "events:arc_father_03_hospital:/description": {
+            "source_sha256": "c1bccb50a42ff01ba1f47bf48aedadf3d4a1930f0e7235b868ab4274b7c81092",
+            "target_sha256": "35d3348d1ea44bccc72ada2280f5a4ec4b4c74cf82ae145e8b9918bf5138b62d"
+          },
+          "events:arc_father_03_hospital:/description_unorthodox": {
+            "source_sha256": "254271df70255f90ea2197675ed0b3cdba96018b96642207e69ec95f10e7507d",
+            "target_sha256": "fb62bf4e3b04caf8d9e7667f4d0378e9fd9d2df5675e9151297001aa0394aac6"
+          },
+          "events:arc_jiyeon_03_offer:/description": {
+            "source_sha256": "d9608a10cea3fb316e239aa1c66596e2c86ebc4e87e9d0b15e1d58a2bf727de6",
+            "target_sha256": "a8f8781b813180a7a715106ed687e1466fb9c8b3e604a060014b5cac22da2c18"
+          },
+          "events:arc_y2_relationship_fork_unattached:/choices/0/result_text": {
+            "source_sha256": "cdcd599a1ce1668746069ad46135ce2b96f7ab39cfd25563be5d39ff9be421c2",
+            "target_sha256": "72689f51c17fc43589019a93cb4f59b0489b5b120b1e8a73fbcce05b7271ff1d"
+          },
+          "events:arc_y2_relationship_fork_unattached:/choices/0/text": {
+            "source_sha256": "042fc0c1374ad77c8fec5143f9f5fd2a5c656327263c245b51429d40365c0ade",
+            "target_sha256": "c02ed4462d3bf628becaf88497d4016c57d14119b286dd8e9a4d0698f7dc79e8"
+          },
+          "events:arc_y2_relationship_fork_unattached:/choices/1/result_text": {
+            "source_sha256": "6a8efc6247110c5a9820b1c03389ee83049fcb37c5c7a171fbb6de9e7881b368",
+            "target_sha256": "09016bff7ca643dace4eb0ad50444754ac5f5a33d88f4b56b39b9dcee2ed087e"
+          },
+          "events:arc_y2_relationship_fork_unattached:/choices/2/result_text": {
+            "source_sha256": "8b93d9984304a5c59764fec9a0c06925f478cd650cd40ac77da40a21cf8955b5",
+            "target_sha256": "37cdcf03217020c9baa3574c11c7ff7586bac38182abf2cb1690984c6a552064"
+          },
+          "events:arc_y2_relationship_fork_unattached:/description": {
+            "source_sha256": "b1dc9769bea546aa2863af62b835418ccd033cacb9369ff5369abb416298c06a",
+            "target_sha256": "d4911644232e5e99ab02090a753194cecc3c4abf015e6920269e876bc270e955"
+          }
+        },
+        "zh-CN": {
+          "events:arc_daeun_04_morning:/description": {
+            "source_sha256": "3f5ba75205fa6ca110278d10c4e4a178798279b298183c315290d3ba36069cf4",
+            "target_sha256": "39ec14448f8740d6ac4b4f70e91f42826ae2b924df4c62d1d31c0b71a4648f95"
+          },
+          "events:arc_daeun_04b_future:/description": {
+            "source_sha256": "21aaee8650d17157c800339bc92b4cee65380b5819343af63580a65642930ab7",
+            "target_sha256": "2301617d0d2e1767908b04782e2fdcbdf41837a29a591e774efca26fcfd9e976"
+          },
+          "events:arc_daeun_05_together:/description_if_known/daeun_romance_started": {
+            "source_sha256": "96d3736c59d888b67c385ca6f4ec204170d44bbece0a3eb1d8a2a35ba0b721bc",
+            "target_sha256": "aa46a9adb4204537107172b891ee8d250c8260cfec038619facbc44dc7d6c4a9"
+          },
+          "events:arc_daeun_05_together:/title": {
+            "source_sha256": "166af2d8532e95830be668c267b26111488260a15db7e8f51ed702ee1b337838",
+            "target_sha256": "433a8012d3db10aea9e60cea1a2a8db30405dedf9d4ed0bf2a142c46bb437b28"
+          },
+          "events:arc_father_03_hospital:/description": {
+            "source_sha256": "c1bccb50a42ff01ba1f47bf48aedadf3d4a1930f0e7235b868ab4274b7c81092",
+            "target_sha256": "152f2ff2763af68cb09d9a3f8028bfe6a2906c648971f725459f7405efe92ecc"
+          },
+          "events:arc_father_03_hospital:/description_unorthodox": {
+            "source_sha256": "254271df70255f90ea2197675ed0b3cdba96018b96642207e69ec95f10e7507d",
+            "target_sha256": "fe2b36a7a3903eec64dbbf5b04cfb79de040c172260e9ba4d2cf6781b07eb074"
+          },
+          "events:arc_jiyeon_03_offer:/description": {
+            "source_sha256": "d9608a10cea3fb316e239aa1c66596e2c86ebc4e87e9d0b15e1d58a2bf727de6",
+            "target_sha256": "181866072e0a983b44f6d4fd79d7eca28679222a59c35898285d96d75b21e681"
+          },
+          "events:arc_y2_relationship_fork_unattached:/choices/0/result_text": {
+            "source_sha256": "cdcd599a1ce1668746069ad46135ce2b96f7ab39cfd25563be5d39ff9be421c2",
+            "target_sha256": "f26829a51fb362d66881684e5d7998c0fa6cdb10417771f8f841935870b7df88"
+          },
+          "events:arc_y2_relationship_fork_unattached:/choices/0/text": {
+            "source_sha256": "042fc0c1374ad77c8fec5143f9f5fd2a5c656327263c245b51429d40365c0ade",
+            "target_sha256": "fc925d2948749550525488b1b6e3dc9787de43bcada5d2b888309b86acc1f226"
+          },
+          "events:arc_y2_relationship_fork_unattached:/choices/1/result_text": {
+            "source_sha256": "6a8efc6247110c5a9820b1c03389ee83049fcb37c5c7a171fbb6de9e7881b368",
+            "target_sha256": "e83fbf42363e63433f8c1dfd8b17488d3342c2e3032cbe3240b1eee7c4017476"
+          },
+          "events:arc_y2_relationship_fork_unattached:/choices/2/result_text": {
+            "source_sha256": "8b93d9984304a5c59764fec9a0c06925f478cd650cd40ac77da40a21cf8955b5",
+            "target_sha256": "a606bd3fb1ae2a0d5cd9ab787e102ff331a1aa3495d6e31f5a755afec300ab2e"
+          },
+          "events:arc_y2_relationship_fork_unattached:/description": {
+            "source_sha256": "b1dc9769bea546aa2863af62b835418ccd033cacb9369ff5369abb416298c06a",
+            "target_sha256": "ca11f8180aad5ee04994c5c0338a0fa9fc5f59f21410dd6d14d5e6a8b3325643"
+          }
+        },
+        "zh-TW": {
+          "events:arc_daeun_04_morning:/description": {
+            "source_sha256": "3f5ba75205fa6ca110278d10c4e4a178798279b298183c315290d3ba36069cf4",
+            "target_sha256": "325df8942c9a5e7490e8bd534a44582a545f7f4705282acc090d82325b54c94d"
+          },
+          "events:arc_daeun_04b_future:/description": {
+            "source_sha256": "21aaee8650d17157c800339bc92b4cee65380b5819343af63580a65642930ab7",
+            "target_sha256": "636216deef1059539c9ba404008c03badc51eb834ff85506257c97adddf957a9"
+          },
+          "events:arc_daeun_05_together:/description_if_known/daeun_romance_started": {
+            "source_sha256": "96d3736c59d888b67c385ca6f4ec204170d44bbece0a3eb1d8a2a35ba0b721bc",
+            "target_sha256": "dbc4559181d95a3f742f0194a236f29b689a8d30b09c1cf4a55fd5836fe29866"
+          },
+          "events:arc_daeun_05_together:/title": {
+            "source_sha256": "166af2d8532e95830be668c267b26111488260a15db7e8f51ed702ee1b337838",
+            "target_sha256": "433a8012d3db10aea9e60cea1a2a8db30405dedf9d4ed0bf2a142c46bb437b28"
+          },
+          "events:arc_father_03_hospital:/description": {
+            "source_sha256": "c1bccb50a42ff01ba1f47bf48aedadf3d4a1930f0e7235b868ab4274b7c81092",
+            "target_sha256": "a618f2162449d471b595d2b85aceda4f6175a258e95f86298616ca40fe630913"
+          },
+          "events:arc_father_03_hospital:/description_unorthodox": {
+            "source_sha256": "254271df70255f90ea2197675ed0b3cdba96018b96642207e69ec95f10e7507d",
+            "target_sha256": "f9273789cfea4ac7e5a6bb591a21dc548044d72936bf42550cdfb90fd497ce69"
+          },
+          "events:arc_jiyeon_03_offer:/description": {
+            "source_sha256": "d9608a10cea3fb316e239aa1c66596e2c86ebc4e87e9d0b15e1d58a2bf727de6",
+            "target_sha256": "a9693ca21a3512c07aff3a09f35cd3b67aadffd7f5d3d97a1994724e3bfb3146"
+          },
+          "events:arc_y2_relationship_fork_unattached:/choices/0/result_text": {
+            "source_sha256": "cdcd599a1ce1668746069ad46135ce2b96f7ab39cfd25563be5d39ff9be421c2",
+            "target_sha256": "27749ba7f07e55f4273d5df324de9fb17bfdbfd8cbfbcb04994420c2bd7a802e"
+          },
+          "events:arc_y2_relationship_fork_unattached:/choices/0/text": {
+            "source_sha256": "042fc0c1374ad77c8fec5143f9f5fd2a5c656327263c245b51429d40365c0ade",
+            "target_sha256": "7ed9db71f12986b68b6d50bd1bf8ff836545ef6bfbdb2baa3eb243e71469e7e3"
+          },
+          "events:arc_y2_relationship_fork_unattached:/choices/1/result_text": {
+            "source_sha256": "6a8efc6247110c5a9820b1c03389ee83049fcb37c5c7a171fbb6de9e7881b368",
+            "target_sha256": "eae5cfdbfa740a761d299ecad359e7c8f4d1bf3f624cb3aa0b05c53c5503b2e0"
+          },
+          "events:arc_y2_relationship_fork_unattached:/choices/2/result_text": {
+            "source_sha256": "8b93d9984304a5c59764fec9a0c06925f478cd650cd40ac77da40a21cf8955b5",
+            "target_sha256": "e9ba3fb494cfcf8f6ce1d1d67cf946c0db16a6c9f36d006ef44239a4a606aff1"
+          },
+          "events:arc_y2_relationship_fork_unattached:/description": {
+            "source_sha256": "b1dc9769bea546aa2863af62b835418ccd033cacb9369ff5369abb416298c06a",
+            "target_sha256": "16a5efac5ff97ac00bd7b531b87eece0dd466ae22673da4901322b045a62e756"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -21241,16 +21511,16 @@
         "target_sha256": "e83a2713e2032ad9cd52ac2cdfecbb96b68210cb1dfdcf0bec596432e20ffd07"
       },
       "events:arc_father_03_hospital:/description": {
-        "source_sha256": "c1bccb50a42ff01ba1f47bf48aedadf3d4a1930f0e7235b868ab4274b7c81092",
-        "target_sha256": "35d3348d1ea44bccc72ada2280f5a4ec4b4c74cf82ae145e8b9918bf5138b62d"
+        "source_sha256": "9fc683351d7b1c09097a3bb294ca0cb0649caf96713efa8c1c6f51ea7bad1523",
+        "target_sha256": "75ea244f888ce0678debae30acde468c1c8e0f1884f058edfe429b08a47bcc30"
       },
       "events:arc_father_03_hospital:/description_low_mental": {
         "source_sha256": "c2f9b7e6aebd571052cafd4cf837f7729f20af449d6a448fb24c0456811350f5",
         "target_sha256": "8ed83c497836941576a6b3ac9e724e41b8daa7c628c48970129be067aecff628"
       },
       "events:arc_father_03_hospital:/description_unorthodox": {
-        "source_sha256": "254271df70255f90ea2197675ed0b3cdba96018b96642207e69ec95f10e7507d",
-        "target_sha256": "fb62bf4e3b04caf8d9e7667f4d0378e9fd9d2df5675e9151297001aa0394aac6"
+        "source_sha256": "b5a3722363d3145b8694ccc7c0aaaf5b677f6530e1bb318df56f237d737f3799",
+        "target_sha256": "79dad3d8e69bb51bb28e1e80341bcc5926346fda93bab3ef59e303b126fe6057"
       },
       "events:arc_father_03_hospital:/title": {
         "source_sha256": "89bc3639623bceca443566f949bf360ec4e4415cc7c1dd3ff619bb53a3345788",
@@ -21325,8 +21595,8 @@
         "target_sha256": "9d242c2f2d9ac53e65eab7b7a7e3adf13b184e3589535931b94b6fa34e24249c"
       },
       "events:arc_jiyeon_03_offer:/description": {
-        "source_sha256": "d9608a10cea3fb316e239aa1c66596e2c86ebc4e87e9d0b15e1d58a2bf727de6",
-        "target_sha256": "a8f8781b813180a7a715106ed687e1466fb9c8b3e604a060014b5cac22da2c18"
+        "source_sha256": "49b6618286435ce2d1c75f704ba7339cd88b439b0e2840cd757e98ac652e6928",
+        "target_sha256": "441c677e87412c11eefefdcdca6ef7d31dc4ffc93e705ca3e769492148350cca"
       },
       "events:arc_jiyeon_03_offer:/title": {
         "source_sha256": "519d39c51ca7e5c8cb6145e22206164c9d38128c9b445878efe05a622db83561",
@@ -21421,32 +21691,32 @@
         "target_sha256": "ef7ed76ba32baf7ef688ef718f0ab70e79ccf31a92a9098d39c63f82d3299070"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/0/result_text": {
-        "source_sha256": "cdcd599a1ce1668746069ad46135ce2b96f7ab39cfd25563be5d39ff9be421c2",
-        "target_sha256": "72689f51c17fc43589019a93cb4f59b0489b5b120b1e8a73fbcce05b7271ff1d"
+        "source_sha256": "851c9efb55dc7ba415e81c4c3a800d2b387cfa5633a5cd7822b97ff36c68dc0f",
+        "target_sha256": "4dd076559473132ea0e135cef6752186d475d52642463f36a4398d74643bb65a"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/0/text": {
-        "source_sha256": "042fc0c1374ad77c8fec5143f9f5fd2a5c656327263c245b51429d40365c0ade",
-        "target_sha256": "c02ed4462d3bf628becaf88497d4016c57d14119b286dd8e9a4d0698f7dc79e8"
+        "source_sha256": "467be5f1c09cb22e919346a7d680204e232a2679ce72107ba9f709eb10df85c3",
+        "target_sha256": "a8b0f2fc7fdb4a22c1e96ad58cb54401fe7db673c7f157433f902d80d7f7754f"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/1/result_text": {
-        "source_sha256": "6a8efc6247110c5a9820b1c03389ee83049fcb37c5c7a171fbb6de9e7881b368",
-        "target_sha256": "09016bff7ca643dace4eb0ad50444754ac5f5a33d88f4b56b39b9dcee2ed087e"
+        "source_sha256": "23f79e0fc42ed7614c7fe490ab8c342ccfa3a7a7e8d8ee9faf6e8b62d1e4f381",
+        "target_sha256": "1b2c748f211277cef11cc15abf20f048b62980f521c9f44a7c09ae5aafe4fea1"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/1/text": {
         "source_sha256": "642fbd80212ebae8c183e0f154cc9c36f01599e043d4e01512b43792bbe1f282",
         "target_sha256": "561d21769d314c3cae4aef472c6e5e10d9e8b03bbafa6f27dd19438ba8e8e63a"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/2/result_text": {
-        "source_sha256": "8b93d9984304a5c59764fec9a0c06925f478cd650cd40ac77da40a21cf8955b5",
-        "target_sha256": "37cdcf03217020c9baa3574c11c7ff7586bac38182abf2cb1690984c6a552064"
+        "source_sha256": "5e78f28d5407cab1100db8ad1caa1ccf205da73f70dd204724fcd693c9c62940",
+        "target_sha256": "a7272cb97aa85dc907ad4734f545f7d8ef697be1a3b1a6221aaf7ef369b0b7c9"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/2/text": {
         "source_sha256": "7c833cb52fbec7cb170082bc85de8d023349d2a4085b7e0c473676aa1ad95a73",
         "target_sha256": "9ffbccd16eeb594c880fac6165fd1e36efe9c75f04a4a2b15b23302278a38f3f"
       },
       "events:arc_y2_relationship_fork_unattached:/description": {
-        "source_sha256": "b1dc9769bea546aa2863af62b835418ccd033cacb9369ff5369abb416298c06a",
-        "target_sha256": "d4911644232e5e99ab02090a753194cecc3c4abf015e6920269e876bc270e955"
+        "source_sha256": "008f69b7433bde30b11b7c0520ae39d2517d739cf6bb53170c4b2f1ea1ee2042",
+        "target_sha256": "29bfcebf2a1029f4dbbd9c7e7ae49548c443e1d6febcd357e6d017292dca7ee8"
       },
       "events:arc_y2_relationship_fork_unattached:/title": {
         "source_sha256": "392ad225654382c8e8e16e6f909fa60dd87712232324258fea6978554b94647c",
@@ -27225,8 +27495,8 @@
         "target_sha256": "166d419a07fc87d8c31014ed8051ec8332a251132a35351da9fc4f6d587c8d25"
       },
       "events:arc_daeun_04_morning:/description": {
-        "source_sha256": "3f5ba75205fa6ca110278d10c4e4a178798279b298183c315290d3ba36069cf4",
-        "target_sha256": "5ed5d94e463c0e2ff77c3105e2b77caf37a37591b724602f68bd2d50ee7b17f2"
+        "source_sha256": "489e4e1855621c4bd35af7731761fb2491691cab12bda35964a04e1599f28787",
+        "target_sha256": "d6b36dcff462403187b6c2dc642630d858fa81b170e977178620439c3dd085e5"
       },
       "events:arc_daeun_04_morning:/title": {
         "source_sha256": "62a4e0bfabc872fab8481ee2bad60defdf02e09b1e0bbe732ed4c924afb7fd16",
@@ -27265,8 +27535,8 @@
         "target_sha256": "aff64ca8f3c11570100db1aad95f8462ddaae05c8d13ddcd624a078ad5f22cd1"
       },
       "events:arc_daeun_04b_future:/description": {
-        "source_sha256": "21aaee8650d17157c800339bc92b4cee65380b5819343af63580a65642930ab7",
-        "target_sha256": "24ebaf070ad4c174c35db179fb8d237d6517d995ca40c7041a2e9510d16f1d15"
+        "source_sha256": "670f55db1038674a0c18bcf01187c48326e2ffdf07150fa4fd663131be7acf48",
+        "target_sha256": "9dd4af6464462ec778b9a3f7f67580c4aa08883db8e538518012b4560eacc5b3"
       },
       "events:arc_daeun_04b_future:/title": {
         "source_sha256": "4bdb54ac630d6e8961b22afa760d2157dd3c15f81329a5422e3c9f2c1fd0fe41",
@@ -27317,12 +27587,12 @@
         "target_sha256": "565d64b72126fbce6b6a4fe452e2a2d485c2cb7431c68ac474b1da9007bae415"
       },
       "events:arc_daeun_05_together:/description_if_known/daeun_romance_started": {
-        "source_sha256": "96d3736c59d888b67c385ca6f4ec204170d44bbece0a3eb1d8a2a35ba0b721bc",
-        "target_sha256": "1fdb831a7f52d1511600e2001eb111f6afdf79e53f7cfbc43cdbe8cfcdcfe17a"
+        "source_sha256": "49b532a04d61d58afe761684a42d92f50eac3c2fb9fa5512904afa8feb10a384",
+        "target_sha256": "4681c3fcc459a73b2890ef430666f76f099a1f71caffb5bf161495899eba79ca"
       },
       "events:arc_daeun_05_together:/title": {
-        "source_sha256": "166af2d8532e95830be668c267b26111488260a15db7e8f51ed702ee1b337838",
-        "target_sha256": "18956f9bb28af3de725210c4f5ee4e5a4feebf1a50602db6ed35302c85570d59"
+        "source_sha256": "dab723f806a36424f8d171e11b5f3c6652039f32838d03b958fcf28e8f97ff80",
+        "target_sha256": "5e71278f14a35f99b584ddd74dc97d8e9d826e59a21bec4c7ba752df602a428a"
       },
       "events:arc_daeun_05_uncertain:/choices/0/result_text": {
         "source_sha256": "6f20060ab2a1a158cdf8bcc571af4d80e83961388417c52b494b2572d81f2cb6",
@@ -73943,16 +74213,16 @@
         "target_sha256": "da4846af9977b17ffc5a38dd9470450518d85b0b25bacfdbd79020510fe8da68"
       },
       "events:arc_father_03_hospital:/description": {
-        "source_sha256": "c1bccb50a42ff01ba1f47bf48aedadf3d4a1930f0e7235b868ab4274b7c81092",
-        "target_sha256": "152f2ff2763af68cb09d9a3f8028bfe6a2906c648971f725459f7405efe92ecc"
+        "source_sha256": "9fc683351d7b1c09097a3bb294ca0cb0649caf96713efa8c1c6f51ea7bad1523",
+        "target_sha256": "32efa118d3770806ccc949f361b6ecfc9bf733fe54224aaf5294ae625d978acd"
       },
       "events:arc_father_03_hospital:/description_low_mental": {
         "source_sha256": "c2f9b7e6aebd571052cafd4cf837f7729f20af449d6a448fb24c0456811350f5",
         "target_sha256": "8e25b690aefec7f867914bb28937d9e22bbc98ebc8eedcb0d0620afc3c32ed75"
       },
       "events:arc_father_03_hospital:/description_unorthodox": {
-        "source_sha256": "254271df70255f90ea2197675ed0b3cdba96018b96642207e69ec95f10e7507d",
-        "target_sha256": "fe2b36a7a3903eec64dbbf5b04cfb79de040c172260e9ba4d2cf6781b07eb074"
+        "source_sha256": "b5a3722363d3145b8694ccc7c0aaaf5b677f6530e1bb318df56f237d737f3799",
+        "target_sha256": "cfc41d99001bf6e3bfecd24bb8be532431ed40aa24d1540652c2966a6f1dc933"
       },
       "events:arc_father_03_hospital:/title": {
         "source_sha256": "89bc3639623bceca443566f949bf360ec4e4415cc7c1dd3ff619bb53a3345788",
@@ -74027,8 +74297,8 @@
         "target_sha256": "06b1c0e0033cbf3637f3764b63a526e2ad8bde1622f84900f23bd76785204ccf"
       },
       "events:arc_jiyeon_03_offer:/description": {
-        "source_sha256": "d9608a10cea3fb316e239aa1c66596e2c86ebc4e87e9d0b15e1d58a2bf727de6",
-        "target_sha256": "181866072e0a983b44f6d4fd79d7eca28679222a59c35898285d96d75b21e681"
+        "source_sha256": "49b6618286435ce2d1c75f704ba7339cd88b439b0e2840cd757e98ac652e6928",
+        "target_sha256": "f9654a50688d46949cecc37b556f2635784a8c29d0478de8a08a7cd6e4b43793"
       },
       "events:arc_jiyeon_03_offer:/title": {
         "source_sha256": "519d39c51ca7e5c8cb6145e22206164c9d38128c9b445878efe05a622db83561",
@@ -74123,32 +74393,32 @@
         "target_sha256": "75e1a10ff7fdc49a3bb9e95138bd920b034c282d6c647d99bb5d58997976fa85"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/0/result_text": {
-        "source_sha256": "cdcd599a1ce1668746069ad46135ce2b96f7ab39cfd25563be5d39ff9be421c2",
-        "target_sha256": "f26829a51fb362d66881684e5d7998c0fa6cdb10417771f8f841935870b7df88"
+        "source_sha256": "851c9efb55dc7ba415e81c4c3a800d2b387cfa5633a5cd7822b97ff36c68dc0f",
+        "target_sha256": "17db07f3442f1c40511d3b180e2c6092fae5cd13bc9931cec75d6620e82f1961"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/0/text": {
-        "source_sha256": "042fc0c1374ad77c8fec5143f9f5fd2a5c656327263c245b51429d40365c0ade",
-        "target_sha256": "fc925d2948749550525488b1b6e3dc9787de43bcada5d2b888309b86acc1f226"
+        "source_sha256": "467be5f1c09cb22e919346a7d680204e232a2679ce72107ba9f709eb10df85c3",
+        "target_sha256": "ccc0f7a4e06bdcc08d7c7c41305b49067de095840f676ad8d15ff2093222be7a"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/1/result_text": {
-        "source_sha256": "6a8efc6247110c5a9820b1c03389ee83049fcb37c5c7a171fbb6de9e7881b368",
-        "target_sha256": "e83fbf42363e63433f8c1dfd8b17488d3342c2e3032cbe3240b1eee7c4017476"
+        "source_sha256": "23f79e0fc42ed7614c7fe490ab8c342ccfa3a7a7e8d8ee9faf6e8b62d1e4f381",
+        "target_sha256": "635995b900953734331b42c3cc65f0aa8fb123962de172277c7ed3b57b7dfb8c"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/1/text": {
         "source_sha256": "642fbd80212ebae8c183e0f154cc9c36f01599e043d4e01512b43792bbe1f282",
         "target_sha256": "992c28a5a99047112b79ed74ccd3644500798b24a4af7d214f8145f9a51b2115"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/2/result_text": {
-        "source_sha256": "8b93d9984304a5c59764fec9a0c06925f478cd650cd40ac77da40a21cf8955b5",
-        "target_sha256": "a606bd3fb1ae2a0d5cd9ab787e102ff331a1aa3495d6e31f5a755afec300ab2e"
+        "source_sha256": "5e78f28d5407cab1100db8ad1caa1ccf205da73f70dd204724fcd693c9c62940",
+        "target_sha256": "54ad6e3b9aebcac245c445bf72241a16a7e30b53512ed143c3695630317d349c"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/2/text": {
         "source_sha256": "7c833cb52fbec7cb170082bc85de8d023349d2a4085b7e0c473676aa1ad95a73",
         "target_sha256": "9d0ba5a25e7edd4f244f191429b0dc54d36b062460e528c36169d223bdd292bd"
       },
       "events:arc_y2_relationship_fork_unattached:/description": {
-        "source_sha256": "b1dc9769bea546aa2863af62b835418ccd033cacb9369ff5369abb416298c06a",
-        "target_sha256": "ca11f8180aad5ee04994c5c0338a0fa9fc5f59f21410dd6d14d5e6a8b3325643"
+        "source_sha256": "008f69b7433bde30b11b7c0520ae39d2517d739cf6bb53170c4b2f1ea1ee2042",
+        "target_sha256": "f34f6313186e7c70fb270fb4f62c57c04b1204f8417b7827e6fe62eb859472a9"
       },
       "events:arc_y2_relationship_fork_unattached:/title": {
         "source_sha256": "392ad225654382c8e8e16e6f909fa60dd87712232324258fea6978554b94647c",
@@ -79927,8 +80197,8 @@
         "target_sha256": "161ac1c8a40598b8a5f1e72715e0dcd2742483c959cd6b5c74f8c966743ce6fc"
       },
       "events:arc_daeun_04_morning:/description": {
-        "source_sha256": "3f5ba75205fa6ca110278d10c4e4a178798279b298183c315290d3ba36069cf4",
-        "target_sha256": "39ec14448f8740d6ac4b4f70e91f42826ae2b924df4c62d1d31c0b71a4648f95"
+        "source_sha256": "489e4e1855621c4bd35af7731761fb2491691cab12bda35964a04e1599f28787",
+        "target_sha256": "a1b22c4c3f704813df0eeaff2520139794421c5040f886a254d6d416829165c3"
       },
       "events:arc_daeun_04_morning:/title": {
         "source_sha256": "62a4e0bfabc872fab8481ee2bad60defdf02e09b1e0bbe732ed4c924afb7fd16",
@@ -79967,8 +80237,8 @@
         "target_sha256": "6123a57cee86bff7940666c603d8f189f959b41e51a28a50bbeb53ed2c183bcb"
       },
       "events:arc_daeun_04b_future:/description": {
-        "source_sha256": "21aaee8650d17157c800339bc92b4cee65380b5819343af63580a65642930ab7",
-        "target_sha256": "2301617d0d2e1767908b04782e2fdcbdf41837a29a591e774efca26fcfd9e976"
+        "source_sha256": "670f55db1038674a0c18bcf01187c48326e2ffdf07150fa4fd663131be7acf48",
+        "target_sha256": "b53d336b54d8682d7a66014f1ea630650a73e194eb724f5ae48fdcef3ccc0ec7"
       },
       "events:arc_daeun_04b_future:/title": {
         "source_sha256": "4bdb54ac630d6e8961b22afa760d2157dd3c15f81329a5422e3c9f2c1fd0fe41",
@@ -80019,12 +80289,12 @@
         "target_sha256": "b65e76d54314a9661ff87d114ec838d590b360dfc4ffea5a665d32ac424e7435"
       },
       "events:arc_daeun_05_together:/description_if_known/daeun_romance_started": {
-        "source_sha256": "96d3736c59d888b67c385ca6f4ec204170d44bbece0a3eb1d8a2a35ba0b721bc",
-        "target_sha256": "aa46a9adb4204537107172b891ee8d250c8260cfec038619facbc44dc7d6c4a9"
+        "source_sha256": "49b532a04d61d58afe761684a42d92f50eac3c2fb9fa5512904afa8feb10a384",
+        "target_sha256": "c1871c1eab6f8831b81b64cb1da7469943c83a0037585246bd24c620aef09c32"
       },
       "events:arc_daeun_05_together:/title": {
-        "source_sha256": "166af2d8532e95830be668c267b26111488260a15db7e8f51ed702ee1b337838",
-        "target_sha256": "433a8012d3db10aea9e60cea1a2a8db30405dedf9d4ed0bf2a142c46bb437b28"
+        "source_sha256": "dab723f806a36424f8d171e11b5f3c6652039f32838d03b958fcf28e8f97ff80",
+        "target_sha256": "05b164e87740a9fbf40485b1fa4fc9aa9188d1cf1ed61fc00cc6a358bdf7d284"
       },
       "events:arc_daeun_05_uncertain:/choices/0/result_text": {
         "source_sha256": "6f20060ab2a1a158cdf8bcc571af4d80e83961388417c52b494b2572d81f2cb6",
@@ -133469,16 +133739,16 @@
         "target_sha256": "924a51b974409f02a76068c573a0c13b4d3d01ce0f99019a5cf24e0f0b75ae3e"
       },
       "events:arc_father_03_hospital:/description": {
-        "source_sha256": "c1bccb50a42ff01ba1f47bf48aedadf3d4a1930f0e7235b868ab4274b7c81092",
-        "target_sha256": "a618f2162449d471b595d2b85aceda4f6175a258e95f86298616ca40fe630913"
+        "source_sha256": "9fc683351d7b1c09097a3bb294ca0cb0649caf96713efa8c1c6f51ea7bad1523",
+        "target_sha256": "9d563671d39f2ea8de891353a4d92997a0dfaaf4e9adf76eef2a64e3476eb69a"
       },
       "events:arc_father_03_hospital:/description_low_mental": {
         "source_sha256": "c2f9b7e6aebd571052cafd4cf837f7729f20af449d6a448fb24c0456811350f5",
         "target_sha256": "f09e9869d4f4f5e9a26963bcfeecb0ec50dbba503998b0fe1c10b2601c12b0bb"
       },
       "events:arc_father_03_hospital:/description_unorthodox": {
-        "source_sha256": "254271df70255f90ea2197675ed0b3cdba96018b96642207e69ec95f10e7507d",
-        "target_sha256": "f9273789cfea4ac7e5a6bb591a21dc548044d72936bf42550cdfb90fd497ce69"
+        "source_sha256": "b5a3722363d3145b8694ccc7c0aaaf5b677f6530e1bb318df56f237d737f3799",
+        "target_sha256": "c23087cb1de75136c5a3146da60e87ef0e7d02902558ee8f9be801ef622c76a5"
       },
       "events:arc_father_03_hospital:/title": {
         "source_sha256": "89bc3639623bceca443566f949bf360ec4e4415cc7c1dd3ff619bb53a3345788",
@@ -133553,8 +133823,8 @@
         "target_sha256": "1d2f66c3fd1d2570384a21bd65150cc9b7a5beef88dde64a5c5263e7480a1e35"
       },
       "events:arc_jiyeon_03_offer:/description": {
-        "source_sha256": "d9608a10cea3fb316e239aa1c66596e2c86ebc4e87e9d0b15e1d58a2bf727de6",
-        "target_sha256": "a9693ca21a3512c07aff3a09f35cd3b67aadffd7f5d3d97a1994724e3bfb3146"
+        "source_sha256": "49b6618286435ce2d1c75f704ba7339cd88b439b0e2840cd757e98ac652e6928",
+        "target_sha256": "e21018fa6eea224189798aeae2e9a3ee28cf5a3a00b452f0b9d784628fe82051"
       },
       "events:arc_jiyeon_03_offer:/title": {
         "source_sha256": "519d39c51ca7e5c8cb6145e22206164c9d38128c9b445878efe05a622db83561",
@@ -133649,32 +133919,32 @@
         "target_sha256": "75efa1dc6a5edbbe7b0eb1f5f9c6d8c596bcc84d6234e00557ed8c9557bb6aaa"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/0/result_text": {
-        "source_sha256": "cdcd599a1ce1668746069ad46135ce2b96f7ab39cfd25563be5d39ff9be421c2",
-        "target_sha256": "27749ba7f07e55f4273d5df324de9fb17bfdbfd8cbfbcb04994420c2bd7a802e"
+        "source_sha256": "851c9efb55dc7ba415e81c4c3a800d2b387cfa5633a5cd7822b97ff36c68dc0f",
+        "target_sha256": "fb5a06e4eb31b5a174e13ec20ffd7f375bda6ec42d95a5ec622017273f3a321c"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/0/text": {
-        "source_sha256": "042fc0c1374ad77c8fec5143f9f5fd2a5c656327263c245b51429d40365c0ade",
-        "target_sha256": "7ed9db71f12986b68b6d50bd1bf8ff836545ef6bfbdb2baa3eb243e71469e7e3"
+        "source_sha256": "467be5f1c09cb22e919346a7d680204e232a2679ce72107ba9f709eb10df85c3",
+        "target_sha256": "40ee2cb55e80502707442cd8777a9ce1238a28c0bef735630e3b34cc88849ddf"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/1/result_text": {
-        "source_sha256": "6a8efc6247110c5a9820b1c03389ee83049fcb37c5c7a171fbb6de9e7881b368",
-        "target_sha256": "eae5cfdbfa740a761d299ecad359e7c8f4d1bf3f624cb3aa0b05c53c5503b2e0"
+        "source_sha256": "23f79e0fc42ed7614c7fe490ab8c342ccfa3a7a7e8d8ee9faf6e8b62d1e4f381",
+        "target_sha256": "f56ae0c9357981e7eed549a704fcab7d5dc14855203a0435cd4001a2ffbd00e2"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/1/text": {
         "source_sha256": "642fbd80212ebae8c183e0f154cc9c36f01599e043d4e01512b43792bbe1f282",
         "target_sha256": "0eb160583073ea4ed03661de0ef5e5df9fb838da784fc5dfb7a1ea9421baa1fd"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/2/result_text": {
-        "source_sha256": "8b93d9984304a5c59764fec9a0c06925f478cd650cd40ac77da40a21cf8955b5",
-        "target_sha256": "e9ba3fb494cfcf8f6ce1d1d67cf946c0db16a6c9f36d006ef44239a4a606aff1"
+        "source_sha256": "5e78f28d5407cab1100db8ad1caa1ccf205da73f70dd204724fcd693c9c62940",
+        "target_sha256": "c1a335c211b5bc102b4e07333caf256754d503b43ca79a20c4c2a3aed4edd80f"
       },
       "events:arc_y2_relationship_fork_unattached:/choices/2/text": {
         "source_sha256": "7c833cb52fbec7cb170082bc85de8d023349d2a4085b7e0c473676aa1ad95a73",
         "target_sha256": "9e6f2fadb140c3d6be0c4679274d51f19094421cb5ec4a85c940e6de13496f66"
       },
       "events:arc_y2_relationship_fork_unattached:/description": {
-        "source_sha256": "b1dc9769bea546aa2863af62b835418ccd033cacb9369ff5369abb416298c06a",
-        "target_sha256": "16a5efac5ff97ac00bd7b531b87eece0dd466ae22673da4901322b045a62e756"
+        "source_sha256": "008f69b7433bde30b11b7c0520ae39d2517d739cf6bb53170c4b2f1ea1ee2042",
+        "target_sha256": "857effbfeff075b8946fa3ef0f6032b5be6c31c1ffcec2be0737f6a50aff9278"
       },
       "events:arc_y2_relationship_fork_unattached:/title": {
         "source_sha256": "392ad225654382c8e8e16e6f909fa60dd87712232324258fea6978554b94647c",
@@ -139453,8 +139723,8 @@
         "target_sha256": "378cf039e0f62fe5d1293d94bcc595c3f57b7d818ae8c1fe24c10cf42f8f399a"
       },
       "events:arc_daeun_04_morning:/description": {
-        "source_sha256": "3f5ba75205fa6ca110278d10c4e4a178798279b298183c315290d3ba36069cf4",
-        "target_sha256": "325df8942c9a5e7490e8bd534a44582a545f7f4705282acc090d82325b54c94d"
+        "source_sha256": "489e4e1855621c4bd35af7731761fb2491691cab12bda35964a04e1599f28787",
+        "target_sha256": "5146ef3c0c9459a802432ce312190ba49c4113360ac36c15adf750c6a2fff109"
       },
       "events:arc_daeun_04_morning:/title": {
         "source_sha256": "62a4e0bfabc872fab8481ee2bad60defdf02e09b1e0bbe732ed4c924afb7fd16",
@@ -139493,8 +139763,8 @@
         "target_sha256": "7223f44f8c94f610d08c32258912f681136a19dbe8bdd4cea957610f98c5f71d"
       },
       "events:arc_daeun_04b_future:/description": {
-        "source_sha256": "21aaee8650d17157c800339bc92b4cee65380b5819343af63580a65642930ab7",
-        "target_sha256": "636216deef1059539c9ba404008c03badc51eb834ff85506257c97adddf957a9"
+        "source_sha256": "670f55db1038674a0c18bcf01187c48326e2ffdf07150fa4fd663131be7acf48",
+        "target_sha256": "d6a3a40f1080553987c94d9fb81622618b318faf7194b5d109a7fefb6b75d2a2"
       },
       "events:arc_daeun_04b_future:/title": {
         "source_sha256": "4bdb54ac630d6e8961b22afa760d2157dd3c15f81329a5422e3c9f2c1fd0fe41",
@@ -139545,12 +139815,12 @@
         "target_sha256": "b69780546e379e5f97317de0ec78d4d31247c1955fb1817d2829db9c3003cc19"
       },
       "events:arc_daeun_05_together:/description_if_known/daeun_romance_started": {
-        "source_sha256": "96d3736c59d888b67c385ca6f4ec204170d44bbece0a3eb1d8a2a35ba0b721bc",
-        "target_sha256": "dbc4559181d95a3f742f0194a236f29b689a8d30b09c1cf4a55fd5836fe29866"
+        "source_sha256": "49b532a04d61d58afe761684a42d92f50eac3c2fb9fa5512904afa8feb10a384",
+        "target_sha256": "bf73d452c37057e3e3aa6f167a49ecc3ccd6cafef5a86a2f20eb1ee9103ed1c0"
       },
       "events:arc_daeun_05_together:/title": {
-        "source_sha256": "166af2d8532e95830be668c267b26111488260a15db7e8f51ed702ee1b337838",
-        "target_sha256": "433a8012d3db10aea9e60cea1a2a8db30405dedf9d4ed0bf2a142c46bb437b28"
+        "source_sha256": "dab723f806a36424f8d171e11b5f3c6652039f32838d03b958fcf28e8f97ff80",
+        "target_sha256": "8ead9abace8805975ace5b52748c1a5f1d37c53d52a138a7ba859cdac97d3483"
       },
       "events:arc_daeun_05_uncertain:/choices/0/result_text": {
         "source_sha256": "6f20060ab2a1a158cdf8bcc571af4d80e83961388417c52b494b2572d81f2cb6",
@@ -187662,7 +187932,7 @@
       }
     }
   },
-  "accepted_sha256": "ef56e9be40b605dbd886465852f9e7e187accea152333bcf4dc4b0a33b1ad994",
+  "accepted_sha256": "16560759d3a07c9a5a30fd62e93ff7e458839a32a45da2b963c52a700251dcbd",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
