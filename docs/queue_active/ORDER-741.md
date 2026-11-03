@@ -36,3 +36,15 @@ KO/EN·gameplay·공개데모·저장·project.godot·allowlist 비소유.
 포기 시 잃는 것: 모든 직업에서 성립하는 현재 폰·장부·다음근무의 사실.
 서사 위치/계층: 기존 월급 한계 사건·원본 계층 불변.
 닫는 것: source21 정합만. 규범은 기존 I18N 정본 적용·승격0.
+
+## 검사 실물
+
+수용 전 독립 원문7/목표21 전독, mirror/receipt의 실제 KO 문맥까지 확인했다.
+JA/CN의 ‘병동에 물리적으로 자신이 없던 시간’ 구체화2곳을 지적받아 실제
+연락 무응답의 비용으로 수정했다. 첫 두 초안은 pre-review.response에 보존,
+독립 재대조에서 해당 구절1곳씩 외 source/id/metadata/나머지 값 불변 수용.
+최종 공식 check/import7×3·stderr0, delta21/3파일·원수용/비소유값 불변,
+scope1194→1173(stale1170=언어별390+요약3)으로 이21개만 해소했다.
+공개데모5언어/100leaf/122UI·EN1813/35 clean·context/queue/diff 확인.
+원자료 `.git/localization-career-20261103/`, 불변 self-test 재실행0.
+전체 번역·차선·앱/화면·원어민·원격CI는 이 증거로 완료 판정하지 않는다.

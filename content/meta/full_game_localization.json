@@ -15324,6 +15324,196 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-741",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_career_ceiling"
+      ],
+      "source_leaves": 7,
+      "target_leaves_by_locale": {
+        "ja": 7,
+        "zh-CN": 7,
+        "zh-TW": 7
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean comparison, independently reviewed all 21 targets before import: current phone/pay-slip/calculator, next shift, beginning job search and actual ward/deal costs; no next-day office, commuting subway, employee badge, monitor or nightly-frequency invention. Prior acceptance and target hashes retained.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "24d327b7c8769d2afe2cd8e37263587a1baf30d5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "8fd1488d0e6094129e19b1f0a087ea0b8c03c8d01ac48b1026979098ad4b3d52",
+          "count": 7,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7d8a7ce92e1de240b7fd2784550bd8e374426b48c59a84faccd9ea6d39a128fc"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "24d327b7c8769d2afe2cd8e37263587a1baf30d5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "ee6d96e8d374dc95fab5b789411e40a3a93c0db83c13321be8787d1ac0464707",
+          "count": 7,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "aab0cdc5dfaf4d6074e95c431c43ca7dd8bc6e3e2bc6c07d724fee3fe082583f"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "24d327b7c8769d2afe2cd8e37263587a1baf30d5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "78179c118afbd3a475288ac199d068e9b7203050d1c38160f4c84fdd8315a565",
+          "count": 7,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "011c2ebfad0e8b96e0c63c12315a387a126890cad04bbf53810eab3b5a733eb6"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "79f0121c0d60cd4eca2bc511a2cc9374761246b4a33fb4771280b77303c87e2e",
+        "zh-CN": "815100285c288c0bc9ec1ec0bbbe7dea0f53942671e5fee2a83a4f015c7fcff3",
+        "zh-TW": "ba6842a55d644a4692ac32e6cfa7b659e8472df0c3d4549e16ae58c9e6835d92"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_career_ceiling:/choices/0/result_text": "515dcaee640a5bec01602cfdc9118c6053d0c65e8e8c058d13807fe971bc639c",
+          "events:arc_career_ceiling:/choices/1/result_text": "b06061d7c266644d97e70f3cb638bb986ef085192c19a26ad91edada9949370b",
+          "events:arc_career_ceiling:/choices/1/text": "781b9801c91aa3e20020932e9713993bd83f7842bbb66f9f638ed5d4d6fac04f",
+          "events:arc_career_ceiling:/choices/2/result_text": "1c3b31f281a9261e354ca3ded77e40f353d82ea8f265ec8fc3a43a3b172c722f",
+          "events:arc_career_ceiling:/description": "fa71cf2f2c67bdf04f8a3c408ed7ddec332e928101cb8bce1efa4475598af01e",
+          "events:arc_career_ceiling:/description_if_known/sangchul_mirror_deal_face_up": "b4612ed03f3b5eced0bfd0b9dde4f98b561b0f2d71264548acaf3c12a56bde0e",
+          "events:arc_career_ceiling:/description_if_known/sangchul_mirror_hospital_face_up": "2a65e2757466b6d2883ee35d3dd613df0582cbbaa2f479fa89d4e8a6cf89b75e"
+        },
+        "zh-CN": {
+          "events:arc_career_ceiling:/choices/0/result_text": "126303946f2d13d4793f691e6a46bc9eea9656e43ed825264880418d037c6bf6",
+          "events:arc_career_ceiling:/choices/1/result_text": "af4a6f7aeaece42b93d8ff0749d501f79a2e909227d358170d88b8b0c7ee796f",
+          "events:arc_career_ceiling:/choices/1/text": "f88101c7e7679e7791a202636d07e79c8b7a46b8a4848bf74c0fff0514dd9213",
+          "events:arc_career_ceiling:/choices/2/result_text": "249ee8f99f78185362cc23859dd1652b0bfe3633ebdbc995303eaf09bb66787f",
+          "events:arc_career_ceiling:/description": "1aa4ff6150a22b26604654f3dace7d987b9b8d205275ca5263e9dbee12ad768d",
+          "events:arc_career_ceiling:/description_if_known/sangchul_mirror_deal_face_up": "4d994fc1d1717f6274a2c9ca886982eea9c46fd96380cc8585a2ab3a7bc64965",
+          "events:arc_career_ceiling:/description_if_known/sangchul_mirror_hospital_face_up": "b0bfa2ba105c44a6e9a592ef4dfa849f52c092ef89dd3a9c33f07ebc732c6892"
+        },
+        "zh-TW": {
+          "events:arc_career_ceiling:/choices/0/result_text": "151817163f4954ff7786209d8a5a8d5451c91eef913f9f0c8282cf283bceafe1",
+          "events:arc_career_ceiling:/choices/1/result_text": "548fab09496e57d9f01a158e1832377cceb5685b8389bb12ee01b0d6ee2f9b42",
+          "events:arc_career_ceiling:/choices/1/text": "f84d09f557d55883412b71ff1496ef8dade5ea85a808e63edaf1934e500a3959",
+          "events:arc_career_ceiling:/choices/2/result_text": "589d567f24f270f1c52bc44849ae04cf2443a804819bc16152660bfdb8653a4d",
+          "events:arc_career_ceiling:/description": "6ef38e2ce881b495b9de7b0bd6c0aa79d2cd3e70b1c5f64c7a1c605fb8f9d381",
+          "events:arc_career_ceiling:/description_if_known/sangchul_mirror_deal_face_up": "bf020b53eb642fa271abe0cbbfa1371f5e6d0da328ea2aef7d317aeb275f6a04",
+          "events:arc_career_ceiling:/description_if_known/sangchul_mirror_hospital_face_up": "f68e8d9f81b900586b859052ddfc72083fae53e647b65d503ccc20233ae4d323"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_career_ceiling:/choices/0/result_text": {
+            "source_sha256": "10949fda07a3492f98f449e401e3a435aa18f590d420fb143a6897bcaba6771a",
+            "target_sha256": "515dcaee640a5bec01602cfdc9118c6053d0c65e8e8c058d13807fe971bc639c"
+          },
+          "events:arc_career_ceiling:/choices/1/result_text": {
+            "source_sha256": "fd50dc10354f27ce2d0cba167a50b68d0234bb50a2bb58689e494f3e3260bdcf",
+            "target_sha256": "b06061d7c266644d97e70f3cb638bb986ef085192c19a26ad91edada9949370b"
+          },
+          "events:arc_career_ceiling:/choices/1/text": {
+            "source_sha256": "ce53a408af70511c4ea52a5985f74dc03dab561e1e1c8fdf9c51db6026c76765",
+            "target_sha256": "781b9801c91aa3e20020932e9713993bd83f7842bbb66f9f638ed5d4d6fac04f"
+          },
+          "events:arc_career_ceiling:/choices/2/result_text": {
+            "source_sha256": "900f7c0c9d868820c05481efae2f62f38b534be2aa8b00227379dbbcdf4c4f9b",
+            "target_sha256": "1c3b31f281a9261e354ca3ded77e40f353d82ea8f265ec8fc3a43a3b172c722f"
+          },
+          "events:arc_career_ceiling:/description": {
+            "source_sha256": "b43b8cbcdcfe36f7572202ebd96c0fb9353dafcca92c82344d05407db6a9b9bb",
+            "target_sha256": "fa71cf2f2c67bdf04f8a3c408ed7ddec332e928101cb8bce1efa4475598af01e"
+          },
+          "events:arc_career_ceiling:/description_if_known/sangchul_mirror_deal_face_up": {
+            "source_sha256": "291c9d17b5c66c970b31a007116702db6ffb8e1ac7100b4d59a7ae08db2bf597",
+            "target_sha256": "b4612ed03f3b5eced0bfd0b9dde4f98b561b0f2d71264548acaf3c12a56bde0e"
+          },
+          "events:arc_career_ceiling:/description_if_known/sangchul_mirror_hospital_face_up": {
+            "source_sha256": "3d66022ccc412e03238b7e1d50fb354e6dab6c68f258f58348cc5da58415498b",
+            "target_sha256": "2a65e2757466b6d2883ee35d3dd613df0582cbbaa2f479fa89d4e8a6cf89b75e"
+          }
+        },
+        "zh-CN": {
+          "events:arc_career_ceiling:/choices/0/result_text": {
+            "source_sha256": "10949fda07a3492f98f449e401e3a435aa18f590d420fb143a6897bcaba6771a",
+            "target_sha256": "126303946f2d13d4793f691e6a46bc9eea9656e43ed825264880418d037c6bf6"
+          },
+          "events:arc_career_ceiling:/choices/1/result_text": {
+            "source_sha256": "fd50dc10354f27ce2d0cba167a50b68d0234bb50a2bb58689e494f3e3260bdcf",
+            "target_sha256": "af4a6f7aeaece42b93d8ff0749d501f79a2e909227d358170d88b8b0c7ee796f"
+          },
+          "events:arc_career_ceiling:/choices/1/text": {
+            "source_sha256": "ce53a408af70511c4ea52a5985f74dc03dab561e1e1c8fdf9c51db6026c76765",
+            "target_sha256": "f88101c7e7679e7791a202636d07e79c8b7a46b8a4848bf74c0fff0514dd9213"
+          },
+          "events:arc_career_ceiling:/choices/2/result_text": {
+            "source_sha256": "900f7c0c9d868820c05481efae2f62f38b534be2aa8b00227379dbbcdf4c4f9b",
+            "target_sha256": "249ee8f99f78185362cc23859dd1652b0bfe3633ebdbc995303eaf09bb66787f"
+          },
+          "events:arc_career_ceiling:/description": {
+            "source_sha256": "b43b8cbcdcfe36f7572202ebd96c0fb9353dafcca92c82344d05407db6a9b9bb",
+            "target_sha256": "1aa4ff6150a22b26604654f3dace7d987b9b8d205275ca5263e9dbee12ad768d"
+          },
+          "events:arc_career_ceiling:/description_if_known/sangchul_mirror_deal_face_up": {
+            "source_sha256": "291c9d17b5c66c970b31a007116702db6ffb8e1ac7100b4d59a7ae08db2bf597",
+            "target_sha256": "4d994fc1d1717f6274a2c9ca886982eea9c46fd96380cc8585a2ab3a7bc64965"
+          },
+          "events:arc_career_ceiling:/description_if_known/sangchul_mirror_hospital_face_up": {
+            "source_sha256": "3d66022ccc412e03238b7e1d50fb354e6dab6c68f258f58348cc5da58415498b",
+            "target_sha256": "b0bfa2ba105c44a6e9a592ef4dfa849f52c092ef89dd3a9c33f07ebc732c6892"
+          }
+        },
+        "zh-TW": {
+          "events:arc_career_ceiling:/choices/0/result_text": {
+            "source_sha256": "10949fda07a3492f98f449e401e3a435aa18f590d420fb143a6897bcaba6771a",
+            "target_sha256": "151817163f4954ff7786209d8a5a8d5451c91eef913f9f0c8282cf283bceafe1"
+          },
+          "events:arc_career_ceiling:/choices/1/result_text": {
+            "source_sha256": "fd50dc10354f27ce2d0cba167a50b68d0234bb50a2bb58689e494f3e3260bdcf",
+            "target_sha256": "548fab09496e57d9f01a158e1832377cceb5685b8389bb12ee01b0d6ee2f9b42"
+          },
+          "events:arc_career_ceiling:/choices/1/text": {
+            "source_sha256": "ce53a408af70511c4ea52a5985f74dc03dab561e1e1c8fdf9c51db6026c76765",
+            "target_sha256": "f84d09f557d55883412b71ff1496ef8dade5ea85a808e63edaf1934e500a3959"
+          },
+          "events:arc_career_ceiling:/choices/2/result_text": {
+            "source_sha256": "900f7c0c9d868820c05481efae2f62f38b534be2aa8b00227379dbbcdf4c4f9b",
+            "target_sha256": "589d567f24f270f1c52bc44849ae04cf2443a804819bc16152660bfdb8653a4d"
+          },
+          "events:arc_career_ceiling:/description": {
+            "source_sha256": "b43b8cbcdcfe36f7572202ebd96c0fb9353dafcca92c82344d05407db6a9b9bb",
+            "target_sha256": "6ef38e2ce881b495b9de7b0bd6c0aa79d2cd3e70b1c5f64c7a1c605fb8f9d381"
+          },
+          "events:arc_career_ceiling:/description_if_known/sangchul_mirror_deal_face_up": {
+            "source_sha256": "291c9d17b5c66c970b31a007116702db6ffb8e1ac7100b4d59a7ae08db2bf597",
+            "target_sha256": "bf020b53eb642fa271abe0cbbfa1371f5e6d0da328ea2aef7d317aeb275f6a04"
+          },
+          "events:arc_career_ceiling:/description_if_known/sangchul_mirror_hospital_face_up": {
+            "source_sha256": "3d66022ccc412e03238b7e1d50fb354e6dab6c68f258f58348cc5da58415498b",
+            "target_sha256": "f68e8d9f81b900586b859052ddfc72083fae53e647b65d503ccc20233ae4d323"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -20517,40 +20707,40 @@
         "target_sha256": "5a5fbecc711026ca33753c6463de2c6f8671beb946e7a02ea3a3500b0935732e"
       },
       "events:arc_career_ceiling:/choices/0/result_text": {
-        "source_sha256": "10949fda07a3492f98f449e401e3a435aa18f590d420fb143a6897bcaba6771a",
-        "target_sha256": "515dcaee640a5bec01602cfdc9118c6053d0c65e8e8c058d13807fe971bc639c"
+        "source_sha256": "20238163672c9b263e90842623e91b887cf7b6af949120f84ae2385447f27d31",
+        "target_sha256": "bb423ebe4a786875240bb7b27c49a58db62163b038f850a0014664203335add1"
       },
       "events:arc_career_ceiling:/choices/0/text": {
         "source_sha256": "a5962ce9711e2e81051ff3868ba38996102690bc92906101558c7474596d2eb4",
         "target_sha256": "156869b569f149a2c643c6ac0fa9660351ed9be3b4cd22ee60461a784635391c"
       },
       "events:arc_career_ceiling:/choices/1/result_text": {
-        "source_sha256": "fd50dc10354f27ce2d0cba167a50b68d0234bb50a2bb58689e494f3e3260bdcf",
-        "target_sha256": "b06061d7c266644d97e70f3cb638bb986ef085192c19a26ad91edada9949370b"
+        "source_sha256": "fb87050740def00595684a5ac1e1395c6bcea8d199f603b8ca06efda26d2ff42",
+        "target_sha256": "9aa74db7df126b13689ff127289051b85c112299bd93ab5e967160c8f4b22d57"
       },
       "events:arc_career_ceiling:/choices/1/text": {
-        "source_sha256": "ce53a408af70511c4ea52a5985f74dc03dab561e1e1c8fdf9c51db6026c76765",
-        "target_sha256": "781b9801c91aa3e20020932e9713993bd83f7842bbb66f9f638ed5d4d6fac04f"
+        "source_sha256": "23f0b132a5cdfc0ac4489e88a8c9f8c854a2bb420ccc013d3871b5739fc1e5b4",
+        "target_sha256": "f39ac72f9319929986b31a30fa2ba32fec3725038670b118bf2e218773b6d29d"
       },
       "events:arc_career_ceiling:/choices/2/result_text": {
-        "source_sha256": "900f7c0c9d868820c05481efae2f62f38b534be2aa8b00227379dbbcdf4c4f9b",
-        "target_sha256": "1c3b31f281a9261e354ca3ded77e40f353d82ea8f265ec8fc3a43a3b172c722f"
+        "source_sha256": "9f1b612337bb4a1ff2bab5bce9a4417b6becec281fa5f4f50c2a364ad70493d3",
+        "target_sha256": "504483103634e7d7064a9eb6488389fda13ad4c258281ddad8e959ab7dd4ce1a"
       },
       "events:arc_career_ceiling:/choices/2/text": {
         "source_sha256": "c3454cadb9964c3fb48b77a79fbb98eb2366aaa0532956c441291ddd21786bf8",
         "target_sha256": "1d5f49c147f66dea68b202368fe1860ccec3fb309b4d4d7fea83cbefc27ec23b"
       },
       "events:arc_career_ceiling:/description": {
-        "source_sha256": "b43b8cbcdcfe36f7572202ebd96c0fb9353dafcca92c82344d05407db6a9b9bb",
-        "target_sha256": "fa71cf2f2c67bdf04f8a3c408ed7ddec332e928101cb8bce1efa4475598af01e"
+        "source_sha256": "9792ceecdbfeb73c57ad6843bdac9f503cf51327fef54c6f64e698e37db2c822",
+        "target_sha256": "3cc325229730416dedce568bd710eee27b1626ebbdff3fdb7864f0535b0fd83f"
       },
       "events:arc_career_ceiling:/description_if_known/sangchul_mirror_deal_face_up": {
-        "source_sha256": "291c9d17b5c66c970b31a007116702db6ffb8e1ac7100b4d59a7ae08db2bf597",
-        "target_sha256": "b4612ed03f3b5eced0bfd0b9dde4f98b561b0f2d71264548acaf3c12a56bde0e"
+        "source_sha256": "57def5ecdf5a796360bb6d295fa420d53c4bd97d0610022f09dbd8acab26c649",
+        "target_sha256": "6a3d604aa68ee799c63dba35b566a6dee72f5e1e4dfb1d131e1e9bd4dae694a7"
       },
       "events:arc_career_ceiling:/description_if_known/sangchul_mirror_hospital_face_up": {
-        "source_sha256": "3d66022ccc412e03238b7e1d50fb354e6dab6c68f258f58348cc5da58415498b",
-        "target_sha256": "2a65e2757466b6d2883ee35d3dd613df0582cbbaa2f479fa89d4e8a6cf89b75e"
+        "source_sha256": "22706c4e41f6f06a0b27f85e599fd9c5bbe4e63025477efd13232589f8af4615",
+        "target_sha256": "417e9bca9c423b4301342ecb7b3ed17309ccecc272bfd7edc85079281fbc88d8"
       },
       "events:arc_career_ceiling:/title": {
         "source_sha256": "5c62dee1529fded25e9358de687c75c9a44a8616ddb2ef646b2218bb76a1b2fb",
@@ -73219,40 +73409,40 @@
         "target_sha256": "55f788a07f67b8bf0831b87fa7173d641b6457e532a2acd140efdb3a98f08b98"
       },
       "events:arc_career_ceiling:/choices/0/result_text": {
-        "source_sha256": "10949fda07a3492f98f449e401e3a435aa18f590d420fb143a6897bcaba6771a",
-        "target_sha256": "126303946f2d13d4793f691e6a46bc9eea9656e43ed825264880418d037c6bf6"
+        "source_sha256": "20238163672c9b263e90842623e91b887cf7b6af949120f84ae2385447f27d31",
+        "target_sha256": "f19cb83b69b5e6814acc579dac54524aa49ba890af9c5d0f789a7b2197fa790e"
       },
       "events:arc_career_ceiling:/choices/0/text": {
         "source_sha256": "a5962ce9711e2e81051ff3868ba38996102690bc92906101558c7474596d2eb4",
         "target_sha256": "3e7b690d05fe91e4802b1448cd141e49beacc97fcdfacf26d79e3278712079a3"
       },
       "events:arc_career_ceiling:/choices/1/result_text": {
-        "source_sha256": "fd50dc10354f27ce2d0cba167a50b68d0234bb50a2bb58689e494f3e3260bdcf",
-        "target_sha256": "af4a6f7aeaece42b93d8ff0749d501f79a2e909227d358170d88b8b0c7ee796f"
+        "source_sha256": "fb87050740def00595684a5ac1e1395c6bcea8d199f603b8ca06efda26d2ff42",
+        "target_sha256": "45b156a125a392d74beec743a2c2d5c11b5c8310f8b283d270aa9f679810feb6"
       },
       "events:arc_career_ceiling:/choices/1/text": {
-        "source_sha256": "ce53a408af70511c4ea52a5985f74dc03dab561e1e1c8fdf9c51db6026c76765",
-        "target_sha256": "f88101c7e7679e7791a202636d07e79c8b7a46b8a4848bf74c0fff0514dd9213"
+        "source_sha256": "23f0b132a5cdfc0ac4489e88a8c9f8c854a2bb420ccc013d3871b5739fc1e5b4",
+        "target_sha256": "0f049ecb91ee0249849ccd585517af8b61ff0bd0c8b9afd8b1077864af116ab8"
       },
       "events:arc_career_ceiling:/choices/2/result_text": {
-        "source_sha256": "900f7c0c9d868820c05481efae2f62f38b534be2aa8b00227379dbbcdf4c4f9b",
-        "target_sha256": "249ee8f99f78185362cc23859dd1652b0bfe3633ebdbc995303eaf09bb66787f"
+        "source_sha256": "9f1b612337bb4a1ff2bab5bce9a4417b6becec281fa5f4f50c2a364ad70493d3",
+        "target_sha256": "a897f2225fb382cebf53edb253ab4a2b9c2a7aa490b58d8a7cc9db0c15f32236"
       },
       "events:arc_career_ceiling:/choices/2/text": {
         "source_sha256": "c3454cadb9964c3fb48b77a79fbb98eb2366aaa0532956c441291ddd21786bf8",
         "target_sha256": "b379fdfdd92dd9b421ca2e079ec6d6805e8f04572425a57cded2ebf58776fdcd"
       },
       "events:arc_career_ceiling:/description": {
-        "source_sha256": "b43b8cbcdcfe36f7572202ebd96c0fb9353dafcca92c82344d05407db6a9b9bb",
-        "target_sha256": "1aa4ff6150a22b26604654f3dace7d987b9b8d205275ca5263e9dbee12ad768d"
+        "source_sha256": "9792ceecdbfeb73c57ad6843bdac9f503cf51327fef54c6f64e698e37db2c822",
+        "target_sha256": "8fc63d3b5b914864cedd70997e84763b0ab6edeec08041f440056b6880268ba2"
       },
       "events:arc_career_ceiling:/description_if_known/sangchul_mirror_deal_face_up": {
-        "source_sha256": "291c9d17b5c66c970b31a007116702db6ffb8e1ac7100b4d59a7ae08db2bf597",
-        "target_sha256": "4d994fc1d1717f6274a2c9ca886982eea9c46fd96380cc8585a2ab3a7bc64965"
+        "source_sha256": "57def5ecdf5a796360bb6d295fa420d53c4bd97d0610022f09dbd8acab26c649",
+        "target_sha256": "ef18f2348355daac3dd423dca62608e6e72d2ca16343a825288218e9c00faa3f"
       },
       "events:arc_career_ceiling:/description_if_known/sangchul_mirror_hospital_face_up": {
-        "source_sha256": "3d66022ccc412e03238b7e1d50fb354e6dab6c68f258f58348cc5da58415498b",
-        "target_sha256": "b0bfa2ba105c44a6e9a592ef4dfa849f52c092ef89dd3a9c33f07ebc732c6892"
+        "source_sha256": "22706c4e41f6f06a0b27f85e599fd9c5bbe4e63025477efd13232589f8af4615",
+        "target_sha256": "5155033e53099db11686b1c06301ad108b157cd723785f67a95cfd88fc517b84"
       },
       "events:arc_career_ceiling:/title": {
         "source_sha256": "5c62dee1529fded25e9358de687c75c9a44a8616ddb2ef646b2218bb76a1b2fb",
@@ -132745,40 +132935,40 @@
         "target_sha256": "8496c792522c30fe29277441f5c7641e6deac17c11a35b559e22c8b83a24a509"
       },
       "events:arc_career_ceiling:/choices/0/result_text": {
-        "source_sha256": "10949fda07a3492f98f449e401e3a435aa18f590d420fb143a6897bcaba6771a",
-        "target_sha256": "151817163f4954ff7786209d8a5a8d5451c91eef913f9f0c8282cf283bceafe1"
+        "source_sha256": "20238163672c9b263e90842623e91b887cf7b6af949120f84ae2385447f27d31",
+        "target_sha256": "f6e357139310e39d381c3839f2e9b1e0839a514c388baae5647925b8a55bcb83"
       },
       "events:arc_career_ceiling:/choices/0/text": {
         "source_sha256": "a5962ce9711e2e81051ff3868ba38996102690bc92906101558c7474596d2eb4",
         "target_sha256": "a127c1eecaa5e2500ef48e7bb468709e6a0eb39e83e3595c6c4efef19b4349d6"
       },
       "events:arc_career_ceiling:/choices/1/result_text": {
-        "source_sha256": "fd50dc10354f27ce2d0cba167a50b68d0234bb50a2bb58689e494f3e3260bdcf",
-        "target_sha256": "548fab09496e57d9f01a158e1832377cceb5685b8389bb12ee01b0d6ee2f9b42"
+        "source_sha256": "fb87050740def00595684a5ac1e1395c6bcea8d199f603b8ca06efda26d2ff42",
+        "target_sha256": "cacdc95b49826b014f13cb443b6cb41cb5710f0c9badbf8eaaca72e923a75daf"
       },
       "events:arc_career_ceiling:/choices/1/text": {
-        "source_sha256": "ce53a408af70511c4ea52a5985f74dc03dab561e1e1c8fdf9c51db6026c76765",
-        "target_sha256": "f84d09f557d55883412b71ff1496ef8dade5ea85a808e63edaf1934e500a3959"
+        "source_sha256": "23f0b132a5cdfc0ac4489e88a8c9f8c854a2bb420ccc013d3871b5739fc1e5b4",
+        "target_sha256": "3632ab76f5309d6ce5a43dba555621e637e97f5c003ce8b3b7f2cfd0b30d285a"
       },
       "events:arc_career_ceiling:/choices/2/result_text": {
-        "source_sha256": "900f7c0c9d868820c05481efae2f62f38b534be2aa8b00227379dbbcdf4c4f9b",
-        "target_sha256": "589d567f24f270f1c52bc44849ae04cf2443a804819bc16152660bfdb8653a4d"
+        "source_sha256": "9f1b612337bb4a1ff2bab5bce9a4417b6becec281fa5f4f50c2a364ad70493d3",
+        "target_sha256": "c4223570754297551beb88d4086a31d9c854c2f31f142e039a3ab5b20d26e51c"
       },
       "events:arc_career_ceiling:/choices/2/text": {
         "source_sha256": "c3454cadb9964c3fb48b77a79fbb98eb2366aaa0532956c441291ddd21786bf8",
         "target_sha256": "9f587259476c6377c1125f9ad61e218d4787c1d83efec1717c4722cdb702a165"
       },
       "events:arc_career_ceiling:/description": {
-        "source_sha256": "b43b8cbcdcfe36f7572202ebd96c0fb9353dafcca92c82344d05407db6a9b9bb",
-        "target_sha256": "6ef38e2ce881b495b9de7b0bd6c0aa79d2cd3e70b1c5f64c7a1c605fb8f9d381"
+        "source_sha256": "9792ceecdbfeb73c57ad6843bdac9f503cf51327fef54c6f64e698e37db2c822",
+        "target_sha256": "2de376c58d49e4e57437f56ac1c4173d458ff8102517613a441094e3c1796200"
       },
       "events:arc_career_ceiling:/description_if_known/sangchul_mirror_deal_face_up": {
-        "source_sha256": "291c9d17b5c66c970b31a007116702db6ffb8e1ac7100b4d59a7ae08db2bf597",
-        "target_sha256": "bf020b53eb642fa271abe0cbbfa1371f5e6d0da328ea2aef7d317aeb275f6a04"
+        "source_sha256": "57def5ecdf5a796360bb6d295fa420d53c4bd97d0610022f09dbd8acab26c649",
+        "target_sha256": "2be75e16606b4fcccae8464f4aba7b405a9454dacc756673bede3924e4121116"
       },
       "events:arc_career_ceiling:/description_if_known/sangchul_mirror_hospital_face_up": {
-        "source_sha256": "3d66022ccc412e03238b7e1d50fb354e6dab6c68f258f58348cc5da58415498b",
-        "target_sha256": "f68e8d9f81b900586b859052ddfc72083fae53e647b65d503ccc20233ae4d323"
+        "source_sha256": "22706c4e41f6f06a0b27f85e599fd9c5bbe4e63025477efd13232589f8af4615",
+        "target_sha256": "9e654de5a1c55850d4aa4152ee6107fcc590b09ed9f11237c87024d0ae1dd286"
       },
       "events:arc_career_ceiling:/title": {
         "source_sha256": "5c62dee1529fded25e9358de687c75c9a44a8616ddb2ef646b2218bb76a1b2fb",
@@ -187082,7 +187272,7 @@
       }
     }
   },
-  "accepted_sha256": "d3d647fc80f139380ff88d5080f339b2120dd43f68b56bc7eb08f18b3a51f8c9",
+  "accepted_sha256": "180887e3431f73729053bc94ef4ef91d08ba937eab4dd00aff90394014152865",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
