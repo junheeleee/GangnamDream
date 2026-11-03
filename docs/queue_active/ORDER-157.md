@@ -27,7 +27,7 @@ Mac 잠금과 KO/EN 대표 플레이 대기는 화면 없는 번역·검증의 �
 [753](../queue_archive/ORDER-753.md) 다은·마지막반년 shipping51도 수용·독립 최종전독을 완료했다.
 [754](../queue_archive/ORDER-754.md) 부친·강남 이유 shipping66도 수용·최종독립GO다.
 [755](../queue_archive/ORDER-755.md)는 관측 민기 이름의 낡은 검증 결속만수리·별개독립GO다.
-[756](ORDER-756.md) 갈림길·항목회고24도 수용·사전전수GO, 최종후보판정대기다.
+[756](../queue_archive/ORDER-756.md) 갈림길·항목회고24도 수용·최종독립전수GO다.
 memory2는현재자동순서의신규정상런노출로세지않고호환/회상소비자를보존했다.
 누적 기존723문구의 정정이며 신규 커버리지/전체완성이 아니다. 남은 source-scope
 진단528(stale525=언어별175+요약3), 각shipping160/author_only15와 UI를 이어간다.

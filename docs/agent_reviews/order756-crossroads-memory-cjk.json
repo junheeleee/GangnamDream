@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-756",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "2e538283eae9bf11fa787987a0f9ac6a5307ceb2",
+    "tree": "bc2c0f70c34b5907e9a0c9385722ad5558ab0139",
+    "manifest_sha256": null
+  },
+  "scope": "Korean8 × Japanese/zh-CN/zh-TW =24 existing-target corrections, three roots ×3 =9 units; new coverage0.",
+  "population": {
+    "method": "Full census, not sampled",
+    "selection": "arc_year_three_crossroads choices0/1/2 result,choice2 text,known envy_released/envy_still_burning (6); arc_y4_three_promises and deal_only memory plays_hand (2).",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/{arc_midgame,arc_chapter_themes}.json",
+    "excluded": "Other choices/known/memories and base prose are nonowned context; reading them does not complete them."
+  },
+  "review": {
+    "method": "Read Korean8/targets24 directly, all three Korean roots and current target choices/known/memory/base context. Read MainGame W153 relationship promises versus crossroads W154-170, StoryMode known replacement/memory append and plays_hand producer. Rechecked accepted actual24 against source/response/receipt and fixed c2be13e baseline.",
+    "final_blocking_findings": [],
+    "meaning": "Choice0 keeps present written plan and backward glance/body turn, not fixedthree-year inertia or a next appointment. Choice1 leaves sleep/assets uncertain, not restored sleep or reduced success probability. Choice2 lists presently verifiable money/skills/contact possibilities with blank uncertain cells, one next item underlined and thick folded paper preventing wallet closure in one go; no all-sufficient means or invented failure judgement.",
+    "known": "Released-envy and still-burning preserve3years/age36/under2years, current neighbouring shoes/signal/one inward reason, jaw/breath/front-foot weight/heel on pavement and another look across. They do not add anger-fuel moral explanation or a guaranteed outcome.",
+    "memory_and_exposure": "Two memory texts recall categories previously written and require checking their availability now, not an actual use or guaranteed responsive contact. Current automatic order places promises at153 before plays_hand production at154-170. Existing save/gallery condition readers and shipping classification remain; this GO makes no new normal-run exposure, activation or routing-fix claim.",
+    "repairs": "CN/TW draft1 -> final changes exactly rows6/7 each: road-direction clause to 踏上车道/踏進車道, and final glance to 又向对面望了一次/又望向對面一次. Both are natural and preserve source direction/one occurrence. Other6 texts, complete headers and row metadata exact. Initial CN occurrence1 versus 一眼/look1 rejection retained; TW initial check was not run and has no invented initial log.",
+    "format": "Source identity, tokens/multiplicity, paragraphs, number/time/age/count meanings, open contact possibilities and character knowledge preserved. Independent reading is not native-language or screen observation."
+  },
+  "preservation": {
+    "prior_batches": 349,
+    "prior_decisions": 313,
+    "proof": "Actual24=response exact, three private accepted receipts and canonical receipt hashes independently reconstructed. Reverting only24 in six JSON overlays reproduces previous JSON values at c2be13e. All349 original batches, previous-target/superseded acceptance and nonowned accepted entries exact; reversing acceptance/batch/digest reproduces whole old ledger. Previous dated WORK_LOG suffix is byteexact with one new Nov4 section. Candidate12 paths are declared six overlays/ledger and five docs only; no KO/EN/tools/runtime/gameplay/demo/save/allowlist changes."
+  },
+  "validation": {
+    "author_logs": "JA check and CN/TW final-check/import8×3 VALID/INCOMPLETE/OPEN with stderr0; author exit0. Raw delta24/6, demo5 locales/14events/100leaves/122UI and EN strict1813/35 clean read directly.",
+    "independent": "Pure check_batch, source/target/receipt/whole-JSON and complete-ledger reverse proofs passed. No post-import old-export CLI call or unchanged selftest rerun.",
+    "lane": "lane.log is an explicit-lane ownership rejection of new ORDER-756 active spec (author exit2), not product failure/pass. lane-product-list.log lists11 selected checks for seven product paths; it is not all11 execution/green. Scope/validator were not broadened to hide the rejection."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 528,
+    "stale_source": 525,
+    "each_locale_stale": 175,
+    "each_locale_shipping_stale": 160,
+    "each_locale_author_only_stale": 15,
+    "summary_diagnostics": 3,
+    "summary_target_count_each": 178,
+    "change": "552 ->528 by reviewed24 only; independent pure scope recomputation matches. Three summary diagnostics are locale-level target sets, not three missing phrases."
+  },
+  "identity": {
+    "original_export_source_revision": "c2be13e01de9a73406053e78de7fabc41981e495",
+    "reviewed_rows_sha256": "cf5779033bccfe1683e5a95ea372be6cefb211fed03529a0018e5a3e50b7041b",
+    "reviewed_rows_encoding": "Canonical JSON locale/export order [locale,id,source-hash,previous-target-hash,target-hash]",
+    "receipt_sha256_by_locale": {
+      "ja": "1359eb0f041055789f3aa0d75b14ff2c78d1353ca906dc34e72110a8f9c114d7",
+      "zh-CN": "6b5dfddfc752dcede761c1de0deb47b8bef1fde828b8274f5d0baf142077af83",
+      "zh-TW": "59ea6b801b3695a2a45c9ab240b540a208a48ff1a7e9688969aed5a055f4c4fd"
+    },
+    "raw_directory": ".git/localization-crossroads-memory-20261104/",
+    "raw_population": {
+      "files": 31,
+      "sha256": "5e0580314c6001d0bdab416e60fbddddf164dae1efba467846750cf7dd395391"
+    },
+    "used_final": {
+      "files": 26,
+      "sha256": "22d5a7349f2d832d59a5d732ebeb8e98d0f3d6551b06b77564cbb02374cf8cbc",
+      "selection": "helpers2/leaf-list1/source3/response3/JAcheck2+CN-TWfinalcheck4/import6/delta-demo-i18n-product-list-scope5"
+    },
+    "repair_history": {
+      "files": 5,
+      "sha256": "ed20a6f716500db73f77eb16014452dbcfb8dc1fddbcb7cad8305604dd7e8b72",
+      "selection": "CN/TW draft1 responses2, CN initial failure stdout/stderr2, lane rejection1"
+    },
+    "raw_population_encoding": "Canonical JSON basename-sorted [basename,bytes,sha256], disjoint final/history sets"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "new_normal_run_memory_exposure",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

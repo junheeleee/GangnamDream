@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-756 · 갈림길 선택과 항목 회고의 JA/zh 정합
+#### [x] ORDER-756 · 갈림길 선택과 항목 회고의 JA/zh 정합
 
 2026-11-04 root·부모157/C5. shipping3root×3언어=9단위의같은인과묶음,
 KR8×3=24 기존번역 정정. 숫자채우기위한인접원고확대0.
@@ -47,4 +47,8 @@ scope552→528(stale525=각175+요약3)·전체미완. 명시lane는새756사양
 원로그보존·실제품7path일반list로11검사선택만확인했다(전체실행성공아님).
 선언의추정W145~155→W156/레버리지표현은현소비자/원번역을읽고수리·제품변경0.
 Mac해제와native조작도구부재를구분·게임31.3실행/입력/저장편집0.
-제품후보최종판정대기. 기존I18N계약적용·신규규범0/일회성.
+제품2e538283eae9bf11fa787987a0f9ac6a5307ceb2/treebc2c0f70의
+[최종독립전독](../agent_reviews/order756-crossroads-memory-cjk.md)은수용24/receipt3·
+원349배치/비소유6JSON·전체원장/지난기록을직접역복원해이범위만GO다.
+raw31=최종26/이력5의각집합SHA·보고2/append1을root전독대조·원313판정보존.
+2026-11-04 완료. 기존I18N계약적용·신규규범0/일회성·전체언어/native/CI/출시별도.

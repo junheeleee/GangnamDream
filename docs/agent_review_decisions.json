@@ -13162,6 +13162,50 @@
         "path": "docs/agent_reviews/order755-mingi-source-guard.json",
         "sha256": "182f0ec33160108d47d96e07843fd7ba1be038e8259c0c5a3830fdb4a67caf26"
       }
+    },
+    {
+      "id": "order756-crossroads-memory-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-756",
+      "subject": {
+        "kind": "source",
+        "commit": "2e538283eae9bf11fa787987a0f9ac6a5307ceb2",
+        "tree": "bc2c0f70c34b5907e9a0c9385722ad5558ab0139",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order756-crossroads-memory-cjk.md",
+          "sha256": "19bc2e87a2b7dcfe707364d118e03b3334e742938b1e037bb94f51bff08b5f04"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order756-crossroads-memory-cjk.json",
+          "sha256": "9319fa12e75418a230b9348650dcce4ae977b39fdbe6f7b5cc6cff724b53411f"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "new_normal_run_memory_exposure",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order756-crossroads-memory-cjk.json",
+        "sha256": "9319fa12e75418a230b9348650dcce4ae977b39fdbe6f7b5cc6cff724b53411f"
+      }
     }
   ]
 }
