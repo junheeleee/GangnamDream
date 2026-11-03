@@ -33,4 +33,17 @@ demo/EN·scope/context/queue/diff. 수용뒤옛export CLI/불변self-test반복0
 
 ## 검사 실물·후보
 
-수정·검수·제품후보미완. 게임31.3실행/입력/저장편집0.
+KR15/목표45의사전독립전독GO·실수용완료, 최종제품후보독립검수대기다.
+원문없는487300/생사·의료결과해설/옛call화면·취소손실단정을현재병동SMS/
+선택후택시손잡이·짧은숨/산소기계·오늘불가/내일미확약·손가락회고로정렬했다.
+CN/TW초안수리2+독립권고후수리2response보존·검증거절0·도구변경0이다.
+CN자기수리row1:불필요一阵삭제/固定间隔, TWrow10:무의식해설삭제/손가락收緊.
+CN독립권고5행:연락대상/就결합삭제/转出3, TW2행:연락대상/自行熄滅;
+나머지CN10/TW13값·JA15·전체헤더/metadata exact·추가권고0.
+JA check·CN/TW final-check 및import15×3 exit0/stderr0 실관측,
+receipt/순수검증/delta45/3JSON·원351배치/원수용/이전target/비소유4leaf/전체원장보존.
+demo5언어14사건100leaf122UI·EN1813/35 clean, 제품4path일반list11은선택목록뿐이다.
+source-scope444→399(stale396=각132/내shipping117author15+요약3/count135)·전체미완.
+story_rules phone/incoming과KO본문SMS의기존차이를native결함/소비자수리로확대0.
+patch동일파일복수Update형식거절은쓰기0·후속singleUpdate로수리·제품성공증거아님.
+게임31.3실행/입력/저장편집0. 수용후옛export CLI/불변self-test/완료검사반복0.

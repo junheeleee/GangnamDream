@@ -20490,6 +20490,316 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-758",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_y4_father_crisis_contact"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 15,
+        "zh-CN": 15,
+        "zh-TW": 15
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean-to-each-locale census of15 source leaves/45 existing shipping targets, all source choices and three current follow-up roots. Ward SMS at6:14PM requests tonight guardian contact, oxygen/test underway without death forecast; fastest train reaches late, nurse can hold receiver at father ear now. Result7:02 ticket and absent-task message/ward reply/taxi grip, actual short breath/regular oxygen hiss, or today unavailable without tomorrow guarantee remain distinct. Eleven ordered first-matching ordinary memories preserve midnight-before hospital payment, own night care for hand tremor or ward/medication/transfer-hospital/contact-order preparation, crossed with earlier Seoulbound call versus unpressed number. No487300 invention, extra medical/life-rule explanations, old call-screen overlay or cancellation-loss claim. Current title/choice texts and follow-up3 roots, original351 batches/receipts/previous-target hashes preserved.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "9257b21e96b585e5c479504987d64017bfd02cf4",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "951bffb305d04db63e45aef7c50103ed6ae78dfc0af650cc9b7cb51ed5163aa6",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "318747694eb5a4d46547825a0d12bfcb02c5b1860c9ba44b126817340722a9b1"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "9257b21e96b585e5c479504987d64017bfd02cf4",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "2280d372674315ce0b6c72e1cdcaf982a9eeeb683f7317ebcdbb235ad33fda11",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "5b96a51adf60b72a9265a89bd54340f910db35f4e0d7ec54e067a1406c2f0e67"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "9257b21e96b585e5c479504987d64017bfd02cf4",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "af3766ef8db0fb9f3f87dd4ee4ab4891c291b51b4978c1b2f534f56792d419e2",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "55e116cd2c53e19f2e6e5a4dbfc9faaaa8bfa268ddb6bb92a7b46b62071fa4c8"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "74ba218c2cdaa461d87ec86a9fea2a9f77edc04c265c213f594f0a0b607dcd1f",
+        "zh-CN": "2a6ac2f9c0b2c6d05528593d992ffdd92b0b772956c6bcefc63f28a303f90a66",
+        "zh-TW": "e4b1c18f618e29c203dc08ef0a5fc0e48c71668c4943fa20c5ac73f0fe8b034a"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_y4_father_crisis_contact:/choices/0/result_text": "d57c99589698089f4e59833a0faba164dfd0ed7d62e8b520678361201780e569",
+          "events:arc_y4_father_crisis_contact:/choices/1/result_text": "eeef0682095520c86400e11696988d15c1eac04e3374b868c9e70412b278525c",
+          "events:arc_y4_father_crisis_contact:/choices/2/result_text": "227e2bf9f976418e6330cbc69e21a552f0dcaa9f3e2a29cc839667b3ca9ff43a",
+          "events:arc_y4_father_crisis_contact:/description": "6f7c7d3d7ad528079c4fb3b324da8e9bbee0b5eaa946dd74d662729ce35a4fba",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care": "077c2239ee178692f32342bad6a3e6fc32ee8b25bf4e2f097f3af2780e2dbaa5",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&called_father_on_ktx": "02da03d32ea3a4ca5f41dfb30d18cc5f2fa070358b85daf6b870381a6e8113a5",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&did_not_call_father_on_ktx": "ce1329105a9bb540ef46db248686b78b8e7553632dbe7222e71c96a2f518d542",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care": "f8108e1525a98503aa562a6a653ac7fb9ba68f5c35af690516cf703d073bd355",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&called_father_on_ktx": "6aeb27ac557e33855ada4987f92e7b2d7d079f5ba46e25c1efe2b1c7030de6bb",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&did_not_call_father_on_ktx": "aac9cebe16a424888b64a9c183431bdf99d8a6c9570f8ce61f7872ecb32095ce",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment": "9bfe5da3f2a0e27373ab47cb00f0a507b319f8f87d76f873398840c7634e3ea8",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&called_father_on_ktx": "a6386ec3017f2f8f33c092b489ff32c2ce0a75e503d8c1d2b76e88160898f5c6",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&did_not_call_father_on_ktx": "3fa03511b8ca9f9e1137288c0866333c8a6ac968ac547726b7ee6445b39671d7",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/called_father_on_ktx": "f118f0baad4901fc7322a6ea20a3b2ba3ba54395fa41f537b22754820302e90c",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/did_not_call_father_on_ktx": "dba6750ff76b3ba0724524a77c01af1eed085859c96a3553ea09fbb9f8ae2b9c"
+        },
+        "zh-CN": {
+          "events:arc_y4_father_crisis_contact:/choices/0/result_text": "8cd534658130791b33757756b7e920b4ed6848febf21c585738d9951cc6f58d1",
+          "events:arc_y4_father_crisis_contact:/choices/1/result_text": "2725ae55f285f6e8db8a4fac6d7a671a4f96f3e294ad98c7a2b54a858f260ea6",
+          "events:arc_y4_father_crisis_contact:/choices/2/result_text": "77027d0d22c85ed9730a9ba3f47d89389705cd6376be0c8e293b572974834800",
+          "events:arc_y4_father_crisis_contact:/description": "3d2e1d5e6fc77687335629b006297ede1ef5f15b1d66ac971ad631274263d231",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care": "2fd23b4c857bbd09bad51c26ddeccdf2a351d7f654e3f1e902d51f43f3c933da",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&called_father_on_ktx": "1a5d51b311502237eb389df64c271b23b6a222cd9408c85a407d94cc767326d4",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&did_not_call_father_on_ktx": "f199a59f3104635a8e65a197e7f877dda92fcfb10b7e7ba333e0fd8fb5cf28de",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care": "d38b7282e50543dbd9fe34d2973f4df212e3d2517ae5437536ffde9f4e5a2631",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&called_father_on_ktx": "41df2952c4f167294ca17b0afbc5e590355cb5910031cab026be4715e7c94210",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&did_not_call_father_on_ktx": "2573f894ff1eb89442ab52d2094a3e4f44b61424f88ab33f3559ef61f9b4c99e",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment": "61902d97056ae461511c436f8d384260bcb80b873bdbbd0631c61585005fe9ee",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&called_father_on_ktx": "c3fb3166630f939d055d4e2c9abfd27c33e161b3127c059e115b1f783f9c8614",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&did_not_call_father_on_ktx": "e1f8ec109ffbfc71e9ea9fec0ac07fb91fdd0aedceebbb56ff118335af463155",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/called_father_on_ktx": "4144d22cf8b3f871d8b94cd48eb32eb539a47dea850c74dd84e4777fd23f3d04",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/did_not_call_father_on_ktx": "daead5fc516cd99edc60e2c106e8b1b9f938e0e67104e5ff497b18d8896c81aa"
+        },
+        "zh-TW": {
+          "events:arc_y4_father_crisis_contact:/choices/0/result_text": "e7b2a405f0c4be2e209ceba4a75541208766fcfee75f7fca559d27b58fe3a7fc",
+          "events:arc_y4_father_crisis_contact:/choices/1/result_text": "694ad6d499346603eb96246554e54b61b7ee2590a06e8530339606fce1177331",
+          "events:arc_y4_father_crisis_contact:/choices/2/result_text": "18fe556937729fac29d47ac80bdac5a397868eccfde68e43715eae8e90e8e948",
+          "events:arc_y4_father_crisis_contact:/description": "6d95f89546ab951576d92ff7580646f60248f9d7d0af846b16dc1944f54eb37d",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care": "9498cb025496812a5ca8ebc3f919c15e51a49e88e9dd2e5ead338ad37d800dc8",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&called_father_on_ktx": "9094a0b10026e7ddcb1ea9d58c496ea1e9761e711f4ee9002f90823d7a152583",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&did_not_call_father_on_ktx": "cdb24ee2a1283422222bdd07868478b4a53389a9f9c67858fabf7c93bb410cdd",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care": "c46a71c90139f0c7f4ec014f518cba6d4ba9242fb92b36b380ce8f59c89f4280",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&called_father_on_ktx": "16a7d01adcbd7dd9a75bf4063ef3a1400db3d02b70f37706f5bcac2aad9ffc0d",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&did_not_call_father_on_ktx": "a5392988433588dc97c7dcad862f8071b178271d0ee39731ae89b8a38dd8b787",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment": "ac4d5a78d702ba3f8be6d3608bf37294b43487fafb48599fbb801b8773fc014a",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&called_father_on_ktx": "d768040b0aaa8c304425dc42102753bd82f1504e69e0a97410aede05d4f811b5",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&did_not_call_father_on_ktx": "64e722a30948ae87027f4806bece947ac958fd11d80467171c93781ab6b2576e",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/called_father_on_ktx": "618ae4f82ff87ef739cb8fd4f66b7c804072062e7aee488ae72c0cc3b6c04b6e",
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/did_not_call_father_on_ktx": "bf92e8b05a33054cea91133bf32e33052ce5b60d70e4d9abce155ada13076a37"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_y4_father_crisis_contact:/choices/0/result_text": {
+            "source_sha256": "c1db6137d038e34e03982fc697ba0fa140501459fa6ad5b0af2ea79bcc126d8a",
+            "target_sha256": "d57c99589698089f4e59833a0faba164dfd0ed7d62e8b520678361201780e569"
+          },
+          "events:arc_y4_father_crisis_contact:/choices/1/result_text": {
+            "source_sha256": "6052bd0f2ab1015dd875a9dcfe1b0c9f74a538e2177d0a8d8be0a4d45d040014",
+            "target_sha256": "eeef0682095520c86400e11696988d15c1eac04e3374b868c9e70412b278525c"
+          },
+          "events:arc_y4_father_crisis_contact:/choices/2/result_text": {
+            "source_sha256": "c1718bfb91ff03e04702b44d1a806262bc76b2530514fbacc1b10f49fc20bf57",
+            "target_sha256": "227e2bf9f976418e6330cbc69e21a552f0dcaa9f3e2a29cc839667b3ca9ff43a"
+          },
+          "events:arc_y4_father_crisis_contact:/description": {
+            "source_sha256": "6d276a58dea7b3e3de4ab6e4c60594d72c636d2222f8efc49b0514d1d398e0a5",
+            "target_sha256": "6f7c7d3d7ad528079c4fb3b324da8e9bbee0b5eaa946dd74d662729ce35a4fba"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care": {
+            "source_sha256": "881b31d0f9e9e161a22ff2c2fcfb182f8d9ff2308e0fc8e597154c58f6818452",
+            "target_sha256": "077c2239ee178692f32342bad6a3e6fc32ee8b25bf4e2f097f3af2780e2dbaa5"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&called_father_on_ktx": {
+            "source_sha256": "c2e2e60ba517652bbcd03cd4dec0ef110a68a1c67db200d214afe7fc1ba10c43",
+            "target_sha256": "02da03d32ea3a4ca5f41dfb30d18cc5f2fa070358b85daf6b870381a6e8113a5"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&did_not_call_father_on_ktx": {
+            "source_sha256": "5b8e587271036b322f8da07ef9498eefc4f4848c482d83827d5dda5b47b62332",
+            "target_sha256": "ce1329105a9bb540ef46db248686b78b8e7553632dbe7222e71c96a2f518d542"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care": {
+            "source_sha256": "2a3c5bc2d0499774a272477a3123153858e6f3720c8941fda248156275e44190",
+            "target_sha256": "f8108e1525a98503aa562a6a653ac7fb9ba68f5c35af690516cf703d073bd355"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&called_father_on_ktx": {
+            "source_sha256": "0c34e0aa0da310a034e292fb1361558993951b29a770a53fc9ce2d4b2f0c5e05",
+            "target_sha256": "6aeb27ac557e33855ada4987f92e7b2d7d079f5ba46e25c1efe2b1c7030de6bb"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&did_not_call_father_on_ktx": {
+            "source_sha256": "cd01867ce5b92910ba111f994bf8b64041c0fd8286beb6e48591f304500536ea",
+            "target_sha256": "aac9cebe16a424888b64a9c183431bdf99d8a6c9570f8ce61f7872ecb32095ce"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment": {
+            "source_sha256": "eea7c583822178eb024dbb317c83657f5b07a6ed60d3302ed771953698b26df6",
+            "target_sha256": "9bfe5da3f2a0e27373ab47cb00f0a507b319f8f87d76f873398840c7634e3ea8"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&called_father_on_ktx": {
+            "source_sha256": "4bc3826798dd90bfee45fddc4ceddf054e9c5e354d8aa70f3a7c65adb812bcb5",
+            "target_sha256": "a6386ec3017f2f8f33c092b489ff32c2ce0a75e503d8c1d2b76e88160898f5c6"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&did_not_call_father_on_ktx": {
+            "source_sha256": "19f35bd01a26e23bc240f6f28e782d04b65009b2173d7a6fc7721ee64e2f3a8d",
+            "target_sha256": "3fa03511b8ca9f9e1137288c0866333c8a6ac968ac547726b7ee6445b39671d7"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/called_father_on_ktx": {
+            "source_sha256": "6b2d8e12d331c35bc064b0a54771213afb8fbd538de056b36f64be7f78309338",
+            "target_sha256": "f118f0baad4901fc7322a6ea20a3b2ba3ba54395fa41f537b22754820302e90c"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/did_not_call_father_on_ktx": {
+            "source_sha256": "4696cb039a480e3e8f588a5e451d8d1c2479a743102f32980f632300ffb4e114",
+            "target_sha256": "dba6750ff76b3ba0724524a77c01af1eed085859c96a3553ea09fbb9f8ae2b9c"
+          }
+        },
+        "zh-CN": {
+          "events:arc_y4_father_crisis_contact:/choices/0/result_text": {
+            "source_sha256": "c1db6137d038e34e03982fc697ba0fa140501459fa6ad5b0af2ea79bcc126d8a",
+            "target_sha256": "8cd534658130791b33757756b7e920b4ed6848febf21c585738d9951cc6f58d1"
+          },
+          "events:arc_y4_father_crisis_contact:/choices/1/result_text": {
+            "source_sha256": "6052bd0f2ab1015dd875a9dcfe1b0c9f74a538e2177d0a8d8be0a4d45d040014",
+            "target_sha256": "2725ae55f285f6e8db8a4fac6d7a671a4f96f3e294ad98c7a2b54a858f260ea6"
+          },
+          "events:arc_y4_father_crisis_contact:/choices/2/result_text": {
+            "source_sha256": "c1718bfb91ff03e04702b44d1a806262bc76b2530514fbacc1b10f49fc20bf57",
+            "target_sha256": "77027d0d22c85ed9730a9ba3f47d89389705cd6376be0c8e293b572974834800"
+          },
+          "events:arc_y4_father_crisis_contact:/description": {
+            "source_sha256": "6d276a58dea7b3e3de4ab6e4c60594d72c636d2222f8efc49b0514d1d398e0a5",
+            "target_sha256": "3d2e1d5e6fc77687335629b006297ede1ef5f15b1d66ac971ad631274263d231"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care": {
+            "source_sha256": "881b31d0f9e9e161a22ff2c2fcfb182f8d9ff2308e0fc8e597154c58f6818452",
+            "target_sha256": "2fd23b4c857bbd09bad51c26ddeccdf2a351d7f654e3f1e902d51f43f3c933da"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&called_father_on_ktx": {
+            "source_sha256": "c2e2e60ba517652bbcd03cd4dec0ef110a68a1c67db200d214afe7fc1ba10c43",
+            "target_sha256": "1a5d51b311502237eb389df64c271b23b6a222cd9408c85a407d94cc767326d4"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&did_not_call_father_on_ktx": {
+            "source_sha256": "5b8e587271036b322f8da07ef9498eefc4f4848c482d83827d5dda5b47b62332",
+            "target_sha256": "f199a59f3104635a8e65a197e7f877dda92fcfb10b7e7ba333e0fd8fb5cf28de"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care": {
+            "source_sha256": "2a3c5bc2d0499774a272477a3123153858e6f3720c8941fda248156275e44190",
+            "target_sha256": "d38b7282e50543dbd9fe34d2973f4df212e3d2517ae5437536ffde9f4e5a2631"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&called_father_on_ktx": {
+            "source_sha256": "0c34e0aa0da310a034e292fb1361558993951b29a770a53fc9ce2d4b2f0c5e05",
+            "target_sha256": "41df2952c4f167294ca17b0afbc5e590355cb5910031cab026be4715e7c94210"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&did_not_call_father_on_ktx": {
+            "source_sha256": "cd01867ce5b92910ba111f994bf8b64041c0fd8286beb6e48591f304500536ea",
+            "target_sha256": "2573f894ff1eb89442ab52d2094a3e4f44b61424f88ab33f3559ef61f9b4c99e"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment": {
+            "source_sha256": "eea7c583822178eb024dbb317c83657f5b07a6ed60d3302ed771953698b26df6",
+            "target_sha256": "61902d97056ae461511c436f8d384260bcb80b873bdbbd0631c61585005fe9ee"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&called_father_on_ktx": {
+            "source_sha256": "4bc3826798dd90bfee45fddc4ceddf054e9c5e354d8aa70f3a7c65adb812bcb5",
+            "target_sha256": "c3fb3166630f939d055d4e2c9abfd27c33e161b3127c059e115b1f783f9c8614"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&did_not_call_father_on_ktx": {
+            "source_sha256": "19f35bd01a26e23bc240f6f28e782d04b65009b2173d7a6fc7721ee64e2f3a8d",
+            "target_sha256": "e1f8ec109ffbfc71e9ea9fec0ac07fb91fdd0aedceebbb56ff118335af463155"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/called_father_on_ktx": {
+            "source_sha256": "6b2d8e12d331c35bc064b0a54771213afb8fbd538de056b36f64be7f78309338",
+            "target_sha256": "4144d22cf8b3f871d8b94cd48eb32eb539a47dea850c74dd84e4777fd23f3d04"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/did_not_call_father_on_ktx": {
+            "source_sha256": "4696cb039a480e3e8f588a5e451d8d1c2479a743102f32980f632300ffb4e114",
+            "target_sha256": "daead5fc516cd99edc60e2c106e8b1b9f938e0e67104e5ff497b18d8896c81aa"
+          }
+        },
+        "zh-TW": {
+          "events:arc_y4_father_crisis_contact:/choices/0/result_text": {
+            "source_sha256": "c1db6137d038e34e03982fc697ba0fa140501459fa6ad5b0af2ea79bcc126d8a",
+            "target_sha256": "e7b2a405f0c4be2e209ceba4a75541208766fcfee75f7fca559d27b58fe3a7fc"
+          },
+          "events:arc_y4_father_crisis_contact:/choices/1/result_text": {
+            "source_sha256": "6052bd0f2ab1015dd875a9dcfe1b0c9f74a538e2177d0a8d8be0a4d45d040014",
+            "target_sha256": "694ad6d499346603eb96246554e54b61b7ee2590a06e8530339606fce1177331"
+          },
+          "events:arc_y4_father_crisis_contact:/choices/2/result_text": {
+            "source_sha256": "c1718bfb91ff03e04702b44d1a806262bc76b2530514fbacc1b10f49fc20bf57",
+            "target_sha256": "18fe556937729fac29d47ac80bdac5a397868eccfde68e43715eae8e90e8e948"
+          },
+          "events:arc_y4_father_crisis_contact:/description": {
+            "source_sha256": "6d276a58dea7b3e3de4ab6e4c60594d72c636d2222f8efc49b0514d1d398e0a5",
+            "target_sha256": "6d95f89546ab951576d92ff7580646f60248f9d7d0af846b16dc1944f54eb37d"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care": {
+            "source_sha256": "881b31d0f9e9e161a22ff2c2fcfb182f8d9ff2308e0fc8e597154c58f6818452",
+            "target_sha256": "9498cb025496812a5ca8ebc3f919c15e51a49e88e9dd2e5ead338ad37d800dc8"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&called_father_on_ktx": {
+            "source_sha256": "c2e2e60ba517652bbcd03cd4dec0ef110a68a1c67db200d214afe7fc1ba10c43",
+            "target_sha256": "9094a0b10026e7ddcb1ea9d58c496ea1e9761e711f4ee9002f90823d7a152583"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&did_not_call_father_on_ktx": {
+            "source_sha256": "5b8e587271036b322f8da07ef9498eefc4f4848c482d83827d5dda5b47b62332",
+            "target_sha256": "cdb24ee2a1283422222bdd07868478b4a53389a9f9c67858fabf7c93bb410cdd"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care": {
+            "source_sha256": "2a3c5bc2d0499774a272477a3123153858e6f3720c8941fda248156275e44190",
+            "target_sha256": "c46a71c90139f0c7f4ec014f518cba6d4ba9242fb92b36b380ce8f59c89f4280"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&called_father_on_ktx": {
+            "source_sha256": "0c34e0aa0da310a034e292fb1361558993951b29a770a53fc9ce2d4b2f0c5e05",
+            "target_sha256": "16a7d01adcbd7dd9a75bf4063ef3a1400db3d02b70f37706f5bcac2aad9ffc0d"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&did_not_call_father_on_ktx": {
+            "source_sha256": "cd01867ce5b92910ba111f994bf8b64041c0fd8286beb6e48591f304500536ea",
+            "target_sha256": "a5392988433588dc97c7dcad862f8071b178271d0ee39731ae89b8a38dd8b787"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment": {
+            "source_sha256": "eea7c583822178eb024dbb317c83657f5b07a6ed60d3302ed771953698b26df6",
+            "target_sha256": "ac4d5a78d702ba3f8be6d3608bf37294b43487fafb48599fbb801b8773fc014a"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&called_father_on_ktx": {
+            "source_sha256": "4bc3826798dd90bfee45fddc4ceddf054e9c5e354d8aa70f3a7c65adb812bcb5",
+            "target_sha256": "d768040b0aaa8c304425dc42102753bd82f1504e69e0a97410aede05d4f811b5"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&did_not_call_father_on_ktx": {
+            "source_sha256": "19f35bd01a26e23bc240f6f28e782d04b65009b2173d7a6fc7721ee64e2f3a8d",
+            "target_sha256": "64e722a30948ae87027f4806bece947ac958fd11d80467171c93781ab6b2576e"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/called_father_on_ktx": {
+            "source_sha256": "6b2d8e12d331c35bc064b0a54771213afb8fbd538de056b36f64be7f78309338",
+            "target_sha256": "618ae4f82ff87ef739cb8fd4f66b7c804072062e7aee488ae72c0cc3b6c04b6e"
+          },
+          "events:arc_y4_father_crisis_contact:/description_memory_if_known/did_not_call_father_on_ktx": {
+            "source_sha256": "4696cb039a480e3e8f588a5e451d8d1c2479a743102f32980f632300ffb4e114",
+            "target_sha256": "bf92e8b05a33054cea91133bf32e33052ce5b60d70e4d9abce155ada13076a37"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -29115,76 +29425,76 @@
         "target_sha256": "18333feeb993662abce6622689c9ce1e6d9ac8c0d4a163b60dac3997b3335c29"
       },
       "events:arc_y4_father_crisis_contact:/choices/0/result_text": {
-        "source_sha256": "c1db6137d038e34e03982fc697ba0fa140501459fa6ad5b0af2ea79bcc126d8a",
-        "target_sha256": "d57c99589698089f4e59833a0faba164dfd0ed7d62e8b520678361201780e569"
+        "source_sha256": "7d3860fac385a5f86905504e2a4a11af23d4e1016feea9bbf68c91ba3e36ba58",
+        "target_sha256": "7cdcb6ccdf8e7132177c5395ebe4f2bae127af75fd1ab4fe19c6ec6fc64c15ee"
       },
       "events:arc_y4_father_crisis_contact:/choices/0/text": {
         "source_sha256": "c1b590a9013ebd9a21d2a018192606cd99846063fb5adbaadde8967320544c81",
         "target_sha256": "93974e3c316cd6459380342a229ae971cae9c9e5ea65db0beacdf5a7ce5328ca"
       },
       "events:arc_y4_father_crisis_contact:/choices/1/result_text": {
-        "source_sha256": "6052bd0f2ab1015dd875a9dcfe1b0c9f74a538e2177d0a8d8be0a4d45d040014",
-        "target_sha256": "eeef0682095520c86400e11696988d15c1eac04e3374b868c9e70412b278525c"
+        "source_sha256": "25623234b2c3fea9d67a9ec21b4023382012147a96e28e587f62b8fc5f2c0b9d",
+        "target_sha256": "2004648c9684b2e8cac86f7546e106321d4a457318dc023def00ad082f35e375"
       },
       "events:arc_y4_father_crisis_contact:/choices/1/text": {
         "source_sha256": "592d3f0c61af2db019865bd155ecf8e38541cb9c89d59b5f9f15027c5d0a7717",
         "target_sha256": "e8d631b5454a2cb1dc4096296761847c702a6bd77ebc0f6204995986b69ab98f"
       },
       "events:arc_y4_father_crisis_contact:/choices/2/result_text": {
-        "source_sha256": "c1718bfb91ff03e04702b44d1a806262bc76b2530514fbacc1b10f49fc20bf57",
-        "target_sha256": "227e2bf9f976418e6330cbc69e21a552f0dcaa9f3e2a29cc839667b3ca9ff43a"
+        "source_sha256": "869df3aa0c0ff505041fce310e0a1a1bfeb1bd48d3405b0fde161928bebfa8b3",
+        "target_sha256": "842693d589c114b3bc74c6b8985bfbbb1e3883b52037fde312a021c15320f029"
       },
       "events:arc_y4_father_crisis_contact:/choices/2/text": {
         "source_sha256": "74e7951fff94d44d56cd135b67f3bd72c01362441a2b011bf12126bc7a39c843",
         "target_sha256": "7f4d94c87d2b0280f7f031f942e3a068e28fca4bd102c8a11363e9a5afab385e"
       },
       "events:arc_y4_father_crisis_contact:/description": {
-        "source_sha256": "6d276a58dea7b3e3de4ab6e4c60594d72c636d2222f8efc49b0514d1d398e0a5",
-        "target_sha256": "6f7c7d3d7ad528079c4fb3b324da8e9bbee0b5eaa946dd74d662729ce35a4fba"
+        "source_sha256": "02848c3a05f384e538a1797f7d51fc615e6b1ab524f08725c7da4191dd40dc74",
+        "target_sha256": "5c4250d8d7a5403cfce1190c3b43071cf4986ba04ce511c65a19de3fe341ab80"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care": {
-        "source_sha256": "881b31d0f9e9e161a22ff2c2fcfb182f8d9ff2308e0fc8e597154c58f6818452",
-        "target_sha256": "077c2239ee178692f32342bad6a3e6fc32ee8b25bf4e2f097f3af2780e2dbaa5"
+        "source_sha256": "620a8c478e27117d25ca355b5731e6a277c0b046e5c77b9ce185153dc2e5d233",
+        "target_sha256": "f9204e8b7f683edcbc45e6b356bc58d311f61b90d26086a4636c60be84dd4c0e"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&called_father_on_ktx": {
-        "source_sha256": "c2e2e60ba517652bbcd03cd4dec0ef110a68a1c67db200d214afe7fc1ba10c43",
-        "target_sha256": "02da03d32ea3a4ca5f41dfb30d18cc5f2fa070358b85daf6b870381a6e8113a5"
+        "source_sha256": "92266249b56156ddb8b79b499068ea81193b4911b9a6285d8d5e25e3393a847c",
+        "target_sha256": "3a6dcdd56bbc878e5953e4202b6a494094adbf2e9e715b66c1db4877de7be55f"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&did_not_call_father_on_ktx": {
-        "source_sha256": "5b8e587271036b322f8da07ef9498eefc4f4848c482d83827d5dda5b47b62332",
-        "target_sha256": "ce1329105a9bb540ef46db248686b78b8e7553632dbe7222e71c96a2f518d542"
+        "source_sha256": "8534afb8269162fea80baf044fbcc1ae9e2a658ad72bc5ce80a1c6b58eb619d9",
+        "target_sha256": "2666b58c784ea80e19a31202938176740f8e866304f7eebf7178bb3413d5ee87"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care": {
-        "source_sha256": "2a3c5bc2d0499774a272477a3123153858e6f3720c8941fda248156275e44190",
-        "target_sha256": "f8108e1525a98503aa562a6a653ac7fb9ba68f5c35af690516cf703d073bd355"
+        "source_sha256": "a3d8ac15bf73774eaea1e56fdcd0eb2f6316781abcda8ad60bc111572f7aaba1",
+        "target_sha256": "2ce0b27f5495b97806df4467931e36ab3f6e6ba46f7937c8357567ab4aefb6a6"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&called_father_on_ktx": {
-        "source_sha256": "0c34e0aa0da310a034e292fb1361558993951b29a770a53fc9ce2d4b2f0c5e05",
-        "target_sha256": "6aeb27ac557e33855ada4987f92e7b2d7d079f5ba46e25c1efe2b1c7030de6bb"
+        "source_sha256": "402aa2f29fafd2629eb540c774c80179b13382591d6934561aac2fc5d460bfc5",
+        "target_sha256": "322828f867ce71fa7361c58522fd00a8018f8a63219a74a359e77eb9f90c1209"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&did_not_call_father_on_ktx": {
-        "source_sha256": "cd01867ce5b92910ba111f994bf8b64041c0fd8286beb6e48591f304500536ea",
-        "target_sha256": "aac9cebe16a424888b64a9c183431bdf99d8a6c9570f8ce61f7872ecb32095ce"
+        "source_sha256": "8d1dde9081edfabc4b35a893604c8feebd3fcc6e6b6eb5aebd72c173b699432d",
+        "target_sha256": "66e5559c9eabcf6a3ff70dbc9bbdb2e3f94734daf13ac7cd515b32dedf064ae9"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment": {
-        "source_sha256": "eea7c583822178eb024dbb317c83657f5b07a6ed60d3302ed771953698b26df6",
-        "target_sha256": "9bfe5da3f2a0e27373ab47cb00f0a507b319f8f87d76f873398840c7634e3ea8"
+        "source_sha256": "3b22ab46260a5a5c44a95e5dc2c74c696c5858507a51e8c6ba7abbec34b38a37",
+        "target_sha256": "11f48c23129ffe2e93d187ab203c5b9f96bae99316a8cd8dbe205b93e0e3fd94"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&called_father_on_ktx": {
-        "source_sha256": "4bc3826798dd90bfee45fddc4ceddf054e9c5e354d8aa70f3a7c65adb812bcb5",
-        "target_sha256": "a6386ec3017f2f8f33c092b489ff32c2ce0a75e503d8c1d2b76e88160898f5c6"
+        "source_sha256": "ef534ddfdffe937efbdd5a4959c862e07ecc7d8e647cad0bc6be78d585db3fc1",
+        "target_sha256": "b8f0ba28c8a17d55e297b73d5048d8883b412e38901df68e34f25ce48f0a6268"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&did_not_call_father_on_ktx": {
-        "source_sha256": "19f35bd01a26e23bc240f6f28e782d04b65009b2173d7a6fc7721ee64e2f3a8d",
-        "target_sha256": "3fa03511b8ca9f9e1137288c0866333c8a6ac968ac547726b7ee6445b39671d7"
+        "source_sha256": "9f65a4cf3f0ba4530b3d1e8d930394366b6870709d440d6c869c3b5644d1d3c7",
+        "target_sha256": "473e214d41a13021ff9f0dbaf53e3da5f5b6cb3eb69e4867026622c041df1ac7"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/called_father_on_ktx": {
-        "source_sha256": "6b2d8e12d331c35bc064b0a54771213afb8fbd538de056b36f64be7f78309338",
-        "target_sha256": "f118f0baad4901fc7322a6ea20a3b2ba3ba54395fa41f537b22754820302e90c"
+        "source_sha256": "03fbcb0a454fa7247bbf04364b68666a1ab6c97db1e080eea8feab3b2289fcca",
+        "target_sha256": "5ae43af6d93fab782187d2e3de01729cab8adbe867be9323e2d34516d4ce331a"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/did_not_call_father_on_ktx": {
-        "source_sha256": "4696cb039a480e3e8f588a5e451d8d1c2479a743102f32980f632300ffb4e114",
-        "target_sha256": "dba6750ff76b3ba0724524a77c01af1eed085859c96a3553ea09fbb9f8ae2b9c"
+        "source_sha256": "e1be80ee7f6bab403d0f0fd1ede9d0217263ce0b8f7d1332f4187e39b8e4d170",
+        "target_sha256": "96e0019458403a0020b23270dba89e587bd6724788d8d699cc07715a6f0de97d"
       },
       "events:arc_y4_father_crisis_contact:/title": {
         "source_sha256": "6ced09e4a0649046094740da7578aad8b1e854aa565dcd536318e1f2de68bf25",
@@ -81817,76 +82127,76 @@
         "target_sha256": "5940effa1580f553fa40143127f5872f10a05c4109b7d45622df82494be1f1e4"
       },
       "events:arc_y4_father_crisis_contact:/choices/0/result_text": {
-        "source_sha256": "c1db6137d038e34e03982fc697ba0fa140501459fa6ad5b0af2ea79bcc126d8a",
-        "target_sha256": "8cd534658130791b33757756b7e920b4ed6848febf21c585738d9951cc6f58d1"
+        "source_sha256": "7d3860fac385a5f86905504e2a4a11af23d4e1016feea9bbf68c91ba3e36ba58",
+        "target_sha256": "b67e8ab749673acabb40f9bf94f66ee6e386f561ec76c8ada80678afef42a9d2"
       },
       "events:arc_y4_father_crisis_contact:/choices/0/text": {
         "source_sha256": "c1b590a9013ebd9a21d2a018192606cd99846063fb5adbaadde8967320544c81",
         "target_sha256": "f50d0297897db0c8875a3fb1a39d516aa7c638db6ac668ec55be299e8b5a5a1d"
       },
       "events:arc_y4_father_crisis_contact:/choices/1/result_text": {
-        "source_sha256": "6052bd0f2ab1015dd875a9dcfe1b0c9f74a538e2177d0a8d8be0a4d45d040014",
-        "target_sha256": "2725ae55f285f6e8db8a4fac6d7a671a4f96f3e294ad98c7a2b54a858f260ea6"
+        "source_sha256": "25623234b2c3fea9d67a9ec21b4023382012147a96e28e587f62b8fc5f2c0b9d",
+        "target_sha256": "154f9baee3b04d8570e1830b2ef5cefbba357db118c2b81402a912c381e10d61"
       },
       "events:arc_y4_father_crisis_contact:/choices/1/text": {
         "source_sha256": "592d3f0c61af2db019865bd155ecf8e38541cb9c89d59b5f9f15027c5d0a7717",
         "target_sha256": "e6cf65b12ac1001b994ee7dbc910221b113b3dac306d9ade9a5eb3e9e7220734"
       },
       "events:arc_y4_father_crisis_contact:/choices/2/result_text": {
-        "source_sha256": "c1718bfb91ff03e04702b44d1a806262bc76b2530514fbacc1b10f49fc20bf57",
-        "target_sha256": "77027d0d22c85ed9730a9ba3f47d89389705cd6376be0c8e293b572974834800"
+        "source_sha256": "869df3aa0c0ff505041fce310e0a1a1bfeb1bd48d3405b0fde161928bebfa8b3",
+        "target_sha256": "8398559ad79567fb1648d52bc9663e915b0f97ddb2fe8c48062eec245a1d8421"
       },
       "events:arc_y4_father_crisis_contact:/choices/2/text": {
         "source_sha256": "74e7951fff94d44d56cd135b67f3bd72c01362441a2b011bf12126bc7a39c843",
         "target_sha256": "11b1383b029282b0d6b7a78ad0b5449fb4397d64192df37ce8656ece8d2092f2"
       },
       "events:arc_y4_father_crisis_contact:/description": {
-        "source_sha256": "6d276a58dea7b3e3de4ab6e4c60594d72c636d2222f8efc49b0514d1d398e0a5",
-        "target_sha256": "3d2e1d5e6fc77687335629b006297ede1ef5f15b1d66ac971ad631274263d231"
+        "source_sha256": "02848c3a05f384e538a1797f7d51fc615e6b1ab524f08725c7da4191dd40dc74",
+        "target_sha256": "9cb2b22d3a0b1156f276bf99bf53f6872ef423250630a9f42bdf0bc5e013927d"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care": {
-        "source_sha256": "881b31d0f9e9e161a22ff2c2fcfb182f8d9ff2308e0fc8e597154c58f6818452",
-        "target_sha256": "2fd23b4c857bbd09bad51c26ddeccdf2a351d7f654e3f1e902d51f43f3c933da"
+        "source_sha256": "620a8c478e27117d25ca355b5731e6a277c0b046e5c77b9ce185153dc2e5d233",
+        "target_sha256": "44feb067d6f9d25c1732c22ebab598d85d3b81df931131f0afe907f7837c925f"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&called_father_on_ktx": {
-        "source_sha256": "c2e2e60ba517652bbcd03cd4dec0ef110a68a1c67db200d214afe7fc1ba10c43",
-        "target_sha256": "1a5d51b311502237eb389df64c271b23b6a222cd9408c85a407d94cc767326d4"
+        "source_sha256": "92266249b56156ddb8b79b499068ea81193b4911b9a6285d8d5e25e3393a847c",
+        "target_sha256": "23dc094a5f3892740c9aca061faf3bbe78974d74dbc4bf31822a06721c09de4b"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&did_not_call_father_on_ktx": {
-        "source_sha256": "5b8e587271036b322f8da07ef9498eefc4f4848c482d83827d5dda5b47b62332",
-        "target_sha256": "f199a59f3104635a8e65a197e7f877dda92fcfb10b7e7ba333e0fd8fb5cf28de"
+        "source_sha256": "8534afb8269162fea80baf044fbcc1ae9e2a658ad72bc5ce80a1c6b58eb619d9",
+        "target_sha256": "2c7f9367be6569d9c3952852f137e3f513a72ddcdef7208b819ce8aa9a77d649"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care": {
-        "source_sha256": "2a3c5bc2d0499774a272477a3123153858e6f3720c8941fda248156275e44190",
-        "target_sha256": "d38b7282e50543dbd9fe34d2973f4df212e3d2517ae5437536ffde9f4e5a2631"
+        "source_sha256": "a3d8ac15bf73774eaea1e56fdcd0eb2f6316781abcda8ad60bc111572f7aaba1",
+        "target_sha256": "96ee3cecab36bb92b6454f4aa81e9b05c5d8029143e74257550ffabe87248e52"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&called_father_on_ktx": {
-        "source_sha256": "0c34e0aa0da310a034e292fb1361558993951b29a770a53fc9ce2d4b2f0c5e05",
-        "target_sha256": "41df2952c4f167294ca17b0afbc5e590355cb5910031cab026be4715e7c94210"
+        "source_sha256": "402aa2f29fafd2629eb540c774c80179b13382591d6934561aac2fc5d460bfc5",
+        "target_sha256": "849bc8dc9236c67cc6c4d59f9d06b65b1158dc000f24bf4b50cc7b6aaedaf9a2"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&did_not_call_father_on_ktx": {
-        "source_sha256": "cd01867ce5b92910ba111f994bf8b64041c0fd8286beb6e48591f304500536ea",
-        "target_sha256": "2573f894ff1eb89442ab52d2094a3e4f44b61424f88ab33f3559ef61f9b4c99e"
+        "source_sha256": "8d1dde9081edfabc4b35a893604c8feebd3fcc6e6b6eb5aebd72c173b699432d",
+        "target_sha256": "f2e629d56bd285d9ed325d1464fbdee632587b5e40f80b91b31928bf25affc76"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment": {
-        "source_sha256": "eea7c583822178eb024dbb317c83657f5b07a6ed60d3302ed771953698b26df6",
-        "target_sha256": "61902d97056ae461511c436f8d384260bcb80b873bdbbd0631c61585005fe9ee"
+        "source_sha256": "3b22ab46260a5a5c44a95e5dc2c74c696c5858507a51e8c6ba7abbec34b38a37",
+        "target_sha256": "a7337a8d7f7074a8c37bfd2ba7a6f869ffc92fdab2395ab9d1dd4844f6008a54"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&called_father_on_ktx": {
-        "source_sha256": "4bc3826798dd90bfee45fddc4ceddf054e9c5e354d8aa70f3a7c65adb812bcb5",
-        "target_sha256": "c3fb3166630f939d055d4e2c9abfd27c33e161b3127c059e115b1f783f9c8614"
+        "source_sha256": "ef534ddfdffe937efbdd5a4959c862e07ecc7d8e647cad0bc6be78d585db3fc1",
+        "target_sha256": "7d4529274ca0ebfe8806be041608153eb8ff79e4ef35c7d19fbdaacd46c2e24a"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&did_not_call_father_on_ktx": {
-        "source_sha256": "19f35bd01a26e23bc240f6f28e782d04b65009b2173d7a6fc7721ee64e2f3a8d",
-        "target_sha256": "e1f8ec109ffbfc71e9ea9fec0ac07fb91fdd0aedceebbb56ff118335af463155"
+        "source_sha256": "9f65a4cf3f0ba4530b3d1e8d930394366b6870709d440d6c869c3b5644d1d3c7",
+        "target_sha256": "93976375082ae3396314a74f144a54ecbb198b9197c2507a8248e55dae9f7c37"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/called_father_on_ktx": {
-        "source_sha256": "6b2d8e12d331c35bc064b0a54771213afb8fbd538de056b36f64be7f78309338",
-        "target_sha256": "4144d22cf8b3f871d8b94cd48eb32eb539a47dea850c74dd84e4777fd23f3d04"
+        "source_sha256": "03fbcb0a454fa7247bbf04364b68666a1ab6c97db1e080eea8feab3b2289fcca",
+        "target_sha256": "54b1b9d755c285e152e6cd093365680804fd78ea3f1973a2b4a9c8aaa859bd5c"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/did_not_call_father_on_ktx": {
-        "source_sha256": "4696cb039a480e3e8f588a5e451d8d1c2479a743102f32980f632300ffb4e114",
-        "target_sha256": "daead5fc516cd99edc60e2c106e8b1b9f938e0e67104e5ff497b18d8896c81aa"
+        "source_sha256": "e1be80ee7f6bab403d0f0fd1ede9d0217263ce0b8f7d1332f4187e39b8e4d170",
+        "target_sha256": "52e09c96017763f10dd106c7f2d33a7368f87e7fe9df486eb4c98291a16754e7"
       },
       "events:arc_y4_father_crisis_contact:/title": {
         "source_sha256": "6ced09e4a0649046094740da7578aad8b1e854aa565dcd536318e1f2de68bf25",
@@ -141343,76 +141653,76 @@
         "target_sha256": "7a5542cc787aa736e437987819c24d0efb9a4d74dd7fdd3035b7f6c95c3b1ea6"
       },
       "events:arc_y4_father_crisis_contact:/choices/0/result_text": {
-        "source_sha256": "c1db6137d038e34e03982fc697ba0fa140501459fa6ad5b0af2ea79bcc126d8a",
-        "target_sha256": "e7b2a405f0c4be2e209ceba4a75541208766fcfee75f7fca559d27b58fe3a7fc"
+        "source_sha256": "7d3860fac385a5f86905504e2a4a11af23d4e1016feea9bbf68c91ba3e36ba58",
+        "target_sha256": "3a13fa7e67f616fae0536c6ea9db990b09cbc1756b62b993b6152951ba7ba260"
       },
       "events:arc_y4_father_crisis_contact:/choices/0/text": {
         "source_sha256": "c1b590a9013ebd9a21d2a018192606cd99846063fb5adbaadde8967320544c81",
         "target_sha256": "3b1fec14478956d1aa1966c252105815a9e77be01d3e23564e451646ceba41c1"
       },
       "events:arc_y4_father_crisis_contact:/choices/1/result_text": {
-        "source_sha256": "6052bd0f2ab1015dd875a9dcfe1b0c9f74a538e2177d0a8d8be0a4d45d040014",
-        "target_sha256": "694ad6d499346603eb96246554e54b61b7ee2590a06e8530339606fce1177331"
+        "source_sha256": "25623234b2c3fea9d67a9ec21b4023382012147a96e28e587f62b8fc5f2c0b9d",
+        "target_sha256": "b542adf4fe4472c84e4872f5b3ef7336be64e4e9943e9b5bba224e218f696802"
       },
       "events:arc_y4_father_crisis_contact:/choices/1/text": {
         "source_sha256": "592d3f0c61af2db019865bd155ecf8e38541cb9c89d59b5f9f15027c5d0a7717",
         "target_sha256": "a5fe95995ba2273f960c6b01de7a7a1ffd90ef4d2c5d0fc5c859975e7b859c72"
       },
       "events:arc_y4_father_crisis_contact:/choices/2/result_text": {
-        "source_sha256": "c1718bfb91ff03e04702b44d1a806262bc76b2530514fbacc1b10f49fc20bf57",
-        "target_sha256": "18fe556937729fac29d47ac80bdac5a397868eccfde68e43715eae8e90e8e948"
+        "source_sha256": "869df3aa0c0ff505041fce310e0a1a1bfeb1bd48d3405b0fde161928bebfa8b3",
+        "target_sha256": "d081aab70fae8eaa2f95a78c4610ee9ca4aa9d0c20d5039cafae12c3f40683fb"
       },
       "events:arc_y4_father_crisis_contact:/choices/2/text": {
         "source_sha256": "74e7951fff94d44d56cd135b67f3bd72c01362441a2b011bf12126bc7a39c843",
         "target_sha256": "cd08e6870769b3ff6bb786b56f4631d88b20fe58ef26bee458f9a16bff377d45"
       },
       "events:arc_y4_father_crisis_contact:/description": {
-        "source_sha256": "6d276a58dea7b3e3de4ab6e4c60594d72c636d2222f8efc49b0514d1d398e0a5",
-        "target_sha256": "6d95f89546ab951576d92ff7580646f60248f9d7d0af846b16dc1944f54eb37d"
+        "source_sha256": "02848c3a05f384e538a1797f7d51fc615e6b1ab524f08725c7da4191dd40dc74",
+        "target_sha256": "c849c95925169f981022d6d10b3db1c9a70b53dd80e6a8cbfa3c5440f03654fb"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care": {
-        "source_sha256": "881b31d0f9e9e161a22ff2c2fcfb182f8d9ff2308e0fc8e597154c58f6818452",
-        "target_sha256": "9498cb025496812a5ca8ebc3f919c15e51a49e88e9dd2e5ead338ad37d800dc8"
+        "source_sha256": "620a8c478e27117d25ca355b5731e6a277c0b046e5c77b9ce185153dc2e5d233",
+        "target_sha256": "44e1ff66fbc33d7bfbaebe9c5255e1c046177c1003e4196a473ccbbcf46d5786"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&called_father_on_ktx": {
-        "source_sha256": "c2e2e60ba517652bbcd03cd4dec0ef110a68a1c67db200d214afe7fc1ba10c43",
-        "target_sha256": "9094a0b10026e7ddcb1ea9d58c496ea1e9761e711f4ee9002f90823d7a152583"
+        "source_sha256": "92266249b56156ddb8b79b499068ea81193b4911b9a6285d8d5e25e3393a847c",
+        "target_sha256": "7e6ddd5887e34d1082c1aad255303a0b01792f8dbca6fee08365bc67ae1a7b8c"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_body_care&did_not_call_father_on_ktx": {
-        "source_sha256": "5b8e587271036b322f8da07ef9498eefc4f4848c482d83827d5dda5b47b62332",
-        "target_sha256": "cdb24ee2a1283422222bdd07868478b4a53389a9f9c67858fabf7c93bb410cdd"
+        "source_sha256": "8534afb8269162fea80baf044fbcc1ae9e2a658ad72bc5ce80a1c6b58eb619d9",
+        "target_sha256": "c0478644f6f0aac49c3ab62bacf8d574f627f61976b56fddcc3ea91eb58e18ca"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care": {
-        "source_sha256": "2a3c5bc2d0499774a272477a3123153858e6f3720c8941fda248156275e44190",
-        "target_sha256": "c46a71c90139f0c7f4ec014f518cba6d4ba9242fb92b36b380ce8f59c89f4280"
+        "source_sha256": "a3d8ac15bf73774eaea1e56fdcd0eb2f6316781abcda8ad60bc111572f7aaba1",
+        "target_sha256": "f05a32c684e2a51f6fe536d1f022120e1290e1f0e9ded86a68539f4a5b8987d1"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&called_father_on_ktx": {
-        "source_sha256": "0c34e0aa0da310a034e292fb1361558993951b29a770a53fc9ce2d4b2f0c5e05",
-        "target_sha256": "16a7d01adcbd7dd9a75bf4063ef3a1400db3d02b70f37706f5bcac2aad9ffc0d"
+        "source_sha256": "402aa2f29fafd2629eb540c774c80179b13382591d6934561aac2fc5d460bfc5",
+        "target_sha256": "7343d0e439aa0c3ec8518cdb774d1e464d88cb7799431294d80e3121a04cdcd2"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_father_care&did_not_call_father_on_ktx": {
-        "source_sha256": "cd01867ce5b92910ba111f994bf8b64041c0fd8286beb6e48591f304500536ea",
-        "target_sha256": "a5392988433588dc97c7dcad862f8071b178271d0ee39731ae89b8a38dd8b787"
+        "source_sha256": "8d1dde9081edfabc4b35a893604c8feebd3fcc6e6b6eb5aebd72c173b699432d",
+        "target_sha256": "546808c47fb3d5f4079b48c15ab7fa1858b9ef0506feb853e3a399ac4d66bfb8"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment": {
-        "source_sha256": "eea7c583822178eb024dbb317c83657f5b07a6ed60d3302ed771953698b26df6",
-        "target_sha256": "ac4d5a78d702ba3f8be6d3608bf37294b43487fafb48599fbb801b8773fc014a"
+        "source_sha256": "3b22ab46260a5a5c44a95e5dc2c74c696c5858507a51e8c6ba7abbec34b38a37",
+        "target_sha256": "62bdc8b5416b9b9e8a66cc4e13d7df3f01ecd24e177740db530059c5abf7ce4b"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&called_father_on_ktx": {
-        "source_sha256": "4bc3826798dd90bfee45fddc4ceddf054e9c5e354d8aa70f3a7c65adb812bcb5",
-        "target_sha256": "d768040b0aaa8c304425dc42102753bd82f1504e69e0a97410aede05d4f811b5"
+        "source_sha256": "ef534ddfdffe937efbdd5a4959c862e07ecc7d8e647cad0bc6be78d585db3fc1",
+        "target_sha256": "48ab3908b3d38993e7d936c1194ec57789dd02a645ba7d2e64326dade131d4ca"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/arc_y4_bill_chose_payment&did_not_call_father_on_ktx": {
-        "source_sha256": "19f35bd01a26e23bc240f6f28e782d04b65009b2173d7a6fc7721ee64e2f3a8d",
-        "target_sha256": "64e722a30948ae87027f4806bece947ac958fd11d80467171c93781ab6b2576e"
+        "source_sha256": "9f65a4cf3f0ba4530b3d1e8d930394366b6870709d440d6c869c3b5644d1d3c7",
+        "target_sha256": "8273146fcbd005abd6e80fd5e85ed61c998cfb57bd6599aed587dbf45d38d82a"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/called_father_on_ktx": {
-        "source_sha256": "6b2d8e12d331c35bc064b0a54771213afb8fbd538de056b36f64be7f78309338",
-        "target_sha256": "618ae4f82ff87ef739cb8fd4f66b7c804072062e7aee488ae72c0cc3b6c04b6e"
+        "source_sha256": "03fbcb0a454fa7247bbf04364b68666a1ab6c97db1e080eea8feab3b2289fcca",
+        "target_sha256": "4a33e9779b4ee8ae57278111832fcc9232d2f24247fcc2b6532236a45c209b98"
       },
       "events:arc_y4_father_crisis_contact:/description_memory_if_known/did_not_call_father_on_ktx": {
-        "source_sha256": "4696cb039a480e3e8f588a5e451d8d1c2479a743102f32980f632300ffb4e114",
-        "target_sha256": "bf92e8b05a33054cea91133bf32e33052ce5b60d70e4d9abce155ada13076a37"
+        "source_sha256": "e1be80ee7f6bab403d0f0fd1ede9d0217263ce0b8f7d1332f4187e39b8e4d170",
+        "target_sha256": "596646c587e871fa27bbd942336d4d6b47a11353604dcb4ae52b504d322d1002"
       },
       "events:arc_y4_father_crisis_contact:/title": {
         "source_sha256": "6ced09e4a0649046094740da7578aad8b1e854aa565dcd536318e1f2de68bf25",
@@ -192248,7 +192558,7 @@
       }
     }
   },
-  "accepted_sha256": "ce6be69d83f90258971138a3979bc8e412ac5a4ef85ccd57e4922dc34832cdf7",
+  "accepted_sha256": "e99a820547b0b7c063881508d94b812400584975e95cd09c9ec09acbb8818f61",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
