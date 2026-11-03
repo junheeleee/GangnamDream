@@ -19015,6 +19015,350 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-753",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_daeun_year3_together",
+        "arc_daeun_final_choice_decision",
+        "arc_endgame_sixmonths",
+        "arc_late_game_push",
+        "arc_pre_ending_winter"
+      ],
+      "source_leaves": 17,
+      "target_leaves_by_locale": {
+        "ja": 17,
+        "zh-CN": 17,
+        "zh-TW": 17
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct independent Korean-to-locale comparison and full reading of51 shipping targets before import. Daeun current calendar/paper and shared ramyeon evening replace invented fixed2years/arguments/subway past; old note keeps lawful multi-year recollection and food-before-going-out message without invented three-character count. Final half-year risky plan is saved with stop-condition blank, not a filled maximum order. Known variants retain original plan list/boundaries/open cursor, not guaranteed gains or losses. Current window breeze/paper/fingers and winter room do not invent former housing or achievement evaluation. Final-year review keeps5:47/09:00/three-plus hours/two extra red lines and one risk step without fixed12weeks. Numbers/tokens/paragraphs, Daeun unaware of unsigned contract attempt, prior receipts and previous-target hashes preserved.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "1bdb2aa06ff51d1fe56e0a8548138591dd22938b",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "2da5f29e0ab2c00400f3a2a9cc366b3c4c6f0e43d145d246f28950417bc4ee5d",
+          "count": 17,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6a3cfbeb89da54af298205b0ad10e19b7473f3e222c5a422129ffed71a7e718e"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "1bdb2aa06ff51d1fe56e0a8548138591dd22938b",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "cf408dd7b7e7a7f67d5c9376d21b08e40ee47d85facb5ca0ba56623be75e9cb6",
+          "count": 17,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2b1d09bcd61b3b7cceb39de33c15158700ac06998a6e3648ec2e723c904a1343"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "1bdb2aa06ff51d1fe56e0a8548138591dd22938b",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "9dfe4b996c56d90b46d688d39fccc2eb21d7ea051d1a6a569c00ece8d51e9f3d",
+          "count": 17,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e170ea6d2b24c2604a4b332dac77e0df8c10591c7eba0e08f86eb4515b2ce102"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "87f6a347e9766644975068b56908e8189695a561ea23e3262083c448289a4459",
+        "zh-CN": "cff5d91ff78c0c5e650c62d5aa09c815c02213679baa96102c9e5d1d93796117",
+        "zh-TW": "7efece72001892c83fcbf7230e79751d5cf7cb4c15f9652795ca06e9e8729306"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_daeun_final_choice_decision:/choices/2/result_text": "034118cd1d7d786fadfaa59a1a54e6883e799e5a244a49f1477455e5e640f96a",
+          "events:arc_daeun_year3_together:/choices/1/result_text": "a47120f807f8a623fd095b7ef9700c4358a1072e32f9d2ab5b4adb1621d92164",
+          "events:arc_daeun_year3_together:/choices/1/text": "8f7ec251a3c1650cf2aa6d6cec45a584f4b8385f69c48809c9efb5ac126d62d9",
+          "events:arc_daeun_year3_together:/description": "62a21d199e649a63edb3e8de2e17772ccabf816bd05d5867a9e052fbaf01cab1",
+          "events:arc_daeun_year3_together:/description_if_known/daeun_romance_started": "eec8fea514d8343e21fcd3aed56c0935e79be5424f394a5d5d390cbae4748156",
+          "events:arc_daeun_year3_together:/title": "7f5442108e10db5fd337019b1dec66e00ecea5940ce5a6baa36563164d474a33",
+          "events:arc_endgame_sixmonths:/choices/0/result_text": "258936dddd616d0a33c56aad7344b85cce8d114af69c98a120a0bd663630c797",
+          "events:arc_endgame_sixmonths:/choices/0/text": "47206434708fd08ec1dbdf80763e6fae2408e0aaa0beff69f99d05d71ae43e23",
+          "events:arc_endgame_sixmonths:/choices/2/result_text": "d7fd8c16b0b846e409bd60caa623b61b1e8dbc2719c9e35f9f4c2bf873997b49",
+          "events:arc_endgame_sixmonths:/description": "72eb7961c1db15ca8433c09058ba1716caa540865c576a9703d2d974a891505e",
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_all_in": "ebfb3e4c878c8f98f6fa238a3cb0366d1e366635c7b4f1fc2f169b1a528f0c10",
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_conservative": "9b309880b5abef3c0f268ec7846e59620faed10318b9d99163d34240f47cc33e",
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_waiting": "e6b4fdc9a9f2ceec8e9eb977b320aad3299322d007a5d48dc312d1cb1b752250",
+          "events:arc_endgame_sixmonths:/title": "6d7da5aefd4833d97db9736a3b4fe8917476171a7a81cc61e41ec7450fe6908b",
+          "events:arc_late_game_push:/description": "ed81eb4e0a9ba85c64b5b4bd722ef7faaae879df35cf2a86c4df4d183307b4ba",
+          "events:arc_late_game_push:/title": "a18637cccd19f7f7e50095d2d1414be5b241a66619ffebc3477a3132da35cb62",
+          "events:arc_pre_ending_winter:/description": "2d5c6ddee15f6221303e9593ed98ac925b8c1b6a986c5ff47ce0940ad854456b"
+        },
+        "zh-CN": {
+          "events:arc_daeun_final_choice_decision:/choices/2/result_text": "9f40c8e53a22349b8e5770c1679c1f49ca021c0d9802ac83daffe0aaef910a70",
+          "events:arc_daeun_year3_together:/choices/1/result_text": "ad5b5257fab6a0fde1fc4427b40c964a38c57af56189b701f243b4fd0f3d18ca",
+          "events:arc_daeun_year3_together:/choices/1/text": "1d5c12a799658de9a93908863a3b31b2a832e1e6702aafad9d6e72941dff9222",
+          "events:arc_daeun_year3_together:/description": "c47a9c2baac28f2b10fc0e552572c2020ddf1cd92619462a146f2969034ef2c0",
+          "events:arc_daeun_year3_together:/description_if_known/daeun_romance_started": "72c642bd22602f0d6af62f6f3a72ed96a034b17b78c1ffb85c262b72a13c430a",
+          "events:arc_daeun_year3_together:/title": "a823ae59138d0668faea739b48c547266702a84f58fb2c2e13ed7c459a14ba2e",
+          "events:arc_endgame_sixmonths:/choices/0/result_text": "e77cd9f8c1e4872d851d27050dfede43186d37556de370239914e7f78426cd70",
+          "events:arc_endgame_sixmonths:/choices/0/text": "7bb9fe271c08a976c2ce63228743662eb13c215deea832bbb0015c246d77f886",
+          "events:arc_endgame_sixmonths:/choices/2/result_text": "a32d4bcffbab66524b5d7b146d0343e3dcf5590618281129d697e6ef24a0f0a0",
+          "events:arc_endgame_sixmonths:/description": "13014185e2b5792d0ac8e2f075c648654545988028e92bbc5cce62a4b4df5da7",
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_all_in": "02df8a029f8d8ba7519cda80cdea2c3e9351ed8fa4fd7829aeb885783a755122",
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_conservative": "417c56afa50840f7e5430b00b4b0df55fa25ff5fa327a28279fad12ec5223814",
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_waiting": "c90c38958a4ee7644ac2a93e48a7ae7b2ee451dd69bb8a8530af533a92d0f313",
+          "events:arc_endgame_sixmonths:/title": "d8b1298e545e2efb4c707a145b6f9450da743c05cdddb9737433c9f5b8385ae2",
+          "events:arc_late_game_push:/description": "0ce463e6ed342016952e031014009c4e570c5fa23bbf86445802f47038e332af",
+          "events:arc_late_game_push:/title": "7f1907743bc0b34009324676f86ac5f135faf13335dce284bdf3606e6d3ae3e0",
+          "events:arc_pre_ending_winter:/description": "16582f7ba8c5236bc7087f6159f4bcfe02825e1d506ab85c2f733717116bf131"
+        },
+        "zh-TW": {
+          "events:arc_daeun_final_choice_decision:/choices/2/result_text": "34b0aa22ca85973ecf22865dd737bd94c846859d53ce7e4f266bdd8efd8a1b9c",
+          "events:arc_daeun_year3_together:/choices/1/result_text": "f91d95ca45aed82a93cc1e5f5ce332357dcf40eeac887c4309c87ebab83c0ed5",
+          "events:arc_daeun_year3_together:/choices/1/text": "d1a20999df67f2107de061c74b2b586b226f6028cb88769a2d031d26b468cadf",
+          "events:arc_daeun_year3_together:/description": "bdae46852fb9273a47a85649395c413d031a941fe5557b89413e81ccc68615c4",
+          "events:arc_daeun_year3_together:/description_if_known/daeun_romance_started": "b0245f9b29d46fa749cf05e64ba914df2dc249adfd45ed7645c81349f13d8314",
+          "events:arc_daeun_year3_together:/title": "fc7688d3a92a75213e4926dd09e080435530640112d4a7ba10b54e43c260c53d",
+          "events:arc_endgame_sixmonths:/choices/0/result_text": "f0d12a138a77bb903d0795cac9f9274d61f30b34018a051726a807c127dca5ee",
+          "events:arc_endgame_sixmonths:/choices/0/text": "5ff21f9717c6f7899967f2f6b3e36be09f515f0d82b2316571b61b3feda7fdb3",
+          "events:arc_endgame_sixmonths:/choices/2/result_text": "338315fef98f931e8575c2d83564055cff15a3441789e8c4d036e626be95518e",
+          "events:arc_endgame_sixmonths:/description": "39d0576e62766fca6e56f774a9dcb04b475a13ca03846b40a087adc826644039",
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_all_in": "2cbccb65035781b656c953f3de4942b66b413560268a5d181bff4f85006cc4c8",
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_conservative": "f4b12bbc153b6138a6e6a67eca3f6f8d96b6434ce99ad51fe229db926aa3300d",
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_waiting": "6d4dde2be83f614d84262c36535f9c912654fe9ca3eac1857e7b7a49aa4f7abe",
+          "events:arc_endgame_sixmonths:/title": "b353d2489ba8f7b509d84d6eefd3d5cb36bf1bcb05fac1ebe8da5bace08c92ee",
+          "events:arc_late_game_push:/description": "1c93a2a5b80926e1436e14d80c461b3391444d454b5a01df1181fcb661319eb2",
+          "events:arc_late_game_push:/title": "2f6cb14dcb5f792e07374e7c3d3160aeab43b632ade3b5175fee9e38de930714",
+          "events:arc_pre_ending_winter:/description": "8c797a538710aa73461302c8b10d6f9ce8017b2d945c78fee6ad0049dc038ccc"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_daeun_final_choice_decision:/choices/2/result_text": {
+            "source_sha256": "3607d931eb0ef435fbb482d0b2d130ac98919c5d5af634343dfa27c926294a28",
+            "target_sha256": "034118cd1d7d786fadfaa59a1a54e6883e799e5a244a49f1477455e5e640f96a"
+          },
+          "events:arc_daeun_year3_together:/choices/1/result_text": {
+            "source_sha256": "d8b0df3aa55f18efe205c473caf76ec45429455e7e698e3c459aea047c84dd9a",
+            "target_sha256": "a47120f807f8a623fd095b7ef9700c4358a1072e32f9d2ab5b4adb1621d92164"
+          },
+          "events:arc_daeun_year3_together:/choices/1/text": {
+            "source_sha256": "d9d6d4b7ace19fd8aa90d5d148677b93ba184899b3f3959ddcc2d3a140fd7438",
+            "target_sha256": "8f7ec251a3c1650cf2aa6d6cec45a584f4b8385f69c48809c9efb5ac126d62d9"
+          },
+          "events:arc_daeun_year3_together:/description": {
+            "source_sha256": "362e1bec97ff20d11765f8a99be8f7c2e3692b39859be971c1b8dc0b26992b6f",
+            "target_sha256": "62a21d199e649a63edb3e8de2e17772ccabf816bd05d5867a9e052fbaf01cab1"
+          },
+          "events:arc_daeun_year3_together:/description_if_known/daeun_romance_started": {
+            "source_sha256": "bbcec5e06f73efec2b3176bbdd4fa2847f6d092a850758bc9906308fba031142",
+            "target_sha256": "eec8fea514d8343e21fcd3aed56c0935e79be5424f394a5d5d390cbae4748156"
+          },
+          "events:arc_daeun_year3_together:/title": {
+            "source_sha256": "b13a721d23d6c1c313e41f48d64737dd2901c8ec1145133f27261bfcee9730b0",
+            "target_sha256": "7f5442108e10db5fd337019b1dec66e00ecea5940ce5a6baa36563164d474a33"
+          },
+          "events:arc_endgame_sixmonths:/choices/0/result_text": {
+            "source_sha256": "4436037950ac1e6691fd32534be038ea37e99ecf672e09e371a58a2c77ebf31a",
+            "target_sha256": "258936dddd616d0a33c56aad7344b85cce8d114af69c98a120a0bd663630c797"
+          },
+          "events:arc_endgame_sixmonths:/choices/0/text": {
+            "source_sha256": "f78c9008294d72a476d21e502d6f62b7e8457fe61cfaafb3e6bfaace677e94eb",
+            "target_sha256": "47206434708fd08ec1dbdf80763e6fae2408e0aaa0beff69f99d05d71ae43e23"
+          },
+          "events:arc_endgame_sixmonths:/choices/2/result_text": {
+            "source_sha256": "fc91f6d5b25fd55fa67bd89def99b543af8fe032ad9b6484fd3d7699636078e2",
+            "target_sha256": "d7fd8c16b0b846e409bd60caa623b61b1e8dbc2719c9e35f9f4c2bf873997b49"
+          },
+          "events:arc_endgame_sixmonths:/description": {
+            "source_sha256": "0743e5aa9fa06a83a5a8f8e70fa5c77714380a525a396807848eab87a775bb7d",
+            "target_sha256": "72eb7961c1db15ca8433c09058ba1716caa540865c576a9703d2d974a891505e"
+          },
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_all_in": {
+            "source_sha256": "747b63fe33a3b33b9916f49bda87c39473ca2d34b671bffb365c55f02c584396",
+            "target_sha256": "ebfb3e4c878c8f98f6fa238a3cb0366d1e366635c7b4f1fc2f169b1a528f0c10"
+          },
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_conservative": {
+            "source_sha256": "c99e6a4314cd7aa64445f499a6df478b4c6dba4562fc9ea1df27a0fbbff806a9",
+            "target_sha256": "9b309880b5abef3c0f268ec7846e59620faed10318b9d99163d34240f47cc33e"
+          },
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_waiting": {
+            "source_sha256": "bbe2dde9f257d053339a32992ef8556b3f2059ca584c1c63af79ac9a84ab2d2a",
+            "target_sha256": "e6b4fdc9a9f2ceec8e9eb977b320aad3299322d007a5d48dc312d1cb1b752250"
+          },
+          "events:arc_endgame_sixmonths:/title": {
+            "source_sha256": "1be1978e3e069e705c825f2dec873cd9b4badd4b1b531188b86465f0707646fd",
+            "target_sha256": "6d7da5aefd4833d97db9736a3b4fe8917476171a7a81cc61e41ec7450fe6908b"
+          },
+          "events:arc_late_game_push:/description": {
+            "source_sha256": "4fec052c168355fd33e1811ffffca8c8915cbe94b0557f65a8091d56b3c5a158",
+            "target_sha256": "ed81eb4e0a9ba85c64b5b4bd722ef7faaae879df35cf2a86c4df4d183307b4ba"
+          },
+          "events:arc_late_game_push:/title": {
+            "source_sha256": "4dc04d0c9c160f61ea6f1d84364f4927d35510a2f626591e435071383c12a0db",
+            "target_sha256": "a18637cccd19f7f7e50095d2d1414be5b241a66619ffebc3477a3132da35cb62"
+          },
+          "events:arc_pre_ending_winter:/description": {
+            "source_sha256": "a3dcb375e80ad7e03b160ebf42e15438beb92b94e132ee9dc36967901567f787",
+            "target_sha256": "2d5c6ddee15f6221303e9593ed98ac925b8c1b6a986c5ff47ce0940ad854456b"
+          }
+        },
+        "zh-CN": {
+          "events:arc_daeun_final_choice_decision:/choices/2/result_text": {
+            "source_sha256": "3607d931eb0ef435fbb482d0b2d130ac98919c5d5af634343dfa27c926294a28",
+            "target_sha256": "9f40c8e53a22349b8e5770c1679c1f49ca021c0d9802ac83daffe0aaef910a70"
+          },
+          "events:arc_daeun_year3_together:/choices/1/result_text": {
+            "source_sha256": "d8b0df3aa55f18efe205c473caf76ec45429455e7e698e3c459aea047c84dd9a",
+            "target_sha256": "ad5b5257fab6a0fde1fc4427b40c964a38c57af56189b701f243b4fd0f3d18ca"
+          },
+          "events:arc_daeun_year3_together:/choices/1/text": {
+            "source_sha256": "d9d6d4b7ace19fd8aa90d5d148677b93ba184899b3f3959ddcc2d3a140fd7438",
+            "target_sha256": "1d5c12a799658de9a93908863a3b31b2a832e1e6702aafad9d6e72941dff9222"
+          },
+          "events:arc_daeun_year3_together:/description": {
+            "source_sha256": "362e1bec97ff20d11765f8a99be8f7c2e3692b39859be971c1b8dc0b26992b6f",
+            "target_sha256": "c47a9c2baac28f2b10fc0e552572c2020ddf1cd92619462a146f2969034ef2c0"
+          },
+          "events:arc_daeun_year3_together:/description_if_known/daeun_romance_started": {
+            "source_sha256": "bbcec5e06f73efec2b3176bbdd4fa2847f6d092a850758bc9906308fba031142",
+            "target_sha256": "72c642bd22602f0d6af62f6f3a72ed96a034b17b78c1ffb85c262b72a13c430a"
+          },
+          "events:arc_daeun_year3_together:/title": {
+            "source_sha256": "b13a721d23d6c1c313e41f48d64737dd2901c8ec1145133f27261bfcee9730b0",
+            "target_sha256": "a823ae59138d0668faea739b48c547266702a84f58fb2c2e13ed7c459a14ba2e"
+          },
+          "events:arc_endgame_sixmonths:/choices/0/result_text": {
+            "source_sha256": "4436037950ac1e6691fd32534be038ea37e99ecf672e09e371a58a2c77ebf31a",
+            "target_sha256": "e77cd9f8c1e4872d851d27050dfede43186d37556de370239914e7f78426cd70"
+          },
+          "events:arc_endgame_sixmonths:/choices/0/text": {
+            "source_sha256": "f78c9008294d72a476d21e502d6f62b7e8457fe61cfaafb3e6bfaace677e94eb",
+            "target_sha256": "7bb9fe271c08a976c2ce63228743662eb13c215deea832bbb0015c246d77f886"
+          },
+          "events:arc_endgame_sixmonths:/choices/2/result_text": {
+            "source_sha256": "fc91f6d5b25fd55fa67bd89def99b543af8fe032ad9b6484fd3d7699636078e2",
+            "target_sha256": "a32d4bcffbab66524b5d7b146d0343e3dcf5590618281129d697e6ef24a0f0a0"
+          },
+          "events:arc_endgame_sixmonths:/description": {
+            "source_sha256": "0743e5aa9fa06a83a5a8f8e70fa5c77714380a525a396807848eab87a775bb7d",
+            "target_sha256": "13014185e2b5792d0ac8e2f075c648654545988028e92bbc5cce62a4b4df5da7"
+          },
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_all_in": {
+            "source_sha256": "747b63fe33a3b33b9916f49bda87c39473ca2d34b671bffb365c55f02c584396",
+            "target_sha256": "02df8a029f8d8ba7519cda80cdea2c3e9351ed8fa4fd7829aeb885783a755122"
+          },
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_conservative": {
+            "source_sha256": "c99e6a4314cd7aa64445f499a6df478b4c6dba4562fc9ea1df27a0fbbff806a9",
+            "target_sha256": "417c56afa50840f7e5430b00b4b0df55fa25ff5fa327a28279fad12ec5223814"
+          },
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_waiting": {
+            "source_sha256": "bbe2dde9f257d053339a32992ef8556b3f2059ca584c1c63af79ac9a84ab2d2a",
+            "target_sha256": "c90c38958a4ee7644ac2a93e48a7ae7b2ee451dd69bb8a8530af533a92d0f313"
+          },
+          "events:arc_endgame_sixmonths:/title": {
+            "source_sha256": "1be1978e3e069e705c825f2dec873cd9b4badd4b1b531188b86465f0707646fd",
+            "target_sha256": "d8b1298e545e2efb4c707a145b6f9450da743c05cdddb9737433c9f5b8385ae2"
+          },
+          "events:arc_late_game_push:/description": {
+            "source_sha256": "4fec052c168355fd33e1811ffffca8c8915cbe94b0557f65a8091d56b3c5a158",
+            "target_sha256": "0ce463e6ed342016952e031014009c4e570c5fa23bbf86445802f47038e332af"
+          },
+          "events:arc_late_game_push:/title": {
+            "source_sha256": "4dc04d0c9c160f61ea6f1d84364f4927d35510a2f626591e435071383c12a0db",
+            "target_sha256": "7f1907743bc0b34009324676f86ac5f135faf13335dce284bdf3606e6d3ae3e0"
+          },
+          "events:arc_pre_ending_winter:/description": {
+            "source_sha256": "a3dcb375e80ad7e03b160ebf42e15438beb92b94e132ee9dc36967901567f787",
+            "target_sha256": "16582f7ba8c5236bc7087f6159f4bcfe02825e1d506ab85c2f733717116bf131"
+          }
+        },
+        "zh-TW": {
+          "events:arc_daeun_final_choice_decision:/choices/2/result_text": {
+            "source_sha256": "3607d931eb0ef435fbb482d0b2d130ac98919c5d5af634343dfa27c926294a28",
+            "target_sha256": "34b0aa22ca85973ecf22865dd737bd94c846859d53ce7e4f266bdd8efd8a1b9c"
+          },
+          "events:arc_daeun_year3_together:/choices/1/result_text": {
+            "source_sha256": "d8b0df3aa55f18efe205c473caf76ec45429455e7e698e3c459aea047c84dd9a",
+            "target_sha256": "f91d95ca45aed82a93cc1e5f5ce332357dcf40eeac887c4309c87ebab83c0ed5"
+          },
+          "events:arc_daeun_year3_together:/choices/1/text": {
+            "source_sha256": "d9d6d4b7ace19fd8aa90d5d148677b93ba184899b3f3959ddcc2d3a140fd7438",
+            "target_sha256": "d1a20999df67f2107de061c74b2b586b226f6028cb88769a2d031d26b468cadf"
+          },
+          "events:arc_daeun_year3_together:/description": {
+            "source_sha256": "362e1bec97ff20d11765f8a99be8f7c2e3692b39859be971c1b8dc0b26992b6f",
+            "target_sha256": "bdae46852fb9273a47a85649395c413d031a941fe5557b89413e81ccc68615c4"
+          },
+          "events:arc_daeun_year3_together:/description_if_known/daeun_romance_started": {
+            "source_sha256": "bbcec5e06f73efec2b3176bbdd4fa2847f6d092a850758bc9906308fba031142",
+            "target_sha256": "b0245f9b29d46fa749cf05e64ba914df2dc249adfd45ed7645c81349f13d8314"
+          },
+          "events:arc_daeun_year3_together:/title": {
+            "source_sha256": "b13a721d23d6c1c313e41f48d64737dd2901c8ec1145133f27261bfcee9730b0",
+            "target_sha256": "fc7688d3a92a75213e4926dd09e080435530640112d4a7ba10b54e43c260c53d"
+          },
+          "events:arc_endgame_sixmonths:/choices/0/result_text": {
+            "source_sha256": "4436037950ac1e6691fd32534be038ea37e99ecf672e09e371a58a2c77ebf31a",
+            "target_sha256": "f0d12a138a77bb903d0795cac9f9274d61f30b34018a051726a807c127dca5ee"
+          },
+          "events:arc_endgame_sixmonths:/choices/0/text": {
+            "source_sha256": "f78c9008294d72a476d21e502d6f62b7e8457fe61cfaafb3e6bfaace677e94eb",
+            "target_sha256": "5ff21f9717c6f7899967f2f6b3e36be09f515f0d82b2316571b61b3feda7fdb3"
+          },
+          "events:arc_endgame_sixmonths:/choices/2/result_text": {
+            "source_sha256": "fc91f6d5b25fd55fa67bd89def99b543af8fe032ad9b6484fd3d7699636078e2",
+            "target_sha256": "338315fef98f931e8575c2d83564055cff15a3441789e8c4d036e626be95518e"
+          },
+          "events:arc_endgame_sixmonths:/description": {
+            "source_sha256": "0743e5aa9fa06a83a5a8f8e70fa5c77714380a525a396807848eab87a775bb7d",
+            "target_sha256": "39d0576e62766fca6e56f774a9dcb04b475a13ca03846b40a087adc826644039"
+          },
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_all_in": {
+            "source_sha256": "747b63fe33a3b33b9916f49bda87c39473ca2d34b671bffb365c55f02c584396",
+            "target_sha256": "2cbccb65035781b656c953f3de4942b66b413560268a5d181bff4f85006cc4c8"
+          },
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_conservative": {
+            "source_sha256": "c99e6a4314cd7aa64445f499a6df478b4c6dba4562fc9ea1df27a0fbbff806a9",
+            "target_sha256": "f4b12bbc153b6138a6e6a67eca3f6f8d96b6434ce99ad51fe229db926aa3300d"
+          },
+          "events:arc_endgame_sixmonths:/description_if_known/final_year_waiting": {
+            "source_sha256": "bbe2dde9f257d053339a32992ef8556b3f2059ca584c1c63af79ac9a84ab2d2a",
+            "target_sha256": "6d4dde2be83f614d84262c36535f9c912654fe9ca3eac1857e7b7a49aa4f7abe"
+          },
+          "events:arc_endgame_sixmonths:/title": {
+            "source_sha256": "1be1978e3e069e705c825f2dec873cd9b4badd4b1b531188b86465f0707646fd",
+            "target_sha256": "b353d2489ba8f7b509d84d6eefd3d5cb36bf1bcb05fac1ebe8da5bace08c92ee"
+          },
+          "events:arc_late_game_push:/description": {
+            "source_sha256": "4fec052c168355fd33e1811ffffca8c8915cbe94b0557f65a8091d56b3c5a158",
+            "target_sha256": "1c93a2a5b80926e1436e14d80c461b3391444d454b5a01df1181fcb661319eb2"
+          },
+          "events:arc_late_game_push:/title": {
+            "source_sha256": "4dc04d0c9c160f61ea6f1d84364f4927d35510a2f626591e435071383c12a0db",
+            "target_sha256": "2f6cb14dcb5f792e07374e7c3d3160aeab43b632ade3b5175fee9e38de930714"
+          },
+          "events:arc_pre_ending_winter:/description": {
+            "source_sha256": "a3dcb375e80ad7e03b160ebf42e15438beb92b94e132ee9dc36967901567f787",
+            "target_sha256": "8c797a538710aa73461302c8b10d6f9ce8017b2d945c78fee6ad0049dc038ccc"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -28840,8 +29184,8 @@
         "target_sha256": "cc8077d621c6eb8d77e6d8baeec3e10d947d4461977bd07be67f5b42c1907b65"
       },
       "events:arc_daeun_final_choice_decision:/choices/2/result_text": {
-        "source_sha256": "3607d931eb0ef435fbb482d0b2d130ac98919c5d5af634343dfa27c926294a28",
-        "target_sha256": "034118cd1d7d786fadfaa59a1a54e6883e799e5a244a49f1477455e5e640f96a"
+        "source_sha256": "ccc52b511c9ae10967763c36c8bbf8f28ba01a9aa67ba64d0e30b5ba77d6e0fa",
+        "target_sha256": "fc356e63e079f65c1850d174e8e01b83ec0c735f0560c9656b731d38817d8312"
       },
       "events:arc_daeun_final_choice_decision:/choices/2/text": {
         "source_sha256": "e5c4a46af5de3497dbc2067fe453b9bacd4f96275f37920afdd7f96891896e49",
@@ -30764,12 +31108,12 @@
         "target_sha256": "3b407408cfa9bd6cbf673a5770c2a7accc721d62e1f85db95251584531e508e2"
       },
       "events:arc_daeun_year3_together:/choices/1/result_text": {
-        "source_sha256": "d8b0df3aa55f18efe205c473caf76ec45429455e7e698e3c459aea047c84dd9a",
-        "target_sha256": "a47120f807f8a623fd095b7ef9700c4358a1072e32f9d2ab5b4adb1621d92164"
+        "source_sha256": "8f37b29378df9ea65d01de548d6b8bcff1a973d06434f2885979f01d0fb1c79d",
+        "target_sha256": "14e995f1b4e93748b615a18651eb692aaa4dcaff223b855758a596f8122b2b3f"
       },
       "events:arc_daeun_year3_together:/choices/1/text": {
-        "source_sha256": "d9d6d4b7ace19fd8aa90d5d148677b93ba184899b3f3959ddcc2d3a140fd7438",
-        "target_sha256": "8f7ec251a3c1650cf2aa6d6cec45a584f4b8385f69c48809c9efb5ac126d62d9"
+        "source_sha256": "bce97d0ab104e2de021ee1a720d10720edceabcd410cb286c76ff7e7ab830088",
+        "target_sha256": "472c773083ddff79b83cd44959a1dd64a2bf9674cc6f39de0ffdb3e5b3c08ac2"
       },
       "events:arc_daeun_year3_together:/choices/2/result_text": {
         "source_sha256": "3f783d447145862b901f3e5e5751b458271db706ae3c8f58d61713a3e917cea4",
@@ -30780,16 +31124,16 @@
         "target_sha256": "c39fce1ff91b74847e620284d097410496d2786ba4b45972e43d37a87590b406"
       },
       "events:arc_daeun_year3_together:/description": {
-        "source_sha256": "362e1bec97ff20d11765f8a99be8f7c2e3692b39859be971c1b8dc0b26992b6f",
-        "target_sha256": "62a21d199e649a63edb3e8de2e17772ccabf816bd05d5867a9e052fbaf01cab1"
+        "source_sha256": "3a7a83073ab24bc125c059084fe0b6ab4dff6d44408292f4ded8da856d7b6159",
+        "target_sha256": "3f690cf619d640f81ea436dd61e2ff2098b70dfa2cd3f494957627fb04b6d8f7"
       },
       "events:arc_daeun_year3_together:/description_if_known/daeun_romance_started": {
-        "source_sha256": "bbcec5e06f73efec2b3176bbdd4fa2847f6d092a850758bc9906308fba031142",
-        "target_sha256": "eec8fea514d8343e21fcd3aed56c0935e79be5424f394a5d5d390cbae4748156"
+        "source_sha256": "4b379dcd40c463ac66febb315aa9eec055d6451ffbcab966b17a24f916c9e43f",
+        "target_sha256": "35e0a517d279d03050327c776af5f191205835ba4ed22a8544ae993125d29696"
       },
       "events:arc_daeun_year3_together:/title": {
-        "source_sha256": "b13a721d23d6c1c313e41f48d64737dd2901c8ec1145133f27261bfcee9730b0",
-        "target_sha256": "7f5442108e10db5fd337019b1dec66e00ecea5940ce5a6baa36563164d474a33"
+        "source_sha256": "2b1d0661a936e9432d27491476bd77b73991d4f50ca1e50ca6a248c7728f15b8",
+        "target_sha256": "245946358797743130a5425bf04a38ecc184f35aa42867d3adef1051301e4232"
       },
       "events:arc_daeun_year4_quiet:/choices/0/result_text": {
         "source_sha256": "e065df826627c344ba1aebf0d2bc03905f7a3294f74ffd4b825dd0d321bf9cf5",
@@ -64964,8 +65308,8 @@
         "target_sha256": "cb3da33d16fd1ce703b1f2316e8808d2d6ba0a07f9dc63a65c4b23cbd0a92f67"
       },
       "events:arc_pre_ending_winter:/description": {
-        "source_sha256": "a3dcb375e80ad7e03b160ebf42e15438beb92b94e132ee9dc36967901567f787",
-        "target_sha256": "2d5c6ddee15f6221303e9593ed98ac925b8c1b6a986c5ff47ce0940ad854456b"
+        "source_sha256": "8a22713e3a71b372554e371d57c36abad1d3e79b80566d694160b57c790448c4",
+        "target_sha256": "7437a34c1aabec90c992fc3e2b696ebef4df54d93dced76ca5e634f5b20bc144"
       },
       "events:arc_pre_ending_winter:/description_low_mental": {
         "source_sha256": "5f12b520a9644379b267f44c8bf9e42796fed516e2eb42318bf1d240da8d8b7f",
@@ -68280,12 +68624,12 @@
         "target_sha256": "e3804aa76b6b6d253a9341fc1e0e04a28a859e41f386ac96ebc274cd8e45c85c"
       },
       "events:arc_endgame_sixmonths:/choices/0/result_text": {
-        "source_sha256": "4436037950ac1e6691fd32534be038ea37e99ecf672e09e371a58a2c77ebf31a",
-        "target_sha256": "258936dddd616d0a33c56aad7344b85cce8d114af69c98a120a0bd663630c797"
+        "source_sha256": "0ffe59889c264868f60cbfbb85044ee72dd6c3f8de4d0881fb296a75abcc224a",
+        "target_sha256": "abd3ae8bc20405356098e74f976c15e1ffb2cd89b22069e277ad969eadafb3d4"
       },
       "events:arc_endgame_sixmonths:/choices/0/text": {
-        "source_sha256": "f78c9008294d72a476d21e502d6f62b7e8457fe61cfaafb3e6bfaace677e94eb",
-        "target_sha256": "47206434708fd08ec1dbdf80763e6fae2408e0aaa0beff69f99d05d71ae43e23"
+        "source_sha256": "147e28fcee44b1332e6bdf16334395d08ce86909ab4927ead2191f40b7515337",
+        "target_sha256": "0e150f559e17ccd60023acf3709e65ee24f83f7919b477b2b1786f9ad622d738"
       },
       "events:arc_endgame_sixmonths:/choices/1/result_text": {
         "source_sha256": "93ddf9c6659f69907bedc267893ef94d25839cdc0e4cf4a9748a9b4b3788ff96",
@@ -68296,32 +68640,32 @@
         "target_sha256": "6cac5aaa8280f0a896f7a293888c1a2a826efcbd3b5ef28b785e0a3433a8673f"
       },
       "events:arc_endgame_sixmonths:/choices/2/result_text": {
-        "source_sha256": "fc91f6d5b25fd55fa67bd89def99b543af8fe032ad9b6484fd3d7699636078e2",
-        "target_sha256": "d7fd8c16b0b846e409bd60caa623b61b1e8dbc2719c9e35f9f4c2bf873997b49"
+        "source_sha256": "5c467bb4a3f2c3d677c2d2525854bca2d305cfde0f6b064e13f24f14673780e8",
+        "target_sha256": "5d7dcb42a6dc774313b4dd8f85d1154e5ab2f704eb34ce2344409583a10f0800"
       },
       "events:arc_endgame_sixmonths:/choices/2/text": {
         "source_sha256": "9473a7722962dd22f80958c7a57828d28b90253e7e2e80bacc398ec27e99aef2",
         "target_sha256": "05d0f072e6944c205f853aa607a890b1d695ac990e673cb62bc91edbc60e56df"
       },
       "events:arc_endgame_sixmonths:/description": {
-        "source_sha256": "0743e5aa9fa06a83a5a8f8e70fa5c77714380a525a396807848eab87a775bb7d",
-        "target_sha256": "72eb7961c1db15ca8433c09058ba1716caa540865c576a9703d2d974a891505e"
+        "source_sha256": "12ad4a8b1cbcdd0926499af0fc3b0efa7bfd7becb2b97624c5b9ff537ec67c8a",
+        "target_sha256": "ef7f31477ce00dcee6a515fa646b1123bbcbd743c7ecc35689db6d5e055c2793"
       },
       "events:arc_endgame_sixmonths:/description_if_known/final_year_all_in": {
-        "source_sha256": "747b63fe33a3b33b9916f49bda87c39473ca2d34b671bffb365c55f02c584396",
-        "target_sha256": "ebfb3e4c878c8f98f6fa238a3cb0366d1e366635c7b4f1fc2f169b1a528f0c10"
+        "source_sha256": "1293818f2cfb49e22819fc4016844d00c8659d79d0f41d66caf0148b24041efc",
+        "target_sha256": "b18cf81a3e71ee7544af85b90a6c915cc7a6fe44831019f39b26253ecd6a0ad4"
       },
       "events:arc_endgame_sixmonths:/description_if_known/final_year_conservative": {
-        "source_sha256": "c99e6a4314cd7aa64445f499a6df478b4c6dba4562fc9ea1df27a0fbbff806a9",
-        "target_sha256": "9b309880b5abef3c0f268ec7846e59620faed10318b9d99163d34240f47cc33e"
+        "source_sha256": "1aafd5a7b9e6273d6d8de5d0c3f45db54e6cf865649cabaded29bb5eb8cbc961",
+        "target_sha256": "a20860774d5daa1e7848a78841d970eb052a29185a3f228bed01c6f6dd128095"
       },
       "events:arc_endgame_sixmonths:/description_if_known/final_year_waiting": {
-        "source_sha256": "bbe2dde9f257d053339a32992ef8556b3f2059ca584c1c63af79ac9a84ab2d2a",
-        "target_sha256": "e6b4fdc9a9f2ceec8e9eb977b320aad3299322d007a5d48dc312d1cb1b752250"
+        "source_sha256": "aaa688a4ca0d9cd2afab33b3222af6ce10ca2def8a52f6a43670eebc2ffe9cc4",
+        "target_sha256": "53d22cc8306549cdaf83bc28bc14a92a8ab918a78d37f7c80739e1bb11ea0657"
       },
       "events:arc_endgame_sixmonths:/title": {
-        "source_sha256": "1be1978e3e069e705c825f2dec873cd9b4badd4b1b531188b86465f0707646fd",
-        "target_sha256": "6d7da5aefd4833d97db9736a3b4fe8917476171a7a81cc61e41ec7450fe6908b"
+        "source_sha256": "a227b4ca2eda4d7ae666a4b9c58e4e300174bc68d108c5f37c5257f9e77e889c",
+        "target_sha256": "d94cf6d1e97c35a77d27a7282ae9e41921b6f068d97ea9cbbecbc06e70491f2d"
       },
       "events:arc_final_stretch:/choices/0/result_text": {
         "source_sha256": "9efd0f1b0216aa1508e4be1486fc1127606f718232a5c1ba4cc2922dc2bb0459",
@@ -68380,12 +68724,12 @@
         "target_sha256": "4c65265cffbf768f5212dcf20434f54c9fdc3d693adfedb0d563ad1544b9470f"
       },
       "events:arc_late_game_push:/description": {
-        "source_sha256": "4fec052c168355fd33e1811ffffca8c8915cbe94b0557f65a8091d56b3c5a158",
-        "target_sha256": "ed81eb4e0a9ba85c64b5b4bd722ef7faaae879df35cf2a86c4df4d183307b4ba"
+        "source_sha256": "6d926db9fd3885496d28700d272971ae554d409d3354a86a951e59227dc255a5",
+        "target_sha256": "627c8048b301d358654c6ea1d19a1a0668fecd43e175ebbb8114d437cb58a2b9"
       },
       "events:arc_late_game_push:/title": {
-        "source_sha256": "4dc04d0c9c160f61ea6f1d84364f4927d35510a2f626591e435071383c12a0db",
-        "target_sha256": "a18637cccd19f7f7e50095d2d1414be5b241a66619ffebc3477a3132da35cb62"
+        "source_sha256": "fd341d44cf1c5b2aba0d4e7601cdf994aae31713c492d2c4b48b474aa4eeac74",
+        "target_sha256": "4150fa37509cc005042804e4385682756efb96be5b68634a1adc6551fd9cf487"
       },
       "events:arc_sangchul_known_offer:/choices/0/result_text": {
         "source_sha256": "c65f9c56232ae2e0fcb80b3b4db4bfe6b38ae379c47c6ac13ae0118c1ee700be",
@@ -81542,8 +81886,8 @@
         "target_sha256": "99e926065f04a276f1db2c30459caac00f8c8a8cbf61a60a2cba37875a9eae87"
       },
       "events:arc_daeun_final_choice_decision:/choices/2/result_text": {
-        "source_sha256": "3607d931eb0ef435fbb482d0b2d130ac98919c5d5af634343dfa27c926294a28",
-        "target_sha256": "9f40c8e53a22349b8e5770c1679c1f49ca021c0d9802ac83daffe0aaef910a70"
+        "source_sha256": "ccc52b511c9ae10967763c36c8bbf8f28ba01a9aa67ba64d0e30b5ba77d6e0fa",
+        "target_sha256": "96e97e58da0f618a27ff553cacf53552adf41887a3a72a291707eb913eb70bf6"
       },
       "events:arc_daeun_final_choice_decision:/choices/2/text": {
         "source_sha256": "e5c4a46af5de3497dbc2067fe453b9bacd4f96275f37920afdd7f96891896e49",
@@ -83466,12 +83810,12 @@
         "target_sha256": "8ce87d32a93a714cf4089b7f15c67d4d2ec2322065135646b91551da69952c30"
       },
       "events:arc_daeun_year3_together:/choices/1/result_text": {
-        "source_sha256": "d8b0df3aa55f18efe205c473caf76ec45429455e7e698e3c459aea047c84dd9a",
-        "target_sha256": "ad5b5257fab6a0fde1fc4427b40c964a38c57af56189b701f243b4fd0f3d18ca"
+        "source_sha256": "8f37b29378df9ea65d01de548d6b8bcff1a973d06434f2885979f01d0fb1c79d",
+        "target_sha256": "f29df355ad3d58b3e4ed63b772992d5f6d6e2786bc85592ed3ded65f735ad8f1"
       },
       "events:arc_daeun_year3_together:/choices/1/text": {
-        "source_sha256": "d9d6d4b7ace19fd8aa90d5d148677b93ba184899b3f3959ddcc2d3a140fd7438",
-        "target_sha256": "1d5c12a799658de9a93908863a3b31b2a832e1e6702aafad9d6e72941dff9222"
+        "source_sha256": "bce97d0ab104e2de021ee1a720d10720edceabcd410cb286c76ff7e7ab830088",
+        "target_sha256": "b3c0d06f6217eeeec41a6f7e0f17002488c83b36cddc79b4a5256bf7a1d89c01"
       },
       "events:arc_daeun_year3_together:/choices/2/result_text": {
         "source_sha256": "3f783d447145862b901f3e5e5751b458271db706ae3c8f58d61713a3e917cea4",
@@ -83482,16 +83826,16 @@
         "target_sha256": "3dbd4d5f7b955b831ec431e1f3df1b8081f2aabcf54b026d1a45af35766c407c"
       },
       "events:arc_daeun_year3_together:/description": {
-        "source_sha256": "362e1bec97ff20d11765f8a99be8f7c2e3692b39859be971c1b8dc0b26992b6f",
-        "target_sha256": "c47a9c2baac28f2b10fc0e552572c2020ddf1cd92619462a146f2969034ef2c0"
+        "source_sha256": "3a7a83073ab24bc125c059084fe0b6ab4dff6d44408292f4ded8da856d7b6159",
+        "target_sha256": "46abca5d24013f76fec2b9615cb8ad7c6c7f99ae31beeda9907be660720e50d0"
       },
       "events:arc_daeun_year3_together:/description_if_known/daeun_romance_started": {
-        "source_sha256": "bbcec5e06f73efec2b3176bbdd4fa2847f6d092a850758bc9906308fba031142",
-        "target_sha256": "72c642bd22602f0d6af62f6f3a72ed96a034b17b78c1ffb85c262b72a13c430a"
+        "source_sha256": "4b379dcd40c463ac66febb315aa9eec055d6451ffbcab966b17a24f916c9e43f",
+        "target_sha256": "3ba6d08ed2dbed5f236e8e6daf5627b1fb4252f69a0ec0149d6580fe2a637668"
       },
       "events:arc_daeun_year3_together:/title": {
-        "source_sha256": "b13a721d23d6c1c313e41f48d64737dd2901c8ec1145133f27261bfcee9730b0",
-        "target_sha256": "a823ae59138d0668faea739b48c547266702a84f58fb2c2e13ed7c459a14ba2e"
+        "source_sha256": "2b1d0661a936e9432d27491476bd77b73991d4f50ca1e50ca6a248c7728f15b8",
+        "target_sha256": "522f65f85e296d44ae1f884643da893cd9545fe0f6c70141a0159d85257eaf92"
       },
       "events:arc_daeun_year4_quiet:/choices/0/result_text": {
         "source_sha256": "e065df826627c344ba1aebf0d2bc03905f7a3294f74ffd4b825dd0d321bf9cf5",
@@ -117666,8 +118010,8 @@
         "target_sha256": "4e74b48f33cb8c4afcd94b6c4f63582295003d1364c3e3e758450474932f44fd"
       },
       "events:arc_pre_ending_winter:/description": {
-        "source_sha256": "a3dcb375e80ad7e03b160ebf42e15438beb92b94e132ee9dc36967901567f787",
-        "target_sha256": "16582f7ba8c5236bc7087f6159f4bcfe02825e1d506ab85c2f733717116bf131"
+        "source_sha256": "8a22713e3a71b372554e371d57c36abad1d3e79b80566d694160b57c790448c4",
+        "target_sha256": "d7f3687d299b6432ff3c4a9bb9001b67007da519e7eedf8b63e3fa2e92f41c5e"
       },
       "events:arc_pre_ending_winter:/description_low_mental": {
         "source_sha256": "5f12b520a9644379b267f44c8bf9e42796fed516e2eb42318bf1d240da8d8b7f",
@@ -120990,12 +121334,12 @@
         "target_sha256": "9cb540bb5a18ef035d3d27550e395b03277867dfd86756bb34a78f12aa13f8bc"
       },
       "events:arc_endgame_sixmonths:/choices/0/result_text": {
-        "source_sha256": "4436037950ac1e6691fd32534be038ea37e99ecf672e09e371a58a2c77ebf31a",
-        "target_sha256": "e77cd9f8c1e4872d851d27050dfede43186d37556de370239914e7f78426cd70"
+        "source_sha256": "0ffe59889c264868f60cbfbb85044ee72dd6c3f8de4d0881fb296a75abcc224a",
+        "target_sha256": "bc3bb88bca6cee95bf700ed73ee51432e4853ff76fe1b64f258fd0b7f2ce909d"
       },
       "events:arc_endgame_sixmonths:/choices/0/text": {
-        "source_sha256": "f78c9008294d72a476d21e502d6f62b7e8457fe61cfaafb3e6bfaace677e94eb",
-        "target_sha256": "7bb9fe271c08a976c2ce63228743662eb13c215deea832bbb0015c246d77f886"
+        "source_sha256": "147e28fcee44b1332e6bdf16334395d08ce86909ab4927ead2191f40b7515337",
+        "target_sha256": "a851cfdb370cddfa566a871360737e058019bf9d6089e593286220ab46047661"
       },
       "events:arc_endgame_sixmonths:/choices/1/result_text": {
         "source_sha256": "93ddf9c6659f69907bedc267893ef94d25839cdc0e4cf4a9748a9b4b3788ff96",
@@ -121006,32 +121350,32 @@
         "target_sha256": "7b893d8ef7adda7b128783a5b7169d50b42503607980453b783b9b82678dce71"
       },
       "events:arc_endgame_sixmonths:/choices/2/result_text": {
-        "source_sha256": "fc91f6d5b25fd55fa67bd89def99b543af8fe032ad9b6484fd3d7699636078e2",
-        "target_sha256": "a32d4bcffbab66524b5d7b146d0343e3dcf5590618281129d697e6ef24a0f0a0"
+        "source_sha256": "5c467bb4a3f2c3d677c2d2525854bca2d305cfde0f6b064e13f24f14673780e8",
+        "target_sha256": "923ae1577ec04312f841bb55638feef1bba036f0af3e4e32d418aa2c1fdef5a2"
       },
       "events:arc_endgame_sixmonths:/choices/2/text": {
         "source_sha256": "9473a7722962dd22f80958c7a57828d28b90253e7e2e80bacc398ec27e99aef2",
         "target_sha256": "3194b507f286fc796a19b375552fad14d31064a3a1652ad1a02d21cee375ecc2"
       },
       "events:arc_endgame_sixmonths:/description": {
-        "source_sha256": "0743e5aa9fa06a83a5a8f8e70fa5c77714380a525a396807848eab87a775bb7d",
-        "target_sha256": "13014185e2b5792d0ac8e2f075c648654545988028e92bbc5cce62a4b4df5da7"
+        "source_sha256": "12ad4a8b1cbcdd0926499af0fc3b0efa7bfd7becb2b97624c5b9ff537ec67c8a",
+        "target_sha256": "49cd1b839e4fd38ac1fb3ec39e7e5b821c5a9dd4267cb9aa38487aa525f6b6b9"
       },
       "events:arc_endgame_sixmonths:/description_if_known/final_year_all_in": {
-        "source_sha256": "747b63fe33a3b33b9916f49bda87c39473ca2d34b671bffb365c55f02c584396",
-        "target_sha256": "02df8a029f8d8ba7519cda80cdea2c3e9351ed8fa4fd7829aeb885783a755122"
+        "source_sha256": "1293818f2cfb49e22819fc4016844d00c8659d79d0f41d66caf0148b24041efc",
+        "target_sha256": "bcce900bc2c28ebbdaee684c16e330c8b66e5ae71e7696e50691d6169f49cdaf"
       },
       "events:arc_endgame_sixmonths:/description_if_known/final_year_conservative": {
-        "source_sha256": "c99e6a4314cd7aa64445f499a6df478b4c6dba4562fc9ea1df27a0fbbff806a9",
-        "target_sha256": "417c56afa50840f7e5430b00b4b0df55fa25ff5fa327a28279fad12ec5223814"
+        "source_sha256": "1aafd5a7b9e6273d6d8de5d0c3f45db54e6cf865649cabaded29bb5eb8cbc961",
+        "target_sha256": "9ad007dd962202098001759fc7cd8de6353a7b4a06595b2b1c28009c30b4d28c"
       },
       "events:arc_endgame_sixmonths:/description_if_known/final_year_waiting": {
-        "source_sha256": "bbe2dde9f257d053339a32992ef8556b3f2059ca584c1c63af79ac9a84ab2d2a",
-        "target_sha256": "c90c38958a4ee7644ac2a93e48a7ae7b2ee451dd69bb8a8530af533a92d0f313"
+        "source_sha256": "aaa688a4ca0d9cd2afab33b3222af6ce10ca2def8a52f6a43670eebc2ffe9cc4",
+        "target_sha256": "80ffe6056a3de7dd961aad955e2fa1d73687f1c5771549c2e875805b64342d9c"
       },
       "events:arc_endgame_sixmonths:/title": {
-        "source_sha256": "1be1978e3e069e705c825f2dec873cd9b4badd4b1b531188b86465f0707646fd",
-        "target_sha256": "d8b1298e545e2efb4c707a145b6f9450da743c05cdddb9737433c9f5b8385ae2"
+        "source_sha256": "a227b4ca2eda4d7ae666a4b9c58e4e300174bc68d108c5f37c5257f9e77e889c",
+        "target_sha256": "147e3b3ed465f000580154ae669d3df2c847b42d4a47c10cf73c00a91e22b055"
       },
       "events:arc_final_stretch:/choices/0/result_text": {
         "source_sha256": "9efd0f1b0216aa1508e4be1486fc1127606f718232a5c1ba4cc2922dc2bb0459",
@@ -121090,12 +121434,12 @@
         "target_sha256": "2b7feba7fa5bf64bbbcdad10fb6c7db1fa9387dfa9fe4523873d5182e8a86a27"
       },
       "events:arc_late_game_push:/description": {
-        "source_sha256": "4fec052c168355fd33e1811ffffca8c8915cbe94b0557f65a8091d56b3c5a158",
-        "target_sha256": "0ce463e6ed342016952e031014009c4e570c5fa23bbf86445802f47038e332af"
+        "source_sha256": "6d926db9fd3885496d28700d272971ae554d409d3354a86a951e59227dc255a5",
+        "target_sha256": "ec4b1e29a2635a25eae60055562851b0b08a1f447f54e97401b65a5f3fcc89c1"
       },
       "events:arc_late_game_push:/title": {
-        "source_sha256": "4dc04d0c9c160f61ea6f1d84364f4927d35510a2f626591e435071383c12a0db",
-        "target_sha256": "7f1907743bc0b34009324676f86ac5f135faf13335dce284bdf3606e6d3ae3e0"
+        "source_sha256": "fd341d44cf1c5b2aba0d4e7601cdf994aae31713c492d2c4b48b474aa4eeac74",
+        "target_sha256": "f42f34bd11a47dbe96fb4e6045e9334bc409f5efa260ac1dbf90a42ff1ec0502"
       },
       "events:arc_sangchul_known_offer:/choices/0/result_text": {
         "source_sha256": "c65f9c56232ae2e0fcb80b3b4db4bfe6b38ae379c47c6ac13ae0118c1ee700be",
@@ -141068,8 +141412,8 @@
         "target_sha256": "3bb9450f5e0b32dba0892b5b1fae2ae5b28fcee4e9dbbfa8e9e79b971c85b2b0"
       },
       "events:arc_daeun_final_choice_decision:/choices/2/result_text": {
-        "source_sha256": "3607d931eb0ef435fbb482d0b2d130ac98919c5d5af634343dfa27c926294a28",
-        "target_sha256": "34b0aa22ca85973ecf22865dd737bd94c846859d53ce7e4f266bdd8efd8a1b9c"
+        "source_sha256": "ccc52b511c9ae10967763c36c8bbf8f28ba01a9aa67ba64d0e30b5ba77d6e0fa",
+        "target_sha256": "269a46c88028f036ac2ce4eb80671f20eda660b4ac7c199c9c4368399a53efad"
       },
       "events:arc_daeun_final_choice_decision:/choices/2/text": {
         "source_sha256": "e5c4a46af5de3497dbc2067fe453b9bacd4f96275f37920afdd7f96891896e49",
@@ -142992,12 +143336,12 @@
         "target_sha256": "2541089a09a9bb69c34dc1300ea71d40672e9dc09e1b3ba68d54f8258d7899f4"
       },
       "events:arc_daeun_year3_together:/choices/1/result_text": {
-        "source_sha256": "d8b0df3aa55f18efe205c473caf76ec45429455e7e698e3c459aea047c84dd9a",
-        "target_sha256": "f91d95ca45aed82a93cc1e5f5ce332357dcf40eeac887c4309c87ebab83c0ed5"
+        "source_sha256": "8f37b29378df9ea65d01de548d6b8bcff1a973d06434f2885979f01d0fb1c79d",
+        "target_sha256": "ead6d224e9c664a84e45a7bcfd3b89987c35c40ab0cf6b65ef23b03b89574593"
       },
       "events:arc_daeun_year3_together:/choices/1/text": {
-        "source_sha256": "d9d6d4b7ace19fd8aa90d5d148677b93ba184899b3f3959ddcc2d3a140fd7438",
-        "target_sha256": "d1a20999df67f2107de061c74b2b586b226f6028cb88769a2d031d26b468cadf"
+        "source_sha256": "bce97d0ab104e2de021ee1a720d10720edceabcd410cb286c76ff7e7ab830088",
+        "target_sha256": "c47bcc6ec37191b8424e5155b90be0438d6568c3854357bc9e567724fdeb77f9"
       },
       "events:arc_daeun_year3_together:/choices/2/result_text": {
         "source_sha256": "3f783d447145862b901f3e5e5751b458271db706ae3c8f58d61713a3e917cea4",
@@ -143008,16 +143352,16 @@
         "target_sha256": "a642a8020c57a55fe4af72d5a7bcaea9c6892ce622f17a608cf5375bb7fc4fb5"
       },
       "events:arc_daeun_year3_together:/description": {
-        "source_sha256": "362e1bec97ff20d11765f8a99be8f7c2e3692b39859be971c1b8dc0b26992b6f",
-        "target_sha256": "bdae46852fb9273a47a85649395c413d031a941fe5557b89413e81ccc68615c4"
+        "source_sha256": "3a7a83073ab24bc125c059084fe0b6ab4dff6d44408292f4ded8da856d7b6159",
+        "target_sha256": "0e45011ed6581e86f13fe599a56c472cc23169313e38094259bbaf4353f16850"
       },
       "events:arc_daeun_year3_together:/description_if_known/daeun_romance_started": {
-        "source_sha256": "bbcec5e06f73efec2b3176bbdd4fa2847f6d092a850758bc9906308fba031142",
-        "target_sha256": "b0245f9b29d46fa749cf05e64ba914df2dc249adfd45ed7645c81349f13d8314"
+        "source_sha256": "4b379dcd40c463ac66febb315aa9eec055d6451ffbcab966b17a24f916c9e43f",
+        "target_sha256": "071fca534c6fc950aaf05f6ca9652722a3ce324d3a0a0e060fe93c46973c1182"
       },
       "events:arc_daeun_year3_together:/title": {
-        "source_sha256": "b13a721d23d6c1c313e41f48d64737dd2901c8ec1145133f27261bfcee9730b0",
-        "target_sha256": "fc7688d3a92a75213e4926dd09e080435530640112d4a7ba10b54e43c260c53d"
+        "source_sha256": "2b1d0661a936e9432d27491476bd77b73991d4f50ca1e50ca6a248c7728f15b8",
+        "target_sha256": "e2bdaca495ee25bf4e66e4e0f01988e98917a53d0f3211e49be9e1832eaf8735"
       },
       "events:arc_daeun_year4_quiet:/choices/0/result_text": {
         "source_sha256": "e065df826627c344ba1aebf0d2bc03905f7a3294f74ffd4b825dd0d321bf9cf5",
@@ -177192,8 +177536,8 @@
         "target_sha256": "d1143ef66c5c9afa251ff464253050bc5245720024926793bd5e8481c2fdf793"
       },
       "events:arc_pre_ending_winter:/description": {
-        "source_sha256": "a3dcb375e80ad7e03b160ebf42e15438beb92b94e132ee9dc36967901567f787",
-        "target_sha256": "8c797a538710aa73461302c8b10d6f9ce8017b2d945c78fee6ad0049dc038ccc"
+        "source_sha256": "8a22713e3a71b372554e371d57c36abad1d3e79b80566d694160b57c790448c4",
+        "target_sha256": "4445ee459edb365897024faf2cf7a02dd3e0984f9f928a681dbd54b8d6ec8274"
       },
       "events:arc_pre_ending_winter:/description_low_mental": {
         "source_sha256": "5f12b520a9644379b267f44c8bf9e42796fed516e2eb42318bf1d240da8d8b7f",
@@ -180516,12 +180860,12 @@
         "target_sha256": "296206a29d882cc4dfbb4ab37d36441c45fe349908dbdf9d6143f4ee6166bd90"
       },
       "events:arc_endgame_sixmonths:/choices/0/result_text": {
-        "source_sha256": "4436037950ac1e6691fd32534be038ea37e99ecf672e09e371a58a2c77ebf31a",
-        "target_sha256": "f0d12a138a77bb903d0795cac9f9274d61f30b34018a051726a807c127dca5ee"
+        "source_sha256": "0ffe59889c264868f60cbfbb85044ee72dd6c3f8de4d0881fb296a75abcc224a",
+        "target_sha256": "86d518458ffd62cdd97766490cf5773e8c140b8a5eb2a43e7095b6935d9ffdd7"
       },
       "events:arc_endgame_sixmonths:/choices/0/text": {
-        "source_sha256": "f78c9008294d72a476d21e502d6f62b7e8457fe61cfaafb3e6bfaace677e94eb",
-        "target_sha256": "5ff21f9717c6f7899967f2f6b3e36be09f515f0d82b2316571b61b3feda7fdb3"
+        "source_sha256": "147e28fcee44b1332e6bdf16334395d08ce86909ab4927ead2191f40b7515337",
+        "target_sha256": "af4177d2623a13a7848c6f92b3209dd8e27efea3b46554c83b865af3585dd969"
       },
       "events:arc_endgame_sixmonths:/choices/1/result_text": {
         "source_sha256": "93ddf9c6659f69907bedc267893ef94d25839cdc0e4cf4a9748a9b4b3788ff96",
@@ -180532,32 +180876,32 @@
         "target_sha256": "c905d6cb50d2198b408845f513020d9bd9dd05f7f7f1a4ae691cf62801c5d907"
       },
       "events:arc_endgame_sixmonths:/choices/2/result_text": {
-        "source_sha256": "fc91f6d5b25fd55fa67bd89def99b543af8fe032ad9b6484fd3d7699636078e2",
-        "target_sha256": "338315fef98f931e8575c2d83564055cff15a3441789e8c4d036e626be95518e"
+        "source_sha256": "5c467bb4a3f2c3d677c2d2525854bca2d305cfde0f6b064e13f24f14673780e8",
+        "target_sha256": "5c878b6262fac86fdaa37f35868b33cfd6b81a11c77624804e4c5f72f5414932"
       },
       "events:arc_endgame_sixmonths:/choices/2/text": {
         "source_sha256": "9473a7722962dd22f80958c7a57828d28b90253e7e2e80bacc398ec27e99aef2",
         "target_sha256": "48d3776c993e6bbff9cb9fcdcf0b98c6233743dfd4e3d4927edcef45bce417d9"
       },
       "events:arc_endgame_sixmonths:/description": {
-        "source_sha256": "0743e5aa9fa06a83a5a8f8e70fa5c77714380a525a396807848eab87a775bb7d",
-        "target_sha256": "39d0576e62766fca6e56f774a9dcb04b475a13ca03846b40a087adc826644039"
+        "source_sha256": "12ad4a8b1cbcdd0926499af0fc3b0efa7bfd7becb2b97624c5b9ff537ec67c8a",
+        "target_sha256": "0ee4fc404e22c167ca55c48fc8b72503b67c2343acd33f65b995223a771e64a9"
       },
       "events:arc_endgame_sixmonths:/description_if_known/final_year_all_in": {
-        "source_sha256": "747b63fe33a3b33b9916f49bda87c39473ca2d34b671bffb365c55f02c584396",
-        "target_sha256": "2cbccb65035781b656c953f3de4942b66b413560268a5d181bff4f85006cc4c8"
+        "source_sha256": "1293818f2cfb49e22819fc4016844d00c8659d79d0f41d66caf0148b24041efc",
+        "target_sha256": "7ca304c668a9d070e3b0cac6c2edaf5c7e289d223b6bd8ed73172009113f5418"
       },
       "events:arc_endgame_sixmonths:/description_if_known/final_year_conservative": {
-        "source_sha256": "c99e6a4314cd7aa64445f499a6df478b4c6dba4562fc9ea1df27a0fbbff806a9",
-        "target_sha256": "f4b12bbc153b6138a6e6a67eca3f6f8d96b6434ce99ad51fe229db926aa3300d"
+        "source_sha256": "1aafd5a7b9e6273d6d8de5d0c3f45db54e6cf865649cabaded29bb5eb8cbc961",
+        "target_sha256": "1ee6cc0270b249956fe743df5d6b7d24e6c60e803a979d5362e4ae07025d1e8a"
       },
       "events:arc_endgame_sixmonths:/description_if_known/final_year_waiting": {
-        "source_sha256": "bbe2dde9f257d053339a32992ef8556b3f2059ca584c1c63af79ac9a84ab2d2a",
-        "target_sha256": "6d4dde2be83f614d84262c36535f9c912654fe9ca3eac1857e7b7a49aa4f7abe"
+        "source_sha256": "aaa688a4ca0d9cd2afab33b3222af6ce10ca2def8a52f6a43670eebc2ffe9cc4",
+        "target_sha256": "3a174d84b4df0912b6b408f9ca438e4775ec161024a5ba9f9b1d1068182ad3e8"
       },
       "events:arc_endgame_sixmonths:/title": {
-        "source_sha256": "1be1978e3e069e705c825f2dec873cd9b4badd4b1b531188b86465f0707646fd",
-        "target_sha256": "b353d2489ba8f7b509d84d6eefd3d5cb36bf1bcb05fac1ebe8da5bace08c92ee"
+        "source_sha256": "a227b4ca2eda4d7ae666a4b9c58e4e300174bc68d108c5f37c5257f9e77e889c",
+        "target_sha256": "2b17382eecf037a820f2c100071e86c352c93481749ace3f9fab6868fc3ab6fe"
       },
       "events:arc_final_stretch:/choices/0/result_text": {
         "source_sha256": "9efd0f1b0216aa1508e4be1486fc1127606f718232a5c1ba4cc2922dc2bb0459",
@@ -180616,12 +180960,12 @@
         "target_sha256": "fd0f0a986038c382764f1cec0ef239f27827bb78f74f7682a3ed94bce682f929"
       },
       "events:arc_late_game_push:/description": {
-        "source_sha256": "4fec052c168355fd33e1811ffffca8c8915cbe94b0557f65a8091d56b3c5a158",
-        "target_sha256": "1c93a2a5b80926e1436e14d80c461b3391444d454b5a01df1181fcb661319eb2"
+        "source_sha256": "6d926db9fd3885496d28700d272971ae554d409d3354a86a951e59227dc255a5",
+        "target_sha256": "f1dba3ebd0a63c6b683500b2cd3f5a664c3499f88d5103407be9dae19f35f45d"
       },
       "events:arc_late_game_push:/title": {
-        "source_sha256": "4dc04d0c9c160f61ea6f1d84364f4927d35510a2f626591e435071383c12a0db",
-        "target_sha256": "2f6cb14dcb5f792e07374e7c3d3160aeab43b632ade3b5175fee9e38de930714"
+        "source_sha256": "fd341d44cf1c5b2aba0d4e7601cdf994aae31713c492d2c4b48b474aa4eeac74",
+        "target_sha256": "71c319dc2f5d843c8acd7dbc9b38d0e0ffbd84c528a254989cdab1363a24e1ea"
       },
       "events:arc_sangchul_known_offer:/choices/0/result_text": {
         "source_sha256": "c65f9c56232ae2e0fcb80b3b4db4bfe6b38ae379c47c6ac13ae0118c1ee700be",
@@ -190773,7 +191117,7 @@
       }
     }
   },
-  "accepted_sha256": "36f49a5f75ad26218806095812749f6f584d54a37fe7c7095d1537199d455e47",
+  "accepted_sha256": "123decc137881fde68d0756568d0ecd02acfb14d037355e28af18d86fd0e1805",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

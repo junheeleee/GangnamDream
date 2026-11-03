@@ -41,4 +41,19 @@
 
 ## 검사 실물·후보
 
-구현·독립검수·제품후보 미완. 원자료 `.git/localization-final-half-20261103/` 소유.
+capsule_review가KR17/목표51·전체5root선택/known·겨울low_mental·실제consumer를
+전독해사전GO. CN라면‘分吃同锅里的方便面→分吃同一锅方便面’자연성권고를
+수용했고해당1구절외16값/헤더불변·새사실/수량추가0이다. 현재달력/저녁과
+열린관계기간, 멈출조건빈칸의계획저장≠체결, 과거계획≠확정성과, 원문메모와
+미인지한상대·현재창가/눈내리는방을정렬했다. 1+1/5:47/9시/3시간남짓/
+빨간2줄/한도1칸/30억원/5년·토큰/문단보존.
+
+최종check는JA/TW bound-check·CN final-check, import17×3 exit0/stderr0.
+초기check3은response의locale/source_sha256/prompt_version누락스키마거절이며
+내용검증전실패다. 원draft1 3개/거절6로그보존·3필드복원시번역변화0,
+CN은수리전bound-check중간VALID/초안2도보존했다. 검증기완화0.
+교환행은공식source의id/locale/source_sha256/prompt_version에text를더해작성한다.
+receipt/순수검증/delta51/12파일·원347배치/원수용/이전target/비소유값불변.
+scope669→618(stale615=각205+요약3), demo5언어14사건100leaf122UI·EN1813/35 clean.
+lane11은선택목록뿐이며전체실행성공아님. raw38=최종26/이력12,
+원자료 `.git/localization-final-half-20261103/` 소유. 제품독립최종판정은미완이다.
