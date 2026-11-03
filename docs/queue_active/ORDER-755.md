@@ -34,4 +34,10 @@ tools변경이므로해당실제표적test와검사등록/문맥/큐/diff를확�
 
 ## 검사 실물·후보
 
-미수리·미검수. 원자료 `.git/localization-mingi-guard-20261103/` 소유.
+현재KR exact2 source결속·title역할만추가, 기존지문/전역차단불변.
+독립코드/표적검수GO·추가3tests 최종PASS, 전체교환274tests exit0(79.274s).
+최초focused의Leaf.validator fixture오류1은보존·category소유의명시값으로수리했고
+제품오류/번역오류나최종통과로바꾸지않는다. CN/TW실제754 check/import도수용됐다.
+검사등록registered186·context/queue/diff 확인. zh-self-test12783 exit0/stderr0·
+ZH_TRANSLATION_AUDIT_OK mode=skeleton이며실제언어완성/화면아님. 제품후보최종판정대기.
+원자료 `.git/localization-mingi-guard-20261103/` 소유.

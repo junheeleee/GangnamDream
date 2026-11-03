@@ -7565,6 +7565,8 @@ MIDGAME_SOURCE_KIND = {
     "a30c3256b8270e52dcb99a06d2bce7fd8cf0d98d209dc17ec5caa2c4adf2b071": "mingi_reply",
     "7714592166adcfbfc7aa7332632dbc66d1664706507014e723deda952a8dd400": "mingi_send",
     "6d75c197890bbd733a12fe284084d2d12c3acc6a5a5e6fd4d983342c643f61af": "mingi_invite",
+    "28c3ebcb7932ca1c95902380122471c8241d05a8fe50bcd4de5efb7a674d96e1": "mingi_invite",
+    "f6ff3209f37b64b8bede8a6e151ab2e2adf602f6d013cfb56b576636055c6d60": "mingi_invite_title",
     "f66faca22a524b1b64a2d01a94fc1ef8be466175c674efe14e1a23765a1a1985": "win_title",
     "9a56b269fb481cfbae250df1ab9fa1756391c4b3f3c5acd218e551b39804e7cb": "one_move",
     "0c535d1862ddfda2ff5e7ccd7c67a768be3b1ae28b427e80ede34c8bfd4efed8": "sleep_quote",
@@ -7683,7 +7685,7 @@ def _midgame_money(source: str, target: str, amounts):
 
 def _midgame_latin(source: str, target: str):
     kind = _midgame_kind(source)
-    if kind not in {"paycheck", "mingi_invite", "mingi_send", "mingi_reply"}:
+    if kind not in {"paycheck", "mingi_invite", "mingi_invite_title", "mingi_send", "mingi_reply"}:
         return target, []
     name = "KakaoBank" if kind == "paycheck" else "Mingi"
     matches = _bounded_latin_matches(target, name)
@@ -7694,6 +7696,7 @@ def _midgame_latin(source: str, target: str):
     local = target.split("\n")[0]
     contexts = {"paycheck": r"KakaoBank[ \t]*的通知[響响]了",
                 "mingi_invite": r"高中同[學学].*Mingi.*(?:喜帖|[請请]柬)",
+                "mingi_invite_title": r"^Mingi[ \t]*的(?:婚[禮礼])?(?:喜帖|[請请]柬)$",
                 "mingi_send": r"Mingi.*(?:恭喜|祝[賀贺])",
                 "mingi_reply": r"Mingi.*(?:恭喜|祝[賀贺])"}
     if not re.search(contexts[kind], local):

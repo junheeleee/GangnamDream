@@ -19359,6 +19359,425 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-754",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_father_passing",
+        "arc_father_passing_hospital_room",
+        "arc_why_gangnam_real",
+        "arc_why_gangnam_real_father_passed",
+        "arc_year_two_pressure"
+      ],
+      "source_leaves": 22,
+      "target_leaves_by_locale": {
+        "ja": 22,
+        "zh-CN": 22,
+        "zh-TW": 22
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct independent Korean-to-each-locale full reading of22 source leaves/66 shipping targets, five complete root choice/known/moral contexts and real consumers/lifecycle. Preserve mother apology SMS versus father phone call, KTX call/no-call, album ticket/medicine bags and extra fish in rice bowl. Empty hospital bed has father contact name, not invented23-second call. Living father speech and deceased father remembered voice remain distinct. Current asset screen is not a first milestone or fixedthree-year achievement; white light has last-train passengers and unclosed stores. Current calculator/photo comparison and stopped app-icon gesture replace fixedtwo-week benefits/autumn. Tokens/paragraphs/numbers, prior receipts and previous-target hashes preserved. Mingi current-source validator repair is separately owned by ORDER-755; no name deletion, invented Han alias or global English exemption.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "301e725f667a0d90b0d5a9e48c5bea55f16efbf6",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "7ae812a95424d872c2d0c2fc539b958aedd32e6b03d1f5c04311b9f300f0972f",
+          "count": 22,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "857c65b38d0ee7c25616a3d6ac6e43df88dbc92a345f0306a3c63e6ef7066689"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "301e725f667a0d90b0d5a9e48c5bea55f16efbf6",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "4a3636bfb4d98da789ac7b89e221fa599aaa66f1eb71dcda6a19b40163211872",
+          "count": 22,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8298eb2ac71aed6ce47057134f32d9a78fe92550d5a75935ea58a1013bb77e9d"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "301e725f667a0d90b0d5a9e48c5bea55f16efbf6",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "30b5d4437e06f1735705eb35558f5bd54e9aae79660818b0bfca9d16c3da87af",
+          "count": 22,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "70d96bdbcb8e44eebee4a81ff7558e5b7ce454c6678d82de5e720e0f6ebc0bee"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "cb3d8d014d10789515abec838d2ed1cb06563b618e65addd2f7b1ce94b5cb56c",
+        "zh-CN": "2ccf41bf90e6aad96029cedb0ec56a1480cddc76f1e9dfcfb67a7efd37891195",
+        "zh-TW": "5ed6a570680c07c7c4615f7aa96efc945c7d4a696db7eaacacff98e1ee92fea9"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_father_passing:/description_if_known/apologized_for_ignoring": "6556638e60dfff3855044c9345cbc21a21c0570343a6838c9474d4b81cd77f2b",
+          "events:arc_father_passing:/description_if_known/called_father_on_ktx": "1e8a0f07ade7a24f275a46f834484829a41df56a7ae8e44515988f161ad8c8b0",
+          "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": "8a7cc661e867058acb0cc6db4874f5036028016e3334860c08c655e53fd1adfe",
+          "events:arc_father_passing:/description_if_known/father_calls_often": "1143b0b88be9498b333d553709a2352ed63fe73e63bf7ffbcecab8c8ba919328",
+          "events:arc_father_passing:/description_if_known/father_debt_felt": "44fdee1de0af0d3c3679da0f927d81a72ae902dc0a3be570ad3486e9e7185ffc",
+          "events:arc_father_passing:/description_if_known/father_heard_gangnam_reason": "8c523dd071dbd5aa660035f56d8ebbb247bdf5d44b5ebca581193a3a77f32138",
+          "events:arc_father_passing:/description_if_known/father_knew_i_came": "e88ecc44078513d022d1e425b0345f7b07d041898e26bf0d087d0fd679da02c4",
+          "events:arc_father_passing:/description_if_moral/white": "c6acc824449c328ab4f7ff1bc54c7f57ff69494819ed0f68cbff5badc71fbd0a",
+          "events:arc_father_passing_hospital_room:/choices/0/result_text": "708ac354a397ae7a4e435087514eaa8ba19327b47192e4ff41a464aaa3ffbc1a",
+          "events:arc_why_gangnam_real:/choices/2/result_text": "c21f89bd7789ff9d3afd1cb036d7d612d8960ac65ac6380f4e5af7a104a28de3",
+          "events:arc_why_gangnam_real:/description": "ed4900a0a1b3563107abe03711d270de3fba60d396ccb7079523c8e42bb712cc",
+          "events:arc_why_gangnam_real:/description_if_known/motive_clarified": "e74b9431cb482a4dbfc715f507c4e36559df781d807bd3ee15a52994bab793a1",
+          "events:arc_why_gangnam_real:/description_if_moral/black": "b3be8aa518156d4456716c30a7a89f02d817aec57456798f358d7ad7eafcdab3",
+          "events:arc_why_gangnam_real:/description_if_moral/white": "d2949e5adc94a3aaceb11a5790babf23d8eab4828f1c3c15bfeb806b9eec4b10",
+          "events:arc_why_gangnam_real_father_passed:/choices/2/result_text": "c21f89bd7789ff9d3afd1cb036d7d612d8960ac65ac6380f4e5af7a104a28de3",
+          "events:arc_why_gangnam_real_father_passed:/description": "db07f1dfae8c3d491485c990d3e29b52c632971ce886bb6149f41bc471896c8d",
+          "events:arc_why_gangnam_real_father_passed:/description_if_known/motive_clarified": "b4ce3ba41c1e224990bf22056f71a3cdc32e65063857b4e80ff28b4d1b7debd0",
+          "events:arc_why_gangnam_real_father_passed:/description_if_moral/black": "60b0e80c42df9fed6a685ab13765a1e1cad958b07472ffb4d830ffcee695f093",
+          "events:arc_why_gangnam_real_father_passed:/description_if_moral/white": "93497a215261a41cd06a42ddffc482cef85c40aa1556afade4e09c7d3110fb12",
+          "events:arc_year_two_pressure:/choices/2/result_text": "86ca4a9558472b4525e8d33fe1e5dd2c362ce5617c2153f787dc5d3590fbf03e",
+          "events:arc_year_two_pressure:/description": "36786d647515a416e3cca9a2e86d1261012f50ca49e6d8dcb9ba4fcf2fa21628",
+          "events:arc_year_two_pressure:/title": "b4d9f2a88806073e351403a32efd822f1ec0e67344627d2ce83416e30b07e8b5"
+        },
+        "zh-CN": {
+          "events:arc_father_passing:/description_if_known/apologized_for_ignoring": "736da5d34dbaa44730bfc156e6882d517b4f56bf34ef0cf60a278082f46fde8a",
+          "events:arc_father_passing:/description_if_known/called_father_on_ktx": "4ab52f147b13369131bc59ef0836f744982200c3f18103ae68dede686bd60237",
+          "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": "52667212dbb958efd702cdc2d0aac69b6f2228c55405e9622163b09392eb0ca3",
+          "events:arc_father_passing:/description_if_known/father_calls_often": "afe67b6de3266a103d5756b95ca497cc9675b43aee3b8c44cf75c64be47ce17e",
+          "events:arc_father_passing:/description_if_known/father_debt_felt": "4ca21aa0bd3c501fd25619a700e450f4e87269389670057ea4d85a93419d2768",
+          "events:arc_father_passing:/description_if_known/father_heard_gangnam_reason": "cf6e5ca320536d30459bb5ec4cc33b8c2600340dfcb0a022f4c93c256b5484fd",
+          "events:arc_father_passing:/description_if_known/father_knew_i_came": "763d107ee0151c649f2b6331f6ca63a1094a83da2381e41f9c21e67aeabb0f58",
+          "events:arc_father_passing:/description_if_moral/white": "8298161f0a880fda8e9e4465df2e7f1203a8e007b8ce526f9db511c770e8e69c",
+          "events:arc_father_passing_hospital_room:/choices/0/result_text": "36fa80a0e4fce6dadee56c81465557adc3f524a17670af012abf293cdb032a20",
+          "events:arc_why_gangnam_real:/choices/2/result_text": "b34f2dd320c4481b97857c16fa9f6d8a7d4931e8a3c31a8d768fdd5ee1c450aa",
+          "events:arc_why_gangnam_real:/description": "aad2229c596d9a300e02553c0cdb70cce86bbe44abf57c977fecb0d52d16a478",
+          "events:arc_why_gangnam_real:/description_if_known/motive_clarified": "2f90583f5d57849e3bbec6913f7fa1d783dff89e500a5ea5084d2bac7b507afb",
+          "events:arc_why_gangnam_real:/description_if_moral/black": "a9f10f70e282f0088fe31293c35fcc752dbe05ec8c83aa8f14a41b3b27935cfc",
+          "events:arc_why_gangnam_real:/description_if_moral/white": "13a74491dae9a44189a863d5ae63821823e44154906a5b5fa521da400783fb04",
+          "events:arc_why_gangnam_real_father_passed:/choices/2/result_text": "b34f2dd320c4481b97857c16fa9f6d8a7d4931e8a3c31a8d768fdd5ee1c450aa",
+          "events:arc_why_gangnam_real_father_passed:/description": "9c14bc597277f3296879e710a13895e36fa5a1665a15f5e93f49332728fbba9b",
+          "events:arc_why_gangnam_real_father_passed:/description_if_known/motive_clarified": "d69c255722ea71263e4a848b318fe37bd2ba6471c097176c5dabc9f46b8abf49",
+          "events:arc_why_gangnam_real_father_passed:/description_if_moral/black": "ef82b4f55211a98678755b8371097e2742cb79b55cf13513e3fdcb258812748f",
+          "events:arc_why_gangnam_real_father_passed:/description_if_moral/white": "459d4cdec7eb1a1f98fddc98bcf973131acd14ee1be460b3484c1aff01e612ec",
+          "events:arc_year_two_pressure:/choices/2/result_text": "18707b7129b6f6a75a4afd86b5384555c5a10998fcc032487c1ce513a2353f85",
+          "events:arc_year_two_pressure:/description": "016ed516e177288f9d8a781dc6ce2081e58e7c82b786def4cb889cdb53c853ae",
+          "events:arc_year_two_pressure:/title": "f4f69024244b0da0a21e8c65ebbac12847f42f626d196890b30088acd5f682a8"
+        },
+        "zh-TW": {
+          "events:arc_father_passing:/description_if_known/apologized_for_ignoring": "1c37b2fdd8cb73580f5dd4a4cfdcd87da1252f5224683440c6d6bd7974af323d",
+          "events:arc_father_passing:/description_if_known/called_father_on_ktx": "440172e22ef128f1dbdf3f3196238429a6d6fa203dc386066c2a1c9524053f8f",
+          "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": "b47b3e5d31f5104357cdb5b6c2b517408f29f4dd8edda67a7ea44bee3635c765",
+          "events:arc_father_passing:/description_if_known/father_calls_often": "be3647afb265bafb0e319f3f4111fee41ee21f1d149898264ca66ace147831e0",
+          "events:arc_father_passing:/description_if_known/father_debt_felt": "089c91fc9532b5ec9f52ba0bab356d17f560e30d242ae176ada765aba892a7a4",
+          "events:arc_father_passing:/description_if_known/father_heard_gangnam_reason": "e8751b2ce8516aaf93d7c1ad0b85ddacb9b3edd355e610c0313c9a4b9759ed42",
+          "events:arc_father_passing:/description_if_known/father_knew_i_came": "95a26de00affd0bdea037d4c37ea8a785b1fed5316b40b114fe6c02baebefcef",
+          "events:arc_father_passing:/description_if_moral/white": "6a675f7ce76392916dbcb3d1189f4e2bcaa29f8129d0bfefefb695c16b9eac22",
+          "events:arc_father_passing_hospital_room:/choices/0/result_text": "a18fb271eebf9196f4d9ee31c61bec8e9db9751ebbf4e17b708d920271fff5ad",
+          "events:arc_why_gangnam_real:/choices/2/result_text": "960e4e0e6cd08c0ef6fa40800e53e93ebbeb1121502bb26cb464c64e215e140a",
+          "events:arc_why_gangnam_real:/description": "f3ca0a0b28ca0854a439eb4e98933ecbabf800e4f32ff1cabf873da33656c78d",
+          "events:arc_why_gangnam_real:/description_if_known/motive_clarified": "bb9f907aca831030640219bd061d0071526b61e3ae8b8a148606a6c53a54b6d2",
+          "events:arc_why_gangnam_real:/description_if_moral/black": "db8742a6d31f47fb09b83ca5198474db28f6be6385445ca9a82f15d5e11b8c4d",
+          "events:arc_why_gangnam_real:/description_if_moral/white": "51b96e3022e5a8442d6c58cc714d3e597dbd5f8552c399a5dc17c0eacdb41690",
+          "events:arc_why_gangnam_real_father_passed:/choices/2/result_text": "960e4e0e6cd08c0ef6fa40800e53e93ebbeb1121502bb26cb464c64e215e140a",
+          "events:arc_why_gangnam_real_father_passed:/description": "687b66aec56cb3012c56d8c30cb487fa4db42396f6f754bf09e57db4db3ea713",
+          "events:arc_why_gangnam_real_father_passed:/description_if_known/motive_clarified": "3f644eb3790e1cd24bc6ba6769d08dc9e8e17a3134035f651279a63a4b8379c1",
+          "events:arc_why_gangnam_real_father_passed:/description_if_moral/black": "7fa82953510e2bd2804fcb17546a271aa4e287a933d3afab7a71f5c7b5122d20",
+          "events:arc_why_gangnam_real_father_passed:/description_if_moral/white": "1345be9a7e8b9c4b52c6f57d407380149be8a7e772c819869f1d94bd7cec935f",
+          "events:arc_year_two_pressure:/choices/2/result_text": "f3cd9bce3f334bd232dc9f5a02309df8eb9e7c9a25b9451fe950ee4026d580dc",
+          "events:arc_year_two_pressure:/description": "b41ad70298459f1648ad3fe2d302fd15d5f34a87f833867a52cf2f17f2ac3470",
+          "events:arc_year_two_pressure:/title": "f4f69024244b0da0a21e8c65ebbac12847f42f626d196890b30088acd5f682a8"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_father_passing:/description_if_known/apologized_for_ignoring": {
+            "source_sha256": "879f7d995d43213ad4f54e34adcbb8d059bff597c1cf1bc44f8137fa30e09997",
+            "target_sha256": "6556638e60dfff3855044c9345cbc21a21c0570343a6838c9474d4b81cd77f2b"
+          },
+          "events:arc_father_passing:/description_if_known/called_father_on_ktx": {
+            "source_sha256": "b044742afa59e53e907212267156d3f7673b42cce7c627cef7fc4390b61f767a",
+            "target_sha256": "1e8a0f07ade7a24f275a46f834484829a41df56a7ae8e44515988f161ad8c8b0"
+          },
+          "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": {
+            "source_sha256": "28c26a18256dcb8403bbf0a793bffe2fd190323a7f82c5eb9d7808959e1b67ff",
+            "target_sha256": "8a7cc661e867058acb0cc6db4874f5036028016e3334860c08c655e53fd1adfe"
+          },
+          "events:arc_father_passing:/description_if_known/father_calls_often": {
+            "source_sha256": "1bb68eaad6e731032a7ad9c80526f2d0407b5db682f578ffcd3c780513744a0c",
+            "target_sha256": "1143b0b88be9498b333d553709a2352ed63fe73e63bf7ffbcecab8c8ba919328"
+          },
+          "events:arc_father_passing:/description_if_known/father_debt_felt": {
+            "source_sha256": "cd62dc194269bc411bab4e18471c4d70f42eaf19f82898992625d3e0f1463d79",
+            "target_sha256": "44fdee1de0af0d3c3679da0f927d81a72ae902dc0a3be570ad3486e9e7185ffc"
+          },
+          "events:arc_father_passing:/description_if_known/father_heard_gangnam_reason": {
+            "source_sha256": "de67a447eb688344acad20a4b6716240506b210c31ab99fc5763054825e8aceb",
+            "target_sha256": "8c523dd071dbd5aa660035f56d8ebbb247bdf5d44b5ebca581193a3a77f32138"
+          },
+          "events:arc_father_passing:/description_if_known/father_knew_i_came": {
+            "source_sha256": "abc175376fe07a9ac3f211e4082399a935fdd9c0711abb32ac990bc9064df0ef",
+            "target_sha256": "e88ecc44078513d022d1e425b0345f7b07d041898e26bf0d087d0fd679da02c4"
+          },
+          "events:arc_father_passing:/description_if_moral/white": {
+            "source_sha256": "00fe6c66140423a39ca04cc3d8d2ae492996c59d1a4c1e61da1811ad7199385b",
+            "target_sha256": "c6acc824449c328ab4f7ff1bc54c7f57ff69494819ed0f68cbff5badc71fbd0a"
+          },
+          "events:arc_father_passing_hospital_room:/choices/0/result_text": {
+            "source_sha256": "b4e85adf752ab2fe3688036b2847c210642b92e0c60948f1cbf377d060f7cea2",
+            "target_sha256": "708ac354a397ae7a4e435087514eaa8ba19327b47192e4ff41a464aaa3ffbc1a"
+          },
+          "events:arc_why_gangnam_real:/choices/2/result_text": {
+            "source_sha256": "1ba9df15fce825a94e643e59f8fb2cfcbd1ede7b068a6d7ef3820178eb6fa3b2",
+            "target_sha256": "c21f89bd7789ff9d3afd1cb036d7d612d8960ac65ac6380f4e5af7a104a28de3"
+          },
+          "events:arc_why_gangnam_real:/description": {
+            "source_sha256": "2dfc7a4c6f664f164b98b61f11c8c2c7f5a0c32787ca32ba998c5a5ae6b99d9a",
+            "target_sha256": "ed4900a0a1b3563107abe03711d270de3fba60d396ccb7079523c8e42bb712cc"
+          },
+          "events:arc_why_gangnam_real:/description_if_known/motive_clarified": {
+            "source_sha256": "cb8c8c2e5767892f504fb042626c9535cf10ec3772f4212041d0d59a64002b08",
+            "target_sha256": "e74b9431cb482a4dbfc715f507c4e36559df781d807bd3ee15a52994bab793a1"
+          },
+          "events:arc_why_gangnam_real:/description_if_moral/black": {
+            "source_sha256": "31342d94f343c42d4c50cc984d2a45e557163cd48ed01df44dad7213f220a2c8",
+            "target_sha256": "b3be8aa518156d4456716c30a7a89f02d817aec57456798f358d7ad7eafcdab3"
+          },
+          "events:arc_why_gangnam_real:/description_if_moral/white": {
+            "source_sha256": "9673d56b8e14eedc2b472d0243bb042e8dc1f741b40263cecbc53b83bc359ffd",
+            "target_sha256": "d2949e5adc94a3aaceb11a5790babf23d8eab4828f1c3c15bfeb806b9eec4b10"
+          },
+          "events:arc_why_gangnam_real_father_passed:/choices/2/result_text": {
+            "source_sha256": "1ba9df15fce825a94e643e59f8fb2cfcbd1ede7b068a6d7ef3820178eb6fa3b2",
+            "target_sha256": "c21f89bd7789ff9d3afd1cb036d7d612d8960ac65ac6380f4e5af7a104a28de3"
+          },
+          "events:arc_why_gangnam_real_father_passed:/description": {
+            "source_sha256": "277f8959e11ad15baade1265f046cc004d5ea46336741506afd50f7d9f6b4d4c",
+            "target_sha256": "db07f1dfae8c3d491485c990d3e29b52c632971ce886bb6149f41bc471896c8d"
+          },
+          "events:arc_why_gangnam_real_father_passed:/description_if_known/motive_clarified": {
+            "source_sha256": "e64bc878cf7152decaa8d95a2da0a8dc34eb58bdc67d5ec95b31e5055b7fee92",
+            "target_sha256": "b4ce3ba41c1e224990bf22056f71a3cdc32e65063857b4e80ff28b4d1b7debd0"
+          },
+          "events:arc_why_gangnam_real_father_passed:/description_if_moral/black": {
+            "source_sha256": "f4e1864a3e3e068695fe39c4caf162564ce8e732fe690995ee5cd32fce7cef9f",
+            "target_sha256": "60b0e80c42df9fed6a685ab13765a1e1cad958b07472ffb4d830ffcee695f093"
+          },
+          "events:arc_why_gangnam_real_father_passed:/description_if_moral/white": {
+            "source_sha256": "f4fb424a9660d457d35edb22840004404ec630d383a66024f5ad98d4199e3648",
+            "target_sha256": "93497a215261a41cd06a42ddffc482cef85c40aa1556afade4e09c7d3110fb12"
+          },
+          "events:arc_year_two_pressure:/choices/2/result_text": {
+            "source_sha256": "d82ea89f45eb69cebf0870e806c834fbd0cf5a8e49fafe4ade80dda5bee3c529",
+            "target_sha256": "86ca4a9558472b4525e8d33fe1e5dd2c362ce5617c2153f787dc5d3590fbf03e"
+          },
+          "events:arc_year_two_pressure:/description": {
+            "source_sha256": "ed355b5b51acb1ea250204da3627860f0a091232f79f9b28ce0b4fd499568910",
+            "target_sha256": "36786d647515a416e3cca9a2e86d1261012f50ca49e6d8dcb9ba4fcf2fa21628"
+          },
+          "events:arc_year_two_pressure:/title": {
+            "source_sha256": "c0f6a0cbc7060cfe030699aaef0dd2e695a68705d1c5d146d0a7fef5dc66fbe8",
+            "target_sha256": "b4d9f2a88806073e351403a32efd822f1ec0e67344627d2ce83416e30b07e8b5"
+          }
+        },
+        "zh-CN": {
+          "events:arc_father_passing:/description_if_known/apologized_for_ignoring": {
+            "source_sha256": "879f7d995d43213ad4f54e34adcbb8d059bff597c1cf1bc44f8137fa30e09997",
+            "target_sha256": "736da5d34dbaa44730bfc156e6882d517b4f56bf34ef0cf60a278082f46fde8a"
+          },
+          "events:arc_father_passing:/description_if_known/called_father_on_ktx": {
+            "source_sha256": "b044742afa59e53e907212267156d3f7673b42cce7c627cef7fc4390b61f767a",
+            "target_sha256": "4ab52f147b13369131bc59ef0836f744982200c3f18103ae68dede686bd60237"
+          },
+          "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": {
+            "source_sha256": "28c26a18256dcb8403bbf0a793bffe2fd190323a7f82c5eb9d7808959e1b67ff",
+            "target_sha256": "52667212dbb958efd702cdc2d0aac69b6f2228c55405e9622163b09392eb0ca3"
+          },
+          "events:arc_father_passing:/description_if_known/father_calls_often": {
+            "source_sha256": "1bb68eaad6e731032a7ad9c80526f2d0407b5db682f578ffcd3c780513744a0c",
+            "target_sha256": "afe67b6de3266a103d5756b95ca497cc9675b43aee3b8c44cf75c64be47ce17e"
+          },
+          "events:arc_father_passing:/description_if_known/father_debt_felt": {
+            "source_sha256": "cd62dc194269bc411bab4e18471c4d70f42eaf19f82898992625d3e0f1463d79",
+            "target_sha256": "4ca21aa0bd3c501fd25619a700e450f4e87269389670057ea4d85a93419d2768"
+          },
+          "events:arc_father_passing:/description_if_known/father_heard_gangnam_reason": {
+            "source_sha256": "de67a447eb688344acad20a4b6716240506b210c31ab99fc5763054825e8aceb",
+            "target_sha256": "cf6e5ca320536d30459bb5ec4cc33b8c2600340dfcb0a022f4c93c256b5484fd"
+          },
+          "events:arc_father_passing:/description_if_known/father_knew_i_came": {
+            "source_sha256": "abc175376fe07a9ac3f211e4082399a935fdd9c0711abb32ac990bc9064df0ef",
+            "target_sha256": "763d107ee0151c649f2b6331f6ca63a1094a83da2381e41f9c21e67aeabb0f58"
+          },
+          "events:arc_father_passing:/description_if_moral/white": {
+            "source_sha256": "00fe6c66140423a39ca04cc3d8d2ae492996c59d1a4c1e61da1811ad7199385b",
+            "target_sha256": "8298161f0a880fda8e9e4465df2e7f1203a8e007b8ce526f9db511c770e8e69c"
+          },
+          "events:arc_father_passing_hospital_room:/choices/0/result_text": {
+            "source_sha256": "b4e85adf752ab2fe3688036b2847c210642b92e0c60948f1cbf377d060f7cea2",
+            "target_sha256": "36fa80a0e4fce6dadee56c81465557adc3f524a17670af012abf293cdb032a20"
+          },
+          "events:arc_why_gangnam_real:/choices/2/result_text": {
+            "source_sha256": "1ba9df15fce825a94e643e59f8fb2cfcbd1ede7b068a6d7ef3820178eb6fa3b2",
+            "target_sha256": "b34f2dd320c4481b97857c16fa9f6d8a7d4931e8a3c31a8d768fdd5ee1c450aa"
+          },
+          "events:arc_why_gangnam_real:/description": {
+            "source_sha256": "2dfc7a4c6f664f164b98b61f11c8c2c7f5a0c32787ca32ba998c5a5ae6b99d9a",
+            "target_sha256": "aad2229c596d9a300e02553c0cdb70cce86bbe44abf57c977fecb0d52d16a478"
+          },
+          "events:arc_why_gangnam_real:/description_if_known/motive_clarified": {
+            "source_sha256": "cb8c8c2e5767892f504fb042626c9535cf10ec3772f4212041d0d59a64002b08",
+            "target_sha256": "2f90583f5d57849e3bbec6913f7fa1d783dff89e500a5ea5084d2bac7b507afb"
+          },
+          "events:arc_why_gangnam_real:/description_if_moral/black": {
+            "source_sha256": "31342d94f343c42d4c50cc984d2a45e557163cd48ed01df44dad7213f220a2c8",
+            "target_sha256": "a9f10f70e282f0088fe31293c35fcc752dbe05ec8c83aa8f14a41b3b27935cfc"
+          },
+          "events:arc_why_gangnam_real:/description_if_moral/white": {
+            "source_sha256": "9673d56b8e14eedc2b472d0243bb042e8dc1f741b40263cecbc53b83bc359ffd",
+            "target_sha256": "13a74491dae9a44189a863d5ae63821823e44154906a5b5fa521da400783fb04"
+          },
+          "events:arc_why_gangnam_real_father_passed:/choices/2/result_text": {
+            "source_sha256": "1ba9df15fce825a94e643e59f8fb2cfcbd1ede7b068a6d7ef3820178eb6fa3b2",
+            "target_sha256": "b34f2dd320c4481b97857c16fa9f6d8a7d4931e8a3c31a8d768fdd5ee1c450aa"
+          },
+          "events:arc_why_gangnam_real_father_passed:/description": {
+            "source_sha256": "277f8959e11ad15baade1265f046cc004d5ea46336741506afd50f7d9f6b4d4c",
+            "target_sha256": "9c14bc597277f3296879e710a13895e36fa5a1665a15f5e93f49332728fbba9b"
+          },
+          "events:arc_why_gangnam_real_father_passed:/description_if_known/motive_clarified": {
+            "source_sha256": "e64bc878cf7152decaa8d95a2da0a8dc34eb58bdc67d5ec95b31e5055b7fee92",
+            "target_sha256": "d69c255722ea71263e4a848b318fe37bd2ba6471c097176c5dabc9f46b8abf49"
+          },
+          "events:arc_why_gangnam_real_father_passed:/description_if_moral/black": {
+            "source_sha256": "f4e1864a3e3e068695fe39c4caf162564ce8e732fe690995ee5cd32fce7cef9f",
+            "target_sha256": "ef82b4f55211a98678755b8371097e2742cb79b55cf13513e3fdcb258812748f"
+          },
+          "events:arc_why_gangnam_real_father_passed:/description_if_moral/white": {
+            "source_sha256": "f4fb424a9660d457d35edb22840004404ec630d383a66024f5ad98d4199e3648",
+            "target_sha256": "459d4cdec7eb1a1f98fddc98bcf973131acd14ee1be460b3484c1aff01e612ec"
+          },
+          "events:arc_year_two_pressure:/choices/2/result_text": {
+            "source_sha256": "d82ea89f45eb69cebf0870e806c834fbd0cf5a8e49fafe4ade80dda5bee3c529",
+            "target_sha256": "18707b7129b6f6a75a4afd86b5384555c5a10998fcc032487c1ce513a2353f85"
+          },
+          "events:arc_year_two_pressure:/description": {
+            "source_sha256": "ed355b5b51acb1ea250204da3627860f0a091232f79f9b28ce0b4fd499568910",
+            "target_sha256": "016ed516e177288f9d8a781dc6ce2081e58e7c82b786def4cb889cdb53c853ae"
+          },
+          "events:arc_year_two_pressure:/title": {
+            "source_sha256": "c0f6a0cbc7060cfe030699aaef0dd2e695a68705d1c5d146d0a7fef5dc66fbe8",
+            "target_sha256": "f4f69024244b0da0a21e8c65ebbac12847f42f626d196890b30088acd5f682a8"
+          }
+        },
+        "zh-TW": {
+          "events:arc_father_passing:/description_if_known/apologized_for_ignoring": {
+            "source_sha256": "879f7d995d43213ad4f54e34adcbb8d059bff597c1cf1bc44f8137fa30e09997",
+            "target_sha256": "1c37b2fdd8cb73580f5dd4a4cfdcd87da1252f5224683440c6d6bd7974af323d"
+          },
+          "events:arc_father_passing:/description_if_known/called_father_on_ktx": {
+            "source_sha256": "b044742afa59e53e907212267156d3f7673b42cce7c627cef7fc4390b61f767a",
+            "target_sha256": "440172e22ef128f1dbdf3f3196238429a6d6fa203dc386066c2a1c9524053f8f"
+          },
+          "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": {
+            "source_sha256": "28c26a18256dcb8403bbf0a793bffe2fd190323a7f82c5eb9d7808959e1b67ff",
+            "target_sha256": "b47b3e5d31f5104357cdb5b6c2b517408f29f4dd8edda67a7ea44bee3635c765"
+          },
+          "events:arc_father_passing:/description_if_known/father_calls_often": {
+            "source_sha256": "1bb68eaad6e731032a7ad9c80526f2d0407b5db682f578ffcd3c780513744a0c",
+            "target_sha256": "be3647afb265bafb0e319f3f4111fee41ee21f1d149898264ca66ace147831e0"
+          },
+          "events:arc_father_passing:/description_if_known/father_debt_felt": {
+            "source_sha256": "cd62dc194269bc411bab4e18471c4d70f42eaf19f82898992625d3e0f1463d79",
+            "target_sha256": "089c91fc9532b5ec9f52ba0bab356d17f560e30d242ae176ada765aba892a7a4"
+          },
+          "events:arc_father_passing:/description_if_known/father_heard_gangnam_reason": {
+            "source_sha256": "de67a447eb688344acad20a4b6716240506b210c31ab99fc5763054825e8aceb",
+            "target_sha256": "e8751b2ce8516aaf93d7c1ad0b85ddacb9b3edd355e610c0313c9a4b9759ed42"
+          },
+          "events:arc_father_passing:/description_if_known/father_knew_i_came": {
+            "source_sha256": "abc175376fe07a9ac3f211e4082399a935fdd9c0711abb32ac990bc9064df0ef",
+            "target_sha256": "95a26de00affd0bdea037d4c37ea8a785b1fed5316b40b114fe6c02baebefcef"
+          },
+          "events:arc_father_passing:/description_if_moral/white": {
+            "source_sha256": "00fe6c66140423a39ca04cc3d8d2ae492996c59d1a4c1e61da1811ad7199385b",
+            "target_sha256": "6a675f7ce76392916dbcb3d1189f4e2bcaa29f8129d0bfefefb695c16b9eac22"
+          },
+          "events:arc_father_passing_hospital_room:/choices/0/result_text": {
+            "source_sha256": "b4e85adf752ab2fe3688036b2847c210642b92e0c60948f1cbf377d060f7cea2",
+            "target_sha256": "a18fb271eebf9196f4d9ee31c61bec8e9db9751ebbf4e17b708d920271fff5ad"
+          },
+          "events:arc_why_gangnam_real:/choices/2/result_text": {
+            "source_sha256": "1ba9df15fce825a94e643e59f8fb2cfcbd1ede7b068a6d7ef3820178eb6fa3b2",
+            "target_sha256": "960e4e0e6cd08c0ef6fa40800e53e93ebbeb1121502bb26cb464c64e215e140a"
+          },
+          "events:arc_why_gangnam_real:/description": {
+            "source_sha256": "2dfc7a4c6f664f164b98b61f11c8c2c7f5a0c32787ca32ba998c5a5ae6b99d9a",
+            "target_sha256": "f3ca0a0b28ca0854a439eb4e98933ecbabf800e4f32ff1cabf873da33656c78d"
+          },
+          "events:arc_why_gangnam_real:/description_if_known/motive_clarified": {
+            "source_sha256": "cb8c8c2e5767892f504fb042626c9535cf10ec3772f4212041d0d59a64002b08",
+            "target_sha256": "bb9f907aca831030640219bd061d0071526b61e3ae8b8a148606a6c53a54b6d2"
+          },
+          "events:arc_why_gangnam_real:/description_if_moral/black": {
+            "source_sha256": "31342d94f343c42d4c50cc984d2a45e557163cd48ed01df44dad7213f220a2c8",
+            "target_sha256": "db8742a6d31f47fb09b83ca5198474db28f6be6385445ca9a82f15d5e11b8c4d"
+          },
+          "events:arc_why_gangnam_real:/description_if_moral/white": {
+            "source_sha256": "9673d56b8e14eedc2b472d0243bb042e8dc1f741b40263cecbc53b83bc359ffd",
+            "target_sha256": "51b96e3022e5a8442d6c58cc714d3e597dbd5f8552c399a5dc17c0eacdb41690"
+          },
+          "events:arc_why_gangnam_real_father_passed:/choices/2/result_text": {
+            "source_sha256": "1ba9df15fce825a94e643e59f8fb2cfcbd1ede7b068a6d7ef3820178eb6fa3b2",
+            "target_sha256": "960e4e0e6cd08c0ef6fa40800e53e93ebbeb1121502bb26cb464c64e215e140a"
+          },
+          "events:arc_why_gangnam_real_father_passed:/description": {
+            "source_sha256": "277f8959e11ad15baade1265f046cc004d5ea46336741506afd50f7d9f6b4d4c",
+            "target_sha256": "687b66aec56cb3012c56d8c30cb487fa4db42396f6f754bf09e57db4db3ea713"
+          },
+          "events:arc_why_gangnam_real_father_passed:/description_if_known/motive_clarified": {
+            "source_sha256": "e64bc878cf7152decaa8d95a2da0a8dc34eb58bdc67d5ec95b31e5055b7fee92",
+            "target_sha256": "3f644eb3790e1cd24bc6ba6769d08dc9e8e17a3134035f651279a63a4b8379c1"
+          },
+          "events:arc_why_gangnam_real_father_passed:/description_if_moral/black": {
+            "source_sha256": "f4e1864a3e3e068695fe39c4caf162564ce8e732fe690995ee5cd32fce7cef9f",
+            "target_sha256": "7fa82953510e2bd2804fcb17546a271aa4e287a933d3afab7a71f5c7b5122d20"
+          },
+          "events:arc_why_gangnam_real_father_passed:/description_if_moral/white": {
+            "source_sha256": "f4fb424a9660d457d35edb22840004404ec630d383a66024f5ad98d4199e3648",
+            "target_sha256": "1345be9a7e8b9c4b52c6f57d407380149be8a7e772c819869f1d94bd7cec935f"
+          },
+          "events:arc_year_two_pressure:/choices/2/result_text": {
+            "source_sha256": "d82ea89f45eb69cebf0870e806c834fbd0cf5a8e49fafe4ade80dda5bee3c529",
+            "target_sha256": "f3cd9bce3f334bd232dc9f5a02309df8eb9e7c9a25b9451fe950ee4026d580dc"
+          },
+          "events:arc_year_two_pressure:/description": {
+            "source_sha256": "ed355b5b51acb1ea250204da3627860f0a091232f79f9b28ce0b4fd499568910",
+            "target_sha256": "b41ad70298459f1648ad3fe2d302fd15d5f34a87f833867a52cf2f17f2ac3470"
+          },
+          "events:arc_year_two_pressure:/title": {
+            "source_sha256": "c0f6a0cbc7060cfe030699aaef0dd2e695a68705d1c5d146d0a7fef5dc66fbe8",
+            "target_sha256": "f4f69024244b0da0a21e8c65ebbac12847f42f626d196890b30088acd5f682a8"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -27724,40 +28143,40 @@
         "target_sha256": "57a0e2dc28a13cb32e836ae5b8b3c7322c4c48975682400f7b5a1a88cbe333cf"
       },
       "events:arc_father_passing:/description_if_known/apologized_for_ignoring": {
-        "source_sha256": "879f7d995d43213ad4f54e34adcbb8d059bff597c1cf1bc44f8137fa30e09997",
-        "target_sha256": "6556638e60dfff3855044c9345cbc21a21c0570343a6838c9474d4b81cd77f2b"
+        "source_sha256": "d21fc14b26c29cb52e63e23c5954c0fdc1b27852e4bd7ed8b130c019a21e3b10",
+        "target_sha256": "1e9b15d846f718063901c87204545bd57534727195459041d09cc87c9b02804f"
       },
       "events:arc_father_passing:/description_if_known/called_father_on_ktx": {
-        "source_sha256": "b044742afa59e53e907212267156d3f7673b42cce7c627cef7fc4390b61f767a",
-        "target_sha256": "1e8a0f07ade7a24f275a46f834484829a41df56a7ae8e44515988f161ad8c8b0"
+        "source_sha256": "bd2e60b3fcbcea8043d9b32ca5212e6a4b7133934a2e9e162d8691f50124da4b",
+        "target_sha256": "0cfc49a17624f7527056b7cce0c238f4ce1e3f95e1223effc10b02590c78e174"
       },
       "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": {
-        "source_sha256": "28c26a18256dcb8403bbf0a793bffe2fd190323a7f82c5eb9d7808959e1b67ff",
-        "target_sha256": "8a7cc661e867058acb0cc6db4874f5036028016e3334860c08c655e53fd1adfe"
+        "source_sha256": "441c08a698cab8411259b0b892f78084aec46a9a08ab3b59ea15dfd042f2a596",
+        "target_sha256": "911fca841a21bc5d0f11ac234af3a9790881adfd7cfb4c730873490874e47640"
       },
       "events:arc_father_passing:/description_if_known/father_calls_often": {
-        "source_sha256": "1bb68eaad6e731032a7ad9c80526f2d0407b5db682f578ffcd3c780513744a0c",
-        "target_sha256": "1143b0b88be9498b333d553709a2352ed63fe73e63bf7ffbcecab8c8ba919328"
+        "source_sha256": "0e4e9755b9c14ee8675ebd76e778e7ed75c975dc1a84ac70eefeb3d3bfe4dece",
+        "target_sha256": "dff6ea1feac39a8837ad05edb0d46591ab159e137c16b05d26790be72b34aadd"
       },
       "events:arc_father_passing:/description_if_known/father_debt_felt": {
-        "source_sha256": "cd62dc194269bc411bab4e18471c4d70f42eaf19f82898992625d3e0f1463d79",
-        "target_sha256": "44fdee1de0af0d3c3679da0f927d81a72ae902dc0a3be570ad3486e9e7185ffc"
+        "source_sha256": "e90c63317e2f878c689cd7e36914e499c9e6cb018c4bb3362b942253e2027a25",
+        "target_sha256": "988c800139ef92db39ff9129d47a600ac359401e8a6b2b95b8b0e74d118ede27"
       },
       "events:arc_father_passing:/description_if_known/father_heard_gangnam_reason": {
-        "source_sha256": "de67a447eb688344acad20a4b6716240506b210c31ab99fc5763054825e8aceb",
-        "target_sha256": "8c523dd071dbd5aa660035f56d8ebbb247bdf5d44b5ebca581193a3a77f32138"
+        "source_sha256": "dbb5be0eeeb2e0474c8c654b59a04dc710cd5e3365b0097430d803132e8a3189",
+        "target_sha256": "ed3eaa9d442a5d58bb7bfeed225971c49643013b858f79510477e445b401d77d"
       },
       "events:arc_father_passing:/description_if_known/father_knew_i_came": {
-        "source_sha256": "abc175376fe07a9ac3f211e4082399a935fdd9c0711abb32ac990bc9064df0ef",
-        "target_sha256": "e88ecc44078513d022d1e425b0345f7b07d041898e26bf0d087d0fd679da02c4"
+        "source_sha256": "86093baacf1a094beca2d5ba89554b143e076eb97adf810b7783f4295b29e6ef",
+        "target_sha256": "fa63e87eb001968b442da4ef5ee9ef6404b7ed0a536c0c931a18821eee905194"
       },
       "events:arc_father_passing:/description_if_moral/black": {
         "source_sha256": "b277829ccc206f0b07b76880852141b0577eb24efd0249ba97075c51bd4aa31a",
         "target_sha256": "821dd2c8c86a04c5a9da03ce501ba4f2dfb0bc63b82c1ea3f2eab77007de8246"
       },
       "events:arc_father_passing:/description_if_moral/white": {
-        "source_sha256": "00fe6c66140423a39ca04cc3d8d2ae492996c59d1a4c1e61da1811ad7199385b",
-        "target_sha256": "c6acc824449c328ab4f7ff1bc54c7f57ff69494819ed0f68cbff5badc71fbd0a"
+        "source_sha256": "39efa4f6dce73060c9bfcf67f21e95572b01682a4dacd5bd30e2087a22b2a07a",
+        "target_sha256": "f50e47206fad6592b24a5600e650bc7edd1bccbf082dda61b3faf26cfd852c04"
       },
       "events:arc_father_passing:/title": {
         "source_sha256": "906736ff91d9982f748f7f864b25483fd351c56e1134c10467e3b7f45982b42c",
@@ -27820,8 +28239,8 @@
         "target_sha256": "3dda1bc2d0d6d57d2c1ed247b82e9808995be489d625840a93df54d519c122cb"
       },
       "events:arc_father_passing_hospital_room:/choices/0/result_text": {
-        "source_sha256": "b4e85adf752ab2fe3688036b2847c210642b92e0c60948f1cbf377d060f7cea2",
-        "target_sha256": "708ac354a397ae7a4e435087514eaa8ba19327b47192e4ff41a464aaa3ffbc1a"
+        "source_sha256": "9c8da56b2a97a20a63fab65fa787611a706292f47d74d627d70491c012fd3d45",
+        "target_sha256": "071d19d7f83bc3e5dd80aa0a87a61e1032f698204fcf2cf2d21f5f79982e5219"
       },
       "events:arc_father_passing_hospital_room:/choices/0/text": {
         "source_sha256": "b75ce786fe93baba1423b7f5f69ea521f7cc949d296cb1e272754befb602d53f",
@@ -64440,8 +64859,8 @@
         "target_sha256": "6fe75cdce156e72a4845c6d03c3ca7668eff79d9063275866a70a53aad5f662c"
       },
       "events:arc_why_gangnam_real:/choices/2/result_text": {
-        "source_sha256": "1ba9df15fce825a94e643e59f8fb2cfcbd1ede7b068a6d7ef3820178eb6fa3b2",
-        "target_sha256": "c21f89bd7789ff9d3afd1cb036d7d612d8960ac65ac6380f4e5af7a104a28de3"
+        "source_sha256": "c423b3a58f49d59f06ef70772410ccb4265e4bc133b9dfbad9ff24652f64ea53",
+        "target_sha256": "6d7d435e57fcdde4da8a761f32aeb28113295036ed163fe9995011117b00eefd"
       },
       "events:arc_why_gangnam_real:/choices/2/text": {
         "source_sha256": "fdf25f51b5186c6a145566312b69baf34b82d6a79d20b081ac7e43b5b6ee8960",
@@ -64456,20 +64875,20 @@
         "target_sha256": "a87fe64ef7ccdd87064198d2246a40a00c581be6db1456f5e43927d6b20d4786"
       },
       "events:arc_why_gangnam_real:/description": {
-        "source_sha256": "2dfc7a4c6f664f164b98b61f11c8c2c7f5a0c32787ca32ba998c5a5ae6b99d9a",
-        "target_sha256": "ed4900a0a1b3563107abe03711d270de3fba60d396ccb7079523c8e42bb712cc"
+        "source_sha256": "c79120d36453ba5ef1e5ae53759fc88690f92b3609e9c1b4abe9fa35ff8d9448",
+        "target_sha256": "016f8442c57a9f1113be079d7d9db6ab46eb2e2984c1ee5c219ac5c6bbed29d6"
       },
       "events:arc_why_gangnam_real:/description_if_known/motive_clarified": {
-        "source_sha256": "cb8c8c2e5767892f504fb042626c9535cf10ec3772f4212041d0d59a64002b08",
-        "target_sha256": "e74b9431cb482a4dbfc715f507c4e36559df781d807bd3ee15a52994bab793a1"
+        "source_sha256": "0f9cdf9f8dead86268d67ecb6b0995b533d5c1910712434ed40162720d01b105",
+        "target_sha256": "56831c4e02793d5a3eb4eece52fef0473cee6ec1d46a57c826aa1e7b76ef590c"
       },
       "events:arc_why_gangnam_real:/description_if_moral/black": {
-        "source_sha256": "31342d94f343c42d4c50cc984d2a45e557163cd48ed01df44dad7213f220a2c8",
-        "target_sha256": "b3be8aa518156d4456716c30a7a89f02d817aec57456798f358d7ad7eafcdab3"
+        "source_sha256": "4d2513324d5d65ac8ea5131771ee2ffb5c02e41047d177b0078afffbf22286db",
+        "target_sha256": "2b02d26612083614aadebb3affd38333cd1f328c4c39065c2d26895ed7dc378c"
       },
       "events:arc_why_gangnam_real:/description_if_moral/white": {
-        "source_sha256": "9673d56b8e14eedc2b472d0243bb042e8dc1f741b40263cecbc53b83bc359ffd",
-        "target_sha256": "d2949e5adc94a3aaceb11a5790babf23d8eab4828f1c3c15bfeb806b9eec4b10"
+        "source_sha256": "69cfdaa7672657c6cfadefec6ed6c2528f0b0e8a057e88424caa63707940f5e4",
+        "target_sha256": "cf5a254bc55d8dd6ca0396a3aedf716fb47aeb28ba3bda3fcd6731f97c19b002"
       },
       "events:arc_why_gangnam_real:/title": {
         "source_sha256": "90dee06ea9584fb826a6328642cbe5eb8b7cd3aa78e6a2977c7393d1f529533a",
@@ -64508,8 +64927,8 @@
         "target_sha256": "ed6b495fb68950ad2b0b52c7c62dbd80f54458f3202ee42ffe14906965a563b2"
       },
       "events:arc_why_gangnam_real_father_passed:/choices/2/result_text": {
-        "source_sha256": "1ba9df15fce825a94e643e59f8fb2cfcbd1ede7b068a6d7ef3820178eb6fa3b2",
-        "target_sha256": "c21f89bd7789ff9d3afd1cb036d7d612d8960ac65ac6380f4e5af7a104a28de3"
+        "source_sha256": "c423b3a58f49d59f06ef70772410ccb4265e4bc133b9dfbad9ff24652f64ea53",
+        "target_sha256": "6d7d435e57fcdde4da8a761f32aeb28113295036ed163fe9995011117b00eefd"
       },
       "events:arc_why_gangnam_real_father_passed:/choices/2/text": {
         "source_sha256": "fdf25f51b5186c6a145566312b69baf34b82d6a79d20b081ac7e43b5b6ee8960",
@@ -64524,20 +64943,20 @@
         "target_sha256": "a87fe64ef7ccdd87064198d2246a40a00c581be6db1456f5e43927d6b20d4786"
       },
       "events:arc_why_gangnam_real_father_passed:/description": {
-        "source_sha256": "277f8959e11ad15baade1265f046cc004d5ea46336741506afd50f7d9f6b4d4c",
-        "target_sha256": "db07f1dfae8c3d491485c990d3e29b52c632971ce886bb6149f41bc471896c8d"
+        "source_sha256": "d4d4c41ca1f7fc01987e82b9a6a4b693c108247ad5b2e2f82497bb935b2f7e38",
+        "target_sha256": "c0ec169c8d391ef5726413ecdaae3a7e7b018672f2fe8aa58dd520fd05146db0"
       },
       "events:arc_why_gangnam_real_father_passed:/description_if_known/motive_clarified": {
-        "source_sha256": "e64bc878cf7152decaa8d95a2da0a8dc34eb58bdc67d5ec95b31e5055b7fee92",
-        "target_sha256": "b4ce3ba41c1e224990bf22056f71a3cdc32e65063857b4e80ff28b4d1b7debd0"
+        "source_sha256": "02f3463207fb9356317063fa9380611ade6b0aa94c6e4995f1f4aece91d59871",
+        "target_sha256": "975f14e6b7c74bb965476633379e02ff832eae62e0361b3a2b2b3f07445786f0"
       },
       "events:arc_why_gangnam_real_father_passed:/description_if_moral/black": {
-        "source_sha256": "f4e1864a3e3e068695fe39c4caf162564ce8e732fe690995ee5cd32fce7cef9f",
-        "target_sha256": "60b0e80c42df9fed6a685ab13765a1e1cad958b07472ffb4d830ffcee695f093"
+        "source_sha256": "6307219ec3c0083c8c448372a9b53705460cd55a95fad1dee3d11c01ce2ad2b1",
+        "target_sha256": "8a4974a9b01f1af3d425dcf29f0b8f33677fc47ef190cd8f7a3f757254787918"
       },
       "events:arc_why_gangnam_real_father_passed:/description_if_moral/white": {
-        "source_sha256": "f4fb424a9660d457d35edb22840004404ec630d383a66024f5ad98d4199e3648",
-        "target_sha256": "93497a215261a41cd06a42ddffc482cef85c40aa1556afade4e09c7d3110fb12"
+        "source_sha256": "0f24011594bfa3cad940b74eda0030bd1552b2d8e7fced1755fad6222dd443f2",
+        "target_sha256": "1ea17c47b698b35508a96f0acc134b667c26bf8f89459cbd2b2072b22ef6ff4e"
       },
       "events:arc_why_gangnam_real_father_passed:/title": {
         "source_sha256": "90dee06ea9584fb826a6328642cbe5eb8b7cd3aa78e6a2977c7393d1f529533a",
@@ -68120,20 +68539,20 @@
         "target_sha256": "d13ff46b3f0c080c328d3785bb25ddc7782e0e9db405ebf013feb3823ff7afc2"
       },
       "events:arc_year_two_pressure:/choices/2/result_text": {
-        "source_sha256": "d82ea89f45eb69cebf0870e806c834fbd0cf5a8e49fafe4ade80dda5bee3c529",
-        "target_sha256": "86ca4a9558472b4525e8d33fe1e5dd2c362ce5617c2153f787dc5d3590fbf03e"
+        "source_sha256": "ee04b28e8d236a5b8c5b71965ee06880c66d19dc4d54e797591a0452b8bdccd2",
+        "target_sha256": "0dc19a792ac776d3c38e7e6c315441546cd8b63b922bbd624b03fd2cd8ab3019"
       },
       "events:arc_year_two_pressure:/choices/2/text": {
         "source_sha256": "acc22e0534a102beb08fc8f8440ae5492efa5913c1e760fa2cd2506f94af9b6e",
         "target_sha256": "1d9f0fb46e2ece5e40392f41b6bfe01fbfa8ee17fbcec43b891528ab5a82d8a3"
       },
       "events:arc_year_two_pressure:/description": {
-        "source_sha256": "ed355b5b51acb1ea250204da3627860f0a091232f79f9b28ce0b4fd499568910",
-        "target_sha256": "36786d647515a416e3cca9a2e86d1261012f50ca49e6d8dcb9ba4fcf2fa21628"
+        "source_sha256": "ecd0454f4702f7ce446e0b9d34e4edf957edf4438e29ddcf4ab9b803e9d9d28d",
+        "target_sha256": "228f168dfde591b318be615e7de1562642be3a8624c79928291a056a3ebc47d2"
       },
       "events:arc_year_two_pressure:/title": {
-        "source_sha256": "c0f6a0cbc7060cfe030699aaef0dd2e695a68705d1c5d146d0a7fef5dc66fbe8",
-        "target_sha256": "b4d9f2a88806073e351403a32efd822f1ec0e67344627d2ce83416e30b07e8b5"
+        "source_sha256": "22358dbd5c54d7af7a69e52a478c8a25d938ababc9ce469b66233d6d85b56f36",
+        "target_sha256": "42291002682f96922dfad4f8606f47c526c171a0bcade83968d988ad1f92a588"
       },
       "events:arc_35_alone:/choices/0/result_text": {
         "source_sha256": "751ab63314b3cd02f2463b09ee7be42346e5fbfe4c70faf7025420d4517ff473",
@@ -80426,40 +80845,40 @@
         "target_sha256": "47fa2d943e466c625adaf60d2b22e97c23d8c5e443ace14c6ddb054759dda554"
       },
       "events:arc_father_passing:/description_if_known/apologized_for_ignoring": {
-        "source_sha256": "879f7d995d43213ad4f54e34adcbb8d059bff597c1cf1bc44f8137fa30e09997",
-        "target_sha256": "736da5d34dbaa44730bfc156e6882d517b4f56bf34ef0cf60a278082f46fde8a"
+        "source_sha256": "d21fc14b26c29cb52e63e23c5954c0fdc1b27852e4bd7ed8b130c019a21e3b10",
+        "target_sha256": "4aed6151b429e622311696064b2502ad38953903c27c9388b6a646a4c1d7926f"
       },
       "events:arc_father_passing:/description_if_known/called_father_on_ktx": {
-        "source_sha256": "b044742afa59e53e907212267156d3f7673b42cce7c627cef7fc4390b61f767a",
-        "target_sha256": "4ab52f147b13369131bc59ef0836f744982200c3f18103ae68dede686bd60237"
+        "source_sha256": "bd2e60b3fcbcea8043d9b32ca5212e6a4b7133934a2e9e162d8691f50124da4b",
+        "target_sha256": "0e98fd3509605b7e599f00b47c33c787290a01513c545ed44bafb04f4472d0d2"
       },
       "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": {
-        "source_sha256": "28c26a18256dcb8403bbf0a793bffe2fd190323a7f82c5eb9d7808959e1b67ff",
-        "target_sha256": "52667212dbb958efd702cdc2d0aac69b6f2228c55405e9622163b09392eb0ca3"
+        "source_sha256": "441c08a698cab8411259b0b892f78084aec46a9a08ab3b59ea15dfd042f2a596",
+        "target_sha256": "21a76c7174a34430abbcbabf3bf7910979632c6f86b400d1114528456cec31be"
       },
       "events:arc_father_passing:/description_if_known/father_calls_often": {
-        "source_sha256": "1bb68eaad6e731032a7ad9c80526f2d0407b5db682f578ffcd3c780513744a0c",
-        "target_sha256": "afe67b6de3266a103d5756b95ca497cc9675b43aee3b8c44cf75c64be47ce17e"
+        "source_sha256": "0e4e9755b9c14ee8675ebd76e778e7ed75c975dc1a84ac70eefeb3d3bfe4dece",
+        "target_sha256": "e16d2e0b0246c9a464a0740b0747c8f701c5b27f79fecb21e596a5e030873cc6"
       },
       "events:arc_father_passing:/description_if_known/father_debt_felt": {
-        "source_sha256": "cd62dc194269bc411bab4e18471c4d70f42eaf19f82898992625d3e0f1463d79",
-        "target_sha256": "4ca21aa0bd3c501fd25619a700e450f4e87269389670057ea4d85a93419d2768"
+        "source_sha256": "e90c63317e2f878c689cd7e36914e499c9e6cb018c4bb3362b942253e2027a25",
+        "target_sha256": "a4168b113c5c362abfba77ad74ac733bebc6fefc952f1e563e6d15b7cc1da688"
       },
       "events:arc_father_passing:/description_if_known/father_heard_gangnam_reason": {
-        "source_sha256": "de67a447eb688344acad20a4b6716240506b210c31ab99fc5763054825e8aceb",
-        "target_sha256": "cf6e5ca320536d30459bb5ec4cc33b8c2600340dfcb0a022f4c93c256b5484fd"
+        "source_sha256": "dbb5be0eeeb2e0474c8c654b59a04dc710cd5e3365b0097430d803132e8a3189",
+        "target_sha256": "b31ddb9dcbadaf86bc6ab10657c3aae2479617e310e9b570f7709db614ba0474"
       },
       "events:arc_father_passing:/description_if_known/father_knew_i_came": {
-        "source_sha256": "abc175376fe07a9ac3f211e4082399a935fdd9c0711abb32ac990bc9064df0ef",
-        "target_sha256": "763d107ee0151c649f2b6331f6ca63a1094a83da2381e41f9c21e67aeabb0f58"
+        "source_sha256": "86093baacf1a094beca2d5ba89554b143e076eb97adf810b7783f4295b29e6ef",
+        "target_sha256": "bb479737d4437c3a3c05d00e2b9a4f68adbd63979c6667c1f0b9ab85e1d2aace"
       },
       "events:arc_father_passing:/description_if_moral/black": {
         "source_sha256": "b277829ccc206f0b07b76880852141b0577eb24efd0249ba97075c51bd4aa31a",
         "target_sha256": "623bd4df080e63084302593d728b8314e82792f8e43780e218ba76bb86e9d490"
       },
       "events:arc_father_passing:/description_if_moral/white": {
-        "source_sha256": "00fe6c66140423a39ca04cc3d8d2ae492996c59d1a4c1e61da1811ad7199385b",
-        "target_sha256": "8298161f0a880fda8e9e4465df2e7f1203a8e007b8ce526f9db511c770e8e69c"
+        "source_sha256": "39efa4f6dce73060c9bfcf67f21e95572b01682a4dacd5bd30e2087a22b2a07a",
+        "target_sha256": "0b98589e12554096d488a3fa3a11edeaf99dab39ea65d7bc443b9e7daa877ef0"
       },
       "events:arc_father_passing:/title": {
         "source_sha256": "906736ff91d9982f748f7f864b25483fd351c56e1134c10467e3b7f45982b42c",
@@ -80522,8 +80941,8 @@
         "target_sha256": "d3083f642c0179bc1e07cbe5d71365eba0cc4257e826d13b4189d0ba953a0df7"
       },
       "events:arc_father_passing_hospital_room:/choices/0/result_text": {
-        "source_sha256": "b4e85adf752ab2fe3688036b2847c210642b92e0c60948f1cbf377d060f7cea2",
-        "target_sha256": "36fa80a0e4fce6dadee56c81465557adc3f524a17670af012abf293cdb032a20"
+        "source_sha256": "9c8da56b2a97a20a63fab65fa787611a706292f47d74d627d70491c012fd3d45",
+        "target_sha256": "7d0c9664e5b4ac31b7386ed940478f5b4201e528781f8ec8644e00c61ff165ab"
       },
       "events:arc_father_passing_hospital_room:/choices/0/text": {
         "source_sha256": "b75ce786fe93baba1423b7f5f69ea521f7cc949d296cb1e272754befb602d53f",
@@ -117142,8 +117561,8 @@
         "target_sha256": "66cb863a5283ca1758a493c5028c3a2ce3005d485e6f4c584804df1227395bca"
       },
       "events:arc_why_gangnam_real:/choices/2/result_text": {
-        "source_sha256": "1ba9df15fce825a94e643e59f8fb2cfcbd1ede7b068a6d7ef3820178eb6fa3b2",
-        "target_sha256": "b34f2dd320c4481b97857c16fa9f6d8a7d4931e8a3c31a8d768fdd5ee1c450aa"
+        "source_sha256": "c423b3a58f49d59f06ef70772410ccb4265e4bc133b9dfbad9ff24652f64ea53",
+        "target_sha256": "b2bec8cb527b61d92101b01a4a212e39eca8b9e41558b6ebace6f67103da7e3c"
       },
       "events:arc_why_gangnam_real:/choices/2/text": {
         "source_sha256": "fdf25f51b5186c6a145566312b69baf34b82d6a79d20b081ac7e43b5b6ee8960",
@@ -117158,20 +117577,20 @@
         "target_sha256": "a3565193035a8713290d5fa00e748b77d49ffca18070c3eeb93e02b8786643cd"
       },
       "events:arc_why_gangnam_real:/description": {
-        "source_sha256": "2dfc7a4c6f664f164b98b61f11c8c2c7f5a0c32787ca32ba998c5a5ae6b99d9a",
-        "target_sha256": "aad2229c596d9a300e02553c0cdb70cce86bbe44abf57c977fecb0d52d16a478"
+        "source_sha256": "c79120d36453ba5ef1e5ae53759fc88690f92b3609e9c1b4abe9fa35ff8d9448",
+        "target_sha256": "069baa64e0c8c7d545cead803c50e4d9b678825d3873372a45f93b26527982ca"
       },
       "events:arc_why_gangnam_real:/description_if_known/motive_clarified": {
-        "source_sha256": "cb8c8c2e5767892f504fb042626c9535cf10ec3772f4212041d0d59a64002b08",
-        "target_sha256": "2f90583f5d57849e3bbec6913f7fa1d783dff89e500a5ea5084d2bac7b507afb"
+        "source_sha256": "0f9cdf9f8dead86268d67ecb6b0995b533d5c1910712434ed40162720d01b105",
+        "target_sha256": "38a03ff76a410e645089f2bd36c0a4b39e60bc87061f889f64fa160f9edfdd06"
       },
       "events:arc_why_gangnam_real:/description_if_moral/black": {
-        "source_sha256": "31342d94f343c42d4c50cc984d2a45e557163cd48ed01df44dad7213f220a2c8",
-        "target_sha256": "a9f10f70e282f0088fe31293c35fcc752dbe05ec8c83aa8f14a41b3b27935cfc"
+        "source_sha256": "4d2513324d5d65ac8ea5131771ee2ffb5c02e41047d177b0078afffbf22286db",
+        "target_sha256": "1f2c2737e02cb09a509a9bc05e7526e9b71fce020e465d71465c252924908348"
       },
       "events:arc_why_gangnam_real:/description_if_moral/white": {
-        "source_sha256": "9673d56b8e14eedc2b472d0243bb042e8dc1f741b40263cecbc53b83bc359ffd",
-        "target_sha256": "13a74491dae9a44189a863d5ae63821823e44154906a5b5fa521da400783fb04"
+        "source_sha256": "69cfdaa7672657c6cfadefec6ed6c2528f0b0e8a057e88424caa63707940f5e4",
+        "target_sha256": "6cd2fcad029edfe0873ed6a8c3130cc07d35d6025d47e2cea0698192eca62656"
       },
       "events:arc_why_gangnam_real:/title": {
         "source_sha256": "90dee06ea9584fb826a6328642cbe5eb8b7cd3aa78e6a2977c7393d1f529533a",
@@ -117210,8 +117629,8 @@
         "target_sha256": "6c4b6b0dc233828efe35d1bcef4c351fa0624813a55cf65ec639c361414d1e56"
       },
       "events:arc_why_gangnam_real_father_passed:/choices/2/result_text": {
-        "source_sha256": "1ba9df15fce825a94e643e59f8fb2cfcbd1ede7b068a6d7ef3820178eb6fa3b2",
-        "target_sha256": "b34f2dd320c4481b97857c16fa9f6d8a7d4931e8a3c31a8d768fdd5ee1c450aa"
+        "source_sha256": "c423b3a58f49d59f06ef70772410ccb4265e4bc133b9dfbad9ff24652f64ea53",
+        "target_sha256": "b2bec8cb527b61d92101b01a4a212e39eca8b9e41558b6ebace6f67103da7e3c"
       },
       "events:arc_why_gangnam_real_father_passed:/choices/2/text": {
         "source_sha256": "fdf25f51b5186c6a145566312b69baf34b82d6a79d20b081ac7e43b5b6ee8960",
@@ -117226,20 +117645,20 @@
         "target_sha256": "a3565193035a8713290d5fa00e748b77d49ffca18070c3eeb93e02b8786643cd"
       },
       "events:arc_why_gangnam_real_father_passed:/description": {
-        "source_sha256": "277f8959e11ad15baade1265f046cc004d5ea46336741506afd50f7d9f6b4d4c",
-        "target_sha256": "9c14bc597277f3296879e710a13895e36fa5a1665a15f5e93f49332728fbba9b"
+        "source_sha256": "d4d4c41ca1f7fc01987e82b9a6a4b693c108247ad5b2e2f82497bb935b2f7e38",
+        "target_sha256": "ccb5069a9375a62ebff9e6eb67c778a9c4eafe779000fd40426d334a73c5f9ae"
       },
       "events:arc_why_gangnam_real_father_passed:/description_if_known/motive_clarified": {
-        "source_sha256": "e64bc878cf7152decaa8d95a2da0a8dc34eb58bdc67d5ec95b31e5055b7fee92",
-        "target_sha256": "d69c255722ea71263e4a848b318fe37bd2ba6471c097176c5dabc9f46b8abf49"
+        "source_sha256": "02f3463207fb9356317063fa9380611ade6b0aa94c6e4995f1f4aece91d59871",
+        "target_sha256": "c01f3a56f88eec29bc13611b498c02e78fb258371a537330ebe3e49663704d57"
       },
       "events:arc_why_gangnam_real_father_passed:/description_if_moral/black": {
-        "source_sha256": "f4e1864a3e3e068695fe39c4caf162564ce8e732fe690995ee5cd32fce7cef9f",
-        "target_sha256": "ef82b4f55211a98678755b8371097e2742cb79b55cf13513e3fdcb258812748f"
+        "source_sha256": "6307219ec3c0083c8c448372a9b53705460cd55a95fad1dee3d11c01ce2ad2b1",
+        "target_sha256": "5c9d31c59d154463770a2320a22739cf06e327bd860a6b38dd5ca14ef5beb9f4"
       },
       "events:arc_why_gangnam_real_father_passed:/description_if_moral/white": {
-        "source_sha256": "f4fb424a9660d457d35edb22840004404ec630d383a66024f5ad98d4199e3648",
-        "target_sha256": "459d4cdec7eb1a1f98fddc98bcf973131acd14ee1be460b3484c1aff01e612ec"
+        "source_sha256": "0f24011594bfa3cad940b74eda0030bd1552b2d8e7fced1755fad6222dd443f2",
+        "target_sha256": "08dfeabddab38abc88004ace2988b1561ecde08a09bce92b71e885a831119035"
       },
       "events:arc_why_gangnam_real_father_passed:/title": {
         "source_sha256": "90dee06ea9584fb826a6328642cbe5eb8b7cd3aa78e6a2977c7393d1f529533a",
@@ -120830,20 +121249,20 @@
         "target_sha256": "8c28e68d3a4bb6d0aac6c8913750078d282df522f5a68e38eb278128d0d529da"
       },
       "events:arc_year_two_pressure:/choices/2/result_text": {
-        "source_sha256": "d82ea89f45eb69cebf0870e806c834fbd0cf5a8e49fafe4ade80dda5bee3c529",
-        "target_sha256": "18707b7129b6f6a75a4afd86b5384555c5a10998fcc032487c1ce513a2353f85"
+        "source_sha256": "ee04b28e8d236a5b8c5b71965ee06880c66d19dc4d54e797591a0452b8bdccd2",
+        "target_sha256": "28d6662e295e7ec0e94f58519e25961d517f50f82f20dbebd7e69f3cc0bf070b"
       },
       "events:arc_year_two_pressure:/choices/2/text": {
         "source_sha256": "acc22e0534a102beb08fc8f8440ae5492efa5913c1e760fa2cd2506f94af9b6e",
         "target_sha256": "e85ec3d76f599386e8fad9341331aede15cf62a18ba874c3b68842ae238ccc0c"
       },
       "events:arc_year_two_pressure:/description": {
-        "source_sha256": "ed355b5b51acb1ea250204da3627860f0a091232f79f9b28ce0b4fd499568910",
-        "target_sha256": "016ed516e177288f9d8a781dc6ce2081e58e7c82b786def4cb889cdb53c853ae"
+        "source_sha256": "ecd0454f4702f7ce446e0b9d34e4edf957edf4438e29ddcf4ab9b803e9d9d28d",
+        "target_sha256": "fef28f1f5dd5cbaa9488fc74d34c4ccb8e4daba1f0ef26bfd52cf69deec9faeb"
       },
       "events:arc_year_two_pressure:/title": {
-        "source_sha256": "c0f6a0cbc7060cfe030699aaef0dd2e695a68705d1c5d146d0a7fef5dc66fbe8",
-        "target_sha256": "f4f69024244b0da0a21e8c65ebbac12847f42f626d196890b30088acd5f682a8"
+        "source_sha256": "22358dbd5c54d7af7a69e52a478c8a25d938ababc9ce469b66233d6d85b56f36",
+        "target_sha256": "5e618641939d559dfc8ea88555c5d3097a07cd4940f1de45ec017e6a15e7454b"
       },
       "events:arc_35_alone:/choices/0/result_text": {
         "source_sha256": "751ab63314b3cd02f2463b09ee7be42346e5fbfe4c70faf7025420d4517ff473",
@@ -139952,40 +140371,40 @@
         "target_sha256": "927b76db40f29067cbf82ea7ac8a31908b29baab3800f89c5049ae55307c624e"
       },
       "events:arc_father_passing:/description_if_known/apologized_for_ignoring": {
-        "source_sha256": "879f7d995d43213ad4f54e34adcbb8d059bff597c1cf1bc44f8137fa30e09997",
-        "target_sha256": "1c37b2fdd8cb73580f5dd4a4cfdcd87da1252f5224683440c6d6bd7974af323d"
+        "source_sha256": "d21fc14b26c29cb52e63e23c5954c0fdc1b27852e4bd7ed8b130c019a21e3b10",
+        "target_sha256": "3974263ff5e16997a8d48b00d593010ff79d18ca31d8a3ffb71d434d545fe9d7"
       },
       "events:arc_father_passing:/description_if_known/called_father_on_ktx": {
-        "source_sha256": "b044742afa59e53e907212267156d3f7673b42cce7c627cef7fc4390b61f767a",
-        "target_sha256": "440172e22ef128f1dbdf3f3196238429a6d6fa203dc386066c2a1c9524053f8f"
+        "source_sha256": "bd2e60b3fcbcea8043d9b32ca5212e6a4b7133934a2e9e162d8691f50124da4b",
+        "target_sha256": "f452dd01cc438a66562f1012ddee76eaf7f81d81fd0cf61712e9f8a5de233ebf"
       },
       "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": {
-        "source_sha256": "28c26a18256dcb8403bbf0a793bffe2fd190323a7f82c5eb9d7808959e1b67ff",
-        "target_sha256": "b47b3e5d31f5104357cdb5b6c2b517408f29f4dd8edda67a7ea44bee3635c765"
+        "source_sha256": "441c08a698cab8411259b0b892f78084aec46a9a08ab3b59ea15dfd042f2a596",
+        "target_sha256": "1a156b99fed835ebc77a366b2b1d6d2fe1837e7fc592c2f935fb83fd67926ebb"
       },
       "events:arc_father_passing:/description_if_known/father_calls_often": {
-        "source_sha256": "1bb68eaad6e731032a7ad9c80526f2d0407b5db682f578ffcd3c780513744a0c",
-        "target_sha256": "be3647afb265bafb0e319f3f4111fee41ee21f1d149898264ca66ace147831e0"
+        "source_sha256": "0e4e9755b9c14ee8675ebd76e778e7ed75c975dc1a84ac70eefeb3d3bfe4dece",
+        "target_sha256": "5da0639f3d201ffedbd387f69b8759eb51f700058b442f3086783468b54c1f89"
       },
       "events:arc_father_passing:/description_if_known/father_debt_felt": {
-        "source_sha256": "cd62dc194269bc411bab4e18471c4d70f42eaf19f82898992625d3e0f1463d79",
-        "target_sha256": "089c91fc9532b5ec9f52ba0bab356d17f560e30d242ae176ada765aba892a7a4"
+        "source_sha256": "e90c63317e2f878c689cd7e36914e499c9e6cb018c4bb3362b942253e2027a25",
+        "target_sha256": "14cbc8afbbf4b01d2d2e38cb8029469aa6ad0fc5ad2379084da6775dd0617e70"
       },
       "events:arc_father_passing:/description_if_known/father_heard_gangnam_reason": {
-        "source_sha256": "de67a447eb688344acad20a4b6716240506b210c31ab99fc5763054825e8aceb",
-        "target_sha256": "e8751b2ce8516aaf93d7c1ad0b85ddacb9b3edd355e610c0313c9a4b9759ed42"
+        "source_sha256": "dbb5be0eeeb2e0474c8c654b59a04dc710cd5e3365b0097430d803132e8a3189",
+        "target_sha256": "7d09880803b2c4f6375cf85bba0a4350a71ce7d779acb713161d7827a305ef1c"
       },
       "events:arc_father_passing:/description_if_known/father_knew_i_came": {
-        "source_sha256": "abc175376fe07a9ac3f211e4082399a935fdd9c0711abb32ac990bc9064df0ef",
-        "target_sha256": "95a26de00affd0bdea037d4c37ea8a785b1fed5316b40b114fe6c02baebefcef"
+        "source_sha256": "86093baacf1a094beca2d5ba89554b143e076eb97adf810b7783f4295b29e6ef",
+        "target_sha256": "9935c00e690ab49d553d60ca67c24771439adec3e149df35b3d1c2c6b88e830f"
       },
       "events:arc_father_passing:/description_if_moral/black": {
         "source_sha256": "b277829ccc206f0b07b76880852141b0577eb24efd0249ba97075c51bd4aa31a",
         "target_sha256": "ecd506767f81b03d1a21c4339824b2da41554d2e8672b2cdaee6b0a5fc124346"
       },
       "events:arc_father_passing:/description_if_moral/white": {
-        "source_sha256": "00fe6c66140423a39ca04cc3d8d2ae492996c59d1a4c1e61da1811ad7199385b",
-        "target_sha256": "6a675f7ce76392916dbcb3d1189f4e2bcaa29f8129d0bfefefb695c16b9eac22"
+        "source_sha256": "39efa4f6dce73060c9bfcf67f21e95572b01682a4dacd5bd30e2087a22b2a07a",
+        "target_sha256": "baed7b4bc133c34bad8b18ce5ec50f68578832780e35e7a942f7488b459cf493"
       },
       "events:arc_father_passing:/title": {
         "source_sha256": "906736ff91d9982f748f7f864b25483fd351c56e1134c10467e3b7f45982b42c",
@@ -140048,8 +140467,8 @@
         "target_sha256": "68c1098b49f61a700b5b91d27e994cc125463cac33f6dbc9a80875501e607db2"
       },
       "events:arc_father_passing_hospital_room:/choices/0/result_text": {
-        "source_sha256": "b4e85adf752ab2fe3688036b2847c210642b92e0c60948f1cbf377d060f7cea2",
-        "target_sha256": "a18fb271eebf9196f4d9ee31c61bec8e9db9751ebbf4e17b708d920271fff5ad"
+        "source_sha256": "9c8da56b2a97a20a63fab65fa787611a706292f47d74d627d70491c012fd3d45",
+        "target_sha256": "9a2aa9561bf4e3398e4a507fc6e79e2d5acade041a39a6c9dbefac232fc97079"
       },
       "events:arc_father_passing_hospital_room:/choices/0/text": {
         "source_sha256": "b75ce786fe93baba1423b7f5f69ea521f7cc949d296cb1e272754befb602d53f",
@@ -176668,8 +177087,8 @@
         "target_sha256": "a4866f6ba79e3218a185f4433112a71e38640776215d1d606f50527114e5cde2"
       },
       "events:arc_why_gangnam_real:/choices/2/result_text": {
-        "source_sha256": "1ba9df15fce825a94e643e59f8fb2cfcbd1ede7b068a6d7ef3820178eb6fa3b2",
-        "target_sha256": "960e4e0e6cd08c0ef6fa40800e53e93ebbeb1121502bb26cb464c64e215e140a"
+        "source_sha256": "c423b3a58f49d59f06ef70772410ccb4265e4bc133b9dfbad9ff24652f64ea53",
+        "target_sha256": "2b935c1102d3852afd89e1a428d9cfa08be14c9735ea1f9cb18c06deca1fc396"
       },
       "events:arc_why_gangnam_real:/choices/2/text": {
         "source_sha256": "fdf25f51b5186c6a145566312b69baf34b82d6a79d20b081ac7e43b5b6ee8960",
@@ -176684,20 +177103,20 @@
         "target_sha256": "7a88a4433cd56f8dac1721f172d6897b4d7e38327cabf2c8925cce0e3e348aa5"
       },
       "events:arc_why_gangnam_real:/description": {
-        "source_sha256": "2dfc7a4c6f664f164b98b61f11c8c2c7f5a0c32787ca32ba998c5a5ae6b99d9a",
-        "target_sha256": "f3ca0a0b28ca0854a439eb4e98933ecbabf800e4f32ff1cabf873da33656c78d"
+        "source_sha256": "c79120d36453ba5ef1e5ae53759fc88690f92b3609e9c1b4abe9fa35ff8d9448",
+        "target_sha256": "86ad6a5ba1a1a67e0eea91b427986a595561976bf45af9c7ef04f3cfd0c837c9"
       },
       "events:arc_why_gangnam_real:/description_if_known/motive_clarified": {
-        "source_sha256": "cb8c8c2e5767892f504fb042626c9535cf10ec3772f4212041d0d59a64002b08",
-        "target_sha256": "bb9f907aca831030640219bd061d0071526b61e3ae8b8a148606a6c53a54b6d2"
+        "source_sha256": "0f9cdf9f8dead86268d67ecb6b0995b533d5c1910712434ed40162720d01b105",
+        "target_sha256": "2a538bc64ec5209af0c4b5e076167c01ce0f70570592762faa66e633c935ac4c"
       },
       "events:arc_why_gangnam_real:/description_if_moral/black": {
-        "source_sha256": "31342d94f343c42d4c50cc984d2a45e557163cd48ed01df44dad7213f220a2c8",
-        "target_sha256": "db8742a6d31f47fb09b83ca5198474db28f6be6385445ca9a82f15d5e11b8c4d"
+        "source_sha256": "4d2513324d5d65ac8ea5131771ee2ffb5c02e41047d177b0078afffbf22286db",
+        "target_sha256": "570850e438a965ec64b25df0850a0bf9f2ffe8e68b47370e9c60bf63c26f4bdd"
       },
       "events:arc_why_gangnam_real:/description_if_moral/white": {
-        "source_sha256": "9673d56b8e14eedc2b472d0243bb042e8dc1f741b40263cecbc53b83bc359ffd",
-        "target_sha256": "51b96e3022e5a8442d6c58cc714d3e597dbd5f8552c399a5dc17c0eacdb41690"
+        "source_sha256": "69cfdaa7672657c6cfadefec6ed6c2528f0b0e8a057e88424caa63707940f5e4",
+        "target_sha256": "729be8c611c8a4a0e5c7f58197042701f3d43274486e0b3e78ffc9e9a235ea2b"
       },
       "events:arc_why_gangnam_real:/title": {
         "source_sha256": "90dee06ea9584fb826a6328642cbe5eb8b7cd3aa78e6a2977c7393d1f529533a",
@@ -176736,8 +177155,8 @@
         "target_sha256": "a6ec9cb3735ff995a8676602214504f9199fa67dc423490d87ce3f4de8e75c8e"
       },
       "events:arc_why_gangnam_real_father_passed:/choices/2/result_text": {
-        "source_sha256": "1ba9df15fce825a94e643e59f8fb2cfcbd1ede7b068a6d7ef3820178eb6fa3b2",
-        "target_sha256": "960e4e0e6cd08c0ef6fa40800e53e93ebbeb1121502bb26cb464c64e215e140a"
+        "source_sha256": "c423b3a58f49d59f06ef70772410ccb4265e4bc133b9dfbad9ff24652f64ea53",
+        "target_sha256": "2b935c1102d3852afd89e1a428d9cfa08be14c9735ea1f9cb18c06deca1fc396"
       },
       "events:arc_why_gangnam_real_father_passed:/choices/2/text": {
         "source_sha256": "fdf25f51b5186c6a145566312b69baf34b82d6a79d20b081ac7e43b5b6ee8960",
@@ -176752,20 +177171,20 @@
         "target_sha256": "7a88a4433cd56f8dac1721f172d6897b4d7e38327cabf2c8925cce0e3e348aa5"
       },
       "events:arc_why_gangnam_real_father_passed:/description": {
-        "source_sha256": "277f8959e11ad15baade1265f046cc004d5ea46336741506afd50f7d9f6b4d4c",
-        "target_sha256": "687b66aec56cb3012c56d8c30cb487fa4db42396f6f754bf09e57db4db3ea713"
+        "source_sha256": "d4d4c41ca1f7fc01987e82b9a6a4b693c108247ad5b2e2f82497bb935b2f7e38",
+        "target_sha256": "94a75c787a96b9fe497914ef79c387310a78a78fa5f8f2f5a5b1858278c05941"
       },
       "events:arc_why_gangnam_real_father_passed:/description_if_known/motive_clarified": {
-        "source_sha256": "e64bc878cf7152decaa8d95a2da0a8dc34eb58bdc67d5ec95b31e5055b7fee92",
-        "target_sha256": "3f644eb3790e1cd24bc6ba6769d08dc9e8e17a3134035f651279a63a4b8379c1"
+        "source_sha256": "02f3463207fb9356317063fa9380611ade6b0aa94c6e4995f1f4aece91d59871",
+        "target_sha256": "03dec8f5f2b674e26f3b702f8c7c89c0e1389093b62a62e2d89b5513ab097e8b"
       },
       "events:arc_why_gangnam_real_father_passed:/description_if_moral/black": {
-        "source_sha256": "f4e1864a3e3e068695fe39c4caf162564ce8e732fe690995ee5cd32fce7cef9f",
-        "target_sha256": "7fa82953510e2bd2804fcb17546a271aa4e287a933d3afab7a71f5c7b5122d20"
+        "source_sha256": "6307219ec3c0083c8c448372a9b53705460cd55a95fad1dee3d11c01ce2ad2b1",
+        "target_sha256": "0024a7143159e8072a94fc9e877608c34b8f9905ac468d744fbe72c0c5b7294d"
       },
       "events:arc_why_gangnam_real_father_passed:/description_if_moral/white": {
-        "source_sha256": "f4fb424a9660d457d35edb22840004404ec630d383a66024f5ad98d4199e3648",
-        "target_sha256": "1345be9a7e8b9c4b52c6f57d407380149be8a7e772c819869f1d94bd7cec935f"
+        "source_sha256": "0f24011594bfa3cad940b74eda0030bd1552b2d8e7fced1755fad6222dd443f2",
+        "target_sha256": "27814a39a71284fd3b6be7593b308c641bd17c0ed1f6edb0c721ba647b88d9b9"
       },
       "events:arc_why_gangnam_real_father_passed:/title": {
         "source_sha256": "90dee06ea9584fb826a6328642cbe5eb8b7cd3aa78e6a2977c7393d1f529533a",
@@ -180356,20 +180775,20 @@
         "target_sha256": "da53e4b6167972ba12698a6c46452da6a8ee23bcc0df37c8637deaf2bc82023b"
       },
       "events:arc_year_two_pressure:/choices/2/result_text": {
-        "source_sha256": "d82ea89f45eb69cebf0870e806c834fbd0cf5a8e49fafe4ade80dda5bee3c529",
-        "target_sha256": "f3cd9bce3f334bd232dc9f5a02309df8eb9e7c9a25b9451fe950ee4026d580dc"
+        "source_sha256": "ee04b28e8d236a5b8c5b71965ee06880c66d19dc4d54e797591a0452b8bdccd2",
+        "target_sha256": "1b6f8e27235cad48bbf274fe8fc2f3e2fc2570f1dacc6321f4bd871933ed60b0"
       },
       "events:arc_year_two_pressure:/choices/2/text": {
         "source_sha256": "acc22e0534a102beb08fc8f8440ae5492efa5913c1e760fa2cd2506f94af9b6e",
         "target_sha256": "edb992bf29d35463d307d94cd713e88b240c0adb81a676a4b21f19abccb474cc"
       },
       "events:arc_year_two_pressure:/description": {
-        "source_sha256": "ed355b5b51acb1ea250204da3627860f0a091232f79f9b28ce0b4fd499568910",
-        "target_sha256": "b41ad70298459f1648ad3fe2d302fd15d5f34a87f833867a52cf2f17f2ac3470"
+        "source_sha256": "ecd0454f4702f7ce446e0b9d34e4edf957edf4438e29ddcf4ab9b803e9d9d28d",
+        "target_sha256": "168ff079a02242eac0006e5d86fa2edf615d9fdd1a2a3b03ba79d033870cff6f"
       },
       "events:arc_year_two_pressure:/title": {
-        "source_sha256": "c0f6a0cbc7060cfe030699aaef0dd2e695a68705d1c5d146d0a7fef5dc66fbe8",
-        "target_sha256": "f4f69024244b0da0a21e8c65ebbac12847f42f626d196890b30088acd5f682a8"
+        "source_sha256": "22358dbd5c54d7af7a69e52a478c8a25d938ababc9ce469b66233d6d85b56f36",
+        "target_sha256": "000ea6cd84f2be6144b3e63d3c3525967447af344f12a5a87b7fd12e82ac0ae1"
       },
       "events:arc_35_alone:/choices/0/result_text": {
         "source_sha256": "751ab63314b3cd02f2463b09ee7be42346e5fbfe4c70faf7025420d4517ff473",
@@ -191117,7 +191536,7 @@
       }
     }
   },
-  "accepted_sha256": "123decc137881fde68d0756568d0ecd02acfb14d037355e28af18d86fd0e1805",
+  "accepted_sha256": "abca363200b8e5893cdb0d0543f1b44fe52d1367781970d42d43bd78aa2773a9",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

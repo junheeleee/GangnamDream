@@ -14,6 +14,69 @@ import full_game_localization as tool
 
 
 class ExchangeTests(unittest.TestCase):
+    def _current_mingi_invitation(self, locale):
+        source = ("고등학교 동창 민기에게서 청첩장이 왔다.\n\n"
+                  "아파트 사진도 단톡방에 올라온다. '드디어 내 집 마련!' 좋아요를 누르다가 멈췄다. "
+                  "{name}은 집값을 볼 때마다 아직도 계산기부터 켠다. 비교하지 않으려 했는데, "
+                  "사진을 넘기다 보니 또 내 형편과 견주고 있었다.")
+        targets = {
+            "zh-CN": ("Mingi 的婚礼请柬", "高中同学 Mingi 发来了婚礼请柬。\n\n"
+                      "群聊里也发来公寓照片。“终于有自己的家了！”正要点赞，又停了下来。"
+                      "{name}每次看房价，还是先打开计算器。明明不想比较，可翻着照片，"
+                      "不知不觉又拿自己的处境作了比较。"),
+            "zh-TW": ("Mingi 的喜帖", "高中同學 Mingi 寄來喜帖。\n\n"
+                      "群組裡也出現公寓照片。「終於買了自己的家！」正要按讚，卻停了下來。"
+                      "每次看見房價，{name}仍先打開計算機。明明不想比較，翻著照片，"
+                      "卻又拿自己的處境來對照。"),
+        }
+        return source, targets[locale]
+
+    def test_current_mingi_invitation_source_bound_acceptance(self):
+        import zh_translation_audit as zh
+        for locale in ("zh-CN", "zh-TW"):
+            source, (title, body) = self._current_mingi_invitation(locale)
+            self.assertEqual(zh._midgame_kind(source), "mingi_invite")
+            for path, ko, target in (("description", source, body), ("title", "민기의 청첩장", title)):
+                leaf = tool.Leaf("events", "arc_year_two_pressure", "content/events/arc_midgame.json",
+                                 (path,), ko, "event_standard", "shipping")
+                self.assertEqual(tool.translation_errors(leaf, locale, target), [], (locale, path))
+                for changed in (ko + " ", ko.replace("민기", "현수"), "다른 초대장"):
+                    off = tool.Leaf(leaf.group, leaf.owner, leaf.source_path, leaf.path,
+                                    changed, "event_standard", "shipping")
+                    self.assertTrue(tool.translation_errors(off, locale, target), (locale, changed))
+
+    def test_current_mingi_invitation_name_and_role_rejections(self):
+        for locale in ("zh-CN", "zh-TW"):
+            source, (title, body) = self._current_mingi_invitation(locale)
+            for path, ko, target in (("description", source, body), ("title", "민기의 청첩장", title)):
+                leaf = tool.Leaf("events", "arc_year_two_pressure", "content/events/arc_midgame.json",
+                                 (path,), ko, "event_standard", "shipping")
+                bads = [target.replace("Mingi", name) for name in
+                        ("", "Hyunsu", "Mingi Mingi", "XMingi", "MingiX", "Mingi（敏基）", "민기")]
+                bads += [target + " Alpha", target + " 100美元", target + " {extra}"]
+                bads += [target.replace("Mingi", "\nMingi"),
+                         target.replace("喜帖", "工作").replace("请柬", "工作")]
+                if path == "description":
+                    bads.append(target.replace("高中同学", "公司老板").replace("高中同學", "公司老闆"))
+                for bad in bads:
+                    self.assertTrue(tool.translation_errors(leaf, locale, bad), (locale, path, bad))
+
+    def test_current_mingi_invitation_preserves_old_source_guard(self):
+        import zh_translation_audit as zh
+        for locale in ("zh-CN", "zh-TW"):
+            source, (_, body) = self._current_mingi_invitation(locale)
+            old = source.replace("사진을 넘기다 보니 또 내 형편과 견주고 있었다.",
+                                 "가을이 되면 어딘가 자꾸 비교하게 된다.")
+            self.assertEqual(zh._midgame_kind(old), "mingi_invite")
+            leaf = tool.Leaf("events", "arc_year_two_pressure", "content/events/arc_midgame.json",
+                             ("description",), old, "event_standard", "shipping")
+            self.assertEqual(tool.translation_errors(leaf, locale, body), [])
+            self.assertTrue(tool.translation_errors(leaf, locale, body.replace("Mingi", "Mingi（敏基）")))
+        for digest, role in (
+                ("a30c3256b8270e52dcb99a06d2bce7fd8cf0d98d209dc17ec5caa2c4adf2b071", "mingi_reply"),
+                ("7714592166adcfbfc7aa7332632dbc66d1664706507014e723deda952a8dd400", "mingi_send")):
+            self.assertEqual(zh.MIDGAME_SOURCE_KIND[digest], role)
+
     def _ending_coda_sources(self):
         paths = ("systems/EndingSystem.gd", "scenes/MainGame.gd",
                  "autoloads/LocaleManager.gd")
