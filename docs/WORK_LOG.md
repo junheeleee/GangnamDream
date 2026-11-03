@@ -2,6 +2,8 @@
 
 ## 2026-11-04 — 연속 위임과 갈림길 번역 정합
 
+- 762마감: 제품`9c11c1ebfd49f3adca5c2d2fff00a42068ee5cc3`/tree`2a8d07a3f9835a73b047363f47ca77e121aa61ce` 정상push·[최종독립GO](agent_reviews/order762-year4-close-cjk.md). 실제12/receipt3·원355배치/비소유3JSON·13leaf/사망variant/전체원장 역복원, raw31=최종27/이력4 및 별도 초기4 집합 SHA·보고2/append1을 root 대조해 기존319판정을 보존했다. 제품CI41695048471 실제 두 job checkout 진행 중(null), 전체성공 미관측. 이번12/누적966은 기존 정정이다. 다음 부친 사망 결산·마지막 장 생사별 기록·답변의 실제 stale을 확인한다.
+
 - C5/762: 4년 결산 base/보호 관계·몸/결과0 KR4×3=12를 각 언어에 직접 정합했다. 수첩의 날짜·옥상 불빛·말린 모서리/엄지·빈 종이, 새 일정을 잡지 않는 관계 시간/자기 후속 예약 전후의 빈 시간, 지킨 일과 놓친 일의 같은 글씨와 미완료 시각 불발명을 보존했다. 부친 사망 variant·KO/EN·저장/소비자 불변. 사전 독립12 전독의 TW 표현2·마침표1 권고를 두 행에 반영, 다른2값/헤더 불변·초안과 중간 VALID 보존. JA/CN check·TW final-check/import4×3 exit0/stderr0, delta12/3JSON/원355배치·수용/이전target·비소유 전체 역대조, demo5언어 14사건100leaf122UI·EN1813/35 clean. 초기 7leaf export에서 회고3은 stale 수용이 아닌 수용기록 부재로 판명돼 제외·별도 보존. 최초 scope 보조 집계의 events 필터 누락(366은 타 도메인 포함)을 수정해 actual events 282/진단285(각 shipping79/author15+요약3/count97), 297→285만 해소했다. 총966은 기존 번역 정정이다. 최종 독립 실수용 검수·최신 CI 별도.
 
 - 761마감: 제품`6b4e0db2f2446f8a448efc327bfda5410044394d`/tree`9c278039167ea6dfe3c34f743b9d0b7103204260` 정상push·[최종독립GO](agent_reviews/order761-final-week-cjk.md). 실제30/receipt3·원354배치/비소유3JSON·20leaf/known·memory순서/전체원장/지난기록역복원, raw32=최종26/이력6의별도SHA·보고2/append1을root전독대조·기존318판정/원보고보존·독립원장errors0. 제품CI41686979952 최신실제조회두job in_progress/null(126095200075 balance/126095200684 checkout)·전체성공미관측. 이번실행76054+76130=84/누적954는기존정정/신규커버리지0, 남은각shipping83/author15·UI/consumer·실화면·원어민/사람·M60/출시는미완이다. 다음후보arc_year4_close·사망variant/arc_final_year_start의KO전체를읽었으나수정·수용0이며실제stale/lifecycle와target을먼저대조한다.

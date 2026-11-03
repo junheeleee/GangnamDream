@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-762",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "9c11c1ebfd49f3adca5c2d2fff00a42068ee5cc3",
+    "tree": "2a8d07a3f9835a73b047363f47ca77e121aa61ce",
+    "manifest_sha256": null
+  },
+  "scope": "arc_year4_close base, choice0 result, protected_body and protected_relationship known texts: Korean4 × JA/zh-CN/zh-TW =12 existing-target corrections; new coverage0.",
+  "review": {
+    "method": "Full Korean4/target12 census, full base choices and known order, MainGame W192 and EventManager live father-passed remap, StoryMode first matching known.",
+    "findings": "Age36, two weeks, stairs/roof/wind/page/thumb and blank time, confirmed follow-up appointment rather than completed care, unfinished work without invented completion time, and result accounting are preserved.",
+    "repair": "TW base 那些字行→那些行字 and 寫了時間和內容的字行→寫著時間和內容的那幾行; relationship 時間.→時間。; exact two-row delta only.",
+    "blocking_findings": []
+  },
+  "preservation": {
+    "prior_batches": 355,
+    "prior_decisions": 319,
+    "proof": "Pure check_batch and actual12/receipts3 identity, canonical hashes, previous-target and superseded acceptance matched fixed baseline. Reverting only12 restored all three JSONs including nonowned13 leaves, death variant and known order; full prior ledger and Nov4 prior bytes restored.",
+    "excluded": "Three arc_final_year_start memories in initial seven-leaf export had no prior accepted records and still have none. Initial export unused; no arc_midgame edit."
+  },
+  "validation": {
+    "checks_imports": "Final JA/CN check and TW final-check plus import4×3 VALID/stderr0; author observed exit0. TW initial check and draft1 are intermediate. Delta12, demo5/14/100/122 and EN1813/35 clean. Lane11 is selection only.",
+    "scope": "Independent source-scope 285 diagnostics, 282 event source stale, each94 shipping79/author15 plus three summary counts97. Empty scope.log is initial unfiltered 366 assertion history; not final product success. No stale-export CLI or engine execution."
+  },
+  "identity": {
+    "baseline": "9547b1c5336325015fa65d842ae27772c91185e6",
+    "rows_sha256": "8d0d25bade5710ebcd08e0f28778cdbfbd4338dd2d1ce6686f4b4bad5cffd92e",
+    "rows_encoding": "Canonical JSON [locale,id,source-hash,previous-target-hash,target-hash] in locale/export order",
+    "receipt_sha256_by_locale": {
+      "ja": "aede386239b633a8dc135028b3b0a469102b3ff952ef10d5c12b49200a0ee0bb",
+      "zh-CN": "8136d13bbcd63f801fc5fe484b7801eab6dd4dcdd4022cd08c7c2f5676a7c01d",
+      "zh-TW": "bdd95370be94c71b9ce6212e04816e2836e27356a7e3f90fec534a62a04d09c3"
+    },
+    "raw_directory": ".git/localization-year4-close-20261104/",
+    "raw_population": {
+      "files": 31,
+      "sha256": "7fef237644c2eea8ddb923babb4a11bee37b88146b9e4c54d82faebe5353b50f"
+    },
+    "used_final": {
+      "files": 27,
+      "sha256": "94d3f768e92abd32fffc28508dcd3793adc6cacadd87c66d937c4148cf5b5218"
+    },
+    "history": {
+      "files": 4,
+      "sha256": "6f42cf3404bf27a3b951b446454ab0ec9955f6c9fed1c4b2b1a3ec219e5eda0a",
+      "selection": "TW draft1 and initial check stdout/stderr, empty scope.log"
+    },
+    "initial_unused": {
+      "directory": ".git/localization-year4-crossroads-20261104/",
+      "files": 4,
+      "sha256": "ed099e5dc75988483d45218cee3f8c5a7e6e739525c7fb9bb0d2513585e82a78",
+      "selection": "Three initial 7-leaf exports and initial leaf list"
+    },
+    "encoding": "Canonical JSON basename-sorted [basename,bytes,sha256] per set"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
