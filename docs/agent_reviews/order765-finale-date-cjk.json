@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-765",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "abd4cf3d4b1546ee081ec12639502134828ff554",
+    "tree": "772cb31f092c9352b91637e8f95a8d48072efa92",
+    "manifest_sha256": null
+  },
+  "scope": "One father_answer choice2 inline slot, KR × JA/CN/TW =3 existing corrections.",
+  "review": {
+    "method": "Read both Korean father_answer choice2 results, StoryMode ordered exact slot replacement, Chapter5FinaleRoute source index3; assemble actual target templates in all three locales using slot3 choice2.",
+    "finding": "Date is that of the previous day's father record action, no new date/contact or transfer."
+  },
+  "preservation": {
+    "prior_batches": 358,
+    "prior_decisions": 322,
+    "proof": "Actual response/receipt3 exact; reverse selected values to restore all three JSONs and whole ledger."
+  },
+  "validation": "Pure check_batch, actual slot assembly and official VALID/stderr0 logs confirmed. Exit0 and delta3/slot targeted pass author observed. No engine.",
+  "identity": {
+    "baseline": "bc886e56fe976408545c983346a2b1d6b5b5c287",
+    "rows_sha256": "081b1af4626a79ee8befe23589edd237b43f316582f51d15ba8d38d2461c3726",
+    "receipt_sha256_by_locale": {
+      "ja": "00d6d1c7ac5d8f23ade9c473120a80a58b57e1a672f52c82adf125f1bc590493",
+      "zh-CN": "2d43db4fa7b09954e2578430677e4f27c117b498f011265e29d3730783c324ac",
+      "zh-TW": "0edc652c3d89cdc3f329187324116ccd6d0f5edda10201a798b3d8cf8c45523d"
+    },
+    "raw_directory": ".git/localization-finale-date-20261104/",
+    "raw_population": {
+      "files": 21,
+      "sha256": "73990e39a810d2d6f4199f8dfbeac17c039aff38f97f6444da548d621ca04b7a"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

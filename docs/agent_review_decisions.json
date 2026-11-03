@@ -13556,6 +13556,47 @@
         "path": "docs/agent_reviews/order764-jaehyuk-photo-cjk.json",
         "sha256": "5583af0f903eb90126fb8829189f79cc9cd52ad1f8e3651fcdb2f10301a200c4"
       }
+    },
+    {
+      "id": "order765-finale-date-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-765",
+      "subject": {
+        "kind": "source",
+        "commit": "abd4cf3d4b1546ee081ec12639502134828ff554",
+        "tree": "772cb31f092c9352b91637e8f95a8d48072efa92",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order765-finale-date-cjk.md",
+          "sha256": "cad8f9a5b668dbbd821c31a4f4fc743054bc1f8e0b3c89dba56145de1bd40f6a"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order765-finale-date-cjk.json",
+          "sha256": "f9a0bfdfcc756cdd27b99466a9582a96106d4e7f3b6811e21cccbcb354014e6b"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order765-finale-date-cjk.json",
+        "sha256": "f9a0bfdfcc756cdd27b99466a9582a96106d4e7f3b6811e21cccbcb354014e6b"
+      }
     }
   ]
 }
