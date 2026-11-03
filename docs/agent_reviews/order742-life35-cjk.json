@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-742",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "91f5029fed6ed077e1a296e8a9f6457240895fdc",
+    "tree": "d7839ed66d8aa605dd710efd3699db9ecebd9af0",
+    "manifest_sha256": null
+  },
+  "scope": "Six life-at-35 scenes only: Korean20 × JA/zh-CN/zh-TW = 60 existing-target corrections; new coverage0.",
+  "population": {
+    "source_leaves": 20,
+    "target_leaves": 60,
+    "scene_language_units": 18,
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/{arc_midgame,arc_chapter_themes}.json",
+    "selection": {
+      "arc_35_alone": [
+        "description",
+        "choices/2/result_text"
+      ],
+      "arc_35_birthday": [
+        "title",
+        "description",
+        "choices/0/result_text",
+        "choices/1/text"
+      ],
+      "arc_35_habit_check": [
+        "description",
+        "description_if_known/{broke_routine,godsaeng_paradox_seen,kept_routine}",
+        "choices/{1,2}/{text,result_text}"
+      ],
+      "arc_35_orthodox_weight": [
+        "description",
+        "choices/{0,2}/result_text"
+      ],
+      "arc_35_path_cost": [
+        "description",
+        "choices/1/result_text"
+      ],
+      "arc_35_unorthodox_weight": [
+        "choices/1/result_text"
+      ]
+    }
+  },
+  "review": {
+    "method": "Read all Korean20 and target60 independently, plus six Korean roots/all choices; compared revised drafts and all accepted product values.",
+    "final_blocking_findings": [],
+    "meaning": "Current solitude/contact, washing machine, birthday age, time records with blanks, free hour, exercise, expense review and risk memo preserved. No holiday/tteokguk, fixed investment routine/transfer/profit/sleep achievement, six-month exercise gap, deferred parent contact or health check invented.",
+    "numbers": "35/38/33 years old; 2/3 years; one hour; 3km; one month and100million won retained. SNS/classmate profits remain others' claims, not player outcomes.",
+    "choice_knowledge": "Rest, exercise, call and safety-note choices retain their acts without extra past or guaranteed outcomes; father's message is alive-source text. Tokens, newline structure, names and regional script checked.",
+    "fixes": "JA orthodox c0 negation changed to slightly eased boredom. CN/TW explicitly say one line at a time; CN broke-routine suffix is past nonautomatic change. Draft1→final differs only at declared JA1/CN6/TW4 substitutions; CN draft2→final only suffix counter1."
+  },
+  "preservation": {
+    "prior_batches": 336,
+    "prior_decisions": 299,
+    "ledger": "Prior batches and nonowned acceptance exact; original acceptance and previous-target hashes retained; all new source/target receipts recomputed.",
+    "overlays": "Restoring only the owned60 values yields entire prior six JSON files exactly; other choices/order untouched.",
+    "boundaries": "KO/EN, runtime/gameplay, public demo, shipping allowlist, earlier reports/decisions unchanged.",
+    "drafts": "JA draft1, CN draft1/draft2, TW draft1 and three original counter-failure logs retained; validators unchanged."
+  },
+  "validation": {
+    "raw_final_check_import": "Observed20 leaves/2files per locale; VALID markers, INCOMPLETE/OPEN, final stderr0. Author reported exit0.",
+    "delta": "changed_leaves=60 overlay_files=6 new_coverage=0; independently reconstructed against export base.",
+    "story_demo": "locales5 source_events14 leaves100 target_ui122",
+    "coverage": "EN strict1813/1813 events35/35 endings; CJK still skeleton1708/1813.",
+    "unchanged_selftests": "Not repeated; no app/engine/UI/save operations."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 1113,
+    "stale_source": 1110,
+    "each_locale_stale": 370,
+    "summary_diagnostics": 3,
+    "change": "1173 ->1113: only this60 reduced. Pure scope recomputation confirmed counts; broad debt remains."
+  },
+  "identity": {
+    "original_export_source_revision": "047de398d3d25082d45802b1c282e04574fb4f45",
+    "final_receipt_sha256_by_locale": {
+      "ja": "19147708df35d2b6da2ca0f22ac57a52c86dc841630baf5b553199102718ea9a",
+      "zh-CN": "87dff98f99745dc610cb9f50016128bfa7389e25a06cedc9ba843b0f1fc15abb",
+      "zh-TW": "91d4470024565557c8e97f8e69ec8ea59ac1443364dbe786643abdbfbb495071"
+    },
+    "reviewed_rows_sha256": "146e88bfaca8f4c292c8edbca48d9627955457ca5610217c2874e9a7b6edbffb",
+    "reviewed_rows_encoding": "canonical JSON, locale/export order: [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-life35-20261103/",
+    "raw_files": 33,
+    "raw_population_sha256": "7f54d6e3a1677e1b3e91756021c76a472b5d683a3a6cd202ece03d7ec0e435b9",
+    "raw_population_encoding": "canonical JSON: basename-sorted [basename,bytes,sha256] for all .jsonl/.log"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "external_publication_or_release"
+  ],
+  "conclusion": "GO for exact60 source corrections only, not whole translation/lane, current runtime or release."
+}

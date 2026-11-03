@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-742 · 서른다섯 생활·선택의 JA/zh 정합
+#### [x] ORDER-742 · 서른다섯 생활·선택의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. 여섯 장면×세 언어=18 장면-언어 단위,
 현재 KR20 leaf/JA·CN·TW60개 기존 번역을 독립 직접 대조한다.
@@ -46,3 +46,14 @@ KO/EN·gameplay·공개데모·project.godot·저장·allowlist 비소유.
 포기 시 잃는 것: 현재 선택과 과거의 사실·주말/나이·루틴의 열린 의미.
 서사 위치/계층: 기존 여섯 사건·원본 계층 불변.
 닫는 것: source60 정합만. 규범은 기존 I18N 정본 적용·승격0.
+
+## 검사 실물·범위 판정
+
+2026-11-03 완료. 독립 KR20/목표60 전독에서 JA 지루함 비교의 부정범위1곳을
+수리했고 CN/TW 한줄씩 검사 실패는 一行行 명시로 수리했다. 원초안/실패3로그
+보존·검사완화0. 최종 공식check/import20×3·stderr0, delta60/6파일,
+기존336배치/원수용/이전target/비소유값 불변. scope1173→1113
+(stale1110=언어별370+요약3), 공개데모5언어14사건100leaf122UI·EN1813/35 clean.
+원자료 `.git/localization-life35-20261103/`, 불변self-test 반복0.
+제품 `91f5029`의 [독립 보고](../agent_reviews/order742-life35-cjk.md)는 이60정정만 판정한다.
+새커버리지/전체번역/차선·실화면·원어민·최신CI·사람/출시 GO는 아니다.
