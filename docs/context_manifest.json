@@ -328,6 +328,7 @@
       "docs/UI_ART_DIRECTION.md"
     ],
     "audit_and_reports": [
+      "docs/agent_reviews/*.md",
       "docs/ART_AI_AUDIT.md",
       "docs/ASSET_QA.md",
       "docs/CONVERGENCE_REPORT.md",

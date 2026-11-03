@@ -40,3 +40,20 @@ KO/EN·게임로직·공개 데모·저장·project.godot·retail allowlist 비�
 서사 위치/계층: 첫해 마지막 밤/W48, 원본 계층 불변.
 닫는 것: 해당24문구 source/기계/독립 검수만; 전체 번역·화면 미완.
 규범: 기존 I18N 정본 준수, 신규 규칙 승격 없음.
+
+## 실제 검사
+
+공식 check/import 언어별8개·stderr0, delta24/3파일·비소유값/이전수용불변 통과.
+scope 진단1236→1212, stale source1233→1209(언어별411→403), 요약3 유지.
+이root의 stale source24만 제거됐고 전체번역/전체차선은 여전히 미완이다.
+원자료 `.git/localization-year1-20261103/`의 source/response/check/import/delta/scope.
+738에서 실행한 변경 없는 검증도구 반례를 재실행하지 않았으며 제품과 공개데모
+패리티는 이번 반영 뒤 다시 확인한다. 독립 검수는 실제 원문8/목표24 전독 중이다.
+
+독립 전독에서 CN `手册`의 안내서 의미와 CN/TW '연락을 미룬 이름'의
+행동 축소를 지적받았다. 소유8leaf 안에서 개인 기록은 `笔记本`,
+뒤로 미룬 사람의 넓은 의미로 수리했다. CN/TW fresh v2 export→check→import로
+중간 target 해시를 결속했고 첫 초안·기계 영수증도 삭제하지 않았다.
+`LOCALIZATION_REVIEW_FIX_CHAIN_OK`24·`LOCALIZATION_CORRECTION_DELTA_OK`24/3파일,
+최종 공개데모·EN coverage·context/queue/diff 확인. 별도 검사 보고 MD의
+문서 분류 누락은 context_manifest의 기존 audit_and_reports에 해당 폴더만 등록했다.

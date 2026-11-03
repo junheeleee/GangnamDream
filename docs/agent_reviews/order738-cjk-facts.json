@@ -1,0 +1,449 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-738",
+  "review_id": "order738-cjk-facts",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "authority": "user_delegated_agent_final",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "ea3047b5e59f924129c80ca372793dd418c486df",
+    "tree": "c6529c3b6a5133189ab67162e1fd53ba708047d6",
+    "manifest_sha256": null
+  },
+  "scope": "Only the 15 existing-target factual corrections below and their source-bound correction acceptance; no whole-language or whole-product GO.",
+  "population": {
+    "source_leaves": 5,
+    "target_leaves": 15,
+    "locales": [
+      "ja",
+      "zh-CN",
+      "zh-TW"
+    ],
+    "overlay_files": 9,
+    "selection": "Census: every declared source/response/accepted target, not a sample.",
+    "new_translation_coverage": 0
+  },
+  "methods": [
+    "Read the complete five Korean source leaves in each official source exchange and all fifteen Japanese/Simplified Chinese/Traditional Chinese responses.",
+    "Compared meaning, living/dead father knowledge, prior meeting/departure/investment facts, choice consequence, numbers, paragraph boundaries, names, address and regional script against Korean and the locale glossaries.",
+    "Read the actual overlay diff and checked each committed target equals its reviewed response. Compared the predecessor JSON values recursively: only the fifteen declared leaves changed; IDs, ordering, choice counts and other values remain identical.",
+    "Verified canonical Korean source hashes, predecessor target hashes, current target hashes, preserved original acceptance, official receipt headers/digests, and the correction-only ledger delta.",
+    "Read the original import/delta/lane logs. Independently reran only the read-only queue/context checks and the pure build_scope inventory diagnostic; no engine, app, UI, export, import, translation conversion or player-data operation."
+  ],
+  "findings": [
+    {
+      "id": "hospital-current-train",
+      "status": "resolved",
+      "leaves": 3,
+      "observation": "The train result now retains the first Changwon KTX and 05:00 Seoul Station while replacing the invented long absence with clasped hands and the train's motion."
+    },
+    {
+      "id": "visit-current-hospital",
+      "status": "resolved",
+      "leaves": 6,
+      "observation": "Both default and Sangchul-known variants start at Room 301/the third-floor corridor. The Daejeon message remains received on the journey; no first or delayed hospital departure or prior ward entry is invented."
+    },
+    {
+      "id": "sangchul-father-life",
+      "status": "resolved",
+      "leaves": 3,
+      "observation": "The accepted-apology result replaces the unconditional dead-father premise with cold coffee and the thumb on the handle, retaining the choice's weight-setting meaning."
+    },
+    {
+      "id": "trust-no-invented-investments",
+      "status": "resolved",
+      "leaves": 3,
+      "observation": "The opening replaces repeated shared money management/intimacy with a present water-glass movement; envelope, request, choices and outcomes remain unchanged."
+    }
+  ],
+  "blocking_findings_in_reviewed_scope": [],
+  "preservation": {
+    "previous_commit": "fe7c36c5496d2597a7ef25f5b3b5420d614f385c",
+    "prior_batches_preserved": 332,
+    "correction_batches_added": 1,
+    "correction_kind": "existing_target_correction",
+    "prior_acceptance_retained_in_correction": true,
+    "nonowned_ledger_values_unchanged": true,
+    "nonowned_overlay_json_values_unchanged": true,
+    "korean_english_runtime_public_demo_and_shipping_languages_changed": false,
+    "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee"
+  },
+  "validation": {
+    "import": {
+      "locales": 3,
+      "leaves_each": 5,
+      "marker": "FULL_LOCALIZATION_BATCH_VALID",
+      "full_status": "INCOMPLETE",
+      "human_gate": "OPEN",
+      "stderr_bytes_each": 0
+    },
+    "delta": {
+      "marker": "LOCALIZATION_CORRECTION_DELTA_OK",
+      "changed_leaves": 15,
+      "overlay_files": 9,
+      "prior_batches": "preserved",
+      "gameplay": "unchanged",
+      "new_coverage": 0
+    },
+    "lane": {
+      "name": "full-game-localization-overlays",
+      "checks": 11,
+      "final_reconciled_passes": 10,
+      "unresolved_checks": 1,
+      "whole_lane_pass": false,
+      "passing_evidence": [
+        "full_game_localization_self_test: 271 tests OK",
+        "event audit: errors=0 warnings=0",
+        "i18n coverage: en strict 1813/1813 events and 35/35 endings; prepared locales remain skeleton",
+        "JA self-test: 76 cases",
+        "ZH self-test: 12783 cases",
+        "story-demo self-test: 55 cases",
+        "story-demo actual source contract: locales=5, events=14, leaves=100, target_ui=122",
+        "audit registration: registered=186",
+        "context manifest: PASS after queue repair",
+        "queue consistency: PASS after queue repair"
+      ],
+      "original_queue_failure": "Initial queue index/header formatting failure is preserved in audit.stdout.log; independent current queue/context checks pass. It is not hidden as an original all-pass run.",
+      "unresolved": "full_body_translation_scope --self-test: cases=54 failures=1; current acceptance contains broad pre-existing stale source debt. Not repaired or waived by this review."
+    },
+    "independent_inventory_diagnostic": {
+      "read_only": true,
+      "total_diagnostics": 1236,
+      "stale_event_source_diagnostics": 1233,
+      "stale_by_locale": {
+        "ja": 411,
+        "zh-CN": 411,
+        "zh-TW": 411
+      },
+      "unreceipted_summary_diagnostics": 3,
+      "target_leaves_without_current_acceptance_each": 414,
+      "note": "These are diagnostic counts, not new translation coverage. arc_year1_close's three example source/receipt values were independently unchanged and already stale in the predecessor; the debt extends beyond that example."
+    },
+    "tokens_and_newlines": "All fifteen match Korean token order/count and newline/paragraph topology.",
+    "numeric_semantics": "Reviewed 05:00, 301, floor 3, Monday, six years, nearly three hours, one second, one evening place and reply by 19:00 where present; no currency conversion or gameplay number changes."
+  },
+  "accepted_targets": [
+    {
+      "locale": "ja",
+      "id": "events:arc_36_trust_crack:/description",
+      "source_path": "content/events/arc_chapter_themes.json",
+      "target_path": "content/events_ja/arc_chapter_themes.json",
+      "path": [
+        "description"
+      ],
+      "source_sha256": "99e26854f232ac8a98a952fc2659860c51794d4f9d8d97fe5e273e103e065865",
+      "previous_target_sha256": "940265fac823261157757f09c158fdbc3e27b730a24c7e25d3a702c8c168b9dc",
+      "target_sha256": "73a89e40c15f4d7c2f7620362dbc42c8c146a86f406575626d86b99af480c5c6",
+      "newline_count": 10,
+      "paragraph_count": 5
+    },
+    {
+      "locale": "ja",
+      "id": "events:arc_father_03_hospital:/choices/0/result_text",
+      "source_path": "content/events/arc_events.json",
+      "target_path": "content/events_ja/arc_events.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_sha256": "f61d58bcee17606b43359aaa89fb95f1d82f489bc25ca9ef0fdcafb3b63aa48e",
+      "previous_target_sha256": "ab1056213d26ba6708f7ce279311f855e42ae0227ac28f3e845a1c455af6d5da",
+      "target_sha256": "77b88e6c815e62998a7718d4985f48af248f0eec2fc75825da3e5c6063b47b99",
+      "newline_count": 2,
+      "paragraph_count": 1
+    },
+    {
+      "locale": "ja",
+      "id": "events:arc_father_04_visit:/description",
+      "source_path": "content/events/arc_events.json",
+      "target_path": "content/events_ja/arc_events.json",
+      "path": [
+        "description"
+      ],
+      "source_sha256": "f22edbc7a3c406b0981b989b1fa009dd5e799ca59528b251ddfe35a50fd6427a",
+      "previous_target_sha256": "d6fba777051633b199ca624ad37d5c83454ab3e337a1e9c719593ac3903e8795",
+      "target_sha256": "fc18f23e57067dc7f2cd6af5281cf9666d81e4d4be22da77f0d77aff3796069b",
+      "newline_count": 4,
+      "paragraph_count": 3
+    },
+    {
+      "locale": "ja",
+      "id": "events:arc_father_04_visit:/description_if_known/arc_sangchul_03_seen",
+      "source_path": "content/events/arc_events.json",
+      "target_path": "content/events_ja/arc_events.json",
+      "path": [
+        "description_if_known",
+        "arc_sangchul_03_seen"
+      ],
+      "source_sha256": "5b0d40117940d2a4f8e273012becdbb88667e518c0f12214f7a6fa336302adfa",
+      "previous_target_sha256": "e4ad43c40d90f2d2e2b510c1e7852238399bfe9bfeec332b56794f7cb8afded2",
+      "target_sha256": "ff8263cb27350790d26a88dec7d57a4548520fe6a46f7f15f2d2741bdd8fb9e3",
+      "newline_count": 4,
+      "paragraph_count": 3
+    },
+    {
+      "locale": "ja",
+      "id": "events:arc_sangchul_reckoning:/choices/1/result_text",
+      "source_path": "content/events/arc_drama.json",
+      "target_path": "content/events_ja/arc_drama.json",
+      "path": [
+        "choices",
+        1,
+        "result_text"
+      ],
+      "source_sha256": "3cf6db4142439dbba70ef0fa9d5a1b666430acb63428570ccacd9d2d4db1f9c0",
+      "previous_target_sha256": "43faaa7683a2ef56d5916f5c22b2c99cb53443a8ae36a370ebe505e6caee069e",
+      "target_sha256": "77c465f5a4162841855159e8d4768ea1f8aec081ea252afbd300d6e88ab80271",
+      "newline_count": 4,
+      "paragraph_count": 2
+    },
+    {
+      "locale": "zh-CN",
+      "id": "events:arc_36_trust_crack:/description",
+      "source_path": "content/events/arc_chapter_themes.json",
+      "target_path": "content/events_zh-CN/arc_chapter_themes.json",
+      "path": [
+        "description"
+      ],
+      "source_sha256": "99e26854f232ac8a98a952fc2659860c51794d4f9d8d97fe5e273e103e065865",
+      "previous_target_sha256": "7adcad7d377cf26ea52d1f08668d66500901d685352e482b1d6b98aa5caff42b",
+      "target_sha256": "0b83eec2c0f18114477bdd2d0d994acd4a73e73012fd85f2340498cce3585d7c",
+      "newline_count": 10,
+      "paragraph_count": 5
+    },
+    {
+      "locale": "zh-CN",
+      "id": "events:arc_father_03_hospital:/choices/0/result_text",
+      "source_path": "content/events/arc_events.json",
+      "target_path": "content/events_zh-CN/arc_events.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_sha256": "f61d58bcee17606b43359aaa89fb95f1d82f489bc25ca9ef0fdcafb3b63aa48e",
+      "previous_target_sha256": "0ceaa5fe8849d7ed9d3dc0744f52d67d75e5d3e72eb2702fa7822bea8674e342",
+      "target_sha256": "8312aea8f7ba5600426d362bce0b0e48c254517cc27ebb8194c25869055b127a",
+      "newline_count": 2,
+      "paragraph_count": 1
+    },
+    {
+      "locale": "zh-CN",
+      "id": "events:arc_father_04_visit:/description",
+      "source_path": "content/events/arc_events.json",
+      "target_path": "content/events_zh-CN/arc_events.json",
+      "path": [
+        "description"
+      ],
+      "source_sha256": "f22edbc7a3c406b0981b989b1fa009dd5e799ca59528b251ddfe35a50fd6427a",
+      "previous_target_sha256": "cd982525ddf04e8df13c41edbc0c0fb91ed0b29e6ed1fb21bc958c6e4e6053d0",
+      "target_sha256": "65b4bbf7285c8857c672f484f146b678edac674413f67c56eb9b931f0e355c59",
+      "newline_count": 4,
+      "paragraph_count": 3
+    },
+    {
+      "locale": "zh-CN",
+      "id": "events:arc_father_04_visit:/description_if_known/arc_sangchul_03_seen",
+      "source_path": "content/events/arc_events.json",
+      "target_path": "content/events_zh-CN/arc_events.json",
+      "path": [
+        "description_if_known",
+        "arc_sangchul_03_seen"
+      ],
+      "source_sha256": "5b0d40117940d2a4f8e273012becdbb88667e518c0f12214f7a6fa336302adfa",
+      "previous_target_sha256": "2d1d38d6599b607cfebe9c079ac15cc88f2da6c5e64469ea6f89a119ac8a95cd",
+      "target_sha256": "9c656cbe0c816d5580510580de050980762f57e0c04012726a5d4d75e1998483",
+      "newline_count": 4,
+      "paragraph_count": 3
+    },
+    {
+      "locale": "zh-CN",
+      "id": "events:arc_sangchul_reckoning:/choices/1/result_text",
+      "source_path": "content/events/arc_drama.json",
+      "target_path": "content/events_zh-CN/arc_drama.json",
+      "path": [
+        "choices",
+        1,
+        "result_text"
+      ],
+      "source_sha256": "3cf6db4142439dbba70ef0fa9d5a1b666430acb63428570ccacd9d2d4db1f9c0",
+      "previous_target_sha256": "e3acfd6452cfb55494ccc2bdf8c18d3e9be1d27d406c7d7440ea26b39902916d",
+      "target_sha256": "a15e94cf2664815346a210bf0596e04362c1973c6a8a9860e46da80dc50dd21f",
+      "newline_count": 4,
+      "paragraph_count": 2
+    },
+    {
+      "locale": "zh-TW",
+      "id": "events:arc_36_trust_crack:/description",
+      "source_path": "content/events/arc_chapter_themes.json",
+      "target_path": "content/events_zh-TW/arc_chapter_themes.json",
+      "path": [
+        "description"
+      ],
+      "source_sha256": "99e26854f232ac8a98a952fc2659860c51794d4f9d8d97fe5e273e103e065865",
+      "previous_target_sha256": "dbea8305325de081e8df99f7770417fb281539198c9c48bcdc2dac142d976765",
+      "target_sha256": "f75543a8c5179a0e37d866043cd9dfef7d0229d24e470bdf6f480fdbfd0a71f1",
+      "newline_count": 10,
+      "paragraph_count": 5
+    },
+    {
+      "locale": "zh-TW",
+      "id": "events:arc_father_03_hospital:/choices/0/result_text",
+      "source_path": "content/events/arc_events.json",
+      "target_path": "content/events_zh-TW/arc_events.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_sha256": "f61d58bcee17606b43359aaa89fb95f1d82f489bc25ca9ef0fdcafb3b63aa48e",
+      "previous_target_sha256": "74f0cb62e25e5e0412c8297e8b6479e747d05adc544db29c415dcb9c7fba1a50",
+      "target_sha256": "dd6f3ed0731e283b187e86b804ab9cca6ac3934f54af7c913cf2f5f855323cde",
+      "newline_count": 2,
+      "paragraph_count": 1
+    },
+    {
+      "locale": "zh-TW",
+      "id": "events:arc_father_04_visit:/description",
+      "source_path": "content/events/arc_events.json",
+      "target_path": "content/events_zh-TW/arc_events.json",
+      "path": [
+        "description"
+      ],
+      "source_sha256": "f22edbc7a3c406b0981b989b1fa009dd5e799ca59528b251ddfe35a50fd6427a",
+      "previous_target_sha256": "dfba6b9c6f187d527d74eb90906a8e9b0c330044b1c9064a00274ecd927e883a",
+      "target_sha256": "09fbf50121598d916bc3d7b80574445e874eb27bda6a435e237eb2fc8168ef26",
+      "newline_count": 4,
+      "paragraph_count": 3
+    },
+    {
+      "locale": "zh-TW",
+      "id": "events:arc_father_04_visit:/description_if_known/arc_sangchul_03_seen",
+      "source_path": "content/events/arc_events.json",
+      "target_path": "content/events_zh-TW/arc_events.json",
+      "path": [
+        "description_if_known",
+        "arc_sangchul_03_seen"
+      ],
+      "source_sha256": "5b0d40117940d2a4f8e273012becdbb88667e518c0f12214f7a6fa336302adfa",
+      "previous_target_sha256": "83cd694dbeb6ec813b0825985e9df719ce3341466343803b515afbe8edd54050",
+      "target_sha256": "36771abc920b340a552681ac4ab8d15f9a383f3530ff626810d3f264defebcc5",
+      "newline_count": 4,
+      "paragraph_count": 3
+    },
+    {
+      "locale": "zh-TW",
+      "id": "events:arc_sangchul_reckoning:/choices/1/result_text",
+      "source_path": "content/events/arc_drama.json",
+      "target_path": "content/events_zh-TW/arc_drama.json",
+      "path": [
+        "choices",
+        1,
+        "result_text"
+      ],
+      "source_sha256": "3cf6db4142439dbba70ef0fa9d5a1b666430acb63428570ccacd9d2d4db1f9c0",
+      "previous_target_sha256": "240a8e8781f4b4ee039dd9488f42076f19b9c34cba8431bddaa0b9e695857c81",
+      "target_sha256": "3ac74d46dfba796aae5f41559cbaa52a4ed8c0217c1f67b8a803c7bae10e2ad9",
+      "newline_count": 4,
+      "paragraph_count": 2
+    }
+  ],
+  "raw_artifacts": [
+    {
+      "path": ".git/localization-resume-20261103/ja.source.jsonl",
+      "bytes": 7052,
+      "sha256": "f3eb379073ec39b39f97d5b09fa064a7f2171d6744fd590c8f3c920b2e7940d8"
+    },
+    {
+      "path": ".git/localization-resume-20261103/ja.response.jsonl",
+      "bytes": 5294,
+      "sha256": "2e76b6ff20c3fcb0ce1161141c56964f043ab4243193d24be736461d7d9d584f"
+    },
+    {
+      "path": ".git/localization-resume-20261103/zh-CN.source.jsonl",
+      "bytes": 7085,
+      "sha256": "04a2e5e3447de3f73c825d34aa9187479921ab53209bcf87c298079f466827fb"
+    },
+    {
+      "path": ".git/localization-resume-20261103/zh-CN.response.jsonl",
+      "bytes": 4215,
+      "sha256": "71405c57e82824b43f6baab0dc774d5fd3c949236e04ff37b2a8ad0048acbf0c"
+    },
+    {
+      "path": ".git/localization-resume-20261103/zh-TW.source.jsonl",
+      "bytes": 7085,
+      "sha256": "7fea696a8ce083e46cffda89694bc6d2b5c978c27958e8d843a254b0a21ebd7a"
+    },
+    {
+      "path": ".git/localization-resume-20261103/zh-TW.response.jsonl",
+      "bytes": 4147,
+      "sha256": "51fba47cdc17b7b8c785d4c780dc083f40f61432cf6a7b2241213bfcd37ff0b8"
+    },
+    {
+      "path": ".git/localization-resume-20261103/ja.import.stdout.log",
+      "bytes": 118,
+      "sha256": "821da19320278ad79c81b0f643bab8a8415177a5816a24bfd00a941611f3c843"
+    },
+    {
+      "path": ".git/localization-resume-20261103/ja.import.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".git/localization-resume-20261103/zh-CN.import.stdout.log",
+      "bytes": 121,
+      "sha256": "55d291fc98f6812f0be5ca57cbfc386c4e95fa54452790967fc7174811bd363d"
+    },
+    {
+      "path": ".git/localization-resume-20261103/zh-CN.import.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".git/localization-resume-20261103/zh-TW.import.stdout.log",
+      "bytes": 121,
+      "sha256": "106d8d64b9273e004fa620afc0c1170225c48c5faa1063a16c61cc2f28287e9f"
+    },
+    {
+      "path": ".git/localization-resume-20261103/zh-TW.import.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".git/localization-resume-20261103/delta.stdout.log",
+      "bytes": 135,
+      "sha256": "1aee476d30761eebf3bf2823ea83c1dc75b51472bb3075308445b90638cdca91"
+    },
+    {
+      "path": ".git/localization-resume-20261103/delta.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".git/localization-resume-20261103/audit.stdout.log",
+      "bytes": 4328,
+      "sha256": "37a8b537c20e0d085844971a12d842733da8e7e261bea4a42602444fc3a9a66d"
+    },
+    {
+      "path": ".git/localization-resume-20261103/audit.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "evidence_retention": "Private raw exchanges/logs remain at their listed paths. This durable report records their identities, complete reviewed population, results and known failure; it does not treat private logs as a standalone release approval.",
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "external_publication_or_release"
+  ],
+  "conclusion": "GO for ORDER-738's exact fifteen factual corrections at the bound source commit only. The global localization lane, outstanding source-bound acceptance debt, CJK runtime exposure, rendered text, native/human evidence, complete translation and external release remain unapproved."
+}

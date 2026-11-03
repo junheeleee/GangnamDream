@@ -14819,6 +14819,335 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-739",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_year1_close"
+      ],
+      "source_leaves": 8,
+      "target_leaves_by_locale": {
+        "ja": 8,
+        "zh-CN": 8,
+        "zh-TW": 8
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean comparison: kept/deferred headings and parallel records, current notebook action instead of removed ceiling/moral conclusions; all 24 targets compared. Original acceptance and prior target hashes retained.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "0f335136247ae71e2497cd441fce1faf6278beb0",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "47b8031d7952ad88f258d416212dd257f6d8ec14e7f2fab183405c3aca4a9166",
+          "count": 8,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b8de09fb9ccabf712d65bb96dd52dd4b92bec14ef143396a461de4a66f5c104e"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "0f335136247ae71e2497cd441fce1faf6278beb0",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "c8340f7f2aeaf102d0c2447b654184b1f72a910eb021a8b3909e4fdfaa68202e",
+          "count": 8,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e54023afa0911db3781ce5bb2aa7b7bcaa7a58473001b02b997e44740257ab33"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "0f335136247ae71e2497cd441fce1faf6278beb0",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "8afedcb1b60c0cb2466e450c81dddd212742fff828eae3abb0bc3e205de53c94",
+          "count": 8,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7c36016ae1d01d41e4fa6163070b607be83db6d8a169f26e06fad6d029561881"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "075bcc1a49f21ab383bfebbd84d3cab8500aa639c4671b3a58b8acfb1b1fc7b1",
+        "zh-CN": "9e2899b97e8386c9b92e55a73a4c20651602d1a0bd7c5ff5567d8a470d2d6bd5",
+        "zh-TW": "c9090235afd7aa0e3eed0e13fb5b2fec3255b23e31b6375fb52ee80edffba742"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_year1_close:/choices/0/result_text": "d80ef52afcbf3769e049b6cff663f994b61e324c55ebad25371402a7e414bab3",
+          "events:arc_year1_close:/choices/0/text": "d0224a24741c802a693b2975ffdfcb2a48d31465eeb5c5725d8bcef419bb1b38",
+          "events:arc_year1_close:/description": "55c19a55f24424331dfa92fc29e6f2e2ef465eed557f150ca483ad51cb5276a4",
+          "events:arc_year1_close:/description_if_known/entered_network": "e4b736360a6a8b016c4a8c76e66ba184400e4751cee4706b61eea03c93ebbacf",
+          "events:arc_year1_close:/description_if_known/escaped_dirty_money": "c17ba8e857e4653560ae85585c49a47f5fb8566b6090301b3f62d64057542303",
+          "events:arc_year1_close:/description_if_known/hit_rock_bottom": "6fb0aea38f157c6a3d60ead346aa1bff25af9e9f4a35d497b58f9eddfaa7b60e",
+          "events:arc_year1_close:/description_if_known/jaehyuk_scammed": "7bca9c7e5c65d48c503158a9e83091eae24ec8ff5de02b0cefa720368cda5523",
+          "events:arc_year1_close:/description_if_known/kept_clean_hands": "c422bdc8f9cec1dbf40c5c8505288f6aa09357709c342fdebcad3b4ff6dee5cd"
+        },
+        "zh-CN": {
+          "events:arc_year1_close:/choices/0/result_text": "e30de714f5852661356f87b9b64ec3319b7f954fbe680b6e62f2b00665f73eef",
+          "events:arc_year1_close:/choices/0/text": "5d3c5337f0569fe9a3a59a9ed9da568e7c41e91372143d44f235fe3ae5c85cc1",
+          "events:arc_year1_close:/description": "9a753a3385686a918c6f64faea5e3e3883a4b8778c795c52de66038fed060d47",
+          "events:arc_year1_close:/description_if_known/entered_network": "2a3d2da061db78ef26138063d0c4eb01a84dc92d440161cc62c96bf914e7f2cb",
+          "events:arc_year1_close:/description_if_known/escaped_dirty_money": "44e2ca49217111c913fc8d7523645447c96456de8d8757ea28f68e0997aa4521",
+          "events:arc_year1_close:/description_if_known/hit_rock_bottom": "4cb9d09f36a99880dec28b22a78642f15b86edeb2afe55658315aa91d82425d6",
+          "events:arc_year1_close:/description_if_known/jaehyuk_scammed": "ba3278351440165c973e9f4f099c84f2089ecc3192e5fb44abba044e86a673df",
+          "events:arc_year1_close:/description_if_known/kept_clean_hands": "b367d411c8c8f57e7149fa3e8b5a5e4f5b237f727e191b05dded3a8657cfca28"
+        },
+        "zh-TW": {
+          "events:arc_year1_close:/choices/0/result_text": "67180daf1744444bc7309eac563fe5189dfe4c5df437eee7eb82ed3760fa6720",
+          "events:arc_year1_close:/choices/0/text": "ba64f2f897d35446b72777261932612a5080bc9aa38312a755c98707178915c6",
+          "events:arc_year1_close:/description": "444a0f5435a39603cd948558224003aaf2e2b807ece0c668c201478ffae3f06f",
+          "events:arc_year1_close:/description_if_known/entered_network": "0bab6a99394ed034941fd37f56603f50a608d9fc6778ebe69c2c5d2ffa60d7f2",
+          "events:arc_year1_close:/description_if_known/escaped_dirty_money": "aa3d85d62b429d7d4c0a09b4d30ce76ce030dd3de853bc0956a2ea6a8e69699b",
+          "events:arc_year1_close:/description_if_known/hit_rock_bottom": "9fee6cc667de7f0348600fb436c01801b5c6841cf4420cb5b17ff5b498cb5f54",
+          "events:arc_year1_close:/description_if_known/jaehyuk_scammed": "44493513a3c1cc71c0df85f56cf2c3628d686ffa46e9def60df12621612acd7c",
+          "events:arc_year1_close:/description_if_known/kept_clean_hands": "c4daa35cdab851be657e1b1a621027f654b2dc2dbcbc5f7a8034c37500fae2ef"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_year1_close:/choices/0/result_text": {
+            "source_sha256": "501ae31032f14812b0be83155464d7a8f855e71de6de0667eb584f1c3965d0ec",
+            "target_sha256": "d80ef52afcbf3769e049b6cff663f994b61e324c55ebad25371402a7e414bab3"
+          },
+          "events:arc_year1_close:/choices/0/text": {
+            "source_sha256": "31a98d6d0b34a92273e5ae0053beb94c138fad9ccd4f8aeb40bcd0dc2a200dc4",
+            "target_sha256": "d0224a24741c802a693b2975ffdfcb2a48d31465eeb5c5725d8bcef419bb1b38"
+          },
+          "events:arc_year1_close:/description": {
+            "source_sha256": "b69b552807f666c0969043bb5bf8f60249f23c671ee3b327843f1fb6daacbabc",
+            "target_sha256": "55c19a55f24424331dfa92fc29e6f2e2ef465eed557f150ca483ad51cb5276a4"
+          },
+          "events:arc_year1_close:/description_if_known/entered_network": {
+            "source_sha256": "d13e79a2df0f6a09dd557f1051bf4192e7eec724f6d9ddfc34a3ec9ee55edfa2",
+            "target_sha256": "e4b736360a6a8b016c4a8c76e66ba184400e4751cee4706b61eea03c93ebbacf"
+          },
+          "events:arc_year1_close:/description_if_known/escaped_dirty_money": {
+            "source_sha256": "7ed652dd5fdc0071de6876583778b44b58dfbc82a1d4292799ba45b55a56a785",
+            "target_sha256": "c17ba8e857e4653560ae85585c49a47f5fb8566b6090301b3f62d64057542303"
+          },
+          "events:arc_year1_close:/description_if_known/hit_rock_bottom": {
+            "source_sha256": "8bfd7297084a28862e0d4ba2e7b570cfbbe74ddf645b7ccbba7001c9a3c6b080",
+            "target_sha256": "6fb0aea38f157c6a3d60ead346aa1bff25af9e9f4a35d497b58f9eddfaa7b60e"
+          },
+          "events:arc_year1_close:/description_if_known/jaehyuk_scammed": {
+            "source_sha256": "42aaf840a92cd203584668f70f3a903a9d70126357b14f407a6dc279381a964c",
+            "target_sha256": "7bca9c7e5c65d48c503158a9e83091eae24ec8ff5de02b0cefa720368cda5523"
+          },
+          "events:arc_year1_close:/description_if_known/kept_clean_hands": {
+            "source_sha256": "d041f9eeb0eada4761010f66dc0112579cfa0e7e212f38a6ff5999b9438bd510",
+            "target_sha256": "c422bdc8f9cec1dbf40c5c8505288f6aa09357709c342fdebcad3b4ff6dee5cd"
+          }
+        },
+        "zh-CN": {
+          "events:arc_year1_close:/choices/0/result_text": {
+            "source_sha256": "501ae31032f14812b0be83155464d7a8f855e71de6de0667eb584f1c3965d0ec",
+            "target_sha256": "8640fca47a5faaf1e16dad04cfa40637b595917d70e21eb942206d05f4920419"
+          },
+          "events:arc_year1_close:/choices/0/text": {
+            "source_sha256": "31a98d6d0b34a92273e5ae0053beb94c138fad9ccd4f8aeb40bcd0dc2a200dc4",
+            "target_sha256": "2482defc4ef0850622c6eccb10dccb69222c3a9a71515573a93d22517b5971f6"
+          },
+          "events:arc_year1_close:/description": {
+            "source_sha256": "b69b552807f666c0969043bb5bf8f60249f23c671ee3b327843f1fb6daacbabc",
+            "target_sha256": "281dc027a3c266177dba2a4f921a8f0a0d3ed6611be1a2f455f1fb7fafce2c04"
+          },
+          "events:arc_year1_close:/description_if_known/entered_network": {
+            "source_sha256": "d13e79a2df0f6a09dd557f1051bf4192e7eec724f6d9ddfc34a3ec9ee55edfa2",
+            "target_sha256": "6de7718e7bfc9ccd26f8985d9bb053a534cfc263634dcc52ed043d6ad76475bb"
+          },
+          "events:arc_year1_close:/description_if_known/escaped_dirty_money": {
+            "source_sha256": "7ed652dd5fdc0071de6876583778b44b58dfbc82a1d4292799ba45b55a56a785",
+            "target_sha256": "0349e40d78a0b2d90ae1244c215a8f41a1c4894e04695c1514b66cd123de6d7f"
+          },
+          "events:arc_year1_close:/description_if_known/hit_rock_bottom": {
+            "source_sha256": "8bfd7297084a28862e0d4ba2e7b570cfbbe74ddf645b7ccbba7001c9a3c6b080",
+            "target_sha256": "14e6daf4bc2e9b8a1590eef598feba121fcb786d90901240c16bfdb313364bc6"
+          },
+          "events:arc_year1_close:/description_if_known/jaehyuk_scammed": {
+            "source_sha256": "42aaf840a92cd203584668f70f3a903a9d70126357b14f407a6dc279381a964c",
+            "target_sha256": "ae3410f2541b790e6b3650bf59fd23ceaffcb3a9e9eaa6914ea0e423733dc810"
+          },
+          "events:arc_year1_close:/description_if_known/kept_clean_hands": {
+            "source_sha256": "d041f9eeb0eada4761010f66dc0112579cfa0e7e212f38a6ff5999b9438bd510",
+            "target_sha256": "80d4e3b0755670d94c38af862e07ad6943c3978c5ba933db7bcccc138e2dd1f7"
+          }
+        },
+        "zh-TW": {
+          "events:arc_year1_close:/choices/0/result_text": {
+            "source_sha256": "501ae31032f14812b0be83155464d7a8f855e71de6de0667eb584f1c3965d0ec",
+            "target_sha256": "ffcae7fbf27151f566c0985af6aa02dc766ee4d7da5f92b512291cfb255d6970"
+          },
+          "events:arc_year1_close:/choices/0/text": {
+            "source_sha256": "31a98d6d0b34a92273e5ae0053beb94c138fad9ccd4f8aeb40bcd0dc2a200dc4",
+            "target_sha256": "2103da44580ee46531b626e8f892d960373ba99508522f97b92e4e747e812ba0"
+          },
+          "events:arc_year1_close:/description": {
+            "source_sha256": "b69b552807f666c0969043bb5bf8f60249f23c671ee3b327843f1fb6daacbabc",
+            "target_sha256": "2baa5b093179d27fd1b01029ff8fde57c2d11d0f7e0df77f1db4a166fa94e0d4"
+          },
+          "events:arc_year1_close:/description_if_known/entered_network": {
+            "source_sha256": "d13e79a2df0f6a09dd557f1051bf4192e7eec724f6d9ddfc34a3ec9ee55edfa2",
+            "target_sha256": "1ddea84a5539fff7fe739bef3785dd4e5cc27b3800fb7c9d4a434942138bba4a"
+          },
+          "events:arc_year1_close:/description_if_known/escaped_dirty_money": {
+            "source_sha256": "7ed652dd5fdc0071de6876583778b44b58dfbc82a1d4292799ba45b55a56a785",
+            "target_sha256": "28d806fe0a3f472b944f9af96dd7b7339fd7fe775a3789b25dc4b871ef001473"
+          },
+          "events:arc_year1_close:/description_if_known/hit_rock_bottom": {
+            "source_sha256": "8bfd7297084a28862e0d4ba2e7b570cfbbe74ddf645b7ccbba7001c9a3c6b080",
+            "target_sha256": "fa0a89e18791601f1686fc946ba986ced13b38392751e80341e727ebf2abf6ee"
+          },
+          "events:arc_year1_close:/description_if_known/jaehyuk_scammed": {
+            "source_sha256": "42aaf840a92cd203584668f70f3a903a9d70126357b14f407a6dc279381a964c",
+            "target_sha256": "e3c1ec04e7dff1fc645832c607c3fc79229e8b07b4dd40b474afe710c863269c"
+          },
+          "events:arc_year1_close:/description_if_known/kept_clean_hands": {
+            "source_sha256": "d041f9eeb0eada4761010f66dc0112579cfa0e7e212f38a6ff5999b9438bd510",
+            "target_sha256": "9c94b8eab6fc5719bdbdb7ff01ebe303e54ef5c078c4743a0ecda67d8f345ab8"
+          }
+        }
+      },
+      "intermediate_machine_checked_drafts_by_locale": {
+        "zh-CN": {
+          "official_receipt_header": {
+            "kind": "full_game_localization_batch",
+            "schema_version": 1,
+            "locale": "zh-CN",
+            "source_revision": "0f335136247ae71e2497cd441fce1faf6278beb0",
+            "prompt_version": "full-ko-direct-2026-09-07.1",
+            "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+            "selection_sha256": "8ba3f57c6e1f4bac71615044921bb70333ebdb03b7b315a578cb109eb4540aef",
+            "count": 8,
+            "source_language": "ko",
+            "native_review": "OPEN",
+            "batch_id": "047fda327c15fe0abbbe4a1a278a1dd2bf31a36fb0469b0ad3e974530c70040d"
+          },
+          "receipt_sha256": "b6e484622598cd49e94bd6cb750ebd73602a9304e94bd0c33657ed862fb695f7",
+          "translations": {
+            "events:arc_year1_close:/choices/0/result_text": {
+              "source_sha256": "db990846794945948857ab1494872810be255801bd4482f872f7d144a1abda2d",
+              "target_sha256": "e30de714f5852661356f87b9b64ec3319b7f954fbe680b6e62f2b00665f73eef"
+            },
+            "events:arc_year1_close:/choices/0/text": {
+              "source_sha256": "530718ca92857b939281c5422afe45bb500d5ce7856ece2e150c6407c7f01149",
+              "target_sha256": "5d3c5337f0569fe9a3a59a9ed9da568e7c41e91372143d44f235fe3ae5c85cc1"
+            },
+            "events:arc_year1_close:/description": {
+              "source_sha256": "1043a57ce7c1e0a1cf0d785ab7ccd49e6167752e77c58dfdb805c19fd693b3ef",
+              "target_sha256": "9a753a3385686a918c6f64faea5e3e3883a4b8778c795c52de66038fed060d47"
+            },
+            "events:arc_year1_close:/description_if_known/entered_network": {
+              "source_sha256": "e4d024a3d22833889de55afacc74b19434f1beae062442f411937b9f3d91075e",
+              "target_sha256": "2a3d2da061db78ef26138063d0c4eb01a84dc92d440161cc62c96bf914e7f2cb"
+            },
+            "events:arc_year1_close:/description_if_known/escaped_dirty_money": {
+              "source_sha256": "2ca19c4733c850b446492f7935ac8910fcb75cb6a00a739fe7b3e70dfdd60f17",
+              "target_sha256": "44e2ca49217111c913fc8d7523645447c96456de8d8757ea28f68e0997aa4521"
+            },
+            "events:arc_year1_close:/description_if_known/hit_rock_bottom": {
+              "source_sha256": "8d89a0b750590736a293ffbaa57dcb13c100ac5ac363172ca92f08c1306d3b62",
+              "target_sha256": "4cb9d09f36a99880dec28b22a78642f15b86edeb2afe55658315aa91d82425d6"
+            },
+            "events:arc_year1_close:/description_if_known/jaehyuk_scammed": {
+              "source_sha256": "e36f17446cf54854c50fd729acd8bf1888c4b8f837f3e0a04c1569bd6ec9becc",
+              "target_sha256": "ba3278351440165c973e9f4f099c84f2089ecc3192e5fb44abba044e86a673df"
+            },
+            "events:arc_year1_close:/description_if_known/kept_clean_hands": {
+              "source_sha256": "a1aa15b1a308ab30f84be1ba6363aada66302354936f7437eea6322bac08a783",
+              "target_sha256": "b367d411c8c8f57e7149fa3e8b5a5e4f5b237f727e191b05dded3a8657cfca28"
+            }
+          },
+          "previous_target_sha256": {
+            "events:arc_year1_close:/choices/0/result_text": "8640fca47a5faaf1e16dad04cfa40637b595917d70e21eb942206d05f4920419",
+            "events:arc_year1_close:/choices/0/text": "2482defc4ef0850622c6eccb10dccb69222c3a9a71515573a93d22517b5971f6",
+            "events:arc_year1_close:/description": "281dc027a3c266177dba2a4f921a8f0a0d3ed6611be1a2f455f1fb7fafce2c04",
+            "events:arc_year1_close:/description_if_known/entered_network": "6de7718e7bfc9ccd26f8985d9bb053a534cfc263634dcc52ed043d6ad76475bb",
+            "events:arc_year1_close:/description_if_known/escaped_dirty_money": "0349e40d78a0b2d90ae1244c215a8f41a1c4894e04695c1514b66cd123de6d7f",
+            "events:arc_year1_close:/description_if_known/hit_rock_bottom": "14e6daf4bc2e9b8a1590eef598feba121fcb786d90901240c16bfdb313364bc6",
+            "events:arc_year1_close:/description_if_known/jaehyuk_scammed": "ae3410f2541b790e6b3650bf59fd23ceaffcb3a9e9eaa6914ea0e423733dc810",
+            "events:arc_year1_close:/description_if_known/kept_clean_hands": "80d4e3b0755670d94c38af862e07ad6943c3978c5ba933db7bcccc138e2dd1f7"
+          },
+          "state": "machine_checked_draft_superseded_after_independent_review"
+        },
+        "zh-TW": {
+          "official_receipt_header": {
+            "kind": "full_game_localization_batch",
+            "schema_version": 1,
+            "locale": "zh-TW",
+            "source_revision": "0f335136247ae71e2497cd441fce1faf6278beb0",
+            "prompt_version": "full-ko-direct-2026-09-07.1",
+            "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+            "selection_sha256": "547cceeb890ca9965f19f156316855101acda576cd056fbd2be5d707acce09f2",
+            "count": 8,
+            "source_language": "ko",
+            "native_review": "OPEN",
+            "batch_id": "0d4ea1d936953add88e431647ed4c98dc7e7c18f0b983d34c2f14e3a5a3520b3"
+          },
+          "receipt_sha256": "44df6ea493e000512c00b613f7ac20f7e676d95f2fbc8a70d76a83490672a99d",
+          "translations": {
+            "events:arc_year1_close:/choices/0/result_text": {
+              "source_sha256": "db990846794945948857ab1494872810be255801bd4482f872f7d144a1abda2d",
+              "target_sha256": "67180daf1744444bc7309eac563fe5189dfe4c5df437eee7eb82ed3760fa6720"
+            },
+            "events:arc_year1_close:/choices/0/text": {
+              "source_sha256": "530718ca92857b939281c5422afe45bb500d5ce7856ece2e150c6407c7f01149",
+              "target_sha256": "ba64f2f897d35446b72777261932612a5080bc9aa38312a755c98707178915c6"
+            },
+            "events:arc_year1_close:/description": {
+              "source_sha256": "1043a57ce7c1e0a1cf0d785ab7ccd49e6167752e77c58dfdb805c19fd693b3ef",
+              "target_sha256": "444a0f5435a39603cd948558224003aaf2e2b807ece0c668c201478ffae3f06f"
+            },
+            "events:arc_year1_close:/description_if_known/entered_network": {
+              "source_sha256": "e4d024a3d22833889de55afacc74b19434f1beae062442f411937b9f3d91075e",
+              "target_sha256": "0bab6a99394ed034941fd37f56603f50a608d9fc6778ebe69c2c5d2ffa60d7f2"
+            },
+            "events:arc_year1_close:/description_if_known/escaped_dirty_money": {
+              "source_sha256": "2ca19c4733c850b446492f7935ac8910fcb75cb6a00a739fe7b3e70dfdd60f17",
+              "target_sha256": "aa3d85d62b429d7d4c0a09b4d30ce76ce030dd3de853bc0956a2ea6a8e69699b"
+            },
+            "events:arc_year1_close:/description_if_known/hit_rock_bottom": {
+              "source_sha256": "8d89a0b750590736a293ffbaa57dcb13c100ac5ac363172ca92f08c1306d3b62",
+              "target_sha256": "9fee6cc667de7f0348600fb436c01801b5c6841cf4420cb5b17ff5b498cb5f54"
+            },
+            "events:arc_year1_close:/description_if_known/jaehyuk_scammed": {
+              "source_sha256": "e36f17446cf54854c50fd729acd8bf1888c4b8f837f3e0a04c1569bd6ec9becc",
+              "target_sha256": "44493513a3c1cc71c0df85f56cf2c3628d686ffa46e9def60df12621612acd7c"
+            },
+            "events:arc_year1_close:/description_if_known/kept_clean_hands": {
+              "source_sha256": "a1aa15b1a308ab30f84be1ba6363aada66302354936f7437eea6322bac08a783",
+              "target_sha256": "c4daa35cdab851be657e1b1a621027f654b2dc2dbcbc5f7a8034c37500fae2ef"
+            }
+          },
+          "previous_target_sha256": {
+            "events:arc_year1_close:/choices/0/result_text": "ffcae7fbf27151f566c0985af6aa02dc766ee4d7da5f92b512291cfb255d6970",
+            "events:arc_year1_close:/choices/0/text": "2103da44580ee46531b626e8f892d960373ba99508522f97b92e4e747e812ba0",
+            "events:arc_year1_close:/description": "2baa5b093179d27fd1b01029ff8fde57c2d11d0f7e0df77f1db4a166fa94e0d4",
+            "events:arc_year1_close:/description_if_known/entered_network": "1ddea84a5539fff7fe739bef3785dd4e5cc27b3800fb7c9d4a434942138bba4a",
+            "events:arc_year1_close:/description_if_known/escaped_dirty_money": "28d806fe0a3f472b944f9af96dd7b7339fd7fe775a3789b25dc4b871ef001473",
+            "events:arc_year1_close:/description_if_known/hit_rock_bottom": "fa0a89e18791601f1686fc946ba986ced13b38392751e80341e727ebf2abf6ee",
+            "events:arc_year1_close:/description_if_known/jaehyuk_scammed": "e3c1ec04e7dff1fc645832c607c3fc79229e8b07b4dd40b474afe710c863269c",
+            "events:arc_year1_close:/description_if_known/kept_clean_hands": "9c94b8eab6fc5719bdbdb7ff01ebe303e54ef5c078c4743a0ecda67d8f345ab8"
+          },
+          "state": "machine_checked_draft_superseded_after_independent_review"
+        }
+      }
     }
   ],
   "accepted": {
@@ -15076,12 +15405,12 @@
         "target_sha256": "80e84f7ba8cb043c679524e6c5ae4357f1a7a0b6c612569f3c21ec18a4cd2376"
       },
       "events:arc_year1_close:/choices/0/result_text": {
-        "source_sha256": "501ae31032f14812b0be83155464d7a8f855e71de6de0667eb584f1c3965d0ec",
-        "target_sha256": "d80ef52afcbf3769e049b6cff663f994b61e324c55ebad25371402a7e414bab3"
+        "source_sha256": "db990846794945948857ab1494872810be255801bd4482f872f7d144a1abda2d",
+        "target_sha256": "2de83f18f4a339742da38cb24779462950e793139215290e4a113b83d58d951f"
       },
       "events:arc_year1_close:/choices/0/text": {
-        "source_sha256": "31a98d6d0b34a92273e5ae0053beb94c138fad9ccd4f8aeb40bcd0dc2a200dc4",
-        "target_sha256": "d0224a24741c802a693b2975ffdfcb2a48d31465eeb5c5725d8bcef419bb1b38"
+        "source_sha256": "530718ca92857b939281c5422afe45bb500d5ce7856ece2e150c6407c7f01149",
+        "target_sha256": "3da34f15cb13a20e6bb66468b4e27fd496e9677a0d192a9422c317b463ba958c"
       },
       "events:arc_year1_close:/choices/1/result_text": {
         "source_sha256": "3fc72f094d6a3cba78808e90918f2d6f62d82d65161aa001356152e64ab8558f",
@@ -15100,32 +15429,32 @@
         "target_sha256": "282fd469d499aed3d072073a9c5a17d729db580c782efba636ed0b906c7d1d8d"
       },
       "events:arc_year1_close:/description": {
-        "source_sha256": "b69b552807f666c0969043bb5bf8f60249f23c671ee3b327843f1fb6daacbabc",
-        "target_sha256": "55c19a55f24424331dfa92fc29e6f2e2ef465eed557f150ca483ad51cb5276a4"
+        "source_sha256": "1043a57ce7c1e0a1cf0d785ab7ccd49e6167752e77c58dfdb805c19fd693b3ef",
+        "target_sha256": "1d6d69e6c6d63c3fe7b31cf43255d65c49f65cb5ff8df2f153d015d7d82f00a9"
       },
       "events:arc_year1_close:/description_if_known/entered_network": {
-        "source_sha256": "d13e79a2df0f6a09dd557f1051bf4192e7eec724f6d9ddfc34a3ec9ee55edfa2",
-        "target_sha256": "e4b736360a6a8b016c4a8c76e66ba184400e4751cee4706b61eea03c93ebbacf"
+        "source_sha256": "e4d024a3d22833889de55afacc74b19434f1beae062442f411937b9f3d91075e",
+        "target_sha256": "6b2f66bae1188783409f02cd821f1afcd0bc7c7ebb12c50acd35c207967d1bef"
       },
       "events:arc_year1_close:/description_if_known/escaped_dirty_money": {
-        "source_sha256": "7ed652dd5fdc0071de6876583778b44b58dfbc82a1d4292799ba45b55a56a785",
-        "target_sha256": "c17ba8e857e4653560ae85585c49a47f5fb8566b6090301b3f62d64057542303"
+        "source_sha256": "2ca19c4733c850b446492f7935ac8910fcb75cb6a00a739fe7b3e70dfdd60f17",
+        "target_sha256": "3753c212bfce525e2c0850f90cad3d11ac5098b70e8a6402e9dd197b504053db"
       },
       "events:arc_year1_close:/description_if_known/fell_to_darkness": {
         "source_sha256": "eb506a238812263527c2ee4277af3364427751290963ab72f2accf3f7ac6ff03",
         "target_sha256": "1d20490b68b4b148c41ebe2a26f0c6e01b7a14f5df4898259f73a72ce068ecb7"
       },
       "events:arc_year1_close:/description_if_known/hit_rock_bottom": {
-        "source_sha256": "8bfd7297084a28862e0d4ba2e7b570cfbbe74ddf645b7ccbba7001c9a3c6b080",
-        "target_sha256": "6fb0aea38f157c6a3d60ead346aa1bff25af9e9f4a35d497b58f9eddfaa7b60e"
+        "source_sha256": "8d89a0b750590736a293ffbaa57dcb13c100ac5ac363172ca92f08c1306d3b62",
+        "target_sha256": "93dc4e52282abc79cfe57b5b334fb5d1f2eb61fb7165379c540294e9e00b18d9"
       },
       "events:arc_year1_close:/description_if_known/jaehyuk_scammed": {
-        "source_sha256": "42aaf840a92cd203584668f70f3a903a9d70126357b14f407a6dc279381a964c",
-        "target_sha256": "7bca9c7e5c65d48c503158a9e83091eae24ec8ff5de02b0cefa720368cda5523"
+        "source_sha256": "e36f17446cf54854c50fd729acd8bf1888c4b8f837f3e0a04c1569bd6ec9becc",
+        "target_sha256": "c525437835d1b19919122fdbbf6385be1fb85bfc232bf4dd2e7303020769a635"
       },
       "events:arc_year1_close:/description_if_known/kept_clean_hands": {
-        "source_sha256": "d041f9eeb0eada4761010f66dc0112579cfa0e7e212f38a6ff5999b9438bd510",
-        "target_sha256": "c422bdc8f9cec1dbf40c5c8505288f6aa09357709c342fdebcad3b4ff6dee5cd"
+        "source_sha256": "a1aa15b1a308ab30f84be1ba6363aada66302354936f7437eea6322bac08a783",
+        "target_sha256": "ec675f5e009a4c7e5e660517e97bdf4a573dfe5d43a71985ef47baf5ebb6696e"
       },
       "events:arc_year1_close:/description_memory_if_known/m3_ledger_reasons_named": {
         "source_sha256": "d7d8158a2afb872b7581ae6f6b2266762d0991cd889852d788a39c9faeeae544",
@@ -67778,12 +68107,12 @@
         "target_sha256": "7b9f74a973a801d06b99ab32d9427ec9c8bcd91370e1fb76f3004e600bc73fa5"
       },
       "events:arc_year1_close:/choices/0/result_text": {
-        "source_sha256": "501ae31032f14812b0be83155464d7a8f855e71de6de0667eb584f1c3965d0ec",
-        "target_sha256": "8640fca47a5faaf1e16dad04cfa40637b595917d70e21eb942206d05f4920419"
+        "source_sha256": "db990846794945948857ab1494872810be255801bd4482f872f7d144a1abda2d",
+        "target_sha256": "add9aa9817d92b93694e54d434547ce86d295f2826a887f4d9ee440966c9864d"
       },
       "events:arc_year1_close:/choices/0/text": {
-        "source_sha256": "31a98d6d0b34a92273e5ae0053beb94c138fad9ccd4f8aeb40bcd0dc2a200dc4",
-        "target_sha256": "2482defc4ef0850622c6eccb10dccb69222c3a9a71515573a93d22517b5971f6"
+        "source_sha256": "530718ca92857b939281c5422afe45bb500d5ce7856ece2e150c6407c7f01149",
+        "target_sha256": "ba028d12a74e1750708d1ef57490c4e9d0ee3ee8c52c8a7ffe36bc0134c5dbb7"
       },
       "events:arc_year1_close:/choices/1/result_text": {
         "source_sha256": "3fc72f094d6a3cba78808e90918f2d6f62d82d65161aa001356152e64ab8558f",
@@ -67802,32 +68131,32 @@
         "target_sha256": "205a70bb2ae43df4833311f56084ac204126129486a898e275fc689ac9b31734"
       },
       "events:arc_year1_close:/description": {
-        "source_sha256": "b69b552807f666c0969043bb5bf8f60249f23c671ee3b327843f1fb6daacbabc",
-        "target_sha256": "281dc027a3c266177dba2a4f921a8f0a0d3ed6611be1a2f455f1fb7fafce2c04"
+        "source_sha256": "1043a57ce7c1e0a1cf0d785ab7ccd49e6167752e77c58dfdb805c19fd693b3ef",
+        "target_sha256": "191ecbc20bd4d8d27a553b124bfee6a88d74bb853308151cc6473108e1f31292"
       },
       "events:arc_year1_close:/description_if_known/entered_network": {
-        "source_sha256": "d13e79a2df0f6a09dd557f1051bf4192e7eec724f6d9ddfc34a3ec9ee55edfa2",
-        "target_sha256": "6de7718e7bfc9ccd26f8985d9bb053a534cfc263634dcc52ed043d6ad76475bb"
+        "source_sha256": "e4d024a3d22833889de55afacc74b19434f1beae062442f411937b9f3d91075e",
+        "target_sha256": "c27199a702b20255badd459908675cabfef6626f0a16d664afe97aaee8bab402"
       },
       "events:arc_year1_close:/description_if_known/escaped_dirty_money": {
-        "source_sha256": "7ed652dd5fdc0071de6876583778b44b58dfbc82a1d4292799ba45b55a56a785",
-        "target_sha256": "0349e40d78a0b2d90ae1244c215a8f41a1c4894e04695c1514b66cd123de6d7f"
+        "source_sha256": "2ca19c4733c850b446492f7935ac8910fcb75cb6a00a739fe7b3e70dfdd60f17",
+        "target_sha256": "141b33ab2ad5a4772a1dd13cfd71b0aa9e038fe4e0f43a52de92d7f1354eb7ff"
       },
       "events:arc_year1_close:/description_if_known/fell_to_darkness": {
         "source_sha256": "eb506a238812263527c2ee4277af3364427751290963ab72f2accf3f7ac6ff03",
         "target_sha256": "43b2aecd2a1c2aa026293c95474ad849637237b5a2aaaa7cb7d0c445b6649478"
       },
       "events:arc_year1_close:/description_if_known/hit_rock_bottom": {
-        "source_sha256": "8bfd7297084a28862e0d4ba2e7b570cfbbe74ddf645b7ccbba7001c9a3c6b080",
-        "target_sha256": "14e6daf4bc2e9b8a1590eef598feba121fcb786d90901240c16bfdb313364bc6"
+        "source_sha256": "8d89a0b750590736a293ffbaa57dcb13c100ac5ac363172ca92f08c1306d3b62",
+        "target_sha256": "9c6936e0dfa740cc7ecd21caa1e2f4a10545d6d31890f754f9582c42e914c18b"
       },
       "events:arc_year1_close:/description_if_known/jaehyuk_scammed": {
-        "source_sha256": "42aaf840a92cd203584668f70f3a903a9d70126357b14f407a6dc279381a964c",
-        "target_sha256": "ae3410f2541b790e6b3650bf59fd23ceaffcb3a9e9eaa6914ea0e423733dc810"
+        "source_sha256": "e36f17446cf54854c50fd729acd8bf1888c4b8f837f3e0a04c1569bd6ec9becc",
+        "target_sha256": "2c33de618edb1c02787886c06d903fe60ca50699b89f601a69b47d75ad563a55"
       },
       "events:arc_year1_close:/description_if_known/kept_clean_hands": {
-        "source_sha256": "d041f9eeb0eada4761010f66dc0112579cfa0e7e212f38a6ff5999b9438bd510",
-        "target_sha256": "80d4e3b0755670d94c38af862e07ad6943c3978c5ba933db7bcccc138e2dd1f7"
+        "source_sha256": "a1aa15b1a308ab30f84be1ba6363aada66302354936f7437eea6322bac08a783",
+        "target_sha256": "229d0f61e241999032c31d506c765f2345611633bf03fac615a97909f0328182"
       },
       "events:arc_year1_close:/description_memory_if_known/m3_ledger_reasons_named": {
         "source_sha256": "d7d8158a2afb872b7581ae6f6b2266762d0991cd889852d788a39c9faeeae544",
@@ -127304,12 +127633,12 @@
         "target_sha256": "54b7e1a4788a9ed36d344fee36d8ffbcab094c7496b46f1e049ea2373b0b2902"
       },
       "events:arc_year1_close:/choices/0/result_text": {
-        "source_sha256": "501ae31032f14812b0be83155464d7a8f855e71de6de0667eb584f1c3965d0ec",
-        "target_sha256": "ffcae7fbf27151f566c0985af6aa02dc766ee4d7da5f92b512291cfb255d6970"
+        "source_sha256": "db990846794945948857ab1494872810be255801bd4482f872f7d144a1abda2d",
+        "target_sha256": "8c678944098ac73279f20141e50330610b47d742ba543d98de1b4055fb1147e7"
       },
       "events:arc_year1_close:/choices/0/text": {
-        "source_sha256": "31a98d6d0b34a92273e5ae0053beb94c138fad9ccd4f8aeb40bcd0dc2a200dc4",
-        "target_sha256": "2103da44580ee46531b626e8f892d960373ba99508522f97b92e4e747e812ba0"
+        "source_sha256": "530718ca92857b939281c5422afe45bb500d5ce7856ece2e150c6407c7f01149",
+        "target_sha256": "ba64f2f897d35446b72777261932612a5080bc9aa38312a755c98707178915c6"
       },
       "events:arc_year1_close:/choices/1/result_text": {
         "source_sha256": "3fc72f094d6a3cba78808e90918f2d6f62d82d65161aa001356152e64ab8558f",
@@ -127328,32 +127657,32 @@
         "target_sha256": "606e88183f46239b54099a720dbd0ae26a98c06a683fbf3c774054a802510b20"
       },
       "events:arc_year1_close:/description": {
-        "source_sha256": "b69b552807f666c0969043bb5bf8f60249f23c671ee3b327843f1fb6daacbabc",
-        "target_sha256": "2baa5b093179d27fd1b01029ff8fde57c2d11d0f7e0df77f1db4a166fa94e0d4"
+        "source_sha256": "1043a57ce7c1e0a1cf0d785ab7ccd49e6167752e77c58dfdb805c19fd693b3ef",
+        "target_sha256": "444a0f5435a39603cd948558224003aaf2e2b807ece0c668c201478ffae3f06f"
       },
       "events:arc_year1_close:/description_if_known/entered_network": {
-        "source_sha256": "d13e79a2df0f6a09dd557f1051bf4192e7eec724f6d9ddfc34a3ec9ee55edfa2",
-        "target_sha256": "1ddea84a5539fff7fe739bef3785dd4e5cc27b3800fb7c9d4a434942138bba4a"
+        "source_sha256": "e4d024a3d22833889de55afacc74b19434f1beae062442f411937b9f3d91075e",
+        "target_sha256": "0bab6a99394ed034941fd37f56603f50a608d9fc6778ebe69c2c5d2ffa60d7f2"
       },
       "events:arc_year1_close:/description_if_known/escaped_dirty_money": {
-        "source_sha256": "7ed652dd5fdc0071de6876583778b44b58dfbc82a1d4292799ba45b55a56a785",
-        "target_sha256": "28d806fe0a3f472b944f9af96dd7b7339fd7fe775a3789b25dc4b871ef001473"
+        "source_sha256": "2ca19c4733c850b446492f7935ac8910fcb75cb6a00a739fe7b3e70dfdd60f17",
+        "target_sha256": "aa3d85d62b429d7d4c0a09b4d30ce76ce030dd3de853bc0956a2ea6a8e69699b"
       },
       "events:arc_year1_close:/description_if_known/fell_to_darkness": {
         "source_sha256": "eb506a238812263527c2ee4277af3364427751290963ab72f2accf3f7ac6ff03",
         "target_sha256": "ac17d3ec2e292dda1f73fb27fdbb59a475857b8d40938a26ecb0a2606d5829b5"
       },
       "events:arc_year1_close:/description_if_known/hit_rock_bottom": {
-        "source_sha256": "8bfd7297084a28862e0d4ba2e7b570cfbbe74ddf645b7ccbba7001c9a3c6b080",
-        "target_sha256": "fa0a89e18791601f1686fc946ba986ced13b38392751e80341e727ebf2abf6ee"
+        "source_sha256": "8d89a0b750590736a293ffbaa57dcb13c100ac5ac363172ca92f08c1306d3b62",
+        "target_sha256": "9fee6cc667de7f0348600fb436c01801b5c6841cf4420cb5b17ff5b498cb5f54"
       },
       "events:arc_year1_close:/description_if_known/jaehyuk_scammed": {
-        "source_sha256": "42aaf840a92cd203584668f70f3a903a9d70126357b14f407a6dc279381a964c",
-        "target_sha256": "e3c1ec04e7dff1fc645832c607c3fc79229e8b07b4dd40b474afe710c863269c"
+        "source_sha256": "e36f17446cf54854c50fd729acd8bf1888c4b8f837f3e0a04c1569bd6ec9becc",
+        "target_sha256": "44493513a3c1cc71c0df85f56cf2c3628d686ffa46e9def60df12621612acd7c"
       },
       "events:arc_year1_close:/description_if_known/kept_clean_hands": {
-        "source_sha256": "d041f9eeb0eada4761010f66dc0112579cfa0e7e212f38a6ff5999b9438bd510",
-        "target_sha256": "9c94b8eab6fc5719bdbdb7ff01ebe303e54ef5c078c4743a0ecda67d8f345ab8"
+        "source_sha256": "a1aa15b1a308ab30f84be1ba6363aada66302354936f7437eea6322bac08a783",
+        "target_sha256": "c4daa35cdab851be657e1b1a621027f654b2dc2dbcbc5f7a8034c37500fae2ef"
       },
       "events:arc_year1_close:/description_memory_if_known/m3_ledger_reasons_named": {
         "source_sha256": "d7d8158a2afb872b7581ae6f6b2266762d0991cd889852d788a39c9faeeae544",
@@ -186577,7 +186906,7 @@
       }
     }
   },
-  "accepted_sha256": "fee11beabd3682cada0e4cf243052b430f26906030adbe386ea4e23d24e22891",
+  "accepted_sha256": "fed43efd448dc4c6e813c8f818c05877f0f2cf4f21c8bb2d929da0f4c06d6dab",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

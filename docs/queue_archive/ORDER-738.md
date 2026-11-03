@@ -2,9 +2,9 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-738 · 본편 JA/zh 사실 불일치 정합
+#### [x] ORDER-738 · 본편 JA/zh 사실 불일치 정합
 
-상태: [~] 2026-11-03 root 착수. 부모 [157](ORDER-157.md), 기여 C2/C5.
+상태: [x] 2026-11-03 source15 정정만 독립GO. 부모 [157](../queue_active/ORDER-157.md), 기여 C2/C5.
 사용자 일본어·중국어 본편 완성 지시의 첫 실행 범위다.
 
 ## 범위와 깊이 3문
@@ -36,7 +36,7 @@
 KO/EN·런타임·공개 데모·project.godot·SHIPPING_LANGUAGES·사용자 저장 비소유.
 화면·원어민·본편5언어·출시 완료는 이 범위에서 판정하지 않는다.
 
-## 증거 (진행 중)
+## 증거
 
 도달 경로: `FULL_LOCALIZATION_BATCH_VALID` 5×3, `LOCALIZATION_CORRECTION_DELTA_OK` 15.
 생산자↔독자: 한국어 사건 → 기존 built-in locale overlay loader.
@@ -54,3 +54,7 @@ KO/EN·런타임·공개 데모·project.godot·SHIPPING_LANGUAGES·사용자 �
 수리15개 외 overlay JSON 값·선택 순서·effects·기존 ledger 전체를 역대조해 불변 확인.
 
 규범: 언어·호칭·통화·수용 경계는 기존 I18N 정본 적용, 새 규칙 승격 없음.
+
+독립 판정: [보고](../agent_reviews/order738-cjk-facts.md), 제품 `ea3047b`의15개만 GO.
+광범위 source-scope 진단은1236(stale1233+요약3)이며 첫3예시에 국한되지 않는다.
+이 오더는 해당 채무·전체 차선·원어민/화면을 닫지 않는다.
