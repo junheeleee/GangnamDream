@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-740",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "1dc8072d16642dc236c21988e49b8511cceccccb",
+    "tree": "5c70a9cf70aff5b75ce91c51408ef5790e30243d",
+    "manifest_sha256": null
+  },
+  "scope": "Only 6 declared midgame leaves per locale: 18 existing-target corrections.",
+  "population": {
+    "source_leaves": 6,
+    "target_leaves": 18,
+    "locales": [
+      "ja",
+      "zh-CN",
+      "zh-TW"
+    ],
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/arc_midgame.json",
+    "selection": [
+      "events:arc_34_two_years_in:/description",
+      "events:arc_34_two_years_in:/description_orthodox",
+      "events:arc_34_two_years_in:/description_unorthodox",
+      "events:arc_34_two_years_in:/title",
+      "events:arc_year_one_half:/description",
+      "events:arc_year_one_half:/title"
+    ],
+    "method": "Full census, not sampled",
+    "new_coverage": 0
+  },
+  "review": {
+    "method": "Read Korean6 and targets18, current TW draft fix, and Korean choice/result context; verify committed values equal reviewed responses.",
+    "final_blocking_findings": [],
+    "meaning": "Second year remains ongoing, not 18 months or year-end. No unconditional investment success or major-trap immunity. Key/hand/balance sensations and unknown conditions remain.",
+    "plan_semantics": "Same next-month plan, one changed review slot, or close today while leaving the unfinished line; no future outcome, extra choice or month cancellation.",
+    "titles": "Second-year memory and city-acquired habits preserve the source; JA/TW self-review title changes add no success claim.",
+    "checks": "{name}, token order/newline counts, second year/one month/one turn of the key/three options, place and regional script."
+  },
+  "draft_failure": {
+    "preserved": true,
+    "log": "zh-TW.check.stderr.log",
+    "message": "unmatched target entity quantity invented: 2",
+    "repair": "TW draft 機會兩個字 -> 機會這個詞 before target import; validator unchanged.",
+    "final_check": "PASS"
+  },
+  "preservation": {
+    "prior_batches": 334,
+    "prior_batches_and_nonowned_acceptance": "exact",
+    "old_acceptance_and_previous_target_hashes": "retained in correction",
+    "nonowned_overlay_json_values": "exact after restoring only 18 owned values; choices/order unchanged",
+    "KO_EN_runtime_public_demo_shipping_allowlist": "unchanged",
+    "order738_order739_reports_and_decisions": "unchanged"
+  },
+  "validation": {
+    "official_final_check_import": "6 leaves each, 3 files; final stderr=0",
+    "delta": "LOCALIZATION_CORRECTION_DELTA_OK changed_leaves=18 overlay_files=3 new_coverage=0",
+    "story_demo": "locales=5 source_events=14 leaves=100 target_ui=122",
+    "coverage": "EN strict 1813/1813 events and 35/35 endings; prepared locales remain skeleton",
+    "unchanged_selftests": "Not repeated or relabeled as new executions"
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_log_diagnostics": 1194,
+    "stale_source": 1191,
+    "each_locale_stale": 397,
+    "other_summary_diagnostics": 3,
+    "change": "1212 -> 1194: reviewed18 only; broad localization debt remains."
+  },
+  "identity": {
+    "original_export_source_revision": "f784621c28a2e726584b6bb83a309a827f63a909",
+    "final_receipt_sha256_by_locale": {
+      "ja": "80b29561a8b6e138573e26845e1b8f84ffe577d466c74e2f5bd9b9e98b115064",
+      "zh-CN": "ff6b3bd68910d6f32653714144c59e1418c51fd69009318f0d35877425b29efa",
+      "zh-TW": "c9dc9c8c2fda1f18d11dea19c544e63be07274ff9c281ada17b639cc32d84b51"
+    },
+    "reviewed_rows_sha256": "1e5aa979cab0d2d83414b91d177d10c11dee059360a7f632b20dceb3130946ea",
+    "reviewed_rows_encoding": "canonical JSON; locale/export order; [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-midgame-20261103/",
+    "raw_files": 32,
+    "raw_population_sha256": "0e140e68841a717f4bbb38843745d47b85a3edc58aa345a12a5bea524767ee05",
+    "raw_population_encoding": "canonical JSON: basename-sorted [basename,bytes,sha256] for all .jsonl/.log; raw logs and final text read"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "external_publication_or_release"
+  ],
+  "conclusion": "Exact18 correction GO only. No engine/app/UI/save actions; wider claims unapproved."
+}

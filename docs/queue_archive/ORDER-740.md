@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-740 · 둘째 해 장면의 JA/zh 정합
+#### [x] ORDER-740 · 둘째 해 장면의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. 소유는 기존 번역6×3=18개 정정이다.
 
@@ -46,3 +46,5 @@ scope1212→1194(stale1191=각397+요약3)로 이18개만 해소했다.
 공개데모5언어/100leaf/122UI·EN1813/35 clean, context/queue/diff 표적 확인.
 원자료 `.git/localization-midgame-20261103/`, 무변경 self-test 재실행0.
 전체 번역·차선·앱/화면·원어민·remote 전체CI는 이 증거에 포함하지 않는다.
+
+최종 [독립 보고](../agent_reviews/order740-midgame-cjk.md): 제품 `1dc8072`의18정정만 GO.
