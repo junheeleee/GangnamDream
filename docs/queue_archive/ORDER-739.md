@@ -2,9 +2,9 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-739 · 첫해 결산의 JA/zh 현재 원문 정합
+#### [x] ORDER-739 · 첫해 결산의 JA/zh 현재 원문 정합
 
-2026-11-03 root 착수. 부모157, C2/C5. 사용자 본편 일본어·중국어 완성 재개에
+2026-11-03 source24 정정만 독립GO. 부모157, C2/C5. 사용자 본편 일본어·중국어 완성 재개에
 따라 실제 차선에서 검출한 stale receipt를 번역 직접 대조로 해소한다.
 
 ## 판정 단위와 소유권 (일회성)
@@ -48,7 +48,7 @@ scope 진단1236→1212, stale source1233→1209(언어별411→403), 요약3 �
 이root의 stale source24만 제거됐고 전체번역/전체차선은 여전히 미완이다.
 원자료 `.git/localization-year1-20261103/`의 source/response/check/import/delta/scope.
 738에서 실행한 변경 없는 검증도구 반례를 재실행하지 않았으며 제품과 공개데모
-패리티는 이번 반영 뒤 다시 확인한다. 독립 검수는 실제 원문8/목표24 전독 중이다.
+패리티는 이번 반영 뒤 다시 확인했다. 독립 검수는 원문8/목표24 전독 및 v2 16 재독 GO다.
 
 독립 전독에서 CN `手册`의 안내서 의미와 CN/TW '연락을 미룬 이름'의
 행동 축소를 지적받았다. 소유8leaf 안에서 개인 기록은 `笔记本`,
@@ -57,3 +57,6 @@ scope 진단1236→1212, stale source1233→1209(언어별411→403), 요약3 �
 `LOCALIZATION_REVIEW_FIX_CHAIN_OK`24·`LOCALIZATION_CORRECTION_DELTA_OK`24/3파일,
 최종 공개데모·EN coverage·context/queue/diff 확인. 별도 검사 보고 MD의
 문서 분류 누락은 context_manifest의 기존 audit_and_reports에 해당 폴더만 등록했다.
+
+최종 [독립 보고](../agent_reviews/order739-year1-cjk.md): source24 정정만 GO.
+실제 화면·원어민·전체 차선/번역·원격 CI는 이 판정에 포함하지 않는다.
