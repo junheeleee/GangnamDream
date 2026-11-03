@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-755 · 민기 원문 후속의 중국어 검증 결속
+#### [x] ORDER-755 · 민기 원문 후속의 중국어 검증 결속
 
 2026-11-03 root 착수·부모157/C5, 754 실제CN/TW거절에서발견한작은후속수리다.
 
@@ -39,5 +39,11 @@ tools변경이므로해당실제표적test와검사등록/문맥/큐/diff를확�
 최초focused의Leaf.validator fixture오류1은보존·category소유의명시값으로수리했고
 제품오류/번역오류나최종통과로바꾸지않는다. CN/TW실제754 check/import도수용됐다.
 검사등록registered186·context/queue/diff 확인. zh-self-test12783 exit0/stderr0·
-ZH_TRANSLATION_AUDIT_OK mode=skeleton이며실제언어완성/화면아님. 제품후보최종판정대기.
-원자료 `.git/localization-mingi-guard-20261103/` 소유.
+ZH_TRANSLATION_AUDIT_OK mode=skeleton이며실제언어완성/화면아님.
+원자료 `.git/localization-mingi-guard-20261103/` raw8=최종6/fixture오류2로SHA결속.
+제품485494182d0dd88f3267dd082f2bd226a5f17e46/tree2e97aadf의
+[독립코드검수](../agent_reviews/order755-mingi-source-guard.md)는이오탐수리만GO다.
+독립focused3 exit0/0.277s, 실제4positive·추가hash2개제거시4reject·
+추가12별칭/달러/한글반례거절도확인했다. 754번역GO를차용하지않는다.
+2026-11-03 완료·규범일회성/기존source-bound계약적용·승격0.
+전체언어/실화면/원어민·최신CI/M60/출시GO별도.

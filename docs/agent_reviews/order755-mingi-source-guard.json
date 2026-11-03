@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "485494182d0dd88f3267dd082f2bd226a5f17e46",
+    "tree": "2e97aadfbdb16fde5e4a7946ec23fceb3264b015",
+    "manifest_sha256": null
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ],
+  "unit_id": "ORDER-755",
+  "scope": "Observed Chinese validator false positive only: exact current Korean pressure description/title source bindings and narrowly role-bound Mingi title; focused3 regression tests. No translated prose or runtime ownership.",
+  "population": {
+    "method": "Complete code diff and added3 tests, not sampled",
+    "files": [
+      "tools/zh_translation_audit.py",
+      "tools/full_game_localization_self_test.py"
+    ],
+    "source_hashes": {
+      "description": "28c3ebcb7932ca1c95902380122471c8241d05a8fe50bcd4de5efb7a674d96e1",
+      "title": "f6ff3209f37b64b8bede8a6e151ab2e2adf602f6d013cfb56b576636055c6d60"
+    }
+  },
+  "review": {
+    "method": "Read complete two-file patch, actual Korean and accepted CN/TW title/body, existing MIDGAME source classifier/_midgame_latin and caller _untranslated_english_errors. Independently recomputed both raw Korean SHA256 values; independently ran focused3 tests and actual real-source mutation probes.",
+    "final_blocking_findings": [],
+    "boundary": "Adds two current source hashes only. Existing old invitation hash remains; current description reuses established invitation role. New title allows only anchored Mingi + 的 + optional marriage + invitation noun on first line. Reuses one bounded occurrence/first-line/unapproved Han alias checks. Only the name span is masked for English-residue detection; original target still feeds number/script/token/BBCode/newline checks. No global English/name exemption or name deletion/respelling workaround.",
+    "old_source": "Old raw invitation-source classifier preserved; send/reply mappings unchanged. Old-source guard test proves mechanical name-boundary regression, not semantic approval of a new translation of old autumn prose.",
+    "fixture_history": "Initial focused run failed one fixture with nonexistent Leaf.validator attribute while other2 tests passed. Final uses explicit existing category/lifecycle arguments; raw initial error logs preserved. This is not product or translation failure and not recast as initial pass."
+  },
+  "validation": {
+    "reviewer_execution": "Focused3 tests PASS exit0,0.277s. Independently tested current real source/accepted target positives4; removed two added mappings in memory and all4 correctly failed untranslated English Mingi; restored mappings. Additional12 actual-target dollar/Hangul/Han-alias mutants rejected. No tracked/private files changed by these probes.",
+    "author_execution": "Read final focused3 PASS/0.287s, exchange274 PASS/79.274s and FULL_GAME_LOCALIZATION_SELF_TEST_OK, Chinese self-test12783 plus ZH_TRANSLATION_AUDIT_OK mode=skeleton and stderr0. Author recorded exit0; reviewer did not repeat full suites. Exchange unittest progress/summary legitimately lives in stderr, not stderr0.",
+    "real_consumer": "CN/TW actual754 check/import22 each accepted with unchanged Mingi target texts; full batch and receipt verification belongs754.",
+    "registration": "Author observed audit registration186/context/queue/diff; lane list is selection only."
+  },
+  "preservation": {
+    "prior_decisions": 311,
+    "proof": "Complete diff adds two mappings/one role/one title regex and focused tests; existing hash-role entries and remaining validator logic unchanged. KO/EN/gameplay/runtime/name glossary/shipping allowlist unchanged. Original754 Mingi rejection evidence retained in its separate raw directory."
+  },
+  "identity": {
+    "raw_directory": ".git/localization-mingi-guard-20261103/",
+    "raw_population": {
+      "files": 8,
+      "sha256": "2e754ed57f83f3521fda7886d515800eaf85f2e8d0640070a3a571321c8985d0",
+      "names": [
+        "exchange.stderr.log",
+        "exchange.stdout.log",
+        "focused-final.stderr.log",
+        "focused-final.stdout.log",
+        "focused.stderr.log",
+        "focused.stdout.log",
+        "zh-self-test.stderr.log",
+        "zh-self-test.stdout.log"
+      ]
+    },
+    "used_final": {
+      "files": 6,
+      "sha256": "3e37937eaebeafee5abf222105362e63b21c0649b2e33b3e0d70679ec6b858ef",
+      "names": [
+        "exchange.stderr.log",
+        "exchange.stdout.log",
+        "focused-final.stderr.log",
+        "focused-final.stdout.log",
+        "zh-self-test.stderr.log",
+        "zh-self-test.stdout.log"
+      ]
+    },
+    "fixture_failure_history": {
+      "files": 2,
+      "sha256": "022d79bb74e29fbe8963558b7d7450a69e7a6d0e98e49ac7ef7b4fa2b2034c79",
+      "names": [
+        "focused.stderr.log",
+        "focused.stdout.log"
+      ]
+    },
+    "raw_population_encoding": "Canonical JSON basename-sorted [basename,bytes,sha256], disjoint final/history sets"
+  },
+  "debt": {
+    "full_translation_completion": false,
+    "rendered_or_native_review": false,
+    "remote_CI_success": false
+  }
+}

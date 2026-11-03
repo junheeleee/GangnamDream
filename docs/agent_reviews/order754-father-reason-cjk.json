@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "485494182d0dd88f3267dd082f2bd226a5f17e46",
+    "tree": "2e97aadfbdb16fde5e4a7946ec23fceb3264b015",
+    "manifest_sha256": null
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ],
+  "unit_id": "ORDER-754",
+  "scope": "Korean22 × JA/zh-CN/zh-TW =66 existing shipping-target corrections; five roots ×3 =15 units. New coverage0.",
+  "population": {
+    "method": "Full census, not sampled",
+    "source_roots": [
+      "arc_father_passing",
+      "arc_father_passing_hospital_room",
+      "arc_why_gangnam_real",
+      "arc_why_gangnam_real_father_passed",
+      "arc_year_two_pressure"
+    ],
+    "selection": "Passing known7/moral white8; hospital-room choice0 result1; living/passed why-Gangnam description/known motive/moral black-white/choice2 result5 each10; pressure title/description/choice2 result3.",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/{arc_drama,arc_midgame}.json",
+    "excluded": "All other text leaves, variants and choices are context-only and remain nonowned. Reading them does not grant their completion."
+  },
+  "review": {
+    "method": "Direct Korean22/target66 census; five complete Korean roots and all current target choices/moral-choice contexts, actual localized overlays and source/receipt/delta reconstruction. Read DataRegistry428-439/1151-1205, StoryMode4384-4450 first-matching known replacement/moral fallback, MainGame medical evidence and W105-115/W115-140 ingress, EventManager live/passed remap and story_rules nurse-phone/hospital terminal contract.",
+    "final_blocking_findings": [],
+    "father": "Mother apology SMS and late mother response stay distinct from father phone call. KTX call/no-call and absence of incoming missed call preserved. Prior honest conversation once and remembered voice do not turn into a new call or physical deceased-father presence. Album ticket/medicine-bag photos and additional fish in Minjun rice bowl, ward-number/deal alert ordering and nurse respectful address are preserved. Hospital empty bed has stored father contact name, not invented23-second call.",
+    "reason": "11pm/current asset screen and Gangnam-direction solitary view do not assert a first milestone or fixedthree-year achievement. Living-father prior speech and deceased-father voice are different; context choice1 actual phone call versus private untransmitted reason remains intact. Black refreshonce/next target/computation and white last-train passengers/unclosed stores/voices-faces-names retain perceptions, not exposed moral grading. Uncertainty is better than the start, not a fixed elapsed period.",
+    "pressure": "Current Mingi high-school invitation, apartment photos, stopped like and calculator/current-life comparison preserve present physical scene, not autumn or invented duration. Choice2 deletes app, stops habitual press at its former icon location and turns phone face-down, without guaranteed two-week outcome.",
+    "prior_self_repairs": "JA draft differs only at source rows5/13/18: explicit once and grammatical coordination of people/stores. CN draft differs only at rows0/5: natural mother apology clause and explicit once. Headers/non-text metadata and all other targets exact. No new repair demanded by this final review.",
+    "format": "66 current shipping leaves, source identity, token multiplicity and newlines exact. Numbers/time/once/one contact/father life-state and character knowledge directly read; JA/CN/TW each assessed against Korean, not approval inherited from the other target."
+  },
+  "preservation": {
+    "prior_batches": 348,
+    "prior_decisions": 311,
+    "proof": "All66 accepted actual values=response exact. Reverting only selected66 in six parsed overlay JSONs reproduces all previous JSON values at6e915f3; previous-target/superseded acceptance, all348 batch records and nonowned accepted ledger values exact. Reversing accepted/batch/digest reproduces entire old ledger. Actual private accepted receipt batch/translations and canonical receipt hashes independently reconstructed.",
+    "archive": "Nov3 original whole entry36736B SHA48ef573713a6f50cdc14ea835eeaee0f62d085bc6c13cd52335f57db69a3d1e8 equals new history file byte-for-byte. Old header/prefix and all Nov1/later dated content unchanged; same Nov3 anchor/link and new754/755 bullets remain in current log. Archive log current2807B is pre-addition size, not final current-log size.",
+    "boundaries": "Candidate16-path census includes six overlays/ledger, declared tools755 and declared docs/history only. KO/EN/gameplay/runtime/demo/save files unchanged. Shared candidate does not lend755 quality approval to754 or vice versa."
+  },
+  "validation": {
+    "check_import": "JA check and CN/TW bound-check/import22×3 VALID/INCOMPLETE/OPEN with stderr0; author exit0. Two earlier CN/TW check Mingi failures are preserved; separate755 repairs validator with same target text. CN final-check missing --replace-existing is one normal guard rejection, not accepted check.",
+    "independent": "Pure check_batch and current source/target/receipt/full-JSON reversal independently passed; no post-import old-export CLI check rerun.",
+    "demo_i18n": "Raw demo5 locales/14events/100leaves/122UI and EN strict1813/35 clean. CJK skeleton counts do not complete full-game translations.",
+    "lane": "11-check selection only, not all11 execution/pass. Whole scope remains incomplete."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 552,
+    "stale_source": 549,
+    "each_locale_stale": 183,
+    "each_locale_shipping_stale": 168,
+    "each_locale_author_only_stale": 15,
+    "summary_diagnostics": 3,
+    "summary_target_count_each": 186,
+    "change": "618 ->552, reviewed66 only; independent pure scope census matches. Three summaries cover many unreceipted current target leaves, not three missing phrases."
+  },
+  "identity": {
+    "original_export_source_revision": "301e725f667a0d90b0d5a9e48c5bea55f16efbf6",
+    "final_receipt_sha256_by_locale": {
+      "ja": "cb3d8d014d10789515abec838d2ed1cb06563b618e65addd2f7b1ce94b5cb56c",
+      "zh-CN": "2ccf41bf90e6aad96029cedb0ec56a1480cddc76f1e9dfcfb67a7efd37891195",
+      "zh-TW": "5ed6a570680c07c7c4615f7aa96efc945c7d4a696db7eaacacff98e1ee92fea9"
+    },
+    "reviewed_rows_sha256": "a72dc319c7673b24cda445f8205876428ecb81467076f1ff15a897f9316ee3d4",
+    "reviewed_rows_encoding": "Canonical JSON locale/export order [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-father-reason-20261103/",
+    "raw_population": {
+      "files": 35,
+      "sha256": "ffbf9dd3478a30fb497cffd3c710d58c31fba7e3c9e217a515b453e2b5619957",
+      "names": [
+        "archive.log",
+        "check-delta.py",
+        "delta.log",
+        "demo.log",
+        "i18n.log",
+        "ja.check.stderr.log",
+        "ja.check.stdout.log",
+        "ja.draft1.response.jsonl",
+        "ja.import.stderr.log",
+        "ja.import.stdout.log",
+        "ja.response.jsonl",
+        "ja.source.jsonl",
+        "lane.log",
+        "leaf-ids.json",
+        "prepare-correction.py",
+        "scope.log",
+        "zh-CN.bound-check.stderr.log",
+        "zh-CN.bound-check.stdout.log",
+        "zh-CN.check.stderr.log",
+        "zh-CN.check.stdout.log",
+        "zh-CN.draft1.response.jsonl",
+        "zh-CN.final-check.stderr.log",
+        "zh-CN.final-check.stdout.log",
+        "zh-CN.import.stderr.log",
+        "zh-CN.import.stdout.log",
+        "zh-CN.response.jsonl",
+        "zh-CN.source.jsonl",
+        "zh-TW.bound-check.stderr.log",
+        "zh-TW.bound-check.stdout.log",
+        "zh-TW.check.stderr.log",
+        "zh-TW.check.stdout.log",
+        "zh-TW.import.stderr.log",
+        "zh-TW.import.stdout.log",
+        "zh-TW.response.jsonl",
+        "zh-TW.source.jsonl"
+      ]
+    },
+    "used_final": {
+      "files": 27,
+      "sha256": "fd632cf2db1ffaafe6a531465cf86ffabbb81ee1f4f2b7b96d1cc913831873cf",
+      "names": [
+        "archive.log",
+        "check-delta.py",
+        "delta.log",
+        "demo.log",
+        "i18n.log",
+        "ja.check.stderr.log",
+        "ja.check.stdout.log",
+        "ja.import.stderr.log",
+        "ja.import.stdout.log",
+        "ja.response.jsonl",
+        "ja.source.jsonl",
+        "lane.log",
+        "leaf-ids.json",
+        "prepare-correction.py",
+        "scope.log",
+        "zh-CN.bound-check.stderr.log",
+        "zh-CN.bound-check.stdout.log",
+        "zh-CN.import.stderr.log",
+        "zh-CN.import.stdout.log",
+        "zh-CN.response.jsonl",
+        "zh-CN.source.jsonl",
+        "zh-TW.bound-check.stderr.log",
+        "zh-TW.bound-check.stdout.log",
+        "zh-TW.import.stderr.log",
+        "zh-TW.import.stdout.log",
+        "zh-TW.response.jsonl",
+        "zh-TW.source.jsonl"
+      ]
+    },
+    "repair_history": {
+      "files": 8,
+      "sha256": "42f7c08a7828fa4b0ef56b045edb80d47c944ef941a8d112466d57374e5202f8",
+      "names": [
+        "ja.draft1.response.jsonl",
+        "zh-CN.check.stderr.log",
+        "zh-CN.check.stdout.log",
+        "zh-CN.draft1.response.jsonl",
+        "zh-CN.final-check.stderr.log",
+        "zh-CN.final-check.stdout.log",
+        "zh-TW.check.stderr.log",
+        "zh-TW.check.stdout.log"
+      ]
+    },
+    "raw_population_encoding": "Canonical JSON basename-sorted [basename,bytes,sha256], disjoint final/history sets"
+  }
+}

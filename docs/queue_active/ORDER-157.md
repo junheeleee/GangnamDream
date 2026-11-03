@@ -25,8 +25,8 @@ Mac 잠금과 KO/EN 대표 플레이 대기는 화면 없는 번역·검증의 �
 [751](../queue_archive/ORDER-751.md) 몸·가족·청구shipping66도 수용·독립 최종전독을 완료했다.
 [752](../queue_archive/ORDER-752.md) 명의회고·가족·미발신 shipping54도 수용·독립 최종전독을 완료했다.
 [753](../queue_archive/ORDER-753.md) 다은·마지막반년 shipping51도 수용·독립 최종전독을 완료했다.
-[754](ORDER-754.md) 부친·강남 이유 shipping66도 수용했고 최종 독립 판정 대기다.
-[755](ORDER-755.md)는 이번에 관측한 민기 이름의 낡은 원문 검증 결속만 수리한다.
+[754](../queue_archive/ORDER-754.md) 부친·강남 이유 shipping66도 수용·최종독립GO다.
+[755](../queue_archive/ORDER-755.md)는 관측 민기 이름의 낡은 검증 결속만수리·별개독립GO다.
 누적 기존699문구의 정정이며 신규 커버리지/전체완성이 아니다. 남은 source-scope
 진단552(stale549=언어별183+요약3), 각shipping168/author_only15와 UI를 이어간다.
 기존 데모·KO/EN·저장과 원어민 관찰 이력은 보존하며, 선택지만 켜거나

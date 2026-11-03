@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-754 · 아버지·강남 이유 회고의 JA/zh 정합
+#### [x] ORDER-754 · 아버지·강남 이유 회고의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. shipping5root×3언어=15단위, KR22×3=66 기존번역 정정.
 
@@ -55,4 +55,9 @@ CN/TW 원check는Mingi 오탐2건. 별도755수리후본문/제목을같은번�
 CN final-check 최초호출의 --replace-existing 누락1건은정상guard거절·원로그보존,
 후속bound-check는옵션명시. 검증기를피한이름삭제/한자발명0.
 11-03원36736B/SHA48ef5737…d1e8 이동·역복원/다른날짜byteexact 확인.
-원자료 `.git/localization-father-reason-20261103/`; 제품후보 최종독립판정은대기다.
+원자료 `.git/localization-father-reason-20261103/` raw35=최종27/이력8의각집합SHA.
+제품485494182d0dd88f3267dd082f2bd226a5f17e46/tree2e97aadf의
+[최종독립전독](../agent_reviews/order754-father-reason-cjk.md)은 실수용66/receipt·
+원348배치/비소유6JSON·전체원장/이력이동을직접역복원해이66정정만GO다.
+기존311판정/원보고 보존·root보고4/별개append2와원자료SHA직접확인.
+2026-11-03 완료·규범일회성/승격0. 전체언어/화면/원어민·최신CI/M60/출시GO별도.

@@ -13076,6 +13076,92 @@
         "path": "docs/agent_reviews/order753-final-half-cjk.json",
         "sha256": "775bc867a6cbcd302fdfeae3ce9ca6ae7cb773c9d00cf95f5126b71f94a97800"
       }
+    },
+    {
+      "id": "order754-father-reason-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-03",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-754",
+      "subject": {
+        "kind": "source",
+        "commit": "485494182d0dd88f3267dd082f2bd226a5f17e46",
+        "tree": "2e97aadfbdb16fde5e4a7946ec23fceb3264b015",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order754-father-reason-cjk.md",
+          "sha256": "6ad08e3f8a014bca56d884a8f0878c07e7f1a36bb1193a2c5ae6105cf0a1c514"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order754-father-reason-cjk.json",
+          "sha256": "739d69d511940f258685964bd0969ba5422a71f154770fac9d8215cf856147ab"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order754-father-reason-cjk.json",
+        "sha256": "739d69d511940f258685964bd0969ba5422a71f154770fac9d8215cf856147ab"
+      }
+    },
+    {
+      "id": "order755-mingi-source-guard-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-03",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-755",
+      "subject": {
+        "kind": "source",
+        "commit": "485494182d0dd88f3267dd082f2bd226a5f17e46",
+        "tree": "2e97aadfbdb16fde5e4a7946ec23fceb3264b015",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order755-mingi-source-guard.md",
+          "sha256": "927fbc71365a71c5ab73d1eca042d3a2cd59314d987c6f37ebb0a37a963c13cc"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order755-mingi-source-guard.json",
+          "sha256": "182f0ec33160108d47d96e07843fd7ba1be038e8259c0c5a3830fdb4a67caf26"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order755-mingi-source-guard.json",
+        "sha256": "182f0ec33160108d47d96e07843fd7ba1be038e8259c0c5a3830fdb4a67caf26"
+      }
     }
   ]
 }
