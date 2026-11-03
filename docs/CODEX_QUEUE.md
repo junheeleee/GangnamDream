@@ -99,6 +99,7 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
+| 79 | [~] | ORDER-748 · 기사·약속 정합 | [748](queue_active/ORDER-748.md) | C5 · KR13×3 정정중 |
 
 ### legacy V2 보존선과 본편 M07~M60 관리선
 
