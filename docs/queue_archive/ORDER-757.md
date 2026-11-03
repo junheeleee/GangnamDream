@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-757 · 반년 결산 조건 조합의 JA/zh 정합
+#### [x] ORDER-757 · 반년 결산 조건 조합의 JA/zh 정합
 
 2026-11-04 root·부모157/C5. 한root의유한선택조합3×3×3·memory1,
 KR28×3=84 기존번역 정정. fallback/base/title/선택결과는이미current라재수용0.
@@ -39,7 +39,7 @@ demo/EN·scope/context/queue/diff. 수용후옛export CLI/불변self-test반복0
 
 ## 검사 실물·후보
 
-KR28/목표84의사전독립전독GO·실수용완료, 최종제품후보독립검수대기다.
+KR28/목표84의사전독립전독GO·실수용완료, 최종제품후보독립검수GO다.
 각locale독립문장표를조립한27개전체한국어원문+memory1 exact매칭이며,
 최종response84/header/sourcehash/previous-target/문단·토큰을대조했다.
 부친네시통화/남은한곳/거래원문끝까지검토·문열어도움받음/파일먼저/혼자버팀·
@@ -54,3 +54,11 @@ receipt/순수검증/delta84/3JSON·원350배치/원수용/이전target/비소�
 demo5언어14사건100leaf122UI·EN1813/35 clean, 제품4path일반list11은선택목록뿐이다.
 source-scope528→444(stale441=각147/내shipping132author15+요약3/count150)·전체미완.
 게임31.3실행/입력/저장편집0. 수용후옛export CLI/불변self-test/완료검사반복0.
+
+제품f103502ad485c3002ebe0f15211b0e87a3ca4201/tree8a23d2f6의
+[최종독립전독](../agent_reviews/order757-half-combinations-cjk.md)은실수용84/receipt3·
+원350배치/비소유3JSON·5leaf·전체원장/지난기록을직접역복원해이범위만GO다.
+raw35=최종29/이력6의별도집합SHA·보고2/append1을root전독대조·원314판정보존.
+import원종료코드는context복구뒤회수불가, 실제VALID/receipt/stderr0/순수검증으로
+수용했으며exit0를추정발명하지않는다. 제품CI41668827130 static성공/engine step6진행중.
+2026-11-04 완료. 기존I18N계약적용·신규규범0/일회성·전체언어/native/CI/출시별도.

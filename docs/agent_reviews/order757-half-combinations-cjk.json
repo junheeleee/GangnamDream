@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-757",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "f103502ad485c3002ebe0f15211b0e87a3ca4201",
+    "tree": "8a23d2f6e75024643665faed841965e66906ccd7",
+    "manifest_sha256": null
+  },
+  "scope": "arc_year_three_half Korean27 finite choice combinations plus memory1 × JA/zh-CN/zh-TW =84 existing-target corrections; new coverage0.",
+  "population": {
+    "method": "Full census, not sampled",
+    "selection": "27 known keys: common three seen flags × promise protected1/missed2 × body3 × family3; memory arc_y4_three_promises_seen1. Each locale28.",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/arc_midgame.json",
+    "excluded": "Existing current title/base/choice text/result and common-seen fallback five leaves per locale are nonowned, not reaccepted."
+  },
+  "review": {
+    "method": "Read Korean27 complete condition-specific bodies and memory1, all84 actual target drafts, complete root choices/fallback and current nonowned5 target leaves. Directly compare locale clauses to Korean; independently reconstruct each complete Korean source and target, conditions and branch multiplicity. Read StoryMode conjunction/first-match known replacement/memory append, MainGame153/164/167 producers and169/family-seen half-year ingress/fallback, relevant producer choice texts.",
+    "final_blocking_findings": [],
+    "meaning": "Four-o'clock father call, missed other two times, remaining one destination and end-to-end original-document reading remain distinct. Body choices open door/receive help versus send due file first versus closed door/endure alone do not invent completed medical care or guaranteed work outcome. Family together/alone/missed and wrapper1/transport-card record/restaurant-name traces match each branch; no borrowed partner name or invented attendance.",
+    "memory": "Three differently sized notes mark completed versus passed times with different lines, overlap and fold lengthwise in one paragraph; no cutting/pasting three rows, fold-direction change, next-month speed lesson or score. Actual first-matching27 detailed keys precede common-seen fallback; map order and separate memory consumption are preserved, not newly activated or observed in every natural run.",
+    "repairs": "Independent recommendations accepted: CN/TW 包装/包裝 -> 外包装/外包裝 in nine together-family rows each clearly means outer wrapper without inventing packet material/shape; CN alone clause -> 独自到了家人的餐桌前 in nine rows is natural with same alone-table meaning. JA Arabic4時 -> 四時 in nine father-call rows is the same Korean 네시/four-o'clock, not number removal or time change.",
+    "repair_boundary": "Full final values are exactly original draft1 values with only those clauses changed: JA9/CN18/TW9 rows, others19/10/19 and complete headers/non-text metadata unchanged. Tokens and paragraphs independently checked. Initial JA numeric/sign mismatch is preserved; no initial CN/TW checks/logs are fabricated. Japanese native-number spelling acceptance does not fix or prove broad Arabic numeral validator support."
+  },
+  "preservation": {
+    "prior_batches": 350,
+    "prior_decisions": 314,
+    "proof": "Actual84=response exact. Three actual accepted receipts' batch/translations and canonical hashes independently reconstructed. Reverting only84 in three parsed overlay JSONs reproduces baseline253ac17 JSONs; nonowned five leaves and known-map key order/last fallback exact. All350 prior batches, previous-target/superseded/original acceptance and nonowned ledger values exact; reversing acceptance/batch/digest reproduces whole prior ledger.",
+    "docs": "Candidate9 paths are three overlays/ledger and five declared docs only. No KO/EN/gameplay/runtime/tools/demo/save/allowlist changes. Existing WORK_LOG prefix and prior content suffix are byteexact, new757 record stays in single Nov4 section. Existing314 decisions and reports preserved."
+  },
+  "validation": {
+    "final_checks": "Read three final-check VALID/INCOMPLETE/OPEN markers and empty stderr; author observed final-check exits0.",
+    "imports": "Read three actual import VALID markers, empty stderr and accepted receipts, then independently checked applied content and receipt/canonical hashes. The original import processes had exited before a post-context-recovery query and their original termination codes were not recovered. No import exit0 is inferred or newly recorded.",
+    "independent": "Pure check_batch/full-source assembly/condition census/source-target-receipt/three-JSON and full-ledger reverse proofs passed. No post-import old-export CLI or unchanged selftest rerun.",
+    "demo_i18n": "Raw demo5 locales/14events/100leaves/122UI and EN strict1813/35 clean. CJK skeleton and textual verification do not supply rendered/native approval.",
+    "lane": "lane-product-list.log lists11 checks for four product paths only; not execution or whole-lane green."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 444,
+    "stale_source": 441,
+    "each_locale_stale": 147,
+    "each_locale_shipping_stale": 132,
+    "each_locale_author_only_stale": 15,
+    "summary_diagnostics": 3,
+    "summary_target_count_each": 150,
+    "change": "528 ->444 by reviewed84 only; independent pure scope census matches. Three locale summaries are not three missing phrases."
+  },
+  "identity": {
+    "original_export_source_revision": "253ac175f3c9a76bb7a6b701d21dcbe01bfd434d",
+    "reviewed_rows_sha256": "7b71b3fcc72c86a1e03ecb86c569dd99af353cc6e7bf2bb5e1ec065a672f2d5d",
+    "reviewed_rows_encoding": "Canonical JSON locale/export order [locale,id,source-hash,previous-target-hash,target-hash]",
+    "receipt_sha256_by_locale": {
+      "ja": "5c71c9bda155b0125976d1bffdb4a0a58e8493a77fa95fc54e4477e9c015760b",
+      "zh-CN": "752923e9340fad56a83f9986bb485855e61b15a5d46563b1cf243b1c37936522",
+      "zh-TW": "037abe439b564e9da3e6332bee723390ded5623b5bcd22a97b13ace2d3c4a621"
+    },
+    "raw_directory": ".git/localization-half-combinations-20261104/",
+    "raw_population": {
+      "files": 35,
+      "sha256": "4f98e1f0ee17c9ca8e7fdd13c0bae5943bad27af371c1f46e3d400c977ac58e6"
+    },
+    "used_final": {
+      "files": 29,
+      "sha256": "23257131b751286f2e67d7de2e63ce7e19ebfb56d0996525570e13bc70b0f303",
+      "selection": "source3/response3/leaf-list1/final sentences+assembly-helper+proof3/correction helpers2/final-check6/import6/delta-demo-i18n-product-list-scope5"
+    },
+    "repair_history": {
+      "files": 6,
+      "sha256": "4d923d470b3fa8c13579847c77b9be01f7a0677b30ba7bc91184474850b9b204",
+      "selection": "draft1.sentences1/draft1.responses3/initial JA rejection stdout-stderr2"
+    },
+    "raw_population_encoding": "Canonical JSON basename-sorted [basename,bytes,sha256]; final/history sets disjoint"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "all_combinations_natural_run_exposure",
+    "original_import_process_exit_codes",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
