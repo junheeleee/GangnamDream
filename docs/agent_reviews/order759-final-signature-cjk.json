@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-759",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "27657ca27c641b665732ac79aa356e2718872d23",
+    "tree": "3bd8250a6bb36b2d2e168d4e6a9ab7a34b535bab",
+    "manifest_sha256": null
+  },
+  "scope": "arc_final_countdown shipping base description1/moral black-white2/choice results3: Korean6 × JA/zh-CN/zh-TW =18 existing-target corrections; new coverage0.",
+  "population": {
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/arc_pre_ending.json",
+    "excluded": "Current title1/choice text and moral variations9/memories2 =12 leaves are unchanged and not reaccepted. Follow-up arc_final_week and EndingSystem/MainGame consumers are read-only."
+  },
+  "review": {
+    "method": "Directly read Korean whole root and existing locale whole roots, Korean6 and proposed target18 in full. Read actual MainGame generic exact W240/typed-finale lock competition, arc_final_week base/signature3 known variants/all choices, EndingSystem final_signature_coda exact-one-boolean resolver and people-page general-sacrifice-first fallback. Bind actual accepted18 to those reviewed final responses.",
+    "final_blocking_findings": [],
+    "meaning": "Five-year final month, starting500000won and target3000000000won remain unchanged. Asset screen already shows current position, is turned face down, then notebook pages turn. Names/times do not fit money columns. One blank line permits one of three meanings, excluding the other two. Black voices enter cost column; white responsibility/people order differs without erasing received help. No hidden score or future-cost lesson is added.",
+    "choices": "Own-name responsibility keeps earlier names and dates, old paper absorbs ink and some outside lights go out. Collateral transfers names to income/cost columns and converges arrows toward30亿/30億/30億ウォン, leaving traces visible on cover. People-first copies names, recalls last exchanged words, writes own name last and leaves page in desk-lamp light beside quiet phone. No contract, transfer, debt settlement, return, reply or reconciliation is asserted.",
+    "repairs": "Accepted independent recommendations: JA result0 側へ -> 側で引き受けた for natural responsibility grammar; CN/TW base+moral3 use page-turning rather than reopening an already open notebook; CN/TW people-result grammar names self rather than personifying road. CN/TW 三个/三個选项 and 另外两个/兩個 explicitly preserve Korean one-of-three/remaining-two; no option or quantity added. Actual final changes versus draft1 are JA1/CN4/TW4 rows, other5/2/2 and complete headers/non-text metadata exact.",
+    "consumer_boundary": "Generic entry is exact240 only when typed Chapter5 finale is not locked; countdown flags lead immediately to final_week. Pure signature resolver requires known permitted ending and exactly one known boolean signature flag, returns duplicate without changing ending description. People page uses general-sacrifice coda first then signature fallback; no routing/runtime/new coda localization change. This code reading does not prove all combinations native exposure."
+  },
+  "preservation": {
+    "prior_batches": 352,
+    "prior_decisions": 316,
+    "proof": "Pure check_batch6×3 passed. Actual18=response and canonical receipt translations exact; three receipt headers/hashes, previous-target and superseded original acceptance verified. Reverting only18 reproduces entire three baseline d65d parsed overlay JSONs, including nonowned12. All352 prior batches and nonowned acceptance values exact; reversing final batch/acceptance/digest reproduces entire baseline localization ledger.",
+    "docs": "Candidate9 paths are three overlays/ledger and declared CLAUDE/queue/parent157/active759/WORK_LOG only. Existing316 decisions and all reports unchanged before reviewer append. Existing Nov4 WORK_LOG header/prefix and prior content bytes remain exact around one new759 paragraph. KO/EN/effects/flags/conditions/routes/tools/demo/save unchanged."
+  },
+  "validation": {
+    "checks_imports": "Read final-check6×3/import6×3 VALID/INCOMPLETE/OPEN and six empty stderr files. Author separately observed final exits0; reviewer does not infer exit from markers alone. Initial JA check is intermediate VALID/empty stderr, CN first check rejects missing entity2/3 counter interpretation; no initial TW check/log exists. Original draft responses3 and four initial-check logs preserved; validator unchanged.",
+    "independent": "Fixed d65d pure source/response/receipt/actual-target/three-JSON/full-ledger reverse and scope census passed. Tokens/6-body paragraphs/3-result paragraphs verified. No old-export CLI, HEAD-dependent helper, unchanged selftest, app/engine/save rerun.",
+    "demo_i18n": "Raw demo5 locales/14 events/100 leaves/122 UI and EN strict1813/35 clean; skeleton/text evidence is not actual rendering or native completion.",
+    "lane": "lane-product-list.log selects11 checks for four product paths; selection only, not whole-lane execution/green."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 381,
+    "stale_source": 378,
+    "each_locale_stale": 126,
+    "each_locale_shipping_stale": 111,
+    "each_locale_author_only_stale": 15,
+    "summary_diagnostics": 3,
+    "summary_target_count_each": 129,
+    "change": "399 ->381 by reviewed18 only; independent pure census matches. Summary3 is not three missing phrases; whole language/UI/runtime remains incomplete."
+  },
+  "identity": {
+    "original_export_source_revision": "d65d70271daca96fec3a64622ca8c5b8616a13e4",
+    "reviewed_rows_sha256": "50b829c792ceecd062bb0a611a22c90c93a9a2dd23e5649b827712d8f348b241",
+    "reviewed_rows_encoding": "Canonical JSON locale/export order [locale,id,source-hash,previous-target-hash,target-hash]",
+    "receipt_sha256_by_locale": {
+      "ja": "0d6918046b521ed4043e546fc927747cdb596343beae90eb7d4c097b1f258936",
+      "zh-CN": "54f90c91a5bb409197f0d0b6206829d71539cfb74f51179b61a63fca4251a879",
+      "zh-TW": "66993b0e7bb6fcbe16c556c97a72aac822cc6f35f3ed292d00b06c4c34bba9df"
+    },
+    "raw_directory": ".git/localization-final-signature-20261104/",
+    "raw_population": {
+      "files": 33,
+      "sha256": "74c5d46b561638779cfc1fdff4bafc5b770f2864fb19dc8b24facdd9505c2c28"
+    },
+    "used_final": {
+      "files": 26,
+      "sha256": "ac99c7fdaed9f59faf89299897582cba10a189cda05d5bb2a26ac4f951c7b483",
+      "selection": "helpers2/leaf-list1/source3/response3/final-check6/import6/delta-demo-i18n-product-list-scope5"
+    },
+    "repair_history": {
+      "files": 7,
+      "sha256": "9ce3b9de5cfc3435f7f4969e0b8a64b2227a48e6329470151db308fdc8c57f67",
+      "selection": "draft1 responses3/initial JA intermediate VALID stdout-stderr2/initial CN counter rejection stdout-stderr2; TW initial check absent"
+    },
+    "raw_population_encoding": "Canonical JSON basename-sorted [basename,bytes,sha256]; final/history disjoint and exhaustive"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "all_moral_memory_combinations_natural_run_exposure",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

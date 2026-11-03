@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-759 · 마지막 서명의 JA/zh 정합
+#### [x] ORDER-759 · 마지막 서명의 JA/zh 정합
 
 2026-11-04 root·부모157/C5. shipping한root KR6×3=18 기존번역 정정.
 
@@ -34,7 +34,7 @@ demo/EN·scope/context/queue/diff. 수용뒤옛export CLI/불변self-test반복0
 
 ## 검사 실물·후보
 
-KR6/목표18의사전독립전독GO·실수용완료, 최종제품후보독립검수대기다.
+KR6/목표18의사전독립전독GO·실수용완료, 최종제품후보독립검수GO다.
 원문없는계약/이체·상환/관계복귀·미래대가해설을수첩/화면엎기·페이지넘김/
 이름·시간열·잉크/꺼지는불빛·표지화살표자국·자기이름마지막/등빛으로정렬했다.
 5년/50만원/30억원·셋중하나/빈줄1/다른둘·6문단/결과3문단·토큰횟수보존.
@@ -47,3 +47,10 @@ KR6/목표18의사전독립전독GO·실수용완료, 최종제품후보독립�
 demo5언어14사건100leaf122UI·EN1813/35 clean, 제품4path일반list11은선택목록뿐이다.
 source-scope399→381(stale378=각126/내shipping111author15+요약3/count129)·전체미완.
 게임31.3실행/입력/저장편집0. 수용후옛export CLI/불변self-test/완료검사반복0.
+
+제품27657ca27c641b665732ac79aa356e2718872d23/tree3bd8250a의
+[최종독립전독](../agent_reviews/order759-final-signature-cjk.md)은실수용18/receipt3·
+원352배치/비소유3JSON·12leaf/전체원장/지난기록을직접역복원해이범위만GO다.
+raw33=최종26/이력7의각집합SHA·보고2/append1을root전독대조·원316판정보존.
+제품CI41677051091 두job진행중·전체성공미관측.
+2026-11-04 완료. 기존I18N계약적용·신규규범0/일회성·전체언어/native/CI/출시별도.
