@@ -12649,6 +12649,48 @@
         "path": "docs/agent_reviews/order743-relationships-cjk.json",
         "sha256": "17579b5c4759256a0313d10f9d3eeaa963b7fd76a236e7329c5c6840cbac6496"
       }
+    },
+    {
+      "id": "order744-body-scam-cjk-corrections-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-03",
+      "decided_by": "/root/capsule_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-744",
+      "subject": {
+        "kind": "source",
+        "commit": "042728dd2ebf518a02e77d0e56e01369f207b79e",
+        "tree": "ed3eae7e46fe088e375f6608bb30a932c0a66bae",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order744-body-scam-cjk.md",
+          "sha256": "fc5dab55deba1c9ea4d22d547e55393a79c41bea270196ad593f4011d695d185"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order744-body-scam-cjk.json",
+          "sha256": "9d2d254dbca6abd126e33d04fcd34d08f71a0debdacb50c1e0f0e6aa0deb7eb4"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order744-body-scam-cjk.json",
+        "sha256": "9d2d254dbca6abd126e33d04fcd34d08f71a0debdacb50c1e0f0e6aa0deb7eb4"
+      }
     }
   ]
 }

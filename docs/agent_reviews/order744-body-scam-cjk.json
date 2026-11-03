@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-744",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "042728dd2ebf518a02e77d0e56e01369f207b79e",
+    "tree": "ed3eae7e46fe088e375f6608bb30a932c0a66bae",
+    "manifest_sha256": null
+  },
+  "scope": "Six body/scam/lease roots only: Korean16 × JA/zh-CN/zh-TW =48 existing-target corrections; new coverage0.",
+  "population": {
+    "source_leaves": 16,
+    "target_leaves": 48,
+    "scene_language_units": 18,
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/{arc_chapter_themes,arc_midgame,arc_events,arc_year_close}.json",
+    "selection": {
+      "arc_35_unorthodox_weight": [
+        "description",
+        "choices/2/{text,result_text}"
+      ],
+      "arc_36_body_signal": [
+        "description",
+        "description_if_known/{changed_routine,maintained_routine,restarted_exercise}",
+        "choices/{0,1,2}/result_text"
+      ],
+      "arc_after_scam": [
+        "title",
+        "description"
+      ],
+      "arc_jaehyuk_03_pitch": [
+        "description_unorthodox"
+      ],
+      "arc_jaehyuk_04a_ghost": [
+        "description_if_known/asked_partial_return"
+      ],
+      "arc_year2_close": [
+        "description_if_known/{y2_lease_move_out_scheduled,y2_lease_renewed_one_year}"
+      ]
+    }
+  },
+  "review": {
+    "method": "Read Korean16 and targets48 independently, six roots/all choices and conditions; compared revised drafts and every accepted product value.",
+    "final_blocking_findings": [],
+    "body": "Current stair/breath/hand reactions, booking and medical record, one meal and possible next-week evening, postponement of rest retained. Basic tests found no urgent abnormality, not guaranteed health/recovery or a new diagnosis. Routine/exercise DIKs recall only supported choices, not invented lasting outcomes.",
+    "scam": "Threefold principal is Jaehyuk's pitch, not realized return. Earlier5minute text reply differs from current unread messages; no face-to-face refund promise. Own signature/Jaehyuk name and father's actual faded signature remain distinct. Aftermath preserves transfer record and numbness, not additional loss/date.",
+    "phone_lease": "Refresh rather than sell; phone out of reach rather than another room. Sleep in chosen result is source-supported, not general achievement. Lease recalls one-off300000won/year-end date or checkout deadline, not monthly debit.",
+    "repairs": "JA scam title/rest-postponement deixis, CN occurrence1, CN/TW reply grammar corrected. Independent recommendation fixed CN past next-day reference; analogous four recollection phrases made explicit. Draft2→final exactly JA1/CN2/TW1, other values/metadata unchanged.",
+    "checked": "Times/durations/amounts, threefold quote, two stations/3km/one hour, {name}, newlines and regional terms."
+  },
+  "preservation": {
+    "prior_batches": 338,
+    "prior_decisions": 301,
+    "ledger": "Prior batches/nonowned acceptance exact; original acceptance and previous-target hashes retained; all final receipts recomputed.",
+    "overlays": "Restoring owned48 yields all12 prior overlay JSON files exactly; other choices/order unchanged.",
+    "boundaries": "KO/EN/runtime/gameplay/demo/allowlist/validators and earlier reports/decisions unchanged.",
+    "drafts": "Six draft1/draft2 responses and original CN occurrence-counter failure retained."
+  },
+  "validation": {
+    "final_check_import": "All3 final check and import logs:16 leaves/4files per locale, VALID/INCOMPLETE/OPEN markers, stderr0; author exit0.",
+    "delta": "changed_leaves48 overlay_files12 new_coverage0; independent whole-JSON and receipt reconstruction passed.",
+    "story_demo": "locales5 source_events14 leaves100 target_ui122",
+    "coverage": "EN strict1813/1813 events35/35 endings; CJK skeleton1708/1813.",
+    "not_repeated": "No post-import old-export CLI check or unchanged selftests; no app/engine/UI/save action."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 1029,
+    "stale_source": 1026,
+    "each_locale_stale": 342,
+    "summary_diagnostics": 3,
+    "change": "1077 ->1029, this48 only. Pure scope recomputation confirmed counts; wider debt remains."
+  },
+  "identity": {
+    "original_export_source_revision": "33d45612b331704ac8afa9d06461811600f0d614",
+    "final_receipt_sha256_by_locale": {
+      "ja": "ea0fa03734c31c42f30c0e759c9ef22f37cb3f90762be0a7155313219b424596",
+      "zh-CN": "4b53894d0118bac261f2d31914b17a65963bf304cfa0186ed5dfd11d984da753",
+      "zh-TW": "b3da5c667a30e9ca58ffc5e55d70cfbfb570ff32e157635d72ec59cfbc715760"
+    },
+    "reviewed_rows_sha256": "5fca9b3992bea176305f752d231102e0b83b7831159750e93ccb79da6e30ca38",
+    "reviewed_rows_encoding": "canonical JSON, locale/export order: [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-body-scam-20261103/",
+    "raw_files": 33,
+    "raw_population_sha256": "a534ca05477de27d0ae59d9ddeb20c6207de946f96713019816cd38a7eddbee4",
+    "raw_population_encoding": "canonical JSON: basename-sorted [basename,bytes,sha256] for all .jsonl/.log"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "external_publication_or_release"
+  ],
+  "conclusion": "GO for exact48 source corrections only, not medical assurance, whole translation/lane, runtime or release."
+}

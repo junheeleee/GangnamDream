@@ -2,6 +2,8 @@
 
 ## 2026-11-03 — 잠금 중 동기화와 상점 문구 인계
 
+- 744 독립 최종: capsule_review가 제품042728d/tree ed3eae7의48값·raw33·receipt3개와 이전338배치/수용/target지문/비소유값을 실제 대조해 이48정정만GO로 보고/원장에 결속했다. 기존301판정/과거보고 불변. source진단1029=stale1026(각342)+요약3, 전체차선·의학적안전/native/실화면·최신CI·출시GO0. 제품042728d/run41576154446는 마지막관측in_progress/conclusion null. 이번조회 a2f2f48/run41570578420 static125702250924 completed/success·engine125702250575 step6진행중/확인실패0, 전체CI성공은아니다. 다음은 남은 재혁04b_counter/ghost_decision/wait 및 실제낡은본문/UI를 새exact범위로 직접대조한다. 게임W192/수정31.3미실행출구불변, 메타마감/정상push로 인계한다.
+
 - 744 제품: 몸·재혁·사기후·갱신회수6root KR16×JA/CN/TW48개를 한국어에서 각각 직접 정합했다. 임의3년투자/도박·배수성과·수면/운동과거·회복보장, 다른방/매도버튼, 진료의 겹친마감/첫기록·식사이력, 추가커피, 사기직후날짜/추가손실, 재혁의 대면/다음달약속·아버지빈서명, 매월월세자동출금을 현재손/호흡·예약/식사/휴식연기·5분답장/실제흐린서명·일회30만원/종료일로 정렬했다. 독립48개/전체선택 전독에서 CN과거‘다음날’1곳을 지적받고 같은 회고4구절을 당시다음날로 명시수리했다. JA제목/연기지시어·CN/TW답장문법·CN‘한번’수량도 수리·초안6/원실패1로그보존·검사완화0. 공식최종check/import16×3·stderr0, delta48/12파일·원338배치/수용/target지문/비소유값불변. source진단1077→1029(stale1026=각342+요약3)로48만해소, 공개demo5언어14사건100leaf122UI·EN1813/35 clean. 누적222개 기존번역정정이며 신규커버리지/전체언어·화면/원어민완성은아니다. 최종수용후보 독립판정은별도·앱31.3/슬롯W192·KOEN/효과/저장/공개demo/allowlist불변. 옛export수용후CLI재검사·불변self-test반복0.
 
 - 743 독립 최종: capsule_review가 제품a984c7f/tree f1beac0d의36값·원자료36개·새receipt3개와 이전337배치/원수용/target/비소유값을 직접 대조해 이36정정만GO로 보고/원장에 결속했다. 기존300판정·보고불변. 사전check와 최종import 내부검사/receipt/delta를 구분하며, 수용뒤 옛export로 호출한 CN/TW CLIcheck2회는 정상 `target changed since export` 거절로 원로그보존·제품결함/최종check전체green 주장0이다. 같은 확인은 반복하지 않는다. 아카이브/정상push, 제품a984c7f/run41570214372는 마지막실제관측 in_progress/conclusion null. 다음은 남은 year2_close의 갱신회수변형/재혁 등 실제 stale본문과 UI, 원문·소비자·lifecycle를 읽고 새exact범위로 이어간다. 앱/저장W192/31.3미실행은불변.

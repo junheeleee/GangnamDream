@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-744 · 몸·재혁·갱신 회수의 JA/zh 정합
+#### [x] ORDER-744 · 몸·재혁·갱신 회수의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. 여섯 root×세 언어=18 장면-언어 단위,
 현재 KR16/JA·CN·TW48개 기존 번역 정정만. 모든 source는 shipping이다.
@@ -41,3 +41,15 @@ scope 변화·context/queue/diff를 검사한다. 수용뒤 옛export CLI check�
 포기 시 잃는 것: 갱신·재혁의 실제 회수, 현재 신체/행동 감각과 열린 이력.
 서사 위치/계층: 기존6root/계층 불변. 닫는 것: source48 정합만.
 규범은 기존 I18N 정본 적용, 새승격0.
+
+## 검사 실물·판정
+
+2026-11-03 완료. 제품 `042728d`의 [독립 전독](../agent_reviews/order744-body-scam-cjk.md)은
+원문16/목표48 및6root전체선택/조건을 직접 읽고 이48정정만GO로 판정했다.
+CN‘한번’counter수리와JA제목/연기지시어·CN/TW답장문법, 독립지적한 CN과거시각을
+포함한 회고4구절을 수리했다. 초안6/원실패1로그 보존·검사완화0.
+최종check/import16×3·각stderr0, delta48/12파일·이전338배치/수용/target/비소유값불변,
+receipt3개·raw33 결속. scope1077→1029(stale1026=각342+요약3),
+demo5언어14사건100leaf122UI·EN1813/35 clean. 원자료 `.git/localization-body-scam-20261103/`.
+수용후옛export CLI재검사/불변self-test 반복0. 전체번역/차선·의학적안전·native/
+실화면·최신CI/출시 GO가 아니다.
