@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-751",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "50283adafd5ab793986fc8d1f90823e046a51606",
+    "tree": "79e4ba56a6b1833d7c55093ce2ea29ced5bbda99",
+    "manifest_sha256": null
+  },
+  "scope": "Korean22 × JA/zh-CN/zh-TW =66 existing shipping-target corrections only; five roots ×3=15 units; new coverage0.",
+  "population": {
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/arc_chapter_themes.json",
+    "selection": "bill_night/unattached description and choices0/1/2 results(8); body_witness description/choices0,2 results/choices1 text(4); body_witness_hyunsu description/known hyunsu_reconnected/choices0,1,2 results/choices1 text(6); family_commitment_none description/choices0,1,2 results(4).",
+    "excluded": "Both bill roots' five memory leaves each are nonowned and unchanged, not completed by this GO."
+  },
+  "review": {
+    "method": "Direct Korean22/targets66 reading; five full Korean/current-locale roots/choices/known/memory, ROMANCE, lifecycle, DataRegistry overlay/StoryMode4384-4450, MainGame7287-7293/7673-7688/7704-7716 and subsequent father outcome/story_rules inspected.",
+    "final_blocking_findings": [],
+    "bill": "11:47 current time/11:59 payment deadline/487300won and account reissue remain open before choice. 11:50 ward message invites coordination; actual call occurs only after relevant choice. Payment/body care/father coordination finish one and miss two, not cure or guaranteed later outcome. Daeun is at entrance; unattached player alone.",
+    "body": "Elbow support requires permission.119/02:12/02:30/11minutes/18minutes and actual medical reception/file-send timing preserved. Hyunsu is remote video witness only, cannot call/open door for player. Generic file/reception timestamp does not invent customer file/server or payment.",
+    "family": "15:00/18:00/five-to-ten paid-site notice/two people/two bowls/three hours preserved. Compensation-confirmation request is neither unpaid-wage recovery nor actual payment/another recipient. Rescheduling does not erase today's absence.",
+    "independent_repairs": "CN bill c1 in two roots explicitly names time to respond to ward message, not missing the message itself. CN/TW family c0 uses ordinary pronoun 他 after soup subject; extra second{name} removed, then pronoun clarifies same player without adding token/person. Final all66 token multisets and paragraphs match Korean.",
+    "preparation_repairs": "CN one-sentence-at-a-time phrasing, TW three-notifications classifier and single-look word order preserve source quantity/naturalness. All draft transitions/header/metadata and unchanged values directly compared; final blocking findings0."
+  },
+  "preservation": {
+    "prior_batches": 345,
+    "prior_decisions": 308,
+    "proof": "Actual66=response exact. Restoring only66 yields all3 prior overlay JSONs exactly, including nonowned memory/choices. Prior345 batches/original acceptance/previous-target fingerprints/nonowned values exact; acceptance and batch/hash reversal reproduces entire old ledger. Actual private accepted3 equal independently reconstructed receipts/canonical hashes.",
+    "boundaries": "KO/EN/gameplay/runtime/demo/validators/allowlist and all prior reports/decisions unchanged. Five declared doc diffs read: CLAUDE/queue/parent157/active751/WORK_LOG."
+  },
+  "validation": {
+    "accepted_check_import": "3 final pairs,22 leaves/1file each, VALID/INCOMPLETE/OPEN markers, stderr0; author exit0. All raw logs directly read.",
+    "delta": "changed_leaves66 overlay_files3 new_coverage0; independent whole-JSON/receipt/source binding proof passed.",
+    "demo_i18n": "Demo5 languages/14events/100leaves/122UI; EN strict1813/1813 events35/35 endings; CJK skeleton1708/1813.",
+    "lane": "11-check selection list only, not whole-lane execution/pass. No reviewer old-export CLI/unchanged selftest/app/engine/UI/save actions.",
+    "failures": "Four preserved rejections: initial CN line1 and TW entity3; intermediate CN token mismatch; subsequent TW look1. Intermediate VALID not final acceptance. Intermediate TW check was not run. Parent-reported rejected multi-operation patch shape is tool diagnostic outside raw48, not product success; no validator relaxation."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 723,
+    "stale_source": 720,
+    "each_locale_stale": 240,
+    "summary_diagnostics": 3,
+    "change": "789 ->723, reviewed66 only. Independent pure scope recomputation matches; whole translation/UI debt remains."
+  },
+  "identity": {
+    "original_export_source_revision": "d75dc596cfedaf65d809c32c7e05fff63a9a342b",
+    "final_receipt_sha256_by_locale": {
+      "ja": "b73754f2e0ef4c56f07713bada2eae10585448afb44d4ef45be74131f0c91ff9",
+      "zh-CN": "e7864021e035f7da0298ddc0ccab401fb7d1543f735d263d676edd0e9899bd95",
+      "zh-TW": "18e67c86b97309966f705f166d8f3836fca99c07a4d05715203d2146d595b229"
+    },
+    "reviewed_rows_sha256": "719c8c7d1f2d7391157a743588d6acb730f8c26e99c60a2185be6e590c3f54de",
+    "reviewed_rows_encoding": "canonical JSON locale/export order [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-body-bills-20261103/",
+    "raw_files": 48,
+    "raw_population_sha256": "3845ac2adda997042d3b9009864b10f50c3ce81bc91bbf7eed2f3af20128af6f",
+    "raw_population_encoding": "All regular files, canonical JSON basename-sorted [basename,bytes,sha256]; same for disjoint subsets",
+    "used_final": {
+      "files": 26,
+      "sha256": "9b81b7501b080a943148368fa58b59ee44829bff5bd8428b3140134e17a788d0",
+      "selection": "helpers2/leaf-ids1/source3/response3/accepted-check+import12logs/delta-demo-i18n-lane-scope5"
+    },
+    "repair_history": {
+      "files": 22,
+      "sha256": "da8b703af043f528803a2d63e0d0c2d4a7996c22b6d07682e70666bcca69e17d",
+      "selection": "draft-check6logs; intermediate JA/CN check4logs(TW absent); final-check6logs; CN/TW draft1/2/3 responses6"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ],
+  "conclusion": "GO exact66 source corrections only; not nonowned memory, failed/intermediate preparation, whole lane/translation, actual runtime, latest CI, M60 or release."
+}

@@ -12947,6 +12947,49 @@
         "path": "docs/agent_reviews/order750-name-time-cjk.json",
         "sha256": "9688a1d6aaf66f1028a6965022bb9777628f039f9f71b18bf91d1c102d0198d7"
       }
+    },
+    {
+      "id": "order751-body-bills-cjk-corrections-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-03",
+      "decided_by": "/root/capsule_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-751",
+      "subject": {
+        "kind": "source",
+        "commit": "50283adafd5ab793986fc8d1f90823e046a51606",
+        "tree": "79e4ba56a6b1833d7c55093ce2ea29ced5bbda99",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order751-body-bills-cjk.md",
+          "sha256": "5924c5ee78c2b90cef00ec868e3f4966cca2f5fb8c39237a1b26e23ccc872b06"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order751-body-bills-cjk.json",
+          "sha256": "0a6173241501a6c4a231020c7c944d5b424d5efe0cef0b2d8614fb092afc441d"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order751-body-bills-cjk.json",
+        "sha256": "0a6173241501a6c4a231020c7c944d5b424d5efe0cef0b2d8614fb092afc441d"
+      }
     }
   ]
 }

@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-751 · 몸·가족·청구의 JA/zh 정합
+#### [x] ORDER-751 · 몸·가족·청구의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. shipping5root×3언어=15단위, KR22×3=66 기존번역 정정.
 
@@ -48,4 +48,8 @@ CN한문장씩/TW알림3개·시선1회 인식거절과CN추가토큰거절4건�
 초안6개보존·검증기완화0. accepted-check/import22×3 exit0/stderr0,
 receipt/순수검증/delta66/3파일·원345배치/수용/이전target/비소유값불변.
 scope789→723(stale720=각240+요약3), demo5언어14사건100leaf122UI·EN1813/35 clean.
-원자료 `.git/localization-body-bills-20261103/` 소유. 제품후보 실수용 최종판정은다음.
+원자료 `.git/localization-body-bills-20261103/` 소유. 제품 `50283ad`의
+[독립 전독](../agent_reviews/order751-body-bills-cjk.md)은실수용66/3파일·원345배치/
+수용/previous-target/비소유값·receipt3개를직접대조해 이66정정만GO로판정했다.
+raw48은최종26/이력22의별도집합SHA·기존308판정/보고보존, 청구기억10leaf비소유다.
+2026-11-03 완료·규범일회성, 전체언어/차선·화면/원어민·최신CI/M60/출시GO별도.
