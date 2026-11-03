@@ -1,0 +1,42 @@
+# ORDER-739 — 첫해 결산의 JA/zh 현재 원문 정합
+
+> Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
+
+#### [~] ORDER-739 · 첫해 결산의 JA/zh 현재 원문 정합
+
+2026-11-03 root 착수. 부모157, C2/C5. 사용자 본편 일본어·중국어 완성 재개에
+따라 실제 차선에서 검출한 stale receipt를 번역 직접 대조로 해소한다.
+
+## 판정 단위와 소유권 (일회성)
+
+- `content/events_{ja,zh-CN,zh-TW}/arc_year_close.json`의 `arc_year1_close` 8 leaf:
+  `/choices/0/{text,result_text}`, `/description`, `/description_if_known/`의
+  `entered_network`, `escaped_dirty_money`, `hit_rock_bottom`, `jaehyuk_scammed`,
+  `kept_clean_hands`만. 8×3=24개 기존 번역의 수정이지 신규 커버리지가 아니다.
+- `content/meta/full_game_localization.json` 이24개 current 수용과 별도 correction.
+  기존 batch/영수증/이전 target 해시를 보존한다.
+- 이 사양·157·큐·CLAUDE·11-03 WORK_LOG·독립 보고/판정만. 기타 제품 비소유.
+
+## 깊이 3문과 검증
+
+1. 제거하면: '지킨 것/미룬 것'을 '얻은 것/내준 것'으로 잘못 말하고,
+   현재 원문이 없는 결론·천장 장면을 번역이 계속 만든다.
+2. 선택 대가: 밤의 수첩/아버지 전화/잠 선택의 비용과 병렬 결산을 보존한다.
+   새 효과·힌트·선택 우열을 넣지 않는다.
+3. 경쟁: 전체 미완 중 실행된 감사가 발견한 실제 source 불일치를 먼저 수리한다.
+
+공식 fresh export/check/import --replace-existing, KO 직접 독립 번역,
+숫자·원화·토큰·개행·지역문자 검사와 원문8/목표24 전독. 비소유값·선택순서·
+원장 이력 불변을 역대조한다. 기존 도구 반례 검사는738에서 실행했으므로
+변경 없는 self-test 전체를 이유 없이 재실행하지 않는다. 실제 수용/패리티·
+공개데모·scope 진단 수 변화를 확인한다. 광범위 stale 채무를 지문만 덮어 숨기지 않는다.
+KO/EN·게임로직·공개 데모·저장·project.godot·retail allowlist 비소유.
+실제 앱/원어민·전체5언어·전체차선·출시 완료는 이 범위 밖이다.
+
+도달 경로: full_body scope source hash 불일치8×3와 실제 target 전독.
+생산자↔독자: 현재 한국어 `arc_year1_close` → 기존 overlay consumer.
+바꾸는 상태: 낡은 결산/허위 결론24 → 현재 선택·현재 감각24.
+포기 시 잃는 것: W48 결산이 현재 KO 선택/장면과 같은 의미로 읽히는 것.
+서사 위치/계층: 첫해 마지막 밤/W48, 원본 계층 불변.
+닫는 것: 해당24문구 source/기계/독립 검수만; 전체 번역·화면 미완.
+규범: 기존 I18N 정본 준수, 신규 규칙 승격 없음.
