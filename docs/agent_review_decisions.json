@@ -12733,6 +12733,48 @@
         "path": "docs/agent_reviews/order745-night-wait-cjk.json",
         "sha256": "d5f15efa5e7cacd60c151c90e97bd26094b0124c755adabd63ba8085afd7deb4"
       }
+    },
+    {
+      "id": "order746-return-distance-cjk-corrections-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-03",
+      "decided_by": "/root/capsule_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-746",
+      "subject": {
+        "kind": "source",
+        "commit": "0e06e8c2ccc02c6b040d59666f3fcc592d4c46c8",
+        "tree": "7b713f805b7d0eb24aa48c95c374ae9254d21595",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order746-return-distance-cjk.md",
+          "sha256": "daff8c2d34928ffff3b4c7855c6a592c54aba4ce31105c3789e5bc7f2a32d4bb"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order746-return-distance-cjk.json",
+          "sha256": "5f55b9f5adc9dd526cc4422b53767ab74a5dc4dc2deaaaa299b55ba517784fbe"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order746-return-distance-cjk.json",
+        "sha256": "5f55b9f5adc9dd526cc4422b53767ab74a5dc4dc2deaaaa299b55ba517784fbe"
+      }
     }
   ]
 }

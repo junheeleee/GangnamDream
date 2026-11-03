@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-746 · 반환·거리의 JA/zh 정합
+#### [x] ORDER-746 · 반환·거리의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. 여섯 root×세 언어=18 장면-언어 단위,
 shipping KR13×3=39개 기존 번역 정정만 소유한다.
@@ -46,7 +46,11 @@ DataRegistry428~439/1151~1201·story_rules/ROMANCE 대조, 추가수리0.
 최종check/import13×3 exit0/stderr0, receipt/순수검증/delta39/12파일·이전340배치/
 수용/target지문/비소유값불변. source진단978→939(stale936=각312+요약3),
 공개demo5언어14사건100leaf122UI·EN1813/35 clean. 전체차선/화면GO는아니다.
-원자료 `.git/localization-return-distance-20261103/` 보존. 최종제품 독립판정 대기.
+원자료 `.git/localization-return-distance-20261103/` 보존. 제품 `0e06e8c`의
+[독립 전독](../agent_reviews/order746-return-distance-cjk.md)은 실수용39/12파일·
+이전340배치/수용/target지문/비소유값을 직접 대조해 이39정정만GO로 판정했다.
+raw32는최종사용26/미사용CLI2/수량수리4로분리해SHA결속·기존303판정불변이다.
+2026-11-03 완료. 전체차선/원어민/실화면·최신CI·M60/출시GO는아니다.
 
 준비이력(일회성): 큐소수행/고정이어보기번호 실패는09cf54c에서수리, 원실패를
 검사성공으로세지않는다. 새행은고정이어보기뒤연속정수79로기록한다.

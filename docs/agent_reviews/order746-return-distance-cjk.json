@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-746",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "0e06e8c2ccc02c6b040d59666f3fcc592d4c46c8",
+    "tree": "7b713f805b7d0eb24aa48c95c374ae9254d21595",
+    "manifest_sha256": null
+  },
+  "scope": "Six return/distance roots only: Korean13 × JA/zh-CN/zh-TW =39 existing-target corrections; new coverage0.",
+  "population": {
+    "source_leaves": 13,
+    "target_leaves": 39,
+    "scene_language_units": 18,
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/{callback_events_2,arc_year3_drama,arc_midgame,arc_daeun_extension}.json",
+    "selection": {
+      "callback_jaehyuk_exploited_retaliate": [
+        "description",
+        "choices/{0,1}/{text,result_text}"
+      ],
+      "arc_y3_jiyeon_departure": [
+        "description"
+      ],
+      "arc_daeun_money_gap": [
+        "description",
+        "choices/0/result_text",
+        "choices/1/{text,result_text}"
+      ],
+      "arc_daeun_trace": [
+        "description"
+      ],
+      "arc_daeun_year3_apart": [
+        "description"
+      ],
+      "arc_daeun_year4_together": [
+        "description"
+      ]
+    }
+  },
+  "review": {
+    "method": "Read Korean13 and all39 response texts; all six Korean and current locale roots/base/choices; DataRegistry428-439/1151-1201 merge, story_rules1054/3496/3753, ROMANCE distance/stages and shipping inventory.",
+    "final_blocking_findings": [],
+    "return": "Player sends back3000000won from received money, retains evidence and refuses further demands. Other choice opens no remittance screen, exchanges no more money. Not reporting/principal receipt/one-week delay or multiplier.",
+    "coffee": "Card notification is coffee payment, not investment dividend. Daeun's next coffee and partial money-thought disclosure differ from full confession; no added investment success or disclosed figures.",
+    "distance": "Jiyeon sends one-way Seoul-Busan ticket, player reads three times and enlarges with two fingers; her own-name office and message/photo overlap stay intact, no invented father-company plan. Daeun memory is first meeting, not two years ago; present train/late night do not fix commute.",
+    "repair": "CN/TW 两根手指/兩根手指 became 两个指头/兩個指頭, preserving two fingers and natural meaning. Draft1 comparison: only that phrase per locale; all other values/header/metadata exact.",
+    "checked": "300만원 Korean won, three readings/two fingers/second photo/over3years, {name}, newlines, names, regional script/terms. No extra life/relationship fact."
+  },
+  "preservation": {
+    "prior_batches": 340,
+    "prior_decisions": 303,
+    "ledger": "All prior batches/nonowned acceptance exact; superseded acceptance/previous-target hashes retained; final source/target/official receipts recomputed.",
+    "overlays": "Restoring only39 owned values yields all12 prior overlay JSON files exactly; other choices/order unchanged.",
+    "boundaries": "KO/EN/runtime/gameplay/demo/allowlist/validators and earlier reports/decisions unchanged.",
+    "metadata": "Read five declared doc diffs: CLAUDE/queue/parent157/active746/WORK_LOG. No additional product mutation."
+  },
+  "validation": {
+    "final_check_import": "Three final check/import pairs:13 leaves/4files each, VALID/INCOMPLETE/OPEN markers, stderr0; author exit0.",
+    "delta": "changed_leaves39 overlay_files12 new_coverage0; independent whole-JSON/receipt reconstruction passed.",
+    "story_demo": "locales5 source_events14 leaves100 target_ui122",
+    "coverage": "EN strict1813/1813 events35/35 endings; CJK skeleton1708/1813.",
+    "history_limit": "CLI locale omission and counter rejection are not final success. Queue preparation failures were conversation output/doc correction, not raw generation logs. No old-export recheck/unchanged selftest repeated; app/engine/UI/save actions0."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 939,
+    "stale_source": 936,
+    "each_locale_stale": 312,
+    "summary_diagnostics": 3,
+    "change": "978 ->939: reviewed39 only; pure scope recomputation confirms counts; broad debt remains."
+  },
+  "identity": {
+    "original_export_source_revision": "09cf54cbb22f45da40ae732e6a7db37632f43a32",
+    "final_receipt_sha256_by_locale": {
+      "ja": "b944b48bf2e435004ee08087e8b33d8e740eb5ca397e74420ea6879f1428426d",
+      "zh-CN": "112d6be755be7c4b5a15f8f717dcf5806e46592ec73d33962458656d5fb58a1c",
+      "zh-TW": "2ae0c4a070234fce6d74f73a8521b97808c567475a1ef68b51c384927f706f9e"
+    },
+    "reviewed_rows_sha256": "458b69da9f72ec2536c442985d141a2c45819d7785d470f62d09673e69031877",
+    "reviewed_rows_encoding": "canonical JSON, locale/export order: [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-return-distance-20261103/",
+    "raw_files": 32,
+    "raw_population_sha256": "95c21dad5d0bb0f727aa47488680cefa86090a4c4ad5e1831be6da02e5adfecf",
+    "raw_population_encoding": "canonical JSON: basename-sorted [basename,bytes,sha256] for all .jsonl/.log; same encoding for disjoint subsets",
+    "used_final": {
+      "files": 26,
+      "sha256": "147200bfb888b51ed04dbea85d7c9f5d7c1d789f4793348dd53856dff16ed2cb",
+      "selection": "Final source/response3 pairs, check/import3 stdout/stderr pairs, delta/scope/demo/coverage stdout/stderr4 pairs"
+    },
+    "unused_cli": {
+      "files": 2,
+      "sha256": "94b9a70a91bd7aab997f0e2df97e1df33225cc24357d135569d1e7e5b345c638",
+      "selection": "zh-CN.initial-cli.check stdout/stderr"
+    },
+    "repair_history": {
+      "files": 4,
+      "sha256": "5e85b842ffd9f5c8097e9be812872b9cae13d39974ec45789bed9d080b97ba81",
+      "selection": "CN draft1 check stdout/stderr + CN/TW response.draft1"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "external_publication_or_release"
+  ],
+  "conclusion": "GO for exact39 source corrections only, not preparation errors, whole translation/lane, actual runtime, M60 or release."
+}
