@@ -41,4 +41,11 @@
 
 ## 검사 실물·후보
 
-구현·독립검수·제품후보 미완. 원자료 `.git/localization-body-bills-20261103/` 소유。
+capsule_review가KR22/목표66·전체5root선택/known·memory·실제관계/생존분기와
+MainGame W164/W167/W181·DataRegistry/StoryMode 소비자를전독했다. CN병동메시지
+응답시각2구절·CN/TW주어대명사2구절을수리하고다른21값/헤더/문단/토큰불변확인.
+CN한문장씩/TW알림3개·시선1회 인식거절과CN추가토큰거절4건·중간VALID/
+초안6개보존·검증기완화0. accepted-check/import22×3 exit0/stderr0,
+receipt/순수검증/delta66/3파일·원345배치/수용/이전target/비소유값불변.
+scope789→723(stale720=각240+요약3), demo5언어14사건100leaf122UI·EN1813/35 clean.
+원자료 `.git/localization-body-bills-20261103/` 소유. 제품후보 실수용 최종판정은다음.
