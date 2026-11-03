@@ -39,4 +39,18 @@ demo/EN·scope/context/queue/diff. 수용후옛export CLI/불변self-test반복0
 
 ## 검사 실물·후보
 
-수정·검수·제품후보 미완. 게임31.3실행/입력/저장편집0.
+KR28/목표84의사전독립전독GO·실수용완료, 최종제품후보독립검수대기다.
+각locale독립문장표를조립한27개전체한국어원문+memory1 exact매칭이며,
+최종response84/header/sourcehash/previous-target/문단·토큰을대조했다.
+부친네시통화/남은한곳/거래원문끝까지검토·문열어도움받음/파일먼저/혼자버팀·
+동행/혼자가족식탁/불참과물수건겉포장1/교통카드/식당명흔적을구분했다.
+memory3장크기·완료/지난시간선·겹쳐길게접기를보존, 미래성과/대가훈계0이다.
+
+최초JA check는네시→ASCII4時의숫자/sign거절1·CN/TW최초check미실행이다.
+JA9곳四時로뜻을보존했고CN/TW겉포장9곳씩·CN혼자식탁9곳은독립권고로수리했다.
+초안문장표/response3/JA실패2로그보존·검증기변경0, Arabic4지원수리로세지않는다.
+독립최종사전84전독추가권고0, final-check/import28×3 VALID/INCOMPLETE/OPEN·stderr0.
+receipt/순수검증/delta84/3JSON·원350배치/원수용/이전target/비소유5leaf/전체원장보존.
+demo5언어14사건100leaf122UI·EN1813/35 clean, 제품4path일반list11은선택목록뿐이다.
+source-scope528→444(stale441=각147/내shipping132author15+요약3/count150)·전체미완.
+게임31.3실행/입력/저장편집0. 수용후옛export CLI/불변self-test/완료검사반복0.
