@@ -35,4 +35,16 @@ demo/EN·scope/context/queue/diff. 수용뒤옛export CLI/불변self-test반복0
 
 ## 검사 실물·후보
 
-수정·검수·제품후보미완. 게임31.3실행/입력/저장편집0.
+KR10/목표30의사전독립전독GO·실수용완료, 최종제품후보독립검수대기다.
+관계결과/권한·화해훈계/고정24주전베팅해설을현재같은밤수첩/채팅목록/커서/
+두손·전송시각/미삭제1·사과줄2번삭제/등빛·내일저녁8시/초록충전등으로정렬했다.
+위험계획회고는멈춤조건칸비운계획저장/38세7일·5년·50만원이며실제베팅0발명.
+JAresult0きっと→たぶん/食事を→食事が, CNgamble 把…留空만독립권고수리·
+각1행/다른9/9값/전체TW10·헤더metadata exact, 원초안2/중간check4로그보존.
+JA/CN final-check·TW check와import10×3 exit0/stderr0 실관측·번역거절0/도구변경0.
+receipt/순수검증/delta30/3JSON·원354배치/원수용/이전target/비소유20leaf/전체원장보존.
+demo5언어14사건100leaf122UI·EN1813/35 clean, 제품4path일반list11은선택목록뿐이다.
+source-scope327→297(stale294=각98/내shipping83author15+요약3/count101)·전체미완.
+known첫서명3가gamble보다앞이라동시true면서명이우선·모든변형신규노출claim0.
+privatehelper준비re.sub replacement unicode escape오류1은쓰기0·lambda/ASCII수리,
+제품/언어validator결함·검사성공으로세지않는다. 게임31.3실행/입력/저장편집0.

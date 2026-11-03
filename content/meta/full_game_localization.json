@@ -21331,6 +21331,241 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-761",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_final_week"
+      ],
+      "source_leaves": 10,
+      "target_leaves_by_locale": {
+        "ja": 10,
+        "zh-CN": 10,
+        "zh-TW": 10
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean-to-each-locale census of10 source leaves/30 existing shipping targets; whole final-week root/current20 leaves and generic W240 typed-finale exclusion/countdown follow-up/seen closure read. Current same-night notebook/chat-list/thumb/last empty bubble/cursor/charging cable/two hands retain four body paragraphs, signature3 change only first-paragraph ink smell/arrows/own-name-last traces. Meal request follows self-praise and500000won/five-years memory, timestamp and persistent1 do not promise a reply or meal. Apology states one wrong then erases/retypes final line twice; phone face-down/lamp light remains. Alone today and own first contact tomorrow evening8 preserve green charging lamp, not recipient permission or response outcome. Gamble memory retains38th birthday7days/five years/500000won and stored risky plan with blank stop condition, not24weeks or actual bet/performance. First matching signature3 precede gamble; no all-variant exposure claimed. Original354 batches/receipts/previous-target hashes and nonowned20 preserved.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "be0835101f54953826135d35c9e90d4103048a97",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "4604fb7ad5d532256035a918290df5efe48722f1e5dab74ad72306deea084771",
+          "count": 10,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b05028c0d744a393101ddd0bfc1389eb85a870e2da1bfbe6acff783109c5f44a"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "be0835101f54953826135d35c9e90d4103048a97",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "d9a5a4296121bfd3a24503f1550f7011672ca5cf90fe10de432575ceb5fce516",
+          "count": 10,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "4ce9032d2ba2a4421d2a8b5ec4630aa619ae77c57f2c0f48436ba89484f4a749"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "be0835101f54953826135d35c9e90d4103048a97",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "c1977b2ae2307c4d79331d6432b8a218c0818c3bde63194172c1d6a11570faeb",
+          "count": 10,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "0ab994b4c7961d61583b4dfd1594fd98794b571ed4c28e06158072158b1fe2b2"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "37aaf98277e8369272f5effe494b901b3b3516b6c6c2ba36b00713401eb50830",
+        "zh-CN": "038e4eb301dda0e324b4a462e8bb5a34469bc680c7c220f3ca1bb410848ff2f8",
+        "zh-TW": "3c526de5cb7f1d52789b6674cb5feef40f26f63fd9361eb0389c1e8712d4bd06"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_final_week:/choices/0/result_text": "6f5894f34ed444ab10c7ea38dd836bba1c5ed25267d71e2564342658cb25fe4a",
+          "events:arc_final_week:/choices/0/text": "ef8a413797982b3900d1e5d211bf0982c1d25294610ca6f18ac023bfae7ccfce",
+          "events:arc_final_week:/choices/1/result_text": "35e05259691075e4a8492c470d8197547d045f128c18ee681894095803d24f44",
+          "events:arc_final_week:/choices/2/result_text": "cecf2ba672386d6dc5e8dd293f045eb0ad2032b832d5c3a58b0e517fc3f30787",
+          "events:arc_final_week:/choices/2/text": "6749104d64d89e9f60ebe4b88b9dc313a09a04458c438c0c13e245d599715cba",
+          "events:arc_final_week:/description": "3504bb066d6b809e6e4ced9564c6e340556f623bf9304dd8e688ff675fa7a5cf",
+          "events:arc_final_week:/description_if_known/final_gamble_taken": "386bfd868c5e67d6eba0e57c0207bc1b0ab687009a59e919bdad4c734b191572",
+          "events:arc_final_week:/description_if_known/final_signature_collateral": "fabda4533b7a3624eb9a2d6c31f3103af03fbaedad752873c9ddf9c4a2886944",
+          "events:arc_final_week:/description_if_known/final_signature_owned": "878bbca14a9d3dfc98568f9cc46a76d71d2187afab5a98466b9e9d018a38d478",
+          "events:arc_final_week:/description_if_known/final_signature_people": "1987f59208ecb5e4e2da5f5840fe760d00df7156ecac05ff960d82177644c402"
+        },
+        "zh-CN": {
+          "events:arc_final_week:/choices/0/result_text": "83420170a45e814b0dfddb9ec4fbc6dfdff288b5ece88083cc4b6c6c671760fe",
+          "events:arc_final_week:/choices/0/text": "da999584827bf1572ae8a9c42be3511424c1a0d9b3086f7710d2036d153d277e",
+          "events:arc_final_week:/choices/1/result_text": "817b87388c32f849285ad768bbd9429a2b104d23361b0814e62eba3cbf3fba72",
+          "events:arc_final_week:/choices/2/result_text": "09f348efbff7f485766181453178c7260709350acc213a6c29b08a84f4c0a0b8",
+          "events:arc_final_week:/choices/2/text": "6c9ddbfe78310e5a8ce5e064f3795ad5f1ed95ddfc8aa1a798bf8679f96fa665",
+          "events:arc_final_week:/description": "c5be753006bcc994a94ed70924f3e0b7af884e993d98d35c6a6047405ceac799",
+          "events:arc_final_week:/description_if_known/final_gamble_taken": "1507a12e096d46d6602333072e4305cdaba06a087d26a5f975891f3cb413220b",
+          "events:arc_final_week:/description_if_known/final_signature_collateral": "22c065678e82fe7bc6688b118d39ab8279e00650a72a994689fd87b28d36c654",
+          "events:arc_final_week:/description_if_known/final_signature_owned": "07df05ec9038da044f91ac865ef2ddb999d511a24fe2604c34728930e8bf504c",
+          "events:arc_final_week:/description_if_known/final_signature_people": "c26adf1b0781cf279cacb07f76fb18057810ee24c9a909d3935510e919d3c79e"
+        },
+        "zh-TW": {
+          "events:arc_final_week:/choices/0/result_text": "e82331087f8d16e96f4a0c383ab2d21ea3ef7009d83c28b4371b0d3e15213eb1",
+          "events:arc_final_week:/choices/0/text": "1ef1ca9ba7faa93626b52a8406541793c1e85905dd71f8ed1878c02b41ca28c7",
+          "events:arc_final_week:/choices/1/result_text": "58a6fc033a0da253efc325f7136da85cdfdfae272a1807e81ffa0c47dad49bdd",
+          "events:arc_final_week:/choices/2/result_text": "6c10fb03b05b10440a58725b472e9a4574795c51511d819c3fd6bc79bf6df0ab",
+          "events:arc_final_week:/choices/2/text": "7231d122c7c5aeeceffd8c59b746e76ec73e590a479fb3e82d66f2b12138062b",
+          "events:arc_final_week:/description": "67554ccf7048314d6f0b8f5013846ea81371e289afd38de00f84b717e822374c",
+          "events:arc_final_week:/description_if_known/final_gamble_taken": "9acc30fcb953398acb2f07cfa36c96fa1674d52e6cffd148db368203e217c36f",
+          "events:arc_final_week:/description_if_known/final_signature_collateral": "3af1a9505c0f37e9faedb464cc2666b680f0eee81599213c05bc3468d7c45ebf",
+          "events:arc_final_week:/description_if_known/final_signature_owned": "86ddd99a8cc3ea4866c1dac9b3bcf7e65bd6a2a9a164bec7894768fccddf9b87",
+          "events:arc_final_week:/description_if_known/final_signature_people": "4f80efb567a30c122b5932a73ee2ad60eeae6a9c6c236cca5736e67e901950d2"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_final_week:/choices/0/result_text": {
+            "source_sha256": "a9072595b09c4891f2d8e520f31464070b0488c907c54ecdfd4846db36cd204d",
+            "target_sha256": "6f5894f34ed444ab10c7ea38dd836bba1c5ed25267d71e2564342658cb25fe4a"
+          },
+          "events:arc_final_week:/choices/0/text": {
+            "source_sha256": "fc306a64d678e4be54829a2c61bd6f0db5806e7d34c566c3f99aac044edfd49f",
+            "target_sha256": "ef8a413797982b3900d1e5d211bf0982c1d25294610ca6f18ac023bfae7ccfce"
+          },
+          "events:arc_final_week:/choices/1/result_text": {
+            "source_sha256": "5cf9aefddb94248e13b02a75af2730a3f607d8e912f7434f68b8ec22ac192d49",
+            "target_sha256": "35e05259691075e4a8492c470d8197547d045f128c18ee681894095803d24f44"
+          },
+          "events:arc_final_week:/choices/2/result_text": {
+            "source_sha256": "292b646e6ce7bce4e870f4d0d2f82ef4d4f6d00c358145011e775eef59c8e538",
+            "target_sha256": "cecf2ba672386d6dc5e8dd293f045eb0ad2032b832d5c3a58b0e517fc3f30787"
+          },
+          "events:arc_final_week:/choices/2/text": {
+            "source_sha256": "8079e23f28552c37dc95f35f8b34d9dfa850296d46eeed83981d9730ceb59e30",
+            "target_sha256": "6749104d64d89e9f60ebe4b88b9dc313a09a04458c438c0c13e245d599715cba"
+          },
+          "events:arc_final_week:/description": {
+            "source_sha256": "67b12113df7c4556549005f7709d156b40459fb94d226cc9c8e1e028f518a49d",
+            "target_sha256": "3504bb066d6b809e6e4ced9564c6e340556f623bf9304dd8e688ff675fa7a5cf"
+          },
+          "events:arc_final_week:/description_if_known/final_gamble_taken": {
+            "source_sha256": "ca4cfcc4c6a1b57487ed8523fc1f03b05121d124ebbfd1ab641b9b9dc2338272",
+            "target_sha256": "386bfd868c5e67d6eba0e57c0207bc1b0ab687009a59e919bdad4c734b191572"
+          },
+          "events:arc_final_week:/description_if_known/final_signature_collateral": {
+            "source_sha256": "97b1df4d3a72a5bcfed18916eaae0505b661449b6ab2de2eb43477d9755591ba",
+            "target_sha256": "fabda4533b7a3624eb9a2d6c31f3103af03fbaedad752873c9ddf9c4a2886944"
+          },
+          "events:arc_final_week:/description_if_known/final_signature_owned": {
+            "source_sha256": "8f5972ece4d5dda2f89c4dbb48affd27b737835326f12b8118449f81e33d5e00",
+            "target_sha256": "878bbca14a9d3dfc98568f9cc46a76d71d2187afab5a98466b9e9d018a38d478"
+          },
+          "events:arc_final_week:/description_if_known/final_signature_people": {
+            "source_sha256": "6f5b6a0bce9c1ff7928628fb27ccd631f1c43bdbbee352e76281f40198fb907a",
+            "target_sha256": "1987f59208ecb5e4e2da5f5840fe760d00df7156ecac05ff960d82177644c402"
+          }
+        },
+        "zh-CN": {
+          "events:arc_final_week:/choices/0/result_text": {
+            "source_sha256": "a9072595b09c4891f2d8e520f31464070b0488c907c54ecdfd4846db36cd204d",
+            "target_sha256": "83420170a45e814b0dfddb9ec4fbc6dfdff288b5ece88083cc4b6c6c671760fe"
+          },
+          "events:arc_final_week:/choices/0/text": {
+            "source_sha256": "fc306a64d678e4be54829a2c61bd6f0db5806e7d34c566c3f99aac044edfd49f",
+            "target_sha256": "da999584827bf1572ae8a9c42be3511424c1a0d9b3086f7710d2036d153d277e"
+          },
+          "events:arc_final_week:/choices/1/result_text": {
+            "source_sha256": "5cf9aefddb94248e13b02a75af2730a3f607d8e912f7434f68b8ec22ac192d49",
+            "target_sha256": "817b87388c32f849285ad768bbd9429a2b104d23361b0814e62eba3cbf3fba72"
+          },
+          "events:arc_final_week:/choices/2/result_text": {
+            "source_sha256": "292b646e6ce7bce4e870f4d0d2f82ef4d4f6d00c358145011e775eef59c8e538",
+            "target_sha256": "09f348efbff7f485766181453178c7260709350acc213a6c29b08a84f4c0a0b8"
+          },
+          "events:arc_final_week:/choices/2/text": {
+            "source_sha256": "8079e23f28552c37dc95f35f8b34d9dfa850296d46eeed83981d9730ceb59e30",
+            "target_sha256": "6c9ddbfe78310e5a8ce5e064f3795ad5f1ed95ddfc8aa1a798bf8679f96fa665"
+          },
+          "events:arc_final_week:/description": {
+            "source_sha256": "67b12113df7c4556549005f7709d156b40459fb94d226cc9c8e1e028f518a49d",
+            "target_sha256": "c5be753006bcc994a94ed70924f3e0b7af884e993d98d35c6a6047405ceac799"
+          },
+          "events:arc_final_week:/description_if_known/final_gamble_taken": {
+            "source_sha256": "ca4cfcc4c6a1b57487ed8523fc1f03b05121d124ebbfd1ab641b9b9dc2338272",
+            "target_sha256": "1507a12e096d46d6602333072e4305cdaba06a087d26a5f975891f3cb413220b"
+          },
+          "events:arc_final_week:/description_if_known/final_signature_collateral": {
+            "source_sha256": "97b1df4d3a72a5bcfed18916eaae0505b661449b6ab2de2eb43477d9755591ba",
+            "target_sha256": "22c065678e82fe7bc6688b118d39ab8279e00650a72a994689fd87b28d36c654"
+          },
+          "events:arc_final_week:/description_if_known/final_signature_owned": {
+            "source_sha256": "8f5972ece4d5dda2f89c4dbb48affd27b737835326f12b8118449f81e33d5e00",
+            "target_sha256": "07df05ec9038da044f91ac865ef2ddb999d511a24fe2604c34728930e8bf504c"
+          },
+          "events:arc_final_week:/description_if_known/final_signature_people": {
+            "source_sha256": "6f5b6a0bce9c1ff7928628fb27ccd631f1c43bdbbee352e76281f40198fb907a",
+            "target_sha256": "c26adf1b0781cf279cacb07f76fb18057810ee24c9a909d3935510e919d3c79e"
+          }
+        },
+        "zh-TW": {
+          "events:arc_final_week:/choices/0/result_text": {
+            "source_sha256": "a9072595b09c4891f2d8e520f31464070b0488c907c54ecdfd4846db36cd204d",
+            "target_sha256": "e82331087f8d16e96f4a0c383ab2d21ea3ef7009d83c28b4371b0d3e15213eb1"
+          },
+          "events:arc_final_week:/choices/0/text": {
+            "source_sha256": "fc306a64d678e4be54829a2c61bd6f0db5806e7d34c566c3f99aac044edfd49f",
+            "target_sha256": "1ef1ca9ba7faa93626b52a8406541793c1e85905dd71f8ed1878c02b41ca28c7"
+          },
+          "events:arc_final_week:/choices/1/result_text": {
+            "source_sha256": "5cf9aefddb94248e13b02a75af2730a3f607d8e912f7434f68b8ec22ac192d49",
+            "target_sha256": "58a6fc033a0da253efc325f7136da85cdfdfae272a1807e81ffa0c47dad49bdd"
+          },
+          "events:arc_final_week:/choices/2/result_text": {
+            "source_sha256": "292b646e6ce7bce4e870f4d0d2f82ef4d4f6d00c358145011e775eef59c8e538",
+            "target_sha256": "6c10fb03b05b10440a58725b472e9a4574795c51511d819c3fd6bc79bf6df0ab"
+          },
+          "events:arc_final_week:/choices/2/text": {
+            "source_sha256": "8079e23f28552c37dc95f35f8b34d9dfa850296d46eeed83981d9730ceb59e30",
+            "target_sha256": "7231d122c7c5aeeceffd8c59b746e76ec73e590a479fb3e82d66f2b12138062b"
+          },
+          "events:arc_final_week:/description": {
+            "source_sha256": "67b12113df7c4556549005f7709d156b40459fb94d226cc9c8e1e028f518a49d",
+            "target_sha256": "67554ccf7048314d6f0b8f5013846ea81371e289afd38de00f84b717e822374c"
+          },
+          "events:arc_final_week:/description_if_known/final_gamble_taken": {
+            "source_sha256": "ca4cfcc4c6a1b57487ed8523fc1f03b05121d124ebbfd1ab641b9b9dc2338272",
+            "target_sha256": "9acc30fcb953398acb2f07cfa36c96fa1674d52e6cffd148db368203e217c36f"
+          },
+          "events:arc_final_week:/description_if_known/final_signature_collateral": {
+            "source_sha256": "97b1df4d3a72a5bcfed18916eaae0505b661449b6ab2de2eb43477d9755591ba",
+            "target_sha256": "3af1a9505c0f37e9faedb464cc2666b680f0eee81599213c05bc3468d7c45ebf"
+          },
+          "events:arc_final_week:/description_if_known/final_signature_owned": {
+            "source_sha256": "8f5972ece4d5dda2f89c4dbb48affd27b737835326f12b8118449f81e33d5e00",
+            "target_sha256": "86ddd99a8cc3ea4866c1dac9b3bcf7e65bd6a2a9a164bec7894768fccddf9b87"
+          },
+          "events:arc_final_week:/description_if_known/final_signature_people": {
+            "source_sha256": "6f5b6a0bce9c1ff7928628fb27ccd631f1c43bdbbee352e76281f40198fb907a",
+            "target_sha256": "4f80efb567a30c122b5932a73ee2ad60eeae6a9c6c236cca5736e67e901950d2"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -32028,32 +32263,32 @@
         "target_sha256": "ed253f0992ee2deff261aab59bb13cd866bf746bd73c6e594a8ec8301916e0c8"
       },
       "events:arc_final_week:/choices/0/result_text": {
-        "source_sha256": "a9072595b09c4891f2d8e520f31464070b0488c907c54ecdfd4846db36cd204d",
-        "target_sha256": "6f5894f34ed444ab10c7ea38dd836bba1c5ed25267d71e2564342658cb25fe4a"
+        "source_sha256": "31c64c729a374fd7559dab54f5de719fd6ffebc3ebb9d0505b8cb4b3a68ba3ff",
+        "target_sha256": "638b569edfc3f6309bc108bc023e870cf1c306a6e308d6ecd99b8bd1f5de6b12"
       },
       "events:arc_final_week:/choices/0/text": {
-        "source_sha256": "fc306a64d678e4be54829a2c61bd6f0db5806e7d34c566c3f99aac044edfd49f",
-        "target_sha256": "ef8a413797982b3900d1e5d211bf0982c1d25294610ca6f18ac023bfae7ccfce"
+        "source_sha256": "48b79d7c59cd7427a2d390bde3c4a78ada031ac28dcbe03749e7e3988d3e0f8b",
+        "target_sha256": "b0f50355422c68d449fc335bce521d2cf5df7bd2b9e1bdfee601d26b1718b120"
       },
       "events:arc_final_week:/choices/1/result_text": {
-        "source_sha256": "5cf9aefddb94248e13b02a75af2730a3f607d8e912f7434f68b8ec22ac192d49",
-        "target_sha256": "35e05259691075e4a8492c470d8197547d045f128c18ee681894095803d24f44"
+        "source_sha256": "6316d7e388777d73ec55b7b99954b60eeae8c01751d380f135cf9c8c50eac3de",
+        "target_sha256": "2005fb07a781b220b7ad82e58dbafd826ab84673fb49f491337f81a341754709"
       },
       "events:arc_final_week:/choices/1/text": {
         "source_sha256": "a39d0f703ab7b8c317dd9ab0bf2ee5e2897880873497c68265b375b4fda712ca",
         "target_sha256": "7a85c084a647649b7427a5b2d970a7770dd6721bf71282c05ab9498dd52a8586"
       },
       "events:arc_final_week:/choices/2/result_text": {
-        "source_sha256": "292b646e6ce7bce4e870f4d0d2f82ef4d4f6d00c358145011e775eef59c8e538",
-        "target_sha256": "cecf2ba672386d6dc5e8dd293f045eb0ad2032b832d5c3a58b0e517fc3f30787"
+        "source_sha256": "3b0ab70336364e5ebc55624779eda7804eb36ba045ce64ec1b89109763274cce",
+        "target_sha256": "5086313997c9af584a9b6cf074d1c789aea633f5a5449a30ea1e5b81296e7fcc"
       },
       "events:arc_final_week:/choices/2/text": {
-        "source_sha256": "8079e23f28552c37dc95f35f8b34d9dfa850296d46eeed83981d9730ceb59e30",
-        "target_sha256": "6749104d64d89e9f60ebe4b88b9dc313a09a04458c438c0c13e245d599715cba"
+        "source_sha256": "55b1e223cadffccf275f2e4a18b5d5e8e49483f1a520b10965cc65c08ebed350",
+        "target_sha256": "e37969e335275b5a2fdf566388a56e58fd0aeb443b21a3c919e12ad03919c631"
       },
       "events:arc_final_week:/description": {
-        "source_sha256": "67b12113df7c4556549005f7709d156b40459fb94d226cc9c8e1e028f518a49d",
-        "target_sha256": "3504bb066d6b809e6e4ced9564c6e340556f623bf9304dd8e688ff675fa7a5cf"
+        "source_sha256": "141205c2473bef0ff82fc33d69fa9fb780b9a2a3b2142d3bda838f14cabaa1e4",
+        "target_sha256": "f38993c9ce5ff76336ac4f2ef24320d6750c59eada7fe85c59e605ecd113bcbc"
       },
       "events:arc_final_week:/description_if_known/drama_accepted": {
         "source_sha256": "1c34281554157e794e2a0635a06083807f76355226f75507450d6b530fe20f27",
@@ -32080,8 +32315,8 @@
         "target_sha256": "eb41c2c462e405f70333b08b6a0aa2b92ee28e0817b6d00963a6947c07be6633"
       },
       "events:arc_final_week:/description_if_known/final_gamble_taken": {
-        "source_sha256": "ca4cfcc4c6a1b57487ed8523fc1f03b05121d124ebbfd1ab641b9b9dc2338272",
-        "target_sha256": "386bfd868c5e67d6eba0e57c0207bc1b0ab687009a59e919bdad4c734b191572"
+        "source_sha256": "e216c07194f4d1139644a0420d5da0e391558b14f828c5e30dc403f891a13ab7",
+        "target_sha256": "c64c5405742ff4794a965c247e88d9d1fd38b9e1d8a098f7d5df0b682c383fdb"
       },
       "events:arc_final_week:/description_if_known/final_last_bet_lost": {
         "source_sha256": "6fd3636ab8977c1442b8916c261a39312d1c60ab73f8aea27c239edd64d432ec",
@@ -32096,16 +32331,16 @@
         "target_sha256": "d0341fa1bd0e7d2d41fc2deba858560b6f83502fa7e558337fa4cec880eb5e40"
       },
       "events:arc_final_week:/description_if_known/final_signature_collateral": {
-        "source_sha256": "97b1df4d3a72a5bcfed18916eaae0505b661449b6ab2de2eb43477d9755591ba",
-        "target_sha256": "fabda4533b7a3624eb9a2d6c31f3103af03fbaedad752873c9ddf9c4a2886944"
+        "source_sha256": "8116e14507ad86500a577df77e7e9bf8e51727a3178798319ade5d959cf1a3b8",
+        "target_sha256": "4415ff4f039b4e0a5c037192ac79f982b8ac3e1376f3b3c99fb40195cc15bee4"
       },
       "events:arc_final_week:/description_if_known/final_signature_owned": {
-        "source_sha256": "8f5972ece4d5dda2f89c4dbb48affd27b737835326f12b8118449f81e33d5e00",
-        "target_sha256": "878bbca14a9d3dfc98568f9cc46a76d71d2187afab5a98466b9e9d018a38d478"
+        "source_sha256": "0ddacf2f5e1ad52cd76c00297279fab655a9792bdccaa4a1f3775c2074517543",
+        "target_sha256": "0c253717a6129d89fd086e49b78177017152c789c5e985af754ee32602ce9463"
       },
       "events:arc_final_week:/description_if_known/final_signature_people": {
-        "source_sha256": "6f5b6a0bce9c1ff7928628fb27ccd631f1c43bdbbee352e76281f40198fb907a",
-        "target_sha256": "1987f59208ecb5e4e2da5f5840fe760d00df7156ecac05ff960d82177644c402"
+        "source_sha256": "8b5458c691ca0075bf5a16aa1cd6076c368ced79554897a83fec5a2f629a2ba9",
+        "target_sha256": "4ee4686ef55309297fa435047dd4d1acb834b443ad6a64b00a99101a54a0fca5"
       },
       "events:arc_final_week:/description_if_known/final_sprint_pulled_back": {
         "source_sha256": "2386d6e3b46c4af0309f8d0bbbcc9b9deb1e42b383eb82e2edc7b7e9565b38ff",
@@ -84730,32 +84965,32 @@
         "target_sha256": "414e300fa719b82c88683bb62cf672ea5d5bdd579e5ae1d5a6ca0274a6658350"
       },
       "events:arc_final_week:/choices/0/result_text": {
-        "source_sha256": "a9072595b09c4891f2d8e520f31464070b0488c907c54ecdfd4846db36cd204d",
-        "target_sha256": "83420170a45e814b0dfddb9ec4fbc6dfdff288b5ece88083cc4b6c6c671760fe"
+        "source_sha256": "31c64c729a374fd7559dab54f5de719fd6ffebc3ebb9d0505b8cb4b3a68ba3ff",
+        "target_sha256": "62e7432f3a38335e9df3681074605088fe942ccea3f1546c0e5ed73e285d8f3e"
       },
       "events:arc_final_week:/choices/0/text": {
-        "source_sha256": "fc306a64d678e4be54829a2c61bd6f0db5806e7d34c566c3f99aac044edfd49f",
-        "target_sha256": "da999584827bf1572ae8a9c42be3511424c1a0d9b3086f7710d2036d153d277e"
+        "source_sha256": "48b79d7c59cd7427a2d390bde3c4a78ada031ac28dcbe03749e7e3988d3e0f8b",
+        "target_sha256": "c7ae4a69bf31a9142a401d49260132efbd33af31f662a9565018b3789968c279"
       },
       "events:arc_final_week:/choices/1/result_text": {
-        "source_sha256": "5cf9aefddb94248e13b02a75af2730a3f607d8e912f7434f68b8ec22ac192d49",
-        "target_sha256": "817b87388c32f849285ad768bbd9429a2b104d23361b0814e62eba3cbf3fba72"
+        "source_sha256": "6316d7e388777d73ec55b7b99954b60eeae8c01751d380f135cf9c8c50eac3de",
+        "target_sha256": "7c6519d6bb505f7b77ca7261345dc0c7ea03846deb70e4dd605a0736a791566d"
       },
       "events:arc_final_week:/choices/1/text": {
         "source_sha256": "a39d0f703ab7b8c317dd9ab0bf2ee5e2897880873497c68265b375b4fda712ca",
         "target_sha256": "a3af9434e29e54f8f32a6676f6a6b41a3b881ad360cc077053138aa8555e056d"
       },
       "events:arc_final_week:/choices/2/result_text": {
-        "source_sha256": "292b646e6ce7bce4e870f4d0d2f82ef4d4f6d00c358145011e775eef59c8e538",
-        "target_sha256": "09f348efbff7f485766181453178c7260709350acc213a6c29b08a84f4c0a0b8"
+        "source_sha256": "3b0ab70336364e5ebc55624779eda7804eb36ba045ce64ec1b89109763274cce",
+        "target_sha256": "3db499794863afbcc879f2bcf33d828940151eaf3e3e2a9cae9f748d33879a05"
       },
       "events:arc_final_week:/choices/2/text": {
-        "source_sha256": "8079e23f28552c37dc95f35f8b34d9dfa850296d46eeed83981d9730ceb59e30",
-        "target_sha256": "6c9ddbfe78310e5a8ce5e064f3795ad5f1ed95ddfc8aa1a798bf8679f96fa665"
+        "source_sha256": "55b1e223cadffccf275f2e4a18b5d5e8e49483f1a520b10965cc65c08ebed350",
+        "target_sha256": "4d3330d1ce6e833b31c923f09e01b799ec456df5a81e977851762d113712be1e"
       },
       "events:arc_final_week:/description": {
-        "source_sha256": "67b12113df7c4556549005f7709d156b40459fb94d226cc9c8e1e028f518a49d",
-        "target_sha256": "c5be753006bcc994a94ed70924f3e0b7af884e993d98d35c6a6047405ceac799"
+        "source_sha256": "141205c2473bef0ff82fc33d69fa9fb780b9a2a3b2142d3bda838f14cabaa1e4",
+        "target_sha256": "707edc469d98b3ffa72c8a58adbc1695518be6083bc2fa4f1f197f4a8c4eeaf8"
       },
       "events:arc_final_week:/description_if_known/drama_accepted": {
         "source_sha256": "1c34281554157e794e2a0635a06083807f76355226f75507450d6b530fe20f27",
@@ -84782,8 +85017,8 @@
         "target_sha256": "60343373e7a8775f61de72957688eeda9d8310ef7ebc2c936e8a6f1f6a7b259a"
       },
       "events:arc_final_week:/description_if_known/final_gamble_taken": {
-        "source_sha256": "ca4cfcc4c6a1b57487ed8523fc1f03b05121d124ebbfd1ab641b9b9dc2338272",
-        "target_sha256": "1507a12e096d46d6602333072e4305cdaba06a087d26a5f975891f3cb413220b"
+        "source_sha256": "e216c07194f4d1139644a0420d5da0e391558b14f828c5e30dc403f891a13ab7",
+        "target_sha256": "3dc2282f616e0212c8256493d76d07700e64849f7f1489a2e572268ca656eaa3"
       },
       "events:arc_final_week:/description_if_known/final_last_bet_lost": {
         "source_sha256": "6fd3636ab8977c1442b8916c261a39312d1c60ab73f8aea27c239edd64d432ec",
@@ -84798,16 +85033,16 @@
         "target_sha256": "7ffce97b7257aad6a3a89c085bec1adb4aee11e40118f1e3e797f9b61e402217"
       },
       "events:arc_final_week:/description_if_known/final_signature_collateral": {
-        "source_sha256": "97b1df4d3a72a5bcfed18916eaae0505b661449b6ab2de2eb43477d9755591ba",
-        "target_sha256": "22c065678e82fe7bc6688b118d39ab8279e00650a72a994689fd87b28d36c654"
+        "source_sha256": "8116e14507ad86500a577df77e7e9bf8e51727a3178798319ade5d959cf1a3b8",
+        "target_sha256": "44c54ca4dedc7d0c0567b380743f71b14e57cef02e348ec8a14ab1c453f9d9f4"
       },
       "events:arc_final_week:/description_if_known/final_signature_owned": {
-        "source_sha256": "8f5972ece4d5dda2f89c4dbb48affd27b737835326f12b8118449f81e33d5e00",
-        "target_sha256": "07df05ec9038da044f91ac865ef2ddb999d511a24fe2604c34728930e8bf504c"
+        "source_sha256": "0ddacf2f5e1ad52cd76c00297279fab655a9792bdccaa4a1f3775c2074517543",
+        "target_sha256": "36338960ccf14e3fe61df7966fbe0f016bf5eadb4c6cfd6781c8a983533b3913"
       },
       "events:arc_final_week:/description_if_known/final_signature_people": {
-        "source_sha256": "6f5b6a0bce9c1ff7928628fb27ccd631f1c43bdbbee352e76281f40198fb907a",
-        "target_sha256": "c26adf1b0781cf279cacb07f76fb18057810ee24c9a909d3935510e919d3c79e"
+        "source_sha256": "8b5458c691ca0075bf5a16aa1cd6076c368ced79554897a83fec5a2f629a2ba9",
+        "target_sha256": "e3c269d9966dbd752ad0a906c4fec27124be7beef90f9dacbd89c84cf00864f0"
       },
       "events:arc_final_week:/description_if_known/final_sprint_pulled_back": {
         "source_sha256": "2386d6e3b46c4af0309f8d0bbbcc9b9deb1e42b383eb82e2edc7b7e9565b38ff",
@@ -144256,32 +144491,32 @@
         "target_sha256": "ff59dc4bbda330a416d3b72520d49213a797dff1f4cfc7e5eba4b4a62eac95bf"
       },
       "events:arc_final_week:/choices/0/result_text": {
-        "source_sha256": "a9072595b09c4891f2d8e520f31464070b0488c907c54ecdfd4846db36cd204d",
-        "target_sha256": "e82331087f8d16e96f4a0c383ab2d21ea3ef7009d83c28b4371b0d3e15213eb1"
+        "source_sha256": "31c64c729a374fd7559dab54f5de719fd6ffebc3ebb9d0505b8cb4b3a68ba3ff",
+        "target_sha256": "188773fb3e6730ffcb488fc031f8e68450dfcd5b54870109890856cae962de45"
       },
       "events:arc_final_week:/choices/0/text": {
-        "source_sha256": "fc306a64d678e4be54829a2c61bd6f0db5806e7d34c566c3f99aac044edfd49f",
-        "target_sha256": "1ef1ca9ba7faa93626b52a8406541793c1e85905dd71f8ed1878c02b41ca28c7"
+        "source_sha256": "48b79d7c59cd7427a2d390bde3c4a78ada031ac28dcbe03749e7e3988d3e0f8b",
+        "target_sha256": "f306196e80c71533d047763ce0b6cb5decdfb919f42095871c05d36930c15c8e"
       },
       "events:arc_final_week:/choices/1/result_text": {
-        "source_sha256": "5cf9aefddb94248e13b02a75af2730a3f607d8e912f7434f68b8ec22ac192d49",
-        "target_sha256": "58a6fc033a0da253efc325f7136da85cdfdfae272a1807e81ffa0c47dad49bdd"
+        "source_sha256": "6316d7e388777d73ec55b7b99954b60eeae8c01751d380f135cf9c8c50eac3de",
+        "target_sha256": "df3ace891c747f190c363b656a3c75ab6719fabd5aca92f958402110f235fa85"
       },
       "events:arc_final_week:/choices/1/text": {
         "source_sha256": "a39d0f703ab7b8c317dd9ab0bf2ee5e2897880873497c68265b375b4fda712ca",
         "target_sha256": "9b760124ec3745b561b67b311d14d233e95e7ddec97454f039c779da73788a32"
       },
       "events:arc_final_week:/choices/2/result_text": {
-        "source_sha256": "292b646e6ce7bce4e870f4d0d2f82ef4d4f6d00c358145011e775eef59c8e538",
-        "target_sha256": "6c10fb03b05b10440a58725b472e9a4574795c51511d819c3fd6bc79bf6df0ab"
+        "source_sha256": "3b0ab70336364e5ebc55624779eda7804eb36ba045ce64ec1b89109763274cce",
+        "target_sha256": "084dc1aa43fab8f6a727c7891dcadb3765cd59d1461dcd47ae074a405a80392b"
       },
       "events:arc_final_week:/choices/2/text": {
-        "source_sha256": "8079e23f28552c37dc95f35f8b34d9dfa850296d46eeed83981d9730ceb59e30",
-        "target_sha256": "7231d122c7c5aeeceffd8c59b746e76ec73e590a479fb3e82d66f2b12138062b"
+        "source_sha256": "55b1e223cadffccf275f2e4a18b5d5e8e49483f1a520b10965cc65c08ebed350",
+        "target_sha256": "fd45254d79f45b20f324d5252c28add4cc1f579ec127f1e2edc4a053a0c94a9f"
       },
       "events:arc_final_week:/description": {
-        "source_sha256": "67b12113df7c4556549005f7709d156b40459fb94d226cc9c8e1e028f518a49d",
-        "target_sha256": "67554ccf7048314d6f0b8f5013846ea81371e289afd38de00f84b717e822374c"
+        "source_sha256": "141205c2473bef0ff82fc33d69fa9fb780b9a2a3b2142d3bda838f14cabaa1e4",
+        "target_sha256": "b6dfec987d698687455408e6f9adfacdc91e3c88cf1171f30124fd646ff7dd54"
       },
       "events:arc_final_week:/description_if_known/drama_accepted": {
         "source_sha256": "1c34281554157e794e2a0635a06083807f76355226f75507450d6b530fe20f27",
@@ -144308,8 +144543,8 @@
         "target_sha256": "b0c092579f2f1682bc7ea64101e26b54eb7fb53306644258aed703cd012d4dd3"
       },
       "events:arc_final_week:/description_if_known/final_gamble_taken": {
-        "source_sha256": "ca4cfcc4c6a1b57487ed8523fc1f03b05121d124ebbfd1ab641b9b9dc2338272",
-        "target_sha256": "9acc30fcb953398acb2f07cfa36c96fa1674d52e6cffd148db368203e217c36f"
+        "source_sha256": "e216c07194f4d1139644a0420d5da0e391558b14f828c5e30dc403f891a13ab7",
+        "target_sha256": "87b0b0c4c287dd7d5a77d4bc5df29c9264ea6f37a47ac7fc4746be7b7bd85e23"
       },
       "events:arc_final_week:/description_if_known/final_last_bet_lost": {
         "source_sha256": "6fd3636ab8977c1442b8916c261a39312d1c60ab73f8aea27c239edd64d432ec",
@@ -144324,16 +144559,16 @@
         "target_sha256": "11daa9431e2a2cf9a49df0e8b73fd4cbeb15d73fd05e45487bd599727658e95c"
       },
       "events:arc_final_week:/description_if_known/final_signature_collateral": {
-        "source_sha256": "97b1df4d3a72a5bcfed18916eaae0505b661449b6ab2de2eb43477d9755591ba",
-        "target_sha256": "3af1a9505c0f37e9faedb464cc2666b680f0eee81599213c05bc3468d7c45ebf"
+        "source_sha256": "8116e14507ad86500a577df77e7e9bf8e51727a3178798319ade5d959cf1a3b8",
+        "target_sha256": "1dfb8384911ef414d9dec4386d350bce9c31abe9690cbca822a740feccb56a4f"
       },
       "events:arc_final_week:/description_if_known/final_signature_owned": {
-        "source_sha256": "8f5972ece4d5dda2f89c4dbb48affd27b737835326f12b8118449f81e33d5e00",
-        "target_sha256": "86ddd99a8cc3ea4866c1dac9b3bcf7e65bd6a2a9a164bec7894768fccddf9b87"
+        "source_sha256": "0ddacf2f5e1ad52cd76c00297279fab655a9792bdccaa4a1f3775c2074517543",
+        "target_sha256": "13fd9db6053d660a9993dc162e24ea77b3fb111c80b58a20752a4663786549e2"
       },
       "events:arc_final_week:/description_if_known/final_signature_people": {
-        "source_sha256": "6f5b6a0bce9c1ff7928628fb27ccd631f1c43bdbbee352e76281f40198fb907a",
-        "target_sha256": "4f80efb567a30c122b5932a73ee2ad60eeae6a9c6c236cca5736e67e901950d2"
+        "source_sha256": "8b5458c691ca0075bf5a16aa1cd6076c368ced79554897a83fec5a2f629a2ba9",
+        "target_sha256": "34cf387063de82971eac89d2bab4bde0cd23e0a54bf6d55c496675e9e2b33c32"
       },
       "events:arc_final_week:/description_if_known/final_sprint_pulled_back": {
         "source_sha256": "2386d6e3b46c4af0309f8d0bbbcc9b9deb1e42b383eb82e2edc7b7e9565b38ff",
@@ -193089,7 +193324,7 @@
       }
     }
   },
-  "accepted_sha256": "9d714458c6ff00a24f24dc7b5aadf9b28335da563a1d11e2b819eae8c5401529",
+  "accepted_sha256": "d0a8d657e22dd58ac89f1aa54d54a50ad2c78ca090e139b78785e3d2877f747b",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
