@@ -13639,6 +13639,48 @@
         "path": "docs/agent_reviews/order766-jiyeon-cjk.json",
         "sha256": "73d9961640879b9d341d56d6116fe3286b39db89bd8f7e86aefda0f5844a94e7"
       }
+    },
+    {
+      "id": "order767-daeun-after-goal-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-767",
+      "subject": {
+        "kind": "source",
+        "commit": "0aed06eea359a99c7d3787146a93992964643c85",
+        "tree": "2b096ac651bc2915933dc7fc67aae88dac1b864e",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order767-daeun-after-goal-cjk.md",
+          "sha256": "fb9d4dd4924f1363287d5e75bfa8cda46fea58b43935b52b2f979327213d66ac"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order767-daeun-after-goal-cjk.json",
+          "sha256": "4e5c90075ba0566baa60183b06d783fd712850f3abe910a267decdb9ae8e59d0"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order767-daeun-after-goal-cjk.json",
+        "sha256": "4e5c90075ba0566baa60183b06d783fd712850f3abe910a267decdb9ae8e59d0"
+      }
     }
   ]
 }

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-767",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "0aed06eea359a99c7d3787146a93992964643c85",
+    "tree": "2b096ac651bc2915933dc7fc67aae88dac1b864e",
+    "manifest_sha256": null
+  },
+  "scope": "Daeun after-goal base description and Minseo-choice1 causal prepend; Korean2 × JA/CN/TW =6 existing corrections.",
+  "review": {
+    "method": "Read Korean/target values, Minseo choice1, Daeun full choices and causal source contract; compare actual response/accepted target.",
+    "findings": "The contextual 'that revision' in Minseo's read and Daeun pulling the R4-SELF whose name field contains only her own remain distinct references in their respective sentences. 7:40, 30억, three/one/two spaces, reserved rather than leftover time, and no completed promise are preserved.",
+    "repair": "CN original missing round4 diagnostic preserved; CN/TW one draft row each changed 版→轮/輪; R4-SELF remains."
+  },
+  "preservation": {
+    "prior_batches": 360,
+    "prior_decisions": 324,
+    "proof": "Actual6/receipt3 and target/source/previous hashes; reversing selected values restores three JSONs and complete prior ledger."
+  },
+  "validation": "Pure check_batch, JA check/CN-TW final-check and imports show VALID/stderr0. Original CN failed check and CN/TW drafts retained. No engine.",
+  "identity": {
+    "baseline": "96964502508ec47c1bdca47d0a04f69bd3b2f2af",
+    "rows_sha256": "63dd7f7e61dc8a08a2f90d90ee44ab9ad5a51cd21d94f5ef9c9f551a626c70fa",
+    "receipt_sha256_by_locale": {
+      "ja": "57d917d51f2def53186ba17c4b9d345f05e94f6046521b9edfb2faa8299f23b5",
+      "zh-CN": "58afbb53726992373cbabc231d8d337f2d7d48c33743882c9ec8be45ddcb1301",
+      "zh-TW": "1792a156f05dcf69b985532f78be9b9df8bbf6f4f63701ea8d975adad6aa26a7"
+    },
+    "raw_directory": ".git/localization-daeun-after-goal-20261104/",
+    "raw_population": {
+      "files": 25,
+      "sha256": "6923b999c10405598f853472bd5168c7125216c64bacc2ac137b71631ee07498"
+    },
+    "used_final": {
+      "files": 21,
+      "sha256": "32fa099710e02555d6283d8ad9d02e2ee35fb16b6529552fd2b351993fc07168"
+    },
+    "history": {
+      "files": 4,
+      "sha256": "e54f67ecbc9e911d5fb7da09ac31506a4e9111f9cd88670dc9cd7894910919e0",
+      "selection": "CN/TW draft1 and original CN check stdout/stderr"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
