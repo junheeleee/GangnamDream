@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-764",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "b7050a3485694be360f7ccbd20e05854dd1052ba",
+    "tree": "a6b2a861e6ca313f76cf7e89933e5d38e117f940",
+    "manifest_sha256": null
+  },
+  "scope": "arc_jaehyuk_04c_stand_up base and two photo known values, KR3 × JA/CN/TW =9 existing-target corrections.",
+  "review": {
+    "method": "Full KR3/target9 comparison, W124+ and photo flag producer, full choices and known order.",
+    "findings": "Loss unchanged, photo keep/delete and military conversation distinct, post-night notes versus start over. No contact or other evidence deletion, invented recovery or extra timing.",
+    "recommendations": "Optional JA/CN balance-question naturalization not adopted; literal 'what was in the account' remains intelligible in context and preserves source meaning.",
+    "blocking_findings": []
+  },
+  "preservation": {
+    "prior_batches": 357,
+    "prior_decisions": 321,
+    "proof": "Actual9 and receipt3 exact. Reverting only selected9 restores all three complete baseline JSONs, known order and all prior accepted records/batches/metadata."
+  },
+  "validation": "Pure check_batch and import VALID3 directly confirmed; official check/import exit0 and delta9 author observed. Separate check/stderr logs absent, not independently claimed.",
+  "identity": {
+    "baseline": "31abc3062ac507c1be08946725e3e4cd46158257",
+    "rows_sha256": "01e77ab6bbe6d59b2213845310e534007f418fbc992f614c8fc5e1556987fabb",
+    "receipt_sha256_by_locale": {
+      "ja": "4a4932cf126433fe93949fb97e6c19c376932ef13b961064128f1ce86852fb9a",
+      "zh-CN": "fdd9fc566cd4e976bf0d086e8bd28934756f8c507f625f1e2a9174150bb4e890",
+      "zh-TW": "8098c86de13f4f550cdcc531224c0778d487b226662f48bbcb26ba6076d2dc7c"
+    },
+    "raw_directory": ".git/localization-jaehyuk-photo-20261104/",
+    "raw_population": {
+      "files": 12,
+      "sha256": "194b929f58ba28f199b3ddebd8db762a2fb31793ae5bd979d024ca4d90997344"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in locale/export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

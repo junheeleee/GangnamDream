@@ -13513,6 +13513,49 @@
         "path": "docs/agent_reviews/order763-father-finale-cjk.json",
         "sha256": "7e7505ab83891c6647d57b014eb80dadc87a376d5b6b54c75e5f17f8c3a58d07"
       }
+    },
+    {
+      "id": "order764-jaehyuk-photo-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-764",
+      "subject": {
+        "kind": "source",
+        "commit": "b7050a3485694be360f7ccbd20e05854dd1052ba",
+        "tree": "a6b2a861e6ca313f76cf7e89933e5d38e117f940",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order764-jaehyuk-photo-cjk.md",
+          "sha256": "77e5ab4ec8187375b987c5d27aff1badea518f786874f66ea10b6037538726ca"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order764-jaehyuk-photo-cjk.json",
+          "sha256": "5583af0f903eb90126fb8829189f79cc9cd52ad1f8e3651fcdb2f10301a200c4"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order764-jaehyuk-photo-cjk.json",
+        "sha256": "5583af0f903eb90126fb8829189f79cc9cd52ad1f8e3651fcdb2f10301a200c4"
+      }
     }
   ]
 }
