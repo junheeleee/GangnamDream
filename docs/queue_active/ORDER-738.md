@@ -1,5 +1,9 @@
 # ORDER-738 — 본편 JA/zh 사실 불일치 정합
 
+> Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
+
+#### [~] ORDER-738 · 본편 JA/zh 사실 불일치 정합
+
 상태: [~] 2026-11-03 root 착수. 부모 [157](ORDER-157.md), 기여 C2/C5.
 사용자 일본어·중국어 본편 완성 지시의 첫 실행 범위다.
 
@@ -34,11 +38,19 @@ KO/EN·런타임·공개 데모·project.godot·SHIPPING_LANGUAGES·사용자 �
 
 ## 증거 (진행 중)
 
-도달 경로: 현재 원문5문구/기존 target15개 직접 확인, 실제 앱 미실행.
+도달 경로: `FULL_LOCALIZATION_BATCH_VALID` 5×3, `LOCALIZATION_CORRECTION_DELTA_OK` 15.
 생산자↔독자: 한국어 사건 → 기존 built-in locale overlay loader.
 바꾸는 상태: 오래된 번역15 → 현재 사실과 정합인 번역15 (신규 커버리지 아님).
 포기 시 잃는 것: W89/W96/W132/W152의 선택·생사 일치.
 서사 위치/계층: 기존 사건의 주차·계층 불변.
 닫는 것: 이 사실수리의 source/자동/독립 에이전트 대조만; 실제 화면·전체 완성 미완.
+
+기존 차선의 교환271·JA76·ZH12783·데모55 반례/실데모5언어·사건감사·
+커버리지·등록 통과. 큐 index/header/예산 실수는 수리 후 queue/context/diff 통과.
+차선 전체는 녹색이 아니다: 수용 전부터 `full_body_translation_scope --self-test`가
+별개 `arc_year1_close`의 낡은 source 영수증으로 실패(54cases/1failure)했다.
+원로그 `.git/localization-resume-20261103/audit.{stdout,stderr}.log`를 보존하고,
+이전 수용을 현재 번역으로 거짓 갱신하지 않는다. 그 채무는 다음 번역 배치에서 다룬다.
+수리15개 외 overlay JSON 값·선택 순서·effects·기존 ledger 전체를 역대조해 불변 확인.
 
 규범: 언어·호칭·통화·수용 경계는 기존 I18N 정본 적용, 새 규칙 승격 없음.

@@ -2,6 +2,8 @@
 
 ## 2026-11-03 — 잠금 중 동기화와 상점 문구 인계
 
+- 사용자 “언어도 빨리 일어 중국어 완상시키자”로 CJK 보류를 해제하고 본편 번역을 재개했다. 738은 db5 KO/EN 사실수리와 어긋난 JA/zh-CN/zh-TW 4사건5문구씩 총15개를 한국어에서 직접 정합했다. 첫/지연 방문·오래된 부재·살아 있는 아버지의 사망·공동투자 과거를 제거하고 손/복도/커피/물컵의 현재 감각을 보존했다. 새 커버리지15가 아니라 기존 번역15의 정정이다. fresh source/이전 target 해시 export→check→명시 replace import, 원 수용과 correction headers/지문을 별도 보존했다. 독립 capsule_review 원문5/목표15 전독·실제9파일15leaf와 비소유값 불변 대조에서 차단 결함0. 공식 import5×3·delta15 통과, 교환271/JA76/ZH12783/데모55 및 실데모5언어·EN strict clean. 큐 형식/예산 오류는 수정 후 queue/context/diff 통과. 기존 차선은 수용 전부터 별개 arc_year1_close의 낡은 번역 source 영수증으로 full_body self54 중1 실패했으며 원로그 보존·전체녹색 주장0. 다음 범위의 실제 번역 대조로 처리한다. KO/EN·게임로직·공개데모·사용자 저장·앱 불변, 원어민/렌더/전체5언어·출시 완료 미판정.
+
 - 후속 실제 C3 실패 수리: run41540805323/job125604153587의 전체 감사가 `MANUAL_SAVE_EXIT`·`RELEASE_CONTENT_EXIT`2건으로 실패했다. 원로그는 `.git/ci-repair-20261103/run41540805323-job125604153587.log`에 보존. ManualSave의 옛 준비 fixture가 dad→goal 정상진입을 확인한 뒤 goal을 미독으로 건너뛰어 phone을 직접 꺼냈고, 새 exact root guard는 이를 정상 거절했다. 제품 guard/StoryMode/FullStoryFlow 변경0. 검사만 bypass 거절·serialize불변을 먼저 확인하고 별도의 in-memory phone owner를 준비하도록 정렬했으며 기존 effects/read/choice/registry 단일성 assertions 유지. fresh pre-autoload namespace·OS deny canary의 격리 표적 `prologue-86oc53b9` exit0·stderr0·원3로그 오류/누수0, 5언어10choice/30livepage/20disk새Story/20locale/10phone reset/10readclose. live4파일+project 전후5SHA exact.
 - 콘텐츠 실패는9499→db5의 승인된 KO/EN hospital 도입·trust_crack 본문 변경에 따른 sexuality/crime 전체object 지문2개 미갱신이다. 원장2contentSHA+생성보고서2SHA만 갱신, 후보ID/개수/파일수·noise·강도·공개demo·원문 불변. normal/write/self45 exit0·stderr0. capsule_review가 최종diff·원3로그·content delta/invariant/검사 원로그 직접검수 수용. 표적/원장만 수리 완료이며 전체 ManualSave/새 remote CI 성공은 아직 미관측, 예외추가0·게임입력0. 후속 main 전체CI로 확인한다.
 
