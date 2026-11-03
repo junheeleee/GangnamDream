@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-739",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "b488e3c69adce37467e23ab8932b4d06c6fddc0c",
+    "tree": "33e2c58f5b2c7dd43c7a47c5540e2ed9119fba47",
+    "manifest_sha256": null
+  },
+  "scope": "arc_year1_close only: 8 leaves per locale, 24 existing-target corrections.",
+  "reviewed_product_base": "bd5e12e05f7bc2eeeff03da109131fc19ae69bb0",
+  "closing_delta": "Read five documentation-only changes from the product base; translations, acceptance and code unchanged. No prose/test rerun.",
+  "population": {
+    "source_leaves": 8,
+    "target_leaves": 24,
+    "locales": [
+      "ja",
+      "zh-CN",
+      "zh-TW"
+    ],
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/arc_year_close.json",
+    "paths": [
+      "/choices/0/result_text",
+      "/choices/0/text",
+      "/description",
+      "/description_if_known/entered_network",
+      "/description_if_known/escaped_dirty_money",
+      "/description_if_known/hit_rock_bottom",
+      "/description_if_known/jaehyuk_scammed",
+      "/description_if_known/kept_clean_hands"
+    ],
+    "selection": "Full census, not sampled",
+    "new_coverage": 0
+  },
+  "review": {
+    "method": "Census: Korean8/targets24, then CN/TW v2 16; committed values, meaning, costs, numbers, tokens, paragraphs and script.",
+    "findings_fixed": [
+      "CN personal notebook: 手册 changed to 笔记本 only within the owned leaves.",
+      "CN/TW result no longer narrows postponed people to postponed contact; final 人名 wording preserves the broader Korean meaning."
+    ],
+    "final_blocking_findings": [],
+    "meaning_preserved": "Kept/postponed, deferred sleep, non-ideal totals; 2M won received vs 1.5M return acceptance, inquiry/liability remain.",
+    "values_checked": "3B KRW; 5years/12months/December/04:20/midnight-4min; {notebook_motive}/{name}/{assets}; tokens/newlines exact."
+  },
+  "preservation": {
+    "prior_batches": 333,
+    "prior_batches_and_nonowned_acceptance": "exact",
+    "nonowned_overlay_json_values": "exact after restoring only 24 owned values",
+    "intermediate_CN_TW": "v1 headers/receipts/text/prior hashes retained; v2 previous-target hashes match v1",
+    "old_acceptance": "retained separately",
+    "KO_EN_runtime_public_demo_shipping_allowlist": "unchanged",
+    "order738_reports_and_decision": "unchanged"
+  },
+  "validation": {
+    "official_check_import": "8 leaves each; JA v1, CN/TW v2; stderr=0",
+    "delta_markers": [
+      "LOCALIZATION_REVIEW_FIX_CHAIN_OK final_targets=24",
+      "LOCALIZATION_CORRECTION_DELTA_OK changed_leaves=24 overlay_files=3"
+    ],
+    "story_demo": "locales=5 source_events=14 leaves=100 target_ui=122",
+    "coverage": "EN strict 1813/1813 events,35/35 endings; prepared locales remain skeleton",
+    "unchanged_selftests": "Not rerun; ORDER-738 evidence not relabeled as a new execution"
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "independently_confirmed_diagnostics": 1212,
+    "stale_source": 1209,
+    "each_locale_stale": 403,
+    "other_summary_diagnostics": 3,
+    "change_from738": "1236 -> 1212: only the reviewed 24 stale receipts removed; broad translation debt remains."
+  },
+  "identity": {
+    "original_export_source_revision": "0f335136247ae71e2497cd441fce1faf6278beb0",
+    "final_receipt_sha256_by_locale": {
+      "ja": "075bcc1a49f21ab383bfebbd84d3cab8500aa639c4671b3a58b8acfb1b1fc7b1",
+      "zh-CN": "9e2899b97e8386c9b92e55a73a4c20651602d1a0bd7c5ff5567d8a470d2d6bd5",
+      "zh-TW": "c9090235afd7aa0e3eed0e13fb5b2fec3255b23e31b6375fb52ee80edffba742"
+    },
+    "reviewed_rows_sha256": "14325c1d0a01af04c3011ba557a1cb6c6b5ec0954efbef29eee15d1b45e446e5",
+    "reviewed_rows_encoding": "canonical JSON; locale/export order; [locale,id,source-hash,initial-target-hash,final-previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-year1-20261103/",
+    "raw_files": 40,
+    "raw_population_sha256": "520391e4adefe0787819aaa8c50ec1a1643b1ef8dae1bc2900f9cb2b7fb08a9a",
+    "raw_population_encoding": "canonical JSON: basename-sorted [basename,bytes,sha256] for all .jsonl/.log; read or identity-checked"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "external_publication_or_release"
+  ],
+  "conclusion": "Exact24 correction GO only. No engine/app/UI/save actions; wider claims unapproved."
+}
