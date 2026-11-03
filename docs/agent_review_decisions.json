@@ -13597,6 +13597,48 @@
         "path": "docs/agent_reviews/order765-finale-date-cjk.json",
         "sha256": "f9a0bfdfcc756cdd27b99466a9582a96106d4e7f3b6811e21cccbcb354014e6b"
       }
+    },
+    {
+      "id": "order766-jiyeon-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-766",
+      "subject": {
+        "kind": "source",
+        "commit": "0cada8b5cafa67707da2ae6a10679f01d42fcb87",
+        "tree": "46f3858447a83bb98c1baf5dd8b2eb614ad96eca",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order766-jiyeon-cjk.md",
+          "sha256": "07e5775bd4b9110ceb00cd89393145ba5bb19ee0eb589aed4dadb56fed42ef6d"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order766-jiyeon-cjk.json",
+          "sha256": "73d9961640879b9d341d56d6116fe3286b39db89bd8f7e86aefda0f5844a94e7"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order766-jiyeon-cjk.json",
+        "sha256": "73d9961640879b9d341d56d6116fe3286b39db89bd8f7e86aefda0f5844a94e7"
+      }
     }
   ]
 }

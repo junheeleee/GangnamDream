@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-766",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "0cada8b5cafa67707da2ae6a10679f01d42fcb87",
+    "tree": "46f3858447a83bb98c1baf5dd8b2eb614ad96eca",
+    "manifest_sha256": null
+  },
+  "scope": "Jiyeon year3 title, description and choice1 result plus verdict choice2 result; Korean4 × JA/CN/TW =12 existing corrections.",
+  "review": {
+    "method": "Full source/target and choice comparison, actual response and accepted target match.",
+    "findings": "First message retained; unsupported fixed interval and transaction recollection removed. Reconnection stays a conversation; verdict keeps both people as they are without new promises.",
+    "repair": "CN/TW quantity-2 initial errors retained; exactly one response row each changed to topic subject without added person count. Optional JA title naturalization not a blocker."
+  },
+  "preservation": {
+    "prior_batches": 359,
+    "prior_decisions": 323,
+    "proof": "Actual12/receipt3 and target/source/previous hashes; reversing the selected values restores six JSONs and complete prior ledger."
+  },
+  "validation": "Pure check_batch; JA check/CN final-check/TW accept-check and imports show VALID and empty stderr. Original failed CN check and TW final-check preserved. No engine.",
+  "identity": {
+    "baseline": "ad0777f40c1672adc9256238109e153c73b96078",
+    "rows_sha256": "80d1aed40c9ac3fd205f52bb8bc55248c59439a40dccc7129b007aede1774c1b",
+    "receipt_sha256_by_locale": {
+      "ja": "cdeea3d4dd0358d2c6300b686b6bc4044a74af1cb7ff9e28151c4199fa6c5f1a",
+      "zh-CN": "0a68aa4e9456188c7b3fdc596404070464bbadbaf2c905e1cd7c6389089d921f",
+      "zh-TW": "6c2d5341cbbfaa0016a4fb48e6da08fbf34a02cf866beb39b4e5eab832581c33"
+    },
+    "raw_directory": ".git/localization-jiyeon-20261104/",
+    "raw_population": {
+      "files": 27,
+      "sha256": "053f1b147b6079b17af68c08cc5580ddea159e85bd38f501b67c6911cf69eccc"
+    },
+    "used_final": {
+      "files": 21,
+      "sha256": "a219ac7889b6d0def844b95d7f22550e2516b00884cd7e77d065f3f356a68b22"
+    },
+    "history": {
+      "files": 6,
+      "sha256": "2aac2757ab5aa726f96a8e433601a46f3ff1cad58c882fd0c655165a14116273",
+      "selection": "CN/TW draft1, CN check and TW final-check stdout/stderr"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
