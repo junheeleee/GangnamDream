@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-753",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "e47073b08c062d44a0e74ba5464d51de8a3a13dc",
+    "tree": "8361c0535681f2ae6a238f24ef9868eaa148e19c",
+    "manifest_sha256": null
+  },
+  "scope": "Korean17 × JA/zh-CN/zh-TW =51 existing shipping-target corrections only; five roots ×3=15 units; new coverage0.",
+  "population": {
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/{arc_daeun_extension,arc_daeun_married,arc_midgame,arc_pre_ending}.json",
+    "selection": "Daeun year3 together title/description/romance-known/choices1 text,result(5); final decision choices2 result(1); endgame sixmonths title/description/known3/choices0 text,result/choices2 result(8); late push title,description(2); winter description(1).",
+    "excluded": "Other choices/results, winter low_mental and other nonowned variants remain unchanged; reading context does not complete or approve them."
+  },
+  "review": {
+    "method": "Direct Korean17/targets51 reading, all five Korean roots and current-locale choices/known/low_mental context; current DataRegistry locale overlay, StoryMode first-match known replacement and mental<=20 fallback, lifecycle and MainGame ingress read.",
+    "final_blocking_findings": [],
+    "daeun": "Current calendar/paper and shared ramyeon evening preserve an open relationship duration. First-meeting1+1 is actual recollection, not invented two-year relationship/fight/subway history. Lawful old post-it memory, food-before-going-out message, present egg roll and Daeun's ignorance of unsigned-contract attempt retained.",
+    "endgame": "High-risk plan saved with stop-condition blank is not an executed maximum order. Past plan list/boundaries and present balance/file/cursor/eye strain remain separate from guaranteed profit/loss. Window breeze/paper/fingers and current winter room do not invent earlier housing/achievement.",
+    "timing": "5:47/9:00/three-plus hours/two extra red rows/one remaining limit grid,3billion won and five years retained. Draft order confirmation remains unpressed; fixed12/24weeks removed. Japanese short-place-name wording preserves meaning without arbitrary three-character count.",
+    "independent_repair": "CN 分吃同锅里的方便面 -> 分吃同一锅方便面 accepted: natural same-pot sharing, no added cohabitation, number or fact. Draft2 -> final exactly this clause; other16 texts/header/metadata unchanged.",
+    "exchange_history": "Initial draft1 rows omitted locale/source_sha256/prompt_version. Three initial schema rejections precede text validation, not translation-content failure. Final adds only those3 source-bound fields; JA/TW17 texts unchanged, CN only the recommended clause changed; all headers exact. Original bad responses/logs and intermediate CN VALID preserved.",
+    "format": "All51 shipping rows, Korean source identity, tokens/multiplicity and newline counts exact. Numbers/time/choice meaning/person knowledge/regional language directly compared. Agent reading is not native observation."
+  },
+  "preservation": {
+    "prior_batches": 347,
+    "prior_decisions": 310,
+    "proof": "Actual51=response exact; reverting only51 reproduces all12 previous overlay JSONs. Prior347 batches/original acceptance/previous-target/superseded acceptance/nonowned values exact; acceptance/batch/hash reversal reproduces entire previous ledger. Three actual private accepted files equal independently reconstructed receipts/canonical hashes.",
+    "boundaries": "Changed-path census contains only12 overlays/localization ledger and declared five docs. KO/EN/runtime/gameplay/demo/validators/allowlist untouched. All prior reports and310 decisions exact before append. Five doc diffs read: CLAUDE/queue/parent157/active753/WORK_LOG; no whole-game completion claim."
+  },
+  "validation": {
+    "check_import": "Final JA/TW bound-check and CN final-check; three imports17 leaves/4files each, VALID/INCOMPLETE/OPEN and stderr0; author exit0. CN bound-check is intermediate VALID, not final accepted wording.",
+    "delta": "changed_leaves51 overlay_files12 new_coverage0; independent whole-JSON/receipt/source binding proof passed.",
+    "demo_i18n": "Raw demo5 languages/14events/100leaves/122UI; EN strict1813/1813 events35/35 endings; CJK skeleton1708/1813.",
+    "lane": "11-check selection list only, not execution/pass. Initial schema rejections3 retained; validator relaxation0/old-export CLI0/unchanged selftest rerun0; reviewer app/engine/UI/save actions0."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 618,
+    "stale_source": 615,
+    "each_locale_stale": 205,
+    "summary_diagnostics": 3,
+    "change": "669 ->618, reviewed51 only. Independent pure scope recomputation matches; the3 summaries describe208 target leaves without current source-bound acceptance per locale, not three missing leaves. Remaining diagnostics are not all shipping prose."
+  },
+  "identity": {
+    "original_export_source_revision": "1bdb2aa06ff51d1fe56e0a8548138591dd22938b",
+    "final_receipt_sha256_by_locale": {
+      "ja": "87f6a347e9766644975068b56908e8189695a561ea23e3262083c448289a4459",
+      "zh-CN": "cff5d91ff78c0c5e650c62d5aa09c815c02213679baa96102c9e5d1d93796117",
+      "zh-TW": "7efece72001892c83fcbf7230e79751d5cf7cb4c15f9652795ca06e9e8729306"
+    },
+    "reviewed_rows_sha256": "34d41c59e691f3e07cd3e8f49b40ae38750cc6be4de26bc52c9616f72f8be846",
+    "reviewed_rows_encoding": "canonical JSON locale/export order [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-final-half-20261103/",
+    "raw_files": 38,
+    "raw_population_sha256": "472fec7dbe83ece3c85be47fd0e0b58fc209a16f4c8bc72d4c5aecc92306c40e",
+    "raw_population_encoding": "All regular files, canonical JSON basename-sorted [basename,bytes,sha256]; same encoding for disjoint subsets",
+    "used_final": {
+      "files": 26,
+      "sha256": "688209593a94d3a18d81dd43fd85db94b9149ac9a1917c0787d9a9581cc5489a",
+      "selection": "helpers2/leaf-ids1/source3/response3/JA-TW bound-check4logs+CN final-check2logs/import6logs/delta-demo-i18n-lane-scope5"
+    },
+    "repair_history": {
+      "files": 12,
+      "sha256": "15aff7a89e4f9ac3a045e2fdedad42785d05b7fd0b273c55591b2c2f257c382f",
+      "selection": "Initial check stdout/stderr6, incomplete draft1 responses3, CN draft2 response1 and CN intermediate bound-check stdout/stderr2"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ],
+  "conclusion": "GO exact51 source corrections only; not nonowned variants, whole translation/lane, actual runtime, latest CI, M60 or release."
+}

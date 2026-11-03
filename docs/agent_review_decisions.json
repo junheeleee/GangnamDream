@@ -13033,6 +13033,49 @@
         "path": "docs/agent_reviews/order752-memory-family-cjk.json",
         "sha256": "352ff0afc3ea8cd26c939792b19f23cbe6d42cbbeb9b5cc1d417ac46e5376005"
       }
+    },
+    {
+      "id": "order753-final-half-cjk-corrections-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-03",
+      "decided_by": "/root/capsule_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-753",
+      "subject": {
+        "kind": "source",
+        "commit": "e47073b08c062d44a0e74ba5464d51de8a3a13dc",
+        "tree": "8361c0535681f2ae6a238f24ef9868eaa148e19c",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order753-final-half-cjk.md",
+          "sha256": "e7ae762a1aa3dadbc2d790e676c3f7cec46da03d2e8c193e05287deb497ff82c"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order753-final-half-cjk.json",
+          "sha256": "775bc867a6cbcd302fdfeae3ce9ca6ae7cb773c9d00cf95f5126b71f94a97800"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order753-final-half-cjk.json",
+        "sha256": "775bc867a6cbcd302fdfeae3ce9ca6ae7cb773c9d00cf95f5126b71f94a97800"
+      }
     }
   ]
 }

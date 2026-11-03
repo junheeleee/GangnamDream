@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-753 · 다은·마지막 반년의 JA/zh 정합
+#### [x] ORDER-753 · 다은·마지막 반년의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. shipping5root×3언어=15단위, KR17×3=51 기존번역 정정.
 
@@ -56,4 +56,10 @@ CN은수리전bound-check중간VALID/초안2도보존했다. 검증기완화0.
 receipt/순수검증/delta51/12파일·원347배치/원수용/이전target/비소유값불변.
 scope669→618(stale615=각205+요약3), demo5언어14사건100leaf122UI·EN1813/35 clean.
 lane11은선택목록뿐이며전체실행성공아님. raw38=최종26/이력12,
-원자료 `.git/localization-final-half-20261103/` 소유. 제품독립최종판정은미완이다.
+원자료 `.git/localization-final-half-20261103/` 소유.
+제품 `e47073b`/tree `8361c053`의 [독립전독](../agent_reviews/order753-final-half-cjk.md)은
+실수용51/12파일·원347배치/수용/previous-target/비소유전체원장·receipt3를직접대조해
+이51정정만GO로판정했다. raw38=최종26/이력12의별도집합SHA·기존310판정/보고보존.
+root전독에서발견한보고서30billion단위오기는3billion won(30억원)으로수리·결속갱신,
+실제번역/제품불변이다. 2026-11-03 완료·규범일회성,
+전체언어/차선·화면/원어민·최신CI/M60/출시GO별도.
