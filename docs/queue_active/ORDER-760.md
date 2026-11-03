@@ -35,4 +35,14 @@ demo/EN·scope/context/queue/diff. 수용뒤옛export CLI/불변self-test반복0
 
 ## 검사 실물·후보
 
-수정·검수·제품후보미완. 게임31.3실행/입력/저장편집0.
+KR18/목표54의사전독립전독GO·실수용완료, 최종제품후보독립검수대기다.
+야간업무취소/둘의업무칸·감소한수입/초수·생사해설발명을토요일확정/상대미정1시간·
+자기후속예약전후비움·금액기한확인/한도회신·열차표/통화목록/SMS흔적으로정렬했다.
+CN4/TW3행의배송채널중립·CN시선/하얀칸·TW상대미정구절만독립권고/자가수리,
+초안response2/중간check4로그보존·다른14/15값/JA18/전체헤더metadata exact.
+JA check/CN-TW final-check와import18×3 exit0/stderr0 실관측·번역거절0/도구변경0.
+receipt/순수검증/delta54/3JSON·원353배치/원수용/이전target/비소유4leaf/전체원장보존.
+demo5언어14사건100leaf122UI·EN1813/35 clean, 제품4path일반list11은선택목록뿐이다.
+source-scope381→327(stale324=각108/내shipping93author15+요약3/count111)·전체미완.
+W190는188부친결과뒤라회고를현재생존/실제방문성과로확대0, partner非daeun는unattached다.
+게임31.3실행/입력/저장편집0. 수용후옛export CLI/불변self-test/완료검사반복0.
