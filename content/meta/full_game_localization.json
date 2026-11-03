@@ -15514,6 +15514,396 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-742",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_35_alone",
+        "arc_35_birthday",
+        "arc_35_habit_check",
+        "arc_35_orthodox_weight",
+        "arc_35_path_cost",
+        "arc_35_unorthodox_weight"
+      ],
+      "source_leaves": 20,
+      "target_leaves_by_locale": {
+        "ja": 20,
+        "zh-CN": 20,
+        "zh-TW": 20
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean comparison and independent full reading of 60 targets before import: thirty-fifth birthday, present solitude/contact, recorded routine with unknown blanks, an empty hour and exercise, expense review and risk memo; no invented holiday, investment/transfer/return/sleep success or declined-contact and health-check history. Prior acceptance and target hashes retained.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "047de398d3d25082d45802b1c282e04574fb4f45",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "fbc1e31088f9086634cafc05ced9ff776d63fbd404a8ca9a7dc509bed430e064",
+          "count": 20,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "3c44f2dbfdfd98704b2e595a2ed8b637ebf96dd2d2f12abaa8374227786a4ff3"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "047de398d3d25082d45802b1c282e04574fb4f45",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "0f0b02a500775fde1fe9a65bd65d6e6ce916db75d1db50c6491d2fbae69b7f48",
+          "count": 20,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "f477ab3e8924b5165ec2cbaf97365cfc1025cff2ebc096b5e03efd12ab5ba40b"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "047de398d3d25082d45802b1c282e04574fb4f45",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "d1084ad7f51a5518aadcb2303117ea6fa841a44ea59a76eec105156d4958970f",
+          "count": 20,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "16b939aff6a8bd7b1bb0d0cbf11924226d526e02b7965cdac674fd7c0c7efa59"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "19147708df35d2b6da2ca0f22ac57a52c86dc841630baf5b553199102718ea9a",
+        "zh-CN": "87dff98f99745dc610cb9f50016128bfa7389e25a06cedc9ba843b0f1fc15abb",
+        "zh-TW": "91d4470024565557c8e97f8e69ec8ea59ac1443364dbe786643abdbfbb495071"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_35_alone:/choices/2/result_text": "44e4132f36f3ee88d1b9b77ccfef0d52aeb2e6a8baaeb6fbddd5c21d1234045c",
+          "events:arc_35_alone:/description": "4add678307435ae41e4398d8673bb4eece6f25a8ca845f33f2df487560fe282f",
+          "events:arc_35_birthday:/choices/0/result_text": "d2f51645e16bebeb40b1f94711bb9dee5ca5076420f779da6d69a11c495466a8",
+          "events:arc_35_birthday:/choices/1/text": "1cac5b87fe65f6cf19026c2788fd56839ce7bf1b0f5255ef3bbdedb4ee229fb9",
+          "events:arc_35_birthday:/description": "2700b723f2b6d9709321dc321baa470d883c2facc634340381d2209da3554ba1",
+          "events:arc_35_birthday:/title": "e1bdb17b50f126d6062fc78051f1454dea1bcc2b8f998894d74d41db128d80f7",
+          "events:arc_35_habit_check:/choices/1/result_text": "35c7ba3a70674b1444ba3f65fdf4a057eb6fa139e7f85e52778058aed4f9c514",
+          "events:arc_35_habit_check:/choices/1/text": "dd876a6424180728343ebf6d041f2eb35c04c1d3f019f91a6e1bf66031a52fe3",
+          "events:arc_35_habit_check:/choices/2/result_text": "f7baa4bfc6315bbaa8993bddac4302bac6ea756658cbac3aec5be37f3ced3bf8",
+          "events:arc_35_habit_check:/choices/2/text": "060d9479135b903cb717d5ff0a02f6204bb5380187cbc80c8e8f650fee51a1ff",
+          "events:arc_35_habit_check:/description": "1c20184f20dbf5281dce8703c7d06921f4216442cdde8ad187c2d2d0a56acf8d",
+          "events:arc_35_habit_check:/description_if_known/broke_routine": "406cc826d03cf56caec78a8ad74e624c07f71f2656f76a41a5648b5c2a4b9413",
+          "events:arc_35_habit_check:/description_if_known/godsaeng_paradox_seen": "a7d554448501ac13f1fd0392cbfa1cbf0c95e4353294c315e0b38060c44e44a4",
+          "events:arc_35_habit_check:/description_if_known/kept_routine": "7b6104d6c5d05746b353a5bcfa066d879552f27b5f5c3b273793385acebad1a1",
+          "events:arc_35_orthodox_weight:/choices/0/result_text": "58d212aca8b353d249ad5fe6b161e3c88fdc9a2304aeb45801bda7d1e51b7dd2",
+          "events:arc_35_orthodox_weight:/choices/2/result_text": "0ff6741594c48c05d2ff3f347f368575a3a8af79ac1571b77376842dc3a5dd91",
+          "events:arc_35_orthodox_weight:/description": "5db2c9ee09efd7cf74eadb5bea4eb315416904a6f701ab67165896d0504750ff",
+          "events:arc_35_path_cost:/choices/1/result_text": "da1e5d000ee77a3364946b5cd7383ed94dbd2ed07530a43777b0fa463421153f",
+          "events:arc_35_path_cost:/description": "2c99ef52d07598a51d4b389c9306723b98b79652b30259a421e36eb3739c4f12",
+          "events:arc_35_unorthodox_weight:/choices/1/result_text": "8d871de0049a558c10b8f4b70906f259ea6c5a10b46a204479d344bd128c27c8"
+        },
+        "zh-CN": {
+          "events:arc_35_alone:/choices/2/result_text": "d5a5fd805ebcd576110357aecc0ca71a9c566ddfe3d1f777cdd6e42db5510af8",
+          "events:arc_35_alone:/description": "15e68dcc981bd0adc3f94ff973464590e639d76a1b2bc3033360ee290312e182",
+          "events:arc_35_birthday:/choices/0/result_text": "f90dfcd15851771bebb5309ed55d0f418b5ebdf17050d57bb193dfb15475f8a2",
+          "events:arc_35_birthday:/choices/1/text": "adc56fe09dcdb9da2ea53a834f22e4b6c9ba51259d1494f2437b7098a9035c70",
+          "events:arc_35_birthday:/description": "78204f9d3508c84d600e9deb750e1cae13ce5d9a14516a57613e17c4abdfa2b4",
+          "events:arc_35_birthday:/title": "aef6f888ec701f4a8cafa600814417064927f13d8c94413867bcf13acfdff3ba",
+          "events:arc_35_habit_check:/choices/1/result_text": "0b2dae21f90a3fda6b7eaec3ddf69ee26f5a9855f35191f0af4298e3308442ef",
+          "events:arc_35_habit_check:/choices/1/text": "ea32f386e809b081c17c1898214b5e1d1a4dc3c5e2d7b341cf183e1a4440d0f2",
+          "events:arc_35_habit_check:/choices/2/result_text": "04a0fe9f0163aeb552719ca71459cbb54636297b66e7b52f7abb6b916a4f3d58",
+          "events:arc_35_habit_check:/choices/2/text": "122a4d8b6b0dcce21141146f4eacd15924342ff5d0190ae3364d8833e7d243cd",
+          "events:arc_35_habit_check:/description": "01dad253de365ec659cd76761bbd353febda6049d93ecf0df86d72bb3c498c40",
+          "events:arc_35_habit_check:/description_if_known/broke_routine": "d753ea71a855e76e65bead36d9468fd5025a0f8d931cc2026a475a6a5c4b207a",
+          "events:arc_35_habit_check:/description_if_known/godsaeng_paradox_seen": "9306bb7b93e4b278f2ca08a5ba848f6a1d9a89e8dfd1cc4c8f4ae6b32319f929",
+          "events:arc_35_habit_check:/description_if_known/kept_routine": "fb748eb06e72d06c9edc989a2867fb1c5f7ec1b310f2c05223d59248ce5f6683",
+          "events:arc_35_orthodox_weight:/choices/0/result_text": "729d03a881b9718d2600935bc9995e4fd6d104a04cf3e19980b5b8c2266ea5bc",
+          "events:arc_35_orthodox_weight:/choices/2/result_text": "675568bc980a259c009b459d1906de81f44a68cac2388286b2360306bb6b87fa",
+          "events:arc_35_orthodox_weight:/description": "56ed1913818497b68d2750d1422be2131f321be394b3342ba44e754e86e3ed5e",
+          "events:arc_35_path_cost:/choices/1/result_text": "4e6ad73e5b6a857823cf31cee967280fabda5972285028dba812a7c46ec63459",
+          "events:arc_35_path_cost:/description": "322ca47bfbf8c2703d922f9de4eed00b5b497c605a926aeaaed672d2b4c4285a",
+          "events:arc_35_unorthodox_weight:/choices/1/result_text": "45c572e797afe651721ed6c2dbcee8cdc91513aa5d10f469f805974a54666a6c"
+        },
+        "zh-TW": {
+          "events:arc_35_alone:/choices/2/result_text": "4b4283a43d0ffa205ca85c5842b8feab90d92e6ca195a0014319572f2cd8aab6",
+          "events:arc_35_alone:/description": "7eda18b42d55170b4a9e409fc2a3625d3bf27c9eb3e6d3cfda3a0be02deb1920",
+          "events:arc_35_birthday:/choices/0/result_text": "c4bb45c4f120068c261d7ac1472a325092e10cebc37cd000aab1c93da75d4202",
+          "events:arc_35_birthday:/choices/1/text": "982f9f80623b88931d8f03b61fd79294c6ac2c3d7342d04d735931036a951613",
+          "events:arc_35_birthday:/description": "1dca78997c8edcf402da395119134531158f056893dff9d4cb1eb70058d43b16",
+          "events:arc_35_birthday:/title": "f1a3b06e148a517cdaaa59968354eb8a0a1973976c95c21cefdb21a6f8ee5364",
+          "events:arc_35_habit_check:/choices/1/result_text": "36baaebd4ee6b0fe4d7571b389516a4e69f44534ae6fa74b92732c83023f762f",
+          "events:arc_35_habit_check:/choices/1/text": "166fa65faba184c1d23d2943221e2e2a86a2e2da339c6557e3ed9dcd8adf4b32",
+          "events:arc_35_habit_check:/choices/2/result_text": "2cbcaa85ffd60fb09f4491a7531b73b4d0d9fb5763f8d29044e848891812782c",
+          "events:arc_35_habit_check:/choices/2/text": "6a2c8b45eabf4bf74cca9aa31508947cbe95b38994671678c8bf629c0b9a1a15",
+          "events:arc_35_habit_check:/description": "ed1ddb8206a52ae6dc3ea0c04118073df9067a2fb391a8baad377d871e2e1e2e",
+          "events:arc_35_habit_check:/description_if_known/broke_routine": "3222a03bfe056191f11304b733fa7bcb887b65107d4fb94cc3f38fe02e5f100d",
+          "events:arc_35_habit_check:/description_if_known/godsaeng_paradox_seen": "0cfb9e9bf799ef1c850c8e451baee02a30d83457a1d53d6aa02df4271c485dde",
+          "events:arc_35_habit_check:/description_if_known/kept_routine": "8671177ad6ba10dd5464da50406de1072ff9004720824e282b86d926ef27cc8a",
+          "events:arc_35_orthodox_weight:/choices/0/result_text": "8bb68e72469a95ddc1fab3c73d6aedd1bf7c79c4b7606aabfec325f47880c6bb",
+          "events:arc_35_orthodox_weight:/choices/2/result_text": "4f4f9d44df780e6ffbf5fc2917d61dea3eb896498f0d41fadd61cedb05f8f48d",
+          "events:arc_35_orthodox_weight:/description": "c4704585a40b246c2fca88d428ade1d57a63d546ddfadfc6bb689c66dfe29c65",
+          "events:arc_35_path_cost:/choices/1/result_text": "2a42757aadc3fbe83b2ea1c42d6f57dc23034c5ee4a10caa40a36b67bb60547b",
+          "events:arc_35_path_cost:/description": "a1db9e921d4b4a882932e9db24432975a553f11e88c3cfae76f561068190dac4",
+          "events:arc_35_unorthodox_weight:/choices/1/result_text": "87c5783a532a912842cd2d2da433d1f762871d6aaa5ef5637da1cfa2be83ae5d"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_35_alone:/choices/2/result_text": {
+            "source_sha256": "a7eadabdba1132ac353f0f3b5b24eb65ab20c54c54ada87659353d7bda29117a",
+            "target_sha256": "44e4132f36f3ee88d1b9b77ccfef0d52aeb2e6a8baaeb6fbddd5c21d1234045c"
+          },
+          "events:arc_35_alone:/description": {
+            "source_sha256": "97bcfd975780926a90c0c327c22c6a5fd406b322582ac15cbae67bab9f9204ba",
+            "target_sha256": "4add678307435ae41e4398d8673bb4eece6f25a8ca845f33f2df487560fe282f"
+          },
+          "events:arc_35_birthday:/choices/0/result_text": {
+            "source_sha256": "663cb48c4bbb31034d110a568fcfd7232118499f975f91eff6c9a025a126d250",
+            "target_sha256": "d2f51645e16bebeb40b1f94711bb9dee5ca5076420f779da6d69a11c495466a8"
+          },
+          "events:arc_35_birthday:/choices/1/text": {
+            "source_sha256": "995d52cf30ce44c26dff97c784288f63d945f83914322d72b25fc0156798f73d",
+            "target_sha256": "1cac5b87fe65f6cf19026c2788fd56839ce7bf1b0f5255ef3bbdedb4ee229fb9"
+          },
+          "events:arc_35_birthday:/description": {
+            "source_sha256": "8735616895504e1792b12d5692edeadb1fb03569f5686c3db661b5969f29207c",
+            "target_sha256": "2700b723f2b6d9709321dc321baa470d883c2facc634340381d2209da3554ba1"
+          },
+          "events:arc_35_birthday:/title": {
+            "source_sha256": "33e0aaf7deb893b1e20131e7035f8341255bc57104e5d969befac1220f23b87b",
+            "target_sha256": "e1bdb17b50f126d6062fc78051f1454dea1bcc2b8f998894d74d41db128d80f7"
+          },
+          "events:arc_35_habit_check:/choices/1/result_text": {
+            "source_sha256": "dfae9b8d2fe2bb7c85bf138c3af02241a330fa7a530f078cb21374a25e8ce767",
+            "target_sha256": "35c7ba3a70674b1444ba3f65fdf4a057eb6fa139e7f85e52778058aed4f9c514"
+          },
+          "events:arc_35_habit_check:/choices/1/text": {
+            "source_sha256": "c9ef21daea14bf3f6dec62eeab0bf49e0b18314df648beb02487600d3a5354c0",
+            "target_sha256": "dd876a6424180728343ebf6d041f2eb35c04c1d3f019f91a6e1bf66031a52fe3"
+          },
+          "events:arc_35_habit_check:/choices/2/result_text": {
+            "source_sha256": "e5dc14b276a60a620fc59dc5e4b8a37e0475558d0095b4b813a2e1eb9a57d3ef",
+            "target_sha256": "f7baa4bfc6315bbaa8993bddac4302bac6ea756658cbac3aec5be37f3ced3bf8"
+          },
+          "events:arc_35_habit_check:/choices/2/text": {
+            "source_sha256": "8aa88780e8e311f745414f3bd9b6c6b3302da182db8c0ec14d3e9ace7bd737fc",
+            "target_sha256": "060d9479135b903cb717d5ff0a02f6204bb5380187cbc80c8e8f650fee51a1ff"
+          },
+          "events:arc_35_habit_check:/description": {
+            "source_sha256": "a51406eefc77a9ec9fec86b0716b6ade8ba04c6d215b41527637563171340b89",
+            "target_sha256": "1c20184f20dbf5281dce8703c7d06921f4216442cdde8ad187c2d2d0a56acf8d"
+          },
+          "events:arc_35_habit_check:/description_if_known/broke_routine": {
+            "source_sha256": "d6f2bb8b87a3419a0a027a6f303ea4cc45cf8abcfb90ce3b733e2df022f72a77",
+            "target_sha256": "406cc826d03cf56caec78a8ad74e624c07f71f2656f76a41a5648b5c2a4b9413"
+          },
+          "events:arc_35_habit_check:/description_if_known/godsaeng_paradox_seen": {
+            "source_sha256": "e370828ff01eb254a1a926f254b727c7788579a62726bd34c28d9f129269dc17",
+            "target_sha256": "a7d554448501ac13f1fd0392cbfa1cbf0c95e4353294c315e0b38060c44e44a4"
+          },
+          "events:arc_35_habit_check:/description_if_known/kept_routine": {
+            "source_sha256": "c203667d0ee0872b4945bd488bc74957de50a2d672505ad03ecc9df88d9b87a5",
+            "target_sha256": "7b6104d6c5d05746b353a5bcfa066d879552f27b5f5c3b273793385acebad1a1"
+          },
+          "events:arc_35_orthodox_weight:/choices/0/result_text": {
+            "source_sha256": "e4c09e86c8ef10281515d042231d9744ac8499bc4851255cc5f82ef0532520d2",
+            "target_sha256": "58d212aca8b353d249ad5fe6b161e3c88fdc9a2304aeb45801bda7d1e51b7dd2"
+          },
+          "events:arc_35_orthodox_weight:/choices/2/result_text": {
+            "source_sha256": "dd6b2e2999bc10fdf17f08cfb3b2e399a4f7a74eca0527a1f2d14ca29796712a",
+            "target_sha256": "0ff6741594c48c05d2ff3f347f368575a3a8af79ac1571b77376842dc3a5dd91"
+          },
+          "events:arc_35_orthodox_weight:/description": {
+            "source_sha256": "1b4ce0a69b69a434619da114789314c6c191f5a8893d52609f17188b27b26434",
+            "target_sha256": "5db2c9ee09efd7cf74eadb5bea4eb315416904a6f701ab67165896d0504750ff"
+          },
+          "events:arc_35_path_cost:/choices/1/result_text": {
+            "source_sha256": "a2480d76e50405d449a51d843c09a8e83775eccc1e012086a478ea171269fada",
+            "target_sha256": "da1e5d000ee77a3364946b5cd7383ed94dbd2ed07530a43777b0fa463421153f"
+          },
+          "events:arc_35_path_cost:/description": {
+            "source_sha256": "c1327f22e9540dcd5dc45cac5bd3ae35b256152f6c49f420f42cad37eadcfe81",
+            "target_sha256": "2c99ef52d07598a51d4b389c9306723b98b79652b30259a421e36eb3739c4f12"
+          },
+          "events:arc_35_unorthodox_weight:/choices/1/result_text": {
+            "source_sha256": "d427d8784219921f7b706b1d272896a3de3b139020d99aba5f805a3547139573",
+            "target_sha256": "8d871de0049a558c10b8f4b70906f259ea6c5a10b46a204479d344bd128c27c8"
+          }
+        },
+        "zh-CN": {
+          "events:arc_35_alone:/choices/2/result_text": {
+            "source_sha256": "a7eadabdba1132ac353f0f3b5b24eb65ab20c54c54ada87659353d7bda29117a",
+            "target_sha256": "d5a5fd805ebcd576110357aecc0ca71a9c566ddfe3d1f777cdd6e42db5510af8"
+          },
+          "events:arc_35_alone:/description": {
+            "source_sha256": "97bcfd975780926a90c0c327c22c6a5fd406b322582ac15cbae67bab9f9204ba",
+            "target_sha256": "15e68dcc981bd0adc3f94ff973464590e639d76a1b2bc3033360ee290312e182"
+          },
+          "events:arc_35_birthday:/choices/0/result_text": {
+            "source_sha256": "663cb48c4bbb31034d110a568fcfd7232118499f975f91eff6c9a025a126d250",
+            "target_sha256": "f90dfcd15851771bebb5309ed55d0f418b5ebdf17050d57bb193dfb15475f8a2"
+          },
+          "events:arc_35_birthday:/choices/1/text": {
+            "source_sha256": "995d52cf30ce44c26dff97c784288f63d945f83914322d72b25fc0156798f73d",
+            "target_sha256": "adc56fe09dcdb9da2ea53a834f22e4b6c9ba51259d1494f2437b7098a9035c70"
+          },
+          "events:arc_35_birthday:/description": {
+            "source_sha256": "8735616895504e1792b12d5692edeadb1fb03569f5686c3db661b5969f29207c",
+            "target_sha256": "78204f9d3508c84d600e9deb750e1cae13ce5d9a14516a57613e17c4abdfa2b4"
+          },
+          "events:arc_35_birthday:/title": {
+            "source_sha256": "33e0aaf7deb893b1e20131e7035f8341255bc57104e5d969befac1220f23b87b",
+            "target_sha256": "aef6f888ec701f4a8cafa600814417064927f13d8c94413867bcf13acfdff3ba"
+          },
+          "events:arc_35_habit_check:/choices/1/result_text": {
+            "source_sha256": "dfae9b8d2fe2bb7c85bf138c3af02241a330fa7a530f078cb21374a25e8ce767",
+            "target_sha256": "0b2dae21f90a3fda6b7eaec3ddf69ee26f5a9855f35191f0af4298e3308442ef"
+          },
+          "events:arc_35_habit_check:/choices/1/text": {
+            "source_sha256": "c9ef21daea14bf3f6dec62eeab0bf49e0b18314df648beb02487600d3a5354c0",
+            "target_sha256": "ea32f386e809b081c17c1898214b5e1d1a4dc3c5e2d7b341cf183e1a4440d0f2"
+          },
+          "events:arc_35_habit_check:/choices/2/result_text": {
+            "source_sha256": "e5dc14b276a60a620fc59dc5e4b8a37e0475558d0095b4b813a2e1eb9a57d3ef",
+            "target_sha256": "04a0fe9f0163aeb552719ca71459cbb54636297b66e7b52f7abb6b916a4f3d58"
+          },
+          "events:arc_35_habit_check:/choices/2/text": {
+            "source_sha256": "8aa88780e8e311f745414f3bd9b6c6b3302da182db8c0ec14d3e9ace7bd737fc",
+            "target_sha256": "122a4d8b6b0dcce21141146f4eacd15924342ff5d0190ae3364d8833e7d243cd"
+          },
+          "events:arc_35_habit_check:/description": {
+            "source_sha256": "a51406eefc77a9ec9fec86b0716b6ade8ba04c6d215b41527637563171340b89",
+            "target_sha256": "01dad253de365ec659cd76761bbd353febda6049d93ecf0df86d72bb3c498c40"
+          },
+          "events:arc_35_habit_check:/description_if_known/broke_routine": {
+            "source_sha256": "d6f2bb8b87a3419a0a027a6f303ea4cc45cf8abcfb90ce3b733e2df022f72a77",
+            "target_sha256": "d753ea71a855e76e65bead36d9468fd5025a0f8d931cc2026a475a6a5c4b207a"
+          },
+          "events:arc_35_habit_check:/description_if_known/godsaeng_paradox_seen": {
+            "source_sha256": "e370828ff01eb254a1a926f254b727c7788579a62726bd34c28d9f129269dc17",
+            "target_sha256": "9306bb7b93e4b278f2ca08a5ba848f6a1d9a89e8dfd1cc4c8f4ae6b32319f929"
+          },
+          "events:arc_35_habit_check:/description_if_known/kept_routine": {
+            "source_sha256": "c203667d0ee0872b4945bd488bc74957de50a2d672505ad03ecc9df88d9b87a5",
+            "target_sha256": "fb748eb06e72d06c9edc989a2867fb1c5f7ec1b310f2c05223d59248ce5f6683"
+          },
+          "events:arc_35_orthodox_weight:/choices/0/result_text": {
+            "source_sha256": "e4c09e86c8ef10281515d042231d9744ac8499bc4851255cc5f82ef0532520d2",
+            "target_sha256": "729d03a881b9718d2600935bc9995e4fd6d104a04cf3e19980b5b8c2266ea5bc"
+          },
+          "events:arc_35_orthodox_weight:/choices/2/result_text": {
+            "source_sha256": "dd6b2e2999bc10fdf17f08cfb3b2e399a4f7a74eca0527a1f2d14ca29796712a",
+            "target_sha256": "675568bc980a259c009b459d1906de81f44a68cac2388286b2360306bb6b87fa"
+          },
+          "events:arc_35_orthodox_weight:/description": {
+            "source_sha256": "1b4ce0a69b69a434619da114789314c6c191f5a8893d52609f17188b27b26434",
+            "target_sha256": "56ed1913818497b68d2750d1422be2131f321be394b3342ba44e754e86e3ed5e"
+          },
+          "events:arc_35_path_cost:/choices/1/result_text": {
+            "source_sha256": "a2480d76e50405d449a51d843c09a8e83775eccc1e012086a478ea171269fada",
+            "target_sha256": "4e6ad73e5b6a857823cf31cee967280fabda5972285028dba812a7c46ec63459"
+          },
+          "events:arc_35_path_cost:/description": {
+            "source_sha256": "c1327f22e9540dcd5dc45cac5bd3ae35b256152f6c49f420f42cad37eadcfe81",
+            "target_sha256": "322ca47bfbf8c2703d922f9de4eed00b5b497c605a926aeaaed672d2b4c4285a"
+          },
+          "events:arc_35_unorthodox_weight:/choices/1/result_text": {
+            "source_sha256": "d427d8784219921f7b706b1d272896a3de3b139020d99aba5f805a3547139573",
+            "target_sha256": "45c572e797afe651721ed6c2dbcee8cdc91513aa5d10f469f805974a54666a6c"
+          }
+        },
+        "zh-TW": {
+          "events:arc_35_alone:/choices/2/result_text": {
+            "source_sha256": "a7eadabdba1132ac353f0f3b5b24eb65ab20c54c54ada87659353d7bda29117a",
+            "target_sha256": "4b4283a43d0ffa205ca85c5842b8feab90d92e6ca195a0014319572f2cd8aab6"
+          },
+          "events:arc_35_alone:/description": {
+            "source_sha256": "97bcfd975780926a90c0c327c22c6a5fd406b322582ac15cbae67bab9f9204ba",
+            "target_sha256": "7eda18b42d55170b4a9e409fc2a3625d3bf27c9eb3e6d3cfda3a0be02deb1920"
+          },
+          "events:arc_35_birthday:/choices/0/result_text": {
+            "source_sha256": "663cb48c4bbb31034d110a568fcfd7232118499f975f91eff6c9a025a126d250",
+            "target_sha256": "c4bb45c4f120068c261d7ac1472a325092e10cebc37cd000aab1c93da75d4202"
+          },
+          "events:arc_35_birthday:/choices/1/text": {
+            "source_sha256": "995d52cf30ce44c26dff97c784288f63d945f83914322d72b25fc0156798f73d",
+            "target_sha256": "982f9f80623b88931d8f03b61fd79294c6ac2c3d7342d04d735931036a951613"
+          },
+          "events:arc_35_birthday:/description": {
+            "source_sha256": "8735616895504e1792b12d5692edeadb1fb03569f5686c3db661b5969f29207c",
+            "target_sha256": "1dca78997c8edcf402da395119134531158f056893dff9d4cb1eb70058d43b16"
+          },
+          "events:arc_35_birthday:/title": {
+            "source_sha256": "33e0aaf7deb893b1e20131e7035f8341255bc57104e5d969befac1220f23b87b",
+            "target_sha256": "f1a3b06e148a517cdaaa59968354eb8a0a1973976c95c21cefdb21a6f8ee5364"
+          },
+          "events:arc_35_habit_check:/choices/1/result_text": {
+            "source_sha256": "dfae9b8d2fe2bb7c85bf138c3af02241a330fa7a530f078cb21374a25e8ce767",
+            "target_sha256": "36baaebd4ee6b0fe4d7571b389516a4e69f44534ae6fa74b92732c83023f762f"
+          },
+          "events:arc_35_habit_check:/choices/1/text": {
+            "source_sha256": "c9ef21daea14bf3f6dec62eeab0bf49e0b18314df648beb02487600d3a5354c0",
+            "target_sha256": "166fa65faba184c1d23d2943221e2e2a86a2e2da339c6557e3ed9dcd8adf4b32"
+          },
+          "events:arc_35_habit_check:/choices/2/result_text": {
+            "source_sha256": "e5dc14b276a60a620fc59dc5e4b8a37e0475558d0095b4b813a2e1eb9a57d3ef",
+            "target_sha256": "2cbcaa85ffd60fb09f4491a7531b73b4d0d9fb5763f8d29044e848891812782c"
+          },
+          "events:arc_35_habit_check:/choices/2/text": {
+            "source_sha256": "8aa88780e8e311f745414f3bd9b6c6b3302da182db8c0ec14d3e9ace7bd737fc",
+            "target_sha256": "6a2c8b45eabf4bf74cca9aa31508947cbe95b38994671678c8bf629c0b9a1a15"
+          },
+          "events:arc_35_habit_check:/description": {
+            "source_sha256": "a51406eefc77a9ec9fec86b0716b6ade8ba04c6d215b41527637563171340b89",
+            "target_sha256": "ed1ddb8206a52ae6dc3ea0c04118073df9067a2fb391a8baad377d871e2e1e2e"
+          },
+          "events:arc_35_habit_check:/description_if_known/broke_routine": {
+            "source_sha256": "d6f2bb8b87a3419a0a027a6f303ea4cc45cf8abcfb90ce3b733e2df022f72a77",
+            "target_sha256": "3222a03bfe056191f11304b733fa7bcb887b65107d4fb94cc3f38fe02e5f100d"
+          },
+          "events:arc_35_habit_check:/description_if_known/godsaeng_paradox_seen": {
+            "source_sha256": "e370828ff01eb254a1a926f254b727c7788579a62726bd34c28d9f129269dc17",
+            "target_sha256": "0cfb9e9bf799ef1c850c8e451baee02a30d83457a1d53d6aa02df4271c485dde"
+          },
+          "events:arc_35_habit_check:/description_if_known/kept_routine": {
+            "source_sha256": "c203667d0ee0872b4945bd488bc74957de50a2d672505ad03ecc9df88d9b87a5",
+            "target_sha256": "8671177ad6ba10dd5464da50406de1072ff9004720824e282b86d926ef27cc8a"
+          },
+          "events:arc_35_orthodox_weight:/choices/0/result_text": {
+            "source_sha256": "e4c09e86c8ef10281515d042231d9744ac8499bc4851255cc5f82ef0532520d2",
+            "target_sha256": "8bb68e72469a95ddc1fab3c73d6aedd1bf7c79c4b7606aabfec325f47880c6bb"
+          },
+          "events:arc_35_orthodox_weight:/choices/2/result_text": {
+            "source_sha256": "dd6b2e2999bc10fdf17f08cfb3b2e399a4f7a74eca0527a1f2d14ca29796712a",
+            "target_sha256": "4f4f9d44df780e6ffbf5fc2917d61dea3eb896498f0d41fadd61cedb05f8f48d"
+          },
+          "events:arc_35_orthodox_weight:/description": {
+            "source_sha256": "1b4ce0a69b69a434619da114789314c6c191f5a8893d52609f17188b27b26434",
+            "target_sha256": "c4704585a40b246c2fca88d428ade1d57a63d546ddfadfc6bb689c66dfe29c65"
+          },
+          "events:arc_35_path_cost:/choices/1/result_text": {
+            "source_sha256": "a2480d76e50405d449a51d843c09a8e83775eccc1e012086a478ea171269fada",
+            "target_sha256": "2a42757aadc3fbe83b2ea1c42d6f57dc23034c5ee4a10caa40a36b67bb60547b"
+          },
+          "events:arc_35_path_cost:/description": {
+            "source_sha256": "c1327f22e9540dcd5dc45cac5bd3ae35b256152f6c49f420f42cad37eadcfe81",
+            "target_sha256": "a1db9e921d4b4a882932e9db24432975a553f11e88c3cfae76f561068190dac4"
+          },
+          "events:arc_35_unorthodox_weight:/choices/1/result_text": {
+            "source_sha256": "d427d8784219921f7b706b1d272896a3de3b139020d99aba5f805a3547139573",
+            "target_sha256": "87c5783a532a912842cd2d2da433d1f762871d6aaa5ef5637da1cfa2be83ae5d"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -21283,8 +21673,8 @@
         "target_sha256": "7f8ea0063ddaac1435b9ca439203b2fddb2ac0df733a731e3d62b55222748412"
       },
       "events:arc_35_birthday:/choices/0/result_text": {
-        "source_sha256": "663cb48c4bbb31034d110a568fcfd7232118499f975f91eff6c9a025a126d250",
-        "target_sha256": "d2f51645e16bebeb40b1f94711bb9dee5ca5076420f779da6d69a11c495466a8"
+        "source_sha256": "56d956fc366b725c61d7cb8ab5d6d226444cb089a6eaacfcd42d9b7f5bf0bff4",
+        "target_sha256": "c608a42be38882bc6c65d7ea55665d28a385d886e9038b85e66cc1e668c348b5"
       },
       "events:arc_35_birthday:/choices/0/text": {
         "source_sha256": "ce94630ec80402706033af9412ad4eecd12a2f2af2cf20113902bc7d5fcdc50b",
@@ -21295,8 +21685,8 @@
         "target_sha256": "b4ca0b022cf335e99db18f815458a05989292bc8eb3071c38881ce7134335cbe"
       },
       "events:arc_35_birthday:/choices/1/text": {
-        "source_sha256": "995d52cf30ce44c26dff97c784288f63d945f83914322d72b25fc0156798f73d",
-        "target_sha256": "1cac5b87fe65f6cf19026c2788fd56839ce7bf1b0f5255ef3bbdedb4ee229fb9"
+        "source_sha256": "37647e3bd13ec18e990360aa2ac585561d8b17e71a34c29188dfd5e23064d73e",
+        "target_sha256": "daea9ee3d8e8146ca12565ed331dd12bcf9d977cad5c6a9298ea35bb052eb342"
       },
       "events:arc_35_birthday:/choices/2/result_text": {
         "source_sha256": "d5151c4b2277d50321e73069124c13d66e0d44b845b452f9ba9b17b31dcf5665",
@@ -21307,12 +21697,12 @@
         "target_sha256": "8f73c4ea1a3664ba516adfb5701cad46f34b610cf7250019aa4c46d957541015"
       },
       "events:arc_35_birthday:/description": {
-        "source_sha256": "8735616895504e1792b12d5692edeadb1fb03569f5686c3db661b5969f29207c",
-        "target_sha256": "2700b723f2b6d9709321dc321baa470d883c2facc634340381d2209da3554ba1"
+        "source_sha256": "b58ea2a13ef090ddcea959c20a2a0763aafc807a9efd25a5b1a63464591bf9d6",
+        "target_sha256": "baa22bbf3c5b0af60cd34f55e6632d39eb7a682bbc95dffc81145d906db43eca"
       },
       "events:arc_35_birthday:/title": {
-        "source_sha256": "33e0aaf7deb893b1e20131e7035f8341255bc57104e5d969befac1220f23b87b",
-        "target_sha256": "e1bdb17b50f126d6062fc78051f1454dea1bcc2b8f998894d74d41db128d80f7"
+        "source_sha256": "bab6a1564d25c14733d870aadcb1e8efe50ab89aadf64ff4421f700019166fe0",
+        "target_sha256": "e6d80ce964421b2ef2bb604acaa081919a11133b9ffb2199e6f34d273dbe0028"
       },
       "events:arc_father_05_after_visit:/choices/0/result_text": {
         "source_sha256": "353c43f3f7a53bb757efe6008443b938ffe8bcb02ab2c81714800aab7a33fc16",
@@ -22015,36 +22405,36 @@
         "target_sha256": "dc6875e6f2ef1593ccdb64874ce6de85662680970c1c9772bd3da57c5128c937"
       },
       "events:arc_35_habit_check:/choices/1/result_text": {
-        "source_sha256": "dfae9b8d2fe2bb7c85bf138c3af02241a330fa7a530f078cb21374a25e8ce767",
-        "target_sha256": "35c7ba3a70674b1444ba3f65fdf4a057eb6fa139e7f85e52778058aed4f9c514"
+        "source_sha256": "6e37d50ea2e98cbc659029294d1d5ba2e5890b8097c30c495252b1a1ca251204",
+        "target_sha256": "22ea1fc794d2f8b9e688ec4013751260f1ff87828fb2cf3c6aa870329660f323"
       },
       "events:arc_35_habit_check:/choices/1/text": {
-        "source_sha256": "c9ef21daea14bf3f6dec62eeab0bf49e0b18314df648beb02487600d3a5354c0",
-        "target_sha256": "dd876a6424180728343ebf6d041f2eb35c04c1d3f019f91a6e1bf66031a52fe3"
+        "source_sha256": "355f80f5f30c21ca221e8d3e3cb46abd7bb4f499fbc2893df5c31cc8f9fec481",
+        "target_sha256": "ff020c2e65bcb97f7f6946648812ab2d07312fa6328d1ff4a0cca714361bfef9"
       },
       "events:arc_35_habit_check:/choices/2/result_text": {
-        "source_sha256": "e5dc14b276a60a620fc59dc5e4b8a37e0475558d0095b4b813a2e1eb9a57d3ef",
-        "target_sha256": "f7baa4bfc6315bbaa8993bddac4302bac6ea756658cbac3aec5be37f3ced3bf8"
+        "source_sha256": "d96f5c84210635060f399263f91464fd2400a947fbb279e589c36038ef493f8f",
+        "target_sha256": "1e1f19be8f44f95f7c721828f03b05d0c05bdfeb2961529701cbe537baf6a694"
       },
       "events:arc_35_habit_check:/choices/2/text": {
-        "source_sha256": "8aa88780e8e311f745414f3bd9b6c6b3302da182db8c0ec14d3e9ace7bd737fc",
-        "target_sha256": "060d9479135b903cb717d5ff0a02f6204bb5380187cbc80c8e8f650fee51a1ff"
+        "source_sha256": "e55046d83d22f69da278ec11dbca7c9995a93947bb4fa110d967f1b7f88d9818",
+        "target_sha256": "88cf78b71f7b493242ea986998f2f0b20baf5d0461021ddd199851540930951a"
       },
       "events:arc_35_habit_check:/description": {
-        "source_sha256": "a51406eefc77a9ec9fec86b0716b6ade8ba04c6d215b41527637563171340b89",
-        "target_sha256": "1c20184f20dbf5281dce8703c7d06921f4216442cdde8ad187c2d2d0a56acf8d"
+        "source_sha256": "7cc5ed3e9b6562769f380f370ebd5adecee4283b97e579d4985f62562ef86fa5",
+        "target_sha256": "9bfb9fb4f37ce25c49e58d305ade40a5df952a0ef80064f864b29fc8a30c754a"
       },
       "events:arc_35_habit_check:/description_if_known/broke_routine": {
-        "source_sha256": "d6f2bb8b87a3419a0a027a6f303ea4cc45cf8abcfb90ce3b733e2df022f72a77",
-        "target_sha256": "406cc826d03cf56caec78a8ad74e624c07f71f2656f76a41a5648b5c2a4b9413"
+        "source_sha256": "fffa97d2b25bfbdd250a9ca4fc2b0782f529eb48daba19b0108e221c1a6083fb",
+        "target_sha256": "9e35c1079d1ca51f651f14ddf849213ed7cac57468cd67b88835d6e3042807df"
       },
       "events:arc_35_habit_check:/description_if_known/godsaeng_paradox_seen": {
-        "source_sha256": "e370828ff01eb254a1a926f254b727c7788579a62726bd34c28d9f129269dc17",
-        "target_sha256": "a7d554448501ac13f1fd0392cbfa1cbf0c95e4353294c315e0b38060c44e44a4"
+        "source_sha256": "dc5216986e5d1983441ed260377ba5281cfadc6a5b3e2963ae8c72b4ea30273a",
+        "target_sha256": "fe5a47357e5f6669d88e3bf89b7b2c160e6064dcc2e2ebdc61b5cbd546e006ad"
       },
       "events:arc_35_habit_check:/description_if_known/kept_routine": {
-        "source_sha256": "c203667d0ee0872b4945bd488bc74957de50a2d672505ad03ecc9df88d9b87a5",
-        "target_sha256": "7b6104d6c5d05746b353a5bcfa066d879552f27b5f5c3b273793385acebad1a1"
+        "source_sha256": "b38c5d43c989aadd8e6cde23fedf7afb4e0b7481ce331d056f2d9b3fad5041eb",
+        "target_sha256": "b7611d1ad0dab7aa496dd402dba40ebbda4c0d134dadb11a0f852f3058f7f566"
       },
       "events:arc_35_habit_check:/title": {
         "source_sha256": "750d38ddfc831b00eacfb87fb0462d53d7ee43ab362274c76476e2f8e0c518e9",
@@ -22059,8 +22449,8 @@
         "target_sha256": "4ed50385d4bc8a1e09e3afbfec09e7b1d86396d482b30a2eb9b0b13e42449c41"
       },
       "events:arc_35_path_cost:/choices/1/result_text": {
-        "source_sha256": "a2480d76e50405d449a51d843c09a8e83775eccc1e012086a478ea171269fada",
-        "target_sha256": "da1e5d000ee77a3364946b5cd7383ed94dbd2ed07530a43777b0fa463421153f"
+        "source_sha256": "c45b606e631e831779ca86bfdca89ab40a6cf3b7e8afcc16ce52c63b73aeab57",
+        "target_sha256": "8c12f551adcc2523a68443ee914e052b68de6dea45345c73b74214b815cd17c6"
       },
       "events:arc_35_path_cost:/choices/1/text": {
         "source_sha256": "d5fa78d2fe2a9fa774aa3b5654045a1a588922b09fc9e584895a3790866e532c",
@@ -22075,8 +22465,8 @@
         "target_sha256": "d3fca2cc1ab9a7888a1dd2065b1874ecea99aadbe223d5fd744f20faac589568"
       },
       "events:arc_35_path_cost:/description": {
-        "source_sha256": "c1327f22e9540dcd5dc45cac5bd3ae35b256152f6c49f420f42cad37eadcfe81",
-        "target_sha256": "2c99ef52d07598a51d4b389c9306723b98b79652b30259a421e36eb3739c4f12"
+        "source_sha256": "ecf81a82f0f685071a37a937c4d0b990dff6978099f0fdf2beceb704e4b9120b",
+        "target_sha256": "70b901be1cc9f9a661be6c9070bd0140c1ae7f2b24b4e98f06d24b2248babfad"
       },
       "events:arc_35_path_cost:/title": {
         "source_sha256": "597451fa7ac3a95c2692629e2ddbd1e5673d17e2591ed07d3cd7026a51e5a384",
@@ -60467,8 +60857,8 @@
         "target_sha256": "dd99743b0e51add8d19f7d1793f828dddaaeb41b5ce21406a78b7073c0062ec5"
       },
       "events:arc_35_orthodox_weight:/choices/0/result_text": {
-        "source_sha256": "e4c09e86c8ef10281515d042231d9744ac8499bc4851255cc5f82ef0532520d2",
-        "target_sha256": "58d212aca8b353d249ad5fe6b161e3c88fdc9a2304aeb45801bda7d1e51b7dd2"
+        "source_sha256": "2d1bfea8a3c2afa627ddcb28e15c8435697700bea6a1eec6e4334c607527d18a",
+        "target_sha256": "e6e4104eb6ce643880c8ece688ca36de57ea6b06a4ffc3f42fd6f9129a2b4fef"
       },
       "events:arc_35_orthodox_weight:/choices/0/text": {
         "source_sha256": "03f68f4bc705f0523dd64b833b4028855e5528e33232f6f86d59ae147f991513",
@@ -60483,16 +60873,16 @@
         "target_sha256": "18dad7ff62fdbf6ee4f401f13ac97d5161aa5480135b39993d06b00a049da27f"
       },
       "events:arc_35_orthodox_weight:/choices/2/result_text": {
-        "source_sha256": "dd6b2e2999bc10fdf17f08cfb3b2e399a4f7a74eca0527a1f2d14ca29796712a",
-        "target_sha256": "0ff6741594c48c05d2ff3f347f368575a3a8af79ac1571b77376842dc3a5dd91"
+        "source_sha256": "d39a377c6d5a1dc028301f8d6abe681b68bf9d10537bb99f2830ddb7dfa5e95c",
+        "target_sha256": "34bf9840d8c47f20d7822e77c3d9768122b61762a909733c62510af21b311d58"
       },
       "events:arc_35_orthodox_weight:/choices/2/text": {
         "source_sha256": "182385b3ec29a2cb646e6bd9972b48e1a68d8288d467dc7dff71158a16561df7",
         "target_sha256": "ef7e98f33a15dccad9363f8fb6ffa02ce3168f3eb9f7ff933bcfc5bab1dde73e"
       },
       "events:arc_35_orthodox_weight:/description": {
-        "source_sha256": "1b4ce0a69b69a434619da114789314c6c191f5a8893d52609f17188b27b26434",
-        "target_sha256": "5db2c9ee09efd7cf74eadb5bea4eb315416904a6f701ab67165896d0504750ff"
+        "source_sha256": "4a66b863b32e48e4b752439b758880329cfcb5044801ea51214758549cc64999",
+        "target_sha256": "1467e466b6440b4b03a7dfec603454a1b481a726e854ab453b297b66bb7fecdb"
       },
       "events:arc_35_orthodox_weight:/title": {
         "source_sha256": "ead33d812018c38bcea2c0a80b1d1ddbfbf040be293f9b3ff2ef453e9a08afa0",
@@ -60507,8 +60897,8 @@
         "target_sha256": "fdef386525aaeb800001c6d3343db14b5f9e75bcb6a76a8fcaa97bd9d8387ed6"
       },
       "events:arc_35_unorthodox_weight:/choices/1/result_text": {
-        "source_sha256": "d427d8784219921f7b706b1d272896a3de3b139020d99aba5f805a3547139573",
-        "target_sha256": "8d871de0049a558c10b8f4b70906f259ea6c5a10b46a204479d344bd128c27c8"
+        "source_sha256": "bb9e1535a3d41aa60fc5016dcd21d0a638b1e0a4896ab1a9843feb814860aa81",
+        "target_sha256": "d4fbb10a0d5c596b537d70a8ee324ace99b5cbede251a287fbca866e2919aee8"
       },
       "events:arc_35_unorthodox_weight:/choices/1/text": {
         "source_sha256": "6b02b86032680012f0f70e724212cc89d50bddc0db47d2871c766388e32c9cf7",
@@ -64307,16 +64697,16 @@
         "target_sha256": "78d15a045d7c9bd03b21b8e46e6fe63c00dd3542d5c3aa6c6a8100842064aae3"
       },
       "events:arc_35_alone:/choices/2/result_text": {
-        "source_sha256": "a7eadabdba1132ac353f0f3b5b24eb65ab20c54c54ada87659353d7bda29117a",
-        "target_sha256": "44e4132f36f3ee88d1b9b77ccfef0d52aeb2e6a8baaeb6fbddd5c21d1234045c"
+        "source_sha256": "1e22331f8f84bd30ab78664539a47435119990e49413380abd1a73055827afb2",
+        "target_sha256": "0510481bb4bd26aa708b474d7b78b95eb18fed0e3f7d3ed43bc41cc6dee283ff"
       },
       "events:arc_35_alone:/choices/2/text": {
         "source_sha256": "aec6cebd81128ba35c644fe08e6bce8f516a661b1796d13334a7b6721d24c78a",
         "target_sha256": "14025d4525df06b4c5dcedbc76f0fed3f66f9cc86367c06cebade853c9f46f4b"
       },
       "events:arc_35_alone:/description": {
-        "source_sha256": "97bcfd975780926a90c0c327c22c6a5fd406b322582ac15cbae67bab9f9204ba",
-        "target_sha256": "4add678307435ae41e4398d8673bb4eece6f25a8ca845f33f2df487560fe282f"
+        "source_sha256": "72fd00e8fd429223ce5889d3911884e4dc074a27eab01baa4d391e3c1cb923b3",
+        "target_sha256": "14c404bb0593418497e2f5a95f3531bdb86817ade2a79caed983bfe04b796356"
       },
       "events:arc_35_alone:/title": {
         "source_sha256": "650b892887c08244a6422107b10b30585efcabfe01e719214ad61ad7c64d8887",
@@ -73985,8 +74375,8 @@
         "target_sha256": "d5a9e4a07cfcbeed3905c88aaf2bd797b2a0d7ee6b4726a3437d8c5614a9c76d"
       },
       "events:arc_35_birthday:/choices/0/result_text": {
-        "source_sha256": "663cb48c4bbb31034d110a568fcfd7232118499f975f91eff6c9a025a126d250",
-        "target_sha256": "f90dfcd15851771bebb5309ed55d0f418b5ebdf17050d57bb193dfb15475f8a2"
+        "source_sha256": "56d956fc366b725c61d7cb8ab5d6d226444cb089a6eaacfcd42d9b7f5bf0bff4",
+        "target_sha256": "cd1ca65bd53849da7776b93982ad42567da5e450e45775003d35190f5a600c27"
       },
       "events:arc_35_birthday:/choices/0/text": {
         "source_sha256": "ce94630ec80402706033af9412ad4eecd12a2f2af2cf20113902bc7d5fcdc50b",
@@ -73997,8 +74387,8 @@
         "target_sha256": "792ac7c31a3cf3c08132ac30070e8ec38489b3eb1f61bcf6a7d5e4e87f5a29b3"
       },
       "events:arc_35_birthday:/choices/1/text": {
-        "source_sha256": "995d52cf30ce44c26dff97c784288f63d945f83914322d72b25fc0156798f73d",
-        "target_sha256": "adc56fe09dcdb9da2ea53a834f22e4b6c9ba51259d1494f2437b7098a9035c70"
+        "source_sha256": "37647e3bd13ec18e990360aa2ac585561d8b17e71a34c29188dfd5e23064d73e",
+        "target_sha256": "a040eed5c313c7eb91dbe0e4918ae34f5d83bc1e27a2a81e7df76313e7ed7e7a"
       },
       "events:arc_35_birthday:/choices/2/result_text": {
         "source_sha256": "d5151c4b2277d50321e73069124c13d66e0d44b845b452f9ba9b17b31dcf5665",
@@ -74009,12 +74399,12 @@
         "target_sha256": "0b105f6474a8d1b170b1f384553213f898e4bdc17d8cdeaaa052cbc199fce50f"
       },
       "events:arc_35_birthday:/description": {
-        "source_sha256": "8735616895504e1792b12d5692edeadb1fb03569f5686c3db661b5969f29207c",
-        "target_sha256": "78204f9d3508c84d600e9deb750e1cae13ce5d9a14516a57613e17c4abdfa2b4"
+        "source_sha256": "b58ea2a13ef090ddcea959c20a2a0763aafc807a9efd25a5b1a63464591bf9d6",
+        "target_sha256": "dc9a093942037542363417c11ded7fcf29113e984f44d7de00257ff88cf920c2"
       },
       "events:arc_35_birthday:/title": {
-        "source_sha256": "33e0aaf7deb893b1e20131e7035f8341255bc57104e5d969befac1220f23b87b",
-        "target_sha256": "aef6f888ec701f4a8cafa600814417064927f13d8c94413867bcf13acfdff3ba"
+        "source_sha256": "bab6a1564d25c14733d870aadcb1e8efe50ab89aadf64ff4421f700019166fe0",
+        "target_sha256": "5b51619f07aa8c53f6194cd0e17c315c86a0717e85d0bc1fe7088dc0d0569a55"
       },
       "events:arc_father_05_after_visit:/choices/0/result_text": {
         "source_sha256": "353c43f3f7a53bb757efe6008443b938ffe8bcb02ab2c81714800aab7a33fc16",
@@ -74717,36 +75107,36 @@
         "target_sha256": "eeca16bbd05ca4d28d906406ef90752006c089e9059f3ff2677a7e9a9e272fb5"
       },
       "events:arc_35_habit_check:/choices/1/result_text": {
-        "source_sha256": "dfae9b8d2fe2bb7c85bf138c3af02241a330fa7a530f078cb21374a25e8ce767",
-        "target_sha256": "0b2dae21f90a3fda6b7eaec3ddf69ee26f5a9855f35191f0af4298e3308442ef"
+        "source_sha256": "6e37d50ea2e98cbc659029294d1d5ba2e5890b8097c30c495252b1a1ca251204",
+        "target_sha256": "c1a4eb8fcc25cc85f3a5db6da1eada33f6da0801b4bb0a196ac4cfe508313320"
       },
       "events:arc_35_habit_check:/choices/1/text": {
-        "source_sha256": "c9ef21daea14bf3f6dec62eeab0bf49e0b18314df648beb02487600d3a5354c0",
-        "target_sha256": "ea32f386e809b081c17c1898214b5e1d1a4dc3c5e2d7b341cf183e1a4440d0f2"
+        "source_sha256": "355f80f5f30c21ca221e8d3e3cb46abd7bb4f499fbc2893df5c31cc8f9fec481",
+        "target_sha256": "5d460a98251499b1f4bba7c11eca7803c6a2dfb434cd114ae08980c3d05da95c"
       },
       "events:arc_35_habit_check:/choices/2/result_text": {
-        "source_sha256": "e5dc14b276a60a620fc59dc5e4b8a37e0475558d0095b4b813a2e1eb9a57d3ef",
-        "target_sha256": "04a0fe9f0163aeb552719ca71459cbb54636297b66e7b52f7abb6b916a4f3d58"
+        "source_sha256": "d96f5c84210635060f399263f91464fd2400a947fbb279e589c36038ef493f8f",
+        "target_sha256": "7205399c6e7b167fecfe1a2a70602703d1ce0a51071625c25ce91b0b6ed5ce95"
       },
       "events:arc_35_habit_check:/choices/2/text": {
-        "source_sha256": "8aa88780e8e311f745414f3bd9b6c6b3302da182db8c0ec14d3e9ace7bd737fc",
-        "target_sha256": "122a4d8b6b0dcce21141146f4eacd15924342ff5d0190ae3364d8833e7d243cd"
+        "source_sha256": "e55046d83d22f69da278ec11dbca7c9995a93947bb4fa110d967f1b7f88d9818",
+        "target_sha256": "0863183fc964efa3b7d34d22eb0f6da3322a7d5dad725f3d4e0bb41e324ad51d"
       },
       "events:arc_35_habit_check:/description": {
-        "source_sha256": "a51406eefc77a9ec9fec86b0716b6ade8ba04c6d215b41527637563171340b89",
-        "target_sha256": "01dad253de365ec659cd76761bbd353febda6049d93ecf0df86d72bb3c498c40"
+        "source_sha256": "7cc5ed3e9b6562769f380f370ebd5adecee4283b97e579d4985f62562ef86fa5",
+        "target_sha256": "530b99cce92f9cfa4574dcad65edf762c7d9afcfada89d2ead8414130b1eedce"
       },
       "events:arc_35_habit_check:/description_if_known/broke_routine": {
-        "source_sha256": "d6f2bb8b87a3419a0a027a6f303ea4cc45cf8abcfb90ce3b733e2df022f72a77",
-        "target_sha256": "d753ea71a855e76e65bead36d9468fd5025a0f8d931cc2026a475a6a5c4b207a"
+        "source_sha256": "fffa97d2b25bfbdd250a9ca4fc2b0782f529eb48daba19b0108e221c1a6083fb",
+        "target_sha256": "dec5a50814dcc030c8b459f691894314c4c9809166b47e88d9a9ab762c0dc7e9"
       },
       "events:arc_35_habit_check:/description_if_known/godsaeng_paradox_seen": {
-        "source_sha256": "e370828ff01eb254a1a926f254b727c7788579a62726bd34c28d9f129269dc17",
-        "target_sha256": "9306bb7b93e4b278f2ca08a5ba848f6a1d9a89e8dfd1cc4c8f4ae6b32319f929"
+        "source_sha256": "dc5216986e5d1983441ed260377ba5281cfadc6a5b3e2963ae8c72b4ea30273a",
+        "target_sha256": "2f63b1b1047e7e59a8c811ee8891cd369814774ccc92cbe208cfc5083f596f89"
       },
       "events:arc_35_habit_check:/description_if_known/kept_routine": {
-        "source_sha256": "c203667d0ee0872b4945bd488bc74957de50a2d672505ad03ecc9df88d9b87a5",
-        "target_sha256": "fb748eb06e72d06c9edc989a2867fb1c5f7ec1b310f2c05223d59248ce5f6683"
+        "source_sha256": "b38c5d43c989aadd8e6cde23fedf7afb4e0b7481ce331d056f2d9b3fad5041eb",
+        "target_sha256": "439e2a2dc3ecf472f2bf688cdd80ca8c499d06a1a69139dec53ce7e379b82a2b"
       },
       "events:arc_35_habit_check:/title": {
         "source_sha256": "750d38ddfc831b00eacfb87fb0462d53d7ee43ab362274c76476e2f8e0c518e9",
@@ -74761,8 +75151,8 @@
         "target_sha256": "60214a2e70a3588b3cef8d262f005047469bf5936d63b18c0267775974400928"
       },
       "events:arc_35_path_cost:/choices/1/result_text": {
-        "source_sha256": "a2480d76e50405d449a51d843c09a8e83775eccc1e012086a478ea171269fada",
-        "target_sha256": "4e6ad73e5b6a857823cf31cee967280fabda5972285028dba812a7c46ec63459"
+        "source_sha256": "c45b606e631e831779ca86bfdca89ab40a6cf3b7e8afcc16ce52c63b73aeab57",
+        "target_sha256": "44a71afb4b36accc2971f0d580fc28181a0602585abb5a3035a5c2a2876b938e"
       },
       "events:arc_35_path_cost:/choices/1/text": {
         "source_sha256": "d5fa78d2fe2a9fa774aa3b5654045a1a588922b09fc9e584895a3790866e532c",
@@ -74777,8 +75167,8 @@
         "target_sha256": "c3996573ffc7836093e75e7239179061fd2d31124b3b9b55e393272906bf5560"
       },
       "events:arc_35_path_cost:/description": {
-        "source_sha256": "c1327f22e9540dcd5dc45cac5bd3ae35b256152f6c49f420f42cad37eadcfe81",
-        "target_sha256": "322ca47bfbf8c2703d922f9de4eed00b5b497c605a926aeaaed672d2b4c4285a"
+        "source_sha256": "ecf81a82f0f685071a37a937c4d0b990dff6978099f0fdf2beceb704e4b9120b",
+        "target_sha256": "e8898f4c71b9afd918e8dab60e1865b97d18a5ab9477921ae6e79f217973c208"
       },
       "events:arc_35_path_cost:/title": {
         "source_sha256": "597451fa7ac3a95c2692629e2ddbd1e5673d17e2591ed07d3cd7026a51e5a384",
@@ -113169,8 +113559,8 @@
         "target_sha256": "c79cd53bdbe517d838da60ff5398e273eb1365969dab81d9dca10d658c435b3b"
       },
       "events:arc_35_orthodox_weight:/choices/0/result_text": {
-        "source_sha256": "e4c09e86c8ef10281515d042231d9744ac8499bc4851255cc5f82ef0532520d2",
-        "target_sha256": "729d03a881b9718d2600935bc9995e4fd6d104a04cf3e19980b5b8c2266ea5bc"
+        "source_sha256": "2d1bfea8a3c2afa627ddcb28e15c8435697700bea6a1eec6e4334c607527d18a",
+        "target_sha256": "a2bee052c54d19216124ee3d7f1313813bbedfcf96b12ebdf86f03ce43f4100f"
       },
       "events:arc_35_orthodox_weight:/choices/0/text": {
         "source_sha256": "03f68f4bc705f0523dd64b833b4028855e5528e33232f6f86d59ae147f991513",
@@ -113185,16 +113575,16 @@
         "target_sha256": "ef7c0b38e91130c2d7231e081001eaeb5a62a96c09cec3441269ac89502d3743"
       },
       "events:arc_35_orthodox_weight:/choices/2/result_text": {
-        "source_sha256": "dd6b2e2999bc10fdf17f08cfb3b2e399a4f7a74eca0527a1f2d14ca29796712a",
-        "target_sha256": "675568bc980a259c009b459d1906de81f44a68cac2388286b2360306bb6b87fa"
+        "source_sha256": "d39a377c6d5a1dc028301f8d6abe681b68bf9d10537bb99f2830ddb7dfa5e95c",
+        "target_sha256": "14f6d003cf8bf0ff07c3b8665c2534dbcaab4dc2c4f2bc490d849bf260db9c1e"
       },
       "events:arc_35_orthodox_weight:/choices/2/text": {
         "source_sha256": "182385b3ec29a2cb646e6bd9972b48e1a68d8288d467dc7dff71158a16561df7",
         "target_sha256": "6da61e167f459167817ebede2328b49e6bde7a28ff7b63958efaa8d91dfc343c"
       },
       "events:arc_35_orthodox_weight:/description": {
-        "source_sha256": "1b4ce0a69b69a434619da114789314c6c191f5a8893d52609f17188b27b26434",
-        "target_sha256": "56ed1913818497b68d2750d1422be2131f321be394b3342ba44e754e86e3ed5e"
+        "source_sha256": "4a66b863b32e48e4b752439b758880329cfcb5044801ea51214758549cc64999",
+        "target_sha256": "bafe0a211015c3b2b78aee90159b7e60867b1a4aa03fc64808776e4c51a7b810"
       },
       "events:arc_35_orthodox_weight:/title": {
         "source_sha256": "ead33d812018c38bcea2c0a80b1d1ddbfbf040be293f9b3ff2ef453e9a08afa0",
@@ -113209,8 +113599,8 @@
         "target_sha256": "2041003336b3b2af3ec714aa38c8ff4e7904aacdafe8a1d2d9cb648c86f35e9a"
       },
       "events:arc_35_unorthodox_weight:/choices/1/result_text": {
-        "source_sha256": "d427d8784219921f7b706b1d272896a3de3b139020d99aba5f805a3547139573",
-        "target_sha256": "45c572e797afe651721ed6c2dbcee8cdc91513aa5d10f469f805974a54666a6c"
+        "source_sha256": "bb9e1535a3d41aa60fc5016dcd21d0a638b1e0a4896ab1a9843feb814860aa81",
+        "target_sha256": "7b5773dd64147dc99b091c4fc0c7957d447e4c78f532c0ed4aec94e601c2d615"
       },
       "events:arc_35_unorthodox_weight:/choices/1/text": {
         "source_sha256": "6b02b86032680012f0f70e724212cc89d50bddc0db47d2871c766388e32c9cf7",
@@ -117017,16 +117407,16 @@
         "target_sha256": "1446bdea9871ed631eb4b8f98ccb422d39c67602c43ce2a061d5da403c34d3c6"
       },
       "events:arc_35_alone:/choices/2/result_text": {
-        "source_sha256": "a7eadabdba1132ac353f0f3b5b24eb65ab20c54c54ada87659353d7bda29117a",
-        "target_sha256": "d5a5fd805ebcd576110357aecc0ca71a9c566ddfe3d1f777cdd6e42db5510af8"
+        "source_sha256": "1e22331f8f84bd30ab78664539a47435119990e49413380abd1a73055827afb2",
+        "target_sha256": "9e211687b9cdef06a9110e59d43bdd7ea6e3199edbe6aec2b57acdb83ad2e8b7"
       },
       "events:arc_35_alone:/choices/2/text": {
         "source_sha256": "aec6cebd81128ba35c644fe08e6bce8f516a661b1796d13334a7b6721d24c78a",
         "target_sha256": "5af4c738334cf7ef893d6d8fddc6f0251008f851302d0532d640d52daf10ff8a"
       },
       "events:arc_35_alone:/description": {
-        "source_sha256": "97bcfd975780926a90c0c327c22c6a5fd406b322582ac15cbae67bab9f9204ba",
-        "target_sha256": "15e68dcc981bd0adc3f94ff973464590e639d76a1b2bc3033360ee290312e182"
+        "source_sha256": "72fd00e8fd429223ce5889d3911884e4dc074a27eab01baa4d391e3c1cb923b3",
+        "target_sha256": "233e55c460210afc512c9499f9dc84bb07db194e3b21f65b829666faea249304"
       },
       "events:arc_35_alone:/title": {
         "source_sha256": "650b892887c08244a6422107b10b30585efcabfe01e719214ad61ad7c64d8887",
@@ -133511,8 +133901,8 @@
         "target_sha256": "859149e8023665f06bb6f2e957e2bb4651b5a65c347a47d16fcc1fa7ba4cf5c9"
       },
       "events:arc_35_birthday:/choices/0/result_text": {
-        "source_sha256": "663cb48c4bbb31034d110a568fcfd7232118499f975f91eff6c9a025a126d250",
-        "target_sha256": "c4bb45c4f120068c261d7ac1472a325092e10cebc37cd000aab1c93da75d4202"
+        "source_sha256": "56d956fc366b725c61d7cb8ab5d6d226444cb089a6eaacfcd42d9b7f5bf0bff4",
+        "target_sha256": "80a64b362ecc2e4573235f30427c89a0ccd787f54e6522d636307e8668387a6c"
       },
       "events:arc_35_birthday:/choices/0/text": {
         "source_sha256": "ce94630ec80402706033af9412ad4eecd12a2f2af2cf20113902bc7d5fcdc50b",
@@ -133523,8 +133913,8 @@
         "target_sha256": "a05df77985f058c886dc56d0b18ea7392439e9e94f2caf0bfb886f71ede7e3f4"
       },
       "events:arc_35_birthday:/choices/1/text": {
-        "source_sha256": "995d52cf30ce44c26dff97c784288f63d945f83914322d72b25fc0156798f73d",
-        "target_sha256": "982f9f80623b88931d8f03b61fd79294c6ac2c3d7342d04d735931036a951613"
+        "source_sha256": "37647e3bd13ec18e990360aa2ac585561d8b17e71a34c29188dfd5e23064d73e",
+        "target_sha256": "a0d3e2bd21d91d66ba5ee60f30e50d3226a501c0711853f90026b77b6638ecdd"
       },
       "events:arc_35_birthday:/choices/2/result_text": {
         "source_sha256": "d5151c4b2277d50321e73069124c13d66e0d44b845b452f9ba9b17b31dcf5665",
@@ -133535,12 +133925,12 @@
         "target_sha256": "0b081e1abaf9420a354c5e911140cbacc245da56412787e568ee5d5714623d13"
       },
       "events:arc_35_birthday:/description": {
-        "source_sha256": "8735616895504e1792b12d5692edeadb1fb03569f5686c3db661b5969f29207c",
-        "target_sha256": "1dca78997c8edcf402da395119134531158f056893dff9d4cb1eb70058d43b16"
+        "source_sha256": "b58ea2a13ef090ddcea959c20a2a0763aafc807a9efd25a5b1a63464591bf9d6",
+        "target_sha256": "cb688ac470e7294a4f39ff7e082be9922445d20d6d11b910a60fa6eb9b09bef5"
       },
       "events:arc_35_birthday:/title": {
-        "source_sha256": "33e0aaf7deb893b1e20131e7035f8341255bc57104e5d969befac1220f23b87b",
-        "target_sha256": "f1a3b06e148a517cdaaa59968354eb8a0a1973976c95c21cefdb21a6f8ee5364"
+        "source_sha256": "bab6a1564d25c14733d870aadcb1e8efe50ab89aadf64ff4421f700019166fe0",
+        "target_sha256": "54c6b98fb05cdcfd41ddba30465b4801033827a87042c91fef32d24f7a405860"
       },
       "events:arc_father_05_after_visit:/choices/0/result_text": {
         "source_sha256": "353c43f3f7a53bb757efe6008443b938ffe8bcb02ab2c81714800aab7a33fc16",
@@ -134243,36 +134633,36 @@
         "target_sha256": "2f303431fa09c13291dd657173cec0db6a0274281770020d051d48b115d85548"
       },
       "events:arc_35_habit_check:/choices/1/result_text": {
-        "source_sha256": "dfae9b8d2fe2bb7c85bf138c3af02241a330fa7a530f078cb21374a25e8ce767",
-        "target_sha256": "36baaebd4ee6b0fe4d7571b389516a4e69f44534ae6fa74b92732c83023f762f"
+        "source_sha256": "6e37d50ea2e98cbc659029294d1d5ba2e5890b8097c30c495252b1a1ca251204",
+        "target_sha256": "770e41e73991225d082e4d5ff659c5e77ab6bb34702b66bd0e646af87110e1da"
       },
       "events:arc_35_habit_check:/choices/1/text": {
-        "source_sha256": "c9ef21daea14bf3f6dec62eeab0bf49e0b18314df648beb02487600d3a5354c0",
-        "target_sha256": "166fa65faba184c1d23d2943221e2e2a86a2e2da339c6557e3ed9dcd8adf4b32"
+        "source_sha256": "355f80f5f30c21ca221e8d3e3cb46abd7bb4f499fbc2893df5c31cc8f9fec481",
+        "target_sha256": "588fd6aa09e91d8360808c2c15307c1a59a2dcdf67693c5edce180989faeb806"
       },
       "events:arc_35_habit_check:/choices/2/result_text": {
-        "source_sha256": "e5dc14b276a60a620fc59dc5e4b8a37e0475558d0095b4b813a2e1eb9a57d3ef",
-        "target_sha256": "2cbcaa85ffd60fb09f4491a7531b73b4d0d9fb5763f8d29044e848891812782c"
+        "source_sha256": "d96f5c84210635060f399263f91464fd2400a947fbb279e589c36038ef493f8f",
+        "target_sha256": "3a76a3c4facdd85b94d1ea748316306b103cf27646ec0f03f24f0b6d0bbba0ae"
       },
       "events:arc_35_habit_check:/choices/2/text": {
-        "source_sha256": "8aa88780e8e311f745414f3bd9b6c6b3302da182db8c0ec14d3e9ace7bd737fc",
-        "target_sha256": "6a2c8b45eabf4bf74cca9aa31508947cbe95b38994671678c8bf629c0b9a1a15"
+        "source_sha256": "e55046d83d22f69da278ec11dbca7c9995a93947bb4fa110d967f1b7f88d9818",
+        "target_sha256": "8f1bcd5c8655dd66cd138083d9257f9c914397a5343f0a863d142f049bf127ea"
       },
       "events:arc_35_habit_check:/description": {
-        "source_sha256": "a51406eefc77a9ec9fec86b0716b6ade8ba04c6d215b41527637563171340b89",
-        "target_sha256": "ed1ddb8206a52ae6dc3ea0c04118073df9067a2fb391a8baad377d871e2e1e2e"
+        "source_sha256": "7cc5ed3e9b6562769f380f370ebd5adecee4283b97e579d4985f62562ef86fa5",
+        "target_sha256": "16992fbb2465052ae3d7ea08cb10a3d2f343e80daaa1089c849acfc6c0c7070c"
       },
       "events:arc_35_habit_check:/description_if_known/broke_routine": {
-        "source_sha256": "d6f2bb8b87a3419a0a027a6f303ea4cc45cf8abcfb90ce3b733e2df022f72a77",
-        "target_sha256": "3222a03bfe056191f11304b733fa7bcb887b65107d4fb94cc3f38fe02e5f100d"
+        "source_sha256": "fffa97d2b25bfbdd250a9ca4fc2b0782f529eb48daba19b0108e221c1a6083fb",
+        "target_sha256": "09865044271dc04725c997fa43d3e7cb54c8f03da47bb7606f47b443e837d0be"
       },
       "events:arc_35_habit_check:/description_if_known/godsaeng_paradox_seen": {
-        "source_sha256": "e370828ff01eb254a1a926f254b727c7788579a62726bd34c28d9f129269dc17",
-        "target_sha256": "0cfb9e9bf799ef1c850c8e451baee02a30d83457a1d53d6aa02df4271c485dde"
+        "source_sha256": "dc5216986e5d1983441ed260377ba5281cfadc6a5b3e2963ae8c72b4ea30273a",
+        "target_sha256": "c68f43573756e214e7642858ddfd10adc1b7eaf6f0abb7f5016188faeb40bfab"
       },
       "events:arc_35_habit_check:/description_if_known/kept_routine": {
-        "source_sha256": "c203667d0ee0872b4945bd488bc74957de50a2d672505ad03ecc9df88d9b87a5",
-        "target_sha256": "8671177ad6ba10dd5464da50406de1072ff9004720824e282b86d926ef27cc8a"
+        "source_sha256": "b38c5d43c989aadd8e6cde23fedf7afb4e0b7481ce331d056f2d9b3fad5041eb",
+        "target_sha256": "01c2b1716b88ef40242786a3a66236da7b3adfdd563b0b57d6a42bd2620c684f"
       },
       "events:arc_35_habit_check:/title": {
         "source_sha256": "750d38ddfc831b00eacfb87fb0462d53d7ee43ab362274c76476e2f8e0c518e9",
@@ -134287,8 +134677,8 @@
         "target_sha256": "95b5f53fd58eacaec5e23581195b9710483908e35a35c407985a97388a8b65a2"
       },
       "events:arc_35_path_cost:/choices/1/result_text": {
-        "source_sha256": "a2480d76e50405d449a51d843c09a8e83775eccc1e012086a478ea171269fada",
-        "target_sha256": "2a42757aadc3fbe83b2ea1c42d6f57dc23034c5ee4a10caa40a36b67bb60547b"
+        "source_sha256": "c45b606e631e831779ca86bfdca89ab40a6cf3b7e8afcc16ce52c63b73aeab57",
+        "target_sha256": "0760a8d9de858a952965e9ce61047ac31cdb51244c85c229fa377884007fbb92"
       },
       "events:arc_35_path_cost:/choices/1/text": {
         "source_sha256": "d5fa78d2fe2a9fa774aa3b5654045a1a588922b09fc9e584895a3790866e532c",
@@ -134303,8 +134693,8 @@
         "target_sha256": "89d8743f782ca3b028461abcc84102f11477c8d02ee0d9b97c390d7c110516c7"
       },
       "events:arc_35_path_cost:/description": {
-        "source_sha256": "c1327f22e9540dcd5dc45cac5bd3ae35b256152f6c49f420f42cad37eadcfe81",
-        "target_sha256": "a1db9e921d4b4a882932e9db24432975a553f11e88c3cfae76f561068190dac4"
+        "source_sha256": "ecf81a82f0f685071a37a937c4d0b990dff6978099f0fdf2beceb704e4b9120b",
+        "target_sha256": "ad0535afb5a76f6d9b87cb28dccd7b2d0f3ddfae8cedee1843bf16793d085819"
       },
       "events:arc_35_path_cost:/title": {
         "source_sha256": "597451fa7ac3a95c2692629e2ddbd1e5673d17e2591ed07d3cd7026a51e5a384",
@@ -172695,8 +173085,8 @@
         "target_sha256": "60aecd2b7874c652e743a3a802c460bf9d2c71446f364e3ad48d5c67b15996a2"
       },
       "events:arc_35_orthodox_weight:/choices/0/result_text": {
-        "source_sha256": "e4c09e86c8ef10281515d042231d9744ac8499bc4851255cc5f82ef0532520d2",
-        "target_sha256": "8bb68e72469a95ddc1fab3c73d6aedd1bf7c79c4b7606aabfec325f47880c6bb"
+        "source_sha256": "2d1bfea8a3c2afa627ddcb28e15c8435697700bea6a1eec6e4334c607527d18a",
+        "target_sha256": "c413617e5868804b43a7266e97102084e930e31fc311e2533cab1ede5da234de"
       },
       "events:arc_35_orthodox_weight:/choices/0/text": {
         "source_sha256": "03f68f4bc705f0523dd64b833b4028855e5528e33232f6f86d59ae147f991513",
@@ -172711,16 +173101,16 @@
         "target_sha256": "82fe22f0db076230a181c721d0a617b63477ac35e6b3b90bcc4444c26571f60d"
       },
       "events:arc_35_orthodox_weight:/choices/2/result_text": {
-        "source_sha256": "dd6b2e2999bc10fdf17f08cfb3b2e399a4f7a74eca0527a1f2d14ca29796712a",
-        "target_sha256": "4f4f9d44df780e6ffbf5fc2917d61dea3eb896498f0d41fadd61cedb05f8f48d"
+        "source_sha256": "d39a377c6d5a1dc028301f8d6abe681b68bf9d10537bb99f2830ddb7dfa5e95c",
+        "target_sha256": "a97bea783f8c425b6743eb73601ab3fd64ca5619645315143b7c979f30964593"
       },
       "events:arc_35_orthodox_weight:/choices/2/text": {
         "source_sha256": "182385b3ec29a2cb646e6bd9972b48e1a68d8288d467dc7dff71158a16561df7",
         "target_sha256": "2a331214982a7e6120498165d9aa3ab8fc2dae4113a1b3da693e00aaa88c56a7"
       },
       "events:arc_35_orthodox_weight:/description": {
-        "source_sha256": "1b4ce0a69b69a434619da114789314c6c191f5a8893d52609f17188b27b26434",
-        "target_sha256": "c4704585a40b246c2fca88d428ade1d57a63d546ddfadfc6bb689c66dfe29c65"
+        "source_sha256": "4a66b863b32e48e4b752439b758880329cfcb5044801ea51214758549cc64999",
+        "target_sha256": "5ec9fbb37de7e04820903b8dd24c7bd9470283180003a80b4dd17caaae8efe66"
       },
       "events:arc_35_orthodox_weight:/title": {
         "source_sha256": "ead33d812018c38bcea2c0a80b1d1ddbfbf040be293f9b3ff2ef453e9a08afa0",
@@ -172735,8 +173125,8 @@
         "target_sha256": "bb855f4fcd96930eb56681909821491abcc9efaa3376a96a71685eefc8213727"
       },
       "events:arc_35_unorthodox_weight:/choices/1/result_text": {
-        "source_sha256": "d427d8784219921f7b706b1d272896a3de3b139020d99aba5f805a3547139573",
-        "target_sha256": "87c5783a532a912842cd2d2da433d1f762871d6aaa5ef5637da1cfa2be83ae5d"
+        "source_sha256": "bb9e1535a3d41aa60fc5016dcd21d0a638b1e0a4896ab1a9843feb814860aa81",
+        "target_sha256": "dfbf0bc0a718b2c38a0d1ad88661c14d80e32a14006cde50873ad70e8a5cf8ab"
       },
       "events:arc_35_unorthodox_weight:/choices/1/text": {
         "source_sha256": "6b02b86032680012f0f70e724212cc89d50bddc0db47d2871c766388e32c9cf7",
@@ -176543,16 +176933,16 @@
         "target_sha256": "913b3bf875c890dd15e6899b89f98632bdb8c8f32ff5f850512e9a622812ec3e"
       },
       "events:arc_35_alone:/choices/2/result_text": {
-        "source_sha256": "a7eadabdba1132ac353f0f3b5b24eb65ab20c54c54ada87659353d7bda29117a",
-        "target_sha256": "4b4283a43d0ffa205ca85c5842b8feab90d92e6ca195a0014319572f2cd8aab6"
+        "source_sha256": "1e22331f8f84bd30ab78664539a47435119990e49413380abd1a73055827afb2",
+        "target_sha256": "feb7da3c537b903739cc0cec8c01b4fa92ee4e2d17dd6a0690b9ef3e4f945054"
       },
       "events:arc_35_alone:/choices/2/text": {
         "source_sha256": "aec6cebd81128ba35c644fe08e6bce8f516a661b1796d13334a7b6721d24c78a",
         "target_sha256": "9e8b59e3fa70333c8c1f825359b00b2ffd3ae28e5effd1b61e40641f8a4550db"
       },
       "events:arc_35_alone:/description": {
-        "source_sha256": "97bcfd975780926a90c0c327c22c6a5fd406b322582ac15cbae67bab9f9204ba",
-        "target_sha256": "7eda18b42d55170b4a9e409fc2a3625d3bf27c9eb3e6d3cfda3a0be02deb1920"
+        "source_sha256": "72fd00e8fd429223ce5889d3911884e4dc074a27eab01baa4d391e3c1cb923b3",
+        "target_sha256": "d2f4092b6f8402a21bbd2b3c119f1931f1df51ce1d97e88b5eafac571c1d57ec"
       },
       "events:arc_35_alone:/title": {
         "source_sha256": "650b892887c08244a6422107b10b30585efcabfe01e719214ad61ad7c64d8887",
@@ -187272,7 +187662,7 @@
       }
     }
   },
-  "accepted_sha256": "180887e3431f73729053bc94ef4ef91d08ba937eab4dd00aff90394014152865",
+  "accepted_sha256": "ef56e9be40b605dbd886465852f9e7e187accea152333bcf4dc4b0a33b1ad994",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
