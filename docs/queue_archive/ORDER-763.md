@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-763 · 부친 부재와 마지막 연락 기록의 JA/zh 정합
+#### [x] ORDER-763 · 부친 부재와 마지막 연락 기록의 JA/zh 정합
 
 2026-11-04 root·부모157/C5. shipping5root KR6×3=18 기존번역 정정.
 
@@ -33,4 +33,15 @@ demo/EN·scope/context/queue/diff. 수용 뒤 옛export CLI·불변 self-test �
 
 도달: W192 사망변형 및 Chapter5 typed finale father_trace/father_answer 생사별 분기.
 생산자↔독자: final entry father/contact 및 nontransaction → StoryMode exact source reader.
-상태: stale18→current18 예정. 서사·계층 불변/규범 일회성. 실제 화면·원어민·M60/출시 미관측.
+상태: stale18→current18. 서사·계층 불변/규범 일회성. 실제 화면·원어민·M60/출시 미관측.
+
+## 검수 실물·후보
+
+제품 `d2ebbe129ff292364e7e35cc8bb66aa5433470f0`/tree `042c8ec6329d426265c9b4a06b9e9183c85ca140`.
+[독립 GO](../agent_reviews/order763-father-finale-cjk.md): KR6/목표18·전체선택/nested·실수용/receipt3 전수.
+CN/TW 각각 답신2·생존 설명1 수리, CN 십 년 넘음의 최초 거절은 十多年前로 동일 의미 수리.
+원초안2/CN 원실패/TW 중간 VALID 보존, 최종 check/import6×3 exit0/stderr0·검증기 불변.
+delta18/6JSON·비소유65leaf/selector·이전target·원356배치·전체원장 역대조, demo/EN clean.
+scope285→267(stale264=각88, shipping73/author15+요약3/count91).
+raw32=최종26/이력6 집합 SHA·보고2/원320판정 append1 root 대조.
+제품 CI41695753866 두 job checkout 진행 중 관측, 전체성공 미관측. 2026-11-04 완료.

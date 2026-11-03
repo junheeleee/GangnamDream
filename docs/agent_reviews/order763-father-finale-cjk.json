@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-763",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "d2ebbe129ff292364e7e35cc8bb66aa5433470f0",
+    "tree": "042c8ec6329d426265c9b4a06b9e9183c85ca140",
+    "manifest_sha256": null
+  },
+  "scope": "Six Korean leaves × JA/zh-CN/zh-TW =18 existing-target corrections: W192 father-passed result0 and relationship-known, two father_trace missed rows, two father_answer descriptions.",
+  "review": {
+    "method": "Full KR6/target18 census; full choices, EventManager W192 remap and Chapter5FinaleRoute father.contact_mode missed index2 / StoryMode exact prepend consumer.",
+    "findings": "Ward-first contact and separate own postponement reply with date/time; no promise of later contact. Alive send/save/close and deceased envelope/read/file are distinct, no father answer, transfer or revival invented. Age36/two weeks/over ten years and tokens/paragraphs preserved.",
+    "repair": "CN/TW each exactly three changed rows from draft1: two missed rows clarify reply without quoted promise; CN alive 十多年前 preserves duration after original duration_year_over10 rejection; TW alive 表明自己責任 clearly signals responsibility rather than responsibility for the phrase.",
+    "blocking_findings": []
+  },
+  "preservation": {
+    "prior_batches": 356,
+    "prior_decisions": 320,
+    "proof": "Pure check_batch and actual18/receipts3 exact. Reverting only selected18 restores six complete baseline JSONs including nonowned65 leaves, nested sources/other rows and known order. Previous-target/superseded acceptance and full ledger exact after reversal, previous same-day log bytes preserved."
+  },
+  "validation": {
+    "checks_imports": "JA check/CN-TW final-check and import6×3 VALID/stderr0, author observed exit0. CN original rejection and TW intermediate check retained with two original responses.",
+    "scope": "Independent scope267=264 event source stale, each88=shipping73+author15 plus 3 summaries/count91. Delta18, demo5/14/100/122 and EN1813/35 clean. Lane selection is not full execution."
+  },
+  "identity": {
+    "baseline": "fedafeaa10c8a834850ee031a6f5bb0767bdf470",
+    "rows_sha256": "86765d173ff5bcb2a8f8f4b6b4cf34de66a87672a9526bbf189f9decfdbebc39",
+    "rows_encoding": "Canonical JSON [locale,id,source-hash,previous-target-hash,target-hash] in locale/export order",
+    "receipt_sha256_by_locale": {
+      "ja": "ba21d755b6e7445bd68ab9e27d68d9b5d7601768e8f8dd5e652d1478b3d44736",
+      "zh-CN": "bdc6735325798ccd6e7d49d7899ad23d1e1c14af71af7e897ff93257ad5dda49",
+      "zh-TW": "d7ccd5715a51af4534433e1101c72b9748b037777c083b4b274b2cb44cb1241c"
+    },
+    "raw_directory": ".git/localization-father-finale-20261104/",
+    "raw_population": {
+      "files": 32,
+      "sha256": "6e25d70a0d64716483e29d8c71d0b581c68a3ad90e35a62dcd9e86125fa43fef"
+    },
+    "used_final": {
+      "files": 26,
+      "sha256": "df4a2371b7e04ddbc22b8e25e9d25798e9d5ca24cdb0304a0e9e7312d18e0c3b"
+    },
+    "history": {
+      "files": 6,
+      "sha256": "355e16b73a70256c364391b7a694b013d26082752662ee4a9c48e2bfb8f29637",
+      "selection": "CN/TW draft1 and initial check stdout/stderr"
+    },
+    "encoding": "Canonical JSON basename-sorted [basename,bytes,sha256] per set"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

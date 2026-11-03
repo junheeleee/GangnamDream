@@ -13470,6 +13470,49 @@
         "path": "docs/agent_reviews/order762-year4-close-cjk.json",
         "sha256": "ebdf237dbc0dda167bf904672cce71d8dba8540ac5b497101a5dc30837f4e595"
       }
+    },
+    {
+      "id": "order763-father-finale-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-763",
+      "subject": {
+        "kind": "source",
+        "commit": "d2ebbe129ff292364e7e35cc8bb66aa5433470f0",
+        "tree": "042c8ec6329d426265c9b4a06b9e9183c85ca140",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order763-father-finale-cjk.md",
+          "sha256": "fc55418da5a28ad1b20a0f70d1e9653b8f06d95bf82431e07ecf281fd26156da"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order763-father-finale-cjk.json",
+          "sha256": "7e7505ab83891c6647d57b014eb80dadc87a376d5b6b54c75e5f17f8c3a58d07"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order763-father-finale-cjk.json",
+        "sha256": "7e7505ab83891c6647d57b014eb80dadc87a376d5b6b54c75e5f17f8c3a58d07"
+      }
     }
   ]
 }
