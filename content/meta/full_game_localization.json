@@ -21566,6 +21566,151 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-762",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_year4_close"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 4,
+        "zh-CN": 4,
+        "zh-TW": 4
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean-to-each-locale census of four source leaves and 12 stale shipping targets. Current notebook dates, rooftop light, curled corner, thumb and blank paper replace invented completed-work ledger entries. Protected relationship sets aside calendar time without adding another appointment, and protected body keeps the actual appointment confirmation and buffers; both write start and end times, not costs or lost income. Result records what was kept and missed at equal size, without rewriting facts or inventing a completion time. W192 regular selection, deceased variant remap and first matching known replacement are unchanged. Current 13 leaves, deceased variant, original 355 batches and acceptance history preserved. The three existing unbound memories are excluded rather than counted as stale corrections.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "9547b1c5336325015fa65d842ae27772c91185e6",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "defcc937e3cd735bb04d9392d4d35d3ae7b86a5abdd9a38273adee02996e048e",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "0838f04a3b01926ea96c0af09e6c768a39b320d1a2fd5826cb3ade9ed7d855b0"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "9547b1c5336325015fa65d842ae27772c91185e6",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "a05e7445fe85efc47b70ad96087ee597323b13c0d4077eaf724d5dad038471f3",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c9380b0c3f5923ad6095664345c0b138e1d1866c9534dd150b6ce7ee08d442db"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "9547b1c5336325015fa65d842ae27772c91185e6",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "c98b714c63c44da12bdceae60fc49c41b100f6b015306038f3cb8b8f3994448d",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c50f29e9cafc45e93262f4c78e3746a027b448bc651c83c8d073e04b6a191a91"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "aede386239b633a8dc135028b3b0a469102b3ff952ef10d5c12b49200a0ee0bb",
+        "zh-CN": "8136d13bbcd63f801fc5fe484b7801eab6dd4dcdd4022cd08c7c2f5676a7c01d",
+        "zh-TW": "bdd95370be94c71b9ce6212e04816e2836e27356a7e3f90fec534a62a04d09c3"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_year4_close:/choices/0/result_text": "7f21f7ba8c84bffe6728fa6e827eb486a57d52d636b5941eaa5fe22292df73ec",
+          "events:arc_year4_close:/description": "dce480b40bc6bc31acabe3b471772771b6af278252834b388ab3d101f2242efa",
+          "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_body": "6f0e26fcd0e7f51bfd5dc58debfa805c474d33a06f95d075e4ee463877f8b1bc",
+          "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_relationship": "eaf046b5fd25dc10711cae30dc703d85aff3d171161002ba01f5b5101d38c3af"
+        },
+        "zh-CN": {
+          "events:arc_year4_close:/choices/0/result_text": "9b1b3b2f65175ce588afc0a019fb4580844fe0124ceb033453c8834ef7eb2563",
+          "events:arc_year4_close:/description": "799c38fcc8c9875e36a8f97eb24b94b47f0af393cbe707f2b11cd6f4a0330419",
+          "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_body": "c4804a3aa32aca62beb66f4b0b05f4c11ed7202769e98bddf82ba22419fb6a3d",
+          "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_relationship": "7926da9afeb9e4415aedf1e306793c06422008d26136f33562fe398fae8e4c6a"
+        },
+        "zh-TW": {
+          "events:arc_year4_close:/choices/0/result_text": "d8edbde883de28abf42a567efd3e65c8e9b0c5cdf0f68f68b54a42a4edc43ba1",
+          "events:arc_year4_close:/description": "c4faff2419d18fb31dc39aa89d7d8c4617af2e3985a2bffdddf874bb0dbc795f",
+          "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_body": "55f1049f2fdf730a548a4e0a3d21dce36d19576d52213ef572038584b8bfdcb6",
+          "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_relationship": "e5c1524442fa405f426369c376cd467f780a8f514b0c81369e6d132f639cd6da"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_year4_close:/choices/0/result_text": {
+            "source_sha256": "2d2be86cdd9be7f9648d0cccf429bc0f86805fca9b93f746bd54b0e39d2a1916",
+            "target_sha256": "7f21f7ba8c84bffe6728fa6e827eb486a57d52d636b5941eaa5fe22292df73ec"
+          },
+          "events:arc_year4_close:/description": {
+            "source_sha256": "a4b73197aec8c6df37e90d6e3bbeb61bd992225c077f66dd4a40432f3c4acac1",
+            "target_sha256": "dce480b40bc6bc31acabe3b471772771b6af278252834b388ab3d101f2242efa"
+          },
+          "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_body": {
+            "source_sha256": "bdd2b679ed0bf15a76c225011657d75b2ca5ebfaa1370af19656507b14ee8904",
+            "target_sha256": "6f0e26fcd0e7f51bfd5dc58debfa805c474d33a06f95d075e4ee463877f8b1bc"
+          },
+          "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_relationship": {
+            "source_sha256": "c4fcfc81c1575f273cfbaf0a18f077e35f007e667209327e15889a094d65998b",
+            "target_sha256": "eaf046b5fd25dc10711cae30dc703d85aff3d171161002ba01f5b5101d38c3af"
+          }
+        },
+        "zh-CN": {
+          "events:arc_year4_close:/choices/0/result_text": {
+            "source_sha256": "2d2be86cdd9be7f9648d0cccf429bc0f86805fca9b93f746bd54b0e39d2a1916",
+            "target_sha256": "9b1b3b2f65175ce588afc0a019fb4580844fe0124ceb033453c8834ef7eb2563"
+          },
+          "events:arc_year4_close:/description": {
+            "source_sha256": "a4b73197aec8c6df37e90d6e3bbeb61bd992225c077f66dd4a40432f3c4acac1",
+            "target_sha256": "799c38fcc8c9875e36a8f97eb24b94b47f0af393cbe707f2b11cd6f4a0330419"
+          },
+          "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_body": {
+            "source_sha256": "bdd2b679ed0bf15a76c225011657d75b2ca5ebfaa1370af19656507b14ee8904",
+            "target_sha256": "c4804a3aa32aca62beb66f4b0b05f4c11ed7202769e98bddf82ba22419fb6a3d"
+          },
+          "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_relationship": {
+            "source_sha256": "c4fcfc81c1575f273cfbaf0a18f077e35f007e667209327e15889a094d65998b",
+            "target_sha256": "7926da9afeb9e4415aedf1e306793c06422008d26136f33562fe398fae8e4c6a"
+          }
+        },
+        "zh-TW": {
+          "events:arc_year4_close:/choices/0/result_text": {
+            "source_sha256": "2d2be86cdd9be7f9648d0cccf429bc0f86805fca9b93f746bd54b0e39d2a1916",
+            "target_sha256": "d8edbde883de28abf42a567efd3e65c8e9b0c5cdf0f68f68b54a42a4edc43ba1"
+          },
+          "events:arc_year4_close:/description": {
+            "source_sha256": "a4b73197aec8c6df37e90d6e3bbeb61bd992225c077f66dd4a40432f3c4acac1",
+            "target_sha256": "c4faff2419d18fb31dc39aa89d7d8c4617af2e3985a2bffdddf874bb0dbc795f"
+          },
+          "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_body": {
+            "source_sha256": "bdd2b679ed0bf15a76c225011657d75b2ca5ebfaa1370af19656507b14ee8904",
+            "target_sha256": "55f1049f2fdf730a548a4e0a3d21dce36d19576d52213ef572038584b8bfdcb6"
+          },
+          "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_relationship": {
+            "source_sha256": "c4fcfc81c1575f273cfbaf0a18f077e35f007e667209327e15889a094d65998b",
+            "target_sha256": "e5c1524442fa405f426369c376cd467f780a8f514b0c81369e6d132f639cd6da"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -30535,8 +30680,8 @@
         "target_sha256": "ef9dd928773ec15e82a7d404c0370bc582c80984bb17104a6dbcc159ced38557"
       },
       "events:arc_year4_close:/choices/0/result_text": {
-        "source_sha256": "2d2be86cdd9be7f9648d0cccf429bc0f86805fca9b93f746bd54b0e39d2a1916",
-        "target_sha256": "7f21f7ba8c84bffe6728fa6e827eb486a57d52d636b5941eaa5fe22292df73ec"
+        "source_sha256": "7dee86508d5561efc2cec0eb3f582a60495474f0450cc8ca936bd94fd0128ca6",
+        "target_sha256": "79746736c277226d33ba8491e94ee9ff0d4629254e1de0b5a3e68b09fb05bd21"
       },
       "events:arc_year4_close:/choices/0/text": {
         "source_sha256": "827a398568bd6c3a7336e10ce7218d1d6cbb0fdfe819c3009d87870bf1f57f0a",
@@ -30559,24 +30704,24 @@
         "target_sha256": "6590e9f242f14cf0f4865124773c4086aa9076679055b5ad43c28e160056b579"
       },
       "events:arc_year4_close:/description": {
-        "source_sha256": "a4b73197aec8c6df37e90d6e3bbeb61bd992225c077f66dd4a40432f3c4acac1",
-        "target_sha256": "dce480b40bc6bc31acabe3b471772771b6af278252834b388ab3d101f2242efa"
+        "source_sha256": "8fc0e0297641427ae82204791be6d5c0e5039f0c639d39f8aef322108f399d05",
+        "target_sha256": "d4bad39f56bfb271abde76020c66b9b353a93af898135e2cbe3589cf53f9667f"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_midpoint_receipt_seen": {
         "source_sha256": "8439804c27c1da644263f1a5f32ed6542ffa39f882298aa27d5f9db10c31cdec",
         "target_sha256": "ce9adb5cffdf13097db2aead5e887de500c1779fb6f5ce833d048f737b9f875b"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_body": {
-        "source_sha256": "bdd2b679ed0bf15a76c225011657d75b2ca5ebfaa1370af19656507b14ee8904",
-        "target_sha256": "6f0e26fcd0e7f51bfd5dc58debfa805c474d33a06f95d075e4ee463877f8b1bc"
+        "source_sha256": "1172bf66670960abae6ed699c57ac99782d18a4e5517db869527f0e1830df547",
+        "target_sha256": "23be3b2b10c2082565066f19f5aa5ad1f24d399f8cbd4e1424092eb2f710b096"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_family": {
         "source_sha256": "fc8ffb2c5d7d32e94193363fedf4d13762ecd70600c02a665ccbd596fa93aeb4",
         "target_sha256": "70bc85984a4e931dd55ed5fdb42c41db94488d0467e2f11babc6923fa7aa00a4"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_relationship": {
-        "source_sha256": "c4fcfc81c1575f273cfbaf0a18f077e35f007e667209327e15889a094d65998b",
-        "target_sha256": "eaf046b5fd25dc10711cae30dc703d85aff3d171161002ba01f5b5101d38c3af"
+        "source_sha256": "696ae6f01ea685dd8486ce19f200b88d8dc2896497a7cf6fdfbc2f89d0cf4579",
+        "target_sha256": "33dfc280a2475bdc38b1059f37afdb706d6720be1fea6cf5ca08c655a7c94bf6"
       },
       "events:arc_year4_close:/description_if_known/crossed_line": {
         "source_sha256": "908b91fc26d7c7a9bc3a4f527b2fb50f310fbbcb193b1576440fcd9deecb54e1",
@@ -83237,8 +83382,8 @@
         "target_sha256": "cb4c959181eb513eade788571246822e092968a32df0c0d7d734c9061f4d5bf4"
       },
       "events:arc_year4_close:/choices/0/result_text": {
-        "source_sha256": "2d2be86cdd9be7f9648d0cccf429bc0f86805fca9b93f746bd54b0e39d2a1916",
-        "target_sha256": "9b1b3b2f65175ce588afc0a019fb4580844fe0124ceb033453c8834ef7eb2563"
+        "source_sha256": "7dee86508d5561efc2cec0eb3f582a60495474f0450cc8ca936bd94fd0128ca6",
+        "target_sha256": "6faa8b475895a4d82e11f420f9eb24a6e79fecb9956d4129794dcbb34a922976"
       },
       "events:arc_year4_close:/choices/0/text": {
         "source_sha256": "827a398568bd6c3a7336e10ce7218d1d6cbb0fdfe819c3009d87870bf1f57f0a",
@@ -83261,24 +83406,24 @@
         "target_sha256": "e0fcce385238e9e540bb63c01eab6ff9857a6db559383c773191d372010af5b3"
       },
       "events:arc_year4_close:/description": {
-        "source_sha256": "a4b73197aec8c6df37e90d6e3bbeb61bd992225c077f66dd4a40432f3c4acac1",
-        "target_sha256": "799c38fcc8c9875e36a8f97eb24b94b47f0af393cbe707f2b11cd6f4a0330419"
+        "source_sha256": "8fc0e0297641427ae82204791be6d5c0e5039f0c639d39f8aef322108f399d05",
+        "target_sha256": "e76f50a397b758dc09e2143e5ce4dc99a538e3d97ab4e535e5e496b67b96df18"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_midpoint_receipt_seen": {
         "source_sha256": "8439804c27c1da644263f1a5f32ed6542ffa39f882298aa27d5f9db10c31cdec",
         "target_sha256": "14ffb90814eb42a7b684d27890756b3228140b7dc4071ff67b33404b854320c0"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_body": {
-        "source_sha256": "bdd2b679ed0bf15a76c225011657d75b2ca5ebfaa1370af19656507b14ee8904",
-        "target_sha256": "c4804a3aa32aca62beb66f4b0b05f4c11ed7202769e98bddf82ba22419fb6a3d"
+        "source_sha256": "1172bf66670960abae6ed699c57ac99782d18a4e5517db869527f0e1830df547",
+        "target_sha256": "a7c547560e825f7b15179139ea8344cca169110113bc84c927d64bce47671a9f"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_family": {
         "source_sha256": "fc8ffb2c5d7d32e94193363fedf4d13762ecd70600c02a665ccbd596fa93aeb4",
         "target_sha256": "4f632381df88fd4f459aed666bb2573fdfdc05f9495d4b2068332fd4462d77aa"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_relationship": {
-        "source_sha256": "c4fcfc81c1575f273cfbaf0a18f077e35f007e667209327e15889a094d65998b",
-        "target_sha256": "7926da9afeb9e4415aedf1e306793c06422008d26136f33562fe398fae8e4c6a"
+        "source_sha256": "696ae6f01ea685dd8486ce19f200b88d8dc2896497a7cf6fdfbc2f89d0cf4579",
+        "target_sha256": "dea2d92b9eacd677ad4759c3d9d59d9f93efd2c2319a0e971ee140c2f83e673b"
       },
       "events:arc_year4_close:/description_if_known/crossed_line": {
         "source_sha256": "908b91fc26d7c7a9bc3a4f527b2fb50f310fbbcb193b1576440fcd9deecb54e1",
@@ -142763,8 +142908,8 @@
         "target_sha256": "d218840fff70433718d5e5e9d40a4bc02588bf5ad8f7fd5352303c0230a70e11"
       },
       "events:arc_year4_close:/choices/0/result_text": {
-        "source_sha256": "2d2be86cdd9be7f9648d0cccf429bc0f86805fca9b93f746bd54b0e39d2a1916",
-        "target_sha256": "d8edbde883de28abf42a567efd3e65c8e9b0c5cdf0f68f68b54a42a4edc43ba1"
+        "source_sha256": "7dee86508d5561efc2cec0eb3f582a60495474f0450cc8ca936bd94fd0128ca6",
+        "target_sha256": "c15d26f9df10a4fd8f588a3dbc29461e1b41268cfe3dc3037d216df252ce0035"
       },
       "events:arc_year4_close:/choices/0/text": {
         "source_sha256": "827a398568bd6c3a7336e10ce7218d1d6cbb0fdfe819c3009d87870bf1f57f0a",
@@ -142787,24 +142932,24 @@
         "target_sha256": "faa7f237b1b8d5c25f9e37c00982548a18973417c4f21664f07f0a7c1b61e0b5"
       },
       "events:arc_year4_close:/description": {
-        "source_sha256": "a4b73197aec8c6df37e90d6e3bbeb61bd992225c077f66dd4a40432f3c4acac1",
-        "target_sha256": "c4faff2419d18fb31dc39aa89d7d8c4617af2e3985a2bffdddf874bb0dbc795f"
+        "source_sha256": "8fc0e0297641427ae82204791be6d5c0e5039f0c639d39f8aef322108f399d05",
+        "target_sha256": "ba916dbd8f718fd5700bf23bcb164e45706c53b966707d81c6756b23fd94f9c2"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_midpoint_receipt_seen": {
         "source_sha256": "8439804c27c1da644263f1a5f32ed6542ffa39f882298aa27d5f9db10c31cdec",
         "target_sha256": "bbea893a3bc35ff6677f454752cd01aae97a374e0a802b1adbd8762f26e96ee9"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_body": {
-        "source_sha256": "bdd2b679ed0bf15a76c225011657d75b2ca5ebfaa1370af19656507b14ee8904",
-        "target_sha256": "55f1049f2fdf730a548a4e0a3d21dce36d19576d52213ef572038584b8bfdcb6"
+        "source_sha256": "1172bf66670960abae6ed699c57ac99782d18a4e5517db869527f0e1830df547",
+        "target_sha256": "e1d6990aa633400b128d0d0e66041f9d94230cb999224f78bcea9bf9a9cc0700"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_family": {
         "source_sha256": "fc8ffb2c5d7d32e94193363fedf4d13762ecd70600c02a665ccbd596fa93aeb4",
         "target_sha256": "9ae3a6d77dcf5c0f0d67c146bc5b4f88c51cf79438ddc77a7e07792645749191"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_relationship": {
-        "source_sha256": "c4fcfc81c1575f273cfbaf0a18f077e35f007e667209327e15889a094d65998b",
-        "target_sha256": "e5c1524442fa405f426369c376cd467f780a8f514b0c81369e6d132f639cd6da"
+        "source_sha256": "696ae6f01ea685dd8486ce19f200b88d8dc2896497a7cf6fdfbc2f89d0cf4579",
+        "target_sha256": "f8d8e803d65fdcea815b8d2c1eaf24a275c7ea77ba84dc2236dc1ff91a9b39d8"
       },
       "events:arc_year4_close:/description_if_known/crossed_line": {
         "source_sha256": "908b91fc26d7c7a9bc3a4f527b2fb50f310fbbcb193b1576440fcd9deecb54e1",
@@ -193324,7 +193469,7 @@
       }
     }
   },
-  "accepted_sha256": "d0a8d657e22dd58ac89f1aa54d54a50ad2c78ca090e139b78785e3d2877f747b",
+  "accepted_sha256": "001c1ec7525315538940e6ca3490f6f56a47cf905e2d9e2f6bca0445e2979c47",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
