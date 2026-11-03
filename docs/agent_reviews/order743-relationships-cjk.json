@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-743",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "a984c7f8be5e831fc2ef899185152be824afdbef",
+    "tree": "f1beac0d2a66f4a2ec231b2f99ebe9033033a929",
+    "manifest_sha256": null
+  },
+  "scope": "Hospital, relationship and lease scenes only: Korean12 × JA/zh-CN/zh-TW =36 existing-target corrections; new coverage0.",
+  "population": {
+    "source_leaves": 12,
+    "target_leaves": 36,
+    "scene_language_units": 18,
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/{arc_events,arc_daeun,arc_midgame}.json",
+    "selection": {
+      "arc_father_03_hospital": [
+        "description",
+        "description_unorthodox"
+      ],
+      "arc_jiyeon_03_offer": [
+        "description"
+      ],
+      "arc_daeun_04_morning": [
+        "description"
+      ],
+      "arc_daeun_04b_future": [
+        "description"
+      ],
+      "arc_daeun_05_together": [
+        "title",
+        "description_if_known/daeun_romance_started"
+      ],
+      "arc_y2_relationship_fork_unattached": [
+        "description",
+        "choices/0/{text,result_text}",
+        "choices/{1,2}/result_text"
+      ]
+    }
+  },
+  "review": {
+    "method": "Read Korean12 and targets36 independently, six Korean roots/all choices, ROMANCE_SYSTEM and exact story_rules phone/message/location/life/relationship contexts. Final accepted values match reviewed responses.",
+    "final_blocking_findings": [],
+    "meaning": "Hospital is mother's connected phone call from Changwon, four days after parents left Seoul; father lives. Departure time/fare/current cash replace assumed ongoing investments. Jiyeon's apology adds no rejected gift. Daeun dawn is received message, future is room co-presence; lover wording only in romance-started DIK, no invented dating duration.30억 goal is briefly displaced, not abandoned.",
+    "lease": "Player pays one-off300000won for12months; six-month alternative ties up additional1000000won. Refusal fixes checkout date, not free indefinite occupancy.17:34/18:00 deadline26min,17:49 reply and18:02 entry retained.",
+    "fixes": "Three c0 clauses clarify player as remitter, not landlord. CN/TW unfinished dawn dialogue naturalized; final romance question marks corrected. Draft1→reviewed revision changes only those five fields; CN/TW draft2→final only one question mark each.",
+    "checked": "Amounts/ages/times/durations, {name}, newline structure, regional script and vocabulary retained."
+  },
+  "preservation": {
+    "prior_batches": 337,
+    "prior_decisions": 300,
+    "ledger": "Prior batches/nonowned acceptance exact; previous target hashes and superseded acceptance retained; new source/target/official receipts recomputed.",
+    "overlays": "Restoring owned36 values yields all nine prior overlay JSON files exactly; other choices/order unchanged.",
+    "boundaries": "KO/EN/gameplay/runtime/demo/allowlist and all earlier reports/decisions unchanged.",
+    "drafts": "Three draft1 and CN/TW draft2 responses retained; old-export rejection logs and explicit copies preserved. No validator changes."
+  },
+  "validation": {
+    "imports": "Final three imports:12 leaves/3files each, VALID/INCOMPLETE/OPEN markers and stderr0; author exit0.",
+    "checks": "Initial draft1 checks3 succeeded; JA final CLI check succeeded. CN/TW latest standalone checks did NOT pass: empty stdout and51B stderr each, target changed since export. Post-import stale-export guard rejection, not a translation defect; import receipt/delta validates final36. No old-export CLI rerun by reviewer.",
+    "delta": "changed_leaves=36 overlay_files=9 new_coverage=0; independent whole-JSON/receipt reconstruction passed.",
+    "story_demo": "locales5 source_events14 leaves100 target_ui122",
+    "coverage": "EN strict1813/1813 events35/35 endings; CJK still skeleton1708/1813.",
+    "unchanged_selftests": "Not repeated; no app/engine/UI/save operations."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 1077,
+    "stale_source": 1074,
+    "each_locale_stale": 358,
+    "summary_diagnostics": 3,
+    "change": "1113 ->1077: this36 only. Pure scope recomputation confirmed counts; broad debt remains."
+  },
+  "identity": {
+    "original_export_source_revision": "0de0c98e213feb8292e714b1d99ccd47449881d0",
+    "final_receipt_sha256_by_locale": {
+      "ja": "c2014bfca36c9ed6fd5267a288e0ec8479938b607a4328515feba8a78f8fb3d2",
+      "zh-CN": "5527f19407c1c21e43e70ddb551f740497eb0a031bfba29929c603a6a299c49b",
+      "zh-TW": "cbbbb49b5af42041aa01e84b8b5fccdd281415e126b690bde08d4443e3a92a08"
+    },
+    "reviewed_rows_sha256": "898aed1482bec2d728bc182f22e4cba77f5f9f326f03084f1673fc9bb182ef55",
+    "reviewed_rows_encoding": "canonical JSON, locale/export order: [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-relationships-20261103/",
+    "raw_files": 36,
+    "raw_population_sha256": "4a6b76ca3cefe4711c8ac25a47638270cea1d4965db9984a8d5deaf9bdbd21d8",
+    "raw_population_encoding": "canonical JSON: basename-sorted [basename,bytes,sha256] for all .jsonl/.log"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "external_publication_or_release"
+  ],
+  "conclusion": "GO for exact36 source corrections only; not all checks green, whole translation/runtime or release."
+}

@@ -12607,6 +12607,48 @@
         "path": "docs/agent_reviews/order742-life35-cjk.json",
         "sha256": "27fb60e01e7cacec5d2984d0752878d721529d11ea08f6f8e431f8f02aea373c"
       }
+    },
+    {
+      "id": "order743-relationships-cjk-corrections-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-03",
+      "decided_by": "/root/capsule_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-743",
+      "subject": {
+        "kind": "source",
+        "commit": "a984c7f8be5e831fc2ef899185152be824afdbef",
+        "tree": "f1beac0d2a66f4a2ec231b2f99ebe9033033a929",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order743-relationships-cjk.md",
+          "sha256": "736134e13d611a531cbcadf80299806459208966c69dedf3d8028c8e671ab7ef"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order743-relationships-cjk.json",
+          "sha256": "17579b5c4759256a0313d10f9d3eeaa963b7fd76a236e7329c5c6840cbac6496"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order743-relationships-cjk.json",
+        "sha256": "17579b5c4759256a0313d10f9d3eeaa963b7fd76a236e7329c5c6840cbac6496"
+      }
     }
   ]
 }

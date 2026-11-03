@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-743 · 입원·관계·갱신 선택의 JA/zh 정합
+#### [x] ORDER-743 · 입원·관계·갱신 선택의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. 여섯 장면×세 언어=18 장면-언어 단위,
 KR12 leaf/JA·CN·TW36개 기존 번역 정정만 소유한다. 신규 커버리지0.
@@ -39,3 +39,18 @@ context/queue/diff를 확인한다. 불변 self-test/완료738~742는 반복하�
 서사 위치/계층: 기존6사건/원본 계층 불변.
 닫는 것: 이36개 source 정합만. 규범은 기존 I18N 정본 적용·승격0.
 전체언어/차선·실화면·원어민·최신CI·출시 GO는 별도다.
+
+## 검사 실물·판정
+
+2026-11-03 완료. 제품 `a984c7f`의 [독립 전독](../agent_reviews/order743-relationships-cjk.md)은
+이36정정만 GO다. 실제 원문12/목표36 및 전체 선택·phone/message/current_housing/
+father.life/연애조건을 읽었다. 송금주체3구절·CN/TW 메시지2구절/물음표2곳 수리,
+이전 초안과 사전 check를 보존했다. 최종 import12×3·stderr0, receipt3·순수검증/
+delta36/9파일·이전337배치/수용/target지문/비소유값 불변.
+source진단1113→1077(stale1074=각358+요약3), demo5언어14사건100leaf122UI·EN1813/35 clean.
+원자료 `.git/localization-relationships-20261103/`, 무변경self-test 반복0.
+
+일회성 실행 교훈: 수용 뒤 옛export CLI check 재호출2회는 정상 target-changed guard로
+거절됐다. 원로그를 보존하고 최종 import의 내부검사·receipt/delta와 구분한다.
+같은 옛export 재검사를 반복하거나 그 로그를 녹색으로 덮지 않는다.
+전체차선/전체번역·실화면/원어민·최신CI·출시 GO가 아니다.
