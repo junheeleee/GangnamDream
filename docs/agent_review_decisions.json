@@ -13681,6 +13681,48 @@
         "path": "docs/agent_reviews/order767-daeun-after-goal-cjk.json",
         "sha256": "4e5c90075ba0566baa60183b06d783fd712850f3abe910a267decdb9ae8e59d0"
       }
+    },
+    {
+      "id": "order768-y5-recall-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-768",
+      "subject": {
+        "kind": "source",
+        "commit": "c77440b1f0942a93048235fbe376c1d4190b3d24",
+        "tree": "c2f19045bc7a7716a34607a0546011d9933141bb",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order768-y5-recall-cjk.md",
+          "sha256": "499a4c836fcf0ef928badeb1f0fb5ff48ec3155e0f965dc8f0e2c65b9ea0ee93"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order768-y5-recall-cjk.json",
+          "sha256": "20f4e9d3e5493426d4e7c71b78fc0a93ee8158136a74253f4d8dc23ebf610e11"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order768-y5-recall-cjk.json",
+        "sha256": "20f4e9d3e5493426d4e7c71b78fc0a93ee8158136a74253f4d8dc23ebf610e11"
+      }
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-768",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "c77440b1f0942a93048235fbe376c1d4190b3d24",
+    "tree": "c2f19045bc7a7716a34607a0546011d9933141bb",
+    "manifest_sha256": null
+  },
+  "scope": "Two causal recall leaves × JA/CN/TW =6 existing corrections.",
+  "review": {
+    "method": "Full KR2/target6 comparison, base descriptions, causal prepend sources and full choices.",
+    "findings": "R3 creation versus unnamed revision modification, matching sleep/tremor dates before called number; earlier notebook single-line purchase price/deposit/R3 extra 70m won, without invented previous day or reply."
+  },
+  "preservation": {
+    "prior_batches": 361,
+    "prior_decisions": 325,
+    "proof": "Actual6/receipt3 and target/source/previous hashes. Reversing selected values restores six complete JSONs and prior ledger."
+  },
+  "validation": "Pure check_batch and check/import VALID/stderr0 logs. No engine.",
+  "identity": {
+    "baseline": "0322e99259fdb1666959966ce6c2ffdc1b5f2bc8",
+    "rows_sha256": "760b58cf99f1db4907fee06c2d7f11cec994fd78edcf5a66dba7c5a16077bc3f",
+    "receipt_sha256_by_locale": {
+      "ja": "6b54309ab9fa784ab9efe235abe16b91f1a716ba890710e4136011eec191c60d",
+      "zh-CN": "e10aaac3c02e34c94910ebaf0e46f0361cf2561573a40eac4c03031eb17d11b1",
+      "zh-TW": "10f3871afba01dfac603db4b1fcd49c3296bc2ba94a72f71bc103b096f13fd6a"
+    },
+    "raw_directory": ".git/localization-y5-recall-20261104/",
+    "raw_population": {
+      "files": 21,
+      "sha256": "c4ebe18c1643d1b1e8a30c4a315dbba7126dea07358e2925bc6b2b8f61d4fe52"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
