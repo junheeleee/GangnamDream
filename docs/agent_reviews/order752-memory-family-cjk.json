@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-752",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "e2d9132424d942c32151ff83ef09926985c82cee",
+    "tree": "a7bef3bbd4ee418e416e619887c693adb700b20d",
+    "manifest_sha256": null
+  },
+  "scope": "Korean18 × JA/zh-CN/zh-TW =54 existing shipping-target corrections only; five roots ×3=15 units; new coverage0.",
+  "population": {
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/{arc_chapter_themes,arc_drama,arc_midgame}.json",
+    "selection": "bill_night/unattached borrowed-name memories5 each(10); family_partner_collision description/choices0,2 results(3); father_call_missed_on_ktx description/choices0 result(2); year_three_half description/choices0 text,result(3).",
+    "excluded": "Half root27 known combinations+fallback=28 known texts and memory1 remain nonowned/unchanged/incomplete; not covered by this GO."
+  },
+  "review": {
+    "method": "Read Korean18/targets54 directly and all five Korean roots' choices/known/memory, including half28 known contexts and memory. Read current-locale choice/memory context, DataRegistry overlay, StoryMode first-match known replacement/ordinary memory append, lifecycle, MainGame relationship/family/half ingress and missed-call predecessor choice.",
+    "final_blocking_findings": [],
+    "memories": "Counteroffer receipt only, approval message not received; original terms not received; review copy does not request name/signature; reduced own-name proposal and withdrawal distinguished. No added payment/medical explanation or partner presence.",
+    "family": "Current address remains unsent before choice. Paid-site proposal refused for actual three-person dinner, versus cancellation/site entry with compensation-confirmation request only. No invented absence from an accepted job, actual pay, or acceptance of Daeun's plan on her behalf.",
+    "missed_call": "Train/contact/screenshots preserve no new outgoing or missed incoming call. Two pictures are not proof of calling; no unsupported old23-second call. Other expression choices remain unsent/limited to actual actions.",
+    "half": "Current season notes/dates, hand/paper crease, three lines/two pen stops and folding into notebook first page retained; no fixed3months/closed receipt/unverifiable statement/next-month sermon. No sum converts unlike time costs to one score.",
+    "draft_review": "CN initial draft grammar made the name document an actor; review-only memories2 now correctly describe the copy handed over. Unsupported singular framing in call/crease descriptions removed in2 other rows. Exactly4 rows changed, other14/header/metadata unchanged. These self repairs preceded the official final check; independent preimport reading requested no further repair.",
+    "format": "All54 shipping source rows, tokens/multiplicity, complete newline counts, times/numbers/names/regional terms and living-father/person knowledge compared. Agent reading is not native observation."
+  },
+  "preservation": {
+    "prior_batches": 346,
+    "prior_decisions": 309,
+    "proof": "Actual54=response exact. Restoring only54 yields all9 prior overlay JSONs exactly. Prior346 batches/original acceptance/previous-target fingerprints/nonowned values exact; acceptance and batch/hash reversal reproduces entire old ledger. Actual private accepted3 equal independent reconstructed receipts/canonical hashes.",
+    "half_boundary": "Before/after known28 and memory1 equality separately confirmed in each locale; reading them for context does not approve or complete those translations.",
+    "boundaries": "KO/EN/gameplay/runtime/demo/validators/allowlist and prior reports/decisions unchanged. Five declared doc diffs read: CLAUDE/queue/parent157/active752/WORK_LOG."
+  },
+  "validation": {
+    "check_import": "3 pairs,18 leaves/3files each, VALID/INCOMPLETE/OPEN and stderr0; author exit0. Named draft-check is the actual final check of unchanged accepted text, not an intermediate result/repeated check.",
+    "delta": "changed_leaves54 overlay_files9 new_coverage0; independent whole-JSON/receipt/source binding proof passed.",
+    "demo_i18n": "Demo5 languages/14events/100leaves/122UI; EN strict1813/1813 events35/35 endings; CJK skeleton1708/1813.",
+    "lane": "11-check selection list only, not full execution/pass. Rejections0; original early CN draft preserved separately. No validator relaxation/old-export CLI/unchanged selftest rerun; reviewer app/engine/UI/save actions0."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 669,
+    "stale_source": 666,
+    "each_locale_stale": 222,
+    "summary_diagnostics": 3,
+    "change": "723 ->669, reviewed54 only. Independent pure scope recomputation matches. Remaining diagnostics are not all shipping prose; whole translation/UI debt remains."
+  },
+  "identity": {
+    "original_export_source_revision": "5c3712d5efa5f342668353ce5b6017f09e3b19a4",
+    "final_receipt_sha256_by_locale": {
+      "ja": "59991e7cab57b2baf0926fd4cacaddcd84dff5a2d7c8ae483fe8ce221242a954",
+      "zh-CN": "cf96ce654667ef4e56dd7b62509b0d726994bea8ab0e12188c5a70cda7c9ce20",
+      "zh-TW": "4089548a06cca97309d4334abb71def1dbaca35878aae2c40ee87ae5fddddce6"
+    },
+    "reviewed_rows_sha256": "3f59c679ed5caa2221903b7938016b5e0e4abd4b9767cb0d074f42ff5370f08f",
+    "reviewed_rows_encoding": "canonical JSON locale/export order [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-memory-family-20261103/",
+    "raw_files": 27,
+    "raw_population_sha256": "7153e66c2aa599379bfed0f6f96527c9d37e7cd1e21a14f63cb9b0b2c08d7289",
+    "raw_population_encoding": "All regular files, canonical JSON basename-sorted [basename,bytes,sha256]; same for disjoint subsets",
+    "used_final": {
+      "files": 26,
+      "sha256": "9b28a993fd70984276e5a3f4193a3cf793ecd247b0ef9fd7724a29f10dc416f7",
+      "selection": "helpers2/leaf-ids1/source3/response3/draft-check+import12logs/delta-demo-i18n-lane-scope5"
+    },
+    "early_draft": {
+      "files": 1,
+      "sha256": "54eef43a1be9b6949f3f1ebb665a7edd6fbb1ebf13186763a6e601de09067421",
+      "selection": "zh-CN.draft1.response.jsonl only",
+      "file_sha256": "33e96139acb5f1b5a5e00166141ce92319ba38bb5eb4402a9da2126046692c01"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ],
+  "conclusion": "GO exact54 source corrections only; not nonowned known/memory, whole translation/lane, actual runtime, latest CI, M60 or release."
+}

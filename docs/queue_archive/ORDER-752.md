@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-752 · 명의 회고·가족·미발신 기록의 JA/zh 정합
+#### [x] ORDER-752 · 명의 회고·가족·미발신 기록의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. shipping5root×3언어=15단위, KR18×3=54 기존번역 정정.
 
@@ -54,4 +54,8 @@ delta54/9파일·원346배치/원수용/비소유값불변. draft-check가그대
 초안검사거절0·검증기완화0, raw27=최종26/초기CN이력1의별도집합이다.
 scope723→669(stale666=각222+요약3), demo5언어14사건100leaf122UI·EN1813/35 clean.
 lane11은선택목록일뿐전체실행성공아님. 원자료 `.git/localization-memory-family-20261103/` 소유.
-제품후보의실제수용diff·receipt·원자료독립최종판정은아직미완이다.
+제품 `e2d9132`/tree `a7bef3bb`의 [독립전독](../agent_reviews/order752-memory-family-cjk.md)은
+실수용54/9파일·원346배치/수용/previous-target/비소유전체원장·receipt3를직접대조해
+이54정정만GO로판정했다. raw27=최종26/초기CN1의별도집합SHA·기존309판정/보고보존.
+half known28(27조합+fallback)/memory1은세언어모두기존값exact·비소유미완이다.
+2026-11-03 완료·규범일회성, 전체언어/차선·화면/원어민·최신CI/M60/출시GO별도.

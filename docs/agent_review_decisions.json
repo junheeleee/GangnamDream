@@ -12990,6 +12990,49 @@
         "path": "docs/agent_reviews/order751-body-bills-cjk.json",
         "sha256": "0a6173241501a6c4a231020c7c944d5b424d5efe0cef0b2d8614fb092afc441d"
       }
+    },
+    {
+      "id": "order752-memory-family-cjk-corrections-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-03",
+      "decided_by": "/root/capsule_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-752",
+      "subject": {
+        "kind": "source",
+        "commit": "e2d9132424d942c32151ff83ef09926985c82cee",
+        "tree": "a7bef3bbd4ee418e416e619887c693adb700b20d",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order752-memory-family-cjk.md",
+          "sha256": "b6de0ccab0bde9edb4c8d9ded4e41491a81a8724abd25e1fa44cc3bfc0c12cf4"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order752-memory-family-cjk.json",
+          "sha256": "352ff0afc3ea8cd26c939792b19f23cbe6d42cbbeb9b5cc1d417ac46e5376005"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order752-memory-family-cjk.json",
+        "sha256": "352ff0afc3ea8cd26c939792b19f23cbe6d42cbbeb9b5cc1d417ac46e5376005"
+      }
     }
   ]
 }
