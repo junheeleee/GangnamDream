@@ -22381,6 +22381,122 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-768",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_y5_burnout_check_reference",
+        "arc_y5_contract_reviewer_delivery_sangchul"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 2,
+        "zh-TW": 2
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Restore actual revision timestamps and earlier notebook figures without inventing a deletion request or a previous day.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "0322e99259fdb1666959966ce6c2ffdc1b5f2bc8",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "e2710ffbbbc35a15fb95eec678917e1c6dc1491c747065026eef620cb0f1537f",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9e31c32ebd07ec0b8c4a80386e8a4c8fc0a54aa80f596feece41474a15eb111c"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "0322e99259fdb1666959966ce6c2ffdc1b5f2bc8",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "20009b7631c200733002dbf778a17c3961c2a14cd24d4d34470abbca88fae01f",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "07f22356071723c9e9597cb54ecde6f2e99e204f98bb772cd6379adac608fec0"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "0322e99259fdb1666959966ce6c2ffdc1b5f2bc8",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "615727bd0631627117d3410ac63bd58b8b8eb580adc4934afb16f29600ec9d2e",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e928eda7b2b72d230727855ea31ae4f772f6f739dccfbd57637a3af882ecd4b2"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "6b54309ab9fa784ab9efe235abe16b91f1a716ba890710e4136011eec191c60d",
+        "zh-CN": "e10aaac3c02e34c94910ebaf0e46f0361cf2561573a40eac4c03031eb17d11b1",
+        "zh-TW": "10f3871afba01dfac603db4b1fcd49c3296bc2ba94a72f71bc103b096f13fd6a"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_y5_burnout_check_reference:/chapter5_causal_reads/texts/0/1": "79d07f5d3f3612c0e25395733ba1e7378e28354d548456c88332b70daf7bf333",
+          "events:arc_y5_contract_reviewer_delivery_sangchul:/chapter5_causal_reads/texts/0/0": "8c1cf0fe89c1cc9f50818b8228a16435f46410c83685576e7a0d779701381611"
+        },
+        "zh-CN": {
+          "events:arc_y5_burnout_check_reference:/chapter5_causal_reads/texts/0/1": "bbfe7cb265becc8293d9bfc42cee229944edc3711187c0f565ff1a8c47245a22",
+          "events:arc_y5_contract_reviewer_delivery_sangchul:/chapter5_causal_reads/texts/0/0": "57b535918602896b86b3f96bf260b179de9bf49629987a9cec2e729de3cc4dfc"
+        },
+        "zh-TW": {
+          "events:arc_y5_burnout_check_reference:/chapter5_causal_reads/texts/0/1": "0815541a06b5e4360bbbc12dd463f1380375b7fbb9b2318e239fb21321ceba85",
+          "events:arc_y5_contract_reviewer_delivery_sangchul:/chapter5_causal_reads/texts/0/0": "5632a9d6b42440ac52b53e3a83ba34163097e41b68a5648febcbaf0c6709618b"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_y5_burnout_check_reference:/chapter5_causal_reads/texts/0/1": {
+            "source_sha256": "81ab94a0fe5f20abaa620f93bcbc6e51a7abeb781fb7c855a301eb7c28adc860",
+            "target_sha256": "79d07f5d3f3612c0e25395733ba1e7378e28354d548456c88332b70daf7bf333"
+          },
+          "events:arc_y5_contract_reviewer_delivery_sangchul:/chapter5_causal_reads/texts/0/0": {
+            "source_sha256": "97102eff8a236188aaa075383ee9c918295556bcd7711fa5921ed4332b69d81a",
+            "target_sha256": "8c1cf0fe89c1cc9f50818b8228a16435f46410c83685576e7a0d779701381611"
+          }
+        },
+        "zh-CN": {
+          "events:arc_y5_burnout_check_reference:/chapter5_causal_reads/texts/0/1": {
+            "source_sha256": "81ab94a0fe5f20abaa620f93bcbc6e51a7abeb781fb7c855a301eb7c28adc860",
+            "target_sha256": "bbfe7cb265becc8293d9bfc42cee229944edc3711187c0f565ff1a8c47245a22"
+          },
+          "events:arc_y5_contract_reviewer_delivery_sangchul:/chapter5_causal_reads/texts/0/0": {
+            "source_sha256": "97102eff8a236188aaa075383ee9c918295556bcd7711fa5921ed4332b69d81a",
+            "target_sha256": "57b535918602896b86b3f96bf260b179de9bf49629987a9cec2e729de3cc4dfc"
+          }
+        },
+        "zh-TW": {
+          "events:arc_y5_burnout_check_reference:/chapter5_causal_reads/texts/0/1": {
+            "source_sha256": "81ab94a0fe5f20abaa620f93bcbc6e51a7abeb781fb7c855a301eb7c28adc860",
+            "target_sha256": "0815541a06b5e4360bbbc12dd463f1380375b7fbb9b2318e239fb21321ceba85"
+          },
+          "events:arc_y5_contract_reviewer_delivery_sangchul:/chapter5_causal_reads/texts/0/0": {
+            "source_sha256": "97102eff8a236188aaa075383ee9c918295556bcd7711fa5921ed4332b69d81a",
+            "target_sha256": "5632a9d6b42440ac52b53e3a83ba34163097e41b68a5648febcbaf0c6709618b"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -31598,8 +31714,8 @@
         "target_sha256": "1f07f811a5633b5b5e80a6c8db8d2e3eed4b5a2ad4010709f3002daef90dc552"
       },
       "events:arc_y5_burnout_check_reference:/chapter5_causal_reads/texts/0/1": {
-        "source_sha256": "81ab94a0fe5f20abaa620f93bcbc6e51a7abeb781fb7c855a301eb7c28adc860",
-        "target_sha256": "79d07f5d3f3612c0e25395733ba1e7378e28354d548456c88332b70daf7bf333"
+        "source_sha256": "5c4af5467aecf3662995ce02c009d59f113f1bd0b457410c1c32177543b73dcc",
+        "target_sha256": "32b4865f3f65522d61b900a1363d62774c66a308f884e9591b6edd6ab1fe6715"
       },
       "events:arc_y5_burnout_check_reference:/chapter5_causal_reads/texts/0/2": {
         "source_sha256": "ea35bf302cb9d77593edabb037539b91f42ec00ee59850cd70a6902ffafb78ac",
@@ -31670,8 +31786,8 @@
         "target_sha256": "04eedb0921ed9860dd5494c9de4244ef0396341afa4a0634a18319261e0deb32"
       },
       "events:arc_y5_contract_reviewer_delivery_sangchul:/chapter5_causal_reads/texts/0/0": {
-        "source_sha256": "97102eff8a236188aaa075383ee9c918295556bcd7711fa5921ed4332b69d81a",
-        "target_sha256": "8c1cf0fe89c1cc9f50818b8228a16435f46410c83685576e7a0d779701381611"
+        "source_sha256": "066bd28690934e81cb658bcffc557316e1a392c02cf4ad4956cbc255ee241a41",
+        "target_sha256": "3a32322aa64c8d3ab9c41093568cee7df306d7c88e3b6f723cce8d503d1c6ce7"
       },
       "events:arc_y5_contract_reviewer_delivery_sangchul:/chapter5_causal_reads/texts/0/1": {
         "source_sha256": "d62e9ab5533880cd4fb16d8c1beda685854671c4e28766b97b2a16734f8acdf2",
@@ -84300,8 +84416,8 @@
         "target_sha256": "0ebd9ba204d674ed10cef7129a9e1ddbea520cd11ad2b1e5ed2eec3516664d9f"
       },
       "events:arc_y5_burnout_check_reference:/chapter5_causal_reads/texts/0/1": {
-        "source_sha256": "81ab94a0fe5f20abaa620f93bcbc6e51a7abeb781fb7c855a301eb7c28adc860",
-        "target_sha256": "bbfe7cb265becc8293d9bfc42cee229944edc3711187c0f565ff1a8c47245a22"
+        "source_sha256": "5c4af5467aecf3662995ce02c009d59f113f1bd0b457410c1c32177543b73dcc",
+        "target_sha256": "53ddc8dd22d73e1de632ed75cf01eaa76edd5129d6a0ac36dc3f4b4717f71b1b"
       },
       "events:arc_y5_burnout_check_reference:/chapter5_causal_reads/texts/0/2": {
         "source_sha256": "ea35bf302cb9d77593edabb037539b91f42ec00ee59850cd70a6902ffafb78ac",
@@ -84372,8 +84488,8 @@
         "target_sha256": "cdfd1a3c552b350ccb1af30d2937ba6415d617eedf504cc35660d8aece560fa1"
       },
       "events:arc_y5_contract_reviewer_delivery_sangchul:/chapter5_causal_reads/texts/0/0": {
-        "source_sha256": "97102eff8a236188aaa075383ee9c918295556bcd7711fa5921ed4332b69d81a",
-        "target_sha256": "57b535918602896b86b3f96bf260b179de9bf49629987a9cec2e729de3cc4dfc"
+        "source_sha256": "066bd28690934e81cb658bcffc557316e1a392c02cf4ad4956cbc255ee241a41",
+        "target_sha256": "5be89653164c3e6971827313706552b5ec2e7ba4d6cccb74415d8638e3acc632"
       },
       "events:arc_y5_contract_reviewer_delivery_sangchul:/chapter5_causal_reads/texts/0/1": {
         "source_sha256": "d62e9ab5533880cd4fb16d8c1beda685854671c4e28766b97b2a16734f8acdf2",
@@ -143826,8 +143942,8 @@
         "target_sha256": "fa2281d5174d1473e214b8dd4f9a706defa28a8e416566273c5bf46f8ece1232"
       },
       "events:arc_y5_burnout_check_reference:/chapter5_causal_reads/texts/0/1": {
-        "source_sha256": "81ab94a0fe5f20abaa620f93bcbc6e51a7abeb781fb7c855a301eb7c28adc860",
-        "target_sha256": "0815541a06b5e4360bbbc12dd463f1380375b7fbb9b2318e239fb21321ceba85"
+        "source_sha256": "5c4af5467aecf3662995ce02c009d59f113f1bd0b457410c1c32177543b73dcc",
+        "target_sha256": "4e8160b3cbc4250c8b0f941dd9bae8e8950fcf740bdad9d5c5e4f4b86783b339"
       },
       "events:arc_y5_burnout_check_reference:/chapter5_causal_reads/texts/0/2": {
         "source_sha256": "ea35bf302cb9d77593edabb037539b91f42ec00ee59850cd70a6902ffafb78ac",
@@ -143898,8 +144014,8 @@
         "target_sha256": "5d6265c5483783657dffea33851e43f64778f77ac476aa36a68cf229e4187765"
       },
       "events:arc_y5_contract_reviewer_delivery_sangchul:/chapter5_causal_reads/texts/0/0": {
-        "source_sha256": "97102eff8a236188aaa075383ee9c918295556bcd7711fa5921ed4332b69d81a",
-        "target_sha256": "5632a9d6b42440ac52b53e3a83ba34163097e41b68a5648febcbaf0c6709618b"
+        "source_sha256": "066bd28690934e81cb658bcffc557316e1a392c02cf4ad4956cbc255ee241a41",
+        "target_sha256": "02c9b48917e4671b8e773ea74765b0abe369d3e8439375839e81c99aeae50218"
       },
       "events:arc_y5_contract_reviewer_delivery_sangchul:/chapter5_causal_reads/texts/0/1": {
         "source_sha256": "d62e9ab5533880cd4fb16d8c1beda685854671c4e28766b97b2a16734f8acdf2",
@@ -194139,7 +194255,7 @@
       }
     }
   },
-  "accepted_sha256": "7965cb3274cdd0d3b40e7f2dcb4fbad5d10d77cbb8180b91e3c9bab8bd2eb413",
+  "accepted_sha256": "8b69c6889e15b37ac34170ebf4a7d5d0694d7ec711e4eb41c817fc92fb901232",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
