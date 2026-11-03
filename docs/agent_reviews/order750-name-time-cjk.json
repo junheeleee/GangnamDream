@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-750",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "da36b1afc8315d3027202343b0819c709fca3de8",
+    "tree": "15a453495a53e155b8839a4ca24941c55d1fe2a4",
+    "manifest_sha256": null
+  },
+  "scope": "Korean10 × JA/zh-CN/zh-TW =30 existing-target corrections only: shipping27/author_only Jiyeon reference3, activation0/new coverage0.",
+  "population": {
+    "method": "Full census, not sampled; five roots ×3 languages=15 units",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/{arc_midgame,arc_chapter_themes,arc_drama}.json",
+    "selection": "arc_year_two_half title/description/choices0 text,result(4); arc_y4_borrowed_name description/choices0 result(2); borrowed_name_jiyeon/self description each(2); arc_y4_father_crisis_stabilized choices1 text,result(2).",
+    "lifecycle": "Each locale source9 shipping+1 author_only. Only Jiyeon description is author_only. Its3 corrected translations are reference maintenance, not product reach/completion."
+  },
+  "review": {
+    "method": "Direct Korean10/target30 reading, five full Korean/current-locale roots/choices/memory; ROMANCE, lifecycle, story_rules5321, MainGame7287-7293/7697-7704/7620-7642/8578-8585 and overlay/known-memory consumer checked.",
+    "final_blocking_findings": [],
+    "numbers": "Current notebook calculations/balance/hand/light/sound and first arrival in Seoul replace invented2.5years/next day/deleted contacts/Changwon news. Tokens/paragraphs/names/regional terms retain Korean meaning.",
+    "consent": "Time together does not imply cohabitation or name consent. All3 collateral descriptions retain deposit-return claim only if held. Principal180million won, own-name cap110million won, maturity2030-11-30, unsigned/empty name fields and independent-review-only/withdrawal alternatives preserved.",
+    "routing": "Actual relationship helper returns Daeun or unattached only; W177 Jiyeon reference not activated. Historical family memory establishes partner identity, not attendance/name consent. No relationship/lifecycle/runtime mutation.",
+    "care": "Next-examination calendar slot/new-schedule exclusion and ward-call exception are actual actions; no invented work cancellation or fixed-income loss. Acute worsening stops but hospitalization/chronic disease continue, not cure/discharge.",
+    "repairs": "No additional revision recommended during independent full reading; all30 final responses accepted unchanged. No draft repair/rejection population."
+  },
+  "preservation": {
+    "prior_batches": 344,
+    "prior_decisions": 307,
+    "proof": "Actual30=response exact. Restoring only30 yields all9 prior overlay JSONs exactly. Prior344 batches/acceptance/previous-target fingerprints/nonowned values exact; restoring acceptance and batch/hash fields yields entire old ledger. Private accepted3 equal independent reconstructed receipts and canonical hashes.",
+    "boundaries": "KO/EN/gameplay/runtime/demo/validators/allowlist and earlier reports/decisions unchanged. Six declared documentation paths directly reviewed, including lossless WORK_LOG archive."
+  },
+  "work_log_roll": {
+    "archive": "docs/history/WORK_LOG_2026-11-01_continuous_play.md",
+    "bytes": 10667,
+    "sha256": "acac0e429c5b17db32f8fee928c80d3802e8f81da973ae358742ee721e7e938b",
+    "proof": "Declaration's complete11-01 section equals archive byte-for-byte. Replacing new stub with original section and removing only new750 product paragraph reproduces entire old WORK_LOG bytes exactly. Existing heading anchor/link retained; live30663B. Necessary budget rolling, not translation scope growth."
+  },
+  "validation": {
+    "final_check_import": "3 pairs,10 leaves/3files each, VALID/INCOMPLETE/OPEN markers, stderr0; author exit0; raw logs directly read.",
+    "delta": "changed_leaves30 overlay_files9 new_coverage0; independent whole-JSON/receipt/source binding proof passed.",
+    "demo_i18n": "Demo5 languages/14events/100leaves/122UI; EN strict1813/1813 events35/35 endings; CJK skeleton1708/1813.",
+    "lane": "lane.log lists11 selected checks only, not execution/full-lane pass evidence. No old-export CLI or unchanged selftest rerun; reviewer app/engine/UI/save actions0."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 789,
+    "stale_source": 786,
+    "each_locale_stale": 262,
+    "summary_diagnostics": 3,
+    "change": "819 ->789, exact30 only. Independent pure scope recomputation matches; broad translation/UI debt remains."
+  },
+  "identity": {
+    "original_export_source_revision": "cac74902f04f981471cb70f7d1517bcb21462a17",
+    "final_receipt_sha256_by_locale": {
+      "ja": "1460d8f098a5de6b9439d2309a5951059e256a816d2bc90d65b0b245bccb8c0c",
+      "zh-CN": "78f494c6b5fa5cc3e86a29bda8551adf2da5bfe30c63f945b2c1d6f24792c99f",
+      "zh-TW": "1510fc86253b830e9e96962f0f5dbf30232397cd52de9a2f095f82d073d539f5"
+    },
+    "reviewed_rows_sha256": "d303e9f548c039caee953a5ad447d3bee06e08426bbca6b21aaed63d8b626599",
+    "reviewed_rows_encoding": "canonical JSON locale/export order [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-name-time-20261103/",
+    "raw_files": 26,
+    "raw_population_sha256": "040dd49fa53b9aeb2c49b42aacea65217cd1ef7601c44c3b22487af3d670e73e",
+    "raw_population_encoding": "All regular files, canonical JSON basename-sorted [basename,bytes,sha256]",
+    "used_final": "All26: helpers2/leaf-ids1/source3/response3/check-import12 logs/delta-demo-i18n-lane-scope5; repair_history0/rejected_preparations0."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ],
+  "conclusion": "GO exact30 source corrections only, shipping27/reference3 distinguished; no reference activation, whole translation/lane, actual runtime, latest CI, M60 or release GO."
+}

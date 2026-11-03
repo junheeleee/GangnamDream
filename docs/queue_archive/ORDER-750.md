@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-750 · 숫자 사이·이름 동의·검사 시간의 JA/zh 정합
+#### [x] ORDER-750 · 숫자 사이·이름 동의·검사 시간의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. 5root×3언어=15단위, KR10×3=30 기존번역 정정.
 
@@ -50,4 +50,9 @@ MainGame7287~7293의daeun/elseunattached·W177/부친결과/반환점후진입·
 수용/이전target/비소유값불변. scope819→789(stale786=각262+요약3),
 demo5언어14사건100leaf122UI·EN1813/35 clean. 원자료26개
 `.git/localization-name-time-20261103/` 소유, lane은검사선택목록이지전체실행성공아님.
-제품후보 실수용 독립최종판정은다음.
+제품 `da36b1a`의 [독립 전독](../agent_reviews/order750-name-time-cjk.md)은
+실수용30/9파일·원344배치/수용/previous-target/비소유값·receipt3개를직접대조해
+이30정정만GO로판정했다. shipping27/reference3·활성화0, raw26전체최종사용·
+기존307판정/보고불변. WORK_LOG11-01원10667B와보관본byteexact·같은앵커/링크/
+기타old본문전체byteexact도독립확인했다. 2026-11-03 완료·규범일회성,
+전체언어/차선·화면/원어민·최신CI/M60/출시GO별도.
