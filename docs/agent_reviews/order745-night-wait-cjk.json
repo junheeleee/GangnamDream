@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-745",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "1d992955a09ff25c90b34aa1f4427577efc4edf3",
+    "tree": "7a22d3d1c2dfb8cfe2b316a60c679d85546d7881",
+    "manifest_sha256": null
+  },
+  "scope": "Six wait/night roots only: Korean17 × JA/zh-CN/zh-TW =51 existing-target corrections; new coverage0.",
+  "population": {
+    "source_leaves": 17,
+    "target_leaves": 51,
+    "scene_language_units": 18,
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/{arc_events,arc_midgame}.json",
+    "selection": {
+      "arc_jaehyuk_04b_counter": [
+        "choices/1/{text,result_text}"
+      ],
+      "arc_jaehyuk_ghost_decision": [
+        "choices/0/result_text"
+      ],
+      "arc_jaehyuk_wait": [
+        "title",
+        "description",
+        "choices/1/{text,result_text}"
+      ],
+      "arc_36_reality_check": [
+        "description",
+        "choices/2/text"
+      ],
+      "arc_36_night_doubt": [
+        "choices/{0,1,2}/result_text",
+        "description_memory_if_known/arc_y4_midpoint_receipt_seen"
+      ],
+      "arc_36_night_doubt_father_passed": [
+        "choices/{0,1,2}/result_text",
+        "description_memory_if_known/arc_y4_midpoint_receipt_seen"
+      ]
+    }
+  },
+  "review": {
+    "method": "Read all Korean17 and target51, six full roots/choices including alive/deceased bases; directly read StoryMode4427-4447 memory append and EventManager43 variant remap.",
+    "final_blocking_findings": [],
+    "money_wait": "8000000won demanded and received now, not a multiplier/week-later promise. Present waiting adds no settlement date, week elapsed or invented prior text. Transfer record is not empty balance; painful hand/wrist/elbow actions are not automatic recovery.",
+    "night": "Plan revision delayed, not every action stopped/first doubt. Notebook/calculator, screenshot, later alarm/water/sleep, next-week calendar retain concrete acts.30억 remains; only 'must' crossed out, not abandonment or added moral lesson. Six-year debt and motives remain source-bound.",
+    "memory": "Eleven-week-old long paper remains open in meaning, no invented three-line closed receipt details. It appends to the selected base, not replacing it. Shared results/memory add no alive/deceased assertion contradicting either base.",
+    "repair": "TW c0 alive/deceased changed only 三件事 to 三樣, preserving Korean 'those three'. Whole JSONL reverse comparison verified exactly two replacements; header/metadata/other text unchanged.",
+    "checked": "800만원/30억 won,3/6years,11weeks, one calculation/time/glass, {name}, all newline structures and regional wording."
+  },
+  "preservation": {
+    "prior_batches": 339,
+    "prior_decisions": 302,
+    "ledger": "Prior batches/nonowned acceptance exact; superseded acceptance/previous-target hashes retained; all final receipts recomputed.",
+    "overlays": "Restore owned51 values: entire prior six JSON files exact; other choices/order unchanged.",
+    "boundaries": "KO/EN/runtime/gameplay/demo/allowlist/validators and earlier reports/decisions unchanged.",
+    "early_exports": "All17 source rows in each initial/predeclaration export equal final rows, independently checked all6 files. Old JA17 response texts equal final. Old headers are not final acceptance evidence."
+  },
+  "validation": {
+    "final_check_import": "Three final check/import pairs:17 leaves/2files each, VALID/INCOMPLETE/OPEN markers and stderr0; author exit0.",
+    "delta": "changed_leaves51 overlay_files6 new_coverage0; independent whole-JSON and receipt reconstruction passed.",
+    "story_demo": "locales5 source_events14 leaves100 target_ui122",
+    "coverage": "EN strict1813/1813 events35/35 endings; CJK skeleton1708/1813.",
+    "preparation_limit": "Reported early queue-budget/output-protection incidents are not product successes. Initial check is unused history, not a final check. No old-export recheck/unchanged selftest repeated; no app/engine/UI/save action."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 978,
+    "stale_source": 975,
+    "each_locale_stale": 325,
+    "summary_diagnostics": 3,
+    "change": "1029 ->978: reviewed51 only; pure scope recomputation confirms counts; broad debt remains."
+  },
+  "identity": {
+    "original_export_source_revision": "de7b0f572839c5f30762ddf531ffa2e8af4488df",
+    "final_receipt_sha256_by_locale": {
+      "ja": "e329c4f15c46ca3cdc4f9fbbd19974aad759838d27035c06486ff5bdf2d929e9",
+      "zh-CN": "c5d4ca26817918fe209e72ff79a2d575e44fd9911ce008479b4fa4a237ecdf7c",
+      "zh-TW": "64b8679c58eec73cc70d4a2a22672f0b052fc8a77b44a0b762f78c02c2741e9f"
+    },
+    "reviewed_rows_sha256": "99cc36d33f79557103fa07aa4382f2dbccfaa671b3f7f50b6311022ea02e346d",
+    "reviewed_rows_encoding": "canonical JSON, locale/export order: [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-night-wait-20261103/",
+    "raw_files": 37,
+    "raw_population_sha256": "4335ee2311c510bf8365a7f79cb5cfd82e2b6304a37b7c3d0d6f2c063003947d",
+    "raw_population_encoding": "canonical JSON: basename-sorted [basename,bytes,sha256] for all .jsonl/.log; same encoding for disjoint subsets",
+    "used_final": {
+      "files": 26,
+      "sha256": "79033d4e403fd8d7cc0958d0fad8926bdfecffbf0a9e73f4bb1c03a0c47e36fb",
+      "selection": "Final source/response3 pairs, check/import3 stdout/stderr pairs, delta/scope/demo/coverage stdout/stderr4 pairs"
+    },
+    "unused_initial": {
+      "files": 9,
+      "sha256": "91358933413a5d592f7d2039b7e3cf4d59b874b011f67cb9b05ab8dc763b6c84",
+      "source_revision": "2b0056975ee0f03bff2e51cf22742f49e6f2f221",
+      "selection": "*.initial.source3 + *.predeclaration.source3 + ja.initial.response + ja.initial.check stdout/stderr"
+    },
+    "repair_history": {
+      "files": 2,
+      "sha256": "d4b27d0ee293d8bf1ba9aea329bec393a73410a09eebd4d9d859f44d35ebc7e6",
+      "selection": "zh-TW.response.draft1.jsonl and zh-TW.check.draft1.stderr.log"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "external_publication_or_release"
+  ],
+  "conclusion": "GO for exact51 source corrections only, not preparation incidents, whole translation/lane, runtime or release."
+}

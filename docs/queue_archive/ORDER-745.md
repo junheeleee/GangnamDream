@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-745 · 재혁 후속·새벽 회고의 JA/zh 정합
+#### [x] ORDER-745 · 재혁 후속·새벽 회고의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. 여섯 root×세 언어=18 장면-언어 단위,
 shipping KR17/JA·CN·TW51개 기존 번역 정정만 소유한다.
@@ -38,3 +38,18 @@ context/queue/diff를 검사한다. 완료738~744·불변self-test·수용후옛
 포기 시 잃는 것: 고정반환액·기다림/회고의 실제현재행동과 열린뜻.
 서사 위치/계층: 기존6root/계층 불변. 닫는 것: 이51 source정합만.
 규범은 기존 I18N 정본 적용·승격0. 전체언어/차선·실화면/원어민·최신CI/출시 GO별도.
+
+## 검사 실물·판정
+
+2026-11-03 완료. 제품 `1d99295`의 [독립 전독](../agent_reviews/order745-night-wait-cjk.md)은
+KR17/목표51·6root전체base/choices와 StoryMode memory append/EventManager remap을
+직접 대조해 이51정정만GO로 판정했다. TW‘그셋’2곳 三件事→三樣 수리·초안/실패1보존.
+최종check/import17×3·각stderr0, delta51/6파일·이전339배치/수용/target/비소유값불변,
+receipt3개·원자료37 결속. source진단1029→978(stale975=각325+요약3),
+demo5언어14사건100leaf122UI·EN1813/35 clean. `.git/localization-night-wait-20261103/` 소유.
+raw는최종사용26/미사용초기9/TW수리2로 분리했고 각집합SHA를 독립 보고에 결속했다.
+
+일회성 준비이력: 큐12B예산초과는행제목만축약, 최초read-only export/oldJA초안은보존했다.
+기존export출력보호거절은성공으로세지않고 최종source는선언de7b0f5에공식재수출했다.
+옛source17행과oldJA17텍스트의전수동일을 확인했지만옛헤더는최종수용근거가아니다.
+수용뒤옛export CLI·불변self-test반복0. 전체언어/차선·렌더/native·최신CI/출시 GO가아니다.
