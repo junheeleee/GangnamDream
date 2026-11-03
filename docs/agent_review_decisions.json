@@ -13339,6 +13339,50 @@
         "path": "docs/agent_reviews/order759-final-signature-cjk.json",
         "sha256": "142aa8e3861a90e47c70f9326e9418b7d42cab5fb255c0e806710b87580b2998"
       }
+    },
+    {
+      "id": "order760-year-close-relationship-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-760",
+      "subject": {
+        "kind": "source",
+        "commit": "bde0c443833c93326ebce805b55227b80cc0e61f",
+        "tree": "1f8bdcc624422453457b11f03a500de0689bbda7",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order760-year-close-relationship-cjk.md",
+          "sha256": "87bfaaade60f783bb30ca8a31b4f1a546ce60111e5c6663cdd587cd1b2069250"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order760-year-close-relationship-cjk.json",
+          "sha256": "ea79553fda7c076bd9c869030ad7200352aaf6bc3ce6c96f5677719b76ba3486"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "all_relationship_memory_combinations_natural_run_exposure",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order760-year-close-relationship-cjk.json",
+        "sha256": "ea79553fda7c076bd9c869030ad7200352aaf6bc3ce6c96f5677719b76ba3486"
+      }
     }
   ]
 }

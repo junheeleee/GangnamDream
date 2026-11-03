@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-760 · 연말 관계·부친 흔적의 JA/zh 정합
+#### [x] ORDER-760 · 연말 관계·부친 흔적의 JA/zh 정합
 
 2026-11-04 root·부모157/C5. shipping2root KR18×3=54 기존번역 정정.
 
@@ -35,7 +35,7 @@ demo/EN·scope/context/queue/diff. 수용뒤옛export CLI/불변self-test반복0
 
 ## 검사 실물·후보
 
-KR18/목표54의사전독립전독GO·실수용완료, 최종제품후보독립검수대기다.
+KR18/목표54의사전독립전독GO·실수용완료, 최종제품후보독립검수GO다.
 야간업무취소/둘의업무칸·감소한수입/초수·생사해설발명을토요일확정/상대미정1시간·
 자기후속예약전후비움·금액기한확인/한도회신·열차표/통화목록/SMS흔적으로정렬했다.
 CN4/TW3행의배송채널중립·CN시선/하얀칸·TW상대미정구절만독립권고/자가수리,
@@ -46,3 +46,10 @@ demo5언어14사건100leaf122UI·EN1813/35 clean, 제품4path일반list11은선�
 source-scope381→327(stale324=각108/내shipping93author15+요약3/count111)·전체미완.
 W190는188부친결과뒤라회고를현재생존/실제방문성과로확대0, partner非daeun는unattached다.
 게임31.3실행/입력/저장편집0. 수용후옛export CLI/불변self-test/완료검사반복0.
+
+제품bde0c443833c93326ebce805b55227b80cc0e61f/tree1f8bdcc6의
+[최종독립전독](../agent_reviews/order760-year-close-relationship-cjk.md)은실수용54/receipt3·
+원353배치/비소유3JSON·4leaf/전체원장/지난기록을직접역복원해이범위만GO다.
+raw32=최종26/이력6의각집합SHA·보고2/append1을root전독대조·원317판정보존.
+제품CI41685564987 두job진행중·전체성공미관측.
+2026-11-04 완료. 기존I18N계약적용·신규규범0/일회성·전체언어/native/CI/출시별도.

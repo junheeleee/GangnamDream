@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-760",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "bde0c443833c93326ebce805b55227b80cc0e61f",
+    "tree": "1f8bdcc624422453457b11f03a500de0689bbda7",
+    "manifest_sha256": null
+  },
+  "scope": "arc_y4_year_close_daeun/unattached shipping2 roots each description1/choice0-1 texts2/results3/contact memories3 =Korean18 × JA/zh-CN/zh-TW =54 existing-target corrections; new coverage0.",
+  "population": {
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/arc_year_close.json",
+    "excluded": "Each root's current title/choice2 text (four leaves total per locale) remain unchanged and are not reaccepted. Runtime/story rules/producers are read-only."
+  },
+  "review": {
+    "method": "Read full Korean and existing target two roots, all Korean18/final target54 directly; read MainGame relationship selector and current romance-partner determination, W185 crisis contact/W188 medical-evidence outcome/W190 boundary ingress, story_rules exclusive flag groups and StoryMode first-matching ordinary memory. Bind actual accepted54 to the reviewed responses.",
+    "final_blocking_findings": [],
+    "meaning": "Daeun scene keeps two closing announcements, coat/cafe, notebook/follow-up instructions/family bill and her respectful direct request for a real action and calendar time. Saturday is fixed with Daeun without invented canceled night work. Unattached scene remains current room/empty opposite chair and one next-week hour with no appointment partner chosen. Non-Daeun route, including Jiyeon, selects unattached; no false breakup or new named partner is added.",
+    "body_family": "Own-name earliest follow-up reservation and confirmation mark before/after time free, not completed treatment or guaranteed recovery. Issuer/amount/deadline verification and affordable response limit are not actual payment, someone else's debt guarantee or lower income. Daeun reads the stated limit, not invented reply timestamps; alone ending retains sweaty bill-holding hand.",
+    "memory": "Three ordered first-match ordinary memories remain past Changwon-bound ticket between notebook pages, ward-connected call history or exact today-cannot-go/call SMS. W190 follows W188 father outcome, so none asserts current father survival, death, visit success, arbitrary call seconds or life-determining merit. Only one ordinary memory appends, not all three together.",
+    "repairs": "CN/TW two descriptions use channel-neutral 送来/送來 rather than mail-leaning 寄来/寄來. CN Daeun gaze word order is natural and solo calendar cell explicitly stays white. TW 還沒有約好的對象 clearly means no agreed partner yet, not an agreed person's nonarrival. Exact draft1 delta CN4 rows5/6/10/15 and TW3 rows6/10/15, other14/15 and headers/non-text metadata unchanged. JA18 unchanged from prereview; final54 source meaning/numbers/tokens/paragraphs accepted."
+  },
+  "preservation": {
+    "prior_batches": 353,
+    "prior_decisions": 317,
+    "proof": "Pure check_batch18×3 passed. Actual54=response exact and all three receipts' canonical headers/translations/hashes verified. Previous-target and superseded original acceptance match fixed7f0 baseline. Reverting only54 reproduces complete three baseline parsed JSONs, root/memory order and nonowned four leaves. Reverting final batch/acceptance/digest reproduces entire baseline ledger, all353 prior batches and nonowned values exact.",
+    "docs": "Candidate9 paths are three overlays/ledger plus declared CLAUDE/queue/parent157/active760/WORK_LOG. Previous317 decisions/reports unchanged before reviewer append. Existing Nov4 WORK_LOG header/prefix/all prior content bytes exact around single new760 paragraph. KO/EN/effects/flags/conditions/runtime/tools/demo/save unchanged."
+  },
+  "validation": {
+    "checks_imports": "Read JA check/CN-TW final-check18×3 and import18×3 VALID/INCOMPLETE/OPEN with six empty stderr files. Author separately observed final exits0; not inferred from stdout alone. Initial CN/TW VALID checks are intermediate-value history; original draft responses2/four intermediate logs preserved. Translation rejection0; validator unchanged.",
+    "independent": "Fixed7f0 pure source/response/receipt/actual-target/three-JSON/full-ledger reverse and scope census passed. No old-export CLI, HEAD-dependent helper, unchanged selftest, engine/app/save rerun.",
+    "demo_i18n": "Raw demo5 locales/14events/100leaves/122UI and EN strict1813/35 clean; skeleton/text checks do not prove rendering/native completeness.",
+    "lane": "lane-product-list.log selects11 checks for four product paths; not execution or whole-lane green."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 327,
+    "stale_source": 324,
+    "each_locale_stale": 108,
+    "each_locale_shipping_stale": 93,
+    "each_locale_author_only_stale": 15,
+    "summary_diagnostics": 3,
+    "summary_target_count_each": 111,
+    "change": "381 ->327 by reviewed54 only; independent pure census agrees. Summary3 is not three missing phrases; full language/UI/runtime remains incomplete."
+  },
+  "identity": {
+    "original_export_source_revision": "7f0a2bd779de4064745a71694725ddbf5c5c866a",
+    "reviewed_rows_sha256": "4040130a54c9139949c87c5fd984c5c6a49f84ccd24eb6a27ba4b1417d0807ae",
+    "reviewed_rows_encoding": "Canonical JSON locale/export order [locale,id,source-hash,previous-target-hash,target-hash]",
+    "receipt_sha256_by_locale": {
+      "ja": "b472e2743b515bd99e66b9d06e3c8104c004f934d6d7e33fbc0d6253c24a531a",
+      "zh-CN": "d5fffef14f6c57a1ca06b9f30bbc95be7aee60b3fb12403f0e9093d9d24c9203",
+      "zh-TW": "6884a53a12531cc79a0ac0cb1e5bc15cb0fe8bd92400da9ee42653cc7ddf55d1"
+    },
+    "raw_directory": ".git/localization-year-close-relationship-20261104/",
+    "raw_population": {
+      "files": 32,
+      "sha256": "66feda9895cfe1c5fad8f9d2170aed5a2adc3d0179110fc84e1b4f735e8e0c80"
+    },
+    "used_final": {
+      "files": 26,
+      "sha256": "83185a45d8e5f568270bfc2729411505b5e57ad1b71efbab981dd5efa85a9016",
+      "selection": "helpers2/leaf-list1/source3/response3/final-check6/import6/delta-demo-i18n-product-list-scope5"
+    },
+    "repair_history": {
+      "files": 6,
+      "sha256": "78d7740c45c7b6a2b3e4421c2eeb834785bce51892b8aa3918a0abd5749e7bc8",
+      "selection": "original draft1 CN/TW responses2 and intermediate CN/TW check stdout-stderr4"
+    },
+    "raw_population_encoding": "Canonical JSON basename-sorted [basename,bytes,sha256]; final/history disjoint and exhaustive"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "all_relationship_memory_combinations_natural_run_exposure",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
