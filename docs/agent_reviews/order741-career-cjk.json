@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-741",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "20ad124666aa4f272f8d83849571866ea4588f81",
+    "tree": "7d27962e4b567b4b080217f86b0dd17ecbd7dcf6",
+    "manifest_sha256": null
+  },
+  "scope": "arc_career_ceiling only: 7 leaves per locale, 21 existing-target corrections.",
+  "population": {
+    "source_leaves": 7,
+    "target_leaves": 21,
+    "locales": [
+      "ja",
+      "zh-CN",
+      "zh-TW"
+    ],
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/arc_midgame.json",
+    "selection": [
+      "events:arc_career_ceiling:/choices/0/result_text",
+      "events:arc_career_ceiling:/choices/1/result_text",
+      "events:arc_career_ceiling:/choices/1/text",
+      "events:arc_career_ceiling:/choices/2/result_text",
+      "events:arc_career_ceiling:/description",
+      "events:arc_career_ceiling:/description_if_known/sangchul_mirror_deal_face_up",
+      "events:arc_career_ceiling:/description_if_known/sangchul_mirror_hospital_face_up"
+    ],
+    "method": "Full census, not sampled",
+    "new_coverage": 0
+  },
+  "review": {
+    "method": "Read Korean7/targets21, then JA/CN revised deal paragraphs; read Korean mirror and mirror_receipt choices/results to establish phone direction and costs.",
+    "final_blocking_findings": [],
+    "fixed": "JA/CN deal text no longer turns unanswered ward contact into physical ward absence. Only one phrase per response changed; other six rows and metadata stayed exact.",
+    "meaning": "Current phone/payslip/calculator, next shift, job-search beginning and salary's supporting role retained. No next-day office, commute train, badge, monitor or every-night routine invented.",
+    "choices": "Job remains a base for other possibilities, not a guaranteed win. Saving three postings starts exploration, not resignation/new employment. Closing the calculator hides the ceiling without abolishing it.",
+    "branch_costs": "Incoming ward call is supported by mirror result. Receipt hospital branch calls the ward from outside the pojangmacha and returns the card; deal branch flips the phone and stays. No invented ward visit or opposite call direction.",
+    "checked": "30亿/30億 in Korean won, three postings, two lives, one new door; {name}, newlines, names and regional script."
+  },
+  "preservation": {
+    "prior_batches": 335,
+    "prior_batches_and_nonowned_acceptance": "exact",
+    "old_acceptance_and_previous_target_hashes": "retained",
+    "nonowned_overlay_json_values": "exact after restoring only 21 owned values; title/other choices/order unchanged",
+    "pre_review_JA_CN": "Both unaccepted responses retained; exactly the two advised phrase replacements verified",
+    "KO_EN_runtime_public_demo_shipping_allowlist": "unchanged",
+    "earlier_reports_and_decisions": "unchanged"
+  },
+  "validation": {
+    "official_final_check_import": "7 leaves each, 3 files; stderr=0",
+    "delta": "LOCALIZATION_CORRECTION_DELTA_OK changed_leaves=21 overlay_files=3 new_coverage=0",
+    "story_demo": "locales=5 source_events=14 leaves=100 target_ui=122",
+    "coverage": "EN strict 1813/1813 events and 35/35 endings; prepared locales remain skeleton",
+    "unchanged_selftests": "Not repeated or relabeled as new executions"
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_log_diagnostics": 1173,
+    "stale_source": 1170,
+    "each_locale_stale": 390,
+    "other_summary_diagnostics": 3,
+    "change": "1194 -> 1173: reviewed21 only; broad localization debt remains."
+  },
+  "identity": {
+    "original_export_source_revision": "24d327b7c8769d2afe2cd8e37263587a1baf30d5",
+    "final_receipt_sha256_by_locale": {
+      "ja": "79f0121c0d60cd4eca2bc511a2cc9374761246b4a33fb4771280b77303c87e2e",
+      "zh-CN": "815100285c288c0bc9ec1ec0bbbe7dea0f53942671e5fee2a83a4f015c7fcff3",
+      "zh-TW": "ba6842a55d644a4692ac32e6cfa7b659e8472df0c3d4549e16ae58c9e6835d92"
+    },
+    "reviewed_rows_sha256": "36fbe82673b1a174ea6fb7a17e2a0aa17d183f4c1c6a563b8d542a1bbeb78c04",
+    "reviewed_rows_encoding": "canonical JSON; locale/export order; [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-career-20261103/",
+    "raw_files": 34,
+    "raw_population_sha256": "31982f9e776ae330b829bff85b26b20c76a79f4861b649cb8e99e0a84543de10",
+    "raw_population_encoding": "canonical JSON: basename-sorted [basename,bytes,sha256] for all .jsonl/.log; includes pre-review2"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "external_publication_or_release"
+  ],
+  "conclusion": "Exact21 correction GO only. No engine/app/UI/save actions; wider claims unapproved."
+}

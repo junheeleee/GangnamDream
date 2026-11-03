@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-741 · 월급 한계 장면의 JA/zh 정합
+#### [x] ORDER-741 · 월급 한계 장면의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. 소유는7×3=21개 기존 번역 정정이다.
 
@@ -48,3 +48,5 @@ scope1194→1173(stale1170=언어별390+요약3)으로 이21개만 해소했다.
 공개데모5언어/100leaf/122UI·EN1813/35 clean·context/queue/diff 확인.
 원자료 `.git/localization-career-20261103/`, 불변 self-test 재실행0.
 전체 번역·차선·앱/화면·원어민·원격CI는 이 증거로 완료 판정하지 않는다.
+
+최종 [독립 보고](../agent_reviews/order741-career-cjk.md): 제품 `20ad124`의21정정만 GO.

@@ -12523,6 +12523,48 @@
         "path": "docs/agent_reviews/order740-midgame-cjk.json",
         "sha256": "5cee20aa92f7f3376a88c6ef6942f30b950a4a99e8601d4da1f57c4cdd7fd1db"
       }
+    },
+    {
+      "id": "order741-career-cjk-corrections-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-03",
+      "decided_by": "/root/capsule_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-741",
+      "subject": {
+        "kind": "source",
+        "commit": "20ad124666aa4f272f8d83849571866ea4588f81",
+        "tree": "7d27962e4b567b4b080217f86b0dd17ecbd7dcf6",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order741-career-cjk.md",
+          "sha256": "e92e4f671d03b93e087a61feeab4f0607bc1bf90d3b18c3f1de339ab1fbcd472"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order741-career-cjk.json",
+          "sha256": "01f40e7e7b5111a52f5f14a214a65cc500b2857034ed8a378310b05f35a22654"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order741-career-cjk.json",
+        "sha256": "01f40e7e7b5111a52f5f14a214a65cc500b2857034ed8a378310b05f35a22654"
+      }
     }
   ]
 }
