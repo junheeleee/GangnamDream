@@ -21711,6 +21711,185 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-763",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_y5_father_trace_alive_exact",
+        "arc_y5_father_trace_passed_exact",
+        "arc_y5_final_father_answer_alive",
+        "arc_y5_final_father_answer_passed",
+        "arc_year4_close_father_passed"
+      ],
+      "source_leaves": 6,
+      "target_leaves_by_locale": {
+        "ja": 6,
+        "zh-CN": 6,
+        "zh-TW": 6
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean-to-each-locale census of six source leaves and 18 stale shipping targets. Both missed-contact readers preserve the ward first contact and the player reply postponing travel and calls, not an unanswered outgoing call. Before the final signature the living father branch separates sent nontransfer notice from an unanswered present choice; the deceased branch keeps the folded medicine bag, guarantee copy, notice and empty chair, without a living dialogue or transfer. W192 deceased variant leaves time open without invented cancelled work and preserves the father name that cannot be called, with recorded facts and no fabricated completion time. Prior 356 batches, old acceptance/targets, nonowned 65 leaves, nested matrices and selectors unchanged. Shared source wording is aligned only within each locale.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "fedafeaa10c8a834850ee031a6f5bb0767bdf470",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "5337638f2f79b4083bd95587e52010ac10e8d0fb441c71e0fcc3a0bad38336a6",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2038e39911c28c30e673b3b7ca5a32c8c2e12c484b3f5b306d726484f1dfa5ed"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "fedafeaa10c8a834850ee031a6f5bb0767bdf470",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "2b7b1e1315b5def42c755b4f615903bb1d99dd5aa5922be92cea01ca48919bd1",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7b3233fa3e864c1401ee964fd16af2f8eafda23520ead146187663dd385464f4"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "fedafeaa10c8a834850ee031a6f5bb0767bdf470",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "7a5f5f0eded79f5c7567a23f33849f8c014c3811f1181646c940ed21d4218ef2",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "03e4881324534105f93615f4d62a96e318d5ccc5af3b0b5788e19501e51d4c14"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "ba21d755b6e7445bd68ab9e27d68d9b5d7601768e8f8dd5e652d1478b3d44736",
+        "zh-CN": "bdc6735325798ccd6e7d49d7899ad23d1e1c14af71af7e897ff93257ad5dda49",
+        "zh-TW": "d7ccd5715a51af4534433e1101c72b9748b037777c083b4b274b2cb44cb1241c"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_y5_father_trace_alive_exact:/chapter5_finale_reads/texts/1/2": "8a4f21196a51fc0acc65d2975ab8e990dcf437e30e1b715c7feb087312876a66",
+          "events:arc_y5_father_trace_passed_exact:/chapter5_finale_reads/texts/1/2": "8a4f21196a51fc0acc65d2975ab8e990dcf437e30e1b715c7feb087312876a66",
+          "events:arc_y5_final_father_answer_alive:/description": "76578efe7c471d1f3a2dee857215b20aabbca390887b9e1e375c8afdafae2905",
+          "events:arc_y5_final_father_answer_passed:/description": "a7effc361fda72e2ca1edb2d053edb9f61db7bd56145dc2e8795d1b95b203024",
+          "events:arc_year4_close_father_passed:/choices/0/result_text": "c25942bc438c9100e76d097466c5abd6e3fa6def4a3aa24fd9511b59bfe2a45c",
+          "events:arc_year4_close_father_passed:/description_if_known/arc_y4_year_close_protected_relationship": "334c0f0dc503b411200858e0047b03e0a64a22ee06f4c0b8af86f1df71209f2f"
+        },
+        "zh-CN": {
+          "events:arc_y5_father_trace_alive_exact:/chapter5_finale_reads/texts/1/2": "a1fd8d9fce66d7f6ec4581dcdf2b7629193db63b027331e05c7651688e8b3a59",
+          "events:arc_y5_father_trace_passed_exact:/chapter5_finale_reads/texts/1/2": "a1fd8d9fce66d7f6ec4581dcdf2b7629193db63b027331e05c7651688e8b3a59",
+          "events:arc_y5_final_father_answer_alive:/description": "23ced5c70c0c066661f5134ac6b220865ce481608b02f1d97f68fb33f0b490be",
+          "events:arc_y5_final_father_answer_passed:/description": "cf17d36dbeb8540e7cb4c98ec911545192664ac54f12a4c881276b7b6d515f5c",
+          "events:arc_year4_close_father_passed:/choices/0/result_text": "2c8594f5f7270546720550d7f0c72ac0c6edae9d3b5d089cbabc1ca299c39dde",
+          "events:arc_year4_close_father_passed:/description_if_known/arc_y4_year_close_protected_relationship": "6d004d3980e74044c21fc4272b0c2c5a076ffed668fce899d9fcb5978036d89f"
+        },
+        "zh-TW": {
+          "events:arc_y5_father_trace_alive_exact:/chapter5_finale_reads/texts/1/2": "4e3af89fd50c84a44a33d2ef370d9a7515f78a963ca7019cf65dffc7a568c71e",
+          "events:arc_y5_father_trace_passed_exact:/chapter5_finale_reads/texts/1/2": "4e3af89fd50c84a44a33d2ef370d9a7515f78a963ca7019cf65dffc7a568c71e",
+          "events:arc_y5_final_father_answer_alive:/description": "8df7b564159fe092e436407881f28070fb9e6c16333ca575b6a4e379eadc6ed0",
+          "events:arc_y5_final_father_answer_passed:/description": "8c2db181716d9c273b009e9bfc77a9ad2ce247dc7e712652f8491af7d9c372dc",
+          "events:arc_year4_close_father_passed:/choices/0/result_text": "29b8daeb5d2e85bc1dea67880de897814d032ce79a240ca4589cfb44ba9dd9f1",
+          "events:arc_year4_close_father_passed:/description_if_known/arc_y4_year_close_protected_relationship": "428e1d14d5fb5a0a887291a924ed889ba7ccacf900faf7008eb7b18c74c186b7"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_y5_father_trace_alive_exact:/chapter5_finale_reads/texts/1/2": {
+            "source_sha256": "32865f85638eb8c5f376165805857c09814f21e15d2ea5d9f1aa8b17ea710b5b",
+            "target_sha256": "8a4f21196a51fc0acc65d2975ab8e990dcf437e30e1b715c7feb087312876a66"
+          },
+          "events:arc_y5_father_trace_passed_exact:/chapter5_finale_reads/texts/1/2": {
+            "source_sha256": "32865f85638eb8c5f376165805857c09814f21e15d2ea5d9f1aa8b17ea710b5b",
+            "target_sha256": "8a4f21196a51fc0acc65d2975ab8e990dcf437e30e1b715c7feb087312876a66"
+          },
+          "events:arc_y5_final_father_answer_alive:/description": {
+            "source_sha256": "1263c33ab954e0c29effb20a55ef9e00ba6dcf93c27ec685707d7d370d6a3826",
+            "target_sha256": "76578efe7c471d1f3a2dee857215b20aabbca390887b9e1e375c8afdafae2905"
+          },
+          "events:arc_y5_final_father_answer_passed:/description": {
+            "source_sha256": "2de77628be31edcf79b5c9db1f25adb1f33b4ba94defe6527d0400b1cae56a21",
+            "target_sha256": "a7effc361fda72e2ca1edb2d053edb9f61db7bd56145dc2e8795d1b95b203024"
+          },
+          "events:arc_year4_close_father_passed:/choices/0/result_text": {
+            "source_sha256": "2d2be86cdd9be7f9648d0cccf429bc0f86805fca9b93f746bd54b0e39d2a1916",
+            "target_sha256": "c25942bc438c9100e76d097466c5abd6e3fa6def4a3aa24fd9511b59bfe2a45c"
+          },
+          "events:arc_year4_close_father_passed:/description_if_known/arc_y4_year_close_protected_relationship": {
+            "source_sha256": "9b05eed45d0ea6ace7fce3599a6ca57f860dc71d3c703d78a12e6bab5f3bcc1d",
+            "target_sha256": "334c0f0dc503b411200858e0047b03e0a64a22ee06f4c0b8af86f1df71209f2f"
+          }
+        },
+        "zh-CN": {
+          "events:arc_y5_father_trace_alive_exact:/chapter5_finale_reads/texts/1/2": {
+            "source_sha256": "32865f85638eb8c5f376165805857c09814f21e15d2ea5d9f1aa8b17ea710b5b",
+            "target_sha256": "a1fd8d9fce66d7f6ec4581dcdf2b7629193db63b027331e05c7651688e8b3a59"
+          },
+          "events:arc_y5_father_trace_passed_exact:/chapter5_finale_reads/texts/1/2": {
+            "source_sha256": "32865f85638eb8c5f376165805857c09814f21e15d2ea5d9f1aa8b17ea710b5b",
+            "target_sha256": "a1fd8d9fce66d7f6ec4581dcdf2b7629193db63b027331e05c7651688e8b3a59"
+          },
+          "events:arc_y5_final_father_answer_alive:/description": {
+            "source_sha256": "1263c33ab954e0c29effb20a55ef9e00ba6dcf93c27ec685707d7d370d6a3826",
+            "target_sha256": "23ced5c70c0c066661f5134ac6b220865ce481608b02f1d97f68fb33f0b490be"
+          },
+          "events:arc_y5_final_father_answer_passed:/description": {
+            "source_sha256": "2de77628be31edcf79b5c9db1f25adb1f33b4ba94defe6527d0400b1cae56a21",
+            "target_sha256": "cf17d36dbeb8540e7cb4c98ec911545192664ac54f12a4c881276b7b6d515f5c"
+          },
+          "events:arc_year4_close_father_passed:/choices/0/result_text": {
+            "source_sha256": "2d2be86cdd9be7f9648d0cccf429bc0f86805fca9b93f746bd54b0e39d2a1916",
+            "target_sha256": "2c8594f5f7270546720550d7f0c72ac0c6edae9d3b5d089cbabc1ca299c39dde"
+          },
+          "events:arc_year4_close_father_passed:/description_if_known/arc_y4_year_close_protected_relationship": {
+            "source_sha256": "9b05eed45d0ea6ace7fce3599a6ca57f860dc71d3c703d78a12e6bab5f3bcc1d",
+            "target_sha256": "6d004d3980e74044c21fc4272b0c2c5a076ffed668fce899d9fcb5978036d89f"
+          }
+        },
+        "zh-TW": {
+          "events:arc_y5_father_trace_alive_exact:/chapter5_finale_reads/texts/1/2": {
+            "source_sha256": "32865f85638eb8c5f376165805857c09814f21e15d2ea5d9f1aa8b17ea710b5b",
+            "target_sha256": "4e3af89fd50c84a44a33d2ef370d9a7515f78a963ca7019cf65dffc7a568c71e"
+          },
+          "events:arc_y5_father_trace_passed_exact:/chapter5_finale_reads/texts/1/2": {
+            "source_sha256": "32865f85638eb8c5f376165805857c09814f21e15d2ea5d9f1aa8b17ea710b5b",
+            "target_sha256": "4e3af89fd50c84a44a33d2ef370d9a7515f78a963ca7019cf65dffc7a568c71e"
+          },
+          "events:arc_y5_final_father_answer_alive:/description": {
+            "source_sha256": "1263c33ab954e0c29effb20a55ef9e00ba6dcf93c27ec685707d7d370d6a3826",
+            "target_sha256": "8df7b564159fe092e436407881f28070fb9e6c16333ca575b6a4e379eadc6ed0"
+          },
+          "events:arc_y5_final_father_answer_passed:/description": {
+            "source_sha256": "2de77628be31edcf79b5c9db1f25adb1f33b4ba94defe6527d0400b1cae56a21",
+            "target_sha256": "8c2db181716d9c273b009e9bfc77a9ad2ce247dc7e712652f8491af7d9c372dc"
+          },
+          "events:arc_year4_close_father_passed:/choices/0/result_text": {
+            "source_sha256": "2d2be86cdd9be7f9648d0cccf429bc0f86805fca9b93f746bd54b0e39d2a1916",
+            "target_sha256": "29b8daeb5d2e85bc1dea67880de897814d032ce79a240ca4589cfb44ba9dd9f1"
+          },
+          "events:arc_year4_close_father_passed:/description_if_known/arc_y4_year_close_protected_relationship": {
+            "source_sha256": "9b05eed45d0ea6ace7fce3599a6ca57f860dc71d3c703d78a12e6bab5f3bcc1d",
+            "target_sha256": "428e1d14d5fb5a0a887291a924ed889ba7ccacf900faf7008eb7b18c74c186b7"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -31768,8 +31947,8 @@
         "target_sha256": "8fd64ccb4fa98428ea4faca84e7820a0b3857f6ebc844c8eb72cf04f4f0da12d"
       },
       "events:arc_y5_father_trace_alive_exact:/chapter5_finale_reads/texts/1/2": {
-        "source_sha256": "32865f85638eb8c5f376165805857c09814f21e15d2ea5d9f1aa8b17ea710b5b",
-        "target_sha256": "8a4f21196a51fc0acc65d2975ab8e990dcf437e30e1b715c7feb087312876a66"
+        "source_sha256": "a560a2a36aab16d9294faa814927ca9907759c9ea571e649ef9da7d59cf96437",
+        "target_sha256": "7c587332379ad6d512c2d36c430769893c234898b088ba01e18d29ddbd722ae5"
       },
       "events:arc_y5_father_trace_alive_exact:/chapter5_finale_reads/texts/1/3": {
         "source_sha256": "3d23f1f1ccdb0868b9acdd42d1c4b80a2c55937623a36661ccebf78f1674107d",
@@ -31864,8 +32043,8 @@
         "target_sha256": "6132522a39c1101980d2aed85dfc3edd7f295333f80da86343f40ec9b7cb5d4e"
       },
       "events:arc_y5_father_trace_passed_exact:/chapter5_finale_reads/texts/1/2": {
-        "source_sha256": "32865f85638eb8c5f376165805857c09814f21e15d2ea5d9f1aa8b17ea710b5b",
-        "target_sha256": "8a4f21196a51fc0acc65d2975ab8e990dcf437e30e1b715c7feb087312876a66"
+        "source_sha256": "a560a2a36aab16d9294faa814927ca9907759c9ea571e649ef9da7d59cf96437",
+        "target_sha256": "7c587332379ad6d512c2d36c430769893c234898b088ba01e18d29ddbd722ae5"
       },
       "events:arc_y5_father_trace_passed_exact:/chapter5_finale_reads/texts/1/3": {
         "source_sha256": "fa0688dc6a6c9ff2ef7f124e382eaae67fa7e520344dd3eab87b67d2fe9356bd",
@@ -32600,8 +32779,8 @@
         "target_sha256": "4804af3514f112829fdf9a2cd9b26a9f98ea3e08cd9eee911dedef9f822f8dfe"
       },
       "events:arc_y5_final_father_answer_alive:/description": {
-        "source_sha256": "1263c33ab954e0c29effb20a55ef9e00ba6dcf93c27ec685707d7d370d6a3826",
-        "target_sha256": "76578efe7c471d1f3a2dee857215b20aabbca390887b9e1e375c8afdafae2905"
+        "source_sha256": "c22a7b2893ce8f46a21d0552cbc108ffe349862dbf988c4f92e782cbfd73dad7",
+        "target_sha256": "1e0ca6cad0b8f4b03a2439d75f2b538858383cd8501ea56e097364ce03be23e1"
       },
       "events:arc_y5_final_father_answer_alive:/title": {
         "source_sha256": "083c78057cae46319000652fd6c5302aa6d6882ff648ccc99e032ecdf9ba83cc",
@@ -32648,8 +32827,8 @@
         "target_sha256": "fb2f61a7e3d8c7cabb72c93399f6f2cdad10435e43cfa31d5e1f55a290060b9a"
       },
       "events:arc_y5_final_father_answer_passed:/description": {
-        "source_sha256": "2de77628be31edcf79b5c9db1f25adb1f33b4ba94defe6527d0400b1cae56a21",
-        "target_sha256": "a7effc361fda72e2ca1edb2d053edb9f61db7bd56145dc2e8795d1b95b203024"
+        "source_sha256": "67ee1db4b65b3f30d5c28f4e8ec9b4801aa179dbe2d20c337fce7f27a3a82df5",
+        "target_sha256": "6994f9aad9f91f3714edeed141fa94cea101d7f0b8de4768d9cd43cdb115eb60"
       },
       "events:arc_y5_final_father_answer_passed:/title": {
         "source_sha256": "71828c35fd9db2c6f1a4515d23d1e20486bc187e3c84420fa4100475473ab53c",
@@ -69484,8 +69663,8 @@
         "target_sha256": "9b3093863fffd5255a657aec5fa1e002b588f35defbbcc6a7d357491efd17760"
       },
       "events:arc_year4_close_father_passed:/choices/0/result_text": {
-        "source_sha256": "2d2be86cdd9be7f9648d0cccf429bc0f86805fca9b93f746bd54b0e39d2a1916",
-        "target_sha256": "c25942bc438c9100e76d097466c5abd6e3fa6def4a3aa24fd9511b59bfe2a45c"
+        "source_sha256": "7dee86508d5561efc2cec0eb3f582a60495474f0450cc8ca936bd94fd0128ca6",
+        "target_sha256": "79746736c277226d33ba8491e94ee9ff0d4629254e1de0b5a3e68b09fb05bd21"
       },
       "events:arc_year4_close_father_passed:/choices/0/text": {
         "source_sha256": "827a398568bd6c3a7336e10ce7218d1d6cbb0fdfe819c3009d87870bf1f57f0a",
@@ -69524,8 +69703,8 @@
         "target_sha256": "cad1fed7b0fd8afde7a64a003aedd2c756ed88f1457c3ed7d33e72b2959e9b26"
       },
       "events:arc_year4_close_father_passed:/description_if_known/arc_y4_year_close_protected_relationship": {
-        "source_sha256": "9b05eed45d0ea6ace7fce3599a6ca57f860dc71d3c703d78a12e6bab5f3bcc1d",
-        "target_sha256": "334c0f0dc503b411200858e0047b03e0a64a22ee06f4c0b8af86f1df71209f2f"
+        "source_sha256": "5d1ece8eeab0b0d8e2a992de6bc1e5e33b81a2eebd2a97aba19a8e92388db6ff",
+        "target_sha256": "c4abe97fb5f9706e92d329366ffa0ccf291e6f9edc2f35ac8b15a6ef9ee1d8eb"
       },
       "events:arc_year4_close_father_passed:/description_if_known/crossed_line": {
         "source_sha256": "908b91fc26d7c7a9bc3a4f527b2fb50f310fbbcb193b1576440fcd9deecb54e1",
@@ -84470,8 +84649,8 @@
         "target_sha256": "b48092fad702cbde457fe1f7ab9aeacb2d61848cb743780dfe095db078e842f0"
       },
       "events:arc_y5_father_trace_alive_exact:/chapter5_finale_reads/texts/1/2": {
-        "source_sha256": "32865f85638eb8c5f376165805857c09814f21e15d2ea5d9f1aa8b17ea710b5b",
-        "target_sha256": "a1fd8d9fce66d7f6ec4581dcdf2b7629193db63b027331e05c7651688e8b3a59"
+        "source_sha256": "a560a2a36aab16d9294faa814927ca9907759c9ea571e649ef9da7d59cf96437",
+        "target_sha256": "41f1b0176f2f20dbf04211f31aadcaa221a31e6b58c0a6ee9c7ad18acc87c3f1"
       },
       "events:arc_y5_father_trace_alive_exact:/chapter5_finale_reads/texts/1/3": {
         "source_sha256": "3d23f1f1ccdb0868b9acdd42d1c4b80a2c55937623a36661ccebf78f1674107d",
@@ -84566,8 +84745,8 @@
         "target_sha256": "ca3b461978170ab930e53da499d6b7627b1f4a5463423a4399d6cc7e5dbffd96"
       },
       "events:arc_y5_father_trace_passed_exact:/chapter5_finale_reads/texts/1/2": {
-        "source_sha256": "32865f85638eb8c5f376165805857c09814f21e15d2ea5d9f1aa8b17ea710b5b",
-        "target_sha256": "a1fd8d9fce66d7f6ec4581dcdf2b7629193db63b027331e05c7651688e8b3a59"
+        "source_sha256": "a560a2a36aab16d9294faa814927ca9907759c9ea571e649ef9da7d59cf96437",
+        "target_sha256": "41f1b0176f2f20dbf04211f31aadcaa221a31e6b58c0a6ee9c7ad18acc87c3f1"
       },
       "events:arc_y5_father_trace_passed_exact:/chapter5_finale_reads/texts/1/3": {
         "source_sha256": "fa0688dc6a6c9ff2ef7f124e382eaae67fa7e520344dd3eab87b67d2fe9356bd",
@@ -85302,8 +85481,8 @@
         "target_sha256": "6b0d09ec5f34a1206fdb9c214956b050a409326bb89a013ce9efc8d3a70c8a45"
       },
       "events:arc_y5_final_father_answer_alive:/description": {
-        "source_sha256": "1263c33ab954e0c29effb20a55ef9e00ba6dcf93c27ec685707d7d370d6a3826",
-        "target_sha256": "23ced5c70c0c066661f5134ac6b220865ce481608b02f1d97f68fb33f0b490be"
+        "source_sha256": "c22a7b2893ce8f46a21d0552cbc108ffe349862dbf988c4f92e782cbfd73dad7",
+        "target_sha256": "4d2f63adc055a851089f9e08c8b32da60893f171c8a65a50025bd52a32493ecf"
       },
       "events:arc_y5_final_father_answer_alive:/title": {
         "source_sha256": "083c78057cae46319000652fd6c5302aa6d6882ff648ccc99e032ecdf9ba83cc",
@@ -85350,8 +85529,8 @@
         "target_sha256": "0009141d0184f19cb5988ed8b80b0dc29953c2cb035a0bd47ec1e42084c19ab2"
       },
       "events:arc_y5_final_father_answer_passed:/description": {
-        "source_sha256": "2de77628be31edcf79b5c9db1f25adb1f33b4ba94defe6527d0400b1cae56a21",
-        "target_sha256": "cf17d36dbeb8540e7cb4c98ec911545192664ac54f12a4c881276b7b6d515f5c"
+        "source_sha256": "67ee1db4b65b3f30d5c28f4e8ec9b4801aa179dbe2d20c337fce7f27a3a82df5",
+        "target_sha256": "1df7c7580d654d981c395ad449fe2d4197e46aff76a1cbc09f7d8ff7b6bbc8ba"
       },
       "events:arc_y5_final_father_answer_passed:/title": {
         "source_sha256": "71828c35fd9db2c6f1a4515d23d1e20486bc187e3c84420fa4100475473ab53c",
@@ -122186,8 +122365,8 @@
         "target_sha256": "ade4c9a72a1fef8540efe8320cdc45cff6c441748e8054f285bbaf63721e5b7e"
       },
       "events:arc_year4_close_father_passed:/choices/0/result_text": {
-        "source_sha256": "2d2be86cdd9be7f9648d0cccf429bc0f86805fca9b93f746bd54b0e39d2a1916",
-        "target_sha256": "2c8594f5f7270546720550d7f0c72ac0c6edae9d3b5d089cbabc1ca299c39dde"
+        "source_sha256": "7dee86508d5561efc2cec0eb3f582a60495474f0450cc8ca936bd94fd0128ca6",
+        "target_sha256": "6faa8b475895a4d82e11f420f9eb24a6e79fecb9956d4129794dcbb34a922976"
       },
       "events:arc_year4_close_father_passed:/choices/0/text": {
         "source_sha256": "827a398568bd6c3a7336e10ce7218d1d6cbb0fdfe819c3009d87870bf1f57f0a",
@@ -122226,8 +122405,8 @@
         "target_sha256": "36262951f2f36b42390da38cca74cd4af4656ad86c1adf792a0193e3c6471be5"
       },
       "events:arc_year4_close_father_passed:/description_if_known/arc_y4_year_close_protected_relationship": {
-        "source_sha256": "9b05eed45d0ea6ace7fce3599a6ca57f860dc71d3c703d78a12e6bab5f3bcc1d",
-        "target_sha256": "6d004d3980e74044c21fc4272b0c2c5a076ffed668fce899d9fcb5978036d89f"
+        "source_sha256": "5d1ece8eeab0b0d8e2a992de6bc1e5e33b81a2eebd2a97aba19a8e92388db6ff",
+        "target_sha256": "4ee4176f963c6bd73de4d825a35076cd46f9ffa27b338cba67cde378e5c88b23"
       },
       "events:arc_year4_close_father_passed:/description_if_known/crossed_line": {
         "source_sha256": "908b91fc26d7c7a9bc3a4f527b2fb50f310fbbcb193b1576440fcd9deecb54e1",
@@ -143996,8 +144175,8 @@
         "target_sha256": "f64c4c58749b34f08ff071607633476fbc67d62305d7858bf89c4e4b5d287033"
       },
       "events:arc_y5_father_trace_alive_exact:/chapter5_finale_reads/texts/1/2": {
-        "source_sha256": "32865f85638eb8c5f376165805857c09814f21e15d2ea5d9f1aa8b17ea710b5b",
-        "target_sha256": "4e3af89fd50c84a44a33d2ef370d9a7515f78a963ca7019cf65dffc7a568c71e"
+        "source_sha256": "a560a2a36aab16d9294faa814927ca9907759c9ea571e649ef9da7d59cf96437",
+        "target_sha256": "89e924df838c22937cd822d583f679e1747b8636d9a7549d15565b87af7c15e6"
       },
       "events:arc_y5_father_trace_alive_exact:/chapter5_finale_reads/texts/1/3": {
         "source_sha256": "3d23f1f1ccdb0868b9acdd42d1c4b80a2c55937623a36661ccebf78f1674107d",
@@ -144092,8 +144271,8 @@
         "target_sha256": "cb6d2938f077cc489be33724b491beb6dc918c861a99c1bde0f3966a3e368fd3"
       },
       "events:arc_y5_father_trace_passed_exact:/chapter5_finale_reads/texts/1/2": {
-        "source_sha256": "32865f85638eb8c5f376165805857c09814f21e15d2ea5d9f1aa8b17ea710b5b",
-        "target_sha256": "4e3af89fd50c84a44a33d2ef370d9a7515f78a963ca7019cf65dffc7a568c71e"
+        "source_sha256": "a560a2a36aab16d9294faa814927ca9907759c9ea571e649ef9da7d59cf96437",
+        "target_sha256": "89e924df838c22937cd822d583f679e1747b8636d9a7549d15565b87af7c15e6"
       },
       "events:arc_y5_father_trace_passed_exact:/chapter5_finale_reads/texts/1/3": {
         "source_sha256": "fa0688dc6a6c9ff2ef7f124e382eaae67fa7e520344dd3eab87b67d2fe9356bd",
@@ -144828,8 +145007,8 @@
         "target_sha256": "0b2294bfb2ed04c8d85088c21725d57cfd451b18899cb1b1801acdb0ff887541"
       },
       "events:arc_y5_final_father_answer_alive:/description": {
-        "source_sha256": "1263c33ab954e0c29effb20a55ef9e00ba6dcf93c27ec685707d7d370d6a3826",
-        "target_sha256": "8df7b564159fe092e436407881f28070fb9e6c16333ca575b6a4e379eadc6ed0"
+        "source_sha256": "c22a7b2893ce8f46a21d0552cbc108ffe349862dbf988c4f92e782cbfd73dad7",
+        "target_sha256": "81586c5b8ccd0072320dced199e279bb0e07e2a689e2799361b7e099d9fd9bc1"
       },
       "events:arc_y5_final_father_answer_alive:/title": {
         "source_sha256": "083c78057cae46319000652fd6c5302aa6d6882ff648ccc99e032ecdf9ba83cc",
@@ -144876,8 +145055,8 @@
         "target_sha256": "dfc4683443b7e0e2edd6df41621f6fcdd2a0670bdb3affb1ad403ca09b320026"
       },
       "events:arc_y5_final_father_answer_passed:/description": {
-        "source_sha256": "2de77628be31edcf79b5c9db1f25adb1f33b4ba94defe6527d0400b1cae56a21",
-        "target_sha256": "8c2db181716d9c273b009e9bfc77a9ad2ce247dc7e712652f8491af7d9c372dc"
+        "source_sha256": "67ee1db4b65b3f30d5c28f4e8ec9b4801aa179dbe2d20c337fce7f27a3a82df5",
+        "target_sha256": "906758ca75f88bcc01db946b87b4e6a5892ecc1b97422e6a4930a39d7bcc8f54"
       },
       "events:arc_y5_final_father_answer_passed:/title": {
         "source_sha256": "71828c35fd9db2c6f1a4515d23d1e20486bc187e3c84420fa4100475473ab53c",
@@ -181712,8 +181891,8 @@
         "target_sha256": "71c2ce2ee334892939a55d29df1a26588cb37f3fd2e39d69f98fd2aed1000e73"
       },
       "events:arc_year4_close_father_passed:/choices/0/result_text": {
-        "source_sha256": "2d2be86cdd9be7f9648d0cccf429bc0f86805fca9b93f746bd54b0e39d2a1916",
-        "target_sha256": "29b8daeb5d2e85bc1dea67880de897814d032ce79a240ca4589cfb44ba9dd9f1"
+        "source_sha256": "7dee86508d5561efc2cec0eb3f582a60495474f0450cc8ca936bd94fd0128ca6",
+        "target_sha256": "c15d26f9df10a4fd8f588a3dbc29461e1b41268cfe3dc3037d216df252ce0035"
       },
       "events:arc_year4_close_father_passed:/choices/0/text": {
         "source_sha256": "827a398568bd6c3a7336e10ce7218d1d6cbb0fdfe819c3009d87870bf1f57f0a",
@@ -181752,8 +181931,8 @@
         "target_sha256": "089eaa73ea784b170daca633c0ffa32fe412e176d317d88b0870d1327814f314"
       },
       "events:arc_year4_close_father_passed:/description_if_known/arc_y4_year_close_protected_relationship": {
-        "source_sha256": "9b05eed45d0ea6ace7fce3599a6ca57f860dc71d3c703d78a12e6bab5f3bcc1d",
-        "target_sha256": "428e1d14d5fb5a0a887291a924ed889ba7ccacf900faf7008eb7b18c74c186b7"
+        "source_sha256": "5d1ece8eeab0b0d8e2a992de6bc1e5e33b81a2eebd2a97aba19a8e92388db6ff",
+        "target_sha256": "51835453f88ccdb818e3c83a309dc0a8c782565d63d97df9a807ec0be1d447f9"
       },
       "events:arc_year4_close_father_passed:/description_if_known/crossed_line": {
         "source_sha256": "908b91fc26d7c7a9bc3a4f527b2fb50f310fbbcb193b1576440fcd9deecb54e1",
@@ -193469,7 +193648,7 @@
       }
     }
   },
-  "accepted_sha256": "001c1ec7525315538940e6ca3490f6f56a47cf905e2d9e2f6bca0445e2979c47",
+  "accepted_sha256": "ba9ac39080423eebbaa536fdfa8c7f1f67a57975399f5816f76617a8e260fa93",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

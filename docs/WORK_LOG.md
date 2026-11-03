@@ -2,6 +2,8 @@
 
 ## 2026-11-04 — 연속 위임과 갈림길 번역 정합
 
+- C5/763: 부친 사망 결산/생사별 마지막 접촉·답변5root KR6×3=18 기존 번역 정합. 병동 첫 연락과 이동·통화 연기 답신의 날짜/시각을 무응답 자기 발신에서 바로잡았다. 생존의 무이체 통지 시각/발신·질문 저장·비발신과 사망의 약봉지/빈 의자/봉투·낭독·보관을 분리, 부친 부재·지킨 일/미완료·관계 빈 시간에 가짜 취소/성과0. 기존 `father.contact_mode` missed index2·두 text matrix의 다른 값/selector·prepending·생사/라우팅 불변. 사전 독립18전독 권고로 CN/TW 답신 2행씩과 TW 책임문장1을 정밀화, 최초 CN 십 년 넘음 수량 미검출은 十多年前로 같은 기간을 복원했다. CN 원거절1, 초안2/TW 중간 check 보존·검증기 완화0. JA check/CN-TW final-check/import6×3 exit0/stderr0, delta18/6JSON/원356배치·수용·이전target·비소유 전체 역대조, demo5/14/100/122 및 EN1813/35 clean. source-scope285→267(stale264=각88, shipping73/author15+요약3/count91)만 해소. 누적984는 기존 정정·신규 커버리지0, 실제 화면·최종 CI 별도.
+
 - 762마감: 제품`9c11c1ebfd49f3adca5c2d2fff00a42068ee5cc3`/tree`2a8d07a3f9835a73b047363f47ca77e121aa61ce` 정상push·[최종독립GO](agent_reviews/order762-year4-close-cjk.md). 실제12/receipt3·원355배치/비소유3JSON·13leaf/사망variant/전체원장 역복원, raw31=최종27/이력4 및 별도 초기4 집합 SHA·보고2/append1을 root 대조해 기존319판정을 보존했다. 제품CI41695048471 실제 두 job checkout 진행 중(null), 전체성공 미관측. 이번12/누적966은 기존 정정이다. 다음 부친 사망 결산·마지막 장 생사별 기록·답변의 실제 stale을 확인한다.
 
 - C5/762: 4년 결산 base/보호 관계·몸/결과0 KR4×3=12를 각 언어에 직접 정합했다. 수첩의 날짜·옥상 불빛·말린 모서리/엄지·빈 종이, 새 일정을 잡지 않는 관계 시간/자기 후속 예약 전후의 빈 시간, 지킨 일과 놓친 일의 같은 글씨와 미완료 시각 불발명을 보존했다. 부친 사망 variant·KO/EN·저장/소비자 불변. 사전 독립12 전독의 TW 표현2·마침표1 권고를 두 행에 반영, 다른2값/헤더 불변·초안과 중간 VALID 보존. JA/CN check·TW final-check/import4×3 exit0/stderr0, delta12/3JSON/원355배치·수용/이전target·비소유 전체 역대조, demo5언어 14사건100leaf122UI·EN1813/35 clean. 초기 7leaf export에서 회고3은 stale 수용이 아닌 수용기록 부재로 판명돼 제외·별도 보존. 최초 scope 보조 집계의 events 필터 누락(366은 타 도메인 포함)을 수정해 actual events 282/진단285(각 shipping79/author15+요약3/count97), 297→285만 해소했다. 총966은 기존 번역 정정이다. 최종 독립 실수용 검수·최신 CI 별도.
