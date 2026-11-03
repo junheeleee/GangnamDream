@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-747 · 질문·목표의 JA/zh 정합
+#### [x] ORDER-747 · 질문·목표의 JA/zh 정합
 
 2026-11-03 root 착수, 부모157·C5. 다섯 root×세 언어=15장면-언어 단위,
 shipping KR12×3=36개 기존 번역 정정만 소유한다.
@@ -50,4 +50,8 @@ draft1→draft2→최종사슬·원실패/중간VALID로그를보존하며검증
 최종check/import12×3 exit0/stderr0, receipt/순수검증/delta36/9파일·이전341배치/
 수용/이전target/비소유값불변. scope939→903(stale900=각300+요약3),
 demo5언어14사건100leaf122UI·EN1813/35 clean. 원자료는
-`.git/localization-question-goal-20261103/` 소유·최종제품 독립판정 대기다.
+`.git/localization-question-goal-20261103/` 소유다. 제품 `d7f0900`의
+[독립 전독](../agent_reviews/order747-question-goal-cjk.md)은 실수용36/9파일·
+원341배치/수용/previous-target/비소유값·receipt3개를 직접대조해 이36정정만GO로판정했다.
+raw32를최종사용26/TW수리이력6로분리SHA결속·기존304판정/보고불변.
+2026-11-03 완료·규범일회성, 전체언어/차선/화면/원어민/최신CI/M60/출시GO별도.

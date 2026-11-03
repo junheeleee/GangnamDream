@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-747",
+  "reviewer": "/root/capsule_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-03",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "d7f09007fea671904c7e316fe6235393454e986e",
+    "tree": "917ef75b6cfe973e5f9104ee553165f60c3180b4",
+    "manifest_sha256": null
+  },
+  "scope": "Five question/goal roots only: Korean12 × JA/zh-CN/zh-TW =36 existing-target corrections; new coverage0.",
+  "population": {
+    "source_leaves": 12,
+    "target_leaves": 36,
+    "scene_language_units": 15,
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/{arc_midgame,arc_drama,arc_events}.json",
+    "selection": {
+      "arc_goal_vertigo": [
+        "description"
+      ],
+      "arc_midpoint_reckoning": [
+        "description"
+      ],
+      "arc_sangchul_confrontation": [
+        "description",
+        "description_if_known/{confronted_with_card,discarded_card_before_confrontation,used_sangchul_knowingly,sangchul_helped_with_father,ng_confronted_sangchul_early,ng_playing_sangchul,sangchul_trust_deepened}"
+      ],
+      "arc_sangchul_deduction": [
+        "description"
+      ],
+      "arc_sangchul_casino_invite": [
+        "choices/0/result_text"
+      ]
+    }
+  },
+  "review": {
+    "method": "Read Korean12/targets36 and five full Korean/current-locale roots/choices/memory; compared all8 confrontation variants against Korean and prior targets. Read story_rules724/3260, DataRegistry overlay and StoryMode4384-4450, plus prologue knee witness/three choices.",
+    "final_blocking_findings": [],
+    "question": "Only the question was postponed, not every action for one month. Cards in pocket/bag, prior early question/known truth/knowing use, hospital help and gratitude remain conditional. First matching known text replaces base; memory appends separately. Prologue elbow/fist/turned-back memories are supported, not invented.",
+    "goal_search": "Current spreadsheet/housing cost/expected return, notebook/balance/phone and present search retained; no fixed weeks, retrospective cost/moral explanation. Mr Im's identity stays open. Case-number similarity leads to later choices, not prematurely proven full name.",
+    "casino": "Sangchul's stated companion remains his acquaintance, not someone the player already met. Developer2/self-employed1/acquaintance1 are industry claims in a message, not co-presence.",
+    "repairs": "TW developer wording explicitly real-estate development company, not generic development. Enter-key token became 輸入鍵; two leftover spaces removed. Draft1→draft2→final chain changes exactly these2 leaves, other10 rows/header/metadata unchanged. CN hospital-help wording not narrowed to arranging admission.",
+    "checked": "3,000,000,000/30억 won;5years/6years/nearly10years/01:47/100times and future month preserved where sourced; {name}, newlines/names/regional terms."
+  },
+  "preservation": {
+    "prior_batches": 341,
+    "prior_decisions": 304,
+    "ledger": "Prior batches/nonowned acceptance exact; original acceptance and previous-target hashes retained; final receipts recomputed.",
+    "overlays": "Restoring owned36 yields all9 prior overlay JSON files exactly; other choices/order/memory values unchanged.",
+    "boundaries": "KO/EN/runtime/gameplay/demo/allowlist/validators and earlier reports/decisions unchanged.",
+    "metadata": "Read five declared doc diffs: CLAUDE/queue/parent157/active747/WORK_LOG; no extra product mutation."
+  },
+  "validation": {
+    "final_check_import": "Three final check/import pairs:12 leaves/3files each, VALID/INCOMPLETE/OPEN markers, stderr0; author exit0.",
+    "delta": "changed_leaves36 overlay_files9 new_coverage0; independent whole-JSON/receipt reconstruction passed.",
+    "story_demo": "locales5 source_events14 leaves100 target_ui122",
+    "coverage": "EN strict1813/1813 events35/35 endings; CJK skeleton1708/1813.",
+    "history": "TW original English-token rejection, draft1/draft2 and intermediate VALID logs preserved separately, not final receipts. No validator relaxation/old-export recheck/unchanged selftest repetition; app/engine/UI/save actions0."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 903,
+    "stale_source": 900,
+    "each_locale_stale": 300,
+    "summary_diagnostics": 3,
+    "change": "939 ->903: reviewed36 only; pure scope recomputation confirms counts; broad debt remains."
+  },
+  "identity": {
+    "original_export_source_revision": "0f0bc31510ee51eccf9c4661285b17b576a4d832",
+    "final_receipt_sha256_by_locale": {
+      "ja": "1a02f32ec9ac62883303c9d57a04243f6acf0543be259416dbf3ecec3f5dd3f5",
+      "zh-CN": "f8d82df62bb146ea3ed1509db979b58dc86583d04335b1f23f233ace43f7bafe",
+      "zh-TW": "93f7d1abf38c8c4339c68e47688de05b22ffe6bb510514d84ff59f4bd76a1c55"
+    },
+    "reviewed_rows_sha256": "5a78955eba638213ee92cf6cc24a98b0421bff43bf905a506fcaf31fcd0eba11",
+    "reviewed_rows_encoding": "canonical JSON, locale/export order: [locale,id,source-hash,previous-target-hash,target-hash]",
+    "raw_directory": ".git/localization-question-goal-20261103/",
+    "raw_files": 32,
+    "raw_population_sha256": "7d9d322b0eac9f7151f3d9a2f36fdbb351dd68e64ab9f102b9b7972b4bfb9cc3",
+    "raw_population_encoding": "canonical JSON: basename-sorted [basename,bytes,sha256] for all .jsonl/.log; same encoding for disjoint subsets",
+    "used_final": {
+      "files": 26,
+      "sha256": "5ff6ac49fac330bb6e0f19171090b55aee4e4e664a0d2fa87ce752046b22898e",
+      "selection": "Final source/response3 pairs, check/import3 stdout/stderr pairs, delta/scope/demo/coverage stdout/stderr4 pairs"
+    },
+    "repair_history": {
+      "files": 6,
+      "sha256": "b8e65a02a04c4571de4929b586497b642a54d961bed9e1f134627a7bb6b79e25",
+      "selection": "TW draft1/draft2 responses and each stage's check stdout/stderr"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ],
+  "conclusion": "GO for exact36 source corrections only, not intermediate validation, whole translation/lane, actual runtime, M60 or release."
+}

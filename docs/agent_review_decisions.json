@@ -12775,6 +12775,49 @@
         "path": "docs/agent_reviews/order746-return-distance-cjk.json",
         "sha256": "5f55b9f5adc9dd526cc4422b53767ab74a5dc4dc2deaaaa299b55ba517784fbe"
       }
+    },
+    {
+      "id": "order747-question-goal-cjk-corrections-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-03",
+      "decided_by": "/root/capsule_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-747",
+      "subject": {
+        "kind": "source",
+        "commit": "d7f09007fea671904c7e316fe6235393454e986e",
+        "tree": "917ef75b6cfe973e5f9104ee553165f60c3180b4",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order747-question-goal-cjk.md",
+          "sha256": "9fc8a364b5bd31ba83bcc5e3a3cdab9642f7fae10646698725b81bae5ffd2a27"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order747-question-goal-cjk.json",
+          "sha256": "a3d44f51e41d9d65ec81c68786495615d58683c115d042c61412ef5dcbbf33d8"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order747-question-goal-cjk.json",
+        "sha256": "a3d44f51e41d9d65ec81c68786495615d58683c115d042c61412ef5dcbbf33d8"
+      }
     }
   ]
 }
