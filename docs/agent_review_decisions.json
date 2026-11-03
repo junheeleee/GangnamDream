@@ -13251,6 +13251,50 @@
         "path": "docs/agent_reviews/order757-half-combinations-cjk.json",
         "sha256": "ebb1a42d009bf84eb78f022664851b2fb2871b45f83085128190d33558a76e31"
       }
+    },
+    {
+      "id": "order758-father-contact-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-758",
+      "subject": {
+        "kind": "source",
+        "commit": "537eb771d940519fd2f1e5a1c5095d86b8e88ad8",
+        "tree": "4f2e575bac7c3ed413863f820d074e4fa7a9e7d2",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order758-father-contact-cjk.md",
+          "sha256": "f67cea1e9ae5c2d7f92e8a1b1904534be8d4088fbc8594f08c6685f39e91f88f"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order758-father-contact-cjk.json",
+          "sha256": "9f5c9d28683bd37d537a85edc440a58c166c0b1812350fa011e9dc60baed4e0e"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "all_memory_combinations_natural_run_exposure",
+        "full_translation_completion",
+        "retail_five_language_runtime",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order758-father-contact-cjk.json",
+        "sha256": "9f5c9d28683bd37d537a85edc440a58c166c0b1812350fa011e9dc60baed4e0e"
+      }
     }
   ]
 }

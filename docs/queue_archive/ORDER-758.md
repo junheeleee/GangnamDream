@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-758 · 병동 연락의 JA/zh 정합
+#### [x] ORDER-758 · 병동 연락의 JA/zh 정합
 
 2026-11-04 root·부모157/C5. shipping한root KR15×3=45 기존번역 정정.
 
@@ -33,7 +33,7 @@ demo/EN·scope/context/queue/diff. 수용뒤옛export CLI/불변self-test반복0
 
 ## 검사 실물·후보
 
-KR15/목표45의사전독립전독GO·실수용완료, 최종제품후보독립검수대기다.
+KR15/목표45의사전독립전독GO·실수용완료, 최종제품후보독립검수GO다.
 원문없는487300/생사·의료결과해설/옛call화면·취소손실단정을현재병동SMS/
 선택후택시손잡이·짧은숨/산소기계·오늘불가/내일미확약·손가락회고로정렬했다.
 CN/TW초안수리2+독립권고후수리2response보존·검증거절0·도구변경0이다.
@@ -47,3 +47,10 @@ source-scope444→399(stale396=각132/내shipping117author15+요약3/count135)·
 story_rules phone/incoming과KO본문SMS의기존차이를native결함/소비자수리로확대0.
 patch동일파일복수Update형식거절은쓰기0·후속singleUpdate로수리·제품성공증거아님.
 게임31.3실행/입력/저장편집0. 수용후옛export CLI/불변self-test/완료검사반복0.
+
+제품537eb771d940519fd2f1e5a1c5095d86b8e88ad8/tree4f2e575b의
+[최종독립전독](../agent_reviews/order758-father-contact-cjk.md)은실수용45/receipt3·
+원351배치/비소유3JSON·4leaf·후속3root/전체원장/지난기록을직접역복원해이범위만GO다.
+raw34=최종26/이력8의각집합SHA·보고2/append1을root전독대조·원315판정보존.
+제품CI41675489425 static126054851453 success/engine126054852209 step6진행중.
+2026-11-04 완료. 기존I18N계약적용·신규규범0/일회성·전체언어/native/CI/출시별도.

@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-758",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "537eb771d940519fd2f1e5a1c5095d86b8e88ad8",
+    "tree": "4f2e575bac7c3ed413863f820d074e4fa7a9e7d2",
+    "manifest_sha256": null
+  },
+  "scope": "arc_y4_father_crisis_contact shipping description1/choice results3/ordinary memories11: Korean15 × JA/zh-CN/zh-TW =45 existing-target corrections; new coverage0.",
+  "population": {
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/arc_drama.json",
+    "excluded": "Current title/choice texts3 (four leaves) and three father_final_contact follow-up roots are read-only, unchanged and not reaccepted."
+  },
+  "review": {
+    "method": "Directly read all Korean15 and target45, full root choices and all three follow-up roots in Korean and each locale. Read earlier KTX call/no-call and bill payment/body-care/father-care producers, MainGame t185 living-father/bill-seen ingress and t188 outcome, story_rules life/flags/presentation and StoryMode ordinary first-matching memory consumer. Finally bind actual accepted45 to those reviewed responses.",
+    "final_blocking_findings": [],
+    "meaning": "6:14PM ward SMS reports oxygen/exam underway and requests tonight guardian contact method. Fastest train can arrive late, not already arrived; phone connection remains possible until chosen. Choice0 buys7:02 ticket, sends absent-task/ward arrival messages and grips taxi handle; choice1 verifies patient/family relationship then hears short breath and regular oxygen hiss; choice2 declines today without promising tomorrow and holds phone until screen turns off. No death, prognosis, extra487300 amount, cancellation-loss explanation or old one-second call timer is invented.",
+    "memory": "Eleven ordered ordinary first-match memories retain midnight-before payment versus own night care for hand tremor versus ward/medication/transfer-hospital/guardian-contact ordering, crossed with still earlier Seoul-bound train call versus unpressed father number. Combined keys precede simpler fallback keys, only one ordinary memory appends; no simultaneous11-exposure claim. Follow-up bedside/call/missed-contact branches and living father remain distinct.",
+    "repairs": "Pre-review recommendations accepted and exact compared: CN description explicitly names guardian as contact recipient; CN regular-interval clause drops ill-fitting 就; payment memories3 use 转出/转出了. TW description similarly clarifies recipient and result2 自行暗下 -> 自行熄滅 preserves actual screen-off. CN5/TW2 rows only versus draft2; other10/13 and headers/non-text metadata unchanged. Author's earlier CN oxygen/extra 一阵 and TW unmotivated unconscious-action gloss repairs are retained as separate draft1 history.",
+    "metadata_boundary": "Existing story_rules phone/incoming/nurse presentation differs from current Korean SMS prose. Translation follows Korean SMS; no consumer/route repair or native defect determination was performed."
+  },
+  "preservation": {
+    "prior_batches": 351,
+    "prior_decisions": 315,
+    "proof": "Pure check_batch15×3 passed. Actual45 exactly equal response values and canonical receipt translations; headers, all three receipt hashes, previous-target and superseded original acceptance verified. Reverting only selected45 reproduces all three baseline9257 parsed overlay JSONs, including nonowned four leaves, follow-ups and memory key order. Reverting accepted values/digest/final batch reproduces entire baseline ledger; all351 prior batches and other acceptance values exact.",
+    "docs": "Candidate9 paths are three overlays/ledger plus declared CLAUDE/queue/parent157/active758/WORK_LOG only. Existing reports and315 decisions unchanged before reviewer append. Existing Nov4 WORK_LOG header/prefix and all previous content bytes are preserved around the one inserted758 paragraph in the same date section. KO/EN/effects/flags/runtime/tools/demo/save unchanged."
+  },
+  "validation": {
+    "checks_imports": "Read JA check and CN/TW final-check15×3 plus import15×3 VALID/INCOMPLETE/OPEN markers and six empty stderr files. Author separately observed final process exits0; reviewer did not infer them from stdout alone. Earlier CN/TW checks are intermediate VALID history, not final-value checks. Translation rejections0; no validator changes.",
+    "independent": "Fixed9257 pure source/response/target/receipt/full-ledger/JSON reverse and source-scope census passed. No post-import old-export CLI, HEAD-dependent private helper, engine/app or unchanged selftest rerun.",
+    "demo_i18n": "Read raw demo5 locales/14 events/100 leaves/122 UI and EN strict1813/35 clean. Skeleton/text verification is not rendered/native completion.",
+    "lane": "lane-product-list.log is11 selected checks for four product paths, not execution or whole-lane green.",
+    "nonproduct_history": "A rejected patch invocation used duplicate Update sections and wrote nothing; later single-Update application succeeded. This is not a product failure or product test success."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 399,
+    "stale_source": 396,
+    "each_locale_stale": 132,
+    "each_locale_shipping_stale": 117,
+    "each_locale_author_only_stale": 15,
+    "summary_diagnostics": 3,
+    "summary_target_count_each": 135,
+    "change": "444 ->399 by reviewed45 only; pure independent census agrees. Locale summary3 is not three missing phrases; full localization/UI/runtime remains incomplete."
+  },
+  "identity": {
+    "original_export_source_revision": "9257b21e96b585e5c479504987d64017bfd02cf4",
+    "reviewed_rows_sha256": "4beb243d93fab922875603ee09546da7231343cbe3fcfa3d99cd0647ed67b386",
+    "reviewed_rows_encoding": "Canonical JSON locale/export order [locale,id,source-hash,previous-target-hash,target-hash]",
+    "receipt_sha256_by_locale": {
+      "ja": "74ba218c2cdaa461d87ec86a9fea2a9f77edc04c265c213f594f0a0b607dcd1f",
+      "zh-CN": "2a6ac2f9c0b2c6d05528593d992ffdd92b0b772956c6bcefc63f28a303f90a66",
+      "zh-TW": "e4b1c18f618e29c203dc08ef0a5fc0e48c71668c4943fa20c5ac73f0fe8b034a"
+    },
+    "raw_directory": ".git/localization-father-contact-20261104/",
+    "raw_population": {
+      "files": 34,
+      "sha256": "01e1a412dc8461365c4ac94e3e513dd343615dd9fa36d943238d7cf8facb506a"
+    },
+    "used_final": {
+      "files": 26,
+      "sha256": "c4d4219f39eaaabe15e9bc0e373258b0363abb14c0a533889aaeef18b21bab9b",
+      "selection": "helpers2/leaf-list1/source3/response3/final-check6/import6/delta-demo-i18n-product-list-scope5"
+    },
+    "repair_history": {
+      "files": 8,
+      "sha256": "30bee81fbef3b2916a9abea9de30ad978049b2d8c10f949566dc725642e3971f",
+      "selection": "draft1/draft2 CN/TW responses4 and intermediate CN/TW check stdout/stderr4"
+    },
+    "raw_population_encoding": "Canonical JSON basename-sorted [basename,bytes,sha256]; final/history disjoint and exhaustive"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "all_memory_combinations_natural_run_exposure",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
