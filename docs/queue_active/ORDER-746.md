@@ -38,3 +38,18 @@ receipt/순수검증/delta와 이전batch·수용·비소유값, demo/EN·scope�
 포기 시 잃는 것: 송금방향/추가수수없음·현재카드알림·거리감의 정확한 의미.
 서사 위치/계층: 기존6root/계층 불변. 닫는 것: 이39 source정합만.
 규범은 기존 I18N 정본 적용·승격0. 전체언어/차선·실화면/원어민·CI/출시 GO별도.
+
+## 검사 실물·후보
+
+수용전 capsule_review 독립 KR13/JA13/CN13/TW13 전독과6root 전체선택·
+DataRegistry428~439/1151~1201·story_rules/ROMANCE 대조, 추가수리0.
+최종check/import13×3 exit0/stderr0, receipt/순수검증/delta39/12파일·이전340배치/
+수용/target지문/비소유값불변. source진단978→939(stale936=각312+요약3),
+공개demo5언어14사건100leaf122UI·EN1813/35 clean. 전체차선/화면GO는아니다.
+원자료 `.git/localization-return-distance-20261103/` 보존. 최종제품 독립판정 대기.
+
+준비이력(일회성): 큐소수행/고정이어보기번호 실패는09cf54c에서수리, 원실패를
+검사성공으로세지않는다. 새행은고정이어보기뒤연속정수79로기록한다.
+check/import는세언어모두 `--locale`를명시한다(default ja). CN옵션누락거절과
+CN‘两根手指’의entity2미인식 실패를보존했다. CN/TW두구절은 ‘两个指头/兩個指頭’로
+의미·수량2를보존했고 독립대조로다른12값/헤더불변확인·초안2보존·검증기완화0.
