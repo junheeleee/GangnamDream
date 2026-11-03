@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-761",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "6b4e0db2f2446f8a448efc327bfda5410044394d",
+    "tree": "9c278039167ea6dfe3c34f743b9d0b7103204260",
+    "manifest_sha256": null
+  },
+  "scope": "arc_final_week shipping base1/choice0+2 texts2/results3/signature known3/gamble known1: Korean10 × JA/zh-CN/zh-TW =30 existing-target corrections; new coverage0.",
+  "population": {
+    "method": "Full census, not sampled",
+    "target_files": "content/events_{ja,zh-CN,zh-TW}/arc_drama.json",
+    "excluded": "Current title/choice1 text/other known15/housing memories3 =20 leaves unchanged and not reaccepted. Source/runtime/producers remain read-only."
+  },
+  "review": {
+    "method": "Read Korean whole root and all three existing target whole roots including current20, Korean10 and target30 in full. Read risk-plan producer, MainGame exactW240 generic entry/typed finale lock/countdown follow-up and foreground240/two-seen close gate, StoryMode first-known replacement/ordinary memory append. Bind reviewed final responses to actual accepted30.",
+    "final_blocking_findings": [],
+    "meaning": "Same night/room/desk follows one signature, chat list/one name/no newer bubble/cursor/charging cord/two-hand grip remain concrete. Request meal, delayed apology or alone tonight with own first contact tomorrow are distinct actions, no named recipient/answered meal/forgiveness/reunion assumed. Signature variants keep dry own-name ink smell, cost arrows same direction or own name lowest, not added debt/recovery lectures.",
+    "choices": "Five-years-ago self with500000won is a probable imagined voice, not a real other speaker. Proposal below that retained line leaves sent time and number1 not disappearing; no agreed meal. Apology names fault in one sentence without delay/achievement excuses, deletes final no-reply line twice then rewrites, sends and turns phone down under lamp. Alone/gratitude choice writes own first contact tomorrow evening8, connects charger/turns light off/green indicator; promise is own responsibility, not the recipient's consent.",
+    "gamble": "38th birthday7days/5years/500000won remain. One night in final stretch, risky plan was saved with stopping-condition field blank; not fixed24weeks earlier, executed wager/order or gain/loss. Six paragraphs and internal line breaks preserved.",
+    "repairs": "Independent recommendations accepted exactly: JA result0 きっと -> たぶん keeps Korean probable voice and 食事をできる -> 食事ができる corrects particle; CN gamble 留下…空着 -> 把…留空 naturally keeps blank condition. JA1/CN1 rows changed versus draft1; other9/9 and headers/non-text metadata unchanged, TW10 unchanged from full prereview.",
+    "consumer_boundary": "Generic exact240 only when typed finale does not hold ending. Countdown follow-up opens this root; foreground240 and both seen flags permit generic close. First matching signature3 known keys precede gamble; with both true signature wins. Existing other known/memory order is unchanged, no all-new-normal-run gamble exposure or activation claim."
+  },
+  "preservation": {
+    "prior_batches": 354,
+    "prior_decisions": 318,
+    "proof": "Pure check_batch10×3 passed. Actual30=response exact; canonical three receipt headers/translations/hashes verified. Previous-target/superseded original acceptance match fixedbe08351 baseline. Reverting only30 reproduces entire three parsed JSONs including current20 and known/memory key order. Reverting batch/accepted/digest reproduces whole prior ledger; all354 prior batches and nonowned acceptance exact.",
+    "docs": "Candidate9 paths are three overlays/ledger plus declared CLAUDE/queue/parent157/active761/WORK_LOG. Previous318 decisions/reports unchanged before reviewer append. Existing Nov4 WORK_LOG header/prefix and prior content bytes exact around single new761 paragraph. KO/EN/effects/flags/conditions/runtime/tools/demo/save unchanged."
+  },
+  "validation": {
+    "checks_imports": "Read JA/CN final-check and TW check10×3 plus import10×3 VALID/INCOMPLETE/OPEN, six empty stderr files. Author separately observed final exits0, not inferred from markers alone. Initial JA/CN VALID checks are intermediate history; original draft responses2/four intermediate logs preserved. Translation rejection0, validator unchanged.",
+    "independent": "Fixedbe08351 pure source/response/target/receipt/three-JSON/full-ledger reverse and scope census passed, tokens/paragraphs checked. No old-export CLI, HEAD-dependent helper, unchanged selftest, engine/app/save rerun.",
+    "demo_i18n": "Raw demo5 locales/14events/100leaves/122UI and EN strict1813/35 clean. Skeleton/text evidence is not actual rendering/native approval.",
+    "lane": "lane-product-list.log selects11 checks for four product paths, not execution or whole-lane green.",
+    "preparation_history": "Author separately disclosed a private-helper preparation re.sub replacement unicode-escape error before writes, repaired using lambda/ASCII. Its original output is retained in author conversation, outside final raw32. It is not a product/validator failure or success and final raw success does not replace that history."
+  },
+  "debt": {
+    "whole_lane_pass": false,
+    "scope_diagnostics": 297,
+    "stale_source": 294,
+    "each_locale_stale": 98,
+    "each_locale_shipping_stale": 83,
+    "each_locale_author_only_stale": 15,
+    "summary_diagnostics": 3,
+    "summary_target_count_each": 101,
+    "change": "327 ->297 by reviewed30 only; independent pure census agrees. Summary3 is not three missing phrases; full language/UI/runtime incomplete."
+  },
+  "identity": {
+    "original_export_source_revision": "be0835101f54953826135d35c9e90d4103048a97",
+    "reviewed_rows_sha256": "97c825782059e7c823a8fc5f1a1f5cd3dc82f90ff1fa40c75edb00161d18dd08",
+    "reviewed_rows_encoding": "Canonical JSON locale/export order [locale,id,source-hash,previous-target-hash,target-hash]",
+    "receipt_sha256_by_locale": {
+      "ja": "37aaf98277e8369272f5effe494b901b3b3516b6c6c2ba36b00713401eb50830",
+      "zh-CN": "038e4eb301dda0e324b4a462e8bb5a34469bc680c7c220f3ca1bb410848ff2f8",
+      "zh-TW": "3c526de5cb7f1d52789b6674cb5feef40f26f63fd9361eb0389c1e8712d4bd06"
+    },
+    "raw_directory": ".git/localization-final-week-20261104/",
+    "raw_population": {
+      "files": 32,
+      "sha256": "37921fafef4706830e5cd83ca7cb8988a88d5b45132738597f2c8d2109353489"
+    },
+    "used_final": {
+      "files": 26,
+      "sha256": "c7a76e56a6e0fee201d6a46e042aae5b9ef7e6ee6725208f6af40c1ba7f243da",
+      "selection": "helpers2/leaf-list1/source3/response3/final-check6/import6/delta-demo-i18n-product-list-scope5"
+    },
+    "repair_history": {
+      "files": 6,
+      "sha256": "8c56f8c38138e7e7f982658fe94f4b4580e3309cf836996f27485170fb76d1d9",
+      "selection": "draft1 JA/CN responses2 and intermediate JA/CN check stdout-stderr4"
+    },
+    "raw_population_encoding": "Canonical JSON basename-sorted [basename,bytes,sha256]; final/history disjoint and exhaustive"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "all_known_memory_combinations_natural_run_exposure",
+    "full_translation_completion",
+    "retail_five_language_runtime",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

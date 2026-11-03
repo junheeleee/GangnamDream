@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-761 · 마지막 주 선발신·계획 회고의 JA/zh 정합
+#### [x] ORDER-761 · 마지막 주 선발신·계획 회고의 JA/zh 정합
 
 2026-11-04 root·부모157/C5. shipping한root KR10×3=30 기존번역 정정.
 
@@ -35,7 +35,7 @@ demo/EN·scope/context/queue/diff. 수용뒤옛export CLI/불변self-test반복0
 
 ## 검사 실물·후보
 
-KR10/목표30의사전독립전독GO·실수용완료, 최종제품후보독립검수대기다.
+KR10/목표30의사전독립전독GO·실수용완료, 최종제품후보독립검수GO다.
 관계결과/권한·화해훈계/고정24주전베팅해설을현재같은밤수첩/채팅목록/커서/
 두손·전송시각/미삭제1·사과줄2번삭제/등빛·내일저녁8시/초록충전등으로정렬했다.
 위험계획회고는멈춤조건칸비운계획저장/38세7일·5년·50만원이며실제베팅0발명.
@@ -48,3 +48,10 @@ source-scope327→297(stale294=각98/내shipping83author15+요약3/count101)·�
 known첫서명3가gamble보다앞이라동시true면서명이우선·모든변형신규노출claim0.
 privatehelper준비re.sub replacement unicode escape오류1은쓰기0·lambda/ASCII수리,
 제품/언어validator결함·검사성공으로세지않는다. 게임31.3실행/입력/저장편집0.
+
+제품6b4e0db2f2446f8a448efc327bfda5410044394d/tree9c278039의
+[최종독립전독](../agent_reviews/order761-final-week-cjk.md)은실수용30/receipt3·
+원354배치/비소유3JSON·20leaf/전체원장/지난기록을직접역복원해이범위만GO다.
+raw32=최종26/이력6의각집합SHA·보고2/append1을root전독대조·원318판정보존.
+제품CI41686979952 두job진행중·전체성공미관측.
+2026-11-04 완료. 기존I18N계약적용·신규규범0/일회성·전체언어/native/CI/출시별도.
