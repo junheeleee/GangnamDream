@@ -17134,6 +17134,275 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-747",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_goal_vertigo",
+        "arc_midpoint_reckoning",
+        "arc_sangchul_confrontation",
+        "arc_sangchul_deduction",
+        "arc_sangchul_casino_invite"
+      ],
+      "source_leaves": 12,
+      "target_leaves_by_locale": {
+        "ja": 12,
+        "zh-CN": 12,
+        "zh-TW": 12
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean comparison and independent full reading of36 targets before import: postponing a question rather than one month of total inaction, conditional card/knowledge/help/gratitude paths retained; current spreadsheet/notebook/calculator and open target question, no fixed240/120weeks or invented night/loss history or future moral; present search/enter/case-number gaze, unnamed Im not identity verdict; casino companion reported by Sangchul rather than player previous acquaintance. Prior acceptance/previous-target chain preserved.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "0f0bc31510ee51eccf9c4661285b17b576a4d832",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "b9d4b09c70356e5e73840fb1ab3ed3e7b58d2d4ca73f5a14f0bd9f95327fce7e",
+          "count": 12,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7c2f6a89c40af62a901c6a703341c39f7facc97d6e37c465e043e036118a9685"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "0f0bc31510ee51eccf9c4661285b17b576a4d832",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "1105887a6ed621c47250f96f08574312c2453b4a4100f38f46da6018466f2827",
+          "count": 12,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "dc802552acbf58b369b6080367df323b1c18a7496f1b1948012c0805a31822da"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "0f0bc31510ee51eccf9c4661285b17b576a4d832",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "4fbb1e58e8bfebd35c66a256c8cbaa4359601f6c5daf67d4ac6466189d4fb122",
+          "count": 12,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "11067694f3976969a39063afd665b09d4e664bc492b5e497653c63b7abf281d4"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "1a02f32ec9ac62883303c9d57a04243f6acf0543be259416dbf3ecec3f5dd3f5",
+        "zh-CN": "f8d82df62bb146ea3ed1509db979b58dc86583d04335b1f23f233ace43f7bafe",
+        "zh-TW": "93f7d1abf38c8c4339c68e47688de05b22ffe6bb510514d84ff59f4bd76a1c55"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_goal_vertigo:/description": "7f1d57176503e1ddea3612e18935e6b0700015d0f3e934145d1a235e0eb725bf",
+          "events:arc_midpoint_reckoning:/description": "c58d841caf2026252f651ec7f34f3183c921243c38fea8f736c8cfca6b23d61f",
+          "events:arc_sangchul_casino_invite:/choices/0/result_text": "3413712b3e58bca1d6a05cd0c7f5f2909de96bd6e4e6f1119820855ac740c588",
+          "events:arc_sangchul_confrontation:/description": "16d039eca627d36a4502900044a2791419aaaf0192028846671c2d3a01067cf2",
+          "events:arc_sangchul_confrontation:/description_if_known/confronted_with_card": "052abc45d8a8ab4b88a9f4189532195d98bb8fc6e84b4094d353edee16a325d5",
+          "events:arc_sangchul_confrontation:/description_if_known/discarded_card_before_confrontation": "964317665f7c62e7b8500e2d5034339fa45000f479c1f0989527d0b1204dc0de",
+          "events:arc_sangchul_confrontation:/description_if_known/ng_confronted_sangchul_early": "0848f146d684355dad51a2201fbb419dbaaa388ee30fa3d748e10dde02de437a",
+          "events:arc_sangchul_confrontation:/description_if_known/ng_playing_sangchul": "716853d2be36507231c92e24a866decbaccb68ccb7a4b5abc164a41a3800ab69",
+          "events:arc_sangchul_confrontation:/description_if_known/sangchul_helped_with_father": "fef79f32277d7ba28d9a99073d35ca01ff9a91000893a4ff7a4eabd478ed5071",
+          "events:arc_sangchul_confrontation:/description_if_known/sangchul_trust_deepened": "d11584a0ad13202e57d29004152593f9376909cbec4d75657b1e763ae111165a",
+          "events:arc_sangchul_confrontation:/description_if_known/used_sangchul_knowingly": "c27b8edf1146f3164959209981bd52d3b387521d9403b581882abd2f5f47b2b0",
+          "events:arc_sangchul_deduction:/description": "9203b5a27000e198ca050fe8cd9acff1110d96863028f703d1dc158dd338ef19"
+        },
+        "zh-CN": {
+          "events:arc_goal_vertigo:/description": "c9ae77ccbd315ce8d93cd5462c4fb9b412495e06f515a4d4fc818531d28d8b74",
+          "events:arc_midpoint_reckoning:/description": "2c8b00deab676d75190e87e753b926842c4d07b99ccc4ce704a7b48231f559a5",
+          "events:arc_sangchul_casino_invite:/choices/0/result_text": "eb964a9afa375ec784385979599d549530d3f57aeb7c63567cc04705bab5f9f2",
+          "events:arc_sangchul_confrontation:/description": "335c88a08201f1dda7d8449a7133f2c2ce0940f1cbaa6e042fe4895d58fb3548",
+          "events:arc_sangchul_confrontation:/description_if_known/confronted_with_card": "9bcadcd24cefc794f4bdb8652454ee7f45ad52bf6c6b14692d9529809db08894",
+          "events:arc_sangchul_confrontation:/description_if_known/discarded_card_before_confrontation": "ac5d14a68ed1abf06d69487e3e65f8612ac98db9161a81ec893742ff4a5fe73a",
+          "events:arc_sangchul_confrontation:/description_if_known/ng_confronted_sangchul_early": "3371f74db59e3c4271e40bce8a9637abab3bb598447e5ab518aa28f478bf0c86",
+          "events:arc_sangchul_confrontation:/description_if_known/ng_playing_sangchul": "859af359292b961fc58b793dcab0c21c73ef74ec620ed5f1ea54a3d35e268e93",
+          "events:arc_sangchul_confrontation:/description_if_known/sangchul_helped_with_father": "96e169ba4782c37017ef08c9fabce530f6022c7ab641750dadba8192be8bd975",
+          "events:arc_sangchul_confrontation:/description_if_known/sangchul_trust_deepened": "1b50ee51e5431114cadc664a6c97df047c9c667138c184fa197a011e26c91204",
+          "events:arc_sangchul_confrontation:/description_if_known/used_sangchul_knowingly": "117bcca4872e822375afe8bcc63d4407cc6fb384b9c84b1ad4a81b0496dca289",
+          "events:arc_sangchul_deduction:/description": "5f164a52e15ac3ad5837d4538abe6f89114cdfc5a2319acf38e7e488f89a5f02"
+        },
+        "zh-TW": {
+          "events:arc_goal_vertigo:/description": "dc1764b008bb71afac87666390759008793f1c624e49246fa6db2649285287d7",
+          "events:arc_midpoint_reckoning:/description": "5d84a0a23299483779329a3548bbd1a213ef45e4e5dfddea4643a7f03817b2b1",
+          "events:arc_sangchul_casino_invite:/choices/0/result_text": "d7a69f2f479b44fc6f4df2576649a3819b8748999ec21c5026320236d65ab53d",
+          "events:arc_sangchul_confrontation:/description": "b72ed74ba69df9713663ee1a59d27da5d1b62455a4e2fd4188349e9834f943a2",
+          "events:arc_sangchul_confrontation:/description_if_known/confronted_with_card": "108af7d3df243f6f480e1e5d57b554fd32fe2725ec828c1428fe6301bdeafbdd",
+          "events:arc_sangchul_confrontation:/description_if_known/discarded_card_before_confrontation": "4e0e8201ef38382b9a5d7efe782b002af66868c77ecf36aa12a57b04e8b46862",
+          "events:arc_sangchul_confrontation:/description_if_known/ng_confronted_sangchul_early": "1f2f81232cde62e7336b806714a63ea1a8a91c9dbe651d40570b49cf53d205b0",
+          "events:arc_sangchul_confrontation:/description_if_known/ng_playing_sangchul": "a6e32c36895fdde2636bd1875bff3c2c1edc10e12af766baf1b216565b4bac9b",
+          "events:arc_sangchul_confrontation:/description_if_known/sangchul_helped_with_father": "9c35b4e50c3974900e63d6914a159ed5c3e7bae84c69a6b31200f8f8f7840c1b",
+          "events:arc_sangchul_confrontation:/description_if_known/sangchul_trust_deepened": "acdb988bf4cee3bba7cc626a1cd77f168af0cc4507310a5345a8b2974a3bbe3a",
+          "events:arc_sangchul_confrontation:/description_if_known/used_sangchul_knowingly": "600f862faffe28cc56534142ef5c94e305c736614d447e9bfea860aa6672afca",
+          "events:arc_sangchul_deduction:/description": "ec1e3dacbc953c7513466094ddd38ea0f387dd69d12d6e73604df2237f14422c"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_goal_vertigo:/description": {
+            "source_sha256": "5436149bd38a8e58bdf14e317c4c7a6f69ee66640ebbfd76d35bcb825e973d3c",
+            "target_sha256": "7f1d57176503e1ddea3612e18935e6b0700015d0f3e934145d1a235e0eb725bf"
+          },
+          "events:arc_midpoint_reckoning:/description": {
+            "source_sha256": "f712b2381d1baaeb218bcbb7f254652f81c5b683bc7903d16bc5c2a170359b98",
+            "target_sha256": "c58d841caf2026252f651ec7f34f3183c921243c38fea8f736c8cfca6b23d61f"
+          },
+          "events:arc_sangchul_casino_invite:/choices/0/result_text": {
+            "source_sha256": "20eb971138925cafe6caff31f18a779306edee68a18165916f8f252c94c0409f",
+            "target_sha256": "3413712b3e58bca1d6a05cd0c7f5f2909de96bd6e4e6f1119820855ac740c588"
+          },
+          "events:arc_sangchul_confrontation:/description": {
+            "source_sha256": "de87c084d663aee499723d45d681d1494b422f4875e06f4227e3ec07bc1e5201",
+            "target_sha256": "16d039eca627d36a4502900044a2791419aaaf0192028846671c2d3a01067cf2"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/confronted_with_card": {
+            "source_sha256": "276e61a4f74d43d9adb8b248dcdaf22469c7e97690208e9b7eb2e514a88a5bc6",
+            "target_sha256": "052abc45d8a8ab4b88a9f4189532195d98bb8fc6e84b4094d353edee16a325d5"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/discarded_card_before_confrontation": {
+            "source_sha256": "56ebf72d23319a2d68eb8e65aacf617070b1778f8c947deb5c63bb620d86b2be",
+            "target_sha256": "964317665f7c62e7b8500e2d5034339fa45000f479c1f0989527d0b1204dc0de"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/ng_confronted_sangchul_early": {
+            "source_sha256": "944e8161c3f4fddf8212d8963432fa9c06515c4f5c87a88219df943da9bb843c",
+            "target_sha256": "0848f146d684355dad51a2201fbb419dbaaa388ee30fa3d748e10dde02de437a"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/ng_playing_sangchul": {
+            "source_sha256": "c7302272f7ea9864c99d3921908835b9645aef0adde1bdc79e11f0e20941e032",
+            "target_sha256": "716853d2be36507231c92e24a866decbaccb68ccb7a4b5abc164a41a3800ab69"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/sangchul_helped_with_father": {
+            "source_sha256": "279548a1f4e8b74749a197d56694f54c1491d1c186554206b731e276c567c85b",
+            "target_sha256": "fef79f32277d7ba28d9a99073d35ca01ff9a91000893a4ff7a4eabd478ed5071"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/sangchul_trust_deepened": {
+            "source_sha256": "4231d8d9258c00549e52a6d745fdd22cb48a5ec7e3933374c11fe1ca15ef4480",
+            "target_sha256": "d11584a0ad13202e57d29004152593f9376909cbec4d75657b1e763ae111165a"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/used_sangchul_knowingly": {
+            "source_sha256": "cc7868b638b0515c5b07c83ddffe56748af4286e75b5a3665f5aad185c9c842e",
+            "target_sha256": "c27b8edf1146f3164959209981bd52d3b387521d9403b581882abd2f5f47b2b0"
+          },
+          "events:arc_sangchul_deduction:/description": {
+            "source_sha256": "744ac278c65e6bf63463e3544d16ac915b339ced97a3e903a6aadbc3cc62b874",
+            "target_sha256": "9203b5a27000e198ca050fe8cd9acff1110d96863028f703d1dc158dd338ef19"
+          }
+        },
+        "zh-CN": {
+          "events:arc_goal_vertigo:/description": {
+            "source_sha256": "5436149bd38a8e58bdf14e317c4c7a6f69ee66640ebbfd76d35bcb825e973d3c",
+            "target_sha256": "c9ae77ccbd315ce8d93cd5462c4fb9b412495e06f515a4d4fc818531d28d8b74"
+          },
+          "events:arc_midpoint_reckoning:/description": {
+            "source_sha256": "f712b2381d1baaeb218bcbb7f254652f81c5b683bc7903d16bc5c2a170359b98",
+            "target_sha256": "2c8b00deab676d75190e87e753b926842c4d07b99ccc4ce704a7b48231f559a5"
+          },
+          "events:arc_sangchul_casino_invite:/choices/0/result_text": {
+            "source_sha256": "20eb971138925cafe6caff31f18a779306edee68a18165916f8f252c94c0409f",
+            "target_sha256": "eb964a9afa375ec784385979599d549530d3f57aeb7c63567cc04705bab5f9f2"
+          },
+          "events:arc_sangchul_confrontation:/description": {
+            "source_sha256": "de87c084d663aee499723d45d681d1494b422f4875e06f4227e3ec07bc1e5201",
+            "target_sha256": "335c88a08201f1dda7d8449a7133f2c2ce0940f1cbaa6e042fe4895d58fb3548"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/confronted_with_card": {
+            "source_sha256": "276e61a4f74d43d9adb8b248dcdaf22469c7e97690208e9b7eb2e514a88a5bc6",
+            "target_sha256": "9bcadcd24cefc794f4bdb8652454ee7f45ad52bf6c6b14692d9529809db08894"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/discarded_card_before_confrontation": {
+            "source_sha256": "56ebf72d23319a2d68eb8e65aacf617070b1778f8c947deb5c63bb620d86b2be",
+            "target_sha256": "ac5d14a68ed1abf06d69487e3e65f8612ac98db9161a81ec893742ff4a5fe73a"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/ng_confronted_sangchul_early": {
+            "source_sha256": "944e8161c3f4fddf8212d8963432fa9c06515c4f5c87a88219df943da9bb843c",
+            "target_sha256": "3371f74db59e3c4271e40bce8a9637abab3bb598447e5ab518aa28f478bf0c86"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/ng_playing_sangchul": {
+            "source_sha256": "c7302272f7ea9864c99d3921908835b9645aef0adde1bdc79e11f0e20941e032",
+            "target_sha256": "859af359292b961fc58b793dcab0c21c73ef74ec620ed5f1ea54a3d35e268e93"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/sangchul_helped_with_father": {
+            "source_sha256": "279548a1f4e8b74749a197d56694f54c1491d1c186554206b731e276c567c85b",
+            "target_sha256": "96e169ba4782c37017ef08c9fabce530f6022c7ab641750dadba8192be8bd975"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/sangchul_trust_deepened": {
+            "source_sha256": "4231d8d9258c00549e52a6d745fdd22cb48a5ec7e3933374c11fe1ca15ef4480",
+            "target_sha256": "1b50ee51e5431114cadc664a6c97df047c9c667138c184fa197a011e26c91204"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/used_sangchul_knowingly": {
+            "source_sha256": "cc7868b638b0515c5b07c83ddffe56748af4286e75b5a3665f5aad185c9c842e",
+            "target_sha256": "117bcca4872e822375afe8bcc63d4407cc6fb384b9c84b1ad4a81b0496dca289"
+          },
+          "events:arc_sangchul_deduction:/description": {
+            "source_sha256": "744ac278c65e6bf63463e3544d16ac915b339ced97a3e903a6aadbc3cc62b874",
+            "target_sha256": "5f164a52e15ac3ad5837d4538abe6f89114cdfc5a2319acf38e7e488f89a5f02"
+          }
+        },
+        "zh-TW": {
+          "events:arc_goal_vertigo:/description": {
+            "source_sha256": "5436149bd38a8e58bdf14e317c4c7a6f69ee66640ebbfd76d35bcb825e973d3c",
+            "target_sha256": "dc1764b008bb71afac87666390759008793f1c624e49246fa6db2649285287d7"
+          },
+          "events:arc_midpoint_reckoning:/description": {
+            "source_sha256": "f712b2381d1baaeb218bcbb7f254652f81c5b683bc7903d16bc5c2a170359b98",
+            "target_sha256": "5d84a0a23299483779329a3548bbd1a213ef45e4e5dfddea4643a7f03817b2b1"
+          },
+          "events:arc_sangchul_casino_invite:/choices/0/result_text": {
+            "source_sha256": "20eb971138925cafe6caff31f18a779306edee68a18165916f8f252c94c0409f",
+            "target_sha256": "d7a69f2f479b44fc6f4df2576649a3819b8748999ec21c5026320236d65ab53d"
+          },
+          "events:arc_sangchul_confrontation:/description": {
+            "source_sha256": "de87c084d663aee499723d45d681d1494b422f4875e06f4227e3ec07bc1e5201",
+            "target_sha256": "b72ed74ba69df9713663ee1a59d27da5d1b62455a4e2fd4188349e9834f943a2"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/confronted_with_card": {
+            "source_sha256": "276e61a4f74d43d9adb8b248dcdaf22469c7e97690208e9b7eb2e514a88a5bc6",
+            "target_sha256": "108af7d3df243f6f480e1e5d57b554fd32fe2725ec828c1428fe6301bdeafbdd"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/discarded_card_before_confrontation": {
+            "source_sha256": "56ebf72d23319a2d68eb8e65aacf617070b1778f8c947deb5c63bb620d86b2be",
+            "target_sha256": "4e0e8201ef38382b9a5d7efe782b002af66868c77ecf36aa12a57b04e8b46862"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/ng_confronted_sangchul_early": {
+            "source_sha256": "944e8161c3f4fddf8212d8963432fa9c06515c4f5c87a88219df943da9bb843c",
+            "target_sha256": "1f2f81232cde62e7336b806714a63ea1a8a91c9dbe651d40570b49cf53d205b0"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/ng_playing_sangchul": {
+            "source_sha256": "c7302272f7ea9864c99d3921908835b9645aef0adde1bdc79e11f0e20941e032",
+            "target_sha256": "a6e32c36895fdde2636bd1875bff3c2c1edc10e12af766baf1b216565b4bac9b"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/sangchul_helped_with_father": {
+            "source_sha256": "279548a1f4e8b74749a197d56694f54c1491d1c186554206b731e276c567c85b",
+            "target_sha256": "9c35b4e50c3974900e63d6914a159ed5c3e7bae84c69a6b31200f8f8f7840c1b"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/sangchul_trust_deepened": {
+            "source_sha256": "4231d8d9258c00549e52a6d745fdd22cb48a5ec7e3933374c11fe1ca15ef4480",
+            "target_sha256": "acdb988bf4cee3bba7cc626a1cd77f168af0cc4507310a5345a8b2974a3bbe3a"
+          },
+          "events:arc_sangchul_confrontation:/description_if_known/used_sangchul_knowingly": {
+            "source_sha256": "cc7868b638b0515c5b07c83ddffe56748af4286e75b5a3665f5aad185c9c842e",
+            "target_sha256": "600f862faffe28cc56534142ef5c94e305c736614d447e9bfea860aa6672afca"
+          },
+          "events:arc_sangchul_deduction:/description": {
+            "source_sha256": "744ac278c65e6bf63463e3544d16ac915b339ced97a3e903a6aadbc3cc62b874",
+            "target_sha256": "ec1e3dacbc953c7513466094ddd38ea0f387dd69d12d6e73604df2237f14422c"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -23727,8 +23996,8 @@
         "target_sha256": "0035cf6ad714dd74308bffc3a73d7df98699a7115f6b4c3380a301406859d9f1"
       },
       "events:arc_goal_vertigo:/description": {
-        "source_sha256": "5436149bd38a8e58bdf14e317c4c7a6f69ee66640ebbfd76d35bcb825e973d3c",
-        "target_sha256": "7f1d57176503e1ddea3612e18935e6b0700015d0f3e934145d1a235e0eb725bf"
+        "source_sha256": "b014f456229bf2e1800915d96952d1f0abd2675293ffa2ac8275eba714d946ff",
+        "target_sha256": "e0cd3f7f96db0883910f6a0d414a8314503b92a2a9a6bdfaf53607e3fa88558a"
       },
       "events:arc_goal_vertigo:/title": {
         "source_sha256": "6df5d62ae0322d3f274cab94e3144e8926e4b5a46f93662e74f93b9b5b57ed49",
@@ -23759,8 +24028,8 @@
         "target_sha256": "e3fea290b36b5f1714c95c953f5367d90d7abe4af86fdb3df07f71817117b761"
       },
       "events:arc_midpoint_reckoning:/description": {
-        "source_sha256": "f712b2381d1baaeb218bcbb7f254652f81c5b683bc7903d16bc5c2a170359b98",
-        "target_sha256": "c58d841caf2026252f651ec7f34f3183c921243c38fea8f736c8cfca6b23d61f"
+        "source_sha256": "4607da770051f3da2c69726d0b9d15307921b2ba78db473998b89bdc32d529f5",
+        "target_sha256": "5843f3bbcdab70092e41b7bd88b4c5687cf548d7239a995398060bd220eaf032"
       },
       "events:arc_midpoint_reckoning:/title": {
         "source_sha256": "1097a12553182c03450cea5b9dd35271f9797c755bd7fd6cb6acb580fbc401be",
@@ -23875,36 +24144,36 @@
         "target_sha256": "ff88dd5b764bd49039237ba5d9c2e836ff6d0da8d976a6cedf25df48bc519220"
       },
       "events:arc_sangchul_confrontation:/description": {
-        "source_sha256": "de87c084d663aee499723d45d681d1494b422f4875e06f4227e3ec07bc1e5201",
-        "target_sha256": "16d039eca627d36a4502900044a2791419aaaf0192028846671c2d3a01067cf2"
+        "source_sha256": "c29954f9aab46916630b2d5a9d912aa8b8076db9c6fb816ca93a39b799fd1642",
+        "target_sha256": "0c2e05369c18406f96571e76365798bca6326a8a9f1b66af375b6884d36e80a6"
       },
       "events:arc_sangchul_confrontation:/description_if_known/confronted_with_card": {
-        "source_sha256": "276e61a4f74d43d9adb8b248dcdaf22469c7e97690208e9b7eb2e514a88a5bc6",
-        "target_sha256": "052abc45d8a8ab4b88a9f4189532195d98bb8fc6e84b4094d353edee16a325d5"
+        "source_sha256": "7909ed934357ed8968c9bc47aa2485b4582296ff9ad1c182a23ee045c5680c5c",
+        "target_sha256": "be44059cd7f94baf8199b3b8457cfaba2ad5bf2fd761a6c3b705fd1e71f1fe8b"
       },
       "events:arc_sangchul_confrontation:/description_if_known/discarded_card_before_confrontation": {
-        "source_sha256": "56ebf72d23319a2d68eb8e65aacf617070b1778f8c947deb5c63bb620d86b2be",
-        "target_sha256": "964317665f7c62e7b8500e2d5034339fa45000f479c1f0989527d0b1204dc0de"
+        "source_sha256": "cd24ee2ca77f1eb2a2162a68617f767cff642f89498a0fd48b7cb2feac1c2a89",
+        "target_sha256": "67adb05e10ce25f1ccc6994839af01b5b4d3e0ee682cf6830e8d0bd6b04de961"
       },
       "events:arc_sangchul_confrontation:/description_if_known/ng_confronted_sangchul_early": {
-        "source_sha256": "944e8161c3f4fddf8212d8963432fa9c06515c4f5c87a88219df943da9bb843c",
-        "target_sha256": "0848f146d684355dad51a2201fbb419dbaaa388ee30fa3d748e10dde02de437a"
+        "source_sha256": "c712bcaf313660722492ab7aebc77d0b5714028fab2440a74ac19e54383e3c6b",
+        "target_sha256": "d9caaa356dc32d902f52656151fb865ae1909b07ed49a1a360e791c9a10e5078"
       },
       "events:arc_sangchul_confrontation:/description_if_known/ng_playing_sangchul": {
-        "source_sha256": "c7302272f7ea9864c99d3921908835b9645aef0adde1bdc79e11f0e20941e032",
-        "target_sha256": "716853d2be36507231c92e24a866decbaccb68ccb7a4b5abc164a41a3800ab69"
+        "source_sha256": "d4974eba9aa22c4838e86948a6f2edbe8b72c75fd0fc22be4a62192c40612f06",
+        "target_sha256": "6659b511cfa53f79edc8216bfce084d5ebb4deb99e929745884ee8a522f118f7"
       },
       "events:arc_sangchul_confrontation:/description_if_known/sangchul_helped_with_father": {
-        "source_sha256": "279548a1f4e8b74749a197d56694f54c1491d1c186554206b731e276c567c85b",
-        "target_sha256": "fef79f32277d7ba28d9a99073d35ca01ff9a91000893a4ff7a4eabd478ed5071"
+        "source_sha256": "5df6f4e140a148fc29a9500d70c01c13d4e14a8ebd127fcb3c2503645e47d51d",
+        "target_sha256": "363c9e3357e9c66cbd65490a7dbe74c4be7dc8ec061f86e988fd074162805763"
       },
       "events:arc_sangchul_confrontation:/description_if_known/sangchul_trust_deepened": {
-        "source_sha256": "4231d8d9258c00549e52a6d745fdd22cb48a5ec7e3933374c11fe1ca15ef4480",
-        "target_sha256": "d11584a0ad13202e57d29004152593f9376909cbec4d75657b1e763ae111165a"
+        "source_sha256": "add7c096d82ed87e80f00f4abbc4d6e379ebcb00888cf6f1888b6517b08f3f97",
+        "target_sha256": "371269f6aabc98b33f08f9a41f30a4aa6363cc106b458b8e7e448d7a4d677a9f"
       },
       "events:arc_sangchul_confrontation:/description_if_known/used_sangchul_knowingly": {
-        "source_sha256": "cc7868b638b0515c5b07c83ddffe56748af4286e75b5a3665f5aad185c9c842e",
-        "target_sha256": "c27b8edf1146f3164959209981bd52d3b387521d9403b581882abd2f5f47b2b0"
+        "source_sha256": "73c7ab8394fa2c3f2f2de782faabae2b933a49fe415a2c9f776cf8501ab0ed95",
+        "target_sha256": "2973eea9e5efe217c5b3eb3d92a3005777533b659256500068192d2c5795e65e"
       },
       "events:arc_sangchul_confrontation:/description_memory_if_known/knee_day_faced": {
         "source_sha256": "aaf1cac5300853111b99715a8155229ba4aa46bf67714b43234146542173bfab",
@@ -23939,8 +24208,8 @@
         "target_sha256": "14a137f46a735472ffacf24ff7e10b5023aed23f72f3409894314cec2899bb75"
       },
       "events:arc_sangchul_deduction:/description": {
-        "source_sha256": "744ac278c65e6bf63463e3544d16ac915b339ced97a3e903a6aadbc3cc62b874",
-        "target_sha256": "9203b5a27000e198ca050fe8cd9acff1110d96863028f703d1dc158dd338ef19"
+        "source_sha256": "998374da0e0ee0e34f365659d2eeddb995db721b0f87e09198e4f35a1e0fa958",
+        "target_sha256": "7c726c03bc4e9db24f8ce8346bddd099c656e19e2bf46d5ed2539fa923ebb596"
       },
       "events:arc_sangchul_deduction:/title": {
         "source_sha256": "4ed2c9d9555740042516d136a9d339925bcba517c38e9dc344252d84a9d7e801",
@@ -63759,8 +64028,8 @@
         "target_sha256": "2b358ff5e14475dadcaf5b56c14bae8b33724f02015bbd5dd150ddc25a54d5e4"
       },
       "events:arc_sangchul_casino_invite:/choices/0/result_text": {
-        "source_sha256": "20eb971138925cafe6caff31f18a779306edee68a18165916f8f252c94c0409f",
-        "target_sha256": "3413712b3e58bca1d6a05cd0c7f5f2909de96bd6e4e6f1119820855ac740c588"
+        "source_sha256": "74a3efe242bf0c6138fb6f9a0989daedefeb9e4c976331edc5046b8e88d06bde",
+        "target_sha256": "d425547abb6339dee2437e63b94975237e69a8064022c321dafa0aafbf068f5d"
       },
       "events:arc_sangchul_casino_invite:/choices/0/text": {
         "source_sha256": "4bb461dc71e6716c565376a66d707fbda53ade4ac0d475ad1481221c710d03a6",
@@ -76429,8 +76698,8 @@
         "target_sha256": "89efbcf70ef24ec18bf533eab5874c4c1f27f0f7682e69ee586b8be89af87eaf"
       },
       "events:arc_goal_vertigo:/description": {
-        "source_sha256": "5436149bd38a8e58bdf14e317c4c7a6f69ee66640ebbfd76d35bcb825e973d3c",
-        "target_sha256": "c9ae77ccbd315ce8d93cd5462c4fb9b412495e06f515a4d4fc818531d28d8b74"
+        "source_sha256": "b014f456229bf2e1800915d96952d1f0abd2675293ffa2ac8275eba714d946ff",
+        "target_sha256": "b3d377dc45d7681984f4e149cc736d794fcc25cf600bf488fc0727f15a3ded66"
       },
       "events:arc_goal_vertigo:/title": {
         "source_sha256": "6df5d62ae0322d3f274cab94e3144e8926e4b5a46f93662e74f93b9b5b57ed49",
@@ -76461,8 +76730,8 @@
         "target_sha256": "5f77882212cec0446baf87ecf9f8da7c43226f6c8c8a5d27cbd3299db0a189af"
       },
       "events:arc_midpoint_reckoning:/description": {
-        "source_sha256": "f712b2381d1baaeb218bcbb7f254652f81c5b683bc7903d16bc5c2a170359b98",
-        "target_sha256": "2c8b00deab676d75190e87e753b926842c4d07b99ccc4ce704a7b48231f559a5"
+        "source_sha256": "4607da770051f3da2c69726d0b9d15307921b2ba78db473998b89bdc32d529f5",
+        "target_sha256": "02e16aebc15b0a3da3d184f0d053192c36c4e2248ccd93ced699ac6886bb92d4"
       },
       "events:arc_midpoint_reckoning:/title": {
         "source_sha256": "1097a12553182c03450cea5b9dd35271f9797c755bd7fd6cb6acb580fbc401be",
@@ -76577,36 +76846,36 @@
         "target_sha256": "3bdb0b24f48c99a9ae1f7bd7edd2eb63705a7de36657f2546a64fa8793fe1c2d"
       },
       "events:arc_sangchul_confrontation:/description": {
-        "source_sha256": "de87c084d663aee499723d45d681d1494b422f4875e06f4227e3ec07bc1e5201",
-        "target_sha256": "335c88a08201f1dda7d8449a7133f2c2ce0940f1cbaa6e042fe4895d58fb3548"
+        "source_sha256": "c29954f9aab46916630b2d5a9d912aa8b8076db9c6fb816ca93a39b799fd1642",
+        "target_sha256": "c288484450e2bb70e57a9409d3d2293b0332856b40afc5f8f2293a01bd3f69c4"
       },
       "events:arc_sangchul_confrontation:/description_if_known/confronted_with_card": {
-        "source_sha256": "276e61a4f74d43d9adb8b248dcdaf22469c7e97690208e9b7eb2e514a88a5bc6",
-        "target_sha256": "9bcadcd24cefc794f4bdb8652454ee7f45ad52bf6c6b14692d9529809db08894"
+        "source_sha256": "7909ed934357ed8968c9bc47aa2485b4582296ff9ad1c182a23ee045c5680c5c",
+        "target_sha256": "ecc257b1a5e5d1e27c3477c072efb360130ce380b3429bf0ce47a923afc94b58"
       },
       "events:arc_sangchul_confrontation:/description_if_known/discarded_card_before_confrontation": {
-        "source_sha256": "56ebf72d23319a2d68eb8e65aacf617070b1778f8c947deb5c63bb620d86b2be",
-        "target_sha256": "ac5d14a68ed1abf06d69487e3e65f8612ac98db9161a81ec893742ff4a5fe73a"
+        "source_sha256": "cd24ee2ca77f1eb2a2162a68617f767cff642f89498a0fd48b7cb2feac1c2a89",
+        "target_sha256": "4ffb5b2cae881963f3d7d80f2b6d8a864e4be9375650ec31c30150722c53ac95"
       },
       "events:arc_sangchul_confrontation:/description_if_known/ng_confronted_sangchul_early": {
-        "source_sha256": "944e8161c3f4fddf8212d8963432fa9c06515c4f5c87a88219df943da9bb843c",
-        "target_sha256": "3371f74db59e3c4271e40bce8a9637abab3bb598447e5ab518aa28f478bf0c86"
+        "source_sha256": "c712bcaf313660722492ab7aebc77d0b5714028fab2440a74ac19e54383e3c6b",
+        "target_sha256": "b29a1b1b82ffd958ecac9c9383328a20ac006f03bfb9166a6c21cbc50b902365"
       },
       "events:arc_sangchul_confrontation:/description_if_known/ng_playing_sangchul": {
-        "source_sha256": "c7302272f7ea9864c99d3921908835b9645aef0adde1bdc79e11f0e20941e032",
-        "target_sha256": "859af359292b961fc58b793dcab0c21c73ef74ec620ed5f1ea54a3d35e268e93"
+        "source_sha256": "d4974eba9aa22c4838e86948a6f2edbe8b72c75fd0fc22be4a62192c40612f06",
+        "target_sha256": "8ae53b65ea371690302bf62845a7fccc3ab3522881fef4aea568fa6a5149f403"
       },
       "events:arc_sangchul_confrontation:/description_if_known/sangchul_helped_with_father": {
-        "source_sha256": "279548a1f4e8b74749a197d56694f54c1491d1c186554206b731e276c567c85b",
-        "target_sha256": "96e169ba4782c37017ef08c9fabce530f6022c7ab641750dadba8192be8bd975"
+        "source_sha256": "5df6f4e140a148fc29a9500d70c01c13d4e14a8ebd127fcb3c2503645e47d51d",
+        "target_sha256": "cdb57d2ad13a0cbb6caa2c91baa06e1bd9535c1bc69880ee3b7471ae40414fb0"
       },
       "events:arc_sangchul_confrontation:/description_if_known/sangchul_trust_deepened": {
-        "source_sha256": "4231d8d9258c00549e52a6d745fdd22cb48a5ec7e3933374c11fe1ca15ef4480",
-        "target_sha256": "1b50ee51e5431114cadc664a6c97df047c9c667138c184fa197a011e26c91204"
+        "source_sha256": "add7c096d82ed87e80f00f4abbc4d6e379ebcb00888cf6f1888b6517b08f3f97",
+        "target_sha256": "f1ddf37d808c791f33d445e2ea9076b33eb675af05c9ebf46f8de172e93bd315"
       },
       "events:arc_sangchul_confrontation:/description_if_known/used_sangchul_knowingly": {
-        "source_sha256": "cc7868b638b0515c5b07c83ddffe56748af4286e75b5a3665f5aad185c9c842e",
-        "target_sha256": "117bcca4872e822375afe8bcc63d4407cc6fb384b9c84b1ad4a81b0496dca289"
+        "source_sha256": "73c7ab8394fa2c3f2f2de782faabae2b933a49fe415a2c9f776cf8501ab0ed95",
+        "target_sha256": "c4774a5071fcaa4322ad21a69be5e3ab475eb0cb6fb6f863361b878668eeadee"
       },
       "events:arc_sangchul_confrontation:/description_memory_if_known/knee_day_faced": {
         "source_sha256": "aaf1cac5300853111b99715a8155229ba4aa46bf67714b43234146542173bfab",
@@ -76641,8 +76910,8 @@
         "target_sha256": "2b83d8e98f761b8f8840115720004753049b0ba208a924dad07634f61198a1ce"
       },
       "events:arc_sangchul_deduction:/description": {
-        "source_sha256": "744ac278c65e6bf63463e3544d16ac915b339ced97a3e903a6aadbc3cc62b874",
-        "target_sha256": "5f164a52e15ac3ad5837d4538abe6f89114cdfc5a2319acf38e7e488f89a5f02"
+        "source_sha256": "998374da0e0ee0e34f365659d2eeddb995db721b0f87e09198e4f35a1e0fa958",
+        "target_sha256": "dc76b50dee88a74b006697937437d3ca9b41045c282217453a7ef4878b3fc428"
       },
       "events:arc_sangchul_deduction:/title": {
         "source_sha256": "4ed2c9d9555740042516d136a9d339925bcba517c38e9dc344252d84a9d7e801",
@@ -116461,8 +116730,8 @@
         "target_sha256": "c4f91d19bff3109c4ffdfcbe760487e2652bf68ed979ec9f487b0a42c8fc892d"
       },
       "events:arc_sangchul_casino_invite:/choices/0/result_text": {
-        "source_sha256": "20eb971138925cafe6caff31f18a779306edee68a18165916f8f252c94c0409f",
-        "target_sha256": "eb964a9afa375ec784385979599d549530d3f57aeb7c63567cc04705bab5f9f2"
+        "source_sha256": "74a3efe242bf0c6138fb6f9a0989daedefeb9e4c976331edc5046b8e88d06bde",
+        "target_sha256": "d9718a7b055911a433637df2eb28680ad414d96affe08d8767027c3eab0ab315"
       },
       "events:arc_sangchul_casino_invite:/choices/0/text": {
         "source_sha256": "4bb461dc71e6716c565376a66d707fbda53ade4ac0d475ad1481221c710d03a6",
@@ -135955,8 +136224,8 @@
         "target_sha256": "70acab3aff90ae496af642dc895a623930c82e54d14e3e73bf10b22dd31b5685"
       },
       "events:arc_goal_vertigo:/description": {
-        "source_sha256": "5436149bd38a8e58bdf14e317c4c7a6f69ee66640ebbfd76d35bcb825e973d3c",
-        "target_sha256": "dc1764b008bb71afac87666390759008793f1c624e49246fa6db2649285287d7"
+        "source_sha256": "b014f456229bf2e1800915d96952d1f0abd2675293ffa2ac8275eba714d946ff",
+        "target_sha256": "a3ab2ad50e36e34f537c7063417642584a5dc89e61521881c5056b14a8fd197a"
       },
       "events:arc_goal_vertigo:/title": {
         "source_sha256": "6df5d62ae0322d3f274cab94e3144e8926e4b5a46f93662e74f93b9b5b57ed49",
@@ -135987,8 +136256,8 @@
         "target_sha256": "bb540bdc111bd7c9ca15494dfc1f650406cd0b9463454a423954db34dd0fecc1"
       },
       "events:arc_midpoint_reckoning:/description": {
-        "source_sha256": "f712b2381d1baaeb218bcbb7f254652f81c5b683bc7903d16bc5c2a170359b98",
-        "target_sha256": "5d84a0a23299483779329a3548bbd1a213ef45e4e5dfddea4643a7f03817b2b1"
+        "source_sha256": "4607da770051f3da2c69726d0b9d15307921b2ba78db473998b89bdc32d529f5",
+        "target_sha256": "77f5bf0528d4b9542b20d9117be5a8f121042a545ecc34098f09ce386b60a6ac"
       },
       "events:arc_midpoint_reckoning:/title": {
         "source_sha256": "1097a12553182c03450cea5b9dd35271f9797c755bd7fd6cb6acb580fbc401be",
@@ -136103,36 +136372,36 @@
         "target_sha256": "b1af9acc38034ae6b0357274c2dc6c1fb72b471c1bb7c93cb4155b972f4c5f21"
       },
       "events:arc_sangchul_confrontation:/description": {
-        "source_sha256": "de87c084d663aee499723d45d681d1494b422f4875e06f4227e3ec07bc1e5201",
-        "target_sha256": "b72ed74ba69df9713663ee1a59d27da5d1b62455a4e2fd4188349e9834f943a2"
+        "source_sha256": "c29954f9aab46916630b2d5a9d912aa8b8076db9c6fb816ca93a39b799fd1642",
+        "target_sha256": "ac87a999b49526c9c2c1d8af053e76ec8f723fbce50d15d26e90b7ef536b7b30"
       },
       "events:arc_sangchul_confrontation:/description_if_known/confronted_with_card": {
-        "source_sha256": "276e61a4f74d43d9adb8b248dcdaf22469c7e97690208e9b7eb2e514a88a5bc6",
-        "target_sha256": "108af7d3df243f6f480e1e5d57b554fd32fe2725ec828c1428fe6301bdeafbdd"
+        "source_sha256": "7909ed934357ed8968c9bc47aa2485b4582296ff9ad1c182a23ee045c5680c5c",
+        "target_sha256": "4889ba53d8f9e46db3ec13abffc51c0c918e64278f49d79838e739e9ba5a1168"
       },
       "events:arc_sangchul_confrontation:/description_if_known/discarded_card_before_confrontation": {
-        "source_sha256": "56ebf72d23319a2d68eb8e65aacf617070b1778f8c947deb5c63bb620d86b2be",
-        "target_sha256": "4e0e8201ef38382b9a5d7efe782b002af66868c77ecf36aa12a57b04e8b46862"
+        "source_sha256": "cd24ee2ca77f1eb2a2162a68617f767cff642f89498a0fd48b7cb2feac1c2a89",
+        "target_sha256": "ca2632c6ef1dd26a24d33d717356b8a281dec8265b6fd682a2e27548bc33368d"
       },
       "events:arc_sangchul_confrontation:/description_if_known/ng_confronted_sangchul_early": {
-        "source_sha256": "944e8161c3f4fddf8212d8963432fa9c06515c4f5c87a88219df943da9bb843c",
-        "target_sha256": "1f2f81232cde62e7336b806714a63ea1a8a91c9dbe651d40570b49cf53d205b0"
+        "source_sha256": "c712bcaf313660722492ab7aebc77d0b5714028fab2440a74ac19e54383e3c6b",
+        "target_sha256": "183f0ffb41bc04ada16add095237ec36eb4153d1c964405c44e37f7f959033d6"
       },
       "events:arc_sangchul_confrontation:/description_if_known/ng_playing_sangchul": {
-        "source_sha256": "c7302272f7ea9864c99d3921908835b9645aef0adde1bdc79e11f0e20941e032",
-        "target_sha256": "a6e32c36895fdde2636bd1875bff3c2c1edc10e12af766baf1b216565b4bac9b"
+        "source_sha256": "d4974eba9aa22c4838e86948a6f2edbe8b72c75fd0fc22be4a62192c40612f06",
+        "target_sha256": "59fb242ca0ed153cb90b5eb87180b78d92e1fb753450ed6ae3a840ca596adb0f"
       },
       "events:arc_sangchul_confrontation:/description_if_known/sangchul_helped_with_father": {
-        "source_sha256": "279548a1f4e8b74749a197d56694f54c1491d1c186554206b731e276c567c85b",
-        "target_sha256": "9c35b4e50c3974900e63d6914a159ed5c3e7bae84c69a6b31200f8f8f7840c1b"
+        "source_sha256": "5df6f4e140a148fc29a9500d70c01c13d4e14a8ebd127fcb3c2503645e47d51d",
+        "target_sha256": "2404b12f3a6e5485833ac85770efc1b7dbcab16f9bc820c146aa1cf561fd95b0"
       },
       "events:arc_sangchul_confrontation:/description_if_known/sangchul_trust_deepened": {
-        "source_sha256": "4231d8d9258c00549e52a6d745fdd22cb48a5ec7e3933374c11fe1ca15ef4480",
-        "target_sha256": "acdb988bf4cee3bba7cc626a1cd77f168af0cc4507310a5345a8b2974a3bbe3a"
+        "source_sha256": "add7c096d82ed87e80f00f4abbc4d6e379ebcb00888cf6f1888b6517b08f3f97",
+        "target_sha256": "0eb41364d8864029c3c7e2d7352e534088744328845f6d87a8fb3babaa81c033"
       },
       "events:arc_sangchul_confrontation:/description_if_known/used_sangchul_knowingly": {
-        "source_sha256": "cc7868b638b0515c5b07c83ddffe56748af4286e75b5a3665f5aad185c9c842e",
-        "target_sha256": "600f862faffe28cc56534142ef5c94e305c736614d447e9bfea860aa6672afca"
+        "source_sha256": "73c7ab8394fa2c3f2f2de782faabae2b933a49fe415a2c9f776cf8501ab0ed95",
+        "target_sha256": "d968d4d04632e013ba2fc3b1e9781569642fdb8774854f0c4bafa93f5d8510ef"
       },
       "events:arc_sangchul_confrontation:/description_memory_if_known/knee_day_faced": {
         "source_sha256": "aaf1cac5300853111b99715a8155229ba4aa46bf67714b43234146542173bfab",
@@ -136167,8 +136436,8 @@
         "target_sha256": "15d1c698db12e54f74ad191d848810cca1c69852df070c542a6a5643ca3bd9a8"
       },
       "events:arc_sangchul_deduction:/description": {
-        "source_sha256": "744ac278c65e6bf63463e3544d16ac915b339ced97a3e903a6aadbc3cc62b874",
-        "target_sha256": "ec1e3dacbc953c7513466094ddd38ea0f387dd69d12d6e73604df2237f14422c"
+        "source_sha256": "998374da0e0ee0e34f365659d2eeddb995db721b0f87e09198e4f35a1e0fa958",
+        "target_sha256": "5a72f98c0288aecbbad367920cfd4e738bee4f47048b1072c17ffe011ccc0a07"
       },
       "events:arc_sangchul_deduction:/title": {
         "source_sha256": "4ed2c9d9555740042516d136a9d339925bcba517c38e9dc344252d84a9d7e801",
@@ -175987,8 +176256,8 @@
         "target_sha256": "462cc65e29120bdebf05e26a6d0a16401bd43c83bcb9698a82040cc81a70cfb5"
       },
       "events:arc_sangchul_casino_invite:/choices/0/result_text": {
-        "source_sha256": "20eb971138925cafe6caff31f18a779306edee68a18165916f8f252c94c0409f",
-        "target_sha256": "d7a69f2f479b44fc6f4df2576649a3819b8748999ec21c5026320236d65ab53d"
+        "source_sha256": "74a3efe242bf0c6138fb6f9a0989daedefeb9e4c976331edc5046b8e88d06bde",
+        "target_sha256": "18b845c0ed99d366eeee243c9ae2fbbe2d329ef8f36a0d15bcdb9b7ce78a8c1b"
       },
       "events:arc_sangchul_casino_invite:/choices/0/text": {
         "source_sha256": "4bb461dc71e6716c565376a66d707fbda53ade4ac0d475ad1481221c710d03a6",
@@ -188892,7 +189161,7 @@
       }
     }
   },
-  "accepted_sha256": "67a496811020c9172f3fcc5f2f187702c4ab7f63b3d7b8ce2022424a9a704364",
+  "accepted_sha256": "5ae3370de869320ad28add7292061ab726d67cea95bb813e08707e7593adc125",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

@@ -138,7 +138,7 @@
   {
     "id": "arc_sangchul_deduction",
     "title": "搁在心里的名字",
-    "description": "在江南聚会上，Im Sangchul 听见便转开话题的名字。‘HanPD 建设。’\n搁在心里某个地方，一晃已经过了一年多。\n\n那天有人问：“HanPD 建设那边呢？”\nSangchul 神色不变，转开了话题。\n\n凌晨1点47分。睡不着，便搜了那个名字。还留着一份旧地方报道的 PDF。近十年前的担保诈骗、Park Sangjin，以及居中牵线的‘一名姓 Im 的房地产经纪人’。\n\n名字被隐去了。报道下面，只留下很小的案件编号。\n\nMinjun 知道那个数字。替父亲还了六年，最后盖过章的还款确认书角落里，也有相同格式的编号。\n\n要说巧合就关掉，太具体；要写成同一个人，还空着一格。",
+    "description": "在搜索栏写下“HanPD 建设”。是在江南聚会上，Im Sangchul 曾转开话题的那个名字。\n手指悬在回车键上，好一阵没有动。\n\n那天有人问：“HanPD 建设那边呢？”\nSangchul 神色不变，转开了话题。\n\n凌晨1点47分。按下回车键，一份旧地方报道的 PDF 出现在眼前。近十年前的担保诈骗、Park Sangjin，以及居中牵线的“一名姓 Im 的房地产经纪人”。\n\n名字被隐去了。报道下面，只留下很小的案件编号。\n\nMinjun 知道那个数字。替父亲还了六年，最后盖过章的还款确认书角落里，也有相同格式的编号。\n\n放大屏幕，案件编号占满了一行。Minjun 的目光在数字和报道里的“姓 Im 的”之间，缓缓来回。",
     "choices": [
       {
         "text": "从抽屉里拿出父亲的还款确认书",
@@ -190,7 +190,7 @@
   {
     "id": "arc_sangchul_confrontation",
     "title": "提问",
-    "description": "约定的时间到了，Im Sangchul 推开咖啡馆的玻璃门，坐到 Minjun 对面。\n\n一个月。整整一个月，Minjun 什么也没做。见 Im Sangchul，照常坐着。行情图、市场、下个月的策略。他笑，Minjun 就跟着笑。明知道那个笑，落在怎样一张脸上。\n\n今天，Im Sangchul 也推来打印好的行情图。“比上次还没反应。哪儿不舒服？”\n\n“没有。”\n\nMinjun 撒谎太快。Im Sangchul 的手指在纸上停了停，又动起来。分不清，那是不知道的人，还是知道、等着的人会有的反应。\n\n咖啡渐渐凉了。知道了再喝，每次都比上次更苦一点。在脑子里转过一百遍的句子，已经到了喉咙口。再咽下一次，恐怕又会过去一个月。\n\nMinjun 盖住行情图，无声地放下杯子。\n\n“Sangchul 先生。”\n\nIm Sangchul 抬眼。\n\n“您认识 Park Sangjin 吗？”",
+    "description": "约定的时间到了，Im Sangchul 推开咖啡馆的玻璃门，坐到 Minjun 对面。\n\nMinjun 一直拖着没问出那个问题。见 Im Sangchul，照常坐着。行情图、市场、下个月的策略。他笑，Minjun 就跟着笑。明知道那个笑，落在怎样一张脸上。\n\n今天，Im Sangchul 也推来打印好的行情图。“比上次还没反应。哪儿不舒服？”\n\n“没有。”\n\nMinjun 撒谎太快。Im Sangchul 的手指在纸上停了停，又动起来。分不清，那是不知道的人，还是知道、等着的人会有的反应。\n\n咖啡渐渐凉了。知道了再喝，每次都比上次更苦一点。在脑子里转过一百遍的句子，已经到了喉咙口。再咽下一次，恐怕又会过去一个月。\n\nMinjun 盖住行情图，无声地放下杯子。\n\n“Sangchul 先生。”\n\nIm Sangchul 抬眼。\n\n“您认识 Park Sangjin 吗？”",
     "choices": [
       {
         "text": "等着 Im Sangchul 的反应",
@@ -207,13 +207,13 @@
       }
     ],
     "description_if_known": {
-      "confronted_with_card": "约定的时间到了，Im Sangchul 推开咖啡馆的玻璃门，坐到 Minjun 对面。\n\n整整一个月，Minjun 什么也没做。\n\n今天，口袋里有那张名片。\n没拿出来。只是放在那里。\n\n喝着咖啡，Minjun 放下杯子，说。\n“Sangchul 先生。您认识 Park Sangjin 吗？”",
-      "discarded_card_before_confrontation": "约定的时间到了，Im Sangchul 推开咖啡馆的玻璃门，坐到 Minjun 对面。\n\n整整一个月，Minjun 什么也没做。\n\n今天，手上什么都没有。\n刚把名片放到包的里层。觉得这样更好。\n\n喝着咖啡，Minjun 放下杯子，说。\n“Sangchul 先生。您认识 Park Sangjin 吗？”",
-      "used_sangchul_knowingly": "整整一个月，Minjun 什么也没做。\n见到 Im Sangchul，仍像平时一样聊天。行情图、市场、下个月的策略。\n也收下了他递来的东西。明知道，还是收了。\n\n直到今天，觉得再也做不下去。\n\n喝着咖啡，Minjun 放下杯子，说。\n“Sangchul 先生。您认识 Park Sangjin 吗？”\n\n想起靠那个人的钱养大的账户。\n自己有没有资格问这个问题——不知道。",
-      "sangchul_helped_with_father": "整整一个月，Minjun 什么也没做。\n见到 Im Sangchul，仍像平时一样聊天。行情图、市场、下个月的策略。\n\n直到今天，觉得再也做不下去。\n\n喝着咖啡，Minjun 放下杯子，说。\n“Sangchul 先生。您认识 Park Sangjin 吗？”\n\n想起他帮忙处理父亲住院的那一天。\n是不是从那时起——他就成了站在自己这一边的人。",
-      "ng_confronted_sangchul_early": "整整一个月，Minjun 什么也没做。\n见到 Im Sangchul，仍像平时一样聊天。行情图、市场、下个月的策略。\n\n最初，接过第一张名片时，Minjun 就已经问过一次。‘您认识我父亲吗？’当时，就停在那里。\n这次，却把他留在身边，明知道，还是坐了很久。\n\n喝着咖啡，Minjun 放下杯子，说。\n“Sangchul 先生。您认识 Park Sangjin 吗？”\n\n这次，决定把答案听完。",
-      "ng_playing_sangchul": "整整一个月，Minjun 什么也没做。\n见到 Im Sangchul，仍像平时一样聊天。行情图、市场、下个月的策略。\n\n直到今天，觉得再也做不下去。\n\n喝着咖啡，Minjun 放下杯子，说。\n“Sangchul 先生。您认识 Park Sangjin 吗？”\n\n其实，从一开始就知道这个真相。接过名片的第一天，决定装作不知道的，就是 Minjun 自己。\n那时不知道——这一装，会装这么久。",
-      "sangchul_trust_deepened": "整整一个月，Minjun 什么也没做。\n见到 Im Sangchul，仍像平时一样聊天。行情图、市场、下个月的策略。\n\n直到今天，觉得再也做不下去。\n\n喝着咖啡，Minjun 放下杯子，说。\n“Sangchul 先生。您认识 Park Sangjin 吗？”\n\n想起第一次靠他的建议赚到钱的那天。\n‘多亏您，挺顺利的。谢谢。’\n那句谢谢——如今卡在喉咙的某个地方。"
+      "confronted_with_card": "约定的时间到了，Im Sangchul 推开咖啡馆的玻璃门，坐到 Minjun 对面。\n\nMinjun 一直拖着没问出那个问题。\n\n今天，口袋里有那张名片。\n没拿出来。只是放在那里。\n\n喝着咖啡，Minjun 放下杯子，说。\n“Sangchul 先生。您认识 Park Sangjin 吗？”",
+      "discarded_card_before_confrontation": "约定的时间到了，Im Sangchul 推开咖啡馆的玻璃门，坐到 Minjun 对面。\n\nMinjun 一直拖着没问出那个问题。\n\n今天，手上什么都没有。\n刚把名片放到包的里层。觉得这样更好。\n\n喝着咖啡，Minjun 放下杯子，说。\n“Sangchul 先生。您认识 Park Sangjin 吗？”",
+      "used_sangchul_knowingly": "Minjun 一直拖着没问出那个问题。\n见到 Im Sangchul，仍像平时一样聊天。行情图、市场、下个月的策略。\n也收下了他递来的东西。明知道，还是收了。\n\n直到今天，觉得再也做不下去。\n\n喝着咖啡，Minjun 放下杯子，说。\n“Sangchul 先生。您认识 Park Sangjin 吗？”\n\n想起靠那个人的钱养大的账户。\n自己有没有资格问这个问题——不知道。",
+      "sangchul_helped_with_father": "Minjun 一直拖着没问出那个问题。\n见到 Im Sangchul，仍像平时一样聊天。行情图、市场、下个月的策略。\n\n直到今天，觉得再也做不下去。\n\n喝着咖啡，Minjun 放下杯子，说。\n“Sangchul 先生。您认识 Park Sangjin 吗？”\n\n想起他帮忙处理父亲在医院的事的那一天。\n是不是从那时起——他就成了站在自己这一边的人。",
+      "ng_confronted_sangchul_early": "Minjun 一直拖着没问出那个问题。\n见到 Im Sangchul，仍像平时一样聊天。行情图、市场、下个月的策略。\n\n最初，接过第一张名片时，Minjun 就已经问过一次。‘您认识我父亲吗？’当时，就停在那里。\n这次，却把他留在身边，明知道，还是坐了很久。\n\n喝着咖啡，Minjun 放下杯子，说。\n“Sangchul 先生。您认识 Park Sangjin 吗？”\n\n这次，决定把答案听完。",
+      "ng_playing_sangchul": "Minjun 一直拖着没问出那个问题。\n见到 Im Sangchul，仍像平时一样聊天。行情图、市场、下个月的策略。\n\n直到今天，觉得再也做不下去。\n\n喝着咖啡，Minjun 放下杯子，说。\n“Sangchul 先生。您认识 Park Sangjin 吗？”\n\n其实，从一开始就知道这个真相。接过名片的第一天，决定装作不知道的，就是 Minjun 自己。\n那时不知道——这一装，会装这么久。",
+      "sangchul_trust_deepened": "Minjun 一直拖着没问出那个问题。\n见到 Im Sangchul，仍像平时一样聊天。行情图、市场、下个月的策略。\n\n直到今天，觉得再也做不下去。\n\n喝着咖啡，Minjun 放下杯子，说。\n“Sangchul 先生。您认识 Park Sangjin 吗？”\n\n想起第一次靠他的建议赚到钱的那天。\n‘多亏您，挺顺利的。谢谢。’\n那句谢谢——如今卡在喉咙的某个地方。"
     },
     "description_memory_if_known": {
       "knee_day_faced": "Minjun 用那天握住父亲胳膊肘的手，放下杯子。让父亲跪下的那只手，如今就在对面。",

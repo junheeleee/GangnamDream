@@ -39,3 +39,15 @@ delta·원341배치/수용/target지문/비소유값, demo/EN·scope/context/que
 포기 시 잃는 것: 질문유보의범위·현재계산/검색의행동·열린정체와동행자지식.
 서사 위치/계층: 기존5root/계층불변. 닫는 것: 이36 source정합만.
 규범은 기존I18N정본적용·승격0. 전체언어/차선·화면/원어민·CI/M60/출시GO별도.
+
+## 검사 실물·후보
+
+수용전 capsule_review가 KR12/JA12/CN12/TW12와5root전체선택/조건·memory를
+전독했다. prologue3행동과 story_rules cafe known/후속3갈래,
+StoryMode4384~4450 첫matching교체/memory추가·DataRegistry overlay를 직접 대조했다.
+TW개발업종은검수지적대로부동산회사로명시, Enter영어는輸入鍵로옮기고공백2개수리.
+draft1→draft2→최종사슬·원실패/중간VALID로그를보존하며검증기완화0이다.
+최종check/import12×3 exit0/stderr0, receipt/순수검증/delta36/9파일·이전341배치/
+수용/이전target/비소유값불변. scope939→903(stale900=각300+요약3),
+demo5언어14사건100leaf122UI·EN1813/35 clean. 원자료는
+`.git/localization-question-goal-20261103/` 소유·최종제품 독립판정 대기다.
