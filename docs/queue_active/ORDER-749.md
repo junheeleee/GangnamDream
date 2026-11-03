@@ -40,4 +40,12 @@ import. 기간/수량/원화·토큰/문단·선택/생사/지식·지역문자,
 
 ## 검사 실물·후보
 
-구현·독립검수·제품후보 미완. 원자료 `.git/localization-year3-records-20261103/` 소유.
+수용 전 capsule_review가KR15/목표45·두root 전체선택/known(비소유지연포함)과
+MainGame W133~136/정확W144, story_rules message/연말same-location queue·StoryMode
+첫matching known교체/memory 소비자를 전독했다. 명세표 뒷면 지시3구절을 명시수리,
+다른14값/언어·헤더불변도 직접확인해 의미GO. CN‘两个页面’ 수량거절1건은
+‘两个画面’로 의미보존수리, JA접어넣음도명시·원초안/실패보존·검증기완화0.
+최종check/import15×3 exit0/stderr0, receipt/순수검증/delta45/6파일·원343배치/
+수용/이전target/비소유값불변. scope864→819(stale816=각272+요약3),
+demo5언어14사건100leaf122UI·EN1813/35 clean. 원자료
+`.git/localization-year3-records-20261103/` 소유. 제품후보 실수용 독립최종판정은다음.
