@@ -21890,6 +21890,136 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-764",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_jaehyuk_04c_stand_up"
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "ja": 3,
+        "zh-CN": 3,
+        "zh-TW": 3
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean comparison of base and both photo variants: fraud stays on his mind; no fixed elapsed month or invented contact deletion.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "31abc3062ac507c1be08946725e3e4cd46158257",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "0a498a8fefaae813942d4f5687246ab216c861107843b76fe087dbfe1f674366",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6a2512a3d9b50c9a420940066ba47941c14bd76e72e5d210ed74732adb0b1767"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "31abc3062ac507c1be08946725e3e4cd46158257",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "ab8be5ee5645f14d7ea9577de7e0925fdb9510c03d4b51eb4f01ddf72c39b028",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e47c6296bd4cb3fce93dd4c52275c44fd8986c06bb67f90749d47a7abee0a27e"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "31abc3062ac507c1be08946725e3e4cd46158257",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "aa2e5b05983bdcfa570ca9dcbf423786b9a38f2205d67d1671c8a27ccb49870c",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "fddba61d43ce95e1d3d1f9bc6b16f46e6dc57ffae415bebe910f1817e89f6597"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "4a4932cf126433fe93949fb97e6c19c376932ef13b961064128f1ce86852fb9a",
+        "zh-CN": "fdd9fc566cd4e976bf0d086e8bd28934756f8c507f625f1e2a9174150bb4e890",
+        "zh-TW": "8098c86de13f4f550cdcc531224c0778d487b226662f48bbcb26ba6076d2dc7c"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_jaehyuk_04c_stand_up:/description": "cf6d0b879f1128762c7859416250d5ec213fa28ce9f464ea056c9486be6a9c34",
+          "events:arc_jaehyuk_04c_stand_up:/description_if_known/deleted_jaehyuk_photo": "9ca51dd76f56ffcb1fa28f886ceef0348d3b7344800e53f7ca75f8957fc46f30",
+          "events:arc_jaehyuk_04c_stand_up:/description_if_known/jaehyuk_night_was_real": "7a3f9e20b536012c7412dff23d518a585432838e70513006c8814af95b68a374"
+        },
+        "zh-CN": {
+          "events:arc_jaehyuk_04c_stand_up:/description": "de3bb1dd5e972b6c5cb02caf2a671d8981c5513ca83347ab585ec87a2618d865",
+          "events:arc_jaehyuk_04c_stand_up:/description_if_known/deleted_jaehyuk_photo": "4b78cc32636c8feefb32b3f8892720bf4e7996c4f677efd88aefe5a68c7f0535",
+          "events:arc_jaehyuk_04c_stand_up:/description_if_known/jaehyuk_night_was_real": "3b4aac0a9426240f13a36e1bb8acaf811f36ed953983f9f1afc9e50f3772cea1"
+        },
+        "zh-TW": {
+          "events:arc_jaehyuk_04c_stand_up:/description": "73917a562a1ee019dce59b73a70f342bc7390e0df1d111497d225365325c1236",
+          "events:arc_jaehyuk_04c_stand_up:/description_if_known/deleted_jaehyuk_photo": "72c119d23158e8f8476e11d691477dedf8a9122bd18df7d7d8ed41feab95fa5a",
+          "events:arc_jaehyuk_04c_stand_up:/description_if_known/jaehyuk_night_was_real": "85d0811a235010cb01619f3688dc1841bce0ba3e8fc37ecf421c58996519fd4f"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_jaehyuk_04c_stand_up:/description": {
+            "source_sha256": "9844dc916038a09cf48082979b984ebc7044005b30b41ffeede37256f5c3b4fc",
+            "target_sha256": "cf6d0b879f1128762c7859416250d5ec213fa28ce9f464ea056c9486be6a9c34"
+          },
+          "events:arc_jaehyuk_04c_stand_up:/description_if_known/deleted_jaehyuk_photo": {
+            "source_sha256": "78634802d13d0e1443bdb63f2e0d24aae912d21d33dc7aff4839e65ab98efe59",
+            "target_sha256": "9ca51dd76f56ffcb1fa28f886ceef0348d3b7344800e53f7ca75f8957fc46f30"
+          },
+          "events:arc_jaehyuk_04c_stand_up:/description_if_known/jaehyuk_night_was_real": {
+            "source_sha256": "3d8782c3b9b0bdd3214848a4334416cd85cb00c87d97b4cf0aeda14b39cb9cf1",
+            "target_sha256": "7a3f9e20b536012c7412dff23d518a585432838e70513006c8814af95b68a374"
+          }
+        },
+        "zh-CN": {
+          "events:arc_jaehyuk_04c_stand_up:/description": {
+            "source_sha256": "9844dc916038a09cf48082979b984ebc7044005b30b41ffeede37256f5c3b4fc",
+            "target_sha256": "de3bb1dd5e972b6c5cb02caf2a671d8981c5513ca83347ab585ec87a2618d865"
+          },
+          "events:arc_jaehyuk_04c_stand_up:/description_if_known/deleted_jaehyuk_photo": {
+            "source_sha256": "78634802d13d0e1443bdb63f2e0d24aae912d21d33dc7aff4839e65ab98efe59",
+            "target_sha256": "4b78cc32636c8feefb32b3f8892720bf4e7996c4f677efd88aefe5a68c7f0535"
+          },
+          "events:arc_jaehyuk_04c_stand_up:/description_if_known/jaehyuk_night_was_real": {
+            "source_sha256": "3d8782c3b9b0bdd3214848a4334416cd85cb00c87d97b4cf0aeda14b39cb9cf1",
+            "target_sha256": "3b4aac0a9426240f13a36e1bb8acaf811f36ed953983f9f1afc9e50f3772cea1"
+          }
+        },
+        "zh-TW": {
+          "events:arc_jaehyuk_04c_stand_up:/description": {
+            "source_sha256": "9844dc916038a09cf48082979b984ebc7044005b30b41ffeede37256f5c3b4fc",
+            "target_sha256": "73917a562a1ee019dce59b73a70f342bc7390e0df1d111497d225365325c1236"
+          },
+          "events:arc_jaehyuk_04c_stand_up:/description_if_known/deleted_jaehyuk_photo": {
+            "source_sha256": "78634802d13d0e1443bdb63f2e0d24aae912d21d33dc7aff4839e65ab98efe59",
+            "target_sha256": "72c119d23158e8f8476e11d691477dedf8a9122bd18df7d7d8ed41feab95fa5a"
+          },
+          "events:arc_jaehyuk_04c_stand_up:/description_if_known/jaehyuk_night_was_real": {
+            "source_sha256": "3d8782c3b9b0bdd3214848a4334416cd85cb00c87d97b4cf0aeda14b39cb9cf1",
+            "target_sha256": "85d0811a235010cb01619f3688dc1841bce0ba3e8fc37ecf421c58996519fd4f"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -69179,16 +69309,16 @@
         "target_sha256": "215eb1b0c16a790911fef79cc53077e06d3d6d7a26ca9b5928eb8f3e669e9a13"
       },
       "events:arc_jaehyuk_04c_stand_up:/description": {
-        "source_sha256": "9844dc916038a09cf48082979b984ebc7044005b30b41ffeede37256f5c3b4fc",
-        "target_sha256": "cf6d0b879f1128762c7859416250d5ec213fa28ce9f464ea056c9486be6a9c34"
+        "source_sha256": "c9ebde25e5aae7e1a98d59138136d94297195eec21044682afe21ded71a5352f",
+        "target_sha256": "94031f700d76c0dc98fbb9ca25196e96f8fcfcbaf76dc83d2b4dcf4e438e46f4"
       },
       "events:arc_jaehyuk_04c_stand_up:/description_if_known/deleted_jaehyuk_photo": {
-        "source_sha256": "78634802d13d0e1443bdb63f2e0d24aae912d21d33dc7aff4839e65ab98efe59",
-        "target_sha256": "9ca51dd76f56ffcb1fa28f886ceef0348d3b7344800e53f7ca75f8957fc46f30"
+        "source_sha256": "9d289c88050e6d8645183787adde42a0a8de79ff8a7f930bd11115b091fa43fc",
+        "target_sha256": "ff69f3ff016a8926cbc3b0adf91467ea98da028c50a0ecb73a847a8313357a00"
       },
       "events:arc_jaehyuk_04c_stand_up:/description_if_known/jaehyuk_night_was_real": {
-        "source_sha256": "3d8782c3b9b0bdd3214848a4334416cd85cb00c87d97b4cf0aeda14b39cb9cf1",
-        "target_sha256": "7a3f9e20b536012c7412dff23d518a585432838e70513006c8814af95b68a374"
+        "source_sha256": "be6d80c0afe8871e58d396fcb1c9bef26c0a4193cecc8e8b20470ed7da02f3ea",
+        "target_sha256": "40967d784ac0d157af2fc56a6685dd9105e39f4a3afcd66781ea99d015567d11"
       },
       "events:arc_jaehyuk_04c_stand_up:/title": {
         "source_sha256": "98fa1572fbd7b894da6d9bcc6bc04eb28b6864581c7c88c28765a3ee62d707e8",
@@ -121881,16 +122011,16 @@
         "target_sha256": "992b82bfc292b1a715440e3a12c25b728bf68447348b1a10bcc77baacb435a21"
       },
       "events:arc_jaehyuk_04c_stand_up:/description": {
-        "source_sha256": "9844dc916038a09cf48082979b984ebc7044005b30b41ffeede37256f5c3b4fc",
-        "target_sha256": "de3bb1dd5e972b6c5cb02caf2a671d8981c5513ca83347ab585ec87a2618d865"
+        "source_sha256": "c9ebde25e5aae7e1a98d59138136d94297195eec21044682afe21ded71a5352f",
+        "target_sha256": "6fa0d26a05488c037289d0465960988d9e5986dc6744878a935556b96f512e28"
       },
       "events:arc_jaehyuk_04c_stand_up:/description_if_known/deleted_jaehyuk_photo": {
-        "source_sha256": "78634802d13d0e1443bdb63f2e0d24aae912d21d33dc7aff4839e65ab98efe59",
-        "target_sha256": "4b78cc32636c8feefb32b3f8892720bf4e7996c4f677efd88aefe5a68c7f0535"
+        "source_sha256": "9d289c88050e6d8645183787adde42a0a8de79ff8a7f930bd11115b091fa43fc",
+        "target_sha256": "b2065ebe487df7a226b3d7189aba51c84e7c76230cbeae3343aa97f3960bc6ee"
       },
       "events:arc_jaehyuk_04c_stand_up:/description_if_known/jaehyuk_night_was_real": {
-        "source_sha256": "3d8782c3b9b0bdd3214848a4334416cd85cb00c87d97b4cf0aeda14b39cb9cf1",
-        "target_sha256": "3b4aac0a9426240f13a36e1bb8acaf811f36ed953983f9f1afc9e50f3772cea1"
+        "source_sha256": "be6d80c0afe8871e58d396fcb1c9bef26c0a4193cecc8e8b20470ed7da02f3ea",
+        "target_sha256": "ae31bbdd59effab688a024462f2f99690f24084490b1388ab03658a076981be6"
       },
       "events:arc_jaehyuk_04c_stand_up:/title": {
         "source_sha256": "98fa1572fbd7b894da6d9bcc6bc04eb28b6864581c7c88c28765a3ee62d707e8",
@@ -181407,16 +181537,16 @@
         "target_sha256": "6b8367396d512cdfcaaebfe422a20818b6964229594cce4fb7182b46d54f3fd0"
       },
       "events:arc_jaehyuk_04c_stand_up:/description": {
-        "source_sha256": "9844dc916038a09cf48082979b984ebc7044005b30b41ffeede37256f5c3b4fc",
-        "target_sha256": "73917a562a1ee019dce59b73a70f342bc7390e0df1d111497d225365325c1236"
+        "source_sha256": "c9ebde25e5aae7e1a98d59138136d94297195eec21044682afe21ded71a5352f",
+        "target_sha256": "8e213f6498d83bcbda1f98fbff2a0c72aeaf1ec01ecfaeb83aa49cfdbadfe369"
       },
       "events:arc_jaehyuk_04c_stand_up:/description_if_known/deleted_jaehyuk_photo": {
-        "source_sha256": "78634802d13d0e1443bdb63f2e0d24aae912d21d33dc7aff4839e65ab98efe59",
-        "target_sha256": "72c119d23158e8f8476e11d691477dedf8a9122bd18df7d7d8ed41feab95fa5a"
+        "source_sha256": "9d289c88050e6d8645183787adde42a0a8de79ff8a7f930bd11115b091fa43fc",
+        "target_sha256": "3e985fa3c6f58af6ef6446627135143f134afdb75d70901a6ee15d98fe5b1014"
       },
       "events:arc_jaehyuk_04c_stand_up:/description_if_known/jaehyuk_night_was_real": {
-        "source_sha256": "3d8782c3b9b0bdd3214848a4334416cd85cb00c87d97b4cf0aeda14b39cb9cf1",
-        "target_sha256": "85d0811a235010cb01619f3688dc1841bce0ba3e8fc37ecf421c58996519fd4f"
+        "source_sha256": "be6d80c0afe8871e58d396fcb1c9bef26c0a4193cecc8e8b20470ed7da02f3ea",
+        "target_sha256": "64aff2273ab1ce70bc1ec9d9e1beda3b1582a5bd629d94abae4ac7571d2a2815"
       },
       "events:arc_jaehyuk_04c_stand_up:/title": {
         "source_sha256": "98fa1572fbd7b894da6d9bcc6bc04eb28b6864581c7c88c28765a3ee62d707e8",
@@ -193648,7 +193778,7 @@
       }
     }
   },
-  "accepted_sha256": "ba9ac39080423eebbaa536fdfa8c7f1f67a57975399f5816f76617a8e260fa93",
+  "accepted_sha256": "9aa79fa596cb82a3f238a0f4166564ef608308f30594af75c2387a6cea38c737",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
