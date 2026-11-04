@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-778",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "c3bc8a205fbc9faacd9f5462aacc6a53559c7c8d",
+    "tree": "dab2e1baa10a1bf2eab8d7d03e523ddf4f87c179",
+    "manifest_sha256": null
+  },
+  "scope": "Seven existing leaves across five Hyunsu and anniversary roots × JA/CN/TW = 21 corrections.",
+  "review": {
+    "method": "Compared the seven Korean leaves and 21 accepted targets with complete choices, deferred receipt echo, passed/pivoted photo context and 24/36-month consumers.",
+    "findings": "Next-week departure stays distinct from the next day's lack of an exam. The repeated question and answer, single lid rattle, phone light, coworker versus county-office photos, 24 months, eight minutes and three years remain distinct. JA1/CN2/TW3 draft changes only preserve/clarify the documented semantics, number forms and repeated wording."
+  },
+  "preservation": {
+    "prior_batches": 371,
+    "prior_decisions": 335,
+    "proof": "Three canonical receipts and actual targets match final responses. Exact reversal restores nine overlays and complete prior ledger, including previous target hashes and superseded acceptances."
+  },
+  "validation": "Pure check_batch and final check2/accepted-import VALID with empty stderr. Initial JA numeric/sign and CN/TW occurrence rejections remain historical. No engine.",
+  "identity": {
+    "baseline": "be24bc0b5be45fe1b419b03ca4640a723f4c923d",
+    "rows_sha256": "a3039066631151b4e971a53b249c6c32b0acec1d1cd99375a8df44bcc698c376",
+    "receipt_sha256_by_locale": {
+      "ja": "5cd2909ef358a807c46f768c01d87d853bf0a03d52aa3a64688c0ad4b4bc8d5b",
+      "zh-CN": "65be0e2f6cf4281c439e800ef30e8cb52b4c2bf4d501865c29701560cf9f618d",
+      "zh-TW": "da796732d0c321064c1424d28922fb5216fdf5bbd2613cbf879cade05913159f"
+    },
+    "raw_directory": ".git/localization-hyunsu-years-20261104/",
+    "raw_population": {
+      "files": 35,
+      "sha256": "b7dd0dd21a968eb637eb5f417ebe2053b76dd9b194ecc46a50e469641bca2a4e"
+    },
+    "final_raw": {
+      "files": 26,
+      "sha256": "63b001b21e4233dae5305ad81a970f746047215150f5a21001e4379b3e65b238"
+    },
+    "historical_raw": {
+      "files": 9,
+      "sha256": "0cfd5bc7b6483565c6862db6a001de25f7dd202793f417dc33c2020ec464340c"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

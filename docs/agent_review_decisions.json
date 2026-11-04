@@ -14101,6 +14101,48 @@
         "path": "docs/agent_reviews/order777-consent-year-close-cjk.json",
         "sha256": "80d2ba5a0991590f8538c1dcf0dfcffdfd89dff6bc4e0564bd415437fd6013f4"
       }
+    },
+    {
+      "id": "order778-hyunsu-years-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-778",
+      "subject": {
+        "kind": "source",
+        "commit": "c3bc8a205fbc9faacd9f5462aacc6a53559c7c8d",
+        "tree": "dab2e1baa10a1bf2eab8d7d03e523ddf4f87c179",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order778-hyunsu-years-cjk.md",
+          "sha256": "3132cb6781a6d7190c145a7eaa9f370191f7588305991ad0ba626be4eda2bc9d"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order778-hyunsu-years-cjk.json",
+          "sha256": "71d7d3190d05f596694abae8152fe6cfa89781dcf2ae98045adfc92b8ce053c7"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order778-hyunsu-years-cjk.json",
+        "sha256": "71d7d3190d05f596694abae8152fe6cfa89781dcf2ae98045adfc92b8ce053c7"
+      }
     }
   ]
 }
