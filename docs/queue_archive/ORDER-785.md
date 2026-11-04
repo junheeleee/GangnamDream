@@ -1,8 +1,13 @@
 # ORDER-785 — 엔딩 미니게임 숙련도 이름
 
-#### [~] ORDER-785 · 엔딩 미니게임 숙련도 이름
+#### [x] ORDER-785 · 엔딩 미니게임 숙련도 이름
 
 부모157/C5. 착수 — `scenes/MainGame.gd`의 진행 카드 이름 조회와 엔딩 도감
 `_ending_add_unlocks`의 숙련도 이름 슬롯만. JA/CN/TW에서 네 내부 ID 대신 진행 카드와
 동일한 기존 번역을 읽는다. 다른 언어의 엔딩 표시와 진행 카드, 등급·순서·정산·저장,
 공개 데모·언어 선택·번역 사전/원장은 비소유. 신규 번역 수용0.
+
+제품 `f962b17e69b8cb384a9833aab6da8b69d50bf09c`.
+원본 MainGame 바이트 역복원·기존 4×3 값·JA UI·공개 데모·EN·최종 context/queue 통과.
+최초 현황 문서 용량 제한 실패는 보존 후 축약했다. 실화면·Godot 로컬 미실행.
+[독립 검수](../agent_reviews/order785-ending-mastery.md).

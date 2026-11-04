@@ -14398,6 +14398,49 @@
         "path": "docs/agent_reviews/order784-ending-discovery.json",
         "sha256": "dbd4f87f59057ccab8a51df4f7a0c71af8652b75ca2ef6323e8108431c3e75ac"
       }
+    },
+    {
+      "id": "order785-ending-mastery-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-05",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-785",
+      "subject": {
+        "kind": "source",
+        "commit": "f962b17e69b8cb384a9833aab6da8b69d50bf09c",
+        "tree": "34e484b2b03e8c04aa48f5d3df43959067869e4c",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order785-ending-mastery.md",
+          "sha256": "17d7804cedaae579d251f8c3e9204a718fb8f181507cfad6a470a1d21fea63a2"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order785-ending-mastery.json",
+          "sha256": "c9295946ec2fa75139c4038bab250df6b0bae3ab2818947559cca9edde9a9c77"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order785-ending-mastery.json",
+        "sha256": "c9295946ec2fa75139c4038bab250df6b0bae3ab2818947559cca9edde9a9c77"
+      }
     }
   ]
 }

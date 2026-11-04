@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-785",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-05",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "f962b17e69b8cb384a9833aab6da8b69d50bf09c",
+    "tree": "34e484b2b03e8c04aa48f5d3df43959067869e4c",
+    "manifest_sha256": null
+  },
+  "scope": "Reuse four existing progress-card game-name lookups in the JA/zh-CN/zh-TW ending mastery label; no new translation acceptance.",
+  "review": {
+    "method": "Traced collection page to _ending_add_unlocks and the four MetaProgression play producers/grade labels. Reversed helper extraction and name slot independently and verified all 12 shipped lookup values.",
+    "findings": "Only the CJK ending name slot changes. Other languages retain the original ID; the progress card preserves the same names. Grade threshold, grade label, order, list formatting, acquisition, settlement and save semantics are unchanged."
+  },
+  "preservation": {
+    "prior_decisions": 342,
+    "proof": "Exact inverse restores prior MainGame bytes; dictionaries, acceptance ledger, producers, MetaProgression and public demo were not edited."
+  },
+  "validation": "Static contract and 12 dictionary lookups, final context/delta marker, JA, demo and EN clean. Earlier CLAUDE byte-budget failure retained. Lane lists 86 checks; no execution inferred. No engine or rendered test.",
+  "identity": {
+    "baseline": "e68d36244f685d144f929a0ad58712b61c8f3ad3",
+    "raw_directory": ".git/localization-ending-mastery-20261105.qVWIFj/",
+    "raw_population": {
+      "files": 8,
+      "sha256": "9b627014d5c9c0ade62934ec3a0d5ad5935eb4dcf2da41cd5cc239b025f9d8ff",
+      "entries": [
+        [
+          "contract.log",
+          438,
+          "b74994a5b37f823d5b14c84cc95e58783f91b36d7eca95b7858e1dfdbe496808"
+        ],
+        [
+          "contract.py",
+          1883,
+          "6feed8fe2bad7562e03a413d3ee7a59454f58e257f190b36d4a6ac1090ad83b7"
+        ],
+        [
+          "delta.log",
+          2219,
+          "233fc59987700e530674831bc6473a1095149db500bfa9b36d9685dce96f223f"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "en.log",
+          204,
+          "4579d41faa5d8a274201407aba3ce483b37894440697e14344e4afb284c136b5"
+        ],
+        [
+          "final-delta.log",
+          218,
+          "026630c1af93e84ae3562edce83c2cc3d0e546812af11fb52ee021a3eecbec1f"
+        ],
+        [
+          "ja.log",
+          214,
+          "51a52dce5e2ac7d69d1aa92cc8f7461b539a620395986d001abad73eafef196a"
+        ],
+        [
+          "lane.log",
+          13483,
+          "319cfb036a7aaff19db4d527df1523f0fdf13565d45a64f461365eff69852987"
+        ]
+      ]
+    },
+    "final_raw": {
+      "files": 7,
+      "sha256": "74ccc5338adc0d2636996d4bb6bb3ac4ce1cb7d8f4a0f3ae835d7a096ed80933"
+    },
+    "historical_raw": {
+      "files": 1,
+      "sha256": "d81dd81447b8fb0c33e528447b36d812dac6441fd0b8209bb751e117fe911a1a"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
