@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-771",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "1c34cc3ef938a74bb2588ca94b3e48f4041fbcb1",
+    "tree": "59057ecada237ea987efbd1c50facacb0cbf72e1",
+    "manifest_sha256": null
+  },
+  "scope": "Two shipping debt-memory variants, 6 existing leaves × JA/CN/TW = 18 corrections.",
+  "review": {
+    "method": "Full six Korean leaves, all 18 accepted targets, both variants' choices and nested slot sources.",
+    "findings": "Eleven weeks, 00:31 original/unsent and deleted/timestamp-only distinctions, twice-folded copy, separate note, transparent compartment and father's records envelope, and [[c5read:0]] remain exact in meaning. JA1/CN2/TW2 reviewer-directed revisions preserve other rows and headers."
+  },
+  "preservation": {
+    "prior_batches": 364,
+    "prior_decisions": 328,
+    "proof": "Accepted values and three canonical receipts match the final responses. Exact-value reversal restores all three prior overlays and the entire prior ledger."
+  },
+  "validation": "Pure check_batch and final accepted-check/accepted-import VALID with empty stderr. CN first occurrence mismatch retained; localized a single look as an explicit once in CN/TW without validator changes. No engine.",
+  "identity": {
+    "baseline": "f3233d427a82f5b8270519e6fff190bfc02c4fb4",
+    "rows_sha256": "7f7d919b2b49fd6ac89620438a1a54670f0be1c5d315c798371647ed9374a58b",
+    "receipt_sha256_by_locale": {
+      "ja": "e908d415f3e61f289489f54e92393ede22a32cc19dc05fd53a3349f5a8995f4b",
+      "zh-CN": "9806f6582b04c0014c18ce5803257b6a7a5f682741c5cedf5bdc308d06499432",
+      "zh-TW": "1f88f3797cb5b30ac60564ac213ea5f6b0a56334d2db8456e83249ab62734ac8"
+    },
+    "raw_directory": ".git/localization-debt-artifacts-20261104/",
+    "raw_population": {
+      "files": 34,
+      "sha256": "f7f363ae62d3782ca09c9ede29292288334a6418b070ba4b7ab0b7828b4ffb7b"
+    },
+    "final_raw": {
+      "files": 21,
+      "sha256": "234b8cc7222d71a93821233ca80325e5e5aa6d7938d6f6cc49dce983200908f2"
+    },
+    "historical_raw": {
+      "files": 13,
+      "sha256": "0595a694fb97212fb51265ecf7f10889b8fbcbb672cedb587b59f11bb0f9d12c"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

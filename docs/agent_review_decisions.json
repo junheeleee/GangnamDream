@@ -13807,6 +13807,48 @@
         "path": "docs/agent_reviews/order770-debt-reconnect-cjk.json",
         "sha256": "131f60cb7a09be5a18e4b96c68e5a83df4bb9833c4e85c7782f3c582d2c5e496"
       }
+    },
+    {
+      "id": "order771-debt-artifacts-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-771",
+      "subject": {
+        "kind": "source",
+        "commit": "1c34cc3ef938a74bb2588ca94b3e48f4041fbcb1",
+        "tree": "59057ecada237ea987efbd1c50facacb0cbf72e1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order771-debt-artifacts-cjk.md",
+          "sha256": "e772fd2c2196ee0066d280c9570f637a3574e7bb044ecab09b60039245440e03"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order771-debt-artifacts-cjk.json",
+          "sha256": "91a25fd475f76eabcf425b380d4245c3921376a96b784584d5b0cf45bcb2377e"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order771-debt-artifacts-cjk.json",
+        "sha256": "91a25fd475f76eabcf425b380d4245c3921376a96b784584d5b0cf45bcb2377e"
+      }
     }
   ]
 }
