@@ -24521,6 +24521,69 @@
       "superseded_acceptance_by_locale": {
         "ja": {}
       }
+    },
+    {
+      "order": "ORDER-784",
+      "group": "ui",
+      "roots": [
+        "새로 발견"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "source_review": "First-discovered ending badge on the full-game record page; other locales retain NEW.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "f7a39cfbddbecc514295bf643c2e0a4a993f3baf",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "298e79d85bdca11c4cf9b6aae95f27d4ac454a9f2e72bf9e46d2e10b5ab21b86",
+          "selection_sha256": "38d80c03ecb9bd01d4bb3f05d60808e5808a602106c07502da97153a44f72b81",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "1a3d4f9442c8ffce7e1a092bd7a9ecd495b530133bfbe61e03818f4749e3d490"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "f7a39cfbddbecc514295bf643c2e0a4a993f3baf",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "298e79d85bdca11c4cf9b6aae95f27d4ac454a9f2e72bf9e46d2e10b5ab21b86",
+          "selection_sha256": "16c87fe628068ddaefa015cff82296a4994c681cba12175948330c8cbbe37f35",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "5414a6087190c9fba9bd998cdc3fe4f4db74462e939f4d8ae3eaeafb228b1a60"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "f7a39cfbddbecc514295bf643c2e0a4a993f3baf",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "298e79d85bdca11c4cf9b6aae95f27d4ac454a9f2e72bf9e46d2e10b5ab21b86",
+          "selection_sha256": "686733cc138925a18dae6e367517e10e952e4f8b11eb11c3536b7b3c1f693395",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "26b5b9349f5d8bd9ebe329cf76a4cb7313b7104b6125db38e23a7ef175a25f3c"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "6a9be574207e9b1423a85d915b612cc04f19b57102e7fd625fe80b7d15ef7d9a",
+        "zh-CN": "0da4398038093ade2f94b64874f7cb23c03d057bd8cba656a7cae5362c433108",
+        "zh-TW": "cf520d3377e515ee061d87c5513f0a12e33ae95813850082b47360ae93dc4431"
+      }
     }
   ],
   "accepted": {
@@ -77228,6 +77291,10 @@
       "ui:양호:/양호": {
         "source_sha256": "849dbb2b5fc2e8929467ad8b4c4923e4c30d69aa6702271192f6acc5ee444013",
         "target_sha256": "9833e04b09f36bd4e01fbc8b421af7e5b7dad95d6900dcf8e2cda1331972ab1b"
+      },
+      "ui:새로 발견:/새로 발견": {
+        "source_sha256": "8938622352af3b90fec77e3370f3742ef76971cbfa8a45a525c8afd697f72970",
+        "target_sha256": "51543cff82e76411101e1b21f7474aa4d263a6a311917f8439ccfaec0a281544"
       }
     },
     "zh-CN": {
@@ -136822,6 +136889,10 @@
       "ui:크리에이터:/크리에이터": {
         "source_sha256": "238106f40e99bb6c0e3665eb65634015e345d3659d33c70a77db5aa3d0afc5ca",
         "target_sha256": "87b99c7cd859e2990e1e3a1e345b7f8f6df178c75d76f92039b334d0cb3d3f4c"
+      },
+      "ui:새로 발견:/새로 발견": {
+        "source_sha256": "8938622352af3b90fec77e3370f3742ef76971cbfa8a45a525c8afd697f72970",
+        "target_sha256": "1c0d511b9359a4263a012d64f7155786aa243c08a53809a8e6a0e6d47618e331"
       }
     },
     "zh-TW": {
@@ -196416,10 +196487,14 @@
       "ui:크리에이터:/크리에이터": {
         "source_sha256": "238106f40e99bb6c0e3665eb65634015e345d3659d33c70a77db5aa3d0afc5ca",
         "target_sha256": "0a999c6906c486ba23a565070758e04023c12b97708882c0aec33e2fd5ee86a0"
+      },
+      "ui:새로 발견:/새로 발견": {
+        "source_sha256": "8938622352af3b90fec77e3370f3742ef76971cbfa8a45a525c8afd697f72970",
+        "target_sha256": "c21cd4cd6615eeb8ca605a96e648d2c8f8d76f18d98a8f7457c8d93edefc36c0"
       }
     }
   },
-  "accepted_sha256": "5f2ff646e16fe8eb43ded107b9d752ec5d9c65b7f641a02585355a10bfbe0925",
+  "accepted_sha256": "2225c9af0603058f26de7478a93d572b1b755c86f6559e78572c061ae7e68cf9",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
