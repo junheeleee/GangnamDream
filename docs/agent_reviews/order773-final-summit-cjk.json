@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-773",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "7ae45ff9378edbff9d007690db4c342276411683",
+    "tree": "3991cacdb2626259cca479fc7f3d12b3da57d05b",
+    "manifest_sha256": null
+  },
+  "scope": "Four existing summit leaves × JA/CN/TW = 12 corrections.",
+  "review": {
+    "method": "Compared all four Korean leaves and 12 accepted targets with both choices and both debt-memory consequence slot alternatives.",
+    "findings": "2.5b versus 3b won, three listing sheets, no home purchase or outgoing call, five-week absence, one block, two signal changes, second crossing, and the final swallowed words and crossing are preserved. CN body and result1 only smooth the belated muscle tension."
+  },
+  "preservation": {
+    "prior_batches": 366,
+    "prior_decisions": 330,
+    "proof": "Three canonical receipts and accepted values match final responses; reversal restores all three previous overlays and the complete prior ledger."
+  },
+  "validation": "Pure check_batch and final official check/import VALID with empty stderr. Earlier CN response/check remain historical. No engine.",
+  "identity": {
+    "baseline": "0154df83da679687121e243c9b401425e6764af4",
+    "rows_sha256": "2c5d0b101bfba1269a2c4766c44756f50d02124450920743b10b3d72e85ff0bf",
+    "receipt_sha256_by_locale": {
+      "ja": "1dff1ef326e0d2ea59331b1e8a80b124a39ad142a1fa32fa70c06d766e97af68",
+      "zh-CN": "72c4616684165df9f8c7e00f92df6a3a344a67d6a74e05ae17b5c209387dd971",
+      "zh-TW": "6b72da18ebe7f4cd2b9706405337917a417ba1de13ef026da6e0d5d08e596a13"
+    },
+    "raw_directory": ".git/localization-final-summit-20261104/",
+    "raw_population": {
+      "files": 24,
+      "sha256": "d9558c2193d476fb5ac9bee26250d76206e345329cbc2a1a9906a2acfb12c2ee"
+    },
+    "final_raw": {
+      "files": 21,
+      "sha256": "8fda845757b1e7f1def3f9da0fba610018a6b8ac8aa34edddf02c0789119eae8"
+    },
+    "historical_raw": {
+      "files": 3,
+      "sha256": "27570834eed6d399b92141f3667681366d7ae4e7eb407fd609a7b1ace80656bc"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
