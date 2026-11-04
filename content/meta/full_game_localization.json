@@ -24004,6 +24004,200 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-778",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "hyunsu_pass_news",
+        "hyunsu_year4_echo",
+        "callback_hyunsu_departure_meal_echo",
+        "story_two_year",
+        "story_three_year"
+      ],
+      "source_leaves": 7,
+      "target_leaves_by_locale": {
+        "ja": 7,
+        "zh-CN": 7,
+        "zh-TW": 7
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Preserve next-week departure, the same destination question, the sounds of packing, each photo setting and the physical year markers without invented elapsed time.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "be24bc0b5be45fe1b419b03ca4640a723f4c923d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "1f340c9c44d44fed796c503fa60f8aca1480fbbec77e27d56392869636266a3c",
+          "count": 7,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "44805c68d95386ce3cda2a440b7e212f008e03d6d50a5bf475b4c8763374380c"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "be24bc0b5be45fe1b419b03ca4640a723f4c923d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "ef7318d580dc16a9be724e61cd3f69aa68e31d049256dc3f5235a13ef3133e94",
+          "count": 7,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b97bdeb96e0f4742686ea75298fd05435115cacb2557cbcea554856b77244c0b"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "be24bc0b5be45fe1b419b03ca4640a723f4c923d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "4a3f4a8875331d1b6a7a55f9145e700c7e2ea1e4229132386c77a1e0c0d17859",
+          "count": 7,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7e391fa132cffedb433ce8f0a93be1b2e897bbc524c30f64c4c83a482abd8a0c"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "5cd2909ef358a807c46f768c01d87d853bf0a03d52aa3a64688c0ad4b4bc8d5b",
+        "zh-CN": "65be0e2f6cf4281c439e800ef30e8cb52b4c2bf4d501865c29701560cf9f618d",
+        "zh-TW": "da796732d0c321064c1424d28922fb5216fdf5bbd2613cbf879cade05913159f"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:callback_hyunsu_departure_meal_echo:/description": "d57d8739e4b2af8c1c0cd28d9d8c6e7e48524bb119aa495f3a5d78d61f12a15e",
+          "events:hyunsu_pass_news:/choices/0/result_text": "5f0dfba24a3c340e9e2ce086805391468defc0c050956a538319fc0fe0cc2ede",
+          "events:hyunsu_pass_news:/choices/1/result_text": "f9df0dc09ae5c643fb051a18016d8a989c25c100a3547315fb3683c167af9a66",
+          "events:hyunsu_year4_echo:/description": "8e665d7cc180d494437db96630f2d2bcbb84086c02a71120e24bdb2501cc0fd9",
+          "events:hyunsu_year4_echo:/description_if_known/hyunsu_passed": "19200cc5510d9270acdc5fe02db174dded44975d60653dd2907439e158d57e6e",
+          "events:story_three_year:/description": "9b99255315362e31e480e0647fd867d3c01feca19bc9b543c4e3a698077b00ea",
+          "events:story_two_year:/description": "1217c6f54b0061d9e68b6e9c82af4bc21f5d4e4293f01a5ebb9f273c3a84e6cb"
+        },
+        "zh-CN": {
+          "events:callback_hyunsu_departure_meal_echo:/description": "4ad3fb13d580b42f45d65061a7bf69f6072df11a5fe422b8142984e759e88140",
+          "events:hyunsu_pass_news:/choices/0/result_text": "b08cd92fb987f4939868f17a885929555ad5699cb3a9bda4b3305ea07c699a03",
+          "events:hyunsu_pass_news:/choices/1/result_text": "2678e15a0209d8b763d08a10a772af33e1fede85754658a8fbb3a2bc1f8ed846",
+          "events:hyunsu_year4_echo:/description": "f2c3b047fa50f5dae5e518e71117ea8d3ed3f0c7de2058d25b33b60652a0ef83",
+          "events:hyunsu_year4_echo:/description_if_known/hyunsu_passed": "a7c59d89c07b55b4b44ff0d76eee9c117839bc8a4731482b493d33e8ab274027",
+          "events:story_three_year:/description": "ae315e26d15fc2a67e9944a978a9685f8c12f72ce3659853f510841337accb9f",
+          "events:story_two_year:/description": "a9c43e18f514a92ee982ee5b29b5c0a66e6c2cd52ff45f09c4c53950b2bea564"
+        },
+        "zh-TW": {
+          "events:callback_hyunsu_departure_meal_echo:/description": "74b038fdb7fa28ef59d6ade03c492d78c6dc602397a66579e77175684ecbd1b6",
+          "events:hyunsu_pass_news:/choices/0/result_text": "9efb4407c8b2e22d85f99f414b24a2bb062c2546b41b68e3fd0d734627fe7fe8",
+          "events:hyunsu_pass_news:/choices/1/result_text": "e51f36c07372bd20897ae088d6575afd14547c93530b51b7ff3cfca825e5036d",
+          "events:hyunsu_year4_echo:/description": "67f734da86e36e36b5431a8ace139a53c56bbedc699d70fe14a0d18c7144d059",
+          "events:hyunsu_year4_echo:/description_if_known/hyunsu_passed": "c9243fc23a112224eb90b0e03ffe43ee0f7d4f6c7b66505a8cafe01dbe011db2",
+          "events:story_three_year:/description": "6306e98a68e71bef67c3bd4018c35e1746909ddd9f76a97487735d50ecdd4f9b",
+          "events:story_two_year:/description": "3f18f5d5397abe0f701ad111ac1b8fa7ded1a24f96c06a17fc07e3bbeb33ecb5"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:callback_hyunsu_departure_meal_echo:/description": {
+            "source_sha256": "70f8eb32a521ce29e630cc6d7c1d5aad3b4b5fbd819e5812fff1723544e4c5f2",
+            "target_sha256": "d57d8739e4b2af8c1c0cd28d9d8c6e7e48524bb119aa495f3a5d78d61f12a15e"
+          },
+          "events:hyunsu_pass_news:/choices/0/result_text": {
+            "source_sha256": "dc96683066c0789dc10733501de02c6b67590f9ff9f11b076896de001a74a946",
+            "target_sha256": "5f0dfba24a3c340e9e2ce086805391468defc0c050956a538319fc0fe0cc2ede"
+          },
+          "events:hyunsu_pass_news:/choices/1/result_text": {
+            "source_sha256": "ce7d49559792354ecca97e0bdc754c60bd18fe3ea37c57e70944e2d33e7d5e12",
+            "target_sha256": "f9df0dc09ae5c643fb051a18016d8a989c25c100a3547315fb3683c167af9a66"
+          },
+          "events:hyunsu_year4_echo:/description": {
+            "source_sha256": "4911eb5e559332a5a9584d1ce678d64c374444d2e71eba1a43c741c68a3d6ae2",
+            "target_sha256": "8e665d7cc180d494437db96630f2d2bcbb84086c02a71120e24bdb2501cc0fd9"
+          },
+          "events:hyunsu_year4_echo:/description_if_known/hyunsu_passed": {
+            "source_sha256": "026d93603ac9f0adabb7910398e21b6e93c892dec92d3a9940b32018bf3b00fc",
+            "target_sha256": "19200cc5510d9270acdc5fe02db174dded44975d60653dd2907439e158d57e6e"
+          },
+          "events:story_three_year:/description": {
+            "source_sha256": "44cc7254fa3c30e699749e2e95c701357d92729667d2d455405aa45806328923",
+            "target_sha256": "9b99255315362e31e480e0647fd867d3c01feca19bc9b543c4e3a698077b00ea"
+          },
+          "events:story_two_year:/description": {
+            "source_sha256": "8deb74604a935f3a9fbf021f32710e980307cd0540bbd9bcaefc14289ae8ebe1",
+            "target_sha256": "1217c6f54b0061d9e68b6e9c82af4bc21f5d4e4293f01a5ebb9f273c3a84e6cb"
+          }
+        },
+        "zh-CN": {
+          "events:callback_hyunsu_departure_meal_echo:/description": {
+            "source_sha256": "70f8eb32a521ce29e630cc6d7c1d5aad3b4b5fbd819e5812fff1723544e4c5f2",
+            "target_sha256": "4ad3fb13d580b42f45d65061a7bf69f6072df11a5fe422b8142984e759e88140"
+          },
+          "events:hyunsu_pass_news:/choices/0/result_text": {
+            "source_sha256": "dc96683066c0789dc10733501de02c6b67590f9ff9f11b076896de001a74a946",
+            "target_sha256": "b08cd92fb987f4939868f17a885929555ad5699cb3a9bda4b3305ea07c699a03"
+          },
+          "events:hyunsu_pass_news:/choices/1/result_text": {
+            "source_sha256": "ce7d49559792354ecca97e0bdc754c60bd18fe3ea37c57e70944e2d33e7d5e12",
+            "target_sha256": "2678e15a0209d8b763d08a10a772af33e1fede85754658a8fbb3a2bc1f8ed846"
+          },
+          "events:hyunsu_year4_echo:/description": {
+            "source_sha256": "4911eb5e559332a5a9584d1ce678d64c374444d2e71eba1a43c741c68a3d6ae2",
+            "target_sha256": "f2c3b047fa50f5dae5e518e71117ea8d3ed3f0c7de2058d25b33b60652a0ef83"
+          },
+          "events:hyunsu_year4_echo:/description_if_known/hyunsu_passed": {
+            "source_sha256": "026d93603ac9f0adabb7910398e21b6e93c892dec92d3a9940b32018bf3b00fc",
+            "target_sha256": "a7c59d89c07b55b4b44ff0d76eee9c117839bc8a4731482b493d33e8ab274027"
+          },
+          "events:story_three_year:/description": {
+            "source_sha256": "44cc7254fa3c30e699749e2e95c701357d92729667d2d455405aa45806328923",
+            "target_sha256": "ae315e26d15fc2a67e9944a978a9685f8c12f72ce3659853f510841337accb9f"
+          },
+          "events:story_two_year:/description": {
+            "source_sha256": "8deb74604a935f3a9fbf021f32710e980307cd0540bbd9bcaefc14289ae8ebe1",
+            "target_sha256": "a9c43e18f514a92ee982ee5b29b5c0a66e6c2cd52ff45f09c4c53950b2bea564"
+          }
+        },
+        "zh-TW": {
+          "events:callback_hyunsu_departure_meal_echo:/description": {
+            "source_sha256": "70f8eb32a521ce29e630cc6d7c1d5aad3b4b5fbd819e5812fff1723544e4c5f2",
+            "target_sha256": "74b038fdb7fa28ef59d6ade03c492d78c6dc602397a66579e77175684ecbd1b6"
+          },
+          "events:hyunsu_pass_news:/choices/0/result_text": {
+            "source_sha256": "dc96683066c0789dc10733501de02c6b67590f9ff9f11b076896de001a74a946",
+            "target_sha256": "9efb4407c8b2e22d85f99f414b24a2bb062c2546b41b68e3fd0d734627fe7fe8"
+          },
+          "events:hyunsu_pass_news:/choices/1/result_text": {
+            "source_sha256": "ce7d49559792354ecca97e0bdc754c60bd18fe3ea37c57e70944e2d33e7d5e12",
+            "target_sha256": "e51f36c07372bd20897ae088d6575afd14547c93530b51b7ff3cfca825e5036d"
+          },
+          "events:hyunsu_year4_echo:/description": {
+            "source_sha256": "4911eb5e559332a5a9584d1ce678d64c374444d2e71eba1a43c741c68a3d6ae2",
+            "target_sha256": "67f734da86e36e36b5431a8ace139a53c56bbedc699d70fe14a0d18c7144d059"
+          },
+          "events:hyunsu_year4_echo:/description_if_known/hyunsu_passed": {
+            "source_sha256": "026d93603ac9f0adabb7910398e21b6e93c892dec92d3a9940b32018bf3b00fc",
+            "target_sha256": "c9243fc23a112224eb90b0e03ffe43ee0f7d4f6c7b66505a8cafe01dbe011db2"
+          },
+          "events:story_three_year:/description": {
+            "source_sha256": "44cc7254fa3c30e699749e2e95c701357d92729667d2d455405aa45806328923",
+            "target_sha256": "6306e98a68e71bef67c3bd4018c35e1746909ddd9f76a97487735d50ecdd4f9b"
+          },
+          "events:story_two_year:/description": {
+            "source_sha256": "8deb74604a935f3a9fbf021f32710e980307cd0540bbd9bcaefc14289ae8ebe1",
+            "target_sha256": "3f18f5d5397abe0f701ad111ac1b8fa7ded1a24f96c06a17fc07e3bbeb33ecb5"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -46009,8 +46203,8 @@
         "target_sha256": "2cce526227dd64b833f821777b2e152b80a19a9fa2c386281046047ba2739437"
       },
       "events:story_three_year:/description": {
-        "source_sha256": "44cc7254fa3c30e699749e2e95c701357d92729667d2d455405aa45806328923",
-        "target_sha256": "9b99255315362e31e480e0647fd867d3c01feca19bc9b543c4e3a698077b00ea"
+        "source_sha256": "83c4de09dbddd0c8ec8ae168f7bff347af0cf999b23beafce4379025ee760d52",
+        "target_sha256": "395c4c72c61d5ce1928190d4d6d778c7634ad2a4e8c7fcc0825c91e38ea391ab"
       },
       "events:story_three_year:/title": {
         "source_sha256": "2756e4a414062fd29372ab48f72c3d533a2fae885725d641791e4fc70885b96c",
@@ -46033,8 +46227,8 @@
         "target_sha256": "94cdb4dedcc0a7892ac7ce605c0385cfaae465068128f19405220a9949ec18e2"
       },
       "events:story_two_year:/description": {
-        "source_sha256": "8deb74604a935f3a9fbf021f32710e980307cd0540bbd9bcaefc14289ae8ebe1",
-        "target_sha256": "1217c6f54b0061d9e68b6e9c82af4bc21f5d4e4293f01a5ebb9f273c3a84e6cb"
+        "source_sha256": "0dc401ae8623f79381b933b6a30fdefe428aa8cd7c462f8d7f02d38387e9dc36",
+        "target_sha256": "e2e17a40b50672a78c0362c4c18e5b2a490fe34ebc2cb21c9bed94d88f9501f0"
       },
       "events:story_two_year:/title": {
         "source_sha256": "5f50536ef3c7d8f62a7537a420b93f09abcf57f8e0f2738bf92f6e0da9fd55d4",
@@ -57633,8 +57827,8 @@
         "target_sha256": "06511a2f3035dc2dc29d9f804632978da7305bd65f0ccfd5de95976b74db4284"
       },
       "events:callback_hyunsu_departure_meal_echo:/description": {
-        "source_sha256": "70f8eb32a521ce29e630cc6d7c1d5aad3b4b5fbd819e5812fff1723544e4c5f2",
-        "target_sha256": "d57d8739e4b2af8c1c0cd28d9d8c6e7e48524bb119aa495f3a5d78d61f12a15e"
+        "source_sha256": "50bf7f8ce8eb0074c6132a1048be55bd5f1bd40f8ad776692d9f9138c07efe5c",
+        "target_sha256": "6ae64b05460dbe6feb1cd7ada4d0e378e565028b3db6113b69c2cc927307e003"
       },
       "events:callback_hyunsu_departure_meal_echo:/title": {
         "source_sha256": "d8630b56b8f5bd932200de973803304caeb01bf18d2f3efaa6aa3266cf58cc43",
@@ -69989,16 +70183,16 @@
         "target_sha256": "193a9cf8674dde65cd0c6335b823ed1d98b2fa43a0fccc11a3daab27c5270f57"
       },
       "events:hyunsu_pass_news:/choices/0/result_text": {
-        "source_sha256": "dc96683066c0789dc10733501de02c6b67590f9ff9f11b076896de001a74a946",
-        "target_sha256": "5f0dfba24a3c340e9e2ce086805391468defc0c050956a538319fc0fe0cc2ede"
+        "source_sha256": "f5fb41932cf8b34ae679fde262d8b86bdad9e84a9d7f367a272bc034ad3253ec",
+        "target_sha256": "ce690805d48057f94afc6b00691e9dd7051e6672b74e359a77f36486067385fd"
       },
       "events:hyunsu_pass_news:/choices/0/text": {
         "source_sha256": "fd87ac0347ab4a6d252a5fda7f139748d9994fd0c78a1ae26c0692cb33ac0245",
         "target_sha256": "fe820ddaf1a519620f03390728a5e2c0e605bfae9deb74d138a4f86bafeeb015"
       },
       "events:hyunsu_pass_news:/choices/1/result_text": {
-        "source_sha256": "ce7d49559792354ecca97e0bdc754c60bd18fe3ea37c57e70944e2d33e7d5e12",
-        "target_sha256": "f9df0dc09ae5c643fb051a18016d8a989c25c100a3547315fb3683c167af9a66"
+        "source_sha256": "2792fb2feea3ecf62e902098d887b90d25df091a048816d63b37b8495affa21b",
+        "target_sha256": "ca7669d1800b1dd9d3852e12c548319502482de12b0165e53a6e3b19c676307c"
       },
       "events:hyunsu_pass_news:/choices/1/text": {
         "source_sha256": "b50a40ad6d9fd49f6a8cd091c088b4812bd170ffecb28e4f22a973f744f4559d",
@@ -70085,12 +70279,12 @@
         "target_sha256": "7b4081725109a23a478698af99ee0cc29ee52278590b1b060ec1fa6c5a8d8a2f"
       },
       "events:hyunsu_year4_echo:/description": {
-        "source_sha256": "4911eb5e559332a5a9584d1ce678d64c374444d2e71eba1a43c741c68a3d6ae2",
-        "target_sha256": "8e665d7cc180d494437db96630f2d2bcbb84086c02a71120e24bdb2501cc0fd9"
+        "source_sha256": "a1384cbed13205af44ff072b63fb99861a6966af18caaad5088d8f1c32d177cd",
+        "target_sha256": "8e331af11b678abc1a817c065902190705be280178f2e2f430b057eca1eeee11"
       },
       "events:hyunsu_year4_echo:/description_if_known/hyunsu_passed": {
-        "source_sha256": "026d93603ac9f0adabb7910398e21b6e93c892dec92d3a9940b32018bf3b00fc",
-        "target_sha256": "19200cc5510d9270acdc5fe02db174dded44975d60653dd2907439e158d57e6e"
+        "source_sha256": "a36034547c535fe5cc223f110c0530f58de7fdfd331c4a0073166a3cb60b94a8",
+        "target_sha256": "5dc078b506474ce3fef846c8d96c8f5256477a449aadffeb072b2e5f68997834"
       },
       "events:hyunsu_year4_echo:/title": {
         "source_sha256": "7d6a5bc8183520276ef4434bbe6c54e77989ef91374435ef7ba7c36a4be4ca9d",
@@ -98711,8 +98905,8 @@
         "target_sha256": "aa5beef83c811b84625b7490746fc008bac7c5023f53b1f393381ed681c14152"
       },
       "events:story_three_year:/description": {
-        "source_sha256": "44cc7254fa3c30e699749e2e95c701357d92729667d2d455405aa45806328923",
-        "target_sha256": "ae315e26d15fc2a67e9944a978a9685f8c12f72ce3659853f510841337accb9f"
+        "source_sha256": "83c4de09dbddd0c8ec8ae168f7bff347af0cf999b23beafce4379025ee760d52",
+        "target_sha256": "2900acb9af52df34ecad54d040e92fc73ca20ba760e7a75a5a790b486e0c86f0"
       },
       "events:story_three_year:/title": {
         "source_sha256": "2756e4a414062fd29372ab48f72c3d533a2fae885725d641791e4fc70885b96c",
@@ -98735,8 +98929,8 @@
         "target_sha256": "3658b27972ed2e2b950c52093408e6b00b10f588b75b84381e05b3f4c64d6a41"
       },
       "events:story_two_year:/description": {
-        "source_sha256": "8deb74604a935f3a9fbf021f32710e980307cd0540bbd9bcaefc14289ae8ebe1",
-        "target_sha256": "a9c43e18f514a92ee982ee5b29b5c0a66e6c2cd52ff45f09c4c53950b2bea564"
+        "source_sha256": "0dc401ae8623f79381b933b6a30fdefe428aa8cd7c462f8d7f02d38387e9dc36",
+        "target_sha256": "4a9a2105666daf5d9d0c4676ed92b28e2b8b6eeb4149a947a7049dd091c47834"
       },
       "events:story_two_year:/title": {
         "source_sha256": "5f50536ef3c7d8f62a7537a420b93f09abcf57f8e0f2738bf92f6e0da9fd55d4",
@@ -110335,8 +110529,8 @@
         "target_sha256": "a7b46960e8a175deefc2b33a1bbe714d58b122eeafb6d328f21b66b484454693"
       },
       "events:callback_hyunsu_departure_meal_echo:/description": {
-        "source_sha256": "70f8eb32a521ce29e630cc6d7c1d5aad3b4b5fbd819e5812fff1723544e4c5f2",
-        "target_sha256": "4ad3fb13d580b42f45d65061a7bf69f6072df11a5fe422b8142984e759e88140"
+        "source_sha256": "50bf7f8ce8eb0074c6132a1048be55bd5f1bd40f8ad776692d9f9138c07efe5c",
+        "target_sha256": "0b691a00dbccb8c063746815aeee566ec25099b738411ec34fe29adae7a08c95"
       },
       "events:callback_hyunsu_departure_meal_echo:/title": {
         "source_sha256": "d8630b56b8f5bd932200de973803304caeb01bf18d2f3efaa6aa3266cf58cc43",
@@ -122691,16 +122885,16 @@
         "target_sha256": "8816cc86ed1bb037e864a6d945d6e1b779aa7a48a6b4fb9d6c2386d99ec8bc91"
       },
       "events:hyunsu_pass_news:/choices/0/result_text": {
-        "source_sha256": "dc96683066c0789dc10733501de02c6b67590f9ff9f11b076896de001a74a946",
-        "target_sha256": "b08cd92fb987f4939868f17a885929555ad5699cb3a9bda4b3305ea07c699a03"
+        "source_sha256": "f5fb41932cf8b34ae679fde262d8b86bdad9e84a9d7f367a272bc034ad3253ec",
+        "target_sha256": "dbc61afa0ae6e1b0d88b89498344bddb070cbd2db9201ac75942046ab03e108e"
       },
       "events:hyunsu_pass_news:/choices/0/text": {
         "source_sha256": "fd87ac0347ab4a6d252a5fda7f139748d9994fd0c78a1ae26c0692cb33ac0245",
         "target_sha256": "9e559fcd494f7b065d5a889f90c60cd515c423001ab29da4baa4d81eb14987f8"
       },
       "events:hyunsu_pass_news:/choices/1/result_text": {
-        "source_sha256": "ce7d49559792354ecca97e0bdc754c60bd18fe3ea37c57e70944e2d33e7d5e12",
-        "target_sha256": "2678e15a0209d8b763d08a10a772af33e1fede85754658a8fbb3a2bc1f8ed846"
+        "source_sha256": "2792fb2feea3ecf62e902098d887b90d25df091a048816d63b37b8495affa21b",
+        "target_sha256": "b719616955c65aee3f7291df2aa81707d821b36dcb24ed31e9c9eacb864f5cbb"
       },
       "events:hyunsu_pass_news:/choices/1/text": {
         "source_sha256": "b50a40ad6d9fd49f6a8cd091c088b4812bd170ffecb28e4f22a973f744f4559d",
@@ -122787,12 +122981,12 @@
         "target_sha256": "f1fcb244f858d6c6cb1764ecc7656b27bd4520b048a827ad972f1436c92ab9eb"
       },
       "events:hyunsu_year4_echo:/description": {
-        "source_sha256": "4911eb5e559332a5a9584d1ce678d64c374444d2e71eba1a43c741c68a3d6ae2",
-        "target_sha256": "f2c3b047fa50f5dae5e518e71117ea8d3ed3f0c7de2058d25b33b60652a0ef83"
+        "source_sha256": "a1384cbed13205af44ff072b63fb99861a6966af18caaad5088d8f1c32d177cd",
+        "target_sha256": "50fa58365ec765cae9ff8d0a5bfe23a0ed3ac9fc67b3e1dce2de3954dd2bebe0"
       },
       "events:hyunsu_year4_echo:/description_if_known/hyunsu_passed": {
-        "source_sha256": "026d93603ac9f0adabb7910398e21b6e93c892dec92d3a9940b32018bf3b00fc",
-        "target_sha256": "a7c59d89c07b55b4b44ff0d76eee9c117839bc8a4731482b493d33e8ab274027"
+        "source_sha256": "a36034547c535fe5cc223f110c0530f58de7fdfd331c4a0073166a3cb60b94a8",
+        "target_sha256": "a6306863321e640e9da408bcae6b9eb9dc291f0deffa2a879ac6eeb61a5df8c9"
       },
       "events:hyunsu_year4_echo:/title": {
         "source_sha256": "7d6a5bc8183520276ef4434bbe6c54e77989ef91374435ef7ba7c36a4be4ca9d",
@@ -158237,8 +158431,8 @@
         "target_sha256": "6f757bbb06a0b8042d596384d280cf22be627f6977c260b6b88789cd909d8cfb"
       },
       "events:story_three_year:/description": {
-        "source_sha256": "44cc7254fa3c30e699749e2e95c701357d92729667d2d455405aa45806328923",
-        "target_sha256": "6306e98a68e71bef67c3bd4018c35e1746909ddd9f76a97487735d50ecdd4f9b"
+        "source_sha256": "83c4de09dbddd0c8ec8ae168f7bff347af0cf999b23beafce4379025ee760d52",
+        "target_sha256": "0177d7d0bdefb7236a5ac52f2d0cf4d134a7706ba101874ed2da130afc7264ee"
       },
       "events:story_three_year:/title": {
         "source_sha256": "2756e4a414062fd29372ab48f72c3d533a2fae885725d641791e4fc70885b96c",
@@ -158261,8 +158455,8 @@
         "target_sha256": "8750d54d7d263d4ea935a3268b57fa6d57010a02ce172a4772d9d03204ef2cc3"
       },
       "events:story_two_year:/description": {
-        "source_sha256": "8deb74604a935f3a9fbf021f32710e980307cd0540bbd9bcaefc14289ae8ebe1",
-        "target_sha256": "3f18f5d5397abe0f701ad111ac1b8fa7ded1a24f96c06a17fc07e3bbeb33ecb5"
+        "source_sha256": "0dc401ae8623f79381b933b6a30fdefe428aa8cd7c462f8d7f02d38387e9dc36",
+        "target_sha256": "1cf27f96c95f9484d298e58b22ae87cfe0b38d52bf94342ca7ec07026527838a"
       },
       "events:story_two_year:/title": {
         "source_sha256": "5f50536ef3c7d8f62a7537a420b93f09abcf57f8e0f2738bf92f6e0da9fd55d4",
@@ -169861,8 +170055,8 @@
         "target_sha256": "449348cc74ff99cb1b409f32685edc93d4c070ce09629782124b59eae176a2db"
       },
       "events:callback_hyunsu_departure_meal_echo:/description": {
-        "source_sha256": "70f8eb32a521ce29e630cc6d7c1d5aad3b4b5fbd819e5812fff1723544e4c5f2",
-        "target_sha256": "74b038fdb7fa28ef59d6ade03c492d78c6dc602397a66579e77175684ecbd1b6"
+        "source_sha256": "50bf7f8ce8eb0074c6132a1048be55bd5f1bd40f8ad776692d9f9138c07efe5c",
+        "target_sha256": "b624dc30d4d2e18bb1a3adddae9d5212815d6ce960676f1c02360c053c715ca5"
       },
       "events:callback_hyunsu_departure_meal_echo:/title": {
         "source_sha256": "d8630b56b8f5bd932200de973803304caeb01bf18d2f3efaa6aa3266cf58cc43",
@@ -182217,16 +182411,16 @@
         "target_sha256": "ff5135ea46fe9f12f5492e5f373c19ee8eca7469f95a71fba1476f0582fa6458"
       },
       "events:hyunsu_pass_news:/choices/0/result_text": {
-        "source_sha256": "dc96683066c0789dc10733501de02c6b67590f9ff9f11b076896de001a74a946",
-        "target_sha256": "9efb4407c8b2e22d85f99f414b24a2bb062c2546b41b68e3fd0d734627fe7fe8"
+        "source_sha256": "f5fb41932cf8b34ae679fde262d8b86bdad9e84a9d7f367a272bc034ad3253ec",
+        "target_sha256": "59023432bb419e479300305cdee60072d99d6720a06eee94aa8604c8e529cc04"
       },
       "events:hyunsu_pass_news:/choices/0/text": {
         "source_sha256": "fd87ac0347ab4a6d252a5fda7f139748d9994fd0c78a1ae26c0692cb33ac0245",
         "target_sha256": "141b07915f0126ddc023ab0cbb76c89b8a05f2a08635fb608347025e569c1d14"
       },
       "events:hyunsu_pass_news:/choices/1/result_text": {
-        "source_sha256": "ce7d49559792354ecca97e0bdc754c60bd18fe3ea37c57e70944e2d33e7d5e12",
-        "target_sha256": "e51f36c07372bd20897ae088d6575afd14547c93530b51b7ff3cfca825e5036d"
+        "source_sha256": "2792fb2feea3ecf62e902098d887b90d25df091a048816d63b37b8495affa21b",
+        "target_sha256": "5bdbcd5e0950a72c1c3256aef2f65eb3709e8dfdc255823260884e4605c3d8cc"
       },
       "events:hyunsu_pass_news:/choices/1/text": {
         "source_sha256": "b50a40ad6d9fd49f6a8cd091c088b4812bd170ffecb28e4f22a973f744f4559d",
@@ -182313,12 +182507,12 @@
         "target_sha256": "04e87bc7a5fabb9a782f6cda1ae69efda5c05b9ef9fc3658a64cef213462228f"
       },
       "events:hyunsu_year4_echo:/description": {
-        "source_sha256": "4911eb5e559332a5a9584d1ce678d64c374444d2e71eba1a43c741c68a3d6ae2",
-        "target_sha256": "67f734da86e36e36b5431a8ace139a53c56bbedc699d70fe14a0d18c7144d059"
+        "source_sha256": "a1384cbed13205af44ff072b63fb99861a6966af18caaad5088d8f1c32d177cd",
+        "target_sha256": "e3eaf1332dea1694e464dd866bf59b59b41b47326290bf65e4c1325237190db0"
       },
       "events:hyunsu_year4_echo:/description_if_known/hyunsu_passed": {
-        "source_sha256": "026d93603ac9f0adabb7910398e21b6e93c892dec92d3a9940b32018bf3b00fc",
-        "target_sha256": "c9243fc23a112224eb90b0e03ffe43ee0f7d4f6c7b66505a8cafe01dbe011db2"
+        "source_sha256": "a36034547c535fe5cc223f110c0530f58de7fdfd331c4a0073166a3cb60b94a8",
+        "target_sha256": "48fabf1c5a3073a9529f57d3e56b2fcfc09df0624c515adf83d0a5c8f19ac6dc"
       },
       "events:hyunsu_year4_echo:/title": {
         "source_sha256": "7d6a5bc8183520276ef4434bbe6c54e77989ef91374435ef7ba7c36a4be4ca9d",
@@ -195762,7 +195956,7 @@
       }
     }
   },
-  "accepted_sha256": "22e36e3a0e7ec2f851a320a35d0a0dbf64b6750bb17bc67fd281ffe4c6daa5c5",
+  "accepted_sha256": "8e5178e6b467126ab5cfaa763342e084e67a9766899e28050d43430b034c537b",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
