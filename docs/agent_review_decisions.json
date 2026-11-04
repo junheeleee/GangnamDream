@@ -14484,6 +14484,49 @@
         "path": "docs/agent_reviews/order786-ja-horse-names.json",
         "sha256": "aeaada772612bf82eed14c21009a14e93484aa5ce949bed903b0b909f2460c34"
       }
+    },
+    {
+      "id": "order787-final-year-crosswalk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-05",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-787",
+      "subject": {
+        "kind": "source",
+        "commit": "638f693b4ed67ad9c5ad91d3215ae9cbbc460160",
+        "tree": "93fdb2652f7d32f75bd846d50720c580ca3d2b88",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order787-final-year-crosswalk.md",
+          "sha256": "3d90e8b865042a288d384e49b3071651be9b97711835bc7c623892792359116f"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order787-final-year-crosswalk.json",
+          "sha256": "1ad4869b2e34fbb42fd9aa39c5a1d4c7c741886b850d4aba148d0539d4a14d40"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order787-final-year-crosswalk.json",
+        "sha256": "1ad4869b2e34fbb42fd9aa39c5a1d4c7c741886b850d4aba148d0539d4a14d40"
+      }
     }
   ]
 }

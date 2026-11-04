@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-787",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-05",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "638f693b4ed67ad9c5ad91d3215ae9cbbc460160",
+    "tree": "93fdb2652f7d32f75bd846d50720c580ca3d2b88",
+    "manifest_sha256": null
+  },
+  "scope": "Three existing final-year ordinary memory leaves × zh-CN/zh-TW = six corrections; JA and new coverage zero.",
+  "review": {
+    "method": "Compared each Korean memory with both accepted translations and the source crossroads choices, W193–208 route and StoryMode ordinary memory reader.",
+    "findings": "A pedestrian crossing replaces a road junction in all six values. The three memories respectively reopen today's decision to keep the plan, leave improvement after a pivot to separate verification, or recheck money, skills and people to contact. None asserts new success or replaces the current choice. First matching ordinary memory remains the consumer contract."
+  },
+  "preservation": {
+    "prior_batches": 378,
+    "prior_decisions": 344,
+    "proof": "Two canonical receipts and final accepted values match. Previous target hashes bound, no previous CN/TW accepted rows. Exact reversal restores both JSONs and complete prior ledger bytes. JA/KO/EN, selectors, effects, saves and public demo unchanged."
+  },
+  "validation": "Pure check_batch, official check/import VALID with empty stderr, exact event/ledger inverse, EN and demo logs clean. Lane lists 11 checks only. No engine or rendered test.",
+  "identity": {
+    "baseline": "6f489a06400a7673ab2cf424e063449ce6672ff7",
+    "rows_sha256": "21b10dc68763815f9b20c7268fb04398c15025c30488a9064e0483c973477c6c",
+    "receipt_sha256_by_locale": {
+      "zh-CN": "57654a37277756de8d0a60ab780396dfc8a6ffdd39a692b75bb47c6d23d7411d",
+      "zh-TW": "e2cdb141f3e026be46b1bd1f19ffad4b204240562333a45fc17629853ec51761"
+    },
+    "previous_target_sha256_by_locale": {
+      "zh-CN": {
+        "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&never_stop": "dd7f170f7517a6f28e97a20ec5f50dd0ea910c6098c71984faffb31651ce5f5e",
+        "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&pivoted_to_safe": "6ce8d9983e47db8f43694f5f52e89b75e63610b5a9eaba9e949fef08803bc02b",
+        "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&plays_hand": "4a379bd05c972ac02c663bfe6171beae2166ee2873f7fef997642153d7bbbae8"
+      },
+      "zh-TW": {
+        "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&never_stop": "cfb77cbd3de221e0088819d86d9dd43aec63e61656f66709890dbe80151928a2",
+        "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&pivoted_to_safe": "d62203c2d6ab41fe648db9c6760fdc99a323635b1d84eb9126778e6820875fb8",
+        "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&plays_hand": "b31cd6eaf89dbe17f1640a079ef19bab88ad79d51387165c649592feb9eb411b"
+      }
+    },
+    "raw_directory": ".git/localization-final-year-crosswalk-20261105.JnqXzh/",
+    "raw_population": {
+      "files": 23,
+      "sha256": "4e9f7e52231136a663ba0ace068549a849fee3979bd088846eabe7385588d493",
+      "entries": [
+        [
+          "correction.log",
+          108,
+          "8055aef493435dffeffad32853c01ceefa2d7e5de04963274b363472ab03e8f2"
+        ],
+        [
+          "correction.py",
+          4631,
+          "d73e7f5a067e2571bad965a740d36a515b1c0ba7ae8e4d47ef6bbf243c2ec5eb"
+        ],
+        [
+          "delta.log",
+          4225,
+          "b9127215762ab3265eeb0fd95fb4f9bada510d1684eda612250e134b070e971f"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "lane.log",
+          1677,
+          "e31ba48fe50b17bc6fddf8c830076a46890ccaffbd670cf5e4a462c363f2e2ff"
+        ],
+        [
+          "leaf-ids.json",
+          310,
+          "de9a5d86389c751052392dcfaf521d9eb6c192a619fed08d71a33874e65f604f"
+        ],
+        [
+          "zh-CN.check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.check.stdout",
+          120,
+          "06fb4d28dad6de666a2175be8e8c1cc8017ea624046d159019d46ff1469a470a"
+        ],
+        [
+          "zh-CN.export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.export.stdout",
+          157,
+          "55ac4b61a6f9e2022822faf3cd4239bb9f16f31a1b706a512aca75686f032c11"
+        ],
+        [
+          "zh-CN.import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.import.stdout",
+          121,
+          "2682f22305e51de1019c027c554fc1939b3e65e54b5c4de9ef05d0d45a732ca7"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          1818,
+          "e94fb6ca59cb411de865760a0b761e4c0d1a4bed5acdb926b212890b1d863663"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          3374,
+          "57b155d157d5d08b82982e908c385c31b74218039e5f2ead7e3bec29924af2bf"
+        ],
+        [
+          "zh-TW.check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.check.stdout",
+          120,
+          "8fd7f159e2e18d27df86e544826fc1e1a61a091dc021f7559052898530382710"
+        ],
+        [
+          "zh-TW.export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.export.stdout",
+          157,
+          "615b74bd442ff7b93ad9d52576beb8e8b095b98dad34c15839d3ed9d35bb1fcf"
+        ],
+        [
+          "zh-TW.import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.import.stdout",
+          121,
+          "6d3ac716dda387a68cd28ffbc9bccfea7ef60ee995958b399c77b4e625015839"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          1812,
+          "4468dfc4bfbb8f1d69880a60b3c92589e2fe2351f0317ad965cb0ae24135bfec"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          3374,
+          "691791d7b6049b21280c433b7979a208c0e6f72126e5c1f158072092ef707b10"
+        ]
+      ]
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
