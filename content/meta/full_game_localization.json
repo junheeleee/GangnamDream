@@ -24714,6 +24714,57 @@
         "zh-CN": {},
         "zh-TW": {}
       }
+    },
+    {
+      "order": "ORDER-788",
+      "group": "ui",
+      "kind": "existing_target_correction",
+      "roots": [
+        "%s 마방에 돈 좀 만지는 사람들이 붙었어. 조용히 사 둬.",
+        "%s, 새벽 조교에서 시계가 미쳤다더라. 오늘 터진다."
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "HorseWorld tipster speech: fast dawn-training time and money behind the stable, without changing truth, odds or costs.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "c758779972ce8db670e70a39e166588cea3f8316",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c41abc6b416ce97f7f06753521e58ff34c74b8478e8ec4336364351aa802d781",
+          "selection_sha256": "bc3cecf6b6b89fbe5cefc9651c6b655b0f61b81078732cd93f28985eed6dd11b",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "f8074ec615e63e30ca160c4c99fb63ec5c0b8c801d7184e1c29af0665463cae1"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "e503a26cfed79301245bdb747511268dd404f0bef13909d9cf8ed0965432b59f"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "ui:%s 마방에 돈 좀 만지는 사람들이 붙었어. 조용히 사 둬.:/%s 마방에 돈 좀 만지는 사람들이 붙었어. 조용히 사 둬.": "65f02f0343f891926e1cf2ec16afde1dea609ac8d4c7b5a1ee00573966f1b5be",
+          "ui:%s, 새벽 조교에서 시계가 미쳤다더라. 오늘 터진다.:/%s, 새벽 조교에서 시계가 미쳤다더라. 오늘 터진다.": "7ad75c28fcbb6d36a982e75be4c80a3af30ece57f7e74050149b474363b94d6f"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {}
+      }
     }
   ],
   "accepted": {
@@ -77449,6 +77500,14 @@
       "ui:적토마:/적토마": {
         "source_sha256": "6c27b5813bbb008056b10a40848c78d96c1ae1080c959f72c1b7ef3788840a38",
         "target_sha256": "6608fb4f1fec3c87c6b67ee65c270b9f65386a17f3163069a681319e39ea942f"
+      },
+      "ui:%s 마방에 돈 좀 만지는 사람들이 붙었어. 조용히 사 둬.:/%s 마방에 돈 좀 만지는 사람들이 붙었어. 조용히 사 둬.": {
+        "source_sha256": "fcd91f06640641098437015b3ce48f6e1eb0db3619859e862058c58a3ecebbc1",
+        "target_sha256": "46e341f62bccbd53da6e00cb09fde5881d62f221a8505862b64c40b2c845bc0a"
+      },
+      "ui:%s, 새벽 조교에서 시계가 미쳤다더라. 오늘 터진다.:/%s, 새벽 조교에서 시계가 미쳤다더라. 오늘 터진다.": {
+        "source_sha256": "391feb9a8da8bf946bb234f31ea638b85e1352dc8f64c20a71ce79dcfec82575",
+        "target_sha256": "fe5ecbdd16c658a187c797f23476aac8f40fdd21a28cb4914697d5056352abf1"
       }
     },
     "zh-CN": {
@@ -196672,7 +196731,7 @@
       }
     }
   },
-  "accepted_sha256": "668f25cf840ad48fb7618a4cd25aeb037e6d1bbbb50dd5fad00fff29e641e2c3",
+  "accepted_sha256": "cca82f0b0b67c7265db78bd7d384a66a171588647c9b35f25a1782aba790317c",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
