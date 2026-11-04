@@ -14269,6 +14269,49 @@
         "path": "docs/agent_reviews/order781-player-title-ui-cjk.json",
         "sha256": "cae16c4734af514d14f4c20e9d671c5c52dde5bdbd32652fc35b68a0980fbd2a"
       }
+    },
+    {
+      "id": "order782-race-pick-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-05",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-782",
+      "subject": {
+        "kind": "source",
+        "commit": "2795c566d9c38a73e6fa3f078a1080b4de38ecf9",
+        "tree": "0a22136d0250988d4dd6ef1b814ff32db9f358cc",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order782-race-pick-cjk.md",
+          "sha256": "8fedc8cff4bbeab4c6babff1a034c830ca867a1dafe7781036ab90a265efefd0"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order782-race-pick-cjk.json",
+          "sha256": "1f77c8211dffd24b2dde203df73b6a1c637886451c0b0083a163815fca9a2aac"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order782-race-pick-cjk.json",
+        "sha256": "1f77c8211dffd24b2dde203df73b6a1c637886451c0b0083a163815fca9a2aac"
+      }
     }
   ]
 }

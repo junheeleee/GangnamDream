@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-782",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-05",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "2795c566d9c38a73e6fa3f078a1080b4de38ecf9",
+    "tree": "0a22136d0250988d4dd6ef1b814ff32db9f358cc",
+    "manifest_sha256": null
+  },
+  "scope": "One selected-horse odds suffix connects existing JA/zh-CN/zh-TW label; no new translations or dictionary values.",
+  "review": {
+    "method": "Read exact source delta, MainGame weekly racetrack entry, Finish Board and result-row guards, LocaleManager legacy lookup and collector output. Verified shipped dictionary values and statically composed both pick states.",
+    "findings": "Selected horses in JA/CN/TW use the existing 내 선택/My Choice pair; other languages retain MY PICK. Unselected rows stay suffix-free and the one-decimal odds, horse index, rank, styling, settlement and save flow are unchanged."
+  },
+  "preservation": {
+    "prior_decisions": 339,
+    "proof": "Reversing the single suffix block restores RaceTrack.gd byte-exactly to baseline. Locale dictionaries and localization ledger are byte-exact; MainGame, demo and gameplay files were not changed."
+  },
+  "validation": "Static contract and collector/dictionary checks, demo and strict EN logs clean. Lane lists 22 selected checks only. No Godot or rendered test.",
+  "identity": {
+    "baseline": "d1e6198aebd9a4050dd193c2f690d0cc80fd79fb",
+    "raw_directory": ".git/localization-race-pick-20261105/",
+    "raw_population": {
+      "files": 5,
+      "sha256": "7d3be9414806e5e9c46d892cd6eaeef770ad04a719b1cacc6cff1886e3498797",
+      "entries": [
+        [
+          "check-result-pick.py",
+          1606,
+          "7318d10dc3a6dc4055777d10d2a1a9eb0bcff69ade474763598c058082581a36"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "lane.log",
+          2775,
+          "2812a1b884c97144d84f483241bf2fef8c30ca138656839769b63adb047f7315"
+        ],
+        [
+          "pick.log",
+          116,
+          "e21ee9473f61c0503bff6a60b32d4f534d7cd7a1bc0f5ade1a0856ccdf3c42fa"
+        ]
+      ]
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
