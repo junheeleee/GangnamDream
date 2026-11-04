@@ -14185,6 +14185,48 @@
         "path": "docs/agent_reviews/order779-callback-boundaries-cjk.json",
         "sha256": "27aad1db9a8e3d38652f3a996dc739c0cb1b0a582cdb3eddf2f5f14a5ffbded0"
       }
+    },
+    {
+      "id": "order780-approach-ui-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-780",
+      "subject": {
+        "kind": "source",
+        "commit": "8f16dd9f268029201b9c07b1f39e7ae3b5c54b09",
+        "tree": "84af79dcaeb0bb7ff4f5b886c5aaf1601c919da3",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order780-approach-ui-cjk.md",
+          "sha256": "4e9fc3c6d0f1c4acf21cba5b500af1e7dc0e5202b71d923e1005b7d8b85eeea1"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order780-approach-ui-cjk.json",
+          "sha256": "25af40f0c8e4c2dce9815a7f4ec7e56c3446a263be17aaa8c05a3eab2defb00c"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order780-approach-ui-cjk.json",
+        "sha256": "25af40f0c8e4c2dce9815a7f4ec7e56c3446a263be17aaa8c05a3eab2defb00c"
+      }
     }
   ]
 }

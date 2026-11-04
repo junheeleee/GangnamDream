@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-780",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "8f16dd9f268029201b9c07b1f39e7ae3b5c54b09",
+    "tree": "84af79dcaeb0bb7ff4f5b886c5aaf1601c919da3",
+    "manifest_sha256": null
+  },
+  "scope": "Four previously missing approach labels × zh-CN/zh-TW = eight new static UI values; JA0.",
+  "review": {
+    "method": "Compared all four Korean labels and eight accepted targets with MainGame's Starting Conditions and ending details, LocaleManager lookup, and existing %s wrappers.",
+    "findings": "Investment, people, principles and steady life stay compact descriptions of the chosen approach, not performance or rules. Existing wrappers each format one value; both consumers suppress the default free-choice label. Japanese and runtime are unchanged."
+  },
+  "preservation": {
+    "prior_batches": 373,
+    "prior_decisions": 337,
+    "proof": "Two canonical receipts and actual UI strings match final responses. Pure append inversion restores all prior dictionary and ledger bytes and order; no existing accepted value changed. JA/KO/EN, runtime and demo were not edited."
+  },
+  "validation": "Pure check_batch, exact append validation, final check/import VALID with empty stderr, and exact candidate UI_APPEND_HISTORY_OK marker. Initial lane CLI rejection retained; named-lane is selection only. No engine or rendered view.",
+  "identity": {
+    "baseline": "f4b8aee61bfcd9ab3034af12d5bd9edac044ddee",
+    "rows_sha256": "72c6aeaff53a4964a3eb4978320188afb5942c92abe684fba13778ea3e90f4ff",
+    "receipt_sha256_by_locale": {
+      "zh-CN": "cb686bbf6fe4be9937e2337bbb40ad81e300e9a853b36f181de1542a95fb8645",
+      "zh-TW": "deded5efdc3024950a26dde98b1bdee5d428722f0cc018844c9c783adc3e00b9"
+    },
+    "raw_directory": ".git/localization-approach-ui-20261104/",
+    "raw_population": {
+      "files": 20,
+      "sha256": "52d8b6f5fcfce725a10b17024e1431607fe8d13a9fb564ff2078156e8fd6182a"
+    },
+    "final_raw": {
+      "files": 19,
+      "sha256": "62abda99997a1c1974755528ba86d0a838828bd111f3870b38b53957f7051e75"
+    },
+    "historical_raw": {
+      "files": 1,
+      "sha256": "a8b2feda3e27c65ba3ea48123128d165e7bf7b41cd1e25f9be78a59f611cd271"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
