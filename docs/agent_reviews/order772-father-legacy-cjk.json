@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-772",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "e4c182faf185bd2e4265142aad70870b607e682a",
+    "tree": "1026bf0c9cf1048cd5e0c192294fff092c0cb077",
+    "manifest_sha256": null
+  },
+  "scope": "Two shipping father-legacy variants, 6 existing leaves × JA/CN/TW = 18 corrections.",
+  "review": {
+    "method": "Full six Korean leaves and all 18 accepted targets with both choices in each variant and nested source-choice slot context.",
+    "findings": "Father's photograph, 31 seconds played without recording a new sentence or deliberate non-playback, two separate papers, chair movement and [[c5read:0]] are preserved. CN1/TW2 final edits retain the unfinished-answer contrast and the 'only' restriction on the reply read aloud."
+  },
+  "preservation": {
+    "prior_batches": 365,
+    "prior_decisions": 329,
+    "proof": "Three canonical receipts and accepted values match final responses; reversal restores all three previous overlays and the complete prior ledger."
+  },
+  "validation": "Pure check_batch and final official check/import VALID with empty stderr. Earlier CN/TW checks and responses preserved separately. No engine.",
+  "identity": {
+    "baseline": "c5a009a35cb66df19816c378dd9cce107d4589c7",
+    "rows_sha256": "614a903dd19acedd2dd77ee1702906ed5fde51bfde94cf1cec4068f451de1fc2",
+    "receipt_sha256_by_locale": {
+      "ja": "c4fa71d5d9497c7c867b7ab2c2327158d65896a7a8da1056bf420ca80822bf8a",
+      "zh-CN": "02f6e5468484df0ca57f011c8afb00e1ac048782dcfe01fc52e080136783b55b",
+      "zh-TW": "f9d578f074ef5385597c652e69d99d015df94735403731cd60ead49b2ebd3461"
+    },
+    "raw_directory": ".git/localization-father-legacy-20261104/",
+    "raw_population": {
+      "files": 27,
+      "sha256": "1d73265ca97ab71fdcf7f6c344818f19c7bb7d43e7c5220fff68d4d869217d70"
+    },
+    "final_raw": {
+      "files": 21,
+      "sha256": "0c398ff437a498dc082207f17cd389b73b1d8e7173e0e269761c53ca4650febf"
+    },
+    "historical_raw": {
+      "files": 6,
+      "sha256": "065ea463282c7c402a5176a6b0522f16081f0451c71506b653a53ebc7e7c37ad"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

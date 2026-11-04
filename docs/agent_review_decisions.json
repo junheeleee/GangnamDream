@@ -13849,6 +13849,48 @@
         "path": "docs/agent_reviews/order771-debt-artifacts-cjk.json",
         "sha256": "91a25fd475f76eabcf425b380d4245c3921376a96b784584d5b0cf45bcb2377e"
       }
+    },
+    {
+      "id": "order772-father-legacy-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-772",
+      "subject": {
+        "kind": "source",
+        "commit": "e4c182faf185bd2e4265142aad70870b607e682a",
+        "tree": "1026bf0c9cf1048cd5e0c192294fff092c0cb077",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order772-father-legacy-cjk.md",
+          "sha256": "c9ab2bc5adff645b0670d3d63e0460783f33f8962708a6822f928868ced9ab14"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order772-father-legacy-cjk.json",
+          "sha256": "d05f2633075f74df062afbd6d9da400df1688748b1612c3aefdb5c1bdd195ea3"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order772-father-legacy-cjk.json",
+        "sha256": "d05f2633075f74df062afbd6d9da400df1688748b1612c3aefdb5c1bdd195ea3"
+      }
     }
   ]
 }
