@@ -24472,6 +24472,55 @@
         "zh-CN": "ecbee899c340049344544c05401bdae10472c61d6dc61264e4f806cc22913b99",
         "zh-TW": "abfc202224849b57882543eb660b1b9acdfe93591ebc080fb9b2330bd42c914e"
       }
+    },
+    {
+      "order": "ORDER-783",
+      "group": "ui",
+      "kind": "existing_target_correction",
+      "roots": [
+        "양호"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "HorseWorld and HorseRace track-condition label, not a stable stall.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "67aa12b682bbfe002de5bdc15ebbed1e67538286",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "070f7710ddb547c99310621dc8eaaa2566756bc86da650487085b9cc87c71634",
+          "selection_sha256": "febbf50ecf06093dcba6cc762b403c8c96e45b1449c0f925edf19ecb643c2d40",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "3ff390dee9db542ea0710adc80e1c6efc405af28a29a57617e692f88be266d66"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "f5973f667aaac6a13c8a09e7d1c3b2c7562f5925c9717f235e556e1b09842a8d"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "ui:양호:/양호": "73fb07f18fe89bdcad0e06a4028bc495fb12cd4a8a81a77c8d86f61c260b908c"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {}
+      }
     }
   ],
   "accepted": {
@@ -77175,6 +77224,10 @@
       "ui:그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.:/그리고 지금, 이 화면의 불빛 앞에 있는 당신에게.": {
         "source_sha256": "ae3a1edf604f4c60b9b22b7f8ddf5d8ad55bdb56cf093737e5fb36f1735f6f1c",
         "target_sha256": "3b297b7a4e4e3abccb287fb779707897e8ba5eedb128f39e885ff65a83ca6e79"
+      },
+      "ui:양호:/양호": {
+        "source_sha256": "849dbb2b5fc2e8929467ad8b4c4923e4c30d69aa6702271192f6acc5ee444013",
+        "target_sha256": "9833e04b09f36bd4e01fbc8b421af7e5b7dad95d6900dcf8e2cda1331972ab1b"
       }
     },
     "zh-CN": {
@@ -196366,7 +196419,7 @@
       }
     }
   },
-  "accepted_sha256": "fd9e8201184a6c5195774f200e781ed60c8b3e218fd0bef714b33bc3e6735666",
+  "accepted_sha256": "5f2ff646e16fe8eb43ded107b9d752ec5d9c65b7f641a02585355a10bfbe0925",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
