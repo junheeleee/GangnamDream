@@ -23076,7 +23076,10 @@ func _ending_playstyle(parent: Control):
 		var is_new: bool = (MetaProgression.get_new_unlocks().get("new_ending", "") != "")
 		var coll_text: String = _tr("엔딩 도감  %d / %d 발견", "Ending Collection  %d / %d found") % [coll_found, coll_total]
 		if is_new:
-			coll_text += "   NEW"
+			var discovery_badge := "NEW"
+			if LocaleManager.language in ["ja", "zh-CN", "zh-TW"]:
+				discovery_badge = _tr("새로 발견", "NEW")
+			coll_text += "   " + discovery_badge
 		parent.add_child(_wrap_label(coll_text, 13, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04)) if is_new else "#7a8496"))
 	# 정점 대비 결말 — 정점에서 얼마나 지켰는가
 	var peak: float = float(GameState.peak_asset)
