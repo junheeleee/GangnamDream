@@ -24818,6 +24818,59 @@
       "superseded_acceptance_by_locale": {
         "ja": {}
       }
+    },
+    {
+      "order": "ORDER-790",
+      "group": "ui",
+      "kind": "existing_target_correction",
+      "roots": [
+        "고른 2마리가 1·2착 (순서 무관) — 중간 배당",
+        "고른 말이 1·2착 안에 들면 적중 — 안전, 낮은 배당",
+        "고른 말이 1착이면 배당만큼 — 기본"
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "ja": 3,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "RaceTrack instructions preserve chosen horses, top-two or winning positions, unordered pair and relative payout.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "fb725b84df3c2d3a1e6179ff982f7befdfcac1cd",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c41abc6b416ce97f7f06753521e58ff34c74b8478e8ec4336364351aa802d781",
+          "selection_sha256": "0643b2c6c8ed37df3fc468de88e2ed2a49e88d3ce2c61cd04129ff5e7e1b3d62",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "0a12bda91ec1999b5355ae9e0f4464ef907c52323f37fc4d2401084140870a8d"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "aefb339255dec57c155670cfd09105ffbd04b9b9c6dddb0daf304901789b3266"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "ui:고른 2마리가 1·2착 (순서 무관) — 중간 배당:/고른 2마리가 1·2착 (순서 무관) — 중간 배당": "94d4675e40318122f14c3a334e6ea164e7a623392771e6cd245d65075b06a029",
+          "ui:고른 말이 1·2착 안에 들면 적중 — 안전, 낮은 배당:/고른 말이 1·2착 안에 들면 적중 — 안전, 낮은 배당": "445c2eadf5f53d63fc88ce46eafa8a3cc05e249bb442e07917614803e96cccb4",
+          "ui:고른 말이 1착이면 배당만큼 — 기본:/고른 말이 1착이면 배당만큼 — 기본": "48808b9bbfbd08b4a29170ddc7a5648f4a48970ec465e208cbf4cc99c49248ca"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {}
+      }
     }
   ],
   "accepted": {
@@ -77573,6 +77626,18 @@
       "ui:연승:/연승": {
         "source_sha256": "8ddc768324141025e6960f124ef8a5280ef33b54a8f728712959db1d390dfa8c",
         "target_sha256": "1cbb85af3cc81bd25634b82fc0da59ecc80299caf57c1d2eae5273a12d2662e8"
+      },
+      "ui:고른 2마리가 1·2착 (순서 무관) — 중간 배당:/고른 2마리가 1·2착 (순서 무관) — 중간 배당": {
+        "source_sha256": "682e11672d60207af53ee5cc24d9332ccbeebe4ec6c6b3ea7f231c7e2bf53491",
+        "target_sha256": "b8571c43cac1892502f83532aca438e069c65a231cb1ae58e75c997bc530dd10"
+      },
+      "ui:고른 말이 1·2착 안에 들면 적중 — 안전, 낮은 배당:/고른 말이 1·2착 안에 들면 적중 — 안전, 낮은 배당": {
+        "source_sha256": "c2bba3c728e4ddf0d8c823f1e3859d3d1ec951489bd301fde86207507ced83af",
+        "target_sha256": "f69820b402e51f3182ea2f420b6d0eb717ee3892e632ae4eeac4d918a09b2a9c"
+      },
+      "ui:고른 말이 1착이면 배당만큼 — 기본:/고른 말이 1착이면 배당만큼 — 기본": {
+        "source_sha256": "8bfea9d721a265a2e796270bb41dbe41a122bac881b5517b184e51ee9fc71482",
+        "target_sha256": "fb933a3c8521e15ac34f48b26968fa14fd62cce8d6a37db73edff804f7c0cc01"
       }
     },
     "zh-CN": {
@@ -196796,7 +196861,7 @@
       }
     }
   },
-  "accepted_sha256": "f4731d18f6a0ae70c341cfc100a433606aa3ec42b020cb9cb01a9b09853ffb5a",
+  "accepted_sha256": "7a7ae4140c0f024d11631459bbb58b9d4afc71bd1ee7273591c0e19517158a16",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
