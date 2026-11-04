@@ -545,9 +545,9 @@
       "final_year_open": "结算的第二天，想起黑暗中慢慢熄灭的计算器液晶屏。\n\n昨晚，没有定下答案。只承认，那些来自计算之外的事，最大程度地改变了过去4年的方向。\n\n{name}翻开空白页。即使没有预先写好结局，今天要押上什么，也得决定。"
     },
     "description_memory_if_known": {
-      "arc_year_three_crossroads_seen&never_stop": "他想起在十字路口决定不改变计划的那一刻。今天是否还要沿用当时的选择，得在这张空白页上重新决定。",
-      "arc_year_three_crossroads_seen&pivoted_to_safe": "他曾在十字路口决定改变方向。此后究竟有什么好转，需要另行核实。要写下今天守住的界限，也得重新审视当时的选择。",
-      "arc_year_three_crossroads_seen&plays_hand": "在十字路口，他曾把钱、技能和要联系的人分成不同项目写下。现在要把这些内容写到空白页上之前，还得确认每个项目今天是否依然属实。"
+      "arc_year_three_crossroads_seen&never_stop": "他想起了当初在人行横道那儿决定不改计划的那一刻。今天还要不要照当时的选择走，得在这张空白页上重新决定。",
+      "arc_year_three_crossroads_seen&pivoted_to_safe": "当初在人行横道那儿，他决定改换方向。后来究竟哪里好转了，还得另行核实。如今要写下今天要守的界限，也得重新审视那时的选择。",
+      "arc_year_three_crossroads_seen&plays_hand": "当初在人行横道那儿，他把钱、技能和要联系的人分项写了下来。现在要把这些项目抄到空白页上，得先确认今天是否还适用。"
     },
     "choices": [
       {

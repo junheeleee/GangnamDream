@@ -24643,6 +24643,77 @@
       "superseded_acceptance_by_locale": {
         "ja": {}
       }
+    },
+    {
+      "order": "ORDER-787",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_final_year_start"
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 3,
+        "zh-TW": 3
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Three existing CN/TW recollections restore the pedestrian crossing and distinct choices; the Japanese crossing is already correct.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "6f489a06400a7673ab2cf424e063449ce6672ff7",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c41abc6b416ce97f7f06753521e58ff34c74b8478e8ec4336364351aa802d781",
+          "selection_sha256": "71546d66e481c2dfb5ecc74d951f33464041e2262410a040b13772ed0515f692",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b2ef40f4c699a03fde8b89558834c180fd2ed410cbf3967cc86fb769cc8fe606"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "6f489a06400a7673ab2cf424e063449ce6672ff7",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c41abc6b416ce97f7f06753521e58ff34c74b8478e8ec4336364351aa802d781",
+          "selection_sha256": "81b1106ee30a829365d24a83417821e35cee22cf4a7f0e47aa926b97c5319a05",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "258ac8c8b8bc144a3e16d0b4b383a1a9d64ecb7f33097c5809c5642d89c9ca48"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "57654a37277756de8d0a60ab780396dfc8a6ffdd39a692b75bb47c6d23d7411d",
+        "zh-TW": "e2cdb141f3e026be46b1bd1f19ffad4b204240562333a45fc17629853ec51761"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-CN": {
+          "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&never_stop": "dd7f170f7517a6f28e97a20ec5f50dd0ea910c6098c71984faffb31651ce5f5e",
+          "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&pivoted_to_safe": "6ce8d9983e47db8f43694f5f52e89b75e63610b5a9eaba9e949fef08803bc02b",
+          "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&plays_hand": "4a379bd05c972ac02c663bfe6171beae2166ee2873f7fef997642153d7bbbae8"
+        },
+        "zh-TW": {
+          "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&never_stop": "cfb77cbd3de221e0088819d86d9dd43aec63e61656f66709890dbe80151928a2",
+          "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&pivoted_to_safe": "d62203c2d6ab41fe648db9c6760fdc99a323635b1d84eb9126778e6820875fb8",
+          "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&plays_hand": "b31cd6eaf89dbe17f1640a079ef19bab88ad79d51387165c649592feb9eb411b"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-CN": {},
+        "zh-TW": {}
+      }
     }
   ],
   "accepted": {
@@ -136976,6 +137047,18 @@
       "ui:새로 발견:/새로 발견": {
         "source_sha256": "8938622352af3b90fec77e3370f3742ef76971cbfa8a45a525c8afd697f72970",
         "target_sha256": "1c0d511b9359a4263a012d64f7155786aa243c08a53809a8e6a0e6d47618e331"
+      },
+      "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&never_stop": {
+        "source_sha256": "93de7318007c51d484640df81b63d490245a960b0cbcffbcbb44fc1ed154c5dc",
+        "target_sha256": "b8dc9244efe30aa292ed33cabba8f0ca80d27c53ccd31f50f7139b73a29b6751"
+      },
+      "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&pivoted_to_safe": {
+        "source_sha256": "7002a6536aebb1e5bf3b0aacd93dc75a09b193ea44a066f31d4c5f390700eaaa",
+        "target_sha256": "e502aaa5ac421e1677036e83851ee2d2f402976fdb5ce9a88a173ddc5dc049be"
+      },
+      "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&plays_hand": {
+        "source_sha256": "c4b6afcf6e7be2336e23aa8ad1267cfdaeafb99c7fc257d48ea308f9bfa93b58",
+        "target_sha256": "0fbfd619896928efbfaba1a687e9838dde4db8fc1f71fc810496d3a07558f6c1"
       }
     },
     "zh-TW": {
@@ -196574,10 +196657,22 @@
       "ui:새로 발견:/새로 발견": {
         "source_sha256": "8938622352af3b90fec77e3370f3742ef76971cbfa8a45a525c8afd697f72970",
         "target_sha256": "c21cd4cd6615eeb8ca605a96e648d2c8f8d76f18d98a8f7457c8d93edefc36c0"
+      },
+      "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&never_stop": {
+        "source_sha256": "93de7318007c51d484640df81b63d490245a960b0cbcffbcbb44fc1ed154c5dc",
+        "target_sha256": "5f07c0f9e184817ad7bb8d5251a89994cad013400f2bf627de33949b48dbcc59"
+      },
+      "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&pivoted_to_safe": {
+        "source_sha256": "7002a6536aebb1e5bf3b0aacd93dc75a09b193ea44a066f31d4c5f390700eaaa",
+        "target_sha256": "c3faf6edbe1ad802da6827d33271b56b0162cde2941fac4a65d479aa35607994"
+      },
+      "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&plays_hand": {
+        "source_sha256": "c4b6afcf6e7be2336e23aa8ad1267cfdaeafb99c7fc257d48ea308f9bfa93b58",
+        "target_sha256": "866fa04742880c9d2154592b95a9917e0315fc1655723e9a5e13f18c4420bb4f"
       }
     }
   },
-  "accepted_sha256": "a2bfca79e27f8cd567805eb934a9452a9c5e4bc4b8e4f0618c5dfbc2276f47ca",
+  "accepted_sha256": "668f25cf840ad48fb7618a4cd25aeb037e6d1bbbb50dd5fad00fff29e641e2c3",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

@@ -545,9 +545,9 @@
       "final_year_open": "結算隔天，想起計算機螢幕在黑暗中慢慢熄滅的樣子。\n\n昨晚沒有決定答案。只承認，過去四年的方向，改變最多的都來自計算之外。\n\n{name}翻開空白頁。沒有事先寫好結局的人，也得決定今天要押上什麼。"
     },
     "description_memory_if_known": {
-      "arc_year_three_crossroads_seen&never_stop": "他想起在十字路口決定不改變計畫的那一刻。今天是否仍要依循當時的選擇，得在這張空白頁上重新決定。",
-      "arc_year_three_crossroads_seen&pivoted_to_safe": "他曾在十字路口決定轉個方向。之後究竟有什麼改善，是另外需要確認的事。要寫下今天守住的界線，也得重新檢視當時的選擇。",
-      "arc_year_three_crossroads_seen&plays_hand": "在十字路口，他曾將錢、技能、要聯絡的人分項寫下。現在要把這些內容寫到空白頁上之前，還得確認各項今天是否仍然符合實情。"
+      "arc_year_three_crossroads_seen&never_stop": "他想起在斑馬線那裡決定不改計畫的那一刻。今天還要不要照著當時的選擇走，得在這張空白頁上重新決定。",
+      "arc_year_three_crossroads_seen&pivoted_to_safe": "他曾在斑馬線那裡決定轉個方向。後來有哪些事變好了，還得另外確認。如今要寫下今天要守住的界線，也得再看看當時的選擇。",
+      "arc_year_three_crossroads_seen&plays_hand": "當時，他在斑馬線那裡把錢、技能和要聯絡的人分項記了下來。現在要把這些項目移到眼前的空白頁上，得先確認今天是否還符合現況。"
     },
     "choices": [
       {
