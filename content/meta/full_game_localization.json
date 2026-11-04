@@ -24765,6 +24765,59 @@
       "superseded_acceptance_by_locale": {
         "ja": {}
       }
+    },
+    {
+      "order": "ORDER-789",
+      "group": "ui",
+      "kind": "existing_target_correction",
+      "roots": [
+        "복승",
+        "삼쌍승",
+        "연승"
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "ja": 3,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "RaceTrack place, quinella and exact-order trifecta; Japanese terms match the existing 5–7 runner rules.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "ab397ef001fc4c03643a383d79e56f4dc6242a25",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c41abc6b416ce97f7f06753521e58ff34c74b8478e8ec4336364351aa802d781",
+          "selection_sha256": "621615d77261744d87e8ab51b39bb7b06090bccd109a1623ab6f2884bab047de",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "96cb82c69b391e8b53fdc08dd7a4354c8477cd8652e6149573167d2d1e3c5d39"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "a0416f008732cdbc40de1d48fadd3b50a89f5682e1f5be0ba72002ea689a6f3f"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "ui:복승:/복승": "1cbb85af3cc81bd25634b82fc0da59ecc80299caf57c1d2eae5273a12d2662e8",
+          "ui:삼쌍승:/삼쌍승": "36a904c649b4a5ec1c32761b89003069a60f172933d954d3fd51805ab35b0bc3",
+          "ui:연승:/연승": "4f3609575d0208ae586c7ec150fd0d5150cbab4f6975499eb3c203940d199b1a"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {}
+      }
     }
   ],
   "accepted": {
@@ -77508,6 +77561,18 @@
       "ui:%s, 새벽 조교에서 시계가 미쳤다더라. 오늘 터진다.:/%s, 새벽 조교에서 시계가 미쳤다더라. 오늘 터진다.": {
         "source_sha256": "391feb9a8da8bf946bb234f31ea638b85e1352dc8f64c20a71ce79dcfec82575",
         "target_sha256": "fe5ecbdd16c658a187c797f23476aac8f40fdd21a28cb4914697d5056352abf1"
+      },
+      "ui:복승:/복승": {
+        "source_sha256": "36eb4d8cbd0e507d5461426d467d6ad6ec04ec7d14f6b9d5ef80f8240af11b8d",
+        "target_sha256": "04feac328b313d15e7f72d67b628111a0816e75d07e5a3bde7f8f8bfe09615bf"
+      },
+      "ui:삼쌍승:/삼쌍승": {
+        "source_sha256": "9cb7f0fb4f37c84e8c98fd0910dc1ef8556ffbdb6e1a50e9a379178852ba5af5",
+        "target_sha256": "7148f4fd9ad42e88c5f9f39d932b03329abc87bfa38e305a2554cbc680b8d955"
+      },
+      "ui:연승:/연승": {
+        "source_sha256": "8ddc768324141025e6960f124ef8a5280ef33b54a8f728712959db1d390dfa8c",
+        "target_sha256": "1cbb85af3cc81bd25634b82fc0da59ecc80299caf57c1d2eae5273a12d2662e8"
       }
     },
     "zh-CN": {
@@ -196731,7 +196796,7 @@
       }
     }
   },
-  "accepted_sha256": "cca82f0b0b67c7265db78bd7d384a66a171588647c9b35f25a1782aba790317c",
+  "accepted_sha256": "f4731d18f6a0ae70c341cfc100a433606aa3ec42b020cb9cb01a9b09853ffb5a",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
