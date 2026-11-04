@@ -14143,6 +14143,48 @@
         "path": "docs/agent_reviews/order778-hyunsu-years-cjk.json",
         "sha256": "71d7d3190d05f596694abae8152fe6cfa89781dcf2ae98045adfc92b8ce053c7"
       }
+    },
+    {
+      "id": "order779-callback-boundaries-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-779",
+      "subject": {
+        "kind": "source",
+        "commit": "a087ff1ab37643e76eb4eec6d0ba73e81995701e",
+        "tree": "34a826e1e62791c3b3e385d790f52eef830d58dd",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order779-callback-boundaries-cjk.md",
+          "sha256": "acc1e84c3828bd86c030279f5dcd0c23256ded13326ee9df0b96e920a0c5733d"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order779-callback-boundaries-cjk.json",
+          "sha256": "27aad1db9a8e3d38652f3a996dc739c0cb1b0a582cdb3eddf2f5f14a5ffbded0"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order779-callback-boundaries-cjk.json",
+        "sha256": "27aad1db9a8e3d38652f3a996dc739c0cb1b0a582cdb3eddf2f5f14a5ffbded0"
+      }
     }
   ]
 }

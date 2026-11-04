@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-779",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "a087ff1ab37643e76eb4eec6d0ba73e81995701e",
+    "tree": "34a826e1e62791c3b3e385d790f52eef830d58dd",
+    "manifest_sha256": null
+  },
+  "scope": "Five existing callback leaves across employment and money boundaries × JA/CN/TW = 15 corrections.",
+  "review": {
+    "method": "Compared the five Korean leaves, 15 accepted targets, both roots' full choices and producer flags in arc_midgame.",
+    "findings": "Current income and expenses, decision room rather than a title, account balance and recent expenses, and Daeun's option not to ask first again are preserved. No investment outcome, loss or invented amount. Only one CN description changes from its first response, softening the question's withdrawal without changing permission."
+  },
+  "preservation": {
+    "prior_batches": 372,
+    "prior_decisions": 336,
+    "proof": "Three canonical receipts and actual targets match final responses. Exact reversal restores six prior overlays and the complete prior ledger, including previous targets and superseded acceptance values."
+  },
+  "validation": "Pure check_batch and final JA/TW check, CN final-check and accepted-import VALID with empty stderr. Earlier CN VALID remains historical. Recorded scope shows zero stale accepted shipping event sources and 15 author-only stale sources per locale; missing translations, UI, and renderer are separate. No engine.",
+  "identity": {
+    "baseline": "ce4baa4b7ead54749a5d0bb8b76cc3bf494b217f",
+    "rows_sha256": "deebd5df3ebbe5233c857d4c2bf66ea6b914ff9501e314eea4fa0a621f865ec8",
+    "receipt_sha256_by_locale": {
+      "ja": "d3b069e719667e0b6a42e9c7eda353d2b1545920755313e0d63cabe21aec066b",
+      "zh-CN": "6dcd9494c9d26be17e9e0df75d8503a0cda3d8b42bd3fbde9187db4196559877",
+      "zh-TW": "3a79c6c1128376b1fa24dbe18fdac57fc8d395cf55a013f3ed334d74b0ce5c76"
+    },
+    "raw_directory": ".git/localization-callback-boundaries-20261104/",
+    "raw_population": {
+      "files": 29,
+      "sha256": "2c6f77faa448be5927ab18a8412428c739d1facedff2e2577a28971e603bb680"
+    },
+    "final_raw": {
+      "files": 26,
+      "sha256": "8f3da0af8a8d4cb1e7ad6a9433ff4b878fc060659dbcc1137e4d76da422226a8"
+    },
+    "historical_raw": {
+      "files": 3,
+      "sha256": "509ddbc484f31c168183479f7f356d1e2425cb289ad5d53f9bfdba87e01884c0"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
