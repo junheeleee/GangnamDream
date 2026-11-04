@@ -502,6 +502,11 @@ func _vignette_commitment_details(
 	return details
 
 func _quote_ui(text: String) -> String:
+	match LocaleManager.language:
+		"ja", "zh-TW":
+			return "「%s」" % text
+		"zh-CN":
+			return "“%s”" % text
 	return "\"%s\"" % text if LocaleManager.is_english() else "「%s」" % text
 
 func _loc_dict(data: Dictionary, key: String, fallback := "") -> String:
