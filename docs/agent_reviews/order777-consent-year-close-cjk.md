@@ -1,0 +1,9 @@
+# ORDER-777 — Consent, people verdict and first-year close
+
+**GO** for 33 existing JA/zh-CN/zh-TW corrections in candidate `e63cd950821a415c642b7897da4c019104b5e86c`, tree `9092690e287b554b704bb6e45a570e910368e53d`. Baseline `9df58c1b8ae36abf83c830e536dbbd2ece86a05f`.
+
+I compared all eleven Korean leaves and 33 accepted targets with the complete choices, Chapter 5 memories and the first-year death variant's known branches and remap. Application 227 is in the applicant's own name and does not grant Daeun's consent or settle the other filing states. Daeun's time remains distinct from the last document state Minseo reads. The first-year close keeps the two notebook headings, the midnight and alarm times, and the unsent greeting deleted at the father's old contact. The 2 million won received and the 1.5 million won return accepted for processing stay separate; return processing does not resolve follow-up responsibility. Final JA1/CN5/TW5 draft changes clarify the applicant, avoid inventing a particular deferred meeting, preserve the occupied spaces and use the regional rent term. Other response values and headers are unchanged.
+
+Pure validation, three canonical receipts and all accepted values match. Exact reversal restores all six overlays and the full prior ledger (370 batches). Final check2 and accepted-import logs are VALID with empty stderr. The earlier regional rent and TW occupied-space rejections, drafts and handoff remain historical. Delta, public demo and EN coverage logs are clean; lane output only selects checks. The machine report binds 36 raw files, 26 final and ten historical.
+
+Native display, native-speaker review, human playtest, physical controller feel, M60 completion, full localization, remote CI success and release remain unobserved. No app, engine or saves used.

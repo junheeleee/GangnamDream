@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-777",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "e63cd950821a415c642b7897da4c019104b5e86c",
+    "tree": "9092690e287b554b704bb6e45a570e910368e53d",
+    "manifest_sha256": null
+  },
+  "scope": "Eleven existing leaves across consent, people verdict and first-year close × JA/CN/TW = 33 corrections.",
+  "review": {
+    "method": "Compared all eleven Korean leaves and 33 accepted targets, full choices/known memories, Chapter 5 selector context and W48 father-passed remap.",
+    "findings": "Application 227 is in the applicant's own name, distinct from Daeun's prior-consent request and the other three document states. People-time and last document state remain separate. First-year close keeps two notebook headings, an unsent deleted greeting, distinct 2m won receipt and 1.5m won return accepted for processing, unresolved responsibility, and all times/tokens. Final JA1/CN5/TW5 draft differences preserve all other text and metadata."
+  },
+  "preservation": {
+    "prior_batches": 370,
+    "prior_decisions": 334,
+    "proof": "Three canonical receipts and actual targets match final responses. Exact reversal restores six previous overlays and the complete prior ledger, including previous target hashes and superseded acceptance values. Source/choices outside the owned leaves and runtime selectors are unchanged."
+  },
+  "validation": "Pure check_batch and final check2/accepted-import VALID with empty stderr. Prior Chinese regional rent terminology and TW occupied-space counter rejections remain historical. Delta33 and demo/EN logs clean; lane is selection only. No engine.",
+  "identity": {
+    "baseline": "9df58c1b8ae36abf83c830e536dbbd2ece86a05f",
+    "rows_sha256": "bb5f7bb9138794d7f92f9a34786ec0c714f1213a36cf2ba303ec669a9a22c2d4",
+    "receipt_sha256_by_locale": {
+      "ja": "1510b8da908d55093237fb08808e4f258cfc774c34281b1385e64eb90166e021",
+      "zh-CN": "9df6b03ef6f204d16eb67663cd9231ecf1fbb9b616d6180a84c177b161c76687",
+      "zh-TW": "9bbaadf69234872cd415c334b13035921a5a11e53fa1c59c437b3cc6e3001278"
+    },
+    "raw_directory": ".git/localization-consent-year-close-20261104/",
+    "raw_population": {
+      "files": 36,
+      "sha256": "b2efb24fe50e5e8949d05eebfe7c39f9d404db7cbe96483b8452b09c5f9ac479"
+    },
+    "final_raw": {
+      "files": 26,
+      "sha256": "28f9830e8c684b33a40bbc88803e2810b8186a8c373e2e1bb2d6e64110c0640b"
+    },
+    "historical_raw": {
+      "files": 10,
+      "sha256": "89adee4ec86e78e90e295d2dd0117778dc1daace00d6296fb2a1f4f730f11e43"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
