@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-774",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "4b6327b8e70cc1335ad5aa77c2612204adfa6129",
+    "tree": "6f63addecd4e72ea9935c232e2a1ea04d649557f",
+    "manifest_sha256": null
+  },
+  "scope": "Four existing final-record leaves × JA/CN/TW = 12 corrections.",
+  "review": {
+    "method": "Compared all four Korean leaves and 12 accepted targets with both full choices and all three inline slot sources and alternatives.",
+    "findings": "Three addresses, about 30 minutes, phone quiet/paper sound versus screen heat/no look, no purchase press or order screen and absence at the consultation desk are preserved. Final JA2/CN2/TW1 edits clarify the button action in all three locales and notification motion in JA/CN."
+  },
+  "preservation": {
+    "prior_batches": 367,
+    "prior_decisions": 331,
+    "proof": "Three canonical receipts and accepted values match final responses; reversal restores all three previous overlays and the complete prior ledger."
+  },
+  "validation": "Pure check_batch and final accepted-check/accepted-import VALID with empty stderr. Earlier responses and checks remain historical. No engine.",
+  "identity": {
+    "baseline": "077bdd327c2e36f2e0368c496d7c37e0a5dffe5e",
+    "rows_sha256": "6d619ac57e9ee5b3496b62a680871373bbb4940dbbb42c7cd9cc909c948df278",
+    "receipt_sha256_by_locale": {
+      "ja": "e53f87329d8e28ab27a8d5606b9a44e3f441973566b8c0d368794550109aa8c0",
+      "zh-CN": "ea157de2e695a94ca8408982582d191d92a7d227a1e76666240014abe9e36197",
+      "zh-TW": "1b199a3fc48d2da3adaa1ac26f5200371fb90dc60fa69aa980fa904fdd95ee92"
+    },
+    "raw_directory": ".git/localization-final-record-20261104/",
+    "raw_population": {
+      "files": 30,
+      "sha256": "53e7bd4de88ce6411a41c8421d54d18dd2385ec3f342c9e9d534637d38657e60"
+    },
+    "final_raw": {
+      "files": 21,
+      "sha256": "aa20d2e6eefcf8a4dee5d637ceb218991cff5df272969ebf94636f07f1d73f3b"
+    },
+    "historical_raw": {
+      "files": 9,
+      "sha256": "f0bc2d66c57d82a8c3e6953b2e26c5aada1587341233dd52c32c9a20e6116aa7"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
