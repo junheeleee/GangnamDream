@@ -1214,7 +1214,13 @@ func _make_result_row(rank: int) -> Control:
 
 	var odds := Label.new()
 	_f(odds); odds.add_theme_font_size_override("font_size", 13)
-	odds.text = "×%.1f%s" % [float(h["odds"]), "  MY PICK" if is_pick else ""]
+	var pick_suffix := ""
+	if is_pick:
+		var pick_label := "MY PICK"
+		if LocaleManager.language in ["ja", "zh-CN", "zh-TW"]:
+			pick_label = _tr("내 선택", "My Choice")
+		pick_suffix = "  " + pick_label
+	odds.text = "×%.1f%s" % [float(h["odds"]), pick_suffix]
 	odds.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	odds.add_theme_color_override("font_color", Color("#ffe14d") if is_pick else Color("#8e98ad"))
 	row.add_child(odds)
