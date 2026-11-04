@@ -14570,6 +14570,49 @@
         "path": "docs/agent_reviews/order788-ja-race-tips.json",
         "sha256": "c61a525f7fc8e4bb3ae6d1169db7cfd583df3bc86dc9fcf789863e19be670b43"
       }
+    },
+    {
+      "id": "order789-ja-race-bets-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-05",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-789",
+      "subject": {
+        "kind": "source",
+        "commit": "c43ef61227c305e7870c24bf68cfd6d1bbdbe5b4",
+        "tree": "0d540f832c6c7573b352e25d521e1e264b300339",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order789-ja-race-bets.md",
+          "sha256": "c60488dc0e8c32b35278ec374eac703acfec30e607364889b3357b78272dd28e"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order789-ja-race-bets.json",
+          "sha256": "a5348c383367dbaf0c8a784d00a5555514d37760326fd08e39e80283aef567d5"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order789-ja-race-bets.json",
+        "sha256": "a5348c383367dbaf0c8a784d00a5555514d37760326fd08e39e80283aef567d5"
+      }
     }
   ]
 }

@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-789",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-05",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "c43ef61227c305e7870c24bf68cfd6d1bbdbe5b4",
+    "tree": "0d540f832c6c7573b352e25d521e1e264b300339",
+    "manifest_sha256": null
+  },
+  "scope": "Three existing JA race bet labels; no new keys.",
+  "review": {
+    "method": "Compared Korean keys and accepted Japanese labels with RaceTrack bet-name/pick contract, HorseWorld/HorseRace race generation and actual payout predicates, and official JRA terminology.",
+    "findings": "For 5–7 horses, Place selects one horse to finish first or second (複勝); Quinella selects the top two in either order (馬連); Trifecta selects the exact top-three order (三連単). Win, explanations, selection counts, odds, settlement and save flow are unchanged.",
+    "references": [
+      "https://www.jra.go.jp/kouza/beginner/baken/",
+      "https://www.jra.go.jp/kouza/baken/index.html"
+    ]
+  },
+  "preservation": {
+    "prior_batches": 380,
+    "prior_decisions": 346,
+    "proof": "No previous JA accepted rows; old target hashes and canonical receipt are bound. Exact reversal restores prior JA UI and ledger bytes. Other locales, source/gameplay, saves and public demo unchanged."
+  },
+  "validation": "Pure check_batch, official check/import VALID with empty stderr, exact inverse, rules, JA/UI, demo, EN and document logs checked. Lane lists 31 checks only. No engine or rendered test.",
+  "identity": {
+    "baseline": "ab397ef001fc4c03643a383d79e56f4dc6242a25",
+    "rows_sha256": "e21bde85d6c20aa392c7b31c765284e0d6304a6f2a0661408fb663664f109b4e",
+    "receipt_sha256_by_locale": {
+      "ja": "a0416f008732cdbc40de1d48fadd3b50a89f5682e1f5be0ba72002ea689a6f3f"
+    },
+    "previous_target_sha256_by_leaf": {
+      "ui:복승:/복승": "1cbb85af3cc81bd25634b82fc0da59ecc80299caf57c1d2eae5273a12d2662e8",
+      "ui:삼쌍승:/삼쌍승": "36a904c649b4a5ec1c32761b89003069a60f172933d954d3fd51805ab35b0bc3",
+      "ui:연승:/연승": "4f3609575d0208ae586c7ec150fd0d5150cbab4f6975499eb3c203940d199b1a"
+    },
+    "raw_directory": ".git/localization-ja-race-bets-20261105.Ef2ZFq/",
+    "raw_population": {
+      "files": 16,
+      "sha256": "19f339ae3b657b9d21084aaced19870ba860ad1b48756cf2997dfbb5fc8ca467",
+      "entries": [
+        [
+          "check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "check.stdout",
+          117,
+          "dc6965ca2530512e934329c705566640d52c561db774f2b94248a0f6a3491932"
+        ],
+        [
+          "correction.log",
+          103,
+          "56cb7728970f0eb6e7c6e8bc01d29c3a130dfa547a318dbcc12c7f2625465661"
+        ],
+        [
+          "correction.py",
+          3887,
+          "55d20f13c712bc2695aae6df504180054105784e2598896b4207f4cf2749c4db"
+        ],
+        [
+          "delta.log",
+          1784,
+          "eb622da2b49c8cb69f66442967bf99aa082dd27b13e38472928fd9f69f3104a2"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "export.stdout",
+          143,
+          "0209dff541eb584fa3189302f0b0254b4cb4e79e5100678f05bf57a5934b5a72"
+        ],
+        [
+          "import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "import.stdout",
+          118,
+          "7a7fae4c20ac6359038de6698cd825649dfb97244e511d5ac0e78b9557cb5650"
+        ],
+        [
+          "ja.log",
+          214,
+          "51a52dce5e2ac7d69d1aa92cc8f7461b539a620395986d001abad73eafef196a"
+        ],
+        [
+          "ja.response.jsonl",
+          1084,
+          "a1e91574203049da91237e54390da25d8fd5b935037ebb8e465371821ae2a822"
+        ],
+        [
+          "ja.source.jsonl",
+          2263,
+          "92e40df1fcf1efdf196c6945c6f90b610dfc5d7255a70898d0dcfd80bf0bb702"
+        ],
+        [
+          "lane.log",
+          4928,
+          "537ba930aeb451f20715c81c0c5730f193cf85c5240963a1dc5ea79127e73cf7"
+        ],
+        [
+          "rules.log",
+          3129,
+          "1ce2334ce6b68d8913fb65d5116fd3c3eec198723a8851463795011fdcf445f5"
+        ]
+      ]
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
