@@ -24359,6 +24359,58 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-780",
+      "group": "ui",
+      "roots": [
+        "꾸준한 생활",
+        "원칙 우선",
+        "인연 중심",
+        "투자 중심"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 4,
+        "zh-TW": 4
+      },
+      "source_review": "Four nondefault approach labels read by the full-game start-conditions card and ending details; no display or route change.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "f4b8aee61bfcd9ab3034af12d5bd9edac044ddee",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "f05bc3b8daa234fbcde9bb725f22e69965dd12726f1c1e313de24d23ee1cfddc",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "444edd555471a36f9dd5dade1e7a65abd816b03700cfa23de4556ebeed8c6daa"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "f4b8aee61bfcd9ab3034af12d5bd9edac044ddee",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "7c419d55ab258ab421428b8aee251613b2804c8e6eebe862e05afa475fac1a2d",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d7d95b6e76289dc86d15bda7e72bbe06e8397b267bc4a1c5847d1c31a5e15f04"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "cb686bbf6fe4be9937e2337bbb40ad81e300e9a853b36f181de1542a95fb8645",
+        "zh-TW": "deded5efdc3024950a26dde98b1bdee5d428722f0cc018844c9c783adc3e00b9"
+      }
     }
   ],
   "accepted": {
@@ -136588,6 +136640,22 @@
       "ui:서울, 2026. 정답도 보장도 없다.:/서울, 2026. 정답도 보장도 없다.": {
         "source_sha256": "345c282590883d5a42a2b57422abc6bcea2c6c55c548ffe748ce2d6878ef3542",
         "target_sha256": "4396ddb973c7036a7e7233af99395794a1b7cdcf0bfcfd687652d843c8b97c2b"
+      },
+      "ui:꾸준한 생활:/꾸준한 생활": {
+        "source_sha256": "e622c1feee536bd337aca248031d1df5a19c01b4d180925485ce890193493785",
+        "target_sha256": "bddbdd722c36a120c05cf057f9be92cb244996a60dbf319dbd65c907c47a98e3"
+      },
+      "ui:원칙 우선:/원칙 우선": {
+        "source_sha256": "b61dbac9514b6a4999955f6336d2d02b0037c51fd78fb0c9b9a136166a6b57c1",
+        "target_sha256": "1547c8722c23ecb61e40705f795414cf8bb69da573645b123cc10cb4cf8da9a5"
+      },
+      "ui:인연 중심:/인연 중심": {
+        "source_sha256": "0c0287f3b035e4eea44c8c154a250a851ce8aad372d61891dfcb0921710a32f4",
+        "target_sha256": "8fddd8f428adb6c4169a27f60a290e83f9d690153d66b43e6b8a36e78a84081f"
+      },
+      "ui:투자 중심:/투자 중심": {
+        "source_sha256": "d6fdcb18a1f3e81daf063ba7d7eac3627ec7daa858ac0a1f84b35d5ffb35781d",
+        "target_sha256": "59463ce3d232cc638d7d4985f15730ec37032d22f528f82d12b4e0b9e732267a"
       }
     },
     "zh-TW": {
@@ -196114,10 +196182,26 @@
       "ui:서울, 2026. 정답도 보장도 없다.:/서울, 2026. 정답도 보장도 없다.": {
         "source_sha256": "345c282590883d5a42a2b57422abc6bcea2c6c55c548ffe748ce2d6878ef3542",
         "target_sha256": "52b1d8eabdc2b691b0ab6f8078a09c884870a79bdabee6c24ca666240b526ff1"
+      },
+      "ui:꾸준한 생활:/꾸준한 생활": {
+        "source_sha256": "e622c1feee536bd337aca248031d1df5a19c01b4d180925485ce890193493785",
+        "target_sha256": "05999e0afbab5806fd9bad8c584f5161ab9ea078694f466275fcbc4635d73e03"
+      },
+      "ui:원칙 우선:/원칙 우선": {
+        "source_sha256": "b61dbac9514b6a4999955f6336d2d02b0037c51fd78fb0c9b9a136166a6b57c1",
+        "target_sha256": "5aa541cfb2cf2a5038d0c2e4a48c55714cacb79f8a62d4fd168aae8d0d238c48"
+      },
+      "ui:인연 중심:/인연 중심": {
+        "source_sha256": "0c0287f3b035e4eea44c8c154a250a851ce8aad372d61891dfcb0921710a32f4",
+        "target_sha256": "e9bb5774eadf631bff766a5182350089537b7aa6574f6d3bbecdc8e5df37399c"
+      },
+      "ui:투자 중심:/투자 중심": {
+        "source_sha256": "d6fdcb18a1f3e81daf063ba7d7eac3627ec7daa858ac0a1f84b35d5ffb35781d",
+        "target_sha256": "2d5ba554b232860725db664dbe00cac5bc7eeb76837f32c64b6aad6d4aa51683"
       }
     }
   },
-  "accepted_sha256": "63bee0bb21f281898cc4db2042360376ab442e905284a7083bdb7af8d808fcc1",
+  "accepted_sha256": "de35effdc0bb43ee60c0586550f79b4d43d03d624fed26ad2a94c4ab744696aa",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
