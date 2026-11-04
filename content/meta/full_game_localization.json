@@ -24584,6 +24584,65 @@
         "zh-CN": "0da4398038093ade2f94b64874f7cb23c03d057bd8cba656a7cae5362c433108",
         "zh-TW": "cf520d3377e515ee061d87c5513f0a12e33ae95813850082b47360ae93dc4431"
       }
+    },
+    {
+      "order": "ORDER-786",
+      "group": "ui",
+      "kind": "existing_target_correction",
+      "roots": [
+        "강철",
+        "검은별",
+        "대박이",
+        "무쇠",
+        "새벽별",
+        "적토마"
+      ],
+      "source_leaves": 6,
+      "target_leaves_by_locale": {
+        "ja": 6,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "HorseWorld/HorseRace proper names; no roster, save, race or payout logic changed.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "5afecdda71e5e2e1d54c97329acbeb4f9d404e26",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c41abc6b416ce97f7f06753521e58ff34c74b8478e8ec4336364351aa802d781",
+          "selection_sha256": "8be061d177df5f58f87816e17303ece349f5c68f13358388efc7123592f0ed0b",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6f6d4cd939bbf718d2b8e10ee45203e1d50d16d11f82a9d34d96230343d73cd9"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "0efdd79f0980e9c9664b2cfd43f99d337423bbf70b72ec9b1ff9aef92ab04a92"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "ui:강철:/강철": "d38dde86bead94e1ec2344281650ebebec5a8024029ce51b20696097b4abaa0f",
+          "ui:검은별:/검은별": "e7d33475d8ed6c4587e38a99c260191979e414ecf65df768cb9cf253597af2cd",
+          "ui:대박이:/대박이": "6ca906884c08cce6e5361c35ab07f1a3d0e1bd9e99df488eae57849fc1799cad",
+          "ui:무쇠:/무쇠": "9bb54936b6be8cf32f9d0bb7a729579941b50430efdf0a2199a3f6b242404075",
+          "ui:새벽별:/새벽별": "b306306a84e614ade9dc5459b4c19881dd62ba9a0d8938a874142d9278b9c2d2",
+          "ui:적토마:/적토마": "3077a86202cc57c099afd45420306e0b94ebaeffddda8260a2643ecf57dd0755"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {}
+      }
     }
   ],
   "accepted": {
@@ -77295,6 +77354,30 @@
       "ui:새로 발견:/새로 발견": {
         "source_sha256": "8938622352af3b90fec77e3370f3742ef76971cbfa8a45a525c8afd697f72970",
         "target_sha256": "51543cff82e76411101e1b21f7474aa4d263a6a311917f8439ccfaec0a281544"
+      },
+      "ui:강철:/강철": {
+        "source_sha256": "bf01ee3a99a2044680b30912e0280a49c08818a84c8b997a0f929b0fdab2e2f4",
+        "target_sha256": "63cf4fba54e493e228ac4fbfd77ee793c0edb9a9e97adbf619d238e2daded496"
+      },
+      "ui:검은별:/검은별": {
+        "source_sha256": "df9ccc776e6fec3e8aa991a3527eaceeb1b74194845792971b18b48ad3f4d952",
+        "target_sha256": "6e2ea406643a7af129ee8e30aea2b3a7e99aa3d8b6ee68a88325ca50a0f3c544"
+      },
+      "ui:대박이:/대박이": {
+        "source_sha256": "603b09a58c7dd996d71529a225d51914526c24384d402cb2d971bb91524199f2",
+        "target_sha256": "bb803ec78825ce6cb60b7cad9b104df68fdcbc5673e62caa9dadbf42d14345f1"
+      },
+      "ui:무쇠:/무쇠": {
+        "source_sha256": "78c5b034296e1dbf8338ae178ce41408ca1ede6e06be6086afe2ae292e472b22",
+        "target_sha256": "1ad937797e1d131f306218659f823e6d12e362adaa9cedaf976fe2516bda64a7"
+      },
+      "ui:새벽별:/새벽별": {
+        "source_sha256": "8dc3936f6d042c55a90ab4f419237600ba1d90cdd57572b34f5bfecd4f050b64",
+        "target_sha256": "c101f755f643e6ddc75ad6c9149a08ca8117dd8292f0daff5e45e3b26f9f0f19"
+      },
+      "ui:적토마:/적토마": {
+        "source_sha256": "6c27b5813bbb008056b10a40848c78d96c1ae1080c959f72c1b7ef3788840a38",
+        "target_sha256": "6608fb4f1fec3c87c6b67ee65c270b9f65386a17f3163069a681319e39ea942f"
       }
     },
     "zh-CN": {
@@ -196494,7 +196577,7 @@
       }
     }
   },
-  "accepted_sha256": "2225c9af0603058f26de7478a93d572b1b755c86f6559e78572c061ae7e68cf9",
+  "accepted_sha256": "a2bfca79e27f8cd567805eb934a9452a9c5e4bc4b8e4f0618c5dfbc2276f47ca",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
