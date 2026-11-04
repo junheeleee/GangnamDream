@@ -99,6 +99,8 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
+| 79 | [~] | ORDER-782 · 경마 선택표시 연결 | [782](queue_active/ORDER-782.md) | C5 · JA/CN/TW 소비자 |
+
 
 
 
