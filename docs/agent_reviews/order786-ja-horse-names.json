@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-786",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-05",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "63c4957657ae2e147bdabe8b32d5208776070067",
+    "tree": "91a18f5e52e7caa183f882dc6348752c8e744f10",
+    "manifest_sha256": null
+  },
+  "scope": "Six existing JA horse-name corrections; zero newly covered keys.",
+  "review": {
+    "method": "Compared all Korean names and final Japanese targets; traced HorseWorld's name_id lookup, HorseRace's legacy pool, and RaceTrack's entry list, tip and results consumers.",
+    "findings": "Nightfall becomes dawn, steel and cast iron are distinct, Jackpot no longer carries a grammatical particle, Black Star no longer reads as a defeat, and Red Hare is restored. Horse IDs, race order, RNG, odds, settlement and save schema remain unchanged. Existing stored strings are not migrated; new JA rosters may store the corrected display names."
+  },
+  "preservation": {
+    "prior_batches": 377,
+    "prior_decisions": 343,
+    "proof": "Old target hashes and empty superseded receipt map are bound; no prior JA accepted rows existed. Exact reversal restores all prior JA UI and complete ledger bytes. Other locales, runtime and public demo unchanged."
+  },
+  "validation": "Pure check_batch and canonical receipt, official check/import VALID with empty stderr, exact UI/ledger inverse, JA/UI, demo, EN and final document checks clean. Lane lists 31 selected checks only. No engine or rendered test.",
+  "identity": {
+    "baseline": "5afecdda71e5e2e1d54c97329acbeb4f9d404e26",
+    "rows_sha256": "4fb4528b291f8d511135ba7281c8bb2aa5f2c5e33056bff272f738566a53aea8",
+    "receipt_sha256_by_locale": {
+      "ja": "0efdd79f0980e9c9664b2cfd43f99d337423bbf70b72ec9b1ff9aef92ab04a92"
+    },
+    "previous_target_sha256_by_leaf": {
+      "ui:강철:/강철": "d38dde86bead94e1ec2344281650ebebec5a8024029ce51b20696097b4abaa0f",
+      "ui:검은별:/검은별": "e7d33475d8ed6c4587e38a99c260191979e414ecf65df768cb9cf253597af2cd",
+      "ui:대박이:/대박이": "6ca906884c08cce6e5361c35ab07f1a3d0e1bd9e99df488eae57849fc1799cad",
+      "ui:무쇠:/무쇠": "9bb54936b6be8cf32f9d0bb7a729579941b50430efdf0a2199a3f6b242404075",
+      "ui:새벽별:/새벽별": "b306306a84e614ade9dc5459b4c19881dd62ba9a0d8938a874142d9278b9c2d2",
+      "ui:적토마:/적토마": "3077a86202cc57c099afd45420306e0b94ebaeffddda8260a2643ecf57dd0755"
+    },
+    "raw_directory": ".git/localization-ja-horse-names-20261105.cH786e/",
+    "raw_population": {
+      "files": 15,
+      "sha256": "d5f6700041fa6318e239df92406e586fe3edc47a5d8ed5d4d51c67998df6e733",
+      "entries": [
+        [
+          "check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "check.stdout",
+          117,
+          "3b78da548f501e25ab9e11a3bc0dd722e77600c8e880bd093e26832987e63333"
+        ],
+        [
+          "correction.log",
+          99,
+          "1de933763b8259e907356bb9e94a300144a531f1b2e94178594b50e9ababfe88"
+        ],
+        [
+          "correction.py",
+          3852,
+          "18e3c4b218d74f3ae13d36d3f786d942ee5d25c6f55d53959118fdc25e02f7bf"
+        ],
+        [
+          "delta.log",
+          3843,
+          "006e7d0b50a2aa46cdc6e316e91b17219a84bb07b207a3d42c94f0ed0b84ad72"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "export.stdout",
+          145,
+          "dceb2dad10a16145c453b21d899cbd47de3010ba2aab8be32b9e018cb378b08c"
+        ],
+        [
+          "import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "import.stdout",
+          118,
+          "d1492e8ba6d0143068f972080a92cd61701e7a491509c24146e45d390fb9be0d"
+        ],
+        [
+          "ja.log",
+          214,
+          "51a52dce5e2ac7d69d1aa92cc8f7461b539a620395986d001abad73eafef196a"
+        ],
+        [
+          "ja.response.jsonl",
+          1681,
+          "be945e0042a2c5d79e76d4bf2065ca448386345f9d0effcce86f2786d7d32539"
+        ],
+        [
+          "ja.source.jsonl",
+          4042,
+          "73e902cbae009d38f7bc0af35096cc9802239dfc0713b8d2e9f6488bd46bafe0"
+        ],
+        [
+          "lane.log",
+          4928,
+          "537ba930aeb451f20715c81c0c5730f193cf85c5240963a1dc5ea79127e73cf7"
+        ]
+      ]
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

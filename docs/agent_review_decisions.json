@@ -14441,6 +14441,49 @@
         "path": "docs/agent_reviews/order785-ending-mastery.json",
         "sha256": "c9295946ec2fa75139c4038bab250df6b0bae3ab2818947559cca9edde9a9c77"
       }
+    },
+    {
+      "id": "order786-ja-horse-names-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-05",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-786",
+      "subject": {
+        "kind": "source",
+        "commit": "63c4957657ae2e147bdabe8b32d5208776070067",
+        "tree": "91a18f5e52e7caa183f882dc6348752c8e744f10",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order786-ja-horse-names.md",
+          "sha256": "2386bc31ec0950f4925d873b004710a1e0615f3aa0b2536f2b8e8d06dcd11cf4"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order786-ja-horse-names.json",
+          "sha256": "aeaada772612bf82eed14c21009a14e93484aa5ce949bed903b0b909f2460c34"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order786-ja-horse-names.json",
+        "sha256": "aeaada772612bf82eed14c21009a14e93484aa5ce949bed903b0b909f2460c34"
+      }
     }
   ]
 }
