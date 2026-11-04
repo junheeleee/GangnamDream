@@ -99,6 +99,8 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
+| 79 | [~] | ORDER-787 · 마지막 해 횡단보도 회상 정정 | [787](queue_active/ORDER-787.md) | C5 · CN/TW 기존6 |
+
 
 
 
