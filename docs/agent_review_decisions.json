@@ -13723,6 +13723,48 @@
         "path": "docs/agent_reviews/order768-y5-recall-cjk.json",
         "sha256": "20f4e9d3e5493426d4e7c71b78fc0a93ee8158136a74253f4d8dc23ebf610e11"
       }
+    },
+    {
+      "id": "order769-deadline-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-769",
+      "subject": {
+        "kind": "source",
+        "commit": "66d0f994fb35f1a669920cbe82be8e19963d838d",
+        "tree": "155c999d4517cbd94f2310f9dfafc2f1210ef056",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order769-deadline-cjk.md",
+          "sha256": "fba8c1109a29af7aa4bfd6bf9358231c3b279a047fc23027c8fa5beecceedf6c"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order769-deadline-cjk.json",
+          "sha256": "5e047ac7b1fd12ee4e5c144daa216d7a25f65437a8b1801de9f19cbd72b49d91"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order769-deadline-cjk.json",
+        "sha256": "5e047ac7b1fd12ee4e5c144daa216d7a25f65437a8b1801de9f19cbd72b49d91"
+      }
     }
   ]
 }

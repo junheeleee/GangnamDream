@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-769",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "66d0f994fb35f1a669920cbe82be8e19963d838d",
+    "tree": "155c999d4517cbd94f2310f9dfafc2f1210ef056",
+    "manifest_sha256": null
+  },
+  "scope": "Investment deadline description × JA/CN/TW =3 existing corrections.",
+  "review": {
+    "method": "Full KR/target3 comparison with all three choices and results.",
+    "findings": "Already secured additional R3 70m won, one-day request accepted for processing rather than approved, 18m/12m won fees, midnight submission and 6pm reply box deadline remain distinct."
+  },
+  "preservation": {
+    "prior_batches": 362,
+    "prior_decisions": 326,
+    "proof": "Actual3/receipt3 and target/source/previous hashes; reversing the selected values restores three JSONs and complete prior ledger."
+  },
+  "validation": "Pure check_batch and official check/import VALID/stderr0 logs. No engine.",
+  "identity": {
+    "baseline": "71a3f81f8c42ba02386d018a9f38c7c0bd36ab74",
+    "rows_sha256": "ea3771cd669589f1ebfc293c4699779706648d5413eefd81a47a0f2b4603dd49",
+    "receipt_sha256_by_locale": {
+      "ja": "c1aa6c1ca455274e8740451bb47d137018aac2f4f5339cb9793d573f834b657d",
+      "zh-CN": "4d74e936c199e3702d2c8c4171405622fe8bc5023c34f5e9e767d1f3760da5a7",
+      "zh-TW": "73355fe6044b779fb01ae81ddaa7c3c8a5eb021b527580442214d2651b6b4896"
+    },
+    "raw_directory": ".git/localization-deadline-20261104/",
+    "raw_population": {
+      "files": 21,
+      "sha256": "24d1430ac2161b96a482073609a1031d1379ead01edce1742b3852b329306bd2"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
