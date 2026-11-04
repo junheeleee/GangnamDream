@@ -10753,10 +10753,7 @@ func _refresh_arc_box() -> void:
 		run_box.add_child(_wrap_label(_tr("선택한 방식: %s", "Chosen Approach: %s") % _run_theme_display(theme_id), 14, "#8fb6d8"))
 	# 마스터리 표시
 	var mg_line: String = ""
-	var mg_names := {
-		"holdem": _tr("홀덤", "Hold'em"), "racetrack": _tr("경마", "Racing"),
-		"scalping": _tr("스캘핑", "Scalping"), "aruba": _tr("알바", "Gigs"),
-	}
+	var mg_names := _minigame_mastery_names()
 	for gid in ["holdem", "racetrack", "scalping", "aruba"]:
 		var grade: int = MetaProgression.get_mastery(gid)
 		if grade > 0:
@@ -10764,6 +10761,12 @@ func _refresh_arc_box() -> void:
 	if not mg_line.is_empty():
 		run_box.add_child(_wrap_label(_tr("미니게임: ", "Minigame: ") + mg_line.strip_edges(), 13, "#5fa080"))
 	arc_box.add_child(run_card)
+
+func _minigame_mastery_names() -> Dictionary:
+	return {
+		"holdem": _tr("홀덤", "Hold'em"), "racetrack": _tr("경마", "Racing"),
+		"scalping": _tr("스캘핑", "Scalping"), "aruba": _tr("알바", "Gigs"),
+	}
 
 func _render_log():
 	var lines: Array = []
@@ -21845,10 +21848,11 @@ func _ending_add_unlocks(parent: VBoxContainer) -> void:
 		details.add_child(_wrap_label(_tr("난이도: %s", "Difficulty: %s") %
 			str(GameState.get_difficulty_data().get("name", GameState.difficulty)), 11, "#9a8f7d"))
 	var mastery: Array[String] = []
+	var mastery_names: Dictionary = _minigame_mastery_names() if LocaleManager.language in ["ja", "zh-CN", "zh-TW"] else {}
 	for game_id in ["holdem", "racetrack", "scalping", "aruba"]:
 		var grade := MetaProgression.get_mastery(game_id)
 		if grade >= 1:
-			mastery.append("%s %s" % [game_id, MetaProgression.get_mastery_label(game_id)])
+			mastery.append("%s %s" % [mastery_names.get(game_id, game_id), MetaProgression.get_mastery_label(game_id)])
 	if not mastery.is_empty():
 		details.add_child(_wrap_label(
 			_tr("미니게임 마스터리: ", "Minigame Mastery: ") + ", ".join(mastery),
