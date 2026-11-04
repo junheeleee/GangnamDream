@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-788",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-05",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "8c1415451b416a3474ae3e3488251cf8ceded170",
+    "tree": "9aa97e20a437207026900f93c8ef894f916e1de0",
+    "manifest_sha256": null
+  },
+  "scope": "Two existing JA true-pool race tip texts; no new keys.",
+  "review": {
+    "method": "Compared each Korean line and accepted Japanese text, traced HorseWorld.gen_tip selection and RaceTrack dealer purchase/render paths, and substituted a sample horse name statically.",
+    "findings": "The dawn-training line is hearsay about an unusually fast time, not a broken clock. The stable line points to people who can move money and a discreet buy. Each value retains exactly one %s. The other true tip and all false tips, target, credibility, price, odds and settlement stay unchanged."
+  },
+  "preservation": {
+    "prior_batches": 379,
+    "prior_decisions": 345,
+    "proof": "No prior JA acceptance rows; previous target hashes and canonical receipt bound. Exact reversal restores prior JA UI and ledger bytes. Other locales, source/gameplay, saves and public demo unchanged."
+  },
+  "validation": "Pure check_batch, official check/import VALID with empty stderr, exact inverse, JA/UI, demo, EN and document logs clean. Lane lists 31 checks only. No engine or rendered test.",
+  "identity": {
+    "baseline": "c758779972ce8db670e70a39e166588cea3f8316",
+    "rows_sha256": "78a0c24345ce34fc4e544a5d1a29b2a59f5ed58bb7b9b92daf965bb4483cda19",
+    "receipt_sha256_by_locale": {
+      "ja": "e503a26cfed79301245bdb747511268dd404f0bef13909d9cf8ed0965432b59f"
+    },
+    "previous_target_sha256_by_leaf": {
+      "ui:%s 마방에 돈 좀 만지는 사람들이 붙었어. 조용히 사 둬.:/%s 마방에 돈 좀 만지는 사람들이 붙었어. 조용히 사 둬.": "65f02f0343f891926e1cf2ec16afde1dea609ac8d4c7b5a1ee00573966f1b5be",
+      "ui:%s, 새벽 조교에서 시계가 미쳤다더라. 오늘 터진다.:/%s, 새벽 조교에서 시계가 미쳤다더라. 오늘 터진다.": "7ad75c28fcbb6d36a982e75be4c80a3af30ece57f7e74050149b474363b94d6f"
+    },
+    "raw_directory": ".git/localization-ja-race-tips-20261105.4ZJRJQ/",
+    "raw_population": {
+      "files": 16,
+      "sha256": "1c9fa588cf79a593555cf9cf1ec29806111315b9172efb6e89ed6bf754747bd9",
+      "entries": [
+        [
+          "check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "check.stdout",
+          117,
+          "edf86222b8e2e5c808b37e6318d43d6503cbc621d0580a8fb364efbe7557eb46"
+        ],
+        [
+          "correction.log",
+          97,
+          "6ee11660972ee9a5114ce5adb0006ca4999dfa4009ebaa945908c35d6a90d421"
+        ],
+        [
+          "correction.py",
+          3895,
+          "368c9001d740be5753a568f5f52acd0adf0e6373c9b6d45de766efca0ac1f9db"
+        ],
+        [
+          "delta.log",
+          1905,
+          "3d3420e4f208a449555e0de78fd9c27c109bb9213b5dd11b60fefcec625fa894"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "export.stdout",
+          143,
+          "b9edaefbfb7f8b2a7d4307faeb0f9768852f494957c60fc6d9f9ed1197a2f226"
+        ],
+        [
+          "import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "import.stdout",
+          118,
+          "e51a7e429254fea827e9c9e75d9ca88df2299baf0a095e5841b5766f038faa97"
+        ],
+        [
+          "ja.log",
+          214,
+          "51a52dce5e2ac7d69d1aa92cc8f7461b539a620395986d001abad73eafef196a"
+        ],
+        [
+          "ja.response.jsonl",
+          1336,
+          "16dfe9b2512538404960318e7d72231b787983b2e29e0337479f2494eb91843b"
+        ],
+        [
+          "ja.source.jsonl",
+          2315,
+          "a772c44e50611e4a6de52404099db09b2c8032598bf4b0bbfefd77fd087551bc"
+        ],
+        [
+          "lane.log",
+          4928,
+          "537ba930aeb451f20715c81c0c5730f193cf85c5240963a1dc5ea79127e73cf7"
+        ],
+        [
+          "leaf-ids.json",
+          300,
+          "49698349ffaa50180060310d73d271551875b23cf8113a54afddb3e4da8e9088"
+        ]
+      ]
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

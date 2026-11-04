@@ -14527,6 +14527,49 @@
         "path": "docs/agent_reviews/order787-final-year-crosswalk.json",
         "sha256": "1ad4869b2e34fbb42fd9aa39c5a1d4c7c741886b850d4aba148d0539d4a14d40"
       }
+    },
+    {
+      "id": "order788-ja-race-tips-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-05",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-788",
+      "subject": {
+        "kind": "source",
+        "commit": "8c1415451b416a3474ae3e3488251cf8ceded170",
+        "tree": "9aa97e20a437207026900f93c8ef894f916e1de0",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order788-ja-race-tips.md",
+          "sha256": "efc2d8c539062cbe81c036aa87e21c7b0b9fc8231c8164b3319acc6e56b07717"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order788-ja-race-tips.json",
+          "sha256": "c61a525f7fc8e4bb3ae6d1169db7cfd583df3bc86dc9fcf789863e19be670b43"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order788-ja-race-tips.json",
+        "sha256": "c61a525f7fc8e4bb3ae6d1169db7cfd583df3bc86dc9fcf789863e19be670b43"
+      }
     }
   ]
 }
