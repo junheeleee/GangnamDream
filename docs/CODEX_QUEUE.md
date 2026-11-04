@@ -99,6 +99,8 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
+| 79 | [~] | ORDER-780 · 선택 방식 중국어 UI | [780](queue_active/ORDER-780.md) | C5 · CN/TW 신규8 |
+
 
 
 
