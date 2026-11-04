@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-790",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-05",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "43ce8e58d143d9bcf1a55fe8a79d5a76c4d0996e",
+    "tree": "db6641b7837c74365cc311e2f0358e45bc6af171",
+    "manifest_sha256": null
+  },
+  "scope": "Three existing JA race pick instructions; no new keys.",
+  "review": {
+    "method": "Compared Korean and final Japanese texts with RaceTrack's actual _bet_info_text incomplete-pick branch, _bet_desc and HorseRace payout predicates.",
+    "findings": "選んだ describes selected, not already matching. Place remains first or second with relatively easier hits and lower payout; Win requires first and pays by odds; Quinella requires two top-two horses in either order with medium payout. Names, Trifecta description, pick counts and settlement are unchanged."
+  },
+  "preservation": {
+    "prior_batches": 381,
+    "prior_decisions": 347,
+    "proof": "No previous JA accepted rows; old target hashes and canonical receipt bound. Exact reversal restores prior JA UI and ledger bytes. Other locales, source/gameplay, saves and public demo unchanged."
+  },
+  "validation": "Pure check_batch, official check/import VALID with empty stderr, exact inverse, JA/UI, demo, EN and document logs clean. Lane lists 31 checks only. No engine or rendered test.",
+  "identity": {
+    "baseline": "fb725b84df3c2d3a1e6179ff982f7befdfcac1cd",
+    "rows_sha256": "a11395702ae4598b3790c68b27b2bffd52d927377691982627fc7f089b8c6e25",
+    "receipt_sha256_by_locale": {
+      "ja": "aefb339255dec57c155670cfd09105ffbd04b9b9c6dddb0daf304901789b3266"
+    },
+    "previous_target_sha256_by_leaf": {
+      "ui:고른 2마리가 1·2착 (순서 무관) — 중간 배당:/고른 2마리가 1·2착 (순서 무관) — 중간 배당": "94d4675e40318122f14c3a334e6ea164e7a623392771e6cd245d65075b06a029",
+      "ui:고른 말이 1·2착 안에 들면 적중 — 안전, 낮은 배당:/고른 말이 1·2착 안에 들면 적중 — 안전, 낮은 배당": "445c2eadf5f53d63fc88ce46eafa8a3cc05e249bb442e07917614803e96cccb4",
+      "ui:고른 말이 1착이면 배당만큼 — 기본:/고른 말이 1착이면 배당만큼 — 기본": "48808b9bbfbd08b4a29170ddc7a5648f4a48970ec465e208cbf4cc99c49248ca"
+    },
+    "raw_directory": ".git/localization-ja-race-pick-guide-20261105.42PNbZ/",
+    "raw_population": {
+      "files": 16,
+      "sha256": "54436796cd8958c5cd5f7eb19b69858ea0fde952e51b5afdee100614fc66ac2b",
+      "entries": [
+        [
+          "check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "check.stdout",
+          117,
+          "dc6965ca2530512e934329c705566640d52c561db774f2b94248a0f6a3491932"
+        ],
+        [
+          "correction.log",
+          106,
+          "b1c61dbff9cccc4106be44c89797d03f7b410cfd78e9835ff7baa4e0f0764848"
+        ],
+        [
+          "correction.py",
+          3903,
+          "954bd739d32fbb56375c54a455f360a711322ae512f4c478b4d8759aa3fa51a5"
+        ],
+        [
+          "delta.log",
+          1762,
+          "0f85b438db7eeda82e89b838f98fa94025c0f79e712454bd819820a663475767"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "export.stdout",
+          149,
+          "3a8c1c827b1260bd93cf76b08bffc83fed29b0009fd30c0e81ca7fabc6c82ab7"
+        ],
+        [
+          "import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "import.stdout",
+          118,
+          "7a7fae4c20ac6359038de6698cd825649dfb97244e511d5ac0e78b9557cb5650"
+        ],
+        [
+          "ja.log",
+          214,
+          "51a52dce5e2ac7d69d1aa92cc8f7461b539a620395986d001abad73eafef196a"
+        ],
+        [
+          "ja.response.jsonl",
+          1590,
+          "39364b15491a142343f3ab9d50e07b70bc72a249d851373901d9fb1a39991576"
+        ],
+        [
+          "ja.source.jsonl",
+          3033,
+          "59c699c8b4b3c987fd96a10af73fa3583333da5fe0cf769a7cf0c9371bd4bbbb"
+        ],
+        [
+          "lane.log",
+          4928,
+          "537ba930aeb451f20715c81c0c5730f193cf85c5240963a1dc5ea79127e73cf7"
+        ],
+        [
+          "leaf-ids.json",
+          376,
+          "26a63eb4fdd20fd548f8f44f06e9ee3727e63dcb9de7654453d29d62a973d476"
+        ]
+      ]
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
