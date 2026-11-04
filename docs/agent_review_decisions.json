@@ -14312,6 +14312,49 @@
         "path": "docs/agent_reviews/order782-race-pick-cjk.json",
         "sha256": "1f77c8211dffd24b2dde203df73b6a1c637886451c0b0083a163815fca9a2aac"
       }
+    },
+    {
+      "id": "order783-track-condition-ja-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-05",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-783",
+      "subject": {
+        "kind": "source",
+        "commit": "ba20b052f6b133b2a8efd340777ee5fe636aedc3",
+        "tree": "3522669a3fdf4fab41981a70938a3ebe1040ced8",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order783-track-condition-ja.md",
+          "sha256": "53d994182b2c3d7ccf1845da29283940f0a249f86f15bd541389ba1d36ab693f"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order783-track-condition-ja.json",
+          "sha256": "70652cfcfaf7bce8828a049b717d04b0604b8984d0f38401f38018a4557ff168"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order783-track-condition-ja.json",
+        "sha256": "70652cfcfaf7bce8828a049b717d04b0604b8984d0f38401f38018a4557ff168"
+      }
     }
   ]
 }

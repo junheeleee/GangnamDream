@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-783",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-05",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "ba20b052f6b133b2a8efd340777ee5fe636aedc3",
+    "tree": "3522669a3fdf4fab41981a70938a3ebe1040ced8",
+    "manifest_sha256": null
+  },
+  "scope": "One existing JA static UI correction for 양호; zero newly covered keys.",
+  "review": {
+    "method": "Compared the exact dictionary change with HorseWorld/HorseRace track index 1, RaceTrack heading and preference, and the localized track string stored in future horse history.",
+    "findings": "良好 describes the Good track state, unlike 馬房 (stall). Dry/Wet and all other locales are unchanged. Track index, odds, settlement and save code/schema are unchanged; a future JA history entry may carry the corrected display string, with no migration of existing records."
+  },
+  "preservation": {
+    "prior_batches": 375,
+    "prior_decisions": 340,
+    "proof": "The existing JA value had no previous accepted row; old target hash and empty superseded receipt map are bound. Reversal restores previous JA UI and complete ledger byte-for-byte. Runtime and public demo unchanged."
+  },
+  "validation": "Pure check_batch and canonical receipt, official JA check/import VALID with empty stderr, exact correction delta, JA/UI, demo and EN logs clean. Lane lists 31 selected checks only. No engine or rendered test.",
+  "identity": {
+    "baseline": "67aa12b682bbfe002de5bdc15ebbed1e67538286",
+    "rows_sha256": "6639d699dc2b0d49ca067110a0f79bf51fb9848cb531ea1acc78afa0eefca5f9",
+    "receipt_sha256_by_locale": {
+      "ja": "f5973f667aaac6a13c8a09e7d1c3b2c7562f5925c9717f235e556e1b09842a8d"
+    },
+    "previous_target_sha256": "73fb07f18fe89bdcad0e06a4028bc495fb12cd4a8a81a77c8d86f61c260b908c",
+    "raw_directory": ".git/localization-track-condition-ja-20261105/",
+    "raw_population": {
+      "files": 13,
+      "sha256": "43dc4664370755a37273d26dc28802de2534ae272d9aa46948486f2a9ef6c5cb",
+      "entries": [
+        [
+          "delta.log",
+          88,
+          "009526430e0e7002a48b547fa021696de7369efd6b42d5fe796c0c85afa83eb5"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "ja.check.stderr.log",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.check.stdout.log",
+          117,
+          "0752ac2156c7c94b666d9a066591b4f07ad885c0bbc019c193d05e6efb7a49e5"
+        ],
+        [
+          "ja.import.stderr.log",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.import.stdout.log",
+          118,
+          "bf16f888ebad7086a0b227d5bceba6e926dd0c34eb8da9c1c5d4dfd84bc9d41d"
+        ],
+        [
+          "ja.log",
+          214,
+          "bb866b4b2dba7aea315e856471cbd2817bcf9341f1608ff9de14b13f96b28beb"
+        ],
+        [
+          "ja.response.jsonl",
+          680,
+          "d66462070af1214ed3e70111e7e650979aa1567158a341ada482e85e78bbfce6"
+        ],
+        [
+          "ja.source.jsonl",
+          1092,
+          "6579a3199384e9a690a840bdc20e42598733282f1e23a5639bbc2eb9beacc20b"
+        ],
+        [
+          "lane.log",
+          4928,
+          "537ba930aeb451f20715c81c0c5730f193cf85c5240963a1dc5ea79127e73cf7"
+        ],
+        [
+          "leaf-ids.json",
+          22,
+          "46c4cee5e7fe6954ea15e54c0db11d844b69ef329e7c33d0bdb88e358d29922d"
+        ],
+        [
+          "prepare-correction.py",
+          2837,
+          "beeea79ee2c46176308c6a42730c27fc275c3e83ad05774b6844c2a3133edcc0"
+        ]
+      ]
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash]."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
