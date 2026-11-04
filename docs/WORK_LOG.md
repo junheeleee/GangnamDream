@@ -2,6 +2,8 @@
 
 ## 2026-11-04 — 연속 위임과 갈림길 번역 정합
 
+- 781: 본편 초상 현재 칭호 CN/TW UI 신규13×2=26, 제품 `0c2d0daea10e57e49132717df7f3e09dbd4d03c5` 정상 push. YouTuber 원검사 거절/초안 보존, 스타트업 지분 엑싯 구체화. 가려진 강남 입성자 제외·분기/JA/KO/EN 그대로. check/import·byte inverse·Git history·데모/EN 통과. 이전 main CI41841785270 정적 성공·엔진 진행 중, 제품 CI41850958690 진행 중. 실화면/저장 불변.
+
 - 780: 본편 진행/엔딩 선택 방식 CN/TW UI 신규4×2=8, 제품 `8f16dd9f268029201b9c07b1f39e7ae3b5c54b09` 정상 push. 기존 %s·기본값 숨김·JA/KO/EN/코드 그대로. 공식 check/import·four-file byte inverse·Git history·데모/EN 통과. 이전 main CI41832358640 정적 성공·엔진 진행 중, 제품 CI41841440573 진행 중. UI 선택목록과 실제 화면은 별개, 저장·데모 불변.
 
 - 779: 직장 기반·다은 돈 대화 KR5×3=15 정정, 제품 `a087ff1ab37643e76eb4eec6d0ba73e81995701e` 정상 push. 수입/지출·선택 여유, 통장 잔액/최근 지출·돈 질문 경계 보존. 공식 check/import·delta15·데모/EN 통과. scope63→48, 기존 수용 shipping stale0(미번역/화면 완료 아님). 이전 main CI41824139317 정적 성공·엔진 진행 중, 779 제품 CI41832114758 진행 중. 다음 UI 누락/소비자, 공개 데모·저장 불변.

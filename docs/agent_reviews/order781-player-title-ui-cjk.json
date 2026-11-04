@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-781",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "0c2d0daea10e57e49132717df7f3e09dbd4d03c5",
+    "tree": "2b53c793d2341b4c7d3875ce8f1b2fc14ae17323",
+    "manifest_sha256": null
+  },
+  "scope": "Thirteen previously missing player portrait titles × zh-CN/zh-TW = 26 new static UI values; JA0.",
+  "review": {
+    "method": "Compared all thirteen Korean labels and 26 accepted targets with GameState selection, MainGame portrait consumer, LocaleManager lookup and startup/creator producer evidence.",
+    "findings": "YouTuber keeps the explicit platform; equity exit does not read as abandoning a business or add an amount. The other eleven values and all headers stay unchanged from the drafts. The Gangnam Resident label remains excluded because the identical asset threshold is matched by a prior branch."
+  },
+  "preservation": {
+    "prior_batches": 374,
+    "prior_decisions": 338,
+    "proof": "Two canonical receipts and actual UI strings match final responses. Pure append inversion restores all prior dictionary and ledger bytes and order; no existing accepted value changed. JA/KO/EN, runtime and demo were not edited."
+  },
+  "validation": "Pure check_batch, exact append validation, final accepted-check/import VALID with empty stderr, and exact candidate UI_APPEND_HISTORY_OK marker. Initial exact-form rejections and intermediate VALID retained separately. Lane is selection only. No engine or rendered view.",
+  "identity": {
+    "baseline": "0916c07c09cccd5d69703c65d3aa112596198e9f",
+    "rows_sha256": "f99b7613c7bc399474a6fd2a61f196e594d7ccf44edee504d2964a85fba68856",
+    "receipt_sha256_by_locale": {
+      "zh-CN": "ecbee899c340049344544c05401bdae10472c61d6dc61264e4f806cc22913b99",
+      "zh-TW": "abfc202224849b57882543eb660b1b9acdfe93591ebc080fb9b2330bd42c914e"
+    },
+    "raw_directory": ".git/localization-player-title-ui-20261104/",
+    "raw_population": {
+      "files": 31,
+      "sha256": "2d02fd022f006e1d7b66585edebbab43a11c0921e5c4eea08d857e8b153101d6"
+    },
+    "final_raw": {
+      "files": 19,
+      "sha256": "0d1c35402146af783734a21614f8a8e5ff054930d059e5c85d7a3204cf814d6f"
+    },
+    "historical_raw": {
+      "files": 12,
+      "sha256": "863fd6de0ce9964490e59d3f0dc22603bb1cbbb06e44ba60a22e2b116b4db471"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
