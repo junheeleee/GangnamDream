@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-776",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "5f7da40269b953c6f71501452359dcd868aa3f37",
+    "tree": "96b6639305f0c8ee3f3ce281b70ee00b9e54dca4",
+    "manifest_sha256": null
+  },
+  "scope": "Seven existing leaves across guarantee document, cost table and name boundary × JA/CN/TW = 21 corrections.",
+  "review": {
+    "method": "Compared all seven Korean leaves and 21 accepted targets with complete choices and causal source paths in all three roots.",
+    "findings": "Debtor/guarantor, Father's signed document versus the protagonist's empty line, earlier PDF and clinical reception copy, R4-SELF and unsigned Daeun name, two document times and 1.18b/760m/420m won preserved. JA3/CN3/TW3 final draft differences are confined to the documented referent, wording, canonical name and counter repairs; no diagnosis, hidden secret, or deletion request is invented."
+  },
+  "preservation": {
+    "prior_batches": 369,
+    "prior_decisions": 333,
+    "proof": "Three canonical receipts and accepted values match final responses; reversal restores nine previous overlays and complete prior ledger, including previous target and superseded acceptance values. Source selectors/consumers unchanged."
+  },
+  "validation": "Pure check_batch and final JA accepted-check, CN/TW final-check and all accepted-import VALID with empty stderr. Initial Chinese cast-name and intermediate counter rejections remain historical; delta21 and demo/EN checks clean. Lane is selection only. No engine.",
+  "identity": {
+    "baseline": "67600efa28bd70114d61af465d79c247b02ef43d",
+    "rows_sha256": "332b82b2d9a46158e857ac4f24a54fb36c1690f88b2ecb34fcf65cf9f228689a",
+    "receipt_sha256_by_locale": {
+      "ja": "48439227e04ac8c232e095b2d852d1bb0e7e6f39fec23b4f2b8e97b69047f2f3",
+      "zh-CN": "f8913dda761933aefeacf8f58423304efdea4304dfb612dd90cc8d581672adc3",
+      "zh-TW": "14d794139520c0cd4bab51a568c5f14232953aa591d2bb851cd6807ec542c143"
+    },
+    "raw_directory": ".git/localization-document-cost-20261104/",
+    "raw_population": {
+      "files": 41,
+      "sha256": "8e145476109bc66447167100392086cd98d969aad188bd2d940e7cc727cc81ed"
+    },
+    "final_raw": {
+      "files": 26,
+      "sha256": "bba12ea6ff8c22e6ccdb444dde6e20b5b1c63edfd2eca742539497815068a2f9"
+    },
+    "historical_raw": {
+      "files": 15,
+      "sha256": "84f8b42c31b1c2e6699abf8bdcf23db83f376177db7d6476f3b682dd79c68ee2"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
