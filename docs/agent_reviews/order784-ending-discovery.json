@@ -1,0 +1,352 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-784",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-05",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "6261f6c1e08722e87987cf64283f1ca78fb3ee8c",
+    "tree": "35cb4cdd39dbf3282f007f4be1c151b249aa404a",
+    "manifest_sha256": null
+  },
+  "scope": "One full-game ending discovery badge consumer and three new static values for JA/zh-CN/zh-TW.",
+  "review": {
+    "method": "Compared declaration-to-product source and source-only intermediate commit; traced _ending_build_record_page/_ending_playstyle and MetaProgression.record_run first-discovery producer.",
+    "findings": "The new badge is JA 初めて発見, CN 新发现 or TW 首次發現 only when the existing nonempty new_ending guard is true and the collection exists. Other locales keep NEW. Counts, spaces, emphasis, discovery and saving conditions stay unchanged."
+  },
+  "preservation": {
+    "prior_batches": 376,
+    "prior_decisions": 341,
+    "proof": "Exact source block reversal plus pure append byte reversal restores MainGame, three dictionaries and entire prior ledger. Three final canonical receipts are source-bound to the source-only intermediate commit; demo and other locales not edited."
+  },
+  "validation": "Pure check_batch, official bound-check/import VALID with empty stderr, candidate ENDING_DISCOVERY_APPEND_OK, JA/UI, demo and EN logs clean. Initial missing manifest rejections and earlier-revision check-only VALID preserved. Lane is selection only. No engine or rendered test.",
+  "identity": {
+    "baseline": "e71903ac5c0b29a08dbdde9802cfd2ff3d1a7c36",
+    "bound_source_revision": "f7a39cfbddbecc514295bf643c2e0a4a993f3baf",
+    "rows_sha256": "757cde2953398c64cfdec41f7f5258c544f3c8d3d1a0594970ba272a41b22c4d",
+    "receipt_sha256_by_locale": {
+      "ja": "6a9be574207e9b1423a85d915b612cc04f19b57102e7fd625fe80b7d15ef7d9a",
+      "zh-CN": "0da4398038093ade2f94b64874f7cb23c03d057bd8cba656a7cae5362c433108",
+      "zh-TW": "cf520d3377e515ee061d87c5513f0a12e33ae95813850082b47360ae93dc4431"
+    },
+    "raw_directory": ".git/localization-ending-discovery-20261105.dje4Ez/",
+    "raw_population": {
+      "files": 58,
+      "sha256": "799fcac2c82ae732240130f28d958db38a8618ee31d884b99590316c38d20753",
+      "entries": [
+        [
+          "append.log",
+          581,
+          "efa0cb1b17f079f1d5bb3ad6d6731855cb2b81215d48dd3f6b1a19d91f8ecf13"
+        ],
+        [
+          "delta.log",
+          1512,
+          "f84049e0dea2042d61ee5185bcd31966cc82182e0da869d12ceb08b1c148c8f5"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "en.log",
+          204,
+          "4579d41faa5d8a274201407aba3ce483b37894440697e14344e4afb284c136b5"
+        ],
+        [
+          "ja.bound-check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.bound-check.stdout",
+          117,
+          "0752ac2156c7c94b666d9a066591b4f07ad885c0bbc019c193d05e6efb7a49e5"
+        ],
+        [
+          "ja.bound-export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.bound-export.stdout",
+          153,
+          "3313af8548fea08ffff87506864e85722086e6223326d323dba831a156a981d7"
+        ],
+        [
+          "ja.bound.response.jsonl",
+          724,
+          "77fe7f33eb653cee941b025fc9cd9a75ef12ea7820a567d7df94d4446d3daf68"
+        ],
+        [
+          "ja.bound.source.jsonl",
+          1127,
+          "0c4da16a9807a7018a719377d0c305c16f8f9982fa91fc41ce1f58ac56b06abb"
+        ],
+        [
+          "ja.check.stderr",
+          60,
+          "675fac75e1c09b6ee38350cc867d48c98ababf912acc3da96a1fbaf825010d98"
+        ],
+        [
+          "ja.check.stdout",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.export.stdout",
+          147,
+          "c49a70b5967c379469021f62661990231ee4b568b0616731b13e85d4fcd9afda"
+        ],
+        [
+          "ja.final-check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.final-check.stdout",
+          117,
+          "0752ac2156c7c94b666d9a066591b4f07ad885c0bbc019c193d05e6efb7a49e5"
+        ],
+        [
+          "ja.final.response.jsonl",
+          724,
+          "161f342cc6bdacdcd9b440ebbd8cd5ac954fc37f7231003f361ecefaa8eac0c4"
+        ],
+        [
+          "ja.import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.import.stdout",
+          118,
+          "bf16f888ebad7086a0b227d5bceba6e926dd0c34eb8da9c1c5d4dfd84bc9d41d"
+        ],
+        [
+          "ja.log",
+          214,
+          "51a52dce5e2ac7d69d1aa92cc8f7461b539a620395986d001abad73eafef196a"
+        ],
+        [
+          "ja.response.jsonl",
+          210,
+          "32d53734774e4fdbad3cf4297d9a723ef671c48ad6913e862ba2a51a417377ec"
+        ],
+        [
+          "ja.source.jsonl",
+          1127,
+          "465b4d9f0c036db88b7092c49cf2bb31a8424bc9e011c51b74fc85a240b32667"
+        ],
+        [
+          "lane.log",
+          15715,
+          "6d979bd8365d6d80377fb2050cdd91b06b6c3291bef15882ecab03b25af68c12"
+        ],
+        [
+          "prepare-append.py",
+          3035,
+          "bada6eb39825d85bda7691249f7697c32f70f977bf6f6b5062a921e160234a45"
+        ],
+        [
+          "zh-CN.bound-check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.bound-check.stdout",
+          120,
+          "9d07b1443a0c24a645bccca11e91dc64f2e3e2f65e294b603f34664e86b9f12b"
+        ],
+        [
+          "zh-CN.bound-export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.bound-export.stdout",
+          159,
+          "286bd6f57074a5029d77fcf11cbcd8ea1cb4a831145c43e097c22835e017d149"
+        ],
+        [
+          "zh-CN.bound.response.jsonl",
+          724,
+          "f1cfa89190e91ee93b62674764e082edc367aaeae8a36b33812752b39bc3e1ac"
+        ],
+        [
+          "zh-CN.bound.source.jsonl",
+          1136,
+          "32cda6351f6c8bad9e9b0071a700da4224d38c0a30ed0052f72ad63e21bdd77a"
+        ],
+        [
+          "zh-CN.check.stderr",
+          60,
+          "675fac75e1c09b6ee38350cc867d48c98ababf912acc3da96a1fbaf825010d98"
+        ],
+        [
+          "zh-CN.check.stdout",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.export.stdout",
+          153,
+          "bab88887bb1d0d51f8d918b7887b5b755e9b90158bbb2629198d282ceda3f281"
+        ],
+        [
+          "zh-CN.final-check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.final-check.stdout",
+          120,
+          "9d07b1443a0c24a645bccca11e91dc64f2e3e2f65e294b603f34664e86b9f12b"
+        ],
+        [
+          "zh-CN.final.response.jsonl",
+          724,
+          "366988291b1b6ea919838b86d0a55d6ddd88f3e5959ccd0c6cd6d42c53c7a6ec"
+        ],
+        [
+          "zh-CN.import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.import.stdout",
+          121,
+          "20044e17825e0dc035f5fec1fcba705d77f171bd6ef5cc502cb6c2696c8f4e24"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          207,
+          "8bb35f11c26dc28d74f5865458c28721effc9a788a024366ffe8a8f7f6ceeb93"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          1136,
+          "7e5e4693fad9f7fcdb160802ad804c9e139238bb0880d5d4dfee9407b1cdcb40"
+        ],
+        [
+          "zh-TW.bound-check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.bound-check.stdout",
+          120,
+          "b6915eb471f866317ec9d36de6647c3eed7a33419f40f488605cc694296de900"
+        ],
+        [
+          "zh-TW.bound-export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.bound-export.stdout",
+          159,
+          "de9279068b9a2a81e75c538adb633124c6387aa33234c17a31dab79cde16bbb3"
+        ],
+        [
+          "zh-TW.bound.response.jsonl",
+          727,
+          "c540632d44d355d892a218cb18ce2c497e1f5e286ec1c0b5e4863ec56a11757f"
+        ],
+        [
+          "zh-TW.bound.source.jsonl",
+          1136,
+          "9e4fd77eaf35742204e7803e7599c7126ac9271599f8a78bc42f36821ebfa84d"
+        ],
+        [
+          "zh-TW.check.stderr",
+          60,
+          "675fac75e1c09b6ee38350cc867d48c98ababf912acc3da96a1fbaf825010d98"
+        ],
+        [
+          "zh-TW.check.stdout",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.export.stdout",
+          153,
+          "92ef781f51986c899c37116920fb374aaeeb6135b09d64a4cdf430d3aa96d5ec"
+        ],
+        [
+          "zh-TW.final-check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.final-check.stdout",
+          120,
+          "b6915eb471f866317ec9d36de6647c3eed7a33419f40f488605cc694296de900"
+        ],
+        [
+          "zh-TW.final.response.jsonl",
+          727,
+          "76156f632b8f6cf4b9a0846cca59ade67f145d058ab312908f9743ce2e97da3b"
+        ],
+        [
+          "zh-TW.import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.import.stdout",
+          121,
+          "8784cce1b64d172e2fba2c4b8946180b1adc77eb1bab98cee2c9029da1ce8329"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          210,
+          "62650e63d4b8a5da9a6606acc4cfb303a2630a0068489f0725df087083851953"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          1136,
+          "954a1d290332c11e82a60928b773577fb8753023ca1a32415a10b9e102bf884b"
+        ]
+      ]
+    },
+    "final_raw": {
+      "files": 31,
+      "sha256": "a5805fee9ae3edd2b5b676d9e4f900cb9d50cbcf1e0d6a7619cd0a7a5f60570b"
+    },
+    "historical_raw": {
+      "files": 27,
+      "sha256": "746c7ebd6e7b63d8404854e2d73447f1ae63f474b7020e944fe5d1e28021f5b5"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

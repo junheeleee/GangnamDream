@@ -14355,6 +14355,49 @@
         "path": "docs/agent_reviews/order783-track-condition-ja.json",
         "sha256": "70652cfcfaf7bce8828a049b717d04b0604b8984d0f38401f38018a4557ff168"
       }
+    },
+    {
+      "id": "order784-ending-discovery-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-05",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-784",
+      "subject": {
+        "kind": "source",
+        "commit": "6261f6c1e08722e87987cf64283f1ca78fb3ee8c",
+        "tree": "35cb4cdd39dbf3282f007f4be1c151b249aa404a",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order784-ending-discovery.md",
+          "sha256": "a23be0103c83883ca84fae2c24b78c804b5d7ce7a57d350889e710eeab723946"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order784-ending-discovery.json",
+          "sha256": "dbd4f87f59057ccab8a51df4f7a0c71af8652b75ca2ef6323e8108431c3e75ac"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order784-ending-discovery.json",
+        "sha256": "dbd4f87f59057ccab8a51df4f7a0c71af8652b75ca2ef6323e8108431c3e75ac"
+      }
     }
   ]
 }
