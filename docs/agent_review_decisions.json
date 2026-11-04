@@ -13765,6 +13765,48 @@
         "path": "docs/agent_reviews/order769-deadline-cjk.json",
         "sha256": "5e047ac7b1fd12ee4e5c144daa216d7a25f65437a8b1801de9f19cbd72b49d91"
       }
+    },
+    {
+      "id": "order770-debt-reconnect-cjk-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-04",
+      "decided_by": "/root/final_754_755_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-770",
+      "subject": {
+        "kind": "source",
+        "commit": "e979c38f519ec7177cfcaa63dacd1aa778c4f9ab",
+        "tree": "f90cf79c506add7a16a20ce7473f49f8a790f80a",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order770-debt-reconnect-cjk.md",
+          "sha256": "e50e2b0674c4a968b0a299cf457565f1e7056b2f50bd709f3adca76a7b94d45f"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order770-debt-reconnect-cjk.json",
+          "sha256": "131f60cb7a09be5a18e4b96c68e5a83df4bb9833c4e85c7782f3c582d2c5e496"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order770-debt-reconnect-cjk.json",
+        "sha256": "131f60cb7a09be5a18e4b96c68e5a83df4bb9833c4e85c7782f3c582d2c5e496"
+      }
     }
   ]
 }
