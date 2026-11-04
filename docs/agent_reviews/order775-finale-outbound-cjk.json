@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-775",
+  "reviewer": "/root/final_754_755_review",
+  "author": "/root",
+  "reviewed_at": "2026-11-04",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "9f785a7c8653e1036a8a49b53c151fc8ff73f4a2",
+    "tree": "09ee5ab0eaa6d7adc259b38f3465cef63ec16d24",
+    "manifest_sha256": null
+  },
+  "scope": "Five existing finale outbound leaves × JA/CN/TW = 15 corrections.",
+  "review": {
+    "method": "Compared all five Korean leaves and 15 accepted targets with both full sets of choices, prepend memories, story channels and exact outbound-receipt coda.",
+    "findings": "The first action replaces the 3 billion won figure or a key photo; no new reply, agreed meeting, home ownership or answer from Father is asserted. The Tuesday 19:30/30-minute request and the envelope's date and pen impression remain distinct. JA1/CN2/TW2 final edits clarify chat state, timing, screen duration and the alternative action."
+  },
+  "preservation": {
+    "prior_batches": 368,
+    "prior_decisions": 332,
+    "unowned_leaves_per_locale": 22,
+    "proof": "Three canonical receipts and accepted values match final responses; reversal restores all three previous overlays and the complete prior ledger. Untouched leaves include 2 titles, 6 choice labels, 3 Daeun results and 11 prepend memory texts; selector and consumers unchanged."
+  },
+  "validation": "Pure check_batch and final accepted-check/accepted-import VALID with empty stderr; delta15, public-demo and EN coverage logs clean. Lane log is selection only. Earlier responses/checks remain historical. No engine.",
+  "identity": {
+    "baseline": "13e7860f195251060b22c813748c6f153d46ab8b",
+    "rows_sha256": "92e5fc5dce905a613a3b0ef2b5f530387f43f631c0c62c783c391cc728d3723c",
+    "receipt_sha256_by_locale": {
+      "ja": "738a2538144616fb0e80d4b4378ff198ef7745f81884c7db6f6dbdc4a73ddedd",
+      "zh-CN": "d9939a169a9379351157562d81ca2071ba77209935b38311ce90a6511c105b50",
+      "zh-TW": "7db93c334d2ce1150e3a291cae957df135da53987daa418fe0d3300929225655"
+    },
+    "raw_directory": ".git/localization-outbound-20261104/",
+    "raw_population": {
+      "files": 35,
+      "sha256": "6238d4eebbadb02a80e15cb87e15519ca5f1ac560977cf5d902a1b7b9a637770"
+    },
+    "final_raw": {
+      "files": 26,
+      "sha256": "d36ec307255e2e5be5c8acd80928fa317f1a8638e9e5e44820dfb35c3781e174"
+    },
+    "historical_raw": {
+      "files": 9,
+      "sha256": "ddb642edcbedc850518b77586deeb30c25b05f9e0305e18e73e0285f1f29ea94"
+    },
+    "encoding": "Raw canonical JSON basename-sorted [basename,bytes,sha256]; rows [locale,id,source-hash,previous-target-hash,target-hash] in export order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
