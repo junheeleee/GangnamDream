@@ -24411,6 +24411,67 @@
         "zh-CN": "cb686bbf6fe4be9937e2337bbb40ad81e300e9a853b36f181de1542a95fb8645",
         "zh-TW": "deded5efdc3024950a26dde98b1bdee5d428722f0cc018844c9c783adc3e00b9"
       }
+    },
+    {
+      "order": "ORDER-781",
+      "group": "ui",
+      "roots": [
+        "내 방식대로",
+        "몸이 기억하는 사람",
+        "스타트업 엑시터",
+        "안정적인 직장인",
+        "엘리트 코스",
+        "위험한 몽상가",
+        "유튜버",
+        "이단아",
+        "읽는 사람",
+        "착실한 청년",
+        "창업가",
+        "콘텐츠 크리에이터",
+        "크리에이터"
+      ],
+      "source_leaves": 13,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 13,
+        "zh-TW": 13
+      },
+      "source_review": "Thirteen live player-portrait titles; no threshold, priority, or saved identity change. The shadowed Gangnam Resident branch is excluded.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "0916c07c09cccd5d69703c65d3aa112596198e9f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "5ff3752a3e086edc1d15cc0865af726f421b0b8162390eae779d8274c31a673a",
+          "count": 13,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "f3c107f7639d26cc6482b8b601be8bccca8f3cbdec235635dabd0ee38aaab91d"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "0916c07c09cccd5d69703c65d3aa112596198e9f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "eedb52d7faa7faac4168ac53d00ca3c35412cbe3f054fc6cc6ca32c9fe1e97ee",
+          "selection_sha256": "ab871c6753712be1d125c14299714960fb7bfaf55986c0ef24bb2913e0e99b4c",
+          "count": 13,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "efa13f2cb4da116a172601d3f2a31ea2ee33661f56d5cd40679e691e214c1c8a"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "ecbee899c340049344544c05401bdae10472c61d6dc61264e4f806cc22913b99",
+        "zh-TW": "abfc202224849b57882543eb660b1b9acdfe93591ebc080fb9b2330bd42c914e"
+      }
     }
   ],
   "accepted": {
@@ -136656,6 +136717,58 @@
       "ui:투자 중심:/투자 중심": {
         "source_sha256": "d6fdcb18a1f3e81daf063ba7d7eac3627ec7daa858ac0a1f84b35d5ffb35781d",
         "target_sha256": "59463ce3d232cc638d7d4985f15730ec37032d22f528f82d12b4e0b9e732267a"
+      },
+      "ui:내 방식대로:/내 방식대로": {
+        "source_sha256": "a983a159d0536e6afb78590e1d8532544945d6af34477001423e7e5919f1c836",
+        "target_sha256": "062989d0a7c0aefbbfdf118f6bc55ca125112a7f9ef62a72f33ea64718d85e8c"
+      },
+      "ui:몸이 기억하는 사람:/몸이 기억하는 사람": {
+        "source_sha256": "70c75d24dafdcb5a286a5d01971f49156686a1423a72406f7e32f102d4d3f9cb",
+        "target_sha256": "a7e34c2fa06e432a3f9d78cbdadfac63165a0554ff8cc74862f7168147221ed7"
+      },
+      "ui:스타트업 엑시터:/스타트업 엑시터": {
+        "source_sha256": "6adba204e171dcf04b39637cac83cca705b095366d044cba903835f51391680c",
+        "target_sha256": "014654e924c229c84feade45dad3d7193045545917d9bd16e6ee69f3723db138"
+      },
+      "ui:안정적인 직장인:/안정적인 직장인": {
+        "source_sha256": "f00287d0ac0f5a44bce9d961e6545e3ebcc20021121924164052ae0c41c722e1",
+        "target_sha256": "ea27b45d039e36917a872f97b1f0c3c699540ac449fcf927d059079e69e80823"
+      },
+      "ui:엘리트 코스:/엘리트 코스": {
+        "source_sha256": "183a75d6543c27576e40c7ded8999e0db216e54a22c909072269ae085a52ae12",
+        "target_sha256": "442c5f50272b47048bc0fdb933196809655eae92f420e6df8600168234f1c63f"
+      },
+      "ui:위험한 몽상가:/위험한 몽상가": {
+        "source_sha256": "62692c1f1e7dee403d11f6c219b906589a095b19736b112e126d22c1d2bcf43f",
+        "target_sha256": "0b53678d834437b990bb4fe823f20071875c6e955b9e39f1be774ccb9e9c2eba"
+      },
+      "ui:유튜버:/유튜버": {
+        "source_sha256": "b50a7bc7f2f63a25707f5825558aff5a8f880b1167634f56036c67119348ca71",
+        "target_sha256": "69ce273801419d83350ba22bc19da656e3544b5c2b1e837882461240cfc103d7"
+      },
+      "ui:이단아:/이단아": {
+        "source_sha256": "95dd131798cd072ff58f86cae808028d33d77335f419040707c93b87339a9989",
+        "target_sha256": "de160c4d8ef4a3752df8bd4137868fb6dff5ec947592cdf5dec1e22140d3cea9"
+      },
+      "ui:읽는 사람:/읽는 사람": {
+        "source_sha256": "990d897bd9a4c4c0f24381e31482f44099978cafa09a4166b23405692040620e",
+        "target_sha256": "c147c963c6ef0731d421377dd51f5b1b4c94601d27eb27288163115e9ae75ebe"
+      },
+      "ui:착실한 청년:/착실한 청년": {
+        "source_sha256": "1ba617fce361e3e943613a8481afb2e88123dfbbabd752de282f3afff9deaf07",
+        "target_sha256": "6b99f796d77da7f794574600ba6ad16cb78eb5f3d4aa684a244049bf9e0eb38d"
+      },
+      "ui:창업가:/창업가": {
+        "source_sha256": "3108bbb21d62220dfb2e4ce6ed923abba58eb7b4ec027cf147fc5928d85ee449",
+        "target_sha256": "5c11990492cfc5dde8508a5dddbd187e6d25c0876777709fb49bfc50cd6cce3a"
+      },
+      "ui:콘텐츠 크리에이터:/콘텐츠 크리에이터": {
+        "source_sha256": "cd5a4dd2e6f35f7989623c81be97999d7d9e4950275f4fe683afa176fd782093",
+        "target_sha256": "f5cfdc5c136397222f246c5e702f37f7fca3d3ad4243ca2c60702f6e75adc87a"
+      },
+      "ui:크리에이터:/크리에이터": {
+        "source_sha256": "238106f40e99bb6c0e3665eb65634015e345d3659d33c70a77db5aa3d0afc5ca",
+        "target_sha256": "87b99c7cd859e2990e1e3a1e345b7f8f6df178c75d76f92039b334d0cb3d3f4c"
       }
     },
     "zh-TW": {
@@ -196198,10 +196311,62 @@
       "ui:투자 중심:/투자 중심": {
         "source_sha256": "d6fdcb18a1f3e81daf063ba7d7eac3627ec7daa858ac0a1f84b35d5ffb35781d",
         "target_sha256": "2d5ba554b232860725db664dbe00cac5bc7eeb76837f32c64b6aad6d4aa51683"
+      },
+      "ui:내 방식대로:/내 방식대로": {
+        "source_sha256": "a983a159d0536e6afb78590e1d8532544945d6af34477001423e7e5919f1c836",
+        "target_sha256": "9b4157f0d6897d3fe4fe9116a3a311784b3b2bdccd31f73862209cf862152571"
+      },
+      "ui:몸이 기억하는 사람:/몸이 기억하는 사람": {
+        "source_sha256": "70c75d24dafdcb5a286a5d01971f49156686a1423a72406f7e32f102d4d3f9cb",
+        "target_sha256": "5eca0a7ed72cd8682cf73cd474881634c3b997f9c69ca06522e384e94a3a0e93"
+      },
+      "ui:스타트업 엑시터:/스타트업 엑시터": {
+        "source_sha256": "6adba204e171dcf04b39637cac83cca705b095366d044cba903835f51391680c",
+        "target_sha256": "969f7ff13fc4b295655753900bcfd5393cc82f4e1dd996d9a256501459d2b9f9"
+      },
+      "ui:안정적인 직장인:/안정적인 직장인": {
+        "source_sha256": "f00287d0ac0f5a44bce9d961e6545e3ebcc20021121924164052ae0c41c722e1",
+        "target_sha256": "201711d3595175b233e1fe0851a3e02cffd262dae1b5fd6bbf2d632ac9ca516e"
+      },
+      "ui:엘리트 코스:/엘리트 코스": {
+        "source_sha256": "183a75d6543c27576e40c7ded8999e0db216e54a22c909072269ae085a52ae12",
+        "target_sha256": "13f17ba2561f82c727e0f3b8a4051ca2f669ccf16a5682f61278fa4ea97cf8f4"
+      },
+      "ui:위험한 몽상가:/위험한 몽상가": {
+        "source_sha256": "62692c1f1e7dee403d11f6c219b906589a095b19736b112e126d22c1d2bcf43f",
+        "target_sha256": "03e021242a096712e9336f21b636de139ac05f270908ff573656eb8d28fa9adc"
+      },
+      "ui:유튜버:/유튜버": {
+        "source_sha256": "b50a7bc7f2f63a25707f5825558aff5a8f880b1167634f56036c67119348ca71",
+        "target_sha256": "69ce273801419d83350ba22bc19da656e3544b5c2b1e837882461240cfc103d7"
+      },
+      "ui:이단아:/이단아": {
+        "source_sha256": "95dd131798cd072ff58f86cae808028d33d77335f419040707c93b87339a9989",
+        "target_sha256": "6ba54d8673ad087ed16f925b5a926bf3d1664ff63e9ead0d66ae439d2911761a"
+      },
+      "ui:읽는 사람:/읽는 사람": {
+        "source_sha256": "990d897bd9a4c4c0f24381e31482f44099978cafa09a4166b23405692040620e",
+        "target_sha256": "f35c4ec8d580f03b4f98fa3e3f83f21fefaff611e9015dd758b293ad13b88688"
+      },
+      "ui:착실한 청년:/착실한 청년": {
+        "source_sha256": "1ba617fce361e3e943613a8481afb2e88123dfbbabd752de282f3afff9deaf07",
+        "target_sha256": "3b6b07a264b72cf2d816ace9254325550e87f4f8610b71186c728d3ffbe1c3cb"
+      },
+      "ui:창업가:/창업가": {
+        "source_sha256": "3108bbb21d62220dfb2e4ce6ed923abba58eb7b4ec027cf147fc5928d85ee449",
+        "target_sha256": "adea1179176446ef47670e1969fe3c99d92d4e3bf96bad33f4a6333b936640c7"
+      },
+      "ui:콘텐츠 크리에이터:/콘텐츠 크리에이터": {
+        "source_sha256": "cd5a4dd2e6f35f7989623c81be97999d7d9e4950275f4fe683afa176fd782093",
+        "target_sha256": "148a0fcc2d521261bb231cdd6a9311917dc4064f010242746a64e6f41ae212a1"
+      },
+      "ui:크리에이터:/크리에이터": {
+        "source_sha256": "238106f40e99bb6c0e3665eb65634015e345d3659d33c70a77db5aa3d0afc5ca",
+        "target_sha256": "0a999c6906c486ba23a565070758e04023c12b97708882c0aec33e2fd5ee86a0"
       }
     }
   },
-  "accepted_sha256": "de35effdc0bb43ee60c0586550f79b4d43d03d624fed26ad2a94c4ab744696aa",
+  "accepted_sha256": "fd9e8201184a6c5195774f200e781ed60c8b3e218fd0bef714b33bc3e6735666",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
