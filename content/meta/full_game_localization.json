@@ -25079,6 +25079,138 @@
       "superseded_acceptance_by_locale": {
         "ja": {}
       }
+    },
+    {
+      "order": "ORDER-796",
+      "group": "endings",
+      "kind": "existing_target_correction",
+      "roots": [
+        "crypto_ghost",
+        "empty_house",
+        "stable_success"
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "ja": 3,
+        "zh-CN": 3,
+        "zh-TW": 3
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean comparison in each locale: rent-payment day, generic numbers and next-game compulsion rather than a crypto-only app, and hospital death with the window-facing second mug, without an invented winter or homecoming promise.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "6749c170212ba06a52010be4be1048c66c56eaf6",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "4b5cedb26348e724a404752f13f4034c03a60d496464f10311bc0c1ab19c96a6",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "ae35930eb8bcaf66a1969577aadc964fe169de807b327f2f6e1f1e58a0cbf31b"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "6749c170212ba06a52010be4be1048c66c56eaf6",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "83c282c3f8461f57bfc733bccd504e16fc9a3ea522ddd5b9fe94ef2bd9c3e987",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2c83afa1888e70950f42806fe4bb876971450e24ea9394d97762e153b1f7d75c"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "6749c170212ba06a52010be4be1048c66c56eaf6",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "aebc42ad24ddf885435e1ede845a80e691e8bfc0dd2c18a31fee8f3525b0fe02",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6c5563c3b3d3dc22b749d67b9d6fbf8d3f51073388d4010a11d86384eae501f4"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "97cb672fb35d7c00f0883eacdf1631581db07e22699d40a64f6a5d5369c00b17",
+        "zh-CN": "0a98ad12899b6a18b767c95a057749137e2843d5b5146e2d00e4e169eadc3bb0",
+        "zh-TW": "12520c974985fe640768ad940bec540003f495aef110f650b3a530cdf5ff3104"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "endings:crypto_ghost:/description": "af6d285106719084af45035d95ccffd6e38fc783909d114ab5ebec56200f143d",
+          "endings:empty_house:/description_if_known/father_passed": "1d1378d7ac902a38b0da9bfd7b8487c79e6c966e3fd7ffa48e00207cc06e3254",
+          "endings:stable_success:/description": "cbb8725f77038dd3126351384f86817fcb0a89b2ba726f7596ca447f32ed9267"
+        },
+        "zh-CN": {
+          "endings:crypto_ghost:/description": "7fef3650fedac3b676817a6c48bb6b960df1674f3b39e904c6832573b6a6ae88",
+          "endings:empty_house:/description_if_known/father_passed": "96687fd01981195649c8c8960a4e61c006f20837a666c7c827acd80bb690cebf",
+          "endings:stable_success:/description": "7c53af42b4d6d1434e40c7c4ede4e65443ba6d1b0039e7979fdd8904c322307f"
+        },
+        "zh-TW": {
+          "endings:crypto_ghost:/description": "7833e30743923dff5625421619b68277f12a1d721bb9505fcbdf92e943dbb8bb",
+          "endings:empty_house:/description_if_known/father_passed": "7d7a647d24ed5758384cc77be76384e700b25342db573c75aa771ddb8b8922fb",
+          "endings:stable_success:/description": "f1a90eced21b7512e9d8d90a6f7af397a9b25de1baf4d6d2439dd7213123ec96"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "endings:crypto_ghost:/description": {
+            "source_sha256": "f5fd23a869e50ab88da0237ec273221ec9eecac92ef22e96284021fbcf8ef3a8",
+            "target_sha256": "af6d285106719084af45035d95ccffd6e38fc783909d114ab5ebec56200f143d"
+          },
+          "endings:empty_house:/description_if_known/father_passed": {
+            "source_sha256": "9f38e61a615e05c47003842ee77bc4db2c3c5f34c1c80183864c704250b93dd7",
+            "target_sha256": "1d1378d7ac902a38b0da9bfd7b8487c79e6c966e3fd7ffa48e00207cc06e3254"
+          },
+          "endings:stable_success:/description": {
+            "source_sha256": "bbe88501d8d2a3113968cf3d1c45ea44c78165e144e8eea48942538d5b964ee1",
+            "target_sha256": "cbb8725f77038dd3126351384f86817fcb0a89b2ba726f7596ca447f32ed9267"
+          }
+        },
+        "zh-CN": {
+          "endings:crypto_ghost:/description": {
+            "source_sha256": "f5fd23a869e50ab88da0237ec273221ec9eecac92ef22e96284021fbcf8ef3a8",
+            "target_sha256": "7fef3650fedac3b676817a6c48bb6b960df1674f3b39e904c6832573b6a6ae88"
+          },
+          "endings:empty_house:/description_if_known/father_passed": {
+            "source_sha256": "9f38e61a615e05c47003842ee77bc4db2c3c5f34c1c80183864c704250b93dd7",
+            "target_sha256": "96687fd01981195649c8c8960a4e61c006f20837a666c7c827acd80bb690cebf"
+          },
+          "endings:stable_success:/description": {
+            "source_sha256": "bbe88501d8d2a3113968cf3d1c45ea44c78165e144e8eea48942538d5b964ee1",
+            "target_sha256": "7c53af42b4d6d1434e40c7c4ede4e65443ba6d1b0039e7979fdd8904c322307f"
+          }
+        },
+        "zh-TW": {
+          "endings:crypto_ghost:/description": {
+            "source_sha256": "f5fd23a869e50ab88da0237ec273221ec9eecac92ef22e96284021fbcf8ef3a8",
+            "target_sha256": "7833e30743923dff5625421619b68277f12a1d721bb9505fcbdf92e943dbb8bb"
+          },
+          "endings:empty_house:/description_if_known/father_passed": {
+            "source_sha256": "9f38e61a615e05c47003842ee77bc4db2c3c5f34c1c80183864c704250b93dd7",
+            "target_sha256": "7d7a647d24ed5758384cc77be76384e700b25342db573c75aa771ddb8b8922fb"
+          },
+          "endings:stable_success:/description": {
+            "source_sha256": "bbe88501d8d2a3113968cf3d1c45ea44c78165e144e8eea48942538d5b964ee1",
+            "target_sha256": "f1a90eced21b7512e9d8d90a6f7af397a9b25de1baf4d6d2439dd7213123ec96"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -25696,8 +25828,8 @@
         "target_sha256": "353f2b8d920b34699f65f438126a6d640ebe596bb739da70d1b84e76fae768f8"
       },
       "endings:stable_success:/description": {
-        "source_sha256": "bbe88501d8d2a3113968cf3d1c45ea44c78165e144e8eea48942538d5b964ee1",
-        "target_sha256": "cbb8725f77038dd3126351384f86817fcb0a89b2ba726f7596ca447f32ed9267"
+        "source_sha256": "219293571833b5ef6fc8f2bc1280144ad6b1483fb581064fe22b6ab158610cbf",
+        "target_sha256": "a8c39a37f90e256e77ede9d63f6254519febd52edbb6a8be19a2c70ac801292c"
       },
       "endings:stable_success:/description_if_known/called_at_1b_milestone": {
         "source_sha256": "7cc46fe2c3c8465838a1af2ba1e6f630d6aadc435cc456ce40ccea521963fd72",
@@ -25880,8 +26012,8 @@
         "target_sha256": "a74353f57d628cddd18ac6b4b45bec855c48f52f8e0a2bfdd5aa0760ecd5d785"
       },
       "endings:crypto_ghost:/description": {
-        "source_sha256": "f5fd23a869e50ab88da0237ec273221ec9eecac92ef22e96284021fbcf8ef3a8",
-        "target_sha256": "af6d285106719084af45035d95ccffd6e38fc783909d114ab5ebec56200f143d"
+        "source_sha256": "d4ad63adce54874497bfacc766ad7188657929ee665a5ecae59bafc8aa594352",
+        "target_sha256": "73081d35e51184da9e8f17979e8510646b1a5757565d99d73e65469972527c27"
       },
       "endings:crypto_ghost:/description_if_known/coin_double_rekt": {
         "source_sha256": "ada024ba925cb4f3735ff4c96b2383ce424032c997519eee081fd5a661e6035e",
@@ -77656,8 +77788,8 @@
         "target_sha256": "3278afb87dc8b2a8b19ca22e35ed0dca569bf30804f46eb2b4f891489ffa48e1"
       },
       "endings:empty_house:/description_if_known/father_passed": {
-        "source_sha256": "9f38e61a615e05c47003842ee77bc4db2c3c5f34c1c80183864c704250b93dd7",
-        "target_sha256": "1d1378d7ac902a38b0da9bfd7b8487c79e6c966e3fd7ffa48e00207cc06e3254"
+        "source_sha256": "2961334ae9c7a1222cfed0be4ea7d0c54d1cf4bf5a37122f19e7886e846ee20b",
+        "target_sha256": "16f7be8c18d69588931a9a6a0a09aee4a0834bfed7f7c56f8a535038db50e8dc"
       },
       "events:arc_minseo_03b_not_arrived:/description_if_known/contacted_minseo&minseo_real_talk": {
         "source_sha256": "c9ea066d38b7ac861471ae430e95a00b57a9746969d7a9d6048255c0abf1b3bb",
@@ -78502,8 +78634,8 @@
         "target_sha256": "75d9fb8b8147d42efd51b55cb6b1e59d0c59f9c1a3e2af79c83a7d8232261633"
       },
       "endings:stable_success:/description": {
-        "source_sha256": "bbe88501d8d2a3113968cf3d1c45ea44c78165e144e8eea48942538d5b964ee1",
-        "target_sha256": "7c53af42b4d6d1434e40c7c4ede4e65443ba6d1b0039e7979fdd8904c322307f"
+        "source_sha256": "219293571833b5ef6fc8f2bc1280144ad6b1483fb581064fe22b6ab158610cbf",
+        "target_sha256": "0059e9da6efe18ce72a7f551626a3fa51e28adec16d6ca9d2c3c387dc67d8787"
       },
       "endings:stable_success:/description_if_known/called_at_1b_milestone": {
         "source_sha256": "7cc46fe2c3c8465838a1af2ba1e6f630d6aadc435cc456ce40ccea521963fd72",
@@ -78686,8 +78818,8 @@
         "target_sha256": "c6dc612e5c88a7e03fd5c0f9934a94576f494abb9280c3f402175781ec8df6cd"
       },
       "endings:crypto_ghost:/description": {
-        "source_sha256": "f5fd23a869e50ab88da0237ec273221ec9eecac92ef22e96284021fbcf8ef3a8",
-        "target_sha256": "7fef3650fedac3b676817a6c48bb6b960df1674f3b39e904c6832573b6a6ae88"
+        "source_sha256": "d4ad63adce54874497bfacc766ad7188657929ee665a5ecae59bafc8aa594352",
+        "target_sha256": "9c8ca1d487f6c12a518389720c9b918e0826986192761dd177e2b458d4b517a6"
       },
       "endings:crypto_ghost:/description_if_known/coin_double_rekt": {
         "source_sha256": "ada024ba925cb4f3735ff4c96b2383ce424032c997519eee081fd5a661e6035e",
@@ -135246,8 +135378,8 @@
         "target_sha256": "87e56975ed1aac38744b4b4fe22de9437a3c8bac6af752533849130232620189"
       },
       "endings:empty_house:/description_if_known/father_passed": {
-        "source_sha256": "9f38e61a615e05c47003842ee77bc4db2c3c5f34c1c80183864c704250b93dd7",
-        "target_sha256": "96687fd01981195649c8c8960a4e61c006f20837a666c7c827acd80bb690cebf"
+        "source_sha256": "2961334ae9c7a1222cfed0be4ea7d0c54d1cf4bf5a37122f19e7886e846ee20b",
+        "target_sha256": "c9687deca25f5187a8f04111030163bae2c6537b3ea4e7fd4b71806e95e5c9e1"
       },
       "events:arc_minseo_03b_not_arrived:/description_if_known/contacted_minseo&minseo_real_talk": {
         "source_sha256": "c9ea066d38b7ac861471ae430e95a00b57a9746969d7a9d6048255c0abf1b3bb",
@@ -138112,8 +138244,8 @@
         "target_sha256": "70eed8fb8d151fae8e99756eabb3fbe84a36901a68ff2a8ee24bf366191118eb"
       },
       "endings:stable_success:/description": {
-        "source_sha256": "bbe88501d8d2a3113968cf3d1c45ea44c78165e144e8eea48942538d5b964ee1",
-        "target_sha256": "f1a90eced21b7512e9d8d90a6f7af397a9b25de1baf4d6d2439dd7213123ec96"
+        "source_sha256": "219293571833b5ef6fc8f2bc1280144ad6b1483fb581064fe22b6ab158610cbf",
+        "target_sha256": "9462921628e7fe5081509716883f76d312aae9e4398b5c4ddfd50c4e3aeae223"
       },
       "endings:stable_success:/description_if_known/called_at_1b_milestone": {
         "source_sha256": "7cc46fe2c3c8465838a1af2ba1e6f630d6aadc435cc456ce40ccea521963fd72",
@@ -138296,8 +138428,8 @@
         "target_sha256": "fa4a9b2735b4e3f0a4020d5f389fe35cd5eca9d33118d44d635bffb27bbde5ff"
       },
       "endings:crypto_ghost:/description": {
-        "source_sha256": "f5fd23a869e50ab88da0237ec273221ec9eecac92ef22e96284021fbcf8ef3a8",
-        "target_sha256": "7833e30743923dff5625421619b68277f12a1d721bb9505fcbdf92e943dbb8bb"
+        "source_sha256": "d4ad63adce54874497bfacc766ad7188657929ee665a5ecae59bafc8aa594352",
+        "target_sha256": "6b6a740fff2e65b5b4515de026b381956fc9704bd82741bd47f41b23b25dd70c"
       },
       "endings:crypto_ghost:/description_if_known/coin_double_rekt": {
         "source_sha256": "ada024ba925cb4f3735ff4c96b2383ce424032c997519eee081fd5a661e6035e",
@@ -194856,8 +194988,8 @@
         "target_sha256": "30dd1bf5c026fd12d75d3d3ea4316afbfb1c4291296f5efa5ce8d85d69caef63"
       },
       "endings:empty_house:/description_if_known/father_passed": {
-        "source_sha256": "9f38e61a615e05c47003842ee77bc4db2c3c5f34c1c80183864c704250b93dd7",
-        "target_sha256": "7d7a647d24ed5758384cc77be76384e700b25342db573c75aa771ddb8b8922fb"
+        "source_sha256": "2961334ae9c7a1222cfed0be4ea7d0c54d1cf4bf5a37122f19e7886e846ee20b",
+        "target_sha256": "7572e4cca4156051412c6045a1129d5ab57e2e187e3b994fa7f6ce94262ecac6"
       },
       "events:arc_minseo_03b_not_arrived:/description_if_known/contacted_minseo&minseo_real_talk": {
         "source_sha256": "c9ea066d38b7ac861471ae430e95a00b57a9746969d7a9d6048255c0abf1b3bb",
@@ -197109,7 +197241,7 @@
       }
     }
   },
-  "accepted_sha256": "9c53927e414a933e19cda8aeac6483cefac7783a85d63c7f88df1f82f7210e06",
+  "accepted_sha256": "7c208cc9a686c5a9006e46fab6c3744d76edcf3019ddd5a1cfccb5d103581532",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
