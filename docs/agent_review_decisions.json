@@ -14656,6 +14656,49 @@
         "path": "docs/agent_reviews/order790-ja-race-pick-guide.json",
         "sha256": "d92dc0a67108409515fe83d86da4bf67a43c968bdd65aaa55d34ff4e094b8738"
       }
+    },
+    {
+      "id": "order791-cjk-ui-quotes-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-06",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-791",
+      "subject": {
+        "kind": "source",
+        "commit": "e83dd36ae9e90a2af6a08fc5ae3327c757c39386",
+        "tree": "030e90c81f5e6a3894800ebf5ab3f4c44667fdc6",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order791-cjk-ui-quotes.md",
+          "sha256": "cd9d9fe8d53207ce6d89a037be24f8cc567f3c568d7c12e3f815042b0c02d28d"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order791-cjk-ui-quotes.json",
+          "sha256": "79364851c1372328e22548d6b69c72f7976419de47a3f06eec924a70f64ba4ea"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order791-cjk-ui-quotes.json",
+        "sha256": "79364851c1372328e22548d6b69c72f7976419de47a3f06eec924a70f64ba4ea"
+      }
     }
   ]
 }

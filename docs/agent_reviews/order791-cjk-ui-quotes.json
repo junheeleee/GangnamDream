@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-791",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "e83dd36ae9e90a2af6a08fc5ae3327c757c39386",
+    "tree": "030e90c81f5e6a3894800ebf5ab3f4c44667fdc6",
+    "manifest_sha256": null
+  },
+  "scope": "MainGame._quote_ui punctuation for ja, zh-CN and zh-TW at two existing consumers; new keys 0.",
+  "review": {
+    "method": "Full inspection of changed helper and both source callers; Korean quotation wrapper and existing per-locale templates; independent byte-exact source reversal and baseline/current direct-branch comparison.",
+    "findings": "JA/TW corner quotes and CN curly quotes match existing year-scene template values. Original KO/EN/other fallback and all inner text remain unchanged. No defect in declared scope; source caller presence is not actual runtime visibility."
+  },
+  "preservation": {
+    "prior_decisions": 348,
+    "prior_ledger_sha256": "927f6abed3ba9d19910d4455ece5de822cfd3a8959ee30e17a37f399d53125e1",
+    "proof": "Removing the exact new match block restores baseline MainGame bytes. Only MainGame and CLAUDE status changed; locale dictionaries, state, gameplay, saves and public-demo files unchanged."
+  },
+  "validation": "All eight raw files read. contract/demo/EN/document logs clean. Historical direct.log assertion failure retained; independent direct-branch comparison baseline=3, new=0, quote=0. lane.log lists 86 checks only; no engine/render execution.",
+  "identity": {
+    "baseline": "a26ec00ebe1052953d4ded4da1122e86e3b2edec",
+    "raw_directory": ".git/localization-cjk-ui-quotes-20261105.ZxvW4Z/",
+    "raw_population": {
+      "files": 8,
+      "sha256": "a60481eac867923df6e802f423536311fb0f48a1f0eb072a8e4172c59747226a",
+      "entries": [
+        [
+          "contract.log",
+          168,
+          "c7082df1b6dcb38344b61e439b8da441aaccdc7d8535c1f6a304d0a44d2bc440"
+        ],
+        [
+          "contract.py",
+          1365,
+          "5b5b1ac82140f3ff03d682a8e38de32bda4728966b851df252a162fe86e8bb5c"
+        ],
+        [
+          "delta.log",
+          741,
+          "7e61a61b3ee77ec5fec496c37886905e5d26dbff8a2c1a3af431372de25fa510"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "direct-delta.log",
+          425,
+          "688180e0cb56b103af2b288e4eb315c210756c23bc11f953e83f81d8e6457b0a"
+        ],
+        [
+          "direct.log",
+          489,
+          "d75dc59a712baf6458b0d1804353bf27f2129be419e7294ddde47d74c78553ab"
+        ],
+        [
+          "en.log",
+          204,
+          "4579d41faa5d8a274201407aba3ce483b37894440697e14344e4afb284c136b5"
+        ],
+        [
+          "lane.log",
+          13483,
+          "319cfb036a7aaff19db4d527df1523f0fdf13565d45a64f461365eff69852987"
+        ]
+      ]
+    },
+    "encoding": "Raw population: basename-sorted [basename,bytes,sha256], UTF-8 canonical JSON ensure_ascii=false and separators comma/colon."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

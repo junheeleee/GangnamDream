@@ -64,14 +64,14 @@ memory2는현재자동순서의신규정상런노출로세지않고호환/회상
 [783](../queue_archive/ORDER-783.md) 일본어 마장 ‘양호’ 1값 정정(신규0).
 [784](../queue_archive/ORDER-784.md) 엔딩 도감 첫 발견 표식 JA/CN/TW 신규 1키씩,
 누적 UI37 신규. 기존 발견 조건·집계 및 KO/EN 표기는 그대로다.
-[785](../queue_archive/ORDER-785.md) 엔딩 도감 숙련도 네 게임명을 진행 카드의
-기존 JA/CN/TW 번역에 연결했다. 신규 키·등급 변경0.
+[785](../queue_archive/ORDER-785.md) 숙련도 게임명4 기존 CJK 연결(신규0).
 [786](../queue_archive/ORDER-786.md) 일본어 경주마 이름 6값 정정(신규0).
 [787](../queue_archive/ORDER-787.md) 마지막 해 횡단보도 회상 CN/TW 기존6 정정,
 본문 누적1209. 기존 비결속값의 첫 수용이며 신규 문구나 기존 수용 stale 해소가 아니다.
 [788](../queue_archive/ORDER-788.md) 일본어 경마 정보상 기존 2값 정정(신규0).
 [789](../queue_archive/ORDER-789.md) 일본어 경마 승식 기존 3값 정정(신규0).
 [790](../queue_archive/ORDER-790.md) 일본어 경마 선택 설명 3값 정정(신규0).
+[791](../queue_archive/ORDER-791.md) CJK 인용부호 수리(신규0).
 기존 데모·KO/EN·저장과 원어민 관찰 이력은 보존하며, 선택지만 켜거나
 문구 개수만 채운 것을 본편 완성으로 세지 않는다. 아래는 날짜별 역사다.
 
