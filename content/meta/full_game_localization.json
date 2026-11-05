@@ -25211,6 +25211,211 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-797",
+      "group": "endings",
+      "kind": "existing_target_correction",
+      "roots": [
+        "gambling_recovery"
+      ],
+      "source_leaves": 8,
+      "target_leaves_by_locale": {
+        "ja": 8,
+        "zh-CN": 8,
+        "zh-TW": 8
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean comparison in each locale: net assets rather than bank balance, target shortfall without an invented large distance, and desk edge pressing into the palm; all other paragraphs and seven variant-specific codas preserved.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "7b95dce70f089e4f847cdf7ed128ea3ce6400bfc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "16579c62784bb77268960c401b07b68603d275910ca8dd29d122f1403c3e3048",
+          "count": 8,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "69965bf60f771b55e238d002a43050dfcc92b633fa2abef6e2ad9a2f546a25fd"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "7b95dce70f089e4f847cdf7ed128ea3ce6400bfc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "c21bf6eb661a12ce6b8f3e998228808695d6a576910b69245103aabe8663b8fb",
+          "count": 8,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "ef4a4ae6c8d4ac833e1b6f21712e9cdc4f920bff32f4c0b00d7f1b514a3d7845"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "7b95dce70f089e4f847cdf7ed128ea3ce6400bfc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "69d606725c9ec016e3eaf02704bc75c58c9316d0083319a4bde5e9d5ebdbb49b",
+          "count": 8,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "23fd4655069ff835e9f4ab7f93415dc5e6acaa7513b4ccdd3f61d62d17c172ba"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "ebd404bc73719c22782262f102382abc63246cfa512535b1e43a0dd3f379338a",
+        "zh-CN": "d2230cb1ff0b2fb31e8ad2b3526cc3d22986af108c02160b9510498868d6c50d",
+        "zh-TW": "d4e944648ff0596e983839729591001fb3a81f9e28629ea33b78d26fee722688"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "endings:gambling_recovery:/description": "164d2164847b799fc409ee2d6e927a06f8d48f2ae92e748a277692029efca8fe",
+          "endings:gambling_recovery:/description_if_known/bottom_documented": "1bc96fa9023300928994654042f5e6c4a243cdbb659ee9316d88ba2c73c87de3",
+          "endings:gambling_recovery:/description_if_known/father_reconciled": "4337acf965936de99964742c6a5b816aab54882ebc4fb15e624502d1411aaa4c",
+          "endings:gambling_recovery:/description_if_known/gambling_memory_defused": "aed7db65f4e4ec0f738a3c9ca4d2cadb4ad840782a71bdc1cb0d245c9ac02209",
+          "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": "514940aa376625f41d35d1a4df50b0189e9496506cd939176a18a5c51452934a",
+          "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": "db2bf3a9f008216ded5a5c12ef50c59c7ea5ae61c3d908bdcb3f0b8944e205c6",
+          "endings:gambling_recovery:/description_if_known/racetrack_quit": "617855c6cce667bef3ed819fcd0784f05f04d22c153db6bd5ccac15117018ead",
+          "endings:gambling_recovery:/description_if_known/sangchul_reported": "7930801efdee3ee0d47f957d8689d94c8db0fbcafc75481700a1d90873384463"
+        },
+        "zh-CN": {
+          "endings:gambling_recovery:/description": "88491f114e3de43668a7221a5e444ac9f83cbed3f3663bd23a8ca14b447b6fc7",
+          "endings:gambling_recovery:/description_if_known/bottom_documented": "1a78538f5f3d7c6e1ec14f73d20e7c574d04516ab11cf4bf0c97f1d87dfa2dae",
+          "endings:gambling_recovery:/description_if_known/father_reconciled": "7764df05a5578e366ba854f6b56b08681e6045691e485496ac9135ec7e873dc0",
+          "endings:gambling_recovery:/description_if_known/gambling_memory_defused": "a0077c0531dac0788b15e5af57120eb364c931bfff9becc8144685be879671c9",
+          "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": "d2da8bdb0735fdad925338a141ef51e80c3b36245d9a3f8592aed3f441d1afeb",
+          "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": "4698636f705aa1dc8ee722458341a6d6f52e542c856dce44baee78e991c2ef8c",
+          "endings:gambling_recovery:/description_if_known/racetrack_quit": "0bc37f2d947860bdbb2c982d1d0390774aeb2bb2cd547ab105defecc854c8065",
+          "endings:gambling_recovery:/description_if_known/sangchul_reported": "147a7540ca8b2560940256f4563d8e78a288a30b71a7e92ef3f83a3b7320ab30"
+        },
+        "zh-TW": {
+          "endings:gambling_recovery:/description": "2784327750a8c7c4720a0e1d6c232f989b159be76990209c3485d1d5d28cee00",
+          "endings:gambling_recovery:/description_if_known/bottom_documented": "ed5f43529763dd652de571ca016a8206ac5bd66804008d0ac1b2c0346e5bf5d6",
+          "endings:gambling_recovery:/description_if_known/father_reconciled": "8bea5b15498741cbd4980275ff305d5a860939a734bfbb463a4777fc524b7d85",
+          "endings:gambling_recovery:/description_if_known/gambling_memory_defused": "3e2087781aaa95934dc86d9fffd495d48634f6a2985521e00663538bd4948bc2",
+          "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": "d770f4fa4700e2929c69bd35a6e4c2498490b8912296c342a7cb8988b32b14b5",
+          "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": "d6581fc161c58d95417a3e5da3a5df4255f27afbcff657c6a4c4b7968dfc5d3b",
+          "endings:gambling_recovery:/description_if_known/racetrack_quit": "399b8094b96a6dc9ab45074d2057fca469273afb009cff0ac59a103584a1f4fe",
+          "endings:gambling_recovery:/description_if_known/sangchul_reported": "86207e64c9b9cd2a89a7c06ae726cead7e13c144409ca22062fcccb9fe9d8143"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "endings:gambling_recovery:/description": {
+            "source_sha256": "6e716d08555a53e2afd1d6d11655eedf978f853af8f141287e2ff8f16c249eb1",
+            "target_sha256": "164d2164847b799fc409ee2d6e927a06f8d48f2ae92e748a277692029efca8fe"
+          },
+          "endings:gambling_recovery:/description_if_known/bottom_documented": {
+            "source_sha256": "a2367b72262284ae4985bfc7818e37cfe8223a85279a721f3c39de065d143891",
+            "target_sha256": "1bc96fa9023300928994654042f5e6c4a243cdbb659ee9316d88ba2c73c87de3"
+          },
+          "endings:gambling_recovery:/description_if_known/father_reconciled": {
+            "source_sha256": "9b1cd70835e5bdcf08e5be786d606cde9bea5b8f71ed5f40cf8a63ececfa867b",
+            "target_sha256": "4337acf965936de99964742c6a5b816aab54882ebc4fb15e624502d1411aaa4c"
+          },
+          "endings:gambling_recovery:/description_if_known/gambling_memory_defused": {
+            "source_sha256": "81921d9619b2cbc7c06067cbdfa7b28708f713c2faffed1750530221af64ae8e",
+            "target_sha256": "aed7db65f4e4ec0f738a3c9ca4d2cadb4ad840782a71bdc1cb0d245c9ac02209"
+          },
+          "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": {
+            "source_sha256": "414489b4ced2c06102ae3fea094682653973e5df836bbbe05587ba2e9c510e68",
+            "target_sha256": "514940aa376625f41d35d1a4df50b0189e9496506cd939176a18a5c51452934a"
+          },
+          "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": {
+            "source_sha256": "2b58d328775a3a4e341e58850406b8c5649a7e8b186879eb12c106ec4148235c",
+            "target_sha256": "db2bf3a9f008216ded5a5c12ef50c59c7ea5ae61c3d908bdcb3f0b8944e205c6"
+          },
+          "endings:gambling_recovery:/description_if_known/racetrack_quit": {
+            "source_sha256": "3e95f1b1abcd5c15a28f475d2941c74db645b14df26ff7c7dfa6553ac00ca36c",
+            "target_sha256": "617855c6cce667bef3ed819fcd0784f05f04d22c153db6bd5ccac15117018ead"
+          },
+          "endings:gambling_recovery:/description_if_known/sangchul_reported": {
+            "source_sha256": "971a06a52ea9064ab5ced752f146112b6e1c473bd278bf2338c2aee0c7404a7f",
+            "target_sha256": "7930801efdee3ee0d47f957d8689d94c8db0fbcafc75481700a1d90873384463"
+          }
+        },
+        "zh-CN": {
+          "endings:gambling_recovery:/description": {
+            "source_sha256": "6e716d08555a53e2afd1d6d11655eedf978f853af8f141287e2ff8f16c249eb1",
+            "target_sha256": "88491f114e3de43668a7221a5e444ac9f83cbed3f3663bd23a8ca14b447b6fc7"
+          },
+          "endings:gambling_recovery:/description_if_known/bottom_documented": {
+            "source_sha256": "a2367b72262284ae4985bfc7818e37cfe8223a85279a721f3c39de065d143891",
+            "target_sha256": "1a78538f5f3d7c6e1ec14f73d20e7c574d04516ab11cf4bf0c97f1d87dfa2dae"
+          },
+          "endings:gambling_recovery:/description_if_known/father_reconciled": {
+            "source_sha256": "9b1cd70835e5bdcf08e5be786d606cde9bea5b8f71ed5f40cf8a63ececfa867b",
+            "target_sha256": "7764df05a5578e366ba854f6b56b08681e6045691e485496ac9135ec7e873dc0"
+          },
+          "endings:gambling_recovery:/description_if_known/gambling_memory_defused": {
+            "source_sha256": "81921d9619b2cbc7c06067cbdfa7b28708f713c2faffed1750530221af64ae8e",
+            "target_sha256": "a0077c0531dac0788b15e5af57120eb364c931bfff9becc8144685be879671c9"
+          },
+          "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": {
+            "source_sha256": "414489b4ced2c06102ae3fea094682653973e5df836bbbe05587ba2e9c510e68",
+            "target_sha256": "d2da8bdb0735fdad925338a141ef51e80c3b36245d9a3f8592aed3f441d1afeb"
+          },
+          "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": {
+            "source_sha256": "2b58d328775a3a4e341e58850406b8c5649a7e8b186879eb12c106ec4148235c",
+            "target_sha256": "4698636f705aa1dc8ee722458341a6d6f52e542c856dce44baee78e991c2ef8c"
+          },
+          "endings:gambling_recovery:/description_if_known/racetrack_quit": {
+            "source_sha256": "3e95f1b1abcd5c15a28f475d2941c74db645b14df26ff7c7dfa6553ac00ca36c",
+            "target_sha256": "0bc37f2d947860bdbb2c982d1d0390774aeb2bb2cd547ab105defecc854c8065"
+          },
+          "endings:gambling_recovery:/description_if_known/sangchul_reported": {
+            "source_sha256": "971a06a52ea9064ab5ced752f146112b6e1c473bd278bf2338c2aee0c7404a7f",
+            "target_sha256": "147a7540ca8b2560940256f4563d8e78a288a30b71a7e92ef3f83a3b7320ab30"
+          }
+        },
+        "zh-TW": {
+          "endings:gambling_recovery:/description": {
+            "source_sha256": "6e716d08555a53e2afd1d6d11655eedf978f853af8f141287e2ff8f16c249eb1",
+            "target_sha256": "2784327750a8c7c4720a0e1d6c232f989b159be76990209c3485d1d5d28cee00"
+          },
+          "endings:gambling_recovery:/description_if_known/bottom_documented": {
+            "source_sha256": "a2367b72262284ae4985bfc7818e37cfe8223a85279a721f3c39de065d143891",
+            "target_sha256": "ed5f43529763dd652de571ca016a8206ac5bd66804008d0ac1b2c0346e5bf5d6"
+          },
+          "endings:gambling_recovery:/description_if_known/father_reconciled": {
+            "source_sha256": "9b1cd70835e5bdcf08e5be786d606cde9bea5b8f71ed5f40cf8a63ececfa867b",
+            "target_sha256": "8bea5b15498741cbd4980275ff305d5a860939a734bfbb463a4777fc524b7d85"
+          },
+          "endings:gambling_recovery:/description_if_known/gambling_memory_defused": {
+            "source_sha256": "81921d9619b2cbc7c06067cbdfa7b28708f713c2faffed1750530221af64ae8e",
+            "target_sha256": "3e2087781aaa95934dc86d9fffd495d48634f6a2985521e00663538bd4948bc2"
+          },
+          "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": {
+            "source_sha256": "414489b4ced2c06102ae3fea094682653973e5df836bbbe05587ba2e9c510e68",
+            "target_sha256": "d770f4fa4700e2929c69bd35a6e4c2498490b8912296c342a7cb8988b32b14b5"
+          },
+          "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": {
+            "source_sha256": "2b58d328775a3a4e341e58850406b8c5649a7e8b186879eb12c106ec4148235c",
+            "target_sha256": "d6581fc161c58d95417a3e5da3a5df4255f27afbcff657c6a4c4b7968dfc5d3b"
+          },
+          "endings:gambling_recovery:/description_if_known/racetrack_quit": {
+            "source_sha256": "3e95f1b1abcd5c15a28f475d2941c74db645b14df26ff7c7dfa6553ac00ca36c",
+            "target_sha256": "399b8094b96a6dc9ab45074d2057fca469273afb009cff0ac59a103584a1f4fe"
+          },
+          "endings:gambling_recovery:/description_if_known/sangchul_reported": {
+            "source_sha256": "971a06a52ea9064ab5ced752f146112b6e1c473bd278bf2338c2aee0c7404a7f",
+            "target_sha256": "86207e64c9b9cd2a89a7c06ae726cead7e13c144409ca22062fcccb9fe9d8143"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -25932,36 +26137,36 @@
         "target_sha256": "283a0108d50ae341c446eff010c8ff69c0ef553b00f134f31dde4ed82170c30c"
       },
       "endings:gambling_recovery:/description": {
-        "source_sha256": "6e716d08555a53e2afd1d6d11655eedf978f853af8f141287e2ff8f16c249eb1",
-        "target_sha256": "164d2164847b799fc409ee2d6e927a06f8d48f2ae92e748a277692029efca8fe"
+        "source_sha256": "aa2af0638c618b2bc800caaedf96f19a5fa922ae6c7ac5c59bb24d97d21097d1",
+        "target_sha256": "7422c148a57f36a8c9a6df9171ab9a121cc8b908b2ba7149ce4af497c8438f72"
       },
       "endings:gambling_recovery:/description_if_known/bottom_documented": {
-        "source_sha256": "a2367b72262284ae4985bfc7818e37cfe8223a85279a721f3c39de065d143891",
-        "target_sha256": "1bc96fa9023300928994654042f5e6c4a243cdbb659ee9316d88ba2c73c87de3"
+        "source_sha256": "032d8d866b6a388f0e325539ab78dbe21a0e480588720be4ff9df186ca2e38a6",
+        "target_sha256": "63fdcb2da9f74f9801ebd475f2d179f62c9c7f04bf03fb1619b93064f9cbc535"
       },
       "endings:gambling_recovery:/description_if_known/father_reconciled": {
-        "source_sha256": "9b1cd70835e5bdcf08e5be786d606cde9bea5b8f71ed5f40cf8a63ececfa867b",
-        "target_sha256": "4337acf965936de99964742c6a5b816aab54882ebc4fb15e624502d1411aaa4c"
+        "source_sha256": "ad78e39e9ce8146a423050c733e97cd7eb681b66de523968302620a463d9604e",
+        "target_sha256": "fdd9278a4640f6c6c0287ce8b7d56eed6e21a7e8e14f9639abaa8e1354ef6bb5"
       },
       "endings:gambling_recovery:/description_if_known/gambling_memory_defused": {
-        "source_sha256": "81921d9619b2cbc7c06067cbdfa7b28708f713c2faffed1750530221af64ae8e",
-        "target_sha256": "aed7db65f4e4ec0f738a3c9ca4d2cadb4ad840782a71bdc1cb0d245c9ac02209"
+        "source_sha256": "7136244a446d419d37fb8c9256aa127ec62adac4d0a4bb20006a301dca670ccb",
+        "target_sha256": "e6cc9768db4acb45b80a57424a81ff80adff5836f68d18aef96c977d4fe20499"
       },
       "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": {
-        "source_sha256": "414489b4ced2c06102ae3fea094682653973e5df836bbbe05587ba2e9c510e68",
-        "target_sha256": "514940aa376625f41d35d1a4df50b0189e9496506cd939176a18a5c51452934a"
+        "source_sha256": "2e11dfc3c58eb223d7ee2d8a2f7e8a08c37b602007af04b9a792329f93d450c9",
+        "target_sha256": "c7b2f539e652675cc17357cf2a4893da85ca0c4cb8ffaa5012bdde54d3f08bae"
       },
       "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": {
-        "source_sha256": "2b58d328775a3a4e341e58850406b8c5649a7e8b186879eb12c106ec4148235c",
-        "target_sha256": "db2bf3a9f008216ded5a5c12ef50c59c7ea5ae61c3d908bdcb3f0b8944e205c6"
+        "source_sha256": "07b8c120bc3fbb2b9eaa533ad017e9f9abbfe47caac3b7c01b84375eafa67569",
+        "target_sha256": "782eacde3a0283cca39340f90cc57efae9ea952298787da0f761c4b8b4fb0ee3"
       },
       "endings:gambling_recovery:/description_if_known/racetrack_quit": {
-        "source_sha256": "3e95f1b1abcd5c15a28f475d2941c74db645b14df26ff7c7dfa6553ac00ca36c",
-        "target_sha256": "617855c6cce667bef3ed819fcd0784f05f04d22c153db6bd5ccac15117018ead"
+        "source_sha256": "cf0a7c0742f268329aa2ed2e00f85fda977220124b2c45fca50f391db8673c33",
+        "target_sha256": "85412332aa6649f67a7876bdd3f2ca0d079e87f49675674debf8a3519776e298"
       },
       "endings:gambling_recovery:/description_if_known/sangchul_reported": {
-        "source_sha256": "971a06a52ea9064ab5ced752f146112b6e1c473bd278bf2338c2aee0c7404a7f",
-        "target_sha256": "7930801efdee3ee0d47f957d8689d94c8db0fbcafc75481700a1d90873384463"
+        "source_sha256": "e6eb16c99ef68600b4120e1d2b48b71985183a569cd51fbf0862c949b3594a05",
+        "target_sha256": "ce5b90c49605dac6881144652ce2f7036aaf9025951306799dd56278fb91729a"
       },
       "endings:gambling_recovery:/title": {
         "source_sha256": "33ce793e484f6ea7c6bc04fdae014a7c9ed40e56a5c47fd3a7e64a9c787bdb0e",
@@ -78738,36 +78943,36 @@
         "target_sha256": "ac654c03ca3043f88eb7ae7d12a7f70448de31e60402f49d8d4d476f74921b6b"
       },
       "endings:gambling_recovery:/description": {
-        "source_sha256": "6e716d08555a53e2afd1d6d11655eedf978f853af8f141287e2ff8f16c249eb1",
-        "target_sha256": "88491f114e3de43668a7221a5e444ac9f83cbed3f3663bd23a8ca14b447b6fc7"
+        "source_sha256": "aa2af0638c618b2bc800caaedf96f19a5fa922ae6c7ac5c59bb24d97d21097d1",
+        "target_sha256": "1b4ad33204a363e5d8f310aedba45740bc38835f163ed056ffc3fb4a6a2e55da"
       },
       "endings:gambling_recovery:/description_if_known/bottom_documented": {
-        "source_sha256": "a2367b72262284ae4985bfc7818e37cfe8223a85279a721f3c39de065d143891",
-        "target_sha256": "1a78538f5f3d7c6e1ec14f73d20e7c574d04516ab11cf4bf0c97f1d87dfa2dae"
+        "source_sha256": "032d8d866b6a388f0e325539ab78dbe21a0e480588720be4ff9df186ca2e38a6",
+        "target_sha256": "dc5585b40fed0311d2382457fc56cf25ebe82623374ab01cbecff25adab57a9c"
       },
       "endings:gambling_recovery:/description_if_known/father_reconciled": {
-        "source_sha256": "9b1cd70835e5bdcf08e5be786d606cde9bea5b8f71ed5f40cf8a63ececfa867b",
-        "target_sha256": "7764df05a5578e366ba854f6b56b08681e6045691e485496ac9135ec7e873dc0"
+        "source_sha256": "ad78e39e9ce8146a423050c733e97cd7eb681b66de523968302620a463d9604e",
+        "target_sha256": "d42ea4c9dafd4f1a098208c1303dff83187af3466affe3328243c454513bae89"
       },
       "endings:gambling_recovery:/description_if_known/gambling_memory_defused": {
-        "source_sha256": "81921d9619b2cbc7c06067cbdfa7b28708f713c2faffed1750530221af64ae8e",
-        "target_sha256": "a0077c0531dac0788b15e5af57120eb364c931bfff9becc8144685be879671c9"
+        "source_sha256": "7136244a446d419d37fb8c9256aa127ec62adac4d0a4bb20006a301dca670ccb",
+        "target_sha256": "955a44f616caf7397fbb992ce8e600be6ed82e66a62a379cda398ad370e42a1b"
       },
       "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": {
-        "source_sha256": "414489b4ced2c06102ae3fea094682653973e5df836bbbe05587ba2e9c510e68",
-        "target_sha256": "d2da8bdb0735fdad925338a141ef51e80c3b36245d9a3f8592aed3f441d1afeb"
+        "source_sha256": "2e11dfc3c58eb223d7ee2d8a2f7e8a08c37b602007af04b9a792329f93d450c9",
+        "target_sha256": "ed8d9fd260f1616568125539ac5c9a06436018819ea301347742a3a75a2398d5"
       },
       "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": {
-        "source_sha256": "2b58d328775a3a4e341e58850406b8c5649a7e8b186879eb12c106ec4148235c",
-        "target_sha256": "4698636f705aa1dc8ee722458341a6d6f52e542c856dce44baee78e991c2ef8c"
+        "source_sha256": "07b8c120bc3fbb2b9eaa533ad017e9f9abbfe47caac3b7c01b84375eafa67569",
+        "target_sha256": "58e4129099c4b82191d570896fa13f8bba0b6da13011900bc26a9d59def08f1a"
       },
       "endings:gambling_recovery:/description_if_known/racetrack_quit": {
-        "source_sha256": "3e95f1b1abcd5c15a28f475d2941c74db645b14df26ff7c7dfa6553ac00ca36c",
-        "target_sha256": "0bc37f2d947860bdbb2c982d1d0390774aeb2bb2cd547ab105defecc854c8065"
+        "source_sha256": "cf0a7c0742f268329aa2ed2e00f85fda977220124b2c45fca50f391db8673c33",
+        "target_sha256": "ead5eb80c1b6b9a9b8065212a2de201acccdbf737193c1772cc952551b65f66c"
       },
       "endings:gambling_recovery:/description_if_known/sangchul_reported": {
-        "source_sha256": "971a06a52ea9064ab5ced752f146112b6e1c473bd278bf2338c2aee0c7404a7f",
-        "target_sha256": "147a7540ca8b2560940256f4563d8e78a288a30b71a7e92ef3f83a3b7320ab30"
+        "source_sha256": "e6eb16c99ef68600b4120e1d2b48b71985183a569cd51fbf0862c949b3594a05",
+        "target_sha256": "73a3f50767a7e720902f2aa337bb66492da67f3603301c908e81873254034acc"
       },
       "endings:gambling_recovery:/title": {
         "source_sha256": "33ce793e484f6ea7c6bc04fdae014a7c9ed40e56a5c47fd3a7e64a9c787bdb0e",
@@ -138348,36 +138553,36 @@
         "target_sha256": "d1ebe1a652a77e516e4e8904bdc3fd347508e75ccd9b497b2b5a8bde8bfc0114"
       },
       "endings:gambling_recovery:/description": {
-        "source_sha256": "6e716d08555a53e2afd1d6d11655eedf978f853af8f141287e2ff8f16c249eb1",
-        "target_sha256": "2784327750a8c7c4720a0e1d6c232f989b159be76990209c3485d1d5d28cee00"
+        "source_sha256": "aa2af0638c618b2bc800caaedf96f19a5fa922ae6c7ac5c59bb24d97d21097d1",
+        "target_sha256": "55dc926cbb9053960935552b229466eaf81441b79378dddea1b039b0f02e8b3d"
       },
       "endings:gambling_recovery:/description_if_known/bottom_documented": {
-        "source_sha256": "a2367b72262284ae4985bfc7818e37cfe8223a85279a721f3c39de065d143891",
-        "target_sha256": "ed5f43529763dd652de571ca016a8206ac5bd66804008d0ac1b2c0346e5bf5d6"
+        "source_sha256": "032d8d866b6a388f0e325539ab78dbe21a0e480588720be4ff9df186ca2e38a6",
+        "target_sha256": "39c1d8491b363d3e7ff990367a7a80d819dfc9989c149d8378b7e4c2f0fb20e3"
       },
       "endings:gambling_recovery:/description_if_known/father_reconciled": {
-        "source_sha256": "9b1cd70835e5bdcf08e5be786d606cde9bea5b8f71ed5f40cf8a63ececfa867b",
-        "target_sha256": "8bea5b15498741cbd4980275ff305d5a860939a734bfbb463a4777fc524b7d85"
+        "source_sha256": "ad78e39e9ce8146a423050c733e97cd7eb681b66de523968302620a463d9604e",
+        "target_sha256": "9a1559055be3060d2690bbf26079bdb679a708c82ed9ee505a59a03325061a5e"
       },
       "endings:gambling_recovery:/description_if_known/gambling_memory_defused": {
-        "source_sha256": "81921d9619b2cbc7c06067cbdfa7b28708f713c2faffed1750530221af64ae8e",
-        "target_sha256": "3e2087781aaa95934dc86d9fffd495d48634f6a2985521e00663538bd4948bc2"
+        "source_sha256": "7136244a446d419d37fb8c9256aa127ec62adac4d0a4bb20006a301dca670ccb",
+        "target_sha256": "78a2bf8a7b82a455cd854591bc2d1a8da620dfdae99df68f26b4d38bcc3f9498"
       },
       "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": {
-        "source_sha256": "414489b4ced2c06102ae3fea094682653973e5df836bbbe05587ba2e9c510e68",
-        "target_sha256": "d770f4fa4700e2929c69bd35a6e4c2498490b8912296c342a7cb8988b32b14b5"
+        "source_sha256": "2e11dfc3c58eb223d7ee2d8a2f7e8a08c37b602007af04b9a792329f93d450c9",
+        "target_sha256": "80334f65633931a50459a90cbab854d89a8e257a8e4ae3202f541c663d6866c7"
       },
       "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": {
-        "source_sha256": "2b58d328775a3a4e341e58850406b8c5649a7e8b186879eb12c106ec4148235c",
-        "target_sha256": "d6581fc161c58d95417a3e5da3a5df4255f27afbcff657c6a4c4b7968dfc5d3b"
+        "source_sha256": "07b8c120bc3fbb2b9eaa533ad017e9f9abbfe47caac3b7c01b84375eafa67569",
+        "target_sha256": "1c8aa1808db95f16a18763c6fe007a583109286fb4e617be2a6fb66128cb3ef3"
       },
       "endings:gambling_recovery:/description_if_known/racetrack_quit": {
-        "source_sha256": "3e95f1b1abcd5c15a28f475d2941c74db645b14df26ff7c7dfa6553ac00ca36c",
-        "target_sha256": "399b8094b96a6dc9ab45074d2057fca469273afb009cff0ac59a103584a1f4fe"
+        "source_sha256": "cf0a7c0742f268329aa2ed2e00f85fda977220124b2c45fca50f391db8673c33",
+        "target_sha256": "4a6ea9c46e546bece79f0e6f9b31dc8b4a36145857da9488b2b3e5a7836b5b8c"
       },
       "endings:gambling_recovery:/description_if_known/sangchul_reported": {
-        "source_sha256": "971a06a52ea9064ab5ced752f146112b6e1c473bd278bf2338c2aee0c7404a7f",
-        "target_sha256": "86207e64c9b9cd2a89a7c06ae726cead7e13c144409ca22062fcccb9fe9d8143"
+        "source_sha256": "e6eb16c99ef68600b4120e1d2b48b71985183a569cd51fbf0862c949b3594a05",
+        "target_sha256": "57dc1046b8befeee89f8bcbb15e12aa611509ee9242ef8effcbd9505e1ae31f6"
       },
       "endings:gambling_recovery:/title": {
         "source_sha256": "33ce793e484f6ea7c6bc04fdae014a7c9ed40e56a5c47fd3a7e64a9c787bdb0e",
@@ -197241,7 +197446,7 @@
       }
     }
   },
-  "accepted_sha256": "7c208cc9a686c5a9006e46fab6c3744d76edcf3019ddd5a1cfccb5d103581532",
+  "accepted_sha256": "70d4bbe624297c0d9980289d699045bc26fc5edf34edc0e5a3d2e1b14d9f2344",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
