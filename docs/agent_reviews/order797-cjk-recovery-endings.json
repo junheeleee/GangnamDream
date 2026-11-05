@@ -1,0 +1,335 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-797",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "2206565dcf09f2a652a8f715c10c5d90c9efe650",
+    "tree": "c3c75d0a40e9cff3c4ef5bd13ee296355c0f9555",
+    "manifest_sha256": null
+  },
+  "scope": "gambling_recovery description + seven known variants, asset paragraph first line only, 8 Korean leaves x JA/CN/TW =24 existing corrections; new coverage0.",
+  "review": {
+    "method": "Full Korean root/7variants and all24 full targets directly compared; asset net-value/shortfall/palm action, numerical secondline and all nonowned paragraphs; actual GameState priority, DataRegistry overlay and MainGame firsttrue/life guard read; independent current-source check_batch3, receipts and full byte inverses.",
+    "findings": "Net assets not bank balance; target shortfall without invented magnitude; deskedge pressure against palm retained. All other text/codas/5years/30億ウォン/30亿韩元/30億韓元/player tokens exact. Routing/flag presence not guaranteed exposure; no defect within changed firstline scope."
+  },
+  "preservation": {
+    "prior_batches": 387,
+    "prior_decisions": 355,
+    "prior_decision_ledger_sha256": "36d130a5e78a249c64d96a73ad6b55428394336711ff7d9d208c838700942244",
+    "superseded_acceptance_by_locale": {
+      "ja": {
+        "endings:gambling_recovery:/description": {
+          "source_sha256": "6e716d08555a53e2afd1d6d11655eedf978f853af8f141287e2ff8f16c249eb1",
+          "target_sha256": "164d2164847b799fc409ee2d6e927a06f8d48f2ae92e748a277692029efca8fe"
+        },
+        "endings:gambling_recovery:/description_if_known/bottom_documented": {
+          "source_sha256": "a2367b72262284ae4985bfc7818e37cfe8223a85279a721f3c39de065d143891",
+          "target_sha256": "1bc96fa9023300928994654042f5e6c4a243cdbb659ee9316d88ba2c73c87de3"
+        },
+        "endings:gambling_recovery:/description_if_known/father_reconciled": {
+          "source_sha256": "9b1cd70835e5bdcf08e5be786d606cde9bea5b8f71ed5f40cf8a63ececfa867b",
+          "target_sha256": "4337acf965936de99964742c6a5b816aab54882ebc4fb15e624502d1411aaa4c"
+        },
+        "endings:gambling_recovery:/description_if_known/gambling_memory_defused": {
+          "source_sha256": "81921d9619b2cbc7c06067cbdfa7b28708f713c2faffed1750530221af64ae8e",
+          "target_sha256": "aed7db65f4e4ec0f738a3c9ca4d2cadb4ad840782a71bdc1cb0d245c9ac02209"
+        },
+        "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": {
+          "source_sha256": "414489b4ced2c06102ae3fea094682653973e5df836bbbe05587ba2e9c510e68",
+          "target_sha256": "514940aa376625f41d35d1a4df50b0189e9496506cd939176a18a5c51452934a"
+        },
+        "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": {
+          "source_sha256": "2b58d328775a3a4e341e58850406b8c5649a7e8b186879eb12c106ec4148235c",
+          "target_sha256": "db2bf3a9f008216ded5a5c12ef50c59c7ea5ae61c3d908bdcb3f0b8944e205c6"
+        },
+        "endings:gambling_recovery:/description_if_known/racetrack_quit": {
+          "source_sha256": "3e95f1b1abcd5c15a28f475d2941c74db645b14df26ff7c7dfa6553ac00ca36c",
+          "target_sha256": "617855c6cce667bef3ed819fcd0784f05f04d22c153db6bd5ccac15117018ead"
+        },
+        "endings:gambling_recovery:/description_if_known/sangchul_reported": {
+          "source_sha256": "971a06a52ea9064ab5ced752f146112b6e1c473bd278bf2338c2aee0c7404a7f",
+          "target_sha256": "7930801efdee3ee0d47f957d8689d94c8db0fbcafc75481700a1d90873384463"
+        }
+      },
+      "zh-CN": {
+        "endings:gambling_recovery:/description": {
+          "source_sha256": "6e716d08555a53e2afd1d6d11655eedf978f853af8f141287e2ff8f16c249eb1",
+          "target_sha256": "88491f114e3de43668a7221a5e444ac9f83cbed3f3663bd23a8ca14b447b6fc7"
+        },
+        "endings:gambling_recovery:/description_if_known/bottom_documented": {
+          "source_sha256": "a2367b72262284ae4985bfc7818e37cfe8223a85279a721f3c39de065d143891",
+          "target_sha256": "1a78538f5f3d7c6e1ec14f73d20e7c574d04516ab11cf4bf0c97f1d87dfa2dae"
+        },
+        "endings:gambling_recovery:/description_if_known/father_reconciled": {
+          "source_sha256": "9b1cd70835e5bdcf08e5be786d606cde9bea5b8f71ed5f40cf8a63ececfa867b",
+          "target_sha256": "7764df05a5578e366ba854f6b56b08681e6045691e485496ac9135ec7e873dc0"
+        },
+        "endings:gambling_recovery:/description_if_known/gambling_memory_defused": {
+          "source_sha256": "81921d9619b2cbc7c06067cbdfa7b28708f713c2faffed1750530221af64ae8e",
+          "target_sha256": "a0077c0531dac0788b15e5af57120eb364c931bfff9becc8144685be879671c9"
+        },
+        "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": {
+          "source_sha256": "414489b4ced2c06102ae3fea094682653973e5df836bbbe05587ba2e9c510e68",
+          "target_sha256": "d2da8bdb0735fdad925338a141ef51e80c3b36245d9a3f8592aed3f441d1afeb"
+        },
+        "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": {
+          "source_sha256": "2b58d328775a3a4e341e58850406b8c5649a7e8b186879eb12c106ec4148235c",
+          "target_sha256": "4698636f705aa1dc8ee722458341a6d6f52e542c856dce44baee78e991c2ef8c"
+        },
+        "endings:gambling_recovery:/description_if_known/racetrack_quit": {
+          "source_sha256": "3e95f1b1abcd5c15a28f475d2941c74db645b14df26ff7c7dfa6553ac00ca36c",
+          "target_sha256": "0bc37f2d947860bdbb2c982d1d0390774aeb2bb2cd547ab105defecc854c8065"
+        },
+        "endings:gambling_recovery:/description_if_known/sangchul_reported": {
+          "source_sha256": "971a06a52ea9064ab5ced752f146112b6e1c473bd278bf2338c2aee0c7404a7f",
+          "target_sha256": "147a7540ca8b2560940256f4563d8e78a288a30b71a7e92ef3f83a3b7320ab30"
+        }
+      },
+      "zh-TW": {
+        "endings:gambling_recovery:/description": {
+          "source_sha256": "6e716d08555a53e2afd1d6d11655eedf978f853af8f141287e2ff8f16c249eb1",
+          "target_sha256": "2784327750a8c7c4720a0e1d6c232f989b159be76990209c3485d1d5d28cee00"
+        },
+        "endings:gambling_recovery:/description_if_known/bottom_documented": {
+          "source_sha256": "a2367b72262284ae4985bfc7818e37cfe8223a85279a721f3c39de065d143891",
+          "target_sha256": "ed5f43529763dd652de571ca016a8206ac5bd66804008d0ac1b2c0346e5bf5d6"
+        },
+        "endings:gambling_recovery:/description_if_known/father_reconciled": {
+          "source_sha256": "9b1cd70835e5bdcf08e5be786d606cde9bea5b8f71ed5f40cf8a63ececfa867b",
+          "target_sha256": "8bea5b15498741cbd4980275ff305d5a860939a734bfbb463a4777fc524b7d85"
+        },
+        "endings:gambling_recovery:/description_if_known/gambling_memory_defused": {
+          "source_sha256": "81921d9619b2cbc7c06067cbdfa7b28708f713c2faffed1750530221af64ae8e",
+          "target_sha256": "3e2087781aaa95934dc86d9fffd495d48634f6a2985521e00663538bd4948bc2"
+        },
+        "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": {
+          "source_sha256": "414489b4ced2c06102ae3fea094682653973e5df836bbbe05587ba2e9c510e68",
+          "target_sha256": "d770f4fa4700e2929c69bd35a6e4c2498490b8912296c342a7cb8988b32b14b5"
+        },
+        "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": {
+          "source_sha256": "2b58d328775a3a4e341e58850406b8c5649a7e8b186879eb12c106ec4148235c",
+          "target_sha256": "d6581fc161c58d95417a3e5da3a5df4255f27afbcff657c6a4c4b7968dfc5d3b"
+        },
+        "endings:gambling_recovery:/description_if_known/racetrack_quit": {
+          "source_sha256": "3e95f1b1abcd5c15a28f475d2941c74db645b14df26ff7c7dfa6553ac00ca36c",
+          "target_sha256": "399b8094b96a6dc9ab45074d2057fca469273afb009cff0ac59a103584a1f4fe"
+        },
+        "endings:gambling_recovery:/description_if_known/sangchul_reported": {
+          "source_sha256": "971a06a52ea9064ab5ced752f146112b6e1c473bd278bf2338c2aee0c7404a7f",
+          "target_sha256": "86207e64c9b9cd2a89a7c06ae726cead7e13c144409ca22062fcccb9fe9d8143"
+        }
+      }
+    },
+    "proof": "Whole3overlay byte inverses and entire ledger inverse; 24nonowned paragraph sets+24numeric secondlines exact; old24acceptances preserved in superseded map and old387batches exact. KO/EN/code/saves/demo/past reports/history unchanged."
+  },
+  "validation": "Official check/import logs contain VALID markers, no exit-code annotations; independently verified accepted receipts and current pure check_batch3 pass. Complete overlays3+ledger byte inverses pass. Demo5/14/100/122,EN1813/35 clean; CJK i18n structural/skeleton only. Lane11 selection only, no engine/render/native.",
+  "ending_source_diagnostic": {
+    "korean_leaves": 235,
+    "by_locale": {
+      "ja": {
+        "before": 24,
+        "after": 16
+      },
+      "zh-CN": {
+        "before": 24,
+        "after": 16
+      },
+      "zh-TW": {
+        "before": 24,
+        "after": 16
+      }
+    },
+    "total_before": 72,
+    "total_after": 48,
+    "meaning": "Portable accepted-source freshness, not event diagnostic/exposure/native/full-localization claim."
+  },
+  "identity": {
+    "baseline": "7b95dce70f089e4f847cdf7ed128ea3ce6400bfc",
+    "rows_sha256": "4b52c77293a78ec931a1c9773fe3fa3ffc7f953f0b7077ec4413cd92d1fd9efc",
+    "receipt_sha256_by_locale": {
+      "ja": "ebd404bc73719c22782262f102382abc63246cfa512535b1e43a0dd3f379338a",
+      "zh-CN": "d2230cb1ff0b2fb31e8ad2b3526cc3d22986af108c02160b9510498868d6c50d",
+      "zh-TW": "d4e944648ff0596e983839729591001fb3a81f9e28629ea33b78d26fee722688"
+    },
+    "official_receipt_file_sha256_by_locale": {
+      "ja": "6e77b92458e54712cb0f6329c308bb990cd840d05c6187df8f31c2568cdca7c1",
+      "zh-CN": "65b3757f62aa2c49806fce8baa698d5ef447a7c6a62ae0fee3039dc1481113e7",
+      "zh-TW": "82aaa7a64538d9431162a59be91d4dcc4a851a47ab45c809c0799a4c218e1b96"
+    },
+    "previous_target_sha256_by_locale": {
+      "ja": {
+        "endings:gambling_recovery:/description": "164d2164847b799fc409ee2d6e927a06f8d48f2ae92e748a277692029efca8fe",
+        "endings:gambling_recovery:/description_if_known/bottom_documented": "1bc96fa9023300928994654042f5e6c4a243cdbb659ee9316d88ba2c73c87de3",
+        "endings:gambling_recovery:/description_if_known/father_reconciled": "4337acf965936de99964742c6a5b816aab54882ebc4fb15e624502d1411aaa4c",
+        "endings:gambling_recovery:/description_if_known/gambling_memory_defused": "aed7db65f4e4ec0f738a3c9ca4d2cadb4ad840782a71bdc1cb0d245c9ac02209",
+        "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": "514940aa376625f41d35d1a4df50b0189e9496506cd939176a18a5c51452934a",
+        "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": "db2bf3a9f008216ded5a5c12ef50c59c7ea5ae61c3d908bdcb3f0b8944e205c6",
+        "endings:gambling_recovery:/description_if_known/racetrack_quit": "617855c6cce667bef3ed819fcd0784f05f04d22c153db6bd5ccac15117018ead",
+        "endings:gambling_recovery:/description_if_known/sangchul_reported": "7930801efdee3ee0d47f957d8689d94c8db0fbcafc75481700a1d90873384463"
+      },
+      "zh-CN": {
+        "endings:gambling_recovery:/description": "88491f114e3de43668a7221a5e444ac9f83cbed3f3663bd23a8ca14b447b6fc7",
+        "endings:gambling_recovery:/description_if_known/bottom_documented": "1a78538f5f3d7c6e1ec14f73d20e7c574d04516ab11cf4bf0c97f1d87dfa2dae",
+        "endings:gambling_recovery:/description_if_known/father_reconciled": "7764df05a5578e366ba854f6b56b08681e6045691e485496ac9135ec7e873dc0",
+        "endings:gambling_recovery:/description_if_known/gambling_memory_defused": "a0077c0531dac0788b15e5af57120eb364c931bfff9becc8144685be879671c9",
+        "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": "d2da8bdb0735fdad925338a141ef51e80c3b36245d9a3f8592aed3f441d1afeb",
+        "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": "4698636f705aa1dc8ee722458341a6d6f52e542c856dce44baee78e991c2ef8c",
+        "endings:gambling_recovery:/description_if_known/racetrack_quit": "0bc37f2d947860bdbb2c982d1d0390774aeb2bb2cd547ab105defecc854c8065",
+        "endings:gambling_recovery:/description_if_known/sangchul_reported": "147a7540ca8b2560940256f4563d8e78a288a30b71a7e92ef3f83a3b7320ab30"
+      },
+      "zh-TW": {
+        "endings:gambling_recovery:/description": "2784327750a8c7c4720a0e1d6c232f989b159be76990209c3485d1d5d28cee00",
+        "endings:gambling_recovery:/description_if_known/bottom_documented": "ed5f43529763dd652de571ca016a8206ac5bd66804008d0ac1b2c0346e5bf5d6",
+        "endings:gambling_recovery:/description_if_known/father_reconciled": "8bea5b15498741cbd4980275ff305d5a860939a734bfbb463a4777fc524b7d85",
+        "endings:gambling_recovery:/description_if_known/gambling_memory_defused": "3e2087781aaa95934dc86d9fffd495d48634f6a2985521e00663538bd4948bc2",
+        "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": "d770f4fa4700e2929c69bd35a6e4c2498490b8912296c342a7cb8988b32b14b5",
+        "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": "d6581fc161c58d95417a3e5da3a5df4255f27afbcff657c6a4c4b7968dfc5d3b",
+        "endings:gambling_recovery:/description_if_known/racetrack_quit": "399b8094b96a6dc9ab45074d2057fca469273afb009cff0ac59a103584a1f4fe",
+        "endings:gambling_recovery:/description_if_known/sangchul_reported": "86207e64c9b9cd2a89a7c06ae726cead7e13c144409ca22062fcccb9fe9d8143"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-recovery-20261106.ra3hwa/",
+    "raw_population": {
+      "files": 24,
+      "sha256": "a1a08449b38cb6a55cf2841aafc0c2d48fe5c4896163fce217dd1b82b532b268",
+      "entries": [
+        [
+          "correction.log",
+          141,
+          "2e45ca0c5692eadcd9f3bd1ce107a7e2854db0d0d0205d3645580ea364c896b5"
+        ],
+        [
+          "correction.py",
+          5341,
+          "44824c32c063c46745764d4cadcfd56131c8839bbc5f76b90ddd01a7c0c011ee"
+        ],
+        [
+          "delta.log",
+          126,
+          "9de38183bb7b358e8ae2a9e3c596de929f99ee39c33986ed1282af3161d8e346"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "drafts.json",
+          441,
+          "939509c8a694f9613140c72350c3f17e325824d122d057bf34eef097e9bda832"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "ja.check.log",
+          117,
+          "1ed2904e5ed3704b155fff52e99c8d37d2970ec64306c28ae32e5063b9185897"
+        ],
+        [
+          "ja.export.log",
+          143,
+          "979a5a0fd0e96f8ef5d2725db3a25c6b0f035b6a860b70553ee539935932e557"
+        ],
+        [
+          "ja.import.log",
+          118,
+          "a1689e76537953ecdee65db9ce60e0da2bd54bec71052c9bb3858e9716a51cdd"
+        ],
+        [
+          "ja.response.jsonl",
+          10679,
+          "2b299bde6410d638597a5e1ee48b1302f064098f2542b519d76884583338cdf5"
+        ],
+        [
+          "ja.source.jsonl",
+          12953,
+          "a34d6f26a8fdfffb08d2840c8e3b02f214813291d017204b1bef8c46f85f8b81"
+        ],
+        [
+          "lane.log",
+          1677,
+          "ee3969ee87b707c3d1ffe9e8b8777190175581b3164e2d8bc2a66eb93856182a"
+        ],
+        [
+          "leaf-ids.json",
+          529,
+          "d1a5c0dd9ab8ea4217046dc8b4fbf62634151c9a3cdc90ab447a0ce1456b5a2c"
+        ],
+        [
+          "zh-CN.check.log",
+          120,
+          "d9dbcc475fde9405df66ec287e6ef1bf043d65e308261f36011f9b1f19f444a8"
+        ],
+        [
+          "zh-CN.export.log",
+          149,
+          "44fadb9d119c327c0c56103034c2c84c90a8f9eb238d7755045553717ce865ba"
+        ],
+        [
+          "zh-CN.import.log",
+          121,
+          "e620213466787a2eb63fdb80dec3ece07176e136a512467624defbd9f45cf16d"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          8746,
+          "315647ffef957c052f45d8797ff7a5742eb29a487c8283756d28c464037146fa"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          13004,
+          "ed5c100421254c021e0b3e119601fe437f399c4435b03567e6d649f3df54e6e5"
+        ],
+        [
+          "zh-TW.check.log",
+          120,
+          "78af71e0b07498708a897671440d4f1342375b8680b25c9d22299fbd66ae0c11"
+        ],
+        [
+          "zh-TW.export.log",
+          149,
+          "3849ee3181240fd66bb88c948aed7f3c6021580c4125390588cd1b67375f054a"
+        ],
+        [
+          "zh-TW.import.log",
+          121,
+          "0a408ba1ad94104d4ded835a1ab1bb8c69753bdb580047b8b4970821a2413be8"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          8963,
+          "4732339c02739141fe2a7009424d744841e89ba466fcbdcb5d2738885574f9b9"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          13004,
+          "3d44f13686ef3f5e9bd464e091b88e7d03a0cb43b6877d2072781a9d8db8e1f5"
+        ]
+      ]
+    },
+    "encoding": "Raw population: basename-sorted [basename,bytes,sha256], UTF-8 JSON ensure_ascii=false separators comma/colon. Rows: [locale,id,source_hash,previous_target_hash,target_hash] in locale/export order, canonical sorted-key digest."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

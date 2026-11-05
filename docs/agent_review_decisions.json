@@ -14957,6 +14957,49 @@
         "path": "docs/agent_reviews/order796-cjk-three-endings.json",
         "sha256": "6dd17348e8c2f8cdf4aafa434841f0998b82dca548e73ccc10eeb7897fed1286"
       }
+    },
+    {
+      "id": "order797-cjk-recovery-endings-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-06",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-797",
+      "subject": {
+        "kind": "source",
+        "commit": "2206565dcf09f2a652a8f715c10c5d90c9efe650",
+        "tree": "c3c75d0a40e9cff3c4ef5bd13ee296355c0f9555",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order797-cjk-recovery-endings.md",
+          "sha256": "e2321ee0d5a7ec428bcb6c374106ce7e97b2651946ff42ffb5de27ff2fcf3688"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order797-cjk-recovery-endings.json",
+          "sha256": "5064424eaf9d657ca12dc875487890d291deee1896f516fbb7aaeb08e6d7174c"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order797-cjk-recovery-endings.json",
+        "sha256": "5064424eaf9d657ca12dc875487890d291deee1896f516fbb7aaeb08e6d7174c"
+      }
     }
   ]
 }
