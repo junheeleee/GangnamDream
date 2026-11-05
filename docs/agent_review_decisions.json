@@ -14871,6 +14871,49 @@
         "path": "docs/agent_reviews/order795-ja-father-homecoming.json",
         "sha256": "bbefa148917e843275a16228737788650bc50cac855057d6127bee8731a36b1f"
       }
+    },
+    {
+      "id": "order795-ja-father-homecoming-rollover-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-06",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-795",
+      "subject": {
+        "kind": "source",
+        "commit": "47b656e0f755dc5b7f4142f89722a7ece3fc6488",
+        "tree": "8542d62e875628a599604a9a7fd87d06ae2ba28c",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order795-ja-father-homecoming-rollover.md",
+          "sha256": "4546868189e6a732af3d3c1a0733fcb68f44a65f4a2eea1bd6bfffb129d44fc4"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order795-ja-father-homecoming-rollover.json",
+          "sha256": "1a4b3cb451ee3c2ba1cd8a0ec50fe2f68a5afac242bc4a46ad6063e40e37c028"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order795-ja-father-homecoming-rollover.json",
+        "sha256": "1a4b3cb451ee3c2ba1cd8a0ec50fe2f68a5afac242bc4a46ad6063e40e37c028"
+      }
     }
   ]
 }

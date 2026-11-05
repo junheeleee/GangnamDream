@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-795",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "47b656e0f755dc5b7f4142f89722a7ece3fc6488",
+    "tree": "8542d62e875628a599604a9a7fd87d06ae2ba28c",
+    "manifest_sha256": null
+  },
+  "scope": "Lossless WORK_LOG rollover/context-budget repair plus unchanged original ORDER-795 product bytes; new translation/coverage 0.",
+  "review": {
+    "method": "Byte comparison of full new snapshot to committed c0d093a log; current date-section inverses, all previous history files, original product/review/raw comparisons; actual metadata allowlist inspection; context/queue/worktree/index checks.",
+    "findings": "Full old log40855B archived exactly, current log15229B below40000. Nov4 body replaced by exact snapshot link/SHA. Original Nov6/Nov5 and Nov3 onward preserved except new failure-disclosure bullet. All59 old history files unchanged. New history path changes source identity, requiring this fresh subject."
+  },
+  "preservation": {
+    "prior_decisions": 353,
+    "prior_decision_ledger_sha256": "7a82dcdc7857b07dfccb27d2bea9db0bd7cba836dfc0b67da186c3bff23debf0",
+    "prior_history_files_unchanged": 59,
+    "original795_raw_files_unchanged": 13,
+    "original_product_commit": "8f1da7ad89e754afcb2510cbbd452915e8a3e51a",
+    "proof": "JA UI/localization ledger/MainGame exact original product bytes; original report pair/raw13 and all baseline nonowned files unchanged. Full c0d093a log retained verbatim, not Nov4-only slice."
+  },
+  "validation": "Independent context_manifest_check and queue_consistency_check success; git diff --check and git diff --cached --check clean. Original over-budget wrapper push and rejected EOF-blankline slice disclosed, not counted as successful checks. No resolver widening or engine/native execution.",
+  "identity": {
+    "baseline": "c0d093a",
+    "bound_files": [
+      {
+        "path": "docs/WORK_LOG.md",
+        "bytes": 15229,
+        "sha256": "a014eaa74ea9e8e9f5defb7db547a391cc13ab396019e35e573016ea9a86642c"
+      },
+      {
+        "path": "docs/history/WORK_LOG_2026-11-04_before_795.md",
+        "bytes": 40855,
+        "sha256": "f3e026436867bdeede3a10995d07088b9c4954eda3da782b4c88ca5a21aa08ef"
+      },
+      {
+        "path": "docs/agent_reviews/order795-ja-father-homecoming.md",
+        "bytes": 3471,
+        "sha256": "a4f5b9805770cc409624ed45a914138fb8a5b0c929006e882d57ca31fcb03bb8"
+      },
+      {
+        "path": "docs/agent_reviews/order795-ja-father-homecoming.json",
+        "bytes": 5254,
+        "sha256": "bbefa148917e843275a16228737788650bc50cac855057d6127bee8731a36b1f"
+      }
+    ],
+    "original_review_markdown_sha256": "a4f5b9805770cc409624ed45a914138fb8a5b0c929006e882d57ca31fcb03bb8",
+    "original_review_json_sha256": "bbefa148917e843275a16228737788650bc50cac855057d6127bee8731a36b1f"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
