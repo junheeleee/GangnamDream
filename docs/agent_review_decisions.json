@@ -14699,6 +14699,49 @@
         "path": "docs/agent_reviews/order791-cjk-ui-quotes.json",
         "sha256": "79364851c1372328e22548d6b69c72f7976419de47a3f06eec924a70f64ba4ea"
       }
+    },
+    {
+      "id": "order792-ja-ending-captions-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-06",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-792",
+      "subject": {
+        "kind": "source",
+        "commit": "2b3e9693e1ec310b5d3e46c0bc4d701da8f8230b",
+        "tree": "dc9d1d111c27be9cb7db0cbd5e261aaf8ac1b73d",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order792-ja-ending-captions.md",
+          "sha256": "c0fe20f8ef2a03041600e6c86adc45957c3fb69b1dbf91a95d15d12b476cc4f8"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order792-ja-ending-captions.json",
+          "sha256": "161bed7cee47572897af1373723175b3c16d2ac947b0faa10c1df9ec96555a72"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order792-ja-ending-captions.json",
+        "sha256": "161bed7cee47572897af1373723175b3c16d2ac947b0faa10c1df9ec96555a72"
+      }
     }
   ]
 }

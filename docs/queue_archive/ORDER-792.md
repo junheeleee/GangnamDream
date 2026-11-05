@@ -1,6 +1,6 @@
 # ORDER-792 — 일본어 엔딩 요약 의미 수리
 
-#### [~] ORDER-792 · 일본어 엔딩 요약 의미 수리
+#### [x] ORDER-792 · 일본어 엔딩 요약 의미 수리 — 2026-11-06
 
 부모157/C5. 착수 — `locale/ui_ja.json`의 `_ending_run_summary` 원문 4키와
 `content/meta/full_game_localization.json`의 해당 원문/이전 target 결속만 소유한다.
@@ -10,3 +10,10 @@ KO/EN/CN/TW·원문·엔딩 조건/라우팅·효과·저장·공개 데모는 �
 기존 증분 export/check/import replace와 사전/원장 역복원·JA UI·데모·EN을
 표적 검증하고 다른 에이전트가 네 값 전부를 직접 검수한다. 실화면/원어민 별도.
 이 범위의 작업 지시는 일회성이고 용어/보존/판정은 기존 정본을 따른다.
+
+제품 `2b3e9693e1ec310b5d3e46c0bc4d701da8f8230b` 정상 push.
+기존 JA4값의 첫 source-bound 수용·신규 커버리지0.
+공식 check/import·사전/원장 byte 역복원(원382배치)·JA UI·데모·EN 통과,
+[독립 전수 source GO](../agent_reviews/order792-ja-ending-captions.md).
+KO/EN/CN/TW·원문·조건·저장·데모 불변. 실제 화면/원어민/제품 CI 완료는 별도다.
+자동 검사는 계약 증거이지 사람 품질·출시 판정이 아니다.

@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-792",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "2b3e9693e1ec310b5d3e46c0bc4d701da8f8230b",
+    "tree": "dc9d1d111c27be9cb7db0cbd5e261aaf8ac1b73d",
+    "manifest_sha256": null
+  },
+  "scope": "Four existing Japanese MainGame ending-summary captions, first source-bound corrections; new coverage 0.",
+  "review": {
+    "method": "Compared all four Korean keys directly to Japanese targets, actual MainGame ending-summary branches, and corresponding Korean ending roots/variants; independent canonical check_batch, receipt and exact inverse checks.",
+    "findings": "Unemployed status not freeter; first-year 30億ウォン; no longer selling mornings for money; someone asks why, not who succeeded; Gangnam and family are 両方, not 二人. Meaning and concise Japanese are coherent.",
+    "reviewer_diagnostic_note": "An initial local source-hash assumption used plain text; actual source identities are canonical collector leaves. Corrected reviewer diagnostic only; pure check_batch validated all four current leaves. No product or verifier change."
+  },
+  "preservation": {
+    "prior_batches": 382,
+    "prior_decisions": 349,
+    "prior_decision_ledger_sha256": "4a5a48455efbf4d268465a8457a6739b88669596526c2969547cb639c9380b2b",
+    "proof": "Full JA dictionary bytes restored by four value reversals; complete localization ledger restored by removing one batch/four new JA acceptance rows and recalculating accepted digest. Four prior targets existed but had no old acceptance entries. All nonowned files unchanged by exact candidate diff."
+  },
+  "validation": "Official export/check/import exit0; independent pure check_batch current collector pass, exact UI/ledger inverse pass; JA UI errors0, demo5/14events/100leaves/122UI, EN and document logs clean. No engine/render/native execution.",
+  "identity": {
+    "baseline": "1807509e3c8978427e4678d3884b079016f06e98",
+    "rows_sha256": "8cc260ba3c2eb381c566865a62d1f60adb4b3ce0c9bad39f3529aeea93798b18",
+    "receipt_sha256_by_locale": {
+      "ja": "355eeff42aaf8b47812b83140b3c9ade8fb1dc33bcd0a9700d8c90e6ba455428"
+    },
+    "official_receipt_file_sha256": "1359ce5be18f2558287da4b0491ff50ad48d9cd3ab0371402ed87619c6745cfb",
+    "previous_target_sha256_by_leaf": {
+      "ui:고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다:/고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다": "0a705dde48e90618f3bb900a4b58e9a24c85d0bf3a760213d335d58d376f6357",
+      "ui:성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.:/성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.": "20310b34e11762711b46eebdddd0effcc32a20cfafb125505a9a2abb4c9532c4",
+      "ui:임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.:/임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.": "5807c540fc07c24da09aeaa17088c40192f419feebf271ee21f4b48ffc7089d7",
+      "ui:충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다.:/충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다.": "f718490ea2f0c821ad97506c63adb3b27689d423789fedd09128535bc07ae9ff"
+    },
+    "raw_directory": ".git/localization-ja-ending-captions-20261106.eS7ujr/",
+    "raw_population": {
+      "files": 12,
+      "sha256": "ad89bbc87324aaaecf5fcf99ad4ece9a399b6d24890b7f4f85f8a2334eb18887",
+      "entries": [
+        [
+          "check.log",
+          129,
+          "4ebe8050efa3fe86ed6801e29b55227a04b421b663f2b4fa041a23a94c3a58d1"
+        ],
+        [
+          "correction.log",
+          115,
+          "a2d44cae4072a4809bf5428bfc4e93019ca3477a0977c1331569a9f7c54ac3d8"
+        ],
+        [
+          "correction.py",
+          3943,
+          "cd6058bfb13826a6d44696209ca54badc4183059a8a83c57c6e79231f40bd778"
+        ],
+        [
+          "delta.log",
+          565,
+          "b4f68ec4680f6d4212b6e3978e4c9f2b5881b777e4a56cf5f832b2ebbf419728"
+        ],
+        [
+          "demo.log",
+          357,
+          "204e1625c45e9ddeec15ad84a84b8bcf1812bfc74e7800f5af2624513e8e85d8"
+        ],
+        [
+          "en.log",
+          65,
+          "652b3f77548a68a2980e61b6e4307f0d0892d5d48dc32d81d504f2f598e11b7e"
+        ],
+        [
+          "export.log",
+          161,
+          "1aa14a18befea25a1336395a0ef5b886a8ba1ce573974892918c125d88cb3397"
+        ],
+        [
+          "import.log",
+          130,
+          "ad6e15901513fa1f69bc2b00db626b31047c18f1116a8fc7aeb25eb610daea36"
+        ],
+        [
+          "ja.log",
+          226,
+          "2d070390d4e30333eb2954fa996e1025c36448bc4d285e6febf0911b502b1007"
+        ],
+        [
+          "ja.response.jsonl",
+          2293,
+          "b242be4f3868a923a8b6529db135723557bc7d0d1e834097b9486b9eacb04ebe"
+        ],
+        [
+          "ja.source.jsonl",
+          4371,
+          "797e4ad118302f6a2ed25f980025e1cc894d1b074916aae5935fe872b00fef36"
+        ],
+        [
+          "leaf-ids.json",
+          713,
+          "49b7bb59470875ae3183721991890010ba0d070a1a8269104fd59cb016996042"
+        ]
+      ]
+    },
+    "encoding": "Raw population: basename-sorted [basename,bytes,sha256], UTF-8 JSON ensure_ascii=false separators comma/colon. Rows: [locale,id,source_hash,previous_target_hash,target_hash] in export order, canonical sorted-key digest."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
