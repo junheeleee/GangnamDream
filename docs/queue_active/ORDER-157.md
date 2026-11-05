@@ -70,8 +70,9 @@ memory2는현재자동순서의신규정상런노출로세지않고호환/회상
 본문 누적1209. 기존 비결속값의 첫 수용이며 신규 문구나 기존 수용 stale 해소가 아니다.
 [788](../queue_archive/ORDER-788.md) 정보상2·[789](../queue_archive/ORDER-789.md)
 승식3·[790](../queue_archive/ORDER-790.md) 선택설명3 일본어 정정(신규0).
-[791](../queue_archive/ORDER-791.md) CJK 인용부호 수리(신규0).
-[792](../queue_archive/ORDER-792.md) 일본어 엔딩요약4 정정(신규0).
+[791](../queue_archive/ORDER-791.md) CJK 인용부호.
+[792](../queue_archive/ORDER-792.md) JA 요약4정정.
+[793](../queue_archive/ORDER-793.md) JA 재혁후일담2 정정(신규0).
 기존 데모·KO/EN·저장과 원어민 관찰 이력은 보존하며, 선택지만 켜거나
 문구 개수만 채운 것을 본편 완성으로 세지 않는다. 아래는 날짜별 역사다.
 

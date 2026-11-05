@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-793",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "97d1bbb96c7fa9b78d2476a3c747c71c9f65c727",
+    "tree": "b20c36ac3a1dc3dde64a3b6ffc81e80d128d294d",
+    "manifest_sha256": null
+  },
+  "scope": "Two existing Japanese Jaehyuk ending-epilogue first clauses; other characters exact, new coverage 0.",
+  "review": {
+    "method": "Direct Korean-to-Japanese comparison of both complete captions and actual betrayed/stood_up/photo selectors; inspected Korean photo producer and stand-up memory context. Independent canonical check_batch, receipt/previous-target and whole-file inverse.",
+    "findings": "使われなくなっていた replaces unsupported 着信拒否, retaining number-no-longer-used meaning. Full remaining text exact in both captions, photo retention and belief preserved. stood_up priority and betrayed/photo/base selectors unchanged. CN/TW existing 空号/空號 unchanged, not translation sources."
+  },
+  "preservation": {
+    "prior_batches": 383,
+    "prior_decisions": 350,
+    "prior_decision_ledger_sha256": "5e03d719c8bb48550bb85debc580424297a5f589e560d179de1fdd1ddb100f67",
+    "proof": "Full JA bytes restored by two first-clause reversals; full localization ledger bytes restored by removing one batch/two first-acceptance rows and recalculating accepted digest. Other JA values/code/source/CN/TW/state/save/demo unchanged."
+  },
+  "validation": "Official export/check/import exit0, independent pure current-source check_batch pass; exact UI and ledger inverses pass; JA UI errors0, demo5/14events/100leaves/122UI, EN and document logs clean. No engine/render/native execution.",
+  "identity": {
+    "baseline": "f9d8efa475d6ca792ac0001c73cf0026a6ee6275",
+    "rows_sha256": "a046b48ccbdd3973ffc74a407a6267303870ea9f75a234b3ece07e39100d8cb3",
+    "receipt_sha256_by_locale": {
+      "ja": "c412ddeb89a05fffcb1202ccefa870ac55064f5dba400beba9a311da03437c74"
+    },
+    "official_receipt_file_sha256": "c340455f82ba6cc115edb9c52b561b62c82f52f7356db68edbc4b6c5f629c7f3",
+    "previous_target_sha256_by_leaf": {
+      "ui:최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.:/최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.": "a46e30e78df9e31fd598c2a243144971ff1230e45207c162496a85a689039295",
+      "ui:최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.:/최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.": "b2a7aae437a293893e39f727da71b48f461cbc8844cbe261471a430fb4653db9"
+    },
+    "raw_directory": ".git/localization-ja-jaehyuk-phone-20261106.Z8q9R9/",
+    "raw_population": {
+      "files": 12,
+      "sha256": "a394c1fc31e7431f2413ad632590a2ec5b218b08da37d9abb96c59063a4bf65c",
+      "entries": [
+        [
+          "check.log",
+          129,
+          "80a9b3764e6af060904e9d3be3268da4a9b936a94b0b8f5b9588c8049184ae2e"
+        ],
+        [
+          "correction.log",
+          113,
+          "2b8a3a4f039df6fae5f36f34246f3684e3e15416616c8eea0bac87f447d2074e"
+        ],
+        [
+          "correction.py",
+          3929,
+          "32d402c4a494a5f55f728c12ddd976dd37e697ef3d55d060effefe01325aadc0"
+        ],
+        [
+          "delta.log",
+          526,
+          "482505869ef942458c5bfdf3baad58cbf4110450c5665aa9e0bfe588df62499e"
+        ],
+        [
+          "demo.log",
+          357,
+          "204e1625c45e9ddeec15ad84a84b8bcf1812bfc74e7800f5af2624513e8e85d8"
+        ],
+        [
+          "en.log",
+          65,
+          "652b3f77548a68a2980e61b6e4307f0d0892d5d48dc32d81d504f2f598e11b7e"
+        ],
+        [
+          "export.log",
+          159,
+          "dfef7b1821bf6bc2ec193c3613d264eb6a5ebd2ea442cac1fcf1494437d80dca"
+        ],
+        [
+          "import.log",
+          130,
+          "aa0add46f32d5743efb30de1da39087238cb17eaf531ff0ac4f5dcf3e6416a27"
+        ],
+        [
+          "ja.log",
+          226,
+          "2d070390d4e30333eb2954fa996e1025c36448bc4d285e6febf0911b502b1007"
+        ],
+        [
+          "ja.response.jsonl",
+          1643,
+          "abd502aff09b384419001b96b041baef36118ffc5eec7c79e33b304264c13648"
+        ],
+        [
+          "ja.source.jsonl",
+          2815,
+          "2cc41a3676640c63f8130f7bb7cc0ad5895d8758a5adb7f9167e2ead4dabf3b5"
+        ],
+        [
+          "leaf-ids.json",
+          507,
+          "56e7a0b90a8459fa7b9a37dfb8b92e2b818a7c6ec3a3ec1f2a8311f344254430"
+        ]
+      ]
+    },
+    "encoding": "Raw population: basename-sorted [basename,bytes,sha256], UTF-8 JSON ensure_ascii=false separators comma/colon. Rows: [locale,id,source_hash,previous_target_hash,target_hash] in export order, canonical sorted-key digest."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

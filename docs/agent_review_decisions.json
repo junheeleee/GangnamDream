@@ -14742,6 +14742,49 @@
         "path": "docs/agent_reviews/order792-ja-ending-captions.json",
         "sha256": "161bed7cee47572897af1373723175b3c16d2ac947b0faa10c1df9ec96555a72"
       }
+    },
+    {
+      "id": "order793-ja-jaehyuk-phone-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-06",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-793",
+      "subject": {
+        "kind": "source",
+        "commit": "97d1bbb96c7fa9b78d2476a3c747c71c9f65c727",
+        "tree": "b20c36ac3a1dc3dde64a3b6ffc81e80d128d294d",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order793-ja-jaehyuk-phone.md",
+          "sha256": "644e800ee20fa008516fc1108f9210df9055bf4b45a3fc70d73123552cd8115d"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order793-ja-jaehyuk-phone.json",
+          "sha256": "940d47d09e7217bb28a319f3133fdeac402918a24e530199e95c8b798c4b38d9"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order793-ja-jaehyuk-phone.json",
+        "sha256": "940d47d09e7217bb28a319f3133fdeac402918a24e530199e95c8b798c4b38d9"
+      }
     }
   ]
 }
