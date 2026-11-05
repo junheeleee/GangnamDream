@@ -25416,6 +25416,166 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-798",
+      "group": "endings",
+      "kind": "existing_target_correction",
+      "roots": [
+        "with_daeun"
+      ],
+      "source_leaves": 5,
+      "target_leaves_by_locale": {
+        "ja": 5,
+        "zh-CN": 5,
+        "zh-TW": 5
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean comparison in each locale: remove unspoken convenience-store comparisons and investment-failure memories only in the five stale leaves; marriage held without invented size, preference or triangular-gimbap handoff. Preserve blind-date and delayed-marriage variants and all other authored codas.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "d6aa576e6a1b7b329b62fe829b60ceb0fd6412af",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "2303e2e38374f7b4f3d6769f1527882509add2da7e2fbc21b9f5166b0d50ed5e",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "0b1e21da94c88e37b74d0fb72049075698a65d437fa1492ee6b79eb4ff0ba86c"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "d6aa576e6a1b7b329b62fe829b60ceb0fd6412af",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "506ed8cb2e61db18cd0d6fd0f19bfc072a7ce4b01c8f4017a8848c646ce65f3e",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "4247faa767e30ba7fdb908f01f7010120265412b0dd8c33c559cf82dd1d4042d"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "d6aa576e6a1b7b329b62fe829b60ceb0fd6412af",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "cdf5e325d2230dc3505e7cdffdb248d7d2dcf7554bfabeaf8fbc18a1bcc8cf81",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9c3337696e09011934ab381d47b7de0aa24b50163058d6ad5c76ffa36aa0bd4c"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "1b94938537435ecdfffb89686234c4ce0ba58fa893a08acd4ed39da05cfd804e",
+        "zh-CN": "89b71fecbcc2b4cc96379fcf7a1a4874c32e357f7ef65d4ffc9cc775bdd82d33",
+        "zh-TW": "570ca3b79b9a75533eb90da343ce991eadc52704f2bda7bef879e5bd1a027805"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "endings:with_daeun:/description": "42090ab48bf05b62221c6f96decf1f9c8bb679bd1c9378aa0209f2e6a02a9579",
+          "endings:with_daeun:/description_if_known/beat_addiction": "2a8a9da63af4ae6a626777713e99c0e3f1f8364811e20371387ab89b8f10e43a",
+          "endings:with_daeun:/description_if_known/daeun_final_together": "b1404d1d5ae2137871474d3e6dbf695fea5c0f67aa76b48dadb32665ab367744",
+          "endings:with_daeun:/description_if_known/daeun_married": "5ecc575384d35a538340c0248e6bb1536b9f56576a4b2119ae4eb4a5768c1460",
+          "endings:with_daeun:/description_if_known/father_reconciled": "ddbe06e13eaf2418939ff90d8f7ae1d5e6f884018deda433f637216a3c213817"
+        },
+        "zh-CN": {
+          "endings:with_daeun:/description": "e455a51111442ce3e44201c006ee88938e5e82a0e8708c69a486454da73c0fa1",
+          "endings:with_daeun:/description_if_known/beat_addiction": "6d3556cc5cd167bc139d2d356f61ac53c3048a6c6b01c9c655d63d505cba9a6c",
+          "endings:with_daeun:/description_if_known/daeun_final_together": "232c8dc76cb6ccb7c492189f547ca8f40ace910e39648c6ef003d06782d58305",
+          "endings:with_daeun:/description_if_known/daeun_married": "955285f792ac45f9b0bf63a47446e70d0ba399d6ebe23b7ff13eb16e98179b8e",
+          "endings:with_daeun:/description_if_known/father_reconciled": "48848ce3070f65057b6af4621df7ba0d6e0c8f0ce2acc31fb03bf11be2dd756d"
+        },
+        "zh-TW": {
+          "endings:with_daeun:/description": "554901faf7222bb6f8eb5fff51360eb85e33f910e9ae0705d4eb9f34973fc5af",
+          "endings:with_daeun:/description_if_known/beat_addiction": "1f88b0a75027d9ddb824617feb7e70a3cdecf6174a4a37ede59e84e76ae3e44c",
+          "endings:with_daeun:/description_if_known/daeun_final_together": "51d3e975609142551219039bee76880dcbc24e2f932c383149bf8ccf51091035",
+          "endings:with_daeun:/description_if_known/daeun_married": "b3b643f104fddfb612241d620c3554f3c382f0fa35338f10310b0d66e5f300d5",
+          "endings:with_daeun:/description_if_known/father_reconciled": "754a48a3af6fd18d7a5bc114b5723671d82e1cb262db19155d3670ab9c67737a"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "endings:with_daeun:/description": {
+            "source_sha256": "ed95b83c4b241b7db5d3ee7af0095cad82639fb20682ca87eaec074d90159ca4",
+            "target_sha256": "42090ab48bf05b62221c6f96decf1f9c8bb679bd1c9378aa0209f2e6a02a9579"
+          },
+          "endings:with_daeun:/description_if_known/beat_addiction": {
+            "source_sha256": "3efa57369e044ed1412fc2331d1f0a2726efbb3861d977c94cec1a91fb6bc53c",
+            "target_sha256": "2a8a9da63af4ae6a626777713e99c0e3f1f8364811e20371387ab89b8f10e43a"
+          },
+          "endings:with_daeun:/description_if_known/daeun_final_together": {
+            "source_sha256": "4b3d2e4495df316de64be26031a805087a96f77d7726b001085a3887bb151afd",
+            "target_sha256": "b1404d1d5ae2137871474d3e6dbf695fea5c0f67aa76b48dadb32665ab367744"
+          },
+          "endings:with_daeun:/description_if_known/daeun_married": {
+            "source_sha256": "7a7887d0ef73e59e1e2da0a7c0a97f41b98056542d331382c0dfd7dfd50644f1",
+            "target_sha256": "5ecc575384d35a538340c0248e6bb1536b9f56576a4b2119ae4eb4a5768c1460"
+          },
+          "endings:with_daeun:/description_if_known/father_reconciled": {
+            "source_sha256": "1c005bf39d525c712c73b57c539a4c1b02130ad50c037b31d5a446a67597f20d",
+            "target_sha256": "ddbe06e13eaf2418939ff90d8f7ae1d5e6f884018deda433f637216a3c213817"
+          }
+        },
+        "zh-CN": {
+          "endings:with_daeun:/description": {
+            "source_sha256": "ed95b83c4b241b7db5d3ee7af0095cad82639fb20682ca87eaec074d90159ca4",
+            "target_sha256": "e455a51111442ce3e44201c006ee88938e5e82a0e8708c69a486454da73c0fa1"
+          },
+          "endings:with_daeun:/description_if_known/beat_addiction": {
+            "source_sha256": "3efa57369e044ed1412fc2331d1f0a2726efbb3861d977c94cec1a91fb6bc53c",
+            "target_sha256": "6d3556cc5cd167bc139d2d356f61ac53c3048a6c6b01c9c655d63d505cba9a6c"
+          },
+          "endings:with_daeun:/description_if_known/daeun_final_together": {
+            "source_sha256": "4b3d2e4495df316de64be26031a805087a96f77d7726b001085a3887bb151afd",
+            "target_sha256": "232c8dc76cb6ccb7c492189f547ca8f40ace910e39648c6ef003d06782d58305"
+          },
+          "endings:with_daeun:/description_if_known/daeun_married": {
+            "source_sha256": "7a7887d0ef73e59e1e2da0a7c0a97f41b98056542d331382c0dfd7dfd50644f1",
+            "target_sha256": "955285f792ac45f9b0bf63a47446e70d0ba399d6ebe23b7ff13eb16e98179b8e"
+          },
+          "endings:with_daeun:/description_if_known/father_reconciled": {
+            "source_sha256": "1c005bf39d525c712c73b57c539a4c1b02130ad50c037b31d5a446a67597f20d",
+            "target_sha256": "48848ce3070f65057b6af4621df7ba0d6e0c8f0ce2acc31fb03bf11be2dd756d"
+          }
+        },
+        "zh-TW": {
+          "endings:with_daeun:/description": {
+            "source_sha256": "ed95b83c4b241b7db5d3ee7af0095cad82639fb20682ca87eaec074d90159ca4",
+            "target_sha256": "554901faf7222bb6f8eb5fff51360eb85e33f910e9ae0705d4eb9f34973fc5af"
+          },
+          "endings:with_daeun:/description_if_known/beat_addiction": {
+            "source_sha256": "3efa57369e044ed1412fc2331d1f0a2726efbb3861d977c94cec1a91fb6bc53c",
+            "target_sha256": "1f88b0a75027d9ddb824617feb7e70a3cdecf6174a4a37ede59e84e76ae3e44c"
+          },
+          "endings:with_daeun:/description_if_known/daeun_final_together": {
+            "source_sha256": "4b3d2e4495df316de64be26031a805087a96f77d7726b001085a3887bb151afd",
+            "target_sha256": "51d3e975609142551219039bee76880dcbc24e2f932c383149bf8ccf51091035"
+          },
+          "endings:with_daeun:/description_if_known/daeun_married": {
+            "source_sha256": "7a7887d0ef73e59e1e2da0a7c0a97f41b98056542d331382c0dfd7dfd50644f1",
+            "target_sha256": "b3b643f104fddfb612241d620c3554f3c382f0fa35338f10310b0d66e5f300d5"
+          },
+          "endings:with_daeun:/description_if_known/father_reconciled": {
+            "source_sha256": "1c005bf39d525c712c73b57c539a4c1b02130ad50c037b31d5a446a67597f20d",
+            "target_sha256": "754a48a3af6fd18d7a5bc114b5723671d82e1cb262db19155d3670ab9c67737a"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -25477,24 +25637,24 @@
         "target_sha256": "9928661de4f2c176df9cea02b65dceddb924dabc0e51b0f345164e726a070696"
       },
       "endings:with_daeun:/description": {
-        "source_sha256": "ed95b83c4b241b7db5d3ee7af0095cad82639fb20682ca87eaec074d90159ca4",
-        "target_sha256": "42090ab48bf05b62221c6f96decf1f9c8bb679bd1c9378aa0209f2e6a02a9579"
+        "source_sha256": "f8f1a1c8d0d2df8a1ea65266c08dca54bdc597f1d5fd0af5e46182043b948130",
+        "target_sha256": "0a62c2cf1f05bc1ae3d838d2a5b9622bfd7e8122bf68cfe637730387fdbce507"
       },
       "endings:with_daeun:/description_if_known/beat_addiction": {
-        "source_sha256": "3efa57369e044ed1412fc2331d1f0a2726efbb3861d977c94cec1a91fb6bc53c",
-        "target_sha256": "2a8a9da63af4ae6a626777713e99c0e3f1f8364811e20371387ab89b8f10e43a"
+        "source_sha256": "cf135f0b4af2ead112713026d2988a5cc9654b3a7d2d22b163db412179c8232f",
+        "target_sha256": "4c41f5c99e4a7f51b636fccb44b7a5926d3b5ce6436cb6df6f9f15b22a9a1556"
       },
       "endings:with_daeun:/description_if_known/daeun_final_together": {
-        "source_sha256": "4b3d2e4495df316de64be26031a805087a96f77d7726b001085a3887bb151afd",
-        "target_sha256": "b1404d1d5ae2137871474d3e6dbf695fea5c0f67aa76b48dadb32665ab367744"
+        "source_sha256": "2ec45146cd0675f8204ab772f7bcb56da8098cae41ea53dc3d316aec9b627c1d",
+        "target_sha256": "6c0a8a14f9bc81e55816a2ba970fd4bfd8e44fe876e782848238c27f90514050"
       },
       "endings:with_daeun:/description_if_known/daeun_married": {
-        "source_sha256": "7a7887d0ef73e59e1e2da0a7c0a97f41b98056542d331382c0dfd7dfd50644f1",
-        "target_sha256": "5ecc575384d35a538340c0248e6bb1536b9f56576a4b2119ae4eb4a5768c1460"
+        "source_sha256": "af94b743f8f92bdf3d212a7f07b62e9e3917bdd38dea788db3c7df6c7bddcea6",
+        "target_sha256": "975f7f69060ccd2d64f1435eff83d8b113134194b9f950fdba8ae449ed2ab4b2"
       },
       "endings:with_daeun:/description_if_known/father_reconciled": {
-        "source_sha256": "1c005bf39d525c712c73b57c539a4c1b02130ad50c037b31d5a446a67597f20d",
-        "target_sha256": "ddbe06e13eaf2418939ff90d8f7ae1d5e6f884018deda433f637216a3c213817"
+        "source_sha256": "3473273f461178290dc4f888f24b5ed4b91c44d8c6f1d8b2758e0a44d873823d",
+        "target_sha256": "0bfd5d97ffc89fc5870da91337686e391f3341565a54c782d81089c3ba78b4a2"
       },
       "endings:with_daeun:/description_if_known/told_parents_later": {
         "source_sha256": "2eefba5186cdee4a6da6c0ac2916b3e3dd6249f1873c757e858f6133dc9616fc",
@@ -78283,24 +78443,24 @@
         "target_sha256": "725dd9610409608b64db7ff788ecd7635839896974c090537ddf04b985779e76"
       },
       "endings:with_daeun:/description": {
-        "source_sha256": "ed95b83c4b241b7db5d3ee7af0095cad82639fb20682ca87eaec074d90159ca4",
-        "target_sha256": "e455a51111442ce3e44201c006ee88938e5e82a0e8708c69a486454da73c0fa1"
+        "source_sha256": "f8f1a1c8d0d2df8a1ea65266c08dca54bdc597f1d5fd0af5e46182043b948130",
+        "target_sha256": "666c8df9c16ada881332adebf0f4a19401abeced3bc94032cfa42dc7ac9c27aa"
       },
       "endings:with_daeun:/description_if_known/beat_addiction": {
-        "source_sha256": "3efa57369e044ed1412fc2331d1f0a2726efbb3861d977c94cec1a91fb6bc53c",
-        "target_sha256": "6d3556cc5cd167bc139d2d356f61ac53c3048a6c6b01c9c655d63d505cba9a6c"
+        "source_sha256": "cf135f0b4af2ead112713026d2988a5cc9654b3a7d2d22b163db412179c8232f",
+        "target_sha256": "dd6da6e9ebebea2b227e2c091ec8308b9c61431bf74e12bddfaff77b596e85ed"
       },
       "endings:with_daeun:/description_if_known/daeun_final_together": {
-        "source_sha256": "4b3d2e4495df316de64be26031a805087a96f77d7726b001085a3887bb151afd",
-        "target_sha256": "232c8dc76cb6ccb7c492189f547ca8f40ace910e39648c6ef003d06782d58305"
+        "source_sha256": "2ec45146cd0675f8204ab772f7bcb56da8098cae41ea53dc3d316aec9b627c1d",
+        "target_sha256": "88279c2ebe295bf60c1593c78d86959687c929391aeec9f715f734c884eaf399"
       },
       "endings:with_daeun:/description_if_known/daeun_married": {
-        "source_sha256": "7a7887d0ef73e59e1e2da0a7c0a97f41b98056542d331382c0dfd7dfd50644f1",
-        "target_sha256": "955285f792ac45f9b0bf63a47446e70d0ba399d6ebe23b7ff13eb16e98179b8e"
+        "source_sha256": "af94b743f8f92bdf3d212a7f07b62e9e3917bdd38dea788db3c7df6c7bddcea6",
+        "target_sha256": "c84c3173fb170091258c8b22dd8a6bd37d6766fcb571775358c2add7ff7b5bb3"
       },
       "endings:with_daeun:/description_if_known/father_reconciled": {
-        "source_sha256": "1c005bf39d525c712c73b57c539a4c1b02130ad50c037b31d5a446a67597f20d",
-        "target_sha256": "48848ce3070f65057b6af4621df7ba0d6e0c8f0ce2acc31fb03bf11be2dd756d"
+        "source_sha256": "3473273f461178290dc4f888f24b5ed4b91c44d8c6f1d8b2758e0a44d873823d",
+        "target_sha256": "b2884944c98d2ddc3b443fd946197468aaf63db5736a2f2f8493e392dc67cb3e"
       },
       "endings:with_daeun:/description_if_known/told_parents_later": {
         "source_sha256": "2eefba5186cdee4a6da6c0ac2916b3e3dd6249f1873c757e858f6133dc9616fc",
@@ -137893,24 +138053,24 @@
         "target_sha256": "e5b8a17edfd7f3f4d6a08862a77e2d628dd82b20617ae25f4618b437854f6dbb"
       },
       "endings:with_daeun:/description": {
-        "source_sha256": "ed95b83c4b241b7db5d3ee7af0095cad82639fb20682ca87eaec074d90159ca4",
-        "target_sha256": "554901faf7222bb6f8eb5fff51360eb85e33f910e9ae0705d4eb9f34973fc5af"
+        "source_sha256": "f8f1a1c8d0d2df8a1ea65266c08dca54bdc597f1d5fd0af5e46182043b948130",
+        "target_sha256": "28f8961cd7bbaeb5afd1abc0cc7d53e5b77091755c9ba6ff893d602f1a5473a1"
       },
       "endings:with_daeun:/description_if_known/beat_addiction": {
-        "source_sha256": "3efa57369e044ed1412fc2331d1f0a2726efbb3861d977c94cec1a91fb6bc53c",
-        "target_sha256": "1f88b0a75027d9ddb824617feb7e70a3cdecf6174a4a37ede59e84e76ae3e44c"
+        "source_sha256": "cf135f0b4af2ead112713026d2988a5cc9654b3a7d2d22b163db412179c8232f",
+        "target_sha256": "4c9badc64a141ea4b2d1d907c19e4859dedc1df7da6b3048eb9e0f555d18ca71"
       },
       "endings:with_daeun:/description_if_known/daeun_final_together": {
-        "source_sha256": "4b3d2e4495df316de64be26031a805087a96f77d7726b001085a3887bb151afd",
-        "target_sha256": "51d3e975609142551219039bee76880dcbc24e2f932c383149bf8ccf51091035"
+        "source_sha256": "2ec45146cd0675f8204ab772f7bcb56da8098cae41ea53dc3d316aec9b627c1d",
+        "target_sha256": "ab61aefbf893b85ef9646652e79d43f3f622d6414f86dff045b92eaa7a0a348d"
       },
       "endings:with_daeun:/description_if_known/daeun_married": {
-        "source_sha256": "7a7887d0ef73e59e1e2da0a7c0a97f41b98056542d331382c0dfd7dfd50644f1",
-        "target_sha256": "b3b643f104fddfb612241d620c3554f3c382f0fa35338f10310b0d66e5f300d5"
+        "source_sha256": "af94b743f8f92bdf3d212a7f07b62e9e3917bdd38dea788db3c7df6c7bddcea6",
+        "target_sha256": "f98a92143c9689f7b237ed060706c8458c66a968bfe11e17eec3978ee7a56fcd"
       },
       "endings:with_daeun:/description_if_known/father_reconciled": {
-        "source_sha256": "1c005bf39d525c712c73b57c539a4c1b02130ad50c037b31d5a446a67597f20d",
-        "target_sha256": "754a48a3af6fd18d7a5bc114b5723671d82e1cb262db19155d3670ab9c67737a"
+        "source_sha256": "3473273f461178290dc4f888f24b5ed4b91c44d8c6f1d8b2758e0a44d873823d",
+        "target_sha256": "0dc9dac24043d1ebd4f1a9e20896abc9f3afeb1d41f3090cdcd802680b31c5ba"
       },
       "endings:with_daeun:/description_if_known/told_parents_later": {
         "source_sha256": "2eefba5186cdee4a6da6c0ac2916b3e3dd6249f1873c757e858f6133dc9616fc",
@@ -197446,7 +197606,7 @@
       }
     }
   },
-  "accepted_sha256": "70d4bbe624297c0d9980289d699045bc26fc5edf34edc0e5a3d2e1b14d9f2344",
+  "accepted_sha256": "0c0246eaecc88b83f97545f22b0edba4a6d053352308c02aa2e6254766d83d7e",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
