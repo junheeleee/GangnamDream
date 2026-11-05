@@ -14785,6 +14785,49 @@
         "path": "docs/agent_reviews/order793-ja-jaehyuk-phone.json",
         "sha256": "940d47d09e7217bb28a319f3133fdeac402918a24e530199e95c8b798c4b38d9"
       }
+    },
+    {
+      "id": "order794-ja-cast-idioms-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-06",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-794",
+      "subject": {
+        "kind": "source",
+        "commit": "5bd29295ae46826a4729f04da317b6615e250232",
+        "tree": "f28ca5f03c1ea68f24d352a0c9f33168f6acd7d8",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order794-ja-cast-idioms.md",
+          "sha256": "00bb29a78bb95a411f45255e4a1590a6d72d0aca07a0f24ad449d6a2461e7ec4"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order794-ja-cast-idioms.json",
+          "sha256": "b2fd1e1e6d3dd63cf8a46539de88464b36a58d3493d20505d25f57c4e0c242aa"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order794-ja-cast-idioms.json",
+        "sha256": "b2fd1e1e6d3dd63cf8a46539de88464b36a58d3493d20505d25f57c4e0c242aa"
+      }
     }
   ]
 }

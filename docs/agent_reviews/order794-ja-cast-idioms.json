@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-794",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "5bd29295ae46826a4729f04da317b6615e250232",
+    "tree": "f28ca5f03c1ea68f24d352a0c9f33168f6acd7d8",
+    "manifest_sha256": null
+  },
+  "scope": "Two existing Japanese Sangchul/Hyunsu epilogue idioms, new coverage 0.",
+  "review": {
+    "method": "Direct Korean-to-Japanese comparison of both complete values and actual MainGame stage/flag/good-ending priority; independent current-source check_batch, receipt/previous-target verification and whole-file inverse.",
+    "findings": "Sangchul has an eye for people, not a one-person quota, and laughs as at his own good fortune. Hyunsu is professionally settled at an accounting firm, not living there; remaining two sentences exact. Exploitation and help-call/civil-service priorities unchanged."
+  },
+  "preservation": {
+    "prior_batches": 384,
+    "prior_decisions": 351,
+    "prior_decision_ledger_sha256": "95f990bce9bbf7c3520f693737ca302268e397476d08389729e8616b089a0735",
+    "proof": "Full JA dictionary and complete localization-ledger byte inverses; two old keys without prior acceptance, one batch appended. Other JA, source/code, KO/EN/CN/TW, conditions/gameplay, saves and public demo unchanged."
+  },
+  "validation": "Official export/check/import exit0; independent canonical check_batch, receipt and exact UI/ledger inverse pass. JA UI errors0, demo5/14events/100leaves/122UI, EN and document logs clean. Lane selects31 only. No engine/render/native execution.",
+  "identity": {
+    "baseline": "d284201f0ed33812469ffe92126e0f5d085eae92",
+    "rows_sha256": "626ac56b4a61feb9130819bf65f6dba968c8819bbd446351e905709464d83df1",
+    "receipt_sha256_by_locale": {
+      "ja": "ae127d5b068efb05858cbf7f71d89eeb1df9f0c7c80c8f88fce052c04424e680"
+    },
+    "official_receipt_file_sha256": "7010b7a18710733930154798a0b5b39e42c243c9b856c59e3211fd47a4ea590a",
+    "previous_target_sha256_by_leaf": {
+      "ui:임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.:/임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.": "3deefa172d83b935b1f63b88c812bbb4cd6ba79b0ba5e88e51a6c19f38950510",
+      "ui:현수는 회계법인에 자리를 잡았다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.:/현수는 회계법인에 자리를 잡았다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.": "7cf53a40454992fe2d4ebd8eb6eaece39714f69f7021ee39a35189705b0abd13"
+    },
+    "raw_directory": ".git/localization-ja-cast-idioms-20261106.2WN8Yx/",
+    "raw_population": {
+      "files": 13,
+      "sha256": "e156ffc0c951bd7b52cafc51e25056e4d2ec6bdd508b109300ce2d7016a18d24",
+      "entries": [
+        [
+          "check.log",
+          129,
+          "80a9b3764e6af060904e9d3be3268da4a9b936a94b0b8f5b9588c8049184ae2e"
+        ],
+        [
+          "correction.log",
+          111,
+          "21a475963064e51950527ccab46ca1bf6e3888b68f850db80e5e6df4ac6a1094"
+        ],
+        [
+          "correction.py",
+          3993,
+          "6ffc5b363f203c5b07b33b57201d702decf210eefa1b446f641234eeea6e074f"
+        ],
+        [
+          "delta.log",
+          532,
+          "ab1487997cccca55b49b08e68eea736ddf4e581578dd1e032ec2173730ee2cc2"
+        ],
+        [
+          "demo.log",
+          357,
+          "204e1625c45e9ddeec15ad84a84b8bcf1812bfc74e7800f5af2624513e8e85d8"
+        ],
+        [
+          "en.log",
+          65,
+          "652b3f77548a68a2980e61b6e4307f0d0892d5d48dc32d81d504f2f598e11b7e"
+        ],
+        [
+          "export.log",
+          157,
+          "ae420dc444672863f7a41972095775cc1e4ca0e179fab818258713d1363e6750"
+        ],
+        [
+          "import.log",
+          130,
+          "aa0add46f32d5743efb30de1da39087238cb17eaf531ff0ac4f5dcf3e6416a27"
+        ],
+        [
+          "ja.log",
+          226,
+          "2d070390d4e30333eb2954fa996e1025c36448bc4d285e6febf0911b502b1007"
+        ],
+        [
+          "ja.response.jsonl",
+          1518,
+          "e9150a56c102b5074556a6af1feb246d9f16c6ecd924b8a47fa323794cd8e420"
+        ],
+        [
+          "ja.source.jsonl",
+          2570,
+          "8b9536763e57b2e04e7c263c7eacd0a6ebfab983c1997f73d1bae76d3131d44f"
+        ],
+        [
+          "lane.log",
+          4957,
+          "afc13c6bac4a8e90c78144804ad21a599b756a01bddb245c7c3c2a39deff9b20"
+        ],
+        [
+          "leaf-ids.json",
+          409,
+          "9f4263251c8fe02cce8a86fe17d174ba130fad8b43114d0d6057a35365088512"
+        ]
+      ]
+    },
+    "encoding": "Raw population: basename-sorted [basename,bytes,sha256], UTF-8 JSON ensure_ascii=false separators comma/colon. Rows: [locale,id,source_hash,previous_target_hash,target_hash] in export order, canonical sorted-key digest."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
