@@ -68,12 +68,11 @@ memory2는현재자동순서의신규정상런노출로세지않고호환/회상
 승식3·[790](../queue_archive/ORDER-790.md) 선택설명3 일본어 정정(신규0).
 [791](../queue_archive/ORDER-791.md) CJK 인용부호.
 [792](../queue_archive/ORDER-792.md) JA 요약4정정.
-[793](../queue_archive/ORDER-793.md) JA 재혁후일담2 정정(신규0).
-[794](../queue_archive/ORDER-794.md) JA 상철·현수후일담2 정정(신규0).
-[795](../queue_archive/ORDER-795.md) JA 부친귀향2 정정(신규0).
+[793](../queue_archive/ORDER-793.md) 재혁후일담2·[794](../queue_archive/ORDER-794.md)
+상철·현수후일담2·[795](../queue_archive/ORDER-795.md) 부친귀향2 JA정정(신규0).
 [796](../queue_archive/ORDER-796.md) 세엔딩9·[797](../queue_archive/ORDER-797.md) 회복24·
-[798](../queue_archive/ORDER-798.md) 다은15 CJK정정(신규0).
-엔딩235leaf/언어 source-stale81→33(각11), 사건48과 별개·전체미완.
+[798](../queue_archive/ORDER-798.md) 다은15·[799](../queue_archive/ORDER-799.md) 강남18 CJK정정(신규0).
+엔딩235leaf/언어 source-stale81→15(각5), 사건48과 별개·전체미완.
 기존 데모·KO/EN·저장과 원어민 관찰 이력은 보존하며, 선택지만 켜거나
 문구 개수만 채운 것을 본편 완성으로 세지 않는다. 아래는 날짜별 역사다.
 

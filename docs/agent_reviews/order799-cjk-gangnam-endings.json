@@ -1,0 +1,308 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-799",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "6f288ad55c1bc46b4faa73da5cd61cada8e33a3d",
+    "tree": "1b92a7820226c09cb7cb1f2403286bbae4439863",
+    "manifest_sha256": null
+  },
+  "scope": "gangnam_dream known4 and gangnam_dream_white known2, 6KRleaves x JA/CN/TW =18 existing corrections; new0.",
+  "review": {
+    "method": "Full Korean two roots/allknown and all18fulltargets directly compared; actual goal/preemptions, fatherlife, nestedoverlay/firsttrue; independent currentcanonical check_batch3, receipts, oldtargets and byteinverses.",
+    "findings": "Money recovered versus lost father time; own concealment decision; single-day chair/departure/listening decision; entrusted not entireaccount money; ownpromise/openroomdoor/afternoonlight; firstpage/paperedge brush faithful. No in-scope product defect.",
+    "metadata_clarification": "Declaration paperedge pressure is imprecise. Actual KO/JAかすめた/CN擦过/TW擦過 mean brush; clarify archive summary, not product pressure."
+  },
+  "preservation": {
+    "prior_batches": 389,
+    "prior_decisions": 357,
+    "prior_decision_ledger_sha256": "40c4043af00bb95cbbde53d77807b89981aaa27f7c2217731973708e8eaf2d8f",
+    "superseded_acceptance_by_locale": {
+      "ja": {
+        "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": {
+          "source_sha256": "8995d259bed8d688d9d5ae481b6df940393c0022ec5b7d2351e2f83abe06fe8b",
+          "target_sha256": "562e33387c563329b0497a96b195c6a8ef3f39e907f3a0df0bf443891759956a"
+        },
+        "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": {
+          "source_sha256": "6d1f84bb25db81d573bf46b34ad3f3926db0ad61b9048c5eb7405607e18e746d",
+          "target_sha256": "926ab06116c5c9f07da8f4b92e93f6eafad1d9930bb01709a25bbee8a714f077"
+        },
+        "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": {
+          "source_sha256": "2492bf7e315fe8562d3b2a8104f3c27d144899384714255f5ef0cd6c1d653160",
+          "target_sha256": "cb6352923aabe224f842fd6615009c5ad41a67175c698107ac495a1d3239591d"
+        },
+        "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": {
+          "source_sha256": "525d56251022dfec36a0967484cc6b2889f82d24a48618441e2a063994a4ed73",
+          "target_sha256": "240d5fe545fe5a43766b92dfa7360e2d036aa54352d130886e4f9abe0f722364"
+        },
+        "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": {
+          "source_sha256": "d3c5a6fbc29b15ec3814859b6f76cb3588ead90c0351791d8a9847a57fa77b74",
+          "target_sha256": "a44fc43d140a690e1c46262d856203bfcc450c9bdbc3c24d241266fee7163f8e"
+        },
+        "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": {
+          "source_sha256": "4ac860431f9fdbc6f757432c9f152f70955c9574689c42b1c486b5da58bd1ab2",
+          "target_sha256": "a17e4e5eae8100c8fb7696b16480406b600482ade00ebc74f8ce3ec2af780af1"
+        }
+      },
+      "zh-CN": {
+        "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": {
+          "source_sha256": "8995d259bed8d688d9d5ae481b6df940393c0022ec5b7d2351e2f83abe06fe8b",
+          "target_sha256": "92a0eb3181d9883dae21e7a5ab42d40e88270011c7bfc5006688a6edfa18e57e"
+        },
+        "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": {
+          "source_sha256": "6d1f84bb25db81d573bf46b34ad3f3926db0ad61b9048c5eb7405607e18e746d",
+          "target_sha256": "90e987477f0859075ce3be881a3f9b282406976dd9002b7fcd39947a3172b6c5"
+        },
+        "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": {
+          "source_sha256": "2492bf7e315fe8562d3b2a8104f3c27d144899384714255f5ef0cd6c1d653160",
+          "target_sha256": "627ce8d8273ba2f21513c942ba27069f50d178833959163ec3042de5184b3f1f"
+        },
+        "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": {
+          "source_sha256": "525d56251022dfec36a0967484cc6b2889f82d24a48618441e2a063994a4ed73",
+          "target_sha256": "7edbedd375d6e82648b7aade01d93cba3b00fc4da42762a14e1a43f631df95db"
+        },
+        "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": {
+          "source_sha256": "d3c5a6fbc29b15ec3814859b6f76cb3588ead90c0351791d8a9847a57fa77b74",
+          "target_sha256": "3f2285d9d9af6529dced3e9c8b5b4cec3b9245895ba09bccd4bbfd9c3fffba50"
+        },
+        "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": {
+          "source_sha256": "4ac860431f9fdbc6f757432c9f152f70955c9574689c42b1c486b5da58bd1ab2",
+          "target_sha256": "a9af3c51a1a7d80608c8ee536c3c55016baec2ab479e1f85562f18033113786f"
+        }
+      },
+      "zh-TW": {
+        "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": {
+          "source_sha256": "8995d259bed8d688d9d5ae481b6df940393c0022ec5b7d2351e2f83abe06fe8b",
+          "target_sha256": "0712eb01120848063f0dada246085a9436f4390939d8ba34aae80a66b1ec9098"
+        },
+        "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": {
+          "source_sha256": "6d1f84bb25db81d573bf46b34ad3f3926db0ad61b9048c5eb7405607e18e746d",
+          "target_sha256": "f54cc0fca9ba4c9c035949babe2a5bf64bbb2c290ea1b0ad6200a08219bc0c7a"
+        },
+        "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": {
+          "source_sha256": "2492bf7e315fe8562d3b2a8104f3c27d144899384714255f5ef0cd6c1d653160",
+          "target_sha256": "85926c8e8d17d3f14fb633c1896080c7f133dc9ca594da70092ebf4219fdc331"
+        },
+        "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": {
+          "source_sha256": "525d56251022dfec36a0967484cc6b2889f82d24a48618441e2a063994a4ed73",
+          "target_sha256": "f930fd0b14f6f2232bd43b571581786817da1192d987e04bb721f801a46bddf8"
+        },
+        "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": {
+          "source_sha256": "d3c5a6fbc29b15ec3814859b6f76cb3588ead90c0351791d8a9847a57fa77b74",
+          "target_sha256": "b4fb26a476f3bdfa1f9b858905e527309cae10c7eeda3a8e4824aee56873b7a0"
+        },
+        "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": {
+          "source_sha256": "4ac860431f9fdbc6f757432c9f152f70955c9574689c42b1c486b5da58bd1ab2",
+          "target_sha256": "3e04618966a31147b1e1298b08baba3f616013fd8eb115288ca66a9d58b47b94"
+        }
+      }
+    },
+    "proof": "Full3overlay and entireledger byteinverses;18nonownedparagraph/linesets and9nonownedvalues exact; superseded18oldacceptances retained; prior389batches/357decisions/oldreports/history preserved. KO/EN/code/conditions/saves/demo unchanged."
+  },
+  "validation": "Official logs VALID6check/import perlocale without exitcode annotations. Independent currentpurecheck3/receipts/oldtargets/full3JSON andledger inverses actualexit0. Demo5/14/100/122 EN1813/35 clean, CJK structural/skeleton only; lane11selectiononly; noengine/render/native.",
+  "ending_source_diagnostic": {
+    "korean_leaves": 235,
+    "by_locale": {
+      "ja": {
+        "before": 11,
+        "after": 5
+      },
+      "zh-CN": {
+        "before": 11,
+        "after": 5
+      },
+      "zh-TW": {
+        "before": 11,
+        "after": 5
+      }
+    },
+    "total_before": 33,
+    "total_after": 15,
+    "meaning": "Portable ending source freshness only;18existing corrections/newcoverage0, not event debt or full/native completion."
+  },
+  "identity": {
+    "baseline": "30358736547e5f882a933cf7d07d7ef1ff7fd416",
+    "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "rows_sha256": "3806e15f57dfc7bdfd69e040b0b3af6b4131ccf03be48361dbaa04dec840feb6",
+    "receipt_sha256_by_locale": {
+      "ja": "3f2355deae8763dafdeacc63509c5f68b2d59435ab753fe90cfae5c6b1f9b5b6",
+      "zh-CN": "7578f6ce0cac5c84ad3c7b4fa6149f037e40bd501d255d50b7d7309e2a540ce3",
+      "zh-TW": "549393b3ad4568b8f526cea7fc41448685ee566fe3105469025acc5e617cc84c"
+    },
+    "official_receipt_file_sha256_by_locale": {
+      "ja": "dec5957847f1c9b6ce60731cf98947680ac1f597ac9f5be5f9ed1ec2dec89d20",
+      "zh-CN": "8a9b7b2d9d77f13d5b808723f966af08910a830c4d41276944e081abda34454a",
+      "zh-TW": "29bd5b5e79440052c4fba6f7c1051dc900334a274abd1d2cf5c0ef5e9e71bf9b"
+    },
+    "previous_target_sha256_by_locale": {
+      "ja": {
+        "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": "562e33387c563329b0497a96b195c6a8ef3f39e907f3a0df0bf443891759956a",
+        "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": "926ab06116c5c9f07da8f4b92e93f6eafad1d9930bb01709a25bbee8a714f077",
+        "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": "cb6352923aabe224f842fd6615009c5ad41a67175c698107ac495a1d3239591d",
+        "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": "240d5fe545fe5a43766b92dfa7360e2d036aa54352d130886e4f9abe0f722364",
+        "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": "a44fc43d140a690e1c46262d856203bfcc450c9bdbc3c24d241266fee7163f8e",
+        "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": "a17e4e5eae8100c8fb7696b16480406b600482ade00ebc74f8ce3ec2af780af1"
+      },
+      "zh-CN": {
+        "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": "92a0eb3181d9883dae21e7a5ab42d40e88270011c7bfc5006688a6edfa18e57e",
+        "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": "90e987477f0859075ce3be881a3f9b282406976dd9002b7fcd39947a3172b6c5",
+        "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": "627ce8d8273ba2f21513c942ba27069f50d178833959163ec3042de5184b3f1f",
+        "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": "7edbedd375d6e82648b7aade01d93cba3b00fc4da42762a14e1a43f631df95db",
+        "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": "3f2285d9d9af6529dced3e9c8b5b4cec3b9245895ba09bccd4bbfd9c3fffba50",
+        "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": "a9af3c51a1a7d80608c8ee536c3c55016baec2ab479e1f85562f18033113786f"
+      },
+      "zh-TW": {
+        "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": "0712eb01120848063f0dada246085a9436f4390939d8ba34aae80a66b1ec9098",
+        "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": "f54cc0fca9ba4c9c035949babe2a5bf64bbb2c290ea1b0ad6200a08219bc0c7a",
+        "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": "85926c8e8d17d3f14fb633c1896080c7f133dc9ca594da70092ebf4219fdc331",
+        "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": "f930fd0b14f6f2232bd43b571581786817da1192d987e04bb721f801a46bddf8",
+        "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": "b4fb26a476f3bdfa1f9b858905e527309cae10c7eeda3a8e4824aee56873b7a0",
+        "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": "3e04618966a31147b1e1298b08baba3f616013fd8eb115288ca66a9d58b47b94"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-gangnam-endings-20261106.chjIXi/",
+    "raw_population": {
+      "files": 24,
+      "sha256": "800c3b15c1a022531284755ddf4306238e03a85f398b1b3ab396ad45c25d0034",
+      "entries": [
+        [
+          "correction.log",
+          141,
+          "3e1e1715f0ae9b980b99940c716407c93d79ed4d77f3a43fef000585dd395286"
+        ],
+        [
+          "correction.py",
+          5431,
+          "419079a73723c70fcb6cbeb0936b7714b497b83d73cd32b45a7abeb61d98f53c"
+        ],
+        [
+          "delta.log",
+          102,
+          "da27545381d01789f0700f573a93dcffab2f76aff5aeffa767e4288a9bd1d4cb"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "drafts.json",
+          4211,
+          "776dcae974186686ff0f2756b33a14d643d9d8ec2f85dc1b55bcbb9f13d9f7fb"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "ja.check.log",
+          117,
+          "3b78da548f501e25ab9e11a3bc0dd722e77600c8e880bd093e26832987e63333"
+        ],
+        [
+          "ja.export.log",
+          150,
+          "71a45d41e3a07af37b84bfed076f3239fb042a96b914eb0d53904e278ac7736e"
+        ],
+        [
+          "ja.import.log",
+          118,
+          "d1492e8ba6d0143068f972080a92cd61701e7a491509c24146e45d390fb9be0d"
+        ],
+        [
+          "ja.response.jsonl",
+          7073,
+          "5ea4c46646bc1f5f5c0f4df3be4b9b238d066c4232f6395851210b0d1af24619"
+        ],
+        [
+          "ja.source.jsonl",
+          8927,
+          "e5a229b39898123c4f2373c5a87125a1e3cd4170e8021fe0bca5a67402746f31"
+        ],
+        [
+          "lane.log",
+          1677,
+          "ee3969ee87b707c3d1ffe9e8b8777190175581b3164e2d8bc2a66eb93856182a"
+        ],
+        [
+          "leaf-ids.json",
+          426,
+          "86ae2e50c5754344e7b324116cca0bf6d9743e830d698a4fcfde33602bff7de4"
+        ],
+        [
+          "zh-CN.check.log",
+          120,
+          "f184e139006705a7d8b83675ba5386fc6d7f5cf4880426fe44946d9757bdd173"
+        ],
+        [
+          "zh-CN.export.log",
+          156,
+          "52ca5e3f9c1e4cbc538403cf305577a43511e081997f32a0884e60efe4c4741c"
+        ],
+        [
+          "zh-CN.import.log",
+          121,
+          "67914ce87fb83bf419984659561f92605aef97efaceb50aab93d35a0147f17d9"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          5863,
+          "d92b809ff6172d2481a2824ad35ad7374a49a8c90a8775642fd2191fce51b05e"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          8966,
+          "c180ebeb3749bb5c2ced42d9c3ec5697b3387c8e73d12ada864c3e2f30caf6d6"
+        ],
+        [
+          "zh-TW.check.log",
+          120,
+          "ead469a7e857b8d798d0fe8a64a256df0c177d07155e6a8691096ab057d7da99"
+        ],
+        [
+          "zh-TW.export.log",
+          156,
+          "c1f2c97abbd8059a5faec61a46eac13454b35dcf6e930a2caacd33140f85ed7a"
+        ],
+        [
+          "zh-TW.import.log",
+          121,
+          "9d630bd3b0deb8e5b145ae233e55ef8d50932da77bc07943783533ab5ccc1eba"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          5861,
+          "a5e508ea4c1f717eeddd18f8e28ed55839a472fef2293636a0e76facc72b0341"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          8966,
+          "4320174e922adfdcb630c059a6ffe458e786fa9d4f8c1e8ab8b50dae3f26f784"
+        ]
+      ]
+    },
+    "encoding": "UTF-8 byte SHA256; rawpopulation compact JSON basename-sorted[name,size,sha256]; rows canonical digest locale/source order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

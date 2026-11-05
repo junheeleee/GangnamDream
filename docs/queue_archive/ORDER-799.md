@@ -1,6 +1,6 @@
 # ORDER-799 — 강남 엔딩 CJK 행동·시간
 
-#### [~] ORDER-799 · 강남 엔딩 CJK 행동·시간
+#### [x] ORDER-799 · 강남 엔딩 CJK 행동·시간
 
 부모157/C5. 착수 — `content/endings_ja.json`, `content/endings_zh-CN.json`,
 `content/endings_zh-TW.json`의 gangnam_dream known4(cleared_father_debt_from_sangchul,
@@ -15,3 +15,17 @@ gangnam_dream_white known2(promise_reaffirmed,kept_clean_hands),
 공식 source/이전target 결속 export/check/import replace와 원수용/원배치 보존,
 전체3JSON/원장 역복원·데모/EN·독립18전독을 한다. 실화면/원어민/사람/M60·출시는 별도.
 기존 현지화·판정 정본을 적용하는 일회성 범위다.
+
+## 2026-11-06 결과
+
+제품 `6f288ad55c1bc46b4faa73da5cd61cada8e33a3d`, tree
+`1b92a7820226c09cb7cb1f2403286bbae4439863` 정상 push.
+[독립18전독 GO](../agent_reviews/order799-cjk-gangnam-endings.md).
+KR6×3 기존18정정·신규0. 선언 요약의 ‘종이 모서리 압박’은 ‘스침’이 정확하다.
+실제 KO/JAかすめた/CN擦过/TW擦過는 스침이며 압박 제품 변경은 없다.
+공식 check/import6×3 실제 exit0·현재 순수 검사·전체3JSON/원장 역복원,
+원389배치/수용18·기존357판정·비소유문단행18집합/9파일 exact·raw24 SHA결속.
+데모5언어14사건100leaf122UI·EN1813/35 clean, i18n 구조/skeleton만.
+엔딩235leaf/언어 source-stale33→15(각5), 사건48과 별개·전체미완.
+lane11 선택뿐·새CI전체성공/실화면/원어민/사람/M60·출시 미관측.
+규범 일회성/승격0. 자동 계약은 품질·인간·출시GO를 대신하지 않는다.
