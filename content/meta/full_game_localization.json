@@ -25576,6 +25576,182 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-799",
+      "group": "endings",
+      "kind": "existing_target_correction",
+      "roots": [
+        "gangnam_dream",
+        "gangnam_dream_white"
+      ],
+      "source_leaves": 6,
+      "target_leaves_by_locale": {
+        "ja": 6,
+        "zh-CN": 6,
+        "zh-TW": 6
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean comparison in each locale: recovered money versus lost father time, burying truth as a decision, silently leaving without invented lifelong network abstention, money entrusted not whole account, open door afternoon light and paper edge brushing palm. Other variants and paragraphs preserved.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "30358736547e5f882a933cf7d07d7ef1ff7fd416",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "4c43204fde7b879887c7b535300d875432f0aef93d07910340767678c01196a2",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a2f526251059b9d4ffb2c586a53f320b1676e9ef67d8a9319c9e868ba5e46de9"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "30358736547e5f882a933cf7d07d7ef1ff7fd416",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "98999db65ac6f16ff1d65d47c143c81ecfe7ced3cb5e1169bc8f525a1d57f9af",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e8cd39f38af32e31885d9bc7551a4411f94aaadb43d93287cefafe23274103c5"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "30358736547e5f882a933cf7d07d7ef1ff7fd416",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "d1119086e8303e2ff893b191c94c108b97f996568746c8dd403a08c0b6b62b41",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "4e35a197110db27655021e26777678af4cd9bd37e51ac4662f9303185f40c8e3"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "3f2355deae8763dafdeacc63509c5f68b2d59435ab753fe90cfae5c6b1f9b5b6",
+        "zh-CN": "7578f6ce0cac5c84ad3c7b4fa6149f037e40bd501d255d50b7d7309e2a540ce3",
+        "zh-TW": "549393b3ad4568b8f526cea7fc41448685ee566fe3105469025acc5e617cc84c"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": "562e33387c563329b0497a96b195c6a8ef3f39e907f3a0df0bf443891759956a",
+          "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": "926ab06116c5c9f07da8f4b92e93f6eafad1d9930bb01709a25bbee8a714f077",
+          "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": "cb6352923aabe224f842fd6615009c5ad41a67175c698107ac495a1d3239591d",
+          "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": "240d5fe545fe5a43766b92dfa7360e2d036aa54352d130886e4f9abe0f722364",
+          "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": "a44fc43d140a690e1c46262d856203bfcc450c9bdbc3c24d241266fee7163f8e",
+          "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": "a17e4e5eae8100c8fb7696b16480406b600482ade00ebc74f8ce3ec2af780af1"
+        },
+        "zh-CN": {
+          "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": "92a0eb3181d9883dae21e7a5ab42d40e88270011c7bfc5006688a6edfa18e57e",
+          "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": "90e987477f0859075ce3be881a3f9b282406976dd9002b7fcd39947a3172b6c5",
+          "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": "627ce8d8273ba2f21513c942ba27069f50d178833959163ec3042de5184b3f1f",
+          "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": "7edbedd375d6e82648b7aade01d93cba3b00fc4da42762a14e1a43f631df95db",
+          "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": "3f2285d9d9af6529dced3e9c8b5b4cec3b9245895ba09bccd4bbfd9c3fffba50",
+          "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": "a9af3c51a1a7d80608c8ee536c3c55016baec2ab479e1f85562f18033113786f"
+        },
+        "zh-TW": {
+          "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": "0712eb01120848063f0dada246085a9436f4390939d8ba34aae80a66b1ec9098",
+          "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": "f54cc0fca9ba4c9c035949babe2a5bf64bbb2c290ea1b0ad6200a08219bc0c7a",
+          "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": "85926c8e8d17d3f14fb633c1896080c7f133dc9ca594da70092ebf4219fdc331",
+          "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": "f930fd0b14f6f2232bd43b571581786817da1192d987e04bb721f801a46bddf8",
+          "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": "b4fb26a476f3bdfa1f9b858905e527309cae10c7eeda3a8e4824aee56873b7a0",
+          "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": "3e04618966a31147b1e1298b08baba3f616013fd8eb115288ca66a9d58b47b94"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": {
+            "source_sha256": "8995d259bed8d688d9d5ae481b6df940393c0022ec5b7d2351e2f83abe06fe8b",
+            "target_sha256": "562e33387c563329b0497a96b195c6a8ef3f39e907f3a0df0bf443891759956a"
+          },
+          "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": {
+            "source_sha256": "6d1f84bb25db81d573bf46b34ad3f3926db0ad61b9048c5eb7405607e18e746d",
+            "target_sha256": "926ab06116c5c9f07da8f4b92e93f6eafad1d9930bb01709a25bbee8a714f077"
+          },
+          "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": {
+            "source_sha256": "2492bf7e315fe8562d3b2a8104f3c27d144899384714255f5ef0cd6c1d653160",
+            "target_sha256": "cb6352923aabe224f842fd6615009c5ad41a67175c698107ac495a1d3239591d"
+          },
+          "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": {
+            "source_sha256": "525d56251022dfec36a0967484cc6b2889f82d24a48618441e2a063994a4ed73",
+            "target_sha256": "240d5fe545fe5a43766b92dfa7360e2d036aa54352d130886e4f9abe0f722364"
+          },
+          "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": {
+            "source_sha256": "d3c5a6fbc29b15ec3814859b6f76cb3588ead90c0351791d8a9847a57fa77b74",
+            "target_sha256": "a44fc43d140a690e1c46262d856203bfcc450c9bdbc3c24d241266fee7163f8e"
+          },
+          "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": {
+            "source_sha256": "4ac860431f9fdbc6f757432c9f152f70955c9574689c42b1c486b5da58bd1ab2",
+            "target_sha256": "a17e4e5eae8100c8fb7696b16480406b600482ade00ebc74f8ce3ec2af780af1"
+          }
+        },
+        "zh-CN": {
+          "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": {
+            "source_sha256": "8995d259bed8d688d9d5ae481b6df940393c0022ec5b7d2351e2f83abe06fe8b",
+            "target_sha256": "92a0eb3181d9883dae21e7a5ab42d40e88270011c7bfc5006688a6edfa18e57e"
+          },
+          "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": {
+            "source_sha256": "6d1f84bb25db81d573bf46b34ad3f3926db0ad61b9048c5eb7405607e18e746d",
+            "target_sha256": "90e987477f0859075ce3be881a3f9b282406976dd9002b7fcd39947a3172b6c5"
+          },
+          "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": {
+            "source_sha256": "2492bf7e315fe8562d3b2a8104f3c27d144899384714255f5ef0cd6c1d653160",
+            "target_sha256": "627ce8d8273ba2f21513c942ba27069f50d178833959163ec3042de5184b3f1f"
+          },
+          "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": {
+            "source_sha256": "525d56251022dfec36a0967484cc6b2889f82d24a48618441e2a063994a4ed73",
+            "target_sha256": "7edbedd375d6e82648b7aade01d93cba3b00fc4da42762a14e1a43f631df95db"
+          },
+          "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": {
+            "source_sha256": "d3c5a6fbc29b15ec3814859b6f76cb3588ead90c0351791d8a9847a57fa77b74",
+            "target_sha256": "3f2285d9d9af6529dced3e9c8b5b4cec3b9245895ba09bccd4bbfd9c3fffba50"
+          },
+          "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": {
+            "source_sha256": "4ac860431f9fdbc6f757432c9f152f70955c9574689c42b1c486b5da58bd1ab2",
+            "target_sha256": "a9af3c51a1a7d80608c8ee536c3c55016baec2ab479e1f85562f18033113786f"
+          }
+        },
+        "zh-TW": {
+          "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": {
+            "source_sha256": "8995d259bed8d688d9d5ae481b6df940393c0022ec5b7d2351e2f83abe06fe8b",
+            "target_sha256": "0712eb01120848063f0dada246085a9436f4390939d8ba34aae80a66b1ec9098"
+          },
+          "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": {
+            "source_sha256": "6d1f84bb25db81d573bf46b34ad3f3926db0ad61b9048c5eb7405607e18e746d",
+            "target_sha256": "f54cc0fca9ba4c9c035949babe2a5bf64bbb2c290ea1b0ad6200a08219bc0c7a"
+          },
+          "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": {
+            "source_sha256": "2492bf7e315fe8562d3b2a8104f3c27d144899384714255f5ef0cd6c1d653160",
+            "target_sha256": "85926c8e8d17d3f14fb633c1896080c7f133dc9ca594da70092ebf4219fdc331"
+          },
+          "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": {
+            "source_sha256": "525d56251022dfec36a0967484cc6b2889f82d24a48618441e2a063994a4ed73",
+            "target_sha256": "f930fd0b14f6f2232bd43b571581786817da1192d987e04bb721f801a46bddf8"
+          },
+          "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": {
+            "source_sha256": "d3c5a6fbc29b15ec3814859b6f76cb3588ead90c0351791d8a9847a57fa77b74",
+            "target_sha256": "b4fb26a476f3bdfa1f9b858905e527309cae10c7eeda3a8e4824aee56873b7a0"
+          },
+          "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": {
+            "source_sha256": "4ac860431f9fdbc6f757432c9f152f70955c9574689c42b1c486b5da58bd1ab2",
+            "target_sha256": "3e04618966a31147b1e1298b08baba3f616013fd8eb115288ca66a9d58b47b94"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -26421,8 +26597,8 @@
         "target_sha256": "82e26dd6adb5c2b6a3d76d74fd47239c6455a9b510a1a76333401472dbe8e860"
       },
       "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": {
-        "source_sha256": "8995d259bed8d688d9d5ae481b6df940393c0022ec5b7d2351e2f83abe06fe8b",
-        "target_sha256": "562e33387c563329b0497a96b195c6a8ef3f39e907f3a0df0bf443891759956a"
+        "source_sha256": "a6372e72edf6fe1e9bbb628358517eb434d67e8705ee6c2ac0553c80f0ecb386",
+        "target_sha256": "47b6ce29177bf94b22c8275d857c8d10dd1085aa0a7465cb8b911f6bfb9b468d"
       },
       "endings:gangnam_dream:/description_if_known/daeun_gangnam_eve_met": {
         "source_sha256": "8239977b1183e91d004cf6d759662d2000146a7070132ee3267b711bb8ba7b48",
@@ -26433,8 +26609,8 @@
         "target_sha256": "feb6751b06a3658a67eb4308097b94d4680932d0deb33edb466ea4f4dc66eb51"
       },
       "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": {
-        "source_sha256": "6d1f84bb25db81d573bf46b34ad3f3926db0ad61b9048c5eb7405607e18e746d",
-        "target_sha256": "926ab06116c5c9f07da8f4b92e93f6eafad1d9930bb01709a25bbee8a714f077"
+        "source_sha256": "bba32bbdf01365823f9d63ebe41b779acc8f6a912d72b74c4d45e999844ad59f",
+        "target_sha256": "3e55a13aa677ca04c409cbcf637df883acf60d12641a7249e7824ed06d4aeef8"
       },
       "endings:gangnam_dream:/description_if_known/jiyeon_romance_started": {
         "source_sha256": "975b149e7c0bb4720d772b6744f6cc7f64550193bb401d970e55b90229478de0",
@@ -26465,12 +26641,12 @@
         "target_sha256": "6f9cd9c181d2b5a61720ed2e76ff6f7f0a7dc14425f5cfe48ef84eab8b0672e7"
       },
       "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": {
-        "source_sha256": "2492bf7e315fe8562d3b2a8104f3c27d144899384714255f5ef0cd6c1d653160",
-        "target_sha256": "cb6352923aabe224f842fd6615009c5ad41a67175c698107ac495a1d3239591d"
+        "source_sha256": "12fe28eaa3ec3075264611a295b78b0acec14c758698c82d638b150161960964",
+        "target_sha256": "608ac6a3d78469e5e8da7d826040698a51ea63b2ccea7a42647906d3fde455b7"
       },
       "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": {
-        "source_sha256": "525d56251022dfec36a0967484cc6b2889f82d24a48618441e2a063994a4ed73",
-        "target_sha256": "240d5fe545fe5a43766b92dfa7360e2d036aa54352d130886e4f9abe0f722364"
+        "source_sha256": "d03058c80ea426a368c79e51eedbb4b1fa25ccc9b9145b2886d180c892414e1a",
+        "target_sha256": "d06961f150653451b0268982f8341abda06a7d78a39d987e7a05a485a708ca43"
       },
       "endings:gangnam_dream:/description_if_known/used_daeun_as_means": {
         "source_sha256": "ed696516d51b78b7165710d6ab728d7f05d3ab184de83ad052df8018679ffe47",
@@ -26497,12 +26673,12 @@
         "target_sha256": "3fd2d0944db81836b33428174f95d12a71fead6806414d9bf678667ea98e4c41"
       },
       "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": {
-        "source_sha256": "d3c5a6fbc29b15ec3814859b6f76cb3588ead90c0351791d8a9847a57fa77b74",
-        "target_sha256": "a44fc43d140a690e1c46262d856203bfcc450c9bdbc3c24d241266fee7163f8e"
+        "source_sha256": "fc7d0f0e0b83005af0bc178e64ab1e006837edcb3032cc482e1903854d7a732a",
+        "target_sha256": "4b5a3d900559efb73637de4d16941ec236b434324c287b99b1e2b8c5658453a8"
       },
       "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": {
-        "source_sha256": "4ac860431f9fdbc6f757432c9f152f70955c9574689c42b1c486b5da58bd1ab2",
-        "target_sha256": "a17e4e5eae8100c8fb7696b16480406b600482ade00ebc74f8ce3ec2af780af1"
+        "source_sha256": "957cdcb53c2b007a9cc213248c77521dcb93a87e722f00fedd6b2cab521bc89f",
+        "target_sha256": "38256743b200089592349eb710ae029c75cd1f369a956a3cd5abd53547c8a058"
       },
       "endings:gangnam_dream_white:/description_if_known/sangchul_quietly_distanced": {
         "source_sha256": "7778b9fa1cc7724d3bc8bf65c048d5b36497dae273337367a11caf21cf6f3640",
@@ -79227,8 +79403,8 @@
         "target_sha256": "0e5c3265607b2e411ccdadb71c21e2aa35284447f819eccd8182b762f146956a"
       },
       "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": {
-        "source_sha256": "8995d259bed8d688d9d5ae481b6df940393c0022ec5b7d2351e2f83abe06fe8b",
-        "target_sha256": "92a0eb3181d9883dae21e7a5ab42d40e88270011c7bfc5006688a6edfa18e57e"
+        "source_sha256": "a6372e72edf6fe1e9bbb628358517eb434d67e8705ee6c2ac0553c80f0ecb386",
+        "target_sha256": "8d98d4908a5bf004b6687e12f64520e4afa87fbdc9cda85229e8b9886d2ba12a"
       },
       "endings:gangnam_dream:/description_if_known/daeun_gangnam_eve_met": {
         "source_sha256": "8239977b1183e91d004cf6d759662d2000146a7070132ee3267b711bb8ba7b48",
@@ -79239,8 +79415,8 @@
         "target_sha256": "93ac8721d5ba6c46caf35dff428fdf21b5f6568e1f55538b425d3247f60ed931"
       },
       "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": {
-        "source_sha256": "6d1f84bb25db81d573bf46b34ad3f3926db0ad61b9048c5eb7405607e18e746d",
-        "target_sha256": "90e987477f0859075ce3be881a3f9b282406976dd9002b7fcd39947a3172b6c5"
+        "source_sha256": "bba32bbdf01365823f9d63ebe41b779acc8f6a912d72b74c4d45e999844ad59f",
+        "target_sha256": "4ba49886faa9e8d2e610eba96805b6f6b25df51a4e9dcc86aba9be60be3c25b8"
       },
       "endings:gangnam_dream:/description_if_known/jiyeon_romance_started": {
         "source_sha256": "975b149e7c0bb4720d772b6744f6cc7f64550193bb401d970e55b90229478de0",
@@ -79271,12 +79447,12 @@
         "target_sha256": "7c72e908e84b0fa9795541f6d7e7eeff4978fb545f0a933ec3c5654cdcc5f304"
       },
       "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": {
-        "source_sha256": "2492bf7e315fe8562d3b2a8104f3c27d144899384714255f5ef0cd6c1d653160",
-        "target_sha256": "627ce8d8273ba2f21513c942ba27069f50d178833959163ec3042de5184b3f1f"
+        "source_sha256": "12fe28eaa3ec3075264611a295b78b0acec14c758698c82d638b150161960964",
+        "target_sha256": "d81082a79a68458f91cb36096a4a657dfc32e9159e3faeafe76a66c7552f5855"
       },
       "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": {
-        "source_sha256": "525d56251022dfec36a0967484cc6b2889f82d24a48618441e2a063994a4ed73",
-        "target_sha256": "7edbedd375d6e82648b7aade01d93cba3b00fc4da42762a14e1a43f631df95db"
+        "source_sha256": "d03058c80ea426a368c79e51eedbb4b1fa25ccc9b9145b2886d180c892414e1a",
+        "target_sha256": "6a25e5c718190d92ff89731e924240c32e182da06cbc71a16a978c59adcf08aa"
       },
       "endings:gangnam_dream:/description_if_known/used_daeun_as_means": {
         "source_sha256": "ed696516d51b78b7165710d6ab728d7f05d3ab184de83ad052df8018679ffe47",
@@ -79303,12 +79479,12 @@
         "target_sha256": "e3c373590f1fe1412ef40437ab8f98f08a785dab1a85a0ddc84710486556f4bd"
       },
       "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": {
-        "source_sha256": "d3c5a6fbc29b15ec3814859b6f76cb3588ead90c0351791d8a9847a57fa77b74",
-        "target_sha256": "3f2285d9d9af6529dced3e9c8b5b4cec3b9245895ba09bccd4bbfd9c3fffba50"
+        "source_sha256": "fc7d0f0e0b83005af0bc178e64ab1e006837edcb3032cc482e1903854d7a732a",
+        "target_sha256": "44b804134ec32d1485bb8526b2841909893aa4eee756f400156d460fc75579a4"
       },
       "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": {
-        "source_sha256": "4ac860431f9fdbc6f757432c9f152f70955c9574689c42b1c486b5da58bd1ab2",
-        "target_sha256": "a9af3c51a1a7d80608c8ee536c3c55016baec2ab479e1f85562f18033113786f"
+        "source_sha256": "957cdcb53c2b007a9cc213248c77521dcb93a87e722f00fedd6b2cab521bc89f",
+        "target_sha256": "3bf119def86e502119f482682274d3eaed795c13bc262d9a345349659792aee8"
       },
       "endings:gangnam_dream_white:/description_if_known/sangchul_quietly_distanced": {
         "source_sha256": "7778b9fa1cc7724d3bc8bf65c048d5b36497dae273337367a11caf21cf6f3640",
@@ -138837,8 +139013,8 @@
         "target_sha256": "cd807f615663391d5d930d1ff97e34e486f1856bfa96aead77b3060ff7792d24"
       },
       "endings:gangnam_dream:/description_if_known/cleared_father_debt_from_sangchul": {
-        "source_sha256": "8995d259bed8d688d9d5ae481b6df940393c0022ec5b7d2351e2f83abe06fe8b",
-        "target_sha256": "0712eb01120848063f0dada246085a9436f4390939d8ba34aae80a66b1ec9098"
+        "source_sha256": "a6372e72edf6fe1e9bbb628358517eb434d67e8705ee6c2ac0553c80f0ecb386",
+        "target_sha256": "18cac012c9f3f4df8a7eee6750079665c9f305ac8ea763aebe3b4d1d67df8cde"
       },
       "endings:gangnam_dream:/description_if_known/daeun_gangnam_eve_met": {
         "source_sha256": "8239977b1183e91d004cf6d759662d2000146a7070132ee3267b711bb8ba7b48",
@@ -138849,8 +139025,8 @@
         "target_sha256": "f2c1e40e5b6f32502f1b704930f76a58f85a833d948c704ab6fa29d9e38eb87a"
       },
       "endings:gangnam_dream:/description_if_known/jaehyuk_stood_up": {
-        "source_sha256": "6d1f84bb25db81d573bf46b34ad3f3926db0ad61b9048c5eb7405607e18e746d",
-        "target_sha256": "f54cc0fca9ba4c9c035949babe2a5bf64bbb2c290ea1b0ad6200a08219bc0c7a"
+        "source_sha256": "bba32bbdf01365823f9d63ebe41b779acc8f6a912d72b74c4d45e999844ad59f",
+        "target_sha256": "48b694623f109b52f1aecf165139d3fcb17524c0cebb315b34d2ef80c3f892dc"
       },
       "endings:gangnam_dream:/description_if_known/jiyeon_romance_started": {
         "source_sha256": "975b149e7c0bb4720d772b6744f6cc7f64550193bb401d970e55b90229478de0",
@@ -138881,12 +139057,12 @@
         "target_sha256": "3804874b248506862087813ad4801b9dd13b9d6cd3ba3823f50b9e408e607ca8"
       },
       "endings:gangnam_dream:/description_if_known/sangchul_quietly_distanced": {
-        "source_sha256": "2492bf7e315fe8562d3b2a8104f3c27d144899384714255f5ef0cd6c1d653160",
-        "target_sha256": "85926c8e8d17d3f14fb633c1896080c7f133dc9ca594da70092ebf4219fdc331"
+        "source_sha256": "12fe28eaa3ec3075264611a295b78b0acec14c758698c82d638b150161960964",
+        "target_sha256": "18e5b8a845e63e2b8748b11d8bfdcd8baa4fab475731488cde28a5b82f45fdb8"
       },
       "endings:gangnam_dream:/description_if_known/sangchul_truth_buried": {
-        "source_sha256": "525d56251022dfec36a0967484cc6b2889f82d24a48618441e2a063994a4ed73",
-        "target_sha256": "f930fd0b14f6f2232bd43b571581786817da1192d987e04bb721f801a46bddf8"
+        "source_sha256": "d03058c80ea426a368c79e51eedbb4b1fa25ccc9b9145b2886d180c892414e1a",
+        "target_sha256": "6077c541316279cb012dc19a5cd8364ff931b81f43b90d456680ee0928193e99"
       },
       "endings:gangnam_dream:/description_if_known/used_daeun_as_means": {
         "source_sha256": "ed696516d51b78b7165710d6ab728d7f05d3ab184de83ad052df8018679ffe47",
@@ -138913,12 +139089,12 @@
         "target_sha256": "11cc668729133ab8e9ae1d9ffe0e50e6d23804743615d414894047f26f21ce04"
       },
       "endings:gangnam_dream_white:/description_if_known/kept_clean_hands": {
-        "source_sha256": "d3c5a6fbc29b15ec3814859b6f76cb3588ead90c0351791d8a9847a57fa77b74",
-        "target_sha256": "b4fb26a476f3bdfa1f9b858905e527309cae10c7eeda3a8e4824aee56873b7a0"
+        "source_sha256": "fc7d0f0e0b83005af0bc178e64ab1e006837edcb3032cc482e1903854d7a732a",
+        "target_sha256": "4bff685fe474863b90a5cb43fb5f3564ec3b8c3924f6715b505a20b5baa02ffd"
       },
       "endings:gangnam_dream_white:/description_if_known/promise_reaffirmed": {
-        "source_sha256": "4ac860431f9fdbc6f757432c9f152f70955c9574689c42b1c486b5da58bd1ab2",
-        "target_sha256": "3e04618966a31147b1e1298b08baba3f616013fd8eb115288ca66a9d58b47b94"
+        "source_sha256": "957cdcb53c2b007a9cc213248c77521dcb93a87e722f00fedd6b2cab521bc89f",
+        "target_sha256": "4610fa26bf5705d675905cc3c21d573b49f230120e3aecbfc4da01e954e5c480"
       },
       "endings:gangnam_dream_white:/description_if_known/sangchul_quietly_distanced": {
         "source_sha256": "7778b9fa1cc7724d3bc8bf65c048d5b36497dae273337367a11caf21cf6f3640",
@@ -197606,7 +197782,7 @@
       }
     }
   },
-  "accepted_sha256": "0c0246eaecc88b83f97545f22b0edba4a6d053352308c02aa2e6254766d83d7e",
+  "accepted_sha256": "b9a549fb8b3bd4056c7b229fd34582f5de252f4b6f9186cb40f9f5eced938ce8",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
