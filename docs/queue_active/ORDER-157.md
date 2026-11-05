@@ -71,9 +71,9 @@ memory2는현재자동순서의신규정상런노출로세지않고호환/회상
 [793](../queue_archive/ORDER-793.md) JA 재혁후일담2 정정(신규0).
 [794](../queue_archive/ORDER-794.md) JA 상철·현수후일담2 정정(신규0).
 [795](../queue_archive/ORDER-795.md) JA 부친귀향2 정정(신규0).
-[796](../queue_archive/ORDER-796.md) 세 엔딩 CJK9 정정(신규0).
-[797](../queue_archive/ORDER-797.md) 회복 엔딩 CJK24정정(신규0).
-별도 엔딩235leaf/언어 source-stale81→48(각16), 사건진단48과 별개·전체미완.
+[796](../queue_archive/ORDER-796.md) 세엔딩9·[797](../queue_archive/ORDER-797.md) 회복24·
+[798](../queue_archive/ORDER-798.md) 다은15 CJK정정(신규0).
+엔딩235leaf/언어 source-stale81→33(각11), 사건48과 별개·전체미완.
 기존 데모·KO/EN·저장과 원어민 관찰 이력은 보존하며, 선택지만 켜거나
 문구 개수만 채운 것을 본편 완성으로 세지 않는다. 아래는 날짜별 역사다.
 

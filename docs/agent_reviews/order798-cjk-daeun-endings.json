@@ -1,0 +1,290 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-798",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "68608bff2bcced9db426882f3f911dd7de8a347a",
+    "tree": "a66b0f55ebe26e5564f03482dfdb75ab85f28eb2",
+    "manifest_sha256": null
+  },
+  "scope": "with_daeun base/beat_addiction/father_reconciled/daeun_final_together/daeun_married, 5KRleaves x JA/CN/TW =15 existing corrections; new0.",
+  "review": {
+    "method": "Full Korean root/known6 and changed15fulltargets directly compared, unchanged blinddate/delayed6 read; actual priorities/nested overlay/firsttrue/deadfather suppression; pure currentcheck_batch3, receipts, old targets and byte inverses.",
+    "findings": "Remove unsupported firstmeeting comparison/investmentfailure only where absent in KO. Finaldinner/eggroll/together memory unchanged. Wedding held without invented size/preference and counter-facing encounter without invented gimbap handoff. Actualsource blinddate/delayed details preserved; no scope defect."
+  },
+  "preservation": {
+    "prior_batches": 388,
+    "prior_decisions": 356,
+    "prior_decision_ledger_sha256": "bfd4c412ca37ad9fd02e867e5d005494ce09f13602dae05e04d8e9d88dd24cee",
+    "superseded_acceptance_by_locale": {
+      "ja": {
+        "endings:with_daeun:/description": {
+          "source_sha256": "ed95b83c4b241b7db5d3ee7af0095cad82639fb20682ca87eaec074d90159ca4",
+          "target_sha256": "42090ab48bf05b62221c6f96decf1f9c8bb679bd1c9378aa0209f2e6a02a9579"
+        },
+        "endings:with_daeun:/description_if_known/beat_addiction": {
+          "source_sha256": "3efa57369e044ed1412fc2331d1f0a2726efbb3861d977c94cec1a91fb6bc53c",
+          "target_sha256": "2a8a9da63af4ae6a626777713e99c0e3f1f8364811e20371387ab89b8f10e43a"
+        },
+        "endings:with_daeun:/description_if_known/daeun_final_together": {
+          "source_sha256": "4b3d2e4495df316de64be26031a805087a96f77d7726b001085a3887bb151afd",
+          "target_sha256": "b1404d1d5ae2137871474d3e6dbf695fea5c0f67aa76b48dadb32665ab367744"
+        },
+        "endings:with_daeun:/description_if_known/daeun_married": {
+          "source_sha256": "7a7887d0ef73e59e1e2da0a7c0a97f41b98056542d331382c0dfd7dfd50644f1",
+          "target_sha256": "5ecc575384d35a538340c0248e6bb1536b9f56576a4b2119ae4eb4a5768c1460"
+        },
+        "endings:with_daeun:/description_if_known/father_reconciled": {
+          "source_sha256": "1c005bf39d525c712c73b57c539a4c1b02130ad50c037b31d5a446a67597f20d",
+          "target_sha256": "ddbe06e13eaf2418939ff90d8f7ae1d5e6f884018deda433f637216a3c213817"
+        }
+      },
+      "zh-CN": {
+        "endings:with_daeun:/description": {
+          "source_sha256": "ed95b83c4b241b7db5d3ee7af0095cad82639fb20682ca87eaec074d90159ca4",
+          "target_sha256": "e455a51111442ce3e44201c006ee88938e5e82a0e8708c69a486454da73c0fa1"
+        },
+        "endings:with_daeun:/description_if_known/beat_addiction": {
+          "source_sha256": "3efa57369e044ed1412fc2331d1f0a2726efbb3861d977c94cec1a91fb6bc53c",
+          "target_sha256": "6d3556cc5cd167bc139d2d356f61ac53c3048a6c6b01c9c655d63d505cba9a6c"
+        },
+        "endings:with_daeun:/description_if_known/daeun_final_together": {
+          "source_sha256": "4b3d2e4495df316de64be26031a805087a96f77d7726b001085a3887bb151afd",
+          "target_sha256": "232c8dc76cb6ccb7c492189f547ca8f40ace910e39648c6ef003d06782d58305"
+        },
+        "endings:with_daeun:/description_if_known/daeun_married": {
+          "source_sha256": "7a7887d0ef73e59e1e2da0a7c0a97f41b98056542d331382c0dfd7dfd50644f1",
+          "target_sha256": "955285f792ac45f9b0bf63a47446e70d0ba399d6ebe23b7ff13eb16e98179b8e"
+        },
+        "endings:with_daeun:/description_if_known/father_reconciled": {
+          "source_sha256": "1c005bf39d525c712c73b57c539a4c1b02130ad50c037b31d5a446a67597f20d",
+          "target_sha256": "48848ce3070f65057b6af4621df7ba0d6e0c8f0ce2acc31fb03bf11be2dd756d"
+        }
+      },
+      "zh-TW": {
+        "endings:with_daeun:/description": {
+          "source_sha256": "ed95b83c4b241b7db5d3ee7af0095cad82639fb20682ca87eaec074d90159ca4",
+          "target_sha256": "554901faf7222bb6f8eb5fff51360eb85e33f910e9ae0705d4eb9f34973fc5af"
+        },
+        "endings:with_daeun:/description_if_known/beat_addiction": {
+          "source_sha256": "3efa57369e044ed1412fc2331d1f0a2726efbb3861d977c94cec1a91fb6bc53c",
+          "target_sha256": "1f88b0a75027d9ddb824617feb7e70a3cdecf6174a4a37ede59e84e76ae3e44c"
+        },
+        "endings:with_daeun:/description_if_known/daeun_final_together": {
+          "source_sha256": "4b3d2e4495df316de64be26031a805087a96f77d7726b001085a3887bb151afd",
+          "target_sha256": "51d3e975609142551219039bee76880dcbc24e2f932c383149bf8ccf51091035"
+        },
+        "endings:with_daeun:/description_if_known/daeun_married": {
+          "source_sha256": "7a7887d0ef73e59e1e2da0a7c0a97f41b98056542d331382c0dfd7dfd50644f1",
+          "target_sha256": "b3b643f104fddfb612241d620c3554f3c382f0fa35338f10310b0d66e5f300d5"
+        },
+        "endings:with_daeun:/description_if_known/father_reconciled": {
+          "source_sha256": "1c005bf39d525c712c73b57c539a4c1b02130ad50c037b31d5a446a67597f20d",
+          "target_sha256": "754a48a3af6fd18d7a5bc114b5723671d82e1cb262db19155d3670ab9c67737a"
+        }
+      }
+    },
+    "proof": "Full3overlay and entireledger byteinverses; 15nonownedparagraphsets and6blinddate/delayedvalues exact,15oldacceptances preserved in superseded map. Prior388batches and old decisions/reports/history preserved, code/KO/EN/saves/demo unchanged."
+  },
+  "validation": "Official logs show VALID check/import markers but no exit-code annotations; independent receipt+currentpurecheck3/whole3JSONandledger inverse pass. Demo5/14/100/122 and EN1813/35 clean, CJK i18n structural/skeleton only. Lane11 selectiononly; no engine/render/native.",
+  "ending_source_diagnostic": {
+    "korean_leaves": 235,
+    "by_locale": {
+      "ja": {
+        "before": 16,
+        "after": 11
+      },
+      "zh-CN": {
+        "before": 16,
+        "after": 11
+      },
+      "zh-TW": {
+        "before": 16,
+        "after": 11
+      }
+    },
+    "total_before": 48,
+    "total_after": 33,
+    "meaning": "Portable accepted-source freshness, separate from events diagnostic/exposure/native/fulltranslation claim."
+  },
+  "identity": {
+    "baseline": "d6aa576e6a1b7b329b62fe829b60ceb0fd6412af",
+    "rows_sha256": "ac7e6c9d235dcf3385cc164b9e9f67f14c5c1507cb804b95988f80414fbcbf2f",
+    "receipt_sha256_by_locale": {
+      "ja": "1b94938537435ecdfffb89686234c4ce0ba58fa893a08acd4ed39da05cfd804e",
+      "zh-CN": "89b71fecbcc2b4cc96379fcf7a1a4874c32e357f7ef65d4ffc9cc775bdd82d33",
+      "zh-TW": "570ca3b79b9a75533eb90da343ce991eadc52704f2bda7bef879e5bd1a027805"
+    },
+    "official_receipt_file_sha256_by_locale": {
+      "ja": "d834c0274ee6b2f882f1d5af384432cc6f1a50b196a073ec599eaee7d9141fdf",
+      "zh-CN": "986d6eeac1289b170e48f7058b36e81d4b42ebbc5506ea56add60689a0c39f90",
+      "zh-TW": "cc0d1a225a92e410c0870e626ce8957bad26521ac484d16b0b46fe34513b525b"
+    },
+    "previous_target_sha256_by_locale": {
+      "ja": {
+        "endings:with_daeun:/description": "42090ab48bf05b62221c6f96decf1f9c8bb679bd1c9378aa0209f2e6a02a9579",
+        "endings:with_daeun:/description_if_known/beat_addiction": "2a8a9da63af4ae6a626777713e99c0e3f1f8364811e20371387ab89b8f10e43a",
+        "endings:with_daeun:/description_if_known/daeun_final_together": "b1404d1d5ae2137871474d3e6dbf695fea5c0f67aa76b48dadb32665ab367744",
+        "endings:with_daeun:/description_if_known/daeun_married": "5ecc575384d35a538340c0248e6bb1536b9f56576a4b2119ae4eb4a5768c1460",
+        "endings:with_daeun:/description_if_known/father_reconciled": "ddbe06e13eaf2418939ff90d8f7ae1d5e6f884018deda433f637216a3c213817"
+      },
+      "zh-CN": {
+        "endings:with_daeun:/description": "e455a51111442ce3e44201c006ee88938e5e82a0e8708c69a486454da73c0fa1",
+        "endings:with_daeun:/description_if_known/beat_addiction": "6d3556cc5cd167bc139d2d356f61ac53c3048a6c6b01c9c655d63d505cba9a6c",
+        "endings:with_daeun:/description_if_known/daeun_final_together": "232c8dc76cb6ccb7c492189f547ca8f40ace910e39648c6ef003d06782d58305",
+        "endings:with_daeun:/description_if_known/daeun_married": "955285f792ac45f9b0bf63a47446e70d0ba399d6ebe23b7ff13eb16e98179b8e",
+        "endings:with_daeun:/description_if_known/father_reconciled": "48848ce3070f65057b6af4621df7ba0d6e0c8f0ce2acc31fb03bf11be2dd756d"
+      },
+      "zh-TW": {
+        "endings:with_daeun:/description": "554901faf7222bb6f8eb5fff51360eb85e33f910e9ae0705d4eb9f34973fc5af",
+        "endings:with_daeun:/description_if_known/beat_addiction": "1f88b0a75027d9ddb824617feb7e70a3cdecf6174a4a37ede59e84e76ae3e44c",
+        "endings:with_daeun:/description_if_known/daeun_final_together": "51d3e975609142551219039bee76880dcbc24e2f932c383149bf8ccf51091035",
+        "endings:with_daeun:/description_if_known/daeun_married": "b3b643f104fddfb612241d620c3554f3c382f0fa35338f10310b0d66e5f300d5",
+        "endings:with_daeun:/description_if_known/father_reconciled": "754a48a3af6fd18d7a5bc114b5723671d82e1cb262db19155d3670ab9c67737a"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-daeun-endings-20261106.A75wmi/",
+    "raw_population": {
+      "files": 24,
+      "sha256": "756fea96fca97d72c6932e68f33572d2275c032547005a5143d0a7b48f0a678d",
+      "entries": [
+        [
+          "correction.log",
+          141,
+          "07cfc1fd17ce14013672a108880b78f122f3e58b9cb9825ea2106bb17053bde7"
+        ],
+        [
+          "correction.py",
+          5408,
+          "0c7ec57eaa7672e60c59ea924931fd0980bb8d1b0d82fbc31ccb15800110184c"
+        ],
+        [
+          "delta.log",
+          124,
+          "482a11f98c564d5b2206ce28335ac71f9b4fb34f9e1dd84e1e3b70c919366d13"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "drafts.json",
+          2112,
+          "700f363c7334aedd76d6bb26519812778b331c090a86864af25d3152a9ebb557"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "ja.check.log",
+          117,
+          "53737b9c30891d13167e6298c65ca34e93d651957c3725331eaf3a71c4b4c180"
+        ],
+        [
+          "ja.export.log",
+          148,
+          "725ced2c8f41919d941e6d286888dacc7dc1e8c75ed638cb7113429b05b733a2"
+        ],
+        [
+          "ja.import.log",
+          118,
+          "81ed90b5249698866ac497362fcab8b2622581883db728fda25f2f8db185abd7"
+        ],
+        [
+          "ja.response.jsonl",
+          5782,
+          "d46ba24030d69a72db3b34df3e9ad94c94d00ec4cd6042cfc15975385f3b3004"
+        ],
+        [
+          "ja.source.jsonl",
+          6874,
+          "f896fe2de2ccf20810cce245f48aec26fae262f1eba4dcfc77636bae6a4e33a3"
+        ],
+        [
+          "lane.log",
+          1677,
+          "ee3969ee87b707c3d1ffe9e8b8777190175581b3164e2d8bc2a66eb93856182a"
+        ],
+        [
+          "leaf-ids.json",
+          276,
+          "168ff14ccd5c74ac34a684cac22b7d54210d89fac4ffbc7c2bd52aad80c3e300"
+        ],
+        [
+          "zh-CN.check.log",
+          120,
+          "4e89121543ce4a753a2a569bce4e69065e1eacd5dd6cb89c36b879afaeb0806d"
+        ],
+        [
+          "zh-CN.export.log",
+          154,
+          "e43db35d64f1bb85b7d287e104b7ea8ae3155a54d2083e25b70473f76d18b688"
+        ],
+        [
+          "zh-CN.import.log",
+          121,
+          "51c8cdf94ea2e38d2c95a2e9dfaab3a9e5ba54b34965b356c0dd9e4690b0eeea"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          4708,
+          "7c57df803ffb40913d0340d513796547b1788660cee55b82bfc2c8d9011a76b6"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          6907,
+          "5aba85fe57831638fa22f988b1a6f013257a106b885f36d71273eec81bc7f8f5"
+        ],
+        [
+          "zh-TW.check.log",
+          120,
+          "a64b7191f238442db4550aac7dfcdf3373390cfecf36d7c12c54b6f6c4f9d7b4"
+        ],
+        [
+          "zh-TW.export.log",
+          154,
+          "90185b6c43cc21609c4312b437eb2f153c705f104f7069c3b1ba3c261dfa0a95"
+        ],
+        [
+          "zh-TW.import.log",
+          121,
+          "e1394360fe7cd9a8758fc4ad0ef5d7540218f71e258d65b6218163d17e4e76f1"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          4851,
+          "813ff0cf5170c111747dc4a42d8f81165551c9d4aa542871948dffdedf99d5f6"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          6907,
+          "1518bbd09bb727b2d7c6d0875f73ba451c4934c65188d88c1ef51f7349fc42ca"
+        ]
+      ]
+    },
+    "encoding": "Raw: basename-sorted [basename,bytes,sha256], UTF8JSON ensure_ascii=false separators comma/colon. Rows: [locale,id,sourcehash,previoustargethash,targethash] locale/export order, canonical sorted-key digest."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
