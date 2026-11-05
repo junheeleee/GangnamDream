@@ -14914,6 +14914,49 @@
         "path": "docs/agent_reviews/order795-ja-father-homecoming-rollover.json",
         "sha256": "1a4b3cb451ee3c2ba1cd8a0ec50fe2f68a5afac242bc4a46ad6063e40e37c028"
       }
+    },
+    {
+      "id": "order796-cjk-three-endings-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-06",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-796",
+      "subject": {
+        "kind": "source",
+        "commit": "0b40111f3c9cc502475472473ee6084b724b1b3c",
+        "tree": "ab7a79afef1c68d4cea0be99dfc608009eb44529",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order796-cjk-three-endings.md",
+          "sha256": "c47edfb94689d30ddc7bf25ae4d613526dba3d99b56533fb2382591e5e277685"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order796-cjk-three-endings.json",
+          "sha256": "6dd17348e8c2f8cdf4aafa434841f0998b82dca548e73ccc10eeb7897fed1286"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order796-cjk-three-endings.json",
+        "sha256": "6dd17348e8c2f8cdf4aafa434841f0998b82dca548e73ccc10eeb7897fed1286"
+      }
     }
   ]
 }

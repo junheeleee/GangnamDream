@@ -1,0 +1,260 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-796",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "0b40111f3c9cc502475472473ee6084b724b1b3c",
+    "tree": "ab7a79afef1c68d4cea0be99dfc608009eb44529",
+    "manifest_sha256": null
+  },
+  "scope": "stable_success.description, crypto_ghost.description, empty_house.description_if_known.father_passed in JA/CN/TW: 3 Korean leaves x 3 locales = 9 existing corrections; new coverage0.",
+  "review": {
+    "method": "Read full Korean3roots/allvariants; direct full nine-target Korean comparison; independent draft segments/source/response and actual overlay diff; actual firsttrue/father-life reader; independent current-source check_batch3, receipt/old-acceptance and exact whole-file inverses.",
+    "findings": "Rent payment day replaces jeonse expiration; generic number/next-game fixation replaces phone/chart/exchange-app inventions; hospital death and window-facing second mug/empty-handle nightview replace invented winter and promise. Paragraph/token/numeric/image-action/knowledge semantics hold; all nonowned paragraphs/variants/selectors exact. No defect found within scope."
+  },
+  "preservation": {
+    "prior_batches": 386,
+    "prior_decisions": 354,
+    "prior_decision_ledger_sha256": "d40106dfc10683ae622073472e0dc13df315e0044c5f02a5587d86213e71c48f",
+    "superseded_acceptance_by_locale": {
+      "ja": {
+        "endings:crypto_ghost:/description": {
+          "source_sha256": "f5fd23a869e50ab88da0237ec273221ec9eecac92ef22e96284021fbcf8ef3a8",
+          "target_sha256": "af6d285106719084af45035d95ccffd6e38fc783909d114ab5ebec56200f143d"
+        },
+        "endings:empty_house:/description_if_known/father_passed": {
+          "source_sha256": "9f38e61a615e05c47003842ee77bc4db2c3c5f34c1c80183864c704250b93dd7",
+          "target_sha256": "1d1378d7ac902a38b0da9bfd7b8487c79e6c966e3fd7ffa48e00207cc06e3254"
+        },
+        "endings:stable_success:/description": {
+          "source_sha256": "bbe88501d8d2a3113968cf3d1c45ea44c78165e144e8eea48942538d5b964ee1",
+          "target_sha256": "cbb8725f77038dd3126351384f86817fcb0a89b2ba726f7596ca447f32ed9267"
+        }
+      },
+      "zh-CN": {
+        "endings:crypto_ghost:/description": {
+          "source_sha256": "f5fd23a869e50ab88da0237ec273221ec9eecac92ef22e96284021fbcf8ef3a8",
+          "target_sha256": "7fef3650fedac3b676817a6c48bb6b960df1674f3b39e904c6832573b6a6ae88"
+        },
+        "endings:empty_house:/description_if_known/father_passed": {
+          "source_sha256": "9f38e61a615e05c47003842ee77bc4db2c3c5f34c1c80183864c704250b93dd7",
+          "target_sha256": "96687fd01981195649c8c8960a4e61c006f20837a666c7c827acd80bb690cebf"
+        },
+        "endings:stable_success:/description": {
+          "source_sha256": "bbe88501d8d2a3113968cf3d1c45ea44c78165e144e8eea48942538d5b964ee1",
+          "target_sha256": "7c53af42b4d6d1434e40c7c4ede4e65443ba6d1b0039e7979fdd8904c322307f"
+        }
+      },
+      "zh-TW": {
+        "endings:crypto_ghost:/description": {
+          "source_sha256": "f5fd23a869e50ab88da0237ec273221ec9eecac92ef22e96284021fbcf8ef3a8",
+          "target_sha256": "7833e30743923dff5625421619b68277f12a1d721bb9505fcbdf92e943dbb8bb"
+        },
+        "endings:empty_house:/description_if_known/father_passed": {
+          "source_sha256": "9f38e61a615e05c47003842ee77bc4db2c3c5f34c1c80183864c704250b93dd7",
+          "target_sha256": "7d7a647d24ed5758384cc77be76384e700b25342db573c75aa771ddb8b8922fb"
+        },
+        "endings:stable_success:/description": {
+          "source_sha256": "bbe88501d8d2a3113968cf3d1c45ea44c78165e144e8eea48942538d5b964ee1",
+          "target_sha256": "f1a90eced21b7512e9d8d90a6f7af397a9b25de1baf4d6d2439dd7213123ec96"
+        }
+      }
+    },
+    "proof": "All3 full endingJSON byte inverses and complete ledger inverse; six unchanged paragraph sets exact. Original9acceptance rows preserved in new batch superseded data, old386batches/past decisions/reviews/history exact. KO/EN/code/saves/demo unchanged."
+  },
+  "validation": "All3 official export/check/import exit0, independent current-source pure check_batch and receipt verification pass, overlay3/fullledger inverses pass. Demo5/14events/100leaves/122UI and EN1813/35 clean; CJK i18n structural/skeleton only. Lane20 selection only, no engine/render/native execution.",
+  "ending_source_diagnostic": {
+    "korean_leaves": 235,
+    "by_locale": {
+      "ja": {
+        "before": 27,
+        "after": 24
+      },
+      "zh-CN": {
+        "before": 27,
+        "after": 24
+      },
+      "zh-TW": {
+        "before": 27,
+        "after": 24
+      }
+    },
+    "total_before": 81,
+    "total_after": 72,
+    "meaning": "Committed portable source freshness, not event diagnostic, runtime exposure, full localization or native quality."
+  },
+  "identity": {
+    "baseline": "6749c170212ba06a52010be4be1048c66c56eaf6",
+    "rows_sha256": "e8102ea222b4313afb28503e55438ebbea6e4c3ba6cd6f7fce2874b1a70471b9",
+    "receipt_sha256_by_locale": {
+      "ja": "97cb672fb35d7c00f0883eacdf1631581db07e22699d40a64f6a5d5369c00b17",
+      "zh-CN": "0a98ad12899b6a18b767c95a057749137e2843d5b5146e2d00e4e169eadc3bb0",
+      "zh-TW": "12520c974985fe640768ad940bec540003f495aef110f650b3a530cdf5ff3104"
+    },
+    "official_receipt_file_sha256_by_locale": {
+      "ja": "e59a04aeae7aa4217e07ed555a3e8a64b4e3c3eb0b7b625138b6d980a6abb3df",
+      "zh-CN": "7ef536b6f7730a6d85b521f7a6b583de22711cd7f6f3dc4f4b2adb94877d054e",
+      "zh-TW": "e4a506437938d1d409aaebd4a817e93d856a8bfadde01751aa6e5ef971f2e830"
+    },
+    "previous_target_sha256_by_locale": {
+      "ja": {
+        "endings:crypto_ghost:/description": "af6d285106719084af45035d95ccffd6e38fc783909d114ab5ebec56200f143d",
+        "endings:empty_house:/description_if_known/father_passed": "1d1378d7ac902a38b0da9bfd7b8487c79e6c966e3fd7ffa48e00207cc06e3254",
+        "endings:stable_success:/description": "cbb8725f77038dd3126351384f86817fcb0a89b2ba726f7596ca447f32ed9267"
+      },
+      "zh-CN": {
+        "endings:crypto_ghost:/description": "7fef3650fedac3b676817a6c48bb6b960df1674f3b39e904c6832573b6a6ae88",
+        "endings:empty_house:/description_if_known/father_passed": "96687fd01981195649c8c8960a4e61c006f20837a666c7c827acd80bb690cebf",
+        "endings:stable_success:/description": "7c53af42b4d6d1434e40c7c4ede4e65443ba6d1b0039e7979fdd8904c322307f"
+      },
+      "zh-TW": {
+        "endings:crypto_ghost:/description": "7833e30743923dff5625421619b68277f12a1d721bb9505fcbdf92e943dbb8bb",
+        "endings:empty_house:/description_if_known/father_passed": "7d7a647d24ed5758384cc77be76384e700b25342db573c75aa771ddb8b8922fb",
+        "endings:stable_success:/description": "f1a90eced21b7512e9d8d90a6f7af397a9b25de1baf4d6d2439dd7213123ec96"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-three-endings-20261106.pe3t4g/",
+    "raw_population": {
+      "files": 24,
+      "sha256": "9ac5d5831995622817dd21fdfc3ddc77e519101045508d3dbd993a63455facac",
+      "entries": [
+        [
+          "correction.log",
+          152,
+          "0e0fa952410f432a3bcaa8cf10d90ce2aa5fe89af0b349db6019d15d6b26e9d9"
+        ],
+        [
+          "correction.py",
+          5368,
+          "27fdfa05bde3f6f7e67576eb0cd00b006f5a5cdc8a1c8fdd2097b757b0e62f65"
+        ],
+        [
+          "delta.log",
+          599,
+          "5e60322953ddc3ea1be0ae78e0f8201b8ea383ac4094f12da7b969da6b9c74d3"
+        ],
+        [
+          "demo.log",
+          357,
+          "204e1625c45e9ddeec15ad84a84b8bcf1812bfc74e7800f5af2624513e8e85d8"
+        ],
+        [
+          "drafts.json",
+          3213,
+          "6bed1e5387ba93e379a4ea1435be64a9e28fe9a27a2b3491297faa0e28920b86"
+        ],
+        [
+          "en.log",
+          65,
+          "652b3f77548a68a2980e61b6e4307f0d0892d5d48dc32d81d504f2f598e11b7e"
+        ],
+        [
+          "i18n.log",
+          222,
+          "631d028ff8e6f301b902b25ece01892838d51bf9ddfb147643a742cf0cd0e1e2"
+        ],
+        [
+          "ja.check.log",
+          129,
+          "53118619e40deae474417395219d1e30cafa9d6e3c66953f7408a76f48391cf9"
+        ],
+        [
+          "ja.export.log",
+          160,
+          "d1e7ecfc27bc91956373313fde5513d4aea320a56e3781351722594dae5ff440"
+        ],
+        [
+          "ja.import.log",
+          130,
+          "ee2a18e990fe531544bb7baef41e92d036cdc3a5e1da95ecae944ac9913bf775"
+        ],
+        [
+          "ja.response.jsonl",
+          3570,
+          "af2b1c3e02bff0d5fb0c1f915132c07faf119a7486536191b0717b9be67a23d4"
+        ],
+        [
+          "ja.source.jsonl",
+          4444,
+          "2722a5e661615bbd6404ceee1c96f5709a7fa23d716ab156793beed83ebb54b6"
+        ],
+        [
+          "lane.log",
+          2820,
+          "1d764fca9218246b8e48ebb0e99ca601be09ed646c8e2a73c7ee6bae209b0bc1"
+        ],
+        [
+          "leaf-ids.json",
+          144,
+          "042460788d7853dbb763cd23478681d172dc4631f7b2bc76495a82adbcd46bcb"
+        ],
+        [
+          "zh-CN.check.log",
+          132,
+          "e08927d45cf868ab31aed07cb2f1c9ca6fd600b18f966af056e77287ad5d9fa5"
+        ],
+        [
+          "zh-CN.export.log",
+          166,
+          "51926ea3c865502a001a0547e11d9af806f5032631944545096d87e115ff1b37"
+        ],
+        [
+          "zh-CN.import.log",
+          133,
+          "754e3c813ea55fbad1193d812f989562bf19e7ef8b279196da935a596e9eab55"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          3011,
+          "f91b263d962000d20d9e46f4c5b4c3ff07871d295761347bfe357b716a139887"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          4465,
+          "c8ecfa0c9528cc8a4914d27a6f077873779deee25cc58f6e586eb68c85b2f600"
+        ],
+        [
+          "zh-TW.check.log",
+          132,
+          "93a189d51470c20b525bad07164026e7d6b7272d70a0294a4968f5a8ac13735e"
+        ],
+        [
+          "zh-TW.export.log",
+          166,
+          "468cf77343ffe0b0aa20218d192ed993ee26962b32c72fcae36d610341020d66"
+        ],
+        [
+          "zh-TW.import.log",
+          133,
+          "921ac722e2263f5e06345595051eed486d0e374e3490b17c52e7ff8381baf5f4"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          2967,
+          "bac8acd1dc3469bee37a60df9e0df7fc1da99191b9138ad1396ce8804991c628"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          4465,
+          "86cfd16104ab40ebecc1e4c823cc1ed906690861b74ee3fc31b28c21a2660d04"
+        ]
+      ]
+    },
+    "encoding": "Raw population: basename-sorted [basename,bytes,sha256], UTF-8 JSON ensure_ascii=false separators comma/colon. Rows: [locale,id,source_hash,previous_target_hash,target_hash] in locale/export order, canonical sorted-key digest."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

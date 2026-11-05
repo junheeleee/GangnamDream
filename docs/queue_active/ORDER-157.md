@@ -7,11 +7,9 @@
 사용자 “언어도 빨리 일어 중국어 완상시키자”에 따라 아래의 CJK 대기를 해제한다.
 Mac 잠금과 KO/EN 대표 플레이 대기는 화면 없는 번역·검증의 선행 조건이 아니다.
 현재 한국어에서 세 언어를 독립 작성하고 미번역·낡은 번역·실제 표시 경로를
-차례로 수리한다. [738](../queue_archive/ORDER-738.md) 사실수리15 완료,
-[739](../queue_archive/ORDER-739.md) 첫해결산24 정합도 완료했다. 남은 stale 본문과
-실제 UI 누락은 별도 범위를 정해 계속하며, 두 완료 배치를 반복하지 않는다.
-이어 [740](../queue_archive/ORDER-740.md) 둘째 해18,
-[741](../queue_archive/ORDER-741.md) 월급 한계21 정합도 완료했다.
+차례로 수리한다. [738](../queue_archive/ORDER-738.md) 사실15,
+[739](../queue_archive/ORDER-739.md) 첫해24·[740](../queue_archive/ORDER-740.md) 둘째해18,
+[741](../queue_archive/ORDER-741.md) 월급한계21 정합 완료.
 [742](../queue_archive/ORDER-742.md) 서른다섯 생활·선택60도 정합했다.
 [743](../queue_archive/ORDER-743.md) 입원·관계·갱신36도 정합했다.
 [744](../queue_archive/ORDER-744.md) 몸·재혁·갱신회수48도 정합했다.
@@ -73,6 +71,8 @@ memory2는현재자동순서의신규정상런노출로세지않고호환/회상
 [793](../queue_archive/ORDER-793.md) JA 재혁후일담2 정정(신규0).
 [794](../queue_archive/ORDER-794.md) JA 상철·현수후일담2 정정(신규0).
 [795](../queue_archive/ORDER-795.md) JA 부친귀향2 정정(신규0).
+[796](../queue_archive/ORDER-796.md) 세 엔딩 CJK9 정정(신규0).
+별도 엔딩235leaf/언어의 source-stale81→72(각24), 사건진단48과 별개·전체미완.
 기존 데모·KO/EN·저장과 원어민 관찰 이력은 보존하며, 선택지만 켜거나
 문구 개수만 채운 것을 본편 완성으로 세지 않는다. 아래는 날짜별 역사다.
 
