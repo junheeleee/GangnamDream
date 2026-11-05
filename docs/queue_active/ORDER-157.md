@@ -57,8 +57,7 @@ memory2는현재자동순서의신규정상런노출로세지않고호환/회상
 보호된 foreshadow2/locale와 비결속 원고는 별개다. 다음은 UI 누락과 실제 소비자다.
 [780](../queue_archive/ORDER-780.md) 본편 선택 방식의 간체·번체 UI4×2 신규 수용.
 진행 화면·엔딩 기록의 기존 조회만 채웠으며 실제 화면과 retail 선택/표시는 미완이다.
-[781](../queue_archive/ORDER-781.md) 초상 아래 현재 칭호의 간체·번체 UI13×2 추가,
-누적 UI34 신규. 플랫폼 명칭과 지분 엑싯 뜻 보존, 분기·표시 조건은 그대로다.
+[781](../queue_archive/ORDER-781.md) 현재 칭호 CN/TW 신규26(누적UI34), 분기 보존.
 [782](../queue_archive/ORDER-782.md) 경마 선택 말 표식 기존 CJK 연결(신규0).
 [783](../queue_archive/ORDER-783.md) 일본어 마장 ‘양호’ 1값 정정(신규0).
 [784](../queue_archive/ORDER-784.md) 엔딩 도감 첫 발견 표식 JA/CN/TW 신규 1키씩,
@@ -73,6 +72,7 @@ memory2는현재자동순서의신규정상런노출로세지않고호환/회상
 [792](../queue_archive/ORDER-792.md) JA 요약4정정.
 [793](../queue_archive/ORDER-793.md) JA 재혁후일담2 정정(신규0).
 [794](../queue_archive/ORDER-794.md) JA 상철·현수후일담2 정정(신규0).
+[795](../queue_archive/ORDER-795.md) JA 부친귀향2 정정(신규0).
 기존 데모·KO/EN·저장과 원어민 관찰 이력은 보존하며, 선택지만 켜거나
 문구 개수만 채운 것을 본편 완성으로 세지 않는다. 아래는 날짜별 역사다.
 

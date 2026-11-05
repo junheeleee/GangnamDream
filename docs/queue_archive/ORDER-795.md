@@ -1,6 +1,6 @@
 # ORDER-795 — 일본어 부친 후일담 귀향 의미
 
-#### [~] ORDER-795 · 일본어 부친 후일담 귀향 의미
+#### [x] ORDER-795 · 일본어 부친 후일담 귀향 의미 — 2026-11-06
 
 부모157/C5. 착수 — `locale/ui_ja.json`의 부친 귀향 권유/사후 창원 방문
 기존2키와 `content/meta/full_game_localization.json`의 해당 결속만 소유한다.
@@ -11,3 +11,11 @@ KO/EN/CN/TW·원문·코드·분기·수치·저장·공개 데모 비소유, �
 기존 공식 export/check/import replace·사전/원장 역복원·JA UI·데모·EN과
 다른 에이전트의 실제2값 전수 검수를 수행한다. 실제 화면/원어민은 별도다.
 작업 지시는 일회성, 기존 현지화/판정 정본을 따른다.
+
+제품 `8f1da7ad89e754afcb2510cbbd452915e8a3e51a` 정상 push.
+기존 JA2 첫 원문 결속 수용·신규 커버리지0. 공식 check/import·전체 사전/원장
+byte 역복원(원385배치)·JA UI·데모·EN 및
+[독립 전수 source GO](../agent_reviews/order795-ja-father-homecoming.md).
+1회 방문·빈방 문장 exact·생사/분기·다른 언어·코드·저장·공개 데모 불변.
+선택목록31은 실행 증거가 아니며 실제 화면/원어민/전체 CI 완료는 별도다.
+자동 검사는 계약 증거이지 사람 품질·출시 판정이 아니다.

@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-795",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "8f1da7ad89e754afcb2510cbbd452915e8a3e51a",
+    "tree": "990959c13d341b63d23a464e5b3e763fc891377f",
+    "manifest_sha256": null
+  },
+  "scope": "Two existing Japanese father-epilogue homecoming values, new coverage 0.",
+  "review": {
+    "method": "Direct Korean-to-Japanese comparison of both full values and actual father stage/good/bad/money-choice/last-train selector priorities; independent canonical collector/check_batch, official receipt and whole-file inverse.",
+    "findings": "Living father invites coming home for a meal, not floor descent. Passed father context supports explicit death and a one-time Changwon return, not disembarkation; complete empty-room sentence exact. Life states and higher-priority specific memory branches unchanged."
+  },
+  "preservation": {
+    "prior_batches": 385,
+    "prior_decisions": 352,
+    "prior_decision_ledger_sha256": "721549e2e9dbc36c495cfcf52d8b27528ec40596a50fad743f1426fa92a48d14",
+    "proof": "Full JA dictionary and full localization-ledger byte inverses; two old keys without prior acceptance, one batch appended. Other JA, Korean source/code, all KO/EN/CN/TW, conditions/life states/gameplay, saves and public demo unchanged."
+  },
+  "validation": "Official export/check/import exit0; independent current-source canonical check_batch/manifest, receipt and exact UI/ledger inverses pass. JA UI errors0, demo5/14events/100leaves/122UI, EN and document logs clean. Lane selects31 only. No engine/render/native execution.",
+  "identity": {
+    "baseline": "83966d2f13e8f65634cb29a9a279c0c37196ec13",
+    "rows_sha256": "57095d0c6e6fe168d818a759717bbf1233617dccfa6c5510c678d08e5159d282",
+    "receipt_sha256_by_locale": {
+      "ja": "a5080322673189cb27fd9b25ef030d9d01b7611321b33dc8685c15c2b3533514"
+    },
+    "official_receipt_file_sha256": "99a9faca31cae3653740398859979b744f4decc04267aafec50710a7006ad419",
+    "previous_target_sha256_by_leaf": {
+      "ui:다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.:/다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.": "e99acb040451add77929b17724d92f39622921d9cc5d8e2b896897f5ae64fa46",
+      "ui:아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.:/아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.": "66f642283994e5eca6a1b859a2ffc43d32461ced4fd74d86f8e8e185cc31b143"
+    },
+    "raw_directory": ".git/localization-ja-father-homecoming-20261106.9labdh/",
+    "raw_population": {
+      "files": 13,
+      "sha256": "6108c6398d859dea0859d59c56da5480e604cf0f996bfaa830bf4a2ed4434316",
+      "entries": [
+        [
+          "check.log",
+          129,
+          "80a9b3764e6af060904e9d3be3268da4a9b936a94b0b8f5b9588c8049184ae2e"
+        ],
+        [
+          "correction.log",
+          117,
+          "e91b9d7afe0f4386196b9725a55450db133b097847b407fd042a2802061eefad"
+        ],
+        [
+          "correction.py",
+          4026,
+          "9c6ba2970ba561527242828515c75703403bbe81419de798bd2e1e57f09e1c82"
+        ],
+        [
+          "delta.log",
+          542,
+          "c07d9c55068f06a7e8b4974ba92f6a1091458b1def2c888193b20218549c41eb"
+        ],
+        [
+          "demo.log",
+          357,
+          "204e1625c45e9ddeec15ad84a84b8bcf1812bfc74e7800f5af2624513e8e85d8"
+        ],
+        [
+          "en.log",
+          65,
+          "652b3f77548a68a2980e61b6e4307f0d0892d5d48dc32d81d504f2f598e11b7e"
+        ],
+        [
+          "export.log",
+          163,
+          "1af9138341c08a1d69fbc8fa53484126ea5e55caf751b5f7a298ab8ba12298b6"
+        ],
+        [
+          "import.log",
+          130,
+          "aa0add46f32d5743efb30de1da39087238cb17eaf531ff0ac4f5dcf3e6416a27"
+        ],
+        [
+          "ja.log",
+          226,
+          "2d070390d4e30333eb2954fa996e1025c36448bc4d285e6febf0911b502b1007"
+        ],
+        [
+          "ja.response.jsonl",
+          1500,
+          "f6383496420aea47291987c89d3f067c863af22a7d958c32c95bf9392ac4f8e8"
+        ],
+        [
+          "ja.source.jsonl",
+          2630,
+          "7c1ddad92bfdea76370075434269143fd4bcd43ac74a6488bba4e19d4d52ca4e"
+        ],
+        [
+          "lane.log",
+          4957,
+          "afc13c6bac4a8e90c78144804ad21a599b756a01bddb245c7c3c2a39deff9b20"
+        ],
+        [
+          "leaf-ids.json",
+          433,
+          "8ba42e864b7c4b7f5630aee4dada0f1afedba7ace07b1617e8cf460cca40cc9f"
+        ]
+      ]
+    },
+    "encoding": "Raw population: basename-sorted [basename,bytes,sha256], UTF-8 JSON ensure_ascii=false separators comma/colon. Rows: [locale,id,source_hash,previous_target_hash,target_hash] in export order, canonical sorted-key digest."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
