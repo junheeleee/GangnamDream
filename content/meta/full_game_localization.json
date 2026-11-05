@@ -24926,6 +24926,57 @@
       "superseded_acceptance_by_locale": {
         "ja": {}
       }
+    },
+    {
+      "order": "ORDER-793",
+      "group": "ui",
+      "kind": "existing_target_correction",
+      "roots": [
+        "최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.",
+        "최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도."
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Two Korean Jaehyuk epilogues say the number is no longer in service, not blocked; preserve photo retention and belief and all other text.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "f9d8efa475d6ca792ac0001c73cf0026a6ee6275",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "8583e3d9638d47f7a9304a9a5f0c2b7e233569003a21250f9c03d7a568403576",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "12835fe7351ee0f21075b261d197ccdc3a80cc6d74b37c29f326e40e630636e8"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "c412ddeb89a05fffcb1202ccefa870ac55064f5dba400beba9a311da03437c74"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "ui:최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.:/최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.": "a46e30e78df9e31fd598c2a243144971ff1230e45207c162496a85a689039295",
+          "ui:최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.:/최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.": "b2a7aae437a293893e39f727da71b48f461cbc8844cbe261471a430fb4653db9"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {}
+      }
     }
   ],
   "accepted": {
@@ -77709,6 +77760,14 @@
       "ui:충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다.:/충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다.": {
         "source_sha256": "1cef9b03b60c8edd0da42b928bfd91e9c06c4559cd52a0d86225041d819f5850",
         "target_sha256": "3f42e2fa5b41c0850d270de04e3c8517a9021894f4c18e1859aa8bc5d1928f68"
+      },
+      "ui:최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.:/최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.": {
+        "source_sha256": "3355f6f770891383b387daf85d59d12100eedeca85eedf37a77dcdc7a50d9f13",
+        "target_sha256": "247a236e4b077cc9797f478bdf9eb3c5b6caf2f42f8824f216443bc13f8ecf2f"
+      },
+      "ui:최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.:/최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.": {
+        "source_sha256": "6ab300353232f021d49a57e11c8853065150fad846368dee1d28581cb65cecc7",
+        "target_sha256": "1150d78fec9c32a4894e8eaf394379ee4a1afced1822b18e1d8948ed304c6c4d"
       }
     },
     "zh-CN": {
@@ -196932,7 +196991,7 @@
       }
     }
   },
-  "accepted_sha256": "aa67eee40dd4778cb0d26a4aa9c7c1cc735f3fcc69c10cc7366172baee4c3422",
+  "accepted_sha256": "4c1cfbd5ccb0220f1c991a65b384fa231ea2cd5804d83e96949b3b18bb5d1d74",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
