@@ -25028,6 +25028,57 @@
       "superseded_acceptance_by_locale": {
         "ja": {}
       }
+    },
+    {
+      "order": "ORDER-795",
+      "group": "ui",
+      "kind": "existing_target_correction",
+      "roots": [
+        "다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.",
+        "아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다."
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean father epilogues describe a living father inviting a homecoming meal and a one-time return to Changwon after death in the passed branch. No floor descent or disembarkation; preserve empty-room sentence and all selectors.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "83966d2f13e8f65634cb29a9a279c0c37196ec13",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "0a49351bf4f5dd45a290318deb342600a44b618d328bb285185389a8f948b1e6",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9e9ac9594b6f960ee69976b9782ac1e148be0622f7e355f6dc658a1b9adfd59d"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "a5080322673189cb27fd9b25ef030d9d01b7611321b33dc8685c15c2b3533514"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "ui:다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.:/다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.": "e99acb040451add77929b17724d92f39622921d9cc5d8e2b896897f5ae64fa46",
+          "ui:아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.:/아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.": "66f642283994e5eca6a1b859a2ffc43d32461ced4fd74d86f8e8e185cc31b143"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {}
+      }
     }
   ],
   "accepted": {
@@ -77827,6 +77878,14 @@
       "ui:현수는 회계법인에 자리를 잡았다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.:/현수는 회계법인에 자리를 잡았다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.": {
         "source_sha256": "8842c466f77f827d4ca9af9c6834cb57f6ffe472decc34c928e4afe8b87f3029",
         "target_sha256": "05eaa16524d33e9b681e1e2b40172bff43c7285182a7de6118e7ccf626537a9d"
+      },
+      "ui:다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.:/다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.": {
+        "source_sha256": "ccb181301e209cd718cb3b797e03aeda3e5ffcf3aa894ffda6f9dae91bcc8ef3",
+        "target_sha256": "f00593dcdf9f37ff9d25864dd9218321a8e24a12915f685ae92e8f443905a5eb"
+      },
+      "ui:아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.:/아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.": {
+        "source_sha256": "b30f5cd8456a6b3659cff90e3a79ec3bbbecbdf3e9b7de407517296e08f97a55",
+        "target_sha256": "fa0e56e43e8e3a1bd4ebbf510e9e8cb95ad83ad805d1ec2d925b426b59536907"
       }
     },
     "zh-CN": {
@@ -197050,7 +197109,7 @@
       }
     }
   },
-  "accepted_sha256": "d2fd7eeb5d1f8df0df4d4ad869e7877a5a0618c8d5596d9ddc8bfd29eeaae9f0",
+  "accepted_sha256": "9c53927e414a933e19cda8aeac6483cefac7783a85d63c7f88df1f82f7210e06",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
