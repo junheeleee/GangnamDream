@@ -24871,6 +24871,61 @@
       "superseded_acceptance_by_locale": {
         "ja": {}
       }
+    },
+    {
+      "order": "ORDER-792",
+      "group": "ui",
+      "kind": "existing_target_correction",
+      "roots": [
+        "고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다",
+        "성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.",
+        "임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.",
+        "충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다."
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 4,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean ending captions preserve unemployment, the first-year 3 billion won, not selling mornings for money, a person asking why, and both Gangnam and family.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "1807509e3c8978427e4678d3884b079016f06e98",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "628fd5cc08191f979d61de44f16fdd10af31f1a11f2fb990acae1326cd709c45",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "f6ee541f688e3ac9873ec969ced73f5f09ab3d8e5e95bdc33519a2744b626c1b"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "355eeff42aaf8b47812b83140b3c9ade8fb1dc33bcd0a9700d8c90e6ba455428"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "ui:고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다:/고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다": "0a705dde48e90618f3bb900a4b58e9a24c85d0bf3a760213d335d58d376f6357",
+          "ui:성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.:/성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.": "20310b34e11762711b46eebdddd0effcc32a20cfafb125505a9a2abb4c9532c4",
+          "ui:임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.:/임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.": "5807c540fc07c24da09aeaa17088c40192f419feebf271ee21f4b48ffc7089d7",
+          "ui:충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다.:/충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다.": "f718490ea2f0c821ad97506c63adb3b27689d423789fedd09128535bc07ae9ff"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {}
+      }
     }
   ],
   "accepted": {
@@ -77638,6 +77693,22 @@
       "ui:고른 말이 1착이면 배당만큼 — 기본:/고른 말이 1착이면 배당만큼 — 기본": {
         "source_sha256": "8bfea9d721a265a2e796270bb41dbe41a122bac881b5517b184e51ee9fc71482",
         "target_sha256": "fb933a3c8521e15ac34f48b26968fa14fd62cce8d6a37db73edff804f7c0cc01"
+      },
+      "ui:고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다:/고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다": {
+        "source_sha256": "ef46676cf7cbfe2b179f94de8ad931c7939726b6d7c63b7a6caead606ad3482b",
+        "target_sha256": "c9cc782de1a57198bb8ff3f3f54d6969e5cf430c5f0c3272b8b06328476ea4e4"
+      },
+      "ui:성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.:/성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.": {
+        "source_sha256": "fc802a02a348dfa430549f2eed59576e26752f2eab476ac56b9189382aea69cc",
+        "target_sha256": "9dac0172e2692a3793c63785b6fbc5ceab510f015d40a9579a3eb72e1b4a7ad0"
+      },
+      "ui:임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.:/임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.": {
+        "source_sha256": "764fe6651e2c1449e6f59b2dafb49e254f5910dec8e45f3426a40070fd0bbced",
+        "target_sha256": "7743f6ab06e0136807324d7348f3a9df57cedaf6c7808b8fca28986a4f462645"
+      },
+      "ui:충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다.:/충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다.": {
+        "source_sha256": "1cef9b03b60c8edd0da42b928bfd91e9c06c4559cd52a0d86225041d819f5850",
+        "target_sha256": "3f42e2fa5b41c0850d270de04e3c8517a9021894f4c18e1859aa8bc5d1928f68"
       }
     },
     "zh-CN": {
@@ -196861,7 +196932,7 @@
       }
     }
   },
-  "accepted_sha256": "7a7ae4140c0f024d11631459bbb58b9d4afc71bd1ee7273591c0e19517158a16",
+  "accepted_sha256": "aa67eee40dd4778cb0d26a4aa9c7c1cc735f3fcc69c10cc7366172baee4c3422",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
