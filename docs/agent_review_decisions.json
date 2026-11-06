@@ -15565,7 +15565,7 @@
     },
     {
       "id": "order811-cjk-daeun-wedding-estimate-source-go",
-      "delegation": "user-2026-09-09-codex-game-quality",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
       "decided_at": "2026-11-07",
       "decided_by": "/root/review_791",
       "authority": "user_delegated_agent_final",
