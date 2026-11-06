@@ -84,6 +84,22 @@ func _f(lbl, bold := false) -> void:
 func _tr(ko: String, en: String) -> String:
 	return LocaleManager.ui(ko, en)
 
+func _uses_localized_canvas_captions() -> bool:
+	return not GameState.is_demo_build() and LocaleManager.language in ["ja", "zh-CN", "zh-TW"]
+
+func _canvas_caption(english: String) -> String:
+	if not _uses_localized_canvas_captions():
+		return english
+	match english:
+		"FINISH": return _tr("결승선", "FINISH")
+		"LIVE ORDER": return _tr("실시간 순위", "LIVE ORDER")
+		"PHOTO FINISH": return _tr("사진 판정", "PHOTO FINISH")
+	return english
+
+func _canvas_caption_font(fallback: Font) -> Font:
+	# The canvas fallback is not the locale-configured UI role.
+	return _font if _uses_localized_canvas_captions() and _font != null else fallback
+
 func _bet_name(t: int) -> String:
 	match t:
 		BetType.PLACE: return _tr("연승", "Place")
@@ -898,7 +914,8 @@ func _draw_finish_gate(fin_x: float, sz: Vector2, f: Font) -> void:
 		_track.draw_rect(Rect2(fin_x - 5.0, float(k), 10.0, 6.0), tile_col, true)
 	_track.draw_rect(Rect2(Vector2(fin_x - 44.0, 10.0), Vector2(88.0, 22.0)), Color("#0a0d12"), true)
 	_track.draw_rect(Rect2(Vector2(fin_x - 44.0, 10.0), Vector2(88.0, 22.0)), Color("#f0c45d"), false, 1.0)
-	_track.draw_string(f, Vector2(fin_x - 29.0, 26.0), "FINISH", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("#f0c45d"))
+	_track.draw_string(_canvas_caption_font(f), Vector2(fin_x - 29.0, 26.0),
+		_canvas_caption("FINISH"), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("#f0c45d"))
 
 func _draw_saddle_number(dst: Rect2, num: int, lane_color: Color, f: Font) -> void:
 	var hsz := dst.size.x
@@ -923,7 +940,7 @@ func _draw_live_board(hs: Array, f: Font, sz: Vector2, fin_x: float) -> void:
 	_track.draw_rect(Rect2(board.position + Vector2(0, 5), board.size), Color(0, 0, 0, 0.30), true)
 	_track.draw_rect(board, Color(0.02, 0.025, 0.035, 0.70), true)
 	_track.draw_rect(board, Color("#f0c45d"), false, 1.0)
-	_track.draw_string(f, board.position + Vector2(14.0, 22.0), "LIVE ORDER",
+	_track.draw_string(_canvas_caption_font(f), board.position + Vector2(14.0, 22.0), _canvas_caption("LIVE ORDER"),
 		HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("#f0c45d"))
 	for rank in range(min(3, order.size())):
 		var idx := int(order[rank])
@@ -1254,7 +1271,7 @@ func _draw_finish_photo(ctrl: Control) -> void:
 	ctrl.draw_rect(Rect2(rect.position + Vector2(0.0, 5.0), rect.size), Color(0, 0, 0, 0.28), true)
 	ctrl.draw_rect(rect, Color(0.025, 0.030, 0.040, 0.72), true)
 	ctrl.draw_rect(rect, Color("#f0c45d"), false, 1.0)
-	ctrl.draw_string(f, rect.position + Vector2(16.0, 24.0), "PHOTO FINISH",
+	ctrl.draw_string(_canvas_caption_font(f), rect.position + Vector2(16.0, 24.0), _canvas_caption("PHOTO FINISH"),
 		HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("#f0c45d"))
 	var finish_x := rect.end.x - 110.0
 	ctrl.draw_line(Vector2(finish_x, rect.position.y + 28.0), Vector2(finish_x, rect.end.y - 12.0), Color("#ffffff"), 2.0)
