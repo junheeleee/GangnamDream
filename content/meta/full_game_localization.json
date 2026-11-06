@@ -26014,6 +26014,87 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-802",
+      "group": "ui",
+      "kind": "existing_target_correction",
+      "roots": [
+        "30억보다 소중한 것을 알게 됐다. 그게 다은이었다.",
+        "30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.",
+        "30억은 모였다. 네 자리 식탁에는 혼자였다.",
+        "30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.",
+        "순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.",
+        "성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다."
+      ],
+      "source_leaves": 6,
+      "target_leaves_by_locale": {
+        "ja": 5,
+        "zh-CN": 1,
+        "zh-TW": 0
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean finale captions: spell out the five already-implied won units without changing their amounts, and ask why success happened rather than why someone wants to succeed.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "a6dae848ae25dc053d9691592eb8a16348cbce56",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "a6682b47e0d9d1218d8d9c7b6a133d03a661db7ba339e98b40b428f1d7dc9660",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6a531b5f8a6991bbc052fbe6f25718cecbb18b8d2eeaabe665dd2dfc7e7af31b"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "a6dae848ae25dc053d9691592eb8a16348cbce56",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "b2df284d6ffdb8c38c90a5ee08d120b187ebf12f6c2c5edc989de6d02e02d8bb",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a33ddaa18b358cd4413f4e53694153b9f78e14cefdb4e074d9431187084ffd97"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "8230a0786d285adbfcf9e2fb506069d2cdb28f17f5175da2ffdf1dfd3a834227",
+        "zh-CN": "46f1f56d5d535e9c3984352ec4b3efd3db618a875a7f507674de8b7b7dacb90d"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "ui:30억보다 소중한 것을 알게 됐다. 그게 다은이었다.:/30억보다 소중한 것을 알게 됐다. 그게 다은이었다.": "0a8db02afc78a0244d40c2133027c63a90873775aeacc4c4299c3d2365c9c29a",
+          "ui:30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.:/30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.": "f43aa7a5355b397f831b4f9ee729acdb85ff9966927f48a0dfe5dc1a3cbfa5ad",
+          "ui:30억은 모였다. 네 자리 식탁에는 혼자였다.:/30억은 모였다. 네 자리 식탁에는 혼자였다.": "2b28c4274059c5bab3c61fc39a960d58f32b44c8cfa2b84bc218836df7f8a10f",
+          "ui:30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.:/30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.": "e519a64bd48dec37a8f4c378de4f6f825c6a818b64657647a6b8d91ce030e913",
+          "ui:순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.:/순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.": "57b8e071928ef60030f63da81ef975a794280ba75172103a25f0fd2fdbc128d7"
+        },
+        "zh-CN": {
+          "ui:성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.:/성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.": "fc8889e16e0b2358e9ae9c697084585a22a6f3ed25f5613736933b56c456431b"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {},
+        "zh-CN": {
+          "ui:성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.:/성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.": {
+            "source_sha256": "fc802a02a348dfa430549f2eed59576e26752f2eab476ac56b9189382aea69cc",
+            "target_sha256": "fc8889e16e0b2358e9ae9c697084585a22a6f3ed25f5613736933b56c456431b"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -78821,6 +78902,26 @@
       "ui:아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.:/아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.": {
         "source_sha256": "b30f5cd8456a6b3659cff90e3a79ec3bbbecbdf3e9b7de407517296e08f97a55",
         "target_sha256": "fa0e56e43e8e3a1bd4ebbf510e9e8cb95ad83ad805d1ec2d925b426b59536907"
+      },
+      "ui:30억보다 소중한 것을 알게 됐다. 그게 다은이었다.:/30억보다 소중한 것을 알게 됐다. 그게 다은이었다.": {
+        "source_sha256": "04588ca0154a0948dfba97adff99a5f2d1a4a641ad5424e665d2b2cf05c970ac",
+        "target_sha256": "df661efbbdb83d9228248be726c1f37859a7eac6a5f9653808814986d5469de5"
+      },
+      "ui:30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.:/30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.": {
+        "source_sha256": "a2718072e2ba88820ca08c50fb48fc75693b50c95d2ed5ba1593a68390260305",
+        "target_sha256": "d4d8bc5c4525272d98f7c91f18d72773f22e309e668c01eb291e53a7057e9c46"
+      },
+      "ui:30억은 모였다. 네 자리 식탁에는 혼자였다.:/30억은 모였다. 네 자리 식탁에는 혼자였다.": {
+        "source_sha256": "ee4b820e964e805fdb5acbb3c858f4c3be4d856157eed5b114d5c0ae2651a1f1",
+        "target_sha256": "63b6e42b4ef476fb1d98cfed2c20597f5fbda071644db4bd043a84bda1bd2323"
+      },
+      "ui:30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.:/30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.": {
+        "source_sha256": "112ea11531d1d961528f4a4c1adb8d2347b9a9c9fb5f1bda5588a09196b67c04",
+        "target_sha256": "006656e29decfd2ccf7644c763e29f8ab8a395c35b0cc2d1c03237b66c3f49c5"
+      },
+      "ui:순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.:/순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.": {
+        "source_sha256": "47c01c7b38cc543342987439dbbfc7b70af06e25397b2d84d0ec6499ed447ff9",
+        "target_sha256": "c07fb32ff01a1eaa03dff156cbae50d76cd53ec80a458472c5ee404f36bf2b8a"
       }
     },
     "zh-CN": {
@@ -131362,7 +131463,7 @@
       },
       "ui:성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.:/성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.": {
         "source_sha256": "fc802a02a348dfa430549f2eed59576e26752f2eab476ac56b9189382aea69cc",
-        "target_sha256": "fc8889e16e0b2358e9ae9c697084585a22a6f3ed25f5613736933b56c456431b"
+        "target_sha256": "8b61408f0c4bad28313707b0fffe35c7a8001501bcbfa1ebb7d7050c91021e08"
       },
       "ui:도박의 바닥에서 올라왔다. 달력에 동그라미 30개. 강남보다 어려운 승리.:/도박의 바닥에서 올라왔다. 달력에 동그라미 30개. 강남보다 어려운 승리.": {
         "source_sha256": "0b238f0cb1572c29c805ea39fc36c250aacf5c3ca0bc0e62abb9b95100e54745",
@@ -198044,7 +198145,7 @@
       }
     }
   },
-  "accepted_sha256": "6c833d909e0bd4dcfeea6600c0ef6f5a9ae6def9b34322c59cde7a5bf4d1ee4e",
+  "accepted_sha256": "0a8a73c1d8d1281e138f33b51ec2bbe9de34b8c649fbe262928e01ad88add354",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
