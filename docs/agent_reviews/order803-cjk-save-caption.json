@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-803",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "39372c98f5f92155347fe5af2003cf56b097e4d5",
+    "tree": "ad34560ae81f51ddab7d92c4164571da60f9416e",
+    "manifest_sha256": null
+  },
+  "scope": "Display-only projection for verified compatible built-in full-game manual StoryMode saves when reading from a different known locale into JA/zh-CN/zh-TW; two StartMenu readers and the nonpublic-demo StoryMode reader only.",
+  "review": {
+    "method": "Read actual label/locale producer, get_save_info, compatibility and candidate selection, projection guards, locale reload/order, both title readers, StoryMode and full Git inverses; inspected initial and final isolated logs without running engine again.",
+    "findings": "Only display changes. Exact event ID and static title after format validation; original caption preserved for supported excluded cases including KO/EN, same/unknown locale, autosave, incompatible, QA, modded, nonstory, freeform, absent event and braces. Frozen public product and dedicated public StoryMode branch unchanged.",
+    "boundary": "Automatic prefix is a heuristic for the supported in-app producer, not attestation for arbitrarily hand-edited saves that mimic that prefix. No supported custom producer identified. No title menu render/SaveManager disk IO exercised; new StoryMode reader was instantiated in isolated headless run."
+  },
+  "preservation": {
+    "prior_decisions": 361,
+    "prior_decision_ledger_sha256": "c10e90ff616261023a74c47a71ec242b7a044ed3b6ed432d176a083614052bd2",
+    "proof": "Exact code inverses bind SaveManager to a read-summary field and all display call sites to their original bytes outside the owned delta. Thirteen nonowned Git blobs and pinned public demo unchanged. No serialization, schema, file writing, loading behavior, allowlist, or source text change."
+  },
+  "validation": "Author initial fixture parse error preserved. Two final isolated outputs have their specific caption success and infrastructure success markers, matched preautoload/runtime namespace within each run, nineteen expected format warnings and no script/parse/error markers. Expanded final: localized9/story_reader3/preserved44/immutable3/real_saved_slots0. Demo5/14/100/122, EN1813/35 and CJK skeleton logs; lane79 selection only. Independent read-only validation exited 0.",
+  "identity": {
+    "baseline": "7e6af6bcabceaa6d894e4a98658947bc6aa76ea6",
+    "nonowned_blobs": 13,
+    "public_frozen_product": "4e80a63e89821094b8bab21b8d5c73ecfc9b6278",
+    "product_diff_paths": [
+      "CLAUDE.md",
+      "autoloads/LocaleManager.gd",
+      "autoloads/SaveManager.gd",
+      "scenes/StartMenu.gd",
+      "scenes/StoryMode.gd",
+      "tools/I18nInfrastructureCheck.gd"
+    ],
+    "raw_directory": ".git/qa-cjk-slot-caption-20261106.jpFDGt/",
+    "raw_population": {
+      "files": 14,
+      "sha256": "db3b9d40e27a5a6ac0f286a8fb2140c2fe7cc53c1df384115d1bd6305e37b412",
+      "entries": [
+        [
+          "consumer.engine.stderr",
+          9574,
+          "00d7eaf313f1c86cda539f705950ebd823f34eb0bdf74bf4286d8f5b5206a59a"
+        ],
+        [
+          "consumer.engine.stdout",
+          6979,
+          "dd170554548aeb73fb210f86a3c44928ffc65f7ed013fd42f78f84a2e33ab090"
+        ],
+        [
+          "consumer.godot.log",
+          16325,
+          "a7f07cadd2fa66f77ce40080f2e490ae953f1aed1344e2bdb1a9ca38d0a40343"
+        ],
+        [
+          "delta.log",
+          9812,
+          "a4f2ca2e25445e97e43b90a0c2954748198a0a1b2bca53d2e4e0d1fa7c28ec8b"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "engine.stderr",
+          287,
+          "f7af8be55ceb6d3929bca10693b010dde7865269742ff52787074f8da12ad9b1"
+        ],
+        [
+          "engine.stdout",
+          219,
+          "45befe3a778a119aa1cbeba40831f77ed1fb240f61c65ce1bead384d236cd07a"
+        ],
+        [
+          "final.engine.stderr",
+          9574,
+          "59a818c4856da996e952dbbb5db4f03a8d2ccf96a840fc83c8acad11b1b501e9"
+        ],
+        [
+          "final.engine.stdout",
+          6964,
+          "c5a08a2b4dbdb0418c34543da6f184543d18a259fb1ca95563367ddf9f35c7ae"
+        ],
+        [
+          "final.godot.log",
+          16310,
+          "01cd81af11c974e5678e1cfe3cc4718c728b229fa1346f648ba1fc6f99ab6c68"
+        ],
+        [
+          "godot.log",
+          499,
+          "80daab90ba98c2cdb1b4d104e9f02409f48bdd6d169e42e8d9bbeb7cca792d94"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "lane.log",
+          11549,
+          "19b104d22c40ea4ac56f50cecb30e3d4942fa2bdb90c26212696b2e4629847de"
+        ]
+      ]
+    },
+    "headless_signatures": {
+      "final": {
+        "caption_marker": "FULL_STORY_SLOT_LABEL_CHECK_OK localized=6 preserved=44 immutable=3 real_saved_slots=0",
+        "infra_marker": "I18N_INFRASTRUCTURE_CHECK_OK targets=3 ui_fallback=en content_fallback=en",
+        "intentional_format_warnings": 19,
+        "namespace_basename": "GangnamDream_StoryNameplateQA_2270806626dd440f3445a89edaeaa8ad",
+        "preautoload_and_runtime_same": true
+      },
+      "consumer": {
+        "caption_marker": "FULL_STORY_SLOT_LABEL_CHECK_OK localized=9 story_reader=3 preserved=44 immutable=3 real_saved_slots=0",
+        "infra_marker": "I18N_INFRASTRUCTURE_CHECK_OK targets=3 ui_fallback=en content_fallback=en",
+        "intentional_format_warnings": 19,
+        "namespace_basename": "GangnamDream_StoryNameplateQA_dff56dee09cfaa40adfdca449171fd6b",
+        "preautoload_and_runtime_same": true
+      }
+    },
+    "encoding": "UTF-8 file byte SHA256; raw population compact JSON basename-sorted [name,size,sha256]."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "actual_save_load",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
