@@ -26095,6 +26095,60 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-804",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_daeun_hometown_1"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean full-game scene title: traveling back to Daeun's countryside home, without an invented southerly direction. Body, other titles and routing unchanged.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "d3d3fbd819cb535d9f36135113aadff28514e602",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "45bb6a6a25315cc36461b7a43bb350a47a9bd9c5da1fbc80eacd1b150300beae",
+          "selection_sha256": "b216b48db219de74c44a4940fdcfe82090c2feddffa7b9be72cfb57d5b4668f8",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9be653e1309a6ef78a4ff53ca8dda6f3aa013011f43f873356e7bbc0052d8277"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-TW": "322b0b994847196e54850420c628a211c41a7962791b95fd4400fea5448a8a0c"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-TW": {
+          "events:arc_daeun_hometown_1:/title": "a2c8ef6f833408a5a875921e1bf81a5e13f12ad8f41885799af279e9e2f5f14e"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-TW": {
+          "events:arc_daeun_hometown_1:/title": {
+            "source_sha256": "220f7630a0fa5ba6081db200c02d2dd4101ea4957d2140e5b43ba7ec3853e5b4",
+            "target_sha256": "a2c8ef6f833408a5a875921e1bf81a5e13f12ad8f41885799af279e9e2f5f14e"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -150489,7 +150543,7 @@
       },
       "events:arc_daeun_hometown_1:/title": {
         "source_sha256": "220f7630a0fa5ba6081db200c02d2dd4101ea4957d2140e5b43ba7ec3853e5b4",
-        "target_sha256": "a2c8ef6f833408a5a875921e1bf81a5e13f12ad8f41885799af279e9e2f5f14e"
+        "target_sha256": "e9c8aabe82a94c66b34ef82f9d35a502ae10b2577ba75205dd421342880635a2"
       },
       "events:arc_daeun_hometown_2:/choices/0/result_text": {
         "source_sha256": "0241a36ee22bd93bb9d1d0080519660ced869f6940ad18f655e1838097bf90b7",
@@ -198145,7 +198199,7 @@
       }
     }
   },
-  "accepted_sha256": "0a8a73c1d8d1281e138f33b51ec2bbe9de34b8c649fbe262928e01ad88add354",
+  "accepted_sha256": "039e283344a4ffe060baf01ea3fd5e34d93ab174fe4c6c310eb57c008e60deab",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
