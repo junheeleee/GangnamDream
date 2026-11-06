@@ -99,6 +99,8 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
+| 79 | [~] | ORDER-811 · 다은 결혼 견적 원문 정합 | [811](queue_active/ORDER-811.md) | C5 · CJK 설명1×3 |
+
 
 
 
