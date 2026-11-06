@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-809",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "d93691d45d00ee9cba0241d33585f7070efca6dc",
+    "tree": "7a3bacd14276e2bb3b905dcf2464b692ab2b6b0e",
+    "manifest_sha256": null
+  },
+  "scope": "Existing zh-CN hands description, decision description and choice0 text, plus zh-TW hands description. Four target values, six exact spans, no new coverage.",
+  "review": {
+    "method": "Read full Korean table chain, father-death variant and both decisions, four full old/new Chinese targets, actual seasonal ingress and event/choice readers; independent canonical check_batch, receipt, whole-file and ledger inverses.",
+    "findings": "Past observation of Daeun and conditional indigestion hospitality, not overeating, confirmed permission or a stay. CN mother waits for the bowl to be emptied; meal-opening words and existing eating action remain distinct. Choice indices, effects, result and return bus are unchanged.",
+    "exchange_repair": "Initial malformed line-list CN ID export rejected with JSON parse error and empty stdout, retained. Final JSON-array input contains the same exact IDs; final CN3/TW1 export/check/import logs and empty stderr verified. Accepted CLI not rerun."
+  },
+  "preservation": {
+    "prior_batches": 398,
+    "prior_decisions": 367,
+    "prior_decision_ledger_sha256": "522425464b429b4b3406677413b6f8c4cc0be956e98a8ce6f868c4574384f66d",
+    "superseded_acceptance_by_locale": {
+      "zh-CN": {
+        "events:arc_daeun_hometown_table_decision:/choices/0/text": {
+          "source_sha256": "29b9d8f7aee2517b4d7ddb46a2c7c058218914573d32b4d0bad12d04daa501cd",
+          "target_sha256": "591a8fd0758d6844512c067a9fba44f0c03cb89d79f2be9f5d96847bc09042c7"
+        },
+        "events:arc_daeun_hometown_table_decision:/description": {
+          "source_sha256": "784b50c679ecbf34e04c1b1a1b0589846089998db02b29c07c84b6b0cfdb62d1",
+          "target_sha256": "628197ea9d24b6968dcef9269c4075daaaa94415dd862039e586c4e908c6a5b6"
+        },
+        "events:arc_daeun_hometown_table_hands:/description": {
+          "source_sha256": "c16f47bd38b56e3ceabf3ab5cab3b9568035d22f8d3c5c130c170afd21bd9ba2",
+          "target_sha256": "bb594c402e3e9352eeb08f8bf8845f9a554f5853380ef1936d27aa43585e6f22"
+        }
+      },
+      "zh-TW": {
+        "events:arc_daeun_hometown_table_hands:/description": {
+          "source_sha256": "c16f47bd38b56e3ceabf3ab5cab3b9568035d22f8d3c5c130c170afd21bd9ba2",
+          "target_sha256": "09f9a91233b2d2cd500a3044dda14c475ef879e58f504463dac38d855c7b600f"
+        }
+      }
+    },
+    "proof": "Two whole target and full ledger byte inverses exact; 398 earlier batches and four same-source superseded acceptances retained. 15 nonowned Git blobs, all unowned text/results/choices/format, other locales, saves and public demo unchanged."
+  },
+  "validation": "Independent canonical pure checks, receipts, previous targets, six spans and byte inverses actual exit0. Demo5/14/100/122, EN1813/35 and CJK skeleton logs; lane11 selection only. No engine or accepted CLI rerun.",
+  "identity": {
+    "baseline": "9caac58321eb954831e40c6cf0842c45309a86bf",
+    "source_manifest_sha256": "45bb6a6a25315cc36461b7a43bb350a47a9bd9c5da1fbc80eacd1b150300beae",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "rows_sha256": "4bd07c3e35ed42662e27c75a622252df3bee695e0e446fef186ca3177fed25cd",
+    "receipt_sha256_by_locale": {
+      "zh-CN": "84cfa0291cbef2014d96ef2821f7aabd6d59387ce1b79343db7a42674cfbe138",
+      "zh-TW": "0fc2abfd4deb9dc3f2b68ad9928eaf7e7f2ed84597538bc401e9e2fc75ebf3c5"
+    },
+    "official_receipt_file_sha256_by_locale": {
+      "zh-CN": "ea0671afdd2f356817c9a3d7cb276027f19cb13e9326ef4be7469394a3f71078",
+      "zh-TW": "dbdcad9bded6a306ee324d19ed600a5a26cc8ff0f2681deeefdbb3ea8baafee4"
+    },
+    "previous_target_sha256_by_locale": {
+      "zh-CN": {
+        "events:arc_daeun_hometown_table_decision:/choices/0/text": "591a8fd0758d6844512c067a9fba44f0c03cb89d79f2be9f5d96847bc09042c7",
+        "events:arc_daeun_hometown_table_decision:/description": "628197ea9d24b6968dcef9269c4075daaaa94415dd862039e586c4e908c6a5b6",
+        "events:arc_daeun_hometown_table_hands:/description": "bb594c402e3e9352eeb08f8bf8845f9a554f5853380ef1936d27aa43585e6f22"
+      },
+      "zh-TW": {
+        "events:arc_daeun_hometown_table_hands:/description": "09f9a91233b2d2cd500a3044dda14c475ef879e58f504463dac38d855c7b600f"
+      }
+    },
+    "nonowned_blobs": 15,
+    "raw_directory": ".git/localization-zh-daeun-hometown-table-20261106.fr1mqH/",
+    "raw_population": {
+      "files": 30,
+      "sha256": "033b8596f0f4abd1c67dd33afc7e733e42bc0eb38a13d64c2aeff18520df200c",
+      "entries": [
+        [
+          "correction.log",
+          129,
+          "917476567a3f399c0f86f36f0e52c80d07cdcc7602cb764e1df6b13a45072bae"
+        ],
+        [
+          "correction.py",
+          4986,
+          "90ec2cb9f6857b53e5d0a0e450e9d9cee2a552db09c2ee8776b58c8940aeaf7c"
+        ],
+        [
+          "delta.log",
+          162,
+          "27a88d82c85199ebfba4f5b1d7f6575f6758c8368742fa4e4c1d21b02991093a"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "drafts.json",
+          809,
+          "d9134c55aa52de4e6803b3526931747a49ef6ecf5521f3ddf8d90d07671864c1"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "lane.log",
+          1677,
+          "e31ba48fe50b17bc6fddf8c830076a46890ccaffbd670cf5e4a462c363f2e2ff"
+        ],
+        [
+          "zh-CN.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.check.out",
+          120,
+          "06fb4d28dad6de666a2175be8e8c1cc8017ea624046d159019d46ff1469a470a"
+        ],
+        [
+          "zh-CN.export.err",
+          65,
+          "2b4daef918298952ea1ce057989148a1de686adec0775cc4e106be617a063ecc"
+        ],
+        [
+          "zh-CN.export.out",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.final-export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.final-export.out",
+          160,
+          "c5693564cfb8f486583e50f234623f0daa1540b736bbf4a8f830bd8d5416ad75"
+        ],
+        [
+          "zh-CN.ids",
+          162,
+          "48ddb046173eeeab2fa2bb265baa45bee69e296032261fd9ae165fcb56338437"
+        ],
+        [
+          "zh-CN.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.import.out",
+          121,
+          "2682f22305e51de1019c027c554fc1939b3e65e54b5c4de9ef05d0d45a732ca7"
+        ],
+        [
+          "zh-CN.leaf-ids.json",
+          170,
+          "95955f84fdca2fb8889c3ea687b9c2fb0442b47320f76d6570c4daf69020a580"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          2080,
+          "b682960bef4eb3a62abba40550a65101e301c33a261a24ec4396e2ee66bdc720"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          3671,
+          "a47fc8a77954edc696f6a4ac2aea1e6dc03044705adfa6b5ddf5f46f98aeaf30"
+        ],
+        [
+          "zh-TW.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.check.out",
+          120,
+          "b6915eb471f866317ec9d36de6647c3eed7a33419f40f488605cc694296de900"
+        ],
+        [
+          "zh-TW.final-export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.final-export.out",
+          160,
+          "e8fab5a32e5906e906ccd1d4059fc3684631027f3100558d2bec1981e55e8593"
+        ],
+        [
+          "zh-TW.ids",
+          51,
+          "d979eb204b98fac6cd0b2c1d86dcaa5d75eb99373cade140cd876b91ae5937bc"
+        ],
+        [
+          "zh-TW.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.import.out",
+          121,
+          "8784cce1b64d172e2fba2c4b8946180b1adc77eb1bab98cee2c9029da1ce8329"
+        ],
+        [
+          "zh-TW.leaf-ids.json",
+          55,
+          "59f7452c7d15f97775559942fbfe0d07d87585415231ee7bd3ee3e22960282d2"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          1200,
+          "94eb86876aa802b344167aa4405252bd27cdca9fe9590c35c0e4cb6c3f98e0fd"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          1753,
+          "dcc8544a0e61ff08ff3acceb0bb87282ccaada8e09a2d621d523ed236f8482db"
+        ]
+      ]
+    },
+    "encoding": "UTF-8 file byte SHA256; raw population compact JSON basename-sorted [name,size,sha256]; rows canonical digest in locale/source order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
