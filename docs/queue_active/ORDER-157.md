@@ -10,10 +10,8 @@ Mac 잠금과 KO/EN 대표 플레이 대기는 화면 없는 번역·검증의 �
 차례로 수리한다. [738](../queue_archive/ORDER-738.md) 사실15,
 [739](../queue_archive/ORDER-739.md) 첫해24·[740](../queue_archive/ORDER-740.md) 둘째해18,
 [741](../queue_archive/ORDER-741.md) 월급한계21 정합 완료.
-[742](../queue_archive/ORDER-742.md) 서른다섯 생활·선택60도 정합했다.
-[743](../queue_archive/ORDER-743.md) 입원·관계·갱신36도 정합했다.
-[744](../queue_archive/ORDER-744.md) 몸·재혁·갱신회수48도 정합했다.
-[745](../queue_archive/ORDER-745.md) 재혁후속·새벽회고51도 정합했다.
+[742](../queue_archive/ORDER-742.md) 서른다섯 생활·선택60·[743](../queue_archive/ORDER-743.md) 입원·관계·갱신36·
+[744](../queue_archive/ORDER-744.md) 몸·재혁·갱신회수48·[745](../queue_archive/ORDER-745.md) 재혁후속·새벽회고51 정합.
 [746](../queue_archive/ORDER-746.md) 반환·거리39도 기계수용·독립 최종전독을 완료했다.
 [747](../queue_archive/ORDER-747.md) 질문·목표36도 기계수용·독립 최종전독을 완료했다.
 [748](../queue_archive/ORDER-748.md) 기사·약속39도 기계수용·독립 최종전독을 완료했다.
@@ -71,8 +69,9 @@ memory2는현재자동순서의신규정상런노출로세지않고호환/회상
 [793](../queue_archive/ORDER-793.md) 재혁후일담2·[794](../queue_archive/ORDER-794.md)
 상철·현수후일담2·[795](../queue_archive/ORDER-795.md) 부친귀향2 JA정정(신규0).
 [796](../queue_archive/ORDER-796.md) 세엔딩9·[797](../queue_archive/ORDER-797.md) 회복24·
-[798](../queue_archive/ORDER-798.md) 다은15·[799](../queue_archive/ORDER-799.md) 강남18 CJK정정(신규0).
-엔딩235leaf/언어 source-stale81→15(각5), 사건48과 별개·전체미완.
+[798](../queue_archive/ORDER-798.md) 다은15·[799](../queue_archive/ORDER-799.md) 강남18·
+[800](../queue_archive/ORDER-800.md) 재혁·전화·이혼15 CJK정정(신규0).
+엔딩235×3 source-stale81→0/target drift0, 사건48과 별개.
 기존 데모·KO/EN·저장과 원어민 관찰 이력은 보존하며, 선택지만 켜거나
 문구 개수만 채운 것을 본편 완성으로 세지 않는다. 아래는 날짜별 역사다.
 

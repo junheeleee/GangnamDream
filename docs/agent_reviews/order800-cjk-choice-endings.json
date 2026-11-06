@@ -1,0 +1,297 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-800",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "ddc1d1339ab5688189056dc06382d76feca3921c",
+    "tree": "f9a4ceb988ff9d86f2515e8a918055c1d8bea500",
+    "manifest_sha256": null
+  },
+  "scope": "jaehyuk_way base/trusted, late_call used/truth, ordinary_life divorced; Korean five leaves x JA/CN/TW = 15 existing corrections, new coverage 0.",
+  "review": {
+    "method": "Full Korean three roots/all known variants and all 15 full targets compared directly; actual goal, preemptions, divorce assets, living reconciled father, nested overlay and first-true consumer; independent pure current canonical check_batch, receipts and inverses.",
+    "findings": "Generic crossed line and reached home, not invented crimes or funding; entrusted money not entire bank; unspecified leverage duration with source forever-on-this-call clause retained; name's weight, brief hesitation and this-call withholding without permanent concealment or invented father knowledge; net assets not bank balance, with 5 years, 3 billion won and relationship documents retained."
+  },
+  "preservation": {
+    "prior_batches": 390,
+    "prior_decisions": 358,
+    "prior_decision_ledger_sha256": "5812a25e4e5898c06a2c7ae20b47e958fc8a3fd1b65e2803284ce5d9676ee61c",
+    "superseded_acceptance_by_locale": {
+      "ja": {
+        "endings:jaehyuk_way:/description": {
+          "source_sha256": "509230530f095a8ff3896c96030938ec9f8edd20f8d0e814d6e641a5bcc18b5c",
+          "target_sha256": "e6c04e45f5d213d742b128d061ec319b5ebf1c5bbc7fe89561991d29308025ea"
+        },
+        "endings:jaehyuk_way:/description_if_known/jaehyuk_trusted_fully": {
+          "source_sha256": "9c3c03073ad2a954d58d5f71beb7e8c862f999fae8d1c7721699a3e461fb0af3",
+          "target_sha256": "e1f074554387984af179145282da96e891d933e3041c765711d73cc03254e782"
+        },
+        "endings:late_call:/description_if_known/sangchul_truth_known": {
+          "source_sha256": "f3f808f1ffbad8cdd22f19b0f02ee7f18ea493de5ec07e3efb8c892d29742990",
+          "target_sha256": "53981cc2aac8b176fd4545b56528f717f3d56887caf26069f4ea79b1251bd6df"
+        },
+        "endings:late_call:/description_if_known/sangchul_used_fully": {
+          "source_sha256": "c56976af9e5c52af402b64b42c3791f92534befdc816c12aad6c9f755f253287",
+          "target_sha256": "7a0a9de9d696ec53b0790531ba6e3c014771abb240aee55e4d7abba40db7db9c"
+        },
+        "endings:ordinary_life:/description_if_known/daeun_divorced": {
+          "source_sha256": "edc9fefd7fc02e29eff1b45c13a09e179dd78ff48213f1b4dbca8b473f86daa6",
+          "target_sha256": "ba96ef1624a90a2a8efd266b28987537cf28e55649eb64a1911819ab0caa84e4"
+        }
+      },
+      "zh-CN": {
+        "endings:jaehyuk_way:/description": {
+          "source_sha256": "509230530f095a8ff3896c96030938ec9f8edd20f8d0e814d6e641a5bcc18b5c",
+          "target_sha256": "9be311a630cb8ed9954165a2d248dd937a840b4fcc7e3dfe8e8b89168880b26e"
+        },
+        "endings:jaehyuk_way:/description_if_known/jaehyuk_trusted_fully": {
+          "source_sha256": "9c3c03073ad2a954d58d5f71beb7e8c862f999fae8d1c7721699a3e461fb0af3",
+          "target_sha256": "d89bd0cac911d533dbd13991bc690e24933a4c9495065d852cb60bb126623a6d"
+        },
+        "endings:late_call:/description_if_known/sangchul_truth_known": {
+          "source_sha256": "f3f808f1ffbad8cdd22f19b0f02ee7f18ea493de5ec07e3efb8c892d29742990",
+          "target_sha256": "9b862160cf5a5c69985715da1638ee62143ce947de3e96f784d01e0fd199af6c"
+        },
+        "endings:late_call:/description_if_known/sangchul_used_fully": {
+          "source_sha256": "c56976af9e5c52af402b64b42c3791f92534befdc816c12aad6c9f755f253287",
+          "target_sha256": "68ed164bbca4e38468b9d49d115bf1ebd0d5ed313a210f71560ad0bfdb961b6e"
+        },
+        "endings:ordinary_life:/description_if_known/daeun_divorced": {
+          "source_sha256": "edc9fefd7fc02e29eff1b45c13a09e179dd78ff48213f1b4dbca8b473f86daa6",
+          "target_sha256": "d459fbe5d89489ef3392ba0b1dd5c11918fe8315ed79a31e0aef3e959e0bea6d"
+        }
+      },
+      "zh-TW": {
+        "endings:jaehyuk_way:/description": {
+          "source_sha256": "509230530f095a8ff3896c96030938ec9f8edd20f8d0e814d6e641a5bcc18b5c",
+          "target_sha256": "5830a21b4172bd5d9d67a5d2d85d9db15fd1fcac05e4e23117ea5236fa3f6578"
+        },
+        "endings:jaehyuk_way:/description_if_known/jaehyuk_trusted_fully": {
+          "source_sha256": "9c3c03073ad2a954d58d5f71beb7e8c862f999fae8d1c7721699a3e461fb0af3",
+          "target_sha256": "8a1b6025619158e15657e582d5cac8b89bdc84f3c5cfcb6fe9d76bd0073275a1"
+        },
+        "endings:late_call:/description_if_known/sangchul_truth_known": {
+          "source_sha256": "f3f808f1ffbad8cdd22f19b0f02ee7f18ea493de5ec07e3efb8c892d29742990",
+          "target_sha256": "ac3c554488850cf3133161034b4869d6c74b138fbf573c3d6b94c7e464df53b2"
+        },
+        "endings:late_call:/description_if_known/sangchul_used_fully": {
+          "source_sha256": "c56976af9e5c52af402b64b42c3791f92534befdc816c12aad6c9f755f253287",
+          "target_sha256": "638d244373746a50153018178e34adbc5a23fe5bf9c3f1460b3d3b13c9f52818"
+        },
+        "endings:ordinary_life:/description_if_known/daeun_divorced": {
+          "source_sha256": "edc9fefd7fc02e29eff1b45c13a09e179dd78ff48213f1b4dbca8b473f86daa6",
+          "target_sha256": "c396ded5b6178f4deee8f4b8953e1210f55fcdb3d665359046f77db9f41638f9"
+        }
+      }
+    },
+    "proof": "Full three overlay byte inverses and full ledger byte inverse; 15 nonowned paragraph/line sets and nine nonowned Git blobs exact. Prior 390 batches and 15 superseded acceptances retained; KO/EN, code, conditions, economy, saves and demo unchanged."
+  },
+  "validation": "Official logs show VALID5 per locale for check/import without exit-code annotations. Independently observed exit0 for three current pure checks, receipt binding, previous targets and full inverses. Demo5/14/100/122 and EN1813/35 clean; CJK skeleton only; lane11 selection only.",
+  "ending_source_diagnostic": {
+    "korean_leaves": 235,
+    "locale_targets": 705,
+    "by_locale": {
+      "ja": {
+        "source_stale_before": 5,
+        "source_stale_after": 0,
+        "target_drift_after": 0
+      },
+      "zh-CN": {
+        "source_stale_before": 5,
+        "source_stale_after": 0,
+        "target_drift_after": 0
+      },
+      "zh-TW": {
+        "source_stale_before": 5,
+        "source_stale_after": 0,
+        "target_drift_after": 0
+      }
+    },
+    "total_source_stale_before": 15,
+    "total_source_stale_after": 0,
+    "total_target_drift_after": 0,
+    "meaning": "Portable ending receipt freshness only; no event/UI/native/render or full language-quality claim."
+  },
+  "identity": {
+    "baseline": "2ca90068704eb77fffb1bee0fc900831905d5c74",
+    "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "rows_sha256": "4195854abeaa4d9e2f6c1cd3ab28de4b735727c62d33ed816a480bbb104f9d18",
+    "receipt_sha256_by_locale": {
+      "ja": "b937f11036087b115c915f46b60c6eb6f21dcc7841bde9cf551218d4622dc6d8",
+      "zh-CN": "7475fcd2b6261823caa634db991cf99e190bf66929adbd4fe24e929655930ef1",
+      "zh-TW": "006b0a119ab43b563d94d47699c0b66245cbe9abb23c57fc18717da7fd3663d1"
+    },
+    "official_receipt_file_sha256_by_locale": {
+      "ja": "2540b05837c739fff23bebbbac924c1b1c3424dbde4f328cd1767186fa47eb2e",
+      "zh-CN": "1b5e03a287ede4b2735fa9c5a6b7266e05aa55006996bf3649c25f74fd96ca9d",
+      "zh-TW": "e4d11f4aeab05bfc95dd465a3d7400e5eae6d5b62edc6bd83eda5e186a2773cc"
+    },
+    "previous_target_sha256_by_locale": {
+      "ja": {
+        "endings:jaehyuk_way:/description": "e6c04e45f5d213d742b128d061ec319b5ebf1c5bbc7fe89561991d29308025ea",
+        "endings:jaehyuk_way:/description_if_known/jaehyuk_trusted_fully": "e1f074554387984af179145282da96e891d933e3041c765711d73cc03254e782",
+        "endings:late_call:/description_if_known/sangchul_truth_known": "53981cc2aac8b176fd4545b56528f717f3d56887caf26069f4ea79b1251bd6df",
+        "endings:late_call:/description_if_known/sangchul_used_fully": "7a0a9de9d696ec53b0790531ba6e3c014771abb240aee55e4d7abba40db7db9c",
+        "endings:ordinary_life:/description_if_known/daeun_divorced": "ba96ef1624a90a2a8efd266b28987537cf28e55649eb64a1911819ab0caa84e4"
+      },
+      "zh-CN": {
+        "endings:jaehyuk_way:/description": "9be311a630cb8ed9954165a2d248dd937a840b4fcc7e3dfe8e8b89168880b26e",
+        "endings:jaehyuk_way:/description_if_known/jaehyuk_trusted_fully": "d89bd0cac911d533dbd13991bc690e24933a4c9495065d852cb60bb126623a6d",
+        "endings:late_call:/description_if_known/sangchul_truth_known": "9b862160cf5a5c69985715da1638ee62143ce947de3e96f784d01e0fd199af6c",
+        "endings:late_call:/description_if_known/sangchul_used_fully": "68ed164bbca4e38468b9d49d115bf1ebd0d5ed313a210f71560ad0bfdb961b6e",
+        "endings:ordinary_life:/description_if_known/daeun_divorced": "d459fbe5d89489ef3392ba0b1dd5c11918fe8315ed79a31e0aef3e959e0bea6d"
+      },
+      "zh-TW": {
+        "endings:jaehyuk_way:/description": "5830a21b4172bd5d9d67a5d2d85d9db15fd1fcac05e4e23117ea5236fa3f6578",
+        "endings:jaehyuk_way:/description_if_known/jaehyuk_trusted_fully": "8a1b6025619158e15657e582d5cac8b89bdc84f3c5cfcb6fe9d76bd0073275a1",
+        "endings:late_call:/description_if_known/sangchul_truth_known": "ac3c554488850cf3133161034b4869d6c74b138fbf573c3d6b94c7e464df53b2",
+        "endings:late_call:/description_if_known/sangchul_used_fully": "638d244373746a50153018178e34adbc5a23fe5bf9c3f1460b3d3b13c9f52818",
+        "endings:ordinary_life:/description_if_known/daeun_divorced": "c396ded5b6178f4deee8f4b8953e1210f55fcdb3d665359046f77db9f41638f9"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-choice-endings-20261106.v29aMB/",
+    "raw_population": {
+      "files": 24,
+      "sha256": "dfa347f0436689c4f04806caf6e3e336b084f42db434f239238d985786024290",
+      "entries": [
+        [
+          "correction.log",
+          353,
+          "2df446108d172f46e6c60f6d085b1fe5dfde846a3cfc5881b116c563e6eb945e"
+        ],
+        [
+          "correction.py",
+          5799,
+          "ec9aff3769215b41a1292d7e4fab62a31a96fb6b731993c9d4393a46790ca0ae"
+        ],
+        [
+          "delta.log",
+          109,
+          "7ef1d72f816805e50db039dc171e4a8e5d4162b5b6e24a1d4aa583ab957ca979"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "drafts.json",
+          2678,
+          "bd76519aa763cfbd0dc7ed402facf6bce09ce5db2175f8d9f6c52dcdbeb77041"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "ja.check.log",
+          117,
+          "53737b9c30891d13167e6298c65ca34e93d651957c3725331eaf3a71c4b4c180"
+        ],
+        [
+          "ja.export.log",
+          149,
+          "fe51c17ba75b7b007db95d478591456f24cf78f581c7a99982d27b4f402636d7"
+        ],
+        [
+          "ja.import.log",
+          118,
+          "81ed90b5249698866ac497362fcab8b2622581883db728fda25f2f8db185abd7"
+        ],
+        [
+          "ja.response.jsonl",
+          6103,
+          "c33c07b2e2b99014fe59fb667b21c4264ab1496541620d2a3db10b3220f49e84"
+        ],
+        [
+          "ja.source.jsonl",
+          7488,
+          "61c1bcec3b372267b63903d1df9eda0542e2efe8e36bc19b2dee8464660627a2"
+        ],
+        [
+          "lane.log",
+          1677,
+          "ee3969ee87b707c3d1ffe9e8b8777190175581b3164e2d8bc2a66eb93856182a"
+        ],
+        [
+          "leaf-ids.json",
+          289,
+          "b9c639983ef834c330cbccf1c01e705c5905a33f117f5cac4a0b368b158d7eb3"
+        ],
+        [
+          "zh-CN.check.log",
+          120,
+          "4e89121543ce4a753a2a569bce4e69065e1eacd5dd6cb89c36b879afaeb0806d"
+        ],
+        [
+          "zh-CN.export.log",
+          155,
+          "558601f994c09c98d1dbf6b2dbc44ce91a94f6357856d8fd0225d2ff1b157b59"
+        ],
+        [
+          "zh-CN.import.log",
+          121,
+          "51c8cdf94ea2e38d2c95a2e9dfaab3a9e5ba54b34965b356c0dd9e4690b0eeea"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          4968,
+          "65e711f80a5ad3a0daef700d723387ded24cde889cb3710e38ffa22e29613e52"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          7521,
+          "5c814458891dd028c2e97c8c7455fa07c20cd7257cf17b92a79fd67bb7ceaabd"
+        ],
+        [
+          "zh-TW.check.log",
+          120,
+          "a64b7191f238442db4550aac7dfcdf3373390cfecf36d7c12c54b6f6c4f9d7b4"
+        ],
+        [
+          "zh-TW.export.log",
+          155,
+          "de2960ae9b022edc851d6e3f19b40d0a46170fb1f2778be7e9d88f6524954154"
+        ],
+        [
+          "zh-TW.import.log",
+          121,
+          "e1394360fe7cd9a8758fc4ad0ef5d7540218f71e258d65b6218163d17e4e76f1"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          5039,
+          "2ba6795c1f0c4e4cd6b55229b8b9a55212f31e14d4bc527ba6c99836bb1a9377"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          7521,
+          "0fe95ce53f97615555dc59696fd048a0807dde8dd76dbda889454d01ddf3fb4b"
+        ]
+      ]
+    },
+    "encoding": "UTF-8 file byte SHA256; raw population compact JSON basename-sorted [name,size,sha256]; rows canonical digest in locale/source order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

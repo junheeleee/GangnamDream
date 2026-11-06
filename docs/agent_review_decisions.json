@@ -15086,6 +15086,49 @@
         "path": "docs/agent_reviews/order799-cjk-gangnam-endings.json",
         "sha256": "d8f8a7a75c4bf3572312db43109fe26468d06623b8ae9c6a2f18161ea8a65dad"
       }
+    },
+    {
+      "id": "order800-cjk-choice-endings-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-06",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-800",
+      "subject": {
+        "kind": "source",
+        "commit": "ddc1d1339ab5688189056dc06382d76feca3921c",
+        "tree": "f9a4ceb988ff9d86f2515e8a918055c1d8bea500",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order800-cjk-choice-endings.md",
+          "sha256": "ced7e4240d7ac15ef273d29ec5d6c02f936b0690f2f869f2237c17b11bbab221"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order800-cjk-choice-endings.json",
+          "sha256": "1ec9c0333633466174cb7b87c4fc1951cb9cbba88633986d7102147a9e9a2afc"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order800-cjk-choice-endings.json",
+        "sha256": "1ec9c0333633466174cb7b87c4fc1951cb9cbba88633986d7102147a9e9a2afc"
+      }
     }
   ]
 }

@@ -1,6 +1,6 @@
 # ORDER-800 — 재혁·전화·이혼 CJK 정합
 
-#### [~] ORDER-800 · 재혁·전화·이혼 CJK 정합
+#### [x] ORDER-800 · 재혁·전화·이혼 CJK 정합
 
 부모157/C5. 착수 — `content/endings_ja.json`, `content/endings_zh-CN.json`,
 `content/endings_zh-TW.json`의 jaehyuk_way 기본/known.jaehyuk_trusted_fully,
@@ -15,3 +15,16 @@ KO/EN·조건/순서/라우팅·다른 root/변형·코드·경제·저장·공�
 공식 source/이전target 결속 export/check/import replace, 원수용/원배치 보존,
 전체3JSON/원장 역복원·데모/EN·독립15전독. 실화면/원어민/사람/M60·출시는 별도.
 기존 현지화·판정 정본을 적용하는 일회성 범위다.
+
+## 2026-11-06 결과
+
+제품 `ddc1d1339ab5688189056dc06382d76feca3921c`, tree
+`f9a4ceb988ff9d86f2515e8a918055c1d8bea500` 정상 push.
+[독립15전독 GO](../agent_reviews/order800-cjk-choice-endings.md).
+KR5×3 기존15정정·신규0. 해당 선택/맡긴 돈/기간/이번 통화/순자산만 수리.
+공식 check/import5×3 실제 exit0·현재순수검사·3JSON/원장 전체 역복원,
+원390배치/수용15·기존358판정·비소유문단행15집합/9파일 exact·raw24 결속.
+데모5언어14사건100leaf122UI·EN1813/35 clean, i18n 구조/skeleton만.
+엔딩235×3 source-stale15→0/target drift0, 사건/UI/표시/원어민/전체완성 별개.
+lane11 선택뿐·새CI전체성공/실화면/사람/M60·출시 미관측.
+규범 일회성/승격0. 자동 계약은 품질·인간·출시GO를 대신하지 않는다.
