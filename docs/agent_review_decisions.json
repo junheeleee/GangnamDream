@@ -15517,6 +15517,51 @@
         "path": "docs/agent_reviews/order809-zh-daeun-hometown-table.json",
         "sha256": "ef4e5f8aa3a086c32cbfd0d0f5c14dd86f5e736b12c7662fff40b5a0d390a74f"
       }
+    },
+    {
+      "id": "order810-cjk-race-canvas-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-06",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-810",
+      "subject": {
+        "kind": "source",
+        "commit": "bdfce09e7a077f53d50b1ff4a8a3e2e2a899e9d1",
+        "tree": "074bfcb06660184fc39e3257c67f000681f1afd3",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order810-cjk-race-canvas.md",
+          "sha256": "2af22bb6a95c3fbf14c18ec257fc5bd7dc77275d9b4446581aa95f87500cffa0"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order810-cjk-race-canvas.json",
+          "sha256": "16b05b9502e159519aaed0f86ee4486595b593837b7710ff5e15689d047479bf"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "actual_race_play",
+        "actual_save_load",
+        "public_package_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order810-cjk-race-canvas.json",
+        "sha256": "16b05b9502e159519aaed0f86ee4486595b593837b7710ff5e15689d047479bf"
+      }
     }
   ]
 }

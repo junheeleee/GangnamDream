@@ -1,0 +1,335 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-810",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "bdfce09e7a077f53d50b1ff4a8a3e2e2a899e9d1",
+    "tree": "074bfcb06660184fc39e3257c67f000681f1afd3",
+    "manifest_sha256": null
+  },
+  "scope": "Finish line, live order and photo finish canvas captions in JA/CN/TW for eligible non-demo racing; 9 newly accepted values only.",
+  "review": {
+    "method": "Read three actual draw consumers and full-story race entry/return, FontKit and UIStyle routing, Korean source and all nine translations. Exact code inverse, isolated harness and stdout/stderr/log comparison, pure current check_batch, receipts and byte inverses.",
+    "findings": "Caption semantics and CJK font-role path are appropriate; exact geometry, label styling and all nonowned race logic preserved. KO/EN, other locales and demo branch keep legacy text and supplied font.",
+    "font_boundary": "ThemeDB fallback and UI regular may be the same shared object in the harness environment; code inverse establishes the fallback branch. Width/glyph measurements are not screen rendering or native/readability proof."
+  },
+  "preservation": {
+    "prior_batches": 399,
+    "prior_decisions": 368,
+    "prior_decision_ledger_sha256": "264cd13fc26f6ccd8883bb5059ea07bc1a31eac3ecbe2d80b1e2a64f890f8b19",
+    "proof": "Remove only the nine added values and batch to restore complete dictionaries3 and ledger bytes. Exact RaceTrack code inverse apart from helpers/three draw captions. Fourteen nonowned Git blobs incl. full-story route, race model, save and frozen public demo manifest preserved. Historical declaration exports have no acceptance receipt."
+  },
+  "validation": "Author isolated full9/unchanged9/glyph37 and demo0/unchanged18; separate fresh namespaces, logs/rows agree, no errors/warnings and empty stderr. Harness checks widths70/250/220 at sizes11/12/12 and money/flags only. Independent read-only pure source/receipts/inverse actual exit0; no engine or accepted CLI rerun. JA UI clean beta, demo5/14/100/122, EN1813/35 and CJK skeleton; lane47 selection only.",
+  "identity": {
+    "baseline": "b0415829c594a68fd36f5b52bb79107ccf7987ff",
+    "bound_source_revision": "9b570d51d7cd1e3f007858a6d0451d6f9751df6a",
+    "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "rows_sha256": "c9692e1716614405b6f4ee34399b293a9c04553970a03faf7d3cfba317e97d18",
+    "receipt_sha256_by_locale": {
+      "ja": "c46bb3dcd59b493f7e22ad5d1c8595dbe59fdd28c86236e243c2b3c32823a7fb",
+      "zh-CN": "e107a48f997ea5ce2ddfc30682537756d2d0b55482333b64b2e81cfebf6cc0a9",
+      "zh-TW": "a6a94110b68fe53b55bc691f046ca0c320e5076654efd70a3703e6fd581a9117"
+    },
+    "official_receipt_file_sha256_by_locale": {
+      "ja": "6eb3b616358ee638bf50d2850b317de689b5a7358d5d4d5987925f71b83f1c0c",
+      "zh-CN": "2f2866cb1dcb7d537db31cbb18ae79fa0051c1058467169bec1fe151f2c6423a",
+      "zh-TW": "ea809bf3f7ba583f2d955cb11979257d8890121e308e19f1a0882aa0e2a02c96"
+    },
+    "historical_unaccepted_batch_by_locale": {
+      "ja": "bfbd4464ca946818328e6130a6912dfae28b37ab8f71faec2c638ce4e4bdc649",
+      "zh-CN": "94b9be61182cfbbc37b7ae5a4fa94aeb5c40d088b74a58aaacaa674078147c9b",
+      "zh-TW": "d1605174e8ab3fcb65c0ad5a73328aadbd19ee8c162d13e77e60e6428691aec8"
+    },
+    "bound_batch_by_locale": {
+      "ja": "89654afd5cb280726588d7f4dadf5ad9da6b5cce7c394f9d5e77cd1d86db46bb",
+      "zh-CN": "8cbf9b10dde79e45b503d09a0cf2da6e92f4dd309fdaf69bb257abac0fa60593",
+      "zh-TW": "b5087e0c59a035987b47a30067427538db0fa946579772161d8874c5d31ece30"
+    },
+    "nonowned_blobs": 14,
+    "headless_signatures": {
+      "full": {
+        "marker": "RACE_CANVAS_QA_OK demo=false localized=9 unchanged=9 glyphs=37 state_unchanged=1",
+        "namespace_basename": "GangnamDream_RaceCanvasQA_47b89816db304b80b0f735bd1f6cfe89",
+        "outputs_agree": true,
+        "stderr_bytes": 0
+      },
+      "demo": {
+        "marker": "RACE_CANVAS_QA_OK demo=true localized=0 unchanged=18 glyphs=0 state_unchanged=1",
+        "namespace_basename": "GangnamDream_RaceCanvasQA_88a622b80bd04b6b8f8cf053571407a3",
+        "outputs_agree": true,
+        "stderr_bytes": 0
+      }
+    },
+    "raw_directory": ".git/localization-cjk-race-canvas-20261106.0T3NSm/",
+    "raw_population": {
+      "files": 49,
+      "sha256": "6493b0ea32bc854349bd4ea43b7d47ed6e8c243032845115408a4acfaa92979a",
+      "entries": [
+        [
+          "append.log",
+          91,
+          "20487933e8216524254d936d8dfea4ce2758b2b86a1b26bc02bdc4080252b76d"
+        ],
+        [
+          "append.py",
+          3838,
+          "18f8c59a088ef254af0c65029e235a51d1c28eeada61524e270d0814bd802933"
+        ],
+        [
+          "delta.log",
+          158,
+          "f8b558014c26e0eb193573f3b417641ebe85a3c4ea4f9d687af1a160d27d4f6c"
+        ],
+        [
+          "demo.engine.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "demo.engine.out",
+          1119,
+          "e077b2f1b4e6ee7b7236d9c8b7fee5f5fd3a3dbb4baf57d2f7ffb010af01bb67"
+        ],
+        [
+          "demo.godot.log",
+          1119,
+          "e077b2f1b4e6ee7b7236d9c8b7fee5f5fd3a3dbb4baf57d2f7ffb010af01bb67"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "drafts.json",
+          336,
+          "1634258fe72dfa612575d68d6f77250865dc5adc8f1ff037211614cd1ca6dc74"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "full.engine.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "full.engine.out",
+          1147,
+          "7d53ab2a89b110fb6ce3e602bf3e20bc1a0d2d5c9fe4210b82fb28141b1a0963"
+        ],
+        [
+          "full.godot.log",
+          1147,
+          "7d53ab2a89b110fb6ce3e602bf3e20bc1a0d2d5c9fe4210b82fb28141b1a0963"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "ja-ui.log",
+          214,
+          "515a0436792894a2d14ad63342100130e81ff3bde61a62ef71ca4da816346749"
+        ],
+        [
+          "ja.bound-export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.bound-export.out",
+          152,
+          "a719748be472baee90aabfb16ba387a8b2c257b259ff1e8a36449fbee69731f9"
+        ],
+        [
+          "ja.bound.source.jsonl",
+          2348,
+          "45d3bd0a52df9f929c1daa75e957ad8b0688bfbded84a41e3ba9e79b55e79b84"
+        ],
+        [
+          "ja.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.check.out",
+          117,
+          "dc6965ca2530512e934329c705566640d52c561db774f2b94248a0f6a3491932"
+        ],
+        [
+          "ja.export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.export.out",
+          146,
+          "d1c22e45932268f7d1d4a19a1f99776d9050e80f262055361bb4908e5ed104b4"
+        ],
+        [
+          "ja.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.import.out",
+          118,
+          "7a7fae4c20ac6359038de6698cd825649dfb97244e511d5ac0e78b9557cb5650"
+        ],
+        [
+          "ja.response.jsonl",
+          1130,
+          "a693cfe8fa27e4fad0c2f5b5f9bbcf76327223b43a307b9b1a7e2f50b6779002"
+        ],
+        [
+          "ja.source.jsonl",
+          2348,
+          "ea82561c45cf8ea5ec7edc315120c5963dbc88baef2b0d0c1ffe1a2d53ecae5f"
+        ],
+        [
+          "lane.log",
+          7107,
+          "3781857d7099636865579f40c59de4b4cb87894cd2a7826e1766375826db9943"
+        ],
+        [
+          "race_canvas_check.gd",
+          3033,
+          "b86896959d6f3ae82f0d2f7f25176734d7b210ca5b7d639873d39de5eda901ea"
+        ],
+        [
+          "zh-CN.bound-export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.bound-export.out",
+          158,
+          "22c9af9121feb36ea9397a4c8828cd2c6da4a36d3a0683df0914c9ccd7af6ac1"
+        ],
+        [
+          "zh-CN.bound.source.jsonl",
+          2369,
+          "bdd3a53b7b5a617661c22f02da9fd1898136aa4a2d241dc5cfd51a5f60b51e88"
+        ],
+        [
+          "zh-CN.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.check.out",
+          120,
+          "06fb4d28dad6de666a2175be8e8c1cc8017ea624046d159019d46ff1469a470a"
+        ],
+        [
+          "zh-CN.export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.export.out",
+          152,
+          "9244c0ebf99fe527b59d543818f24bfc460a9a6b83aa191d2fed0daaead70399"
+        ],
+        [
+          "zh-CN.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.import.out",
+          121,
+          "2682f22305e51de1019c027c554fc1939b3e65e54b5c4de9ef05d0d45a732ca7"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          1148,
+          "7de8837dba21890eb01da2a805931dd22fee3bc59038f14d1b4b900e69fcf10c"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          2369,
+          "c71e0c0443ce8a467955fa90e84ac7744df37da16041d31336151d97f766a7a5"
+        ],
+        [
+          "zh-TW.bound-export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.bound-export.out",
+          158,
+          "8285486879193686b002e0cd32269aeb226138d33410e10528814366e9a4504c"
+        ],
+        [
+          "zh-TW.bound.source.jsonl",
+          2369,
+          "e9a849d2f7e6c77497a5e5f7f8fdc262b0d49de42603c49ba1faadbb6a613584"
+        ],
+        [
+          "zh-TW.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.check.out",
+          120,
+          "8fd7f159e2e18d27df86e544826fc1e1a61a091dc021f7559052898530382710"
+        ],
+        [
+          "zh-TW.export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.export.out",
+          152,
+          "2a11af9aaa712266b6b11466e91aa2720f9da579db3a38eaf4c655b1a9dcb3bf"
+        ],
+        [
+          "zh-TW.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.import.out",
+          121,
+          "6d3ac716dda387a68cd28ffbc9bccfea7ef60ee995958b399c77b4e625015839"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          1148,
+          "947cfd8a045f03e8bb8d65df1ac6341a0e414a1ad18c5e726d60b04851c2ef5c"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          2369,
+          "ae9e59d5e3620b1869541d6deb517780d2a72976713dbd16c1a4fb92641d91b9"
+        ]
+      ]
+    },
+    "encoding": "UTF-8 file byte SHA256; raw population compact JSON basename-sorted [name,size,sha256]; rows canonical digest in locale/source order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "actual_race_play",
+    "actual_save_load",
+    "public_package_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
