@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-814",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-07",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "260ade2d1b1e41b78bfac293bf7aa06714ecccfb",
+    "tree": "d2eac9f30fbd1a559074eff28485ca05ff21a56b",
+    "manifest_sha256": null
+  },
+  "scope": "Two existing Traditional Chinese values: Jaehyuk ghost voicemail description and shared decision choice 1 joining-victims result. Three phrase substitutions; no new coverage.",
+  "review": {
+    "method": "Read actual Korean two leaves and complete old/new TW, both ingress branches and all three outcomes. Trace live fallback W116+, existing deferred route, ID/index merge and StoryMode prose/follow-up consumers. Independent pure checks, in-memory merge and full byte inverses.",
+    "findings": "Same military intake for Minjun and Jaehyuk, separately the stranger reports same unit with Jaehyuk. The post says same intake, the separate commenter was Jaehyuk’s classmate. Voicemail sent/unread, no reply, reported acquaintance and mere hope of recovery stay distinct. No new identity, recovery or effect.",
+    "routing": "Invested, unseen and no same deferred event qualifies direct W116+ fallback, not guaranteed exposure. Read/message both join the existing three-way decision. Existing victim flag/effects, item-gated photo and one-week aftermath preserved."
+  },
+  "preservation": {
+    "prior_batches": 403,
+    "prior_decisions": 372,
+    "prior_decision_ledger_sha256": "c6b32d74bfecd6d05942d67484a1489450603692cb8ab8aa8218f4503e264cac",
+    "same_source_superseded": 2,
+    "complete_target_byte_inverses": 1,
+    "complete_ledger_byte_inverses": 1,
+    "nonowned_git_blobs": 16,
+    "nonowned": "KO/EN/JA/CN, all other TW values/choice indices, follow-ups and effects, save, validators and public demo unchanged."
+  },
+  "validation": "Read author TW2 official export/check/import output, three empty stderr files and targeted demo/EN/i18n logs. Independent pure check_batch and preimport merge confirm formatter-only reversal, receipts and full byte inverses exit0. Lane11 selection only. No accepted CLI or engine rerun.",
+  "identity": {
+    "baseline": "70a3696cd9f64c7a4b249ec9aedae955a654851c",
+    "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "batch_id": "d43cad07bfbed5821cb5a9bd98ec1047856fe3241591f9b196ac44d1e4b9d5bb",
+    "receipt_sha256": "835a3881c2e1c39e0de5d4aa50062fa74fc9701a159f75c34c0e5bc85796a4a4",
+    "receipt_file_sha256": "8b7e41dc8a487edec51395f7c77e896155f025892c66c19baffd8721464fd1ce",
+    "bindings": [
+      {
+        "id": "events:arc_jaehyuk_ghost_decision:/choices/1/result_text",
+        "source_sha256": "ab4b4cada633b0566aebe64a9961efc2f844a4167c68728dda38af85730fe2bd",
+        "old_target_sha256": "e7d4587d6bb570c5e055897d26899939377efabb3c174dcc39b98a2f7c45d419",
+        "new_target_sha256": "dc979beb06388f776ce20bcff871d0d647922ff4628a7d36c06614a298086748"
+      },
+      {
+        "id": "events:arc_jaehyuk_ghost_message:/description",
+        "source_sha256": "a145ef5fc1af2d1683d7e57e2603d3bebe897aba2a07b7cb63689781e2540844",
+        "old_target_sha256": "7e95605945a442d98b64ccf4317cb859314c7cab2f40ac5e5a71836669cfe972",
+        "new_target_sha256": "5aa146c9eb0fc5bfaa65e72dab956c5ef0fc6c98b9ddd6bf28674f4cf0ba3fd0"
+      }
+    ],
+    "raw_directory": ".git/localization-tw-jaehyuk-victim-relationships-20261107.MO1AlT/",
+    "raw_population": {
+      "files": 17,
+      "entries": [
+        [
+          "correction.log",
+          143,
+          "8109cb92fbe1abda291c4f14b6660c357c1914c4757dcb7be88e4631e1193b25"
+        ],
+        [
+          "correction.py",
+          5168,
+          "4a2808f3f591b2d93256e7ec54b838789147b69f0764fbe9ba09ba11a16dfb7e"
+        ],
+        [
+          "delta.log",
+          101,
+          "c22b23af216914c201fcf3bb46164522c2a9d5707f5ac924a1a47842817f0a3d"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "drafts.json",
+          324,
+          "1185b64e1dfea59cbe81c77024858f3b148bc5efe5b1a0eb8f745d353cbd6315"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "lane.log",
+          1677,
+          "d04167a5f39c772adc9debf33e83e0bce7b9869f6542628ec9eafdaec6568284"
+        ],
+        [
+          "leaf-ids.json",
+          109,
+          "cb744bcb5d2ca5af083131e45ddcdd9ec9826fa826618b390efbbbe056f93337"
+        ],
+        [
+          "zh-TW.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.check.out",
+          120,
+          "cdc2ab1ac315c6d62533001a15943865841c34051440a700cdef2e8d469ca18f"
+        ],
+        [
+          "zh-TW.export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.export.out",
+          168,
+          "21cff47f626463d75f19ec3220649a92d2b586242523e32eaeec568029330ad9"
+        ],
+        [
+          "zh-TW.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.import.out",
+          121,
+          "ac46b927a07be0f72b2dc1c655fd621cd5e01fecc79fd58058fc5b909583d6ca"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          1773,
+          "c9acb0c689a0514dec2944129e81acc361f5dbc844b330e91c2d1d7cc4063f27"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          2843,
+          "01f1fb327d850bc97bdba35647ee311fe3993eb21cf0463328a638adc6f49ab1"
+        ]
+      ],
+      "sha256": "a6dbd1715ea6859eaf83a138095941eeeb672073c04996700d55c6527a32fa6d"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_rendered_jaehyuk_scene",
+    "actual_full_game_w116_exposure",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}

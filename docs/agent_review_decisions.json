@@ -15688,6 +15688,48 @@
         "path": "docs/agent_reviews/order813-zh-sangchul-invitation.json",
         "sha256": "49a1af76bf3232b0f497333de83e8ef2cde0e3c01d83b163ef7635182c38d768"
       }
+    },
+    {
+      "id": "order814-tw-jaehyuk-victim-relationships-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-07",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-814",
+      "subject": {
+        "kind": "source",
+        "commit": "260ade2d1b1e41b78bfac293bf7aa06714ecccfb",
+        "tree": "d2eac9f30fbd1a559074eff28485ca05ff21a56b",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order814-tw-jaehyuk-victim-relationships.md",
+          "sha256": "5219dd5755cd632b58bad23f2e7bb5c65736ce6ab4da9a7b9c27fab575374e49"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order814-tw-jaehyuk-victim-relationships.json",
+          "sha256": "8ba40460874b1c69ecfcd77eb82973e0a7267e4a899e5cb947a3b6f8f3de7a40"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_jaehyuk_scene",
+        "actual_full_game_w116_exposure",
+        "actual_save_load",
+        "candidate_ci",
+        "retail_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order814-tw-jaehyuk-victim-relationships.json",
+        "sha256": "8ba40460874b1c69ecfcd77eb82973e0a7267e4a899e5cb947a3b6f8f3de7a40"
+      }
     }
   ]
 }
