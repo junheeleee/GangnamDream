@@ -15646,6 +15646,48 @@
         "path": "docs/agent_reviews/order812-tw-jiyeon-wedding-gifts.json",
         "sha256": "741a6aeb3cbecc07084da0e69ec15d3d322936ad32383fb1517d55fec8e25a6c"
       }
+    },
+    {
+      "id": "order813-zh-sangchul-invitation-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-07",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-813",
+      "subject": {
+        "kind": "source",
+        "commit": "4a19aa625bc533716fc0e0778c655ec39c02c7af",
+        "tree": "b9c137b036e257efc712c6e963c5087e51dd8253",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order813-zh-sangchul-invitation.md",
+          "sha256": "de7b40734f28e40b713d9061008935b6ed2f5b5fd980714dbfff595cd616bc30"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order813-zh-sangchul-invitation.json",
+          "sha256": "49a1af76bf3232b0f497333de83e8ef2cde0e3c01d83b163ef7635182c38d768"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_invitation",
+        "actual_full_game_w76_exposure",
+        "actual_save_load",
+        "candidate_ci",
+        "retail_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order813-zh-sangchul-invitation.json",
+        "sha256": "49a1af76bf3232b0f497333de83e8ef2cde0e3c01d83b163ef7635182c38d768"
+      }
     }
   ]
 }

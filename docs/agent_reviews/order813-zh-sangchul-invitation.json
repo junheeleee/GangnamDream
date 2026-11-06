@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-813",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-07",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "4a19aa625bc533716fc0e0778c655ec39c02c7af",
+    "tree": "b9c137b036e257efc712c6e963c5087e51dd8253",
+    "manifest_sha256": null
+  },
+  "scope": "Sangchul's Jeongseon invitation people choice 0 result and cost base description: Korean two leaves and all four old/new CN/TW targets. Four exact clause corrections; new coverage zero.",
+  "review": {
+    "method": "Direct read of complete Korean and old/new CN/TW leaves, invitation branches, cost known variant and both common reply outcomes; read actual queue, merge, description, choice/result and follow-up code. Independent pure check_batch, in-memory preimport merge and full byte inverses.",
+    "findings": "If he loses, the money would be his own; no loss asserted. Rent and next month's living costs are deducted and money reserved for unforeseen needs before determining stake. Current balance, stop number, quiet restraint, message, token and paragraph boundaries intact. No early payment or consent.",
+    "routing": "Eligible W76+ with prior coffee flag, at least 3,000,000 KRW cash and unseen invitation. Same-location people/cost continuations converge on the common reply. Acceptance alone yields ticket QR/seat and 06:40 next morning plus arrival follow-up, no change to refusal or to state effects. No live exposure observed."
+  },
+  "preservation": {
+    "prior_batches": 402,
+    "prior_decisions": 371,
+    "prior_decision_ledger_sha256": "0e717d73b36e568081307d08e168cf057c1336d1dafff3f92bddfed76957d4e0",
+    "same_source_superseded": 4,
+    "complete_target_byte_inverses": 2,
+    "complete_ledger_byte_inverses": 1,
+    "nonowned_git_blobs": 15,
+    "nonowned": "KO/EN/JA, other CN/TW text and known descriptions, routing, numeric logic, state, saves, validators and public demo unchanged."
+  },
+  "validation": "Read author CN2/TW2 official export/check/import output, six empty stderr files and targeted demo/EN/i18n logs. Independent pure check_batch and parsed preimport merge prove both final formatter restorations are semantic no-ops; prior targets, receipts and full inverses exit0. Lane11 selection only. No accepted CLI or engine rerun.",
+  "identity": {
+    "baseline": "fd50d654c93e8f140367adc2fbca8817836868f0",
+    "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "bindings_by_locale": {
+      "zh-CN": {
+        "batch_id": "00a375ddeec90d0ebb4c01e731e4415cfeacda242b035b822f33e7b0ab15aecf",
+        "receipt_sha256": "5e46bbc80dcfd467ecb8c0614ff6eab5fbbdbce5724f562fc916e046e5a50a0a",
+        "receipt_file_sha256": "5bb9ba8229929bfd1d19ae565f8ed20204232438657ebbb52f41e849f29f0029",
+        "rows": [
+          {
+            "id": "events:arc_sangchul_casino_cost:/description",
+            "source_sha256": "6171751e0ac8c8fdcb0cd1e6aef609faf7c054ffd226c14d780ee572415929c8",
+            "old_target_sha256": "23e8e38a83342b21615409d561ad7348357c480f51abeb38fc22ab832f039813",
+            "new_target_sha256": "69c8425165f09e6be602bf038a2811d17f68c1c0e6b0a0fa027cf5d50584a1dc"
+          },
+          {
+            "id": "events:arc_sangchul_casino_people:/choices/0/result_text",
+            "source_sha256": "6ad7df01d9bedbdb5b9dd4600102c4f37ff0ecf46ceafeacbc3e0fae190fb1fe",
+            "old_target_sha256": "f2d32b7bc7597826047f56ef4725d9bc9998baaca7e8b41648d11495ef5f3117",
+            "new_target_sha256": "196325d8192132980439f2b5e2bb5adeebb7531847510968b84b48021621eb13"
+          }
+        ]
+      },
+      "zh-TW": {
+        "batch_id": "3e943fa72995594fd7ec804e484ad9a5e2142025e6827c7d1b42aee9354bc017",
+        "receipt_sha256": "e848c764240d428b5a8fb1e50078f01a0fa87d06c3d04644e564e11318a22cfb",
+        "receipt_file_sha256": "7252dbfac37bbb82ac80de5c01de1748e10e2467e9b8ab7f9f8d211ee74e7e1f",
+        "rows": [
+          {
+            "id": "events:arc_sangchul_casino_cost:/description",
+            "source_sha256": "6171751e0ac8c8fdcb0cd1e6aef609faf7c054ffd226c14d780ee572415929c8",
+            "old_target_sha256": "3e690060b0e5834e0538f3e46cf1e4fcf9cbc974ad69fbdd9ec03ddc94dfa549",
+            "new_target_sha256": "e7e862a4f7ed9895230cfb80acf0e83340855273c099dba14151e57818205751"
+          },
+          {
+            "id": "events:arc_sangchul_casino_people:/choices/0/result_text",
+            "source_sha256": "6ad7df01d9bedbdb5b9dd4600102c4f37ff0ecf46ceafeacbc3e0fae190fb1fe",
+            "old_target_sha256": "dee779ddcfc862cb77daa7d9675254cf08b213bb2b592d8b81618e0f1755a1a1",
+            "new_target_sha256": "49c5fbb4deeb9ff8b8cacba04aea9ff348e1e2b64e7c1d524aacd7b0a98f5f1a"
+          }
+        ]
+      }
+    },
+    "raw_directory": ".git/localization-zh-sangchul-invitation-20261107.jvoKQf/",
+    "raw_population": {
+      "files": 25,
+      "entries": [
+        [
+          "correction.log",
+          134,
+          "8e7453075ce5641858b55de7674ba5af06e6472d03dcd71aa3688b9a28a56304"
+        ],
+        [
+          "correction.py",
+          5215,
+          "bd3b239b42ea80ca161609fbe9de94a18a7bbe6f8b48ab87cd5f195daba49c3c"
+        ],
+        [
+          "delta.log",
+          142,
+          "aedbdb2eb0ea40e01248cd1226602664af6db146a1c0980dad9f8864182972fa"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "drafts.json",
+          1009,
+          "497379c45efd694bcca5ccac8904d69260b0c773ba5e8171a1b98c91ee3d7446"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "lane.log",
+          1677,
+          "e31ba48fe50b17bc6fddf8c830076a46890ccaffbd670cf5e4a462c363f2e2ff"
+        ],
+        [
+          "leaf-ids.json",
+          108,
+          "bca00d963e0537f25ccb33d47235896bcf0a46b6ef07eaa8bb571473738332af"
+        ],
+        [
+          "zh-CN.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.check.out",
+          120,
+          "4f7eb4dd2c332fb3e6c006f8c221bb58bda859a1bac69f794658e3b86362a663"
+        ],
+        [
+          "zh-CN.export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.export.out",
+          159,
+          "fcb1f631bcf80de75c854e64f93320275bc75097249c4b924c83644db1e4e7cb"
+        ],
+        [
+          "zh-CN.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.import.out",
+          121,
+          "c294394526a17d3ac863b042ffdbced6d5c76b5a8b1ced1482ab9d47201ec649"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          1618,
+          "9215a87b7817851491025a3f6fa955934786518ecd6892b33050602437db4f8e"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          2688,
+          "ba475da503c6bab575e5df80b19e91237397c5a2dad22007e27b80f7db0b0fec"
+        ],
+        [
+          "zh-TW.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.check.out",
+          120,
+          "cdc2ab1ac315c6d62533001a15943865841c34051440a700cdef2e8d469ca18f"
+        ],
+        [
+          "zh-TW.export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.export.out",
+          159,
+          "9d55321eae469ab9fb13a737eb5a985b15945eb8f24cda5c97ddaf3197af0af2"
+        ],
+        [
+          "zh-TW.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.import.out",
+          121,
+          "ac46b927a07be0f72b2dc1c655fd621cd5e01fecc79fd58058fc5b909583d6ca"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          1630,
+          "709849b7edb6c38cfe482dac729dec3f6327f170c4c45b8e72ea1341bcef4c69"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          2688,
+          "60439b865360332578920782c9593d56c9340217624abb9de3cb8393be9b805f"
+        ]
+      ],
+      "sha256": "f8e32514fbf51421760706e6b88589a0bdb035d0b21577b64c436924e2590b81"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_rendered_invitation",
+    "actual_full_game_w76_exposure",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}
