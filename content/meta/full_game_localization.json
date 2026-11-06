@@ -26970,6 +26970,106 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-815",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_jaehyuk_04b_counter"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Preserve custody after the report, without a conviction or sentence, and contact between the paper corner and the palm. Keep the evidence, police, testimony, other choices and consequence values exact.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "6a22a564e4fc35f4263af618b20257e0724d98e0",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+          "selection_sha256": "6fea376d745579e0c9499141ec5be80492a16ef6bbe6f091b4dbb9e23d398e83",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "eb9d2dbbbab64bc054a400a4b3ef11ff0191613f6bbe74412060473f851940b0"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "6a22a564e4fc35f4263af618b20257e0724d98e0",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+          "selection_sha256": "967bf546bb688e792a7b18eeb242f82f46f52b6d4e97daa190bff854b2f8457b",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7253c6628f48f3df5578e89633abd1865a24b351a6b00af4d9480e3c3bc7a446"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "6a22a564e4fc35f4263af618b20257e0724d98e0",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+          "selection_sha256": "405db976be5735c235aefd0cf3b477611925297eba443768e9f7822802aa0f3e",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7582583a7984b6be725d52bc7b4b3b457825d287f142d4817cc02396318d2270"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "e989980fe45209d92a96b8895e7454c47493bbeafa7f512203ff45f665c217a2",
+        "zh-CN": "f0731f52992030c88cd227d3a9e8590727c5c4bfc783702b3593cd7c479886e3",
+        "zh-TW": "9eeb20dd0aaa69b39ebe90b260bd64a870a5d9f8ec9469c38d70609247258127"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_jaehyuk_04b_counter:/choices/0/result_text": "2f8d3263cf92f81e20930a7d1da104a0edcb87533504a2741c53f1a2431a4402"
+        },
+        "zh-CN": {
+          "events:arc_jaehyuk_04b_counter:/choices/0/result_text": "efdaaaccbe25e6a675ba31ca661d71e89ddebc9305b4fe3c1d670be288856b45"
+        },
+        "zh-TW": {
+          "events:arc_jaehyuk_04b_counter:/choices/0/result_text": "28f4bae08294c10e78f89d72c44980194e55e2e8f662a3ce7fc1e174ad888f5a"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_jaehyuk_04b_counter:/choices/0/result_text": {
+            "source_sha256": "ff2080a9db24b74d113dd74457f7dd519f58b7b26db97935908dbed09e927fbb",
+            "target_sha256": "2f8d3263cf92f81e20930a7d1da104a0edcb87533504a2741c53f1a2431a4402"
+          }
+        },
+        "zh-CN": {
+          "events:arc_jaehyuk_04b_counter:/choices/0/result_text": {
+            "source_sha256": "ff2080a9db24b74d113dd74457f7dd519f58b7b26db97935908dbed09e927fbb",
+            "target_sha256": "efdaaaccbe25e6a675ba31ca661d71e89ddebc9305b4fe3c1d670be288856b45"
+          }
+        },
+        "zh-TW": {
+          "events:arc_jaehyuk_04b_counter:/choices/0/result_text": {
+            "source_sha256": "ff2080a9db24b74d113dd74457f7dd519f58b7b26db97935908dbed09e927fbb",
+            "target_sha256": "28f4bae08294c10e78f89d72c44980194e55e2e8f662a3ce7fc1e174ad888f5a"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -32952,7 +33052,7 @@
       },
       "events:arc_jaehyuk_04b_counter:/choices/0/result_text": {
         "source_sha256": "ff2080a9db24b74d113dd74457f7dd519f58b7b26db97935908dbed09e927fbb",
-        "target_sha256": "2f8d3263cf92f81e20930a7d1da104a0edcb87533504a2741c53f1a2431a4402"
+        "target_sha256": "7ab04c28cb633f70169e517347a8312893e2e2e6cf42d96262faa355dc41bf8e"
       },
       "events:arc_jaehyuk_04b_counter:/choices/0/text": {
         "source_sha256": "a5f9a37d29461c344df2d581723fdf2a926ab4254db9e7d2b6f749e5d8f1f26a",
@@ -85790,7 +85890,7 @@
       },
       "events:arc_jaehyuk_04b_counter:/choices/0/result_text": {
         "source_sha256": "ff2080a9db24b74d113dd74457f7dd519f58b7b26db97935908dbed09e927fbb",
-        "target_sha256": "efdaaaccbe25e6a675ba31ca661d71e89ddebc9305b4fe3c1d670be288856b45"
+        "target_sha256": "4e915b652da47b5dd3353867153462a216be3938031f0149d336ad47320974b3"
       },
       "events:arc_jaehyuk_04b_counter:/choices/0/text": {
         "source_sha256": "a5f9a37d29461c344df2d581723fdf2a926ab4254db9e7d2b6f749e5d8f1f26a",
@@ -145412,7 +145512,7 @@
       },
       "events:arc_jaehyuk_04b_counter:/choices/0/result_text": {
         "source_sha256": "ff2080a9db24b74d113dd74457f7dd519f58b7b26db97935908dbed09e927fbb",
-        "target_sha256": "28f4bae08294c10e78f89d72c44980194e55e2e8f662a3ce7fc1e174ad888f5a"
+        "target_sha256": "2ff679fbd5b910cd76cca3c3f427f06895f500a4ee1ced8d4c8e99e0b3e203e6"
       },
       "events:arc_jaehyuk_04b_counter:/choices/0/text": {
         "source_sha256": "a5f9a37d29461c344df2d581723fdf2a926ab4254db9e7d2b6f749e5d8f1f26a",
@@ -199056,7 +199156,7 @@
       }
     }
   },
-  "accepted_sha256": "3f1c6ee295c7c801fb422cdc254096f0b963da271437ae8a86830fdc7b1fb29a",
+  "accepted_sha256": "9cc178631a1544649a8f16297e20a999067a96900db1668738499a5e8eea80a9",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
