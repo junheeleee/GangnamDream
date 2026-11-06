@@ -26636,6 +26636,106 @@
         "zh-CN": "e107a48f997ea5ce2ddfc30682537756d2d0b55482333b64b2e81cfebf6cc0a9",
         "zh-TW": "a6a94110b68fe53b55bc691f046ca0c320e5076654efd70a3703e6fd581a9117"
       }
+    },
+    {
+      "order": "ORDER-811",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_daeun_wedding_prep"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Distinguish customary wedding gifts from the couple's exchanged wedding items, and preserve the direction and size of the cost relative to the seed capital and deposit. Keep all amounts, counts, choices and outcomes exact.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "79536b2a84cd6c285f59fd14f02d71d4040d1366",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+          "selection_sha256": "05defb56e43003ce512c8b860ac1cc889bd6bd45e614215ceb6ca42e165e523a",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "edb607b2762a49a0462f907a834379706e1734c7d57263eb49d1655d306dfd55"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "79536b2a84cd6c285f59fd14f02d71d4040d1366",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+          "selection_sha256": "f21470c6845da37fdbab4c237c18688708c80a197153ef289c1e8b405ac4153d",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "47834e5828e8a159e086a382d51e9166c8d24cae99c7cac28e16743d2decbfd1"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "79536b2a84cd6c285f59fd14f02d71d4040d1366",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+          "selection_sha256": "d5f45d747bbdd64c93b4f153b817e3404d35ba10e32b0a3974247e6f9f9e24a0",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2e4e1043684d0ecdd86cf98e7a45f9ba6adf5696a9fae8087c4dfe8ace82e3c8"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "fcfc040661ab1994d2daad366915f520fb38fbde8b42dfdb787740d138603a29",
+        "zh-CN": "fbdecb82ce56a6db15f16310bde94288fcc775ad91b4f5a0324ad479e0d9fb66",
+        "zh-TW": "7f65706ab06d59899f3756b45706c23ed2a6630369d84ed492c818452714da4f"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_daeun_wedding_prep:/description": "0fa52d1709d5492dd7fb6a7f08dbc0216631c6c98952bbead5f72dbf523af867"
+        },
+        "zh-CN": {
+          "events:arc_daeun_wedding_prep:/description": "ab5cad73bbc4347d61b26b7657bb1a1aa41ab25820b8b7f7ef1d6e5fe00ac45f"
+        },
+        "zh-TW": {
+          "events:arc_daeun_wedding_prep:/description": "322d3aa0f65d306c73620d046c7d8b0dcc4fe5f2d94ade1f4ce911e2e8dcaa64"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_daeun_wedding_prep:/description": {
+            "source_sha256": "9baf62348109705bec20de50333795ab59fcf9c4df47c8f57ecccf32c6e5d225",
+            "target_sha256": "0fa52d1709d5492dd7fb6a7f08dbc0216631c6c98952bbead5f72dbf523af867"
+          }
+        },
+        "zh-CN": {
+          "events:arc_daeun_wedding_prep:/description": {
+            "source_sha256": "9baf62348109705bec20de50333795ab59fcf9c4df47c8f57ecccf32c6e5d225",
+            "target_sha256": "ab5cad73bbc4347d61b26b7657bb1a1aa41ab25820b8b7f7ef1d6e5fe00ac45f"
+          }
+        },
+        "zh-TW": {
+          "events:arc_daeun_wedding_prep:/description": {
+            "source_sha256": "9baf62348109705bec20de50333795ab59fcf9c4df47c8f57ecccf32c6e5d225",
+            "target_sha256": "322d3aa0f65d306c73620d046c7d8b0dcc4fe5f2d94ade1f4ce911e2e8dcaa64"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -38934,7 +39034,7 @@
       },
       "events:arc_daeun_wedding_prep:/description": {
         "source_sha256": "9baf62348109705bec20de50333795ab59fcf9c4df47c8f57ecccf32c6e5d225",
-        "target_sha256": "0fa52d1709d5492dd7fb6a7f08dbc0216631c6c98952bbead5f72dbf523af867"
+        "target_sha256": "4d9c62e1d4a6d75b3ac1d56e401cf96dec1268b56a4b4f2831b37f04925c1031"
       },
       "events:arc_daeun_wedding_prep:/title": {
         "source_sha256": "256b401bcb653f3c75cb1022008ef60db2e74ae4dd6b723d4198c459a39d5e47",
@@ -91772,7 +91872,7 @@
       },
       "events:arc_daeun_wedding_prep:/description": {
         "source_sha256": "9baf62348109705bec20de50333795ab59fcf9c4df47c8f57ecccf32c6e5d225",
-        "target_sha256": "ab5cad73bbc4347d61b26b7657bb1a1aa41ab25820b8b7f7ef1d6e5fe00ac45f"
+        "target_sha256": "c048108e14351fc05b825452222980a3823c1beb5eaf5d7480363628bd4354ab"
       },
       "events:arc_daeun_wedding_prep:/title": {
         "source_sha256": "256b401bcb653f3c75cb1022008ef60db2e74ae4dd6b723d4198c459a39d5e47",
@@ -151394,7 +151494,7 @@
       },
       "events:arc_daeun_wedding_prep:/description": {
         "source_sha256": "9baf62348109705bec20de50333795ab59fcf9c4df47c8f57ecccf32c6e5d225",
-        "target_sha256": "322d3aa0f65d306c73620d046c7d8b0dcc4fe5f2d94ade1f4ce911e2e8dcaa64"
+        "target_sha256": "f0ecbc0fe8a7ade75b5d0a9f9584b7264105cea5114f452ec191459844295cf4"
       },
       "events:arc_daeun_wedding_prep:/title": {
         "source_sha256": "256b401bcb653f3c75cb1022008ef60db2e74ae4dd6b723d4198c459a39d5e47",
@@ -198722,7 +198822,7 @@
       }
     }
   },
-  "accepted_sha256": "4cf41b8b42b108e24da950ef9b502474ed136ccf30199583574344825a64e132",
+  "accepted_sha256": "4a3bf3356b41db7cb8092eed1024fddc3a8d1dd41994d207d7701f91b70b0b5b",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
