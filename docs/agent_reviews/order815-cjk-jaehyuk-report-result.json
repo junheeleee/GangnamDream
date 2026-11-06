@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-815",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-07",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "23eba78f8cee8f56fee2cbbff7bbb701748bbc3d",
+    "tree": "2bd6dd0acec9d06ea756177cb79706ce1e2b2f66",
+    "manifest_sha256": null
+  },
+  "scope": "Existing JA, zh-CN and zh-TW translations of arc_jaehyuk_04b_counter choice 0 result only. Five exact phrase substitutions, no new coverage.",
+  "review": {
+    "method": "Direct read of full Korean report outcome, all old/new locale results and alternative choices. Trace suspected W116+ and pitch-deferred entry, event ID/index merge and result consumer; independent pure source and receipt checks, in-memory merges and byte inverses.",
+    "findings": "Police receive evidence and victim statements; Jaehyuk is held in custody, not convicted or sentenced. Copies, envelope, Sangchul and order intact; CN/TW paper corner contacts palm without pressure. No transfer/recovery or status invented.",
+    "routing": "Suspected and not already deferred/seen qualifies direct W116+; pitch alternative reserves the same event at delay12. Choice 0 retains no money effect, reported/orthodox/aftermath; alternatives retain +8m/+5m and distinct delayed consequences. No observed exposure."
+  },
+  "preservation": {
+    "prior_batches": 404,
+    "prior_decisions": 373,
+    "prior_decision_ledger_sha256": "4bd6b8de74127166bfdaeaaf480f465e98b0bce72a66e6f1fe93dfb1092781ec",
+    "same_source_superseded": 3,
+    "complete_target_byte_inverses": 3,
+    "complete_ledger_byte_inverses": 1,
+    "nonowned_git_blobs": 14,
+    "nonowned": "KO/EN, all other JA/CN/TW values, routing/choices/effects, save, validators and public demo unchanged."
+  },
+  "validation": "Read author three official export/check/import sets, nine empty stderr files and targeted demo/EN/i18n logs. Independent pure check_batch and preimport merges prove three formatter-only reversals, receipts and full inverses exit0. Lane11 selection only. No accepted CLI or engine rerun.",
+  "identity": {
+    "baseline": "6a22a564e4fc35f4263af618b20257e0724d98e0",
+    "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "bindings_by_locale": {
+      "ja": {
+        "batch_id": "eb9d2dbbbab64bc054a400a4b3ef11ff0191613f6bbe74412060473f851940b0",
+        "receipt_sha256": "e989980fe45209d92a96b8895e7454c47493bbeafa7f512203ff45f665c217a2",
+        "receipt_file_sha256": "db48340695620ea989299f2697c71c262c4ec25596e59a3fa44ab71a257e35a9",
+        "id": "events:arc_jaehyuk_04b_counter:/choices/0/result_text",
+        "source_sha256": "ff2080a9db24b74d113dd74457f7dd519f58b7b26db97935908dbed09e927fbb",
+        "old_target_sha256": "2f8d3263cf92f81e20930a7d1da104a0edcb87533504a2741c53f1a2431a4402",
+        "new_target_sha256": "7ab04c28cb633f70169e517347a8312893e2e2e6cf42d96262faa355dc41bf8e"
+      },
+      "zh-CN": {
+        "batch_id": "7253c6628f48f3df5578e89633abd1865a24b351a6b00af4d9480e3c3bc7a446",
+        "receipt_sha256": "f0731f52992030c88cd227d3a9e8590727c5c4bfc783702b3593cd7c479886e3",
+        "receipt_file_sha256": "7b492026400ee5673b6b5c2967d3fd619df7cfafeb3fe00ce9f5deb1f47b3e97",
+        "id": "events:arc_jaehyuk_04b_counter:/choices/0/result_text",
+        "source_sha256": "ff2080a9db24b74d113dd74457f7dd519f58b7b26db97935908dbed09e927fbb",
+        "old_target_sha256": "efdaaaccbe25e6a675ba31ca661d71e89ddebc9305b4fe3c1d670be288856b45",
+        "new_target_sha256": "4e915b652da47b5dd3353867153462a216be3938031f0149d336ad47320974b3"
+      },
+      "zh-TW": {
+        "batch_id": "7582583a7984b6be725d52bc7b4b3b457825d287f142d4817cc02396318d2270",
+        "receipt_sha256": "9eeb20dd0aaa69b39ebe90b260bd64a870a5d9f8ec9469c38d70609247258127",
+        "receipt_file_sha256": "5ede33d176caca6ea8c90f34bfb705b7f0b99e6ead9ef06baac5468a16d63c78",
+        "id": "events:arc_jaehyuk_04b_counter:/choices/0/result_text",
+        "source_sha256": "ff2080a9db24b74d113dd74457f7dd519f58b7b26db97935908dbed09e927fbb",
+        "old_target_sha256": "28f4bae08294c10e78f89d72c44980194e55e2e8f662a3ce7fc1e174ad888f5a",
+        "new_target_sha256": "2ff679fbd5b910cd76cca3c3f427f06895f500a4ee1ced8d4c8e99e0b3e203e6"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-jaehyuk-report-result-20261107.556Znt/",
+    "raw_population": {
+      "files": 33,
+      "entries": [
+        [
+          "correction.log",
+          137,
+          "1dd870919d97a2e3bf9287ffd4de7f9fb1dbc3e2058909709d3d4125d5d8fd04"
+        ],
+        [
+          "correction.py",
+          5003,
+          "6aa655e1437b830ad5945575106a04378c69519edd2464003a4b98633b2a2dd3"
+        ],
+        [
+          "delta.log",
+          181,
+          "b42f4d7990eb4bcbdb3fac698100be754ce308cd47f322dc67e9a36312b5492d"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "drafts.json",
+          326,
+          "b2d42d74d56390f6720cfd2b0a8ead75fc62204ff76ef555777a40abe05365cc"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "ja.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.check.out",
+          117,
+          "0752ac2156c7c94b666d9a066591b4f07ad885c0bbc019c193d05e6efb7a49e5"
+        ],
+        [
+          "ja.export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.export.out",
+          156,
+          "367d3f6e554289c72b4f60e2c4fa8808a2535442d7934c1f30629ebe1fb52742"
+        ],
+        [
+          "ja.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.import.out",
+          118,
+          "bf16f888ebad7086a0b227d5bceba6e926dd0c34eb8da9c1c5d4dfd84bc9d41d"
+        ],
+        [
+          "ja.response.jsonl",
+          1113,
+          "51ec1872a14ae12d3357323067e9c359772911523dbe59d2d15b607ea68fb108"
+        ],
+        [
+          "ja.source.jsonl",
+          1503,
+          "60ea676c459bf05c9908f86c36de49b4ea8b350a72d90267e27b770d9d7c7274"
+        ],
+        [
+          "lane.log",
+          1677,
+          "ee3969ee87b707c3d1ffe9e8b8777190175581b3164e2d8bc2a66eb93856182a"
+        ],
+        [
+          "leaf-ids.json",
+          58,
+          "e74e55ec5b3841f2a6df0769b8fd193facc24e799a32242c024ebb6c65497ae2"
+        ],
+        [
+          "zh-CN.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.check.out",
+          120,
+          "9d07b1443a0c24a645bccca11e91dc64f2e3e2f65e294b603f34664e86b9f12b"
+        ],
+        [
+          "zh-CN.export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.export.out",
+          162,
+          "61abcca0e6b4078fa90319fd1f22b8b18ab8efffef49ec33a1c55223582df7b2"
+        ],
+        [
+          "zh-CN.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.import.out",
+          121,
+          "20044e17825e0dc035f5fec1fcba705d77f171bd6ef5cc502cb6c2696c8f4e24"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          1007,
+          "cb0590ed2b5370bfea0ff4d1b64e7af4705738acd1b1ff49edf02b39b33e3d8b"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          1512,
+          "1e6f7fe9153b6ed2607a89fa8e99d8f8164a9631a909e44c6dfe01dcfc882a37"
+        ],
+        [
+          "zh-TW.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.check.out",
+          120,
+          "b6915eb471f866317ec9d36de6647c3eed7a33419f40f488605cc694296de900"
+        ],
+        [
+          "zh-TW.export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.export.out",
+          162,
+          "071975753ffd264348463ecd45d471462d2e4b9109650e73ca9d0c3d4ebd03c7"
+        ],
+        [
+          "zh-TW.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.import.out",
+          121,
+          "8784cce1b64d172e2fba2c4b8946180b1adc77eb1bab98cee2c9029da1ce8329"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          995,
+          "749a9c0173eb651b3aae1e065b104b3f94ae7d541c36b1d046e025694b9728d5"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          1512,
+          "a81c2f651c4c4a7c92526b3a88b48d1969d6abf791fcb63a4d16b5a7996b6294"
+        ]
+      ],
+      "sha256": "1d22ea9526116e6507f0562faf0af5774bfdbff6c7fa6b4541a63a3af216a9a2"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_rendered_report_scene",
+    "actual_full_game_w116_exposure",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}

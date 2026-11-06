@@ -15730,6 +15730,48 @@
         "path": "docs/agent_reviews/order814-tw-jaehyuk-victim-relationships.json",
         "sha256": "8ba40460874b1c69ecfcd77eb82973e0a7267e4a899e5cb947a3b6f8f3de7a40"
       }
+    },
+    {
+      "id": "order815-cjk-jaehyuk-report-result-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-07",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-815",
+      "subject": {
+        "kind": "source",
+        "commit": "23eba78f8cee8f56fee2cbbff7bbb701748bbc3d",
+        "tree": "2bd6dd0acec9d06ea756177cb79706ce1e2b2f66",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order815-cjk-jaehyuk-report-result.md",
+          "sha256": "f082d63eae420d24e860a33a0aab4f2bea0a38462e8a76fccc2537cdcee3aaf6"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order815-cjk-jaehyuk-report-result.json",
+          "sha256": "4a3abe5ba6b5aeb32f756895a1f57528941d21daa167867fd334c083a66698b5"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_report_scene",
+        "actual_full_game_w116_exposure",
+        "actual_save_load",
+        "candidate_ci",
+        "retail_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order815-cjk-jaehyuk-report-result.json",
+        "sha256": "4a3abe5ba6b5aeb32f756895a1f57528941d21daa167867fd334c083a66698b5"
+      }
     }
   ]
 }
