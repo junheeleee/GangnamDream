@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-804",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "e7f7bbc6e90fe0a0525ee1d4b4748df1e5252707",
+    "tree": "d71ba99094013c435cd3a5a8f66aaa68d5024d85",
+    "manifest_sha256": null
+  },
+  "scope": "Existing zh-TW arc_daeun_hometown_1.title, one shipping event title only; no new coverage.",
+  "review": {
+    "method": "Read current Korean scene and both choices/results, whole target scene and hometown continuations including father's death variant; traced full-game seasonal/romance entry, event overlay, StoryMode and seen+snapshot-gated Archive title. Independent current pure check_batch and whole-file inverses.",
+    "findings": "Return-to-hometown journey matches Daeun's countryside trip for her mother's medical appointment, without an invented southerly direction or arrival. Title only.",
+    "out_of_scope_defect": "The two untouched TW result_text final lines still contain an unsupported southerly direction. Preserved as nonowned, informed author for a separately declared follow-up; no whole-scene alignment claim."
+  },
+  "preservation": {
+    "prior_batches": 393,
+    "prior_decisions": 362,
+    "prior_decision_ledger_sha256": "cbd39db1cc7e878775110674e539baa12327b59dcb36f0752223bed4db04ca1f",
+    "superseded_acceptance_by_locale": {
+      "zh-TW": {
+        "events:arc_daeun_hometown_1:/title": {
+          "source_sha256": "220f7630a0fa5ba6081db200c02d2dd4101ea4957d2140e5b43ba7ec3853e5b4",
+          "target_sha256": "a2c8ef6f833408a5a875921e1bf81a5e13f12ad8f41885799af279e9e2f5f14e"
+        }
+      }
+    },
+    "proof": "Whole target and whole ledger byte inverses exact. Prior 393 batches and one same-source prior acceptance retained; 16 nonowned Git blobs exact. Other locale/choices/body/gates/saves/public demo unchanged."
+  },
+  "validation": "Official export/check/import logs show one leaf and empty stderr; independent pure current check_batch, actual source, previous target, receipt and whole inverse actual exit0. Demo5/14/100/122, EN1813/35 and CJK skeleton logs; lane11 selection only.",
+  "identity": {
+    "baseline": "d3d3fbd819cb535d9f36135113aadff28514e602",
+    "source_manifest_sha256": "45bb6a6a25315cc36461b7a43bb350a47a9bd9c5da1fbc80eacd1b150300beae",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "rows_sha256": "c1ed4cbd6346b64ce21757431cc85ecaed1556711fb417e701ef14fb81860e46",
+    "receipt_sha256_by_locale": {
+      "zh-TW": "322b0b994847196e54850420c628a211c41a7962791b95fd4400fea5448a8a0c"
+    },
+    "official_receipt_file_sha256_by_locale": {
+      "zh-TW": "fe4c04fc0f9efbd72ee7b52eaaeb2c0b5d45ca5b8aabc98a406ef7109826bcc8"
+    },
+    "previous_target_sha256_by_locale": {
+      "zh-TW": {
+        "events:arc_daeun_hometown_1:/title": "a2c8ef6f833408a5a875921e1bf81a5e13f12ad8f41885799af279e9e2f5f14e"
+      }
+    },
+    "nonowned_blobs": 16,
+    "raw_directory": ".git/localization-tw-daeun-hometown-20261106.3MeZaY/",
+    "raw_population": {
+      "files": 17,
+      "sha256": "88d5063ae7748e8447e942a111e0b54ab8841716cd04144a4cea825ea5536174",
+      "entries": [
+        [
+          "check.log",
+          120,
+          "b6915eb471f866317ec9d36de6647c3eed7a33419f40f488605cc694296de900"
+        ],
+        [
+          "check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "correction.log",
+          124,
+          "d93e2e3a7658f00ded8358f27eca9a73aa35be39667215cb3c22bb40ad7fa47b"
+        ],
+        [
+          "correction.py",
+          3833,
+          "10c489a7775a2cfa5f36db28c2a9e5b2617f19441e99a40b6b0d234635b976bc"
+        ],
+        [
+          "delta.log",
+          317,
+          "bca1a8740f94ad92625b04c3313ff35f3477d91c0ac2c8ac7e5156709dcd1964"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "draft.json",
+          54,
+          "f132a51c69bc0871f791e9f10b76f3c80220a6350c502966a5bc04a3fa0b2033"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "export.log",
+          148,
+          "20eb9db3b68b7f8ab8f7c698ebf51599a2bb3ea628e157e57f4d3b7d3ce32d93"
+        ],
+        [
+          "export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "import.log",
+          121,
+          "8784cce1b64d172e2fba2c4b8946180b1adc77eb1bab98cee2c9029da1ce8329"
+        ],
+        [
+          "import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "lane.log",
+          1677,
+          "d04167a5f39c772adc9debf33e83e0bce7b9869f6542628ec9eafdaec6568284"
+        ],
+        [
+          "leaf-ids.json",
+          39,
+          "745ff000035ac87a43e6642247809dc9e8f28c86369e0fd35a8363d613e25eb2"
+        ],
+        [
+          "response.jsonl",
+          730,
+          "30ba1d2d380c7c64b29494bf6c9df2cf6845e55f66e0fc1aedf92ce0ce14a4a9"
+        ],
+        [
+          "source.jsonl",
+          1185,
+          "edbb0e632f949208faf198ae9858ba6a91ed1e78a7d00b462523e624987fd5da"
+        ]
+      ]
+    },
+    "encoding": "UTF-8 file byte SHA256; raw population compact JSON basename-sorted [name,size,sha256]; row digest in locale/source order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

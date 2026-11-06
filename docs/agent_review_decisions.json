@@ -15259,6 +15259,49 @@
         "path": "docs/agent_reviews/order803-cjk-save-caption.json",
         "sha256": "c09470f5551f777170199de4f3d25c1d175c7443199053e5ea6008c005bc8f7a"
       }
+    },
+    {
+      "id": "order804-tw-daeun-hometown-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-06",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-804",
+      "subject": {
+        "kind": "source",
+        "commit": "e7f7bbc6e90fe0a0525ee1d4b4748df1e5252707",
+        "tree": "d71ba99094013c435cd3a5a8f66aaa68d5024d85",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order804-tw-daeun-hometown.md",
+          "sha256": "954907a2624b9bcdd34ad4d567520e0399a0d6893f1e6aba86baae6e3e2e1715"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order804-tw-daeun-hometown.json",
+          "sha256": "80cd176da6477f449a4378c64d32a8b80d58c26c3ae7195748efae55b62d9ae7"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order804-tw-daeun-hometown.json",
+        "sha256": "80cd176da6477f449a4378c64d32a8b80d58c26c3ae7195748efae55b62d9ae7"
+      }
     }
   ]
 }
