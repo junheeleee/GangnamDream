@@ -15562,6 +15562,48 @@
         "path": "docs/agent_reviews/order810-cjk-race-canvas.json",
         "sha256": "16b05b9502e159519aaed0f86ee4486595b593837b7710ff5e15689d047479bf"
       }
+    },
+    {
+      "id": "order811-cjk-daeun-wedding-estimate-source-go",
+      "delegation": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-07",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-811",
+      "subject": {
+        "kind": "source",
+        "commit": "6f2ffc14cf307eca29cedb9d09844afc42440343",
+        "tree": "12e1f44c483ddbdf1b06fc62075bb6a8333f0e4c",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order811-cjk-daeun-wedding-estimate.md",
+          "sha256": "d619031fbeba86103a2dce2df458585d20d490b135069deb554017573aa01be5"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order811-cjk-daeun-wedding-estimate.json",
+          "sha256": "05f4970225cf9be6158491f939819bbd07249ec0e7236ff29b68733889eb816c"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_wedding_scene",
+        "actual_full_game_w175_exposure",
+        "actual_save_load",
+        "candidate_ci",
+        "retail_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order811-cjk-daeun-wedding-estimate.json",
+        "sha256": "05f4970225cf9be6158491f939819bbd07249ec0e7236ff29b68733889eb816c"
+      }
     }
   ]
 }

@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-811",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-07",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "6f2ffc14cf307eca29cedb9d09844afc42440343",
+    "tree": "12e1f44c483ddbdf1b06fc62075bb6a8333f0e4c",
+    "manifest_sha256": null
+  },
+  "scope": "Full-game arc_daeun_wedding_prep.description, Korean one leaf and three existing JA/zh-CN/zh-TW targets. Corrections 3, new coverage 0.",
+  "review": {
+    "method": "Read actual complete Korean scene and unchanged choice context, three complete old/new targets and receipts. Trace conditional W175+ arc, queue, exact ID/choice-index overlay and StoryMode display/effect application. Independently reverse exact whole file bytes.",
+    "findings": "Customary wedding gifts and exchanged wedding items are distinct and jointly cost 5 million won, without invented cash, rings or recipient. CN deducts from Gangnam seed capital; TW matches ordinary jeonse-deposit magnitude. Four estimate amounts, five invitation meals, token twice, four paragraphs, Daeun’s question, choice routes and full results preserved. Estimate item sum 31.8 million is not either enacted choice effect.",
+    "state_boundary": "Choice indices 0/1 carry existing -8,000,000/-31,000,000 KRW and small/full flags. No change to route, schedule, state or saves. Code-level reader only; no observed W175 exposure."
+  },
+  "preservation": {
+    "prior_batches": 400,
+    "same_source_superseded": 3,
+    "prior_decisions": 369,
+    "prior_decision_ledger_sha256": "8b75c309c3b3b7cbbf85f360720bd619b65da75ae9b4f648cf462c8a9445db3a",
+    "complete_target_byte_inverses": 3,
+    "complete_ledger_byte_inverses": 1,
+    "nonowned_git_blobs": 14,
+    "nonowned": "KO/EN, other event values/roots, choices, outcomes, route, save, validators and public demo unchanged in candidate diff."
+  },
+  "validation": "Read final author official export/check/import success records for one leaf per locale, nine empty stderr files. Independent canonical pure check_batch and exact receipt/target/ledger inverse returned exit 0; no official accepted CLI, engine or native run. Demo five locales/14/100/122, EN 1813/35 and CJK structural skeleton logs inspected; lane11 selection only.",
+  "identity": {
+    "baseline": "79536b2a84cd6c285f59fd14f02d71d4040d1366",
+    "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "bindings": [
+      {
+        "locale": "ja",
+        "batch_id": "edb607b2762a49a0462f907a834379706e1734c7d57263eb49d1655d306dfd55",
+        "source_sha256": "9baf62348109705bec20de50333795ab59fcf9c4df47c8f57ecccf32c6e5d225",
+        "old_target_sha256": "0fa52d1709d5492dd7fb6a7f08dbc0216631c6c98952bbead5f72dbf523af867",
+        "new_target_sha256": "4d9c62e1d4a6d75b3ac1d56e401cf96dec1268b56a4b4f2831b37f04925c1031",
+        "receipt_sha256": "fcfc040661ab1994d2daad366915f520fb38fbde8b42dfdb787740d138603a29",
+        "receipt_file_sha256": "f731fa8afbfa109add1421cd1cffa95106d1171f2adab8c9cdc106a938ff4602"
+      },
+      {
+        "locale": "zh-CN",
+        "batch_id": "47834e5828e8a159e086a382d51e9166c8d24cae99c7cac28e16743d2decbfd1",
+        "source_sha256": "9baf62348109705bec20de50333795ab59fcf9c4df47c8f57ecccf32c6e5d225",
+        "old_target_sha256": "ab5cad73bbc4347d61b26b7657bb1a1aa41ab25820b8b7f7ef1d6e5fe00ac45f",
+        "new_target_sha256": "c048108e14351fc05b825452222980a3823c1beb5eaf5d7480363628bd4354ab",
+        "receipt_sha256": "fbdecb82ce56a6db15f16310bde94288fcc775ad91b4f5a0324ad479e0d9fb66",
+        "receipt_file_sha256": "a364e08699f333435f9d8e9fcc8121b759e4ed28162bb2841d24926a70eee826"
+      },
+      {
+        "locale": "zh-TW",
+        "batch_id": "2e4e1043684d0ecdd86cf98e7a45f9ba6adf5696a9fae8087c4dfe8ace82e3c8",
+        "source_sha256": "9baf62348109705bec20de50333795ab59fcf9c4df47c8f57ecccf32c6e5d225",
+        "old_target_sha256": "322d3aa0f65d306c73620d046c7d8b0dcc4fe5f2d94ade1f4ce911e2e8dcaa64",
+        "new_target_sha256": "f0ecbc0fe8a7ade75b5d0a9f9584b7264105cea5114f452ec191459844295cf4",
+        "receipt_sha256": "7f65706ab06d59899f3756b45706c23ed2a6630369d84ed492c818452714da4f",
+        "receipt_file_sha256": "630b5f957bffebe20d543b9cc444af229845a00957f305d1b06401eafd67e7de"
+      }
+    ],
+    "raw_directory": ".git/localization-cjk-daeun-wedding-estimate-20261107.XnqszP/",
+    "raw_population": {
+      "files": 33,
+      "entries": [
+        [
+          "correction.log",
+          138,
+          "1119819f3404ea4d3403e574c15177aad71b38e9c33cabed32ca10f6489eeefe"
+        ],
+        [
+          "correction.py",
+          4986,
+          "eb9ee23735e4acf873ef1407c9758f27f74e0ce33fd740349d65a9d4199ecb0f"
+        ],
+        [
+          "delta.log",
+          202,
+          "fe3be9736b82fb8719a4b795fb62a51a90569459235ebbd4decf48d19b37467f"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "drafts.json",
+          498,
+          "062fe44918625b805595e6e14abcdb66f02f0555cf256aeeabbe49900ff1466f"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "ja.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.check.out",
+          117,
+          "0752ac2156c7c94b666d9a066591b4f07ad885c0bbc019c193d05e6efb7a49e5"
+        ],
+        [
+          "ja.export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.export.out",
+          157,
+          "ca9c893f5627e4444ffc98057c9abec500e90b755ddf3d87df4e177e60b306ca"
+        ],
+        [
+          "ja.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.import.out",
+          118,
+          "bf16f888ebad7086a0b227d5bceba6e926dd0c34eb8da9c1c5d4dfd84bc9d41d"
+        ],
+        [
+          "ja.response.jsonl",
+          1407,
+          "ec6ad1cbce0ef614d9c99b533f9cc75618771ea9ba208ff07b8b58834156b93e"
+        ],
+        [
+          "ja.source.jsonl",
+          1668,
+          "ba57927be666bfafd39243439c2a38183f93db2e4ce12f6b37d2853df05af573"
+        ],
+        [
+          "lane.log",
+          1677,
+          "ee3969ee87b707c3d1ffe9e8b8777190175581b3164e2d8bc2a66eb93856182a"
+        ],
+        [
+          "leaf-ids.json",
+          47,
+          "24d49fe2bc4f15e0d62d03bf2107165c16c9f6ac50e43b5e128fffb2412ef303"
+        ],
+        [
+          "zh-CN.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.check.out",
+          120,
+          "9d07b1443a0c24a645bccca11e91dc64f2e3e2f65e294b603f34664e86b9f12b"
+        ],
+        [
+          "zh-CN.export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.export.out",
+          163,
+          "622b4b60401e3bc8d640664255e1ae0db6d5c70179035366921053a61471f472"
+        ],
+        [
+          "zh-CN.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.import.out",
+          121,
+          "20044e17825e0dc035f5fec1fcba705d77f171bd6ef5cc502cb6c2696c8f4e24"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          1238,
+          "8bea5d4619d90400f74b88a61f42be7bb6ce92b4cedbad820c8ea4dfb5e8f2f2"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          1677,
+          "553133eed1d3f94c67deb946d3c8d5b3e34bc13f938e72168962be3169673529"
+        ],
+        [
+          "zh-TW.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.check.out",
+          120,
+          "b6915eb471f866317ec9d36de6647c3eed7a33419f40f488605cc694296de900"
+        ],
+        [
+          "zh-TW.export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.export.out",
+          163,
+          "fc1b12c71a37e67367397f57e382d738059038f69dd59aa66a3e36f948740897"
+        ],
+        [
+          "zh-TW.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.import.out",
+          121,
+          "8784cce1b64d172e2fba2c4b8946180b1adc77eb1bab98cee2c9029da1ce8329"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          1235,
+          "eab9b5bb27a38c1d0f914e1e27289075666a054148fef4dc50512f69d1f76cf4"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          1677,
+          "8a4bdf9345ca2a39471a54945474a0742156394a4c1876b7f929867d6f43dde8"
+        ]
+      ],
+      "sha256": "c64c9c8002a0122903576b1a04077437a113f81cd69c97ca68d50acefc05028e"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_rendered_wedding_scene",
+    "actual_full_game_w175_exposure",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}
