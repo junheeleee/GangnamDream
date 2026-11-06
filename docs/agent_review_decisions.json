@@ -15302,6 +15302,49 @@
         "path": "docs/agent_reviews/order804-tw-daeun-hometown.json",
         "sha256": "80cd176da6477f449a4378c64d32a8b80d58c26c3ae7195748efae55b62d9ae7"
       }
+    },
+    {
+      "id": "order805-tw-daeun-train-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-06",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-805",
+      "subject": {
+        "kind": "source",
+        "commit": "c570ccadda20e73e08d4dacef3f44fa637d3efc1",
+        "tree": "082e43e4d6c3d4c8fd56599633cfe7b2d43757f8",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order805-tw-daeun-train.md",
+          "sha256": "71275cb81fb22528c9be39e7e111ed5ccfbe14aa10187b30cc8ae66fdbc161ac"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order805-tw-daeun-train.json",
+          "sha256": "3b5f573a249cb3e3ac2d9ffe7a74feb5d69473010551643ba647c39c3fc8720c"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order805-tw-daeun-train.json",
+        "sha256": "3b5f573a249cb3e3ac2d9ffe7a74feb5d69473010551643ba647c39c3fc8720c"
+      }
     }
   ]
 }

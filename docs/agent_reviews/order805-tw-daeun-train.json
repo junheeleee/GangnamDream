@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-805",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "c570ccadda20e73e08d4dacef3f44fa637d3efc1",
+    "tree": "082e43e4d6c3d4c8fd56599633cfe7b2d43757f8",
+    "manifest_sha256": null
+  },
+  "scope": "Last line only of two existing zh-TW shipping result_text values for arc_daeun_hometown_1 choices 0 and 1. No new coverage.",
+  "review": {
+    "method": "Read current Korean setup and both choices/full results against full previous/current Traditional Chinese targets. Checked exact index overlay, button/StoryMode result and distinct effects/followup handling; independent current pure check_batch and inverses.",
+    "findings": "Both lines keep the train continuing toward Daeun's hometown without an unsupported compass direction or arrival. Hand-holding and silence branches, all prior lines, name token, paragraph boundaries and ORDER-804 title are exact."
+  },
+  "preservation": {
+    "prior_batches": 394,
+    "prior_decisions": 363,
+    "prior_decision_ledger_sha256": "218a5126aa96c5c5085e1b0e7edccde5c3c14b14872d8b278a02d7113b46b67e",
+    "superseded_acceptance_by_locale": {
+      "zh-TW": {
+        "events:arc_daeun_hometown_1:/choices/0/result_text": {
+          "source_sha256": "a889e224f69fa956dedfa7d0a3bec616572f1a0ba3513a10552ff3604a75d8d8",
+          "target_sha256": "8653ffd13b0b3905c3d17af101dc20f95332fe635ca6a3cdd15d05f259f6bcf5"
+        },
+        "events:arc_daeun_hometown_1:/choices/1/result_text": {
+          "source_sha256": "93b2937f6fedbf00b4cc72e864803aa701461b0b642515ecac44a5af1c05c415",
+          "target_sha256": "24bf22c9b0aff3ba2af1a9fbaf372fc18925676f8820308e1fd2efacdbf0c9bf"
+        }
+      }
+    },
+    "proof": "Whole TW target and whole ledger byte inverses exact. Previous 394 batches and two same-source prior acceptances retained; 16 nonowned Git blobs exact. Other locale/body/title/effects/indices/followup/saves/public demo unchanged."
+  },
+  "validation": "Official export/check/import logs show two leaves and empty stderr. Independent current pure check_batch, actual source, previous target, receipt and whole inverses actual exit0. Demo5/14/100/122, EN1813/35 and CJK skeleton logs; lane11 selection only.",
+  "identity": {
+    "baseline": "d2affb8c89b9017c83fa5ceb8666a86fe1a9ecd8",
+    "source_manifest_sha256": "45bb6a6a25315cc36461b7a43bb350a47a9bd9c5da1fbc80eacd1b150300beae",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "rows_sha256": "eaf11a8e4780eccf0d14251594da41875f7fdf95bcfcecf1f24bae22228281a8",
+    "receipt_sha256_by_locale": {
+      "zh-TW": "b02db49c1b4b1cb6b61d135e0d8f2b7609cd2471520905f985e11d29dbdcac86"
+    },
+    "official_receipt_file_sha256_by_locale": {
+      "zh-TW": "de975929f3a77a580a2fbeefb6dabb6949f55186e64b74d6e2f6cafb3e5dae94"
+    },
+    "previous_target_sha256_by_locale": {
+      "zh-TW": {
+        "events:arc_daeun_hometown_1:/choices/0/result_text": "8653ffd13b0b3905c3d17af101dc20f95332fe635ca6a3cdd15d05f259f6bcf5",
+        "events:arc_daeun_hometown_1:/choices/1/result_text": "24bf22c9b0aff3ba2af1a9fbaf372fc18925676f8820308e1fd2efacdbf0c9bf"
+      }
+    },
+    "nonowned_blobs": 16,
+    "raw_directory": ".git/localization-tw-daeun-train-20261106.MKM18N/",
+    "raw_population": {
+      "files": 17,
+      "sha256": "64c5320a9e1b1f7f6be4fc52f8a884611db9438b453e1cff2cbaddb4e6cdcc7c",
+      "entries": [
+        [
+          "check.log",
+          120,
+          "cdc2ab1ac315c6d62533001a15943865841c34051440a700cdef2e8d469ca18f"
+        ],
+        [
+          "check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "correction.log",
+          126,
+          "32917f864084cdbee9b1f84189b322811fd06a9bb82b177d5a1d77b20402e4da"
+        ],
+        [
+          "correction.py",
+          4398,
+          "ae3ece479bd2d35b6579a5bfe40ad3e78d983d5e2ca33a21de463463b8521637"
+        ],
+        [
+          "delta.log",
+          1511,
+          "dbbda8953ef9da8f80c92e9e020a37ca923743265b00c90c8dc39e152604e059"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "draft.json",
+          671,
+          "d0889086bfb5d16950e984c11bf909cc69724b9b96ff8b7579fbb4c2428db01d"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "export.log",
+          145,
+          "6e054b789e40a0bdac2192523d5bd1cb2aae91a5a7d11251ab985c334c7905d8"
+        ],
+        [
+          "export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "import.log",
+          121,
+          "ac46b927a07be0f72b2dc1c655fd621cd5e01fecc79fd58058fc5b909583d6ca"
+        ],
+        [
+          "import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "lane.log",
+          1677,
+          "d04167a5f39c772adc9debf33e83e0bce7b9869f6542628ec9eafdaec6568284"
+        ],
+        [
+          "leaf-ids.json",
+          108,
+          "9fdad4647c4dbee6ca9a4cb2964a3835db6fbb74a724f8fc851bcf455d16864a"
+        ],
+        [
+          "response.jsonl",
+          1508,
+          "2ef66e44091816ca24908ca601695550c7a7ab7a5f9522093f5ce04ba991c3dd"
+        ],
+        [
+          "source.jsonl",
+          2536,
+          "085a72bc5d7c4ff2d2cc1c2728f8b7ce3f66ca5f20199174738cbd7731c53905"
+        ]
+      ]
+    },
+    "encoding": "UTF-8 file byte SHA256; raw population compact JSON basename-sorted [name,size,sha256]; rows canonical digest in locale/source order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
