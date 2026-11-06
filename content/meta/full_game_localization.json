@@ -26323,6 +26323,112 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-807",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_jiyeon_narrow_room_2",
+        "arc_jiyeon_narrow_room_decision"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "The question pauses an expected sharp reply, not a change in lip shape. The Japanese embrace outcome names the hug without sexual ambiguity. Other lines and branches are exact.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "95cbbe68fbd062a61fb89b660aaf250bca771c57",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "45bb6a6a25315cc36461b7a43bb350a47a9bd9c5da1fbc80eacd1b150300beae",
+          "selection_sha256": "28481fb5cc32e6dd99be39b3a41dc4080006bc04f6c08674212451cd1e03083b",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b6a876ac2ad0890df8d97df333406aebd0e6aa868745374b1632dd83b0c8b8a7"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "95cbbe68fbd062a61fb89b660aaf250bca771c57",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "45bb6a6a25315cc36461b7a43bb350a47a9bd9c5da1fbc80eacd1b150300beae",
+          "selection_sha256": "6e260d789c8391c05c5846310b9f0c6eafdcc14ba7e2d59287f829dc249f142e",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c4eec2a5e37fae4e0e640235b58e4eeabedbff5fd34de8f9b65df36d1f9a2f47"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "95cbbe68fbd062a61fb89b660aaf250bca771c57",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "45bb6a6a25315cc36461b7a43bb350a47a9bd9c5da1fbc80eacd1b150300beae",
+          "selection_sha256": "ffa83d382277d7eba1a023ff00e17bd453498feba9386c264cf28c867119854e",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "3ca6b5c057d7151c0c07981690c107d1707b7defe7df5db2b503b3cb305de1e0"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "3b5284e5597bc3f4ce19a20077f91ee5f7c7459f24b9b0271d1d36d49409f80c",
+        "zh-CN": "6227c23238c8507870d936d1e3715a21589a7b4f7369c412534c7de6542c5e6b",
+        "zh-TW": "b33731346f04e8d6c9bacffe6c082cd88828dbf3d82d2919a62ad67fa012a97c"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_jiyeon_narrow_room_2:/choices/1/result_text": "09d84232d4d2c6a325c4fb68d36aae73e7a99eb185f4ba5b63c13ebb2948e475",
+          "events:arc_jiyeon_narrow_room_decision:/choices/0/result_text": "fe671255ab1998f039b217d28f8c5096f812e16d4211224da71a7c8d0c396c38"
+        },
+        "zh-CN": {
+          "events:arc_jiyeon_narrow_room_2:/choices/1/result_text": "5aa0d9699e0b7bc2c6a187315a1fa5a618d44072e3d63b986f44d39e5928cd13"
+        },
+        "zh-TW": {
+          "events:arc_jiyeon_narrow_room_2:/choices/1/result_text": "4c57637f2e6e0854b625e60182667200cacd2a0b228ff8c48a23bf3f5e694676"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_jiyeon_narrow_room_2:/choices/1/result_text": {
+            "source_sha256": "d17ee02ae64007cabbad6787ce03fe3b657125653bed9b77c8f1f8914ad4aec7",
+            "target_sha256": "09d84232d4d2c6a325c4fb68d36aae73e7a99eb185f4ba5b63c13ebb2948e475"
+          },
+          "events:arc_jiyeon_narrow_room_decision:/choices/0/result_text": {
+            "source_sha256": "72e8351069db1d99acea6d22e2aa508ecd61b9326097d5285a9621654abdb295",
+            "target_sha256": "fe671255ab1998f039b217d28f8c5096f812e16d4211224da71a7c8d0c396c38"
+          }
+        },
+        "zh-CN": {
+          "events:arc_jiyeon_narrow_room_2:/choices/1/result_text": {
+            "source_sha256": "d17ee02ae64007cabbad6787ce03fe3b657125653bed9b77c8f1f8914ad4aec7",
+            "target_sha256": "5aa0d9699e0b7bc2c6a187315a1fa5a618d44072e3d63b986f44d39e5928cd13"
+          }
+        },
+        "zh-TW": {
+          "events:arc_jiyeon_narrow_room_2:/choices/1/result_text": {
+            "source_sha256": "d17ee02ae64007cabbad6787ce03fe3b657125653bed9b77c8f1f8914ad4aec7",
+            "target_sha256": "4c57637f2e6e0854b625e60182667200cacd2a0b228ff8c48a23bf3f5e694676"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -38749,7 +38855,7 @@
       },
       "events:arc_jiyeon_narrow_room_2:/choices/1/result_text": {
         "source_sha256": "d17ee02ae64007cabbad6787ce03fe3b657125653bed9b77c8f1f8914ad4aec7",
-        "target_sha256": "09d84232d4d2c6a325c4fb68d36aae73e7a99eb185f4ba5b63c13ebb2948e475"
+        "target_sha256": "11f81e8da337f38d66f6c1e766199f914e44399ba4af6eb60e4c5d715a66a59e"
       },
       "events:arc_jiyeon_narrow_room_2:/choices/1/text": {
         "source_sha256": "498a56760c4a3ed07054216c7c66c4d59da77af1a18dcfa550495dff0087bc43",
@@ -38769,7 +38875,7 @@
       },
       "events:arc_jiyeon_narrow_room_decision:/choices/0/result_text": {
         "source_sha256": "72e8351069db1d99acea6d22e2aa508ecd61b9326097d5285a9621654abdb295",
-        "target_sha256": "fe671255ab1998f039b217d28f8c5096f812e16d4211224da71a7c8d0c396c38"
+        "target_sha256": "3343ed008bbf0be6775c78fadba423d112bb8994033b58c0f38692753333efc5"
       },
       "events:arc_jiyeon_narrow_room_decision:/choices/0/text": {
         "source_sha256": "f92ed64b9fb8fcee3ac7837686a63da1737f2ab62b1f47f2d15bbf2ad7a9e5b6",
@@ -91575,7 +91681,7 @@
       },
       "events:arc_jiyeon_narrow_room_2:/choices/1/result_text": {
         "source_sha256": "d17ee02ae64007cabbad6787ce03fe3b657125653bed9b77c8f1f8914ad4aec7",
-        "target_sha256": "5aa0d9699e0b7bc2c6a187315a1fa5a618d44072e3d63b986f44d39e5928cd13"
+        "target_sha256": "e8ea322ed21ab49cb892c1576ca364e104783d8021cc4a0310066d48bc15023e"
       },
       "events:arc_jiyeon_narrow_room_2:/choices/1/text": {
         "source_sha256": "498a56760c4a3ed07054216c7c66c4d59da77af1a18dcfa550495dff0087bc43",
@@ -151185,7 +151291,7 @@
       },
       "events:arc_jiyeon_narrow_room_2:/choices/1/result_text": {
         "source_sha256": "d17ee02ae64007cabbad6787ce03fe3b657125653bed9b77c8f1f8914ad4aec7",
-        "target_sha256": "4c57637f2e6e0854b625e60182667200cacd2a0b228ff8c48a23bf3f5e694676"
+        "target_sha256": "6720d2212df2761ab9e67213ccc398c5182dec8705dc4970f9ea8f96ecbb1410"
       },
       "events:arc_jiyeon_narrow_room_2:/choices/1/text": {
         "source_sha256": "498a56760c4a3ed07054216c7c66c4d59da77af1a18dcfa550495dff0087bc43",
@@ -198373,7 +198479,7 @@
       }
     }
   },
-  "accepted_sha256": "dea58262cb421c55b30c8ea0a7a26097bf85d7889ffa8e50d3cfd33663118223",
+  "accepted_sha256": "5ae68ed4f9351ae6652fb22210753fcfe34d70ad226b822627c88b50153ec647",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
