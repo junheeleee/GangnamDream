@@ -26149,6 +26149,65 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-805",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_daeun_hometown_1"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 2
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Both Korean choice results close on a train continuing toward Daeun's hometown, with no compass direction. All prior lines and exact choice, branch and title data are preserved.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "d2affb8c89b9017c83fa5ceb8666a86fe1a9ecd8",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "45bb6a6a25315cc36461b7a43bb350a47a9bd9c5da1fbc80eacd1b150300beae",
+          "selection_sha256": "69ace523e2bbb72b24f327a360662632bb9555164c272392621576e719dff1cf",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7845137c6232fa3d728324ff7822e3bf9c613c4775cf23d87d581899658c4ec0"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-TW": "b02db49c1b4b1cb6b61d135e0d8f2b7609cd2471520905f985e11d29dbdcac86"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-TW": {
+          "events:arc_daeun_hometown_1:/choices/0/result_text": "8653ffd13b0b3905c3d17af101dc20f95332fe635ca6a3cdd15d05f259f6bcf5",
+          "events:arc_daeun_hometown_1:/choices/1/result_text": "24bf22c9b0aff3ba2af1a9fbaf372fc18925676f8820308e1fd2efacdbf0c9bf"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-TW": {
+          "events:arc_daeun_hometown_1:/choices/0/result_text": {
+            "source_sha256": "a889e224f69fa956dedfa7d0a3bec616572f1a0ba3513a10552ff3604a75d8d8",
+            "target_sha256": "8653ffd13b0b3905c3d17af101dc20f95332fe635ca6a3cdd15d05f259f6bcf5"
+          },
+          "events:arc_daeun_hometown_1:/choices/1/result_text": {
+            "source_sha256": "93b2937f6fedbf00b4cc72e864803aa701461b0b642515ecac44a5af1c05c415",
+            "target_sha256": "24bf22c9b0aff3ba2af1a9fbaf372fc18925676f8820308e1fd2efacdbf0c9bf"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -150523,7 +150582,7 @@
       },
       "events:arc_daeun_hometown_1:/choices/0/result_text": {
         "source_sha256": "a889e224f69fa956dedfa7d0a3bec616572f1a0ba3513a10552ff3604a75d8d8",
-        "target_sha256": "8653ffd13b0b3905c3d17af101dc20f95332fe635ca6a3cdd15d05f259f6bcf5"
+        "target_sha256": "41c641004fcb3a9b231c0675ca9e3276f29d4d9833620b2a131b5525d60e15b1"
       },
       "events:arc_daeun_hometown_1:/choices/0/text": {
         "source_sha256": "1f10a46c03d6e85ae04d0d6c22db9530cf8c2cf1dc5cb55e59b90c9a0a2b2bee",
@@ -150531,7 +150590,7 @@
       },
       "events:arc_daeun_hometown_1:/choices/1/result_text": {
         "source_sha256": "93b2937f6fedbf00b4cc72e864803aa701461b0b642515ecac44a5af1c05c415",
-        "target_sha256": "24bf22c9b0aff3ba2af1a9fbaf372fc18925676f8820308e1fd2efacdbf0c9bf"
+        "target_sha256": "4820580045ea7c8ecb2bce3ebc954e298d73bc6cce22e85d11cc425f9c520a4a"
       },
       "events:arc_daeun_hometown_1:/choices/1/text": {
         "source_sha256": "5b5336948bd58c849de6b5a2276ac87f9b64f20086dbf7b44d2d1684c55cf4f0",
@@ -198199,7 +198258,7 @@
       }
     }
   },
-  "accepted_sha256": "039e283344a4ffe060baf01ea3fd5e34d93ab174fe4c6c310eb57c008e60deab",
+  "accepted_sha256": "8705eda9f61af5c23fd4c3831f90947d935659190f6542fbd5d39bc906ffa67d",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
