@@ -1,0 +1,238 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-801",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "eaf93feb4be9318ce865c56560d8ff8cb85259f3",
+    "tree": "1fdad0350f651b3e4c25f5ce5a0cac7eee6c1645",
+    "manifest_sha256": null
+  },
+  "scope": "items.artifact_daeun_note.description; one Korean catalog leaf x JA/zh-CN/zh-TW = 3 existing target corrections, new coverage 0.",
+  "review": {
+    "method": "Actual Korean item and full previous/current two-line targets read independently; DataRegistry overlay, choice grant, fresh inventory snapshot, owned item behavior and current name-only consumers traced; independent canonical check_batch, receipts and inverses.",
+    "findings": "Gentle reminder to eat, not to eat before leaving; short note, not an invented count of three characters. Fridge first line, item names, acquisition and ID behavior unchanged. Description rendering and existing save propagation not observed."
+  },
+  "preservation": {
+    "prior_batches": 391,
+    "prior_decisions": 359,
+    "prior_decision_ledger_sha256": "e5f3cb13e396abc450bf86812993027dde14be7618ffbd8b6e02643fc3f97b3d",
+    "superseded_acceptance_by_locale": {
+      "ja": {
+        "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": {
+          "source_sha256": "dff1ae24e3cd39206ceb780d60f6cb5c3600de7f13ddb3698bafdb3409a7065f",
+          "target_sha256": "1511a755c5ca06337d3761373737c998f11c922c40812deee9fc14ea4951021f"
+        }
+      },
+      "zh-CN": {
+        "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": {
+          "source_sha256": "dff1ae24e3cd39206ceb780d60f6cb5c3600de7f13ddb3698bafdb3409a7065f",
+          "target_sha256": "83cb9a859f0dcaefbbb742433eacba0cfe159809dfa8f3b61272dde935404179"
+        }
+      },
+      "zh-TW": {
+        "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": {
+          "source_sha256": "dff1ae24e3cd39206ceb780d60f6cb5c3600de7f13ddb3698bafdb3409a7065f",
+          "target_sha256": "4ea02acd31128ad661b7e66ac2be97ba3d709fbe1a11002dddbeb0106a88eb42"
+        }
+      }
+    },
+    "proof": "All three catalog files and full ledger byte inverse exact. Exactly one description line each; first sentence, names, public job_01 and nine nonowned Git blobs exact. CN import formatting expansion absent from candidate. Prior 391 batches and three superseded acceptances retained."
+  },
+  "validation": "Official logs record VALID1 per locale for check/import, no exit-code annotations. Independent current pure checks, previous targets, receipt binding and byte inverses actual exit0. Demo5/14/100/122 and EN1813/35 clean, CJK skeleton only. Lane11 selection only.",
+  "catalog_source_diagnostic": {
+    "korean_leaves": 834,
+    "locale_targets": 2502,
+    "by_locale": {
+      "ja": {
+        "source_stale_before": 1,
+        "source_stale_after": 0,
+        "target_drift_after": 0
+      },
+      "zh-CN": {
+        "source_stale_before": 1,
+        "source_stale_after": 0,
+        "target_drift_after": 0
+      },
+      "zh-TW": {
+        "source_stale_before": 1,
+        "source_stale_after": 0,
+        "target_drift_after": 0
+      }
+    },
+    "total_source_stale_before": 3,
+    "total_source_stale_after": 0,
+    "total_target_drift_after": 0,
+    "meaning": "Canonical catalog hash freshness only, not rendered UI, runtime language exposure, old-save rewrite, new coverage or language completion."
+  },
+  "identity": {
+    "baseline": "9320f3fde6ce9cd1da8136ce014d1324f418a71e",
+    "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "rows_sha256": "3fbeba4a11bdd25159361727fc0a452b102bb0f6313e3f762438652987d84c63",
+    "receipt_sha256_by_locale": {
+      "ja": "272936815f4f80e8fc932979a30bee3c5faf4819f2dc09d1745875993700e0d1",
+      "zh-CN": "29c3ccd823da10e2a472395f4ba5106892a095a9701be245465a22e08d525c4b",
+      "zh-TW": "d1e5d9aacafe17953be6df56555fd61f661e85fcf5794a9ba0ca05d99209efd4"
+    },
+    "official_receipt_file_sha256_by_locale": {
+      "ja": "3c3577485b8d895ac6aea7ce240b2c4d3cf30e379e5d989071e0ed59bb9cbfeb",
+      "zh-CN": "b06b5a145f08bcb216d99d21df0df3acbe4737c96970f2b74ca5316d3747ff79",
+      "zh-TW": "edf583e45f15ea9177f3d39f4579bdcb0e4803dce2033e40720e9e56c26b6fc2"
+    },
+    "previous_target_sha256_by_locale": {
+      "ja": {
+        "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": "1511a755c5ca06337d3761373737c998f11c922c40812deee9fc14ea4951021f"
+      },
+      "zh-CN": {
+        "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": "83cb9a859f0dcaefbbb742433eacba0cfe159809dfa8f3b61272dde935404179"
+      },
+      "zh-TW": {
+        "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": "4ea02acd31128ad661b7e66ac2be97ba3d709fbe1a11002dddbeb0106a88eb42"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-keepsake-note-20261106.umW74q/",
+    "raw_population": {
+      "files": 24,
+      "sha256": "9ad895216e09fe5770c67c9685a2341ee129642c453e086378525dd600a48624",
+      "entries": [
+        [
+          "correction.log",
+          356,
+          "1876da4098158185ba9b2d32108316c593c6ea27a6bbdbd179766ec30576fffc"
+        ],
+        [
+          "correction.py",
+          5512,
+          "1afa7f4d6fdf206470c32c20daa7207055095bacf0b25c6d45d73c9d18b05209"
+        ],
+        [
+          "delta.log",
+          1649,
+          "a6f3ae0b3613520fa4949f3e363c3017b3a3b9f663bdc133bcf0c43f01f4a4a8"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "drafts.json",
+          306,
+          "f9d6fc20d937ad80db32ce3c3d68c5ac61d11161f4c6b8b8400454e3585975e3"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "ja.check.log",
+          117,
+          "0752ac2156c7c94b666d9a066591b4f07ad885c0bbc019c193d05e6efb7a49e5"
+        ],
+        [
+          "ja.export.log",
+          148,
+          "73f396711a1d7a23685119638db0a12d1b55ea29ad38c1902816a40e7d9fef28"
+        ],
+        [
+          "ja.import.log",
+          118,
+          "bf16f888ebad7086a0b227d5bceba6e926dd0c34eb8da9c1c5d4dfd84bc9d41d"
+        ],
+        [
+          "ja.response.jsonl",
+          881,
+          "17ea4544141fd3c38a8d4d961906ba7c84312d40d59c198aee9d055a64ba5aa4"
+        ],
+        [
+          "ja.source.jsonl",
+          1272,
+          "879770c9205cd16375abdd9838860341ce95b6d81e075d23e7c12d443efde79f"
+        ],
+        [
+          "lane.log",
+          1677,
+          "ee3969ee87b707c3d1ffe9e8b8777190175581b3164e2d8bc2a66eb93856182a"
+        ],
+        [
+          "leaf-ids.json",
+          77,
+          "0096590de691875127abcec7c4df99ab28fcc5e7e1003f285ec9086f7b955864"
+        ],
+        [
+          "zh-CN.check.log",
+          120,
+          "9d07b1443a0c24a645bccca11e91dc64f2e3e2f65e294b603f34664e86b9f12b"
+        ],
+        [
+          "zh-CN.export.log",
+          154,
+          "534300a07b1b63d49909d6f974cd0f6f882807c64cdfd21dcb20514ef8c49756"
+        ],
+        [
+          "zh-CN.import.log",
+          121,
+          "20044e17825e0dc035f5fec1fcba705d77f171bd6ef5cc502cb6c2696c8f4e24"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          836,
+          "5ae50a92adf4d21ab1c0770240475992ccb3d9e59c48f0a90131c002903529d8"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          1281,
+          "b5720ef923aee59da12ca2724462b2d92e4da570040a9fb3be000de00011edba"
+        ],
+        [
+          "zh-TW.check.log",
+          120,
+          "b6915eb471f866317ec9d36de6647c3eed7a33419f40f488605cc694296de900"
+        ],
+        [
+          "zh-TW.export.log",
+          154,
+          "3cb1aa705ac854b72974de2ee6cf7b14d932c95db9bdca7335c2ea99afd52bcc"
+        ],
+        [
+          "zh-TW.import.log",
+          121,
+          "8784cce1b64d172e2fba2c4b8946180b1adc77eb1bab98cee2c9029da1ce8329"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          833,
+          "01b192ddcb313ab614810bb91345ebff496a91a4d160ebe23fe0f8a8ca0ce973"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          1281,
+          "a5b18f5b8ced6a769dd8eab5d37ce00ed663d027bf4139cd6baa8447cd7643cd"
+        ]
+      ]
+    },
+    "encoding": "UTF-8 file byte SHA256; raw population compact JSON basename-sorted [name,size,sha256]; rows canonical digest in locale/source order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "existing_save_propagation",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

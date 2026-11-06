@@ -71,7 +71,7 @@ memory2는현재자동순서의신규정상런노출로세지않고호환/회상
 [796](../queue_archive/ORDER-796.md) 세엔딩9·[797](../queue_archive/ORDER-797.md) 회복24·
 [798](../queue_archive/ORDER-798.md) 다은15·[799](../queue_archive/ORDER-799.md) 강남18·
 [800](../queue_archive/ORDER-800.md) 재혁·전화·이혼15 CJK정정(신규0).
-엔딩235×3 source-stale81→0/target drift0, 사건48과 별개.
+엔딩235×3 stale81→0·자료834×3 stale3→0, target drift0·사건48 별개.
 기존 데모·KO/EN·저장과 원어민 관찰 이력은 보존하며, 선택지만 켜거나
 문구 개수만 채운 것을 본편 완성으로 세지 않는다. 아래는 날짜별 역사다.
 

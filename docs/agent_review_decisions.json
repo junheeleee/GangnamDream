@@ -15129,6 +15129,50 @@
         "path": "docs/agent_reviews/order800-cjk-choice-endings.json",
         "sha256": "1ec9c0333633466174cb7b87c4fc1951cb9cbba88633986d7102147a9e9a2afc"
       }
+    },
+    {
+      "id": "order801-cjk-keepsake-note-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-06",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-801",
+      "subject": {
+        "kind": "source",
+        "commit": "eaf93feb4be9318ce865c56560d8ff8cb85259f3",
+        "tree": "1fdad0350f651b3e4c25f5ce5a0cac7eee6c1645",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order801-cjk-keepsake-note.md",
+          "sha256": "a1c72d24a7bd78ec8798ac363c1ccc0d6b260c13feecc744ee1cbbd8f582329c"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order801-cjk-keepsake-note.json",
+          "sha256": "5c3053bd9da1495f44b7a6bab218d2dba13dde2a1953ae3f2a4b9bfd838a202c"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "existing_save_propagation",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order801-cjk-keepsake-note.json",
+        "sha256": "5c3053bd9da1495f44b7a6bab218d2dba13dde2a1953ae3f2a4b9bfd838a202c"
+      }
     }
   ]
 }
