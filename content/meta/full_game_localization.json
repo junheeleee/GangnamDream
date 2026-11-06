@@ -26483,6 +26483,94 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-809",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_daeun_hometown_table_decision",
+        "arc_daeun_hometown_table_hands"
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 3,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Restore the mother's past observation and conditional invitation for indigestion in both Chinese locales. In Simplified Chinese, restore waiting for the emptied bowl and the pre-meal greeting without changing either choice outcome.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "9caac58321eb954831e40c6cf0842c45309a86bf",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "45bb6a6a25315cc36461b7a43bb350a47a9bd9c5da1fbc80eacd1b150300beae",
+          "selection_sha256": "65029ee84d5eab787386a28b6fcfbaf9b0cf08c8d92aec0c497329a17ac202e5",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "49e995336007eb831d29f97c1c8fbe5bd3b109d704304480a7ed7d095e953e5f"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "9caac58321eb954831e40c6cf0842c45309a86bf",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "45bb6a6a25315cc36461b7a43bb350a47a9bd9c5da1fbc80eacd1b150300beae",
+          "selection_sha256": "ac5780f68b4541d3715f7ebfa132bbc357b23b773bb8742159379af83164a57e",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6722cedf832a1aaf04a6f6019d849dd5a0b5330e18a1bc9a81a72fb666528f27"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "84cfa0291cbef2014d96ef2821f7aabd6d59387ce1b79343db7a42674cfbe138",
+        "zh-TW": "0fc2abfd4deb9dc3f2b68ad9928eaf7e7f2ed84597538bc401e9e2fc75ebf3c5"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-CN": {
+          "events:arc_daeun_hometown_table_decision:/choices/0/text": "591a8fd0758d6844512c067a9fba44f0c03cb89d79f2be9f5d96847bc09042c7",
+          "events:arc_daeun_hometown_table_decision:/description": "628197ea9d24b6968dcef9269c4075daaaa94415dd862039e586c4e908c6a5b6",
+          "events:arc_daeun_hometown_table_hands:/description": "bb594c402e3e9352eeb08f8bf8845f9a554f5853380ef1936d27aa43585e6f22"
+        },
+        "zh-TW": {
+          "events:arc_daeun_hometown_table_hands:/description": "09f9a91233b2d2cd500a3044dda14c475ef879e58f504463dac38d855c7b600f"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-CN": {
+          "events:arc_daeun_hometown_table_decision:/choices/0/text": {
+            "source_sha256": "29b9d8f7aee2517b4d7ddb46a2c7c058218914573d32b4d0bad12d04daa501cd",
+            "target_sha256": "591a8fd0758d6844512c067a9fba44f0c03cb89d79f2be9f5d96847bc09042c7"
+          },
+          "events:arc_daeun_hometown_table_decision:/description": {
+            "source_sha256": "784b50c679ecbf34e04c1b1a1b0589846089998db02b29c07c84b6b0cfdb62d1",
+            "target_sha256": "628197ea9d24b6968dcef9269c4075daaaa94415dd862039e586c4e908c6a5b6"
+          },
+          "events:arc_daeun_hometown_table_hands:/description": {
+            "source_sha256": "c16f47bd38b56e3ceabf3ab5cab3b9568035d22f8d3c5c130c170afd21bd9ba2",
+            "target_sha256": "bb594c402e3e9352eeb08f8bf8845f9a554f5853380ef1936d27aa43585e6f22"
+          }
+        },
+        "zh-TW": {
+          "events:arc_daeun_hometown_table_hands:/description": {
+            "source_sha256": "c16f47bd38b56e3ceabf3ab5cab3b9568035d22f8d3c5c130c170afd21bd9ba2",
+            "target_sha256": "09f9a91233b2d2cd500a3044dda14c475ef879e58f504463dac38d855c7b600f"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -91339,7 +91427,7 @@
       },
       "events:arc_daeun_hometown_table_decision:/choices/0/text": {
         "source_sha256": "29b9d8f7aee2517b4d7ddb46a2c7c058218914573d32b4d0bad12d04daa501cd",
-        "target_sha256": "591a8fd0758d6844512c067a9fba44f0c03cb89d79f2be9f5d96847bc09042c7"
+        "target_sha256": "7e0d2de81247a110979b114bc14d0770eee97d9e7785367cf985f422576d1430"
       },
       "events:arc_daeun_hometown_table_decision:/choices/1/result_text": {
         "source_sha256": "a09d857bfa4e266ab5fce9c84ecf2750880fe77007e0fb58de938b29f39b4e31",
@@ -91351,7 +91439,7 @@
       },
       "events:arc_daeun_hometown_table_decision:/description": {
         "source_sha256": "784b50c679ecbf34e04c1b1a1b0589846089998db02b29c07c84b6b0cfdb62d1",
-        "target_sha256": "628197ea9d24b6968dcef9269c4075daaaa94415dd862039e586c4e908c6a5b6"
+        "target_sha256": "e31d5ccb27703d858fce24944fcec30e44fe93ed70802336809f1d8f6a8f5439"
       },
       "events:arc_daeun_hometown_table_decision:/title": {
         "source_sha256": "90a515584155d2c72212534347c34898b614cdbc5e784b72f01f5cfd1456deb6",
@@ -91367,7 +91455,7 @@
       },
       "events:arc_daeun_hometown_table_hands:/description": {
         "source_sha256": "c16f47bd38b56e3ceabf3ab5cab3b9568035d22f8d3c5c130c170afd21bd9ba2",
-        "target_sha256": "bb594c402e3e9352eeb08f8bf8845f9a554f5853380ef1936d27aa43585e6f22"
+        "target_sha256": "296df5a189cbf63ea9fe3170434c83688fde2ea25d5550adf59c638e4ab7d257"
       },
       "events:arc_daeun_hometown_table_hands:/title": {
         "source_sha256": "3556b14fe8629d799ff6f1d1f610406bb8dc519cbaf0b97782f566ff9f1acf70",
@@ -150977,7 +151065,7 @@
       },
       "events:arc_daeun_hometown_table_hands:/description": {
         "source_sha256": "c16f47bd38b56e3ceabf3ab5cab3b9568035d22f8d3c5c130c170afd21bd9ba2",
-        "target_sha256": "09f9a91233b2d2cd500a3044dda14c475ef879e58f504463dac38d855c7b600f"
+        "target_sha256": "d603a98e39ff702c73d671394c83fda42248db4529d1729c8c456c5d72db29ea"
       },
       "events:arc_daeun_hometown_table_hands:/title": {
         "source_sha256": "3556b14fe8629d799ff6f1d1f610406bb8dc519cbaf0b97782f566ff9f1acf70",
@@ -198533,7 +198621,7 @@
       }
     }
   },
-  "accepted_sha256": "b840af7ed25e255e3c680ea25df93c04666ed2b36cad6b57c9d52bc3ab2368e7",
+  "accepted_sha256": "ad05317e19de2df78327cb09fad9551bc8c320200d07a4e418a5e0285fa09bcd",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
