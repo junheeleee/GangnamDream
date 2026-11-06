@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-806",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "e21c460e2422fc391322e8476f0934a0fb678b6b",
+    "tree": "84511a1af0b344516a7a874f500b4e669dc6d1ad",
+    "manifest_sha256": null
+  },
+  "scope": "Last sentence of the existing base and arc_y3_jiyeon_departure_seen descriptions of arc_jiyeon_narrow_room_1 in JA/CN/TW, six targets. No new coverage.",
+  "review": {
+    "method": "Read full Korean source, both choices and continuation, and all six complete previous/current targets. Traced full-game seasonal/relationship ingress, live known flag versus frozen gallery selector and actual description reader. Independent pure current check_batch and byte inverses.",
+    "findings": "The first relinquishing of her lofty perspective at the threshold is figurative, not a physically lowered body. JA anchors descent to her own world's height; CN/TW express no longer looking down from above. Busan, late KTX and last train remain known-only; prior lines, name, choices and state unchanged."
+  },
+  "preservation": {
+    "prior_batches": 395,
+    "prior_decisions": 364,
+    "prior_decision_ledger_sha256": "2d8d6ccdaab05b7dae5ff7081d07c0f796a4dc3d0372f3492f41d57c54971af0",
+    "superseded_acceptance_by_locale": {
+      "ja": {
+        "events:arc_jiyeon_narrow_room_1:/description": {
+          "source_sha256": "5c0b855e6da79ee76dc39e371b8b5b8c64a7bd308fabacda0068fb79253f6f06",
+          "target_sha256": "91c9926d426ce032e998794a34f687401c699c729c2facefc4785b5cb0b0602e"
+        },
+        "events:arc_jiyeon_narrow_room_1:/description_if_known/arc_y3_jiyeon_departure_seen": {
+          "source_sha256": "6fa11a44c99dae992bdbb756705e7ccca338a91643517c54a6eb0e868696b0a9",
+          "target_sha256": "073aa44a5f08283c61d4207f7828981807db8c955c55cf09e15980c28a689962"
+        }
+      },
+      "zh-CN": {
+        "events:arc_jiyeon_narrow_room_1:/description": {
+          "source_sha256": "5c0b855e6da79ee76dc39e371b8b5b8c64a7bd308fabacda0068fb79253f6f06",
+          "target_sha256": "709afb5d172a58b9c5d9c33eecf37154f82a2d80891f9469206a72e4d70d305e"
+        },
+        "events:arc_jiyeon_narrow_room_1:/description_if_known/arc_y3_jiyeon_departure_seen": {
+          "source_sha256": "6fa11a44c99dae992bdbb756705e7ccca338a91643517c54a6eb0e868696b0a9",
+          "target_sha256": "a1e531142ceb1dd69766f1cf815c8bdb71eb696fe892b8c78e23405c5ce2c8bd"
+        }
+      },
+      "zh-TW": {
+        "events:arc_jiyeon_narrow_room_1:/description": {
+          "source_sha256": "5c0b855e6da79ee76dc39e371b8b5b8c64a7bd308fabacda0068fb79253f6f06",
+          "target_sha256": "34e79b4b066b8365f5866c2917fc87a88582300dc4e9406ec2d5b76319698773"
+        },
+        "events:arc_jiyeon_narrow_room_1:/description_if_known/arc_y3_jiyeon_departure_seen": {
+          "source_sha256": "6fa11a44c99dae992bdbb756705e7ccca338a91643517c54a6eb0e868696b0a9",
+          "target_sha256": "fc8060417588ce8a2430ccdc4cdd3219a2636cb1a74c636265a12f2755a71dea"
+        }
+      }
+    },
+    "proof": "All three target JSONs and ledger byte inverses exact; earlier paragraphs and name tokens unchanged, CN expanded import formatting absent. Prior 395 batches and six same-source acceptances retained; 15 nonowned Git blobs exact."
+  },
+  "validation": "Official export/check/import logs show two leaves each with empty stderr. Independent current pure check_batch, actual source, receipts and full inverses actual exit0; no accepted CLI rerun. Demo5/14/100/122, EN1813/35 and CJK skeleton logs; lane11 selection only.",
+  "identity": {
+    "baseline": "83f5707d394f72816308f5c54ed06427035e775e",
+    "source_manifest_sha256": "45bb6a6a25315cc36461b7a43bb350a47a9bd9c5da1fbc80eacd1b150300beae",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "rows_sha256": "b8c28aeb58c05e45bdca5b641ea128195901ca2c44fbf003c31bd7a1ddfb36b5",
+    "receipt_sha256_by_locale": {
+      "ja": "224f323817e9b74fcd7c4c42982ffb258f33443f509f04df612e362d0f5f28d5",
+      "zh-CN": "c469567f8a6ab7f2b483b02feb5285f5e0b5cf99e547403c9b46d9026d42245d",
+      "zh-TW": "85a05c54b257d2999643004e2e20a8dd057871cc63d72a420bf62e11852a1d36"
+    },
+    "official_receipt_file_sha256_by_locale": {
+      "ja": "73f413fc7d7f6f1a7212f0a833072b16ff098256e551f74e21d3b36aa0cdf0ef",
+      "zh-CN": "f81a503941c295dca10bdaa9adcff536f1107e5b67c01175330a00067d2fea60",
+      "zh-TW": "6e778716e45369895989943f87e984e663c1f09de05ffbb279f2137b1dda0967"
+    },
+    "previous_target_sha256_by_locale": {
+      "ja": {
+        "events:arc_jiyeon_narrow_room_1:/description": "91c9926d426ce032e998794a34f687401c699c729c2facefc4785b5cb0b0602e",
+        "events:arc_jiyeon_narrow_room_1:/description_if_known/arc_y3_jiyeon_departure_seen": "073aa44a5f08283c61d4207f7828981807db8c955c55cf09e15980c28a689962"
+      },
+      "zh-CN": {
+        "events:arc_jiyeon_narrow_room_1:/description": "709afb5d172a58b9c5d9c33eecf37154f82a2d80891f9469206a72e4d70d305e",
+        "events:arc_jiyeon_narrow_room_1:/description_if_known/arc_y3_jiyeon_departure_seen": "a1e531142ceb1dd69766f1cf815c8bdb71eb696fe892b8c78e23405c5ce2c8bd"
+      },
+      "zh-TW": {
+        "events:arc_jiyeon_narrow_room_1:/description": "34e79b4b066b8365f5866c2917fc87a88582300dc4e9406ec2d5b76319698773",
+        "events:arc_jiyeon_narrow_room_1:/description_if_known/arc_y3_jiyeon_departure_seen": "fc8060417588ce8a2430ccdc4cdd3219a2636cb1a74c636265a12f2755a71dea"
+      }
+    },
+    "nonowned_blobs": 15,
+    "raw_directory": ".git/localization-cjk-jiyeon-threshold-20261106.krNalg/",
+    "raw_population": {
+      "files": 33,
+      "sha256": "f4cadd8aa7f7111a5579ff45425410288755c7c3aac8de2d1cae5c055d7e060d",
+      "entries": [
+        [
+          "correction.log",
+          141,
+          "5ce3e3492416e5a58114a85b7977eccffdbeab84636a1d4cc79d266d27039c77"
+        ],
+        [
+          "correction.py",
+          4718,
+          "82ecdaa7136cc1847ee61b0e9237123b656acd57324e43395c2d935b663ea7f5"
+        ],
+        [
+          "delta.log",
+          8415,
+          "6635e4f3070a7890fe40171176c79f4ebdbdedeaae711927315662b54acb1f6a"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "drafts.json",
+          759,
+          "1fbff3a7213a758827bb0bc8bb67d77a1656484c4fa06a417417dfb1d79f2970"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "ja.check.log",
+          117,
+          "edf86222b8e2e5c808b37e6318d43d6503cbc621d0580a8fb364efbe7557eb46"
+        ],
+        [
+          "ja.check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.export.log",
+          151,
+          "0595b8a6b4f9e035e25e9f6cfbd95e0634397f52bee8ed8d0711f5142c90ead4"
+        ],
+        [
+          "ja.export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.import.log",
+          118,
+          "e51a7e429254fea827e9c9e75d9ca88df2299baf0a095e5841b5766f038faa97"
+        ],
+        [
+          "ja.import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.response.jsonl",
+          2357,
+          "ad4a965790d77961dd17061ec79ff5056a2d0500a52932d71a411edfd720c279"
+        ],
+        [
+          "ja.source.jsonl",
+          3105,
+          "b31d11d4961d6896481925c31945128ef474b24099b81b2a32cb2d22998fa6e2"
+        ],
+        [
+          "lane.log",
+          1677,
+          "ee3969ee87b707c3d1ffe9e8b8777190175581b3164e2d8bc2a66eb93856182a"
+        ],
+        [
+          "leaf-ids.json",
+          134,
+          "03aa69dd3e2473c6e6b54e6cc7b3083a436699a75424f32668e872a2636b001c"
+        ],
+        [
+          "zh-CN.check.log",
+          120,
+          "4f7eb4dd2c332fb3e6c006f8c221bb58bda859a1bac69f794658e3b86362a663"
+        ],
+        [
+          "zh-CN.check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.export.log",
+          157,
+          "e93b078f1c802298a15f8900ca2510cf5398e41e7e6b6d3d19a50f9d3608c94c"
+        ],
+        [
+          "zh-CN.export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.import.log",
+          121,
+          "c294394526a17d3ac863b042ffdbced6d5c76b5a8b1ced1482ab9d47201ec649"
+        ],
+        [
+          "zh-CN.import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          2053,
+          "5258265d5ed23ee71e4a19a35345e72940949c90f4030fbec0051022565207c0"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          3120,
+          "d6925093bb23e9586c70a0f42385595bd5d4cd8af6051181ad2ec2485d6ace35"
+        ],
+        [
+          "zh-TW.check.log",
+          120,
+          "cdc2ab1ac315c6d62533001a15943865841c34051440a700cdef2e8d469ca18f"
+        ],
+        [
+          "zh-TW.check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.export.log",
+          157,
+          "d66e542effa7db1270f81bbee3c9541b0080041f5c4d9140a182a10e167da3cd"
+        ],
+        [
+          "zh-TW.export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.import.log",
+          121,
+          "ac46b927a07be0f72b2dc1c655fd621cd5e01fecc79fd58058fc5b909583d6ca"
+        ],
+        [
+          "zh-TW.import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          2062,
+          "4b4fe0905ce32fc7656e17075c0b671ff344c9c0d431da6f68aba2d1f51ea0f7"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          3120,
+          "e2eb24cb035ce7884b03a88e0c15218753e949dfb57d65a877ae041d991334af"
+        ]
+      ]
+    },
+    "encoding": "UTF-8 file byte SHA256; raw population compact JSON basename-sorted [name,size,sha256]; rows canonical digest in locale/source order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

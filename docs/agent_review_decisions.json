@@ -15345,6 +15345,49 @@
         "path": "docs/agent_reviews/order805-tw-daeun-train.json",
         "sha256": "3b5f573a249cb3e3ac2d9ffe7a74feb5d69473010551643ba647c39c3fc8720c"
       }
+    },
+    {
+      "id": "order806-cjk-jiyeon-threshold-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-06",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-806",
+      "subject": {
+        "kind": "source",
+        "commit": "e21c460e2422fc391322e8476f0934a0fb678b6b",
+        "tree": "84511a1af0b344516a7a874f500b4e669dc6d1ad",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order806-cjk-jiyeon-threshold.md",
+          "sha256": "25e6d3671a9b8669aa8f08f8da47e3d8eb656375548fca4bbcf46a8044344b7d"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order806-cjk-jiyeon-threshold.json",
+          "sha256": "2533fb72bbf624e4a91ecd154e0718d9e70359c34390d4822a9bedc8c6c1870d"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order806-cjk-jiyeon-threshold.json",
+        "sha256": "2533fb72bbf624e4a91ecd154e0718d9e70359c34390d4822a9bedc8c6c1870d"
+      }
     }
   ]
 }

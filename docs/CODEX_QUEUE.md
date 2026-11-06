@@ -99,7 +99,6 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
-| 79 | [~] | ORDER-806 · 지연의 문 앞 CJK 시선 정합 | [806](queue_active/ORDER-806.md) | C5 · 기존 6값 |
 
 
 
