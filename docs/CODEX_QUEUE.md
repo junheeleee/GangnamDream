@@ -99,6 +99,8 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
+| 79 | [~] | ORDER-808 · 지연 고백 간체 주어 | [808](queue_active/ORDER-808.md) | C5 · CN 기존 1값 |
+
 
 
 
