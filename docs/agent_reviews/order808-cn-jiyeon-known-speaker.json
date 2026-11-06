@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-808",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "b5b67e2831e80e5037a11a6cfefb2611e05d08bc",
+    "tree": "781c5b2e81c5e1875d88dc7f9206dc34dcd64bfb",
+    "manifest_sha256": null
+  },
+  "scope": "One existing zh-CN sentence in arc_jiyeon_narrow_room_truth.description_if_known.told_jiyeon_about_records. No new coverage.",
+  "review": {
+    "method": "Read full Korean base/known/choice and full previous/current CN target; checked actual record disclosure producer, truth/decision choice indices, live/frozen replay selector and description reader; independent pure current check_batch, receipt and byte inverses.",
+    "findings": "Jiyeon remains the speaker; Minjun is the listener who already knows why the family house is spacious. No added revelation, apology, choice or state. Base and rest exact."
+  },
+  "preservation": {
+    "prior_batches": 397,
+    "prior_decisions": 366,
+    "prior_decision_ledger_sha256": "499fc09186f3814b5dc54e12b9c91d097ec3ebb2d84facaafa74ade82e515039",
+    "superseded_acceptance_by_locale": {
+      "zh-CN": {
+        "events:arc_jiyeon_narrow_room_truth:/description_if_known/told_jiyeon_about_records": {
+          "source_sha256": "778bd13c014d7910b62bf3d99b77a6b464d979bea2289dd4c0aa5c66ffada7c9",
+          "target_sha256": "2cafd9addcf604181b56dd23dc023899a150bed2cef1897e6c21168117108d96"
+        }
+      }
+    },
+    "proof": "Whole CN target and whole ledger byte inverses exact; prior 397 batches, one same-source superseded acceptance, 17 nonowned Git blobs. Original formatting and all unowned text, code, saves and public demo unchanged."
+  },
+  "validation": "Official export/check/import logs show one leaf and empty stderr. Independent pure check_batch, actual source, prior target, receipt and byte inverses actual exit0. Demo5/14/100/122, EN1813/35 and CJK skeleton logs; lane11 selection only. Accepted CLI not rerun.",
+  "identity": {
+    "baseline": "84b24eea5e9825e1ed17210b45c971985222c3f8",
+    "source_manifest_sha256": "45bb6a6a25315cc36461b7a43bb350a47a9bd9c5da1fbc80eacd1b150300beae",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "rows_sha256": "fef32fe4bc9bc66ba47c5a8b26a702c390839e3734aafeab7f2e8787e21b79a4",
+    "receipt_sha256_by_locale": {
+      "zh-CN": "796f3e517828af2bea133994296154ef0668ea6b7c5907e5ec1b9c3606ff6c3f"
+    },
+    "official_receipt_file_sha256_by_locale": {
+      "zh-CN": "cb95fa0c8ba115af21ea9d97e088dbd311bd1c9db145cf5409233d1d2a7dcb6d"
+    },
+    "previous_target_sha256_by_locale": {
+      "zh-CN": {
+        "events:arc_jiyeon_narrow_room_truth:/description_if_known/told_jiyeon_about_records": "2cafd9addcf604181b56dd23dc023899a150bed2cef1897e6c21168117108d96"
+      }
+    },
+    "nonowned_blobs": 17,
+    "raw_directory": ".git/localization-cn-jiyeon-known-speaker-20261106.9OeAnp/",
+    "raw_population": {
+      "files": 17,
+      "sha256": "f6b38ed01fd2ed299117ec69ec587fab8dbda16a3788e9e35a05b05dd283f491",
+      "entries": [
+        [
+          "check.log",
+          120,
+          "9d07b1443a0c24a645bccca11e91dc64f2e3e2f65e294b603f34664e86b9f12b"
+        ],
+        [
+          "check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "correction.log",
+          123,
+          "1ee5cc716586fead5c4c0655288fb5b06dd6589e94e9088780885d7fee929b8e"
+        ],
+        [
+          "correction.py",
+          4174,
+          "7b5c6f04b6f5f58356469b972a35b67cc068d5dbea94b0235ea66e8da5605a88"
+        ],
+        [
+          "delta.log",
+          1634,
+          "4190f2b54c1351f38982a715949d50052142c61a26db1741cd14de17bdd5a9ca"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "drafts.json",
+          125,
+          "ba2dffc78ddbb604f05fe25418d4c4876598095cc1689975d11170816cf29260"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "export.log",
+          154,
+          "b9e3b6b3744e16f4e43141a044c9631032e3c060b7cfdae0a929f9e4573122aa"
+        ],
+        [
+          "export.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "import.log",
+          121,
+          "20044e17825e0dc035f5fec1fcba705d77f171bd6ef5cc502cb6c2696c8f4e24"
+        ],
+        [
+          "import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "lane.log",
+          1677,
+          "d04167a5f39c772adc9debf33e83e0bce7b9869f6542628ec9eafdaec6568284"
+        ],
+        [
+          "leaf-ids.json",
+          88,
+          "cebb53392f56dc4a27d7477457a4d468d6ca9d7d65cf4d6827759d3d313699b3"
+        ],
+        [
+          "response.jsonl",
+          1413,
+          "553ef10ca9d74b63b7a9b2d277d2eeff7060dea168f08e2263f52ef6cc397a68"
+        ],
+        [
+          "source.jsonl",
+          1997,
+          "a3cb41cdc4e0aad10e61756cae18ba54633a235e6359505c5efec43c1dfad6b1"
+        ]
+      ]
+    },
+    "encoding": "UTF-8 file byte SHA256; raw population compact JSON basename-sorted [name,size,sha256]; row digest in locale/source order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}

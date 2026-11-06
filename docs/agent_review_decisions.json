@@ -15431,6 +15431,49 @@
         "path": "docs/agent_reviews/order807-cjk-jiyeon-narrow-results.json",
         "sha256": "2a1a35b081151d20c8ebb226ae09d61322a13158556c8d68d91309f0ba27dac4"
       }
+    },
+    {
+      "id": "order808-cn-jiyeon-known-speaker-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-06",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-808",
+      "subject": {
+        "kind": "source",
+        "commit": "b5b67e2831e80e5037a11a6cfefb2611e05d08bc",
+        "tree": "781c5b2e81c5e1875d88dc7f9206dc34dcd64bfb",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order808-cn-jiyeon-known-speaker.md",
+          "sha256": "6e7577a9e827d4c97affa171e7ba4f7c767c6c9f73cd0a82eca0644bb6ca9915"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order808-cn-jiyeon-known-speaker.json",
+          "sha256": "2f8f85ae7eee1083ff9cd517fcc5a6c920fde112e9d22d2aa62e32a14cc47ce7"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_render",
+        "engine_runtime",
+        "full_translation_completion",
+        "full_remote_CI_success",
+        "M60_representative_completion",
+        "external_publication_or_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order808-cn-jiyeon-known-speaker.json",
+        "sha256": "2f8f85ae7eee1083ff9cd517fcc5a6c920fde112e9d22d2aa62e32a14cc47ce7"
+      }
     }
   ]
 }
