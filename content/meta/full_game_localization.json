@@ -26910,6 +26910,66 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-814",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_jaehyuk_ghost_message",
+        "arc_jaehyuk_ghost_decision"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 2
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Distinguish same military intake from the stranger's separate same-unit history. Make clear the commenter was Jaehyuk's classmate too. Do not add a reply, contact or recovery.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "70a3696cd9f64c7a4b249ec9aedae955a654851c",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+          "selection_sha256": "fbb0dcd097a828667e4c5cb16e9ba804bd0387f0403da8c4e8135350512bb84b",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d43cad07bfbed5821cb5a9bd98ec1047856fe3241591f9b196ac44d1e4b9d5bb"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-TW": "835a3881c2e1c39e0de5d4aa50062fa74fc9701a159f75c34c0e5bc85796a4a4"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-TW": {
+          "events:arc_jaehyuk_ghost_decision:/choices/1/result_text": "e7d4587d6bb570c5e055897d26899939377efabb3c174dcc39b98a2f7c45d419",
+          "events:arc_jaehyuk_ghost_message:/description": "7e95605945a442d98b64ccf4317cb859314c7cab2f40ac5e5a71836669cfe972"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-TW": {
+          "events:arc_jaehyuk_ghost_decision:/choices/1/result_text": {
+            "source_sha256": "ab4b4cada633b0566aebe64a9961efc2f844a4167c68728dda38af85730fe2bd",
+            "target_sha256": "e7d4587d6bb570c5e055897d26899939377efabb3c174dcc39b98a2f7c45d419"
+          },
+          "events:arc_jaehyuk_ghost_message:/description": {
+            "source_sha256": "a145ef5fc1af2d1683d7e57e2603d3bebe897aba2a07b7cb63689781e2540844",
+            "target_sha256": "7e95605945a442d98b64ccf4317cb859314c7cab2f40ac5e5a71836669cfe972"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -145424,7 +145484,7 @@
       },
       "events:arc_jaehyuk_ghost_decision:/choices/1/result_text": {
         "source_sha256": "ab4b4cada633b0566aebe64a9961efc2f844a4167c68728dda38af85730fe2bd",
-        "target_sha256": "e7d4587d6bb570c5e055897d26899939377efabb3c174dcc39b98a2f7c45d419"
+        "target_sha256": "dc979beb06388f776ce20bcff871d0d647922ff4628a7d36c06614a298086748"
       },
       "events:arc_jaehyuk_ghost_decision:/choices/1/text": {
         "source_sha256": "638f582a488af54927794132ea80c9da0e07e50e168978038507bdd242611acd",
@@ -145456,7 +145516,7 @@
       },
       "events:arc_jaehyuk_ghost_message:/description": {
         "source_sha256": "a145ef5fc1af2d1683d7e57e2603d3bebe897aba2a07b7cb63689781e2540844",
-        "target_sha256": "7e95605945a442d98b64ccf4317cb859314c7cab2f40ac5e5a71836669cfe972"
+        "target_sha256": "5aa146c9eb0fc5bfaa65e72dab956c5ef0fc6c98b9ddd6bf28674f4cf0ba3fd0"
       },
       "events:arc_jaehyuk_ghost_message:/title": {
         "source_sha256": "f81ab95551921dee8770a738cf881363d6aa53ac05115ab115119e3f9bb1a883",
@@ -198996,7 +199056,7 @@
       }
     }
   },
-  "accepted_sha256": "83fb0fb9797b4a19ccf75f7044f7f21a3d2cc5c97ddc17554d6ed570c6dff552",
+  "accepted_sha256": "3f1c6ee295c7c801fb422cdc254096f0b963da271437ae8a86830fdc7b1fb29a",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
