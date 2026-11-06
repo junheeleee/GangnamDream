@@ -15604,6 +15604,48 @@
         "path": "docs/agent_reviews/order811-cjk-daeun-wedding-estimate.json",
         "sha256": "05f4970225cf9be6158491f939819bbd07249ec0e7236ff29b68733889eb816c"
       }
+    },
+    {
+      "id": "order812-tw-jiyeon-wedding-gifts-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-07",
+      "decided_by": "/root/review_791",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-812",
+      "subject": {
+        "kind": "source",
+        "commit": "7586c44c2e0fbc5fd795edc4c547398df6be8920",
+        "tree": "7880dbb9d3d68c0ef6b141bb4cec866f55708b8f",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order812-tw-jiyeon-wedding-gifts.md",
+          "sha256": "fbdbaeb35e18375c39ffd85d9ff0b1cbfdcc587553211bbaebd92a9df06eb42e"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order812-tw-jiyeon-wedding-gifts.json",
+          "sha256": "741a6aeb3cbecc07084da0e69ec15d3d322936ad32383fb1517d55fec8e25a6c"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_wedding_scene",
+        "actual_full_game_w205_exposure",
+        "actual_save_load",
+        "candidate_ci",
+        "retail_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order812-tw-jiyeon-wedding-gifts.json",
+        "sha256": "741a6aeb3cbecc07084da0e69ec15d3d322936ad32383fb1517d55fec8e25a6c"
+      }
     }
   ]
 }

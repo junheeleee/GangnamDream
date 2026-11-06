@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-812",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-07",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "7586c44c2e0fbc5fd795edc4c547398df6be8920",
+    "tree": "7880dbb9d3d68c0ef6b141bb4cec866f55708b8f",
+    "manifest_sha256": null
+  },
+  "scope": "Seven existing Traditional Chinese wedding-gap values: both father-state roots' base, records and narrow-room descriptions; decision choice 0 result only. Nine substitutions; zero new coverage.",
+  "review": {
+    "method": "Direct read of all seven actual Korean source/old target/new target rows and complete relevant choices, guest-list continuation, live/replay code; independent pure collector, byte inverses and official receipt validation.",
+    "findings": "Customary wedding gifts, not cash/red envelope or named recipient. Hotel class, relevant tens of millions of won, HanPD and both characters' knowledge, narrow-room details, father absence and seats, borrowing and company staff in choice 0 remain. No change to alternative.",
+    "routing": "W205+ qualified romance path, monotonic father-passed root and guest-list remap; decision shared. Records known precedes narrow-room if both true. Choice 0 carries unchanged -20 million won; choice 1 has no money effect. No runtime observation."
+  },
+  "preservation": {
+    "prior_batches": 401,
+    "prior_decisions": 370,
+    "prior_decision_ledger_sha256": "55afc2c4079e7cc9a359f8b38e13712a4ea5f0314e4f96a45798be1ef630f942",
+    "same_source_superseded": 7,
+    "complete_target_byte_inverses": 1,
+    "complete_ledger_byte_inverses": 1,
+    "duplicate_exact_text_groups": [
+      1,
+      1,
+      1,
+      2,
+      2
+    ],
+    "nonowned_git_blobs": 17,
+    "nonowned": "KO/EN/JA/CN, other TW prose, branches, choice effects, routing, save, validators and public demo unchanged."
+  },
+  "validation": "Read author TW7 official export/check/import output, three empty stderr files and targeted demo/EN/i18n logs. Independent pure check_batch, prior targets, receipts and both full inverses exit0. Lane11 selection only. No accepted CLI or engine replay.",
+  "identity": {
+    "baseline": "8c16407d9579faa857e52e3550ccaa469dce7efa",
+    "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "batch_id": "18bda8b5ef317a9c235d766d6afcc22757331093bfaa1a76f5f2da29dae687ea",
+    "receipt_sha256": "a8515ad099de4e33648b1895c9160fcbb0c1ec34ae3d2fea2886846d0ebaf6fc",
+    "receipt_file_sha256": "40848613ce65e71a6c977474af55f88b68d3958114947fdcafc0fc98aadc4e1f",
+    "bindings": [
+      {
+        "id": "events:arc_jiyeon_wedding_gap:/description",
+        "source_sha256": "3b7e9f64bf2cd956f4f0bd576381f1a81ae4c6c3f9eeb1ea383282fc95096b78",
+        "old_target_sha256": "e492d798e55da48585931dd7ce45d6e98c402135f8c7e15a11310574f41a08fe",
+        "new_target_sha256": "5a289644054df506739d87b38490312d79806f823c227823cd988433ea9629e9"
+      },
+      {
+        "id": "events:arc_jiyeon_wedding_gap:/description_if_known/jiyeon_narrow_room",
+        "source_sha256": "40a254b2f3a627d6be1f46ae2163f748c06bbe84183c043ee114302734058c15",
+        "old_target_sha256": "3e64c63db207def32fa06a9ac888a20bc1cfe5ee5bedad19c6441ea7fca05c24",
+        "new_target_sha256": "bccaa9b27b1b72e282d354e4d5c86f9799faa88556623ebc312b78420eab0ad8"
+      },
+      {
+        "id": "events:arc_jiyeon_wedding_gap:/description_if_known/told_jiyeon_about_records",
+        "source_sha256": "ad2e937d0a2a26955cd879114eca8c064e7872b8ad2d8cbf5450915afc4435f2",
+        "old_target_sha256": "1baeba83077fc2911ce88d465ef1fad9efc378ef6ac7a4fb8c04da084394fb1e",
+        "new_target_sha256": "8a0b05d766c03bd021037293433252435d9cca5edcae124b844949ce602825c1"
+      },
+      {
+        "id": "events:arc_jiyeon_wedding_gap_decision:/choices/0/result_text",
+        "source_sha256": "54da1ad7fdc9687b612d36bb60ca6832ccfecf6d77822709ce4e00f5f0381877",
+        "old_target_sha256": "de4c95cd2f47830a242edc2b9614b23fa51d59253bfe80a092868bba147afaa3",
+        "new_target_sha256": "bed68429ba44efff23758287fe93bf84b61576b806fd541e44c83773ac9f19c8"
+      },
+      {
+        "id": "events:arc_jiyeon_wedding_gap_father_passed:/description",
+        "source_sha256": "1fdef06c8a2c633a83fbd000e6c19e1ac299f9d2358a5524e6be87fff81ee2ec",
+        "old_target_sha256": "74ac24b49cdb7900a525d665a3148fb41524008eef2a0dd224764dfc4096a2f6",
+        "new_target_sha256": "475cb033b8858f294dae4d96fd16ec62989c1b57eecdf8e40c42506202ad7013"
+      },
+      {
+        "id": "events:arc_jiyeon_wedding_gap_father_passed:/description_if_known/jiyeon_narrow_room",
+        "source_sha256": "40a254b2f3a627d6be1f46ae2163f748c06bbe84183c043ee114302734058c15",
+        "old_target_sha256": "3e64c63db207def32fa06a9ac888a20bc1cfe5ee5bedad19c6441ea7fca05c24",
+        "new_target_sha256": "bccaa9b27b1b72e282d354e4d5c86f9799faa88556623ebc312b78420eab0ad8"
+      },
+      {
+        "id": "events:arc_jiyeon_wedding_gap_father_passed:/description_if_known/told_jiyeon_about_records",
+        "source_sha256": "ad2e937d0a2a26955cd879114eca8c064e7872b8ad2d8cbf5450915afc4435f2",
+        "old_target_sha256": "1baeba83077fc2911ce88d465ef1fad9efc378ef6ac7a4fb8c04da084394fb1e",
+        "new_target_sha256": "8a0b05d766c03bd021037293433252435d9cca5edcae124b844949ce602825c1"
+      }
+    ],
+    "raw_directory": ".git/localization-tw-jiyeon-wedding-gifts-20261107.R4bpoe/",
+    "raw_population": {
+      "files": 17,
+      "entries": [
+        [
+          "correction.log",
+          135,
+          "0e97c17aec176817ec6bfd9b1614cb0d383d3a64160437e82c934334356c8278"
+        ],
+        [
+          "correction.py",
+          5395,
+          "7e50f4c2d6d847757e2524a8f51fbd5b69ac503f1986fcb0a4873b2a4af7f703"
+        ],
+        [
+          "delta.log",
+          109,
+          "c3a0a8cd1bde5cce5e354b9b320912eb4f409c006af5ba1c4325d24eae15ad98"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "drafts.json",
+          1017,
+          "2fa2a2c9d4614e1ccfb1dd3e04ca51dda4459ecd630834a71d2c3361c1089e34"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "lane.log",
+          1677,
+          "d04167a5f39c772adc9debf33e83e0bce7b9869f6542628ec9eafdaec6568284"
+        ],
+        [
+          "leaf-ids.json",
+          504,
+          "52144ab890a40ae94c16742657cc1d9b81699aed785bb98715c1107ffa6cfc0a"
+        ],
+        [
+          "zh-TW.check.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.check.out",
+          120,
+          "51ca780be033798053126905f24b2a042aef3b42e0dd8754677807068cd765e1"
+        ],
+        [
+          "zh-TW.export.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.export.out",
+          160,
+          "4c3d5971e4502b03c1832acc46170fa1fc5f9a88013257801eae3a5ee8070167"
+        ],
+        [
+          "zh-TW.import.err",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-TW.import.out",
+          121,
+          "d80cac70e124216b84d7c1b538653841d97586677003ce6a3fa539a89bf189ae"
+        ],
+        [
+          "zh-TW.response.jsonl",
+          6441,
+          "e04f99dc94518c915e6491f83b321c5e16c5845bd26ffd42aa00b034326e463d"
+        ],
+        [
+          "zh-TW.source.jsonl",
+          10163,
+          "38e0debe5d6373fa8a463aa7b832c2fa74f8a71b6fbde8ce5ffe2068964fa074"
+        ]
+      ],
+      "sha256": "630ac13e16f8deef29b84dfbb14bf7981506069fe317d74deb2d02ff0684aca7"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_rendered_wedding_scene",
+    "actual_full_game_w205_exposure",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}
