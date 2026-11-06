@@ -2145,6 +2145,8 @@ func _story_save_primary_text(info: Dictionary) -> String:
 				[int(info.get("chapter", 1)), event_title],
 				[int(info.get("chapter", 1)), event_title])
 	var label := str(info.get("label", "")).strip_edges()
+	if not _is_public_story_demo():
+		label = LocaleManager.full_story_slot_display_label(info)
 	if not label.is_empty():
 		return label
 	return LocaleManager.ui_format(

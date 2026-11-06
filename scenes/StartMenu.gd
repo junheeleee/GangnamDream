@@ -1654,7 +1654,7 @@ func _rebuild_slots():
 					info.get("chapter", 1), info.get("turn", 1),
 					_format_start_money(float(info.get("total_assets", 0)))
 				])
-			var label := str(info.get("label", "")).strip_edges()
+			var label := LocaleManager.full_story_slot_display_label(info)
 			if not label.is_empty():
 				top_line += "  ·  " + label
 			var compatibility_note := _save_compatibility_note(info)
@@ -1719,7 +1719,7 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 					info.get("chapter", 1), info.get("turn", 1),
 					_format_start_money(float(info.get("total_assets", 0)))
 				])
-			var label := str(info.get("label", "")).strip_edges()
+			var label := LocaleManager.full_story_slot_display_label(info)
 			if not label.is_empty():
 				top_line += "  ·  " + label
 			var compatibility_note := _save_compatibility_note(info)

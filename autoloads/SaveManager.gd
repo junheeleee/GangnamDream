@@ -234,6 +234,7 @@ func get_save_info(slot: int) -> Dictionary:
 		"mod_active": bool(parsed.get("mod_active", false)),
 		"resume_kind": str(resume.get("kind", "")),
 		"resume_scene": str(resume.get("scene", MAIN_GAME_SCENE)),
+		"story_locale": str(resume.get("story_locale", "")),
 		"event_id": str(resume.get("event_id", "")),
 		"phase": str(resume.get("phase", "")),
 		"label": str(metadata.get("label", "")),

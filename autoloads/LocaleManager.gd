@@ -10,6 +10,7 @@ const UI_TABLE_PATH := "res://locale/ui_%s.json"
 const UI_FORMAT_ERROR := "[I18N FORMAT ERROR]"
 const UI_FORMAT_MAX_WIDTH := 64
 const UI_FORMAT_MAX_PRECISION := 12
+const BUILD_FLAVOR := preload("res://systems/BuildFlavor.gd")
 
 var _builtin_ui_tables: Dictionary = {}
 var _community_ui_tables: Dictionary = {}
@@ -206,6 +207,52 @@ func is_exact_english() -> bool:
 
 func is_korean() -> bool:
 	return language == "ko"
+
+## Project the automatic chapter/title caption for prepared full-game locales.
+## The saved metadata, resume event ID and compatibility stay authoritative.
+func full_story_slot_display_label(info: Dictionary) -> String:
+	var saved := str(info.get("label", "")).strip_edges()
+	if language not in ["ja", "zh-CN", "zh-TW"] or saved.is_empty() \
+			or BUILD_FLAVOR.build_flavor_id() != "full" \
+			or not bool(info.get("compatible", false)) \
+			or bool(info.get("qa_fixture", false)) or bool(info.get("mod_active", false)) \
+			or int(info.get("slot", 0)) <= 0 \
+			or info.get("resume_kind") != "story" \
+			or info.get("resume_scene") != "res://scenes/StoryMode.tscn":
+		return saved
+	var identity: Variant = info.get("source_identity")
+	var saved_locale := str(info.get("story_locale", ""))
+	if not (identity is Dictionary) or identity.get("build_flavor") != "full" \
+			or saved_locale not in SUPPORTED_LANGUAGES or saved_locale == language \
+			or ModLoader.is_active(language):
+		return saved
+	# Reuse StoryMode's existing automatic caption pair; don't replace freeform
+	# labels, unknown formats, or titles that require the live run's token values.
+	const KO_CAPTION := "챕터 %d · %s"
+	const EN_CAPTION := "Chapter %d · %s"
+	var chapter := int(info.get("chapter", 0))
+	if chapter < 1 or chapter > 5:
+		return saved
+	var saved_template := KO_CAPTION if saved_locale == "ko" else EN_CAPTION
+	if saved_locale not in ["ko", "en"]:
+		saved_template = str(_get_builtin_ui_table(saved_locale).get(KO_CAPTION, EN_CAPTION))
+	if not _matching_format_contract_error(
+			_printf_contract(KO_CAPTION), _printf_contract(saved_template)).is_empty():
+		return saved
+	# The suffix is the previously displayed scene title, never parsed as an ID.
+	var prefix := _apply_checked_format(saved_template, [chapter, ""])
+	if prefix.is_empty() or prefix == UI_FORMAT_ERROR \
+			or not saved.begins_with(prefix) or saved.length() <= prefix.length():
+		return saved
+	var id := str(info.get("event_id", ""))
+	var event: Dictionary = DataRegistry.find_event(id)
+	var title := str(event.get("title", "")).strip_edges()
+	if id.is_empty() or event.get("id") != id or title.is_empty() \
+			or title.contains("{") or title.contains("}"):
+		return saved
+	var english_title := DataRegistry.english_event_title(id, title)
+	var projected := ui_format(KO_CAPTION, EN_CAPTION, [chapter, title], [chapter, english_title])
+	return saved if projected == UI_FORMAT_ERROR else projected
 
 ## 기존 2인자 호출부를 유지한다. 준비 언어는 한국어 원문을 안정적인 키로
 ## 사용하며, 미스 시 영어를 반환해 한국어가 외국어 플레이에 새지 않게 한다.

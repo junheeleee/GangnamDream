@@ -25,6 +25,7 @@ func _run() -> void:
 	_check_ui_format_contract()
 	_check_exact_whole_won_contract()
 	_check_explicit_english_money_contract()
+	_check_full_story_slot_label_projection()
 	var english_event := _localized_event_text("en", REPRESENTATIVE_EVENT)
 	var english_ending := _localized_ending_text("en", REPRESENTATIVE_ENDING)
 	var english_job := _localized_job_name("en", "job_01")
@@ -41,6 +42,67 @@ func _run() -> void:
 		return
 	print("I18N_INFRASTRUCTURE_CHECK_OK targets=%d ui_fallback=en content_fallback=en" % TARGET_LANGUAGES.size())
 	get_tree().quit(0)
+
+func _check_full_story_slot_label_projection() -> void:
+	var original_language := LocaleManager.language
+	var info := {
+		"slot": 1, "chapter": 1, "compatible": true,
+		"source_identity": {"build_flavor": "full"},
+		"resume_kind": "story", "resume_scene": "res://scenes/StoryMode.tscn",
+		"event_id": REPRESENTATIVE_TRANSLATED_EVENT,
+		"story_locale": "ko", "label": "챕터 1 · 수첩",
+	}
+	var original := info.duplicate(true)
+	var story_ui := preload("res://scenes/StoryMode.tscn").instantiate()
+	var chapter_prefix := {"ja": "チャプター1・", "zh-CN": "第1章 · ", "zh-TW": "第1章 · "}
+	var start := _failures.size()
+	for lang in TARGET_LANGUAGES:
+		LocaleManager.language = lang
+		DataRegistry.reload()
+		var expected_title := _locale_event_overlay_text(lang, REPRESENTATIVE_TRANSLATED_EVENT, "title")
+		_expect(not expected_title.is_empty(), "Missing actual slot-title overlay: " + lang)
+		var expected := str(chapter_prefix[lang]) + expected_title
+		_expect(LocaleManager.full_story_slot_display_label(info) == expected,
+			"Old locale retained: " + lang)
+		_expect(story_ui.call("_story_save_primary_text", info) == expected,
+			"In-story save list did not use projected title: " + lang)
+		_expect(info == original, "Display projection mutated slot summary: " + lang)
+		var from_english := info.duplicate(true)
+		from_english["story_locale"] = "en"
+		from_english["label"] = "Chapter 1 · Notebook"
+		_expect(LocaleManager.full_story_slot_display_label(from_english) == expected,
+			"English slot retained: " + lang)
+		var from_prepared := info.duplicate(true)
+		from_prepared["story_locale"] = "zh-TW" if lang == "ja" else "ja"
+		from_prepared["label"] = "第1章 · 手冊" if lang == "ja" else "チャプター1・手帳"
+		_expect(LocaleManager.full_story_slot_display_label(from_prepared) == expected,
+			"Prior prepared-locale slot retained: " + lang)
+		for patch in [
+			{"source_identity": {"build_flavor": "demo"}},
+			{"slot": 0}, {"compatible": false}, {"qa_fixture": true}, {"mod_active": true},
+			{"story_locale": ""}, {"story_locale": lang}, {"event_id": "absent-qa-event"},
+			{"resume_kind": "main"}, {"resume_scene": "res://scenes/MainGame.tscn"},
+			{"label": "User caption"}, {"label": "챕터 2 · 수첩"}, {"label": ""},
+		]:
+			var excluded := info.duplicate(true)
+			excluded.merge(patch, true)
+			_expect(LocaleManager.full_story_slot_display_label(excluded) == excluded["label"],
+				"Slot caption changed outside its trust boundary: %s %s" % [lang, patch])
+		var current: Dictionary = DataRegistry.find_event(REPRESENTATIVE_TRANSLATED_EVENT)
+		var original_title: Variant = current["title"]
+		current["title"] = "{name}의 기록"
+		_expect(LocaleManager.full_story_slot_display_label(info) == info["label"],
+			"A tokenized title read a different run: " + lang)
+		current["title"] = original_title
+	for lang in ["ko", "en"]:
+		LocaleManager.language = lang
+		_expect(LocaleManager.full_story_slot_display_label(info) == info["label"],
+			"Shipping-language saved caption changed: " + lang)
+	LocaleManager.language = original_language
+	DataRegistry.reload()
+	story_ui.free()
+	if _failures.size() == start:
+		print("FULL_STORY_SLOT_LABEL_CHECK_OK localized=9 story_reader=3 preserved=44 immutable=3 real_saved_slots=0")
 
 func _check_language_codes() -> void:
 	_expect(LocaleManager.normalize_language("ja_JP") == "ja", "ja_JP alias did not normalize.")
