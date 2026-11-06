@@ -25914,6 +25914,106 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-801",
+      "group": "catalog",
+      "kind": "existing_target_correction",
+      "roots": [
+        "items:artifact_daeun_note"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Direct Korean comparison of the fridge note: a gentle reminder to eat and a short note without an invented three-character count. First line and all other catalog fields exact; no display/old-save claim.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "9320f3fde6ce9cd1da8136ce014d1324f418a71e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "6d0850ba306a7a934acb371513848df985bfc694a6e062fb704dc360fc04ffa9",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b48de55390b9fdd24fd2950cb9946559b9557585e2afabe469e4021c3c8ca88a"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "9320f3fde6ce9cd1da8136ce014d1324f418a71e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "d4be85be28e1c504e198080d3789a0c47e065e53025b1baac3aad0f3883abfa1",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e511270318d87e5edcf0d3d6bf730c81dbcbce20fac465f0e4b2d92563a0e6b9"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "9320f3fde6ce9cd1da8136ce014d1324f418a71e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+          "selection_sha256": "93af57e593e27ec79bf7182d8f3ceed109b7122d079a626ba33a24653aa24bb8",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "276863d6500b4a61ec3524a68b09d33d57f635b155356ecf811dce616efd961b"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "272936815f4f80e8fc932979a30bee3c5faf4819f2dc09d1745875993700e0d1",
+        "zh-CN": "29c3ccd823da10e2a472395f4ba5106892a095a9701be245465a22e08d525c4b",
+        "zh-TW": "d1e5d9aacafe17953be6df56555fd61f661e85fcf5794a9ba0ca05d99209efd4"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": "1511a755c5ca06337d3761373737c998f11c922c40812deee9fc14ea4951021f"
+        },
+        "zh-CN": {
+          "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": "83cb9a859f0dcaefbbb742433eacba0cfe159809dfa8f3b61272dde935404179"
+        },
+        "zh-TW": {
+          "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": "4ea02acd31128ad661b7e66ac2be97ba3d709fbe1a11002dddbeb0106a88eb42"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": {
+            "source_sha256": "dff1ae24e3cd39206ceb780d60f6cb5c3600de7f13ddb3698bafdb3409a7065f",
+            "target_sha256": "1511a755c5ca06337d3761373737c998f11c922c40812deee9fc14ea4951021f"
+          }
+        },
+        "zh-CN": {
+          "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": {
+            "source_sha256": "dff1ae24e3cd39206ceb780d60f6cb5c3600de7f13ddb3698bafdb3409a7065f",
+            "target_sha256": "83cb9a859f0dcaefbbb742433eacba0cfe159809dfa8f3b61272dde935404179"
+          }
+        },
+        "zh-TW": {
+          "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": {
+            "source_sha256": "dff1ae24e3cd39206ceb780d60f6cb5c3600de7f13ddb3698bafdb3409a7065f",
+            "target_sha256": "4ea02acd31128ad661b7e66ac2be97ba3d709fbe1a11002dddbeb0106a88eb42"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -27795,8 +27895,8 @@
         "target_sha256": "51f62151317726cd6422f5639b1d788189ba1043c108019aaaae0a32ba22e824"
       },
       "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": {
-        "source_sha256": "dff1ae24e3cd39206ceb780d60f6cb5c3600de7f13ddb3698bafdb3409a7065f",
-        "target_sha256": "1511a755c5ca06337d3761373737c998f11c922c40812deee9fc14ea4951021f"
+        "source_sha256": "9e983cd0349fc56f7fbdd85e989b4af4e17623b110a8ed5027d5abf5fcb4b8e2",
+        "target_sha256": "4443628099feca6486418de2c15a3e0bc85aad757924b420b01df92cfedf6ba8"
       },
       "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/name": {
         "source_sha256": "c6db83e46defad33509e10c00cd4759e1548c028ff45a0a8345ac02f6e1595c9",
@@ -80601,8 +80701,8 @@
         "target_sha256": "89eddc012565465be02a52511d2bc9d28927f7a294c278988e3770e2023061d9"
       },
       "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": {
-        "source_sha256": "dff1ae24e3cd39206ceb780d60f6cb5c3600de7f13ddb3698bafdb3409a7065f",
-        "target_sha256": "83cb9a859f0dcaefbbb742433eacba0cfe159809dfa8f3b61272dde935404179"
+        "source_sha256": "9e983cd0349fc56f7fbdd85e989b4af4e17623b110a8ed5027d5abf5fcb4b8e2",
+        "target_sha256": "c17d67367bbc45e2cc3947b866a33dfcfa5e0052f7d32be1528bd2323187e034"
       },
       "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/name": {
         "source_sha256": "c6db83e46defad33509e10c00cd4759e1548c028ff45a0a8345ac02f6e1595c9",
@@ -140211,8 +140311,8 @@
         "target_sha256": "dad43717f3891f4c3d00393b5816b3b94cf534e6cdee84f8148899bbced2212a"
       },
       "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/description": {
-        "source_sha256": "dff1ae24e3cd39206ceb780d60f6cb5c3600de7f13ddb3698bafdb3409a7065f",
-        "target_sha256": "4ea02acd31128ad661b7e66ac2be97ba3d709fbe1a11002dddbeb0106a88eb42"
+        "source_sha256": "9e983cd0349fc56f7fbdd85e989b4af4e17623b110a8ed5027d5abf5fcb4b8e2",
+        "target_sha256": "5f75665ae29c7ecdf9cbf7faad6d89b26f00540751ee99f8aa321c4d9d2df7a8"
       },
       "catalog:items:artifact_daeun_note:/items/artifact_daeun_note/name": {
         "source_sha256": "c6db83e46defad33509e10c00cd4759e1548c028ff45a0a8345ac02f6e1595c9",
@@ -197944,7 +198044,7 @@
       }
     }
   },
-  "accepted_sha256": "3c7c7b1844ab3ee82f7acd766f1f5f6fae8c3d31c3586321adcabd945663c01f",
+  "accepted_sha256": "6c833d909e0bd4dcfeea6600c0ef6f5a9ae6def9b34322c59cde7a5bf4d1ee4e",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
