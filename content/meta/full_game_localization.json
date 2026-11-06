@@ -26429,6 +26429,60 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-808",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_jiyeon_narrow_room_truth"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 0
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "In the already-told branch Jiyeon addresses Minjun, who has learned why the family house was so spacious. Correct the grammatical subject only. Keep the established revelation, base branch and consequences exact.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "84b24eea5e9825e1ed17210b45c971985222c3f8",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "45bb6a6a25315cc36461b7a43bb350a47a9bd9c5da1fbc80eacd1b150300beae",
+          "selection_sha256": "454a400fa7e4eee7896ed112f1db8bc1af1643a3156c32ab3b1199e576fe0a63",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b452a72d1d76f0c77eb15c6894a310e6fd5c5ab3e422b754a161d1f1317be296"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "796f3e517828af2bea133994296154ef0668ea6b7c5907e5ec1b9c3606ff6c3f"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-CN": {
+          "events:arc_jiyeon_narrow_room_truth:/description_if_known/told_jiyeon_about_records": "2cafd9addcf604181b56dd23dc023899a150bed2cef1897e6c21168117108d96"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-CN": {
+          "events:arc_jiyeon_narrow_room_truth:/description_if_known/told_jiyeon_about_records": {
+            "source_sha256": "778bd13c014d7910b62bf3d99b77a6b464d979bea2289dd4c0aa5c66ffada7c9",
+            "target_sha256": "2cafd9addcf604181b56dd23dc023899a150bed2cef1897e6c21168117108d96"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -91753,7 +91807,7 @@
       },
       "events:arc_jiyeon_narrow_room_truth:/description_if_known/told_jiyeon_about_records": {
         "source_sha256": "778bd13c014d7910b62bf3d99b77a6b464d979bea2289dd4c0aa5c66ffada7c9",
-        "target_sha256": "2cafd9addcf604181b56dd23dc023899a150bed2cef1897e6c21168117108d96"
+        "target_sha256": "3132059f25981fe13e0198c32174bc66bc3341ffc840b800159ff7d53ea70d85"
       },
       "events:arc_jiyeon_narrow_room_truth:/title": {
         "source_sha256": "e19835a5d9982ae1f030454ba03067fe2078b6f77b5561ce364ad87aabf256c0",
@@ -198479,7 +198533,7 @@
       }
     }
   },
-  "accepted_sha256": "5ae68ed4f9351ae6652fb22210753fcfe34d70ad226b822627c88b50153ec647",
+  "accepted_sha256": "b840af7ed25e255e3c680ea25df93c04666ed2b36cad6b57c9d52bc3ab2368e7",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
