@@ -26571,6 +26571,71 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-810",
+      "group": "ui",
+      "roots": [
+        "결승선",
+        "실시간 순위",
+        "사진 판정"
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "ja": 3,
+        "zh-CN": 3,
+        "zh-TW": 3
+      },
+      "source_review": "Prepared-language canvas captions for finish line, live race order and photo finish. Existing English captions and fallback font remain for Korean, English, public demo and other locales.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "9b570d51d7cd1e3f007858a6d0451d6f9751df6a",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+          "selection_sha256": "8006a0371c42e29da6516ea268aedd3aad7f4d85773aa97167bb3e1878aa3a49",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "89654afd5cb280726588d7f4dadf5ad9da6b5cce7c394f9d5e77cd1d86db46bb"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "9b570d51d7cd1e3f007858a6d0451d6f9751df6a",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+          "selection_sha256": "6f1b881b6aed2d84bc6e6233b9653d3a8af957588a9316a955bf65bb99460af1",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8cbf9b10dde79e45b503d09a0cf2da6e92f4dd309fdaf69bb257abac0fa60593"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "9b570d51d7cd1e3f007858a6d0451d6f9751df6a",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "93cdb0b4343ad75c7565783cb0309699b4e1a262b50a6a8b3411f477d584c654",
+          "selection_sha256": "a8f9343c74e6da7ab78a9ccbdf8dcbed2c03dd0174c5c2973277b27d08bfdf06",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b5087e0c59a035987b47a30067427538db0fa946579772161d8874c5d31ece30"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "c46bb3dcd59b493f7e22ad5d1c8595dbe59fdd28c86236e243c2b3c32823a7fb",
+        "zh-CN": "e107a48f997ea5ce2ddfc30682537756d2d0b55482333b64b2e81cfebf6cc0a9",
+        "zh-TW": "a6a94110b68fe53b55bc691f046ca0c320e5076654efd70a3703e6fd581a9117"
+      }
     }
   ],
   "accepted": {
@@ -79398,6 +79463,18 @@
       "ui:순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.:/순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.": {
         "source_sha256": "47c01c7b38cc543342987439dbbfc7b70af06e25397b2d84d0ec6499ed447ff9",
         "target_sha256": "c07fb32ff01a1eaa03dff156cbae50d76cd53ec80a458472c5ee404f36bf2b8a"
+      },
+      "ui:결승선:/결승선": {
+        "source_sha256": "8b79ed4723b5702f7b34105de905785d8e2de21bf67691b73c501adc40143523",
+        "target_sha256": "441a3bfb7689c5e1133cde12784284bc26d418c5e6ab78d0d9ca8b79d2ea0958"
+      },
+      "ui:사진 판정:/사진 판정": {
+        "source_sha256": "5f2329edada14119c505d441105cba1d9e16551534b9ac4e6702844e6965a7b0",
+        "target_sha256": "0d894deb95a3e955040f1d727607e478b43b8e0333a2dbbd81b013dafd4dc014"
+      },
+      "ui:실시간 순위:/실시간 순위": {
+        "source_sha256": "2bf3b1fdf018220082191e337b3b8cae6108375cb0d1a67ebd358f9fcd9238b1",
+        "target_sha256": "0f827db023588c3b9c48034c09ae7ec8fad6dfc9925610989d959615f0677634"
       }
     },
     "zh-CN": {
@@ -139008,6 +139085,18 @@
       "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&plays_hand": {
         "source_sha256": "c4b6afcf6e7be2336e23aa8ad1267cfdaeafb99c7fc257d48ea308f9bfa93b58",
         "target_sha256": "0fbfd619896928efbfaba1a687e9838dde4db8fc1f71fc810496d3a07558f6c1"
+      },
+      "ui:결승선:/결승선": {
+        "source_sha256": "8b79ed4723b5702f7b34105de905785d8e2de21bf67691b73c501adc40143523",
+        "target_sha256": "dac7a12bf62417ef9dd03f620357574b84f3bda3e0acb380c596f7c498ad0357"
+      },
+      "ui:사진 판정:/사진 판정": {
+        "source_sha256": "5f2329edada14119c505d441105cba1d9e16551534b9ac4e6702844e6965a7b0",
+        "target_sha256": "18b1cfd83eee6e750ee740b53a386a4d4e03099eb4446a16a168d67e63e73e64"
+      },
+      "ui:실시간 순위:/실시간 순위": {
+        "source_sha256": "2bf3b1fdf018220082191e337b3b8cae6108375cb0d1a67ebd358f9fcd9238b1",
+        "target_sha256": "a1942b70e1d50c12d0ef8a47260fa9d4e351b31bbfbeccd4a141eb2d52cf83ee"
       }
     },
     "zh-TW": {
@@ -198618,10 +198707,22 @@
       "events:arc_final_year_start:/description_memory_if_known/arc_year_three_crossroads_seen&plays_hand": {
         "source_sha256": "c4b6afcf6e7be2336e23aa8ad1267cfdaeafb99c7fc257d48ea308f9bfa93b58",
         "target_sha256": "866fa04742880c9d2154592b95a9917e0315fc1655723e9a5e13f18c4420bb4f"
+      },
+      "ui:결승선:/결승선": {
+        "source_sha256": "8b79ed4723b5702f7b34105de905785d8e2de21bf67691b73c501adc40143523",
+        "target_sha256": "5f56a53329f235e375b1967f08750080accf77c06a5d6ece83ab7f7d76daba8c"
+      },
+      "ui:사진 판정:/사진 판정": {
+        "source_sha256": "5f2329edada14119c505d441105cba1d9e16551534b9ac4e6702844e6965a7b0",
+        "target_sha256": "026ee714b417f98e0da769efb23e2ad7d8db996cdc65d234a4fdafbb2bdc7342"
+      },
+      "ui:실시간 순위:/실시간 순위": {
+        "source_sha256": "2bf3b1fdf018220082191e337b3b8cae6108375cb0d1a67ebd358f9fcd9238b1",
+        "target_sha256": "61d65ce18180e0189c8da7c5db3aaf166011deedf897ac15eed90e0e33ca4068"
       }
     }
   },
-  "accepted_sha256": "ad05317e19de2df78327cb09fad9551bc8c320200d07a4e418a5e0285fa09bcd",
+  "accepted_sha256": "4cf41b8b42b108e24da950ef9b502474ed136ccf30199583574344825a64e132",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
