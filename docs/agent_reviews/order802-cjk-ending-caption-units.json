@@ -1,0 +1,253 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-802",
+  "reviewer": "/root/review_791",
+  "author": "/root",
+  "reviewed_at": "2026-11-06",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "7917559d805b80b1f156b097c67338336ed7b485",
+    "tree": "ec0bb437d845e2ffd0d86bc3ee9e9141160778b4",
+    "manifest_sha256": null
+  },
+  "scope": "Five existing Japanese ending summary values: white, bankruptcy, lonely, empty, Daeun; one existing zh-CN orthodox_hollow value. New keys/coverage 0.",
+  "review": {
+    "method": "Actual MainGame Korean caption branches and complete old/new targets compared; source ending context, real locale lookup, punctuation and wrapped finale consumer inspected; current pure check_batch, exact hashes and inverses.",
+    "findings": "JA preserves amounts and negative sign with one won-unit insertion each; CN asks the reason for success already achieved, not a motivation to want success. No in-scope text defect or product behavior change.",
+    "exchange_repair": "Original JA and CN responses accidentally omitted the header; initial body bytes and empty stdout preserved. Independent pure checks reject both originals with the exact expected manifest error. Final responses are exactly official source header line plus original body; final official logs record VALID5/1 and empty stderr. Reviewer did not rerun official CLI."
+  },
+  "preservation": {
+    "prior_batches": 392,
+    "prior_decisions": 360,
+    "prior_decision_ledger_sha256": "ebb05fea1fa4b3857e3040f3635d80b45e14eadf10e89d85c8d13f1c7311025a",
+    "first_bound_existing_by_locale": {
+      "ja": [
+        "ui:30억보다 소중한 것을 알게 됐다. 그게 다은이었다.:/30억보다 소중한 것을 알게 됐다. 그게 다은이었다.",
+        "ui:30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.:/30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.",
+        "ui:30억은 모였다. 네 자리 식탁에는 혼자였다.:/30억은 모였다. 네 자리 식탁에는 혼자였다.",
+        "ui:30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.:/30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.",
+        "ui:순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.:/순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다."
+      ],
+      "zh-CN": []
+    },
+    "superseded_acceptance_by_locale": {
+      "ja": {},
+      "zh-CN": {
+        "ui:성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.:/성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.": {
+          "source_sha256": "fc802a02a348dfa430549f2eed59576e26752f2eab476ac56b9189382aea69cc",
+          "target_sha256": "fc8889e16e0b2358e9ae9c697084585a22a6f3ed25f5613736933b56c456431b"
+        }
+      }
+    },
+    "proof": "Two full dictionary byte inverses and full ledger inverse exact. JA 5 existing texts first bound, CN 1 prior same-source acceptance superseded; all prior batches and ten nonowned Git blobs exact. KO/EN/TW, public demo, saves, code and validators unchanged."
+  },
+  "validation": "Independent current pure canonical checks, receipt binding, old targets, selected dictionary-only delta and whole inverses exit0; negative pure manifest check exact. JA UI clean beta, demo5/14/100/122, EN1813/35 and CJK skeleton only. Lane34 selection only, not execution.",
+  "identity": {
+    "baseline": "a6dae848ae25dc053d9691592eb8a16348cbce56",
+    "source_manifest_sha256": "d85345746a73387503fe20b8424538079190a10d6f287c5ac94031c2eb2c71b1",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "rows_sha256": "b27c763497dca7cbfeafcf7425ff0b5bb1e2e6eb2c955db9f6ca997e221695f9",
+    "receipt_sha256_by_locale": {
+      "ja": "8230a0786d285adbfcf9e2fb506069d2cdb28f17f5175da2ffdf1dfd3a834227",
+      "zh-CN": "46f1f56d5d535e9c3984352ec4b3efd3db618a875a7f507674de8b7b7dacb90d"
+    },
+    "official_receipt_file_sha256_by_locale": {
+      "ja": "b2b169dde5abcf0facfc32babb9c0c66c6f9bd35fac92461db1f015c2679414d",
+      "zh-CN": "dba0dffd81ba06955fce41deabe53fb84733f3ac2f536a1891634c8f8c029d55"
+    },
+    "previous_target_sha256_by_locale": {
+      "ja": {
+        "ui:30억보다 소중한 것을 알게 됐다. 그게 다은이었다.:/30억보다 소중한 것을 알게 됐다. 그게 다은이었다.": "0a8db02afc78a0244d40c2133027c63a90873775aeacc4c4299c3d2365c9c29a",
+        "ui:30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.:/30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.": "f43aa7a5355b397f831b4f9ee729acdb85ff9966927f48a0dfe5dc1a3cbfa5ad",
+        "ui:30억은 모였다. 네 자리 식탁에는 혼자였다.:/30억은 모였다. 네 자리 식탁에는 혼자였다.": "2b28c4274059c5bab3c61fc39a960d58f32b44c8cfa2b84bc218836df7f8a10f",
+        "ui:30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.:/30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.": "e519a64bd48dec37a8f4c378de4f6f825c6a818b64657647a6b8d91ce030e913",
+        "ui:순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.:/순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.": "57b8e071928ef60030f63da81ef975a794280ba75172103a25f0fd2fdbc128d7"
+      },
+      "zh-CN": {
+        "ui:성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.:/성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.": "fc8889e16e0b2358e9ae9c697084585a22a6f3ed25f5613736933b56c456431b"
+      }
+    },
+    "header_only_repair_by_locale": {
+      "ja": {
+        "draft_rows_sha256": "04b43b7ba467538a88aaa13a3ffccc64077a89272611cf5bd276cf588f305980",
+        "source_header_line_sha256": "bac25737543da278a2133a1baed48d3bef768876489deef84a4064cb035cf854",
+        "final_response_sha256": "1081624590cab3cdfba98144455ac962e7bf1f4f1c201422885f0cf3438ac601"
+      },
+      "zh-CN": {
+        "draft_rows_sha256": "b6e53e9c5785516eb9c82eb32904241cf1abba5076e190b435a43b404e82c2df",
+        "source_header_line_sha256": "3596826a81a904e41056999403a62c8cfd20fa187d079c70e0e008cbf632b433",
+        "final_response_sha256": "51aae304e26e39cadd328b1be0adf959e5ebf36171606616fd0b9f4a0af00e48"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-ending-caption-units-20261106.YIkVjH/",
+    "raw_population": {
+      "files": 30,
+      "sha256": "309a48fa4f6adf4889a347b834f0da877f20e3cf1ed0dc513a64f8a5382eb51b",
+      "entries": [
+        [
+          "correction.log",
+          126,
+          "b39d418a2a1a315c414e95e820d16814c0ec7cbdeda619eeee9e5c972f17c814"
+        ],
+        [
+          "correction.py",
+          4825,
+          "0595d038c6d8cc9bff2182c8a9cad2d6269d61f8f67d30aea6e216802f079c7b"
+        ],
+        [
+          "delta.log",
+          2506,
+          "42ae7d5a8321b4f9f9239e3dc737d029961203fd878090fcf0fb38c0fdb8989c"
+        ],
+        [
+          "demo.log",
+          345,
+          "4160c706bfc3d5c65b59707c792fa8c0c18cc9653c498934fed4081e673833c4"
+        ],
+        [
+          "en.log",
+          53,
+          "3c8fb0fe51e73967455b28149d28977ee7a44a9ff3891baae9a938f89d81451b"
+        ],
+        [
+          "i18n.log",
+          210,
+          "103037e70612eb811c7c03bff252ef4c0623ae6830328e361684475f1a9d555b"
+        ],
+        [
+          "ja.check.log",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.drafts.json",
+          919,
+          "9a5f345c64a7fd84ac5675ea2e76179fb2bac17a8a40c3ad00ad76b4222c2ffe"
+        ],
+        [
+          "ja.export.log",
+          155,
+          "d70a9612950f0ef579ff30fffd5cf403845178fa66d4f041f60ff05cfb8d8c38"
+        ],
+        [
+          "ja.final.check.log",
+          117,
+          "53737b9c30891d13167e6298c65ca34e93d651957c3725331eaf3a71c4b4c180"
+        ],
+        [
+          "ja.final.check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.final.response.jsonl",
+          2590,
+          "1081624590cab3cdfba98144455ac962e7bf1f4f1c201422885f0cf3438ac601"
+        ],
+        [
+          "ja.import.log",
+          118,
+          "81ed90b5249698866ac497362fcab8b2622581883db728fda25f2f8db185abd7"
+        ],
+        [
+          "ja.import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "ja.leaf-ids.json",
+          788,
+          "da03404888d0b19b4c93df40f1cb3efacf58c9f878f3690769bd1eeec3ab3634"
+        ],
+        [
+          "ja.log",
+          214,
+          "51a52dce5e2ac7d69d1aa92cc8f7461b539a620395986d001abad73eafef196a"
+        ],
+        [
+          "ja.response.jsonl",
+          2076,
+          "04b43b7ba467538a88aaa13a3ffccc64077a89272611cf5bd276cf588f305980"
+        ],
+        [
+          "ja.source.jsonl",
+          5079,
+          "93142078f2173abb9e125809b2f285ee2e6372fccf178ed06b6055ca596a0f36"
+        ],
+        [
+          "lane.log",
+          5533,
+          "ea2069e73f3ad562b18ba70a717fee403f2fd5101b1a22a7de877b7452d26353"
+        ],
+        [
+          "zh-CN.check.log",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.drafts.json",
+          166,
+          "be171b9bb6b052bc16b5e193b427ebe2ebb11d94c36e7da4c6de70e03962f0cd"
+        ],
+        [
+          "zh-CN.export.log",
+          161,
+          "d865024dfa3ca398403c5a94a75b630e98d5eb43f77df3c6cd419cf12d67894f"
+        ],
+        [
+          "zh-CN.final.check.log",
+          120,
+          "9d07b1443a0c24a645bccca11e91dc64f2e3e2f65e294b603f34664e86b9f12b"
+        ],
+        [
+          "zh-CN.final.check.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.final.response.jsonl",
+          920,
+          "51aae304e26e39cadd328b1be0adf959e5ebf36171606616fd0b9f4a0af00e48"
+        ],
+        [
+          "zh-CN.import.log",
+          121,
+          "20044e17825e0dc035f5fec1fcba705d77f171bd6ef5cc502cb6c2696c8f4e24"
+        ],
+        [
+          "zh-CN.import.stderr",
+          0,
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        [
+          "zh-CN.leaf-ids.json",
+          170,
+          "c64827cadee600d69435fd828a420cecd4ba99e21440b2e4c32a874bcc6b2586"
+        ],
+        [
+          "zh-CN.response.jsonl",
+          403,
+          "b6e53e9c5785516eb9c82eb32904241cf1abba5076e190b435a43b404e82c2df"
+        ],
+        [
+          "zh-CN.source.jsonl",
+          1461,
+          "1c1046ccd0a8de507d5224ec9728ecab1d3fa974763146eb34313925ed5b2405"
+        ]
+      ]
+    },
+    "encoding": "UTF-8 file byte SHA256; raw population compact JSON basename-sorted [name,size,sha256]; rows canonical digest in locale/source order."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_render",
+    "engine_runtime",
+    "full_translation_completion",
+    "full_remote_CI_success",
+    "M60_representative_completion",
+    "external_publication_or_release"
+  ]
+}
