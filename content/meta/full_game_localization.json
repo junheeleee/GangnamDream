@@ -27446,6 +27446,69 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-821",
+      "group": "ui",
+      "roots": [
+        "한국 사회의 현실을 그린 드라마"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "source_review": "Localize the genre subtitle at both title wordmark call sites for full-game prepared languages, preserving the existing brand and other locale/build behavior.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "af49617e122cb2ee89af163350817d43aea2dcfc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "c1049340372c8a6d1e69a993aba180d0c2d0c21df8c6c38c4a1718b4919143c4",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "ef2c806d679b9ba11a86e8a9f5ebab9c01d2150cad480e088c87b17ba30b5f79"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "af49617e122cb2ee89af163350817d43aea2dcfc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "e283ce1c3b871b8d929d08c243c394a5d07ad7b534b81b30e8ba5ab7a0ffd145",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "87ce5f0a8afd4e5ed741e7640d49bdb994e5fa67aa2eb603fe029f1b2418fac4"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "af49617e122cb2ee89af163350817d43aea2dcfc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "4ceb8cbb0d44402ab5f82d704b6b251435b7ddadc6eb11c44aa151716f7ffef1",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a64286c6ddef0219ddaefe03490df0173eb279f5c6159d7227507bcea4ba7d2c"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "e310d470c95839be083433ac8dd55a6f3d349d891ea45b3418fe437b99d19363",
+        "zh-CN": "579acb7d5ea16ee7e73f6fa9d2400ad2ef8495da9b36fe07e970faefa49b4679",
+        "zh-TW": "3735eb3fd1f6575623b0f2a389f9e1634fb81aee39fa3716ec00b5f5d97eb591"
+      }
     }
   ],
   "accepted": {
@@ -80337,6 +80400,10 @@
       "ui:카페의 남자:/카페의 남자": {
         "source_sha256": "66580701cc66cd978b38354f6a31191f24e6fc2c2a82245c2809a20940362438",
         "target_sha256": "98d474ed651be34a3afb39b1c152a6d629649b48275362dd45dbc6dddcb1b98e"
+      },
+      "ui:한국 사회의 현실을 그린 드라마:/한국 사회의 현실을 그린 드라마": {
+        "source_sha256": "a67317d30901b8e8591d9ea0cbbd68c1bff1cd514fc54d45704089fec8eab0d4",
+        "target_sha256": "086de55b387f2e73a4821137345c57767215b490e8cde6fc71d8cfaa3d50b173"
       }
     },
     "zh-CN": {
@@ -140011,6 +140078,10 @@
       "ui:카페의 남자:/카페의 남자": {
         "source_sha256": "66580701cc66cd978b38354f6a31191f24e6fc2c2a82245c2809a20940362438",
         "target_sha256": "9918c53614f78b2edc6b27a8a42f3fe312e9440329602b300998f6bfc005a4f9"
+      },
+      "ui:한국 사회의 현실을 그린 드라마:/한국 사회의 현실을 그린 드라마": {
+        "source_sha256": "a67317d30901b8e8591d9ea0cbbd68c1bff1cd514fc54d45704089fec8eab0d4",
+        "target_sha256": "678dfdcfdc16d20da20965ee1c5e83fe791bd5a32ff0cee2f654db4fa58750b8"
       }
     },
     "zh-TW": {
@@ -199685,10 +199756,14 @@
       "ui:카페의 남자:/카페의 남자": {
         "source_sha256": "66580701cc66cd978b38354f6a31191f24e6fc2c2a82245c2809a20940362438",
         "target_sha256": "46abfcc339b53d4a1bae2b7f692bfd3f29d8ea38495046fd61e40db0fccfddc7"
+      },
+      "ui:한국 사회의 현실을 그린 드라마:/한국 사회의 현실을 그린 드라마": {
+        "source_sha256": "a67317d30901b8e8591d9ea0cbbd68c1bff1cd514fc54d45704089fec8eab0d4",
+        "target_sha256": "6468579ec06a20832f475c0e5501ad2cebd1ee2a26d8a569bdfc1f4a554f6040"
       }
     }
   },
-  "accepted_sha256": "84aaf9c2c8d416042840ed9ca4f7498bbe2c688151f7695a32f8aa1adfd3a0d8",
+  "accepted_sha256": "ef7c53a8f763fe57951a6d56aa65412b3f02a1d469ca7e504cfba6c76837652f",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
