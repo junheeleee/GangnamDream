@@ -99,6 +99,8 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
+| 79 | [~] | ORDER-822 · 계약서 무서명 선택 간체 정합 | [822](queue_active/ORDER-822.md) | C5 · 본편 선택 의미 |
+
 
 
 
