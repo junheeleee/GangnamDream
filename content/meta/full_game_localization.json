@@ -27369,6 +27369,83 @@
         "zh-CN": "e8f95b774128ba9e7b466426abc446017ef3c1c4eea7c833f8d7ff0cd5b32e16",
         "zh-TW": "8f0912a848a3f60e6ad54d1c8b9c972678a9be39d3b1cec2a7cef98a4884284c"
       }
+    },
+    {
+      "order": "ORDER-820",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "callback_cafe_honest_win_deeper"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Keep the caller's personal endorsement distinct from an acquaintance and restore the tax adviser's polite offer to Minjun. Preserve the actual introduction, alternative, and effects.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "17100cb173c06ada09dbfed155e3b450816481a9",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "cf0d3bfd0e0c028dfc000c0baa035f8ef86b008ab36b67d3c4daa8b2a72578de",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9d601b8b9eaff1c9a1f04cdc30018f4824eeb7e4e89606928a43ad4975839a73"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "17100cb173c06ada09dbfed155e3b450816481a9",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "b0c914316ea7278316c612ea18ea2e33ee7515031a3c469a2c1396440171c288",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "fe09d4bf7f585f230b684fa47d06eefcdf2704ed21644a4d08e53389b952bdca"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "a5adf836eb9495918c1481a9b538e833fda55c9986269b5ec10446828c263e0d",
+        "zh-TW": "254f92f726957d024ab468953756aef21bbbbf10f8564267251fd3941577e793"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:callback_cafe_honest_win_deeper:/description": "e3b18c8d54c0e26207b184e69e70a844d9e0ce0e0be06283bfa057bd62dcd951"
+        },
+        "zh-TW": {
+          "events:callback_cafe_honest_win_deeper:/choices/0/result_text": "d342a84e37d591695391841f260dd37a196afdf7dd525479362992510691d5e3"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:callback_cafe_honest_win_deeper:/description": {
+            "source_sha256": "bef7668571c820bef978e76e615e4fdebb201e8e4f1502397129010c2b5336e9",
+            "target_sha256": "e3b18c8d54c0e26207b184e69e70a844d9e0ce0e0be06283bfa057bd62dcd951"
+          }
+        },
+        "zh-TW": {
+          "events:callback_cafe_honest_win_deeper:/choices/0/result_text": {
+            "source_sha256": "181dd49bdd96629c57b70d6cb67d2bba41be46230996677a9b81d74c2c92b5c9",
+            "target_sha256": "d342a84e37d591695391841f260dd37a196afdf7dd525479362992510691d5e3"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -51295,7 +51372,7 @@
       },
       "events:callback_cafe_honest_win_deeper:/description": {
         "source_sha256": "bef7668571c820bef978e76e615e4fdebb201e8e4f1502397129010c2b5336e9",
-        "target_sha256": "e3b18c8d54c0e26207b184e69e70a844d9e0ce0e0be06283bfa057bd62dcd951"
+        "target_sha256": "ae0bf9672dde96f10f4dff27a32ffa5c245207c79adbd4d7f69bcb1bf52ffc1b"
       },
       "events:callback_cafe_honest_win_deeper:/title": {
         "source_sha256": "ced38e57379684d51ac9156fd3402936a7910862842f35814571087b7140382d",
@@ -163843,7 +163920,7 @@
       },
       "events:callback_cafe_honest_win_deeper:/choices/0/result_text": {
         "source_sha256": "181dd49bdd96629c57b70d6cb67d2bba41be46230996677a9b81d74c2c92b5c9",
-        "target_sha256": "d342a84e37d591695391841f260dd37a196afdf7dd525479362992510691d5e3"
+        "target_sha256": "55a2eb8e8e966a3f8fc88f745c9d6425fe4617d7f9e14f763e643c6958cd0bf6"
       },
       "events:callback_cafe_honest_win_deeper:/choices/0/text": {
         "source_sha256": "d1a91a2638569be7d91de42e9991f301aeeb0f2458e0096e2168c39ab2c4906d",
@@ -199611,7 +199688,7 @@
       }
     }
   },
-  "accepted_sha256": "41471055ce617812e424e80460fa84aa5d5667fd66995b0c7ebb5f6e0fdfba11",
+  "accepted_sha256": "84aaf9c2c8d416042840ed9ca4f7498bbe2c688151f7695a32f8aa1adfd3a0d8",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
