@@ -27138,6 +27138,106 @@
         "zh-CN": "5a3e47adb334449429b908d230b6618b98a0d8a3f1fcf6ed7606f5af29cf3259",
         "zh-TW": "5c76c027c5fb598be6ac578e5e47e7d7a5d2556444dd0124ae651acc25249eec"
       }
+    },
+    {
+      "order": "ORDER-817",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "story_four_year"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Make the unchanged KRW 3 billion notebook goal unmistakable. Preserve the C2 age fix, do not assert asset growth or a real balance, and keep every other sentence and branch unchanged.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "5ead751a32b9b140a58c94e185d97bba7de37a31",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "996230f199cb890b3346fa3ec02bc210f17802798b172959f0ea573e1d4926b6",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e4b7eef89a3d001e6579d55f19a4c35796313a20c54f580a52151dd88b7297db"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "5ead751a32b9b140a58c94e185d97bba7de37a31",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "66c6015e6861afc32c3e4c9ead28f64a9ba7f858e9efff6dda601dfb092be289",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "76bb0123e29e7f3a529f857d14ae6aa89eeaf27461c3a7df0e3f18396d5fdb2e"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "5ead751a32b9b140a58c94e185d97bba7de37a31",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "8108bd076f474ea7fe55bbbb72ddce0965ab7535ab22e5608b64166be5a3abb3",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "36bafd9b1450d8cc9ac7f297b8d1f29ed3e88c87ca5ae47f4ad8d837c356b0c9"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "9de345538c40c62e0464c8a4ac14b27fbb86f09bf2ffe610839bbd0a5e02d6ad",
+        "zh-CN": "915728de97605e668ef43fb16dcbada3a3ee88f59ca5aec6f0a3e7b99b71358c",
+        "zh-TW": "03277a5d1e37360bc383fc0c587fa0c7aebcac6815cf31532789c57f23f3de69"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:story_four_year:/description": "611d7f22afa36b0a629277351445fc3975320a0616796b65ba5a42ebd30f231b"
+        },
+        "zh-CN": {
+          "events:story_four_year:/description": "8ba86393b056474ff2e310fdda63ce736d6c98e1994e42f5e2a0213102fa47c5"
+        },
+        "zh-TW": {
+          "events:story_four_year:/description": "18bcac5a77b776dffacbb6f4d894ff89f10bb8a10eec175ffd0e5cd4e9aa4bd1"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:story_four_year:/description": {
+            "source_sha256": "c15764306841cc820c3f32febf7c7d1758cf59476d1d38b23319d63501a1568f",
+            "target_sha256": "66ccef4f89a1e22ceaa89d7ed9c8e8dbf15828384961a45b5c33e881233156ca"
+          }
+        },
+        "zh-CN": {
+          "events:story_four_year:/description": {
+            "source_sha256": "c15764306841cc820c3f32febf7c7d1758cf59476d1d38b23319d63501a1568f",
+            "target_sha256": "bda25d8dfa942748d5fed5722ff4bc0b4eb270ba2c01448124bf35a360cb0a5f"
+          }
+        },
+        "zh-TW": {
+          "events:story_four_year:/description": {
+            "source_sha256": "c15764306841cc820c3f32febf7c7d1758cf59476d1d38b23319d63501a1568f",
+            "target_sha256": "1ef7f93709cc36810cf673117db70f42eb82ebeaf0066b4c9f219b1c1647e986"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -49079,8 +49179,8 @@
         "target_sha256": "c11a8b42e7fd9aced7bb5a614357dbd080c12eac24e1db6ea8a01589a4366430"
       },
       "events:story_four_year:/description": {
-        "source_sha256": "c15764306841cc820c3f32febf7c7d1758cf59476d1d38b23319d63501a1568f",
-        "target_sha256": "66ccef4f89a1e22ceaa89d7ed9c8e8dbf15828384961a45b5c33e881233156ca"
+        "source_sha256": "ee7695c43bc9710f6a8a51a6c001423ef882c4cfd5dc4bc7dd5e2271b7571e72",
+        "target_sha256": "098affab068c7e4ed6e9c9bb6e7a03538560b9771d8e06ccc5a6b72e0ed446ab"
       },
       "events:story_four_year:/title": {
         "source_sha256": "58986e4983a66bd42d1039c9471b27549b4e5c9c30c492fb7fe4238400a605fe",
@@ -101941,8 +102041,8 @@
         "target_sha256": "11df5c37aef589d50aca84ad12bc4e71e8002478b9b69c98e58a6a8e6ed73afb"
       },
       "events:story_four_year:/description": {
-        "source_sha256": "c15764306841cc820c3f32febf7c7d1758cf59476d1d38b23319d63501a1568f",
-        "target_sha256": "bda25d8dfa942748d5fed5722ff4bc0b4eb270ba2c01448124bf35a360cb0a5f"
+        "source_sha256": "ee7695c43bc9710f6a8a51a6c001423ef882c4cfd5dc4bc7dd5e2271b7571e72",
+        "target_sha256": "5abea39342084fcb9ea12281da3698ab6924e74c130293f8e7d5ecef9f4c6ef3"
       },
       "events:story_four_year:/title": {
         "source_sha256": "58986e4983a66bd42d1039c9471b27549b4e5c9c30c492fb7fe4238400a605fe",
@@ -161587,8 +161687,8 @@
         "target_sha256": "e41b60604361ef75d92c8fd021e6d737c7f08a2b7a0dc6c9d0f12624e542b79c"
       },
       "events:story_four_year:/description": {
-        "source_sha256": "c15764306841cc820c3f32febf7c7d1758cf59476d1d38b23319d63501a1568f",
-        "target_sha256": "1ef7f93709cc36810cf673117db70f42eb82ebeaf0066b4c9f219b1c1647e986"
+        "source_sha256": "ee7695c43bc9710f6a8a51a6c001423ef882c4cfd5dc4bc7dd5e2271b7571e72",
+        "target_sha256": "d7c657b9c6eb7f9d24b907cc282b6da04dbea054af91bf30a93bc55fa124d106"
       },
       "events:story_four_year:/title": {
         "source_sha256": "58986e4983a66bd42d1039c9471b27549b4e5c9c30c492fb7fe4238400a605fe",
@@ -199296,7 +199396,7 @@
       }
     }
   },
-  "accepted_sha256": "31269c64fa4451018627fd9b9e4b04118423b1695db7688cd163ef77b7e3f759",
+  "accepted_sha256": "a86df83f4d23e881c985946d3cff5fd8f8bc8b84d4185ab2ac719fcff03e2719",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
