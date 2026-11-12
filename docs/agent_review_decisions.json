@@ -15772,6 +15772,48 @@
         "path": "docs/agent_reviews/order815-cjk-jaehyuk-report-result.json",
         "sha256": "4a3abe5ba6b5aeb32f756895a1f57528941d21daa167867fd334c083a66698b5"
       }
+    },
+    {
+      "id": "order816-cjk-roulette-status-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-13",
+      "decided_by": "/root/review_816",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-816",
+      "subject": {
+        "kind": "source",
+        "commit": "4a1089a369f0f9821b0cbfbcdcd683d9f3f72414",
+        "tree": "9f2b2ae21f3b7f81085e9fa3067989a8113c95dd",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order816-cjk-roulette-status.md",
+          "sha256": "a89c12378f4e5d11a6b0b4dd4fa73f1e320c619ddcce6da117db8c6e64e450e3"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order816-cjk-roulette-status.json",
+          "sha256": "de45602a9af5e425b42057550749693a1200eeaaea8f230994f972d96b930596"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_roulette",
+        "actual_public_demo_package_play",
+        "actual_save_load",
+        "candidate_ci",
+        "retail_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order816-cjk-roulette-status.json",
+        "sha256": "de45602a9af5e425b42057550749693a1200eeaaea8f230994f972d96b930596"
+      }
     }
   ]
 }

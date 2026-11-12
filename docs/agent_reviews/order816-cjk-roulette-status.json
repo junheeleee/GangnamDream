@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-816",
+  "reviewer": "/root/review_816",
+  "author": "/root",
+  "reviewed_at": "2026-11-13",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "4a1089a369f0f9821b0cbfbcdcd683d9f3f72414",
+    "tree": "9f2b2ae21f3b7f81085e9fa3067989a8113c95dd",
+    "manifest_sha256": null
+  },
+  "scope": "Full-game roulette phase badge and right result panel; all six Korean keys and eighteen JA/zh-CN/zh-TW targets; new UI only.",
+  "findings": "Spin, betting closed, betting invitation, result, most recent and winning number retain their roles in all three languages. Two consumers share the same guarded Korean keys. 0 remains a result; missing remains RESULT/em dash; 36 remains numeric. KO/EN and other locales, legacy demo feature/argument and public demo entry scene stay on exact existing English. No blocking defect or repair requested.",
+  "validation": {
+    "methods": [
+      "Direct Git diff and full 6×3 language read; traced actual badge, draw and fallback/guard callers and demo build configuration.",
+      "Independent pure check_batch for all 18, independent digest, official header/selection/receipt and leaf/old target checks; actual Git source-manifest reproduction for old/new and final; exact inverses for all dictionaries and acceptance ledger.",
+      "Read isolated Godot fixture and paired stdout/Godot logs for 72 full configuration cases (18 localized, 54 preserved) and 72 legacy flag cases (72 preserved). All markers present, no parser/script/engine error, stderr empty. Public entry tested as a setting inside isolated fixtures, not package playback.",
+      "Read public demo 5-language 14-event/100-leaf/122-UI, EN and i18n PASS logs; named full localization lane list only."
+    ],
+    "product_paths": 5,
+    "candidate_status_document_paths": 1,
+    "dictionary_byte_inverses": 3,
+    "ledger_byte_inverses": 1,
+    "prior_batches": 405,
+    "prior_decisions": 374,
+    "prior_decision_ledger_sha256": "3ba5d8d279d9fc911cc1a6ae1ad2552234dc613fb7bb339924785dde50d887ea",
+    "preserved_unrelated_milestone_blobs": 7,
+    "nonowned": "KO/EN, other targets, public demo files, left panel and dealer, layout and number behavior, bet/settlement/RNG, project and save code and human history."
+  },
+  "identity": {
+    "baseline": "368c5821990dbe3ff82f91e1b43da1da3436f95f",
+    "new_source": "60685011bddcf7aefc122df3620a4c976bafcaed",
+    "new_source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+    "old_source": "7d4026c97af88a4f9aa69082d794a8d5cc1b8ef6",
+    "old_source_manifest_sha256": "49b5d6d730aada0f07937dc6abf493a5114fb601969411cc96b3ef559abd2e0d",
+    "prompt_version": "full-ko-direct-2026-09-07.1",
+    "bindings_by_locale": {
+      "ja": {
+        "batch_id": "2e74fa53caea1a0afdadce0fc904cf1832d8280f67b9aaa391a84b5e7b5984d2",
+        "receipt_sha256": "34e24b239460d44b273c1e93e3589807de06c5fe532de350006d5ffb4d82d987",
+        "receipt_file_sha256": "8a91b8dde010a981194142a7d96cacdd8ef03ab96ba19c69fe8280e631af60d2"
+      },
+      "zh-CN": {
+        "batch_id": "8ad0088cadf6de82984404aa80f97786c883c929ec03999959e99bec38b8e1e3",
+        "receipt_sha256": "5a3e47adb334449429b908d230b6618b98a0d8a3f1fcf6ed7606f5af29cf3259",
+        "receipt_file_sha256": "d7cf67f2f901f37ee9bc376acf0eb48757a948ede49c9b0e9c7a306de64640a2"
+      },
+      "zh-TW": {
+        "batch_id": "d4186b79649008bc182cc67839a98c10b5a4dfaadee9ae6b1f414dc35591ae9b",
+        "receipt_sha256": "5c76c027c5fb598be6ac578e5e47e7d7a5d2556444dd0124ae651acc25249eec",
+        "receipt_file_sha256": "623a592119887bc558d3815d68faf0c943ed86c7b2ae6e145603a526e8bf9a5e"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-roulette-status-20261107.nG09Z6/",
+    "raw_population": 49,
+    "raw_entries_sha256": "1915e216bad62fdc41a2b655a6e53d087c45efae3f3c695368b84e392cd462fd",
+    "raw_digest_method": "SHA-256 of compact UTF-8 JSON array of lexically sorted [filename, byte_size, file_sha256] rows."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_rendered_roulette",
+    "actual_public_demo_package_play",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}
