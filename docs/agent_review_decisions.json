@@ -15942,6 +15942,49 @@
         "path": "docs/agent_reviews/order819-cjk-cafe-nameplate.json",
         "sha256": "32bff96cbafc7e5f618eeeb4aa0ef0e36486d90e48f2d05701c635414fb5cd2f"
       }
+    },
+    {
+      "id": "order820-cjk-cafe-introduction-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-13",
+      "decided_by": "/root/review_816",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-820",
+      "subject": {
+        "kind": "source",
+        "commit": "b98fe564bcd32567c6510d74989c12887b11a582",
+        "tree": "cb9efc4ced6fac60ab2e4ba8831f7ec7cd39f16a",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order820-cjk-cafe-introduction.md",
+          "sha256": "ed6d7453113e532beb598c47932dfbca1373d598d3fbc1636a82f40bf7b0f4b7"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order820-cjk-cafe-introduction.json",
+          "sha256": "5605dc747f855a105da4d4df36f077659ff8610551c550cd44b88b106f60ec38"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_cafe_callback_render",
+        "actual_standard_fresh_full_route_exposure",
+        "actual_public_demo_package_play",
+        "actual_save_load",
+        "candidate_ci",
+        "retail_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order820-cjk-cafe-introduction.json",
+        "sha256": "5605dc747f855a105da4d4df36f077659ff8610551c550cd44b88b106f60ec38"
+      }
     }
   ]
 }
