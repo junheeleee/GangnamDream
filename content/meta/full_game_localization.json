@@ -27509,6 +27509,60 @@
         "zh-CN": "579acb7d5ea16ee7e73f6fa9d2400ad2ef8495da9b36fe07e970faefa49b4679",
         "zh-TW": "3735eb3fd1f6575623b0f2a389f9e1634fb81aee39fa3716ec00b5f5d97eb591"
       }
+    },
+    {
+      "order": "ORDER-822",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_y5_contract_cover_investment"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 0
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Keep Daeun’s name field and unsigned status on the same screen; do not borrow the distinct screenshot action from the alternate choice.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "4833dda53d88a5c8a482f313ff6ec9a0539bf76e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "ba822f5264dfe9b88f1867e0cddb8a102ebc8c3ee2ec9dc87985d0c97621b433",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a9f74183e996890af45d08af1ae84face94a545501c9d1c82869049d6c5c993c"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "5f18b48223a5724c7373604b4dc1a2350aa0f9d9cb6627dbc6c9d1fa84b3eef6"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-CN": {
+          "events:arc_y5_contract_cover_investment:/choices/2/text": "0de58be5227bf2b6b3ece0d072064873e6746b78adfaaede1d861017d400bf60"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-CN": {
+          "events:arc_y5_contract_cover_investment:/choices/2/text": {
+            "source_sha256": "f877c229cb49009c0023f0feb1078bc56bae84f3171244aa8b47de27115d1a39",
+            "target_sha256": "0de58be5227bf2b6b3ece0d072064873e6746b78adfaaede1d861017d400bf60"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -89681,7 +89735,7 @@
       },
       "events:arc_y5_contract_cover_investment:/choices/2/text": {
         "source_sha256": "f877c229cb49009c0023f0feb1078bc56bae84f3171244aa8b47de27115d1a39",
-        "target_sha256": "0de58be5227bf2b6b3ece0d072064873e6746b78adfaaede1d861017d400bf60"
+        "target_sha256": "190cd3c6750798499cfb9c6b2ef02f72f1aac101ccbdef43e1df067882a0684b"
       },
       "events:arc_y5_contract_cover_investment:/description": {
         "source_sha256": "a070d391e57151918c0a670368ab40be709b54c3bb7f2f4a77e46f2e49a2c347",
@@ -199763,7 +199817,7 @@
       }
     }
   },
-  "accepted_sha256": "ef7c53a8f763fe57951a6d56aa65412b3f02a1d469ca7e504cfba6c76837652f",
+  "accepted_sha256": "527c15427fc240b5bb829249ba6c649a4ff2a18a37335c9338d0be9f835d05eb",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
