@@ -27306,6 +27306,69 @@
         "zh-CN": "165e1648c497c964a7033d1d4e77480aaa4ff8827c5374d55908de34f401c783",
         "zh-TW": "09cb915fa3156cf6e2137787aeb5031e4e4d2c92b6d34a5c0bb0284fe158c33a"
       }
+    },
+    {
+      "order": "ORDER-819",
+      "group": "ui",
+      "roots": [
+        "카페의 남자"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "source_review": "Translate the unnamed man from the cafe in the existing portrait and phone nameplates, without revealing a name or conflating him with Manager Kim.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "33c6d49c320c95a560d949c520f2da49c6f4f066",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "c9458379a1e1de73d68a3f232acb50e6eb996e2d13c7cd62edd4f515752d5c25",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "593bf1927efaf40cf0e2d8d77c1ba2f8d8e140a8a8749b9218b8f772e94ac6cf"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "33c6d49c320c95a560d949c520f2da49c6f4f066",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "a92c3dac1769fd6e52486ff3575682ab62cd2816d32fc77b970f95d7563089ed",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a653424ca218a3e6e8eff3a48fcdc9e23ffacd25bf0de47a54d7107a4357573e"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "33c6d49c320c95a560d949c520f2da49c6f4f066",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "4f3899872f725da3e2f18a9d8c4a1a66ec22dfb18b4865377c9c4e9614eeac8a",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "68c2ee8c238a1098ff28221f4de1941dfe80974de32b50801b3c6bc27df43151"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "f3c9317a7ca0f675f9d13e4c96878f5267be4e88d8088f498d8f32f9444bdcdc",
+        "zh-CN": "e8f95b774128ba9e7b466426abc446017ef3c1c4eea7c833f8d7ff0cd5b32e16",
+        "zh-TW": "8f0912a848a3f60e6ad54d1c8b9c972678a9be39d3b1cec2a7cef98a4884284c"
+      }
     }
   ],
   "accepted": {
@@ -80193,6 +80256,10 @@
       "ui:통장 50만원. 월세 65만원짜리 고시원.:/통장 50만원. 월세 65만원짜리 고시원.": {
         "source_sha256": "f7e22e1424c980b944ebdabc3849378e304480d9d2e37f7ca4ad29b093668e88",
         "target_sha256": "c38984386c0f1c97d15399875c2c9b25dbe5bcbf66f02a9d9cfbb4dad737e005"
+      },
+      "ui:카페의 남자:/카페의 남자": {
+        "source_sha256": "66580701cc66cd978b38354f6a31191f24e6fc2c2a82245c2809a20940362438",
+        "target_sha256": "98d474ed651be34a3afb39b1c152a6d629649b48275362dd45dbc6dddcb1b98e"
       }
     },
     "zh-CN": {
@@ -139863,6 +139930,10 @@
       "ui:통장 50만원. 월세 65만원짜리 고시원.:/통장 50만원. 월세 65만원짜리 고시원.": {
         "source_sha256": "f7e22e1424c980b944ebdabc3849378e304480d9d2e37f7ca4ad29b093668e88",
         "target_sha256": "4cd0c05811328591acc1818d16df10efcaee88a074228a57f9d73910a9b5a686"
+      },
+      "ui:카페의 남자:/카페의 남자": {
+        "source_sha256": "66580701cc66cd978b38354f6a31191f24e6fc2c2a82245c2809a20940362438",
+        "target_sha256": "9918c53614f78b2edc6b27a8a42f3fe312e9440329602b300998f6bfc005a4f9"
       }
     },
     "zh-TW": {
@@ -199533,10 +199604,14 @@
       "ui:통장 50만원. 월세 65만원짜리 고시원.:/통장 50만원. 월세 65만원짜리 고시원.": {
         "source_sha256": "f7e22e1424c980b944ebdabc3849378e304480d9d2e37f7ca4ad29b093668e88",
         "target_sha256": "f07a7f6fbf5bf1d3a3ec3a90cebd98b752988f10b9e7eada23bef5fd2620ad95"
+      },
+      "ui:카페의 남자:/카페의 남자": {
+        "source_sha256": "66580701cc66cd978b38354f6a31191f24e6fc2c2a82245c2809a20940362438",
+        "target_sha256": "46abfcc339b53d4a1bae2b7f692bfd3f29d8ea38495046fd61e40db0fccfddc7"
       }
     }
   },
-  "accepted_sha256": "b5acffea6745c084d327403c3e5703bb0bd6b34856ce2abd6650971e64d7f056",
+  "accepted_sha256": "41471055ce617812e424e80460fa84aa5d5667fd66995b0c7ebb5f6e0fdfba11",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
