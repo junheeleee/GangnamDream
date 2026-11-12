@@ -99,6 +99,8 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
+| 79 | [~] | ORDER-818 · 새 이야기 프롤로그 자막 현지화 | [818](queue_active/ORDER-818.md) | C5 · 본편 기존 조회의 CJK 누락 |
+
 
 
 
