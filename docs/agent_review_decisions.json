@@ -15814,6 +15814,48 @@
         "path": "docs/agent_reviews/order816-cjk-roulette-status.json",
         "sha256": "de45602a9af5e425b42057550749693a1200eeaaea8f230994f972d96b930596"
       }
+    },
+    {
+      "id": "order817-cjk-four-year-notebook-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-13",
+      "decided_by": "/root/review_816",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-817",
+      "subject": {
+        "kind": "source",
+        "commit": "5937f1a0b9a54d1b74d819d117ecab47044453f1",
+        "tree": "2c2e02b3955e02d373f58d540805c8d396d08b8a",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order817-cjk-four-year-notebook.md",
+          "sha256": "1b3d876cb57f8ae3bacb814c1d745e06cce82109dc14a0eee6f400c7570d28a6"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order817-cjk-four-year-notebook.json",
+          "sha256": "4c012788b611fda95c253f747c5b8759e1b489f73819ecba918ab418f2ee3314"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_four_year_scene_exposure",
+        "actual_rendered_four_year_scene",
+        "actual_save_load",
+        "candidate_ci",
+        "retail_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order817-cjk-four-year-notebook.json",
+        "sha256": "4c012788b611fda95c253f747c5b8759e1b489f73819ecba918ab418f2ee3314"
+      }
     }
   ]
 }
