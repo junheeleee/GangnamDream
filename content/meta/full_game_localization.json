@@ -27238,6 +27238,74 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-818",
+      "group": "ui",
+      "roots": [
+        "2026년, 서울.",
+        "강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.",
+        "김민준, 서른셋.",
+        "통장 50만원. 월세 65만원짜리 고시원.",
+        "목표 30억원. 남은 시간은 5년.",
+        "첫 주가 시작된다."
+      ],
+      "source_leaves": 6,
+      "target_leaves_by_locale": {
+        "ja": 6,
+        "zh-CN": 6,
+        "zh-TW": 6
+      },
+      "source_review": "Localize six captions already read by the three-beat opening cinematic. Preserve its years, ages, currency and amounts, the title/body order and original line break, and retain the unchanged Korean/English captions and the separate public story demo.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "ad534bb70efd83f8f9e601df8f74204557987de5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "3807e2ec17206f7da86df2deab706a9c60e2eb24a3237f54ee392c7c75092c62",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "18de78a77da4020b4a817127e0a4625ec1fa36bc869cf0998962807f2d0db92d"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "ad534bb70efd83f8f9e601df8f74204557987de5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "7b1d30185edba2428056281dc69e75e5db37f5d746f22bcbeb9e7cb68488e9d3",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8099aa42f7b6ea9d71d065e9aa4cb11890b6c348a031a5353feb9585f20065e7"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "ad534bb70efd83f8f9e601df8f74204557987de5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "b30b21a7475f7419f2425877c08b81912c2d4cbe7371259315f1d5df7485b6ef",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "701e434d6f7d20ecf539af2a6a2727bb9eb5db05361cfa20f143f1af9dba4432"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "2d8992ea523dff54fe9242840cf52b6daa30444a856a5effd11385fe96c03894",
+        "zh-CN": "165e1648c497c964a7033d1d4e77480aaa4ff8827c5374d55908de34f401c783",
+        "zh-TW": "09cb915fa3156cf6e2137787aeb5031e4e4d2c92b6d34a5c0bb0284fe158c33a"
+      }
     }
   ],
   "accepted": {
@@ -80101,6 +80169,30 @@
       "ui:룰렛에 베팅하세요:/룰렛에 베팅하세요": {
         "source_sha256": "8191406c8d993e4b6c544b650ac6fcb480f5a8776c5c3f8a9f5c4a810989e2dd",
         "target_sha256": "0c9018c897f66ce6c015667628c839bff8015b6ec5e5816b46a0859e52af0c68"
+      },
+      "ui:2026년, 서울.:/2026년, 서울.": {
+        "source_sha256": "5afd80be08ef8a1788fcbe80e3860c9e8002e51cb6d8cf604448af656e8212b8",
+        "target_sha256": "05281a6246422b8976aec4935184e42db278f20618e04687e49227f2036e924a"
+      },
+      "ui:강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.:/강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.": {
+        "source_sha256": "e85a569bd285d588a89c76a3553e309fcd1d99229678ddecd370ef0d3ec69346",
+        "target_sha256": "cd285435618bab3171d71f807815411cc3ce526ea366a1fdb454450ead8f7e94"
+      },
+      "ui:김민준, 서른셋.:/김민준, 서른셋.": {
+        "source_sha256": "731e7e185dcd2f2c9f9b874255e9addec3f222278c5a7e95092b7023cfb6db02",
+        "target_sha256": "18ccda68cec7878c1957b56eb199490884ee36fee268470a13e634927c3122db"
+      },
+      "ui:목표 30억원. 남은 시간은 5년.:/목표 30억원. 남은 시간은 5년.": {
+        "source_sha256": "eff9f1c652522d46b31ca91dd4a4bf99ec03290d0ba80876f27c069444b07df4",
+        "target_sha256": "d9d34a0d11087f614d9a57d6b5c2196fdd568d1103a8354be5a118a39093b9b9"
+      },
+      "ui:첫 주가 시작된다.:/첫 주가 시작된다.": {
+        "source_sha256": "bede9afb10e6b95a424e8b65b9a9f9e6518f8bb966d8c5e86a47ee8541a42d20",
+        "target_sha256": "e557142d1147261a6c2aa4aaf3d29ad7c2e20a723fa664babad59bf74c1f3513"
+      },
+      "ui:통장 50만원. 월세 65만원짜리 고시원.:/통장 50만원. 월세 65만원짜리 고시원.": {
+        "source_sha256": "f7e22e1424c980b944ebdabc3849378e304480d9d2e37f7ca4ad29b093668e88",
+        "target_sha256": "c38984386c0f1c97d15399875c2c9b25dbe5bcbf66f02a9d9cfbb4dad737e005"
       }
     },
     "zh-CN": {
@@ -139747,6 +139839,30 @@
       "ui:룰렛에 베팅하세요:/룰렛에 베팅하세요": {
         "source_sha256": "8191406c8d993e4b6c544b650ac6fcb480f5a8776c5c3f8a9f5c4a810989e2dd",
         "target_sha256": "5bd1dcd755bc6e4c7d2bc708d7fb1d41d1b2d4d5c8cef0cc4c2fa9c1518c341e"
+      },
+      "ui:2026년, 서울.:/2026년, 서울.": {
+        "source_sha256": "5afd80be08ef8a1788fcbe80e3860c9e8002e51cb6d8cf604448af656e8212b8",
+        "target_sha256": "27d375943c9da0912b8cd2fe4c4fbb1b4dbe44e386c09d58ce1209c369e12126"
+      },
+      "ui:강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.:/강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.": {
+        "source_sha256": "e85a569bd285d588a89c76a3553e309fcd1d99229678ddecd370ef0d3ec69346",
+        "target_sha256": "715a5a0afac43704921ee5c7a42254ed5afc5764b576cb86266aae95aeff94f4"
+      },
+      "ui:김민준, 서른셋.:/김민준, 서른셋.": {
+        "source_sha256": "731e7e185dcd2f2c9f9b874255e9addec3f222278c5a7e95092b7023cfb6db02",
+        "target_sha256": "fef49ed8e20eccf7f4a43ca37af26cd3a0070c7f185b4dcf9401e508793834cf"
+      },
+      "ui:목표 30억원. 남은 시간은 5년.:/목표 30억원. 남은 시간은 5년.": {
+        "source_sha256": "eff9f1c652522d46b31ca91dd4a4bf99ec03290d0ba80876f27c069444b07df4",
+        "target_sha256": "c1371692491349a78fbf9b8d22eb12f98c89513e9801da1ad11e873a13d4aab8"
+      },
+      "ui:첫 주가 시작된다.:/첫 주가 시작된다.": {
+        "source_sha256": "bede9afb10e6b95a424e8b65b9a9f9e6518f8bb966d8c5e86a47ee8541a42d20",
+        "target_sha256": "d23507d0932f20cc96e2380f996a45629a601dd2b6f7913a21a3e630f9fede74"
+      },
+      "ui:통장 50만원. 월세 65만원짜리 고시원.:/통장 50만원. 월세 65만원짜리 고시원.": {
+        "source_sha256": "f7e22e1424c980b944ebdabc3849378e304480d9d2e37f7ca4ad29b093668e88",
+        "target_sha256": "4cd0c05811328591acc1818d16df10efcaee88a074228a57f9d73910a9b5a686"
       }
     },
     "zh-TW": {
@@ -199393,10 +199509,34 @@
       "ui:룰렛에 베팅하세요:/룰렛에 베팅하세요": {
         "source_sha256": "8191406c8d993e4b6c544b650ac6fcb480f5a8776c5c3f8a9f5c4a810989e2dd",
         "target_sha256": "2a9929fa3b0e67481c192925dc75acd70450d804401052edc70addad34fd0205"
+      },
+      "ui:2026년, 서울.:/2026년, 서울.": {
+        "source_sha256": "5afd80be08ef8a1788fcbe80e3860c9e8002e51cb6d8cf604448af656e8212b8",
+        "target_sha256": "5267fad5ea9e8b5dd3b17eaa3b1cea05e060f89c1fda6715c43108d834aca6b8"
+      },
+      "ui:강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.:/강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.": {
+        "source_sha256": "e85a569bd285d588a89c76a3553e309fcd1d99229678ddecd370ef0d3ec69346",
+        "target_sha256": "fafaaeedcd89eb11f9d3e6c9879de65e1f015c34fdfda8ebf2dc2b9a3e355ffa"
+      },
+      "ui:김민준, 서른셋.:/김민준, 서른셋.": {
+        "source_sha256": "731e7e185dcd2f2c9f9b874255e9addec3f222278c5a7e95092b7023cfb6db02",
+        "target_sha256": "a9f909d8d4e09c54665bd155987907745c80719e2cf6cb71031368901768de31"
+      },
+      "ui:목표 30억원. 남은 시간은 5년.:/목표 30억원. 남은 시간은 5년.": {
+        "source_sha256": "eff9f1c652522d46b31ca91dd4a4bf99ec03290d0ba80876f27c069444b07df4",
+        "target_sha256": "1adc48a022661be3cef63136b23a53fd6871ac418f9bf9b8bbd2e6e76bac9189"
+      },
+      "ui:첫 주가 시작된다.:/첫 주가 시작된다.": {
+        "source_sha256": "bede9afb10e6b95a424e8b65b9a9f9e6518f8bb966d8c5e86a47ee8541a42d20",
+        "target_sha256": "da694be4372e69252a1a8f69b81f2204a09e1a6f70d7db2c2ddf03906cd08b1d"
+      },
+      "ui:통장 50만원. 월세 65만원짜리 고시원.:/통장 50만원. 월세 65만원짜리 고시원.": {
+        "source_sha256": "f7e22e1424c980b944ebdabc3849378e304480d9d2e37f7ca4ad29b093668e88",
+        "target_sha256": "f07a7f6fbf5bf1d3a3ec3a90cebd98b752988f10b9e7eada23bef5fd2620ad95"
       }
     }
   },
-  "accepted_sha256": "a86df83f4d23e881c985946d3cff5fd8f8bc8b84d4185ab2ac719fcff03e2719",
+  "accepted_sha256": "b5acffea6745c084d327403c3e5703bb0bd6b34856ce2abd6650971e64d7f056",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
