@@ -15856,6 +15856,49 @@
         "path": "docs/agent_reviews/order817-cjk-four-year-notebook.json",
         "sha256": "4c012788b611fda95c253f747c5b8759e1b489f73819ecba918ab418f2ee3314"
       }
+    },
+    {
+      "id": "order818-cjk-opening-captions-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-13",
+      "decided_by": "/root/review_816",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-818",
+      "subject": {
+        "kind": "source",
+        "commit": "79521692f60baa129302e92edbcf6fad9503642f",
+        "tree": "1f9bd7110ab48a039d8a58b7d63682af92c9a98f",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order818-cjk-opening-captions.md",
+          "sha256": "e68871c18d6a092860bdcaf61890481ff72c83ce79555c26bedc612ada248be1"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order818-cjk-opening-captions.json",
+          "sha256": "cb9d5d1bbeee6e7dfb21132ce9bc23049eb22dae86ce8ce75000717f959f871d"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_opening_render",
+        "actual_new_story_play",
+        "actual_public_demo_package_play",
+        "actual_save_load",
+        "candidate_ci",
+        "retail_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order818-cjk-opening-captions.json",
+        "sha256": "cb9d5d1bbeee6e7dfb21132ce9bc23049eb22dae86ce8ce75000717f959f871d"
+      }
     }
   ]
 }
