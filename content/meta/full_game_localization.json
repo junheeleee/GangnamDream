@@ -27070,6 +27070,74 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-816",
+      "group": "ui",
+      "roots": [
+        "룰렛 결과",
+        "룰렛 당첨 번호",
+        "룰렛 베팅 마감",
+        "룰렛 최근 당첨 번호",
+        "룰렛 회전 중",
+        "룰렛에 베팅하세요"
+      ],
+      "source_leaves": 6,
+      "target_leaves_by_locale": {
+        "ja": 6,
+        "zh-CN": 6,
+        "zh-TW": 6
+      },
+      "source_review": "Full-game roulette phase badge and result canvas share the six Korean status keys. Korean, English, other locales and both demo paths retain the previous English captions.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "60685011bddcf7aefc122df3620a4c976bafcaed",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "d16f36989a0a67f103085c45aaaca10020763882f74c1a2a2e2e420840c02aa4",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2e74fa53caea1a0afdadce0fc904cf1832d8280f67b9aaa391a84b5e7b5984d2"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "60685011bddcf7aefc122df3620a4c976bafcaed",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "906b164f1a92733843f9ba44cd4b0b1089d7cd00602da2589790cebe23cd9bb2",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8ad0088cadf6de82984404aa80f97786c883c929ec03999959e99bec38b8e1e3"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "60685011bddcf7aefc122df3620a4c976bafcaed",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "29b6ac90d73106cb87f4bf750f9fc55bd81c7716ed91533616ea1bf3b6a657cc",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d4186b79649008bc182cc67839a98c10b5a4dfaadee9ae6b1f414dc35591ae9b"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "34e24b239460d44b273c1e93e3589807de06c5fe532de350006d5ffb4d82d987",
+        "zh-CN": "5a3e47adb334449429b908d230b6618b98a0d8a3f1fcf6ed7606f5af29cf3259",
+        "zh-TW": "5c76c027c5fb598be6ac578e5e47e7d7a5d2556444dd0124ae651acc25249eec"
+      }
     }
   ],
   "accepted": {
@@ -79909,6 +79977,30 @@
       "ui:실시간 순위:/실시간 순위": {
         "source_sha256": "2bf3b1fdf018220082191e337b3b8cae6108375cb0d1a67ebd358f9fcd9238b1",
         "target_sha256": "0f827db023588c3b9c48034c09ae7ec8fad6dfc9925610989d959615f0677634"
+      },
+      "ui:룰렛 결과:/룰렛 결과": {
+        "source_sha256": "293e948c4be1062f78cd799a5b4c62b62b347e102aa42241b86f9a517ad69f5a",
+        "target_sha256": "f35d4e86ebe39f55aedaca7a9d8a29e9f4dabe1cea2681513e35f3e9318be278"
+      },
+      "ui:룰렛 당첨 번호:/룰렛 당첨 번호": {
+        "source_sha256": "6de27baced513ee8dd278d207e5863f0f7b4f3b5568a0411df4af65ceeab0028",
+        "target_sha256": "0ba07c466c8cec109a9ccaa6589f5129fffa281699fa6e5803fa32a26a869bc4"
+      },
+      "ui:룰렛 베팅 마감:/룰렛 베팅 마감": {
+        "source_sha256": "ccd7c0d7bb122abd56d26a7f24eb3f3ab9cec9bf080d3a4af743df4be3e1cead",
+        "target_sha256": "0d24cd7149f3388e766baacc97022ba6609f332fd85a4ae1d9a09beadf11ec31"
+      },
+      "ui:룰렛 최근 당첨 번호:/룰렛 최근 당첨 번호": {
+        "source_sha256": "be238b2e8cd802bb28cf0eef14d696d97d4915df2f08e6631ffdccd140d485b3",
+        "target_sha256": "29208ab80565d1c6d16496f7713b4a831abc9a89d2cc973366dfca95862e73d4"
+      },
+      "ui:룰렛 회전 중:/룰렛 회전 중": {
+        "source_sha256": "9c6f37a845398be31f9b54301a0f994ab614e93d91f5ee2e5b70eb97eeb9d930",
+        "target_sha256": "c8b382a57bc5b6691927bcbff1cb6f1841611ffe9ab5587a9901a1bb9715dc30"
+      },
+      "ui:룰렛에 베팅하세요:/룰렛에 베팅하세요": {
+        "source_sha256": "8191406c8d993e4b6c544b650ac6fcb480f5a8776c5c3f8a9f5c4a810989e2dd",
+        "target_sha256": "0c9018c897f66ce6c015667628c839bff8015b6ec5e5816b46a0859e52af0c68"
       }
     },
     "zh-CN": {
@@ -139531,6 +139623,30 @@
       "ui:실시간 순위:/실시간 순위": {
         "source_sha256": "2bf3b1fdf018220082191e337b3b8cae6108375cb0d1a67ebd358f9fcd9238b1",
         "target_sha256": "a1942b70e1d50c12d0ef8a47260fa9d4e351b31bbfbeccd4a141eb2d52cf83ee"
+      },
+      "ui:룰렛 결과:/룰렛 결과": {
+        "source_sha256": "293e948c4be1062f78cd799a5b4c62b62b347e102aa42241b86f9a517ad69f5a",
+        "target_sha256": "43ceb88957f21ccd9dff38de21d0677070de6323749cff4db06da8b5f0314c1f"
+      },
+      "ui:룰렛 당첨 번호:/룰렛 당첨 번호": {
+        "source_sha256": "6de27baced513ee8dd278d207e5863f0f7b4f3b5568a0411df4af65ceeab0028",
+        "target_sha256": "286a41cd68efd56ab021113bc299c53f557ddc580fdd3174fcf2cc7c2a4a5622"
+      },
+      "ui:룰렛 베팅 마감:/룰렛 베팅 마감": {
+        "source_sha256": "ccd7c0d7bb122abd56d26a7f24eb3f3ab9cec9bf080d3a4af743df4be3e1cead",
+        "target_sha256": "7537bc63779628d212e837023b0a3f638a8292a2a904c0ecf13739778fcec5d1"
+      },
+      "ui:룰렛 최근 당첨 번호:/룰렛 최근 당첨 번호": {
+        "source_sha256": "be238b2e8cd802bb28cf0eef14d696d97d4915df2f08e6631ffdccd140d485b3",
+        "target_sha256": "cd33b962d8f9941f8d53267c095bb2fde184b9ac28c78aa597837fab29de6952"
+      },
+      "ui:룰렛 회전 중:/룰렛 회전 중": {
+        "source_sha256": "9c6f37a845398be31f9b54301a0f994ab614e93d91f5ee2e5b70eb97eeb9d930",
+        "target_sha256": "fbfda349bc051dda674b37cbc52c1a2af16e91456dae34b0f5457073b5906738"
+      },
+      "ui:룰렛에 베팅하세요:/룰렛에 베팅하세요": {
+        "source_sha256": "8191406c8d993e4b6c544b650ac6fcb480f5a8776c5c3f8a9f5c4a810989e2dd",
+        "target_sha256": "5bd1dcd755bc6e4c7d2bc708d7fb1d41d1b2d4d5c8cef0cc4c2fa9c1518c341e"
       }
     },
     "zh-TW": {
@@ -199153,10 +199269,34 @@
       "ui:실시간 순위:/실시간 순위": {
         "source_sha256": "2bf3b1fdf018220082191e337b3b8cae6108375cb0d1a67ebd358f9fcd9238b1",
         "target_sha256": "61d65ce18180e0189c8da7c5db3aaf166011deedf897ac15eed90e0e33ca4068"
+      },
+      "ui:룰렛 결과:/룰렛 결과": {
+        "source_sha256": "293e948c4be1062f78cd799a5b4c62b62b347e102aa42241b86f9a517ad69f5a",
+        "target_sha256": "f35d4e86ebe39f55aedaca7a9d8a29e9f4dabe1cea2681513e35f3e9318be278"
+      },
+      "ui:룰렛 당첨 번호:/룰렛 당첨 번호": {
+        "source_sha256": "6de27baced513ee8dd278d207e5863f0f7b4f3b5568a0411df4af65ceeab0028",
+        "target_sha256": "cd7e937185484ccaf699e2b33ad6fdeb4c9b94cc9ef7f9b8b06019c1394c32a5"
+      },
+      "ui:룰렛 베팅 마감:/룰렛 베팅 마감": {
+        "source_sha256": "ccd7c0d7bb122abd56d26a7f24eb3f3ab9cec9bf080d3a4af743df4be3e1cead",
+        "target_sha256": "7537bc63779628d212e837023b0a3f638a8292a2a904c0ecf13739778fcec5d1"
+      },
+      "ui:룰렛 최근 당첨 번호:/룰렛 최근 당첨 번호": {
+        "source_sha256": "be238b2e8cd802bb28cf0eef14d696d97d4915df2f08e6631ffdccd140d485b3",
+        "target_sha256": "9adc17e7e3ca9cb7c9bceb47e3ee71b35bc5eccae4ef5cdba254cb35ee5e0958"
+      },
+      "ui:룰렛 회전 중:/룰렛 회전 중": {
+        "source_sha256": "9c6f37a845398be31f9b54301a0f994ab614e93d91f5ee2e5b70eb97eeb9d930",
+        "target_sha256": "bb59e553803ae779f7bcb9c70d8aa5dcf6f857be4a30279e35faa6f41bc8ba1d"
+      },
+      "ui:룰렛에 베팅하세요:/룰렛에 베팅하세요": {
+        "source_sha256": "8191406c8d993e4b6c544b650ac6fcb480f5a8776c5c3f8a9f5c4a810989e2dd",
+        "target_sha256": "2a9929fa3b0e67481c192925dc75acd70450d804401052edc70addad34fd0205"
       }
     }
   },
-  "accepted_sha256": "9cc178631a1544649a8f16297e20a999067a96900db1668738499a5e8eea80a9",
+  "accepted_sha256": "31269c64fa4451018627fd9b9e4b04118423b1695db7688cd163ef77b7e3f759",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
