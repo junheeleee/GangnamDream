@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-819",
+  "reviewer": "/root/review_816",
+  "author": "/root",
+  "reviewed_at": "2026-11-13",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "a25152f27bf0e6ea27412888608e42a75c782437",
+    "tree": "503547bb37112af41051694f44e32b25fa2768e0",
+    "manifest_sha256": null
+  },
+  "scope": "Existing unnamed cafe person lookup key, three new JA/zh-CN/zh-TW nameplate translations, including its local and remote labels without claiming exposure.",
+  "findings": "All three target titles exactly match the Korean-source glossary and keep the speaker anonymous. They neither identify the man with Manager Kim nor add a title or investment role. Existing colors, portrait IDs, channels, hidden state and other fallback labels hold.",
+  "routing": "Legacy MainGame W6+ unseen cafe_00 local portrait; callback_cafe_honest_win_deeper requires cafe_honest_win/min_turn 10 and presents the same portrait as off-scene remote phone. Initial and locale-refresh StoryMode nameplate functions read ImageRegistry and append existing channel suffix. Authored full-route exposure not observed.",
+  "validation": {
+    "method": "Direct glossary/text and code/ingress read. Independent source-manifest/receipt checks, pure check_batch for all three, canonical Git append, separate exact byte inverses.",
+    "prior_batches": 408,
+    "prior_decisions": 377,
+    "prior_decision_ledger_sha256": "8d113c389ce5cf98d9ffd95f31a4663bc44240f8c611e052df6e744fba1eede1",
+    "dictionary_byte_inverses": 3,
+    "ledger_byte_inverses": 1,
+    "current_official_receipts": 3,
+    "protected_blobs": 18,
+    "engine": "Existing isolated fixture exercised initial and refresh Label methods, 24 cases (12 localized/12 preserved), hidden 6, separate Kim 6, both colors, glyph/font-size-18 advance within 360px diagnostic bound, no state mutation; exact marker, stdout/Godot log parity and no errors/warnings, empty stderr. No real layout render.",
+    "static_checks": "Public demo 5 locales/14 events/100 leaves/122 UI, EN/i18n/context pass; named lane list only."
+  },
+  "identity": {
+    "baseline": "33c6d49c320c95a560d949c520f2da49c6f4f066",
+    "source_id": "ui:카페의 남자:/카페의 남자",
+    "source_sha256": "66580701cc66cd978b38354f6a31191f24e6fc2c2a82245c2809a20940362438",
+    "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+    "bindings_by_locale": {
+      "ja": {
+        "batch_id": "593bf1927efaf40cf0e2d8d77c1ba2f8d8e140a8a8749b9218b8f772e94ac6cf",
+        "receipt_sha256": "f3c9317a7ca0f675f9d13e4c96878f5267be4e88d8088f498d8f32f9444bdcdc",
+        "receipt_file_sha256": "0ff59d6e1a85fdf3da82864ed3c3eb3a6ecbf1d357f9eae8ca32fc2e4e8d4540"
+      },
+      "zh-CN": {
+        "batch_id": "a653424ca218a3e6e8eff3a48fcdc9e23ffacd25bf0de47a54d7107a4357573e",
+        "receipt_sha256": "e8f95b774128ba9e7b466426abc446017ef3c1c4eea7c833f8d7ff0cd5b32e16",
+        "receipt_file_sha256": "07c8649b40fc9db13ca70ac36041227b17804af16774150a8493408442fe2758"
+      },
+      "zh-TW": {
+        "batch_id": "68c2ee8c238a1098ff28221f4de1941dfe80974de32b50801b3c6bc27df43151",
+        "receipt_sha256": "8f0912a848a3f60e6ad54d1c8b9c972678a9be39d3b1cec2a7cef98a4884284c",
+        "receipt_file_sha256": "f72df0cd08c8f04176798ae30fe04fe2ef451c83401542e0b7c6b62bc7315ed1"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-cafe-nameplate-20261113.peh5dw/",
+    "raw_files": 37,
+    "raw_entries_sha256": "577199e3cf084aef10226e0b47bde086bc854899b3281fe0f5f1d0af0532d1e4",
+    "raw_digest_method": "SHA-256 of compact UTF-8 JSON array of lexically sorted [filename, byte_size, file_sha256] rows."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_cafe_nameplate_render",
+    "actual_authored_full_route_exposure",
+    "actual_public_demo_package_play",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}
