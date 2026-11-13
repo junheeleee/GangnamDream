@@ -299,6 +299,7 @@
       "docs/WORK_UNIT.md"
     ],
     "plans_and_backlog": [
+      "docs/CLEANUP_LEDGER.md",
       "docs/ART_MASTER_PRODUCTION.md",
       "docs/ART_RESOLUTION_READINESS.md",
       "docs/ASSET_GAP_SPEC.md",
