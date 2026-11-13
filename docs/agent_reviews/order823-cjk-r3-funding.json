@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-823",
+  "reviewer": "/root/review_816",
+  "author": "/root",
+  "reviewed_at": "2026-11-13",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "7bfe9abd6d561a3a12240918b0034a12e3b53c73",
+    "tree": "6180b7f1d0de8d481eed291c677dcb665e00b8f1",
+    "manifest_sha256": null
+  },
+  "scope": "Existing Simplified and Traditional Chinese W197 arc_y5_final_push_deadline_investment descriptions only; one clause each, no new coverage.",
+  "findings": "Both targets now refer neutrally to the KRW 70m additional-funding figure listed in R3, removing the old raised-money assertion. W195 explicitly says it still had to be raised by Friday after obligations, not live cash; W196 discloses the same shortfall with no reply; W197 does not add funding, and c0 only requests a day with no approval. 4:12/6pm/midnight, fees and liability alternatives, token and paragraph unchanged. Historical ORDER-769 interpretation retained untouched.",
+  "routing": "Typed M50/W197 source and W196 prior indexed document-delivery receipt feed the three distinct prepend alternatives. All W195–W197 route roots refer to GD-P25-R3; index 0 deadline response records m50_shortfall_disclosed_extension_requested, not an approval or cash receipt. Static trace only.",
+  "validation": {
+    "method": "Direct Korean W195/W196/W197 read and complete W197 alternatives/causal reads and overlays. Independent official same-source old ORDER-769 and new receipts, source and previous/new target hashes, pure check_batch and exact byte inverses.",
+    "prior_batches": 412,
+    "prior_decisions": 381,
+    "prior_decision_ledger_sha256": "e867a626de4b68c765bb8fe560be2e05ae9a0f9c4b866a5f46fa5b8324489208",
+    "target_byte_inverses": 2,
+    "ledger_byte_inverses": 1,
+    "original_official_receipts": 2,
+    "current_official_receipts": 2,
+    "protected_blobs": 22,
+    "logs": "Official CN/TW export/check/import with six empty stderr files; Chapter5 19 roots/47 choices audit, public demo 5 locales/14 events/100 leaves/122 UI, EN/i18n/context pass."
+  },
+  "identity": {
+    "baseline": "168adba1919bb13d7f5c169ecba377ada7153423",
+    "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+    "original_receipt_source": "71a3f81f8c42ba02386d018a9f38c7c0bd36ab74",
+    "bindings_by_locale": {
+      "zh-CN": {
+        "id": "events:arc_y5_final_push_deadline_investment:/description",
+        "source_sha256": "61f478e8ec140912bddaa6a2a3df05740beb5e9bdd7a46a3b49367b4e3a38330",
+        "previous_target_sha256": "c9c36a4eed8f836112f22d326f0e648d4884bd7ead48ecd68fa022baede7160a",
+        "new_target_sha256": "ed89a563c931f62b5bbed26036a3d84ad6b94c77fd0fc5a08f727c0d8ae96e2e",
+        "original_batch_id": "d17032644a1fa206eb96a074ac72b8650065452a7fa4f12de17cf3566fd840ed",
+        "original_receipt_sha256": "4d74e936c199e3702d2c8c4171405622fe8bc5023c34f5e9e767d1f3760da5a7",
+        "original_receipt_file_sha256": "e42405cea99d90bee5c72af5064f5822c347bd897ffa5b3c2927700994f68613",
+        "batch_id": "d4bb942dd34cac401f8247cb9a829c52913b4acd5aacbbb0f72c6bd5fe27d6d7",
+        "receipt_sha256": "f15731ab67cbb913649dfe703fd9556a46e144c79825ced31c1c8e78426446db",
+        "receipt_file_sha256": "d7b6ce640d747f161bad3bd242846e608ccb72e59e0bdf6ace250426c3793008"
+      },
+      "zh-TW": {
+        "id": "events:arc_y5_final_push_deadline_investment:/description",
+        "source_sha256": "61f478e8ec140912bddaa6a2a3df05740beb5e9bdd7a46a3b49367b4e3a38330",
+        "previous_target_sha256": "e5fab607a7c428e944c2da44f024dea1d581490aece6baff9d20bf782180ef7f",
+        "new_target_sha256": "0b28895d8f73cded8675f2d524deedf37cf6d2e3b7f74e28f77c85d537eed1ad",
+        "original_batch_id": "cb116431739994832f2d7ac8f90fa47e6535435a4b87474136e6354beffb5116",
+        "original_receipt_sha256": "73355fe6044b779fb01ae81ddaa7c3c8a5eb021b527580442214d2651b6b4896",
+        "original_receipt_file_sha256": "a449a7e18a684637890eb061af852f79b8d27ca00fd6f92c1ca31cf718ac56e9",
+        "batch_id": "9bf12810cba35ca6e262ad48f3b6fa05c784ed685b693b06e1fc6469d6105a7c",
+        "receipt_sha256": "a54e6f734acb292e384dc9918f75392fc67e820964d8d0096385ba95f30eb750",
+        "receipt_file_sha256": "34944b35c66fb91ce9e86d8c2cee191a4435f3b86aab2865e8a7a707462bd9d4"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-r3-funding-gap-20261113.K8NDGX/",
+    "raw_files": 25,
+    "raw_entries_sha256": "2d7d76d28bb01b864b41d53545ab7e2cb969975a97f2153f3aad2c4da8094c2e",
+    "raw_digest_method": "SHA-256 of compact UTF-8 JSON array of lexically sorted [filename, byte_size, file_sha256] rows."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_w195_w197_continuous_play",
+    "actual_rendered_deadline_scene",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}

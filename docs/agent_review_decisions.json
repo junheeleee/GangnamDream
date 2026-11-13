@@ -16070,6 +16070,48 @@
         "path": "docs/agent_reviews/order822-cjk-unsigned-contract.json",
         "sha256": "63f114d84780e66170dcf62b0de098bed39482185b9f47d2ca936910094bcc86"
       }
+    },
+    {
+      "id": "order823-cjk-r3-funding-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-13",
+      "decided_by": "/root/review_816",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-823",
+      "subject": {
+        "kind": "source",
+        "commit": "7bfe9abd6d561a3a12240918b0034a12e3b53c73",
+        "tree": "6180b7f1d0de8d481eed291c677dcb665e00b8f1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order823-cjk-r3-funding.md",
+          "sha256": "59e1514509269dc04164486de5f04f3f8a1677aaad0745b7831d2f10c88354c7"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order823-cjk-r3-funding.json",
+          "sha256": "8c2b556de1aed4bf399f526e873639278177da3d866291b83a4026de50d8906f"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_w195_w197_continuous_play",
+        "actual_rendered_deadline_scene",
+        "actual_save_load",
+        "candidate_ci",
+        "retail_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order823-cjk-r3-funding.json",
+        "sha256": "8c2b556de1aed4bf399f526e873639278177da3d866291b83a4026de50d8906f"
+      }
     }
   ]
 }
