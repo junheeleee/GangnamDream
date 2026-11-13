@@ -27705,6 +27705,83 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-825",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_y5_after_goal_daeun"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Keep the first Thursday evening slot distinct from a whole Thursday or a renewed weekly promise; preserve the clock, duration and pending future commitment.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "e306588d88a2f6d685f1ecd6a9d7b3057dd811f2",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "0dbc6a4ec55182bbec7932b1549a72acd2ca3a1a8f99e496c78b5d886bd58362",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "bc3544cc9400e8b7e16e043690672864eb3bce2a628afdf129d38b60e21a43bc"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "e306588d88a2f6d685f1ecd6a9d7b3057dd811f2",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "48e8ad7330ffe8149a35cf62fb39737c42ae102dfbf8af1d2492ec7c69ce2b56",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c386498ecd5ba72d347e228fb66f70dda1e5c0f0b88fa9129581b70286c6c1f5"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "a4f8cef40e7ccc32f3ec81b3b434c272d6c488ce585a463eaed57a0518a34d67",
+        "zh-TW": "2f13897758fc01a2dfe0e41b424ee4380a13a5acba4f04f879776161fb33db8f"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-CN": {
+          "events:arc_y5_after_goal_daeun:/choices/0/result_text": "4b286a8539e569fc89ea9f1f0082290417d7e8b3223c646acaf9c3c78a33ff1c"
+        },
+        "zh-TW": {
+          "events:arc_y5_after_goal_daeun:/choices/0/result_text": "4806c2ad77609d661c96424ef61bf372a6ef9526f3ca2bc6f107532f92478a52"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-CN": {
+          "events:arc_y5_after_goal_daeun:/choices/0/result_text": {
+            "source_sha256": "170358a53fa574536924afeb689c0a7a2ad175774b8ac08cae22696266e79e34",
+            "target_sha256": "4b286a8539e569fc89ea9f1f0082290417d7e8b3223c646acaf9c3c78a33ff1c"
+          }
+        },
+        "zh-TW": {
+          "events:arc_y5_after_goal_daeun:/choices/0/result_text": {
+            "source_sha256": "170358a53fa574536924afeb689c0a7a2ad175774b8ac08cae22696266e79e34",
+            "target_sha256": "4806c2ad77609d661c96424ef61bf372a6ef9526f3ca2bc6f107532f92478a52"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -89781,7 +89858,7 @@
       },
       "events:arc_y5_after_goal_daeun:/choices/0/result_text": {
         "source_sha256": "170358a53fa574536924afeb689c0a7a2ad175774b8ac08cae22696266e79e34",
-        "target_sha256": "4b286a8539e569fc89ea9f1f0082290417d7e8b3223c646acaf9c3c78a33ff1c"
+        "target_sha256": "506e254111930e7467b459db59c5eece08c45a26a7d0795d15afc3f689461b7b"
       },
       "events:arc_y5_after_goal_daeun:/choices/0/text": {
         "source_sha256": "6b770e639318a0de4cbf6952108266bffdacf0e253157f458f31072465677706",
@@ -149459,7 +149536,7 @@
       },
       "events:arc_y5_after_goal_daeun:/choices/0/result_text": {
         "source_sha256": "170358a53fa574536924afeb689c0a7a2ad175774b8ac08cae22696266e79e34",
-        "target_sha256": "4806c2ad77609d661c96424ef61bf372a6ef9526f3ca2bc6f107532f92478a52"
+        "target_sha256": "dd9ed800aa01eab1d802d6509ff28bf2533630488822700dee2a83851ed4ef2d"
       },
       "events:arc_y5_after_goal_daeun:/choices/0/text": {
         "source_sha256": "6b770e639318a0de4cbf6952108266bffdacf0e253157f458f31072465677706",
@@ -199959,7 +200036,7 @@
       }
     }
   },
-  "accepted_sha256": "a51180a2b14d1e3bfe855a26447fb8766332e6422091f77afb168804ff558897",
+  "accepted_sha256": "e43c8eaf139ccfc4b575a7065d124ec6b13565f006989652c5286ee2b659ae03",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
