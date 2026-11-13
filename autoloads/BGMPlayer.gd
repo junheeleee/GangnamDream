@@ -336,6 +336,12 @@ func _apply_moral_ambience_mix(immediate: bool) -> void:
 func _apply_moral_human_mix(immediate: bool) -> void:
 	if _moral_human_tween and _moral_human_tween.is_running():
 		_moral_human_tween.kill()
+	# An empty key means this stream is fading out to a scheduled stop.
+	# Gain-only changes must not replace that tween or bring the old room back.
+	if _current_human_ambience_key.is_empty():
+		if _human_filter != null:
+			_human_filter.cutoff_hz = _moral_human_cutoff_hz
+		return
 	if _human_ambience_tween and _human_ambience_tween.is_running():
 		_human_ambience_tween.kill()
 	if immediate or not _human_ambience_player or not _human_ambience_player.playing:
@@ -477,7 +483,10 @@ func apply_volume(v: float):
 		_ambience_player.volume_db = _ambience_target_db()
 	if _season_player and _season_player.playing:
 		_season_player.volume_db = _season_target_db()
-	if _human_ambience_player and _human_ambience_player.playing:
+	if _current_human_ambience_key.is_empty():
+		if is_zero_approx(volume) and _human_ambience_player and _human_ambience_player.playing:
+			_stop_human_ambience_immediate()
+	elif _human_ambience_player and _human_ambience_player.playing:
 		_human_ambience_player.volume_db = _human_ambience_target_db()
 
 # ── 매월 상태 체크 ─────────────────────────────────────────────
@@ -832,7 +841,8 @@ func duck_ambience(amount_db: float = -8.0, duration: float = 0.45) -> void:
 			_season_tween.kill()
 		_season_tween = create_tween()
 		_season_tween.tween_property(_season_player, "volume_db", _season_target_db(), maxf(0.05, duration))
-	if _human_ambience_player and _human_ambience_player.playing:
+	if not _current_human_ambience_key.is_empty() \
+			and _human_ambience_player and _human_ambience_player.playing:
 		if _human_ambience_tween and _human_ambience_tween.is_running():
 			_human_ambience_tween.kill()
 		if _moral_human_tween and _moral_human_tween.is_running():
@@ -856,7 +866,8 @@ func restore_ambience(duration: float = 0.35) -> void:
 			_season_tween.kill()
 		_season_tween = create_tween()
 		_season_tween.tween_property(_season_player, "volume_db", _season_target_db(), maxf(0.05, duration))
-	if _human_ambience_player and _human_ambience_player.playing:
+	if not _current_human_ambience_key.is_empty() \
+			and _human_ambience_player and _human_ambience_player.playing:
 		if _human_ambience_tween and _human_ambience_tween.is_running():
 			_human_ambience_tween.kill()
 		if _moral_human_tween and _moral_human_tween.is_running():

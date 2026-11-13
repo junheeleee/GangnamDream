@@ -402,6 +402,8 @@ func _ready() -> void:
 		_fail("wedding processional restarted across the scene chain: %.3f -> %.3f" % [
 			processional_pos, continued_processional_pos])
 		return
+	if not await _check_retiring_human_ambience():
+		return
 
 	# 실제 주거를 배경으로 쓰는 장면도 매니페스트가 명시한 창밖 비를
 	# 우선한다. 네 링크 사이에서 같은 룸톤과 친밀한 곡을 되감지 않는다.
@@ -950,7 +952,73 @@ func _ready() -> void:
 
 	print("BGM_CONTINUITY_OK mode=%s key=%s ambience=%s" % [
 		BGMPlayer._music_mode, BGMPlayer._current_key, BGMPlayer._current_ambience_key])
+	BGMPlayer.stop()
+	await AudioManager.drain_pending_timers_for_exit()
+	# The full fixture also plays wedding and queue SFX through the one-shot pool.
+	for raw_player in AudioManager._pool:
+		if raw_player is AudioStreamPlayer:
+			(raw_player as AudioStreamPlayer).stop()
+			(raw_player as AudioStreamPlayer).stream = null
+	# Cross both audio mix boundaries that observe and release stopped playback.
+	var since_mix := maxf(0.0, AudioServer.get_time_since_last_mix())
+	var next_mix := maxf(0.0, AudioServer.get_time_to_next_mix())
+	await get_tree().create_timer(clampf(since_mix + 2.0 * next_mix + 0.025, 0.025, 0.25)).timeout
+	await get_tree().process_frame
 	get_tree().quit(0)
+
+func _check_retiring_human_ambience() -> bool:
+	var wedding: Dictionary = DataRegistry.find_event("arc_daeun_wedding_aisle")
+	var home: Dictionary = DataRegistry.find_event("arc_daeun_wedding_night")
+	if wedding.is_empty() or home.is_empty() or home.get("direction", {}).get("amb") != "duck":
+		_fail("wedding-to-home ambience fixtures are missing")
+		return false
+	var failures: Array[String] = []
+	var original_volume: float = BGMPlayer.volume
+	for operation in ["duck", "restore", "moral", "immediate_moral", "volume", "mute", "replacement"]:
+		BGMPlayer.restore_ambience()
+		BGMPlayer.update_event_ambience(wedding)
+		await get_tree().create_timer(0.12).timeout
+		if BGMPlayer._current_human_ambience_key != "wedding" or not BGMPlayer._human_ambience_player.playing:
+			_fail("wedding human layer did not start before %s" % operation)
+			return false
+		var wedding_stream: AudioStream = BGMPlayer._human_ambience_player.stream
+		if operation == "restore":
+			BGMPlayer.duck_ambience()
+		BGMPlayer.update_event_ambience(home)
+		if BGMPlayer._current_ambience_key != "oneroom" or not BGMPlayer._current_human_ambience_key.is_empty():
+			_fail("newlywed home resolved to the wrong room or human cue")
+			return false
+		match operation:
+			"duck": BGMPlayer.duck_ambience()
+			"restore": BGMPlayer.restore_ambience()
+			"moral": BGMPlayer._apply_moral_human_mix(false)
+			"immediate_moral": BGMPlayer._apply_moral_human_mix(true)
+			"volume":
+				await get_tree().create_timer(0.30).timeout
+				var fade_db: float = BGMPlayer._human_ambience_player.volume_db
+				BGMPlayer.apply_volume(0.8)
+				if BGMPlayer._human_ambience_player.volume_db > fade_db:
+					failures.append("volume revived retiring human layer")
+			"mute":
+				BGMPlayer.apply_volume(0.0)
+				if BGMPlayer._human_ambience_player.playing:
+					failures.append("mute did not stop the retiring human layer immediately")
+				BGMPlayer.apply_volume(original_volume)
+			"replacement": BGMPlayer.set_ambience("cafe")
+		await get_tree().create_timer(0.65).timeout
+		if operation == "replacement":
+			if BGMPlayer._current_human_ambience_key != "cafe" \
+					or BGMPlayer._human_ambience_player.stream == wedding_stream \
+					or not BGMPlayer._human_ambience_player.playing:
+				failures.append("retirement interrupted a new valid human layer")
+		elif BGMPlayer._human_ambience_player.playing:
+			failures.append("%s left the wedding human layer playing at home" % operation)
+	BGMPlayer.apply_volume(original_volume)
+	if not failures.is_empty():
+		_fail("; ".join(failures))
+		return false
+	return true
+
 
 func _fail(msg: String) -> void:
 	push_error("BGM_CONTINUITY_FAIL " + msg)
