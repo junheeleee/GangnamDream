@@ -2961,10 +2961,10 @@
     },
     "arc_final_countdown->arc_final_week": {
       "mode": "same_location",
-      "to_surface": "gangnam_night",
+      "to_surface": "current_housing",
       "audio_policy": "continue",
       "reduced_motion": "static_update",
-      "from_surface": "gangnam_night"
+      "from_surface": "current_housing"
     },
     "arc_final_countdown_general_near_goal_passed->arc_y5_final_week_general_people_outbound": {
       "mode": "same_location",

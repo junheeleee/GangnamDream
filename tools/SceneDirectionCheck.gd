@@ -41,6 +41,7 @@ func _ready() -> void:
 	_check_runtime_fail_closed()
 	_check_activity_runtime_mapping()
 	_check_transition_cover_opacity()
+	await _check_final_desk_presentation()
 	await _check_automatic_terminal_reveal()
 	if _failures.is_empty():
 		print(
@@ -455,6 +456,95 @@ func _check_transition_cover_opacity() -> void:
 	GameState.moral_tint = before
 	if _failures.size() == failures_before:
 		print("SCENE_DIRECTION_TRANSITION_COVER_OK tints=5 alpha_boundaries=7 opaque=1")
+
+
+func _check_final_desk_presentation() -> void:
+	var qa_namespace := OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")
+	if not qa_namespace.begins_with("GangnamDream_StoryNameplateQA_") \
+			or OS.get_user_data_dir().get_file() != qa_namespace:
+		print("SCENE_DIRECTION_FINAL_DESK_NOT_RUN pre_autoload_isolation_required=1")
+		return
+	var failures_before := _failures.size()
+	var original: Dictionary = GameState.serialize().duplicate(true)
+	var original_sfx: bool = AudioManager.sfx_enabled
+	AudioManager.sfx_enabled = false
+	var first := "arc_final_countdown"
+	var second := "arc_final_week"
+	var room := BGMPlayer._load_ambience("apartment")
+	_expect(room != null, "final desk dry room recording failed to load")
+	var edge := DataRegistry.get_story_transition(first, second)
+	_expect(str(edge.get("mode")) == "same_location" and str(edge.get("audio_policy")) == "continue" \
+			and str(edge.get("from_surface")) == "current_housing" \
+			and str(edge.get("to_surface")) == "current_housing", "final desk chain lost its same-room direction")
+	for fixture in [
+			["gosiwon", false, false, "goshiwon_room", "goshiwon_room"],
+			["oneroom", false, false, "apartment", "oneroom_apartment"],
+			["villa", false, false, "apartment", "oneroom_apartment"],
+			["apartment", false, false, "gangnam_apartment", "gangnam_apartment"],
+			["gangnam", false, false, "gangnam_apartment", "gangnam_apartment"],
+			["gosiwon", true, false, "daeun_newlywed_home", "daeun_newlywed_home_night"],
+			["villa", true, true, "apartment", "oneroom_apartment"],
+	]:
+		GameState.start_new_game("FinalDeskFixture")
+		GameState.turn = 240
+		GameState.month = 12
+		GameState.age = 37
+		GameState.housing = str(fixture[0])
+		GameState.flags = {"prologue_done": true}
+		if fixture[1]:
+			GameState.flags["arc_daeun_wedding_day_seen"] = true
+		if fixture[2]:
+			GameState.flags["daeun_divorced"] = true
+		GameState.pending_story_queue = [first]
+		var story: Control = load("res://scenes/StoryMode.tscn").instantiate()
+		add_child(story)
+		await get_tree().process_frame
+		var expected_path := "res://assets/backgrounds/%s.png" % str(fixture[4])
+		var background := story.get("_bg_img") as TextureRect
+		_expect(str((story.get("_current") as Dictionary).get("id")) == first \
+				and str(story.get("_event_background_id")) == str(fixture[3]) \
+				and is_instance_valid(background) and background.texture != null \
+				and background.texture.resource_path == expected_path, "final signature loaded the wrong home: %s" % [fixture])
+		_expect(BGMPlayer._ambience_player.stream == room and BGMPlayer._ambience_player.playing \
+				and not BGMPlayer._season_player.playing and not BGMPlayer._human_ambience_player.playing \
+				and not str(story.get_meta("living_scene_effect")) in ["rain", "snow"] \
+				and BGMPlayer._current_key.is_empty(), "final signature introduced outdoor ambience, weather or early score")
+		story.call("_play_current_paragraph_audio", 3)
+		await get_tree().create_timer(0.15).timeout
+		var room_position: float = BGMPlayer._ambience_player.get_playback_position()
+		var music_position: float = BGMPlayer._player_a.get_playback_position()
+		_expect(BGMPlayer._current_key == "reckoning" and BGMPlayer._player_a.playing,
+				"final signature failed to enter reckoning on the authored paragraph")
+		story.call("_on_choice", 0)
+		_expect(bool(story.get("_pending_after_result")) and str(story.get("_pending_follow_up")) == second,
+				"final signature failed to enter the authored result and follow-up")
+		story.set("_typing", false)
+		story.set("_para_index", (story.get("_paragraphs") as Array).size())
+		story.call("_after_result")
+		await get_tree().process_frame
+		_expect(str((story.get("_current") as Dictionary).get("id")) == second \
+				and str(story.get_meta("story_transition_mode")) == "same_location" \
+				and background.texture != null and background.texture.resource_path == expected_path \
+				and not str(story.get_meta("living_scene_effect")) in ["rain", "snow"],
+				"final week did not stay indoors in the same room: %s" % [fixture])
+		_expect(BGMPlayer._ambience_player.stream == room \
+				and BGMPlayer._ambience_player.get_playback_position() + 0.05 >= room_position \
+				and BGMPlayer._current_key == "reckoning" \
+				and BGMPlayer._player_a.get_playback_position() + 0.05 >= music_position,
+				"same-room handoff restarted the room tone or score")
+		remove_child(story)
+		story.free()
+		BGMPlayer.stop()
+		await get_tree().create_timer(0.08).timeout
+	var exterior := "arc_final_countdown_property_not_executed"
+	_expect(str(DataRegistry.find_event(exterior).get("background")) == "gangnam_night" \
+			and str(BGMPlayer.scene_audio_contract(exterior).get("ambience")) == "street",
+			"actual outdoor property variant was incorrectly moved inside")
+	GameState.call("_restore_serialized_snapshot_exact", original)
+	AudioManager.sfx_enabled = original_sfx
+	EventManager.current_event = {}
+	if _failures.size() == failures_before:
+		print("SCENE_DIRECTION_FINAL_DESK_OK housing_states=7 same_room=7 score_continue=7 outdoor_preserved=1")
 
 
 func _check_full_story_shell(prepared_state: Dictionary) -> void:

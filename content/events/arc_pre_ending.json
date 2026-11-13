@@ -811,7 +811,7 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "gangnam_night",
+    "background": "current_housing",
     "portrait": "",
     "conditions": {
       "min_turn": 9999
