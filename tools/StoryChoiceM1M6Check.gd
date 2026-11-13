@@ -164,6 +164,7 @@ func _run() -> void:
 	_check_m6_localization_and_contract(controller)
 	_check_all_receipt_selectors(controller)
 	_check_m6_route_transaction_rollback(controller)
+	_check_m6_clean_shift_note(controller)
 	await _check_demo_single_actions(controller)
 	await _check_m6_ledger_expression(controller)
 	_expect(bool(controller.call("qa_set_language", "ko")),
@@ -501,6 +502,52 @@ func _check_m6_route_transaction_rollback(controller: Node) -> void:
 	_expect(not bool(controller.call(
 			"qa_session_candidate_is_valid", reversed_prefix)),
 		"M06 receipt-before-root corruption passed session validation")
+
+
+func _check_m6_clean_shift_note(controller: Node) -> void:
+	var expected := {
+		"ko": "다음에 빈자리 나면 {name} 씨한테 먼저 물어봐도 될까요?",
+		"en": "Next time a spot opens, can I ask you first, {name}?",
+	}
+	var original_language: String = LocaleManager.language
+	_expect(bool(controller.call("qa_set_language", "ko")),
+		"M06 foreman note could not select Korean")
+	for route in ["clean", "restitution", "escalation"]:
+		if not _advance_fresh_prefix_to_event(controller, M6_EVENT_ID, route):
+			continue
+		var prepared: Dictionary = controller.call("qa_prepare_m6_route_context")
+		_expect(bool(prepared.get("ok", false)),
+			"M06 %s could not prepare the shift-note fixture" % route)
+		var snapshot: Dictionary = controller.call("qa_session_snapshot")
+		var first: Dictionary = controller.call("qa_m6_event")
+		var second: Dictionary = controller.call("qa_m6_event")
+		var prose := str(first.get("description", ""))
+		_expect(prose.count(expected["ko"]) == (1 if route == "clean" else 0)
+				and first == second
+				and _canonical(controller.call("qa_session_snapshot")) == _canonical(snapshot),
+			"M06 %s foreman note duplicated, escaped its route or changed the save" % route)
+		if route != "clean":
+			continue
+		var altered: Dictionary = snapshot.duplicate(true)
+		var flags: Dictionary = altered["game_state"]["flags"]
+		flags.erase(_choice_receipt_flag("arc_temptation_clean", 0))
+		var missing_receipt: Dictionary = controller.call(
+			"_install_story_demo_m6_event", altered)
+		_expect(not str(missing_receipt.get("description", "")).contains(expected["ko"]),
+			"M06 foreman note accepted a checkpoint without the M02 receipt")
+		var legacy: Dictionary = snapshot.duplicate(true)
+		legacy.erase("m6_route_context")
+		var without_context: Dictionary = controller.call(
+			"_install_story_demo_m6_event", legacy)
+		_expect(not str(without_context.get("description", "")).contains(expected["ko"]),
+			"M06 foreman note accepted a legacy checkpoint without route context")
+		controller.call("qa_m6_event")
+		_expect(bool(controller.call("qa_set_language", "en"))
+				and str((controller.call("qa_m6_event") as Dictionary).get(
+					"description", "")).count(expected["en"]) == 1,
+			"M06 foreman note did not survive language reload")
+		controller.call("qa_set_language", "ko")
+	controller.call("qa_set_language", original_language)
 
 
 func _check_demo_single_actions(controller: Node) -> void:

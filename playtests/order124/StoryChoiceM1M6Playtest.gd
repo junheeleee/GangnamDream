@@ -1127,6 +1127,11 @@ static func _install_story_demo_m6_event(session: Dictionary = {}) -> Dictionary
 			"6월 마지막 금요일 저녁. 민준은 고시원 책상 위에 지난 석 달의 선택을 먼저 펼쳤다.\n\n3월, 편의점에서 — %s\n3월, 빗길에서 — %s\n4월, 부동산에서 — %s / %s\n5월, 재혁 앞에서 — %s\n\n그 아래에 잔액과 오늘 할 일들을 적었다. 몸은 벌써 쉬고 싶었다. 지금 할 일 하나를 골라야 했다. 나머지는 오늘 못 한다. 오늘이 마감인 건 놓친다.",
 			"On the last Friday in June, Minjun spread the choices he'd made over the past three months across his goshiwon desk.\n\nMarch, at the convenience store — %s\nMarch, on the rain-soaked street — %s\nApril, at the real-estate office — %s / %s\nMay, in front of Jaehyuk — %s\n\nUnderneath, he listed his balance and what he could do tonight. He was already tired. He had to pick one thing to do now. The rest would have to wait. Anything due tonight would be lost.")
 		event["description"] = intro_template % history_texts
+	if has_new_context and _m6_clean_shift_completed(session):
+		var clean_note := LocaleManager.ui(
+			"휴대폰에 야간 반장의 문자가 와 있었다. “지난번에 새벽 두 자리 다 맡겠다고 하셨잖아요. 다음에 빈자리 나면 {name} 씨한테 먼저 물어봐도 될까요?” 늘 ‘한 명 비었다’로 시작하던 사람이 이번에는 이름을 불렀다. {name}은 그 줄을 한 번 더 읽었다.",
+			"The night-shift foreman had sent a text. “You said you'd take both early shifts last time. Next time a spot opens, can I ask you first, {name}?” He usually started with ‘A spot opened.’ This time he used his name. {name} read the line again.")
+		event["description"] += "\n\n" + clean_note
 	var source_choices: Array = source.get("choices", [])
 	var choices: Array = []
 	for source_index in M6_SOURCE_CHOICES:
@@ -1261,6 +1266,19 @@ static func _session_has_valid_m6_route_context(session: Dictionary) -> bool:
 	return raw_context is Dictionary and raw_state is Dictionary \
 		and _m6_route_context_matches_state(
 			raw_context as Dictionary, raw_state as Dictionary)
+
+static func _m6_clean_shift_completed(session: Dictionary) -> bool:
+	var context: Dictionary = session.get("m6_route_context", {})
+	var state: Dictionary = session.get("game_state", {})
+	var flags: Dictionary = state.get("flags", {})
+	return (str(context.get("root", "")).is_empty()
+		and flags.get("kept_clean_hands", false) == true
+		and flags.get("stayed_clean", false) == true
+		and flags.get("lent_account", false) == false
+		and flags.get(_runtime_choice_receipt_flag("arc_temptation_01", 0), false) == true
+		and flags.get(_runtime_choice_receipt_flag("arc_temptation_clean", 0), false) == true
+		and _selected_choice_index_from_session(session, "arc_temptation_01") == 0
+		and _selected_choice_index_from_session(session, "arc_temptation_clean") == 0)
 
 
 static func _m6_route_context_matches_state(
