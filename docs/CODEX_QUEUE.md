@@ -102,6 +102,7 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 | 79 | [~] | ORDER-827 · 레거시 목록 | [827](queue_active/ORDER-827.md) | C1 대기·삭제0 |
 | 80 | [~] | ORDER-828 · 문서·큐·에셋 | [828](queue_active/ORDER-828.md) | C1 대기 |
+| 81 | [~] | ORDER-829 · 체험판 M01~M06 품질 | [829](queue_active/ORDER-829.md) | C1 대기 시 P1 우선 · 사용자 동결 예외 |
 
 
 
