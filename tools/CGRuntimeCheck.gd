@@ -6,9 +6,16 @@ extends Node
 
 var _failures: Array[String] = []
 
+const KNEE_CG_OWNERS := {
+	"cg_story_knee_witness": ["story_knee_witness"],
+	"cg_story_knee_palm": ["story_knee_choice", "story_knee_witness#choice0"],
+	"cg_story_knee_help": ["story_knee_choice#choice0"],
+}
+
 # A continuous shot may span only the exact adjacent beats listed here. Every
 # other story CG keeps single-owner enforcement.
 const ALLOWED_STORY_CG_CONTINUITY := {
+	"cg_story_knee_palm": KNEE_CG_OWNERS["cg_story_knee_palm"],
 	"cg_y5_three_in_room": [
 		"arc_y5_three_in_room",
 		"arc_y5_three_in_room_decision",
@@ -575,6 +582,7 @@ func _check_deferred_choice(event_id: String, flag_id: String, target_id: String
 
 func _check_all_story_cg_contracts() -> void:
 	var owners: Dictionary = {}
+	var knee_owners: Dictionary = {}
 	for raw_event in DataRegistry.events:
 		var event: Dictionary = raw_event
 		var event_id: String = str(event.get("id", ""))
@@ -594,6 +602,10 @@ func _check_all_story_cg_contracts() -> void:
 		for ref in refs:
 			var owner := str(ref["owner"])
 			var cg_id := str(ref["cg"])
+			if KNEE_CG_OWNERS.has(cg_id):
+				if not knee_owners.has(cg_id):
+					knee_owners[cg_id] = []
+				(knee_owners[cg_id] as Array).append(owner)
 			if owners.has(cg_id):
 				var previous_owner := str(owners[cg_id])
 				var same_event := previous_owner.get_slice("#", 0) == owner.get_slice("#", 0)
@@ -613,6 +625,12 @@ func _check_all_story_cg_contracts() -> void:
 				_failures.append("%s story cg must be at least 1280x720: %s" % [owner, path])
 			elif cg_id.begins_with("cg_romance_") and (texture.get_width() != 1280 or texture.get_height() != 800):
 				_failures.append("%s romance cg must be exactly 1280x800: %s" % [owner, path])
+	for cg_id in KNEE_CG_OWNERS:
+		var actual: Array = knee_owners.get(cg_id, [])
+		actual.sort()
+		if actual != KNEE_CG_OWNERS[cg_id]:
+			_failures.append("story cg %s owners mismatch: expected %s, got %s" % [
+				cg_id, KNEE_CG_OWNERS[cg_id], actual])
 
 func _check_romance_visual_manifest() -> void:
 	const MANIFEST_PATH := "res://assets/romance_visual_manifest.json"

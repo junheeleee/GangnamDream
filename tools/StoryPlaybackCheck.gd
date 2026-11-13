@@ -1026,6 +1026,37 @@ func _check_runtime_transition_handoff(
 		_fail("classified transition source has no authored continuation: %s" % source_id)
 		return false
 	_story.call("_on_choice", 0)
+	var outgoing_result: Texture2D = null
+	if source_id == "story_knee_choice":
+		var source_snapshot := _story.get("_story_transition_snapshot") as TextureRect
+		var result_background := _story.get("_bg_img") as TextureRect
+		if not bool(_story.get("_pending_after_result")) \
+				or not bool(_story.get("_story_scene_transition_active")) \
+				or not is_instance_valid(source_snapshot) or not source_snapshot.visible \
+				or source_snapshot.texture == null \
+				or source_snapshot.texture.resource_path != ImageRegistry.get_cg("cg_story_knee_palm") \
+				or result_background.texture == null \
+				or result_background.texture.resource_path != ImageRegistry.get_cg("cg_story_knee_help"):
+			_fail("knee choice did not start the palm-to-help result transition")
+			return false
+		var type_position := int(_story.get("_type_pos"))
+		var was_typing := bool(_story.get("_typing"))
+		_story.call("_on_advance")
+		if int(_story.get("_para_index")) != 0 \
+				or int(_story.get("_type_pos")) != type_position \
+				or bool(_story.get("_typing")) != was_typing:
+			_fail("knee result transition accepted advance before the help image settled")
+			return false
+		# Wait for the real result tween, not the separate authored next-scene cut.
+		var deadline := Time.get_ticks_msec() + 2000
+		while bool(_story.get("_story_scene_transition_active")) \
+				and Time.get_ticks_msec() < deadline:
+			await get_tree().process_frame
+		if bool(_story.get("_story_scene_transition_active")) \
+				or source_snapshot.visible or source_snapshot.texture != null:
+			_fail("knee result transition did not release its outgoing snapshot")
+			return false
+		outgoing_result = result_background.texture
 	if bool(_story.get("_pending_after_result")):
 		var result_paragraphs: Array = _story.get("_paragraphs")
 		_story.set("_para_index", result_paragraphs.size() - 1)
@@ -1045,6 +1076,9 @@ func _check_runtime_transition_handoff(
 			or not is_instance_valid(snapshot) or not snapshot.visible \
 			or snapshot.texture == null:
 		_fail("classified handoff hard-cut without an outgoing snapshot: %s" % expected_mode)
+		return false
+	if outgoing_result != null and snapshot.texture != outgoing_result:
+		_fail("classified knee handoff did not leave from the settled help image")
 		return false
 	_story.call("_finish_story_scene_transition")
 	await _free_story_fixture()
