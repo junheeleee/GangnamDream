@@ -53,6 +53,12 @@ PRIVATE_OFFICE_EVENT_IDS = {
     "arc_sangchul_01_coffee",
     "arc_sangchul_01_answer",
 }
+PRIVATE_OFFICE_FOLEY = {
+    "arc_sangchul_01_meet": {"4": [{"sfx": "cup_set", "volume_db": -5.0}]},
+    "arc_sangchul_01_measure": {},
+    "arc_sangchul_01_coffee": {},
+    "arc_sangchul_01_answer": {"3": [{"sfx": "traffic_pass", "volume_db": -7.0}]},
+}
 FIRST_BILL_CHAIN = (
     "v2_demo_first_bill_opening",
     "v2_demo_first_bill",
@@ -200,6 +206,9 @@ def main() -> int:
             errors.append(f"{event_id}: private office must retain office room tone")
         if contract.get("suppress_human_ambience") is not True:
             errors.append(f"{event_id}: private office must suppress anonymous human ambience")
+        if (contract.get("paragraph_cues", {}) != PRIVATE_OFFICE_FOLEY[event_id]
+                or contract.get("result_paragraph_cues", {})):
+            errors.append(f"{event_id}: private office cues must match the exact authored action")
 
     for event_id, contract in event_contracts.items():
         event = events.get(event_id)

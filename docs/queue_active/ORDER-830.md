@@ -85,14 +85,16 @@ W6 `cafe_00`(2), `cafe_bluff_caught`(0), `cafe_mind_01`(1)은 퇴장 결과만 �
 `assets/event_visual_contracts.json`, `tools/StoryBackgroundContextCheck.gd`만 해당.
 W8 반납/보관함의 장소 전환은 ORDER-829 원고와 겹치므로 별도 착수 전 조율한다.
 
-### [~] M04 · 상철 사무실에서 실제 행동만 들린다
+### [x] M04 · 상철 사무실에서 실제 행동만 들린다 (배선)
 
 `assets/scene_audio_manifest.json`, `tools/scene_audio_contract_check.py`, 이 사양만.
 첫 만남 0의 차량음, 계산기를 돌리는 measure 0의 컵음, 펜을 내려놓는 answer 6의
 종이음만 제거한다. 첫 만남 4의 컵을 꺼내는 동작과 answer 3의 창밖 타이어는 유지한다.
 coffee의 긁힘은 맞는 녹음이 없으므로 임의 대체0. 사무실 룸톤·음악/군중 차단·본문·
 결과·ID·저장·기존 RC 불변. 네 링크 exact cue map으로 추가·누락·잘못된 시각을 막는다.
-829 기술 검사 이후 적용. 실제 청취를 하지 않았으면 그렇게 남긴다.
+격리 Godot 4.6.2에서 5언어×4링크 20건: 수정 전 추가 소리 15건, 수정 후 0건.
+같은 문단 재진입 중복 없음, 표준 오류·엔진 로그 오류0, 변조 4건 거부. 실제 청취·
+다음 체험판 재패키징은 별도이며 2026.11.13.1 ZIP은 덮어쓰지 않는다.
 
 ## 범위 밖 발견 목록 — 수정하지 않음
 

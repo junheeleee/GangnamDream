@@ -1712,15 +1712,13 @@
       "suppress_human_ambience": true,
       "suppress_music": true,
       "paragraph_cues": {
-        "0": [{"sfx": "traffic_pass", "volume_db": -8.0}],
         "4": [{"sfx": "cup_set", "volume_db": -5.0}]
       }
     },
     "arc_sangchul_01_measure": {
       "ambience": "office",
       "suppress_human_ambience": true,
-      "suppress_music": true,
-      "paragraph_cues": {"0": [{"sfx": "cup_set", "volume_db": -7.0}]}
+      "suppress_music": true
     },
     "arc_sangchul_01_coffee": {
       "ambience": "office",
@@ -1732,8 +1730,7 @@
       "suppress_human_ambience": true,
       "suppress_music": true,
       "paragraph_cues": {
-        "3": [{"sfx": "traffic_pass", "volume_db": -7.0}],
-        "6": [{"sfx": "paper_handle", "volume_db": -7.0}]
+        "3": [{"sfx": "traffic_pass", "volume_db": -7.0}]
       }
     },
     "hidden_whole_picture": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 0}},
