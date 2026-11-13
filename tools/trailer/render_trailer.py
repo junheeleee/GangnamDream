@@ -146,7 +146,10 @@ def build_filter(
         mix_inputs.append(f"[cue{cue_number}]")
     filters.append(
         "{inputs}amix=inputs={count}:duration=first:normalize=0:dropout_transition=0,"
-        "loudnorm=I=-16:TP=-1.5:LRA=8,aresample=48000[aout]".format(
+        # Keep headroom for resampling and AAC reconstruction peaks. The
+        # decoded export, not this filter's target, is the acceptance check.
+        "loudnorm=I=-16:TP=-1.5:LRA=8,aresample=48000,"
+        "alimiter=limit=0.60:attack=5:release=50:level=false:latency=true[aout]".format(
             inputs="".join(mix_inputs), count=len(mix_inputs)
         )
     )
@@ -244,7 +247,7 @@ def main() -> int:
         "language": args.lang,
         "resolution": "1920x1080",
         "fps": 60,
-        "audio": "AAC 48kHz stereo, -16 LUFS target",
+        "audio": "AAC 48kHz stereo, decoded -19 to -13 LUFS, <= -1 dBTP",
         "sha256": sha256(output),
         "bytes": output.stat().st_size,
         "timeline_version": data["version"],

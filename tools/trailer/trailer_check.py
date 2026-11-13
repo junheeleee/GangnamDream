@@ -136,6 +136,30 @@ def probe_video(video: Path, ffmpeg: Path, expected_seconds: float) -> None:
         fail(f"{video.name} is not H.264 1920x1080 at 60 fps")
     if not re.search(r"Audio: aac.*48000 Hz.*stereo", metadata):
         fail(f"{video.name} is missing the 48 kHz stereo AAC mix")
+    decoded = subprocess.run(
+        [str(ffmpeg), "-hide_banner", "-nostats", "-i", str(video), "-vn",
+         "-af", "ebur128=peak=true", "-f", "null", "-"],
+        check=True, capture_output=True, text=True,
+    ).stderr
+    summary = decoded.rsplit("Summary:", 1)[-1]
+    loudness = re.search(r"\bI:\s*(-?\d+(?:\.\d+)?)\s+LUFS", summary)
+    peak = re.search(r"\bPeak:\s*(-?\d+(?:\.\d+)?)\s+dBFS", summary)
+    if not loudness or not peak:
+        fail(f"{video.name} has no measurable decoded audio summary")
+    if not -19.0 <= float(loudness[1]) <= -13.0 or float(peak[1]) > -1.0:
+        fail(f"{video.name} audio measured {loudness[1]} LUFS / {peak[1]} dBTP")
+
+    silence_start, silence_end = load_timeline()["edits"][str(round(expected_seconds))]["audio"]["silence"]
+    # Ignore only transition/codec edges; a noise or cue over the dramatic pause fails.
+    silence = subprocess.run(
+        [str(ffmpeg), "-hide_banner", "-nostats", "-ss", str(silence_start + 0.2),
+         "-i", str(video), "-t", str(silence_end - silence_start - 0.4), "-vn",
+         "-af", "volumedetect", "-f", "null", "-"],
+        check=True, capture_output=True, text=True,
+    ).stderr
+    max_volume = re.search(r"max_volume:\s*(-?\d+(?:\.\d+)?)\s+dB", silence)
+    if not max_volume or float(max_volume[1]) > -60.0:
+        fail(f"{video.name} has audible signal in the authored silence span")
 
 
 def capture_self_test() -> None:
