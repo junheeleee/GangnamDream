@@ -185,3 +185,12 @@ coffee의 긁힘은 맞는 녹음이 없으므로 임의 대체0. 사무실 룸�
 - W222: 실제 계약이 아직 잠기지 않은 분기에서 공통 ‘최종 계약 집행 시각’ 문구.
 - W224·W234: 원룸의 상시 기계음 후보. 두 장면 각각 실제 소리·문장의 추가 확인 필요.
 - W234: 눈을 언급하는 실내 화면에서 창밖에 눈이 보이지 않는 후보. 시점·창 위치 확인 필요.
+
+### [~] 원격 감사 재현: W8·W201·W202 및 모딩 표
+
+`scenes/StoryMode.gd`와 `assets/w8_fallout_result_cuts.tres`에서 다섯 언어의
+기존 W8 전환 경계만 표시 문구와 분리한다. W202 상태 원장의 누락된 `housing`만
+`content/meta/exposed_event_state_contracts.json`에 등록한다. `docs/MODDING.md`의
+생성 표 순서만 복구하고 828 머리말을 섞지 않는다. `tools/StoryNameplateCheck.gd`는
+W201 네 장면의 정확한 룸톤을 종전 `oneroom`이 아닌 현재 `apartment`로 고정 검사한다.
+영어 감사기·저장·번역·원화·음원·기존 RC 변경0. 기록은 이 사양과 `docs/WORK_LOG.md`.
