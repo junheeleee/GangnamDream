@@ -16,6 +16,8 @@
 
 11-14 KST P1 [~] 착수: `sinchon_crash_impact_rain_dusk.png` 후보. 같은 골목에서 검은 세단과 앞바퀴만 보이는 비그래픽 접촉 직후. 지연 중인 하차/얼굴/열린 문 금지. 채택은 해당 원화·import·출처/원장, ImageRegistry·음향/연출 배경, M03 `paragraph_backgrounds`의 P1 및 표적 검사에 한한다. 다음 재회는 별개: `arc_jiyeon_02_store`는 비 그친 늦은 밤인데 현재 비 그림/루프·사람 믹스가 남음. 일반 `street`에도 녹음된 군중이 있어 대체 불가.
 
+P1 배선 수정 착수: 2fcb112 정적 CI가 `paragraph_backgrounds` 길이와 `bg_focus` 키를 거절했다. 기본 배경은 `arc_events.json`, `story_rules.json`, `event_visual_contracts.json`의 일치하는 전용 접근 장소로, 정확한 P1과 도입 초상 숨김은 `StoryMode`의 사고 한정 분기로 처리한다. `CGRuntimeCheck`·`StoryBackgroundContextCheck`의 실제 렌더 검사만 변경; 검사 완화0.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
