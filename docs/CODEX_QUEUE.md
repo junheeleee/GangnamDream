@@ -101,6 +101,7 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
+| 79 | [~] | ORDER-827 · 레거시 목록 | [827](queue_active/ORDER-827.md) | C1 대기·삭제0 |
 
 
 
