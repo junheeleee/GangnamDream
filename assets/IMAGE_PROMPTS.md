@@ -775,7 +775,13 @@ Isolate Daeun's mother in a bride-side reaction shot inside one contemporary Seo
 Isolate the screen-right groom-side front row. In the living-Father state, Minjun's father sits in a dark charcoal formal honju suit and looks screen-left toward the unseen aisle without lens contact. The reconnected state adds only canonical Hyunsu one full row behind Father: youthful stocky build, broad soft round face, full cheeks, low gentle almond eyes, rounded jaw, medium tousled wavy black hair, thin round metal glasses, navy guest suit, white shirt, and muted burgundy tie. His head and pupils turn screen-left toward the unseen bride rather than the lens. In father-passed states, Father's reserved front-row aisle chair is completely empty; the combined state keeps it empty while Hyunsu remains alone behind it. All unnamed guests are low-contrast faceless silhouettes. No generic stocky substitute, sharp or middle-aged face, mother, couple, spouse, child, memorial portrait, ghost, replacement guest, text, logo, or mismatched chair axis.
 ```
 
-### wedding_daeun_small_v1.png / wedding_daeun_full_v1.png
+### wedding_daeun_small_v2.png — 2026-11-13
+
+- **활성 1280×800**: `assets/cg/romance/wedding_daeun_small_v2.png`. 원본 `exec-5207e74d-4dd9-46d5-ad15-c23ba119122e.png` (1586×992). 이전 v1과 근접 컷은 보존.
+- **편집 입력**: 이전 small wide는 공간과 시점, small close는 드레스·부케·조명, `npc_daeun_smile_y5.png`와 `npc_daeun_proposal.png`는 다은 얼굴·짧은 머리·왼쪽 클립의 기준.
+- **제작 지시**: 제단에서 민준 너머 후문을 보는 한 단계 가까운 와이드. 소형 예식장과 빈 오른쪽 좌석, 왼쪽 익명 하객은 유지한다. 다은의 따뜻한 갈색 눈·자연스러운 성인 얼굴·작은 미소가 민준을 향하게 한다. 얼굴과 꽃다발을 쥔 양손은 하단 대사 영역 위에 둔다. 매트한 한국 성인 만화풍, 얼굴·드레스 경계 선명, 전체 세피아·인형 피부·글자·로고 없음.
+
+### wedding_daeun_small_v1.png (보존) / wedding_daeun_full_v1.png
 
 - **최종 경로**: `assets/cg/romance/wedding_daeun_small_v1.png`, `assets/cg/romance/wedding_daeun_full_v1.png`
 - **최종 생성 원본**: `exec-8b055007-da44-434a-9d1e-1e25dfe126e7.png`, `exec-d4f6beaf-5428-4606-a366-e100120e5b28.png`

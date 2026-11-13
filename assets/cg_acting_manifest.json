@@ -311,7 +311,7 @@
       ]
     },
     "cg_romance_wedding_daeun_small": {
-      "path": "assets/cg/romance/wedding_daeun_small_v1.png",
+      "path": "assets/cg/romance/wedding_daeun_small_v2.png",
       "camera_role": "over_groom_shoulder_from_altar_toward_entrance_wide",
       "story_action": "The modest wedding entrance isolates Minjun and Daeun: faceless bride-side silhouettes and empty groom-side chairs remain context rather than competing actors.",
       "actors": [

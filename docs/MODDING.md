@@ -481,7 +481,7 @@ python3 tools/generate_mod_manifest.py --check
 | cg | `cg_romance_wedding_daeun_full` | `cg/romance/wedding_daeun_full_v1.png` | 1280x800 |
 | cg | `cg_romance_wedding_daeun_mother_reaction` | `cg/romance/wedding_daeun_mother_reaction_v1.png` | 1280x800 |
 | cg | `cg_romance_wedding_daeun_small_close` | `cg/romance/wedding_daeun_small_close_v1.png` | 1280x800 |
-| cg | `cg_romance_wedding_daeun_small` | `cg/romance/wedding_daeun_small_v1.png` | 1280x800 |
+| cg | `cg_romance_wedding_daeun_small` | `cg/romance/wedding_daeun_small_v2.png` | 1280x800 |
 | cg | `cg_romance_wedding_gap_jiyeon` | `cg/romance/wedding_gap_jiyeon_v1.png` | 1280x800 |
 | cg | `cg_romance_wedding_morning_daeun` | `cg/romance/wedding_morning_daeun_v1.png` | 1280x800 |
 | cg | `cg_romance_wedding_morning_jiyeon` | `cg/romance/wedding_morning_jiyeon_v1.png` | 1280x800 |

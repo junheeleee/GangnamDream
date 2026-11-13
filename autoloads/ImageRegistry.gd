@@ -386,7 +386,7 @@ const CG = {
 	"cg_romance_wedding_daeun_father_reaction_hyunsu": "res://assets/cg/romance/wedding_daeun_father_reaction_hyunsu_v1.png",
 	"cg_romance_wedding_daeun_father_reaction_passed": "res://assets/cg/romance/wedding_daeun_father_reaction_passed_v1.png",
 	"cg_romance_wedding_daeun_father_reaction_passed_hyunsu": "res://assets/cg/romance/wedding_daeun_father_reaction_passed_hyunsu_v1.png",
-	"cg_romance_wedding_daeun_small": "res://assets/cg/romance/wedding_daeun_small_v1.png",
+	"cg_romance_wedding_daeun_small": "res://assets/cg/romance/wedding_daeun_small_v2.png",
 	"cg_romance_wedding_daeun_full": "res://assets/cg/romance/wedding_daeun_full_v1.png",
 	"cg_romance_wedding_daeun_small_close": "res://assets/cg/romance/wedding_daeun_small_close_v1.png",
 	"cg_romance_wedding_daeun_full_close": "res://assets/cg/romance/wedding_daeun_full_close_v1.png",

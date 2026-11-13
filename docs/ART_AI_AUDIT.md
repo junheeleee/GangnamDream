@@ -260,7 +260,7 @@
 | CG | `assets/cg/romance/wedding_daeun_full_v1.png` | `cg_romance_wedding_daeun_full` | 1280x800 | no | `9f5802b4cdd7` | REPAIRED-A | 풀 패키지 커플 와이드. 식별 인물은 민준·다은뿐이며 긴 베일·비즈 드레스·상호 시선·꽃다발 손과 후입장 동선 통과. |
 | CG | `assets/cg/romance/wedding_daeun_full_close_v1.png` | `cg_romance_wedding_daeun_full_close` | 1280x800 | no | `44cf880b8e84` | REPAIRED-A | 풀 패키지 커플 근접. 같은 얼굴·정장·드레스·베일, 자연스러운 눈맞춤과 해부학적 손, 낮은 대화창 안전 크롭 통과. |
 | CG | `assets/cg/romance/wedding_daeun_mother_reaction_v1.png` | `cg_romance_wedding_daeun_mother_reaction` | 1280x800 | no | `e2565e08f7f7` | REPAIRED-A | 다은 어머니 단독 반응. 분홍 저고리·아이보리 동정·짙은 자주 치마의 혼주 한복, 무릎 위 두 손, 딸을 향한 비렌즈 시선 통과. |
-| CG | `assets/cg/romance/wedding_daeun_small_v1.png` | `cg_romance_wedding_daeun_small` | 1280x800 | no | `1ca0ee918da7` | REPAIRED-A | 소형식 커플 와이드. 식별 인물은 민준·다은뿐이며 단순 드레스·짧은 베일·작은 꽃다발·후입장 동선과 상호 시선 통과. |
+| CG | `assets/cg/romance/wedding_daeun_small_v2.png` | `cg_romance_wedding_daeun_small` | 1280x800 | no | `9ab8ff3097e9` | REPAIRED-A | 소형식 와이드. 기존 얼굴 앵커·근접 컷 대조 독립 에이전트 판정: 얼굴·시선·손·소형 홀·대사 안전영역 통과. 이전 v1 `1ca0ee918da7`은 보존, 사람 판정과는 별도. |
 | CG | `assets/cg/romance/wedding_daeun_small_close_v1.png` | `cg_romance_wedding_daeun_small_close` | 1280x800 | no | `6f7858061cf4` | REPAIRED-A | 소형식 커플 근접. 정본 얼굴·머리핀·성인 체형·민준과의 눈맞춤·양손 꽃다발과 안전 크롭 통과. |
 | CG | `assets/cg/romance/wedding_gap_jiyeon_v1.png` | `cg_romance_wedding_gap_jiyeon` | 1280x800 | no | `cfc057f42309` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/romance/wedding_morning_daeun_v1.png` | `cg_romance_wedding_morning_daeun` | 1280x800 | no | `2ef8ad7e7552` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |

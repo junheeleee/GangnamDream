@@ -53,7 +53,7 @@ The wedding-prep choice must survive into the wedding-day image. Both variants s
 
 ### Small Wedding
 
-- Wide asset: `assets/cg/romance/wedding_daeun_small_v1.png`.
+- Wide asset: `assets/cg/romance/wedding_daeun_small_v2.png` (v1 is retained as the prior master).
 - Close asset: `assets/cg/romance/wedding_daeun_small_close_v1.png`.
 - Venue: modest, physically plausible small Seoul wedding hall with simple chairs, restrained white/green flowers, low ceiling, and practical aisle.
 - Daeun: simple ivory A-line dress, minimal short veil, small lisianthus/greenery bouquet, natural makeup, same short hair and clip identity.

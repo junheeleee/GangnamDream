@@ -788,7 +788,7 @@ weather, romance, and historical portraits remain fixed.
 - `assets/cg/romance/proposal_daeun_v1.png`
   - T1 accepted-proposal CG: rainy cafe, one open ring box, Daeun's hand-over-mouth reaction, and mutual off-lens eye line over Minjun's shoulder.
   - Approved 1280x800 choice-result CG, revealed at result paragraph 1 only for the accepted branch.
-- `assets/cg/romance/wedding_daeun_small_v1.png`
+- `assets/cg/romance/wedding_daeun_small_v2.png` (prior `v1` retained, inactive)
   - Modest couple-only wide entry: Minjun waits at the altar and Daeun approaches in the simple A-line dress; only the couple is identifiable, with faceless bride-side silhouettes and empty groom-side chairs kept as context.
 - `assets/cg/romance/wedding_daeun_full_v1.png`
   - Full-package couple-only wide entry with refined gown/veil, larger bouquet, and upgraded flowers while preserving the same two-person gaze and sparse-seat geometry.
