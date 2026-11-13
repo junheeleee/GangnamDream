@@ -88,7 +88,7 @@ KO/EN 앞 세 장면의 진행 표시와 M06 실제 진행→결과를 엔진으
 KO/EN `arc_events.json`, JA/간체/번체 `story_demo_events.json`만.
 5언어 독립 검수, 정확 선택·서사·원장·EN·데모 감사 통과. 시각/음향 수리는 830만.
 
-### [~] P6A · 상철 첫 만남의 4월과 세 번의 실내 정적
+### [x] P6A · 상철 첫 만남의 4월과 세 번의 실내 정적
 
 공개 M04가 읽는 `arc_sangchul_01_meet`의 기본·정석·비정석 설명을 KO/EN/JA/
 간체/번체 모두 4월로 맞춘다. valid full-run은 현재처럼 날짜 접두만 제거하고,
@@ -108,3 +108,17 @@ KO/EN `arc_events.json`, JA/간체/번체 `story_demo_events.json`만.
 `docs/WORK_LOG.md`, `CLAUDE.md`뿐이다. 날짜 투영의 기존 exact 제외·저장 검사를
 약화하지 않고 새 접두와 세 감각 소유를 5언어에서 직접 확인한다. 역사 ORDER-543,
 8.31 ZIP/PCK, `project.godot`, P6B/P6C, 새 RC와 사람 판정은 건드리지 않는다.
+
+선언 `542358e5` 뒤 제품 `602b839b`에서 5언어 × 기본·정석·비정석 15잎을 4월로
+바꾸고 full-run의 정확 접두 제거를 함께 옮겼다. 기본 만남은 벽시계, 커피는 종이컵
+밑면, 대답은 기존 젖은 타이어 1회만 소유한다. 기준 `e9ac5fc` 구조 대조에서 언어별
+변경은 meet 설명 3필드와 coffee 설명 1필드뿐이며 meet 선택과 answer 사건 전체,
+measure·ID·효과·플래그·배경·초상·오디오는 동일하다.
+
+최종 제품 바이트에서 JSON5, 공개5언어 14사건/100잎/123 UI, EN 한글 self-test41와
+실제 EN/coverage, i18n·다국어·기본 정적 감사를 통과했다. 격리 Godot 4.6.2는
+CompileCheck 69 exact marker 1, Manual 정상 15잎/5언어와 v4 기록 5, demo/V2
+원문 유지 marker 각1, 두 stream 모두 engine/script/parse 오류0이다. 넓은
+`demo_localization_scope --self-test`는 손대지 않은 `e9ac5fc`에서도 옛 전체본문 pin
+6건이 실패하므로 이번 통과로 세거나 미선언 도구를 고치지 않았다. 실제 M04 화면·
+원어민·사람·새 RC·출시는 여전히 별도다.
