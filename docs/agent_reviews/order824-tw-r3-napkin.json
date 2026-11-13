@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-824",
+  "reviewer": "/root/review_816",
+  "author": "/root",
+  "reviewed_at": "2026-11-13",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "525a7e17455d714664e7c789a4c3731ee2a69a16",
+    "tree": "05c7ed0bb9af352c018bfaf93df275b35e284d9a",
+    "manifest_sha256": null
+  },
+  "scope": "Only three existing Traditional Chinese leaves: W203 money choice index 2 label/result and W204 causal prepend [0][2].",
+  "findings": "All three render the R3 KRW 70m as an additional-funding amount, not a completed raise, deposit, or live cash. W195's still-needed Friday premise, Minseo's question about filling the number and next empty cell, and Daeun pointing at the two empty cells before opening her calendar remain. Body and people alternatives, other descriptions, names, numbers, paragraph breaks and tokens unchanged.",
+  "routing": "W203 cost_reading index 2 records m51_money_cost_shortfall for GD-P25-R3; StoryMode validates the W203 receipt and uses its choice_index for W204's exact prepend. Other W203 and W204 receipts/effects unchanged. Static trace, no observed exposure.",
+  "validation": {
+    "method": "Direct W195/Korean and both full W203/W204 Korean/TW events with alternatives, actual indexed receipt trace, independent official original ORDER-166 and new receipt verification, source and previous/new target hashes, pure check_batch, exact byte inverses.",
+    "prior_batches": 413,
+    "prior_decisions": 382,
+    "prior_decision_ledger_sha256": "6287a6191e95950699856bc0fe1c616c62c6be0444b3f90bad4423d5111d699c",
+    "target_byte_inverses": 1,
+    "ledger_byte_inverses": 1,
+    "original_receipt_leaves": 3,
+    "current_receipt_leaves": 3,
+    "protected_blobs": 22,
+    "logs": "Official zh-TW export/check/import with three empty stderr files; Chapter5 19 roots/47 choices audit, public demo 5 locales/14 events/100 leaves/122 UI, EN/i18n/context pass."
+  },
+  "identity": {
+    "baseline": "ca47a7616136fd08dfc6c6e78469f1154d3cf44c",
+    "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+    "receipt_bindings": {
+      "old_batch_id": "927bbbdb78f8c5769bc018b03dedd364778b295b760b3749fcf79c29f31f7740",
+      "old_receipt_sha256": "4effee16fb30c42da8a90f87d2b6e5e60eda84ada163cf51f1a4f107506d9922",
+      "old_receipt_file_sha256": "c9a51337bf3a8834a071f725953bdcb206dcae5f3b1e024fa7f806e639acc692",
+      "old_source": "4b3a8cbe7474348e64fbba5c5d8e97e608dbb53f",
+      "batch_id": "d849411ede5da726c02609f2aecf798b31254173c21d1b72c133081b97b50aad",
+      "receipt_sha256": "81f8ee2749fd2ab92c211105001253cdf54c20417d38a954431789cf6289fe06",
+      "receipt_file_sha256": "1366e45cfcd2d26ea41fffe0d180c80659eb9b0bd72ae190ba4f0a6ab2b76cec"
+    },
+    "leaf_bindings": {
+      "events:arc_y5_after_goal_daeun:/chapter5_causal_reads/texts/0/2": {
+        "source_sha256": "4fdc190960631f78d3da3f70234715bc53641b1c4bc0f3bceb6bc9b961d36332",
+        "previous_target_sha256": "a44169deadff98f7915a38a8f80cfefe53340e0083511a489c865f2a0548f60a",
+        "new_target_sha256": "e7ff27d2edb9416b1e1d607b9605ecab2126ebcfe189baa7b8f3e1f2018746a5"
+      },
+      "events:arc_y5_minseo_goal_cost_reference:/choices/2/result_text": {
+        "source_sha256": "e484f15dd9910aa332ff468d38ab6103822549f402b1d6911dd13ca164095b18",
+        "previous_target_sha256": "cd8539b66eb757f59302b261083625944b8f8d9b87c452ca68514d4ef831c22e",
+        "new_target_sha256": "17b335e22b800053336468acaae6d46f897f1f2c75585690d9f94cad991c3980"
+      },
+      "events:arc_y5_minseo_goal_cost_reference:/choices/2/text": {
+        "source_sha256": "0afae13ca47e078026ff04e207abf4e076322611f1c342dfee69570e3fc4747b",
+        "previous_target_sha256": "7a39d6adc24b30f5ce09b8aa0e41ba55889f72ca14531776a1f57499f1b96975",
+        "new_target_sha256": "b9cdbdadcae4f8e7d38c2cc33104f2d05d3749134b3b1fd891a45688bfc1476d"
+      }
+    },
+    "raw_directory": ".git/localization-tw-r3-napkin-20261113.1Tq3zA/",
+    "raw_files": 17,
+    "raw_entries_sha256": "663312f2e3bcbf2594b9de29870eed9dde80a0fca78b1166cf064f2a77ed96ee",
+    "raw_digest_method": "SHA-256 of compact UTF-8 JSON array of lexically sorted [filename, byte_size, file_sha256] rows."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_w203_w204_continuous_play",
+    "actual_rendered_cost_and_napkin_scenes",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}

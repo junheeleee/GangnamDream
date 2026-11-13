@@ -16112,6 +16112,48 @@
         "path": "docs/agent_reviews/order823-cjk-r3-funding.json",
         "sha256": "8c2b556de1aed4bf399f526e873639278177da3d866291b83a4026de50d8906f"
       }
+    },
+    {
+      "id": "order824-tw-r3-napkin-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-13",
+      "decided_by": "/root/review_816",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-824",
+      "subject": {
+        "kind": "source",
+        "commit": "525a7e17455d714664e7c789a4c3731ee2a69a16",
+        "tree": "05c7ed0bb9af352c018bfaf93df275b35e284d9a",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order824-tw-r3-napkin.md",
+          "sha256": "3a39f4aa5d64ae79d69074588761f59865cb5f28f72ffb5db299320a4c5fcd72"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order824-tw-r3-napkin.json",
+          "sha256": "b2f6ae9afabcab69fddcb474815a57a23600633f895f367521c4beaf2e45002c"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_w203_w204_continuous_play",
+        "actual_rendered_cost_and_napkin_scenes",
+        "actual_save_load",
+        "candidate_ci",
+        "retail_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order824-tw-r3-napkin.json",
+        "sha256": "b2f6ae9afabcab69fddcb474815a57a23600633f895f367521c4beaf2e45002c"
+      }
     }
   ]
 }
