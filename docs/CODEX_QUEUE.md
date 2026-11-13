@@ -1,7 +1,6 @@
 # CODEX_QUEUE.md — Codex 작업 대기열·실행 스펙
 
-> **Codex 세션 시작 시 이 파일을 CLAUDE.md 직후에 읽는다.** 위에서부터 우선순위순.
-> 초기 전략·앵커 및 공통 함정은 [보존본](queue_archive/CODEX_QUEUE_2026-09.md#2026-07-07-초기-앵커-안내)에 있다.
+> CLAUDE.md 다음에 읽는다. 초기 전략은 [보존본](queue_archive/CODEX_QUEUE_2026-09.md#2026-07-07-초기-앵커-안내).
 
 ---
 
@@ -102,6 +101,7 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
 | 79 | [~] | ORDER-827 · 레거시 목록 | [827](queue_active/ORDER-827.md) | C1 대기·삭제0 |
+| 80 | [~] | ORDER-828 · 문서·큐·에셋 | [828](queue_active/ORDER-828.md) | C1 대기 |
 
 
 
