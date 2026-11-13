@@ -104,7 +104,6 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 | 80 | [~] | ORDER-827 · 레거시 목록 | [827](queue_active/ORDER-827.md) | 목록·삭제0 |
 | 81 | [~] | ORDER-828 · 문서·큐·에셋 | [828](queue_active/ORDER-828.md) | 문서와 에셋 목록 |
 | 82 | [~] | ORDER-731 · 연속 대표 플레이 | [731](queue_active/ORDER-731.md) | M60 완료 · 사람 검수 별도 |
-| 83 | [~] | ORDER-832 · 상점 대가 중심 포지셔닝 | [832](queue_active/ORDER-832.md) | 사용자 확정 · 로컬 5언어 초안만 |
 
 
 
@@ -161,7 +160,6 @@ legacy 저장 호환·제품 동작 검사는 유지한다. 역사 인간 OPEN45
 
 - 상세 작업 결과는 [WORK_LOG.md](WORK_LOG.md), 사용자 노트와 라운드 판정은
   [DEMO_FIXLOG.md](DEMO_FIXLOG.md), 설계 결정은 [DECISIONS.md](DECISIONS.md)가 정본이다.
-- [x] 2026-11-13 [831 체험판 최종 AI 수정](queue_archive/ORDER-831.md). 새 RC 뒤 사람 1시간 테스트 대기.
 
 ## 공통 검증 (모든 항목)
 ```bash
