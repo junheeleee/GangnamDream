@@ -19,6 +19,8 @@
   기존 소비만 사용하고 기준·스폰 가중치·경제는 수정하지 않는다.
 - 검사: `tools/{StoryChoiceM1M6Check,StoryDemoFourLanguageCheck,ScreenshotQA}.gd`,
   `tools/{demo_localization_scope,full_body_translation_scope,demo_core_loop_v2_audit,zh_translation_audit,english_hangul_audit}.py`의 해당 소스 결속 및 표적 회귀만.
+  기존 재정 키 1개를 데모에서 추가로 읽는 `tools/story_demo_localization_audit.py`의
+  정확한 UI 인벤토리와 음성·비용 회귀도 포함한다. 이전 보호 지문·키 검사는 보존한다.
 - 문서: 이 사양, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `CLAUDE.md`. 본편 직접
   진행 발화와 M01~M10 돈 판단은 여기서 목록으로만 남기고 수정하지 않는다.
 
