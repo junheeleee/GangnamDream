@@ -927,6 +927,7 @@ func _ready() -> void:
 	if scope == QA_SCOPE_WEDDING_MORNING:
 		var lang := _qa_language("en")
 		await _shot_wedding_morning_surfaces(lang, "wedding_morning_en_" if lang == "en" else "wedding_morning_ko_")
+		await _teardown_store_trailer_capture()
 		if _qa_failed:
 			get_tree().quit(1)
 			return
@@ -8629,6 +8630,10 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 			await _chapter5_finale_complete_current_typing(story)
 			if not await _chapter5_finale_wait_for_stable_story_surface(
 					story, event_id):
+				return
+		elif _qa_scope() == QA_SCOPE_WEDDING_MORNING:
+			if not await _wait_for_wedding_result_frame(
+					story, event_id, select_choice, advance_result_paragraphs):
 				return
 		_assert_authored_story_result_surface(story, event_id, select_choice)
 		if _qa_failed:
@@ -19058,10 +19063,10 @@ func _shot_wedding_morning_surfaces(lang: String = "en", prefix: String = "weddi
 		_assert_wedding_night_uncommitted(person_id, "opening choice")
 
 		_prepare_wedding_morning_qa_state(person_id)
-		await _shot_story_event(branch_a_id, prefix + person_id + "_03_branch_a", "", 0.45, true, true)
+		await _shot_story_event(branch_a_id, prefix + person_id + "_03_branch_a", "", 0.45, true, true, 0)
 		_assert_wedding_night_uncommitted(person_id, "branch A")
 		_prepare_wedding_morning_qa_state(person_id)
-		await _shot_story_event(branch_b_id, prefix + person_id + "_04_branch_b", "", 0.45, true, true)
+		await _shot_story_event(branch_b_id, prefix + person_id + "_04_branch_b", "", 0.45, true, true, 0)
 		_assert_wedding_night_uncommitted(person_id, "branch B")
 
 		_prepare_wedding_morning_qa_state(person_id)
@@ -19082,6 +19087,38 @@ func _shot_wedding_morning_surfaces(lang: String = "en", prefix: String = "weddi
 			final_id, prefix + person_id + "_08_morning_alt", "", 0.45,
 			true, true, 1, 0, false, 1)
 		_assert_wedding_night_state(person_id, "playful morning", 66, 3.0, 56)
+
+func _wait_for_wedding_result_frame(
+		story: Node, event_id: String, choice_index: int, result_paragraph: int) -> bool:
+	var deadline := Time.get_ticks_msec() + 2400
+	while is_instance_valid(story) and Time.get_ticks_msec() < deadline:
+		if str((story.get("_current") as Dictionary).get("id", "")) != event_id \
+				or not bool(story.get("_pending_after_result")) \
+				or int(story.get("_pending_result_choice_index")) != choice_index:
+			break
+		var ink_layer := story.get("_story_ink_transition_layer") as Control
+		var text_tween: Variant = story.get("_story_text_panel_tween")
+		if not bool(story.get("_story_scene_transition_active")) \
+				and (not is_instance_valid(ink_layer) or not ink_layer.visible) \
+				and (not text_tween is Tween or not (text_tween as Tween).is_running()):
+			var source := int(story.call(
+				"_story_source_paragraph_index", int(story.get("_para_index"))))
+			if source != result_paragraph:
+				break
+			if event_id in ["arc_daeun_wedding_night_choice", "arc_jiyeon_wedding_night_choice"]:
+				var shows_cg := bool(story.get("_current_uses_cg"))
+				var background := story.get("_bg_img") as TextureRect
+				var cg_id := str(DataRegistry.find_event(event_id).get("result_cg", ""))
+				if shows_cg != (source == 1) or (shows_cg and (background.texture == null \
+						or background.texture.resource_path != ImageRegistry.get_cg(cg_id))):
+					break
+			if bool(story.get("_typing")):
+				story.call("_complete_typing")
+			if not bool(story.get("_typing")):
+				return true
+		await get_tree().process_frame
+	_fail("Wedding result never settled on %s choice %d." % [event_id, choice_index])
+	return false
 
 func _shot_first_snow_surfaces(lang: String = "en", prefix: String = "first_snow_en_") -> void:
 	_set_qa_language(lang)

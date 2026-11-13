@@ -191,9 +191,12 @@ StoryDemoFourLanguageCheck}.gd`, `tools/demo_localization_scope.py`의 현행 �
 기다리고, 독립 검수에서 기존 검사 유지 확인. stdout SHA-256
 `fb0fb8be0bae79d6d93fe2ee9422876aba05516e755920d780c4b2af625a7c4c`.
 
-### [~] 신혼집 실화면 — 완성된 결과 컷 재촬영
+### [x] 신혼집 실화면 — 완성된 결과 컷 재촬영
 
 `tools/ScreenshotQA.gd`, 이 사양·`CLAUDE.md`·`docs/WORK_LOG.md`만. 결혼 밤의 단일
 선택 결과를 재선택 없이 완성하고, 아침 결과의 시간 전환이 끝난 프레임을 찍는다.
 이전 16컷은 일부 미완성 글/전환·종료 경고가 있어 보존하되 합격으로 세지 않는다.
 새 출력 폴더·격리 사용자 경로만, 실제 저장·원고·원화·음향·기존 RC 변경0.
+
+11-14: KO/EN 1280×800 각 16컷·오류0 (`830-wedding-viewport.LPZUwD`).
+다은 밤 소등 화면 연출과 실제 청취는 남았다. Dummy 캡처는 청취 증거 아님.
