@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-826",
+  "reviewer": "/root/review_816",
+  "author": "/root",
+  "reviewed_at": "2026-11-13",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "7fd5827517339f5ca8e411268697d3a89dab4952",
+    "tree": "aa1c1ce3d530a2d790549c9976ed49d7d946ce6c",
+    "manifest_sha256": null
+  },
+  "scope": "QA-only exact whole-won literal units/zero in ScreenshotQA._shot_full_story_month_cash, no product/translation change.",
+  "findings": "Old CJK zero expectation was English. Independent literal signed/comma amounts and five Korean-won suffixes now test each exact currency and unadorned zero. KO/EN values and all pre-existing modal, amount, focus and bypass checks remain. Runtime MainGame/LocaleManager formatter, product state, translation and saves are not edited.",
+  "validation": {
+    "method": "Pinned Git exact scope and runtime formatter read; independently parsed all raw stdout/stderr/Godot logs, eight isolation markers and 15 synthetic layouts including five exact signed amounts and focused enabled confirmation per layout. Pre-autoload isolated stage and sandbox policy reviewed. No rerun.",
+    "prior_decisions": 384,
+    "prior_decision_ledger_sha256": "63629010efd028774406d9c4faf638832775dabea83c3c4caaaec1752a1eb5b1",
+    "protected_blobs": 13,
+    "old_expected_negatives": 3,
+    "positive_layouts": 15,
+    "pixel_captures": 0,
+    "distinct_fresh_namespaces": 8,
+    "exit_contract": "Old JA/CN/TW hit the exact zero failure and no completion markers; source fail branch quits 1. New five locales each passed three cases and emitted the completion marker; success branch quits 0. Runner enforces nonzero/zero respectively.",
+    "warnings": {
+      "negative-ja": "ObjectDB instances leaked at exit",
+      "negative-zh-CN": "ObjectDB instances leaked at exit",
+      "negative-zh-TW": "ObjectDB instances leaked at exit",
+      "positive-en": "ObjectDB instances leaked at exit",
+      "positive-zh-TW": "ObjectDB instances leaked at exit"
+    },
+    "warning_boundary": "ObjectDB teardown warning in all expected negatives and EN/TW positives; no script/parse/compile errors. Not presented as warning-free or native evidence."
+  },
+  "identity": {
+    "baseline": "0c3f4eb87e9d595e1ab79598f033bab2f1169436",
+    "qa_before_blob": "515acc41d48c6b0a8480aba44a00baeac9976c41",
+    "qa_after_blob": "4988b656934f8c598a394b769287393d88be4947",
+    "raw_directory": ".git/order826-month-cash-20261113.ia00hr/",
+    "evidence_files": 30,
+    "evidence_entries_sha256": "0bc9139aefcd5418876fe4fd78bd1f7ed3cf6a2b5a1df0ed24dfd5f6faa34cf0",
+    "evidence_digest_method": "SHA-256 of compact UTF-8 JSON array of lexically sorted [relative filename, byte_size, file_sha256] for probe.py, five listed stage files (project, fixture gd/tscn, bootstrap and QA source), and stdout/stderr/Godot log for each of eight runs."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_native_month_cash_render",
+    "actual_player_save_load",
+    "actual_c1_continuous_play",
+    "candidate_ci",
+    "retail_release"
+  ]
+}

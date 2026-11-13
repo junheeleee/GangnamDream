@@ -16196,6 +16196,48 @@
         "path": "docs/agent_reviews/order825-zh-thursday-evening.json",
         "sha256": "f8d8d3d1f4132ac4aeba5e7f7110eefda59ea2c5533a8e00b745732913cb803c"
       }
+    },
+    {
+      "id": "order826-cjk-month-cash-qa-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-13",
+      "decided_by": "/root/review_816",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-826",
+      "subject": {
+        "kind": "source",
+        "commit": "7fd5827517339f5ca8e411268697d3a89dab4952",
+        "tree": "aa1c1ce3d530a2d790549c9976ed49d7d946ce6c",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order826-cjk-month-cash-qa.md",
+          "sha256": "864fbc950f2a4e0b31f43db91628ab08564fffafa68fcadadd9c25362ca2e55c"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order826-cjk-month-cash-qa.json",
+          "sha256": "7c6201c73b732774475cc2a382f5c8790f862194ce461a361f179b640faf925a"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_native_month_cash_render",
+        "actual_player_save_load",
+        "actual_c1_continuous_play",
+        "candidate_ci",
+        "retail_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order826-cjk-month-cash-qa.json",
+        "sha256": "7c6201c73b732774475cc2a382f5c8790f862194ce461a361f179b640faf925a"
+      }
     }
   ]
 }
