@@ -24,6 +24,8 @@ P1 화면 완료: 맞부딪친 직후 바퀴·빗물 삽입 컷을 원래 충돌
 
 11-14 KST [~] 착수: 본편 `arc_jiyeon_02_store` W34+에서 5언어 원문은 비가 막 그친 늦은 밤, 정류장 안내판, P1 세단 도착, 조용한 두 사람이다. `sinchon_bus_stop_after_rain_night.png` 원화 후보 한 장만 외부 작업 폴더에서 확인한다. 지갑 없는 젖은 정류장, 빗줄기 없음, 뚜렷한 안내판 실루엣·문자 없음, 비·웅성거림/차량·초상 시점은 채택 뒤 별도 배선. W85–88 `arc_jiyeon_03_offer`는 원문에 비가 다시 오므로 이번 대상 아님.
 
+후보 원화 검수 GO(제품 미채택): `830-sinchon-stop.ESNugV/sinchon_bus_stop_after_rain_night.png` 1280×800 RGB, SHA-256 `a290627b54d1c28d6ef0ca48add3f43e1e33b69357cf9873369ec983276a2f03`. 늦은 밤·유리에 남은 물방울·젖은 보도·판독 불가 안내판·빈 승차 공간. 진행 중 비/지갑/사람/차량 없음. P1 실제 세단 등장과 P0 빈 정류장은 별개 화면이며, 기존 차량 녹음은 노면/차량 기척용이지 문이나 제동 소리가 아니다. 기존 루프는 군중·실내·빗소리를 포함하므로 사용하지 않는다. 이 후보는 프로젝트 밖이라 release/export 불변.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
