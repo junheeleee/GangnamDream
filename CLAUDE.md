@@ -13,7 +13,7 @@
 | 현재 범위 | 1턴=1주, 240주·60개월(5년). 출시 데모는 M01~M06에서 끝난다. 기존 승인 `story_demo_rc` BUILD `2026.08.31.1`은 보존하고 829 수리는 별도 RC로 검증한다. 본편은 M01~M60 전체의 장면·선택·회수·정점 상승을 한 작품으로 관리한다. 저장 호환 AP 데이터·엔진 삭제 GO는 아니다. |
 | 품질 게이트 | 출시 완료 조건·목표일은 [`DECISIONS 2026-10-15`](docs/DECISIONS.md#2026-10-15-본편-출시-완료-조건과-목표일--사용자-승인)가 소유한다. [`MASTER_RELEASE_AUDIT`](docs/MASTER_RELEASE_AUDIT.md)는 품질 목표·과거 증거 참조이며 새 5조건 밖 추가 출시 차단이 아니다. |
 | 최근 검증 | [연속 대표 플레이](docs/queue_active/ORDER-731.md): 31.3 slot1 W192c1 P2 정상 Load → W200 결과 보존 수리 → 31.4 같은 런 M60 엔딩 3쪽과 크레디트. 사람 플레이 승인과는 별도. |
-| 바로 다음 | [831 체험판](docs/queue_archive/ORDER-831.md) 사람 1명 1시간 테스트. [830 감각 정합](docs/queue_active/ORDER-830.md)은 11-20까지 M01~M06·각 장 핵심·엔딩만. 새 번역·AI 체험판 재평가 중지. |
+| 바로 다음 | [830 감각 정합](docs/queue_active/ORDER-830.md): 본편·체험판의 모든 플레이 가능 장면 먼저. 그 뒤 [831 체험판](docs/queue_archive/ORDER-831.md) 사람 1명 1시간 테스트. 새 번역·AI 체험판 재평가 중지. |
 | 최근 수리 | 민준 대사·이사 비용·가까운 재정 목표·6월 분기 5언어 수정. macOS RC `2026.11.13.2`: 5언어 완주·실화면 110컷. 이전 RC 보존, 사람·전체 CI 별도. |
 | 열려 있는 사람 게이트 | [`human_gates.json`](docs/human_gates.json)의 공개 GO1·역사 OPEN45와 [`agent_review_decisions.json`](docs/agent_review_decisions.json)의 내부 판정을 보존한다. OPEN45 전부 닫기는 현재 출시 조건이 아니다. 사람 1명 2~3시간 플레이·최종 출시 판정은 사용자이며 아직 발급하지 않았다. |
 | 상점 | [832 대가 중심 A안](docs/queue_archive/ORDER-832.md) 5언어 로컬 초안. 실제 화면 6장·KO/EN 30/60초 영상 4개는 검토본. 최종 촬영·청취·사람 검수 별도, 업로드0. |
