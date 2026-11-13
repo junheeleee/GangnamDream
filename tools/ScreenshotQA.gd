@@ -8585,6 +8585,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		if bool(story.get("_showing_choices")):
 			await _settle(0.4)
 	var should_finish_result := false
+	var wedding_scope := _qa_scope() == QA_SCOPE_WEDDING_MORNING
 	if select_choice >= 0 and bool(story.get("_showing_choices")) and story.has_method("_on_choice"):
 		GameState.flags["tut_stat_shown"] = true
 		GameState.flags["tut_cast_shown"] = true
@@ -8601,7 +8602,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		# while opening the action, so freeze that result at full text even though
 		# no explicit `select_choice` argument was needed.
 		should_finish_result = true
-	if should_finish_result:
+	if should_finish_result and not wedding_scope:
 		if bool(story.get("_typing")) and story.has_method("_on_advance"):
 			if story.has_method("_complete_typing"):
 				story._complete_typing()
@@ -8631,12 +8632,17 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 			if not await _chapter5_finale_wait_for_stable_story_surface(
 					story, event_id):
 				return
-		elif _qa_scope() == QA_SCOPE_WEDDING_MORNING:
+		elif wedding_scope:
 			if not await _wait_for_wedding_result_frame(
 					story, event_id, select_choice, advance_result_paragraphs):
 				return
 		_assert_authored_story_result_surface(story, event_id, select_choice)
 		if _qa_failed:
+			return
+	elif wedding_scope:
+		var lights_out := story.get_node_or_null("WeddingLightsOut") as ColorRect
+		if not is_instance_valid(lights_out) or lights_out.visible:
+			_fail("Wedding lights-out affected the night prose or choices: %s." % event_id)
 			return
 	var expected_event_ambience := {
 		"amb_wallet_00": "rain",
@@ -19087,10 +19093,22 @@ func _shot_wedding_morning_surfaces(lang: String = "en", prefix: String = "weddi
 			final_id, prefix + person_id + "_08_morning_alt", "", 0.45,
 			true, true, 1, 0, false, 1)
 		_assert_wedding_night_state(person_id, "playful morning", 66, 3.0, 56)
+		_prepare_wedding_morning_qa_state(person_id)
+		await _shot_story_event(
+			final_id, prefix + person_id + "_09_night_alt", "", 0.45,
+			true, true, 1)
+		_assert_wedding_night_state(person_id, "playful night", 66, 3.0, 56)
 
 func _wait_for_wedding_result_frame(
 		story: Node, event_id: String, choice_index: int, result_paragraph: int) -> bool:
-	var deadline := Time.get_ticks_msec() + 2400
+	var deadline := Time.get_ticks_msec() + 5000
+	var final_event := event_id in [
+		"arc_daeun_wedding_night_choice", "arc_jiyeon_wedding_night_choice"]
+	var lights_out := story.get_node_or_null("WeddingLightsOut") as ColorRect
+	if not is_instance_valid(lights_out) or lights_out.visible:
+		_fail("Wedding lights went out before the last night sentence: %s." % event_id)
+		return false
+	var night_complete := false
 	while is_instance_valid(story) and Time.get_ticks_msec() < deadline:
 		if str((story.get("_current") as Dictionary).get("id", "")) != event_id \
 				or not bool(story.get("_pending_after_result")) \
@@ -19101,11 +19119,11 @@ func _wait_for_wedding_result_frame(
 		if not bool(story.get("_story_scene_transition_active")) \
 				and (not is_instance_valid(ink_layer) or not ink_layer.visible) \
 				and (not text_tween is Tween or not (text_tween as Tween).is_running()):
-			var source := int(story.call(
-				"_story_source_paragraph_index", int(story.get("_para_index"))))
-			if source != result_paragraph:
+			var page := int(story.get("_para_index"))
+			var source := int(story.call("_story_source_paragraph_index", page))
+			if source > result_paragraph:
 				break
-			if event_id in ["arc_daeun_wedding_night_choice", "arc_jiyeon_wedding_night_choice"]:
+			if final_event:
 				var shows_cg := bool(story.get("_current_uses_cg"))
 				var background := story.get("_bg_img") as TextureRect
 				var cg_id := str(DataRegistry.find_event(event_id).get("result_cg", ""))
@@ -19114,8 +19132,46 @@ func _wait_for_wedding_result_frame(
 					break
 			if bool(story.get("_typing")):
 				story.call("_complete_typing")
-			if not bool(story.get("_typing")):
-				return true
+			var pages: Array = story.get("_paragraphs")
+			var last_night_page := final_event and source == 0 and page + 1 < pages.size() \
+				and int(story.call("_story_source_paragraph_index", page + 1)) == 1
+			if lights_out.visible != last_night_page:
+				break
+			if last_night_page:
+				if lights_out.modulate.a < 0.999:
+					await get_tree().process_frame
+					continue
+				if not night_complete:
+					night_complete = true
+					var context: Dictionary = story.call("build_save_resume_context")
+					if float(context.get("source_text_progress", -1.0)) != 1.0 \
+							or str(context.get("phase", "")) != "result":
+						break
+					var previous_size := str(story.get("_story_text_size"))
+					story.call("_set_story_text_size", "large" if previous_size != "large" else "standard")
+					if not lights_out.visible or bool(story.get("_typing")):
+						break
+					story.call("_set_story_text_size", previous_size)
+					var almost_read := context.duplicate(true)
+					almost_read["source_text_progress"] = 0.999999
+					story.call("_restore_story_paragraph", almost_read, true)
+					if lights_out.visible or not bool(story.get("_typing")):
+						break
+					story.call("_restore_localized_story_text",
+						story.call("_localized_result_page_data", choice_index),
+						0, 0.999999, false, 1.0, true, false)
+					if lights_out.visible or not bool(story.get("_typing")):
+						break
+					lights_out.hide() # Reconstruct from the existing saved result position.
+					story.call("_restore_story_paragraph", context, true)
+					if not lights_out.visible or bool(story.get("_typing")):
+						break
+			if source == result_paragraph and (not final_event or night_complete):
+				return not bool(story.get("_typing"))
+			story.call("_on_advance")
+			if last_night_page and (not bool(story.get("_story_scene_transition_active")) \
+					or not lights_out.visible or lights_out.modulate.a < 0.999):
+				break
 		await get_tree().process_frame
 	_fail("Wedding result never settled on %s choice %d." % [event_id, choice_index])
 	return false

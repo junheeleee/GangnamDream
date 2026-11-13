@@ -12,7 +12,7 @@ This file owns the spatial, wardrobe, reveal-timing, and acting continuity for `
 - Each route is a three-link chain with two decisions. The root and both dialogue branches remain in the same home, portrait, outfit, ambience, and score; no transition may imply a second location or a wardrobe change.
 - Daeun branches through tea or mutual honesty before `arc_daeun_wedding_night_choice`. Jiyeon branches through the shared window or the untouched wineglass before `arc_jiyeon_wedding_night_choice`.
 - The root and branch links apply no effects, cast effects, flags, or CG. Only the final choice owns the canonical relationship result.
-- The night result remains on the home background with the portrait through result paragraph 0.
+- The night result stays in the same home with the same portrait. At the end of result paragraph 0, after the lights-out sentence is fully visible, both choices fade the art to darkness without obscuring the text or advancing it. This is a cut, not a second location or a change to exterior city lights.
 - The morning CG appears only on each `*_wedding_night_choice` event at `result_cg_reveal_paragraph: 1`, when the prose explicitly says the next morning.
 - Minjun is the player POV in both morning CGs. Do not draw a duplicate Minjun body into the frame.
 - The lower dialogue region must not cover the heroine's face, gaze target, hands, wedding ring, omelet, or duvet action.

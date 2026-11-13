@@ -147,6 +147,9 @@ var _story_transition_portrait_base_modulate := Color.WHITE
 var _story_scene_transition_active: bool = false
 var _story_scene_transition_duration: float = 0.0
 var _story_text_panel_tween: Tween = null
+var _wedding_lights_out: ColorRect
+var _wedding_lights_out_tween: Tween
+var _wedding_lights_out_handoff := false
 var _auto_button: Button = null
 var _auto_mode: bool = false
 var _auto_wait: float = -1.0
@@ -773,6 +776,15 @@ func _build_ui():
 		_story_portrait_material.set_shader_parameter("seed", 0.0)
 		_portrait.material = _story_portrait_material
 	_portrait_frame.add_child(_portrait)
+
+	# Covers only the scene art, not the narration, focus, or settings.
+	_wedding_lights_out = ColorRect.new()
+	_wedding_lights_out.name = "WeddingLightsOut"
+	_wedding_lights_out.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_wedding_lights_out.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_wedding_lights_out.color = Color("#08090d")
+	_wedding_lights_out.hide()
+	add_child(_wedding_lights_out)
 
 	# 원격 대화는 배경 속 실제 동석자로 오독되지 않도록 별도 통신 표면을 쓴다.
 	_communication_badge = PanelContainer.new()
@@ -2679,9 +2691,12 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	else:
 		saved_type_pos = clampi(
 			int(context.get("type_pos", paragraph.length())), 0, paragraph.length())
+	saved_type_pos = _wedding_night_type_position(saved_type_pos, paragraph.length(),
+		float(context.get("source_text_progress", 1.0)))
 	_type_full = paragraph
 	_auto_wait = -1.0
-	if was_typing and saved_type_pos < paragraph.length():
+	if (was_typing or (_is_wedding_night_result() and source_paragraph_index == 0)) \
+			and saved_type_pos < paragraph.length():
 		_start_typing(paragraph)
 		_type_pos = saved_type_pos
 		_body_lbl.text = paragraph.substr(0, saved_type_pos)
@@ -2689,6 +2704,7 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	_type_pos = paragraph.length()
 	_typing = false
 	_body_lbl.text = paragraph
+	_sync_wedding_lights_out(true)
 	_record_current_dialogue_source()
 	_refresh_continue_hint_text()
 	_continue_hint.visible = true
@@ -2825,6 +2841,9 @@ func _finish_story_scene_transition(kill_tween: bool = true) -> void:
 	_story_scene_transition_active = false
 	_story_scene_transition_duration = 0.0
 	_story_ink_transition_progress = 0.0
+	if _wedding_lights_out_handoff:
+		_wedding_lights_out_handoff = false
+		_set_wedding_lights_out(false, true)
 	if is_instance_valid(_story_transition_snapshot):
 		_story_transition_snapshot.visible = false
 		_story_transition_snapshot.texture = null
@@ -2868,6 +2887,11 @@ func _play_story_ink_transition(kind: String = "scene", strength: float = 1.0) -
 
 func _set_story_ink_transition_progress(value: float) -> void:
 	_story_ink_transition_progress = clampf(value, 0.0, 1.0)
+	if _wedding_lights_out_handoff:
+		# Keep the already-dark room over the outgoing night snapshot. Only
+		# reveal the morning after that snapshot has fully cleared.
+		_wedding_lights_out.modulate.a = 1.0 - _story_transition_smooth(
+			0.67, 1.0, _story_ink_transition_progress)
 	if _story_scene_transition_active and is_instance_valid(_story_transition_snapshot):
 		var old_alpha := 1.0
 		match _story_ink_transition_kind:
@@ -3334,10 +3358,13 @@ func _restore_localized_story_text(
 		_continue_hint.visible = false
 		return
 	_type_full = str(_paragraphs[_para_index])
-	if was_typing:
+	if was_typing or (_is_wedding_night_result() and source_paragraph_index == 0 \
+			and source_page_progress < 1.0):
 		_type_pos = clampi(
 			int(roundf(float(_type_full.length()) * localized_type_ratio)),
 			0, _type_full.length())
+		_type_pos = _wedding_night_type_position(
+			_type_pos, _type_full.length(), source_page_progress)
 		_typing = _type_pos < _type_full.length()
 		_body_lbl.text = _type_full.substr(0, _type_pos)
 		_continue_hint.visible = false
@@ -3350,6 +3377,7 @@ func _restore_localized_story_text(
 		_body_lbl.text = _type_full
 		_continue_hint.visible = hint_was_visible \
 				and not _showing_choices and not _direction_hold_active
+	_sync_wedding_lights_out(true)
 
 func _refresh_story_choice_language() -> void:
 	if not is_instance_valid(_choice_box):
@@ -4025,6 +4053,9 @@ func _queue_chapter5_finale_same_turn_ingress() -> void:
 func _load_next_event():
 	_reset_advance_hold()
 	_stop_story_choice_countdown()
+	if is_instance_valid(_wedding_lights_out) and _wedding_lights_out.visible:
+		_wedding_lights_out_handoff = false
+		_set_wedding_lights_out(false, true)
 	# A decisive choice may end the run immediately (notably the Week-24
 	# urgent shift at critical health). Do not let an authored follow-up or a
 	# remaining bundle root play over the ending that MainGame now owns.
@@ -5389,6 +5420,12 @@ func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 			str(_current.get("id", ""))) == "finale"
 		else "time_cut")
 	_begin_story_scene_transition(reveal_mode)
+	if is_instance_valid(_wedding_lights_out) and _wedding_lights_out.visible:
+		if _story_scene_transition_active:
+			_set_wedding_lights_out(true, true)
+			_wedding_lights_out_handoff = true
+		else:
+			_set_wedding_lights_out(false, true)
 	_bg_img.texture = ImageRegistry.load_texture(_event_cg_path)
 	_apply_story_surface_palette(true)
 	_configure_living_scene()
@@ -5788,10 +5825,51 @@ func _begin_direction_hold() -> void:
 	_direction_hold_remaining = clampf(float(_direction.get("hold", 0.0)), 0.5, 2.0)
 	_continue_hint.visible = false
 
+func _is_wedding_night_result() -> bool:
+	return _pending_after_result and _pending_result_choice_index in [0, 1] \
+		and str(_current.get("id", "")) in [
+			"arc_daeun_wedding_night_choice", "arc_jiyeon_wedding_night_choice"]
+
+func _is_last_wedding_night_page() -> bool:
+	return _is_wedding_night_result() and _para_index >= 0 \
+		and _para_index + 1 < _paragraphs.size() \
+		and _story_source_paragraph_index(_para_index) == 0 \
+		and _story_source_paragraph_index(_para_index + 1) == 1
+
+func _wedding_night_type_position(position: int, length: int, source_progress: float) -> int:
+	# A shorter locale can round an unread last character up to a full page.
+	if source_progress < 1.0 and _is_last_wedding_night_page():
+		return mini(position, maxi(0, length - 1))
+	return position
+
+func _sync_wedding_lights_out(immediate: bool) -> void:
+	if _wedding_lights_out_handoff:
+		return
+	var lights_out := not _typing and not _current_uses_cg and _is_last_wedding_night_page()
+	if lights_out or (is_instance_valid(_wedding_lights_out) and _wedding_lights_out.visible):
+		_set_wedding_lights_out(lights_out, immediate)
+
+func _set_wedding_lights_out(enabled: bool, immediate: bool) -> void:
+	if is_instance_valid(_wedding_lights_out_tween):
+		_wedding_lights_out_tween.kill()
+		_wedding_lights_out_tween = null
+	if not is_instance_valid(_wedding_lights_out):
+		return
+	var was_visible := _wedding_lights_out.visible
+	_wedding_lights_out.visible = enabled
+	if not enabled or immediate or _living_reduced_motion():
+		_wedding_lights_out.modulate.a = 1.0
+	elif not was_visible:
+		_wedding_lights_out.modulate.a = 0.0
+		_wedding_lights_out_tween = create_tween()
+		_wedding_lights_out_tween.tween_property(
+			_wedding_lights_out, "modulate:a", 1.0, 0.28).set_trans(Tween.TRANS_SINE)
+
 func _complete_typing() -> void:
 	_type_pos = _type_full.length()
 	_typing = false
 	_body_lbl.text = _type_full
+	_sync_wedding_lights_out(false)
 	_record_current_dialogue_source()
 	if _should_begin_direction_hold():
 		_begin_direction_hold()
@@ -5815,6 +5893,7 @@ func _start_typing(full_text: String):
 	_auto_wait = -1.0
 	_body_lbl.text = ""
 	_continue_hint.visible = false
+	_sync_wedding_lights_out(true)
 
 func _process(delta):
 	_refresh_auto_button()

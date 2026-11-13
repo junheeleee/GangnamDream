@@ -192,9 +192,11 @@ StoryDemoFourLanguageCheck}.gd`, `tools/demo_localization_scope.py`의 현행 �
 11-14: KO/EN 1280×800 각 16컷·오류0 (`830-wedding-viewport.LPZUwD`).
 다은 밤 소등 화면 연출과 실제 청취는 남았다. Dummy 캡처는 청취 증거 아님.
 
-### [~] 착수 — 신혼집 밤 소등
+### [x] 신혼집 밤 소등
 
 `scenes/StoryMode.gd`, `tools/ScreenshotQA.gd`, `assets/FIRST_MORNING_VISUAL_BIBLE.md`,
 이 사양·증거 이관본·`CLAUDE.md`·`docs/WORK_LOG.md`만. 다은·지연 각 두 분기의 밤
 마지막 문장이 끝날 때 그림만 소등. 아침 컷은 기존 공개 시점, 복원은 기존 문단 위치.
 글·저장 키·음향·공개 RC 변경0.
+
+KO/EN 2해상도 36컷·복원·독립 검수 통과. [증거](../queue_archive/ORDER-830-ART-EVIDENCE.md#신혼집-밤-소등). 연속 청취는 별도.
