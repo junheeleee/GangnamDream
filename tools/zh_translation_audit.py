@@ -39,7 +39,40 @@ from ja_translation_pipeline import (  # noqa: E402
 
 
 LANGUAGES = ("zh-CN", "zh-TW")
-EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS = 37
+EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS = 39
+CURRENT_STORY_DEMO_BASE_UI_KEYS = 37
+# Exact current 37-row base after the three independently reviewed successor
+# changes recorded in ORDER-829; this is not mislabeled as the older fixture.
+CURRENT_STORY_DEMO_BASE_UI_SHA256 = (
+    "434e8e8a4dd1dc9ec27d36d8045a963b4908557c0309b4e6b7dfc34bfa006d07"
+)
+# Reverse the three approved successor rows to the exact 4a7d1e7 row set
+# (ordered-row digest fd62fdbe...2546b) without embedding duplicate prose.
+HISTORICAL_STORY_DEMO_BASE_ROWSET_SHA256 = (
+    "2038a097af99f4fa9e70a6c3376725082d62118819e5878a86077b60a8edb22a"
+)
+STORY_DEMO_BASE_SUCCESSOR_ROW_SHA256 = (
+    ("6d30f0f264912760ac87b6c5fbe42b68063ba9babbb8fb6158265a313686950e",
+     "f9f05d47ec79aea1fbae8073f9370befd915f77f859975629e4177dd2c459a85"),
+    ("ecdccae4a4e59d5f7962a4bad0e9c2f76f7e54e384f2ea2ff006037782568aa7",
+     "f4e1c5cd5ec3079a2aaff868a67cf7eb78771caa2f2658a85ba80fddf6c297e9"),
+    ("ed2f1db91f7d7458fc70fc7ad14a5404131033f48ffe4ac03dedd6d1dce072b7",
+     "626e0242fc126fb673342a2d1c306b8cdb5ce8fb72b549524599355e998b6eb0"),
+)
+APPROVED_STORY_DEMO_UI_ADDITIONS = {
+    "순자산 %s · 목표 30억 원까지 %s 남음": (
+        "Net worth %s · %s to the 3 billion won goal", True,
+    ),
+    "휴대폰에 야간 반장의 문자가 와 있었다. “지난번에 새벽 두 자리 다 맡겠다고 "
+    "하셨잖아요. 다음에 빈자리 나면 {name} 씨한테 먼저 물어봐도 될까요?” ‘한 명 "
+    "비었다’는 급한 연락과 달리, 이번 문자에는 받는 사람의 이름이 있었다. {name}은 "
+    "그 줄을 한 번 더 읽었다.": (
+        "The night-shift foreman had sent a text. “You said you'd take both early shifts "
+        "last time. Next time a spot opens, can I ask you first, {name}?” Unlike the urgent "
+        "‘A spot opened’ text, this one addressed him by name. {name} read the line again.",
+        False,
+    ),
+}
 SCRIPT_VARIANT_DATA_PATH = (
     ROOT / "tools/data/opencc_script_variants_1_3_1.json"
 )
@@ -10406,6 +10439,46 @@ def chinese_contract_errors(manifest: dict[str, Any]) -> list[str]:
     return errors
 
 
+def _story_demo_exclusive_ui_contract_errors(exclusive: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    if len(exclusive) != EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS:
+        errors.append(
+            f"story-demo exclusive UI source count {len(exclusive)} != "
+            f"{EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS}"
+        )
+    base = {
+        source: pair for source, pair in exclusive.items()
+        if source not in APPROVED_STORY_DEMO_UI_ADDITIONS
+    }
+    rows = [
+        f"{source}\0{pair.english}\0{int(pair.format_template)}"
+        for source, pair in sorted(base.items())
+    ]
+    digest = hashlib.sha256("\n".join(rows).encode()).hexdigest()
+    if len(base) != CURRENT_STORY_DEMO_BASE_UI_KEYS \
+            or digest != CURRENT_STORY_DEMO_BASE_UI_SHA256:
+        errors.append(
+            "current story-demo base UI rows changed: "
+            f"{len(base)}/{digest}"
+        )
+    row_hashes = {hashlib.sha256(row.encode()).hexdigest() for row in rows}
+    for old_hash, current_hash in STORY_DEMO_BASE_SUCCESSOR_ROW_SHA256:
+        if current_hash not in row_hashes or old_hash in row_hashes:
+            errors.append("story-demo approved successor row changed")
+            continue
+        row_hashes.remove(current_hash)
+        row_hashes.add(old_hash)
+    historical = hashlib.sha256("\n".join(sorted(row_hashes)).encode()).hexdigest()
+    if historical != HISTORICAL_STORY_DEMO_BASE_ROWSET_SHA256:
+        errors.append(f"historical story-demo base row set changed: {historical}")
+    for source, (english, format_template) in APPROVED_STORY_DEMO_UI_ADDITIONS.items():
+        pair = exclusive.get(source)
+        if pair is None or pair.korean != source or pair.english != english \
+                or pair.format_template != format_template:
+            errors.append(f"approved story-demo UI pair changed: {source!r}")
+    return errors
+
+
 def _story_demo_exclusive_ui_pairs(
     runtime: dict[str, Any], inventory: UiInventory,
 ) -> tuple[dict[str, Any], list[str]]:
@@ -10423,11 +10496,7 @@ def _story_demo_exclusive_ui_pairs(
         for source, pair in pairs.items()
         if source not in existing_owners
     }
-    if len(exclusive) != EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS:
-        errors.append(
-            f"story-demo exclusive UI source count {len(exclusive)} != "
-            f"{EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS}"
-        )
+    errors.extend(_story_demo_exclusive_ui_contract_errors(exclusive))
     return exclusive, errors
 
 
@@ -22937,6 +23006,49 @@ static func attach_locale_fallbacks(font: FontFile, language: String) -> void:
     expected_inventory = _static_ui_inventory()
     expected_legacy_total = len(expected_inventory.legacy_blueprint)
     expected_context_total = len(expected_inventory.planned_context_blueprint)
+    story_pairs, story_errors = _story_demo_exclusive_ui_pairs(
+        runtime, expected_inventory
+    )
+    if story_errors:
+        failures.append(f"current story-demo UI contract failed: {story_errors}")
+    for source in APPROVED_STORY_DEMO_UI_ADDITIONS:
+        if source not in story_pairs:
+            continue
+        missing = dict(story_pairs)
+        missing.pop(source)
+        if not _story_demo_exclusive_ui_contract_errors(missing):
+            failures.append(f"missing approved story-demo UI pair escaped: {source!r}")
+        changed = dict(story_pairs)
+        pair = changed[source]
+        changed[source] = type(pair)(
+            pair.owner, pair.korean, pair.english + "!", pair.format_template
+        )
+        if not _story_demo_exclusive_ui_contract_errors(changed):
+            failures.append(f"changed approved story-demo UI pair escaped: {source!r}")
+        changed[source] = type(pair)(
+            pair.owner, pair.korean, pair.english, not pair.format_template
+        )
+        if not _story_demo_exclusive_ui_contract_errors(changed):
+            failures.append(f"changed approved story-demo UI format escaped: {source!r}")
+    base_source = next((
+        source for source in sorted(story_pairs)
+        if source not in APPROVED_STORY_DEMO_UI_ADDITIONS
+    ), None)
+    if base_source is not None:
+        changed = dict(story_pairs)
+        pair = changed.pop(base_source)
+        replacement = base_source + "!"
+        changed[replacement] = type(pair)(
+            pair.owner, replacement, pair.english, pair.format_template
+        )
+        if not _story_demo_exclusive_ui_contract_errors(changed):
+            failures.append("changed story-demo base UI source escaped")
+        changed = dict(story_pairs)
+        changed["unowned extra source"] = type(pair)(
+            pair.owner, "unowned extra source", pair.english, pair.format_template
+        )
+        if not _story_demo_exclusive_ui_contract_errors(changed):
+            failures.append("extra story-demo UI source escaped")
     for lang in LANGUAGES:
         (
             legacy_covered,
