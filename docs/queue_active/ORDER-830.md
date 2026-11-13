@@ -121,6 +121,14 @@ W202 수락의 `hoesik`은 바 녹음과 영국 펍 대화층을 겹친다. 공�
 평일 점심 원음으로 저녁 장면에 그대로 쓰지 않는다. 원본 청취·장면 적합성·출처 표시를
 확인하기 전 후보이며, 다운로드·채택0.
 
+### [~] 착수 — W202 국밥집 수락 결과의 바 소리 제거
+
+`content/events/callback_events_2.json`의 `callback_daeun_committed_gangnam_eve`
+0번 결과 환경음 한 키, `scenes/StoryMode.gd`, `autoloads/BGMPlayer.gd`,
+`tools/{audit.py,StoryBackgroundContextCheck.gd}`, 이 사양과 `CLAUDE.md`·`WORK_LOG.md`만.
+명시적 무음은 장소 환경음·군중·계절음만 즉시 종료하며 음악·효과음은 유지한다.
+원문·5언어·선택 효과·저장·사진·미루는 분기·현수 재회의 공유 프로필 변경0.
+
 ### [x] M02 두 결과의 정확한 장소 전환 — 소스·격리 검증
 
 만지는 파일: 이 사양, `scenes/StoryMode.gd`, `autoloads/{ImageRegistry,BGMPlayer}.gd`,
