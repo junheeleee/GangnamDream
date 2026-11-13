@@ -457,7 +457,7 @@
         "expected_event_count": 136,
         "expected_file_count": 43,
         "expected_ids_sha256": "d41c2decfd20cbb8c4c5abe0f751009fd00e8a7de5c303b3227d0e81476a062a",
-        "expected_content_sha256": "7e422c31fd144985bfc3516c7b0cad27eff3e6ae9fd1f3cfd93a0043431248b7"
+        "expected_content_sha256": "17092482f47f734627a45f4b4899c2bc2b9ff36a3ab319c3cc5daaa13ef2b2ad"
       },
       "facts": [
         {

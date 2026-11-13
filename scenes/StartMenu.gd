@@ -401,6 +401,11 @@ func _horizontal_scrim_texture() -> GradientTexture2D:
 func _title_wordmark(font_size: int = 66) -> VBoxContainer:
 	var subtitle := LocaleManager.ui(
 		"GANGNAM DREAM", "A KOREAN SOCIAL-REALITY DRAMA")
+	# Keep both demo paths and the historical KO/EN title unchanged.
+	if LocaleManager.language in ["ja", "zh-CN", "zh-TW"] \
+			and BuildFlavorScript.build_flavor_id() == "full" \
+			and ProjectSettings.get_setting("application/run/main_scene", "") != "res://playtests/order124/StoryChoiceM1M6Playtest.tscn":
+		subtitle = _tr("한국 사회의 현실을 그린 드라마", "A KOREAN SOCIAL-REALITY DRAMA")
 	return GangnamWordmarkScript.new(font_size, subtitle)
 
 func _input(event):

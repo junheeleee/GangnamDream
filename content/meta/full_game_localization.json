@@ -27070,6 +27070,718 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-816",
+      "group": "ui",
+      "roots": [
+        "룰렛 결과",
+        "룰렛 당첨 번호",
+        "룰렛 베팅 마감",
+        "룰렛 최근 당첨 번호",
+        "룰렛 회전 중",
+        "룰렛에 베팅하세요"
+      ],
+      "source_leaves": 6,
+      "target_leaves_by_locale": {
+        "ja": 6,
+        "zh-CN": 6,
+        "zh-TW": 6
+      },
+      "source_review": "Full-game roulette phase badge and result canvas share the six Korean status keys. Korean, English, other locales and both demo paths retain the previous English captions.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "60685011bddcf7aefc122df3620a4c976bafcaed",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "d16f36989a0a67f103085c45aaaca10020763882f74c1a2a2e2e420840c02aa4",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2e74fa53caea1a0afdadce0fc904cf1832d8280f67b9aaa391a84b5e7b5984d2"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "60685011bddcf7aefc122df3620a4c976bafcaed",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "906b164f1a92733843f9ba44cd4b0b1089d7cd00602da2589790cebe23cd9bb2",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8ad0088cadf6de82984404aa80f97786c883c929ec03999959e99bec38b8e1e3"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "60685011bddcf7aefc122df3620a4c976bafcaed",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "29b6ac90d73106cb87f4bf750f9fc55bd81c7716ed91533616ea1bf3b6a657cc",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d4186b79649008bc182cc67839a98c10b5a4dfaadee9ae6b1f414dc35591ae9b"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "34e24b239460d44b273c1e93e3589807de06c5fe532de350006d5ffb4d82d987",
+        "zh-CN": "5a3e47adb334449429b908d230b6618b98a0d8a3f1fcf6ed7606f5af29cf3259",
+        "zh-TW": "5c76c027c5fb598be6ac578e5e47e7d7a5d2556444dd0124ae651acc25249eec"
+      }
+    },
+    {
+      "order": "ORDER-817",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "story_four_year"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Make the unchanged KRW 3 billion notebook goal unmistakable. Preserve the C2 age fix, do not assert asset growth or a real balance, and keep every other sentence and branch unchanged.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "5ead751a32b9b140a58c94e185d97bba7de37a31",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "996230f199cb890b3346fa3ec02bc210f17802798b172959f0ea573e1d4926b6",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e4b7eef89a3d001e6579d55f19a4c35796313a20c54f580a52151dd88b7297db"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "5ead751a32b9b140a58c94e185d97bba7de37a31",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "66c6015e6861afc32c3e4c9ead28f64a9ba7f858e9efff6dda601dfb092be289",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "76bb0123e29e7f3a529f857d14ae6aa89eeaf27461c3a7df0e3f18396d5fdb2e"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "5ead751a32b9b140a58c94e185d97bba7de37a31",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "8108bd076f474ea7fe55bbbb72ddce0965ab7535ab22e5608b64166be5a3abb3",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "36bafd9b1450d8cc9ac7f297b8d1f29ed3e88c87ca5ae47f4ad8d837c356b0c9"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "9de345538c40c62e0464c8a4ac14b27fbb86f09bf2ffe610839bbd0a5e02d6ad",
+        "zh-CN": "915728de97605e668ef43fb16dcbada3a3ee88f59ca5aec6f0a3e7b99b71358c",
+        "zh-TW": "03277a5d1e37360bc383fc0c587fa0c7aebcac6815cf31532789c57f23f3de69"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:story_four_year:/description": "611d7f22afa36b0a629277351445fc3975320a0616796b65ba5a42ebd30f231b"
+        },
+        "zh-CN": {
+          "events:story_four_year:/description": "8ba86393b056474ff2e310fdda63ce736d6c98e1994e42f5e2a0213102fa47c5"
+        },
+        "zh-TW": {
+          "events:story_four_year:/description": "18bcac5a77b776dffacbb6f4d894ff89f10bb8a10eec175ffd0e5cd4e9aa4bd1"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:story_four_year:/description": {
+            "source_sha256": "c15764306841cc820c3f32febf7c7d1758cf59476d1d38b23319d63501a1568f",
+            "target_sha256": "66ccef4f89a1e22ceaa89d7ed9c8e8dbf15828384961a45b5c33e881233156ca"
+          }
+        },
+        "zh-CN": {
+          "events:story_four_year:/description": {
+            "source_sha256": "c15764306841cc820c3f32febf7c7d1758cf59476d1d38b23319d63501a1568f",
+            "target_sha256": "bda25d8dfa942748d5fed5722ff4bc0b4eb270ba2c01448124bf35a360cb0a5f"
+          }
+        },
+        "zh-TW": {
+          "events:story_four_year:/description": {
+            "source_sha256": "c15764306841cc820c3f32febf7c7d1758cf59476d1d38b23319d63501a1568f",
+            "target_sha256": "1ef7f93709cc36810cf673117db70f42eb82ebeaf0066b4c9f219b1c1647e986"
+          }
+        }
+      }
+    },
+    {
+      "order": "ORDER-818",
+      "group": "ui",
+      "roots": [
+        "2026년, 서울.",
+        "강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.",
+        "김민준, 서른셋.",
+        "통장 50만원. 월세 65만원짜리 고시원.",
+        "목표 30억원. 남은 시간은 5년.",
+        "첫 주가 시작된다."
+      ],
+      "source_leaves": 6,
+      "target_leaves_by_locale": {
+        "ja": 6,
+        "zh-CN": 6,
+        "zh-TW": 6
+      },
+      "source_review": "Localize six captions already read by the three-beat opening cinematic. Preserve its years, ages, currency and amounts, the title/body order and original line break, and retain the unchanged Korean/English captions and the separate public story demo.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "ad534bb70efd83f8f9e601df8f74204557987de5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "3807e2ec17206f7da86df2deab706a9c60e2eb24a3237f54ee392c7c75092c62",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "18de78a77da4020b4a817127e0a4625ec1fa36bc869cf0998962807f2d0db92d"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "ad534bb70efd83f8f9e601df8f74204557987de5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "7b1d30185edba2428056281dc69e75e5db37f5d746f22bcbeb9e7cb68488e9d3",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8099aa42f7b6ea9d71d065e9aa4cb11890b6c348a031a5353feb9585f20065e7"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "ad534bb70efd83f8f9e601df8f74204557987de5",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "b30b21a7475f7419f2425877c08b81912c2d4cbe7371259315f1d5df7485b6ef",
+          "count": 6,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "701e434d6f7d20ecf539af2a6a2727bb9eb5db05361cfa20f143f1af9dba4432"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "2d8992ea523dff54fe9242840cf52b6daa30444a856a5effd11385fe96c03894",
+        "zh-CN": "165e1648c497c964a7033d1d4e77480aaa4ff8827c5374d55908de34f401c783",
+        "zh-TW": "09cb915fa3156cf6e2137787aeb5031e4e4d2c92b6d34a5c0bb0284fe158c33a"
+      }
+    },
+    {
+      "order": "ORDER-819",
+      "group": "ui",
+      "roots": [
+        "카페의 남자"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "source_review": "Translate the unnamed man from the cafe in the existing portrait and phone nameplates, without revealing a name or conflating him with Manager Kim.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "33c6d49c320c95a560d949c520f2da49c6f4f066",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "c9458379a1e1de73d68a3f232acb50e6eb996e2d13c7cd62edd4f515752d5c25",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "593bf1927efaf40cf0e2d8d77c1ba2f8d8e140a8a8749b9218b8f772e94ac6cf"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "33c6d49c320c95a560d949c520f2da49c6f4f066",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "a92c3dac1769fd6e52486ff3575682ab62cd2816d32fc77b970f95d7563089ed",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a653424ca218a3e6e8eff3a48fcdc9e23ffacd25bf0de47a54d7107a4357573e"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "33c6d49c320c95a560d949c520f2da49c6f4f066",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "4f3899872f725da3e2f18a9d8c4a1a66ec22dfb18b4865377c9c4e9614eeac8a",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "68c2ee8c238a1098ff28221f4de1941dfe80974de32b50801b3c6bc27df43151"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "f3c9317a7ca0f675f9d13e4c96878f5267be4e88d8088f498d8f32f9444bdcdc",
+        "zh-CN": "e8f95b774128ba9e7b466426abc446017ef3c1c4eea7c833f8d7ff0cd5b32e16",
+        "zh-TW": "8f0912a848a3f60e6ad54d1c8b9c972678a9be39d3b1cec2a7cef98a4884284c"
+      }
+    },
+    {
+      "order": "ORDER-820",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "callback_cafe_honest_win_deeper"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Keep the caller's personal endorsement distinct from an acquaintance and restore the tax adviser's polite offer to Minjun. Preserve the actual introduction, alternative, and effects.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "17100cb173c06ada09dbfed155e3b450816481a9",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "cf0d3bfd0e0c028dfc000c0baa035f8ef86b008ab36b67d3c4daa8b2a72578de",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9d601b8b9eaff1c9a1f04cdc30018f4824eeb7e4e89606928a43ad4975839a73"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "17100cb173c06ada09dbfed155e3b450816481a9",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+          "selection_sha256": "b0c914316ea7278316c612ea18ea2e33ee7515031a3c469a2c1396440171c288",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "fe09d4bf7f585f230b684fa47d06eefcdf2704ed21644a4d08e53389b952bdca"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "a5adf836eb9495918c1481a9b538e833fda55c9986269b5ec10446828c263e0d",
+        "zh-TW": "254f92f726957d024ab468953756aef21bbbbf10f8564267251fd3941577e793"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:callback_cafe_honest_win_deeper:/description": "e3b18c8d54c0e26207b184e69e70a844d9e0ce0e0be06283bfa057bd62dcd951"
+        },
+        "zh-TW": {
+          "events:callback_cafe_honest_win_deeper:/choices/0/result_text": "d342a84e37d591695391841f260dd37a196afdf7dd525479362992510691d5e3"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:callback_cafe_honest_win_deeper:/description": {
+            "source_sha256": "bef7668571c820bef978e76e615e4fdebb201e8e4f1502397129010c2b5336e9",
+            "target_sha256": "e3b18c8d54c0e26207b184e69e70a844d9e0ce0e0be06283bfa057bd62dcd951"
+          }
+        },
+        "zh-TW": {
+          "events:callback_cafe_honest_win_deeper:/choices/0/result_text": {
+            "source_sha256": "181dd49bdd96629c57b70d6cb67d2bba41be46230996677a9b81d74c2c92b5c9",
+            "target_sha256": "d342a84e37d591695391841f260dd37a196afdf7dd525479362992510691d5e3"
+          }
+        }
+      }
+    },
+    {
+      "order": "ORDER-821",
+      "group": "ui",
+      "roots": [
+        "한국 사회의 현실을 그린 드라마"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "source_review": "Localize the genre subtitle at both title wordmark call sites for full-game prepared languages, preserving the existing brand and other locale/build behavior.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "af49617e122cb2ee89af163350817d43aea2dcfc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "c1049340372c8a6d1e69a993aba180d0c2d0c21df8c6c38c4a1718b4919143c4",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "ef2c806d679b9ba11a86e8a9f5ebab9c01d2150cad480e088c87b17ba30b5f79"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "af49617e122cb2ee89af163350817d43aea2dcfc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "e283ce1c3b871b8d929d08c243c394a5d07ad7b534b81b30e8ba5ab7a0ffd145",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "87ce5f0a8afd4e5ed741e7640d49bdb994e5fa67aa2eb603fe029f1b2418fac4"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "af49617e122cb2ee89af163350817d43aea2dcfc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "4ceb8cbb0d44402ab5f82d704b6b251435b7ddadc6eb11c44aa151716f7ffef1",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a64286c6ddef0219ddaefe03490df0173eb279f5c6159d7227507bcea4ba7d2c"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "e310d470c95839be083433ac8dd55a6f3d349d891ea45b3418fe437b99d19363",
+        "zh-CN": "579acb7d5ea16ee7e73f6fa9d2400ad2ef8495da9b36fe07e970faefa49b4679",
+        "zh-TW": "3735eb3fd1f6575623b0f2a389f9e1634fb81aee39fa3716ec00b5f5d97eb591"
+      }
+    },
+    {
+      "order": "ORDER-822",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_y5_contract_cover_investment"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 0
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Keep Daeun’s name field and unsigned status on the same screen; do not borrow the distinct screenshot action from the alternate choice.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "4833dda53d88a5c8a482f313ff6ec9a0539bf76e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "ba822f5264dfe9b88f1867e0cddb8a102ebc8c3ee2ec9dc87985d0c97621b433",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a9f74183e996890af45d08af1ae84face94a545501c9d1c82869049d6c5c993c"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "5f18b48223a5724c7373604b4dc1a2350aa0f9d9cb6627dbc6c9d1fa84b3eef6"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-CN": {
+          "events:arc_y5_contract_cover_investment:/choices/2/text": "0de58be5227bf2b6b3ece0d072064873e6746b78adfaaede1d861017d400bf60"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-CN": {
+          "events:arc_y5_contract_cover_investment:/choices/2/text": {
+            "source_sha256": "f877c229cb49009c0023f0feb1078bc56bae84f3171244aa8b47de27115d1a39",
+            "target_sha256": "0de58be5227bf2b6b3ece0d072064873e6746b78adfaaede1d861017d400bf60"
+          }
+        }
+      }
+    },
+    {
+      "order": "ORDER-823",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_y5_final_push_deadline_investment"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Keep the R3 table’s additional funding figure distinct from funds already raised; the separate request is not an approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "168adba1919bb13d7f5c169ecba377ada7153423",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "86046e855f282f57729c33f9cfea9d15956749019a363aa894785cece0c65bab",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d4bb942dd34cac401f8247cb9a829c52913b4acd5aacbbb0f72c6bd5fe27d6d7"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "168adba1919bb13d7f5c169ecba377ada7153423",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "5239ab1653103eaa45449c317a79d76cbcb90ec2393b88079ef7818990901e66",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9bf12810cba35ca6e262ad48f3b6fa05c784ed685b693b06e1fc6469d6105a7c"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "f15731ab67cbb913649dfe703fd9556a46e144c79825ced31c1c8e78426446db",
+        "zh-TW": "a54e6f734acb292e384dc9918f75392fc67e820964d8d0096385ba95f30eb750"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-CN": {
+          "events:arc_y5_final_push_deadline_investment:/description": "c9c36a4eed8f836112f22d326f0e648d4884bd7ead48ecd68fa022baede7160a"
+        },
+        "zh-TW": {
+          "events:arc_y5_final_push_deadline_investment:/description": "e5fab607a7c428e944c2da44f024dea1d581490aece6baff9d20bf782180ef7f"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-CN": {
+          "events:arc_y5_final_push_deadline_investment:/description": {
+            "source_sha256": "61f478e8ec140912bddaa6a2a3df05740beb5e9bdd7a46a3b49367b4e3a38330",
+            "target_sha256": "c9c36a4eed8f836112f22d326f0e648d4884bd7ead48ecd68fa022baede7160a"
+          }
+        },
+        "zh-TW": {
+          "events:arc_y5_final_push_deadline_investment:/description": {
+            "source_sha256": "61f478e8ec140912bddaa6a2a3df05740beb5e9bdd7a46a3b49367b4e3a38330",
+            "target_sha256": "e5fab607a7c428e944c2da44f024dea1d581490aece6baff9d20bf782180ef7f"
+          }
+        }
+      }
+    },
+    {
+      "order": "ORDER-824",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_y5_minseo_goal_cost_reference",
+        "arc_y5_after_goal_daeun"
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 3
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Keep the additional funding figure on the money column of the napkin, not an amount already raised. Daeun sees it only after the corresponding choice.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "ca47a7616136fd08dfc6c6e78469f1154d3cf44c",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "0c081f4fa817cd72a63188d920d4ffdca22ebd7f784d21a6ad056e1dc5d50362",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d849411ede5da726c02609f2aecf798b31254173c21d1b72c133081b97b50aad"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-TW": "81f8ee2749fd2ab92c211105001253cdf54c20417d38a954431789cf6289fe06"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-TW": {
+          "events:arc_y5_after_goal_daeun:/chapter5_causal_reads/texts/0/2": "a44169deadff98f7915a38a8f80cfefe53340e0083511a489c865f2a0548f60a",
+          "events:arc_y5_minseo_goal_cost_reference:/choices/2/result_text": "cd8539b66eb757f59302b261083625944b8f8d9b87c452ca68514d4ef831c22e",
+          "events:arc_y5_minseo_goal_cost_reference:/choices/2/text": "7a39d6adc24b30f5ce09b8aa0e41ba55889f72ca14531776a1f57499f1b96975"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-TW": {
+          "events:arc_y5_after_goal_daeun:/chapter5_causal_reads/texts/0/2": {
+            "source_sha256": "4fdc190960631f78d3da3f70234715bc53641b1c4bc0f3bceb6bc9b961d36332",
+            "target_sha256": "a44169deadff98f7915a38a8f80cfefe53340e0083511a489c865f2a0548f60a"
+          },
+          "events:arc_y5_minseo_goal_cost_reference:/choices/2/result_text": {
+            "source_sha256": "e484f15dd9910aa332ff468d38ab6103822549f402b1d6911dd13ca164095b18",
+            "target_sha256": "cd8539b66eb757f59302b261083625944b8f8d9b87c452ca68514d4ef831c22e"
+          },
+          "events:arc_y5_minseo_goal_cost_reference:/choices/2/text": {
+            "source_sha256": "0afae13ca47e078026ff04e207abf4e076322611f1c342dfee69570e3fc4747b",
+            "target_sha256": "7a39d6adc24b30f5ce09b8aa0e41ba55889f72ca14531776a1f57499f1b96975"
+          }
+        }
+      }
+    },
+    {
+      "order": "ORDER-825",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_y5_after_goal_daeun"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Keep the first Thursday evening slot distinct from a whole Thursday or a renewed weekly promise; preserve the clock, duration and pending future commitment.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "e306588d88a2f6d685f1ecd6a9d7b3057dd811f2",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "0dbc6a4ec55182bbec7932b1549a72acd2ca3a1a8f99e496c78b5d886bd58362",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "bc3544cc9400e8b7e16e043690672864eb3bce2a628afdf129d38b60e21a43bc"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "e306588d88a2f6d685f1ecd6a9d7b3057dd811f2",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "48e8ad7330ffe8149a35cf62fb39737c42ae102dfbf8af1d2492ec7c69ce2b56",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c386498ecd5ba72d347e228fb66f70dda1e5c0f0b88fa9129581b70286c6c1f5"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "a4f8cef40e7ccc32f3ec81b3b434c272d6c488ce585a463eaed57a0518a34d67",
+        "zh-TW": "2f13897758fc01a2dfe0e41b424ee4380a13a5acba4f04f879776161fb33db8f"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-CN": {
+          "events:arc_y5_after_goal_daeun:/choices/0/result_text": "4b286a8539e569fc89ea9f1f0082290417d7e8b3223c646acaf9c3c78a33ff1c"
+        },
+        "zh-TW": {
+          "events:arc_y5_after_goal_daeun:/choices/0/result_text": "4806c2ad77609d661c96424ef61bf372a6ef9526f3ca2bc6f107532f92478a52"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-CN": {
+          "events:arc_y5_after_goal_daeun:/choices/0/result_text": {
+            "source_sha256": "170358a53fa574536924afeb689c0a7a2ad175774b8ac08cae22696266e79e34",
+            "target_sha256": "4b286a8539e569fc89ea9f1f0082290417d7e8b3223c646acaf9c3c78a33ff1c"
+          }
+        },
+        "zh-TW": {
+          "events:arc_y5_after_goal_daeun:/choices/0/result_text": {
+            "source_sha256": "170358a53fa574536924afeb689c0a7a2ad175774b8ac08cae22696266e79e34",
+            "target_sha256": "4806c2ad77609d661c96424ef61bf372a6ef9526f3ca2bc6f107532f92478a52"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -49011,8 +49723,8 @@
         "target_sha256": "c11a8b42e7fd9aced7bb5a614357dbd080c12eac24e1db6ea8a01589a4366430"
       },
       "events:story_four_year:/description": {
-        "source_sha256": "c15764306841cc820c3f32febf7c7d1758cf59476d1d38b23319d63501a1568f",
-        "target_sha256": "66ccef4f89a1e22ceaa89d7ed9c8e8dbf15828384961a45b5c33e881233156ca"
+        "source_sha256": "ee7695c43bc9710f6a8a51a6c001423ef882c4cfd5dc4bc7dd5e2271b7571e72",
+        "target_sha256": "098affab068c7e4ed6e9c9bb6e7a03538560b9771d8e06ccc5a6b72e0ed446ab"
       },
       "events:story_four_year:/title": {
         "source_sha256": "58986e4983a66bd42d1039c9471b27549b4e5c9c30c492fb7fe4238400a605fe",
@@ -50996,7 +51708,7 @@
       },
       "events:callback_cafe_honest_win_deeper:/description": {
         "source_sha256": "bef7668571c820bef978e76e615e4fdebb201e8e4f1502397129010c2b5336e9",
-        "target_sha256": "e3b18c8d54c0e26207b184e69e70a844d9e0ce0e0be06283bfa057bd62dcd951"
+        "target_sha256": "ae0bf9672dde96f10f4dff27a32ffa5c245207c79adbd4d7f69bcb1bf52ffc1b"
       },
       "events:callback_cafe_honest_win_deeper:/title": {
         "source_sha256": "ced38e57379684d51ac9156fd3402936a7910862842f35814571087b7140382d",
@@ -79909,6 +80621,62 @@
       "ui:실시간 순위:/실시간 순위": {
         "source_sha256": "2bf3b1fdf018220082191e337b3b8cae6108375cb0d1a67ebd358f9fcd9238b1",
         "target_sha256": "0f827db023588c3b9c48034c09ae7ec8fad6dfc9925610989d959615f0677634"
+      },
+      "ui:룰렛 결과:/룰렛 결과": {
+        "source_sha256": "293e948c4be1062f78cd799a5b4c62b62b347e102aa42241b86f9a517ad69f5a",
+        "target_sha256": "f35d4e86ebe39f55aedaca7a9d8a29e9f4dabe1cea2681513e35f3e9318be278"
+      },
+      "ui:룰렛 당첨 번호:/룰렛 당첨 번호": {
+        "source_sha256": "6de27baced513ee8dd278d207e5863f0f7b4f3b5568a0411df4af65ceeab0028",
+        "target_sha256": "0ba07c466c8cec109a9ccaa6589f5129fffa281699fa6e5803fa32a26a869bc4"
+      },
+      "ui:룰렛 베팅 마감:/룰렛 베팅 마감": {
+        "source_sha256": "ccd7c0d7bb122abd56d26a7f24eb3f3ab9cec9bf080d3a4af743df4be3e1cead",
+        "target_sha256": "0d24cd7149f3388e766baacc97022ba6609f332fd85a4ae1d9a09beadf11ec31"
+      },
+      "ui:룰렛 최근 당첨 번호:/룰렛 최근 당첨 번호": {
+        "source_sha256": "be238b2e8cd802bb28cf0eef14d696d97d4915df2f08e6631ffdccd140d485b3",
+        "target_sha256": "29208ab80565d1c6d16496f7713b4a831abc9a89d2cc973366dfca95862e73d4"
+      },
+      "ui:룰렛 회전 중:/룰렛 회전 중": {
+        "source_sha256": "9c6f37a845398be31f9b54301a0f994ab614e93d91f5ee2e5b70eb97eeb9d930",
+        "target_sha256": "c8b382a57bc5b6691927bcbff1cb6f1841611ffe9ab5587a9901a1bb9715dc30"
+      },
+      "ui:룰렛에 베팅하세요:/룰렛에 베팅하세요": {
+        "source_sha256": "8191406c8d993e4b6c544b650ac6fcb480f5a8776c5c3f8a9f5c4a810989e2dd",
+        "target_sha256": "0c9018c897f66ce6c015667628c839bff8015b6ec5e5816b46a0859e52af0c68"
+      },
+      "ui:2026년, 서울.:/2026년, 서울.": {
+        "source_sha256": "5afd80be08ef8a1788fcbe80e3860c9e8002e51cb6d8cf604448af656e8212b8",
+        "target_sha256": "05281a6246422b8976aec4935184e42db278f20618e04687e49227f2036e924a"
+      },
+      "ui:강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.:/강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.": {
+        "source_sha256": "e85a569bd285d588a89c76a3553e309fcd1d99229678ddecd370ef0d3ec69346",
+        "target_sha256": "cd285435618bab3171d71f807815411cc3ce526ea366a1fdb454450ead8f7e94"
+      },
+      "ui:김민준, 서른셋.:/김민준, 서른셋.": {
+        "source_sha256": "731e7e185dcd2f2c9f9b874255e9addec3f222278c5a7e95092b7023cfb6db02",
+        "target_sha256": "18ccda68cec7878c1957b56eb199490884ee36fee268470a13e634927c3122db"
+      },
+      "ui:목표 30억원. 남은 시간은 5년.:/목표 30억원. 남은 시간은 5년.": {
+        "source_sha256": "eff9f1c652522d46b31ca91dd4a4bf99ec03290d0ba80876f27c069444b07df4",
+        "target_sha256": "d9d34a0d11087f614d9a57d6b5c2196fdd568d1103a8354be5a118a39093b9b9"
+      },
+      "ui:첫 주가 시작된다.:/첫 주가 시작된다.": {
+        "source_sha256": "bede9afb10e6b95a424e8b65b9a9f9e6518f8bb966d8c5e86a47ee8541a42d20",
+        "target_sha256": "e557142d1147261a6c2aa4aaf3d29ad7c2e20a723fa664babad59bf74c1f3513"
+      },
+      "ui:통장 50만원. 월세 65만원짜리 고시원.:/통장 50만원. 월세 65만원짜리 고시원.": {
+        "source_sha256": "f7e22e1424c980b944ebdabc3849378e304480d9d2e37f7ca4ad29b093668e88",
+        "target_sha256": "c38984386c0f1c97d15399875c2c9b25dbe5bcbf66f02a9d9cfbb4dad737e005"
+      },
+      "ui:카페의 남자:/카페의 남자": {
+        "source_sha256": "66580701cc66cd978b38354f6a31191f24e6fc2c2a82245c2809a20940362438",
+        "target_sha256": "98d474ed651be34a3afb39b1c152a6d629649b48275362dd45dbc6dddcb1b98e"
+      },
+      "ui:한국 사회의 현실을 그린 드라마:/한국 사회의 현실을 그린 드라마": {
+        "source_sha256": "a67317d30901b8e8591d9ea0cbbd68c1bff1cd514fc54d45704089fec8eab0d4",
+        "target_sha256": "086de55b387f2e73a4821137345c57767215b490e8cde6fc71d8cfaa3d50b173"
       }
     },
     "zh-CN": {
@@ -89090,7 +89858,7 @@
       },
       "events:arc_y5_after_goal_daeun:/choices/0/result_text": {
         "source_sha256": "170358a53fa574536924afeb689c0a7a2ad175774b8ac08cae22696266e79e34",
-        "target_sha256": "4b286a8539e569fc89ea9f1f0082290417d7e8b3223c646acaf9c3c78a33ff1c"
+        "target_sha256": "506e254111930e7467b459db59c5eece08c45a26a7d0795d15afc3f689461b7b"
       },
       "events:arc_y5_after_goal_daeun:/choices/0/text": {
         "source_sha256": "6b770e639318a0de4cbf6952108266bffdacf0e253157f458f31072465677706",
@@ -89186,7 +89954,7 @@
       },
       "events:arc_y5_contract_cover_investment:/choices/2/text": {
         "source_sha256": "f877c229cb49009c0023f0feb1078bc56bae84f3171244aa8b47de27115d1a39",
-        "target_sha256": "0de58be5227bf2b6b3ece0d072064873e6746b78adfaaede1d861017d400bf60"
+        "target_sha256": "190cd3c6750798499cfb9c6b2ef02f72f1aac101ccbdef43e1df067882a0684b"
       },
       "events:arc_y5_contract_cover_investment:/description": {
         "source_sha256": "a070d391e57151918c0a670368ab40be709b54c3bb7f2f4a77e46f2e49a2c347",
@@ -89350,7 +90118,7 @@
       },
       "events:arc_y5_final_push_deadline_investment:/description": {
         "source_sha256": "61f478e8ec140912bddaa6a2a3df05740beb5e9bdd7a46a3b49367b4e3a38330",
-        "target_sha256": "c9c36a4eed8f836112f22d326f0e648d4884bd7ead48ecd68fa022baede7160a"
+        "target_sha256": "ed89a563c931f62b5bbed26036a3d84ad6b94c77fd0fc5a08f727c0d8ae96e2e"
       },
       "events:arc_y5_final_push_deadline_investment:/title": {
         "source_sha256": "362e14d1df968dcfa6c2c891f5c3c15d1883973c5fe9b0c4cfd594533b6f2296",
@@ -101849,8 +102617,8 @@
         "target_sha256": "11df5c37aef589d50aca84ad12bc4e71e8002478b9b69c98e58a6a8e6ed73afb"
       },
       "events:story_four_year:/description": {
-        "source_sha256": "c15764306841cc820c3f32febf7c7d1758cf59476d1d38b23319d63501a1568f",
-        "target_sha256": "bda25d8dfa942748d5fed5722ff4bc0b4eb270ba2c01448124bf35a360cb0a5f"
+        "source_sha256": "ee7695c43bc9710f6a8a51a6c001423ef882c4cfd5dc4bc7dd5e2271b7571e72",
+        "target_sha256": "5abea39342084fcb9ea12281da3698ab6924e74c130293f8e7d5ecef9f4c6ef3"
       },
       "events:story_four_year:/title": {
         "source_sha256": "58986e4983a66bd42d1039c9471b27549b4e5c9c30c492fb7fe4238400a605fe",
@@ -139531,6 +140299,62 @@
       "ui:실시간 순위:/실시간 순위": {
         "source_sha256": "2bf3b1fdf018220082191e337b3b8cae6108375cb0d1a67ebd358f9fcd9238b1",
         "target_sha256": "a1942b70e1d50c12d0ef8a47260fa9d4e351b31bbfbeccd4a141eb2d52cf83ee"
+      },
+      "ui:룰렛 결과:/룰렛 결과": {
+        "source_sha256": "293e948c4be1062f78cd799a5b4c62b62b347e102aa42241b86f9a517ad69f5a",
+        "target_sha256": "43ceb88957f21ccd9dff38de21d0677070de6323749cff4db06da8b5f0314c1f"
+      },
+      "ui:룰렛 당첨 번호:/룰렛 당첨 번호": {
+        "source_sha256": "6de27baced513ee8dd278d207e5863f0f7b4f3b5568a0411df4af65ceeab0028",
+        "target_sha256": "286a41cd68efd56ab021113bc299c53f557ddc580fdd3174fcf2cc7c2a4a5622"
+      },
+      "ui:룰렛 베팅 마감:/룰렛 베팅 마감": {
+        "source_sha256": "ccd7c0d7bb122abd56d26a7f24eb3f3ab9cec9bf080d3a4af743df4be3e1cead",
+        "target_sha256": "7537bc63779628d212e837023b0a3f638a8292a2a904c0ecf13739778fcec5d1"
+      },
+      "ui:룰렛 최근 당첨 번호:/룰렛 최근 당첨 번호": {
+        "source_sha256": "be238b2e8cd802bb28cf0eef14d696d97d4915df2f08e6631ffdccd140d485b3",
+        "target_sha256": "cd33b962d8f9941f8d53267c095bb2fde184b9ac28c78aa597837fab29de6952"
+      },
+      "ui:룰렛 회전 중:/룰렛 회전 중": {
+        "source_sha256": "9c6f37a845398be31f9b54301a0f994ab614e93d91f5ee2e5b70eb97eeb9d930",
+        "target_sha256": "fbfda349bc051dda674b37cbc52c1a2af16e91456dae34b0f5457073b5906738"
+      },
+      "ui:룰렛에 베팅하세요:/룰렛에 베팅하세요": {
+        "source_sha256": "8191406c8d993e4b6c544b650ac6fcb480f5a8776c5c3f8a9f5c4a810989e2dd",
+        "target_sha256": "5bd1dcd755bc6e4c7d2bc708d7fb1d41d1b2d4d5c8cef0cc4c2fa9c1518c341e"
+      },
+      "ui:2026년, 서울.:/2026년, 서울.": {
+        "source_sha256": "5afd80be08ef8a1788fcbe80e3860c9e8002e51cb6d8cf604448af656e8212b8",
+        "target_sha256": "27d375943c9da0912b8cd2fe4c4fbb1b4dbe44e386c09d58ce1209c369e12126"
+      },
+      "ui:강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.:/강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.": {
+        "source_sha256": "e85a569bd285d588a89c76a3553e309fcd1d99229678ddecd370ef0d3ec69346",
+        "target_sha256": "715a5a0afac43704921ee5c7a42254ed5afc5764b576cb86266aae95aeff94f4"
+      },
+      "ui:김민준, 서른셋.:/김민준, 서른셋.": {
+        "source_sha256": "731e7e185dcd2f2c9f9b874255e9addec3f222278c5a7e95092b7023cfb6db02",
+        "target_sha256": "fef49ed8e20eccf7f4a43ca37af26cd3a0070c7f185b4dcf9401e508793834cf"
+      },
+      "ui:목표 30억원. 남은 시간은 5년.:/목표 30억원. 남은 시간은 5년.": {
+        "source_sha256": "eff9f1c652522d46b31ca91dd4a4bf99ec03290d0ba80876f27c069444b07df4",
+        "target_sha256": "c1371692491349a78fbf9b8d22eb12f98c89513e9801da1ad11e873a13d4aab8"
+      },
+      "ui:첫 주가 시작된다.:/첫 주가 시작된다.": {
+        "source_sha256": "bede9afb10e6b95a424e8b65b9a9f9e6518f8bb966d8c5e86a47ee8541a42d20",
+        "target_sha256": "d23507d0932f20cc96e2380f996a45629a601dd2b6f7913a21a3e630f9fede74"
+      },
+      "ui:통장 50만원. 월세 65만원짜리 고시원.:/통장 50만원. 월세 65만원짜리 고시원.": {
+        "source_sha256": "f7e22e1424c980b944ebdabc3849378e304480d9d2e37f7ca4ad29b093668e88",
+        "target_sha256": "4cd0c05811328591acc1818d16df10efcaee88a074228a57f9d73910a9b5a686"
+      },
+      "ui:카페의 남자:/카페의 남자": {
+        "source_sha256": "66580701cc66cd978b38354f6a31191f24e6fc2c2a82245c2809a20940362438",
+        "target_sha256": "9918c53614f78b2edc6b27a8a42f3fe312e9440329602b300998f6bfc005a4f9"
+      },
+      "ui:한국 사회의 현실을 그린 드라마:/한국 사회의 현실을 그린 드라마": {
+        "source_sha256": "a67317d30901b8e8591d9ea0cbbd68c1bff1cd514fc54d45704089fec8eab0d4",
+        "target_sha256": "678dfdcfdc16d20da20965ee1c5e83fe791bd5a32ff0cee2f654db4fa58750b8"
       }
     },
     "zh-TW": {
@@ -148708,11 +149532,11 @@
       },
       "events:arc_y5_after_goal_daeun:/chapter5_causal_reads/texts/0/2": {
         "source_sha256": "4fdc190960631f78d3da3f70234715bc53641b1c4bc0f3bceb6bc9b961d36332",
-        "target_sha256": "a44169deadff98f7915a38a8f80cfefe53340e0083511a489c865f2a0548f60a"
+        "target_sha256": "e7ff27d2edb9416b1e1d607b9605ecab2126ebcfe189baa7b8f3e1f2018746a5"
       },
       "events:arc_y5_after_goal_daeun:/choices/0/result_text": {
         "source_sha256": "170358a53fa574536924afeb689c0a7a2ad175774b8ac08cae22696266e79e34",
-        "target_sha256": "4806c2ad77609d661c96424ef61bf372a6ef9526f3ca2bc6f107532f92478a52"
+        "target_sha256": "dd9ed800aa01eab1d802d6509ff28bf2533630488822700dee2a83851ed4ef2d"
       },
       "events:arc_y5_after_goal_daeun:/choices/0/text": {
         "source_sha256": "6b770e639318a0de4cbf6952108266bffdacf0e253157f458f31072465677706",
@@ -148972,7 +149796,7 @@
       },
       "events:arc_y5_final_push_deadline_investment:/description": {
         "source_sha256": "61f478e8ec140912bddaa6a2a3df05740beb5e9bdd7a46a3b49367b4e3a38330",
-        "target_sha256": "e5fab607a7c428e944c2da44f024dea1d581490aece6baff9d20bf782180ef7f"
+        "target_sha256": "0b28895d8f73cded8675f2d524deedf37cf6d2e3b7f74e28f77c85d537eed1ad"
       },
       "events:arc_y5_final_push_deadline_investment:/title": {
         "source_sha256": "362e14d1df968dcfa6c2c891f5c3c15d1883973c5fe9b0c4cfd594533b6f2296",
@@ -149236,11 +150060,11 @@
       },
       "events:arc_y5_minseo_goal_cost_reference:/choices/2/result_text": {
         "source_sha256": "e484f15dd9910aa332ff468d38ab6103822549f402b1d6911dd13ca164095b18",
-        "target_sha256": "cd8539b66eb757f59302b261083625944b8f8d9b87c452ca68514d4ef831c22e"
+        "target_sha256": "17b335e22b800053336468acaae6d46f897f1f2c75585690d9f94cad991c3980"
       },
       "events:arc_y5_minseo_goal_cost_reference:/choices/2/text": {
         "source_sha256": "0afae13ca47e078026ff04e207abf4e076322611f1c342dfee69570e3fc4747b",
-        "target_sha256": "7a39d6adc24b30f5ce09b8aa0e41ba55889f72ca14531776a1f57499f1b96975"
+        "target_sha256": "b9cdbdadcae4f8e7d38c2cc33104f2d05d3749134b3b1fd891a45688bfc1476d"
       },
       "events:arc_y5_minseo_goal_cost_reference:/description": {
         "source_sha256": "01ea391c81ade6873f7f964697f1c37a23371d4289c19b0e1f91d9c066a6c357",
@@ -161471,8 +162295,8 @@
         "target_sha256": "e41b60604361ef75d92c8fd021e6d737c7f08a2b7a0dc6c9d0f12624e542b79c"
       },
       "events:story_four_year:/description": {
-        "source_sha256": "c15764306841cc820c3f32febf7c7d1758cf59476d1d38b23319d63501a1568f",
-        "target_sha256": "1ef7f93709cc36810cf673117db70f42eb82ebeaf0066b4c9f219b1c1647e986"
+        "source_sha256": "ee7695c43bc9710f6a8a51a6c001423ef882c4cfd5dc4bc7dd5e2271b7571e72",
+        "target_sha256": "d7c657b9c6eb7f9d24b907cc282b6da04dbea054af91bf30a93bc55fa124d106"
       },
       "events:story_four_year:/title": {
         "source_sha256": "58986e4983a66bd42d1039c9471b27549b4e5c9c30c492fb7fe4238400a605fe",
@@ -163440,7 +164264,7 @@
       },
       "events:callback_cafe_honest_win_deeper:/choices/0/result_text": {
         "source_sha256": "181dd49bdd96629c57b70d6cb67d2bba41be46230996677a9b81d74c2c92b5c9",
-        "target_sha256": "d342a84e37d591695391841f260dd37a196afdf7dd525479362992510691d5e3"
+        "target_sha256": "55a2eb8e8e966a3f8fc88f745c9d6425fe4617d7f9e14f763e643c6958cd0bf6"
       },
       "events:callback_cafe_honest_win_deeper:/choices/0/text": {
         "source_sha256": "d1a91a2638569be7d91de42e9991f301aeeb0f2458e0096e2168c39ab2c4906d",
@@ -199153,10 +199977,66 @@
       "ui:실시간 순위:/실시간 순위": {
         "source_sha256": "2bf3b1fdf018220082191e337b3b8cae6108375cb0d1a67ebd358f9fcd9238b1",
         "target_sha256": "61d65ce18180e0189c8da7c5db3aaf166011deedf897ac15eed90e0e33ca4068"
+      },
+      "ui:룰렛 결과:/룰렛 결과": {
+        "source_sha256": "293e948c4be1062f78cd799a5b4c62b62b347e102aa42241b86f9a517ad69f5a",
+        "target_sha256": "f35d4e86ebe39f55aedaca7a9d8a29e9f4dabe1cea2681513e35f3e9318be278"
+      },
+      "ui:룰렛 당첨 번호:/룰렛 당첨 번호": {
+        "source_sha256": "6de27baced513ee8dd278d207e5863f0f7b4f3b5568a0411df4af65ceeab0028",
+        "target_sha256": "cd7e937185484ccaf699e2b33ad6fdeb4c9b94cc9ef7f9b8b06019c1394c32a5"
+      },
+      "ui:룰렛 베팅 마감:/룰렛 베팅 마감": {
+        "source_sha256": "ccd7c0d7bb122abd56d26a7f24eb3f3ab9cec9bf080d3a4af743df4be3e1cead",
+        "target_sha256": "7537bc63779628d212e837023b0a3f638a8292a2a904c0ecf13739778fcec5d1"
+      },
+      "ui:룰렛 최근 당첨 번호:/룰렛 최근 당첨 번호": {
+        "source_sha256": "be238b2e8cd802bb28cf0eef14d696d97d4915df2f08e6631ffdccd140d485b3",
+        "target_sha256": "9adc17e7e3ca9cb7c9bceb47e3ee71b35bc5eccae4ef5cdba254cb35ee5e0958"
+      },
+      "ui:룰렛 회전 중:/룰렛 회전 중": {
+        "source_sha256": "9c6f37a845398be31f9b54301a0f994ab614e93d91f5ee2e5b70eb97eeb9d930",
+        "target_sha256": "bb59e553803ae779f7bcb9c70d8aa5dcf6f857be4a30279e35faa6f41bc8ba1d"
+      },
+      "ui:룰렛에 베팅하세요:/룰렛에 베팅하세요": {
+        "source_sha256": "8191406c8d993e4b6c544b650ac6fcb480f5a8776c5c3f8a9f5c4a810989e2dd",
+        "target_sha256": "2a9929fa3b0e67481c192925dc75acd70450d804401052edc70addad34fd0205"
+      },
+      "ui:2026년, 서울.:/2026년, 서울.": {
+        "source_sha256": "5afd80be08ef8a1788fcbe80e3860c9e8002e51cb6d8cf604448af656e8212b8",
+        "target_sha256": "5267fad5ea9e8b5dd3b17eaa3b1cea05e060f89c1fda6715c43108d834aca6b8"
+      },
+      "ui:강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.:/강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.": {
+        "source_sha256": "e85a569bd285d588a89c76a3553e309fcd1d99229678ddecd370ef0d3ec69346",
+        "target_sha256": "fafaaeedcd89eb11f9d3e6c9879de65e1f015c34fdfda8ebf2dc2b9a3e355ffa"
+      },
+      "ui:김민준, 서른셋.:/김민준, 서른셋.": {
+        "source_sha256": "731e7e185dcd2f2c9f9b874255e9addec3f222278c5a7e95092b7023cfb6db02",
+        "target_sha256": "a9f909d8d4e09c54665bd155987907745c80719e2cf6cb71031368901768de31"
+      },
+      "ui:목표 30억원. 남은 시간은 5년.:/목표 30억원. 남은 시간은 5년.": {
+        "source_sha256": "eff9f1c652522d46b31ca91dd4a4bf99ec03290d0ba80876f27c069444b07df4",
+        "target_sha256": "1adc48a022661be3cef63136b23a53fd6871ac418f9bf9b8bbd2e6e76bac9189"
+      },
+      "ui:첫 주가 시작된다.:/첫 주가 시작된다.": {
+        "source_sha256": "bede9afb10e6b95a424e8b65b9a9f9e6518f8bb966d8c5e86a47ee8541a42d20",
+        "target_sha256": "da694be4372e69252a1a8f69b81f2204a09e1a6f70d7db2c2ddf03906cd08b1d"
+      },
+      "ui:통장 50만원. 월세 65만원짜리 고시원.:/통장 50만원. 월세 65만원짜리 고시원.": {
+        "source_sha256": "f7e22e1424c980b944ebdabc3849378e304480d9d2e37f7ca4ad29b093668e88",
+        "target_sha256": "f07a7f6fbf5bf1d3a3ec3a90cebd98b752988f10b9e7eada23bef5fd2620ad95"
+      },
+      "ui:카페의 남자:/카페의 남자": {
+        "source_sha256": "66580701cc66cd978b38354f6a31191f24e6fc2c2a82245c2809a20940362438",
+        "target_sha256": "46abfcc339b53d4a1bae2b7f692bfd3f29d8ea38495046fd61e40db0fccfddc7"
+      },
+      "ui:한국 사회의 현실을 그린 드라마:/한국 사회의 현실을 그린 드라마": {
+        "source_sha256": "a67317d30901b8e8591d9ea0cbbd68c1bff1cd514fc54d45704089fec8eab0d4",
+        "target_sha256": "6468579ec06a20832f475c0e5501ad2cebd1ee2a26d8a569bdfc1f4a554f6040"
       }
     }
   },
-  "accepted_sha256": "9cc178631a1544649a8f16297e20a999067a96900db1668738499a5e8eea80a9",
+  "accepted_sha256": "e43c8eaf139ccfc4b575a7065d124ec6b13565f006989652c5286ee2b659ae03",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
