@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Thank her, then ask her name",
-        "result_text": "\"...I didn't realize. Thank you.\"\nThe clerk smiles. \"I'm Kim Daeun. I work the night shift.\"\n\n{name} gives his name too. For the first time, they call each other by name."
+        "result_text": "\"...I didn't realize. Thank you.\"\nThe clerk smiled. \"I'm Kim Daeun. I work the night shift.\"\n\n{name} gave his name too. For the first time, they used each other's names."
       },
       {
         "text": "Thank her and leave",
-        "result_text": "{name} gives a small bow and steps outside.\nIt is not a night when he has room to draw a stranger into a longer conversation.\n\nThe bag holds two triangle gimbap for the price he expected to pay for one. He does not ask the clerk's name."
+        "result_text": "{name} gave a small bow and stepped outside.\nIt wasn't a night when he had room to draw a stranger into a longer conversation.\n\nThe bag held two triangle gimbap for the price he expected to pay for one. He didn't ask the clerk's name."
       }
     ]
   },

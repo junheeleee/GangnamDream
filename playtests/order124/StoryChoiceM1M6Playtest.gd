@@ -1129,8 +1129,8 @@ static func _install_story_demo_m6_event(session: Dictionary = {}) -> Dictionary
 		event["description"] = intro_template % history_texts
 	if has_new_context and _m6_clean_shift_completed(session):
 		var clean_note := LocaleManager.ui(
-			"휴대폰에 야간 반장의 문자가 와 있었다. “지난번에 새벽 두 자리 다 맡겠다고 하셨잖아요. 다음에 빈자리 나면 {name} 씨한테 먼저 물어봐도 될까요?” 늘 ‘한 명 비었다’로 시작하던 사람이 이번에는 이름을 불렀다. {name}은 그 줄을 한 번 더 읽었다.",
-			"The night-shift foreman had sent a text. “You said you'd take both early shifts last time. Next time a spot opens, can I ask you first, {name}?” He usually started with ‘A spot opened.’ This time he used his name. {name} read the line again.")
+			"휴대폰에 야간 반장의 문자가 와 있었다. “지난번에 새벽 두 자리 다 맡겠다고 하셨잖아요. 다음에 빈자리 나면 {name} 씨한테 먼저 물어봐도 될까요?” ‘한 명 비었다’는 급한 연락과 달리, 이번 문자에는 받는 사람의 이름이 있었다. {name}은 그 줄을 한 번 더 읽었다.",
+			"The night-shift foreman had sent a text. “You said you'd take both early shifts last time. Next time a spot opens, can I ask you first, {name}?” Unlike the urgent ‘A spot opened’ text, this one addressed him by name. {name} read the line again.")
 		event["description"] += "\n\n" + clean_note
 	var source_choices: Array = source.get("choices", [])
 	var choices: Array = []
@@ -1160,7 +1160,7 @@ static func _install_story_demo_m6_event(session: Dictionary = {}) -> Dictionary
 			"Go back to the convenience store and ask the night-shift clerk whether she ate")
 		unknown_choice["result_text"] = LocaleManager.ui(
 			"{name}은 곧바로 방을 나섰다. 지하철을 갈아타고, 전에 알게 된 야간 근무 시간에 맞춰 편의점 문을 열었다.\n\n{name}: “오늘은 제가 먼저 물을게요. 저녁 먹었어요?”\n야간 직원: “교대 전에 김밥 하나 먹었어요. 그쪽은요?”\n\n{name}이 아직이라고 답하려는데 손님이 들어왔다. 계산과 택배 접수가 끝난 뒤 그 직원이 삼각김밥 진열대를 턱으로 가리켰다.\n\n야간 직원: “남 챙기러 왔으면 본인 것도 하나는 챙겨요.”\n{name}: “그럼 먹었다는 말부터 믿을게요.”\n야간 직원: “반만 믿어요. 저도 반쯤 먹었으니까.”\n\n{name}은 삼각김밥 하나를 사서 카운터가 보이는 창가에서 먹었다. 다음 손님이 올 때마다 대화는 멈췄다가 다시 이어졌다. 막차 시간표를 확인하고 일어서자 그 직원이 계산대 너머에서 손을 흔들었다.\n\n이름을 묻지 않았던 지난번처럼, 오늘도 둘은 이름을 부르지 않았다. 하지만 이번에는 {name}이 먼저 돌아왔다.",
-			"{name} leaves his room at once. After changing subway lines, he reaches the store during the night shift he learned about before.\n\n{name}: \"My turn to ask first. Did you eat?\"\nNight-shift clerk: \"I had a gimbap before the shift change. What about you?\"\n\nBefore {name} can say not yet, a customer walks in. Once the sale and a parcel drop-off are done, the clerk nods toward the triangle-gimbap shelf.\n\nNight-shift clerk: \"If you came to make sure someone else ate, get something for yourself too.\"\n{name}: \"Then I'll believe you ate.\"\nNight-shift clerk: \"Only halfway. I only ate half.\"\n\n{name} buys one and eats at the window where he can still see the counter. Their conversation stops whenever another customer enters, then starts again. When he checks the last-train schedule and stands to leave, the clerk waves from behind the register.\n\nLike last time, when he did not ask her name, neither of them uses a name tonight. But this time, {name} came back first.")
+			"{name} left his room at once. After changing subway lines, he reached the store during the night shift he'd heard about.\n\n{name}: \"My turn to ask first. Did you eat?\"\nNight-shift clerk: \"I had a gimbap before the shift change. What about you?\"\n\nBefore {name} could say not yet, a customer walked in. Once the sale and a parcel drop-off were done, the clerk nodded toward the triangle-gimbap shelf.\n\nNight-shift clerk: \"If you came to make sure someone else ate, get something for yourself too.\"\n{name}: \"Then I'll believe you ate.\"\nNight-shift clerk: \"Only halfway. I only ate half.\"\n\n{name} bought one and ate by the window, where he could still see the counter. Their conversation stopped whenever another customer came in, then picked up again. He checked the last train and stood to leave. The clerk waved from behind the register.\n\nLike last time, when he did not ask her name, neither of them used a name that night. But this time, {name} came back first.")
 		choices[0] = unknown_choice
 	event["choices"] = choices
 	DataRegistry.events_by_id[M6_EVENT_ID] = event
@@ -1177,7 +1177,7 @@ static func _install_story_demo_ledger_event(m6_event: Dictionary) -> Dictionary
 		var ledger_variants := {}
 		var template := LocaleManager.ui(
 			"동그라미 친 일을 마친 뒤였다.\n\n오늘 끝낸 한 줄\n%s\n\n오늘 끝내지 못한 네 줄\n%s\n\n민준은 한 일과 놓친 일을 같은 페이지에서 확인했다.",
-			"It was after he finished the line he had circled.\n\nThe one line finished tonight\n%s\n\nThe four lines left unfinished tonight\n%s\n\nMinjun looks at what he did and what he let pass on the same page.")
+			"He had finished the one thing he'd circled.\n\nThe one line finished tonight\n%s\n\nThe four lines left unfinished tonight\n%s\n\nMinjun saw what he'd done and what he'd let pass on the same page.")
 		event["description"] = template % ["—", "—"]
 		for selected_index in range((choices as Array).size()):
 			var selected_choice: Dictionary = (choices as Array)[selected_index]

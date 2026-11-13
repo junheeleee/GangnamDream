@@ -512,23 +512,23 @@
     "choices": [
       {
         "text": "Call Father again",
-        "result_text": "{name} calls Father. After several rings, his father answers.\n\n“Yeah?”\n“I just wanted to hear your voice. Have you eaten?”\n“I did. Take care of yourself.”\n\nWhen {name} brings up the pharmacy bag, Father asks whether the room is cold. Neither answers the question the other one asked. Long silences pass between talk of dinner, the weather, and buses to Changwon.\n\n{name}: “I'll call again Monday evening.”\nFather: “If you want.”\n\nAfter the call, {name} writes “Father” in Monday's space in the notebook. Beneath the call's end time, deadlines on the other lines have already passed."
+        "result_text": "{name} called Father. After several rings, he answered.\n\n“Yeah?”\n“I just wanted to hear your voice. Have you eaten?”\n“I did. Take care of yourself.”\n\nWhen {name} brought up the pharmacy bag, Father asked whether his room was cold. Neither answered the other's question. Long silences passed between talk of dinner, the weather, and buses to Changwon.\n\n{name}: “I'll call again Monday evening.”\nFather: “If you want.”\n\nAfter the call, {name} wrote “Father” in Monday's space in the notebook. By then, deadlines on the other lines had already passed."
       },
       {
         "text": "Finish Hanbit Distribution's month-end discrepancy sheet",
-        "result_text": "{name} reopens the month-end discrepancy sheet from the logistics center. Of the two rows where system and physical counts disagree, he corrects only the one he can trace. Beside the other, he writes “site recheck” instead of inventing a quantity.\n\nAt 5:59 p.m., he sends the first month-end sheet assigned to him since joining Hanbit. Fifteen minutes later, the person in charge asks why one field is blank. {name} separates what the records prove from what still needs checking.\n\nAfter seven, a reply comes back: update it Monday after the site count. The other row on the sheet still reads “site recheck.”"
+        "result_text": "{name} reopened the month-end discrepancy sheet from the logistics center. Of the two rows where system and physical counts disagreed, he corrected only the one he could trace. Beside the other, he wrote “site recheck” instead of inventing a quantity.\n\nAt 5:59 p.m., he sent the first month-end sheet assigned to him since joining Hanbit. Fifteen minutes later, the person in charge asked why one field was blank. {name} separated what the records proved from what still needed checking.\n\nAfter seven, a reply came back: update it Monday after the site count. The other row on the sheet still read “site recheck.”"
       },
       {
         "text": "Submit the City Facilities worksheet",
-        "result_text": "{name} reopens the worksheet he drafted. His hand stops over whether to mark the broken emergency lights “resolved” or “site recheck required.” He does not invent a completion time absent from the scenario. He records only the date, facility, issue, and next action.\n\nAt 5:59 p.m., he sends the file. The automated reply contains only “Work sample received” and an application number. {name} opens the submitted copy once more, checks every blank against its source, and transfers the number to his notebook."
+        "result_text": "{name} reopened the worksheet he'd drafted. His hand stopped over whether to mark the broken emergency lights “resolved” or “site recheck required.” He left the completion time blank and recorded only the date, facility, issue, and next action.\n\nAt 5:59 p.m., he sent the file. The automated reply contained only “Work sample received” and an application number. {name} opened the submitted copy once more, checked every blank against its source, and copied the number into his notebook."
       },
       {
         "text": "Go to Daeun's store and ask whether she ate",
-        "result_text": "{name} leaves his room at once. After changing subway lines, he reaches the store during the night shift he learned about before.\n\n{name}: \"My turn to ask first. Daeun, did you eat?\"\nDaeun: \"I had a gimbap before my shift. What about you?\"\n\nBefore {name} can say not yet, a customer walks in. Once the sale and a parcel drop-off are done, Daeun nods toward the triangle-gimbap shelf.\n\nDaeun: \"If you came to make sure I ate, get something for yourself too.\"\n{name}: \"Then I'll believe you ate.\"\nDaeun: \"Only halfway. I only ate half.\"\n\n{name} buys one and eats at the window where he can still see the counter. Their conversation stops whenever another customer enters, then starts again. When he checks the last-train schedule and stands to leave, Daeun waves from behind the register."
+        "result_text": "{name} left his room at once. After changing subway lines, he reached the store during the night shift he'd heard about.\n\n{name}: \"My turn to ask first. Daeun, did you eat?\"\nDaeun: \"I had a gimbap before my shift. What about you?\"\n\nBefore {name} could say not yet, a customer walked in. Once the sale and a parcel drop-off were done, Daeun nodded toward the triangle-gimbap shelf.\n\nDaeun: \"If you came to make sure I ate, get something for yourself too.\"\n{name}: \"Then I'll believe you ate.\"\nDaeun: \"Only halfway. I only ate half.\"\n\n{name} bought one and ate by the window, where he could still see the counter. Their conversation stopped whenever another customer came in, then picked up again. He checked the last train and stood to leave. Daeun waved from behind the register."
       },
       {
         "text": "Message Jaehyuk first and ask about his week",
-        "result_text": "{name}: \"I'm done for today. How was your week?\"\n\nJaehyuk says he is still out. At first, all he sends is, \"Same as always.\" When {name} goes first with one thing he finished and one thing he postponed, Jaehyuk writes a long message about something he got wrong on the way home.\n\nThe replies stop and start between subway transfers and dinner. {name} types an easy joke, deletes it, and names what he postponed without dressing it up. Investment and money never come up.\n\nAfter ten, Jaehyuk writes.\n\n\"Next time, let's each say one thing we did right too.\""
+        "result_text": "{name}: \"I'm done for today. How was your week?\"\n\nJaehyuk said he was still out. At first, all he sent was \"Same as always.\" When {name} went first with one thing he'd finished and one thing he'd put off, Jaehyuk wrote a long message about something he got wrong on the way home.\n\nTheir replies came in fits and starts between train transfers and dinner. {name} typed a joke, deleted it, and said what he'd put off. Neither of them brought up investments or money.\n\nAfter ten, Jaehyuk wrote again.\n\n\"Next time, let's each say one thing we did right too.\""
       },
       {
         "text": "Reconcile this month's spending with Sangchul's question in mind",
@@ -536,18 +536,18 @@
       },
       {
         "text": "Take urgent paid work tonight",
-        "result_text": "{name} leaves the room at once to reach the 6:30 p.m. assembly. The foreman of the overnight loading crew checks his gloves and work zone before asking his name. His palms start rubbing raw inside the gloves before the first pallet is empty.\n\nAfter midnight, straightening his back takes one extra beat as he unloads the last box. The foreman checks the account number on {name}'s phone. A moment later, the 280,000-won day rate arrives.\n\nThe deposit alert glows beneath the reflection of his raw, reddened palm."
+        "result_text": "{name} left at once to make the 6:30 p.m. call time. The foreman on the overnight loading crew checked his gloves and work zone before asking his name. His palms were already rubbing raw before the first pallet was empty.\n\nAfter midnight, he needed an extra beat to straighten up after unloading the last box. The foreman checked the account number on {name}'s phone. A moment later, the 280,000-won day's pay arrived.\n\nThe deposit alert glowed beneath the reflection of his raw, reddened palm."
       },
       {
         "text": "Set one alarm and lie down first",
-        "result_text": "Before 6:00 p.m., {name} sets one alarm and puts the phone face down. He showers in lukewarm water, slowly drinks a glass of water, and leaves only the notebook and pen beside the bed.\n\nEven after lying down, the order of everything he should do rearranges itself in his head. Each time his hand moves to check, it stops at the face-down phone. He starts nothing new while doors and footsteps in the hall grow distant."
+        "result_text": "Before 6:00 p.m., {name} set one alarm and put the phone face down. He washed in lukewarm water, drank a glass of water slowly, and left only the notebook and pen beside the bed.\n\nEven after lying down, he kept reshuffling the things he had to do. Each time he reached to check, his hand stopped at the face-down phone. He started nothing new while the doors and footsteps in the hall faded."
       }
     ]
   },
   {
     "id": "v2_demo_first_bill_ledger",
     "title": "The Next Blank",
-    "description": "After finishing the task he chose, {name} returns to the notebook.\n\n{v2_first_bill_return}\n\nOn the decision page, every line outside the one he circled is still written down.\n\n{v2_first_bill_done}\n\n{v2_first_bill_not_done}\n\n{v2_first_bill_deadline_missed}\n\n{name} reads what he finished and what he did not on the same page.",
+    "description": "After finishing the task he chose, {name} returned to the notebook.\n\n{v2_first_bill_return}\n\nOn the decision page, the lines he hadn't circled were still there.\n\n{v2_first_bill_done}\n\n{v2_first_bill_not_done}\n\n{v2_first_bill_deadline_missed}\n\nOn the same page, {name} read what he'd finished and what he hadn't.",
     "description_memory_if_known": {
       "m3_ledger_reasons_named": "The March ledger had reasons beside its entries. The line he circled tonight could not be reduced to one figure either.",
       "m3_ledger_totals_only": "In March, he had stopped at the total. Tonight, what he finished and what he put off could not be folded into one number."
