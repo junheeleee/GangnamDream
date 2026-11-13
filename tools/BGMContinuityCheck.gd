@@ -2,6 +2,9 @@ extends Node
 ## BGMContinuityCheck — 기본 베드=장소/계절, 음악=정점 구두점이라는 규칙을 잠근다.
 
 func _ready() -> void:
+	if OS.has_environment("GANGNAM_WEDDING_AUDIO_OUT"):
+		await _capture_wedding_audio()
+		return
 	AudioManager.bgm_volume = 0.25
 	GameState.start_new_game()
 	GameState.age = 33
@@ -970,6 +973,156 @@ func _ready() -> void:
 	await get_tree().process_frame
 	get_tree().quit(0)
 
+func _capture_wedding_audio() -> void:
+	var output := OS.get_environment("GANGNAM_WEDDING_AUDIO_OUT")
+	var qa := OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")
+	var boot := get_tree().get_script() as Script
+	var directory := DirAccess.open(output) if output.is_absolute_path() else null
+	if boot == null or boot.resource_path != "res://tools/StoryNameplateBootstrap.gd" \
+			or qa.is_empty() or OS.get_user_data_dir().get_file() != qa \
+			or directory == null or not directory.get_files().is_empty() \
+			or not directory.get_directories().is_empty() \
+			or AudioServer.get_speaker_mode() != AudioServer.SPEAKER_MODE_STEREO:
+		_fail("wedding audio requires isolated QA, fresh output and stereo Master")
+		return
+	AudioManager.bgm_volume = 0.25
+	OS.low_processor_usage_mode = false
+	var master := AudioServer.get_bus_index("Master")
+	if master < 0:
+		_fail("wedding audio Master bus is unavailable")
+		return
+	var failures: Array[String] = []
+	for boundary in [["fast_stress", 0.50], ["settled_month", 1.35]]:
+		GameState.start_new_game("WeddingAudioFixture")
+		GameState.turn = 200
+		GameState.year = 2030
+		GameState.age = 37
+		GameState.month = 2
+		GameState.week_of_month = 4
+		GameState.housing = "oneroom"
+		GameState.flags["prologue_done"] = true
+		GameState.flags["daeun_married"] = true
+		GameState.story_return_scene = "res://scenes/MainGame.tscn"
+		BGMPlayer.stop()
+		var record := AudioEffectRecord.new()
+		var effect_index := AudioServer.get_bus_effect_count(master)
+		AudioServer.add_bus_effect(master, record)
+		record.set_recording_active(true)
+		var result := await _capture_wedding_boundary(str(boundary[0]), float(boundary[1]))
+		record.set_recording_active(false)
+		var wav := record.get_recording()
+		AudioServer.remove_bus_effect(master, effect_index)
+		var nonzero := false
+		if wav != null:
+			for sample_byte in wav.get_data():
+				if sample_byte != 0:
+					nonzero = true
+					break
+		if not nonzero or wav.get_length() < 4.0 \
+				or wav.save_to_wav(output.path_join(str(boundary[0]) + "_master.wav")) != OK:
+			failures.append("Master capture failed: " + str(boundary[0]))
+		if not result:
+			failures.append("wedding audio boundary did not settle: " + str(boundary[0]))
+	BGMPlayer.stop()
+	await AudioManager.drain_pending_timers_for_exit()
+	for owner in [BGMPlayer, AudioManager]:
+		for child in owner.get_children():
+			if child is AudioStreamPlayer:
+				(child as AudioStreamPlayer).stop()
+				(child as AudioStreamPlayer).stream = null
+	await get_tree().create_timer(0.12).timeout
+	if not failures.is_empty():
+		_fail("; ".join(failures))
+		return
+	print("WEDDING_AUDIO_CAPTURE_OK cases=2 real_story=1 month_audio_calls=1 " \
+		+ "actual_summary_ui=0 driver=" + AudioServer.get_driver_name())
+	get_tree().quit(0)
+
+func _capture_wedding_boundary(label: String, month_pause: float) -> bool:
+	var packed: PackedScene = load("res://scenes/StoryMode.tscn")
+	GameState.pending_story_queue = ["arc_daeun_wedding_aisle"]
+	var story := packed.instantiate() as Control
+	# Keep the real StoryMode closure and audio calls without replacing this
+	# recorder node with MainGame. The intervening UI is not reproduced here.
+	story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(story)
+	if str((story.get("_current") as Dictionary).get("id", "")) != "arc_daeun_wedding_aisle":
+		return false
+	await get_tree().create_timer(1.5).timeout
+	if BGMPlayer._current_key != "wedding_processional" \
+			or BGMPlayer._current_ambience_key != "wedding_hall" \
+			or BGMPlayer._current_human_ambience_key != "wedding":
+		return false
+	_wedding_audio_snapshot(label, "hall")
+	for _step in range(60):
+		if bool(story.get("_transitioning")):
+			break
+		if bool(story.get("_showing_choices")):
+			story.call("_on_choice", 0)
+		else:
+			story.call("_on_advance")
+		await get_tree().create_timer(0.095).timeout
+	if not bool(story.get("_transitioning")) \
+			or not GameState.flags.get("arc_daeun_wedding_day_seen", false):
+		return false
+	_wedding_audio_snapshot(label, "hall_closed")
+	story.queue_free()
+	await get_tree().create_timer(month_pause).timeout
+	GameState.advance_calendar()
+	if GameState.turn != 201 or GameState.week_of_month != 1:
+		return false
+	# The monthly confirmation calls MainGame._begin_month(), whose two
+	# audio calls are exercised in order here before the separate story root.
+	BGMPlayer.enter_ambient_bed(0.9)
+	BGMPlayer.update_idle_ambience()
+	GameState.pending_story_queue = ["arc_daeun_wedding_night"]
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	story = packed.instantiate() as Control
+	add_child(story)
+	if str((story.get("_current") as Dictionary).get("id", "")) != "arc_daeun_wedding_night":
+		return false
+	_wedding_audio_snapshot(label, "home_entry")
+	var all_home_samples_clean := _wedding_home_audio_clean()
+	var home_seconds := 0.0
+	for interval in [0.30, 0.25, 0.20, 1.80]:
+		await get_tree().create_timer(interval).timeout
+		home_seconds += interval
+		_wedding_audio_snapshot(label, "home_after_%.2f" % home_seconds)
+		all_home_samples_clean = _wedding_home_audio_clean() and all_home_samples_clean
+	var settled := BGMPlayer._ambience_player.playing and BGMPlayer._player_a.playing \
+		and not BGMPlayer._player_b.playing
+	story.queue_free()
+	await get_tree().process_frame
+	return all_home_samples_clean and settled
+
+func _wedding_home_audio_clean() -> bool:
+	return BGMPlayer._current_ambience_key == "apartment" and BGMPlayer._current_key == "intimate" \
+		and not _wedding_track_playing("wedding_processional") \
+		and not BGMPlayer._human_ambience_player.playing and not BGMPlayer._season_player.playing
+
+func _wedding_track_playing(key: String) -> bool:
+	var stream := BGMPlayer._load_track(key)
+	return (BGMPlayer._player_a.playing and BGMPlayer._player_a.stream == stream) \
+		or (BGMPlayer._player_b.playing and BGMPlayer._player_b.stream == stream)
+
+func _wedding_audio_snapshot(label: String, stage: String) -> void:
+	var players: Dictionary = {}
+	for field in ["_player_a", "_player_b", "_ambience_player", "_human_ambience_player", "_season_player"]:
+		var player := BGMPlayer.get(field) as AudioStreamPlayer
+		players[field] = {"playing": player.playing, "db": player.volume_db,
+			"position": player.get_playback_position() if player.playing else 0.0}
+	var sfx: Array[String] = []
+	for raw in AudioManager._pool:
+		if raw.playing and raw.stream != null:
+			sfx.append(raw.stream.resource_path)
+	print("WEDDING_AUDIO_BOUNDARY " + JSON.stringify({"fixture": label, "stage": stage,
+		"msec": Time.get_ticks_msec(), "players": players, "sfx": sfx,
+		"score": BGMPlayer._current_key, "processional_playing": _wedding_track_playing("wedding_processional"),
+		"room": BGMPlayer._current_ambience_key, "human": BGMPlayer._current_human_ambience_key,
+		"season": BGMPlayer._current_season_key,
+		"winter_playing": BGMPlayer._season_player.playing \
+			and BGMPlayer._season_player.stream == BGMPlayer._load_ambience("winter")}))
+
 func _check_retiring_human_ambience() -> bool:
 	var wedding: Dictionary = DataRegistry.find_event("arc_daeun_wedding_aisle")
 	var home: Dictionary = DataRegistry.find_event("arc_daeun_wedding_night")
@@ -988,7 +1141,9 @@ func _check_retiring_human_ambience() -> bool:
 		var wedding_stream: AudioStream = BGMPlayer._human_ambience_player.stream
 		if operation == "restore":
 			BGMPlayer.duck_ambience()
-		BGMPlayer.update_event_ambience(home)
+		# Exercise the generic retirement path independently from the newlywed
+		# contract, which now cuts the inherited crowd at this location.
+		BGMPlayer.set_ambience("apartment")
 		if BGMPlayer._current_ambience_key != "apartment" or not BGMPlayer._current_human_ambience_key.is_empty():
 			_fail("newlywed home resolved to the wrong room or human cue")
 			return false

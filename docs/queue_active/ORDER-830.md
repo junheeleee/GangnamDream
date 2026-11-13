@@ -16,9 +16,9 @@
   IMAGE_PROMPTS.md,cg_acting_manifest.json,mod_asset_manifest.json}`, `tools/art_resolution_baseline.json`,
   `docs/{ART_AI_AUDIT.md,MODDING.md}`의 해당 항목만. 828의 기존 머리말은 별도 보존.
   원본 보존. 신부 시선·짧은 머리·왼쪽 클립·작은 홀/빈자리·대사 안전 영역을 검사.
-- W201 [~] `assets/scene_audio_manifest.json` 다은 신혼집 네 행·`autoloads/BGMPlayer.gd`,
+- W201 [x] `assets/scene_audio_manifest.json` 다은 신혼집 네 행·`autoloads/BGMPlayer.gd`,
   `tools/BGMContinuityCheck.gd`, 이 사양·증거 이관본·`CLAUDE.md`·WORK_LOG만. 집에서
-  남는 겨울음과 빠른 월 전환에 되살아나는 입장곡 차단. 새 원음·저장 변경0.
+  남는 겨울음과 빠른 월 전환에 되살아나는 입장곡 차단. [내부 믹스 증거](../queue_archive/ORDER-830-ART-EVIDENCE.md#결혼식과-신혼집-연속-믹스); 실제 청취는 미완.
 - M54 같은 생활음 수리: `assets/scene_audio_manifest.json`에서 실제 어머니 집
   `arc_daeun_hometown_2{,_father_passed}`·`arc_daeun_hometown_table_{hands,daughter,decision}`
   다섯 행. 결과 두 갈래가 버스 CG로 바뀌는 정확한 문단에만 음향도 이행한다.
@@ -101,7 +101,7 @@ coffee의 긁힘은 맞는 녹음이 없으므로 임의 대체0. 사무실 룸�
 같은 문단 재진입 중복 없음, 표준 오류·엔진 로그 오류0, 변조 4건 거부. 실제 청취·
 다음 체험판 재패키징은 별도이며 2026.11.13.1 ZIP은 덮어쓰지 않는다.
 
-## 범위 밖 발견 목록 — 수정하지 않음
+## 추가 확인 후보 — 발견 이력 보존
 
 - W222: 실제 계약이 아직 잠기지 않은 분기에서 공통 ‘최종 계약 집행 시각’ 문구.
 - W224·W234: 원룸의 상시 기계음 후보. 두 장면 각각 실제 소리·문장의 추가 확인 필요.

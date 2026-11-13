@@ -649,7 +649,8 @@ func update_event_ambience(
 		set_season_ambience(_event_season_key(ambience_key))
 
 func play_scene_paragraph_music(ev: Dictionary, cg_id: String, paragraph_index: int) -> void:
-	var contract: Dictionary = scene_audio_contract(str(ev.get("id", "")), cg_id)
+	var event_id := str(ev.get("id", ""))
+	var contract: Dictionary = scene_audio_contract(event_id, cg_id)
 	var authored_music: Variant = contract.get("music", null)
 	if not (authored_music is Dictionary):
 		return
@@ -658,6 +659,14 @@ func play_scene_paragraph_music(ev: Dictionary, cg_id: String, paragraph_index: 
 	var key: String = str(authored_music.get("key", ""))
 	if key.is_empty() or not TRACKS.has(key):
 		return
+	if event_id == "arc_daeun_wedding_night" and key == "intimate":
+		# The hall score is not part of the honeymoon mix. A rapid month
+		# handoff can leave a fading player that crossfade would revive.
+		var processional := _load_track("wedding_processional")
+		if processional != null and ((_player_a.playing and _player_a.stream == processional) \
+				or (_player_b.playing and _player_b.stream == processional)):
+			if _current_key != key:
+				enter_ambient_bed(0.0)
 	play_punctuation(key)
 
 func apply_ending_cg_ambience(cg_id: String) -> void:
