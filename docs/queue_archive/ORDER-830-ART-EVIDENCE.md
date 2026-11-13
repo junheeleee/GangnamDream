@@ -8,6 +8,8 @@
 
 11-14 KST 음향 [~] 착수: `assets/scene_audio_manifest.json` 사고 한 행과 `tools/BGMContinuityCheck.gd`의 실제 믹서 검사. `rain`의 별도 사람 레이어만 끄고 빗소리·차량·충돌·곡 시점을 보존한다. `docs/WORK_LOG.md` 당일 한 항목에 결과 기록.
 
+11-14 KST 화면 [~] 착수: `sinchon_crash_approach_rain_dusk`와 `sinchon_crash_exit_rain_dusk` 두 배경 및 import; `ImageRegistry`, 배경의 음향·방향·mod·해상도·release inventory·출처 기록. `arc_events.json` 사고 한 행의 prelude/CG/초상 시점, `StoryMode`의 c0/c2 퇴장 문장 및 선택·결과 복원, `StoryBackgroundContextCheck`와 `ScreenshotQA` 해당 표적만. 기존 CG·다섯 언어 원문·수리비/분기·저장 키·RC 보존.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
