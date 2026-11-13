@@ -121,6 +121,19 @@ W202 수락의 `hoesik`은 바 녹음과 영국 펍 대화층을 겹친다. 공�
 평일 점심 원음으로 저녁 장면에 그대로 쓰지 않는다. 원본 청취·장면 적합성·출처 표시를
 확인하기 전 후보이며, 다운로드·채택0.
 
+### [~] 착수 — M02 두 결과의 정확한 장소 전환
+
+만지는 파일: 이 사양, `scenes/StoryMode.gd`, `autoloads/{ImageRegistry,BGMPlayer}.gd`,
+`assets/{scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`,
+`assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
+및 두 `.import`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{ART_AI_AUDIT,MODDING,WORK_LOG}.md`,
+`tools/{art_resolution_baseline.json,StoryBackgroundContextCheck.gd}`, `CLAUDE.md`.
+검수한 원화 두 장만 채택. 저장·텍스트/현지화 파일·효과·갈래·사건 ID·과거 RC 변경0.
+정확한 5언어 기존 문장 경계를 페이지 단위로 나누되 저장에서 쓰는 기존 2개 원문 문단
+ID는 유지한다. 반환은 창구에서 시작해 은행을 나설 때 바깥으로, 추가 인계는 답신을
+보낸 뒤 사흘 후 보관함으로 이동한다. 등록된 두 실내는 전기음·군중·실외 비를 넣지
+않고 기존 음악은 건드리지 않는다. 진행·복원·언어 전환에서 같은 장소를 확인한다.
+
 ### [x] M04 · 상철 사무실에서 실제 행동만 들린다 (배선)
 
 `assets/scene_audio_manifest.json`, `tools/scene_audio_contract_check.py`, 이 사양만.
