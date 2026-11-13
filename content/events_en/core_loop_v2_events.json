@@ -366,30 +366,30 @@
   {
     "id": "v2_dirty_trace_initial_call",
     "title": "An Initial Verification Call",
-    "description": "On Wednesday morning, June 24, an unknown number calls.\n\n“This is the police cybercrime unit. We need to ask a few preliminary questions about an account in your name. Today, we'll only confirm a few facts and ask which dates you're available to come in.”\n\nIn late February, {name} returned 1.5 million won of the 2 million won he had received after the bank issued a victim-funds return request. He closed the account and blocked the recruiter. The remaining 500,000 won is still part of the facts.\n\nThis call does not yet state a charge or disposition.",
+    "description": "On Wednesday morning, June 24, an unknown number rang. {name} pushed his rice bowl aside and answered.\n\n“This is the police cybercrime unit. I'm calling about an account in your name. Do you remember when you handed it over?”\n\nIn January he'd received 2 million won. At the end of February, he'd returned 1.5 million won at the bank's request to return the victim's money. He had closed the account and blocked the recruiter's number. On the back of the closure receipt, {name} wrote down the 500,000 won he still hadn't returned.\n\nAt the rustle of paper, the voice at the other end paused. “Take your time. I'll wait.”",
     "choices": [
       {
         "text": "Give only the facts in the order you remember them",
-        "result_text": "{name} gives the dates in order: when the account was handed over, when the money arrived, when the bank sent the return request, and when he agreed to return 1.5 million won.\n\nThe investigator reads back the dates and asks which weekdays he is available to come in. The call ends without a conclusion."
+        "result_text": "{name} gave the dates in order: when he'd handed over the account, when the money arrived, when the bank asked for it back, and when he agreed to return 1.5 million won. He mixed up two dates and opened his bank records again.\n\nThe investigator read the dates back and asked which weekdays he could come in. When the call ended, {name} reached for his bowl. The bowl was cold; his hand was still warm."
       },
       {
         "text": "Ask for the case number and a written list of requested materials",
-        "result_text": "{name} writes down the department and case number and asks for the requested materials by text or in writing.\n\nThe investigator agrees to send a confirmation and asks which dates he is available to come in. No lawyer or disposition is discussed."
+        "result_text": "{name} wrote down the unit and case number and asked for a list of the required documents by text or in writing. He read the number back digit by digit.\n\nThe investigator said they would send a confirmation text and asked which dates {name} could come in. After hanging up, {name} tucked the slip with the case number under the closure receipt."
       }
     ]
   },
   {
     "id": "v2_dirty_recruiter_week24",
     "title": "Another Text from the Recruiter",
-    "description": "On Wednesday morning, June 24, a text arrives from a new number.\n\n“Three more, same as last time. You can do it, right? Answer today.”\n\nThere is no sender name. After {name} handed over three bankbooks and debit cards in late February, names and account numbers in the same format have returned to the screen.\n\nThis message gives neither a payment amount nor a location.",
+    "description": "On Wednesday morning, June 24, the phone vibrated next to {name}'s hand as he scooped up some rice. He didn't recognize the number.\n\n“Can you get three, same as last time? Answer by tonight.”\n\nThree sets of bankbooks and debit cards. He'd put them in a subway locker in late February. {name} found the old text and reread the other name and account number that had reached his phone afterward.\n\nHis spoon lay on the desk. The new message still ended with ‘by tonight.’ He tapped the reply field and the cursor began to blink.",
     "choices": [
       {
         "text": "Do not answer; block the number",
-        "result_text": "{name} sends no reply and blocks the number.\n\nOnly one text has been stopped. The three sets handed over before, and whatever followed them, have not disappeared."
+        "result_text": "{name} blocked the number without replying. He turned the phone face down, then picked it straight back up. He could no longer remember which name went with which bankbook.\n\nOnly after reading the old messages from the start did he turn off the screen. His spoon caught in the hardened rice. {name} put the lid on without taking another bite."
       },
       {
         "text": "Capture the screen and preserve it with the date",
-        "result_text": "{name} takes a screenshot with the sender and time visible and leaves the original message intact.\n\nThe sender and time of today's message remain in the record."
+        "result_text": "{name} took a screenshot with the sender's number and the time visible. He kept the original and opened the image to make sure the last digit hadn't been cut off.\n\nAs he ate the cold rice, he switched back and forth between the screenshot and the February texts. He read the name and account number that had arrived back then before lifting another spoonful."
       }
     ]
   },
