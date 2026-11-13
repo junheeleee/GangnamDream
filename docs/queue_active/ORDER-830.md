@@ -164,7 +164,7 @@ W201 네 장면의 정확한 룸톤을 종전 `oneroom`이 아닌 현재 `apartm
 `dec3fedd0e32c9017c7e98fb9344795651784f0ad5763af7c912f5bd3cae5a64` /
 `7dcf775e029e6161efe8ac60086a080f211a81a5e64e564734b0b713a7fa496a`.
 
-### [~] 승인 원고와 4·6월 회귀검사 대조 — C3
+### [x] 승인 원고와 4·6월 회귀검사 대조 — C3 표적 검증
 
 `content/meta/demo_localization_scope.json`, `tools/{CoreLoopV2ECheck,ManualSaveCheck,
 StoryDemoFourLanguageCheck}.gd`, `tools/demo_localization_scope.py`의 현행 원장 해시 한 줄,
@@ -173,3 +173,9 @@ StoryDemoFourLanguageCheck}.gd`, `tools/demo_localization_scope.py`의 현행 �
 실제 데모 선택에서 확인한다. 현재 18:00 업무 마감과 분 단위 제한은 유지한다.
 모집책 캡처는 발신 시각과 번호를, 상철은 벽시계/종이컵의 현재 영어 문장만 정합한다.
 원고·선택 효과·저장·검사 예외·과거 RC 변경0.
+
+2026-11-14 KST: 원문 7→데모 4번 휴식 선택 5언어/120주/30정산, 옛 V2의 2×2
+수신/캡처·정확 영수증/저장, 상철 15변형·5언어·정상 디스크/기록 검사 통과. 분 단위
+검사 24개와 소스 결속 16+71 통과. 독립 검수에서 휴식 계약 한 행·현재 지문만 변경했고
+되살린 18:00은 불허. 짧은 전체 저장 로컬 실행은 175초 한도로 중단되어 CI 규격으로
+재실행 중이다. 상철 표적 통과를 전체 저장/원격 CI 성공으로 세지 않는다.

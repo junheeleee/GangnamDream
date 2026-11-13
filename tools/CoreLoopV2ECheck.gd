@@ -54,7 +54,7 @@ const DIRTY_CHOICE_FIXTURES := [
 			{"mental": -2},
 			{"intelligence": 1, "mental": -4},
 		],
-		"ko_anchors": ["새 번호를 차단", "발신 시각을 캡처"],
+		"ko_anchors": ["새 번호를 차단", "발신 시각과 번호를 캡처했다"],
 		"en_anchors": [
 			"blocked the new number",
 			"saved a screenshot",

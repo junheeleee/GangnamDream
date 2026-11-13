@@ -2368,8 +2368,8 @@ func _check_sangchul_april_copy(meet_event: Dictionary, locale: String) -> void:
 			"tire_token": "타이어",
 		},
 		"en": {
-			"clock": "Only the wall clock ticks in the office.",
-			"prop": "Sangchul nudges the paper cup toward {name}. Its thin base scrapes briefly across the desk. He continues only after the sound stops.",
+			"clock": "Only the wall clock ticked in the office.",
+			"prop": "Sangchul nudged the paper cup toward {name}. Its thin base scraped briefly across the desk. He went on when the sound stopped.",
 			"reply_one": "\"No. But when people choose a room on numbers alone, they tend to give it up first when their circumstances change.\"",
 			"reply_two": "\"I do. If all I do is open the door, I haven't really done my job as a broker.\"",
 			"tire": "No laugh. No admiration. Only the long hiss of tires over wet pavement beyond the glass.",

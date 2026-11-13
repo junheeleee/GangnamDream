@@ -703,6 +703,24 @@ func _check_m6_history_surface(
 	var m6_choices: Array = m6.get("choices", [])
 	_expect(m6_choices.size() == 5,
 		"%s M06 runtime event lost its five choices" % language)
+	var source_choices: Array = DataRegistry.find_event("v2_demo_first_bill").get("choices", [])
+	_expect(source_choices.size() > 7, "%s M06 source lost its rest choice" % language)
+	if m6_choices.size() == 5 and source_choices.size() > 7:
+		var rest_source: Dictionary = source_choices[7]
+		var source_result := str(rest_source.get("result_text", ""))
+		var actual_result := str((m6_choices[4] as Dictionary).get("result_text", ""))
+		var opening := str({
+			"ko": "{name}은 다음 날 아침 알람 하나만 맞추고 휴대폰을 뒤집어 놓았다.",
+			"en": "{name} set a single alarm for the next morning, then turned the phone face down.",
+			"ja": "{name}は翌朝のアラームを一つだけセットし、携帯を伏せて置いた。",
+			"zh-CN": "{name}只给第二天早上设了一个闹钟，便把手机翻扣在一旁。",
+			"zh-TW": "{name}只設了一個隔天早上的鬧鐘，便把手機反扣在一旁。",
+		}.get(language, ""))
+		_expect(str(rest_source.get("v2_obligation_id", "")) == "body_rest" \
+				and not opening.is_empty() and actual_result.begins_with(opening) \
+				and actual_result == source_result \
+				and "18:00" not in actual_result and "6:00 p.m." not in actual_result,
+			"%s M06 rest choice did not preserve its exact next-morning alarm" % language)
 	for choice_index in range(m6_choices.size()):
 		_expect(str((m6_choices[choice_index] as Dictionary).get(
 			"follow_up_event", "")) == M6_LEDGER_EVENT_ID,
@@ -721,8 +739,6 @@ func _check_m6_history_surface(
 			_expect(localized_name not in daeun_copy,
 				"%s M06 unknown-clerk route invented Daeun's name" % language)
 		else:
-			var source: Dictionary = DataRegistry.find_event("v2_demo_first_bill")
-			var source_choices: Array = source.get("choices", [])
 			if source_choices.size() > 3:
 				var known_copy := "%s\n%s" % [
 					str((source_choices[3] as Dictionary).get("text", "")),

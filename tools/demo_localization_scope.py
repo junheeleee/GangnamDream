@@ -790,7 +790,7 @@ def compare_contract(expected: Any, observed: Any, path: str = "source_contract"
     return errors
 
 
-CURRENT_CONTRACT_MANIFEST_SHA256 = "9d50b64e6bc09d8e3e8e670fc48163ed5a0a419263cd0ffc601aac45c7abc7b6"
+CURRENT_CONTRACT_MANIFEST_SHA256 = "d9dc34e6aee4b0a7c87cdb933df22d1c5e77b973390f07755aa19920c1d42840"
 # These are the approved current demo surfaces, not a seal on unrelated runtime,
 # UI dictionaries, translation receipts, or validator implementation bytes.
 CURRENT_CONTRACT_KO_PATH = "content/events/arc_events.json"
