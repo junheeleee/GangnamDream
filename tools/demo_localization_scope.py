@@ -797,8 +797,40 @@ CURRENT_CONTRACT_KO_PATH = "content/events/arc_events.json"
 CURRENT_CONTRACT_TEXT_PINS = (
     (40767, "f6b2fc837269a7bba45dfe39a2ae2376381bee70f03c8656c1073cc74cc8d433"),
     (40769, "43ec49da45e09df4fff5a6dc1da61510bb7ea7f69e128953f3b9544ae880ffb2"),
+    (41264, "6e4b8f4aee6e49bdec906072dcf14599552cb9e294c135ac7c3a3ca42512dbdc"),
 )
 CURRENT_CONTRACT_EVENT_SEMANTICS_SHA256 = "4fc2e77e2bcf93327d9848dd37dfaafd676ac213530518edd40a6cee80105c0c"
+# Keep the pre-829 presentation transitions explicit instead of blessing an
+# unexplained whole-body jump.  The terminal dd3 pin folds the independently
+# reviewed ORDER-829 products fee80c2/f469d93/a5029fc/c9c938b/ad39a94/d31ad9b;
+# P7 c7e173f and P6c dd3c62d did not move this Korean demo boundary.
+CURRENT_CONTRACT_EVENT_SEMANTICS_PINS = (
+    ("7ec060a6cc2d1d55fde8395a81b2a84c40862e69", CURRENT_CONTRACT_EVENT_SEMANTICS_SHA256),
+    ("86c381fa63ed3f49c5b6c27f439b544266a1cb54", "298f2f90aea80684a69fe1a0f15ff21414e83a697f6ea38e11f5c2f1829fb6df"),
+    ("699622cf0a09ec926fbe2501d27e16b8e03556e8", "95707ed0936076d3dc19d28c71597cdee1b1b4ddb1d30f9242eac82535cd4872"),
+    ("dd3c62d53019dd05266be653bb9ef5b697f86b9c", "539269752a299232b19508fa7573fb65394cb22240da24d55885bb869baa7340"),
+)
+CURRENT_CONTRACT_PAIR_PINS = (
+    (
+        "manifest",
+        "04a2b4b8e81cc82596086eb00c752b8631371f8253d5ab233a3300e82374aa42",
+        "c6fc4356fb7d4523da67c9012ddc84c9a81e093c53fdc01192681842642f37f9",
+        "7bf0b1d04317d13ad78cbae022e9be4d6a7f2ddef6414cc6febb993088ed3bdf",
+    ),
+    (
+        "dd3c62d53019dd05266be653bb9ef5b697f86b9c",
+        "2f068e1e2a35c71e87b3448447b9e9944db355b891af173cccdfef6331b18d1b",
+        "e0013d1746887c613429aa790aed32ef1379ac0eeec1b4eb405b7458c8c00419",
+        "c661d991d4458512bbe5e8035cc182e5b762744e1d3a3dc29c19d205ac418555",
+    ),
+)
+CURRENT_CONTRACT_SOURCE_FIELDS = (
+    "event_text_ko_chars",
+    "event_text_sha256",
+    "demo_inline_pairs_sha256",
+    "dynamic_pairs_sha256",
+    "dynamic_unique_sha256",
+)
 
 
 def _contract_require(ok: bool, detail: str) -> None:
@@ -832,9 +864,19 @@ def _current_contract_view(
     sealed = _contract_json(proof["manifest"])
     _contract_require(ordered(manifest) == ordered(sealed), "submitted manifest is not bound to raw")
     expected = copy.deepcopy(sealed["source_contract"])
-    old_pin, new_pin = CURRENT_CONTRACT_TEXT_PINS
-    _contract_require((expected["event_text_ko_chars"], expected["event_text_sha256"]) == old_pin,
+    stored_text_pin, _, current_text_pin = CURRENT_CONTRACT_TEXT_PINS
+    stored_pair_pin, current_pair_pin = CURRENT_CONTRACT_PAIR_PINS
+    _contract_require((expected["event_text_ko_chars"], expected["event_text_sha256"])
+                      == stored_text_pin,
                       "stored demo text expectation changed")
+    _contract_require(
+        tuple(expected[field] for field in CURRENT_CONTRACT_SOURCE_FIELDS[2:])
+        == stored_pair_pin[1:],
+        "stored demo pair expectation changed",
+    )
+    _contract_require(CURRENT_CONTRACT_EVENT_SEMANTICS_PINS[0][1]
+                      == CURRENT_CONTRACT_EVENT_SEMANTICS_SHA256,
+                      "historical demo semantics expectation changed")
     sources = proof["sources"]
     _contract_require(set(sources) == set(expected["event_owner_counts"]), "demo source owner population changed")
     disk_events, disk_owners = {}, {}
@@ -854,14 +896,16 @@ def _current_contract_view(
                           "runtime event is not bound to current raw " + event_id)
     semantics = sha_rows(
         f"{event_id}\0{disk_owners[event_id]}\0{ordered(disk_events[event_id])}" for event_id in ids)
-    _contract_require(semantics == CURRENT_CONTRACT_EVENT_SEMANTICS_SHA256,
+    _contract_require(semantics == CURRENT_CONTRACT_EVENT_SEMANTICS_PINS[-1][1],
                       "protected demo event gameplay/text/condition order changed")
     leaves = event_text_leaves(ids, disk_events, disk_owners)
     _contract_require(len(leaves) == 467 and runtime["leaves"] == leaves, "demo leaf identity/order changed")
     leaf_hash = sha_rows(f"{leaf.event_id}\0{leaf.path}\0{leaf.source}" for leaf in leaves)
-    _contract_require((sum(len(leaf.source) for leaf in leaves), leaf_hash) == new_pin,
+    _contract_require((sum(len(leaf.source) for leaf in leaves), leaf_hash) == current_text_pin,
                       "current demo text fingerprint changed")
-    expected["event_text_ko_chars"], expected["event_text_sha256"] = new_pin
+    expected["event_text_ko_chars"], expected["event_text_sha256"] = current_text_pin
+    for field, value in zip(CURRENT_CONTRACT_SOURCE_FIELDS[2:], current_pair_pin[1:]):
+        expected[field] = value
     _contract_require(not compare_contract(expected, observed), "observed scope differs from approved demo")
     return expected
 
@@ -1420,8 +1464,13 @@ def current_source_contract_self_test() -> tuple[list[str], int]:
     check(not scope_errors and not errors and not compare_contract(expected, observed), "current positive")
     check((manifest, observed, runtime, proof) == original_inputs, "no input mutation")
     check({key for key in expected if expected[key] != manifest["source_contract"][key]}
-          == {"event_text_ko_chars", "event_text_sha256"}, "only approved text expectation fields")
-    check(len(compare_contract(manifest["source_contract"], observed)) == 2, "generic comparator stays exact")
+          == set(CURRENT_CONTRACT_SOURCE_FIELDS), "only approved source expectation fields")
+    check(len(compare_contract(manifest["source_contract"], observed)) == 5,
+          "generic comparator stays exact")
+    check(len(CURRENT_CONTRACT_EVENT_SEMANTICS_PINS) == 4
+          and len(CURRENT_CONTRACT_TEXT_PINS) == 3
+          and len(CURRENT_CONTRACT_PAIR_PINS) == 2,
+          "reviewed pin histories stay explicit")
 
     def rejects(m=manifest, o=observed, r=runtime, p=proof):
         try:
@@ -1432,11 +1481,17 @@ def current_source_contract_self_test() -> tuple[list[str], int]:
 
     for key in observed:
         check(rejects(o={**observed, key: None}), "observed field " + key)
-    for field, value in (("event_text_ko_chars", 40769), ("event_text_sha256", CURRENT_CONTRACT_TEXT_PINS[1][1]),
+    current_source_pins = (
+        *CURRENT_CONTRACT_TEXT_PINS[-1], *CURRENT_CONTRACT_PAIR_PINS[-1][1:],
+    )
+    for field, value in (*zip(CURRENT_CONTRACT_SOURCE_FIELDS, current_source_pins),
                          ("event_text_count", 466), ("visible_event_count", 71), ("extra", True)):
         altered = copy.deepcopy(manifest)
         altered["source_contract"][field] = value
         check(rejects(m=altered), "submitted manifest field " + field)
+    for field in CURRENT_CONTRACT_SOURCE_FIELDS:
+        check(rejects(o={**observed, field: manifest["source_contract"][field]}),
+              "historical source pin " + field)
     for raw in (b"", proof["manifest"] + b"\n"):
         check(rejects(p={**proof, "manifest": raw}), "changed demo manifest")
     for ids in (runtime["event_ids"][:-1], [*runtime["event_ids"], "unknown"],
