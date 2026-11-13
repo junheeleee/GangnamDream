@@ -27563,6 +27563,83 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-823",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_y5_final_push_deadline_investment"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Keep the R3 table’s additional funding figure distinct from funds already raised; the separate request is not an approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "168adba1919bb13d7f5c169ecba377ada7153423",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "86046e855f282f57729c33f9cfea9d15956749019a363aa894785cece0c65bab",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d4bb942dd34cac401f8247cb9a829c52913b4acd5aacbbb0f72c6bd5fe27d6d7"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "168adba1919bb13d7f5c169ecba377ada7153423",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "5239ab1653103eaa45449c317a79d76cbcb90ec2393b88079ef7818990901e66",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9bf12810cba35ca6e262ad48f3b6fa05c784ed685b693b06e1fc6469d6105a7c"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "f15731ab67cbb913649dfe703fd9556a46e144c79825ced31c1c8e78426446db",
+        "zh-TW": "a54e6f734acb292e384dc9918f75392fc67e820964d8d0096385ba95f30eb750"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-CN": {
+          "events:arc_y5_final_push_deadline_investment:/description": "c9c36a4eed8f836112f22d326f0e648d4884bd7ead48ecd68fa022baede7160a"
+        },
+        "zh-TW": {
+          "events:arc_y5_final_push_deadline_investment:/description": "e5fab607a7c428e944c2da44f024dea1d581490aece6baff9d20bf782180ef7f"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-CN": {
+          "events:arc_y5_final_push_deadline_investment:/description": {
+            "source_sha256": "61f478e8ec140912bddaa6a2a3df05740beb5e9bdd7a46a3b49367b4e3a38330",
+            "target_sha256": "c9c36a4eed8f836112f22d326f0e648d4884bd7ead48ecd68fa022baede7160a"
+          }
+        },
+        "zh-TW": {
+          "events:arc_y5_final_push_deadline_investment:/description": {
+            "source_sha256": "61f478e8ec140912bddaa6a2a3df05740beb5e9bdd7a46a3b49367b4e3a38330",
+            "target_sha256": "e5fab607a7c428e944c2da44f024dea1d581490aece6baff9d20bf782180ef7f"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -89899,7 +89976,7 @@
       },
       "events:arc_y5_final_push_deadline_investment:/description": {
         "source_sha256": "61f478e8ec140912bddaa6a2a3df05740beb5e9bdd7a46a3b49367b4e3a38330",
-        "target_sha256": "c9c36a4eed8f836112f22d326f0e648d4884bd7ead48ecd68fa022baede7160a"
+        "target_sha256": "ed89a563c931f62b5bbed26036a3d84ad6b94c77fd0fc5a08f727c0d8ae96e2e"
       },
       "events:arc_y5_final_push_deadline_investment:/title": {
         "source_sha256": "362e14d1df968dcfa6c2c891f5c3c15d1883973c5fe9b0c4cfd594533b6f2296",
@@ -149577,7 +149654,7 @@
       },
       "events:arc_y5_final_push_deadline_investment:/description": {
         "source_sha256": "61f478e8ec140912bddaa6a2a3df05740beb5e9bdd7a46a3b49367b4e3a38330",
-        "target_sha256": "e5fab607a7c428e944c2da44f024dea1d581490aece6baff9d20bf782180ef7f"
+        "target_sha256": "0b28895d8f73cded8675f2d524deedf37cf6d2e3b7f74e28f77c85d537eed1ad"
       },
       "events:arc_y5_final_push_deadline_investment:/title": {
         "source_sha256": "362e14d1df968dcfa6c2c891f5c3c15d1883973c5fe9b0c4cfd594533b6f2296",
@@ -199817,7 +199894,7 @@
       }
     }
   },
-  "accepted_sha256": "527c15427fc240b5bb829249ba6c649a4ff2a18a37335c9338d0be9f835d05eb",
+  "accepted_sha256": "b12c1b0156cc8ea659016553c634cd4f2dad1384a790485c0d97bf49a1a7a60e",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
