@@ -15,6 +15,16 @@ var _failures: Array[String] = []
 var _shipping_event_count := 0
 
 func _ready() -> void:
+	if OS.get_cmdline_user_args().has("--authored-follow-up-variant-only"):
+		await _check_authored_follow_up_variant()
+		if _failures.is_empty():
+			print("AUTHORED_FOLLOW_UP_VARIANT_CHECK_OK alive=1 passed=1 cold=1 foreign=1 wrong_choice=1 no_witness=1 effects_once=1")
+			get_tree().quit(0)
+		else:
+			for failure in _failures:
+				push_error("AUTHORED_FOLLOW_UP_VARIANT_CHECK_FAIL: %s" % failure)
+			get_tree().quit(1)
+		return
 	if OS.get_cmdline_user_args().has("--live-root-variant-only"):
 		await _check_live_root_variant_resume()
 		if _failures.is_empty():
@@ -249,6 +259,93 @@ func _check_activity_runtime_mapping() -> void:
 func _expect(condition: bool, message: String) -> void:
 	if not condition:
 		_failures.append(message)
+
+
+func _check_authored_follow_up_variant() -> void:
+	var qa := OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")
+	if not qa.begins_with("GangnamDream_StoryNameplateQA_") \
+			or OS.get_user_data_dir().get_file() != qa:
+		_expect(false, "pre-autoload isolation required")
+		return
+	var first := "arc_daeun_wedding_day"
+	var source := "arc_daeun_wedding_groom_side"
+	var variant := "arc_daeun_wedding_groom_side_father_passed"
+	var walk := "arc_daeun_wedding_walk"
+	var aisle := "arc_daeun_wedding_aisle"
+	for passed in [false, true]:
+		GameState.start_new_game("WeddingFollowUpFixture")
+		_expect(FULL_STORY_FLOW.initialize_fresh_run(), "fixture owner refused")
+		GameState.flags["father_passed"] = passed
+		GameState.mental = 50
+		_expect(FULL_STORY_FLOW.begin_chain([first]) and _apply_and_close_test_choice(first),
+			"wedding opening did not reserve the groom-side edge")
+		var event_id: String = variant if passed else source
+		var pending: Dictionary = GameState.serialize().duplicate(true)
+		_expect(not FULL_STORY_FLOW.bind_current_live_root("arc_year4_close_father_passed") \
+			and GameState.serialize() == pending, "unrelated alias admitted")
+		if not passed:
+			_expect(not FULL_STORY_FLOW.bind_current_live_root(variant), "living variant admitted")
+		else:
+			_expect(not FULL_STORY_FLOW.close_result(source, 0), "dead run closed living source")
+		_expect(FULL_STORY_FLOW.bind_current_live_root(event_id) \
+			and GameState.serialize() == pending, "valid follow-up could not bind read-only")
+		_expect(not FULL_STORY_FLOW.close_result(event_id, 0), "missing witness accepted")
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		_expect(GameState.apply_choice(event, event["choices"][0]), "could not apply exact option")
+		var applied: Dictionary = GameState.serialize().duplicate(true)
+		# Round-trip the already-applied result through the game's own state serializer.
+		GameState.load_from_dict(applied.duplicate(true))
+		var cold: Dictionary = GameState.serialize().duplicate(true)
+		_expect(not FULL_STORY_FLOW.close_result(event_id, 1) \
+			and GameState.serialize() == cold, "wrong receipt accepted")
+		if passed:
+			SaveManager.set("_loaded_resume_context", {
+				"kind": "story", "scene": "res://scenes/StoryMode.tscn",
+				"return_scene": "res://scenes/MainGame.tscn", "event_id": event_id,
+				"queue": [], "phase": "result", "pending_result_choice_index": 0,
+				"pending_follow_up": walk, "paragraph_index": 2,
+				"paragraph_was_typing": false,
+			})
+			GameState.pending_story_queue = [event_id]
+			var story: Control = load("res://scenes/StoryMode.tscn").instantiate()
+			add_child(story)
+			await get_tree().process_frame
+			await get_tree().process_frame
+			_expect(story.get("_pending_after_result") and story.get("_pending_result_choice_index") == 0,
+				"StoryMode did not restore the already-applied result")
+			story.set("_typing", false)
+			story.set("_para_index", (story.get("_paragraphs") as Array).size())
+			story.call("_after_result")
+			_expect(str((story.get("_current") as Dictionary).get("id", "")) == walk \
+				and not story.get("_pending_after_result"), "StoryMode did not close into the aisle walk")
+			remove_child(story)
+			story.free()
+			BGMPlayer.stop()
+			await get_tree().create_timer(0.2).timeout
+		else:
+			_expect(FULL_STORY_FLOW.bind_current_live_root(event_id) \
+				and FULL_STORY_FLOW.close_result(event_id, 0), "living follow-up failed to close")
+		_expect(FULL_STORY_FLOW.valid_session(), "closed edge did not validate")
+		var closed: Dictionary = GameState.serialize().duplicate(true)
+		_expect(GameState.mental == 52 and GameState.event_log == cold["event_log"] \
+			and FULL_STORY_FLOW.close_result(event_id, 0) \
+			and GameState.serialize() == closed, "effects or receipt replayed")
+		_expect(FULL_STORY_FLOW.snapshot()["chain"]["roots"] == [first] \
+			and FULL_STORY_FLOW.snapshot()["chain"]["pending_event_ids"] == [walk] \
+			and not FULL_STORY_FLOW.close_chain(), "authored tail was skipped")
+		_expect(_apply_and_close_test_choice(walk) and _apply_and_close_test_choice(aisle) \
+			and FULL_STORY_FLOW.close_chain() and FULL_STORY_FLOW.valid_session(), "wedding tail failed")
+		var receipts: Array = FULL_STORY_FLOW.snapshot()["chain"]["closed_results"]
+		_expect(receipts.map(func(row: Dictionary): return row["event_id"]) \
+			== [first, event_id, walk, aisle], "actual receipts not in authored order")
+
+
+func _apply_and_close_test_choice(event_id: String) -> bool:
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var choice: Dictionary = event["choices"][0]
+	return FULL_STORY_FLOW.bind_current_live_root(event_id) \
+		and GameState.apply_choice(event, choice) \
+		and FULL_STORY_FLOW.close_result(event_id, 0, GameState.is_expression_choice(choice))
 
 
 func _check_live_root_variant_resume() -> void:

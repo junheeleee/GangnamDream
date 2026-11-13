@@ -297,13 +297,16 @@ static func bind_current_live_root(event_id: String) -> bool:
 	var pending: Array = chain["pending_event_ids"]
 	if pending.is_empty():
 		return false
+	var authored_follow_up := _pending_authored_follow_up(chain)
 	if str(pending.front()) == event_id:
-		return true
+		return authored_follow_up != event_id \
+			or EventManager.live_event_variant_id(event_id) == event_id
 	var source_id := str(pending.front())
 	var roots: Array = chain["roots"]
 	if EventManager.state_variant_source_event_id(event_id) != source_id \
 			or EventManager.live_event_variant_id(source_id) != event_id \
-			or roots.count(source_id) != 1 or roots.has(event_id) \
+			or pending.count(source_id) != 1 or pending.has(event_id) \
+			or roots.has(event_id) \
 			or not _read_record(state, GameState.turn, source_id).is_empty() \
 			or not _read_record(state, GameState.turn, event_id).is_empty() \
 			or (state["routine_receipts"] as Dictionary).has(str(GameState.turn)):
@@ -312,6 +315,12 @@ static func bind_current_live_root(event_id: String) -> bool:
 		if raw is Dictionary and (raw as Dictionary).get("event_id", "") == source_id \
 				and _integer_equals((raw as Dictionary).get("turn", null), GameState.turn):
 			return false
+	# Authored follow-ups are replayed from the preceding receipt, not from
+	# roots. Keep the authored source in pending; the read records the live ID.
+	if authored_follow_up == source_id:
+		return not roots.has(source_id)
+	if roots.count(source_id) != 1:
+		return false
 	roots[roots.find(source_id)] = event_id
 	pending[0] = event_id
 	if not _valid_state(state):
@@ -335,7 +344,15 @@ static func close_result(
 	if chain.is_empty() or bool(chain["closed"]):
 		return false
 	var pending: Array = chain["pending_event_ids"]
-	if pending.is_empty() or str(pending.front()) != event_id:
+	if pending.is_empty():
+		return false
+	var pending_id := str(pending.front())
+	var is_authored_follow_up := _pending_authored_follow_up(chain) == pending_id
+	if is_authored_follow_up:
+		if EventManager.live_event_variant_id(pending_id) != event_id \
+				or not bind_current_live_root(event_id):
+			return false
+	elif pending_id != event_id:
 		return false
 	var event: Dictionary = DataRegistry.find_event(event_id)
 	var choices: Variant = _event_choices(event)
@@ -683,6 +700,17 @@ static func _follow_up_id(choice: Dictionary) -> String:
 	return str(choice.get("follow_up_event", ""))
 
 
+static func _pending_authored_follow_up(chain: Dictionary) -> String:
+	var closed_results: Array = chain["closed_results"]
+	if closed_results.is_empty():
+		return ""
+	var last: Dictionary = closed_results.back()
+	var previous: Dictionary = DataRegistry.find_event(last["event_id"])
+	var choices := _event_choices(previous)
+	var index := int(last["choice_index"])
+	return _follow_up_id(choices[index]) if index >= 0 and index < choices.size() else ""
+
+
 static func _event_choices(event: Dictionary) -> Array:
 	if is_full_run() and event.has("year_scene_year"):
 		var year_index: Variant = event.get("year_scene_year", null)
@@ -1023,17 +1051,26 @@ static func _valid_chain(chain: Dictionary, state: Dictionary, at_turn: int) -> 
 				or unique_roots.has(raw_id) or DataRegistry.find_event(raw_id).is_empty():
 			return false
 		unique_roots.append(raw_id)
+	var authored_follow_up := ""
 	for raw_record in chain["closed_results"] as Array:
 		if not _valid_read_record(raw_record, at_turn) or pending.is_empty():
 			return false
 		var record: Dictionary = raw_record
-		if pending.pop_front() != record["event_id"] \
-				or _read_record(state, at_turn, str(record["event_id"])) != record:
+		var expected := str(pending.pop_front())
+		var actual := str(record["event_id"])
+		# Only an authored edge can change the queued source ID on replay.
+		# A previously read living version stays valid after the father's death.
+		var variant_matches := expected == authored_follow_up \
+				and not unique_roots.has(expected) and not unique_roots.has(actual) \
+				and EventManager.state_variant_source_event_id(actual) == expected \
+				and EventManager.live_event_variant_id(expected) == actual
+		if (expected != actual and not variant_matches) \
+				or _read_record(state, at_turn, actual) != record:
 			return false
 		var event: Dictionary = DataRegistry.find_event(record["event_id"])
 		var choice: Dictionary = _event_choices(event)[int(record["choice_index"])]
-		var follow_up := _follow_up_id(choice)
-		if not follow_up.is_empty():
-			pending.push_front(follow_up)
+		authored_follow_up = _follow_up_id(choice)
+		if not authored_follow_up.is_empty():
+			pending.push_front(authored_follow_up)
 	return pending == chain["pending_event_ids"] \
 		and (not bool(chain["closed"]) or pending.is_empty())
