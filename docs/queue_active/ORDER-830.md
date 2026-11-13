@@ -127,7 +127,7 @@ W202 수락의 `hoesik`은 바 녹음과 영국 펍 대화층을 겹친다. 공�
 `assets/{scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`,
 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
 및 두 `.import`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{ART_AI_AUDIT,MODDING,WORK_LOG}.md`,
-`tools/{art_resolution_baseline.json,StoryBackgroundContextCheck.gd}`, `CLAUDE.md`.
+`tools/{art_resolution_baseline.json,scene_direction_catalog.py,StoryBackgroundContextCheck.gd}`, `CLAUDE.md`.
 검수한 원화 두 장만 채택. 저장·텍스트/현지화 파일·효과·갈래·사건 ID·과거 RC 변경0.
 정확한 5언어 기존 문장 경계를 페이지 단위로 나누되 저장에서 쓰는 기존 2개 원문 문단
 ID는 유지한다. 반환은 창구에서 시작해 은행을 나설 때 바깥으로, 추가 인계는 답신을
