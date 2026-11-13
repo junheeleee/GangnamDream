@@ -636,7 +636,12 @@ func update_event_ambience(
 	if ambience_key.is_empty():
 		ambience_key = _pick_ambience(ev, resolved_background_id)
 	set_ambience(ambience_key, not bool(contract.get("suppress_human_ambience", false)))
-	set_season_ambience(_event_season_key(ambience_key))
+	if bool(contract.get("suppress_season_ambience", false)):
+		# This room explicitly excludes the previous outdoor seasonal bed;
+		# an entry duck must not keep a fading outdoor loop alive here.
+		_stop_season_ambience_immediate()
+	else:
+		set_season_ambience(_event_season_key(ambience_key))
 
 func play_scene_paragraph_music(ev: Dictionary, cg_id: String, paragraph_index: int) -> void:
 	var contract: Dictionary = scene_audio_contract(str(ev.get("id", "")), cg_id)
@@ -698,7 +703,13 @@ func scene_audio_contract(event_id: String = "", cg_id: String = "") -> Dictiona
 	if not event_id.is_empty() and _scene_audio_events.has(event_id):
 		var event_contract: Variant = _scene_audio_events.get(event_id, {})
 		if event_contract is Dictionary:
+			# Only the exact authored result image can take over the bed.
+			var keep_result_cg_ambience := not cg_id.is_empty() \
+					and cg_id == str(event_contract.get("ambience_from_result_cg", "")) \
+					and not str(merged.get("ambience", "")).is_empty()
 			for key in event_contract.keys():
+				if key == "ambience" and keep_result_cg_ambience:
+					continue
 				merged[key] = event_contract[key]
 	return merged
 
@@ -802,6 +813,13 @@ func _stop_human_ambience_immediate() -> void:
 		_moral_human_tween.kill()
 	if _human_ambience_player:
 		_human_ambience_player.stop()
+
+func _stop_season_ambience_immediate() -> void:
+	_current_season_key = ""
+	if _season_tween and _season_tween.is_running():
+		_season_tween.kill()
+	if _season_player:
+		_season_player.stop()
 
 func set_season_ambience(key: String) -> void:
 	if key == _current_season_key and _season_player and _season_player.playing:

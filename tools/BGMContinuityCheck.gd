@@ -406,6 +406,8 @@ func _ready() -> void:
 		return
 	if not await _check_daeun_newlywed_room_tone():
 		return
+	if not await _check_mother_table_audio():
+		return
 
 	# 실제 주거를 배경으로 쓰는 장면도 매니페스트가 명시한 창밖 비를
 	# 우선한다. 네 링크 사이에서 같은 룸톤과 친밀한 곡을 되감지 않는다.
@@ -1071,6 +1073,41 @@ func _check_daeun_newlywed_room_tone() -> bool:
 				_fail("newlywed morning CG replaced or restarted the dry room tone")
 				return false
 	BGMPlayer.restore_ambience()
+	return true
+
+
+func _check_mother_table_audio() -> bool:
+	var saved_month: int = GameState.month
+	GameState.month = 7
+	BGMPlayer.enter_ambient_bed(0.0)
+	var table: Dictionary = DataRegistry.find_event("arc_daeun_hometown_table_decision")
+	var bus_cg := "cg_romance_hometown_night_bus_daeun"
+	var home_stream := BGMPlayer._load_ambience("family_home")
+	var bus_stream := BGMPlayer._load_ambience("night_bus")
+	BGMPlayer.set_ambience("room")
+	BGMPlayer.set_season_ambience("summer")
+	BGMPlayer.update_event_ambience(table)
+	BGMPlayer.duck_ambience()
+	BGMPlayer.begin_story_event(table)
+	BGMPlayer.play_scene_paragraph_music(table, "", 0)
+	await get_tree().create_timer(0.65).timeout
+	if table.is_empty() or home_stream == null or home_stream == bus_stream \
+			or BGMPlayer._ambience_player.stream != home_stream \
+			or BGMPlayer._season_player.playing or BGMPlayer._human_ambience_player.playing \
+			or BGMPlayer._current_key != "intimate" or not BGMPlayer._player_a.playing:
+		_fail("mother's table did not retain only its own room tone and score")
+		return false
+	var score_pos: float = BGMPlayer._player_a.get_playback_position()
+	BGMPlayer.update_event_ambience(table, bus_cg)
+	await get_tree().process_frame
+	if bus_stream == null or BGMPlayer._ambience_player.stream != bus_stream \
+			or not BGMPlayer._ambience_player.playing or BGMPlayer._season_player.playing \
+			or BGMPlayer._current_key != "intimate" \
+			or BGMPlayer._player_a.get_playback_position() + 0.05 < score_pos:
+		_fail("mother's table bus CG did not take over ambience without restarting music")
+		return false
+	BGMPlayer.restore_ambience()
+	GameState.month = saved_month
 	return true
 
 

@@ -163,6 +163,23 @@ def main() -> int:
         suppress_human = contract.get("suppress_human_ambience", False)
         if not isinstance(suppress_human, bool):
             errors.append(f"{owner}: suppress_human_ambience must be a boolean")
+        suppress_season = contract.get("suppress_season_ambience", False)
+        if not isinstance(suppress_season, bool):
+            errors.append(f"{owner}: suppress_season_ambience must be a boolean")
+        if "ambience_from_result_cg" in contract:
+            cg_id = contract["ambience_from_result_cg"]
+            owner_event = events.get(owner, {}) if owner in event_contracts else {}
+            choices = [row for row in owner_event.get("choices", []) if isinstance(row, dict)]
+            result_cgs = {str(row.get("result_cg", "")) for row in [owner_event, *choices]}
+            opening_cgs = {str(owner_event.get("cg", ""))}
+            opening_cg_variants = owner_event.get("cg_if_known", {})
+            if isinstance(opening_cg_variants, dict):
+                opening_cgs.update(str(value) for value in opening_cg_variants.values())
+            if (not isinstance(cg_id, str) or not cg_id or cg_id not in result_cgs
+                    or cg_id in opening_cgs or cg_id not in contract_cgs):
+                errors.append(f"{owner}: ambience_from_result_cg must name a contracted result-only CG")
+            elif isinstance(cg_contracts[cg_id], dict) and cg_contracts[cg_id].get("ambience") == ambience:
+                errors.append(f"{owner}: ambience_from_result_cg must change the physical ambience")
         if music is not None:
             if not isinstance(music, dict):
                 errors.append(f"{owner}: music must be an object")
