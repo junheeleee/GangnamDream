@@ -23,6 +23,8 @@
     "gukbap_restaurant_night": "hoesik",
     "bank_service_counter_rainy_day": "intentional_silence",
     "bank_exterior_wet_day": "street",
+    "bank_loan_counter_day": "intentional_silence",
+    "bank_loan_exit_day": "intentional_silence",
     "street_day": "street",
     "park_bench_day": "street",
     "subway": "subway",
@@ -1606,7 +1608,15 @@
     "arc_34_doors_open": {"ambience": "office", "suppress_music": true},
     "arc_34_parents_visit": {"ambience": "hoesik", "suppress_music": true},
     "arc_y1_new_room_first_month": {"ambience": "current_housing", "suppress_music": true},
-    "arc_y2_bank_limit_review": {"ambience": "office", "suppress_music": true},
+    "arc_y2_bank_limit_review": {
+      "ambience": "intentional_silence",
+      "suppress_music": true,
+      "result_paragraph_cues": {
+        "0": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]},
+        "1": {"1": [{"sfx": "paper_handle", "volume_db": -8.0}]},
+        "2": {"0": [{"sfx": "pen_write", "volume_db": -8.0}], "1": [{"sfx": "traffic_pass", "volume_db": -10.0}]}
+      }
+    },
     "arc_y2_relationship_fork_unattached": {"ambience": "current_housing", "suppress_music": true},
     "arc_father_03_hospital": {"ambience": "current_housing", "suppress_music": true},
     "arc_sangchul_mirror": {"ambience": "street", "music": {"key": "reckoning", "start_paragraph": 3}},

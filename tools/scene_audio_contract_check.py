@@ -15,6 +15,14 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "assets" / "scene_audio_manifest.json"
 ACTING_PATH = ROOT / "assets" / "cg_acting_manifest.json"
 DYNAMIC_AMBIENCE_KEYS = {"current_housing", "current_workplace"}
+M14_BANK_EVENT = "arc_y2_bank_limit_review"
+M14_BANK_BACKGROUNDS = ("bank_loan_counter_day", "bank_loan_exit_day")
+M14_BANK_RESULT_CUES = {
+    "0": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]},
+    "1": {"1": [{"sfx": "paper_handle", "volume_db": -8.0}]},
+    "2": {"0": [{"sfx": "pen_write", "volume_db": -8.0}],
+          "1": [{"sfx": "traffic_pass", "volume_db": -10.0}]},
+}
 DEMO_EVENT_IDS = set("""
 story_flashforward story_arrival story_knee_door story_knee_witness
 story_knee_choice story_last_payment_wait story_last_payment_word
@@ -161,7 +169,12 @@ def main() -> int:
             errors.append(f"{owner}: audio contract must be an object")
             continue
         ambience = str(contract.get("ambience", ""))
-        if not ambience or ambience not in ambience_keys | DYNAMIC_AMBIENCE_KEYS:
+        if owner == M14_BANK_EVENT:
+            if (ambience != "intentional_silence" or contract.get("suppress_music") is not True
+                    or contract.get("paragraph_cues")
+                    or contract.get("result_paragraph_cues") != M14_BANK_RESULT_CUES):
+                errors.append(f"{owner}: keep the bank beds quiet and use only the four result cues")
+        elif not ambience or ambience not in ambience_keys | DYNAMIC_AMBIENCE_KEYS:
             errors.append(f"{owner}: unknown or empty ambience key {ambience!r}")
         music = contract.get("music")
         if bool(contract.get("suppress_music", False)) and music is not None:
@@ -196,6 +209,14 @@ def main() -> int:
                     errors.append(f"{owner}: unknown music key {key!r}")
                 if not isinstance(start, int) or isinstance(start, bool) or start < 0:
                     errors.append(f"{owner}: invalid music start_paragraph {start!r}")
+
+    if M14_BANK_EVENT not in event_contracts:
+        errors.append(f"{M14_BANK_EVENT}: missing bank audio contract")
+    if events.get(M14_BANK_EVENT, {}).get("background") != M14_BANK_BACKGROUNDS[0] or any(
+        manifest.get("background_profiles", {}).get(background) != "intentional_silence"
+        for background in M14_BANK_BACKGROUNDS
+    ):
+        errors.append(f"{M14_BANK_EVENT}: both exact bank backgrounds must retain their quiet profile")
 
     for event_id in sorted(PRIVATE_OFFICE_EVENT_IDS):
         contract = event_contracts.get(event_id, {})

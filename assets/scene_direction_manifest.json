@@ -128,6 +128,22 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "bank_loan_counter_day": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "bank_loan_exit_day": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "street_day": {
       "environment": "outdoor",
       "depth": "far",

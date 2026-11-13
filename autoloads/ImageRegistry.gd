@@ -216,6 +216,8 @@ const BACKGROUNDS = {
 	"gukbap_restaurant_night": "res://assets/backgrounds/gukbap_restaurant_night.png",
 	"bank_service_counter_rainy_day": "res://assets/backgrounds/bank_service_counter_rainy_day.png",
 	"bank_exterior_wet_day": "res://assets/backgrounds/bank_exterior_wet_day.png",
+	"bank_loan_counter_day": "res://assets/backgrounds/bank_loan_counter_day.png",
+	"bank_loan_exit_day": "res://assets/backgrounds/bank_loan_exit_day.png",
 	"street_day":        "res://assets/backgrounds/street_seoul_day.png",
 	"park_bench_day":    "res://assets/backgrounds/park_bench_day.png",
 	"subway":            "res://assets/backgrounds/seoul_subway.png",

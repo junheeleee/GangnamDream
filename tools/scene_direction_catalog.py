@@ -101,6 +101,7 @@ TRANSIT_BACKGROUNDS = {
 }
 INDOOR_BACKGROUNDS = {
     "bank_service_counter_rainy_day",
+    "bank_loan_counter_day",
     "goshiwon",
     "goshiwon_room",
     "goshiwon_hallway",

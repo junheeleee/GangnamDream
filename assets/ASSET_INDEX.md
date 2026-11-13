@@ -327,6 +327,8 @@ weather, romance, and historical portraits remain fixed.
   - `arc_temptation_fallout` return result after leaving the bank only: the same teller windows seen from the wet February pavement. Overcast daylight and residual droplets preserve continuity without implying active rainfall. No people, signage, or transaction props.
 - `assets/backgrounds/bank_service_counter_rainy_day.png`
   - `arc_temptation_fallout` return result: the inside of a local bank from signature through the receipt, not the introductory call or the street after exit. Two empty teller stations and an unmarked queue kiosk; February rain and bare trees are visible only beyond the glazing.
+- `assets/backgrounds/bank_loan_counter_day.png` and `assets/backgrounds/bank_loan_exit_day.png`
+  - `arc_y2_bank_limit_review` only. Single bank consultation counter with printer at 4:40 p.m.; dry view facing the street after leaving, on the last choice's second result paragraph only. Not the W8 rain branch. Opaque 1280×800 presentation candidates; not production master resolution.
 - `assets/backgrounds/subway_station_coin_lockers.png`
   - `arc_temptation_fallout` additional-handoff result, only from the authored three-days-later arrival through the later return to the same locker. A windowless station concourse with closed, unmarked lockers; no train, platform, transaction object, or implied time of day. The art is not interchangeable with the station stairs or lost-property counter.
   - All three are exact 1280x800 opaque, separately reviewed art. The ImageGen source sizes are below the 2560x1600 intermediate-master contract.

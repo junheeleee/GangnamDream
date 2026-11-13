@@ -323,6 +323,8 @@ python3 tools/generate_mod_manifest.py --check
 | background | `amusement_roller_coaster` | `backgrounds/amusement_roller_coaster_day.png` | 1280x800 |
 | background | `aruba_delivery` | `backgrounds/aruba_delivery_street.png` | 1280x800 |
 | background | `bank_exterior_wet_day` | `backgrounds/bank_exterior_wet_day.png` | 1280x800 |
+| background | `bank_loan_counter_day` | `backgrounds/bank_loan_counter_day.png` | 1280x800 |
+| background | `bank_loan_exit_day` | `backgrounds/bank_loan_exit_day.png` | 1280x800 |
 | background | `bank_service_counter_rainy_day` | `backgrounds/bank_service_counter_rainy_day.png` | 1280x800 |
 | background | `burnout` | `backgrounds/burnout_hospital_room.png` | 1280x800 |
 | background | `cafe` | `backgrounds/cafe_seoul.png` | 1280x800 |

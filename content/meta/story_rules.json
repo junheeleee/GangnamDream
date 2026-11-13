@@ -914,10 +914,10 @@
       },
       "presentation": {
         "channel": "in_person",
-        "scene_location": "office_interview_day",
+        "scene_location": "bank_loan_counter_day",
         "participants": ["player", "banker"],
         "portrait_role": "local",
-        "expected_background": "office_interview_day",
+        "expected_background": "bank_loan_counter_day",
         "expected_portrait": "player_normal"
       }
     },

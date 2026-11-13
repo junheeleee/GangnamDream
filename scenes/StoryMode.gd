@@ -26,6 +26,7 @@ const STORY_DEMO_RETURN_SCENE := \
 const STORY_DEMO_SESSION_SCHEMA := 1
 const STORY_DEMO_MANUAL_SLOT := 10
 const W8_FALLOUT := "arc_temptation_fallout"
+const M14_BANK_REVIEW := "arc_y2_bank_limit_review"
 const W8_FALLOUT_CUTS := preload("res://assets/w8_fallout_result_cuts.tres")
 const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
@@ -2672,7 +2673,7 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 			int(context.get("paragraph_index", 0)), 0, _paragraphs.size() - 1)
 	var source_paragraph_index := _story_source_paragraph_index(_para_index)
 	_refresh_story_paragraph_presentation(source_paragraph_index)
-	_apply_w8_result_location()
+	_apply_authored_result_location()
 	_maybe_change_event_background(source_paragraph_index)
 	_maybe_reveal_event_portrait(source_paragraph_index)
 	_maybe_reveal_event_cg(source_paragraph_index)
@@ -3347,7 +3348,7 @@ func _restore_localized_story_text(
 		localized_type_ratio = 0.0 if old_after_cut else 1.0
 	_refresh_story_paragraph_presentation(
 		_story_source_paragraph_index(_para_index), true)
-	_apply_w8_result_location()
+	_apply_authored_result_location()
 	if beat_was_waiting:
 		_direction_pending_text = str(_paragraphs[_para_index])
 		var previous_index := maxi(0, _para_index - 1)
@@ -5387,8 +5388,14 @@ func _w8_result_background_for_page(page_index: int) -> String:
 		return "street_rainy" if page_index < _w8_result_cut_page else "subway_station_coin_lockers"
 	return ""
 
-func _apply_w8_result_location() -> void:
+func _apply_authored_result_location() -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
+	if _pending_after_result and str(_current.get("id", "")) == M14_BANK_REVIEW:
+		# The first two choices stay at the counter. Only the last result's
+		# second authored paragraph leaves the bank (in every locale).
+		var at_exit := _pending_result_choice_index == 2 \
+			and _story_source_paragraph_index(_para_index) == 1
+		background_id = "bank_loan_exit_day" if at_exit else "bank_loan_counter_day"
 	if background_id.is_empty() or background_id == _event_background_id:
 		return
 	var path := ImageRegistry.get_background(background_id)
@@ -6006,7 +6013,7 @@ func _on_advance():
 	_para_index += 1
 	if _para_index < _paragraphs.size():
 		var source_index := _story_source_paragraph_index(_para_index)
-		_apply_w8_result_location()
+		_apply_authored_result_location()
 		var entered_new_authored_paragraph := source_index != previous_source_index
 		if entered_new_authored_paragraph:
 			_refresh_story_paragraph_presentation(source_index)
@@ -6763,7 +6770,7 @@ func _on_choice(idx: int):
 		_pending_after_result = true
 		_refresh_story_paragraph_presentation(
 			_story_source_paragraph_index(_para_index))
-		_apply_w8_result_location()
+		_apply_authored_result_location()
 		AudioManager.play_scene_result_paragraph_cues(
 			current_event_id, _event_cg_id, idx,
 			_story_source_paragraph_index(_para_index))

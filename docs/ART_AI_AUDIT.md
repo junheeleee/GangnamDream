@@ -17,6 +17,7 @@
   2월 결과 배경 3장 채택 뒤 실제 활성 레지스트리는 **270장** (`CG 81 / Portrait 93 / Background 96`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계한다.
 - 기존 257장 전수 방법: 종류별 콘택트시트 24장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다. ORDER-547 신규 6장은 아래 별도 범위로 검수한다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
+- M14 상담 창구·퇴장 배경 2장 추가 뒤 **272장** (`CG 81 / Portrait 93 / Background 98`).
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
 - 아버지 의상 정합: 작업복 하나를 집·병원·통화에 돌려 쓰지 않는다. 같은 얼굴을 작업/외출, 세대감 있는 집 생활복, 쇠약 생활복, 입원 환자복으로 분리하고 피부색·투명 가장자리·의상 장소 계약을 원본 해상도에서 재검수했다.
 - 1·3·5년 외형 정합: 민준·다은·지연·현수·재혁·상철·아버지의 32개 `y3`/`y5` 초상을 중립/표정 콘택트시트와 1280x800 한국어·960x600 영어 실제 StoryMode 프레임으로 비교했다. 얼굴·헤어·체형·대표 복식은 같은 사람으로 유지되고, 시간 차이는 자세·눈의 피로·정돈 정도로만 읽힌다. 병원·결혼·계절·2020년 아버지 회상 초상은 자동 교체되지 않는다.
@@ -370,6 +371,8 @@
 | Background | `assets/backgrounds/burnout_hospital_room.png` | `burnout` | 1280x800 | no | `958398df156a` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/cafe_seoul.png` | `cafe` | 1280x800 | no | `a8e34c6e5f11` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/bank_exterior_wet_day.png` | `bank_exterior_wet_day` | 1280x800 | no | `b70a3f1bc6d0` | PASS-B | 원화 검수: 동일한 창구와 유리 출입문, 겨울 가로수·젖은 보도·유리에 남은 물방울. 활동 중인 비를 나타내는 빗줄기·인물·문자 없음. P1 마스터 아님. |
+| Background | `assets/backgrounds/bank_loan_counter_day.png` | `bank_loan_counter_day` | 1280x800 | no | `a8ed4f63e44f` | PASS-B | M14 무표기 상담 창구 하나와 직원 쪽 프린터. 날씨·인물 선취 없음. P1 마스터 아님. |
+| Background | `assets/backgrounds/bank_loan_exit_day.png` | `bank_loan_exit_day` | 1280x800 | no | `0169edd24ee5` | PASS-B | 마지막 결과에서 은행을 등지고 보는 건조한 겨울 거리. 글자·인물·낙우 없음. P1 마스터 아님. |
 | Background | `assets/backgrounds/bank_service_counter_rainy_day.png` | `bank_service_counter_rainy_day` | 1280x800 | no | `6013624b5aa9` | PASS-B | 독립 원화 검수: 2월 앙상한 가로수와 유리 너머의 비, 건조한 은행 실내·고객 동선·창구 두 곳·무표기 단말·하단 안전 크롭. 인물·거래 물품 없음. P1 마스터 아님. |
 | Background | `assets/backgrounds/casino_interior.png` | `casino` | 1280x800 | no | `b8a8b18fa8fc` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/changwon_hospital_room_empty.png` | `changwon_hospital_room_empty` | 1280x800 | no | `2f6125ab80ed` | PASS-B | 아버지 별세 뒤 비워진 병상·정돈된 시트·IV 스탠드·창원 야경, 인물·시신·문자·로고 없음 확인. |
@@ -458,4 +461,4 @@
 | Background | `assets/backgrounds/year3_hangang_winter_night.png` | `year3_hangang_winter_night` | 1280x800 | no | `b8387ccb4707` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year4_winter_rooftop.png` | `year4_winter_rooftop` | 1280x800 | no | `46803837d191` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 
-Inventory: 81 CG / 93 portraits / 96 backgrounds / 270 total.
+Inventory: 81 CG / 93 portraits / 98 backgrounds / 272 total.

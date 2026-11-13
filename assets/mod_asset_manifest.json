@@ -46,6 +46,22 @@
     {
       "kind": "background",
       "ids": [
+        "bank_loan_counter_day"
+      ],
+      "relative_path": "backgrounds/bank_loan_counter_day.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "bank_loan_exit_day"
+      ],
+      "relative_path": "backgrounds/bank_loan_exit_day.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "bank_service_counter_rainy_day"
       ],
       "relative_path": "backgrounds/bank_service_counter_rainy_day.png",

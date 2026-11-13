@@ -12,6 +12,13 @@ const W8_QA_SLOT := 9
 const W8_BANK := "bank_service_counter_rainy_day"
 const W8_BANK_EXIT := "bank_exterior_wet_day"
 const W8_LOCKERS := "subway_station_coin_lockers"
+const M14_BANK := "arc_y2_bank_limit_review"
+const M14_COUNTER := "bank_loan_counter_day"
+const M14_EXIT := "bank_loan_exit_day"
+const M14_EXIT_LINE := {
+	"ko": "문을 나설 때", "en": "He left with a document", "ja": "外へ出るとき",
+	"zh-CN": "走出门时", "zh-TW": "走出銀行時",
+}
 const W8_ARRIVAL_TEXT := {
 	"ko": ["은행을 나서자", "사흘 뒤"],
 	"en": ["Outside the bank,", "Three days later,"],
@@ -109,6 +116,8 @@ const EXACT_PATHS := {
 	W8_BANK: "res://assets/backgrounds/bank_service_counter_rainy_day.png",
 	W8_BANK_EXIT: "res://assets/backgrounds/bank_exterior_wet_day.png",
 	W8_LOCKERS: "res://assets/backgrounds/subway_station_coin_lockers.png",
+	M14_COUNTER: "res://assets/backgrounds/bank_loan_counter_day.png",
+	M14_EXIT: "res://assets/backgrounds/bank_loan_exit_day.png",
 	"cafe": "res://assets/backgrounds/cafe_seoul.png",
 	"gangnam_apartment": "res://assets/backgrounds/gangnam_apartment.png",
 	"apartment": "res://assets/backgrounds/oneroom_apartment.png",
@@ -123,6 +132,8 @@ var _intro_pages := 0
 var _result_pages := 0
 var _w8_cases := 0
 var _w8_pages := 0
+var _m14_cases := 0
+var _m14_capture_dir := ""
 var _w8_reloads := 0
 var _w8_language_switches := 0
 var _w202_silent_results := 0
@@ -155,6 +166,9 @@ func _ready() -> void:
 	if OS.has_environment("GANGNAM_W8_CAPTURE_DIR"):
 		await _capture_w8()
 		return
+	if OS.has_environment("GANGNAM_M14_BANK_CAPTURE_DIR"):
+		await _capture_m14_bank()
+		return
 	for language in ["ko", "en"]:
 		LocaleManager.set_language(language)
 		for fixture_variant in CASES:
@@ -166,6 +180,8 @@ func _ready() -> void:
 		LocaleManager.set_language(language)
 		for choice_index in range(2):
 			await _play_w8_case(language, choice_index)
+		for choice_index in range(3):
+			await _play_m14_bank_case(language, choice_index)
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -177,6 +193,8 @@ func _ready() -> void:
 			_w8_cases, _w8_pages, _w8_reloads, _w8_language_switches])
 	if _w202_silent_results != 2:
 		_fail("W202 quiet result inventory incomplete: %d" % _w202_silent_results)
+	if _m14_cases != 15:
+		_fail("M14 bank branch inventory incomplete: %d" % _m14_cases)
 	if _failures > 0:
 		print("STORY_BACKGROUND_CONTEXT_CHECK_FAIL failures=%d cases=%d intro_pages=%d result_pages=%d" % [
 			_failures, _cases, _intro_pages, _result_pages])
@@ -185,6 +203,7 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_W8_OK cases=%d pages=%d cold_cut_reloads=%d language_switches=%d" % [
 		_w8_cases, _w8_pages, _w8_reloads, _w8_language_switches])
 	print("STORY_BACKGROUND_CONTEXT_W202_OK silent_results=%d shared_profile_unchanged=1" % _w202_silent_results)
+	print("STORY_BACKGROUND_CONTEXT_M14_OK cases=%d exact_exit=1 clean_beds=1" % _m14_cases)
 	print("STORY_BACKGROUND_CONTEXT_CHECK_OK cases=%d intro_pages=%d result_pages=%d ko_en=1 choices=all live_storymode=1 settled_texture=1 ambience=1 human_gate=OPEN" % [
 		_cases, _intro_pages, _result_pages])
 	get_tree().quit(0)
@@ -252,24 +271,57 @@ func _mark_w8_capture(label: String) -> void:
 		_context, float(Time.get_ticks_msec() - _w8_capture_start_msec) / 1000.0, label])
 
 func _save_w8_capture(language: String, choice_index: int, label: String) -> void:
+	var path := _w8_capture_dir.path_join("%s_c%d_%s.png" % [language, choice_index, label])
+	if not await _save_viewport_frame(path):
+		return
+	_w8_capture_shots += 1
+	_mark_w8_capture(label)
+
+func _save_viewport_frame(path: String) -> bool:
 	# Wait for the real post-draw buffer and discard the first OpenGL readback.
 	for _draw in range(4):
 		await get_tree().process_frame
 		await RenderingServer.frame_post_draw
 	var texture := get_viewport().get_texture()
 	if texture == null:
-		_fail("W8 viewport has no render texture")
-		return
+		_fail("viewport has no render texture")
+		return false
 	var _prime_readback := texture.get_image()
 	await get_tree().process_frame
 	await RenderingServer.frame_post_draw
 	var frame := texture.get_image()
-	var path := _w8_capture_dir.path_join("%s_c%d_%s.png" % [language, choice_index, label])
 	if frame == null or frame.is_empty() or frame.save_png(path) != OK:
-		_fail("W8 viewport capture failed: " + path)
+		_fail("viewport capture failed: " + path)
+		return false
+	return true
+
+func _capture_m14_bank() -> void:
+	_m14_capture_dir = OS.get_environment("GANGNAM_M14_BANK_CAPTURE_DIR")
+	var output := DirAccess.open(_m14_capture_dir) if _m14_capture_dir.is_absolute_path() else null
+	var language := OS.get_environment("GANGNAM_M14_BANK_CAPTURE_LANGUAGE")
+	if output == null or not output.get_files().is_empty() or not output.get_directories().is_empty() \
+			or not M14_EXIT_LINE.has(language) or DisplayServer.get_name() == "headless":
+		_fail("M14 capture requires a fresh absolute output, an authored locale and a real display")
+		get_tree().quit(1)
 		return
-	_w8_capture_shots += 1
-	_mark_w8_capture(label)
+	if OS.get_environment("GANGNAM_M14_BANK_CAPTURE_COMPACT") == "1":
+		DisplayServer.window_set_size(Vector2i(960, 600))
+		await get_tree().process_frame
+		if DisplayServer.window_get_size() != Vector2i(960, 600):
+			_fail("M14 compact capture did not get a 960x600 window")
+			get_tree().quit(1)
+			return
+	OS.low_processor_usage_mode = false
+	LocaleManager.set_language(language)
+	for choice_index in range(3):
+		await _play_m14_bank_case(language, choice_index)
+	await _remove_story()
+	await _stop_audio()
+	if _m14_cases != 3:
+		_fail("one or more M14 branches were not captured")
+	if _failures == 0:
+		print("M14_BANK_VIEWPORT_OK language=%s paths=%d" % [language, _m14_cases])
+	get_tree().quit(0 if _failures == 0 else 1)
 
 func _play_case(language: String, fixture: Dictionary, choice_index: int) -> void:
 	await _remove_story()
@@ -353,6 +405,105 @@ func _w202_prime_ambience_layers() -> bool:
 		if not is_instance_valid(player) or not player.playing:
 			_fail("W202 did not start %s before the silence test" % player_property)
 			return false
+	return true
+
+func _play_m14_bank_case(language: String, choice_index: int) -> void:
+	await _remove_story()
+	_context = "%s/%s/choice%d" % [language, M14_BANK, choice_index]
+	_seed_story(M14_BANK, 53)
+	GameState.age = 34
+	GameState.year = 2027
+	GameState.month = 2
+	GameState.money = 750_000.0
+	GameState.flags["arc_34_money_attracts_seen"] = true
+	if not _w202_prime_ambience_layers():
+		return
+	GameState.pending_story_queue = [M14_BANK]
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	if not _expect_no_ambience("M14 entry on the first frame"):
+		return
+	await _wait_stable()
+	_story.call("_set_auto_mode", false, false, false)
+	var current: Dictionary = _story.get("_current")
+	if current.get("id") != M14_BANK or current.get("choices", []).size() != 3:
+		_fail("M14 exact live bank root and three choices were not exposed")
+		return
+	for _page in range((_story.get("_paragraphs") as Array).size()):
+		await _finish_page()
+		if not _m14_expect_surface(false) or not _m14_expect_cues(choice_index, -1):
+			return
+		_story.call("_on_advance")
+		await _wait_stable()
+	if not bool(_story.get("_showing_choices")) \
+			or not _expect_surface(M14_COUNTER, "", "bank choice dock"):
+		_fail("M14 choice dock did not remain at the counter")
+		return
+	if not _m14_capture_dir.is_empty():
+		# The choice group's entrance tween is separate from the ink tween.
+		await get_tree().create_timer(0.40).timeout
+		if not await _save_viewport_frame(_m14_capture_dir.path_join("c%d_choices.png" % choice_index)):
+			return
+	var initial_money := float(GameState.money)
+	var initial_receipts := GameState.event_log.size()
+	_story.call("_on_choice", choice_index)
+	await _wait_stable()
+	if not bool(_story.get("_pending_after_result")) \
+			or not GameState.flags.get("arc_y2_bank_limit_review_seen", false) \
+			or not is_equal_approx(GameState.money, initial_money) \
+			or GameState.event_log.size() != initial_receipts + 1:
+		_fail("M14 choice must create one receipt, no money and retain the outcome flag")
+		return
+	var pages: Array = _story.get("_paragraphs")
+	var saw_exit_line := false
+	for page_index in range(pages.size()):
+		var source_index := int(_story.call("_story_source_paragraph_index", page_index))
+		var exterior := choice_index == 2 and source_index == 1
+		if str(pages[page_index]).contains(str(M14_EXIT_LINE[language])):
+			if not exterior:
+				_fail("M14 departure narration did not own the exit cut")
+				return
+			saw_exit_line = true
+		if not _m14_expect_surface(exterior) or not _m14_expect_cues(choice_index, source_index):
+			return
+		await _finish_page()
+		if not _m14_capture_dir.is_empty() and not await _save_viewport_frame(
+				_m14_capture_dir.path_join("c%d_result_%d_%s.png" % [
+					choice_index, page_index, "exit" if exterior else "counter"])):
+			return
+		if page_index < pages.size() - 1:
+			_story.call("_on_advance")
+			await _wait_stable()
+	if saw_exit_line != (choice_index == 2):
+		_fail("M14 translated departure line missing or appeared on another choice")
+		return
+	_m14_cases += 1
+
+func _m14_expect_surface(exterior: bool) -> bool:
+	if str(_story.get_meta("living_scene_effect", "")) != "none" \
+			or not str(BGMPlayer.get("_current_key")).is_empty():
+		_fail("M14 bank scene acquired precipitation or an unrelated score")
+		return false
+	return _expect_surface(M14_EXIT if exterior else M14_COUNTER, "", "bank surface") \
+		and _expect_no_ambience("M14 must not inherit people or weather")
+
+func _m14_expect_cues(choice: int, source: int) -> bool:
+	var expected: Array[String] = []
+	if choice == 0 and source >= 0:
+		expected.append(M14_BANK + "::result:0:0:0:paper_handle")
+	elif choice == 1 and source >= 1:
+		expected.append(M14_BANK + "::result:1:1:0:paper_handle")
+	elif choice == 2 and source >= 0:
+		expected.append(M14_BANK + "::result:2:0:0:pen_write")
+		if source >= 1:
+			expected.append(M14_BANK + "::result:2:1:0:traffic_pass")
+	var observed: Array[String] = []
+	for raw in AudioManager._story_audio_seen:
+		if str(raw).begins_with(M14_BANK + ":"):
+			observed.append(str(raw))
+	if observed != expected:
+		_fail("M14 authored cue order expected=%s actual=%s" % [expected, observed])
+		return false
 	return true
 
 func _play_w8_case(language: String, choice_index: int) -> void:
@@ -669,7 +820,7 @@ func _wait_stable() -> void:
 		if not transition_busy:
 			await get_tree().process_frame
 			return
-		if not _w8_capture_dir.is_empty():
+		if not _w8_capture_dir.is_empty() or not _m14_capture_dir.is_empty():
 			continue
 		if raw_ink_tween is Tween and (raw_ink_tween as Tween).is_running():
 			(raw_ink_tween as Tween).custom_step(10.0)
