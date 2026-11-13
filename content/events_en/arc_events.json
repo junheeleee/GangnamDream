@@ -273,8 +273,8 @@
   },
   {
     "id": "arc_jaehyuk_01_reunion",
-    "title": "Ten Years",
-    "description": "One KakaoTalk message.\n\"Hey {name}! It's Jaehyuk. Choi Jaehyuk from the army. Remember? I'm in Seoul — let's grab a drink.\"\n\nProfile picture: him in front of a foreign car.\n22 years old. Same barracks. Inseparable through their whole service, then nothing after discharge.\n\nThe Jaehyuk at the pojangmacha was different.\nGood clothes. Expensive watch. Confidence in every word.\n\n\"You haven't changed at all! Let's drink.\"",
+    "title": "Eleven Years Since the Barracks",
+    "description": "A message came through on KakaoTalk.\n\"Hey, {name}! It's Jaehyuk. Choi Jaehyuk from the army. Remember? I'm in Seoul. Let's meet up.\"\n\nJaehyuk stood in front of an imported luxury car in his profile picture. They'd first shared a barracks room eleven years earlier, when Minjun was twenty-two. They'd stuck together throughout their service, then gone ten years without a word after discharge.\n\nAt the pojangmacha, a tented street bar, Jaehyuk wore good clothes and an expensive watch. Even the way he spoke seemed more assured. Before he poured a drink, he slid a glass of water over to Minjun. He used to do that without a word whenever Minjun coughed in the barracks.\n\n\"You haven't changed at all! Let's have a drink.\"",
     "choices": [
       {
         "text": "Glad to see him — an old friend after a long time.",
@@ -282,11 +282,11 @@
       },
       {
         "text": "Glad, but keeping some distance.",
-        "result_text": "Clinked glasses and smiled — but something sat uneasily.\nSomeone who contacts you after ten years is doing this well.\nWhy now—why me?\n{name} pushed that thought away. It's an old friend."
+        "result_text": "He smiled and clinked glasses. What had happened in the ten years since discharge to change the way Jaehyuk spoke?\nWhy had he looked for him now, of all times?\n{name} took a sip of water. The hand that had passed him the glass was familiar. That much he knew."
       }
     ],
-    "description_orthodox": "KakaoTalk. Choi Jaehyuk. Army.\n\nTen years.\n\nThe Jaehyuk at the pojangmacha used a foreign car as his profile photo.\nGood clothes. Expensive watch. The kind of confidence that fills a room.\n\n{name} smiled warmly and quietly calculated.\nWhat had this person been doing for ten years since discharge.\nWhy this call, why now.",
-    "description_unorthodox": "KakaoTalk. Jaehyuk. Ten years.\n\nForeign car profile. Expensive watch. Paid for three rounds at the pojangmacha.\n\nMaybe he's just a military buddy who did well.\nOr maybe he wants something.\n\n{name} accepted the drink. Too early to tell."
+    "description_orthodox": "Choi Jaehyuk's name came up on KakaoTalk.\n\nThey'd first shared a barracks room eleven years earlier, when Minjun was twenty-two. They'd gone ten years without a word after discharge.\n\nAn imported luxury car in the profile picture. An expensive watch on Jaehyuk's wrist at the pojangmacha, a tented street bar. The way he talked had changed as much as his clothes. But before pouring a drink, he slid the water over, just as he'd done when Minjun coughed in the barracks.\n\n{name} smiled. A photo couldn't tell him how Jaehyuk had lived since discharge or why he was here now.",
+    "description_unorthodox": "Choi Jaehyuk on KakaoTalk. Eleven years earlier, he'd shared a barracks room with Minjun, who was twenty-two then. After discharge, they'd gone ten years without a word.\n\nAn imported luxury car in the profile picture. An expensive watch. They started at a pojangmacha, a tented street bar, and Jaehyuk picked up the tab through their third round.\n\nBefore pouring the first drink, Jaehyuk slid a glass of water over to Minjun. He'd done it without a word back in the barracks, whenever Minjun coughed.\n\n{name} accepted the drink. He'd never seen the watch before, but he knew that hand."
   },
   {
     "id": "arc_jaehyuk_02_bond",

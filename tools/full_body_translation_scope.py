@@ -52,12 +52,12 @@ PUBLIC_DEMO_AUDIT_PATH = Path("tools/story_demo_localization_audit.py")
 TARGET_LANGUAGES = ("ja", "zh-CN", "zh-TW")
 PROTECTED_REUSE_EVENT_ID = "arc_jaehyuk_01_reunion"
 
-# This one source was approved and translated in the exact public M01-M06
-# story demo, then legitimately appears again in the M07-M60 static closure.
-# Freeze its eight source leaves so later batches reuse the reviewed row instead
-# of silently translating a changed Korean source under the old target text.
+# This public M01-M06 source also appears in the M07-M60 static closure.
+# Pin all eight current source leaves after the ORDER-829 reunion repair so
+# later batches cannot silently pair changed Korean prose with old targets.
+# The original public package keeps its separate historical identity.
 PROTECTED_REUSE_SOURCE_LEAVES_SHA256 = (
-    "e2efdecc78d14630c3dd63a32da530e17a8b10af253139bee7d0d240e65710ab"
+    "16842368dcd008a397d4f79aaddcf53462a9aefc0ecbb384606a7100b737f462"
 )
 
 # The public demo keeps its fourteen roots and one hundred translated leaves;
@@ -76,11 +76,11 @@ PROTECTED_REUSE_LEAF_COUNT = 8
 
 # The public demo's current source/target contract is owned by the demo audits,
 # not a recreation of a closed full-body inventory's old 100/108-leaf text.
-# This unchanged eight-leaf reuse still has its own genuine semantic seal.
+# This eight-leaf reuse still has its own genuine semantic seal.
 PROTECTED_REUSE_TARGET_LEAVES_SHA256 = {
-    "ja": "f30a43085f07c5c05ab29ca305e3d57f8ebcd103a5b8243eb7e89c09f4933c18",
-    "zh-CN": "88eac80f40c05964fa265995c8153868824d80c7813031213580a62e9faedcdf",
-    "zh-TW": "c9aebd91940aa44c05b12fede3f9d486908028e54dcf24e57921f0d83563eb69",
+    "ja": "92ee870fcc46132fdc9a978f50186df233d269812a945d66286fcca7453dbda9",
+    "zh-CN": "dc908694722152c0747f94627adf9196fbc17d0c7842ab39ae8e0d9840503657",
+    "zh-TW": "df6e029ef75097b70eeec9a894226da270ec60af184c61fe3a9c7c870c65e38a",
 }
 ACCEPTANCE_LEDGER_PATH = Path("content/meta/full_game_localization.json")
 
