@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-820",
+  "reviewer": "/root/review_816",
+  "author": "/root",
+  "reviewed_at": "2026-11-13",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "b98fe564bcd32567c6510d74989c12887b11a582",
+    "tree": "cb9efc4ced6fac60ab2e4ba8831f7ec7cd39f16a",
+    "manifest_sha256": null
+  },
+  "scope": "Two existing leaves: Japanese callback_cafe_honest_win_deeper description and Traditional Chinese choice index 0 result. No added coverage.",
+  "findings": "Japanese restores the caller's own-side trust, not a mere acquaintance, with no employment, identity, or role invented. Traditional Chinese restores the tax adviser speaking politely and volunteering help after acceptance. Other wording/line breaks, anonymity, the wait alternative and the choices/effects are unchanged.",
+  "routing": "Existing honest investment success produces cafe_honest_win, and the callback data requires it and turn 10+. The connected call is off scene with cafe_investor, not Manager Kim or the tax adviser physically present. DataRegistry merges by event ID and choice index; StoryMode reads description/result. Shipping inventory classification is not exposure: the ID is outside both current content-diet foreground and bridge allowlists, and standard fresh full route not observed.",
+  "validation": {
+    "method": "Direct entire KR event and four overlays including both choices. Pinned Git source/target byte proof, independent pure check_batch and digest checks, original ORDER-188 receipts (98 leaves each) and new official receipts compared with exact same-source previous targets.",
+    "prior_batches": 409,
+    "prior_decisions": 378,
+    "prior_decision_ledger_sha256": "a5e911a08e64b6dd08254211061b36df5804b77479cda5bf0a558471af0001db",
+    "target_byte_inverses": 2,
+    "ledger_byte_inverses": 1,
+    "original_official_receipts": 2,
+    "current_official_receipts": 2,
+    "protected_blobs": 21,
+    "logs": "2×1 official export/check/import with six empty stderr files. Public demo 5 locales/14 events/100 leaves/122 UI and EN/i18n/context checks passed. Named lane listed only."
+  },
+  "identity": {
+    "baseline": "17100cb173c06ada09dbfed155e3b450816481a9",
+    "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+    "original_receipt_source": "faf74fa75ce761ab5a664c86da30e28508199a13",
+    "bindings_by_locale": {
+      "ja": {
+        "id": "events:callback_cafe_honest_win_deeper:/description",
+        "source_sha256": "bef7668571c820bef978e76e615e4fdebb201e8e4f1502397129010c2b5336e9",
+        "previous_target_sha256": "e3b18c8d54c0e26207b184e69e70a844d9e0ce0e0be06283bfa057bd62dcd951",
+        "new_target_sha256": "ae0bf9672dde96f10f4dff27a32ffa5c245207c79adbd4d7f69bcb1bf52ffc1b",
+        "original_batch_id": "ea201418d2de628fd64bfb6a5017622d5e766448416e487686eb18f499f61fcd",
+        "original_receipt_sha256": "a283da4d0f336fa53badc01c92e403e39995cfa38f5db03feaa733c439937a7b",
+        "original_receipt_file_sha256": "b73f7c71da1bd660ea001fe8048656294efd5e39d5754125ceca5afaa4985cc3",
+        "batch_id": "9d601b8b9eaff1c9a1f04cdc30018f4824eeb7e4e89606928a43ad4975839a73",
+        "receipt_sha256": "a5adf836eb9495918c1481a9b538e833fda55c9986269b5ec10446828c263e0d",
+        "receipt_file_sha256": "26c493700f8e1d8f951a70b119f416a1b1cbb7e5faf99741cc3ae092c2e3c756"
+      },
+      "zh-TW": {
+        "id": "events:callback_cafe_honest_win_deeper:/choices/0/result_text",
+        "source_sha256": "181dd49bdd96629c57b70d6cb67d2bba41be46230996677a9b81d74c2c92b5c9",
+        "previous_target_sha256": "d342a84e37d591695391841f260dd37a196afdf7dd525479362992510691d5e3",
+        "new_target_sha256": "55a2eb8e8e966a3f8fc88f745c9d6425fe4617d7f9e14f763e643c6958cd0bf6",
+        "original_batch_id": "f05820ca250bad2ddb9089e81a190d9ece4f5006af11759f0b9855be17f447ed",
+        "original_receipt_sha256": "1694b88e0c24b8696508f4e9cbb712d1813ffd7cd47cea25bad8d4a47cdfa6f5",
+        "original_receipt_file_sha256": "d6bc7ab81d91978da69b67c18abc9d0885b86d411d09293b72bb3fee2426dfe8",
+        "batch_id": "fe09d4bf7f585f230b684fa47d06eefcdf2704ed21644a4d08e53389b952bdca",
+        "receipt_sha256": "254f92f726957d024ab468953756aef21bbbbf10f8564267251fd3941577e793",
+        "receipt_file_sha256": "284e75b5f86c742706150d0f1ca8c7e7a5b9cace975f99a95f5acb9248699c41"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-cafe-introduction-20261113.tvRwCB/",
+    "raw_files": 25,
+    "raw_entries_sha256": "2829612110b1d106f9e33d19eeaf93cadc4ff31f0052e193166d9726d29bfb10",
+    "raw_digest_method": "SHA-256 of compact UTF-8 JSON array of lexically sorted [filename, byte_size, file_sha256] rows."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_cafe_callback_render",
+    "actual_standard_fresh_full_route_exposure",
+    "actual_public_demo_package_play",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}

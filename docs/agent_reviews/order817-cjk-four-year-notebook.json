@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-817",
+  "reviewer": "/root/review_816",
+  "author": "/root",
+  "reviewed_at": "2026-11-13",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "5937f1a0b9a54d1b74d819d117ecab47044453f1",
+    "tree": "2c2e02b3955e02d373f58d540805c8d396d08b8a",
+    "manifest_sha256": null
+  },
+  "scope": "One sentence in the shipping story_four_year description in JA, zh-CN and zh-TW, preserving the upstream age and no-asset-growth fix. Three existing targets, zero new coverage.",
+  "findings": "The first-page figure stays KRW 3 billion, not a statement of physical placement, current balance or asset growth. Age 36, remaining time comparison, other sentences, three paragraphs and {name}, both choice texts/results and effects preserved.",
+  "routing": "MainGame's elapsed calendar month 48 and unseen flag produce the fixed event ID after foreground priorities; nonrandom hidden milestone remains shipping, not author_only. DataRegistry merges the locale by ID and StoryMode reads the description. No actual exposure observed.",
+  "validation": {
+    "method": "Independently read all four descriptions and all choice texts/results. Pure check_batch and digest comparison against pinned Git blobs. Current three official receipts match upstream-edited pretargets; three official historical ORDER-184 receipts match the pre-upstream source/targets and old acceptance. Four exact byte inverses; protected Git blob checks and static log review.",
+    "prior_batches": 406,
+    "prior_decisions": 375,
+    "prior_decision_ledger_sha256": "de360cfacb7759b9024214de5cca1a4fc756645ecf4fd93f1f73e2f82660be2d",
+    "dictionary_byte_inverses": 3,
+    "ledger_byte_inverses": 1,
+    "original_official_receipts": 3,
+    "current_official_receipts": 3,
+    "protected_blobs": 15,
+    "logs": "3×1 official export/check/import markers and nine empty stderr files; demo 5 locales/14 events/100 leaves/122 UI and EN, i18n and context passes. Named lane list only."
+  },
+  "identity": {
+    "baseline": "5ead751a32b9b140a58c94e185d97bba7de37a31",
+    "upstream_c2": "368c5821990dbe3ff82f91e1b43da1da3436f95f",
+    "upstream_parent": "68a643fc2af563705c26fd5ec340026e800f5477",
+    "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+    "original_source_sha256": "c15764306841cc820c3f32febf7c7d1758cf59476d1d38b23319d63501a1568f",
+    "current_source_sha256": "ee7695c43bc9710f6a8a51a6c001423ef882c4cfd5dc4bc7dd5e2271b7571e72",
+    "source_id": "events:story_four_year:/description",
+    "original_receipt_source": "9d240a3f0a923aca96e9ae23f9bc91dcb629aa23",
+    "bindings_by_locale": {
+      "ja": {
+        "current_batch_id": "e4b7eef89a3d001e6579d55f19a4c35796313a20c54f580a52151dd88b7297db",
+        "current_receipt_sha256": "9de345538c40c62e0464c8a4ac14b27fbb86f09bf2ffe610839bbd0a5e02d6ad",
+        "current_receipt_file_sha256": "9df45cb6a9f68d57f02bc7fce54f446830de37800f99fa42553bc5e3013c5fd1",
+        "previous_target_sha256": "611d7f22afa36b0a629277351445fc3975320a0616796b65ba5a42ebd30f231b",
+        "new_target_sha256": "098affab068c7e4ed6e9c9bb6e7a03538560b9771d8e06ccc5a6b72e0ed446ab",
+        "original_batch_id": "d6ee4fe7fbceca1c0fa1145ab72c47faf7df88c3c2156ef45f9ce7dd379933fe",
+        "original_receipt_sha256": "7fa10ea02150aca912c67289907a6b6e9e84cba5e86f2134daa583d39b6ca955",
+        "original_receipt_file_sha256": "89bf53db486ac99037502e73041be5ecb8e89e0b11cac9fa9f3a74f82303a936",
+        "original_target_sha256": "66ccef4f89a1e22ceaa89d7ed9c8e8dbf15828384961a45b5c33e881233156ca"
+      },
+      "zh-CN": {
+        "current_batch_id": "76bb0123e29e7f3a529f857d14ae6aa89eeaf27461c3a7df0e3f18396d5fdb2e",
+        "current_receipt_sha256": "915728de97605e668ef43fb16dcbada3a3ee88f59ca5aec6f0a3e7b99b71358c",
+        "current_receipt_file_sha256": "d029bfd03a4ee3ea276e7bda7188c38cbd59c956c1618f8a5130395d86d2db58",
+        "previous_target_sha256": "8ba86393b056474ff2e310fdda63ce736d6c98e1994e42f5e2a0213102fa47c5",
+        "new_target_sha256": "5abea39342084fcb9ea12281da3698ab6924e74c130293f8e7d5ecef9f4c6ef3",
+        "original_batch_id": "68cb6f37a937ea18e254e1151241fe55d4cc89f95e878ba46183c95720f75389",
+        "original_receipt_sha256": "095b187ee0448933ff40328af36be2696c87cf9e32acbc236ad3917e0400b60f",
+        "original_receipt_file_sha256": "0421deb0620587fa4cbef742f13d2e598c707d0d704717ff21474e4470aa7753",
+        "original_target_sha256": "bda25d8dfa942748d5fed5722ff4bc0b4eb270ba2c01448124bf35a360cb0a5f"
+      },
+      "zh-TW": {
+        "current_batch_id": "36bafd9b1450d8cc9ac7f297b8d1f29ed3e88c87ca5ae47f4ad8d837c356b0c9",
+        "current_receipt_sha256": "03277a5d1e37360bc383fc0c587fa0c7aebcac6815cf31532789c57f23f3de69",
+        "current_receipt_file_sha256": "5c1d18f747b8757a9e0d2e7849dddb075e5bfdd2d4db2caa3ed7105a126246ef",
+        "previous_target_sha256": "18bcac5a77b776dffacbb6f4d894ff89f10bb8a10eec175ffd0e5cd4e9aa4bd1",
+        "new_target_sha256": "d7c657b9c6eb7f9d24b907cc282b6da04dbea054af91bf30a93bc55fa124d106",
+        "original_batch_id": "db87821b8bc29858ae7030ce692f9484e0ce9f56dd866cd4ab5e71856556ddac",
+        "original_receipt_sha256": "6ee7757260abae3f32eaf8f37ffa305cdd689ae0892bc3c164e605ad58a86edf",
+        "original_receipt_file_sha256": "7d3e5a43c006c9ca6fa9b60d925ff2f09478a79747a2d48b6350eaa05bc92c53",
+        "original_target_sha256": "1ef7f93709cc36810cf673117db70f42eb82ebeaf0066b4c9f219b1c1647e986"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-four-year-notebook-20261113.NVnBzt/",
+    "raw_files": 32,
+    "raw_entries_sha256": "abb5271df6950b9ebb00ae9b30e67f4def37f895786aa62da019afe719db2205",
+    "raw_digest_method": "SHA-256 of compact UTF-8 JSON array of lexically sorted [filename, byte_size, file_sha256] rows."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_four_year_scene_exposure",
+    "actual_rendered_four_year_scene",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}

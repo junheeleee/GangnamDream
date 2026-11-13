@@ -123,6 +123,31 @@ func _f(n: Object, bold: bool = false) -> void:
 func _tr(ko: String, en: String) -> String:
 	return LocaleManager.ui(ko, en)
 
+func _status_caption(english: String) -> String:
+	# Keep the legacy display in both demo flavors and in every other locale.
+	if LocaleManager.language not in ["ja", "zh-CN", "zh-TW"] or GameState.is_demo_build() \
+			or ProjectSettings.get_setting("application/run/main_scene", "") == "res://playtests/order124/StoryChoiceM1M6Playtest.tscn":
+		return english
+	match english:
+		"SPINNING": return _tr("룰렛 회전 중", "SPINNING")
+		"LAST NUMBER": return _tr("룰렛 최근 당첨 번호", "LAST NUMBER")
+		"RESULT": return _tr("룰렛 결과", "RESULT")
+		"NO MORE BETS": return _tr("룰렛 베팅 마감", "NO MORE BETS")
+		"PLACE YOUR BETS": return _tr("룰렛에 베팅하세요", "PLACE YOUR BETS")
+		"WINNING POCKET": return _tr("룰렛 당첨 번호", "WINNING POCKET")
+	return english
+
+func _result_panel_title() -> String:
+	if _phase == Phase.SPINNING:
+		return _status_caption("SPINNING")
+	return _status_caption("LAST NUMBER" if _last_result >= 0 else "RESULT")
+
+func _result_panel_footer() -> String:
+	match _phase:
+		Phase.SPINNING: return _status_caption("NO MORE BETS")
+		Phase.IDLE: return _status_caption("PLACE YOUR BETS")
+		_: return _status_caption("WINNING POCKET")
+
 # ── 진입/종료 ──────────────────────────────────────────────────
 func open() -> void:
 	_phase        = Phase.IDLE
@@ -714,10 +739,8 @@ func _draw_roulette_top_table(sz: Vector2, font: Font) -> void:
 	var left_panel := Rect2(Vector2(46.0, 38.0), Vector2(250.0, 146.0))
 	var right_panel := Rect2(Vector2(sz.x - 296.0, 38.0), Vector2(250.0, 146.0))
 	_draw_table_info_panel(left_panel, "BET PLACED", _selected_bet_label(), _stake_label(), Color("#f0b429"), font)
-	var result_title := "SPINNING" if _phase == Phase.SPINNING else ("LAST NUMBER" if _last_result >= 0 else "RESULT")
 	var result_body := str(_display_number) if _phase == Phase.SPINNING else (str(_last_result) if _last_result >= 0 else "—")
-	var result_sub := "NO MORE BETS" if _phase == Phase.SPINNING else ("PLACE YOUR BETS" if _phase == Phase.IDLE else "WINNING POCKET")
-	_draw_table_info_panel(right_panel, result_title, result_body, result_sub, _number_color_draw(_display_number if _phase == Phase.SPINNING else _last_result), font)
+	_draw_table_info_panel(right_panel, _result_panel_title(), result_body, _result_panel_footer(), _number_color_draw(_display_number if _phase == Phase.SPINNING else _last_result), font)
 	if _phase == Phase.RESULT and _last_result >= 0:
 		_draw_winning_pocket_marker(right_panel, _last_result, font)
 
@@ -1429,15 +1452,15 @@ func _refresh_phase_badge() -> void:
 		return
 	match _phase:
 		Phase.SPINNING:
-			_phase_badge_lbl.text = "SPINNING  /  NO MORE BETS"
+			_phase_badge_lbl.text = "%s  /  %s" % [_status_caption("SPINNING"), _status_caption("NO MORE BETS")]
 			_phase_badge_lbl.add_theme_color_override("font_color", Color("#f0b429"))
 			_phase_badge_lbl.visible = true
 		Phase.RESULT:
-			_phase_badge_lbl.text = "WINNING POCKET  %d" % _last_result if _last_result >= 0 else "RESULT"
+			_phase_badge_lbl.text = "%s  %d" % [_status_caption("WINNING POCKET"), _last_result] if _last_result >= 0 else _status_caption("RESULT")
 			_phase_badge_lbl.add_theme_color_override("font_color", Color("#f7e3a1"))
 			_phase_badge_lbl.visible = true
 		_:
-			_phase_badge_lbl.text = "PLACE YOUR BETS"
+			_phase_badge_lbl.text = _status_caption("PLACE YOUR BETS")
 			_phase_badge_lbl.add_theme_color_override("font_color", Color(0.74, 0.86, 0.70, 0.72))
 			_phase_badge_lbl.visible = true
 

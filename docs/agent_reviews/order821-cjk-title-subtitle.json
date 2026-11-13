@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-821",
+  "reviewer": "/root/review_816",
+  "author": "/root",
+  "reviewed_at": "2026-11-13",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "d09c4ff7389c9dbac62a03a23bf0614f621709b1",
+    "tree": "5c3d96f8eb9c194525a676ca0f6d9269e601b937",
+    "manifest_sha256": null
+  },
+  "scope": "One Korean genre subtitle shared by full-game splash/menu and three new prepared JA/zh-CN/zh-TW translations; wordmark brand and outside flavors preserved.",
+  "findings": "All three targets convey a work dramatizing realities of Korean society without adding a program format, claim of true events, or localized title. The existing brand and old Japanese GANGNAM DREAM value are preserved; only the guarded prepared full-game subtitle changes.",
+  "routing": "StartMenu._build_splash (74) and _build_ui (64) call _title_wordmark, passing its result to actual GangnamWordmark subtitle Label. Guard limits the new dictionary lookup to three locales in full build, excluding public demo entry scene; legacy demo and V2 test are excluded by BuildFlavor. KO/EN, others, demo JA and existing menu/language/save owners unchanged.",
+  "validation": {
+    "method": "Direct Korean and full three-target read, code/guard and wordmark Label trace. Pinned Git source guard inverse, independent pure check_batch and official receipt validation plus canonical first-parent append and exact byte inverses.",
+    "prior_batches": 410,
+    "prior_decisions": 379,
+    "prior_decision_ledger_sha256": "61c438744322656de2715a679d98e3a7084d17411bc32116ee724ed527223cb8",
+    "dictionary_byte_inverses": 3,
+    "ledger_byte_inverses": 1,
+    "source_consumer_byte_inverses": 1,
+    "current_official_receipts": 3,
+    "protected_blobs": 19,
+    "engine": "Isolated actual helper/Label; 72 cases (full config 24, 6 localized/18 preserved, legacy and V2 24 preserved each), includes public-entry scene simulation. Glyphs/240px font advance diagnostic, state unchanged. Exact markers, clean matching stdout/Godot logs and empty stderr; no native render.",
+    "static_checks": "Public demo 5 locales/14 events/100 leaves/122 UI, EN/i18n/context passes; named lane list only."
+  },
+  "identity": {
+    "declaration": "adedf9818277c32ad98291a25fb4000a22717919",
+    "source_only": "af49617e122cb2ee89af163350817d43aea2dcfc",
+    "source_id": "ui:한국 사회의 현실을 그린 드라마:/한국 사회의 현실을 그린 드라마",
+    "source_sha256": "a67317d30901b8e8591d9ea0cbbd68c1bff1cd514fc54d45704089fec8eab0d4",
+    "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+    "bindings_by_locale": {
+      "ja": {
+        "batch_id": "ef2c806d679b9ba11a86e8a9f5ebab9c01d2150cad480e088c87b17ba30b5f79",
+        "receipt_sha256": "e310d470c95839be083433ac8dd55a6f3d349d891ea45b3418fe437b99d19363",
+        "receipt_file_sha256": "b568bd5fe9bc74f460c134eca53ed3f9fae44aad0d7fbb7b026250b8b390bb33"
+      },
+      "zh-CN": {
+        "batch_id": "87ce5f0a8afd4e5ed741e7640d49bdb994e5fa67aa2eb603fe029f1b2418fac4",
+        "receipt_sha256": "579acb7d5ea16ee7e73f6fa9d2400ad2ef8495da9b36fe07e970faefa49b4679",
+        "receipt_file_sha256": "d0fc14a6f80b0591b8107c6c217d874c0b20b4050b985e321c553715a84da891"
+      },
+      "zh-TW": {
+        "batch_id": "a64286c6ddef0219ddaefe03490df0173eb279f5c6159d7227507bcea4ba7d2c",
+        "receipt_sha256": "3735eb3fd1f6575623b0f2a389f9e1634fb81aee39fa3716ec00b5f5d97eb591",
+        "receipt_file_sha256": "ed41e6caeba4fda8ac436ce404ad83b3a82521144faf390aa758e8802e67bf33"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-title-subtitle-20261113.YBxAlN/",
+    "raw_files": 43,
+    "raw_entries_sha256": "cddfd7abd655e87c84c81c4f280b1d8c730440b314c82985c20894a0b55e6a72",
+    "raw_digest_method": "SHA-256 of compact UTF-8 JSON array of lexically sorted [filename, byte_size, file_sha256] rows."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_start_menu_render",
+    "actual_public_demo_package_play",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}

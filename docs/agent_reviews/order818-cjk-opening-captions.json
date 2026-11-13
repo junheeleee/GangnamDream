@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-818",
+  "reviewer": "/root/review_816",
+  "author": "/root",
+  "reviewed_at": "2026-11-13",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "79521692f60baa129302e92edbcf6fad9503642f",
+    "tree": "1f9bd7110ab48a039d8a58b7d63682af92c9a98f",
+    "manifest_sha256": null
+  },
+  "scope": "Six existing Korean OpeningCinematic title/body lookup keys, eighteen new JA/zh-CN/zh-TW targets across three new-story opening beats.",
+  "findings": "2026 Seoul/Gangnam, wealth and status as an address, one apartment priced KRW 3 billion, canonical name and age 33, KRW 500,000 bank balance vs KRW 650,000 monthly goshiwon rent, goal KRW 3 billion with five years left, and the first week all remain distinct. The Gangnam body keeps its single explicit newline. No blocking defect.",
+  "routing": "StartMenu._do_start_run to OpeningCinematic.tscn; _show_beat uses actual title/body Labels through _localized and LocaleManager.ui. Public story demo entry uses its separate controller/StoryMode. Shipping/legacy locale selection is unchanged; KO/EN and unrelated fallback preserved.",
+  "validation": {
+    "method": "Direct 18-target comparison with actual BEATS fields and traces, official final response and receipt binding, canonical first-parent append check, independent Git source manifests and exact byte inverses.",
+    "prior_batches": 407,
+    "prior_decisions": 376,
+    "prior_decision_ledger_sha256": "67c5ad73466333c4e2a60a53822e185e48056445185331aeb5196f7525757302",
+    "dictionary_byte_inverses": 3,
+    "ledger_byte_inverses": 1,
+    "current_official_receipts": 3,
+    "protected_blobs": 15,
+    "final_engine": "Latest isolated engine exact marker 36 checked, 18 localized, 18 preserved; real Labels, font glyphs/width, game state and no transition. stdout equals Godot log, no error/warning, stderr empty.",
+    "history": "Original JA numeric and zh-TW bank-account validator refusals, initial preload/autoload compile and assignment failures, and middle shutdown ObjectDB warning preserved, not counted as clean success. Final responses change one row each JA/TW with prior headers and other rows unchanged; CN original.",
+    "static_checks": "Demo 5 locales/14 events/100 leaves/122 UI, EN/i18n/context pass. Named localization lane list only."
+  },
+  "identity": {
+    "baseline": "ad534bb70efd83f8f9e601df8f74204557987de5",
+    "source_manifest_sha256": "6255cbf65014243b09326a2cb95ec5b6040e8df8b1a7da315d8d960db63e8ede",
+    "bindings_by_locale": {
+      "ja": {
+        "batch_id": "18de78a77da4020b4a817127e0a4625ec1fa36bc869cf0998962807f2d0db92d",
+        "receipt_sha256": "2d8992ea523dff54fe9242840cf52b6daa30444a856a5effd11385fe96c03894",
+        "receipt_file_sha256": "039a3ab830f9f79c2b9a49108e00a8bf1fd8314e3e134ba940336c8611eed4b6"
+      },
+      "zh-CN": {
+        "batch_id": "8099aa42f7b6ea9d71d065e9aa4cb11890b6c348a031a5353feb9585f20065e7",
+        "receipt_sha256": "165e1648c497c964a7033d1d4e77480aaa4ff8827c5374d55908de34f401c783",
+        "receipt_file_sha256": "7d71752c913a89cc7eca5189bdeaadfc9af33a62d97c70083053539bfe224830"
+      },
+      "zh-TW": {
+        "batch_id": "701e434d6f7d20ecf539af2a6a2727bb9eb5db05361cfa20f143f1af9dba4432",
+        "receipt_sha256": "09cb915fa3156cf6e2137787aeb5031e4e4d2c92b6d34a5c0bb0284fe158c33a",
+        "receipt_file_sha256": "8634e9c7d1107a679786943652f9a80d3e38b6ea9ed4ada5597d36e9fc3aa8f0"
+      }
+    },
+    "raw_directory": ".git/localization-cjk-opening-captions-20261113.8vP5VE/",
+    "raw_files": 53,
+    "raw_entries_sha256": "1f1b59c0880f8351ac9eed0a8cf33bbac7c2113d125550eb24642d2b16259798",
+    "raw_digest_method": "SHA-256 of compact UTF-8 JSON array of lexically sorted [filename, byte_size, file_sha256] rows."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_opening_render",
+    "actual_new_story_play",
+    "actual_public_demo_package_play",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}
