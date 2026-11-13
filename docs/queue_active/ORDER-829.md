@@ -87,3 +87,24 @@ KO/EN 앞 세 장면의 진행 표시와 M06 실제 진행→결과를 엔진으
 이름·거래·새 약속을 발명하지 않고 효과/플래그/후속·자전거 상태·5만원+만원×3 보존.
 KO/EN `arc_events.json`, JA/간체/번체 `story_demo_events.json`만.
 5언어 독립 검수, 정확 선택·서사·원장·EN·데모 감사 통과. 시각/음향 수리는 830만.
+
+### [~] P6A · 상철 첫 만남의 4월과 세 번의 실내 정적
+
+공개 M04가 읽는 `arc_sangchul_01_meet`의 기본·정석·비정석 설명을 KO/EN/JA/
+간체/번체 모두 4월로 맞춘다. valid full-run은 현재처럼 날짜 접두만 제거하고,
+공개 체험판·read-only·preview·손상 owner는 4월 원문을 그대로 읽는다. 보증금·월세·
+관리비·`{name}`·선택·효과·플래그·명함·핵심 대사는 바꾸지 않는다.
+
+같은 실내 체인의 감각 반복은 `arc_sangchul_01_meet` 기본 설명에서 벽시계만,
+`arc_sangchul_01_coffee`에서 실제 종이컵 소리와 두 문답의 자연스러운 말투,
+`arc_sangchul_01_answer`에서 젖은 도로의 타이어 소리 정확 1회로 분리한다.
+`arc_sangchul_01_measure`와 선택·결과 원문은 수정하지 않는다. 사건 ID·토폴로지·
+수치·상태·배경·초상·오디오는 불변이다.
+
+만지는 파일은 `content/events/arc_events.json`, `content/events_en/arc_events.json`,
+`content/events_ja/story_demo_events.json`, `content/events_zh-CN/story_demo_events.json`,
+`content/events_zh-TW/story_demo_events.json`, `scenes/StoryMode.gd`,
+`tools/ManualSaveCheck.gd`, `tools/english_hangul_audit.py`, 이 사양,
+`docs/WORK_LOG.md`, `CLAUDE.md`뿐이다. 날짜 투영의 기존 exact 제외·저장 검사를
+약화하지 않고 새 접두와 세 감각 소유를 5언어에서 직접 확인한다. 역사 ORDER-543,
+8.31 ZIP/PCK, `project.godot`, P6B/P6C, 새 RC와 사람 판정은 건드리지 않는다.
