@@ -813,12 +813,14 @@ func _ready() -> void:
 	if scope == QA_SCOPE_STORE:
 		var lang := _qa_language("en")
 		await _shot_store_surfaces(lang, "store_en_" if lang == "en" else "store_ko_")
+		await _teardown_store_trailer_capture()
 		print("SCREENSHOT_QA_DONE scope=store lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_TRAILER:
 		var lang := _qa_language("en")
 		await _shot_trailer_surfaces(lang)
+		await _teardown_store_trailer_capture()
 		print("SCREENSHOT_QA_DONE scope=trailer lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
@@ -17677,12 +17679,14 @@ func _shot_store_surfaces(lang: String = "en", prefix: String = "store_en_") -> 
 	_prepare_main_game_state()
 	await _boot_main_game()
 	_seed_ending_state("stable_success")
+	_seed_store_trailer_time_ledger_weeks()
 	GameState.year_scenes = {}
 	_mg.call("_show_ending", "stable_success")
 	await _settle(1.0)
 	var ledger_focused := await _focus_modal_qa_surface("time_ledger")
 	if not ledger_focused:
 		_fail("Store time-ledger shot could not find the ending ledger")
+		await _dispose_main_game()
 		return
 	await _save(prefix + "04_time_ledger")
 	await _dispose_main_game()
@@ -17711,16 +17715,24 @@ func _shot_store_surfaces(lang: String = "en", prefix: String = "store_en_") -> 
 	_seed_year_scene_history(true)
 	await _boot_main_game()
 	_seed_ending_state("stable_success")
+	_seed_store_trailer_time_ledger_weeks()
 	_mg.call("_show_ending", "stable_success")
 	await _settle(1.0)
+	# The recap is a child of ending page 3, while _show_ending starts on page 0.
+	# Build the real ledger page before looking for its five-scene recap.
+	_mg.call("_ending_show_page", 3)
+	await get_tree().process_frame
+	await _settle(0.35)
 	var recap_focused := await _focus_modal_qa_surface("year_scene_recap")
 	if not recap_focused:
 		_fail("Store ending-recap shot could not find the five-scene recap")
+		await _dispose_main_game()
 		return
 	var recap := _find_qa_surface(_mg, "year_scene_recap")
 	var expected_heading := "FIVE YEARS, FIVE SCENES" if lang == "en" else "5년, 다섯 장면"
 	if recap == null or expected_heading not in _collect_control_text(recap):
 		_fail("Store ending recap did not show '%s'" % expected_heading)
+		await _dispose_main_game()
 		return
 	await _save(prefix + "08_ending_recap")
 	await _dispose_main_game()
@@ -17768,25 +17780,18 @@ func _shot_trailer_surfaces(lang: String = "en") -> void:
 	_prepare_breakup_qa_state("daeun")
 	await _shot_story_event(
 		"arc_daeun_final_choice_decision", "trailer_13_divorce_seal", "", 0.35,
-		true, true, 1, 0, false, 3)
+		true, true)
 	_prepare_breakup_qa_state("jiyeon")
 	await _shot_story_event(
 		"arc_jiyeon_verdict_decision", "trailer_14_departure", "", 0.35,
-		true, true, 1, 0, false, 2)
+		true, true)
 
 	_prepare_main_game_state()
-	await _boot_main_game()
-	_seed_ending_state("lonely_rich")
-	_mg.call("_show_ending", "lonely_rich")
-	await _settle(0.8)
-	var empty_table_preview := _find_ending_art_preview(_mg)
-	var empty_table_path := ImageRegistry.get_cg("cg_ending_lonely_rich")
-	if empty_table_preview == null or empty_table_preview.texture == null \
-			or empty_table_preview.texture.resource_path != empty_table_path:
-		_fail("Trailer catastrophe shot did not render the lonely-rich table CG.")
-		return
-	await _save("trailer_15_empty_table")
-	await _dispose_main_game()
+	GameState.turn = 216
+	GameState.age = 37
+	GameState.moral_tint = -32.0
+	await _shot_story_event(
+		"arc_why_gangnam_real", "trailer_15_empty_table", "", 0.45, true, true)
 
 	await _shot_trailer_extended_surfaces()
 	GameState.moral_tint = 0.0
@@ -17873,17 +17878,28 @@ func _shot_trailer_extended_surfaces() -> void:
 	await _dispose_main_game()
 
 	_prepare_main_game_state()
-	_seed_year_scene_history(true)
 	await _boot_main_game()
 	_seed_ending_state("stable_success")
+	_seed_store_trailer_time_ledger_weeks()
+	GameState.year_scenes = {}
 	_mg.call("_show_ending", "stable_success")
 	await _settle(0.8)
 	if not await _focus_modal_qa_surface("time_ledger"):
 		_fail("Trailer could not focus the time ledger.")
+		await _dispose_main_game()
 		return
 	await _save("trailer_17_time_ledger")
+	# Keep the ledger and recap as distinct real page-3 frames: first capture a
+	# ledger without selected scenes, then rebuild that page after seeding them.
+	var ending_turn: int = int(GameState.turn)
+	_seed_year_scene_history(true)
+	GameState.turn = ending_turn
+	_mg.call("_ending_show_page", 3)
+	await get_tree().process_frame
+	await _settle(0.35)
 	if not await _focus_modal_qa_surface("year_scene_recap"):
 		_fail("Trailer could not focus the five-scene recap.")
+		await _dispose_main_game()
 		return
 	await _save("trailer_18_ending_recap")
 	await _dispose_main_game()
@@ -17901,7 +17917,6 @@ func _shot_trailer_extended_surfaces() -> void:
 	await _save("trailer_19_investment")
 	_close_modal()
 	await _settle(0.25)
-
 	var racetrack = _mg.get("racetrack")
 	if racetrack == null or not racetrack.has_method("open"):
 		_fail("Trailer racetrack surface is unavailable.")
@@ -17948,6 +17963,40 @@ func _shot_trailer_extended_surfaces() -> void:
 	if _mg.has_method("_exit_minigame_overlay"):
 		_mg.call("_exit_minigame_overlay")
 	await _dispose_main_game()
+
+func _seed_store_trailer_time_ledger_weeks() -> void:
+	# A representative, internally closed 239-week ledger for a normal W240
+	# ending. The final week has not been consumed by the protected finale path.
+	GameState.money_only_weeks_total = 90
+	GameState.human_only_weeks_total = 60
+	GameState.both_axes_weeks_total = 50
+	GameState.unmarked_weeks_total = 39
+	GameState.classified_weeks_total = 239
+
+func _teardown_store_trailer_capture() -> void:
+	await _dispose_main_game()
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	for tween in get_tree().get_processed_tweens():
+		if tween is Tween and (tween as Tween).is_valid():
+			(tween as Tween).kill()
+	BGMPlayer.stop()
+	_detach_store_trailer_audio(get_tree().root)
+	AudioManager._sounds.clear()
+	await AudioManager.drain_pending_timers_for_exit()
+	BGMPlayer.stop()
+	_detach_store_trailer_audio(get_tree().root)
+	for _frame in range(8):
+		await get_tree().process_frame
+
+func _detach_store_trailer_audio(node: Node) -> void:
+	if node is AudioStreamPlayer:
+		(node as AudioStreamPlayer).stop()
+		(node as AudioStreamPlayer).stream = null
+	elif node is AudioStreamPlayer2D:
+		(node as AudioStreamPlayer2D).stop()
+		(node as AudioStreamPlayer2D).stream = null
+	for child in node.get_children():
+		_detach_store_trailer_audio(child)
 
 func _assert_archive_surface(
 		menu: Control, context: String, lang: String) -> void:
