@@ -182,15 +182,7 @@ StoryDemoFourLanguageCheck}.gd`, `tools/demo_localization_scope.py`의 현행 �
 
 [완료 증거: W1 결과 저장 — 전환 중 잠금과 이후 복원](../queue_archive/ORDER-830-ART-EVIDENCE.md#w1-결과-저장--전환-중-잠금과-이후-복원).
 
-### [x] 신혼집 실화면 — 완성된 결과 컷 재촬영
-
-`tools/ScreenshotQA.gd`, 이 사양·`CLAUDE.md`·`docs/WORK_LOG.md`만. 결혼 밤의 단일
-선택 결과를 재선택 없이 완성하고, 아침 결과의 시간 전환이 끝난 프레임을 찍는다.
-이전 16컷은 일부 미완성 글/전환·종료 경고가 있어 보존하되 합격으로 세지 않는다.
-새 출력 폴더·격리 사용자 경로만, 실제 저장·원고·원화·음향·기존 RC 변경0.
-
-11-14: KO/EN 1280×800 각 16컷·오류0 (`830-wedding-viewport.LPZUwD`).
-다은 밤 소등 화면 연출과 실제 청취는 남았다. Dummy 캡처는 청취 증거 아님.
+[완료 증거: 신혼집 결과 컷 재촬영](../queue_archive/ORDER-830-ART-EVIDENCE.md#신혼집-결과-컷-재촬영).
 
 ### [x] 신혼집 밤 소등
 
@@ -200,3 +192,9 @@ StoryDemoFourLanguageCheck}.gd`, `tools/demo_localization_scope.py`의 현행 �
 글·저장 키·음향·공개 RC 변경0.
 
 KO/EN 2해상도 36컷·복원·독립 검수 통과. [증거](../queue_archive/ORDER-830-ART-EVIDENCE.md#신혼집-밤-소등). 연속 청취는 별도.
+
+### [~] 착수 — W8 은행·보관함 실화면과 믹스 녹음
+
+`tools/StoryBackgroundContextCheck.gd`, 이 사양·증거 이관본·`CLAUDE.md`·`docs/WORK_LOG.md`만.
+기존 exact 두 갈래를 같은 StoryMode에서 재생해 전환 직전·직후 그림과 실제 게임 믹스를
+새 외부 폴더에 저장한다. 기존 검사·제품·저장·공개 RC 변경0. 녹음과 실제 청취는 별도다.
