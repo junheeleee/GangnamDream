@@ -13,7 +13,7 @@ P5 범죄 실의 중간 메아리, P6 날짜·감각·인물·선택 결과, P7 
 완료: 보호 파이프라인·5언어·공유 본편 영향·실화면·별도 패키지 검사,
 Claude 재평가 인계와 별도 1시간 사람 테스트. 이 부모의 착수는 출시 GO가 아니다.
 
-### [~] P1a · 6월 두 연락의 사실과 선택 체감
+### [x] P1a · 6월 두 연락의 사실과 선택 체감
 
 `v2_dirty_trace_initial_call`·`v2_dirty_recruiter_week24`의 설명과 두 결과만 소유한다.
 `content/events{,_en}/core_loop_v2_events.json` 및 `content/events_{ja,zh-CN,zh-TW}/story_demo_events.json`.
@@ -22,21 +22,30 @@ Claude 재평가 인계와 별도 1시간 사람 테스트. 이 부모의 착수
 현금 차감·선택 키·패키지 변경0. 기존 M6 경로 및 5언어 감사/실제 표시 확인. 다음 P1b가
 동적 결말의 위시리스트 동기, 한 가지를 고르는 규칙, 상철 메모와 B의 비용을 마감한다.
 
-### [~] P3 · 월말 화면의 30억 진척
+`fee80c2`: 5개 언어 30문구. 정확 소스 격리에서 StoryChoiceM1M6·5언어·CoreLoopV2E
+3개 통과(표준 오류 0). 비응답/증거 보존이 식사와 시간을 각각 끊는다. 효과나 새 송금 없음.
+새 RC/실화면/사람 평가는 별도.
+
+### [x] P3 · 월말 화면의 30억 진척
 
 격리 KO/EN 12컷에서 1~5월 전환과 6월 회고에 순자산·남은 목표액이 모두 없음을 확인.
 `playtests/order124/StoryChoiceM1M6Playtest.gd` 두 월말 표시와 KO/EN/JA/간체/번체 1줄,
 정확 키 검사/실화면 fixture의 해당 범위만. 순자산은 실제 GameState 값을 읽고 30억까지
 남은 값을 원 단위로 표시한다. 현금/시간/경제/저장/8.31 역사본 보존. P1 작업과 사전 충돌0.
 
+`b4c57f3`: 5언어 × 월말/회고 6개 × 1280×800·960×600 = 격리 실렌더 60장.
+엔진 정산 30건의 순자산·목표액을 상태값과 대조했다. 새 RC의 시각 확인은 별도.
+
 ### [~] P1b · 금요일 선택과 마지막 페이지
 
-`v2_demo_first_bill`의 설명과 상철 메모 결과(소스 5 / 체험판 2), `v2_demo_first_bill_ledger`
+`v2_demo_first_bill`의 설명과 지출 대조 선택·결과(소스 5 / 체험판 2), `v2_demo_first_bill_ledger`
 제목·진행 동작·결과만 `content/events{,_en}/core_loop_v2_events.json` 및
 `content/events_{ja,zh-CN,zh-TW}/story_demo_events.json`에서 수정한다. 체험판이 덮는
 인트로는 `playtests/order124/StoryChoiceM1M6Playtest.gd`와 `locale/ui_{ja,zh-CN,zh-TW}.json`의
 기존 키를 맞춘다. 같은 책상·휴대폰·수첩, 실제 작성 문단의 기존 펜 음향을 유지한다.
-마지막에는 새 결과를 예고하지 않고 휴대폰의 실제 연락처와 다음 행동 직전에서 자른다.
+마지막에는 30억 목표와 강남 매물을 한 자리에 놓고 문의 직전에서 자른다. 실제 문의·
+계약·새 결과는 없으며 어느 분기에도 명함·메모지의 소지를 가정하지 않는다.
 다음 월요일, 잔액, 사람과의 약속, 이미 일어난 통장 사건·W24 영수증과 선택 효과는 보존.
 legacy의 `content/meta/demo_core_loop_v2.json` 두 수요일 연락의 `trace_copy` 독자도
-같은 물건/사실로 동기화한다. 8.31 ZIP/PCK 및 역사 자체 검사 불변.
+같은 물건/사실로 동기화한다. 이전 문구를 글자 단위로 고정하던 V2 검사만 새 두 제목과
+선택 문장의 정확 일치로 바꾼다. 기존 시간·효과·토큰·렌더 계약은 보존. 8.31 ZIP/PCK 및 역사 자체 검사 불변.
