@@ -137,6 +137,12 @@ func _check_story_event_cg(event_id: String, cg_id: String) -> void:
 	if reveal_paragraph > 0:
 		if bg_img != null and bg_img.texture != null and bg_img.texture.resource_path == expected_path:
 			_failures.append("StoryMode revealed %s before paragraph %d" % [event_id, reveal_paragraph])
+		if event_id == "arc_jiyeon_01_crash":
+			var approach := ImageRegistry.get_background("sinchon_crash_approach_rain_dusk")
+			if reveal_paragraph != 2 or not await _advance_story_to_source_paragraph(story, event_id, 1) \
+					or bg_img == null or bg_img.texture == null or bg_img.texture.resource_path != approach \
+					or (story.get("_portrait_frame") as Control).visible:
+				_failures.append("M03 impact prematurely showed the driver's exit")
 		if not await _advance_story_to_source_paragraph(
 				story, event_id, reveal_paragraph):
 			remove_child(story)

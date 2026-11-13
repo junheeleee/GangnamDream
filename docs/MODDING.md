@@ -345,9 +345,9 @@ python3 tools/generate_mod_manifest.py --check
 | background | `dad_house` | `backgrounds/family_living_room.png` | 1280x800 |
 | background | `fine_dust_sky` | `backgrounds/fine_dust_sky.png` | 1672x941 |
 | background | `gangnam_apartment` | `backgrounds/gangnam_apartment.png` | 1280x800 |
+| background | `gangnam_boulevard_winter_dusk` | `backgrounds/gangnam_boulevard_winter_dusk.png` | 1280x800 |
 | background | `gangnam_day` | `backgrounds/gangnam_day.png` | 1280x800 |
 | background | `gangnam_night` | `backgrounds/gangnam_night_street.png` | 1280x800 |
-| background | `gangnam_boulevard_winter_dusk` | `backgrounds/gangnam_boulevard_winter_dusk.png` | 1280x800 |
 | background | `gangnam_station` | `backgrounds/gangnam_station_exit.png` | 1280x800 |
 | background | `goshiwon_hallway` | `backgrounds/goshiwon_hallway.png` | 3840x2400 |
 | background | `current_housing`, `goshiwon`, `goshiwon_room` | `backgrounds/goshiwon_room.png` | 1280x800 |
@@ -404,6 +404,8 @@ python3 tools/generate_mod_manifest.py --check
 | background | `street_rainy` | `backgrounds/seoul_rainy_street.png` | 1280x800 |
 | background | `seoul_station_ktx_platform_winter` | `backgrounds/seoul_station_ktx_platform_winter.png` | 1280x800 |
 | background | `subway` | `backgrounds/seoul_subway.png` | 1280x800 |
+| background | `sinchon_crash_approach_rain_dusk` | `backgrounds/sinchon_crash_approach_rain_dusk.png` | 1280x800 |
+| background | `sinchon_crash_exit_rain_dusk` | `backgrounds/sinchon_crash_exit_rain_dusk.png` | 1280x800 |
 | background | `street`, `street_day` | `backgrounds/street_seoul_day.png` | 1280x800 |
 | background | `subway_station_coin_lockers` | `backgrounds/subway_station_coin_lockers.png` | 1280x800 |
 | background | `subway_station_lost_found` | `backgrounds/subway_station_lost_found.png` | 1280x800 |

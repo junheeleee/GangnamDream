@@ -208,6 +208,22 @@
       "intensity": 0.24,
       "weather_source": "background"
     },
+    "sinchon_crash_approach_rain_dusk": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "rain",
+      "camera": "living_drift",
+      "intensity": 0.24,
+      "weather_source": "background"
+    },
+    "sinchon_crash_exit_rain_dusk": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "rain",
+      "camera": "living_drift",
+      "intensity": 0.24,
+      "weather_source": "background"
+    },
     "street_rainy_bus_stop_wallet": {
       "environment": "outdoor",
       "depth": "far",

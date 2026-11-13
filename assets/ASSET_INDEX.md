@@ -910,6 +910,8 @@ Avoid earlier generated images that include orbit rings, sci-fi nodes, or Lumen 
 
 ## Style Guardrails
 
+- M03 신촌 사고: `assets/backgrounds/sinchon_crash_approach_rain_dusk.png` (사고 전)과 `assets/backgrounds/sinchon_crash_exit_rain_dusk.png` (두 퇴장 갈래). 둘 다 원래 사고 CG와 동일 블록의 봄비·해 질 무렵을 유지한다.
+
 - Use grounded Korean modern-life imagery.
 - Prefer real spaces: goshiwon, one-room apartment, rainy Seoul street, rooftop, office, subway, convenience store.
 - Avoid sci-fi UI motifs, glowing orbit rings, abstract circular nodes, magical cores, or Lumen Run visual language.

@@ -27,6 +27,9 @@ const STORY_DEMO_SESSION_SCHEMA := 1
 const STORY_DEMO_MANUAL_SLOT := 10
 const W4_TEMPTATION := "arc_temptation_01"
 const W4_TEMPTATION_CUTS := preload("res://assets/w4_temptation_result_cuts.tres")
+const M03_JIYEON_CRASH := "arc_jiyeon_01_crash"
+const M03_JIYEON_CRASH_CUTS := preload("res://assets/m03_jiyeon_crash_result_cuts.tres")
+const M03_CRASH_EXIT := "sinchon_crash_exit_rain_dusk"
 const W8_FALLOUT := "arc_temptation_fallout"
 const M14_BANK_REVIEW := "arc_y2_bank_limit_review"
 const W234_SUMMIT := "arc_y5_general_pre_ending_summit_exact"
@@ -2562,6 +2565,8 @@ func _apply_story_resume_context(context: Dictionary) -> void:
 	match phase:
 		"choices":
 			_restore_story_paragraph(context, false)
+			if str(_current.get("id", "")) == M03_JIYEON_CRASH:
+				_maybe_reveal_event_cg(_event_cg_reveal_paragraph)
 			_show_choices()
 			if bool(_current.get("timed", false)) and not _read_only_replay:
 				var remaining := int(context.get("timer_remaining_msec", -1))
@@ -3280,6 +3285,7 @@ func _localized_story_event(event_id: String) -> Dictionary:
 
 func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 	return (event_id == W8_FALLOUT and choice_index in [0, 1]) \
+		or (event_id == M03_JIYEON_CRASH and choice_index in [0, 2]) \
 		or (event_id == W4_TEMPTATION and choice_index == 1) \
 		or (event_id == W234_SUMMIT and choice_index == 0)
 
@@ -3306,6 +3312,13 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		anchor = str(exit_anchors.get(LocaleManager.language, ""))
 		cut_source = 2
 		source_count = 3
+	elif event_id == M03_JIYEON_CRASH:
+		var anchors_by_locale: Dictionary = M03_JIYEON_CRASH_CUTS.get_meta("exit_anchors", {})
+		var anchors: Array = anchors_by_locale.get(LocaleManager.language, [])
+		cut_source = 0 if choice_index == 0 else 1
+		source_count = cut_source + 1
+		if anchors.size() == 2:
+			anchor = str(anchors[cut_source])
 	else:
 		var anchors_by_locale: Dictionary = W8_FALLOUT_CUTS.get_meta("anchors", {})
 		var anchors: Array = anchors_by_locale.get(LocaleManager.language, [])
@@ -5434,6 +5447,13 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 		var at_exit := _pending_result_choice_index == 2 \
 			and _story_source_paragraph_index(_para_index) == 1
 		background_id = "bank_loan_exit_day" if at_exit else "bank_loan_counter_day"
+	elif _pending_after_result and event_id == M03_JIYEON_CRASH:
+		if _result_location_cut_page < 0 or _para_index < _result_location_cut_page:
+			# On a cold result load the introduction has already happened, even
+			# though the result has its own paragraph indices starting at zero.
+			_maybe_reveal_event_cg(_event_cg_reveal_paragraph)
+			return
+		background_id = M03_CRASH_EXIT
 	if background_id.is_empty() or background_id == _event_background_id:
 		return
 	var path := ImageRegistry.get_background(background_id)
@@ -5442,6 +5462,13 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	_begin_story_scene_transition("explicit_move")
 	_bg_img.texture = ImageRegistry.load_texture(path)
 	_event_background_id = background_id
+	if event_id == M03_JIYEON_CRASH:
+		# The exit shows the empty stretch ahead, not Jiyeon at the car.
+		_current_uses_cg = false
+		_event_cg_reveal_paragraph = 0
+		_show_portrait("", true)
+		if is_instance_valid(_hud_panel):
+			_hud_panel.visible = not (_read_only_replay or _story_visual_override_active)
 	_apply_story_surface_palette(false)
 	_configure_living_scene()
 	if at_w4_locker or at_w234_boulevard:

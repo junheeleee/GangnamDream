@@ -226,6 +226,8 @@ const BACKGROUNDS = {
 	"subway_station_coin_lockers": "res://assets/backgrounds/subway_station_coin_lockers.png",
 	"seoul_bus_terminal_night": "res://assets/backgrounds/seoul_bus_terminal_night.png",
 	"street_rainy":      "res://assets/backgrounds/seoul_rainy_street.png",
+	"sinchon_crash_approach_rain_dusk": "res://assets/backgrounds/sinchon_crash_approach_rain_dusk.png",
+	"sinchon_crash_exit_rain_dusk": "res://assets/backgrounds/sinchon_crash_exit_rain_dusk.png",
 	"street_rainy_bus_stop_wallet": "res://assets/backgrounds/seoul_bus_stop_wallet.png",
 	"cold_snap_street":  "res://assets/backgrounds/seoul_cold_snap_street.png",
 	"winter_street_bungeoppang": "res://assets/backgrounds/winter_bungeoppang_stall.png",

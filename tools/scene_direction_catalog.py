@@ -68,7 +68,10 @@ TIME_ID_TOKENS = (
 )
 TIME_TAGS = {"callback", "echo", "milestone", "chapter"}
 
-RAIN_BACKGROUNDS = {"street_rainy", "street_rainy_bus_stop_wallet"}
+RAIN_BACKGROUNDS = {
+    "street_rainy", "street_rainy_bus_stop_wallet",
+    "sinchon_crash_approach_rain_dusk", "sinchon_crash_exit_rain_dusk",
+}
 SNOW_BACKGROUNDS = {
     "convenience_first_snow_exterior",
     "year2_winter_street_night",

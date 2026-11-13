@@ -12,6 +12,8 @@
 
 11-14 KST 화면 [~] 착수: `sinchon_crash_approach_rain_dusk`와 `sinchon_crash_exit_rain_dusk` 두 배경 및 import; `ImageRegistry`, 배경의 음향·방향·mod·해상도·release inventory·출처 기록. `arc_events.json` 사고 한 행의 prelude/CG/초상 시점, `StoryMode`의 c0/c2 퇴장 문장 및 선택·결과 복원, `StoryBackgroundContextCheck`와 `ScreenshotQA` 해당 표적만. 기존 CG·다섯 언어 원문·수리비/분기·저장 키·RC 보존.
 
+11-14 KST 화면 1차 완료: P0 접근 → P1 기존 충돌 효과음 → P2 차 문이 열릴 때 원 CG. 수리비는 현장, c0/c2는 다섯 언어 각각 실제 퇴장 문장부터 별도 골목이다. 원문·효과·ID·형식 변경0. 본편 15경로와 격리 v4 복원5, 데모 receipt 이벤트 15경로, `830-m03-crash.lUvsHy` 실제 창 1280×800 40컷을 검증했다. 별도 검수자가 전 컷을 확인했다. 남은 일: P1의 충돌 순간은 효과음은 있으나 그림은 여전히 접근 컷이다. 전용 충돌 컷과 현장에서 떠나는 c0의 바퀴 마찰 녹음 적합성을 따로 검토한다. 청취·새 RC·Steam 반영0.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`

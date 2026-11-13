@@ -9,6 +9,9 @@ const BURNOUT_PRIOR_CHOICES := [2, 1, 0, 1]
 const W202_EVENT := "callback_daeun_committed_gangnam_eve"
 const W4_EVENT := "arc_temptation_01"
 const W4_ROOM := "goshiwon_room"
+const M03_EVENT := "arc_jiyeon_01_crash"
+const M03_APPROACH := "sinchon_crash_approach_rain_dusk"
+const M03_EXIT := "sinchon_crash_exit_rain_dusk"
 const W4_DEMO := preload("res://playtests/order124/StoryChoiceM1M6Playtest.gd")
 const W4_TERMS := {
 	"ko": ["한 시간 뒤 같은 보관함", "방으로 돌아온"],
@@ -190,6 +193,9 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_M03_CHECK"):
+		await _check_m03_crash()
+		return
 	if OS.has_environment("GANGNAM_W234_CAPTURE_DIR"):
 		await _capture_w234()
 		return
@@ -594,6 +600,116 @@ func _m14_expect_cues(choice: int, source: int) -> bool:
 			observed.append(str(raw))
 	if observed != expected:
 		_fail("M14 authored cue order expected=%s actual=%s" % [expected, observed])
+		return false
+	return true
+
+func _check_m03_crash() -> void:
+	var cases := 0
+	var reloads := 0
+	var demo := OS.has_environment("GANGNAM_M03_DEMO")
+	var capture_dir := OS.get_environment("GANGNAM_M03_CAPTURE_DIR")
+	var capture_language := OS.get_environment("GANGNAM_M03_CAPTURE_LANGUAGE")
+	var languages := W4_TERMS.keys()
+	if not capture_dir.is_empty():
+		var output := DirAccess.open(capture_dir) if capture_dir.is_absolute_path() else null
+		if output == null or not output.get_files().is_empty() or not output.get_directories().is_empty() \
+				or not W4_TERMS.has(capture_language) or DisplayServer.get_name() == "headless":
+			_fail("M03 capture requires a fresh absolute output, supported language and real display")
+			get_tree().quit(1)
+			return
+		languages = [capture_language]
+		OS.low_processor_usage_mode = false
+	for language in languages:
+		LocaleManager.set_language(language)
+		for choice in range(3):
+			await _remove_story()
+			_context = "%s/M03/choice%d" % [language, choice]
+			_seed_story(M03_EVENT, 9)
+			GameState.age = 33
+			GameState.month = 3
+			GameState.money = 500_000.0
+			if demo:
+				GameState.story_return_scene = "res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
+				W4_DEMO.install_story_demo_runtime_events()
+			GameState.pending_story_queue = [M03_EVENT]
+			_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+			add_child(_story)
+			_story.call("_set_auto_mode", false, false, false)
+			await _wait_stable()
+			var intro: Array = _story.get("_paragraphs")
+			for page in range(intro.size()):
+				var source := int(_story.call("_story_source_paragraph_index", page))
+				if not _expect_m03_surface(M03_APPROACH if source < 2 else ""):
+					break
+				await _finish_page()
+				if not capture_dir.is_empty() and choice == 0 and page == int(_story.call(
+						"_first_story_page_for_source", source)) and source in [0, 1, 2]:
+					await _save_viewport_frame(capture_dir.path_join("intro_p%d.png" % source))
+				_story.call("_on_advance")
+				await _wait_stable()
+			var original: Dictionary = _story.get("_current")
+			if not bool(_story.get("_showing_choices")) or original.get("id") != M03_EVENT \
+					or (original.get("choices", []) as Array).size() != 3:
+				_fail("M03 must retain all three original choices")
+				continue
+			var receipts := GameState.event_log.size()
+			_story.call("_on_choice", choice)
+			await _wait_stable()
+			var pages: Array = _story.get("_paragraphs")
+			var cut := int(_story.get("_result_location_cut_page"))
+			var raw: String = original.choices[choice].result_text
+			var whitespace := RegEx.new()
+			whitespace.compile("\\s+")
+			if (cut >= 0) != (choice != 1) or cut >= pages.size() \
+					or not bool(_story.get("_pending_after_result")) \
+					or (demo and not bool(GameState.flags.get(
+						"order124_choice__%s__%d" % [M03_EVENT, choice], false))) \
+					or whitespace.sub("".join(PackedStringArray(pages)), "", true) != whitespace.sub(
+						str(_story.call("_fmt", raw)), "", true) \
+					or GameState.event_log.size() != receipts + 1 \
+					or not is_equal_approx(GameState.money, 580_000.0 if choice == 1 else 500_000.0):
+				_fail("M03 result text or original choice effects changed")
+				continue
+			for page in range(pages.size()):
+				var expected := M03_EXIT if cut >= 0 and page >= cut else ""
+				if not _expect_m03_surface(expected):
+					break
+				await _finish_page()
+				if not capture_dir.is_empty() and (page == 0 or page == cut):
+					await _save_viewport_frame(capture_dir.path_join("c%d_p%d.png" % [choice, page]))
+				if not demo and capture_dir.is_empty() and language == "ko" \
+						and ((cut < 0 and page == 0) or page in [cut - 1, cut]):
+					if not await _reload_cut_result(choice, page, false):
+						break
+					await _wait_stable()
+					if not _expect_m03_surface(expected):
+						break
+					reloads += 1
+				if page + 1 < pages.size():
+					_story.call("_on_advance")
+					await _wait_stable()
+			cases += 1
+	await _remove_story()
+	await _stop_audio()
+	var expected_reloads := 0 if demo or not capture_dir.is_empty() else 5
+	if _failures == 0 and cases == languages.size() * 3 and reloads == expected_reloads:
+		print("M03_CRASH_OK routes=%d cold_reloads=%d demo=%s" % [cases, reloads, demo])
+		get_tree().quit(0)
+	else:
+		get_tree().quit(1)
+
+func _expect_m03_surface(background: String) -> bool:
+	var cg := background.is_empty()
+	var path := ImageRegistry.get_cg("cg_jiyeon_crash") if cg else ImageRegistry.get_background(background)
+	var image := _story.get("_bg_img") as TextureRect
+	var portrait := _story.get("_portrait_frame") as Control
+	var hud := _story.get("_hud_panel") as Control
+	if path.is_empty() or image.texture == null or image.texture.resource_path != path \
+			or bool(_story.get("_current_uses_cg")) != cg or portrait.visible \
+			or hud.visible == cg or not BGMPlayer._ambience_player.playing \
+			or BGMPlayer._current_ambience_key != "rain" \
+			or BGMPlayer._human_ambience_player.playing:
+		_fail("M03 wrong surface, portrait or ambient layer: %s" % background)
 		return false
 	return true
 

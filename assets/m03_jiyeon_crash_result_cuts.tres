@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/exit_anchors = {
+"ko": ["{name}은 몸을 돌려", "그 자리를 벗어나고 나서도"],
+"en": ["He turned and pushed", "Even after he left"],
+"ja": ["{name}は背を向けて", "その場を離れても"],
+"zh-CN": ["他转身推车", "离开后"],
+"zh-TW": ["他轉身牽車", "離開後"]
+}
