@@ -85,6 +85,15 @@ W6 `cafe_00`(2), `cafe_bluff_caught`(0), `cafe_mind_01`(1)은 퇴장 결과만 �
 `assets/event_visual_contracts.json`, `tools/StoryBackgroundContextCheck.gd`만 해당.
 W8 반납/보관함의 장소 전환은 ORDER-829 원고와 겹치므로 별도 착수 전 조율한다.
 
+### [~] M02 · 은행 창구와 지하철 보관함 배경 후보
+
+후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
+두 파일과 이 사양만. 원문 `arc_temptation_fallout`의 도입 빗길은 유지하고,
+반환의 지점 창구와 추가 인계의 지하철 역사 무인 보관함을 각각 그린다. 어느
+후보에도 인물·상호·인식 가능한 번호·거래 물품을 굽지 않는다. 시간대가 확정되지 않은
+보관함은 창 없는 실내로 그린다. 기존 인터뷰 사무실·분실물 센터·전동차는 대체 금지.
+후보가 통과한 뒤에만 문단·분기·음향·저장 복원 배선을 별도 선언한다. 기존 RC 보존.
+
 ### [x] M04 · 상철 사무실에서 실제 행동만 들린다 (배선)
 
 `assets/scene_audio_manifest.json`, `tools/scene_audio_contract_check.py`, 이 사양만.
