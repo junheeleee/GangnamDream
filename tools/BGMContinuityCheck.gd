@@ -404,6 +404,8 @@ func _ready() -> void:
 		return
 	if not await _check_retiring_human_ambience():
 		return
+	if not await _check_daeun_newlywed_room_tone():
+		return
 
 	# 실제 주거를 배경으로 쓰는 장면도 매니페스트가 명시한 창밖 비를
 	# 우선한다. 네 링크 사이에서 같은 룸톤과 친밀한 곡을 되감지 않는다.
@@ -985,7 +987,7 @@ func _check_retiring_human_ambience() -> bool:
 		if operation == "restore":
 			BGMPlayer.duck_ambience()
 		BGMPlayer.update_event_ambience(home)
-		if BGMPlayer._current_ambience_key != "oneroom" or not BGMPlayer._current_human_ambience_key.is_empty():
+		if BGMPlayer._current_ambience_key != "apartment" or not BGMPlayer._current_human_ambience_key.is_empty():
 			_fail("newlywed home resolved to the wrong room or human cue")
 			return false
 		match operation:
@@ -1017,6 +1019,58 @@ func _check_retiring_human_ambience() -> bool:
 	if not failures.is_empty():
 		_fail("; ".join(failures))
 		return false
+	return true
+
+
+func _check_daeun_newlywed_room_tone() -> bool:
+	BGMPlayer.enter_ambient_bed(0.0)
+	var room_stream: AudioStream = BGMPlayer._load_ambience("apartment")
+	var fridge_stream: AudioStream = BGMPlayer._load_ambience("oneroom")
+	if room_stream == null or room_stream == fridge_stream:
+		_fail("newlywed dry room and refrigerator bed are not distinct")
+		return false
+	var ambience_pos := 0.0
+	var music_pos := 0.0
+	for event_id in ["arc_daeun_wedding_night", "arc_daeun_wedding_night_tea",
+			"arc_daeun_wedding_night_honest", "arc_daeun_wedding_night_choice"]:
+		var ev: Dictionary = DataRegistry.find_event(event_id)
+		if ev.is_empty() or ev.get("direction", {}).get("amb") != "duck":
+			_fail("newlywed room fixture lost its authored direction: %s" % event_id)
+			return false
+		BGMPlayer.restore_ambience()
+		BGMPlayer.update_event_ambience(ev)
+		BGMPlayer.begin_story_event(ev)
+		BGMPlayer.duck_ambience()
+		BGMPlayer.play_scene_paragraph_music(ev, "", 0)
+		# The prior fixture ends on an active cafe layer; give its normal
+		# 0.55-second retirement time at entry, then check all chain links.
+		await get_tree().create_timer(0.65 if ambience_pos == 0.0 else 0.18).timeout
+		if BGMPlayer._current_ambience_key != "apartment" \
+				or BGMPlayer._ambience_player.stream != room_stream \
+				or not BGMPlayer._ambience_player.playing \
+				or BGMPlayer._season_player.playing \
+				or BGMPlayer._human_ambience_player.playing \
+				or BGMPlayer._current_key != "intimate" \
+				or not BGMPlayer._player_a.playing:
+			_fail("newlywed scene audio %s: ambience=%s matching_stream=%s room=%s season=%s human=%s music=%s playing=%s" % [
+				event_id, BGMPlayer._current_ambience_key, BGMPlayer._ambience_player.stream == room_stream,
+				BGMPlayer._ambience_player.playing, BGMPlayer._season_player.playing,
+				BGMPlayer._human_ambience_player.playing, BGMPlayer._current_key, BGMPlayer._player_a.playing])
+			return false
+		if BGMPlayer._ambience_player.get_playback_position() + 0.05 < ambience_pos \
+				or BGMPlayer._player_a.get_playback_position() + 0.05 < music_pos:
+			_fail("newlywed room tone or score restarted: %s" % event_id)
+			return false
+		ambience_pos = BGMPlayer._ambience_player.get_playback_position()
+		music_pos = BGMPlayer._player_a.get_playback_position()
+		var result_cg := str(ev.get("result_cg", ""))
+		if not result_cg.is_empty():
+			BGMPlayer.update_event_ambience(ev, result_cg)
+			if BGMPlayer._ambience_player.stream != room_stream \
+					or BGMPlayer._ambience_player.get_playback_position() + 0.05 < ambience_pos:
+				_fail("newlywed morning CG replaced or restarted the dry room tone")
+				return false
+	BGMPlayer.restore_ambience()
 	return true
 
 
