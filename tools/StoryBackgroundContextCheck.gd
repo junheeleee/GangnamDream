@@ -25,6 +25,13 @@ const W8_LOCKERS := "subway_station_coin_lockers"
 const M14_BANK := "arc_y2_bank_limit_review"
 const M14_COUNTER := "bank_loan_counter_day"
 const M14_EXIT := "bank_loan_exit_day"
+const W234_SUMMIT := "arc_y5_general_pre_ending_summit_exact"
+const W234_OFFICE := "realestate_office"
+const W234_BOULEVARD := "gangnam_boulevard_winter_dusk"
+const W234_DOOR := {
+	"ko": "유리문이 등 뒤에서", "en": "The glass door eased shut", "ja": "背後でガラス戸が",
+	"zh-CN": "玻璃门在背后", "zh-TW": "玻璃門在背後",
+}
 const M14_EXIT_LINE := {
 	"ko": "문을 나설 때", "en": "He left with a document", "ja": "外へ出るとき",
 	"zh-CN": "走出门时", "zh-TW": "走出銀行時",
@@ -113,6 +120,8 @@ const CASES := [
 ]
 
 const EXACT_PATHS := {
+	W234_OFFICE: "res://assets/backgrounds/realestate_office.png",
+	W234_BOULEVARD: "res://assets/backgrounds/gangnam_boulevard_winter_dusk.png",
 	W4_ROOM: "res://assets/backgrounds/goshiwon_room.png",
 	"hospital_clinic_day": "res://assets/backgrounds/hospital_clinic_day.png",
 	"subway_station_stairs": "res://assets/backgrounds/subway_station_stairs.png",
@@ -147,6 +156,9 @@ var _w4_cases := 0
 var _w4_reloads := 0
 var _w4_rebinds := 0
 var _w4_capture_dir := ""
+var _w234_cases := 0
+var _w234_reloads := 0
+var _w234_capture_dir := ""
 var _m14_cases := 0
 var _m14_capture_dir := ""
 var _w8_reloads := 0
@@ -178,6 +190,9 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W234_CAPTURE_DIR"):
+		await _capture_w234()
+		return
 	if OS.has_environment("GANGNAM_W4_CAPTURE_DIR"):
 		await _capture_w4()
 		return
@@ -206,6 +221,8 @@ func _ready() -> void:
 			await _play_w4_case(language, choice_index, false)
 		for choice_index in range(2):
 			await _play_w4_case(language, choice_index, true)
+		for choice_index in range(2):
+			await _play_w234_case(language, choice_index)
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -222,6 +239,9 @@ func _ready() -> void:
 	if _w4_cases != 20 or _w4_reloads != 15 or _w4_rebinds != 4:
 		_fail("W4 inventory incomplete paths=%d restores=%d rebinds=%d" % [
 			_w4_cases, _w4_reloads, _w4_rebinds])
+	if _w234_cases != 10 or _w234_reloads != 2:
+		_fail("W234 required five locales with both exits and two cold checks, got %d/%d" % [
+			_w234_cases, _w234_reloads])
 	if _failures > 0:
 		print("STORY_BACKGROUND_CONTEXT_CHECK_FAIL failures=%d cases=%d intro_pages=%d result_pages=%d" % [
 			_failures, _cases, _intro_pages, _result_pages])
@@ -233,6 +253,7 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_M14_OK cases=%d exact_exit=1 clean_beds=1" % _m14_cases)
 	print("STORY_BACKGROUND_CONTEXT_W4_OK paths=%d restores=%d rebinds=%d" % [
 		_w4_cases, _w4_reloads, _w4_rebinds])
+	print("STORY_BACKGROUND_CONTEXT_W234_OK paths=%d cold_exits=%d" % [_w234_cases, _w234_reloads])
 	print("STORY_BACKGROUND_CONTEXT_CHECK_OK cases=%d intro_pages=%d result_pages=%d ko_en=1 choices=all live_storymode=1 settled_texture=1 ambience=1 human_gate=OPEN" % [
 		_cases, _intro_pages, _result_pages])
 	get_tree().quit(0)
@@ -373,6 +394,25 @@ func _capture_w4() -> void:
 	if _failures == 0 and _w4_cases == 1:
 		print("W4_LOCKER_VIEWPORT_OK language=%s frames=3" % language)
 	get_tree().quit(0 if _failures == 0 and _w4_cases == 1 else 1)
+
+func _capture_w234() -> void:
+	_w234_capture_dir = OS.get_environment("GANGNAM_W234_CAPTURE_DIR")
+	var language := OS.get_environment("GANGNAM_W234_CAPTURE_LANGUAGE")
+	var output := DirAccess.open(_w234_capture_dir) if _w234_capture_dir.is_absolute_path() else null
+	if output == null or not output.get_files().is_empty() or not output.get_directories().is_empty() \
+			or not W234_DOOR.has(language) or DisplayServer.get_name() == "headless":
+		_fail("W234 capture requires a fresh output, authored locale and a real display")
+		get_tree().quit(1)
+		return
+	OS.low_processor_usage_mode = false
+	LocaleManager.set_language(language)
+	for choice_index in range(2):
+		await _play_w234_case(language, choice_index)
+	await _remove_story()
+	await _stop_audio()
+	if _failures == 0 and _w234_cases == 2:
+		print("W234_VIEWPORT_OK language=%s paths=2" % language)
+	get_tree().quit(0 if _failures == 0 and _w234_cases == 2 else 1)
 
 func _play_case(language: String, fixture: Dictionary, choice_index: int) -> void:
 	await _remove_story()
@@ -556,6 +596,106 @@ func _m14_expect_cues(choice: int, source: int) -> bool:
 		_fail("M14 authored cue order expected=%s actual=%s" % [expected, observed])
 		return false
 	return true
+
+func _play_w234_case(language: String, choice_index: int) -> void:
+	await _remove_story()
+	_context = "%s/W234/choice%d" % [language, choice_index]
+	_seed_story(W234_SUMMIT, 224)
+	GameState.money = 2_500_000_000.0
+	GameState.flags.merge({"father_passed": true, "chapter5_general_minseo_arrival_1": true,
+		"arc_y5_general_name_boundary_exact_seen": true, "chapter5_general_name_boundary_0": true,
+		"arc_y5_general_debt_memory_reconnect_seen": true, "chapter5_general_debt_memory_reconnect_0": true,
+		"arc_endgame_sixmonths_seen": true})
+	GameState.event_log = [
+		{"event_id": "arc_minseo_03_arrival", "choice_index": 1, "turn": 203},
+		{"event_id": "arc_y5_general_name_boundary_exact", "choice_index": 0, "turn": 211},
+		{"event_id": "arc_y5_general_debt_memory_reconnect", "choice_index": 0, "turn": 220},
+	]
+	GameState.prepare_chapter5_finale_route_entry()
+	GameState.record_chapter5_finale_choice("arc_y5_general_father_legacy_voice_exact", 1)
+	GameState.turn = 229
+	GameState.record_chapter5_finale_choice("arc_y5_general_debt_memory_voice_exact", 0)
+	GameState.turn = 234
+	GameState.year = 2030
+	GameState.month = 11
+	GameState.week_of_month = 2
+	if GameState.chapter5_finale_next_event_for_turn() != W234_SUMMIT:
+		_fail("W234 exact general-route eligibility could not reach the summit")
+		return
+	BGMPlayer.stop()
+	GameState.pending_story_queue = [W234_SUMMIT]
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	if str((_story.get("_current") as Dictionary).get("id", "")) != W234_SUMMIT:
+		_fail("W234 genuine choice surface was unavailable")
+		return
+	for _page in range((_story.get("_paragraphs") as Array).size()):
+		await _finish_page()
+		if not _expect_surface(W234_OFFICE, "office", "W234 introductory office"):
+			return
+		_story.call("_on_advance")
+		await _wait_stable()
+	var score_token := int(BGMPlayer.get("_punctuation_token"))
+	var cash := float(GameState.money)
+	var initial_receipts := GameState.event_log.size()
+	AudioManager._last_sfx_ms.erase("traffic_pass")
+	if not bool(_story.get("_showing_choices")) or BGMPlayer.get("_current_key") != "reckoning":
+		_fail("W234 choice or original cue missing")
+		return
+	_story.call("_on_choice", choice_index)
+	await _wait_stable()
+	var pages: Array = _story.get("_paragraphs")
+	var cut := int(_story.get("_result_location_cut_page"))
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.call("_story_source_paragraph_count")) != 3 \
+			or not is_equal_approx(GameState.money, cash) \
+			or GameState.event_log.size() != initial_receipts + 1 \
+			or not GameState.chapter5_finale_receipt_matches(W234_SUMMIT, choice_index):
+		_fail("W234 expected three source paragraphs and unchanged cash")
+		return
+	if choice_index == 0 and (cut < 3 or cut >= pages.size()
+			or not str(pages[cut]).begins_with(str(W234_DOOR[language]))
+			or int(_story.call("_story_source_paragraph_index", cut - 1)) != 2):
+		_fail("W234 no-call branch did not split the same last source paragraph")
+		return
+	for index in range(pages.size()):
+		var outside := choice_index == 1 or index >= cut
+		if int(_story.get("_para_index")) != index \
+				or str(_story.get_meta("living_scene_effect", "")) != "none" \
+				or BGMPlayer.get("_current_key") != "reckoning" \
+				or int(BGMPlayer.get("_punctuation_token")) != score_token \
+				or not _expect_surface(W234_BOULEVARD if outside else W234_OFFICE,
+					"" if outside else "office", "W234 exact result") \
+				or (outside and not _expect_no_ambience("W234 outside")):
+			_fail("W234 route, score or room-tone timing drifted")
+			return
+		if AudioManager._last_sfx_ms.has("traffic_pass") != outside \
+				or not AudioManager._story_audio_seen.has(W234_SUMMIT + "::description:0:0:paper_handle") \
+				or AudioManager._story_audio_seen.has(W234_SUMMIT + "::result:1:0:0:paper_handle") != (choice_index == 1):
+			_fail("W234 traffic played on the wrong side of the door")
+			return
+		await _finish_page()
+		if not _w234_capture_dir.is_empty() and not await _save_viewport_frame(
+				_w234_capture_dir.path_join("c%d_p%d_%s.png" % [
+					choice_index, index, "street" if outside else "office"])):
+			return
+		if _w234_capture_dir.is_empty() and language == "ko" and index + 1 == pages.size():
+			AudioManager._last_sfx_ms.erase("traffic_pass")
+			if not await _reload_cut_result(choice_index, index, false):
+				return
+			if not _expect_surface(W234_BOULEVARD, "", "W234 saved outside") \
+					or not _expect_no_ambience("W234 saved outside") \
+					or not GameState.chapter5_finale_receipt_matches(W234_SUMMIT, choice_index) \
+					or AudioManager._last_sfx_ms.has("traffic_pass"):
+				_fail("W234 load replayed an exit cue or changed the saved result")
+				return
+			_w234_reloads += 1
+		if index + 1 < pages.size():
+			_story.call("_on_advance")
+			await _wait_stable()
+	_w234_cases += 1
 
 func _play_w4_case(language: String, choice_index: int, demo: bool) -> void:
 	await _remove_story()
@@ -1006,7 +1146,8 @@ func _wait_stable() -> void:
 		if not transition_busy:
 			await get_tree().process_frame
 			return
-		if not _w4_capture_dir.is_empty() or not _w8_capture_dir.is_empty() or not _m14_capture_dir.is_empty():
+		if not _w4_capture_dir.is_empty() or not _w8_capture_dir.is_empty() \
+				or not _m14_capture_dir.is_empty() or not _w234_capture_dir.is_empty():
 			continue
 		if raw_ink_tween is Tween and (raw_ink_tween as Tween).is_running():
 			(raw_ink_tween as Tween).custom_step(10.0)

@@ -223,6 +223,14 @@
     {
       "kind": "background",
       "ids": [
+        "gangnam_boulevard_winter_dusk"
+      ],
+      "relative_path": "backgrounds/gangnam_boulevard_winter_dusk.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "gangnam_day"
       ],
       "relative_path": "backgrounds/gangnam_day.png",

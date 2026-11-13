@@ -29,6 +29,8 @@ const W4_TEMPTATION := "arc_temptation_01"
 const W4_TEMPTATION_CUTS := preload("res://assets/w4_temptation_result_cuts.tres")
 const W8_FALLOUT := "arc_temptation_fallout"
 const M14_BANK_REVIEW := "arc_y2_bank_limit_review"
+const W234_SUMMIT := "arc_y5_general_pre_ending_summit_exact"
+const W234_SUMMIT_CUTS := preload("res://assets/w234_summit_result_cuts.tres")
 const W8_FALLOUT_CUTS := preload("res://assets/w8_fallout_result_cuts.tres")
 const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
@@ -3278,7 +3280,8 @@ func _localized_story_event(event_id: String) -> Dictionary:
 
 func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 	return (event_id == W8_FALLOUT and choice_index in [0, 1]) \
-		or (event_id == W4_TEMPTATION and choice_index == 1)
+		or (event_id == W4_TEMPTATION and choice_index == 1) \
+		or (event_id == W234_SUMMIT and choice_index == 0)
 
 func _localized_result_page_data(choice_index: int) -> Dictionary:
 	var choices: Array = _current.get("choices", [])
@@ -3293,10 +3296,16 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		return _story_page_data(_fmt(raw))
 	# These anchors select a page boundary; the displayed text comes from the event.
 	var cut_source := 1
+	var source_count := 2
 	var anchor := ""
 	if event_id == W4_TEMPTATION:
 		var return_anchors: Dictionary = W4_TEMPTATION_CUTS.get_meta("return_anchors", {})
 		anchor = str(return_anchors.get(LocaleManager.language, ""))
+	elif event_id == W234_SUMMIT:
+		var exit_anchors: Dictionary = W234_SUMMIT_CUTS.get_meta("exit_anchors", {})
+		anchor = str(exit_anchors.get(LocaleManager.language, ""))
+		cut_source = 2
+		source_count = 3
 	else:
 		var anchors_by_locale: Dictionary = W8_FALLOUT_CUTS.get_meta("anchors", {})
 		var anchors: Array = anchors_by_locale.get(LocaleManager.language, [])
@@ -3304,7 +3313,7 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 			anchor = str(anchors[choice_index])
 		cut_source = 1 - choice_index
 	var sources := raw.split("\n\n")
-	if anchor.is_empty() or sources.size() != 2:
+	if anchor.is_empty() or sources.size() != source_count:
 		return _story_page_data(_fmt(raw))
 	var cut := sources[cut_source].find(anchor)
 	if cut <= 0 or sources[cut_source].count(anchor) != 1:
@@ -5402,15 +5411,23 @@ func _w8_result_background_for_page(page_index: int) -> String:
 		return "street_rainy" if page_index < _result_location_cut_page else "subway_station_coin_lockers"
 	return ""
 
-func _apply_authored_result_location() -> void:
+func _is_w234_boulevard_result() -> bool:
+	return _pending_after_result and str(_current.get("id", "")) == W234_SUMMIT and (
+		_pending_result_choice_index == 1 or (_pending_result_choice_index == 0
+			and _result_location_cut_page >= 0 and _para_index >= _result_location_cut_page))
+
+func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
 	var event_id := str(_current.get("id", ""))
 	var at_w4_locker := false
+	var at_w234_boulevard := _is_w234_boulevard_result()
 	if _pending_after_result and event_id == W4_TEMPTATION \
 			and _pending_result_choice_index == 1 and _result_location_cut_page >= 0:
 		at_w4_locker = _story_source_paragraph_index(_para_index) == 1 \
 			and _para_index < _result_location_cut_page
 		background_id = "subway_station_coin_lockers" if at_w4_locker else "goshiwon_room"
+	elif _pending_after_result and event_id == W234_SUMMIT:
+		background_id = "gangnam_boulevard_winter_dusk" if at_w234_boulevard else "realestate_office"
 	elif _pending_after_result and event_id == M14_BANK_REVIEW:
 		# The first two choices stay at the counter. Only the last result's
 		# second authored paragraph leaves the bank (in every locale).
@@ -5427,10 +5444,14 @@ func _apply_authored_result_location() -> void:
 	_event_background_id = background_id
 	_apply_story_surface_palette(false)
 	_configure_living_scene()
-	if at_w4_locker:
-		# The event's explicit room bed would otherwise win over the locker's
-		# silent profile. Keep the existing score and cut only the place layers.
+	if at_w4_locker or at_w234_boulevard:
+		# These moving results leave a room whose explicit contract would
+		# otherwise win over the destination profile. Keep the original score.
 		BGMPlayer.clear_ambience_immediate()
+		# The no-call branch exits mid-paragraph. A source-paragraph cue would
+		# play in the office, and a restore or language switch must not replay it.
+		if play_cut_cue and at_w234_boulevard:
+			AudioManager.play("traffic_pass", -10.0)
 	else:
 		BGMPlayer.update_event_ambience(_current, "", background_id)
 
@@ -6039,7 +6060,7 @@ func _on_advance():
 	_para_index += 1
 	if _para_index < _paragraphs.size():
 		var source_index := _story_source_paragraph_index(_para_index)
-		_apply_authored_result_location()
+		_apply_authored_result_location(true)
 		var entered_new_authored_paragraph := source_index != previous_source_index
 		if entered_new_authored_paragraph:
 			_refresh_story_paragraph_presentation(source_index)
@@ -6796,7 +6817,7 @@ func _on_choice(idx: int):
 		_pending_after_result = true
 		_refresh_story_paragraph_presentation(
 			_story_source_paragraph_index(_para_index))
-		_apply_authored_result_location()
+		_apply_authored_result_location(true)
 		AudioManager.play_scene_result_paragraph_cues(
 			current_event_id, _event_cg_id, idx,
 			_story_source_paragraph_index(_para_index))

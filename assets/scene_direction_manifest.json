@@ -520,6 +520,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "gangnam_boulevard_winter_dusk": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "gangnam_night": {
       "environment": "outdoor",
       "depth": "far",

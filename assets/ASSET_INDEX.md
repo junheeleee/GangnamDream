@@ -616,6 +616,9 @@ weather, romance, and historical portraits remain fixed.
   - Daytime Gangnam commercial district background.
   - Status: approved for first in-game QA. Regenerated without foreground protagonist-like figure.
 
+- `assets/backgrounds/gangnam_boulevard_winter_dusk.png`
+  - W234 real-estate office departure only: dry November evening, traversable crossing, neutral signal state, no weather or transaction props.
+
 - `assets/backgrounds/late_night_room.png`
   - Canonical 4am goshiwon variant generated from `goshiwon_room.png`.
   - Same room structure as the canonical goshiwon; safe for late-night/mental/goshiwon events.

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/exit_anchors = {
+"ko": "유리문이 등 뒤에서",
+"en": "The glass door eased shut",
+"ja": "背後でガラス戸が",
+"zh-CN": "玻璃门在背后",
+"zh-TW": "玻璃門在背後"
+}

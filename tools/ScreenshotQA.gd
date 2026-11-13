@@ -8357,6 +8357,10 @@ func _assert_chapter5_finale_story_surface(
 				"result_background", visible_background_id))
 			expected_ambience = str(selected_choice.get(
 				"result_ambience", expected_ambience))
+			if event_id == "arc_y5_general_pre_ending_summit_exact" \
+					and bool(story.call("_is_w234_boulevard_result")):
+				visible_background_id = "gangnam_boulevard_winter_dusk"
+				expected_ambience = ""
 		var expected_background := ImageRegistry.resolve_contextual_background_id(
 			visible_background_id)
 		var portrait := story.get("_portrait") as TextureRect
