@@ -12215,7 +12215,7 @@ def main() -> int:
             "6월 29일 월요일", "30억원", "‘중개사에게 문의’. {name}의 엄지가 그 글자 위에서 멈췄다.",
         )),
         ("English", english_core.get(ledger_id, {}), (
-            "Monday, June 29", "3 billion won", "‘Contact the agent.’ {name}'s thumb stopped above the words.",
+            "Monday, June 29", "3 billion won", "‘Contact the listing agent.’ {name}'s thumb stopped above the words.",
         )),
     ):
         choices = row.get("choices", [])

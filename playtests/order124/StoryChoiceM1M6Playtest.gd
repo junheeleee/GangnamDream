@@ -1177,7 +1177,7 @@ static func _install_story_demo_ledger_event(m6_event: Dictionary) -> Dictionary
 		var ledger_variants := {}
 		var template := LocaleManager.ui(
 			"동그라미 친 일을 마친 뒤였다.\n\n오늘 끝낸 한 줄\n%s\n\n오늘 끝내지 못한 네 줄\n%s\n\n민준은 한 일과 놓친 일을 같은 페이지에서 확인했다.",
-			"He had finished the one thing he'd circled.\n\nThe one line finished tonight\n%s\n\nThe four lines left unfinished tonight\n%s\n\nMinjun saw what he'd done and what he'd let pass on the same page.")
+			"He had finished the one thing he'd circled.\n\nThe one line finished tonight\n%s\n\nThe four lines left unfinished tonight\n%s\n\nMinjun read the finished entry, then the ones he'd left open.")
 		event["description"] = template % ["—", "—"]
 		for selected_index in range((choices as Array).size()):
 			var selected_choice: Dictionary = (choices as Array)[selected_index]
@@ -2252,7 +2252,7 @@ func _show_transition(notice: String = "") -> void:
 	column.add_child(scene_title)
 	var previous: Dictionary = _last_settlement()
 	if not previous.is_empty():
-		column.add_child(_asset_progress_label())
+		_add_asset_progress(column)
 	var transition_copy := _t(
 		"첫 장면이 기다리고 있습니다. 선택은 장면 안에서만 합니다.",
 		"The first scene is waiting. Choices happen only inside it.")
@@ -2312,7 +2312,7 @@ func _show_recap() -> void:
 		GameState.format_money(GameState.money), GameState.health, GameState.mental],
 		15 if _compact else 17, C_GOOD, true)
 	column.add_child(summary)
-	column.add_child(_asset_progress_label())
+	_add_asset_progress(column)
 	var records: Array = _session.get("choices", [])
 	for record_variant in records:
 		if not record_variant is Dictionary:
@@ -2345,6 +2345,31 @@ func _show_recap() -> void:
 		"이 기록은 이 체험판의 전용 JSON에만 저장됩니다.",
 		"This record is stored only in this playtest's dedicated JSON file.")
 	_focus_later(done)
+
+
+func _add_asset_progress(column: VBoxContainer) -> void:
+	column.add_child(_asset_progress_label())
+	if not _public_demo:
+		return
+	var rung := GameState.get_financial_rung()
+	# The first row already shows the ultimate target; don't repeat it as
+	# the next goal once the reachable ladder has no distinct rung left.
+	var kind := str(rung.get("kind", ""))
+	if kind == "achieved" or (kind == "wealth" \
+			and is_equal_approx(float(rung.get("target", 0.0)), GameState.GANGNAM_TARGET)):
+		return
+	var label := str(rung.get("label", ""))
+	var gap := roundi(float(rung.get("remaining", 0.0)))
+	var localized_amount := LocaleManager.format_whole_won(gap)
+	var english_amount := localized_amount if LocaleManager.language == "en" \
+		else LocaleManager.format_money_english(gap)
+	var row := _label(_tf(
+		"다음 재정 목표 · %s — 달성까지 %s",
+		"Next financial goal · %s — %s to go",
+		[label, localized_amount], [label, english_amount]),
+		14 if _compact else 16, C_TEXT)
+	row.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(row)
 
 
 func _asset_progress_label() -> Label:

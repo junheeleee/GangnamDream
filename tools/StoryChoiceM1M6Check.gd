@@ -574,6 +574,15 @@ func _check_demo_single_actions(controller: Node) -> void:
 			_expect(str(story.get("_current").get("id", "")) == event_id,
 				"%s did not open in StoryMode" % label)
 			await _expect_direct_action(story, label)
+			if event_id != "arc_temptation_clean":
+				var action := str(story.call("_direct_continue_action_text"))
+				story.call("_on_advance")
+				story.call("_complete_typing")
+				var body := story.get("_body_lbl") as RichTextLabel
+				_expect(bool(story.get("_pending_after_result")) \
+					and body != null and body.is_visible_in_tree() \
+					and not action.is_empty() and body.get_parsed_text().begins_with(action),
+					"%s kept the spoken line in the hint instead of the result" % label)
 			if story.get_parent() != null:
 				story.get_parent().remove_child(story)
 			story.free()
@@ -1050,6 +1059,7 @@ func _check_m6_localization_and_contract(controller: Node) -> void:
 		_expect(clone_choices.size() == M6_SOURCE_CHOICES.size(),
 			"%s M6 clone does not expose exactly five choices" % language)
 		var texts: Array[String] = []
+		var reconciliation_result := ""
 		for clone_index in range(mini(
 				clone_choices.size(), M6_SOURCE_CHOICES.size())):
 			var source_index := M6_SOURCE_CHOICES[clone_index]
@@ -1064,6 +1074,8 @@ func _check_m6_localization_and_contract(controller: Node) -> void:
 						== str(source_choice.get(prose_key, "")),
 					"%s M6 choice %d changed localized %s" % [
 						language, clone_index, prose_key])
+			if source_index == 5:
+				reconciliation_result = str(clone_choice.get("result_text", ""))
 			_expect(not clone_choice.has("follow_up_event"),
 				"%s legacy already-in-M6 choice %d gained a retroactive ledger" % [
 					language, clone_index])
@@ -1073,6 +1085,9 @@ func _check_m6_localization_and_contract(controller: Node) -> void:
 					language, clone_index])
 			texts.append(str(clone_choice.get("text", "")))
 		localized_choices[language] = texts
+		if language == "en":
+			_expect("Sangchul" in reconciliation_result,
+				"English M6 reconciliation result lost Sangchul's question")
 		var forbidden_paths: Array[String] = []
 		_collect_forbidden_m6_keys(legacy_clone, "event", forbidden_paths)
 		_expect(forbidden_paths.is_empty(),
@@ -1098,7 +1113,7 @@ func _check_m6_localization_and_contract(controller: Node) -> void:
 	var en_text := "\n".join(PackedStringArray(localized_choices.get("en", [])))
 	for name in ["다은", "재혁", "상철"]:
 		_expect(name in ko_text, "Korean M6 choices lost %s" % name)
-	for name in ["Daeun", "Jaehyuk", "Sangchul"]:
+	for name in ["Daeun", "Jaehyuk"]:
 		_expect(name in en_text, "English M6 choices lost %s" % name)
 	_check_m6_unknown_name_contract(controller, "ko")
 	_check_m6_unknown_name_contract(controller, "en")

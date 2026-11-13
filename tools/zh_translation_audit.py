@@ -41,10 +41,9 @@ from ja_translation_pipeline import (  # noqa: E402
 LANGUAGES = ("zh-CN", "zh-TW")
 EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS = 39
 CURRENT_STORY_DEMO_BASE_UI_KEYS = 37
-# Exact current 37-row base after the three independently reviewed successor
-# changes recorded in ORDER-829; this is not mislabeled as the older fixture.
+# Exact current 37-row base after the ORDER-829 and ORDER-831 successors.
 CURRENT_STORY_DEMO_BASE_UI_SHA256 = (
-    "434e8e8a4dd1dc9ec27d36d8045a963b4908557c0309b4e6b7dfc34bfa006d07"
+    "fe8148dee2f40727b354e3f75d9ea463765fc93c1801c7cbcc314e0b989c0568"
 )
 # Reverse the three approved successor rows to the exact 4a7d1e7 row set
 # (ordered-row digest fd62fdbe...2546b) without embedding duplicate prose.
@@ -52,6 +51,9 @@ HISTORICAL_STORY_DEMO_BASE_ROWSET_SHA256 = (
     "2038a097af99f4fa9e70a6c3376725082d62118819e5878a86077b60a8edb22a"
 )
 STORY_DEMO_BASE_SUCCESSOR_ROW_SHA256 = (
+    # Undo the final ledger-only English edit before undoing the 829 changes.
+    ("626e0242fc126fb673342a2d1c306b8cdb5ce8fb72b549524599355e998b6eb0",
+     "00daa767851158e516ed79cf62c5cda042546d721299eb9f7f310b7906c3ce7b"),
     ("6d30f0f264912760ac87b6c5fbe42b68063ba9babbb8fb6158265a313686950e",
      "f9f05d47ec79aea1fbae8073f9370befd915f77f859975629e4177dd2c459a85"),
     ("ecdccae4a4e59d5f7962a4bad0e9c2f76f7e54e384f2ea2ff006037782568aa7",

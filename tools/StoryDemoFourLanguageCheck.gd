@@ -170,6 +170,7 @@ func _run() -> void:
 			"%s resumed save changed elapsed weeks" % language)
 		_expect(int(resumed.get("monthly_pressure_count", -1)) == 6,
 			"%s resumed save changed settlement count" % language)
+		_check_asset_progress(controller, language, 6)
 		_check_action_ledger(controller, language, "resumed recap")
 		_save_roundtrips += 1
 		_free_controller(controller)
@@ -373,6 +374,7 @@ func _run_locale(
 	_check_asset_progress(controller, language, 0)
 	_check_action_ledger(controller, language, "new run")
 	_check_restart_confirmation_scope(controller, language)
+	await _check_sangchul_direct_dialogue(language)
 	if language == "ko":
 		for fault in ["corrupt_temporary", "corrupt_primary"]:
 			var writer_result: Dictionary = controller.call(
@@ -500,6 +502,8 @@ func _run_locale(
 		"%s story demo wrote a pending commitment" % language)
 	_check_action_ledger(controller, language, "finished recap")
 	_check_visible_surface(controller, language, "recap")
+	if language == "ko":
+		_check_asset_progress_ultimate_boundary(controller)
 	_expect(FileAccess.file_exists(PUBLIC_SAVE_PATH),
 		"%s did not write its isolated autosave" % language)
 	return _failures.size() == before_failures
@@ -1076,6 +1080,99 @@ func _check_asset_progress(controller: Node, language: String, month: int) -> vo
 	_expect(occurrences == (0 if month == 0 else 1),
 		"%s M%02d asset progress row count=%d expected=%s" % [
 			language, month, occurrences, expected])
+	var near_templates := {
+		"ko": "다음 재정 목표 · %s — 달성까지 %s",
+		"en": "Next financial goal · %s — %s to go",
+		"ja": "次の家計目標・%s — 達成まで%s",
+		"zh-CN": "下一个财务目标 · %s — 距目标还差%s",
+		"zh-TW": "下一個財務目標 · %s — 距離達成還差%s",
+	}
+	var rung := GameState.get_financial_rung()
+	var near := str(near_templates[language]) % [
+		str(rung["label"]),
+		LocaleManager.format_whole_won(roundi(float(rung["remaining"]))),
+	]
+	var near_prefix := str(near_templates[language]).get_slice("%s", 0)
+	var show_near := month > 0 and str(rung["kind"]) != "achieved" \
+		and (str(rung["kind"]) != "wealth" or float(rung["target"]) < 3_000_000_000.0)
+	var near_count := 0
+	for line in visible.split("\n"):
+		if line.begins_with(near_prefix):
+			near_count += 1
+	_expect(near_count == int(show_near) and visible.split("\n").count(near) == int(show_near),
+		"%s M%02d near-goal row count=%d expected=%s" % [
+			language, month, near_count, near if show_near else "no row"])
+
+
+func _check_asset_progress_ultimate_boundary(controller: Node) -> void:
+	# Rerender only; these out-of-route values never go into a session or save.
+	var original_cash: float = GameState.money
+	var other_assets := float(GameState.get_total_asset_value()) - original_cash
+	var save_before := FileAccess.get_file_as_bytes(PUBLIC_SAVE_PATH)
+	for target in [2_500_000_000.0, 3_000_000_000.0]:
+		GameState.money = target - other_assets
+		controller.call("_show_recap")
+		_check_asset_progress(controller, "ko", 6)
+	GameState.money = original_cash
+	controller.call("_show_recap")
+	_expect(FileAccess.get_file_as_bytes(PUBLIC_SAVE_PATH) == save_before,
+		"rerendering the financial goal changed the saved settlement")
+
+
+func _check_sangchul_direct_dialogue(language: String) -> void:
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var pending_before := GameState.pending_story_queue.duplicate(true)
+	var return_before := GameState.story_return_scene
+	var replay_before := GameState.story_replay_mode
+	var returning_before := GameState.returning_from_story
+	for event_id in ["arc_sangchul_01_measure", "arc_sangchul_01_coffee"]:
+		var label := "%s %s" % [language, event_id]
+		GameState.pending_story_queue = [event_id]
+		GameState.story_return_scene = "res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
+		GameState.story_replay_mode = false
+		GameState.returning_from_story = false
+		var story := STORY_SCENE.instantiate()
+		add_child(story)
+		await get_tree().process_frame
+		var current: Dictionary = story.get("_current")
+		var choices: Array = current.get("choices", [])
+		_expect(str(current.get("id", "")) == event_id and choices.size() == 1,
+			"%s did not load its one-action story" % label)
+		if choices.size() == 1:
+			for _step in range(64):
+				if bool(story.get("_transitioning")) or bool(story.get("_story_scene_transition_active")):
+					await get_tree().create_timer(0.05).timeout
+					continue
+				if bool(story.get("_direction_hold_active")):
+					story.call("_process", 2.1)
+				elif bool(story.get("_typing")):
+					story.call("_complete_typing")
+				elif bool(story.get("_direction_beat_waiting")):
+					story.call("_finish_direction_beat")
+				elif int(story.get("_para_index")) == (story.get("_paragraphs") as Array).size() - 1:
+					break
+				else:
+					story.call("_on_advance")
+				await get_tree().process_frame
+			var action := str((choices[0] as Dictionary).get("text", ""))
+			var choice_box := story.get("_choice_box") as VBoxContainer
+			_expect(int(story.call("_direct_continue_choice_index")) == 0 \
+				and choice_box != null and not choice_box.visible and choice_box.get_child_count() == 0,
+				"%s lost its zero-button direct continue" % label)
+			story.call("_on_advance")
+			story.call("_complete_typing")
+			var prose := story.get("_body_lbl") as RichTextLabel
+			_expect(bool(story.get("_pending_after_result")) and prose != null \
+				and prose.is_visible_in_tree() and not action.is_empty() \
+				and prose.get_parsed_text().begins_with(action),
+				"%s did not render the selected quote as the first result dialogue" % label)
+		remove_child(story)
+		story.free()
+		GameState.load_from_dict(state_before)
+	GameState.pending_story_queue = pending_before
+	GameState.story_return_scene = return_before
+	GameState.story_replay_mode = replay_before
+	GameState.returning_from_story = returning_before
 
 
 func _check_story_language_contract() -> void:

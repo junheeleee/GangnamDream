@@ -22877,7 +22877,7 @@ func _assert_weekly_commitment_player_surface_contract(
 		_mg.call("_weekly_commitment_forgone_labels", story_record)).strip_edges()
 	var expected_forgone := _tr(
 		"통장·카드·비밀번호를 넘긴다",
-		"Hand over the bankbook, card, and PIN")
+		"Hand over the bank account, card, and PIN")
 	if forgone_only != expected_forgone \
 			or forgone_only.find("200만원") >= 0 \
 			or forgone_only.findn("2,000,000 won") >= 0 \

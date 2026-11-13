@@ -798,10 +798,11 @@ CURRENT_CONTRACT_TEXT_PINS = (
     (40767, "f6b2fc837269a7bba45dfe39a2ae2376381bee70f03c8656c1073cc74cc8d433"),
     (40769, "43ec49da45e09df4fff5a6dc1da61510bb7ea7f69e128953f3b9544ae880ffb2"),
     (41264, "6e4b8f4aee6e49bdec906072dcf14599552cb9e294c135ac7c3a3ca42512dbdc"),
+    (41603, "55c4c06837c492bee6c900989895d777cf724cd1a2bdd82ebd7ccb75d357cc4f"),
 )
 CURRENT_CONTRACT_EVENT_SEMANTICS_SHA256 = "4fc2e77e2bcf93327d9848dd37dfaafd676ac213530518edd40a6cee80105c0c"
 # Keep the pre-829 presentation transitions explicit instead of blessing an
-# unexplained whole-body jump.  The terminal dd3 pin folds the independently
+# unexplained whole-body jump.  The dd3 pin folds the independently
 # reviewed ORDER-829 products fee80c2/f469d93/a5029fc/c9c938b/ad39a94/d31ad9b;
 # P7 c7e173f and P6c dd3c62d did not move this Korean demo boundary.
 CURRENT_CONTRACT_EVENT_SEMANTICS_PINS = (
@@ -809,6 +810,7 @@ CURRENT_CONTRACT_EVENT_SEMANTICS_PINS = (
     ("86c381fa63ed3f49c5b6c27f439b544266a1cb54", "298f2f90aea80684a69fe1a0f15ff21414e83a697f6ea38e11f5c2f1829fb6df"),
     ("699622cf0a09ec926fbe2501d27e16b8e03556e8", "95707ed0936076d3dc19d28c71597cdee1b1b4ddb1d30f9242eac82535cd4872"),
     ("dd3c62d53019dd05266be653bb9ef5b697f86b9c", "539269752a299232b19508fa7573fb65394cb22240da24d55885bb869baa7340"),
+    ("ORDER-831", "7bc7ee8a4a8ff96c1a1b90f0bac1bd11193084a690b518efba38a4103f0b81fe"),
 )
 CURRENT_CONTRACT_PAIR_PINS = (
     (
@@ -822,6 +824,12 @@ CURRENT_CONTRACT_PAIR_PINS = (
         "2f068e1e2a35c71e87b3448447b9e9944db355b891af173cccdfef6331b18d1b",
         "e0013d1746887c613429aa790aed32ef1379ac0eeec1b4eb405b7458c8c00419",
         "c661d991d4458512bbe5e8035cc182e5b762744e1d3a3dc29c19d205ac418555",
+    ),
+    (
+        "ORDER-831",
+        "722087bb45dc0dfb6c7b43ef745d1744c44f9bdface4b93788cbe239f4ce4bda",
+        "6a5260dc7bbab322f290aaee2d344f7df214696a41158da5dfcb23c4d7a187f9",
+        "4e4c1d504cfae881165c1b2ea7d15a3a3648d49ac5190177b102f72321863bb6",
     ),
 )
 CURRENT_CONTRACT_SOURCE_FIELDS = (
@@ -864,8 +872,8 @@ def _current_contract_view(
     sealed = _contract_json(proof["manifest"])
     _contract_require(ordered(manifest) == ordered(sealed), "submitted manifest is not bound to raw")
     expected = copy.deepcopy(sealed["source_contract"])
-    stored_text_pin, _, current_text_pin = CURRENT_CONTRACT_TEXT_PINS
-    stored_pair_pin, current_pair_pin = CURRENT_CONTRACT_PAIR_PINS
+    stored_text_pin, current_text_pin = CURRENT_CONTRACT_TEXT_PINS[0], CURRENT_CONTRACT_TEXT_PINS[-1]
+    stored_pair_pin, current_pair_pin = CURRENT_CONTRACT_PAIR_PINS[0], CURRENT_CONTRACT_PAIR_PINS[-1]
     _contract_require((expected["event_text_ko_chars"], expected["event_text_sha256"])
                       == stored_text_pin,
                       "stored demo text expectation changed")
@@ -1467,9 +1475,9 @@ def current_source_contract_self_test() -> tuple[list[str], int]:
           == set(CURRENT_CONTRACT_SOURCE_FIELDS), "only approved source expectation fields")
     check(len(compare_contract(manifest["source_contract"], observed)) == 5,
           "generic comparator stays exact")
-    check(len(CURRENT_CONTRACT_EVENT_SEMANTICS_PINS) == 4
-          and len(CURRENT_CONTRACT_TEXT_PINS) == 3
-          and len(CURRENT_CONTRACT_PAIR_PINS) == 2,
+    check(len(CURRENT_CONTRACT_EVENT_SEMANTICS_PINS) == 5
+          and len(CURRENT_CONTRACT_TEXT_PINS) == 4
+          and len(CURRENT_CONTRACT_PAIR_PINS) == 3,
           "reviewed pin histories stay explicit")
 
     def rejects(m=manifest, o=observed, r=runtime, p=proof):

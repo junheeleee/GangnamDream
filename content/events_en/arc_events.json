@@ -123,7 +123,7 @@
     "choices": [
       {
         "text": "\"Then how far do you think I can go?\"",
-        "result_text": "Sangchul's faint smile vanished.\n\n\"That isn't mine to decide.\"\n\nHe slid a blank memo sheet to the center. This time he wasn't sizing {name} up. He was waiting for an answer."
+        "result_text": "\"Then how far do you think I can go?\" {name} asked.\nSangchul's faint smile vanished.\n\n\"That isn't mine to decide.\"\n\nHe turned the memo sheet blank side up. This time he wasn't sizing {name} up. He was waiting for an answer. {name} did the math in his head: 10 million won for the deposit, 700,000 for rent. Just the first month would take 10.7 million won, before maintenance fees. He needed to see what he could save this month before picking a move-in date."
       }
     ]
   },
@@ -134,7 +134,7 @@
     "choices": [
       {
         "text": "\"That one I can answer.\"",
-        "result_text": "Sangchul slid a blank memo sheet to the center. No price. No address.\n\n\"Good. Then we can talk about rooms afterward.\"\n\nFor the first time, the broker's cadence left his voice."
+        "result_text": "\"That one I can answer.\" {name} broke the silence.\nSangchul lined up a blank memo sheet with the edge of the stack of contracts. No price. No address.\n\n\"Good. Then we can talk about rooms afterward.\"\n\nFor the first time, his voice lost its practiced sales tone. {name} ran the numbers again: 10 million won for the deposit, 700,000 for rent. Just the first month would take 10.7 million won, before maintenance fees. He needed to see what he could save this month before picking a move-in date."
       }
     ]
   },
@@ -145,7 +145,7 @@
     "choices": [
       {
         "text": "\"I... want to show my father. Just once.\"",
-        "result_text": "It was the first time he'd said the reason out loud.\n\"Where are you from?\" Sangchul asked.\n\"Changwon. Down south.\"\nThe hand stirring his coffee stopped — just for half a beat.\nThen he looked at {name} for a long moment and nodded.\n\"That 'why' is solid. Then that's enough.\"\n\"When you're shaken, it'll hold you.\" Sangchul set his business card on the memo sheet."
+        "result_text": "It was the first time he'd said the reason out loud.\n\"Where are you from?\" Sangchul asked.\n\"Changwon. Down south.\"\nSangchul stopped stirring the coffee in his paper cup for half a beat.\nThen he looked at {name} for a long moment and nodded.\n\"That 'why' is solid. Then that's enough.\"\n\"When you're shaken, it'll hold you.\" Sangchul set his business card on the memo sheet."
       },
       {
         "text": "\"Doesn't everyone want Gangnam if they have the money?\"",
@@ -153,7 +153,7 @@
       },
       {
         "text": "\"Because I refuse to lose. To this city.\"",
-        "result_text": "Im Sangchul set down his coffee.\n\"...I said the same thing thirty years ago, when I came up from Chungcheong.\"\n\"That stubbornness got me this far. Two buildings. But I also lost a lot.\"\n\"Don't lose what matters on the way. If you're going, get there whole.\""
+        "result_text": "Im Sangchul set down his paper cup.\n\"...I said the same thing thirty years ago, when I came up from Chungcheong.\"\n\"That stubbornness got me this far. Two buildings. But I also lost a lot.\"\nHe looked up from the desk at {name}. His voice dropped, as if he were talking to his younger self.\n\"Don't lose what matters on the way. If you're going, get there whole.\""
       }
     ]
   },
@@ -544,15 +544,15 @@
   {
     "id": "arc_temptation_01",
     "title": "Easy Money",
-    "description": "2 a.m. in his goshiwon, a boarding house with rooms barely wider than a bed. At the top of the phone was a text canceling this week's overnight loading shift. On the desk lay a reminder for next week's 650,000-won rent transfer. Next week's rent alone was more than he had. {name} checked his balance and sighed. It wouldn't cover the rent.{v2_month_one_episode_echo}\n\nAn unknown number texted.\n\"Lend us your bankbook and debit card. Two million on the spot. You do nothing. One month, zero risk.\"\n\nWhen {name} did not answer, another line arrived.\n\"Decide tonight and you'll have it within an hour. Delete this chat.\"\n\nHe knew the job: a mule account. Doing nothing meant lending out his name and account while other people's money moved through it.\n\nThree months of 650,000-won rent came to 1.95 million won. From the two million, 50,000 won would remain—not enough for the overdue utilities. Beneath the rent reminder, the final receipt from Father's debt repayment still showed at the edge. The cursor blinked in the reply box.",
+    "description": "2 a.m. in his goshiwon, a boarding house with rooms barely wider than a bed. At the top of the phone was a text canceling this week's overnight loading shift. On the desk lay a reminder for next week's 650,000-won rent transfer. Next week's rent alone was more than he had. {name} checked his balance and sighed. It wouldn't cover the rent.{v2_month_one_episode_echo}\n\nAn unknown number texted.\n\"Lend us your bank account and debit card. Two million on the spot. You do nothing. One month, zero risk.\"\n\nWhen {name} did not answer, another line arrived.\n\"Decide tonight and you'll have it within an hour. Delete this chat.\"\n\nHe knew the job: a mule account. Doing nothing meant lending out his name and account while other people's money moved through it.\n\nThree months of 650,000-won rent came to 1.95 million won. From the two million, 50,000 won would remain—not enough for the overdue utilities. Beneath the rent reminder, the final receipt for paying off his father's debt still showed at the edge. The cursor blinked in the reply box.",
     "choices": [
       {
         "text": "Block the number — accept the rent bill and tomorrow's labor",
         "result_text": "The chat vanished when {name} tapped Block. The two million won did not arrive, and rent day did not move.\n\nHe called the foreman who had canceled the shift. \"If a spot opens tomorrow morning, call me.\" After a pause, the foreman told him to be there at 4:20.\n\nWith the phone facedown, the repayment receipt and rent reminder came back into view. {name} set the alarm for 4:20 a.m."
       },
       {
-        "text": "Hand over the bankbook, card, and PIN — take 2,000,000 won tonight",
-        "result_text": "His reply brought a subway-locker number. {name} sealed the bankbook and debit card in an envelope and sent the PIN. The answer came at once: \"Do not open the account from now on.\"\n\nAn hour later, two million won in cash waited in the same locker. Back in the room, {name} circled the rent reminder. He entered the amount in his notebook, then stopped with the pen at the source column."
+        "text": "Hand over the bank account, card, and PIN — take 2,000,000 won tonight",
+        "result_text": "His reply brought a subway-locker number. {name} sealed the account paperwork and debit card in an envelope and sent the PIN. The answer came at once: \"Do not open the account from now on.\"\n\nHe opened the locker again an hour later and found two million won in cash. Back in the room, {name} circled the rent reminder. He entered the amount in his notebook, then stopped with the pen at the source column."
       }
     ]
   },
@@ -561,24 +561,24 @@
     "title": "The Place It Passed Through",
     "choices": [
       {
-        "text": "Check the signed-in devices and transfer limit again, then take the remaining night shifts",
+      "text": "Check the signed-in devices and transfer limit, then take the remaining night shifts",
         "result_text": "{name} changed his password and lowered the daily transfer limit. The device list showed only the phone in his hand, and the recruiter's number was still sitting at the bottom of the block list.\n\nWhen he called the foreman, only the Thursday and Saturday predawn slots remained that week. {name} took both. After the call, he wrote the new shift times beside the rent reminder. The two million won he had refused had become two more mornings of labor and a balance that was still short."
       }
     ],
-  "description": "Several weeks after turning down the offer, {name} came back to his room from a loading shift that had started at 4:20 a.m. When he took off his gloves, the blister in his palm had split. His banking app showed the rent transfer due in three days and the shortfall right beneath it. He opened the security alert and checked the signed-in devices. His own phone was the only one listed.\n\nA news chyron reported the arrest of a mule-account recruitment ring. {name} scrolled all the way down his block list to make sure that number was still there. Keeping his account in his own hands hadn't paid the rent. The two million won had never arrived. What remained were two open night shifts that week and a transfer limit he needed to reset. Then the foreman texted: \"Another spot opened tonight.\""
+  "description": "Several weeks after turning down the offer, {name} came back to his room from a loading shift that had started at 4:20 a.m. When he took off his gloves, the blister in his palm had split. His banking app showed the rent transfer due in three days and the shortfall right beneath it. He didn't dismiss the security alert below it.\n\nA news chyron reported the arrest of a mule-account recruitment ring. Keeping his account in his own hands hadn't paid the rent. The two million won had never arrived. What remained were two open night shifts that week and a transfer limit he needed to reset. Then the foreman texted: \"Another spot opened tonight.\""
   },
   {
     "id": "arc_temptation_fallout",
     "title": "A Return Request on the Account He Lent Out",
-    "description": "Some time later, out in the rain, the bank's fraud-response team called. The employee read out the times when thirty million won had entered and left the account in {name}'s name, then asked by the end of the day whether he would consent to return an initial 1.5 million won through the victim-funds process. Consent required his ID and a visit to a branch. The account was already frozen.\n\nThe date of the two-million-won payment he had first received and the time of the return request now sat together in the call record. Before the call had ended, a text from a different number covered the top of the screen.\n\n\"Clean work. Bring three more accounts, one million each. Your name is already on the list anyway.\"\n\nThe bank asked when he could authorize the return. The recruiter sent a subway-locker number. Both records stayed on the same screen.",
+    "description": "Some time later, out in the rain, the bank's fraud-response team called. The employee read out the times when thirty million won had entered and left the account in {name}'s name, then asked by the end of the day whether he would consent to return an initial 1.5 million won through the victim-funds process. Consent required his ID and a visit to a branch. The account was already frozen.\n\nThe date of the two-million-won payment he had first received and the time of the return request now sat together in the call record. Before the call had ended, a text from a different number covered the top of the screen.\n\n\"Clean work. Bring three more accounts, one million each. Your name is already on the list anyway.\"\n\nThe bank asked when he could authorize the return. The recruiter's subway-locker number appeared above the call record.",
     "choices": [
       {
       "text": "Go to the branch, sign the 1.5-million-won return authorization, and close the account and numbers",
       "result_text": "{name} handed his rain-soaked ID across the counter and signed the authorization to return 1.5 million won. While the teller stamped it received, he blocked each number the recruiter had used and filed to close the account he had lent out.\n\nThe receipt recorded his consent to return 1.5 million won and noted that further verification remained. His wallet held the closure receipt and the case officer's card. Outside the bank, the recruiter's last locker number was still visible in the blocked-notification log."
       },
       {
-      "text": "Refuse the return request and put three bankbook-and-card sets in the locker",
-      "result_text": "{name} told the bank employee he would not consent, then texted the recruiter: \"I can get three.\" Three days later, he put three sets of bankbooks and debit cards bearing other people's names into a subway locker and sent the three PINs.\n\nAn hour later, an envelope holding three million won in cash waited in the same compartment. As {name} took it out, another name and account number arrived on his phone. The banking app retained the rejected-return record; his inbox retained the next locker address."
+      "text": "Refuse the return request and leave three sets of account paperwork and debit cards in the locker",
+      "result_text": "{name} told the bank employee he would not consent, then texted the recruiter: \"I can get three.\" Three days later, he put three sets of account paperwork and debit cards bearing other people's names into a subway locker and sent the three PINs.\n\nWhen he opened the locker again an hour later, an envelope holding three million won in cash was waiting. As {name} took it out, another name and account number arrived on his phone. The banking app retained the rejected-return record; his inbox retained the next locker address."
       }
     ]
   },
