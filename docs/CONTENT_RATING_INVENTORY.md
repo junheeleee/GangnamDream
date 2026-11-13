@@ -3,7 +3,7 @@
 > 이 문서는 `content/meta/release_content_inventory.json`, frozen 공개 Git source, 현재 개발 소스에서 자동 생성한다.
 > 최종 연령 등급·법률 의견·콘텐츠 삭제 결정이 아니며 수동 편집하지 않는다.
 
-갱신 기준: 2026-09-05
+갱신 기준: 2026-11-14
 
 ## 가장 중요한 범위 판정
 
@@ -119,8 +119,8 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 - KO/EN 사건: 각각 127파일 · 1813건, ID 일치
 - 패키지 사건: 1813건 · 현재 shipping 사건: 1702건 · author-only reference 원고: 111건
 - KO/EN 엔딩: 각각 35건
-- 활성 스토리 이미지: 263장 · source raster: 319장
-- 게임 pack 대상 raster: 311장 · ImageRegistry 외부 pack 대상: 48장
+- 활성 스토리 이미지: 270장 · source raster: 327장
+- 게임 pack 대상 raster: 319장 · ImageRegistry 외부 pack 대상: 49장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
 - 사건 ID SHA-256: `4b51a9170bb3bcd7362be3175dbaec77c96a8c928e8747dd5479e14d54845a4b`
 - KO/EN 엔딩 본문 SHA-256: `110f2c8f6748b2cf9615794e26212b5e4e4dd241beea7d85a79f5684bf753b24`
@@ -132,12 +132,12 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
 | 사행성·도박 | 136 / 43 | `d41c2decfd20cbb8c4c5abe0f751009fd00e8a7de5c303b3227d0e81476a062a` | `17092482f47f734627a45f4b4899c2bc2b9ff36a3ab319c3cc5daaa13ef2b2ad` | strong, moderate |
-| 선정성·성적 내용 | 125 / 26 | `6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a` | `80d0c97e1b78b56b0b38659631d4277d4308a342bc3e0fff8531ec5be5d37728` | moderate, mild |
-| 폭력성 | 16 / 13 | `fd37228bc8f4bfdc6c0eccc9b3a3d8aa084f52c3d2373d9a45b24eddbeab0c91` | `9fb867fafde36e279db05ce64e4ec7547f5682135cdb441c6f0c03dc6c9f31c8` | mild |
+| 선정성·성적 내용 | 125 / 26 | `6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a` | `fa37133c31abc8463c95fb07e08a03d1f85c53279ef2cca1127e0b6efd44a5ac` | moderate, mild |
+| 폭력성 | 16 / 13 | `fd37228bc8f4bfdc6c0eccc9b3a3d8aa084f52c3d2373d9a45b24eddbeab0c91` | `187829ff1498712e91cc767142031338066ab26cfc92b07b7fca0a8bcbc869d7` | mild |
 | 공포 | 143 / 51 | `d1a6636fccb0c6cf69f2802e77dbf78497266205d8bbe9f9b6129b6d3569a63a` | `cc900204831cf0522e7de1c6d8e07ff6028a053890d5ff4623c9a13e21744d18` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `b7018e341076ee7951da874c3fe6cadd4f34d7f0c996feb2b67e83c0a44e98c2` | mild |
-| 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `1f05ddc465d6efd06a95ded51282596e4e33d2d02b71740a349de3fd3845c129` | moderate, strong |
-| 음주·흡연·약물 | 83 / 40 | `9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e` | `19175259bc8c33a509d648553c2bc4cfece17bfa5726c9286bc8c5a488cd8e40` | moderate, mild |
+| 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `4c28f2da18e051a7569384ff703728c1f52a01704dd668c482bf68fefc9c6539` | moderate, strong |
+| 음주·흡연·약물 | 83 / 40 | `9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e` | `dcb4236743a8424215bb793ebc5afb9df85d55ec8f943e52b4536a0112a3e402` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |
 
@@ -147,19 +147,20 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 - 범죄: `arc_y4_family_partner_collision_jiyeon`
 - 음주·흡연·약물: `arc_36_body_signal`, `arc_year3_close`
 
-## ImageRegistry 외부 source raster 56장
+## ImageRegistry 외부 source raster 57장
 
 `all_resources`라 ImageRegistry 외부 구버전·마케팅·UI raster 중
-48장도 게임 pack 대상이다. 나머지 8장 상점 스크린샷은 `.gdignore` 아래 source-only라 게임 pack에는 없다.
-전체 56장은 원본·접촉표로 에이전트 시각 검토했지만 최종 사람 판정은
+49장도 게임 pack 대상이다. 나머지 8장 상점 스크린샷은 `.gdignore` 아래 source-only라 게임 pack에는 없다.
+전체 57장은 원본·접촉표로 에이전트 시각 검토했지만 최종 사람 판정은
 여전히 `user_required`다. 실제 pack 검사는 대상 raster의 각 `.import`가 가리키는 `.ctex`까지 확인한다.
 
-- 경로 SHA-256: `9383fb0901e3a143bce9bffaa90ffe27e245615b8152b46a20f603d36165fea6`
-- 경로+파일 SHA-256: `e1409d70753f6aeef066a4d8b783396f0d3789de42a227d45814e2e65e0dead8`
-- 실제 pack 대상 외부 raster 경로 SHA-256: `682e9eb67aa7987d76f1275460a23a66b56ead72b7148d7e097a5585b2e05760`
-- 실제 pack 대상 외부 raster 경로+파일 SHA-256: `855aa8920904e1454c13537855c673de45d15e8ae15227555750c09f77dcc279`
+- 경로 SHA-256: `a93f7062709df22d75ac4d9f9e796a2ff82e57914cf50ba7021dbd866df15977`
+- 경로+파일 SHA-256: `091552836affac217a74feab657a4bd15b03263e3d901bccd58fd8aa97d8ed4e`
+- 실제 pack 대상 외부 raster 경로 SHA-256: `24f35dd78275a81d58227d19eb773d7871553e5a3e5c0135860164bf6f41b6c2`
+- 실제 pack 대상 외부 raster 경로+파일 SHA-256: `3febef52ac0df7d4531b4b1caa5c991fc63c1090acfe84c01418b470cf8c00d5`
 - `.gdignore` source-only 경로 SHA-256: `f53a4433d398f59a1f71b77af81a840587083f9eca7a7d89ba4d6b1e46dfb2a4`
 - `story_and_legacy` 15장 · 게임 pack 포함 — 원본 해상도와 접촉표에서 나체·성행위·가시적 혈흔/고어·자해·흡연·불법 약물 묘사는 확인되지 않았다. 이전 수영복, 경제적 절망/도박 회복, 상처가 보이지 않는 충돌 구도는 축별 사실에 따로 기록했으며 최종 사용자 검토가 남는다.
+- `retained_wedding_daeun_small_v1` 1장 · 게임 pack 포함 — 2026-11-14 원본 확인. wedding_daeun_small_v1은 다은 소형 결혼식 입장 와이드의 이전 원화다. 현행 ImageRegistry는 같은 ID의 v2를 가리키지만 v1도 all_resources 패키지 대상이다. 예복·부케·하객 실루엣·빈 좌석이 보이며 나체·성행위·가시적 혈흔/고어·자해·흡연·불법 약물 묘사는 확인되지 않았다. 최종 사람 검토는 별도다.
 - `packaged_marketing` 10장 · 게임 pack 포함 — 패키지에 들어가는 키아트·캡슐·로고에는 별도로 누락된 더 강한 시각 표현이 확인되지 않았으며 최종 사용자 검토가 남는다.
 - `source_only_store_screenshots` 8장 · source-only / 게임 pack 제외 — Steam 마케팅 스크린샷 8장은 assets/store/screenshots/.gdignore 아래라 게임 pack에는 없다. 이미 기록한 대포통장 선택, Moral dark 분위기, 해변 데이트, 엔딩 요약을 되풀이하며 더 강한 누락 표현은 확인되지 않았다. 상점 사용과 최종 사용자 검토는 별도 게이트다.
 - `ui` 14장 · 게임 pack 포함 — UI에는 카드·칩·말 실루엣·시장 캔들·도박 행동 atlas가 있다. 폰 기종 구매는 종료됐고 flagship 셸만 세로 연락폰에 사용하며 starter/refurbished 셸은 all_resources pack의 출처 보존용 미사용 자산이다. 실제 현금 구매/환전이나 성적·약물·폭력 묘사는 확인되지 않았으며 최종 사용자 검토가 남는다.
@@ -229,13 +230,13 @@ M01~M06 fresh-start 도달은 아래 세 프로필의 도달 판정으로 대신
 
 ### 폭력성
 
-- **bicycle_collision_minor_blood · mild** — 24주 선택 장면에서 세단이 자전거 앞바퀴를 쳐 민준이 넘어지고 충돌음이 재생되며 무릎에 피가 조금 난다. CG에는 충돌·혈흔·상처가 보이지 않는다.
+- **bicycle_collision_minor_blood · mild** — 지연의 첫 만남에서 세단이 자전거 앞바퀴를 쳐 민준이 넘어지고 충돌음이 재생되며 무릎에 피가 조금 난다. CG에는 충돌·혈흔·상처가 보이지 않는다.
   - 소유: `content/events/arc_events.json`, `assets/cg/jiyeon_crash_day_v3.png`, `autoloads/ImageRegistry.gd`, `assets/scene_audio_manifest.json`, `assets/audio/AUDIO_SOURCE_MANIFEST.json`
   - 사건: `arc_jiyeon_01_crash`
   - `retail_full`: 패키지 포함 / 부팅 등록 / fresh-start 정적 가능 — The full story can enter Jiyeon's first-meeting route.
   - `legacy_demo`: 패키지 포함 / 부팅 등록 / fresh-start 정적 가능 — Legacy route data can schedule the scene within its early arc.
   - `v2_playtest`: 패키지 포함 / 부팅 등록 / fresh-start 명시 계약 — The V2 narrative spine explicitly owns arc_jiyeon_01_crash in weeks 9-12.
-  - `story_demo_rc`: frozen 후보에도 동일 사실이 적용됨 / M01~M06 도달은 전용 route audit 소유 — exact source 근거와 1,806사건·PCK JSON/import roster를 분리 대조했다.
+  - `story_demo_rc`: 동일 ID의 frozen 후보 정의만 적용 — 현재 개발 정의를 공개 후보에 소급하지 않는다.
 
 ### 공포
 
@@ -273,13 +274,13 @@ M01~M06 fresh-start 도달은 아래 세 프로필의 도달 판정으로 대신
   - `legacy_demo`: 패키지 포함 / 부팅 등록 / fresh-start 명시 계약 — The same mandatory fresh-start prologue precedes the legacy 24-week route.
   - `v2_playtest`: 패키지 포함 / 부팅 등록 / fresh-start 명시 계약 — MainGame's fresh-start branch enters story_flashforward before V2 routing; its closure includes story_prologue_goal.
   - `story_demo_rc`: frozen 후보에도 동일 사실이 적용됨 / M01~M06 도달은 전용 route audit 소유 — exact source 근거와 1,806사건·PCK JSON/import roster를 분리 대조했다.
-- **demo_money_mule_choice · strong** — 4주에 플레이어가 대포통장을 거절하거나 통장·카드·비밀번호를 넘겨 200만원을 받는다. 8주에는 모집책 검거 뉴스 또는 피해금 3천만원 반환 요청·경찰 연락 가능성과 추가 가담 선택이 오고, 수락 경로는 24주에 경찰의 초기 확인 전화나 모집책의 재접촉을 받는다. 혐의·처분이 확정됐다고 말하지 않는다.
+- **demo_money_mule_choice · strong** — 4주에 플레이어가 대포통장 제안을 거절하거나 통장·카드·비밀번호를 넘겨 200만원을 받는다. 8주에는 모집책 검거 뉴스 또는 계좌로 오간 3천만원에 대한 은행의 확인과 우선 150만원 반환 요청, 추가 가담 선택이 나온다. 24주 반환 경로의 경찰은 날짜를 확인하고 출석 가능한 날을 묻는다. 추가 가담 경로에서는 모집책이 첫 계좌 거래를 거론하며 답을 재촉한다. 어느 장면도 혐의·처분 확정을 말하지 않는다.
   - 소유: `content/events/arc_events.json`, `content/events_en/arc_events.json`, `content/events/core_loop_v2_events.json`, `content/meta/narrative_spine.json`
   - 사건: `arc_temptation_01`, `arc_temptation_clean`, `arc_temptation_fallout`, `v2_dirty_trace_initial_call`, `v2_dirty_recruiter_week24`
   - `retail_full`: 패키지 포함 / 부팅 등록 / fresh-start 정적 가능 — The opening full-game arc schedules the same crime fork.
   - `legacy_demo`: 패키지 포함 / 부팅 등록 / fresh-start 정적 가능 — The legacy early arc includes the temptation and consequence chain.
   - `v2_playtest`: 패키지 포함 / 부팅 등록 / fresh-start 명시 계약 — The V2 spine owns the week-4 fork, week-8 clean/fallout roots, and the applicable week-24 initial-call or recruiter-contact root.
-  - `story_demo_rc`: frozen 후보에도 동일 사실이 적용됨 / M01~M06 도달은 전용 route audit 소유 — exact source 근거와 1,806사건·PCK JSON/import roster를 분리 대조했다.
+  - `story_demo_rc`: 동일 ID의 frozen 후보 정의만 적용 — 현재 개발 정의를 공개 후보에 소급하지 않는다.
 - **later_financial_and_property_crime · strong** — 본편에는 폰지·투자 사기, 내부자 거래, 지갑 현금 절취와 주거 사기 선택·결과가 비그래픽 텍스트로 더 등장한다. 재혁의 폰지 증거를 이용해 돈을 갈취하거나 사기를 함께 계속하는 선택도 플레이어가 직접 할 수 있다.
   - 소유: `content/events/arc_events.json`, `content/events/investment_events.json`, `content/events/amb_scenarios4.json`, `content/events/shadow_events.json`
   - 사건: `arc_jaehyuk_04b_counter`, `inv_insider_tip`, `amb_wallet_00`
