@@ -14,6 +14,8 @@
 
 11-14 KST 화면 1차 완료: P0 접근 → P1 기존 충돌 효과음 → P2 차 문이 열릴 때 원 CG. 수리비는 현장, c0/c2는 다섯 언어 각각 실제 퇴장 문장부터 별도 골목이다. 원문·효과·ID·형식 변경0. 본편 15경로와 격리 v4 복원5, 데모 receipt 이벤트 15경로, `830-m03-crash.lUvsHy` 실제 창 1280×800 40컷을 검증했다. 별도 검수자가 전 컷을 확인했다. 남은 일: P1의 충돌 순간은 효과음은 있으나 그림은 여전히 접근 컷이다. 전용 충돌 컷과 현장에서 떠나는 c0의 바퀴 마찰 녹음 적합성을 따로 검토한다. 청취·새 RC·Steam 반영0.
 
+11-14 KST P1 [~] 착수: `sinchon_crash_impact_rain_dusk.png` 후보. 같은 골목에서 검은 세단과 앞바퀴만 보이는 비그래픽 접촉 직후. 지연 중인 하차/얼굴/열린 문 금지. 채택은 해당 원화·import·출처/원장, ImageRegistry·음향/연출 배경, M03 `paragraph_backgrounds`의 P1 및 표적 검사에 한한다. 다음 재회는 별개: `arc_jiyeon_02_store`는 비 그친 늦은 밤인데 현재 비 그림/루프·사람 믹스가 남음. 일반 `street`에도 녹음된 군중이 있어 대체 불가.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
