@@ -2,7 +2,7 @@
 
 ## 2026-11-13 — 룰렛 상태 표시 현지화
 
-- M60. [829](queue_active/ORDER-829.md) RC 11.13.1·5언어. [830](queue_active/ORDER-830.md) M04음20/20·M02그림2. 831 11.13.2·832 A.
+- M60. [829](queue_active/ORDER-829.md) RC11.13.1·5언어. [830](queue_active/ORDER-830.md) M04음20·W8컷3. 831 11.13.2·832 A.
 
 - [826](queue_archive/ORDER-826.md): 월말 원화 검사 수리, 격리 15건 통과. 실캡처0.
 
