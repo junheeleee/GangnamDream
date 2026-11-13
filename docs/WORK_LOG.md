@@ -2,9 +2,9 @@
 
 ## 2026-11-13 — 룰렛 상태 표시 현지화
 
-- [826](queue_archive/ORDER-826.md): 월말 원화 검사 수리, 격리 15건 통과. 실캡처0.
+- [731](queue_active/ORDER-731.md): M51/W203 도달. 신부 입장 실재개·군중음 누출 수리.
 
-- [731](queue_active/ORDER-731.md): M50 도달. W200 C2 수정 후 같은 slot2→31.4 신부 입장 실재개.
+- [826](queue_archive/ORDER-826.md): 월말 원화 검사 수리, 격리 15건 통과. 실캡처0.
 
 - [825](queue_archive/ORDER-825.md): 목요일 저녁 간체·번체2 정합.
 
