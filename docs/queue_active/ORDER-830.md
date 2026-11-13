@@ -74,7 +74,8 @@ W1 창원에서 무릎을 꿇은 아버지를 문틈으로 보는 문장에 정�
 등록·출처/크기/연기 원장과 `content/meta/story_rules.json`, 관련 연출 계약·QA에
 한정한다. 문틈/붙잡기/등 돌린 뒤 계단은 다른 화면이며 미완 분기를 합격 처리하지 않는다.
 
-W6 `cafe_00`(2), `cafe_bluff_caught`(0), `cafe_mind_01`(1)은 퇴장 결과만 서울의
-마른 겨울길·거리 녹음·민준으로 바꾼다. 자리에 남는 분기는 카페를 보존한다. `content/events/scenario_cafe.json`,
+W6 `cafe_00`(2), `cafe_bluff_caught`(0), `cafe_mind_01`(1)은 퇴장 결과만 민준과
+창밖에 이미 보이던 젖은 골목·실외 빗소리로 바꾼다. 자리에 남는 분기는 카페를 보존한다.
+`content/events/scenario_cafe.json`,
 `assets/event_visual_contracts.json`, `tools/StoryBackgroundContextCheck.gd`만 해당.
 W8 반납/보관함의 장소 전환은 ORDER-829 원고와 겹치므로 별도 착수 전 조율한다.

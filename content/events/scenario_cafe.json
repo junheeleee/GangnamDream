@@ -45,6 +45,9 @@
       },
       {
         "text": "자리가 불편하다. 그냥 나간다",
+        "result_background": "street_rainy",
+        "result_ambience": "rain",
+        "result_portrait": "player_tired",
       "result_text": "{name}은 식은 커피를 두고 일어섰다.\n카페 문이 닫히자 옆 테이블의 목소리도 끊겼다.",
         "flags": [
           "cafe_scenario_seen",
@@ -316,6 +319,9 @@
     "choices": [
       {
         "text": "도망치듯 카페를 나선다",
+        "result_background": "street_rainy",
+        "result_ambience": "rain",
+        "result_portrait": "player_tired",
       "result_text": "{name}은 커피를 반도 못 비우고 나왔다.\n겨울 바람이 뜨거운 뺨에 닿았다.\n집으로 가는 동안에도 방금 틀린 계산이 머릿속에 남았다. {name}은 수첩을 펴고 5억에서 숫자를 하나씩 다시 뺐다.",
         "flags": [
           "cafe_humiliated"
@@ -395,6 +401,9 @@
       },
       {
         "text": "민망해서 어색하게 자리를 뜬다",
+        "result_background": "street_rainy",
+        "result_ambience": "rain",
+        "result_portrait": "player_tired",
       "result_text": "{name}은 고맙다는 말을 작게 하고 자리에서 일어섰다.\n돌아오는 길 내내 따뜻했던 종이컵의 온도가 손에 남아 있었다.",
         "flags": [
           "cafe_awkward"

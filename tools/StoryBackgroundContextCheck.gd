@@ -1,5 +1,5 @@
 extends Node
-## L2 only: exercise the real StoryMode node for ORDER-155's exact authored
+## L2 only: exercise the real StoryMode node for exact authored
 ## location moves. This is deterministic regression evidence, never a
 ## substitute for the required normal-speed human M49-M60 replays.
 
@@ -63,6 +63,23 @@ const CASES := [
 		"results": ["gukbap_restaurant_night", "current_housing"],
 		"result_ambience": ["hoesik", "oneroom"],
 	},
+	{
+		"id": "cafe_00", "turn": 6,
+		"root": "cafe", "root_ambience": "cafe",
+		"results": ["cafe", "cafe", "street_rainy"],
+		"result_ambience": ["cafe", "cafe", "rain"],
+	},
+	{
+		"id": "cafe_bluff_caught", "turn": 6,
+		"auto_single_choice": true,
+		"root": "cafe", "root_ambience": "cafe",
+		"results": ["street_rainy"], "result_ambience": ["rain"],
+	},
+	{
+		"id": "cafe_mind_01", "turn": 6,
+		"root": "cafe", "root_ambience": "cafe",
+		"results": ["cafe", "street_rainy"], "result_ambience": ["cafe", "rain"],
+	},
 ]
 
 const EXACT_PATHS := {
@@ -75,6 +92,8 @@ const EXACT_PATHS := {
 	"convenience_store": "res://assets/backgrounds/convenience_store_night_v2.png",
 	"convenience_night": "res://assets/backgrounds/convenience_store_night_v2.png",
 	"street": "res://assets/backgrounds/street_seoul_day.png",
+	"street_rainy": "res://assets/backgrounds/seoul_rainy_street.png",
+	"cafe": "res://assets/backgrounds/cafe_seoul.png",
 	"gangnam_apartment": "res://assets/backgrounds/gangnam_apartment.png",
 	"apartment": "res://assets/backgrounds/oneroom_apartment.png",
 	"gukbap_restaurant_night": "res://assets/backgrounds/gukbap_restaurant_night.png",
@@ -118,7 +137,7 @@ func _ready() -> void:
 				await _play_case(language, fixture, choice_index)
 	await _remove_story()
 	await _stop_audio()
-	if _cases != 36 or _intro_pages < 36 or _result_pages < 36:
+	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
 		_fail("fixture inventory incomplete cases=%d intro_pages=%d result_pages=%d" % [
 			_cases, _intro_pages, _result_pages])
 	if _failures > 0:
@@ -134,7 +153,7 @@ func _play_case(language: String, fixture: Dictionary, choice_index: int) -> voi
 	await _remove_story()
 	var event_id := str(fixture["id"])
 	_context = "%s/%s/choice%d" % [language, event_id, choice_index]
-	if not _seed_story(event_id):
+	if not _seed_story(event_id, int(fixture.get("turn", 220))):
 		return
 	GameState.pending_story_queue = [event_id]
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
@@ -149,17 +168,22 @@ func _play_case(language: String, fixture: Dictionary, choice_index: int) -> voi
 		return
 	_story.call("_on_advance")
 	await _wait_stable()
-	if not bool(_story.get("_showing_choices")):
-		_fail("authored choices were not exposed after sequential intro")
-		return
-	if not _expect_surface(str(fixture["root"]), str(fixture["root_ambience"]), "choices"):
-		return
-	var visible: Array = _story.call("_visible_choice_indices", _story.get("_current"))
-	if not visible.has(choice_index):
-		_fail("target authored choice is not visible")
-		return
-	_story.call("_on_choice", choice_index)
-	await _wait_stable()
+	if bool(fixture.get("auto_single_choice", false)):
+		if choice_index != 0 or bool(_story.get("_showing_choices")):
+			_fail("linear cafe exit did not advance without a redundant choice menu")
+			return
+	else:
+		if not bool(_story.get("_showing_choices")):
+			_fail("authored choices were not exposed after sequential intro")
+			return
+		if not _expect_surface(str(fixture["root"]), str(fixture["root_ambience"]), "choices"):
+			return
+		var visible: Array = _story.call("_visible_choice_indices", _story.get("_current"))
+		if not visible.has(choice_index):
+			_fail("target authored choice is not visible")
+			return
+		_story.call("_on_choice", choice_index)
+		await _wait_stable()
 	if not bool(_story.get("_pending_after_result")) \
 			or int(_story.get("_pending_result_choice_index")) != choice_index:
 		_fail("actual choice did not enter its exact result phase")
@@ -170,14 +194,20 @@ func _play_case(language: String, fixture: Dictionary, choice_index: int) -> voi
 			str(expected_results[choice_index]),
 			str(expected_ambiences[choice_index]), true):
 		return
+	if int(fixture.get("turn", 0)) == 6 and str(expected_results[choice_index]) == "street_rainy":
+		var portrait_id := str(_story.call("_resolved_story_surface_portrait_id"))
+		var human_layer := str(BGMPlayer.get("_current_human_ambience_key"))
+		if portrait_id != "player_tired" or human_layer != "street":
+			_fail("cafe exit retained the investor or cafe human layer")
+			return
 	_cases += 1
 
-func _seed_story(event_id: String) -> bool:
+func _seed_story(event_id: String, turn: int) -> bool:
 	GameState.start_new_game()
-	GameState.turn = 220
-	GameState.age = 37
-	GameState.month = 7
-	GameState.week_of_month = 1
+	GameState.turn = turn
+	GameState.age = 33 if turn == 6 else 37
+	GameState.month = 2 if turn == 6 else 7
+	GameState.week_of_month = 2 if turn == 6 else 1
 	GameState.housing = "oneroom"
 	GameState.money = 2_800_000_000.0
 	GameState.health = 80

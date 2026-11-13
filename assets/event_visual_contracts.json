@@ -258,14 +258,15 @@
     {"id": "arc_jiyeon_verdict_fear", "background": "jiyeon_newlywed_home", "portrait": "jiyeon_cold"},
     {"id": "arc_jiyeon_verdict_decision", "background": "jiyeon_newlywed_home", "portrait": "jiyeon_cold", "choice_result_cgs": {"1": "cg_romance_breakup_jiyeon"}, "choice_result_cg_reveal_paragraphs": {"1": 2}},
 
-    {"id": "cafe_00", "background": "cafe", "portrait": "cafe_investor"},
+    {"id": "cafe_00", "background": "cafe", "portrait": "cafe_investor", "choice_result_backgrounds": {"2": "street_rainy"}, "choice_result_portraits": {"2": "player_tired"}},
     {"id": "cafe_peek_01", "background": "cafe", "portrait": "cafe_investor", "portrait_reveal_paragraph": 1},
     {"id": "cafe_caught_honest", "background": "cafe", "portrait": "cafe_investor"},
     {"id": "cafe_talk_01", "background": "cafe", "portrait": "cafe_investor"},
     {"id": "cafe_humble", "background": "cafe", "portrait": "cafe_investor"},
     {"id": "cafe_bluff_01", "background": "cafe", "portrait": "cafe_investor"},
-    {"id": "cafe_bluff_caught", "background": "cafe", "portrait": "cafe_investor"},
+    {"id": "cafe_bluff_caught", "background": "cafe", "portrait": "cafe_investor", "choice_result_backgrounds": {"0": "street_rainy"}, "choice_result_portraits": {"0": "player_tired"}},
     {"id": "cafe_bluff_recover", "background": "cafe", "portrait": "cafe_investor"},
+    {"id": "cafe_mind_01", "background": "cafe", "portrait": "player_tired", "choice_result_backgrounds": {"1": "street_rainy"}, "choice_result_portraits": {"1": "player_tired"}},
 
     {"id": "arc_y2_hyunsu_night_bus", "background": "late_night", "portrait": "hyunsu", "choice_result_backgrounds": {"0": "seoul_bus_terminal_night"}},
     {"id": "hyunsu_study_together", "background": "goshiwon_shared_kitchen", "portrait": "hyunsu"},
