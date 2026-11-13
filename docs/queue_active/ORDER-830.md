@@ -4,10 +4,8 @@
 
 11-14 사용자 재지정: [결정](../DECISIONS.md#2026-11-14-모든-플레이-가능-장면의-에셋-정합을-먼저-끝낸다--사용자-지시).
 본편·체험판 모든 장면·분기의 글/그림/소리 정합. 에셋 뒤 사람 테스트. 구 RC·저장·업로드0.
-W4 [x] [보관함→귀가](../queue_archive/ORDER-830-ART-EVIDENCE.md#w4-보관함과-귀가): 20경로·저장15·화면15. 새 RC/직접 청취 미완.
-
-M14 [x] [은행 배경 2장·격리 검증](../queue_archive/ORDER-830-ART-EVIDENCE.md#m14-한도-상담과-퇴장). 실청취 미완.
-W234 [x] [사무실→강남대로](../queue_archive/ORDER-830-ART-EVIDENCE.md#w234-사무실과-강남대로). 직접 청취 미완.
+완료 증거: [W4·M14·W234](../queue_archive/ORDER-830-ART-EVIDENCE.md). 직접 청취 미완.
+M03 [~] 착수: [사고 전 배경·표적 음향](../queue_archive/ORDER-830-ART-EVIDENCE.md#m03-사고-전후).
 
 ## 배치 1 — W200–201 결혼식·신혼집
 
