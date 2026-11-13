@@ -28,3 +28,15 @@ Claude 재평가 인계와 별도 1시간 사람 테스트. 이 부모의 착수
 `playtests/order124/StoryChoiceM1M6Playtest.gd` 두 월말 표시와 KO/EN/JA/간체/번체 1줄,
 정확 키 검사/실화면 fixture의 해당 범위만. 순자산은 실제 GameState 값을 읽고 30억까지
 남은 값을 원 단위로 표시한다. 현금/시간/경제/저장/8.31 역사본 보존. P1 작업과 사전 충돌0.
+
+### [~] P1b · 금요일 선택과 마지막 페이지
+
+`v2_demo_first_bill`의 설명과 상철 메모 결과(소스 5 / 체험판 2), `v2_demo_first_bill_ledger`
+제목·진행 동작·결과만 `content/events{,_en}/core_loop_v2_events.json` 및
+`content/events_{ja,zh-CN,zh-TW}/story_demo_events.json`에서 수정한다. 체험판이 덮는
+인트로는 `playtests/order124/StoryChoiceM1M6Playtest.gd`와 `locale/ui_{ja,zh-CN,zh-TW}.json`의
+기존 키를 맞춘다. 같은 책상·휴대폰·수첩, 실제 작성 문단의 기존 펜 음향을 유지한다.
+마지막에는 새 결과를 예고하지 않고 휴대폰의 실제 연락처와 다음 행동 직전에서 자른다.
+다음 월요일, 잔액, 사람과의 약속, 이미 일어난 통장 사건·W24 영수증과 선택 효과는 보존.
+legacy의 `content/meta/demo_core_loop_v2.json` 두 수요일 연락의 `trace_copy` 독자도
+같은 물건/사실로 동기화한다. 8.31 ZIP/PCK 및 역사 자체 검사 불변.
