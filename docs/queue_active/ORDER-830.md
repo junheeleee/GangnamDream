@@ -163,3 +163,12 @@ W201 네 장면의 정확한 룸톤을 종전 `oneroom`이 아닌 현재 `apartm
 전환 완료 뒤 그 컷에서 다음 시간 전환을 시작하는 것을 분리 확인. stderr 0, stdout
 `dec3fedd0e32c9017c7e98fb9344795651784f0ad5763af7c912f5bd3cae5a64` /
 `7dcf775e029e6161efe8ac60086a080f211a81a5e64e564734b0b713a7fa496a`.
+
+### [~] 승인 원고와 4·6월 회귀검사 대조 — C3
+
+`content/meta/demo_localization_scope.json`, `tools/{CoreLoopV2ECheck,ManualSaveCheck,
+StoryDemoFourLanguageCheck}.gd`, 이 사양·`CLAUDE.md`·`docs/WORK_LOG.md`만. 이전 6월
+휴식 분기의 당일 18:00 시각 계약 한 행을 폐기하고 다음 날 아침 알람 한 개를 5언어
+실제 데모 선택에서 확인한다. 현재 18:00 업무 마감과 분 단위 제한은 유지한다.
+모집책 캡처는 발신 시각과 번호를, 상철은 벽시계/종이컵의 현재 영어 문장만 정합한다.
+원고·선택 효과·저장·검사 예외·과거 RC 변경0.
