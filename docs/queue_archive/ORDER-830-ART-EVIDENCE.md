@@ -20,6 +20,10 @@ P1 배선 수정 착수: 2fcb112 정적 CI가 `paragraph_backgrounds` 길이와 
 
 P1 화면 완료: 맞부딪친 직후 바퀴·빗물 삽입 컷을 원래 충돌음 호출 전에 같은 문단 진입에서 즉시 지정. 하차 원화는 여전히 P2. 원본 PNG SHA-256 `cabcde43c5eaf3029ac3484aa59210aefb4deaab16890643838e591df5aea1d5`(제품 1280×800). 본편/데모 5언어 각 15회(원문 기본/정통/비정통 모두 포함), 본편 격리 cold Load 5회. 최종 실제 창 40컷 `830-m03-impact.aSKQR4`, 독립 검사 P1 다섯 언어 및 이전 경계 40컷. 정적 감사 오류/경고0, CG·출시사실·음향·연출·정본 검사 통과. 바퀴 마찰은 별개: 기존 `bicycle_impact`는 충돌·옷 소리이고 라이선스 원음 디렉터리가 없어 부적절한 효과를 붙이지 않았다. 실청취·새 RC·업로드0.
 
+### 신촌역 재회
+
+11-14 KST [~] 착수: 본편 `arc_jiyeon_02_store` W34+에서 5언어 원문은 비가 막 그친 늦은 밤, 정류장 안내판, P1 세단 도착, 조용한 두 사람이다. `sinchon_bus_stop_after_rain_night.png` 원화 후보 한 장만 외부 작업 폴더에서 확인한다. 지갑 없는 젖은 정류장, 빗줄기 없음, 뚜렷한 안내판 실루엣·문자 없음, 비·웅성거림/차량·초상 시점은 채택 뒤 별도 배선. W85–88 `arc_jiyeon_03_offer`는 원문에 비가 다시 오므로 이번 대상 아님.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`

@@ -6,6 +6,7 @@
 본편·체험판 모든 장면·분기의 글/그림/소리 정합. 에셋 뒤 사람 테스트. 구 RC·저장·업로드0.
 완료 증거: [W4·M14·W234](../queue_archive/ORDER-830-ART-EVIDENCE.md). 직접 청취 미완.
 M03 [~] [사고 전·접촉 직후·하차·퇴장](../queue_archive/ORDER-830-ART-EVIDENCE.md#m03-사고-전후). 바퀴 마찰 녹음·실청취 미완.
+재회 [~] [비 그친 신촌 정류장 원화](../queue_archive/ORDER-830-ART-EVIDENCE.md#신촌역-재회).
 
 ## 배치 1 — W200–201 결혼식·신혼집
 
