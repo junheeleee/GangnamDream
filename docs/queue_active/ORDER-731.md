@@ -1,5 +1,15 @@
 # ORDER-731 — M40 자동 월초 경계
 
+2026-11-13 실제 31.3 재개: slot1 W192c1 P2 정상 닫힘, 같은 런 M50/W197 도달.
+W200 '다은의 자리'에서 사망 부친 변형의 c0 결과 마지막 페이지가 정상 Enter/클릭으로
+닫히지 않았다. 원로그 bind/close 오류를 확인해 입력을 멈춤. 원래 slot1과 열린 앱
+보존; 현재 자동저장은 W200 시작이라 재선택·Continue 금지.
+
+새 C2 착수: root는 `systems/FullStoryFlow.gd`의 **저작 follow-up 한 단계**의
+source/live 상태변형 결속과 `tools/SceneDirectionCheck.gd`의 정상·거절 회귀만
+소유한다. W192 root 이전, 이미 적용된 선택·영수증·수치·저장키·공개 데모 보존.
+동일 인과를 별도 격리 fixture에서 확인한 뒤 실제 결과 보존/재개를 따로 확인한다.
+
 2026-11-13 사용자 인계: C1이 우선이다. 고정 31.3은 기존 slot1 W192 c1 결과 P2에서
 정상 Load로만 재개한다(Continue/재선택 금지). 11-15 목표 M50, 이후 M60까지 연속.
 strict IOConsoleLocked=No와 지원 화면/입력을 함께 확인하기 전 실행·입력 0.
