@@ -128,6 +128,9 @@ W202 수락의 `hoesik`은 바 녹음과 영국 펍 대화층을 겹친다. 공�
 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
 및 두 `.import`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{ART_AI_AUDIT,MODDING,WORK_LOG}.md`,
 `tools/{art_resolution_baseline.json,scene_direction_catalog.py,StoryBackgroundContextCheck.gd}`, `CLAUDE.md`.
+같은 은행에서 나서는 컷에는 기존 거리의 낮/밤·마른 노면 불일치를 피하도록 별도
+`assets/backgrounds/bank_exterior_wet_day.png`와 `.import` 한 쌍을 같은 원장에 추가한다.
+같은 젖은 보도·겨울 나무만 이어가며 실제 비가 계속 내린다고 단정하지 않는다.
 검수한 원화 두 장만 채택. 저장·텍스트/현지화 파일·효과·갈래·사건 ID·과거 RC 변경0.
 정확한 5언어 기존 문장 경계를 페이지 단위로 나누되 저장에서 쓰는 기존 2개 원문 문단
 ID는 유지한다. 반환은 창구에서 시작해 은행을 나설 때 바깥으로, 추가 인계는 답신을
