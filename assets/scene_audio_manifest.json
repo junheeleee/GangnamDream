@@ -1204,6 +1204,7 @@
     },
     "arc_jiyeon_01_crash": {
       "ambience": "rain",
+      "suppress_human_ambience": true,
       "music": {"key": "jiyeon", "start_paragraph": 1},
       "paragraph_cues": {
         "0": [{"sfx": "traffic_pass", "volume_db": -6.0}],

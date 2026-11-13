@@ -411,6 +411,8 @@ func _ready() -> void:
 		return
 	if not await _check_mother_table_audio():
 		return
+	if not await _check_jiyeon_crash_audio():
+		return
 
 	# 실제 주거를 배경으로 쓰는 장면도 매니페스트가 명시한 창밖 비를
 	# 우선한다. 네 링크 사이에서 같은 룸톤과 친밀한 곡을 되감지 않는다.
@@ -1269,6 +1271,46 @@ func _check_mother_table_audio() -> bool:
 func _fail(msg: String) -> void:
 	push_error("BGM_CONTINUITY_FAIL " + msg)
 	get_tree().quit(1)
+
+func _check_jiyeon_crash_audio() -> bool:
+	var event: Dictionary = DataRegistry.find_event("arc_jiyeon_01_crash")
+	if event.is_empty():
+		_fail("M03 crash audio fixture is missing")
+		return false
+	var cg_id := str(event.get("cg", ""))
+	BGMPlayer.enter_ambient_bed(0.0)
+	BGMPlayer.set_ambience("rain")
+	if BGMPlayer._current_human_ambience_key != "street" \
+			or not BGMPlayer._human_ambience_player.playing:
+		_fail("M03 crash test did not start with the shared rain street-crowd layer")
+		return false
+	BGMPlayer.update_event_ambience(event, cg_id)
+	BGMPlayer.begin_story_event(event, cg_id)
+	BGMPlayer.play_scene_paragraph_music(event, cg_id, 0)
+	await get_tree().process_frame
+	if BGMPlayer._current_ambience_key != "rain" or not BGMPlayer._ambience_player.playing \
+			or not BGMPlayer._current_human_ambience_key.is_empty() \
+			or BGMPlayer._human_ambience_player.playing \
+			or not BGMPlayer._current_key.is_empty():
+		_fail("M03 approach must have rain, without the street crowd or score")
+		return false
+	var cues: Dictionary = BGMPlayer.scene_audio_contract(str(event.id), cg_id).get("paragraph_cues", {})
+	if cues.get("0") != [{"sfx": "traffic_pass", "volume_db": -6.0}] \
+			or cues.get("1") != [{"sfx": "bicycle_impact", "volume_db": -3.0}]:
+		_fail("M03 traffic and impact cues no longer match their authored paragraphs")
+		return false
+	BGMPlayer.play_scene_paragraph_music(event, cg_id, 1)
+	await get_tree().create_timer(0.18).timeout
+	if BGMPlayer._current_key != "jiyeon" or not (BGMPlayer._player_a.playing or BGMPlayer._player_b.playing):
+		_fail("M03 Jiyeon theme did not start on the impact paragraph")
+		return false
+	var rain_pos := BGMPlayer._ambience_player.get_playback_position()
+	BGMPlayer.update_event_ambience(event, cg_id)
+	if BGMPlayer._ambience_player.get_playback_position() + 0.05 < rain_pos \
+			or BGMPlayer._human_ambience_player.playing:
+		_fail("M03 surface update restarted rain or restored the crowd")
+		return false
+	return true
 
 func _check_presentation_home_contract() -> bool:
 	var original_housing := GameState.housing
