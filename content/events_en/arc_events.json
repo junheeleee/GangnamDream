@@ -164,15 +164,15 @@
     "choices": [
       {
         "text": "\"I'm fine.\" — Just leave.",
-        "result_text": "Without compensation or contact information, {name} wheels the bent bicycle away.\nHe does not look back.\n\nThe woman remains where she is and watches him disappear down the road."
+        "result_text": "{name} took neither compensation nor contact details. He turned and pushed the bike away. On every turn, the bent front wheel brushed the brake. He listened to it all the way down the alley. “I'm not fine,” he said, too quietly for her to hear."
       },
       {
         "text": "Show the bent wheel — \"Just the repair cost, please.\"",
-        "result_text": "She takes one 50,000 won note and three 10,000 won notes from her wallet without hesitation.\n\"Is that enough? If not—\"\n\"It's fine.\"\n\n{name} pockets the 80,000 won and wheels the bent bicycle away. The crumpled bills and bent wheel are what remain."
+        "result_text": "She took one 50,000 won note and three 10,000 won notes from her wallet without hesitating.\n\"Is that enough? If not—\"\n\"It's fine.\"\n\n{name} folded the 80,000 won and pushed it into his pocket. The notes stuck to his wet fingers. When he let go, the wheel was still bent. His next stop would be a bike shop, not a hospital."
       },
       {
-        "text": "Get angry — \"You need to watch where you're driving.\"",
-        "result_text": "The words he has been holding back come out. She bows her head.\n\"...I'm really sorry.\"\n\nIt seems genuine. That makes it impossible to keep shouting.\n{name} sighs and wheels the bent bicycle away.\nThe weight of her gaze lingers."
+        "text": "Confront the driver — \"You need to watch where you're driving.\"",
+        "result_text": "The words he'd been holding back came out. She lowered her head.\n\"...I'm really sorry.\"\n\nHe couldn't think of what to say next. She lifted her head but didn't go back to the car. {name} took hold of the handlebars again. Even after he left, his own voice stayed louder in his head than the rain."
       }
     ],
     "description_orthodox": "At dusk in spring rain, on a back road in Sinchon. {name} is riding a secondhand bicycle to save on transit fares.\n\nA black sedan comes around the corner and clips the front wheel. {name} falls onto the rain-slick road. His knee bleeds, and the front wheel bends.\n\nThe car door opens. A woman who looks to be in her early thirties steps out into the rain, visibly shaken.\n\"You should really see a doctor—\"\n\n{name} tallies the wheel repair, the time a hospital visit would take, and the work still left today. He cannot afford to spend much longer in the road.",
