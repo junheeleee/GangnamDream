@@ -638,13 +638,7 @@ func update_event_ambience(
 	if ambience_key == "intentional_silence":
 		# A silent rendered place must not inherit the street during the cut
 		# or on a cold result restore. This leaves the score untouched.
-		_current_ambience_key = ""
-		if _ambience_tween and _ambience_tween.is_running():
-			_ambience_tween.kill()
-		if _ambience_player:
-			_ambience_player.stop()
-		_stop_human_ambience_immediate()
-		_stop_season_ambience_immediate()
+		clear_ambience_immediate()
 		return
 	set_ambience(ambience_key, not bool(contract.get("suppress_human_ambience", false)))
 	if bool(contract.get("suppress_season_ambience", false)):
@@ -856,6 +850,15 @@ func set_season_ambience(key: String) -> void:
 func clear_ambience() -> void:
 	set_ambience("")
 	set_season_ambience("")
+
+func clear_ambience_immediate() -> void:
+	_current_ambience_key = ""
+	if _ambience_tween and _ambience_tween.is_running():
+		_ambience_tween.kill()
+	if _ambience_player:
+		_ambience_player.stop()
+	_stop_human_ambience_immediate()
+	_stop_season_ambience_immediate()
 
 func duck_ambience(amount_db: float = -8.0, duration: float = 0.45) -> void:
 	_ambience_duck_db = minf(0.0, amount_db)

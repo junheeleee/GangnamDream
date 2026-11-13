@@ -69,7 +69,7 @@
       {
         "text": "나간다",
         "result_background": "gukbap_restaurant_night",
-        "result_ambience": "hoesik",
+        "result_ambience": "intentional_silence",
         "effects": {
           "mental": 25,
           "social_skill": 1

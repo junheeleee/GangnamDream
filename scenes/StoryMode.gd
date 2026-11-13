@@ -6485,6 +6485,8 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 	var result_ambience := str(choice.get("result_ambience", "")).strip_edges()
 	if result_ambience == "current_housing":
 		BGMPlayer.update_idle_ambience()
+	elif result_ambience == "intentional_silence":
+		BGMPlayer.clear_ambience_immediate()
 	elif not result_ambience.is_empty():
 		BGMPlayer.set_ambience(result_ambience)
 		BGMPlayer.set_season_ambience("")

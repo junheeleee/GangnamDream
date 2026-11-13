@@ -53,7 +53,7 @@ def dict_keys_from_const(text, const_name):
 
 img_path = os.path.join(ROOT, "autoloads", "ImageRegistry.gd")
 VALID_PORTRAITS = VALID_BACKGROUNDS = VALID_CG = set()
-VALID_AMBIENCE = {"current_housing"}
+VALID_AMBIENCE = {"current_housing", "intentional_silence"}
 CAST_IDS = set()
 if os.path.exists(img_path):
     itext = open(img_path, encoding="utf-8").read()

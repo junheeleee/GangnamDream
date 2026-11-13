@@ -6,6 +6,7 @@ extends Node
 const QA_PREFIX := "GangnamDream_StoryNameplateQA_"
 const CHAPTER5_ROUTE := preload("res://systems/Chapter5CausalRoute.gd")
 const BURNOUT_PRIOR_CHOICES := [2, 1, 0, 1]
+const W202_EVENT := "callback_daeun_committed_gangnam_eve"
 const W8_EVENT := "arc_temptation_fallout"
 const W8_QA_SLOT := 9
 const W8_BANK := "bank_service_counter_rainy_day"
@@ -69,11 +70,11 @@ const CASES := [
 		"result_ambience": ["apartment", "subway"],
 	},
 	{
-		"id": "callback_daeun_committed_gangnam_eve",
+		"id": W202_EVENT, "turn": 202,
 		"root": "current_housing",
 		"root_ambience": "oneroom",
 		"results": ["gukbap_restaurant_night", "current_housing"],
-		"result_ambience": ["hoesik", "oneroom"],
+		"result_ambience": ["", "oneroom"],
 	},
 	{
 		"id": "cafe_00", "turn": 6,
@@ -124,6 +125,7 @@ var _w8_cases := 0
 var _w8_pages := 0
 var _w8_reloads := 0
 var _w8_language_switches := 0
+var _w202_silent_results := 0
 var _context := "bootstrap"
 
 func _ready() -> void:
@@ -167,6 +169,8 @@ func _ready() -> void:
 			or _w8_language_switches != 8:
 		_fail("W8 fixture inventory incomplete cases=%d pages=%d reloads=%d language_switches=%d" % [
 			_w8_cases, _w8_pages, _w8_reloads, _w8_language_switches])
+	if _w202_silent_results != 2:
+		_fail("W202 quiet result inventory incomplete: %d" % _w202_silent_results)
 	if _failures > 0:
 		print("STORY_BACKGROUND_CONTEXT_CHECK_FAIL failures=%d cases=%d intro_pages=%d result_pages=%d" % [
 			_failures, _cases, _intro_pages, _result_pages])
@@ -174,6 +178,7 @@ func _ready() -> void:
 		return
 	print("STORY_BACKGROUND_CONTEXT_W8_OK cases=%d pages=%d cold_cut_reloads=%d language_switches=%d" % [
 		_w8_cases, _w8_pages, _w8_reloads, _w8_language_switches])
+	print("STORY_BACKGROUND_CONTEXT_W202_OK silent_results=%d shared_profile_unchanged=1" % _w202_silent_results)
 	print("STORY_BACKGROUND_CONTEXT_CHECK_OK cases=%d intro_pages=%d result_pages=%d ko_en=1 choices=all live_storymode=1 settled_texture=1 ambience=1 human_gate=OPEN" % [
 		_cases, _intro_pages, _result_pages])
 	get_tree().quit(0)
@@ -181,6 +186,7 @@ func _ready() -> void:
 func _play_case(language: String, fixture: Dictionary, choice_index: int) -> void:
 	await _remove_story()
 	var event_id := str(fixture["id"])
+	var w202_quiet_choice := event_id == W202_EVENT and choice_index == 0
 	_context = "%s/%s/choice%d" % [language, event_id, choice_index]
 	if not _seed_story(event_id, int(fixture.get("turn", 220))):
 		return
@@ -211,7 +217,16 @@ func _play_case(language: String, fixture: Dictionary, choice_index: int) -> voi
 		if not visible.has(choice_index):
 			_fail("target authored choice is not visible")
 			return
+		var music_key := str(BGMPlayer.get("_current_key"))
+		if w202_quiet_choice and not _w202_prime_ambience_layers():
+			return
 		_story.call("_on_choice", choice_index)
+		if w202_quiet_choice:
+			if not _expect_no_ambience("W202 accepted result on the choice frame"):
+				return
+			if str(BGMPlayer.get("_current_key")) != music_key:
+				_fail("W202 location silence changed the score")
+				return
 		await _wait_stable()
 	if not bool(_story.get("_pending_after_result")) \
 			or int(_story.get("_pending_result_choice_index")) != choice_index:
@@ -223,6 +238,10 @@ func _play_case(language: String, fixture: Dictionary, choice_index: int) -> voi
 			str(expected_results[choice_index]),
 			str(expected_ambiences[choice_index]), true):
 		return
+	if w202_quiet_choice:
+		if not _expect_no_ambience("W202 accepted result after its final page"):
+			return
+		_w202_silent_results += 1
 	if int(fixture.get("turn", 0)) == 6 and str(expected_results[choice_index]) == "street_rainy":
 		var portrait_id := str(_story.call("_resolved_story_surface_portrait_id"))
 		var human_layer := str(BGMPlayer.get("_current_human_ambience_key"))
@@ -230,6 +249,23 @@ func _play_case(language: String, fixture: Dictionary, choice_index: int) -> voi
 			_fail("cafe exit retained the investor or cafe human layer")
 			return
 	_cases += 1
+
+func _w202_prime_ambience_layers() -> bool:
+	# Exercise the shared profile without changing the real root/defer evidence.
+	# All three layers must be live before checking immediate—not faded—silence.
+	BGMPlayer.update_event_ambience({}, "", "gukbap_restaurant_night")
+	BGMPlayer.set_season_ambience("winter")
+	if str(BGMPlayer.get("_current_ambience_key")) != "hoesik" \
+			or str(BGMPlayer.get("_current_human_ambience_key")) != "cafe" \
+			or str(BGMPlayer.get("_current_season_key")) != "winter":
+		_fail("W202 shared restaurant profile or ambience fixture changed")
+		return false
+	for player_property in ["_ambience_player", "_human_ambience_player", "_season_player"]:
+		var player := BGMPlayer.get(player_property) as AudioStreamPlayer
+		if not is_instance_valid(player) or not player.playing:
+			_fail("W202 did not start %s before the silence test" % player_property)
+			return false
+	return true
 
 func _play_w8_case(language: String, choice_index: int) -> void:
 	await _remove_story()
@@ -397,16 +433,19 @@ func _w8_expect_surface(background: String, ambience: String, weather: String, l
 	if str(_story.get_meta("living_scene_effect", "")) != weather:
 		_fail("%s wrong W8 weather: expected %s" % [label, weather])
 		return false
-	if ambience.is_empty() and (not str(BGMPlayer.get("_current_human_ambience_key")).is_empty() \
-			or not str(BGMPlayer.get("_current_season_key")).is_empty()):
-		_fail("%s indoor W8 surface retained human or seasonal ambience" % label)
-		return false
-	if ambience.is_empty():
-		for name in ["_ambience_player", "_human_ambience_player", "_season_player"]:
-			var player := BGMPlayer.get(name) as AudioStreamPlayer
-			if not is_instance_valid(player) or player.playing:
-				_fail("%s quiet W8 surface still playing %s" % [label, name])
-				return false
+	return not ambience.is_empty() or _expect_no_ambience("W8 " + label)
+
+func _expect_no_ambience(label: String) -> bool:
+	for layer in [
+		["_current_ambience_key", "_ambience_player"],
+		["_current_human_ambience_key", "_human_ambience_player"],
+		["_current_season_key", "_season_player"],
+	]:
+		var player := BGMPlayer.get(layer[1]) as AudioStreamPlayer
+		if not str(BGMPlayer.get(layer[0])).is_empty() \
+				or not is_instance_valid(player) or player.playing:
+			_fail("%s retained ambience %s" % [label, layer[1]])
+			return false
 	return true
 
 func _seed_story(event_id: String, turn: int) -> bool:
@@ -421,7 +460,7 @@ func _seed_story(event_id: String, turn: int) -> bool:
 	GameState.mental = 80
 	GameState.current_job = {"id": "job_01"}
 	GameState.flags = {"prologue_done": true}
-	if event_id == "callback_daeun_committed_gangnam_eve":
+	if event_id == W202_EVENT:
 		GameState.flags["daeun_romance_started"] = true
 	GameState.story_replay_mode = false
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
