@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/return_anchors = {
+"ko": "방으로 돌아온",
+"en": "Back in the room,",
+"ja": "部屋に戻った",
+"zh-CN": "回到房间，",
+"zh-TW": "回到房間，"
+}

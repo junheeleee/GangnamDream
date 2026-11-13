@@ -7,6 +7,16 @@ const QA_PREFIX := "GangnamDream_StoryNameplateQA_"
 const CHAPTER5_ROUTE := preload("res://systems/Chapter5CausalRoute.gd")
 const BURNOUT_PRIOR_CHOICES := [2, 1, 0, 1]
 const W202_EVENT := "callback_daeun_committed_gangnam_eve"
+const W4_EVENT := "arc_temptation_01"
+const W4_ROOM := "goshiwon_room"
+const W4_DEMO := preload("res://playtests/order124/StoryChoiceM1M6Playtest.gd")
+const W4_TERMS := {
+	"ko": ["한 시간 뒤 같은 보관함", "방으로 돌아온"],
+	"en": ["He opened the locker again an hour later", "Back in the room,"],
+	"ja": ["一時間後、同じロッカーには", "部屋に戻った"],
+	"zh-CN": ["一小时后，同一个储物柜里", "回到房间，"],
+	"zh-TW": ["一小時後，同一個置物櫃裡", "回到房間，"],
+}
 const W8_EVENT := "arc_temptation_fallout"
 const W8_QA_SLOT := 9
 const W8_BANK := "bank_service_counter_rainy_day"
@@ -103,6 +113,7 @@ const CASES := [
 ]
 
 const EXACT_PATHS := {
+	W4_ROOM: "res://assets/backgrounds/goshiwon_room.png",
 	"hospital_clinic_day": "res://assets/backgrounds/hospital_clinic_day.png",
 	"subway_station_stairs": "res://assets/backgrounds/subway_station_stairs.png",
 	"subway_station_lost_found": "res://assets/backgrounds/subway_station_lost_found.png",
@@ -132,6 +143,10 @@ var _intro_pages := 0
 var _result_pages := 0
 var _w8_cases := 0
 var _w8_pages := 0
+var _w4_cases := 0
+var _w4_reloads := 0
+var _w4_rebinds := 0
+var _w4_capture_dir := ""
 var _m14_cases := 0
 var _m14_capture_dir := ""
 var _w8_reloads := 0
@@ -163,6 +178,9 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W4_CAPTURE_DIR"):
+		await _capture_w4()
+		return
 	if OS.has_environment("GANGNAM_W8_CAPTURE_DIR"):
 		await _capture_w8()
 		return
@@ -182,6 +200,12 @@ func _ready() -> void:
 			await _play_w8_case(language, choice_index)
 		for choice_index in range(3):
 			await _play_m14_bank_case(language, choice_index)
+	for language in W4_TERMS:
+		LocaleManager.set_language(language)
+		for choice_index in range(2):
+			await _play_w4_case(language, choice_index, false)
+		for choice_index in range(2):
+			await _play_w4_case(language, choice_index, true)
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -195,6 +219,9 @@ func _ready() -> void:
 		_fail("W202 quiet result inventory incomplete: %d" % _w202_silent_results)
 	if _m14_cases != 15:
 		_fail("M14 bank branch inventory incomplete: %d" % _m14_cases)
+	if _w4_cases != 20 or _w4_reloads != 15 or _w4_rebinds != 4:
+		_fail("W4 inventory incomplete paths=%d restores=%d rebinds=%d" % [
+			_w4_cases, _w4_reloads, _w4_rebinds])
 	if _failures > 0:
 		print("STORY_BACKGROUND_CONTEXT_CHECK_FAIL failures=%d cases=%d intro_pages=%d result_pages=%d" % [
 			_failures, _cases, _intro_pages, _result_pages])
@@ -204,6 +231,8 @@ func _ready() -> void:
 		_w8_cases, _w8_pages, _w8_reloads, _w8_language_switches])
 	print("STORY_BACKGROUND_CONTEXT_W202_OK silent_results=%d shared_profile_unchanged=1" % _w202_silent_results)
 	print("STORY_BACKGROUND_CONTEXT_M14_OK cases=%d exact_exit=1 clean_beds=1" % _m14_cases)
+	print("STORY_BACKGROUND_CONTEXT_W4_OK paths=%d restores=%d rebinds=%d" % [
+		_w4_cases, _w4_reloads, _w4_rebinds])
 	print("STORY_BACKGROUND_CONTEXT_CHECK_OK cases=%d intro_pages=%d result_pages=%d ko_en=1 choices=all live_storymode=1 settled_texture=1 ambience=1 human_gate=OPEN" % [
 		_cases, _intro_pages, _result_pages])
 	get_tree().quit(0)
@@ -322,6 +351,28 @@ func _capture_m14_bank() -> void:
 	if _failures == 0:
 		print("M14_BANK_VIEWPORT_OK language=%s paths=%d" % [language, _m14_cases])
 	get_tree().quit(0 if _failures == 0 else 1)
+
+func _capture_w4() -> void:
+	_w4_capture_dir = OS.get_environment("GANGNAM_W4_CAPTURE_DIR")
+	var output := DirAccess.open(_w4_capture_dir) if _w4_capture_dir.is_absolute_path() else null
+	var language := OS.get_environment("GANGNAM_W4_CAPTURE_LANGUAGE")
+	if output == null or not output.get_files().is_empty() or not output.get_directories().is_empty() \
+			or not W4_TERMS.has(language) or DisplayServer.get_name() == "headless":
+		_fail("W4 capture requires a fresh absolute output, authored locale and a real display")
+		get_tree().quit(1)
+		return
+	OS.low_processor_usage_mode = false
+	# The receipt-bearing M01 source drives the same renderer as the full game.
+	LocaleManager.set_language(language)
+	await _play_w4_case(language, 1, true)
+	await _remove_story()
+	await _stop_audio()
+	for name in ["01_room.png", "02_locker.png", "03_home.png"]:
+		if not FileAccess.file_exists(_w4_capture_dir.path_join(name)):
+			_fail("W4 viewport missing " + name)
+	if _failures == 0 and _w4_cases == 1:
+		print("W4_LOCKER_VIEWPORT_OK language=%s frames=3" % language)
+	get_tree().quit(0 if _failures == 0 and _w4_cases == 1 else 1)
 
 func _play_case(language: String, fixture: Dictionary, choice_index: int) -> void:
 	await _remove_story()
@@ -506,6 +557,131 @@ func _m14_expect_cues(choice: int, source: int) -> bool:
 		return false
 	return true
 
+func _play_w4_case(language: String, choice_index: int, demo: bool) -> void:
+	await _remove_story()
+	_context = "%s/W4/choice%d/demo=%s" % [language, choice_index, demo]
+	_seed_story(W4_EVENT, 4)
+	GameState.age = 33
+	GameState.month = 1
+	GameState.week_of_month = 4
+	GameState.housing = "goshiwon"
+	GameState.money = 500_000.0
+	BGMPlayer.stop()
+	if demo:
+		GameState.story_return_scene = "res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
+		W4_DEMO.install_story_demo_runtime_events()
+	GameState.pending_story_queue = [W4_EVENT]
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	var current: Dictionary = _story.get("_current")
+	var choice: Dictionary = current.get("choices", [{}, {}])[choice_index]
+	if current.get("id") != W4_EVENT or (demo and not (choice.get("flags", []) as Array).any(
+			func(flag): return str(flag).begins_with("order124_choice__arc_temptation_01__"))):
+		_fail("W4 actual root or demo receipt-bearing overlay missing")
+		return
+	for _page in range((_story.get("_paragraphs") as Array).size()):
+		await _finish_page()
+		_story.call("_on_advance")
+		await _wait_stable()
+	if not bool(_story.get("_showing_choices")):
+		_fail("W4 original choices are missing")
+		return
+	var initial_cash := float(GameState.money)
+	var records := GameState.event_log.size()
+	var score_token := int(BGMPlayer.get("_punctuation_token"))
+	if str(BGMPlayer.get("_current_key")) != "crisis":
+		_fail("W4 intro did not retain its existing crisis score")
+		return
+	_story.call("_on_choice", choice_index)
+	await _wait_stable()
+	if not bool(_story.get("_pending_after_result")) \
+			or not is_equal_approx(GameState.money, initial_cash + (2_000_000.0 if choice_index == 1 else 0.0)) \
+			or GameState.event_log.size() != records + 1 \
+			or bool(GameState.flags.get("lent_account", false)) != (choice_index == 1):
+		_fail("W4 original choice effect was not applied exactly once")
+		return
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var cut := int(_story.get("_result_location_cut_page"))
+	var terms: Array = W4_TERMS[language]
+	if choice_index == 1:
+		var raw := str(_story.call("_fmt", str(choice["result_text"])))
+		var whitespace := RegEx.new()
+		whitespace.compile("\\s+")
+		if cut < 2 or cut >= pages.size() or not str(pages[cut]).begins_with(terms[1]) \
+				or not str("".join(PackedStringArray(pages.slice(0, cut)))).contains(terms[0]) \
+				or int(_story.call("_story_source_paragraph_count")) != 2 \
+				or whitespace.sub("".join(PackedStringArray(pages)), "", true) != whitespace.sub(raw, "", true):
+			_fail("W4 exact localized content or paragraph boundaries changed")
+			return
+	elif cut != -1:
+		_fail("W4 refusal incorrectly received a location cut")
+		return
+	var restored := false
+	for page_index in range(pages.size()):
+		if int(_story.get("_para_index")) != page_index:
+			_fail("W4 result skipped or repeated a physical page")
+			return
+		var source := int(_story.call("_story_source_paragraph_index", page_index))
+		var locker := choice_index == 1 and source == 1 and page_index < cut
+		if not _w4_surface(locker) or (not restored and (
+				int(BGMPlayer.get("_punctuation_token")) != score_token or BGMPlayer.get("_current_key") != "crisis")):
+			_fail("W4 location or live score changed outside the authored cut")
+			return
+		if language == "ko" and not demo and choice_index == 1 \
+				and (page_index == cut - 1 or page_index == cut):
+			for other in ["en", "ko"]:
+				_story.call("_set_story_language", other)
+				await _wait_stable()
+				if LocaleManager.language != other or not _w4_surface(locker):
+					_fail("W4 locale reflow changed the current place")
+					return
+				_w4_rebinds += 1
+		await _finish_page()
+		if not _w4_capture_dir.is_empty():
+			var sample := ""
+			if page_index == 0:
+				sample = "01_room.png"
+			elif locker and int(_story.call("_story_source_paragraph_index", page_index - 1)) == 0:
+				sample = "02_locker.png"
+			elif page_index == cut:
+				sample = "03_home.png"
+			if not sample.is_empty() and not await _save_viewport_frame(_w4_capture_dir.path_join(sample)):
+				return
+		if not demo and choice_index == 1 and page_index == cut - 1:
+			if not await _reload_cut_result(choice_index, page_index, false):
+				return
+			await _wait_stable()
+			if not _w4_surface(true):
+				return
+			_w4_reloads += 1
+			restored = true
+		if page_index + 1 < pages.size():
+			_story.call("_on_advance")
+			if not demo and choice_index == 1 and (
+					page_index + 1 == cut or (source == 0 and int(_story.call(
+						"_story_source_paragraph_index", page_index + 1)) == 1)):
+				if not await _reload_cut_result(choice_index, page_index + 1, true):
+					return
+				_w4_reloads += 1
+				restored = true
+			await _wait_stable()
+	_w4_cases += 1
+
+func _w4_surface(locker: bool) -> bool:
+	var seasonal := BGMPlayer.get("_season_player") as AudioStreamPlayer
+	if str(_story.get_meta("living_scene_effect", "")) != "none" \
+			or not is_instance_valid(seasonal) or seasonal.playing:
+		_fail("W4 interior received precipitation or a seasonal loop")
+		return false
+	var bed := BGMPlayer.get("_ambience_player") as AudioStreamPlayer
+	if not is_instance_valid(bed) or bed.playing == locker:
+		_fail("W4 expected a playing bed only in the room")
+		return false
+	return _expect_surface(W8_LOCKERS if locker else W4_ROOM, "" if locker else "room", "W4 result") \
+		and (not locker or _expect_no_ambience("W4 locker"))
+
 func _play_w8_case(language: String, choice_index: int) -> void:
 	await _remove_story()
 	_context = "%s/%s/choice%d" % [language, W8_EVENT, choice_index]
@@ -617,7 +793,7 @@ func _w8_expect_cut(language: String, choice_index: int, pages: Array) -> int:
 	var whitespace := RegEx.new()
 	whitespace.compile("\\s+")
 	var combined := "".join(PackedStringArray(pages))
-	if cut < 1 or int(_story.get("_w8_result_cut_page")) != cut \
+	if cut < 1 or int(_story.get("_result_location_cut_page")) != cut \
 			or int(_story.call("_story_source_paragraph_count")) != 2 \
 			or int(_story.call("_story_source_paragraph_index", cut)) != (1 if choice_index == 0 else 0) \
 			or int(_story.call("_story_source_paragraph_index", cut - 1)) != (1 if choice_index == 0 else 0) \
@@ -627,45 +803,55 @@ func _w8_expect_cut(language: String, choice_index: int, pages: Array) -> int:
 	return cut
 
 func _w8_cold_reload(choice_index: int, cut: int) -> bool:
+	if not await _reload_cut_result(choice_index, cut, true):
+		return false
+	_w8_reloads += 1
+	return true
+
+func _reload_cut_result(choice_index: int, cut: int, at_start: bool) -> bool:
 	# Settle the already-entered location without processing a typing frame.
 	# Manual save correctly stays unavailable while the ink transition runs.
 	_story.call("_finish_story_scene_transition")
 	var context: Dictionary = _story.call("build_save_resume_context")
 	if context.get("phase") != "result" \
 			or int(context.get("paragraph_index", -1)) != cut \
-			or not bool(context.get("paragraph_was_typing", false)) \
-			or not is_zero_approx(float(context.get("paragraph_type_ratio", -1.0))):
-		_fail("W8 did not capture a v4 result at the exact 0%-typed cut")
+			or bool(context.get("paragraph_was_typing", false)) != at_start \
+			or not is_equal_approx(float(context.get("paragraph_type_ratio", -1.0)), 0.0 if at_start else 1.0):
+		_fail("expected page %d start=%s, saw phase=%s page=%s typing=%s ratio=%s" % [
+			cut, at_start, context.get("phase"), context.get("paragraph_index"),
+			context.get("paragraph_was_typing"), context.get("paragraph_type_ratio")])
 		return false
 	var cash := float(GameState.money)
+	var event_id := str((_story.get("_current") as Dictionary).get("id", ""))
 	var health := float(GameState.health)
 	var mental := float(GameState.mental)
 	var luck := float(GameState.luck)
 	var count := GameState.event_log.size()
 	if not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
-		_fail("W8 isolated result disk save failed")
+		_fail("isolated result disk save failed")
 		return false
 	var disk: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveManager.slot_path(W8_QA_SLOT)))
 	if not disk is Dictionary or int(disk.get("version", -1)) != 4:
-		_fail("W8 saved result did not use the unchanged v4 schema")
+		_fail("saved result did not use the unchanged v4 schema")
 		return false
 	await _remove_story()
 	GameState.start_new_game()
 	if not SaveManager.load_game(W8_QA_SLOT):
-		_fail("W8 isolated result cold load failed")
+		_fail("isolated result cold load failed")
 		return false
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
 	add_child(_story)
 	_story.call("_set_auto_mode", false, false, false)
-	if int(_story.get("_para_index")) != cut or int(_story.get("_type_pos")) != 0 \
+	var expected_type_pos := 0 if at_start else str(_story.get("_type_full")).length()
+	if int(_story.get("_para_index")) != cut or int(_story.get("_type_pos")) != expected_type_pos \
+			or str((_story.get("_current") as Dictionary).get("id", "")) != event_id \
 			or not bool(_story.get("_pending_after_result")) \
 			or int(_story.get("_pending_result_choice_index")) != choice_index \
 			or GameState.event_log.size() != count \
 			or not is_equal_approx(GameState.money, cash) or GameState.health != health \
 			or GameState.mental != mental or GameState.luck != luck:
-		_fail("W8 cold result moved off the exact cut or reapplied the choice")
+		_fail("cold result moved off the exact cut or reapplied the choice")
 		return false
-	_w8_reloads += 1
 	return true
 
 func _w8_switch_languages(choice_index: int, after_cut: bool) -> bool:
@@ -820,7 +1006,7 @@ func _wait_stable() -> void:
 		if not transition_busy:
 			await get_tree().process_frame
 			return
-		if not _w8_capture_dir.is_empty() or not _m14_capture_dir.is_empty():
+		if not _w4_capture_dir.is_empty() or not _w8_capture_dir.is_empty() or not _m14_capture_dir.is_empty():
 			continue
 		if raw_ink_tween is Tween and (raw_ink_tween as Tween).is_running():
 			(raw_ink_tween as Tween).custom_step(10.0)

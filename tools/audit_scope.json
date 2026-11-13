@@ -3747,7 +3747,7 @@
     {
       "tool": "tools/run_story_background_context_check.py",
       "godot": true,
-      "why": "Chapter 5 저작 장면 7개의 KO/EN 도입·선택 결과 배경 이동과 환경음을 실제 StoryMode에서 격리 검사",
+      "why": "StoryMode 장소·환경음, W4/W8 5언어 결과·저장 경계와 M14 퇴장, 기존 KO/EN 위치를 격리 검사",
       "paths": [
         "scenes/StoryMode.gd",
         "scenes/StoryMode.tscn",
@@ -3811,6 +3811,15 @@
         "tools/StoryBackgroundContextCheck.tscn",
         "tools/StoryNameplateBootstrap.gd",
         "tools/StoryNameplateBootstrap.gd.uid",
+        "assets/w4_temptation_result_cuts.tres",
+        "assets/w8_fallout_result_cuts.tres",
+        "assets/backgrounds/subway_station_coin_lockers.png",
+        "assets/backgrounds/subway_station_coin_lockers.png.import",
+        "content/events/arc_events.json",
+        "content/events_en/arc_events.json",
+        "content/events_ja/story_demo_events.json",
+        "content/events_zh-CN/story_demo_events.json",
+        "content/events_zh-TW/story_demo_events.json",
         "tools/run_story_background_context_check.py"
       ]
     },

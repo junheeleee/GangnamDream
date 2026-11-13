@@ -330,7 +330,7 @@ weather, romance, and historical portraits remain fixed.
 - `assets/backgrounds/bank_loan_counter_day.png` and `assets/backgrounds/bank_loan_exit_day.png`
   - `arc_y2_bank_limit_review` only. Single bank consultation counter with printer at 4:40 p.m.; dry view facing the street after leaving, on the last choice's second result paragraph only. Not the W8 rain branch. Opaque 1280×800 presentation candidates; not production master resolution.
 - `assets/backgrounds/subway_station_coin_lockers.png`
-  - `arc_temptation_fallout` additional-handoff result, only from the authored three-days-later arrival through the later return to the same locker. A windowless station concourse with closed, unmarked lockers; no train, platform, transaction object, or implied time of day. The art is not interchangeable with the station stairs or lost-property counter.
+  - `arc_temptation_01` account-handoff result from the one-hour-later cash pickup until returning to the room; `arc_temptation_fallout` additional-handoff result from the three-days-later arrival. A windowless station concourse with closed, unmarked lockers; no train, platform, transaction object, or implied time of day. Not interchangeable with station stairs or the lost-property counter.
   - All three are exact 1280x800 opaque, separately reviewed art. The ImageGen source sizes are below the 2560x1600 intermediate-master contract.
 - `assets/backgrounds/park_bench_day.png`
   - Ordinary daytime Seoul neighborhood pocket park for the REST vignette about sitting on a bench and watching people hurry somewhere.
