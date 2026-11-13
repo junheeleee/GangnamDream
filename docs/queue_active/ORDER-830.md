@@ -167,7 +167,8 @@ W201 네 장면의 정확한 룸톤을 종전 `oneroom`이 아닌 현재 `apartm
 ### [~] 승인 원고와 4·6월 회귀검사 대조 — C3
 
 `content/meta/demo_localization_scope.json`, `tools/{CoreLoopV2ECheck,ManualSaveCheck,
-StoryDemoFourLanguageCheck}.gd`, 이 사양·`CLAUDE.md`·`docs/WORK_LOG.md`만. 이전 6월
+StoryDemoFourLanguageCheck}.gd`, `tools/demo_localization_scope.py`의 현행 원장 해시 한 줄,
+이 사양·`CLAUDE.md`·`docs/WORK_LOG.md`만. 이전 6월
 휴식 분기의 당일 18:00 시각 계약 한 행을 폐기하고 다음 날 아침 알람 한 개를 5언어
 실제 데모 선택에서 확인한다. 현재 18:00 업무 마감과 분 단위 제한은 유지한다.
 모집책 캡처는 발신 시각과 번호를, 상철은 벽시계/종이컵의 현재 영어 문장만 정합한다.
