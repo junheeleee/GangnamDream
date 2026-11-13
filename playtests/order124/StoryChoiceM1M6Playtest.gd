@@ -1124,8 +1124,8 @@ static func _install_story_demo_m6_event(session: Dictionary = {}) -> Dictionary
 	var history_texts := _selected_history_texts_from_session(session)
 	if history_texts.size() == 5:
 		var intro_template := LocaleManager.ui(
-			"6월 마지막 금요일 저녁. 민준은 고시원 책상 위에 지난 석 달의 선택을 먼저 펼쳤다.\n\n3월, 편의점에서 — %s\n3월, 빗길에서 — %s\n4월, 부동산에서 — %s / %s\n5월, 재혁 앞에서 — %s\n\n통장 잔액, 오늘 끝낼 수 있는 일, 쉬지 못한 몸의 신호를 그 아래 한 장에 적었다. 한 가지를 끝내는 동안 나머지는 오늘 밤을 지나간다. 민준은 실제로 움직일 한 줄에만 동그라미를 친다.",
-			"On the final Friday evening of June, Minjun first spreads the choices from the last three months across his goshiwon desk.\n\nMarch, at the convenience store — %s\nMarch, on the rain-soaked street — %s\nApril, at the real-estate office — %s / %s\nMay, in front of Jaehyuk — %s\n\nBelow them, he writes his balance, one task he can finish tonight, and the warning from his unrested body on a single page. While he completes one thing, the others will pass beyond tonight. Minjun circles the one line he will actually act on.")
+			"6월 마지막 금요일 저녁. 민준은 고시원 책상 위에 지난 석 달의 선택을 먼저 펼쳤다.\n\n3월, 편의점에서 — %s\n3월, 빗길에서 — %s\n4월, 부동산에서 — %s / %s\n5월, 재혁 앞에서 — %s\n\n그 아래에 잔액과 오늘 할 일들을 적었다. 몸은 벌써 쉬고 싶었다. 지금 할 일 하나를 골라야 했다. 나머지는 오늘 못 한다. 오늘이 마감인 건 놓친다.",
+			"On the last Friday in June, Minjun spread the choices he'd made over the past three months across his goshiwon desk.\n\nMarch, at the convenience store — %s\nMarch, on the rain-soaked street — %s\nApril, at the real-estate office — %s / %s\nMay, in front of Jaehyuk — %s\n\nUnderneath, he listed his balance and what he could do tonight. He was already tired. He had to pick one thing to do now. The rest would have to wait. Anything due tonight would be lost.")
 		event["description"] = intro_template % history_texts
 	var source_choices: Array = source.get("choices", [])
 	var choices: Array = []

@@ -508,7 +508,7 @@
   {
     "id": "v2_demo_first_bill",
     "title": "The First Bill",
-    "description": "{name} leaves in the notebook only what he can start and finish tonight.\n\n{v2_first_bill_tradeoffs}\n\nEach line names an action he can complete and the time when he must let it go. While he finishes one, the times on the rest keep moving. He cannot touch everything and complete nothing.\n\n{name} circles exactly one line.",
+    "description": "{name} listed what he could finish tonight.\n\n{v2_first_bill_tradeoffs}\n\nHe had to pick one thing to do now. The rest would have to wait. Anything due tonight would be lost.\n\n{name} circled the one thing he would finish.",
     "choices": [
       {
         "text": "Call Father again",
@@ -531,8 +531,8 @@
         "result_text": "{name}: \"I'm done for today. How was your week?\"\n\nJaehyuk says he is still out. At first, all he sends is, \"Same as always.\" When {name} goes first with one thing he finished and one thing he postponed, Jaehyuk writes a long message about something he got wrong on the way home.\n\nThe replies stop and start between subway transfers and dinner. {name} types an easy joke, deletes it, and names what he postponed without dressing it up. Investment and money never come up.\n\nAfter ten, Jaehyuk writes.\n\n\"Next time, let's each say one thing we did right too.\""
       },
       {
-        "text": "Balance this month's spending on the blank sheet Sangchul gave him",
-        "result_text": "{name} opens the blank sheet Sangchul gave him and lists rent, food, transit, and phone payments by date. Sangchul's business card stays in the drawer. The advice remains on the page: before asking about another person's name or the next door, find out where his own money went.\n\nThe first total does not match the card history. He finds two cash meals and a transit-card reload and attaches each record. On the third calculation, the figures finally match. Every reason for the smaller balance is now in his own handwriting.\n\nAfter nine, {name} draws two lines beneath the total. On one he records what will leave again next month. On the other he writes the calls and deadlines he missed while reconciling it tonight."
+        "text": "Reconcile this month's spending with Sangchul's question in mind",
+        "result_text": "{name} took a blank sheet and listed rent, food, transit, and phone payments by date. In April, Sangchul had asked why it had to be Gangnam. To answer that, he first needed to know exactly how much he had.\n\nThe first total didn't match his card history. He added two meals paid in cash and a transit-card top-up. The figures finally matched on the third try. Every reason for the smaller balance was there in his own handwriting.\n\nAfter nine, {name} drew two lines beneath the total. On one he wrote what would come due again next month. On the other he listed the calls and deadlines he'd missed while doing the accounts."
       },
       {
         "text": "Take urgent paid work tonight",
@@ -546,7 +546,7 @@
   },
   {
     "id": "v2_demo_first_bill_ledger",
-    "title": "The First Bill",
+    "title": "The Next Blank",
     "description": "After finishing the task he chose, {name} returns to the notebook.\n\n{v2_first_bill_return}\n\nOn the decision page, every line outside the one he circled is still written down.\n\n{v2_first_bill_done}\n\n{v2_first_bill_not_done}\n\n{v2_first_bill_deadline_missed}\n\n{name} reads what he finished and what he did not on the same page.",
     "description_memory_if_known": {
       "m3_ledger_reasons_named": "The March ledger had reasons beside its entries. The line he circled tonight could not be reduced to one figure either.",
@@ -554,8 +554,8 @@
     },
     "choices": [
       {
-        "text": "Read the page once and close the notebook",
-        "result_text": "{name} checks the next actions written on the previous page once more. On a new page, he writes only “Monday, June 29” and leaves the rest blank.\n\nHe closes the notebook and sets the pen on top."
+        "text": "Turn to the next page",
+        "result_text": "At the top of a fresh page, {name} wrote ‘Monday, June 29.’ Underneath, he wrote the goal he had started with: 3 billion won.\n\nHe opened a Gangnam property listing on his phone. Without swiping through the photos, he scrolled all the way down. ‘Contact the agent.’ {name}'s thumb stopped above the words."
       }
     ]
   },

@@ -39,10 +39,12 @@ EXPECTED_ORDER123_REACHABLE_MAX_CANDIDATE_IDS = [
 ]
 
 EXPECTED_FIRST_BILL_KO_SENTENCE = (
-    "각 줄에는 끝내야 할 동작과 그 일을 놓아야 하는 시각이 적혀 있었다."
+    "지금 할 일 하나를 골라야 했다. 고르지 않은 일은 오늘 안에 못 한다. "
+    "오늘이 마감인 일은 기회를 놓친다."
 )
 EXPECTED_FIRST_BILL_EN_SENTENCE = (
-    "Each line names an action he can complete and the time when he must let it go."
+    "He had to pick one thing to do now. The rest would have to wait. "
+    "Anything due tonight would be lost."
 )
 EXPECTED_TEMPTATION_KO_ARITHMETIC = (
     "200만원에서 월세 65만원씩 석 달치 195만원을 빼면 5만원이 남는다. "
@@ -8857,6 +8859,7 @@ def order122_first_bill_copy_errors(
         stale in ko_description
         for stale in (
             "오후 6시까지인 두 마감",
+            "하나를 끝내는 동안 나머지 줄의 시각은 움직인다.",
             "오늘 다시 고를 수 없었다",
             "마감이 있는 일은 정해진 시각을 넘기는 순간 놓치게 된다.",
         )
@@ -8864,6 +8867,7 @@ def order122_first_bill_copy_errors(
         stale in en_description
         for stale in (
             "two six-o'clock deadlines",
+            "He cannot touch everything and complete nothing.",
             "will be gone once its time passes tonight",
             "Once a deadline passes, that task can no longer be completed tonight.",
         )
@@ -12100,15 +12104,16 @@ def main() -> int:
         )
     continuous_tag = "continuous_scene_fragment"
     finale_events = [first_bill_opening, first_bill_event, first_bill_ledger]
-    if any(
-        event.get("title") != "첫 청구서"
-        or event.get("background") != "v2_first_bill_desk_closeup"
+    if [event.get("title") for event in finale_events] != [
+        "첫 청구서", "첫 청구서", "다음 빈칸",
+    ] or any(
+        event.get("background") != "v2_first_bill_desk_closeup"
         or event.get("portrait") != "player_first_bill_decision"
         for event in finale_events
     ):
         fail(
-            "First Bill opening, decision, and ledger must retain one Korean "
-            "title, desk close-up, and Minjun performance portrait",
+            "First Bill opening and decision must retain their title, the ledger "
+            "must have its own title, and all three must retain the desk and portrait",
             errors,
         )
     if (
@@ -12181,7 +12186,7 @@ def main() -> int:
             or not str(ledger_choice.get("result_text", "")).strip()
         ):
             fail(
-                "Closing the notebook must remain a terminal state-free "
+                "Turning the page must remain a terminal state-free "
                 "expression action",
                 errors,
             )
@@ -12198,12 +12203,27 @@ def main() -> int:
         for row in english_core_rows
         if isinstance(row, dict) and str(row.get("id", ""))
     } if isinstance(english_core_rows, list) else {}
-    if any(
+    if [
         str(english_core.get(event_id, {}).get("title", ""))
-        != "The First Bill"
         for event_id in (opening_id, decision_id, ledger_id)
+    ] != ["The First Bill", "The First Bill", "The Next Blank"]:
+        fail("English First Bill entry and decision must share a title distinct from the ledger", errors)
+    # Anchor the new ending to an action that stops before contacting anyone.
+    # The authored choice remains expression-only above: no contact or purchase.
+    for locale, row, anchors in (
+        ("Korean", first_bill_ledger, (
+            "6월 29일 월요일", "30억원", "‘중개사에게 문의’. {name}의 엄지가 그 글자 위에서 멈췄다.",
+        )),
+        ("English", english_core.get(ledger_id, {}), (
+            "Monday, June 29", "3 billion won", "‘Contact the agent.’ {name}'s thumb stopped above the words.",
+        )),
     ):
-        fail("English First Bill fragments must retain one continuous title", errors)
+        choices = row.get("choices", [])
+        result = str(choices[0].get("result_text", "")) if (
+            isinstance(choices, list) and choices and isinstance(choices[0], dict)
+        ) else ""
+        if any(anchor not in result for anchor in anchors[:-1]) or not result.endswith(anchors[-1]):
+            fail(f"{locale} First Bill ledger must end at the June 29 goal and unsent inquiry", errors)
     ko_decision_description = str(first_bill_event.get("description", ""))
     en_decision_description = str(
         english_core.get(decision_id, {}).get("description", "")

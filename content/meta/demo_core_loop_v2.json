@@ -52,7 +52,7 @@
       "v2_logistics_class_session": "solo action bridge without authored speaker exchange or message payload",
       "v2_moving_crew_days": "solo action bridge without authored speaker exchange or message payload",
       "v2_empty_sunday": "solo recovery bridge without authored speaker exchange or message payload",
-      "v2_demo_first_bill_ledger": "continuous solo reflection fragment whose only choice closes the notebook",
+      "v2_demo_first_bill_ledger": "continuous solo reflection fragment that turns a page and stops before contacting the agent",
       "v2_opening_application_send": "solo application preview without an authored speaker exchange",
       "v2_opening_return_math": "solo calculation and a missed-call notification without a live speaker exchange"
     }
@@ -4434,33 +4434,33 @@
         "trace_copy": {
           "v2_dirty_trace_initial_call": {
             "claimed": {
-              "ko": "수요일에 받은 경찰의 초기 확인 전화도 수첩 한쪽에 남아 있었다. 아직 결론은 없었다.",
-              "en": "Wednesday's initial verification call from the police also remains in the notebook. There is no conclusion yet."
+              "ko": "수요일에 울린 모르는 번호와 해지 접수증에 적은 50만원이 수첩 한쪽에 남았다.",
+              "en": "The unknown number that rang on Wednesday and the 500,000 won he noted on the account-closure receipt remained in the notebook."
             },
             "choices": {
               "0": {
-                "ko": "수요일의 경찰 전화 옆에는 계좌를 넘긴 날부터 150만원 반환에 동의한 날까지 말한 순서가 적혀 있었다. 출석 날짜와 처분은 아직 정해지지 않았다.",
-                "en": "Beside Wednesday's police call, he has written the order in which he gave the dates, from handing over the account to agreeing to return 1.5 million won. No appearance date or disposition has been set."
+                "ko": "수요일 통화 옆에 계좌를 넘긴 날부터 150만원 반환에 동의한 날까지 말한 순서대로 적었다. 담당자가 평일 중 언제 올 수 있는지 물을 때까지 밥그릇은 손도 대지 못한 채 식었다.",
+                "en": "Next to Wednesday's call, he noted the order in which he gave the dates, from handing over the account to agreeing to return 1.5 million won. By the time the officer asked which weekday he could come in, his untouched rice had gone cold."
               },
               "1": {
-                "ko": "수요일의 경찰 전화 옆에는 받아 적은 담당 부서와 사건번호가 남아 있었다. 요청 자료와 출석 날짜, 처분은 아직 정해지지 않았다.",
-                "en": "Beside Wednesday's police call are the department and case number he wrote down. The requested materials, appearance date, and disposition remain unsettled."
+                "ko": "수요일에 받아 적은 담당 부서와 사건번호가 남았다. 번호가 적힌 종이는 계좌 해지 접수증 밑에 끼워 두었다.",
+                "en": "The department and case number he wrote down on Wednesday remained. He had tucked the slip under the account-closure receipt."
               }
             }
           },
           "v2_dirty_recruiter_week24": {
             "claimed": {
-              "ko": "수요일에 새 번호로 온 모집책의 문자도 화면에 남아 있었다. 이전에 넘긴 세 세트까지 사라진 것은 아니었다.",
-              "en": "The recruiter's Wednesday text from a new number also remains on the screen. That does not undo the three sets he had already handed over."
+              "ko": "수요일에 새 번호로 온 모집책 문자 끝에는 ‘오늘 안에’가 남아 있었다. 지난 2월 보관함에 둔 건 통장과 체크카드 세 세트였다.",
+              "en": "The recruiter's Wednesday text from a new number still ended with “by tonight.” Last February he had left three sets of bankbooks and debit cards in a locker."
             },
             "choices": {
               "0": {
-                "ko": "수요일에 새 번호를 차단했지만, 이전에 넘긴 통장과 체크카드 세 세트는 그대로 과거에 남아 있었다.",
-                "en": "He blocked the new number on Wednesday, but the three bankbook-and-card sets handed over before remain part of his past."
+                "ko": "수요일에 새 번호를 차단한 뒤에도 2월 문자를 처음부터 다시 읽었다. 더 먹지 못한 밥은 뚜껑을 덮어 두었다.",
+                "en": "After blocking the new number on Wednesday, he still reread the February messages from the start. He put the lid back on the rice he hadn't managed to finish."
               },
               "1": {
-                "ko": "수요일에 온 모집책 문자와 발신 시각을 캡처해 보관했다. 원본 문자도 지우지 않았다.",
-                "en": "He saved a screenshot of Wednesday's recruiter text with the sender and time visible, and kept the original message."
+                "ko": "수요일 모집책 문자의 발신 시각을 캡처하고 번호도 남겼다. 원본도 지우지 않았다. 식은 밥을 먹으며 2월 문자에 온 이름과 계좌번호를 끝까지 읽었다.",
+                "en": "He saved a screenshot of the recruiter's Wednesday text with the number and timestamp visible, and kept the original. Over his cold rice, he read the name and account number from the February message all the way through."
               }
             }
           }
