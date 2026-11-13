@@ -4465,11 +4465,11 @@ func _full_story_meeting_description(event_id: String, description: String) -> S
 			or not FULL_STORY_FLOW.is_full_run() or not FULL_STORY_FLOW.valid_session():
 		return description
 	var prefixes := {
-		"ko": ["3월 끝, ", ""],
-		"en": ["Late March, just", "Just"],
-		"ja": ["3月の終わり、", ""],
-		"zh-CN": ["三月底，", ""],
-		"zh-TW": ["3月底，", ""],
+		"ko": ["4월, ", ""],
+		"en": ["In April, just", "Just"],
+		"ja": ["4月、", ""],
+		"zh-CN": ["四月，", ""],
+		"zh-TW": ["4月，", ""],
 	}
 	var repair: Array = prefixes.get(LocaleManager.language, [])
 	if repair.size() != 2 or not description.begins_with(str(repair[0])):

@@ -469,7 +469,7 @@ def is_paired_localized_data_line(lines: list[str], index: int) -> bool:
 
 def internal_only_runtime_line(target: str, line: str) -> bool:
     if target == "scenes/StoryMode.gd":
-        return line.strip() == '"ko": ["3월 끝, ", ""],'
+        return line.strip() == '"ko": ["4월, ", ""],'
     if target == "scenes/HoldemClub.gd":
         return line.strip() == ('return template.replace("%s으로", "%s로") '
                                 'if LocaleManager.is_korean() else template')
@@ -643,51 +643,51 @@ func valid() -> String:
 
     internal_id_cases = {
         "story_date_prefix_exact": (
-            'scenes/StoryMode.gd', '\t\t"ko": ["3월 끝, ", ""],', True,
+            'scenes/StoryMode.gd', '\t\t"ko": ["4월, ", ""],', True,
         ),
         "story_date_prefix_outer_whitespace": (
-            'scenes/StoryMode.gd', '  "ko": ["3월 끝, ", ""],  ', True,
+            'scenes/StoryMode.gd', '  "ko": ["4월, ", ""],  ', True,
         ),
         "story_date_prefix_wrong_runtime_file": (
-            'scenes/MainGame.gd', '"ko": ["3월 끝, ", ""],', False,
+            'scenes/MainGame.gd', '"ko": ["4월, ", ""],', False,
         ),
         "story_date_prefix_wrong_nonruntime_file": (
-            'tools/StoryMode.gd', '"ko": ["3월 끝, ", ""],', False,
+            'tools/StoryMode.gd', '"ko": ["4월, ", ""],', False,
         ),
         "story_date_prefix_changed_month": (
-            'scenes/StoryMode.gd', '"ko": ["4월 끝, ", ""],', False,
+            'scenes/StoryMode.gd', '"ko": ["3월 끝, ", ""],', False,
         ),
         "story_date_prefix_changed_text": (
-            'scenes/StoryMode.gd', '"ko": ["3월 말, ", ""],', False,
+            'scenes/StoryMode.gd', '"ko": ["4월 초, ", ""],', False,
         ),
         "story_date_prefix_missing_inner_space": (
-            'scenes/StoryMode.gd', '"ko": ["3월 끝,", ""],', False,
+            'scenes/StoryMode.gd', '"ko": ["4월,", ""],', False,
         ),
         "story_date_prefix_nonempty_replacement": (
-            'scenes/StoryMode.gd', '"ko": ["3월 끝, ", "실제 누출"],', False,
+            'scenes/StoryMode.gd', '"ko": ["4월, ", "실제 누출"],', False,
         ),
         "story_date_prefix_wrong_locale": (
-            'scenes/StoryMode.gd', '"en": ["3월 끝, ", ""],', False,
+            'scenes/StoryMode.gd', '"en": ["4월, ", ""],', False,
         ),
         "story_date_prefix_preceding_print": (
             'scenes/StoryMode.gd',
-            'print("실제 누출"); "ko": ["3월 끝, ", ""],', False,
+            'print("실제 누출"); "ko": ["4월, ", ""],', False,
         ),
         "story_date_prefix_following_print": (
             'scenes/StoryMode.gd',
-            '"ko": ["3월 끝, ", ""],; print("실제 누출")', False,
+            '"ko": ["4월, ", ""],; print("실제 누출")', False,
         ),
         "story_date_prefix_extra_array_value": (
-            'scenes/StoryMode.gd', '"ko": ["3월 끝, ", "", "실제 누출"],', False,
+            'scenes/StoryMode.gd', '"ko": ["4월, ", "", "실제 누출"],', False,
         ),
         "story_date_prefix_extra_surface_value": (
-            'scenes/StoryMode.gd', '"ko": ["3월 끝, ", ""], "실제 누출"', False,
+            'scenes/StoryMode.gd', '"ko": ["4월, ", ""], "실제 누출"', False,
         ),
         "story_date_prefix_rendered_literal": (
-            'scenes/StoryMode.gd', 'print({"ko": ["3월 끝, ", ""],})', False,
+            'scenes/StoryMode.gd', 'print({"ko": ["4월, ", ""],})', False,
         ),
         "story_date_prefix_missing_trailing_comma": (
-            'scenes/StoryMode.gd', '"ko": ["3월 끝, ", ""]', False,
+            'scenes/StoryMode.gd', '"ko": ["4월, ", ""]', False,
         ),
         "holdem_korean_particle": (
             'scenes/HoldemClub.gd',

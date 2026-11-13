@@ -2285,6 +2285,7 @@ func _check_full_story_meeting_date() -> void:
 		_expect(not event.is_empty(), "date fixture lacks localized meet %s" % locale)
 		if event.is_empty():
 			break
+		_check_sangchul_april_copy(event, locale)
 		var probe: Control = STORY_MODE_SCRIPT.new()
 		for variant in ["description", "description_orthodox", "description_unorthodox"]:
 			GameState.route_orthodox = 16 if variant == "description_orthodox" else 0
@@ -2341,11 +2342,83 @@ func _check_full_story_meeting_date() -> void:
 
 
 func _full_story_date_expected(raw: String, locale: String) -> String:
-	var prefixes: Dictionary = {"ko": "3월 끝, ", "en": "Late March, just", \
-		"ja": "3月の終わり、", "zh-CN": "三月底，", "zh-TW": "3月底，"}
+	var prefixes: Dictionary = {"ko": "4월, ", "en": "In April, just", \
+		"ja": "4月、", "zh-CN": "四月，", "zh-TW": "4月，"}
 	var prefix: String = str(prefixes[locale])
 	_expect(raw.begins_with(prefix), "date fixture source prefix differs in %s" % locale)
 	return ("Just" if locale == "en" else "") + raw.substr(prefix.length())
+
+
+func _check_sangchul_april_copy(meet_event: Dictionary, locale: String) -> void:
+	var coffee_event: Dictionary = DataRegistry.events_by_id.get(
+		"arc_sangchul_01_coffee", {})
+	var answer_event: Dictionary = DataRegistry.events_by_id.get(
+		"arc_sangchul_01_answer", {})
+	_expect(not coffee_event.is_empty() and not answer_event.is_empty(),
+		"Sangchul sensory fixture lacks localized chain events %s" % locale)
+	if coffee_event.is_empty() or answer_event.is_empty():
+		return
+	var expected_by_locale: Dictionary = {
+		"ko": {
+			"clock": "사무실에는 벽시계 초침 소리만 남았다.",
+			"prop": "상철이 종이컵을 {name} 쪽으로 조금 밀었다. 얇은 밑면이 책상 위를 짧게 긁었다. 그 소리가 멎은 뒤에야 말을 이었다.",
+			"reply_one": "\"틀리진 않죠. 그런데 숫자만 보고 고른 방은 형편이 조금만 바뀌어도 먼저 포기하게 됩니다.\"",
+			"reply_two": "\"물어봅니다. 문만 열어 주고 끝내면 중개를 했다고 보기 어려우니까요.\"",
+			"tire": "비웃음도 감탄도 없었다. 유리 밖에서 젖은 도로를 밟는 타이어 소리만 길게 지나갔다.",
+			"tire_token": "타이어",
+		},
+		"en": {
+			"clock": "Only the wall clock ticks in the office.",
+			"prop": "Sangchul nudges the paper cup toward {name}. Its thin base scrapes briefly across the desk. He continues only after the sound stops.",
+			"reply_one": "\"No. But when people choose a room on numbers alone, they tend to give it up first when their circumstances change.\"",
+			"reply_two": "\"I do. If all I do is open the door, I haven't really done my job as a broker.\"",
+			"tire": "No laugh. No admiration. Only the long hiss of tires over wet pavement beyond the glass.",
+			"tire_token": "tires",
+		},
+		"ja": {
+			"clock": "事務所には、壁時計の秒針の音だけが残った。",
+			"prop": "サンチョルが紙コップを{name}のほうへ少し押した。薄い底が机の上を短く擦った。その音が消えてから、ようやく言葉を継いだ。",
+			"reply_one": "「間違いではありません。でも、数字だけで部屋を決めると、事情が少し変わっただけで真っ先に手放すことになるんです」",
+			"reply_two": "「聞きます。扉を開けて終わりでは、仲介したことにはなりませんから」",
+			"tire": "嘲笑も感嘆もなかった。ガラスの外で、濡れた路面を踏むタイヤの音だけが長く通り過ぎた。",
+			"tire_token": "タイヤ",
+		},
+		"zh-CN": {
+			"clock": "办公室里只剩下挂钟秒针的滴答声。",
+			"prop": "Sangchul把纸杯朝{name}那边轻轻推了推。薄薄的杯底在桌面上擦出一声轻响。等声音消失，他才接着说。",
+			"reply_one": "“没错。可要是只看数字选房，情况稍微一变，往往最先放弃的就是这间房。”",
+			"reply_two": "“我会问。要是只负责开门就结束，也算不上真正做了中介。”",
+			"tire": "没有嘲笑，也没有惊叹。玻璃窗外，轮胎碾过湿路面的声音拖得很长。",
+			"tire_token": "轮胎",
+		},
+		"zh-TW": {
+			"clock": "辦公室裡只剩掛鐘秒針的滴答聲。",
+			"prop": "Sangchul 把紙杯往{name}那邊輕輕推了推。薄薄的杯底擦過桌面，發出短促的聲響。等聲音停下，他才繼續說。",
+			"reply_one": "「沒有錯。但如果只看數字選房，情況稍微一變，通常最先放棄的就是那間房。」",
+			"reply_two": "「我會問。如果只是開門就結束，也不能算真的做了仲介。」",
+			"tire": "沒有嘲笑，也沒有讚嘆。玻璃窗外，只剩輪胎輾過濕路面的聲音，拖得很長。",
+			"tire_token": "輪胎",
+		},
+	}
+	var expected: Dictionary = expected_by_locale.get(locale, {})
+	var meet_description := str(meet_event.get("description", ""))
+	var coffee_description := str(coffee_event.get("description", ""))
+	var answer_description := str(answer_event.get("description", ""))
+	var tire_token := str(expected.get("tire_token", ""))
+	_expect(not expected.is_empty()
+			and meet_description.ends_with(str(expected.get("clock", "")))
+			and meet_description.count(tire_token) == 0,
+		"Sangchul root did not leave the wall clock as its sole closing sound %s" % locale)
+	_expect(str(expected.get("prop", "")) in coffee_description
+			and str(expected.get("reply_one", "")) in coffee_description
+			and str(expected.get("reply_two", "")) in coffee_description
+			and coffee_description.count(tire_token) == 0,
+		"Sangchul coffee did not own the paper-cup beat and two reduced replies %s" % locale)
+	_expect(str(expected.get("tire", "")) in answer_description
+			and answer_description.count(tire_token) == 1
+			and (meet_description + coffee_description + answer_description).count(
+				tire_token) == 1,
+		"Sangchul wet-tire beat was not owned exactly once by the answer %s" % locale)
 
 
 func _check_full_story_date_exclusions(probe: Control, raw: String) -> void:
