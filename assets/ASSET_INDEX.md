@@ -323,6 +323,13 @@ weather, romance, and historical portraits remain fixed.
   - Readability lock: no glasses, muted cardigan/jacket, ID lanyard; must not resemble the office team lead.
 
 ### Backgrounds
+- `assets/backgrounds/bank_exterior_wet_day.png`
+  - `arc_temptation_fallout` return result after leaving the bank only: the same teller windows seen from the wet February pavement. Overcast daylight and residual droplets preserve continuity without implying active rainfall. No people, signage, or transaction props.
+- `assets/backgrounds/bank_service_counter_rainy_day.png`
+  - `arc_temptation_fallout` return result: the inside of a local bank from signature through the receipt, not the introductory call or the street after exit. Two empty teller stations and an unmarked queue kiosk; February rain and bare trees are visible only beyond the glazing.
+- `assets/backgrounds/subway_station_coin_lockers.png`
+  - `arc_temptation_fallout` additional-handoff result, only from the authored three-days-later arrival through the later return to the same locker. A windowless station concourse with closed, unmarked lockers; no train, platform, transaction object, or implied time of day. The art is not interchangeable with the station stairs or lost-property counter.
+  - All three are exact 1280x800 opaque, separately reviewed art. The ImageGen source sizes are below the 2560x1600 intermediate-master contract.
 - `assets/backgrounds/park_bench_day.png`
   - Ordinary daytime Seoul neighborhood pocket park for the REST vignette about sitting on a bench and watching people hurry somewhere.
   - One empty wood-and-metal bench, connected paths and planting edges, restrained lampposts, and ordinary low/mid-rise city context remain readable above the UI; only tiny faceless C-tier passersby appear in the far distance.

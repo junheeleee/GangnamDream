@@ -25,6 +25,14 @@ const STORY_DEMO_RETURN_SCENE := \
 	"res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
 const STORY_DEMO_SESSION_SCHEMA := 1
 const STORY_DEMO_MANUAL_SLOT := 10
+const W8_FALLOUT := "arc_temptation_fallout"
+const W8_FALLOUT_CUTS := {
+	"ko": ["은행을 나서자", "사흘 뒤 그는"],
+	"en": ["Outside the bank,", "Three days later,"],
+	"ja": ["銀行を出ると、", "三日後、"],
+	"zh-CN": ["走出银行时，", "三天后，"],
+	"zh-TW": ["走出銀行時，", "三天後，"],
+}
 const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
 const C_CHOICE    := "#c8d0e0"
@@ -59,6 +67,7 @@ var _queue: Array = []          # 재생할 이벤트 ID 목록
 var _current: Dictionary = {}   # 현재 이벤트
 var _paragraphs: Array = []     # 화면 높이에 맞춰 나눈 현재 이벤트 본문 페이지
 var _paragraph_source_indices: Array = []  # 각 페이지가 속한 원문 문단 번호
+var _w8_result_cut_page := -1
 var _para_index: int = 0
 var _typing: bool = false
 var _type_full: String = ""     # 현재 문단 전체 텍스트
@@ -2600,8 +2609,7 @@ func _restore_story_result(context: Dictionary) -> void:
 	_apply_choice_result_visual(choice)
 	if _story_choice_has_visible_result(choice):
 		_show_story_result_record(choice, false)
-	var result: String = _fmt(str(choice.get("result_text", "")))
-	_apply_story_page_data(_story_page_data(result))
+	_apply_story_page_data(_localized_result_page_data(choice_index))
 	_restore_story_paragraph(context, true)
 
 func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
@@ -2630,18 +2638,35 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		restored_type_ratio = 0.0
 		was_typing = true
 	elif has_source_position:
+		var saved_source := int(context.get("source_paragraph_index", 0))
+		var saved_progress := float(context.get("source_text_progress", 0.0))
 		var restored_position := _story_restore_position_for_source_progress(
-			int(context.get("source_paragraph_index", 0)),
-			float(context.get("source_text_progress", 0.0)))
+			saved_source, saved_progress)
 		_para_index = int(restored_position.get("page_index", 0))
 		restored_type_ratio = clampf(
-			float(restored_position.get("type_ratio", restored_type_ratio)),
-			0.0, 1.0)
+			float(restored_position.get("type_ratio", restored_type_ratio)), 0.0, 1.0)
+		if result_phase and _w8_result_cut_page >= 0:
+			var saved_page := int(context.get("paragraph_index", -1))
+			var saved_ratio: float = clampf(float(context.get("paragraph_type_ratio", 1.0)), 0.0, 1.0)
+			if saved_locale == LocaleManager.language and saved_page >= 0 \
+					and saved_page < _paragraphs.size() \
+					and _story_source_paragraph_index(saved_page) == saved_source \
+					and is_equal_approx(_story_source_page_progress(saved_page, saved_ratio), saved_progress):
+				# Adjacent physical pages share an offset at the exact cut.
+				_para_index = saved_page
+				restored_type_ratio = saved_ratio
+			elif saved_locale != LocaleManager.language \
+					and saved_source == _story_source_paragraph_index(_w8_result_cut_page):
+				# A different translation can put the cut at a different ratio.
+				_para_index = _first_story_page_for_source(saved_source)
+				restored_type_ratio = 0.0
+				was_typing = true
 	else:
 		_para_index = clampi(
 			int(context.get("paragraph_index", 0)), 0, _paragraphs.size() - 1)
 	var source_paragraph_index := _story_source_paragraph_index(_para_index)
 	_refresh_story_paragraph_presentation(source_paragraph_index)
+	_apply_w8_result_location()
 	_maybe_change_event_background(source_paragraph_index)
 	_maybe_reveal_event_portrait(source_paragraph_index)
 	_maybe_reveal_event_cg(source_paragraph_index)
@@ -3068,7 +3093,8 @@ func _set_story_text_size(level: String) -> void:
 		var raw_text := _current_story_phase_text()
 		if not raw_text.is_empty():
 			_restore_localized_story_text(
-				_story_page_data(raw_text), source_paragraph_index,
+				_localized_result_page_data(_pending_result_choice_index) \
+					if _pending_after_result else _story_page_data(raw_text), source_paragraph_index,
 				source_page_progress, was_typing, type_ratio,
 				hint_was_visible, beat_was_waiting)
 
@@ -3236,8 +3262,34 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 			"pages": _paragraphs.duplicate(),
 			"source_indices": _paragraph_source_indices.duplicate(),
 		}
-	var result: String = _fmt(str((choices[choice_index] as Dictionary).get("result_text", "")))
-	return _story_page_data(result)
+	var raw := str((choices[choice_index] as Dictionary).get("result_text", ""))
+	if str(_current.get("id", "")) != W8_FALLOUT or choice_index not in [0, 1]:
+		return _story_page_data(_fmt(raw))
+	var anchors: Array = W8_FALLOUT_CUTS.get(LocaleManager.language, [])
+	var sources := raw.split("\n\n")
+	var cut_source := 1 - choice_index
+	if anchors.size() != 2 or sources.size() != 2:
+		return _story_page_data(_fmt(raw))
+	var anchor := str(anchors[choice_index])
+	var cut := sources[cut_source].find(anchor)
+	if cut <= 0 or sources[cut_source].count(anchor) != 1:
+		return _story_page_data(_fmt(raw))
+	# Keep the original source indices for save, history and cues. This is
+	# only a physical page boundary, measured on either side of the move.
+	var pages: Array = []
+	var source_indices: Array = []
+	var cut_page := -1
+	for source_index in range(sources.size()):
+		var source := sources[source_index]
+		var segments := [source] if source_index != cut_source \
+			else [source.substr(0, cut), source.substr(cut)]
+		for segment_index in range(segments.size()):
+			if segment_index == 1:
+				cut_page = pages.size()
+			for page in _paginate_story_paragraph(_fmt(str(segments[segment_index])).strip_edges()):
+				pages.append(page)
+				source_indices.append(source_index)
+	return {"pages": pages, "source_indices": source_indices, "w8_result_cut_page": cut_page}
 
 func _restore_localized_story_text(
 		page_data: Dictionary,
@@ -3247,14 +3299,35 @@ func _restore_localized_story_text(
 		type_ratio: float,
 		hint_was_visible: bool,
 		beat_was_waiting: bool) -> void:
+	var old_cut := _w8_result_cut_page
+	var old_after_cut := old_cut >= 0 and _para_index >= old_cut
+	var old_source := _story_source_paragraph_index(_para_index)
+	var old_cut_progress := _story_source_page_progress(old_cut, 0.0) if old_cut >= 0 else 0.0
 	_apply_story_page_data(page_data)
+	var preserve_cut_side := old_cut >= 0 and _w8_result_cut_page >= 0 \
+		and old_source == source_paragraph_index \
+		and source_paragraph_index == _story_source_paragraph_index(_w8_result_cut_page)
+	if preserve_cut_side:
+		# Locales can place the same sentence at quite different ratios.
+		# Remap progress within the known side, not across the move.
+		var new_cut_progress := _story_source_page_progress(_w8_result_cut_page, 0.0)
+		if old_after_cut:
+			var progress := inverse_lerp(old_cut_progress, 1.0, source_page_progress)
+			source_page_progress = lerpf(new_cut_progress, 1.0, clampf(progress, 0.0, 1.0))
+		else:
+			var progress := inverse_lerp(0.0, old_cut_progress, source_page_progress)
+			source_page_progress = lerpf(0.0, new_cut_progress, clampf(progress, 0.0, 1.0))
 	var restored_position := _story_restore_position_for_source_progress(
 		source_paragraph_index, source_page_progress)
 	_para_index = int(restored_position.get("page_index", 0))
 	var localized_type_ratio := clampf(
 		float(restored_position.get("type_ratio", type_ratio)), 0.0, 1.0)
+	if preserve_cut_side and old_after_cut != (_para_index >= _w8_result_cut_page):
+		_para_index = _w8_result_cut_page if old_after_cut else _w8_result_cut_page - 1
+		localized_type_ratio = 0.0 if old_after_cut else 1.0
 	_refresh_story_paragraph_presentation(
 		_story_source_paragraph_index(_para_index), true)
+	_apply_w8_result_location()
 	if beat_was_waiting:
 		_direction_pending_text = str(_paragraphs[_para_index])
 		var previous_index := maxi(0, _para_index - 1)
@@ -4509,6 +4582,7 @@ func _story_page_data(text: String) -> Dictionary:
 	}
 
 func _apply_story_page_data(page_data: Dictionary) -> void:
+	_w8_result_cut_page = int(page_data.get("w8_result_cut_page", -1))
 	_paragraphs = (page_data.get("pages", [""]) as Array).duplicate()
 	_paragraph_source_indices = (
 		page_data.get("source_indices", [0]) as Array).duplicate()
@@ -5275,6 +5349,31 @@ func _maybe_change_event_background(paragraph_index: int) -> void:
 	_apply_story_surface_palette(false)
 	_configure_living_scene()
 
+func _w8_result_background_for_page(page_index: int) -> String:
+	if not _pending_after_result or _w8_result_cut_page < 0 \
+			or str(_current.get("id", "")) != W8_FALLOUT:
+		return ""
+	if _pending_result_choice_index == 0:
+		return "bank_service_counter_rainy_day" if page_index < _w8_result_cut_page \
+			else "bank_exterior_wet_day"
+	if _pending_result_choice_index == 1:
+		return "street_rainy" if page_index < _w8_result_cut_page else "subway_station_coin_lockers"
+	return ""
+
+func _apply_w8_result_location() -> void:
+	var background_id := _w8_result_background_for_page(_para_index)
+	if background_id.is_empty() or background_id == _event_background_id:
+		return
+	var path := ImageRegistry.get_background(background_id)
+	if path.is_empty() or not ImageRegistry.has_texture(path):
+		return
+	_begin_story_scene_transition("explicit_move")
+	_bg_img.texture = ImageRegistry.load_texture(path)
+	_event_background_id = background_id
+	_apply_story_surface_palette(false)
+	_configure_living_scene()
+	BGMPlayer.update_event_ambience(_current, "", background_id)
+
 func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 	if _current_uses_cg or _event_cg_path.is_empty():
 		return
@@ -5832,6 +5931,7 @@ func _on_advance():
 	_para_index += 1
 	if _para_index < _paragraphs.size():
 		var source_index := _story_source_paragraph_index(_para_index)
+		_apply_w8_result_location()
 		var entered_new_authored_paragraph := source_index != previous_source_index
 		if entered_new_authored_paragraph:
 			_refresh_story_paragraph_presentation(source_index)
@@ -6579,11 +6679,14 @@ func _on_choice(idx: int):
 	if result != "":
 		if has_result_record:
 			_show_story_result_record(choice)
-		_apply_story_page_data(_story_page_data(result))
+		# Other events must keep their pre-effect formatted result.
+		_apply_story_page_data(_localized_result_page_data(idx) if current_event_id == W8_FALLOUT \
+			else _story_page_data(result))
 		_para_index = 0
 		_pending_after_result = true
 		_refresh_story_paragraph_presentation(
 			_story_source_paragraph_index(_para_index))
+		_apply_w8_result_location()
 		AudioManager.play_scene_result_paragraph_cues(
 			current_event_id, _event_cg_id, idx,
 			_story_source_paragraph_index(_para_index))

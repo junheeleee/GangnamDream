@@ -38,6 +38,22 @@
     {
       "kind": "background",
       "ids": [
+        "bank_exterior_wet_day"
+      ],
+      "relative_path": "backgrounds/bank_exterior_wet_day.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "bank_service_counter_rainy_day"
+      ],
+      "relative_path": "backgrounds/bank_service_counter_rainy_day.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "burnout"
       ],
       "relative_path": "backgrounds/burnout_hospital_room.png",
@@ -57,6 +73,14 @@
         "casino"
       ],
       "relative_path": "backgrounds/casino_interior.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "changwon_family_stairwell"
+      ],
+      "relative_path": "backgrounds/changwon_family_stairwell_v1.png",
       "resolution": "1280x800"
     },
     {
@@ -162,14 +186,6 @@
         "dad_house"
       ],
       "relative_path": "backgrounds/family_living_room.png",
-      "resolution": "1280x800"
-    },
-    {
-      "kind": "background",
-      "ids": [
-        "changwon_family_stairwell"
-      ],
-      "relative_path": "backgrounds/changwon_family_stairwell_v1.png",
       "resolution": "1280x800"
     },
     {
@@ -668,6 +684,14 @@
         "street_day"
       ],
       "relative_path": "backgrounds/street_seoul_day.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "subway_station_coin_lockers"
+      ],
+      "relative_path": "backgrounds/subway_station_coin_lockers.png",
       "resolution": "1280x800"
     },
     {
@@ -1384,13 +1408,17 @@
     },
     {
       "kind": "cg",
-      "ids": ["cg_story_knee_palm"],
+      "ids": [
+        "cg_story_knee_palm"
+      ],
       "relative_path": "cg/story/knee_palm_v1.png",
       "resolution": "1280x800"
     },
     {
       "kind": "cg",
-      "ids": ["cg_story_knee_witness"],
+      "ids": [
+        "cg_story_knee_witness"
+      ],
       "relative_path": "cg/story/knee_witness_v1.png",
       "resolution": "1280x800"
     },

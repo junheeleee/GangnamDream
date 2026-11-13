@@ -209,6 +209,34 @@ warm sepia, logo, or watermark.
 
 ## 배경 이미지 (Backgrounds)
 
+### 2026-11-13 · 2월 은행 창구·퇴장과 지하철 보관함
+
+**은행**: `assets/backgrounds/bank_service_counter_rainy_day.png`. 기존
+`office_interview_day.png`는 화풍 참고뿐이다. 동네 은행의 고객 쪽 시점과 두 창구,
+창구까지 이어지는 동선, 번호표 단말, 유리 바깥의 빗방울과 젖은 거리를 요청했다.
+첫 원본 `exec-790b1f23-047f-4343-9704-221522c3c4ca.png`은 가로수 잎 때문에
+반려했고, 은행 배치를 유지한 채 바깥의 앙상한 겨울 가지와 무표기 번호표 단말·창구 홈만
+수정한 `exec-d1069f9b-e0ea-4fd0-9387-2ba1fba5469e.png` (1585×992)를 채택했다.
+창구에는 신분증·현금·서류·도장·글자·인물을 굽지 않는다.
+
+**은행 밖**: `assets/backgrounds/bank_exterior_wet_day.png`. 확정된 은행 실내
+원화를 위치·화풍 기준으로, 같은 유리문·창구·외부 가로수가 보이는 보도 쪽 시점을
+요청했다. 흐린 겨울 낮·젖은 보도·유리의 남은 물방울만 보이고, 떨어지는 빗줄기나
+인물·간판 글자·거래 물품은 넣지 않는다. `exec-097875eb-0386-4a76-8771-c19518370382.png`
+(1586×992)에서 추출. 최종 SHA-256
+`b70a3f1bc6d08826ed085b12d0acc9872268cc6fecedfaf28bdc316b6ff08c52`.
+
+**보관함**: `assets/backgrounds/subway_station_coin_lockers.png`. 기존
+`subway_station_stairs.png`는 화풍 참고뿐이다. 창 없는 역사 보행 통로, 닫힌
+무표기 보관함과 꺼진 단말, 회색 테라조·차콜 타일·저채도 주황 띠를 요청했다.
+`exec-16d3c5e3-77eb-4fa3-ab56-5d3f3dcc1096.png` (1586×992) 채택. 열차·개찰구·
+분실물 창구·인물·카드·봉투·비밀번호·시각 표시는 넣지 않는다.
+
+세 원본은 내장 ImageGen 출력이며 `m02-location-art.d8zT0G` 외부 검수 폴더에
+반려본과 함께 보존했다. 1584×990 중앙 크롭 후 1280×800 RGB로 축소했다.
+최종 PNG의 SHA-256은 은행 `6013624b5aa9c52c7c930f6364506fee2508ad8c42b2afa2df993c5126af8eb6`,
+보관함 `583d3270f61d4c2607b666f7869047b762be239edfa975a545aa447665cad8fd`다.
+
 ### convenience_store_night.png
 **저장 경로**: `assets/backgrounds/convenience_store_night.png`
 

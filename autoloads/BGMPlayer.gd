@@ -635,6 +635,17 @@ func update_event_ambience(
 	var ambience_key: String = _resolve_dynamic_ambience_key(str(contract.get("ambience", "")))
 	if ambience_key.is_empty():
 		ambience_key = _pick_ambience(ev, resolved_background_id)
+	if ambience_key == "intentional_silence":
+		# A silent rendered place must not inherit the street during the cut
+		# or on a cold result restore. This leaves the score untouched.
+		_current_ambience_key = ""
+		if _ambience_tween and _ambience_tween.is_running():
+			_ambience_tween.kill()
+		if _ambience_player:
+			_ambience_player.stop()
+		_stop_human_ambience_immediate()
+		_stop_season_ambience_immediate()
+		return
 	set_ambience(ambience_key, not bool(contract.get("suppress_human_ambience", false)))
 	if bool(contract.get("suppress_season_ambience", false)):
 		# This room explicitly excludes the previous outdoor seasonal bed;

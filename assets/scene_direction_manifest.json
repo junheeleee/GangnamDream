@@ -112,6 +112,22 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "bank_service_counter_rainy_day": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "bank_exterior_wet_day": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "street_day": {
       "environment": "outdoor",
       "depth": "far",
@@ -145,6 +161,14 @@
       "weather_source": "none"
     },
     "subway_station_lost_found": {
+      "environment": "transit",
+      "depth": "mid",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "subway_station_coin_lockers": {
       "environment": "transit",
       "depth": "mid",
       "effect": "none",

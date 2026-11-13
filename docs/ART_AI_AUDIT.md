@@ -13,7 +13,8 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **263장** (`CG 78 / Portrait 93 / Background 92`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 기존 설문 원장 대조 시점: **263장** (`CG 78 / Portrait 93 / Background 92`).
+  2월 결과 배경 3장 채택 뒤 실제 활성 레지스트리는 **270장** (`CG 81 / Portrait 93 / Background 96`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계한다.
 - 기존 257장 전수 방법: 종류별 콘택트시트 24장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다. ORDER-547 신규 6장은 아래 별도 범위로 검수한다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
@@ -368,6 +369,8 @@
 | Background | `assets/backgrounds/aruba_delivery_street.png` | `aruba_delivery` | 1280x800 | no | `82f9531e9aff` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/burnout_hospital_room.png` | `burnout` | 1280x800 | no | `958398df156a` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/cafe_seoul.png` | `cafe` | 1280x800 | no | `a8e34c6e5f11` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/bank_exterior_wet_day.png` | `bank_exterior_wet_day` | 1280x800 | no | `b70a3f1bc6d0` | PASS-B | 원화 검수: 동일한 창구와 유리 출입문, 겨울 가로수·젖은 보도·유리에 남은 물방울. 활동 중인 비를 나타내는 빗줄기·인물·문자 없음. P1 마스터 아님. |
+| Background | `assets/backgrounds/bank_service_counter_rainy_day.png` | `bank_service_counter_rainy_day` | 1280x800 | no | `6013624b5aa9` | PASS-B | 독립 원화 검수: 2월 앙상한 가로수와 유리 너머의 비, 건조한 은행 실내·고객 동선·창구 두 곳·무표기 단말·하단 안전 크롭. 인물·거래 물품 없음. P1 마스터 아님. |
 | Background | `assets/backgrounds/casino_interior.png` | `casino` | 1280x800 | no | `b8a8b18fa8fc` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/changwon_hospital_room_empty.png` | `changwon_hospital_room_empty` | 1280x800 | no | `2f6125ab80ed` | PASS-B | 아버지 별세 뒤 비워진 병상·정돈된 시트·IV 스탠드·창원 야경, 인물·시신·문자·로고 없음 확인. |
 | Background | `assets/backgrounds/cherry_blossom_path.png` | `cherry_blossom_path` | 1672x941 | no | `a721f10fb5a7` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
@@ -444,6 +447,7 @@
 | Background | `assets/backgrounds/street_seoul_day.png` | `street`, `street_day` | 1280x800 | no | `c7730fce4f73` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/subway_station_lost_found.png` | `subway_station_lost_found` | 1280x800 | no | `eaca16aa8259` | PASS-B | 역무실 분실물 접수대·보안 유리·보관 선반·인접 개찰구와 공용 동선, 무인·무문자 확인. P1 마스터 아님. |
 | Background | `assets/backgrounds/subway_station_stairs.png` | `subway_station_stairs` | 1280x800 | no | `ba8585a9abf4` | PASS-B | 퇴근 뒤 역 계단·손잡이·개찰구·대합 공간의 물리 동선, 열차 객실 오독 없음과 무인·무문자 확인. P1 마스터 아님. |
+| Background | `assets/backgrounds/subway_station_coin_lockers.png` | `subway_station_coin_lockers` | 1280x800 | no | `583d3270f61d` | PASS-B | 독립 원화 검수: 창 없는 역사 통로·닫힌 무표기 보관함·꺼진 단말, 인물·물건·시간대·열차 없음과 하단 안전 크롭. P1 마스터 아님. |
 | Background | `assets/backgrounds/suneung_test_hall.png` | `suneung_test_hall` | 1672x941 | no | `4b72655552ff` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/trading_screen_night.png` | `trading_room` | 1280x800 | no | `9bebd361a8e1` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/v2_first_bill_desk_closeup.png` | `v2_first_bill_desk_closeup` | 1280x800 | no | `bddf7fe462c6` | PASS-B | 정본 고시원 책상/침대/스위치 기하, 휴대폰·수첩·펜·영수증·물컵 단일성, 어두운 뱅킹 화면의 무판독 문자·하단 안전 크롭 확인. |

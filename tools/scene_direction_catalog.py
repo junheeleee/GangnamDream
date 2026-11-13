@@ -88,6 +88,7 @@ TRANSIT_BACKGROUNDS = {
     "subway",
     "subway_station_stairs",
     "subway_station_lost_found",
+    "subway_station_coin_lockers",
     "seoul_bus_terminal_night",
     "chuseok_highway",
     "namsan_cable_car",
@@ -99,6 +100,7 @@ TRANSIT_BACKGROUNDS = {
     "jiyeon_sedan_first_snow",
 }
 INDOOR_BACKGROUNDS = {
+    "bank_service_counter_rainy_day",
     "goshiwon",
     "goshiwon_room",
     "goshiwon_hallway",

@@ -6,6 +6,18 @@ extends Node
 const QA_PREFIX := "GangnamDream_StoryNameplateQA_"
 const CHAPTER5_ROUTE := preload("res://systems/Chapter5CausalRoute.gd")
 const BURNOUT_PRIOR_CHOICES := [2, 1, 0, 1]
+const W8_EVENT := "arc_temptation_fallout"
+const W8_QA_SLOT := 9
+const W8_BANK := "bank_service_counter_rainy_day"
+const W8_BANK_EXIT := "bank_exterior_wet_day"
+const W8_LOCKERS := "subway_station_coin_lockers"
+const W8_ARRIVAL_TEXT := {
+	"ko": ["은행을 나서자", "사흘 뒤"],
+	"en": ["Outside the bank,", "Three days later,"],
+	"ja": ["銀行を出ると、", "三日後、"],
+	"zh-CN": ["走出银行时，", "三天后，"],
+	"zh-TW": ["走出銀行時，", "三天後，"],
+}
 const CASES := [
 	{
 		"id": "arc_y5_burnout_check_reference",
@@ -93,6 +105,9 @@ const EXACT_PATHS := {
 	"convenience_night": "res://assets/backgrounds/convenience_store_night_v2.png",
 	"street": "res://assets/backgrounds/street_seoul_day.png",
 	"street_rainy": "res://assets/backgrounds/seoul_rainy_street.png",
+	W8_BANK: "res://assets/backgrounds/bank_service_counter_rainy_day.png",
+	W8_BANK_EXIT: "res://assets/backgrounds/bank_exterior_wet_day.png",
+	W8_LOCKERS: "res://assets/backgrounds/subway_station_coin_lockers.png",
 	"cafe": "res://assets/backgrounds/cafe_seoul.png",
 	"gangnam_apartment": "res://assets/backgrounds/gangnam_apartment.png",
 	"apartment": "res://assets/backgrounds/oneroom_apartment.png",
@@ -105,6 +120,10 @@ var _failures := 0
 var _cases := 0
 var _intro_pages := 0
 var _result_pages := 0
+var _w8_cases := 0
+var _w8_pages := 0
+var _w8_reloads := 0
+var _w8_language_switches := 0
 var _context := "bootstrap"
 
 func _ready() -> void:
@@ -135,16 +154,26 @@ func _ready() -> void:
 			var results: Array = fixture["results"]
 			for choice_index in range(results.size()):
 				await _play_case(language, fixture, choice_index)
+	for language in W8_ARRIVAL_TEXT:
+		LocaleManager.set_language(language)
+		for choice_index in range(2):
+			await _play_w8_case(language, choice_index)
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
 		_fail("fixture inventory incomplete cases=%d intro_pages=%d result_pages=%d" % [
 			_cases, _intro_pages, _result_pages])
+	if _w8_cases != 10 or _w8_pages < 30 or _w8_reloads != 10 \
+			or _w8_language_switches != 8:
+		_fail("W8 fixture inventory incomplete cases=%d pages=%d reloads=%d language_switches=%d" % [
+			_w8_cases, _w8_pages, _w8_reloads, _w8_language_switches])
 	if _failures > 0:
 		print("STORY_BACKGROUND_CONTEXT_CHECK_FAIL failures=%d cases=%d intro_pages=%d result_pages=%d" % [
 			_failures, _cases, _intro_pages, _result_pages])
 		get_tree().quit(1)
 		return
+	print("STORY_BACKGROUND_CONTEXT_W8_OK cases=%d pages=%d cold_cut_reloads=%d language_switches=%d" % [
+		_w8_cases, _w8_pages, _w8_reloads, _w8_language_switches])
 	print("STORY_BACKGROUND_CONTEXT_CHECK_OK cases=%d intro_pages=%d result_pages=%d ko_en=1 choices=all live_storymode=1 settled_texture=1 ambience=1 human_gate=OPEN" % [
 		_cases, _intro_pages, _result_pages])
 	get_tree().quit(0)
@@ -201,6 +230,184 @@ func _play_case(language: String, fixture: Dictionary, choice_index: int) -> voi
 			_fail("cafe exit retained the investor or cafe human layer")
 			return
 	_cases += 1
+
+func _play_w8_case(language: String, choice_index: int) -> void:
+	await _remove_story()
+	_context = "%s/%s/choice%d" % [language, W8_EVENT, choice_index]
+	_seed_story(W8_EVENT, 8)
+	GameState.age = 33
+	GameState.month = 2
+	GameState.week_of_month = 4
+	GameState.housing = "goshiwon"
+	GameState.money = 2_500_000.0
+	GameState.pending_story_queue = [W8_EVENT]
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	await _wait_stable()
+	_story.call("_set_auto_mode", false, false, false)
+	var current: Dictionary = _story.get("_current")
+	var authored_choices: Array = current.get("choices", [])
+	if current.get("id") != W8_EVENT or authored_choices.size() != 2:
+		_fail("expected the real W8 event and its two original choices")
+		return
+	var intro: Array = (_story.get("_paragraphs") as Array).duplicate()
+	for page_index in range(intro.size()):
+		await _finish_page()
+		if not _w8_expect_surface("street_rainy", "rain", "rain", "intro-%d" % page_index):
+			return
+		_story.call("_on_advance")
+		await _wait_stable()
+	if not bool(_story.get("_showing_choices")) \
+			or not _w8_expect_surface("street_rainy", "rain", "rain", "choice-dock"):
+		_fail("a result location appeared before the original choices")
+		return
+	var before_money := float(GameState.money)
+	var before_count := GameState.event_log.size()
+	_story.call("_on_choice", choice_index)
+	await _wait_stable()
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != choice_index \
+			or GameState.event_log.size() != before_count + 1 \
+			or not is_equal_approx(GameState.money, before_money + (
+				-1_500_000.0 if choice_index == 0 else 3_000_000.0)):
+		_fail("W8 original choice and cash effect were not applied exactly once")
+		return
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var cut: int = _w8_expect_cut(language, choice_index, pages)
+	if cut < 0:
+		return
+	for page_index in range(pages.size()):
+		if int(_story.get("_para_index")) != page_index:
+			_fail("W8 advance skipped a page")
+			return
+		var after_cut := page_index >= cut
+		var result_background := (W8_BANK_EXIT if after_cut else W8_BANK) \
+			if choice_index == 0 else (W8_LOCKERS if after_cut else "street_rainy")
+		var result_ambience := ("street" if after_cut else "") \
+			if choice_index == 0 else ("" if after_cut else "rain")
+		var result_weather := "rain" if result_ambience == "rain" else "none"
+		if not _w8_expect_surface(result_background, result_ambience, result_weather,
+				"result-%d" % page_index):
+			return
+		if page_index + 1 == cut and language == "ko" \
+				and not await _w8_switch_languages(choice_index, false):
+			return
+		await _finish_page()
+		_w8_pages += 1
+		if page_index + 1 < pages.size():
+			_story.call("_on_advance")
+			if page_index + 1 == cut:
+				if not await _w8_cold_reload(choice_index, cut):
+					return
+			await _wait_stable()
+			if page_index + 1 == cut and language == "ko" \
+					and not await _w8_switch_languages(choice_index, true):
+				return
+	_w8_cases += 1
+
+func _w8_expect_cut(language: String, choice_index: int, pages: Array) -> int:
+	var prefix: String = W8_ARRIVAL_TEXT[language][choice_index]
+	var cut := -1
+	for index in range(pages.size()):
+		if str(pages[index]).begins_with(prefix):
+			if cut >= 0:
+				_fail("W8 duplicated the localized cut sentence")
+				return -1
+			cut = index
+	var current: Dictionary = _story.get("_current")
+	var choices: Array = current["choices"]
+	var authored: String = _story.call("_fmt", str(choices[choice_index].get("result_text", "")))
+	var whitespace := RegEx.new()
+	whitespace.compile("\\s+")
+	var combined := "".join(PackedStringArray(pages))
+	if cut < 1 or int(_story.get("_w8_result_cut_page")) != cut \
+			or int(_story.call("_story_source_paragraph_count")) != 2 \
+			or int(_story.call("_story_source_paragraph_index", cut)) != (1 if choice_index == 0 else 0) \
+			or int(_story.call("_story_source_paragraph_index", cut - 1)) != (1 if choice_index == 0 else 0) \
+			or whitespace.sub(combined, "", true) != whitespace.sub(authored, "", true):
+		_fail("W8 cut did not start at the exact localized sentence with two preserved source paragraphs")
+		return -1
+	return cut
+
+func _w8_cold_reload(choice_index: int, cut: int) -> bool:
+	# Settle the already-entered location without processing a typing frame.
+	# Manual save correctly stays unavailable while the ink transition runs.
+	_story.call("_finish_story_scene_transition")
+	var context: Dictionary = _story.call("build_save_resume_context")
+	if context.get("phase") != "result" \
+			or int(context.get("paragraph_index", -1)) != cut \
+			or not bool(context.get("paragraph_was_typing", false)) \
+			or not is_zero_approx(float(context.get("paragraph_type_ratio", -1.0))):
+		_fail("W8 did not capture a v4 result at the exact 0%-typed cut")
+		return false
+	var cash := float(GameState.money)
+	var health := float(GameState.health)
+	var mental := float(GameState.mental)
+	var luck := float(GameState.luck)
+	var count := GameState.event_log.size()
+	if not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
+		_fail("W8 isolated result disk save failed")
+		return false
+	var disk: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveManager.slot_path(W8_QA_SLOT)))
+	if not disk is Dictionary or int(disk.get("version", -1)) != 4:
+		_fail("W8 saved result did not use the unchanged v4 schema")
+		return false
+	await _remove_story()
+	GameState.start_new_game()
+	if not SaveManager.load_game(W8_QA_SLOT):
+		_fail("W8 isolated result cold load failed")
+		return false
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	if int(_story.get("_para_index")) != cut or int(_story.get("_type_pos")) != 0 \
+			or not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != choice_index \
+			or GameState.event_log.size() != count \
+			or not is_equal_approx(GameState.money, cash) or GameState.health != health \
+			or GameState.mental != mental or GameState.luck != luck:
+		_fail("W8 cold result moved off the exact cut or reapplied the choice")
+		return false
+	_w8_reloads += 1
+	return true
+
+func _w8_switch_languages(choice_index: int, after_cut: bool) -> bool:
+	var expected_background := (W8_BANK_EXIT if after_cut else W8_BANK) \
+		if choice_index == 0 else (W8_LOCKERS if after_cut else "street_rainy")
+	var expected_ambience := ("street" if after_cut else "") \
+		if choice_index == 0 else ("" if after_cut else "rain")
+	var expected_weather := "rain" if expected_ambience == "rain" else "none"
+	for language in ["en", "ko"]:
+		_story.call("_set_story_language", language)
+		await _wait_stable()
+		var pages: Array = _story.get("_paragraphs")
+		var cut := _w8_expect_cut(language, choice_index, pages)
+		if LocaleManager.language != language or cut < 0 \
+				or (int(_story.get("_para_index")) >= cut) != after_cut \
+				or not _w8_expect_surface(expected_background, expected_ambience,
+					expected_weather, "switch-%s" % language):
+			_fail("W8 language change did not preserve the current place")
+			return false
+		_w8_language_switches += 1
+	return true
+
+func _w8_expect_surface(background: String, ambience: String, weather: String, label: String) -> bool:
+	if not _expect_surface(background, ambience, label):
+		return false
+	if str(_story.get_meta("living_scene_effect", "")) != weather:
+		_fail("%s wrong W8 weather: expected %s" % [label, weather])
+		return false
+	if ambience.is_empty() and (not str(BGMPlayer.get("_current_human_ambience_key")).is_empty() \
+			or not str(BGMPlayer.get("_current_season_key")).is_empty()):
+		_fail("%s indoor W8 surface retained human or seasonal ambience" % label)
+		return false
+	if ambience.is_empty():
+		for name in ["_ambience_player", "_human_ambience_player", "_season_player"]:
+			var player := BGMPlayer.get(name) as AudioStreamPlayer
+			if not is_instance_valid(player) or player.playing:
+				_fail("%s quiet W8 surface still playing %s" % [label, name])
+				return false
+	return true
 
 func _seed_story(event_id: String, turn: int) -> bool:
 	GameState.start_new_game()
