@@ -27640,6 +27640,71 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-824",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_y5_minseo_goal_cost_reference",
+        "arc_y5_after_goal_daeun"
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 3
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Keep the additional funding figure on the money column of the napkin, not an amount already raised. Daeun sees it only after the corresponding choice.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "ca47a7616136fd08dfc6c6e78469f1154d3cf44c",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+          "selection_sha256": "0c081f4fa817cd72a63188d920d4ffdca22ebd7f784d21a6ad056e1dc5d50362",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d849411ede5da726c02609f2aecf798b31254173c21d1b72c133081b97b50aad"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-TW": "81f8ee2749fd2ab92c211105001253cdf54c20417d38a954431789cf6289fe06"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-TW": {
+          "events:arc_y5_after_goal_daeun:/chapter5_causal_reads/texts/0/2": "a44169deadff98f7915a38a8f80cfefe53340e0083511a489c865f2a0548f60a",
+          "events:arc_y5_minseo_goal_cost_reference:/choices/2/result_text": "cd8539b66eb757f59302b261083625944b8f8d9b87c452ca68514d4ef831c22e",
+          "events:arc_y5_minseo_goal_cost_reference:/choices/2/text": "7a39d6adc24b30f5ce09b8aa0e41ba55889f72ca14531776a1f57499f1b96975"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-TW": {
+          "events:arc_y5_after_goal_daeun:/chapter5_causal_reads/texts/0/2": {
+            "source_sha256": "4fdc190960631f78d3da3f70234715bc53641b1c4bc0f3bceb6bc9b961d36332",
+            "target_sha256": "a44169deadff98f7915a38a8f80cfefe53340e0083511a489c865f2a0548f60a"
+          },
+          "events:arc_y5_minseo_goal_cost_reference:/choices/2/result_text": {
+            "source_sha256": "e484f15dd9910aa332ff468d38ab6103822549f402b1d6911dd13ca164095b18",
+            "target_sha256": "cd8539b66eb757f59302b261083625944b8f8d9b87c452ca68514d4ef831c22e"
+          },
+          "events:arc_y5_minseo_goal_cost_reference:/choices/2/text": {
+            "source_sha256": "0afae13ca47e078026ff04e207abf4e076322611f1c342dfee69570e3fc4747b",
+            "target_sha256": "7a39d6adc24b30f5ce09b8aa0e41ba55889f72ca14531776a1f57499f1b96975"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -149390,7 +149455,7 @@
       },
       "events:arc_y5_after_goal_daeun:/chapter5_causal_reads/texts/0/2": {
         "source_sha256": "4fdc190960631f78d3da3f70234715bc53641b1c4bc0f3bceb6bc9b961d36332",
-        "target_sha256": "a44169deadff98f7915a38a8f80cfefe53340e0083511a489c865f2a0548f60a"
+        "target_sha256": "e7ff27d2edb9416b1e1d607b9605ecab2126ebcfe189baa7b8f3e1f2018746a5"
       },
       "events:arc_y5_after_goal_daeun:/choices/0/result_text": {
         "source_sha256": "170358a53fa574536924afeb689c0a7a2ad175774b8ac08cae22696266e79e34",
@@ -149918,11 +149983,11 @@
       },
       "events:arc_y5_minseo_goal_cost_reference:/choices/2/result_text": {
         "source_sha256": "e484f15dd9910aa332ff468d38ab6103822549f402b1d6911dd13ca164095b18",
-        "target_sha256": "cd8539b66eb757f59302b261083625944b8f8d9b87c452ca68514d4ef831c22e"
+        "target_sha256": "17b335e22b800053336468acaae6d46f897f1f2c75585690d9f94cad991c3980"
       },
       "events:arc_y5_minseo_goal_cost_reference:/choices/2/text": {
         "source_sha256": "0afae13ca47e078026ff04e207abf4e076322611f1c342dfee69570e3fc4747b",
-        "target_sha256": "7a39d6adc24b30f5ce09b8aa0e41ba55889f72ca14531776a1f57499f1b96975"
+        "target_sha256": "b9cdbdadcae4f8e7d38c2cc33104f2d05d3749134b3b1fd891a45688bfc1476d"
       },
       "events:arc_y5_minseo_goal_cost_reference:/description": {
         "source_sha256": "01ea391c81ade6873f7f964697f1c37a23371d4289c19b0e1f91d9c066a6c357",
@@ -199894,7 +199959,7 @@
       }
     }
   },
-  "accepted_sha256": "b12c1b0156cc8ea659016553c634cd4f2dad1384a790485c0d97bf49a1a7a60e",
+  "accepted_sha256": "a51180a2b14d1e3bfe855a26447fb8766332e6422091f77afb168804ff558897",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
