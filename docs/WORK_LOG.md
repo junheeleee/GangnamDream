@@ -1,5 +1,9 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-11-14
+
+- [830](queue_active/ORDER-830.md): 국밥집 바 음향 제거.
+
 ## 2026-11-13 — 룰렛 상태 표시 현지화
 
 - M60. [829](queue_active/ORDER-829.md) RC11.13.1·5언어. [830](queue_active/ORDER-830.md) M04음20·W8컷3. 831 11.13.2·832 A.
@@ -124,8 +128,7 @@
 
 ## 2026-11-01 — 연속 대표 플레이와 C2 중단
 
-[10667B 원문 보관](history/WORK_LOG_2026-11-01_continuous_play.md). SHA256 `acac0e429c5b17db32f8fee928c80d3802e8f81da973ae358742ee721e7e938b`.
-당시 출구: slot1 W192c1 결과P2, 31.3 미실행. 원이력은 보관본 참조.
+[원문·해시 보관](history/WORK_LOG_2026-11-01_continuous_play.md). 당시 slot1 W192c1 P2, 31.3 미실행.
 
 ## 2026-10-31 — 잠금 중 실제 오프라인 캡슐 제작 착수
 

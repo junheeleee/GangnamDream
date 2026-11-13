@@ -121,13 +121,22 @@ W202 수락의 `hoesik`은 바 녹음과 영국 펍 대화층을 겹친다. 공�
 평일 점심 원음으로 저녁 장면에 그대로 쓰지 않는다. 원본 청취·장면 적합성·출처 표시를
 확인하기 전 후보이며, 다운로드·채택0.
 
-### [~] 착수 — W202 국밥집 수락 결과의 바 소리 제거
+### [x] W202 국밥집 수락 결과의 바 소리 제거 — 소스·격리 검증
 
 `content/events/callback_events_2.json`의 `callback_daeun_committed_gangnam_eve`
 0번 결과 환경음 한 키, `scenes/StoryMode.gd`, `autoloads/BGMPlayer.gd`,
 `tools/{audit.py,StoryBackgroundContextCheck.gd}`, 이 사양과 `CLAUDE.md`·`WORK_LOG.md`만.
 명시적 무음은 장소 환경음·군중·계절음만 즉시 종료하며 음악·효과음은 유지한다.
 원문·5언어·선택 효과·저장·사진·미루는 분기·현수 재회의 공유 프로필 변경0.
+
+2026-11-14 KST `0feeabade3de086705d6e05e4f24b657b34a295b`, tree
+`17fb655a43429c6af2d7cc17bc51132a2198bb7b`. 수락 0번의 환경음 한 값만 바꾸고
+다른 두 국밥집 독자와 공유 프로필을 보존했다. 독립 검수에서 원 JSON 역복원 및
+나머지 4언어 파일 불변 확인. KO/EN 실제 StoryMode 격리에서 수락 결과 2건은
+세 환경음 재생기를 같은 프레임에 멈추고 음악 키를 유지했다. 미루기와 기존 48경로,
+W8 10경로도 통과. stdout SHA-256
+`7135e0dedc08a72277bd0577cf9dd430aea4c3c5fd2cd2f8ebaacda13e3e3178`, stderr 0.
+의도적 환경음 무음이며 한국 식당 녹음 채택·실청취·RC 재빌드·출시 승인 아님.
 
 ### [x] M02 두 결과의 정확한 장소 전환 — 소스·격리 검증
 
