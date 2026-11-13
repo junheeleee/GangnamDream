@@ -2,7 +2,7 @@
 
 ## 2026-11-13 — 룰렛 상태 표시 현지화
 
-- 같은 런 M60 크레디트. [829](queue_active/ORDER-829.md) 6월 연락·30억 표시. [830](queue_active/ORDER-830.md) 11-20.
+- 같은 런 M60. [829](queue_active/ORDER-829.md) RC 11.13.1·5언어 통과. [830](queue_active/ORDER-830.md) 11-20.
 
 - [826](queue_archive/ORDER-826.md): 월말 원화 검사 수리, 격리 15건 통과. 실캡처0.
 
