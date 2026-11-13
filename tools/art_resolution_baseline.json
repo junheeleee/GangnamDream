@@ -37,12 +37,12 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 263,
+  "inventory_count": 267,
   "counts": {
     "1080p": {
       "CG": {
         "native": 0,
-        "light": 78,
+        "light": 81,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 91,
+        "light": 92,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -67,7 +67,7 @@
         "native": 0,
         "light": 0,
         "medium": 0,
-        "heavy": 78,
+        "heavy": 81,
         "severe": 0
       },
       "Portrait": {
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 91,
+        "heavy": 92,
         "severe": 0
       }
     }
@@ -193,6 +193,23 @@
       "kind": "Background",
       "ids": [
         "casino"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/changwon_family_stairwell_v1.png": {
+      "kind": "Background",
+      "ids": [
+        "changwon_family_stairwell"
       ],
       "width": 1280,
       "height": 800,
@@ -2961,6 +2978,57 @@
       ],
       "width": 1280,
       "height": 720,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/story/knee_help_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_story_knee_help"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/story/knee_palm_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_story_knee_palm"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/story/knee_witness_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_story_knee_witness"
+      ],
+      "width": 1280,
+      "height": 800,
       "alpha": false,
       "scale": {
         "1080p": 1.5,

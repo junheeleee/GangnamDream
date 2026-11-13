@@ -275,6 +275,7 @@ const BACKGROUNDS = {
 	"military_base_gate": "res://assets/backgrounds/military_base_gate.png",
 	# Canon-safe Changwon father-home background regenerated on 2026-06-12.
 	"dad_house":         "res://assets/backgrounds/family_living_room.png",
+	"changwon_family_stairwell": "res://assets/backgrounds/changwon_family_stairwell_v1.png",
 	"hometown_train_station": "res://assets/backgrounds/hometown_train_station.png",
 	"seoul_station_ktx_platform_winter": "res://assets/backgrounds/seoul_station_ktx_platform_winter.png",
 	"ktx_window":        "res://assets/backgrounds/regional_train_window_summer.png",
@@ -320,6 +321,9 @@ const FALLBACK_BG = "res://assets/backgrounds/goshiwon_room.png"
 # ── CG (감정적 클라이맥스 전체화면) ────────────────────────────
 const CG = {
 	"cg_start":          "res://assets/cg/start.png",
+	"cg_story_knee_witness": "res://assets/cg/story/knee_witness_v1.png",
+	"cg_story_knee_palm": "res://assets/cg/story/knee_palm_v1.png",
+	"cg_story_knee_help": "res://assets/cg/story/knee_help_v1.png",
 	"cg_demo_first_interview": "res://assets/cg/demo/first_interview_v1.png",
 	"cg_jiyeon_crash":   "res://assets/cg/jiyeon_crash_day_v3.png",
 	"cg_demo_daeun_first_kindness": "res://assets/cg/demo/daeun_first_kindness_v2.png",

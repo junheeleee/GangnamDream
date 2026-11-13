@@ -267,6 +267,9 @@
 | CG | `assets/cg/romance/wedding_morning_jiyeon_v1.png` | `cg_romance_wedding_morning_jiyeon` | 1280x800 | no | `a6407b70c350` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/seollal_sebae_family_v1.png` | `cg_seollal_sebae_family` | 1280x800 | no | `35aa01cae632` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/start.png` | `cg_start` | 1280x720 | no | `ad731564a6fe` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
+| CG | `assets/cg/story/knee_witness_v1.png` | `cg_story_knee_witness` | 1280x800 | no | `10e8be6dc963` | REPAIRED-A | 문틈, 무릎·작업복, 붉은 보증서 도장·채권자 휴대폰. 맞은편 외부 현관 제거 독립 확인. |
+| CG | `assets/cg/story/knee_palm_v1.png` | `cg_story_knee_palm` | 1280x800 | no | `e1e74c10f23a` | REPAIRED-A | 같은 문틈과 인물, 바닥에 닿은 손바닥과 채권자의 종이. |
+| CG | `assets/cg/story/knee_help_v1.png` | `cg_story_knee_help` | 1280x800 | no | `7862cfd29a45` | REPAIRED-A | 붙잡은 팔꿈치와 57세 아버지가 민준을 올려다보는 결과만. |
 | Portrait | `assets/characters/main_character_cold_snap.png` | `player_cold_snap` | 512x768 | yes | `360c41abe06e` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/main_character_corporate.png` | `player_corporate`, `player_suit` | 512x768 | yes | `6227f9bca2fd` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/main_character_determined.png` | `player_determined`, `player_moral_black` | 512x768 | yes | `60bb8ad42d3d` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
@@ -377,6 +380,7 @@
 | Background | `assets/backgrounds/daeun_mother_home_dining_summer.png` | `daeun_mother_home_dining` | 1280x800 | no | `e7e916f7292f` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/daeun_newlywed_home_night.png` | `daeun_newlywed_home` | 1280x800 | no | `92fd4356827a` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/family_living_room.png` | `dad_house` | 1280x800 | no | `f9e2325b10f6` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/changwon_family_stairwell_v1.png` | `changwon_family_stairwell` | 1280x800 | no | `f9df2d92fa5e` | PASS-B | 무인·실내 건조한 창원 계단. 등 돌린 뒤의 주관 시점만. |
 | Background | `assets/backgrounds/fine_dust_sky.png` | `fine_dust_sky` | 1672x941 | no | `760852144b1a` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/gangnam_apartment.png` | `gangnam_apartment` | 1280x800 | no | `8457faa568e9` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/gangnam_day.png` | `gangnam_day` | 1280x800 | no | `602f13f63566` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |

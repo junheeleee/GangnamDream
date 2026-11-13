@@ -35,6 +35,32 @@
       "story_action": "The empty goshiwon asks the player to inhabit Minjun's absence before he appears.",
       "actors": []
     },
+    "cg_story_knee_witness": {
+      "path": "assets/cg/story/knee_witness_v1.png",
+      "camera_role": "player_pov",
+      "story_action": "Twenty-seven-year-old Minjun watches through the partly open door as his father kneels before the creditor in Changwon.",
+      "actors": [
+        {"id": "father", "gaze_target": "Vinyl flooring below the low table", "pose_support": "The younger father's bowed head and two grounded knees are seen from behind, one hand visibly resting on his thigh."},
+        {"id": "creditor", "gaze_target": "The phone clock in his hands", "pose_support": "A plain coat and seated shoulders stay angled away from the doorway across the guarantee papers."}
+      ]
+    },
+    "cg_story_knee_palm": {
+      "path": "assets/cg/story/knee_palm_v1.png",
+      "camera_role": "player_pov",
+      "story_action": "Still watched from the door, Father braces one palm on the floor while the creditor turns the guarantee paper.",
+      "actors": [
+        {"id": "father", "gaze_target": "Vinyl flooring beneath his lowered head", "pose_support": "Both knees stay grounded and his right palm bears his shift forward, without a change of outfit or position in the room."},
+        {"id": "creditor", "gaze_target": "The sheet he turns on the low table", "pose_support": "Seated torso leans in; one hand turns the sheet and the other still holds his lowered phone."}
+      ]
+    },
+    "cg_story_knee_help": {
+      "path": "assets/cg/story/knee_help_v1.png",
+      "camera_role": "player_pov",
+      "story_action": "Minjun finally steps into the room and supports his father's elbow; his father raises his eyes toward him.",
+      "actors": [
+        {"id": "father", "gaze_target": "Minjun at the player's point of view", "pose_support": "His younger face rises from the kneel; the far hand braces the floor while the son's hand takes his sleeve at the elbow."}
+      ]
+    },
     "cg_demo_first_interview": {
       "path": "assets/cg/demo/first_interview_v1.png",
       "camera_role": "observational_two_shot",

@@ -568,6 +568,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "changwon_family_stairwell": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "hometown_train_station": {
       "environment": "transit",
       "depth": "mid",

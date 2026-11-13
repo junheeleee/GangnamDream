@@ -1687,9 +1687,8 @@
         "channel": "in_person",
         "scene_location": "dad_house",
         "participants": ["player", "father", "creditor"],
-        "portrait_role": "present",
-        "nameplate_role": "hidden",
-        "expected_portrait": "father_past"
+        "portrait_role": "none",
+        "nameplate_role": "hidden"
       }
     },
     "story_knee_choice": {
@@ -1697,9 +1696,8 @@
         "channel": "in_person",
         "scene_location": "dad_house",
         "participants": ["player", "father", "creditor"],
-        "portrait_role": "present",
-        "nameplate_role": "hidden",
-        "expected_portrait": "father_past"
+        "portrait_role": "none",
+        "nameplate_role": "hidden"
       }
     },
     "v2_hyunsu_study_followup": {

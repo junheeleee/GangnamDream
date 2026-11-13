@@ -684,6 +684,15 @@ restaurant, or private room.
 
 ## 2026-07-24 아버지 6년 전 연령 정합
 
+2026-11-13 `assets/cg/story/knee_{witness,palm,help}_v1.png`와
+`assets/backgrounds/changwon_family_stairwell_v1.png`는 57세 초상과 창원 거실을
+참조해 생성했다. 민준 1인칭·무릎/서류·손바닥과 종이·팔꿈치/시선·실내 계단을
+각각 분리하고, 맞은편 외부 현관이 시점을 뒤집던 세 원화를 재편집했다.
+채택 원본 `exec-b56cb15c-c7f0-4bd8-b330-1ff776a384d5`,
+`exec-7a59e4c5-a365-473c-8b2d-1fec58e0c42f`,
+`exec-faff122f-fdce-4e8f-a90b-c0800c5bb55d`,
+`exec-3bcdbbdb-27c7-4bde-8187-554a8c631ce8` (각 PNG). 1280×800 RGB 출력.
+
 ### npc_father_past.png
 
 - **최종 경로**: `assets/characters/npc_father_past.png`

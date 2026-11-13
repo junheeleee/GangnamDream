@@ -849,6 +849,9 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_story_presence_surfaces(
 				lang, "presence_en_" if lang == "en" else "presence_ko_")
+		await _teardown_store_trailer_capture()
+		if _qa_failed:
+			return
 		print("SCREENSHOT_QA_DONE scope=story-presence lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
@@ -18441,8 +18444,15 @@ func _shot_order97_story_save_surface(lang: String, prefix: String) -> void:
 func _shot_story_presence_surfaces(lang: String = "en", prefix: String = "presence_en_") -> void:
 	_set_qa_language(lang)
 	_prepare_main_game_state()
+	GameState.start_new_game()
+	GameState.turn = 1
 	await _shot_story_event("story_knee_witness", prefix + "01_father_kneeling_witness", "", 0.55, true)
 	await _shot_story_event("story_knee_choice", prefix + "02_father_kneeling_choice", "", 0.55, true, true)
+	await _shot_story_event("story_knee_witness", prefix + "02a_father_kneeling_palm", "", 0.55, true, true, 0)
+	await _shot_story_event("story_knee_choice", prefix + "02b_father_kneeling_help", "", 0.55, true, true, 0, 0, false, 2)
+	await _shot_story_event("story_knee_choice", prefix + "02c_father_kneeling_stays", "", 0.55, true, true, 1)
+	await _shot_story_event("story_knee_choice", prefix + "02d_father_kneeling_stairs", "", 0.55, true, true, 2, 0, false, 1)
+	_prepare_main_game_state()
 	await _shot_story_event("story_prologue_dad", prefix + "03_father_remote_phone", "", 0.55, true)
 	await _shot_story_event("arc_father_quiet_call", prefix + "04_father_remote_callback", "", 0.55, true)
 	await _shot_story_event("arc_father_02_signal", prefix + "05_local_message", "", 0.55, true)

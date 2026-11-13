@@ -34,13 +34,7 @@ func _run() -> void:
 		"prologue fixture did not open")
 	_expect(str(story.get("_current").get("portrait", "")) == "father_past",
 		"the six-years-earlier scene did not select the younger father")
-	var father_portrait := story.get("_portrait") as TextureRect
-	_expect(father_portrait != null and father_portrait.visible and father_portrait.texture != null,
-		"the kneeling-father scene did not render the younger canonical father")
-	var expected_past_portrait := ImageRegistry.get_portrait("father_past")
-	_expect(father_portrait.texture != null \
-		and father_portrait.texture.resource_path == expected_past_portrait,
-		"the six-years-earlier scene rendered the wrong father texture")
+	_expect_knee_cg(story, "cg_story_knee_witness")
 	await _advance_until_direct_action(story)
 	_expect(int(story.call("_direct_continue_choice_index")) == 0,
 		"prologue did not reach its direct authored action (%s)" % _story_state(story))
@@ -65,6 +59,7 @@ func _run() -> void:
 	_expect(bool(story.get("_pending_after_result")), "direct-action result text did not begin")
 	_expect(str(story.get("_type_full")).contains("아버지의 손바닥"),
 		"direct-action result paragraph was hidden or replaced")
+	_expect_knee_cg(story, "cg_story_knee_palm")
 	_expect(not _tree_contains_text(story, "능력치와 자원"),
 		"stats tutorial interrupted the prologue result")
 
@@ -73,6 +68,7 @@ func _run() -> void:
 		"direct-action result did not continue to its authored follow-up")
 	_expect(str(story.get("_current").get("portrait", "")) == "father_past",
 		"the younger father disappeared before the prologue's defining choice")
+	_expect_knee_cg(story, "cg_story_knee_palm")
 	_expect(not _tree_contains_text(story, "능력치와 자원"),
 		"stats tutorial survived into the follow-up scene")
 
@@ -127,6 +123,15 @@ func _quit(exit_code: int) -> void:
 	await get_tree().process_frame
 	get_tree().quit(exit_code)
 
+func _expect_knee_cg(story: Control, cg_id: String) -> void:
+	var background := story.get("_bg_img") as TextureRect
+	var frame := story.get("_portrait_frame") as Control
+	_expect(bool(story.get("_current_uses_cg")) and background != null \
+		and background.texture != null \
+		and background.texture.resource_path == ImageRegistry.get_cg(cg_id) \
+		and frame != null and not frame.visible,
+		"prologue did not render the exact kneeling beat without a standing portrait: %s" % cg_id)
+
 func _advance_until_direct_action(story: Control) -> void:
 	# The authored 1.2-second silence remains part of the scene, but it now yields
 	# to visible action copy instead of manufacturing a one-option choice rail.
@@ -154,7 +159,7 @@ func _advance_until_event(story: Control, event_id: String) -> void:
 	for _step in range(48):
 		if str(story.get("_current").get("id", "")) == event_id:
 			return
-		if bool(story.get("_transitioning")):
+		if bool(story.get("_transitioning")) or bool(story.get("_story_scene_transition_active")):
 			await get_tree().create_timer(0.1).timeout
 			continue
 		if bool(story.get("_typing")):

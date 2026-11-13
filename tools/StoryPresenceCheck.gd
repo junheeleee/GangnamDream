@@ -55,10 +55,16 @@ func _check_narrated_father_memory_ko() -> bool:
 		var presentation: Dictionary = _story.get("_current_presentation")
 		var frame := _story.get("_portrait_frame") as Control
 		var name_panel := _story.get("_name_panel") as Control
+		var background := _story.get("_bg_img") as TextureRect
+		var cg_id: String = "cg_story_knee_witness" if event_id == "story_knee_witness" \
+			else "cg_story_knee_palm"
 		if str(presentation.get("nameplate_role", "")) != "hidden":
 			return _fail("%s lost its narrated-nameplate contract" % event_id)
-		if not is_instance_valid(frame) or not frame.visible:
-			return _fail("%s lost the father memory portrait" % event_id)
+		if not is_instance_valid(frame) or frame.visible:
+			return _fail("%s drew a standing portrait over the kneeling illustration" % event_id)
+		if not bool(_story.get("_current_uses_cg")) or background == null \
+				or background.texture == null or background.texture.resource_path != ImageRegistry.get_cg(cg_id):
+			return _fail("%s did not render the exact kneeling illustration" % event_id)
 		if not is_instance_valid(name_panel) or name_panel.visible:
 			return _fail("%s still labels narration as Father's speech" % event_id)
 		_story.call("_refresh_story_speaker_language")

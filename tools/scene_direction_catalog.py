@@ -108,6 +108,7 @@ INDOOR_BACKGROUNDS = {
     "convenience_afternoon",
     "cafe",
     "gukbap_restaurant_night",
+    "changwon_family_stairwell",
     "namsan_tonkatsu_restaurant",
     "amusement_photo_booth",
     "suneung_test_hall",

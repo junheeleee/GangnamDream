@@ -167,6 +167,14 @@
     {
       "kind": "background",
       "ids": [
+        "changwon_family_stairwell"
+      ],
+      "relative_path": "backgrounds/changwon_family_stairwell_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "fine_dust_sky"
       ],
       "relative_path": "backgrounds/fine_dust_sky.png",
@@ -1365,6 +1373,26 @@
       ],
       "relative_path": "cg/start.png",
       "resolution": "1280x720"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_story_knee_help"
+      ],
+      "relative_path": "cg/story/knee_help_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": ["cg_story_knee_palm"],
+      "relative_path": "cg/story/knee_palm_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": ["cg_story_knee_witness"],
+      "relative_path": "cg/story/knee_witness_v1.png",
+      "resolution": "1280x800"
     },
     {
       "kind": "cg",

@@ -19,6 +19,7 @@
     "convenience_afternoon_exterior": "street",
     "convenience_first_snow_exterior": "street",
     "cafe": "cafe",
+    "changwon_family_stairwell": "apartment",
     "gukbap_restaurant_night": "hoesik",
     "street_day": "street",
     "park_bench_day": "street",
@@ -553,6 +554,9 @@
     "cg_daeun_regular_walk": {"ambience": "street"},
     "cg_daeun_regular_night_wait": {"ambience": "street"},
     "cg_start": {"ambience": "room"},
+    "cg_story_knee_witness": {"ambience": "family_home"},
+    "cg_story_knee_palm": {"ambience": "family_home"},
+    "cg_story_knee_help": {"ambience": "family_home"},
     "cg_demo_first_interview": {"ambience": "office"},
     "cg_jiyeon_crash": {"ambience": "rain"},
     "cg_demo_daeun_first_kindness": {"ambience": "convenience"},
@@ -1002,12 +1006,24 @@
       "paragraph_cues": {
         "0": [{"sfx": "paper_handle", "volume_db": -4.0}],
         "1": [{"sfx": "cloth_shift", "volume_db": -10.0}]
+      },
+      "result_paragraph_cues": {
+        "0": {
+          "0": [{"sfx": "cloth_shift", "volume_db": -10.0}],
+          "2": [{"sfx": "paper_handle", "volume_db": -7.0}]
+        }
       }
     },
     "story_knee_choice": {
       "ambience": "family_home",
       "music": {"key": "family", "start_paragraph": 1},
-      "paragraph_cues": {"2": [{"sfx": "door_latch", "volume_db": -9.0}]}
+      "result_paragraph_cues": {
+        "0": {"0": [{"sfx": "cloth_shift", "volume_db": -8.0}]},
+        "2": {
+          "0": [{"sfx": "door_latch", "volume_db": -14.0}],
+          "1": [{"sfx": "footsteps_hall", "volume_db": -6.0}]
+        }
+      }
     },
     "story_last_payment_wait": {
       "ambience": "public_office",

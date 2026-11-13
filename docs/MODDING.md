@@ -338,6 +338,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `daeun_mother_home_dining` | `backgrounds/daeun_mother_home_dining_summer.png` | 1280x800 |
 | background | `daeun_newlywed_home` | `backgrounds/daeun_newlywed_home_night.png` | 1280x800 |
 | background | `dad_house` | `backgrounds/family_living_room.png` | 1280x800 |
+| background | `changwon_family_stairwell` | `backgrounds/changwon_family_stairwell_v1.png` | 1280x800 |
 | background | `fine_dust_sky` | `backgrounds/fine_dust_sky.png` | 1672x941 |
 | background | `gangnam_apartment` | `backgrounds/gangnam_apartment.png` | 1280x800 |
 | background | `gangnam_day` | `backgrounds/gangnam_day.png` | 1280x800 |
@@ -487,6 +488,9 @@ python3 tools/generate_mod_manifest.py --check
 | cg | `cg_romance_wedding_morning_jiyeon` | `cg/romance/wedding_morning_jiyeon_v1.png` | 1280x800 |
 | cg | `cg_seollal_sebae_family` | `cg/seollal_sebae_family_v1.png` | 1280x800 |
 | cg | `cg_start` | `cg/start.png` | 1280x720 |
+| cg | `cg_story_knee_witness` | `cg/story/knee_witness_v1.png` | 1280x800 |
+| cg | `cg_story_knee_palm` | `cg/story/knee_palm_v1.png` | 1280x800 |
+| cg | `cg_story_knee_help` | `cg/story/knee_help_v1.png` | 1280x800 |
 | cg | `cg_y5_three_in_room` | `cg/y5_three_in_room_v2.png` | 1280x800 |
 | portrait | `player_cold_snap` | `characters/main_character_cold_snap.png` | 512x768 |
 | portrait | `player_corporate`, `player_suit` | `characters/main_character_corporate.png` | 512x768 |

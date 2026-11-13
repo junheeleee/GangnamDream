@@ -670,6 +670,11 @@ weather, romance, and historical portraits remain fixed.
 - Store derivatives are rendered by `tools/KeyArtExport.tscn`; `tools/generate_assets.py` does not own or regenerate them.
 
 ### Story CG
+- `assets/cg/story/knee_witness_v1.png`, `knee_palm_v1.png`, `knee_help_v1.png`
+  - Full-story Changwon flashback: door-slit witness, Father's palm and the turned sheet, then Minjun's hand at Father's elbow only when he enters.
+  - The same 57-year-old Father and living room appear in all three; no added portrait/nameplate.
+- `assets/backgrounds/changwon_family_stairwell_v1.png`
+  - Minjun looks down the stairs only after he turns away. The indoor landing stays dry.
 - `assets/cg/y5_three_in_room_v2.png`
   - M55 `arc_y5_three_in_room → arc_y5_three_in_room_decision` only.
   - Exactly Minjun, Daeun, Jaehyuk, and Sangchul sit around four separately
