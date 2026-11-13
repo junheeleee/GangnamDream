@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-822",
+  "reviewer": "/root/review_816",
+  "author": "/root",
+  "reviewed_at": "2026-11-13",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "a101342c59c93b8b3e50e1ed2a4abbce6437b300",
+    "tree": "6af793e6973fa3e79ddfb4901ce96221dc44c565",
+    "manifest_sha256": null
+  },
+  "scope": "One existing Simplified Chinese choice label, arc_y5_contract_cover_investment.choices[2].text; no other locale or game change.",
+  "findings": "The same display preserves Daeun's name field and unsigned state without specifying a screenshot. Index 1 still underlines and captures the two exclusions; index 2 still saves the two fields without Daeun confirmation, signature or deletion request. R3 terms, choices/results and effects remain.",
+  "routing": "MainGame prepares the locked W195 investment-property entry with at least KRW 2 billion, investment identity and actual prior participant conditions; StoryMode reads the DataRegistry choice index and records m49_r3_daeun_unsigned_name document_observation. This is source tracing, not observed native W195.",
+  "validation": {
+    "method": "Direct Korean and four overlay reads, all choices/results, independently checked same-source original ORDER-166 and new official receipt and exact previous/current target hashes; pure check_batch and exact CN/ledger byte inverses.",
+    "prior_batches": 411,
+    "prior_decisions": 380,
+    "prior_decision_ledger_sha256": "4ba96f9c652a745ca2dffd50809f81165cfb6206e71eede8c8114962a32af714",
+    "target_byte_inverses": 1,
+    "ledger_byte_inverses": 1,
+    "original_official_receipts": 1,
+    "current_official_receipts": 1,
+    "protected_blobs": 19,
+    "logs": "One CN official export/check/import with three empty stderr files. Demo 5 locales/14 events/100 leaves/122 UI, EN/i18n/context pass; named lane list only."
+  },
+  "identity": {
+    "baseline": "4833dda53d88a5c8a482f313ff6ec9a0539bf76e",
+    "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+    "original_receipt_source": "4b3a8cbe7474348e64fbba5c5d8e97e608dbb53f",
+    "binding_zh_CN": {
+      "id": "events:arc_y5_contract_cover_investment:/choices/2/text",
+      "source_sha256": "f877c229cb49009c0023f0feb1078bc56bae84f3171244aa8b47de27115d1a39",
+      "previous_target_sha256": "0de58be5227bf2b6b3ece0d072064873e6746b78adfaaede1d861017d400bf60",
+      "new_target_sha256": "190cd3c6750798499cfb9c6b2ef02f72f1aac101ccbdef43e1df067882a0684b",
+      "original_batch_id": "1d958ca7ac28e2529442f4e401b451ad180ee1a7e390ec991f80f1f996fad195",
+      "original_receipt_sha256": "6424cd1ec1c68320ba703bf85ea4b0610e920f028b75bae8bb5b37ed06d98b3d",
+      "original_receipt_file_sha256": "21783e0100d318c31d3a7d856a2729f06e7fa7116a03780d0816940b49986a96",
+      "batch_id": "a9f74183e996890af45d08af1ae84face94a545501c9d1c82869049d6c5c993c",
+      "receipt_sha256": "5f18b48223a5724c7373604b4dc1a2350aa0f9d9cb6627dbc6c9d1fa84b3eef6",
+      "receipt_file_sha256": "b8315f9e11e5df87b182ea32ea7c4c0f8afefac3fcf6a020da3904038de4f3aa"
+    },
+    "raw_directory": ".git/localization-cjk-unsigned-contract-20261113.CLcIum/",
+    "raw_files": 16,
+    "raw_entries_sha256": "1b520df3a6526d4f9459adde7d87f5c08fb193215eb7009ea265ce8194e825ce",
+    "raw_digest_method": "SHA-256 of compact UTF-8 JSON array of lexically sorted [filename, byte_size, file_sha256] rows."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_w195_exposure",
+    "actual_contract_choice_render",
+    "actual_public_demo_package_play",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}
