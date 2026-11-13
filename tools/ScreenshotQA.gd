@@ -23328,17 +23328,19 @@ func _shot_full_story_month_cash(lang: String) -> void:
 		"monthly_income": 1_000_000.0, "housing_expense": 650_000.0,
 		"loan_interest": 10_000.0, "other_cash": -1_180_000.0,
 	}
-	# KO/EN fixture expectations are literal whole-won text, independent of
-	# both display formatter APIs. In particular -1,180,000 must not round to -1.2m.
-	var cash_literals: Array[String] = [
-		"-560,000원", "1,000,000원", "440,000원", "+280,000원", "+1,000,000원",
-		"-650,000원", "-10,000원", "-1,180,000원",
-	]
-	if lang == "en":
-		cash_literals = [
-			"-560,000 won", "1,000,000 won", "440,000 won", "+280,000 won", "+1,000,000 won",
-			"-650,000 won", "-10,000 won", "-1,180,000 won",
-		]
+	# Keep literal amounts and locale units independent of the product formatter.
+	# In particular -1,180,000 must not round to -1.2m or change currency.
+	var unit_by_locale := {"ko": "원", "en": " won", "ja": "ウォン",
+		"zh-CN": "韩元", "zh-TW": "韓元"}
+	if not unit_by_locale.has(lang):
+		_fail("Month cash has no exact whole-won fixture for %s." % lang)
+		return
+	var unit := str(unit_by_locale[lang])
+	var cash_literals: Array[String] = []
+	for amount_literal: String in [
+			"-560,000", "1,000,000", "440,000", "+280,000", "+1,000,000",
+			"-650,000", "-10,000", "-1,180,000"]:
+		cash_literals.append(amount_literal + unit)
 	var cases := ["complete", "partial", "partial_save_failure"]
 	for kind in cases:
 		payload["complete_month"] = kind == "complete"
@@ -23347,7 +23349,7 @@ func _shot_full_story_month_cash(lang: String) -> void:
 		await _settle(0.4)
 		var body := _mg.get("modal_body") as Control
 		var text := _collect_control_text(body)
-		if str(_mg.call("_full_story_cash_signed", 0.0)) != ("0원" if lang == "ko" else "0 won"):
+		if str(_mg.call("_full_story_cash_signed", 0.0)) != ("0" + unit):
 			_fail("Month cash zero must use exact whole-won text without an invented positive change.")
 			return
 		var geometry: Array = []
