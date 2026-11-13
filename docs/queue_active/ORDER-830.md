@@ -193,8 +193,10 @@ StoryDemoFourLanguageCheck}.gd`, `tools/demo_localization_scope.py`의 현행 �
 
 KO/EN 2해상도 36컷·복원·독립 검수 통과. [증거](../queue_archive/ORDER-830-ART-EVIDENCE.md#신혼집-밤-소등). 연속 청취는 별도.
 
-### [~] 착수 — W8 은행·보관함 실화면과 믹스 녹음
+### [x] W8 은행·보관함 실화면과 믹스 녹음
 
 `tools/StoryBackgroundContextCheck.gd`, 이 사양·증거 이관본·`CLAUDE.md`·`docs/WORK_LOG.md`만.
 기존 exact 두 갈래를 같은 StoryMode에서 재생해 전환 직전·직후 그림과 실제 게임 믹스를
 새 외부 폴더에 저장한다. 기존 검사·제품·저장·공개 RC 변경0. 녹음과 실제 청취는 별도다.
+
+[실화면·녹음 증거](../queue_archive/ORDER-830-ART-EVIDENCE.md#w8-은행보관함-실화면과-믹스). 밖의 말소리 출처는 청취 후보.

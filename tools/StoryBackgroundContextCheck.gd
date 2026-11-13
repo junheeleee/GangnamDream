@@ -127,6 +127,9 @@ var _w8_reloads := 0
 var _w8_language_switches := 0
 var _w202_silent_results := 0
 var _context := "bootstrap"
+var _w8_capture_dir := ""
+var _w8_capture_start_msec := 0
+var _w8_capture_shots := 0
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -149,6 +152,9 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W8_CAPTURE_DIR"):
+		await _capture_w8()
+		return
 	for language in ["ko", "en"]:
 		LocaleManager.set_language(language)
 		for fixture_variant in CASES:
@@ -182,6 +188,88 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_CHECK_OK cases=%d intro_pages=%d result_pages=%d ko_en=1 choices=all live_storymode=1 settled_texture=1 ambience=1 human_gate=OPEN" % [
 		_cases, _intro_pages, _result_pages])
 	get_tree().quit(0)
+
+func _capture_w8() -> void:
+	_w8_capture_dir = OS.get_environment("GANGNAM_W8_CAPTURE_DIR")
+	var language := OS.get_environment("GANGNAM_W8_CAPTURE_LANGUAGE")
+	var output := DirAccess.open(_w8_capture_dir) if _w8_capture_dir.is_absolute_path() else null
+	if output == null or not output.get_files().is_empty() or not output.get_directories().is_empty() \
+			or language not in ["ko", "en"] or DisplayServer.get_name() == "headless":
+		_fail("W8 capture requires a fresh absolute output, KO/EN and a real display")
+		get_tree().quit(1)
+		return
+	OS.low_processor_usage_mode = false
+	LocaleManager.set_language(language)
+	var master_bus := AudioServer.get_bus_index("Master")
+	# Godot 4.6.2's recorder exposes only its last effect instance. On a
+	# surround bus this may be a silent rear pair, not the game's stereo mix.
+	if master_bus < 0 or AudioServer.get_speaker_mode() != AudioServer.SPEAKER_MODE_STEREO:
+		_fail("W8 recorder requires a stereo engine bus, got %s/%s" % [
+			AudioServer.get_driver_name(), AudioServer.get_speaker_mode()])
+		get_tree().quit(1)
+		return
+	for choice_index in range(2):
+		await _remove_story()
+		await _stop_audio()
+		var record := AudioEffectRecord.new()
+		var effect_index := AudioServer.get_bus_effect_count(master_bus)
+		AudioServer.add_bus_effect(master_bus, record)
+		_w8_capture_start_msec = Time.get_ticks_msec()
+		record.set_recording_active(true)
+		var previous_shots := _w8_capture_shots
+		await _play_w8_case(language, choice_index)
+		record.set_recording_active(false)
+		var wav := record.get_recording()
+		AudioServer.remove_bus_effect(master_bus, effect_index)
+		var prefix := "%s_c%d" % [language, choice_index]
+		if wav == null or wav.get_length() < 5.0 or not _w8_has_nonzero_pcm(wav.get_data()) \
+				or wav.save_to_wav(_w8_capture_dir.path_join(prefix + "_master.wav")) != OK:
+			_fail("W8 Master bus recording empty, short or unwritable: " + prefix)
+		if _w8_capture_shots - previous_shots < 4:
+			_fail("W8 capture missed a rendered boundary: " + prefix)
+		for label in ["01_rain_call", "02_choices", "04_before_move", "05_after_move"]:
+			if not FileAccess.file_exists(_w8_capture_dir.path_join("%s_%s.png" % [prefix, label])):
+				_fail("W8 capture missed %s: %s" % [label, prefix])
+		if _failures > 0:
+			break
+	await _remove_story()
+	await _stop_audio()
+	if _w8_cases != 2 or _w8_reloads != 0 or _w8_language_switches != 0:
+		_fail("W8 capture must render two uninterrupted choices")
+	if _failures == 0:
+		print("W8_VIEWPORT_CAPTURE_OK language=%s paths=%d frames=%d audio=Master driver=%s" % [
+			language, _w8_cases, _w8_capture_shots, AudioServer.get_driver_name()])
+	get_tree().quit(0 if _failures == 0 else 1)
+
+func _w8_has_nonzero_pcm(bytes: PackedByteArray) -> bool:
+	for value in bytes:
+		if value != 0:
+			return true
+	return false
+
+func _mark_w8_capture(label: String) -> void:
+	print("W8_CAPTURE %s t=%.3f %s" % [
+		_context, float(Time.get_ticks_msec() - _w8_capture_start_msec) / 1000.0, label])
+
+func _save_w8_capture(language: String, choice_index: int, label: String) -> void:
+	# Wait for the real post-draw buffer and discard the first OpenGL readback.
+	for _draw in range(4):
+		await get_tree().process_frame
+		await RenderingServer.frame_post_draw
+	var texture := get_viewport().get_texture()
+	if texture == null:
+		_fail("W8 viewport has no render texture")
+		return
+	var _prime_readback := texture.get_image()
+	await get_tree().process_frame
+	await RenderingServer.frame_post_draw
+	var frame := texture.get_image()
+	var path := _w8_capture_dir.path_join("%s_c%d_%s.png" % [language, choice_index, label])
+	if frame == null or frame.is_empty() or frame.save_png(path) != OK:
+		_fail("W8 viewport capture failed: " + path)
+		return
+	_w8_capture_shots += 1
+	_mark_w8_capture(label)
 
 func _play_case(language: String, fixture: Dictionary, choice_index: int) -> void:
 	await _remove_story()
@@ -270,6 +358,7 @@ func _w202_prime_ambience_layers() -> bool:
 func _play_w8_case(language: String, choice_index: int) -> void:
 	await _remove_story()
 	_context = "%s/%s/choice%d" % [language, W8_EVENT, choice_index]
+	var capture := not _w8_capture_dir.is_empty()
 	_seed_story(W8_EVENT, 8)
 	GameState.age = 33
 	GameState.month = 2
@@ -291,6 +380,9 @@ func _play_w8_case(language: String, choice_index: int) -> void:
 		await _finish_page()
 		if not _w8_expect_surface("street_rainy", "rain", "rain", "intro-%d" % page_index):
 			return
+		if capture and page_index == 0:
+			await get_tree().create_timer(1.5).timeout
+			await _save_w8_capture(language, choice_index, "01_rain_call")
 		_story.call("_on_advance")
 		await _wait_stable()
 	if not bool(_story.get("_showing_choices")) \
@@ -299,6 +391,9 @@ func _play_w8_case(language: String, choice_index: int) -> void:
 		return
 	var before_money := float(GameState.money)
 	var before_count := GameState.event_log.size()
+	if capture:
+		await _save_w8_capture(language, choice_index, "02_choices")
+		_mark_w8_capture("choice_commit")
 	_story.call("_on_choice", choice_index)
 	await _wait_stable()
 	if not bool(_story.get("_pending_after_result")) \
@@ -325,18 +420,33 @@ func _play_w8_case(language: String, choice_index: int) -> void:
 		if not _w8_expect_surface(result_background, result_ambience, result_weather,
 				"result-%d" % page_index):
 			return
-		if page_index + 1 == cut and language == "ko" \
+		if not capture and page_index + 1 == cut and language == "ko" \
 				and not await _w8_switch_languages(choice_index, false):
 			return
 		await _finish_page()
+		if capture:
+			var shot_label := ""
+			if page_index + 1 == cut:
+				shot_label = "04_before_move"
+			elif page_index == cut:
+				shot_label = "05_after_move"
+			elif page_index == 0:
+				shot_label = "03_first_result"
+			elif page_index + 1 == pages.size():
+				shot_label = "06_last_result"
+			if not shot_label.is_empty():
+				await _save_w8_capture(language, choice_index, shot_label)
+				await get_tree().create_timer(1.5).timeout
 		_w8_pages += 1
 		if page_index + 1 < pages.size():
+			if capture and page_index + 1 == cut:
+				_mark_w8_capture("location_cut")
 			_story.call("_on_advance")
-			if page_index + 1 == cut:
+			if not capture and page_index + 1 == cut:
 				if not await _w8_cold_reload(choice_index, cut):
 					return
 			await _wait_stable()
-			if page_index + 1 == cut and language == "ko" \
+			if not capture and page_index + 1 == cut and language == "ko" \
 					and not await _w8_switch_languages(choice_index, true):
 				return
 	_w8_cases += 1
@@ -559,6 +669,8 @@ func _wait_stable() -> void:
 		if not transition_busy:
 			await get_tree().process_frame
 			return
+		if not _w8_capture_dir.is_empty():
+			continue
 		if raw_ink_tween is Tween and (raw_ink_tween as Tween).is_running():
 			(raw_ink_tween as Tween).custom_step(10.0)
 		if raw_text_tween is Tween and (raw_text_tween as Tween).is_running():
