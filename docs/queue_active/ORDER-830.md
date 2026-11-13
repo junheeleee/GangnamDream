@@ -4,7 +4,7 @@
 
 11-14 사용자 재지정: [결정](../DECISIONS.md#2026-11-14-모든-플레이-가능-장면의-에셋-정합을-먼저-끝낸다--사용자-지시).
 본편·체험판 모든 장면·분기의 글/그림/소리 정합. 에셋 뒤 사람 테스트. 구 RC·저장·업로드0.
-W4 [~] `scenes/StoryMode.gd`, `assets/w4_temptation_result_cuts.tres`, `tools/StoryBackgroundContextCheck.gd`.
+W4 [~] StoryMode·W4 cuts 리소스·배경 검사·ASSET_INDEX·audit_scope.
 
 M14 [x] 신규 배경 2장·배선·[격리 검증](../queue_archive/ORDER-830-ART-EVIDENCE.md#m14-한도-상담과-퇴장). 실청취 미완.
 
