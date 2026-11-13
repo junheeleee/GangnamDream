@@ -227,6 +227,7 @@ const BACKGROUNDS = {
 	"seoul_bus_terminal_night": "res://assets/backgrounds/seoul_bus_terminal_night.png",
 	"street_rainy":      "res://assets/backgrounds/seoul_rainy_street.png",
 	"sinchon_crash_approach_rain_dusk": "res://assets/backgrounds/sinchon_crash_approach_rain_dusk.png",
+	"sinchon_crash_impact_rain_dusk": "res://assets/backgrounds/sinchon_crash_impact_rain_dusk.png",
 	"sinchon_crash_exit_rain_dusk": "res://assets/backgrounds/sinchon_crash_exit_rain_dusk.png",
 	"street_rainy_bus_stop_wallet": "res://assets/backgrounds/seoul_bus_stop_wallet.png",
 	"cold_snap_street":  "res://assets/backgrounds/seoul_cold_snap_street.png",

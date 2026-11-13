@@ -720,6 +720,14 @@
     {
       "kind": "background",
       "ids": [
+        "sinchon_crash_impact_rain_dusk"
+      ],
+      "relative_path": "backgrounds/sinchon_crash_impact_rain_dusk.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "street",
         "street_day"
       ],

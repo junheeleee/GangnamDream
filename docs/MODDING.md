@@ -408,6 +408,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `sinchon_crash_exit_rain_dusk` | `backgrounds/sinchon_crash_exit_rain_dusk.png` | 1280x800 |
 | background | `street`, `street_day` | `backgrounds/street_seoul_day.png` | 1280x800 |
 | background | `subway_station_coin_lockers` | `backgrounds/subway_station_coin_lockers.png` | 1280x800 |
+| background | `sinchon_crash_impact_rain_dusk` | `backgrounds/sinchon_crash_impact_rain_dusk.png` | 1280x800 |
 | background | `subway_station_lost_found` | `backgrounds/subway_station_lost_found.png` | 1280x800 |
 | background | `subway_station_stairs` | `backgrounds/subway_station_stairs.png` | 1280x800 |
 | background | `suneung_test_hall` | `backgrounds/suneung_test_hall.png` | 1672x941 |

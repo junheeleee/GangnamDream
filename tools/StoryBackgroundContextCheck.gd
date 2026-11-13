@@ -11,6 +11,7 @@ const W4_EVENT := "arc_temptation_01"
 const W4_ROOM := "goshiwon_room"
 const M03_EVENT := "arc_jiyeon_01_crash"
 const M03_APPROACH := "sinchon_crash_approach_rain_dusk"
+const M03_IMPACT := "sinchon_crash_impact_rain_dusk"
 const M03_EXIT := "sinchon_crash_exit_rain_dusk"
 const W4_DEMO := preload("res://playtests/order124/StoryChoiceM1M6Playtest.gd")
 const W4_TERMS := {
@@ -628,6 +629,11 @@ func _check_m03_crash() -> void:
 			GameState.age = 33
 			GameState.month = 3
 			GameState.money = 500_000.0
+			# Exercise the default, shorter orthodox and unorthodox layouts.
+			if choice == 1:
+				GameState.route_orthodox = 40
+			elif choice == 2:
+				GameState.route_unorthodox = 40
 			if demo:
 				GameState.story_return_scene = "res://playtests/order124/StoryChoiceM1M6Playtest.tscn"
 				W4_DEMO.install_story_demo_runtime_events()
@@ -637,9 +643,12 @@ func _check_m03_crash() -> void:
 			_story.call("_set_auto_mode", false, false, false)
 			await _wait_stable()
 			var intro: Array = _story.get("_paragraphs")
+			if int(_story.call("_story_source_paragraph_count")) != (4 if choice == 1 else 5):
+				_fail("M03 fixture did not select the authored route variant")
+				continue
 			for page in range(intro.size()):
 				var source := int(_story.call("_story_source_paragraph_index", page))
-				if not _expect_m03_surface(M03_APPROACH if source < 2 else ""):
+				if not _expect_m03_surface(M03_APPROACH if source == 0 else M03_IMPACT if source == 1 else ""):
 					break
 				await _finish_page()
 				if not capture_dir.is_empty() and choice == 0 and page == int(_story.call(

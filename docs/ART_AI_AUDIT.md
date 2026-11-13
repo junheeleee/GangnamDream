@@ -450,6 +450,7 @@
 | Background | `assets/backgrounds/seoul_subway.png` | `subway` | 1280x800 | no | `e0dee873fcdf` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/sinchon_crash_approach_rain_dusk.png` | `sinchon_crash_approach_rain_dusk` | 1280x800 | no | `eec2e12c5a59` | PASS-B | 사고 전 봄비 신촌 이면도로. 인물·차량·자전거·문자 없음. |
 | Background | `assets/backgrounds/sinchon_crash_exit_rain_dusk.png` | `sinchon_crash_exit_rain_dusk` | 1280x800 | no | `881cda4c0d03` | PASS-B | 사고 지점을 등지고 걷는 구간. 인물·차량·자전거·문자 없음. |
+| Background | `assets/backgrounds/sinchon_crash_impact_rain_dusk.png` | `sinchon_crash_impact_rain_dusk` | 1280x800 | no | `cabcde43c5ea` | PASS-B | 접촉 직후의 검은 세단·앞바퀴·빗물. 닫힌 문, 지연·얼굴·유혈·문자 없음. |
 | Background | `assets/backgrounds/street_seoul_day.png` | `street`, `street_day` | 1280x800 | no | `c7730fce4f73` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/subway_station_lost_found.png` | `subway_station_lost_found` | 1280x800 | no | `eaca16aa8259` | PASS-B | 역무실 분실물 접수대·보안 유리·보관 선반·인접 개찰구와 공용 동선, 무인·무문자 확인. P1 마스터 아님. |
 | Background | `assets/backgrounds/subway_station_stairs.png` | `subway_station_stairs` | 1280x800 | no | `ba8585a9abf4` | PASS-B | 퇴근 뒤 역 계단·손잡이·개찰구·대합 공간의 물리 동선, 열차 객실 오독 없음과 무인·무문자 확인. P1 마스터 아님. |
@@ -464,4 +465,4 @@
 | Background | `assets/backgrounds/year3_hangang_winter_night.png` | `year3_hangang_winter_night` | 1280x800 | no | `b8387ccb4707` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year4_winter_rooftop.png` | `year4_winter_rooftop` | 1280x800 | no | `46803837d191` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 
-Inventory: 81 CG / 93 portraits / 101 backgrounds / 275 total.
+Inventory: 81 CG / 93 portraits / 102 backgrounds / 276 total.

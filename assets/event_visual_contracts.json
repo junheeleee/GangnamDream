@@ -143,7 +143,7 @@
     {"id": "arc_daeun_03_fork_hold_receipt", "background": "convenience_night", "portrait": "daeun_sad"},
     {"id": "arc_daeun_03_fork_release_receipt", "background": "convenience_night", "portrait": "daeun_sad"},
     {"id": "arc_daeun_money_gap", "background": "cafe", "portrait": "daeun_smile"},
-    {"id": "arc_jiyeon_01_crash", "background": "street_rainy", "portrait": "jiyeon_normal", "cg": "cg_jiyeon_crash"},
+    {"id": "arc_jiyeon_01_crash", "background": "sinchon_crash_approach_rain_dusk", "portrait": "jiyeon_normal", "cg": "cg_jiyeon_crash"},
     {"id": "arc_jiyeon_02_store", "background": "street_rainy", "portrait": "jiyeon_normal"},
     {"id": "arc_jiyeon_03_offer", "background": "street_rainy", "portrait": "jiyeon_warm", "choice_result_backgrounds": {"0": "street_rainy", "1": "cafe", "2": "street_rainy"}},
     {"id": "arc_jiyeon_03b_lunch", "background": "restaurant", "portrait": "jiyeon_warm"},

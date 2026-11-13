@@ -18,6 +18,8 @@
 
 P1 배선 수정 착수: 2fcb112 정적 CI가 `paragraph_backgrounds` 길이와 `bg_focus` 키를 거절했다. 기본 배경은 `arc_events.json`, `story_rules.json`, `event_visual_contracts.json`의 일치하는 전용 접근 장소로, 정확한 P1과 도입 초상 숨김은 `StoryMode`의 사고 한정 분기로 처리한다. `CGRuntimeCheck`·`StoryBackgroundContextCheck`의 실제 렌더 검사만 변경; 검사 완화0.
 
+P1 화면 완료: 맞부딪친 직후 바퀴·빗물 삽입 컷을 원래 충돌음 호출 전에 같은 문단 진입에서 즉시 지정. 하차 원화는 여전히 P2. 원본 PNG SHA-256 `cabcde43c5eaf3029ac3484aa59210aefb4deaab16890643838e591df5aea1d5`(제품 1280×800). 본편/데모 5언어 각 15회(원문 기본/정통/비정통 모두 포함), 본편 격리 cold Load 5회. 최종 실제 창 40컷 `830-m03-impact.aSKQR4`, 독립 검사 P1 다섯 언어 및 이전 경계 40컷. 정적 감사 오류/경고0, CG·출시사실·음향·연출·정본 검사 통과. 바퀴 마찰은 별개: 기존 `bicycle_impact`는 충돌·옷 소리이고 라이선스 원음 디렉터리가 없어 부적절한 효과를 붙이지 않았다. 실청취·새 RC·업로드0.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`

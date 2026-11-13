@@ -34,6 +34,7 @@
     "seoul_bus_terminal_night": "highway",
     "street_rainy": "rain",
     "sinchon_crash_approach_rain_dusk": "rain",
+    "sinchon_crash_impact_rain_dusk": "rain",
     "sinchon_crash_exit_rain_dusk": "rain",
     "street_rainy_bus_stop_wallet": "rain",
     "cold_snap_street": "street",

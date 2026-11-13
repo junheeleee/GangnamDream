@@ -216,6 +216,14 @@
       "intensity": 0.24,
       "weather_source": "background"
     },
+    "sinchon_crash_impact_rain_dusk": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "rain",
+      "camera": "living_drift",
+      "intensity": 0.24,
+      "weather_source": "background"
+    },
     "sinchon_crash_exit_rain_dusk": {
       "environment": "outdoor",
       "depth": "far",

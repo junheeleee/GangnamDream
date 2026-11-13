@@ -29,6 +29,7 @@ const W4_TEMPTATION := "arc_temptation_01"
 const W4_TEMPTATION_CUTS := preload("res://assets/w4_temptation_result_cuts.tres")
 const M03_JIYEON_CRASH := "arc_jiyeon_01_crash"
 const M03_JIYEON_CRASH_CUTS := preload("res://assets/m03_jiyeon_crash_result_cuts.tres")
+const M03_CRASH_IMPACT := "sinchon_crash_impact_rain_dusk"
 const M03_CRASH_EXIT := "sinchon_crash_exit_rain_dusk"
 const W8_FALLOUT := "arc_temptation_fallout"
 const M14_BANK_REVIEW := "arc_y2_bank_limit_review"
@@ -5311,7 +5312,8 @@ func _render_current():
 
 	# 초상화 + 이름표 — bg_focus:true 장면은 배경만(초상화 생략)
 	var pid := _resolved_event_portrait_id()
-	var bg_only := bool(_current.get("bg_focus", false)) or _current_uses_cg
+	var bg_only := bool(_current.get("bg_focus", false)) or _current_uses_cg \
+		or str(_current.get("id", "")) == M03_JIYEON_CRASH
 	if _event_portrait_revealed:
 		_show_portrait(pid, bg_only)
 	else:
@@ -5345,6 +5347,10 @@ func _play_current_paragraph_audio(paragraph_index: int) -> void:
 	AudioManager.play_scene_paragraph_cues(event_id, _event_cg_id, paragraph_index)
 
 func _event_background_id_for_paragraph(paragraph_index: int) -> String:
+	# All three routes share the impact, but have different prose lengths.
+	# Keep the map exact instead of adding placeholder paragraphs to the source.
+	if paragraph_index == 1 and str(_current.get("id", "")) == M03_JIYEON_CRASH:
+		return M03_CRASH_IMPACT
 	if _event_paragraph_backgrounds.is_empty():
 		return ""
 	var index := clampi(paragraph_index, 0, _event_paragraph_backgrounds.size() - 1)
@@ -5408,7 +5414,11 @@ func _maybe_change_event_background(paragraph_index: int) -> void:
 	if path.is_empty() or not ImageRegistry.has_texture(path):
 		return
 	_event_background_id = bg_id
-	_begin_story_scene_transition("explicit_move")
+	# This insert shares the first impact cue, not a walk to a new location.
+	if bg_id == M03_CRASH_IMPACT:
+		_finish_story_scene_transition()
+	else:
+		_begin_story_scene_transition("explicit_move")
 	_bg_img.texture = ImageRegistry.load_texture(path)
 	_apply_story_surface_palette(false)
 	_configure_living_scene()
