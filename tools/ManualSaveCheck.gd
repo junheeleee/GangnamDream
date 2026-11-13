@@ -5087,6 +5087,8 @@ func _check_choice_and_result_resume() -> void:
 	_story.call("_on_choice", 0)
 	var mental_after := int(GameState.mental)
 	_expect(mental_after == mental_before - 2, "fixture choice did not apply its effect once")
+	if not await _await_knee_result_save_ready():
+		return
 	var result_context: Dictionary = _story.call("build_save_resume_context")
 	_expect(str(result_context.get("phase", "")) == "result",
 		"result save reported the wrong phase")
@@ -5109,6 +5111,30 @@ func _check_choice_and_result_resume() -> void:
 		"result resume lost the selected route flag")
 	_expect((_story.get("_dialogue_log_entries") as Array) == result_log_before,
 		"result resume changed or duplicated Dialogue History")
+
+
+func _await_knee_result_save_ready() -> bool:
+	if not _is_knee_help_result() or not bool(_story.get("_story_scene_transition_active")):
+		_fail("knee fixture did not enter the help result with its visual transition")
+		return false
+	_expect(not bool(_story.call("can_manual_save_story")) \
+			and (_story.call("build_save_resume_context") as Dictionary).is_empty(),
+		"knee result transition exposed a premature manual save")
+	var deadline := Time.get_ticks_msec() + 2000
+	while bool(_story.get("_story_scene_transition_active")) \
+			and Time.get_ticks_msec() < deadline:
+		await get_tree().process_frame
+	if not _is_knee_help_result() or not bool(_story.call("can_manual_save_story")):
+		_fail("knee help result was not saveable after the real transition")
+		return false
+	return true
+
+
+func _is_knee_help_result() -> bool:
+	return str((_story.get("_current") as Dictionary).get("id", "")) == "story_knee_choice" \
+		and bool(_story.get("_pending_after_result")) \
+		and int(_story.get("_pending_result_choice_index")) == 0 \
+		and str(_story.get("_event_cg_id")) == "cg_story_knee_help"
 
 
 func _check_w207_result_presentation_resume_and_locale() -> void:
@@ -5809,13 +5835,16 @@ func _check_result_choice_receipt_index_guard() -> void:
 		_story.call("_complete_typing")
 		_story.call("_show_choices")
 		_story.call("_on_choice", 0)
+		if not await _await_knee_result_save_ready():
+			return
 		var forged_context: Dictionary = _story.call(
 			"build_save_resume_context")
 		var choices: Array = (_story.get("_current") as Dictionary).get(
 			"choices", [])
-		_expect(choices.size() > 1 \
-				and str(forged_context.get("phase", "")) == "result",
-			"indexed result-guard fixture did not reach a multi-choice result")
+		if choices.size() <= 1 or str(forged_context.get("phase", "")) != "result" \
+				or int(forged_context.get("pending_result_choice_index", -1)) != 0:
+			_fail("indexed result-guard fixture did not capture the original multi-choice result")
+			return
 		if receipt_case == "missing_event_fatal":
 			forged_context["event_id"] = \
 				"missing_result_resume_fixture"

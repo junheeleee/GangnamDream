@@ -180,8 +180,13 @@ StoryDemoFourLanguageCheck}.gd`, `tools/demo_localization_scope.py`의 현행 �
 되살린 18:00은 불허. 짧은 전체 저장 로컬 실행은 175초 한도로 중단되어 CI 규격으로
 재실행 중이다. 상철 표적 통과를 전체 저장/원격 CI 성공으로 세지 않는다.
 
-### [~] W1 결과 저장 — 전환 중 잠금과 이후 복원
+### [x] W1 결과 저장 — 전환 중 잠금과 이후 복원
 
 `tools/ManualSaveCheck.gd`, 이 사양·`CLAUDE.md`·`docs/WORK_LOG.md`만. 도움 CG 전환 중
 정상 저장 차단을 명시 검사하고 자연 종료 뒤 같은 결과를 저장한다. 정상 저장·잘못된
 결과 식별자·치명 상태·중복 과거 기록 검사는 그대로 유지한다. 제품 코드·저장 변경0.
+
+2026-11-14 KST: Godot 960×600 fresh QA namespace 전체 수동저장 통과, exit0·오류0
+(의도한 저장 실패/복구 경고만). 결과 저장 1건과 변조 4건에서 동일한 실제 도움 컷을
+기다리고, 독립 검수에서 기존 검사 유지 확인. stdout SHA-256
+`fb0fb8be0bae79d6d93fe2ee9422876aba05516e755920d780c4b2af625a7c4c`.
