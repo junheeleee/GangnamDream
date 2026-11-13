@@ -16,11 +16,9 @@
   IMAGE_PROMPTS.md,cg_acting_manifest.json,mod_asset_manifest.json}`, `tools/art_resolution_baseline.json`,
   `docs/{ART_AI_AUDIT.md,MODDING.md}`의 해당 항목만. 828의 기존 머리말은 별도 보존.
   원본 보존. 신부 시선·짧은 머리·왼쪽 클립·작은 홀/빈자리·대사 안전 영역을 검사.
-- W201 `arc_daeun_wedding_night{,_tea,_honest,_choice}`: `assets/scene_audio_manifest.json`
-  네 행. [~] `tools/BGMContinuityCheck.gd`: 실제 식장 종료·월 경계 음향·집 진입 비교.
-  이전 식장음 종료 수리 유지. 제품·음원 변경은 근거가 나올 때 별도 선언.
-  실내에 비 추가0. 마지막 분기의 원문 속 순간 냉장고 소리와 상시 윙윙거림을 구별.
-  현장음과 음악은 독립 판정하고 새 빌드 실청취 전에는 청취 승인0.
+- W201 [~] `assets/scene_audio_manifest.json` 다은 신혼집 네 행·`autoloads/BGMPlayer.gd`,
+  `tools/BGMContinuityCheck.gd`, 이 사양·증거 이관본·`CLAUDE.md`·WORK_LOG만. 집에서
+  남는 겨울음과 빠른 월 전환에 되살아나는 입장곡 차단. 새 원음·저장 변경0.
 - M54 같은 생활음 수리: `assets/scene_audio_manifest.json`에서 실제 어머니 집
   `arc_daeun_hometown_2{,_father_passed}`·`arc_daeun_hometown_table_{hands,daughter,decision}`
   다섯 행. 결과 두 갈래가 버스 CG로 바뀌는 정확한 문단에만 음향도 이행한다.
