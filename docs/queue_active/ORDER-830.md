@@ -15,7 +15,8 @@
 - W200 소형식 입장 원본 얼굴/질감 결함: 확정 앵커와 클로즈업으로 새 후보 제작.
   채택 시 `cg_romance_wedding_daeun_small` ID 유지, 별도 버전 PNG와 import,
   `autoloads/ImageRegistry.gd`, `assets/{COMMITMENT_VISUAL_BIBLE.md,ASSET_INDEX.md,
-  IMAGE_PROMPTS.md,cg_acting_manifest.json,mod_asset_manifest.json}`의 해당 한 항목만.
+  IMAGE_PROMPTS.md,cg_acting_manifest.json,mod_asset_manifest.json}`, `tools/art_resolution_baseline.json`,
+  `docs/{ART_AI_AUDIT.md,MODDING.md}`의 해당 항목만. 828의 기존 머리말은 별도 보존.
   원본 보존. 신부 시선·짧은 머리·왼쪽 클립·작은 홀/빈자리·대사 안전 영역을 검사.
 - W201 `arc_daeun_wedding_night{,_tea,_honest,_choice}`: `assets/scene_audio_manifest.json`
   네 행과 필요 시 `tools/BGMContinuityCheck.gd` 표적 검증. 이전 식장음 종료 수리 유지.
@@ -25,8 +26,12 @@
 ## 배치 2 — M60 마지막 책상
 
 실화면 ‘마지막 서명’·‘마지막 주’: 책상·실내 문장과 젖은 실외 대로가 동시 노출.
-바로 앞/뒤 전환과 실제 실외 분기를 읽고, 원문·선택·효과·기억 보존. 제품 범위는
-확인한 exact variant와 렌더 검증을 선언한 뒤 착수한다. 단순 확대/대체만으로 합격0.
+`arc_final_countdown`과 `arc_final_week`만 `content/events/{arc_pre_ending,arc_drama}.json`,
+`assets/{event_visual_contracts,scene_audio_manifest,scene_direction_manifest}.json`에서
+주거별 실내 그림과 냉장고 루프를 별도 합성하지 않은 방 환경음으로 결속.
+`tools/{SceneDirectionCheck,ScreenshotQA}.gd` 해당 회귀만 확장 가능.
+원문·선택·효과·기억·음악/타이밍·실제 실외 변형 보존. 렌더에서 밝기/책상/창을 다시
+보고 틀린 주거 그림이면 해당 주거만 새 에셋으로 확장한다. 단순 대체만으로 합격0.
 
 상점 준비물은 기존 725/727 파이프라인으로 로컬 생성하고 결함/엔딩 스포일러를
 후보에서 제외한다. 사람·물리패드·원어민·출시 GO는 별도다.
