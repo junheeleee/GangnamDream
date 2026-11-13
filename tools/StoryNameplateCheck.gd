@@ -552,8 +552,8 @@ func _expect_authored_surface(
 				_fail("wedding night lost its authored newlywed-home surface")
 				return false
 		if str(BGMPlayer.scene_audio_contract(event_id).get("ambience", "")) \
-				!= "oneroom":
-			_fail("wedding night lost its authored oneroom ambience")
+				!= "apartment":
+			_fail("wedding night lost its authored apartment ambience")
 			return false
 	elif event_id == CUSTODY_ID:
 		var store_path := ImageRegistry.get_background("convenience_night")

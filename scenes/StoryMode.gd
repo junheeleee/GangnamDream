@@ -26,13 +26,7 @@ const STORY_DEMO_RETURN_SCENE := \
 const STORY_DEMO_SESSION_SCHEMA := 1
 const STORY_DEMO_MANUAL_SLOT := 10
 const W8_FALLOUT := "arc_temptation_fallout"
-const W8_FALLOUT_CUTS := {
-	"ko": ["은행을 나서자", "사흘 뒤 그는"],
-	"en": ["Outside the bank,", "Three days later,"],
-	"ja": ["銀行を出ると、", "三日後、"],
-	"zh-CN": ["走出银行时，", "三天后，"],
-	"zh-TW": ["走出銀行時，", "三天後，"],
-}
+const W8_FALLOUT_CUTS := preload("res://assets/w8_fallout_result_cuts.tres")
 const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
 const C_CHOICE    := "#c8d0e0"
@@ -3265,7 +3259,9 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 	var raw := str((choices[choice_index] as Dictionary).get("result_text", ""))
 	if str(_current.get("id", "")) != W8_FALLOUT or choice_index not in [0, 1]:
 		return _story_page_data(_fmt(raw))
-	var anchors: Array = W8_FALLOUT_CUTS.get(LocaleManager.language, [])
+	# These anchors select a page boundary; the displayed text comes from the event.
+	var anchors_by_locale: Dictionary = W8_FALLOUT_CUTS.get_meta("anchors", {})
+	var anchors: Array = anchors_by_locale.get(LocaleManager.language, [])
 	var sources := raw.split("\n\n")
 	var cut_source := 1 - choice_index
 	if anchors.size() != 2 or sources.size() != 2:

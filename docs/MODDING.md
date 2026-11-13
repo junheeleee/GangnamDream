@@ -322,14 +322,14 @@ python3 tools/generate_mod_manifest.py --check
 | background | `amusement_photo_booth` | `backgrounds/amusement_photo_booth_evening.png` | 1280x800 |
 | background | `amusement_roller_coaster` | `backgrounds/amusement_roller_coaster_day.png` | 1280x800 |
 | background | `aruba_delivery` | `backgrounds/aruba_delivery_street.png` | 1280x800 |
-| background | `burnout` | `backgrounds/burnout_hospital_room.png` | 1280x800 |
-| background | `cafe` | `backgrounds/cafe_seoul.png` | 1280x800 |
 | background | `bank_exterior_wet_day` | `backgrounds/bank_exterior_wet_day.png` | 1280x800 |
 | background | `bank_service_counter_rainy_day` | `backgrounds/bank_service_counter_rainy_day.png` | 1280x800 |
+| background | `burnout` | `backgrounds/burnout_hospital_room.png` | 1280x800 |
+| background | `cafe` | `backgrounds/cafe_seoul.png` | 1280x800 |
 | background | `casino` | `backgrounds/casino_interior.png` | 1280x800 |
+| background | `changwon_family_stairwell` | `backgrounds/changwon_family_stairwell_v1.png` | 1280x800 |
 | background | `changwon_hospital_room_empty` | `backgrounds/changwon_hospital_room_empty.png` | 1280x800 |
 | background | `cherry_blossom_path` | `backgrounds/cherry_blossom_path.png` | 1672x941 |
-| background | `changwon_family_stairwell` | `backgrounds/changwon_family_stairwell_v1.png` | 1280x800 |
 | background | `chuseok_highway` | `backgrounds/chuseok_highway.png` | 1672x941 |
 | background | `community_center` | `backgrounds/community_center.png` | 1672x941 |
 | background | `company_dinner_restaurant` | `backgrounds/company_dinner_restaurant.png` | 1672x941 |
@@ -402,9 +402,9 @@ python3 tools/generate_mod_manifest.py --check
 | background | `seoul_station_ktx_platform_winter` | `backgrounds/seoul_station_ktx_platform_winter.png` | 1280x800 |
 | background | `subway` | `backgrounds/seoul_subway.png` | 1280x800 |
 | background | `street`, `street_day` | `backgrounds/street_seoul_day.png` | 1280x800 |
+| background | `subway_station_coin_lockers` | `backgrounds/subway_station_coin_lockers.png` | 1280x800 |
 | background | `subway_station_lost_found` | `backgrounds/subway_station_lost_found.png` | 1280x800 |
 | background | `subway_station_stairs` | `backgrounds/subway_station_stairs.png` | 1280x800 |
-| background | `subway_station_coin_lockers` | `backgrounds/subway_station_coin_lockers.png` | 1280x800 |
 | background | `suneung_test_hall` | `backgrounds/suneung_test_hall.png` | 1672x941 |
 | background | `trading_room` | `backgrounds/trading_screen_night.png` | 1280x800 |
 | background | `v2_first_bill_desk_closeup` | `backgrounds/v2_first_bill_desk_closeup.png` | 1280x800 |
@@ -492,10 +492,10 @@ python3 tools/generate_mod_manifest.py --check
 | cg | `cg_seollal_sebae_family` | `cg/seollal_sebae_family_v1.png` | 1280x800 |
 | cg | `cg_start` | `cg/start.png` | 1280x720 |
 | cg | `cg_story_knee_help` | `cg/story/knee_help_v1.png` | 1280x800 |
-| cg | `cg_y5_three_in_room` | `cg/y5_three_in_room_v2.png` | 1280x800 |
-| portrait | `player_cold_snap` | `characters/main_character_cold_snap.png` | 512x768 |
 | cg | `cg_story_knee_palm` | `cg/story/knee_palm_v1.png` | 1280x800 |
 | cg | `cg_story_knee_witness` | `cg/story/knee_witness_v1.png` | 1280x800 |
+| cg | `cg_y5_three_in_room` | `cg/y5_three_in_room_v2.png` | 1280x800 |
+| portrait | `player_cold_snap` | `characters/main_character_cold_snap.png` | 512x768 |
 | portrait | `player_corporate`, `player_suit` | `characters/main_character_corporate.png` | 512x768 |
 | portrait | `player_corporate_y3` | `characters/main_character_corporate_y3.png` | 1024x1536 |
 | portrait | `player_corporate_y5` | `characters/main_character_corporate_y5.png` | 1024x1536 |

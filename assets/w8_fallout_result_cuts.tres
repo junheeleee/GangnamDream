@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/anchors = {
+"ko": ["은행을 나서자", "사흘 뒤 그는"],
+"en": ["Outside the bank,", "Three days later,"],
+"ja": ["銀行を出ると、", "三日後、"],
+"zh-CN": ["走出银行时，", "三天后，"],
+"zh-TW": ["走出銀行時，", "三天後，"]
+}
