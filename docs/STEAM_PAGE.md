@@ -1,6 +1,6 @@
 # 강남드림 Steam 스토어 페이지 정본
 
-> 최종 현행화: 2026-10-17. Steam 파트너 대시보드의 문구, 태그, 스크린샷은 이 문서를 기준으로 한다.
+> 문구·태그 현행화: 2026-11-13. 설명과 고지는 승인 전 로컬 초안이며 Steam에는 반영하지 않았다.
 > 과거 초안인 `docs/STORE_PAGE.md`는 사용하지 않는다.
 
 ## 1. 상품 정의
@@ -9,12 +9,13 @@
 |---|---|
 | 한국어 제목 | 강남드림 |
 | 영어 제목 | Gangnam Dream |
-| 장르 | 한국 사회 리얼리즘 선택형 서사 게임(인터랙티브 소설) / 비주얼 노벨 |
-| 핵심 약속 | 돈을 향한 선택이 관계와 세계를 바라보는 방식까지 바꾸는 5년 |
+| 장르 | 한국 사회를 배경으로 한 선택 중심 서사 드라마 |
+| 핵심 약속 | 30억이라는 꿈을 쫓으며 무엇을 붙잡고 무엇을 놓을지 고르는 5년 |
 | 플레이 구조 | 1주 1턴, 총 240주. 조용한 주는 몽타주로 압축하고 결정적 장면에 멈춘다 |
-| 핵심 차별점 | 수치로 공개되지 않는 색 변화, 다시 읽히는 장면, 잃을 수 있는 결혼, 5년의 개인 기록 |
+| 핵심 차별점 | 장면 안의 선택, 늦게 돌아오는 대가, 달라지는 관계, 여러 결말 |
 
-해외 카피에서 Gangnam은 처음 한 번만 `Seoul's status district`로 짧게 푼다. 이후에는 고유명사 `Gangnam`을 그대로 쓴다. 부동산 설명을 길게 붙이기보다 고시원과 강남의 화면 대비로 뜻을 전달한다.
+영어 상세 설명은 Gangnam을 처음 한 번 `Seoul's status district`로 짧게 푼다.
+짧은 설명은 지명만 쓴다. 부동산 설명을 길게 붙이기보다 고시원과 강남의 대비로 뜻을 전한다.
 
 ## 1.5. 상황을 팔고 효과를 약속하지 않는다 (2026-07-30 유저 결정)
 
@@ -34,8 +35,8 @@
 액수, 아버지가 무릎을 꿇었던 사실. 전부 사실이고 하나도 주제가 아니지만
 그것만으로 이미 무겁다. 무게는 상황에서 나오지 선언에서 나오지 않는다.
 
-**주제는 리뷰가 대신 말하게 한다.** `30억 버는 게임인 줄 알았는데…`를
-플레이어가 쓰게 만드는 것이 스토어가 스스로 말하는 것보다 강하다.
+장르는 먼저 분명히 알린다. 30억은 성공 약속이 아닌 압박으로 쓰고,
+선택의 의미나 플레이어의 반응을 대신 단정하지 않는다.
 
 ### 준수 감사 (2026-07-30)
 
@@ -79,43 +80,42 @@ Description이 그 뒤로 정렬되지 않아 **세 안 모두 메커니즘을 �
 작은 캡슐은 민준과 큰 제목을 우선한다. 120x45·184x69 축소에서 제목과
 민준이 읽혀야 하며, 세 인물을 억지로 작은 얼굴로 나란히 넣지 않는다.
 
-## 3. Short Description — A안 확정 (B·C는 1.5 위반으로 폐기, 기록만 보존)
+## 3. Short Description — 대가 중심 A안
 
-세 안 모두 3초 안에 상황을 전달한다: 한국의 계층 이동, 시작 조건과 기한, 매주 무엇에 시간을 쓸지 고르는 압박. 주제와 메커니즘은 위 1.5에 따라 선언하지 않는다.
+Steam의 짧은 설명은 줄바꿈 서식에 기대지 않는 평문 한 줄로 준비한다.
+11-03 인계 15TXT와 이전 A안은 역사본으로 보존한다. 아래 B·C도 역사 기록이다.
 
-### A. 돈의 절박함 중심 - ✅ 확정 (유저 결정 2026-07-13 — 스토어 등록 시 이 안 사용)
+### A. 30억 꿈의 대가 — 등록용 초안 (2026-11-13 사용자 확정 방향)
 
 한국어:
 
 ```text
-선택형 서사 게임(인터랙티브 소설). 서울 고시원 4.5평에서 시작한 33세 백수. 통장에 50만원, 기한은 5년, 목표는 30억짜리 강남 아파트다. 매달 누구에게 시간을 쓰고 무엇을 놓칠지 고른다. 아버지가 무릎을 꿇었던 이유를 민준은 알고 있다.
+33세, 백수, 통장에 50만 원. 5년 안에 30억 원짜리 강남 아파트를 꿈꾼다. 새벽 2시, 계좌를 빌려주면 200만 원을 주겠다는 문자가 온다. 돈, 사랑, 가족, 신념 — 무엇을 붙잡고 무엇을 놓을 것인가. 240주의 선택이 쌓여 하나의 인생이 되는 서사 드라마.
 ```
 
 English:
 
 ```text
-A choice-driven interactive novel. Thirty-three, unemployed, in a 4.5-pyeong Seoul goshiwon with 500,000 won. Five years to reach a three-billion-won Gangnam apartment. Each month you decide who gets your time and what you let go. Minjun knows why his father once knelt.
+33. No job. 500,000 won in the bank. Five years to chase a 3-billion-won apartment in Gangnam. At 2 a.m., a text offers 2 million won for the use of his bank account. Money, love, family, convictions. What do you hold on to? What do you let go? A narrative drama: 240 weeks of choices, one life.
 ```
 
 日本語:
 
 ```text
-選択型の物語ゲーム（インタラクティブ小説）。33歳、無職。ソウルの簡易個室型住宅「コシウォン」の4.5坪の部屋から始まる。口座には50万ウォン。期限は5年、目標はソウルの富と成功を象徴する街、カンナムの30億ウォンのマンションだ。毎月、誰に時間を割き、何を逃すかを選ぶ。父がひざまずいた理由を、ミンジュンは知っている。
+33歳、無職。口座には50万ウォン。5年以内に、カンナムに30億ウォンのマンションを持つのが夢だ。午前2時、口座を貸せば200万ウォン払うというメッセージが届く。金、愛、家族、信念。何を守り、何を手放すのか。240週の選択が、ひとつの人生を形づくるドラマ。
 ```
 
 简体中文:
 
 ```text
-一款选择驱动的叙事游戏（互动小说）。33岁的无业者Minjun，从首尔一间4.5坪（约15平方米）的考试院（goshiwon，韩国的超小型单间住所）起步。账户里有50万韩元，期限5年，目标是在象征财富与阶层跃升的首尔江南，买下一套价值30亿韩元的公寓。每个月，他都要决定把时间花在谁身上，又会错过什么。Minjun知道父亲当年为何下跪。
+33岁，无业，账户里只有50万韩元。梦想是在5年内买下首尔江南一套价值30亿韩元的公寓。凌晨2点，一条短信开价200万韩元，要借用他的银行账户。钱、爱情、家人、信念——你会守住什么，又会放下什么？240周的选择，写成一段人生。这是一部由选择推动的叙事剧。
 ```
 
 繁體中文:
 
 ```text
-一款以選擇推進的敘事遊戲（互動小說）。33歲，沒有工作；Minjun的起點，是首爾一間4.5坪（約15平方公尺）的考試院（goshiwon，韓國的極小單間住處）。帳戶裡有50萬韓元，期限5年，目標是在象徵財富與階級躍升的首爾江南，買下一戶價值30億韓元的公寓。每個月，他得決定時間要留給誰，又有哪些事只能錯過。Minjun知道父親當年為什麼跪下。
+33歲，沒工作，帳戶只剩50萬韓元。夢想是在5年內，買下首爾江南一戶價值30億韓元的公寓。凌晨2點，有人傳訊息，開價200萬韓元向他借銀行帳戶。金錢、愛情、家人、信念——你會守住什麼，又會放下什麼？240週的選擇，累積成一段人生。這是一部由選擇推動的敘事劇。
 ```
-
-판정: 목표와 위기가 가장 빨리 읽힌다. 현재 캡슐 아트와 함께 쓸 기본안이다.
 
 ### B. 도덕 붕괴 중심 — ❌ 폐기 (1.5 위반)
 
@@ -161,134 +161,158 @@ Five years, 500,000 won, and relationships that will not wait for success. Chase
 ## 4. About This Game - 한국어
 
 ```text
-장면을 읽고 제시된 선택지에서 민준의 다음 행동을 고르는 선택형 서사 게임(인터랙티브 소설)입니다.
+김민준은 서른셋이다. 직장도 없고, 월세 65만 원짜리 고시원에 살고, 통장에는 50만 원이 남았다.
+수첩 첫 장에는 숫자 하나가 적혀 있다. 30억 원. 서른여덟이 되기 전에 강남에 집을 갖는 것.
 
-[h2]50만원으로 시작하는 서울의 5년[/h2]
-김민준, 서른셋, 무직.
-서울의 고시원 한 칸과 통장 속 50만원에서 시작한다. 기한은 5년. 목표는 30억원짜리 강남 아파트다.
+성실하게 일하는 것만으로는 닿기 어려운 숫자다. 빠른 길에는 위험이 따르고, 그 길을 내미는 사람들은 저마다 다른 얼굴을 하고 있다.
 
-[h2]이번 달 월세, 오늘 온 연락[/h2]
-일자리를 구하고, 생활비를 버티고, 돈을 넣을 기회를 살핀다. 그 사이 가족과 친구에게서 연락이 온다.
-누구에게 시간을 낼지, 눈앞의 기회를 잡을지 고른다. 한쪽에 시간을 쓰는 동안 다른 일은 기다려 주지 않을 수 있다.
+[h2]장면 안에서 고르는 선택[/h2]
+목록에서 할 일을 고르는 대신, 눈앞의 사람과 상황 속에서 민준의 다음 행동을 정한다.
 
-[h2]중요한 순간에는 직접 선택한다[/h2]
-조용한 주는 빠르게 흘러가고, 중요한 장면에서는 민준의 다음 행동을 직접 고른다.
-일과 돈만이 아니라 사람과의 거리, 약속, 몸과 마음도 그 5년 안에 있다.
+[h2]늦게 돌아오는 대가[/h2]
+오늘의 선택이 몇 달 뒤 다른 장면의 가능성과 비용을 바꾼다.
 
-[h2]240주, 35개의 결말[/h2]
-한 번의 5년에서 모든 갈림길을 지날 수는 없다. 어떤 마지막에 닿는지는 민준이 지나온 선택과 관계에 달려 있다.
+[h2]5년, 240주[/h2]
+일과 생활비, 몸과 마음은 시간이 흐르며 변한다. 무엇에 시간을 쓸지는 당신이 정한다.
 
-[i]실직, 부채, 도박 중독, 정신적 위기, 가족의 상실과 관계 파탄을 다룹니다.[/i]
+[h2]사람들[/h2]
+편의점 야간 직원, 이유를 묻는 부동산 중개사, 제대 뒤 10년 만에 연락한 군대 동기. 누구에게 다가가고 누구를 놓칠지가 이야기를 바꾼다.
+
+[h2]여러 결말[/h2]
+강남에 닿는 길도, 다른 곳에서 의미를 찾는 길도 있다.
+
+같은 길을 오르면서, 같은 사람이 되지 않을 수 있을까.
+
+체험판에서 1월부터 6월까지, 민준의 첫 여섯 달을 플레이할 수 있습니다.
 ```
 
 ## 5. About This Game - English
 
 ```text
-A choice-driven interactive novel: read the scenes and choose Minjun's next action from the options presented.
+Kim Minjun is thirty-three. He has no job, pays 650,000 won a month for a tiny room in a Korean lodging house called a goshiwon, and has 500,000 won left in the bank.
+On the first page of his notebook is a number: 3 billion won. He wants a home in Gangnam, Seoul's status district, before he turns thirty-eight.
 
-[h2]Five years in Seoul, starting with 500,000 won[/h2]
-Kim Minjun is thirty-three and unemployed.
-Start with a tiny Korean single-room lodging called a goshiwon and 500,000 won in the bank. The deadline is five years. The goal is a three-billion-won apartment in Gangnam, Seoul's status district.
+It's a number that's hard to reach through steady work alone. Shortcuts come with risks, and the people offering them each wear a different face.
 
-[h2]This month's rent. Today's messages.[/h2]
-Look for work, cover living costs, and weigh opportunities to invest. Family and friends call in between.
-Decide whom to make time for and whether to take the opportunity in front of you. While you give your time to one part of your life, another may not wait.
+[h2]Choose in the moment[/h2]
+Rather than pick tasks from a list, decide what Minjun does with the person and situation right in front of him.
 
-[h2]Make the choices that matter in the scene[/h2]
-Quiet weeks pass quickly. At important moments, you choose what Minjun does next.
-Work and money share those five years with relationships, promises, health, and state of mind.
+[h2]Costs that come due later[/h2]
+A choice today can change what's possible in another scene months from now, and what it will cost.
 
-[h2]240 weeks, 35 endings[/h2]
-You cannot take every branch in a single five-year life. The ending depends on Minjun's choices and relationships along the way.
+[h2]Five years, 240 weeks[/h2]
+Work, living costs, and Minjun's physical and mental well-being change over time. You decide what to give your time to.
 
-[i]Contains unemployment, debt, gambling addiction, mental distress, family loss, and relationship breakdown.[/i]
+[h2]The people you meet[/h2]
+A night-shift convenience store clerk. A real estate broker who asks why. An army buddy who reaches out ten years after they lost touch at discharge. The story changes depending on who you draw closer to and who you let slip away.
+
+[h2]Multiple endings[/h2]
+Some paths lead to Gangnam. Others lead somewhere else, where life takes on a different meaning.
+
+Can you climb the same road without becoming the same person?
+
+Play Minjun's first six months, January through June, in the demo.
 ```
 
 ## 5.1. About This Game - 日本語
 
 ```text
-場面を読み、提示された選択肢からミンジュンの次の行動を選ぶ、選択型の物語ゲーム（インタラクティブ小説）です。
+キム・ミンジュン、33歳。仕事はない。韓国の簡易個室型住宅「コシウォン」に月65万ウォンを払って暮らし、口座には50万ウォンが残っている。
+手帳の最初のページに、一つの数字がある。30億ウォン。38歳になる前に、ソウルの富と成功を象徴する街、カンナムに家を持ちたい。
 
-[h2]50万ウォンから始まる、ソウルでの5年[/h2]
-キム・ミンジュン、33歳、無職。
-ソウルの簡易個室型住宅「コシウォン」の一室と、口座の50万ウォンから始まる。期限は5年。目標は、ソウルの富と成功を象徴する街、カンナムにある30億ウォンのマンションだ。
+まじめに働くだけでは、なかなか届かない数字だ。近道には危険がつきまとう。その道を差し出す人たちの顔は、一人ひとり違う。
 
-[h2]今月の家賃、今日届いた連絡[/h2]
-仕事を探し、生活費をやりくりし、お金を投じる機会を探る。その合間に、家族や友人から連絡が届く。
-誰のために時間をつくるか、目の前の機会をつかむかを選ぶ。一方に時間を使っている間、ほかのことは待ってくれないかもしれない。
+[h2]場面の中で選ぶ[/h2]
+やることを一覧から選ぶのではなく、目の前の相手と状況の中で、ミンジュンの次の行動を決める。
 
-[h2]大切な瞬間は、自分で選ぶ[/h2]
-静かな週は足早に過ぎ、重要な場面ではミンジュンの次の行動を自分で選ぶ。
-仕事やお金だけでなく、人との距離や約束、体と心も、その5年の一部だ。
+[h2]あとから返ってくる代償[/h2]
+今日の選択が、数か月後の別の場面で、何ができるか、何を支払うことになるかを変える。
 
-[h2]240週、35の結末[/h2]
-一度のプレイでは、5年間のすべての分かれ道をたどることはできない。どんな結末にたどり着くかは、ミンジュンが重ねてきた選択と人間関係によって決まる。
+[h2]5年、240週[/h2]
+仕事も生活費も、体も心も、時間とともに変わっていく。何に時間を使うかは、あなたが決める。
 
-[i]失業、負債、ギャンブル依存症、精神的な危機、家族の喪失、人間関係の破綻を扱います。[/i]
+[h2]出会う人たち[/h2]
+コンビニの夜勤スタッフ。理由を尋ねる不動産仲介人。除隊から10年を経て連絡してきた、軍隊時代の同期。誰に近づき、誰を取りこぼすかで、物語は変わる。
+
+[h2]いくつもの結末[/h2]
+カンナムにたどり着く道もあれば、別の場所で意味を見つける道もある。
+
+同じ道を上りながら、同じ人間にならずにいられるだろうか。
+
+体験版では、1月から6月まで、ミンジュンの最初の半年をプレイできます。
 ```
 
 ## 5.2. About This Game - 简体中文
 
 ```text
-这是一款选择驱动的叙事游戏（互动小说）：阅读场景，从给出的选项中选择Minjun下一步的行动。
+Kim Minjun 三十三岁，没有工作，住在月租65万韩元的考试院（goshiwon，韩国的一种小单间住所）里，银行账户只剩50万韩元。
+笔记本第一页写着一个数字：30亿韩元。他想在满三十八岁之前，在象征财富与地位的首尔江南拥有自己的家。
 
-[h2]从50万韩元起步，在首尔走过5年[/h2]
-Kim Minjun，33岁，无业。
-起点是首尔考试院（goshiwon，韩国的超小型单间住所）里的一间房，以及银行账户里的50万韩元。期限5年。目标是在象征财富与阶层跃升的首尔江南，拥有一套价值30亿韩元的公寓。
+光靠踏实工作，很难够到这个数字。捷径有风险，而把捷径递到他面前的人，各有各的面孔。
 
-[h2]本月月租，今天传来的消息[/h2]
-找工作，应付生活开销，也留意投入资金的机会。这期间，家人和朋友也会联系他。
-他要决定把时间留给谁，也要决定是否抓住眼前的机会。时间用在一处，其他事情未必会等。
+[h2]在场景里作决定[/h2]
+不是从清单上挑任务，而是面对眼前的人与处境，决定 Minjun 下一步怎么做。
 
-[h2]重要时刻，由你亲自选择[/h2]
-平静的几周很快过去。到了关键场景，Minjun接下来做什么，由你直接决定。
-这5年里，不只有工作和金钱，还有他与他人的距离、承诺，以及身心状况。
+[h2]几个月后才找上门的代价[/h2]
+今天的选择，会改变几个月后另一个场景里还有哪些可能，以及要付出什么代价。
 
-[h2]240周，35个结局[/h2]
-一次5年的历程无法走遍所有岔路。Minjun会走向哪个结局，取决于一路上的选择与关系。
+[h2]五年，240周[/h2]
+工作、生活开销、身体和心境都会随时间改变。时间要用在哪里，由你决定。
 
-[i]本作涉及失业、债务、赌博成瘾、心理危机、失去家人及关系破裂。[/i]
+[h2]遇见的人[/h2]
+便利店的夜班店员、询问理由的房产中介，还有曾是军中同期、退伍后断了联系十年才再次发来消息的战友。你走近谁，又错过谁，都会改变故事。
+
+[h2]多个结局[/h2]
+有的路通往江南，也有的路让人在别处找到意义。
+
+沿着同一条路往上走，能不能不变成同样的人？
+
+在体验版里，你可以经历 Minjun 的头六个月，从一月到六月。
 ```
 
 ## 5.3. About This Game - 繁體中文
 
 ```text
-這是一款以選擇推進的敘事遊戲（互動小說）：閱讀場景，從提供的選項中選擇Minjun下一步的行動。
+Kim Minjun 三十三歲，沒有工作，住在月租65萬韓元的考試院（goshiwon，韓國的一種小單間住處），銀行帳戶只剩50萬韓元。
+筆記本第一頁寫著一個數字：30億韓元。他想在滿三十八歲前，在象徵財富與地位的首爾江南有個自己的家。
 
-[h2]從50萬韓元開始，在首爾過5年[/h2]
-Kim Minjun，33歲，沒有工作。
-起點是首爾考試院（goshiwon，韓國的極小單間住處）裡的一間房，和銀行帳戶裡的50萬韓元。期限是5年。目標是在象徵財富與階級躍升的首爾江南，擁有一戶價值30億韓元的公寓。
+光靠踏實工作，很難達到這個數字。捷徑有風險，把捷徑遞到眼前的人，也各有各的面孔。
 
-[h2]本月月租，今天收到的訊息[/h2]
-找工作、應付生活開銷，也留意是否有投入資金的機會。這段時間，家人和朋友也會聯絡他。
-他得決定時間要留給誰，也要決定是否把握眼前的機會。時間一旦給了其中一邊，其他事不見得會等下去。
+[h2]在場景裡做選擇[/h2]
+不是從清單挑待辦事項，而是面對眼前的人和情況，決定 Minjun 接下來怎麼做。
 
-[h2]重要關頭，親手決定下一步[/h2]
-安靜的幾週轉眼而過。到了關鍵場景，Minjun接下來採取什麼行動，由你直接選擇。
-這5年裡，不只有工作與金錢，還有他與人的距離、承諾，以及身心狀況。
+[h2]遲來的代價[/h2]
+今天的選擇，會改變幾個月後另一個場景裡有哪些事還做得到，又得付出什麼代價。
 
-[h2]240週，35個結局[/h2]
-一段5年的歷程，不可能走過每一條岔路。Minjun最後會走向哪個結局，取決於一路走來的選擇與關係。
+[h2]五年，240週[/h2]
+工作、生活開銷、身體和心情都會隨時間變化。時間要花在哪裡，由你決定。
 
-[i]本作涉及失業、債務、賭博成癮、心理危機、失去家人與關係破裂。[/i]
+[h2]遇見的人[/h2]
+便利商店的夜班店員、問起原因的房仲，還有退伍後十年沒聯絡、如今又傳來訊息的同期戰友。你走近誰，又錯過誰，都會改變故事。
+
+[h2]多種結局[/h2]
+有的路走得到江南，也有的路讓人在別處找到意義。
+
+沿著同一條路往上走，能不能不變成同樣的人？
+
+在體驗版裡，你可以體驗 Minjun 的頭六個月，從一月到六月。
 ```
 
 ## 6. Steam 태그 전략
 
-상위 6개 순서는 고정한다.
+사용자 지정 순서. 등록 전 Tag Wizard에 실제 선택 가능한 이름인지 확인한다.
 
-| 순위 | 태그 | 근거 |
-|---:|---|---|
-| 1 | Choices Matter | 선택이 산문, 색, 관계, 유물, 결혼과 엔딩에 남는 핵심 약속 |
-| 2 | Life Sim | 240주 동안 일, 돈, 건강, 관계와 주거를 관리하는 실제 플레이 구조 |
-| 3 | Visual Novel | 대량의 인물 장면, 선택지, 초상, CG가 구매 기대와 정확히 일치 |
-| 4 | Romance | 두 로맨스와 계절 데이트, 결혼, 상실이 주요 상품 축 |
-| 5 | Multiple Endings | 35개 결말과 회차별 재독·기록 구조 |
-| 6 | Story Rich | 1,400개 이상의 사건과 장기 아크를 찾는 독자층 연결 |
+1. Story Rich
+2. Choices Matter
+3. Interactive Fiction
+4. Multiple Endings
+5. Drama
+6. Life Sim
+7. Text-Based
+8. Singleplayer
 
-보조 태그는 `Interactive Fiction`, `Drama`, `Capitalism`, `Singleplayer` 순으로 둔다.
-
-`Roguelike`와 `Roguelite`는 쓰지 않는다. 랜덤 사건은 있지만 절차 생성과 전투 빌드가 핵심 약속이 아니며, 잘못된 기대는 초반 이탈과 부정 평가로 돌아온다. `Economy`와 `Gambling`도 상위 태그에 두지 않는다. 이들은 시스템이지만 게임 전체의 정체성은 아니다.
+`Drama`는 사용자 지정 5순위를 유지한다. 공개 [Steam 태그 목록](https://store.steampowered.com/tag/browse/?l=english)에서 이 이름은 확인하지 못했다. 실제 등록 화면은 미확인, 대체·적용0.
+`Management`, `Economy`·투자 계열, `Comedy`, `Satire`는 쓰지 않는다. `Life Sim`은 보조 태그이며 장르 첫 문장은 서사 드라마다.
 
 ## 7. 스토어 스크린샷
 
@@ -415,31 +439,67 @@ Pillow/FreeType의 hinting·lineheight·filter 차이가 있어 Godot pixel/layo
 
 한국어:
 
-> **강남드림은 돈을 향해 오르는 동안 세계의 색과 사랑하는 사람을 잃을 수 있는 한국 사회 리얼리즘 인생 시뮬레이션이다.**
+> **강남드림은 30억이라는 꿈을 쫓으며 무엇을 지키고 무엇을 놓을지 고르는 서사 드라마다.**
 
 English:
 
-> **Gangnam Dream is a Korean social-realist life sim about climbing toward Seoul's status district while the world changes color and the people you love may not survive the climb with you.**
+> **Gangnam Dream is a narrative drama about what you keep and what you give up in pursuit of a 3 billion won dream.**
 
 다른 영화나 게임의 상표를 빌려 “한국판 OOO”로 소개하지 않는다. 레퍼런스는 내부 설계에만 쓰고, 외부에서는 강남드림 자체의 이미지와 문장으로 기억되게 한다.
 
 ## 12. 생성형 AI 공시 정본
 
-Steamworks의 [Content Survey 공개 문서](https://partner.steamgames.com/doc/gettingstarted/contentsurvey?l=english)는 플레이어가 소비하는 출시 콘텐츠에 AI 도구가 쓰였으면 사전 생성과 실시간 생성을 구분해 자세히 적도록 요구한다(확인일 2026-08-03). 강남드림의 실제 제작 증거는 **사전 생성 보조만** 가리킨다. 일부 2D 아트·서사·영문 현지화·프로그래밍/코드와 오디오 제작의 소스 선별·편집·배열·믹싱이 해당한다. 출시 오디오 원음은 현장·사물 녹음 또는 녹음된 실악기 샘플이지만, 이 출처 사실을 오디오 제작 과정의 AI 보조를 숨기는 근거로 쓰지 않는다. 게임 실행 중 AI 모델을 구동하거나 외부 생성 서비스에 접속하지 않는다.
+Steamworks의 [Content Survey 공개 문서](https://partner.steamgames.com/doc/gettingstarted/contentsurvey?l=english)는 플레이어가 소비하는 출시 콘텐츠에 AI 도구가 쓰였으면 사전 생성과 실시간 생성을 구분해 자세히 적도록 요구한다(재확인 2026-11-13). 강남드림의 제작 증거는 **사전 제작 보조만** 가리킨다. 일부 2D 아트·UI 이미지, 서사 초안, EN·JA·zh-CN·zh-TW 현지화, 코드와 오디오 소스 선별·편집·배열·믹싱이 해당한다. 오디오 원음은 현장·사물 녹음 또는 실악기 녹음 샘플이다. 게임 실행 중 AI 모델을 구동하거나 외부 생성 서비스에 접속하지 않는다.
 
-### Steam Content Survey - 한국어 초안
+### Steam Content Survey - 현재 5언어 초안
+
+상점 소개와 구분해 보관한다. 제출본은 실제 패키지와 대조하고 사용자 확인 전에는
+제출하지 않는다. [공개 Steamworks 가이드](https://partner.steamgames.com/doc/gettingstarted/contentsurvey)
+2026-11-13 재확인. 아래 언어는 모두 같은 사실 범위다.
+
+#### ko
+
+```text
+개발 중 일부 2D 배경, 캐릭터 초상화, 이벤트 일러스트와 UI 이미지의 제작, 서사 초안, 영어·일본어·중국어(간체·번체) 현지화, 코드 작성·수정, 오디오 소스 선별·편집·배열·믹싱에 생성형 AI의 도움을 받았습니다. 게임에 포함된 결과물은 개발 과정에서 선별·검토하고 필요한 부분을 수정했습니다. 오디오 원음은 현장·사물 녹음 또는 실제 악기를 녹음한 샘플입니다. AI로 텍스트에서 오디오를 생성하거나 코드로 파형을 합성하지 않았습니다. 플레이 중 생성형 AI 콘텐츠를 만들거나 외부 AI 서비스에 접속하지 않습니다.
+```
+
+#### en
+
+```text
+During development, generative AI assisted with some 2D backgrounds, character portraits, event illustrations and UI images; narrative drafts; English, Japanese, Simplified Chinese and Traditional Chinese localization; writing and revising code; and selecting, editing, arranging and mixing audio sources. The material included in the game was selected, reviewed and revised where needed during development. The audio sources are field and object recordings or samples recorded from real instruments. We did not use AI text-to-audio generation or code-synthesized waveforms. The game does not generate AI content or connect to external AI services during play.
+```
+
+#### ja
+
+```text
+開発中、一部の2D背景、キャラクターの立ち絵、イベントイラスト、UI画像の制作、物語の草稿、英語・日本語・中国語（簡体字・繁体字）へのローカライズ、コードの作成・修正、音源の選定・編集・構成・ミキシングに生成AIを補助的に使用しました。ゲームに収録した成果物は開発中に選定・確認し、必要に応じて修正しました。音源は現地や物の音を収録したもの、または実際の楽器を録音したサンプルです。AIでテキストから音を生成したり、コードで波形を合成したりしていません。プレイ中にAIコンテンツを生成することも、外部のAIサービスに接続することもありません。
+```
+
+#### zh-CN
+
+```text
+开发过程中，部分二维背景、角色立绘、剧情插画和界面图像的制作，剧情初稿的撰写，英语、日语及简体和繁体中文的本地化，代码的编写和修改，以及音源的筛选、编辑、编排和混音，都使用了生成式 AI 辅助。游戏采用的成果在开发期间经过筛选和检查，并按需修改。音源来自现场录音、物件声音录音或真实乐器的录音采样。未使用 AI 从文本生成音频，也未用代码合成波形。游玩期间不会生成 AI 内容，也不会连接外部 AI 服务。
+```
+
+#### zh-TW
+
+```text
+開發時，部分 2D 背景、角色立繪、劇情插圖與介面圖像的製作、劇情初稿的撰寫、英文、日文及簡體與繁體中文的在地化、程式碼的撰寫與修改，以及音源的挑選、剪輯、編排與混音，都有生成式 AI 協助。遊戲收錄的成果在開發過程中經過挑選與檢視，並視需要修改。音源來自現場錄音、物件聲音錄音，或真實樂器的錄音取樣。未使用 AI 從文字生成音訊，也未以程式碼合成波形。遊玩時不會生成 AI 內容，也不會連線至外部 AI 服務。
+```
+
+### Steam Content Survey - 한국어 초안 (이전 보존)
 
 ```text
 사전 생성 생성형 AI 도구가 일부 2D 배경, 캐릭터 초상화, 이벤트 CG의 초기 제작과 서사 초안, 영문 현지화, 프로그래밍 및 코드 작성·수정, 오디오 제작의 소스 선별·편집·배열·믹싱에 보조로 사용되었습니다. 출시 빌드에 포함되는 AI 보조 결과물은 개발자가 선별·편집·수정했습니다. 활성 이미지는 반복 인물의 얼굴과 의상, 손과 시선, 한국 공간의 구조, 이미지 안의 글자·상표, 색감과 크롭을 원본 기준으로 전수 목록화·검사했습니다. 서사와 현지화는 한국어/영어 의미 대응, 조건·선택 결과를 전수 자동 검사하고 인물 말투와 화면 잘림을 대표 경로 실행으로 표본 검수했으며, 코드는 리뷰·정적 검사·자동 회귀 검사와 대표 실행으로 검증했습니다. 이는 모든 문안·코드 경로를 사람이 게임 안에서 전수 플레이했다는 뜻이 아닙니다. 출시 오디오의 원음은 AI 텍스트-투-오디오나 코드 합성 파형이 아니라 현장·사물 녹음 또는 녹음된 실악기 샘플입니다. 다만 AI가 오디오 제작 과정에 보조로 쓰였다는 사실은 공시 범위에 포함합니다. 게임 실행 중에는 생성형 AI 콘텐츠가 만들어지지 않으며 외부 AI 서비스에 접속하지 않습니다.
 ```
 
-### Steam Content Survey - English draft
+### Steam Content Survey - English draft (historical)
 
 ```text
 Pre-generated generative AI tools assisted with initial drafts of some 2D backgrounds, character portraits, event CGs, narrative text, English localization, programming or code changes, and audio source selection, editing, arrangement, and mixing. AI-assisted output included in the release build was selected, edited, and corrected by the developer. Active images were fully inventoried and inspected at source resolution for recurring character identity and wardrobe, hands and gaze, Korean spatial logic, embedded text and trademarks, grading, and crop safety. Narrative and localization receive full-corpus automated parity and consequence checks plus representative runtime review for character voice and on-screen layout. Code was reviewed with static checks, automated regressions, and representative runtime tests. This does not claim that a person exhaustively played every text and code path in-game. Shipped audio sources are field/object recordings or recorded real-instrument samples rather than AI text-to-audio output or code-generated waveforms; AI assistance in the production process is still disclosed. The game does not generate AI content at runtime and does not connect to an external AI service during play.
 ```
 
-공개 페이지에 짧은 설명이 필요한 경우 다음 문장만 사용한다. “AI가 다 만들었다”거나 “사람이 전부 다시 그렸다”는 식의 과장된 양극단 표현은 쓰지 않는다.
+아래 일반 공개 페이지 요약은 이전 문안 보존이다. 현재 적용은 별도 확인한다.
 
 ```text
 일부 2D 아트와 문안·영문 현지화·프로그래밍, 녹음·샘플 기반 오디오의 제작 과정에 생성형 AI 도구의 도움을 받았습니다. 포함 결과물은 개발자가 선별·편집·수정했고, 활성 이미지는 전수 목록화·검사했으며 다른 표면은 자동 검사와 대표 경로 실행으로 검증했습니다. 플레이 중 생성되는 AI 콘텐츠는 없습니다.
@@ -450,8 +510,7 @@ Generative AI tools assisted with early production of some 2D art, writing, Engl
 ### AI 보조 번역 고지
 
 최신 DECISIONS C4에 따른 상점·게임 내 언어 선택의 공통 문안이다. 위의 일반
-생성형 AI 제작 공시와 별도로 사용한다. 기존 Content Survey 초안과 확인일·제작
-증거·법률 판단 경계는 바꾸지 않는다.
+생성형 AI 제작 공시와 별도로 사용한다. 기존 제작 증거·법률 판단 경계는 유지한다.
 
 | 언어 | 고지 문안 |
 |---|---|
@@ -500,14 +559,14 @@ package inventory를 따로 대조한다. Steam 공개 문서는 업로드된 �
 출시 후 관리 대상이다. 제출 패키지·상점 소재·설문은 C5에 맞춰 확인하며, 이
 문서의 체크 목록 자체가 외부 업로드·상점 변경·설문 제출을 승인하지 않는다.
 
-- [ ] Short Description A/B 중 하나를 캡슐과 함께 5명에게 3초 노출하고, “무슨 게임인가”를 설명 없이 회수한다.
+- [ ] 사용자가 확정한 대가 중심 A안에 맞게 설명·태그·소재가 같은 장르를 전하는지 반영 직전 확인한다. A/B 재평가를 요구하지 않는다.
 - [ ] 8장 모두 `python3 tools/store_shot_check.py` 통과.
 - [ ] 5번과 6번이 같은 장면·같은 크롭인지 육안 확인.
 - [ ] 모든 스크린샷이 실제 영문 인게임 UI이며 외부 합성 문구가 없는지 확인.
 - [ ] 첫 4장만 보고도 목표, 선택, 시간 압축, 장기 결과가 각각 하나씩 읽히는지 확인.
 - [ ] 지원 언어, 엔딩 수, 데모 범위가 현재 빌드와 일치하는지 출시 후보마다 재확인.
-- [ ] 데모 업로드가 exact `story_demo_rc` BUILD `2026.08.31.1` identity와
-      일치하고 legacy W1~W24 앱이 아닌지 확인.
+- [ ] 실제 제출 후보가 [체험판 수리 사양](queue_archive/ORDER-831.md)의 M01~M06
+      `story_demo_rc`인지 확인. `2026.08.31.1`은 역사본이며, legacy W1~W24 앱은 제외한다.
 - [ ] 상점 페이지와 게임 내 언어 선택 화면에 §12의 AI 보조 번역 고지가 실제로 반영됐는지 각각 확인.
 - [ ] 5언어 출시 목표와 현재 KO/EN retail 선택을 구분하고, 최종 후보의 언어 선택·패키징·KO/EN 확정 후 CJK 정합 상태를 확인.
 - **역사·출시 후 보류:** 기존 문항 “JA·zh-CN·zh-TW를 지원 언어로 표시하기 전에 각 원어민 게이트를 확인.”은 최신 C4 고지 기준으로 대체한다. 원어민 판정 OPEN을 GO로 바꾸는 것은 아니다.
