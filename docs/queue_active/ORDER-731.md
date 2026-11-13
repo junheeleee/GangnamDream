@@ -1,5 +1,10 @@
 # ORDER-731 — M40 자동 월초 경계
 
+2026-11-13 사용자 인계: C1이 우선이다. 고정 31.3은 기존 slot1 W192 c1 결과 P2에서
+정상 Load로만 재개한다(Continue/재선택 금지). 11-15 목표 M50, 이후 M60까지 연속.
+strict IOConsoleLocked=No와 지원 화면/입력을 함께 확인하기 전 실행·입력 0.
+새 게임/복원/수치·RNG 편집/월별 게이트 없이, 이후 ScreenshotQA는 별도로 한다.
+
 2026-11-03 C3 실제 CI run41540805323 실패 수리: `MANUAL_SAVE_EXIT`는 프롤로그
 검사에서 미독 goal을 건너뛴 준비 큐와 새 exact root guard 충돌이다. 제품 guard를
 완화하지 않고 `tools/ManualSaveCheck.gd`의 해당 준비 handoff만 정렬·표적 반례 검증한다.
