@@ -73,6 +73,10 @@ W1 창원에서 무릎을 꿇은 아버지를 문틈으로 보는 문장에 정�
 패키지는 변경하지 않는다. 채택은 `content/events/story_events.json`, 해당 그림
 등록·출처/크기/연기 원장과 `content/meta/story_rules.json`, 관련 연출 계약·QA에
 한정한다. 문틈/붙잡기/등 돌린 뒤 계단은 다른 화면이며 미완 분기를 합격 처리하지 않는다.
+`assets/scene_audio_manifest.json`의 무릎 목격 결과와 3선택에서 종이·옷감·걸음을
+행동 문단에만 배치하고, 계단에서만 가족 거실 환경음을 분리한다. 가족 선율 연속 유지.
+회귀 파일은 `tools/{StoryPresenceCheck,StoryTutorialPlacementCheck,ScreenshotQA}.gd`의
+무릎 구간만. 설정·저장 키·분기 효과 변경0.
 
 W6 `cafe_00`(2), `cafe_bluff_caught`(0), `cafe_mind_01`(1)은 퇴장 결과만 민준과
 창밖에 이미 보이던 젖은 골목·실외 빗소리로 바꾼다. 자리에 남는 분기는 카페를 보존한다.
