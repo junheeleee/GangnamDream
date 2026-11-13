@@ -99,6 +99,8 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
+| 79 | [~] | ORDER-823 · 투자 마감 회신의 R3 추가 조달액 | [823](queue_active/ORDER-823.md) | C5 · 본편 자금 전제 |
+
 
 
 
