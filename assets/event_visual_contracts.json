@@ -322,6 +322,7 @@
     {"id": "hyunsu_reunion_photo", "background": "current_housing", "portrait": "hyunsu_accounting"},
     {"id": "hyunsu_reunion_memory", "background": "current_housing", "portrait": "hyunsu_accounting"},
     {"id": "hyunsu_reunion_meet", "background": "gukbap_restaurant_night", "portrait": "hyunsu_accounting"},
+    {"id": "callback_daeun_committed_gangnam_eve", "background": "current_housing", "choice_result_backgrounds": {"0": "gukbap_restaurant_night"}},
     {"id": "hyunsu_year4_echo", "background": "current_housing", "portrait": "hyunsu_accounting", "portrait_if_known": {"hyunsu_passed": "hyunsu_civil_service"}},
     {"id": "hyunsu_year5_call", "background": "current_housing", "portrait": "hyunsu_accounting", "portrait_if_known": {"hyunsu_passed": "hyunsu_civil_service"}},
 

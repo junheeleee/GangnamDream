@@ -56,6 +56,13 @@ const CASES := [
 		"results": ["current_housing", "subway"],
 		"result_ambience": ["apartment", "subway"],
 	},
+	{
+		"id": "callback_daeun_committed_gangnam_eve",
+		"root": "current_housing",
+		"root_ambience": "oneroom",
+		"results": ["gukbap_restaurant_night", "current_housing"],
+		"result_ambience": ["hoesik", "oneroom"],
+	},
 ]
 
 const EXACT_PATHS := {
@@ -70,6 +77,7 @@ const EXACT_PATHS := {
 	"street": "res://assets/backgrounds/street_seoul_day.png",
 	"gangnam_apartment": "res://assets/backgrounds/gangnam_apartment.png",
 	"apartment": "res://assets/backgrounds/oneroom_apartment.png",
+	"gukbap_restaurant_night": "res://assets/backgrounds/gukbap_restaurant_night.png",
 	"subway": "res://assets/backgrounds/seoul_subway.png",
 }
 
@@ -110,7 +118,7 @@ func _ready() -> void:
 				await _play_case(language, fixture, choice_index)
 	await _remove_story()
 	await _stop_audio()
-	if _cases != 32 or _intro_pages < 32 or _result_pages < 32:
+	if _cases != 36 or _intro_pages < 36 or _result_pages < 36:
 		_fail("fixture inventory incomplete cases=%d intro_pages=%d result_pages=%d" % [
 			_cases, _intro_pages, _result_pages])
 	if _failures > 0:
@@ -176,6 +184,8 @@ func _seed_story(event_id: String) -> bool:
 	GameState.mental = 80
 	GameState.current_job = {"id": "job_01"}
 	GameState.flags = {"prologue_done": true}
+	if event_id == "callback_daeun_committed_gangnam_eve":
+		GameState.flags["daeun_romance_started"] = true
 	GameState.story_replay_mode = false
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
 	EventManager.current_event = {}
