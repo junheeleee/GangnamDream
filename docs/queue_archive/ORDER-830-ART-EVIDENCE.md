@@ -6,6 +6,8 @@
 
 11-14 KST 착수 범위: `arc_jiyeon_01_crash`의 사고 전용 배경 후보, `assets/backgrounds/sinchon_crash_approach_rain_dusk.png` 한 장을 먼저 검수한다. 원본 CG 보존. 지연 노출·소리·퇴장 적용은 각각 배선 착수로 기록한다. 이전 완료 W4(20경로·저장15·화면15), M14(은행 배경 2장·격리 검증), W234(사무실→강남대로)와 직접 청취 미완 상태는 아래 증거에 남긴다.
 
+11-14 KST 음향 [~] 착수: `assets/scene_audio_manifest.json` 사고 한 행과 `tools/BGMContinuityCheck.gd`의 실제 믹서 검사. `rain`의 별도 사람 레이어만 끄고 빗소리·차량·충돌·곡 시점을 보존한다. `docs/WORK_LOG.md` 당일 한 항목에 결과 기록.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
