@@ -24,7 +24,16 @@
   현장음과 음악은 독립 판정하고 새 빌드 실청취 전에는 청취 승인0.
 - M54 같은 생활음 수리: `assets/scene_audio_manifest.json`에서 실제 어머니 집
   `arc_daeun_hometown_2{,_father_passed}`·`arc_daeun_hometown_table_{hands,daughter,decision}`
-  다섯 행만. 집 실내 음원·음악 시작·이웃 장면을 검증한다.
+  다섯 행. 결과 두 갈래가 버스 CG로 바뀌는 정확한 문단에만 음향도 이행한다.
+  `autoloads/BGMPlayer.gd`, `tools/{BGMContinuityCheck.gd,scene_audio_contract_check.py}`에
+  명시 CG 한정 결속·실내 계절음 차단·오류 입력 검사를 추가 가능. 검증기 완화0.
+
+- W202 ‘같이 계산하는 저녁’: `content/events/callback_events_2.json`의
+  `callback_daeun_committed_gangnam_eve`만. 연락·거절은 실내, 수락 결과에만 실제
+  국밥집을 표시하고 환경음도 함께 맞춘다. `assets/event_visual_contracts.json`과
+  `assets/scene_direction_manifest.json`, `tools/StoryBackgroundContextCheck.gd` 해당
+  표적 검사. 원문과 선택 효과 유지. 기존 식당 환경음이 맞지 않으면 새 녹음을
+  구할 때까지 시각과 음향 판정을 구별한다.
 
 ## 배치 2 — M60 마지막 책상
 
