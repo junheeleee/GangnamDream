@@ -7,7 +7,7 @@
 W4 [x] [보관함→귀가](../queue_archive/ORDER-830-ART-EVIDENCE.md#w4-보관함과-귀가): 20경로·저장15·화면15. 새 RC/직접 청취 미완.
 
 M14 [x] 신규 배경 2장·배선·[격리 검증](../queue_archive/ORDER-830-ART-EVIDENCE.md#m14-한도-상담과-퇴장). 실청취 미완.
-W234 [~] `assets/backgrounds/gangnam_boulevard_winter_dusk.png` 후보만; 실내→거리 두 선택.
+W234 [~] 대로 PNG·등록/원장·장면/소리·StoryMode·배경 검사. 원고/저장0.
 
 ## 배치 1 — W200–201 결혼식·신혼집
 
