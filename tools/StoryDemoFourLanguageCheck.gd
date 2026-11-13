@@ -370,6 +370,7 @@ func _run_locale(
 		"%s session profile drifted" % language)
 	_expect(str(initial.get("phase", "")) == "transition",
 		"%s did not start at the first transition" % language)
+	_check_asset_progress(controller, language, 0)
 	_check_action_ledger(controller, language, "new run")
 	_check_restart_confirmation_scope(controller, language)
 	if language == "ko":
@@ -475,6 +476,7 @@ func _run_locale(
 			"%s M%02d did not advance exactly four weeks" % [language, month])
 		_expect(int(closed.get("settlement_count", -1)) == month,
 			"%s M%02d did not settle exactly once" % [language, month])
+		_check_asset_progress(controller, language, month)
 		_check_action_ledger(controller, language, "M%02d settlement" % month)
 		_months_checked += 1
 		_weeks_checked += 4
@@ -1054,6 +1056,26 @@ func _check_visible_surface(controller: Node, language: String, context: String)
 	if language not in ["ko", "en"]:
 		_expect(not _contains_hangul(visible),
 			"%s %s leaked Hangul: %s" % [language, context, visible.replace("\n", " | ")])
+
+
+func _check_asset_progress(controller: Node, language: String, month: int) -> void:
+	var templates := {
+		"ko": "순자산 %s · 목표 30억 원까지 %s 남음",
+		"en": "Net worth %s · %s to the 3 billion won goal",
+		"ja": "純資産 %s · 目標の30億ウォンまであと %s",
+		"zh-CN": "净资产 %s · 距30亿韩元目标还差 %s",
+		"zh-TW": "淨資產 %s · 距離30億韓元的目標還差 %s",
+	}
+	var assets := float(GameState.get_total_asset_value())
+	var expected := str(templates[language]) % [
+		LocaleManager.format_whole_won(roundi(assets)),
+		LocaleManager.format_whole_won(roundi(maxf(0.0, 3_000_000_000.0 - assets))),
+	]
+	var visible := str(controller.call("qa_visible_text"))
+	var occurrences := visible.split("\n").count(expected)
+	_expect(occurrences == (0 if month == 0 else 1),
+		"%s M%02d asset progress row count=%d expected=%s" % [
+			language, month, occurrences, expected])
 
 
 func _check_story_language_contract() -> void:

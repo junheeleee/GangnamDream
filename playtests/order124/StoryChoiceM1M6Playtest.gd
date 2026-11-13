@@ -2233,6 +2233,8 @@ func _show_transition(notice: String = "") -> void:
 	scene_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(scene_title)
 	var previous: Dictionary = _last_settlement()
+	if not previous.is_empty():
+		column.add_child(_asset_progress_label())
 	var transition_copy := _t(
 		"첫 장면이 기다리고 있습니다. 선택은 장면 안에서만 합니다.",
 		"The first scene is waiting. Choices happen only inside it.")
@@ -2292,6 +2294,7 @@ func _show_recap() -> void:
 		GameState.format_money(GameState.money), GameState.health, GameState.mental],
 		15 if _compact else 17, C_GOOD, true)
 	column.add_child(summary)
+	column.add_child(_asset_progress_label())
 	var records: Array = _session.get("choices", [])
 	for record_variant in records:
 		if not record_variant is Dictionary:
@@ -2324,6 +2327,26 @@ func _show_recap() -> void:
 		"이 기록은 이 체험판의 전용 JSON에만 저장됩니다.",
 		"This record is stored only in this playtest's dedicated JSON file.")
 	_focus_later(done)
+
+
+func _asset_progress_label() -> Label:
+	var assets := float(GameState.get_total_asset_value())
+	var remaining := maxf(0.0, GameState.GANGNAM_TARGET - assets)
+	var localized_amounts := [
+		LocaleManager.format_whole_won(roundi(assets)),
+		LocaleManager.format_whole_won(roundi(remaining)),
+	]
+	var english_amounts := localized_amounts if LocaleManager.language == "en" else [
+		LocaleManager.format_money_english(assets),
+		LocaleManager.format_money_english(remaining),
+	]
+	var progress := _tf(
+		"순자산 %s · 목표 30억 원까지 %s 남음",
+		"Net worth %s · %s to the 3 billion won goal",
+		localized_amounts, english_amounts)
+	var row := _label(progress, 14 if _compact else 16, C_ACCENT, true)
+	row.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	return row
 
 
 func _next_scene_title(month: int) -> String:
