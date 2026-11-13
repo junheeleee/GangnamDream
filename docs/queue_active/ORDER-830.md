@@ -22,6 +22,9 @@
   네 행과 필요 시 `tools/BGMContinuityCheck.gd` 표적 검증. 이전 식장음 종료 수리 유지.
   실내에 비 추가0. 마지막 분기의 원문 속 순간 냉장고 소리와 상시 윙윙거림을 구별.
   현장음과 음악은 독립 판정하고 새 빌드 실청취 전에는 청취 승인0.
+- M54 같은 생활음 수리: `assets/scene_audio_manifest.json`에서 실제 어머니 집
+  `arc_daeun_hometown_2{,_father_passed}`·`arc_daeun_hometown_table_{hands,daughter,decision}`
+  다섯 행만. 집 실내 음원·음악 시작·이웃 장면을 검증한다.
 
 ## 배치 2 — M60 마지막 책상
 
