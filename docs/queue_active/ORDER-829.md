@@ -141,3 +141,12 @@ CompileCheck 69 exact marker 1, Manual 정상 15잎/5언어와 v4 기록 5, demo
 `demo_localization_scope --self-test`는 손대지 않은 `e9ac5fc`에서도 옛 전체본문 pin
 6건이 실패하므로 이번 통과로 세거나 미선언 도구를 고치지 않았다. 실제 M04 화면·
 원어민·사람·새 RC·출시는 여전히 별도다.
+### [~] P6c · 재혁의 재회, 내무반의 11년과 제대 뒤 10년
+
+`arc_jaehyuk_01_reunion`의 제목·기본/정석/비정석 설명·선택1 결과만 5언어에서
+정합한다. 처음 같은 내무반에 있던 때(22세)는 지금(민준 33세)보다 11년 전이고,
+제대 뒤 끊긴 연락의 10년은 그대로다. 포장마차에서 예전 습관이 드러나는 작은 행동을
+보여 주되 투자 권유·의혹의 확정·재회 이후의 새 사실은 보태지 않는다.
+`content/events{,_en}/arc_events.json`, `content/events_{ja,zh-CN,zh-TW}/story_demo_events.json`,
+`tools/full_body_translation_scope.py`의 기존 8잎 봉인과 이 사양만 소유한다.
+사건 ID·분기·선택문·효과·사진 유물·시각·음향·8.31 역사본·기존 수용 원장은 유지한다.
