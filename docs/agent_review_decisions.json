@@ -16154,6 +16154,48 @@
         "path": "docs/agent_reviews/order824-tw-r3-napkin.json",
         "sha256": "b2f6ae9afabcab69fddcb474815a57a23600633f895f367521c4beaf2e45002c"
       }
+    },
+    {
+      "id": "order825-zh-thursday-evening-source-go",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-13",
+      "decided_by": "/root/review_816",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-825",
+      "subject": {
+        "kind": "source",
+        "commit": "bd9d693ae4e6d8d45d648857f587364a7efdf891",
+        "tree": "3d75fdafca954f6d6a7f2c5bf26c775c24e21313",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/order825-zh-thursday-evening.md",
+          "sha256": "3aa4fb2f23491ed4f8feaf8a68279bf1cb461d98391df5fe0cd00b04ccff074a"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/order825-zh-thursday-evening.json",
+          "sha256": "f8d8d3d1f4132ac4aeba5e7f7110eefda59ea2c5533a8e00b745732913cb803c"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_w204_w207_continuous_play",
+        "actual_rendered_thursday_choice",
+        "actual_save_load",
+        "candidate_ci",
+        "retail_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/order825-zh-thursday-evening.json",
+        "sha256": "f8d8d3d1f4132ac4aeba5e7f7110eefda59ea2c5533a8e00b745732913cb803c"
+      }
     }
   ]
 }

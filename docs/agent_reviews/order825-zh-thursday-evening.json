@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-825",
+  "reviewer": "/root/review_816",
+  "author": "/root",
+  "reviewed_at": "2026-11-13",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "bd9d693ae4e6d8d45d648857f587364a7efdf891",
+    "tree": "3d75fdafca954f6d6a7f2c5bf26c775c24e21313",
+    "manifest_sha256": null
+  },
+  "scope": "Existing Simplified and Traditional Chinese W204 choice index 0 result, one Daeun dialogue clause each; no new coverage.",
+  "findings": "Daeun asks for the one indicated time slot on this Thursday evening, not a full day or a recurring promise automatically confirmed. The request to explain what was chosen if the slot cannot be protected, after 7pm and two hours, and no displayed monetary decrease remain. The other choices and prior ORDER-824 money-cell callback are unchanged.",
+  "routing": "W204 choice index 0 records m51_one_evening_no_contract_calls (time_boundary). W207 arc_y5_final_offer uses the W204 choice-index receipt and row 0 recalls the line after 7pm and the reserved two hours. The static trace does not prove actual exposure, appointment fulfillment, or loss.",
+  "validation": {
+    "method": "Direct Korean and full CN/TW W204 choice/causal read plus W207 row 0; independent same-source original ORDER-166 and new official receipts, old/new hashes, pure check_batch, exact target and ledger byte inverses.",
+    "prior_batches": 414,
+    "prior_decisions": 383,
+    "prior_decision_ledger_sha256": "b5758b4b363489b80e8c4faaeb85d73b415d194315aee0f3693e98081fea5d90",
+    "target_byte_inverses": 2,
+    "ledger_byte_inverses": 1,
+    "original_official_receipts": 2,
+    "current_official_receipts": 2,
+    "protected_blobs": 24,
+    "logs": "Official CN/TW export/check/import with six empty stderr files; Chapter5 19 roots/47 choices audit, public demo 5 locales/14 events/100 leaves/122 UI, EN/i18n/context pass."
+  },
+  "identity": {
+    "baseline": "e306588d88a2f6d685f1ecd6a9d7b3057dd811f2",
+    "source_manifest_sha256": "86fbfb923b5e6d56df24c3017cb3aceb2a7d00da9ce1ef5b42bebadaeace51e8",
+    "original_receipt_source": "4b3a8cbe7474348e64fbba5c5d8e97e608dbb53f",
+    "bindings_by_locale": {
+      "zh-CN": {
+        "id": "events:arc_y5_after_goal_daeun:/choices/0/result_text",
+        "source_sha256": "170358a53fa574536924afeb689c0a7a2ad175774b8ac08cae22696266e79e34",
+        "previous_target_sha256": "4b286a8539e569fc89ea9f1f0082290417d7e8b3223c646acaf9c3c78a33ff1c",
+        "new_target_sha256": "506e254111930e7467b459db59c5eece08c45a26a7d0795d15afc3f689461b7b",
+        "original_batch_id": "1d958ca7ac28e2529442f4e401b451ad180ee1a7e390ec991f80f1f996fad195",
+        "original_receipt_sha256": "6424cd1ec1c68320ba703bf85ea4b0610e920f028b75bae8bb5b37ed06d98b3d",
+        "original_receipt_file_sha256": "21783e0100d318c31d3a7d856a2729f06e7fa7116a03780d0816940b49986a96",
+        "batch_id": "bc3544cc9400e8b7e16e043690672864eb3bce2a628afdf129d38b60e21a43bc",
+        "receipt_sha256": "a4f8cef40e7ccc32f3ec81b3b434c272d6c488ce585a463eaed57a0518a34d67",
+        "receipt_file_sha256": "d468bf4f50e5d87d6d68312f7439d8ea1fe1d82da197a93d4eb7e43339118cb4"
+      },
+      "zh-TW": {
+        "id": "events:arc_y5_after_goal_daeun:/choices/0/result_text",
+        "source_sha256": "170358a53fa574536924afeb689c0a7a2ad175774b8ac08cae22696266e79e34",
+        "previous_target_sha256": "4806c2ad77609d661c96424ef61bf372a6ef9526f3ca2bc6f107532f92478a52",
+        "new_target_sha256": "dd9ed800aa01eab1d802d6509ff28bf2533630488822700dee2a83851ed4ef2d",
+        "original_batch_id": "927bbbdb78f8c5769bc018b03dedd364778b295b760b3749fcf79c29f31f7740",
+        "original_receipt_sha256": "4effee16fb30c42da8a90f87d2b6e5e60eda84ada163cf51f1a4f107506d9922",
+        "original_receipt_file_sha256": "c9a51337bf3a8834a071f725953bdcb206dcae5f3b1e024fa7f806e639acc692",
+        "batch_id": "c386498ecd5ba72d347e228fb66f70dda1e5c0f0b88fa9129581b70286c6c1f5",
+        "receipt_sha256": "2f13897758fc01a2dfe0e41b424ee4380a13a5acba4f04f879776161fb33db8f",
+        "receipt_file_sha256": "ae826ba3ec3eead6929278b285d81bc8f5155923b4808acb8272b632dad570af"
+      }
+    },
+    "raw_directory": ".git/localization-zh-thursday-evening-20261113.8cWbrk/",
+    "raw_files": 25,
+    "raw_entries_sha256": "6614d4326664d044844a5fd4b4abd2e782ea3d433cd5d29aa3115c6b1452167f",
+    "raw_digest_method": "SHA-256 of compact UTF-8 JSON array of lexically sorted [filename, byte_size, file_sha256] rows."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_w204_w207_continuous_play",
+    "actual_rendered_thursday_choice",
+    "actual_save_load",
+    "candidate_ci",
+    "retail_release"
+  ]
+}
