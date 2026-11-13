@@ -164,6 +164,7 @@ func _run() -> void:
 	_check_m6_localization_and_contract(controller)
 	_check_all_receipt_selectors(controller)
 	_check_m6_route_transaction_rollback(controller)
+	await _check_demo_single_actions(controller)
 	await _check_m6_ledger_expression(controller)
 	_expect(bool(controller.call("qa_set_language", "ko")),
 		"could not select Korean for the full route")
@@ -502,6 +503,80 @@ func _check_m6_route_transaction_rollback(controller: Node) -> void:
 		"M06 receipt-before-root corruption passed session validation")
 
 
+func _check_demo_single_actions(controller: Node) -> void:
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var pending_before := GameState.pending_story_queue.duplicate(true)
+	var return_before := GameState.story_return_scene
+	var replay_before := GameState.story_replay_mode
+	var returning_before := GameState.returning_from_story
+	var language_before: String = LocaleManager.language
+	for language in ["ko", "en"]:
+		_expect(bool(controller.call("qa_set_language", language)),
+			"single-action presentation could not select %s" % language)
+		for event_id in ["arc_temptation_clean", "arc_sangchul_01_measure",
+				"arc_sangchul_01_coffee"]:
+			var label := "%s %s" % [language, event_id]
+			GameState.pending_story_queue = [event_id]
+			GameState.story_return_scene = PLAYTEST_SCENE_PATH
+			GameState.story_replay_mode = false
+			GameState.returning_from_story = false
+			var story := STORY_SCENE.instantiate()
+			add_child(story)
+			await get_tree().process_frame
+			await get_tree().process_frame
+			_expect(str(story.get("_current").get("id", "")) == event_id,
+				"%s did not open in StoryMode" % label)
+			await _expect_direct_action(story, label)
+			if story.get_parent() != null:
+				story.get_parent().remove_child(story)
+			story.free()
+	_expect(bool(controller.call("qa_set_language", language_before)),
+		"single-action presentation could not restore language")
+	GameState.load_from_dict(state_before)
+	GameState.pending_story_queue = pending_before
+	GameState.story_return_scene = return_before
+	GameState.story_replay_mode = replay_before
+	GameState.returning_from_story = returning_before
+
+
+func _expect_direct_action(story: Control, label: String) -> void:
+	for _step in range(64):
+		var paragraphs: Array = story.get("_paragraphs")
+		if bool(story.get("_showing_choices")) or bool(story.get("_pending_after_result")):
+			break
+		if (int(story.get("_para_index")) == paragraphs.size() - 1
+				and not bool(story.get("_typing"))
+				and not bool(story.get("_direction_hold_active"))
+				and not bool(story.get("_direction_beat_waiting"))
+				and not bool(story.get("_transitioning"))
+				and not bool(story.get("_story_scene_transition_active"))):
+			break
+		if bool(story.get("_transitioning")) or bool(story.get("_story_scene_transition_active")):
+			await get_tree().create_timer(0.05).timeout
+			continue
+		if bool(story.get("_direction_hold_active")):
+			story.call("_process", 2.1)
+		elif bool(story.get("_typing")):
+			story.call("_complete_typing")
+		elif bool(story.get("_direction_beat_waiting")):
+			story.call("_finish_direction_beat")
+		else:
+			story.call("_on_advance")
+		await get_tree().process_frame
+	var choice_box: VBoxContainer = story.get("_choice_box")
+	var hint: Label = story.get("_continue_hint")
+	var action := str(story.call("_direct_continue_action_text"))
+	_expect((int(story.call("_direct_continue_choice_index")) == 0
+			and not bool(story.get("_showing_choices"))
+			and not bool(story.get("_pending_after_result"))
+			and int(story.get("_para_index")) == (story.get("_paragraphs") as Array).size() - 1
+			and choice_box != null and not choice_box.visible
+			and choice_box.get_child_count() == 0
+			and hint != null and hint.visible
+			and not action.is_empty() and hint.text.contains(action)),
+		"%s did not show its direct action with zero choice buttons" % label)
+
+
 func _check_m6_ledger_expression(controller: Node) -> void:
 	if not _advance_fresh_prefix_to_event(controller, M6_EVENT_ID, "clean"):
 		return
@@ -547,7 +622,10 @@ func _check_m6_ledger_expression(controller: Node) -> void:
 			"M06 ledger omitted %s choice %d: %s" % [
 				"selected" if choice_index == selected_index else "forgone",
 				choice_index, exact_text])
-	story.call("_on_choice", 0)
+	await _expect_direct_action(story, "M06 ledger")
+	story.call("_on_advance")
+	_expect(bool(story.get("_pending_after_result")),
+		"M06 direct action did not open the last result")
 	_expect(_canonical(GameState.serialize()) == _canonical(state_before),
 		"M06 ledger expression mutated serialized GameState")
 	_expect(_canonical(controller.call("qa_session_snapshot")) == controller_before,
