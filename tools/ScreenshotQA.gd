@@ -17806,6 +17806,8 @@ func _shot_trailer_goal_dashboard() -> void:
 	GameState.month = 1
 	GameState.week_of_month = 1
 	GameState.money = 500_000.0
+	GameState.health = 65
+	GameState.mental = 60
 	GameState.monthly_income = 0.0
 	GameState.current_job = {}
 	GameState.action_points = 2
@@ -17820,6 +17822,8 @@ func _shot_trailer_timer_sequence() -> void:
 	_prepare_main_game_state()
 	GameState.turn = 4
 	GameState.money = 500_000.0
+	GameState.health = 65
+	GameState.mental = 60
 	GameState.monthly_income = 0.0
 	GameState.current_job = {}
 	GameState.flags.erase("has_received_paycheck")
@@ -17866,106 +17870,76 @@ func _shot_trailer_timer_sequence() -> void:
 
 func _shot_trailer_extended_surfaces() -> void:
 	_prepare_main_game_state()
-	GameState.turn = 145
-	GameState.age = 36
-	GameState.year = 2029
+	GameState.turn = 4
+	GameState.age = 33
+	GameState.year = 2026
 	GameState.month = 1
-	GameState.week_of_month = 1
+	GameState.week_of_month = 4
+	GameState.money = 130_000.0
+	GameState.monthly_income = 0.0
+	GameState.current_job = {}
 	await _boot_main_game()
-	var assets_before := float(GameState.get_total_asset_value()) - 420_000.0
-	_mg.call(
-		"_show_montage_card", 3, assets_before, GameState.health + 2,
-		GameState.mental + 3, 2, 1, "cap", 3)
-	await _settle(0.45)
-	await _save("trailer_16_montage")
+	# Use the shipping full-story cash panel with a source-valid first-month
+	# receipt: four livelihood weeks, the real goshiwon rent, and no invented
+	# salary, loan, or residual cash. _show_month_summary clears the weekly
+	# reading surface before opening this modal, so no retired AP board remains.
+	var first_month_cash := {
+		"full_story_cash_summary": true, "closing_turn": 4,
+		"year": 2026, "month": 1, "complete_month": true,
+		"baseline_turn": 1, "opening_money": 500_000.0,
+		"closing_money": 130_000.0, "cash_change": -370_000.0,
+		"routine_cash": 280_000.0, "monthly_income": 0.0,
+		"housing_expense": 650_000.0, "loan_interest": 0.0,
+		"other_cash": 0.0,
+	}
+	_mg.call("_show_month_summary", first_month_cash)
+	await _settle(0.55)
+	await _save("trailer_16_month_cash")
 	await _dispose_main_game()
 
 	_prepare_main_game_state()
-	await _boot_main_game()
-	_seed_ending_state("stable_success")
-	_seed_store_trailer_time_ledger_weeks()
-	GameState.year_scenes = {}
-	_mg.call("_show_ending", "stable_success")
-	await _settle(0.8)
-	if not await _focus_modal_qa_surface("time_ledger"):
-		_fail("Trailer could not focus the time ledger.")
-		await _dispose_main_game()
-		return
-	await _save("trailer_17_time_ledger")
-	# Keep the ledger and recap as distinct real page-3 frames: first capture a
-	# ledger without selected scenes, then rebuild that page after seeding them.
-	var ending_turn: int = int(GameState.turn)
-	_seed_year_scene_history(true)
-	GameState.turn = ending_turn
-	_mg.call("_ending_show_page", 3)
-	await get_tree().process_frame
-	await _settle(0.35)
-	if not await _focus_modal_qa_surface("year_scene_recap"):
-		_fail("Trailer could not focus the five-scene recap.")
-		await _dispose_main_game()
-		return
-	await _save("trailer_18_ending_recap")
-	await _dispose_main_game()
+	GameState.turn = 205
+	await _shot_story_event(
+		"arc_late_game_push", "trailer_17_final_year_check", "", 0.45,
+		true, true)
 
 	_prepare_main_game_state()
-	_seed_portfolio()
-	GameState.money = 10_000_000.0
-	await _boot_main_game()
-	if not _mg.has_method("_open_investments"):
-		_fail("Trailer investment surface is unavailable.")
-		return
-	GameState.flags["investment_first_visited"] = true
-	_mg.call("_open_investments")
-	await _settle(0.65)
-	await _save("trailer_19_investment")
-	_close_modal()
-	await _settle(0.25)
-	var racetrack = _mg.get("racetrack")
-	if racetrack == null or not racetrack.has_method("open"):
-		_fail("Trailer racetrack surface is unavailable.")
-		return
-	racetrack.call("open")
-	racetrack.set("skip_countdown_for_smoke", true)
-	racetrack.set("_bet_type", 1)
-	racetrack.set("_picks", [0])
-	racetrack.call("_render")
-	racetrack.call("_place_bet", 10_000.0)
-	await _settle(1.2)
-	await _save("trailer_20_racetrack")
-	racetrack.set("skip_countdown_for_smoke", false)
-	racetrack.set("visible", false)
-	if _mg.has_method("_exit_minigame_overlay"):
-		_mg.call("_exit_minigame_overlay")
-	await _settle(0.25)
+	GameState.turn = 154
+	GameState.age = 36
+	await _shot_story_event(
+		"arc_year_three_crossroads", "trailer_18_crossroads_at_36",
+		"", 0.45, true, true)
 
-	var blackjack = _mg.get("blackjack_table")
-	if blackjack == null or not blackjack.has_method("open"):
-		_fail("Trailer blackjack surface is unavailable.")
-		return
-	blackjack.call("open")
-	blackjack.call("_set_stake_and_deal", 10_000)
-	await _settle(0.8)
-	await _save("trailer_21_blackjack")
-	blackjack.set("visible", false)
-	if _mg.has_method("_exit_minigame_overlay"):
-		_mg.call("_exit_minigame_overlay")
-	await _settle(0.25)
+	# These are shipping StoryMode choices, not the retired AP investment board.
+	_prepare_main_game_state()
+	GameState.turn = 12
+	GameState.flags["arc_sangchul_met_seen"] = true
+	GameState.flags.erase("arc_invest_guidance_seen")
+	await _shot_story_event(
+		"arc_invest_guidance", "trailer_19_investment_guidance", "", 0.45,
+		true, true)
 
-	var roulette = _mg.get("roulette_table")
-	if roulette == null or not roulette.has_method("open"):
-		_fail("Trailer roulette surface is unavailable.")
-		return
-	roulette.call("open")
-	roulette.call("_select_bet_type", 1)
-	roulette.call("_select_stake", 10_000)
-	roulette.call("_do_bet")
-	roulette.call("_do_spin")
-	await _settle(1.55)
-	await _save("trailer_22_roulette")
-	roulette.set("visible", false)
-	if _mg.has_method("_exit_minigame_overlay"):
-		_mg.call("_exit_minigame_overlay")
-	await _dispose_main_game()
+	# FullStoryFlow can hand race_first_visit choice 1 to the racetrack. Freeze
+	# the authored decision that licenses it rather than opening an activity by
+	# fixture-only API calls.
+	_prepare_main_game_state()
+	GameState.turn = 14
+	await _shot_story_event(
+		"race_first_visit", "trailer_20_racetrack_choice", "", 0.45,
+		true, true)
+
+	_prepare_main_game_state()
+	GameState.turn = 20
+	await _shot_story_event(
+		"arc_job_vs_invest", "trailer_21_job_invest_tension", "", 0.45,
+		true, true)
+
+	_prepare_main_game_state()
+	GameState.turn = 16
+	GameState.investment_skill = 15
+	await _shot_story_event(
+		"arc_invest_first_loss", "trailer_22_first_loss", "", 0.45,
+		true, true)
 
 func _seed_store_trailer_time_ledger_weeks() -> void:
 	# A representative, internally closed 239-week ledger for a normal W240
