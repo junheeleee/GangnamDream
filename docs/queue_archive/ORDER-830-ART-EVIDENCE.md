@@ -2,6 +2,10 @@
 
 [활성 사양](../queue_active/ORDER-830.md)에서 이관한 원문. 상태와 산출물은 당시의 기록이다.
 
+### W240 강남대로에서 수첩을 펼치는 소리
+
+[~] `assets/scene_audio_manifest.json`의 `arc_final_countdown_property_not_executed` 한 행, `tools/{scene_audio_contract_check.py,SceneDirectionCheck.gd}`의 해당 장면 계약, 현황·당일 일지·이 증거만. 강남대로 야외 밤과 집으로 돌아오는 기존 전환은 그대로. 거리·인파·계절 녹음 대신 별도 환경음 없이 수첩과 종이를 놓는 소리만 도입에 두고 기존 필기·곡 시점은 보존한다. 빗소리·지나는 차·대사·새 녹음·그림·저장·RC 추가 또는 변경 없음. 손과 문서가 보이는 전용 원화 및 실제 청취는 별도.
+
 ### W221 아버지 연락 기록 곁에 남기는 종이
 
 [~] `assets/scene_audio_manifest.json` W221의 `arc_y5_father_trace_{alive,passed}_exact` 두 행. 작은 종이에 질문을 써 접는 두 갈래와 생존 기록의 날짜를 쓰는 갈래에서 수신 전화벨을 기존 종이 필기로 교체한다. 다른 필기·종이·주거·생존 무곡/사망 곡, 실제 연락이 없었다는 원고와 선택·후속·저장·RC 보존. 이 증거와 현황만.
