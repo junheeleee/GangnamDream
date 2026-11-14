@@ -542,8 +542,8 @@
         "result_text": "Before sending, {name} thought of himself five years ago. The man with 500,000 won in the bank. He would probably have said: \"Good. You held on this far.\"\n\n{name} didn't delete that. Below it, he asked whether there was a day next week they could eat together.\n\nHe pressed send, and a small timestamp appeared beside the bubble. The unread mark stayed for a long time."
       },
       {
-        "text": "Send the delayed apology before asking for next week",
-        "result_text": "{name} began with one sentence about what he had done wrong. He didn't add why he was late. He didn't mention what he had achieved. Anything that came after an apology became an excuse.\n\nOn the last line he wrote that they didn't have to answer. He deleted that line twice and wrote it again.\n\nAfter pressing send, {name} laid the phone face down. Lamplight pooled on its back."
+        "text": "Send the overdue apology without asking to meet",
+        "result_text": "{name} began with one sentence about what he had done wrong. He didn't add why he was late. He didn't mention what he had achieved. Anything more would sound like an excuse.\n\nOn the last line he wrote that they didn't have to answer. He deleted that line twice and wrote it again.\n\nAfter pressing send, {name} laid the phone face down. Lamplight pooled on its back."
       },
       {
         "text": "Say you need tonight alone, and that you'll reach out tomorrow at eight",
