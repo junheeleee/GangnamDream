@@ -353,6 +353,12 @@ Different modest room in the same Sinchon goshiwon, seen past the door only afte
 
 Source SHA-256 `059798ae899bbcdc3dc2eb12663b1dbd18b6f31d2bc09f91e52635cd9d1aee77`; opaque 1584×990 master `cb0cf1fe2032dcd8cb8eec983669e59371af8b8185b10667694f0095fcd96516`.
 
+### hyunsu_exam_room_v2.png
+
+Active replacement for `hyunsu_exam_room`; v1 is preserved as the previous drawing. Same building as `goshiwon_hallway.png` and `goshiwon_room.png`: old plaster, plain blue-gray doorway and round knob, worn floor, narrow adult single-bed proportions. Hyunsu's own layout, seen from an adult's eye height at the threshold. A compact study desk with a lamp and a backless stool tucked beneath it; the existing story beat still has an ordinary A4-sized open workbook on the floor between desk and bed. No person, roll of cans, identifiable print or test result; matte illustration.
+
+Source SHA-256 `45a993dac21495370970c97fbafaf39ae9ba78ffed6cf4337e9864a5777a6e41`; opaque 1584×990 master `13b60f15ac903452904c07a63943b1b3a48f7d5f4859a58f4a8bdb1366e1844e`.
+
 ---
 
 ### penthouse_view.png

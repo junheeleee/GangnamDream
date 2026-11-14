@@ -265,15 +265,15 @@
     "ending_ids_sha256": "3c26984721dc1ee6a18d472b854b30578982f43632d05a3d004ad99cb247c118",
     "ending_content_sha256": "5ba0e6714ffe43e5b1a1d059988326ff7838e4c23c279c58fa8fb992f6d12d27",
     "active_art_assets": 299,
-    "source_raster_assets": 357,
-    "packaged_raster_assets": 349,
-    "registry_external_source_raster_assets": 58,
-    "registry_external_packaged_raster_assets": 50,
+    "source_raster_assets": 358,
+    "packaged_raster_assets": 350,
+    "registry_external_source_raster_assets": 59,
+    "registry_external_packaged_raster_assets": 51,
     "source_only_gdignored_raster_assets": 8,
-    "registry_external_raster_paths_sha256": "6ca03ace4a283498b511ecb7348e3e04f24224316bd9646ff4914ea854e2c990",
-    "registry_external_raster_content_sha256": "1dbf483e3a8d4e0d3746da8f48b47e459110436901d48a2b2f28a746e19556bd",
-    "registry_external_packaged_paths_sha256": "05807b4e6269b2884bd277501121e72beb3db5502755b01a1b2b0f4d53dd22f0",
-    "registry_external_packaged_content_sha256": "9639f9d93837a0daf273fb8a5f2d31e35c4ed7fab0064aa1f55a4bf8d616f251",
+    "registry_external_raster_paths_sha256": "ee62e973eef8feb77b32073c607c48bc2726eb8c4d559b8db3f41a07a4f5d5f0",
+    "registry_external_raster_content_sha256": "c13686b362641a79aa220e803363095e60fe7e570bc31df82a2bcd2a72c16f4e",
+    "registry_external_packaged_paths_sha256": "0d15cd7d8853f1f961ffe2a013b5af5902f6f7163a0da752f119e0d1bbc798f2",
+    "registry_external_packaged_content_sha256": "5ab228f180512ea92b2db646fa375d87d71a874a52fa6e67557a9a27f808a41d",
     "source_only_gdignored_paths_sha256": "f53a4433d398f59a1f71b77af81a840587083f9eca7a7d89ba4d6b1e46dfb2a4",
     "audio_source_assets": 139
   },
@@ -315,6 +315,12 @@
         "packaged": true,
         "review": "2026-11-14 원본 확인. 이전 편의점 외부 밤 대기 컷은 현행 등록에서 제외했으나 all_resources 패키지에는 보존된다. 평상복 민준과 빈 편의점 계산대가 보이며 나체·성행위·혈흔·자해·약물 묘사는 확인되지 않았다. 최종 사람 검토는 별도다.",
         "paths": ["assets/cg/romance/daeun_regular_night_wait_v1.png"]
+      },
+      {
+        "id": "retained_hyunsu_exam_room_v1",
+        "packaged": true,
+        "review": "2026-11-14 원본 확인. 방 바닥의 큰 문제집과 침대가 보이는 이전 M07 원화다. 현행 ID는 v2를 가리키며 원본은 all_resources pack에 보존된다. 인물·가시적 폭력·성적 표현·약물 묘사 없음. 최종 사람 검토는 별도다.",
+        "paths": ["assets/backgrounds/hyunsu_exam_room_v1.png"]
       },
       {
         "id": "packaged_marketing",

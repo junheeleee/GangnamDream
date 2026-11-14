@@ -12,6 +12,8 @@ UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리
 
 [~] 교정 v2를 같은 `hyunsu_exam_room` ID에 반영: `assets/backgrounds/hyunsu_exam_room_v2.png` 및 import, `autoloads/ImageRegistry.gd`의 경로 한 줄, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `assets/mod_asset_manifest.json`, `tools/art_resolution_baseline.json`, `content/meta/release_content_inventory.json`, `docs/{MODDING,ART_AI_AUDIT,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `CLAUDE.md`와 이 기록. 같은 건물 문·문틀과 방 재질, 성인 눈높이, 얇은 공부 책상과 밀어 넣은 스툴, 침대 폭과 어긋나지 않는 바닥 A4급 문제집. v1 원화·원판정 보존, 사건·저장·문장·음향·RC 불변.
 
+[x] v2 반영·독립 검수. 1584×990 `13b60f15ac90…`. KO/JA 실제 18컷, 콜드 재개6: 960×600 기본/큰 글씨, 1280×800 기본, 모두 정상 종료. 문 열림 첫 문단은 기존 복도, 바닥 문제집이 나오는 다음 문단부터 v2. 기본 글씨는 책·스툴 전체, 960 큰 글씨는 대사창이 책 하단과 다리 끝을 몇 픽셀 가리지만 펼친 두 페이지·책상과 좌석 구분 가능. v1은 이전 원화로 그대로 보존. 로컬 증거 `GangnamDream-Release-Assets/830-m07-room-v2.Xj4jLm`; 실제 사람/전 구간 검수는 아님.
+
 [~] 사용자 실물 지적: v1 문제집이 침대에 비해 과대하고 문턱의 성인 시점이 아니다. 기존 같은 건물 복도의 문·문틀·공용 재질과 고시원 폭/높이를 맞춘 v2 후보만 먼저 검수. 원문의 바닥 문제집은 A4급으로, 서 있는 민준 눈높이에서 방을 본다. 민준 개인 방의 소지품·가구 배치 복사0, v1 실물/판정 보존. 검수 전 제품 경로·저장·원고·음향 변경0.
 
 [~] 사람 없는 현수 시험방 후보 한 컷. 실제 두 저장에서 노출된 `hyunsu_result_fail` 선택0에서 문이 열린 뒤 보이는 문제집을 그린다. 민준의 방과 다른 방, 같은 신촌 고시원 재질. 캔·인물·읽히는 시험지·합격 증거 없음. 후보 검수 전에는 등록·원고·RC·저장 변경0. 선택1의 세면대 장면은 같은 문단의 복도 복귀와 별도 정확한 경계가 필요해 이번 후보에 섞지 않는다.
