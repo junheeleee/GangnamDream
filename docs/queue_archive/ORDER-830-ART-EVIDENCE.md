@@ -28,6 +28,8 @@ UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리
 
 [~] 독립 검수 후보 `assets/backgrounds/goshiwon_moveout_wet_street_v1.png`와 import, `autoloads/ImageRegistry.gd`, `scenes/StoryMode.gd`의 해당 결과 한 경계, `assets/{scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{ScreenshotQA.gd,scene_audio_contract_check.py,scene_direction_catalog.py,art_resolution_baseline.json}`, `content/meta/release_content_inventory.json`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{MODDING,ART_AI_AUDIT,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, 현황·이 기록만. 실내에는 실제 공용 냉장고가 포함된 복도음을 사람·계절층 없이 사용. 밖에서는 세 층을 즉시 끄고 문단2에서 기존 차 녹음만 한 번; 복원·언어 전환에서는 새로 재생하지 않는다. 현수 인사·복도 회상은 실내, 이후 새 집·5언어 원고·경제·저장·RC 그대로.
 
+[~] `content/meta/story_rules.json`의 이사→새 집 시각 이행에 실내·실외 출발점을 명시한다(도착·문장·효과 불변). 동일 ScreenshotQA 표의 M07 세 행도 실제 기존 음향 계약(공용 복도+현수 테마, 결과방은 조용한 룸톤)으로 정합하며 다른 M07 산출물은 수정하지 않는다. M08 차음은 상태를 늘리지 않고 기존 선택/문단 전용 cue 기록기가 소유한다.
+
 ### 1장 후반 W25~48 블라인드 1차 — 사실 오류와 실제 플레이 대조
 
 [x] 파생 사실만 반영 — `content/meta/release_content_inventory.json`와 `docs/CONTENT_RATING_INVENTORY.md`: W47 연애 후보 재지문(집합 그대로), W28 투자 선택의 `panic sell` 금융 표현 제거로 공포 검색 오탐 1건 감소. 원래 검색 규칙·공시 사실·판정·역사 패키지는 그대로.
