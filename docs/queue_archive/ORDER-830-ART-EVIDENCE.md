@@ -35,6 +35,8 @@ UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리
 
 [~] M07 `hyunsu_result_fail` 선택1 공용 세면대 후보 한 컷 착수. 정본 복도·공용 주방의 재질과 문턱 높이를 참고하되 별도 공용 세면 공간으로 그린다. 원문의 세수 문장만 대상으로, 사람·개인실·주방 집기·비·시간대 추가0. 복도 재회와 선택0 현수 방은 그대로. 이번 선언은 원화 후보와 이 증거만; 검수 후에만 소비자 배선·소리 별도 선언.
 
+[~] M07 세면대 소비자 착수 — `assets/backgrounds/goshiwon_shared_washbasin_v1.png`와 import, `assets/m07_hyunsu_washbasin_cut.tres`, `autoloads/ImageRegistry.gd`, `scenes/StoryMode.gd`, `assets/{scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{StoryBackgroundContextCheck.gd,scene_audio_contract_check.py,scene_direction_catalog.py,art_resolution_baseline.json}`, `content/meta/release_content_inventory.json`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `CLAUDE.md`와 이 이력만. 선택1 원고의 세면 구간에만 삽입, 물이 멎는 문장부터 복도. 페이지의 원본 문단 번호 및 선택0·다섯 언어 원문·되읽기·저장·RC 보존. 검증된 기존 중립 실내음만, 새 소리 없음.
+
 ### M08 고시원 현관 밖 — 이사 아침이 아닌 젖은 길
 
 [~] `arc_goshiwon_goodbye` 선택0의 결과 문단2 이후에만 맞는 후보. 낡은 신촌 고시원 출입구에서 본 젖은 이면도로, 실외/실내 경계를 읽을 수 있게. 원문은 비가 내린다거나 시간대를 확정하지 않으므로 빗방울·우산·시간 표기0. 상자·인물·주소·새 집 등급을 그리지 않으며 새 에셋 배선·원고·저장·RC 변경 전 독립 대조한다. 현수에게 인사하거나 복도에서 회상하는 갈래는 동일한 실외 컷을 쓰지 않는다.
