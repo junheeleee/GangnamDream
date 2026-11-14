@@ -2807,7 +2807,7 @@ def _validate_finale_meanings(
     final_week_route = {
         "ko": {
             "final_signature_owned": {
-                "final_week.owned_signature": ((r"자기 이름이 마른 수첩",), (r"표지[^.]{0,20}잉크 냄새",)),
+                "final_week.owned_signature": ((r"자기 이름을 적은 잉크가 마르자 수첩을 덮었다",), (r"표지[^.]{0,20}잉크 냄새",)),
             },
             "final_signature_collateral": {
                 "final_week.collateral_signature": ((r"이름",), (r"수익",), (r"비용",), (r"화살표[^.]{0,25}한 방향",)),
@@ -2818,7 +2818,7 @@ def _validate_finale_meanings(
         },
         "en": {
             "final_signature_owned": {
-                "final_week.owned_signature": ((r"notebook after his name dried",), (r"smell of ink stayed on the cover",)),
+                "final_week.owned_signature": ((r"when the ink on his name had dried, he closed the notebook",), (r"smell of ink stayed on the cover",)),
             },
             "final_signature_collateral": {
                 "final_week.collateral_signature": ((r"names",), (r"return",), (r"cost",), (r"every arrow pointed the same way",)),
@@ -2854,7 +2854,7 @@ def _validate_finale_meanings(
                 "final_week.meal_result": ((r"다섯 해 전",), (r"50\s*만원",), (r"잘했다",), (r"버텼네",), (r"다음 주에 밥 한 끼[^.]{0,40}물었",), (r"전송[^.]{0,35}시각이 찍혔",), (r"숫자 1[^.]{0,25}지워지지",)),
             },
             {
-                "final_week.apology_result": ((r"무엇을 잘못했는지",), (r"늦은 이유는 붙이지",), (r"이뤘는지도 쓰지",), (r"사과",), (r"답하지 않아도 괜찮",), (r"두 번 지웠다가 다시 썼",), (r"전송[^.]{0,35}휴대폰을 엎어",), (r"스탠드 불빛",)),
+                "final_week.apology_result": ((r"무엇을 잘못했는지",), (r"늦은 이유는 붙이지",), (r"이뤘는지도 쓰지",), (r"뭘 더 덧붙여도 변명처럼 들릴 것 같았다",), (r"답하지 않아도 괜찮",), (r"두 번 지웠다가 다시 썼",), (r"전송[^.]{0,35}휴대폰을 엎어",), (r"스탠드 불빛",)),
             },
             {
                 "final_week.distance_result": ((r"포기하지",), (r"다행",), (r"고마",), (r"오늘은 혼자",), (r"내일 저녁 여덟 시에 자기가 먼저 연락",), (r"충전선에 꽂고 불을 껐",), (r"충전 표시등이 초록색",), (r"내일 여덟 시는 그의 몫",)),
@@ -2865,7 +2865,7 @@ def _validate_finale_meanings(
                 "final_week.meal_result": ((r"five years ago",), (r"500,000 won",), (r"good",), (r"you held on this far",), (r"asked whether[^.]{0,55}next week[^.]{0,30}eat together",), (r"pressed send[^.]{0,35}timestamp",), (r"unread mark stayed",)),
             },
             {
-                "final_week.apology_result": ((r"what he had done wrong",), (r"didn't add why he was late",), (r"didn't mention what he had achieved",), (r"apology",), (r"didn't have to answer",), (r"deleted that line twice and wrote it again",), (r"pressing send[^.]{0,35}phone face down",), (r"lamplight",)),
+                "final_week.apology_result": ((r"what he had done wrong",), (r"didn't add why he was late",), (r"didn't mention what he had achieved",), (r"anything more would sound like an excuse",), (r"didn't have to answer",), (r"deleted that line twice and wrote it again",), (r"pressing send[^.]{0,35}phone face down",), (r"lamplight",)),
             },
             {
                 "final_week.distance_result": ((r"given up here",), (r"good thing i didn't",), (r"grateful",), (r"alone tonight",), (r"reach out first, tomorrow at eight",), (r"plugged in the phone and turned off the light",), (r"charging light turned green",), (r"tomorrow was his to keep",)),
@@ -2976,7 +2976,7 @@ def _validate_finale_choice_and_chain_contract(
             ("‘잘 버텼다’고 스스로에게 말한 뒤, 다음 주 밥을 먼저 청한다",
              {"mental": 15, "health": 5, "tint": 5},
              ["arc_final_week_seen", "final_week_self_approval"], ""),
-            ("다음 주를 부탁하기 전에, 미뤄 둔 사과를 먼저 보낸다",
+            ("밥 약속은 묻지 않고, 미뤄 둔 사과만 보낸다",
              {"intelligence": 3, "tint": -1}, ["arc_final_week_seen"], ""),
             ("오늘은 혼자 있겠다고, 내일 여덟 시에 먼저 연락하겠다고 보낸다",
              {"mental": 10, "health": 3, "tint": 4},
@@ -2995,7 +2995,7 @@ def _validate_finale_choice_and_chain_contract(
         ),
         "arc_final_week": (
             "Tell yourself \"you held on,\" then ask them to eat together next week",
-            "Send the delayed apology before asking for next week",
+            "Send the overdue apology without asking to meet",
             "Say you need tonight alone, and that you'll reach out tomorrow at eight",
         ),
     }
@@ -3117,6 +3117,21 @@ def run_finale_mutation_self_test(
         "apology result replaced with meal result", "final_week.apology_result",
         lambda ko, _en: ko["arc_final_week"]["choices"][1].__setitem__(
             "result_text", ko["arc_final_week"]["choices"][0]["result_text"]))
+    add(
+        "apology choice asks to meet", "choice text/effects/flags/follow-up changed",
+        lambda ko, _en: ko["arc_final_week"]["choices"][1].__setitem__(
+            "text", "미뤄 둔 사과를 보내고 다음 주에 만나자고 묻는다"))
+    add(
+        "apology restraint reversed", "final_week.apology_result",
+        lambda _ko, en: en["arc_final_week"]["choices"][1].__setitem__(
+            "result_text", str(en["arc_final_week"]["choices"][1]["result_text"])
+            .replace("Anything more would sound like an excuse.",
+                     "He added that he had every right to be late.")))
+    add(
+        "ownership of the signature removed", "final_week.owned_signature",
+        lambda ko, _en: ko["arc_final_week"]["description_if_known"].__setitem__(
+            "final_signature_owned", str(ko["arc_final_week"]["description_if_known"][
+                "final_signature_owned"]).replace("자기 이름을 적은", "남의 이름을 적은")))
     add(
         "self-approval receipt erased", "final_week.meal_result",
         lambda ko, _en: ko["arc_final_week"]["choices"][0].__setitem__(
