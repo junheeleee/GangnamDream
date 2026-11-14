@@ -634,7 +634,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 142, "expected_file_count": 50, "expected_ids_sha256": "c9af7ccbcf78254e165031b9bf7ccc4d489094fabc3e3bc649e504b15933bd3c", "expected_content_sha256": "3580c5ce32f23ad886c8d51b29a21ece467c2f92c8338eea490e0fc981a0ebae"
+        "expected_event_count": 142, "expected_file_count": 50, "expected_ids_sha256": "c9af7ccbcf78254e165031b9bf7ccc4d489094fabc3e3bc649e504b15933bd3c", "expected_content_sha256": "3de6085f597267d42d4969f30ac415b0ef4e134eb15775564b37f71f46bda352"
       },
       "facts": [
         {
@@ -704,7 +704,7 @@
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
         "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
-        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "d817eff429c5a241b5732ae7a573074f4ffa168e93068e666038968c67ecf19a"
+        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "68b7a79300b56bf974c31dcc8eab242bbf75d8a522296feaa8c31452f015af3f"
       },
       "facts": [
         {

@@ -32453,6 +32453,138 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-833",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_36_night_doubt",
+        "arc_36_night_doubt_father_passed",
+        "arc_year4_close_father_passed"
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "ja": 3,
+        "zh-CN": 3,
+        "zh-TW": 3
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Year 4: replace an unsupported fixed eleven-week gap; at W192 read the original dates and blank space alongside existing father contact, without restoring outcomes or placing a call.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "39b8a72094bb2f2f8720446fa1f884fee17f15dc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "2e3506aa4521d8c06500d38048a5c579b259ef0c7ff7cc32c8d29e5510623774",
+          "selection_sha256": "dfd7269f9095e1ab6e793c37b46bb5751e86314b21174bbb434ec9af8479259a",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e8db168aa600bb99c69d83b576f407f984898b69fb5869f7d6678369502af0d5"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "39b8a72094bb2f2f8720446fa1f884fee17f15dc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "2e3506aa4521d8c06500d38048a5c579b259ef0c7ff7cc32c8d29e5510623774",
+          "selection_sha256": "9b8786fbaf172f4517c6449c6501940bb237d3742e4a66ab08b121420e3529a0",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "fa21b7f2d782e968f4ad62cef4a500735b08e545a585868510d4083331dbd061"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "39b8a72094bb2f2f8720446fa1f884fee17f15dc",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "2e3506aa4521d8c06500d38048a5c579b259ef0c7ff7cc32c8d29e5510623774",
+          "selection_sha256": "beb3b87bbe9c57ce980d7c33945ceb4e577c2fa7572f5f6430a919f9ccf74518",
+          "count": 3,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "03db12b18aec7fc80f923a790dd849a9a212d83f160f74873df603bb113d136a"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "61de4f110939db84a6af5244ff6c2edbf9187ae6ff75e33f4977146fb06f79a3",
+        "zh-CN": "1887917dba52fad05b9ccb58cc82e92572c47f6b60ba5b02e7f9221c1f7f4920",
+        "zh-TW": "03d719d7ac3fe1a2aa62776fa71e040d955ad991bf69faf297bc155e3f37b8b1"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_36_night_doubt:/description_memory_if_known/arc_y4_midpoint_receipt_seen": "3b0b1398dd44f4dc005586fe037b969713f2517d764670b177db908e1d619a21",
+          "events:arc_36_night_doubt_father_passed:/description_memory_if_known/arc_y4_midpoint_receipt_seen": "3b0b1398dd44f4dc005586fe037b969713f2517d764670b177db908e1d619a21",
+          "events:arc_year4_close_father_passed:/description_if_known/arc_y4_midpoint_receipt_seen": "ab530cf559a311b7177f1ab0b25b61848722fd7f08be3050f5fa712df064081f"
+        },
+        "zh-CN": {
+          "events:arc_36_night_doubt:/description_memory_if_known/arc_y4_midpoint_receipt_seen": "760148ffe5039de61276097146aa920417423148375c6ceffb80d9681b371144",
+          "events:arc_36_night_doubt_father_passed:/description_memory_if_known/arc_y4_midpoint_receipt_seen": "760148ffe5039de61276097146aa920417423148375c6ceffb80d9681b371144",
+          "events:arc_year4_close_father_passed:/description_if_known/arc_y4_midpoint_receipt_seen": "664c5593887d504871ca1257ee2214e4e243d7882cb5f22f16a58888da11a650"
+        },
+        "zh-TW": {
+          "events:arc_36_night_doubt:/description_memory_if_known/arc_y4_midpoint_receipt_seen": "5b87a3aeb3b7695fc8b44149ae6395cd4974dc4db2a718effefbeab6937cc57c",
+          "events:arc_36_night_doubt_father_passed:/description_memory_if_known/arc_y4_midpoint_receipt_seen": "5b87a3aeb3b7695fc8b44149ae6395cd4974dc4db2a718effefbeab6937cc57c",
+          "events:arc_year4_close_father_passed:/description_if_known/arc_y4_midpoint_receipt_seen": "2a35ea2cbd79e2282f60c7e661b4c3459d42f7bddda315ed43f6d33586ba5f3d"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_36_night_doubt:/description_memory_if_known/arc_y4_midpoint_receipt_seen": {
+            "source_sha256": "f73872ca263a40439b3edf364ad6012ca5f2a49a2e9b7aa2c03dfc1fc0c57f4e",
+            "target_sha256": "3b0b1398dd44f4dc005586fe037b969713f2517d764670b177db908e1d619a21"
+          },
+          "events:arc_36_night_doubt_father_passed:/description_memory_if_known/arc_y4_midpoint_receipt_seen": {
+            "source_sha256": "f73872ca263a40439b3edf364ad6012ca5f2a49a2e9b7aa2c03dfc1fc0c57f4e",
+            "target_sha256": "3b0b1398dd44f4dc005586fe037b969713f2517d764670b177db908e1d619a21"
+          },
+          "events:arc_year4_close_father_passed:/description_if_known/arc_y4_midpoint_receipt_seen": {
+            "source_sha256": "ac421369d83b26c95cd394a26a944d193960dca22132054ca07f7001d4e53cbc",
+            "target_sha256": "ab530cf559a311b7177f1ab0b25b61848722fd7f08be3050f5fa712df064081f"
+          }
+        },
+        "zh-CN": {
+          "events:arc_36_night_doubt:/description_memory_if_known/arc_y4_midpoint_receipt_seen": {
+            "source_sha256": "f73872ca263a40439b3edf364ad6012ca5f2a49a2e9b7aa2c03dfc1fc0c57f4e",
+            "target_sha256": "760148ffe5039de61276097146aa920417423148375c6ceffb80d9681b371144"
+          },
+          "events:arc_36_night_doubt_father_passed:/description_memory_if_known/arc_y4_midpoint_receipt_seen": {
+            "source_sha256": "f73872ca263a40439b3edf364ad6012ca5f2a49a2e9b7aa2c03dfc1fc0c57f4e",
+            "target_sha256": "760148ffe5039de61276097146aa920417423148375c6ceffb80d9681b371144"
+          },
+          "events:arc_year4_close_father_passed:/description_if_known/arc_y4_midpoint_receipt_seen": {
+            "source_sha256": "ac421369d83b26c95cd394a26a944d193960dca22132054ca07f7001d4e53cbc",
+            "target_sha256": "664c5593887d504871ca1257ee2214e4e243d7882cb5f22f16a58888da11a650"
+          }
+        },
+        "zh-TW": {
+          "events:arc_36_night_doubt:/description_memory_if_known/arc_y4_midpoint_receipt_seen": {
+            "source_sha256": "f73872ca263a40439b3edf364ad6012ca5f2a49a2e9b7aa2c03dfc1fc0c57f4e",
+            "target_sha256": "5b87a3aeb3b7695fc8b44149ae6395cd4974dc4db2a718effefbeab6937cc57c"
+          },
+          "events:arc_36_night_doubt_father_passed:/description_memory_if_known/arc_y4_midpoint_receipt_seen": {
+            "source_sha256": "f73872ca263a40439b3edf364ad6012ca5f2a49a2e9b7aa2c03dfc1fc0c57f4e",
+            "target_sha256": "5b87a3aeb3b7695fc8b44149ae6395cd4974dc4db2a718effefbeab6937cc57c"
+          },
+          "events:arc_year4_close_father_passed:/description_if_known/arc_y4_midpoint_receipt_seen": {
+            "source_sha256": "ac421369d83b26c95cd394a26a944d193960dca22132054ca07f7001d4e53cbc",
+            "target_sha256": "2a35ea2cbd79e2282f60c7e661b4c3459d42f7bddda315ed43f6d33586ba5f3d"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -80258,8 +80390,8 @@
         "target_sha256": "f8568cea023ca01a96fe68fbf29fbbeb6d09ceaab051bf8334e4febfb91408e1"
       },
       "events:arc_year4_close_father_passed:/description_if_known/arc_y4_midpoint_receipt_seen": {
-        "source_sha256": "ac421369d83b26c95cd394a26a944d193960dca22132054ca07f7001d4e53cbc",
-        "target_sha256": "ab530cf559a311b7177f1ab0b25b61848722fd7f08be3050f5fa712df064081f"
+        "source_sha256": "a519fd16cb336d070b6609b931470aeb8670de1ef8a7fe8d8b848c9cda4be7c6",
+        "target_sha256": "c60eff860bc5af372a178bb34c9222521dea80acbbd434afb7d7dfa24f69c96f"
       },
       "events:arc_year4_close_father_passed:/description_if_known/arc_y4_year_close_protected_body": {
         "source_sha256": "dfd1c6e178674e58e692f248a9352a986764a8174d49b56aadb3541fed8ef49e",
@@ -81342,8 +81474,8 @@
         "target_sha256": "20de09da42dc794791f6de1d60036a488275b7d03735c6b450d1065697bd783d"
       },
       "events:arc_36_night_doubt:/description_memory_if_known/arc_y4_midpoint_receipt_seen": {
-        "source_sha256": "f73872ca263a40439b3edf364ad6012ca5f2a49a2e9b7aa2c03dfc1fc0c57f4e",
-        "target_sha256": "3b0b1398dd44f4dc005586fe037b969713f2517d764670b177db908e1d619a21"
+        "source_sha256": "3e2f9a8c01e012d8abe5326884ad83ea773aea8b15de8914ce1e62744bce292c",
+        "target_sha256": "721db68a15d7f0d6ebf53ffafa93f6b467edcbbb86497a758c84fafe1c92fa7a"
       },
       "events:arc_36_night_doubt:/title": {
         "source_sha256": "577455367404a38d8e7ccae4c6162d5afc214fcde83ec30b0d0ea64f1aba0506",
@@ -81382,8 +81514,8 @@
         "target_sha256": "20de09da42dc794791f6de1d60036a488275b7d03735c6b450d1065697bd783d"
       },
       "events:arc_36_night_doubt_father_passed:/description_memory_if_known/arc_y4_midpoint_receipt_seen": {
-        "source_sha256": "f73872ca263a40439b3edf364ad6012ca5f2a49a2e9b7aa2c03dfc1fc0c57f4e",
-        "target_sha256": "3b0b1398dd44f4dc005586fe037b969713f2517d764670b177db908e1d619a21"
+        "source_sha256": "3e2f9a8c01e012d8abe5326884ad83ea773aea8b15de8914ce1e62744bce292c",
+        "target_sha256": "721db68a15d7f0d6ebf53ffafa93f6b467edcbbb86497a758c84fafe1c92fa7a"
       },
       "events:arc_36_night_doubt_father_passed:/title": {
         "source_sha256": "577455367404a38d8e7ccae4c6162d5afc214fcde83ec30b0d0ea64f1aba0506",
@@ -133156,8 +133288,8 @@
         "target_sha256": "6becd48a7073498c39388f8f175697c94e79c910151a4ac615dd5f2b70be5eb1"
       },
       "events:arc_year4_close_father_passed:/description_if_known/arc_y4_midpoint_receipt_seen": {
-        "source_sha256": "ac421369d83b26c95cd394a26a944d193960dca22132054ca07f7001d4e53cbc",
-        "target_sha256": "664c5593887d504871ca1257ee2214e4e243d7882cb5f22f16a58888da11a650"
+        "source_sha256": "a519fd16cb336d070b6609b931470aeb8670de1ef8a7fe8d8b848c9cda4be7c6",
+        "target_sha256": "8b665aad7f6e0abae13e635d9370a54b41ac14b909267701c864df74353dc655"
       },
       "events:arc_year4_close_father_passed:/description_if_known/arc_y4_year_close_protected_body": {
         "source_sha256": "dfd1c6e178674e58e692f248a9352a986764a8174d49b56aadb3541fed8ef49e",
@@ -134248,8 +134380,8 @@
         "target_sha256": "01d55c62c4ac34e59721486cd59f9983dd46a7ea4603d7595f791f93ed00fad0"
       },
       "events:arc_36_night_doubt:/description_memory_if_known/arc_y4_midpoint_receipt_seen": {
-        "source_sha256": "f73872ca263a40439b3edf364ad6012ca5f2a49a2e9b7aa2c03dfc1fc0c57f4e",
-        "target_sha256": "760148ffe5039de61276097146aa920417423148375c6ceffb80d9681b371144"
+        "source_sha256": "3e2f9a8c01e012d8abe5326884ad83ea773aea8b15de8914ce1e62744bce292c",
+        "target_sha256": "b2a4406b10a3041fd60acb685916840477c6d52d5014002419a197d09c0735f6"
       },
       "events:arc_36_night_doubt:/title": {
         "source_sha256": "577455367404a38d8e7ccae4c6162d5afc214fcde83ec30b0d0ea64f1aba0506",
@@ -134288,8 +134420,8 @@
         "target_sha256": "01d55c62c4ac34e59721486cd59f9983dd46a7ea4603d7595f791f93ed00fad0"
       },
       "events:arc_36_night_doubt_father_passed:/description_memory_if_known/arc_y4_midpoint_receipt_seen": {
-        "source_sha256": "f73872ca263a40439b3edf364ad6012ca5f2a49a2e9b7aa2c03dfc1fc0c57f4e",
-        "target_sha256": "760148ffe5039de61276097146aa920417423148375c6ceffb80d9681b371144"
+        "source_sha256": "3e2f9a8c01e012d8abe5326884ad83ea773aea8b15de8914ce1e62744bce292c",
+        "target_sha256": "b2a4406b10a3041fd60acb685916840477c6d52d5014002419a197d09c0735f6"
       },
       "events:arc_36_night_doubt_father_passed:/title": {
         "source_sha256": "577455367404a38d8e7ccae4c6162d5afc214fcde83ec30b0d0ea64f1aba0506",
@@ -192838,8 +192970,8 @@
         "target_sha256": "a17379e9b451e8ac6737df564f1383e9ffc291e86d4768abf380c8a92ce831cc"
       },
       "events:arc_year4_close_father_passed:/description_if_known/arc_y4_midpoint_receipt_seen": {
-        "source_sha256": "ac421369d83b26c95cd394a26a944d193960dca22132054ca07f7001d4e53cbc",
-        "target_sha256": "2a35ea2cbd79e2282f60c7e661b4c3459d42f7bddda315ed43f6d33586ba5f3d"
+        "source_sha256": "a519fd16cb336d070b6609b931470aeb8670de1ef8a7fe8d8b848c9cda4be7c6",
+        "target_sha256": "698103e37ae94e0ff425ed0169d687623a685c51ceda52e0a8091d1b49acdcf2"
       },
       "events:arc_year4_close_father_passed:/description_if_known/arc_y4_year_close_protected_body": {
         "source_sha256": "dfd1c6e178674e58e692f248a9352a986764a8174d49b56aadb3541fed8ef49e",
@@ -193930,8 +194062,8 @@
         "target_sha256": "edea12a6c6fa35014b5638af64521c61e4a4040a9770ab244628bed12cfbfae2"
       },
       "events:arc_36_night_doubt:/description_memory_if_known/arc_y4_midpoint_receipt_seen": {
-        "source_sha256": "f73872ca263a40439b3edf364ad6012ca5f2a49a2e9b7aa2c03dfc1fc0c57f4e",
-        "target_sha256": "5b87a3aeb3b7695fc8b44149ae6395cd4974dc4db2a718effefbeab6937cc57c"
+        "source_sha256": "3e2f9a8c01e012d8abe5326884ad83ea773aea8b15de8914ce1e62744bce292c",
+        "target_sha256": "a01d6a42dcea675f5934f767cf7fe4dc879ebd555d8250b4d58ef92b293b1517"
       },
       "events:arc_36_night_doubt:/title": {
         "source_sha256": "577455367404a38d8e7ccae4c6162d5afc214fcde83ec30b0d0ea64f1aba0506",
@@ -193970,8 +194102,8 @@
         "target_sha256": "edea12a6c6fa35014b5638af64521c61e4a4040a9770ab244628bed12cfbfae2"
       },
       "events:arc_36_night_doubt_father_passed:/description_memory_if_known/arc_y4_midpoint_receipt_seen": {
-        "source_sha256": "f73872ca263a40439b3edf364ad6012ca5f2a49a2e9b7aa2c03dfc1fc0c57f4e",
-        "target_sha256": "5b87a3aeb3b7695fc8b44149ae6395cd4974dc4db2a718effefbeab6937cc57c"
+        "source_sha256": "3e2f9a8c01e012d8abe5326884ad83ea773aea8b15de8914ce1e62744bce292c",
+        "target_sha256": "a01d6a42dcea675f5934f767cf7fe4dc879ebd555d8250b4d58ef92b293b1517"
       },
       "events:arc_36_night_doubt_father_passed:/title": {
         "source_sha256": "577455367404a38d8e7ccae4c6162d5afc214fcde83ec30b0d0ea64f1aba0506",
@@ -204719,7 +204851,7 @@
       }
     }
   },
-  "accepted_sha256": "ca17d4e08d5047395b746803ce962dd79f19df40d8a4cb1430227e5b22457169",
+  "accepted_sha256": "37b1398c6a8b9ad92ff51a3ab2ab2f9c18423a1edaa1bd7cd962d1698865ec7f",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

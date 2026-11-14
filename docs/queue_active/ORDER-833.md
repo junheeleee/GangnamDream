@@ -50,3 +50,7 @@
 3년 차 최초 묶음: 3곳×5언어 반영. 서른다섯의 달력은 생일을 가정하지 않는다. W121은 휴대폰과 수첩만으로 그날의 계산을 멈춘다. W144는 지연의 표에 찍힌 예정 시각과 서로 보낸 말만 회상한다. 공식 CJK 9건 및 선택·금액·경로 불변, 15개 JSON 역복원, 서사·5언어·현행 RC·출시 내용 검사 통과. 나머지 연차 전수·실화면·재평가 별도.
 
 [~] 4년 차 최초 묶음: `arc_midgame.json`의 `arc_36_night_doubt{,_father_passed}.description_memory_if_known.arc_y4_midpoint_receipt_seen` 두 개와 `arc_year_close.json`의 `arc_year4_close_father_passed.description_if_known.arc_y4_midpoint_receipt_seen` 하나를 5언어로 정정한다. 접어 둔 종이와 확인 가능했던 날짜/빈자리, 부친 부재만. 선택·기록 상태를 덧쓰지 않고 다른 W190/W192 갈래와 실행 코드는 그대로.
+
+4년 차 최초 묶음: 원문 3곳×5언어. 시간 간격 고정과 검사 문구를 없앴다. W192 수첩의 날짜·빈칸과 연락처를 읽되, 통화 기록·시도·번호 상태를 단정하지 않는다. CJK 최종 9건 수용(초안 기록 보존), 10개 JSON 역복원·장면 인과·노출 계약·공개 RC·출시 내용 통과.
+
+[~] 5년 차 최초 묶음: 5언어 `story_events.json`의 `age_39_final.description_if_known.{final_year_resolve,final_year_realistic,final_year_open}` 세 번째 문단만. M49→M54는 같은 해이며 M49 선택별 실제 수정/보류/보존만 읽는다. `arc_midgame.json`의 `arc_37_burn_or_light` 세 번째 결과(M01 수첩 첫 줄을 한 동기로 고정하지 않음), `arc_endgame_sixmonths` 첫 번째 결과(고정 ‘반년’ 제거, 계획 저장·주문 미실행)는 문단만 수정. 일곱 달에 이번 달을 포함한다는 원래 문구, typed 종막·효과·새 주문·소유권·저장·공개 RC 불변. 5언어·C3·종막 인과·내용 지문 확인.
