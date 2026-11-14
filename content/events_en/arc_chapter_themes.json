@@ -194,7 +194,7 @@
     "description": "The preliminary limit estimate was still warm from the printer, and its small type smelled of toner. At 4:40 p.m., {name} read the larger-than-expected number at the top of the bank sheet and the rate changes, income checks, and rejection conditions below it.\n\nThe banker highlighted the preliminary maximum. “This estimates what may be approved. It is neither what you can carry nor an official limit.” The monthly payment looked manageable against current income. The box for one month of reduced income was still blank.\n\nTwelve minutes remained. {name} could use them for a risk worksheet, lower his own ceiling and receive an official sheet, or take an official sheet at the preliminary maximum.",
     "choices": [
       {
-        "text": "Add rejection conditions and the payment after an income drop",
+        "text": "Ask the banker to note when a loan would be denied and what the monthly payment would be if income fell",
         "result_text": "The banker printed a separate risk worksheet with three lines: job loss, reduced income, and a higher rate. The payment beneath the preliminary maximum changed three times.\n\n{name} circled the amount in the worst month. The appointment ended before an official limit sheet could be issued. He left without the large number, but the first point of failure now existed on paper."
       },
       {

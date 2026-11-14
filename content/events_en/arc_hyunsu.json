@@ -113,7 +113,7 @@
   {
     "id": "hyunsu_reunion_later",
     "title": "The Face Before the Card",
-    "description": "At 9:18 that evening, the phone gave a short tremor against the desk. Hyunsu.\n\n\"Hyung, I got a job. At an accounting firm. It still doesn't feel real.\"\n\nA photo followed: navy suit, shirt buttoned to the throat, a new business card held too close to the lens. Hyunsu was smiling under the fluorescent light, but his shoulders were drawn high. Before the title on the card, {name} saw the face of someone who still tried to make himself smaller in case his happiness inconvenienced anyone.\n\n{name} typed Congratulations, then erased it. Praising only the result might press all the years before it into one neat line. He could ask about the face in the photograph, or begin with what he had failed to say outside Hyunsu's door on the day the result came. The cursor kept blinking in the same place.",
+    "description": "At 9:18 that evening, the phone gave a short tremor against the desk. Hyunsu.\n\n\"Hyung, I got a job. At an accounting firm. It still doesn't feel real.\"\n\nA photo followed: navy suit, shirt buttoned to the throat, a new business card held too close to the lens. Hyunsu was smiling under the fluorescent light, but his shoulders were drawn high. {name} barely glanced at the job title. There was the Hyunsu he knew, shoulders drawn in, still trying not to impose even on a day like this.\n\n{name} typed Congratulations, then erased it. Praising only the result might press all the years before it into one neat line. He could ask about the face in the photograph, or begin with what he had failed to say outside Hyunsu's door on the day the result came. The cursor kept blinking in the same place.",
     "choices": [
       {
         "text": "Ask about Hyunsu's face before offering congratulations",
@@ -128,7 +128,7 @@
   {
     "id": "hyunsu_reunion_photo",
     "title": "The Face in the Photo",
-    "description": "The print on the card was too small to read. What he could see was the slight lift in Hyunsu's shoulders and the way one cheek rose first when he smiled. The same face that used to wait for ramyeon in the goshiwon kitchen.\n\n{name}: \"Who took that angle?\"\nHyunsu: \"The youngest guy at the office. He took more than ten. Said this was the best one.\"\n\nFour years of failing, folding, and beginning again — and Hyunsu was still Hyunsu. The fact felt unexpectedly good.",
+    "description": "The print on the card was too small to read. What he could see was the slight lift in Hyunsu's shoulders and the way one cheek rose first when he smiled. The same face that used to wait for ramyeon in the goshiwon kitchen.\n\n{name}: \"Who took that angle?\"\nHyunsu: \"The youngest guy at the office. He took more than ten. Said this was the best one.\"\n\nFor four years Hyunsu hadn't passed the civil service exam. He left that path and started again on a different one. But his smile hadn't changed. It was strange how glad that made him.",
     "choices": [
       {
         "text": "Ask him to eat in the old neighborhood this weekend",
