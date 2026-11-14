@@ -26,6 +26,8 @@ const W48_YEAR_CLOSE := "arc_year1_close"
 const W48_YEAR_CLOSE_PASSED := "arc_year1_close_father_passed"
 const W48_GOSHIWON := "goshiwon_room"
 const W45_DECEMBER := "story_one_year"
+const W53_NETWORK := "arc_sangchul_03_network"
+const W53_DINING := "sangchul_private_dining"
 const HYUNSU_CALL := "arc_hyunsu_new_path"
 const HYUNSU_KEYBOARD := "keyboard_phone"
 const HYUNSU_INTRO_CUE := "arc_hyunsu_new_path::description:2:0:keyboard_phone"
@@ -234,6 +236,7 @@ const CASES := [
 ]
 
 const EXACT_PATHS := {
+	W53_DINING: "res://assets/backgrounds/sangchul_private_dining.png",
 	W234_OFFICE: "res://assets/backgrounds/realestate_office.png",
 	W234_BOULEVARD: "res://assets/backgrounds/gangnam_boulevard_winter_dusk.png",
 	W4_ROOM: "res://assets/backgrounds/goshiwon_room.png",
@@ -327,6 +330,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W53_DINING_CHECK"):
+		var dining_ok := await _check_w53_dining_audio()
+		await _remove_story()
+		await _stop_audio()
+		if dining_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w53_dining_audio")
+		get_tree().quit(0 if dining_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W45_HOME_CHECK"):
 		var december_ok := await _check_w45_december_home()
 		await _remove_story()
@@ -495,6 +506,8 @@ func _ready() -> void:
 		_fail("W48 lights-out regression smoke failed")
 	if not await _check_w45_december_home(true):
 		_fail("W45 quiet home regression smoke failed")
+	if not await _check_w53_dining_audio(true):
+		_fail("W53 dining audio regression smoke failed")
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -2169,7 +2182,7 @@ func _check_w45_december_home(smoke: bool = false) -> bool:
 					if not BGMPlayer._player_a.playing and not BGMPlayer._player_b.playing:
 						break
 				var background := str(homes[house])
-				if not await _w45_read_quiet_phase(background, false):
+				if not await _read_quiet_room_phase(W45_DECEMBER, background, false, 4):
 					return false
 				await _finish_page()
 				_story.call("_on_advance")
@@ -2181,7 +2194,7 @@ func _check_w45_december_home(smoke: bool = false) -> bool:
 				var cash: float = GameState.money
 				_story.call("_on_choice", choice)
 				await _wait_stable()
-				if not await _w45_read_quiet_phase(background, true):
+				if not await _read_quiet_room_phase(W45_DECEMBER, background, true, 1):
 					return false
 				if not smoke:
 					var context: Dictionary = _story.call("build_save_resume_context")
@@ -2206,16 +2219,92 @@ func _check_w45_december_home(smoke: bool = false) -> bool:
 		print("W45_QUIET_HOME_OK paths=%d result_v4=%d languages=5 houses=5 choices=2" % [cases, cold])
 	return cases == (1 if smoke else 50) and cold == (0 if smoke else 50)
 
-func _w45_read_quiet_phase(background: String, result: bool) -> bool:
+func _check_w53_dining_audio(smoke: bool = false) -> bool:
+	var languages: Array = ["ko"] if smoke else LocaleManager.SUPPORTED_LANGUAGES
+	var cases := 0
+	var cold := 0
+	for language: String in languages:
+		for known: bool in ([false] if smoke else [false, true]):
+			for choice: int in ([0] if smoke else [0, 1]):
+				await _remove_story()
+				await _stop_audio()
+				LocaleManager.set_language(language)
+				_context = "%s/W53/known=%s/c%d" % [language, known, choice]
+				SaveManager.clear_loaded_resume_context()
+				GameState.start_new_game()
+				GameState.turn = 53
+				GameState.age = 34
+				GameState.month = 2
+				GameState.week_of_month = 1
+				GameState.mental = 60
+				GameState.flags["sangchul_truth_known"] = known
+				GameState.story_return_scene = "res://scenes/MainGame.tscn"
+				GameState.pending_story_queue = [W53_NETWORK]
+				BGMPlayer.set_ambience("cafe")
+				BGMPlayer.set_season_ambience("winter")
+				BGMPlayer.play_punctuation("reckoning")
+				if not BGMPlayer._ambience_player.playing or not BGMPlayer._human_ambience_player.playing \
+						or not BGMPlayer._season_player.playing or BGMPlayer._current_key != "reckoning":
+					_fail("W53 fixture did not start with both café recordings and unrelated sound layers")
+					return false
+				_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+				add_child(_story)
+				_story.call("_set_auto_mode", false, false, false)
+				for _frame in range(12):
+					await get_tree().create_timer(0.055).timeout
+					if not BGMPlayer._player_a.playing and not BGMPlayer._player_b.playing:
+						break
+				if not await _read_quiet_room_phase(W53_NETWORK, W53_DINING, false, 4 if known else 5):
+					return false
+				_story.call("_on_advance")
+				await _wait_stable()
+				if not bool(_story.get("_showing_choices")) or not _expect_quiet_room(W53_NETWORK, W53_DINING, "choices"):
+					_fail("W53 lost its original choice surface")
+					return false
+				var events_seen := GameState.events_seen
+				var cash: float = GameState.money
+				_story.call("_on_choice", choice)
+				await _wait_stable()
+				var sources := 1 if choice == 0 else 2
+				if not await _read_quiet_room_phase(W53_NETWORK, W53_DINING, true, sources):
+					return false
+				if not smoke:
+					var context: Dictionary = _story.call("build_save_resume_context")
+					await _stop_audio()
+					if not await _reload_authored_result_context(context, language, sources, sources - 1) \
+							or str((_story.get("_current") as Dictionary).get("id", "")) != W53_NETWORK \
+							or not bool(_story.get("_pending_after_result")) \
+							or int(_story.get("_pending_result_choice_index")) != choice \
+							or int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) != sources - 1 \
+							or not _expect_quiet_room(W53_NETWORK, W53_DINING, "cold result"):
+						return false
+					cold += 1
+				var promises := GameState.deferred_events.filter(func(event: Dictionary) -> bool:
+					return event.get("event_id") == "callback_shadow_investors_proposal")
+				if GameState.events_seen != events_seen + 1 or GameState.money != cash \
+						or GameState.mental != (58 if choice == 0 else 56) \
+						or not GameState.flags.get("arc_sangchul_03_seen", false) \
+						or GameState.flags.get("entered_network", false) != (choice == 0) \
+						or GameState.flags.get("approached_shadow_investors", false) != (choice == 1) \
+						or promises.size() != choice \
+						or (choice == 1 and int(promises[0].get("trigger_turn", -1)) != 65):
+					_fail("W53 changed the original result or the 12-week investor follow-up")
+					return false
+				cases += 1
+	if not smoke:
+		print("W53_QUIET_DINING_OK paths=%d result_v4=%d languages=5 branches=2 choices=2" % [cases, cold])
+	return cases == (1 if smoke else 20) and cold == (0 if smoke else 20)
+
+func _read_quiet_room_phase(event_id: String, background: String, result: bool, expected_count: int) -> bool:
 	var count := int(_story.call("_story_source_paragraph_count"))
-	if count != (1 if result else 4) or bool(_story.get("_pending_after_result")) != result:
-		_fail("W45 original prose/result boundaries changed")
+	if count != expected_count or bool(_story.get("_pending_after_result")) != result:
+		_fail("%s original prose/result boundaries changed" % event_id)
 		return false
 	var pages: Array = _story.get("_paragraphs")
 	for page in range(pages.size()):
 		await _finish_page()
 		if int(_story.get("_para_index")) != page or not _expect_quiet_room(
-				W45_DECEMBER, background, "result=%s/page%d" % [result, page]):
+				event_id, background, "result=%s/page%d" % [result, page]):
 			return false
 		if page + 1 < pages.size():
 			_story.call("_on_advance")

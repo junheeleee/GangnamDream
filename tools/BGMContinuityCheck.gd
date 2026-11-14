@@ -793,7 +793,7 @@ func _ready() -> void:
 			"category": "story",
 			"background": "sangchul_private_dining",
 			"tags": ["story", "arc", "sangchul"],
-		}, "cafe"],
+		}, "apartment"],
 		[{
 			"id": "qa_gym_audio",
 			"title": "Workout",

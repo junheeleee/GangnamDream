@@ -168,6 +168,8 @@ W96_HOSPITAL_VISIT_AUDIO = {
     "music": {"key": "grief", "start_paragraph": 0},
 }
 W100_FATHER_OUTREACH_EVENT = "arc_y3_father_avoidance_document"
+W53_NETWORK_EVENT = "arc_sangchul_03_network"
+W53_DINING = "sangchul_private_dining"
 W37_FIRST_BILL_EVENT = "arc_y1_new_room_first_month"
 W45_DECEMBER_EVENT = "story_one_year"
 W45_DECEMBER_AUDIO = {
@@ -509,6 +511,15 @@ def main() -> int:
         errors.append(f"{W96_HOSPITAL_VISIT_EVENT}: only the deferred visit may end at Seoul Station without a new bed")
     if event_contracts.get(W45_DECEMBER_EVENT) != W45_DECEMBER_AUDIO:
         errors.append(f"{W45_DECEMBER_EVENT}: keep the current-room scene unscored and free of borrowed machinery, people, and cues")
+    w53_event = events.get(W53_NETWORK_EVENT, {})
+    w53_choices = w53_event.get("choices", [])
+    if (event_contracts.get(W53_NETWORK_EVENT) != NEUTRAL_HOME_AUDIO
+            or w53_event.get("background") != W53_DINING
+            or manifest.get("background_profiles", {}).get(W53_DINING) != "apartment"
+            or "result_ambience" in w53_event
+            or not isinstance(w53_choices, list) or len(w53_choices) != 2
+            or any(not isinstance(choice, dict) or "result_ambience" in choice for choice in w53_choices)):
+        errors.append(f"{W53_NETWORK_EVENT}: don't substitute generic bar or pub recordings for the private gathering")
     for event_id, expected_audio in ((W37_FIRST_BILL_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W100_FATHER_OUTREACH_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W108_HYUNSU_WARNING_EVENT, W108_HYUNSU_WARNING_AUDIO),

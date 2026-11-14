@@ -91,7 +91,7 @@
     "realestate_office": "office",
     "meeting": "office",
     "police_evidence_reception": "intentional_silence",
-    "sangchul_private_dining": "cafe",
+    "sangchul_private_dining": "apartment",
     "gangnam_day": "street",
     "gangnam_boulevard_winter_dusk": "intentional_silence",
     "gangnam_boulevard_final_notebook": "intentional_silence",
@@ -1597,7 +1597,12 @@
     "story_one_year": {"ambience": "apartment", "suppress_human_ambience": true, "suppress_season_ambience": true},
     "arc_late_game_push": {"ambience": "current_housing"},
     "arc_34_money_attracts_money": {"ambience": "current_housing", "suppress_music": true},
-    "arc_sangchul_03_network": {"ambience": "cafe", "suppress_music": true},
+    "arc_sangchul_03_network": {
+      "ambience": "apartment",
+      "suppress_music": true,
+      "suppress_human_ambience": true,
+      "suppress_season_ambience": true
+    },
     "arc_daeun_03_fork": {"ambience": "convenience", "suppress_music": true},
     "arc_daeun_03_fork_hold_receipt": {"ambience": "convenience", "suppress_music": true},
     "arc_daeun_03_fork_release_receipt": {"ambience": "convenience", "suppress_music": true},
