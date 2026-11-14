@@ -541,6 +541,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] W57 승차 녹음 추가: dmsb11이 공개 배포한 서울 공항철도 실녹음 CC0 1.0의 공개 고음질 미리듣기에서, 연속 주행의 저역만 사용한다. `assets/audio/{amb_seoul_subway_onboard.wav,amb_seoul_subway_onboard.wav.import,AUDIO_SOURCE_MANIFEST.json,AUDIO_THIRD_PARTY_NOTICES.md}`, `tools/{build_sample_audio_assets.py,third_party_notice_audit.py,scene_audio_contract_check.py}` 및 이미 선언한 자산 원장만. 새 WAV 하나를 출처/권리 검사 수량에 추가하며 기존 검사를 보존한다. 원본 파일 배포·안내/대화/문 열림/다른 환경음 레이어 추가 없음. 스펙트럼 및 실제 플레이어 시작/종료 검증과 출력 기기 연속 청취를 구분한다.
 
+[~] W57 음원 추가의 파급 파일 `tools/audio_source_audit.py`의 환경음 정확 수량 49→50, `content/meta/third_party_notices.json` 생성본. 나머지 오디오 분류·해시·권리·합성 금지 검사는 그대로 둔다.
+
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.
