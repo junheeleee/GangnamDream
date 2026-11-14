@@ -263,6 +263,14 @@
     {
       "kind": "background",
       "ids": [
+        "first_savings_bank_overview"
+      ],
+      "relative_path": "backgrounds/first_savings_bank_overview_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "gangnam_apartment"
       ],
       "relative_path": "backgrounds/gangnam_apartment.png",

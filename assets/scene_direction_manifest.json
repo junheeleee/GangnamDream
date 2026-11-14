@@ -72,6 +72,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "first_savings_bank_overview": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "v2_first_bill_desk_closeup": {
       "environment": "indoor",
       "depth": "near",

@@ -76,6 +76,8 @@ const W235_NOTICE_DESK := "finale_notice_desk"
 const HYUNSU_EXAM_FAILURE := "hyunsu_result_fail"
 const GOSHIWON_MOVEOUT := "arc_goshiwon_goodbye"
 const GOSHIWON_MOVEOUT_STREET := "goshiwon_moveout_wet_street"
+const FIRST_SAVINGS_MILESTONE := "story_first_savings_milestone"
+const FIRST_SAVINGS_BANK_OVERVIEW := "first_savings_bank_overview"
 const W8_FALLOUT_CUTS := preload("res://assets/w8_fallout_result_cuts.tres")
 const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
@@ -5656,6 +5658,8 @@ func _play_current_paragraph_audio(paragraph_index: int) -> void:
 	AudioManager.play_scene_paragraph_cues(event_id, _event_cg_id, paragraph_index)
 
 func _event_background_id_for_paragraph(paragraph_index: int) -> String:
+	if _uses_first_savings_bank_overview():
+		return FIRST_SAVINGS_BANK_OVERVIEW
 	# All three routes share the impact, but have different prose lengths.
 	# Keep the map exact instead of adding placeholder paragraphs to the source.
 	if paragraph_index == 1 and str(_current.get("id", "")) == M03_JIYEON_CRASH:
@@ -5664,6 +5668,11 @@ func _event_background_id_for_paragraph(paragraph_index: int) -> String:
 		return ""
 	var index := clampi(paragraph_index, 0, _event_paragraph_backgrounds.size() - 1)
 	return _resolve_story_background_id(str(_event_paragraph_backgrounds[index]))
+
+func _uses_first_savings_bank_overview() -> bool:
+	return str(_current.get("id", "")) == FIRST_SAVINGS_MILESTONE \
+		and not _read_only_replay and not _is_public_story_demo() \
+		and FULL_STORY_FLOW.is_full_run() and FULL_STORY_FLOW.valid_session()
 
 func _resolve_story_background_id(background_id: String) -> String:
 	var contextual_id := background_id.strip_edges()
@@ -5819,6 +5828,10 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 		# Only the first reply crosses the entrance on the page. The other
 		# branches remain in the hall until the separate new-home scene.
 		background_id = GOSHIWON_MOVEOUT_STREET if at_moveout_street else "goshiwon_hallway"
+	elif _pending_after_result and _uses_first_savings_bank_overview():
+		# The choices can close, capture, or change the app. Return to the live
+		# room rather than claiming the bank overview is still on the screen.
+		background_id = _resolve_story_background_id("current_housing")
 	elif _pending_after_result and event_id == M14_BANK_REVIEW:
 		# The first two choices stay at the counter. Only the last result's
 		# second authored paragraph leaves the bank (in every locale).
@@ -5846,7 +5859,7 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var path := ImageRegistry.get_background(background_id)
 	if path.is_empty() or not ImageRegistry.has_texture(path):
 		return
-	if event_id == GOSHIWON_MOVEOUT and not play_cut_cue:
+	if event_id == FIRST_SAVINGS_MILESTONE or (event_id == GOSHIWON_MOVEOUT and not play_cut_cue):
 		_finish_story_scene_transition()
 	else:
 		_begin_story_scene_transition("explicit_move")

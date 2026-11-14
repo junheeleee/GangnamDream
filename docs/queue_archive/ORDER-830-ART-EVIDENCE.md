@@ -48,6 +48,8 @@ UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리
 
 [~] 검수 원화를 `assets/backgrounds/first_savings_bank_overview_v1.png`와 import에 등록. `autoloads/ImageRegistry.gd`, `scenes/StoryMode.gd`에서 FullStoryFlow 본편의 도입/선택 표시만, 선택 결과 시작에서는 현재 집으로 복귀. `assets/{scene_direction_manifest,scene_audio_manifest,mod_asset_manifest}.json`, `tools/{scene_direction_catalog.py,art_resolution_baseline.json}`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `content/meta/release_content_inventory.json`, `docs/{ART_AI_AUDIT,CONTENT_RATING_INVENTORY,MODDING,WORK_LOG}.md`, 현황과 이 기록. 기존 사건 음향·본문·수치·결과·저장·RC 및 구 행동판에서는 화면 그대로. 잔액이나 결과 동작은 그림에서 표시하지 않는다.
 
+독립 소형 큰 글씨: 960×600, KO/JA×거처2×선택3=본편12, 구 경로 거처2 비교, 실제 캡처26·원문 상태84·재개14 정상. 잔액 카드·내역 윤곽 세 줄이 실제 대사창·선택창 위에 남으며 결과에서는 정확한 현재 거처를 렌더한다. 소형·원화 확인 통과, 넓은 창 5언어 확인은 별도 보고. 남은 과제: 인물 없는 방과 다른 공간에 같은 소리를 붙이지 않도록 청취, 실제 다은 산책 타이머 원음(통화 벨·기차역 안내음 대체0).
+
 ### 1장 후반 W25~48 블라인드 1차 — 사실 오류와 실제 플레이 대조
 
 [x] 파생 사실만 반영 — `content/meta/release_content_inventory.json`와 `docs/CONTENT_RATING_INVENTORY.md`: W47 연애 후보 재지문(집합 그대로), W28 투자 선택의 `panic sell` 금융 표현 제거로 공포 검색 오탐 1건 감소. 원래 검색 규칙·공시 사실·판정·역사 패키지는 그대로.

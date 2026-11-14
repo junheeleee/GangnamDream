@@ -365,6 +365,12 @@ First move-out choice, only after the entrance closes. The sheltered automatic d
 
 Source SHA-256 `1d78fa42280d2758c4536aefb5d154e3fcdc587fb9870f2ab17147de488178e2`; opaque 1584×990 master `ae7b95b3dd9d57aa21601bd33bc5971c1020b5ba707d0c1511dab7f9a984d380`.
 
+### first_savings_bank_overview_v1.png
+
+FullStoryFlow savings milestone lead-in: one adult hand holding a modest used black smartphone over an anonymous table, in the matte Gangnam Ink style. Simple generic deposit/expense layout with no letters, funds, exact amount, trades or brand. No fixed housing layout, other objects or time shown. Lower and right sections stay quiet for dialogue, choice and character layers; all results return to the actual residence.
+
+Source SHA-256 `39e7336915db0da3b5c712635c93cd42486157cfb0fc19257b10a1a9fdc49602`; opaque 1584×990 master `ad6fc6c7aac90c275690b3dc4e1627ccd1ba8744096d2b60552e1662f9bb64fc`.
+
 ---
 
 ### penthouse_view.png

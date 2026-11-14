@@ -394,6 +394,7 @@
 | Background | `assets/backgrounds/fine_dust_sky.png` | `fine_dust_sky` | 1672x941 | no | `760852144b1a` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/gangnam_apartment.png` | `gangnam_apartment` | 1280x800 | no | `8457faa568e9` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/gangnam_day.png` | `gangnam_day` | 1280x800 | no | `602f13f63566` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/first_savings_bank_overview_v1.png` | `first_savings_bank_overview` | 1584x990 | no | `ad6fc6c7aac9` | PASS-B | 본편 첫 저축 도입과 선택만. 손 하나·휴대폰 하나·추상 내역, 금액과 매수 결과 없음. |
 | Background | `assets/backgrounds/finale_cafe_rear_papers_v1.png` | `finale_cafe_rear_papers` | 1584x990 | no | `82c55b547814` | PASS-B | 카페 안쪽 작은 탁자·맞은편 빈 의자·구분된 종이 두 묶음. 비·창·사람·접수 결과 없음. |
 | Background | `assets/backgrounds/finale_intake_blue_pen_v1.png` | `finale_intake_blue_pen` | 1584x990 | no | `0086fa291712` | PASS-B | 접수 창구의 파란 펜과 고정 쇠줄. 작은 화면 선택 창과 겹친 첫 구도에서 펜·쇠줄을 위로 올림. 인물·날인·제출한 서류·읽히는 표식 없음. |
 | Background | `assets/backgrounds/finale_notice_desk_v1.png` | `finale_notice_desk` | 1584x990 | no | `4aae01bafb3a` | PASS-B | W235 현재 자료 문단만. 휴대폰과 서로 떨어진 종이, 읽히는 내용·확정된 발신 없음. |
@@ -489,4 +490,4 @@
 | Background | `assets/backgrounds/seoul_station_visitor_sticker.png` | `seoul_station_visitor_sticker` | 1280x800 | no | `763df189e31c` | PASS-B | 서울 도착 통로, 코트와 오른손 검지의 작은 스티커. 모공·카메라 질감을 없애 강남 잉크의 무광 붓결·낮은 채도로 재작화. 얼굴·비·눈·문자 없음. |
 | Background | `assets/backgrounds/police_evidence_reception.png` | `police_evidence_reception` | 1280x800 | no | `338988ecbf96` | PASS-B | 증거 제출 첫 대목용으로 원화 독립 대조: 무광 잉크·민원석·서류 전달구, 인물·상호·체포 없음. 장소는 본문이 식별한다. P1 마스터·사람 판정 아님. |
 
-Inventory: 81 CG / 94 portraits / 125 backgrounds / 300 total.
+Inventory: 81 CG / 94 portraits / 126 backgrounds / 301 total.
