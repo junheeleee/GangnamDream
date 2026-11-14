@@ -664,7 +664,7 @@
         "categories": [], "tags": [],
         "tokens_ko": ["씨발", "개새끼", "좆", "미친놈", "미친년"],
         "tokens_en": ["fuck", "fucking", "shit", "bastard", "asshole"],
-        "expected_event_count": 2, "expected_file_count": 2, "expected_ids_sha256": "09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1", "expected_content_sha256": "b7018e341076ee7951da874c3fe6cadd4f34d7f0c996feb2b67e83c0a44e98c2"
+        "expected_event_count": 2, "expected_file_count": 2, "expected_ids_sha256": "09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1", "expected_content_sha256": "9483360716d35eb3f28c7d93baf091c6c8f2cd377d37a9e3a4b75252a5cfb64f"
       },
       "facts": [
         {
@@ -692,7 +692,7 @@
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
         "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
-        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "14c4034793c8bd4df63eb99213ebde168ad2a1a89a9e7f4b63b744b8d301651f"
+        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "d817eff429c5a241b5732ae7a573074f4ffa168e93068e666038968c67ecf19a"
       },
       "facts": [
         {

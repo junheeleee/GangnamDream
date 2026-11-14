@@ -3015,7 +3015,7 @@
       "jaehyuk"
     ],
     "cooldown": 9999,
-    "description": "뉴스에서 이름을 봤다.\n최재혁.\n\n기사 제목: \"다단계 투자 사기 일당 검거, 피해액 23억.\"\n\n{name}은 제목을 다시 읽었다.\n이름 뒤에 붙은 숫자에서 시선이 멈췄다.\n\n손가락이 화면 위에 머물렀다.\n기사는 짧았고, 아래에는 다른 제목들이 이어졌다.\n{name}은 화면을 더 내리지 않았다.\n\n창밖에서 차가 지나가는 소리가 났다.",
+    "description": "뉴스에서 이름을 봤다.\n최재혁.\n\n기사 제목: \"다단계 투자 사기 일당 검거, 피해액 23억.\"\n\n{name}은 제목을 다시 읽었다.\n이번에는 피해액에 눈이 갔다.\n\n손가락이 화면 위에 머물렀다.\n기사는 짧았고, 아래에는 다른 제목들이 이어졌다.\n{name}은 화면을 더 내리지 않았다.\n\n창밖에서 차가 지나가는 소리가 났다.",
     "choices": [
       {
         "text": "경찰에 넘겼던 증거를 떠올린다",
@@ -3027,7 +3027,7 @@
         "flags": [
           "arc_jaehyuk_aftermath_seen"
         ],
-        "result_text": "{name}은 제출했던 자료의 사본을 꺼냈다.\n접힌 종이 옆에 폰을 놓았다.\n23억. 피해액 옆에서 손가락이 멈췄다.\n종이를 다시 접어 봉투에 넣었다.",
+        "result_text": "{name}은 제출했던 자료의 사본을 꺼냈다.\n접힌 종이 옆에 폰을 놓았다.\n피해액 23억. 손가락이 화면 위에서 멈췄다.\n종이를 다시 접어 봉투에 넣었다.",
         "deferred_follow_up": "arc_jaehyuk_mirror",
         "deferred_delay": 1
       },
@@ -3041,7 +3041,7 @@
         "flags": [
           "arc_jaehyuk_aftermath_seen"
         ],
-        "result_text": "기사를 닫았다.\n{name}은 한동안 꺼진 화면을 들고 있었다.\n그때 재혁과 주고받았던 말이 떠올랐다.\n폰을 내려놓자 손바닥에 남은 열이 느껴졌다.",
+        "result_text": "기사를 닫았다.\n{name}은 화면이 꺼진 뒤에도 한동안 폰을 쥐고 있었다.\n그때 재혁과 주고받았던 말이 떠올랐다.\n폰을 내려놓자 손바닥에 남은 열이 느껴졌다.",
         "deferred_follow_up": "arc_jaehyuk_mirror",
         "deferred_delay": 1
       },
@@ -3060,7 +3060,7 @@
         "deferred_delay": 1
       },
       {
-        "text": "기사를 접고 지금 할 일로 돌아간다",
+        "text": "기사를 닫고 지금 할 일로 돌아간다",
         "requires_story_fact": "jaehyuk_unknown",
         "flags": [
           "arc_jaehyuk_aftermath_seen"

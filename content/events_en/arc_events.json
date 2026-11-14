@@ -940,22 +940,22 @@
   {
     "id": "arc_jaehyuk_aftermath",
     "title": "What Came After",
-    "description": "He saw the name in the news.\nChoi Jaehyuk.\n\nHeadline: \"Pyramid investment fraud ring arrested, 2.3 billion won in damages.\"\n\n{name} read the headline again.\nHis eyes stopped at the number following the name.\n\nHis finger hovered over the screen.\nThe article was short, with more headlines below it.\n{name} did not scroll any further.\n\nA car passed outside the window.",
+    "description": "He saw the name in the news.\nChoi Jaehyuk.\n\nHeadline: \"Pyramid investment fraud ring arrested, 2.3 billion won in damages.\"\n\n{name} read the headline again.\nThis time, the amount of the losses caught his eye.\n\nHis finger hovered over the screen.\nThe article was short, with more headlines below it.\n{name} did not scroll any further.\n\nA car passed outside the window.",
     "choices": [
       {
         "text": "Remember the evidence I handed to the police",
-        "result_text": "{name} took out copies of the papers he had submitted.\nHe set the phone beside the creased paper.\n2.3 billion won. His finger stopped beside the amount of the losses.\nHe folded the papers again and put them in the envelope."
+        "result_text": "{name} took out copies of the papers he had submitted.\nHe set the phone beside the creased paper.\nLosses: 2.3 billion won. His finger stopped over the screen.\nHe folded the papers again and put them in the envelope."
       },
       {
         "text": "Remember what Jaehyuk and I said to each other",
-        "result_text": "He closed the article.\n{name} held the darkened screen for a while.\nHe thought of the words he and Jaehyuk had exchanged back then.\nWhen he set the phone down, its warmth lingered in his palm."
+        "result_text": "He closed the article.\n{name} kept holding the phone for a while after the screen went dark.\nHe thought of the words he and Jaehyuk had exchanged back then.\nWhen he set the phone down, its warmth lingered in his palm."
       },
       {
         "text": "Read the whole article as one of the victims",
         "result_text": "2.3 billion won. {name}'s money is in there somewhere too.\nHe won't get it all back. He won't know until the trial's over.\nBut strangely, closing the article, he could breathe a little easier.\nThat bastard got caught in the end. That's enough. For now."
       },
       {
-        "text": "Close the article and return to the day at hand",
+        "text": "Close the article and get back to what needs doing",
         "result_text": "{name} closed the article.\nThe window was reflected in the dark screen.\nHe set the phone down and stayed in his seat for a while."
       }
     ]
