@@ -55,6 +55,16 @@ W230_VERDICT_AUDIO = {
         "2": {"0": [{"sfx": "pen_write", "volume_db": -7.0}]},
     },
 }
+W237_FINAL_RECORD_EVENT = "arc_y5_general_final_record_seal"
+W237_FINAL_RECORD_AUDIO = {
+    "ambience": "current_housing",
+    "music": {"key": "reckoning", "start_paragraph": 1},
+    "paragraph_cues": {
+        "0": [{"sfx": "phone_vibrate", "volume_db": -8.0}],
+        "3": [{"sfx": "phone_vibrate", "volume_db": -8.0}],
+    },
+    "result_paragraph_cues": {"0": {"1": [{"sfx": "page_turn", "volume_db": -7.0}]}},
+}
 W240_OUTDOOR_SIGNATURE_EVENT = "arc_final_countdown_property_not_executed"
 W240_OUTDOOR_SIGNATURE_AUDIO = {
     "ambience": "intentional_silence",
@@ -384,6 +394,12 @@ def main() -> int:
         errors.append(f"{W224_CUSTODY_EVENT}: missing rear-table audio contract")
     if W230_VERDICT_EVENT not in event_contracts:
         errors.append(f"{W230_VERDICT_EVENT}: missing cafe verdict audio contract")
+    final_record = events.get(W237_FINAL_RECORD_EVENT, {})
+    final_record_choices = final_record.get("choices", [])
+    if (event_contracts.get(W237_FINAL_RECORD_EVENT) != W237_FINAL_RECORD_AUDIO
+            or final_record.get("background") != "current_housing"
+            or not isinstance(final_record_choices, list) or len(final_record_choices) != 2):
+        errors.append(f"{W237_FINAL_RECORD_EVENT}: play two vibrations, then only the quiet result's page turn")
     if W240_OUTDOOR_SIGNATURE_EVENT not in event_contracts:
         errors.append(f"{W240_OUTDOOR_SIGNATURE_EVENT}: missing outdoor signature audio contract")
     if (event_contracts.get(M23_MOTHER_CALL_EVENT) != NEUTRAL_HOME_AUDIO
