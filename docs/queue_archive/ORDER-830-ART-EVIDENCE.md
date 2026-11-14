@@ -8,6 +8,8 @@
 
 [~] 독립 원화 검수 통과한 보완본 `d91a13fb…` 채택. `assets/backgrounds/gangnam_boulevard_final_notebook_v1.png`와 import, `autoloads/ImageRegistry.gd`, `content/events/arc_pre_ending.json`의 단일 배경, `assets/{scene_audio_manifest,scene_direction_manifest,event_visual_contracts,mod_asset_manifest}.json`, `tools/{art_resolution_baseline.json,SceneDirectionCheck.gd}`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`와 `docs/MODDING.md` 해당 생성 행, 현황·일지·이 증거만. 논리 장소와 귀가 전환은 `gangnam_night`를 유지하고 절대 다른 야경을 덮지 않는다. 구 이벤트·저장·장소 ID·갤러리·음향·5언어 원고·기존 RC 그대로. 선택 결과의 실제 필기/덮기 동작은 별도 컷 과제다.
 
+[~] `content/meta/release_content_inventory.json`의 현행 본편 raster 세 수치만 이번 PNG 실측에 맞춘다. 이미지 추가 후 검사 실패 원인은 활성/소스/팩 각각 +1; 역사 데모 수치·판정과 기존 검사 유지.
+
 ### W240 강남대로에서 수첩을 펼치는 소리
 
 [~] `assets/scene_audio_manifest.json`의 `arc_final_countdown_property_not_executed` 한 행, `tools/{scene_audio_contract_check.py,SceneDirectionCheck.gd}`의 해당 장면 계약, 현황·당일 일지·이 증거만. 강남대로 야외 밤과 집으로 돌아오는 기존 전환은 그대로. 거리·인파·계절 녹음 대신 별도 환경음 없이 수첩과 종이를 놓는 소리만 도입에 두고 기존 필기·곡 시점은 보존한다. 빗소리·지나는 차·대사·새 녹음·그림·저장·RC 추가 또는 변경 없음. 손과 문서가 보이는 전용 원화 및 실제 청취는 별도.
