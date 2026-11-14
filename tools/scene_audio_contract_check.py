@@ -170,6 +170,10 @@ W96_HOSPITAL_VISIT_AUDIO = {
 W100_FATHER_OUTREACH_EVENT = "arc_y3_father_avoidance_document"
 W53_NETWORK_EVENT = "arc_sangchul_03_network"
 W53_DINING = "sangchul_private_dining"
+W72_DINNER_EVENT = "arc_sangchul_human"
+W72_DINNER_AUDIO = {
+    "ambience": "intentional_silence", "suppress_human_ambience": True, "suppress_season_ambience": True,
+}
 W57_MEDICATION_EVENT = "arc_father_medication"
 W57_MEDICATION_AUDIO = {
     "ambience": "intentional_silence",
@@ -347,6 +351,10 @@ def main() -> int:
         errors.append(f"active CG lacks ambience contract: {cg_id}")
     for cg_id in sorted(contract_cgs - active_cgs):
         errors.append(f"stale CG audio contract: {cg_id}")
+    if cg_contracts.get("cg_ending_with_daeun") != {
+        "ambience": "apartment", "suppress_human_ambience": True, "suppress_season_ambience": True,
+    }:
+        errors.append("with_daeun: the present-day meal must not play the remembered goshiwon refrigerator")
 
     try:
         ambience_keys = gd_audio_keys(ROOT / "autoloads" / "BGMPlayer.gd", "AMBIENCE_TRACKS")
@@ -404,6 +412,9 @@ def main() -> int:
         elif owner == W57_MEDICATION_EVENT:
             if contract != W57_MEDICATION_AUDIO:
                 errors.append(f"{owner}: only the received handset vibration is an event-level cue")
+        elif owner == W72_DINNER_EVENT:
+            if contract != W72_DINNER_AUDIO:
+                errors.append(f"{owner}: do not play a bar or pub recording at Sangchul's dinner")
         elif owner in DAEUN_QUIET_RESULT_CGS:
             if contract != {"ambience": "intentional_silence"}:
                 errors.append(f"{owner}: do not borrow the recorded bar or street crowd")
@@ -535,6 +546,10 @@ def main() -> int:
             or manifest.get("background_profiles", {}).get("seoul_subway_commuters_w57") != "seoul_subway_onboard"
             or "seoul_subway_onboard" not in ambience_keys):
         errors.append(f"{W57_MEDICATION_EVENT}: missing incoming message or separately bound onboard audio")
+    if (event_contracts.get(W72_DINNER_EVENT) != W72_DINNER_AUDIO
+            or events.get(W72_DINNER_EVENT, {}).get("background") != "restaurant"
+            or manifest.get("background_profiles", {}).get("restaurant") != "hoesik"):
+        errors.append(f"{W72_DINNER_EVENT}: preserve the restaurant and isolate the dinner audio change")
     for event_id, expected_audio in ((W37_FIRST_BILL_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W100_FATHER_OUTREACH_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W108_HYUNSU_WARNING_EVENT, W108_HYUNSU_WARNING_AUDIO),

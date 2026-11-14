@@ -688,10 +688,26 @@ func _ready() -> void:
 		return
 
 	# 엔딩 CG도 엔딩 음악 아래에 그림의 실제 장소음을 유지한다.
+	BGMPlayer.set_ambience("oneroom")
+	BGMPlayer._set_human_ambience_for_world("hoesik")
+	BGMPlayer.set_season_ambience("winter")
+	if BGMPlayer._current_ambience_key != "oneroom" or not BGMPlayer._ambience_player.playing \
+			or not BGMPlayer._human_ambience_player.playing or not BGMPlayer._season_player.playing:
+		_fail("Daeun ending fixture is missing the previous room, crowd or winter layers")
+		return
 	BGMPlayer.on_ending("with_daeun", "cg_ending_with_daeun")
 	await get_tree().process_frame
-	if BGMPlayer._current_ambience_key != "oneroom" or not BGMPlayer._ambience_player.playing:
-		_fail("ending CG did not apply its authored place ambience")
+	var ending_room := BGMPlayer._ambience_player.stream as AudioStreamWAV
+	var desired_room := load("res://assets/audio/amb_apartment_room.wav") as AudioStreamWAV
+	if BGMPlayer._current_ambience_key != "apartment" or not BGMPlayer._ambience_player.playing \
+			or ending_room == null or desired_room == null or ending_room.data != desired_room.data \
+			or BGMPlayer._current_key != AudioManager.ending_bgm_key("with_daeun") \
+			or BGMPlayer._music_mode != "ending":
+		_fail("Daeun ending CG did not replace the prior room with its quiet recording under the ending score")
+		return
+	if BGMPlayer._current_human_ambience_key != "" or BGMPlayer._human_ambience_player.playing \
+			or BGMPlayer._current_season_key != "" or BGMPlayer._season_player.playing:
+		_fail("Daeun ending meal retained a nearby crowd or winter wind")
 		return
 
 	BGMPlayer.start_menu()

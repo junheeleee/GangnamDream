@@ -686,8 +686,11 @@ func apply_ending_cg_ambience(cg_id: String) -> void:
 	var ambience_key: String = _resolve_dynamic_ambience_key(str(contract.get("ambience", "")))
 	if ambience_key.is_empty():
 		return
-	set_ambience(ambience_key)
-	set_season_ambience("")
+	set_ambience(ambience_key, not bool(contract.get("suppress_human_ambience", false)))
+	if bool(contract.get("suppress_season_ambience", false)):
+		_stop_season_ambience_immediate()
+	else:
+		set_season_ambience("")
 
 func _resolve_dynamic_ambience_key(key: String) -> String:
 	match key:

@@ -29,6 +29,7 @@ const W45_DECEMBER := "story_one_year"
 const W53_NETWORK := "arc_sangchul_03_network"
 const W53_DINING := "sangchul_private_dining"
 const W57_MEDICATION := "arc_father_medication"
+const W72_DINNER := "arc_sangchul_human"
 const W57_VIBRATION := "arc_father_medication::description:0:0:phone_vibrate"
 const W57_PASSAGE := "seoul_subway_transfer_passage"
 const W57_CAR := "seoul_subway_commuters_w57"
@@ -348,6 +349,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W72_DINNER_CHECK"):
+		var dinner_ok := await _check_w72_dinner_audio()
+		await _remove_story()
+		await _stop_audio()
+		if dinner_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w72_dinner_audio")
+		get_tree().quit(0 if dinner_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W57_MESSAGE_CHECK"):
 		var message_ok := await _check_w57_message_audio()
 		await _remove_story()
@@ -536,6 +545,8 @@ func _ready() -> void:
 		_fail("W53 dining audio regression smoke failed")
 	if not await _check_w57_message_audio(true):
 		_fail("W57 medication message audio regression smoke failed")
+	if not await _check_w72_dinner_audio(true):
+		_fail("W72 dinner audio regression smoke failed")
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -2486,6 +2497,91 @@ func _expect_w57_audio(expect_vibration: bool, label: String, onboard: bool = fa
 		_fail("W57 wrong audio at %s: cues=%s, bed=%s, human=%s, season=%s" % [label, heard,
 			BGMPlayer._current_ambience_key, BGMPlayer._current_human_ambience_key, BGMPlayer._current_season_key])
 	return valid
+
+func _check_w72_dinner_audio(smoke: bool = false) -> bool:
+	var paths := 0
+	var restores := 0
+	var languages: Array = ["ko"] if smoke else LocaleManager.SUPPORTED_LANGUAGES
+	for language: String in languages:
+		for known: bool in ([false] if smoke else [false, true]):
+			for choice: int in ([1] if smoke else [0, 1, 2]):
+				await _remove_story()
+				await _stop_audio()
+				_context = "%s/W72/known=%s/c%d" % [language, known, choice]
+				LocaleManager.set_language(language)
+				SaveManager.clear_loaded_resume_context()
+				GameState.start_new_game()
+				GameState.turn = 72
+				GameState.age = 34
+				GameState.month = 6
+				GameState.flags["arc_sangchul_offguard_seen"] = true
+				GameState.flags["sangchul_truth_known"] = known
+				GameState.story_return_scene = "res://scenes/MainGame.tscn"
+				# Both preserved W72 runs already demonstrate foreground ingress.
+				# Isolate the actual StoryMode scene without fabricating 71 earlier weeks.
+				GameState.pending_story_queue = [W72_DINNER]
+				BGMPlayer.set_ambience("hoesik")
+				BGMPlayer.set_season_ambience("summer")
+				if not BGMPlayer._ambience_player.playing or not BGMPlayer._human_ambience_player.playing \
+						or not BGMPlayer._season_player.playing:
+					_fail("W72 test did not enter from the inappropriate sound layers")
+					return false
+				_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+				add_child(_story)
+				_story.call("_set_auto_mode", false, false, false)
+				if not _expect_w72_dinner() or int(_story.call("_story_source_paragraph_count")) != (3 if known else 4):
+					return false
+				for page in range((_story.get("_paragraphs") as Array).size()):
+					await _finish_page()
+					if int(_story.get("_para_index")) != page or not _expect_w72_dinner():
+						return false
+					_story.call("_on_advance")
+					await _wait_stable()
+				if not bool(_story.get("_showing_choices")) or not _expect_w72_dinner():
+					return false
+				var event_count: int = GameState.events_seen
+				var cash: float = GameState.money
+				_story.call("_on_choice", choice)
+				await _wait_stable()
+				var pages: Array = _story.get("_paragraphs")
+				if not bool(_story.get("_pending_after_result")) or int(_story.call("_story_source_paragraph_count")) != 2:
+					return false
+				for page in range(pages.size()):
+					await _finish_page()
+					if int(_story.get("_para_index")) != page or not _expect_w72_dinner():
+						return false
+					if page + 1 < pages.size():
+						_story.call("_on_advance")
+						await _wait_stable()
+				if not smoke:
+					var context: Dictionary = _story.call("build_save_resume_context")
+					BGMPlayer.set_ambience("hoesik")
+					BGMPlayer.set_season_ambience("summer")
+					if not await _reload_authored_result_context(context, language, 2, 1, true) \
+							or not _expect_w72_dinner():
+						return false
+					restores += 1
+				if GameState.events_seen != event_count + 1 or GameState.money != cash \
+						or not bool(GameState.flags.get("arc_sangchul_human_seen", false)) \
+						or bool(GameState.flags.get("shared_with_sangchul", false)) != (choice == 0) \
+						or bool(GameState.flags.get("sangchul_deflected", false)) != (choice == 2):
+					_fail("W72 changed a choice result")
+					return false
+				paths += 1
+	if not smoke:
+		print("W72_DINNER_AUDIO_OK paths=%d v4=%d" % [paths, restores])
+	return paths == (1 if smoke else 30) and restores == (0 if smoke else 30)
+
+func _expect_w72_dinner() -> bool:
+	var texture := (_story.get("_portrait") as TextureRect).texture
+	if not _expect_surface("restaurant", "", "W72 dinner") \
+			or texture == null or texture.resource_path != ImageRegistry.get_portrait("sangchul_normal") \
+			or BGMPlayer._ambience_player.playing or BGMPlayer._human_ambience_player.playing \
+			or BGMPlayer._season_player.playing or not BGMPlayer._current_human_ambience_key.is_empty() \
+			or not BGMPlayer._current_season_key.is_empty():
+		_fail("W72 brought the bar, pub or outdoor seasonal bed to dinner")
+		return false
+	return true
 
 func _check_w53_dining_audio(smoke: bool = false) -> bool:
 	var languages: Array = ["ko"] if smoke else LocaleManager.SUPPORTED_LANGUAGES
