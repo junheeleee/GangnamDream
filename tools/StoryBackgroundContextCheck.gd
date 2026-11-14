@@ -22,6 +22,9 @@ const M07_RETURN_WORDS := {
 	"ko": "물소리가 멎은 뒤", "en": "When the water stopped", "ja": "水音が止んだあと",
 	"zh-CN": "水声停了", "zh-TW": "水聲停下後",
 }
+const W48_YEAR_CLOSE := "arc_year1_close"
+const W48_YEAR_CLOSE_PASSED := "arc_year1_close_father_passed"
+const W48_GOSHIWON := "goshiwon_room"
 const HYUNSU_CALL := "arc_hyunsu_new_path"
 const HYUNSU_KEYBOARD := "keyboard_phone"
 const HYUNSU_INTRO_CUE := "arc_hyunsu_new_path::description:2:0:keyboard_phone"
@@ -323,6 +326,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W48_LIGHTS_OUT_CHECK"):
+		var lights_ok := await _check_w48_lights_out()
+		await _remove_story()
+		await _stop_audio()
+		if lights_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w48_lights_out locales=5 roots=2 choices=3")
+		get_tree().quit(0 if lights_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_M07_WASHBASIN_CHECK"):
 		var basin_ok := await _check_m07_washbasin()
 		await _remove_story()
@@ -471,6 +482,8 @@ func _ready() -> void:
 		_fail("Hyunsu call default full-owner smoke failed")
 	if not await _check_m07_washbasin(true):
 		_fail("M07 washbasin regression smoke failed")
+	if not await _check_w48_lights_out(true):
+		_fail("W48 lights-out regression smoke failed")
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -2097,6 +2110,70 @@ func _daeun_store_surface(background: String, cg: String, fridge: bool, shoppers
 	if not shoppers and (not BGMPlayer._current_season_key.is_empty() or BGMPlayer._season_player.playing):
 		_fail("Daeun quiet cut kept an unrelated season bed")
 		return false
+	return true
+
+func _check_w48_lights_out(smoke: bool = false) -> bool:
+	var languages: Array = ["ko"] if smoke else LocaleManager.SUPPORTED_LANGUAGES
+	for language: String in languages:
+		for passed: bool in ([false] if smoke else [false, true]):
+			var root := W48_YEAR_CLOSE_PASSED if passed else W48_YEAR_CLOSE
+			for choice: int in ([2] if smoke else [0, 1, 2]):
+				_context = "%s/W48/%s/c%d" % [language, root, choice]
+				await _remove_story()
+				await _stop_audio()
+				LocaleManager.set_language(language)
+				SaveManager.clear_loaded_resume_context()
+				GameState.start_new_game()
+				GameState.turn = 48
+				GameState.month = 12
+				GameState.week_of_month = 4
+				GameState.housing = "gosiwon"
+				GameState.flags = {"prologue_done": true, "father_passed": passed}
+				GameState.story_return_scene = "res://scenes/MainGame.tscn"
+				GameState.pending_story_queue = [W48_YEAR_CLOSE]
+				_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+				add_child(_story)
+				_story.call("_set_auto_mode", false, false, false)
+				await _wait_stable()
+				if str((_story.get("_current") as Dictionary).get("id", "")) != root:
+					_fail("W48 fixture missed the correct live family variant")
+					return false
+				for _page in range(20):
+					if bool(_story.get("_showing_choices")):
+						break
+					await _finish_page()
+					_story.call("_on_advance")
+					await _wait_stable()
+				if not bool(_story.get("_showing_choices")) or not _expect_surface(W48_GOSHIWON, "room", "choices"):
+					_fail("W48 changed the lit choice surface")
+					return false
+				_story.call("_on_choice", choice)
+				await _wait_stable()
+				var pages: Array = _story.get("_paragraphs")
+				if pages.is_empty():
+					_fail("W48 lost an authored result")
+					return false
+				var saw_dark := false
+				for page in range(pages.size()):
+					var dark := choice == 2 and int(_story.call("_story_source_paragraph_index", page)) == 1
+					saw_dark = saw_dark or dark
+					var overlay := _story.get("_wedding_lights_out") as ColorRect
+					if int(_story.get("_para_index")) != page or overlay.visible != dark \
+							or not _expect_surface(W48_GOSHIWON, "" if dark else "room", "result/%d" % page) \
+							or (not dark and (not BGMPlayer._ambience_player.playing \
+								or not BGMPlayer._human_ambience_player.playing \
+								or BGMPlayer._current_human_ambience_key != "thin_wall")) \
+							or (dark and (not _expect_no_ambience("W48 blackout") \
+								or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing)):
+						_fail("W48 blackout or ambient stop escaped its authored page")
+						return false
+					await _finish_page()
+					if page + 1 < pages.size():
+						_story.call("_on_advance")
+						await _wait_stable()
+				if saw_dark != (choice == 2):
+					_fail("W48 lost the lights-out branch")
+					return false
 	return true
 
 func _check_m07_washbasin(smoke: bool = false) -> bool:

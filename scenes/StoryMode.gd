@@ -76,6 +76,7 @@ const W235_NOTICE_DESK := "finale_notice_desk"
 const HYUNSU_EXAM_FAILURE := "hyunsu_result_fail"
 const M07_HYUNSU_WASHBASIN_CUT := preload("res://assets/m07_hyunsu_washbasin_cut.tres")
 const HYUNSU_CONNECTED_CALL := "arc_hyunsu_new_path"
+const FIRST_YEAR_CLOSE_LIGHTS_OUT_EVENTS := ["arc_year1_close", "arc_year1_close_father_passed"]
 const GOSHIWON_MOVEOUT := "arc_goshiwon_goodbye"
 const GOSHIWON_MOVEOUT_STREET := "goshiwon_moveout_wet_street"
 const FIRST_SAVINGS_MILESTONE := "story_first_savings_milestone"
@@ -5776,6 +5777,14 @@ func _is_w234_boulevard_result() -> bool:
 func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
 	var event_id := str(_current.get("id", ""))
+	if _is_first_year_close_lights_out():
+		# No generic room or people bed stands in for the outside countdown.
+		if BGMPlayer._ambience_player.playing or BGMPlayer._human_ambience_player.playing \
+				or BGMPlayer._season_player.playing:
+			BGMPlayer.clear_ambience_immediate()
+		if BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+			BGMPlayer.enter_ambient_bed(0.0)
+		return
 	if _pending_after_result and event_id == HYUNSU_EXAM_FAILURE:
 		var source := _story_source_paragraph_index(_para_index)
 		background_id = "goshiwon_hallway"
@@ -6648,6 +6657,11 @@ func _is_wedding_night_result() -> bool:
 		and str(_current.get("id", "")) in [
 			"arc_daeun_wedding_night_choice", "arc_jiyeon_wedding_night_choice"]
 
+func _is_first_year_close_lights_out() -> bool:
+	return _pending_after_result and _pending_result_choice_index == 2 \
+		and str(_current.get("id", "")) in FIRST_YEAR_CLOSE_LIGHTS_OUT_EVENTS \
+		and _story_source_paragraph_index(_para_index) == 1
+
 func _is_last_wedding_night_page() -> bool:
 	return _is_wedding_night_result() and _para_index >= 0 \
 		and _para_index + 1 < _paragraphs.size() \
@@ -6663,7 +6677,8 @@ func _wedding_night_type_position(position: int, length: int, source_progress: f
 func _sync_wedding_lights_out(immediate: bool) -> void:
 	if _wedding_lights_out_handoff:
 		return
-	var lights_out := not _typing and not _current_uses_cg and _is_last_wedding_night_page()
+	var lights_out := _is_first_year_close_lights_out() or (
+		not _typing and not _current_uses_cg and _is_last_wedding_night_page())
 	if lights_out or (is_instance_valid(_wedding_lights_out) and _wedding_lights_out.visible):
 		_set_wedding_lights_out(lights_out, immediate)
 
