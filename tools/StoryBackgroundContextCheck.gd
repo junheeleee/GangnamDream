@@ -11,6 +11,9 @@ const W202_EVENT := "callback_daeun_committed_gangnam_eve"
 const W4_EVENT := "arc_temptation_01"
 const W4_ROOM := "goshiwon_room"
 const W37_FIRST_BILL := "arc_y1_new_room_first_month"
+const DAEUN_AFTERNOON := "arc_daeun_02_regular"
+const DAEUN_EMPTY_STORE := "arc_daeun_02b_dream"
+const DAEUN_RESULT_CGS := ["cg_daeun_regular_bunsik", "cg_daeun_regular_walk", "cg_daeun_regular_night_wait"]
 const FULL_CHAPTER_WEEKS := {"chapter_card_33": 1, "chapter_card_34": 49, "chapter_card_35": 97,
 	"chapter_card_36": 145, "chapter_card_37": 193}
 const M03_EVENT := "arc_jiyeon_01_crash"
@@ -312,6 +315,12 @@ func _ready() -> void:
 			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w37_first_bill")
 		get_tree().quit(0 if w37_ok else 1)
 		return
+	if OS.has_environment("GANGNAM_DAEUN_STORE_AUDIO_CHECK"):
+		var daeun_ok := await _check_daeun_store_audio()
+		if daeun_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=daeun_store")
+		get_tree().quit(0 if daeun_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_W117_COUNTER_CHECK"):
 		var w117_ok := await _check_w117_counter()
 		if w117_ok:
@@ -415,6 +424,8 @@ func _ready() -> void:
 		_fail("first KTX default full-owner smoke failed")
 	if not await _check_w96_return(true):
 		_fail("W96 default full-owner smoke failed")
+	if not await _check_daeun_store_audio(true):
+		_fail("Daeun store default full-owner smoke failed")
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -1757,6 +1768,113 @@ func _full_card_surface(event_id: String) -> bool:
 	if not valid:
 		_fail("locationless full card showed a place or kept a physical layer")
 	return valid
+
+func _check_daeun_store_audio(smoke: bool = false) -> bool:
+	if not _prepare_full_owner_history(35, [[5, "arc_intro_03_sns"], [6, "cafe_00", 2],
+			[8, "arc_job_first_rejection"], [9, "arc_money_check_low"],
+			[10, "arc_rescue_job", 1], [11, "arc_sangchul_01_meet"],
+			[11, "arc_sangchul_01_measure"], [11, "arc_sangchul_01_answer"], [12, "arc_daeun_01_meet"],
+			[14, "arc_invest_guidance"],
+			[34, "arc_goshiwon_goodbye"], [34, "arc_housing_new_life"]]):
+		return false
+	GameState.housing = "oneroom"
+	var prepared: Dictionary = GameState.serialize().duplicate(true)
+	var paths := 0
+	var cold := 0
+	var nights := 0
+	var languages: Array = ["ko"] if smoke else W4_TERMS.keys()
+	var choices: Array = [2] if smoke else range(DAEUN_RESULT_CGS.size())
+	for language in languages:
+		for choice in choices:
+			await _remove_story()
+			await _stop_audio()
+			LocaleManager.set_language(language)
+			GameState.call("_restore_serialized_snapshot_exact", prepared)
+			_context = "%s/Daeun conversation/c%d" % [language, choice]
+			var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+			var selected: String = ingress.call("_next_arc_id", -1, true)
+			ingress.free()
+			if selected != DAEUN_AFTERNOON:
+				_fail("Daeun W35 prepared calendar selected " + selected)
+				return false
+			if not await _open_full_fixture_event(DAEUN_AFTERNOON):
+				return false
+			for page in range((_story.get("_paragraphs") as Array).size()):
+				var source: int = _story.call("_story_source_paragraph_index", page)
+				var background := "convenience_afternoon" if source < 2 else "convenience_afternoon_exterior"
+				if not _daeun_store_surface(background, "", source < 2, source < 2):
+					return false
+				await _finish_page()
+				_story.call("_on_advance")
+				await _wait_stable()
+			if not bool(_story.get("_showing_choices")) \
+					or not _daeun_store_surface("convenience_afternoon_exterior", "", false, false):
+				_fail("Daeun choice dock must be outside and quiet")
+				return false
+			if choice == 2 and (not await _reload_prechoice("choices", DAEUN_AFTERNOON)
+					or not _daeun_store_surface("convenience_afternoon_exterior", "", false, false)):
+				return false
+			var before := GameState.event_log.size()
+			_story.call("_on_choice", choice)
+			await _wait_stable()
+			var seen_cut := [false, false]
+			for page in range((_story.get("_paragraphs") as Array).size()):
+				var source: int = _story.call("_story_source_paragraph_index", page)
+				var revealed := source >= (2 if choice == 2 else 1)
+				var art: String = DAEUN_RESULT_CGS[choice] if revealed else ""
+				if not _daeun_store_surface("convenience_afternoon_exterior", art, false, false):
+					return false
+				await _finish_page()
+				if not seen_cut[int(revealed)]:
+					# An inherited bed must not leak on either side of result restore.
+					BGMPlayer.set_ambience("street")
+					BGMPlayer.set_season_ambience("winter")
+					if not await _reload_cut_result(choice, page, false):
+						return false
+					await _wait_stable()
+					if not _daeun_store_surface("convenience_afternoon_exterior", art, false, false):
+						return false
+					cold += 1
+					seen_cut[int(revealed)] = true
+				if choice != 2 and page == (_story.get("_paragraphs") as Array).size() - 1:
+					break
+				_story.call("_on_advance")
+				await _wait_stable()
+			if not seen_cut[0] or not seen_cut[1] or GameState.event_log.size() != before + 1:
+				_fail("Daeun result cut or exact receipt missing")
+				return false
+			if choice == 2:
+				var night: Dictionary = _story.get("_current")
+				if night.get("id") != DAEUN_EMPTY_STORE \
+						or not _daeun_store_surface("convenience_night", "", true, false):
+					_fail("Daeun quiet night follow-up did not resolve")
+					return false
+				nights += 1
+			paths += 1
+	await _remove_story()
+	await _stop_audio()
+	if paths != (1 if smoke else 15) or cold != (2 if smoke else 30) \
+			or nights != (1 if smoke else 5) or _failures:
+		return false
+	print("DAEUN_STORE_AUDIO_OK paths=%d cold_result_v4=%d night_followup=%d full_owner=1" % [paths, cold, nights])
+	return true
+
+func _daeun_store_surface(background: String, cg: String, fridge: bool, shoppers: bool) -> bool:
+	var art := (_story.get("_bg_img") as TextureRect).texture
+	var expected := ImageRegistry.get_background(background) if cg.is_empty() else ImageRegistry.get_cg(cg)
+	var bed := "convenience" if fridge else ""
+	var human := "convenience" if shoppers else ""
+	if art == null or art.resource_path != expected \
+			or BGMPlayer._current_ambience_key != bed or BGMPlayer._ambience_player.playing != fridge \
+			or BGMPlayer._current_human_ambience_key != human or BGMPlayer._human_ambience_player.playing != shoppers:
+		_fail("Daeun expected %s art and %s/%s bed and people; saw %s/%s" % [
+			cg if not cg.is_empty() else background, bed, human,
+			BGMPlayer._current_ambience_key, BGMPlayer._current_human_ambience_key])
+		return false
+	if not shoppers and (not BGMPlayer._current_season_key.is_empty() or BGMPlayer._season_player.playing):
+		_fail("Daeun quiet cut kept an unrelated season bed")
+		return false
+	return true
 
 func _check_w37_first_bill() -> bool:
 	var houses := {"oneroom": "apartment", "villa": "apartment", "apartment": "gangnam_apartment"}

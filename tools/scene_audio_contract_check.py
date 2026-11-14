@@ -81,6 +81,19 @@ W96_HOSPITAL_VISIT_AUDIO = {
 }
 W100_FATHER_OUTREACH_EVENT = "arc_y3_father_avoidance_document"
 W37_FIRST_BILL_EVENT = "arc_y1_new_room_first_month"
+DAEUN_CONVENIENCE_EVENT = "arc_daeun_02_regular"
+DAEUN_CONVENIENCE_INSIDE = "convenience_afternoon"
+DAEUN_CONVENIENCE_OUTSIDE = "convenience_afternoon_exterior"
+DAEUN_QUIET_RESULT_CGS = (
+    "cg_daeun_regular_bunsik", "cg_daeun_regular_walk", "cg_daeun_regular_night_wait",
+)
+DAEUN_EMPTY_STORE_EVENT = "arc_daeun_02b_dream"
+DAEUN_EMPTY_STORE_AUDIO = {
+    "ambience": "convenience",
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
+    "suppress_music": True,
+}
 W108_HYUNSU_WARNING_EVENT = "arc_jaehyuk_hyunsu_warning"
 W108_HYUNSU_WARNING_AUDIO = {
     "ambience": "apartment",
@@ -271,6 +284,9 @@ def main() -> int:
         elif owner == M23_PARENTS_EVENT:
             if contract != M23_PARENTS_AUDIO:
                 errors.append(f"{owner}: station and dinner must not borrow pub ambience, music or foley")
+        elif owner in DAEUN_QUIET_RESULT_CGS:
+            if contract != {"ambience": "intentional_silence"}:
+                errors.append(f"{owner}: do not borrow the recorded bar or street crowd")
         elif not ambience or ambience not in ambience_keys | DYNAMIC_AMBIENCE_KEYS:
             errors.append(f"{owner}: unknown or empty ambience key {ambience!r}")
         music = contract.get("music")
@@ -425,6 +441,22 @@ def main() -> int:
 
     parents = events.get(M23_PARENTS_EVENT, {})
     profiles = manifest.get("background_profiles", {})
+    daeun = events.get(DAEUN_CONVENIENCE_EVENT, {})
+    daeun_choices = daeun.get("choices", [])
+    if (DAEUN_CONVENIENCE_EVENT in event_contracts
+            or daeun.get("background") != DAEUN_CONVENIENCE_INSIDE
+            or daeun.get("paragraph_backgrounds") != [DAEUN_CONVENIENCE_INSIDE] * 2 + [DAEUN_CONVENIENCE_OUTSIDE]
+            or profiles.get(DAEUN_CONVENIENCE_INSIDE) != "convenience"
+            or profiles.get(DAEUN_CONVENIENCE_OUTSIDE) != "intentional_silence"
+            or any(cg_contracts.get(key) != {"ambience": "intentional_silence"} for key in DAEUN_QUIET_RESULT_CGS)
+            or not isinstance(daeun_choices, list) or len(daeun_choices) != 3
+            or any(not isinstance(choice, dict) or choice.get("result_cg") != key
+                   or choice.get("result_cg_reveal_paragraph") != cut
+                   for choice, key, cut in zip(daeun_choices, DAEUN_QUIET_RESULT_CGS, (1, 1, 2)))
+            or daeun_choices[2].get("follow_up_event") != DAEUN_EMPTY_STORE_EVENT
+            or events.get(DAEUN_EMPTY_STORE_EVENT, {}).get("background") != "convenience_night"
+            or event_contracts.get(DAEUN_EMPTY_STORE_EVENT) != DAEUN_EMPTY_STORE_AUDIO):
+        errors.append("Daeun afternoon/night: keep the fridge inside, no borrowed crowd after the cut, and fridge only at night")
     if (M23_PARENTS_EVENT not in event_contracts
             or parents.get("background") != M23_PARENTS_CONCOURSE
             or any(profiles.get(background) != "intentional_silence"

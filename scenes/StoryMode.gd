@@ -5501,7 +5501,10 @@ func _render_current():
 	var cold_pitch_result := str(_current.get("id", "")) == M27_JAEHYUK_PITCH \
 		and str(_pending_restore_context.get("event_id", "")) == M27_JAEHYUK_PITCH \
 		and str(_pending_restore_context.get("phase", "")) == "result"
-	if cold_offer_cafe or cold_first_ktx or cold_w96_return or cold_pitch_result \
+	var cold_daeun_outside := str(_current.get("id", "")) == "arc_daeun_02_regular" \
+		and str(_pending_restore_context.get("event_id", "")) == "arc_daeun_02_regular" \
+		and str(_pending_restore_context.get("phase", "")) in ["choices", "result"]
+	if cold_offer_cafe or cold_first_ktx or cold_w96_return or cold_pitch_result or cold_daeun_outside \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		BGMPlayer.clear_ambience_immediate()
 	elif str(_current.get("background", "")) == "current_housing" \
@@ -5637,6 +5640,10 @@ func _maybe_change_event_background(paragraph_index: int) -> void:
 	_bg_img.texture = ImageRegistry.load_texture(path)
 	_apply_story_surface_palette(false)
 	_configure_living_scene()
+	# The bus-stop invitation is already outside. The indoor fridge and
+	# shoppers cannot follow it into the choice dock or a restored result.
+	if str(_current.get("id", "")) == "arc_daeun_02_regular":
+		BGMPlayer.update_event_ambience(_current, "", bg_id)
 
 func _w8_result_background_for_page(page_index: int) -> String:
 	if not _pending_after_result or _result_location_cut_page < 0 \
