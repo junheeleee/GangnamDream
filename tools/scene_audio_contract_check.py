@@ -169,6 +169,10 @@ W96_HOSPITAL_VISIT_AUDIO = {
 }
 W100_FATHER_OUTREACH_EVENT = "arc_y3_father_avoidance_document"
 W37_FIRST_BILL_EVENT = "arc_y1_new_room_first_month"
+W45_DECEMBER_EVENT = "story_one_year"
+W45_DECEMBER_AUDIO = {
+    "ambience": "apartment", "suppress_human_ambience": True, "suppress_season_ambience": True,
+}
 DAEUN_CONVENIENCE_EVENT = "arc_daeun_02_regular"
 DAEUN_CONVENIENCE_INSIDE = "convenience_afternoon"
 DAEUN_CONVENIENCE_OUTSIDE = "convenience_afternoon_exterior"
@@ -503,6 +507,8 @@ def main() -> int:
                        else choice.get("result_background") != W96_SEOUL_ARRIVAL)
                    for index, choice in enumerate(hospital_choices))):
         errors.append(f"{W96_HOSPITAL_VISIT_EVENT}: only the deferred visit may end at Seoul Station without a new bed")
+    if event_contracts.get(W45_DECEMBER_EVENT) != W45_DECEMBER_AUDIO:
+        errors.append(f"{W45_DECEMBER_EVENT}: keep the current-room scene unscored and free of borrowed machinery, people, and cues")
     for event_id, expected_audio in ((W37_FIRST_BILL_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W100_FATHER_OUTREACH_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W108_HYUNSU_WARNING_EVENT, W108_HYUNSU_WARNING_AUDIO),

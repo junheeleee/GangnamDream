@@ -25,6 +25,7 @@ const M07_RETURN_WORDS := {
 const W48_YEAR_CLOSE := "arc_year1_close"
 const W48_YEAR_CLOSE_PASSED := "arc_year1_close_father_passed"
 const W48_GOSHIWON := "goshiwon_room"
+const W45_DECEMBER := "story_one_year"
 const HYUNSU_CALL := "arc_hyunsu_new_path"
 const HYUNSU_KEYBOARD := "keyboard_phone"
 const HYUNSU_INTRO_CUE := "arc_hyunsu_new_path::description:2:0:keyboard_phone"
@@ -326,6 +327,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W45_HOME_CHECK"):
+		var december_ok := await _check_w45_december_home()
+		await _remove_story()
+		await _stop_audio()
+		if december_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w45_home")
+		get_tree().quit(0 if december_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W48_LIGHTS_OUT_CHECK"):
 		var lights_ok := await _check_w48_lights_out()
 		await _remove_story()
@@ -484,6 +493,8 @@ func _ready() -> void:
 		_fail("M07 washbasin regression smoke failed")
 	if not await _check_w48_lights_out(true):
 		_fail("W48 lights-out regression smoke failed")
+	if not await _check_w45_december_home(true):
+		_fail("W45 quiet home regression smoke failed")
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -2112,6 +2123,105 @@ func _daeun_store_surface(background: String, cg: String, fridge: bool, shoppers
 		return false
 	return true
 
+func _check_w45_december_home(smoke: bool = false) -> bool:
+	var homes := {"gosiwon": W4_ROOM, "oneroom": "apartment", "villa": "apartment",
+		"apartment": "gangnam_apartment", "gangnam": "gangnam_apartment"}
+	var languages: Array = ["ko"] if smoke else LocaleManager.SUPPORTED_LANGUAGES
+	var houses: Array = ["gosiwon"] if smoke else homes.keys()
+	var cases := 0
+	var cold := 0
+	for language: String in languages:
+		for house: String in houses:
+			for choice: int in ([0] if smoke else [0, 1]):
+				await _remove_story()
+				await _stop_audio()
+				LocaleManager.set_language(language)
+				_context = "%s/W45/%s/c%d" % [language, house, choice]
+				SaveManager.clear_loaded_resume_context()
+				GameState.start_new_game()
+				GameState.turn = 45
+				GameState.age = 33
+				GameState.month = 12
+				GameState.week_of_month = 1
+				GameState.housing = house
+				GameState.mental = 60
+				GameState.intelligence = 10
+				var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+				var event_id := str(ingress.call("_next_milestone_id"))
+				ingress.free()
+				if event_id != W45_DECEMBER:
+					_fail("W45 not selected by the December milestone producer")
+					return false
+				GameState.story_return_scene = "res://scenes/MainGame.tscn"
+				GameState.pending_story_queue = [event_id]
+				BGMPlayer.set_ambience("room")
+				BGMPlayer.set_season_ambience("winter")
+				BGMPlayer.play_punctuation("reckoning")
+				if not BGMPlayer._human_ambience_player.playing \
+						or not BGMPlayer._season_player.playing or BGMPlayer._current_key != "reckoning":
+					_fail("W45 fixture did not start with leaking layers")
+					return false
+				_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+				add_child(_story)
+				_story.call("_set_auto_mode", false, false, false)
+				for _frame in range(12):
+					await get_tree().create_timer(0.055).timeout
+					if not BGMPlayer._player_a.playing and not BGMPlayer._player_b.playing:
+						break
+				var background := str(homes[house])
+				if not await _w45_read_quiet_phase(background, false):
+					return false
+				await _finish_page()
+				_story.call("_on_advance")
+				await _wait_stable()
+				if not bool(_story.get("_showing_choices")) or not _expect_quiet_room(W45_DECEMBER, background, "choices"):
+					_fail("W45 lost the local quiet choice surface")
+					return false
+				var events_seen := GameState.events_seen
+				var cash: float = GameState.money
+				_story.call("_on_choice", choice)
+				await _wait_stable()
+				if not await _w45_read_quiet_phase(background, true):
+					return false
+				if not smoke:
+					var context: Dictionary = _story.call("build_save_resume_context")
+					await _stop_audio()
+					if not await _reload_authored_result_context(context, language, 1, 0) \
+							or str((_story.get("_current") as Dictionary).get("id", "")) != W45_DECEMBER \
+							or not bool(_story.get("_pending_after_result")) \
+							or int(_story.get("_pending_result_choice_index")) != choice \
+							or int(_story.call("_story_source_paragraph_count")) != 1 \
+							or int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) != 0 \
+							or not _expect_quiet_room(W45_DECEMBER, background, "cold result"):
+						return false
+					cold += 1
+				if GameState.events_seen != events_seen + 1 or GameState.money != cash \
+						or GameState.mental != (78 if choice == 0 else 57) \
+						or GameState.intelligence != (10 if choice == 0 else 15) \
+						or not GameState.flags.get("story_one_year_seen", false):
+					_fail("W45 no longer applied the original choice exactly once")
+					return false
+				cases += 1
+	if not smoke:
+		print("W45_QUIET_HOME_OK paths=%d result_v4=%d languages=5 houses=5 choices=2" % [cases, cold])
+	return cases == (1 if smoke else 50) and cold == (0 if smoke else 50)
+
+func _w45_read_quiet_phase(background: String, result: bool) -> bool:
+	var count := int(_story.call("_story_source_paragraph_count"))
+	if count != (1 if result else 4) or bool(_story.get("_pending_after_result")) != result:
+		_fail("W45 original prose/result boundaries changed")
+		return false
+	var pages: Array = _story.get("_paragraphs")
+	for page in range(pages.size()):
+		await _finish_page()
+		if int(_story.get("_para_index")) != page or not _expect_quiet_room(
+				W45_DECEMBER, background, "result=%s/page%d" % [result, page]):
+			return false
+		if page + 1 < pages.size():
+			_story.call("_on_advance")
+			await _wait_stable()
+	return not pages.is_empty()
+
 func _check_w48_lights_out(smoke: bool = false) -> bool:
 	var languages: Array = ["ko"] if smoke else LocaleManager.SUPPORTED_LANGUAGES
 	for language: String in languages:
@@ -2548,8 +2658,11 @@ func _w37_read_quiet_phase(background: String, result: bool) -> bool:
 	return true
 
 func _w37_quiet_home(background: String, label: String) -> bool:
+	return _expect_quiet_room(W37_FIRST_BILL, background, label)
+
+func _expect_quiet_room(event_id: String, background: String, label: String) -> bool:
 	var cues: Array = AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:
-		return key.begins_with(W37_FIRST_BILL + ":"))
+		return key.begins_with(event_id + ":"))
 	var valid := _expect_surface(background, "apartment", label) \
 		and BGMPlayer._ambience_player.playing and BGMPlayer._ambience_player.stream == BGMPlayer._load_ambience("apartment") \
 		and BGMPlayer._current_human_ambience_key.is_empty() and not BGMPlayer._human_ambience_player.playing \
@@ -2557,7 +2670,7 @@ func _w37_quiet_home(background: String, label: String) -> bool:
 		and BGMPlayer._current_key.is_empty() and not BGMPlayer._player_a.playing and not BGMPlayer._player_b.playing \
 		and str(_story.get_meta("living_scene_effect", "")) == "none" and cues.is_empty()
 	if not valid:
-		_fail("W37 tracks, cue or effects drifted at %s" % label)
+		_fail("%s tracks, cue or effects drifted at %s" % [event_id, label])
 	return valid
 
 func _check_w116_ghost() -> bool:
