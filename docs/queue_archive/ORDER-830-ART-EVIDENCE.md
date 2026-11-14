@@ -581,6 +581,8 @@ M60 ‘다은과 함께’는 외곽 집의 현재 식탁 아래 기존 조용�
 
 [~] W132 상철 신고 선택의 계단 원화 후보만. `arc_sangchul_reckoning` 첫 번째 결과의 하강 문장부터 시점이 바뀐다. 기존 카페의 짙은 철제 문틀·벽 마감·따뜻한 실내광을 참조하되, 층수·바깥 날씨·표지·상철을 발명하지 않는다. 미끄럼 방지 디딤판과 난간, 내려가는 방향이 대화창 위에서 읽혀야 한다. 다른 선택·원고·제품 배선은 후보 검수와 별도 선언 전 보존한다.
 
+[~] W132 배선: `scenes/StoryMode.gd`, `autoloads/ImageRegistry.gd`, 새 `assets/backgrounds/sangchul_cafe_stairs_v1.png`와 import, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest,scene_audio_manifest,scene_direction_manifest}.json`, `tools/{StoryBackgroundContextCheck.gd,scene_audio_contract_check.py,scene_direction_catalog.py,art_resolution_baseline.json}`, 원화·모딩·출시 자산 원장과 현황·일지·이 증거. 신고 결과의 5언어 같은 원고 문단을 하강 문장 앞에서만 나누고 절반께의 열린 통로와 기존 실내 발걸음 1회를 맞춘다. 계속 앉거나 다른 선택에선 계단·발걸음0. 바로 앞 `arc_sangchul_stairwell`의 실내 대화에 거리음을 빼고, 두 사건은 기존 피아노를 보존하며 정확한 카페 실녹음이 생기기 전 바·펍·계절층을 사용하지 않는다. 텍스트·선택·경제·저장·공개 데모 불변.
+
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.
 
 완료(문장): 7잎×5언어. 독립 검수에서 '포기'로 읽히던 EN·JA를 '다른 길에서 다시 시작'으로 수정. 모르는 민준은 회사 이름만 기억하고 이미 아는 갈래만 의미를 안다. 은행에 기록을 부탁할 뿐 금액·승인·실행을 새로 만들지 않는다. CJK 공식 7×3 검증/수용, 기존 428 배치·이전 대상 21·비소유 데이터·원장 독립 역복원. 출시 분류 두 축은 후보 집합이 아니라 텍스트 지문만 갱신. M14 은행은 격리 960×600 실제 렌더 5언어×3선택/45컷(`830-m14-copy.U6a3iM`), 선택 1 문구는 다섯 화면 직접 확인, 생활비/영수증 및 소리 계약 불변. 다른 여섯 문장의 장면 렌더·원어민 판정·전체 교열은 미완.
