@@ -557,7 +557,7 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 M60 ‘다은과 함께’는 외곽 집의 현재 식탁 아래 기존 조용한 방 녹음만 재생한다. 배경에 냉장고가 있으나 지속적인 전기음 레이어를 덜어 두 사람의 대화에 여백을 둔다. `830-daeun-ending-audio.IxcoJM`의 실제 엔진 음향 연속 검사에서 이전 원룸·군중·겨울을 시드로 넣고, 엔딩 진입 첫 프레임에서 재생 PCM과 두 층의 즉시 꺼짐, 기존 엔딩 음악 모드를 확인했다. 독립 재실행에서도 두 범위 GO. 원고·CG·엔딩 라우팅·개인 저장·출시 파일 변경0. M60 플레이 재완주나 실제 청취는 아니다.
 
-[~] W69 첫 선택의 계단 화면: `assets/backgrounds/convenience_store_night_steps_v1.png`+import, `autoloads/ImageRegistry.gd`, `content/events/arc_midgame.json`의 c0 표시 키 두 개, `assets/{event_visual_contracts,scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{StoryBackgroundContextCheck.gd,scene_direction_catalog.py,art_resolution_baseline.json}`, 원화·출시 수량/모딩 원장과 현황·일지·이 증거. 결과 두 문단만 낮은 가게 바깥 계단·실내 냉장고음 즉시 차단. 특정 다은 지점을 지목하지 않으며 기존 본문·나머지 선택·저장·공개 데모 불변.
+[~] W69 편의점 화면: `assets/backgrounds/convenience_store_night_steps_v1.png`+import, `autoloads/ImageRegistry.gd`, `content/events/arc_midgame.json`의 배경 및 c0 표시 키 둘, `assets/{event_visual_contracts,scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{StoryBackgroundContextCheck.gd,ScreenshotQA.gd,art_resolution_baseline.json}`, 원화·출시 수량/모딩 원장과 현황·일지·이 증거. 독립 검수가 기존 도입 그림에 내리는 비를 확인했다. 본문은 지금의 비가 아니라 익숙한 처마를 떠올리므로 이 사건만 기존 마른 편의점 실내로 변경; 결과 두 문단만 낮은 바깥 계단·냉장고음 즉시 차단. 특정 다은 지점을 지목하지 않으며 본문·나머지 선택 효과·저장·공개 데모 불변.
 
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
