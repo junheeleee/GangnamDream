@@ -463,7 +463,7 @@
         "expected_event_count": 136,
         "expected_file_count": 43,
         "expected_ids_sha256": "d41c2decfd20cbb8c4c5abe0f751009fd00e8a7de5c303b3227d0e81476a062a",
-        "expected_content_sha256": "17092482f47f734627a45f4b4899c2bc2b9ff36a3ab319c3cc5daaa13ef2b2ad"
+        "expected_content_sha256": "486cd9c7d9fd67f43ce0afcee6b5ab38e7b4189c652d53833d7843919a95532e"
       },
       "facts": [
         {
@@ -692,7 +692,7 @@
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
         "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
-        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "4c28f2da18e051a7569384ff703728c1f52a01704dd668c482bf68fefc9c6539"
+        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "7e7f22db3ca24173a74700448e53b31bb7c3300955d76ceebffaeda97f313455"
       },
       "facts": [
         {

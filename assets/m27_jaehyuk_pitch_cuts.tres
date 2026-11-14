@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/home_anchors = {
+"ko": "그리고 집에 와서 검색을 시작했다.",
+"en": "Back home, he starts searching.",
+"ja": "そして家に帰り、検索を始めた。",
+"zh-CN": "回家后，开始搜索。",
+"zh-TW": "接著，回到家開始搜尋。"
+}

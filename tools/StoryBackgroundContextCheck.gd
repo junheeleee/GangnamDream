@@ -37,6 +37,10 @@ const W100_CONTACT_FLAGS := ["y3_father_avoidance_voicemail", "y3_father_avoidan
 const W112_PHONE := "arc_y3_father_deferred_call"
 const W112_ANSWER := {"ko": "세 번째 신호에 아버지가 받았다.", "en": "Father answered on the third ring.",
 	"ja": "三度目の呼び出し音で父が出た。", "zh-CN": "第三声铃，父亲接了。", "zh-TW": "第三聲鈴響，父親接了。"}
+const M27_PITCH := "arc_jaehyuk_03_pitch"
+const M27_FLAGS := ["jaehyuk_trusted_fully", "jaehyuk_partial", "jaehyuk_refused"]
+const M27_HOME := {"ko": "그리고 집에 와서 검색을 시작했다.", "en": "Back home, he starts searching.",
+	"ja": "そして家に帰り、検索を始めた。", "zh-CN": "回家后，开始搜索。", "zh-TW": "接著，回到家開始搜尋。"}
 const W96_ARRIVAL := {
 	"ko": "서울역에 내려", "en": "At Seoul Station,", "ja": "ソウル駅で降り",
 	"zh-CN": "到了首尔站", "zh-TW": "在首爾站下車",
@@ -261,6 +265,12 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_M27_PITCH_CHECK"):
+		var m27_ok := await _check_m27_pitch()
+		if m27_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=m27_pitch")
+		get_tree().quit(0 if m27_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_W112_PHONE_CHECK"):
 		var w112_ok := await _check_w112_phone()
 		if w112_ok:
@@ -1544,6 +1554,164 @@ func _save_w112_frame(label: String) -> bool:
 	_fail("W112 local portrait never settled for capture")
 	return false
 
+func _check_m27_pitch() -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "M27/prepare"
+	# This fixture owns the W104 result under the real chain and display, not
+	# the upstream whole-calendar scheduler (covered by arc_flow_sim).
+	if not _prepare_full_owner_history(104, [[19, "arc_jaehyuk_01_reunion"], [49, "chapter_card_34"],
+			[56, "arc_jaehyuk_01b_real_face"], [68, "arc_jaehyuk_02_bond"], [80, "arc_jaehyuk_02b_favor"],
+			[96, W96_YEAR_CLOSE], [97, "chapter_card_35"]]):
+		return false
+	var prepared: Dictionary = GameState.serialize().duplicate(true)
+	var cases := 0
+	var languages := M27_HOME.keys()
+	for lang_index in range(languages.size()):
+		var language: String = languages[lang_index]
+		for choice in range(M27_FLAGS.size()):
+			await _remove_story()
+			await _stop_audio()
+			LocaleManager.set_language(language)
+			GameState.call("_restore_serialized_snapshot_exact", prepared)
+			var housing: String = M23_HOUSING[(lang_index + choice) % M23_HOUSING.size()]
+			GameState.housing = housing
+			GameState.money = 5_000_000.0
+			GameState.mental = 60
+			GameState.intelligence = 60
+			GameState.moral_tint = 0.0
+			_context = "%s/M27/c%d/%s" % [language, choice, housing]
+			if not await _open_full_fixture_event(M27_PITCH, [], true) or not await _play_m27_pitch(choice, housing):
+				_fail("M27 pitch location, score, save or choice receipt failed")
+				await _remove_story()
+				await _stop_audio()
+				return false
+			cases += 1
+	await _remove_story()
+	await _stop_audio()
+	if _failures != 0:
+		return false
+	print("M27_PITCH_OK paths=%d home_exits=%d v4_result=%d v4_exact_refusal=%d actual_choice_receipts=%d full_owner=1 prepared_ingress=1" % [
+		cases, 2 * languages.size(), cases, languages.size(), cases])
+	return true
+
+func _play_m27_pitch(choice: int, housing: String) -> bool:
+	var event: Dictionary = _story.get("_current")
+	var witness_turn: int = GameState.turn
+	var stats := [float(GameState.money), GameState.mental, GameState.intelligence, GameState.moral_tint,
+		GameState.get_cast_affinity("jaehyuk"), GameState.route_orthodox, GameState.route_unorthodox, GameState.event_log.size()]
+	var deferred := GameState.deferred_events.duplicate(true)
+	for page in range((_story.get("_paragraphs") as Array).size()):
+		await _finish_page()
+		var source := int(_story.call("_story_source_paragraph_index", page))
+		if not _m27_surface(false, housing, source >= 3):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	if not bool(_story.get("_showing_choices")) or (_story.get("_choice_box") as Control).get_child_count() != 3 \
+			or not _m27_surface(false, housing, true):
+		return false
+	var music_token := int(BGMPlayer.get("_punctuation_token"))
+	_story.call("_on_choice", choice)
+	await _wait_stable()
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var source_count := 1 if choice == 1 else 2
+	var authored := str(_story.call("_fmt", event["choices"][choice]["result_text"]))
+	if int(_story.call("_story_source_paragraph_count")) != source_count or not _m23_same_prose(pages, authored):
+		_fail("M27 changed original result prose or source paragraphs")
+		return false
+	var home_page := -1
+	if choice == 0:
+		home_page = int(_story.call("_first_story_page_for_source", 1))
+	elif choice == 2:
+		home_page = int(_story.get("_result_location_cut_page"))
+		if home_page < 1 or home_page >= pages.size() or not str(pages[home_page]).begins_with(M27_HOME[LocaleManager.language]) \
+				or int(_story.call("_story_source_paragraph_index", home_page)) != 0:
+			_fail("M27 return home did not start at the exact second sentence of the refusal")
+			return false
+	if choice != 1 and (home_page < 1 or home_page >= pages.size()):
+		return false
+	for page in range(pages.size()):
+		await _finish_page()
+		var at_home := choice != 1 and page >= home_page
+		if int(_story.get("_para_index")) != page or not _m27_surface(at_home, housing, true) \
+				or int(BGMPlayer.get("_punctuation_token")) != music_token \
+				or not _m27_receipt(choice, stats, deferred, witness_turn, false):
+			return false
+		if page < pages.size() - 1:
+			_story.call("_on_advance")
+			if choice == 2 and page + 1 == home_page:
+				if not await _reload_cut_result(choice, home_page, true):
+					return false
+			await _wait_stable()
+	# Revisit the changed home phase (or the unchanged hotel) from real v4.
+	# Old result resume did not start the live P3 score; this patch must not either.
+	var final_context: Dictionary = _story.call("build_save_resume_context")
+	await _stop_audio()
+	if not await _reload_authored_result_context(final_context, LocaleManager.language, source_count, source_count - 1) \
+			or int(_story.get("_para_index")) != pages.size() - 1 \
+			or int(_story.get("_pending_result_choice_index")) != choice:
+		return false
+	await _wait_stable()
+	if not _m27_surface(choice != 1, housing, false) or not _m27_receipt(choice, stats, deferred, witness_turn, false):
+		return false
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	_story.call("_on_advance")
+	await _wait_stable()
+	return _m27_receipt(choice, stats, deferred, witness_turn, true)
+
+func _m27_surface(at_home: bool, housing: String, scored: bool) -> bool:
+	var plate := _story.get("_bg_img") as TextureRect
+	var ambience := "apartment" if at_home else "cafe"
+	var texture_ok := _expect_surface(_m23_home_background(housing), ambience, "M27 home") if at_home \
+		else (plate.texture != null and plate.texture.resource_path == "res://assets/cg/jaehyuk_reveal.png")
+	var observed: Array = AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:
+		return key.begins_with(M27_PITCH + ":"))
+	if not texture_ok or bool(_story.get("_current_uses_cg")) == at_home \
+			or BGMPlayer._current_ambience_key != ambience or not BGMPlayer._ambience_player.playing \
+			or BGMPlayer._current_human_ambience_key != ("" if at_home else "cafe") \
+			or BGMPlayer._human_ambience_player.playing == at_home or not BGMPlayer._current_season_key.is_empty() \
+			or (at_home and (BGMPlayer._season_player.playing or (_story.get("_name_panel") as Control).visible \
+				or (_story.get("_portrait_frame") as Control).visible or str(_story.get_meta("living_scene_effect", "")) != "none")) \
+			or BGMPlayer._current_key != ("reckoning" if scored else "") \
+			or (_score_playback_position("reckoning") >= 0.0) != scored or not observed.is_empty():
+		_fail("M27 wrong surface home=%s texture_ok=%s cg=%s name=%s portrait=%s weather=%s ambience=%s/%s human=%s/%s season=%s/%s score=%s/%.3f expected=%s cues=%s" % [
+			at_home, texture_ok, _story.get("_current_uses_cg"), (_story.get("_name_panel") as Control).visible,
+			(_story.get("_portrait_frame") as Control).visible, _story.get_meta("living_scene_effect", ""), BGMPlayer._current_ambience_key, BGMPlayer._ambience_player.playing,
+			BGMPlayer._current_human_ambience_key, BGMPlayer._human_ambience_player.playing,
+			BGMPlayer._current_season_key, BGMPlayer._season_player.playing, BGMPlayer._current_key,
+			_score_playback_position("reckoning"), scored, observed])
+		return false
+	return true
+
+func _m27_receipt(choice: int, stats: Array, deferred: Array, turn: int, closed: bool) -> bool:
+	var owner := FULL_STORY_FLOW.snapshot()
+	var reads: Array = owner.get("read_receipts", {}).get(str(turn), [])
+	var chain: Dictionary = owner.get("chain", {})
+	var last: Dictionary = GameState.event_log.back()
+	var expected := deferred.duplicate(true)
+	expected.append({"event_id": "arc_jaehyuk_04b_counter" if choice == 2 else "arc_jaehyuk_wait",
+		"trigger_turn": turn + (12 if choice == 2 else 2)})
+	var valid: bool = FULL_STORY_FLOW.valid_session() and GameState.turn == turn \
+		and last.get("event_id") == M27_PITCH and int(last.get("choice_index", -1)) == choice \
+		and GameState.event_log.size() == stats[7] + 1 and bool(GameState.flags.get("arc_jaehyuk_pitch_seen", false)) \
+		and is_equal_approx(GameState.money, stats[0] - [3_000_000.0, 1_000_000.0, 0.0][choice]) \
+		and GameState.mental == stats[1] + [-8, -5, -6][choice] and GameState.intelligence == stats[2] + [0, 2, 6][choice] \
+		and is_equal_approx(GameState.moral_tint, stats[3] + [-5.0, 2.0, 0.0][choice]) \
+		and GameState.get_cast_affinity("jaehyuk") == stats[4] + [5, 3, -5][choice] \
+		and GameState.get_cast_stage("jaehyuk") == ["all_in", "partial", "suspect"][choice] \
+		and GameState.cast_has_flag("jaehyuk", "invested") == (choice != 2) \
+		and GameState.cast_has_flag("jaehyuk", "suspected") == (choice == 2) \
+		and GameState.route_orthodox == stats[5] + int(choice == 2) and GameState.route_unorthodox == stats[6] + int(choice == 0) \
+		and _w96_deferred_equal(expected) and bool(chain.get("closed", false)) == closed and reads.size() == int(closed)
+	for index in range(M27_FLAGS.size()):
+		valid = valid and bool(GameState.flags.get(M27_FLAGS[index], false)) == (index == choice)
+	if closed and valid:
+		valid = reads[0].get("event_id") == M27_PITCH and int(reads[0].get("choice_index", -1)) == choice
+	if not valid:
+		_fail("M27 changed the cost, flags, scheduled callback or exact owner receipt")
+	return valid
+
 func _check_w96_return(smoke: bool = false) -> bool:
 	_w96_capture_dir = "" if smoke else OS.get_environment("GANGNAM_W96_RETURN_CAPTURE_DIR")
 	var capture := not _w96_capture_dir.is_empty()
@@ -1706,9 +1874,12 @@ func _w96_surface(choice: int, at_station: bool) -> bool:
 		and BGMPlayer._current_human_ambience_key == "public_interior" and BGMPlayer._human_ambience_player.playing
 
 func _w96_score_position() -> float:
+	return _score_playback_position("grief")
+
+func _score_playback_position(key: String) -> float:
 	# ModLoader duplicates the imported stream to set looping, so its
 	# resource_path may be empty; the cached stream identity remains exact.
-	var score := ModLoader.load_audio(str(BGMPlayer.TRACKS["grief"]), true)
+	var score := ModLoader.load_audio(str(BGMPlayer.TRACKS[key]), true)
 	for player in [BGMPlayer._player_a, BGMPlayer._player_b]:
 		if player.playing and player.stream != null and player.stream == score:
 			return player.get_playback_position()
@@ -2199,10 +2370,10 @@ func _prepare_full_owner_history(at_turn: int, extra_prior: Array) -> bool:
 func _open_sinchon_offer() -> bool:
 	return await _open_full_fixture_event(OFFER)
 
-func _open_full_fixture_event(expected_id: String, expected_continuation: Array = []) -> bool:
+func _open_full_fixture_event(expected_id: String, expected_continuation: Array = [], presentation_only: bool = false) -> bool:
 	var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
 	ingress.set_meta("_screenshot_qa_static_surface", true)
-	var event_id: String = ingress.call("_next_arc_id", -1, true)
+	var event_id: String = expected_id if presentation_only else ingress.call("_next_arc_id", -1, true)
 	ingress.call("_go_story_mode", [event_id])
 	ingress.free()
 	var queue: Array = GameState.pending_story_queue

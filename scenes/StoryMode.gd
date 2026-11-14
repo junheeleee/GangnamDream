@@ -52,6 +52,8 @@ const W96_RETURN_CUT := preload("res://assets/w96_father_visit_return_cut.tres")
 const W96_STATION_ARRIVAL := "seoul_station_visitor_sticker"
 const W100_FATHER_DOCUMENT := "arc_y3_father_avoidance_document"
 const W112_FATHER_CALL := "arc_y3_father_deferred_call"
+const M27_JAEHYUK_PITCH := "arc_jaehyuk_03_pitch"
+const M27_JAEHYUK_CUTS := preload("res://assets/m27_jaehyuk_pitch_cuts.tres")
 const W8_FALLOUT := "arc_temptation_fallout"
 const M14_BANK_REVIEW := "arc_y2_bank_limit_review"
 const W234_SUMMIT := "arc_y5_general_pre_ending_summit_exact"
@@ -3333,6 +3335,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == W234_SUMMIT and choice_index == 0) \
 		or (event_id == M23_MOTHER_CALL and choice_index == 0) \
 		or (event_id == W96_FATHER_VISIT and choice_index == 3) \
+		or (event_id == M27_JAEHYUK_PITCH and choice_index == 2) \
 		or (event_id == M23_PARENTS and choice_index == 1)
 
 func _resolved_story_prose_pages() -> Dictionary:
@@ -3359,6 +3362,11 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		var anchors: Dictionary = W96_RETURN_CUT.get_meta("arrival_anchors", {})
 		if raw.split("\n\n").size() == 2:
 			return _split_formatted_story_page(_fmt(raw), 1, str(anchors.get(LocaleManager.language, "")))
+		return _story_page_data(_fmt(raw))
+	if event_id == M27_JAEHYUK_PITCH:
+		var anchors: Dictionary = M27_JAEHYUK_CUTS.get_meta("home_anchors", {})
+		if raw.split("\n\n").size() == 2:
+			return _split_formatted_story_page(_fmt(raw), 0, str(anchors.get(LocaleManager.language, "")))
 		return _story_page_data(_fmt(raw))
 	if event_id == M23_PARENTS:
 		var ride_anchors: Dictionary = M23_PARENTS_CUTS.get_meta("ride_anchors", {})
@@ -4514,7 +4522,7 @@ func _resolved_choice_result_portrait_id(choice: Dictionary) -> String:
 		else _resolved_event_portrait_id()
 
 func _resolved_story_surface_portrait_id() -> String:
-	if _is_w96_station_result():
+	if _is_w96_station_result() or _is_m27_pitch_home_result():
 		return ""
 	if _is_first_ktx_choice() and _pending_after_result and _first_ktx_stage(_para_index) > 0:
 		return ""
@@ -5466,7 +5474,10 @@ func _render_current():
 		and str(_pending_restore_context.get("event_id", "")) == W96_FATHER_VISIT \
 		and str(_pending_restore_context.get("phase", "")) == "result" \
 		and int(_pending_restore_context.get("pending_result_choice_index", -1)) == 3
-	if cold_offer_cafe or cold_first_ktx or cold_w96_return:
+	var cold_pitch_result := str(_current.get("id", "")) == M27_JAEHYUK_PITCH \
+		and str(_pending_restore_context.get("event_id", "")) == M27_JAEHYUK_PITCH \
+		and str(_pending_restore_context.get("phase", "")) == "result"
+	if cold_offer_cafe or cold_first_ktx or cold_w96_return or cold_pitch_result:
 		BGMPlayer.clear_ambience_immediate()
 	elif str(_current.get("background", "")) == "current_housing" \
 			and not _current_uses_cg and not has_authored_ambience:
@@ -5615,6 +5626,9 @@ func _is_w234_boulevard_result() -> bool:
 func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
 	var event_id := str(_current.get("id", ""))
+	if _pending_after_result and event_id == M27_JAEHYUK_PITCH:
+		_apply_m27_pitch_result_surface(play_cut_cue)
+		return
 	if _pending_after_result and _is_first_ktx_choice():
 		_apply_first_ktx_result_surface(play_cut_cue)
 		return
@@ -5685,6 +5699,44 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 
 func _is_first_ktx_choice() -> bool:
 	return str(_current.get("id", "")) == M23_MOTHER_CALL and _pending_result_choice_index == 0
+
+func _is_m27_pitch_home_result() -> bool:
+	if not _pending_after_result or str(_current.get("id", "")) != M27_JAEHYUK_PITCH:
+		return false
+	var source_index := _story_source_paragraph_index(_para_index)
+	return (_pending_result_choice_index == 0 and source_index >= 1) \
+		or (_pending_result_choice_index == 2 and (source_index >= 1 \
+			or (_result_location_cut_page >= 0 and _para_index >= _result_location_cut_page)))
+
+func _apply_m27_pitch_result_surface(live_advance: bool) -> void:
+	if not _is_m27_pitch_home_result():
+		# A cold load starts no place audio until the saved page resolves.
+		BGMPlayer.update_event_ambience(_current, _event_cg_id, _event_background_id)
+		return
+	var destination := _resolve_story_background_id("current_housing")
+	if destination == _event_background_id:
+		return
+	var texture := ImageRegistry.load_texture(ImageRegistry.get_background(destination))
+	if texture == null:
+		return
+	if live_advance:
+		_begin_story_scene_transition("time_cut")
+	else:
+		_finish_story_scene_transition()
+	_bg_img.texture = texture
+	_event_background_id = destination
+	_current_uses_cg = false
+	_event_cg_id = ""
+	_event_cg_path = ""
+	_event_cg_reveal_paragraph = 0
+	_show_portrait("", true)
+	if is_instance_valid(_hud_panel):
+		_hud_panel.visible = not (_read_only_replay or _story_visual_override_active)
+	_apply_story_surface_palette(false)
+	_configure_living_scene()
+	# The hotel event's base and crowd must not follow Minjun. Its score may.
+	BGMPlayer.clear_ambience_immediate()
+	BGMPlayer.set_ambience("apartment", false)
 
 func _is_w96_return_choice() -> bool:
 	return str(_current.get("id", "")) == W96_FATHER_VISIT and _pending_result_choice_index == 3
@@ -6946,7 +6998,8 @@ func _choice_result_background_id(choice: Dictionary) -> String:
 func _apply_choice_result_visual(choice: Dictionary) -> void:
 	# This visit changes location within results, not upon selecting a button.
 	# The prose/result page (also on restore) owns the first visible cut.
-	if str(_current.get("id", "")) == M23_PARENTS or _is_first_ktx_choice() or _is_w96_return_choice():
+	if str(_current.get("id", "")) in [M23_PARENTS, M27_JAEHYUK_PITCH] \
+			or _is_first_ktx_choice() or _is_w96_return_choice():
 		return
 	var result_cg_id := str(choice.get("result_cg", _current.get("result_cg", "")))
 	if result_cg_id != "":

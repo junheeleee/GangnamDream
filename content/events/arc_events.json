@@ -1298,6 +1298,7 @@
           "arc_jaehyuk_pitch_seen",
           "jaehyuk_trusted_fully"
         ],
+        "result_background": "current_housing",
         "result_text": "재혁이 요구한 몫 300만원을 보냈다.\n재혁이 어깨를 두드린다. \"잘 생각했어. 곧 웃게 될 거야.\"\n\n그날 밤, {name}은 잠을 설쳤다.\n통장에 남은 숫자보다, 방금 보낸 숫자만 자꾸 크게 보였다.",
         "route": "unorthodox",
         "deferred_follow_up": "arc_jaehyuk_wait",
@@ -1347,6 +1348,7 @@
           "arc_jaehyuk_pitch_seen",
           "jaehyuk_refused"
         ],
+        "result_background": "current_housing",
         "result_text": "\"생각 좀 해볼게.\" {name}은 자리를 떴다.\n그리고 집에 와서 검색을 시작했다.\n재혁이 말한 투자 상품, 그 회사 이름, 비슷한 피해 사례.\n\n검색 결과가 하나둘 뜨기 시작했다.\n등골이 서늘해졌다.",
         "route": "orthodox",
         "deferred_follow_up": "arc_jaehyuk_04b_counter",

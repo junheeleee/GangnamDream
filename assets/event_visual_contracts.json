@@ -363,7 +363,7 @@
     {"id": "arc_sangchul_year3", "background": "street", "portrait": "player_normal"},
     {"id": "callback_sangchul_leveraged_cost", "background": "cafe", "portrait": "player_determined"},
 
-    {"id": "arc_jaehyuk_03_pitch", "background": "meeting", "portrait": "jaehyuk_charisma", "cg": "cg_jaehyuk_reveal"},
+    {"id": "arc_jaehyuk_03_pitch", "background": "meeting", "portrait": "jaehyuk_charisma", "cg": "cg_jaehyuk_reveal", "choice_result_backgrounds": {"0": "current_housing", "2": "current_housing"}},
     {"id": "arc_jaehyuk_04a_ghost", "background": "current_housing", "portrait": "player_shocked", "cg": null},
     {"id": "arc_jaehyuk_ghost_read", "background": "current_housing", "portrait": "player_shocked", "cg": null},
     {"id": "arc_jaehyuk_ghost_message", "background": "current_housing", "portrait": "player_shocked", "cg": null},

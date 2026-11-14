@@ -81,6 +81,13 @@ W96_HOSPITAL_VISIT_AUDIO = {
 }
 W100_FATHER_OUTREACH_EVENT = "arc_y3_father_avoidance_document"
 W112_FATHER_RETURN_CALL = "arc_y3_father_deferred_call"
+M27_JAEHYUK_PITCH_EVENT = "arc_jaehyuk_03_pitch"
+M27_JAEHYUK_PITCH_CG = "cg_jaehyuk_reveal"
+M27_JAEHYUK_PITCH_AUDIO = {
+    "ambience": "cafe",
+    "music": {"key": "reckoning", "start_paragraph": 3},
+}
+M27_JAEHYUK_PITCH_RESULTS = ("current_housing", None, "current_housing")
 DEMO_EVENT_IDS = set("""
 story_flashforward story_arrival story_knee_door story_knee_witness
 story_knee_choice story_last_payment_wait story_last_payment_word
@@ -316,6 +323,19 @@ def main() -> int:
                 or any(not isinstance(choice, dict) or "result_background" in choice
                        or "result_ambience" in choice for choice in home_choices)):
             errors.append(f"{event_id}: every result stays at home with only neutral room tone")
+    pitch = events.get(M27_JAEHYUK_PITCH_EVENT, {})
+    if (event_contracts.get(M27_JAEHYUK_PITCH_EVENT) != M27_JAEHYUK_PITCH_AUDIO
+            or cg_contracts.get(M27_JAEHYUK_PITCH_CG) != {"ambience": "cafe"}
+            or pitch.get("background") != "meeting" or pitch.get("cg") != M27_JAEHYUK_PITCH_CG):
+        errors.append(f"{M27_JAEHYUK_PITCH_EVENT}: preserve the hotel ambience and prose P3 score")
+    pitch_choices = pitch.get("choices", [])
+    if ("result_background" in pitch or "result_ambience" in pitch
+            or not isinstance(pitch_choices, list) or len(pitch_choices) != len(M27_JAEHYUK_PITCH_RESULTS)
+            or any(not isinstance(choice, dict) or "result_ambience" in choice
+                   or ("result_background" in choice if background is None
+                       else choice.get("result_background") != background)
+                   for choice, background in zip(pitch_choices, M27_JAEHYUK_PITCH_RESULTS))):
+        errors.append(f"{M27_JAEHYUK_PITCH_EVENT}: only full payment and refusal may end at home without overriding the cut mix")
     if events.get(M14_BANK_EVENT, {}).get("background") != M14_BANK_BACKGROUNDS[0] or any(
         manifest.get("background_profiles", {}).get(background) != "intentional_silence"
         for background in M14_BANK_BACKGROUNDS
