@@ -87,6 +87,7 @@ const HYUNSU_CONNECTED_CALL := "arc_hyunsu_new_path"
 const W82_HYUNSU_BUS := "arc_y2_hyunsu_night_bus"
 const W205_MINSEO_CALL := "arc_minseo_03b_not_arrived"
 const W161_BODY_SIGNAL := "arc_36_body_signal"
+const W161_STOPPED_CAR := "seoul_subway_stopped_w161"
 const W161_EXAM_ROOM := "hospital_clinic_day"
 const W132_RECKONING := "arc_sangchul_reckoning"
 const W132_CAFE_STAIRS := "sangchul_cafe_stairs"
@@ -6115,10 +6116,12 @@ func _apply_w161_transport_surface() -> void:
 		# The first result starts on the platform; only the consultation
 		# belongs in the exam room. The other uncovered locations stay neutral.
 		destination = W161_EXAM_ROOM if _pending_result_choice_index == 0 and source in [1, 2] else ""
+		if _pending_result_choice_index == 2 and source == 0:
+			destination = W161_STOPPED_CAR
 	elif source == 5 and _story_source_paragraph_count() == 6:
 		# Only the default intro reaches the explicit opening of the doors.
 		# The five-paragraph remembered variants finish in the moving car.
-		destination = ""
+		destination = W161_STOPPED_CAR
 	if destination != _event_background_id:
 		var texture: Texture2D = null if destination.is_empty() \
 			else ImageRegistry.load_texture(ImageRegistry.get_background(destination))

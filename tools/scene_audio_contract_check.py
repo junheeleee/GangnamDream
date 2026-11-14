@@ -568,8 +568,9 @@ def main() -> int:
             or events.get(W205_MINSEO_PHONE, {}).get("background") != ""):
         errors.append(f"{W205_MINSEO_PHONE}: don't stage the remote call in an unestablished café")
     if (event_contracts.get(W161_BODY_EVENT) != W161_MOVING_AUDIO
-            or events.get(W161_BODY_EVENT, {}).get("background") != "seoul_subway_commuters_w57"):
-        errors.append(f"{W161_BODY_EVENT}: use the occupied train and recorded onboard motion, not a platform crowd")
+            or events.get(W161_BODY_EVENT, {}).get("background") != "seoul_subway_commuters_w57"
+            or manifest.get("background_profiles", {}).get("seoul_subway_stopped_w161") != "intentional_silence"):
+        errors.append(f"{W161_BODY_EVENT}: recorded onboard motion only between stops, never at the open door")
     if (any(event_contracts.get(owner) != W132_CAFE_AUDIO
             or events.get(owner, {}).get("background") != "cafe" for owner in W132_CAFE_EVENTS)
             or manifest.get("background_profiles", {}).get("sangchul_cafe_stairs") != "intentional_silence"):

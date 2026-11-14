@@ -377,6 +377,9 @@ weather, romance, and historical portraits remain fixed.
 - `assets/backgrounds/seoul_subway_commuters_w57_v1.png`
   - W57 after boarding and W161 while the train is moving. Same closed-door Seoul subway car and orange benches with seated and standing riders; not an open-door stop, platform, or transfer passage.
 
+- `assets/backgrounds/seoul_subway_stopped_w161_v1.png`
+  - W161 only: the same occupied car, now stationary with the nearest left door open onto a level platform. It appears only for the doors opening and the immediate stay-aboard result; it never replaces the platform view after stepping off.
+
 - `assets/backgrounds/convenience_store_night_steps_v1.png`
   - W69's first result only. Dry night, an unnamed convenience store's low entrance steps above the dialogue panel. The earlier indoor view stays separate; this does not redefine Daeun's established storefront.
 

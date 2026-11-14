@@ -1214,6 +1214,11 @@ sips --resampleHeightWidth 800 1280
 
 > Create a distinctly NEW closer angle of this exact scene from higher seated human eye height, keeping the same room and tabletop but tilting the view downward. This is an illustration composition with the TOP HALF showing the far end of the low table and the featured two very ordinary small objects, and the BOTTOM HALF showing empty worn wooden tabletop flowing all the way to the lower edge. Put both palm-sized folded pharmacy envelope and 200 ml glass near x=45% and y=43% from top, completely inside the middle band from 33% to 55% canvas height. Make them both legible but physically small, with a true 10 cm medicine envelope and 9 cm glass proportional to the furniture. Reducing the wall/ceiling area is the priority: show NO ceiling, NO full-height doorway; the upper frame can show largely the lower couch and lower far doorway. Preserve identical sofa on left and entry rear right, modest exact Changwon studio house style/wood/wall material. Do not add a chair or change the room. No new print, no legible numbers, no people, no doily, no UI. Hand-inked Korean manhwa VN, NOT a photograph. 16:10 landscape.
 
+## 2026-11-15 — W161 정차 객차
+
+- 최종 `assets/backgrounds/seoul_subway_stopped_w161_v1.png` 1584×990, SHA-256 `8e5d2b80ffc84cbe50321eceba0ba3e29648635567e29699f4178aad9fcc3d07`. 내장 이미지 생성 원본 `exec-7c191d40-1379-42ed-8dc1-34164fe13401.png`, SHA-256 `17674eba62336151f369c1b65dd4df5fc5c60a1d3eae2af76c69b06365034694`, 1587×991 중앙 크롭.
+- 프롬프트 요약: 기존 `seoul_subway_commuters_w57_v1.png`의 차량 원근·승객·주황 좌석·손잡이·광원·먹색 재질을 고정. 왼쪽 가까운 미닫이문만 열고 수평 문턱·정지한 지하 승강장·노란 점자블록을 노출한다. 창의 이동 흔적·가공 역명·주연·새 손님·사진 효과 없음. 문턱과 개구부는 하단 대화판 위에.
+
 ## 2026-11-15 — W132 상철 카페 계단
 
 - 최종 `assets/backgrounds/sangchul_cafe_stairs_v1.png` 1584×990, SHA-256 `1b91d60bd5881d3bd733ede328796dd57beb1dbab1133cdec2af17b6b09ddf1f`. 내장 이미지 생성 수정 원본 `exec-dfbe66b8-2949-4535-9f60-7ea60669961a.png` 1585×992를 16:10으로 정규화했다.

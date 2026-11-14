@@ -40,6 +40,7 @@
     "park_bench_day": "street",
     "subway": "subway",
     "seoul_subway_commuters_w57": "seoul_subway_onboard",
+    "seoul_subway_stopped_w161": "intentional_silence",
     "convenience_night_steps": "intentional_silence",
     "subway_station_stairs": "subway",
     "subway_station_lost_found": "subway",
