@@ -31048,6 +31048,106 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-830",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_y5_remaining_jaehyuk_or_self"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "W238 recall of the W235 message to Sangchul: extant papers were insufficient to proceed with the contract and no money was sent. An old timestamp, no new reply or call. W235 outbound and W238 record cues omit the wrong ring; no other routes are changed.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "9bb47593ca7bdccbcc9b19eee60dc3ced38aaec1",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "00c505b855f44492f9b5ebd36f102d87225da9806f4d50d760f04c99bf1cf649",
+          "selection_sha256": "5ba2d4c1c8240800de33af174d2fdb7e8c9db8444b6a600cc9bef793c753c497",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a46db6ef248444e9bfddd0571bb275cb76a047ddbe4ed3c15f9e6aa7b2fbbf1b"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "9bb47593ca7bdccbcc9b19eee60dc3ced38aaec1",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "00c505b855f44492f9b5ebd36f102d87225da9806f4d50d760f04c99bf1cf649",
+          "selection_sha256": "0452e88c1c3b60ddf43ede977be2f7e6a99e2eeaba39ff4e06f6418a62865403",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "384861486e73682ae965ba3f49d82608936e7e4596be87add7e15f8c95247748"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "9bb47593ca7bdccbcc9b19eee60dc3ced38aaec1",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "00c505b855f44492f9b5ebd36f102d87225da9806f4d50d760f04c99bf1cf649",
+          "selection_sha256": "f9e51acddc3eabfdd84f2996808c092c7f01297b52842a202fb007bc679a6d19",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d7cbd6391435ff6316021c74a64a8147b1111e7241329e3619de7ed56cb886be"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "371b0210916cdac88f3b3ebf68ce563547da66d21f823eef9d82e8547a293b2d",
+        "zh-CN": "76a90bb29d23ec6fa9b08568009f4d9c8a8d7a4f4fd5793a182923886764070b",
+        "zh-TW": "4df8da6b66b370a149c4514d3645fceed80a1f64f31adaf342f644ee4ebdc685"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_y5_remaining_jaehyuk_or_self:/chapter5_finale_reads/texts/1/0": "99f20a62b5e87d2ee407460057b3a2c4cb28fbd4254a655349c52b60a767392e"
+        },
+        "zh-CN": {
+          "events:arc_y5_remaining_jaehyuk_or_self:/chapter5_finale_reads/texts/1/0": "26ec39acd2a27e91b98aae59b1e4e02dd737b01bf460f19b9b1c623b23943e10"
+        },
+        "zh-TW": {
+          "events:arc_y5_remaining_jaehyuk_or_self:/chapter5_finale_reads/texts/1/0": "9764bf5885f1fa20690218ec8142f6bb414619eaf68e425b64c259c0378e3a0a"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_y5_remaining_jaehyuk_or_self:/chapter5_finale_reads/texts/1/0": {
+            "source_sha256": "63bafa41ca1026f45d3679d809431e0d2d1d606471b08eeb7486b4dff9df38a8",
+            "target_sha256": "99f20a62b5e87d2ee407460057b3a2c4cb28fbd4254a655349c52b60a767392e"
+          }
+        },
+        "zh-CN": {
+          "events:arc_y5_remaining_jaehyuk_or_self:/chapter5_finale_reads/texts/1/0": {
+            "source_sha256": "63bafa41ca1026f45d3679d809431e0d2d1d606471b08eeb7486b4dff9df38a8",
+            "target_sha256": "26ec39acd2a27e91b98aae59b1e4e02dd737b01bf460f19b9b1c623b23943e10"
+          }
+        },
+        "zh-TW": {
+          "events:arc_y5_remaining_jaehyuk_or_self:/chapter5_finale_reads/texts/1/0": {
+            "source_sha256": "63bafa41ca1026f45d3679d809431e0d2d1d606471b08eeb7486b4dff9df38a8",
+            "target_sha256": "9764bf5885f1fa20690218ec8142f6bb414619eaf68e425b64c259c0378e3a0a"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -42301,8 +42401,8 @@
         "target_sha256": "e80897a18476deb47304d8a615ed064f2f5f266390c592d101369de5e6448e33"
       },
       "events:arc_y5_remaining_jaehyuk_or_self:/chapter5_finale_reads/texts/1/0": {
-        "source_sha256": "63bafa41ca1026f45d3679d809431e0d2d1d606471b08eeb7486b4dff9df38a8",
-        "target_sha256": "99f20a62b5e87d2ee407460057b3a2c4cb28fbd4254a655349c52b60a767392e"
+        "source_sha256": "5ecdb3fca52220af1858d8b92377b322c10260ce85bd52481a2171da24f2dd48",
+        "target_sha256": "787c550f6914d25700333d8499346c89b40dcdb39bd02dac9ce35affae611ce5"
       },
       "events:arc_y5_remaining_jaehyuk_or_self:/choices/0/result_text": {
         "source_sha256": "0f37e2596564ed91d2cd51b2f2adbe81e2fb05aee6829c79d7e26ffccc8ca7e5",
@@ -95195,8 +95295,8 @@
         "target_sha256": "3060dd7fa2d2c157e31f42fb611feb790ed3767624d31f0aec9f76eff2d66820"
       },
       "events:arc_y5_remaining_jaehyuk_or_self:/chapter5_finale_reads/texts/1/0": {
-        "source_sha256": "63bafa41ca1026f45d3679d809431e0d2d1d606471b08eeb7486b4dff9df38a8",
-        "target_sha256": "26ec39acd2a27e91b98aae59b1e4e02dd737b01bf460f19b9b1c623b23943e10"
+        "source_sha256": "5ecdb3fca52220af1858d8b92377b322c10260ce85bd52481a2171da24f2dd48",
+        "target_sha256": "03f6445b367584eb24eea49836b7b12d2b0633057048ecd17eeeb6d97a5be0a3"
       },
       "events:arc_y5_remaining_jaehyuk_or_self:/choices/0/result_text": {
         "source_sha256": "0f37e2596564ed91d2cd51b2f2adbe81e2fb05aee6829c79d7e26ffccc8ca7e5",
@@ -154873,8 +154973,8 @@
         "target_sha256": "f771d1ea8bc2f7470dd39a0161bf4cfa007a806ad0e655617d406f67b730a3d3"
       },
       "events:arc_y5_remaining_jaehyuk_or_self:/chapter5_finale_reads/texts/1/0": {
-        "source_sha256": "63bafa41ca1026f45d3679d809431e0d2d1d606471b08eeb7486b4dff9df38a8",
-        "target_sha256": "9764bf5885f1fa20690218ec8142f6bb414619eaf68e425b64c259c0378e3a0a"
+        "source_sha256": "5ecdb3fca52220af1858d8b92377b322c10260ce85bd52481a2171da24f2dd48",
+        "target_sha256": "2c3665464ff8b7c1d717c2c404010c835277e419b57d0679ff76d0ffcf034d51"
       },
       "events:arc_y5_remaining_jaehyuk_or_self:/choices/0/result_text": {
         "source_sha256": "0f37e2596564ed91d2cd51b2f2adbe81e2fb05aee6829c79d7e26ffccc8ca7e5",
@@ -203302,7 +203402,7 @@
       }
     }
   },
-  "accepted_sha256": "49c8a43a31de5080038402d06d0fe9a324c29536757a24123e847200ad434763",
+  "accepted_sha256": "b4ff25da350e1d9c28cb0909e15138818c5785aff834d7c9d27be219fa0cfdd0",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
