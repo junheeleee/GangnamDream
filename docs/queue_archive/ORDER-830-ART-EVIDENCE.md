@@ -539,6 +539,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] W57 두 번째 선택의 승차 연출. `assets/backgrounds/seoul_subway_commuters_w57_v1.png`+import, `autoloads/{ImageRegistry,BGMPlayer}.gd`, `scenes/StoryMode.gd`, `assets/{scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{StoryBackgroundContextCheck.gd,scene_direction_catalog.py,art_resolution_baseline.json}`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `content/meta/release_content_inventory.json`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, 현황 및 이 증거만. 기존 열차의 좌석·손잡이·터널을 유지하고 사람 사이에 탔다는 문장 다음의 승차 중에만 익명 통근객과 실제 객차음을 표시한다. 전후 세 문단과 결과 값, 창원 선택, 공개 데모, 저장 형식 불변. 추가 녹음이 필요하면 적합한 원본·권리·정확한 파일을 확인한 뒤 따로 선언한다. 집에 도착하면 객차음 즉시 끊김, 군중 대화·계절 효과음 없음.
 
+[~] W57 승차 녹음 추가: dmsb11이 공개 배포한 서울 공항철도 실녹음 CC0 1.0의 공개 고음질 미리듣기에서, 연속 주행의 저역만 사용한다. `assets/audio/{amb_seoul_subway_onboard.wav,amb_seoul_subway_onboard.wav.import,AUDIO_SOURCE_MANIFEST.json,AUDIO_THIRD_PARTY_NOTICES.md}`, `tools/build_sample_audio_assets.py`, 해당 믹스 검증 및 이미 선언한 자산 원장만. 원본·자동 안내·대화·문 열림·다른 환경음 합성 없음. 스펙트럼 및 실제 플레이어 시작/종료는 검증하고 출력 기기 연속 청취와 구분한다.
+
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.
