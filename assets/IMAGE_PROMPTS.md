@@ -1245,6 +1245,11 @@ sips --resampleHeightWidth 800 1280
 - `assets/backgrounds/hospital_night_intake_w164_v1.png`, 1584×990, SHA-256 `451e566daeccf697838aabbee21066e99525e7743232bd1f2053ee5882e9adc2`. 내장 생성 `exec-49d3f55b-bf80-458f-b886-49162fe24152.png` 1587×991 중앙 크롭, 원본 SHA-256 `bc63875fe2ee1b05ba57a35a94b96abc5d0adb08173a55ee08091cfdedb7a0c7`.
 - 프롬프트 요약: 주간 수납대는 구조·가구 크기 참고, 기존 야간 진료실은 새벽 색감만. 낮은 접수대, 검은 높은 창, 닫힌 진료실 문과 바로 옆 대기석. 실내 조명·통행로는 유지하되 환자·직원·진료기구·읽히는 명부·응급실 기호 없음.
 
+## 2026-11-15 — W167 가족 식당 입장
+
+- `assets/backgrounds/family_soup_restaurant_w167_v1.png`, 1584×990, SHA-256 `0c9307fcbbb278858d661f05921b3ef9021a63a1fac73b6240c4633bc641bccc`. 내장 생성 `exec-6c6d9f9f-1fc1-470c-a572-84aa3af5aa5f.png` 1587×991 중앙 크롭, 원본 SHA-256 `d04a172e82b8b52b84c53fe340abf02d491e18992b95880a3ef249720281652d`.
+- 프롬프트 요약: W161 백반집은 무광 잉크 화풍, 국밥집은 식기 크기만 참고. 기존 장소와 다른 소박한 식당 입구, 명확한 통로·빈 목재 탁자·스테인리스 물컵과 먼 익명 손님. 벽으로 시간·계절을 특정하지 않으며, 예약 인원·주연·국 그릇·고기 불판·술·메뉴/상표·비·UI 없음. 대화창 위 입구/물컵·동선.
+
 ## 2026-11-15 — W132 상철 카페 계단
 
 - 최종 `assets/backgrounds/sangchul_cafe_stairs_v1.png` 1584×990, SHA-256 `1b91d60bd5881d3bd733ede328796dd57beb1dbab1133cdec2af17b6b09ddf1f`. 내장 이미지 생성 수정 원본 `exec-dfbe66b8-2949-4535-9f60-7ea60669961a.png` 1585×992를 16:10으로 정규화했다.

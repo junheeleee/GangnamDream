@@ -1,0 +1,31 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/daeun_entry = {
+"en": "At 6:02,",
+"ja": "六時二分、",
+"ko": "여섯 시 이 분,",
+"zh-CN": "六点零二分，",
+"zh-TW": "六點兩分，"
+}
+metadata/late_entry = {
+"en": "At 7:57,",
+"ja": "七時五十七分、",
+"ko": "일곱 시 오십칠 분,",
+"zh-CN": "七点五十七分，",
+"zh-TW": "七點五十七分，"
+}
+metadata/rebook_site = {
+"en": "After the family member confirmed the time, he traveled to the five o'clock site.",
+"ja": "家族がその時刻を受け入れた返事を確かめてから、五時の現場へ向かった。",
+"ko": "가족이 그 시각을 받아들인 답을 확인한 뒤 다섯 시 현장으로 이동했다.",
+"zh-CN": "确认家人回复接受那个时间后，前往五点开始的现场工作。",
+"zh-TW": "確認家人回覆接受那個時間後，前往五點的現場工作。"
+}
+metadata/cancel_site = {
+"en": "At five, his name entered the site log.",
+"ja": "五時ちょうど、現場の入退場端末に",
+"ko": "다섯 시 정각, 현장 출입기에",
+"zh-CN": "五点整，在现场门禁机上",
+"zh-TW": "五點整，在現場出入機上"
+}

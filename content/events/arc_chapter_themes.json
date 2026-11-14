@@ -1222,7 +1222,7 @@
   {
     "id": "arc_y4_family_partner_collision",
     "title": "같은 식탁의 미래",
-    "background": "restaurant",
+    "background": "",
     "portrait": "player_determined",
     "category": "story",
     "rarity": "story",
@@ -1330,7 +1330,7 @@
   {
     "id": "arc_y4_family_commitment_none",
     "title": "둘만 놓인 국",
-    "background": "restaurant",
+    "background": "current_housing",
     "portrait": "player_determined",
     "category": "story",
     "rarity": "story",
@@ -1384,7 +1384,7 @@
   {
     "id": "arc_y4_family_table_missed",
     "title": "차려지지 않은 식탁",
-    "background": "late_night",
+    "background": "current_housing",
     "portrait": "player_determined",
     "category": "story",
     "rarity": "story",

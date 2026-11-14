@@ -97,6 +97,11 @@ const W161_STATION_SHOP := "seoul_station_convenience_w161"
 const W164_DAEUN_WITNESS := "arc_y4_body_witness"
 const W164_NIGHT_INTAKE := "hospital_night_intake_w164"
 const W164_INTAKE_CUT := preload("res://assets/w164_daeun_intake_cut.tres")
+const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
+const W167_UNATTACHED_TABLE := "arc_y4_family_commitment_none"
+const W167_LATE_TABLE := "arc_y4_family_table_missed"
+const W167_RESTAURANT := "family_soup_restaurant_w167"
+const W167_TABLE_CUTS := preload("res://assets/w167_family_table_cuts.tres")
 const W132_RECKONING := "arc_sangchul_reckoning"
 const W132_CAFE_STAIRS := "sangchul_cafe_stairs"
 const W132_RECKONING_CUT := preload("res://assets/w132_reckoning_result_cut.tres")
@@ -3426,6 +3431,8 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == W82_HYUNSU_BUS and choice_index in [0, 1] and not _is_public_story_demo()) \
 		or (event_id == W132_RECKONING and choice_index == 0) \
 		or (event_id == W164_DAEUN_WITNESS and choice_index == 0) \
+		or (event_id in [W167_DAEUN_TABLE, W167_LATE_TABLE] and choice_index == 0) \
+		or (event_id == W167_UNATTACHED_TABLE and choice_index in [1, 2]) \
 		or (event_id == W117_JAEHYUK_COUNTER and choice_index == 0) \
 		or (event_id == HYUNSU_EXAM_FAILURE and choice_index == 1) \
 		or (event_id == M23_PARENTS and choice_index == 1)
@@ -3493,6 +3500,14 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 			str(anchors.get(LocaleManager.language, "")))
 	if event_id == W164_DAEUN_WITNESS:
 		var anchors: Dictionary = W164_INTAKE_CUT.get_meta("arrival_anchors", {})
+		if raw.split("\n\n").size() == 2:
+			return _split_formatted_story_page(_fmt(raw), 0, str(anchors.get(LocaleManager.language, "")))
+		return _story_page_data(_fmt(raw))
+	if _is_w167_family_table(event_id):
+		var beat := "daeun_entry" if event_id == W167_DAEUN_TABLE else "late_entry"
+		if event_id == W167_UNATTACHED_TABLE:
+			beat = "rebook_site" if choice_index == 1 else "cancel_site"
+		var anchors: Dictionary = W167_TABLE_CUTS.get_meta(beat, {})
 		if raw.split("\n\n").size() == 2:
 			return _split_formatted_story_page(_fmt(raw), 0, str(anchors.get(LocaleManager.language, "")))
 		return _story_page_data(_fmt(raw))
@@ -5556,6 +5571,10 @@ func _render_current():
 	_reset_advance_hold()
 	var w53_network := _is_w53_network_scene()
 	var w205_minseo_call := str(_current.get("id", "")) == W205_MINSEO_CALL
+	var w167_family_table := _is_w167_family_table(str(_current.get("id", "")))
+	var cold_w167_result := w167_family_table \
+		and str(_pending_restore_context.get("event_id", "")) == str(_current.get("id", "")) \
+		and str(_pending_restore_context.get("phase", "")) == "result"
 	var cold_w161_result := str(_current.get("id", "")) == W161_BODY_SIGNAL \
 		and str(_pending_restore_context.get("event_id", "")) == W161_BODY_SIGNAL \
 		and str(_pending_restore_context.get("phase", "")) == "result"
@@ -5642,7 +5661,8 @@ func _render_current():
 	elif cold_w57_result:
 		# A restored result resolves its own location, not the received text's passage.
 		_bg_img.texture = null
-	elif w205_minseo_call or cold_w161_result:
+	elif w205_minseo_call or cold_w161_result or cold_w167_result \
+			or str(_current.get("id", "")) == W167_DAEUN_TABLE:
 		# A queue can reuse this node after another location has been on screen.
 		_bg_img.texture = null
 	elif cg_active_at_start and ImageRegistry.has_texture(cg_path):
@@ -5693,7 +5713,12 @@ func _render_current():
 	var cold_daeun_outside := str(_current.get("id", "")) == "arc_daeun_02_regular" \
 		and str(_pending_restore_context.get("event_id", "")) == "arc_daeun_02_regular" \
 		and str(_pending_restore_context.get("phase", "")) in ["choices", "result"]
-	if _full_w19_reunion or w53_network or cold_offer_cafe or cold_first_ktx or cold_w96_return \
+	if cold_w167_result:
+		BGMPlayer.clear_ambience_immediate()
+	elif w167_family_table:
+		# An old ambience layer cannot ring through into the quiet booking.
+		_apply_w167_family_table_surface()
+	elif _full_w19_reunion or w53_network or cold_offer_cafe or cold_first_ktx or cold_w96_return \
 			or cold_w220_cafe or cold_pitch_result or cold_daeun_outside \
 			or w205_minseo_call or cold_w161_result or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		BGMPlayer.clear_ambience_immediate()
@@ -5875,6 +5900,9 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 		return
 	if _pending_after_result and event_id == W164_DAEUN_WITNESS and _pending_result_choice_index == 0:
 		_apply_w164_intake_surface(play_cut_cue)
+		return
+	if _is_w167_family_table(event_id):
+		_apply_w167_family_table_surface()
 		return
 	if _is_first_year_close_lights_out():
 		# No generic room or people bed stands in for the outside countdown.
@@ -6191,6 +6219,47 @@ func _apply_w164_intake_surface(play_cut_cue: bool) -> void:
 	elif BGMPlayer._current_ambience_key == "hospital":
 		BGMPlayer.clear_ambience_immediate()
 		BGMPlayer.update_event_ambience(_current, "", destination)
+
+func _is_w167_family_table(event_id: String) -> bool:
+	return event_id in [W167_DAEUN_TABLE, W167_UNATTACHED_TABLE, W167_LATE_TABLE]
+
+func _apply_w167_family_table_surface() -> void:
+	var event_id := str(_current.get("id", ""))
+	var home := _resolve_story_background_id("current_housing")
+	var destination := "" if event_id == W167_DAEUN_TABLE else home
+	if _pending_after_result:
+		var source := _story_source_paragraph_index(_para_index)
+		var past_cut := _result_location_cut_page >= 0 and _para_index >= _result_location_cut_page
+		match event_id:
+			W167_DAEUN_TABLE:
+				if (_pending_result_choice_index == 0 and past_cut) \
+						or (_pending_result_choice_index == 1 and source == 1):
+					destination = W167_RESTAURANT
+			W167_UNATTACHED_TABLE:
+				if _pending_result_choice_index == 0:
+					destination = W167_RESTAURANT
+				elif past_cut or _result_location_cut_page < 0:
+					# The worksite and journey are never identified by the prose.
+					destination = ""
+			W167_LATE_TABLE:
+				if _pending_result_choice_index == 0:
+					# The first sentence includes the taxi ride; the venue starts at arrival.
+					destination = W167_RESTAURANT if past_cut else ""
+	if destination != _event_background_id:
+		var texture: Texture2D = null if destination.is_empty() \
+			else ImageRegistry.load_texture(ImageRegistry.get_background(destination))
+		_finish_story_scene_transition()
+		_bg_img.texture = texture
+		_event_background_id = destination if texture != null else ""
+		_apply_story_surface_palette(false)
+		_configure_living_scene()
+	if _event_background_id.is_empty() or _event_background_id == W167_RESTAURANT:
+		BGMPlayer.clear_ambience_immediate()
+	else:
+		if BGMPlayer._current_ambience_key != "apartment":
+			BGMPlayer.clear_ambience_immediate()
+		BGMPlayer._stop_season_ambience_immediate()
+		BGMPlayer.set_ambience("apartment", false)
 
 func _apply_w132_reckoning_result(play_cut_cue: bool) -> void:
 	var at_stairs := _is_w132_stair_result()
@@ -6896,6 +6965,7 @@ func _configure_living_scene(event_override: Dictionary = {}) -> void:
 		return
 	if (_full_w19_reunion or _is_w53_network_scene() or _is_w57_medication_scene() \
 			or str(_current.get("id", "")) == W161_BODY_SIGNAL \
+			or _is_w167_family_table(str(_current.get("id", ""))) \
 			or str(_current.get("id", "")) == W82_HYUNSU_BUS \
 			or str(_current.get("id", "")) == W205_MINSEO_CALL \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \

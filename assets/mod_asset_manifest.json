@@ -271,6 +271,14 @@
     {
       "kind": "background",
       "ids": [
+        "family_soup_restaurant_w167"
+      ],
+      "relative_path": "backgrounds/family_soup_restaurant_w167_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "finale_cafe_rear_papers"
       ],
       "relative_path": "backgrounds/finale_cafe_rear_papers_v1.png",

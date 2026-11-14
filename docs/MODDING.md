@@ -351,6 +351,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `daeun_mother_home_dining` | `backgrounds/daeun_mother_home_dining_summer.png` | 1280x800 |
 | background | `daeun_newlywed_home` | `backgrounds/daeun_newlywed_home_night.png` | 1280x800 |
 | background | `dad_house` | `backgrounds/family_living_room.png` | 1280x800 |
+| background | `family_soup_restaurant_w167` | `backgrounds/family_soup_restaurant_w167_v1.png` | 1584x990 |
 | background | `finale_cafe_rear_papers` | `backgrounds/finale_cafe_rear_papers_v1.png` | 1584x990 |
 | background | `finale_intake_blue_pen` | `backgrounds/finale_intake_blue_pen_v1.png` | 1584x990 |
 | background | `finale_notice_desk` | `backgrounds/finale_notice_desk_v1.png` | 1584x990 |

@@ -192,6 +192,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "family_soup_restaurant_w167": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "baekban_closing_meal_w161": {
       "environment": "indoor",
       "depth": "near",
@@ -1232,6 +1240,7 @@
       "arc_invest_first_loss",
       "arc_office_routine",
       "arc_paycheck_reality",
+      "arc_y4_family_partner_collision",
       "class_reunion",
       "comedy_021",
       "comedy_032",
@@ -2504,7 +2513,6 @@
       "arc_y4_borrowed_name_document_gap",
       "arc_y4_borrowed_name_self",
       "arc_y4_family_commitment_none",
-      "arc_y4_family_partner_collision",
       "arc_y4_family_table_missed",
       "arc_y4_father_final_contact_present",
       "arc_y4_father_outcome_unknown",

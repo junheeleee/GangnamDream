@@ -50,6 +50,32 @@ const W164_UNATTACHED := "arc_y4_body_witness_hyunsu"
 const W164_INTAKE := "hospital_night_intake_w164"
 const W164_START := {"ko": "접수대에서", "en": "At intake,", "ja": "受付で",
 	"zh-CN": "在挂号台，", "zh-TW": "在掛號櫃檯，"}
+const W167_DAEUN := "arc_y4_family_partner_collision"
+const W167_UNATTACHED := "arc_y4_family_commitment_none"
+const W167_LATE := "arc_y4_family_table_missed"
+const W167_RESTAURANT := "family_soup_restaurant_w167"
+const W167_CUT_STARTS := {
+	"daeun": {
+		"ko": "여섯 시 이 분,", "en": "At 6:02,", "ja": "六時二分、",
+		"zh-CN": "六点零二分，", "zh-TW": "六點兩分，",
+	},
+	"late": {
+		"ko": "일곱 시 오십칠 분,", "en": "At 7:57,", "ja": "七時五十七分、",
+		"zh-CN": "七点五十七分，", "zh-TW": "七點五十七分，",
+	},
+	"rebook": {
+		"ko": "가족이 그 시각을 받아들인 답을 확인한 뒤 다섯 시 현장으로 이동했다.",
+		"en": "After the family member confirmed the time, he traveled to the five o'clock site.",
+		"ja": "家族がその時刻を受け入れた返事を確かめてから、五時の現場へ向かった。",
+		"zh-CN": "确认家人回复接受那个时间后，前往五点开始的现场工作。",
+		"zh-TW": "確認家人回覆接受那個時間後，前往五點的現場工作。",
+	},
+	"cancel": {
+		"ko": "다섯 시 정각, 현장 출입기에", "en": "At five, his name entered the site log.",
+		"ja": "五時ちょうど、現場の入退場端末に", "zh-CN": "五点整，在现场门禁机上",
+		"zh-TW": "五點整，在現場出入機上",
+	},
+}
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -293,6 +319,7 @@ const EXACT_PATHS := {
 	W161_BAEKBAN_EMPTY: "res://assets/backgrounds/baekban_closing_empty_w161_v1.png",
 	W161_STATION_SHOP: "res://assets/backgrounds/seoul_station_convenience_w161_v1.png",
 	W164_INTAKE: "res://assets/backgrounds/hospital_night_intake_w164_v1.png",
+	W167_RESTAURANT: "res://assets/backgrounds/family_soup_restaurant_w167_v1.png",
 	W57_GATE: "res://assets/backgrounds/changwon_station_arrival_gate_v1.png",
 	W57_TABLE: "res://assets/backgrounds/changwon_home_medication_table_v1.png",
 	W53_DINING: "res://assets/backgrounds/sangchul_private_dining.png",
@@ -389,6 +416,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W167_CHECK"):
+		var table_ok := await _check_w167_family_table()
+		await _remove_story()
+		await _stop_audio()
+		if table_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w167_family_table")
+		get_tree().quit(0 if table_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W164_CHECK"):
 		var intake_ok := await _check_w164_intake()
 		await _remove_story()
@@ -2786,6 +2821,202 @@ func _expect_w164_intake(home: String, at_intake: bool) -> bool:
 	if at_intake and (not BGMPlayer._ambience_player.playing or BGMPlayer._human_ambience_player.playing \
 			or BGMPlayer._season_player.playing):
 		_fail("W164 night intake inherited people, weather or lost the hospital room tone")
+		return false
+	return true
+
+func _check_w167_family_table() -> bool:
+	var paths := 0
+	var restores := 0
+	var cut_restores := 0
+	var variants := [
+		{"id": W167_DAEUN, "intro": "neutral", "intro_sources": 2,
+			"flags": ["daeun_romance_started"]},
+		{"id": W167_UNATTACHED, "intro": "home", "intro_sources": 2,
+			"flags": []},
+		{"id": W167_LATE, "intro": "home", "intro_sources": 3,
+			"flags": ["arc_y4_three_promises_missed_father"]},
+	]
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for raw_variant: Dictionary in variants:
+			for choice: int in range(3):
+				await _remove_story()
+				await _stop_audio()
+				var event_id: String = str(raw_variant["id"])
+				_context = "%s/W167/%s/c%d" % [language, event_id, choice]
+				LocaleManager.set_language(language)
+				SaveManager.clear_loaded_resume_context()
+				GameState.start_new_game()
+				GameState.turn = 167
+				GameState.month = 6
+				GameState.age = 36
+				GameState.housing = "oneroom"
+				GameState.flags["arc_y4_body_witness_seen"] = true
+				for flag: String in raw_variant["flags"]:
+					GameState.flags[flag] = true
+				var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+				var selected: String = str(ingress.call("_chapter_four_causal_arc_id", 167, GameState.flags, false))
+				ingress.free()
+				if selected != event_id:
+					_fail("W167 release ingress resolved the wrong family-table variant")
+					return false
+				GameState.story_return_scene = "res://scenes/MainGame.tscn"
+				GameState.pending_story_queue = [event_id]
+				# Begin with a busy public bed plus weather. Every W167 surface must
+				# replace it with its authored apartment bed or intentional silence.
+				BGMPlayer.set_ambience("cafe")
+				BGMPlayer.set_season_ambience("rain")
+				_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+				add_child(_story)
+				_story.call("_set_auto_mode", false, false, false)
+				if str((_story.get("_current") as Dictionary).get("id", "")) != event_id \
+						or int(_story.call("_story_source_paragraph_count")) != int(raw_variant["intro_sources"]):
+					_fail("W167 did not open the selected localized family-table source")
+					return false
+				var home: String = ImageRegistry.resolve_contextual_background_id("current_housing")
+				var intro_pages: Array = _story.get("_paragraphs")
+				for page in range(intro_pages.size()):
+					await _finish_page()
+					if not _expect_w167_surface(str(raw_variant["intro"]), home, "W167 intro"):
+						return false
+					_story.call("_on_advance")
+					await _wait_stable()
+				if not bool(_story.get("_showing_choices")):
+					_fail("W167 did not reach its three authored choices")
+					return false
+				var money: float = GameState.money
+				var health: float = float(GameState.health)
+				var mental: float = float(GameState.mental)
+				var events: int = GameState.events_seen
+				_story.call("_on_choice", choice)
+				await _wait_stable()
+				var pages: Array = _story.get("_paragraphs")
+				var cut: int = int(_story.get("_result_location_cut_page"))
+				var cut_key: String = _w167_cut_key(event_id, choice)
+				if int(_story.call("_story_source_paragraph_count")) != 2 \
+						or (cut >= 0) != not cut_key.is_empty():
+					_fail("W167 result lost its exact two-source cut contract")
+					return false
+				if not cut_key.is_empty():
+					var starts: Dictionary = W167_CUT_STARTS[cut_key]
+					if cut <= 0 or cut >= pages.size() \
+							or not str(pages[cut]).begins_with(str(starts[language])):
+						_fail("W167 localized move did not start at its exact authored sentence")
+						return false
+				var restore_page: int = _w167_restore_page(event_id, choice, pages, cut)
+				if restore_page < 0 or restore_page >= pages.size():
+					_fail("W167 did not expose a deterministic v4 restore page")
+					return false
+				for page in range(pages.size()):
+					await _finish_page()
+					var source := int(_story.call("_story_source_paragraph_index", page))
+					var surface: String = _w167_result_surface(event_id, choice, page, source, cut)
+					if not _expect_w167_surface(surface, home, "W167 result"):
+						return false
+					if page == restore_page:
+						var context: Dictionary = _story.call("build_save_resume_context")
+						if not await _reload_authored_result_context(context, language, 2, source, true) \
+								or int(_story.get("_para_index")) != page \
+								or int(_story.get("_result_location_cut_page")) != cut \
+								or not _expect_w167_surface(surface, home, "W167 restored result"):
+							_fail("W167 same-locale v4 load did not recover its exact surface")
+							return false
+						await _finish_page()
+						restores += 1
+						if cut >= 0:
+							cut_restores += 1
+					if page + 1 < pages.size():
+						_story.call("_on_advance")
+						await _wait_stable()
+				if GameState.money != money or GameState.health != health or GameState.mental != mental \
+						or GameState.events_seen != events + 1 \
+						or not _w167_outcome_flags_match(event_id, choice):
+					_fail("W167 surface cut changed or replayed the authored outcome")
+					return false
+				paths += 1
+	print("W167_FAMILY_TABLE_OK paths=%d v4=%d cut_v4=%d" % [paths, restores, cut_restores])
+	return paths == 45 and restores == 45 and cut_restores == 20
+
+func _w167_cut_key(event_id: String, choice: int) -> String:
+	if event_id == W167_DAEUN and choice == 0:
+		return "daeun"
+	if event_id == W167_LATE and choice == 0:
+		return "late"
+	if event_id == W167_UNATTACHED and choice == 1:
+		return "rebook"
+	if event_id == W167_UNATTACHED and choice == 2:
+		return "cancel"
+	return ""
+
+func _w167_restore_page(event_id: String, choice: int, pages: Array, cut: int) -> int:
+	if cut >= 0:
+		return cut
+	if event_id == W167_DAEUN and choice == 1:
+		for page in range(pages.size()):
+			if int(_story.call("_story_source_paragraph_index", page)) == 1:
+				return page
+	if event_id == W167_UNATTACHED and choice == 0:
+		return 0
+	return pages.size() - 1
+
+func _w167_result_surface(event_id: String, choice: int, page: int, source: int, cut: int) -> String:
+	if event_id == W167_DAEUN:
+		if (choice == 0 and page >= cut) or (choice == 1 and source == 1):
+			return "restaurant"
+		return "neutral"
+	if event_id == W167_UNATTACHED:
+		if choice == 0:
+			return "restaurant"
+		return "home" if cut >= 0 and page < cut else "neutral"
+	if event_id == W167_LATE and choice == 0:
+		return "restaurant" if page >= cut else "neutral"
+	return "home"
+
+func _w167_outcome_flags_match(event_id: String, choice: int) -> bool:
+	var common := [
+		"arc_y4_family_table_seen", "arc_y4_family_partner_daeun",
+		"arc_y4_family_no_partner", "arc_y4_family_attended_together",
+		"arc_y4_family_attended_alone", "arc_y4_family_missed",
+	]
+	var expected := ["arc_y4_family_table_seen"]
+	if event_id == W167_DAEUN:
+		expected.append("arc_y4_family_partner_daeun")
+	else:
+		expected.append("arc_y4_family_no_partner")
+	if event_id == W167_DAEUN and choice == 0:
+		expected.append("arc_y4_family_attended_together")
+	elif choice == 0 or (event_id == W167_DAEUN and choice == 1):
+		expected.append("arc_y4_family_attended_alone")
+	else:
+		expected.append("arc_y4_family_missed")
+	for flag: String in common:
+		if bool(GameState.flags.get(flag, false)) != (flag in expected):
+			return false
+	return true
+
+func _expect_w167_surface(kind: String, home: String, label: String) -> bool:
+	if kind == "home":
+		if not _expect_surface(home, "apartment", label):
+			return false
+	elif kind == "restaurant":
+		if not _expect_surface(W167_RESTAURANT, "", label):
+			return false
+	elif kind == "neutral":
+		var background := _story.get("_bg_img") as TextureRect
+		if str(_story.get("_event_background_id")) != "" \
+				or not is_instance_valid(background) or background.texture != null \
+				or not str(BGMPlayer.get("_current_ambience_key")).is_empty():
+			_fail("%s did not settle on the authored neutral surface" % label)
+			return false
+	else:
+		_fail("%s requested an unknown W167 surface: %s" % [label, kind])
+		return false
+	var home_bed := kind == "home"
+	if BGMPlayer._ambience_player.playing != home_bed \
+			or not BGMPlayer._current_human_ambience_key.is_empty() \
+			or BGMPlayer._human_ambience_player.playing \
+			or not BGMPlayer._current_season_key.is_empty() \
+			or BGMPlayer._season_player.playing:
+		_fail("%s inherited a crowd/weather bed or lost its sole apartment bed" % label)
 		return false
 	return true
 

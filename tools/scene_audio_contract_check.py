@@ -577,6 +577,11 @@ def main() -> int:
     if (events.get("arc_y4_body_witness", {}).get("background") != "current_housing"
             or manifest.get("background_profiles", {}).get("hospital_night_intake_w164") != "hospital"):
         errors.append("W164: preserve current housing before arriving in the quiet night intake")
+    if (events.get("arc_y4_family_partner_collision", {}).get("background") != ""
+            or any(events.get(event_id, {}).get("background") != "current_housing" for event_id in
+                   ("arc_y4_family_commitment_none", "arc_y4_family_table_missed"))
+            or manifest.get("background_profiles", {}).get("family_soup_restaurant_w167") != "intentional_silence"):
+        errors.append("W167: unlocated plans, two actual home variants and a family venue without borrowed bar sound")
     if (any(event_contracts.get(owner) != W132_CAFE_AUDIO
             or events.get(owner, {}).get("background") != "cafe" for owner in W132_CAFE_EVENTS)
             or manifest.get("background_profiles", {}).get("sangchul_cafe_stairs") != "intentional_silence"):

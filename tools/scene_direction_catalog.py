@@ -141,6 +141,7 @@ INDOOR_BACKGROUNDS = {
     "cafe",
     "finale_cafe_rear_papers",
     "gukbap_restaurant_night",
+    "family_soup_restaurant_w167",
     "baekban_closing_meal_w161",
     "baekban_closing_empty_w161",
     "changwon_family_stairwell",
