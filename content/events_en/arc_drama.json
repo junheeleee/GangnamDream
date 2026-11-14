@@ -732,7 +732,7 @@
       },
       {
         "text": "Call the ward now and ask whether he can be connected to Father",
-        "result_text": "{name} dialed the ward number from the text. The nurse confirmed the patient's name and his relationship, then said she would carry the receiver over. After the sound of cart wheels and curtain rings, a short breath came on the line.\n\n{name} couldn't say anything. He listened to the breathing. On the other end, the oxygen machine hissed at a steady interval."
+        "result_text": "{name} dialed the ward number from the text. The nurse checked the patient's name and asked how he was related, then said she would carry the receiver over. When the sound of cart wheels and curtain rings died down, he heard his father take a short breath.\n\n{name} listened, unable to say a word. The oxygen machine hissed at regular intervals on the other end."
       },
       {
         "text": "Reply that he cannot travel or talk today, and postpone the contact",
@@ -770,7 +770,7 @@
       },
       {
         "text": "State plainly that he cannot reach Changwon today",
-        "result_text": "\"I can't reach Changwon today. I'm still in Seoul.\"\n\nFather said, very quietly, \"I understand.\" {name} did not cover it with a new promise.\n\nThe truth removed any false arrival time Father might wait for. It also turned the distance between them from a number into Father's brief answer."
+        "result_text": "\"I can't make it to Changwon today. I'm in Seoul.\"\n\nHis father said, very quietly, \"I understand.\" {name} didn't say when he might come.\n\nIt was that quiet reply that made it sink in: he couldn't be with his father today."
       },
       {
         "text": "Offer no defense and hear one sentence Father chooses to the end",
