@@ -31148,6 +31148,106 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-830",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_final_countdown_property_not_executed"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "W240 father_answer choice 1 shared recall: Minjun chose words to tell his father where he stopped. Father alive: saved a private next-call note, no chat. Father deceased: spoke to the empty chair. No meeting, completed call, reply or paper added. Other choices and outdoor-to-home transition preserved.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "6552232cb280967cf47a5817ecbd74e247da6a5f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "8044d55db0bda0fa1b02def258161d7ecb28f5b3028172bf7742de27aaf2ecad",
+          "selection_sha256": "e1a3023d243652fe2fab81107e1f679b7d1a140b4299a283638db1bcbca965c2",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "ea94f413fae6fb5648ebfad8f68ce646d559ef47421a5afaea73a3b3b0395949"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "6552232cb280967cf47a5817ecbd74e247da6a5f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "8044d55db0bda0fa1b02def258161d7ecb28f5b3028172bf7742de27aaf2ecad",
+          "selection_sha256": "3a91065eeb48eec7d33eedc25692c0703f274a3f9384ff655f81fd6dfecb6f6a",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "13956b46d1038483b01627832105facfbfc35dda7e073a83955952662c93c104"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "6552232cb280967cf47a5817ecbd74e247da6a5f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "8044d55db0bda0fa1b02def258161d7ecb28f5b3028172bf7742de27aaf2ecad",
+          "selection_sha256": "2b404064b56c3bb85e75fb158e6abce0180223e3c250159ed9666ad3aac22a53",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "f910423aceef9e5e04b14258c964ff3c5c3e0c585ecf9697b7a2b7c6e87f516d"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "a19c3d8e805e4c72655e86a3ac78a4999a3a9f44b43b2c99f3c704ab9620782a",
+        "zh-CN": "296316c3e88e3db257830d73a40caa3f8f35ee8bbe39995e780e8addae2d7aff",
+        "zh-TW": "889229040b511a776d2833aab87d594a2f6302c505aa1358125aac12f26930d0"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_final_countdown_property_not_executed:/chapter5_finale_reads/texts/3/1": "6ba2913044321d9fc989ceab6f95bc2b0f9e19daced9222198bdf170f62f6ad0"
+        },
+        "zh-CN": {
+          "events:arc_final_countdown_property_not_executed:/chapter5_finale_reads/texts/3/1": "3c9815654310fd64155ef1ff7f0305b363bdcb77b8d3663b491a590c6363e8df"
+        },
+        "zh-TW": {
+          "events:arc_final_countdown_property_not_executed:/chapter5_finale_reads/texts/3/1": "7b7984777e4522f477623419ae38f8c929de898507f84fb4df58c00f368550a3"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_final_countdown_property_not_executed:/chapter5_finale_reads/texts/3/1": {
+            "source_sha256": "7d40ed7672d43220ab46b00a02ed8d49949a2f0d289a143ccb026cbfd718efd8",
+            "target_sha256": "6ba2913044321d9fc989ceab6f95bc2b0f9e19daced9222198bdf170f62f6ad0"
+          }
+        },
+        "zh-CN": {
+          "events:arc_final_countdown_property_not_executed:/chapter5_finale_reads/texts/3/1": {
+            "source_sha256": "7d40ed7672d43220ab46b00a02ed8d49949a2f0d289a143ccb026cbfd718efd8",
+            "target_sha256": "3c9815654310fd64155ef1ff7f0305b363bdcb77b8d3663b491a590c6363e8df"
+          }
+        },
+        "zh-TW": {
+          "events:arc_final_countdown_property_not_executed:/chapter5_finale_reads/texts/3/1": {
+            "source_sha256": "7d40ed7672d43220ab46b00a02ed8d49949a2f0d289a143ccb026cbfd718efd8",
+            "target_sha256": "7b7984777e4522f477623419ae38f8c929de898507f84fb4df58c00f368550a3"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -41781,8 +41881,8 @@
         "target_sha256": "b1c11220b773b23e09c0e540ccfbd0f2d1a2e7bd2875ac7c1aaa16a3d225ca42"
       },
       "events:arc_final_countdown_property_not_executed:/chapter5_finale_reads/texts/3/1": {
-        "source_sha256": "7d40ed7672d43220ab46b00a02ed8d49949a2f0d289a143ccb026cbfd718efd8",
-        "target_sha256": "6ba2913044321d9fc989ceab6f95bc2b0f9e19daced9222198bdf170f62f6ad0"
+        "source_sha256": "1e9efa2fa33873a22bd6d90627d3459e997400e03a284676387a99dd5b8871ea",
+        "target_sha256": "f5d4f45a32a14eb2b0ae8d4a7cd210121a7605b65438ff2d2cbd443e46bd101b"
       },
       "events:arc_final_countdown_property_not_executed:/chapter5_finale_reads/texts/3/2": {
         "source_sha256": "16a521c7d6a02c57a6d25f7de0d042fffe6b7bec911ae73ead57325f777cbc1c",
@@ -94675,8 +94775,8 @@
         "target_sha256": "24960dec007248147515d0c0feac77a361d9f0a6de30b352fb96ee5443edd87e"
       },
       "events:arc_final_countdown_property_not_executed:/chapter5_finale_reads/texts/3/1": {
-        "source_sha256": "7d40ed7672d43220ab46b00a02ed8d49949a2f0d289a143ccb026cbfd718efd8",
-        "target_sha256": "3c9815654310fd64155ef1ff7f0305b363bdcb77b8d3663b491a590c6363e8df"
+        "source_sha256": "1e9efa2fa33873a22bd6d90627d3459e997400e03a284676387a99dd5b8871ea",
+        "target_sha256": "8d8cdd4a17b37ea466aaff4e383c0b23163d51a2e78872d293bc21f449686db0"
       },
       "events:arc_final_countdown_property_not_executed:/chapter5_finale_reads/texts/3/2": {
         "source_sha256": "16a521c7d6a02c57a6d25f7de0d042fffe6b7bec911ae73ead57325f777cbc1c",
@@ -154353,8 +154453,8 @@
         "target_sha256": "9c06fec6249d381700b0697d68da3ba429cd766a6c15fad095a0d592857eec70"
       },
       "events:arc_final_countdown_property_not_executed:/chapter5_finale_reads/texts/3/1": {
-        "source_sha256": "7d40ed7672d43220ab46b00a02ed8d49949a2f0d289a143ccb026cbfd718efd8",
-        "target_sha256": "7b7984777e4522f477623419ae38f8c929de898507f84fb4df58c00f368550a3"
+        "source_sha256": "1e9efa2fa33873a22bd6d90627d3459e997400e03a284676387a99dd5b8871ea",
+        "target_sha256": "bd64142ad333540295ed6f8c2ee9521af9636abe76291afae7a31df971593f9d"
       },
       "events:arc_final_countdown_property_not_executed:/chapter5_finale_reads/texts/3/2": {
         "source_sha256": "16a521c7d6a02c57a6d25f7de0d042fffe6b7bec911ae73ead57325f777cbc1c",
@@ -203402,7 +203502,7 @@
       }
     }
   },
-  "accepted_sha256": "b4ff25da350e1d9c28cb0909e15138818c5785aff834d7c9d27be219fa0cfdd0",
+  "accepted_sha256": "fb1a9234f3221a8176689d24e919ac31c2e4800c8cf674a904b69d73ea5f4d91",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
