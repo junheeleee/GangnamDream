@@ -172,7 +172,7 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 ### M60 ‘버텨온 것들’ — 공통 엔딩 문장 교열
 
-[~] `content/endings{,_en,_ja,_zh-CN,_zh-TW}.json` `career_burnout.description`의 둘째 문단 첫 두 문장만. ‘실제로 옮겼거나 끝내 남았다’처럼 분기 목록을 읽어 주거나 이직 시도 여부를 단정하지 않는다. 5년 동안 일한 생활과 계속되는 출근, 종점과 비, 자산 문단은 그대로. `description_if_known` 세 변형·선택 게이트·회고·CG/소리·저장·공개 체험판 불변. CJK 지문, 해당 정적 검사와 교열 이력만 갱신한다.
+[~] `content/endings{,_en,_ja,_zh-CN,_zh-TW}.json` `career_burnout.description`의 둘째 문단만. ‘실제로 옮겼거나 끝내 남았다’처럼 분기 목록을 읽어 주거나 이직 시도 또는 ‘번아웃’의 발화를 단정하지 않는다. 5년 동안 일한 생활과 계속되는 출근, 종점과 비, 자산 문단은 그대로. `description_if_known` 세 변형·선택 게이트·회고·CG/소리·저장·공개 체험판 불변. CJK 및 콘텐츠 사실 원장 지문, 해당 정적 검사와 교열 이력만 갱신한다.
 
 ### C3 · M03의 승인된 표시 변경과 고정된 데모 소스 계약
 
