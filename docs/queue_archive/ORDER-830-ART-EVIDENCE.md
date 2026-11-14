@@ -513,6 +513,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 완료(음향 배선): `AUDIO_SOURCE_MANIFEST.json`의 일반 바와 리버풀 펍 녹음을 이 모임에서 둘 다 끄고, 단일 CC0 실내 배경음만 남겼다. 원본 StoryMode가 첫 문단에서 `cafe`를 재생함을 재현(`830-w53-baseline.nIy03z`, exit1, stderr0). 수정본은 격리된 실제 StoryMode 5언어×2변형×2선택=20경로·v4 마지막 결과 20복원과 기존 선택/현금/12주 후속을 확인(`830-w53-final.zjMHfD`, exit0, stderr0). 게임 스크립트 69개 컴파일, BGM 연속성, 음향 계약·카탈로그·240주 대표 모델 2개, 장면 방향·출시 원장·체험판 5언어·영어 정적 검사 및 독립 검수 통과. 배경·대사·공유 음원은 그대로이고 실제 청취·화면·정상 런 재현은 아니다. 초대 때 장소를 확정하지 않는 시작 화면과 퇴장 컷, 장소에 맞는 실제 모임 소리는 아직 미완이다.
 
+[~] W53 다음 묶음: `scenes/StoryMode.gd`, `tools/{StoryBackgroundContextCheck,ScreenshotQA}.gd` W53만. 기본 초대 P0은 인물·장소·환경음 없는 화면, 기본 P1~ 및 이미 아는 갈래는 개인실·상철·실내음, c1 결과 P1 퇴장은 상철만 남긴다. 5언어 원문에 없는 전화 수단·거리·날씨·새 배경·음악/효과·저장 형식·공개 데모 변경0. 진행·언어 전환·격리 복원과 가능할 경우 실제 렌더 확인.
+
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.
