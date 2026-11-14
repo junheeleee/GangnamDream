@@ -557,6 +557,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 M60 ‘다은과 함께’는 외곽 집의 현재 식탁 아래 기존 조용한 방 녹음만 재생한다. 배경에 냉장고가 있으나 지속적인 전기음 레이어를 덜어 두 사람의 대화에 여백을 둔다. `830-daeun-ending-audio.IxcoJM`의 실제 엔진 음향 연속 검사에서 이전 원룸·군중·겨울을 시드로 넣고, 엔딩 진입 첫 프레임에서 재생 PCM과 두 층의 즉시 꺼짐, 기존 엔딩 음악 모드를 확인했다. 독립 재실행에서도 두 범위 GO. 원고·CG·엔딩 라우팅·개인 저장·출시 파일 변경0. M60 플레이 재완주나 실제 청취는 아니다.
 
+[~] W69 첫 선택의 계단 화면: `assets/backgrounds/convenience_store_night_steps_v1.png`+import, `autoloads/ImageRegistry.gd`, `content/events/arc_midgame.json`의 c0 표시 키 두 개, `assets/{event_visual_contracts,scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{StoryBackgroundContextCheck.gd,scene_direction_catalog.py,art_resolution_baseline.json}`, 원화·출시 수량/모딩 원장과 현황·일지·이 증거. 결과 두 문단만 낮은 가게 바깥 계단·실내 냉장고음 즉시 차단. 특정 다은 지점을 지목하지 않으며 기존 본문·나머지 선택·저장·공개 데모 불변.
+
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.
