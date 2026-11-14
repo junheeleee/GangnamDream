@@ -97,6 +97,9 @@ const W161_STATION_SHOP := "seoul_station_convenience_w161"
 const W164_DAEUN_WITNESS := "arc_y4_body_witness"
 const W164_NIGHT_INTAKE := "hospital_night_intake_w164"
 const W164_INTAKE_CUT := preload("res://assets/w164_daeun_intake_cut.tres")
+const W174_FATHER_NUMBER := "arc_father_call_on_ktx_number"
+const W174_CARRIAGE_PATH := "res://assets/backgrounds/regional_train_window_summer.png"
+const W174_PANE_OVERLAY_PATH := "res://assets/backgrounds/ktx_tunnel_window_overlay_w174.svg"
 const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
 const W167_UNATTACHED_TABLE := "arc_y4_family_commitment_none"
 const W167_LATE_TABLE := "arc_y4_family_table_missed"
@@ -5591,6 +5594,8 @@ func _render_current():
 		# 이전 배경을 실제로 붙잡아 둔 뒤에 새 장면을 아래에서 교체한다.
 		# 장면을 먼저 갈고 펄스를 덮는 방식은 하드컷을 숨기지 못한다.
 		_begin_story_scene_transition(_current_transition_mode)
+	if _story_bg_material:
+		_story_bg_material.set_shader_parameter("pane_overlay_enabled", false)
 	set_meta("story_transition_contract", _current_transition_contract.duplicate(true))
 	set_meta("story_transition_mode", _normalized_story_scene_transition(
 		_current_transition_mode))
@@ -5895,6 +5900,9 @@ func _is_w132_stair_result() -> bool:
 func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
 	var event_id := str(_current.get("id", ""))
+	if event_id == W174_FATHER_NUMBER:
+		_sync_w174_tunnel_panes()
+		return
 	if event_id == W161_BODY_SIGNAL:
 		_apply_w161_transport_surface()
 		return
@@ -6219,6 +6227,20 @@ func _apply_w164_intake_surface(play_cut_cue: bool) -> void:
 	elif BGMPlayer._current_ambience_key == "hospital":
 		BGMPlayer.clear_ambience_immediate()
 		BGMPlayer.update_event_ambience(_current, "", destination)
+
+func _sync_w174_tunnel_panes() -> void:
+	if _story_bg_material == null:
+		return
+	# A substitute carriage can have a different window layout. The matte is
+	# registered against the built-in image, not against the generic train ID.
+	var tunnel: bool = _bg_img.texture != null and _bg_img.texture.resource_path == W174_CARRIAGE_PATH \
+		and (_pending_after_result or _showing_choices or _story_source_paragraph_index(_para_index) == 2)
+	if tunnel and _story_bg_material.get_shader_parameter("pane_overlay") == null:
+		var panes := load(W174_PANE_OVERLAY_PATH) as Texture2D
+		if panes == null:
+			return
+		_story_bg_material.set_shader_parameter("pane_overlay", panes)
+	_story_bg_material.set_shader_parameter("pane_overlay_enabled", tunnel)
 
 func _is_w167_family_table(event_id: String) -> bool:
 	return event_id in [W167_DAEUN_TABLE, W167_UNATTACHED_TABLE, W167_LATE_TABLE]

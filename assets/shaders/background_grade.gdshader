@@ -16,6 +16,8 @@ uniform float tone_quantize : hint_range(0.0, 1.0) = 0.0;
 uniform float screen_scale : hint_range(120.0, 1200.0) = 620.0;
 uniform float blur_px : hint_range(0.0, 2.0) = 0.0;
 uniform float seed = 0.0;
+uniform bool pane_overlay_enabled = false;
+uniform sampler2D pane_overlay : source_color, filter_linear, repeat_disable;
 
 float hash(vec2 p) {
 	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
@@ -36,6 +38,10 @@ void fragment() {
 		tex += texture(TEXTURE, UV + vec2(-blur_step.x,  blur_step.y)) * 0.03;
 		tex += texture(TEXTURE, UV + vec2( blur_step.x, -blur_step.y)) * 0.03;
 		tex += texture(TEXTURE, UV + vec2(-blur_step.x, -blur_step.y)) * 0.03;
+	}
+	if (pane_overlay_enabled) {
+		vec4 glass = texture(pane_overlay, UV);
+		tex.rgb = mix(tex.rgb, glass.rgb, glass.a);
 	}
 	tex *= COLOR;
 	float lum = dot(tex.rgb, vec3(0.299, 0.587, 0.114));

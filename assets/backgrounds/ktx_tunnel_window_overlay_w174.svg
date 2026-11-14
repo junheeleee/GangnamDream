@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <!-- Only glazing from regional_train_window_summer.png, in source-pixel coordinates. -->
+  <defs>
+    <linearGradient id="tunnel" x1="0" x2="0.16" y1="0" y2="1">
+      <stop offset="0" stop-color="#18191a"/>
+      <stop offset="0.31" stop-color="#27292a"/>
+      <stop offset="0.53" stop-color="#202222"/>
+      <stop offset="0.56" stop-color="#292a29"/>
+      <stop offset="1" stop-color="#181a1a"/>
+    </linearGradient>
+  </defs>
+  <g fill="url(#tunnel)">
+    <path d="M819 111 C819 89 824 72 838 63 L1104 0 H1280 V535 L857 434 C832 429 819 404 819 380 Z"/>
+    <path d="M485 159 Q485 146 492 141 L693 92 L696 263 L597 264 Q570 263 558 282 H521 L516 278 L511 274 L507 270 L500 266 L492 263 L485 260 Z"/>
+    <path d="M348 182 Q349 176 354 173 L423 157 L426 257 L348 258 Z"/>
+    <path d="M272 196 L309 185 L310 245 Q299 240 288 248 L283 254 L273 254 Z"/>
+    <path d="M228 205 L245 201 L246 244 Q237 242 230 251 Z"/>
+    <path d="M197 211 L211 208 L212 251 L205 252 Q202 247 199 245 Z"/>
+    <path d="M172 218 L183 214 L184 244 L173 247 Z"/>
+    <path d="M156 221 L164 219 L164 246 L157 248 Z"/>
+  </g>
+  <!-- Weak cabin-light echoes rather than actual signs, traffic or actors. -->
+  <path d="M846 99 L1092 37 L1060 50 L849 107 Z M497 163 L641 129 L626 137 L497 171 Z"
+        fill="#767674" opacity="0.12"/>
+</svg>

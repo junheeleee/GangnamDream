@@ -392,6 +392,9 @@ weather, romance, and historical portraits remain fixed.
 - `assets/backgrounds/family_soup_restaurant_w167_v1.png`
   - W167 actual arrivals only. A small soup restaurant seen from the entry, not a seated view of a fixed party or meal; the aisle, low-key patrons and neutral furnishings leave those facts to the prose. No worksite art or reused bar recording.
 
+- `assets/backgrounds/ktx_tunnel_window_overlay_w174.svg`
+  - W174 tunnel entry through the choice and its result only. Registered glazing overlay for `regional_train_window_summer.png`; the original carriage remains the background. No authoring of a handset, person reflection, or new train audio. Not used on a swapped/modded carriage.
+
 - `assets/backgrounds/baekban_closing_{meal,empty}_w161_v1.png`
   - W161 meal choice only: a single modest meal in a closing baekban diner, then the same table and lamp with an empty bowl at the final paragraph. No checkout move, readable bill, or invented payment method.
 

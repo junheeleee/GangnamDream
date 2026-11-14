@@ -94,6 +94,28 @@ const W169_VARIANT_MARKERS := {
 		"zh-TW": "守住了四點和父親通話的約定",
 	},
 }
+const W174_ROOT := "arc_father_call_on_ktx"
+const W174_MEMORY := "arc_father_call_on_ktx_memory"
+const W174_NUMBER := "arc_father_call_on_ktx_number"
+const W174_ANSWERED := "arc_y4_father_call_answered_on_ktx"
+const W174_MISSED := "arc_y4_father_call_missed_on_ktx"
+const W174_KTX := "ktx_window"
+const W174_KTX_PATH := "res://assets/backgrounds/regional_train_window_summer.png"
+const W174_PANE_PATH := "res://assets/backgrounds/ktx_tunnel_window_overlay_w174.svg"
+const W174_SOURCE_COUNTS := {
+	W174_ROOT: 4,
+	W174_MEMORY: 5,
+	W174_NUMBER: 3,
+	W174_ANSWERED: 4,
+	W174_MISSED: 3,
+}
+const W174_RESULT_COUNTS := {
+	W174_ROOT: [2, 2],
+	W174_MEMORY: [2],
+	W174_NUMBER: [4, 2],
+	W174_ANSWERED: [3, 3, 3],
+	W174_MISSED: [2, 2, 2],
+}
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -434,6 +456,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W174_CHECK"):
+		var father_call_ok := await _check_w174_father_call()
+		await _remove_story()
+		await _stop_audio()
+		if father_call_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w174_father_call")
+		get_tree().quit(0 if father_call_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W169_CHECK"):
 		var midpoint_ok := await _check_w169_midpoint()
 		await _remove_story()
@@ -3194,6 +3224,403 @@ func _expect_w169_home(home: String) -> bool:
 			or not BGMPlayer._current_season_key.is_empty() \
 			or BGMPlayer._season_player.playing:
 		_fail("W169 lost its sole apartment bed or inherited people/weather")
+		return false
+	return true
+
+func _check_w174_father_call() -> bool:
+	if ImageRegistry.get_background(W174_KTX) != W174_KTX_PATH \
+			or not FileAccess.file_exists(W174_KTX_PATH) \
+			or not FileAccess.file_exists(W174_PANE_PATH):
+		_fail("W174 carriage or pane-overlay asset identity changed")
+		return false
+	var prepared: Dictionary = {}
+	for artifact in [false, true]:
+		await _remove_story()
+		await _stop_audio()
+		_context = "W174/prepare/artifact=%s" % artifact
+		var history := _father_contact_history()
+		history[0] = [14, "arc_father_01_call", 2 if artifact else 0]
+		history.append([145, "chapter_card_36"])
+		if not _prepare_full_owner_history(174, history) \
+				or not _w174_selector(artifact):
+			return false
+		prepared["artifact" if artifact else "number"] = GameState.serialize().duplicate(true)
+	var routes := [
+		{"name": "remembered", "snapshot": "artifact", "root_choice": 0},
+		{"name": "artifact_direct", "snapshot": "artifact", "root_choice": 1},
+		{"name": "number_direct", "snapshot": "number", "root_choice": -1},
+	]
+	var paths := 0
+	var remembered := 0
+	var direct := 0
+	var connected := 0
+	var missed := 0
+	var choice_v4 := 0
+	var result_v4 := 0
+	var ending_choices := 0
+	for language_index in range(LocaleManager.SUPPORTED_LANGUAGES.size()):
+		var language: String = LocaleManager.SUPPORTED_LANGUAGES[language_index]
+		for route_index in range(routes.size()):
+			var route: Dictionary = routes[route_index]
+			for decision in range(2):
+				await _remove_story()
+				await _stop_audio()
+				LocaleManager.set_language(language)
+				GameState.call("_restore_serialized_snapshot_exact", prepared[route["snapshot"]])
+				SaveManager.clear_loaded_resume_context()
+				_context = "%s/W174/%s/decision%d" % [language, route["name"], decision]
+				var root_id := W174_ROOT if int(route["root_choice"]) >= 0 else W174_NUMBER
+				if not await _open_full_fixture_event(root_id, [], false, false):
+					return false
+				if int(route["root_choice"]) >= 0:
+					if not await _w174_read_to_choices(W174_ROOT) \
+							or not await _w174_expression_to(
+								int(route["root_choice"]),
+								W174_MEMORY if int(route["root_choice"]) == 0 else W174_NUMBER):
+						return false
+					if int(route["root_choice"]) == 0:
+						remembered += 1
+						if not await _w174_memory_to_number():
+							return false
+					else:
+						direct += 1
+				else:
+					direct += 1
+				if not await _w174_read_to_choices(W174_NUMBER):
+					return false
+				var cold_resume := int(route["root_choice"]) < 0 and decision == 0
+				if cold_resume:
+					if not await _reload_prechoice("choices", W174_NUMBER) \
+							or not _w174_surface(W174_NUMBER, true, "cold choices"):
+						return false
+					choice_v4 += 1
+				if not await _w174_decision_to(decision, cold_resume):
+					return false
+				if cold_resume:
+					result_v4 += 1
+				if decision == 0:
+					connected += 1
+				else:
+					missed += 1
+				var ending_id := W174_ANSWERED if decision == 0 else W174_MISSED
+				if not await _w174_read_to_choices(ending_id):
+					return false
+				var ending_choice := (language_index + route_index + decision) % 3
+				if not await _w174_expression_result(ending_choice):
+					return false
+				ending_choices += 1
+				paths += 1
+	await _remove_story()
+	await _stop_audio()
+	if _failures != 0:
+		return false
+	print("W174_FATHER_CALL_OK paths=%d remembered=%d direct=%d connected=%d missed=%d choice_v4=%d result_v4=%d ending_choices=%d" % [
+		paths, remembered, direct, connected, missed, choice_v4, result_v4, ending_choices])
+	return paths == 30 and remembered == 10 and direct == 20 \
+		and connected == 15 and missed == 15 and choice_v4 == 5 \
+		and result_v4 == 5 and ending_choices == 30
+
+func _w174_selector(artifact: bool) -> bool:
+	var expected := W174_ROOT if artifact else W174_NUMBER
+	var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+	var flags: Dictionary = GameState.flags.duplicate(true)
+	var selected := str(ingress.call("_chapter_four_causal_arc_id", 174, flags, false))
+	var off_week := [
+		str(ingress.call("_chapter_four_causal_arc_id", 173, flags, false)),
+		str(ingress.call("_chapter_four_causal_arc_id", 175, flags, false)),
+	]
+	var passed := str(ingress.call("_chapter_four_causal_arc_id", 174, flags, true))
+	flags["arc_father_call_on_ktx_seen"] = true
+	var repeated := str(ingress.call("_chapter_four_causal_arc_id", 174, flags, false))
+	ingress.free()
+	var w174_ids := [W174_ROOT, W174_NUMBER]
+	var off_week_hit := false
+	for event_id: String in off_week:
+		off_week_hit = off_week_hit or event_id in w174_ids
+	if selected != expected or GameState.has_item("artifact_father_call") != artifact \
+			or off_week_hit \
+			or passed in w174_ids or repeated in w174_ids:
+		_fail("W174 selector lost its artifact, exact-week, living-father or once-only gate")
+		return false
+	return true
+
+func _w174_read_to_choices(event_id: String) -> bool:
+	var event: Dictionary = _story.get("_current")
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", _story.call("_resolved_story_description", event)))
+	if str(event.get("id", "")) != event_id \
+			or int(_story.call("_story_source_paragraph_count")) != int(W174_SOURCE_COUNTS[event_id]) \
+			or not _m23_same_prose(pages, authored):
+		_fail("%s lost exact localized intro prose or source paragraphs" % event_id)
+		return false
+	for page in range(pages.size()):
+		await _finish_page()
+		var source := int(_story.call("_story_source_paragraph_index", page))
+		var panes := event_id == W174_NUMBER and source >= 2
+		if int(_story.get("_para_index")) != page \
+				or not _w174_surface(event_id, panes, "%s intro p%d" % [event_id, page]):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	var choices: Array = event.get("choices", [])
+	if not bool(_story.get("_showing_choices")) \
+			or (_story.get("_choice_box") as Control).get_child_count() != choices.size() \
+			or not _w174_surface(event_id, event_id == W174_NUMBER, "%s choices" % event_id):
+		_fail("%s did not reach its exact choice dock" % event_id)
+		return false
+	return true
+
+func _w174_expression_to(choice_index: int, next_event: String) -> bool:
+	var event_id := str((_story.get("_current") as Dictionary).get("id", ""))
+	var before := _w174_public_state()
+	_story.call("_on_choice", choice_index)
+	await _wait_stable()
+	if _w174_public_state() != before or not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != choice_index:
+		_fail("%s expression choice changed player state" % event_id)
+		return false
+	if not await _w174_result_to_next(choice_index, next_event, false, false):
+		return false
+	if _w174_public_state() != before:
+		_fail("%s expression result changed player state" % event_id)
+		return false
+	return true
+
+func _w174_memory_to_number() -> bool:
+	var event: Dictionary = _story.get("_current")
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", _story.call("_resolved_story_description", event)))
+	var before := _w174_public_state()
+	if str(event.get("id", "")) != W174_MEMORY \
+			or int(_story.call("_story_source_paragraph_count")) != int(W174_SOURCE_COUNTS[W174_MEMORY]) \
+			or not _m23_same_prose(pages, authored):
+		_fail("W174 memory lost exact localized prose or source paragraphs")
+		return false
+	for page in range(pages.size()):
+		await _finish_page()
+		if int(_story.get("_para_index")) != page \
+				or not _w174_surface(W174_MEMORY, false, "W174 memory p%d" % page):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	# This expression has one visible action, so StoryMode deliberately commits
+	# it directly instead of opening a one-button choice dock.
+	if _w174_public_state() != before or not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != 0:
+		_fail("W174 memory did not auto-enter its sole expression result")
+		return false
+	if not await _w174_result_to_next(0, W174_NUMBER, false, false) \
+			or _w174_public_state() != before:
+		_fail("W174 memory expression changed player state")
+		return false
+	return true
+
+func _w174_decision_to(choice_index: int, cold_resume: bool) -> bool:
+	var before := _w174_public_state()
+	_story.call("_on_choice", choice_index)
+	await _wait_stable()
+	if not _w174_decision_state(before, choice_index):
+		return false
+	var next_event := W174_ANSWERED if choice_index == 0 else W174_MISSED
+	if not await _w174_result_to_next(choice_index, next_event, true, cold_resume) \
+			or not _w174_decision_state(before, choice_index):
+		return false
+	return true
+
+func _w174_result_to_next(choice_index: int, next_event: String,
+		overlay: bool, cold_resume: bool) -> bool:
+	var event_id := str((_story.get("_current") as Dictionary).get("id", ""))
+	if not _w174_result_matches(event_id, choice_index):
+		return false
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	for page in range(pages.size()):
+		await _finish_page()
+		if int(_story.get("_para_index")) != page \
+				or not _w174_surface(event_id, overlay, "%s result p%d" % [event_id, page]):
+			return false
+		if cold_resume and page == 0:
+			if not await _reload_cut_result(choice_index, page, false) \
+					or not _w174_surface(event_id, overlay, "%s cold result" % event_id):
+				return false
+		if page + 1 < pages.size():
+			_story.call("_on_advance")
+			await _wait_stable()
+	_story.call("_on_advance")
+	await _wait_stable()
+	if str((_story.get("_current") as Dictionary).get("id", "")) != next_event \
+			or not _w174_surface(next_event, false, "%s follow-on" % next_event):
+		_fail("%s did not enter exact follow-on %s" % [event_id, next_event])
+		return false
+	return true
+
+func _w174_expression_result(choice_index: int) -> bool:
+	var event_id := str((_story.get("_current") as Dictionary).get("id", ""))
+	var before := _w174_public_state()
+	_story.call("_on_choice", choice_index)
+	await _wait_stable()
+	if _w174_public_state() != before or not _w174_result_matches(event_id, choice_index):
+		_fail("%s ending expression changed player state" % event_id)
+		return false
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	for page in range(pages.size()):
+		await _finish_page()
+		if int(_story.get("_para_index")) != page \
+				or not _w174_surface(event_id, false, "%s ending p%d" % [event_id, page]):
+			return false
+		if page + 1 < pages.size():
+			_story.call("_on_advance")
+			await _wait_stable()
+	return _w174_public_state() == before
+
+func _w174_result_matches(event_id: String, choice_index: int) -> bool:
+	var event: Dictionary = _story.get("_current")
+	var choices: Array = event.get("choices", [])
+	if choice_index < 0 or choice_index >= choices.size() \
+			or not W174_RESULT_COUNTS.has(event_id):
+		return false
+	var expected_counts: Array = W174_RESULT_COUNTS[event_id]
+	var pages: Array = _story.get("_paragraphs")
+	var authored := str(_story.call("_fmt", str((choices[choice_index] as Dictionary).get("result_text", ""))))
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != choice_index \
+			or int(_story.call("_story_source_paragraph_count")) != int(expected_counts[choice_index]) \
+			or not _m23_same_prose(pages, authored):
+		_fail("%s choice %d lost exact localized result prose" % [event_id, choice_index])
+		return false
+	return true
+
+func _w174_surface(event_id: String, overlay: bool, label: String) -> bool:
+	var background := _story.get("_bg_img") as TextureRect
+	var material := _story.get("_story_bg_material") as ShaderMaterial
+	var pane: Variant = material.get_shader_parameter("pane_overlay") if material != null else null
+	var actual_overlay := false if material == null \
+			else bool(material.get_shader_parameter("pane_overlay_enabled"))
+	if str((_story.get("_current") as Dictionary).get("id", "")) != event_id \
+			or str(_story.get("_event_background_id")) != W174_KTX \
+			or not is_instance_valid(background) or background.texture == null \
+			or background.texture.resource_path != W174_KTX_PATH \
+			or str(BGMPlayer.get("_current_ambience_key")) != "train" \
+			or not BGMPlayer._ambience_player.playing \
+			or BGMPlayer._current_human_ambience_key != "transit" \
+			or not BGMPlayer._human_ambience_player.playing \
+			or not BGMPlayer._current_season_key.is_empty() \
+			or BGMPlayer._season_player.playing or actual_overlay != overlay:
+		_fail(("%s changed the KTX surface, train bed or pane state: " \
+				+ "event=%s bg=%s/%s world=%s/%s human=%s/%s season=%s/%s " \
+				+ "overlay=%s/%s pane=%s") % [
+					label,
+					str((_story.get("_current") as Dictionary).get("id", "")),
+					str(_story.get("_event_background_id")),
+					"" if not is_instance_valid(background) or background.texture == null \
+						else background.texture.resource_path,
+					str(BGMPlayer.get("_current_ambience_key")),
+					str(BGMPlayer._ambience_player.playing),
+					BGMPlayer._current_human_ambience_key,
+					str(BGMPlayer._human_ambience_player.playing),
+					BGMPlayer._current_season_key,
+					str(BGMPlayer._season_player.playing),
+					str(actual_overlay), str(overlay),
+					"" if not (pane is Texture2D) else (pane as Texture2D).resource_path,
+				])
+		return false
+	if overlay and (not (pane is Texture2D) \
+			or (pane as Texture2D).resource_path != W174_PANE_PATH \
+			or (pane as Texture2D).get_width() != 1280 \
+			or (pane as Texture2D).get_height() != 800):
+		_fail("%s did not bind the exact W174 pane overlay" % label)
+		return false
+	var presentation: Dictionary = _story.get("_current_presentation")
+	var badge := _story.get("_communication_badge") as Control
+	var portrait := _story.get("_portrait_frame") as Control
+	match event_id:
+		W174_ROOT:
+			if presentation.get("channel") != "narration" or badge.visible or portrait.visible:
+				return _w174_surface_fail(label, "root narration/actor contract")
+		W174_MEMORY:
+			if presentation.get("channel") != "memory" or not badge.visible \
+					or not portrait.visible or not bool(_story.get("_portrait_remote_inset")):
+				return _w174_surface_fail(label, "remote memory contract")
+		W174_NUMBER:
+			if presentation.get("channel") != "phone" or presentation.get("state") != "dialing" \
+					or not badge.visible or portrait.visible:
+				return _w174_surface_fail(label, "dialing contract")
+		W174_ANSWERED:
+			if presentation.get("channel") != "phone" or presentation.get("state") != "connected" \
+					or not badge.visible or not portrait.visible or bool(_story.get("_portrait_remote_inset")):
+				return _w174_surface_fail(label, "connected local-portrait contract")
+		W174_MISSED:
+			if badge.visible or not portrait.visible:
+				return _w174_surface_fail(label, "missed-call narration contract")
+	return true
+
+func _w174_surface_fail(label: String, contract: String) -> bool:
+	_fail("%s changed the existing %s" % [label, contract])
+	return false
+
+func _w174_public_state() -> Dictionary:
+	var state: Dictionary = GameState.serialize().duplicate(true)
+	var flags: Dictionary = state.get("flags", {}).duplicate(true)
+	flags.erase(FULL_STORY_FLOW.STATE_KEY)
+	# Scene visitation/read-series metadata is allowed to advance when the
+	# follow-on opens. Expression choices must instead preserve the actual run:
+	# economy/stats, authored flags and receipts, AP ownership, relationships,
+	# inventory/portfolio, and deferred work.
+	var public: Dictionary = {"flags": flags}
+	for key in [
+			"age", "year", "month", "week_of_month", "turn", "is_game_over",
+			"housing", "money", "monthly_income", "fixed_expense",
+			"health", "mental", "intelligence", "social_skill", "appearance",
+			"investment_skill", "luck", "reputation", "action_points",
+			"max_action_points", "route_orthodox", "route_unorthodox",
+			"moral_tint", "moral_band_last", "action_axis_this_week",
+			"action_places_this_week", "action_records_this_week",
+			"recent_action_places", "recent_action_weeks",
+			"pending_weekly_commitment", "weekly_commitments",
+			"forgone_path_debts", "current_job", "job_tenure",
+			"work_performance", "portfolio", "loans", "relationships", "cast",
+			"player_route", "inventory", "event_log", "action_log", "clues",
+			"thoughts_done", "active_thought", "deferred_events", "events_seen",
+		]:
+		public[key] = state[key]
+	return public
+
+func _w174_decision_state(before: Dictionary, choice_index: int) -> bool:
+	var after := _w174_public_state()
+	var expected_mental := clampi(
+		int(before["mental"]) + (-5 if choice_index == 0 else -10), 0, 100)
+	var expected_tint := clampf(
+		float(before["moral_tint"]) + (15.0 if choice_index == 0 else 3.0), -100.0, 100.0)
+	if not is_equal_approx(float(after["money"]), float(before["money"])) \
+			or int(after["mental"]) != expected_mental \
+			or not is_equal_approx(float(after["moral_tint"]), expected_tint) \
+			or int(after["events_seen"]) != int(before["events_seen"]) + 1:
+		_fail("W174 number choice changed its bounded effects: money=%s/%s mental=%s/%s tint=%s/%s events=%s/%s" % [
+			after["money"], before["money"], after["mental"], expected_mental,
+			after["moral_tint"], expected_tint, after["events_seen"],
+			int(before["events_seen"]) + 1])
+		return false
+	var before_flags: Dictionary = before["flags"].duplicate(true)
+	var after_flags: Dictionary = after["flags"].duplicate(true)
+	for flag in ["arc_father_call_on_ktx_seen",
+			"called_father_on_ktx" if choice_index == 0 else "did_not_call_father_on_ktx"]:
+		if not bool(after_flags.get(flag, false)) or bool(before_flags.get(flag, false)):
+			_fail("W174 number choice lost an authored receipt flag")
+			return false
+		after_flags.erase(flag)
+	if after_flags != before_flags \
+			or bool(GameState.flags.get(
+				"did_not_call_father_on_ktx" if choice_index == 0 else "called_father_on_ktx", false)):
+		_fail("W174 number choice changed an unrelated flag")
+		return false
+	var before_log: Array = before["event_log"]
+	var after_log: Array = after["event_log"]
+	var receipt: Dictionary = after_log.back() if not after_log.is_empty() else {}
+	if after_log.size() != before_log.size() + 1 \
+			or after_log.slice(0, before_log.size()) != before_log \
+			or str(receipt.get("event_id", "")) != W174_NUMBER \
+			or int(receipt.get("choice_index", -1)) != choice_index \
+			or int(receipt.get("turn", -1)) != 174:
+		_fail("W174 number choice lost its exact event receipt")
 		return false
 	return true
 
@@ -6004,7 +6431,8 @@ func _prepare_full_owner_history(at_turn: int, extra_prior: Array) -> bool:
 func _open_sinchon_offer() -> bool:
 	return await _open_full_fixture_event(OFFER)
 
-func _open_full_fixture_event(expected_id: String, expected_continuation: Array = [], presentation_only: bool = false) -> bool:
+func _open_full_fixture_event(expected_id: String, expected_continuation: Array = [],
+		presentation_only: bool = false, seed_ambience: bool = true) -> bool:
 	var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
 	ingress.set_meta("_screenshot_qa_static_surface", true)
 	var event_id: String = expected_id if presentation_only else ingress.call("_next_arc_id", -1, true)
@@ -6016,10 +6444,12 @@ func _open_full_fixture_event(expected_id: String, expected_continuation: Array 
 				or queue.size() != 3 or str(queue[2]) != "arc_year2_scene")) or not FULL_STORY_FLOW.valid_session():
 		_fail("%s did not reserve its normal FullStoryFlow handoff" % expected_id)
 		return false
-	# Enter from a rain/street crowd and a stale seasonal bed to check the actual
-	# scene contract clears both, including after the outdoor choice moves.
-	BGMPlayer.set_ambience("rain")
-	BGMPlayer.set_season_ambience("winter")
+	if seed_ambience:
+		# Most surface fixtures deliberately enter from a rain/street crowd and a
+		# stale seasonal bed. W174 passes false because this fixture owns the KTX
+		# pane contract, while its existing train audio uses authored fades.
+		BGMPlayer.set_ambience("rain")
+		BGMPlayer.set_season_ambience("winter")
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
 	add_child(_story)
 	_story.call("_set_auto_mode", false, false, false)
