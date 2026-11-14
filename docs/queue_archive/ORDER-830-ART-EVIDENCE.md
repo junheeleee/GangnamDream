@@ -134,6 +134,8 @@
 
 [~] 다음 원화 후보 1컷과 이 기록. 장소를 옮기지 않고 원고의 카페 안쪽 작은 탁자·맞은편 빈 의자·구별되는 종이 두 묶음을 그린다. 범용 창가 그림의 빗방울·우산을 재사용하지 않으며 어느 접수 상태·필기 순서도 확정하지 않는다. 후보 검수 전 배경 연결·오디오·원고·저장·RC 변경 0.
 
+[~] 독립 원화 검수한 작은 창 보완본 `bff7520a…` 채택. `assets/backgrounds/finale_cafe_rear_papers_v1.png`와 import, `autoloads/ImageRegistry.gd`, `content/events/arc_pre_ending.json`의 W230 배경 한 값, `content/meta/story_rules.json`의 해당 기대 배경, `assets/{event_visual_contracts,scene_direction_manifest,scene_audio_manifest,mod_asset_manifest}.json`, `tools/{ScreenshotQA.gd,art_resolution_baseline.json,scene_direction_catalog.py}`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{ART_AI_AUDIT,CONTENT_RATING_INVENTORY,MODDING,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황·이 기록만. 실제 그림과 조용한 배경 및 입장/착석과 두 갈래 회상 읽기를 고정한다. 스크린샷 검사에 남은 옛 배경·바 소리·착석 문구 기대만 실물에 맞춰 강화한다. W230 사건 오디오·기존 공용 카페·원고5·결과·장소·저장·RC 보존.
+
 [~] `assets/scene_audio_manifest.json`의 `arc_y5_people_verdict_daeun_exact` 한 행만. 기존 카페 그림과 등장·대화는 그대로, 다른 장소에서 녹음한 바/펍 베드만 이 장면에 재생하지 않는다. 다은이 말하는 동안 민준이 첫 줄을 쓰는 결과의 페이지 넘김을 종이 필기로 바꾼다. 도입 종이와 다른 두 결과의 기존 필기, 기존 곡·원문5·선택·기존 RC·저장 유지. 맞는 카페 실내 녹음과 청취 별도.
 
 [~] `tools/scene_audio_contract_check.py`의 허용키 검사는 유지하고 W230 한 행의 공간음 없음·기존 곡·도입 종이·세 필기만 별도 exact 계약으로 검사한다. 첫 감사가 허용키로 오인한 오류를 보존하고, 다른 소유자에 대한 `intentional_silence` 허용을 넓히지 않는다.
