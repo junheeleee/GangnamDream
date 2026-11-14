@@ -525,6 +525,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] W57 환승 통로 그림 **후보 제작만**. 기존 보관함·개찰구 그림은 재료·그림체 참조만; 둘의 장소를 다시 쓰지 않는다. 탑승 전 통로 가장자리에서 민준이 흐름을 비켜설 자리가 보여야 한다. 보통 사람 눈높이, 창·객차·보관함·개찰구·역명·인물 초상 없이, 두세 명 익명 통행인만 중·원경. 원화가 적합할 때만 다음 선언으로 런타임 경로를 맡는다. `assets`·제품·공개 데모·저장 변경0.
 
+[~] 독립 원화 GO 뒤 W57 배선: 새 `assets/backgrounds/seoul_subway_transfer_passage_v1.png`+import, `autoloads/ImageRegistry.gd`, `content/events/arc_midgame.json` 배경 1키와 `content/meta/story_rules.json` W57 위치, `scenes/StoryMode.gd` 결과 컷, `assets/{event_visual_contracts,scene_direction_manifest,scene_audio_manifest,mod_asset_manifest}.json`, `tools/{StoryBackgroundContextCheck,ScreenshotQA}.gd`, 장면 카탈로그·해상도 검사 원장, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, 출시 원장·현황·이 증거. 도입·선택·c0 및 나머지 결과 P0은 통로, c1 P1만 기존 객차/P2 현재 집, c2 P1/P2는 창원 원화 전까지 중립. c2 아버지가 문자에 답한 뒤 직접 만나는 시점/식탁 원화·음향은 별도다. 본문·선택·저장·공개 데모 불변.
+
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.
