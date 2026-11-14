@@ -505,6 +505,10 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 완료(배경): 기존 공유 그림 대신 심야 후속 사건 한 곳만 새 마른 실내를 로드한다. 독립 원화·KO 1280×800 두 컷에서 실내외 냉장고/계산대/문 배치, 건조한 창과 가독성 확인. 기존 다은 초상은 유지. 격리 기록 `830-w35-dry.U4EoPD` 및 960×600 실제 편성 5언어 15결과·v4 결과 복원 30회·밤 후속 5회 통과. 1586×992 원화는 기존 오후 실내/외관과 같이 16:10 검사에서 크기 경고만 나며, 실제 창에서 크롭 확인. 청취 및 5언어 실화면 완료로 세지 않는다.
 
+### W53 상철 모임 — 일반 바와 외국 펍 소리 제거
+
+[~] `assets/scene_audio_manifest.json`의 `arc_sangchul_03_network` 사건과 전용 `sangchul_private_dining` 프로필만, `tools/{scene_audio_contract_check.py,StoryBackgroundContextCheck.gd}`, 현황·일지·이 증거. 다섯 언어에서 모임을 이미 아는 분기와 초대를 받는 기본 갈래·두 선택. 현재 녹음은 일반 바와 리버풀 펍이어서 둘 다 제외하고 검증된 조용한 실내음으로 임시 수리. 맞는 한국어 모임 녹음과 초대/퇴장 전환은 별도. 원문·그림·효과·저장·공유 카페/회식 소리 변경0.
+
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.
