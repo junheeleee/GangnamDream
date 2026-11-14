@@ -12,12 +12,15 @@ from typing import Any
 
 from event_lifecycle import audit_author_only
 from full_run_audio_audit import (
+    INTENTIONAL_SILENCE,
+    audible_ambience,
     event_surface,
     grouped_intents as grouped_audio_intents,
     housing_for,
 )
 from full_run_pacing_audit import lists
 from narrative_continuity_audit import load_events, run_arc_paths
+from scene_direction_catalog import visual_contract_index
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -52,6 +55,7 @@ AUDIO_BY_MODE = {
     "finale": {"crossfade"},
 }
 ROUTE_ENDINGS = ["orthodox_pinnacle", "unorthodox_legend"]
+W167_UNLOCATED_PLAN = "arc_y4_family_partner_collision"
 
 
 def load_json(path: Path) -> Any:
@@ -105,6 +109,23 @@ def visual_surface(
     return intent, background, profile if isinstance(profile, dict) else {}
 
 
+def declared_unlocated_plan(
+    event_id: str, event: dict[str, Any], visual: dict[str, Any],
+    intent: str, ambience: str, audio_source: str,
+) -> bool:
+    # The W167 opening records a reservation; only a later choice can arrive
+    # at the restaurant. An absent, misspelled, or CG-backed surface isn't this.
+    return (
+        event_id == W167_UNLOCATED_PLAN
+        and event.get("background") == ""
+        and "background" in visual and visual["background"] is None
+        and not (event.get("cg") or visual.get("cg") or event.get("cg_if_known")
+                 or visual.get("cg_if_known"))
+        and intent == "none"
+        and ambience == INTENTIONAL_SILENCE and audio_source == "event_contract"
+    )
+
+
 def trace_route(
     route_name: str,
     route_index: int,
@@ -116,6 +137,7 @@ def trace_route(
     audio: dict[str, Any],
     audio_intents: dict[str, str],
     director: dict[str, Any],
+    visuals: dict[str, dict[str, Any]],
 ) -> tuple[list[dict[str, Any]], list[str]]:
     errors: list[str] = []
     direct = lists(director, "decision_weeks")
@@ -159,7 +181,13 @@ def trace_route(
 
         if not intent:
             errors.append(f"{route_name}: week {week} {event_id} has no visual intent")
-        if not isinstance(profile, dict) or not profile:
+        if event_id == W167_UNLOCATED_PLAN:
+            if declared_unlocated_plan(event_id, event, visuals.get(event_id, {}),
+                                      intent, ambience, audio_source):
+                profile = {"environment": "unlocated", "depth": "flat", "effect": "none", "camera": "none"}
+            else:
+                errors.append(f"{route_name}: week {week} {event_id} lost its explicit unlocated/silent opening")
+        elif not isinstance(profile, dict) or not profile:
             errors.append(
                 f"{route_name}: week {week} {event_id or surface} "
                 f"has no background profile for {background}"
@@ -186,7 +214,7 @@ def trace_route(
                 "music": music,
                 "audio_source": audio_source,
                 "ambience_restart": bool(
-                    ambience and previous_ambience and ambience != previous_ambience
+                    audible_ambience(ambience) and previous_ambience and ambience != previous_ambience
                 ),
                 "locale": locale,
             }
@@ -219,9 +247,9 @@ def trace_route(
         rows = [row for row in trace if row["chapter"] == chapter]
         if not any(row["event_id"] for row in rows):
             errors.append(f"{route_name}: chapter {chapter} has no authored scene")
-        if len({row["background"] for row in rows}) < 2:
+        if len({row["background"] for row in rows if row["background"]}) < 2:
             errors.append(f"{route_name}: chapter {chapter} has no spatial variation")
-        if not any(row["ambience"] for row in rows):
+        if not any(audible_ambience(row["ambience"]) for row in rows):
             errors.append(f"{route_name}: chapter {chapter} has no audible space")
     return trace, errors
 
@@ -347,6 +375,7 @@ def main() -> int:
     try:
         direction = load_json(DIRECTION_PATH)
         audio = load_json(AUDIO_PATH)
+        visuals = visual_contract_index()
         director = load_json(DIRECTOR_PATH)
         all_events = load_events()
         lifecycle = audit_author_only(ROOT)
@@ -382,6 +411,7 @@ def main() -> int:
                 audio,
                 audio_intents,
                 director,
+                visuals,
             )
             localized[locale] = trace
             reports[f"route_{route_index + 1}_{locale}"] = trace

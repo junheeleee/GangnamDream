@@ -1356,6 +1356,7 @@
     ],
     "arc_y4_family_commitment_none": [
       "father_life",
+      "housing",
       "location"
     ],
     "arc_y4_family_partner_collision": [
@@ -1365,6 +1366,7 @@
     ],
     "arc_y4_family_table_missed": [
       "father_life",
+      "housing",
       "location"
     ],
     "arc_y4_father_call_answered_on_ktx": [

@@ -181,6 +181,7 @@ W161_MOVING_AUDIO = {"ambience": "seoul_subway_onboard", "suppress_music": True,
 W132_CAFE_EVENTS = ("arc_sangchul_reckoning", "arc_sangchul_stairwell")
 W132_CAFE_AUDIO = {**W72_DINNER_AUDIO, "music": {"key": "reckoning", "start_paragraph": 0}}
 W205_MINSEO_PHONE = "arc_minseo_03b_not_arrived"
+W167_UNLOCATED_PLAN = "arc_y4_family_partner_collision"
 W57_MEDICATION_EVENT = "arc_father_medication"
 W57_MEDICATION_AUDIO = {
     "ambience": "intentional_silence",
@@ -419,7 +420,7 @@ def main() -> int:
         elif owner == W57_MEDICATION_EVENT:
             if contract != W57_MEDICATION_AUDIO:
                 errors.append(f"{owner}: only the received handset vibration is an event-level cue")
-        elif owner in {W72_DINNER_EVENT, W82_BUS_EVENT, W205_MINSEO_PHONE}:
+        elif owner in {W72_DINNER_EVENT, W82_BUS_EVENT, W205_MINSEO_PHONE, W167_UNLOCATED_PLAN}:
             if contract != W72_DINNER_AUDIO:
                 errors.append(f"{owner}: do not borrow the wrong location's recorded bed")
         elif owner in W132_CAFE_EVENTS:
@@ -577,7 +578,8 @@ def main() -> int:
     if (events.get("arc_y4_body_witness", {}).get("background") != "current_housing"
             or manifest.get("background_profiles", {}).get("hospital_night_intake_w164") != "hospital"):
         errors.append("W164: preserve current housing before arriving in the quiet night intake")
-    if (events.get("arc_y4_family_partner_collision", {}).get("background") != ""
+    if (events.get(W167_UNLOCATED_PLAN, {}).get("background") != ""
+            or event_contracts.get(W167_UNLOCATED_PLAN) != W72_DINNER_AUDIO
             or any(events.get(event_id, {}).get("background") != "current_housing" for event_id in
                    ("arc_y4_family_commitment_none", "arc_y4_family_table_missed"))
             or manifest.get("background_profiles", {}).get("family_soup_restaurant_w167") != "intentional_silence"):

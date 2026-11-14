@@ -20,6 +20,7 @@ DIRECTOR_PATH = ROOT / "content" / "meta" / "event_director.json"
 ENDINGS_PATH = ROOT / "content" / "endings.json"
 ENDINGS_EN_PATH = ROOT / "content" / "endings_en.json"
 PRIVATE_DYNAMIC_BACKGROUNDS = {"current_housing", "late_night", "investment_phone"}
+INTENTIONAL_SILENCE = "intentional_silence"
 
 
 def load_json(path: Path) -> Any:
@@ -95,6 +96,10 @@ def chapter_of(week: int) -> int:
     return min(5, (week - 1) // 48 + 1)
 
 
+def audible_ambience(key: str) -> bool:
+    return key not in {"", INTENTIONAL_SILENCE}
+
+
 def ending_by_id(path: Path) -> dict[str, dict[str, Any]]:
     payload = load_json(path)
     return {
@@ -163,7 +168,7 @@ def trace_run(
             errors.append(
                 f"{route_name}: week {week} {event_id or surface} has no resolved ambience"
             )
-        restarted = bool(ambience and ambience != previous_ambience)
+        restarted = audible_ambience(ambience) and ambience != previous_ambience
         if restarted:
             ambience_starts += 1
         trace.append(
@@ -318,7 +323,7 @@ def main() -> int:
             chapter_summary.append(
                 f"{chapter}:events={sum(bool(row['event_id']) for row in rows)}"
                 f"/music={sum(bool(row['music']) for row in rows)}"
-                f"/places={len({row['ambience'] for row in rows})}"
+                f"/places={len({row['ambience'] for row in rows if audible_ambience(row['ambience'])})}"
             )
         print(
             "FULL_RUN_AUDIO_PATH "
