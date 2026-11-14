@@ -2509,7 +2509,7 @@
                 "axis": "route.m51.asset_band",
                 "base_values": ["near_goal"],
                 "fallbacks": [
-                  {"values": ["*"], "root": "arc_minseo_03b_not_arrived", "work": "EXPAND", "rule_status": "needs_rule", "channel": "phone", "cast": ["player", "minseo"], "reads": {"memories": ["memory.m40_minseo_price", "memory.m50_protection_context"], "decision": null, "carryovers": []}, "forgone": []}
+                  {"values": ["*"], "root": "arc_minseo_03b_not_arrived", "work": "EXPAND", "rule_status": "mapped", "channel": "phone", "cast": ["player", "minseo"], "reads": {"memories": ["memory.m40_minseo_price", "memory.m50_protection_context"], "decision": null, "carryovers": []}, "forgone": []}
                 ]
               },
               "forgone": []

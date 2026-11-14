@@ -3324,8 +3324,8 @@
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
       "from_surface": "gangnam_day",
-      "arrival_cue_ko": "강남에서 돌아오는 길, 한강변",
-      "arrival_cue_en": "On the way back from Gangnam, along the Han River"
+      "arrival_cue_ko": "한강 난간 앞에 멈췄다.",
+      "arrival_cue_en": "stopped at the railing along the Han River."
     },
     "arc_goshiwon_goodbye->arc_housing_new_life": {
       "mode": "explicit_move",
@@ -3573,7 +3573,7 @@
       "reduced_motion": "static_fade",
       "from_surface": "office",
       "arrival_cue_ko": "고시원 공용 부엌. 새벽 2시.",
-      "arrival_cue_en": "The communal kitchen of the goshiwon. 2 AM."
+      "arrival_cue_en": "It was two in the morning in the goshiwon's shared kitchen."
     },
     "arc_sangchul_01_coffee->arc_sangchul_01_answer": {
       "mode": "same_location",

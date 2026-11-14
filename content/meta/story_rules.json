@@ -478,15 +478,15 @@
       "mode": "explicit_move",
       "from_location": "gangnam_day",
       "to_location": "hangang_riverside",
-      "arrival_cue_ko": "강남에서 돌아오는 길, 한강변",
-      "arrival_cue_en": "On the way back from Gangnam, along the Han River"
+      "arrival_cue_ko": "한강 난간 앞에 멈췄다.",
+      "arrival_cue_en": "stopped at the railing along the Han River."
     },
     "arc_job_vs_invest->arc_hyunsu_night_talk": {
       "mode": "explicit_move",
       "from_location": "office",
       "to_location": "goshiwon_hallway",
       "arrival_cue_ko": "고시원 공용 부엌. 새벽 2시.",
-      "arrival_cue_en": "The communal kitchen of the goshiwon. 2 AM."
+      "arrival_cue_en": "It was two in the morning in the goshiwon's shared kitchen."
     },
     "arc_season_sea_daeun->arc_season_sea_daeun_years": {
       "mode": "same_location",
@@ -1450,6 +1450,8 @@
       "presentation": {
         "channel": "phone",
         "state": "connected",
+        "scene_location": "current_location",
+        "remote_location": "minseo_current_location",
         "remote_actor": "minseo",
         "portrait_role": "remote"
       }

@@ -6493,6 +6493,7 @@ func _refresh_story_paragraph_presentation(
 				_current_presentation["portrait_role"] = "none"
 				_current_presentation.erase("state")
 				_current_presentation.erase("remote_actor")
+				_current_presentation.erase("remote_location")
 			_update_communication_badge(str(_current_presentation.get("channel", "")),
 				str(_current_presentation.get("state", "")))
 			if was_remote == ended:
