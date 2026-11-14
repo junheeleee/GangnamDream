@@ -46,6 +46,8 @@ UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리
 
 [~] 실제 C1에서 나온 `story_first_savings_milestone` 도입의 은행 앱 클로즈업 후보만. 미리 그린 잔액/승인·보유 종목·다른 집 구조를 넣지 않는다. 작은 휴대폰의 잔액·거래 내역 같은 형태만; 민준이 들고 보는 시점, 방 전체를 그리지 않아 거처 분기를 침범하지 않으며 기존 그림과 같은 무광 톤. 앱을 닫거나 투자 주문 화면을 보는 선택 결과는 별도 판단. 후보 단계 제품·소리·원고·저장 변경0.
 
+[~] 검수 원화를 `assets/backgrounds/first_savings_bank_overview_v1.png`와 import에 등록. `autoloads/ImageRegistry.gd`, `scenes/StoryMode.gd`에서 FullStoryFlow 본편의 도입/선택 표시만, 선택 결과 시작에서는 현재 집으로 복귀. `assets/{scene_direction_manifest,scene_audio_manifest,mod_asset_manifest}.json`, `tools/{scene_direction_catalog.py,art_resolution_baseline.json}`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `content/meta/release_content_inventory.json`, `docs/{ART_AI_AUDIT,CONTENT_RATING_INVENTORY,MODDING,WORK_LOG}.md`, 현황과 이 기록. 기존 사건 음향·본문·수치·결과·저장·RC 및 구 행동판에서는 화면 그대로. 잔액이나 결과 동작은 그림에서 표시하지 않는다.
+
 ### 1장 후반 W25~48 블라인드 1차 — 사실 오류와 실제 플레이 대조
 
 [x] 파생 사실만 반영 — `content/meta/release_content_inventory.json`와 `docs/CONTENT_RATING_INVENTORY.md`: W47 연애 후보 재지문(집합 그대로), W28 투자 선택의 `panic sell` 금융 표현 제거로 공포 검색 오탐 1건 감소. 원래 검색 규칙·공시 사실·판정·역사 패키지는 그대로.
