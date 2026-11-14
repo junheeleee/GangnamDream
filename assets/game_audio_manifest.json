@@ -104,6 +104,7 @@
     "footsteps_hall": "res://assets/audio/sfx_footsteps_hall.wav",
     "register_scan": "res://assets/audio/sfx_register_scan.wav",
     "keyboard_short": "res://assets/audio/sfx_keyboard_short.wav",
+    "keyboard_phone": "res://assets/audio/sfx_keyboard_phone.wav",
     "cup_set": "res://assets/audio/sfx_cup_set.wav",
     "bicycle_impact": "res://assets/audio/sfx_bicycle_impact.wav",
     "traffic_pass": "res://assets/audio/sfx_traffic_pass.wav",

@@ -74,6 +74,7 @@ const W224_CUSTODY_RESULT_CUT := preload("res://assets/w224_custody_result_cut.t
 const W235_NOTICE := "arc_y5_property_not_executed_notice"
 const W235_NOTICE_DESK := "finale_notice_desk"
 const HYUNSU_EXAM_FAILURE := "hyunsu_result_fail"
+const HYUNSU_CONNECTED_CALL := "arc_hyunsu_new_path"
 const GOSHIWON_MOVEOUT := "arc_goshiwon_goodbye"
 const GOSHIWON_MOVEOUT_STREET := "goshiwon_moveout_wet_street"
 const FIRST_SAVINGS_MILESTONE := "story_first_savings_milestone"
@@ -2752,6 +2753,9 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 			BGMPlayer.play_scene_paragraph_music(_current, "", 2)
 	elif str(_current.get("id", "")) == SINCHON_OFFER:
 		# The car has already arrived on a restored prose/result page.
+		pass
+	elif str(_current.get("id", "")) == HYUNSU_CONNECTED_CALL:
+		# The room is restored, but the momentary sound over the line has passed.
 		pass
 	elif _full_w19_reunion:
 		# Restore the sustained score after its authored entrance, never the
@@ -6234,7 +6238,7 @@ func _refresh_story_paragraph_presentation(
 			if not _pending_after_result or not _is_first_ktx_choice():
 				return
 			call_end_source_index = 0
-		"arc_hyunsu_new_path":
+		HYUNSU_CONNECTED_CALL:
 			if _pending_result_choice_index == 0:
 				call_end_source_index = 2
 		"story_prologue_dad":
@@ -6809,6 +6813,8 @@ func _on_advance():
 		_apply_authored_result_location(true)
 		var entered_new_authored_paragraph := source_index != previous_source_index
 		if entered_new_authored_paragraph:
+			if str(_current.get("id", "")) == HYUNSU_CONNECTED_CALL:
+				AudioManager.stop_sound("keyboard_phone")
 			_refresh_story_paragraph_presentation(source_index)
 			_maybe_change_event_background(source_index)
 			_maybe_reveal_event_portrait(source_index)
@@ -6825,6 +6831,8 @@ func _on_advance():
 			_start_typing(str(_paragraphs[_para_index]))
 		return
 	# 문단 끝에 도달
+	if str(_current.get("id", "")) == HYUNSU_CONNECTED_CALL:
+		AudioManager.stop_sound("keyboard_phone")
 	if _pending_after_result:
 		# 결과 텍스트를 다 읽음 → 다음 이벤트로
 		_after_result()
@@ -8171,6 +8179,8 @@ func _finish_all():
 
 func _exit_tree() -> void:
 	_stop_story_choice_countdown()
+	if str(_current.get("id", "")) == HYUNSU_CONNECTED_CALL:
+		AudioManager.stop_sound("keyboard_phone")
 	GameState.story_replay_mode = false
 	if _read_only_replay:
 		BGMPlayer.clear_ambience()

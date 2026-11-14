@@ -11,6 +11,9 @@ const W202_EVENT := "callback_daeun_committed_gangnam_eve"
 const W4_EVENT := "arc_temptation_01"
 const W4_ROOM := "goshiwon_room"
 const HYUNSU_CALL := "arc_hyunsu_new_path"
+const HYUNSU_KEYBOARD := "keyboard_phone"
+const HYUNSU_INTRO_CUE := "arc_hyunsu_new_path::description:2:0:keyboard_phone"
+const HYUNSU_RESULT_CUE := "arc_hyunsu_new_path::result:1:1:0:keyboard_phone"
 const W37_FIRST_BILL := "arc_y1_new_room_first_month"
 const DAEUN_AFTERNOON := "arc_daeun_02_regular"
 const DAEUN_EMPTY_STORE := "arc_daeun_02b_dream"
@@ -2076,8 +2079,12 @@ func _check_hyunsu_call(smoke: bool = false) -> bool:
 	var homes: Array = ["gosiwon"] if smoke else ["gosiwon", "oneroom"]
 	var locales: Array = ["ko"] if smoke else W4_TERMS.keys()
 	var cases := 0
-	if expected_bed == null:
-		_fail("Hyunsu call test needs the recorded apartment master")
+	var cold_prose := 0
+	var live_cues := 0
+	var live_result_exits := 0
+	var recording := AudioManager._sounds.get(HYUNSU_KEYBOARD) as AudioStreamWAV
+	if expected_bed == null or recording == null or recording.loop_mode != AudioStreamWAV.LOOP_DISABLED:
+		_fail("Hyunsu call needs the recorded apartment master and a non-looping telephone sound")
 		return false
 	for house: String in homes:
 		var turn := 41 if house == "gosiwon" else 40
@@ -2124,7 +2131,8 @@ func _check_hyunsu_call(smoke: bool = false) -> bool:
 					return false
 				_story.call("_on_advance")
 				await _wait_stable()
-				if not bool(_story.get("_showing_choices")) or not _hyunsu_call_surface(home, expected_bed, true):
+				if not bool(_story.get("_showing_choices")) or not _hyunsu_call_surface(home, expected_bed, true) \
+						or not _hyunsu_expect_cues([HYUNSU_INTRO_CUE], 0):
 					return false
 				_story.call("_on_choice", choice)
 				await _wait_stable()
@@ -2132,11 +2140,21 @@ func _check_hyunsu_call(smoke: bool = false) -> bool:
 				if not await _hyunsu_call_pages(home, expected_bed, choice,
 						str(authored["choices"][choice]["result_text"]), result_count):
 					return false
+				live_cues += 1 + int(choice == 1)
 				var resume: Dictionary = _story.call("build_save_resume_context")
+				if choice == 1:
+					var pre_exit: Dictionary = GameState.serialize().duplicate(true)
+					_story.set_meta("_screenshot_qa_static_surface", true)
+					_story.call("_on_advance")
+					if not _hyunsu_expect_playing(0):
+						return false
+					GameState.call("_restore_serialized_snapshot_exact", pre_exit)
+					live_result_exits += 1
 				await _stop_audio()
 				if not await _reload_authored_result_context(resume, language, result_count, result_count - 1) \
 						or int(_story.get("_pending_result_choice_index")) != choice \
 						or not _hyunsu_call_surface(home, expected_bed, choice != 0) \
+						or not _hyunsu_expect_cues([], 0) \
 						or GameState.housing != house or GameState.money != before_money \
 						or GameState.events_seen != before_seen + 1 \
 						or not GameState.flags.get("hyunsu_pivoted", false) \
@@ -2145,11 +2163,21 @@ func _check_hyunsu_call(smoke: bool = false) -> bool:
 					_fail("Hyunsu isolated re-entry changed room, call state, or choice receipt")
 					return false
 				cases += 1
+	# Prose has a separate cold-load consumer. Starting before the cue must
+	# still allow the first live crossing; starting on the cue must stay quiet.
+	for language: String in locales:
+		for source_index in [1, 2]:
+			if not await _check_hyunsu_cold_prose(language, source_index, expected_bed):
+				return false
+			cold_prose += 1
 	await _remove_story()
 	await _stop_audio()
-	if cases != (1 if smoke else 30) or _failures != 0:
+	if cases != (1 if smoke else 30) or live_cues != (1 if smoke else 40) \
+			or live_result_exits != (0 if smoke else 10) \
+			or cold_prose != locales.size() * 2 or _failures != 0:
 		return false
-	print("HYUNSU_CALL_QUIET_ROOM_OK paths=%d cold_results=%d real_deferred_ingress=1 neutral_recording=1" % [cases, cases])
+	print("HYUNSU_CALL_QUIET_ROOM_OK paths=%d cold_results=%d cold_prose=%d live_keyboards=%d live_result_exits=%d real_deferred_ingress=1 neutral_recording=1" % [
+		cases, cases, cold_prose, live_cues, live_result_exits])
 	return true
 
 func _hyunsu_call_pages(home: String, expected_bed: AudioStreamWAV, choice: int,
@@ -2160,8 +2188,16 @@ func _hyunsu_call_pages(home: String, expected_bed: AudioStreamWAV, choice: int,
 		_fail("Hyunsu call lost authored paragraphs")
 		return false
 	for page in range(pages.size()):
+		var source_index := int(_story.call("_story_source_paragraph_index", page))
+		var first_page := int(_story.call("_first_story_page_for_source", source_index)) == page
+		var owns_sound := (choice < 0 and source_index == 2) or (choice == 1 and source_index == 1)
+		var cues: Array = [HYUNSU_INTRO_CUE] if choice >= 0 or source_index >= 2 else []
+		if choice == 1 and source_index >= 1:
+			cues.append(HYUNSU_RESULT_CUE)
+		if not _hyunsu_expect_cues(cues, (1 if owns_sound else 0) if first_page else -1):
+			return false
 		await _finish_page()
-		var connected := not (choice == 0 and int(_story.call("_story_source_paragraph_index", page)) >= 2)
+		var connected := not (choice == 0 and source_index >= 2)
 		if int(_story.get("_para_index")) != page or not _hyunsu_call_surface(home, expected_bed, connected):
 			return false
 		if page + 1 < pages.size():
@@ -2169,13 +2205,93 @@ func _hyunsu_call_pages(home: String, expected_bed: AudioStreamWAV, choice: int,
 			await _wait_stable()
 	return true
 
+func _check_hyunsu_cold_prose(language: String, source_index: int, bed: AudioStreamWAV) -> bool:
+	await _remove_story()
+	await _stop_audio()
+	LocaleManager.set_language(language)
+	_context = "%s/W41/cold-prose%d" % [language, source_index]
+	if not _prepare_full_owner_history(41, [
+			[25, "hyunsu_exam_day"], [26, "hyunsu_result_fail"],
+			[30, "arc_hyunsu_exam_fail"], [35, "arc_hyunsu_drift"],
+		]):
+		return false
+	GameState.housing = "gosiwon"
+	if not await _open_full_fixture_event(HYUNSU_CALL, [], true):
+		return false
+	for step in range(12):
+		await _finish_page()
+		if int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) == source_index:
+			break
+		_story.call("_on_advance")
+		await _wait_stable()
+	var resume: Dictionary = _story.call("build_save_resume_context")
+	if resume.get("phase") != "prose" or int(resume.get("source_paragraph_index", -1)) != source_index \
+			or not SaveManager.save_game(W8_QA_SLOT, resume, {"qa_fixture": true}):
+		_fail("Hyunsu intro cold fixture did not save at its exact source position")
+		return false
+	await _remove_story()
+	await _stop_audio()
+	GameState.start_new_game()
+	if not SaveManager.load_game(W8_QA_SLOT):
+		_fail("Hyunsu cold intro save could not be loaded")
+		return false
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	if not _hyunsu_call_surface(W4_ROOM, bed, true) or not _hyunsu_expect_cues([], 0) \
+			or int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) != source_index:
+		return false
+	if source_index == 2:
+		return true
+	for step in range(12):
+		await _finish_page()
+		_story.call("_on_advance")
+		var current := int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index"))))
+		if current == 2:
+			if not _hyunsu_expect_cues([HYUNSU_INTRO_CUE], 1):
+				return false
+			if language not in ["ko", "en"]:
+				# All five built-ins are exercised in the fixture. The public
+				# retail switch itself currently exposes only KO and EN.
+				return true
+			# Model the recording having already finished, while leaving its
+			# once-only token intact. A locale redraw must not restart it.
+			AudioManager.stop_sound(HYUNSU_KEYBOARD)
+			var alternate := "en" if language == "ko" else "ko"
+			_story.call("_set_story_language", alternate)
+			await _wait_stable()
+			if LocaleManager.language != alternate or not _hyunsu_expect_cues([HYUNSU_INTRO_CUE], 0):
+				return false
+			_story.call("_set_story_language", language)
+			await _wait_stable()
+			return LocaleManager.language == language and _hyunsu_expect_cues([HYUNSU_INTRO_CUE], 0)
+		await _wait_stable()
+	_fail("Hyunsu intro cold start before the cue did not reach its live entrance")
+	return false
+
+func _hyunsu_expect_cues(expected: Array, active: int) -> bool:
+	var seen := AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:
+		return key.begins_with(HYUNSU_CALL + ":"))
+	if seen != expected:
+		_fail("Hyunsu unexpected or missed exact cue: tags=%s / %s" % [seen, expected])
+		return false
+	return active == -1 or _hyunsu_expect_playing(active)
+
+func _hyunsu_expect_playing(active: int) -> bool:
+	var stream: AudioStream = AudioManager._sounds.get(HYUNSU_KEYBOARD)
+	var playing := AudioManager._pool.filter(func(player: AudioStreamPlayer) -> bool:
+		return player.playing and player.stream == stream)
+	if playing.size() != active:
+		_fail("Hyunsu foreground telephone keyboard copies=%d / %d" % [playing.size(), active])
+		return false
+	return true
+
 func _hyunsu_call_surface(home: String, expected_bed: AudioStreamWAV, connected: bool) -> bool:
 	var presentation: Dictionary = _story.get("_current_presentation")
 	var badge := _story.get("_communication_badge") as Control
 	var portrait := _story.get("_portrait") as TextureRect
 	var bed := BGMPlayer._ambience_player.stream as AudioStreamWAV
-	var has_cue := AudioManager._story_audio_seen.keys().any(func(key: String) -> bool:
-		return key.begins_with(HYUNSU_CALL + ":"))
 	var valid: bool = _expect_surface(home, "apartment", "Hyunsu call") \
 		and BGMPlayer._ambience_player.playing and bed != null and bed.data == expected_bed.data \
 		and bed.mix_rate == expected_bed.mix_rate and bed.format == expected_bed.format \
@@ -2183,7 +2299,7 @@ func _hyunsu_call_surface(home: String, expected_bed: AudioStreamWAV, connected:
 		and not BGMPlayer._human_ambience_player.playing and BGMPlayer._current_human_ambience_key.is_empty() \
 		and not BGMPlayer._season_player.playing and BGMPlayer._current_season_key.is_empty() \
 		and BGMPlayer._current_key.is_empty() and not BGMPlayer._player_a.playing and not BGMPlayer._player_b.playing \
-		and not has_cue and badge.visible == connected and bool(_story.get("_portrait_remote_inset")) == connected \
+		and badge.visible == connected and bool(_story.get("_portrait_remote_inset")) == connected \
 		and (presentation.get("channel") == "phone") == connected
 	if connected:
 		valid = valid and presentation.get("state") == "connected" and presentation.get("remote_actor") == "hyunsu" \

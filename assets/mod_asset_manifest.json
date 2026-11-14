@@ -3202,6 +3202,13 @@
     },
     {
       "ids": [
+        "keyboard_phone"
+      ],
+      "relative_path": "audio/sfx_keyboard_phone.wav",
+      "bytes": 101472
+    },
+    {
+      "ids": [
         "keyboard_short"
       ],
       "relative_path": "audio/sfx_keyboard_short.wav",

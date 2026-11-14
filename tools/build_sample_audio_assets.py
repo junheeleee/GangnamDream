@@ -44,6 +44,27 @@ FFMPEG_CANDIDATES = (
     ROOT / "build/trailer-tools/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
     Path("/Applications/CapCut.app/Contents/Resources/ffmpeg"),
 )
+PHONE_KEYBOARD_NAME = "sfx_keyboard_phone.wav"
+DRY_KEYBOARD_NAME = "sfx_keyboard_short.wav"
+PHONE_KEYBOARD_FILTER = "highpass=f=300,lowpass=f=3200,volume=2dB"
+
+
+def write_phone_keyboard(ffmpeg: Path, dry: Path, destination: Path) -> None:
+    """Filter the recorded master offline; no new source or generated sound."""
+    with wave.open(str(dry), "rb") as source:
+        if (source.getnchannels(), source.getsampwidth(), source.getframerate()) != (1, 2, 44100):
+            raise ValueError("telephone keyboard input must be its mono PCM16/44.1kHz master")
+        expected_bytes = source.getnframes() * source.getsampwidth()
+    pcm = subprocess.run(
+        [str(ffmpeg), "-nostdin", "-loglevel", "error", "-i", str(dry),
+         "-af", PHONE_KEYBOARD_FILTER, "-f", "s16le", "-"],
+        check=True, stdout=subprocess.PIPE,
+    ).stdout
+    if len(pcm) != expected_bytes:
+        raise ValueError("telephone filtering changed the recorded duration")
+    with wave.open(str(destination), "wb") as output:
+        output.setparams((1, 2, 44100, 0, "NONE", "not compressed"))
+        output.writeframes(pcm)
 
 
 def _freesound_pack(
@@ -974,6 +995,18 @@ class Builder:
                           f"recorded one-shot edit; mono 44.1kHz; max {max_duration:.2f}s; "
                           f"RMS {float(recipe.get('db', -22.0)):.1f} dBFS")
 
+    def write_phone_keyboard(self) -> None:
+        dry = self.output_root / DRY_KEYBOARD_NAME
+        destination = self.output_root / PHONE_KEYBOARD_NAME
+        write_phone_keyboard(self.ffmpeg, dry, destination)
+        self.provenance[PHONE_KEYBOARD_NAME] = {
+            "provenance": self.provenance[DRY_KEYBOARD_NAME]["provenance"],
+            "sources": self.provenance[DRY_KEYBOARD_NAME]["sources"],
+            "transform": f"recorded mono PCM16/44.1kHz master; ffmpeg {PHONE_KEYBOARD_FILTER}",
+            "derived_from": {"file": DRY_KEYBOARD_NAME, "sha256": sha256(dry)},
+            "output_sha256": sha256(destination),
+        }
+
     def piano_sample(self, note: str, velocity: int) -> tuple[np.ndarray, Path]:
         key = (note, velocity)
         if key in self.note_cache:
@@ -1261,11 +1294,23 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--source-root", type=Path, default=DEFAULT_SOURCE_ROOT)
     parser.add_argument("--output-root", type=Path, default=AUDIO_DIR)
     parser.add_argument("--validate-only", action="store_true")
+    parser.add_argument("--phone-keyboard-only", type=Path, metavar="NEW_WAV",
+                        help="reproduce the phone edit from the existing dry master at a new path")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    if args.phone_keyboard_only:
+        if args.phone_keyboard_only.exists() or args.phone_keyboard_only.is_symlink() or args.validate_only:
+            raise ValueError("telephone keyboard output must be a new WAV path")
+        dry = AUDIO_DIR / DRY_KEYBOARD_NAME
+        recorded = json.loads((AUDIO_DIR / "AUDIO_SOURCE_MANIFEST.json").read_text(encoding="utf-8"))
+        if sha256(dry) != recorded["assets"][DRY_KEYBOARD_NAME]["output_sha256"]:
+            raise ValueError("dry keyboard master does not match the source manifest")
+        write_phone_keyboard(find_ffmpeg(), dry, args.phone_keyboard_only)
+        print(f"PHONE_KEYBOARD_RECORDING_OK sha256={sha256(args.phone_keyboard_only)}")
+        return 0
     source_root = args.source_root.expanduser().resolve()
     validate_sources(source_root)
     expected_count = (
@@ -1274,9 +1319,10 @@ def main(argv: list[str] | None = None) -> int:
         + len(SFX_RECIPES)
         + len(TRACK_SPECS)
         + len(PIANO_STINGERS)
+        + 1  # phone-band derivative of the dry keyboard recipe
     )
-    if expected_count != 139:
-        raise RuntimeError(f"release audio inventory must remain 139 assets, got {expected_count}")
+    if expected_count != 140:
+        raise RuntimeError(f"release audio inventory must remain 140 assets, got {expected_count}")
     if args.validate_only:
         print(
             "SAMPLE_AUDIO_SOURCES_OK "
@@ -1294,6 +1340,7 @@ def main(argv: list[str] | None = None) -> int:
         for name, recipe in sorted(SFX_RECIPES.items()):
             print("SFX", name)
             builder.write_sfx(name, recipe)
+        builder.write_phone_keyboard()
         for name, spec in sorted(TRACK_SPECS.items()):
             print("MUSIC", name)
             builder.write_track(name, spec)

@@ -156,6 +156,11 @@ NEUTRAL_HOME_AUDIO = {
     "suppress_human_ambience": True,
     "suppress_season_ambience": True,
 }
+HYUNSU_CALL_AUDIO = {
+    **NEUTRAL_HOME_AUDIO,
+    "paragraph_cues": {"2": [{"sfx": "keyboard_phone", "volume_db": -1.0}]},
+    "result_paragraph_cues": {"1": {"1": [{"sfx": "keyboard_phone", "volume_db": -1.0}]}},
+}
 W96_HOSPITAL_VISIT_EVENT = "arc_father_04_visit"
 W96_SEOUL_ARRIVAL = "seoul_station_visitor_sticker"
 W96_HOSPITAL_VISIT_AUDIO = {
@@ -437,13 +442,21 @@ def main() -> int:
         errors.append(f"{HYUNSU_DRIFT_EVENT}: remote messages keep actual home art and a neutral bed without a phone cue")
     hyunsu_call = events.get(HYUNSU_CALL_EVENT, {})
     hyunsu_call_choices = hyunsu_call.get("choices", [])
-    if (event_contracts.get(HYUNSU_CALL_EVENT) != NEUTRAL_HOME_AUDIO
+    if (event_contracts.get(HYUNSU_CALL_EVENT) != HYUNSU_CALL_AUDIO
             or hyunsu_call.get("background") != "current_housing"
             or not isinstance(hyunsu_call_choices, list) or len(hyunsu_call_choices) != 3
             or any(not isinstance(row, dict) or any(key in row
                    for key in ("result_ambience", "result_background", "result_cg"))
                    for row in [hyunsu_call, *hyunsu_call_choices])):
-        errors.append(f"{HYUNSU_CALL_EVENT}: connected call and all results keep the quiet home without office, weather, or placeholder sounds")
+        errors.append(f"{HYUNSU_CALL_EVENT}: quiet home with telephone keyboard only at intro 2 and choice 1 result 1")
+    telephone_owners = sorted(
+        event_id for event_id, contract in event_contracts.items()
+        if '"keyboard_phone"' in json.dumps(contract)
+    )
+    if telephone_owners != [HYUNSU_CALL_EVENT] or any(
+            '"keyboard_phone"' in json.dumps(manifest.get(field, {}))
+            for field in ("background_profiles", "cg", "event_intents")):
+        errors.append(f"{HYUNSU_CALL_EVENT}: dedicated telephone sound must have exactly one scene owner")
     if W224_CUSTODY_EVENT not in event_contracts:
         errors.append(f"{W224_CUSTODY_EVENT}: missing rear-table audio contract")
     if W230_VERDICT_EVENT not in event_contracts:

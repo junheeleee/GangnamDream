@@ -4,7 +4,7 @@
   "generated_from": [
     {
       "path": "res://assets/audio/AUDIO_SOURCE_MANIFEST.json",
-      "sha256": "2a4b96e916c0241837cd5c536ee9a9e06b15d0182567aaa1717d77095601244a"
+      "sha256": "32737f4de1aaed357061237bd80554af7e56c7003301cdeab4a6c883d79cfb12"
     },
     {
       "path": "res://assets/fonts/FONT_LICENSE_LEDGER.md",
@@ -116,9 +116,9 @@
     "font_families": 5,
     "font_files": 8,
     "audio_sources": 21,
-    "audio_assets": 139,
+    "audio_assets": 140,
     "attribution_required_audio_sources": 1,
-    "audio_source_assignments": 156
+    "audio_source_assignments": 157
   },
   "sections": [
     {
@@ -562,11 +562,12 @@
           "source_type": "object_recording",
           "source_collection": "Keyboard Soundpack #1",
           "notice_status": "voluntary_credit",
-          "shipping_asset_count": 4,
+          "shipping_asset_count": 5,
           "shipping_assets": [
             "res://assets/audio/amb_office_room.wav",
             "res://assets/audio/amb_open_chat_room.wav",
             "res://assets/audio/amb_pc_bang.wav",
+            "res://assets/audio/sfx_keyboard_phone.wav",
             "res://assets/audio/sfx_keyboard_short.wav"
           ]
         },

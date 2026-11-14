@@ -1829,7 +1829,11 @@
     "hyunsu_result_pass": {"ambience": "room", "suppress_music": true},
     "arc_hyunsu_exam_fail": {"ambience": "current_housing", "suppress_music": true},
     "arc_hyunsu_drift": {"ambience": "apartment", "suppress_music": true, "suppress_human_ambience": true, "suppress_season_ambience": true},
-    "arc_hyunsu_new_path": {"ambience": "apartment", "suppress_music": true, "suppress_human_ambience": true, "suppress_season_ambience": true},
+    "arc_hyunsu_new_path": {
+      "ambience": "apartment", "suppress_music": true, "suppress_human_ambience": true, "suppress_season_ambience": true,
+      "paragraph_cues": {"2": [{"sfx": "keyboard_phone", "volume_db": -1.0}]},
+      "result_paragraph_cues": {"1": {"1": [{"sfx": "keyboard_phone", "volume_db": -1.0}]}}
+    },
     "arc_goshiwon_goodbye": {
       "ambience": "goshiwon_hallway",
       "suppress_music": true,

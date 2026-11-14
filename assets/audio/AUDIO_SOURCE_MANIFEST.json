@@ -3406,6 +3406,23 @@
       "transform": "recorded one-shot edit; mono 44.1kHz; max 2.50s; RMS -24.0 dBFS",
       "output_sha256": "00c0dcef380894183ab1fdd92391bd3cb5ba2647dd5c2755a1d97113892129f5"
     },
+    "sfx_keyboard_phone.wav": {
+      "provenance": "object_recording",
+      "sources": [
+        {
+          "pack": "unicae_keyboard_cc0",
+          "original_file": "Human Typing/human_vel-004.wav",
+          "sha256": "1a322e04198305b03bac46765771519bfed8572495abef53cbaae19d63e16c3f",
+          "source_type": "object_recording"
+        }
+      ],
+      "transform": "recorded mono PCM16/44.1kHz master; ffmpeg highpass=f=300,lowpass=f=3200,volume=2dB",
+      "derived_from": {
+        "file": "sfx_keyboard_short.wav",
+        "sha256": "82a3c6e7b2865993554a4bd22692f854346d8d68a4dd79507d6196d0b0f8c8fc"
+      },
+      "output_sha256": "ac6fad0cc677556cb6574e48cae5396e135a7d999198edf2dc40202e71c87c81"
+    },
     "sfx_keyboard_short.wav": {
       "provenance": "object_recording",
       "sources": [

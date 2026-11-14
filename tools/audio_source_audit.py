@@ -18,7 +18,7 @@ AUDIO = ROOT / "assets" / "audio"
 MANIFEST = AUDIO / "AUDIO_SOURCE_MANIFEST.json"
 NOTICES = AUDIO / "AUDIO_THIRD_PARTY_NOTICES.md"
 
-EXPECTED_COUNTS = {"bgm": 20, "ambience": 49, "sfx": 70}
+EXPECTED_COUNTS = {"bgm": 20, "ambience": 49, "sfx": 71}
 ALLOWED_PROVENANCE = {
     "field_recording",
     "object_recording",
@@ -101,7 +101,7 @@ STORY_FOLEY = set(
     """
 sfx_phone_vibrate.wav sfx_phone_notification.wav sfx_paper_handle.wav
 sfx_document_stamp.wav sfx_door_latch.wav sfx_footsteps_hall.wav
-sfx_register_scan.wav sfx_keyboard_short.wav sfx_cup_set.wav
+sfx_register_scan.wav sfx_keyboard_short.wav sfx_keyboard_phone.wav sfx_cup_set.wav
 sfx_bicycle_impact.wav sfx_traffic_pass.wav sfx_kettle_pour.wav
 sfx_bus_arrival.wav sfx_queue_chime.wav sfx_pen_write.wav
 sfx_cloth_shift.wav sfx_page_turn.wav
@@ -313,6 +313,19 @@ def check_source_semantics(payload: dict[str, Any], errors: list[str]) -> None:
             values.append(str(source.get("pack", "")))
             values.append(str(source.get("original_file", "")))
         return " ".join(values).lower()
+
+    phone = assets.get("sfx_keyboard_phone.wav", {})
+    dry = assets.get("sfx_keyboard_short.wav", {})
+    if (not isinstance(phone, dict) or not isinstance(dry, dict)
+            or phone.get("provenance") != "object_recording"
+            or phone.get("sources") != dry.get("sources")
+            or phone.get("derived_from") != {
+                "file": "sfx_keyboard_short.wav", "sha256": dry.get("output_sha256"),
+            }
+            or phone.get("output_sha256") == dry.get("output_sha256")
+            or phone.get("transform") !=
+            "recorded mono PCM16/44.1kHz master; ffmpeg highpass=f=300,lowpass=f=3200,volume=2dB"):
+        errors.append("sfx_keyboard_phone.wav: retain the exact telephone-band edit of the recorded dry keyboard master")
 
     required_any = {
         "amb_goshiwon_room.wav": ("apartment", "room"),

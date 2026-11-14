@@ -75,6 +75,8 @@ UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리
 
 [~] `tools/third_party_notice_audit.py`의 현행 음원 개수와 생성되는 `content/meta/third_party_notices.json`의 입력 해시·개수만 동기화한다. CC0 출처·기존 사용자 고지 문구·라이선스·역사 RC 139 고정값은 그대로다.
 
+[x] 전화 키보드: CC0 원음의 기존 마스터에서 300–3200 Hz, +2 dB로 새 버전 재현(예전 후보 보존). PCM16/44.1 kHz/모노 1.15초, RMS −30.61 dBFS, 피크 −3.05 dBFS, WAV SHA `ac6fad0cc677556cb6574e48cae5396e135a7d999198edf2dc40202e71c87c81`. 실제 StoryMode 5언어×거처2×선택3=30·결과 재개30·본문 재개10·정해진 실재생40·결과 종료10, KO↔EN 재시작0. 본문을 소유하는 통화와 집 배경/효과는 유지. 격리 재생/오디오 로드 stderr0(편집기 가져오기 종료 RID 진단은 별도 보존). 독립 검수와 출처140/고지15변이/모딩/공개 RC 검사 통과. 격리 stdout·엔진 SHA `5ae84356243208c9969e2141fbc7f5baac4b53ec29d82a04db2b897fa167c001`. 실청취·프린터 원음·재패키징은 미완.
+
 ### 1장 후반 W25~48 블라인드 1차 — 사실 오류와 실제 플레이 대조
 
 [x] 파생 사실만 반영 — `content/meta/release_content_inventory.json`와 `docs/CONTENT_RATING_INVENTORY.md`: W47 연애 후보 재지문(집합 그대로), W28 투자 선택의 `panic sell` 금융 표현 제거로 공포 검색 오탐 1건 감소. 원래 검색 규칙·공시 사실·판정·역사 패키지는 그대로.

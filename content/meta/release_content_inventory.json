@@ -275,7 +275,7 @@
     "registry_external_packaged_paths_sha256": "0d15cd7d8853f1f961ffe2a013b5af5902f6f7163a0da752f119e0d1bbc798f2",
     "registry_external_packaged_content_sha256": "5ab228f180512ea92b2db646fa375d87d71a874a52fa6e67557a9a27f808a41d",
     "source_only_gdignored_paths_sha256": "f53a4433d398f59a1f71b77af81a840587083f9eca7a7d89ba4d6b1e46dfb2a4",
-    "audio_source_assets": 139
+    "audio_source_assets": 140
   },
   "registry_external_raster_review": {
     "reviewed": "2026-08-27",

@@ -205,6 +205,7 @@ const _SFX_FILES = {
 	"footsteps_hall": "res://assets/audio/sfx_footsteps_hall.wav",
 	"register_scan": "res://assets/audio/sfx_register_scan.wav",
 	"keyboard_short": "res://assets/audio/sfx_keyboard_short.wav",
+	"keyboard_phone": "res://assets/audio/sfx_keyboard_phone.wav",
 	"cup_set": "res://assets/audio/sfx_cup_set.wav",
 	"pen_write": "res://assets/audio/sfx_pen_write.wav",
 	"cloth_shift": "res://assets/audio/sfx_cloth_shift.wav",
@@ -360,6 +361,14 @@ func _play_from_pool(sound_id: String, volume_mod: float, pitch: float) -> void:
 
 func has_sound(sound_id: String) -> bool:
 	return _sounds.has(sound_id)
+
+func stop_sound(sound_id: String) -> void:
+	var sound: AudioStream = _sounds.get(sound_id)
+	if sound == null:
+		return
+	for player in _pool:
+		if player.playing and player.stream == sound:
+			player.stop()
 
 func sfx_mix_trim_db(sound_id: String) -> float:
 	return float(_SFX_MIX_TRIM_DB.get(sound_id, 0.0))
