@@ -2,6 +2,10 @@
 
 [활성 사양](../queue_active/ORDER-830.md)에서 이관한 원문. 상태와 산출물은 당시의 기록이다.
 
+### W224 편의점 뒤, 비교본을 사이에 두고
+
+[~] `assets/scene_audio_manifest.json`과 `content/meta/story_rules.json`의 `arc_y5_father_trace_custody` 한 행씩. 고객 구역에서 녹음한 사람 소리와 리듬이 강한 냉장고 모터를 이 테이블에 재생하지 않는다. 종이 동작과 기존 곡·시각은 그대로. `tools/{scene_audio_contract_check.py,chapter5_human_reject_audit.py,Chapter5HumanRejectCheck.gd,StoryPlaybackCheck.gd}` 해당 회귀만 정확한 무음으로 강화하고, 이전 원룸·편의점 내부음 회귀를 각각 거절한다. 이 기록·현황·당일 일지만. 다섯 원고·그림·장소·결과·기존 RC·음원·저장 불변. 이번은 음향만; 계산대가 아닌 뒤편 테이블 전용 원화와 실제 청취는 별도.
+
 ### W240 강남대로 서명 원화 후보
 
 [~] 후보 1컷 및 이 증거만. 강남대로 야외의 밤, 민준의 주관 시점과 어두운 소매·수첩과 별지에만 초점을 둔다(`camera_role=player_pov`, `gaze_source=minjun`, `gaze_target=notebook`). 거래 서류·열쇠·답장·사람·날씨를 그려 넣지 않고 읽히는 글자 없이 분기에 공통인 열린 수첩과 빈 다음 줄을 표현. 기존 수첩 질감, 대로 구조, Gangnam Ink 원화체를 참조한다. 게임 원고·기존 PNG·ID·등록·오디오·저장·RC 변경0. 통과한 후보를 실제 본편에 연결할 파일은 별도 선언.
