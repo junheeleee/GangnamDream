@@ -6,6 +6,8 @@
 
 [~] 배포용 에셋 도구의 `tools/SteamCapsuleExport.gd.uid` 1개와 이 기록만. 깨끗한 `67f73db` 별도 사본의 Godot 가져오기가 이 미등록 식별 파일을 만들면서 세 경로 모두 `candidate_changed_during_import`로 시작 전에 중단됐다. 로그인 세션에서 만들어진 파일과 바이트 일치한 독립 생성 UID만 저장소에 등록한다. 감사/수집 기준·도구 소스·에셋·사용자 저장·Steam 변경 없음.
 
+UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리까지 도달. 기록기는 화면이 보이는 시점만 읽어 W2·W3을 놓쳐 세 로그 모두 W4에서 중단됐으나 실제 저장 상태의 1→2→3→4와 각 W1~3 생활 영수증은 보존됐다. W240이라고 표시된 실패 마커는 스키마 자리표시이며 완주가 아니다. 실제 전 구간 관측은 미완이며 누락된 주를 추정으로 채우지 않는다.
+
 ### M07 현수가 연 문 — 고시원 복도와 시험방
 
 [~] 사람 없는 현수 시험방 후보 한 컷. 실제 두 저장에서 노출된 `hyunsu_result_fail` 선택0에서 문이 열린 뒤 보이는 문제집을 그린다. 민준의 방과 다른 방, 같은 신촌 고시원 재질. 캔·인물·읽히는 시험지·합격 증거 없음. 후보 검수 전에는 등록·원고·RC·저장 변경0. 선택1의 세면대 장면은 같은 문단의 복도 복귀와 별도 정확한 경계가 필요해 이번 후보에 섞지 않는다.
@@ -17,6 +19,8 @@
 ### M08 고시원 현관 밖 — 이사 아침이 아닌 젖은 길
 
 [~] `arc_goshiwon_goodbye` 선택0의 결과 문단2 이후에만 맞는 후보. 낡은 신촌 고시원 출입구에서 본 젖은 이면도로, 실외/실내 경계를 읽을 수 있게. 원문은 비가 내린다거나 시간대를 확정하지 않으므로 빗방울·우산·시간 표기0. 상자·인물·주소·새 집 등급을 그리지 않으며 새 에셋 배선·원고·저장·RC 변경 전 독립 대조한다. 현수에게 인사하거나 복도에서 회상하는 갈래는 동일한 실외 컷을 쓰지 않는다.
+
+[~] 독립 검수 후보 `assets/backgrounds/goshiwon_moveout_wet_street_v1.png`와 import, `autoloads/ImageRegistry.gd`, `scenes/StoryMode.gd`의 해당 결과 한 경계, `assets/{scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{ScreenshotQA.gd,scene_audio_contract_check.py,scene_direction_catalog.py,art_resolution_baseline.json}`, `content/meta/release_content_inventory.json`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{MODDING,ART_AI_AUDIT,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, 현황·이 기록만. 실내에는 실제 공용 냉장고가 포함된 복도음을 사람·계절층 없이 사용. 밖에서는 세 층을 즉시 끄고 문단2에서 기존 차 녹음만 한 번; 복원·언어 전환에서는 새로 재생하지 않는다. 현수 인사·복도 회상은 실내, 이후 새 집·5언어 원고·경제·저장·RC 그대로.
 
 ### 1장 후반 W25~48 블라인드 1차 — 사실 오류와 실제 플레이 대조
 
