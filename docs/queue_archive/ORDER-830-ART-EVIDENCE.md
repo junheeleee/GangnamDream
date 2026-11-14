@@ -98,6 +98,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] 다음 단위 — W112 커밋 뒤 `scenes/StoryMode.gd`, `assets/m27_jaehyuk_pitch_cuts.tres`, `assets/event_visual_contracts.json`, 한국어 `content/events/arc_events.json`의 제목/산문 아닌 기존 결과 배경 값이 필요한 경우 해당 두 선택만, 음향/실행 표적 검사(`tools/scene_audio_contract_check.py`, `tools/StoryBackgroundContextCheck.gd`)와 현황·증거·일지. c0 그날 밤과 c2 귀가 문장에서만 실제 집으로 넘어가고 카페 음향 끄기; 호텔에 남는 c1, 전송 전후 효과와 기존 음악 시점은 보존. 새 원화·효과음·플래그·대사·세이브 필드0. 먼저 5언어 위치와 기존 원장의 정확한 일치 확인.
 
+[~] 공개 화면 소비값 원장 `content/meta/exposed_event_state_contracts.json`의 해당 한 행에 `housing`만 추가한다. 이야기가 소비하는 주거 상태의 실제 변경을 기존 감사가 적발했으며, 엔진 저장 상태나 판정은 바뀌지 않는다. 출시 인벤토리의 fingerprint가 오직 두 배경 키 때문에 달라질 경우에는 기존 해시 역복원 후 `content/meta/release_content_inventory.json`/`docs/CONTENT_RATING_INVENTORY.md`의 그 값만 재생성한다.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
