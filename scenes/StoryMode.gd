@@ -47,6 +47,9 @@ const M23_MOTHER_CALL := "arc_father_03_hospital"
 const M23_FIRST_KTX_CUTS := preload("res://assets/m23_first_ktx_result_cuts.tres")
 const M23_FIRST_KTX_STATION := "seoul_station_first_ktx_predawn"
 const M23_FIRST_KTX_CABIN := "ktx_changwon_first_train_predawn"
+const W96_FATHER_VISIT := "arc_father_04_visit"
+const W96_RETURN_CUT := preload("res://assets/w96_father_visit_return_cut.tres")
+const W96_STATION_ARRIVAL := "seoul_station_visitor_sticker"
 const W8_FALLOUT := "arc_temptation_fallout"
 const M14_BANK_REVIEW := "arc_y2_bank_limit_review"
 const W234_SUMMIT := "arc_y5_general_pre_ending_summit_exact"
@@ -3327,6 +3330,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == W4_TEMPTATION and choice_index == 1) \
 		or (event_id == W234_SUMMIT and choice_index == 0) \
 		or (event_id == M23_MOTHER_CALL and choice_index == 0) \
+		or (event_id == W96_FATHER_VISIT and choice_index == 3) \
 		or (event_id == M23_PARENTS and choice_index == 1)
 
 func _resolved_story_prose_pages() -> Dictionary:
@@ -3349,6 +3353,11 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		return _story_page_data(_fmt(raw))
 	if event_id == M23_MOTHER_CALL:
 		return _first_ktx_result_pages(_fmt(raw))
+	if event_id == W96_FATHER_VISIT:
+		var anchors: Dictionary = W96_RETURN_CUT.get_meta("arrival_anchors", {})
+		if raw.split("\n\n").size() == 2:
+			return _split_formatted_story_page(_fmt(raw), 1, str(anchors.get(LocaleManager.language, "")))
+		return _story_page_data(_fmt(raw))
 	if event_id == M23_PARENTS:
 		var ride_anchors: Dictionary = M23_PARENTS_CUTS.get_meta("ride_anchors", {})
 		if raw.split("\n\n").size() == 3:
@@ -4503,6 +4512,8 @@ func _resolved_choice_result_portrait_id(choice: Dictionary) -> String:
 		else _resolved_event_portrait_id()
 
 func _resolved_story_surface_portrait_id() -> String:
+	if _is_w96_station_result():
+		return ""
 	if _is_first_ktx_choice() and _pending_after_result and _first_ktx_stage(_para_index) > 0:
 		return ""
 	if str(_current.get("id", "")) == M23_PARENTS and _event_background_id == M23_FOOD_BAG:
@@ -5447,7 +5458,11 @@ func _render_current():
 		and str(_pending_restore_context.get("event_id", "")) == M23_MOTHER_CALL \
 		and str(_pending_restore_context.get("phase", "")) == "result" \
 		and int(_pending_restore_context.get("pending_result_choice_index", -1)) == 0
-	if cold_offer_cafe or cold_first_ktx:
+	var cold_w96_return := str(_current.get("id", "")) == W96_FATHER_VISIT \
+		and str(_pending_restore_context.get("event_id", "")) == W96_FATHER_VISIT \
+		and str(_pending_restore_context.get("phase", "")) == "result" \
+		and int(_pending_restore_context.get("pending_result_choice_index", -1)) == 3
+	if cold_offer_cafe or cold_first_ktx or cold_w96_return:
 		BGMPlayer.clear_ambience_immediate()
 	elif str(_current.get("background", "")) == "current_housing" \
 			and not _current_uses_cg and not has_authored_ambience:
@@ -5599,6 +5614,9 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	if _pending_after_result and _is_first_ktx_choice():
 		_apply_first_ktx_result_surface(play_cut_cue)
 		return
+	if _pending_after_result and _is_w96_return_choice():
+		_apply_w96_return_surface(play_cut_cue)
+		return
 	if event_id == M23_PARENTS:
 		_apply_m23_parents_surface()
 		return
@@ -5663,6 +5681,37 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 
 func _is_first_ktx_choice() -> bool:
 	return str(_current.get("id", "")) == M23_MOTHER_CALL and _pending_result_choice_index == 0
+
+func _is_w96_return_choice() -> bool:
+	return str(_current.get("id", "")) == W96_FATHER_VISIT and _pending_result_choice_index == 3
+
+func _is_w96_station_result() -> bool:
+	return _pending_after_result and _is_w96_return_choice() \
+		and _result_location_cut_page >= 0 and _para_index >= _result_location_cut_page
+
+func _apply_w96_return_surface(live_advance: bool) -> void:
+	var at_station := _is_w96_station_result()
+	var destination := W96_STATION_ARRIVAL if at_station else "hospital"
+	if not at_station:
+		# On a cold corridor result no ambience was started before the page resolved.
+		BGMPlayer.update_event_ambience(_current, "", destination)
+	if destination == _event_background_id:
+		return
+	var texture := ImageRegistry.load_texture(ImageRegistry.get_background(destination))
+	if texture == null:
+		return
+	if live_advance:
+		_begin_story_scene_transition("time_cut")
+	else:
+		_finish_story_scene_transition()
+	_bg_img.texture = texture
+	_event_background_id = destination
+	_apply_story_surface_palette(false)
+	_refresh_story_paragraph_presentation(_story_source_paragraph_index(_para_index))
+	_configure_living_scene()
+	if at_station:
+		# End the hospital's location sounds, not the continuous authored score.
+		BGMPlayer.clear_ambience_immediate()
 
 func _apply_first_ktx_result_surface(live_advance: bool) -> void:
 	var stage := _first_ktx_stage(_para_index)
@@ -5814,6 +5863,9 @@ func _refresh_story_paragraph_presentation(
 	var event_id := str(_current.get("id", ""))
 	var call_end_source_index := -1
 	match event_id:
+		W96_FATHER_VISIT:
+			if not _pending_after_result or not _is_w96_return_choice():
+				return
 		M23_MOTHER_CALL:
 			if not _pending_after_result or not _is_first_ktx_choice():
 				return
@@ -5830,6 +5882,13 @@ func _refresh_story_paragraph_presentation(
 	# Authored result blocks own the hang-up, not screen pagination or translated
 	# words. A cold result or locale refresh must restore that same call boundary.
 	var presentation := DataRegistry.get_story_presentation(event_id).duplicate(true)
+	if _is_w96_station_result():
+		presentation["channel"] = "narration"
+		presentation["scene_location"] = "seoul_station"
+		presentation["portrait_role"] = "none"
+		presentation["nameplate_role"] = "hidden"
+		presentation.erase("expected_portrait")
+		presentation.erase("participants")
 	if _pending_after_result and call_end_source_index >= 0 \
 			and source_paragraph_index >= call_end_source_index:
 		presentation["channel"] = "narration"
@@ -6855,7 +6914,7 @@ func _choice_result_background_id(choice: Dictionary) -> String:
 func _apply_choice_result_visual(choice: Dictionary) -> void:
 	# This visit changes location within results, not upon selecting a button.
 	# The prose/result page (also on restore) owns the first visible cut.
-	if str(_current.get("id", "")) == M23_PARENTS or _is_first_ktx_choice():
+	if str(_current.get("id", "")) == M23_PARENTS or _is_first_ktx_choice() or _is_w96_return_choice():
 		return
 	var result_cg_id := str(choice.get("result_cg", _current.get("result_cg", "")))
 	if result_cg_id != "":

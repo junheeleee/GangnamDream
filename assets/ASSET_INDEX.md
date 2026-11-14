@@ -912,6 +912,7 @@ Avoid earlier generated images that include orbit rings, sci-fi nodes, or Lumen 
 
 - M23 부모님 서울 방문: `seoul_station_parents_concourse`는 오후 합류 공간, `seoul_station_parents_ticket_gate`는 밤 배웅, `parents_visit_food_bag_in_transit`는 어머니 무릎의 반찬 가방. 집은 실제 주거 배경을 재사용하고 이동수단은 드러내지 않는다.
 - M23 어머니의 전화 첫차 분기: 현재 집(예매) → `seoul_station_first_ktx_predawn`(오전 5시 마른 승강장) → `ktx_changwon_first_train_predawn`(늦가을 창밖이 움직이는 객실). 병원 도착은 보여 주지 않는다.
+- W96 병실 문을 열지 않은 선택: `seoul_station_visitor_sticker`는 서울역에 내려 코트 주머니 속 방문객 스티커가 손가락에 붙는 순간만 보여 준다. 병실 대면과 역 출발에는 사용하지 않는다.
 
 - M03 신촌 사고: `assets/backgrounds/sinchon_crash_{approach,impact,exit}_rain_dusk.png` (사고 전·접촉 직후·두 퇴장 갈래). 원래 하차 CG와 동일 블록의 봄비·해 질 무렵을 유지한다.
 - 지연 신촌역 재회: `assets/backgrounds/sinchon_bus_stop_{after_rain,sedan,distant_bus}_night.png` (빈 정류장·세단 도착·한 갈래 먼 전조등). 비가 그친 늦은 밤 전용.

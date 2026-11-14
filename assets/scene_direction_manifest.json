@@ -760,6 +760,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "seoul_station_visitor_sticker": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "ktx_window": {
       "environment": "transit",
       "depth": "mid",

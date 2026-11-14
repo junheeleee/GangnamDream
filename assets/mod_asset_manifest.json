@@ -736,6 +736,14 @@
     {
       "kind": "background",
       "ids": [
+        "seoul_station_visitor_sticker"
+      ],
+      "relative_path": "backgrounds/seoul_station_visitor_sticker.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "subway"
       ],
       "relative_path": "backgrounds/seoul_subway.png",

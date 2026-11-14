@@ -28,6 +28,14 @@ const OFFER_FOLLOW_UP := "callback_jiyeon_honest_referral"
 const OFFER_BRANCH_FLAGS := ["jiyeon_refused_coffee", "jiyeon_had_coffee", "jiyeon_honest"]
 const M23_PARENTS := "arc_34_parents_visit"
 const M23_CALL := "arc_father_03_hospital"
+const W96_VISIT := "arc_father_04_visit"
+const W96_HOSPITAL := "hospital"
+const W96_STICKER := "seoul_station_visitor_sticker"
+const W96_YEAR_CLOSE := "arc_year2_close"
+const W96_ARRIVAL := {
+	"ko": "서울역에 내려", "en": "At Seoul Station,", "ja": "ソウル駅で降り",
+	"zh-CN": "到了首尔站", "zh-TW": "在首爾站下車",
+}
 const M23_KTX_STATION := "seoul_station_first_ktx_predawn"
 const M23_KTX_COACH := "ktx_changwon_first_train_predawn"
 const M23_KTX_ANCHORS := {
@@ -174,6 +182,8 @@ const EXACT_PATHS := {
 	M23_RESTAURANT: "res://assets/backgrounds/restaurant_korean.png",
 	M23_KTX_STATION: "res://assets/backgrounds/seoul_station_first_ktx_predawn.png",
 	M23_KTX_COACH: "res://assets/backgrounds/ktx_changwon_first_train_predawn.png",
+	W96_HOSPITAL: "res://assets/backgrounds/hospital_corridor.png",
+	W96_STICKER: "res://assets/backgrounds/seoul_station_visitor_sticker.png",
 	"hospital_clinic_day": "res://assets/backgrounds/hospital_clinic_day.png",
 	"subway_station_stairs": "res://assets/backgrounds/subway_station_stairs.png",
 	"subway_station_lost_found": "res://assets/backgrounds/subway_station_lost_found.png",
@@ -222,6 +232,7 @@ var _w8_capture_shots := 0
 var _offer_capture_dir := ""
 var _m23_capture_dir := ""
 var _first_ktx_capture_dir := ""
+var _w96_capture_dir := ""
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -244,6 +255,12 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W96_RETURN_CHECK"):
+		var w96_ok := await _check_w96_return()
+		if w96_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w96_return")
+		get_tree().quit(0 if w96_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_FIRST_KTX_CHECK"):
 		var ktx_ok := await _check_first_ktx()
 		if ktx_ok:
@@ -303,6 +320,8 @@ func _ready() -> void:
 			await _play_w234_case(language, choice_index)
 	if not await _check_first_ktx(true):
 		_fail("first KTX default full-owner smoke failed")
+	if not await _check_w96_return(true):
+		_fail("W96 default full-owner smoke failed")
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -1187,6 +1206,262 @@ func _save_m23_frame(label: String) -> bool:
 	_fail("M23 did not settle portrait for capture")
 	return false
 
+func _check_w96_return(smoke: bool = false) -> bool:
+	_w96_capture_dir = "" if smoke else OS.get_environment("GANGNAM_W96_RETURN_CAPTURE_DIR")
+	var capture := not _w96_capture_dir.is_empty()
+	var languages := ["ko"] if smoke else W96_ARRIVAL.keys()
+	if capture:
+		var language := OS.get_environment("GANGNAM_W96_RETURN_CAPTURE_LANGUAGE")
+		var output := DirAccess.open(_w96_capture_dir) if _w96_capture_dir.is_absolute_path() else null
+		if output == null or not output.get_files().is_empty() or not output.get_directories().is_empty() \
+				or not W96_ARRIVAL.has(language) or DisplayServer.get_name() == "headless":
+			_fail("W96 capture requires a fresh absolute output, known locale and real display")
+			return false
+		languages = [language]
+		OS.low_processor_usage_mode = false
+	await _remove_story()
+	await _stop_audio()
+	if not _prepare_full_owner_history(96, [[14, "arc_father_01_call"], [21, "arc_father_02_signal"],
+			[49, "chapter_card_34"], [57, "arc_father_medication"], [89, M23_PARENTS], [89, M23_CALL]]):
+		return false
+	var prepared: Dictionary = GameState.serialize().duplicate(true)
+	var probe := load("res://scenes/MainGame.tscn").instantiate() as Control
+	var opens_exact_week: bool = probe.call("_next_arc_id", 96, true) == W96_VISIT \
+		and probe.call("_next_arc_id", 95, true) != W96_VISIT and probe.call("_next_arc_id", 97, true) != W96_VISIT
+	probe.free()
+	if not opens_exact_week:
+		_fail("W96 hospital door did not follow the genuine call at its exact week")
+		return false
+	for language in languages:
+		var choices := [3] if capture or smoke or language != "ko" else [0, 1, 2, 3]
+		for choice in choices:
+			await _remove_story()
+			await _stop_audio()
+			LocaleManager.set_language(language)
+			GameState.call("_restore_serialized_snapshot_exact", prepared)
+			GameState.mental = 60
+			GameState.moral_tint = 0.0
+			_context = "%s/W96/c%d" % [language, choice]
+			if not await _open_full_fixture_event(W96_VISIT, [W96_YEAR_CLOSE]) \
+					or not await _read_w96_return(choice, smoke, capture):
+				_fail("W96 full owner fixture failed")
+				await _remove_story()
+				await _stop_audio()
+				return false
+	await _remove_story()
+	await _stop_audio()
+	if capture and DirAccess.get_files_at(_w96_capture_dir).size() != 3:
+		_fail("W96 expected three actual settled frames per locale")
+	if _failures != 0:
+		return false
+	print("W96_RETURN_OK paths=%d bedside_regressions=%d boundary_v4=%d legacy_unsplit_v4=%d different_locale_v4=%d rebinds=%d same_week_close=1 w100_exact_gate=1 captures=%d" % [languages.size(),
+		0 if smoke or capture else 3, 0 if capture else (1 if smoke else languages.size() * 2),
+		0 if smoke or capture else languages.size(), 0 if smoke or capture else languages.size(),
+		0 if smoke or capture else 8, 3 if capture else 0])
+	return true
+
+func _read_w96_return(choice: int, smoke: bool, capture: bool) -> bool:
+	var language := LocaleManager.language
+	var event: Dictionary = _story.get("_current")
+	if int(_story.call("_story_source_paragraph_count")) != 3 \
+			or not await _read_phase_surface_only(W96_HOSPITAL, "hospital"):
+		return false
+	_story.call("_on_advance")
+	await _wait_stable()
+	if not bool(_story.get("_showing_choices")) or (_story.get("_choice_box") as Control).get_child_count() != 4:
+		return false
+	var expected := [float(GameState.money), GameState.mental + [23, 15, 3, -18][choice],
+		GameState.get_cast_affinity("father") + [25, 18, 12, -15][choice],
+		GameState.moral_tint + [9.0, 2.0, 4.0, -12.0][choice], GameState.event_log.size() + 1]
+	var original_deferred := GameState.deferred_events.duplicate(true)
+	_story.call("_on_choice", choice)
+	await _wait_stable()
+	var authored := str(_story.call("_fmt", event["choices"][choice]["result_text"]))
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var cut := _w96_cut(pages)
+	if not _m23_same_prose(pages, authored) or (cut >= 0) != (choice == 3):
+		_fail("W96 changed original prose or location boundary")
+		return false
+	var score_token: int = BGMPlayer.get("_punctuation_token")
+	var score_position := _w96_score_position()
+	for page in range(pages.size()):
+		var at_station := choice == 3 and page >= cut
+		await _finish_page()
+		if int(_story.get("_para_index")) != page or not _w96_surface(choice, at_station) \
+				or not _w96_receipt(choice, expected, original_deferred, false):
+			return false
+		if capture and page in [0, cut - 1, cut]:
+			var label := "result_p0" if page == 0 else ("before_arrival" if page < cut else "seoul_station")
+			if not await _save_w96_frame(label):
+				return false
+		if choice == 3 and not capture and not smoke and page == cut - 1:
+			if not await _reload_cut_result(choice, page, false):
+				return false
+			await _wait_stable()
+			if not _w96_surface(choice, false) or not await _w96_rebind(language, false):
+				return false
+			# The following live arrival must keep the actual score opened by the load.
+			score_token = BGMPlayer.get("_punctuation_token")
+			score_position = _w96_score_position()
+		if page + 1 < pages.size():
+			_story.call("_on_advance")
+			if choice == 3 and page + 1 == cut:
+				if BGMPlayer.get("_punctuation_token") != score_token \
+						or _w96_score_position() + 0.05 < score_position:
+					_fail("W96 live location cut restarted or stopped the existing grief score")
+					return false
+				if not capture and not await _reload_cut_result(choice, page + 1, true):
+					return false
+			await _wait_stable()
+			if choice == 3 and page + 1 == cut and not capture and not smoke:
+				if not _w96_surface(choice, true) or not await _w96_rebind(language, true):
+					return false
+	if choice == 3 and not capture and not smoke:
+		var final_context: Dictionary = _story.call("build_save_resume_context")
+		if not await _w96_legacy_unsplit(authored, final_context) or not _w96_surface(3, true):
+			return false
+		var other := "en" if language == "ko" else "ko"
+		if not await _reload_authored_result_context(final_context, other, 2, 1) \
+				or int(_story.get("_para_index")) != int(_story.call("_first_story_page_for_source", 1)) \
+				or not _w96_surface(3, false):
+			_fail("W96 cold language change did not rewind to the start of source paragraph 1")
+			return false
+		if not await _reload_authored_result_context(final_context, language, 2, 1) or not _w96_surface(3, true):
+			return false
+		await _finish_page()
+	_story.call("_on_advance")
+	await _wait_stable()
+	return _w96_receipt(choice, expected, original_deferred, true)
+
+func _w96_cut(pages: Array) -> int:
+	var cut := int(_story.get("_result_location_cut_page"))
+	if cut < 0:
+		return -1
+	if cut < 2 or cut >= pages.size() or not str(pages[cut]).begins_with(W96_ARRIVAL[LocaleManager.language]) \
+			or int(_story.call("_story_source_paragraph_count")) != 2 \
+			or int(_story.call("_story_source_paragraph_index", cut - 1)) != 1 \
+			or int(_story.call("_story_source_paragraph_index", cut)) != 1:
+		_fail("W96 screen cut not at the exact Seoul arrival inside source 1")
+		return -1
+	return cut
+
+func _w96_surface(choice: int, at_station: bool) -> bool:
+	if choice != 3:
+		var plate := _story.get("_bg_img") as TextureRect
+		return str(_story.get("_event_cg_id")) == "cg_ending_father" and plate.texture != null \
+			and plate.texture.resource_path == "res://assets/cg/ending_father.png" \
+			and str(BGMPlayer.get("_current_ambience_key")) == "hospital"
+	var cues: Array = AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:
+		return key.begins_with(W96_VISIT + ":"))
+	var expected_bg := W96_STICKER if at_station else W96_HOSPITAL
+	if not _expect_surface(expected_bg, "" if at_station else "hospital", "W96 result") \
+			or not str(_story.get("_event_cg_id")).is_empty() or not cues.is_empty() \
+			or str(BGMPlayer.get("_current_key")) != "grief" or _w96_score_position() < 0.0 \
+			or str(_story.get_meta("living_scene_effect", "")) != "none":
+		_fail("W96 altered score=%s/%.3f cues=%s weather=%s cg=%s" % [BGMPlayer.get("_current_key"),
+			_w96_score_position(), cues, _story.get_meta("living_scene_effect", ""), _story.get("_event_cg_id")])
+		return false
+	if at_station:
+		return _expect_no_ambience("W96 arrival") and not (_story.get("_portrait_frame") as Control).visible \
+			and not (_story.get("_name_panel") as Control).visible and not (_story.get("_communication_badge") as Control).visible
+	return (_story.get("_portrait_frame") as Control).visible and BGMPlayer._ambience_player.playing \
+		and BGMPlayer._current_human_ambience_key == "public_interior" and BGMPlayer._human_ambience_player.playing
+
+func _w96_score_position() -> float:
+	# ModLoader duplicates the imported stream to set looping, so its
+	# resource_path may be empty; the cached stream identity remains exact.
+	var score := ModLoader.load_audio(str(BGMPlayer.TRACKS["grief"]), true)
+	for player in [BGMPlayer._player_a, BGMPlayer._player_b]:
+		if player.playing and player.stream != null and player.stream == score:
+			return player.get_playback_position()
+	return -1.0
+
+func _w96_receipt(choice: int, expected: Array, original_deferred: Array, closed: bool) -> bool:
+	var receipt: Dictionary = GameState.event_log.back() if not GameState.event_log.is_empty() else {}
+	var snapshot := FULL_STORY_FLOW.snapshot()
+	var reads: Array = snapshot.get("read_receipts", {}).get("96", [])
+	var pending: Array = snapshot.get("chain", {}).get("pending_event_ids", [])
+	var next := W96_YEAR_CLOSE if closed else W96_VISIT
+	var valid: bool = FULL_STORY_FLOW.valid_session() and GameState.turn == 96 \
+		and str((_story.get("_current") as Dictionary).get("id")) == next and bool(_story.get("_pending_after_result")) != closed \
+		and receipt.get("event_id") == W96_VISIT and int(receipt.get("choice_index", -1)) == choice \
+		and GameState.event_log.size() == expected[4] and is_equal_approx(GameState.money, expected[0]) \
+		and GameState.mental == expected[1] and GameState.get_cast_affinity("father") == expected[2] \
+		and is_equal_approx(GameState.moral_tint, expected[3]) \
+		and GameState.get_cast_stage("father") == ["reconciled", "hopeful", "quiet", "distant"][choice] \
+		and bool(GameState.flags.get("visited_father", false)) == (choice != 3) \
+		and bool(GameState.flags.get("father_visit_deferred", false)) == (choice == 3) \
+		and _w96_deferred_equal(original_deferred) and not pending.is_empty() and pending.front() == next \
+		and reads.size() == int(closed)
+	if closed and valid:
+		valid = reads[0].get("event_id") == W96_VISIT and int(reads[0].get("choice_index", -1)) == choice \
+			and _w96_w100_gate(choice == 3)
+	if not valid:
+		_fail("W96 altered effects/receipts: actual=%s expect=%s logged=%s pending=%s read_count=%d deferred_match=%s closed=%s" % [
+			[GameState.money, GameState.mental, GameState.get_cast_affinity("father"), GameState.moral_tint, GameState.event_log.size(),
+			GameState.get_cast_stage("father"), GameState.flags.get("visited_father"), GameState.flags.get("father_visit_deferred")],
+			expected, receipt.get("event_id"), pending, reads.size(), _w96_deferred_equal(original_deferred), closed])
+	return valid
+
+func _w96_deferred_equal(original: Array) -> bool:
+	if original.size() != GameState.deferred_events.size():
+		return false
+	for index in range(original.size()):
+		var current: Dictionary = GameState.deferred_events[index]
+		if str(current.get("event_id", "")) != str(original[index].get("event_id", "")) \
+				or int(current.get("trigger_turn", -1)) != int(original[index].get("trigger_turn", -1)):
+			return false
+	return true
+
+func _w96_w100_gate(defers: bool) -> bool:
+	var probe := load("res://scenes/MainGame.tscn").instantiate() as Control
+	var flags := GameState.flags.duplicate()
+	var target := "arc_y3_father_avoidance_document"
+	var valid: bool = (probe.call("_story_graph_contract_event_id", 100, flags, false) == target) == defers
+	for off_week in [99, 101]:
+		valid = valid and probe.call("_story_graph_contract_event_id", off_week, flags, false) != target
+	valid = valid and probe.call("_story_graph_contract_event_id", 100, flags, true) != target
+	flags["arc_y3_father_avoidance_document_seen"] = true
+	valid = valid and probe.call("_story_graph_contract_event_id", 100, flags, false) != target
+	probe.free()
+	return valid
+
+func _w96_rebind(language: String, at_station: bool) -> bool:
+	if language not in ["ko", "en"]:
+		return true
+	for other in ["en" if language == "ko" else "ko", language]:
+		_story.call("_set_story_language", other)
+		await _wait_stable()
+		var cut := _w96_cut(_story.get("_paragraphs"))
+		if LocaleManager.language != other or cut < 0 \
+				or (int(_story.get("_para_index")) >= cut) != at_station or not _w96_surface(3, at_station):
+			_fail("W96 language change crossed the source-1 arrival sentence")
+			return false
+	return true
+
+func _w96_legacy_unsplit(authored: String, final_context: Dictionary) -> bool:
+	# Pre-cut v4 displayed source 1 as a single screen here. Its old source
+	# progress already meant the reader reached the arrival; do not reapply c3.
+	var old_data: Dictionary = _story.call("_story_page_data", authored)
+	var old_pages: Array = old_data.get("pages", [])
+	var old_sources: Array = old_data.get("source_indices", [])
+	if old_sources != [0, 1] or not str(old_pages[1]).contains(W96_ARRIVAL[LocaleManager.language]):
+		_fail("W96 expected a single old v4 screen for unsplit source 1")
+		return false
+	var legacy := final_context.duplicate(true)
+	legacy["paragraph_index"] = 1
+	legacy["type_pos"] = str(old_pages[1]).length()
+	return await _reload_authored_result_context(legacy, LocaleManager.language, 2, 1)
+
+func _save_w96_frame(label: String) -> bool:
+	var portrait := _story.get("_portrait_frame") as Control
+	for _frame in range(150):
+		if not portrait.visible or portrait.modulate.a >= 0.99:
+			return await _save_viewport_frame(_w96_capture_dir.path_join("%s_c3_%s.png" % [LocaleManager.language, label]))
+		await get_tree().process_frame
+	_fail("W96 portrait never settled for capture")
+	return false
+
 func _check_first_ktx(smoke: bool = false) -> bool:
 	_first_ktx_capture_dir = "" if smoke else OS.get_environment("GANGNAM_FIRST_KTX_CAPTURE_DIR")
 	var capture := not _first_ktx_capture_dir.is_empty()
@@ -1419,20 +1694,23 @@ func _reload_legacy_first_ktx(authored: String, stage: int, housing: String, exp
 	return true
 
 func _reload_first_ktx_context(context: Dictionary, target_locale: String) -> bool:
-	if context.get("phase") != "result" or int(context.get("source_paragraph_count", 0)) != 1 \
-			or int(context.get("source_paragraph_index", -1)) != 0 \
+	return await _reload_authored_result_context(context, target_locale, 1, 0)
+
+func _reload_authored_result_context(context: Dictionary, target_locale: String, source_count: int, source_index: int) -> bool:
+	if context.get("phase") != "result" or int(context.get("source_paragraph_count", 0)) != source_count \
+			or int(context.get("source_paragraph_index", -1)) != source_index \
 			or not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
-		_fail("isolated first KTX save did not preserve one original source paragraph")
+		_fail("isolated save did not preserve the expected original source paragraph")
 		return false
 	var disk: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveManager.slot_path(W8_QA_SLOT)))
 	if not disk is Dictionary or int(disk.get("version", -1)) != 4:
-		_fail("first KTX altered disk schema v4")
+		_fail("authored result altered disk schema v4")
 		return false
 	await _remove_story()
 	GameState.start_new_game()
 	LocaleManager.set_language(target_locale)
 	if not SaveManager.load_game(W8_QA_SLOT):
-		_fail("isolated first KTX v4 cold load failed")
+		_fail("isolated authored result v4 cold load failed")
 		return false
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
 	add_child(_story)
@@ -1582,13 +1860,16 @@ func _prepare_full_owner_history(at_turn: int, extra_prior: Array) -> bool:
 func _open_sinchon_offer() -> bool:
 	return await _open_full_fixture_event(OFFER)
 
-func _open_full_fixture_event(expected_id: String) -> bool:
+func _open_full_fixture_event(expected_id: String, expected_continuation: Array = []) -> bool:
 	var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
 	ingress.set_meta("_screenshot_qa_static_surface", true)
 	var event_id: String = ingress.call("_next_arc_id", -1, true)
 	ingress.call("_go_story_mode", [event_id])
 	ingress.free()
-	if event_id != expected_id or GameState.pending_story_queue != [expected_id] or not FULL_STORY_FLOW.valid_session():
+	var queue: Array = GameState.pending_story_queue
+	if event_id != expected_id or queue.slice(0, expected_continuation.size() + 1) != [expected_id] + expected_continuation \
+			or (queue.size() > expected_continuation.size() + 1 and (expected_id != W96_VISIT \
+				or queue.size() != 3 or str(queue[2]) != "arc_year2_scene")) or not FULL_STORY_FLOW.valid_session():
 		_fail("%s did not reserve its normal FullStoryFlow handoff" % expected_id)
 		return false
 	# Enter from a rain/street crowd and a stale seasonal bed to check the actual
@@ -2349,7 +2630,7 @@ func _wait_stable() -> void:
 		if not _w4_capture_dir.is_empty() or not _w8_capture_dir.is_empty() \
 				or not _m14_capture_dir.is_empty() or not _w234_capture_dir.is_empty() \
 				or not _offer_capture_dir.is_empty() or not _m23_capture_dir.is_empty() \
-				or not _first_ktx_capture_dir.is_empty():
+				or not _first_ktx_capture_dir.is_empty() or not _w96_capture_dir.is_empty():
 			continue
 		if raw_ink_tween is Tween and (raw_ink_tween as Tween).is_running():
 			(raw_ink_tween as Tween).custom_step(10.0)

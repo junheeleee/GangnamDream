@@ -300,6 +300,7 @@ const BACKGROUNDS = {
 	"parents_visit_food_bag_in_transit": "res://assets/backgrounds/parents_visit_food_bag_in_transit.png",
 	"seoul_station_first_ktx_predawn": "res://assets/backgrounds/seoul_station_first_ktx_predawn.png",
 	"ktx_changwon_first_train_predawn": "res://assets/backgrounds/ktx_changwon_first_train_predawn.png",
+	"seoul_station_visitor_sticker": "res://assets/backgrounds/seoul_station_visitor_sticker.png",
 	"ktx_window":        "res://assets/backgrounds/regional_train_window_summer.png",
 	"regional_train_window": "res://assets/backgrounds/regional_train_window_summer.png",
 	"daeun_mother_home_dining": "res://assets/backgrounds/daeun_mother_home_dining_summer.png",

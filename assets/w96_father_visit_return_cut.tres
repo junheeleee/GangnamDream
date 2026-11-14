@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/arrival_anchors = {
+"ko": "서울역에 내려",
+"en": "At Seoul Station,",
+"ja": "ソウル駅で降り、",
+"zh-CN": "到了首尔站，",
+"zh-TW": "在首爾站下車，"
+}

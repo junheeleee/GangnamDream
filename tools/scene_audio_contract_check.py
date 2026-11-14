@@ -73,6 +73,12 @@ M23_MOTHER_CALL_AUDIO = {
     "suppress_human_ambience": True,
     "suppress_season_ambience": True,
 }
+W96_HOSPITAL_VISIT_EVENT = "arc_father_04_visit"
+W96_SEOUL_ARRIVAL = "seoul_station_visitor_sticker"
+W96_HOSPITAL_VISIT_AUDIO = {
+    "ambience": "hospital",
+    "music": {"key": "grief", "start_paragraph": 0},
+}
 DEMO_EVENT_IDS = set("""
 story_flashforward story_arrival story_knee_door story_knee_witness
 story_knee_choice story_last_payment_wait story_last_payment_word
@@ -283,6 +289,21 @@ def main() -> int:
             or any(first_ktx_profiles.get(background) != "intentional_silence"
                    for background in (M23_FIRST_KTX_PLATFORM, M23_FIRST_KTX_CABIN))):
         errors.append(f"{M23_MOTHER_CALL_EVENT}: first KTX platform and cabin must not borrow a train or room bed")
+    hospital_visit = events.get(W96_HOSPITAL_VISIT_EVENT, {})
+    hospital_choices = hospital_visit.get("choices", [])
+    hospital_visit_profiles = manifest.get("background_profiles", {})
+    if (event_contracts.get(W96_HOSPITAL_VISIT_EVENT) != W96_HOSPITAL_VISIT_AUDIO
+            or hospital_visit.get("background") != "hospital"
+            or hospital_visit_profiles.get("hospital") != "hospital"
+            or hospital_visit_profiles.get(W96_SEOUL_ARRIVAL) != "intentional_silence"):
+        errors.append(f"{W96_HOSPITAL_VISIT_EVENT}: keep hospital ambience and grief score, with a quiet Seoul arrival")
+    if ("result_background" in hospital_visit or "result_ambience" in hospital_visit
+            or not isinstance(hospital_choices, list) or len(hospital_choices) != 4
+            or any(not isinstance(choice, dict) or "result_ambience" in choice
+                   or ("result_background" in choice if index < 3
+                       else choice.get("result_background") != W96_SEOUL_ARRIVAL)
+                   for index, choice in enumerate(hospital_choices))):
+        errors.append(f"{W96_HOSPITAL_VISIT_EVENT}: only the deferred visit may end at Seoul Station without a new bed")
     if events.get(M14_BANK_EVENT, {}).get("background") != M14_BANK_BACKGROUNDS[0] or any(
         manifest.get("background_profiles", {}).get(background) != "intentional_silence"
         for background in M14_BANK_BACKGROUNDS

@@ -371,9 +371,9 @@ python3 tools/generate_mod_manifest.py --check
 | background | `jiyeon_sedan_first_snow` | `backgrounds/jiyeon_sedan_first_snow_interior.png` | 1280x800 |
 | background | `jiyeon_sedan_night` | `backgrounds/jiyeon_sedan_night_interior.png` | 1280x800 |
 | background | `jjimjilbang` | `backgrounds/jjimjilbang.png` | 1672x941 |
+| background | `ktx_changwon_first_train_predawn` | `backgrounds/ktx_changwon_first_train_predawn.png` | 1280x800 |
 | background | `late_night` | `backgrounds/late_night_room.png` | 1280x800 |
 | background | `library` | `backgrounds/library.png` | 1280x800 |
-| background | `ktx_changwon_first_train_predawn` | `backgrounds/ktx_changwon_first_train_predawn.png` | 1280x800 |
 | background | `military_base_gate` | `backgrounds/military_base_gate.png` | 1672x941 |
 | background | `military` | `backgrounds/military_training_ground.png` | 1280x800 |
 | background | `moving_truck_loading_dusk` | `backgrounds/moving_truck_loading_dusk.png` | 1280x800 |
@@ -404,10 +404,11 @@ python3 tools/generate_mod_manifest.py --check
 | background | `seoul_bus_terminal_night` | `backgrounds/seoul_bus_terminal_night.png` | 1280x800 |
 | background | `cold_snap_street` | `backgrounds/seoul_cold_snap_street.png` | 1280x800 |
 | background | `street_rainy` | `backgrounds/seoul_rainy_street.png` | 1280x800 |
+| background | `seoul_station_first_ktx_predawn` | `backgrounds/seoul_station_first_ktx_predawn.png` | 1280x800 |
 | background | `seoul_station_ktx_platform_winter` | `backgrounds/seoul_station_ktx_platform_winter.png` | 1280x800 |
 | background | `seoul_station_parents_concourse` | `backgrounds/seoul_station_parents_concourse.png` | 1280x800 |
-| background | `seoul_station_first_ktx_predawn` | `backgrounds/seoul_station_first_ktx_predawn.png` | 1280x800 |
 | background | `seoul_station_parents_ticket_gate` | `backgrounds/seoul_station_parents_ticket_gate.png` | 1280x800 |
+| background | `seoul_station_visitor_sticker` | `backgrounds/seoul_station_visitor_sticker.png` | 1280x800 |
 | background | `subway` | `backgrounds/seoul_subway.png` | 1280x800 |
 | background | `sinchon_bus_stop_after_rain_night` | `backgrounds/sinchon_bus_stop_after_rain_night.png` | 1280x800 |
 | background | `sinchon_bus_stop_distant_bus_night` | `backgrounds/sinchon_bus_stop_distant_bus_night.png` | 1280x800 |
