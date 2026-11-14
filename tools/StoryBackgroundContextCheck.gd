@@ -42,6 +42,12 @@ const M27_FLAGS := ["jaehyuk_trusted_fully", "jaehyuk_partial", "jaehyuk_refused
 const M27_HOME := {"ko": "그리고 집에 와서 검색을 시작했다.", "en": "Back home, he starts searching.",
 	"ja": "そして家に帰り、検索を始めた。", "zh-CN": "回家后，开始搜索。", "zh-TW": "接著，回到家開始搜尋。"}
 const W108_WARNING := "arc_jaehyuk_hyunsu_warning"
+const W116_GHOST := "arc_jaehyuk_04a_ghost"
+const W116_CHILDREN := ["arc_jaehyuk_ghost_read", "arc_jaehyuk_ghost_message"]
+const W116_DECISION := "arc_jaehyuk_ghost_decision"
+const W116_PHOTO := "arc_jaehyuk_photo_in_dark"
+const W116_ARTIFACT := "artifact_jaehyuk_photo"
+const W116_AFTERMATH := "arc_jaehyuk_aftermath"
 const W108_CONTACT := {
 	"ko": ["메시지", "통화 중"], "en": ["MESSAGE", "VOICE CALL"], "ja": ["メッセージ", "通話中"],
 	"zh-CN": ["消息", "通话中"], "zh-TW": ["訊息", "通話中"],
@@ -284,6 +290,12 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W116_GHOST_CHECK"):
+		var w116_ok := await _check_w116_ghost()
+		if w116_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w116_ghost")
+		get_tree().quit(0 if w116_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_W108_WARNING_CHECK"):
 		var w108_ok := await _check_w108_warning()
 		if w108_ok:
@@ -1583,6 +1595,217 @@ func _jaehyuk_pitch_history() -> Array:
 	return [[19, "arc_jaehyuk_01_reunion"], [49, "chapter_card_34"],
 		[56, "arc_jaehyuk_01b_real_face"], [68, "arc_jaehyuk_02_bond"], [80, "arc_jaehyuk_02b_favor"],
 		[96, W96_YEAR_CLOSE], [97, "chapter_card_35"]]
+
+func _check_w116_ghost() -> bool:
+	await _remove_story()
+	await _stop_audio()
+	var prepared: Array[Dictionary] = []
+	for photo in [false, true]:
+		_context = "W116/prepare/photo=%s" % photo
+		var history := _jaehyuk_pitch_history()
+		history[0].append(0 if photo else 1) # Only reunion c0 grants the actual artifact.
+		# Resolve the earlier foreground gates through original choices, not
+		# synthetic flags that would let the scheduler admit a missing witness.
+		history += [[5, "arc_intro_03_sns"], [6, "cafe_00", 2], [8, "arc_job_first_rejection"],
+			[9, "arc_money_check_low"], [10, "arc_sangchul_01_answer"], [11, "arc_gosiwon_wall"],
+			[12, "arc_invest_guidance", 1], [13, "arc_rescue_job"], [14, "arc_father_01_call"],
+			[14, "arc_first_job_week_convenience"],
+			[15, "arc_daeun_01_meet", 1], [17, M03_EVENT], [20, "arc_hyunsu_night_talk"],
+			[21, "arc_father_02_signal", 1], [31, "arc_sangchul_02_coffee", 1], [32, "arc_first_real_win"],
+			[35, "arc_daeun_02_regular", 1], [36, REUNION], [76, "arc_sangchul_casino_decision", 1],
+			[104, M27_PITCH], [106, "arc_jaehyuk_wait"], [108, W108_WARNING, 1], [115, "arc_why_gangnam_real"]]
+		history.sort_custom(func(a: Array, b: Array) -> bool: return int(a[0]) < int(b[0]))
+		if not _prepare_full_owner_history(116, history):
+			return false
+		var due := GameState.deferred_events.filter(func(e: Dictionary) -> bool:
+			return e.get("event_id") == W116_GHOST)
+		if due.size() != 1 or int(due[0].get("trigger_turn", -1)) != 116 \
+				or EventManager.deferred_event_is_eligible(W116_GHOST) \
+				or not GameState.cast_has_flag("jaehyuk", "invested") or GameState.has_item(W116_ARTIFACT) != photo:
+			_fail("W116 preparation lost the original photo, investment or single warning reservation")
+			return false
+		prepared.append(GameState.serialize().duplicate(true))
+	var paths := 0
+	var languages := W4_TERMS.keys()
+	for lang_index in range(languages.size()):
+		var language: String = languages[lang_index]
+		for terminal in range(3):
+			await _remove_story()
+			await _stop_audio()
+			LocaleManager.set_language(language)
+			var branch := (lang_index + terminal) % 2
+			var photo := terminal == 2
+			GameState.call("_restore_serialized_snapshot_exact", prepared[int(photo)])
+			# Cross-test the resolved location without making a historical move
+			# scene compete with this week's prepared natural foreground admission.
+			var housing: String = M23_HOUSING[(lang_index + terminal) % M23_HOUSING.size()]
+			if housing != "gosiwon":
+				GameState.turn = 30
+				for event_id in ["arc_goshiwon_goodbye", "arc_housing_new_life"]:
+					var witness: Dictionary = DataRegistry.find_event(event_id)
+					if not GameState.apply_choice(witness, witness["choices"][0]):
+						_fail("W116 moved-housing fixture could not seal the original move consequences")
+						return false
+				GameState.turn = 116
+			GameState.housing = housing
+			GameState.mental = 70
+			GameState.health = 70
+			GameState.intelligence = 60
+			GameState.moral_tint = 50
+			_context = "%s/W116/root%d/terminal%d/%s" % [language, branch, terminal, housing]
+			var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+			var selected: String = ingress.call("_next_arc_id", -1, false, true)
+			ingress.free()
+			if selected != W116_GHOST or GameState.has_deferred_event(W116_GHOST):
+				_fail("W116 prepared production selector chose %s instead of the invested root" % selected)
+				return false
+			if not await _open_full_fixture_event(selected, [], true) or not await _play_w116_ghost(branch, terminal, housing):
+				return false
+			paths += 1
+	await _remove_story()
+	await _stop_audio()
+	if _failures != 0:
+		return false
+	print("W116_GHOST_OK paths=%d actual_selector=%d audio_cold_v4=%d photo_paths=%d aftermath_w117_reserved=%d full_owner=1 prepared_history=1" % [
+		paths, paths, paths, languages.size(), paths])
+	return true
+
+func _play_w116_ghost(branch: int, terminal: int, housing: String) -> bool:
+	var background := _m23_home_background(housing)
+	var ids: Array = [W116_GHOST, W116_CHILDREN[branch], W116_DECISION]
+	var indices: Array = [branch, 0, terminal]
+	if terminal == 2:
+		ids.append(W116_PHOTO)
+		indices.append(branch)
+	var base := [GameState.money, GameState.health, GameState.mental, GameState.intelligence, GameState.moral_tint,
+		GameState.event_log.size(), GameState.deferred_events.duplicate(true)]
+	var score_mark: int = BGMPlayer.get("_punctuation_token")
+	var last_score := -1.0
+	for link in range(ids.size()):
+		var event_id: String = ids[link]
+		var choice: int = indices[link]
+		var event: Dictionary = _story.get("_current")
+		var edge: Dictionary = _story.get_meta("story_transition_contract", {})
+		var start: int = [3, 1, 0, 0][link]
+		var intro: Array = (_story.get("_paragraphs") as Array).duplicate()
+		var source_count := int(_story.call("_story_source_paragraph_count"))
+		if event.get("id") != event_id or source_count != [4, 4, 3, 5][link] \
+				or (link > 0 and (edge.get("mode") != "same_location" or edge.get("audio_policy") != "continue" \
+					or edge.get("from_surface") != "current_housing" or edge.get("to_surface") != "current_housing")):
+			_fail("W116 wrong same-home link %s or intro layout %d; transition=%s" % [event_id, source_count, edge])
+			return false
+		for page in range(intro.size()):
+			await _finish_page()
+			var source := int(_story.call("_story_source_paragraph_index", page))
+			var score := int(BGMPlayer.get("_punctuation_token"))
+			var expected_score := score_mark + link + int(source >= start)
+			if int(_story.get("_para_index")) != page or score != expected_score \
+					or not _w116_surface(event_id, background, link > 0 or source >= start, last_score):
+				_fail("W116 wrong intro %s/%d original score marks=%d expected=%d" % [event_id, source, score, expected_score])
+				return false
+			last_score = _score_playback_position("reckoning")
+			if link == 1 and page == intro.size() - 1 and int(_story.call("_direct_continue_choice_index")) != 0:
+				_fail("W116 single child no longer directly continues into its original result")
+				return false
+			_story.call("_on_advance")
+			await _wait_stable()
+		if link != 1:
+			var visible: Array = [[0, 1], [0], ([0, 1, 2] if terminal == 2 else [0, 1]), [0, 1]][link]
+			if not bool(_story.get("_showing_choices")) or (_story.get("_choice_box") as Control).get_child_count() != visible.size() \
+					or _story.call("_visible_choice_indices", event) != visible \
+					or not _w116_surface(event_id, background, true, last_score):
+				_fail("W116 wrong original visible choices for %s" % event_id)
+				return false
+			if link == 2 and terminal != 2:
+				_story.call("_on_choice", 2)
+				if not bool(_story.get("_showing_choices")) or bool(_story.get("_pending_after_result")) \
+						or GameState.event_log.size() != base[5] + link:
+					_fail("W116 photo choice bypassed the missing-item gate")
+					return false
+			_story.call("_on_choice", choice)
+			await _wait_stable()
+		var result: Array = (_story.get("_paragraphs") as Array).duplicate()
+		var expected_next: String = ids[link + 1] if link + 1 < ids.size() else ""
+		var result_sources := int(_story.call("_story_source_paragraph_count"))
+		var formatted := str(_story.call("_fmt", event["choices"][choice]["result_text"]))
+		if not bool(_story.get("_pending_after_result")) or int(_story.get("_pending_result_choice_index")) != choice \
+				or str(_story.get("_pending_follow_up")) != expected_next or not _m23_same_prose(result, formatted):
+			_fail("W116 lost its original result/next link at %s" % event_id)
+			return false
+		for page in range(result.size()):
+			await _finish_page()
+			if int(_story.get("_para_index")) != page or BGMPlayer.get("_punctuation_token") != score_mark + link + 1 \
+					or not _w116_surface(event_id, background, true, last_score):
+				return false
+			last_score = _score_playback_position("reckoning")
+			if page != result.size() - 1:
+				_story.call("_on_advance")
+				await _wait_stable()
+		if link == ids.size() - 1:
+			var context: Dictionary = _story.call("build_save_resume_context")
+			if not _w116_final_receipts(ids, indices, base, false):
+				return false
+			await _stop_audio()
+			if not await _reload_authored_result_context(context, LocaleManager.language, result_sources, result_sources - 1) \
+					or int(_story.get("_pending_result_choice_index")) != choice \
+					or int(_story.get("_para_index")) != int(context.get("paragraph_index", -1)) \
+					or not _w116_surface(event_id, background, false, -1.0, true) \
+					or not _w116_final_receipts(ids, indices, base, false):
+				_fail("W116 audio-cleared v4 result moved or re-applied %s" % event_id)
+				return false
+			_story.set_meta("_screenshot_qa_static_surface", true)
+		_story.call("_on_advance")
+		await _wait_stable()
+	return _w116_final_receipts(ids, indices, base, true)
+
+func _w116_surface(event_id: String, background: String, scored: bool, prior_score: float, cold := false) -> bool:
+	var score := _score_playback_position("reckoning")
+	var visible_portrait := (_story.get("_portrait_frame") as Control).visible
+	var direction: Dictionary = _story.get("_direction")
+	var valid: bool = _expect_surface(background, "apartment", "W116 home") \
+		and str(_story.get_meta("living_scene_effect", "")) == "none" and BGMPlayer._ambience_player.playing \
+		and BGMPlayer._current_human_ambience_key.is_empty() and not BGMPlayer._human_ambience_player.playing \
+		and BGMPlayer._current_season_key.is_empty() and not BGMPlayer._season_player.playing \
+		and visible_portrait == (event_id != W116_PHOTO) \
+		and (event_id != W116_DECISION or direction.get("sting") == "loss") \
+		and (cold or (scored == (score >= 0.0) and (not scored or score + 0.060 >= prior_score)))
+	if not valid:
+		_fail("W116 room/score drift %s: score=%s prior=%s cold=%s portrait=%s direction=%s" % [
+			event_id, score, prior_score, cold, visible_portrait, direction])
+	return valid
+
+func _w116_final_receipts(ids: Array, indices: Array, base: Array, closed: bool) -> bool:
+	var terminal: int = indices[2]
+	var photo: bool = ids.back() == W116_PHOTO
+	var ending: int = indices.back()
+	var owner := FULL_STORY_FLOW.snapshot()
+	var chain: Dictionary = owner.get("chain", {})
+	var reads: Array = owner.get("read_receipts", {}).get("116", [])
+	var expected_deferred: Array = base[6].duplicate(true)
+	expected_deferred.append({"event_id": W116_AFTERMATH, "trigger_turn": 117})
+	var mental: int = int(base[2]) + [-35, -20, -18][terminal] + ((8 if ending == 0 else -5) if photo else 0)
+	var tint: float = float(base[4]) + [0, 5, 3][terminal] + ((4 if ending == 0 else -2) if photo else 0)
+	var valid: bool = FULL_STORY_FLOW.valid_session() and GameState.turn == 116 \
+		and is_equal_approx(GameState.money, base[0]) and GameState.health == int(base[1]) - (8 if terminal == 0 else 0) \
+		and GameState.mental == mental and GameState.intelligence == int(base[3]) + (4 if terminal == 1 else 0) \
+		and is_equal_approx(GameState.moral_tint, tint) and GameState.get_cast_stage("jaehyuk") == "betrayed" \
+		and GameState.flags.get("arc_jaehyuk_ghost_seen", false) and GameState.flags.get("jaehyuk_scammed", false) \
+		and GameState.flags.get("hit_rock_bottom", false) == (terminal == 0) \
+		and GameState.flags.get("joined_victims", false) == (terminal == 1) \
+		and GameState.flags.get("presented_artifact_correct", false) == photo \
+		and GameState.flags.get("arc_jaehyuk_photo_in_dark_seen", false) == photo \
+		and GameState.flags.get("jaehyuk_night_was_real", false) == (photo and ending == 0) \
+		and GameState.flags.get("deleted_jaehyuk_photo", false) == (photo and ending == 1) \
+		and GameState.flags.get("arc_jaehyuk_aftermath_seen", false) == false \
+		and _w96_deferred_equal(expected_deferred) and GameState.event_log.size() == base[5] + ids.size() \
+		and bool(chain.get("closed", false)) == closed and chain.get("pending_event_ids") == ([] if closed else [ids.back()]) \
+		and reads.size() == ids.size() - int(not closed)
+	for i in range(reads.size()):
+		valid = valid and reads[i].get("event_id") == ids[i] and int(reads[i].get("choice_index", -1)) == indices[i]
+	if not valid:
+		_fail("W116 changed choice/read receipt, branch outcome or W117 reservation: closed=%s events=%d reads=%s" % [
+			closed, GameState.event_log.size() - int(base[5]), reads])
+	return valid
 
 func _check_w108_warning() -> bool:
 	await _remove_story()

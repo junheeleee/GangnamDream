@@ -95,6 +95,13 @@ M27_JAEHYUK_PITCH_AUDIO = {
     "music": {"key": "reckoning", "start_paragraph": 3},
 }
 M27_JAEHYUK_PITCH_RESULTS = ("current_housing", None, "current_housing")
+W116_GHOST_SCORE_ENTRANCES = {
+    "arc_jaehyuk_04a_ghost": 3,
+    "arc_jaehyuk_ghost_read": 1,
+    "arc_jaehyuk_ghost_message": 1,
+    "arc_jaehyuk_ghost_decision": 0,
+    "arc_jaehyuk_photo_in_dark": 0,
+}
 DEMO_EVENT_IDS = set("""
 story_flashforward story_arrival story_knee_door story_knee_witness
 story_knee_choice story_last_payment_wait story_last_payment_word
@@ -332,6 +339,21 @@ def main() -> int:
                 or any(not isinstance(choice, dict) or "result_background" in choice
                        or "result_ambience" in choice for choice in home_choices)):
             errors.append(f"{event_id}: preserve neutral home tone, exact score, and no extra contact cue")
+    for event_id, entrance in W116_GHOST_SCORE_ENTRANCES.items():
+        event = events.get(event_id, {})
+        expected_audio = {"ambience": "apartment", "suppress_human_ambience": True,
+                          "suppress_season_ambience": True,
+                          "music": {"key": "reckoning", "start_paragraph": entrance}}
+        if (event_contracts.get(event_id) != expected_audio
+                or event.get("background") != "current_housing" or event.get("cg")
+                or "result_background" in event or "result_ambience" in event
+                or any(not isinstance(choice, dict) or any(key in choice for key in
+                       ("result_background", "result_ambience", "result_cg"))
+                       for choice in event.get("choices", []))):
+            errors.append(f"{event_id}: keep the same home bed and exact score through the ghost chain")
+    ghost_direction = events.get("arc_jaehyuk_ghost_decision", {}).get("direction", {})
+    if ghost_direction.get("amb") != "duck" or ghost_direction.get("sting") != "loss":
+        errors.append("arc_jaehyuk_ghost_decision: preserve the authored loss sound and ambience duck")
     pitch = events.get(M27_JAEHYUK_PITCH_EVENT, {})
     if (event_contracts.get(M27_JAEHYUK_PITCH_EVENT) != M27_JAEHYUK_PITCH_AUDIO
             or cg_contracts.get(M27_JAEHYUK_PITCH_CG) != {"ambience": "cafe"}
