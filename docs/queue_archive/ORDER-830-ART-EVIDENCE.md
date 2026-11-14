@@ -73,7 +73,7 @@ UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리
 
 [~] 같은 키의 자동 파생 `assets/mod_asset_manifest.json`을 동기화한다. `docs/MODDING.md` 표가 그림 전용임을 확인했으므로 기존 828 머리말·표는 보존한다.
 
-[~] `tools/third_party_notice_audit.py`의 현행 음원 개수만 140으로 동기화한다. 같은 CC0 출처에 파생 음원만 1개 추가되어 기존 고지·라이선스·역사 RC 139 고정값은 그대로다.
+[~] `tools/third_party_notice_audit.py`의 현행 음원 개수와 생성되는 `content/meta/third_party_notices.json`의 입력 해시·개수만 동기화한다. CC0 출처·기존 사용자 고지 문구·라이선스·역사 RC 139 고정값은 그대로다.
 
 ### 1장 후반 W25~48 블라인드 1차 — 사실 오류와 실제 플레이 대조
 
