@@ -319,7 +319,7 @@
   {
     "id": "arc_y5_general_final_record_seal",
     "title": "The Screen to Close Tonight",
-    "description": "On the night the final three weeks began, price alerts for three saved addresses climbed across {name}'s phone. [[c5read:0]] [[c5read:1]]\n\n[[c5read:2]]\n\nAbout thirty minutes were left tonight. Turn the alerts off, and he'd miss the prices in that window. Watch to the end, and his hands would never reach the repayment slip or the empty chair.\n\nThe phone buzzed again.",
+    "description": "On the night the final three weeks began, price alerts for three saved addresses appeared one after another on {name}'s phone. [[c5read:0]] [[c5read:1]]\n\n[[c5read:2]]\n\nAbout thirty minutes were left tonight. If he turned off the alerts, he wouldn't see how the prices moved in that time. If he watched to the end, he wouldn't have time for the repayment confirmation or the empty chair.\n\nThe phone buzzed again.",
     "chapter5_finale_reads": {
       "texts": [
         [
@@ -327,8 +327,8 @@
           "On the day he set the empty chair across from his father's photo, he moved it beside his own without playing anything or reading aloud."
         ],
         [
-          "Afterward, he carried the trace of repayment and his answer across the threshold and brought it back to his room tonight.",
-          "Afterward, he had not brought the trace of repayment and his answer to the consultation desk at the real estate office."
+          "He had taken the record that held both the date of his last repayment and the reply he'd sent Minseo with him to the real estate office.",
+          "At the real estate office, he didn't have the record that held both the date of his last repayment and the reply he'd sent Minseo with him at the desk."
         ],
         [
           "Three weeks earlier at the real estate office, {name} pulled up his father's contact but didn't make the call. He took the listings home.",
@@ -338,11 +338,11 @@
     },
     "choices": [
       {
-        "text": "Turn off the price alerts now and spend tonight's thirty minutes on the two human traces",
-        "result_text": "{name} turned off the alerts for all three addresses until morning. Once the screen went dark, he returned to the trace of repayment and his answer, then named aloud what he had done in front of the empty chair.\n\nFor thirty minutes the phone didn't ring once. The only sound in the room was paper turning."
+        "text": "Turn off the price alerts and spend the remaining thirty minutes revisiting the repayment record and the reply he sent Minseo",
+        "result_text": "{name} turned off the price alerts for all three addresses until the next morning. When the screen went dark, he unfolded the copy of the repayment confirmation. He thought of the reply he'd sent Minseo and said aloud what he'd done in front of the empty chair.\n\nFor thirty minutes the phone didn't ring once. When he finished speaking, all he could hear was the turn of a page."
       },
       {
-        "text": "Watch the price alerts through all thirty minutes and set the two human traces aside tonight",
+        "text": "Watch the price alerts for thirty minutes. Leave the repayment record and the reply alone tonight",
         "result_text": "{name} left the alerts for all three addresses on. Whenever the screen lit, he checked the price, but he pressed no buy button and opened no order page. When thirty minutes had passed, the tip of his thumb was warm from the screen.\n\nThe repayment slip and the empty chair stayed where they were across the desk. Before turning off the light, {name} realized he hadn't looked their way once."
       }
     ]
