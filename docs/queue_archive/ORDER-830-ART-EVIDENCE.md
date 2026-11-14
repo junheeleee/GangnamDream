@@ -10,6 +10,8 @@
 
 [~] 사람 없는 현수 시험방 후보 한 컷. 실제 두 저장에서 노출된 `hyunsu_result_fail` 선택0에서 문이 열린 뒤 보이는 문제집을 그린다. 민준의 방과 다른 방, 같은 신촌 고시원 재질. 캔·인물·읽히는 시험지·합격 증거 없음. 후보 검수 전에는 등록·원고·RC·저장 변경0. 선택1의 세면대 장면은 같은 문단의 복도 복귀와 별도 정확한 경계가 필요해 이번 후보에 섞지 않는다.
 
+[~] 검수한 `assets/backgrounds/hyunsu_exam_room_v1.png`와 import, `autoloads/ImageRegistry.gd`, `scenes/StoryMode.gd`의 해당 선택0 결과 문단1 이후만, `assets/{scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{scene_audio_contract_check.py,scene_direction_catalog.py,art_resolution_baseline.json}`, `content/meta/release_content_inventory.json`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{MODDING,ART_AI_AUDIT,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, 현황·이 기록만. 복도 도입·선택·문 열림 결과 첫 문단은 기존 그림; 두 갈래와 돌아가기 저장은 보존. 배경음은 다른 방 냉장고·시계와 외부/사람 층 없이 기존 담백한 실내 룸톤. 맞는 사적 방문·캔 녹음이 없어 다른 소리로 때우지 않는다.
+
 ### 1장 후반 W25~48 블라인드 1차 — 사실 오류와 실제 플레이 대조
 
 [x] 파생 사실만 반영 — `content/meta/release_content_inventory.json`와 `docs/CONTENT_RATING_INVENTORY.md`: W47 연애 후보 재지문(집합 그대로), W28 투자 선택의 `panic sell` 금융 표현 제거로 공포 검색 오탐 1건 감소. 원래 검색 규칙·공시 사실·판정·역사 패키지는 그대로.
