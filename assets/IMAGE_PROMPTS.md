@@ -329,6 +329,12 @@ W240 property-not-executed opening, Minjun POV looking down at his worn spiral n
 
 Source candidate SHA-256 `d91a13fbf24b8c93250053bafefb5acb44cf9cb0cd6052223777556d4af5da03`; uncut opaque 1584×990 master `ee5751975e76309862fb98035c2d99b61860ce82658d1a112dea46c3a5a16474`. Exact background `gangnam_boulevard_final_notebook`; street identity and next home cut remain `gangnam_night` → `current_housing`.
 
+### finale_intake_blue_pen_v1.png
+
+W227, from the visitor side of a modest anonymous reception counter. A single muted blue ballpoint with a continuous short steel tether and fixed counter anchor, ordinary laminate and a low privacy partition. Gangnam Ink linework and matte tonal planes; no institution marks, people, signatures, stamps, or paperwork deciding the outcome. Keep the pen above dialogue and away from the portrait zone. Texture and line references: `police_evidence_reception.png` and `convenience_rear_comparison_v1.png`, not the same locations.
+
+First candidate SHA-256 `5c036392ec8cb2e742c311f2d22f33bd7e7b06985ac1fb890401f7275f64cf31`; the four choices at 960×600 covered part of the pen. Revised framing candidate `54e18c39c5eb076563ccfee449e95303b022f089232d9e924321368cd7bb0a5d` keeps the entire pen and tether above the buttons. Opaque 1584×990 master `0086fa29171237bb1fda56c03fdef364cae9c2616166adb3dc62f72141ae7328`. The story still identifies the location as `office`; the common illustration depicts no completed choice.
+
 ---
 
 ### penthouse_view.png

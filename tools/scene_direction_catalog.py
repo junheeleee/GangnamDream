@@ -141,6 +141,7 @@ INDOOR_BACKGROUNDS = {
     "concert_hall_night",
     "open_chat_screen",
     "office",
+    "finale_intake_blue_pen",
     "office_interview_day",
     "warehouse_inventory_night",
     "villa_renovation_day",

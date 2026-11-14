@@ -272,6 +272,7 @@ const BACKGROUNDS = {
 	"open_chat_screen":  "res://assets/backgrounds/open_chat_screen.png",
 	# 직장/사업
 	"office":            "res://assets/backgrounds/office_desk.png",
+	"finale_intake_blue_pen": "res://assets/backgrounds/finale_intake_blue_pen_v1.png",
 	"office_interview_day": "res://assets/backgrounds/office_interview_day.png",
 	"warehouse_inventory_night": "res://assets/backgrounds/warehouse_inventory_night.png",
 	"moving_truck_loading_dusk": "res://assets/backgrounds/moving_truck_loading_dusk.png",

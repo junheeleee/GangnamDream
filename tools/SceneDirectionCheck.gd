@@ -547,6 +547,26 @@ func _check_final_desk_presentation() -> void:
 	_expect(DataRegistry.find_event(custody).get("background") == "convenience_rear_comparison" \
 			and DataRegistry.get_story_presentation(custody).get("scene_location") == "convenience_store", \
 			"W224 should begin at the same store's rear table")
+	var intake_id := "arc_y5_name_on_line_daeun_routed"
+	var intake_background := "finale_intake_blue_pen"
+	var intake_event: Dictionary = DataRegistry.find_event(intake_id)
+	var intake_path := ImageRegistry.get_background(intake_background)
+	var intake_profile: Dictionary = DataRegistry.scene_direction_manifest.get("background_profiles", {}).get(intake_background, {})
+	_expect(intake_event.get("background") == intake_background and not intake_event.has("cg") \
+			and intake_path == "res://assets/backgrounds/finale_intake_blue_pen_v1.png" and ImageRegistry.has_texture(intake_path) \
+			and intake_profile.get("environment") == "indoor" and intake_profile.get("effect") == "none" \
+			and intake_profile.get("weather_source") == "none" \
+			and DataRegistry.get_story_presentation(intake_id).get("scene_location") == "office", \
+			"W227 needs its own dry counter without changing the logical location")
+	BGMPlayer.set_ambience("office")
+	BGMPlayer.set_season_ambience("winter")
+	_expect(BGMPlayer._ambience_player.playing and BGMPlayer._human_ambience_player.playing \
+			and BGMPlayer._season_player.playing, "W227 fixture did not start the unrelated layers")
+	BGMPlayer.update_event_ambience(intake_event, "", intake_background)
+	_expect(BGMPlayer._current_ambience_key.is_empty() and not BGMPlayer._ambience_player.playing \
+			and BGMPlayer._current_human_ambience_key.is_empty() and not BGMPlayer._human_ambience_player.playing \
+			and BGMPlayer._current_season_key.is_empty() and not BGMPlayer._season_player.playing, \
+			"W227 kept unrelated typing, public interior, or seasonal ambience")
 	var outdoor_event: Dictionary = DataRegistry.find_event(exterior)
 	var notebook_background := "gangnam_boulevard_final_notebook"
 	var notebook_path := "res://assets/backgrounds/gangnam_boulevard_final_notebook_v1.png"
@@ -574,7 +594,7 @@ func _check_final_desk_presentation() -> void:
 	AudioManager.sfx_enabled = original_sfx
 	EventManager.current_event = {}
 	if _failures.size() == failures_before:
-		print("SCENE_DIRECTION_FINAL_DESK_OK housing_states=7 same_room=7 score_continue=7 outdoor_preserved=1")
+		print("SCENE_DIRECTION_FINAL_DESK_OK housing_states=7 same_room=7 score_continue=7 outdoor_preserved=1 intake_isolated=1")
 
 
 func _check_full_story_shell(prepared_state: Dictionary) -> void:

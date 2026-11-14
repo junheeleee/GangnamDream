@@ -1232,7 +1232,9 @@
         "channel": "in_person",
         "scene_location": "office",
         "participants": ["player", "daeun"],
-        "portrait_role": "none"
+        "portrait_role": "none",
+        "expected_background": "finale_intake_blue_pen",
+        "expected_ambience": "intentional_silence"
       }
     },
     "arc_y5_people_verdict_daeun_exact": {

@@ -77,6 +77,7 @@
     "chuseok_highway": "highway",
     "open_chat_screen": "open_chat",
     "office": "office",
+    "finale_intake_blue_pen": "intentional_silence",
     "office_interview_day": "office",
     "warehouse_inventory_night": "public_office",
     "moving_truck_loading_dusk": "street",
@@ -827,7 +828,7 @@
       }
     },
     "arc_y5_name_on_line_daeun_routed": {
-      "ambience": "office",
+      "ambience": "intentional_silence",
       "music": {"key": "reckoning", "start_paragraph": 1},
       "result_paragraph_cues": {
         "0": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]},

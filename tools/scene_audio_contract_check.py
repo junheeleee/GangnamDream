@@ -33,6 +33,17 @@ W224_CUSTODY_AUDIO = {
         "1": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]},
     },
 }
+W227_INTAKE_EVENT = "arc_y5_name_on_line_daeun_routed"
+W227_INTAKE_BACKGROUND = "finale_intake_blue_pen"
+W227_INTAKE_AUDIO = {
+    "ambience": "intentional_silence",
+    "music": {"key": "reckoning", "start_paragraph": 1},
+    "result_paragraph_cues": {
+        "0": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]},
+        "1": {"0": [{"sfx": "pen_write", "volume_db": -5.0}]},
+        "3": {"0": [{"sfx": "pen_write", "volume_db": -5.0}]},
+    },
+}
 W230_VERDICT_EVENT = "arc_y5_people_verdict_daeun_exact"
 W230_VERDICT_AUDIO = {
     "ambience": "intentional_silence",
@@ -310,6 +321,9 @@ def main() -> int:
         elif owner == W224_CUSTODY_EVENT:
             if contract != W224_CUSTODY_AUDIO:
                 errors.append(f"{owner}: the rear table must stay free of checkout ambience and retain its paper and score")
+        elif owner == W227_INTAKE_EVENT:
+            if contract != W227_INTAKE_AUDIO:
+                errors.append(f"{owner}: no borrowed office ambience, only the authored score and exact result cues")
         elif owner == W230_VERDICT_EVENT:
             if contract != W230_VERDICT_AUDIO:
                 errors.append(f"{owner}: keep the cafe bed silent, with only the authored score, paper and writing")
@@ -427,6 +441,16 @@ def main() -> int:
     ghost_direction = events.get("arc_jaehyuk_ghost_decision", {}).get("direction", {})
     if ghost_direction.get("amb") != "duck" or ghost_direction.get("sting") != "loss":
         errors.append("arc_jaehyuk_ghost_decision: preserve the authored loss sound and ambience duck")
+    intake = events.get(W227_INTAKE_EVENT, {})
+    intake_choices = intake.get("choices", [])
+    if (event_contracts.get(W227_INTAKE_EVENT) != W227_INTAKE_AUDIO
+            or intake.get("background") != W227_INTAKE_BACKGROUND
+            or manifest.get("background_profiles", {}).get(W227_INTAKE_BACKGROUND) != "intentional_silence"
+            or "result_background" in intake or "result_ambience" in intake
+            or not isinstance(intake_choices, list) or len(intake_choices) != 4
+            or any(not isinstance(choice, dict) or any(key in choice for key in
+                   ("result_background", "result_ambience", "result_cg")) for choice in intake_choices)):
+        errors.append(f"{W227_INTAKE_EVENT}: preserve the quiet common counter through all four results")
     counter = events.get(W117_COUNTER_EVENT, {})
     counter_choices = counter.get("choices", [])
     if (event_contracts.get(W117_COUNTER_EVENT) != W117_COUNTER_AUDIO

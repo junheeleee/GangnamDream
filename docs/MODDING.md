@@ -346,6 +346,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `daeun_mother_home_dining` | `backgrounds/daeun_mother_home_dining_summer.png` | 1280x800 |
 | background | `daeun_newlywed_home` | `backgrounds/daeun_newlywed_home_night.png` | 1280x800 |
 | background | `dad_house` | `backgrounds/family_living_room.png` | 1280x800 |
+| background | `finale_intake_blue_pen` | `backgrounds/finale_intake_blue_pen_v1.png` | 1584x990 |
 | background | `fine_dust_sky` | `backgrounds/fine_dust_sky.png` | 1672x941 |
 | background | `gangnam_apartment` | `backgrounds/gangnam_apartment.png` | 1280x800 |
 | background | `gangnam_boulevard_final_notebook` | `backgrounds/gangnam_boulevard_final_notebook_v1.png` | 1584x990 |

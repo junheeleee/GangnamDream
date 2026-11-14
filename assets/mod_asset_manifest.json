@@ -231,6 +231,14 @@
     {
       "kind": "background",
       "ids": [
+        "finale_intake_blue_pen"
+      ],
+      "relative_path": "backgrounds/finale_intake_blue_pen_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "fine_dust_sky"
       ],
       "relative_path": "backgrounds/fine_dust_sky.png",

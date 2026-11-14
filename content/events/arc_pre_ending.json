@@ -1053,7 +1053,7 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "office",
+    "background": "finale_intake_blue_pen",
     "portrait": "",
     "conditions": {
       "min_turn": 9999
