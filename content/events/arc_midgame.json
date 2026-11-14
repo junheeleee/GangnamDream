@@ -99,7 +99,7 @@
           "arc_midpoint_reckoning_seen",
           "midpoint_steady"
         ],
-        "result_text": "지금까지 포기하지 않았다. 그게 증거다.\n\n이 판은 빠른 사람이 이기는 게임만은 아니다. 버티는 사람이 남는 게임이기도 하다.",
+        "result_text": "{name}은 휴대폰을 엎어 놓았다. 수첩에 적어 둔 잔액 아래, 아까 말을 더 붙이려던 자리는 비어 있었다.\n\n그는 수첩을 덮었다. 오늘은 그 숫자 아래에 아무것도 더 적지 않았다.",
         "deferred_follow_up": "arc_year_two_half",
         "deferred_delay": 1
       },
