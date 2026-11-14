@@ -26,6 +26,8 @@ P1 화면 완료: 맞부딪친 직후 바퀴·빗물 삽입 컷을 원래 충돌
 
 후보 원화 검수 GO(제품 미채택): `830-sinchon-stop.ESNugV/sinchon_bus_stop_after_rain_night.png` 1280×800 RGB, SHA-256 `a290627b54d1c28d6ef0ca48add3f43e1e33b69357cf9873369ec983276a2f03`. 늦은 밤·유리에 남은 물방울·젖은 보도·판독 불가 안내판·빈 승차 공간. 진행 중 비/지갑/사람/차량 없음. P1 실제 세단 등장과 P0 빈 정류장은 별개 화면이며, 기존 차량 녹음은 노면/차량 기척용이지 문이나 제동 소리가 아니다. 기존 루프는 군중·실내·빗소리를 포함하므로 사용하지 않는다. 이 후보는 프로젝트 밖이라 release/export 불변.
 
+11-14 KST [~] 제품 배선: 빈 정류장·같은 자리 세단 도착 및 c0 먼 전조등 원화(`sinchon_bus_stop_{after_rain,sedan,distant_bus}_night.png`)와 import, ImageRegistry·방향/음향·mod·해상도·출시 사실 원장·출처. `arc_events.json`/story_rules/시각 계약의 이 사건 한 행 및 `StoryMode` c0 마지막 문단 배경·복원만. `scene_audio_contract_check.py`에 정류장의 무음 bed·P1 기존 차량음 1회·P2 기존 테마를 정확히 잠그고, 기존 검사와 효과·원고·저장 키·타 사건은 유지. `StoryBackgroundContextCheck` 격리 검증.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
