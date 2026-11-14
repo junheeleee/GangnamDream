@@ -32585,6 +32585,168 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-833",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "age_39_final",
+        "arc_37_burn_or_light",
+        "arc_endgame_sixmonths"
+      ],
+      "source_leaves": 5,
+      "target_leaves_by_locale": {
+        "ja": 5,
+        "zh-CN": 5,
+        "zh-TW": 5
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Year 5: M54 remembers its own final year, preserves M49 choice facts and no orders; endgame keeps unknown time and all prologue motives intact.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "966a630eeac51499d49b5183cf66327746ab5db9",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "4e413202a02a205bf5cc21640cf84a8ed53d441a39502e35e9a61839b1096ff0",
+          "selection_sha256": "77fd5f04b77157cf265c26c113b1c534c33dd94b480c75b5eea4f93b4f5e9b29",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "30c15044b89352c9889f287521c3110f3895a3ff12f7ff97df6ff6655f5468a9"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "966a630eeac51499d49b5183cf66327746ab5db9",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "4e413202a02a205bf5cc21640cf84a8ed53d441a39502e35e9a61839b1096ff0",
+          "selection_sha256": "3c60822bb562fefd1a7bf6febf9453f507c5af4da61933f32c71a85aabcdfd72",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "850435c72802cd280def2bcf833bdc93e3ec4f276fa3bfef3c13997a3bc9baef"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "966a630eeac51499d49b5183cf66327746ab5db9",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "4e413202a02a205bf5cc21640cf84a8ed53d441a39502e35e9a61839b1096ff0",
+          "selection_sha256": "685911484cdb3e4c779a349fa03c77fba1fb00b488ac840a40fc8dc46acc5a25",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c12ddb7c66fa46dfd541a5274aecd9cfc5e279422eb234a23b647f7baa0201de"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "1336932a17f03a7f32f1e902eaf8ff79f105e0ad3506df9aa49356e5895e3050",
+        "zh-CN": "059b06465ccba37200fec9a2b88f8d8a92062b7b1a2805bf6e180b6bc1fa2737",
+        "zh-TW": "0a541f936271367f81fc082522936a53d207f674aa18cff58a005c9176727692"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:age_39_final:/description_if_known/final_year_open": "b7979a32aa2015d5e941b96c1995183cb885b4d872ac0626205976df075be1d6",
+          "events:age_39_final:/description_if_known/final_year_realistic": "1dc1cac285fcd28d576ac394f508429797d9a41faacbd418cbaa515efaec968f",
+          "events:age_39_final:/description_if_known/final_year_resolve": "0a816aa7923f2e835a0e7d2ad1f7a99994ce439a12f1761053f179d819965df7",
+          "events:arc_37_burn_or_light:/choices/2/result_text": "f54f5f8274ccd988e24bd6bc1f5dbb53be766bc9cbc0269234f3e5a8969ffda7",
+          "events:arc_endgame_sixmonths:/choices/0/result_text": "abd3ae8bc20405356098e74f976c15e1ffb2cd89b22069e277ad969eadafb3d4"
+        },
+        "zh-CN": {
+          "events:age_39_final:/description_if_known/final_year_open": "daf9d252719cd9e43b7dd179fc13c8537c83dece68d50e4d6d0c3fa7e58b1676",
+          "events:age_39_final:/description_if_known/final_year_realistic": "21f43fbd663b1b3e4bd3db242ef79a397ac9797a5e550054df05728e986faadf",
+          "events:age_39_final:/description_if_known/final_year_resolve": "1c1968fbd935246e2a753f2c8e293a75d598823a1f2c0b561515a70f4ea99107",
+          "events:arc_37_burn_or_light:/choices/2/result_text": "a923bf8f546d5d56ea7287e6dd01e81324d8a2d3e5f72ce3f4d2f993aafa637a",
+          "events:arc_endgame_sixmonths:/choices/0/result_text": "bc3bb88bca6cee95bf700ed73ee51432e4853ff76fe1b64f258fd0b7f2ce909d"
+        },
+        "zh-TW": {
+          "events:age_39_final:/description_if_known/final_year_open": "33ae02f33f08b969e8482a7d3da574980365cee7739e5b1fabb1e600d20644e2",
+          "events:age_39_final:/description_if_known/final_year_realistic": "43a572263011b4c7a514e8d659bc25dd1540e2b6f9b77494cb8c071fdee47821",
+          "events:age_39_final:/description_if_known/final_year_resolve": "af5f9d9f6b3279bb2fad2c79bbc4346efb023b7ceb77742caf8a954a83fef5e8",
+          "events:arc_37_burn_or_light:/choices/2/result_text": "8577d1662e3626f7221194c75e1a26a69f9361e4cf37d8db70c27ab2d060a9b7",
+          "events:arc_endgame_sixmonths:/choices/0/result_text": "86d518458ffd62cdd97766490cf5773e8c140b8a5eb2a43e7095b6935d9ffdd7"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:age_39_final:/description_if_known/final_year_open": {
+            "source_sha256": "3ac5ac40173d6cb387423ee94180195dec6d6a1d762de3f47740a0ef8c2f8e56",
+            "target_sha256": "b7979a32aa2015d5e941b96c1995183cb885b4d872ac0626205976df075be1d6"
+          },
+          "events:age_39_final:/description_if_known/final_year_realistic": {
+            "source_sha256": "d39939a64182936510ca4bd43283151f2d17fde4e26f51c21e8a91b992d48e8c",
+            "target_sha256": "1dc1cac285fcd28d576ac394f508429797d9a41faacbd418cbaa515efaec968f"
+          },
+          "events:age_39_final:/description_if_known/final_year_resolve": {
+            "source_sha256": "be0b1ca23bf4c397394a5f62ef36af730260054933243c592330278bdd2c3861",
+            "target_sha256": "0a816aa7923f2e835a0e7d2ad1f7a99994ce439a12f1761053f179d819965df7"
+          },
+          "events:arc_37_burn_or_light:/choices/2/result_text": {
+            "source_sha256": "5c489ef43ffe4c8e7bc79aab71660e1cb3f74fc45e733a69f42694f5c29a3df4",
+            "target_sha256": "f54f5f8274ccd988e24bd6bc1f5dbb53be766bc9cbc0269234f3e5a8969ffda7"
+          },
+          "events:arc_endgame_sixmonths:/choices/0/result_text": {
+            "source_sha256": "0ffe59889c264868f60cbfbb85044ee72dd6c3f8de4d0881fb296a75abcc224a",
+            "target_sha256": "abd3ae8bc20405356098e74f976c15e1ffb2cd89b22069e277ad969eadafb3d4"
+          }
+        },
+        "zh-CN": {
+          "events:age_39_final:/description_if_known/final_year_open": {
+            "source_sha256": "3ac5ac40173d6cb387423ee94180195dec6d6a1d762de3f47740a0ef8c2f8e56",
+            "target_sha256": "daf9d252719cd9e43b7dd179fc13c8537c83dece68d50e4d6d0c3fa7e58b1676"
+          },
+          "events:age_39_final:/description_if_known/final_year_realistic": {
+            "source_sha256": "d39939a64182936510ca4bd43283151f2d17fde4e26f51c21e8a91b992d48e8c",
+            "target_sha256": "21f43fbd663b1b3e4bd3db242ef79a397ac9797a5e550054df05728e986faadf"
+          },
+          "events:age_39_final:/description_if_known/final_year_resolve": {
+            "source_sha256": "be0b1ca23bf4c397394a5f62ef36af730260054933243c592330278bdd2c3861",
+            "target_sha256": "1c1968fbd935246e2a753f2c8e293a75d598823a1f2c0b561515a70f4ea99107"
+          },
+          "events:arc_37_burn_or_light:/choices/2/result_text": {
+            "source_sha256": "5c489ef43ffe4c8e7bc79aab71660e1cb3f74fc45e733a69f42694f5c29a3df4",
+            "target_sha256": "a923bf8f546d5d56ea7287e6dd01e81324d8a2d3e5f72ce3f4d2f993aafa637a"
+          },
+          "events:arc_endgame_sixmonths:/choices/0/result_text": {
+            "source_sha256": "0ffe59889c264868f60cbfbb85044ee72dd6c3f8de4d0881fb296a75abcc224a",
+            "target_sha256": "bc3bb88bca6cee95bf700ed73ee51432e4853ff76fe1b64f258fd0b7f2ce909d"
+          }
+        },
+        "zh-TW": {
+          "events:age_39_final:/description_if_known/final_year_open": {
+            "source_sha256": "3ac5ac40173d6cb387423ee94180195dec6d6a1d762de3f47740a0ef8c2f8e56",
+            "target_sha256": "33ae02f33f08b969e8482a7d3da574980365cee7739e5b1fabb1e600d20644e2"
+          },
+          "events:age_39_final:/description_if_known/final_year_realistic": {
+            "source_sha256": "d39939a64182936510ca4bd43283151f2d17fde4e26f51c21e8a91b992d48e8c",
+            "target_sha256": "43a572263011b4c7a514e8d659bc25dd1540e2b6f9b77494cb8c071fdee47821"
+          },
+          "events:age_39_final:/description_if_known/final_year_resolve": {
+            "source_sha256": "be0b1ca23bf4c397394a5f62ef36af730260054933243c592330278bdd2c3861",
+            "target_sha256": "af5f9d9f6b3279bb2fad2c79bbc4346efb023b7ceb77742caf8a954a83fef5e8"
+          },
+          "events:arc_37_burn_or_light:/choices/2/result_text": {
+            "source_sha256": "5c489ef43ffe4c8e7bc79aab71660e1cb3f74fc45e733a69f42694f5c29a3df4",
+            "target_sha256": "8577d1662e3626f7221194c75e1a26a69f9361e4cf37d8db70c27ab2d060a9b7"
+          },
+          "events:arc_endgame_sixmonths:/choices/0/result_text": {
+            "source_sha256": "0ffe59889c264868f60cbfbb85044ee72dd6c3f8de4d0881fb296a75abcc224a",
+            "target_sha256": "86d518458ffd62cdd97766490cf5773e8c140b8a5eb2a43e7095b6935d9ffdd7"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -53926,16 +54088,16 @@
         "target_sha256": "84509a2c844b3ae270f75d2a8609de0febdb117f2ee539b0866f7400878bb833"
       },
       "events:age_39_final:/description_if_known/final_year_open": {
-        "source_sha256": "3ac5ac40173d6cb387423ee94180195dec6d6a1d762de3f47740a0ef8c2f8e56",
-        "target_sha256": "b7979a32aa2015d5e941b96c1995183cb885b4d872ac0626205976df075be1d6"
+        "source_sha256": "08b12fd961990451d0a72797934e6ee09ff96a3b55e8427912624ac3aedcb387",
+        "target_sha256": "aa89fad55b8ea66534de6cd3f0870ebc3802cc881206089ac67c0c524376c023"
       },
       "events:age_39_final:/description_if_known/final_year_realistic": {
-        "source_sha256": "d39939a64182936510ca4bd43283151f2d17fde4e26f51c21e8a91b992d48e8c",
-        "target_sha256": "1dc1cac285fcd28d576ac394f508429797d9a41faacbd418cbaa515efaec968f"
+        "source_sha256": "ea544e256878417a0ee9616ad7a0109c9a0e273a7d777fccca34ed82b957f54d",
+        "target_sha256": "d03b2ffb57e9686944ddc3daed9101cba6b0a99262ee2c7964b76dcd7a1e1138"
       },
       "events:age_39_final:/description_if_known/final_year_resolve": {
-        "source_sha256": "be0b1ca23bf4c397394a5f62ef36af730260054933243c592330278bdd2c3861",
-        "target_sha256": "0a816aa7923f2e835a0e7d2ad1f7a99994ce439a12f1761053f179d819965df7"
+        "source_sha256": "1c3db57965d2e93c8ed37f3cc484fb8f5b93c94157ec6ce7e02fa876c21dbee3",
+        "target_sha256": "f087850c9b10619ad46e7667ee328a88973486ad8102c8d818a38627f705dcbc"
       },
       "events:age_39_final:/title": {
         "source_sha256": "9de450bdca0626bfc44570d27b03bd80fef4f513b55723c48b19fa8d94341d3c",
@@ -81570,8 +81732,8 @@
         "target_sha256": "ebfae6bebe4e183463807fec7b5e9daa572c02aaa8a4ef0c27056647981ea395"
       },
       "events:arc_37_burn_or_light:/choices/2/result_text": {
-        "source_sha256": "5c489ef43ffe4c8e7bc79aab71660e1cb3f74fc45e733a69f42694f5c29a3df4",
-        "target_sha256": "f54f5f8274ccd988e24bd6bc1f5dbb53be766bc9cbc0269234f3e5a8969ffda7"
+        "source_sha256": "48c450d92cd37dd86a3a37bcd91495a196f1ea61dda885be82a8c272b6145115",
+        "target_sha256": "9c2e78a213db0af9e2e45e3db06e1f1cc0c7bccffb0e059deeacd9c6d87a2d57"
       },
       "events:arc_37_burn_or_light:/choices/2/text": {
         "source_sha256": "e761e89b2c66f0559776c710211156ce1085fad2214c17cf87df54a6999683c2",
@@ -81854,8 +82016,8 @@
         "target_sha256": "e3804aa76b6b6d253a9341fc1e0e04a28a859e41f386ac96ebc274cd8e45c85c"
       },
       "events:arc_endgame_sixmonths:/choices/0/result_text": {
-        "source_sha256": "0ffe59889c264868f60cbfbb85044ee72dd6c3f8de4d0881fb296a75abcc224a",
-        "target_sha256": "abd3ae8bc20405356098e74f976c15e1ffb2cd89b22069e277ad969eadafb3d4"
+        "source_sha256": "36ffbcc19bfde87038b9e4fc01714dc752d156bf8e81bf46b32a7c18653f418a",
+        "target_sha256": "9e5cb969af84c935562a3685ec2fe73968afed13bb6074c8efb8f18f31356fd5"
       },
       "events:arc_endgame_sixmonths:/choices/0/text": {
         "source_sha256": "147e28fcee44b1332e6bdf16334395d08ce86909ab4927ead2191f40b7515337",
@@ -106824,16 +106986,16 @@
         "target_sha256": "85e09528d0860e2030422b354902f5b4b09a0f7dc8658439c738219ab5d95c7a"
       },
       "events:age_39_final:/description_if_known/final_year_open": {
-        "source_sha256": "3ac5ac40173d6cb387423ee94180195dec6d6a1d762de3f47740a0ef8c2f8e56",
-        "target_sha256": "daf9d252719cd9e43b7dd179fc13c8537c83dece68d50e4d6d0c3fa7e58b1676"
+        "source_sha256": "08b12fd961990451d0a72797934e6ee09ff96a3b55e8427912624ac3aedcb387",
+        "target_sha256": "376ed11754b0bcead0c36a4eddeba72c8059514179f00d385b4574bf82d40f04"
       },
       "events:age_39_final:/description_if_known/final_year_realistic": {
-        "source_sha256": "d39939a64182936510ca4bd43283151f2d17fde4e26f51c21e8a91b992d48e8c",
-        "target_sha256": "21f43fbd663b1b3e4bd3db242ef79a397ac9797a5e550054df05728e986faadf"
+        "source_sha256": "ea544e256878417a0ee9616ad7a0109c9a0e273a7d777fccca34ed82b957f54d",
+        "target_sha256": "4068fd59374cdbf7cf221bf5d20385ea11c0141c404acebc73e443a6ad9347d0"
       },
       "events:age_39_final:/description_if_known/final_year_resolve": {
-        "source_sha256": "be0b1ca23bf4c397394a5f62ef36af730260054933243c592330278bdd2c3861",
-        "target_sha256": "1c1968fbd935246e2a753f2c8e293a75d598823a1f2c0b561515a70f4ea99107"
+        "source_sha256": "1c3db57965d2e93c8ed37f3cc484fb8f5b93c94157ec6ce7e02fa876c21dbee3",
+        "target_sha256": "ad29dbedbb616c9dcac8ea1cfc8e02dd4239fe3a64501a8329d63fc17e2364bd"
       },
       "events:age_39_final:/title": {
         "source_sha256": "9de450bdca0626bfc44570d27b03bd80fef4f513b55723c48b19fa8d94341d3c",
@@ -134476,8 +134638,8 @@
         "target_sha256": "f370d65574718733cbc80f5996a2ddd2d9bb8984e78f9365ec427862b6382124"
       },
       "events:arc_37_burn_or_light:/choices/2/result_text": {
-        "source_sha256": "5c489ef43ffe4c8e7bc79aab71660e1cb3f74fc45e733a69f42694f5c29a3df4",
-        "target_sha256": "a923bf8f546d5d56ea7287e6dd01e81324d8a2d3e5f72ce3f4d2f993aafa637a"
+        "source_sha256": "48c450d92cd37dd86a3a37bcd91495a196f1ea61dda885be82a8c272b6145115",
+        "target_sha256": "57f4f1beeb14e18944160d4740dd28c6f6059d76f6a1134249f2fead0b38b105"
       },
       "events:arc_37_burn_or_light:/choices/2/text": {
         "source_sha256": "e761e89b2c66f0559776c710211156ce1085fad2214c17cf87df54a6999683c2",
@@ -134760,8 +134922,8 @@
         "target_sha256": "9cb540bb5a18ef035d3d27550e395b03277867dfd86756bb34a78f12aa13f8bc"
       },
       "events:arc_endgame_sixmonths:/choices/0/result_text": {
-        "source_sha256": "0ffe59889c264868f60cbfbb85044ee72dd6c3f8de4d0881fb296a75abcc224a",
-        "target_sha256": "bc3bb88bca6cee95bf700ed73ee51432e4853ff76fe1b64f258fd0b7f2ce909d"
+        "source_sha256": "36ffbcc19bfde87038b9e4fc01714dc752d156bf8e81bf46b32a7c18653f418a",
+        "target_sha256": "3973da2ed1e67fae090cbc5326663c898333f4fc5e7c0ec47155dcb337a54e8c"
       },
       "events:arc_endgame_sixmonths:/choices/0/text": {
         "source_sha256": "147e28fcee44b1332e6bdf16334395d08ce86909ab4927ead2191f40b7515337",
@@ -166506,16 +166668,16 @@
         "target_sha256": "cc6f8f16534b6061786c69d42d3033b2c61f4d11fafb6de93a3f55dcd4f5fafb"
       },
       "events:age_39_final:/description_if_known/final_year_open": {
-        "source_sha256": "3ac5ac40173d6cb387423ee94180195dec6d6a1d762de3f47740a0ef8c2f8e56",
-        "target_sha256": "33ae02f33f08b969e8482a7d3da574980365cee7739e5b1fabb1e600d20644e2"
+        "source_sha256": "08b12fd961990451d0a72797934e6ee09ff96a3b55e8427912624ac3aedcb387",
+        "target_sha256": "a3f6b7984c056d9b3a67fc583d54d8304cab958377f346af35a11df8088c8872"
       },
       "events:age_39_final:/description_if_known/final_year_realistic": {
-        "source_sha256": "d39939a64182936510ca4bd43283151f2d17fde4e26f51c21e8a91b992d48e8c",
-        "target_sha256": "43a572263011b4c7a514e8d659bc25dd1540e2b6f9b77494cb8c071fdee47821"
+        "source_sha256": "ea544e256878417a0ee9616ad7a0109c9a0e273a7d777fccca34ed82b957f54d",
+        "target_sha256": "9c7651cf11952a8e4532dc27ce0b3e4757a39d852660cad340af0b81a93cfa83"
       },
       "events:age_39_final:/description_if_known/final_year_resolve": {
-        "source_sha256": "be0b1ca23bf4c397394a5f62ef36af730260054933243c592330278bdd2c3861",
-        "target_sha256": "af5f9d9f6b3279bb2fad2c79bbc4346efb023b7ceb77742caf8a954a83fef5e8"
+        "source_sha256": "1c3db57965d2e93c8ed37f3cc484fb8f5b93c94157ec6ce7e02fa876c21dbee3",
+        "target_sha256": "fcf9379a4eb6fc0634ce92100b273f1914634a45c27ee59247556e76bb54ec90"
       },
       "events:age_39_final:/title": {
         "source_sha256": "9de450bdca0626bfc44570d27b03bd80fef4f513b55723c48b19fa8d94341d3c",
@@ -194158,8 +194320,8 @@
         "target_sha256": "10ce8543b66aaf9e1cdb4e3cd1e65dae8e401c76ad42dbe5d5392767a39b90e9"
       },
       "events:arc_37_burn_or_light:/choices/2/result_text": {
-        "source_sha256": "5c489ef43ffe4c8e7bc79aab71660e1cb3f74fc45e733a69f42694f5c29a3df4",
-        "target_sha256": "8577d1662e3626f7221194c75e1a26a69f9361e4cf37d8db70c27ab2d060a9b7"
+        "source_sha256": "48c450d92cd37dd86a3a37bcd91495a196f1ea61dda885be82a8c272b6145115",
+        "target_sha256": "19b26d2e74d24f175f345639f4a996402bffb72e2544f082953e7bf7a964ed54"
       },
       "events:arc_37_burn_or_light:/choices/2/text": {
         "source_sha256": "e761e89b2c66f0559776c710211156ce1085fad2214c17cf87df54a6999683c2",
@@ -194442,8 +194604,8 @@
         "target_sha256": "296206a29d882cc4dfbb4ab37d36441c45fe349908dbdf9d6143f4ee6166bd90"
       },
       "events:arc_endgame_sixmonths:/choices/0/result_text": {
-        "source_sha256": "0ffe59889c264868f60cbfbb85044ee72dd6c3f8de4d0881fb296a75abcc224a",
-        "target_sha256": "86d518458ffd62cdd97766490cf5773e8c140b8a5eb2a43e7095b6935d9ffdd7"
+        "source_sha256": "36ffbcc19bfde87038b9e4fc01714dc752d156bf8e81bf46b32a7c18653f418a",
+        "target_sha256": "1e6bafde0d26640f2b9112f45d1402e36eeae0d65baa66bdfce21514c88ce5e7"
       },
       "events:arc_endgame_sixmonths:/choices/0/text": {
         "source_sha256": "147e28fcee44b1332e6bdf16334395d08ce86909ab4927ead2191f40b7515337",
@@ -204851,7 +205013,7 @@
       }
     }
   },
-  "accepted_sha256": "37b1398c6a8b9ad92ff51a3ab2ab2f9c18423a1edaa1bd7cd962d1698865ec7f",
+  "accepted_sha256": "9b89d54afbb0400fbbe8b8505d26a03b9c8b9e96d5e072dc3665aa25dc3002bd",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

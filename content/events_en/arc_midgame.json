@@ -897,7 +897,7 @@
     "choices": [
       {
         "text": "Leave the stop line blank and save a high-risk plan",
-        "result_text": "He filled in the money he would use and the loss he would accept. At the last line, \"Stop here,\" the pen hovered for a long time. {name} left it blank and pressed save. His hand shook, but he pressed it.\n\nWhen he reopened the saved plan, the one empty line sat white at the bottom of the screen. {name} turned the phone facedown without touching it.\n\nThe tremor in his fingertips didn't stop. Under the facedown phone, one blank line waited for the last six months."
+        "result_text": "He filled in the money he would use and the loss he would accept. At the last line, \"Stop here,\" the pen hovered for a long time. {name} left it blank and pressed save. His hand shook, but he pressed it.\n\nWhen he reopened the saved plan, the one empty line sat white at the bottom of the screen. {name} turned the phone facedown without touching it.\n\nHis fingertips were still shaking. For the days he had left, the plan still didn't say when he'd stop."
       },
       {
         "text": "He ran the numbers again. This, too, was an ending.",
@@ -1181,7 +1181,7 @@
       },
       {
         "text": "He sat with it: burnout, or focus?",
-        "result_text": "{name} opened the notebook to the page where the goal first appeared. Beside 3 billion won was not another figure, but a short line about his father and a home. He added the reasons that had come later, and the reasons he had lost.\n\nHe could not separate burnout from focus with certainty. He could feel whether remembering the purpose tightened his body or let it loosen.\n\n{name} set down the pen. The answer was not enough, but enough of him had returned to ask again."
+        "result_text": "{name} opened the notebook to the page where the goal first appeared. He reread the first line, the one above 3 billion won. He added the reasons that had come later, and the reasons he had lost.\n\nHe could not separate burnout from focus with certainty. He could feel whether remembering the purpose tightened his body or let it loosen.\n\n{name} set down the pen. The answer was not enough, but enough of him had returned to ask again."
       }
     ],
     "description_if_known": {

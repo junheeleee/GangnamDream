@@ -475,7 +475,7 @@
         "expected_event_count": 135,
         "expected_file_count": 43,
         "expected_ids_sha256": "f6ce3e8c42810bbf37ada7d6b38f63c09bc68d736cc2c0097eed58f1bafd4aa0",
-        "expected_content_sha256": "b8db2e00b3ae046315b4ed19bf49f1599986687a4517f1a7ecfb3eeddb403760"
+        "expected_content_sha256": "62fc1e604144c34261f1ef92c434320121c36905470f551fb294a04b61ee958f"
       },
       "facts": [
         {
@@ -634,7 +634,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 142, "expected_file_count": 50, "expected_ids_sha256": "c9af7ccbcf78254e165031b9bf7ccc4d489094fabc3e3bc649e504b15933bd3c", "expected_content_sha256": "3de6085f597267d42d4969f30ac415b0ef4e134eb15775564b37f71f46bda352"
+        "expected_event_count": 142, "expected_file_count": 50, "expected_ids_sha256": "c9af7ccbcf78254e165031b9bf7ccc4d489094fabc3e3bc649e504b15933bd3c", "expected_content_sha256": "3d7ffcc9344b41c0178a2ebd83d1abcefe673ac96ae121ea42785114ac6fd111"
       },
       "facts": [
         {
@@ -704,7 +704,7 @@
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
         "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
-        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "68b7a79300b56bf974c31dcc8eab242bbf75d8a522296feaa8c31452f015af3f"
+        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "e0e1c9f46232a74f7f00e61bfcce404da42c8652a53a6942f97b807973ae4aa4"
       },
       "facts": [
         {
