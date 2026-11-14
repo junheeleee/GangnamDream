@@ -4021,6 +4021,12 @@ func _play_w234_case(language: String, choice_index: int) -> void:
 		_fail("W234 exact general-route eligibility could not reach the summit")
 		return
 	BGMPlayer.stop()
+	BGMPlayer.set_ambience("office")
+	BGMPlayer.set_season_ambience("winter")
+	if not BGMPlayer._ambience_player.playing or not BGMPlayer._human_ambience_player.playing \
+			or not BGMPlayer._season_player.playing:
+		_fail("W234 test did not seed the three unrelated ambience layers")
+		return
 	GameState.pending_story_queue = [W234_SUMMIT]
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
 	add_child(_story)
@@ -4031,7 +4037,8 @@ func _play_w234_case(language: String, choice_index: int) -> void:
 		return
 	for _page in range((_story.get("_paragraphs") as Array).size()):
 		await _finish_page()
-		if not _expect_surface(W234_OFFICE, "office", "W234 introductory office"):
+		if not _expect_surface(W234_OFFICE, "", "W234 introductory office") \
+				or not _expect_no_ambience("W234 quiet solo office"):
 			return
 		_story.call("_on_advance")
 		await _wait_stable()
@@ -4065,8 +4072,8 @@ func _play_w234_case(language: String, choice_index: int) -> void:
 				or BGMPlayer.get("_current_key") != "reckoning" \
 				or int(BGMPlayer.get("_punctuation_token")) != score_token \
 				or not _expect_surface(W234_BOULEVARD if outside else W234_OFFICE,
-					"" if outside else "office", "W234 exact result") \
-				or (outside and not _expect_no_ambience("W234 outside")):
+					"", "W234 exact result") \
+				or not _expect_no_ambience("W234 boulevard" if outside else "W234 quiet solo office"):
 			_fail("W234 route, score or room-tone timing drifted")
 			return
 		if AudioManager._last_sfx_ms.has("traffic_pass") != outside \

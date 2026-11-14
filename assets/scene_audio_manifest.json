@@ -925,7 +925,7 @@
       }
     },
     "arc_y5_general_pre_ending_summit_exact": {
-      "ambience": "office",
+      "ambience": "intentional_silence",
       "music": {"key": "reckoning", "start_paragraph": 1},
       "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]},
       "result_paragraph_cues": {

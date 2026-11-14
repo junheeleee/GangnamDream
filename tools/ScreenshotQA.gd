@@ -8338,7 +8338,7 @@ func _assert_chapter5_finale_story_surface(
 			},
 			"arc_y5_general_pre_ending_summit_exact": {
 				"background": "realestate_office", "portrait": "player_normal",
-				"ambience": "office",
+				"ambience": "",
 			},
 			"arc_y5_general_final_record_seal": {
 				"background": "current_housing", "portrait": "player_tired",
@@ -8380,6 +8380,11 @@ func _assert_chapter5_finale_story_surface(
 		var actual_portrait_path := (
 			portrait.texture.resource_path
 			if is_instance_valid(portrait) and portrait.texture != null else "")
+		if event_id == "arc_y5_general_pre_ending_summit_exact" and (
+				BGMPlayer._ambience_player.playing or BGMPlayer._human_ambience_player.playing
+				or BGMPlayer._season_player.playing):
+			_fail("W234 kept an unrelated ambience player alive.")
+			return
 		if str(current.get("background", "")) != authored_background \
 				or str(current.get("portrait", "")) != authored_portrait \
 				or current.has("cg") \
