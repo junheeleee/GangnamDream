@@ -1,7 +1,5 @@
 # CODEX_QUEUE.md — Codex 작업 대기열·실행 스펙
 
-> CLAUDE.md 다음에 읽는다. 초기 전략은 [보존본](queue_archive/CODEX_QUEUE_2026-09.md#2026-07-07-초기-앵커-안내).
-
 ---
 
 2026-11-13: 착수 전 열린 Claude PR 번호/범위 확인. C1 뒤 CJK ScreenshotQA.
@@ -104,6 +102,7 @@ root는 일일 기록/현황. 수치/종료조건/기존저장/고정앱 변경0
 | 80 | [~] | ORDER-827 · 레거시 목록 | [827](queue_active/ORDER-827.md) | 목록·삭제0 |
 | 81 | [~] | ORDER-828 · 문서·큐·에셋 | [828](queue_active/ORDER-828.md) | 문서와 에셋 목록 |
 | 82 | [~] | ORDER-731 · 연속 대표 플레이 | [731](queue_active/ORDER-731.md) | M60 완료 · 사람 검수 별도 |
+| 83 | [~] | ORDER-833 · 본편 원고 | [833](queue_active/ORDER-833.md) | 1년 차 |
 
 
 
