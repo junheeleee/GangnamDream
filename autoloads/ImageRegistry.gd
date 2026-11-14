@@ -286,6 +286,7 @@ const BACKGROUNDS = {
 	"hospital_clinic":   "res://assets/backgrounds/hospital_clinic.png",
 	"hospital_clinic_day": "res://assets/backgrounds/hospital_clinic_day.png",
 	"changwon_hospital_room_empty": "res://assets/backgrounds/changwon_hospital_room_empty.png",
+	"police_evidence_reception": "res://assets/backgrounds/police_evidence_reception.png",
 	"gym":               "res://assets/backgrounds/gym_interior.png",
 	"exercise":          "res://assets/backgrounds/gym_interior.png",
 	"military":          "res://assets/backgrounds/military_training_ground.png",

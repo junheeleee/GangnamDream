@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/arrest_anchors = {
+"ko": "재혁은 구속됐다.",
+"en": "Jaehyuk was arrested.",
+"ja": "ジェヒョクは身柄を拘束された。",
+"zh-CN": "Jaehyuk 被羁押了。",
+"zh-TW": "Jaehyuk 遭到羈押。"
+}

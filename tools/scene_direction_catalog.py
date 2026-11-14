@@ -115,6 +115,7 @@ INDOOR_BACKGROUNDS = {
     "seoul_station_first_ktx_predawn",
     "ktx_changwon_first_train_predawn",
     "seoul_station_visitor_sticker",
+    "police_evidence_reception",
     "sinchon_offer_cafe_two_coffees",
     "bank_service_counter_rainy_day",
     "bank_loan_counter_day",

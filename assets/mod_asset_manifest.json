@@ -591,6 +591,14 @@
     {
       "kind": "background",
       "ids": [
+        "police_evidence_reception"
+      ],
+      "relative_path": "backgrounds/police_evidence_reception.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "racetrack_betting"
       ],
       "relative_path": "backgrounds/racetrack_betting_hall.png",

@@ -102,6 +102,14 @@ W116_GHOST_SCORE_ENTRANCES = {
     "arc_jaehyuk_ghost_decision": 0,
     "arc_jaehyuk_photo_in_dark": 0,
 }
+W117_COUNTER_EVENT = "arc_jaehyuk_04b_counter"
+W117_POLICE_RECEPTION = "police_evidence_reception"
+W117_COUNTER_AUDIO = {
+    "ambience": "apartment",
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
+    "music": {"key": "reckoning", "start_paragraph": 2},
+}
 DEMO_EVENT_IDS = set("""
 story_flashforward story_arrival story_knee_door story_knee_witness
 story_knee_choice story_last_payment_wait story_last_payment_word
@@ -354,6 +362,18 @@ def main() -> int:
     ghost_direction = events.get("arc_jaehyuk_ghost_decision", {}).get("direction", {})
     if ghost_direction.get("amb") != "duck" or ghost_direction.get("sting") != "loss":
         errors.append("arc_jaehyuk_ghost_decision: preserve the authored loss sound and ambience duck")
+    counter = events.get(W117_COUNTER_EVENT, {})
+    counter_choices = counter.get("choices", [])
+    if (event_contracts.get(W117_COUNTER_EVENT) != W117_COUNTER_AUDIO
+            or manifest.get("background_profiles", {}).get(W117_POLICE_RECEPTION) != "intentional_silence"
+            or counter.get("background") != "meeting" or counter.get("cg")
+            or any(key in counter.get("direction", {}) for key in ("amb", "sting"))):
+        errors.append(f"{W117_COUNTER_EVENT}: keep the quiet reception, neutral meeting, and prose P2 score only")
+    if (any(key in counter for key in ("result_background", "result_ambience", "result_cg"))
+            or not isinstance(counter_choices, list) or len(counter_choices) != 3
+            or any(not isinstance(choice, dict) or any(key in choice for key in
+                   ("result_background", "result_ambience", "result_cg")) for choice in counter_choices)):
+        errors.append(f"{W117_COUNTER_EVENT}: result audio and location must follow the staged beats, not generic overrides")
     pitch = events.get(M27_JAEHYUK_PITCH_EVENT, {})
     if (event_contracts.get(M27_JAEHYUK_PITCH_EVENT) != M27_JAEHYUK_PITCH_AUDIO
             or cg_contracts.get(M27_JAEHYUK_PITCH_CG) != {"ambience": "cafe"}

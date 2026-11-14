@@ -48,6 +48,10 @@ const W116_DECISION := "arc_jaehyuk_ghost_decision"
 const W116_PHOTO := "arc_jaehyuk_photo_in_dark"
 const W116_ARTIFACT := "artifact_jaehyuk_photo"
 const W116_AFTERMATH := "arc_jaehyuk_aftermath"
+const W117_COUNTER := "arc_jaehyuk_04b_counter"
+const W117_POLICE := "police_evidence_reception"
+const W117_ARREST := {"ko": "재혁은 구속됐다.", "en": "Jaehyuk was arrested.",
+	"ja": "ジェヒョクは身柄を拘束された。", "zh-CN": "Jaehyuk 被羁押了。", "zh-TW": "Jaehyuk 遭到羈押。"}
 const W108_CONTACT := {
 	"ko": ["메시지", "통화 중"], "en": ["MESSAGE", "VOICE CALL"], "ja": ["メッセージ", "通話中"],
 	"zh-CN": ["消息", "通话中"], "zh-TW": ["訊息", "通話中"],
@@ -234,6 +238,8 @@ const EXACT_PATHS := {
 	M14_COUNTER: "res://assets/backgrounds/bank_loan_counter_day.png",
 	M14_EXIT: "res://assets/backgrounds/bank_loan_exit_day.png",
 	"cafe": "res://assets/backgrounds/cafe_seoul.png",
+	"meeting": "res://assets/backgrounds/investment_meeting.png",
+	W117_POLICE: "res://assets/backgrounds/police_evidence_reception.png",
 	"gangnam_apartment": "res://assets/backgrounds/gangnam_apartment.png",
 	"apartment": "res://assets/backgrounds/oneroom_apartment.png",
 	"gukbap_restaurant_night": "res://assets/backgrounds/gukbap_restaurant_night.png",
@@ -268,6 +274,7 @@ var _m23_capture_dir := ""
 var _first_ktx_capture_dir := ""
 var _w96_capture_dir := ""
 var _w112_capture_dir := ""
+var _w117_capture_dir := ""
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -290,6 +297,12 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W117_COUNTER_CHECK"):
+		var w117_ok := await _check_w117_counter()
+		if w117_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w117_counter")
+		get_tree().quit(0 if w117_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_W116_GHOST_CHECK"):
 		var w116_ok := await _check_w116_ghost()
 		if w116_ok:
@@ -1596,25 +1609,29 @@ func _jaehyuk_pitch_history() -> Array:
 		[56, "arc_jaehyuk_01b_real_face"], [68, "arc_jaehyuk_02_bond"], [80, "arc_jaehyuk_02b_favor"],
 		[96, W96_YEAR_CLOSE], [97, "chapter_card_35"]]
 
+func _jaehyuk_calendar_fixture_history(photo: bool, late_choices: Array) -> Array:
+	var history := _jaehyuk_pitch_history()
+	history[0].append(0 if photo else 1)
+	# Resolve old foreground gates through authored choices rather than flags.
+	history += [[5, "arc_intro_03_sns"], [6, "cafe_00", 2], [8, "arc_job_first_rejection"],
+		[9, "arc_money_check_low"], [10, "arc_sangchul_01_answer"], [11, "arc_gosiwon_wall"],
+		[12, "arc_invest_guidance", 1], [13, "arc_rescue_job"], [14, "arc_father_01_call"],
+		[14, "arc_first_job_week_convenience"],
+		[15, "arc_daeun_01_meet", 1], [17, M03_EVENT], [20, "arc_hyunsu_night_talk"],
+		[21, "arc_father_02_signal", 1], [31, "arc_sangchul_02_coffee", 1], [32, "arc_first_real_win"],
+		[35, "arc_daeun_02_regular", 1], [36, REUNION], [76, "arc_sangchul_casino_decision", 1],
+		[115, "arc_why_gangnam_real"]] + late_choices
+	history.sort_custom(func(a: Array, b: Array) -> bool: return int(a[0]) < int(b[0]))
+	return history
+
 func _check_w116_ghost() -> bool:
 	await _remove_story()
 	await _stop_audio()
 	var prepared: Array[Dictionary] = []
 	for photo in [false, true]:
 		_context = "W116/prepare/photo=%s" % photo
-		var history := _jaehyuk_pitch_history()
-		history[0].append(0 if photo else 1) # Only reunion c0 grants the actual artifact.
-		# Resolve the earlier foreground gates through original choices, not
-		# synthetic flags that would let the scheduler admit a missing witness.
-		history += [[5, "arc_intro_03_sns"], [6, "cafe_00", 2], [8, "arc_job_first_rejection"],
-			[9, "arc_money_check_low"], [10, "arc_sangchul_01_answer"], [11, "arc_gosiwon_wall"],
-			[12, "arc_invest_guidance", 1], [13, "arc_rescue_job"], [14, "arc_father_01_call"],
-			[14, "arc_first_job_week_convenience"],
-			[15, "arc_daeun_01_meet", 1], [17, M03_EVENT], [20, "arc_hyunsu_night_talk"],
-			[21, "arc_father_02_signal", 1], [31, "arc_sangchul_02_coffee", 1], [32, "arc_first_real_win"],
-			[35, "arc_daeun_02_regular", 1], [36, REUNION], [76, "arc_sangchul_casino_decision", 1],
-			[104, M27_PITCH], [106, "arc_jaehyuk_wait"], [108, W108_WARNING, 1], [115, "arc_why_gangnam_real"]]
-		history.sort_custom(func(a: Array, b: Array) -> bool: return int(a[0]) < int(b[0]))
+		var history := _jaehyuk_calendar_fixture_history(photo, [[104, M27_PITCH],
+			[106, "arc_jaehyuk_wait"], [108, W108_WARNING, 1]])
 		if not _prepare_full_owner_history(116, history):
 			return false
 		var due := GameState.deferred_events.filter(func(e: Dictionary) -> bool:
@@ -1806,6 +1823,395 @@ func _w116_final_receipts(ids: Array, indices: Array, base: Array, closed: bool)
 		_fail("W116 changed choice/read receipt, branch outcome or W117 reservation: closed=%s events=%d reads=%s" % [
 			closed, GameState.event_log.size() - int(base[5]), reads])
 	return valid
+
+func _check_w117_counter() -> bool:
+	_w117_capture_dir = OS.get_environment("GANGNAM_W117_COUNTER_CAPTURE_DIR")
+	var capture := not _w117_capture_dir.is_empty()
+	if capture:
+		var output := DirAccess.open(_w117_capture_dir) if _w117_capture_dir.is_absolute_path() else null
+		if output == null or not output.get_files().is_empty() or not output.get_directories().is_empty() \
+				or DisplayServer.get_name() == "headless":
+			_fail("W117 KO capture requires a fresh absolute output and real display")
+			return false
+		OS.low_processor_usage_mode = false
+	if OS.get_environment("GANGNAM_W117_COUNTER_COMPACT") == "1":
+		# --resolution sets the OS window; the project stretch would keep its
+		# 1280 logical width. Change both in this isolated fixture only.
+		var root := get_tree().root
+		root.content_scale_size = Vector2i(960, 600)
+		root.size = Vector2i(960, 600)
+		await get_tree().process_frame
+		if get_viewport().get_visible_rect().size != Vector2(960, 600):
+			_fail("W117 compact verification did not obtain a real 960×600 logical viewport")
+			return false
+	await _remove_story()
+	await _stop_audio()
+	_context = "W117/prepare"
+	if not _prepare_full_owner_history(117, _jaehyuk_calendar_fixture_history(false, [[105, M27_PITCH, 2]])):
+		return false
+	var due := GameState.deferred_events.filter(func(e: Dictionary) -> bool:
+		return e.get("event_id") == W117_COUNTER)
+	var early := load("res://scenes/MainGame.tscn").instantiate() as Control
+	var early_id: String = early.call("_next_arc_id", 116, true)
+	early.free()
+	if due.size() != 1 or int(due[0].get("trigger_turn", -1)) != 117 or early_id == W117_COUNTER \
+			or not GameState.has_deferred_event(W117_COUNTER) or EventManager.deferred_event_is_eligible(W117_COUNTER) \
+			or not GameState.cast_has_flag("jaehyuk", "suspected") or GameState.cast_has_flag("jaehyuk", "invested") \
+			or GameState.has_deferred_event(W116_GHOST) or not GameState.flags.get("jaehyuk_refused", false):
+		_fail("W117 did not originate from the exact +12 refusal reservation")
+		return false
+	var prepared: Dictionary = GameState.serialize().duplicate(true)
+	var languages := ["ko"] if capture else W117_ARREST.keys()
+	var only := OS.get_environment("GANGNAM_W117_COUNTER_LANGUAGE")
+	if not only.is_empty():
+		if not W117_ARREST.has(only) or (capture and only != "ko"):
+			_fail("W117 unknown exact fixture language: %s" % only)
+			return false
+		languages = [only]
+	var paths := 0
+	for language: String in languages:
+		for choice in ([0] if capture else [0, 1, 2]):
+			await _remove_story()
+			await _stop_audio()
+			LocaleManager.set_language(language)
+			GameState.call("_restore_serialized_snapshot_exact", prepared)
+			GameState.health = 75
+			GameState.mental = 70
+			GameState.moral_tint = 0
+			_context = "%s/W117/c%d" % [language, choice]
+			var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+			var selected: String = ingress.call("_next_arc_id", -1, false, true)
+			ingress.free()
+			if selected != W117_COUNTER or GameState.has_deferred_event(W117_COUNTER):
+				_fail("W117 refused path selected %s instead of the counter root" % selected)
+				return false
+			if not await _open_full_fixture_event(W117_COUNTER, [], true) or not await _play_w117_counter(choice):
+				await _remove_story()
+				await _stop_audio()
+				return false
+			paths += 1
+	await _remove_story()
+	await _stop_audio()
+	if capture:
+		if _failures != 0 or paths != 1 or DirAccess.get_files_at(_w117_capture_dir).size() != 4:
+			_fail("W117 expected four exact KO live viewport frames")
+			return false
+		print("W117_COUNTER_CAPTURE_OK language=ko live_calendar=1 frames=4 aftermath=1")
+		return true
+	if _failures != 0 or paths != languages.size() * 3:
+		return false
+	print("W117_COUNTER_OK paths=%d live_calendar=%d result_v4=%d old_v4=%d cross_locale_v4=%d prose_v4=%d rebinds=%d aftermath=%d viewport=%s" % [
+		paths, paths, languages.size() * 6, languages.size() * 3, languages.size(), 2 if languages.has("ko") else 0,
+		4 if languages.has("ko") else 0, paths,
+		str(get_viewport().get_visible_rect().size)])
+	return true
+
+func _play_w117_counter(choice: int) -> bool:
+	var event: Dictionary = _story.get("_current")
+	if event.get("id") != W117_COUNTER or int(_story.call("_story_source_paragraph_count")) != 4:
+		_fail("W117 lost its original four-paragraph counter root")
+		return false
+	var music_token: int = BGMPlayer.get("_punctuation_token")
+	var capture := not _w117_capture_dir.is_empty()
+	var prose_v4 := not capture and choice == 0 and LocaleManager.language == "ko"
+	for page in range((_story.get("_paragraphs") as Array).size()):
+		await _finish_page()
+		var source := int(_story.call("_story_source_paragraph_index", page))
+		var meeting := source >= 2
+		if int(_story.get("_para_index")) != page or BGMPlayer.get("_punctuation_token") != music_token + int(meeting) \
+				or not _w117_surface("meeting" if meeting else "", meeting):
+			_fail("W117 investigation/reunion prose does not match source %d" % source)
+			return false
+		if prose_v4 and source in [0, 3] and page == int(_story.call("_first_story_page_for_source", source)):
+			if not await _w117_prose_restore(source, page, meeting):
+				return false
+			music_token = int(BGMPlayer.get("_punctuation_token")) - int(meeting)
+		if capture and source in [0, 2] and page == int(_story.call("_first_story_page_for_source", source)) \
+				and not await _w117_save_frame("01_recap" if source == 0 else "02_meeting"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	if not bool(_story.get("_showing_choices")) or _story.call("_visible_choice_indices", event) != [0, 1, 2] \
+			or (_story.get("_choice_box") as Control).get_child_count() != 3 or not _w117_surface("meeting", true):
+		_fail("W117 encounter choices no longer share the real meeting")
+		return false
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var last_score := _score_playback_position("reckoning")
+	_story.call("_on_choice", choice)
+	await _wait_stable()
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", event["choices"][choice]["result_text"]))
+	var cut_page := int(_story.get("_result_location_cut_page"))
+	if not bool(_story.get("_pending_after_result")) or not _m23_same_prose(pages, authored) \
+			or int(_story.call("_story_source_paragraph_count")) != 2 \
+			or (choice != 0 and cut_page != -1) \
+			or (choice == 0 and (cut_page < 1 or cut_page >= pages.size() \
+				or not str(pages[cut_page]).begins_with(W117_ARREST[LocaleManager.language]) \
+				or int(_story.call("_story_source_paragraph_index", cut_page - 1)) != 0 \
+				or int(_story.call("_story_source_paragraph_index", cut_page)) != 0)):
+		_fail("W117 lost original result/source counts or exact localized arrest boundary")
+		return false
+	var before_cut: Dictionary = {}
+	var after_cut: Dictionary = {}
+	var c1_meeting: Dictionary = {}
+	for page in range(pages.size()):
+		var source := int(_story.call("_story_source_paragraph_index", page))
+		if page == cut_page:
+			after_cut = _story.call("build_save_resume_context")
+		await _finish_page()
+		var background := _w117_result_background(choice, source, page, cut_page)
+		var score := _score_playback_position("reckoning")
+		if int(_story.get("_para_index")) != page or BGMPlayer.get("_punctuation_token") != music_token + 1 \
+				or score + 0.060 < last_score or not _w117_surface(background, true) \
+				or not _w117_receipt(choice, before, false):
+			_fail("W117 pending result disturbed its geometry, effects or continuous score")
+			return false
+		last_score = score
+		if capture and page in [0, cut_page] and not await _w117_save_frame("03_police" if page == 0 else "04_arrest"):
+			return false
+		if choice == 1 and source == 0:
+			c1_meeting = _story.call("build_save_resume_context")
+		if choice == 0 and page == cut_page - 1:
+			before_cut = _story.call("build_save_resume_context")
+		if page + 1 < pages.size():
+			_story.call("_on_advance")
+			await _wait_stable()
+	var ending: Dictionary = _story.call("build_save_resume_context")
+	var language := LocaleManager.language
+	if capture:
+		_story.set_meta("_screenshot_qa_static_surface", true)
+		_story.call("_on_advance")
+		await _wait_stable()
+		return _w117_receipt(choice, before, true) and await _w117_next_aftermath(choice)
+	if choice == 0:
+		# Capture a true zero-cursor current v4 boundary. The frame that settles
+		# the fade may have started typing; these fields describe the exact tie.
+		after_cut["paragraph_was_typing"] = true
+		after_cut["paragraph_type_ratio"] = 0.0
+		after_cut["type_pos"] = 0
+		after_cut["source_text_progress"] = _story.call("_story_source_page_progress", cut_page, 0.0)
+		if before_cut.is_empty() or int(after_cut.get("paragraph_index", -1)) != cut_page \
+				or not is_equal_approx(float(before_cut.get("source_text_progress", -1.0)), float(after_cut["source_text_progress"])) \
+				or not await _w117_restore(before_cut, language, W117_POLICE, choice, before, true) \
+				or not await _w117_rebind(W117_POLICE, choice, before) \
+				or not await _w117_restore(after_cut, language, "", choice, before, true) \
+				or not await _w117_rebind("", choice, before) \
+				or not await _w117_old_unsplit(authored, before_cut, choice, before):
+			_fail("W117 same-language cut tie or pre-cut v4 compatibility failed")
+			return false
+		var other := "en" if language == "ko" else "ko"
+		if not await _w117_restore(after_cut, other, W117_POLICE, choice, before) \
+				or int(_story.get("_para_index")) != 0:
+			_fail("W117 cross-language cold result jumped over the police handoff")
+			return false
+	if choice == 1 and not await _w117_restore(c1_meeting, language, "meeting", choice, before, true):
+		return false
+	# All choices restore their final result, including counter c2 still at
+	# the meeting (cold initializes the intro on the locationless P0).
+	if not await _w117_restore(ending, language, "meeting" if choice == 2 else "", choice, before, true):
+		return false
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	_story.call("_on_advance")
+	await _wait_stable()
+	if not _w117_receipt(choice, before, true):
+		return false
+	return await _w117_next_aftermath(choice)
+
+func _w117_save_frame(label: String) -> bool:
+	var frame := _story.get("_portrait_frame") as Control
+	for _attempt in range(150):
+		if not frame.visible or frame.modulate.a >= 0.99:
+			return await _save_viewport_frame(_w117_capture_dir.path_join("ko_%s.png" % label))
+		await get_tree().process_frame
+	_fail("W117 local portrait did not settle for capture")
+	return false
+
+func _w117_result_background(choice: int, source: int, page: int, cut_page: int) -> String:
+	if choice == 0:
+		return W117_POLICE if page < cut_page else ""
+	return "meeting" if choice == 2 or source == 0 else ""
+
+func _w117_surface(background: String, scored: bool) -> bool:
+	var meeting := background == "meeting"
+	var plate := _story.get("_bg_img") as TextureRect
+	var portrait := _story.get("_portrait") as TextureRect
+	var frame := _story.get("_portrait_frame") as Control
+	var dim := _story.get("_bg_dim") as ColorRect
+	var score := _score_playback_position("reckoning")
+	var texture_ok := (plate.texture == null and str(_story.get("_event_background_id")).is_empty() \
+		and dim.visible and dim.color.a >= 0.99) if background.is_empty() \
+		else _expect_surface(background, "apartment" if meeting else "", "W117 surface")
+	var cues := AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:
+		return key.begins_with(W117_COUNTER + ":"))
+	if not texture_ok or frame.visible != meeting or not cues.is_empty() \
+			or (_story.get("_communication_badge") as Control).visible \
+			or bool(_story.get("_portrait_remote_inset")) or bool(_story.get("_current_uses_cg")) \
+			or str(_story.get_meta("living_scene_effect", "")) != "none" \
+			or not BGMPlayer._current_human_ambience_key.is_empty() or BGMPlayer._human_ambience_player.playing \
+			or not BGMPlayer._current_season_key.is_empty() or BGMPlayer._season_player.playing \
+			or (score >= 0.0) != scored or BGMPlayer._current_key != ("reckoning" if scored else "") \
+			or (not meeting and (portrait.texture != null or (_story.get("_name_panel") as Control).visible)) \
+			or (meeting and (portrait.texture == null or portrait.texture.resource_path != ImageRegistry.get_portrait("jaehyuk_cornered") \
+				or not BGMPlayer._ambience_player.playing)):
+		_fail("W117 plate/actor/layers do not match %s (neutral alpha=%s score=%s expected_scored=%s cues=%s)" % [
+			background, dim.color.a, score, scored, cues])
+		return false
+	return meeting or _expect_no_ambience("W117 no invented room tone")
+
+func _w117_prose_restore(source: int, page: int, meeting: bool) -> bool:
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var event_count := GameState.event_log.size()
+	await _stop_audio()
+	if context.get("phase") != "prose" or int(context.get("source_paragraph_index", -1)) != source \
+			or not await _reload_w117_story_context(context, LocaleManager.language):
+		_fail("W117 could not cold-load its original source-%d prose" % source)
+		return false
+	await _wait_stable()
+	if int(_story.get("_para_index")) != page or int(_story.get("_type_pos")) != int(context.get("type_pos", -1)) \
+			or GameState.event_log.size() != event_count or not _w117_surface("meeting" if meeting else "", meeting):
+		_fail("W117 cold source %d crossed the sustained-score entrance or reapplied a choice" % source)
+		return false
+	return true
+
+func _reload_w117_story_context(context: Dictionary, language: String) -> bool:
+	if not ["prose", "result"].has(context.get("phase")) or context.get("event_id") != W117_COUNTER \
+			or not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
+		return false
+	var disk: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveManager.slot_path(W8_QA_SLOT)))
+	if not (disk is Dictionary) or int(disk.get("version", -1)) != 4:
+		return false
+	await _remove_story()
+	GameState.start_new_game()
+	LocaleManager.set_language(language)
+	if not SaveManager.load_game(W8_QA_SLOT):
+		return false
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	return LocaleManager.language == language
+
+func _w117_restore(context: Dictionary, language: String, background: String, choice: int, before: Dictionary,
+		exact_current := false) -> bool:
+	await _stop_audio()
+	if context.get("phase") != "result" or int(context.get("source_paragraph_count", -1)) != 2 \
+			or not [0, 1].has(int(context.get("source_paragraph_index", -1))) \
+			or not await _reload_w117_story_context(context, language):
+		return false
+	if exact_current and (int(_story.get("_para_index")) != int(context.get("paragraph_index", -1)) \
+			or int(_story.get("_type_pos")) != int(context.get("type_pos", -1)) \
+			or bool(_story.get("_typing")) != bool(context.get("paragraph_was_typing", false))):
+		_fail("W117 exact current v4 page/type cursor moved during load")
+		return false
+	await _wait_stable()
+	return int(_story.get("_pending_result_choice_index")) == choice and _w117_surface(background, true) \
+		and _w117_receipt(choice, before, false)
+
+func _w117_rebind(background: String, choice: int, before: Dictionary) -> bool:
+	if LocaleManager.language != "ko":
+		return true
+	var token: int = BGMPlayer.get("_punctuation_token")
+	for language in ["en", "ko"]:
+		_story.call("_set_story_language", language)
+		await _wait_stable()
+		if LocaleManager.language != language or not _w117_surface(background, true) \
+				or BGMPlayer.get("_punctuation_token") != token \
+				or not _w117_receipt(choice, before, false):
+			_fail("W117 in-place language change crossed the same-source police cut")
+			return false
+	return true
+
+func _w117_old_unsplit(authored: String, basis: Dictionary, choice: int, before: Dictionary) -> bool:
+	# Rebuild old real pagination from the unchanged authored text, without
+	# the new same-source cut. Use positions well away from newline rounding.
+	var old: Dictionary = _story.call("_story_page_data", authored)
+	var old_pages: Array = old["pages"]
+	var old_indices: Array = old["source_indices"]
+	var anchor: String = W117_ARREST[LocaleManager.language]
+	var old_source := ""
+	var number := 0
+	for i in range(old_pages.size()):
+		if int(old_indices[i]) != 0:
+			break
+		old_source += str(old_pages[i])
+		number += 1
+	var split := old_source.find(anchor)
+	if number < 1 or split < 4 or old_source.count(anchor) != 1 or old_source.length() <= split + anchor.length() + 3:
+		_fail("W117 old unsplit fixture lost its unambiguous localized arrest")
+		return false
+	for target: int in [int(split / 2.0), split + anchor.length() + 3, old_source.length()]:
+		var remaining := target
+		var context := basis.duplicate(true)
+		for page in range(number):
+			var line_length := str(old_pages[page]).length()
+			if remaining <= line_length:
+				context["paragraph_index"] = page
+				context["type_pos"] = remaining
+				context["paragraph_type_ratio"] = float(remaining) / float(line_length)
+				context["paragraph_was_typing"] = remaining < line_length
+				context["source_text_progress"] = float(target) / float(old_source.length())
+				break
+			remaining -= line_length
+		if not await _w117_restore(context, LocaleManager.language, W117_POLICE if target < split else "", choice, before):
+			_fail("W117 old unsplit progress chose wrong side at %d/%d" % [target, old_source.length()])
+			return false
+	return true
+
+func _w117_receipt(choice: int, before: Dictionary, closed: bool) -> bool:
+	var outcome := ["jaehyuk_reported", "jaehyuk_exploited", "jaehyuk_partnered"]
+	var owner := FULL_STORY_FLOW.snapshot()
+	var chain: Dictionary = owner.get("chain", {})
+	var reads: Array = owner.get("read_receipts", {}).get("117", [])
+	var latest: Dictionary = GameState.event_log.back()
+	var deferred: Array = before["deferred_events"].duplicate(true)
+	deferred.append({"event_id": W116_AFTERMATH, "trigger_turn": 118})
+	if choice > 0:
+		deferred.append({"event_id": ["", "callback_jaehyuk_exploited_retaliate", "callback_jaehyuk_partnered_reckoning"][choice],
+			"trigger_turn": 117 + (12 if choice == 1 else 14)})
+	var valid: bool = FULL_STORY_FLOW.valid_session() and GameState.turn == 117 \
+		and GameState.event_log.size() == before["event_log"].size() + 1 and latest.get("event_id") == W117_COUNTER \
+		and int(latest.get("turn", -1)) == 117 and int(latest.get("choice_index", -1)) == choice \
+		and GameState.flags.get("arc_jaehyuk_counter_seen", false) and not GameState.flags.get("arc_jaehyuk_ghost_seen", false) \
+		and not GameState.flags.get("arc_jaehyuk_aftermath_seen", false) \
+		and is_equal_approx(GameState.money, float(before["money"]) + [0, 8_000_000, 5_000_000][choice]) \
+		and GameState.health == int(before["health"]) and GameState.mental == int(before["mental"]) + [15, -16, -26][choice] \
+		and GameState.investment_skill == int(before["investment_skill"]) + (6 if choice == 2 else 0) \
+		and GameState.reputation == int(before["reputation"]) + (8 if choice == 0 else 0) \
+	and is_equal_approx(GameState.moral_tint, minf(float(before["moral_tint"]) + [6, -5, -8][choice], -20.0 if choice == 1 else 100.0)) \
+		and GameState.get_cast_stage("jaehyuk") == ["reported", "blackmailed", "partner_in_crime"][choice] \
+		and GameState.route_orthodox == int(before["route_orthodox"]) + int(choice == 0) \
+		and GameState.route_unorthodox == int(before["route_unorthodox"]) + int(choice != 0) \
+		and _w96_deferred_equal(deferred) and bool(chain.get("closed", false)) == closed \
+		and chain.get("pending_event_ids") == ([] if closed else [W117_COUNTER]) and reads.size() == int(closed)
+	for index in range(outcome.size()):
+		valid = valid and bool(GameState.flags.get(outcome[index], false)) == (choice == index)
+	if valid and closed:
+		valid = reads[0].get("event_id") == W117_COUNTER and int(reads[0].get("choice_index", -1)) == choice
+	if not valid:
+		_fail("W117 counter c%d closed=%s changed choice outcome or links: stats=%s stage=%s deferred=%s/%s chain=%s" % [
+			choice, closed, [GameState.money, GameState.mental, GameState.investment_skill, GameState.reputation,
+				GameState.moral_tint, GameState.route_orthodox, GameState.route_unorthodox, GameState.event_log.size()],
+			GameState.get_cast_stage("jaehyuk"), GameState.deferred_events, deferred, chain])
+	return valid
+
+func _w117_next_aftermath(choice: int) -> bool:
+	if not FULL_STORY_FLOW.apply_background_for_turn(117) or GameState.advance_calendar() \
+			or GameState.turn != 118 or not FULL_STORY_FLOW.complete_turn(117):
+		_fail("W117 could not close the actual owner into the next calendar week")
+		return false
+	await _remove_story()
+	var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+	var selected: String = ingress.call("_next_arc_id", -1, false, true)
+	ingress.free()
+	var aftermath: Dictionary = DataRegistry.find_event(W116_AFTERMATH)
+	var visible: Array = []
+	for index in range(aftermath.get("choices", []).size()):
+		if GameState.choice_available(aftermath, aftermath["choices"][index]):
+			visible.append(index)
+	if selected != W116_AFTERMATH or visible != [0 if choice == 0 else 1] \
+			or GameState.has_deferred_event(W116_AFTERMATH) or not FULL_STORY_FLOW.valid_session():
+		_fail("W118 did not consume the original aftermath with factual c%d, selected=%s visible=%s" % [choice, selected, visible])
+		return false
+	return true
 
 func _check_w108_warning() -> bool:
 	await _remove_story()
@@ -3615,7 +4021,7 @@ func _wait_stable() -> void:
 				or not _m14_capture_dir.is_empty() or not _w234_capture_dir.is_empty() \
 				or not _offer_capture_dir.is_empty() or not _m23_capture_dir.is_empty() \
 				or not _first_ktx_capture_dir.is_empty() or not _w96_capture_dir.is_empty() \
-				or not _w112_capture_dir.is_empty():
+				or not _w112_capture_dir.is_empty() or not _w117_capture_dir.is_empty():
 			continue
 		if raw_ink_tween is Tween and (raw_ink_tween as Tween).is_running():
 			(raw_ink_tween as Tween).custom_step(10.0)

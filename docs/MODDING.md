@@ -390,6 +390,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `pc_bang` | `backgrounds/pc_bang_interior.png` | 1280x800 |
 | background | `gangnam_penthouse`, `penthouse` | `backgrounds/penthouse_view.png` | 1280x800 |
 | background | `pojangmacha` | `backgrounds/pojangmacha.png` | 1280x800 |
+| background | `police_evidence_reception` | `backgrounds/police_evidence_reception.png` | 1280x800 |
 | background | `racetrack_betting` | `backgrounds/racetrack_betting_hall.png` | 1280x800 |
 | background | `racetrack_track` | `backgrounds/racetrack_track_view.png` | 1280x800 |
 | background | `realestate_office` | `backgrounds/realestate_office.png` | 1280x800 |

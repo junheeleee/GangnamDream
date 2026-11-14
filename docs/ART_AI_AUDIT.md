@@ -478,5 +478,6 @@
 | Background | `assets/backgrounds/seoul_station_first_ktx_predawn.png` | `seoul_station_first_ktx_predawn` | 1280x800 | no | `f5fc71079390` | PASS-B | 동트기 전 서울역 승강장, 문이 닫힌 열차와 마른 바닥. 사람·비·눈·문자 없음. |
 | Background | `assets/backgrounds/ktx_changwon_first_train_predawn.png` | `ktx_changwon_first_train_predawn` | 1280x800 | no | `1d45394e0806` | PASS-B | 푸른 좌석과 창 밖으로 흐르는 늦가을 풍경. 병원·인물·비·눈·문자 없음. |
 | Background | `assets/backgrounds/seoul_station_visitor_sticker.png` | `seoul_station_visitor_sticker` | 1280x800 | no | `763df189e31c` | PASS-B | 서울 도착 통로, 코트와 오른손 검지의 작은 스티커. 모공·카메라 질감을 없애 강남 잉크의 무광 붓결·낮은 채도로 재작화. 얼굴·비·눈·문자 없음. |
+| Background | `assets/backgrounds/police_evidence_reception.png` | `police_evidence_reception` | 1280x800 | no | `338988ecbf96` | PASS-B | 증거 제출 첫 대목용으로 원화 독립 대조: 무광 잉크·민원석·서류 전달구, 인물·상호·체포 없음. 장소는 본문이 식별한다. P1 마스터·사람 판정 아님. |
 
-Inventory: 81 CG / 94 portraits / 115 backgrounds / 290 total.
+Inventory: 81 CG / 94 portraits / 116 backgrounds / 291 total.

@@ -136,6 +136,10 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] 제품 배선 착수 — `scenes/StoryMode.gd`, `assets/w117_jaehyuk_counter_cuts.tres`, `assets/backgrounds/police_evidence_reception.png` 및 `.import`, `autoloads/ImageRegistry.gd`, `assets/{ASSET_INDEX.md,scene_audio_manifest.json,scene_direction_manifest.json,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,ScreenshotQA.gd,scene_audio_contract_check.py,scene_direction_catalog.py,art_resolution_baseline.json}`, `content/meta/release_content_inventory.json`, `docs/{ART_AI_AUDIT.md,MODDING.md,CONTENT_RATING_INVENTORY.md,WORK_LOG.md}`, 현황·증거. 실제 대면 문단부터 회의실·재혁, 신고 결과 첫 문장만 경찰 접수대; 같은 원문 문단에서 구속 소식부터 및 상철의 이후 말은 장소/인물이 없는 여백. 협박 c1은 돈이 들어오는 첫 결과만 회의실, ‘그날 밤’은 여백. 공모 c2는 두 문단 모두 회의실. 대면만 기존 중립 실내 녹음, 접수와 미확정 장소에는 소리·시각효과를 추측해 붙이지 않고 기존 P2 피아노는 유지. 5언어·이전/현재 v4·두 화면 폭·실제 편성/예약 및 가능할 때 별도 앱 화면 검수. 원문·효과·저장 키·기존 데모·Steam 변경0.
 
+완료(제품): 실제 편성 5언어×3갈래×2폭(논리 1280×800 및 960×600) 30. 현행 결과 v4 60, 이전 미분할 v4 30, 교차 언어 결과 v4 10, 초반/후반 본문 v4 4, 표시 중 언어 교체 8, W118 후속 30. 신고는 서류 전달까지만 접수대로, ‘구속’부터는 장소와 인물 미확정. 협박은 첫 대면 뒤 끊고, 공모는 대면을 유지한다. W116 기존 15갈래·v4 15 재검증. 사건·선택·효과·저장 키·보호 데모 불변. 대면의 실내음 및 기존 피아노 재생 상태만 확인했으며 실청취는 하지 않았다.
+
+격리 네이티브 한국어 기본 글씨 1280×800 네 장(`~/Documents/GangnamDream-Release-Assets/830-w117-native.FAgq03/`)에서 전후·글씨 잘림을 따로 확인했다. `ko_03_police.png` SHA-256 `e84e87f19b08d58e3c4d8eec481cf5c96e1f4ada4be07fd63aee9e39056fe94a`. 접수구와 서류는 텍스트 상자 위, 다음 장의 구속은 직접 목격으로 그리지 않는다. 나머지 언어의 실제 픽셀·큰 글씨·실청취·상점 사용은 미검증이다.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`

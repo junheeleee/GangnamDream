@@ -53,6 +53,9 @@ const W96_STATION_ARRIVAL := "seoul_station_visitor_sticker"
 const W100_FATHER_DOCUMENT := "arc_y3_father_avoidance_document"
 const W108_HYUNSU_WARNING := "arc_jaehyuk_hyunsu_warning"
 const W112_FATHER_CALL := "arc_y3_father_deferred_call"
+const W117_JAEHYUK_COUNTER := "arc_jaehyuk_04b_counter"
+const W117_POLICE_RECEPTION := "police_evidence_reception"
+const W117_COUNTER_CUTS := preload("res://assets/w117_jaehyuk_counter_cuts.tres")
 const M27_JAEHYUK_PITCH := "arc_jaehyuk_03_pitch"
 const M27_JAEHYUK_CUTS := preload("res://assets/m27_jaehyuk_pitch_cuts.tres")
 const W8_FALLOUT := "arc_temptation_fallout"
@@ -510,7 +513,8 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 	var line_col: Color = palette["line"]
 
 	if is_instance_valid(_bg_dim):
-		_bg_dim.color = _story_dim_color(has_cg)
+		_bg_dim.color = Color("#111216") if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER \
+			and _event_background_id.is_empty() else _story_dim_color(has_cg)
 	if _story_bg_material:
 		# Reusable locations stay documentary. One-off CGs are the emotional
 		# reward surface, so they keep color until Black-route damage earns its removal.
@@ -2731,6 +2735,11 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	elif str(_current.get("id", "")) == SINCHON_OFFER:
 		# The car has already arrived on a restored prose/result page.
 		pass
+	elif str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
+		# Restore the sustained score only if the authored entrance was passed.
+		# No contact, police, or navigation one-shot belongs to resume.
+		if result_phase or source_paragraph_index >= 2 or phase == "choices":
+			BGMPlayer.play_scene_paragraph_music(_current, "", 2)
 	elif result_phase:
 		AudioManager.play_scene_result_paragraph_cues(
 			str(_current.get("id", "")), _event_cg_id,
@@ -3337,6 +3346,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == M23_MOTHER_CALL and choice_index == 0) \
 		or (event_id == W96_FATHER_VISIT and choice_index == 3) \
 		or (event_id == M27_JAEHYUK_PITCH and choice_index == 2) \
+		or (event_id == W117_JAEHYUK_COUNTER and choice_index == 0) \
 		or (event_id == M23_PARENTS and choice_index == 1)
 
 func _resolved_story_prose_pages() -> Dictionary:
@@ -3363,6 +3373,11 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		var anchors: Dictionary = W96_RETURN_CUT.get_meta("arrival_anchors", {})
 		if raw.split("\n\n").size() == 2:
 			return _split_formatted_story_page(_fmt(raw), 1, str(anchors.get(LocaleManager.language, "")))
+		return _story_page_data(_fmt(raw))
+	if event_id == W117_JAEHYUK_COUNTER:
+		var anchors: Dictionary = W117_COUNTER_CUTS.get_meta("arrest_anchors", {})
+		if raw.split("\n\n").size() == 2:
+			return _split_formatted_story_page(_fmt(raw), 0, str(anchors.get(LocaleManager.language, "")))
 		return _story_page_data(_fmt(raw))
 	if event_id == M27_JAEHYUK_PITCH:
 		var anchors: Dictionary = M27_JAEHYUK_CUTS.get_meta("home_anchors", {})
@@ -3598,7 +3613,8 @@ func _refresh_story_speaker_language() -> void:
 	_update_communication_badge(
 		str(_current_presentation.get("channel", "in_person")),
 		str(_current_presentation.get("state", "")))
-	if _story_nameplate_hidden() or (_showing_choices and str(_current.get("id", "")) == W112_FATHER_CALL):
+	if _story_nameplate_hidden() or (_showing_choices and str(_current.get("id", "")) in \
+			[W112_FATHER_CALL, W117_JAEHYUK_COUNTER]):
 		if is_instance_valid(_name_panel):
 			_name_panel.visible = false
 		return
@@ -4524,6 +4540,8 @@ func _resolved_choice_result_portrait_id(choice: Dictionary) -> String:
 
 func _resolved_story_surface_portrait_id() -> String:
 	if _is_w96_station_result() or _is_m27_pitch_home_result():
+		return ""
+	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER and _event_background_id != "meeting":
 		return ""
 	if _pending_after_result and str(_current.get("id", "")) == W108_HYUNSU_WARNING:
 		match str(_current_presentation.get("remote_actor", "")):
@@ -5483,7 +5501,8 @@ func _render_current():
 	var cold_pitch_result := str(_current.get("id", "")) == M27_JAEHYUK_PITCH \
 		and str(_pending_restore_context.get("event_id", "")) == M27_JAEHYUK_PITCH \
 		and str(_pending_restore_context.get("phase", "")) == "result"
-	if cold_offer_cafe or cold_first_ktx or cold_w96_return or cold_pitch_result:
+	if cold_offer_cafe or cold_first_ktx or cold_w96_return or cold_pitch_result \
+			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		BGMPlayer.clear_ambience_immediate()
 	elif str(_current.get("background", "")) == "current_housing" \
 			and not _current_uses_cg and not has_authored_ambience:
@@ -5494,6 +5513,10 @@ func _render_current():
 			and str(_current.get("background", "")) == "current_housing":
 		BGMPlayer.set_ambience(_first_bill_replay_housing_ambience())
 		BGMPlayer.set_season_ambience("")
+	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
+		# A preceding event's score must not make the reported investigation
+		# sound like the later face-to-face encounter has already begun.
+		BGMPlayer.enter_ambient_bed(0.0)
 	BGMPlayer.begin_story_event(_current, _event_cg_id)
 	AudioManager.begin_story_audio_event(str(_current.get("id", "")))
 	AudioManager.play_event_cue(_current)
@@ -5528,6 +5551,8 @@ func _render_current():
 	# 본문 문단 분할. 언어 즉시 전환도 같은 해석 함수를 사용해 현재 장면만 다시 바인딩한다.
 	_apply_story_page_data(_resolved_story_prose_pages())
 	_para_index = 0
+	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
+		_apply_w117_counter_surface(false, true)
 	_play_current_paragraph_audio(_story_source_paragraph_index(_para_index))
 	_start_typing(_paragraphs[0])
 
@@ -5632,6 +5657,9 @@ func _is_w234_boulevard_result() -> bool:
 func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
 	var event_id := str(_current.get("id", ""))
+	if event_id == W117_JAEHYUK_COUNTER:
+		_apply_w117_counter_surface(play_cut_cue)
+		return
 	if _pending_after_result and event_id == M27_JAEHYUK_PITCH:
 		_apply_m27_pitch_result_surface(play_cut_cue)
 		return
@@ -5702,6 +5730,50 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 			AudioManager.play("traffic_pass", -10.0)
 	else:
 		BGMPlayer.update_event_ambience(_current, "", background_id)
+
+func _w117_counter_background() -> String:
+	var source := _story_source_paragraph_index(_para_index)
+	if not _pending_after_result:
+		return "meeting" if source >= 2 else ""
+	match _pending_result_choice_index:
+		0:
+			# A missing localized anchor must not depict the arrest as witnessed.
+			return W117_POLICE_RECEPTION if source == 0 and _result_location_cut_page >= 0 \
+				and _para_index < _result_location_cut_page else ""
+		1:
+			return "meeting" if source == 0 else ""
+		2:
+			return "meeting"
+	return ""
+
+func _apply_w117_counter_surface(live_advance: bool, force_refresh: bool = false) -> void:
+	var destination := _w117_counter_background()
+	if not force_refresh and destination == _event_background_id:
+		return
+	var texture: Texture2D = null
+	if not destination.is_empty():
+		# A protected choice cut must never turn a missing exact asset into
+		# ImageRegistry's generic goshiwon fallback.
+		var path := str(ImageRegistry.BACKGROUNDS.get(destination, ""))
+		if not path.is_empty() and ImageRegistry.has_texture(path):
+			texture = ImageRegistry.load_texture(path)
+		if texture == null:
+			destination = ""
+	if live_advance:
+		_begin_story_scene_transition("explicit_move" if destination == W117_POLICE_RECEPTION else "time_cut")
+	else:
+		_finish_story_scene_transition()
+	_event_background_id = destination
+	_bg_img.texture = texture
+	var at_meeting := destination == "meeting"
+	_show_portrait(_resolved_event_portrait_id() if at_meeting else "", not at_meeting)
+	_apply_story_surface_palette(false)
+	_configure_living_scene()
+	if at_meeting:
+		BGMPlayer.update_event_ambience(_current, "", destination)
+	else:
+		# Retain the authored score, but no music cue or place mix is inferred.
+		BGMPlayer.clear_ambience_immediate()
 
 func _is_first_ktx_choice() -> bool:
 	return str(_current.get("id", "")) == M23_MOTHER_CALL and _pending_result_choice_index == 0
@@ -6206,6 +6278,13 @@ func _living_reduced_motion() -> bool:
 
 func _configure_living_scene(event_override: Dictionary = {}) -> void:
 	if not is_instance_valid(_living_scene):
+		return
+	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER and _event_background_id.is_empty():
+		# A settings or viewport refresh must not infer the meeting in a recap.
+		_living_scene.clear_profile()
+		_living_profile.clear()
+		set_meta("living_scene_profile", {})
+		set_meta("living_scene_effect", "none")
 		return
 	var profile_event := event_override if not event_override.is_empty() else _current
 	var background_id := _event_background_id

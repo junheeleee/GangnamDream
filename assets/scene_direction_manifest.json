@@ -768,6 +768,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "police_evidence_reception": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "ktx_window": {
       "environment": "transit",
       "depth": "mid",
