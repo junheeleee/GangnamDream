@@ -28143,6 +28143,151 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-830",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_y1_new_room_first_month"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 4,
+        "zh-CN": 4,
+        "zh-TW": 4
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "W37 Korean prose: separate rent and the first completed electricity payment, and make the one-line note to Father unambiguous. Keep 7:12 p.m., one month, the three calendar marks, next-month planning, the original photo and delayed reply, the fridge start and stop, and unchanged choices and links. Independent semantic review; human/native review remains open.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "e1f6b8c2066cb7b5b0602acb2f57a698cc266e51",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "8567a71595c5d952d2adfa18b2394c7ef38bfde250835b8e2adb6f2251c5363a",
+          "selection_sha256": "dcfc39f565af30fbc16ce2cc535a1aabdd5687302698ab938faa2fb89f12ac0f",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "27665dadd171ffbcb8c8c37db877fed0150d95b0f9a40af723d527864a7f467c"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "e1f6b8c2066cb7b5b0602acb2f57a698cc266e51",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "8567a71595c5d952d2adfa18b2394c7ef38bfde250835b8e2adb6f2251c5363a",
+          "selection_sha256": "dd1fc998bad044847110da5d697aaa403317f9633acb15a1addef828463621f3",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "655b9efb7cdd4cc03718b628fb71f5126b5074f140fa0454bc45d255af48e52c"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "e1f6b8c2066cb7b5b0602acb2f57a698cc266e51",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "8567a71595c5d952d2adfa18b2394c7ef38bfde250835b8e2adb6f2251c5363a",
+          "selection_sha256": "1d03cda9023ac94b91785ecfc4a129966d7234991252427350f9e63d9728b76a",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6be3f703c44ddc91569bf9d621265095a6d632189be5a60fd78d9c30bc0d1ba0"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "1a279e1fbeccf76a6396df48f15ed054aa83953b38a328de5d6a720c50f79ad8",
+        "zh-CN": "0b8d8b4952a629ce7d54ddefb1178d5d97fcb35e3acfb20825c6a10ba58f6b7c",
+        "zh-TW": "6c99a0255eb4ba3631894c46dc13eb94979baed0235e3f93e6a276f4ed50370b"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_y1_new_room_first_month:/choices/0/result_text": "32068d47cc9b61602e893e5e7a158e1dbc5e1caaf2e0ecfa8691688d20ae919f",
+          "events:arc_y1_new_room_first_month:/choices/1/result_text": "91f41411634694d1292bd0c5d12c6f8ce4e9d49e5bf13674c01a35a9e67a37a3",
+          "events:arc_y1_new_room_first_month:/choices/1/text": "d78501b83cbc9ed7ab8954cce7ca240da073bca723bb29de83eeb8499f88248a",
+          "events:arc_y1_new_room_first_month:/description": "c372fd85ec3d585bea989976767bf0bfbae988e945a95299f5055a35885e5647"
+        },
+        "zh-CN": {
+          "events:arc_y1_new_room_first_month:/choices/0/result_text": "290f16c009ff60ecd3bcc06f9859cbbd1c687d0fbb9ad447c99f3679acdd0930",
+          "events:arc_y1_new_room_first_month:/choices/1/result_text": "76ba9f71c443541c4eb149c917f7ee0c6edd423aa9a6e9e270fb17b66590c0c2",
+          "events:arc_y1_new_room_first_month:/choices/1/text": "72a282bb771c8e84f266789ee5883e547d1d46faee3c42e665b0eba36c20f339",
+          "events:arc_y1_new_room_first_month:/description": "bc835c586c26a75467f1cbb3333e1276c62c743e943967c85e5be2e1a77794a3"
+        },
+        "zh-TW": {
+          "events:arc_y1_new_room_first_month:/choices/0/result_text": "baf521358e0b2c25f791c104c4f0c1f93c1e556180839a98bee40e181d2d458e",
+          "events:arc_y1_new_room_first_month:/choices/1/result_text": "2482523bc2096385d552619ec81e1078694e27d75319b4d3c81551204825381f",
+          "events:arc_y1_new_room_first_month:/choices/1/text": "fede01cb8678708380e750b2e4ced93477697ac6bb9ee9eadcabede92ebbb416",
+          "events:arc_y1_new_room_first_month:/description": "8313d3f363425d7a96406d19e714b9c814da90d6cb69ee7b11ffd58614bb9453"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_y1_new_room_first_month:/choices/0/result_text": {
+            "source_sha256": "2289b57fb6f47efa379752a66a3de8904b6ba6338a8c67416a3a4b93040c7b3b",
+            "target_sha256": "32068d47cc9b61602e893e5e7a158e1dbc5e1caaf2e0ecfa8691688d20ae919f"
+          },
+          "events:arc_y1_new_room_first_month:/choices/1/result_text": {
+            "source_sha256": "2cde1bfa8574ca04406d68dcbf6278558086dea384a90161799f9c8cdc3df4b6",
+            "target_sha256": "91f41411634694d1292bd0c5d12c6f8ce4e9d49e5bf13674c01a35a9e67a37a3"
+          },
+          "events:arc_y1_new_room_first_month:/choices/1/text": {
+            "source_sha256": "8fe476da569ad5240343cdaa7361dfc0a214c453a408e3308fb5f7dd073d58e3",
+            "target_sha256": "d78501b83cbc9ed7ab8954cce7ca240da073bca723bb29de83eeb8499f88248a"
+          },
+          "events:arc_y1_new_room_first_month:/description": {
+            "source_sha256": "cd1f687bb8c94a3580e04952bb39fe5d81acd9fd80dcb24022fb7ee282f294e4",
+            "target_sha256": "c372fd85ec3d585bea989976767bf0bfbae988e945a95299f5055a35885e5647"
+          }
+        },
+        "zh-CN": {
+          "events:arc_y1_new_room_first_month:/choices/0/result_text": {
+            "source_sha256": "2289b57fb6f47efa379752a66a3de8904b6ba6338a8c67416a3a4b93040c7b3b",
+            "target_sha256": "290f16c009ff60ecd3bcc06f9859cbbd1c687d0fbb9ad447c99f3679acdd0930"
+          },
+          "events:arc_y1_new_room_first_month:/choices/1/result_text": {
+            "source_sha256": "2cde1bfa8574ca04406d68dcbf6278558086dea384a90161799f9c8cdc3df4b6",
+            "target_sha256": "76ba9f71c443541c4eb149c917f7ee0c6edd423aa9a6e9e270fb17b66590c0c2"
+          },
+          "events:arc_y1_new_room_first_month:/choices/1/text": {
+            "source_sha256": "8fe476da569ad5240343cdaa7361dfc0a214c453a408e3308fb5f7dd073d58e3",
+            "target_sha256": "72a282bb771c8e84f266789ee5883e547d1d46faee3c42e665b0eba36c20f339"
+          },
+          "events:arc_y1_new_room_first_month:/description": {
+            "source_sha256": "cd1f687bb8c94a3580e04952bb39fe5d81acd9fd80dcb24022fb7ee282f294e4",
+            "target_sha256": "bc835c586c26a75467f1cbb3333e1276c62c743e943967c85e5be2e1a77794a3"
+          }
+        },
+        "zh-TW": {
+          "events:arc_y1_new_room_first_month:/choices/0/result_text": {
+            "source_sha256": "2289b57fb6f47efa379752a66a3de8904b6ba6338a8c67416a3a4b93040c7b3b",
+            "target_sha256": "baf521358e0b2c25f791c104c4f0c1f93c1e556180839a98bee40e181d2d458e"
+          },
+          "events:arc_y1_new_room_first_month:/choices/1/result_text": {
+            "source_sha256": "2cde1bfa8574ca04406d68dcbf6278558086dea384a90161799f9c8cdc3df4b6",
+            "target_sha256": "2482523bc2096385d552619ec81e1078694e27d75319b4d3c81551204825381f"
+          },
+          "events:arc_y1_new_room_first_month:/choices/1/text": {
+            "source_sha256": "8fe476da569ad5240343cdaa7361dfc0a214c453a408e3308fb5f7dd073d58e3",
+            "target_sha256": "fede01cb8678708380e750b2e4ced93477697ac6bb9ee9eadcabede92ebbb416"
+          },
+          "events:arc_y1_new_room_first_month:/description": {
+            "source_sha256": "cd1f687bb8c94a3580e04952bb39fe5d81acd9fd80dcb24022fb7ee282f294e4",
+            "target_sha256": "8313d3f363425d7a96406d19e714b9c814da90d6cb69ee7b11ffd58614bb9453"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -28336,20 +28481,20 @@
         "target_sha256": "722c2024c5e4d553e6a31d31f282597ed568083b8bb7c06b4cceb3e57b089b09"
       },
       "events:arc_y1_new_room_first_month:/choices/0/result_text": {
-        "source_sha256": "2289b57fb6f47efa379752a66a3de8904b6ba6338a8c67416a3a4b93040c7b3b",
-        "target_sha256": "32068d47cc9b61602e893e5e7a158e1dbc5e1caaf2e0ecfa8691688d20ae919f"
+        "source_sha256": "3d19d185bdce234098c9013b8c361083eb9f7e68985ead9b0a13c19697bcf53d",
+        "target_sha256": "187de6c44c9c4d02cdcdcece8251e00f4b2605e8d0bad383fb9247222493cf84"
       },
       "events:arc_y1_new_room_first_month:/choices/0/text": {
         "source_sha256": "39fe098e1a4f3929b09449b9d5aa5396d02613040fb52dce10ab5cf824cf13e3",
         "target_sha256": "2537c76d69be86f93f165470bb85d2049283d83d68c7d7ce9fe5700849b4c70e"
       },
       "events:arc_y1_new_room_first_month:/choices/1/result_text": {
-        "source_sha256": "2cde1bfa8574ca04406d68dcbf6278558086dea384a90161799f9c8cdc3df4b6",
-        "target_sha256": "91f41411634694d1292bd0c5d12c6f8ce4e9d49e5bf13674c01a35a9e67a37a3"
+        "source_sha256": "4de0c83ad96044ddd0eb7fe2973ea597313ce45e11040490cd0aac01c11b8e7b",
+        "target_sha256": "06d405b325b29cf1b672762a5d90e136946a19dc2ea7709ef57a3e14a393e56e"
       },
       "events:arc_y1_new_room_first_month:/choices/1/text": {
-        "source_sha256": "8fe476da569ad5240343cdaa7361dfc0a214c453a408e3308fb5f7dd073d58e3",
-        "target_sha256": "d78501b83cbc9ed7ab8954cce7ca240da073bca723bb29de83eeb8499f88248a"
+        "source_sha256": "1b2d12d39cf65c3d3d921a18a48fd2d0d9512faa97a08cd3ce39122a6413d554",
+        "target_sha256": "b68f934ca7140bd7ced3b9bff1b0be493c52d2f04ebce620c9b1c65326ee8710"
       },
       "events:arc_y1_new_room_first_month:/choices/2/result_text": {
         "source_sha256": "76e13b93953f0f4be1d5f133abf1b9db7fed909624b895b118b1afd242fd2fb3",
@@ -28360,8 +28505,8 @@
         "target_sha256": "90f5c3d90814031a52af6210f81edf0db57247bfa6c111f6414ba09aca80a0cb"
       },
       "events:arc_y1_new_room_first_month:/description": {
-        "source_sha256": "cd1f687bb8c94a3580e04952bb39fe5d81acd9fd80dcb24022fb7ee282f294e4",
-        "target_sha256": "c372fd85ec3d585bea989976767bf0bfbae988e945a95299f5055a35885e5647"
+        "source_sha256": "faa4d8b541d058f072096577049ea532dfd587e045d7f5a19e6dcd6f142e6916",
+        "target_sha256": "4998e41f1ed8f99d6af78092ac25935c8088207dc51ad05aa19b3540540d05a0"
       },
       "events:arc_y1_new_room_first_month:/title": {
         "source_sha256": "adc3b14b08339f3effbd021897fa67bc37de9648fb1c73e6092024f910093db6",
@@ -81230,20 +81375,20 @@
         "target_sha256": "61b7366cd32df9300e9af5b435b276ab16c1868a2c5c32f9c30a0038cc61e628"
       },
       "events:arc_y1_new_room_first_month:/choices/0/result_text": {
-        "source_sha256": "2289b57fb6f47efa379752a66a3de8904b6ba6338a8c67416a3a4b93040c7b3b",
-        "target_sha256": "290f16c009ff60ecd3bcc06f9859cbbd1c687d0fbb9ad447c99f3679acdd0930"
+        "source_sha256": "3d19d185bdce234098c9013b8c361083eb9f7e68985ead9b0a13c19697bcf53d",
+        "target_sha256": "740cac10a09aaafb447e82c90842037518b6c737593e80024d19bff2e2b60105"
       },
       "events:arc_y1_new_room_first_month:/choices/0/text": {
         "source_sha256": "39fe098e1a4f3929b09449b9d5aa5396d02613040fb52dce10ab5cf824cf13e3",
         "target_sha256": "4fa65368500862fe6ea0b03092f829d5d6dd64769cf18b2914d6fc05efef0101"
       },
       "events:arc_y1_new_room_first_month:/choices/1/result_text": {
-        "source_sha256": "2cde1bfa8574ca04406d68dcbf6278558086dea384a90161799f9c8cdc3df4b6",
-        "target_sha256": "76ba9f71c443541c4eb149c917f7ee0c6edd423aa9a6e9e270fb17b66590c0c2"
+        "source_sha256": "4de0c83ad96044ddd0eb7fe2973ea597313ce45e11040490cd0aac01c11b8e7b",
+        "target_sha256": "85cdf7c76644bbac4360c3a884cb135bc1dcc84ada7aec0b875a1e4d20d4c7ea"
       },
       "events:arc_y1_new_room_first_month:/choices/1/text": {
-        "source_sha256": "8fe476da569ad5240343cdaa7361dfc0a214c453a408e3308fb5f7dd073d58e3",
-        "target_sha256": "72a282bb771c8e84f266789ee5883e547d1d46faee3c42e665b0eba36c20f339"
+        "source_sha256": "1b2d12d39cf65c3d3d921a18a48fd2d0d9512faa97a08cd3ce39122a6413d554",
+        "target_sha256": "e4e6e612879d720f055dfc72e5ec3b5f020117c0d9992cbf56fbce7c6f83b029"
       },
       "events:arc_y1_new_room_first_month:/choices/2/result_text": {
         "source_sha256": "76e13b93953f0f4be1d5f133abf1b9db7fed909624b895b118b1afd242fd2fb3",
@@ -81254,8 +81399,8 @@
         "target_sha256": "89bf1e51746ce618ac4be0cfc1ceec56ad2d41c3f6a0b15a2ef73ec9e6b3f8ca"
       },
       "events:arc_y1_new_room_first_month:/description": {
-        "source_sha256": "cd1f687bb8c94a3580e04952bb39fe5d81acd9fd80dcb24022fb7ee282f294e4",
-        "target_sha256": "bc835c586c26a75467f1cbb3333e1276c62c743e943967c85e5be2e1a77794a3"
+        "source_sha256": "faa4d8b541d058f072096577049ea532dfd587e045d7f5a19e6dcd6f142e6916",
+        "target_sha256": "486498ef34a9e66e22ebad3e3205cb58316749e0e28ab47b5d08bd102e17a539"
       },
       "events:arc_y1_new_room_first_month:/title": {
         "source_sha256": "adc3b14b08339f3effbd021897fa67bc37de9648fb1c73e6092024f910093db6",
@@ -140908,20 +141053,20 @@
         "target_sha256": "76354a3c927700344ff3c080bf3478e18c7a4fb70fc8b6dfb0c3d5f27bbb9b12"
       },
       "events:arc_y1_new_room_first_month:/choices/0/result_text": {
-        "source_sha256": "2289b57fb6f47efa379752a66a3de8904b6ba6338a8c67416a3a4b93040c7b3b",
-        "target_sha256": "baf521358e0b2c25f791c104c4f0c1f93c1e556180839a98bee40e181d2d458e"
+        "source_sha256": "3d19d185bdce234098c9013b8c361083eb9f7e68985ead9b0a13c19697bcf53d",
+        "target_sha256": "a25b038d9c3ad5f0629d528bdf142b0dc654806d0ea908e9aaa5c6bafba95391"
       },
       "events:arc_y1_new_room_first_month:/choices/0/text": {
         "source_sha256": "39fe098e1a4f3929b09449b9d5aa5396d02613040fb52dce10ab5cf824cf13e3",
         "target_sha256": "5d373f9416f680179273076f9e2b513eadf8bb49ed52665b6ac010591f159641"
       },
       "events:arc_y1_new_room_first_month:/choices/1/result_text": {
-        "source_sha256": "2cde1bfa8574ca04406d68dcbf6278558086dea384a90161799f9c8cdc3df4b6",
-        "target_sha256": "2482523bc2096385d552619ec81e1078694e27d75319b4d3c81551204825381f"
+        "source_sha256": "4de0c83ad96044ddd0eb7fe2973ea597313ce45e11040490cd0aac01c11b8e7b",
+        "target_sha256": "fe05f48514a9f45962e028728d5cdf17473fc97129b8fae4cac3e405ad5b1a1c"
       },
       "events:arc_y1_new_room_first_month:/choices/1/text": {
-        "source_sha256": "8fe476da569ad5240343cdaa7361dfc0a214c453a408e3308fb5f7dd073d58e3",
-        "target_sha256": "fede01cb8678708380e750b2e4ced93477697ac6bb9ee9eadcabede92ebbb416"
+        "source_sha256": "1b2d12d39cf65c3d3d921a18a48fd2d0d9512faa97a08cd3ce39122a6413d554",
+        "target_sha256": "d51a3df127263715d285b6ef49f2d659df535e03e2bff2b525b8c38db170440f"
       },
       "events:arc_y1_new_room_first_month:/choices/2/result_text": {
         "source_sha256": "76e13b93953f0f4be1d5f133abf1b9db7fed909624b895b118b1afd242fd2fb3",
@@ -140932,8 +141077,8 @@
         "target_sha256": "5f8d5bcd4b9acd39a984a88562919cd17d05e1bc1f440b74fdb7f0b1438b4fd4"
       },
       "events:arc_y1_new_room_first_month:/description": {
-        "source_sha256": "cd1f687bb8c94a3580e04952bb39fe5d81acd9fd80dcb24022fb7ee282f294e4",
-        "target_sha256": "8313d3f363425d7a96406d19e714b9c814da90d6cb69ee7b11ffd58614bb9453"
+        "source_sha256": "faa4d8b541d058f072096577049ea532dfd587e045d7f5a19e6dcd6f142e6916",
+        "target_sha256": "0e7eb25dc8b007740a587356443e45fb482ac787b6314a7a5607b9397a37bac4"
       },
       "events:arc_y1_new_room_first_month:/title": {
         "source_sha256": "adc3b14b08339f3effbd021897fa67bc37de9648fb1c73e6092024f910093db6",
@@ -200397,7 +200542,7 @@
       }
     }
   },
-  "accepted_sha256": "0b1c04de777f23f30b49ebee11610a728c7b17590b8bab01f114fe3c6510d417",
+  "accepted_sha256": "4ae7e4996ec4c781f30a323ee8a208e36910de2ef5b7740e817abf610a7bade7",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
