@@ -34,5 +34,5 @@
 
 - `arc_34_money_attracts_money` 도입의 출력지, `arc_sangchul_human` 도입·known 1갈래의 말투 맥락, `arc_34_two_years_in` 두 번째 선택 문구/결과, `arc_father_03_hospital` 기본 도입 기간, `hyunsu_reunion_later` 두 번째 결과와 `hyunsu_reunion_memory` 기본·known 회수(사흘).
 - `arc_sangchul_mirror` 기본·known 2·첫 선택 결과의 실제 포장마차 경계, `arc_daeun_ghost` 첫 결과의 좋아요 주체, `arc_daeun_regret_draft` 설명의 대면 인사. 본래 대화 핵심 및 실제 입력·효과 보존.
-- `story_two_year` 5개 본문/선택 문구·결과의 서울 반복 제거와 기존 `arc_father_03_seen` 독자 갈래 검토. 살아 있는지 단정하지 않고 실제로 받은 병동 소식만, 해당 플래그가 없다면 일반 도입. W93/M24 실제 재생, W95를 고정하지 않는다. 8만원/방문 선택 결과 보존.
+- `story_two_year` 제목 및 5개 본문/선택 문구·결과의 서울 반복 제거, 기존 `arc_father_03_seen`으로 병동 연락을 이미 받은 경로에만 떠올리는 도입 1개 추가. 살아 있는지 단정하지 않고 실제로 받은 병동 소식만, 해당 플래그가 없다면 일반 도입. W93/M24 실제 재생, W95를 고정하지 않는다. 8만원/방문 선택 결과 보존.
 - 영어만 `arc_sangchul_offguard` 설명 인칭, 다은의 마트 명칭과 주거 서류 표기. 실제 ID·선택·비용·효과·플래그·배경, 보호 체험판·저장, 830 에셋 변경0. CJK hash 및 본문에 해당하는 내용 지문만 수용. 동적 조건 실제 소비자와 5언어 전수·서사·영향 검사를 확인한다. A2/A3 등 별도 전수 목록은 적용하지 않는다.
