@@ -236,6 +236,8 @@ UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리
 
 [~] 후속 감사: 장면의 실제 정적(무음) 판단은 `67f73db`로 이미 적용됐으나 노출 상태 계약 한 줄이 이전 `office`를 요구했다. `content/meta/exposed_event_state_contracts.json`의 이 사건 `audio_ambience` 값만 실제 기존 `intentional_silence`와 동기화한다. 장면·감사 로직·음원·경로·저장 변경0.
 
+완료(감사 계약): 같은 코드로 기존 값만 한 건 실패, 실제 정적과 맞춘 뒤 오류0. 빈 값·`office`·`room` 역검사 모두 실패 유지. 장면 오디오 계약과 240주 양 경로 오디오 감사 통과. 새 촬영·청취0.
+
 [~] W234 현재 혼자 있는 부동산 사무실의 공용 사무실 루프만 제외. `assets/scene_audio_manifest.json`의 `arc_y5_general_pre_ending_summit_exact`, `tools/{scene_audio_contract_check.py,StoryBackgroundContextCheck.gd}`의 정확한 해당 검사, 현황·일지·이 기록. 실내/대로 원화, 기존 `reckoning`, 명시된 종이·문 밖 차 한 번과 재개 시 재생 안 함, 두 갈래·돈·저장·5언어 원고·RC 유지. 실제로 없는 제3자, 타이핑, 기침, 날씨를 추가하지 않는다.
 
 [~] `tools/ScreenshotQA.gd`의 일반 종막 W234 화면 검사도 조용한 사무실에 맞춘다. 기존 장소·초상·선택/결과 검사를 유지하고, 세 환경 재생기가 실제로 정지했는지 확인한다.

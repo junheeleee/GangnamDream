@@ -2389,7 +2389,7 @@
     "arc_y5_general_pre_ending_summit_exact": {
       "scene_location": "realestate_office",
       "visual_background": "realestate_office",
-      "audio_ambience": "office"
+      "audio_ambience": "intentional_silence"
     },
     "arc_y5_general_final_record_seal": {
       "scene_location": "current_housing",
