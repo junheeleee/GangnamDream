@@ -415,7 +415,7 @@
       },
       {
         "text": "Leave Jaehyuk one last voice message — postpone checking the records",
-        "result_text": "{name} pressed Call again. After the ringing came the recording prompt. \"Jaehyuk. Forget the money. Tell me yourself what you put in front of me that night.\" He stayed on the line until the message sent."
+        "result_text": "He pressed Call again. Jaehyuk didn’t answer. This time, {name} didn’t hang up first."
       }
     ],
     "description_if_known": {
@@ -430,7 +430,7 @@
     "choices": [
       {
         "text": "Read every account the other victims left behind.",
-        "result_text": "By the last page, daylight had reached the window. Before counting the money, {name} counted the people who had believed the same sentence."
+        "result_text": "He finished the last page. Before adding up the losses, {name} counted how many people had believed the same line he had."
       }
     ]
   },

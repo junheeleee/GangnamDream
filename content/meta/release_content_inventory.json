@@ -692,7 +692,7 @@
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
         "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
-        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "7e7f22db3ca24173a74700448e53b31bb7c3300955d76ceebffaeda97f313455"
+        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "14c4034793c8bd4df63eb99213ebde168ad2a1a89a9e7f4b63b744b8d301651f"
       },
       "facts": [
         {
