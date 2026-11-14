@@ -11,6 +11,7 @@
     "current_workplace": "current_workplace",
     "goshiwon": "room",
     "goshiwon_room": "room",
+    "hyunsu_exam_room": "apartment",
     "goshiwon_hallway": "goshiwon_hallway",
     "goshiwon_shared_kitchen": "goshiwon_hallway",
     "v2_first_bill_desk_closeup": "current_housing",
@@ -1822,7 +1823,7 @@
         "2": [{"sfx": "cup_set", "volume_db": -6.0}]
       }
     },
-    "hyunsu_result_fail": {"ambience": "room", "suppress_music": true},
+    "hyunsu_result_fail": {"ambience": "apartment", "suppress_music": true, "suppress_human_ambience": true, "suppress_season_ambience": true},
     "hyunsu_result_pass": {"ambience": "room", "suppress_music": true},
     "arc_hyunsu_exam_fail": {"ambience": "current_housing", "suppress_music": true},
     "arc_hyunsu_drift": {"ambience": "current_housing", "suppress_music": true},

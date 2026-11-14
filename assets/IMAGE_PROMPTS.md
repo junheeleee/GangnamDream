@@ -347,6 +347,12 @@ W235, a near view of a plain table in Minjun's current home: an unmarked black-s
 
 Source SHA-256 `d2b42a12a2996f034cc573355b4ec97c4dcdd12ec8e4a38dcfe9cf900704ea28`; opaque 1584×990 master `4aae01bafb3a164cc1170a15fedbf3ddfe793935d8b5266c500656ec6392fe09`. The logical location and room audio stay `current_housing`.
 
+### hyunsu_exam_room_v1.png
+
+Different modest room in the same Sinchon goshiwon, seen past the door only after it opens. A partly lit open workbook on the floor, single narrow bed, worn walls and study shelf. Building-class reference `goshiwon_room.png` (not Minjun's floor plan); matte Gangnam Ink reference `convenience_rear_comparison_v1.png`. No named actor, cans, readable test marks, result, other resident or weather. Low-contrast right side and lower dialogue area.
+
+Source SHA-256 `059798ae899bbcdc3dc2eb12663b1dbd18b6f31d2bc09f91e52635cd9d1aee77`; opaque 1584×990 master `cb0cf1fe2032dcd8cb8eec983669e59371af8b8185b10667694f0095fcd96516`.
+
 ---
 
 ### penthouse_view.png

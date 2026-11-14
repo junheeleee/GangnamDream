@@ -15,6 +15,11 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "assets" / "scene_audio_manifest.json"
 ACTING_PATH = ROOT / "assets" / "cg_acting_manifest.json"
 DYNAMIC_AMBIENCE_KEYS = {"current_housing", "current_workplace"}
+HYUNSU_EXAM_FAILURE_EVENT = "hyunsu_result_fail"
+HYUNSU_EXAM_FAILURE_AUDIO = {
+    "ambience": "apartment", "suppress_music": True,
+    "suppress_human_ambience": True, "suppress_season_ambience": True,
+}
 M14_BANK_EVENT = "arc_y2_bank_limit_review"
 M14_BANK_BACKGROUNDS = ("bank_loan_counter_day", "bank_loan_exit_day")
 M14_BANK_RESULT_CUES = {
@@ -406,6 +411,10 @@ def main() -> int:
 
     if M14_BANK_EVENT not in event_contracts:
         errors.append(f"{M14_BANK_EVENT}: missing bank audio contract")
+    if (event_contracts.get(HYUNSU_EXAM_FAILURE_EVENT) != HYUNSU_EXAM_FAILURE_AUDIO
+            or events.get(HYUNSU_EXAM_FAILURE_EVENT, {}).get("background") != "goshiwon_hallway"
+            or manifest.get("background_profiles", {}).get("hyunsu_exam_room") != "apartment"):
+        errors.append(f"{HYUNSU_EXAM_FAILURE_EVENT}: keep the quiet threshold/room free of borrowed machinery and cues")
     if W224_CUSTODY_EVENT not in event_contracts:
         errors.append(f"{W224_CUSTODY_EVENT}: missing rear-table audio contract")
     if W230_VERDICT_EVENT not in event_contracts:

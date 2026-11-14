@@ -40,6 +40,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "hyunsu_exam_room": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "goshiwon_hallway": {
       "environment": "indoor",
       "depth": "near",

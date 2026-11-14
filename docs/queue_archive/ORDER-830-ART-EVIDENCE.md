@@ -12,6 +12,8 @@
 
 [~] 검수한 `assets/backgrounds/hyunsu_exam_room_v1.png`와 import, `autoloads/ImageRegistry.gd`, `scenes/StoryMode.gd`의 해당 선택0 결과 문단1 이후만, `assets/{scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{scene_audio_contract_check.py,scene_direction_catalog.py,art_resolution_baseline.json}`, `content/meta/release_content_inventory.json`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{MODDING,ART_AI_AUDIT,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, 현황·이 기록만. 복도 도입·선택·문 열림 결과 첫 문단은 기존 그림; 두 갈래와 돌아가기 저장은 보존. 배경음은 다른 방 냉장고·시계와 외부/사람 층 없이 기존 담백한 실내 룸톤. 맞는 사적 방문·캔 녹음이 없어 다른 소리로 때우지 않는다.
 
+완료(화면·룸톤): 1584×990 `cb0cf1fe2032…`. 격리 실제 960×600·1280×800, 각 5언어×2갈래, 45컷씩/총90, 결과 문단70, 결과 콜드 재개6. 문 열림 첫 문단은 복도를 유지하며 문제집부터 현수 방으로, 기다리지 않는 갈래는 그대로. 작은 창 JA에서 이름표가 책 바깥 아래 모서리에 닿지만 펼친 페이지와 본문은 읽힌다. 민준 초상은 민준으로 유지. 실제 사물·캔 소리와 선택1 세면대→복도 같은 문단 컷, 연속 청취 별도. 정적 감사 오류/경고0, 원고·RC·기존 저장 불변.
+
 ### M08 고시원 현관 밖 — 이사 아침이 아닌 젖은 길
 
 [~] `arc_goshiwon_goodbye` 선택0의 결과 문단2 이후에만 맞는 후보. 낡은 신촌 고시원 출입구에서 본 젖은 이면도로, 실외/실내 경계를 읽을 수 있게. 원문은 비가 내린다거나 시간대를 확정하지 않으므로 빗방울·우산·시간 표기0. 상자·인물·주소·새 집 등급을 그리지 않으며 새 에셋 배선·원고·저장·RC 변경 전 독립 대조한다. 현수에게 인사하거나 복도에서 회상하는 갈래는 동일한 실외 컷을 쓰지 않는다.

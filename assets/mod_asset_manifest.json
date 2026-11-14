@@ -426,6 +426,14 @@
     {
       "kind": "background",
       "ids": [
+        "hyunsu_exam_room"
+      ],
+      "relative_path": "backgrounds/hyunsu_exam_room_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "meeting"
       ],
       "relative_path": "backgrounds/investment_meeting.png",

@@ -121,6 +121,7 @@ INDOOR_BACKGROUNDS = {
     "bank_loan_counter_day",
     "goshiwon",
     "goshiwon_room",
+    "hyunsu_exam_room",
     "goshiwon_hallway",
     "goshiwon_shared_kitchen",
     "v2_first_bill_desk_closeup",
