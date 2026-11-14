@@ -40,6 +40,7 @@ const W126_RIVER := "arc_goal_vertigo"
 const W205_PHONE := "arc_minseo_03b_not_arrived"
 const W161_BODY := "arc_36_body_signal"
 const W161_STOPPED := "seoul_subway_stopped_w161"
+const W161_PLATFORM := "seoul_subway_platform_bench_w161"
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -277,6 +278,7 @@ const EXACT_PATHS := {
 	W57_PASSAGE: "res://assets/backgrounds/seoul_subway_transfer_passage_v1.png",
 	W57_CAR: "res://assets/backgrounds/seoul_subway_commuters_w57_v1.png",
 	W161_STOPPED: "res://assets/backgrounds/seoul_subway_stopped_w161_v1.png",
+	W161_PLATFORM: "res://assets/backgrounds/seoul_subway_platform_bench_w161_v1.png",
 	W57_GATE: "res://assets/backgrounds/changwon_station_arrival_gate_v1.png",
 	W57_TABLE: "res://assets/backgrounds/changwon_home_medication_table_v1.png",
 	W53_DINING: "res://assets/backgrounds/sangchul_private_dining.png",
@@ -2683,6 +2685,7 @@ func _check_w161_body() -> bool:
 	var paths := 0
 	var restores := 0
 	var stopped_reloads := 0
+	var platform_reloads := 0
 	var capture := OS.get_environment("GANGNAM_W161_CAPTURE_DIR")
 	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
 		for flag: String in ["", "changed_routine", "maintained_routine", "restarted_exercise"]:
@@ -2738,10 +2741,16 @@ func _check_w161_body() -> bool:
 					var source := int(_story.call("_story_source_paragraph_index", page))
 					var clinic := choice == 0 and source in [1, 2]
 					var destination := "hospital_clinic_day" if clinic else ""
-					if choice == 2 and source == 0:
-						destination = W161_STOPPED
+					if source == 0:
+						if choice == 0:
+							destination = W161_PLATFORM
+						elif choice == 2:
+							destination = W161_STOPPED
 					if not _expect_w161_surface(destination):
 						return false
+					if destination == W161_PLATFORM and flag.is_empty() and page == 0 and not capture.is_empty():
+						if not await _save_viewport_frame(capture.path_join("%s_platform.png" % language)):
+							return false
 					if clinic and not seen_clinic:
 						seen_clinic = true
 						if flag.is_empty() and not capture.is_empty():
@@ -2757,6 +2766,8 @@ func _check_w161_body() -> bool:
 						restores += 1
 						if destination == W161_STOPPED:
 							stopped_reloads += 1
+						elif destination == W161_PLATFORM:
+							platform_reloads += 1
 					if page + 1 < result_pages:
 						_story.call("_on_advance")
 						await _wait_stable()
@@ -2767,8 +2778,8 @@ func _check_w161_body() -> bool:
 					_fail("W161 changed the original health, price or receipt")
 					return false
 				paths += 1
-	print("W161_BODY_OK paths=%d v4=%d stopped_v4=%d" % [paths, restores, stopped_reloads])
-	return paths == 60 and restores >= 35 and stopped_reloads == 5
+	print("W161_BODY_OK paths=%d v4=%d stopped_v4=%d platform_v4=%d" % [paths, restores, stopped_reloads, platform_reloads])
+	return paths == 60 and restores >= 35 and stopped_reloads == 5 and platform_reloads == 5
 
 func _expect_w161_surface(background: String) -> bool:
 	var image := _story.get("_bg_img") as TextureRect

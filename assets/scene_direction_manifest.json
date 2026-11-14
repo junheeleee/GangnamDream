@@ -264,6 +264,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "seoul_subway_platform_bench_w161": {
+      "environment": "transit",
+      "depth": "mid",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "seoul_subway_transfer_passage": {
       "environment": "transit",
       "depth": "mid",

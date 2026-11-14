@@ -896,6 +896,14 @@
     {
       "kind": "background",
       "ids": [
+        "seoul_subway_platform_bench_w161"
+      ],
+      "relative_path": "backgrounds/seoul_subway_platform_bench_w161_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "seoul_subway_stopped_w161"
       ],
       "relative_path": "backgrounds/seoul_subway_stopped_w161_v1.png",

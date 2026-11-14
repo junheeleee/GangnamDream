@@ -607,6 +607,8 @@ M60 ‘다은과 함께’는 외곽 집의 현재 식탁 아래 기존 조용�
 
 [~] W161 벤치 원화 독립 GO 후 배선 — `assets/backgrounds/seoul_subway_platform_bench_w161_v1.png`+import, `scenes/StoryMode.gd`, `autoloads/ImageRegistry.gd`, `assets/{scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `tools/{scene_direction_catalog.py,scene_audio_contract_check.py,StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `content/meta/release_content_inventory.json`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY}.md`, 이 증거·현황·일지. 내려서 예약하는 c0 첫 원문 문단만. 독립 원화 판정에서 객차형 주황 좌석과 개방 선로 변형 제외. 승강장 소리는 등록된 녹음이 외국 대합실과 열차 통과 믹스이므로 재사용하지 않는다. 진료실·수납·다른 선택·기존 음원·원고·저장 불변.
 
+2026-11-15 KST: W161 하차 벤치 배선 완료. 공식 격리 검사 `gangnam-story-background-context-eij2l4xz` 5언어 60갈래, 결과 복원 35건(정차·벤치 각각 5), stderr0·격리 폴더 정리 확인. 원화 독립 검수에서 역용 금속 벤치·통행로·점자블록과 직전 개구부가 이어지는 안을 채택. 정적 음향·장면·미술/출시/모딩 원장과 공개 데모 5언어 보호 감사 통과. 구형 대합실/통과 열차 믹스를 쓰지 않는다. 마감 백반집·수납·역 편의점, 실제 화면과 현장에 맞는 녹음·청취는 미완.
+
 완료(2026-11-15 KST, 한강 배경·민서 원격 통화): W126 세 번째 결과만 기존 야간 강변으로 이동하고 나머지 결과는 현재 거처를 유지한다. 강물 전용 적합 원음과 구체 장소가 나오지 않는 마지막 귀갓길의 별도 컷은 미완. W205는 카페 그림과 환경음 대신 민서를 전화로 표시하며, 첫 갈래에서 원문이 전화를 끊었다는 문단부터 민서와 통화 배지를 없앤다. 두 번째 갈래는 일방 종료를 추가하지 않았다. 독립 검수에서 이전 카페 텍스처가 같은 인스턴스에 남는 결함을 발견해, 진입 즉시 텍스처·환경층을 비우도록 수정했다.
 
 최종 `830-w126-w205-headless.Jl9Vhk`·`830-w126-w205-final.gTDwV8`: 각각 5언어 선택 65·v4 결과 재개 65·같은 화면 노드에서 카페→통화 전환 5, stderr0; 1280×800 실렌더 30컷. 독립 원문·변경폭·카페 잔류 반례 대조. 글·경제·선택 효과·저장 형식·데모 불변. 직접 출력 기기 청취 미수행.

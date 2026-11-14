@@ -428,6 +428,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `seoul_station_visitor_sticker` | `backgrounds/seoul_station_visitor_sticker.png` | 1280x800 |
 | background | `subway` | `backgrounds/seoul_subway.png` | 1280x800 |
 | background | `seoul_subway_commuters_w57` | `backgrounds/seoul_subway_commuters_w57_v1.png` | 1584x990 |
+| background | `seoul_subway_platform_bench_w161` | `backgrounds/seoul_subway_platform_bench_w161_v1.png` | 1584x990 |
 | background | `seoul_subway_stopped_w161` | `backgrounds/seoul_subway_stopped_w161_v1.png` | 1584x990 |
 | background | `seoul_subway_transfer_passage` | `backgrounds/seoul_subway_transfer_passage_v1.png` | 1584x990 |
 | background | `sinchon_bus_stop_after_rain_night` | `backgrounds/sinchon_bus_stop_after_rain_night.png` | 1280x800 |

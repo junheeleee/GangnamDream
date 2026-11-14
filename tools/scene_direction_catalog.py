@@ -97,6 +97,7 @@ TRANSIT_BACKGROUNDS = {
     "subway",
     "seoul_subway_commuters_w57",
     "seoul_subway_stopped_w161",
+    "seoul_subway_platform_bench_w161",
     "subway_station_stairs",
     "subway_station_lost_found",
     "subway_station_coin_lockers",

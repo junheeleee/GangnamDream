@@ -88,6 +88,7 @@ const W82_HYUNSU_BUS := "arc_y2_hyunsu_night_bus"
 const W205_MINSEO_CALL := "arc_minseo_03b_not_arrived"
 const W161_BODY_SIGNAL := "arc_36_body_signal"
 const W161_STOPPED_CAR := "seoul_subway_stopped_w161"
+const W161_PLATFORM_BENCH := "seoul_subway_platform_bench_w161"
 const W161_EXAM_ROOM := "hospital_clinic_day"
 const W132_RECKONING := "arc_sangchul_reckoning"
 const W132_CAFE_STAIRS := "sangchul_cafe_stairs"
@@ -6113,10 +6114,14 @@ func _apply_w161_transport_surface() -> void:
 	var source := _story_source_paragraph_index(_para_index)
 	var destination := W57_COMMUTER_CAR
 	if _pending_after_result:
-		# The first result starts on the platform; only the consultation
-		# belongs in the exam room. The other uncovered locations stay neutral.
-		destination = W161_EXAM_ROOM if _pending_result_choice_index == 0 and source in [1, 2] else ""
-		if _pending_result_choice_index == 2 and source == 0:
+		# Leaving the train, the consultation and later payment are distinct.
+		destination = ""
+		if _pending_result_choice_index == 0:
+			if source == 0:
+				destination = W161_PLATFORM_BENCH
+			elif source in [1, 2]:
+				destination = W161_EXAM_ROOM
+		elif _pending_result_choice_index == 2 and source == 0:
 			destination = W161_STOPPED_CAR
 	elif source == 5 and _story_source_paragraph_count() == 6:
 		# Only the default intro reaches the explicit opening of the doors.
