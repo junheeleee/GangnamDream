@@ -551,6 +551,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] M60 ‘다은과 함께’ 엔딩의 현재 거실 환경음만: `assets/scene_audio_manifest.json`, `autoloads/BGMPlayer.gd`의 엔딩 CG 명시 차단 소비, `tools/{BGMContinuityCheck.gd,scene_audio_contract_check.py}`, 현황·일지·이 증거. 현재 외곽 집 식탁의 소리는 기계층을 더한 `oneroom`에서 이미 출처가 확인된 단일 방 환경음 `apartment`로 바꾼다. 산문의 고시원 냉장고는 지난날 회상이다. 그 CG에서만 이전 계절/군중을 즉시 끊고 명시 차단 없는 다른 엔딩의 동작은 유지. 엔딩 선택/선율/스팅어/CG/텍스트/다른 원룸·결혼 장면 및 저장·데모 무변경.
 
+[~] W69 첫 선택의 편의점 바깥 계단 원화 후보만 제작. 기존 편의점 외관의 유리 베이·차양·냉장고/계산대/문 배치를 참조하되, 장면에 없는 특정 지점·다은·손님·비·눈은 넣지 않는다. 사람이 앉았다 일어날 수 있는 실제 비율의 낮은 바깥 계단을 대화창 위에 둔다. 낮/첫눈 그림을 덮어쓰지 않으며 채택과 런타임 배선은 후보 검수 뒤 별도 선언한다.
+
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.
