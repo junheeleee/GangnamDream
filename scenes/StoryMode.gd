@@ -5571,8 +5571,8 @@ func _render_current():
 	_reset_advance_hold()
 	var w53_network := _is_w53_network_scene()
 	var w205_minseo_call := str(_current.get("id", "")) == W205_MINSEO_CALL
-	var w167_family_table := _is_w167_family_table(str(_current.get("id", "")))
-	var cold_w167_result := w167_family_table \
+	var w167_family_table: bool = _is_w167_family_table(str(_current.get("id", "")))
+	var cold_w167_result: bool = w167_family_table \
 		and str(_pending_restore_context.get("event_id", "")) == str(_current.get("id", "")) \
 		and str(_pending_restore_context.get("phase", "")) == "result"
 	var cold_w161_result := str(_current.get("id", "")) == W161_BODY_SIGNAL \
