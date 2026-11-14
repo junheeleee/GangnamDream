@@ -2,7 +2,7 @@
 
 ## 2026-11-14
 
-- [830](queue_active/ORDER-830.md) M7–9·5언어; [833](queue_active/ORDER-833.md) Y1·D.
+- [830](queue_active/ORDER-830.md) M7–9/W234; [833](queue_active/ORDER-833.md) Y1·Y2·D.
 
 ## 2026-11-13 — 룰렛 상태 표시 현지화
 
