@@ -762,19 +762,19 @@
   {
     "id": "arc_y4_father_final_contact_called",
     "title": "One Connected Sentence",
-    "description": "The call was connected. {name} stood at the window, holding the phone in both hands. Beyond Father's voice came the wheels of a hospital cart, then a short breath. The call timer grew; the distance to Changwon did not shrink.\n\n\"Minjun.\"\n\"Yes, Dad.\"\n\n{name} had three things available: admitting that he had decided on the hospital visit alone, stating that he could not arrive today, or leaving his explanations aside and hearing one sentence of Father's to the end. He could do all three without hanging up, but then he would fill the time with his own voice again.\n\nWhile Father gathered breath, {name} chose one.",
+    "description": "His father was still on the line. {name} stood at the window, holding his phone in both hands. He heard the wheels of a hospital cart, then his father's short breaths. The seconds ticked up on the screen. Changwon was no closer.\n\n\"Minjun.\"\n\"Yes, Dad.\"\n\n{name} thought of bringing up how he'd decided on his own whether to visit that day or put it off. He could say he couldn't get to Changwon today. Or he could let his father speak first. He didn't want to do all the talking again.\n\nHis father caught his breath. {name} didn't rush to speak.",
     "choices": [
       {
         "text": "Admit that he decided alone whether to make or postpone the hospital visit",
-        "result_text": "\"I decided alone whether to go to the hospital or postpone it. I didn't ask you.\"\n\nFather did not answer immediately. Only after the cart wheels receded did he say, \"Yes. You did.\"\n\n{name} added no explanation. The call continued, but the old choice could no longer be covered by saying he had been busy."
+        "result_text": "\"I decided alone whether to go to the hospital or postpone it. I didn't ask you.\"\n\nFather did not answer immediately. Only after the cart wheels receded did he say, \"Yes. You did.\"\n\nThey stayed on the line. {name} didn't try to brush it off by saying he'd been busy."
       },
       {
         "text": "State plainly that he cannot reach Changwon today",
         "result_text": "\"I can't make it to Changwon today. I'm in Seoul.\"\n\nHis father said, very quietly, \"I understand.\" {name} didn't say when he might come.\n\nIt was that quiet reply that made it sink in: he couldn't be with his father today."
       },
       {
-        "text": "Offer no defense and hear one sentence Father chooses to the end",
-        "result_text": "{name} said only, \"Go ahead.\"\n\nAfter taking two breaths, Father said, \"Don't hang up today. Stay a while.\"\n\n{name} asked nothing and explained nothing. His prepared words moved aside as the call timer grew. One sentence Father had chosen remained unbroken between them."
+        "text": "Listen to Dad without making excuses",
+        "result_text": "{name} said only, \"Go ahead.\"\n\nAfter taking two breaths, Father said, \"Don't hang up today. Stay a while.\"\n\n{name} asked nothing more. The timer on the screen kept counting. He didn't say what he'd been ready to say."
       }
     ]
   },
