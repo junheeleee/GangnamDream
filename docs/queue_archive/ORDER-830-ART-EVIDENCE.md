@@ -4,6 +4,8 @@
 
 ### 1장 후반 W25~48 블라인드 1차 — 사실 오류와 실제 플레이 대조
 
+[~] 파생 사실만 `content/meta/release_content_inventory.json`와 `docs/CONTENT_RATING_INVENTORY.md`: W47 연애 후보 재지문(집합 그대로), W28 투자 선택의 `panic sell` 금융 표현 제거로 공포 검색 오탐 1건 감소. 원래 검색 규칙·공시 사실·판정·역사 패키지는 그대로.
+
 [~] 착수 — 2026-11-14 사용자 지정. `content/events{,_en,_ja,_zh-CN,_zh-TW}/{story_events,arc_events,arc_midgame,callback_events_37,callback_events_6}.json`의 지정 다섯 사건, 영어 W35 `arc_daeun.json`과 W48 `arc_year_close.json`의 해당 문장 및 필요 시 실제 첫 등장 영어 문장만. 기존 상태 토큰/조건에 필요한 `content/meta/{exposed_event_state_contracts,story_rules,full_game_localization}.json`와 해당 기존 문자열 계약 검사, 이 기록·현황·당일 일지. W45의 위치·효과와 W48 마무리는 보존하고, W28 결과의 기존 금액과 선행 손실을 대조한다. 거래·효과·스케줄러·저장·이전 RC·아트·소리 변경 0. 기존 기록을 읽어 C1/다른 실경로·모의 경로와 보존되지 않은 항목을 분리한다. 장면 배치를 바꾸는 일은 권고만 한다.
 
 ### W224 편의점 뒤, 비교본을 사이에 두고
