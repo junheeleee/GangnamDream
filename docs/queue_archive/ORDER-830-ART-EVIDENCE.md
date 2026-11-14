@@ -2,6 +2,10 @@
 
 [활성 사양](../queue_active/ORDER-830.md)에서 이관한 원문. 상태와 산출물은 당시의 기록이다.
 
+### W240 보내기만 한 문자의 전화벨
+
+[~] `assets/scene_audio_manifest.json`의 `arc_y5_final_week_daeun_outbound` 도입·3결과와 `arc_y5_final_week_general_people_outbound`의 민서 문자 2결과에만 잘못 붙은 `phone_notification`(원음은 전화벨) 6건 제거. 새 답장이나 통화가 없는 장면에 대체음을 발명하지 않는다. 다은/마지막 해 음악과 실내 환경음, 아버지 기록 봉투 필기음, 다른 장면·원문·선택·저장·기존 RC 그대로. 현황·당일 일지·이 증거만.
+
 ### W234 상담 자리에 가져온 기록
 
 [~] `arc_y5_general_pre_ending_summit_exact`의 `chapter5_finale_reads.texts[0][0–1]`만 `content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_pre_ending.json`에서 교열. W229의 다섯 주 전 선택에 따라 마지막 상환일과 민서에게 보냈던 답을 남긴 자료가 상담 자리에 있는지 나눈다. 음성 원본과 종이 두 장에 공통이며, 자료를 펼치거나 다시 재생·발신하지 않는다. 삭제한 음성이나 집에 둔 종이, 새 서류·통화·매매를 발명하지 않는다. 원래 도입·결과·변수·화면·음향·저장·구 RC 보존. 기존 CJK 수용·현행 사실 원장 파생분(있을 경우)·이 증거와 당일 일지·현황만.
