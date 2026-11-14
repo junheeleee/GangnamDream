@@ -1295,15 +1295,15 @@
   {
     "id": "arc_y1_new_room_first_month",
     "title": "The First Utility Bill",
-      "description": "At 7:12 p.m., one month after the move, confirmation arrived that the first electric bill had been paid. {name} unfolded the notice that had been wedged beneath the door and set it beside the transfer receipt. It was the first price attached to a full month in this room.\n\nOn the calendar where {name} had redrawn his commute and mealtimes, only the first three days bore check marks. The last box and unfamiliar ceiling from move-in night were already behind him. The room now smelled of dry towels and carried the marks of a month's living. The light above the sink blinked once, and the refrigerator motor started again. {name} wrote the payment time in the calendar margin.",
+      "description": "A month after he moved in, {name} got a notification at 7:12 p.m. that his electricity payment had gone through. He unfolded the bill that had been wedged beneath the door and set it beside the transfer receipt. It was the first electric bill he'd paid here.\n\nHe'd redone his commute and mealtimes on the calendar, but only the first three days were checked off. The rest were blank. On moving day there had still been boxes to unpack, and even the ceiling looked unfamiliar. Now the room smelled of dry towels and bore the marks of a month's living. The light over the sink flickered once, and the refrigerator motor started up again. {name} noted the time of the payment in the margin.",
     "choices": [
       {
         "text": "Tape the transfer receipt above the desk",
-        "result_text": "{name} wrote the amount beneath the rent date and taped the receipt to the wall. When one corner lifted, he pressed it down with his thumbnail for a long time.\n\nHe copied the same amount into next month's square. This was no longer the new room. It was his current address, with a price due every month."
+        "result_text": "{name} wrote the electricity charge beneath the rent due date and stuck the transfer receipt up with clear tape. When a corner lifted, he pressed it down with his thumbnail for a long time.\n\nHe copied the same amount into next month's square. Rent wasn't the only thing he had to budget for each month now."
       },
       {
-        "text": "Send Father one line saying the room works fine",
-          "result_text": "{name} took a photo that showed both the boiler light and the bill. He wrote, \"The electricity works. The room isn't cold.\"\n\nAfter a while, Father replied, \"Good.\" That one word remained beneath the room photo. {name} put the phone face down on the bill."
+        "text": "Text Father that everything's fine at the new place",
+          "result_text": "{name} took a photo with both the boiler light and the bill in the frame. He texted, \"The power's working and the room isn't cold.\"\n\nAfter a while, Father replied, \"Good.\" The word stayed beneath the photo. {name} put the phone face down on the bill."
       },
       {
         "text": "Rewrite the abandoned routine from the current time onward",
