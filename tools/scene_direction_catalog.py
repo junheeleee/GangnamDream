@@ -125,6 +125,7 @@ INDOOR_BACKGROUNDS = {
     "hyunsu_exam_room",
     "goshiwon_hallway",
     "goshiwon_shared_kitchen",
+    "goshiwon_shared_washbasin",
     "v2_first_bill_desk_closeup",
     "convenience_night",
     "convenience_night_dry",

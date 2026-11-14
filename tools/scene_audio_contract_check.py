@@ -430,8 +430,9 @@ def main() -> int:
         errors.append(f"{M14_BANK_EVENT}: missing bank audio contract")
     if (event_contracts.get(HYUNSU_EXAM_FAILURE_EVENT) != HYUNSU_EXAM_FAILURE_AUDIO
             or events.get(HYUNSU_EXAM_FAILURE_EVENT, {}).get("background") != "goshiwon_hallway"
-            or manifest.get("background_profiles", {}).get("hyunsu_exam_room") != "apartment"):
-        errors.append(f"{HYUNSU_EXAM_FAILURE_EVENT}: keep the quiet threshold/room free of borrowed machinery and cues")
+            or any(manifest.get("background_profiles", {}).get(key) != "apartment"
+                   for key in ("hyunsu_exam_room", "goshiwon_shared_washbasin"))):
+        errors.append(f"{HYUNSU_EXAM_FAILURE_EVENT}: keep the hall, room and washbasin free of borrowed machinery and cues")
     if (event_contracts.get(GOSHIWON_MOVEOUT_EVENT) != GOSHIWON_MOVEOUT_AUDIO
             or events.get(GOSHIWON_MOVEOUT_EVENT, {}).get("background") != "goshiwon_hallway"
             or manifest.get("background_profiles", {}).get("goshiwon_moveout_wet_street")

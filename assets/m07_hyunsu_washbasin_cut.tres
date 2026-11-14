@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/return_anchors = {
+"ko": "물소리가 멎은 뒤 복도에서 눈이 마주쳤다.",
+"en": "When the water stopped, their eyes met in the hallway.",
+"ja": "水音が止んだあと、廊下で目が合った。",
+"zh-CN": "水声停了，彼此的目光在走廊里碰上。",
+"zh-TW": "水聲停下後，彼此的視線在走廊交會。"
+}

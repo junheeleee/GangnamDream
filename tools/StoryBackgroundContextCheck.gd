@@ -10,6 +10,18 @@ const BURNOUT_PRIOR_CHOICES := [2, 1, 0, 1]
 const W202_EVENT := "callback_daeun_committed_gangnam_eve"
 const W4_EVENT := "arc_temptation_01"
 const W4_ROOM := "goshiwon_room"
+const M07_HYUNSU_RESULT := "hyunsu_result_fail"
+const M07_HALL := "goshiwon_hallway"
+const M07_BASIN := "goshiwon_shared_washbasin"
+const M07_EXAM_ROOM := "hyunsu_exam_room"
+const M07_BASIN_WORDS := {
+	"ko": "공용 세면대", "en": "the shared sink", "ja": "共用の洗面台",
+	"zh-CN": "公共洗手台", "zh-TW": "公共洗手台",
+}
+const M07_RETURN_WORDS := {
+	"ko": "물소리가 멎은 뒤", "en": "When the water stopped", "ja": "水音が止んだあと",
+	"zh-CN": "水声停了", "zh-TW": "水聲停下後",
+}
 const HYUNSU_CALL := "arc_hyunsu_new_path"
 const HYUNSU_KEYBOARD := "keyboard_phone"
 const HYUNSU_INTRO_CUE := "arc_hyunsu_new_path::description:2:0:keyboard_phone"
@@ -221,6 +233,9 @@ const EXACT_PATHS := {
 	W234_OFFICE: "res://assets/backgrounds/realestate_office.png",
 	W234_BOULEVARD: "res://assets/backgrounds/gangnam_boulevard_winter_dusk.png",
 	W4_ROOM: "res://assets/backgrounds/goshiwon_room.png",
+	M07_HALL: "res://assets/backgrounds/goshiwon_hallway.png",
+	M07_BASIN: "res://assets/backgrounds/goshiwon_shared_washbasin_v1.png",
+	M07_EXAM_ROOM: "res://assets/backgrounds/hyunsu_exam_room_v2.png",
 	OFFER_STOP: "res://assets/backgrounds/sinchon_main_road_bus_stop_rain_overcast.png",
 	OFFER_SEDAN: "res://assets/backgrounds/sinchon_offer_sedan_rain.png",
 	OFFER_STATION: "res://assets/backgrounds/sinchon_offer_station_approach_rain.png",
@@ -308,6 +323,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_M07_WASHBASIN_CHECK"):
+		var basin_ok := await _check_m07_washbasin()
+		await _remove_story()
+		await _stop_audio()
+		if basin_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=m07_washbasin locales=5 choices=2")
+		get_tree().quit(0 if basin_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W41_CALL_CHECK"):
 		var call_ok := await _check_hyunsu_call()
 		if call_ok:
@@ -446,6 +469,8 @@ func _ready() -> void:
 		_fail("Daeun store default full-owner smoke failed")
 	if not await _check_hyunsu_call(true):
 		_fail("Hyunsu call default full-owner smoke failed")
+	if not await _check_m07_washbasin(true):
+		_fail("M07 washbasin regression smoke failed")
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -2072,6 +2097,66 @@ func _daeun_store_surface(background: String, cg: String, fridge: bool, shoppers
 	if not shoppers and (not BGMPlayer._current_season_key.is_empty() or BGMPlayer._season_player.playing):
 		_fail("Daeun quiet cut kept an unrelated season bed")
 		return false
+	return true
+
+func _check_m07_washbasin(smoke: bool = false) -> bool:
+	var languages: Array = ["ko"] if smoke else M07_BASIN_WORDS.keys()
+	for language: String in languages:
+		for choice in range(2):
+			_context = "%s/M07/c%d" % [language, choice]
+			await _remove_story()
+			await _stop_audio()
+			LocaleManager.set_language(language)
+			SaveManager.clear_loaded_resume_context()
+			GameState.start_new_game()
+			GameState.turn = 26
+			GameState.month = 7
+			GameState.week_of_month = 2
+			GameState.housing = "gosiwon"
+			GameState.flags = {"prologue_done": true, "hyunsu_exam_day_seen": true}
+			GameState.story_return_scene = "res://scenes/MainGame.tscn"
+			GameState.pending_story_queue = [M07_HYUNSU_RESULT]
+			_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+			add_child(_story)
+			_story.call("_set_auto_mode", false, false, false)
+			await _wait_stable()
+			for _page in range(16):
+				if bool(_story.get("_showing_choices")):
+					break
+				await _finish_page()
+				_story.call("_on_advance")
+				await _wait_stable()
+			if not bool(_story.get("_showing_choices")) \
+					or not _expect_surface(M07_HALL, "apartment", "choices"):
+				_fail("M07 choices must remain in the hall")
+				return false
+			_story.call("_on_choice", choice)
+			await _wait_stable()
+			var places := [M07_HALL, M07_EXAM_ROOM, M07_EXAM_ROOM, M07_EXAM_ROOM] if choice == 0 \
+				else [M07_HALL, M07_BASIN, M07_HALL, M07_HALL]
+			var sources := [0, 1, 2, 3] if choice == 0 else [0, 1, 1, 2]
+			var pages: Array = _story.get("_paragraphs")
+			if pages.size() != places.size() or int(_story.get("_result_location_cut_page")) != (-1 if choice == 0 else 2):
+				_fail("M07 changed the authored result boundaries")
+				return false
+			if choice == 1 and (not str(pages[1]).contains(M07_BASIN_WORDS[language]) \
+					or str(pages[1]).contains(M07_RETURN_WORDS[language]) \
+					or not str(pages[2]).begins_with(M07_RETURN_WORDS[language])):
+				_fail("M07 must cut at the sentence after the water stops")
+				return false
+			for page in range(places.size()):
+				await _finish_page()
+				if int(_story.get("_para_index")) != page \
+						or int(_story.call("_story_source_paragraph_index", page)) != sources[page] \
+						or not _expect_surface(places[page], "apartment", "result/%d" % page) \
+						or str(_story.get_meta("living_scene_effect", "")) != "none" \
+						or BGMPlayer._human_ambience_player.playing or BGMPlayer._season_player.playing \
+						or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+					_fail("M07 moved off the exact place, neutral bed, or source paragraph")
+					return false
+				if page + 1 < places.size():
+					_story.call("_on_advance")
+					await _wait_stable()
 	return true
 
 func _check_hyunsu_call(smoke: bool = false) -> bool:

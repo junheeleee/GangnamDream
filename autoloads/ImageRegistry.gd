@@ -208,6 +208,7 @@ const BACKGROUNDS = {
 	"goshiwon_hallway":  "res://assets/backgrounds/goshiwon_hallway.png",
 	"goshiwon_moveout_wet_street": "res://assets/backgrounds/goshiwon_moveout_wet_street_v1.png",
 	"goshiwon_shared_kitchen": "res://assets/backgrounds/goshiwon_shared_kitchen.png",
+	"goshiwon_shared_washbasin": "res://assets/backgrounds/goshiwon_shared_washbasin_v1.png",
 	"first_savings_bank_overview": "res://assets/backgrounds/first_savings_bank_overview_v1.png",
 	# 24주 첫 결산 전용 클로즈업. 정본 고시원 책상/침대/스위치 기하를 그대로 유지한다.
 	"v2_first_bill_desk_closeup": "res://assets/backgrounds/v2_first_bill_desk_closeup.png",

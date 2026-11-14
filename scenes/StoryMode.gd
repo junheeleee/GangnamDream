@@ -74,6 +74,7 @@ const W224_CUSTODY_RESULT_CUT := preload("res://assets/w224_custody_result_cut.t
 const W235_NOTICE := "arc_y5_property_not_executed_notice"
 const W235_NOTICE_DESK := "finale_notice_desk"
 const HYUNSU_EXAM_FAILURE := "hyunsu_result_fail"
+const M07_HYUNSU_WASHBASIN_CUT := preload("res://assets/m07_hyunsu_washbasin_cut.tres")
 const HYUNSU_CONNECTED_CALL := "arc_hyunsu_new_path"
 const GOSHIWON_MOVEOUT := "arc_goshiwon_goodbye"
 const GOSHIWON_MOVEOUT_STREET := "goshiwon_moveout_wet_street"
@@ -3386,6 +3387,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == W96_FATHER_VISIT and choice_index == 3) \
 		or (event_id == M27_JAEHYUK_PITCH and choice_index == 2) \
 		or (event_id == W117_JAEHYUK_COUNTER and choice_index == 0) \
+		or (event_id == HYUNSU_EXAM_FAILURE and choice_index == 1) \
 		or (event_id == M23_PARENTS and choice_index == 1)
 
 func _resolved_story_prose_pages() -> Dictionary:
@@ -3434,6 +3436,12 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		return _story_page_data(_fmt(raw))
 	if event_id == M23_MOTHER_CALL:
 		return _first_ktx_result_pages(_fmt(raw))
+	if event_id == HYUNSU_EXAM_FAILURE:
+		var anchors: Dictionary = M07_HYUNSU_WASHBASIN_CUT.get_meta("return_anchors", {})
+		var prose := _fmt(raw)
+		if prose.split("\n\n").size() == 3:
+			return _split_formatted_story_page(prose, 1, str(anchors.get(LocaleManager.language, "")))
+		return _story_page_data(prose)
 	if event_id == W96_FATHER_VISIT:
 		var anchors: Dictionary = W96_RETURN_CUT.get_meta("arrival_anchors", {})
 		if raw.split("\n\n").size() == 2:
@@ -5769,10 +5777,15 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
 	var event_id := str(_current.get("id", ""))
 	if _pending_after_result and event_id == HYUNSU_EXAM_FAILURE:
-		# Choice 0 first observes the door from the hall. The next source
-		# paragraph reveals Hyunsu and the open workbook inside his room.
-		var inside := _pending_result_choice_index == 0 and _story_source_paragraph_index(_para_index) > 0
-		background_id = "hyunsu_exam_room" if inside else "goshiwon_hallway"
+		var source := _story_source_paragraph_index(_para_index)
+		background_id = "goshiwon_hallway"
+		if _pending_result_choice_index == 0 and source > 0:
+			# Only the first choice sees the open workbook inside his room.
+			background_id = "hyunsu_exam_room"
+		elif _pending_result_choice_index == 1 and source == 1 \
+				and _result_location_cut_page > 0 and _para_index < _result_location_cut_page:
+			# The eye contact after the sound stops belongs in the hall.
+			background_id = "goshiwon_shared_washbasin"
 	if event_id == W235_NOTICE:
 		# Two resolved receipts precede the desk detail. The message/result pages
 		# are already back in the same room; no transport or audio fade is needed.
@@ -5863,7 +5876,8 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var path := ImageRegistry.get_background(background_id)
 	if path.is_empty() or not ImageRegistry.has_texture(path):
 		return
-	if event_id == FIRST_SAVINGS_MILESTONE or (event_id == GOSHIWON_MOVEOUT and not play_cut_cue):
+	if event_id == FIRST_SAVINGS_MILESTONE or (event_id == GOSHIWON_MOVEOUT and not play_cut_cue) \
+			or (event_id == HYUNSU_EXAM_FAILURE and _pending_result_choice_index == 1 and not play_cut_cue):
 		_finish_story_scene_transition()
 	else:
 		_begin_story_scene_transition("explicit_move")

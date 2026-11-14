@@ -353,6 +353,14 @@
     {
       "kind": "background",
       "ids": [
+        "goshiwon_shared_washbasin"
+      ],
+      "relative_path": "backgrounds/goshiwon_shared_washbasin_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "gukbap_restaurant_night"
       ],
       "relative_path": "backgrounds/gukbap_restaurant_night.png",

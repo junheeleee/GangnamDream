@@ -37,6 +37,8 @@ UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리
 
 [~] M07 세면대 소비자 착수 — `assets/backgrounds/goshiwon_shared_washbasin_v1.png`와 import, `assets/m07_hyunsu_washbasin_cut.tres`, `autoloads/ImageRegistry.gd`, `scenes/StoryMode.gd`, `assets/{scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{StoryBackgroundContextCheck.gd,scene_audio_contract_check.py,scene_direction_catalog.py,art_resolution_baseline.json}`, `content/meta/release_content_inventory.json`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `CLAUDE.md`와 이 이력만. 선택1 원고의 세면 구간에만 삽입, 물이 멎는 문장부터 복도. 페이지의 원본 문단 번호 및 선택0·다섯 언어 원문·되읽기·저장·RC 보존. 검증된 기존 중립 실내음만, 새 소리 없음.
 
+[x] M07 화면: 다섯 언어·두 갈래 실 StoryMode, 960×600·1280×800 각 50컷; 각 크기에서 결과 40쪽, 두 경계 v4 재개10·구 비분할 v4 재개5·KO↔EN 전환8·글자 크기 재배치20. 선택1은 복도→세면대→복도→복도(소스 0/1/1/2), 선택0은 기존 현수 방 유지. 기존 중립 녹음·인물·효과·후속 예약·재정 불변. 독립 원화 및 코드·실화면 검수: 수도꼭지와 물줄기·빈 거울이 보이고 소형 화면 대화창은 세면대 하단만 가림. 네이티브 실행 오류0; 별도 편집기 임포트 종료 RID 경고는 진단으로 분리. 로컬 증거 `830-m07-shared-washbasin-960.qK08A0`(PNG 집합 `2bb13ce1fc1f…`), `830-m07-washbasin-1280.tUP5UY`(`c9b148358720…`). 직접 장면 진입 검사이며 전체 플레이와 다름. 해당 수도 효과음/실청취 및 사람 검수 미완; 원고·유저 저장·구 RC·Steam 불변.
+
 ### M08 고시원 현관 밖 — 이사 아침이 아닌 젖은 길
 
 [~] `arc_goshiwon_goodbye` 선택0의 결과 문단2 이후에만 맞는 후보. 낡은 신촌 고시원 출입구에서 본 젖은 이면도로, 실외/실내 경계를 읽을 수 있게. 원문은 비가 내린다거나 시간대를 확정하지 않으므로 빗방울·우산·시간 표기0. 상자·인물·주소·새 집 등급을 그리지 않으며 새 에셋 배선·원고·저장·RC 변경 전 독립 대조한다. 현수에게 인사하거나 복도에서 회상하는 갈래는 동일한 실외 컷을 쓰지 않는다.
