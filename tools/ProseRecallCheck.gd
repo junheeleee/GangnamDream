@@ -31,6 +31,8 @@ const BODY_KEYS := {
 const BODY_TURNS := {YEAR_ONE: 49, YEAR_TWO: 96, HYUNSU: 200,
 	HYUNSU_PASSED: 200, ENDING: 193, APART: 193}
 const PERSON_MEMORY := "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person"
+const RECALL_HEADINGS := {"ko": "지난 선택", "en": "An earlier choice", "ja": "以前の選択",
+	"zh-CN": "之前的选择", "zh-TW": "之前的選擇"}
 const REPAIR_FLAGS := ["arc_y4_missed_cost_seen", "arc_36_unexpected_hand_seen",
 	"arc_y4_missed_cost_repaired_person", "accepted_grace"]
 const PRODUCERS := [
@@ -234,7 +236,7 @@ func _body_case(story: Node, event_id: String, label: String,
 	var raw: String = str(event.get("description", ""))
 	if not expected_key.is_empty():
 		var selected: String = str(known.get(expected_key, ""))
-		raw = raw + "\n\n" + selected if event_id == YEAR_ONE else selected
+		raw = raw + _expected_recall_block(selected) if event_id == YEAR_ONE else selected
 	var before: Dictionary = GameState.serialize().duplicate(true)
 	var expected: String = story.call("_fmt", raw)
 	var actual: String = story.call("_resolved_story_description", event)
@@ -258,6 +260,11 @@ func _check_bodies(story: Node) -> void:
 			_body_case(story, event_id, "single/" + key, [key], key)
 		for index: int in range(maxi(0, keys.size() - 1)):
 			_body_case(story, event_id, "suffix/" + str(index), keys.slice(index), str(keys[index]))
+
+
+func _expected_recall_block(raw: String) -> String:
+	return "\n\n[color=#9aa4b2][i]%s[/i][/color]\n%s" % [
+		RECALL_HEADINGS[LocaleManager.language], raw.strip_edges()]
 
 
 func _memory_case(game: Node, story: Node, producer: Dictionary,
@@ -292,7 +299,7 @@ func _memory_case(game: Node, story: Node, producer: Dictionary,
 	var raw: String = str(reader.get("description", ""))
 	if reconnected:
 		raw = str(reader.get("description_if_known", {}).get("hyunsu_reconnected", ""))
-	raw += "\n\n" + str(reader.get("description_memory_if_known", {}).get(PERSON_MEMORY, ""))
+	raw += _expected_recall_block(str(reader.get("description_memory_if_known", {}).get(PERSON_MEMORY, "")))
 	story.set("_current", reader)
 	var before: Dictionary = GameState.serialize().duplicate(true)
 	var expected: String = story.call("_fmt", raw)

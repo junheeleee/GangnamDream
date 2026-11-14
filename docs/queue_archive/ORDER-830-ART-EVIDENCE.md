@@ -160,6 +160,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] 회상 검사만 별도 수리 — `tools/ProseRecallCheck.gd`의 두 양성 기대값에 실제 기존 다섯 언어 회상 표제·서식만 추가한다. 독립 재구성한 55개의 실제/기대 해시가 각각 전부 일치. 문자열 전체 비교와 회상 없음/선행 영수증/라우팅 및 본편 문장·저장·데모 그대로. 별도 작업 로그는 이 증거에만 남긴다.
 
+완료(검사): `PROSE_RECALL_CHECK_OK locales=5 cases=337 loaded=40 body=185 memory=50 choice=14 route=36 father=6 callback=3 followup=3 prepared_component_only=true`. 배치 로그 `gangnam-prose-fixed.z6en2vXX`, 오류0. 제품에 존재하던 표제까지 정확히 비교할 뿐, 미발동/대체·서식·본문·상태 검사는 유지한다. 에이전트 대조이며 실제 화면·청취 판정은 아니다.
+
 ### W37 첫 전기요금 — 번역투 표적 검수
 
 [~] 실제 W37 입주 완료 경로 `arc_y1_new_room_first_month`의 도입과 c0 결과, c1 선택/결과만 `content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_midgame.json`에서 대조한다. 저녁 7:12 납부 알림·현관 고지서·전기 및 난방 사진/답장, 다음 달에 같은 금액을 계획한 사실, 냉장고 시작/멈춤, 이미 지난 이사일과 현재 주거는 그대로. 방을 ‘쓰는 가격’이나 ‘돌아가는’ 방처럼 적지 않고, 월세와 첫 전기요금을 구분한다. 한영 현행 원장 지문이 영향을 받을 때만 갱신하고, 기존 CJK 수용 기록과 보호된 체험판 보존. 원화·음향 후보는 따로 확인하며 이 문장 작업에서 임의 재생하지 않는다.
