@@ -120,6 +120,8 @@
 
 [~] W227 본편 공통 접수 창구 원화. 새 `assets/backgrounds/finale_intake_blue_pen_v1.png`와 `.import`, `autoloads/ImageRegistry.gd`, `content/events/arc_pre_ending.json`의 해당 배경 1행, `content/meta/story_rules.json`의 해당 기대 배경, `assets/{event_visual_contracts,scene_direction_manifest,scene_audio_manifest,mod_asset_manifest}.json`, `tools/{SceneDirectionCheck.gd,art_resolution_baseline.json,scene_direction_catalog.py}`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{ART_AI_AUDIT,CONTENT_RATING_INVENTORY,MODDING,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황·이 기록만. 짧은 쇠줄에 매인 파란 펜을 화면 안에 두고, 어느 서류가 제출되거나 날인됐는지는 미리 그리지 않는다. 논리 장소 `office`·기존 곡·종이/필기·5언어 원고·효과·독자·저장·RC는 보존. 새 배경 ID만 타이핑/발걸음/기침이 섞인 공용 사무실 환경층을 생략하며 별도 호출·도장 녹음을 만들어 붙이지 않는다.
 
+[~] `tools/scene_audio_contract_check.py`에서 W227만 기존 침묵 장면과 같은 방식으로 정확한 전체 계약에 결속. 첫 검사에서 공용 분기에서는 `intentional_silence`를 거절함을 확인했다. 이 장면의 새 배경·침묵·기존 곡·정확한 세 효과만 허용하고 다른 장면이나 일반 허용 규칙은 건드리지 않는다.
+
 ### W240 서명에서 전날 아버지에게 고른 말
 
 [~] `arc_final_countdown_property_not_executed`의 `chapter5_finale_reads.texts[3][1]` 하나만 `content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_pre_ending.json`에서 교열. W239 생존 갈래는 연락처 메모에 저장했을 뿐이고, 사망 갈래는 빈 의자 앞에서 소리 내 읽었다. 공통 회상은 아버지에게 어디서 멈췄는지 전하려고 고른 말까지만; 실제 대면·통화·발신·답장·종이 소지 발명0. CJK 기존 수용·이 증거·현황·일지만. 전날 날짜 갈래, 별개 발신 갈래와 기존 강남대로 밤→집 시간 전환·그림·음향·효과·저장·RC는 그대로. 우산과 필기 장면에 맞는 전용 컷/음향은 별개다.
