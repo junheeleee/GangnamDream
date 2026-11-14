@@ -816,7 +816,7 @@
       }
     },
     "arc_y5_father_trace_custody": {
-      "ambience": "convenience",
+      "ambience": "intentional_silence",
       "music": {"key": "reckoning", "start_paragraph": 1},
       "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -7.0}]},
       "result_paragraph_cues": {

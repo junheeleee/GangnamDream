@@ -401,7 +401,7 @@ PRESENTATION_CONTRACTS: dict[str, dict[str, Any]] = {
         "portrait_role": "local",
         "nameplate_role": "hidden",
         "expected_background": "convenience_night",
-        "expected_ambience": "convenience",
+        "expected_ambience": "intentional_silence",
     },
     "arc_y5_general_name_boundary_exact": {
         "channel": "phone",
@@ -1295,7 +1295,7 @@ def validate_scene_context_repair(model: AuditModel, errors: list[str]) -> None:
         event = _event(model.ko, event_id, "KO", errors)
         expected_background = "convenience_night" \
             if event_id == "arc_y5_father_trace_custody" else "current_housing"
-        expected_ambience = "convenience" \
+        expected_ambience = "intentional_silence" \
             if event_id == "arc_y5_father_trace_custody" else "current_housing"
         if event.get("background") != expected_background:
             errors.append(f"scene-context {event_id} background must be {expected_background}")
@@ -2593,9 +2593,10 @@ def run_self_test() -> int:
         mutated = copy.deepcopy(scene_fixture)
         mutated.rules["events"]["casino_comp_offer"]["presentation"][field] = value
         check(bool(scene_errors(mutated)), f"casino presentation mutation accepted: {field}")
-    mutated = copy.deepcopy(scene_fixture)
-    mutated.audio_manifest["events"]["arc_y5_father_trace_custody"]["ambience"] = "current_housing"
-    check(bool(scene_errors(mutated)), "W224 stale room ambience accepted")
+    for ambience in ("current_housing", "convenience"):
+        mutated = copy.deepcopy(scene_fixture)
+        mutated.audio_manifest["events"]["arc_y5_father_trace_custody"]["ambience"] = ambience
+        check(bool(scene_errors(mutated)), f"W224 stale {ambience} ambience accepted")
     mutated = copy.deepcopy(scene_fixture)
     mutated.direction_manifest["event_intents"]["remote"].remove("casino_comp_offer")
     check(bool(scene_errors(mutated)), "casino missing remote direction accepted")

@@ -23,6 +23,16 @@ M14_BANK_RESULT_CUES = {
     "2": {"0": [{"sfx": "pen_write", "volume_db": -8.0}],
           "1": [{"sfx": "traffic_pass", "volume_db": -10.0}]},
 }
+W224_CUSTODY_EVENT = "arc_y5_father_trace_custody"
+W224_CUSTODY_AUDIO = {
+    "ambience": "intentional_silence",
+    "music": {"key": "reckoning", "start_paragraph": 1},
+    "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -7.0}]},
+    "result_paragraph_cues": {
+        "0": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]},
+        "1": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]},
+    },
+}
 W230_VERDICT_EVENT = "arc_y5_people_verdict_daeun_exact"
 W230_VERDICT_AUDIO = {
     "ambience": "intentional_silence",
@@ -297,6 +307,9 @@ def main() -> int:
                     or contract.get("paragraph_cues")
                     or contract.get("result_paragraph_cues") != M14_BANK_RESULT_CUES):
                 errors.append(f"{owner}: keep the bank beds quiet and use only the four result cues")
+        elif owner == W224_CUSTODY_EVENT:
+            if contract != W224_CUSTODY_AUDIO:
+                errors.append(f"{owner}: the rear table must stay free of checkout ambience and retain its paper and score")
         elif owner == W230_VERDICT_EVENT:
             if contract != W230_VERDICT_AUDIO:
                 errors.append(f"{owner}: keep the cafe bed silent, with only the authored score, paper and writing")
@@ -353,6 +366,8 @@ def main() -> int:
 
     if M14_BANK_EVENT not in event_contracts:
         errors.append(f"{M14_BANK_EVENT}: missing bank audio contract")
+    if W224_CUSTODY_EVENT not in event_contracts:
+        errors.append(f"{W224_CUSTODY_EVENT}: missing rear-table audio contract")
     if W230_VERDICT_EVENT not in event_contracts:
         errors.append(f"{W230_VERDICT_EVENT}: missing cafe verdict audio contract")
     if W240_OUTDOOR_SIGNATURE_EVENT not in event_contracts:

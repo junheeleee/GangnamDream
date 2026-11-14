@@ -1290,8 +1290,9 @@ func _check_scene_context_repair_runtime() -> void:
 				and str(custody_presence.get("scene_location", "")) == "convenience_store" \
 				and str(custody_presence.get("expected_background", "")) == "convenience_night",
 			"%s W224 custody text does not use the convenience-store background" % language)
-		_expect(str(BGMPlayer.scene_audio_contract("arc_y5_father_trace_custody").get("ambience", "")) == "convenience",
-			"%s W224 custody retained room ambience" % language)
+		_expect(str(custody_presence.get("expected_ambience", "")) == "intentional_silence" \
+				and str(BGMPlayer.scene_audio_contract("arc_y5_father_trace_custody").get("ambience", "")) \
+					== "intentional_silence", "%s W224 rear table borrowed room or store ambience" % language)
 
 		# Same milestone ingress and HUD calendar semantics for every M54 week.
 		var main_game: Node = MAIN_GAME_SCRIPT.new()

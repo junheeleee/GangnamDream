@@ -1298,7 +1298,7 @@ func _play_chapter5_surface_case(
 	var expected_ambience := "oneroom" if home == "wedding" else "room"
 	if event_id == "arc_y5_father_trace_custody":
 		expected_background = "convenience_night"
-		expected_ambience = "convenience"
+		expected_ambience = ""
 	var capture_case := home != "divorced" and known_variant.is_empty() \
 		and (event_id == "casino_comp_offer" or (choice_index == 0 \
 			and event_id in ["age_39_final", "arc_y5_father_trace_custody"]))
@@ -1403,6 +1403,11 @@ func _read_chapter5_surface_pages(
 			return "%s: page %d body/actual texture/ambience mismatch (background=%s ambience=%s)" % [
 				context, page_index, str(_story.get("_event_background_id")),
 				str(BGMPlayer.get("_current_ambience_key"))]
+		if event_id == "arc_y5_father_trace_custody":
+			for layer in ["_ambience_player", "_human_ambience_player", "_season_player"]:
+				var player: AudioStreamPlayer = BGMPlayer.get(layer)
+				if not is_instance_valid(player) or player.playing:
+					return "%s: rear table leaked a playback layer %s on page %d" % [context, layer, page_index]
 		if event_id == "age_39_final":
 			var hud := _story.get("_hud_label") as Label
 			var expected_hud := "남은 7개월" if LocaleManager.language == "ko" else "7 mo left"
