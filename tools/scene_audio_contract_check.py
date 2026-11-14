@@ -23,6 +23,17 @@ M14_BANK_RESULT_CUES = {
     "2": {"0": [{"sfx": "pen_write", "volume_db": -8.0}],
           "1": [{"sfx": "traffic_pass", "volume_db": -10.0}]},
 }
+SINCHON_REUNION_EVENT = "arc_jiyeon_02_store"
+SINCHON_REUNION_BACKGROUNDS = (
+    "sinchon_bus_stop_after_rain_night",
+    "sinchon_bus_stop_sedan_night",
+    "sinchon_bus_stop_distant_bus_night",
+)
+SINCHON_REUNION_AUDIO = {
+    "ambience": "intentional_silence",
+    "music": {"key": "jiyeon", "start_paragraph": 2},
+    "paragraph_cues": {"1": [{"sfx": "traffic_pass", "volume_db": -10.0}]},
+}
 DEMO_EVENT_IDS = set("""
 story_flashforward story_arrival story_knee_door story_knee_witness
 story_knee_choice story_last_payment_wait story_last_payment_word
@@ -174,6 +185,9 @@ def main() -> int:
                     or contract.get("paragraph_cues")
                     or contract.get("result_paragraph_cues") != M14_BANK_RESULT_CUES):
                 errors.append(f"{owner}: keep the bank beds quiet and use only the four result cues")
+        elif owner == SINCHON_REUNION_EVENT:
+            if contract != SINCHON_REUNION_AUDIO:
+                errors.append(f"{owner}: after rain, only the P1 car cue and P2 score are authored")
         elif not ambience or ambience not in ambience_keys | DYNAMIC_AMBIENCE_KEYS:
             errors.append(f"{owner}: unknown or empty ambience key {ambience!r}")
         music = contract.get("music")
@@ -217,6 +231,14 @@ def main() -> int:
         for background in M14_BANK_BACKGROUNDS
     ):
         errors.append(f"{M14_BANK_EVENT}: both exact bank backgrounds must retain their quiet profile")
+
+    stop, sedan, _headlights = SINCHON_REUNION_BACKGROUNDS
+    reunion = events.get(SINCHON_REUNION_EVENT, {})
+    if (SINCHON_REUNION_EVENT not in event_contracts or reunion.get("background") != stop
+            or reunion.get("paragraph_backgrounds") != [stop, sedan, sedan, sedan, sedan]
+            or any(manifest.get("background_profiles", {}).get(background) != "intentional_silence"
+                   for background in SINCHON_REUNION_BACKGROUNDS)):
+        errors.append(f"{SINCHON_REUNION_EVENT}: the exact post-rain stop surfaces must remain quiet")
 
     for event_id in sorted(PRIVATE_OFFICE_EVENT_IDS):
         contract = event_contracts.get(event_id, {})

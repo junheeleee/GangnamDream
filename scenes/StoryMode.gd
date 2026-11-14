@@ -31,6 +31,9 @@ const M03_JIYEON_CRASH := "arc_jiyeon_01_crash"
 const M03_JIYEON_CRASH_CUTS := preload("res://assets/m03_jiyeon_crash_result_cuts.tres")
 const M03_CRASH_IMPACT := "sinchon_crash_impact_rain_dusk"
 const M03_CRASH_EXIT := "sinchon_crash_exit_rain_dusk"
+const SINCHON_REUNION := "arc_jiyeon_02_store"
+const SINCHON_REUNION_SEDAN := "sinchon_bus_stop_sedan_night"
+const SINCHON_REUNION_HEADLIGHTS := "sinchon_bus_stop_distant_bus_night"
 const W8_FALLOUT := "arc_temptation_fallout"
 const M14_BANK_REVIEW := "arc_y2_bank_limit_review"
 const W234_SUMMIT := "arc_y5_general_pre_ending_summit_exact"
@@ -2568,6 +2571,9 @@ func _apply_story_resume_context(context: Dictionary) -> void:
 			_restore_story_paragraph(context, false)
 			if str(_current.get("id", "")) == M03_JIYEON_CRASH:
 				_maybe_reveal_event_cg(_event_cg_reveal_paragraph)
+			elif str(_current.get("id", "")) == SINCHON_REUNION:
+				_maybe_change_event_background(1)
+				_maybe_reveal_event_portrait(1)
 			_show_choices()
 			if bool(_current.get("timed", false)) and not _read_only_replay:
 				var remaining := int(context.get("timer_remaining_msec", -1))
@@ -2687,7 +2693,11 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	_maybe_change_event_background(source_paragraph_index)
 	_maybe_reveal_event_portrait(source_paragraph_index)
 	_maybe_reveal_event_cg(source_paragraph_index)
-	if result_phase:
+	if str(_current.get("id", "")) == SINCHON_REUNION:
+		# Restore the sustained theme, not the already-occurred car one-shot.
+		if result_phase or source_paragraph_index >= 2 or phase == "choices":
+			BGMPlayer.play_scene_paragraph_music(_current, "", 2)
+	elif result_phase:
 		AudioManager.play_scene_result_paragraph_cues(
 			str(_current.get("id", "")), _event_cg_id,
 			_pending_result_choice_index, source_paragraph_index)
@@ -5415,7 +5425,7 @@ func _maybe_change_event_background(paragraph_index: int) -> void:
 		return
 	_event_background_id = bg_id
 	# This insert shares the first impact cue, not a walk to a new location.
-	if bg_id == M03_CRASH_IMPACT:
+	if bg_id in [M03_CRASH_IMPACT, SINCHON_REUNION_SEDAN]:
 		_finish_story_scene_transition()
 	else:
 		_begin_story_scene_transition("explicit_move")
@@ -5464,6 +5474,15 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 			_maybe_reveal_event_cg(_event_cg_reveal_paragraph)
 			return
 		background_id = M03_CRASH_EXIT
+	elif _pending_after_result and event_id == SINCHON_REUNION:
+		var look_down_road := _pending_result_choice_index == 0 \
+			and _story_source_paragraph_index(_para_index) == 3
+		background_id = SINCHON_REUNION_HEADLIGHTS if look_down_road else SINCHON_REUNION_SEDAN
+		# Result P0 follows the driver's exit even when restored from disk.
+		# The distant-light insert is a POV shot, so it cannot show her portrait.
+		_event_portrait_revealed = true
+		if _portrait_frame.visible == look_down_road:
+			_show_portrait(_resolved_story_surface_portrait_id(), look_down_road)
 	if background_id.is_empty() or background_id == _event_background_id:
 		return
 	var path := ImageRegistry.get_background(background_id)

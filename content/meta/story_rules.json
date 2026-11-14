@@ -2267,9 +2267,9 @@
         },
         "portrait_role": "present",
         "nameplate_role": "hidden",
-        "expected_background": "street_rainy",
+        "expected_background": "sinchon_bus_stop_after_rain_night",
         "expected_portrait": "jiyeon_normal",
-        "expected_ambience": "rain"
+        "expected_ambience": "intentional_silence"
       }
     },
     "arc_jiyeon_03_offer": {

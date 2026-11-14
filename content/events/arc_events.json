@@ -633,8 +633,10 @@
     "id": "arc_jiyeon_02_store",
     "direction": {"camera": "drift"},
     "title": "또, 너",
-    "background": "street_rainy",
+    "background": "sinchon_bus_stop_after_rain_night",
+    "paragraph_backgrounds": ["sinchon_bus_stop_after_rain_night", "sinchon_bus_stop_sedan_night", "sinchon_bus_stop_sedan_night", "sinchon_bus_stop_sedan_night", "sinchon_bus_stop_sedan_night"],
     "portrait": "jiyeon_normal",
+    "portrait_reveal_paragraph": 1,
     "category": "story",
     "rarity": "story",
     "weight": 0,
@@ -674,6 +676,7 @@
       },
       {
         "text": "\"그때 운전하신 분이죠?\" 먼저 말을 건다",
+        "result_portrait": "jiyeon_warm",
         "effects": {
           "social_skill": 2
         },

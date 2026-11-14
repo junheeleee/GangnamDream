@@ -404,11 +404,14 @@ python3 tools/generate_mod_manifest.py --check
 | background | `street_rainy` | `backgrounds/seoul_rainy_street.png` | 1280x800 |
 | background | `seoul_station_ktx_platform_winter` | `backgrounds/seoul_station_ktx_platform_winter.png` | 1280x800 |
 | background | `subway` | `backgrounds/seoul_subway.png` | 1280x800 |
+| background | `sinchon_bus_stop_after_rain_night` | `backgrounds/sinchon_bus_stop_after_rain_night.png` | 1280x800 |
+| background | `sinchon_bus_stop_distant_bus_night` | `backgrounds/sinchon_bus_stop_distant_bus_night.png` | 1280x800 |
+| background | `sinchon_bus_stop_sedan_night` | `backgrounds/sinchon_bus_stop_sedan_night.png` | 1280x800 |
 | background | `sinchon_crash_approach_rain_dusk` | `backgrounds/sinchon_crash_approach_rain_dusk.png` | 1280x800 |
 | background | `sinchon_crash_exit_rain_dusk` | `backgrounds/sinchon_crash_exit_rain_dusk.png` | 1280x800 |
+| background | `sinchon_crash_impact_rain_dusk` | `backgrounds/sinchon_crash_impact_rain_dusk.png` | 1280x800 |
 | background | `street`, `street_day` | `backgrounds/street_seoul_day.png` | 1280x800 |
 | background | `subway_station_coin_lockers` | `backgrounds/subway_station_coin_lockers.png` | 1280x800 |
-| background | `sinchon_crash_impact_rain_dusk` | `backgrounds/sinchon_crash_impact_rain_dusk.png` | 1280x800 |
 | background | `subway_station_lost_found` | `backgrounds/subway_station_lost_found.png` | 1280x800 |
 | background | `subway_station_stairs` | `backgrounds/subway_station_stairs.png` | 1280x800 |
 | background | `suneung_test_hall` | `backgrounds/suneung_test_hall.png` | 1672x941 |

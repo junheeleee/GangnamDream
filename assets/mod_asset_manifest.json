@@ -704,6 +704,30 @@
     {
       "kind": "background",
       "ids": [
+        "sinchon_bus_stop_after_rain_night"
+      ],
+      "relative_path": "backgrounds/sinchon_bus_stop_after_rain_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "sinchon_bus_stop_distant_bus_night"
+      ],
+      "relative_path": "backgrounds/sinchon_bus_stop_distant_bus_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "sinchon_bus_stop_sedan_night"
+      ],
+      "relative_path": "backgrounds/sinchon_bus_stop_sedan_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "sinchon_crash_approach_rain_dusk"
       ],
       "relative_path": "backgrounds/sinchon_crash_approach_rain_dusk.png",

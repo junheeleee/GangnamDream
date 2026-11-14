@@ -911,6 +911,7 @@ Avoid earlier generated images that include orbit rings, sci-fi nodes, or Lumen 
 ## Style Guardrails
 
 - M03 신촌 사고: `assets/backgrounds/sinchon_crash_{approach,impact,exit}_rain_dusk.png` (사고 전·접촉 직후·두 퇴장 갈래). 원래 하차 CG와 동일 블록의 봄비·해 질 무렵을 유지한다.
+- 지연 신촌역 재회: `assets/backgrounds/sinchon_bus_stop_{after_rain,sedan,distant_bus}_night.png` (빈 정류장·세단 도착·한 갈래 먼 전조등). 비가 그친 늦은 밤 전용.
 
 - Use grounded Korean modern-life imagery.
 - Prefer real spaces: goshiwon, one-room apartment, rainy Seoul street, rooftop, office, subway, convenience store.

@@ -232,6 +232,30 @@
       "intensity": 0.24,
       "weather_source": "background"
     },
+    "sinchon_bus_stop_after_rain_night": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "sinchon_bus_stop_sedan_night": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "sinchon_bus_stop_distant_bus_night": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "street_rainy_bus_stop_wallet": {
       "environment": "outdoor",
       "depth": "far",

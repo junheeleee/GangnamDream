@@ -13,6 +13,10 @@ const M03_EVENT := "arc_jiyeon_01_crash"
 const M03_APPROACH := "sinchon_crash_approach_rain_dusk"
 const M03_IMPACT := "sinchon_crash_impact_rain_dusk"
 const M03_EXIT := "sinchon_crash_exit_rain_dusk"
+const REUNION := "arc_jiyeon_02_store"
+const REUNION_STOP := "sinchon_bus_stop_after_rain_night"
+const REUNION_SEDAN := "sinchon_bus_stop_sedan_night"
+const REUNION_HEADLIGHTS := "sinchon_bus_stop_distant_bus_night"
 const W4_DEMO := preload("res://playtests/order124/StoryChoiceM1M6Playtest.gd")
 const W4_TERMS := {
 	"ko": ["한 시간 뒤 같은 보관함", "방으로 돌아온"],
@@ -194,6 +198,9 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_SINCHON_REUNION_CHECK"):
+		await _check_sinchon_reunion()
+		return
 	if OS.has_environment("GANGNAM_M03_CHECK"):
 		await _check_m03_crash()
 		return
@@ -719,6 +726,137 @@ func _expect_m03_surface(background: String) -> bool:
 			or BGMPlayer._current_ambience_key != "rain" \
 			or BGMPlayer._human_ambience_player.playing:
 		_fail("M03 wrong surface, portrait or ambient layer: %s" % background)
+		return false
+	return true
+
+func _check_sinchon_reunion() -> void:
+	var routes := 0
+	var loads := 0
+	var capture_dir := OS.get_environment("GANGNAM_SINCHON_CAPTURE_DIR")
+	var capture_language := OS.get_environment("GANGNAM_SINCHON_CAPTURE_LANGUAGE")
+	var languages := W4_TERMS.keys()
+	if not capture_dir.is_empty():
+		var output := DirAccess.open(capture_dir) if capture_dir.is_absolute_path() else null
+		if output == null or not output.get_files().is_empty() or not output.get_directories().is_empty() \
+				or not W4_TERMS.has(capture_language) or DisplayServer.get_name() == "headless":
+			_fail("Sinchon capture requires fresh absolute output, known locale and display")
+			get_tree().quit(1)
+			return
+		languages = [capture_language]
+		OS.low_processor_usage_mode = false
+	for language in languages:
+		LocaleManager.set_language(language)
+		for choice in range(2):
+			await _remove_story()
+			_context = "%s/Sinchon/choice%d" % [language, choice]
+			_seed_story(REUNION, 34)
+			GameState.age = 33
+			GameState.month = 9
+			GameState.week_of_month = 2
+			GameState.flags["arc_jiyeon_crash_seen"] = true
+			if choice == 0:
+				GameState.flags["bicycle_wheel_bent"] = true
+			BGMPlayer.enter_ambient_bed(0.0)
+			BGMPlayer.set_ambience("rain")
+			BGMPlayer.set_season_ambience("winter")
+			GameState.pending_story_queue = [REUNION]
+			_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+			add_child(_story)
+			_story.call("_set_auto_mode", false, false, false)
+			await _wait_stable()
+			if int(_story.call("_story_source_paragraph_count")) != (6 if choice == 0 else 5):
+				_fail("Sinchon memory must append without moving the arrival or theme")
+				continue
+			var intro: Array = _story.get("_paragraphs")
+			for page in range(intro.size()):
+				var source := int(_story.call("_story_source_paragraph_index", page))
+				if not _expect_reunion_surface(REUNION_STOP if source == 0 else REUNION_SEDAN,
+						source >= 1, source >= 2, source >= 1):
+					break
+				await _finish_page()
+				if not capture_dir.is_empty() and choice == 0 and source in [0, 1, 2, 5] \
+						and page == int(_story.call("_first_story_page_for_source", source)):
+					await _save_reunion_frame(capture_dir.path_join("intro_p%d.png" % source))
+				_story.call("_on_advance")
+				await _wait_stable()
+			if not bool(_story.get("_showing_choices")) or not _expect_reunion_surface(
+					REUNION_SEDAN, true, true, true):
+				_fail("Sinchon choices unavailable or on the wrong surface")
+				continue
+			var cash := float(GameState.money)
+			var mental := float(GameState.mental)
+			var social := float(GameState.social_skill)
+			var receipts := GameState.event_log.size()
+			_story.call("_on_choice", choice)
+			await _wait_stable()
+			if GameState.event_log.size() != receipts + 1 \
+					or not is_equal_approx(GameState.money, cash) \
+					or GameState.mental != mental - (2.0 if choice == 0 else 0.0) \
+					or GameState.social_skill != social + (2.0 if choice == 1 else 0.0):
+				_fail("Sinchon choice changed an effect or did not commit exactly once")
+				continue
+			var results: Array = _story.get("_paragraphs")
+			var resumed := false
+			var headlights_loaded := false
+			for page in range(results.size()):
+				var source := int(_story.call("_story_source_paragraph_index", page))
+				var headlights := choice == 0 and source == 3
+				var expected := REUNION_HEADLIGHTS if headlights else REUNION_SEDAN
+				if not _expect_reunion_surface(expected, not headlights, true, not resumed):
+					break
+				await _finish_page()
+				if not capture_dir.is_empty() and (page == 0 or (headlights \
+						and page == int(_story.call("_first_story_page_for_source", source)))):
+					await _save_reunion_frame(capture_dir.path_join("c%d_p%d.png" % [choice, source]))
+				if capture_dir.is_empty() and language == "ko" and (page == 0 or (headlights and not headlights_loaded)):
+					if not await _reload_cut_result(choice, page, false):
+						break
+					await _wait_stable()
+					if not _expect_reunion_surface(expected, not headlights, true, false):
+						break
+					resumed = true
+					headlights_loaded = headlights
+					loads += 1
+				if page + 1 < results.size():
+					_story.call("_on_advance")
+					await _wait_stable()
+			routes += 1
+	await _remove_story()
+	await _stop_audio()
+	if _failures == 0 and routes == languages.size() * 2 and loads == (3 if capture_dir.is_empty() else 0):
+		print("SINCHON_REUNION_OK routes=%d cold_results=%d" % [routes, loads])
+		get_tree().quit(0)
+	else:
+		get_tree().quit(1)
+
+func _save_reunion_frame(path: String) -> void:
+	var portrait := _story.get("_portrait_frame") as Control
+	for _frame in range(120):
+		if not portrait.visible or portrait.modulate.a >= 0.99:
+			await _save_viewport_frame(path)
+			return
+		await get_tree().process_frame
+	_fail("Sinchon capture portrait did not finish fading in")
+
+func _expect_reunion_surface(background: String, portrait_visible: bool, score: bool, car_cue: bool) -> bool:
+	var image := _story.get("_bg_img") as TextureRect
+	var portrait := _story.get("_portrait_frame") as Control
+	var face := _story.get("_portrait") as TextureRect
+	var nameplate := _story.get("_name_panel") as Control
+	var warm := bool(_story.get("_pending_after_result")) and int(_story.get("_pending_result_choice_index")) == 1
+	var expected_face := ImageRegistry.get_portrait("jiyeon_warm" if warm else "jiyeon_normal")
+	var observed: Array[String] = []
+	for key in AudioManager._story_audio_seen:
+		if str(key).begins_with(REUNION + ":"):
+			observed.append(str(key))
+	var expected_cues: Array = [REUNION + "::description:1:0:traffic_pass"] if car_cue else []
+	if image.texture == null or image.texture.resource_path != ImageRegistry.get_background(background) \
+			or str(_story.get_meta("living_scene_effect", "")) != "none" \
+			or portrait.visible != portrait_visible or nameplate.visible \
+			or (portrait_visible and (face.texture == null or face.texture.resource_path != expected_face)) \
+			or BGMPlayer._current_key != ("jiyeon" if score else "") \
+			or observed != expected_cues or not _expect_no_ambience("Sinchon"):
+		_fail("Sinchon wrong surface, portrait, weather, score or cue: %s cues=%s" % [background, observed])
 		return false
 	return true
 

@@ -275,7 +275,7 @@ const YEAR_IDENTITY_SCENE_SAMPLE: Array[String] = [
 const CAST_TIME_SCENE_SAMPLE: Array[Dictionary] = [
 	{"event": "cafe_listen_01", "cast": "minjun", "suppress_cg": false},
 	{"event": "arc_daeun_01_meet", "cast": "daeun", "suppress_cg": true},
-	{"event": "arc_jiyeon_02_store", "cast": "jiyeon", "suppress_cg": false},
+	{"event": "arc_jiyeon_02_store", "cast": "jiyeon", "suppress_cg": false, "advance_paragraphs": 1},
 	{"event": "arc_intro_04_hyunsu", "cast": "hyunsu", "suppress_cg": false},
 	{"event": "arc_jaehyuk_01_reunion", "cast": "jaehyuk", "suppress_cg": false},
 	{"event": "arc_sangchul_01_meet", "cast": "sangchul", "suppress_cg": false},
@@ -17592,7 +17592,7 @@ func _shot_year_identity_surfaces(lang: String = "en", prefix: String = "year_en
 				true,
 				false,
 				-1,
-				0,
+				int(sample.get("advance_paragraphs", 0)),
 				bool(sample.get("suppress_cg", false)))
 			cast_shot_index += 1
 

@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 276,
+  "inventory_count": 279,
   "counts": {
     "1080p": {
       "CG": {
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 101,
+        "light": 104,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 101,
+        "heavy": 104,
         "severe": 0
       }
     }
@@ -1546,6 +1546,57 @@
       "kind": "Background",
       "ids": [
         "subway"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/sinchon_bus_stop_after_rain_night.png": {
+      "kind": "Background",
+      "ids": [
+        "sinchon_bus_stop_after_rain_night"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/sinchon_bus_stop_distant_bus_night.png": {
+      "kind": "Background",
+      "ids": [
+        "sinchon_bus_stop_distant_bus_night"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/sinchon_bus_stop_sedan_night.png": {
+      "kind": "Background",
+      "ids": [
+        "sinchon_bus_stop_sedan_night"
       ],
       "width": 1280,
       "height": 800,
