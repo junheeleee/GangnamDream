@@ -92,6 +92,10 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] 다음 단위 — W100 커밋 뒤 `scenes/StoryMode.gd`, `content/meta/story_rules.json`, `assets/scene_audio_manifest.json`, `tools/scene_audio_contract_check.py`, `tools/StoryBackgroundContextCheck.gd`, 현황·증거·일지만. 기본 첫 문단은 발신 전, 실제 세 기억 분기의 첫 문단은 발신; 5언어 전부 다음 문단에 세 번째 신호로 연결. 선택 결과 c2 마지막 문단만 명시적 종료. 장소와 민준 초상·기록·텍스트는 그대로, 중립 실내 녹음만. 새 화자/통화음/소품·경로/상태·저장 필드 없음. W100과 같은 파일 수정은 두 단위가 겹치지 않게 순차 적용.
 
+### M27 재혁의 호텔 제안 — 귀가 갈래
+
+[~] 다음 단위 — W112 커밋 뒤 `scenes/StoryMode.gd`, `assets/m27_jaehyuk_pitch_cuts.tres`, `assets/event_visual_contracts.json`, 한국어 `content/events/arc_events.json`의 제목/산문 아닌 기존 결과 배경 값이 필요한 경우 해당 두 선택만, 음향/실행 표적 검사(`tools/scene_audio_contract_check.py`, `tools/StoryBackgroundContextCheck.gd`)와 현황·증거·일지. c0 그날 밤과 c2 귀가 문장에서만 실제 집으로 넘어가고 카페 음향 끄기; 호텔에 남는 c1, 전송 전후 효과와 기존 음악 시점은 보존. 새 원화·효과음·플래그·대사·세이브 필드0. 먼저 5언어 위치와 기존 원장의 정확한 일치 확인.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
