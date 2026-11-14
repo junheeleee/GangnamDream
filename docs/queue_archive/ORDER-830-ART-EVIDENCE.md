@@ -134,6 +134,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 후보 독립 검수: `~/Documents/GangnamDream-Release-Assets/830-w117-reception.ZlP56I/`, 원본 `5495246ca0bf9c3c8f813764a10b258cb056503db70a43046d84798900b9bbdd`, 1280×800 불투명 PNG `338988ecbf96192101846a88c4f5b345b1adac68a0974045508fce59591545b2`. 같은 무광 질감, 실제 서류 전달구·민원석·빈 서류, 인물·로고·체포·지하철 단서0. 16:9 중앙 계산상 접수구·서류 안전. 위치 정체성은 사건의 전달 문장과 함께 읽어야 하며 고유 경찰서를 나타내지 않는다. 아직 게임에 넣지 않았고 전후 장면 렌더·큰 글씨·실청취 미확인.
 
+[~] 제품 배선 착수 — `scenes/StoryMode.gd`, `assets/w117_jaehyuk_counter_cuts.tres`, `assets/backgrounds/police_evidence_reception.png` 및 `.import`, `autoloads/ImageRegistry.gd`, `assets/{ASSET_INDEX.md,scene_audio_manifest.json,scene_direction_manifest.json,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,ScreenshotQA.gd,scene_audio_contract_check.py,scene_direction_catalog.py,art_resolution_baseline.json}`, `content/meta/release_content_inventory.json`, `docs/{ART_AI_AUDIT.md,MODDING.md,CONTENT_RATING_INVENTORY.md,WORK_LOG.md}`, 현황·증거. 실제 대면 문단부터 회의실·재혁, 신고 결과 첫 문장만 경찰 접수대; 같은 원문 문단에서 구속 소식부터 및 상철의 이후 말은 장소/인물이 없는 여백. 협박 c1은 돈이 들어오는 첫 결과만 회의실, ‘그날 밤’은 여백. 공모 c2는 두 문단 모두 회의실. 대면만 기존 중립 실내 녹음, 접수와 미확정 장소에는 소리·시각효과를 추측해 붙이지 않고 기존 P2 피아노는 유지. 5언어·이전/현재 v4·두 화면 폭·실제 편성/예약 및 가능할 때 별도 앱 화면 검수. 원문·효과·저장 키·기존 데모·Steam 변경0.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
