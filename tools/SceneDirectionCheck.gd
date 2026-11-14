@@ -537,9 +537,22 @@ func _check_final_desk_presentation() -> void:
 		BGMPlayer.stop()
 		await get_tree().create_timer(0.08).timeout
 	var exterior := "arc_final_countdown_property_not_executed"
-	_expect(str(DataRegistry.find_event(exterior).get("background")) == "gangnam_night" \
-			and str(BGMPlayer.scene_audio_contract(exterior).get("ambience")) == "street",
+	var outdoor_event: Dictionary = DataRegistry.find_event(exterior)
+	_expect(str(outdoor_event.get("background")) == "gangnam_night",
 			"actual outdoor property variant was incorrectly moved inside")
+	var outdoor_to_home: Dictionary = DataRegistry.get_story_transition(exterior, "arc_y5_final_week_daeun_outbound")
+	_expect(outdoor_to_home.get("mode") == "time_cut" and outdoor_to_home.get("from_surface") == "gangnam_night" \
+			and outdoor_to_home.get("to_surface") == "current_housing" and outdoor_to_home.get("audio_policy") == "crossfade",
+			"outdoor signature lost the authored time cut home")
+	BGMPlayer.set_ambience("street")
+	BGMPlayer.set_season_ambience("winter")
+	_expect(BGMPlayer._ambience_player.playing and BGMPlayer._human_ambience_player.playing \
+			and BGMPlayer._season_player.playing, "outdoor signature fixture did not start all three layers")
+	BGMPlayer.update_event_ambience(outdoor_event, "", "gangnam_night")
+	_expect(BGMPlayer._current_ambience_key.is_empty() and not BGMPlayer._ambience_player.playing \
+			and BGMPlayer._current_human_ambience_key.is_empty() and not BGMPlayer._human_ambience_player.playing \
+			and BGMPlayer._current_season_key.is_empty() and not BGMPlayer._season_player.playing,
+			"outdoor signature kept an unrelated street, crowd, or weather recording")
 	GameState.call("_restore_serialized_snapshot_exact", original)
 	AudioManager.sfx_enabled = original_sfx
 	EventManager.current_event = {}
