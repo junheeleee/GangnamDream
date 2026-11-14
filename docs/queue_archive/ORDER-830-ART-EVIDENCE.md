@@ -138,6 +138,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 완료(음향 배선): 격리 1280×800과 960×600에서 각각 5언어 15결과, 결과 v4 30, 밤 후속5. 결과 그림 뒤와 앞, 그리고 외관 선택 복원에서 실내층·계절층0; 밤에는 기존 냉장고만. 960×600 래퍼 stdout/엔진 오류0, 격리 저장 정리 확인. 기본 검사에도 KO c2 하나. 독립 검수에서 세 CG의 예외만 승인, 술집/고정 실내음/무관 CG/임의 스캐너음 변이 거절. 실제 청취·외부 원음 확보 전에는 세 장소의 소리 완성으로 세지 않는다.
 
+마른 야간 실내를 새 배경 enum으로 등록할 때 `tools/scene_direction_catalog.py`의 기존 실내 집합에 이 ID만 포함해 자동 생성 방향 원장과 맞춘다. 그룹 효과·검사 기준은 그대로다.
+
 [~] `arc_daeun_02b_dream` 심야 실내 마른 창 등록. 앞 마른 외관과 같은 가게만, 사람·눈·비·상표 없는 배경 PNG+import 추가. `autoloads/ImageRegistry.gd`, `content/events/arc_daeun.json` 해당 background 한 키와 `assets/{scene_audio_manifest,scene_direction_manifest,event_visual_contracts,mod_asset_manifest}.json`, 영상 바이블/설명, `tools/{art_resolution_baseline.json,scene_audio_contract_check.py,StoryBackgroundContextCheck.gd}`, 현행 출시/아트/모딩 원장과 이 위치·현황만. 기존 공유 배경·초상·선택·음원·저장 형식·승인 RC0 변경. 독립 원화·컷, 5언어 준비 경로 확인 뒤만 연결한다.
 
 ### W116 재혁 연락 두절 — 같은 집의 연속 음향
