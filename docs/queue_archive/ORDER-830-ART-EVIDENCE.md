@@ -38,7 +38,7 @@ P1 화면 완료: 맞부딪친 직후 바퀴·빗물 삽입 컷을 원래 충돌
 
 P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_bus_stop_rain_overcast.png` 1280×800 RGB, SHA-256 `bdb84c99754015e296de634e69147d8d4945c61264c9d546a975b0dd345baf82`. 흐린 큰길·정류장·실제 빗줄기, 조기 차/인물·지갑·판독 가능한 문자 없음. 비 레이어를 더할 때 중복 강도를 실제 화면에서 확인한다. 제품 외부 후보, 채택·실화면 0.
 
-11-14 KST [~] 제품 배선: `sinchon_main_road_bus_stop_rain_overcast`, `sinchon_offer_sedan_rain`, `sinchon_offer_station_approach_rain`, `sinchon_offer_cafe_two_coffees`, 지연 `jiyeon_offer_umbrella` PNG/import와 레지스트리·원화/방향/모드/해상도/출시 사실 원장. `arc_events.json`·story_rules·시각 계약의 제안 한 행, `StoryMode` 당시 도착 및 c0 초상 숨김·세 갈래의 냉간 복원만. 음향 매니페스트·`scene_audio_contract_check.py`: 비는 실외, P1 차량 기존 녹음 1회, 카페 베드 무음과 P0 컵 세팅 기존 녹음 1회, 음악 신규0. `ScreenshotQA`의 2장 기존 표본과 `StoryBackgroundContextCheck` 격리 표적만. 산문·효과·분기·모든 저장 키·타 장면 불변. 카페 테이블은 라떼/검은 아메리카노가 이미 놓인 공간, 젖은 창 너머만 비다.
+11-14 KST [~] 제품 배선: `sinchon_main_road_bus_stop_rain_overcast`, `sinchon_offer_sedan_rain`, `sinchon_offer_station_approach_rain`, `sinchon_offer_cafe_two_coffees`, 지연 `jiyeon_offer_umbrella` PNG/import와 레지스트리·원화/방향/모드/해상도/출시 사실 원장. `arc_events.json`·story_rules·시각 계약의 제안 한 행, `StoryMode` 당시 도착 및 c0 초상 숨김·세 갈래의 냉간 복원만. 음향 매니페스트·`scene_audio_contract_check.py`: 비는 실외, P1 차량 기존 녹음 1회, 카페 베드 무음, 임의 컵 효과·음악 추가0. `ScreenshotQA`의 2장 기존 표본과 `StoryBackgroundContextCheck` 격리 표적만. 산문·효과·분기·모든 저장 키·타 장면 불변. 카페 테이블은 라떼/검은 아메리카노가 이미 놓인 공간, 젖은 창 너머만 비다.
 
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
