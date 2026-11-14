@@ -21377,7 +21377,7 @@ func _assert_late_chapter_spine_state(
 		"arc_almost_there": "oneroom",
 		"arc_1b_isolation": "oneroom",
 		"arc_36_body_signal": "subway",
-		"arc_year_three_half": "oneroom",
+		"arc_year_three_half": "apartment",
 		"arc_36_night_doubt": "oneroom",
 		"arc_year4_close": "winter",
 		"arc_37_reckoning": "oneroom",

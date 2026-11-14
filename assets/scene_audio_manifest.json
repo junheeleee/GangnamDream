@@ -988,7 +988,13 @@
     "arc_1b_isolation": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},
     "arc_1b_isolation_father_passed": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},
     "arc_36_body_signal": {"ambience": "seoul_subway_onboard", "suppress_music": true, "suppress_human_ambience": true, "suppress_season_ambience": true},
-    "arc_year_three_half": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 1}},
+    "arc_year_three_half": {
+      "ambience": "apartment",
+      "suppress_human_ambience": true,
+      "suppress_season_ambience": true,
+      "music": {"key": "reckoning", "start_paragraph": 1},
+      "result_paragraph_cues": {"0": {"2": [{"sfx": "paper_handle", "volume_db": -8.0}]}}
+    },
     "arc_36_night_doubt": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},
     "arc_36_night_doubt_father_passed": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},
     "arc_year4_close": {"ambience": "winter", "music": {"key": "reckoning", "start_paragraph": 2}},

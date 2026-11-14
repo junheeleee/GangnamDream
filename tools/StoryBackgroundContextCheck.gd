@@ -76,6 +76,24 @@ const W167_CUT_STARTS := {
 		"zh-TW": "五點整，在現場出入機上",
 	},
 }
+const W169_MIDPOINT := "arc_year_three_half"
+const W169_VARIANT_MARKERS := {
+	"default": {
+		"ko": "방의 불을 하나만 남기고", "en": "left a single light on",
+		"ja": "部屋の明かりを一つだけ残し", "zh-CN": "只留一盏灯", "zh-TW": "只留一盞燈",
+	},
+	"degraded": {
+		"ko": "세 기록의 제목만 겨우 알아봤다", "en": "could barely make out the headings",
+		"ja": "三つの記録の見出しだけを、やっと読み取れた",
+		"zh-CN": "只勉强认出了三份记录的标题", "zh-TW": "只勉強認出了三份紀錄的標題",
+	},
+	"complete": {
+		"ko": "네 시 아버지 통화를 지켰다",
+		"en": "kept the four o'clock call with his father",
+		"ja": "四時の父との通話を守った", "zh-CN": "守住了四点与父亲通话的约定",
+		"zh-TW": "守住了四點和父親通話的約定",
+	},
+}
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -416,6 +434,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W169_CHECK"):
+		var midpoint_ok := await _check_w169_midpoint()
+		await _remove_story()
+		await _stop_audio()
+		if midpoint_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w169_midpoint")
+		get_tree().quit(0 if midpoint_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W167_CHECK"):
 		var table_ok := await _check_w167_family_table()
 		await _remove_story()
@@ -3017,6 +3043,157 @@ func _expect_w167_surface(kind: String, home: String, label: String) -> bool:
 			or not BGMPlayer._current_season_key.is_empty() \
 			or BGMPlayer._season_player.playing:
 		_fail("%s inherited a crowd/weather bed or lost its sole apartment bed" % label)
+		return false
+	return true
+
+func _check_w169_midpoint() -> bool:
+	var paths := 0
+	var score_entries := 0
+	var cue_entries := 0
+	var variants := [
+		{"name": "default", "flags": ["arc_y4_family_table_seen"]},
+		{"name": "degraded", "flags": [
+			"arc_y4_three_promises_seen", "arc_y4_body_witness_seen", "arc_y4_family_table_seen",
+		]},
+		{"name": "complete", "flags": [
+			"arc_y4_three_promises_seen", "arc_y4_body_witness_seen", "arc_y4_family_table_seen",
+			"arc_y4_three_promises_protected_father", "arc_y4_three_promises_missed_person",
+			"arc_y4_three_promises_missed_deal", "arc_y4_body_chose_care",
+			"arc_y4_family_attended_together",
+		]},
+	]
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for raw_variant: Dictionary in variants:
+			await _remove_story()
+			await _stop_audio()
+			var variant: String = str(raw_variant["name"])
+			_context = "%s/W169/%s" % [language, variant]
+			LocaleManager.set_language(language)
+			SaveManager.clear_loaded_resume_context()
+			GameState.start_new_game()
+			GameState.turn = 169
+			GameState.month = 7
+			GameState.age = 36
+			GameState.housing = "oneroom"
+			for flag: String in raw_variant["flags"]:
+				GameState.flags[flag] = true
+			var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+			var selected: String = str(ingress.call(
+				"_chapter_four_causal_arc_id", 169, GameState.flags, false))
+			ingress.free()
+			if selected != W169_MIDPOINT:
+				_fail("W169 release ingress did not select the midpoint receipt")
+				return false
+			GameState.story_return_scene = "res://scenes/MainGame.tscn"
+			GameState.pending_story_queue = [W169_MIDPOINT]
+			BGMPlayer.set_ambience("cafe")
+			BGMPlayer.set_season_ambience("rain")
+			_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+			add_child(_story)
+			_story.call("_set_auto_mode", false, false, false)
+			var event: Dictionary = _story.get("_current")
+			var resolved := str(_story.call("_resolved_story_description", event))
+			var markers: Dictionary = W169_VARIANT_MARKERS[variant]
+			if str(event.get("id", "")) != W169_MIDPOINT \
+					or int(_story.call("_story_source_paragraph_count")) != 3 \
+					or not resolved.contains(str(markers[language])):
+				_fail("W169 did not resolve the exact default/degraded/complete source")
+				return false
+			var home: String = ImageRegistry.resolve_contextual_background_id("current_housing")
+			var before_flags: Dictionary = GameState.flags.duplicate(true)
+			var before_metrics := [float(GameState.money), float(GameState.health), float(GameState.mental),
+				float(GameState.luck), float(GameState.moral_tint),
+				int(GameState.route_orthodox), int(GameState.route_unorthodox)]
+			var before_events: int = GameState.events_seen
+			var before_log: int = GameState.event_log.size()
+			var intro_pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+			var score_started := false
+			var last_score := -1.0
+			for page in range(intro_pages.size()):
+				await _finish_page()
+				var source := int(_story.call("_story_source_paragraph_index", page))
+				var scored := source >= 1
+				var score := _score_playback_position("reckoning")
+				if int(_story.get("_para_index")) != page \
+						or not _expect_w169_home(home) or BGMPlayer._current_key != ("reckoning" if scored else "") \
+						or (score >= 0.0) != scored or not _w169_cues().is_empty() \
+						or (scored and last_score >= 0.0 and score + 0.060 < last_score):
+					_fail("W169 score, room or pre-result cue drifted at source %d" % source)
+					return false
+				if scored and not score_started:
+					score_started = true
+					score_entries += 1
+				last_score = score
+				_story.call("_on_advance")
+				await _wait_stable()
+			if not score_started or not bool(_story.get("_pending_after_result")) \
+					or int(_story.get("_pending_result_choice_index")) != 0 \
+					or int(_story.call("_story_source_paragraph_count")) != 3:
+				_fail("W169 direct continuation did not enter its original three-source result")
+				return false
+			var result_pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+			var heard_paper := false
+			for page in range(result_pages.size()):
+				await _finish_page()
+				var source := int(_story.call("_story_source_paragraph_index", page))
+				var cues := _w169_cues()
+				var expect_paper := source >= 2
+				if int(_story.get("_para_index")) != page or not _expect_w169_home(home) \
+						or BGMPlayer._current_key != "reckoning" \
+						or (_score_playback_position("reckoning") < 0.0) \
+						or cues != ([] if not expect_paper else [
+							W169_MIDPOINT + "::result:0:2:0:paper_handle"]):
+					_fail("W169 result cue did not stay exclusive to source paragraph two")
+					return false
+				if expect_paper and not heard_paper:
+					heard_paper = true
+					cue_entries += 1
+				if page + 1 < result_pages.size():
+					_story.call("_on_advance")
+					await _wait_stable()
+			var after_metrics := [float(GameState.money), float(GameState.health), float(GameState.mental),
+				float(GameState.luck), float(GameState.moral_tint),
+				int(GameState.route_orthodox), int(GameState.route_unorthodox)]
+			var receipt: Dictionary = GameState.event_log.back() if not GameState.event_log.is_empty() else {}
+			if not heard_paper or after_metrics != before_metrics \
+					or GameState.events_seen != before_events + 1 or GameState.event_log.size() != before_log + 1 \
+					or str(receipt.get("event_id", "")) != W169_MIDPOINT \
+					or int(receipt.get("choice_index", -1)) != 0 \
+					or not _w169_flags_match(before_flags):
+				_fail("W169 altered state beyond its two authored receipt flags")
+				return false
+			paths += 1
+	print("W169_MIDPOINT_OK paths=%d score_entries=%d cue_entries=%d" % [
+		paths, score_entries, cue_entries])
+	return paths == 15 and score_entries == 15 and cue_entries == 15
+
+func _w169_cues() -> Array:
+	var cues: Array = AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:
+		return key.begins_with(W169_MIDPOINT + ":"))
+	cues.sort()
+	return cues
+
+func _w169_flags_match(before: Dictionary) -> bool:
+	var expected := ["arc_year_three_half_seen", "arc_y4_midpoint_receipt_seen"]
+	for flag: String in expected:
+		if not bool(GameState.flags.get(flag, false)) or bool(before.get(flag, false)):
+			return false
+	for raw_flag in GameState.flags.keys():
+		var flag := str(raw_flag)
+		if bool(GameState.flags.get(flag, false)) != bool(before.get(flag, false)) \
+				and flag not in expected:
+			return false
+	return true
+
+func _expect_w169_home(home: String) -> bool:
+	if not _expect_surface(home, "apartment", "W169 oneroom"):
+		return false
+	if not BGMPlayer._ambience_player.playing \
+			or not BGMPlayer._current_human_ambience_key.is_empty() \
+			or BGMPlayer._human_ambience_player.playing \
+			or not BGMPlayer._current_season_key.is_empty() \
+			or BGMPlayer._season_player.playing:
+		_fail("W169 lost its sole apartment bed or inherited people/weather")
 		return false
 	return true
 

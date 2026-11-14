@@ -582,6 +582,13 @@ def main() -> int:
                    ("arc_y4_family_commitment_none", "arc_y4_family_table_missed"))
             or manifest.get("background_profiles", {}).get("family_soup_restaurant_w167") != "intentional_silence"):
         errors.append("W167: unlocated plans, two actual home variants and a family venue without borrowed bar sound")
+    if (events.get("arc_year_three_half", {}).get("background") != "current_housing"
+            or event_contracts.get("arc_year_three_half") != {
+                "ambience": "apartment", "suppress_human_ambience": True, "suppress_season_ambience": True,
+                "music": {"key": "reckoning", "start_paragraph": 1},
+                "result_paragraph_cues": {"0": {"2": [{"sfx": "paper_handle", "volume_db": -8.0}]}},
+            }):
+        errors.append("W169: only a neutral room and the paper heard during the final result beat")
     if (any(event_contracts.get(owner) != W132_CAFE_AUDIO
             or events.get(owner, {}).get("background") != "cafe" for owner in W132_CAFE_EVENTS)
             or manifest.get("background_profiles", {}).get("sangchul_cafe_stairs") != "intentional_silence"):
