@@ -96,6 +96,9 @@
     "dad_house": "family_home",
     "hometown_train_station": "train",
     "seoul_station_ktx_platform_winter": "train",
+    "seoul_station_parents_concourse": "intentional_silence",
+    "seoul_station_parents_ticket_gate": "intentional_silence",
+    "parents_visit_food_bag_in_transit": "intentional_silence",
     "ktx_window": "train",
     "regional_train_window": "train",
     "daeun_mother_home_dining": "family_home",
@@ -1625,7 +1628,12 @@
     },
     "arc_jiyeon_03b_lunch": {"ambience": "cafe", "music": {"key": "jiyeon", "start_paragraph": 2}},
     "arc_34_doors_open": {"ambience": "office", "suppress_music": true},
-    "arc_34_parents_visit": {"ambience": "hoesik", "suppress_music": true},
+    "arc_34_parents_visit": {
+      "ambience": "intentional_silence",
+      "suppress_music": true,
+      "suppress_human_ambience": true,
+      "suppress_season_ambience": true
+    },
     "arc_y1_new_room_first_month": {"ambience": "current_housing", "suppress_music": true},
     "arc_y2_bank_limit_review": {
       "ambience": "intentional_silence",

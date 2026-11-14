@@ -910,6 +910,8 @@ Avoid earlier generated images that include orbit rings, sci-fi nodes, or Lumen 
 
 ## Style Guardrails
 
+- M23 부모님 서울 방문: `seoul_station_parents_concourse`는 오후 합류 공간, `seoul_station_parents_ticket_gate`는 밤 배웅, `parents_visit_food_bag_in_transit`는 어머니 무릎의 반찬 가방. 집은 실제 주거 배경을 재사용하고 이동수단은 드러내지 않는다.
+
 - M03 신촌 사고: `assets/backgrounds/sinchon_crash_{approach,impact,exit}_rain_dusk.png` (사고 전·접촉 직후·두 퇴장 갈래). 원래 하차 CG와 동일 블록의 봄비·해 질 무렵을 유지한다.
 - 지연 신촌역 재회: `assets/backgrounds/sinchon_bus_stop_{after_rain,sedan,distant_bus}_night.png` (빈 정류장·세단 도착·한 갈래 먼 전조등). 비가 그친 늦은 밤 전용.
 - 지연 신촌 커피 제안: `sinchon_main_road_bus_stop_rain_overcast`는 아직 비가 내리는 정류장, `sinchon_offer_sedan_rain`는 같은 정류장의 하차, `sinchon_offer_station_approach_rain`는 지하철역 쪽 실외 보도, `sinchon_offer_cafe_two_coffees`는 두 잔 앞 카페다. 새 `jiyeon_offer_umbrella` 초상은 정류장 밖에서만, 카페는 기존 따뜻한 초상을 사용한다.

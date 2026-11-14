@@ -49,6 +49,21 @@ SINCHON_OFFER_AUDIO = {
     "suppress_season_ambience": True,
     "paragraph_cues": {"1": [{"sfx": "traffic_pass", "volume_db": -10.0}]},
 }
+M23_PARENTS_EVENT = "arc_34_parents_visit"
+M23_PARENTS_CONCOURSE = "seoul_station_parents_concourse"
+M23_PARENTS_GATE = "seoul_station_parents_ticket_gate"
+M23_PARENTS_QUIET_BACKGROUNDS = (
+    M23_PARENTS_CONCOURSE,
+    M23_PARENTS_GATE,
+    "parents_visit_food_bag_in_transit",
+)
+M23_PARENTS_END_BACKGROUNDS = (M23_PARENTS_GATE, "current_housing")
+M23_PARENTS_AUDIO = {
+    "ambience": "intentional_silence",
+    "suppress_music": True,
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
+}
 DEMO_EVENT_IDS = set("""
 story_flashforward story_arrival story_knee_door story_knee_witness
 story_knee_choice story_last_payment_wait story_last_payment_word
@@ -206,6 +221,9 @@ def main() -> int:
         elif owner == SINCHON_OFFER_EVENT:
             if contract != SINCHON_OFFER_AUDIO or ambience not in ambience_keys:
                 errors.append(f"{owner}: keep only exterior rain and the P1 car cue")
+        elif owner == M23_PARENTS_EVENT:
+            if contract != M23_PARENTS_AUDIO:
+                errors.append(f"{owner}: station and dinner must not borrow pub ambience, music or foley")
         elif not ambience or ambience not in ambience_keys | DYNAMIC_AMBIENCE_KEYS:
             errors.append(f"{owner}: unknown or empty ambience key {ambience!r}")
         music = contract.get("music")
@@ -277,6 +295,23 @@ def main() -> int:
                     or ("result_ambience" in choice if ambience is None
                         else choice.get("result_ambience") != ambience)):
                 errors.append(f"{SINCHON_OFFER_EVENT}: result {index} has the wrong location or ambience path")
+
+    parents = events.get(M23_PARENTS_EVENT, {})
+    profiles = manifest.get("background_profiles", {})
+    if (M23_PARENTS_EVENT not in event_contracts
+            or parents.get("background") != M23_PARENTS_CONCOURSE
+            or any(profiles.get(background) != "intentional_silence"
+                   for background in M23_PARENTS_QUIET_BACKGROUNDS)):
+        errors.append(f"{M23_PARENTS_EVENT}: exact station and transit profiles must stay quiet")
+    parents_choices = parents.get("choices", [])
+    # Choice metadata identifies the terminal location; StoryMode owns the
+    # first (table) page and the precise point at which its audio changes.
+    if ("result_ambience" in parents or not isinstance(parents_choices, list)
+            or len(parents_choices) != len(M23_PARENTS_END_BACKGROUNDS)
+            or any(not isinstance(choice, dict) or choice.get("result_background") != background
+                   or "result_ambience" in choice
+                   for choice, background in zip(parents_choices, M23_PARENTS_END_BACKGROUNDS))):
+        errors.append(f"{M23_PARENTS_EVENT}: station/home result locations must not override authored audio cuts")
 
     for event_id in sorted(PRIVATE_OFFICE_EVENT_IDS):
         contract = event_contracts.get(event_id, {})

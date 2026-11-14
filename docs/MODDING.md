@@ -384,6 +384,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `office_interview_day` | `backgrounds/office_interview_day.png` | 1280x800 |
 | background | `apartment`, `apartment_balcony` | `backgrounds/oneroom_apartment.png` | 1280x800 |
 | background | `open_chat_screen` | `backgrounds/open_chat_screen.png` | 1672x941 |
+| background | `parents_visit_food_bag_in_transit` | `backgrounds/parents_visit_food_bag_in_transit.png` | 1280x800 |
 | background | `park_bench_day` | `backgrounds/park_bench_day.png` | 1280x800 |
 | background | `pc_bang` | `backgrounds/pc_bang_interior.png` | 1280x800 |
 | background | `gangnam_penthouse`, `penthouse` | `backgrounds/penthouse_view.png` | 1280x800 |
@@ -403,6 +404,8 @@ python3 tools/generate_mod_manifest.py --check
 | background | `cold_snap_street` | `backgrounds/seoul_cold_snap_street.png` | 1280x800 |
 | background | `street_rainy` | `backgrounds/seoul_rainy_street.png` | 1280x800 |
 | background | `seoul_station_ktx_platform_winter` | `backgrounds/seoul_station_ktx_platform_winter.png` | 1280x800 |
+| background | `seoul_station_parents_concourse` | `backgrounds/seoul_station_parents_concourse.png` | 1280x800 |
+| background | `seoul_station_parents_ticket_gate` | `backgrounds/seoul_station_parents_ticket_gate.png` | 1280x800 |
 | background | `subway` | `backgrounds/seoul_subway.png` | 1280x800 |
 | background | `sinchon_bus_stop_after_rain_night` | `backgrounds/sinchon_bus_stop_after_rain_night.png` | 1280x800 |
 | background | `sinchon_bus_stop_distant_bus_night` | `backgrounds/sinchon_bus_stop_distant_bus_night.png` | 1280x800 |
@@ -410,12 +413,12 @@ python3 tools/generate_mod_manifest.py --check
 | background | `sinchon_crash_approach_rain_dusk` | `backgrounds/sinchon_crash_approach_rain_dusk.png` | 1280x800 |
 | background | `sinchon_crash_exit_rain_dusk` | `backgrounds/sinchon_crash_exit_rain_dusk.png` | 1280x800 |
 | background | `sinchon_crash_impact_rain_dusk` | `backgrounds/sinchon_crash_impact_rain_dusk.png` | 1280x800 |
-| background | `street`, `street_day` | `backgrounds/street_seoul_day.png` | 1280x800 |
-| background | `subway_station_coin_lockers` | `backgrounds/subway_station_coin_lockers.png` | 1280x800 |
 | background | `sinchon_main_road_bus_stop_rain_overcast` | `backgrounds/sinchon_main_road_bus_stop_rain_overcast.png` | 1280x800 |
 | background | `sinchon_offer_cafe_two_coffees` | `backgrounds/sinchon_offer_cafe_two_coffees.png` | 1280x800 |
 | background | `sinchon_offer_sedan_rain` | `backgrounds/sinchon_offer_sedan_rain.png` | 1280x800 |
 | background | `sinchon_offer_station_approach_rain` | `backgrounds/sinchon_offer_station_approach_rain.png` | 1280x800 |
+| background | `street`, `street_day` | `backgrounds/street_seoul_day.png` | 1280x800 |
+| background | `subway_station_coin_lockers` | `backgrounds/subway_station_coin_lockers.png` | 1280x800 |
 | background | `subway_station_lost_found` | `backgrounds/subway_station_lost_found.png` | 1280x800 |
 | background | `subway_station_stairs` | `backgrounds/subway_station_stairs.png` | 1280x800 |
 | background | `suneung_test_hall` | `backgrounds/suneung_test_hall.png` | 1672x941 |
@@ -508,9 +511,9 @@ python3 tools/generate_mod_manifest.py --check
 | cg | `cg_story_knee_palm` | `cg/story/knee_palm_v1.png` | 1280x800 |
 | cg | `cg_story_knee_witness` | `cg/story/knee_witness_v1.png` | 1280x800 |
 | cg | `cg_y5_three_in_room` | `cg/y5_three_in_room_v2.png` | 1280x800 |
+| portrait | `jiyeon_offer_umbrella` | `characters/jiyeon_offer_umbrella.png` | 768x1024 |
 | portrait | `player_cold_snap` | `characters/main_character_cold_snap.png` | 512x768 |
 | portrait | `player_corporate`, `player_suit` | `characters/main_character_corporate.png` | 512x768 |
-| portrait | `jiyeon_offer_umbrella` | `characters/jiyeon_offer_umbrella.png` | 768x1024 |
 | portrait | `player_corporate_y3` | `characters/main_character_corporate_y3.png` | 1024x1536 |
 | portrait | `player_corporate_y5` | `characters/main_character_corporate_y5.png` | 1024x1536 |
 | portrait | `player_determined`, `player_moral_black` | `characters/main_character_determined.png` | 512x768 |

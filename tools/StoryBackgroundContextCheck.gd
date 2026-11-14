@@ -26,6 +26,21 @@ const OFFER_CAFE := "sinchon_offer_cafe_two_coffees"
 const OFFER_UMBRELLA := "jiyeon_offer_umbrella"
 const OFFER_FOLLOW_UP := "callback_jiyeon_honest_referral"
 const OFFER_BRANCH_FLAGS := ["jiyeon_refused_coffee", "jiyeon_had_coffee", "jiyeon_honest"]
+const M23_PARENTS := "arc_34_parents_visit"
+const M23_CALL := "arc_father_03_hospital"
+const M23_CONCOURSE := "seoul_station_parents_concourse"
+const M23_GATE := "seoul_station_parents_ticket_gate"
+const M23_BAG := "parents_visit_food_bag_in_transit"
+const M23_RESTAURANT := "restaurant"
+const M23_HOME := "current_housing"
+const M23_HOUSING := ["gosiwon", "oneroom", "apartment"]
+const M23_CUT_ANCHORS := {
+	"ko": ["{name}은 방에 널린 빨래를", "이동하는 동안"],
+	"en": ["{name} pushes the laundry", "Mother keeps the side-dish bag"],
+	"ja": ["{name}は部屋に散らばった洗濯物を", "移動の間"],
+	"zh-CN": ["{name}把房里散着的衣服", "路上，母亲"],
+	"zh-TW": ["{name}把散在房裡的衣物", "路上，母親"],
+}
 const W4_DEMO := preload("res://playtests/order124/StoryChoiceM1M6Playtest.gd")
 const W4_TERMS := {
 	"ko": ["한 시간 뒤 같은 보관함", "방으로 돌아온"],
@@ -144,6 +159,10 @@ const EXACT_PATHS := {
 	OFFER_SEDAN: "res://assets/backgrounds/sinchon_offer_sedan_rain.png",
 	OFFER_STATION: "res://assets/backgrounds/sinchon_offer_station_approach_rain.png",
 	OFFER_CAFE: "res://assets/backgrounds/sinchon_offer_cafe_two_coffees.png",
+	M23_CONCOURSE: "res://assets/backgrounds/seoul_station_parents_concourse.png",
+	M23_GATE: "res://assets/backgrounds/seoul_station_parents_ticket_gate.png",
+	M23_BAG: "res://assets/backgrounds/parents_visit_food_bag_in_transit.png",
+	M23_RESTAURANT: "res://assets/backgrounds/restaurant_korean.png",
 	"hospital_clinic_day": "res://assets/backgrounds/hospital_clinic_day.png",
 	"subway_station_stairs": "res://assets/backgrounds/subway_station_stairs.png",
 	"subway_station_lost_found": "res://assets/backgrounds/subway_station_lost_found.png",
@@ -190,6 +209,7 @@ var _w8_capture_dir := ""
 var _w8_capture_start_msec := 0
 var _w8_capture_shots := 0
 var _offer_capture_dir := ""
+var _m23_capture_dir := ""
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -212,6 +232,12 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_M23_PARENTS_CHECK"):
+		var m23_ok := await _check_m23_parents()
+		if m23_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=m23_parents")
+		get_tree().quit(0 if m23_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_SINCHON_OFFER_CHECK"):
 		var offer_ok := await _check_sinchon_offer()
 		if offer_ok:
@@ -880,6 +906,267 @@ func _expect_reunion_surface(background: String, portrait_visible: bool, score: 
 		return false
 	return true
 
+func _check_m23_parents() -> bool:
+	_m23_capture_dir = OS.get_environment("GANGNAM_M23_PARENTS_CAPTURE_DIR")
+	var capture := not _m23_capture_dir.is_empty()
+	var languages := W4_TERMS.keys()
+	if capture:
+		var language := OS.get_environment("GANGNAM_M23_PARENTS_CAPTURE_LANGUAGE")
+		var output := DirAccess.open(_m23_capture_dir) if _m23_capture_dir.is_absolute_path() else null
+		if output == null or not output.get_files().is_empty() or not output.get_directories().is_empty() \
+				or not W4_TERMS.has(language) or DisplayServer.get_name() == "headless":
+			_fail("M23 capture requires a fresh absolute output, known locale and real display")
+			return false
+		languages = [language]
+		OS.low_processor_usage_mode = false
+	await _remove_story()
+	await _stop_audio()
+	_context = "M23/prepare"
+	if not _prepare_full_owner_history(89, [[14, "arc_father_01_call"], [21, "arc_father_02_signal"],
+			[49, "chapter_card_34"], [57, "arc_father_medication"]]) or not _m23_selector():
+		return false
+	var prepared: Dictionary = GameState.serialize().duplicate(true)
+	var paths := 0
+	var housing_count: Dictionary = {}
+	for lang_index in range(languages.size()):
+		var language: String = languages[lang_index]
+		LocaleManager.set_language(language)
+		for low in [false, true]:
+			for choice in [0, 1]:
+				await _remove_story()
+				GameState.call("_restore_serialized_snapshot_exact", prepared)
+				GameState.mental = 19 if low else 60
+				GameState.money = 600_000.0
+				var housing: String = M23_HOUSING[(lang_index + int(low)) % M23_HOUSING.size()]
+				GameState.housing = housing
+				_context = "%s/M23/%s/c%d/%s" % [language, "low" if low else "normal", choice, housing]
+				if await _play_m23_parents(low, choice, housing):
+					paths += 1
+					if choice == 1:
+						housing_count[housing] = true
+	await _remove_story()
+	await _stop_audio()
+	if paths != languages.size() * 4 or (not capture and housing_count.size() != M23_HOUSING.size()):
+		_fail("M23 path or housing inventory incomplete paths=%d housing=%s" % [paths, housing_count.keys()])
+	if capture:
+		var shots := 0
+		for file in DirAccess.get_files_at(_m23_capture_dir):
+			if file.ends_with(".png"):
+				shots += 1
+		if shots != 24:
+			_fail("M23 expected 24 renders for %s, got %d" % [languages[0], shots])
+	if _failures != 0:
+		return false
+	print("M23_PARENTS_OK paths=%d cold_results=%d cold_prose=%d cold_choices=%d locale_rebinds=%d call_handoffs=%d housing=%s full_owner=1 prepared_history=1 capture=%s" % [
+		paths, 5 * languages.size() if not capture else 0, 2 * languages.size() if not capture else 0,
+		paths if not capture else 0, 8 if not capture else 0, paths, housing_count.keys(), capture])
+	return true
+
+func _m23_selector() -> bool:
+	var probe := load("res://scenes/MainGame.tscn").instantiate() as Control
+	var eligible := bool(GameState.flags.get("arc_father_02_done", false)) \
+		and bool(GameState.flags.get("arc_father_medication_seen", false))
+	for turn in [88, 89, 90, 91, 92, 93]:
+		eligible = eligible and (probe.call("_next_arc_id", turn, true) == M23_PARENTS) == (turn >= 89 and turn <= 92)
+	var flags: Dictionary = GameState.flags.duplicate()
+	eligible = eligible and probe.call("_story_graph_contract_event_id", 89, flags, true) != M23_PARENTS
+	for forbidden in ["arc_34_parents_visit_seen", "arc_father_03_seen"]:
+		var invalid := flags.duplicate()
+		invalid[forbidden] = true
+		eligible = eligible and probe.call("_story_graph_contract_event_id", 89, invalid, false) != M23_PARENTS
+	for required in ["arc_father_02_done", "arc_father_medication_seen"]:
+		var invalid := flags.duplicate()
+		invalid.erase(required)
+		eligible = eligible and probe.call("_story_graph_contract_event_id", 89, invalid, false) != M23_PARENTS
+	probe.free()
+	if not eligible:
+		_fail("M23 W89-92 route or its actual predecessor/death boundary failed")
+	return eligible
+
+func _play_m23_parents(low: bool, choice: int, housing: String) -> bool:
+	if not await _open_full_fixture_event(M23_PARENTS):
+		return false
+	var event: Dictionary = _story.get("_current")
+	var intro: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var intro_count := 3 if low else 4
+	var intro_cut := _m23_expected_cut(intro, 0, low)
+	if int(_story.call("_story_source_paragraph_count")) != intro_count \
+			or (intro_cut >= 0) != low \
+			or not _m23_same_prose(intro, str(_story.call("_fmt", event["description_low_mental" if low else "description"]))):
+		_fail("M23 intro selector or preserved original prose changed")
+		return false
+	var tag := "low" if low else "normal"
+	for page in range(intro.size()):
+		var source := int(_story.call("_story_source_paragraph_index", page))
+		var laundry := low and source == 0 and page >= intro_cut
+		var expected := M23_RESTAURANT if source == intro_count - 1 else (M23_HOME if laundry else M23_CONCOURSE)
+		if not _m23_surface(expected, housing, false):
+			return false
+		await _finish_page()
+		if choice == 0 and not _m23_capture_dir.is_empty() and (page == intro_cut \
+				or page == int(_story.call("_first_story_page_for_source", source))):
+			var shot := "%s_intro_p%d%s" % [tag, source, "_laundry" if page == intro_cut else ""]
+			if not await _save_m23_frame(shot):
+				return false
+		if low and choice == 1 and _m23_capture_dir.is_empty() and page in [intro_cut - 1, intro_cut]:
+			if not await _reload_prechoice("prose", M23_PARENTS) or int(_story.get("_para_index")) != page \
+					or not _m23_surface(expected, housing, false):
+				_fail("M23 low intro cold resume shifted at the laundry cut")
+				return false
+			if LocaleManager.language == "ko" and not await _m23_rebind(false, page >= intro_cut, expected, housing):
+				return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	if not bool(_story.get("_showing_choices")) or (_story.get("_choice_box") as Control).get_child_count() != 2 \
+			or not _m23_surface(M23_RESTAURANT, housing):
+		_fail("M23 expected both choices in the restaurant")
+		return false
+	if _m23_capture_dir.is_empty():
+		if not await _reload_prechoice("choices", M23_PARENTS) or not _m23_surface(M23_RESTAURANT, housing):
+			return false
+	elif choice == 0 and not await _save_m23_frame("%s_choices" % tag):
+		return false
+	var expected_state := [float(GameState.money) - (80_000.0 if choice == 0 else 0.0),
+		GameState.mental + (4 if choice == 0 else 2), GameState.social_skill + (1 if choice == 0 else 0),
+		GameState.reputation + (2 if choice == 1 else 0), GameState.event_log.size() + 1]
+	_story.call("_on_choice", choice)
+	await _wait_stable()
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var result_cut := _m23_expected_cut(pages, 1, choice == 1)
+	if int(_story.call("_story_source_paragraph_count")) != 3 \
+			or (result_cut >= 0) != (choice == 1) \
+			or not _m23_same_prose(pages, str(_story.call("_fmt", event["choices"][choice]["result_text"]))) \
+			or not _m23_choice_receipt(choice, expected_state, false):
+		_fail("M23 result changed original content or once-only effects")
+		return false
+	for page in range(pages.size()):
+		var source := int(_story.call("_story_source_paragraph_index", page))
+		var ride := choice == 1 and source == 0 and page >= result_cut
+		var expected := (M23_BAG if ride else M23_RESTAURANT) if source == 0 \
+			else (M23_GATE if choice == 0 else M23_HOME)
+		if not _m23_surface(expected, housing):
+			return false
+		await _finish_page()
+		var first_for_source := page == int(_story.call("_first_story_page_for_source", source))
+		if _m23_capture_dir.is_empty() and low and (page == result_cut or (first_for_source and source in [0, 1])):
+			if not await _reload_cut_result(choice, page, false):
+				return false
+			await _wait_stable()
+			if not _m23_surface(expected, housing) or not _m23_choice_receipt(choice, expected_state, false):
+				return false
+			if LocaleManager.language == "ko" and choice == 1 and page in [result_cut - 1, result_cut] \
+					and not await _m23_rebind(true, ride, expected, housing):
+				return false
+		elif not _m23_capture_dir.is_empty() and (page == result_cut or first_for_source):
+			if not await _save_m23_frame("%s_c%d_p%d%s" % [tag, choice, source, "_ride" if page == result_cut else ""]):
+				return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	var call: Dictionary = _story.get("_current")
+	if call.get("id") != M23_CALL or not _m23_choice_receipt(choice, expected_state, true) \
+			or str(_story.get_meta("story_transition_mode", "")) != "time_cut" \
+			or str(_story.get("_event_background_id")) != _m23_home_background(housing):
+		_fail("M23 did not close exactly once into mother's home phone call time cut")
+		return false
+	return true
+
+func _m23_same_prose(pages: Array, authored: String) -> bool:
+	var whitespace := RegEx.new()
+	whitespace.compile("\\s+")
+	return whitespace.sub("".join(PackedStringArray(pages)), "", true) == whitespace.sub(authored, "", true)
+
+func _m23_expected_cut(pages: Array, anchor_index: int, required: bool) -> int:
+	if not required:
+		if int(_story.get("_result_location_cut_page")) != -1:
+			_fail("M23 unrelated prose or choice gained a mid-paragraph cut")
+		return -1
+	var anchor: String = _story.call("_fmt", M23_CUT_ANCHORS[LocaleManager.language][anchor_index])
+	var cut := int(_story.get("_result_location_cut_page"))
+	if cut < 1 or cut >= pages.size() or not str(pages[cut]).begins_with(anchor) \
+			or int(_story.call("_story_source_paragraph_index", cut - 1)) != 0 \
+			or int(_story.call("_story_source_paragraph_index", cut)) != 0:
+		_fail("M23 exact same-source boundary did not start at %s" % anchor)
+		return -1
+	return cut
+
+func _m23_rebind(result: bool, after_cut: bool, background: String, housing: String) -> bool:
+	# Different translations have different character ratios on each side;
+	# changing the language must never move to the other picture mid-sentence.
+	for language in ["en", "ko"]:
+		_story.call("_set_story_language", language)
+		await _wait_stable()
+		var cut := _m23_expected_cut(_story.get("_paragraphs"), int(result), true)
+		if cut < 0 or LocaleManager.language != language \
+				or (int(_story.get("_para_index")) >= cut) != after_cut \
+				or not _m23_surface(background, housing, result):
+			_fail("M23 locale rebind crossed the laundry or bag boundary")
+			return false
+	return true
+
+func _m23_home_background(housing: String) -> String:
+	return {"gosiwon": W4_ROOM, "oneroom": "apartment", "apartment": "gangnam_apartment"}[housing]
+
+func _m23_surface(expected: String, housing: String, room_tone: bool = true) -> bool:
+	var home := expected == M23_HOME
+	var actual := _m23_home_background(housing) if home else expected
+	var sound_here := home and room_tone
+	var audio := "apartment" if sound_here else ""
+	if not _expect_surface(actual, audio, "M23 parents"):
+		return false
+	var cues: Array = AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:
+		return key.begins_with(M23_PARENTS + ":"))
+	var portrait := _story.get("_portrait_frame") as Control
+	var nameplate := _story.get("_name_panel") as Control
+	var bag := expected == M23_BAG
+	if str(_story.get_meta("living_scene_effect", "")) != "none" or not cues.is_empty() \
+			or portrait.visible == bag or (bag and nameplate.visible) \
+			or not BGMPlayer._current_key.is_empty() or BGMPlayer._ambience_player.playing != sound_here \
+			or not BGMPlayer._current_human_ambience_key.is_empty() or BGMPlayer._human_ambience_player.playing \
+			or not BGMPlayer._current_season_key.is_empty() or BGMPlayer._season_player.playing:
+		_fail("M23 unexpected cue, score, weather or wrong live ambience: %s cues=%s" % [actual, cues])
+		return false
+	return true
+
+func _m23_choice_receipt(choice: int, expected: Array, call_open: bool) -> bool:
+	var records: Array = GameState.event_log
+	var receipt: Dictionary = records.back() if not records.is_empty() else {}
+	var valid: bool = FULL_STORY_FLOW.valid_session() and records.size() == expected[4] \
+		and receipt.get("event_id") == M23_PARENTS and int(receipt.get("choice_index", -1)) == choice \
+		and is_equal_approx(GameState.money, expected[0]) and GameState.mental == expected[1] \
+		and GameState.social_skill == expected[2] and GameState.reputation == expected[3] \
+		and bool(GameState.flags.get("arc_34_parents_visit_seen", false)) \
+		and bool(GameState.flags.get("arc_34_parents_visited", false)) \
+		and bool(GameState.flags.get("hid_room_from_parents", false)) == (choice == 0) \
+		and bool(GameState.flags.get("showed_room_to_parents", false)) == (choice == 1) \
+		and not bool(GameState.flags.get("arc_father_03_seen", false)) \
+		and bool(_story.get("_pending_after_result")) != call_open
+	if not call_open:
+		valid = valid and str(_story.get("_pending_follow_up")) == M23_CALL
+	return valid
+
+func _save_m23_frame(label: String) -> bool:
+	if bool(_story.get("_showing_choices")):
+		var box := _story.get("_choice_box") as Control
+		for _frame in range(150):
+			var settled := box.modulate.a >= 0.99 and box.get_child_count() == 2
+			for child in box.get_children():
+				var group := child as Control
+				settled = settled and group.modulate.a >= 0.99 and group.scale.is_equal_approx(Vector2.ONE)
+			if settled:
+				break
+			if _frame == 149:
+				_fail("M23 did not settle choice boxes for capture")
+				return false
+			await get_tree().process_frame
+	var portrait := _story.get("_portrait_frame") as Control
+	var threshold := 0.93 if bool(_story.get("_showing_choices")) else 0.99
+	for _frame in range(150):
+		if not portrait.visible or portrait.modulate.a >= threshold:
+			return await _save_viewport_frame(_m23_capture_dir.path_join(label + ".png"))
+		await get_tree().process_frame
+	_fail("M23 did not settle portrait for capture")
+	return false
+
 func _check_sinchon_offer() -> bool:
 	_offer_capture_dir = OS.get_environment("GANGNAM_SINCHON_OFFER_CAPTURE_DIR")
 	var language_arg := OS.get_environment("GANGNAM_SINCHON_OFFER_CAPTURE_LANGUAGE")
@@ -937,20 +1224,40 @@ func _check_sinchon_offer() -> bool:
 	return true
 
 func _prepare_sinchon_offer() -> bool:
-	# Prepared elapsed weeks, not played weeks. Bind required FullStoryFlow
-	# history to actual apply_choice witnesses and route the claimed scene live.
+	if not _prepare_full_owner_history(85, [[17, M03_EVENT], [34, REUNION], [49, "chapter_card_34"]]):
+		return false
+	GameState.mental = 60
+	GameState.social_skill = 40
+	var probe := load("res://scenes/MainGame.tscn").instantiate() as Control
+	var eligible := bool(GameState.flags.get("arc_jiyeon_store_seen", false))
+	for turn in [84, 85, 86, 87, 88, 89]:
+		eligible = eligible and (probe.call("_next_arc_id", turn, true) == OFFER) == (turn in [85, 86, 87, 88])
+	var competing: Dictionary = GameState.flags.duplicate()
+	competing["arc_daeun_regular_seen"] = true
+	var saved_cast: Dictionary = GameState.cast.duplicate(true)
+	GameState.apply_cast_effect("daeun", {"affinity": 12})
+	eligible = eligible and probe.call("_story_graph_contract_event_id", 85, competing, false) == "arc_daeun_03_fork"
+	GameState.cast = saved_cast
+	probe.free()
+	if not eligible:
+		_fail("Sinchon offer routing did not match full calendar, reunion witness or competing Daeun route")
+	return eligible
+
+func _prepare_full_owner_history(at_turn: int, extra_prior: Array) -> bool:
+	# Prepared elapsed weeks, not played weeks; bind scene witnesses to actual
+	# choice application. The scoped test exercises real routing at at_turn.
 	GameState.start_new_game()
 	if not FULL_STORY_FLOW.initialize_fresh_run():
-		_fail("Sinchon offer could not initialize a pristine full owner")
+		_fail("could not initialize a pristine full owner")
 		return false
 	var owner := FULL_STORY_FLOW.snapshot()
 	for prior in [[1, "story_flashforward"], [1, "chapter_card_33"],
 			[4, W4_EVENT], [8, "arc_temptation_clean"], [9, "arc_intro_04_hyunsu"],
-			[9, "arc_chapter1_close"], [17, M03_EVENT], [34, REUNION], [49, "chapter_card_34"]]:
+			[9, "arc_chapter1_close"]] + extra_prior:
 		GameState.turn = int(prior[0])
 		var event: Dictionary = DataRegistry.find_event(str(prior[1]))
 		if event.is_empty() or not GameState.apply_choice(event, event["choices"][0]):
-			_fail("Sinchon offer preparation lost authored predecessor %s" % prior[1])
+			_fail("full owner preparation lost authored predecessor %s" % prior[1])
 			return false
 		var turn_key := str(GameState.turn)
 		if not owner["read_receipts"].has(turn_key):
@@ -959,7 +1266,7 @@ func _prepare_sinchon_offer() -> bool:
 		var record: Dictionary = tuple.duplicate()
 		record.merge({"expression": false, "applied_sequence": GameState.events_seen, "applied_tuple": tuple})
 		owner["read_receipts"][turn_key].append(record)
-	for prior_turn in range(1, 85):
+	for prior_turn in range(1, at_turn):
 		owner["completed_turns"][str(prior_turn)] = {"turn": prior_turn, "next_turn": prior_turn + 1}
 		owner["routine_receipts"][str(prior_turn)] = {
 			"turn": prior_turn, "source": FULL_STORY_FLOW.ROUTINE_SOURCE, "job_id": "", "status": "applied",
@@ -975,39 +1282,30 @@ func _prepare_sinchon_offer() -> bool:
 					"after": {"money": 570_000, "health": 65, "mental": 64, "work_performance": 0}},
 			],
 		}
-	owner["last_completed_turn"] = 84
+	owner["last_completed_turn"] = at_turn - 1
 	GameState.flags[FULL_STORY_FLOW.STATE_KEY] = owner
-	GameState.turn = 85
-	GameState.week_of_month = 1
-	GameState.month = 10
-	GameState.year = 2027
-	GameState.age = 34
-	GameState.mental = 60
-	GameState.social_skill = 40
+	GameState.turn = at_turn
+	GameState.week_of_month = (at_turn - 1) % 4 + 1
+	GameState.month = int((at_turn - 1) / 4.0) % 12 + 1
+	GameState.year = 2026 + int((at_turn - 1) / 48.0)
+	GameState.age = 33 + int((at_turn - 1) / 48.0)
 	SaveManager.clear_loaded_resume_context()
-	var probe := load("res://scenes/MainGame.tscn").instantiate() as Control
-	var eligible := FULL_STORY_FLOW.valid_session() and bool(GameState.flags.get("arc_jiyeon_store_seen", false))
-	for turn in [84, 85, 86, 87, 88, 89]:
-		eligible = eligible and (probe.call("_next_arc_id", turn, true) == OFFER) == (turn in [85, 86, 87, 88])
-	var competing: Dictionary = GameState.flags.duplicate()
-	competing["arc_daeun_regular_seen"] = true
-	var saved_cast: Dictionary = GameState.cast.duplicate(true)
-	GameState.apply_cast_effect("daeun", {"affinity": 12})
-	eligible = eligible and probe.call("_story_graph_contract_event_id", 85, competing, false) == "arc_daeun_03_fork"
-	GameState.cast = saved_cast
-	probe.free()
-	if not eligible:
-		_fail("Sinchon offer routing did not match full calendar, reunion witness or competing Daeun route")
-	return eligible
+	if not FULL_STORY_FLOW.valid_session():
+		_fail("prepared full owner failed its calendar or authentic read rules")
+		return false
+	return true
 
 func _open_sinchon_offer() -> bool:
+	return await _open_full_fixture_event(OFFER)
+
+func _open_full_fixture_event(expected_id: String) -> bool:
 	var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
 	ingress.set_meta("_screenshot_qa_static_surface", true)
 	var event_id: String = ingress.call("_next_arc_id", -1, true)
 	ingress.call("_go_story_mode", [event_id])
 	ingress.free()
-	if event_id != OFFER or GameState.pending_story_queue != [OFFER] or not FULL_STORY_FLOW.valid_session():
-		_fail("Sinchon offer did not reserve its normal FullStoryFlow handoff")
+	if event_id != expected_id or GameState.pending_story_queue != [expected_id] or not FULL_STORY_FLOW.valid_session():
+		_fail("%s did not reserve its normal FullStoryFlow handoff" % expected_id)
 		return false
 	# Enter from a rain/street crowd and a stale seasonal bed to check the actual
 	# scene contract clears both, including after the outdoor choice moves.
@@ -1111,28 +1409,33 @@ func _check_offer_prechoice_resume() -> bool:
 	return await _reload_offer_prechoice("choices")
 
 func _reload_offer_prechoice(phase: String) -> bool:
+	if not await _reload_prechoice(phase, OFFER):
+		return false
+	return _expect_offer_surface(OFFER_SEDAN, OFFER_UMBRELLA, false)
+
+func _reload_prechoice(phase: String, event_id: String) -> bool:
 	var saved_context: Dictionary = _story.call("build_save_resume_context")
 	var count := GameState.event_log.size()
 	if saved_context.get("phase") != phase or not SaveManager.save_game(W8_QA_SLOT, saved_context, {"qa_fixture": true}):
-		_fail("Sinchon offer could not save %s" % phase)
+		_fail("%s could not save %s" % [event_id, phase])
 		return false
 	await _remove_story()
 	GameState.start_new_game()
 	if not SaveManager.load_game(W8_QA_SLOT):
-		_fail("Sinchon offer could not cold load %s" % phase)
+		_fail("%s could not cold load %s" % [event_id, phase])
 		return false
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
 	add_child(_story)
 	_story.call("_set_auto_mode", false, false, false)
 	await _wait_stable()
 	var restored_context: Dictionary = _story.call("build_save_resume_context")
-	if restored_context.get("event_id") != OFFER or restored_context.get("phase") != phase \
+	if restored_context.get("event_id") != event_id or restored_context.get("phase") != phase \
 			or int(restored_context.get("source_paragraph_index", -1)) != int(saved_context.get("source_paragraph_index", -2)) \
-			or GameState.event_log.size() != count or bool(GameState.flags.get("arc_jiyeon_offer_seen", false)) \
+			or GameState.event_log.size() != count \
 			or not FULL_STORY_FLOW.valid_session():
-		_fail("Sinchon offer %s resume changed its source page, handoff or choice state" % phase)
+		_fail("%s %s resume changed its source page, handoff or choice state" % [event_id, phase])
 		return false
-	return _expect_offer_surface(OFFER_SEDAN, OFFER_UMBRELLA, false)
+	return true
 
 func _save_offer_frame(label: String) -> void:
 	var portrait := _story.get("_portrait_frame") as Control
@@ -1761,7 +2064,7 @@ func _wait_stable() -> void:
 			return
 		if not _w4_capture_dir.is_empty() or not _w8_capture_dir.is_empty() \
 				or not _m14_capture_dir.is_empty() or not _w234_capture_dir.is_empty() \
-				or not _offer_capture_dir.is_empty():
+				or not _offer_capture_dir.is_empty() or not _m23_capture_dir.is_empty():
 			continue
 		if raw_ink_tween is Tween and (raw_ink_tween as Tween).is_running():
 			(raw_ink_tween as Tween).custom_step(10.0)

@@ -472,5 +472,8 @@
 | Background | `assets/backgrounds/year2_winter_last_night.png` | `year2_winter_street_night` | 1280x800 | no | `f9f019f44357` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year3_hangang_winter_night.png` | `year3_hangang_winter_night` | 1280x800 | no | `b8387ccb4707` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year4_winter_rooftop.png` | `year4_winter_rooftop` | 1280x800 | no | `46803837d191` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/seoul_station_parents_concourse.png` | `seoul_station_parents_concourse` | 1280x800 | no | `bcf17350a3b7` | PASS-B | 오후 다섯 시 합류 공간, 늦가을 빛과 비어 있는 통로. |
+| Background | `assets/backgrounds/seoul_station_parents_ticket_gate.png` | `seoul_station_parents_ticket_gate` | 1280x800 | no | `c7fdfeff4a9c` | PASS-B | 밤의 표 확인 지점. 떠난 열차·비·눈·문자 없음. |
+| Background | `assets/backgrounds/parents_visit_food_bag_in_transit.png` | `parents_visit_food_bag_in_transit` | 1280x800 | no | `e08cb9a97695` | PASS-B | 어머니 무릎의 닫힌 반찬 가방. 이동수단·얼굴·상표를 보여 주지 않음. |
 
-Inventory: 81 CG / 94 portraits / 109 backgrounds / 284 total.
+Inventory: 81 CG / 94 portraits / 112 backgrounds / 287 total.

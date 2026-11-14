@@ -109,6 +109,9 @@ TRANSIT_BACKGROUNDS = {
     "jiyeon_sedan_first_snow",
 }
 INDOOR_BACKGROUNDS = {
+    "seoul_station_parents_concourse",
+    "seoul_station_parents_ticket_gate",
+    "parents_visit_food_bag_in_transit",
     "sinchon_offer_cafe_two_coffees",
     "bank_service_counter_rainy_day",
     "bank_loan_counter_day",

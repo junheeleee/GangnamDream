@@ -3598,7 +3598,7 @@
     "weight": 0,
     "hidden": true,
     "portrait": "player_tired",
-    "background": "restaurant",
+    "background": "seoul_station_parents_concourse",
     "conditions": {},
     "tags": [
       "story",
@@ -3612,8 +3612,7 @@
     "choices": [
       {
         "text": "식탁에 더 남아 저녁을 끝내고, 방은 보여 주지 않는다",
-        "result_background": "restaurant",
-        "result_ambience": "hoesik",
+        "result_background": "seoul_station_parents_ticket_gate",
         "effects": {
           "money": -80000,
           "mental": 4,
@@ -3630,7 +3629,6 @@
       {
         "text": "식사를 줄이고 지금 사는 방으로 모신다",
         "result_background": "current_housing",
-        "result_ambience": "current_housing",
         "effects": {
           "mental": 2,
           "reputation": 2

@@ -596,9 +596,11 @@ def validate(data: Inputs) -> list[str]:
     parent_presentation = data.rules.get("events", {}).get(
         "arc_34_parents_visit", {}).get(
         "presentation", {})
-    if parent_event.get("background") != "restaurant" \
-            or parent_presentation.get("scene_location") != "restaurant":
-        errors.append("M23 parents visit base surface is not the station restaurant")
+    if parent_event.get("background") != "seoul_station_parents_concourse" \
+            or parent_presentation.get("scene_location") != "seoul_station_parents_concourse" \
+            or [row.get("result_background") for row in parent_event.get("choices", [])] \
+                != ["seoul_station_parents_ticket_gate", "current_housing"]:
+        errors.append("M23 parents visit must open in the concourse and end at the gate or current home")
     parent_logic = data.rules.get("events", {}).get(
         "arc_34_parents_visit", {}).get("logic", {})
     parent_prereqs = parent_logic.get("prerequisites", {}).get("all", [])
@@ -622,7 +624,8 @@ def validate(data: Inputs) -> list[str]:
     transitions = data.rules.get("transition_contracts", {})
     parent_cut = transitions.get("arc_34_parents_visit->arc_father_03_hospital", {})
     if parent_cut.get("mode") != "time_cut" \
-            or parent_cut.get("from_locations") != ["restaurant", "current_housing"] \
+            or parent_cut.get("from_locations") \
+                != ["seoul_station_parents_ticket_gate", "current_housing"] \
             or parent_cut.get("arrival_cue_ko") != "부모님이 서울에서 내려간 지 나흘째" \
             or parent_cut.get("arrival_cue_en") != "Four days after his parents returned from Seoul":
         errors.append("M23 parents-to-hospital four-day time cut drifted")

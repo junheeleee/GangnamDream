@@ -4,7 +4,7 @@
 
 11-14 사용자 재지정: [결정](../DECISIONS.md#2026-11-14-모든-플레이-가능-장면의-에셋-정합을-먼저-끝낸다--사용자-지시).
 본편·체험판 모든 장면·분기의 글/그림/소리 정합. 에셋 뒤 사람 테스트. 구 RC·저장·업로드0.
-완료 증거: [W4·M14·W234](../queue_archive/ORDER-830-ART-EVIDENCE.md). 직접 청취 미완.
+증거: [W4·M14·M23·W234](../queue_archive/ORDER-830-ART-EVIDENCE.md). 실청취 미완.
 M03 [~] [사고 전·접촉 직후·하차·퇴장](../queue_archive/ORDER-830-ART-EVIDENCE.md#m03-사고-전후). 바퀴 마찰 녹음·실청취 미완.
 [신촌 재회·제안](../queue_archive/ORDER-830-ART-EVIDENCE.md#신촌역-재회): 화면·믹스 확인; 실청취 미완.
 

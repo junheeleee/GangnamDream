@@ -38,6 +38,11 @@ const SINCHON_OFFER := "arc_jiyeon_03_offer"
 const SINCHON_OFFER_SEDAN := "sinchon_offer_sedan_rain"
 const SINCHON_OFFER_STATION := "sinchon_offer_station_approach_rain"
 const SINCHON_OFFER_UMBRELLA := "jiyeon_offer_umbrella"
+const M23_PARENTS := "arc_34_parents_visit"
+const M23_PARENTS_CUTS := preload("res://assets/m23_parents_visit_cuts.tres")
+const M23_STATION := "seoul_station_parents_concourse"
+const M23_STATION_GATE := "seoul_station_parents_ticket_gate"
+const M23_FOOD_BAG := "parents_visit_food_bag_in_transit"
 const W8_FALLOUT := "arc_temptation_fallout"
 const M14_BANK_REVIEW := "arc_y2_bank_limit_review"
 const W234_SUMMIT := "arc_y5_general_pre_ending_summit_exact"
@@ -2678,7 +2683,8 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		_para_index = int(restored_position.get("page_index", 0))
 		restored_type_ratio = clampf(
 			float(restored_position.get("type_ratio", restored_type_ratio)), 0.0, 1.0)
-		if result_phase and _result_location_cut_page >= 0:
+		if _result_location_cut_page >= 0 \
+				and (result_phase or str(_current.get("id", "")) == M23_PARENTS):
 			var saved_page := int(context.get("paragraph_index", -1))
 			var saved_ratio: float = clampf(float(context.get("paragraph_type_ratio", 1.0)), 0.0, 1.0)
 			if saved_locale == LocaleManager.language and saved_page >= 0 \
@@ -3240,7 +3246,7 @@ func _set_story_language(raw_language: String) -> void:
 				_show_story_result_record(
 					localized_choices[_pending_result_choice_index] as Dictionary, false)
 		else:
-			localized_page_data = _story_page_data(_resolved_story_description(_current))
+			localized_page_data = _resolved_story_prose_pages()
 		var localized_source_count := _story_page_data_source_paragraph_count(
 			localized_page_data)
 		if not _showing_choices \
@@ -3312,7 +3318,15 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 	return (event_id == W8_FALLOUT and choice_index in [0, 1]) \
 		or (event_id == M03_JIYEON_CRASH and choice_index in [0, 2]) \
 		or (event_id == W4_TEMPTATION and choice_index == 1) \
-		or (event_id == W234_SUMMIT and choice_index == 0)
+		or (event_id == W234_SUMMIT and choice_index == 0) \
+		or (event_id == M23_PARENTS and choice_index == 1)
+
+func _resolved_story_prose_pages() -> Dictionary:
+	var prose := _resolved_story_description(_current)
+	if str(_current.get("id", "")) == M23_PARENTS and prose.split("\n\n").size() == 3:
+		var anchors: Dictionary = M23_PARENTS_CUTS.get_meta("laundry_anchors", {})
+		return _split_formatted_story_page(prose, 0, _fmt(str(anchors.get(LocaleManager.language, ""))))
+	return _story_page_data(prose)
 
 func _localized_result_page_data(choice_index: int) -> Dictionary:
 	var choices: Array = _current.get("choices", [])
@@ -3324,6 +3338,11 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 	var raw := str((choices[choice_index] as Dictionary).get("result_text", ""))
 	var event_id := str(_current.get("id", ""))
 	if not _has_result_location_cut(event_id, choice_index):
+		return _story_page_data(_fmt(raw))
+	if event_id == M23_PARENTS:
+		var ride_anchors: Dictionary = M23_PARENTS_CUTS.get_meta("ride_anchors", {})
+		if raw.split("\n\n").size() == 3:
+			return _split_formatted_story_page(_fmt(raw), 0, str(ride_anchors.get(LocaleManager.language, "")))
 		return _story_page_data(_fmt(raw))
 	# These anchors select a page boundary; the displayed text comes from the event.
 	var cut_source := 1
@@ -3372,6 +3391,25 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 				pages.append(page)
 				source_indices.append(source_index)
 	return {"pages": pages, "source_indices": source_indices, "result_location_cut_page": cut_page}
+
+func _split_formatted_story_page(prose: String, source_index: int, anchor: String) -> Dictionary:
+	var sources := prose.split("\n\n")
+	var source := sources[source_index]
+	var cut := source.find(anchor) if not anchor.is_empty() else -1
+	if cut <= 0 or source.count(anchor) != 1:
+		return _story_page_data(prose)
+	var pages: Array = []
+	var indices: Array = []
+	var cut_page := -1
+	for i in range(sources.size()):
+		var parts := [sources[i]] if i != source_index else [source.substr(0, cut), source.substr(cut)]
+		for part in range(parts.size()):
+			if part == 1:
+				cut_page = pages.size()
+			for page in _paginate_story_paragraph(str(parts[part]).strip_edges()):
+				pages.append(page)
+				indices.append(i)
+	return {"pages": pages, "source_indices": indices, "result_location_cut_page": cut_page}
 
 func _restore_localized_story_text(
 		page_data: Dictionary,
@@ -4394,6 +4432,8 @@ func _resolved_choice_result_portrait_id(choice: Dictionary) -> String:
 		else _resolved_event_portrait_id()
 
 func _resolved_story_surface_portrait_id() -> String:
+	if str(_current.get("id", "")) == M23_PARENTS and _event_background_id == M23_FOOD_BAG:
+		return ""
 	if _pending_after_result and _pending_result_choice_index >= 0:
 		var choices: Array = _current.get("choices", [])
 		if _pending_result_choice_index < choices.size() \
@@ -5372,7 +5412,7 @@ func _render_current():
 		_animate_story_text_panel()
 
 	# 본문 문단 분할. 언어 즉시 전환도 같은 해석 함수를 사용해 현재 장면만 다시 바인딩한다.
-	_apply_story_page_data(_story_page_data(_resolved_story_description(_current)))
+	_apply_story_page_data(_resolved_story_prose_pages())
 	_para_index = 0
 	_play_current_paragraph_audio(_story_source_paragraph_index(_para_index))
 	_start_typing(_paragraphs[0])
@@ -5478,6 +5518,9 @@ func _is_w234_boulevard_result() -> bool:
 func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
 	var event_id := str(_current.get("id", ""))
+	if event_id == M23_PARENTS:
+		_apply_m23_parents_surface()
+		return
 	var at_w4_locker := false
 	var at_w234_boulevard := _is_w234_boulevard_result()
 	if _pending_after_result and event_id == W4_TEMPTATION \
@@ -5536,6 +5579,47 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 			AudioManager.play("traffic_pass", -10.0)
 	else:
 		BGMPlayer.update_event_ambience(_current, "", background_id)
+
+func _apply_m23_parents_surface() -> void:
+	var source_index := _story_source_paragraph_index(_para_index)
+	var after_sentence_cut := _result_location_cut_page >= 0 \
+		and _para_index >= _result_location_cut_page
+	var destination := M23_STATION
+	var have_entered_home := false
+	if _pending_after_result:
+		if _pending_result_choice_index == 0:
+			destination = "restaurant" if source_index == 0 else M23_STATION_GATE
+		elif source_index > 0:
+			destination = _resolve_story_background_id("current_housing")
+			have_entered_home = true
+		else:
+			destination = M23_FOOD_BAG if after_sentence_cut else "restaurant"
+	elif _showing_choices or source_index == _story_source_paragraph_count() - 1:
+		destination = "restaurant"
+	elif source_index == 0 and after_sentence_cut:
+		destination = _resolve_story_background_id("current_housing")
+	if destination == _event_background_id:
+		return
+	var path := ImageRegistry.get_background(destination)
+	if path.is_empty() or not ImageRegistry.has_texture(path):
+		return
+	var was_food_bag := _event_background_id == M23_FOOD_BAG
+	if str(_pending_restore_context.get("event_id", "")) == M23_PARENTS:
+		# Resume directly at the saved place; don't dissolve from the opening station.
+		_finish_story_scene_transition()
+	else:
+		_begin_story_scene_transition("explicit_move")
+	_bg_img.texture = ImageRegistry.load_texture(path)
+	_event_background_id = destination
+	_apply_story_surface_palette(false)
+	# This is a close-up from his viewpoint, not a shot of Minjun in the vehicle.
+	if destination == M23_FOOD_BAG or was_food_bag:
+		_show_portrait(_resolved_story_surface_portrait_id())
+	_configure_living_scene()
+	BGMPlayer.clear_ambience_immediate()
+	if have_entered_home:
+		# A neutral room recording, not the fridge/human/weather of idle housing.
+		BGMPlayer.set_ambience("apartment", false)
 
 func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 	if _current_uses_cg or _event_cg_path.is_empty():
@@ -6369,6 +6453,8 @@ func _show_choices():
 		return
 	_apply_story_surface_palette(_current_uses_cg)
 	_showing_choices = true
+	if str(_current.get("id", "")) == M23_PARENTS:
+		_apply_m23_parents_surface()
 	_set_choice_dock_active(true)
 	_continue_hint.visible = false
 	_choice_box.visible = true
@@ -6645,6 +6731,10 @@ func _choice_result_background_id(choice: Dictionary) -> String:
 	return ""
 
 func _apply_choice_result_visual(choice: Dictionary) -> void:
+	# This visit changes location within results, not upon selecting a button.
+	# The prose/result page (also on restore) owns the first visible cut.
+	if str(_current.get("id", "")) == M23_PARENTS:
+		return
 	var result_cg_id := str(choice.get("result_cg", _current.get("result_cg", "")))
 	if result_cg_id != "":
 		var result_cg_path := ImageRegistry.get_cg(result_cg_id)

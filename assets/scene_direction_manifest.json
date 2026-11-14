@@ -720,6 +720,30 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "seoul_station_parents_concourse": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "seoul_station_parents_ticket_gate": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "parents_visit_food_bag_in_transit": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "ktx_window": {
       "environment": "transit",
       "depth": "mid",
@@ -2767,7 +2791,7 @@
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
       "from_surfaces": [
-        "restaurant",
+        "seoul_station_parents_ticket_gate",
         "current_housing"
       ],
       "arrival_cue_ko": "부모님이 서울에서 내려간 지 나흘째",

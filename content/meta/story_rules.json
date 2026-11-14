@@ -701,7 +701,7 @@
     },
     "arc_34_parents_visit->arc_father_03_hospital": {
       "mode": "time_cut",
-      "from_locations": ["restaurant", "current_housing"],
+      "from_locations": ["seoul_station_parents_ticket_gate", "current_housing"],
       "to_location": "current_housing",
       "arrival_cue_ko": "부모님이 서울에서 내려간 지 나흘째",
       "arrival_cue_en": "Four days after his parents returned from Seoul"
@@ -2755,7 +2755,7 @@
       },
       "presentation": {
         "channel": "in_person",
-        "scene_location": "restaurant",
+        "scene_location": "seoul_station_parents_concourse",
         "participants": ["player", "father", "mother"],
         "portrait_role": "local",
         "expected_portrait": "player_tired"

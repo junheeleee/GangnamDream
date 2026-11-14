@@ -20766,13 +20766,13 @@ func _shot_chapter2_peak_surfaces(
 
 	_prepare_chapter2_peak_qa_state()
 	await _shot_story_event(
-			"arc_34_parents_visit", prefix + "11_parents_hidden_restaurant", "", 0.45, true, true, 0)
+			"arc_34_parents_visit", prefix + "11_parents_stay_dinner", "", 0.45, true, true, 0)
 	if not GameState.flags.get("hid_room_from_parents", false) \
 			or GameState.flags.get("showed_room_to_parents", false):
 		_fail("Chapter 2 hidden-room choice no longer matches its result or flag.")
 	_prepare_chapter2_peak_qa_state()
 	await _shot_story_event(
-			"arc_34_parents_visit", prefix + "12_parents_shown_current_home", "", 0.45, true, true, 1)
+			"arc_34_parents_visit", prefix + "12_parents_pack_before_home", "", 0.45, true, true, 1)
 	if not GameState.flags.get("showed_room_to_parents", false) \
 			or GameState.flags.get("hid_room_from_parents", false):
 		_fail("Chapter 2 shown-room choice no longer matches its result or flag.")
@@ -20821,7 +20821,7 @@ func _assert_chapter2_visual_state(story: Node, event_id: String, selected_choic
 		return
 	var expected_backgrounds := {
 		"arc_year_one_mark": "apartment",
-		"arc_34_money_attracts_money": "investment_phone",
+		"arc_34_money_attracts_money": "apartment",
 		"arc_sangchul_03_network": "sangchul_private_dining",
 		"arc_daeun_03_fork": "convenience_night",
 		"arc_father_medication": "subway",
@@ -20838,15 +20838,16 @@ func _assert_chapter2_visual_state(story: Node, event_id: String, selected_choic
 		"arc_jiyeon_03_offer:1": "sinchon_offer_cafe_two_coffees",
 		"arc_jiyeon_03_offer:2": "sinchon_offer_sedan_rain",
 		"arc_34_parents_visit:0": "restaurant",
-		"arc_34_parents_visit:1": "apartment",
+		"arc_34_parents_visit:1": "restaurant",
 	}
 	var result_ambiences := {
 		"arc_jiyeon_03_offer:-1": "rain",
 		"arc_jiyeon_03_offer:0": "rain",
 		"arc_jiyeon_03_offer:1": "",
 		"arc_jiyeon_03_offer:2": "rain",
-		"arc_34_parents_visit:0": "hoesik",
-		"arc_34_parents_visit:1": "oneroom",
+		"arc_34_parents_visit:-1": "",
+		"arc_34_parents_visit:0": "",
+		"arc_34_parents_visit:1": "",
 	}
 	var result_key := "%s:%d" % [event_id, selected_choice]
 	var expected_background := str(result_backgrounds.get(

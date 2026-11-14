@@ -1,0 +1,17 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/laundry_anchors = {
+"ko": "{name}은 방에 널린 빨래를",
+"en": "{name} pushes the laundry",
+"ja": "{name}は部屋に散らばった洗濯物を",
+"zh-CN": "{name}把房里散着的衣服",
+"zh-TW": "{name}把散在房裡的衣物"
+}
+metadata/ride_anchors = {
+"ko": "이동하는 동안",
+"en": "Mother keeps the side-dish bag",
+"ja": "移動の間",
+"zh-CN": "路上，母亲",
+"zh-TW": "路上，母親"
+}

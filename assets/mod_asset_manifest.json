@@ -542,6 +542,14 @@
     {
       "kind": "background",
       "ids": [
+        "parents_visit_food_bag_in_transit"
+      ],
+      "relative_path": "backgrounds/parents_visit_food_bag_in_transit.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "park_bench_day"
       ],
       "relative_path": "backgrounds/park_bench_day.png",
@@ -691,6 +699,22 @@
         "seoul_station_ktx_platform_winter"
       ],
       "relative_path": "backgrounds/seoul_station_ktx_platform_winter.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "seoul_station_parents_concourse"
+      ],
+      "relative_path": "backgrounds/seoul_station_parents_concourse.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "seoul_station_parents_ticket_gate"
+      ],
+      "relative_path": "backgrounds/seoul_station_parents_ticket_gate.png",
       "resolution": "1280x800"
     },
     {
