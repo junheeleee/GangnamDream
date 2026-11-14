@@ -80,6 +80,7 @@ const AMBIENCE_TRACKS = {
 	"car":         "res://assets/audio/amb_car_interior.wav",
 	"night_bus":   "res://assets/audio/amb_night_bus.wav",
 	"train":       "res://assets/audio/amb_train_interior.wav",
+	"seoul_subway_onboard": "res://assets/audio/amb_seoul_subway_onboard.wav",
 }
 
 # Mechanical/environmental room tone stays in AMBIENCE_TRACKS. These separate,
@@ -628,6 +629,17 @@ func update_event_ambience(
 		clear_ambience()
 		return
 	var event_id := str(ev.get("id", ""))
+	if event_id == "arc_father_medication":
+		# A dedicated, resolved result surface is the only exception to
+		# W57's silence. Neither the arrival sentence nor the home inherits it.
+		var onboard := resolved_background_id == "seoul_subway_commuters_w57"
+		var key := str(_scene_audio_background_profiles.get(resolved_background_id, ""))
+		if onboard and key == "seoul_subway_onboard":
+			_stop_season_ambience_immediate()
+			set_ambience(key, false)
+		else:
+			clear_ambience_immediate()
+		return
 	if scene_audio_intent_mode(event_id) == "intentional_silence":
 		clear_ambience()
 		return
@@ -941,7 +953,7 @@ func _event_season_key(ambience_key: String) -> String:
 	if ambience_key in ["rain", "rain_room", "heatwave", "fine_dust", "casino", "office", "cafe", \
 			"pc_bang", "gym", "convenience", "library", "school", "public_office", \
 			"jjimjilbang", "open_chat", "room", "goshiwon_hallway", "oneroom", "apartment", "wedding_hall", \
-			"hospital", "seaside", "amusement", "car", "night_bus", "train"]:
+			"hospital", "seaside", "amusement", "car", "night_bus", "train", "seoul_subway_onboard"]:
 		return ""
 	return _calendar_season_key()
 

@@ -264,9 +264,9 @@
     "en_endings": 35,
     "ending_ids_sha256": "3c26984721dc1ee6a18d472b854b30578982f43632d05a3d004ad99cb247c118",
     "ending_content_sha256": "bc04931bb7665759dad06c3d26021740db03596d3453ebb9bfa4fecb5bba68e6",
-    "active_art_assets": 305,
-    "source_raster_assets": 364,
-    "packaged_raster_assets": 356,
+    "active_art_assets": 306,
+    "source_raster_assets": 365,
+    "packaged_raster_assets": 357,
     "registry_external_source_raster_assets": 59,
     "registry_external_packaged_raster_assets": 51,
     "source_only_gdignored_raster_assets": 8,
@@ -275,7 +275,7 @@
     "registry_external_packaged_paths_sha256": "0d15cd7d8853f1f961ffe2a013b5af5902f6f7163a0da752f119e0d1bbc798f2",
     "registry_external_packaged_content_sha256": "5ab228f180512ea92b2db646fa375d87d71a874a52fa6e67557a9a27f808a41d",
     "source_only_gdignored_paths_sha256": "f53a4433d398f59a1f71b77af81a840587083f9eca7a7d89ba4d6b1e46dfb2a4",
-    "audio_source_assets": 140
+    "audio_source_assets": 141
   },
   "registry_external_raster_review": {
     "reviewed": "2026-08-27",

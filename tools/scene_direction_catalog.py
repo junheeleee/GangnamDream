@@ -95,6 +95,7 @@ DYNAMIC_BACKGROUNDS = {"current_housing", "current_workplace"}
 DIGITAL_BACKGROUNDS = {"open_chat_screen", "investment", "investment_phone"}
 TRANSIT_BACKGROUNDS = {
     "subway",
+    "seoul_subway_commuters_w57",
     "subway_station_stairs",
     "subway_station_lost_found",
     "subway_station_coin_lockers",

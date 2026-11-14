@@ -374,6 +374,9 @@ weather, romance, and historical portraits remain fixed.
 - `assets/backgrounds/seoul_subway_transfer_passage_v1.png`
   - W57 medication message, choices and its still-in-passage results only. An underground commuter lane and wall-side recess at standing eye height; no visible train, platform, fare gate or named station. 1584×990, opaque, reviewed runtime candidate, not a high-resolution master.
 
+- `assets/backgrounds/seoul_subway_commuters_w57_v1.png`
+  - W57 seated and standing passengers after boarding only. Same closed-door Seoul subway car and orange benches; never replaces the generic empty-car asset or the transfer passage.
+
 - `assets/backgrounds/changwon_station_arrival_gate_v1.png`
   - W57 visit result, from the exact physical-arrival sentence. Public waiting side of a regional rail checkpoint, with the right third left for the existing Father portrait; not a Seoul subway gate or platform.
 

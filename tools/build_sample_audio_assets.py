@@ -47,6 +47,10 @@ FFMPEG_CANDIDATES = (
 PHONE_KEYBOARD_NAME = "sfx_keyboard_phone.wav"
 DRY_KEYBOARD_NAME = "sfx_keyboard_short.wav"
 PHONE_KEYBOARD_FILTER = "highpass=f=300,lowpass=f=3200,volume=2dB"
+SEOUL_SUBWAY_ONBOARD_NAME = "amb_seoul_subway_onboard.wav"
+SEOUL_SUBWAY_ONBOARD_LAYER = "seoul_subway_onboard"
+SEOUL_SUBWAY_ONBOARD_CLIP = "727111_5804333-hq.mp3"
+SEOUL_SUBWAY_ONBOARD_SHA = "a84c41e1f0adac450274798ea920a6e4c1b54f508922d727b1c886be06d8c6e7"
 
 
 def write_phone_keyboard(ffmpeg: Path, dry: Path, destination: Path) -> None:
@@ -173,6 +177,9 @@ PACKS: dict[str, dict[str, Any]] = {
     "freesound_bus_cc0": _freesound_pack(
         "unreadpages", "Bus sound.wav", 338212, "field_recording"
     ),
+    "freesound_seoul_subway_cc0": _freesound_pack(
+        "dmsb11", "airport line subway journey in Seoul", 727111, "field_recording"
+    ),
     "freesound_wedding_applause_cc0": _freesound_pack(
         "giovannapaludetto",
         "Wedding Applause Cheerfully.aif",
@@ -232,6 +239,7 @@ def _sonniss(folder: str, filename: str) -> tuple[str, str]:
 
 
 SOURCES: dict[str, tuple[str, str]] = {
+    SEOUL_SUBWAY_ONBOARD_LAYER: ("freesound_seoul_subway_cc0", SEOUL_SUBWAY_ONBOARD_CLIP),
     "clock": ("owlish_cc0", "Ambience/loopable-ticking-clock.wav"),
     "crickets": ("owlish_cc0", "Ambience/night-crickets-ambience-on-rural-property.wav"),
     "blanket_1": ("owlish_cc0", "Cloth, Rustle/320137__owlstorm__blanket-movement-1.wav"),
@@ -918,6 +926,29 @@ class Builder:
                           f"recording mix; {duration:.2f}s seamless crossfade; 22.05kHz stereo; "
                           f"RMS {'-35' if human else '-29'} dBFS")
 
+    def write_seoul_subway_onboard(self) -> None:
+        source = self.source_path(SEOUL_SUBWAY_ONBOARD_LAYER)
+        if sha256(source) != SEOUL_SUBWAY_ONBOARD_SHA:
+            raise ValueError("Seoul subway recording does not match the reviewed public preview")
+        # Keep the rolling texture; cut the frequencies carrying chatter and
+        # sharp mechanical whine. Wrap the original stereo material, not a synth.
+        layer = L(SEOUL_SUBWAY_ONBOARD_LAYER, 0, 87.1, 58, 740)
+        rate = 22050
+        length = int(4.5 * rate)
+        overlap = int(0.9 * rate)
+        raw = self.decode(layer, 5.4, rate, 2)
+        if len(raw) != length + overlap:
+            raise ValueError("Seoul subway recording ended before the reviewed running interval")
+        body = raw[:length].copy()
+        ramp = np.linspace(0.0, 1.0, overlap, dtype=np.float32)[:, None]
+        body[:overlap] = raw[length:] * (1.0 - ramp) + body[:overlap] * ramp
+        body = normalize_rms(body, -32.0, -12.0)
+        write_wav(self.output_root / SEOUL_SUBWAY_ONBOARD_NAME, body, rate)
+        self.record_asset(SEOUL_SUBWAY_ONBOARD_NAME, "sample_derived_mix", [layer],
+                          "public HQ player stream 87.10–92.50s; HP 58Hz/LP 740Hz; "
+                          "4.50s stereo PCM16/22.05kHz with 0.90s circular crossfade; "
+                          "RMS -32 dBFS, peak cap -12 dBFS; no added layers")
+
     def write_sparse_ambience(self, name: str, layers: list[TimedLayer]) -> None:
         duration = 18.0
         rate = 22050
@@ -1296,11 +1327,27 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--validate-only", action="store_true")
     parser.add_argument("--phone-keyboard-only", type=Path, metavar="NEW_WAV",
                         help="reproduce the phone edit from the existing dry master at a new path")
+    parser.add_argument("--seoul-subway-onboard-only", action="store_true",
+                        help="reproduce the single subway bed from its source under --source-root")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    if args.seoul_subway_onboard_only:
+        if args.phone_keyboard_only or args.validate_only:
+            raise ValueError("single subway build cannot be combined with another mode")
+        output_root = args.output_root.resolve()
+        output = output_root / SEOUL_SUBWAY_ONBOARD_NAME
+        if output.exists() or output.is_symlink():
+            raise ValueError("subway output must be a new file")
+        builder = Builder(args.source_root.expanduser().resolve(), find_ffmpeg(), output_root)
+        try:
+            builder.write_seoul_subway_onboard()
+        finally:
+            builder.close()
+        print(json.dumps(builder.provenance[SEOUL_SUBWAY_ONBOARD_NAME], ensure_ascii=False, indent=2))
+        return 0
     if args.phone_keyboard_only:
         if args.phone_keyboard_only.exists() or args.phone_keyboard_only.is_symlink() or args.validate_only:
             raise ValueError("telephone keyboard output must be a new WAV path")
@@ -1320,9 +1367,10 @@ def main(argv: list[str] | None = None) -> int:
         + len(TRACK_SPECS)
         + len(PIANO_STINGERS)
         + 1  # phone-band derivative of the dry keyboard recipe
+        + 1  # exact Seoul onboard field-recording edit
     )
-    if expected_count != 140:
-        raise RuntimeError(f"release audio inventory must remain 140 assets, got {expected_count}")
+    if expected_count != 141:
+        raise RuntimeError(f"release audio inventory must remain 141 assets, got {expected_count}")
     if args.validate_only:
         print(
             "SAMPLE_AUDIO_SOURCES_OK "
@@ -1341,6 +1389,7 @@ def main(argv: list[str] | None = None) -> int:
             print("SFX", name)
             builder.write_sfx(name, recipe)
         builder.write_phone_keyboard()
+        builder.write_seoul_subway_onboard()
         for name, spec in sorted(TRACK_SPECS.items()):
             print("MUSIC", name)
             builder.write_track(name, spec)

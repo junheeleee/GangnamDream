@@ -57,8 +57,13 @@ const W53_SANGCHUL_NETWORK := "arc_sangchul_03_network"
 const W53_PRIVATE_DINING := "sangchul_private_dining"
 const W57_FATHER_MEDICATION := "arc_father_medication"
 const W57_TRANSFER_PASSAGE := "seoul_subway_transfer_passage"
+const W57_COMMUTER_CAR := "seoul_subway_commuters_w57"
 const W57_CHANGWON_GATE := "changwon_station_arrival_gate"
 const W57_MEDICATION_TABLE := "changwon_home_medication_table"
+const W57_TRAIN_UNDERWAY := {
+	"ko": "두 정거장을 지나는 동안", "en": "Two stops later,",
+	"ja": "二駅過ぎる間に", "zh-CN": "经过两站，", "zh-TW": "經過兩站的時間裡，",
+}
 const W57_VISIT_ARRIVAL := {
 	"ko": "주말에 도착했을 때", "en": "When {name} arrives that weekend,",
 	"ja": "週末、到着すると、", "zh-CN": "周末到了，", "zh-TW": "週末抵達時，",
@@ -3402,7 +3407,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == M23_MOTHER_CALL and choice_index == 0) \
 		or (event_id == W96_FATHER_VISIT and choice_index == 3) \
 		or (event_id == M27_JAEHYUK_PITCH and choice_index == 2) \
-		or (event_id == W57_FATHER_MEDICATION and choice_index == 2 and not _is_public_story_demo()) \
+		or (event_id == W57_FATHER_MEDICATION and choice_index in [1, 2] and not _is_public_story_demo()) \
 		or (event_id == W117_JAEHYUK_COUNTER and choice_index == 0) \
 		or (event_id == HYUNSU_EXAM_FAILURE and choice_index == 1) \
 		or (event_id == M23_PARENTS and choice_index == 1)
@@ -3454,7 +3459,8 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 	if event_id == M23_MOTHER_CALL:
 		return _first_ktx_result_pages(_fmt(raw))
 	if event_id == W57_FATHER_MEDICATION:
-		var anchor := str(W57_VISIT_ARRIVAL.get(LocaleManager.language, ""))
+		var anchors := W57_TRAIN_UNDERWAY if choice_index == 1 else W57_VISIT_ARRIVAL
+		var anchor := str(anchors.get(LocaleManager.language, ""))
 		if raw.split("\n\n").size() == 3 and not anchor.is_empty():
 			return _split_formatted_story_page(_fmt(raw), 1, _fmt(anchor))
 		return _story_page_data(_fmt(raw))
@@ -6022,32 +6028,38 @@ func _apply_w57_medication_result_surface() -> void:
 	var destination := W57_TRANSFER_PASSAGE
 	if source > 0:
 		if _pending_result_choice_index == 1:
-			destination = "subway" if source == 1 else _resolve_story_background_id("current_housing")
+			if source == 1:
+				# The arrival and boarding sentence is still between places.
+				# Show the occupied interior only once the journey is underway.
+				destination = W57_COMMUTER_CAR if _result_location_cut_page >= 0 \
+					and _para_index >= _result_location_cut_page else ""
+			elif source == 2:
+				destination = _resolve_story_background_id("current_housing")
 		elif _pending_result_choice_index == 2:
 			if source == 1:
 				destination = W57_CHANGWON_GATE if _result_location_cut_page >= 0 \
 					and _para_index >= _result_location_cut_page else ""
 			elif source == 2:
 				destination = W57_MEDICATION_TABLE
-	if destination == _event_background_id:
-		return
-	var texture: Texture2D = null
-	if not destination.is_empty():
-		var path := str(ImageRegistry.BACKGROUNDS.get(destination, ""))
-		if not path.is_empty() and ImageRegistry.has_texture(path):
-			texture = ImageRegistry.load_texture(path)
-		if texture == null:
-			destination = ""
-	_finish_story_scene_transition()
-	_event_background_id = destination
-	_bg_img.texture = texture
-	if _pending_result_choice_index == 2:
-		# The source paragraph includes both a text reply and a physical arrival.
-		# Rebind on the display page even when the source paragraph hasn't changed.
-		_refresh_story_paragraph_presentation(source)
-		_show_portrait(_resolved_story_surface_portrait_id())
-	_apply_story_surface_palette(false)
-	_configure_living_scene()
+	if destination != _event_background_id:
+		var texture: Texture2D = null
+		if not destination.is_empty():
+			var path := str(ImageRegistry.BACKGROUNDS.get(destination, ""))
+			if not path.is_empty() and ImageRegistry.has_texture(path):
+				texture = ImageRegistry.load_texture(path)
+			if texture == null:
+				destination = ""
+		_finish_story_scene_transition()
+		_event_background_id = destination
+		_bg_img.texture = texture
+		if _pending_result_choice_index == 2:
+			# Rebind the reply and arrival even within one source paragraph.
+			_refresh_story_paragraph_presentation(source)
+			_show_portrait(_resolved_story_surface_portrait_id())
+		_apply_story_surface_palette(false)
+		_configure_living_scene()
+	if _pending_result_choice_index == 1:
+		BGMPlayer.update_event_ambience(_current, "", _event_background_id)
 
 
 func _w117_counter_background() -> String:

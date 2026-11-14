@@ -403,7 +403,7 @@ def main() -> int:
                 errors.append(f"{owner}: station and dinner must not borrow pub ambience, music or foley")
         elif owner == W57_MEDICATION_EVENT:
             if contract != W57_MEDICATION_AUDIO:
-                errors.append(f"{owner}: keep only the received handset vibration until exact location recordings exist")
+                errors.append(f"{owner}: only the received handset vibration is an event-level cue")
         elif owner in DAEUN_QUIET_RESULT_CGS:
             if contract != {"ambience": "intentional_silence"}:
                 errors.append(f"{owner}: do not borrow the recorded bar or street crowd")
@@ -531,8 +531,10 @@ def main() -> int:
             or not isinstance(w53_choices, list) or len(w53_choices) != 2
             or any(not isinstance(choice, dict) or "result_ambience" in choice for choice in w53_choices)):
         errors.append(f"{W53_NETWORK_EVENT}: don't substitute generic bar or pub recordings for the private gathering")
-    if W57_MEDICATION_EVENT not in event_contracts:
-        errors.append(f"{W57_MEDICATION_EVENT}: missing exact incoming message audio contract")
+    if (W57_MEDICATION_EVENT not in event_contracts
+            or manifest.get("background_profiles", {}).get("seoul_subway_commuters_w57") != "seoul_subway_onboard"
+            or "seoul_subway_onboard" not in ambience_keys):
+        errors.append(f"{W57_MEDICATION_EVENT}: missing incoming message or separately bound onboard audio")
     for event_id, expected_audio in ((W37_FIRST_BILL_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W100_FATHER_OUTREACH_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W108_HYUNSU_WARNING_EVENT, W108_HYUNSU_WARNING_AUDIO),

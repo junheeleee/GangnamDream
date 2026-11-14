@@ -411,6 +411,7 @@
 | Background | `assets/backgrounds/gym_interior.png` | `exercise`, `gym` | 1280x800 | no | `0a35a04d00b8` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/hagwon_street.png` | `hagwon_street` | 1672x941 | no | `e3700c446b37` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/seoul_subway_transfer_passage_v1.png` | `seoul_subway_transfer_passage` | 1584x990 | no | `cf2ff1c14e0d` | PASS-B | W57 환승 통로. 성인 눈높이, 비켜설 벽 쪽 공간, 원경 통행인 3명. 객차·개찰구·역명·주연 없음. |
+| Background | `assets/backgrounds/seoul_subway_commuters_w57_v1.png` | `seoul_subway_commuters_w57` | 1584x990 | no | `5f2051da41be` | PASS-B | W57 두 번째 선택에서 승차 이후만. 닫힌 열차, 기존 좌석·손잡이, 익명 통근객. |
 | Background | `assets/backgrounds/changwon_station_arrival_gate_v1.png` | `changwon_station_arrival_gate` | 1584x990 | no | `a0254f1e490a` | PASS-B | W57 창원 방문의 실제 도착 문장부터. 공용 대합실 쪽 검표대, 아버지 초상은 분리. |
 | Background | `assets/backgrounds/changwon_home_medication_table_v1.png` | `changwon_home_medication_table` | 1584x990 | no | `2eb77acc0df8` | PASS-B | W57 창원 집 식탁. 기존 집 가구·현관, 실제 크기의 약봉투와 물컵, 하단 대화창 회피. |
 | Background | `assets/backgrounds/hangang_riverside_walk.png` | `hangang_riverside` | 1280x800 | no | `a33579563891` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
@@ -494,4 +495,4 @@
 | Background | `assets/backgrounds/seoul_station_visitor_sticker.png` | `seoul_station_visitor_sticker` | 1280x800 | no | `763df189e31c` | PASS-B | 서울 도착 통로, 코트와 오른손 검지의 작은 스티커. 모공·카메라 질감을 없애 강남 잉크의 무광 붓결·낮은 채도로 재작화. 얼굴·비·눈·문자 없음. |
 | Background | `assets/backgrounds/police_evidence_reception.png` | `police_evidence_reception` | 1280x800 | no | `338988ecbf96` | PASS-B | 증거 제출 첫 대목용으로 원화 독립 대조: 무광 잉크·민원석·서류 전달구, 인물·상호·체포 없음. 장소는 본문이 식별한다. P1 마스터·사람 판정 아님. |
 
-Inventory: 81 CG / 94 portraits / 130 backgrounds / 305 total.
+Inventory: 81 CG / 94 portraits / 131 backgrounds / 306 total.

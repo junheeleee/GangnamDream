@@ -38,6 +38,7 @@
     "street_day": "street",
     "park_bench_day": "street",
     "subway": "subway",
+    "seoul_subway_commuters_w57": "seoul_subway_onboard",
     "subway_station_stairs": "subway",
     "subway_station_lost_found": "subway",
     "subway_station_coin_lockers": "intentional_silence",

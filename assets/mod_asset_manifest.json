@@ -864,6 +864,14 @@
     {
       "kind": "background",
       "ids": [
+        "seoul_subway_commuters_w57"
+      ],
+      "relative_path": "backgrounds/seoul_subway_commuters_w57_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "seoul_subway_transfer_passage"
       ],
       "relative_path": "backgrounds/seoul_subway_transfer_passage_v1.png",
@@ -2776,6 +2784,13 @@
       ],
       "relative_path": "audio/amb_seoul_street.wav",
       "bytes": 1997772
+    },
+    {
+      "ids": [
+        "seoul_subway_onboard"
+      ],
+      "relative_path": "audio/amb_seoul_subway_onboard.wav",
+      "bytes": 396944
     },
     {
       "ids": [

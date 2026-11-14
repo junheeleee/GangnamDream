@@ -31,11 +31,16 @@ const W53_DINING := "sangchul_private_dining"
 const W57_MEDICATION := "arc_father_medication"
 const W57_VIBRATION := "arc_father_medication::description:0:0:phone_vibrate"
 const W57_PASSAGE := "seoul_subway_transfer_passage"
+const W57_CAR := "seoul_subway_commuters_w57"
 const W57_GATE := "changwon_station_arrival_gate"
 const W57_TABLE := "changwon_home_medication_table"
 const W57_GATE_START := {
 	"ko": "주말에 도착했을 때", "en": "When {name} arrives that weekend,",
 	"ja": "週末、到着すると、", "zh-CN": "周末到了，", "zh-TW": "週末抵達時，",
+}
+const W57_CAR_START := {
+	"ko": "두 정거장을 지나는 동안", "en": "Two stops later,",
+	"ja": "二駅過ぎる間に", "zh-CN": "经过两站，", "zh-TW": "經過兩站的時間裡，",
 }
 const HYUNSU_CALL := "arc_hyunsu_new_path"
 const HYUNSU_KEYBOARD := "keyboard_phone"
@@ -246,6 +251,7 @@ const CASES := [
 
 const EXACT_PATHS := {
 	W57_PASSAGE: "res://assets/backgrounds/seoul_subway_transfer_passage_v1.png",
+	W57_CAR: "res://assets/backgrounds/seoul_subway_commuters_w57_v1.png",
 	W57_GATE: "res://assets/backgrounds/changwon_station_arrival_gate_v1.png",
 	W57_TABLE: "res://assets/backgrounds/changwon_home_medication_table_v1.png",
 	W53_DINING: "res://assets/backgrounds/sangchul_private_dining.png",
@@ -2256,7 +2262,7 @@ func _check_w57_message_audio(smoke: bool = false) -> bool:
 	var languages: Array = ["ko"] if smoke else LocaleManager.SUPPORTED_LANGUAGES
 	for language: String in languages:
 		for known: bool in ([false] if smoke else [false, true]):
-			for choice: int in ([0, 2] if smoke else [0, 1, 2]):
+			for choice: int in [0, 1, 2]:
 				await _remove_story()
 				await _stop_audio()
 				_context = "%s/W57/known=%s/c%d" % [language, known, choice]
@@ -2327,38 +2333,46 @@ func _check_w57_message_audio(smoke: bool = false) -> bool:
 					return false
 				var pages: Array = _story.get("_paragraphs")
 				var cut := int(_story.get("_result_location_cut_page"))
-				if choice == 2 and (cut <= 0 or cut >= pages.size() \
-						or not str(pages[cut]).begins_with(str(_story.call("_fmt", W57_GATE_START[language])))):
-					_fail("W57 physical arrival did not start at its authored sentence")
+				var cut_anchors := W57_CAR_START if choice == 1 else W57_GATE_START
+				if choice > 0 and (cut <= 0 or cut >= pages.size() \
+						or not str(pages[cut]).begins_with(str(_story.call("_fmt", cut_anchors[language])))):
+					_fail("W57 travel did not start at its authored sentence")
 					return false
 				var arrival_context: Dictionary = {}
 				for page in range(pages.size()):
-					if not smoke and choice == 2 and page == cut:
+					if not smoke and choice > 0 and page == cut:
 						if not await _reload_authored_result_context(arrival_context, language, 3, 1, true) \
 								or not _expect_w57_saved_boundary(arrival_context, page, true) \
-								or not _expect_w57_art(2, 1, true) or not _expect_w57_audio(false, "restored arrival"):
+								or not _expect_w57_art(choice, 1, true) \
+								or not _expect_w57_audio(false, "restored arrival", choice == 1):
 							return false
 						expect_vibration = false
 						boundary_restores += 1
 					await _finish_page()
 					var source := int(_story.call("_story_source_paragraph_index", page))
-					var at_gate := choice == 2 and source == 1 and page >= cut
-					if int(_story.get("_para_index")) != page or not _expect_w57_audio(expect_vibration, "result") \
-							or not _expect_w57_art(choice, source, at_gate):
+					var after_cut := choice > 0 and source == 1 and page >= cut
+					var onboard := choice == 1 and after_cut
+					if int(_story.get("_para_index")) != page \
+							or not _expect_w57_audio(expect_vibration, "result", onboard) \
+							or not _expect_w57_art(choice, source, after_cut):
 						return false
-					if not smoke and choice == 2 and page == cut - 1:
+					if not smoke and choice > 0 and page == cut - 1:
 						var reply_context: Dictionary = _story.call("build_save_resume_context")
 						if not await _reload_authored_result_context(reply_context, language, 3, 1, true) \
 								or not _expect_w57_saved_boundary(reply_context, page, false) \
-								or not _expect_w57_art(2, 1, false) or not _expect_w57_audio(false, "restored reply"):
+								or not _expect_w57_art(choice, 1, false) \
+								or not _expect_w57_audio(false, "restored before travel"):
 							return false
 						expect_vibration = false
 						boundary_restores += 1
-					if not smoke and language == "ko" and not known and choice == 2 and page in [cut - 1, cut]:
+					if not smoke and language == "ko" and not known and choice > 0 and page in [cut - 1, cut]:
 						for target in ["en", "ko"]:
+							var cursor: float = BGMPlayer._ambience_player.get_playback_position()
 							_story.call("_set_story_language", target)
 							await _wait_stable()
-							if LocaleManager.language != target or not _expect_w57_art(2, 1, at_gate):
+							if LocaleManager.language != target or not _expect_w57_art(choice, 1, after_cut) \
+									or not _expect_w57_audio(false, "language switch", onboard) \
+									or (onboard and BGMPlayer._ambience_player.get_playback_position() + 0.03 < cursor):
 								return false
 							reflows += 1
 						await _finish_page()
@@ -2366,13 +2380,18 @@ func _check_w57_message_audio(smoke: bool = false) -> bool:
 							and page == int(_story.call("_first_story_page_for_source", source)):
 						if not await _save_viewport_frame(render_dir.path_join("%s_c%d_p%d.png" % [language, choice, source])):
 							return false
-					if at_gate and page == cut and not render_dir.is_empty() and not known:
+					if after_cut and page == cut and not render_dir.is_empty() and not known:
 						await get_tree().create_timer(0.45).timeout
-						if not await _save_viewport_frame(render_dir.path_join(language + "_changwon_gate.png")):
+						var prefix := "_subway_onboard.png" if onboard else "_changwon_gate.png"
+						if not await _save_viewport_frame(render_dir.path_join(language + prefix)):
 							return false
 					if page < pages.size() - 1:
 						_story.call("_on_advance")
-						if not smoke and choice == 2 and page + 1 == cut:
+						if choice == 1 and source == 1 \
+								and int(_story.call("_story_source_paragraph_index", page + 1)) == 2 \
+								and not _expect_w57_audio(expect_vibration, "immediate exit"):
+							return false
+						if not smoke and choice > 0 and page + 1 == cut:
 							# Snapshot the new display page before a frame types a single character.
 							_story.call("_finish_story_scene_transition")
 							arrival_context = _story.call("build_save_resume_context")
@@ -2396,9 +2415,9 @@ func _check_w57_message_audio(smoke: bool = false) -> bool:
 				paths += 1
 	if not smoke:
 		print("W57_MEDICATION_AUDIO_OK paths=%d v4_restores=%d languages=5 variants=2 choices=3" % [paths, restores])
-		print("W57_CHANGWON_CUT_OK boundary_v4=%d reflows=%d" % [boundary_restores, reflows])
-	return paths == (2 if smoke else 30) and restores == (0 if smoke else 40) \
-		and boundary_restores == (0 if smoke else 20) and reflows == (0 if smoke else 4)
+		print("W57_TRAVEL_CUTS_OK boundary_v4=%d reflows=%d" % [boundary_restores, reflows])
+	return paths == (3 if smoke else 30) and restores == (0 if smoke else 40) \
+		and boundary_restores == (0 if smoke else 40) and reflows == (0 if smoke else 8)
 
 func _expect_w57_saved_boundary(context: Dictionary, page: int, at_start: bool) -> bool:
 	var type_pos := 0 if at_start else str(_story.get("_type_full")).length()
@@ -2411,23 +2430,25 @@ func _expect_w57_saved_boundary(context: Dictionary, page: int, at_start: bool) 
 		return false
 	return true
 
-func _expect_w57_art(choice: int, source: int, at_gate: bool = false) -> bool:
+func _expect_w57_art(choice: int, source: int, after_cut: bool = false) -> bool:
 	var expected_background := W57_PASSAGE
 	if source > 0 and choice == 1:
-		expected_background = "subway" if source == 1 else ImageRegistry.resolve_contextual_background_id("current_housing")
+		expected_background = (W57_CAR if after_cut else "") if source == 1 \
+			else ImageRegistry.resolve_contextual_background_id("current_housing")
 	elif source > 0 and choice == 2:
-		expected_background = W57_TABLE if source == 2 else W57_GATE if at_gate else ""
+		expected_background = W57_TABLE if source == 2 else W57_GATE if after_cut else ""
 	var expected_channel := "message"
 	if choice >= 0 and not (choice != 0 and source == 0):
 		expected_channel = "phone" if choice == 0 and source < 2 else "narration"
 	if choice == 2 and source == 1:
-		expected_channel = "in_person" if at_gate else "message"
+		expected_channel = "in_person" if after_cut else "message"
 	var badge := _story.get("_communication_badge") as Control
 	var presentation := _story.get("_current_presentation") as Dictionary
 	var art := (_story.get("_bg_img") as TextureRect).texture
 	var portrait := _story.get("_portrait") as TextureRect
 	var frame := _story.get("_portrait_frame") as Control
-	var background_ok: bool = _expect_surface(expected_background, "", "W57") if not expected_background.is_empty() else (
+	var ambience := "seoul_subway_onboard" if expected_background == W57_CAR else ""
+	var background_ok: bool = _expect_surface(expected_background, ambience, "W57") if not expected_background.is_empty() else (
 		art == null and str(_story.get("_event_background_id")).is_empty() and (_story.get("_bg_dim") as ColorRect).color == Color("#111216"))
 	if not background_ok or str(presentation.get("channel", "")) != expected_channel \
 			or badge.visible != (expected_channel in ["message", "phone"]) \
@@ -2435,22 +2456,30 @@ func _expect_w57_art(choice: int, source: int, at_gate: bool = false) -> bool:
 		_fail("W57 wrong background/channel for c%d source %d; expected %s/%s" % [choice, source, expected_background, expected_channel])
 		return false
 	if choice == 2 and source > 0:
-		var expected_portrait := "father_normal" if at_gate else "" if source == 2 else "player_tired"
+		var expected_portrait := "father_normal" if after_cut else "" if source == 2 else "player_tired"
 		if str(_story.call("_resolved_story_surface_portrait_id")) != expected_portrait \
 				or frame.visible != (not expected_portrait.is_empty()) \
 				or (not expected_portrait.is_empty() and (portrait.texture == null \
 					or portrait.texture.resource_path != ImageRegistry.get_portrait(expected_portrait))) \
 				or presentation.has("remote_location") \
-				or str(presentation.get("remote_actor", "")) != ("father" if source == 1 and not at_gate else ""):
+				or str(presentation.get("remote_actor", "")) != ("father" if source == 1 and not after_cut else ""):
 			_fail("W57 father appeared before arrival, was missing at the gates, or remained at the table")
 			return false
 	return true
 
-func _expect_w57_audio(expect_vibration: bool, label: String) -> bool:
+func _expect_w57_audio(expect_vibration: bool, label: String, onboard: bool = false) -> bool:
 	var heard := AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:
 		return key.begins_with(W57_MEDICATION + ":"))
+	var rail := BGMPlayer._ambience_player
+	var rail_ok := BGMPlayer._current_ambience_key.is_empty() and not rail.playing
+	if onboard:
+		var expected := load("res://assets/audio/amb_seoul_subway_onboard.wav") as AudioStreamWAV
+		var actual := rail.stream as AudioStreamWAV
+		rail_ok = BGMPlayer._current_ambience_key == "seoul_subway_onboard" and rail.playing \
+			and expected != null and actual != null and actual.loop_mode == AudioStreamWAV.LOOP_FORWARD \
+			and actual.data == expected.data and actual.mix_rate == expected.mix_rate and actual.stereo
 	var valid := heard == ([W57_VIBRATION] if expect_vibration else []) \
-		and BGMPlayer._current_ambience_key.is_empty() and not BGMPlayer._ambience_player.playing \
+		and rail_ok \
 		and BGMPlayer._current_human_ambience_key.is_empty() and not BGMPlayer._human_ambience_player.playing \
 		and BGMPlayer._current_season_key.is_empty() and not BGMPlayer._season_player.playing
 	if not valid:

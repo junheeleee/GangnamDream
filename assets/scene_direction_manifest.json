@@ -232,6 +232,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "seoul_subway_commuters_w57": {
+      "environment": "transit",
+      "depth": "mid",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "seoul_subway_transfer_passage": {
       "environment": "transit",
       "depth": "mid",

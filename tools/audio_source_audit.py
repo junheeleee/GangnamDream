@@ -18,7 +18,7 @@ AUDIO = ROOT / "assets" / "audio"
 MANIFEST = AUDIO / "AUDIO_SOURCE_MANIFEST.json"
 NOTICES = AUDIO / "AUDIO_THIRD_PARTY_NOTICES.md"
 
-EXPECTED_COUNTS = {"bgm": 20, "ambience": 49, "sfx": 71}
+EXPECTED_COUNTS = {"bgm": 20, "ambience": 50, "sfx": 71}
 ALLOWED_PROVENANCE = {
     "field_recording",
     "object_recording",

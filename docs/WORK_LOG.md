@@ -2,7 +2,7 @@
 
 ## 2026-11-14
 
-- [830](queue_active/ORDER-830.md) M7–9/41–57/234 창원; [833](queue_active/ORDER-833.md) 1-5/D/62/10억.
+- [830](queue_active/ORDER-830.md) M7-9/41-57/234 지하철; [833](queue_active/ORDER-833.md) 1-5/D/62/10억.
 
 ## 2026-11-13 — 룰렛 상태 표시 현지화
 

@@ -4,7 +4,7 @@
   "generated_from": [
     {
       "path": "res://assets/audio/AUDIO_SOURCE_MANIFEST.json",
-      "sha256": "32737f4de1aaed357061237bd80554af7e56c7003301cdeab4a6c883d79cfb12"
+      "sha256": "03fc5481ebe368bf0d7534011643ee9d2a6cca72edee08618e6f22e6bcea9c92"
     },
     {
       "path": "res://assets/fonts/FONT_LICENSE_LEDGER.md",
@@ -115,10 +115,10 @@
     "component_entries": 1,
     "font_families": 5,
     "font_files": 8,
-    "audio_sources": 21,
-    "audio_assets": 140,
+    "audio_sources": 22,
+    "audio_assets": 141,
     "attribution_required_audio_sources": 1,
-    "audio_source_assignments": 157
+    "audio_source_assignments": 158
   },
   "sections": [
     {
@@ -309,6 +309,22 @@
           "shipping_asset_count": 1,
           "shipping_assets": [
             "res://assets/audio/sfx_queue_chime.wav"
+          ]
+        },
+        {
+          "id": "freesound_seoul_subway_cc0",
+          "kind": "audio_source",
+          "name": "airport line subway journey in Seoul",
+          "provider": "dmsb11",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/727111/",
+          "source_type": "field_recording",
+          "source_collection": "airport line subway journey in Seoul",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 1,
+          "shipping_assets": [
+            "res://assets/audio/amb_seoul_subway_onboard.wav"
           ]
         },
         {

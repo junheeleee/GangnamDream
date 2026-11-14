@@ -93,6 +93,15 @@
       "source_url": "https://freesound.org/s/338212/",
       "attribution_required": false
     },
+    "freesound_seoul_subway_cc0": {
+      "provider": "dmsb11",
+      "title": "airport line subway journey in Seoul",
+      "source_type": "field_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/727111/",
+      "attribution_required": false
+    },
     "freesound_wedding_applause_cc0": {
       "provider": "giovannapaludetto",
       "title": "Wedding Applause Cheerfully.aif",
@@ -926,6 +935,19 @@
       ],
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
       "output_sha256": "caa867b61afba34377e69d43352e8476895e6339954cf7bbb53a78333f313ca2"
+    },
+    "amb_seoul_subway_onboard.wav": {
+      "provenance": "sample_derived_mix",
+      "sources": [
+        {
+          "pack": "freesound_seoul_subway_cc0",
+          "original_file": "727111_5804333-hq.mp3",
+          "sha256": "a84c41e1f0adac450274798ea920a6e4c1b54f508922d727b1c886be06d8c6e7",
+          "source_type": "field_recording"
+        }
+      ],
+      "transform": "public HQ player stream 87.10–92.50s; HP 58Hz/LP 740Hz; 4.50s stereo PCM16/22.05kHz with 0.90s circular crossfade; RMS -32 dBFS, peak cap -12 dBFS; no added layers",
+      "output_sha256": "fbe8e23697f42210c3985fd1d39eacf5f41980e414b384da3b9d4540fd92dde6"
     },
     "amb_seaside.wav": {
       "provenance": "sample_derived_mix",
