@@ -93,6 +93,8 @@ const M07_HYUNSU_WASHBASIN_CUT := preload("res://assets/m07_hyunsu_washbasin_cut
 const HYUNSU_CONNECTED_CALL := "arc_hyunsu_new_path"
 const W82_HYUNSU_BUS := "arc_y2_hyunsu_night_bus"
 const W205_MINSEO_CALL := "arc_minseo_03b_not_arrived"
+const W161_BODY_SIGNAL := "arc_36_body_signal"
+const W161_EXAM_ROOM := "hospital_clinic_day"
 const W132_RECKONING := "arc_sangchul_reckoning"
 const W132_CAFE_STAIRS := "sangchul_cafe_stairs"
 const W132_STAIRS_START := {
@@ -572,6 +574,7 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 		_bg_dim.color = Color("#111216") if (_full_w19_reunion \
 			or _is_w53_network_scene() \
 			or _is_w57_medication_scene() \
+			or str(_current.get("id", "")) == W161_BODY_SIGNAL \
 			or str(_current.get("id", "")) == W82_HYUNSU_BUS \
 			or str(_current.get("id", "")) == W205_MINSEO_CALL \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \
@@ -5555,6 +5558,9 @@ func _render_current():
 	_reset_advance_hold()
 	var w53_network := _is_w53_network_scene()
 	var w205_minseo_call := str(_current.get("id", "")) == W205_MINSEO_CALL
+	var cold_w161_result := str(_current.get("id", "")) == W161_BODY_SIGNAL \
+		and str(_pending_restore_context.get("event_id", "")) == W161_BODY_SIGNAL \
+		and str(_pending_restore_context.get("phase", "")) == "result"
 	var cold_w57_result := _is_w57_medication_scene() \
 		and str(_pending_restore_context.get("event_id", "")) == W57_FATHER_MEDICATION \
 		and str(_pending_restore_context.get("phase", "")) == "result"
@@ -5638,7 +5644,7 @@ func _render_current():
 	elif cold_w57_result:
 		# A restored result resolves its own location, not the received text's passage.
 		_bg_img.texture = null
-	elif w205_minseo_call:
+	elif w205_minseo_call or cold_w161_result:
 		# A queue can reuse this node after another location has been on screen.
 		_bg_img.texture = null
 	elif cg_active_at_start and ImageRegistry.has_texture(cg_path):
@@ -5691,7 +5697,7 @@ func _render_current():
 		and str(_pending_restore_context.get("phase", "")) in ["choices", "result"]
 	if _full_w19_reunion or w53_network or cold_offer_cafe or cold_first_ktx or cold_w96_return \
 			or cold_w220_cafe or cold_pitch_result or cold_daeun_outside \
-			or w205_minseo_call or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
+			or w205_minseo_call or cold_w161_result or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		BGMPlayer.clear_ambience_immediate()
 	elif str(_current.get("background", "")) == "current_housing" \
 			and not _current_uses_cg and not has_authored_ambience:
@@ -5866,6 +5872,9 @@ func _is_w132_stair_result() -> bool:
 func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
 	var event_id := str(_current.get("id", ""))
+	if event_id == W161_BODY_SIGNAL:
+		_apply_w161_transport_surface()
+		return
 	if _is_first_year_close_lights_out():
 		# No generic room or people bed stands in for the outside countdown.
 		if BGMPlayer._ambience_player.playing or BGMPlayer._human_ambience_player.playing \
@@ -6115,6 +6124,27 @@ func _apply_w57_medication_result_surface() -> void:
 func _w82_bus_phone_replies() -> bool:
 	return _pending_result_choice_index == 1 and _result_location_cut_page >= 0 \
 		and _para_index < _result_location_cut_page
+
+func _apply_w161_transport_surface() -> void:
+	var source := _story_source_paragraph_index(_para_index)
+	var destination := W57_COMMUTER_CAR
+	if _pending_after_result:
+		# The first result starts on the platform; only the consultation
+		# belongs in the exam room. The other uncovered locations stay neutral.
+		destination = W161_EXAM_ROOM if _pending_result_choice_index == 0 and source in [1, 2] else ""
+	elif source == 5 and _story_source_paragraph_count() == 6:
+		# Only the default intro reaches the explicit opening of the doors.
+		# The five-paragraph remembered variants finish in the moving car.
+		destination = ""
+	if destination != _event_background_id:
+		var texture: Texture2D = null if destination.is_empty() \
+			else ImageRegistry.load_texture(ImageRegistry.get_background(destination))
+		_finish_story_scene_transition()
+		_bg_img.texture = texture
+		_event_background_id = destination if texture != null else ""
+		_apply_story_surface_palette(false)
+		_configure_living_scene()
+	BGMPlayer.update_event_ambience(_current, "", _event_background_id)
 
 func _apply_w132_reckoning_result(play_cut_cue: bool) -> void:
 	var at_stairs := _is_w132_stair_result()
@@ -6819,6 +6849,7 @@ func _configure_living_scene(event_override: Dictionary = {}) -> void:
 	if not is_instance_valid(_living_scene):
 		return
 	if (_full_w19_reunion or _is_w53_network_scene() or _is_w57_medication_scene() \
+			or str(_current.get("id", "")) == W161_BODY_SIGNAL \
 			or str(_current.get("id", "")) == W82_HYUNSU_BUS \
 			or str(_current.get("id", "")) == W205_MINSEO_CALL \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \

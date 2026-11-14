@@ -175,6 +175,9 @@ W72_DINNER_AUDIO = {
     "ambience": "intentional_silence", "suppress_human_ambience": True, "suppress_season_ambience": True,
 }
 W82_BUS_EVENT = "arc_y2_hyunsu_night_bus"
+W161_BODY_EVENT = "arc_36_body_signal"
+W161_MOVING_AUDIO = {"ambience": "seoul_subway_onboard", "suppress_music": True,
+                     "suppress_human_ambience": True, "suppress_season_ambience": True}
 W132_CAFE_EVENTS = ("arc_sangchul_reckoning", "arc_sangchul_stairwell")
 W132_CAFE_AUDIO = {**W72_DINNER_AUDIO, "music": {"key": "reckoning", "start_paragraph": 0}}
 W205_MINSEO_PHONE = "arc_minseo_03b_not_arrived"
@@ -564,6 +567,9 @@ def main() -> int:
     if (event_contracts.get(W205_MINSEO_PHONE) != W72_DINNER_AUDIO
             or events.get(W205_MINSEO_PHONE, {}).get("background") != ""):
         errors.append(f"{W205_MINSEO_PHONE}: don't stage the remote call in an unestablished café")
+    if (event_contracts.get(W161_BODY_EVENT) != W161_MOVING_AUDIO
+            or events.get(W161_BODY_EVENT, {}).get("background") != "seoul_subway_commuters_w57"):
+        errors.append(f"{W161_BODY_EVENT}: use the occupied train and recorded onboard motion, not a platform crowd")
     if (any(event_contracts.get(owner) != W132_CAFE_AUDIO
             or events.get(owner, {}).get("background") != "cafe" for owner in W132_CAFE_EVENTS)
             or manifest.get("background_profiles", {}).get("sangchul_cafe_stairs") != "intentional_silence"):

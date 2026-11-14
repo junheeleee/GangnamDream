@@ -762,7 +762,7 @@
         "tokens_ko": ["소주", "맥주", "와인", "위스키", "막걸리", "술집", "술잔", "술자리", "술을", "취했", "숙취", "담배", "흡연", "마약", "수면제", "진통제", "처방약", "복용"],
         "tokens_en": ["soju", "beer", "wine", "whiskey", "drinking", "drunk", "hangover", "cigarette", "smoking", "narcotic", "sleeping pill", "painkiller", "prescription"],
         "reviewed_search_noise_ids": ["arc_36_body_signal", "arc_year3_close"],
-        "expected_event_count": 83, "expected_file_count": 40, "expected_ids_sha256": "9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e", "expected_content_sha256": "ec102c23928b20a5f510a885d88e8cdeab655485c2a85360713e6dc54951d3a5"
+        "expected_event_count": 83, "expected_file_count": 40, "expected_ids_sha256": "9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e", "expected_content_sha256": "6d750f0f51aea2e7e0d1a76169a941fb72487584c0f4a7de52332b0a54bdd536"
       },
       "facts": [
         {

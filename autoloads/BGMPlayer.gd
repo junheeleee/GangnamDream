@@ -629,9 +629,9 @@ func update_event_ambience(
 		clear_ambience()
 		return
 	var event_id := str(ev.get("id", ""))
-	if event_id == "arc_father_medication":
-		# A dedicated, resolved result surface is the only exception to
-		# W57's silence. Neither the arrival sentence nor the home inherits it.
+	if event_id in ["arc_father_medication", "arc_36_body_signal"]:
+		# These exact scenes share the recorded Seoul train only when moving
+		# inside the occupied car. A platform, open doors or a clinic don't.
 		var onboard := resolved_background_id == "seoul_subway_commuters_w57"
 		var key := str(_scene_audio_background_profiles.get(resolved_background_id, ""))
 		if onboard and key == "seoul_subway_onboard":

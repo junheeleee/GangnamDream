@@ -38,6 +38,7 @@ const W82_TERMINAL := "seoul_bus_terminal_night"
 const W82_DEPARTURE := "seoul_bus_terminal_departure"
 const W126_RIVER := "arc_goal_vertigo"
 const W205_PHONE := "arc_minseo_03b_not_arrived"
+const W161_BODY := "arc_36_body_signal"
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -370,6 +371,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W161_CHECK"):
+		var body_ok := await _check_w161_body()
+		await _remove_story()
+		await _stop_audio()
+		if body_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w161_body")
+		get_tree().quit(0 if body_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W132_CHECK"):
 		var stairs_ok := await _check_w132_stairs()
 		await _remove_story()
@@ -2667,6 +2676,103 @@ func _check_w126_w205(smoke: bool = false) -> bool:
 		print("W126_W205_OK paths=%d v4=%d cafe_handoffs=%d" % [paths, restores, cafe_handoffs])
 	return paths == (2 if smoke else 65) and restores == (0 if smoke else 65) \
 		and cafe_handoffs == (1 if smoke else 5)
+
+func _check_w161_body() -> bool:
+	var paths := 0
+	var restores := 0
+	var capture := OS.get_environment("GANGNAM_W161_CAPTURE_DIR")
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for flag: String in ["", "changed_routine", "maintained_routine", "restarted_exercise"]:
+			for choice: int in range(3):
+				await _remove_story()
+				await _stop_audio()
+				_context = "%s/W161/%s/c%d" % [language, flag, choice]
+				LocaleManager.set_language(language)
+				SaveManager.clear_loaded_resume_context()
+				GameState.start_new_game()
+				GameState.turn = 161
+				GameState.age = 36
+				GameState.health = 60
+				GameState.mental = 60
+				if not flag.is_empty():
+					GameState.flags[flag] = true
+				GameState.story_return_scene = "res://scenes/MainGame.tscn"
+				GameState.pending_story_queue = [W161_BODY]
+				BGMPlayer.set_ambience("cafe")
+				_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+				add_child(_story)
+				_story.call("_set_auto_mode", false, false, false)
+				var intro_count := 6 if flag.is_empty() else 5
+				if int(_story.call("_story_source_paragraph_count")) != intro_count:
+					_fail("W161 did not select the intended remembered variant")
+					return false
+				for page in range((_story.get("_paragraphs") as Array).size()):
+					await _finish_page()
+					var source := int(_story.call("_story_source_paragraph_index", page))
+					var moving := source != 5
+					if not _expect_w161_surface(W57_CAR if moving else ""):
+						return false
+					if choice == 0 and flag.is_empty() and page == 0 and not capture.is_empty():
+						if not await _save_viewport_frame(capture.path_join("%s_train.png" % language)):
+							return false
+					_story.call("_on_advance")
+					await _wait_stable()
+				if not bool(_story.get("_showing_choices")):
+					return false
+				var count: int = GameState.events_seen
+				var money: float = GameState.money
+				_story.call("_on_choice", choice)
+				await _wait_stable()
+				if int(_story.call("_story_source_paragraph_count")) != 4:
+					return false
+				var result_pages := (_story.get("_paragraphs") as Array).size()
+				var seen_clinic := false
+				for page in range(result_pages):
+					await _finish_page()
+					var source := int(_story.call("_story_source_paragraph_index", page))
+					var clinic := choice == 0 and source in [1, 2]
+					var destination := "hospital_clinic_day" if clinic else ""
+					if not _expect_w161_surface(destination):
+						return false
+					if clinic and not seen_clinic:
+						seen_clinic = true
+						if flag.is_empty() and not capture.is_empty():
+							if not await _save_viewport_frame(capture.path_join("%s_clinic.png" % language)):
+								return false
+					if flag.is_empty() and (page == 0 or page == result_pages - 1 or source == 1 and clinic):
+						var context: Dictionary = _story.call("build_save_resume_context")
+						if not await _reload_authored_result_context(context, language, 4, source, true) \
+								or not _expect_w161_surface(destination):
+							_fail("W161 cold result flashed a moving train")
+							return false
+						await _finish_page()
+						restores += 1
+					if page + 1 < result_pages:
+						_story.call("_on_advance")
+						await _wait_stable()
+				var deltas: Array = [-50000, -30000, 0]
+				var health: Array = [65, 63, 55]
+				if GameState.events_seen != count + 1 or GameState.money != money + deltas[choice] \
+						or GameState.health != health[choice] or not GameState.flags.get("arc_36_body_signal_seen", false):
+					_fail("W161 changed the original health, price or receipt")
+					return false
+				paths += 1
+	print("W161_BODY_OK paths=%d v4=%d" % [paths, restores])
+	return paths == 60 and restores >= 35
+
+func _expect_w161_surface(background: String) -> bool:
+	var image := _story.get("_bg_img") as TextureRect
+	var audio_ok := not BGMPlayer._human_ambience_player.playing and not BGMPlayer._season_player.playing
+	var moving := background == W57_CAR
+	var bed := "seoul_subway_onboard" if moving else ""
+	audio_ok = audio_ok and BGMPlayer._ambience_player.playing == moving
+	var surface_ok := _expect_surface(background, bed, "W161") if not background.is_empty() \
+		else image.texture == null and (_story.get("_bg_dim") as ColorRect).color == Color("#111216") \
+		and str(_story.get_meta("living_scene_effect", "")) == "none"
+	if not audio_ok or not surface_ok:
+		_fail("W161 borrowed a place or sound: %s/expected %s" % [
+			_story.get("_event_background_id"), background])
+	return audio_ok and surface_ok
 
 func _check_w132_stairs() -> bool:
 	var paths := 0

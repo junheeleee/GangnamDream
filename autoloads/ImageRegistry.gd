@@ -689,7 +689,7 @@ func infer_background_id(ev: Dictionary, housing: String = "gosiwon") -> String:
 	if event_id == "hyunsu_study_together":
 		return "goshiwon_shared_kitchen"
 	if event_id == "arc_36_body_signal":
-		return "goshiwon_hallway"
+		return "seoul_subway_commuters_w57"
 	if event_id == "callback_hoesik_payoff":
 		return "office"
 	if event_id == "casino_chip_exchange":

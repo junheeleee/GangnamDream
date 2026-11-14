@@ -375,7 +375,7 @@ weather, romance, and historical portraits remain fixed.
   - W57 medication message, choices and its still-in-passage results only. An underground commuter lane and wall-side recess at standing eye height; no visible train, platform, fare gate or named station. 1584×990, opaque, reviewed runtime candidate, not a high-resolution master.
 
 - `assets/backgrounds/seoul_subway_commuters_w57_v1.png`
-  - W57 seated and standing passengers after boarding only. Same closed-door Seoul subway car and orange benches; never replaces the generic empty-car asset or the transfer passage.
+  - W57 after boarding and W161 while the train is moving. Same closed-door Seoul subway car and orange benches with seated and standing riders; not an open-door stop, platform, or transfer passage.
 
 - `assets/backgrounds/convenience_store_night_steps_v1.png`
   - W69's first result only. Dry night, an unnamed convenience store's low entrance steps above the dialogue panel. The earlier indoor view stays separate; this does not redefine Daeun's established storefront.

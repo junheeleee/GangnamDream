@@ -979,7 +979,7 @@
     "arc_almost_there": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},
     "arc_1b_isolation": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},
     "arc_1b_isolation_father_passed": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},
-    "arc_36_body_signal": {"ambience": "subway", "suppress_music": true},
+    "arc_36_body_signal": {"ambience": "seoul_subway_onboard", "suppress_music": true, "suppress_human_ambience": true, "suppress_season_ambience": true},
     "arc_year_three_half": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 1}},
     "arc_36_night_doubt": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},
     "arc_36_night_doubt_father_passed": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},

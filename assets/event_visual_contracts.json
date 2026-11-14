@@ -192,7 +192,7 @@
     {"id": "arc_34_two_years_in", "background": "current_housing", "portrait": "player_tired", "cg": null},
     {"id": "arc_almost_there", "background": "current_housing", "portrait": "player_normal", "cg": null},
     {"id": "arc_1b_isolation", "background": "current_housing", "portrait": "player_normal", "cg": null},
-    {"id": "arc_36_body_signal", "background": "subway", "portrait": "player_tired", "cg": null},
+    {"id": "arc_36_body_signal", "background": "seoul_subway_commuters_w57", "portrait": "player_tired", "cg": null},
     {"id": "arc_year_three_half", "background": "current_housing", "portrait": "player_determined", "cg": null},
     {"id": "arc_36_night_doubt", "background": "current_housing", "portrait": "player_tired", "cg": null},
     {"id": "arc_37_reckoning", "background": "current_housing", "portrait": "player_determined", "cg": null},
