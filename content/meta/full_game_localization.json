@@ -28620,6 +28620,106 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-830",
+      "group": "endings",
+      "kind": "existing_target_correction",
+      "roots": [
+        "career_burnout"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "M60 burnout ending prose: show continued attendance across five years, without claiming a specific employer change or spoken diagnosis on either shared-base path. Preserve the commute, assets, language variants, title and outcome. Independent semantic review; human/native review remains open.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "01d6fe3bd417777c89cb45df22e63bda005966a1",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "370f0a5ef97824ee20a8ef4fcf22aa371e3be64a4daff2af954f0ea16716ef78",
+          "selection_sha256": "f01bf0dddd01ae9fddc52f5a5ffba6ced1af1158049145b1b92609dda0e80948",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "96e9c0aed3ed257f5288d73de118be973b09cbbc00eb50f9d4a6f3d9ff2ff3b4"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "01d6fe3bd417777c89cb45df22e63bda005966a1",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "370f0a5ef97824ee20a8ef4fcf22aa371e3be64a4daff2af954f0ea16716ef78",
+          "selection_sha256": "fb0e70c869f2f215fde04730b3e42e545ad698d6e29a6662e653f1f51ba56c57",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9732cc7069e0af0f46d8d1a74871208ff2b73ab89f1ce5966958be2905a3a8a6"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "01d6fe3bd417777c89cb45df22e63bda005966a1",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "370f0a5ef97824ee20a8ef4fcf22aa371e3be64a4daff2af954f0ea16716ef78",
+          "selection_sha256": "2afc98eb4bce611c26e91b3168fa1cf1ee92a1954796d4e190029965edd01182",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "986084e4c408eaa0852a995cc9adeb5f8a0ea8401bf78a16eb09af724cf6c9b8"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "98f0cfe8a1b31d72413b8279ac3e8d82a5da69353c4b0b3bad4fc9119d3200d3",
+        "zh-CN": "98ddac28127c06d19e20409fcee375d0f63df0ca847f1dcf024236df09b6a978",
+        "zh-TW": "4e375fdb8172f8bdceed70d0eea686f5369d0a9306ac8535c649027495479221"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "endings:career_burnout:/description": "14eceb5a2a909f2c04d57ad897e209386e4c69cafd6a8d158e4c8afe7212e1b6"
+        },
+        "zh-CN": {
+          "endings:career_burnout:/description": "7bd89047887607d369eaa4fe6af9e7233bef10165089b8a6d9e8ce388dd8eb04"
+        },
+        "zh-TW": {
+          "endings:career_burnout:/description": "d31c2bd8d6dc7e616d53682b554f3a3277c703fb00d6e7a321f76d63e126b690"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "endings:career_burnout:/description": {
+            "source_sha256": "17502f51baa645ec6c1fe5c7d3f67803b624f8113728f62942447a972c07326f",
+            "target_sha256": "14eceb5a2a909f2c04d57ad897e209386e4c69cafd6a8d158e4c8afe7212e1b6"
+          }
+        },
+        "zh-CN": {
+          "endings:career_burnout:/description": {
+            "source_sha256": "17502f51baa645ec6c1fe5c7d3f67803b624f8113728f62942447a972c07326f",
+            "target_sha256": "7bd89047887607d369eaa4fe6af9e7233bef10165089b8a6d9e8ce388dd8eb04"
+          }
+        },
+        "zh-TW": {
+          "endings:career_burnout:/description": {
+            "source_sha256": "17502f51baa645ec6c1fe5c7d3f67803b624f8113728f62942447a972c07326f",
+            "target_sha256": "d31c2bd8d6dc7e616d53682b554f3a3277c703fb00d6e7a321f76d63e126b690"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -29125,8 +29225,8 @@
         "target_sha256": "e09e657524a8fa9c2cef0744fb5a52c18bee5267acc15753c0fab65c5fa48244"
       },
       "endings:career_burnout:/description": {
-        "source_sha256": "17502f51baa645ec6c1fe5c7d3f67803b624f8113728f62942447a972c07326f",
-        "target_sha256": "14eceb5a2a909f2c04d57ad897e209386e4c69cafd6a8d158e4c8afe7212e1b6"
+        "source_sha256": "3d3c5c7869b670a73ff87ee5a8f0c6802a2c99e0e1d28a4c9aacf079194e74b4",
+        "target_sha256": "2e004eaaf374155ad39bb3fa4fdd7556c967dce997951b730d2d95e4f781bcdb"
       },
       "endings:career_burnout:/description_if_known/career_door_opened": {
         "source_sha256": "46b56c45cfbf476f88853de6ab97573b1832080b281a3b8c42b0a4c022e4d78c",
@@ -82019,8 +82119,8 @@
         "target_sha256": "e81737418b8093530ab3414fd3ed7de76a9af1e830012d454667c0f00e0a3323"
       },
       "endings:career_burnout:/description": {
-        "source_sha256": "17502f51baa645ec6c1fe5c7d3f67803b624f8113728f62942447a972c07326f",
-        "target_sha256": "7bd89047887607d369eaa4fe6af9e7233bef10165089b8a6d9e8ce388dd8eb04"
+        "source_sha256": "3d3c5c7869b670a73ff87ee5a8f0c6802a2c99e0e1d28a4c9aacf079194e74b4",
+        "target_sha256": "78a22e3695a7f2d5043d1fb093656216c6bf343c9d729dc139e5148a9f792ede"
       },
       "endings:career_burnout:/description_if_known/career_door_opened": {
         "source_sha256": "46b56c45cfbf476f88853de6ab97573b1832080b281a3b8c42b0a4c022e4d78c",
@@ -141697,8 +141797,8 @@
         "target_sha256": "e81737418b8093530ab3414fd3ed7de76a9af1e830012d454667c0f00e0a3323"
       },
       "endings:career_burnout:/description": {
-        "source_sha256": "17502f51baa645ec6c1fe5c7d3f67803b624f8113728f62942447a972c07326f",
-        "target_sha256": "d31c2bd8d6dc7e616d53682b554f3a3277c703fb00d6e7a321f76d63e126b690"
+        "source_sha256": "3d3c5c7869b670a73ff87ee5a8f0c6802a2c99e0e1d28a4c9aacf079194e74b4",
+        "target_sha256": "f6d5b0aa5ba865d1894c4c5f8d636fe16eeaa9d55aa24c51e7dcbc27da688ec3"
       },
       "endings:career_burnout:/description_if_known/career_door_opened": {
         "source_sha256": "46b56c45cfbf476f88853de6ab97573b1832080b281a3b8c42b0a4c022e4d78c",
@@ -200874,7 +200974,7 @@
       }
     }
   },
-  "accepted_sha256": "082bdeea957bda05640918a69b5a2f66b22ca167b04a10cef81d8b7035dec99b",
+  "accepted_sha256": "d1de8cdec2b3f4f369bb4868483394a95533340ffc3055ae0f3d08ecc684b51a",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
