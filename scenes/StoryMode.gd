@@ -7510,7 +7510,12 @@ func _render_chapter_card_cinematic():
 	_continue_hint.visible = false
 	if _hud_panel != null and is_instance_valid(_hud_panel):
 		_hud_panel.visible = false
-	BGMPlayer.update_event_ambience(_current)
+	if FULL_STORY_FLOW.is_full_run() and str(_current.get("id", "")) in [
+			"chapter_card_33", "chapter_card_34", "chapter_card_35", "chapter_card_36", "chapter_card_37"]:
+		# The ink card is not a place. Stop physical layers, not the score.
+		BGMPlayer.clear_ambience_immediate()
+	else:
+		BGMPlayer.update_event_ambience(_current)
 
 	# 오버레이 컨테이너
 	var ov := Control.new()

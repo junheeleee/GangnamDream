@@ -11,6 +11,8 @@ const W202_EVENT := "callback_daeun_committed_gangnam_eve"
 const W4_EVENT := "arc_temptation_01"
 const W4_ROOM := "goshiwon_room"
 const W37_FIRST_BILL := "arc_y1_new_room_first_month"
+const FULL_CHAPTER_WEEKS := {"chapter_card_33": 1, "chapter_card_34": 49, "chapter_card_35": 97,
+	"chapter_card_36": 145, "chapter_card_37": 193}
 const M03_EVENT := "arc_jiyeon_01_crash"
 const M03_APPROACH := "sinchon_crash_approach_rain_dusk"
 const M03_IMPACT := "sinchon_crash_impact_rain_dusk"
@@ -298,6 +300,12 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_FULL_CHAPTER_CARD_CHECK"):
+		var cards_ok := await _check_full_chapter_card_ambience()
+		if cards_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=full_chapter_cards")
+		get_tree().quit(0 if cards_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_W37_ROOM_CHECK"):
 		var w37_ok := await _check_w37_first_bill()
 		if w37_ok:
@@ -1630,6 +1638,125 @@ func _jaehyuk_calendar_fixture_history(photo: bool, late_choices: Array) -> Arra
 		[115, "arc_why_gangnam_real"]] + late_choices
 	history.sort_custom(func(a: Array, b: Array) -> bool: return int(a[0]) < int(b[0]))
 	return history
+
+func _check_full_chapter_card_ambience() -> bool:
+	var cases := 0
+	var cold := 0
+	var next_room := 0
+	for language: String in W4_TERMS:
+		for event_id: String in FULL_CHAPTER_WEEKS:
+			_context = "%s/full-chapter-card/%s" % [language, event_id]
+			await _remove_story()
+			await _stop_audio()
+			# The static test owns the room instead of invoking MainGame's usual
+			# post-story clearing. Do not let that prior case leak into a new run.
+			GameState.returning_from_story = false
+			LocaleManager.set_language(language)
+			var turn: int = FULL_CHAPTER_WEEKS[event_id]
+			if turn == 1:
+				GameState.start_new_game()
+				if not FULL_STORY_FLOW.initialize_fresh_run():
+					return false
+				GameState.flags["prologue_done"] = true
+			else:
+				var history: Array = [[192, "arc_year4_close"]] if turn == 193 else []
+				if not _prepare_full_owner_history(turn, history):
+					return false
+				GameState.flags["prologue_done"] = true
+				for earlier_age in range(34, GameState.age):
+					GameState.flags["chapter_%d_seen" % earlier_age] = true
+			var selector := load("res://scenes/MainGame.tscn").instantiate() as Control
+			var actual_card: String = selector.call("_next_arc_id", -1, false, true)
+			selector.free()
+			if actual_card != event_id:
+				_fail("full chapter selector chose %s instead of %s" % [actual_card, event_id])
+				return false
+			BGMPlayer.play_punctuation("grief")
+			var score_token: int = BGMPlayer._punctuation_token
+			var next: Array = ["arc_37_reckoning"] if turn == 193 else []
+			if not await _open_full_fixture_event(event_id, next, true) or not _full_card_surface(event_id) \
+					or BGMPlayer._current_key != "grief" or BGMPlayer._punctuation_token != score_token:
+				_fail("location cleanup changed the previous score or card")
+				return false
+			cases += 1
+			if language != "ko":
+				continue
+			var saved: Dictionary = _story.call("build_save_resume_context")
+			var seen_before: int = GameState.events_seen
+			if saved.get("event_id") != event_id or saved.get("phase") != "chapter" \
+					or not SaveManager.save_game(W8_QA_SLOT, saved, {"qa_fixture": true}):
+				_fail("could not save the actual chapter phase")
+				return false
+			await _remove_story()
+			GameState.start_new_game()
+			if not SaveManager.load_game(W8_QA_SLOT) or not FULL_STORY_FLOW.is_full_run():
+				_fail("cold chapter could not restore its production owner")
+				return false
+			BGMPlayer.set_ambience("street")
+			BGMPlayer.set_season_ambience("winter")
+			_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+			add_child(_story)
+			await _wait_stable()
+			if not _full_card_surface(event_id) or GameState.events_seen != seen_before:
+				_fail("cold title did not restore silence or replayed the card receipt")
+				return false
+			var old_title := (_story.get("_chapter_overlay") as Control).find_child("ChapterTitle", true, false) as Label
+			var old_value := old_title.text
+			_story.call("_set_story_language", "en")
+			await get_tree().process_frame
+			if LocaleManager.language != "en" or old_title.text == old_value \
+					or old_title.text != str(DataRegistry.find_event(event_id).get("title", "")) \
+					or not _full_card_surface(event_id):
+				_fail("live language setting did not rebind the chapter title without bringing back the street")
+				return false
+			_story.set_meta("_screenshot_qa_static_surface", true)
+			_story.call("_on_advance")
+			await _wait_stable()
+			if GameState.events_seen != seen_before + 1 or not bool(GameState.flags.get(
+					"chapter_%s_seen" % event_id.right(2), false)) or not FULL_STORY_FLOW.valid_session():
+				_fail("advancing changed or duplicated the exact chapter receipt")
+				return false
+			if turn == 193:
+				if str((_story.get("_current") as Dictionary).get("id")) != "arc_37_reckoning" \
+						or GameState.has_deferred_event("arc_37_reckoning") \
+						or not _expect_surface(W4_ROOM, "room", "W193 physical room after title"):
+					_fail("W193 title did not hand back the physical ambience to its actual deferred scene")
+					return false
+				next_room += 1
+			cold += 1
+	await _remove_story()
+	await _stop_audio()
+	# Existing non-full card presentation (including legacy 24 weeks) is not owned here.
+	GameState.start_new_game()
+	GameState.month = 1
+	GameState.pending_story_queue = ["chapter_card_33"]
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	await _wait_stable()
+	if FULL_STORY_FLOW.is_full_run() or BGMPlayer._current_ambience_key != "street" \
+			or not bool(_story.get("_is_chapter_card")):
+		_fail("non-full Chapter 1 compatibility surface changed")
+		return false
+	await _remove_story()
+	await _stop_audio()
+	if cases != 25 or cold != 5 or next_room != 1 or _failures != 0:
+		return false
+	print("FULL_CHAPTER_CARD_AMBIENCE_OK cards=%d cold=%d locale_rebind=%d score_kept=%d legacy_control=1 w193_handoff=%d" % [
+		cases, cold, cold, cases, next_room])
+	return true
+
+func _full_card_surface(event_id: String) -> bool:
+	var background := _story.get("_bg_img") as TextureRect
+	var canvas := _story.get("_chapter_overlay") as Control
+	var valid := bool(_story.get("_is_chapter_card")) and is_instance_valid(canvas) \
+		and is_instance_valid(background) and background.texture == null \
+		and str((_story.get("_current") as Dictionary).get("id")) == event_id \
+		and BGMPlayer._current_ambience_key.is_empty() and not BGMPlayer._ambience_player.playing \
+		and BGMPlayer._current_human_ambience_key.is_empty() and not BGMPlayer._human_ambience_player.playing \
+		and BGMPlayer._current_season_key.is_empty() and not BGMPlayer._season_player.playing
+	if not valid:
+		_fail("locationless full card showed a place or kept a physical layer")
+	return valid
 
 func _check_w37_first_bill() -> bool:
 	var houses := {"oneroom": "apartment", "villa": "apartment", "apartment": "gangnam_apartment"}
