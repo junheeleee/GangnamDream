@@ -517,6 +517,10 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 완료(전환): 기본 초대는 장소·인물·장소음 없이, 도착 및 이미 아는 갈래는 기존 개인실 원화·상철·실내음, 두 번째 선택의 퇴장 문단은 상철만 보인다. 5언어 20경로, v4 결과 20건·본문 재개 10건·언어 전환 8건, 게임 스크립트 69개 컴파일 및 독립(코드/화면) 확인. 960×600 격리 검사 및 1280×800 Godot 렌더 20컷(5언어×초대·도착·실내 결과·퇴장). 선택·후속·원화·데모·저장 형식 불변. 장면을 격리해서 직접 열었으며, 정상 진입·실청취나 한국어 모임 녹음 완료로 세지 않는다.
 
+### W57 약 이름 — 환승 통로의 문자
+
+[~] 첫 음향 묶음은 `arc_father_medication`의 `assets/scene_audio_manifest.json`과 `content/meta/story_rules.json`의 음향 기대값, `scenes/StoryMode.gd` 재개 시 진동 중복 방지, `tools/{scene_audio_contract_check.py,StoryBackgroundContextCheck.gd,ScreenshotQA.gd}` 해당 검사, 이 증거·일지·현황. 두 실제 런에서 c0 관측. 첫 어머니 문자에 휴대전화 실제 진동만, 통로·열차·귀가·창원에 현재 잘못 이어지는 공용 열차/해외 사람 층은 해당 사건에서만 끈다. 다른 장면의 지하철, 원문, 효과, 저장, 공개 데모 불변. 환승 통로·c1 객차/집·c2 창원역/식탁 그림과 장소별 녹음·약봉투는 다음 묶음으로 분리한다.
+
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.
