@@ -8,6 +8,8 @@
 
 UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리까지 도달. 기록기는 화면이 보이는 시점만 읽어 W2·W3을 놓쳐 세 로그 모두 W4에서 중단됐으나 실제 저장 상태의 1→2→3→4와 각 W1~3 생활 영수증은 보존됐다. W240이라고 표시된 실패 마커는 스키마 자리표시이며 완주가 아니다. 실제 전 구간 관측은 미완이며 누락된 주를 추정으로 채우지 않는다.
 
+[~] 관측기 수리만 별도 사본에서 착수: `tools/{FullGameRuntimeTrace.gd,full_game_runtime_trace_audit.py}` 및 이 증거. 실제 주 변경 신호와 해당 완료 영수증·성공한 자동저장을 묶어 W2·W3 같은 자동 주도 기록한다. 화면/선택으로 꾸미거나 건너뛴 주를 역산하지 않는다. 기존 새 이야기·보이는 입력·주 순서·끝 화면 검사는 유지. W240 일반/비전진 종막을 구분하며, 녹화 프로필의 기존 행동판·투자 요구가 실제로 재현되지 않으면 실패를 보존한다. 제품·저장·공개 RC·프로필 변경0.
+
 ### M07 현수가 연 문 — 고시원 복도와 시험방
 
 [~] 교정 v2를 같은 `hyunsu_exam_room` ID에 반영: `assets/backgrounds/hyunsu_exam_room_v2.png` 및 import, `autoloads/ImageRegistry.gd`의 경로 한 줄, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `assets/mod_asset_manifest.json`, `tools/art_resolution_baseline.json`, `content/meta/release_content_inventory.json`, `docs/{MODDING,ART_AI_AUDIT,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `CLAUDE.md`와 이 기록. 같은 건물 문·문틀과 방 재질, 성인 눈높이, 얇은 공부 책상과 밀어 넣은 스툴, 침대 폭과 어긋나지 않는 바닥 A4급 문제집. v1 원화·원판정 보존, 사건·저장·문장·음향·RC 불변.
