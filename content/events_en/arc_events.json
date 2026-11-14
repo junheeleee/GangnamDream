@@ -1084,7 +1084,7 @@
   {
     "id": "arc_father_03_hospital",
     "title": "Mom's Call",
-    "description": "Four days after his parents returned from Seoul, Mom called.\n\n\"Minjun.\"\n\nHer voice carried what neither of them had said at dinner.\n\nDad had collapsed. A cerebrovascular warning. Changwon Sungsim Hospital ER. He was stable now, conscious and talking.\n\n\"They think he only needs a few days in hospital. No surgery. But he has to be careful from now on. The doctor said... if he doesn't manage it properly, it could happen again anytime.\"\n\n{name} remembered Dad's face from their last meeting, the face that had come all the way to Seoul and still said everything was fine. His hand trembled.",
+    "description": "Four days after his parents returned from Seoul, Mom called.\n\n\"Minjun.\"\n\nHer voice carried what neither of them had said at dinner.\n\nDad had collapsed. The doctors said it could be a warning sign of a stroke. He was in the ER at Changwon Sungsim Hospital. He was stable now, conscious and talking.\n\n\"No surgery. They're admitting him and won't decide when he can come home until they've seen how he does. The doctor said... he needs to take care of himself from now on. It could happen again.\"\n\n{name} remembered Dad's face from their last meeting. He'd come all the way to Seoul and still said he was fine. His hand shook for a moment.",
     "choices": [
       {
         "text": "Book the first KTX to Changwon",

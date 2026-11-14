@@ -40,7 +40,7 @@
   {
     "id": "arc_sangchul_offguard",
     "title": "Sangchul Off Guard",
-    "description": "Sangchul's office. We'd stayed late reviewing contract documents.\n\nHe stepped away to take a call. Ten minutes. Fifteen.\n\nWhen he returned, he didn't look like himself. He opened the papers without a word — then suddenly said it.\n\n\"That was my son. He wants to drop out of university.\"\n\nHe said it without being asked. \"I can't tell if he doesn't want to study, or if he just hates everything right now. Honestly, I don't know.\"\n\nHe'd never said anything like this before.",
+    "description": "{name} had stayed late with Sangchul at the agency to go over some contracts.\n\nSangchul stepped away to take a call. Ten minutes. Fifteen.\n\nWhen he returned, he didn't look like himself. He opened the papers without a word — then suddenly said it.\n\n\"That was my son. He wants to drop out of university.\"\n\nHe said it without being asked. \"I can't tell if he doesn't want to study, or if he just hates everything right now. Honestly, I don't know.\"\n\nHe'd never said anything like this before.",
     "description_if_known": {
       "sangchul_truth_known": "Sangchul came back from the call looking different.\n\n\"That was my son. He wants to drop out.\"\n\nMinjun listened.\nHe used to think bad people only did bad things.\nSangchul wasn't like that.\nThis worry — it was real.\nAnd that was the hardest part to hold."
     },
@@ -535,9 +535,9 @@
   {
     "id": "arc_sangchul_human",
     "title": "The Missing Years",
-    "description": "The day Sangchul offers dinner, a paid replacement shift appears on {name}'s phone for the same hours. The reply deadline is 8:00 p.m. At the door of the Korean beef restaurant, he turns off the screen and goes inside.\n\nSangchul leaves his soju glass empty while talking about a seaside town in Chungcheong, a father who worked the docks, and night school. When he bought his first apartment in his early thirties, he says, he cried alone in the empty room.\n\nSangchul skips straight from night school to his first apartment. He never says who he met or what he did for work in the dozen-odd years in between. At 7:58, the paid-shift alert lights again. Sangchul turns the empty glass once beneath his finger.\n\n“Which part are you curious about?”",
+    "description": "The day Sangchul offers dinner, a paid replacement shift appears on {name}'s phone for the same hours. The reply deadline is 8:00 p.m. At the door of the Korean beef restaurant, he turns off the screen and goes inside.\n\nSangchul leaves his soju glass empty while talking about a seaside town in Chungcheong, a father who worked the docks, and night school. When he bought his first apartment in his early thirties, he says, he cried alone in the empty room.\n\nSangchul skips straight from night school to his first apartment. He never says who he met or what he did for work in the dozen-odd years in between. At 7:58, the paid-shift alert lights up again. Sangchul turns the empty glass under one finger. His broker's formality has slipped away as he's told his own story.\n\n“Which part are you curious about?”",
     "description_if_known": {
-      "sangchul_truth_known": "The day Sangchul offers dinner, a paid replacement shift appears on {name}'s phone for the same hours. The reply deadline is 8:00 p.m. Sangchul empties his soju glass while talking about the Chungcheong coast, his father on the docks, night school, and crying alone on the day he bought his first apartment.\n\n{name} knows the story is not a lie. That makes the gap of more than a decade between night school and the apartment—and the names and addresses he has already verified—more distinct. At 7:58, the paid-shift alert lights again.\n\nSangchul turns the empty glass under one finger. “Knowing all that, which part are you curious about?”"
+      "sangchul_truth_known": "The day Sangchul offers dinner, a paid replacement shift appears on {name}'s phone for the same hours. The reply deadline is 8:00 p.m. Sangchul empties his soju glass while talking about the Chungcheong coast, his father on the docks, night school, and crying alone on the day he bought his first apartment.\n\n{name} knows he isn't lying. It makes the gap of more than a decade between night school and the apartment—and the names and addresses he's already checked—all the clearer. At 7:58, the paid-shift alert lights up again.\n\nSangchul turns the empty glass under one finger. He asks in the same easy voice he's been using to tell his own story. “Knowing all that, which part are you curious about?”"
     },
     "choices": [
       {
@@ -1268,8 +1268,8 @@
       "result_text": "Transfer corridors, late-night restaurants, and the awnings that kept off rain came to him before he had to think.\n\nHe could not call himself a Seoulite. His body had still learned how to move through a day in this city."
       },
       {
-      "text": "Urgency could become fuel.",
-      "result_text": "Some days, urgency became energy.\n\n{name} hoped this would be one of them."
+      "text": "Think of a turn he hasn't taken on a route he knows by heart.",
+      "result_text": "As he stepped inside, he pictured an exit sign he passed whenever he changed trains. He remembered which way the arrow pointed, but not what was at the top of those stairs.\n\nThe front door closed behind him."
       }
     ]
   },

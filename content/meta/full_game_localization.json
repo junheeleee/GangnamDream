@@ -31909,6 +31909,418 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-833",
+      "group": "events",
+      "kind": "narrative_continuity_with_existing_state_reader",
+      "roots": [
+        "arc_34_money_attracts_money",
+        "arc_34_two_years_in",
+        "arc_daeun_ghost",
+        "arc_daeun_regret_draft",
+        "arc_father_03_hospital",
+        "arc_sangchul_human",
+        "arc_sangchul_mirror",
+        "hyunsu_reunion_later",
+        "hyunsu_reunion_memory",
+        "story_two_year"
+      ],
+      "source_leaves": 22,
+      "target_leaves_by_locale": {
+        "ja": 22,
+        "zh-CN": 22,
+        "zh-TW": 22
+      },
+      "new_coverage_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "source_review": "Year 2: W49 ledger prop, Sangchul register and tent opening, Hyunsu delayed text, Daeun spoken farewell/one-sided like, hospitalization with uncertain discharge, and nonduplicating second-year reflection with previously received hospital news only.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "a1b99c835b76dad44581cdc75d165e12dcab1a42",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "02b347c73eee7a11b5bf22b6c0452ab4475ca0895035a0bad210f52ada086e49",
+          "selection_sha256": "898f36231a4a932e6fdaaf23bfec03b9c9fcd7c78f0b3e66d63f55ee366f46d8",
+          "count": 22,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9d7d9e1dc234de4f4b5290f33de6be6c4583a76e9a2159bf3112c718cb25fd60"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "a1b99c835b76dad44581cdc75d165e12dcab1a42",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "02b347c73eee7a11b5bf22b6c0452ab4475ca0895035a0bad210f52ada086e49",
+          "selection_sha256": "18501628f72f70a4686b57b84b56fee42650d045a6662d3d80a77c3a8080cb4d",
+          "count": 22,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "65f0d0aa56355951d84b1cef348ac4cceffc93fea35157a6c37c2db1bb74082c"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "a1b99c835b76dad44581cdc75d165e12dcab1a42",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "02b347c73eee7a11b5bf22b6c0452ab4475ca0895035a0bad210f52ada086e49",
+          "selection_sha256": "9b3941db4acb64360e9b2abef1dbac9550c0794bd71d60c76b93c322b40c8241",
+          "count": 22,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a32bafa045ef8447edad95b000e7a4a5249d55c6e33fed4200ef885144935ca4"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "e4fbb47806e4240d6d9984f0d3fdee27c7b2e3a2fc2dfb9b435c4055feb16a9b",
+        "zh-CN": "fe1887a4a281c09472c0058e9d9115fcd0b316e5ac3df552ed45d568a9fcc0d8",
+        "zh-TW": "4d4a1ea251203347282eebf5114a81bdcb690decc70a5a0ae4fa834e8f17f0b2"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_34_money_attracts_money:/description": "98457915adcbfe1eb8b6eddad8e01cc40b24075b89138c98a91ae97cf4b25ca7",
+          "events:arc_34_two_years_in:/choices/1/result_text": "cad7dbf8bf4f6c0f101fe82119994d8def7173d13234e79d0cb002b20991fa30",
+          "events:arc_34_two_years_in:/choices/1/text": "488093da6b8971944790fac9dbc7b4e16d5f0804b669115c24800c0bc1eff03b",
+          "events:arc_daeun_ghost:/choices/0/result_text": "cefb29d4aa6b94b3094cbbd44ea9be12b3b35aadf90d8b1a24b4be229c0a6328",
+          "events:arc_daeun_regret_draft:/description": "da6a7170727cd8d69590a91ebf7a0ada46d99e66de1666011abf7541acd92607",
+          "events:arc_father_03_hospital:/description": "75ea244f888ce0678debae30acde468c1c8e0f1884f058edfe429b08a47bcc30",
+          "events:arc_sangchul_human:/description": "d7646f3d2740c93cc7a0d72fd1341dcebb268fcd0335e5508a4cf498510d2e9f",
+          "events:arc_sangchul_human:/description_if_known/sangchul_truth_known": "aa12f926d861496b6318e73c409330f81dc4ee38c85f392c33d43b2884e9e50f",
+          "events:arc_sangchul_mirror:/choices/1/result_text": "e7bbd1e5a52d3793874ce30c34afd13e2f9bb285fee8151944bfa62f9ba394e5",
+          "events:arc_sangchul_mirror:/description": "a394b9ba1235dd6faa65cc9e06c047dd023a45a34cfd8553ba17654f5758f655",
+          "events:arc_sangchul_mirror:/description_if_moral/black": "fd213727b9952efd131f48cffcf78dbe5cd8c7d4ae9f1b55177a13aa1c5de18e",
+          "events:arc_sangchul_mirror:/description_if_moral/white": "7e81d519d09d773d0986f368a8b6fa54c32ead5405ba9afc1de3484e291cefdf",
+          "events:hyunsu_reunion_later:/choices/1/result_text": "30a5083b229edd533c6db28b310695455f3b579c594bf067bcc0d606bf89f394",
+          "events:hyunsu_reunion_memory:/description": "fded80faba9c2bd11b92865193dcff5e9cbd5f26ae93e759730237208d1fccd7",
+          "events:hyunsu_reunion_memory:/description_if_known/hyunsu_comforted": "3e83a087ea805f17c5686d99f9e48b75d2d24fcf955b235e2d3e61daa36127d0",
+          "events:story_two_year:/choices/0/result_text": "050b4ea336159ef4d80c10479f798ea682d4274702a005f4257129785b3f8611",
+          "events:story_two_year:/choices/0/text": "5f228938d105440505b925eb7e4878780c729ce794eb35eb8b6867175eecad45",
+          "events:story_two_year:/choices/1/result_text": "d158563b3a5c912db79975debeb7e197929e84825484c402d5ca681b10136180",
+          "events:story_two_year:/choices/1/text": "94cdb4dedcc0a7892ac7ce605c0385cfaae465068128f19405220a9949ec18e2",
+          "events:story_two_year:/description": "e2e17a40b50672a78c0362c4c18e5b2a490fe34ebc2cb21c9bed94d88f9501f0",
+          "events:story_two_year:/description_if_known/arc_father_03_seen": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "events:story_two_year:/title": "ce94127e8e74e8e0e572cd5564239d33bfc568d1f45e20de309cd6dee3953edf"
+        },
+        "zh-CN": {
+          "events:arc_34_money_attracts_money:/description": "129f838424414734efb5014bd11496050a1739d5bd65096a0c72852db598ecc1",
+          "events:arc_34_two_years_in:/choices/1/result_text": "7c07d3848c91b07cba62e1c5cd88ad39484773461cccdc5ebfa3979c02cb0809",
+          "events:arc_34_two_years_in:/choices/1/text": "ea11a762c0d83def05e67d2e455c7fe7c520517796166a08105afe0f120d6529",
+          "events:arc_daeun_ghost:/choices/0/result_text": "b7bb646c95181c9ae787d6f74b184b4f3f9a2b251b00984adec485b79c0ad54b",
+          "events:arc_daeun_regret_draft:/description": "4fffacfbe9b8a6afc64a6c6658b585f5566cd714fe45342f9b10190f69bd2633",
+          "events:arc_father_03_hospital:/description": "32efa118d3770806ccc949f361b6ecfc9bf733fe54224aaf5294ae625d978acd",
+          "events:arc_sangchul_human:/description": "bf49b7b120c8e4562f2fd914fdd42f124ceaafc6ae3c0b34eb23db632e798583",
+          "events:arc_sangchul_human:/description_if_known/sangchul_truth_known": "f18903a8de6a43e2166c9eadb37923b9db7355045d56089c399214f13563e423",
+          "events:arc_sangchul_mirror:/choices/1/result_text": "40cf7bcb7ba3b6f0ed9993f047f8ecfd80269fe6c8643206aef30c637bfc1b88",
+          "events:arc_sangchul_mirror:/description": "624bc46b8ad30046a8eb20257f8143f63db84cf34ef54f02d333d497219ed4c4",
+          "events:arc_sangchul_mirror:/description_if_moral/black": "8293ca93be5016e15ad6c11393100d70cd5d4d33572eb7b83bb768b7870ca28c",
+          "events:arc_sangchul_mirror:/description_if_moral/white": "c87e7bd5882a7a9661a3ba45deffeec865978707b19c45e3de95bb91fc951d43",
+          "events:hyunsu_reunion_later:/choices/1/result_text": "6272ed390b82cc54c7772cee11e98a68e82f67f321484ee5b869ab9021c9fe9d",
+          "events:hyunsu_reunion_memory:/description": "2bd3b62cba4abaa32bd597764b37c5782635cfae160ed2731120d14a0416dc16",
+          "events:hyunsu_reunion_memory:/description_if_known/hyunsu_comforted": "06794e6f1892e26c1ba7a298099ca3359380f609b6e11713b01b1eb9881f4c53",
+          "events:story_two_year:/choices/0/result_text": "a3c4eccf807f02be634f757f0440b848e92d64f57ca7ad4e4b163c92cf29efcc",
+          "events:story_two_year:/choices/0/text": "2483f61586338c8d570c11d97783a5d1c03723fd856b32050d860fadd5f3d008",
+          "events:story_two_year:/choices/1/result_text": "00a7356d7d2b2e10e76e76ab86c3541451780e33c5cbf790d6ac8a8d4a503cb1",
+          "events:story_two_year:/choices/1/text": "3658b27972ed2e2b950c52093408e6b00b10f588b75b84381e05b3f4c64d6a41",
+          "events:story_two_year:/description": "4a9a2105666daf5d9d0c4676ed92b28e2b8b6eeb4149a947a7049dd091c47834",
+          "events:story_two_year:/description_if_known/arc_father_03_seen": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "events:story_two_year:/title": "4a3d9391f27c9ea8678c75c3064042d06bc5591eeff4cbfad4a45e44ff7bdcc9"
+        },
+        "zh-TW": {
+          "events:arc_34_money_attracts_money:/description": "052ceb97eda7af674e37044f1fcf4df739d3bde9eb1ba5dd431edea953ae42e8",
+          "events:arc_34_two_years_in:/choices/1/result_text": "8f9f2d946a309f66fdd99f15a0a12402b6c412ca8097d797d8818d5a1d505bca",
+          "events:arc_34_two_years_in:/choices/1/text": "7bc51f12b4d01fc2750849aa1c05eacbb3d01926db6fe5f43b8e9f24c6b2ff60",
+          "events:arc_daeun_ghost:/choices/0/result_text": "6de7ef28d8ba09a9e3153d984faab4d22f6ab58a944610ff0543eb2efae0b481",
+          "events:arc_daeun_regret_draft:/description": "39d810478c21119661489a02f1ad526e95553cbb4fd599f2cc432b0548e37df9",
+          "events:arc_father_03_hospital:/description": "9d563671d39f2ea8de891353a4d92997a0dfaaf4e9adf76eef2a64e3476eb69a",
+          "events:arc_sangchul_human:/description": "90f8fb246b453f279be0a06ef80b94be2a37e8f0929a138812252ad904b8f567",
+          "events:arc_sangchul_human:/description_if_known/sangchul_truth_known": "56b5a3c9e6b56ae3589e80527f08fefab2f2db133bf8da504d960bab06db0d18",
+          "events:arc_sangchul_mirror:/choices/1/result_text": "2806fbf296f4709fb9590e9a233b740109beda64ef138904d71313554b1356f9",
+          "events:arc_sangchul_mirror:/description": "be049f3c95d3be977399114fc60a6ebe25d2a6cd3c33a63a812c2b2803737dc5",
+          "events:arc_sangchul_mirror:/description_if_moral/black": "ddac3abb792088349ddd61f51b68893ee476961d2e70a7083a4573e2c80c9ae8",
+          "events:arc_sangchul_mirror:/description_if_moral/white": "ab3072025757264183dc5ad902eca3121f0ef506db4d72e5cc8819b2ee77d832",
+          "events:hyunsu_reunion_later:/choices/1/result_text": "35d0b2ff4fff4de4d1fa3e54d1a963926cfe38c18890ae85f2928c1c62fdb4f6",
+          "events:hyunsu_reunion_memory:/description": "25d5ac9a3c63a15fe6b9a72e54446ebdfba23324b0d19874017ce440d1d83c48",
+          "events:hyunsu_reunion_memory:/description_if_known/hyunsu_comforted": "37f12120053bffaf08745575b43827334a3738ae753fa991475ec08fe629db73",
+          "events:story_two_year:/choices/0/result_text": "0a711e586c2efd67510d6da5f617fa0f5dd9f1f7806c267aba3827e34daa5dfc",
+          "events:story_two_year:/choices/0/text": "9c0d3c0ab910c2bfe296fa47fbd85e969e1380643754a96d7caa38ba5ec07dd2",
+          "events:story_two_year:/choices/1/result_text": "a2266593af578e199efea18bba80df41be13163af30343f163c1c7c034468090",
+          "events:story_two_year:/choices/1/text": "8750d54d7d263d4ea935a3268b57fa6d57010a02ce172a4772d9d03204ef2cc3",
+          "events:story_two_year:/description": "1cf27f96c95f9484d298e58b22ae87cfe0b38d52bf94342ca7ec07026527838a",
+          "events:story_two_year:/description_if_known/arc_father_03_seen": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "events:story_two_year:/title": "700adf60ade2136f274ab92a96d662645ff1dcab40dcfb9e2e2c3401eee63a49"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_34_money_attracts_money:/description": {
+            "source_sha256": "0590db1267ad77ab7dc399d66ca07e381e7754b32ca8767fe02ce5b77e0fb1f0",
+            "target_sha256": "98457915adcbfe1eb8b6eddad8e01cc40b24075b89138c98a91ae97cf4b25ca7"
+          },
+          "events:arc_34_two_years_in:/choices/1/result_text": {
+            "source_sha256": "520a2d4364ad456b25ea8dd9576a2223037abf69ebdfdf8e9f30df7c4480f6ab",
+            "target_sha256": "cad7dbf8bf4f6c0f101fe82119994d8def7173d13234e79d0cb002b20991fa30"
+          },
+          "events:arc_34_two_years_in:/choices/1/text": {
+            "source_sha256": "01fd4db63399bb271606c2089fbd2a38ce0b898cabdb77cb75d5034db7343b04",
+            "target_sha256": "488093da6b8971944790fac9dbc7b4e16d5f0804b669115c24800c0bc1eff03b"
+          },
+          "events:arc_daeun_ghost:/choices/0/result_text": {
+            "source_sha256": "14486e977214919bf73a2d8a212534ca37e3072e2410aa5f828d714e67449d95",
+            "target_sha256": "cefb29d4aa6b94b3094cbbd44ea9be12b3b35aadf90d8b1a24b4be229c0a6328"
+          },
+          "events:arc_daeun_regret_draft:/description": {
+            "source_sha256": "9d0181f25e63c68bb596a39d2ffe7b8785f247df60e1cc82095199106f2ff9cb",
+            "target_sha256": "da6a7170727cd8d69590a91ebf7a0ada46d99e66de1666011abf7541acd92607"
+          },
+          "events:arc_father_03_hospital:/description": {
+            "source_sha256": "9fc683351d7b1c09097a3bb294ca0cb0649caf96713efa8c1c6f51ea7bad1523",
+            "target_sha256": "75ea244f888ce0678debae30acde468c1c8e0f1884f058edfe429b08a47bcc30"
+          },
+          "events:arc_sangchul_human:/description": {
+            "source_sha256": "bfbff71a4516a9204f057eb3ef9cb0b08f858bfbca2f92eeaea3c706f282a21a",
+            "target_sha256": "d7646f3d2740c93cc7a0d72fd1341dcebb268fcd0335e5508a4cf498510d2e9f"
+          },
+          "events:arc_sangchul_human:/description_if_known/sangchul_truth_known": {
+            "source_sha256": "730df666d55dab87b1164acbc0a272758903b7e65e2a0f23fa4f0072d0c472fa",
+            "target_sha256": "aa12f926d861496b6318e73c409330f81dc4ee38c85f392c33d43b2884e9e50f"
+          },
+          "events:arc_sangchul_mirror:/choices/1/result_text": {
+            "source_sha256": "76402ccb785324da326bba5f50beaddf36aea1724fbc5ec17fd592e5249f35b9",
+            "target_sha256": "e7bbd1e5a52d3793874ce30c34afd13e2f9bb285fee8151944bfa62f9ba394e5"
+          },
+          "events:arc_sangchul_mirror:/description": {
+            "source_sha256": "12ce982d1efb7c167720fc5be5cad0d0012b963e785e552adcad2fea5e347462",
+            "target_sha256": "a394b9ba1235dd6faa65cc9e06c047dd023a45a34cfd8553ba17654f5758f655"
+          },
+          "events:arc_sangchul_mirror:/description_if_moral/black": {
+            "source_sha256": "4776d6be48d963204852b9c1ef8724ef4d625b019b395d859a4842f1861449b5",
+            "target_sha256": "fd213727b9952efd131f48cffcf78dbe5cd8c7d4ae9f1b55177a13aa1c5de18e"
+          },
+          "events:arc_sangchul_mirror:/description_if_moral/white": {
+            "source_sha256": "fb8641d445e447f247c91f768c706e67f2d08bba1ba36bec6d45446ef152a8b6",
+            "target_sha256": "7e81d519d09d773d0986f368a8b6fa54c32ead5405ba9afc1de3484e291cefdf"
+          },
+          "events:hyunsu_reunion_later:/choices/1/result_text": {
+            "source_sha256": "32957ec00d1f99a199a65e31d79db3c8978a4c01fb2d59da8007cc0c10a8a796",
+            "target_sha256": "30a5083b229edd533c6db28b310695455f3b579c594bf067bcc0d606bf89f394"
+          },
+          "events:hyunsu_reunion_memory:/description": {
+            "source_sha256": "2d0812263a2f138ebb18bfaf3412ba24b569324155c36e3f0deea7cf8750437f",
+            "target_sha256": "fded80faba9c2bd11b92865193dcff5e9cbd5f26ae93e759730237208d1fccd7"
+          },
+          "events:hyunsu_reunion_memory:/description_if_known/hyunsu_comforted": {
+            "source_sha256": "7218ee2eeeea573d61866910091f167bb574e80819598eebe05e5411ace60da9",
+            "target_sha256": "3e83a087ea805f17c5686d99f9e48b75d2d24fcf955b235e2d3e61daa36127d0"
+          },
+          "events:story_two_year:/choices/0/result_text": {
+            "source_sha256": "6857f4c07ab913d5e29bc9b4ce67ad143500785733787467f5d2bcc9dcd9ce0d",
+            "target_sha256": "050b4ea336159ef4d80c10479f798ea682d4274702a005f4257129785b3f8611"
+          },
+          "events:story_two_year:/choices/0/text": {
+            "source_sha256": "40bba577c4e4e807037ff85e7276a61b77567f7488a5f8241c1145e6fb26d5f5",
+            "target_sha256": "5f228938d105440505b925eb7e4878780c729ce794eb35eb8b6867175eecad45"
+          },
+          "events:story_two_year:/choices/1/result_text": {
+            "source_sha256": "b14485405dc4ea6ffe79e9a2b448be7deeb977372a427e186d5189b886db764d",
+            "target_sha256": "d158563b3a5c912db79975debeb7e197929e84825484c402d5ca681b10136180"
+          },
+          "events:story_two_year:/choices/1/text": {
+            "source_sha256": "e8d63e1f894ac101bdfb0359c97c7f144cad45e4500fd466c41f6b0ff71db224",
+            "target_sha256": "94cdb4dedcc0a7892ac7ce605c0385cfaae465068128f19405220a9949ec18e2"
+          },
+          "events:story_two_year:/description": {
+            "source_sha256": "0dc401ae8623f79381b933b6a30fdefe428aa8cd7c462f8d7f02d38387e9dc36",
+            "target_sha256": "e2e17a40b50672a78c0362c4c18e5b2a490fe34ebc2cb21c9bed94d88f9501f0"
+          },
+          "events:story_two_year:/title": {
+            "source_sha256": "5f50536ef3c7d8f62a7537a420b93f09abcf57f8e0f2738bf92f6e0da9fd55d4",
+            "target_sha256": "ce94127e8e74e8e0e572cd5564239d33bfc568d1f45e20de309cd6dee3953edf"
+          }
+        },
+        "zh-CN": {
+          "events:arc_34_money_attracts_money:/description": {
+            "source_sha256": "0590db1267ad77ab7dc399d66ca07e381e7754b32ca8767fe02ce5b77e0fb1f0",
+            "target_sha256": "129f838424414734efb5014bd11496050a1739d5bd65096a0c72852db598ecc1"
+          },
+          "events:arc_34_two_years_in:/choices/1/result_text": {
+            "source_sha256": "520a2d4364ad456b25ea8dd9576a2223037abf69ebdfdf8e9f30df7c4480f6ab",
+            "target_sha256": "7c07d3848c91b07cba62e1c5cd88ad39484773461cccdc5ebfa3979c02cb0809"
+          },
+          "events:arc_34_two_years_in:/choices/1/text": {
+            "source_sha256": "01fd4db63399bb271606c2089fbd2a38ce0b898cabdb77cb75d5034db7343b04",
+            "target_sha256": "ea11a762c0d83def05e67d2e455c7fe7c520517796166a08105afe0f120d6529"
+          },
+          "events:arc_daeun_ghost:/choices/0/result_text": {
+            "source_sha256": "14486e977214919bf73a2d8a212534ca37e3072e2410aa5f828d714e67449d95",
+            "target_sha256": "b7bb646c95181c9ae787d6f74b184b4f3f9a2b251b00984adec485b79c0ad54b"
+          },
+          "events:arc_daeun_regret_draft:/description": {
+            "source_sha256": "9d0181f25e63c68bb596a39d2ffe7b8785f247df60e1cc82095199106f2ff9cb",
+            "target_sha256": "4fffacfbe9b8a6afc64a6c6658b585f5566cd714fe45342f9b10190f69bd2633"
+          },
+          "events:arc_father_03_hospital:/description": {
+            "source_sha256": "9fc683351d7b1c09097a3bb294ca0cb0649caf96713efa8c1c6f51ea7bad1523",
+            "target_sha256": "32efa118d3770806ccc949f361b6ecfc9bf733fe54224aaf5294ae625d978acd"
+          },
+          "events:arc_sangchul_human:/description": {
+            "source_sha256": "bfbff71a4516a9204f057eb3ef9cb0b08f858bfbca2f92eeaea3c706f282a21a",
+            "target_sha256": "bf49b7b120c8e4562f2fd914fdd42f124ceaafc6ae3c0b34eb23db632e798583"
+          },
+          "events:arc_sangchul_human:/description_if_known/sangchul_truth_known": {
+            "source_sha256": "730df666d55dab87b1164acbc0a272758903b7e65e2a0f23fa4f0072d0c472fa",
+            "target_sha256": "f18903a8de6a43e2166c9eadb37923b9db7355045d56089c399214f13563e423"
+          },
+          "events:arc_sangchul_mirror:/choices/1/result_text": {
+            "source_sha256": "76402ccb785324da326bba5f50beaddf36aea1724fbc5ec17fd592e5249f35b9",
+            "target_sha256": "40cf7bcb7ba3b6f0ed9993f047f8ecfd80269fe6c8643206aef30c637bfc1b88"
+          },
+          "events:arc_sangchul_mirror:/description": {
+            "source_sha256": "12ce982d1efb7c167720fc5be5cad0d0012b963e785e552adcad2fea5e347462",
+            "target_sha256": "624bc46b8ad30046a8eb20257f8143f63db84cf34ef54f02d333d497219ed4c4"
+          },
+          "events:arc_sangchul_mirror:/description_if_moral/black": {
+            "source_sha256": "4776d6be48d963204852b9c1ef8724ef4d625b019b395d859a4842f1861449b5",
+            "target_sha256": "8293ca93be5016e15ad6c11393100d70cd5d4d33572eb7b83bb768b7870ca28c"
+          },
+          "events:arc_sangchul_mirror:/description_if_moral/white": {
+            "source_sha256": "fb8641d445e447f247c91f768c706e67f2d08bba1ba36bec6d45446ef152a8b6",
+            "target_sha256": "c87e7bd5882a7a9661a3ba45deffeec865978707b19c45e3de95bb91fc951d43"
+          },
+          "events:hyunsu_reunion_later:/choices/1/result_text": {
+            "source_sha256": "32957ec00d1f99a199a65e31d79db3c8978a4c01fb2d59da8007cc0c10a8a796",
+            "target_sha256": "6272ed390b82cc54c7772cee11e98a68e82f67f321484ee5b869ab9021c9fe9d"
+          },
+          "events:hyunsu_reunion_memory:/description": {
+            "source_sha256": "2d0812263a2f138ebb18bfaf3412ba24b569324155c36e3f0deea7cf8750437f",
+            "target_sha256": "2bd3b62cba4abaa32bd597764b37c5782635cfae160ed2731120d14a0416dc16"
+          },
+          "events:hyunsu_reunion_memory:/description_if_known/hyunsu_comforted": {
+            "source_sha256": "7218ee2eeeea573d61866910091f167bb574e80819598eebe05e5411ace60da9",
+            "target_sha256": "06794e6f1892e26c1ba7a298099ca3359380f609b6e11713b01b1eb9881f4c53"
+          },
+          "events:story_two_year:/choices/0/result_text": {
+            "source_sha256": "6857f4c07ab913d5e29bc9b4ce67ad143500785733787467f5d2bcc9dcd9ce0d",
+            "target_sha256": "a3c4eccf807f02be634f757f0440b848e92d64f57ca7ad4e4b163c92cf29efcc"
+          },
+          "events:story_two_year:/choices/0/text": {
+            "source_sha256": "40bba577c4e4e807037ff85e7276a61b77567f7488a5f8241c1145e6fb26d5f5",
+            "target_sha256": "2483f61586338c8d570c11d97783a5d1c03723fd856b32050d860fadd5f3d008"
+          },
+          "events:story_two_year:/choices/1/result_text": {
+            "source_sha256": "b14485405dc4ea6ffe79e9a2b448be7deeb977372a427e186d5189b886db764d",
+            "target_sha256": "00a7356d7d2b2e10e76e76ab86c3541451780e33c5cbf790d6ac8a8d4a503cb1"
+          },
+          "events:story_two_year:/choices/1/text": {
+            "source_sha256": "e8d63e1f894ac101bdfb0359c97c7f144cad45e4500fd466c41f6b0ff71db224",
+            "target_sha256": "3658b27972ed2e2b950c52093408e6b00b10f588b75b84381e05b3f4c64d6a41"
+          },
+          "events:story_two_year:/description": {
+            "source_sha256": "0dc401ae8623f79381b933b6a30fdefe428aa8cd7c462f8d7f02d38387e9dc36",
+            "target_sha256": "4a9a2105666daf5d9d0c4676ed92b28e2b8b6eeb4149a947a7049dd091c47834"
+          },
+          "events:story_two_year:/title": {
+            "source_sha256": "5f50536ef3c7d8f62a7537a420b93f09abcf57f8e0f2738bf92f6e0da9fd55d4",
+            "target_sha256": "4a3d9391f27c9ea8678c75c3064042d06bc5591eeff4cbfad4a45e44ff7bdcc9"
+          }
+        },
+        "zh-TW": {
+          "events:arc_34_money_attracts_money:/description": {
+            "source_sha256": "0590db1267ad77ab7dc399d66ca07e381e7754b32ca8767fe02ce5b77e0fb1f0",
+            "target_sha256": "052ceb97eda7af674e37044f1fcf4df739d3bde9eb1ba5dd431edea953ae42e8"
+          },
+          "events:arc_34_two_years_in:/choices/1/result_text": {
+            "source_sha256": "520a2d4364ad456b25ea8dd9576a2223037abf69ebdfdf8e9f30df7c4480f6ab",
+            "target_sha256": "8f9f2d946a309f66fdd99f15a0a12402b6c412ca8097d797d8818d5a1d505bca"
+          },
+          "events:arc_34_two_years_in:/choices/1/text": {
+            "source_sha256": "01fd4db63399bb271606c2089fbd2a38ce0b898cabdb77cb75d5034db7343b04",
+            "target_sha256": "7bc51f12b4d01fc2750849aa1c05eacbb3d01926db6fe5f43b8e9f24c6b2ff60"
+          },
+          "events:arc_daeun_ghost:/choices/0/result_text": {
+            "source_sha256": "14486e977214919bf73a2d8a212534ca37e3072e2410aa5f828d714e67449d95",
+            "target_sha256": "6de7ef28d8ba09a9e3153d984faab4d22f6ab58a944610ff0543eb2efae0b481"
+          },
+          "events:arc_daeun_regret_draft:/description": {
+            "source_sha256": "9d0181f25e63c68bb596a39d2ffe7b8785f247df60e1cc82095199106f2ff9cb",
+            "target_sha256": "39d810478c21119661489a02f1ad526e95553cbb4fd599f2cc432b0548e37df9"
+          },
+          "events:arc_father_03_hospital:/description": {
+            "source_sha256": "9fc683351d7b1c09097a3bb294ca0cb0649caf96713efa8c1c6f51ea7bad1523",
+            "target_sha256": "9d563671d39f2ea8de891353a4d92997a0dfaaf4e9adf76eef2a64e3476eb69a"
+          },
+          "events:arc_sangchul_human:/description": {
+            "source_sha256": "bfbff71a4516a9204f057eb3ef9cb0b08f858bfbca2f92eeaea3c706f282a21a",
+            "target_sha256": "90f8fb246b453f279be0a06ef80b94be2a37e8f0929a138812252ad904b8f567"
+          },
+          "events:arc_sangchul_human:/description_if_known/sangchul_truth_known": {
+            "source_sha256": "730df666d55dab87b1164acbc0a272758903b7e65e2a0f23fa4f0072d0c472fa",
+            "target_sha256": "56b5a3c9e6b56ae3589e80527f08fefab2f2db133bf8da504d960bab06db0d18"
+          },
+          "events:arc_sangchul_mirror:/choices/1/result_text": {
+            "source_sha256": "76402ccb785324da326bba5f50beaddf36aea1724fbc5ec17fd592e5249f35b9",
+            "target_sha256": "2806fbf296f4709fb9590e9a233b740109beda64ef138904d71313554b1356f9"
+          },
+          "events:arc_sangchul_mirror:/description": {
+            "source_sha256": "12ce982d1efb7c167720fc5be5cad0d0012b963e785e552adcad2fea5e347462",
+            "target_sha256": "be049f3c95d3be977399114fc60a6ebe25d2a6cd3c33a63a812c2b2803737dc5"
+          },
+          "events:arc_sangchul_mirror:/description_if_moral/black": {
+            "source_sha256": "4776d6be48d963204852b9c1ef8724ef4d625b019b395d859a4842f1861449b5",
+            "target_sha256": "ddac3abb792088349ddd61f51b68893ee476961d2e70a7083a4573e2c80c9ae8"
+          },
+          "events:arc_sangchul_mirror:/description_if_moral/white": {
+            "source_sha256": "fb8641d445e447f247c91f768c706e67f2d08bba1ba36bec6d45446ef152a8b6",
+            "target_sha256": "ab3072025757264183dc5ad902eca3121f0ef506db4d72e5cc8819b2ee77d832"
+          },
+          "events:hyunsu_reunion_later:/choices/1/result_text": {
+            "source_sha256": "32957ec00d1f99a199a65e31d79db3c8978a4c01fb2d59da8007cc0c10a8a796",
+            "target_sha256": "35d0b2ff4fff4de4d1fa3e54d1a963926cfe38c18890ae85f2928c1c62fdb4f6"
+          },
+          "events:hyunsu_reunion_memory:/description": {
+            "source_sha256": "2d0812263a2f138ebb18bfaf3412ba24b569324155c36e3f0deea7cf8750437f",
+            "target_sha256": "25d5ac9a3c63a15fe6b9a72e54446ebdfba23324b0d19874017ce440d1d83c48"
+          },
+          "events:hyunsu_reunion_memory:/description_if_known/hyunsu_comforted": {
+            "source_sha256": "7218ee2eeeea573d61866910091f167bb574e80819598eebe05e5411ace60da9",
+            "target_sha256": "37f12120053bffaf08745575b43827334a3738ae753fa991475ec08fe629db73"
+          },
+          "events:story_two_year:/choices/0/result_text": {
+            "source_sha256": "6857f4c07ab913d5e29bc9b4ce67ad143500785733787467f5d2bcc9dcd9ce0d",
+            "target_sha256": "0a711e586c2efd67510d6da5f617fa0f5dd9f1f7806c267aba3827e34daa5dfc"
+          },
+          "events:story_two_year:/choices/0/text": {
+            "source_sha256": "40bba577c4e4e807037ff85e7276a61b77567f7488a5f8241c1145e6fb26d5f5",
+            "target_sha256": "9c0d3c0ab910c2bfe296fa47fbd85e969e1380643754a96d7caa38ba5ec07dd2"
+          },
+          "events:story_two_year:/choices/1/result_text": {
+            "source_sha256": "b14485405dc4ea6ffe79e9a2b448be7deeb977372a427e186d5189b886db764d",
+            "target_sha256": "a2266593af578e199efea18bba80df41be13163af30343f163c1c7c034468090"
+          },
+          "events:story_two_year:/choices/1/text": {
+            "source_sha256": "e8d63e1f894ac101bdfb0359c97c7f144cad45e4500fd466c41f6b0ff71db224",
+            "target_sha256": "8750d54d7d263d4ea935a3268b57fa6d57010a02ce172a4772d9d03204ef2cc3"
+          },
+          "events:story_two_year:/description": {
+            "source_sha256": "0dc401ae8623f79381b933b6a30fdefe428aa8cd7c462f8d7f02d38387e9dc36",
+            "target_sha256": "1cf27f96c95f9484d298e58b22ae87cfe0b38d52bf94342ca7ec07026527838a"
+          },
+          "events:story_two_year:/title": {
+            "source_sha256": "5f50536ef3c7d8f62a7537a420b93f09abcf57f8e0f2738bf92f6e0da9fd55d4",
+            "target_sha256": "700adf60ade2136f274ab92a96d662645ff1dcab40dcfb9e2e2c3401eee63a49"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -36586,8 +36998,8 @@
         "target_sha256": "95bb0c390cd6cea95f43d29bab96940e655fc72dbc0c39783471274eaf206ccd"
       },
       "events:arc_34_money_attracts_money:/description": {
-        "source_sha256": "0590db1267ad77ab7dc399d66ca07e381e7754b32ca8767fe02ce5b77e0fb1f0",
-        "target_sha256": "98457915adcbfe1eb8b6eddad8e01cc40b24075b89138c98a91ae97cf4b25ca7"
+        "source_sha256": "5bdfeba2f87b30437e9e794a24894961d150540781f0df222e35dd575dc6db3f",
+        "target_sha256": "8b7219a87c0ce9f4538d1aed09c154c8c113746a5111576949fff7c1c23adca4"
       },
       "events:arc_34_money_attracts_money:/description_memory_if_known/m3_ledger_reasons_named": {
         "source_sha256": "3dfc8bd951cc5c3a43011322483f14640b7ab6d41996ff54313199f5c4460c9d",
@@ -36646,12 +37058,12 @@
         "target_sha256": "e5d323eec3e717f5057229b64d1ea7d8609135a7a77f1588ba745a15ac116e1c"
       },
       "events:arc_34_two_years_in:/choices/1/result_text": {
-        "source_sha256": "520a2d4364ad456b25ea8dd9576a2223037abf69ebdfdf8e9f30df7c4480f6ab",
-        "target_sha256": "cad7dbf8bf4f6c0f101fe82119994d8def7173d13234e79d0cb002b20991fa30"
+        "source_sha256": "84f90d6d9076d2729905821e059d3a39caf17cc5171b76d64feddb6c06549bd2",
+        "target_sha256": "3ec43de9b69cd9a331357f880b8791780244179977f02b92a3e67ae429d89e28"
       },
       "events:arc_34_two_years_in:/choices/1/text": {
-        "source_sha256": "01fd4db63399bb271606c2089fbd2a38ce0b898cabdb77cb75d5034db7343b04",
-        "target_sha256": "488093da6b8971944790fac9dbc7b4e16d5f0804b669115c24800c0bc1eff03b"
+        "source_sha256": "66a58fc8c1344960a1e36b8e1169e6eda7735f5dca5a9f2c2191c4931dd7eb88",
+        "target_sha256": "6599ef796b1e63ef2a8cb9c9c4a9fced9bdefeb01209c60217505b4bc4291f8c"
       },
       "events:arc_34_two_years_in:/description": {
         "source_sha256": "05fa8be0c8e200867b51c3a33cea4c3b2c3694e65544e91142e5ba2b92304e0b",
@@ -36894,12 +37306,12 @@
         "target_sha256": "571ea46c8f0c9fb5906a1c05946f1dbcc76956fa869efadd42d57746d423ad50"
       },
       "events:arc_sangchul_human:/description": {
-        "source_sha256": "bfbff71a4516a9204f057eb3ef9cb0b08f858bfbca2f92eeaea3c706f282a21a",
-        "target_sha256": "d7646f3d2740c93cc7a0d72fd1341dcebb268fcd0335e5508a4cf498510d2e9f"
+        "source_sha256": "7da202b6c0ab0f97f8c7cb23d1a488b306876d2a0eb4f597635f027fa5d33ea4",
+        "target_sha256": "c197bf6eeba0abd95cfa08ce01a86b389d3b67e6d2a9b802cd9f7cc1f2359119"
       },
       "events:arc_sangchul_human:/description_if_known/sangchul_truth_known": {
-        "source_sha256": "730df666d55dab87b1164acbc0a272758903b7e65e2a0f23fa4f0072d0c472fa",
-        "target_sha256": "aa12f926d861496b6318e73c409330f81dc4ee38c85f392c33d43b2884e9e50f"
+        "source_sha256": "9b9c46492d1142666273d2c083f74a1e18723942a6066b1309dfa48941d0b205",
+        "target_sha256": "f87e2d51c4531d8437b0fd374702494e52afa586f4a966852fc32783cb08c27d"
       },
       "events:arc_sangchul_human:/title": {
         "source_sha256": "b0748b80fb3d5fda661a39d55536b4adbc21705ad9f6c31243eb1b87b95b166d",
@@ -37246,8 +37658,8 @@
         "target_sha256": "e83a2713e2032ad9cd52ac2cdfecbb96b68210cb1dfdcf0bec596432e20ffd07"
       },
       "events:arc_father_03_hospital:/description": {
-        "source_sha256": "9fc683351d7b1c09097a3bb294ca0cb0649caf96713efa8c1c6f51ea7bad1523",
-        "target_sha256": "75ea244f888ce0678debae30acde468c1c8e0f1884f058edfe429b08a47bcc30"
+        "source_sha256": "b476447973ae76f46306d89288eecfd182645ea33b364d2892492800d254f3f7",
+        "target_sha256": "f60e478675c90c6a456bd95ac1cc5c4ddcc3ab345559880b2cc0905f842b5921"
       },
       "events:arc_father_03_hospital:/description_low_mental": {
         "source_sha256": "c2f9b7e6aebd571052cafd4cf837f7729f20af449d6a448fb24c0456811350f5",
@@ -37354,8 +37766,8 @@
         "target_sha256": "bc22b1a562a72f301952d1bc05b44a5ca33105162884f07151123f2d24e562f8"
       },
       "events:arc_sangchul_mirror:/choices/1/result_text": {
-        "source_sha256": "76402ccb785324da326bba5f50beaddf36aea1724fbc5ec17fd592e5249f35b9",
-        "target_sha256": "e7bbd1e5a52d3793874ce30c34afd13e2f9bb285fee8151944bfa62f9ba394e5"
+        "source_sha256": "f862d1d0a67f08987cabff09594217ed0db19154a9c7383b6969bf1e1701a113",
+        "target_sha256": "f932ddccee405fefc2602f7d43f8779272c2d5022de82652410908034bb11974"
       },
       "events:arc_sangchul_mirror:/choices/1/text": {
         "source_sha256": "ac25ffaf35170e3bac94d90918a4a4da656037566ea721f070caf6bdc3655d68",
@@ -37386,16 +37798,16 @@
         "target_sha256": "2a412a8abd9b3be93ab47be3159b1f9f03d59ce97dc21495131014c2f6c26706"
       },
       "events:arc_sangchul_mirror:/description": {
-        "source_sha256": "12ce982d1efb7c167720fc5be5cad0d0012b963e785e552adcad2fea5e347462",
-        "target_sha256": "a394b9ba1235dd6faa65cc9e06c047dd023a45a34cfd8553ba17654f5758f655"
+        "source_sha256": "068502ee0a4d83c2ba198cfa3d543c5018f8579ddad8b50f53039bb56be6b83a",
+        "target_sha256": "0c5c08360a922e86b7cc1065a6cb8e6573ba62aaf143fc6e899b113a81bbe9a9"
       },
       "events:arc_sangchul_mirror:/description_if_moral/black": {
-        "source_sha256": "4776d6be48d963204852b9c1ef8724ef4d625b019b395d859a4842f1861449b5",
-        "target_sha256": "fd213727b9952efd131f48cffcf78dbe5cd8c7d4ae9f1b55177a13aa1c5de18e"
+        "source_sha256": "bc9eac234cdb21e7bf6d146aea03d8cf54c70126ea29e833d64e5825679a2fa1",
+        "target_sha256": "ee8c469e17824adee629e0f751202b4d7ef0a8c16d9ac6da9d82b8187cb24395"
       },
       "events:arc_sangchul_mirror:/description_if_moral/white": {
-        "source_sha256": "fb8641d445e447f247c91f768c706e67f2d08bba1ba36bec6d45446ef152a8b6",
-        "target_sha256": "7e81d519d09d773d0986f368a8b6fa54c32ead5405ba9afc1de3484e291cefdf"
+        "source_sha256": "c09d7df3ec7ae80d3e8fbf84b4efea52e6e9aefe655778889a8149cb3daef3f0",
+        "target_sha256": "cd0765f1ec4eb22f152b6428b61f8c6102467eca2c4c8c20b48e1cc0c08c834f"
       },
       "events:arc_sangchul_mirror:/title": {
         "source_sha256": "69ea4681ae899c6dada1b615e58f204246a42219946fcadbf2ea6ee5d3e2fad9",
@@ -37602,8 +38014,8 @@
         "target_sha256": "93fb71ced6b8a89ae1c89bd3922a61d568c55a85e908119492d2818f051e8e96"
       },
       "events:hyunsu_reunion_later:/choices/1/result_text": {
-        "source_sha256": "32957ec00d1f99a199a65e31d79db3c8978a4c01fb2d59da8007cc0c10a8a796",
-        "target_sha256": "30a5083b229edd533c6db28b310695455f3b579c594bf067bcc0d606bf89f394"
+        "source_sha256": "c821d63d389e25f5814a816b2ff3fc31cee8d5ec6c793d7122b8545e97d70068",
+        "target_sha256": "115f04b33db624bef906692bf976cf0ae6858622e36cc8531491dff0decc08d1"
       },
       "events:hyunsu_reunion_later:/choices/1/text": {
         "source_sha256": "c19ea96f541c60fe37f3e00b90613e4521df198128f1dccf1b91ccbf9f6567fa",
@@ -37650,12 +38062,12 @@
         "target_sha256": "2219037e7a283e09807540c9ff310e66ad9ed0c5cf928457e8ff5a5f647656ce"
       },
       "events:hyunsu_reunion_memory:/description": {
-        "source_sha256": "2d0812263a2f138ebb18bfaf3412ba24b569324155c36e3f0deea7cf8750437f",
-        "target_sha256": "fded80faba9c2bd11b92865193dcff5e9cbd5f26ae93e759730237208d1fccd7"
+        "source_sha256": "e3595404b1674d6af6eb0170e85db19bc9ffd626cc8b3672b565117ad791cc28",
+        "target_sha256": "b588043217753e47592aa1dfa8a9b626243f5234138d6c4c1d3fe7cabbbc8651"
       },
       "events:hyunsu_reunion_memory:/description_if_known/hyunsu_comforted": {
-        "source_sha256": "7218ee2eeeea573d61866910091f167bb574e80819598eebe05e5411ace60da9",
-        "target_sha256": "3e83a087ea805f17c5686d99f9e48b75d2d24fcf955b235e2d3e61daa36127d0"
+        "source_sha256": "c3cb21e3d8b6865c9c6a8fb887b8d43e31a5b3fa6c28c5c12b7009e71901aca1",
+        "target_sha256": "42cdcb6208ff19e1ffe8d6ae7143c276dad6062314515c9ac363b6fa2e333655"
       },
       "events:hyunsu_reunion_memory:/title": {
         "source_sha256": "1ce7b24cf8276f61a89426cb4e01c26212a97325fd7f4e896ae5ace349184ad8",
@@ -43458,8 +43870,8 @@
         "target_sha256": "2bd59ffa671b8441d9f667875401841a70a7222868af99e8bac969e11f384c31"
       },
       "events:arc_daeun_ghost:/choices/0/result_text": {
-        "source_sha256": "14486e977214919bf73a2d8a212534ca37e3072e2410aa5f828d714e67449d95",
-        "target_sha256": "cefb29d4aa6b94b3094cbbd44ea9be12b3b35aadf90d8b1a24b4be229c0a6328"
+        "source_sha256": "e0c3e329688822aba11959de4f33d9dfa451df09e3993818f7988505ecf6a069",
+        "target_sha256": "7626eb80f029f73e9e71abd80200ad1429ed81518b13ce7346f148fc910d08f4"
       },
       "events:arc_daeun_ghost:/choices/0/text": {
         "source_sha256": "ae4286938c8074d80fc4cf8fbf7c7ce097780823e49e8b0250e2245b48cd359f",
@@ -43618,8 +44030,8 @@
         "target_sha256": "bff6bbd874f7dc1fea3001aed1abe1b77beb5e57d5f256d17a948ec8f3109d8b"
       },
       "events:arc_daeun_regret_draft:/description": {
-        "source_sha256": "9d0181f25e63c68bb596a39d2ffe7b8785f247df60e1cc82095199106f2ff9cb",
-        "target_sha256": "da6a7170727cd8d69590a91ebf7a0ada46d99e66de1666011abf7541acd92607"
+        "source_sha256": "98db7c6ab9bd337f14c4bfc02b21a0e13898cbb630624b3f05bed6292b72d5c5",
+        "target_sha256": "734c47c4c13488bb94e6d70bede23b5d9e8cf30a7fd0d3257d2c22702b096c5b"
       },
       "events:arc_daeun_regret_draft:/title": {
         "source_sha256": "d8aee913708331dcb6cb714588ffbcbf1d5f1acf7859d48c098f3d4e55ae5920",
@@ -53922,28 +54334,32 @@
         "target_sha256": "d012176da59591ce0b57f3cb2f800bf3cb7236fb4d85677d5098d1b7299f2fb7"
       },
       "events:story_two_year:/choices/0/result_text": {
-        "source_sha256": "6857f4c07ab913d5e29bc9b4ce67ad143500785733787467f5d2bcc9dcd9ce0d",
-        "target_sha256": "050b4ea336159ef4d80c10479f798ea682d4274702a005f4257129785b3f8611"
+        "source_sha256": "cee1551afe90dd454e2d6e540a668cdfe231df29467d819c79717685135d6502",
+        "target_sha256": "0ba82e148b87376c43b5d16ab2c1ebd3ab8fb7b233937e03dfc3d8bf0241e900"
       },
       "events:story_two_year:/choices/0/text": {
-        "source_sha256": "40bba577c4e4e807037ff85e7276a61b77567f7488a5f8241c1145e6fb26d5f5",
-        "target_sha256": "5f228938d105440505b925eb7e4878780c729ce794eb35eb8b6867175eecad45"
+        "source_sha256": "30e5d7eb26c5fe9480540affa7f1000cf5b2ee6d5ef781b85affe972c6eb9c5f",
+        "target_sha256": "0af203e95957abf630956bb94ec5f49c5bd23c447a15b76dac90b28d82f16d26"
       },
       "events:story_two_year:/choices/1/result_text": {
-        "source_sha256": "b14485405dc4ea6ffe79e9a2b448be7deeb977372a427e186d5189b886db764d",
-        "target_sha256": "d158563b3a5c912db79975debeb7e197929e84825484c402d5ca681b10136180"
+        "source_sha256": "3f19ee23589bcd140f880edb4d0575dc698735c865da09fe33ea252362fa06d9",
+        "target_sha256": "fcefa606d95872f556416accb97025e413da70b73d31a88cb5311f05326e0ea8"
       },
       "events:story_two_year:/choices/1/text": {
-        "source_sha256": "e8d63e1f894ac101bdfb0359c97c7f144cad45e4500fd466c41f6b0ff71db224",
-        "target_sha256": "94cdb4dedcc0a7892ac7ce605c0385cfaae465068128f19405220a9949ec18e2"
+        "source_sha256": "f6c349e289d86e76e8098e29286e0b4ce4506534bd1a8374d9ad1be271e124e6",
+        "target_sha256": "fde527fd3eb6ec7c0703358f8bc2b31e581b572f0ea9da1253261dd59752aa7c"
+      },
+      "events:story_two_year:/description_if_known/arc_father_03_seen": {
+        "source_sha256": "938fd41b277523ecccb174b250912bcbb910b73150a52a21884f641298c5331e",
+        "target_sha256": "88cc2b6e8ac8631e65ff6f6257cb8175b40c7ecc19b9c07ab8c7b2fce5f7167a"
       },
       "events:story_two_year:/description": {
-        "source_sha256": "0dc401ae8623f79381b933b6a30fdefe428aa8cd7c462f8d7f02d38387e9dc36",
-        "target_sha256": "e2e17a40b50672a78c0362c4c18e5b2a490fe34ebc2cb21c9bed94d88f9501f0"
+        "source_sha256": "fcaa40b137709ba564e097a96911fe5c96f480f7093730cf9f1b35f30fa1f01b",
+        "target_sha256": "d8beeadd6e26b1dd66fd897d39612ed20fcb022754c5b9571414182ff8c3b1d8"
       },
       "events:story_two_year:/title": {
-        "source_sha256": "5f50536ef3c7d8f62a7537a420b93f09abcf57f8e0f2738bf92f6e0da9fd55d4",
-        "target_sha256": "ce94127e8e74e8e0e572cd5564239d33bfc568d1f45e20de309cd6dee3953edf"
+        "source_sha256": "f7d7bd682fa730867bcc6c0acb8347e939f1dd94693fa1f89ecda5765d931064",
+        "target_sha256": "c0ef1aec9591cecba4f5b4474df0c7fb95ff3320f1b1dfb1171204f9b298824f"
       },
       "events:addiction_clean_hands_echo:/choices/0/result_text": {
         "source_sha256": "01092b8aabbe0f7b49edde1e0e748b42f89fb5485bdfe52c1b1672b3933eae6a",
@@ -89480,8 +89896,8 @@
         "target_sha256": "11b5fd616a0cfd12404d883fc5a66b32df29428c526d0dc53ed5617a7f9e75a4"
       },
       "events:arc_34_money_attracts_money:/description": {
-        "source_sha256": "0590db1267ad77ab7dc399d66ca07e381e7754b32ca8767fe02ce5b77e0fb1f0",
-        "target_sha256": "129f838424414734efb5014bd11496050a1739d5bd65096a0c72852db598ecc1"
+        "source_sha256": "5bdfeba2f87b30437e9e794a24894961d150540781f0df222e35dd575dc6db3f",
+        "target_sha256": "11c964fc0b3c5c0f8dbf60d4c4f59ac3829e94abb929643f66f7d340dda2bba9"
       },
       "events:arc_34_money_attracts_money:/description_memory_if_known/m3_ledger_reasons_named": {
         "source_sha256": "3dfc8bd951cc5c3a43011322483f14640b7ab6d41996ff54313199f5c4460c9d",
@@ -89540,12 +89956,12 @@
         "target_sha256": "a3e1fdcc68b0fe8bbde1b608963e040b934bfc39691d9ae854ba59db795ed1ed"
       },
       "events:arc_34_two_years_in:/choices/1/result_text": {
-        "source_sha256": "520a2d4364ad456b25ea8dd9576a2223037abf69ebdfdf8e9f30df7c4480f6ab",
-        "target_sha256": "7c07d3848c91b07cba62e1c5cd88ad39484773461cccdc5ebfa3979c02cb0809"
+        "source_sha256": "84f90d6d9076d2729905821e059d3a39caf17cc5171b76d64feddb6c06549bd2",
+        "target_sha256": "15d834365b3a8a43ad913f33212391cf519b766a9cf3783afb6179c122fcda74"
       },
       "events:arc_34_two_years_in:/choices/1/text": {
-        "source_sha256": "01fd4db63399bb271606c2089fbd2a38ce0b898cabdb77cb75d5034db7343b04",
-        "target_sha256": "ea11a762c0d83def05e67d2e455c7fe7c520517796166a08105afe0f120d6529"
+        "source_sha256": "66a58fc8c1344960a1e36b8e1169e6eda7735f5dca5a9f2c2191c4931dd7eb88",
+        "target_sha256": "7d072be78e4b2cfe05dc243871eebbac909f297059053b124008973f13f95162"
       },
       "events:arc_34_two_years_in:/description": {
         "source_sha256": "05fa8be0c8e200867b51c3a33cea4c3b2c3694e65544e91142e5ba2b92304e0b",
@@ -89788,12 +90204,12 @@
         "target_sha256": "9fb9972b5fe462a6e30c3bef4be2656d476eeaaa1654117b50b349daf973202e"
       },
       "events:arc_sangchul_human:/description": {
-        "source_sha256": "bfbff71a4516a9204f057eb3ef9cb0b08f858bfbca2f92eeaea3c706f282a21a",
-        "target_sha256": "bf49b7b120c8e4562f2fd914fdd42f124ceaafc6ae3c0b34eb23db632e798583"
+        "source_sha256": "7da202b6c0ab0f97f8c7cb23d1a488b306876d2a0eb4f597635f027fa5d33ea4",
+        "target_sha256": "72ae251862eb0bab0708c2d7d7ba8946797f8fb816087b99afe1332b715ce822"
       },
       "events:arc_sangchul_human:/description_if_known/sangchul_truth_known": {
-        "source_sha256": "730df666d55dab87b1164acbc0a272758903b7e65e2a0f23fa4f0072d0c472fa",
-        "target_sha256": "f18903a8de6a43e2166c9eadb37923b9db7355045d56089c399214f13563e423"
+        "source_sha256": "9b9c46492d1142666273d2c083f74a1e18723942a6066b1309dfa48941d0b205",
+        "target_sha256": "8ddd09cd25fbc95e28ba5b0c39c791132052a3ae1ee166c0158a0c60aa92defa"
       },
       "events:arc_sangchul_human:/title": {
         "source_sha256": "b0748b80fb3d5fda661a39d55536b4adbc21705ad9f6c31243eb1b87b95b166d",
@@ -90140,8 +90556,8 @@
         "target_sha256": "da4846af9977b17ffc5a38dd9470450518d85b0b25bacfdbd79020510fe8da68"
       },
       "events:arc_father_03_hospital:/description": {
-        "source_sha256": "9fc683351d7b1c09097a3bb294ca0cb0649caf96713efa8c1c6f51ea7bad1523",
-        "target_sha256": "32efa118d3770806ccc949f361b6ecfc9bf733fe54224aaf5294ae625d978acd"
+        "source_sha256": "b476447973ae76f46306d89288eecfd182645ea33b364d2892492800d254f3f7",
+        "target_sha256": "c39b19395af0dc07839a7bc159776e0da2d3ed6fba129387b85cce04a05f36cb"
       },
       "events:arc_father_03_hospital:/description_low_mental": {
         "source_sha256": "c2f9b7e6aebd571052cafd4cf837f7729f20af449d6a448fb24c0456811350f5",
@@ -90248,8 +90664,8 @@
         "target_sha256": "802d1fb2b2c7bde326f18b858410560e28bb43beaada9b4df2240ad1801a9417"
       },
       "events:arc_sangchul_mirror:/choices/1/result_text": {
-        "source_sha256": "76402ccb785324da326bba5f50beaddf36aea1724fbc5ec17fd592e5249f35b9",
-        "target_sha256": "40cf7bcb7ba3b6f0ed9993f047f8ecfd80269fe6c8643206aef30c637bfc1b88"
+        "source_sha256": "f862d1d0a67f08987cabff09594217ed0db19154a9c7383b6969bf1e1701a113",
+        "target_sha256": "7bd07533b5902212ab5589a13ad33dc0796a366fd8d0d28362841ad985ea53cd"
       },
       "events:arc_sangchul_mirror:/choices/1/text": {
         "source_sha256": "ac25ffaf35170e3bac94d90918a4a4da656037566ea721f070caf6bdc3655d68",
@@ -90280,16 +90696,16 @@
         "target_sha256": "6eed7f60dbeb93255034f4cffe2e6f1183348639fa7e0a1a45d99e2a7c8bf4e8"
       },
       "events:arc_sangchul_mirror:/description": {
-        "source_sha256": "12ce982d1efb7c167720fc5be5cad0d0012b963e785e552adcad2fea5e347462",
-        "target_sha256": "624bc46b8ad30046a8eb20257f8143f63db84cf34ef54f02d333d497219ed4c4"
+        "source_sha256": "068502ee0a4d83c2ba198cfa3d543c5018f8579ddad8b50f53039bb56be6b83a",
+        "target_sha256": "cf341ef9373ce738348705748cff03327e2068c2498e24711d96c5fdb60c80fc"
       },
       "events:arc_sangchul_mirror:/description_if_moral/black": {
-        "source_sha256": "4776d6be48d963204852b9c1ef8724ef4d625b019b395d859a4842f1861449b5",
-        "target_sha256": "8293ca93be5016e15ad6c11393100d70cd5d4d33572eb7b83bb768b7870ca28c"
+        "source_sha256": "bc9eac234cdb21e7bf6d146aea03d8cf54c70126ea29e833d64e5825679a2fa1",
+        "target_sha256": "0d2b4cdf50ed0248bbd50ff5025fbf08f75eaf86cb8d268a4be5174521fb464d"
       },
       "events:arc_sangchul_mirror:/description_if_moral/white": {
-        "source_sha256": "fb8641d445e447f247c91f768c706e67f2d08bba1ba36bec6d45446ef152a8b6",
-        "target_sha256": "c87e7bd5882a7a9661a3ba45deffeec865978707b19c45e3de95bb91fc951d43"
+        "source_sha256": "c09d7df3ec7ae80d3e8fbf84b4efea52e6e9aefe655778889a8149cb3daef3f0",
+        "target_sha256": "4923bc6430828ac5f8aa944216e96a756254674cdf3267d62e1db3b72e0d2590"
       },
       "events:arc_sangchul_mirror:/title": {
         "source_sha256": "69ea4681ae899c6dada1b615e58f204246a42219946fcadbf2ea6ee5d3e2fad9",
@@ -90496,8 +90912,8 @@
         "target_sha256": "4ea41d8a69282809f73c496606c1e1a0f63bca22ba905505a6dc4c02dc26e9fa"
       },
       "events:hyunsu_reunion_later:/choices/1/result_text": {
-        "source_sha256": "32957ec00d1f99a199a65e31d79db3c8978a4c01fb2d59da8007cc0c10a8a796",
-        "target_sha256": "6272ed390b82cc54c7772cee11e98a68e82f67f321484ee5b869ab9021c9fe9d"
+        "source_sha256": "c821d63d389e25f5814a816b2ff3fc31cee8d5ec6c793d7122b8545e97d70068",
+        "target_sha256": "a13d188e7ff4d5bff3888821b734760ce3edbeee38db0b5df128e6bd0452c37d"
       },
       "events:hyunsu_reunion_later:/choices/1/text": {
         "source_sha256": "c19ea96f541c60fe37f3e00b90613e4521df198128f1dccf1b91ccbf9f6567fa",
@@ -90544,12 +90960,12 @@
         "target_sha256": "3724b64ebd3eb2f1d0b783ed8f9c4c710df5182cebf03c28dd02f24949953a30"
       },
       "events:hyunsu_reunion_memory:/description": {
-        "source_sha256": "2d0812263a2f138ebb18bfaf3412ba24b569324155c36e3f0deea7cf8750437f",
-        "target_sha256": "2bd3b62cba4abaa32bd597764b37c5782635cfae160ed2731120d14a0416dc16"
+        "source_sha256": "e3595404b1674d6af6eb0170e85db19bc9ffd626cc8b3672b565117ad791cc28",
+        "target_sha256": "3487bc323061bb9b2eae0da03388052a21d4416f395232beb0ec3c00a4d3615a"
       },
       "events:hyunsu_reunion_memory:/description_if_known/hyunsu_comforted": {
-        "source_sha256": "7218ee2eeeea573d61866910091f167bb574e80819598eebe05e5411ace60da9",
-        "target_sha256": "06794e6f1892e26c1ba7a298099ca3359380f609b6e11713b01b1eb9881f4c53"
+        "source_sha256": "c3cb21e3d8b6865c9c6a8fb887b8d43e31a5b3fa6c28c5c12b7009e71901aca1",
+        "target_sha256": "da318c351f95910d410717e3a1ee60624116a66261facede85b2272dcbca2ba8"
       },
       "events:hyunsu_reunion_memory:/title": {
         "source_sha256": "1ce7b24cf8276f61a89426cb4e01c26212a97325fd7f4e896ae5ace349184ad8",
@@ -96352,8 +96768,8 @@
         "target_sha256": "27c30a62ca7b39cf5448b6f5713d7823385b3ca07a18ad0af5a92cdb2f1a2e56"
       },
       "events:arc_daeun_ghost:/choices/0/result_text": {
-        "source_sha256": "14486e977214919bf73a2d8a212534ca37e3072e2410aa5f828d714e67449d95",
-        "target_sha256": "b7bb646c95181c9ae787d6f74b184b4f3f9a2b251b00984adec485b79c0ad54b"
+        "source_sha256": "e0c3e329688822aba11959de4f33d9dfa451df09e3993818f7988505ecf6a069",
+        "target_sha256": "058c0bfca2fa529c0ccc448e5533cc340366ad4bc86770ac4912f5f80997a683"
       },
       "events:arc_daeun_ghost:/choices/0/text": {
         "source_sha256": "ae4286938c8074d80fc4cf8fbf7c7ce097780823e49e8b0250e2245b48cd359f",
@@ -96512,8 +96928,8 @@
         "target_sha256": "697f64e9fac93fccaaf0fc0854e5c0ca39b59d2d4b0b009268b586a71d9ea48d"
       },
       "events:arc_daeun_regret_draft:/description": {
-        "source_sha256": "9d0181f25e63c68bb596a39d2ffe7b8785f247df60e1cc82095199106f2ff9cb",
-        "target_sha256": "4fffacfbe9b8a6afc64a6c6658b585f5566cd714fe45342f9b10190f69bd2633"
+        "source_sha256": "98db7c6ab9bd337f14c4bfc02b21a0e13898cbb630624b3f05bed6292b72d5c5",
+        "target_sha256": "8e9b2c9621f5fb2ca8c37cdbc228982d8d3e18e140b7c98a3475ba191ec55b49"
       },
       "events:arc_daeun_regret_draft:/title": {
         "source_sha256": "d8aee913708331dcb6cb714588ffbcbf1d5f1acf7859d48c098f3d4e55ae5920",
@@ -106816,28 +107232,32 @@
         "target_sha256": "31376433cb5998feedf2ff1d5df30cd407f0b8864ce9b0cbbda2b1472523c59e"
       },
       "events:story_two_year:/choices/0/result_text": {
-        "source_sha256": "6857f4c07ab913d5e29bc9b4ce67ad143500785733787467f5d2bcc9dcd9ce0d",
-        "target_sha256": "a3c4eccf807f02be634f757f0440b848e92d64f57ca7ad4e4b163c92cf29efcc"
+        "source_sha256": "cee1551afe90dd454e2d6e540a668cdfe231df29467d819c79717685135d6502",
+        "target_sha256": "1dc8485b986e752038dc1205b0d75d5641eab8760960a9a2012bf7e6333a2580"
       },
       "events:story_two_year:/choices/0/text": {
-        "source_sha256": "40bba577c4e4e807037ff85e7276a61b77567f7488a5f8241c1145e6fb26d5f5",
-        "target_sha256": "2483f61586338c8d570c11d97783a5d1c03723fd856b32050d860fadd5f3d008"
+        "source_sha256": "30e5d7eb26c5fe9480540affa7f1000cf5b2ee6d5ef781b85affe972c6eb9c5f",
+        "target_sha256": "0dc601a7a0ebd47fb457a1f0344474351a065cb55dbab72351e44eae2c61e5dd"
       },
       "events:story_two_year:/choices/1/result_text": {
-        "source_sha256": "b14485405dc4ea6ffe79e9a2b448be7deeb977372a427e186d5189b886db764d",
-        "target_sha256": "00a7356d7d2b2e10e76e76ab86c3541451780e33c5cbf790d6ac8a8d4a503cb1"
+        "source_sha256": "3f19ee23589bcd140f880edb4d0575dc698735c865da09fe33ea252362fa06d9",
+        "target_sha256": "eb0500c1caa3872ba696f0664661f6f6530bd1a163a5e67e40ec60ea229e3a56"
       },
       "events:story_two_year:/choices/1/text": {
-        "source_sha256": "e8d63e1f894ac101bdfb0359c97c7f144cad45e4500fd466c41f6b0ff71db224",
-        "target_sha256": "3658b27972ed2e2b950c52093408e6b00b10f588b75b84381e05b3f4c64d6a41"
+        "source_sha256": "f6c349e289d86e76e8098e29286e0b4ce4506534bd1a8374d9ad1be271e124e6",
+        "target_sha256": "28b3cc30b8279045504a0d508bcb74f50fa873103ef4597eafc8ebc0c52534c1"
+      },
+      "events:story_two_year:/description_if_known/arc_father_03_seen": {
+        "source_sha256": "938fd41b277523ecccb174b250912bcbb910b73150a52a21884f641298c5331e",
+        "target_sha256": "c0fa612c06a21c939e7f7e44a87dfea5b22389978c08b80cda3604d88e9d818c"
       },
       "events:story_two_year:/description": {
-        "source_sha256": "0dc401ae8623f79381b933b6a30fdefe428aa8cd7c462f8d7f02d38387e9dc36",
-        "target_sha256": "4a9a2105666daf5d9d0c4676ed92b28e2b8b6eeb4149a947a7049dd091c47834"
+        "source_sha256": "fcaa40b137709ba564e097a96911fe5c96f480f7093730cf9f1b35f30fa1f01b",
+        "target_sha256": "96c7d60f3b43fb446dedcc5ec44916ccbb1823d4ae6361eebd75d941658ada06"
       },
       "events:story_two_year:/title": {
-        "source_sha256": "5f50536ef3c7d8f62a7537a420b93f09abcf57f8e0f2738bf92f6e0da9fd55d4",
-        "target_sha256": "4a3d9391f27c9ea8678c75c3064042d06bc5591eeff4cbfad4a45e44ff7bdcc9"
+        "source_sha256": "f7d7bd682fa730867bcc6c0acb8347e939f1dd94693fa1f89ecda5765d931064",
+        "target_sha256": "2daff4e8781602fdf1b0eb09b5ddf39fb0e34b973c6bfcd1c715403e4c08367d"
       },
       "events:addiction_clean_hands_echo:/choices/0/result_text": {
         "source_sha256": "01092b8aabbe0f7b49edde1e0e748b42f89fb5485bdfe52c1b1672b3933eae6a",
@@ -149158,8 +149578,8 @@
         "target_sha256": "992f37e15313a09d2becdb9733860c198e3524c021341f381457e7defd8412e2"
       },
       "events:arc_34_money_attracts_money:/description": {
-        "source_sha256": "0590db1267ad77ab7dc399d66ca07e381e7754b32ca8767fe02ce5b77e0fb1f0",
-        "target_sha256": "052ceb97eda7af674e37044f1fcf4df739d3bde9eb1ba5dd431edea953ae42e8"
+        "source_sha256": "5bdfeba2f87b30437e9e794a24894961d150540781f0df222e35dd575dc6db3f",
+        "target_sha256": "77a0789f9846fdeaabc6833ec9cb29f1576a5d143940a3a0763d237c2d499381"
       },
       "events:arc_34_money_attracts_money:/description_memory_if_known/m3_ledger_reasons_named": {
         "source_sha256": "3dfc8bd951cc5c3a43011322483f14640b7ab6d41996ff54313199f5c4460c9d",
@@ -149218,12 +149638,12 @@
         "target_sha256": "ce0264da9695aae7f9ff64a75f5235af2aef00916addde33d7fc0307ea8a9061"
       },
       "events:arc_34_two_years_in:/choices/1/result_text": {
-        "source_sha256": "520a2d4364ad456b25ea8dd9576a2223037abf69ebdfdf8e9f30df7c4480f6ab",
-        "target_sha256": "8f9f2d946a309f66fdd99f15a0a12402b6c412ca8097d797d8818d5a1d505bca"
+        "source_sha256": "84f90d6d9076d2729905821e059d3a39caf17cc5171b76d64feddb6c06549bd2",
+        "target_sha256": "f00ca159217095f72843e640abae91fbf16a222af91b5e28a2dd91f948d36ee6"
       },
       "events:arc_34_two_years_in:/choices/1/text": {
-        "source_sha256": "01fd4db63399bb271606c2089fbd2a38ce0b898cabdb77cb75d5034db7343b04",
-        "target_sha256": "7bc51f12b4d01fc2750849aa1c05eacbb3d01926db6fe5f43b8e9f24c6b2ff60"
+        "source_sha256": "66a58fc8c1344960a1e36b8e1169e6eda7735f5dca5a9f2c2191c4931dd7eb88",
+        "target_sha256": "1b70816a8a3e9662fb9d292a722e3c37780208ad3dec1b65cd9628e8092158b3"
       },
       "events:arc_34_two_years_in:/description": {
         "source_sha256": "05fa8be0c8e200867b51c3a33cea4c3b2c3694e65544e91142e5ba2b92304e0b",
@@ -149466,12 +149886,12 @@
         "target_sha256": "a6f41cb504d6f9584b71b310b674a7d532bfdcdad040a3c4832e380b544fd54c"
       },
       "events:arc_sangchul_human:/description": {
-        "source_sha256": "bfbff71a4516a9204f057eb3ef9cb0b08f858bfbca2f92eeaea3c706f282a21a",
-        "target_sha256": "90f8fb246b453f279be0a06ef80b94be2a37e8f0929a138812252ad904b8f567"
+        "source_sha256": "7da202b6c0ab0f97f8c7cb23d1a488b306876d2a0eb4f597635f027fa5d33ea4",
+        "target_sha256": "26a325c87f98a24cc9e93e3ad93d8ca2bfb4c320ae147214ef82b0a17725cb87"
       },
       "events:arc_sangchul_human:/description_if_known/sangchul_truth_known": {
-        "source_sha256": "730df666d55dab87b1164acbc0a272758903b7e65e2a0f23fa4f0072d0c472fa",
-        "target_sha256": "56b5a3c9e6b56ae3589e80527f08fefab2f2db133bf8da504d960bab06db0d18"
+        "source_sha256": "9b9c46492d1142666273d2c083f74a1e18723942a6066b1309dfa48941d0b205",
+        "target_sha256": "5480f98388d131e86e2027b23a8b06a5142e67ad63a261c3862b1addf781a522"
       },
       "events:arc_sangchul_human:/title": {
         "source_sha256": "b0748b80fb3d5fda661a39d55536b4adbc21705ad9f6c31243eb1b87b95b166d",
@@ -149818,8 +150238,8 @@
         "target_sha256": "924a51b974409f02a76068c573a0c13b4d3d01ce0f99019a5cf24e0f0b75ae3e"
       },
       "events:arc_father_03_hospital:/description": {
-        "source_sha256": "9fc683351d7b1c09097a3bb294ca0cb0649caf96713efa8c1c6f51ea7bad1523",
-        "target_sha256": "9d563671d39f2ea8de891353a4d92997a0dfaaf4e9adf76eef2a64e3476eb69a"
+        "source_sha256": "b476447973ae76f46306d89288eecfd182645ea33b364d2892492800d254f3f7",
+        "target_sha256": "05b68a3843846e6adb7362d3c5fe915ac4f18a1cfa3aeddcdf3fd737a78807d1"
       },
       "events:arc_father_03_hospital:/description_low_mental": {
         "source_sha256": "c2f9b7e6aebd571052cafd4cf837f7729f20af449d6a448fb24c0456811350f5",
@@ -149926,8 +150346,8 @@
         "target_sha256": "48877906a2d8d33c7bf001042a2b6e285350c1fe6123ae120d90ba32db0430bd"
       },
       "events:arc_sangchul_mirror:/choices/1/result_text": {
-        "source_sha256": "76402ccb785324da326bba5f50beaddf36aea1724fbc5ec17fd592e5249f35b9",
-        "target_sha256": "2806fbf296f4709fb9590e9a233b740109beda64ef138904d71313554b1356f9"
+        "source_sha256": "f862d1d0a67f08987cabff09594217ed0db19154a9c7383b6969bf1e1701a113",
+        "target_sha256": "80da74b1624f4f854b70bc807b69ee89d80f1933dc4fa39ae510a40758725974"
       },
       "events:arc_sangchul_mirror:/choices/1/text": {
         "source_sha256": "ac25ffaf35170e3bac94d90918a4a4da656037566ea721f070caf6bdc3655d68",
@@ -149958,16 +150378,16 @@
         "target_sha256": "2384984763a7b1acd6564a34d0e5c4e9b41b4df049acfd808f33c5c8340ff48e"
       },
       "events:arc_sangchul_mirror:/description": {
-        "source_sha256": "12ce982d1efb7c167720fc5be5cad0d0012b963e785e552adcad2fea5e347462",
-        "target_sha256": "be049f3c95d3be977399114fc60a6ebe25d2a6cd3c33a63a812c2b2803737dc5"
+        "source_sha256": "068502ee0a4d83c2ba198cfa3d543c5018f8579ddad8b50f53039bb56be6b83a",
+        "target_sha256": "504039aca50eb9ff836016494159d6e6b9fc26ed9c16c34100013e944242b841"
       },
       "events:arc_sangchul_mirror:/description_if_moral/black": {
-        "source_sha256": "4776d6be48d963204852b9c1ef8724ef4d625b019b395d859a4842f1861449b5",
-        "target_sha256": "ddac3abb792088349ddd61f51b68893ee476961d2e70a7083a4573e2c80c9ae8"
+        "source_sha256": "bc9eac234cdb21e7bf6d146aea03d8cf54c70126ea29e833d64e5825679a2fa1",
+        "target_sha256": "3e2d9b5c739cbebdfd71a3366f0bb514eb9184553d9921e6a30947cc725a80a1"
       },
       "events:arc_sangchul_mirror:/description_if_moral/white": {
-        "source_sha256": "fb8641d445e447f247c91f768c706e67f2d08bba1ba36bec6d45446ef152a8b6",
-        "target_sha256": "ab3072025757264183dc5ad902eca3121f0ef506db4d72e5cc8819b2ee77d832"
+        "source_sha256": "c09d7df3ec7ae80d3e8fbf84b4efea52e6e9aefe655778889a8149cb3daef3f0",
+        "target_sha256": "38d83900fd4724060332323e5bd96bb290e58db708515013fe27efe8a2901e8d"
       },
       "events:arc_sangchul_mirror:/title": {
         "source_sha256": "69ea4681ae899c6dada1b615e58f204246a42219946fcadbf2ea6ee5d3e2fad9",
@@ -150174,8 +150594,8 @@
         "target_sha256": "fec05beac0a472a627f6db76f9e3b41aa7f66f46d56906853c49a8849e2282e5"
       },
       "events:hyunsu_reunion_later:/choices/1/result_text": {
-        "source_sha256": "32957ec00d1f99a199a65e31d79db3c8978a4c01fb2d59da8007cc0c10a8a796",
-        "target_sha256": "35d0b2ff4fff4de4d1fa3e54d1a963926cfe38c18890ae85f2928c1c62fdb4f6"
+        "source_sha256": "c821d63d389e25f5814a816b2ff3fc31cee8d5ec6c793d7122b8545e97d70068",
+        "target_sha256": "1adb5ac8b284c10a8133c44179f96f6176c81928d8bd5ecba3157efe9fbc21af"
       },
       "events:hyunsu_reunion_later:/choices/1/text": {
         "source_sha256": "c19ea96f541c60fe37f3e00b90613e4521df198128f1dccf1b91ccbf9f6567fa",
@@ -150222,12 +150642,12 @@
         "target_sha256": "bff93addb06f537cda65e99c5d591de868e05592fc4f2f9c8cdc2431a51da898"
       },
       "events:hyunsu_reunion_memory:/description": {
-        "source_sha256": "2d0812263a2f138ebb18bfaf3412ba24b569324155c36e3f0deea7cf8750437f",
-        "target_sha256": "25d5ac9a3c63a15fe6b9a72e54446ebdfba23324b0d19874017ce440d1d83c48"
+        "source_sha256": "e3595404b1674d6af6eb0170e85db19bc9ffd626cc8b3672b565117ad791cc28",
+        "target_sha256": "34da39af7cec2d17282a0807b68c0359e87e7a528e7632e962b78f2b467173fc"
       },
       "events:hyunsu_reunion_memory:/description_if_known/hyunsu_comforted": {
-        "source_sha256": "7218ee2eeeea573d61866910091f167bb574e80819598eebe05e5411ace60da9",
-        "target_sha256": "37f12120053bffaf08745575b43827334a3738ae753fa991475ec08fe629db73"
+        "source_sha256": "c3cb21e3d8b6865c9c6a8fb887b8d43e31a5b3fa6c28c5c12b7009e71901aca1",
+        "target_sha256": "aa393bf513564e96d9819ecf030dba186cea454fd42ad57d5ef2fa419e0111ab"
       },
       "events:hyunsu_reunion_memory:/title": {
         "source_sha256": "1ce7b24cf8276f61a89426cb4e01c26212a97325fd7f4e896ae5ace349184ad8",
@@ -156030,8 +156450,8 @@
         "target_sha256": "7582c4f3a34214164413feaa4186624713101b8ec0d86dd6875ce86a72366d17"
       },
       "events:arc_daeun_ghost:/choices/0/result_text": {
-        "source_sha256": "14486e977214919bf73a2d8a212534ca37e3072e2410aa5f828d714e67449d95",
-        "target_sha256": "6de7ef28d8ba09a9e3153d984faab4d22f6ab58a944610ff0543eb2efae0b481"
+        "source_sha256": "e0c3e329688822aba11959de4f33d9dfa451df09e3993818f7988505ecf6a069",
+        "target_sha256": "98b8aa08a58c57ef51b60f782065a30a088f98a16e3ec35031f400188dc16a61"
       },
       "events:arc_daeun_ghost:/choices/0/text": {
         "source_sha256": "ae4286938c8074d80fc4cf8fbf7c7ce097780823e49e8b0250e2245b48cd359f",
@@ -156190,8 +156610,8 @@
         "target_sha256": "1c5b8216502ea31c1e063406b68a5dbde9ac7ee377ebdea4883cb3c381e96ac2"
       },
       "events:arc_daeun_regret_draft:/description": {
-        "source_sha256": "9d0181f25e63c68bb596a39d2ffe7b8785f247df60e1cc82095199106f2ff9cb",
-        "target_sha256": "39d810478c21119661489a02f1ad526e95553cbb4fd599f2cc432b0548e37df9"
+        "source_sha256": "98db7c6ab9bd337f14c4bfc02b21a0e13898cbb630624b3f05bed6292b72d5c5",
+        "target_sha256": "7a12dfe5d72aaee1bdf4ed4b6aabedc8b364ccabb53d4eff4f05854e791b7164"
       },
       "events:arc_daeun_regret_draft:/title": {
         "source_sha256": "d8aee913708331dcb6cb714588ffbcbf1d5f1acf7859d48c098f3d4e55ae5920",
@@ -166494,28 +166914,32 @@
         "target_sha256": "31376433cb5998feedf2ff1d5df30cd407f0b8864ce9b0cbbda2b1472523c59e"
       },
       "events:story_two_year:/choices/0/result_text": {
-        "source_sha256": "6857f4c07ab913d5e29bc9b4ce67ad143500785733787467f5d2bcc9dcd9ce0d",
-        "target_sha256": "0a711e586c2efd67510d6da5f617fa0f5dd9f1f7806c267aba3827e34daa5dfc"
+        "source_sha256": "cee1551afe90dd454e2d6e540a668cdfe231df29467d819c79717685135d6502",
+        "target_sha256": "807bd093c65cb3fdc96276a635ae4a1a6752b93c979998187c563bc699954c45"
       },
       "events:story_two_year:/choices/0/text": {
-        "source_sha256": "40bba577c4e4e807037ff85e7276a61b77567f7488a5f8241c1145e6fb26d5f5",
-        "target_sha256": "9c0d3c0ab910c2bfe296fa47fbd85e969e1380643754a96d7caa38ba5ec07dd2"
+        "source_sha256": "30e5d7eb26c5fe9480540affa7f1000cf5b2ee6d5ef781b85affe972c6eb9c5f",
+        "target_sha256": "8641afa19a7c535164810c6db435eb9a492676e915f31af7d787d9f617dab937"
       },
       "events:story_two_year:/choices/1/result_text": {
-        "source_sha256": "b14485405dc4ea6ffe79e9a2b448be7deeb977372a427e186d5189b886db764d",
-        "target_sha256": "a2266593af578e199efea18bba80df41be13163af30343f163c1c7c034468090"
+        "source_sha256": "3f19ee23589bcd140f880edb4d0575dc698735c865da09fe33ea252362fa06d9",
+        "target_sha256": "f469e6a27a7ff95a745a2d7a3a994eed2df63e685a608a49a22b3423cf055533"
       },
       "events:story_two_year:/choices/1/text": {
-        "source_sha256": "e8d63e1f894ac101bdfb0359c97c7f144cad45e4500fd466c41f6b0ff71db224",
-        "target_sha256": "8750d54d7d263d4ea935a3268b57fa6d57010a02ce172a4772d9d03204ef2cc3"
+        "source_sha256": "f6c349e289d86e76e8098e29286e0b4ce4506534bd1a8374d9ad1be271e124e6",
+        "target_sha256": "129f56161f1225667bb722798f0c9f394cbe36936897ccbb16667de750e44596"
+      },
+      "events:story_two_year:/description_if_known/arc_father_03_seen": {
+        "source_sha256": "938fd41b277523ecccb174b250912bcbb910b73150a52a21884f641298c5331e",
+        "target_sha256": "7e36ef12abd1d1d4bd57f61fb67ff6842382aabbc71157a8e3ace5e3dfb8a046"
       },
       "events:story_two_year:/description": {
-        "source_sha256": "0dc401ae8623f79381b933b6a30fdefe428aa8cd7c462f8d7f02d38387e9dc36",
-        "target_sha256": "1cf27f96c95f9484d298e58b22ae87cfe0b38d52bf94342ca7ec07026527838a"
+        "source_sha256": "fcaa40b137709ba564e097a96911fe5c96f480f7093730cf9f1b35f30fa1f01b",
+        "target_sha256": "64c24c7412e355853e119b095c9763e61262aa084f1a7a119a17ea97af79684f"
       },
       "events:story_two_year:/title": {
-        "source_sha256": "5f50536ef3c7d8f62a7537a420b93f09abcf57f8e0f2738bf92f6e0da9fd55d4",
-        "target_sha256": "700adf60ade2136f274ab92a96d662645ff1dcab40dcfb9e2e2c3401eee63a49"
+        "source_sha256": "f7d7bd682fa730867bcc6c0acb8347e939f1dd94693fa1f89ecda5765d931064",
+        "target_sha256": "cd9c8116c61958d947b0ab4715fabf3ff71863af48e84a321a2834f4a4f1fc49"
       },
       "events:addiction_clean_hands_echo:/choices/0/result_text": {
         "source_sha256": "01092b8aabbe0f7b49edde1e0e748b42f89fb5485bdfe52c1b1672b3933eae6a",
@@ -204163,7 +204587,7 @@
       }
     }
   },
-  "accepted_sha256": "9a7431eab85a072c7201f0b77f77cbbdd84d67f0c470e5a24aceaa90caa1d50c",
+  "accepted_sha256": "c849755e159ee2c7706f409e561f9ae562597bf6dd3771eba978983017c7aa0f",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

@@ -73,7 +73,7 @@
   {
     "id": "arc_daeun_03_fork",
     "title": "Fork in the Road",
-    "description": "At the convenience store before dawn, Daeun got a call from home. Her mother was unwell, and a stable position had opened at the local market in her hometown.\n\n\"...I think I may pack up here and go back. Seoul is just too much.\"\n\nShe looked at {name}. She did not ask him to become her reason to stay, or to let her go. Only the unasked question remained in her eyes.\n\n{name} thought Daeun would be the only name he had to answer that week. For now.",
+    "description": "At the convenience store before dawn, Daeun got a call from home. Her mother was unwell, and a stable position had opened at a grocery store back home.\n\n\"...I think I may pack up here and go back. Seoul is just too much.\"\n\nShe looked at {name}. She did not ask him to become her reason to stay, or to let her go. Only the unasked question remained in her eyes.\n\n{name} thought Daeun would be the only name he had to answer that week. For now.",
     "choices": [
       {
         "text": "\"Don't go. Let's hold on here together\" — reach for her",
@@ -88,15 +88,15 @@
   {
     "id": "arc_daeun_03_fork_hold_receipt",
     "title": "The Cost of 'Together'",
-    "description": "One sheet listed a month of Seoul rent, transit, and night shifts. The other showed the first bus home and the terms of the mart job.\n\nDaeun pushed the Seoul sheet toward {name}. \"Write down a promise that will still be alive next week, when you're busy. If the plan makes me pay the whole cost of staying, that isn't us enduring it together.\"\n\nThe first commuter bus passed beyond the automatic doors. The words asking her to stay were over. Now he had to write the time and cost those words would occupy.",
+    "description": "One sheet listed a month of Seoul rent, transit, and night shifts. The other showed the first bus home and the terms of the grocery store job.\n\nDaeun pushed the Seoul sheet toward {name}. \"Write down a promise that will still be alive next week, when you're busy. If the plan makes me pay the whole cost of staying, that isn't us enduring it together.\"\n\nThe first commuter bus passed beyond the automatic doors. The words asking her to stay were over. Now he had to write the time and cost those words would occupy.",
     "choices": [
       {
-        "text": "Place his housing notice beside hers and write Saturday at two and the costs he will carry",
-        "result_text": "{name} placed his housing notice beside Daeun's table. He circled Saturday at two, then divided the rent and travel time into the parts he would carry.\n\n\"Don't just write half. Write the days you can't come too.\"\n\nDaeun slid him the calculator. They wrote the dates most likely to fail before the easy promises. One sentence about enduring together became a full page of responsibility."
+        "text": "Place his housing statement beside hers and write Saturday at two and the costs he will carry",
+        "result_text": "{name} placed his housing statement beside Daeun's table. He circled Saturday at two, then divided the rent and travel time into the parts he would carry.\n\n\"Don't just write half. Write the days you can't come too.\"\n\nDaeun slid him the calculator. They wrote the dates most likely to fail before the easy promises. One sentence about enduring together became a full page of responsibility."
       },
       {
         "text": "Book two seats on the first bus home and ask to hear her answer again there",
-        "result_text": "Instead of touching the Seoul budget, {name} opened the bus app. \"I shouldn't decide Seoul for you just because I asked you to stay. This weekend I'll go with you and see your mother and the mart. I'll hear your answer again there.\"\n\nDaeun did not thank him right away. After a long pause, she wrote both names beside the first Saturday bus. Neither the Seoul sheet nor the hometown sheet was thrown away. Only the hours of that weekend were settled."
+        "result_text": "Instead of touching the Seoul budget, {name} opened the bus app. \"I shouldn't decide Seoul for you just because I asked you to stay. This weekend I'll go with you and see your mother and the grocery store. I'll hear your answer again there.\"\n\nDaeun did not thank him right away. After a long pause, she wrote both names beside the first Saturday bus. Neither the Seoul sheet nor the hometown sheet was thrown away. Only the hours of that weekend were settled."
       }
     ]
   },
@@ -190,7 +190,7 @@
   {
     "id": "arc_daeun_regret_draft",
     "title": "The Text That Never Sent",
-    "description": "Late at night, picked up the phone — and found himself in Daeun's contact.\n\nLast message: 'Take care.' She'd sent it.\nBelow that — nothing.\n\nHe started typing.\n'Hey, how have you been? You doing okay?'\n\nFinger hovering over send.\nThinking about the ripple that one message would make in her life.\n\nDeleted it.\nTyped it again.\nDeleted it again.",
+    "description": "Late that night, {name} picked up his phone and opened Daeun's contact.\n\nHe remembered what she'd said as she turned away from the register. \"Take care.\"\n\nHe typed a message. 'How have you been lately? Are you doing okay?'\n\nHis thumb stopped short of Send. He didn't know how she'd feel about hearing from him now.\n\nHe deleted it twice and started again. The third draft was one line: 'How have you been lately?'",
     "choices": [
       {
         "text": "Send it — a simple check-in is okay",
@@ -205,11 +205,11 @@
   {
     "id": "arc_daeun_ghost",
     "title": "A Glimpse of Her",
-    "description": "Stumbled across it on social media.\n\nA photo Daeun took back in her hometown.\nIn front of the mart. Side by side with her mom. One small potted plant. A bright smile.\n\n'Doing just fine :)'\n\n{name} looked at that photo for a long time.\nShe's okay. That thought arrived — and for some reason made the hollow feeling worse.\nIt only now fully landed that she was someone nowhere in Seoul anymore.",
+    "description": "Stumbled across it on social media.\n\nA photo Daeun took back in her hometown.\nIn front of the grocery store. Side by side with her mom. One small potted plant. A bright smile.\n\n'Doing just fine :)'\n\n{name} looked at that photo for a long time.\nShe's okay. That thought arrived — and for some reason made the hollow feeling worse.\nIt only now fully landed that she was someone nowhere in Seoul anymore.",
     "choices": [
       {
         "text": "Hit like — hope you're doing well. I'll do the same",
-        "result_text": "He tapped like.\nA moment later, a notification: 'Daeun liked your post.'\n\nNo short comment. {name} said nothing either.\nThat was enough. That was the end."
+        "result_text": "{name} tapped Like, and the heart beneath the photo filled with color. His eye went back to Daeun, smiling beside her mother.\n\n{name} didn't leave a comment. The heart was still there when he turned off the screen."
       },
       {
         "text": "Scroll past — pretend you didn't see it",

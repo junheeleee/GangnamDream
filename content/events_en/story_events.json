@@ -377,16 +377,19 @@
   },
   {
     "id": "story_two_year",
-    "title": "Two Years",
-    "description": "The twenty-fourth month.\n\n{name} has become a Seoulite.\nSubway transfers, real estate apps, eating lunch in eight minutes flat.\n\nYou met your hometown friends for the first time in a while,\nAnd they said your speech had changed a little.\nThat a Seoul accent had crept in.\n\nStrangely, that made you a little wistful.\nAnd at the same time, it felt like you'd become something.\n\nIt was the last month of the second year. Under the light, the edge of a sheet of paper on the desk stood out white.",
+    "title": "The Last Month of Year Two",
+    "description": "It was his second December in Seoul.\n\n{name} got home and took the transit card out of his coat. The corners had worn round.\n\nHe checked the route to Seoul Station from home. {housing} was home now. He knew his usual route without a map.\n\nWhich way would he go tomorrow morning? {name} hung his coat over a chair.\n\nHe set the transit card on the desk. The worn corners looked white under the light.",
+    "description_if_known": {
+      "arc_father_03_seen": "It was his second December in Seoul.\n\n{name} got home and took the transit card out of his coat. The corners had worn round.\n\nHe checked the route to Seoul Station from home. {housing} was home now. When his mother had called to say his father had collapsed, she'd begun as she always did, with ‘Minjun.’ Looking at the station name, he could almost hear her voice again.\n\nWhich way would he go tomorrow morning? {name} hung his coat over a chair.\n\nHe set the transit card on the desk. The worn corners looked white under the light."
+    },
     "choices": [
       {
-        "text": "Resolve to put down deeper roots in Seoul",
-        "result_text": "This became {name}'s city.\nSomeday you'll build something in this city.\nThat conviction took root, just a little."
+        "text": "Stay in Seoul. Decide what to do here tomorrow.",
+        "result_text": "{name} closed the directions to Seoul Station.\nHe picked one thing to finish in Seoul the next morning.\nHe moved the transit card by the door, where he could grab it on his way out."
       },
       {
-        "text": "The changing me feels strange. Take a quick trip home.",
-        "result_text": "You took the train down.\nEating the meal Mom made, you returned to childhood for a moment.\nHeading back up to Seoul, {name} felt a little tougher."
+        "text": "Take a short trip home to Changwon.",
+        "result_text": "{name} took the train to Changwon.\nHe ate the meal his mother had made, then got up and carried the dishes to the sink.\nOn the train back to Seoul, he took off his coat and pulled the return ticket from the pocket. He flattened its bent corner with his thumb."
       }
     ]
   },
