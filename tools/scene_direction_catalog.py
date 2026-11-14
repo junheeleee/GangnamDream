@@ -115,6 +115,7 @@ TRANSIT_BACKGROUNDS = {
     "jiyeon_sedan_first_snow",
 }
 INDOOR_BACKGROUNDS = {
+    "seoul_station_convenience_w161",
     "sangchul_cafe_stairs",
     "first_savings_bank_overview",
     "seoul_station_parents_concourse",

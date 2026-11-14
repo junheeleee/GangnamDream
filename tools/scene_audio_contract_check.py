@@ -572,7 +572,7 @@ def main() -> int:
             or any(manifest.get("background_profiles", {}).get(background) != "intentional_silence"
                    for background in ("seoul_subway_stopped_w161", "seoul_subway_platform_bench_w161",
                                       "hospital_outpatient_cashier_w161", "baekban_closing_meal_w161",
-                                      "baekban_closing_empty_w161"))):
+                                      "baekban_closing_empty_w161", "seoul_station_convenience_w161"))):
         errors.append(f"{W161_BODY_EVENT}: recorded onboard motion only between stops; no borrowed ambience after the train")
     if (any(event_contracts.get(owner) != W132_CAFE_AUDIO
             or events.get(owner, {}).get("background") != "cafe" for owner in W132_CAFE_EVENTS)

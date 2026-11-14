@@ -44,6 +44,7 @@ const W161_PLATFORM := "seoul_subway_platform_bench_w161"
 const W161_CASHIER := "hospital_outpatient_cashier_w161"
 const W161_BAEKBAN_MEAL := "baekban_closing_meal_w161"
 const W161_BAEKBAN_EMPTY := "baekban_closing_empty_w161"
+const W161_STATION_SHOP := "seoul_station_convenience_w161"
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -285,6 +286,7 @@ const EXACT_PATHS := {
 	W161_CASHIER: "res://assets/backgrounds/hospital_outpatient_cashier_w161_v1.png",
 	W161_BAEKBAN_MEAL: "res://assets/backgrounds/baekban_closing_meal_w161_v1.png",
 	W161_BAEKBAN_EMPTY: "res://assets/backgrounds/baekban_closing_empty_w161_v1.png",
+	W161_STATION_SHOP: "res://assets/backgrounds/seoul_station_convenience_w161_v1.png",
 	W57_GATE: "res://assets/backgrounds/changwon_station_arrival_gate_v1.png",
 	W57_TABLE: "res://assets/backgrounds/changwon_home_medication_table_v1.png",
 	W53_DINING: "res://assets/backgrounds/sangchul_private_dining.png",
@@ -2695,6 +2697,8 @@ func _check_w161_body() -> bool:
 	var cashier_reloads := 0
 	var meal_reloads := 0
 	var empty_bowl_reloads := 0
+	var shop_reloads := 0
+	var shop_exit_reloads := 0
 	var capture := OS.get_environment("GANGNAM_W161_CAPTURE_DIR")
 	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
 		for flag: String in ["", "changed_routine", "maintained_routine", "restarted_exercise"]:
@@ -2745,6 +2749,7 @@ func _check_w161_body() -> bool:
 					return false
 				var result_pages := (_story.get("_paragraphs") as Array).size()
 				var seen_clinic := false
+				var seen_shop := false
 				for page in range(result_pages):
 					await _finish_page()
 					var source := int(_story.call("_story_source_paragraph_index", page))
@@ -2757,10 +2762,18 @@ func _check_w161_body() -> bool:
 							destination = W161_STOPPED
 					elif choice == 0 and source == 3:
 						destination = W161_CASHIER
+					elif choice == 2 and source == 1:
+						destination = W161_STATION_SHOP
 					if choice == 1:
 						destination = W161_BAEKBAN_EMPTY if source == 3 else W161_BAEKBAN_MEAL
 					if not _expect_w161_surface(destination):
 						return false
+					var first_shop_page := destination == W161_STATION_SHOP and not seen_shop
+					if first_shop_page:
+						seen_shop = true
+						if flag.is_empty() and not capture.is_empty():
+							if not await _save_viewport_frame(capture.path_join("%s_station_shop.png" % language)):
+								return false
 					if destination == W161_PLATFORM and flag.is_empty() and page == 0 and not capture.is_empty():
 						if not await _save_viewport_frame(capture.path_join("%s_platform.png" % language)):
 							return false
@@ -2777,11 +2790,12 @@ func _check_w161_body() -> bool:
 						if flag.is_empty() and not capture.is_empty():
 							if not await _save_viewport_frame(capture.path_join("%s_clinic.png" % language)):
 								return false
-					if flag.is_empty() and (page == 0 or page == result_pages - 1 or source == 1 and clinic):
+					if flag.is_empty() and (page == 0 or page == result_pages - 1 \
+							or (source == 1 and clinic) or first_shop_page):
 						var context: Dictionary = _story.call("build_save_resume_context")
 						if not await _reload_authored_result_context(context, language, 4, source, true) \
 								or not _expect_w161_surface(destination):
-							_fail("W161 cold result flashed a moving train")
+							_fail("W161 cold result did not recover its exact location")
 							return false
 						await _finish_page()
 						restores += 1
@@ -2795,6 +2809,10 @@ func _check_w161_body() -> bool:
 							meal_reloads += 1
 						elif destination == W161_BAEKBAN_EMPTY:
 							empty_bowl_reloads += 1
+						elif destination == W161_STATION_SHOP:
+							shop_reloads += 1
+						elif choice == 2 and source == 3:
+							shop_exit_reloads += 1
 					if page + 1 < result_pages:
 						_story.call("_on_advance")
 						await _wait_stable()
@@ -2805,10 +2823,12 @@ func _check_w161_body() -> bool:
 					_fail("W161 changed the original health, price or receipt")
 					return false
 				paths += 1
-	print("W161_BODY_OK paths=%d v4=%d stopped_v4=%d platform_v4=%d cashier_v4=%d meal_v4=%d empty_v4=%d" % [
-		paths, restores, stopped_reloads, platform_reloads, cashier_reloads, meal_reloads, empty_bowl_reloads])
-	return paths == 60 and restores >= 35 and stopped_reloads == 5 and platform_reloads == 5 \
-		and cashier_reloads == 5 and meal_reloads == 5 and empty_bowl_reloads == 5
+	print(("W161_BODY_OK paths=%d v4=%d stopped_v4=%d platform_v4=%d cashier_v4=%d meal_v4=%d " \
+		+ "empty_v4=%d shop_v4=%d shop_neutral_v4=%d") % [paths, restores, stopped_reloads, \
+		platform_reloads, cashier_reloads, meal_reloads, empty_bowl_reloads, shop_reloads, shop_exit_reloads])
+	return paths == 60 and restores >= 40 and stopped_reloads == 5 and platform_reloads == 5 \
+		and cashier_reloads == 5 and meal_reloads == 5 and empty_bowl_reloads == 5 \
+		and shop_reloads == 5 and shop_exit_reloads == 5
 
 func _expect_w161_surface(background: String) -> bool:
 	var image := _story.get("_bg_img") as TextureRect

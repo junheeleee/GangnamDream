@@ -864,6 +864,14 @@
     {
       "kind": "background",
       "ids": [
+        "seoul_station_convenience_w161"
+      ],
+      "relative_path": "backgrounds/seoul_station_convenience_w161_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "seoul_station_first_ktx_predawn"
       ],
       "relative_path": "backgrounds/seoul_station_first_ktx_predawn.png",

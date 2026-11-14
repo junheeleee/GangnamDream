@@ -237,6 +237,7 @@ const BACKGROUNDS = {
 	"seoul_subway_commuters_w57": "res://assets/backgrounds/seoul_subway_commuters_w57_v1.png",
 	"seoul_subway_stopped_w161": "res://assets/backgrounds/seoul_subway_stopped_w161_v1.png",
 	"seoul_subway_platform_bench_w161": "res://assets/backgrounds/seoul_subway_platform_bench_w161_v1.png",
+	"seoul_station_convenience_w161": "res://assets/backgrounds/seoul_station_convenience_w161_v1.png",
 	"seoul_subway_transfer_passage": "res://assets/backgrounds/seoul_subway_transfer_passage_v1.png",
 	"subway_station_stairs": "res://assets/backgrounds/subway_station_stairs.png",
 	"subway_station_lost_found": "res://assets/backgrounds/subway_station_lost_found.png",

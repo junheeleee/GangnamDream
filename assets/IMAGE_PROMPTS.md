@@ -1235,6 +1235,11 @@ sips --resampleHeightWidth 800 1280
 - `assets/backgrounds/baekban_closing_empty_w161_v1.png` 1584×990, SHA-256 `169a3807823f12dc356e14a0a9b88bc0b905f2d814514057e56fb91e4654e81b`; 내장 생성 같은 구도 수정 `exec-f62db35c-204e-4f08-8f1a-8aad40a33e4c.png` 원본 `c3fdeed2585e307e8b205bba4259e3dbdb9471c2e5838128847913e7d9dd5047`. 두 원본 1585×992 중앙 크롭.
 - 프롬프트 요약: 동네 국밥집은 소박한 재질, 한정식집은 식기 크기만 참조. 마감 때 한 사람 앞의 국·밥·소반찬·숟가락을 대사판 위로. 마지막은 같은 카메라·조명·그릇에서 국·밥만 비우고 숟가락을 내려놓는다. 사람·비·메뉴·계산수단 없음.
 
+## 2026-11-15 — W161 역 안 편의점
+
+- `assets/backgrounds/seoul_station_convenience_w161_v1.png`, 1584×990, SHA-256 `1bd338b8228bfa4f3c1385d3b5046b89a35c73f79f84bc456699a61b2c18eac3`. 내장 생성 `exec-9149ed17-99a2-48c1-b68e-0da311884c35.png` 1586×992 중앙 크롭, 원본 SHA-256 `b17dffc09573203316bfb863c7980bb8888782b58b303009400b49ae99313cf9`.
+- 프롬프트 요약: 역 벤치 컷의 회색 타일·형광등, 기존 점포의 상품 크기만 참고. 열린 역내 점포와 이어지는 실내 통로, 작은 냉장고·낮은 진열대·POS. 거리창·컵을 든 손·결제·주연 없음. 초안 대화창과 보정본 원거리 사람 제거 후 채택.
+
 ## 2026-11-15 — W132 상철 카페 계단
 
 - 최종 `assets/backgrounds/sangchul_cafe_stairs_v1.png` 1584×990, SHA-256 `1b91d60bd5881d3bd733ede328796dd57beb1dbab1133cdec2af17b6b09ddf1f`. 내장 이미지 생성 수정 원본 `exec-dfbe66b8-2949-4535-9f60-7ea60669961a.png` 1585×992를 16:10으로 정규화했다.

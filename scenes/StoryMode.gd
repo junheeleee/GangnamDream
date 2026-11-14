@@ -93,6 +93,7 @@ const W161_EXAM_ROOM := "hospital_clinic_day"
 const W161_OUTPATIENT_CASHIER := "hospital_outpatient_cashier_w161"
 const W161_BAEKBAN_MEAL := "baekban_closing_meal_w161"
 const W161_BAEKBAN_EMPTY := "baekban_closing_empty_w161"
+const W161_STATION_SHOP := "seoul_station_convenience_w161"
 const W132_RECKONING := "arc_sangchul_reckoning"
 const W132_CAFE_STAIRS := "sangchul_cafe_stairs"
 const W132_RECKONING_CUT := preload("res://assets/w132_reckoning_result_cut.tres")
@@ -6132,8 +6133,13 @@ func _apply_w161_transport_surface() -> void:
 				destination = W161_BAEKBAN_MEAL
 			elif source == 3:
 				destination = W161_BAEKBAN_EMPTY
-		elif _pending_result_choice_index == 2 and source == 0:
-			destination = W161_STOPPED_CAR
+		elif _pending_result_choice_index == 2:
+			if source == 0:
+				destination = W161_STOPPED_CAR
+			elif source == 1:
+				# The coffee paragraph establishes the station shop; the later
+				# schedule and reflection do not establish a physical location.
+				destination = W161_STATION_SHOP
 	elif source == 5 and _story_source_paragraph_count() == 6:
 		# Only the default intro reaches the explicit opening of the doors.
 		# The five-paragraph remembered variants finish in the moving car.

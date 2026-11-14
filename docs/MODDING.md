@@ -424,6 +424,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `seoul_bus_terminal_night` | `backgrounds/seoul_bus_terminal_night.png` | 1280x800 |
 | background | `cold_snap_street` | `backgrounds/seoul_cold_snap_street.png` | 1280x800 |
 | background | `street_rainy` | `backgrounds/seoul_rainy_street.png` | 1280x800 |
+| background | `seoul_station_convenience_w161` | `backgrounds/seoul_station_convenience_w161_v1.png` | 1584x990 |
 | background | `seoul_station_first_ktx_predawn` | `backgrounds/seoul_station_first_ktx_predawn.png` | 1280x800 |
 | background | `seoul_station_ktx_platform_winter` | `backgrounds/seoul_station_ktx_platform_winter.png` | 1280x800 |
 | background | `seoul_station_parents_concourse` | `backgrounds/seoul_station_parents_concourse.png` | 1280x800 |

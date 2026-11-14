@@ -288,6 +288,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "seoul_station_convenience_w161": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "seoul_subway_transfer_passage": {
       "environment": "transit",
       "depth": "mid",
