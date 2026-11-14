@@ -33395,6 +33395,101 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-833",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_almost_there"
+      ],
+      "source_leaves": 10,
+      "target_leaves_by_locale": {
+        "zh-CN": 10
+      },
+      "new_coverage_by_locale": {
+        "zh-CN": 0
+      },
+      "source_review": "Keep his laptop open before the later rest choice in Simplified Chinese; no changes to Korean source, other locales, action or state.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "e7ae824a2304a07387268db5fd433efbdc4db3d7",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c82f31ccffec67e74961d00bb3b9cf49edc254f456203ef335902a9d092210fa",
+          "selection_sha256": "266dc54aa5bdea68f1c648651c822c9867d3b44ecd6e782c5d3d56463ab629fe",
+          "count": 10,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b1a1453fe54c3bb55ca442e6966fb7fdb26fc96de064a4e3c7fec5fc94e3a3fe"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "zh-CN": "06b7de30de48147da0bef6f9bbc25cc63e404d69c45b27d820973ac0b8064203"
+      },
+      "previous_target_sha256_by_locale": {
+        "zh-CN": {
+          "events:arc_almost_there:/description": "ff583d893de95884d35202e65cbad67f1bfe2aedc7237a4a555dc443f7b33e5c",
+          "events:arc_almost_there:/description_if_known/cafe_patient_paid_off": "56d235c860f7e0bff6e31b0303296ae08c103fefc1b70e0b23447c9d4c9709c8",
+          "events:arc_almost_there:/description_if_known/fomo_cut_loss": "8699376f9bdb9745bb78d6ef78c25e8e6734f1bf7751f3531a2488677e418c9b",
+          "events:arc_almost_there:/description_if_known/fomo_deeper_loss": "7e512c4f159a50cca58cd468407b20eee1011ce65eebddbb923ab46ce4017ce1",
+          "events:arc_almost_there:/description_if_known/fomo_recovered": "152796e5742cc0d13dd32627d30319fbe6bcea23bf3b7e2ac9874f69216e8a7e",
+          "events:arc_almost_there:/description_if_known/investor_disciplined": "911ea60125984b27efdc5fd5431faf899b476cf73f7bbf534e7faf4cb49fe3e3",
+          "events:arc_almost_there:/description_if_known/investor_reset": "34f88c09a2c8d43499ebc241ea1e3584caed15e39dcb8a0fc16a6203a3986e6c",
+          "events:arc_almost_there:/description_if_known/race_studied_form": "a96d8cc28889034fab14f08c89111140c0148ebf83d888facd0e7a3d42ba0199",
+          "events:arc_almost_there:/description_if_known/saver_patient": "13867574dda6558902aa2a98da5a897c491e6634de012081c8886621abfc5ac0",
+          "events:arc_almost_there:/description_if_known/saver_pivots_to_invest": "c8852c320e9380a92010c6aad126851a39c1c8e519aa36ec6a1f80777828e148"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "zh-CN": {
+          "events:arc_almost_there:/description": {
+            "source_sha256": "d2b857b8061a4279800f4f373024b0ee1bf36389fb4ec67cdb9f2e899fb2f558",
+            "target_sha256": "ff583d893de95884d35202e65cbad67f1bfe2aedc7237a4a555dc443f7b33e5c"
+          },
+          "events:arc_almost_there:/description_if_known/cafe_patient_paid_off": {
+            "source_sha256": "e71a22a42f3ab66e9a43d3ba573efc8d6437595c0c8adcd655c4fb8501a0e8a6",
+            "target_sha256": "56d235c860f7e0bff6e31b0303296ae08c103fefc1b70e0b23447c9d4c9709c8"
+          },
+          "events:arc_almost_there:/description_if_known/fomo_cut_loss": {
+            "source_sha256": "9475ab5d55a953919fc7cc77e0a8322cdcb8122a260f78dfbb657d6e99b2a153",
+            "target_sha256": "8699376f9bdb9745bb78d6ef78c25e8e6734f1bf7751f3531a2488677e418c9b"
+          },
+          "events:arc_almost_there:/description_if_known/fomo_deeper_loss": {
+            "source_sha256": "a04693df4943c202316e3843718bbdcdeb013971cc1512b0c5739b563e528614",
+            "target_sha256": "7e512c4f159a50cca58cd468407b20eee1011ce65eebddbb923ab46ce4017ce1"
+          },
+          "events:arc_almost_there:/description_if_known/fomo_recovered": {
+            "source_sha256": "f7c09c156ee4b80712811a0ffb4ad6ba3a80b57cc70b9e79e8cf94d43de32784",
+            "target_sha256": "152796e5742cc0d13dd32627d30319fbe6bcea23bf3b7e2ac9874f69216e8a7e"
+          },
+          "events:arc_almost_there:/description_if_known/investor_disciplined": {
+            "source_sha256": "d478a676f9d9ed6dbdde515134c9352a6b3e167badf377688b2f845d355bc892",
+            "target_sha256": "911ea60125984b27efdc5fd5431faf899b476cf73f7bbf534e7faf4cb49fe3e3"
+          },
+          "events:arc_almost_there:/description_if_known/investor_reset": {
+            "source_sha256": "bd8d3ea1bfa3dca6fedad461c4fd0e609b64092b5006174c8c12dd57f65b9979",
+            "target_sha256": "34f88c09a2c8d43499ebc241ea1e3584caed15e39dcb8a0fc16a6203a3986e6c"
+          },
+          "events:arc_almost_there:/description_if_known/race_studied_form": {
+            "source_sha256": "a34595dd31056a485999497dad8dbc9f11447efdf201fc2e16ef58c6450f7516",
+            "target_sha256": "a96d8cc28889034fab14f08c89111140c0148ebf83d888facd0e7a3d42ba0199"
+          },
+          "events:arc_almost_there:/description_if_known/saver_patient": {
+            "source_sha256": "1e83687925897fc99dca2f6a0e141b1cabfa566ea3c5ddeaaba735c3958e7e75",
+            "target_sha256": "13867574dda6558902aa2a98da5a897c491e6634de012081c8886621abfc5ac0"
+          },
+          "events:arc_almost_there:/description_if_known/saver_pivots_to_invest": {
+            "source_sha256": "1e0aa6e854ff5d0f10cdb3717f442383464b4a6c46375ce579413af0c94cf6a1",
+            "target_sha256": "c8852c320e9380a92010c6aad126851a39c1c8e519aa36ec6a1f80777828e148"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -135439,43 +135534,43 @@
       },
       "events:arc_almost_there:/description": {
         "source_sha256": "d2b857b8061a4279800f4f373024b0ee1bf36389fb4ec67cdb9f2e899fb2f558",
-        "target_sha256": "ff583d893de95884d35202e65cbad67f1bfe2aedc7237a4a555dc443f7b33e5c"
+        "target_sha256": "ad32e04a34c77802e413c5035cd0d01b12f4e48022f1c102299b0f9ec7150170"
       },
       "events:arc_almost_there:/description_if_known/cafe_patient_paid_off": {
         "source_sha256": "e71a22a42f3ab66e9a43d3ba573efc8d6437595c0c8adcd655c4fb8501a0e8a6",
-        "target_sha256": "56d235c860f7e0bff6e31b0303296ae08c103fefc1b70e0b23447c9d4c9709c8"
+        "target_sha256": "3854de1b2e31620b6652525aceb3a065bdf992e9792427c2fd4f2d2c28df6787"
       },
       "events:arc_almost_there:/description_if_known/fomo_cut_loss": {
         "source_sha256": "9475ab5d55a953919fc7cc77e0a8322cdcb8122a260f78dfbb657d6e99b2a153",
-        "target_sha256": "8699376f9bdb9745bb78d6ef78c25e8e6734f1bf7751f3531a2488677e418c9b"
+        "target_sha256": "77d11d47e233425d52ceb1d3b4f90ca026cccdf02fe663620db717bc86770287"
       },
       "events:arc_almost_there:/description_if_known/fomo_deeper_loss": {
         "source_sha256": "a04693df4943c202316e3843718bbdcdeb013971cc1512b0c5739b563e528614",
-        "target_sha256": "7e512c4f159a50cca58cd468407b20eee1011ce65eebddbb923ab46ce4017ce1"
+        "target_sha256": "d191b3fbdbfddda6d932e1ba7e349c79ecef3d1931674d3773013080f01b2a56"
       },
       "events:arc_almost_there:/description_if_known/fomo_recovered": {
         "source_sha256": "f7c09c156ee4b80712811a0ffb4ad6ba3a80b57cc70b9e79e8cf94d43de32784",
-        "target_sha256": "152796e5742cc0d13dd32627d30319fbe6bcea23bf3b7e2ac9874f69216e8a7e"
+        "target_sha256": "37fb51074d80de3d50a9d932de39b4d365ffc9393f4b0dbf26f8d798a2012e90"
       },
       "events:arc_almost_there:/description_if_known/investor_disciplined": {
         "source_sha256": "d478a676f9d9ed6dbdde515134c9352a6b3e167badf377688b2f845d355bc892",
-        "target_sha256": "911ea60125984b27efdc5fd5431faf899b476cf73f7bbf534e7faf4cb49fe3e3"
+        "target_sha256": "b70a3c946bc308769b99c82a9ec83cbfa2ce25611125203edf2271728a8590e3"
       },
       "events:arc_almost_there:/description_if_known/investor_reset": {
         "source_sha256": "bd8d3ea1bfa3dca6fedad461c4fd0e609b64092b5006174c8c12dd57f65b9979",
-        "target_sha256": "34f88c09a2c8d43499ebc241ea1e3584caed15e39dcb8a0fc16a6203a3986e6c"
+        "target_sha256": "4030c4627a6f9ae2b47b0cb61402d41e48788b5bf2b0697b61e03ed04207d09d"
       },
       "events:arc_almost_there:/description_if_known/race_studied_form": {
         "source_sha256": "a34595dd31056a485999497dad8dbc9f11447efdf201fc2e16ef58c6450f7516",
-        "target_sha256": "a96d8cc28889034fab14f08c89111140c0148ebf83d888facd0e7a3d42ba0199"
+        "target_sha256": "ea983919b7a9fdf55a21cd99382d95c0894f1310df752634e91fc43fff3c17c9"
       },
       "events:arc_almost_there:/description_if_known/saver_patient": {
         "source_sha256": "1e83687925897fc99dca2f6a0e141b1cabfa566ea3c5ddeaaba735c3958e7e75",
-        "target_sha256": "13867574dda6558902aa2a98da5a897c491e6634de012081c8886621abfc5ac0"
+        "target_sha256": "afa4b22373cb41c53fda63c428ab5a3e2e837b23ce3e7407e4d9456892d80d45"
       },
       "events:arc_almost_there:/description_if_known/saver_pivots_to_invest": {
         "source_sha256": "1e0aa6e854ff5d0f10cdb3717f442383464b4a6c46375ce579413af0c94cf6a1",
-        "target_sha256": "c8852c320e9380a92010c6aad126851a39c1c8e519aa36ec6a1f80777828e148"
+        "target_sha256": "0707cd75d973c764397f6da8b7052d9fc264d93d36ce1c1641bff63da1de9734"
       },
       "events:arc_almost_there:/title": {
         "source_sha256": "cb83540c80652af5d1f9b87d6acf6ded0052e08df3ec241d1768d486648498e2",
@@ -205661,7 +205756,7 @@
       }
     }
   },
-  "accepted_sha256": "452be2336e9dc127595f69e4fa5bc4bb760c9b5a38566448fca5c9ad45a8b146",
+  "accepted_sha256": "7061f35db5d01db4a9c8120a9ac41077946827e190a3a4c91efd5515e13fe3d2",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
