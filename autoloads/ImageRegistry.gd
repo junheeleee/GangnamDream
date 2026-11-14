@@ -214,6 +214,7 @@ const BACKGROUNDS = {
 	"v2_first_bill_desk_closeup": "res://assets/backgrounds/v2_first_bill_desk_closeup.png",
 	# 서울 일상
 	"convenience_night": "res://assets/backgrounds/convenience_store_night_v2.png",
+	"convenience_night_steps": "res://assets/backgrounds/convenience_store_night_steps_v1.png",
 	"convenience_night_dry": "res://assets/backgrounds/convenience_store_night_dry_v1.png",
 	"convenience_rear_comparison": "res://assets/backgrounds/convenience_rear_comparison_v1.png",
 	"convenience_rear_table_clear": "res://assets/backgrounds/convenience_rear_table_clear_v1.png",

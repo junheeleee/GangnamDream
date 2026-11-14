@@ -559,6 +559,8 @@ M60 ‘다은과 함께’는 외곽 집의 현재 식탁 아래 기존 조용�
 
 [~] W69 편의점 화면: `assets/backgrounds/convenience_store_night_steps_v1.png`+import, `autoloads/ImageRegistry.gd`, `content/events/arc_midgame.json`의 배경 및 c0 표시 키 둘, `assets/{event_visual_contracts,scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{StoryBackgroundContextCheck.gd,ScreenshotQA.gd,art_resolution_baseline.json}`, 원화·출시 수량/모딩 원장과 현황·일지·이 증거. 독립 검수가 기존 도입 그림에 내리는 비를 확인했다. 본문은 지금의 비가 아니라 익숙한 처마를 떠올리므로 이 사건만 기존 마른 편의점 실내로 변경; 결과 두 문단만 낮은 바깥 계단·냉장고음 즉시 차단. 특정 다은 지점을 지목하지 않으며 본문·나머지 선택 효과·저장·공개 데모 불변.
 
+완료(W69): 새 계단의 앞면이 대화창 위에 남고 낮·첫눈 원화는 그대로다. 결과 전후의 문과 계산대 배치·야간 날씨를 실제 화면에서 독립 확인했다. `830-w69-steps-native.fCt8L2` 1280×800 15컷, 5언어×3선택과 v4 결과 재개 15회, 첫 선택 직후 환경·사람·계절 레이어 모두 정지, 다른 결과 실내 유지, 기존 18주 후속·선택 효과·현금 불변; stderr0. 사람이 실제로 듣거나 기존 RC를 다시 만들지는 않았다.
+
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.

@@ -21332,7 +21332,7 @@ func _assert_late_chapter_spine_state(
 		"arc_year1_close", "arc_year1_scene", "arc_late_game_push",
 	]
 	var expected_backgrounds := {
-		"arc_year_one_half": "convenience_night",
+		"arc_year_one_half": "convenience_night_dry",
 		"arc_36_body_signal": "subway",
 		"arc_year4_close": "year4_winter_rooftop",
 		"arc_final_stretch": "gangnam_night",

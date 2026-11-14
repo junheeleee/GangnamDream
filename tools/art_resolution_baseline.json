@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 306,
+  "inventory_count": 307,
   "counts": {
     "1080p": {
       "CG": {
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 130,
+        "light": 131,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 130,
+        "heavy": 131,
         "severe": 0
       }
     }
@@ -523,6 +523,23 @@
       "scale": {
         "1080p": 1.2106,
         "4k": 2.4212
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/convenience_store_night_steps_v1.png": {
+      "kind": "Background",
+      "ids": [
+        "convenience_night_steps"
+      ],
+      "width": 1584,
+      "height": 990,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.2121,
+        "4k": 2.4242
       },
       "band": {
         "1080p": "light",

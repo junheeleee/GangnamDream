@@ -214,6 +214,14 @@
     {
       "kind": "background",
       "ids": [
+        "convenience_night_steps"
+      ],
+      "relative_path": "backgrounds/convenience_store_night_steps_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "convenience_night",
         "convenience_store"
       ],

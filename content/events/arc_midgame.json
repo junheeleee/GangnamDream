@@ -2877,7 +2877,7 @@
   {
     "id": "arc_year_one_half",
     "title": "도시에 밴 습관",
-    "background": "convenience_night",
+    "background": "convenience_night_dry",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
@@ -2903,6 +2903,8 @@
         "flags": [
           "arc_year_one_half_seen"
         ],
+        "result_background": "convenience_night_steps",
+        "result_ambience": "intentional_silence",
         "result_text": "{name}은 편의점 계단에 앉아 내일 첫 알람을 확인했다. 나갈 시각도, 내일 제일 먼저 할 일도 바꾸지 않았다. 오늘 끝내지 못한 일을 마저 하러 일어났다.\n\n계단에서 일어서자 잠깐 굽혔던 무릎이 뻐근했다. 커피는 아직 차가웠다.",
         "deferred_follow_up": "arc_34_two_years_in",
         "deferred_delay": 18

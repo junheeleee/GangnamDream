@@ -377,6 +377,9 @@ weather, romance, and historical portraits remain fixed.
 - `assets/backgrounds/seoul_subway_commuters_w57_v1.png`
   - W57 seated and standing passengers after boarding only. Same closed-door Seoul subway car and orange benches; never replaces the generic empty-car asset or the transfer passage.
 
+- `assets/backgrounds/convenience_store_night_steps_v1.png`
+  - W69's first result only. Dry night, an unnamed convenience store's low entrance steps above the dialogue panel. The earlier indoor view stays separate; this does not redefine Daeun's established storefront.
+
 - `assets/backgrounds/changwon_station_arrival_gate_v1.png`
   - W57 visit result, from the exact physical-arrival sentence. Public waiting side of a regional rail checkpoint, with the right third left for the existing Father portrait; not a Seoul subway gate or platform.
 

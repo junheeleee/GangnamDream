@@ -30,6 +30,9 @@ const W53_NETWORK := "arc_sangchul_03_network"
 const W53_DINING := "sangchul_private_dining"
 const W57_MEDICATION := "arc_father_medication"
 const W72_DINNER := "arc_sangchul_human"
+const W69_STORE := "arc_year_one_half"
+const W69_INSIDE := "convenience_night_dry"
+const W69_STEPS := "convenience_night_steps"
 const W57_VIBRATION := "arc_father_medication::description:0:0:phone_vibrate"
 const W57_PASSAGE := "seoul_subway_transfer_passage"
 const W57_CAR := "seoul_subway_commuters_w57"
@@ -251,6 +254,8 @@ const CASES := [
 ]
 
 const EXACT_PATHS := {
+	W69_INSIDE: "res://assets/backgrounds/convenience_store_night_dry_v1.png",
+	W69_STEPS: "res://assets/backgrounds/convenience_store_night_steps_v1.png",
 	W57_PASSAGE: "res://assets/backgrounds/seoul_subway_transfer_passage_v1.png",
 	W57_CAR: "res://assets/backgrounds/seoul_subway_commuters_w57_v1.png",
 	W57_GATE: "res://assets/backgrounds/changwon_station_arrival_gate_v1.png",
@@ -349,6 +354,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W69_STEPS_CHECK"):
+		var steps_ok := await _check_w69_steps()
+		await _remove_story()
+		await _stop_audio()
+		if steps_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w69_steps")
+		get_tree().quit(0 if steps_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W72_DINNER_CHECK"):
 		var dinner_ok := await _check_w72_dinner_audio()
 		await _remove_story()
@@ -547,6 +560,8 @@ func _ready() -> void:
 		_fail("W57 medication message audio regression smoke failed")
 	if not await _check_w72_dinner_audio(true):
 		_fail("W72 dinner audio regression smoke failed")
+	if not await _check_w69_steps(true):
+		_fail("W69 steps regression smoke failed")
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -2497,6 +2512,98 @@ func _expect_w57_audio(expect_vibration: bool, label: String, onboard: bool = fa
 		_fail("W57 wrong audio at %s: cues=%s, bed=%s, human=%s, season=%s" % [label, heard,
 			BGMPlayer._current_ambience_key, BGMPlayer._current_human_ambience_key, BGMPlayer._current_season_key])
 	return valid
+
+func _check_w69_steps(smoke: bool = false) -> bool:
+	var paths := 0
+	var restores := 0
+	var capture := OS.get_environment("GANGNAM_W69_CAPTURE_DIR")
+	if not capture.is_empty():
+		var output := DirAccess.open(capture) if capture.is_absolute_path() else null
+		if DisplayServer.get_name() == "headless" or output == null \
+				or not output.get_files().is_empty() or not output.get_directories().is_empty():
+			_fail("W69 captures need a native display and a fresh directory")
+			return false
+	var languages: Array = ["ko"] if smoke else LocaleManager.SUPPORTED_LANGUAGES
+	for language: String in languages:
+		for choice: int in ([0] if smoke else [0, 1, 2]):
+			await _remove_story()
+			await _stop_audio()
+			_context = "%s/W69/c%d" % [language, choice]
+			LocaleManager.set_language(language)
+			SaveManager.clear_loaded_resume_context()
+			GameState.start_new_game()
+			GameState.turn = 69
+			GameState.age = 34
+			GameState.month = 6
+			GameState.mental = 60
+			GameState.story_return_scene = "res://scenes/MainGame.tscn"
+			GameState.pending_story_queue = [W69_STORE]
+			_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+			add_child(_story)
+			_story.call("_set_auto_mode", false, false, false)
+			if not _expect_w69_surface(false) or int(_story.call("_story_source_paragraph_count")) != 3:
+				return false
+			for page in range((_story.get("_paragraphs") as Array).size()):
+				await _finish_page()
+				if int(_story.get("_para_index")) != page or not _expect_w69_surface(false):
+					return false
+				if page == 0 and choice == 0 and not capture.is_empty():
+					await get_tree().create_timer(0.5).timeout
+					if not await _save_viewport_frame(capture.path_join(language + "_inside.png")):
+						return false
+				_story.call("_on_advance")
+				await _wait_stable()
+			if not bool(_story.get("_showing_choices")) or not _expect_w69_surface(false):
+				return false
+			var count: int = GameState.events_seen
+			var cash: float = GameState.money
+			_story.call("_on_choice", choice)
+			var outside := choice == 0
+			if outside and not _expect_w69_surface(true):
+				return false
+			await _wait_stable()
+			var pages: Array = _story.get("_paragraphs")
+			if not bool(_story.get("_pending_after_result")) or int(_story.call("_story_source_paragraph_count")) != 2:
+				return false
+			for page in range(pages.size()):
+				await _finish_page()
+				if int(_story.get("_para_index")) != page or not _expect_w69_surface(outside):
+					return false
+				if outside and not capture.is_empty() and page == int(_story.call(
+						"_first_story_page_for_source", _story.call("_story_source_paragraph_index", page))):
+					await get_tree().create_timer(0.5).timeout
+					if not await _save_viewport_frame(capture.path_join("%s_steps_%d.png" % [language, page])):
+						return false
+				if page + 1 < pages.size():
+					_story.call("_on_advance")
+					await _wait_stable()
+			if not smoke:
+				var context: Dictionary = _story.call("build_save_resume_context")
+				if not await _reload_authored_result_context(context, language, 2, 1) or not _expect_w69_surface(outside):
+					return false
+				restores += 1
+			var next := GameState.deferred_events.filter(func(item: Dictionary) -> bool:
+				return item.get("event_id") == "arc_34_two_years_in")
+			if GameState.events_seen != count + 1 or GameState.money != cash \
+					or GameState.mental != [65, 55, 62][choice] \
+					or not GameState.flags.get("arc_year_one_half_seen", false) \
+					or next.size() != 1 or int(next[0].get("trigger_turn", -1)) != 87:
+				_fail("W69 changed a choice or its 18-week follow-up")
+				return false
+			paths += 1
+	if not smoke:
+		print("W69_STEPS_OK paths=%d v4=%d" % [paths, restores])
+	return paths == (1 if smoke else 15) and restores == (0 if smoke else 15)
+
+func _expect_w69_surface(outside: bool) -> bool:
+	if not _expect_surface(W69_STEPS if outside else W69_INSIDE,
+			"" if outside else "convenience", "W69 store") \
+			or str(_story.get_meta("living_scene_effect", "")) != "none" \
+			or (outside and (BGMPlayer._ambience_player.playing \
+				or BGMPlayer._human_ambience_player.playing or BGMPlayer._season_player.playing)):
+		_fail("W69 wrong store surface, weather or surviving indoor audio")
+		return false
+	return true
 
 func _check_w72_dinner_audio(smoke: bool = false) -> bool:
 	var paths := 0

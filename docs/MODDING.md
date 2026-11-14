@@ -344,6 +344,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `convenience_afternoon_exterior` | `backgrounds/convenience_store_exterior_afternoon_v1.png` | 1586x992 |
 | background | `convenience_first_snow_exterior` | `backgrounds/convenience_store_exterior_first_snow.png` | 1280x800 |
 | background | `convenience_night_dry` | `backgrounds/convenience_store_night_dry_v1.png` | 1586x992 |
+| background | `convenience_night_steps` | `backgrounds/convenience_store_night_steps_v1.png` | 1584x990 |
 | background | `convenience_night`, `convenience_store` | `backgrounds/convenience_store_night_v2.png` | 1280x800 |
 | background | `daeun_mother_home_dining` | `backgrounds/daeun_mother_home_dining_summer.png` | 1280x800 |
 | background | `daeun_newlywed_home` | `backgrounds/daeun_newlywed_home_night.png` | 1280x800 |

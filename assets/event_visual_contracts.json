@@ -188,7 +188,7 @@
     {"id": "arc_year3_close", "months": [12], "background": "year3_hangang_winter_night", "portrait": "player_cold_snap"},
     {"id": "arc_year4_close", "months": [12], "background": "year4_winter_rooftop", "portrait": "player_cold_snap"},
     {"id": "arc_year4_close_father_passed", "months": [12], "background": "year4_winter_rooftop", "portrait": "player_cold_snap"},
-    {"id": "arc_year_one_half", "background": "convenience_night", "portrait": "player_tired", "cg": null},
+    {"id": "arc_year_one_half", "background": "convenience_night_dry", "portrait": "player_tired", "cg": null, "choice_result_backgrounds": {"0": "convenience_night_steps"}},
     {"id": "arc_34_two_years_in", "background": "current_housing", "portrait": "player_tired", "cg": null},
     {"id": "arc_almost_there", "background": "current_housing", "portrait": "player_normal", "cg": null},
     {"id": "arc_1b_isolation", "background": "current_housing", "portrait": "player_normal", "cg": null},
