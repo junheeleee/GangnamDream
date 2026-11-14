@@ -50,6 +50,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 원화 후보 독립 GO, 제품 채택 전: 외부 `830-m23-parents-art.ou9fZz`의 RGB 1280×800 두 장. `seoul_station_parents_concourse.png` SHA-256 `bcf17350a3b7531b8148523f5f6a4356e3b9144aa22745f655dc9712062a8635`: 17시 합류, 밖의 늦가을 빛과 빈 합류 동선. `seoul_station_parents_ticket_gate.png` SHA-256 `c7fdfeff4a9c588bba207b87a580216364c7f2877b9828ef16a30a1529b23176`: 밤, 승차 통로 방향의 단말 한 대, 이미 떠난 열차나 사람·문자 없음. 재현 사진이 아닌 장면 원화다. 기존 식당 믹스는 술집 원음, 지하철 믹스는 통과 열차·사람, 열차 믹스는 영국 객실이라 역에 부적합. 제품 배선과 시간·장소별 음향/실화면은 미완.
 
+11-14 KST [~] 제품 착수 — 만지는 파일: 검수한 `assets/backgrounds/seoul_station_parents_{concourse,ticket_gate}.png`와 import; `autoloads/ImageRegistry.gd`, `content/events/arc_midgame.json`, `content/meta/{story_rules,release_content_inventory}.json`, `scenes/StoryMode.gd`, `assets/{event_visual_contracts,scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{StoryBackgroundContextCheck,ScreenshotQA}.gd`, `tools/{scene_audio_contract_check,scene_direction_catalog}.py`, `tools/art_resolution_baseline.json`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md` 및 `docs/{ART_AI_AUDIT,AUDIO_QA,CONTENT_RATING_INVENTORY,MODDING,WORK_LOG}.md`, `CLAUDE.md`, 활성 830과 이 증거. 도입·식당·표 확인·집 도착과 실내/실외 믹스만. 이동수단·새 음악·효과음·사실은 발명하지 않는다. 2장 ScreenshotQA가 먼저 멈추는 기존 M13의 빗나간 배경 기대값은 이미 정본에 맞게 고쳐진 제품을 그대로 두고 해당 표본 한 줄만 정합한다. 5개 원문·후속 병원 연락·효과·저장·기존 RC/업로드 변경0.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
