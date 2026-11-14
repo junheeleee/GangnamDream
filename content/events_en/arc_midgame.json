@@ -867,7 +867,7 @@
     "description": "The morning after the reckoning, the calculator and notebook remained open on the desk.\n\nThe figures were unchanged. What {name} had been pretending not to know was not.\n\nBefore starting the day, he opened a blank page. Instead of writing what else he could gain, he began with what he was still willing to put at stake.",
     "description_if_known": {
       "final_year_resolve": "The morning after the reckoning, the notebook cover still seemed solid against {name}'s palm.\n\nThe night before, he had decided not to erase a single page between 500,000 won and today's figure. He had also written that an outcome could not change who owned the path.\n\nIn the morning light, he opened a blank page. The question was no longer what success should look like, but how much of the ending he could still bear as his own.",
-      "final_year_realistic": "The morning after the reckoning, the plan remained open with a new save time.\n\nLowering the expected return and entering real expenses had reduced the chance of arrival. It had also shown, for the first time, exactly where the plan might break. The numbers offered no comfort, which made them useful.\n\n{name} opened a blank page. Now the person willing to see without exaggeration had to decide how much to risk.",
+      "final_year_realistic": "The morning after the reckoning, the plan file was on the screen, stamped with the new save time.\n\nLowering the expected rate of return and entering his actual expenses had reduced his chance of reaching the goal. But for the first time he could see where the plan might go wrong. The numbers offered no comfort, which made them useful.\n\n{name} opened a blank page. Now he had to write down how much he could risk in the year he had left.",
       "final_year_open": "The morning after the reckoning, {name} remembered the calculator display fading in the dark.\n\nHe had not forced an answer. He had admitted only that the largest turns of the past four years had come from beyond the calculation.\n\n{name} opened a blank page. Even without writing the ending in advance, he still had to decide what to put at stake today."
     },
     "description_memory_if_known": {
@@ -1151,8 +1151,8 @@
       "result_text": "{name} traced a line from 500,000 won on the first page to today's figure. It was not straight. Losses, detours, and pages bearing people's names broke the route.\n\nHe decided not to erase a single one. Whether he reached the target or missed it, the path would not become someone else's failure or success.\n\nWhen he closed the notebook, its cover felt solid beneath his palm."
       },
       {
-        "text": "He revised the plan once more. He would enter the end knowing.",
-      "result_text": "{name} lowered the expected return and entered his real expenses. The chance of arriving shrank, but for the first time every cell balanced without exaggeration. The numbers offered no comfort, which made them useful.\n\nHe marked the points where the plan would break and revised it once more. He chose to act with the truth rather than hope without it.\n\nThe saved file carried a new timestamp."
+        "text": "Revise the plan with a lower expected rate of return and actual expenses",
+      "result_text": "{name} lowered the expected rate of return and entered his actual expenses. The new figures gave him a slimmer chance of reaching his goal. The numbers offered no comfort, which made them useful.\n\nHe marked where the plan might go wrong and revised it once more.\n\nHe closed the file, now stamped with the time he had saved it."
       },
       {
         "text": "He closed the calculator. Only the end could answer.",
