@@ -762,6 +762,7 @@ def _validate_trace_script_source(source: str) -> None:
         raise ContractError("GDScript recorder aliases or indexes mutable GameState")
     allowed_state_methods = {
         "chapter5_causal_is_owned_event",
+        "chapter5_finale_ending_consumed",
         "chapter5_finale_is_owned_event",
         "format_event_text",
         "get_total_asset_value",
@@ -805,6 +806,46 @@ def _validate_trace_script_source(source: str) -> None:
         )
 
     drive_body = _gdscript_function_body(source, "_drive_main")
+    ready_body = _gdscript_function_body(source, "_ready")
+    calendar_advance = _gdscript_function_body(source, "_on_calendar_advanced")
+    product_save = _gdscript_function_body(source, "_on_product_save_completed")
+    ending_body = _gdscript_function_body(source, "_drive_ending")
+    if not all(needle in ready_body for needle in (
+        "GameState.turn_advanced.connect(_on_calendar_advanced)",
+        "SaveManager.save_completed.connect(_on_product_save_completed)",
+        '_open_week(1, _state_snapshot(), "fresh_title")',
+    )) or any(needle in drive_body for needle in ("_open_week(", "_close_week(")):
+        raise ContractError("week boundaries must come from fresh title and product signals, not polling")
+    if not all(needle in calendar_advance for needle in (
+        "var settled := _state_snapshot()",
+        'routine.get("status") != "applied"',
+        '_pending_calendar_boundary = {"next_turn": next_turn, "settled": settled}',
+    )) or any(needle in calendar_advance for needle in ("_open_week(", "_close_week(")):
+        raise ContractError("calendar signal must capture settlement without writing week rows")
+    if not all(needle in product_save for needle in (
+        "not success or slot != SaveManager.AUTOSAVE_SLOT",
+        'completed.get(str(week), {})',
+        'int(receipt.get("next_turn", -1)) != next_turn',
+        '_close_week(week, settled, "calendar_autosave", receipt)',
+        '_open_week(next_turn, saved, "calendar_autosave")',
+    )):
+        raise ContractError("calendar autosave must seal exact completion before recording weeks")
+    if not all(needle in product_save for needle in (
+        "GameState.chapter5_finale_ending_consumed()",
+        'GameState.flags.get("full_story_ending_id") == _ending_id',
+        "_typed_finale_save = _state_snapshot()",
+    )) or '_close_week(240, _typed_finale_save, "typed_finale_autosave")' not in ending_body:
+        raise ContractError("typed W240 recording must use the confirmed terminal autosave snapshot")
+    save_calls = set(re.findall(r"\bSaveManager\.\w+\s*\([^\n)]*\)", source))
+    permitted_save_calls = {
+        'SaveManager.has_method("set_setting")',
+        'SaveManager.set_setting("language", locale)',
+    }
+    if save_calls - permitted_save_calls or re.search(
+        r"\bSaveManager\.save_completed\.(?!(?:connect|disconnect|is_connected)\s*\()\w+\s*\(",
+        source,
+    ):
+        raise ContractError("recorder may observe SaveManager, not execute or emit a save")
     tutorial_start = drive_body.find(
         "\tvar tutorial_overlay := _active_main_tutorial_overlay(main)"
     )
@@ -1821,6 +1862,14 @@ def _validate_early_investment_identity(
             )
 
 
+def _calendar_flow(snapshot: dict[str, Any], label: str) -> dict[str, Any]:
+    flags = snapshot.get("flags")
+    flow = flags.get("full_story_flow_preview") if isinstance(flags, dict) else None
+    if not isinstance(flow, dict) or flow.get("profile") != "full_story_flow":
+        raise ContractError(f"{label} lacks the FullStoryFlow calendar owner")
+    return flow
+
+
 def validate_trace_rows(
     rows: list[dict[str, Any]],
     profile: dict[str, Any],
@@ -1857,6 +1906,9 @@ def validate_trace_rows(
     week_opens: list[int] = []
     week_closes: list[int] = []
     week_close_sequences: dict[int, int] = {}
+    active_week: int | None = None
+    terminal_turn: int | None = None
+    terminal_ending_id: str | None = None
     ending_pages: list[int] = []
     ending_open_count = 0
     ending_open_sequence = -1
@@ -1901,6 +1953,15 @@ def validate_trace_rows(
         if row["state_injection"] is not False:
             raise ContractError(f"{label} reports state injection")
         payload = _payload(row, label)
+        week = row["week"]
+        if record_type in {"week_open", "week_close"} \
+                and row["scene_path"] != "res://tools/FullGameRuntimeTrace.gd":
+            raise ContractError(f"{label} boundary must not claim visible scene evidence")
+        if record_type in {
+            "story_enter", "choice_offer", "story_choice", "story_result",
+            "main_action_offer", "main_action_commit",
+        } and active_week != week:
+            raise ContractError(f"{label} is outside its actual open week")
 
         if record_type == "run_start":
             if index != 0:
@@ -1922,10 +1983,56 @@ def validate_trace_rows(
             if payload.get("save_loaded") is not False:
                 raise ContractError("run_start must prove no save was loaded")
         elif record_type == "week_open":
-            week_opens.append(row["week"])
+            snapshot = payload.get("state")
+            source = "fresh_title" if week == 1 else "calendar_autosave"
+            if active_week is not None or week != len(week_opens) + 1 \
+                    or payload.get("boundary_source") != source \
+                    or not isinstance(snapshot, dict) or snapshot.get("turn") != week:
+                raise ContractError(f"{label} lacks an ordered, actual W{week} opening")
+            flow = _calendar_flow(snapshot, label)
+            if flow.get("last_completed_turn") != week - 1:
+                raise ContractError(f"{label} opens before W{week - 1} completion")
+            if week > 1:
+                completed = flow.get("completed_turns")
+                if not isinstance(completed, dict) or completed.get(str(week - 1)) != {
+                    "turn": week - 1, "next_turn": week,
+                }:
+                    raise ContractError(f"{label} lacks the immediately preceding completion receipt")
+            week_opens.append(week)
+            active_week = week
         elif record_type == "week_close":
-            week_closes.append(row["week"])
-            week_close_sequences[row["week"]] = row["sequence"]
+            snapshot = payload.get("state_after")
+            if active_week != week or not isinstance(snapshot, dict):
+                raise ContractError(f"{label} cannot close W{week} without an actual opening and snapshot")
+            boundary_source = payload.get("boundary_source")
+            flow = _calendar_flow(snapshot, label)
+            if flow.get("last_completed_turn") != week - 1:
+                raise ContractError(f"{label} closing snapshot includes later calendar settlement")
+            if boundary_source == "calendar_autosave":
+                routines = flow.get("routine_receipts")
+                routine = routines.get(str(week)) if isinstance(routines, dict) else None
+                if snapshot.get("turn") != week + 1 or payload.get("completion_receipt") != {
+                    "turn": week, "next_turn": week + 1,
+                } or not isinstance(routine, dict) or routine.get("turn") != week \
+                        or routine.get("status") != "applied":
+                    raise ContractError(f"{label} lacks exact W{week} settlement and completion receipts")
+            elif boundary_source == "typed_finale_autosave":
+                finale = snapshot.get("chapter5_finale")
+                terminal_ending_id = snapshot["flags"].get("full_story_ending_id")
+                if week != 240 or snapshot.get("turn") != week \
+                        or payload.get("completion_receipt") != {} \
+                        or not isinstance(finale, dict) or finale.get("status") != "open" \
+                        or finale.get("ending_check") != "consumed" \
+                        or not isinstance(terminal_ending_id, str) or not terminal_ending_id \
+                        or "full_story_ending_save_pending" in snapshot["flags"]:
+                    raise ContractError(f"{label} is not an exact saved W240 finale")
+            else:
+                raise ContractError(f"{label} has unowned week boundary source {boundary_source!r}")
+            if week == 240:
+                terminal_turn = snapshot["turn"]
+            week_closes.append(week)
+            week_close_sequences[week] = row["sequence"]
+            active_week = None
             if not isinstance(payload.get("state_delta"), dict):
                 raise ContractError(f"{label} lacks a state_delta")
         elif record_type == "story_enter":
@@ -2173,6 +2280,8 @@ def validate_trace_rows(
         raise ContractError("run_end lacks final_state")
     if final_state.get("week") not in {240, 241}:
         raise ContractError("run final GameState.turn must be Week 240 or 241")
+    if final_state.get("week") != terminal_turn:
+        raise ContractError("run final GameState.turn does not match its recorded terminal boundary")
     assets = final_state.get("total_assets")
     if not isinstance(assets, (int, float)):
         raise ContractError("run_end final_state.total_assets must be numeric")
@@ -2205,6 +2314,8 @@ def validate_trace_rows(
     ending_id = final_state.get("ending_id")
     if not isinstance(ending_id, str) or not ending_id:
         raise ContractError("run_end final_state.ending_id must be non-empty")
+    if terminal_ending_id is not None and ending_id != terminal_ending_id:
+        raise ContractError("reported ending does not match the typed W240 autosave")
     if ending_id != ending_open_id:
         raise ContractError("ending_open and run_end ending identities differ")
     required_endings = profile["target"]["required_ending_ids"]
@@ -2444,7 +2555,15 @@ def _fixture_rows(profile: dict[str, Any], profile_hash: str) -> list[dict[str, 
         "user_args": [],
     }, "res://scenes/StartMenu.gd")
     for week in range(1, 241):
-        add("week_open", week, f"week:{week}:open", {}, "res://scenes/MainGame.gd")
+        open_flow = {"profile": "full_story_flow", "last_completed_turn": week - 1}
+        if week > 1:
+            open_flow["completed_turns"] = {
+                str(week - 1): {"turn": week - 1, "next_turn": week},
+            }
+        add("week_open", week, f"week:{week}:open", {
+            "boundary_source": "fresh_title" if week == 1 else "calendar_autosave",
+            "state": {"turn": week, "flags": {"full_story_flow_preview": open_flow}},
+        }, "res://tools/FullGameRuntimeTrace.gd")
         if week == 1:
             story_specs = [
                 ("fixture_root", 1, "main_ingress", ""),
@@ -2512,7 +2631,23 @@ def _fixture_rows(profile: dict[str, Any], profile_hash: str) -> list[dict[str, 
                 },
                 "state_delta": {},
             }, "res://scenes/MainGame.gd")
-        add("week_close", week, f"week:{week}:close", {"state_delta": {}}, "res://scenes/MainGame.gd")
+        typed = week == 240
+        add("week_close", week, f"week:{week}:close", {
+            "boundary_source": "typed_finale_autosave" if typed else "calendar_autosave",
+            "completion_receipt": {} if typed else {"turn": week, "next_turn": week + 1},
+            "state_delta": {},
+            "state_after": {
+                "turn": week if typed else week + 1,
+                "flags": {
+                    "full_story_flow_preview": {
+                        "profile": "full_story_flow", "last_completed_turn": week - 1,
+                        "routine_receipts": {str(week): {"turn": week, "status": "applied"}},
+                    },
+                    **({"full_story_ending_id": "with_daeun"} if typed else {}),
+                },
+                "chapter5_finale": {"status": "open", "ending_check": "consumed"} if typed else {},
+            },
+        }, "res://tools/FullGameRuntimeTrace.gd")
     add("ending_open", 240, "ending:open", {"ending_id": "with_daeun", "page_count": 6}, "res://scenes/MainGame.gd")
     for page in range(6):
         add("ending_page", 240, f"ending:page:{page}", {"page_index": page}, "res://scenes/MainGame.gd")
@@ -2602,6 +2737,13 @@ def self_test() -> None:
     cases = 1
 
     valid_241 = copy.deepcopy(valid)
+    close_240 = next(row["payload"] for row in valid_241
+                     if row["record_type"] == "week_close" and row["week"] == 240)
+    close_240.update({"boundary_source": "calendar_autosave",
+                      "completion_receipt": {"turn": 240, "next_turn": 241}})
+    close_240["state_after"]["turn"] = 241
+    close_240["state_after"]["chapter5_finale"] = {}
+    close_240["state_after"]["flags"].pop("full_story_ending_id")
     valid_241[-1]["payload"]["final_state"]["week"] = 241
     validate_trace_rows(valid_241, profile, profile_hash)
     cases += 1
@@ -2725,6 +2867,34 @@ def self_test() -> None:
     mutations.append(("state-injection", lambda rows: rows[10].__setitem__("state_injection", True)))
     mutations.append(("forbidden-arg", lambda rows: rows[0]["payload"].__setitem__("user_args", ["--demo-build"])))
     mutations.append(("missing-week", lambda rows: rows.pop(next(i for i, row in enumerate(rows) if row["record_type"] == "week_open" and row["week"] == 17))))
+    def boundary(rows: list[dict[str, Any]], kind: str, week: int) -> dict[str, Any]:
+        return next(row["payload"] for row in rows
+                    if row["record_type"] == kind and row["week"] == week)
+
+    mutations.extend([
+        ("polling-backfill", lambda rows: boundary(rows, "week_open", 2).update({
+            "boundary_source": "frame_poll", "state": {"turn": 4},
+        })),
+        ("wrong-completion-receipt", lambda rows: boundary(rows, "week_close", 2)
+         ["completion_receipt"].update({"next_turn": 4})),
+        ("wrong-opening-receipt", lambda rows: boundary(rows, "week_open", 3)
+         ["state"]["flags"]["full_story_flow_preview"]["completed_turns"].clear()),
+        ("closing-snapshot-contains-opening-economy", lambda rows: boundary(rows, "week_close", 4)
+         ["state_after"]["flags"]["full_story_flow_preview"].update({"last_completed_turn": 4})),
+        ("unapplied-routine", lambda rows: boundary(rows, "week_close", 2)
+         ["state_after"]["flags"]["full_story_flow_preview"]["routine_receipts"]["2"].update({"status": "reserved"})),
+        ("unconsumed-typed-finale", lambda rows: boundary(rows, "week_close", 240)
+         ["state_after"]["chapter5_finale"].update({"ending_check": "ready"})),
+        ("unsaved-typed-finale", lambda rows: boundary(rows, "week_close", 240)
+         ["state_after"]["flags"].update({"full_story_ending_save_pending": {"turn": 240}})),
+        ("wrong-typed-ending-save", lambda rows: boundary(rows, "week_close", 240)
+         ["state_after"]["flags"].update({"full_story_ending_id": "unrelated"})),
+        ("calendar-boundary-falsely-claims-visible-scene", lambda rows: next(
+            row for row in rows if row["record_type"] == "week_open" and row["week"] == 2
+        ).update({"scene_path": "res://scenes/MainGame.gd"})),
+        ("terminal-boundary-and-run-disagree", lambda rows: rows[-1]["payload"]
+         ["final_state"].update({"week": 241})),
+    ])
     mutations.append(("missing-ending-page", lambda rows: rows.pop(next(i for i, row in enumerate(rows) if row["record_type"] == "ending_page" and row["payload"]["page_index"] == 3))))
     mutations.append(("wrong-gate", lambda rows: rows[-1]["payload"].__setitem__("product_go", "GO")))
     mutations.append(("missing-edge", lambda rows: next(row for row in rows if row["record_type"] == "story_enter" and row["payload"]["event_id"] == "fixture_repeat")["payload"].__setitem__("provenance", "queued")))
@@ -2774,6 +2944,24 @@ def self_test() -> None:
         ),
     )
     cases += 1
+
+    calendar_source = TRACE_SCRIPT.read_text(encoding="utf-8")
+    for name, source in (
+        ("missing-calendar-signal", calendar_source.replace(
+            "GameState.turn_advanced.connect(_on_calendar_advanced)", "pass", 1)),
+        ("missing-calendar-save-signal", calendar_source.replace(
+            "SaveManager.save_completed.connect(_on_product_save_completed)", "pass", 1)),
+        ("calendar-save-failure-accepted", calendar_source.replace(
+            "not success or slot != SaveManager.AUTOSAVE_SLOT", "false", 1)),
+        ("calendar-observer-saves-product-state", calendar_source + "\nSaveManager.autosave()\n"),
+        ("calendar-observer-fabricates-save", calendar_source +
+         "\nSaveManager.save_completed.emit(true, 0)\n"),
+        ("ending-close-bypasses-typed-autosave", calendar_source.replace(
+            '_close_week(240, _typed_finale_save, "typed_finale_autosave")',
+            '_close_week(240, _state_snapshot(), "typed_finale_autosave")', 1)),
+    ):
+        _expect_failure(name, lambda source=source: _validate_trace_script_source(source))
+        cases += 1
 
     direct_call_source = TRACE_SCRIPT.read_text(encoding="utf-8") + \
         '\nmain.call("_ap_side_job")\n'

@@ -16,6 +16,7 @@ const START_MENU_SCRIPT := "res://scenes/StartMenu.gd"
 const OPENING_SCRIPT := "res://scenes/OpeningCinematic.gd"
 const STORY_SCRIPT := "res://scenes/StoryMode.gd"
 const MAIN_SCRIPT := "res://scenes/MainGame.gd"
+const TRACE_SCRIPT := "res://tools/FullGameRuntimeTrace.gd"
 const TUTORIAL_OVERLAY_SCRIPT := "res://scenes/TutorialOverlay.gd"
 const DEFAULT_PROFILES_PATH := "res://tools/full_game_runtime_trace_profiles.json"
 const FORBIDDEN_USER_ARGS: Array[String] = [
@@ -74,6 +75,8 @@ var _week_opened: Dictionary = {}
 var _week_closed: Dictionary = {}
 var _week_open_state: Dictionary = {}
 var _last_open_week := 0
+var _pending_calendar_boundary: Dictionary = {}
+var _typed_finale_save: Dictionary = {}
 var _main_offer_signatures: Dictionary = {}
 var _main_offer_counter := 0
 var _main_commit_counter := 0
@@ -104,6 +107,8 @@ func _ready() -> void:
 	if GameState.game_over.is_connected(_on_game_over):
 		GameState.game_over.disconnect(_on_game_over)
 	GameState.game_over.connect(_on_game_over)
+	GameState.turn_advanced.connect(_on_calendar_advanced)
+	SaveManager.save_completed.connect(_on_product_save_completed)
 	seed(int(_profile.get("seed", 1)))
 	_set_language(str(_profile.get("locale", "ko")))
 	if not await _boot_fresh_title():
@@ -111,6 +116,7 @@ func _ready() -> void:
 		return
 	seed(int(_profile.get("seed", 1)))
 	_record_run_start()
+	_open_week(1, _state_snapshot(), "fresh_title")
 	await _drive_product_run()
 
 
@@ -333,6 +339,8 @@ func _drive_product_run() -> void:
 
 
 func _drive_story(story: Node) -> void:
+	if not _require_active_week(int(GameState.turn)):
+		return
 	var current_raw: Variant = story.get("_current")
 	if not current_raw is Dictionary:
 		return
@@ -604,15 +612,12 @@ func _drive_main(main: Node) -> bool:
 			var deferred_id := str((raw_entry as Dictionary).get("event_id", ""))
 			if not deferred_id.is_empty() and deferred_id not in _last_main_deferred_ids:
 				_last_main_deferred_ids.append(deferred_id)
-	if current_turn > 1 and _last_open_week > 0 \
-			and current_turn > _last_open_week:
-		_close_week(_last_open_week, main)
-	if current_turn <= 240 and not _week_opened.has(current_turn):
-		_open_week(current_turn, main)
 	if GameState.is_game_over:
 		return await _drive_ending(main)
 	if current_turn > 240:
 		_fail("product advanced past exact Week 240")
+		return false
+	if not _require_active_week(current_turn):
 		return false
 	# MainGame can render the next week's action board for a few frames before
 	# handing an already-queued story to StoryMode. A human cannot reliably
@@ -698,30 +703,113 @@ func _drive_main(main: Node) -> bool:
 	return false
 
 
-func _open_week(week: int, main: Node) -> void:
-	if _last_open_week > 0 and week != _last_open_week + 1:
+func _require_active_week(week: int) -> bool:
+	if _fatal:
+		return false
+	if _pending_calendar_boundary.get("next_turn") == week:
+		# A failed calendar autosave pauses the real surface. Do not record or
+		# activate an action on the next week until its actual retry succeeds.
+		return false
+	if week != _last_open_week or not _week_opened.has(week) or _week_closed.has(week):
+		_fail("visible product surface is outside its recorded week: %d" % week)
+		return false
+	return true
+
+
+func _on_calendar_advanced(next_turn: int) -> void:
+	if _fatal or _shutdown_started or not _run_start_recorded:
+		return
+	var week := next_turn - 1
+	if not _pending_calendar_boundary.is_empty() or not _require_active_week(week) \
+			or next_turn != int(GameState.turn):
+		_fail("calendar advance is not the exact next boundary: %d" % next_turn)
+		return
+	# turn_advanced follows the prior week's settlement, but precedes
+	# FullStoryFlow.complete_turn and any new-month opening economy. Never
+	# attribute that later economy to the week being closed.
+	var settled := _state_snapshot()
+	var flow := _full_story_flow_state(settled)
+	var routines: Dictionary = flow.get("routine_receipts", {})
+	var routine: Dictionary = routines.get(str(week), {})
+	if flow.get("profile") != "full_story_flow" \
+			or int(flow.get("last_completed_turn", -1)) != week - 1 \
+			or int(routine.get("turn", -1)) != week or routine.get("status") != "applied":
+		_fail("calendar advance lacks the prior week's owned routine: %d" % week)
+		return
+	_pending_calendar_boundary = {"next_turn": next_turn, "settled": settled}
+
+
+func _on_product_save_completed(success: bool, slot: int) -> void:
+	if _fatal or _shutdown_started or not success or slot != SaveManager.AUTOSAVE_SLOT:
+		return
+	if _pending_calendar_boundary.is_empty():
+		# Typed W240 creates no calendar receipt. Only the fresh game's matching
+		# successful terminal autosave can seal this non-advancing boundary.
+		if not _week_closed.has(240) and int(GameState.turn) == 240 \
+				and GameState.is_game_over and not _ending_id.is_empty() \
+				and GameState.flags.get("full_story_ending_id") == _ending_id \
+				and GameState.flags.get("full_story_ending_save_pending") == null \
+				and GameState.chapter5_finale_ending_consumed():
+			_typed_finale_save = _state_snapshot()
+		return
+	var next_turn := int(_pending_calendar_boundary["next_turn"])
+	var week := next_turn - 1
+	var saved := _state_snapshot()
+	var flow := _full_story_flow_state(saved)
+	var completed: Dictionary = flow.get("completed_turns", {})
+	var receipt: Dictionary = completed.get(str(week), {})
+	if int(saved["turn"]) != next_turn or flow.get("profile") != "full_story_flow" \
+			or int(flow.get("last_completed_turn", -1)) != week \
+			or int(receipt.get("turn", -1)) != week \
+			or int(receipt.get("next_turn", -1)) != next_turn:
+		_fail("successful calendar autosave lacks the exact completion receipt: %d" % week)
+		return
+	var settled: Dictionary = _pending_calendar_boundary["settled"]
+	_pending_calendar_boundary.clear()
+	_close_week(week, settled, "calendar_autosave", receipt)
+	if not _fatal and next_turn <= 240:
+		_open_week(next_turn, saved, "calendar_autosave")
+
+
+func _full_story_flow_state(snapshot: Dictionary) -> Dictionary:
+	var flags: Dictionary = snapshot.get("flags", {})
+	return flags.get("full_story_flow_preview", {})
+
+
+func _open_week(week: int, snapshot: Dictionary, boundary_source: String) -> void:
+	if week != _last_open_week + 1 or int(snapshot.get("turn", -1)) != week \
+			or (week > 1 and not _week_closed.has(week - 1)):
 		_fail("week sequence jumped from %d to %d" % [_last_open_week, week])
+		return
+	var flow := _full_story_flow_state(snapshot)
+	if flow.get("profile") != "full_story_flow" \
+			or int(flow.get("last_completed_turn", -1)) != week - 1:
+		_fail("week %d lacks its actual FullStoryFlow opening state" % week)
 		return
 	_week_opened[week] = true
 	_last_open_week = week
-	var snapshot := _state_snapshot()
 	_week_open_state[week] = snapshot
 	_record("week_open", "week:%03d:open" % week, {
+		"boundary_source": boundary_source,
 		"state": snapshot,
-		"pending_story_queue": GameState.pending_story_queue.duplicate(true),
-	}, MAIN_SCRIPT, week)
+		"pending_story_queue": snapshot["pending_story_queue"],
+	}, TRACE_SCRIPT, week)
 
 
-func _close_week(week: int, main: Node) -> void:
-	if week < 1 or week > 240 or _week_closed.has(week):
+func _close_week(
+		week: int, after: Dictionary, boundary_source: String,
+		completion_receipt: Dictionary = {}) -> void:
+	if week < 1 or week > 240 or not _require_active_week(week):
 		return
 	var before: Dictionary = _week_open_state.get(week, {})
-	var after := _state_snapshot()
 	_week_closed[week] = true
+	_week_open_state.erase(week)
 	_record("week_close", "week:%03d:close" % week, {
+		"boundary_source": boundary_source,
+		"completion_receipt": completion_receipt,
 		"state_delta": _state_delta(before, after),
 		"state_after": after,
-	}, MAIN_SCRIPT, week)
+	}, TRACE_SCRIPT, week)
 
 
 func _record_main_action_offer(main: Node, cards: Array[Button]) -> void:
@@ -919,10 +1007,22 @@ func _drive_ending(main: Node) -> bool:
 	var modal := main.get("modal_layer") as Control
 	if not is_instance_valid(modal) or not modal.visible:
 		return false
-	if _last_open_week > 0 and not _week_closed.has(240):
-		_close_week(240, main)
-	if _ending_id.is_empty():
-		_ending_id = _ending_id_from_history()
+	if _pending_calendar_boundary.get("next_turn") == int(GameState.turn) \
+			or GameState.flags.get("full_story_ending_save_pending") != null:
+		return false
+	if _ending_id.is_empty() or _last_open_week != 240 \
+			or GameState.flags.get("full_story_ending_id") != _ending_id:
+		_fail("visible ending lacks a fresh game-over signal at exact W240")
+		return false
+	if not _week_closed.has(240):
+		# The typed finale ends on W240 without crossing a calendar boundary.
+		if int(GameState.turn) != 240 or _typed_finale_save.is_empty():
+			_fail("visible ending lacks a committed W240 calendar or typed boundary")
+			return false
+		_close_week(240, _typed_finale_save, "typed_finale_autosave")
+		_typed_finale_save.clear()
+		if _fatal:
+			return false
 	var page_count := int(modal.get_meta("ending_page_count", 0))
 	if not _ending_open_recorded:
 		_ending_open_recorded = true
@@ -1061,6 +1161,10 @@ func _graceful_shutdown(exit_code: int) -> void:
 			_on_weekly_commitment_finalized)
 	if GameState.game_over.is_connected(_on_game_over):
 		GameState.game_over.disconnect(_on_game_over)
+	if GameState.turn_advanced.is_connected(_on_calendar_advanced):
+		GameState.turn_advanced.disconnect(_on_calendar_advanced)
+	if SaveManager.save_completed.is_connected(_on_product_save_completed):
+		SaveManager.save_completed.disconnect(_on_product_save_completed)
 	await _release_audio_for_exit()
 	await _release_active_scene_for_exit()
 	get_tree().quit(exit_code)
@@ -1169,7 +1273,7 @@ func _record(
 	var week := forced_week if forced_week > 0 else int(GameState.turn)
 	var resolved_scene_path := scene_path
 	if resolved_scene_path.is_empty():
-		resolved_scene_path = "res://tools/FullGameRuntimeTrace.gd"
+		resolved_scene_path = TRACE_SCRIPT
 	var row := {
 		"schema_version": TRACE_SCHEMA_VERSION,
 		"record_type": record_type,
@@ -1357,14 +1461,6 @@ func _chapter5_same_turn_pair(previous_id: String, event_id: String) -> bool:
 	var current_owned := GameState.chapter5_causal_is_owned_event(event_id) \
 		or GameState.chapter5_finale_is_owned_event(event_id)
 	return previous_owned and current_owned
-
-
-func _ending_id_from_history() -> String:
-	var history: Variant = MetaProgression.data.get("run_history", [])
-	if history is Array and not (history as Array).is_empty() \
-			and (history as Array)[-1] is Dictionary:
-		return str(((history as Array)[-1] as Dictionary).get("ending_id", ""))
-	return _ending_id
 
 
 func _scene_script_path(scene: Node) -> String:
