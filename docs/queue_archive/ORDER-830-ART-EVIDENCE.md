@@ -122,6 +122,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] 착수 — `assets/scene_audio_manifest.json`에서 연락 두절·게시글·음성사서함·결단·옛 사진 다섯 행, `tools/{scene_audio_contract_check.py,StoryBackgroundContextCheck.gd}`의 정확한 회귀 및 현황·증거·일지만. 모든 배경은 현재 집이며 옛 사진의 장소를 현재 장면으로 틀지 않는다. 고시원 기계/이웃·계절 대신 같은 중립 실내 녹음, 기존 피아노 시작 3/1/1/0/0과 결단의 기존 감쇠·효과 유지. 어긋난 새벽 서술 및 사진 컷은 별도, 공통 알림·이중 녹음음·회신·사진 셔터 추가0. 원문·그림·갈래·저장·데모·공개 변경0. 피해자 글/자동음성 양쪽 및 사진이 있는/없는 경우를 확인한다.
 
+[~] 별도 문장 단위 — `content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_events.json`의 연락 두절 c1 결과와 같은 문장 c0 결과만. 결과에서는 통화 버튼과 기다림까지만, 실제 자동 안내·녹음·전송과 재혁 무응답은 바로 다음 음성사서함 장면에 한 번. 글 읽기의 시간 역전은 뒤의 새벽 두 시·옛 사진의 밤을 보존하고 앞의 동이 트는 서술만 없앤다. 기존 수용 원장 `content/meta/full_game_localization.json` 여섯 지문·배치 및 `content/meta/release_content_inventory.json`/`docs/CONTENT_RATING_INVENTORY.md` 현행 해시, 현황·증거·일지만. 두 원문 문단은 각각 한 개 유지. 선택·효과·후속·원화·소리·공개 데모·저장 키0 변경. 별도 음향 제품 커밋과 구분한다.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
