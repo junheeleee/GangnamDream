@@ -424,6 +424,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `subway` | `backgrounds/seoul_subway.png` | 1280x800 |
 | background | `sinchon_bus_stop_after_rain_night` | `backgrounds/sinchon_bus_stop_after_rain_night.png` | 1280x800 |
 | background | `sinchon_bus_stop_distant_bus_night` | `backgrounds/sinchon_bus_stop_distant_bus_night.png` | 1280x800 |
+| background | `seoul_subway_transfer_passage` | `backgrounds/seoul_subway_transfer_passage_v1.png` | 1584x990 |
 | background | `sinchon_bus_stop_sedan_night` | `backgrounds/sinchon_bus_stop_sedan_night.png` | 1280x800 |
 | background | `sinchon_crash_approach_rain_dusk` | `backgrounds/sinchon_crash_approach_rain_dusk.png` | 1280x800 |
 | background | `sinchon_crash_exit_rain_dusk` | `backgrounds/sinchon_crash_exit_rain_dusk.png` | 1280x800 |

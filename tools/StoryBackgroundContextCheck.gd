@@ -30,6 +30,7 @@ const W53_NETWORK := "arc_sangchul_03_network"
 const W53_DINING := "sangchul_private_dining"
 const W57_MEDICATION := "arc_father_medication"
 const W57_VIBRATION := "arc_father_medication::description:0:0:phone_vibrate"
+const W57_PASSAGE := "seoul_subway_transfer_passage"
 const HYUNSU_CALL := "arc_hyunsu_new_path"
 const HYUNSU_KEYBOARD := "keyboard_phone"
 const HYUNSU_INTRO_CUE := "arc_hyunsu_new_path::description:2:0:keyboard_phone"
@@ -238,6 +239,7 @@ const CASES := [
 ]
 
 const EXACT_PATHS := {
+	W57_PASSAGE: "res://assets/backgrounds/seoul_subway_transfer_passage_v1.png",
 	W53_DINING: "res://assets/backgrounds/sangchul_private_dining.png",
 	W234_OFFICE: "res://assets/backgrounds/realestate_office.png",
 	W234_BOULEVARD: "res://assets/backgrounds/gangnam_boulevard_winter_dusk.png",
@@ -2234,6 +2236,13 @@ func _check_w45_december_home(smoke: bool = false) -> bool:
 func _check_w57_message_audio(smoke: bool = false) -> bool:
 	var paths := 0
 	var restores := 0
+	var render_dir := OS.get_environment("GANGNAM_W57_CAPTURE_DIR")
+	if not render_dir.is_empty():
+		var output := DirAccess.open(render_dir) if render_dir.is_absolute_path() else null
+		if DisplayServer.get_name() == "headless" or output == null or not output.get_files().is_empty() \
+				or not output.get_directories().is_empty():
+			_fail("W57 capture requires a display and a fresh absolute output directory")
+			return false
 	var languages: Array = ["ko"] if smoke else LocaleManager.SUPPORTED_LANGUAGES
 	for language: String in languages:
 		for known: bool in ([false] if smoke else [false, true]):
@@ -2269,7 +2278,8 @@ func _check_w57_message_audio(smoke: bool = false) -> bool:
 				add_child(_story)
 				_story.call("_set_auto_mode", false, false, false)
 				var expect_vibration := true
-				if not _expect_w57_audio(true, "opening") or int(_story.call("_story_source_paragraph_count")) != 4:
+				if not _expect_w57_audio(true, "opening") or not _expect_w57_art(-1, 0) \
+						or int(_story.call("_story_source_paragraph_count")) != 4:
 					return false
 				var vibration: AudioStream = AudioManager._sounds.get("phone_vibrate")
 				var played_at := int(AudioManager._last_sfx_ms.get("phone_vibrate", -1))
@@ -2280,17 +2290,24 @@ func _check_w57_message_audio(smoke: bool = false) -> bool:
 					return false
 				if not smoke and choice == 0:
 					await _finish_page()
-					if not await _reload_prechoice("prose", W57_MEDICATION, false) or not _expect_w57_audio(false, "restored opening"):
+					if not render_dir.is_empty() and not known:
+						await get_tree().create_timer(0.42).timeout
+						if not await _save_viewport_frame(render_dir.path_join(language + "_transfer.png")):
+							return false
+					if not await _reload_prechoice("prose", W57_MEDICATION, false) \
+							or not _expect_w57_audio(false, "restored opening") or not _expect_w57_art(-1, 0):
 						return false
 					expect_vibration = false
 					restores += 1
 				for page in range((_story.get("_paragraphs") as Array).size()):
 					await _finish_page()
-					if int(_story.get("_para_index")) != page or not _expect_w57_audio(expect_vibration, "prose"):
+					if int(_story.get("_para_index")) != page or not _expect_w57_audio(expect_vibration, "prose") \
+							or not _expect_w57_art(-1, 0):
 						return false
 					_story.call("_on_advance")
 					await _wait_stable()
-				if not bool(_story.get("_showing_choices")) or not _expect_w57_audio(expect_vibration, "choices"):
+				if not bool(_story.get("_showing_choices")) or not _expect_w57_audio(expect_vibration, "choices") \
+						or not _expect_w57_art(-1, 0):
 					return false
 				var cash: float = GameState.money
 				var events := GameState.events_seen
@@ -2301,8 +2318,14 @@ func _check_w57_message_audio(smoke: bool = false) -> bool:
 				var pages: Array = _story.get("_paragraphs")
 				for page in range(pages.size()):
 					await _finish_page()
-					if int(_story.get("_para_index")) != page or not _expect_w57_audio(expect_vibration, "result"):
+					var source := int(_story.call("_story_source_paragraph_index", page))
+					if int(_story.get("_para_index")) != page or not _expect_w57_audio(expect_vibration, "result") \
+							or not _expect_w57_art(choice, source):
 						return false
+					if not render_dir.is_empty() and not known and source > 0 \
+							and page == int(_story.call("_first_story_page_for_source", source)):
+						if not await _save_viewport_frame(render_dir.path_join("%s_c%d_p%d.png" % [language, choice, source])):
+							return false
 					if page < pages.size() - 1:
 						_story.call("_on_advance")
 						await _wait_stable()
@@ -2310,7 +2333,7 @@ func _check_w57_message_audio(smoke: bool = false) -> bool:
 					var context: Dictionary = _story.call("build_save_resume_context")
 					if not await _reload_authored_result_context(context, language, 3, 2) \
 							or int(_story.get("_pending_result_choice_index")) != choice \
-							or not _expect_w57_audio(false, "restored result"):
+							or not _expect_w57_audio(false, "restored result") or not _expect_w57_art(choice, 2):
 						return false
 					restores += 1
 				var branch_flags := ["called_about_medication", "ignored_medication_signal", "visited_for_medication"]
@@ -2326,6 +2349,26 @@ func _check_w57_message_audio(smoke: bool = false) -> bool:
 	if not smoke:
 		print("W57_MEDICATION_AUDIO_OK paths=%d v4_restores=%d languages=5 variants=2 choices=3" % [paths, restores])
 	return paths == (1 if smoke else 30) and restores == (0 if smoke else 40)
+
+func _expect_w57_art(choice: int, source: int) -> bool:
+	var expected_background := W57_PASSAGE
+	if source > 0 and choice == 1:
+		expected_background = "subway" if source == 1 else ImageRegistry.resolve_contextual_background_id("current_housing")
+	elif source > 0 and choice == 2:
+		expected_background = ""
+	var expected_channel := "message"
+	if choice >= 0 and not (choice != 0 and source == 0):
+		expected_channel = "phone" if choice == 0 and source < 2 else "narration"
+	var badge := _story.get("_communication_badge") as Control
+	var presentation := _story.get("_current_presentation") as Dictionary
+	var art := (_story.get("_bg_img") as TextureRect).texture
+	var background_ok: bool = _expect_surface(expected_background, "", "W57") if not expected_background.is_empty() else (
+		art == null and str(_story.get("_event_background_id")).is_empty() and (_story.get("_bg_dim") as ColorRect).color == Color("#111216"))
+	if not background_ok or str(presentation.get("channel", "")) != expected_channel \
+			or badge.visible != (expected_channel != "narration") or str(_story.get_meta("living_scene_effect", "")) != "none":
+		_fail("W57 wrong background/channel for c%d source %d; expected %s/%s" % [choice, source, expected_background, expected_channel])
+		return false
+	return true
 
 func _expect_w57_audio(expect_vibration: bool, label: String) -> bool:
 	var heard := AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:

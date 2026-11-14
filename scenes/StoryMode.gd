@@ -56,6 +56,7 @@ const W112_FATHER_CALL := "arc_y3_father_deferred_call"
 const W53_SANGCHUL_NETWORK := "arc_sangchul_03_network"
 const W53_PRIVATE_DINING := "sangchul_private_dining"
 const W57_FATHER_MEDICATION := "arc_father_medication"
+const W57_TRANSFER_PASSAGE := "seoul_subway_transfer_passage"
 const W117_JAEHYUK_COUNTER := "arc_jaehyuk_04b_counter"
 const W117_POLICE_RECEPTION := "police_evidence_reception"
 const W117_COUNTER_CUTS := preload("res://assets/w117_jaehyuk_counter_cuts.tres")
@@ -538,6 +539,7 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 	if is_instance_valid(_bg_dim):
 		_bg_dim.color = Color("#111216") if (_full_w19_reunion \
 			or _is_w53_network_scene() \
+			or _is_w57_medication_scene() \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \
 			and _event_background_id.is_empty() else _story_dim_color(has_cg)
 	if _story_bg_material:
@@ -5494,6 +5496,9 @@ func _story_restore_position_for_source_progress(
 func _render_current():
 	_reset_advance_hold()
 	var w53_network := _is_w53_network_scene()
+	var cold_w57_result := _is_w57_medication_scene() \
+		and str(_pending_restore_context.get("event_id", "")) == W57_FATHER_MEDICATION \
+		and str(_pending_restore_context.get("phase", "")) == "result"
 	_full_w19_reunion = str(_current.get("id", "")) == W19_JAEHYUK_REUNION \
 		and not _read_only_replay and not _is_public_story_demo() \
 		and GameState.story_return_scene != STORY_DEMO_RETURN_SCENE \
@@ -5571,6 +5576,9 @@ func _render_current():
 		# choose its exact surface before any dining sound or portrait starts.
 		_bg_img.texture = null
 		_event_portrait_revealed = false
+	elif cold_w57_result:
+		# A restored result resolves its own location, not the received text's passage.
+		_bg_img.texture = null
 	elif cg_active_at_start and ImageRegistry.has_texture(cg_path):
 		_bg_img.texture = ImageRegistry.load_texture(cg_path)
 		_current_uses_cg = true
@@ -5838,6 +5846,9 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	if _is_w53_network_scene():
 		_apply_w53_network_surface()
 		return
+	if _pending_after_result and _is_w57_medication_scene():
+		_apply_w57_medication_result_surface()
+		return
 	if event_id == W117_JAEHYUK_COUNTER:
 		_apply_w117_counter_surface(play_cut_cue)
 		return
@@ -5985,6 +5996,34 @@ func _apply_w53_network_surface() -> void:
 		BGMPlayer.clear_ambience_immediate()
 	else:
 		BGMPlayer.update_event_ambience(_current, "", destination)
+
+func _is_w57_medication_scene() -> bool:
+	return str(_current.get("id", "")) == W57_FATHER_MEDICATION and not _is_public_story_demo()
+
+func _apply_w57_medication_result_surface() -> void:
+	var source := _story_source_paragraph_index(_para_index)
+	var destination := W57_TRANSFER_PASSAGE
+	if source > 0:
+		if _pending_result_choice_index == 1:
+			destination = "subway" if source == 1 else _resolve_story_background_id("current_housing")
+		elif _pending_result_choice_index == 2:
+			# The later station and table are not the Seoul passage. Don't replace
+			# them with a different station or invent a view inside the family home.
+			destination = ""
+	if destination == _event_background_id:
+		return
+	var texture: Texture2D = null
+	if not destination.is_empty():
+		var path := str(ImageRegistry.BACKGROUNDS.get(destination, ""))
+		if not path.is_empty() and ImageRegistry.has_texture(path):
+			texture = ImageRegistry.load_texture(path)
+		if texture == null:
+			destination = ""
+	_finish_story_scene_transition()
+	_event_background_id = destination
+	_bg_img.texture = texture
+	_apply_story_surface_palette(false)
+	_configure_living_scene()
 
 
 func _w117_counter_background() -> String:
@@ -6293,6 +6332,26 @@ func _refresh_story_paragraph_presentation(
 	var event_id := str(_current.get("id", ""))
 	var call_end_source_index := -1
 	match event_id:
+		W57_FATHER_MEDICATION:
+			if not _is_w57_medication_scene():
+				return
+			_current_presentation = DataRegistry.get_story_presentation(event_id).duplicate(true)
+			if _pending_after_result:
+				_current_presentation["channel"] = "narration"
+				_current_presentation.erase("state")
+				_current_presentation.erase("remote_actor")
+				_current_presentation.erase("remote_location")
+				if _pending_result_choice_index == 0 and source_paragraph_index < 2:
+					_current_presentation["channel"] = "phone"
+					_current_presentation["state"] = "connected"
+					_current_presentation["remote_actor"] = "father"
+					_current_presentation["remote_location"] = "changwon_home"
+				elif _pending_result_choice_index != 0 and source_paragraph_index == 0:
+					_current_presentation["channel"] = "message"
+					_current_presentation["state"] = "sent"
+			_update_communication_badge(str(_current_presentation.get("channel", "in_person")),
+				str(_current_presentation.get("state", "")))
+			return
 		W112_FATHER_CALL:
 			_current_presentation = _w112_call_presentation(source_paragraph_index, _pending_after_result)
 			# Same local portrait and room in each state. Don't fade the actor or
@@ -6562,7 +6621,8 @@ func _living_reduced_motion() -> bool:
 func _configure_living_scene(event_override: Dictionary = {}) -> void:
 	if not is_instance_valid(_living_scene):
 		return
-	if (_full_w19_reunion or _is_w53_network_scene() or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \
+	if (_full_w19_reunion or _is_w53_network_scene() or _is_w57_medication_scene() \
+			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \
 			and _event_background_id.is_empty():
 		# A settings or viewport refresh must not infer the meeting in a recap.
 		_living_scene.clear_profile()

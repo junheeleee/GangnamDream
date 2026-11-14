@@ -848,6 +848,14 @@
     {
       "kind": "background",
       "ids": [
+        "seoul_subway_transfer_passage"
+      ],
+      "relative_path": "backgrounds/seoul_subway_transfer_passage_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "sinchon_bus_stop_after_rain_night"
       ],
       "relative_path": "backgrounds/sinchon_bus_stop_after_rain_night.png",

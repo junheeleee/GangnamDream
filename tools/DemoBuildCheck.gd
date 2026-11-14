@@ -607,8 +607,8 @@ func _check_employment_consistency() -> void:
 	_expect(str(DataRegistry.find_event("arc_temptation_clean").get("background", "")) == "current_housing",
 		"Clean temptation aftermath stopped following the player's live home.")
 	var medication_event: Dictionary = DataRegistry.find_event("arc_father_medication")
-	_expect(str(medication_event.get("background", "")) == "subway",
-		"Father medication message still assumes an office.")
+	_expect(str(medication_event.get("background", "")) == "seoul_subway_transfer_passage",
+		"Father medication message must begin on foot in the transfer passage.")
 	var medication_text := JSON.stringify(medication_event)
 	_expect(not medication_text.contains("회의") and not medication_text.contains("자리로 돌아"),
 		"Father medication message still narrates employment-only actions.")

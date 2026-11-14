@@ -1299,7 +1299,7 @@
   {
     "id": "arc_father_medication",
     "title": "약 이름",
-    "background": "subway",
+    "background": "seoul_subway_transfer_passage",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "story",

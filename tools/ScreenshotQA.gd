@@ -20864,7 +20864,7 @@ func _assert_chapter2_visual_state(story: Node, event_id: String, selected_choic
 		"arc_34_money_attracts_money": "apartment",
 		"arc_sangchul_03_network": "sangchul_private_dining",
 		"arc_daeun_03_fork": "convenience_night",
-		"arc_father_medication": "subway",
+		"arc_father_medication": "seoul_subway_transfer_passage",
 		"arc_jiyeon_03_offer": "sinchon_offer_sedan_rain",
 		"arc_34_doors_open": "meeting",
 		"arc_34_parents_visit": "restaurant",

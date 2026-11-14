@@ -232,6 +232,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "seoul_subway_transfer_passage": {
+      "environment": "transit",
+      "depth": "mid",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "subway_station_stairs": {
       "environment": "transit",
       "depth": "mid",
@@ -744,6 +752,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "police_evidence_reception": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "gym": {
       "environment": "indoor",
       "depth": "near",
@@ -849,14 +865,6 @@
       "weather_source": "none"
     },
     "seoul_station_visitor_sticker": {
-      "environment": "indoor",
-      "depth": "near",
-      "effect": "none",
-      "camera": "none",
-      "intensity": 0.0,
-      "weather_source": "none"
-    },
-    "police_evidence_reception": {
       "environment": "indoor",
       "depth": "near",
       "effect": "none",

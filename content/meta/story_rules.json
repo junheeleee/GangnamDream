@@ -941,12 +941,12 @@
       "presentation": {
         "channel": "message",
         "state": "received",
-        "scene_location": "subway",
+        "scene_location": "seoul_subway_transfer_passage",
         "remote_location": "changwon_home",
         "remote_actor": "mother",
         "portrait_role": "local",
         "expected_portrait": "player_tired",
-        "expected_background": "subway",
+        "expected_background": "seoul_subway_transfer_passage",
         "expected_ambience": "intentional_silence"
       }
     },

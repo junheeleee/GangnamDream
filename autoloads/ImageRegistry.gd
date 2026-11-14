@@ -230,6 +230,7 @@ const BACKGROUNDS = {
 	"street_day":        "res://assets/backgrounds/street_seoul_day.png",
 	"park_bench_day":    "res://assets/backgrounds/park_bench_day.png",
 	"subway":            "res://assets/backgrounds/seoul_subway.png",
+	"seoul_subway_transfer_passage": "res://assets/backgrounds/seoul_subway_transfer_passage_v1.png",
 	"subway_station_stairs": "res://assets/backgrounds/subway_station_stairs.png",
 	"subway_station_lost_found": "res://assets/backgrounds/subway_station_lost_found.png",
 	"subway_station_coin_lockers": "res://assets/backgrounds/subway_station_coin_lockers.png",

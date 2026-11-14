@@ -212,7 +212,7 @@
     {"id": "arc_year1_scene", "background": "current_housing", "portrait": "player_offduty_neutral", "cg": null},
     {"id": "arc_late_game_push", "background": "current_housing", "portrait": "player_tired", "cg": null},
 
-    {"id": "arc_father_medication", "background": "subway", "portrait": "player_tired"},
+    {"id": "arc_father_medication", "background": "seoul_subway_transfer_passage", "portrait": "player_tired"},
     {"id": "callback_called_about_medication_echo", "background": "current_housing", "portrait": "father_home"},
     {"id": "arc_sangchul_01_meet", "background": "realestate_office", "portrait": "sangchul_normal", "cg": null},
     {"id": "arc_sangchul_01_measure", "background": "realestate_office", "portrait": "sangchul_serious", "cg": null},

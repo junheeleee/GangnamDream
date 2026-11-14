@@ -98,6 +98,7 @@ TRANSIT_BACKGROUNDS = {
     "subway_station_stairs",
     "subway_station_lost_found",
     "subway_station_coin_lockers",
+    "seoul_subway_transfer_passage",
     "seoul_bus_terminal_night",
     "chuseok_highway",
     "namsan_cable_car",

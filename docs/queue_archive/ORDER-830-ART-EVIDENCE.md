@@ -527,6 +527,10 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] 독립 원화 GO 뒤 W57 배선: 새 `assets/backgrounds/seoul_subway_transfer_passage_v1.png`+import, `autoloads/ImageRegistry.gd`, `content/events/arc_midgame.json` 배경 1키와 `content/meta/story_rules.json` W57 위치, `scenes/StoryMode.gd` 결과 컷, `assets/{event_visual_contracts,scene_direction_manifest,scene_audio_manifest,mod_asset_manifest}.json`, `tools/{StoryBackgroundContextCheck,ScreenshotQA}.gd`, 장면 카탈로그·해상도 검사 원장, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, 출시 원장·현황·이 증거. 도입·선택·c0 및 나머지 결과 P0은 통로, c1 P1만 기존 객차/P2 현재 집, c2 P1/P2는 창원 원화 전까지 중립. c2 아버지가 문자에 답한 뒤 직접 만나는 시점/식탁 원화·음향은 별도다. 본문·선택·저장·공개 데모 불변.
 
+[~] 반영 전 회귀 대조의 `tools/DemoBuildCheck.gd`는 패키지에 함께 있는 W57 본편 사건의 배경을 열차로 고정했던 1개 기대값에 한해 맞춘다. 공개 6개월 배선·파일 검사·역사 RC는 변경하지 않는다. 출시 공포/음주·흡연·약물 분류의 후보·강도는 유지하고 이 1개 background 변경이 바꾼 지문만 동기화한다.
+
+완료(통로 원화·표적 경계): 1584×990 채택본 `cf2ff1c14e0d…`, 원본 `5628f2680952…` 보존. 5언어×2변형×3선택 30경로, v4 재개 40건 및 1280×800 35컷(`830-w57-art-render.uxKjcs`). 첫 문자의 실제 진동 재생·복원 시 무재생, 도입·선택·직접 통화의 통로, 실제 승차 때만 객차, 귀가에서 현재 거처, 방문 후 두 문단에 서울 통로가 남지 않는 것을 확인했다. 실제 렌더에서 문자/통화 표시와 통화가 끝나는 블록도 확인했다. 창원역/식탁 원화, 실제 승차 주변 인원, 장소별 녹음·약봉투·실제 청취는 아직 남음. 독립 원화와 배선 검수, 기존 서사 검사 3건은 이전 상태 보존. 준비된 격리 스토리 경로이며 C1 재실행 또는 인간 판정 아님.
+
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.
