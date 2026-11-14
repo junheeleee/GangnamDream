@@ -1229,6 +1229,12 @@ sips --resampleHeightWidth 800 1280
 - `assets/backgrounds/hospital_outpatient_cashier_w161_v1.png`, 1584×990, SHA-256 `b34faf05ebea87cb84ad5fa564f14a17d85022d0f9506de7386ad4fad0f1dee2`. 내장 생성 `exec-4c486847-7ded-4840-9185-f8efc263b286.png` 1586×992 중앙 크롭, 원본 SHA-256 `1a8af98b8bdef9364f480db49d09ed6eedac5a15aa05befeb329a2645c0737a7`.
 - 프롬프트 요약: `hospital_clinic_day.png`는 외래 재료·색·조명, `police_evidence_reception.png`는 방문자와 창구 거리만 참조. 낮은 개방형 수납대에 빈 트레이, 뒤에 소형 프린터, 옆에 대기석과 열린 복도. 병동·보안 유리·사람·영수증 문구·결제수단 없음. 트레이와 창구는 대사창 위.
 
+## 2026-11-15 — W161 마감 백반집
+
+- `assets/backgrounds/baekban_closing_meal_w161_v1.png` 1584×990, SHA-256 `6125c159bcd8e5484c95b041143af63dce4aea88ad62aff40899025b1090aa58`; 내장 생성 `exec-c44cc06e-733a-4037-ab10-630e6dd96f92.png` 원본 `0e206583be39e5d2c2527664c65b0e7965feb54ae8e934511d230ff6812edcf2`.
+- `assets/backgrounds/baekban_closing_empty_w161_v1.png` 1584×990, SHA-256 `169a3807823f12dc356e14a0a9b88bc0b905f2d814514057e56fb91e4654e81b`; 내장 생성 같은 구도 수정 `exec-f62db35c-204e-4f08-8f1a-8aad40a33e4c.png` 원본 `c3fdeed2585e307e8b205bba4259e3dbdb9471c2e5838128847913e7d9dd5047`. 두 원본 1585×992 중앙 크롭.
+- 프롬프트 요약: 동네 국밥집은 소박한 재질, 한정식집은 식기 크기만 참조. 마감 때 한 사람 앞의 국·밥·소반찬·숟가락을 대사판 위로. 마지막은 같은 카메라·조명·그릇에서 국·밥만 비우고 숟가락을 내려놓는다. 사람·비·메뉴·계산수단 없음.
+
 ## 2026-11-15 — W132 상철 카페 계단
 
 - 최종 `assets/backgrounds/sangchul_cafe_stairs_v1.png` 1584×990, SHA-256 `1b91d60bd5881d3bd733ede328796dd57beb1dbab1133cdec2af17b6b09ddf1f`. 내장 이미지 생성 수정 원본 `exec-dfbe66b8-2949-4535-9f60-7ea60669961a.png` 1585×992를 16:10으로 정규화했다.

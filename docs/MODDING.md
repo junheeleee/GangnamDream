@@ -322,6 +322,8 @@ python3 tools/generate_mod_manifest.py --check
 | background | `amusement_photo_booth` | `backgrounds/amusement_photo_booth_evening.png` | 1280x800 |
 | background | `amusement_roller_coaster` | `backgrounds/amusement_roller_coaster_day.png` | 1280x800 |
 | background | `aruba_delivery` | `backgrounds/aruba_delivery_street.png` | 1280x800 |
+| background | `baekban_closing_empty_w161` | `backgrounds/baekban_closing_empty_w161_v1.png` | 1584x990 |
+| background | `baekban_closing_meal_w161` | `backgrounds/baekban_closing_meal_w161_v1.png` | 1584x990 |
 | background | `bank_exterior_wet_day` | `backgrounds/bank_exterior_wet_day.png` | 1280x800 |
 | background | `bank_loan_counter_day` | `backgrounds/bank_loan_counter_day.png` | 1280x800 |
 | background | `bank_loan_exit_day` | `backgrounds/bank_loan_exit_day.png` | 1280x800 |

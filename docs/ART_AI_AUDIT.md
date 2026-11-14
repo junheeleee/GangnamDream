@@ -458,6 +458,8 @@
 | Background | `assets/backgrounds/realestate_office.png` | `realestate_office` | 1280x800 | no | `6812946f1d84` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/regional_train_window_summer.png` | `ktx_window`, `regional_train_window` | 1280x800 | no | `72b77ff89bdb` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/gukbap_restaurant_night.png` | `gukbap_restaurant_night` | 1280x800 | no | `b11e247d4bb9` | PASS-B | 빈 두 사람 식탁·물컵 2개·수저통, 열린 탕 주방, 옛 고시원 골목, 무그릴·무고기·무음식·무문자·무주연 대역 확인. |
+| Background | `assets/backgrounds/baekban_closing_meal_w161_v1.png` | `baekban_closing_meal_w161` | 1584x990 | no | `6125c159bcd8` | PASS-B | W161 마감 백반 한 사람 상. 대사창 위 실제 크기 국과 숟가락, 독립 원화 판정. |
+| Background | `assets/backgrounds/baekban_closing_empty_w161_v1.png` | `baekban_closing_empty_w161` | 1584x990 | no | `169a3807823f` | PASS-B | W161 마지막 문단. 같은 테이블과 그릇, 국물 없이 비운 뒤 놓인 숟가락. 실화면 별도. |
 | Background | `assets/backgrounds/restaurant_korean.png` | `restaurant` | 1280x800 | no | `6bfbb44882d4` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/rooftop_daytime.png` | `rooftop_day` | 1280x800 | no | `dae74239d78c` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/rooftop_night.png` | `rooftop_night` | 1280x800 | no | `4afecc8f14ce` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
@@ -501,4 +503,4 @@
 | Background | `assets/backgrounds/seoul_station_visitor_sticker.png` | `seoul_station_visitor_sticker` | 1280x800 | no | `763df189e31c` | PASS-B | 서울 도착 통로, 코트와 오른손 검지의 작은 스티커. 모공·카메라 질감을 없애 강남 잉크의 무광 붓결·낮은 채도로 재작화. 얼굴·비·눈·문자 없음. |
 | Background | `assets/backgrounds/police_evidence_reception.png` | `police_evidence_reception` | 1280x800 | no | `338988ecbf96` | PASS-B | 증거 제출 첫 대목용으로 원화 독립 대조: 무광 잉크·민원석·서류 전달구, 인물·상호·체포 없음. 장소는 본문이 식별한다. P1 마스터·사람 판정 아님. |
 
-Inventory: 81 CG / 94 portraits / 137 backgrounds / 312 total.
+Inventory: 81 CG / 94 portraits / 139 backgrounds / 314 total.

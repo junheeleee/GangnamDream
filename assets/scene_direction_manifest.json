@@ -192,6 +192,22 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "baekban_closing_meal_w161": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "baekban_closing_empty_w161": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "bank_service_counter_rainy_day": {
       "environment": "indoor",
       "depth": "near",

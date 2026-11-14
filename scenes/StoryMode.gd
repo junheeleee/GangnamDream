@@ -91,6 +91,8 @@ const W161_STOPPED_CAR := "seoul_subway_stopped_w161"
 const W161_PLATFORM_BENCH := "seoul_subway_platform_bench_w161"
 const W161_EXAM_ROOM := "hospital_clinic_day"
 const W161_OUTPATIENT_CASHIER := "hospital_outpatient_cashier_w161"
+const W161_BAEKBAN_MEAL := "baekban_closing_meal_w161"
+const W161_BAEKBAN_EMPTY := "baekban_closing_empty_w161"
 const W132_RECKONING := "arc_sangchul_reckoning"
 const W132_CAFE_STAIRS := "sangchul_cafe_stairs"
 const W132_RECKONING_CUT := preload("res://assets/w132_reckoning_result_cut.tres")
@@ -6124,6 +6126,12 @@ func _apply_w161_transport_surface() -> void:
 				destination = W161_EXAM_ROOM
 			elif source == 3:
 				destination = W161_OUTPATIENT_CASHIER
+		elif _pending_result_choice_index == 1:
+			# Settling the bill is from the same table, after the soup is gone.
+			if source in [0, 1, 2]:
+				destination = W161_BAEKBAN_MEAL
+			elif source == 3:
+				destination = W161_BAEKBAN_EMPTY
 		elif _pending_result_choice_index == 2 and source == 0:
 			destination = W161_STOPPED_CAR
 	elif source == 5 and _story_source_paragraph_count() == 6:

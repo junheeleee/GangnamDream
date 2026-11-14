@@ -38,6 +38,22 @@
     {
       "kind": "background",
       "ids": [
+        "baekban_closing_empty_w161"
+      ],
+      "relative_path": "backgrounds/baekban_closing_empty_w161_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "baekban_closing_meal_w161"
+      ],
+      "relative_path": "backgrounds/baekban_closing_meal_w161_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "bank_exterior_wet_day"
       ],
       "relative_path": "backgrounds/bank_exterior_wet_day.png",

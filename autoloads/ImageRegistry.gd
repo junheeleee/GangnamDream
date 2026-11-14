@@ -225,6 +225,8 @@ const BACKGROUNDS = {
 	"sangchul_cafe_stairs": "res://assets/backgrounds/sangchul_cafe_stairs_v1.png",
 	"finale_cafe_rear_papers": "res://assets/backgrounds/finale_cafe_rear_papers_v1.png",
 	"gukbap_restaurant_night": "res://assets/backgrounds/gukbap_restaurant_night.png",
+	"baekban_closing_meal_w161": "res://assets/backgrounds/baekban_closing_meal_w161_v1.png",
+	"baekban_closing_empty_w161": "res://assets/backgrounds/baekban_closing_empty_w161_v1.png",
 	"bank_service_counter_rainy_day": "res://assets/backgrounds/bank_service_counter_rainy_day.png",
 	"bank_exterior_wet_day": "res://assets/backgrounds/bank_exterior_wet_day.png",
 	"bank_loan_counter_day": "res://assets/backgrounds/bank_loan_counter_day.png",

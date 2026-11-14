@@ -42,6 +42,8 @@ const W161_BODY := "arc_36_body_signal"
 const W161_STOPPED := "seoul_subway_stopped_w161"
 const W161_PLATFORM := "seoul_subway_platform_bench_w161"
 const W161_CASHIER := "hospital_outpatient_cashier_w161"
+const W161_BAEKBAN_MEAL := "baekban_closing_meal_w161"
+const W161_BAEKBAN_EMPTY := "baekban_closing_empty_w161"
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -281,6 +283,8 @@ const EXACT_PATHS := {
 	W161_STOPPED: "res://assets/backgrounds/seoul_subway_stopped_w161_v1.png",
 	W161_PLATFORM: "res://assets/backgrounds/seoul_subway_platform_bench_w161_v1.png",
 	W161_CASHIER: "res://assets/backgrounds/hospital_outpatient_cashier_w161_v1.png",
+	W161_BAEKBAN_MEAL: "res://assets/backgrounds/baekban_closing_meal_w161_v1.png",
+	W161_BAEKBAN_EMPTY: "res://assets/backgrounds/baekban_closing_empty_w161_v1.png",
 	W57_GATE: "res://assets/backgrounds/changwon_station_arrival_gate_v1.png",
 	W57_TABLE: "res://assets/backgrounds/changwon_home_medication_table_v1.png",
 	W53_DINING: "res://assets/backgrounds/sangchul_private_dining.png",
@@ -2689,6 +2693,8 @@ func _check_w161_body() -> bool:
 	var stopped_reloads := 0
 	var platform_reloads := 0
 	var cashier_reloads := 0
+	var meal_reloads := 0
+	var empty_bowl_reloads := 0
 	var capture := OS.get_environment("GANGNAM_W161_CAPTURE_DIR")
 	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
 		for flag: String in ["", "changed_routine", "maintained_routine", "restarted_exercise"]:
@@ -2751,6 +2757,8 @@ func _check_w161_body() -> bool:
 							destination = W161_STOPPED
 					elif choice == 0 and source == 3:
 						destination = W161_CASHIER
+					if choice == 1:
+						destination = W161_BAEKBAN_EMPTY if source == 3 else W161_BAEKBAN_MEAL
 					if not _expect_w161_surface(destination):
 						return false
 					if destination == W161_PLATFORM and flag.is_empty() and page == 0 and not capture.is_empty():
@@ -2758,6 +2766,11 @@ func _check_w161_body() -> bool:
 							return false
 					if destination == W161_CASHIER and flag.is_empty() and page == result_pages - 1 and not capture.is_empty():
 						if not await _save_viewport_frame(capture.path_join("%s_cashier.png" % language)):
+							return false
+					if choice == 1 and flag.is_empty() and not capture.is_empty() \
+							and (page == 0 or page == result_pages - 1):
+						var meal_stage := "empty" if source == 3 else "served"
+						if not await _save_viewport_frame(capture.path_join("%s_baekban_%s.png" % [language, meal_stage])):
 							return false
 					if clinic and not seen_clinic:
 						seen_clinic = true
@@ -2778,6 +2791,10 @@ func _check_w161_body() -> bool:
 							platform_reloads += 1
 						elif destination == W161_CASHIER:
 							cashier_reloads += 1
+						elif destination == W161_BAEKBAN_MEAL:
+							meal_reloads += 1
+						elif destination == W161_BAEKBAN_EMPTY:
+							empty_bowl_reloads += 1
 					if page + 1 < result_pages:
 						_story.call("_on_advance")
 						await _wait_stable()
@@ -2788,9 +2805,10 @@ func _check_w161_body() -> bool:
 					_fail("W161 changed the original health, price or receipt")
 					return false
 				paths += 1
-	print("W161_BODY_OK paths=%d v4=%d stopped_v4=%d platform_v4=%d cashier_v4=%d" % [
-		paths, restores, stopped_reloads, platform_reloads, cashier_reloads])
-	return paths == 60 and restores >= 35 and stopped_reloads == 5 and platform_reloads == 5 and cashier_reloads == 5
+	print("W161_BODY_OK paths=%d v4=%d stopped_v4=%d platform_v4=%d cashier_v4=%d meal_v4=%d empty_v4=%d" % [
+		paths, restores, stopped_reloads, platform_reloads, cashier_reloads, meal_reloads, empty_bowl_reloads])
+	return paths == 60 and restores >= 35 and stopped_reloads == 5 and platform_reloads == 5 \
+		and cashier_reloads == 5 and meal_reloads == 5 and empty_bowl_reloads == 5
 
 func _expect_w161_surface(background: String) -> bool:
 	var image := _story.get("_bg_img") as TextureRect

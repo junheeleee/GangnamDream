@@ -32,6 +32,8 @@
     "changwon_station_arrival_gate": "intentional_silence",
     "changwon_home_medication_table": "intentional_silence",
     "gukbap_restaurant_night": "hoesik",
+    "baekban_closing_meal_w161": "intentional_silence",
+    "baekban_closing_empty_w161": "intentional_silence",
     "bank_service_counter_rainy_day": "intentional_silence",
     "bank_exterior_wet_day": "street",
     "bank_loan_counter_day": "intentional_silence",
