@@ -44,3 +44,5 @@
 ### 다음 확인 범위
 
 3년 차 W121의 게임 훈화와 W144의 열차 실제 출발 추정, 4년 차 새벽 회고 ‘11주 전’ 및 W192 사망 갈래의 검사 문구, 5년 차 M54가 같은 해 M49를 ‘작년’으로 부르는 갈래가 확인됐다. 실제 키·시점·이전 수용을 고정한 뒤 해마다 따로 처리한다. A2/AP 어휘, A3 선행 해설과 반복, A7 전 구간 영어 검수는 C 수정만으로 끝난 게 아니다.
+
+[~] 3년 차 최초 묶음: `content/events{,_en,_ja,_zh-CN,_zh-TW}/{story_events,arc_year_close,arc_midgame}.json` 중 `age_35_checkpoint.description`, `arc_midpoint_reckoning` 두 번째 결과, `arc_year3_close.description_if_known.arc_y3_jiyeon_departure_seen`만. W117~120 마일스톤을 특정 생일이나 두 해 반 완료로 단정하지 않는다. W121 쉼과 선택 결과는 보존하고 게임 훈화만 뺀다. W144는 편도표·답장과 표에 있는 예정 시각까지만; 사진·실제 출발·역 동행은 모든 선택에서 확보되지 않았다. 각 5언어·기존 경로/문단·현행 RC 보호 검사. 필요 시 해당 내용 원장 지문만 동기화.
