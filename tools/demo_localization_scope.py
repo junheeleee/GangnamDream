@@ -811,6 +811,9 @@ CURRENT_CONTRACT_EVENT_SEMANTICS_PINS = (
     ("699622cf0a09ec926fbe2501d27e16b8e03556e8", "95707ed0936076d3dc19d28c71597cdee1b1b4ddb1d30f9242eac82535cd4872"),
     ("dd3c62d53019dd05266be653bb9ef5b697f86b9c", "539269752a299232b19508fa7573fb65394cb22240da24d55885bb869baa7340"),
     ("ORDER-831", "7bc7ee8a4a8ff96c1a1b90f0bac1bd11193084a690b518efba38a4103f0b81fe"),
+    # ORDER-830: only the crash and later reunion presentation changed
+    # (761f1b3/d8224bb). The ORDER-831 text and pair pins stay current.
+    ("ORDER-830 Jiyeon presentation", "58599da0dd097a7d38c289910779876d241d74801157565c2549152b7ac87f8f"),
 )
 CURRENT_CONTRACT_PAIR_PINS = (
     (
@@ -1475,7 +1478,7 @@ def current_source_contract_self_test() -> tuple[list[str], int]:
           == set(CURRENT_CONTRACT_SOURCE_FIELDS), "only approved source expectation fields")
     check(len(compare_contract(manifest["source_contract"], observed)) == 5,
           "generic comparator stays exact")
-    check(len(CURRENT_CONTRACT_EVENT_SEMANTICS_PINS) == 5
+    check(len(CURRENT_CONTRACT_EVENT_SEMANTICS_PINS) == 6
           and len(CURRENT_CONTRACT_TEXT_PINS) == 4
           and len(CURRENT_CONTRACT_PAIR_PINS) == 3,
           "reviewed pin histories stay explicit")
@@ -1513,30 +1516,82 @@ def current_source_contract_self_test() -> tuple[list[str], int]:
     check(rejects(p={**proof, "sources": {**proof["sources"], "content/events/elsewhere.json": b"[]"}}),
           "extra raw owner")
 
-    # Rebind raw, runtime and reported text: the independent semantic pin must
-    # still reject protected text, effects, flags and condition-priority changes.
-    owner = runtime["owners"][first_id]
-    for label, change in (
-        ("description", lambda row: row.update(description=str(row.get("description", "")) + " 변조")),
-        ("gameplay", lambda row: row.update(weight=12345)),
-        ("condition order", lambda row: row.update(conditions={"min_turn": 1, "max_turn": 9})),
-    ):
+    def rebound_event(event_id, change):
+        owner = runtime["owners"][event_id]
         changed_runtime = copy.deepcopy(runtime)
         payload = _contract_json(proof["sources"][owner])
         rows = payload if isinstance(payload, list) else payload["events"]
-        changed = next(row for row in rows if row["id"] == first_id)
+        changed = next(row for row in rows if row["id"] == event_id)
         change(changed)
-        changed_runtime["events"][first_id] = copy.deepcopy(changed)
+        changed_runtime["events"][event_id] = copy.deepcopy(changed)
         changed_runtime["leaves"] = event_text_leaves(runtime["event_ids"], changed_runtime["events"], runtime["owners"])
         changed_observed = dict(observed)
         changed_observed["event_text_ko_chars"] = sum(len(leaf.source) for leaf in changed_runtime["leaves"])
         changed_observed["event_text_sha256"] = sha_rows(
             f"{leaf.event_id}\0{leaf.path}\0{leaf.source}" for leaf in changed_runtime["leaves"])
         changed_proof = {**proof, "sources": {**proof["sources"], owner: json.dumps(payload, ensure_ascii=False).encode()}}
+        return changed_observed, changed_runtime, changed_proof
+
+    # Rebind raw, runtime and reported text: the independent semantic pin must
+    # still reject protected text, effects, flags and condition-priority changes.
+    for label, change in (
+        ("description", lambda row: row.update(description=str(row.get("description", "")) + " 변조")),
+        ("gameplay", lambda row: row.update(weight=12345)),
+        ("condition order", lambda row: row.update(conditions={"min_turn": 1, "max_turn": 9})),
+    ):
+        changed_observed, changed_runtime, changed_proof = rebound_event(first_id, change)
         check(rejects(o=changed_observed, r=changed_runtime, p=changed_proof), "rebound protected " + label)
+
+    # Invert only the reviewed presentation changes. All 72 rows, including
+    # choice key order, must then reproduce the previous full-row fingerprint.
+    crash_id, reunion_id = "arc_jiyeon_01_crash", "arc_jiyeon_02_store"
+    stop, sedan = "sinchon_bus_stop_after_rain_night", "sinchon_bus_stop_sedan_night"
+    previous_events = copy.deepcopy(runtime["events"])
+    crash, reunion = previous_events[crash_id], previous_events[reunion_id]
+    check(runtime["owners"][crash_id] == runtime["owners"][reunion_id] == CURRENT_CONTRACT_KO_PATH
+          and crash.get("background") == "sinchon_crash_approach_rain_dusk"
+          and type(crash.get("cg_reveal_paragraph")) is int and crash["cg_reveal_paragraph"] == 2
+          and reunion.get("background") == stop and reunion.get("paragraph_backgrounds") == [stop] + [sedan] * 4
+          and type(reunion.get("portrait_reveal_paragraph")) is int and reunion["portrait_reveal_paragraph"] == 1
+          and reunion["choices"][1].get("result_portrait") == "jiyeon_warm",
+          "reviewed crash and reunion presentation")
+    crash["background"] = reunion["background"] = "street_rainy"
+    crash.pop("cg_reveal_paragraph", None)
+    reunion.pop("paragraph_backgrounds", None)
+    reunion.pop("portrait_reveal_paragraph", None)
+    reunion["choices"][1].pop("result_portrait", None)
+    previous_semantics = sha_rows(
+        f"{event_id}\0{runtime['owners'][event_id]}\0"
+        f"{json.dumps(previous_events[event_id], ensure_ascii=False, allow_nan=False, separators=(',', ':'))}"
+        for event_id in runtime["event_ids"]
+    )
+    check(("ORDER-831", previous_semantics) == CURRENT_CONTRACT_EVENT_SEMANTICS_PINS[-2],
+          "only reviewed presentation changed since ORDER-831")
+
+    for label, event_id, change in (
+        ("crash background", crash_id, lambda row: row.update(background="street_rainy")),
+        ("crash reveal", crash_id, lambda row: row.update(cg_reveal_paragraph=1)),
+        ("crash effect", crash_id, lambda row: row["choices"][0]["effects"].update(mental=99)),
+        ("crash routing", crash_id, lambda row: row["choices"][0].update(deferred_delay=99)),
+        ("reunion background", reunion_id, lambda row: row.update(background="street_rainy")),
+        ("reunion driving plate", reunion_id, lambda row: row["paragraph_backgrounds"].__setitem__(2, stop)),
+        ("reunion reveal", reunion_id, lambda row: row.update(portrait_reveal_paragraph=0)),
+        ("reunion result portrait", reunion_id, lambda row: row["choices"][1].update(result_portrait="jiyeon_normal")),
+        ("reunion effect", reunion_id, lambda row: row["choices"][1]["effects"].update(social_skill=99)),
+        ("reunion routing", reunion_id, lambda row: row["choices"][1].update(follow_up_event="arc_jiyeon_03_offer")),
+    ):
+        changed_observed, changed_runtime, changed_proof = rebound_event(event_id, change)
+        try:
+            _current_contract_view(manifest, changed_observed, changed_runtime, changed_proof)
+        except ValueError as exc:
+            check(str(exc) == "Demo current source contract: protected demo event gameplay/text/condition order changed",
+                  "exact semantic rejection: " + label)
+        else:
+            check(False, "exact semantic rejection: " + label)
     for bad in (None, [], {}, {"event_ids": []}):
         check(rejects(r=bad), "malformed runtime")
     # Unrelated source formatting and out-of-scope prose are not demo behavior.
+    owner = runtime["owners"][first_id]
     whitespace = {**proof, "sources": {**proof["sources"], owner: proof["sources"][owner] + b"\n"}}
     check(not rejects(p=whitespace), "unrelated source whitespace does not pin whole file")
     check((manifest, observed, runtime, proof) == original_inputs, "all fixtures preserve inputs")
