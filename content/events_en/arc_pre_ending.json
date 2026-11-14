@@ -755,7 +755,7 @@
       ]
     },
     "choices": [
-      {"text": "Tell Sangchul first the current document state and the non-transfer result", "result_text": "{name} sent, ‘The current papers did not reach execution. I made no transfer.’ The photograph showed only the counter label and its time.\n\nAfter the sent time appeared, the account still showed no new transfer, and no ownership or debt document had been created. {name} returned the comparison and filing papers to their established custody."}
+      {"text": "First tell Sangchul where the paperwork stands and that no money was sent", "result_text": "{name} wrote to Sangchul: ‘I can't go ahead with the contract on the papers I have. I haven't transferred any money.’ The photo showed only the filing cover sheet and the time.\n\nThe message showed the time it was sent. There was no new transfer in the account and no new paperwork for ownership or debt. {name} put the comparison copy and the filing papers back where each was kept."}
     ]
   },
   {
