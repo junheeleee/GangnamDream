@@ -536,7 +536,7 @@
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
         "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present", "arc_final_week"],
-        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "970e9404ab8103411482acec1139115c618da6eb464dc044102ca14f37d7eaf9"
+        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "b394cc064a51ec676fcdfb1b3f658476cb5b9b8dcb022385a20470ea44661a20"
       },
       "facts": [
         {
