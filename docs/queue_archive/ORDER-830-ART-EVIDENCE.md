@@ -2,6 +2,10 @@
 
 [활성 사양](../queue_active/ORDER-830.md)에서 이관한 원문. 상태와 산출물은 당시의 기록이다.
 
+### 1장 후반 W25~48 블라인드 1차 — 사실 오류와 실제 플레이 대조
+
+[~] 착수 — 2026-11-14 사용자 지정. `content/events{,_en,_ja,_zh-CN,_zh-TW}/{story_events,arc_events,arc_midgame,callback_events_37,callback_events_6}.json`의 지정 다섯 사건, 영어 W35 `arc_daeun.json`과 W48 `arc_year_close.json`의 해당 문장 및 필요 시 실제 첫 등장 영어 문장만. 기존 상태 토큰/조건에 필요한 `content/meta/{exposed_event_state_contracts,story_rules,full_game_localization}.json`와 해당 기존 문자열 계약 검사, 이 기록·현황·당일 일지. W45의 위치·효과와 W48 마무리는 보존하고, W28 결과의 기존 금액과 선행 손실을 대조한다. 거래·효과·스케줄러·저장·이전 RC·아트·소리 변경 0. 기존 기록을 읽어 C1/다른 실경로·모의 경로와 보존되지 않은 항목을 분리한다. 장면 배치를 바꾸는 일은 권고만 한다.
+
 ### W224 편의점 뒤, 비교본을 사이에 두고
 
 [~] `assets/scene_audio_manifest.json`과 `content/meta/story_rules.json`의 `arc_y5_father_trace_custody` 한 행씩. 고객 구역에서 녹음한 사람 소리와 리듬이 강한 냉장고 모터를 이 테이블에 재생하지 않는다. 종이 동작과 기존 곡·시각은 그대로. `tools/{scene_audio_contract_check.py,chapter5_human_reject_audit.py,Chapter5HumanRejectCheck.gd,StoryPlaybackCheck.gd}` 해당 회귀만 정확한 무음으로 강화하고, 이전 원룸·편의점 내부음 회귀를 각각 거절한다. 이 기록·현황·당일 일지만. 다섯 원고·그림·장소·결과·기존 RC·음원·저장 불변. 이번은 음향만; 계산대가 아닌 뒤편 테이블 전용 원화와 실제 청취는 별도.
