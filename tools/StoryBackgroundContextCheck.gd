@@ -36,6 +36,8 @@ const W69_STEPS := "convenience_night_steps"
 const W82_BUS := "arc_y2_hyunsu_night_bus"
 const W82_TERMINAL := "seoul_bus_terminal_night"
 const W82_DEPARTURE := "seoul_bus_terminal_departure"
+const W126_RIVER := "arc_goal_vertigo"
+const W205_PHONE := "arc_minseo_03b_not_arrived"
 const W82_CUT_SENTENCES := [
 	["터미널 불빛 아래서", "Under the terminal lights", "ターミナルの明かりの下で", "车站灯光下", "轉運站的燈光下"],
 	["전화를 끊고", "He hung up", "電話を切って", "挂掉电话", "掛掉電話"],
@@ -261,6 +263,7 @@ const CASES := [
 ]
 
 const EXACT_PATHS := {
+	"hangang_riverside": "res://assets/backgrounds/hangang_riverside_walk.png",
 	W82_TERMINAL: "res://assets/backgrounds/seoul_bus_terminal_night.png",
 	W82_DEPARTURE: "res://assets/backgrounds/seoul_bus_terminal_departure_v1.png",
 	W69_INSIDE: "res://assets/backgrounds/convenience_store_night_dry_v1.png",
@@ -363,6 +366,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W126_W205_CHECK"):
+		var later_ok := await _check_w126_w205()
+		await _remove_story()
+		await _stop_audio()
+		if later_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w126_w205")
+		get_tree().quit(0 if later_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W82_BUS_CHECK"):
 		var bus_ok := await _check_w82_bus()
 		await _remove_story()
@@ -581,6 +592,8 @@ func _ready() -> void:
 		_fail("W69 steps regression smoke failed")
 	if not await _check_w82_bus(true):
 		_fail("W82 bus regression smoke failed")
+	if not await _check_w126_w205(true):
+		_fail("W126/W205 location regression smoke failed")
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -2530,6 +2543,137 @@ func _expect_w57_audio(expect_vibration: bool, label: String, onboard: bool = fa
 	if not valid:
 		_fail("W57 wrong audio at %s: cues=%s, bed=%s, human=%s, season=%s" % [label, heard,
 			BGMPlayer._current_ambience_key, BGMPlayer._current_human_ambience_key, BGMPlayer._current_season_key])
+	return valid
+
+func _check_w126_w205(smoke: bool = false) -> bool:
+	var paths := 0
+	var restores := 0
+	var cafe_handoffs := 0
+	var capture := OS.get_environment("GANGNAM_W126_W205_CAPTURE_DIR")
+	if not capture.is_empty():
+		var out := DirAccess.open(capture) if capture.is_absolute_path() else null
+		if DisplayServer.get_name() == "headless" or out == null or not out.get_files().is_empty():
+			_fail("W126/W205 captures require a native display and a fresh directory")
+			return false
+	var languages: Array = ["ko"] if smoke else LocaleManager.SUPPORTED_LANGUAGES
+	for language: String in languages:
+		for event: String in [W126_RIVER, W205_PHONE]:
+			var river := event == W126_RIVER
+			var variants: Array = [[]] if smoke or river else [[], ["contacted_minseo"], ["minseo_real_talk"],
+				["contacted_minseo", "minseo_real_talk"], ["thought_about_after"]]
+			for flags: Array in variants:
+				var choices: Array = ([2] if smoke else [0, 1, 2]) if river else ([0] if smoke else [0, 1])
+				for choice: int in choices:
+					await _remove_story()
+					await _stop_audio()
+					_context = "%s/%s/%s/c%d" % [language, event, flags, choice]
+					LocaleManager.set_language(language)
+					SaveManager.clear_loaded_resume_context()
+					GameState.start_new_game()
+					GameState.turn = 126 if river else 205
+					GameState.age = 35 if river else 37
+					GameState.month = 8 if river else 4
+					GameState.housing = "oneroom"
+					GameState.mental = 60
+					GameState.health = 60
+					for flag: String in flags:
+						GameState.flags[flag] = true
+					GameState.story_return_scene = "res://scenes/MainGame.tscn"
+					var cafe_handoff := not river and flags.is_empty() and choice == 0
+					GameState.pending_story_queue = ["arc_minseo_02_real", event] if cafe_handoff else [event]
+					BGMPlayer.set_ambience("cafe")
+					_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+					add_child(_story)
+					_story.call("_set_auto_mode", false, false, false)
+					var home := ImageRegistry.resolve_contextual_background_id("current_housing")
+					if cafe_handoff:
+						if str((_story.get("_current") as Dictionary).get("id", "")) != "arc_minseo_02_real" \
+								or str(_story.get("_event_background_id")) != "cafe" \
+								or (_story.get("_bg_img") as TextureRect).texture == null:
+							_fail("W205 handoff fixture did not start in the café")
+							return false
+						_story.call("_load_next_event")
+						if str((_story.get("_current") as Dictionary).get("id", "")) != event \
+								or not _expect_w126_w205_surface(false, home, false, false):
+							return false
+						cafe_handoffs += 1
+					var cases: Array = _story.get("_paragraphs")
+					for page in range(cases.size()):
+						await _finish_page()
+						if not _expect_w126_w205_surface(river, home, false, false):
+							return false
+						if page == 1 and flags.is_empty() and choice == (2 if river else 0) and not capture.is_empty():
+							await get_tree().create_timer(0.5).timeout
+							if not await _save_viewport_frame(capture.path_join("%s_%s_intro.png" % [language, event])):
+								return false
+						_story.call("_on_advance")
+						await _wait_stable()
+					if not bool(_story.get("_showing_choices")) or not _expect_w126_w205_surface(river, home, false, false):
+						return false
+					var count: int = GameState.events_seen
+					var money: float = GameState.money
+					_story.call("_on_choice", choice)
+					await _wait_stable()
+					var pages: Array = _story.get("_paragraphs")
+					var source_count := 3 if river else 2
+					if not bool(_story.get("_pending_after_result")) or int(_story.call("_story_source_paragraph_count")) != source_count:
+						return false
+					for page in range(pages.size()):
+						await _finish_page()
+						var source := int(_story.call("_story_source_paragraph_index", page))
+						var outside := river and choice == 2
+						var ended := not river and choice == 0 and source == 1
+						if not _expect_w126_w205_surface(river, home, outside, ended):
+							return false
+						if not capture.is_empty() and flags.is_empty() and choice == (2 if river else 0) \
+								and (page == 0 or source == source_count - 1):
+							await get_tree().create_timer(0.5).timeout
+							if not await _save_viewport_frame(capture.path_join("%s_%s_result_%d.png" % [language, event, page])):
+								return false
+						if page + 1 < pages.size():
+							_story.call("_on_advance")
+							await _wait_stable()
+					if not smoke:
+						var result: Dictionary = _story.call("build_save_resume_context")
+						if not await _reload_authored_result_context(result, language, source_count, source_count - 1) \
+								or not _expect_w126_w205_surface(river, home, river and choice == 2, not river and choice == 0):
+							return false
+						restores += 1
+					var mental: int = [55, 68, 69][choice] if river else [64, 57][choice]
+					if GameState.events_seen != count + 1 or GameState.money != money or GameState.mental != mental \
+							or not GameState.flags.get("arc_goal_vertigo_seen" if river else "arc_minseo_03_seen", false):
+						_fail("W126/W205 changed the authored result")
+						return false
+					if river:
+						var queued := GameState.deferred_events.filter(func(row: Dictionary) -> bool:
+							return row.get("event_id") == "arc_35_path_cost" and int(row.get("trigger_turn", -1)) == 148)
+						if queued.size() != 1:
+							_fail("W126 did not preserve its 22-week follow-up")
+							return false
+					paths += 1
+	if not smoke:
+		print("W126_W205_OK paths=%d v4=%d cafe_handoffs=%d" % [paths, restores, cafe_handoffs])
+	return paths == (2 if smoke else 65) and restores == (0 if smoke else 65) \
+		and cafe_handoffs == (1 if smoke else 5)
+
+func _expect_w126_w205_surface(river: bool, home: String, outside: bool, ended: bool) -> bool:
+	if river:
+		return _expect_surface("hangang_riverside" if outside else home, "" if outside else "oneroom", "W126") \
+			and (not outside or (not BGMPlayer._ambience_player.playing and not BGMPlayer._human_ambience_player.playing \
+				and not BGMPlayer._season_player.playing))
+	var frame := _story.get("_portrait_frame") as Control
+	var badge := _story.get("_communication_badge") as Control
+	var portrait := _story.get("_portrait") as TextureRect
+	var channel := str((_story.get("_current_presentation") as Dictionary).get("channel", ""))
+	var valid := (_story.get("_bg_img") as TextureRect).texture == null \
+		and (_story.get("_bg_dim") as ColorRect).color == Color("#111216") \
+		and str(_story.get_meta("living_scene_effect", "")) == "none" \
+		and channel == ("narration" if ended else "phone") and frame.visible != ended and badge.visible != ended \
+		and (ended or (portrait.texture != null and portrait.texture.resource_path == ImageRegistry.get_portrait("minseo"))) \
+		and bool(_story.get("_portrait_remote_inset")) != ended and not BGMPlayer._ambience_player.playing \
+		and not BGMPlayer._human_ambience_player.playing and not BGMPlayer._season_player.playing
+	if not valid:
+		_fail("W205 invented a present-day room, sound or in-person meeting")
 	return valid
 
 func _check_w82_bus(smoke: bool = false) -> bool:

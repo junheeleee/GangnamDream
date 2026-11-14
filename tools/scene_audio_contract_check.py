@@ -175,6 +175,7 @@ W72_DINNER_AUDIO = {
     "ambience": "intentional_silence", "suppress_human_ambience": True, "suppress_season_ambience": True,
 }
 W82_BUS_EVENT = "arc_y2_hyunsu_night_bus"
+W205_MINSEO_PHONE = "arc_minseo_03b_not_arrived"
 W57_MEDICATION_EVENT = "arc_father_medication"
 W57_MEDICATION_AUDIO = {
     "ambience": "intentional_silence",
@@ -413,7 +414,7 @@ def main() -> int:
         elif owner == W57_MEDICATION_EVENT:
             if contract != W57_MEDICATION_AUDIO:
                 errors.append(f"{owner}: only the received handset vibration is an event-level cue")
-        elif owner in {W72_DINNER_EVENT, W82_BUS_EVENT}:
+        elif owner in {W72_DINNER_EVENT, W82_BUS_EVENT, W205_MINSEO_PHONE}:
             if contract != W72_DINNER_AUDIO:
                 errors.append(f"{owner}: do not borrow the wrong location's recorded bed")
         elif owner in DAEUN_QUIET_RESULT_CGS:
@@ -555,6 +556,9 @@ def main() -> int:
             or manifest.get("background_profiles", {}).get("seoul_bus_terminal_departure") != "intentional_silence"
             or events.get(W82_BUS_EVENT, {}).get("background") != "current_housing"):
         errors.append(f"{W82_BUS_EVENT}: isolate bus sendoff from unrelated highway and human ambience")
+    if (event_contracts.get(W205_MINSEO_PHONE) != W72_DINNER_AUDIO
+            or events.get(W205_MINSEO_PHONE, {}).get("background") != ""):
+        errors.append(f"{W205_MINSEO_PHONE}: don't stage the remote call in an unestablished café")
     for event_id, expected_audio in ((W37_FIRST_BILL_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W100_FATHER_OUTREACH_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W108_HYUNSU_WARNING_EVENT, W108_HYUNSU_WARNING_AUDIO),

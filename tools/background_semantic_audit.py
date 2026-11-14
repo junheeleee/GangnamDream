@@ -163,7 +163,9 @@ def infer_background_id(ev: Dict, housing: str = "gosiwon") -> str:
         return "namsan_tower"
     if event_id == "arc_minseo_01_meet":
         return "meeting"
-    if event_id in ("arc_minseo_02_real", "arc_minseo_03_arrival", "arc_minseo_03b_not_arrived"):
+    if event_id == "arc_minseo_03b_not_arrived":
+        return ""
+    if event_id in ("arc_minseo_02_real", "arc_minseo_03_arrival"):
         return "cafe"
     if event_id in ("arc_jaehyuk_sangchul_echo", "arc_jiyeon_father_records"):
         return "cafe"
@@ -432,7 +434,7 @@ EXPECTED_BY_EVENT_ID: Dict[str, Tuple[str, str]] = {
     "arc_minseo_01_meet": ("event_id: minseo seminar", "meeting"),
     "arc_minseo_02_real": ("event_id: minseo cafe talk", "cafe"),
     "arc_minseo_03_arrival": ("event_id: minseo cafe reunion", "cafe"),
-    "arc_minseo_03b_not_arrived": ("event_id: minseo cafe call", "cafe"),
+    "arc_minseo_03b_not_arrived": ("event_id: remote Minseo, no present-day location", ""),
     "arc_jaehyuk_sangchul_echo": ("event_id: sangchul cafe echo", "cafe"),
     "arc_jiyeon_father_records": ("event_id: jiyeon cafe truth", "cafe"),
     "arc_pre_ending_summit": ("event_id: gangnam real-estate closing", "realestate_office"),

@@ -675,7 +675,9 @@ func infer_background_id(ev: Dictionary, housing: String = "gosiwon") -> String:
 		return "namsan_tower"
 	if event_id == "arc_minseo_01_meet":
 		return "meeting"
-	if event_id in ["arc_minseo_02_real", "arc_minseo_03_arrival", "arc_minseo_03b_not_arrived"]:
+	if event_id == "arc_minseo_03b_not_arrived":
+		return ""
+	if event_id in ["arc_minseo_02_real", "arc_minseo_03_arrival"]:
 		return "cafe"
 	if event_id in ["arc_jaehyuk_sangchul_echo", "arc_jiyeon_father_records"]:
 		return "cafe"

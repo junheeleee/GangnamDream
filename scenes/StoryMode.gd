@@ -92,6 +92,7 @@ const HYUNSU_EXAM_FAILURE := "hyunsu_result_fail"
 const M07_HYUNSU_WASHBASIN_CUT := preload("res://assets/m07_hyunsu_washbasin_cut.tres")
 const HYUNSU_CONNECTED_CALL := "arc_hyunsu_new_path"
 const W82_HYUNSU_BUS := "arc_y2_hyunsu_night_bus"
+const W205_MINSEO_CALL := "arc_minseo_03b_not_arrived"
 const W82_TERMINAL := "seoul_bus_terminal_night"
 const W82_COACH_DEPARTS := "seoul_bus_terminal_departure"
 const W82_ARRIVAL_START := {
@@ -563,6 +564,7 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 			or _is_w53_network_scene() \
 			or _is_w57_medication_scene() \
 			or str(_current.get("id", "")) == W82_HYUNSU_BUS \
+			or str(_current.get("id", "")) == W205_MINSEO_CALL \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \
 			and _event_background_id.is_empty() else _story_dim_color(has_cg)
 	if _story_bg_material:
@@ -4683,6 +4685,8 @@ func _resolved_story_surface_portrait_id() -> String:
 			return ""
 	if _pending_after_result and str(_current.get("id", "")) == W82_HYUNSU_BUS:
 		return "hyunsu" if _event_background_id == W82_TERMINAL or _w82_bus_phone_replies() else ""
+	if _w205_minseo_hung_up(_story_source_paragraph_index(_para_index)):
+		return ""
 	if _is_w96_station_result() or _is_m27_pitch_home_result():
 		return ""
 	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER and _event_background_id != "meeting":
@@ -5537,6 +5541,7 @@ func _story_restore_position_for_source_progress(
 func _render_current():
 	_reset_advance_hold()
 	var w53_network := _is_w53_network_scene()
+	var w205_minseo_call := str(_current.get("id", "")) == W205_MINSEO_CALL
 	var cold_w57_result := _is_w57_medication_scene() \
 		and str(_pending_restore_context.get("event_id", "")) == W57_FATHER_MEDICATION \
 		and str(_pending_restore_context.get("phase", "")) == "result"
@@ -5620,6 +5625,9 @@ func _render_current():
 	elif cold_w57_result:
 		# A restored result resolves its own location, not the received text's passage.
 		_bg_img.texture = null
+	elif w205_minseo_call:
+		# A queue can reuse this node after another location has been on screen.
+		_bg_img.texture = null
 	elif cg_active_at_start and ImageRegistry.has_texture(cg_path):
 		_bg_img.texture = ImageRegistry.load_texture(cg_path)
 		_current_uses_cg = true
@@ -5670,7 +5678,7 @@ func _render_current():
 		and str(_pending_restore_context.get("phase", "")) in ["choices", "result"]
 	if _full_w19_reunion or w53_network or cold_offer_cafe or cold_first_ktx or cold_w96_return \
 			or cold_w220_cafe or cold_pitch_result or cold_daeun_outside \
-			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
+			or w205_minseo_call or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		BGMPlayer.clear_ambience_immediate()
 	elif str(_current.get("background", "")) == "current_housing" \
 			and not _current_uses_cg and not has_authored_ambience:
@@ -6419,11 +6427,29 @@ func _w112_call_presentation(source_paragraph_index: int, result_phase: bool) ->
 		presentation.erase("remote_location")
 	return presentation
 
+func _w205_minseo_hung_up(source: int) -> bool:
+	return str(_current.get("id", "")) == W205_MINSEO_CALL and _pending_after_result \
+		and _pending_result_choice_index == 0 and source >= 1
+
 func _refresh_story_paragraph_presentation(
 		source_paragraph_index: int, force_refresh: bool = false) -> void:
 	var event_id := str(_current.get("id", ""))
 	var call_end_source_index := -1
 	match event_id:
+		W205_MINSEO_CALL:
+			var was_remote := _portrait_remote_inset
+			var ended := _w205_minseo_hung_up(source_paragraph_index)
+			_current_presentation = DataRegistry.get_story_presentation(event_id).duplicate(true)
+			if ended:
+				_current_presentation["channel"] = "narration"
+				_current_presentation["portrait_role"] = "none"
+				_current_presentation.erase("state")
+				_current_presentation.erase("remote_actor")
+			_update_communication_badge(str(_current_presentation.get("channel", "")),
+				str(_current_presentation.get("state", "")))
+			if was_remote == ended:
+				_show_portrait("" if ended else _resolved_event_portrait_id())
+			return
 		W82_HYUNSU_BUS:
 			_current_presentation = DataRegistry.get_story_presentation(event_id).duplicate(true)
 			if _pending_after_result and not _w82_bus_phone_replies():
@@ -6745,6 +6771,7 @@ func _configure_living_scene(event_override: Dictionary = {}) -> void:
 		return
 	if (_full_w19_reunion or _is_w53_network_scene() or _is_w57_medication_scene() \
 			or str(_current.get("id", "")) == W82_HYUNSU_BUS \
+			or str(_current.get("id", "")) == W205_MINSEO_CALL \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \
 			and _event_background_id.is_empty():
 		# A settings or viewport refresh must not infer the meeting in a recap.

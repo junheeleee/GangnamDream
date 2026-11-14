@@ -1446,6 +1446,14 @@
         "expected_background": "current_housing"
       }
     },
+    "arc_minseo_03b_not_arrived": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "remote_actor": "minseo",
+        "portrait_role": "remote"
+      }
+    },
     "arc_y5_general_name_boundary_exact": {
       "logic": {},
       "presentation": {

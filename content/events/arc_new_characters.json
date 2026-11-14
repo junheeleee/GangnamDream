@@ -173,7 +173,7 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "cafe",
+    "background": "",
     "portrait": "minseo",
     "conditions": {
       "min_turn": 9999

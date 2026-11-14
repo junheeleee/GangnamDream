@@ -1109,6 +1109,8 @@
           "arc_goal_vertigo_seen",
           "goal_grounded"
         ],
+        "result_background": "hangang_riverside",
+        "result_ambience": "intentional_silence",
       "result_text": "운동화를 신고 한강까지 걸었다. 새벽 강바람이 셔츠 안으로 들어왔고, 벤치는 밤이슬로 차가웠다. 맞은편 불빛이 물 위에서 길게 흔들렸다.\n\n강에는 목표액도 수익률도 없었다. {name}은 삼십 분 동안 폰을 꺼낸 채 물 흐르는 소리만 들었다.\n\n돌아오는 길에 발바닥이 아팠다. 그 통증이 이상하게 반가웠다. 숫자 밖에서도 자기 몸이 계속 존재한다는 증거 같았다.",
       "deferred_follow_up": "arc_35_path_cost",
       "deferred_delay": 22
