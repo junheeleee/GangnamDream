@@ -14,6 +14,8 @@ const WEDDING_IDS := [
 	WEDDING_ROOT, WEDDING_TEA, WEDDING_HONEST, WEDDING_FINAL,
 ]
 const CUSTODY_ID := "arc_y5_father_trace_custody"
+const CUSTODY_COMPARISON := "convenience_rear_comparison"
+const CUSTODY_CLEARED := "convenience_rear_table_clear"
 const NORMAL_CONTROL := "hyunsu_reunion_meet"
 const REMOTE_CONTROL := "hyunsu_reunion_later"
 const QA_PREFIX := "GangnamDream_StoryNameplateQA_"
@@ -474,6 +476,13 @@ func _read_hidden_phase(
 	if pages.is_empty() or int(_story.get("_para_index")) != 0:
 		_fail("%s did not start at decoded page zero" % label)
 		return false
+	if result and _expected_id == CUSTODY_ID:
+		var cut := int(_story.get("_result_location_cut_page"))
+		var choice := int(_story.get("_pending_result_choice_index"))
+		if cut < 1 or cut >= pages.size() or choice not in [0, 1] \
+				or int(_story.call("_story_source_paragraph_index", cut)) != (1 if choice == 0 else 0):
+			_fail("custody lost the branch-specific filed-copy page boundary")
+			return false
 	var saw_night_result := false
 	var saw_morning_result := false
 	for page_index in range(pages.size()):
@@ -556,12 +565,17 @@ func _expect_authored_surface(
 			_fail("wedding night lost its authored apartment ambience")
 			return false
 	elif event_id == CUSTODY_ID:
-		var store_path := ImageRegistry.get_background("convenience_night")
-		if str(_story.get("_event_background_id")) != "convenience_night" \
-				or background.texture.resource_path != store_path \
-				or str(BGMPlayer.scene_audio_contract(event_id).get(
-					"ambience", "")) != "convenience":
-			_fail("custody lost its authored convenience-store surface")
+		var cut := int(_story.get("_result_location_cut_page"))
+		var cleared := bool(_story.get("_pending_after_result")) \
+			and cut > 0 and int(_story.get("_para_index")) >= cut
+		var expected := CUSTODY_CLEARED if cleared else CUSTODY_COMPARISON
+		if bool(_story.get("_current_uses_cg")) or str(_story.get("_event_background_id")) != expected \
+				or background.texture.resource_path != ImageRegistry.get_background(expected) \
+				or str(BGMPlayer.scene_audio_contract(event_id).get("ambience", "")) != "intentional_silence" \
+				or not BGMPlayer._current_ambience_key.is_empty() or BGMPlayer._ambience_player.playing \
+				or not BGMPlayer._current_human_ambience_key.is_empty() or BGMPlayer._human_ambience_player.playing \
+				or not BGMPlayer._current_season_key.is_empty() or BGMPlayer._season_player.playing:
+			_fail("custody lost the rear-table surface or leaked a room, crowd, or season layer: %s" % expected)
 			return false
 	return true
 
@@ -679,8 +693,8 @@ func _expected_new_presentation(event_id: String) -> Dictionary:
 			"participants": ["player", "daeun"],
 			"portrait_role": "local",
 			"nameplate_role": "hidden",
-			"expected_background": "convenience_night",
-			"expected_ambience": "convenience",
+			"expected_background": CUSTODY_COMPARISON,
+			"expected_ambience": "intentional_silence",
 		}
 	return {}
 

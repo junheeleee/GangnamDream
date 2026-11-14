@@ -145,6 +145,8 @@ UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리
 
 [~] C3 후속 — `tools/StoryNameplateCheck.gd`의 W224 정확 회귀와 이 증거만. 최신 녹색 미확인, 직전 두 원격 실패 중 다른 W234는 별도 수정됨. 이미 제품에 반영된 비교본→빈 테이블의 실제 쪽 경계, 세 환경층 정지, 숨긴 이름표·보관 영수증을 모두 지킨다. 과거 카운터/매장 소리 기대를 없애되 분기를 건너뛰거나 판정을 완화하지 않는다. 제품·에셋·출시/저장 불변.
 
+[x] 종전 검사 격리 재현 9실패(본편 소스 정상, 옛 배경/환경음 기대와 사례 누락). 조정 뒤 한국어·영어×두 보관 선택 모두 포함 기존 24사례/264쪽, W224 실패0. 결과에서 실제 두 배경·세 환경층의 정지와 기존 이름표/초상·영수증을 확인. stdout SHA `125342f99f667eece045a4abf6e908ebd7278de3ff67a48b7ce88b8be11bf643`, stderr0; 격리 컴파일69·정본/큐 검사 통과. 제품 변경0, 최신 원격 CI 판정과 실청취는 별도.
+
 [x] 전환 문장 소유만 `scenes/StoryMode.gd` → `assets/w224_custody_result_cut.tres`로 이동. 5개 기준문과 동작 그대로. 영어 런타임 후보 0, 장면 156경로·1,050쪽 성공/오류 0인 격리 실행 확인(첫 실행 종료 자원 경고 별도 보존).
 
 [~] `assets/scene_audio_manifest.json`과 `content/meta/story_rules.json`의 `arc_y5_father_trace_custody` 한 행씩. 고객 구역에서 녹음한 사람 소리와 리듬이 강한 냉장고 모터를 이 테이블에 재생하지 않는다. 종이 동작과 기존 곡·시각은 그대로. `tools/{scene_audio_contract_check.py,chapter5_human_reject_audit.py,Chapter5HumanRejectCheck.gd,StoryPlaybackCheck.gd}` 해당 회귀만 정확한 무음으로 강화하고, 이전 원룸·편의점 내부음 회귀를 각각 거절한다. 이 기록·현황·당일 일지만. 다섯 원고·그림·장소·결과·기존 RC·음원·저장 불변. 이번은 음향만; 계산대가 아닌 뒤편 테이블 전용 원화와 실제 청취는 별도.
