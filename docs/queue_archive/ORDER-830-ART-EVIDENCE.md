@@ -206,6 +206,8 @@
 
 후보 검수: `d2b42a12a299…`. 무표기 휴대폰과 종이 두 묶음이 상부에 분리돼 있고 특정 거처나 발송을 확정하지 않는다. 민준 초상과 공존하는 작은 창 및 결과까지 실제 배선·검수는 다음 범위다.
 
+[~] W235 원화 제품 연결. `assets/backgrounds/finale_notice_desk_v1.png`와 import, `autoloads/ImageRegistry.gd`, `scenes/StoryMode.gd`의 이 사건 현재 자료를 모으는 문단만, `assets/{scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{scene_audio_contract_check.py,scene_direction_catalog.py,art_resolution_baseline.json}`, `content/meta/release_content_inventory.json`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{MODDING,ART_AI_AUDIT,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, 현황·이 기록만. 합성 앞 두 회상과 뒤 입력창·결과는 실제 거처. 사운드는 집 층과 음악 없음 유지, 기존 종이 효과만 마지막 결과의 보관 행동으로 이동. 문자 발신·상철 원격·5언어 원고·경제·저장·다른 장면 그대로. 같은 장소의 삽입 컷이지 이동이 아니다.
+
 [~] `content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_pre_ending.json`의 실제 W235 `arc_y5_property_not_executed_notice` 선택 0 문구와 두 문단 결과만. ‘무이체 결과 통지’ 대신 민준이 상철에게 서류 상태를 알리고 돈을 보내지 않았다고 쓰는 행동을 드러낸다. 사진은 창구 표지·기존 시각뿐. 발송 기록과 별도로 새 이체·소유권·채무 서류가 없고 비교본과 접수 서류를 각각 보관하는 점을 유지한다. 답장·전화·계약·금액·후속 행동을 발명하지 않는다. 도입/가변 회상·플래그·순서·컷·오디오·저장·데모와 저작용 장면은 그대로. 기존 CJK 수용 기록·필요한 현행 사실 원장·이 증거·당일 일지·현황만 소유.
 
 완료(문장): ‘지금 서류로는 계약을 진행할 수 없습니다. 돈도 보내지 않았습니다.’ 다섯 언어에서 두 값씩만 바뀌었고, 독립 검수에서 짚은 사진의 시각 위치 단정(영·간·번)도 제거했다. 접수 4×검토 3의 가변 문단과 기존 문서·경제·후속 경로 보존. CJK 지문 6건 및 직전 원장 역복원, 격리 5장 경로·저장 구조·경제 0 검증, 경로 변이 15건·정점 31·현행 데모·출시 원장·영어 검사 통과. W190 지연 원고는 편성기·생명주기에서 비도달 참고본이므로 고치지 않았다. 실제 기기 화면·청취·사람 독해·새 RC 아님.
