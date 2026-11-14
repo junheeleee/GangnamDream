@@ -1827,7 +1827,7 @@
     "hyunsu_result_fail": {"ambience": "apartment", "suppress_music": true, "suppress_human_ambience": true, "suppress_season_ambience": true},
     "hyunsu_result_pass": {"ambience": "room", "suppress_music": true},
     "arc_hyunsu_exam_fail": {"ambience": "current_housing", "suppress_music": true},
-    "arc_hyunsu_drift": {"ambience": "current_housing", "suppress_music": true},
+    "arc_hyunsu_drift": {"ambience": "apartment", "suppress_music": true, "suppress_human_ambience": true, "suppress_season_ambience": true},
     "arc_hyunsu_new_path": {"ambience": "current_housing", "suppress_music": true},
     "arc_goshiwon_goodbye": {
       "ambience": "goshiwon_hallway",

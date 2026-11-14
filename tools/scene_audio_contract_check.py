@@ -26,6 +26,11 @@ GOSHIWON_MOVEOUT_AUDIO = {
     "suppress_human_ambience": True, "suppress_season_ambience": True,
     "result_paragraph_cues": {"0": {"2": [{"sfx": "traffic_pass", "volume_db": -10.0}]}},
 }
+HYUNSU_DRIFT_EVENT = "arc_hyunsu_drift"
+HYUNSU_DRIFT_AUDIO = {
+    "ambience": "apartment", "suppress_music": True,
+    "suppress_human_ambience": True, "suppress_season_ambience": True,
+}
 M14_BANK_EVENT = "arc_y2_bank_limit_review"
 M14_BANK_BACKGROUNDS = ("bank_loan_counter_day", "bank_loan_exit_day")
 M14_BANK_RESULT_CUES = {
@@ -426,6 +431,9 @@ def main() -> int:
             or manifest.get("background_profiles", {}).get("goshiwon_moveout_wet_street")
             != "intentional_silence"):
         errors.append(f"{GOSHIWON_MOVEOUT_EVENT}: hallway bed and one exterior cue on choice 0 paragraph 2")
+    if (event_contracts.get(HYUNSU_DRIFT_EVENT) != HYUNSU_DRIFT_AUDIO
+            or events.get(HYUNSU_DRIFT_EVENT, {}).get("background") != "current_housing"):
+        errors.append(f"{HYUNSU_DRIFT_EVENT}: remote messages keep actual home art and a neutral bed without a phone cue")
     if W224_CUSTODY_EVENT not in event_contracts:
         errors.append(f"{W224_CUSTODY_EVENT}: missing rear-table audio contract")
     if W230_VERDICT_EVENT not in event_contracts:

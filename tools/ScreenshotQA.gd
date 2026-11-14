@@ -20975,7 +20975,7 @@ func _assert_chapter1_spine_state(story: Node, event_id: String) -> void:
 		"hyunsu_exam_day": "goshiwon_hallway",
 		"hyunsu_result_fail": "apartment",
 		"arc_hyunsu_exam_fail": "oneroom",
-		"arc_hyunsu_drift": "oneroom",
+		"arc_hyunsu_drift": "apartment",
 		"arc_hyunsu_new_path": "oneroom",
 		"arc_goshiwon_goodbye": "goshiwon_hallway",
 		"arc_housing_new_life": "oneroom",
@@ -20984,6 +20984,11 @@ func _assert_chapter1_spine_state(story: Node, event_id: String) -> void:
 	if str(BGMPlayer._current_ambience_key) != expected_ambience:
 		_fail("%s ambience expected %s, got %s." % [
 			event_id, expected_ambience, BGMPlayer._current_ambience_key])
+	if event_id == "arc_hyunsu_drift" and (not BGMPlayer._ambience_player.playing \
+			or BGMPlayer._human_ambience_player.playing or BGMPlayer._season_player.playing \
+			or not BGMPlayer._current_human_ambience_key.is_empty() \
+			or not BGMPlayer._current_season_key.is_empty()):
+		_fail("Hyunsu's messages need only the neutral room bed, without inherited human or weather layers.")
 	var has_hyunsu_theme := event_id in ["arc_hyunsu_night_talk", "hyunsu_exam_day"]
 	if has_hyunsu_theme:
 		if BGMPlayer._music_mode != "punctuation" or BGMPlayer._current_key != "hyunsu" \
