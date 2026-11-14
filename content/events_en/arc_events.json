@@ -910,7 +910,7 @@
   {
     "id": "arc_job_first_rejection",
     "title": "The Rejection Email",
-    "description": "A mail notification popped up on his phone.\n\n[Hiring Result] To Mr. Kim Minjun, applicant for the Management Support Team at Daehan Distribution Co., Ltd.\n\nHello. Thank you for your application.\nAfter reviewing your submission, we regret to inform you that\nwe are unable to select you in this round of hiring.\nWe wish you the best in your future endeavors.\n\n{name} closed the phone. Then he looked out the window for a while.\n\nHe consoled himself that it was the first rejection — but in truth it was the third.\nWhen there's nothing to put on a résumé, you'd at least like a reason. They don't give that either.",
+    "description": "A mail notification popped up on his phone.\n\n[Hiring Result] To Mr. Kim Minjun, applicant for the Management Support Team at Daehan Distribution Co., Ltd.\n\nHello. Thank you for your application.\nAfter reviewing your submission, we regret to inform you that\nwe are unable to select you in this round of hiring.\nWe wish you the best in your future endeavors.\n\n{name} closed the phone. Then he looked out the window for a while.\n\nHe tried to tell himself it was his first rejection. It was really his third.\nHe knew there wasn't much on his résumé, but he still wanted to know why they'd turned him down. The email didn't say.",
     "choices": [
       {
         "text": "It's fine, look for the next posting",
@@ -918,7 +918,7 @@
       },
       {
         "text": "Work on the résumé (revise the cover letter)",
-      "result_text": "He opened the cover-letter file. He wrestled for an hour with how to fill the six-year gap.\nIt's not perfect, but it's better than before.\nEvery one of these lines will land in an interviewer's eyes someday."
+      "result_text": "He opened his cover letter. He spent an hour working on how to explain the six-year gap.\nIt wasn't perfect, but it was better than before.\nSomeday, he thought, an interviewer would read these lines."
       }
     ]
   },
