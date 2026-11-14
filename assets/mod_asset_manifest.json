@@ -1129,6 +1129,14 @@
     {
       "kind": "background",
       "ids": [
+        "withdrawal_corridor_w177"
+      ],
+      "relative_path": "backgrounds/withdrawal_corridor_w177_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "year2_winter_street_night"
       ],
       "relative_path": "backgrounds/year2_winter_last_night.png",

@@ -116,6 +116,15 @@ const W174_RESULT_COUNTS := {
 	W174_ANSWERED: [3, 3, 3],
 	W174_MISSED: [2, 2, 2],
 }
+const W177_DAEUN := "arc_y4_borrowed_name"
+const W177_SELF := "arc_y4_borrowed_name_self"
+const W177_DOCUMENT_GAP := "arc_y4_borrowed_name_document_gap"
+const W177_CORRIDOR := "withdrawal_corridor_w177"
+const W177_CORRIDOR_PATH := "res://assets/backgrounds/withdrawal_corridor_w177_v1.png"
+const W177_CORRIDOR_START := {
+	"ko": "복도 불빛 아래에는", "en": "Beneath the corridor light,",
+	"ja": "廊下の明かりの下には", "zh-CN": "走廊灯下，", "zh-TW": "走廊燈光下，",
+}
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -360,6 +369,7 @@ const EXACT_PATHS := {
 	W161_STATION_SHOP: "res://assets/backgrounds/seoul_station_convenience_w161_v1.png",
 	W164_INTAKE: "res://assets/backgrounds/hospital_night_intake_w164_v1.png",
 	W167_RESTAURANT: "res://assets/backgrounds/family_soup_restaurant_w167_v1.png",
+	W177_CORRIDOR: W177_CORRIDOR_PATH,
 	W57_GATE: "res://assets/backgrounds/changwon_station_arrival_gate_v1.png",
 	W57_TABLE: "res://assets/backgrounds/changwon_home_medication_table_v1.png",
 	W53_DINING: "res://assets/backgrounds/sangchul_private_dining.png",
@@ -456,6 +466,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W177_CHECK"):
+		var withdrawal_ok := await _check_w177_withdrawal()
+		await _remove_story()
+		await _stop_audio()
+		if withdrawal_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w177_withdrawal")
+		get_tree().quit(0 if withdrawal_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W174_CHECK"):
 		var father_call_ok := await _check_w174_father_call()
 		await _remove_story()
@@ -3226,6 +3244,305 @@ func _expect_w169_home(home: String) -> bool:
 		_fail("W169 lost its sole apartment bed or inherited people/weather")
 		return false
 	return true
+
+func _check_w177_withdrawal() -> bool:
+	if ImageRegistry.get_background(W177_CORRIDOR) != W177_CORRIDOR_PATH \
+			or not FileAccess.file_exists(W177_CORRIDOR_PATH):
+		_fail("W177 withdrawal corridor asset identity changed")
+		return false
+	var paths := 0
+	var corridor_paths := 0
+	var before_restores := 0
+	var after_restores := 0
+	var variants := [
+		{"id": W177_DAEUN, "root": "meeting", "ambience": "office",
+			"flags": ["daeun_romance_started", "arc_y4_family_partner_daeun"]},
+		{"id": W177_SELF, "root": "meeting", "ambience": "office",
+			"flags": ["arc_y4_family_no_partner"]},
+		{"id": W177_DOCUMENT_GAP, "root": "current_housing", "ambience": "oneroom",
+			"flags": ["arc_y4_family_no_partner", "arc_y4_three_promises_missed_deal"]},
+	]
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for raw_variant: Dictionary in variants:
+			for choice: int in range(3):
+				await _remove_story()
+				await _stop_audio()
+				var event_id: String = str(raw_variant["id"])
+				_context = "%s/W177/%s/c%d" % [language, event_id, choice]
+				LocaleManager.set_language(language)
+				SaveManager.clear_loaded_resume_context()
+				GameState.start_new_game()
+				GameState.turn = 177
+				GameState.month = 8
+				GameState.age = 36
+				GameState.housing = "oneroom"
+				for flag: String in [
+					"arc_y4_three_promises_seen", "arc_y4_body_witness_seen",
+					"arc_y4_family_table_seen", "arc_year_three_half_seen",
+				]:
+					GameState.flags[flag] = true
+				for flag: String in raw_variant["flags"]:
+					GameState.flags[flag] = true
+				var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+				var selected: String = str(ingress.call(
+					"_chapter_four_causal_arc_id", 177, GameState.flags, false))
+				ingress.free()
+				if selected != event_id:
+					_fail("W177 release ingress resolved the wrong borrowed-name variant")
+					return false
+				GameState.story_return_scene = "res://scenes/MainGame.tscn"
+				GameState.pending_story_queue = [event_id]
+				# The exact result cut must replace both a public room and stale weather,
+				# while leaving independently authored score playback alone.
+				BGMPlayer.set_ambience("cafe")
+				BGMPlayer.set_season_ambience("rain")
+				_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+				add_child(_story)
+				_story.call("_set_auto_mode", false, false, false)
+				var current: Dictionary = _story.get("_current")
+				var resolved_intro := str(_story.call("_resolved_story_description", current))
+				var resolved_intro_data: Dictionary = _story.call("_story_page_data", resolved_intro)
+				var resolved_intro_count := int(_story.call(
+					"_story_page_data_source_paragraph_count", resolved_intro_data))
+				var intro_pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+				if str(current.get("id", "")) != event_id \
+						or resolved_intro_count <= 0 \
+						or int(_story.call("_story_source_paragraph_count")) != resolved_intro_count \
+						or not _m23_same_prose(intro_pages, resolved_intro):
+					_fail("W177 did not open the selected localized borrowed-name source")
+					return false
+				var home: String = ImageRegistry.resolve_contextual_background_id("current_housing")
+				var root_background: String = home if str(raw_variant["root"]) == "current_housing" \
+					else str(raw_variant["root"])
+				var root_ambience: String = str(raw_variant["ambience"])
+				for page in range(intro_pages.size()):
+					await _finish_page()
+					if not _w177_surface(root_background, root_ambience, false, "", "intro"):
+						return false
+					_story.call("_on_advance")
+					await _wait_stable()
+				if not bool(_story.get("_showing_choices")):
+					_fail("W177 did not reach its three authored choices")
+					return false
+				BGMPlayer.play_punctuation("reckoning")
+				await get_tree().process_frame
+				if BGMPlayer._current_key != "reckoning" \
+						or (not BGMPlayer._player_a.playing and not BGMPlayer._player_b.playing):
+					_fail("W177 fixture could not bind the score-preservation probe")
+					return false
+				var before_state: Dictionary = _w177_phenotype_state()
+				var before_action_points: int = int(GameState.action_points)
+				var before_commitments: Array = GameState.weekly_commitments.duplicate(true)
+				var before_flags: Dictionary = GameState.flags.duplicate(true)
+				var before_events: int = int(GameState.events_seen)
+				var before_log: Array = GameState.event_log.duplicate(true)
+				var before_meta: Dictionary = MetaProgression.data.duplicate(true)
+				_story.call("_on_choice", choice)
+				await _wait_stable()
+				var applied_state: Dictionary = _w177_applied_state()
+				var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+				var source_one_page: int = int(_story.call("_first_story_page_for_source", 1))
+				var corridor: bool = event_id == W177_SELF and choice == 2
+				if int(_story.call("_story_source_paragraph_count")) != 2 \
+						or pages.is_empty() or source_one_page <= 0 or source_one_page >= pages.size() \
+						or int(_story.call("_story_source_paragraph_index", 0)) != 0 \
+						or int(_story.call("_story_source_paragraph_index", pages.size() - 1)) != 1:
+					_fail("W177 result lost its exact two-source localized paragraph boundary")
+					return false
+				if corridor and not str(pages[source_one_page]).begins_with(
+						str(W177_CORRIDOR_START[language])):
+					_fail("W177 corridor cut no longer begins at the localized receipt sentence")
+					return false
+				var before_context: Dictionary = {}
+				var after_context: Dictionary = {}
+				for page in range(pages.size()):
+					await _finish_page()
+					var source := int(_story.call("_story_source_paragraph_index", page))
+					var at_corridor := corridor and source == 1
+					if source not in [0, 1] \
+							or _w177_applied_state() != applied_state \
+							or not _w177_surface(root_background, root_ambience,
+								at_corridor, "reckoning", "result"):
+						return false
+					if corridor and source == 0:
+						before_context = _story.call("build_save_resume_context")
+					elif corridor and source == 1 and after_context.is_empty():
+						after_context = _story.call("build_save_resume_context")
+					if page + 1 < pages.size():
+						_story.call("_on_advance")
+						await _wait_stable()
+				var after_state: Dictionary = _w177_phenotype_state()
+				var phenotype_ok := after_state == before_state
+				var events_ok := GameState.events_seen == before_events + 1
+				var flags_ok := _w177_outcome_flags_match(before_flags, event_id, choice)
+				var receipt_ok := _w177_receipt_matches(before_log, event_id, choice)
+				var commitment_ok := before_action_points > 0 \
+					and _w177_commitment_matches(
+						before_commitments, event_id, choice, root_background)
+				var meta_ok := MetaProgression.data == before_meta
+				if not phenotype_ok or not events_ok or not flags_ok \
+						or not receipt_ok or not commitment_ok or not meta_ok:
+					var changed_state_keys: Array[String] = []
+					for state_key: String in before_state:
+						if before_state[state_key] != after_state.get(state_key):
+							changed_state_keys.append(state_key)
+					_fail("W177 visual cut changed state/receipt phenotype=%s keys=%s events=%s flags=%s receipt=%s commitment=%s meta=%s" % [
+						phenotype_ok, changed_state_keys, events_ok, flags_ok, receipt_ok,
+						commitment_ok, meta_ok])
+					return false
+				if corridor:
+					if before_context.is_empty() or after_context.is_empty() \
+							or not await _w177_reload_boundary(before_context, language, 0,
+								root_background, root_ambience, false, applied_state) \
+							or not await _w177_reload_boundary(after_context, language, 1,
+								root_background, root_ambience, true, applied_state):
+						_fail("W177 cold v4 boundary did not recover both sides of the corridor cut")
+						return false
+					before_restores += 1
+					after_restores += 1
+					corridor_paths += 1
+				paths += 1
+	print("W177_WITHDRAWAL_OK paths=%d corridor=%d before_v4=%d after_v4=%d" % [
+		paths, corridor_paths, before_restores, after_restores])
+	return paths == 45 and corridor_paths == 5 and before_restores == 5 and after_restores == 5
+
+func _w177_surface(root_background: String, root_ambience: String, corridor: bool,
+		expected_score: String, label: String) -> bool:
+	if corridor:
+		if not _expect_surface(W177_CORRIDOR, "", "W177 %s corridor" % label) \
+				or not _expect_no_ambience("W177 %s corridor" % label):
+			return false
+	elif not _expect_surface(root_background, root_ambience, "W177 %s root" % label):
+		return false
+	var portrait := _story.get("_portrait_frame") as Control
+	if not is_instance_valid(portrait) or portrait.visible == corridor \
+			or bool(_story.get("_current_uses_cg")) \
+			or not str(_story.get("_event_cg_id")).is_empty():
+		_fail("W177 %s did not keep the player portrait exclusive to the non-corridor surface" % label)
+		return false
+	if not expected_score.is_empty() and (BGMPlayer._current_key != expected_score \
+			or (not BGMPlayer._player_a.playing and not BGMPlayer._player_b.playing)):
+		_fail("W177 %s interrupted its existing score at the location cut" % label)
+		return false
+	return true
+
+func _w177_reload_boundary(context: Dictionary, language: String, source: int,
+		root_background: String, root_ambience: String, corridor: bool,
+		expected_state: Dictionary) -> bool:
+	if not await _reload_authored_result_context(context, language, 2, source, true):
+		return false
+	if int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) != source:
+		_fail("W177 cold result moved off source paragraph %d" % source)
+		return false
+	if not _w177_applied_state_matches(expected_state, "cold result"):
+		return false
+	if not _w177_surface(root_background, root_ambience, corridor, "", "cold result"):
+		return false
+	_story.call("_finish_story_scene_transition")
+	await _wait_stable()
+	return int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) == source \
+		and _w177_applied_state_matches(expected_state, "settled cold result") \
+		and _w177_surface(root_background, root_ambience, corridor, "", "settled cold result")
+
+func _w177_applied_state() -> Dictionary:
+	return {
+		# SaveManager's JSON boundary legitimately normalizes numeric container
+		# types. Compare the exact JSON-visible values rather than Variant widths.
+		"phenotype": _w177_json_state(_w177_phenotype_state()),
+		"action_points": int(GameState.action_points),
+		"max_action_points": int(GameState.max_action_points),
+		"flags": _w177_json_state(GameState.flags),
+		"events_seen": int(GameState.events_seen),
+		"event_log": _w177_json_state(GameState.event_log),
+		"weekly_commitments": _w177_json_state(GameState.weekly_commitments),
+		"pending_weekly_commitment": _w177_json_state(GameState.pending_weekly_commitment),
+		"action_axis_this_week": _w177_json_state(GameState.action_axis_this_week),
+	}
+
+func _w177_json_state(value: Variant) -> Variant:
+	return JSON.parse_string(JSON.stringify(value))
+
+func _w177_applied_state_matches(expected: Dictionary, label: String) -> bool:
+	var actual := _w177_applied_state()
+	if actual == expected:
+		return true
+	var changed: Array[String] = []
+	for key: String in expected:
+		if expected[key] != actual.get(key):
+			changed.append(key)
+	_fail("W177 %s changed applied state keys=%s" % [label, changed])
+	return false
+
+func _w177_phenotype_state() -> Dictionary:
+	var serialized: Dictionary = GameState.serialize()
+	var result := {}
+	for key: String in [
+		"money", "health", "mental", "luck", "moral_tint", "route_orthodox",
+		"route_unorthodox", "max_action_points", "housing",
+		"current_job", "portfolio", "loans", "relationships", "cast", "inventory",
+	]:
+		var value: Variant = serialized.get(key)
+		if value is Dictionary or value is Array:
+			value = value.duplicate(true)
+		result[key] = value
+	return result
+
+func _w177_commitment_matches(before: Array, event_id: String, choice: int,
+		root_background: String) -> bool:
+	var after: Array = GameState.weekly_commitments
+	if GameState.action_points != 0 or after.size() != before.size() + 1 \
+			or after.slice(0, before.size()) != before:
+		return false
+	var receipt: Dictionary = after.back() if not after.is_empty() else {}
+	var forgone: Array[int] = []
+	for candidate in range(3):
+		if candidate != choice:
+			forgone.append(candidate)
+	return int(receipt.get("turn", -1)) == 177 \
+		and str(receipt.get("source", "")) == "story_event" \
+		and str(receipt.get("story_event_id", "")) == event_id \
+		and int(receipt.get("story_choice_index", -1)) == choice \
+		and str(receipt.get("choice_id", "")) == "story:%s:%d" % [event_id, choice] \
+		and str(receipt.get("actual_action_id", "")) == "story_choice" \
+		and str(receipt.get("axis", "")) == "money" \
+		and str(receipt.get("week_kind", "")) == "decision" \
+		and str(receipt.get("scene_background_id", "")) == root_background \
+		and receipt.get("forgone_choice_indexes", []) == forgone \
+		and receipt.get("outcome", {}) == {}
+
+func _w177_outcome_flags_match(before: Dictionary, event_id: String, choice: int) -> bool:
+	var expected: Dictionary = before.duplicate(true)
+	expected["arc_y4_borrowed_name_seen"] = true
+	var outcome := "arc_y4_borrowed_name_withdrew_request"
+	if event_id == W177_DAEUN:
+		outcome = [
+			"arc_y4_borrowed_name_reduced_to_self",
+			"arc_y4_borrowed_name_partner_review_only",
+			"arc_y4_borrowed_name_withdrew_request",
+		][choice]
+	elif event_id == W177_SELF:
+		outcome = [
+			"arc_y4_borrowed_name_reduced_to_self",
+			"arc_y4_borrowed_name_own_name_counteroffer",
+			"arc_y4_borrowed_name_withdrew_request",
+		][choice]
+	elif event_id == W177_DOCUMENT_GAP:
+		outcome = [
+			"arc_y4_borrowed_name_requested_complete_terms",
+			"arc_y4_borrowed_name_reduced_to_self",
+			"arc_y4_borrowed_name_withdrew_request",
+		][choice]
+	expected[outcome] = true
+	return GameState.flags == expected
+
+func _w177_receipt_matches(before: Array, event_id: String, choice: int) -> bool:
+	var after: Array = GameState.event_log
+	var receipt: Dictionary = after.back() if not after.is_empty() else {}
+	return after.size() == before.size() + 1 \
+		and after.slice(0, before.size()) == before \
+		and str(receipt.get("event_id", "")) == event_id \
+		and int(receipt.get("choice_index", -1)) == choice \
+		and int(receipt.get("turn", -1)) == 177
 
 func _check_w174_father_call() -> bool:
 	if ImageRegistry.get_background(W174_KTX) != W174_KTX_PATH \

@@ -100,6 +100,8 @@ const W164_INTAKE_CUT := preload("res://assets/w164_daeun_intake_cut.tres")
 const W174_FATHER_NUMBER := "arc_father_call_on_ktx_number"
 const W174_CARRIAGE_PATH := "res://assets/backgrounds/regional_train_window_summer.png"
 const W174_PANE_OVERLAY_PATH := "res://assets/backgrounds/ktx_tunnel_window_overlay_w174.svg"
+const W177_SELF_REVIEW := "arc_y4_borrowed_name_self"
+const W177_WITHDRAWAL_CORRIDOR := "withdrawal_corridor_w177"
 const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
 const W167_UNATTACHED_TABLE := "arc_y4_family_commitment_none"
 const W167_LATE_TABLE := "arc_y4_family_table_missed"
@@ -4719,6 +4721,8 @@ func _resolved_story_surface_portrait_id() -> String:
 		return "hyunsu" if _event_background_id == W82_TERMINAL or _w82_bus_phone_replies() else ""
 	if _w205_minseo_hung_up(_story_source_paragraph_index(_para_index)) or _is_w132_stair_result():
 		return ""
+	if str(_current.get("id", "")) == W177_SELF_REVIEW and _event_background_id == W177_WITHDRAWAL_CORRIDOR:
+		return ""
 	if _is_w96_station_result() or _is_m27_pitch_home_result():
 		return ""
 	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER and _event_background_id != "meeting":
@@ -6011,6 +6015,9 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 		var at_exit := _pending_result_choice_index == 2 \
 			and _story_source_paragraph_index(_para_index) == 1
 		background_id = "bank_loan_exit_day" if at_exit else "bank_loan_counter_day"
+	elif _pending_after_result and event_id == W177_SELF_REVIEW and _pending_result_choice_index == 2:
+		# The confirmation stays in the room. Only the receipt is read outside.
+		background_id = W177_WITHDRAWAL_CORRIDOR if _story_source_paragraph_index(_para_index) == 1 else "meeting"
 	elif _pending_after_result and event_id == M03_JIYEON_CRASH:
 		if _result_location_cut_page < 0 or _para_index < _result_location_cut_page:
 			# On a cold result load the introduction has already happened, even
@@ -6046,6 +6053,8 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 		_show_portrait("", true)
 		if is_instance_valid(_hud_panel):
 			_hud_panel.visible = not (_read_only_replay or _story_visual_override_active)
+	elif event_id == W177_SELF_REVIEW:
+		_show_portrait(_resolved_story_surface_portrait_id(), bool(_current.get("bg_focus", false)))
 	_apply_story_surface_palette(false)
 	_configure_living_scene()
 	if at_w4_locker or at_w234_boulevard or at_moveout_street:

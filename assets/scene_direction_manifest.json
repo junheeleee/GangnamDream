@@ -752,6 +752,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "withdrawal_corridor_w177": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "sangchul_private_dining": {
       "environment": "indoor",
       "depth": "near",

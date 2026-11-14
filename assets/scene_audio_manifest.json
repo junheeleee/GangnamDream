@@ -39,6 +39,7 @@
     "bank_exterior_wet_day": "street",
     "bank_loan_counter_day": "intentional_silence",
     "bank_loan_exit_day": "intentional_silence",
+    "withdrawal_corridor_w177": "intentional_silence",
     "street_day": "street",
     "park_bench_day": "street",
     "subway": "subway",

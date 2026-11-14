@@ -524,6 +524,8 @@ weather, romance, and historical portraits remain fixed.
   - Use for social, relationship, date, romance, and cafe events.
 - `assets/backgrounds/sangchul_cafe_stairs_v1.png`
   - W132 상철 신고 결과에서 내려가는 문장만. 가운데 아래참에서 오른쪽 통로로 이어지는 무인 실내 계단; 카페 바로 다음 컷이며 다른 퇴장에는 재사용하지 않는다.
+- `assets/backgrounds/withdrawal_corridor_w177_v1.png`
+  - W177 자기 명의 검토의 철회 결과 두 번째 원문 단락 전용 1인칭 삽입 컷. 같은 층 복도의 작은 접수표와 손만; 검토실 장면·다른 결과에는 사용하지 않는다.
 
 - `assets/backgrounds/restaurant_korean.png`
   - Modest Korean restaurant interior for family meals, awkward meetings, and relationship conversation scenes.

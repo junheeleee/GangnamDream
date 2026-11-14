@@ -117,6 +117,7 @@ TRANSIT_BACKGROUNDS = {
 INDOOR_BACKGROUNDS = {
     "seoul_station_convenience_w161",
     "sangchul_cafe_stairs",
+    "withdrawal_corridor_w177",
     "first_savings_bank_overview",
     "seoul_station_parents_concourse",
     "seoul_station_parents_ticket_gate",
