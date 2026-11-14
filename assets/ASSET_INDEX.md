@@ -374,6 +374,12 @@ weather, romance, and historical portraits remain fixed.
 - `assets/backgrounds/seoul_subway_transfer_passage_v1.png`
   - W57 medication message, choices and its still-in-passage results only. An underground commuter lane and wall-side recess at standing eye height; no visible train, platform, fare gate or named station. 1584×990, opaque, reviewed runtime candidate, not a high-resolution master.
 
+- `assets/backgrounds/changwon_station_arrival_gate_v1.png`
+  - W57 visit result, from the exact physical-arrival sentence. Public waiting side of a regional rail checkpoint, with the right third left for the existing Father portrait; not a Seoul subway gate or platform.
+
+- `assets/backgrounds/changwon_home_medication_table_v1.png`
+  - W57 visit result, at Father's home after the station. The existing home's sofa and entry frame the worn low table, with a palm-sized medicine envelope and tumbler above the dialogue panel. Do not reuse for an empty room: the two objects are baked in.
+
 - `assets/backgrounds/seoul_bus_terminal_night.png`
   - Person-free Seoul intercity terminal at night for the goodbye result of `arc_y2_hyunsu_night_bus`.
   - The coach door faces the curbside platform; vehicle lane, tactile paving, waiting seats, terminal glass, and pedestrian circulation remain physically separate. Keep the right edge readable under Hyunsu's portrait and do not reuse it as an ordinary city bus stop.

@@ -306,6 +306,8 @@ const BACKGROUNDS = {
 	# Canon-safe Changwon father-home background regenerated on 2026-06-12.
 	"dad_house":         "res://assets/backgrounds/family_living_room.png",
 	"changwon_family_stairwell": "res://assets/backgrounds/changwon_family_stairwell_v1.png",
+	"changwon_station_arrival_gate": "res://assets/backgrounds/changwon_station_arrival_gate_v1.png",
+	"changwon_home_medication_table": "res://assets/backgrounds/changwon_home_medication_table_v1.png",
 	"hometown_train_station": "res://assets/backgrounds/hometown_train_station.png",
 	"seoul_station_ktx_platform_winter": "res://assets/backgrounds/seoul_station_ktx_platform_winter.png",
 	"seoul_station_parents_concourse": "res://assets/backgrounds/seoul_station_parents_concourse.png",

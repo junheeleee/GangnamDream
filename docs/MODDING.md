@@ -330,7 +330,9 @@ python3 tools/generate_mod_manifest.py --check
 | background | `cafe` | `backgrounds/cafe_seoul.png` | 1280x800 |
 | background | `casino` | `backgrounds/casino_interior.png` | 1280x800 |
 | background | `changwon_family_stairwell` | `backgrounds/changwon_family_stairwell_v1.png` | 1280x800 |
+| background | `changwon_home_medication_table` | `backgrounds/changwon_home_medication_table_v1.png` | 1584x990 |
 | background | `changwon_hospital_room_empty` | `backgrounds/changwon_hospital_room_empty.png` | 1280x800 |
+| background | `changwon_station_arrival_gate` | `backgrounds/changwon_station_arrival_gate_v1.png` | 1584x990 |
 | background | `cherry_blossom_path` | `backgrounds/cherry_blossom_path.png` | 1672x941 |
 | background | `chuseok_highway` | `backgrounds/chuseok_highway.png` | 1672x941 |
 | background | `community_center` | `backgrounds/community_center.png` | 1672x941 |
@@ -422,9 +424,9 @@ python3 tools/generate_mod_manifest.py --check
 | background | `seoul_station_parents_ticket_gate` | `backgrounds/seoul_station_parents_ticket_gate.png` | 1280x800 |
 | background | `seoul_station_visitor_sticker` | `backgrounds/seoul_station_visitor_sticker.png` | 1280x800 |
 | background | `subway` | `backgrounds/seoul_subway.png` | 1280x800 |
+| background | `seoul_subway_transfer_passage` | `backgrounds/seoul_subway_transfer_passage_v1.png` | 1584x990 |
 | background | `sinchon_bus_stop_after_rain_night` | `backgrounds/sinchon_bus_stop_after_rain_night.png` | 1280x800 |
 | background | `sinchon_bus_stop_distant_bus_night` | `backgrounds/sinchon_bus_stop_distant_bus_night.png` | 1280x800 |
-| background | `seoul_subway_transfer_passage` | `backgrounds/seoul_subway_transfer_passage_v1.png` | 1584x990 |
 | background | `sinchon_bus_stop_sedan_night` | `backgrounds/sinchon_bus_stop_sedan_night.png` | 1280x800 |
 | background | `sinchon_crash_approach_rain_dusk` | `backgrounds/sinchon_crash_approach_rain_dusk.png` | 1280x800 |
 | background | `sinchon_crash_exit_rain_dusk` | `backgrounds/sinchon_crash_exit_rain_dusk.png` | 1280x800 |

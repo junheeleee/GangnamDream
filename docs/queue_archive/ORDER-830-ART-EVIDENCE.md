@@ -533,6 +533,10 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] W57 세 번째 선택 창원 방문: `assets/backgrounds/{changwon_station_arrival_gate_v1,changwon_home_medication_table_v1}.png` 및 import, `autoloads/ImageRegistry.gd`, `scenes/StoryMode.gd`, `assets/{scene_direction_manifest,scene_audio_manifest,mod_asset_manifest}.json`, `tools/{scene_direction_catalog.py,StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `assets/{IMAGE_PROMPTS,ASSET_INDEX}.md`, `content/meta/release_content_inventory.json`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, 현황·이 증거만. P1 첫 답장은 원격 문자, 주말 도착 문장에서만 공용 대합실 쪽 개찰구와 아버지, P2에서 창원 집 식탁과 물컵·약봉투. 기존 집 구조·아버지 초상·5언어 본문/선택/저장/공개 데모 유지. 정확한 새 녹음 없으면 기존 무음 유지. 두 원화와 각 페이지·저장·언어 전환을 독립 검수한다.
 
+완료(창원 방문): W57 c2에서 문자 답장과 도착이 들어 있는 같은 원고 문단을 화면 두 구간으로 나눴다. 답장 당시 아버지 위치는 단정하지 않는다. 다섯 언어 각각의 도착 문장부터 공용 대합실 쪽 개찰구와 기존 아버지 초상, 다음 문단은 기존 집 구조의 식탁·실제 크기 약봉투와 물컵. 처음 두 식탁 그림은 하단 대화창과의 간격이 좁아 미채택했다. 장소별 반복 환경층은 계속 무음, 첫 문자 진동만 기존 계약을 유지한다. 원문·대가 5만원·결과 1회·저장 형식·공개 데모 불변.
+
+격리 headless `830-w57-changwon.zPEZTo` 및 1280×800 창 `830-w57-native.lNKBYq`: 5언어×2변형×3선택 30경로, 기존 v4 40회, 동일 문단의 답장 끝/도착 첫 글자 전 정확한 재개 20회, KO→EN→KO 4회. 창 40컷, 두 실행과 69 스크립트 컴파일 stderr0. 독립 검수에서 기존 집/인물 일관성, 현장에만 나타나는 아버지, 대화창 위 식탁 소품을 확인했다. 실청취·대표 런 재생·개인 저장·기존 RC 재패키징0. 다음 후보는 c1 객차의 주변 통행인 표현·장소별 정확한 녹음이다.
+
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.

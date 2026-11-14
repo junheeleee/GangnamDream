@@ -57,6 +57,12 @@ const W53_SANGCHUL_NETWORK := "arc_sangchul_03_network"
 const W53_PRIVATE_DINING := "sangchul_private_dining"
 const W57_FATHER_MEDICATION := "arc_father_medication"
 const W57_TRANSFER_PASSAGE := "seoul_subway_transfer_passage"
+const W57_CHANGWON_GATE := "changwon_station_arrival_gate"
+const W57_MEDICATION_TABLE := "changwon_home_medication_table"
+const W57_VISIT_ARRIVAL := {
+	"ko": "주말에 도착했을 때", "en": "When {name} arrives that weekend,",
+	"ja": "週末、到着すると、", "zh-CN": "周末到了，", "zh-TW": "週末抵達時，",
+}
 const W117_JAEHYUK_COUNTER := "arc_jaehyuk_04b_counter"
 const W117_POLICE_RECEPTION := "police_evidence_reception"
 const W117_COUNTER_CUTS := preload("res://assets/w117_jaehyuk_counter_cuts.tres")
@@ -3396,6 +3402,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == M23_MOTHER_CALL and choice_index == 0) \
 		or (event_id == W96_FATHER_VISIT and choice_index == 3) \
 		or (event_id == M27_JAEHYUK_PITCH and choice_index == 2) \
+		or (event_id == W57_FATHER_MEDICATION and choice_index == 2 and not _is_public_story_demo()) \
 		or (event_id == W117_JAEHYUK_COUNTER and choice_index == 0) \
 		or (event_id == HYUNSU_EXAM_FAILURE and choice_index == 1) \
 		or (event_id == M23_PARENTS and choice_index == 1)
@@ -3446,6 +3453,11 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		return _story_page_data(_fmt(raw))
 	if event_id == M23_MOTHER_CALL:
 		return _first_ktx_result_pages(_fmt(raw))
+	if event_id == W57_FATHER_MEDICATION:
+		var anchor := str(W57_VISIT_ARRIVAL.get(LocaleManager.language, ""))
+		if raw.split("\n\n").size() == 3 and not anchor.is_empty():
+			return _split_formatted_story_page(_fmt(raw), 1, _fmt(anchor))
+		return _story_page_data(_fmt(raw))
 	if event_id == HYUNSU_EXAM_FAILURE:
 		var anchors: Dictionary = M07_HYUNSU_WASHBASIN_CUT.get_meta("return_anchors", {})
 		var prose := _fmt(raw)
@@ -4642,6 +4654,11 @@ func _resolved_story_surface_portrait_id() -> String:
 		return ""
 	if _is_w53_network_scene() and _is_w53_invitation(_story_source_paragraph_index(_para_index)):
 		return ""
+	if _is_w57_medication_scene() and _pending_after_result and _pending_result_choice_index == 2:
+		if _event_background_id == W57_CHANGWON_GATE:
+			return "father_normal"
+		if _event_background_id == W57_MEDICATION_TABLE:
+			return ""
 	if _is_w96_station_result() or _is_m27_pitch_home_result():
 		return ""
 	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER and _event_background_id != "meeting":
@@ -6007,9 +6024,11 @@ func _apply_w57_medication_result_surface() -> void:
 		if _pending_result_choice_index == 1:
 			destination = "subway" if source == 1 else _resolve_story_background_id("current_housing")
 		elif _pending_result_choice_index == 2:
-			# The later station and table are not the Seoul passage. Don't replace
-			# them with a different station or invent a view inside the family home.
-			destination = ""
+			if source == 1:
+				destination = W57_CHANGWON_GATE if _result_location_cut_page >= 0 \
+					and _para_index >= _result_location_cut_page else ""
+			elif source == 2:
+				destination = W57_MEDICATION_TABLE
 	if destination == _event_background_id:
 		return
 	var texture: Texture2D = null
@@ -6022,6 +6041,11 @@ func _apply_w57_medication_result_surface() -> void:
 	_finish_story_scene_transition()
 	_event_background_id = destination
 	_bg_img.texture = texture
+	if _pending_result_choice_index == 2:
+		# The source paragraph includes both a text reply and a physical arrival.
+		# Rebind on the display page even when the source paragraph hasn't changed.
+		_refresh_story_paragraph_presentation(source)
+		_show_portrait(_resolved_story_surface_portrait_id())
 	_apply_story_surface_palette(false)
 	_configure_living_scene()
 
@@ -6349,6 +6373,23 @@ func _refresh_story_paragraph_presentation(
 				elif _pending_result_choice_index != 0 and source_paragraph_index == 0:
 					_current_presentation["channel"] = "message"
 					_current_presentation["state"] = "sent"
+				elif _pending_result_choice_index == 2 and source_paragraph_index == 1 \
+						and _result_location_cut_page >= 0 and _para_index < _result_location_cut_page:
+					_current_presentation["channel"] = "message"
+					_current_presentation["state"] = "received"
+					_current_presentation["remote_actor"] = "father"
+				if _pending_result_choice_index == 2 and source_paragraph_index > 0:
+					_current_presentation.erase("scene_location")
+					_current_presentation.erase("expected_background")
+					_current_presentation.erase("expected_portrait")
+					if _event_background_id == W57_CHANGWON_GATE:
+						_current_presentation["channel"] = "in_person"
+						_current_presentation["portrait_role"] = "present"
+						_current_presentation["scene_location"] = W57_CHANGWON_GATE
+						_current_presentation["expected_portrait"] = "father_normal"
+					elif _event_background_id == W57_MEDICATION_TABLE:
+						_current_presentation["portrait_role"] = "none"
+						_current_presentation["scene_location"] = "changwon_home"
 			_update_communication_badge(str(_current_presentation.get("channel", "in_person")),
 				str(_current_presentation.get("state", "")))
 			return

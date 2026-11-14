@@ -808,6 +808,22 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "changwon_station_arrival_gate": {
+      "environment": "transit",
+      "depth": "mid",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "changwon_home_medication_table": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "hometown_train_station": {
       "environment": "transit",
       "depth": "mid",

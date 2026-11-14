@@ -102,10 +102,26 @@
     {
       "kind": "background",
       "ids": [
+        "changwon_home_medication_table"
+      ],
+      "relative_path": "backgrounds/changwon_home_medication_table_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "changwon_hospital_room_empty"
       ],
       "relative_path": "backgrounds/changwon_hospital_room_empty.png",
       "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "changwon_station_arrival_gate"
+      ],
+      "relative_path": "backgrounds/changwon_station_arrival_gate_v1.png",
+      "resolution": "1584x990"
     },
     {
       "kind": "background",

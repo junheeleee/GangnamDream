@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 303,
+  "inventory_count": 305,
   "counts": {
     "1080p": {
       "CG": {
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 127,
+        "light": 129,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 127,
+        "heavy": 129,
         "severe": 0
       }
     }
@@ -291,6 +291,23 @@
         "4k": "heavy"
       }
     },
+    "assets/backgrounds/changwon_home_medication_table_v1.png": {
+      "kind": "Background",
+      "ids": [
+        "changwon_home_medication_table"
+      ],
+      "width": 1584,
+      "height": 990,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.2121,
+        "4k": 2.4242
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
     "assets/backgrounds/changwon_hospital_room_empty.png": {
       "kind": "Background",
       "ids": [
@@ -302,6 +319,23 @@
       "scale": {
         "1080p": 1.5,
         "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/changwon_station_arrival_gate_v1.png": {
+      "kind": "Background",
+      "ids": [
+        "changwon_station_arrival_gate"
+      ],
+      "width": 1584,
+      "height": 990,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.2121,
+        "4k": 2.4242
       },
       "band": {
         "1080p": "light",
