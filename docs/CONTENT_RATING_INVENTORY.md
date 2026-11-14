@@ -119,8 +119,8 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 - KO/EN 사건: 각각 127파일 · 1813건, ID 일치
 - 패키지 사건: 1813건 · 현재 shipping 사건: 1702건 · author-only reference 원고: 111건
 - KO/EN 엔딩: 각각 35건
-- 활성 스토리 이미지: 279장 · source raster: 336장
-- 게임 pack 대상 raster: 328장 · ImageRegistry 외부 pack 대상: 49장
+- 활성 스토리 이미지: 284장 · source raster: 341장
+- 게임 pack 대상 raster: 333장 · ImageRegistry 외부 pack 대상: 49장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
 - 사건 ID SHA-256: `4b51a9170bb3bcd7362be3175dbaec77c96a8c928e8747dd5479e14d54845a4b`
 - KO/EN 엔딩 본문 SHA-256: `110f2c8f6748b2cf9615794e26212b5e4e4dd241beea7d85a79f5684bf753b24`

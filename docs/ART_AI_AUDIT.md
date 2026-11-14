@@ -325,6 +325,7 @@
 | Portrait | `assets/characters/npc_jiyeon_warm.png` | `jiyeon_warm` | 512x768 | yes | `9d09b4c52ccc` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/npc_jiyeon_wedding_night.png` | `jiyeon_wedding_night` | 512x768 | yes | `befbef49d00a` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/npc_mentor.png` | `jiyeon_normal` | 512x768 | yes | `d0b0fd4c0956` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
+| Portrait | `assets/characters/jiyeon_offer_umbrella.png` | `jiyeon_offer_umbrella` | 768x1024 | yes | `7e4a9982d9c8` | PASS-B | 신촌 제안 실외 전용. 긴 웨이브·연한 재킷·검은 상의·금색 장신구와 우산 잡는 손. |
 | Portrait | `assets/characters/npc_minseo.png` | `minseo`, `minseo_normal` | 512x768 | yes | `3f402386bae0` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/npc_mother.png` | `mother` | 512x768 | yes | `c84b6204b4b9` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/npc_romantic_interest.png` | `daeun_normal` | 512x768 | yes | `f79d2c89dafb` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
@@ -454,6 +455,10 @@
 | Background | `assets/backgrounds/sinchon_bus_stop_after_rain_night.png` | `sinchon_bus_stop_after_rain_night` | 1280x800 | no | `a290627b54d1` | PASS-B | 비가 막 그친 밤. 빈 정류장·도착 안내판·젖은 보도. 빗줄기 없음. |
 | Background | `assets/backgrounds/sinchon_bus_stop_sedan_night.png` | `sinchon_bus_stop_sedan_night` | 1280x800 | no | `71c970ee6f01` | PASS-B | 동일 위치에 정차한 검은 세단과 열린 왼쪽 운전석 문. 얼굴·번호·상표 없음. |
 | Background | `assets/backgrounds/sinchon_bus_stop_distant_bus_night.png` | `sinchon_bus_stop_distant_bus_night` | 1280x800 | no | `d367aea74a8d` | PASS-B | 젖은 도로 너머의 먼 전조등. 정류장과 세단은 카메라 바깥. |
+| Background | `assets/backgrounds/sinchon_main_road_bus_stop_rain_overcast.png` | `sinchon_main_road_bus_stop_rain_overcast` | 1280x800 | no | `bdb84c997540` | PASS-B | 비 내리는 신촌 대로의 빈 정류장. 앞 재회와 시간대·날씨 분리. |
+| Background | `assets/backgrounds/sinchon_offer_sedan_rain.png` | `sinchon_offer_sedan_rain` | 1280x800 | no | `0e60568189e3` | PASS-B | 같은 정류장, 검은 세단과 열린 왼쪽 운전석 문. 인물은 별도 배치. |
+| Background | `assets/backgrounds/sinchon_offer_station_approach_rain.png` | `sinchon_offer_station_approach_rain` | 1280x800 | no | `56dae38fbc31` | PASS-B | 비 내리는 보도에서 역 입구 쪽을 봄. 역사 안이 아니다. |
+| Background | `assets/backgrounds/sinchon_offer_cafe_two_coffees.png` | `sinchon_offer_cafe_two_coffees` | 1280x800 | no | `c39155c5db6e` | PASS-B | 대사창 위 두 잔과 창밖 젖은 거리. 실내 날씨 효과 없음. |
 | Background | `assets/backgrounds/street_seoul_day.png` | `street`, `street_day` | 1280x800 | no | `c7730fce4f73` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/subway_station_lost_found.png` | `subway_station_lost_found` | 1280x800 | no | `eaca16aa8259` | PASS-B | 역무실 분실물 접수대·보안 유리·보관 선반·인접 개찰구와 공용 동선, 무인·무문자 확인. P1 마스터 아님. |
 | Background | `assets/backgrounds/subway_station_stairs.png` | `subway_station_stairs` | 1280x800 | no | `ba8585a9abf4` | PASS-B | 퇴근 뒤 역 계단·손잡이·개찰구·대합 공간의 물리 동선, 열차 객실 오독 없음과 무인·무문자 확인. P1 마스터 아님. |
@@ -468,4 +473,4 @@
 | Background | `assets/backgrounds/year3_hangang_winter_night.png` | `year3_hangang_winter_night` | 1280x800 | no | `b8387ccb4707` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year4_winter_rooftop.png` | `year4_winter_rooftop` | 1280x800 | no | `46803837d191` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 
-Inventory: 81 CG / 93 portraits / 105 backgrounds / 279 total.
+Inventory: 81 CG / 94 portraits / 109 backgrounds / 284 total.

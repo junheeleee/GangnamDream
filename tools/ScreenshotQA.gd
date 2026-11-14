@@ -20756,6 +20756,13 @@ func _shot_chapter2_peak_surfaces(
 			"arc_jiyeon_03_offer", prefix + "08_jiyeon_accept_cafe", "", 0.45, true, true, 1)
 	if not GameState.flags.get("jiyeon_had_coffee", false):
 		_fail("Chapter 2 Jiyeon coffee route lost its canonical route flag.")
+	_prepare_chapter2_peak_qa_state()
+	await _shot_story_event(
+			"arc_jiyeon_03_offer", prefix + "19_jiyeon_honest_at_stop", "", 0.45, true, true, 2)
+	if not GameState.flags.get("jiyeon_honest", false) \
+			or GameState.flags.get("jiyeon_refused_coffee", false) \
+			or GameState.flags.get("jiyeon_had_coffee", false):
+		_fail("Chapter 2 Jiyeon honesty choice no longer matches its result or flag.")
 
 	_prepare_chapter2_peak_qa_state()
 	await _shot_story_event(
@@ -20818,7 +20825,7 @@ func _assert_chapter2_visual_state(story: Node, event_id: String, selected_choic
 		"arc_sangchul_03_network": "sangchul_private_dining",
 		"arc_daeun_03_fork": "convenience_night",
 		"arc_father_medication": "subway",
-		"arc_jiyeon_03_offer": "street_rainy",
+		"arc_jiyeon_03_offer": "sinchon_offer_sedan_rain",
 		"arc_34_doors_open": "meeting",
 		"arc_34_parents_visit": "restaurant",
 		"arc_father_03_hospital": "apartment",
@@ -20827,14 +20834,17 @@ func _assert_chapter2_visual_state(story: Node, event_id: String, selected_choic
 		"arc_father_04_visit": "hospital",
 	}
 	var result_backgrounds := {
-		"arc_jiyeon_03_offer:0": "street_rainy",
-		"arc_jiyeon_03_offer:1": "cafe",
+		"arc_jiyeon_03_offer:0": "sinchon_offer_station_approach_rain",
+		"arc_jiyeon_03_offer:1": "sinchon_offer_cafe_two_coffees",
+		"arc_jiyeon_03_offer:2": "sinchon_offer_sedan_rain",
 		"arc_34_parents_visit:0": "restaurant",
 		"arc_34_parents_visit:1": "apartment",
 	}
 	var result_ambiences := {
+		"arc_jiyeon_03_offer:-1": "rain",
 		"arc_jiyeon_03_offer:0": "rain",
-		"arc_jiyeon_03_offer:1": "cafe",
+		"arc_jiyeon_03_offer:1": "",
+		"arc_jiyeon_03_offer:2": "rain",
 		"arc_34_parents_visit:0": "hoesik",
 		"arc_34_parents_visit:1": "oneroom",
 	}
@@ -20862,6 +20872,17 @@ func _assert_chapter2_visual_state(story: Node, event_id: String, selected_choic
 			_fail("%s result ambience expected %s at choice=%d, got %s." % [
 				event_id, expected_ambience, selected_choice, actual_ambience,
 			])
+	if event_id == "arc_jiyeon_03_offer":
+		for audio_key in ["_current_human_ambience_key", "_current_season_key", "_current_key"]:
+			if not str(BGMPlayer.get(audio_key)).is_empty():
+				_fail("%s must not retain %s at choice=%d." % [event_id, audio_key, selected_choice])
+		var portrait := story.get("_portrait") as TextureRect
+		var has_portrait := is_instance_valid(portrait) and portrait.visible and portrait.texture != null
+		if selected_choice == 0 and has_portrait:
+			_fail("%s station walk must not show a foreground portrait." % event_id)
+		elif selected_choice == 1 and (not has_portrait \
+				or portrait.texture.resource_path != ImageRegistry.get_portrait("jiyeon_warm")):
+			_fail("%s cafe result must show the established warm Jiyeon portrait." % event_id)
 
 func _shot_chapter1_spine_surfaces(
 		lang: String = "en", prefix: String = "chapter1_spine_en_") -> void:

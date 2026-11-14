@@ -40,6 +40,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 11-14 KST [~] 제품 배선: `sinchon_main_road_bus_stop_rain_overcast`, `sinchon_offer_sedan_rain`, `sinchon_offer_station_approach_rain`, `sinchon_offer_cafe_two_coffees`, 지연 `jiyeon_offer_umbrella` PNG/import와 레지스트리·원화/방향/모드/해상도/출시 사실 원장. `arc_events.json`·story_rules·시각 계약의 제안 한 행, `StoryMode` 당시 도착 및 c0 초상 숨김·세 갈래의 냉간 복원만. 음향 매니페스트·`scene_audio_contract_check.py`: 비는 실외, P1 차량 기존 녹음 1회, 카페 베드 무음, 임의 컵 효과·음악 추가0. `ScreenshotQA`의 2장 기존 표본과 `StoryBackgroundContextCheck` 격리 표적만. 산문·효과·분기·모든 저장 키·타 장면 불변. 카페 테이블은 라떼/검은 아메리카노가 이미 놓인 공간, 젖은 창 너머만 비다.
 
+11-14 KST 화면·믹스 배선 완료: 빈 정류장 → P1 세단과 우산 → 역 쪽 실외 / 카페 / 같은 정류장. 카페 두 잔과 우산 양끝이 프레임에 들어오도록 첫 카페 원화와 초상 프레이밍은 수정했다. 실외는 약한 비 효과와 빗소리만, P1 차량 효과 한 번, 카페 진입/복원 때 빗소리 즉시0·실내 사람/계절/곡0. 실제 창 1280×800 5언어 35컷 `830-sinchon-offer-settled.47Vp9D`, stderr 0. 독립 검수는 5언어 선택과 카페 배치·크롭을 확인했다. 실제 FullStoryFlow 선택 게이트(W84–89, 다은 동시 후보)와 준비된 이력을 사용한 5언어×3 결과·cold 결과15 및 도입/선택 cold 2, 전체 스크립트 컴파일69. 산문·선택 효과·데모 RC·사용자 저장 불변. 현행 체험판 5언어 정적 검사 통과. 구 24주 현지화 감사의 6개 해시/텍스트 기준 불일치는 변경 전 `6b26f51`의 별도 소스에서도 똑같이 재현; 이번에 검사·기준을 바꾸지 않았다. 실제 기기 청취·새 RC·Steam 반영0.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`

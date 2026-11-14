@@ -39,6 +39,10 @@
     "sinchon_bus_stop_after_rain_night": "intentional_silence",
     "sinchon_bus_stop_sedan_night": "intentional_silence",
     "sinchon_bus_stop_distant_bus_night": "intentional_silence",
+    "sinchon_main_road_bus_stop_rain_overcast": "rain",
+    "sinchon_offer_sedan_rain": "rain",
+    "sinchon_offer_station_approach_rain": "rain",
+    "sinchon_offer_cafe_two_coffees": "intentional_silence",
     "street_rainy_bus_stop_wallet": "rain",
     "cold_snap_street": "street",
     "winter_street_bungeoppang": "street",
@@ -1612,7 +1616,13 @@
         ]
       }
     },
-    "arc_jiyeon_03_offer": {"ambience": "rain", "suppress_music": true},
+    "arc_jiyeon_03_offer": {
+      "ambience": "rain",
+      "suppress_music": true,
+      "suppress_human_ambience": true,
+      "suppress_season_ambience": true,
+      "paragraph_cues": {"1": [{"sfx": "traffic_pass", "volume_db": -10.0}]}
+    },
     "arc_jiyeon_03b_lunch": {"ambience": "cafe", "music": {"key": "jiyeon", "start_paragraph": 2}},
     "arc_34_doors_open": {"ambience": "office", "suppress_music": true},
     "arc_34_parents_visit": {"ambience": "hoesik", "suppress_music": true},

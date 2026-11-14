@@ -5,6 +5,7 @@ extends Node
 
 const QA_PREFIX := "GangnamDream_StoryNameplateQA_"
 const CHAPTER5_ROUTE := preload("res://systems/Chapter5CausalRoute.gd")
+const FULL_STORY_FLOW := preload("res://systems/FullStoryFlow.gd")
 const BURNOUT_PRIOR_CHOICES := [2, 1, 0, 1]
 const W202_EVENT := "callback_daeun_committed_gangnam_eve"
 const W4_EVENT := "arc_temptation_01"
@@ -17,6 +18,14 @@ const REUNION := "arc_jiyeon_02_store"
 const REUNION_STOP := "sinchon_bus_stop_after_rain_night"
 const REUNION_SEDAN := "sinchon_bus_stop_sedan_night"
 const REUNION_HEADLIGHTS := "sinchon_bus_stop_distant_bus_night"
+const OFFER := "arc_jiyeon_03_offer"
+const OFFER_STOP := "sinchon_main_road_bus_stop_rain_overcast"
+const OFFER_SEDAN := "sinchon_offer_sedan_rain"
+const OFFER_STATION := "sinchon_offer_station_approach_rain"
+const OFFER_CAFE := "sinchon_offer_cafe_two_coffees"
+const OFFER_UMBRELLA := "jiyeon_offer_umbrella"
+const OFFER_FOLLOW_UP := "callback_jiyeon_honest_referral"
+const OFFER_BRANCH_FLAGS := ["jiyeon_refused_coffee", "jiyeon_had_coffee", "jiyeon_honest"]
 const W4_DEMO := preload("res://playtests/order124/StoryChoiceM1M6Playtest.gd")
 const W4_TERMS := {
 	"ko": ["한 시간 뒤 같은 보관함", "방으로 돌아온"],
@@ -131,6 +140,10 @@ const EXACT_PATHS := {
 	W234_OFFICE: "res://assets/backgrounds/realestate_office.png",
 	W234_BOULEVARD: "res://assets/backgrounds/gangnam_boulevard_winter_dusk.png",
 	W4_ROOM: "res://assets/backgrounds/goshiwon_room.png",
+	OFFER_STOP: "res://assets/backgrounds/sinchon_main_road_bus_stop_rain_overcast.png",
+	OFFER_SEDAN: "res://assets/backgrounds/sinchon_offer_sedan_rain.png",
+	OFFER_STATION: "res://assets/backgrounds/sinchon_offer_station_approach_rain.png",
+	OFFER_CAFE: "res://assets/backgrounds/sinchon_offer_cafe_two_coffees.png",
 	"hospital_clinic_day": "res://assets/backgrounds/hospital_clinic_day.png",
 	"subway_station_stairs": "res://assets/backgrounds/subway_station_stairs.png",
 	"subway_station_lost_found": "res://assets/backgrounds/subway_station_lost_found.png",
@@ -176,6 +189,7 @@ var _context := "bootstrap"
 var _w8_capture_dir := ""
 var _w8_capture_start_msec := 0
 var _w8_capture_shots := 0
+var _offer_capture_dir := ""
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -198,6 +212,12 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_SINCHON_OFFER_CHECK"):
+		var offer_ok := await _check_sinchon_offer()
+		if offer_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=sinchon_offer")
+		get_tree().quit(0 if offer_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_SINCHON_REUNION_CHECK"):
 		await _check_sinchon_reunion()
 		return
@@ -860,6 +880,336 @@ func _expect_reunion_surface(background: String, portrait_visible: bool, score: 
 		return false
 	return true
 
+func _check_sinchon_offer() -> bool:
+	_offer_capture_dir = OS.get_environment("GANGNAM_SINCHON_OFFER_CAPTURE_DIR")
+	var language_arg := OS.get_environment("GANGNAM_SINCHON_OFFER_CAPTURE_LANGUAGE")
+	var languages := W4_TERMS.keys()
+	if not _offer_capture_dir.is_empty():
+		var output := DirAccess.open(_offer_capture_dir) if _offer_capture_dir.is_absolute_path() else null
+		if output == null or not output.get_files().is_empty() or not output.get_directories().is_empty() \
+				or not W4_TERMS.has(language_arg) or DisplayServer.get_name() == "headless":
+			_fail("Sinchon offer capture requires a fresh absolute output, known locale and real display")
+			return false
+		if OS.get_environment("GANGNAM_SINCHON_OFFER_CAPTURE_COMPACT") == "1":
+			DisplayServer.window_set_size(Vector2i(960, 600))
+			await get_tree().process_frame
+			if DisplayServer.window_get_size() != Vector2i(960, 600):
+				_fail("Sinchon offer compact capture did not get a 960x600 window")
+				return false
+		languages = [language_arg]
+		OS.low_processor_usage_mode = false
+	await _remove_story()
+	await _stop_audio()
+	_context = "Sinchon-offer/prepare"
+	if not _prepare_sinchon_offer():
+		return false
+	var prepared: Dictionary = GameState.serialize().duplicate(true)
+	var paths := 0
+	for language in languages:
+		LocaleManager.set_language(language)
+		for choice in range(3):
+			await _remove_story()
+			GameState.call("_restore_serialized_snapshot_exact", prepared)
+			_context = "%s/Sinchon-offer/c%d" % [language, choice]
+			if await _play_sinchon_offer(choice):
+				paths += 1
+	if _offer_capture_dir.is_empty():
+		await _remove_story()
+		LocaleManager.set_language("ko")
+		GameState.call("_restore_serialized_snapshot_exact", prepared)
+		_context = "ko/Sinchon-offer/prechoice-restore"
+		if not await _check_offer_prechoice_resume():
+			return false
+	await _remove_story()
+	await _stop_audio()
+	if paths != languages.size() * 3:
+		_fail("Sinchon offer path inventory incomplete: %d" % paths)
+	if not _offer_capture_dir.is_empty():
+		var expected := ["intro_p0", "intro_p1", "choices", "c0_p0", "c0_p1", "c1_p0", "c2_p0"]
+		for shot in expected:
+			if not FileAccess.file_exists(_offer_capture_dir.path_join(shot + ".png")):
+				_fail("Sinchon offer capture missing %s" % shot)
+	if _failures != 0:
+		return false
+	print("SINCHON_OFFER_OK paths=%d cold_results=%d cold_prechoice=%d full_owner=1 prepared_history=1 capture=%s" % [
+		paths, paths if _offer_capture_dir.is_empty() else 0,
+		2 if _offer_capture_dir.is_empty() else 0, not _offer_capture_dir.is_empty()])
+	return true
+
+func _prepare_sinchon_offer() -> bool:
+	# Prepared elapsed weeks, not played weeks. Bind required FullStoryFlow
+	# history to actual apply_choice witnesses and route the claimed scene live.
+	GameState.start_new_game()
+	if not FULL_STORY_FLOW.initialize_fresh_run():
+		_fail("Sinchon offer could not initialize a pristine full owner")
+		return false
+	var owner := FULL_STORY_FLOW.snapshot()
+	for prior in [[1, "story_flashforward"], [1, "chapter_card_33"],
+			[4, W4_EVENT], [8, "arc_temptation_clean"], [9, "arc_intro_04_hyunsu"],
+			[9, "arc_chapter1_close"], [17, M03_EVENT], [34, REUNION], [49, "chapter_card_34"]]:
+		GameState.turn = int(prior[0])
+		var event: Dictionary = DataRegistry.find_event(str(prior[1]))
+		if event.is_empty() or not GameState.apply_choice(event, event["choices"][0]):
+			_fail("Sinchon offer preparation lost authored predecessor %s" % prior[1])
+			return false
+		var turn_key := str(GameState.turn)
+		if not owner["read_receipts"].has(turn_key):
+			owner["read_receipts"][turn_key] = []
+		var tuple := {"turn": GameState.turn, "event_id": prior[1], "choice_index": 0}
+		var record: Dictionary = tuple.duplicate()
+		record.merge({"expression": false, "applied_sequence": GameState.events_seen, "applied_tuple": tuple})
+		owner["read_receipts"][turn_key].append(record)
+	for prior_turn in range(1, 85):
+		owner["completed_turns"][str(prior_turn)] = {"turn": prior_turn, "next_turn": prior_turn + 1}
+		owner["routine_receipts"][str(prior_turn)] = {
+			"turn": prior_turn, "source": FULL_STORY_FLOW.ROUTINE_SOURCE, "job_id": "", "status": "applied",
+			"effects": {"money": 70_000, "health": 0, "mental": 4},
+			"units": [
+				{"kind": "livelihood", "requested_effects": FULL_STORY_FLOW.APPROVED_UNEMPLOYED.duplicate(),
+					"effects": {"money": 70_000, "health": -1, "mental": 1},
+					"before": {"money": 500_000, "health": 65, "mental": 60, "work_performance": 0},
+					"after": {"money": 570_000, "health": 64, "mental": 61, "work_performance": 0}},
+				{"kind": "recovery", "requested_effects": FULL_STORY_FLOW.APPROVED_RECOVERY.duplicate(),
+					"effects": {"health": 1, "mental": 3},
+					"before": {"money": 570_000, "health": 64, "mental": 61, "work_performance": 0},
+					"after": {"money": 570_000, "health": 65, "mental": 64, "work_performance": 0}},
+			],
+		}
+	owner["last_completed_turn"] = 84
+	GameState.flags[FULL_STORY_FLOW.STATE_KEY] = owner
+	GameState.turn = 85
+	GameState.week_of_month = 1
+	GameState.month = 10
+	GameState.year = 2027
+	GameState.age = 34
+	GameState.mental = 60
+	GameState.social_skill = 40
+	SaveManager.clear_loaded_resume_context()
+	var probe := load("res://scenes/MainGame.tscn").instantiate() as Control
+	var eligible := FULL_STORY_FLOW.valid_session() and bool(GameState.flags.get("arc_jiyeon_store_seen", false))
+	for turn in [84, 85, 86, 87, 88, 89]:
+		eligible = eligible and (probe.call("_next_arc_id", turn, true) == OFFER) == (turn in [85, 86, 87, 88])
+	var competing: Dictionary = GameState.flags.duplicate()
+	competing["arc_daeun_regular_seen"] = true
+	var saved_cast: Dictionary = GameState.cast.duplicate(true)
+	GameState.apply_cast_effect("daeun", {"affinity": 12})
+	eligible = eligible and probe.call("_story_graph_contract_event_id", 85, competing, false) == "arc_daeun_03_fork"
+	GameState.cast = saved_cast
+	probe.free()
+	if not eligible:
+		_fail("Sinchon offer routing did not match full calendar, reunion witness or competing Daeun route")
+	return eligible
+
+func _open_sinchon_offer() -> bool:
+	var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+	ingress.set_meta("_screenshot_qa_static_surface", true)
+	var event_id: String = ingress.call("_next_arc_id", -1, true)
+	ingress.call("_go_story_mode", [event_id])
+	ingress.free()
+	if event_id != OFFER or GameState.pending_story_queue != [OFFER] or not FULL_STORY_FLOW.valid_session():
+		_fail("Sinchon offer did not reserve its normal FullStoryFlow handoff")
+		return false
+	# Enter from a rain/street crowd and a stale seasonal bed to check the actual
+	# scene contract clears both, including after the outdoor choice moves.
+	BGMPlayer.set_ambience("rain")
+	BGMPlayer.set_season_ambience("winter")
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	return true
+
+func _play_sinchon_offer(choice: int) -> bool:
+	if not await _open_sinchon_offer():
+		return false
+	var intro: Array = (_story.get("_paragraphs") as Array).duplicate()
+	if int(_story.call("_story_source_paragraph_count")) != 5:
+		_fail("Sinchon offer lost a source paragraph")
+		return false
+	for page in range(intro.size()):
+		var source := int(_story.call("_story_source_paragraph_index", page))
+		if source == 0:
+			_story.call("_refresh_story_speaker_language")
+		if not _expect_offer_surface(OFFER_STOP if source == 0 else OFFER_SEDAN,
+				"" if source == 0 else OFFER_UMBRELLA, source >= 1):
+			return false
+		await _finish_page()
+		if choice == 0 and not _offer_capture_dir.is_empty() and source in [0, 1] \
+				and page == int(_story.call("_first_story_page_for_source", source)):
+			await _save_offer_frame("intro_p%d" % source)
+		_story.call("_on_advance")
+		await _wait_stable()
+	var current: Dictionary = _story.get("_current")
+	if not bool(_story.get("_showing_choices")) or current.get("id") != OFFER \
+			or (current.get("choices", []) as Array).size() != 3 \
+			or not _expect_offer_surface(OFFER_SEDAN, OFFER_UMBRELLA, true):
+		_fail("Sinchon offer did not retain all choices at the rainy sedan")
+		return false
+	if choice == 0 and not _offer_capture_dir.is_empty():
+		await _save_offer_frame("choices")
+	var expected := [float(GameState.money), GameState.mental + [5, 2, 8][choice],
+		GameState.social_skill + (3 if choice == 1 else 0),
+		GameState.get_cast_affinity("jiyeon") + [6, 15, 20][choice],
+		["intrigued", "interest", "drawn"][choice], GameState.event_log.size() + 1]
+	_story.call("_on_choice", choice)
+	await _wait_stable()
+	var results: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var whitespace := RegEx.new()
+	whitespace.compile("\\s+")
+	var authored: String = _story.call("_fmt", str(current["choices"][choice].get("result_text", "")))
+	if int(_story.call("_story_source_paragraph_count")) != [3, 3, 2][choice] \
+			or whitespace.sub("".join(PackedStringArray(results)), "", true) != whitespace.sub(authored, "", true) \
+			or not _expect_offer_choice(choice, expected):
+		_fail("Sinchon offer choice lost original result prose or effects")
+		return false
+	var background: String = [OFFER_STATION, OFFER_CAFE, OFFER_SEDAN][choice]
+	var portrait_id: String = ["", "jiyeon_warm", OFFER_UMBRELLA][choice]
+	var cold := false
+	for page in range(results.size()):
+		var source := int(_story.call("_story_source_paragraph_index", page))
+		if page == 0 and choice in [0, 1]:
+			_story.call("_refresh_story_speaker_language")
+		if not _expect_offer_surface(background, portrait_id, not cold):
+			return false
+		await _finish_page()
+		if not _offer_capture_dir.is_empty() and (page == 0 or (choice == 0 and source == 1 \
+				and page == int(_story.call("_first_story_page_for_source", source)))):
+			await _save_offer_frame("c%d_p%d" % [choice, source])
+		if page == 0 and _offer_capture_dir.is_empty():
+			if not await _reload_cut_result(choice, 0, false):
+				return false
+			await _wait_stable()
+			if not _expect_offer_surface(background, portrait_id, false) or not _expect_offer_choice(choice, expected):
+				return false
+			cold = true
+		if page + 1 < results.size():
+			_story.call("_on_advance")
+			await _wait_stable()
+	return true
+
+func _check_offer_prechoice_resume() -> bool:
+	if not await _open_sinchon_offer():
+		return false
+	await _finish_page()
+	_story.call("_on_advance")
+	await _wait_stable()
+	if int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) != 1 \
+			or not _expect_offer_surface(OFFER_SEDAN, OFFER_UMBRELLA, true):
+		return false
+	await _finish_page()
+	if not await _reload_offer_prechoice("prose"):
+		return false
+	for _advance in range((_story.get("_paragraphs") as Array).size()):
+		if bool(_story.get("_showing_choices")):
+			break
+		await _finish_page()
+		_story.call("_on_advance")
+		await _wait_stable()
+	if not bool(_story.get("_showing_choices")):
+		_fail("Sinchon offer choices were not reached after cold arrival")
+		return false
+	return await _reload_offer_prechoice("choices")
+
+func _reload_offer_prechoice(phase: String) -> bool:
+	var saved_context: Dictionary = _story.call("build_save_resume_context")
+	var count := GameState.event_log.size()
+	if saved_context.get("phase") != phase or not SaveManager.save_game(W8_QA_SLOT, saved_context, {"qa_fixture": true}):
+		_fail("Sinchon offer could not save %s" % phase)
+		return false
+	await _remove_story()
+	GameState.start_new_game()
+	if not SaveManager.load_game(W8_QA_SLOT):
+		_fail("Sinchon offer could not cold load %s" % phase)
+		return false
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	var restored_context: Dictionary = _story.call("build_save_resume_context")
+	if restored_context.get("event_id") != OFFER or restored_context.get("phase") != phase \
+			or int(restored_context.get("source_paragraph_index", -1)) != int(saved_context.get("source_paragraph_index", -2)) \
+			or GameState.event_log.size() != count or bool(GameState.flags.get("arc_jiyeon_offer_seen", false)) \
+			or not FULL_STORY_FLOW.valid_session():
+		_fail("Sinchon offer %s resume changed its source page, handoff or choice state" % phase)
+		return false
+	return _expect_offer_surface(OFFER_SEDAN, OFFER_UMBRELLA, false)
+
+func _save_offer_frame(label: String) -> void:
+	var portrait := _story.get("_portrait_frame") as Control
+	var showing_choices := bool(_story.get("_showing_choices"))
+	var target_alpha := 0.94 if showing_choices else 1.0
+	var choice_box := _story.get("_choice_box") as Control
+	for _frame in range(120):
+		var choices_settled := not showing_choices
+		if showing_choices and choice_box.modulate.a >= 0.99 and choice_box.get_child_count() == 3:
+			choices_settled = true
+			for child in choice_box.get_children():
+				var group := child as Control
+				choices_settled = choices_settled and group.modulate.a >= 0.99 \
+					and group.scale.is_equal_approx(Vector2.ONE)
+		if choices_settled and (not portrait.visible or portrait.modulate.a >= target_alpha - 0.01):
+			await _save_viewport_frame(_offer_capture_dir.path_join(label + ".png"))
+			return
+		await get_tree().process_frame
+	_fail("Sinchon offer portrait or choices did not finish fading in at %s" % label)
+
+func _expect_offer_choice(choice: int, expected: Array) -> bool:
+	var records: Array = GameState.event_log
+	var receipt: Dictionary = records.back() if not records.is_empty() else {}
+	var followups: Array = GameState.deferred_events.filter(func(entry: Dictionary) -> bool:
+		return entry.get("event_id") == OFFER_FOLLOW_UP)
+	var expected_followups := 1 if choice == 2 else 0
+	var valid: bool = FULL_STORY_FLOW.valid_session() and bool(_story.get("_pending_after_result")) \
+		and int(_story.get("_pending_result_choice_index")) == choice and records.size() == expected[5] \
+		and receipt.get("event_id") == OFFER and receipt.get("choice_index") == choice \
+		and is_equal_approx(GameState.money, expected[0]) and GameState.mental == expected[1] \
+		and GameState.social_skill == expected[2] and GameState.get_cast_affinity("jiyeon") == expected[3] \
+		and GameState.get_cast_stage("jiyeon") == expected[4] and GameState.flags.get("arc_jiyeon_offer_seen", false) \
+		and followups.size() == expected_followups \
+		and (choice != 2 or int(followups[0].get("trigger_turn", -1)) == 101)
+	for index in range(OFFER_BRANCH_FLAGS.size()):
+		valid = valid and bool(GameState.flags.get(OFFER_BRANCH_FLAGS[index], false)) == (index == choice)
+	if not valid:
+		_fail("Sinchon offer receipt/effects expected=%s actual=%s followups=%s valid_owner=%s" % [
+			expected, [GameState.money, GameState.mental, GameState.social_skill,
+				GameState.get_cast_affinity("jiyeon"), GameState.get_cast_stage("jiyeon"), records.size()],
+			followups, FULL_STORY_FLOW.valid_session()])
+	return valid
+
+func _expect_offer_surface(background: String, portrait_id: String, car_cue: bool) -> bool:
+	var rain := background != OFFER_CAFE
+	if not _expect_surface(background, "rain" if rain else "", "Sinchon offer"):
+		return false
+	var portrait := _story.get("_portrait_frame") as Control
+	var face := _story.get("_portrait") as TextureRect
+	var nameplate := _story.get("_name_panel") as Control
+	var observed: Array[String] = []
+	for key in AudioManager._story_audio_seen:
+		if str(key).begins_with(OFFER + ":"):
+			observed.append(str(key))
+	var expected_cues: Array = [OFFER + "::description:1:0:traffic_pass"] if car_cue else []
+	var weather: Dictionary = _story.get_meta("living_scene_profile", {})
+	var expect_name := not portrait_id.is_empty() and not bool(_story.get("_showing_choices"))
+	var expected_stretch := TextureRect.STRETCH_KEEP_ASPECT_CENTERED if portrait_id == OFFER_UMBRELLA \
+		else TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	if str(_story.get_meta("living_scene_effect", "")) != ("rain" if rain else "none") \
+			or not is_equal_approx(float(weather.get("base_intensity", -1.0)), 0.12 if rain else 0.0) \
+			or portrait.visible != (not portrait_id.is_empty()) or nameplate.visible != expect_name \
+			or (face.texture != null if portrait_id.is_empty() else (
+				face.texture == null or face.texture.resource_path != ImageRegistry.get_portrait(portrait_id) \
+				or face.stretch_mode != expected_stretch)) \
+			or not BGMPlayer._current_key.is_empty() or observed != expected_cues \
+			or BGMPlayer._ambience_player.playing != rain \
+			or not BGMPlayer._current_human_ambience_key.is_empty() or BGMPlayer._human_ambience_player.playing \
+			or not BGMPlayer._current_season_key.is_empty() or BGMPlayer._season_player.playing:
+		_fail("Sinchon offer surface weather=%s portrait=%s/%s expected=%s label=%s score=%s audible=%s/%s/%s cues=%s" % [
+			_story.get_meta("living_scene_effect", ""), portrait.visible,
+			"" if face.texture == null else face.texture.resource_path,
+			portrait_id, nameplate.visible, BGMPlayer._current_key, BGMPlayer._ambience_player.playing,
+			BGMPlayer._current_human_ambience_key, BGMPlayer._current_season_key, observed])
+		return false
+	return true
+
 func _play_w234_case(language: String, choice_index: int) -> void:
 	await _remove_story()
 	_context = "%s/W234/choice%d" % [language, choice_index]
@@ -1410,7 +1760,8 @@ func _wait_stable() -> void:
 			await get_tree().process_frame
 			return
 		if not _w4_capture_dir.is_empty() or not _w8_capture_dir.is_empty() \
-				or not _m14_capture_dir.is_empty() or not _w234_capture_dir.is_empty():
+				or not _m14_capture_dir.is_empty() or not _w234_capture_dir.is_empty() \
+				or not _offer_capture_dir.is_empty():
 			continue
 		if raw_ink_tween is Tween and (raw_ink_tween as Tween).is_running():
 			(raw_ink_tween as Tween).custom_step(10.0)

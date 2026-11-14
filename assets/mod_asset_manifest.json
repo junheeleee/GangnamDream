@@ -752,6 +752,38 @@
     {
       "kind": "background",
       "ids": [
+        "sinchon_main_road_bus_stop_rain_overcast"
+      ],
+      "relative_path": "backgrounds/sinchon_main_road_bus_stop_rain_overcast.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "sinchon_offer_cafe_two_coffees"
+      ],
+      "relative_path": "backgrounds/sinchon_offer_cafe_two_coffees.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "sinchon_offer_sedan_rain"
+      ],
+      "relative_path": "backgrounds/sinchon_offer_sedan_rain.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "sinchon_offer_station_approach_rain"
+      ],
+      "relative_path": "backgrounds/sinchon_offer_station_approach_rain.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "street",
         "street_day"
       ],
@@ -1501,6 +1533,14 @@
       ],
       "relative_path": "cg/y5_three_in_room_v2.png",
       "resolution": "1280x800"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_offer_umbrella"
+      ],
+      "relative_path": "characters/jiyeon_offer_umbrella.png",
+      "resolution": "768x1024"
     },
     {
       "kind": "portrait",

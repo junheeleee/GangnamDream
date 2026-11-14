@@ -2290,15 +2290,15 @@
       },
       "presentation": {
         "channel": "in_person",
-        "scene_location": "street_rainy",
+        "scene_location": "sinchon_neighborhood_main_road",
         "participants": ["player", "jiyeon"],
         "participant_roles": {
-          "player": "customer",
+          "player": "pedestrian",
           "jiyeon": "driver"
         },
         "portrait_role": "present",
-        "expected_background": "street_rainy",
-        "expected_portrait": "jiyeon_warm",
+        "expected_background": "sinchon_main_road_bus_stop_rain_overcast",
+        "expected_portrait": "jiyeon_offer_umbrella",
         "expected_ambience": "rain"
       }
     },

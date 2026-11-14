@@ -145,7 +145,7 @@
     {"id": "arc_daeun_money_gap", "background": "cafe", "portrait": "daeun_smile"},
     {"id": "arc_jiyeon_01_crash", "background": "sinchon_crash_approach_rain_dusk", "portrait": "jiyeon_normal", "cg": "cg_jiyeon_crash"},
     {"id": "arc_jiyeon_02_store", "background": "sinchon_bus_stop_after_rain_night", "portrait": "jiyeon_normal"},
-    {"id": "arc_jiyeon_03_offer", "background": "street_rainy", "portrait": "jiyeon_warm", "choice_result_backgrounds": {"0": "street_rainy", "1": "cafe", "2": "street_rainy"}},
+    {"id": "arc_jiyeon_03_offer", "background": "sinchon_main_road_bus_stop_rain_overcast", "portrait": "jiyeon_offer_umbrella", "choice_result_backgrounds": {"0": "sinchon_offer_station_approach_rain", "1": "sinchon_offer_cafe_two_coffees", "2": "sinchon_offer_sedan_rain"}, "choice_result_portraits": {"1": "jiyeon_warm"}},
     {"id": "arc_jiyeon_03b_lunch", "background": "restaurant", "portrait": "jiyeon_warm"},
     {"id": "arc_job_vs_invest", "background": "office", "portrait": "boss"},
     {"id": "arc_34_doors_open", "background": "meeting", "portrait": "player_normal"},

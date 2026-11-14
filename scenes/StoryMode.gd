@@ -34,6 +34,10 @@ const M03_CRASH_EXIT := "sinchon_crash_exit_rain_dusk"
 const SINCHON_REUNION := "arc_jiyeon_02_store"
 const SINCHON_REUNION_SEDAN := "sinchon_bus_stop_sedan_night"
 const SINCHON_REUNION_HEADLIGHTS := "sinchon_bus_stop_distant_bus_night"
+const SINCHON_OFFER := "arc_jiyeon_03_offer"
+const SINCHON_OFFER_SEDAN := "sinchon_offer_sedan_rain"
+const SINCHON_OFFER_STATION := "sinchon_offer_station_approach_rain"
+const SINCHON_OFFER_UMBRELLA := "jiyeon_offer_umbrella"
 const W8_FALLOUT := "arc_temptation_fallout"
 const M14_BANK_REVIEW := "arc_y2_bank_limit_review"
 const W234_SUMMIT := "arc_y5_general_pre_ending_summit_exact"
@@ -586,12 +590,18 @@ func _apply_story_portrait_surface() -> void:
 		_portrait_frame.scale = Vector2.ONE * focus_scale
 
 func _portrait_base_left() -> int:
+	if _portrait.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_CENTERED:
+		return PORTRAIT_OFFSET_LEFT - 18
 	return REMOTE_PORTRAIT_OFFSET_LEFT if _portrait_remote_inset else PORTRAIT_OFFSET_LEFT
 
 func _portrait_base_right() -> int:
+	if _portrait.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_CENTERED:
+		return PORTRAIT_OFFSET_RIGHT - 18
 	return REMOTE_PORTRAIT_OFFSET_RIGHT if _portrait_remote_inset else PORTRAIT_OFFSET_RIGHT
 
 func _portrait_choice_shift() -> int:
+	if _portrait.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_CENTERED:
+		return 12
 	return REMOTE_PORTRAIT_CHOICE_SHIFT_X if _portrait_remote_inset else PORTRAIT_CHOICE_SHIFT_X
 
 func _animate_story_text_panel() -> void:
@@ -2571,7 +2581,7 @@ func _apply_story_resume_context(context: Dictionary) -> void:
 			_restore_story_paragraph(context, false)
 			if str(_current.get("id", "")) == M03_JIYEON_CRASH:
 				_maybe_reveal_event_cg(_event_cg_reveal_paragraph)
-			elif str(_current.get("id", "")) == SINCHON_REUNION:
+			elif str(_current.get("id", "")) in [SINCHON_REUNION, SINCHON_OFFER]:
 				_maybe_change_event_background(1)
 				_maybe_reveal_event_portrait(1)
 			_show_choices()
@@ -2697,6 +2707,9 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		# Restore the sustained theme, not the already-occurred car one-shot.
 		if result_phase or source_paragraph_index >= 2 or phase == "choices":
 			BGMPlayer.play_scene_paragraph_music(_current, "", 2)
+	elif str(_current.get("id", "")) == SINCHON_OFFER:
+		# The car has already arrived on a restored prose/result page.
+		pass
 	elif result_phase:
 		AudioManager.play_scene_result_paragraph_cues(
 			str(_current.get("id", "")), _event_cg_id,
@@ -2809,6 +2822,7 @@ func _capture_story_transition_snapshot() -> bool:
 	if is_instance_valid(_portrait_frame) and _portrait_frame.visible \
 			and is_instance_valid(_portrait) and _portrait.texture != null:
 		_story_transition_portrait_snapshot.texture = _portrait.texture
+		_story_transition_portrait_snapshot.stretch_mode = _portrait.stretch_mode
 		_story_transition_portrait_snapshot.material = (
 			_portrait.material.duplicate(true) if _portrait.material != null else null)
 		_story_transition_portrait_snapshot.offset_left = _portrait_frame.offset_left
@@ -4371,6 +4385,10 @@ func _resolved_event_portrait_id() -> String:
 	return portrait_id
 
 func _resolved_choice_result_portrait_id(choice: Dictionary) -> String:
+	if str(_current.get("id", "")) == SINCHON_OFFER \
+			and str(choice.get("result_background", "")) == SINCHON_OFFER_STATION:
+		# Minjun is already walking alone when Jiyeon calls from behind him.
+		return ""
 	var result_portrait_id := str(choice.get("result_portrait", "")).strip_edges()
 	return result_portrait_id if not result_portrait_id.is_empty() \
 		else _resolved_event_portrait_id()
@@ -4382,6 +4400,8 @@ func _resolved_story_surface_portrait_id() -> String:
 				and choices[_pending_result_choice_index] is Dictionary:
 			return _resolved_choice_result_portrait_id(
 				choices[_pending_result_choice_index] as Dictionary)
+	if str(_current.get("id", "")) == SINCHON_OFFER and not _event_portrait_revealed:
+		return ""
 	return _resolved_event_portrait_id()
 
 func _resolved_event_cg_id() -> String:
@@ -5305,7 +5325,13 @@ func _render_current():
 	var audio_contract: Dictionary = BGMPlayer.scene_audio_contract(
 		str(_current.get("id", "")), _event_cg_id)
 	var has_authored_ambience: bool = not str(audio_contract.get("ambience", "")).is_empty()
-	if str(_current.get("background", "")) == "current_housing" \
+	var cold_offer_cafe := str(_current.get("id", "")) == SINCHON_OFFER \
+		and str(_pending_restore_context.get("event_id", "")) == SINCHON_OFFER \
+		and str(_pending_restore_context.get("phase", "")) == "result" \
+		and int(_pending_restore_context.get("pending_result_choice_index", -1)) == 1
+	if cold_offer_cafe:
+		BGMPlayer.clear_ambience_immediate()
+	elif str(_current.get("background", "")) == "current_housing" \
 			and not _current_uses_cg and not has_authored_ambience:
 		BGMPlayer.update_idle_ambience()
 	else:
@@ -5425,7 +5451,7 @@ func _maybe_change_event_background(paragraph_index: int) -> void:
 		return
 	_event_background_id = bg_id
 	# This insert shares the first impact cue, not a walk to a new location.
-	if bg_id in [M03_CRASH_IMPACT, SINCHON_REUNION_SEDAN]:
+	if bg_id in [M03_CRASH_IMPACT, SINCHON_REUNION_SEDAN, SINCHON_OFFER_SEDAN]:
 		_finish_story_scene_transition()
 	else:
 		_begin_story_scene_transition("explicit_move")
@@ -5564,6 +5590,9 @@ func _configure_portrait_presentation() -> void:
 	_portrait_frame.offset_right = _portrait_base_right()
 	_portrait_frame.offset_top = REMOTE_PORTRAIT_OFFSET_TOP if _portrait_remote_inset else PORTRAIT_OFFSET_TOP
 	_portrait_frame.offset_bottom = REMOTE_PORTRAIT_OFFSET_BOTTOM if _portrait_remote_inset else PORTRAIT_OFFSET_BOTTOM
+	if _portrait.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_CENTERED:
+		# 768:1024 within 402px, anchored at the same lower edge as other portraits.
+		_portrait_frame.offset_top = PORTRAIT_OFFSET_BOTTOM - 536
 	_portrait_frame.scale = Vector2.ONE
 
 	var frame_style := StyleBoxFlat.new()
@@ -5646,6 +5675,11 @@ func _story_nameplate_hidden() -> bool:
 	return str(_current_presentation.get("nameplate_role", "auto")) == "hidden"
 
 func _show_portrait(portrait_id: String, bg_only: bool = false):
+	# The umbrella is wider than the regular portrait frame. Keep its canopy
+	# intact rather than filling the frame by trimming both sides.
+	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED \
+		if portrait_id == SINCHON_OFFER_UMBRELLA and not bg_only \
+		else TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	_configure_portrait_presentation()
 	var info := {}
 	var path := ""
@@ -6656,6 +6690,11 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 	var result_background_path := ImageRegistry.get_background(result_background_id)
 	if result_background_path == "" or not ImageRegistry.has_texture(result_background_path):
 		return
+	var sinchon_offer := str(_current.get("id", "")) == SINCHON_OFFER
+	if sinchon_offer and result_background_id == SINCHON_OFFER_SEDAN \
+			and _event_background_id == result_background_id and _portrait_frame.visible:
+		# This result stays at the stop with the same person and sound.
+		return
 	_begin_story_scene_transition("explicit_move")
 	_bg_img.texture = ImageRegistry.load_texture(result_background_path)
 	_event_background_id = result_background_id
@@ -6664,6 +6703,9 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 	var result_event: Dictionary = _current.duplicate(true)
 	result_event["background"] = result_background_id
 	_configure_living_scene(result_event)
+	if sinchon_offer:
+		# Result paragraph 1 must not reopen the outdoor umbrella on cold load.
+		_event_portrait_revealed = true
 	_show_portrait(
 		_resolved_choice_result_portrait_id(choice),
 		bool(_current.get("bg_focus", false)))

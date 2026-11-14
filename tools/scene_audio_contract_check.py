@@ -34,6 +34,21 @@ SINCHON_REUNION_AUDIO = {
     "music": {"key": "jiyeon", "start_paragraph": 2},
     "paragraph_cues": {"1": [{"sfx": "traffic_pass", "volume_db": -10.0}]},
 }
+SINCHON_OFFER_EVENT = "arc_jiyeon_03_offer"
+SINCHON_OFFER_STOP = "sinchon_main_road_bus_stop_rain_overcast"
+SINCHON_OFFER_SEDAN = "sinchon_offer_sedan_rain"
+SINCHON_OFFER_RESULTS = (
+    ("sinchon_offer_station_approach_rain", None),
+    ("sinchon_offer_cafe_two_coffees", "intentional_silence"),
+    (SINCHON_OFFER_SEDAN, None),
+)
+SINCHON_OFFER_AUDIO = {
+    "ambience": "rain",
+    "suppress_music": True,
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
+    "paragraph_cues": {"1": [{"sfx": "traffic_pass", "volume_db": -10.0}]},
+}
 DEMO_EVENT_IDS = set("""
 story_flashforward story_arrival story_knee_door story_knee_witness
 story_knee_choice story_last_payment_wait story_last_payment_word
@@ -188,6 +203,9 @@ def main() -> int:
         elif owner == SINCHON_REUNION_EVENT:
             if contract != SINCHON_REUNION_AUDIO:
                 errors.append(f"{owner}: after rain, only the P1 car cue and P2 score are authored")
+        elif owner == SINCHON_OFFER_EVENT:
+            if contract != SINCHON_OFFER_AUDIO or ambience not in ambience_keys:
+                errors.append(f"{owner}: keep only exterior rain and the P1 car cue")
         elif not ambience or ambience not in ambience_keys | DYNAMIC_AMBIENCE_KEYS:
             errors.append(f"{owner}: unknown or empty ambience key {ambience!r}")
         music = contract.get("music")
@@ -239,6 +257,26 @@ def main() -> int:
             or any(manifest.get("background_profiles", {}).get(background) != "intentional_silence"
                    for background in SINCHON_REUNION_BACKGROUNDS)):
         errors.append(f"{SINCHON_REUNION_EVENT}: the exact post-rain stop surfaces must remain quiet")
+
+    offer = events.get(SINCHON_OFFER_EVENT, {})
+    offer_profiles = manifest.get("background_profiles", {})
+    if (SINCHON_OFFER_EVENT not in event_contracts
+            or offer.get("background") != SINCHON_OFFER_STOP
+            or offer.get("paragraph_backgrounds") != [SINCHON_OFFER_STOP, *[SINCHON_OFFER_SEDAN] * 4]
+            or offer_profiles.get(SINCHON_OFFER_STOP) != "rain"
+            or any(offer_profiles.get(background) != (ambience or "rain")
+                   for background, ambience in SINCHON_OFFER_RESULTS)):
+        errors.append(f"{SINCHON_OFFER_EVENT}: verify exact recurring rain and quiet cafe profiles")
+    offer_choices = offer.get("choices", [])
+    if not isinstance(offer_choices, list) or len(offer_choices) != len(SINCHON_OFFER_RESULTS):
+        errors.append(f"{SINCHON_OFFER_EVENT}: missing exact exterior/cafe result choices")
+    else:
+        for index, (choice, (background, ambience)) in enumerate(zip(offer_choices, SINCHON_OFFER_RESULTS)):
+            # A direct rain override would let the generic street voices back in.
+            if (not isinstance(choice, dict) or choice.get("result_background") != background
+                    or ("result_ambience" in choice if ambience is None
+                        else choice.get("result_ambience") != ambience)):
+                errors.append(f"{SINCHON_OFFER_EVENT}: result {index} has the wrong location or ambience path")
 
     for event_id in sorted(PRIVATE_OFFICE_EVENT_IDS):
         contract = event_contracts.get(event_id, {})

@@ -256,6 +256,38 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "sinchon_main_road_bus_stop_rain_overcast": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "rain",
+      "camera": "living_drift",
+      "intensity": 0.12,
+      "weather_source": "background"
+    },
+    "sinchon_offer_sedan_rain": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "rain",
+      "camera": "living_drift",
+      "intensity": 0.12,
+      "weather_source": "background"
+    },
+    "sinchon_offer_station_approach_rain": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "rain",
+      "camera": "living_drift",
+      "intensity": 0.12,
+      "weather_source": "background"
+    },
+    "sinchon_offer_cafe_two_coffees": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "street_rainy_bus_stop_wallet": {
       "environment": "outdoor",
       "depth": "far",

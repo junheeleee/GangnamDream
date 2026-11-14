@@ -73,6 +73,11 @@ RAIN_BACKGROUNDS = {
     "sinchon_crash_approach_rain_dusk", "sinchon_crash_impact_rain_dusk",
     "sinchon_crash_exit_rain_dusk",
 }
+BAKED_RAIN_BACKGROUNDS = {
+    "sinchon_main_road_bus_stop_rain_overcast",
+    "sinchon_offer_sedan_rain",
+    "sinchon_offer_station_approach_rain",
+}
 SNOW_BACKGROUNDS = {
     "convenience_first_snow_exterior",
     "year2_winter_street_night",
@@ -104,6 +109,7 @@ TRANSIT_BACKGROUNDS = {
     "jiyeon_sedan_first_snow",
 }
 INDOOR_BACKGROUNDS = {
+    "sinchon_offer_cafe_two_coffees",
     "bank_service_counter_rainy_day",
     "bank_loan_counter_day",
     "goshiwon",
@@ -311,10 +317,10 @@ def background_profile(background_id: str) -> dict[str, Any]:
     intensity = 0.0
     camera = "none"
     weather_source = "none"
-    if background_id in RAIN_BACKGROUNDS:
+    if background_id in RAIN_BACKGROUNDS or background_id in BAKED_RAIN_BACKGROUNDS:
         effect, intensity, camera, weather_source = (
             "rain",
-            0.24,
+            0.12 if background_id in BAKED_RAIN_BACKGROUNDS else 0.24,
             "living_drift",
             "background",
         )

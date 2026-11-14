@@ -697,8 +697,10 @@
   {
     "id": "arc_jiyeon_03_offer",
     "title": "갚고 싶어요",
-    "background": "street_rainy",
-    "portrait": "jiyeon_warm",
+    "background": "sinchon_main_road_bus_stop_rain_overcast",
+    "paragraph_backgrounds": ["sinchon_main_road_bus_stop_rain_overcast", "sinchon_offer_sedan_rain", "sinchon_offer_sedan_rain", "sinchon_offer_sedan_rain", "sinchon_offer_sedan_rain"],
+    "portrait": "jiyeon_offer_umbrella",
+    "portrait_reveal_paragraph": 1,
     "category": "story",
     "rarity": "story",
     "weight": 0,
@@ -716,8 +718,7 @@
     "choices": [
       {
         "text": "\"신경 쓰지 마세요. 정말 괜찮으니까.\" (고개를 젓고 걸었다)",
-        "result_background": "street_rainy",
-        "result_ambience": "rain",
+        "result_background": "sinchon_offer_station_approach_rain",
         "effects": {
           "mental": 5
         },
@@ -735,8 +736,9 @@
       },
       {
         "text": "카페 문을 열었다. 딱 한 잔만",
-        "result_background": "cafe",
-        "result_ambience": "cafe",
+        "result_background": "sinchon_offer_cafe_two_coffees",
+        "result_ambience": "intentional_silence",
+        "result_portrait": "jiyeon_warm",
         "effects": {
           "social_skill": 3,
           "mental": 2
@@ -755,7 +757,7 @@
       },
       {
         "text": "\"우리 사는 세계가 너무 달라요.\" (솔직하게 말했다)",
-        "result_background": "street_rainy",
+        "result_background": "sinchon_offer_sedan_rain",
         "effects": {
           "mental": 8
         },

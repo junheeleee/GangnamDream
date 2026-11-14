@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 279,
+  "inventory_count": 284,
   "counts": {
     "1080p": {
       "CG": {
@@ -48,7 +48,7 @@
         "severe": 0
       },
       "Portrait": {
-        "native": 93,
+        "native": 94,
         "light": 0,
         "medium": 0,
         "heavy": 0,
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 104,
+        "light": 108,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -72,7 +72,7 @@
       },
       "Portrait": {
         "native": 33,
-        "light": 1,
+        "light": 2,
         "medium": 59,
         "heavy": 0,
         "severe": 0
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 104,
+        "heavy": 108,
         "severe": 0
       }
     }
@@ -1648,6 +1648,74 @@
       "kind": "Background",
       "ids": [
         "sinchon_crash_impact_rain_dusk"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/sinchon_main_road_bus_stop_rain_overcast.png": {
+      "kind": "Background",
+      "ids": [
+        "sinchon_main_road_bus_stop_rain_overcast"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/sinchon_offer_cafe_two_coffees.png": {
+      "kind": "Background",
+      "ids": [
+        "sinchon_offer_cafe_two_coffees"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/sinchon_offer_sedan_rain.png": {
+      "kind": "Background",
+      "ids": [
+        "sinchon_offer_sedan_rain"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/sinchon_offer_station_approach_rain.png": {
+      "kind": "Background",
+      "ids": [
+        "sinchon_offer_station_approach_rain"
       ],
       "width": 1280,
       "height": 800,
@@ -3258,6 +3326,23 @@
       "band": {
         "1080p": "light",
         "4k": "heavy"
+      }
+    },
+    "assets/characters/jiyeon_offer_umbrella.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_offer_umbrella"
+      ],
+      "width": 768,
+      "height": 1024,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.75,
+        "4k": 1.5
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "light"
       }
     },
     "assets/characters/main_character_cold_snap.png": {
