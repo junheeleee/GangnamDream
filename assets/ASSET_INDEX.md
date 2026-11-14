@@ -559,6 +559,8 @@ weather, romance, and historical portraits remain fixed.
   - Use for late-game reputation, finance, class, and opportunity events.
   - Status: approved for first in-game QA. Regenerated without foreground protagonist-like figure.
 
+- `assets/backgrounds/gangnam_boulevard_final_notebook_v1.png` — W240 종막 야외 서명 전용, 마른 강남대로 밤과 민준의 수첩. 범용 야경과 별개.
+
 - `assets/backgrounds/penthouse_view.png`
   - Gangnam penthouse skyline view at night.
   - Use for Gangnam Dream success and bittersweet wealth endings.

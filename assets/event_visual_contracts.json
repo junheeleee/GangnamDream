@@ -132,6 +132,7 @@
     {"id": "arc_y5_general_pre_ending_summit_exact", "background": "realestate_office", "portrait": "player_normal"},
     {"id": "arc_y5_general_final_record_seal", "background": "current_housing", "portrait": "player_tired"},
     {"id": "arc_final_countdown", "background": "current_housing", "portrait": null},
+    {"id": "arc_final_countdown_property_not_executed", "background": "gangnam_boulevard_final_notebook", "portrait": null},
     {"id": "arc_final_week", "background": "current_housing", "portrait": "player_normal"},
     {"id": "arc_final_countdown_general_near_goal_passed", "background": "current_housing", "portrait": "player_tired"},
     {"id": "arc_y5_final_week_general_people_outbound", "background": "current_housing", "portrait": "player_tired"},

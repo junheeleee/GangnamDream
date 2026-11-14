@@ -231,6 +231,14 @@
     {
       "kind": "background",
       "ids": [
+        "gangnam_boulevard_final_notebook"
+      ],
+      "relative_path": "backgrounds/gangnam_boulevard_final_notebook_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "gangnam_boulevard_winter_dusk"
       ],
       "relative_path": "backgrounds/gangnam_boulevard_winter_dusk.png",

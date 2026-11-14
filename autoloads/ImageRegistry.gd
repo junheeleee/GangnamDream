@@ -280,6 +280,7 @@ const BACKGROUNDS = {
 	# 강남
 	"gangnam_day":       "res://assets/backgrounds/gangnam_day.png",
 	"gangnam_boulevard_winter_dusk": "res://assets/backgrounds/gangnam_boulevard_winter_dusk.png",
+	"gangnam_boulevard_final_notebook": "res://assets/backgrounds/gangnam_boulevard_final_notebook_v1.png",
 	"gangnam_night":     "res://assets/backgrounds/gangnam_night_street.png",
 	"gangnam_apartment": "res://assets/backgrounds/gangnam_apartment.png",
 	# 특수

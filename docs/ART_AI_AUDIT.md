@@ -392,6 +392,7 @@
 | Background | `assets/backgrounds/fine_dust_sky.png` | `fine_dust_sky` | 1672x941 | no | `760852144b1a` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/gangnam_apartment.png` | `gangnam_apartment` | 1280x800 | no | `8457faa568e9` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/gangnam_day.png` | `gangnam_day` | 1280x800 | no | `602f13f63566` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/gangnam_boulevard_final_notebook_v1.png` | `gangnam_boulevard_final_notebook` | 1584x990 | no | `ee5751975e76` | PASS-B | 독립 원화와 5언어 실제 창: 마른 대로 밤·수첩·손·별지, 읽히는 글자와 말해지지 않은 물건 없음. |
 | Background | `assets/backgrounds/gangnam_night_street.png` | `gangnam_night` | 1280x800 | no | `1aa140c6abe8` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/gangnam_station_exit.png` | `gangnam_station` | 1280x800 | no | `76b8b9f30054` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/gangnam_boulevard_winter_dusk.png` | `gangnam_boulevard_winter_dusk` | 1280x800 | no | `a296f76ccf6c` | PASS-B | 마른 저녁 대로·보행 동선과 횡단보도, 비·눈·문자·거래 없음. P1 마스터 아님. |
@@ -481,4 +482,4 @@
 | Background | `assets/backgrounds/seoul_station_visitor_sticker.png` | `seoul_station_visitor_sticker` | 1280x800 | no | `763df189e31c` | PASS-B | 서울 도착 통로, 코트와 오른손 검지의 작은 스티커. 모공·카메라 질감을 없애 강남 잉크의 무광 붓결·낮은 채도로 재작화. 얼굴·비·눈·문자 없음. |
 | Background | `assets/backgrounds/police_evidence_reception.png` | `police_evidence_reception` | 1280x800 | no | `338988ecbf96` | PASS-B | 증거 제출 첫 대목용으로 원화 독립 대조: 무광 잉크·민원석·서류 전달구, 인물·상호·체포 없음. 장소는 본문이 식별한다. P1 마스터·사람 판정 아님. |
 
-Inventory: 81 CG / 94 portraits / 117 backgrounds / 292 total.
+Inventory: 81 CG / 94 portraits / 118 backgrounds / 293 total.

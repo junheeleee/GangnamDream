@@ -1624,7 +1624,7 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "gangnam_night",
+    "background": "gangnam_boulevard_final_notebook",
     "portrait": "",
     "conditions": {"min_turn": 9999},
     "cooldown": 9999,

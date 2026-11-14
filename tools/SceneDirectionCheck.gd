@@ -538,7 +538,14 @@ func _check_final_desk_presentation() -> void:
 		await get_tree().create_timer(0.08).timeout
 	var exterior := "arc_final_countdown_property_not_executed"
 	var outdoor_event: Dictionary = DataRegistry.find_event(exterior)
-	_expect(str(outdoor_event.get("background")) == "gangnam_night",
+	var notebook_background := "gangnam_boulevard_final_notebook"
+	var notebook_path := "res://assets/backgrounds/gangnam_boulevard_final_notebook_v1.png"
+	var profile: Dictionary = DataRegistry.scene_direction_manifest.get("background_profiles", {}).get(notebook_background, {})
+	_expect(str(outdoor_event.get("background")) == notebook_background \
+			and not outdoor_event.has("cg") and ImageRegistry.get_background(notebook_background) == notebook_path \
+			and ImageRegistry.has_texture(notebook_path) and profile.get("environment") == "outdoor" \
+			and profile.get("effect") == "none" and profile.get("weather_source") == "none" \
+			and DataRegistry.get_story_presentation(exterior).get("scene_location") == "gangnam_night",
 			"actual outdoor property variant was incorrectly moved inside")
 	var outdoor_to_home: Dictionary = DataRegistry.get_story_transition(exterior, "arc_y5_final_week_daeun_outbound")
 	_expect(outdoor_to_home.get("mode") == "time_cut" and outdoor_to_home.get("from_surface") == "gangnam_night" \
@@ -548,7 +555,7 @@ func _check_final_desk_presentation() -> void:
 	BGMPlayer.set_season_ambience("winter")
 	_expect(BGMPlayer._ambience_player.playing and BGMPlayer._human_ambience_player.playing \
 			and BGMPlayer._season_player.playing, "outdoor signature fixture did not start all three layers")
-	BGMPlayer.update_event_ambience(outdoor_event, "", "gangnam_night")
+	BGMPlayer.update_event_ambience(outdoor_event, "", notebook_background)
 	_expect(BGMPlayer._current_ambience_key.is_empty() and not BGMPlayer._ambience_player.playing \
 			and BGMPlayer._current_human_ambience_key.is_empty() and not BGMPlayer._human_ambience_player.playing \
 			and BGMPlayer._current_season_key.is_empty() and not BGMPlayer._season_player.playing,

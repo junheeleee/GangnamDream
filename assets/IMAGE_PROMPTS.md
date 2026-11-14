@@ -321,6 +321,14 @@ Gangnam Station night street. Neon signs, crowds with umbrellas, rain-soaked asp
 
 ---
 
+### gangnam_boulevard_final_notebook_v1.png
+
+W240 property-not-executed opening, Minjun POV looking down at his worn spiral notebook and loose private papers on a flat exterior stone edge. Dry Gangnam-daero at full night, restrained warm lamps and empty lanes behind him. One dark-coated hand steadies the page before writing. Existing indistinct marks and a blank next line; no readable words, executed contract, rain, umbrellas, other actors, phone, or keys. Matte Gangnam Ink with safe room for the lower dialogue box. References: `gangnam_boulevard_winter_dusk.png` (place), `seoul_station_visitor_sticker.png` (hand/ink), `v2_first_bill_desk_closeup.png` (notebook only). The focused edit added only very faint non-script traces to distinguish used pages from virgin paper.
+
+Source candidate SHA-256 `d91a13fbf24b8c93250053bafefb5acb44cf9cb0cd6052223777556d4af5da03`; uncut opaque 1584×990 master `ee5751975e76309862fb98035c2d99b61860ce82658d1a112dea46c3a5a16474`. Exact background `gangnam_boulevard_final_notebook`; street identity and next home cut remain `gangnam_night` → `current_housing`.
+
+---
+
 ### penthouse_view.png
 **저장 경로**: `assets/backgrounds/penthouse_view.png`
 
