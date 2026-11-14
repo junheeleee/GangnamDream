@@ -29829,6 +29829,106 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-830",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_final_week"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Only the generic W240 own-name signature branch: the ink dries before Minjun closes his notebook. Same place and times, no additional action or response; independent semantic review of all five locales.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "ac7eb1ca2b1fa30eb5c2ef07acfbc4232064c0de",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "1a7ac9db004eb35ecde6ddf1fdbeca649e75f3f542ba4cfd1bbb52f0d889b9ad",
+          "selection_sha256": "c5741dbeaf192adac782388678d953e38eecd2e616303878a8f48255478d7456",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "0fc642f5c824f46d111280ebcf063f416d973971fa7110805f5effce0eab6d57"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "ac7eb1ca2b1fa30eb5c2ef07acfbc4232064c0de",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "1a7ac9db004eb35ecde6ddf1fdbeca649e75f3f542ba4cfd1bbb52f0d889b9ad",
+          "selection_sha256": "963a2c82869a7b747807b021ac7121a04d7b52e9fd26a2630c4d0588894c8b23",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2fea2c94b62526caa9831a27fe8d1be1eebc26292241dfa095112c76efdcb682"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "ac7eb1ca2b1fa30eb5c2ef07acfbc4232064c0de",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "1a7ac9db004eb35ecde6ddf1fdbeca649e75f3f542ba4cfd1bbb52f0d889b9ad",
+          "selection_sha256": "bf928d5301e4cd105c152e5dcde07a4ded58b8cc0b9d3100697eb670a6c05aac",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8d161a82cd6d1bcfaf1d871f595e5f7a26d77b67787ca0404d645066babfb869"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "14d3a7a779af77a5a185407503d79a8d5c50566f5907d68ce782d230347838ef",
+        "zh-CN": "7c772c02b610f361facecf0dbbc0d7f138751dd49e9cae06ddee50ca4ec333b0",
+        "zh-TW": "5978e2578e181f9c736b730e45e4ed4c307a5121dbcd85db057034ab6d985eb2"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_final_week:/description_if_known/final_signature_owned": "0c253717a6129d89fd086e49b78177017152c789c5e985af754ee32602ce9463"
+        },
+        "zh-CN": {
+          "events:arc_final_week:/description_if_known/final_signature_owned": "36338960ccf14e3fe61df7966fbe0f016bf5eadb4c6cfd6781c8a983533b3913"
+        },
+        "zh-TW": {
+          "events:arc_final_week:/description_if_known/final_signature_owned": "13fd9db6053d660a9993dc162e24ea77b3fb111c80b58a20752a4663786549e2"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_final_week:/description_if_known/final_signature_owned": {
+            "source_sha256": "0ddacf2f5e1ad52cd76c00297279fab655a9792bdccaa4a1f3775c2074517543",
+            "target_sha256": "0c253717a6129d89fd086e49b78177017152c789c5e985af754ee32602ce9463"
+          }
+        },
+        "zh-CN": {
+          "events:arc_final_week:/description_if_known/final_signature_owned": {
+            "source_sha256": "0ddacf2f5e1ad52cd76c00297279fab655a9792bdccaa4a1f3775c2074517543",
+            "target_sha256": "36338960ccf14e3fe61df7966fbe0f016bf5eadb4c6cfd6781c8a983533b3913"
+          }
+        },
+        "zh-TW": {
+          "events:arc_final_week:/description_if_known/final_signature_owned": {
+            "source_sha256": "0ddacf2f5e1ad52cd76c00297279fab655a9792bdccaa4a1f3775c2074517543",
+            "target_sha256": "13fd9db6053d660a9993dc162e24ea77b3fb111c80b58a20752a4663786549e2"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -40598,8 +40698,8 @@
         "target_sha256": "4415ff4f039b4e0a5c037192ac79f982b8ac3e1376f3b3c99fb40195cc15bee4"
       },
       "events:arc_final_week:/description_if_known/final_signature_owned": {
-        "source_sha256": "0ddacf2f5e1ad52cd76c00297279fab655a9792bdccaa4a1f3775c2074517543",
-        "target_sha256": "0c253717a6129d89fd086e49b78177017152c789c5e985af754ee32602ce9463"
+        "source_sha256": "fa5f004c25927d57bdd9860fb74c54663b84828bf7d2ee5486397ce0e614f28d",
+        "target_sha256": "e25b444b8e8238364a5cad3977f3c94ce8c6a4934bce695f35168d0639468e39"
       },
       "events:arc_final_week:/description_if_known/final_signature_people": {
         "source_sha256": "8b5458c691ca0075bf5a16aa1cd6076c368ced79554897a83fec5a2f629a2ba9",
@@ -93492,8 +93592,8 @@
         "target_sha256": "44c54ca4dedc7d0c0567b380743f71b14e57cef02e348ec8a14ab1c453f9d9f4"
       },
       "events:arc_final_week:/description_if_known/final_signature_owned": {
-        "source_sha256": "0ddacf2f5e1ad52cd76c00297279fab655a9792bdccaa4a1f3775c2074517543",
-        "target_sha256": "36338960ccf14e3fe61df7966fbe0f016bf5eadb4c6cfd6781c8a983533b3913"
+        "source_sha256": "fa5f004c25927d57bdd9860fb74c54663b84828bf7d2ee5486397ce0e614f28d",
+        "target_sha256": "fd104c69293aea67ea651c5ec11d26e063f62120edfd5930a7ace83ecf2218e9"
       },
       "events:arc_final_week:/description_if_known/final_signature_people": {
         "source_sha256": "8b5458c691ca0075bf5a16aa1cd6076c368ced79554897a83fec5a2f629a2ba9",
@@ -153170,8 +153270,8 @@
         "target_sha256": "1dfb8384911ef414d9dec4386d350bce9c31abe9690cbca822a740feccb56a4f"
       },
       "events:arc_final_week:/description_if_known/final_signature_owned": {
-        "source_sha256": "0ddacf2f5e1ad52cd76c00297279fab655a9792bdccaa4a1f3775c2074517543",
-        "target_sha256": "13fd9db6053d660a9993dc162e24ea77b3fb111c80b58a20752a4663786549e2"
+        "source_sha256": "fa5f004c25927d57bdd9860fb74c54663b84828bf7d2ee5486397ce0e614f28d",
+        "target_sha256": "bac07699e19bce2ed499915f084b792478dd977f08eea7e1d3820fd471bc589f"
       },
       "events:arc_final_week:/description_if_known/final_signature_people": {
         "source_sha256": "8b5458c691ca0075bf5a16aa1cd6076c368ced79554897a83fec5a2f629a2ba9",
@@ -202083,7 +202183,7 @@
       }
     }
   },
-  "accepted_sha256": "29b6302c35e130d9f1c13d302759401da3da1d1cfe50ffe3dfc2d33b26f4b261",
+  "accepted_sha256": "e6d48c3a0606db0e31330f60dbef88691f93fbb1668c45cf1f1fc423c76e918a",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
