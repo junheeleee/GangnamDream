@@ -52,7 +52,7 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 11-14 KST [~] 제품 착수 — 만지는 파일: 검수한 `assets/backgrounds/seoul_station_parents_{concourse,ticket_gate}.png`와 import; `autoloads/ImageRegistry.gd`, `content/events/arc_midgame.json`, `content/meta/{story_rules,release_content_inventory}.json`, `scenes/StoryMode.gd`, `assets/{event_visual_contracts,scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{StoryBackgroundContextCheck,ScreenshotQA}.gd`, `tools/{scene_audio_contract_check,scene_direction_catalog}.py`, `tools/art_resolution_baseline.json`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md` 및 `docs/{ART_AI_AUDIT,AUDIO_QA,CONTENT_RATING_INVENTORY,MODDING,WORK_LOG}.md`, `CLAUDE.md`, 활성 830과 이 증거. 도입·식당·표 확인·집 도착과 실내/실외 믹스만. 이동수단·새 음악·효과음·사실은 발명하지 않는다. 2장 ScreenshotQA가 먼저 멈추는 기존 M13의 빗나간 배경 기대값은 이미 정본에 맞게 고쳐진 제품을 그대로 두고 해당 표본 한 줄만 정합한다. 5개 원문·후속 병원 연락·효과·저장·기존 RC/업로드 변경0.
 
-`[~]` 정확한 두 문장 경계 범위 추가: 체력이 아닌 저정신력 도입의 빨래는 현재 방으로, 식사 뒤 이동은 반찬 가방 클로즈업으로 따로 넘긴다. 신규 선택/저장 필드0. `assets/backgrounds/parents_visit_food_bag_in_transit.png` 및 import, `tools/story_graph_contract_audit.py` 방문 한 사건과 다음 연락 배경 계약만 추가 소유한다. 사진·실제 교통수단·아버지 얼굴·관광 장면을 발명하지 않는다.
+`[~]` 정확한 두 문장 경계 범위 추가: 체력이 아닌 저정신력 도입의 빨래는 현재 방으로, 식사 뒤 이동은 반찬 가방 클로즈업으로 따로 넘긴다. 신규 선택/저장 필드0. `assets/backgrounds/parents_visit_food_bag_in_transit.png` 및 import, `assets/m23_parents_visit_cuts.tres` 5언어 경계, `tools/story_graph_contract_audit.py` 방문 한 사건과 다음 연락 배경 계약만 추가 소유한다. 사진·실제 교통수단·아버지 얼굴·관광 장면을 발명하지 않는다.
 
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
