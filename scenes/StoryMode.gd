@@ -102,6 +102,9 @@ const W174_CARRIAGE_PATH := "res://assets/backgrounds/regional_train_window_summ
 const W174_PANE_OVERLAY_PATH := "res://assets/backgrounds/ktx_tunnel_window_overlay_w174.svg"
 const W177_SELF_REVIEW := "arc_y4_borrowed_name_self"
 const W177_WITHDRAWAL_CORRIDOR := "withdrawal_corridor_w177"
+const W181_DAEUN_BILL := "arc_y4_bill_night"
+const W181_UNATTACHED_BILL := "arc_y4_bill_night_unattached"
+const W181_BILL_CUTS := preload("res://assets/w181_bill_night_cuts.tres")
 const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
 const W167_UNATTACHED_TABLE := "arc_y4_family_commitment_none"
 const W167_LATE_TABLE := "arc_y4_family_table_missed"
@@ -3436,6 +3439,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == W82_HYUNSU_BUS and choice_index in [0, 1] and not _is_public_story_demo()) \
 		or (event_id == W132_RECKONING and choice_index == 0) \
 		or (event_id == W164_DAEUN_WITNESS and choice_index == 0) \
+		or (event_id in [W181_DAEUN_BILL, W181_UNATTACHED_BILL] and choice_index == 1) \
 		or (event_id in [W167_DAEUN_TABLE, W167_LATE_TABLE] and choice_index == 0) \
 		or (event_id == W167_UNATTACHED_TABLE and choice_index in [1, 2]) \
 		or (event_id == W117_JAEHYUK_COUNTER and choice_index == 0) \
@@ -3505,6 +3509,12 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 			str(anchors.get(LocaleManager.language, "")))
 	if event_id == W164_DAEUN_WITNESS:
 		var anchors: Dictionary = W164_INTAKE_CUT.get_meta("arrival_anchors", {})
+		if raw.split("\n\n").size() == 2:
+			return _split_formatted_story_page(_fmt(raw), 0, str(anchors.get(LocaleManager.language, "")))
+		return _story_page_data(_fmt(raw))
+	if event_id in [W181_DAEUN_BILL, W181_UNATTACHED_BILL]:
+		var beat := "daeun_arrival" if event_id == W181_DAEUN_BILL else "unattached_arrival"
+		var anchors: Dictionary = W181_BILL_CUTS.get_meta(beat, {})
 		if raw.split("\n\n").size() == 2:
 			return _split_formatted_story_page(_fmt(raw), 0, str(anchors.get(LocaleManager.language, "")))
 		return _story_page_data(_fmt(raw))
@@ -4723,6 +4733,8 @@ func _resolved_story_surface_portrait_id() -> String:
 		return ""
 	if str(_current.get("id", "")) == W177_SELF_REVIEW and _event_background_id == W177_WITHDRAWAL_CORRIDOR:
 		return ""
+	if _is_w181_intake_result() and _event_background_id == W164_NIGHT_INTAKE:
+		return ""
 	if _is_w96_station_result() or _is_m27_pitch_home_result():
 		return ""
 	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER and _event_background_id != "meeting":
@@ -5913,6 +5925,9 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	if _pending_after_result and event_id == W164_DAEUN_WITNESS and _pending_result_choice_index == 0:
 		_apply_w164_intake_surface(play_cut_cue)
 		return
+	if _is_w181_intake_result():
+		_apply_w181_intake_surface(play_cut_cue)
+		return
 	if _is_w167_family_table(event_id):
 		_apply_w167_family_table_surface()
 		return
@@ -6236,6 +6251,36 @@ func _apply_w164_intake_surface(play_cut_cue: bool) -> void:
 	elif BGMPlayer._current_ambience_key == "hospital":
 		BGMPlayer.clear_ambience_immediate()
 		BGMPlayer.update_event_ambience(_current, "", destination)
+
+func _is_w181_intake_result() -> bool:
+	return _pending_after_result and _pending_result_choice_index == 1 \
+		and str(_current.get("id", "")) in [W181_DAEUN_BILL, W181_UNATTACHED_BILL]
+
+func _apply_w181_intake_surface(live_advance: bool) -> void:
+	# The taxi/arrival summary does not own a taxi interior or an audible ward.
+	# An unknown translated/modded boundary also stays unlocated.
+	var at_intake := _result_location_cut_page >= 0 and _para_index >= _result_location_cut_page
+	var destination := W164_NIGHT_INTAKE if at_intake else ""
+	if destination != _event_background_id:
+		var texture: Texture2D = null if destination.is_empty() \
+			else ImageRegistry.load_texture(ImageRegistry.get_background(destination))
+		if texture != null and live_advance:
+			_begin_story_scene_transition("explicit_move")
+		else:
+			_finish_story_scene_transition()
+		_event_background_id = destination if texture != null else ""
+		_bg_img.texture = texture
+		_apply_story_surface_palette(false)
+		_configure_living_scene()
+		# The player portrait would cover the actual waiting chairs on the right.
+		_show_portrait(_resolved_story_surface_portrait_id())
+	if _event_background_id.is_empty():
+		BGMPlayer.clear_ambience_immediate()
+	else:
+		if BGMPlayer._current_ambience_key != "hospital":
+			BGMPlayer.clear_ambience_immediate()
+		BGMPlayer._stop_season_ambience_immediate()
+		BGMPlayer.set_ambience("hospital", false)
 
 func _sync_w174_tunnel_panes() -> void:
 	if _story_bg_material == null:
@@ -6997,6 +7042,7 @@ func _configure_living_scene(event_override: Dictionary = {}) -> void:
 	if (_full_w19_reunion or _is_w53_network_scene() or _is_w57_medication_scene() \
 			or str(_current.get("id", "")) == W161_BODY_SIGNAL \
 			or _is_w167_family_table(str(_current.get("id", ""))) \
+			or _is_w181_intake_result() \
 			or str(_current.get("id", "")) == W82_HYUNSU_BUS \
 			or str(_current.get("id", "")) == W205_MINSEO_CALL \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \

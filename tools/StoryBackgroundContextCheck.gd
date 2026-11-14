@@ -125,6 +125,29 @@ const W177_CORRIDOR_START := {
 	"ko": "복도 불빛 아래에는", "en": "Beneath the corridor light,",
 	"ja": "廊下の明かりの下には", "zh-CN": "走廊灯下，", "zh-TW": "走廊燈光下，",
 }
+const W181_DAEUN := "arc_y4_bill_night"
+const W181_UNATTACHED := "arc_y4_bill_night_unattached"
+const W181_INTAKE := "hospital_night_intake_w164"
+const W181_INTAKE_PATH := "res://assets/backgrounds/hospital_night_intake_w164_v1.png"
+const W181_CUT_STARTS := {
+	W181_DAEUN: {
+		"ko": "11시 59분, 접수대에서", "en": "At 11:59, he told them himself",
+		"ja": "11時59分、受付で", "zh-CN": "11点59分，在挂号台",
+		"zh-TW": "11點59分，在掛號櫃檯",
+	},
+	W181_UNATTACHED: {
+		"ko": "신분증을 내고", "en": "He presented identification",
+		"ja": "身分証を出し、", "zh-CN": "递出身份证件，",
+		"zh-TW": "遞出身分證件，",
+	},
+}
+const W181_MEMORY_FLAGS := [
+	"arc_y4_borrowed_name_reduced_to_self",
+	"arc_y4_borrowed_name_partner_review_only",
+	"arc_y4_borrowed_name_withdrew_request",
+	"arc_y4_borrowed_name_own_name_counteroffer",
+	"arc_y4_borrowed_name_requested_complete_terms",
+]
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -466,6 +489,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W181_CHECK"):
+		var bill_ok := await _check_w181_bill_night()
+		await _remove_story()
+		await _stop_audio()
+		if bill_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w181_bill_night")
+		get_tree().quit(0 if bill_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W177_CHECK"):
 		var withdrawal_ok := await _check_w177_withdrawal()
 		await _remove_story()
@@ -3244,6 +3275,303 @@ func _expect_w169_home(home: String) -> bool:
 		_fail("W169 lost its sole apartment bed or inherited people/weather")
 		return false
 	return true
+
+func _check_w181_bill_night() -> bool:
+	if ImageRegistry.get_background(W181_INTAKE) != W181_INTAKE_PATH \
+			or not FileAccess.file_exists(W181_INTAKE_PATH):
+		_fail("W181 intake asset identity changed")
+		return false
+	var paths := 0
+	var restores := 0
+	var legacy_restores := 0
+	var no_memory_paths := 0
+	var memory_hits := {}
+	for flag: String in W181_MEMORY_FLAGS:
+		memory_hits[flag] = 0
+	var variants: Array[Dictionary] = [
+		{"id": W181_DAEUN, "daeun": true},
+		{"id": W181_UNATTACHED, "daeun": false},
+	]
+	for language_index in range(LocaleManager.SUPPORTED_LANGUAGES.size()):
+		var language: String = str(LocaleManager.SUPPORTED_LANGUAGES[language_index])
+		for variant_index in range(variants.size()):
+			var variant: Dictionary = variants[variant_index]
+			for choice in range(3):
+				await _remove_story()
+				await _stop_audio()
+				var event_id: String = str(variant["id"])
+				_context = "%s/W181/%s/c%d" % [language, event_id, choice]
+				LocaleManager.set_language(language)
+				SaveManager.clear_loaded_resume_context()
+				GameState.start_new_game()
+				GameState.turn = 181
+				GameState.month = 10
+				GameState.age = 36
+				GameState.housing = "oneroom"
+				GameState.money = 2_000_000.0
+				if bool(variant["daeun"]):
+					GameState.flags["daeun_romance_started"] = true
+				# Five prior W177 receipts and the no-memory case each appear once per
+				# six paths. The result cut must not depend on the optional intro.
+				var path_index := language_index * variants.size() * 3 + variant_index * 3 + choice
+				var memory_slot := path_index % (W181_MEMORY_FLAGS.size() + 1)
+				var memory_flag := ""
+				if memory_slot == 0:
+					no_memory_paths += 1
+				else:
+					memory_flag = str(W181_MEMORY_FLAGS[memory_slot - 1])
+					GameState.flags[memory_flag] = true
+					memory_hits[memory_flag] = int(memory_hits[memory_flag]) + 1
+				var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+				var selected := str(ingress.call(
+					"_chapter_four_causal_arc_id", 181, GameState.flags, false))
+				ingress.free()
+				if selected != event_id:
+					_fail("W181 release ingress resolved the wrong bill-night variant")
+					return false
+				GameState.story_return_scene = "res://scenes/MainGame.tscn"
+				GameState.pending_story_queue = [event_id]
+				# A stale public room and weather layer make every authored reset
+				# observable without changing any product save.
+				BGMPlayer.set_ambience("cafe")
+				BGMPlayer.set_season_ambience("rain")
+				_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+				add_child(_story)
+				_story.call("_set_auto_mode", false, false, false)
+				var current: Dictionary = _story.get("_current")
+				var resolved_intro := str(_story.call("_resolved_story_description", current))
+				var intro_pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+				var expected_intro_sources := 4 + (0 if memory_flag.is_empty() else 1)
+				if str(current.get("id", "")) != event_id \
+						or int(_story.call("_story_source_paragraph_count")) != expected_intro_sources \
+						or not _m23_same_prose(intro_pages, resolved_intro):
+					_fail("W181 did not open the exact localized root and optional memory")
+					return false
+				if not memory_flag.is_empty():
+					var memory_map: Dictionary = current.get("description_memory_if_known", {})
+					var expected_memory := str(_story.call(
+						"_fmt", str(memory_map.get(memory_flag, ""))))
+					if expected_memory.is_empty() or not resolved_intro.contains(expected_memory):
+						_fail("W181 did not resolve the selected W177 memory receipt")
+						return false
+				var home := ImageRegistry.resolve_contextual_background_id("current_housing")
+				for page in range(intro_pages.size()):
+					await _finish_page()
+					if not _expect_w181_surface(home, "home", "W181 intro"):
+						return false
+					_story.call("_on_advance")
+					await _wait_stable()
+				if not bool(_story.get("_showing_choices")):
+					_fail("W181 did not reach its three authored choices")
+					return false
+				var before_phenotype := _w177_phenotype_state()
+				var expected_phenotype: Dictionary = before_phenotype.duplicate(true)
+				if choice == 0:
+					expected_phenotype["money"] = float(before_phenotype["money"]) - 487_300.0
+				var before_flags: Dictionary = GameState.flags.duplicate(true)
+				var before_events := int(GameState.events_seen)
+				var before_log: Array = GameState.event_log.duplicate(true)
+				var before_action_points := int(GameState.action_points)
+				var before_commitments: Array = GameState.weekly_commitments.duplicate(true)
+				var before_meta: Dictionary = MetaProgression.data.duplicate(true)
+				_story.call("_on_choice", choice)
+				await _wait_stable()
+				var applied_state := _w177_applied_state()
+				var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+				var cut := int(_story.get("_result_location_cut_page"))
+				var authored := str(_story.call(
+					"_fmt", str((current.get("choices", []) as Array)[choice].get("result_text", ""))))
+				if int(_story.call("_story_source_paragraph_count")) != 2 \
+						or pages.is_empty() or not _m23_same_prose(pages, authored) \
+						or int(_story.call("_story_source_paragraph_index", pages.size() - 1)) != 1 \
+						or (cut >= 0) != (choice == 1):
+					_fail("W181 result lost its two-source choice-one cut contract")
+					return false
+				if choice == 1:
+					var cut_starts: Dictionary = W181_CUT_STARTS[event_id]
+					if cut <= 0 or cut >= pages.size() \
+							or int(_story.call("_story_source_paragraph_index", cut - 1)) != 0 \
+							or int(_story.call("_story_source_paragraph_index", cut)) != 0 \
+							or not str(pages[cut]).begins_with(str(cut_starts[language])):
+						_fail("W181 localized hospital move did not begin at the exact action sentence")
+						return false
+				var phenotype_ok := _w177_phenotype_state() == expected_phenotype
+				var flags_ok := _w181_outcome_flags_match(before_flags, choice)
+				var receipt_ok := _w181_receipt_matches(before_log, event_id, choice)
+				var commitment_ok := _w181_commitment_matches(
+					before_commitments, event_id, choice, home)
+				if not phenotype_ok or not flags_ok or not receipt_ok \
+						or before_action_points <= 0 or not commitment_ok:
+					_fail("W181 choice lost its exact money, flags or human commitment receipt phenotype=%s flags=%s receipt=%s commitment=%s ap=%d weekly=%s" % [
+						phenotype_ok, flags_ok, receipt_ok, commitment_ok,
+						GameState.action_points, JSON.stringify(GameState.weekly_commitments)])
+					return false
+				var saw_source_one := false
+				for page in range(pages.size()):
+					await _finish_page()
+					var source := int(_story.call("_story_source_paragraph_index", page))
+					if source == 1:
+						saw_source_one = true
+					var kind := "home"
+					if choice == 1:
+						kind = "intake" if page >= cut else "neutral"
+					if not _w177_applied_state_matches(applied_state, "W181 live result") \
+							or not _expect_w181_surface(home, kind, "W181 result"):
+						return false
+					if choice == 1 and page in [cut - 1, cut]:
+						var context: Dictionary = _story.call("build_save_resume_context")
+						if not await _reload_authored_result_context(context, language, 2, 0, true) \
+								or int(_story.get("_para_index")) != page \
+								or int(_story.get("_result_location_cut_page")) != cut \
+								or (int(_story.get("_para_index")) >= cut) != (kind == "intake") \
+								or not _w177_applied_state_matches(applied_state, "W181 cold result") \
+								or not _expect_w181_surface(home, kind, "W181 cold result"):
+							_fail("W181 v4 load crossed the same-source hospital boundary")
+							return false
+						await _finish_page()
+						restores += 1
+					if page + 1 < pages.size():
+						_story.call("_on_advance")
+						await _wait_stable()
+				if not saw_source_one or GameState.events_seen != before_events + 1 \
+						or not _w177_applied_state_matches(applied_state, "W181 final result") \
+						or MetaProgression.data != before_meta:
+					_fail("W181 cut skipped the aftermath or changed applied state/gallery data")
+					return false
+				if choice == 1 and language in ["ko", "en"]:
+					if not await _w181_legacy_unsplit_v4(authored, language, home, applied_state):
+						return false
+					legacy_restores += 2
+				paths += 1
+	for flag: String in W181_MEMORY_FLAGS:
+		if int(memory_hits[flag]) != 5:
+			_fail("W181 optional memory coverage drifted for %s" % flag)
+			return false
+	print("W181_BILL_NIGHT_OK paths=%d v4=%d legacy_v4=%d memory=%d no_memory=%d" % [
+		paths, restores, legacy_restores, 25, no_memory_paths])
+	return paths == 30 and restores == 20 and legacy_restores == 8 and no_memory_paths == 5
+
+func _w181_legacy_unsplit_v4(authored: String, language: String, home: String,
+		applied_state: Dictionary) -> bool:
+	# Before this cut, source 0 was paginated as one unsplit prose block.
+	# A result saved before it was read must not jump to the intake; a result
+	# saved after the whole block must not return to the taxi or replay choice.
+	var old_data: Dictionary = _story.call("_story_page_data", authored)
+	var old_pages: Array = old_data.get("pages", [])
+	var old_source_indices: Array = old_data.get("source_indices", [])
+	var final_context: Dictionary = _story.call("build_save_resume_context")
+	for at_intake: bool in [false, true]:
+		var page: int = old_source_indices.rfind(0) if at_intake else old_source_indices.find(0)
+		if page < 0 or page >= old_pages.size():
+			_fail("W181 legacy fixture could not paginate unsplit source 0")
+			return false
+		var context := final_context.duplicate(true)
+		var progress := 1.0 if at_intake else 0.0
+		context["paragraph_index"] = page
+		context["paragraph_was_typing"] = not at_intake
+		context["type_pos"] = str(old_pages[page]).length() if at_intake else 0
+		context["paragraph_type_ratio"] = progress
+		context["source_paragraph_index"] = 0
+		context["source_text_progress"] = progress
+		if not await _reload_authored_result_context(context, language, 2, 0, true) \
+				or int(_story.call("_story_source_paragraph_index", _story.get("_para_index"))) != 0 \
+				or not _w177_applied_state_matches(applied_state, "W181 legacy v4") \
+				or not _expect_w181_surface(home, "intake" if at_intake else "neutral", "W181 legacy v4"):
+			_fail("W181 original unsplit v4 cursor crossed the intake boundary")
+			return false
+	return true
+
+func _expect_w181_surface(home: String, kind: String, label: String) -> bool:
+	var portrait := _story.get("_portrait_frame") as Control
+	var portrait_visible := kind != "intake"
+	if not is_instance_valid(portrait) or portrait.visible != portrait_visible \
+			or bool(_story.get("_current_uses_cg")) \
+			or not str(_story.get("_event_cg_id")).is_empty():
+		_fail("%s did not keep Minjun exclusive to the non-clinic surface" % label)
+		return false
+	if kind == "home":
+		return _expect_surface(home, "oneroom", label)
+	if kind == "neutral":
+		var background := _story.get("_bg_img") as TextureRect
+		if str(_story.get("_event_background_id")) != "" \
+				or not is_instance_valid(background) or background.texture != null \
+				or not _expect_no_ambience(label):
+			_fail("%s did not keep the pre-intake result visually and aurally neutral" % label)
+			return false
+		return true
+	if kind == "intake":
+		if not _expect_surface(W181_INTAKE, "hospital", label) \
+				or not BGMPlayer._ambience_player.playing \
+				or not BGMPlayer._current_human_ambience_key.is_empty() \
+				or BGMPlayer._human_ambience_player.playing \
+				or not BGMPlayer._current_season_key.is_empty() \
+				or BGMPlayer._season_player.playing:
+			_fail("%s lost the sole hospital room bed or inherited people/weather" % label)
+			return false
+		return true
+	_fail("%s requested an unknown W181 surface: %s" % [label, kind])
+	return false
+
+func _w181_outcome_flags_match(before: Dictionary, choice: int) -> bool:
+	var expected: Dictionary = before.duplicate(true)
+	expected["arc_y4_bill_night_seen"] = true
+	expected[[
+		"arc_y4_bill_chose_payment",
+		"arc_y4_bill_chose_body_care",
+		"arc_y4_bill_chose_father_care",
+	][choice]] = true
+	expected["father_care_coordinated" if choice == 2 else "father_care_left_open"] = true
+	return GameState.flags == expected
+
+func _w181_receipt_matches(before: Array, event_id: String, choice: int) -> bool:
+	var after: Array = GameState.event_log
+	var receipt: Dictionary = after.back() if not after.is_empty() else {}
+	return after.size() == before.size() + 1 \
+		and after.slice(0, before.size()) == before \
+		and str(receipt.get("event_id", "")) == event_id \
+		and int(receipt.get("choice_index", -1)) == choice \
+		and int(receipt.get("turn", -1)) == 181
+
+func _w181_commitment_matches(before: Array, event_id: String, choice: int,
+		home: String) -> bool:
+	var after: Array = GameState.weekly_commitments
+	if GameState.action_points != 0 or after.size() != before.size() + 1 \
+			or after.slice(0, before.size()) != before:
+		return false
+	var receipt: Dictionary = after.back() if not after.is_empty() else {}
+	# The receipt records alternatives that remain visible after the choice
+	# effects apply. In particular, any W181 result closes the one-shot payment
+	# option. Derive that exact product contract instead of assuming all other
+	# numeric indexes remain eligible.
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var choices: Array = event.get("choices", [])
+	var forgone: Array[int] = []
+	for candidate in range(choices.size()):
+		if candidate != choice and GameState.choice_available(event, choices[candidate]):
+			forgone.append(candidate)
+	var actual_forgone: Variant = receipt.get("forgone_choice_indexes", [])
+	if not actual_forgone is Array:
+		return false
+	var seen_forgone := {}
+	for raw_index in actual_forgone as Array:
+		if typeof(raw_index) != TYPE_INT or int(raw_index) == choice \
+				or int(raw_index) < 0 or int(raw_index) >= choices.size() \
+				or seen_forgone.has(int(raw_index)):
+			return false
+		seen_forgone[int(raw_index)] = true
+	var outcome := {"money": -487_300.0, "total_assets": -487_300.0} \
+		if choice == 0 else {}
+	return int(receipt.get("turn", -1)) == 181 \
+		and str(receipt.get("source", "")) == "story_event" \
+		and str(receipt.get("story_event_id", "")) == event_id \
+		and int(receipt.get("story_choice_index", -1)) == choice \
+		and str(receipt.get("choice_id", "")) == "story:%s:%d" % [event_id, choice] \
+		and str(receipt.get("actual_action_id", "")) == "story_choice" \
+		and str(receipt.get("axis", "")) == "human" \
+		and str(receipt.get("week_kind", "")) == "decision" \
+		and str(receipt.get("scene_background_id", "")) == home \
+		and actual_forgone == forgone \
+		and receipt.get("outcome", {}) == outcome
 
 func _check_w177_withdrawal() -> bool:
 	if ImageRegistry.get_background(W177_CORRIDOR) != W177_CORRIDOR_PATH \

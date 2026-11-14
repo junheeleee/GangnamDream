@@ -388,6 +388,7 @@ weather, romance, and historical portraits remain fixed.
 
 - `assets/backgrounds/hospital_night_intake_w164_v1.png`
   - W164 Daeun care choice, after the first sentence at intake: exterior to the exam room, with a registration counter and waiting chairs beside the closed door. This does not identify the same clinic as W161, depict a diagnosis, or move the other branches out of the home.
+  - W181 care choice in the two shipping variants, from the authored on-site action. The same unsigned layout covers registration and the chairs while waiting; it does not identify the unnamed W164 facility, or show the father's ward or a taxi.
 
 - `assets/backgrounds/family_soup_restaurant_w167_v1.png`
   - W167 actual arrivals only. A small soup restaurant seen from the entry, not a seated view of a fixed party or meal; the aisle, low-key patrons and neutral furnishings leave those facts to the prose. No worksite art or reused bar recording.

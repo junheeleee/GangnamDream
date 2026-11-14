@@ -1,0 +1,17 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/daeun_arrival = {
+"ko": "11시 59분, 접수대에서",
+"en": "At 11:59, he told them himself",
+"ja": "11時59分、受付で",
+"zh-CN": "11点59分，在挂号台",
+"zh-TW": "11點59分，在掛號櫃檯"
+}
+metadata/unattached_arrival = {
+"ko": "신분증을 내고",
+"en": "He presented identification",
+"ja": "身分証を出し、",
+"zh-CN": "递出身份证件，",
+"zh-TW": "遞出身分證件，"
+}
