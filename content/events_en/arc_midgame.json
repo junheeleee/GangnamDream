@@ -976,15 +976,15 @@
   {
     "id": "arc_year_one_half",
     "title": "The City in His Habits",
-    "description": "On a night in his second year in Seoul, {name} reaches for a canned coffee in a convenience-store refrigerator, then rubs his wrist. His body chooses the fastest transfer stairs, the awnings that keep off rain, and the restaurants that stay lit late before he has to think. Whether his room has changed or not, Seoul has entered his habits before it has become an address.\n\nThe next month's default schedule is waiting to be copied on his phone. Leaving it alone carries the same plan forward. Changing one block adds review to next month's written plan. Closing it for tonight leaves one unfinished line where it is.\n\nHolding the cold can, {name} has to make one of the three actions real.",
+    "description": "One evening in his second year in Seoul, {name} took a can of coffee from a convenience-store fridge and rubbed his wrist. His feet already knew which stairs made for a quicker transfer, which awnings kept off the rain, and which restaurants left their lights on late.\n\nUsually he'd have a coffee at this hour, head back, and finish whatever he'd left half done. He knew what he'd get up to do tomorrow, too. But while he'd kept living the same day, the contracts and figures he'd meant to go back over had been put off again and again.\n\nThe can was cold. He rolled his wrist again. He could go back the usual way tonight. He could set aside an evening next month to look at what he'd put off. Or he could just go back and sleep tonight.",
     "choices": [
       {
-        "text": "Write that the pace stays, then copy the next month's schedule unchanged",
-        "result_text": "{name} presses KEEP and copies the next month. The income blocks and travel times carry over unchanged. The open squares remain in the same places too.\n\nHe sits on the convenience-store steps and checks the first alarm. His body already knows this pace. That does not mean it knows what keeping it will cost."
+        "text": "Finish today's work and get up at the usual time tomorrow",
+        "result_text": "{name} sat on the convenience-store steps and checked his first alarm for tomorrow. He left the time he'd go out and the first thing he'd do tomorrow unchanged. He got up to finish what he'd left undone today.\n\nHis knee felt stiff when he stood up from the steps. The coffee was still cold."
       },
       {
-        "text": "Remove one block from next month's plan and write in review as the new default",
-        "result_text": "{name} removes one block from next month's plan and writes a repeating plan in its place: “Review contracts and numbers.” A new review line appears on the plan.\n\nOn the back of the coffee receipt, he writes only the first item he will examine. His goal has not changed. What has changed is the plan he has written down for next month."
+        "text": "Leave an evening free next month to go back over the contracts and figures",
+        "result_text": "{name} picked an evening next month to go back over the contracts and figures he'd put off. He nearly wrote down something else to do that day, then stopped.\n\nOn the back of the canned-coffee receipt, he wrote only the first thing he meant to check."
       },
       {
         "text": "Close the schedule for today and turn off tomorrow's first alarm",
@@ -1228,12 +1228,12 @@
     "description_unorthodox": "On Monday night, {name} overlays four weeks of mismatched colors. The places and jobs change, but every open square attracts another income block. Meals and sleep move last. A chat he meant to answer holds the same “Running late today” three times in a row.\n\nA routine has formed without fixed work. The earliest alarm and latest block take his body and other people's time first.\n\nTo copy another month, he must protect one block or remove the repeating plan that ends last from next week's calendar.",
     "choices": [
       {
-        "text": "Keep the repeating grid, but lock one block for a person and my body first",
-        "result_text": "{name} marks one Thursday-night block as “Cannot move.” He declines the extra appointment layered over it, then sends a call time to one chat he has left waiting after a meal.\n\nThe rest of the repeating grid remains. A gray square appears in next week's plan. For the first time, the calendar marks time he intends to keep free rather than time left over."
+        "text": "Leave everything else as it is and set aside Thursday evening for dinner and the call",
+        "result_text": "{name} took the other thing he'd meant to do on Thursday evening off his list for that day. After dinner, he sent the chat he'd been putting off a time to call on Thursday.\n\nHe left the other days as they were. Instead of writing in more things for Thursday evening, he decided to leave it for dinner and the call."
       },
       {
-        "text": "Remove the repeating plan that ends last from next week's calendar",
-      "result_text": "{name} selects the repeating block that ends last in next week's plan and presses “Delete from next week.” The confirmation appears twice. He confirms the deletion both times.\n\nOne line disappears from the plan's repeating list. In the space it leaves, he writes sleep and the call he still has not returned. The empty outline of the deleted plan remains on next week's calendar."
+        "text": "Take one thing that would keep him up late off next week's list",
+      "result_text": "{name} found the thing he'd written down to do again next week that would keep him up latest. He took it off next week's list.\n\nIn its place he wrote when he meant to go to bed, and the name of the person he still hadn't answered. He didn't write anything else underneath."
       }
     ],
     "description_if_known": {
