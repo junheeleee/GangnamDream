@@ -8723,7 +8723,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 			var source := int(story.call("_story_source_paragraph_index", int(story.get("_para_index"))))
 			var results := bool(story.get("_pending_after_result"))
 			var invitation := not results and not bool(story.get("_showing_choices")) \
-				and source == 0 and not GameState.flags.get("sangchul_truth_known", false)
+				and source == 0 and not bool(GameState.flags.get("sangchul_truth_known", false))
 			var departing := results and int(story.get("_pending_result_choice_index")) == 1 and source >= 1
 			if invitation or departing:
 				expected_ambience = ""
