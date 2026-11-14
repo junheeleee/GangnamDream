@@ -112,6 +112,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] 착수 — `arc_father_04_visit` 선택 3의 `result_text` 마지막 한 문장만 (`content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_events.json`), 기존 번역의 `content/meta/full_game_localization.json` 세 수용 지문과 배치, 필요한 경우 현행 `content/meta/release_content_inventory.json`/`docs/CONTENT_RATING_INVENTORY.md`의 귀속 해시만. 현황·일지·이 증거 갱신. ‘문을 골랐다’는 어색한 뜻을 ‘병실 문 앞에서 민준이 돌아섰다’로 고친다. 날짜·동기·대사·다른 결과·스티커·서울역 컷 경계·저장·데모·정본 사실은 그대로다. 사용자 지적대로 전구간 검수에서 같은 유형을 찾되 이 단위에 다른 문장을 섞지 않는다.
 
+[~] `tools/StoryBackgroundContextCheck.gd`의 W96 호환 표적만 추가 소유한다. 옛 마지막 문구로 계산한 기존 v4 읽기 진행률을 새 문구에서 불러와, 두 폭에서 병원 복도 끝과 서울역 첫 화면이 맞는지 확인한다. W108 검사와 한 커밋에 섞지 않으며 실제 사용자 저장 없이 수행한다.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
