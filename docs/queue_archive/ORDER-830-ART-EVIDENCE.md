@@ -108,6 +108,10 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] 착수 — `scenes/StoryMode.gd`, `assets/scene_audio_manifest.json`, 정확한 기존 회귀 기대(`tools/ScreenshotQA.gd`의 해당 집 환경음 한 행)와 신규 표적 검사(`tools/StoryBackgroundContextCheck.gd`, `tools/scene_audio_contract_check.py`), 현황·증거·일지만. 현수 메시지로 도입/선택, 회수 선택의 첫 결과에서만 실제 전화를 받는 재혁. 나머지 회수 문단의 현수 사과는 전달 수단을 단정하지 않는다. 믿기·조사 선택의 첫 대화 뒤에는 통신 배지·원격 초상 해제. 주거 그림·기존 인물 자산·피아노 시작 문단 유지, 집 환경음만 기계·이웃·계절 없는 조용한 한 겹. 발신/알림/목소리 합성·문장·행동·데모·저장·공개 조치0. 실제 W106→W108→W116 소유 조건과 결과 저장 재개 확인.
 
+### W96 귀경 마지막 문장 — 사용자 실화면 지적
+
+[~] 착수 — `arc_father_04_visit` 선택 3의 `result_text` 마지막 한 문장만 (`content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_events.json`), 기존 번역의 `content/meta/full_game_localization.json` 세 수용 지문과 배치, 필요한 경우 현행 `content/meta/release_content_inventory.json`/`docs/CONTENT_RATING_INVENTORY.md`의 귀속 해시만. 현황·일지·이 증거 갱신. ‘문을 골랐다’는 어색한 뜻을 ‘병실 문 앞에서 민준이 돌아섰다’로 고친다. 날짜·동기·대사·다른 결과·스티커·서울역 컷 경계·저장·데모·정본 사실은 그대로다. 사용자 지적대로 전구간 검수에서 같은 유형을 찾되 이 단위에 다른 문장을 섞지 않는다.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
