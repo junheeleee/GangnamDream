@@ -217,6 +217,7 @@ const BACKGROUNDS = {
 	"convenience_afternoon_exterior": "res://assets/backgrounds/convenience_store_exterior_afternoon_v1.png",
 	"convenience_first_snow_exterior": "res://assets/backgrounds/convenience_store_exterior_first_snow.png",
 	"cafe":              "res://assets/backgrounds/cafe_seoul.png",
+	"finale_cafe_rear_papers": "res://assets/backgrounds/finale_cafe_rear_papers_v1.png",
 	"gukbap_restaurant_night": "res://assets/backgrounds/gukbap_restaurant_night.png",
 	"bank_service_counter_rainy_day": "res://assets/backgrounds/bank_service_counter_rainy_day.png",
 	"bank_exterior_wet_day": "res://assets/backgrounds/bank_exterior_wet_day.png",

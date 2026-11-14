@@ -1147,7 +1147,7 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "cafe",
+    "background": "finale_cafe_rear_papers",
     "portrait": "",
     "conditions": {
       "min_turn": 9999

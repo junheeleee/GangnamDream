@@ -335,6 +335,12 @@ W227, from the visitor side of a modest anonymous reception counter. A single mu
 
 First candidate SHA-256 `5c036392ec8cb2e742c311f2d22f33bd7e7b06985ac1fb890401f7275f64cf31`; the four choices at 960×600 covered part of the pen. Revised framing candidate `54e18c39c5eb076563ccfee449e95303b022f089232d9e924321368cd7bb0a5d` keeps the entire pen and tether above the buttons. Opaque 1584×990 master `0086fa29171237bb1fda56c03fdef364cae9c2616166adb3dc62f72141ae7328`. The story still identifies the location as `office`; the common illustration depicts no completed choice.
 
+### finale_cafe_rear_papers_v1.png
+
+W230, a small table toward the back of a quiet Seoul cafe. A blank thin comparison stack and a separate blank counter sheet sit beside the empty chair and approach aisle, in warm matte Gangnam Ink. No storefront window, weather, people, signatures, filing marks, open notebook or finished result. Paper groups were reframed upward for the small-window choices. Cafe tones and linework references only: `sinchon_offer_cafe_two_coffees.png` and `convenience_rear_comparison_v1.png`.
+
+Revised source SHA-256 `bff7520a22e3890dd4b44318d82e98051e5a5523236eda2eb70cbef7d118748a`; opaque 1584×990 master `82c55b547814a9f67b5230075763f8b445172959e6928c4fb1f1cd4247474361`. The logical location stays `cafe`; the illustration is not a filing receipt or result CG.
+
 ---
 
 ### penthouse_view.png

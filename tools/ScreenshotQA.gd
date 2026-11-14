@@ -8155,14 +8155,18 @@ func _assert_chapter5_w207_daeun_cafe_result(
 func _assert_chapter5_w230_staged_cafe_surface(
 		story: Node, current: Dictionary, authored: Dictionary) -> void:
 	var raw_presentation: Variant = story.get("_current_presentation")
-	var expected_background := ImageRegistry.resolve_contextual_background_id("cafe")
+	var expected_background := "finale_cafe_rear_papers"
+	var background := story.get("_bg_img") as TextureRect
+	var actual_background_path := (
+		background.texture.resource_path
+		if is_instance_valid(background) and background.texture != null else "")
 	var portrait := story.get("_portrait") as TextureRect
 	var portrait_frame := story.get("_portrait_frame") as Control
 	var name_panel := story.get("_name_panel") as Control
 	var actual_portrait_path := (
 		portrait.texture.resource_path
 		if is_instance_valid(portrait) and portrait.texture != null else "")
-	if str(current.get("background", "")) != "cafe" \
+	if str(current.get("background", "")) != expected_background \
 			or not str(current.get("portrait", "")).is_empty() \
 			or current.has("cg") \
 			or not raw_presentation is Dictionary \
@@ -8175,14 +8179,17 @@ func _assert_chapter5_w230_staged_cafe_surface(
 			or str((raw_presentation as Dictionary).get("portrait_role", "")) \
 				!= "none" \
 			or str(story.get("_event_background_id")) != expected_background \
+			or actual_background_path != "res://assets/backgrounds/finale_cafe_rear_papers_v1.png" \
 			or not actual_portrait_path.is_empty() \
 			or not is_instance_valid(portrait_frame) or portrait_frame.visible \
 			or (is_instance_valid(name_panel) and name_panel.visible) \
-			or str(BGMPlayer.get("_current_ambience_key")) != "cafe":
+			or not BGMPlayer._current_ambience_key.is_empty() or BGMPlayer._ambience_player.playing \
+			or not BGMPlayer._current_human_ambience_key.is_empty() or BGMPlayer._human_ambience_player.playing \
+			or not BGMPlayer._current_season_key.is_empty() or BGMPlayer._season_player.playing:
 		_fail("W230 lost its cafe/in-person/no-portrait staging: %s." % [str({
 			"event": current,
 			"presentation": raw_presentation,
-			"background": story.get("_event_background_id"),
+			"background": actual_background_path,
 			"portrait": actual_portrait_path,
 			"ambience": BGMPlayer.get("_current_ambience_key"),
 		})])
@@ -8193,29 +8200,33 @@ func _assert_chapter5_w230_staged_cafe_surface(
 		return
 	var sources: Array = (raw_reads as Dictionary).get("sources", [])
 	var texts: Array = (raw_reads as Dictionary).get("texts", [])
-	if sources.size() < 1 or texts.size() < 1 or not texts[0] is Array:
-		_fail("W230 custody entrance row is structurally missing.")
+	if sources.size() != 2 or texts.size() != 2:
+		_fail("W230 custody and filing rows are structurally missing.")
 		return
-	var custody_source: Dictionary = sources[0]
-	var custody := GameState.chapter5_finale_read_source_snapshot(custody_source)
-	var custody_choice := int(custody.get("index", -1))
-	var custody_rows: Array = texts[0]
-	if not bool(custody.get("ok", false)) or custody_choice < 0 \
-			or custody_choice >= custody_rows.size():
-		_fail("W230 cannot resolve the live custody branch for Minseo's entrance.")
-		return
-	var entrance_text := str(custody_rows[custody_choice])
+	var expected_blocks: Array[String] = []
+	for index in range(2):
+		if not sources[index] is Dictionary or not texts[index] is Array:
+			_fail("W230 has a malformed live read row at %d." % index)
+			return
+		var state := GameState.chapter5_finale_read_source_snapshot(sources[index] as Dictionary)
+		var choice := int(state.get("index", -1))
+		var row: Array = texts[index]
+		if not bool(state.get("ok", false)) or choice < 0 or choice >= row.size():
+			_fail("W230 cannot resolve the live read row at %d." % index)
+			return
+		expected_blocks.append(str(row[choice]).strip_edges())
+	expected_blocks.append(str(authored.get("description", "")).strip_edges())
 	var full_description := str(current.get("description", ""))
 	var door_marker := _tr("출입문이 열리고", "The door opened")
 	var entry_marker := _tr("민서가 들어와", "Minseo came in")
 	var chair_marker := _tr(
 		"빈 의자를 당겨 앉았다", "pulled out the empty chair")
-	var seated_marker := _tr("민서가 자리에 앉자", "Once Minseo was seated")
+	var seated_marker := _tr("민서가 자리에 앉았다.", "Minseo sat down.")
 	var door_index := full_description.find(door_marker)
 	var entry_index := full_description.find(entry_marker)
 	var chair_index := full_description.find(chair_marker)
 	var seated_index := full_description.find(seated_marker)
-	if not full_description.begins_with(entrance_text) \
+	if full_description != "\n\n".join(expected_blocks) \
 			or door_index < 0 or entry_index <= door_index \
 			or chair_index <= entry_index or seated_index <= chair_index:
 		_fail("W230 lets Minseo act before her door/entry/chair staging: %s." % [

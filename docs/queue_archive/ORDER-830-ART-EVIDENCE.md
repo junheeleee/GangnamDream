@@ -136,6 +136,8 @@
 
 [~] 독립 원화 검수한 작은 창 보완본 `bff7520a…` 채택. `assets/backgrounds/finale_cafe_rear_papers_v1.png`와 import, `autoloads/ImageRegistry.gd`, `content/events/arc_pre_ending.json`의 W230 배경 한 값, `content/meta/story_rules.json`의 해당 기대 배경, `assets/{event_visual_contracts,scene_direction_manifest,scene_audio_manifest,mod_asset_manifest}.json`, `tools/{ScreenshotQA.gd,art_resolution_baseline.json,scene_direction_catalog.py}`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{ART_AI_AUDIT,CONTENT_RATING_INVENTORY,MODDING,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황·이 기록만. 실제 그림과 조용한 배경 및 입장/착석과 두 갈래 회상 읽기를 고정한다. 스크린샷 검사에 남은 옛 배경·바 소리·착석 문구 기대만 실물에 맞춰 강화한다. W230 사건 오디오·기존 공용 카페·원고5·결과·장소·저장·RC 보존.
 
+완료(원화): 새 1584×990 `82c55b547814…`. 격리 macOS 실제 렌더 960×600 및 1280×800, 각 5언어 도입·선택·세 결과 25컷(총50), 화면마다 앞선 보관2×접수4×결과3×5언어 조립/선택 검사120. KO/EN 실제 ScreenshotQA의 W230 장면 검사를 두 크기 각6회 호출해 통과(전체 스코프 통과는 아님). 독립 역복원 및 작은 창 5언어 시각 대조에서 두 종이와 선택이 모두 보인다. 곡·종이·세 필기와 환경음 없음, 실제 순서·기존 선택 보존, 오류0. 실청취·사람 플레이·RC/Steam 반영은 별도.
+
 [~] `assets/scene_audio_manifest.json`의 `arc_y5_people_verdict_daeun_exact` 한 행만. 기존 카페 그림과 등장·대화는 그대로, 다른 장소에서 녹음한 바/펍 베드만 이 장면에 재생하지 않는다. 다은이 말하는 동안 민준이 첫 줄을 쓰는 결과의 페이지 넘김을 종이 필기로 바꾼다. 도입 종이와 다른 두 결과의 기존 필기, 기존 곡·원문5·선택·기존 RC·저장 유지. 맞는 카페 실내 녹음과 청취 별도.
 
 [~] `tools/scene_audio_contract_check.py`의 허용키 검사는 유지하고 W230 한 행의 공간음 없음·기존 곡·도입 종이·세 필기만 별도 exact 계약으로 검사한다. 첫 감사가 허용키로 오인한 오류를 보존하고, 다른 소유자에 대한 `intentional_silence` 허용을 넓히지 않는다.

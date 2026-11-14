@@ -1244,7 +1244,7 @@
         "scene_location": "cafe",
         "participants": ["player", "daeun", "minseo"],
         "portrait_role": "none",
-        "expected_background": "cafe"
+        "expected_background": "finale_cafe_rear_papers"
       }
     },
     "arc_y5_property_not_executed_notice": {

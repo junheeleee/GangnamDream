@@ -128,6 +128,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "finale_cafe_rear_papers": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "gukbap_restaurant_night": {
       "environment": "indoor",
       "depth": "near",
