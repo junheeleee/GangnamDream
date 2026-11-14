@@ -68,6 +68,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 집 음향 배선: 기존 단일-source `amb_apartment_room.wav`만, 사람·계절·음악 억제. 이전 이웃과 겨울 레이어를 실제로 재생한 뒤 고시원/원룸/아파트 세 설정에서 즉시 꺼지고 중립 룸톤이 유지되는 격리 Godot 표적 확인, 새 소리·효과0. 종료 ObjectDB 경고 한 건, 스크립트/런타임 오류0. 원문·선택 효과·후속 예약·사용자 저장 변경0. 자동 믹서 상태이며 실청취가 아니다.
 
+[~] 첫차 선택(c0) 제품 배선: `StoryMode`의 한 원문 문단 3표시 구간, 5언어 경계 리소스, 승인된 서울역/객실 PNG와 `ImageRegistry`, 해당 선택의 최종 배경 및 visual/audio/direction 계약, 실제 소비자 표적 검사와 에셋 색인·증거·작업일지만 소유. 집에서 예매할 때만 중립 룸톤, 역/객실은 적합 원음 확보 전 무음. 역/객실에서 전화·인물 초상 없음. 신규 대사·효과·경로·저장 필드·공개 데모 변경 0. 다른 세 선택과 본편 실플레이 슬롯은 보존.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
