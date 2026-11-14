@@ -124,6 +124,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] 별도 문장 단위 — `content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_events.json`의 연락 두절 c1 결과와 같은 문장 c0 결과만. 결과에서는 통화 버튼과 기다림까지만, 실제 자동 안내·녹음·전송과 재혁 무응답은 바로 다음 음성사서함 장면에 한 번. 글 읽기의 시간 역전은 뒤의 새벽 두 시·옛 사진의 밤을 보존하고 앞의 동이 트는 서술만 없앤다. 기존 수용 원장 `content/meta/full_game_localization.json` 여섯 지문·배치 및 `content/meta/release_content_inventory.json`/`docs/CONTENT_RATING_INVENTORY.md` 현행 해시, 현황·증거·일지만. 두 원문 문단은 각각 한 개 유지. 선택·효과·후속·원화·소리·공개 데모·저장 키0 변경. 별도 음향 제품 커밋과 구분한다.
 
+완료(문장): 한국어 두 결과·5언어 10잎. 음성사서함 실제 메시지·전송·무응답, 결단 02:00, 옛 사진의 밤은 원문과 일치. CJK 증분 2×3 검사/가져오기 및 새 한국어 커밋의 실제 파일 지문 일치. 두 텍스트만 되돌려 이전 5파일 바이트와 416개 이전 배치 전체 대조. 전체 정점 31/31, 현행 출시 인벤토리·기존 데모5언어·영어 검사 통과. 실제 청취와 사진 원화는 별도.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
