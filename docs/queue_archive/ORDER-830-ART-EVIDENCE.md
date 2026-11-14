@@ -549,7 +549,7 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] W72 상철과 한우집 저녁: `assets/scene_audio_manifest.json`의 `arc_sangchul_human`만 전용 무음, `tools/{scene_audio_contract_check.py,StoryBackgroundContextCheck.gd}`의 해당 검증, `CLAUDE.md`·일지·이 증거만. 바 환경음·리버풀 펍 대화를 재생하지 않으며 식당 그림·원래 무음악·인물·선택 효과·다섯 언어 원문·기존 RC·저장 키를 보존한다. 한우집 전용 실녹음과 장면별 컵·병 소리는 출처와 사건 시점이 확인되기 전 추가하지 않는다.
 
-[~] M60 ‘다은과 함께’ 엔딩의 현재 거실 환경음만: `assets/scene_audio_manifest.json`, `tools/{BGMContinuityCheck.gd,scene_audio_contract_check.py}`, 현황·일지·이 증거. 현재 외곽 집 식탁의 소리는 기계층을 더한 `oneroom`에서 이미 출처가 확인된 단일 방 환경음 `apartment`로 바꾼다. 산문의 고시원 냉장고는 지난날 회상이다. 엔딩 선택/선율/스팅어/CG/텍스트/다른 원룸·결혼 장면 및 저장·데모 무변경. 엔딩 재생 엔진에서 원음과 계절·군중 차단을 검수한다.
+[~] M60 ‘다은과 함께’ 엔딩의 현재 거실 환경음만: `assets/scene_audio_manifest.json`, `autoloads/BGMPlayer.gd`의 엔딩 CG 명시 차단 소비, `tools/{BGMContinuityCheck.gd,scene_audio_contract_check.py}`, 현황·일지·이 증거. 현재 외곽 집 식탁의 소리는 기계층을 더한 `oneroom`에서 이미 출처가 확인된 단일 방 환경음 `apartment`로 바꾼다. 산문의 고시원 냉장고는 지난날 회상이다. 그 CG에서만 이전 계절/군중을 즉시 끊고 명시 차단 없는 다른 엔딩의 동작은 유지. 엔딩 선택/선율/스팅어/CG/텍스트/다른 원룸·결혼 장면 및 저장·데모 무변경.
 
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
