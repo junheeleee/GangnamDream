@@ -404,6 +404,7 @@
 | Background | `assets/backgrounds/goshiwon_hallway.png` | `goshiwon_hallway` | 3840x2400 | no | `bc2192e633c4` | REPAIRED-A | 전체 프레임 3x 마스터. 배전함·문틀·중앙 원근·바닥 반사·신발 선반 100% A/B와 타일 이음새 없음 확인. |
 | Background | `assets/backgrounds/goshiwon_room.png` | `goshiwon`, `goshiwon_room` | 1280x800 | no | `10caf8f946cd` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/hyunsu_exam_room_v2.png` | `hyunsu_exam_room` | 1584x990 | no | `13b60f15ac90` | PASS-B | M07 같은 고시원 문틀·재질. 현수의 작은 책상·스툴, 바닥의 실제 비율 문제집. 인물·캔·읽히는 시험지 없음. |
+| Background | `assets/backgrounds/goshiwon_moveout_wet_street_v1.png` | `goshiwon_moveout_wet_street` | 1584x990 | no | `ae7b95b3dd9d` | PASS-B | M08 현관을 나온 첫 갈래 전용. 기존 외벽 재질과 젖은 아스팔트, 내리는 비·사람·주소 없음. |
 | Background | `assets/backgrounds/goshiwon_shared_kitchen.png` | `goshiwon_shared_kitchen` | 1280x800 | no | `b166a892e8c8` | PASS-B | 같은 건물 재질, 싱크대·2구 조리기·건조대·선반·공용 냉장고 동선, 무인·무문자, 현수 우측 초상과 하단 대화창 실제 합성 확인. |
 | Background | `assets/backgrounds/gym_interior.png` | `exercise`, `gym` | 1280x800 | no | `0a35a04d00b8` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/hagwon_street.png` | `hagwon_street` | 1672x941 | no | `e3700c446b37` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
@@ -488,4 +489,4 @@
 | Background | `assets/backgrounds/seoul_station_visitor_sticker.png` | `seoul_station_visitor_sticker` | 1280x800 | no | `763df189e31c` | PASS-B | 서울 도착 통로, 코트와 오른손 검지의 작은 스티커. 모공·카메라 질감을 없애 강남 잉크의 무광 붓결·낮은 채도로 재작화. 얼굴·비·눈·문자 없음. |
 | Background | `assets/backgrounds/police_evidence_reception.png` | `police_evidence_reception` | 1280x800 | no | `338988ecbf96` | PASS-B | 증거 제출 첫 대목용으로 원화 독립 대조: 무광 잉크·민원석·서류 전달구, 인물·상호·체포 없음. 장소는 본문이 식별한다. P1 마스터·사람 판정 아님. |
 
-Inventory: 81 CG / 94 portraits / 124 backgrounds / 299 total.
+Inventory: 81 CG / 94 portraits / 125 backgrounds / 300 total.

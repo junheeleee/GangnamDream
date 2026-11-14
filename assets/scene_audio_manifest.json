@@ -13,6 +13,7 @@
     "goshiwon_room": "room",
     "hyunsu_exam_room": "apartment",
     "goshiwon_hallway": "goshiwon_hallway",
+    "goshiwon_moveout_wet_street": "intentional_silence",
     "goshiwon_shared_kitchen": "goshiwon_hallway",
     "v2_first_bill_desk_closeup": "current_housing",
     "convenience_night": "convenience",
@@ -1828,7 +1829,13 @@
     "arc_hyunsu_exam_fail": {"ambience": "current_housing", "suppress_music": true},
     "arc_hyunsu_drift": {"ambience": "current_housing", "suppress_music": true},
     "arc_hyunsu_new_path": {"ambience": "current_housing", "suppress_music": true},
-    "arc_goshiwon_goodbye": {"ambience": "room", "suppress_music": true},
+    "arc_goshiwon_goodbye": {
+      "ambience": "goshiwon_hallway",
+      "suppress_music": true,
+      "suppress_human_ambience": true,
+      "suppress_season_ambience": true,
+      "result_paragraph_cues": {"0": {"2": [{"sfx": "traffic_pass", "volume_db": -10.0}]}}
+    },
     "arc_daeun_02b_dream": {"ambience": "convenience", "suppress_human_ambience": true, "suppress_season_ambience": true, "suppress_music": true},
     "arc_housing_new_life": {"ambience": "current_housing", "suppress_music": true},
     "hyunsu_reunion_later": {"ambience": "current_housing", "suppress_music": true},

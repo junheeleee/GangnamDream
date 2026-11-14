@@ -566,6 +566,7 @@ weather, romance, and historical portraits remain fixed.
 - `assets/backgrounds/finale_cafe_rear_papers_v1.png` — W230 카페 안쪽 작은 탁자. 빈 의자와 두 서류의 위치만 보여 주고, 기록 순서와 접수 결과는 문장으로 남긴다.
 - `assets/backgrounds/finale_notice_desk_v1.png` — W235 민준의 집에서 현재 자료를 모으는 문단의 삽입 컷. 무표기 휴대폰·분리된 접수 용지와 메모, 다른 문단의 거처 그림은 유지.
 - `assets/backgrounds/hyunsu_exam_room_v2.png` — M07 현수의 방. 기존 고시원 문틀·재질, 문턱의 눈높이, 작은 책상과 스툴, 바닥의 문제집. 문을 두드린 뒤 문제집이 나오는 문단부터; 기다리지 않고 돌아선 갈래에는 나오지 않는다. v1은 이전 원화로 보존한다.
+- `assets/backgrounds/goshiwon_moveout_wet_street_v1.png` — M08 첫 선택에서 현관문이 닫힌 결과부터. 기존 신촌 고시원의 거친 외벽, 젖은 골목. 비가 내리는 효과·주소·이삿짐·사람은 없다.
 
 - `assets/backgrounds/penthouse_view.png`
   - Gangnam penthouse skyline view at night.

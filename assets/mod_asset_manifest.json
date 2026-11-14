@@ -319,6 +319,14 @@
     {
       "kind": "background",
       "ids": [
+        "goshiwon_moveout_wet_street"
+      ],
+      "relative_path": "backgrounds/goshiwon_moveout_wet_street_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "current_housing",
         "goshiwon",
         "goshiwon_room"

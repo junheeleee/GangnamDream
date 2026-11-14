@@ -20971,20 +20971,25 @@ func _assert_chapter1_spine_state(story: Node, event_id: String) -> void:
 			event_id, expected_path, actual_path])
 
 	var expected_ambiences := {
-		"arc_hyunsu_night_talk": "room",
-		"hyunsu_exam_day": "room",
-		"hyunsu_result_fail": "room",
+		"arc_hyunsu_night_talk": "goshiwon_hallway",
+		"hyunsu_exam_day": "goshiwon_hallway",
+		"hyunsu_result_fail": "apartment",
 		"arc_hyunsu_exam_fail": "oneroom",
 		"arc_hyunsu_drift": "oneroom",
 		"arc_hyunsu_new_path": "oneroom",
-		"arc_goshiwon_goodbye": "room",
+		"arc_goshiwon_goodbye": "goshiwon_hallway",
 		"arc_housing_new_life": "oneroom",
 	}
 	var expected_ambience := str(expected_ambiences[event_id])
 	if str(BGMPlayer._current_ambience_key) != expected_ambience:
 		_fail("%s ambience expected %s, got %s." % [
 			event_id, expected_ambience, BGMPlayer._current_ambience_key])
-	if BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
+	var has_hyunsu_theme := event_id in ["arc_hyunsu_night_talk", "hyunsu_exam_day"]
+	if has_hyunsu_theme:
+		if BGMPlayer._music_mode != "punctuation" or BGMPlayer._current_key != "hyunsu" \
+				or not (BGMPlayer._player_a.playing or BGMPlayer._player_b.playing):
+			_fail("%s should reach its choice beat with Hyunsu's theme." % event_id)
+	elif BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
 			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
 		_fail("%s should reach its choice beat on ambience alone." % event_id)
 

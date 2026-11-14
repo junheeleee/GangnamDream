@@ -359,6 +359,12 @@ Active replacement for `hyunsu_exam_room`; v1 is preserved as the previous drawi
 
 Source SHA-256 `45a993dac21495370970c97fbafaf39ae9ba78ffed6cf4337e9864a5777a6e41`; opaque 1584×990 master `13b60f15ac903452904c07a63943b1b3a48f7d5f4859a58f4a8bdb1366e1844e`.
 
+### goshiwon_moveout_wet_street_v1.png
+
+First move-out choice, only after the entrance closes. The sheltered automatic doorway gives way to an unremarkable Sinchon road, old plaster and brick with damp asphalt. No active rain, sign, pedestrian, box or visible destination. The sound of a car may be heard off-screen once; the scene does not introduce a crowd or a new music track.
+
+Source SHA-256 `1d78fa42280d2758c4536aefb5d154e3fcdc587fb9870f2ab17147de488178e2`; opaque 1584×990 master `ae7b95b3dd9d57aa21601bd33bc5971c1020b5ba707d0c1511dab7f9a984d380`.
+
 ---
 
 ### penthouse_view.png

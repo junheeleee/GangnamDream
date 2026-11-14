@@ -20,6 +20,12 @@ HYUNSU_EXAM_FAILURE_AUDIO = {
     "ambience": "apartment", "suppress_music": True,
     "suppress_human_ambience": True, "suppress_season_ambience": True,
 }
+GOSHIWON_MOVEOUT_EVENT = "arc_goshiwon_goodbye"
+GOSHIWON_MOVEOUT_AUDIO = {
+    "ambience": "goshiwon_hallway", "suppress_music": True,
+    "suppress_human_ambience": True, "suppress_season_ambience": True,
+    "result_paragraph_cues": {"0": {"2": [{"sfx": "traffic_pass", "volume_db": -10.0}]}},
+}
 M14_BANK_EVENT = "arc_y2_bank_limit_review"
 M14_BANK_BACKGROUNDS = ("bank_loan_counter_day", "bank_loan_exit_day")
 M14_BANK_RESULT_CUES = {
@@ -415,6 +421,11 @@ def main() -> int:
             or events.get(HYUNSU_EXAM_FAILURE_EVENT, {}).get("background") != "goshiwon_hallway"
             or manifest.get("background_profiles", {}).get("hyunsu_exam_room") != "apartment"):
         errors.append(f"{HYUNSU_EXAM_FAILURE_EVENT}: keep the quiet threshold/room free of borrowed machinery and cues")
+    if (event_contracts.get(GOSHIWON_MOVEOUT_EVENT) != GOSHIWON_MOVEOUT_AUDIO
+            or events.get(GOSHIWON_MOVEOUT_EVENT, {}).get("background") != "goshiwon_hallway"
+            or manifest.get("background_profiles", {}).get("goshiwon_moveout_wet_street")
+            != "intentional_silence"):
+        errors.append(f"{GOSHIWON_MOVEOUT_EVENT}: hallway bed and one exterior cue on choice 0 paragraph 2")
     if W224_CUSTODY_EVENT not in event_contracts:
         errors.append(f"{W224_CUSTODY_EVENT}: missing rear-table audio contract")
     if W230_VERDICT_EVENT not in event_contracts:

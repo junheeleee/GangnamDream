@@ -74,6 +74,8 @@ const W224_CUSTODY_RESULT_CUT := preload("res://assets/w224_custody_result_cut.t
 const W235_NOTICE := "arc_y5_property_not_executed_notice"
 const W235_NOTICE_DESK := "finale_notice_desk"
 const HYUNSU_EXAM_FAILURE := "hyunsu_result_fail"
+const GOSHIWON_MOVEOUT := "arc_goshiwon_goodbye"
+const GOSHIWON_MOVEOUT_STREET := "goshiwon_moveout_wet_street"
 const W8_FALLOUT_CUTS := preload("res://assets/w8_fallout_result_cuts.tres")
 const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
@@ -2761,6 +2763,10 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		# No contact, police, or navigation one-shot belongs to resume.
 		if result_phase or source_paragraph_index >= 2 or phase == "choices":
 			BGMPlayer.play_scene_paragraph_music(_current, "", 2)
+	elif result_phase and str(_current.get("id", "")) == GOSHIWON_MOVEOUT:
+		# The street and its quiet bed are restored above. The passing car
+		# belongs only to the first live crossing, not opening a saved result.
+		pass
 	elif result_phase:
 		AudioManager.play_scene_result_paragraph_cues(
 			str(_current.get("id", "")), _event_cg_id,
@@ -5800,6 +5806,8 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 		return
 	var at_w4_locker := false
 	var at_w234_boulevard := _is_w234_boulevard_result()
+	var at_moveout_street := _pending_after_result and event_id == GOSHIWON_MOVEOUT \
+		and _pending_result_choice_index == 0 and _story_source_paragraph_index(_para_index) >= 2
 	if _pending_after_result and event_id == W4_TEMPTATION \
 			and _pending_result_choice_index == 1 and _result_location_cut_page >= 0:
 		at_w4_locker = _story_source_paragraph_index(_para_index) == 1 \
@@ -5807,6 +5815,10 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 		background_id = "subway_station_coin_lockers" if at_w4_locker else "goshiwon_room"
 	elif _pending_after_result and event_id == W234_SUMMIT:
 		background_id = "gangnam_boulevard_winter_dusk" if at_w234_boulevard else "realestate_office"
+	elif _pending_after_result and event_id == GOSHIWON_MOVEOUT:
+		# Only the first reply crosses the entrance on the page. The other
+		# branches remain in the hall until the separate new-home scene.
+		background_id = GOSHIWON_MOVEOUT_STREET if at_moveout_street else "goshiwon_hallway"
 	elif _pending_after_result and event_id == M14_BANK_REVIEW:
 		# The first two choices stay at the counter. Only the last result's
 		# second authored paragraph leaves the bank (in every locale).
@@ -5834,7 +5846,10 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var path := ImageRegistry.get_background(background_id)
 	if path.is_empty() or not ImageRegistry.has_texture(path):
 		return
-	_begin_story_scene_transition("explicit_move")
+	if event_id == GOSHIWON_MOVEOUT and not play_cut_cue:
+		_finish_story_scene_transition()
+	else:
+		_begin_story_scene_transition("explicit_move")
 	_bg_img.texture = ImageRegistry.load_texture(path)
 	_event_background_id = background_id
 	if event_id == M03_JIYEON_CRASH:
@@ -5846,7 +5861,7 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 			_hud_panel.visible = not (_read_only_replay or _story_visual_override_active)
 	_apply_story_surface_palette(false)
 	_configure_living_scene()
-	if at_w4_locker or at_w234_boulevard:
+	if at_w4_locker or at_w234_boulevard or at_moveout_street:
 		# These moving results leave a room whose explicit contract would
 		# otherwise win over the destination profile. Keep the original score.
 		BGMPlayer.clear_ambience_immediate()
