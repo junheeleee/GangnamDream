@@ -263,7 +263,7 @@
     "ko_endings": 35,
     "en_endings": 35,
     "ending_ids_sha256": "3c26984721dc1ee6a18d472b854b30578982f43632d05a3d004ad99cb247c118",
-    "ending_content_sha256": "5ba0e6714ffe43e5b1a1d059988326ff7838e4c23c279c58fa8fb992f6d12d27",
+    "ending_content_sha256": "bc04931bb7665759dad06c3d26021740db03596d3453ebb9bfa4fecb5bba68e6",
     "active_art_assets": 301,
     "source_raster_assets": 360,
     "packaged_raster_assets": 352,
@@ -548,7 +548,7 @@
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
         "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present", "arc_final_week"],
-        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "c5382c75a22fbd2f042971aa311cec0ce79264b09e4f8a9f4808bcca77e1af8c"
+        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "d86583c34f9e37acb9dac7c51e41563eaeba39c1a96389ef019185811d2baf65"
       },
       "facts": [
         {

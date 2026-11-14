@@ -123,7 +123,7 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 - 게임 pack 대상 raster: 352장 · ImageRegistry 외부 pack 대상: 51장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
 - 사건 ID SHA-256: `4b51a9170bb3bcd7362be3175dbaec77c96a8c928e8747dd5479e14d54845a4b`
-- KO/EN 엔딩 본문 SHA-256: `5ba0e6714ffe43e5b1a1d059988326ff7838e4c23c279c58fa8fb992f6d12d27`
+- KO/EN 엔딩 본문 SHA-256: `bc04931bb7665759dad06c3d26021740db03596d3453ebb9bfa4fecb5bba68e6`
 
 아래 current-source fingerprint는 표현의 최종 등급이 아니라 개발 코퍼스가 조용히 바뀌는 것을
 막는 자동검색 래칫이다. fact의 사건 ID는 결정적 증거 앵커이지 후보 전부의 1:1
@@ -132,7 +132,7 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
 | 사행성·도박 | 135 / 43 | `f6ce3e8c42810bbf37ada7d6b38f63c09bc68d736cc2c0097eed58f1bafd4aa0` | `1f57f4652cd387ce9581f43664e90b7f23a3ac6e57b6d86a4be35ec13588b82e` | strong, moderate |
-| 선정성·성적 내용 | 125 / 26 | `6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a` | `c5382c75a22fbd2f042971aa311cec0ce79264b09e4f8a9f4808bcca77e1af8c` | moderate, mild |
+| 선정성·성적 내용 | 125 / 26 | `6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a` | `d86583c34f9e37acb9dac7c51e41563eaeba39c1a96389ef019185811d2baf65` | moderate, mild |
 | 폭력성 | 16 / 13 | `fd37228bc8f4bfdc6c0eccc9b3a3d8aa084f52c3d2373d9a45b24eddbeab0c91` | `c3759975eca6afc72b9b289c1aca1f78e2f0c8e7ca7b512a266c3a8ac88c5200` | mild |
 | 공포 | 141 / 50 | `3840da5f51069b1fe061fbb0f1a375ad618d05379a3e76e8fddfce396e96fe0f` | `5ad2f9dc7ed25fef801ad5bbb14b058ef7c7b46b3abd3afa96f4a1bdf492bac0` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `9483360716d35eb3f28c7d93baf091c6c8f2cd377d37a9e3a4b75252a5cfb64f` | mild |

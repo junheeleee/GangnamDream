@@ -428,38 +428,38 @@
   {
     "id": "arc_1b_isolation",
     "title": "The Weight of 1 billion won",
-    "description": "Portfolio and cash combined crossed 1 billion won.\n\n{name} looked at the number for a long time.\n\nWanted to tell someone. But — wasn't sure who that number could be shared with.\n\nNot bragging. Just wanting to share that something had changed.\nBut there was no one nearby who would understand what had changed.\n\nThis is what loneliness feels like, {name} thought.",
+    "description": "{name} opened the asset breakdown. His account balance plus the value of his investments, minus loans and overdue bills, came to {assets} in net assets.\n\n{cash_position}. His outstanding loans came to {debt}.\n\nHe wanted to tell someone the number. He wasn't looking to brag about how much he had.\n\nHe wanted to tell someone how far he'd come.\nHe'd never thought about who he'd tell first.\n\nHe picked up his phone. Even his first words would depend on who was listening.",
     "choices": [
       {
         "text": "Just went to sleep. A number only {name} knows.",
-        "result_text": "Turned off the light.\n\nOne billion won. A number only {name} knows.\n\nTomorrow the charts open again, and this feeling will disappear.\nNo — not disappear. Somewhere it accumulates."
+        "result_text": "He turned off the light.\n\nThe net amount he'd seen today was {assets}. He hadn't said it out loud yet.\n\nHe set the phone face down and lay back.\nEven with his eyes shut, he could still see the number from the screen."
       },
       {
         "text": "Call Father and tell him the number",
-        "result_text": "{name} called Father. His first words were, as ever, \"Have you eaten?\" They circled through the weather before {name} finally said the account had crossed one billion won.\n\nFather went quiet, then said, \"You worked hard. Eat properly anyway.\" It was a short congratulations, which made it sound more like him.\n\nThe call record and the one-billion figure remained in the same palm. For the first time, the number had become words actually shared with someone."
+        "result_text": "{name} called Dad. His first words, as always, were “Have you eaten?” They talked about the weather for a while before {name} said the net amount he'd seen today was {assets}.\n\nDad went quiet for a moment. “You've worked hard. Make sure you eat, though.” It was a brief word of congratulations, and all the more like him for it.\n\nAfter hanging up, he still held the phone. Dad telling him to eat stayed with him longer than the number he'd just said out loud."
       },
       {
         "text": "Strangely lonely that no one would understand this number",
-        "result_text": "Lonely. Honestly.\n\nStill far from Gangnam — a third of the way there.\nBut having come this far without building anyone to celebrate with — that was the shadow this number cast."
+        "result_text": "He tried saying it out loud.\n\n“Today I…” That was as far as he got. The number was still {assets}, and he was still the only one who'd seen it.\n{name} put the phone down."
       }
     ]
   },
   {
     "id": "arc_1b_isolation_father_passed",
     "title": "The Weight of One Billion",
-    "description": "Portfolio and cash combined crossed one billion won.\n\n{name} looked at the number for a long time.\n\nHe wanted to tell someone, but did not know who could receive a number like this.\n\nIt was not about bragging. He wanted to share that something had changed. Yet no one nearby seemed able to understand what had changed.\n\nThis is loneliness, {name} thought.",
+    "description": "{name} opened the asset breakdown. His account balance plus the value of his investments, minus loans and overdue bills, came to {assets} in net assets.\n\n{cash_position}. His outstanding loans came to {debt}.\n\nHe wanted to tell someone the number. He wasn't looking to brag about how much he had.\n\nHe wanted to tell someone how far he'd come.\nHe'd never thought about who he'd tell first.\n\nHe picked up his phone. Even his first words would depend on who was listening.",
     "choices": [
       {
         "text": "Just go to sleep. It is a number only {name} knows.",
-        "result_text": "He turned off the light.\n\nOne billion won. A number only {name} knew.\n\nTomorrow the charts would open again, and this feeling would disappear. No—not disappear. It seemed to be accumulating somewhere."
+        "result_text": "He turned off the light.\n\nThe net amount he'd seen today was {assets}. He hadn't said it out loud yet.\n\nHe set the phone face down and lay back.\nEven with his eyes shut, he could still see the number from the screen."
       },
       {
         "text": "Imagine telling Father about the number",
-        "result_text": "His first words would surely have been, \"Have you eaten?\" The number might never have come out; they might have talked only about the weather.\n\n{name} looked from Father's saved contact to his photograph and imagined the conversation from beginning to end. Even before a number with no one left to answer, not every memory had to be delivered to be shared.\n\nThe one billion on the screen felt a little less cold, but no new call appeared in the log."
+        "result_text": "His first words would probably have been “Have you eaten?” Thinking of that put the number out of mind for a moment. They might have ended up talking only about the weather.\n\n{name} looked at the saved contact and opened Dad's photograph. While he looked at it, he thought to himself how he'd tell Dad about the net assets he'd seen today: {assets}.\n\nHe closed the photograph and put the phone down. He hadn't made a call."
       },
       {
         "text": "Admit how strangely lonely it is that no one understands the number",
-        "result_text": "Lonely. Honestly.\n\nGangnam was still far away—a third of the distance covered. But reaching this point without building anyone to celebrate with was the number's shadow."
+        "result_text": "He tried saying it out loud.\n\n“Today I…” That was as far as he got. The number was still {assets}, and he was still the only one who'd seen it.\n{name} put the phone down."
       }
     ]
   },
