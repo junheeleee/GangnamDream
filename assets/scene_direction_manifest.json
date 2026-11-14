@@ -72,6 +72,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "convenience_night_dry": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "convenience_afternoon": {
       "environment": "indoor",
       "depth": "near",
@@ -2845,7 +2853,7 @@
     },
     "arc_daeun_02_regular->arc_daeun_02b_dream": {
       "mode": "explicit_move",
-      "to_surface": "convenience_night",
+      "to_surface": "convenience_night_dry",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
       "from_surface": "convenience_afternoon"

@@ -454,7 +454,8 @@ def main() -> int:
                    or choice.get("result_cg_reveal_paragraph") != cut
                    for choice, key, cut in zip(daeun_choices, DAEUN_QUIET_RESULT_CGS, (1, 1, 2)))
             or daeun_choices[2].get("follow_up_event") != DAEUN_EMPTY_STORE_EVENT
-            or events.get(DAEUN_EMPTY_STORE_EVENT, {}).get("background") != "convenience_night"
+            or profiles.get("convenience_night_dry") != "convenience"
+            or events.get(DAEUN_EMPTY_STORE_EVENT, {}).get("background") != "convenience_night_dry"
             or event_contracts.get(DAEUN_EMPTY_STORE_EVENT) != DAEUN_EMPTY_STORE_AUDIO):
         errors.append("Daeun afternoon/night: keep the fridge inside, no borrowed crowd after the cut, and fridge only at night")
     if (M23_PARENTS_EVENT not in event_contracts

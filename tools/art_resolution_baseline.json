@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 291,
+  "inventory_count": 292,
   "counts": {
     "1080p": {
       "CG": {
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 115,
+        "light": 116,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 115,
+        "heavy": 116,
         "severe": 0
       }
     }
@@ -438,6 +438,23 @@
       "scale": {
         "1080p": 1.5,
         "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/convenience_store_night_dry_v1.png": {
+      "kind": "Background",
+      "ids": [
+        "convenience_night_dry"
+      ],
+      "width": 1586,
+      "height": 992,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.2106,
+        "4k": 2.4212
       },
       "band": {
         "1080p": "light",

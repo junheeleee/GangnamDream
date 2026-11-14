@@ -256,6 +256,8 @@ warm sepia, logo, or watermark.
 ### convenience_store_night.png
 **저장 경로**: `assets/backgrounds/convenience_store_night.png`
 
+**밤 꿈 대화 전용 `convenience_store_night_dry_v1.png`**: 기존 실내 v2를 편집 원본으로, `daeun_regular_night_wait_v1.png`를 마른 외관의 연속성 참고로 사용. 계산대·냉장고·문 배치, 빈 실내와 형광등, 잉크 윤곽·무광 종이 질감은 유지하고 창의 물방울·외부 물반사만 없앤다. 밤의 마른 포장과 작은 가로등. 인물·글씨·로고·사진 질감 없음.
+
 ```
 Interior of a Korean convenience store at midnight. Rows of triangle kimbap, cup ramen, and lunchboxes in a cold fluorescent-lit refrigerator aisle. A drowsy part-time worker silhouette barely visible behind the counter. Rain streaking the window outside, a single streetlight glowing on wet asphalt. No customers or only a back-view silhouette. Lonely and hollow 4am atmosphere. Dark charcoal palette with cold white fluorescent light. Lo-fi realism, Seoul youth, no anime style.
 ```

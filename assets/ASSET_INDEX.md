@@ -469,6 +469,8 @@ weather, romance, and historical portraits remain fixed.
   - Midnight Korean convenience store interior with a physically locked Korean retail floor plan.
   - Use for comedy, health, night, convenience, and food events.
   - Status: approved. Entrance and customer lane are on the right, counter/POS beside the entrance, staff storage wall behind the clerk, and refrigerators on the far-left perimeter. See `assets/CONVENIENCE_STORE_VISUAL_BIBLE.md`.
+- `assets/backgrounds/convenience_store_night_dry_v1.png`
+  - Dry glass and pavement in `arc_daeun_02b_dream` only, with the same counter and doorway as the shared interior.
 - `assets/backgrounds/convenience_store_exterior_first_snow.png`
   - Person-free exterior of the same neighborhood store during first snow, with blank fascia, right-side entrance/counter relation, and refrigerators deeper at left.
   - December prelude owner: `assets/FIRST_SNOW_VISUAL_BIBLE.md`.

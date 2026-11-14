@@ -142,6 +142,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] `arc_daeun_02b_dream` 심야 실내 마른 창 등록. 앞 마른 외관과 같은 가게만, 사람·눈·비·상표 없는 배경 PNG+import 추가. `autoloads/ImageRegistry.gd`, `content/events/arc_daeun.json` 해당 background 한 키와 `assets/{scene_audio_manifest,scene_direction_manifest,event_visual_contracts,mod_asset_manifest}.json`, 영상 바이블/설명, `tools/{art_resolution_baseline.json,scene_audio_contract_check.py,StoryBackgroundContextCheck.gd}`, 현행 출시/아트/모딩 원장과 이 위치·현황만. 기존 공유 배경·초상·선택·음원·저장 형식·승인 RC0 변경. 독립 원화·컷, 5언어 준비 경로 확인 뒤만 연결한다.
 
+완료(배경): 기존 공유 그림 대신 심야 후속 사건 한 곳만 새 마른 실내를 로드한다. 독립 원화·KO 1280×800 두 컷에서 실내외 냉장고/계산대/문 배치, 건조한 창과 가독성 확인. 기존 다은 초상은 유지. 격리 기록 `830-w35-dry.U4EoPD` 및 960×600 실제 편성 5언어 15결과·v4 결과 복원 30회·밤 후속 5회 통과. 1586×992 원화는 기존 오후 실내/외관과 같이 16:10 검사에서 크기 경고만 나며, 실제 창에서 크롭 확인. 청취 및 5언어 실화면 완료로 세지 않는다.
+
 ### W116 재혁 연락 두절 — 같은 집의 연속 음향
 
 [~] 착수 — `assets/scene_audio_manifest.json`에서 연락 두절·게시글·음성사서함·결단·옛 사진 다섯 행, `tools/{scene_audio_contract_check.py,StoryBackgroundContextCheck.gd}`의 정확한 회귀 및 현황·증거·일지만. 모든 배경은 현재 집이며 옛 사진의 장소를 현재 장면으로 틀지 않는다. 고시원 기계/이웃·계절 대신 같은 중립 실내 녹음, 기존 피아노 시작 3/1/1/0/0과 결단의 기존 감쇠·효과 유지. 어긋난 새벽 서술 및 사진 컷은 별도, 공통 알림·이중 녹음음·회신·사진 셔터 추가0. 원문·그림·갈래·저장·데모·공개 변경0. 피해자 글/자동음성 양쪽 및 사진이 있는/없는 경우를 확인한다.

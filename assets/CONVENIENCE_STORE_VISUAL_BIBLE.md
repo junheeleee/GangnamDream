@@ -106,7 +106,10 @@ STREET / RAIN
   reveals `daeun_regular_night_wait_v1.png`: Minjun alone outside the same glass
   entrance at night, notebook in his pocket, waiting for customers to thin out.
   Daeun is not added beside him. The immediate `arc_daeun_02b_dream` follow-up
-  restores the existing night interior and her work portrait at the counter.
+  uses the person-free dry-window night interior
+  `convenience_store_night_dry_v1.png` with her existing work portrait at the
+  counter. Do not carry rain beads or wet road reflections over from the shared
+  night background; the immediately preceding exterior shows a dry evening.
 - These are scene-local bindings. Default night backgrounds, work portraits,
   the first-meeting CG, and the first-snow shell remain unchanged.
 

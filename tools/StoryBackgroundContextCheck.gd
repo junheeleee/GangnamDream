@@ -316,7 +316,8 @@ func _ready() -> void:
 		get_tree().quit(0 if w37_ok else 1)
 		return
 	if OS.has_environment("GANGNAM_DAEUN_STORE_AUDIO_CHECK"):
-		var daeun_ok := await _check_daeun_store_audio()
+		var dry_capture_dir := OS.get_environment("GANGNAM_DAEUN_DRY_CAPTURE_DIR")
+		var daeun_ok := await _check_daeun_store_audio(not dry_capture_dir.is_empty(), dry_capture_dir)
 		if daeun_ok:
 			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=daeun_store")
 		get_tree().quit(0 if daeun_ok else 1)
@@ -1769,7 +1770,11 @@ func _full_card_surface(event_id: String) -> bool:
 		_fail("locationless full card showed a place or kept a physical layer")
 	return valid
 
-func _check_daeun_store_audio(smoke: bool = false) -> bool:
+func _check_daeun_store_audio(smoke: bool = false, capture_dir: String = "") -> bool:
+	if not capture_dir.is_empty() and (DisplayServer.get_name() == "headless"
+			or not DirAccess.dir_exists_absolute(capture_dir)):
+		_fail("Daeun dry capture requires a real renderer and an existing output directory")
+		return false
 	if not _prepare_full_owner_history(35, [[5, "arc_intro_03_sns"], [6, "cafe_00", 2],
 			[8, "arc_job_first_rejection"], [9, "arc_money_check_low"],
 			[10, "arc_rescue_job", 1], [11, "arc_sangchul_01_meet"],
@@ -1825,6 +1830,9 @@ func _check_daeun_store_audio(smoke: bool = false) -> bool:
 				if not _daeun_store_surface("convenience_afternoon_exterior", art, false, false):
 					return false
 				await _finish_page()
+				if not capture_dir.is_empty() and revealed and not seen_cut[1]:
+					if not await _save_viewport_frame(capture_dir.path_join("night_waiting_ko.png")):
+						return false
 				if not seen_cut[int(revealed)]:
 					# An inherited bed must not leak on either side of result restore.
 					BGMPlayer.set_ambience("street")
@@ -1846,9 +1854,14 @@ func _check_daeun_store_audio(smoke: bool = false) -> bool:
 			if choice == 2:
 				var night: Dictionary = _story.get("_current")
 				if night.get("id") != DAEUN_EMPTY_STORE \
-						or not _daeun_store_surface("convenience_night", "", true, false):
+						or str(_story.get_meta("living_scene_effect", "")) != "none" \
+						or not _daeun_store_surface("convenience_night_dry", "", true, false):
 					_fail("Daeun quiet night follow-up did not resolve")
 					return false
+				if not capture_dir.is_empty():
+					await _finish_page()
+					if not await _capture_daeun_night(capture_dir.path_join("night_followup_ko.png")):
+						return false
 				nights += 1
 			paths += 1
 	await _remove_story()
@@ -1858,6 +1871,16 @@ func _check_daeun_store_audio(smoke: bool = false) -> bool:
 		return false
 	print("DAEUN_STORE_AUDIO_OK paths=%d cold_result_v4=%d night_followup=%d full_owner=1" % [paths, cold, nights])
 	return true
+
+func _capture_daeun_night(path: String) -> bool:
+	var portrait := _story.get("_portrait_frame") as Control
+	var target_alpha: float = _story.get("_portrait_target_alpha")
+	for _frame in range(150):
+		if portrait.visible and portrait.modulate.a >= target_alpha - 0.01:
+			return await _save_viewport_frame(path)
+		await get_tree().process_frame
+	_fail("Daeun's night portrait did not finish fading in")
+	return false
 
 func _daeun_store_surface(background: String, cg: String, fridge: bool, shoppers: bool) -> bool:
 	var art := (_story.get("_bg_img") as TextureRect).texture

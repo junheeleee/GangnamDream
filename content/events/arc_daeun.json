@@ -191,7 +191,7 @@
     "id": "arc_daeun_02b_dream",
     "direction": {"amb": "duck"},
     "title": "꿈 이야기",
-    "background": "convenience_night",
+    "background": "convenience_night_dry",
     "portrait": "daeun_normal",
     "category": "story",
     "rarity": "story",
