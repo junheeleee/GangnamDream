@@ -1222,7 +1222,7 @@
         "participants": ["player", "daeun"],
         "portrait_role": "local",
         "nameplate_role": "hidden",
-        "expected_background": "convenience_night",
+        "expected_background": "convenience_rear_comparison",
         "expected_ambience": "intentional_silence"
       }
     },

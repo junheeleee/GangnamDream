@@ -336,6 +336,8 @@ python3 tools/generate_mod_manifest.py --check
 | background | `community_center` | `backgrounds/community_center.png` | 1672x941 |
 | background | `company_dinner_restaurant` | `backgrounds/company_dinner_restaurant.png` | 1672x941 |
 | background | `concert_hall_night` | `backgrounds/concert_hall_night.png` | 1280x800 |
+| background | `convenience_rear_comparison` | `backgrounds/convenience_rear_comparison_v1.png` | 1584x990 |
+| background | `convenience_rear_table_clear` | `backgrounds/convenience_rear_table_clear_v1.png` | 1584x990 |
 | background | `convenience_afternoon` | `backgrounds/convenience_store_afternoon_v1.png` | 1586x992 |
 | background | `convenience_afternoon_exterior` | `backgrounds/convenience_store_exterior_afternoon_v1.png` | 1586x992 |
 | background | `convenience_first_snow_exterior` | `backgrounds/convenience_store_exterior_first_snow.png` | 1280x800 |
@@ -346,9 +348,9 @@ python3 tools/generate_mod_manifest.py --check
 | background | `dad_house` | `backgrounds/family_living_room.png` | 1280x800 |
 | background | `fine_dust_sky` | `backgrounds/fine_dust_sky.png` | 1672x941 |
 | background | `gangnam_apartment` | `backgrounds/gangnam_apartment.png` | 1280x800 |
+| background | `gangnam_boulevard_final_notebook` | `backgrounds/gangnam_boulevard_final_notebook_v1.png` | 1584x990 |
 | background | `gangnam_boulevard_winter_dusk` | `backgrounds/gangnam_boulevard_winter_dusk.png` | 1280x800 |
 | background | `gangnam_day` | `backgrounds/gangnam_day.png` | 1280x800 |
-| background | `gangnam_boulevard_final_notebook` | `backgrounds/gangnam_boulevard_final_notebook_v1.png` | 1584x990 |
 | background | `gangnam_night` | `backgrounds/gangnam_night_street.png` | 1280x800 |
 | background | `gangnam_station` | `backgrounds/gangnam_station_exit.png` | 1280x800 |
 | background | `goshiwon_hallway` | `backgrounds/goshiwon_hallway.png` | 3840x2400 |

@@ -258,6 +258,8 @@ warm sepia, logo, or watermark.
 
 **밤 꿈 대화 전용 `convenience_store_night_dry_v1.png`**: 기존 실내 v2를 편집 원본으로, `daeun_regular_night_wait_v1.png`를 마른 외관의 연속성 참고로 사용. 계산대·냉장고·문 배치, 빈 실내와 형광등, 잉크 윤곽·무광 종이 질감은 유지하고 창의 물방울·외부 물반사만 없앤다. 밤의 마른 포장과 작은 가로등. 인물·글씨·로고·사진 질감 없음.
 
+**W224 `convenience_rear_{comparison,table_clear}_v1.png`**: 같은 편의점의 타일·어두운 띠·플라스틱 의자, Gangnam Ink 질감을 참고. 계산대가 아니라 건물 뒤 차양 아래 작은 탁자, 닫힌 무표기 문과 작은 조명. 비교본 한 부는 대사창 위에 읽히지 않는 얇은 종이 묶음으로 보이고, 두 갈래 모두 파일에 들어간 다음에만 같은 구도의 빈 자리를 표시. 다른 장소·인물·날씨·새 소리 없음. 생성·국소 제거 후보 SHA-256 `54b901d00976792e9b4a2e4fb58cf0a0060e47991ed758fc26bad283c10d41e5`/`3aef5d97f3d0d415779dc057709ee23389ca3ffa144f2e75b780d6a808e619ed`, 무크롭 1584×990 마스터 `c1023b6f7ff35e3297986a6018b51b81d80980e42c912ea60c806df18dc1ddc7`/`0cde758a60c322bd3274e78ba4aa03709f8318357d6779ce9363d43630e9927e`.
+
 ```
 Interior of a Korean convenience store at midnight. Rows of triangle kimbap, cup ramen, and lunchboxes in a cold fluorescent-lit refrigerator aisle. A drowsy part-time worker silhouette barely visible behind the counter. Rain streaking the window outside, a single streetlight glowing on wet asphalt. No customers or only a back-view silhouette. Lonely and hollow 4am atmosphere. Dark charcoal palette with cold white fluorescent light. Lo-fi realism, Seoul youth, no anime style.
 ```

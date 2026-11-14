@@ -1297,7 +1297,7 @@ func _play_chapter5_surface_case(
 	var expected_background := "daeun_newlywed_home" if home == "wedding" else "goshiwon_room"
 	var expected_ambience := "oneroom" if home == "wedding" else "room"
 	if event_id == "arc_y5_father_trace_custody":
-		expected_background = "convenience_night"
+		expected_background = "convenience_rear_comparison"
 		expected_ambience = ""
 	var capture_case := home != "divorced" and known_variant.is_empty() \
 		and (event_id == "casino_comp_offer" or (choice_index == 0 \
@@ -1384,6 +1384,13 @@ func _read_chapter5_surface_pages(
 	var pages: Array = _story.get("_paragraphs")
 	if pages.is_empty() or int(_story.get("_para_index")) != 0:
 		return "%s: %s did not begin at decoded page zero" % [context, "result" if result else "intro"]
+	var custody_cut := -1
+	if result and event_id == "arc_y5_father_trace_custody":
+		custody_cut = int(_story.get("_result_location_cut_page"))
+		var choice := int(_story.get("_pending_result_choice_index"))
+		var boundary_source: int = _story.call("_story_source_paragraph_index", custody_cut)
+		if custody_cut < 1 or custody_cut >= pages.size() or boundary_source != (1 if choice == 0 else 0):
+			return "%s: rear table has no exact filed-copy page boundary" % context
 	for page_index in range(pages.size()):
 		if int(_story.get("_para_index")) != page_index \
 				or bool(_story.get("_pending_after_result")) != result:
@@ -1395,10 +1402,12 @@ func _read_chapter5_surface_pages(
 		_story.call("_complete_typing")
 		var body := _story.get("_body_lbl") as RichTextLabel
 		var background := _story.get("_bg_img") as TextureRect
+		var expected_surface := "convenience_rear_table_clear" \
+			if custody_cut > 0 and page_index >= custody_cut else background_id
 		if body.text != str(pages[page_index]) or body.text.is_empty() \
 				or not is_instance_valid(background) or background.texture == null \
-				or background.texture.resource_path != ImageRegistry.get_background(background_id) \
-				or str(_story.get("_event_background_id")) != background_id \
+				or background.texture.resource_path != ImageRegistry.get_background(expected_surface) \
+				or str(_story.get("_event_background_id")) != expected_surface \
 				or str(BGMPlayer.get("_current_ambience_key")) != ambience:
 			return "%s: page %d body/actual texture/ambience mismatch (background=%s ambience=%s)" % [
 				context, page_index, str(_story.get("_event_background_id")),

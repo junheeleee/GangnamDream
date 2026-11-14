@@ -66,6 +66,17 @@ const W234_SUMMIT := "arc_y5_general_pre_ending_summit_exact"
 const W234_SUMMIT_CUTS := preload("res://assets/w234_summit_result_cuts.tres")
 const W220_DEBT_MEMORY := "arc_y5_general_debt_memory_reconnect"
 const W220_CAFE_CUT := preload("res://assets/w220_debt_memory_cafe_cut.tres")
+const W224_CUSTODY := "arc_y5_father_trace_custody"
+const W224_COMPARISON := "convenience_rear_comparison"
+const W224_CLEARED_TABLE := "convenience_rear_table_clear"
+# A page boundary, not substitute dialogue. The original text remains the source.
+const W224_CUSTODY_FILED_ANCHORS := {
+	"ko": "다은은 빈손으로 일어나며",
+	"en": "Daeun stood empty-handed.",
+	"ja": "ダウンは何も持たずに立ち上がって",
+	"zh-CN": "Daeun空着手站起来",
+	"zh-TW": "Daeun 空著手起身",
+}
 const W8_FALLOUT_CUTS := preload("res://assets/w8_fallout_result_cuts.tres")
 const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
@@ -3361,6 +3372,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == W4_TEMPTATION and choice_index == 1) \
 		or (event_id == W234_SUMMIT and choice_index == 0) \
 		or (event_id == W220_DEBT_MEMORY and choice_index == 1) \
+		or (event_id == W224_CUSTODY and choice_index in [0, 1]) \
 		or (event_id == M23_MOTHER_CALL and choice_index == 0) \
 		or (event_id == W96_FATHER_VISIT and choice_index == 3) \
 		or (event_id == M27_JAEHYUK_PITCH and choice_index == 2) \
@@ -3428,6 +3440,16 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		if raw.split("\n\n").size() == 2:
 			return _split_formatted_story_page(_fmt(raw), 0, str(anchors.get(LocaleManager.language, "")))
 		return _story_page_data(_fmt(raw))
+	if event_id == W224_CUSTODY:
+		var prose := _fmt(raw)
+		var pages := _story_page_data(prose)
+		var source_count := raw.split("\n\n").size()
+		if choice_index == 0 and source_count == 2:
+			pages["result_location_cut_page"] = (pages["source_indices"] as Array).find(1)
+		elif choice_index == 1 and source_count == 1:
+			return _split_formatted_story_page(prose, 0,
+				str(W224_CUSTODY_FILED_ANCHORS.get(LocaleManager.language, "")))
+		return pages
 	if event_id == M27_JAEHYUK_PITCH:
 		var anchors: Dictionary = M27_JAEHYUK_CUTS.get_meta("home_anchors", {})
 		if raw.split("\n\n").size() == 2:
@@ -5729,6 +5751,16 @@ func _is_w234_boulevard_result() -> bool:
 func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
 	var event_id := str(_current.get("id", ""))
+	if _pending_after_result and event_id == W224_CUSTODY:
+		# The copy has been filed. Only the props change; we haven't traveled.
+		var filed := _result_location_cut_page > 0 and _para_index >= _result_location_cut_page
+		var surface := W224_CLEARED_TABLE if filed else W224_COMPARISON
+		if surface != _event_background_id:
+			var texture := ImageRegistry.load_texture(ImageRegistry.get_background(surface))
+			if texture != null:
+				_bg_img.texture = texture
+				_event_background_id = surface
+		return
 	if _full_w19_reunion:
 		_apply_w19_reunion_surface(play_cut_cue)
 		return

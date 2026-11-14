@@ -384,6 +384,8 @@
 | Background | `assets/backgrounds/concert_hall_night.png` | `concert_hall_night` | 1280x800 | no | `880d4b341eed` | PASS-B | 야간 콘서트 홀·무대/좌석/통로 원근, 식별 불가능한 관객/공연자 질감, 무상표·무문자와 하단 안전 크롭 확인. P1 마스터 아님. |
 | Background | `assets/backgrounds/convenience_store_exterior_first_snow.png` | `convenience_first_snow_exterior` | 1280x800 | no | `40bff4511687` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/convenience_store_night_v2.png` | `convenience_night`, `convenience_store` | 1280x800 | no | `b0d81368510f` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/convenience_rear_comparison_v1.png` | `convenience_rear_comparison` | 1584x990 | no | `c1023b6f7ff3` | PASS-B | W224 뒤편 작은 탁자에 비교본 한 부. 인물·점내 동선·날씨·읽히는 문서 없음. |
+| Background | `assets/backgrounds/convenience_rear_table_clear_v1.png` | `convenience_rear_table_clear` | 1584x990 | no | `0cde758a60c3` | PASS-B | W224 같은 구도, 비교본을 넣은 뒤 두 갈래 공통의 빈 테이블. |
 | Background | `assets/backgrounds/daeun_mother_home_dining_summer.png` | `daeun_mother_home_dining` | 1280x800 | no | `e7e916f7292f` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/daeun_newlywed_home_night.png` | `daeun_newlywed_home` | 1280x800 | no | `92fd4356827a` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/convenience_store_night_dry_v1.png` | `convenience_night_dry` | 1586x992 | no | `f95a01deb0b5` | PASS-B | 독립 원화: 냉장고·통로·계산대·문 배치 유지, 외부 빗방울/광택 없음, 인물·읽히는 상표 없음. |
@@ -482,4 +484,4 @@
 | Background | `assets/backgrounds/seoul_station_visitor_sticker.png` | `seoul_station_visitor_sticker` | 1280x800 | no | `763df189e31c` | PASS-B | 서울 도착 통로, 코트와 오른손 검지의 작은 스티커. 모공·카메라 질감을 없애 강남 잉크의 무광 붓결·낮은 채도로 재작화. 얼굴·비·눈·문자 없음. |
 | Background | `assets/backgrounds/police_evidence_reception.png` | `police_evidence_reception` | 1280x800 | no | `338988ecbf96` | PASS-B | 증거 제출 첫 대목용으로 원화 독립 대조: 무광 잉크·민원석·서류 전달구, 인물·상호·체포 없음. 장소는 본문이 식별한다. P1 마스터·사람 판정 아님. |
 
-Inventory: 81 CG / 94 portraits / 118 backgrounds / 293 total.
+Inventory: 81 CG / 94 portraits / 120 backgrounds / 295 total.

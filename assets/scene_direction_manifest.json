@@ -80,6 +80,22 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "convenience_rear_comparison": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "convenience_rear_table_clear": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "convenience_afternoon": {
       "environment": "indoor",
       "depth": "near",

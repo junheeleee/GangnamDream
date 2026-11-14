@@ -12,6 +12,8 @@
 
 [~] 위 후보와 동일 구도의 빈 테이블 1컷을 채택한다. `scenes/StoryMode.gd`의 W224 결과 문단 결속만: 비교본이 두 갈래에서 각각 파일에 들어간 뒤, 같은 자리에서 화면만 바뀐다. `content/events/arc_year3_drama.json`의 해당 배경, `content/meta/story_rules.json` 기대 배경, `autoloads/ImageRegistry.gd`, 두 PNG+import, `assets/{scene_direction_manifest,scene_audio_manifest,event_visual_contracts,mod_asset_manifest}.json`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `tools/{SceneDirectionCheck.gd,StoryPlaybackCheck.gd,Chapter5HumanRejectCheck.gd,chapter5_human_reject_audit.py,art_resolution_baseline.json}`, `content/meta/release_content_inventory.json`와 `docs/{CONTENT_RATING_INVENTORY,ART_AI_AUDIT,MODDING}.md`의 해당 파생 사실, 현황·이 기록·당일 일지. 원고·효과·저장 키·전달 시각·기존 장소와 경계·갤러리·음향 타이밍·보호 RC 그대로. 동일 장면 결과 분할·복귀·언어전환 검증.
 
+완료(그림): 두 1584×990 마스터의 독립 원화·코드 검수. 동일한 자리, 선택 후 보관 동작을 지나 다음 쪽에만 빈 테이블. 새로 떠나는 효과·음향 재시작·갤러리 0. 1280×800과 960×600 실제 macOS에서 두 결과×5언어 각 10경로, 도입/선택/전후 70장, 격리 저장/복귀 40건, 본편 UI가 허용하는 KO↔EN 전환 32건. CJK는 격리 실행에서 불러 검증했으며 본편 설정 선택목록은 그대로다. KO/EN 장면 문맥 156경로·1,050쪽과 연출·원화·검수·출시 원장 통과. 원문·영속 선택·기존 RC·사용자 저장 변경 0. 새 그림은 촬영이나 청취의 대체가 아니다.
+
 ### W240 강남대로 서명 원화 후보
 
 [~] 후보 1컷 및 이 증거만. 강남대로 야외의 밤, 민준의 주관 시점과 어두운 소매·수첩과 별지에만 초점을 둔다(`camera_role=player_pov`, `gaze_source=minjun`, `gaze_target=notebook`). 거래 서류·열쇠·답장·사람·날씨를 그려 넣지 않고 읽히는 글자 없이 분기에 공통인 열린 수첩과 빈 다음 줄을 표현. 기존 수첩 질감, 대로 구조, Gangnam Ink 원화체를 참조한다. 게임 원고·기존 PNG·ID·등록·오디오·저장·RC 변경0. 통과한 후보를 실제 본편에 연결할 파일은 별도 선언.

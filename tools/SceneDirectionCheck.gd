@@ -537,6 +537,16 @@ func _check_final_desk_presentation() -> void:
 		BGMPlayer.stop()
 		await get_tree().create_timer(0.08).timeout
 	var exterior := "arc_final_countdown_property_not_executed"
+	var custody := "arc_y5_father_trace_custody"
+	for rear_table in ["convenience_rear_comparison", "convenience_rear_table_clear"]:
+		var table_texture := ImageRegistry.get_background(rear_table)
+		var table_profile: Dictionary = DataRegistry.scene_direction_manifest.get("background_profiles", {}).get(rear_table, {})
+		_expect(table_texture == "res://assets/backgrounds/%s_v1.png" % rear_table \
+				and ImageRegistry.has_texture(table_texture) and table_profile.get("effect") == "none" \
+				and table_profile.get("weather_source") == "none", "W224 rear table asset or weather drifted")
+	_expect(DataRegistry.find_event(custody).get("background") == "convenience_rear_comparison" \
+			and DataRegistry.get_story_presentation(custody).get("scene_location") == "convenience_store", \
+			"W224 should begin at the same store's rear table")
 	var outdoor_event: Dictionary = DataRegistry.find_event(exterior)
 	var notebook_background := "gangnam_boulevard_final_notebook"
 	var notebook_path := "res://assets/backgrounds/gangnam_boulevard_final_notebook_v1.png"

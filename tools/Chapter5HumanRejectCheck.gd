@@ -1286,10 +1286,10 @@ func _check_scene_context_repair_runtime() -> void:
 
 		var custody: Dictionary = DataRegistry.find_event("arc_y5_father_trace_custody")
 		var custody_presence: Dictionary = DataRegistry.get_story_presentation("arc_y5_father_trace_custody")
-		_expect(str(custody.get("background", "")) == "convenience_night" \
+		_expect(str(custody.get("background", "")) == "convenience_rear_comparison" \
 				and str(custody_presence.get("scene_location", "")) == "convenience_store" \
-				and str(custody_presence.get("expected_background", "")) == "convenience_night",
-			"%s W224 custody text does not use the convenience-store background" % language)
+				and str(custody_presence.get("expected_background", "")) == "convenience_rear_comparison",
+			"%s W224 custody text does not use the store's rear comparison table" % language)
 		_expect(str(custody_presence.get("expected_ambience", "")) == "intentional_silence" \
 				and str(BGMPlayer.scene_audio_contract("arc_y5_father_trace_custody").get("ambience", "")) \
 					== "intentional_silence", "%s W224 rear table borrowed room or store ambience" % language)

@@ -211,6 +211,8 @@ const BACKGROUNDS = {
 	# 서울 일상
 	"convenience_night": "res://assets/backgrounds/convenience_store_night_v2.png",
 	"convenience_night_dry": "res://assets/backgrounds/convenience_store_night_dry_v1.png",
+	"convenience_rear_comparison": "res://assets/backgrounds/convenience_rear_comparison_v1.png",
+	"convenience_rear_table_clear": "res://assets/backgrounds/convenience_rear_table_clear_v1.png",
 	"convenience_afternoon": "res://assets/backgrounds/convenience_store_afternoon_v1.png",
 	"convenience_afternoon_exterior": "res://assets/backgrounds/convenience_store_exterior_afternoon_v1.png",
 	"convenience_first_snow_exterior": "res://assets/backgrounds/convenience_store_exterior_first_snow.png",

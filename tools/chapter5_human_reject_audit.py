@@ -400,7 +400,7 @@ PRESENTATION_CONTRACTS: dict[str, dict[str, Any]] = {
         "participants": ["player", "daeun"],
         "portrait_role": "local",
         "nameplate_role": "hidden",
-        "expected_background": "convenience_night",
+        "expected_background": "convenience_rear_comparison",
         "expected_ambience": "intentional_silence",
     },
     "arc_y5_general_name_boundary_exact": {
@@ -1293,7 +1293,7 @@ def validate_scene_context_repair(model: AuditModel, errors: list[str]) -> None:
         errors.append("scene-context casino_comp_offer must not retain explicit_move direction")
     for event_id, expected_hash in SCENE_CONTEXT_GAMEPLAY_SHA256.items():
         event = _event(model.ko, event_id, "KO", errors)
-        expected_background = "convenience_night" \
+        expected_background = "convenience_rear_comparison" \
             if event_id == "arc_y5_father_trace_custody" else "current_housing"
         expected_ambience = "intentional_silence" \
             if event_id == "arc_y5_father_trace_custody" else "current_housing"

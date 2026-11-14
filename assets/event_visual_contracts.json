@@ -398,7 +398,7 @@
     {"id": "amb_credit_steal_00", "background": "office", "portrait": "player_determined"},
     {"id": "amb_credit_confront", "background": "office", "portrait": "player_tired"},
     {"id": "age_39_final", "background": "current_housing"},
-    {"id": "arc_y5_father_trace_custody", "background": "convenience_night", "portrait": "player_tired"},
+    {"id": "arc_y5_father_trace_custody", "background": "convenience_rear_comparison", "portrait": "player_tired"},
     {"id": "casino_comp_offer", "background": "current_housing", "portrait": "player_normal"},
     {"id": "callback_casino_declined_comp_echo", "background": "current_housing", "portrait": "player_determined"},
     {"id": "callback_casino_accepted_comp_echo", "background": "current_housing", "portrait": "player_tired"},
