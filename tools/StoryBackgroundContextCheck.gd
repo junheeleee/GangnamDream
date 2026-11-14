@@ -50,6 +50,20 @@ const W96_ARRIVAL := {
 	"ko": "서울역에 내려", "en": "At Seoul Station,", "ja": "ソウル駅で降り",
 	"zh-CN": "到了首尔站", "zh-TW": "在首爾站下車",
 }
+# Baseline from 6f1a763, before the isolated closing-sentence revision. The
+# hashes authenticate the whole old raw source, not just the replaced suffix.
+const W96_PRE_REVISION := {
+	"ko": ["열지 않은 문은 {name}이 고른 채로 남았다.", "병실 문 앞에서 돌아선 사람은 {name}이었다.",
+		"2eedebc512bf29ca530d8c3e5601992cfef0e9d45c1e6eca54258b57e913e6a2"],
+	"en": ["The unopened door remained his choice.", "He had chosen not to go into the room.",
+		"d2cbc00e8b9a6f61d26ece29f02296e0c05128c2d1033a4f5fb0d7a672cbea55"],
+	"ja": ["開けなかったドアは、{name}が選んだまま残った。", "病室のドアの前で引き返したのは、{name}だった。",
+		"305c4a037eef2f95385790dde1118cee1821ca46c26a08f23452c353488eb020"],
+	"zh-CN": ["那扇没开的门，留下来，是{name}自己选的。", "是{name}自己在那间病房的门口转身离开的。",
+		"111754333e420ff9a64e54610f590a0289339e36d3ab3480404a25a1947bcf9b"],
+	"zh-TW": ["那扇沒開的門，留下了{name}自己的選擇。", "是{name}自己從那間病房門口轉身離開的。",
+		"ae2e862275aa13e60e9751cd9130ad07670c7ecba5be5416b21b7a41add41f75"],
+}
 const M23_KTX_STATION := "seoul_station_first_ktx_predawn"
 const M23_KTX_COACH := "ktx_changwon_first_train_predawn"
 const M23_KTX_ANCHORS := {
@@ -1919,6 +1933,10 @@ func _check_w96_return(smoke: bool = false) -> bool:
 			GameState.call("_restore_serialized_snapshot_exact", prepared)
 			GameState.mental = 60
 			GameState.moral_tint = 0.0
+			if OS.has_environment("GANGNAM_W96_REVISION_CHECK"):
+				var custom_name := OS.get_environment("GANGNAM_W96_REVISION_CUSTOM_NAME")
+				if not custom_name.is_empty():
+					GameState.player_name = custom_name
 			_context = "%s/W96/c%d" % [language, choice]
 			if not await _open_full_fixture_event(W96_VISIT, [W96_YEAR_CLOSE]) \
 					or not await _read_w96_return(choice, smoke, capture):
@@ -1932,9 +1950,10 @@ func _check_w96_return(smoke: bool = false) -> bool:
 		_fail("W96 expected three actual settled frames per locale")
 	if _failures != 0:
 		return false
-	print("W96_RETURN_OK paths=%d bedside_regressions=%d boundary_v4=%d legacy_unsplit_v4=%d different_locale_v4=%d rebinds=%d same_week_close=1 w100_exact_gate=1 captures=%d" % [languages.size(),
+	var revision_checks := 2 * languages.size() if OS.has_environment("GANGNAM_W96_REVISION_CHECK") and not (capture or smoke) else 0
+	print("W96_RETURN_OK paths=%d bedside_regressions=%d boundary_v4=%d legacy_unsplit_v4=%d different_locale_v4=%d previous_prose_v4=%d rebinds=%d same_week_close=1 w100_exact_gate=1 captures=%d" % [languages.size(),
 		0 if smoke or capture else 3, 0 if capture else (1 if smoke else languages.size() * 2),
-		0 if smoke or capture else languages.size(), 0 if smoke or capture else languages.size(),
+		0 if smoke or capture else languages.size(), 0 if smoke or capture else languages.size(), revision_checks,
 		0 if smoke or capture else 8, 3 if capture else 0])
 	return true
 
@@ -1996,6 +2015,10 @@ func _read_w96_return(choice: int, smoke: bool, capture: bool) -> bool:
 					return false
 	if choice == 3 and not capture and not smoke:
 		var final_context: Dictionary = _story.call("build_save_resume_context")
+		if OS.has_environment("GANGNAM_W96_REVISION_CHECK") \
+				and not await _w96_previous_prose_resume(event["choices"][choice]["result_text"], final_context,
+					cut, expected, original_deferred):
+			return false
 		if not await _w96_legacy_unsplit(authored, final_context) or not _w96_surface(3, true):
 			return false
 		var other := "en" if language == "ko" else "ko"
@@ -2117,6 +2140,59 @@ func _w96_rebind(language: String, at_station: bool) -> bool:
 		if LocaleManager.language != other or cut < 0 \
 				or (int(_story.get("_para_index")) >= cut) != at_station or not _w96_surface(3, at_station):
 			_fail("W96 language change crossed the source-1 arrival sentence")
+			return false
+	return true
+
+func _w96_previous_prose_resume(current_raw: String, current_context: Dictionary, current_cut: int,
+		expected: Array, deferred: Array) -> bool:
+	var language := LocaleManager.language
+	var baseline: Array = W96_PRE_REVISION[language]
+	var old_suffix: String = baseline[0]
+	var replacement: String = baseline[1]
+	if not current_raw.ends_with(replacement) or current_raw.ends_with(old_suffix):
+		_fail("W96 prior-prose compatibility requires the corrected live sentence")
+		return false
+	var old_raw := current_raw.substr(0, current_raw.length() - replacement.length()) + old_suffix
+	if old_raw.sha256_text() != baseline[2]:
+		_fail("W96 reconstructed previous source did not match the independently extracted Git blob text")
+		return false
+	var old_display: String = _story.call("_fmt", old_raw)
+	var old_data: Dictionary = _story.call("_split_formatted_story_page", old_display, 1, W96_ARRIVAL[language])
+	var old_pages: Array = old_data.get("pages", [])
+	var indices: Array = old_data.get("source_indices", [])
+	var old_cut := int(old_data.get("result_location_cut_page", -1))
+	if old_cut < 2 or old_cut >= old_pages.size() or int(indices[old_cut - 1]) != 1 or int(indices[old_cut]) != 1:
+		_fail("W96 previous prose did not have an exact old physical source-1 boundary")
+		return false
+	var old_consumed := 0
+	var old_total := 0
+	for page in range(old_pages.size()):
+		if int(indices[page]) != 1:
+			continue
+		var length := str(old_pages[page]).length()
+		old_total += length
+		if page < old_cut:
+			old_consumed += length
+	if old_consumed <= 0 or old_consumed >= old_total:
+		return false
+	for at_station in [false, true]:
+		var old_page := old_cut if at_station else old_cut - 1
+		var context := current_context.duplicate(true)
+		context["paragraph_index"] = old_page
+		context["paragraph_was_typing"] = at_station
+		context["type_pos"] = 0 if at_station else str(old_pages[old_page]).length()
+		context["paragraph_type_ratio"] = 0.0 if at_station else 1.0
+		context["source_text_progress"] = float(old_consumed) / float(old_total)
+		if not await _reload_authored_result_context(context, language, 2, 1, true):
+			return false
+		var current_page := current_cut if at_station else current_cut - 1
+		var type_pos := 0 if at_station else str(_story.get("_type_full")).length()
+		if int(_story.get("_para_index")) != current_page or int(_story.get("_type_pos")) != type_pos \
+				or bool(_story.get("_typing")) != at_station:
+			_fail("W96 actual prior-text save crossed the arrival boundary (expected station=%s cursor=%d)" % [at_station, type_pos])
+			return false
+		await _wait_stable()
+		if not _w96_surface(3, at_station) or not _w96_receipt(3, expected, deferred, false):
 			return false
 	return true
 
@@ -2377,7 +2453,8 @@ func _reload_legacy_first_ktx(authored: String, stage: int, housing: String, exp
 func _reload_first_ktx_context(context: Dictionary, target_locale: String) -> bool:
 	return await _reload_authored_result_context(context, target_locale, 1, 0)
 
-func _reload_authored_result_context(context: Dictionary, target_locale: String, source_count: int, source_index: int) -> bool:
+func _reload_authored_result_context(context: Dictionary, target_locale: String, source_count: int, source_index: int,
+		immediate: bool = false) -> bool:
 	if context.get("phase") != "result" or int(context.get("source_paragraph_count", 0)) != source_count \
 			or int(context.get("source_paragraph_index", -1)) != source_index \
 			or not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
@@ -2396,6 +2473,8 @@ func _reload_authored_result_context(context: Dictionary, target_locale: String,
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
 	add_child(_story)
 	_story.call("_set_auto_mode", false, false, false)
+	if immediate:
+		return LocaleManager.language == target_locale
 	await _wait_stable()
 	_story.call("_finish_story_scene_transition")
 	return LocaleManager.language == target_locale
