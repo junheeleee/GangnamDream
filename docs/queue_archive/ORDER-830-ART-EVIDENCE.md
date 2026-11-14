@@ -4,7 +4,7 @@
 
 ### W48 첫해의 마지막 밤·W220 민서에게 보낸 답
 
-[~] 한국어 전편 교열에서 실제 본편 `arc_year1_close`의 기본 `description` 마지막 문단과 c2 `text`, `arc_y5_general_debt_memory_reconnect` c1 `result_text` 세 잎만 `content/events{,_en,_ja,_zh-CN,_zh-TW}/{arc_year_close,arc_pre_ending}.json`에서 고친다. 휴대폰으로 자정까지 4분이 남은 것을 확인하고 수첩을 두 칸으로 나눈다. 답하지 않고 수첩을 덮어 휴대폰을 끈다. 카페에서는 사본을 접고 그 사이에 메모를 끼운다. 앞서 보낸 대답, 약속·새 발신 없음, 대면 없음, 기존 자산 토큰·효과·기억·문단 및 승인 데모 유지. 기존 CJK 수용 지문과 출시 사실 원장 중 계산 결과가 실제로 바뀐 곳만, 이 증거·현황·당일 기록과 함께 갱신한다.
+[~] 한국어 전편 교열에서 실제 본편 `arc_year1_close` 및 동일 문구를 읽는 사망 분기 `arc_year1_close_father_passed`의 기본 `description` 마지막 문단과 c2 `text`, `arc_y5_general_debt_memory_reconnect` c1 `result_text` 다섯 잎만 `content/events{,_en,_ja,_zh-CN,_zh-TW}/{arc_year_close,arc_pre_ending}.json`에서 고친다. 휴대폰으로 자정까지 4분이 남은 것을 확인하고 수첩을 두 칸으로 나눈다. 답하지 않고 수첩을 덮어 휴대폰을 끈다. 카페에서는 사본을 접고 그 사이에 메모를 끼운다. 앞서 보낸 대답, 약속·새 발신 없음, 대면 없음, 기존 자산 토큰·효과·기억·문단 및 승인 데모 유지. 기존 CJK 수용 지문과 출시 사실 원장 중 계산 결과가 실제로 바뀐 곳만, 이 증거·현황·당일 기록과 함께 갱신한다.
 
 ### 본편 M05 재혁 첫 연락과 포장마차
 
