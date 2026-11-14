@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/arrival_anchors = {
+"ko": ["포장마차에서 마주 앉은 재혁은", "포장마차에서 만난 재혁의 손목에는", "비싼 시계. 포장마차에서 시작해"],
+"en": ["At the pojangmacha, a tented street bar,", "An expensive watch on Jaehyuk's wrist at the pojangmacha", "An expensive watch."],
+"ja": ["韓国式屋台「ポジャンマチャ」で向かい合った", "韓国式屋台「ポジャンマチャ」で会った", "腕には高価な時計。"],
+"zh-CN": ["在韩国路边摊对面坐下", "在韩国路边摊见到 Jaehyuk 时", "腕上的名表。"],
+"zh-TW": ["在韓國路邊攤坐在對面的", "在韓國路邊攤見到的 Jaehyuk", "手腕上的名錶。"]
+}

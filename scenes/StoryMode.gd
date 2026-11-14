@@ -60,6 +60,8 @@ const M27_JAEHYUK_PITCH := "arc_jaehyuk_03_pitch"
 const M27_JAEHYUK_CUTS := preload("res://assets/m27_jaehyuk_pitch_cuts.tres")
 const W8_FALLOUT := "arc_temptation_fallout"
 const M14_BANK_REVIEW := "arc_y2_bank_limit_review"
+const W19_JAEHYUK_REUNION := "arc_jaehyuk_01_reunion"
+const W19_JAEHYUK_CUTS := preload("res://assets/w19_jaehyuk_reunion_cuts.tres")
 const W234_SUMMIT := "arc_y5_general_pre_ending_summit_exact"
 const W234_SUMMIT_CUTS := preload("res://assets/w234_summit_result_cuts.tres")
 const W8_FALLOUT_CUTS := preload("res://assets/w8_fallout_result_cuts.tres")
@@ -167,6 +169,7 @@ var _event_cg_path: String = ""
 var _event_cg_reveal_paragraph: int = 0
 var _event_paragraph_backgrounds: Array = []
 var _event_background_id: String = ""
+var _full_w19_reunion := false
 var _event_portrait_reveal_paragraph: int = 0
 var _event_portrait_revealed: bool = true
 var _story_moral_norm: float = 0.0
@@ -513,7 +516,8 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 	var line_col: Color = palette["line"]
 
 	if is_instance_valid(_bg_dim):
-		_bg_dim.color = Color("#111216") if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER \
+		_bg_dim.color = Color("#111216") if (_full_w19_reunion \
+			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \
 			and _event_background_id.is_empty() else _story_dim_color(has_cg)
 	if _story_bg_material:
 		# Reusable locations stay documentary. One-off CGs are the emotional
@@ -2702,7 +2706,7 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 			float(restored_position.get("type_ratio", restored_type_ratio)), 0.0, 1.0)
 		var first_ktx_result := result_phase and not _first_ktx_cut_pages.is_empty()
 		if first_ktx_result or (_result_location_cut_page >= 0 \
-				and (result_phase or str(_current.get("id", "")) == M23_PARENTS)):
+				and (result_phase or _full_w19_reunion or str(_current.get("id", "")) == M23_PARENTS)):
 			var saved_page := int(context.get("paragraph_index", -1))
 			var saved_ratio: float = clampf(float(context.get("paragraph_type_ratio", 1.0)), 0.0, 1.0)
 			if saved_locale == LocaleManager.language and saved_page >= 0 \
@@ -2735,6 +2739,11 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	elif str(_current.get("id", "")) == SINCHON_OFFER:
 		# The car has already arrived on a restored prose/result page.
 		pass
+	elif _full_w19_reunion:
+		# Restore the sustained score after its authored entrance, never the
+		# message one-shot. Result prose has its own source indices.
+		if result_phase or source_paragraph_index >= 1 or phase == "choices":
+			BGMPlayer.play_scene_paragraph_music(_current, "", 1)
 	elif str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		# Restore the sustained score only if the authored entrance was passed.
 		# No contact, police, or navigation one-shot belongs to resume.
@@ -3175,9 +3184,13 @@ func _set_story_text_size(level: String) -> void:
 	if not _current.is_empty() and not _is_chapter_card and not _showing_choices:
 		var raw_text := _current_story_phase_text()
 		if not raw_text.is_empty():
+			var page_data := _story_page_data(raw_text)
+			if _pending_after_result:
+				page_data = _localized_result_page_data(_pending_result_choice_index)
+			elif _full_w19_reunion:
+				page_data = _resolved_story_prose_pages()
 			_restore_localized_story_text(
-				_localized_result_page_data(_pending_result_choice_index) \
-					if _pending_after_result else _story_page_data(raw_text), source_paragraph_index,
+				page_data, source_paragraph_index,
 				source_page_progress, was_typing, type_ratio,
 				hint_was_visible, beat_was_waiting)
 
@@ -3351,10 +3364,36 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 
 func _resolved_story_prose_pages() -> Dictionary:
 	var prose := _resolved_story_description(_current)
+	if _full_w19_reunion:
+		return _w19_reunion_prose_pages(prose)
 	if str(_current.get("id", "")) == M23_PARENTS and prose.split("\n\n").size() == 3:
 		var anchors: Dictionary = M23_PARENTS_CUTS.get_meta("laundry_anchors", {})
 		return _split_formatted_story_page(prose, 0, _fmt(str(anchors.get(LocaleManager.language, ""))))
 	return _story_page_data(prose)
+
+func _w19_reunion_prose_pages(prose: String) -> Dictionary:
+	var sources := prose.split("\n\n")
+	var anchors_by_locale: Dictionary = W19_JAEHYUK_CUTS.get_meta("arrival_anchors", {})
+	var anchors: Array = anchors_by_locale.get(LocaleManager.language, [])
+	# Unrecognized text keeps the location unspecified, not a premature meeting.
+	var arrival_source := -1
+	var arrival_anchor := ""
+	for source_index in range(sources.size()):
+		for raw_anchor in anchors:
+			var anchor := str(raw_anchor)
+			if not sources[source_index].contains(anchor):
+				continue
+			if arrival_source >= 0 or sources[source_index].count(anchor) != 1:
+				return _story_page_data(prose)
+			arrival_source = source_index
+			arrival_anchor = anchor
+	if arrival_source < 0:
+		return _story_page_data(prose)
+	if sources[arrival_source].find(arrival_anchor) > 0:
+		return _split_formatted_story_page(prose, arrival_source, arrival_anchor)
+	var data := _story_page_data(prose)
+	data["result_location_cut_page"] = (data["source_indices"] as Array).find(arrival_source)
+	return data
 
 func _localized_result_page_data(choice_index: int) -> Dictionary:
 	var choices: Array = _current.get("choices", [])
@@ -4539,6 +4578,8 @@ func _resolved_choice_result_portrait_id(choice: Dictionary) -> String:
 		else _resolved_event_portrait_id()
 
 func _resolved_story_surface_portrait_id() -> String:
+	if _full_w19_reunion and _event_background_id.is_empty():
+		return ""
 	if _is_w96_station_result() or _is_m27_pitch_home_result():
 		return ""
 	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER and _event_background_id != "meeting":
@@ -5392,6 +5433,10 @@ func _story_restore_position_for_source_progress(
 
 func _render_current():
 	_reset_advance_hold()
+	_full_w19_reunion = str(_current.get("id", "")) == W19_JAEHYUK_REUNION \
+		and not _read_only_replay and not _is_public_story_demo() \
+		and GameState.story_return_scene != STORY_DEMO_RETURN_SCENE \
+		and FULL_STORY_FLOW.is_full_run() and FULL_STORY_FLOW.valid_session()
 	var continues_same_location := _current_transition_mode in [
 		"", "none", "same_location", "remote"]
 	if not continues_same_location:
@@ -5460,7 +5505,11 @@ func _render_current():
 
 	# CG가 있는 장면은 CG를 최우선 전체화면 배경으로 사용한다.
 	# 문단 reveal이 있으면 지정 문단 전까지 명시 background와 초상화를 유지한다.
-	if cg_active_at_start and ImageRegistry.has_texture(cg_path):
+	if _full_w19_reunion:
+		# KakaoTalk and its recipient do not establish a physical location.
+		_bg_img.texture = null
+		_event_portrait_revealed = false
+	elif cg_active_at_start and ImageRegistry.has_texture(cg_path):
 		_bg_img.texture = ImageRegistry.load_texture(cg_path)
 		_current_uses_cg = true
 		if not _read_only_replay:
@@ -5504,7 +5553,7 @@ func _render_current():
 	var cold_daeun_outside := str(_current.get("id", "")) == "arc_daeun_02_regular" \
 		and str(_pending_restore_context.get("event_id", "")) == "arc_daeun_02_regular" \
 		and str(_pending_restore_context.get("phase", "")) in ["choices", "result"]
-	if cold_offer_cafe or cold_first_ktx or cold_w96_return or cold_pitch_result or cold_daeun_outside \
+	if _full_w19_reunion or cold_offer_cafe or cold_first_ktx or cold_w96_return or cold_pitch_result or cold_daeun_outside \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		BGMPlayer.clear_ambience_immediate()
 	elif str(_current.get("background", "")) == "current_housing" \
@@ -5556,7 +5605,8 @@ func _render_current():
 	_para_index = 0
 	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		_apply_w117_counter_surface(false, true)
-	_play_current_paragraph_audio(_story_source_paragraph_index(_para_index))
+	if not _full_w19_reunion or _pending_restore_context.is_empty():
+		_play_current_paragraph_audio(_story_source_paragraph_index(_para_index))
 	_start_typing(_paragraphs[0])
 
 func _play_current_paragraph_audio(paragraph_index: int) -> void:
@@ -5664,6 +5714,9 @@ func _is_w234_boulevard_result() -> bool:
 func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
 	var event_id := str(_current.get("id", ""))
+	if _full_w19_reunion:
+		_apply_w19_reunion_surface(play_cut_cue)
+		return
 	if event_id == W117_JAEHYUK_COUNTER:
 		_apply_w117_counter_surface(play_cut_cue)
 		return
@@ -5737,6 +5790,29 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 			AudioManager.play("traffic_pass", -10.0)
 	else:
 		BGMPlayer.update_event_ambience(_current, "", background_id)
+
+func _apply_w19_reunion_surface(live_advance: bool) -> void:
+	var arrived := _pending_after_result or _showing_choices \
+		or (_result_location_cut_page >= 0 and _para_index >= _result_location_cut_page)
+	var destination := "pojangmacha" if arrived else ""
+	if destination == _event_background_id:
+		return
+	var texture: Texture2D = null
+	if arrived:
+		texture = ImageRegistry.load_texture(ImageRegistry.get_background(destination))
+		if texture == null:
+			return
+	if live_advance:
+		_begin_story_scene_transition("time_cut")
+	else:
+		_finish_story_scene_transition()
+	_event_background_id = destination
+	_event_portrait_revealed = arrived
+	_bg_img.texture = texture
+	_show_portrait(_resolved_event_portrait_id() if arrived else "", not arrived)
+	_apply_story_surface_palette(false)
+	_configure_living_scene()
+
 
 func _w117_counter_background() -> String:
 	var source := _story_source_paragraph_index(_para_index)
@@ -6286,7 +6362,8 @@ func _living_reduced_motion() -> bool:
 func _configure_living_scene(event_override: Dictionary = {}) -> void:
 	if not is_instance_valid(_living_scene):
 		return
-	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER and _event_background_id.is_empty():
+	if (_full_w19_reunion or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \
+			and _event_background_id.is_empty():
 		# A settings or viewport refresh must not infer the meeting in a recap.
 		_living_scene.clear_profile()
 		_living_profile.clear()
@@ -6829,6 +6906,8 @@ func _show_choices():
 	_showing_choices = true
 	if str(_current.get("id", "")) == M23_PARENTS:
 		_apply_m23_parents_surface()
+	if _full_w19_reunion:
+		_apply_w19_reunion_surface(false)
 	_set_choice_dock_active(true)
 	_continue_hint.visible = false
 	_choice_box.visible = true

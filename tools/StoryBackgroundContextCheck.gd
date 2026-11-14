@@ -303,6 +303,12 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W19_REUNION_CHECK"):
+		var w19_ok := await _check_w19_reunion()
+		if w19_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w19_reunion")
+		get_tree().quit(0 if w19_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_FULL_CHAPTER_CARD_CHECK"):
 		var cards_ok := await _check_full_chapter_card_ambience()
 		if cards_ok:
@@ -1650,6 +1656,144 @@ func _jaehyuk_calendar_fixture_history(photo: bool, late_choices: Array) -> Arra
 		[115, "arc_why_gangnam_real"]] + late_choices
 	history.sort_custom(func(a: Array, b: Array) -> bool: return int(a[0]) < int(b[0]))
 	return history
+
+func _check_w19_reunion() -> bool:
+	const REUNION_ID := "arc_jaehyuk_01_reunion"
+	var capture_dir := OS.get_environment("GANGNAM_W19_REUNION_CAPTURE_DIR")
+	var languages := W4_TERMS.keys() if capture_dir.is_empty() else ["ko"]
+	if not capture_dir.is_empty() and (DisplayServer.get_name() == "headless"
+			or not DirAccess.dir_exists_absolute(capture_dir)):
+		_fail("W19 capture requires a renderer and an existing output directory")
+		return false
+	var paths := 0
+	var restored := 0
+	var rebinds := 0
+	var reflows := 0
+	for language in languages:
+		for variant in range(3):
+			for choice in range(2):
+				await _remove_story()
+				await _stop_audio()
+				LocaleManager.set_language(language)
+				_context = "%s/W19/variant%d/c%d" % [language, variant, choice]
+				if not _prepare_full_owner_history(19, [[5, "arc_intro_03_sns"], [6, "cafe_00", 2],
+						[8, "arc_job_first_rejection"], [9, "arc_money_check_low"],
+						[10, "arc_rescue_job"], [11, "arc_sangchul_01_answer"], [11, "arc_gosiwon_wall"],
+						[14, "arc_father_01_call"], [14, "arc_first_job_week_convenience"],
+						[12, "arc_daeun_01_meet"], [14, "arc_invest_guidance"], [16, "arc_night_routine"],
+						[17, M03_EVENT], [18, "arc_father_quiet_call"]]):
+					return false
+				GameState.route_orthodox = 30 if variant == 1 else 0
+				GameState.route_unorthodox = 30 if variant == 2 else 0
+				var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+				var selected: String = ingress.call("_next_arc_id", -1, true)
+				ingress.free()
+				if selected != REUNION_ID:
+					_fail("W19 prepared predecessors selected " + selected)
+					return false
+				if not await _open_full_fixture_event(REUNION_ID) or not _w19_surface(false):
+					return false
+				var cut: int = _story.get("_result_location_cut_page")
+				var pages: Array = _story.get("_paragraphs")
+				if cut <= 0 or cut >= pages.size() or int(_story.call("_story_source_paragraph_index", cut)) != (1 if variant == 2 else 2):
+					_fail("first real reunion paragraph was not identified")
+					return false
+				var raw := str(_story.call("_resolved_story_description", _story.get("_current")))
+				if "".join(pages).replace(" ", "").replace("\n", "") != raw.replace(" ", "").replace("\n", ""):
+					_fail("presentation cut changed the authored prose")
+					return false
+				var prefix := "v%d_c%d" % [variant, choice]
+				var cues: Array = AudioManager._story_audio_seen.keys()
+				if cues.size() != 1 or not str(cues[0]).ends_with(":phone_notification"):
+					_fail("first contact did not play exactly one existing notification: %s" % [cues])
+					return false
+				for page in range(pages.size()):
+					await _finish_page()
+					var expected_score := "ambition" if int(_story.call("_story_source_paragraph_index", page)) >= 1 else ""
+					if not _w19_surface(page >= cut) or BGMPlayer._current_key != expected_score:
+						_fail("W19 did not keep its authored music entrance")
+						return false
+					if not capture_dir.is_empty() and (page == cut - 1 or page == cut):
+						await get_tree().create_timer(0.45).timeout
+						if not await _save_viewport_frame(capture_dir.path_join(prefix + ("_arrival.png" if page == cut else "_before.png"))):
+							return false
+					if capture_dir.is_empty() and choice == 0 and (page == cut - 1 or page == cut):
+						if not await _reload_prechoice("prose", REUNION_ID) \
+								or int(_story.get("_para_index")) != page or not _w19_surface(page >= cut) \
+								or not AudioManager._story_audio_seen.is_empty() or BGMPlayer._current_key != expected_score:
+							_fail("cold prose crossed the cut or replayed the message")
+							return false
+						restored += 1
+						if language == "ko" and variant != 0:
+							for target in ["en", "ko"]:
+								_story.call("_set_story_language", target)
+								await _wait_stable()
+								if LocaleManager.language != target or not _w19_surface(page >= cut) \
+										or not AudioManager._story_audio_seen.is_empty() or BGMPlayer._current_key != expected_score:
+									_fail("language rebind crossed the arrival or replayed its audio")
+									return false
+								rebinds += 1
+							if int(_story.get("_para_index")) != page:
+								_fail("language round trip did not restore the Korean page")
+								return false
+							for level in ["large", "standard"]:
+								_story.call("_set_story_text_size", level)
+								await _wait_stable()
+								if str(_story.get("_story_text_size")) != level or not _w19_surface(page >= cut) \
+										or int(_story.get("_result_location_cut_page")) <= 0 or BGMPlayer._current_key != expected_score:
+									_fail("text-size change dropped the arrival boundary")
+									return false
+								reflows += 1
+							if int(_story.get("_para_index")) != page:
+								_fail("text-size round trip did not restore the Korean page")
+								return false
+					_story.call("_on_advance")
+					await _wait_stable()
+				if not bool(_story.get("_showing_choices")) or not _w19_surface(true):
+					return false
+				if capture_dir.is_empty() and choice == 0:
+					if not await _reload_prechoice("choices", REUNION_ID) or not _w19_surface(true) \
+							or not AudioManager._story_audio_seen.is_empty():
+						_fail("cold choice did not return to the real meeting")
+						return false
+					restored += 1
+				var receipts := GameState.event_log.size()
+				var cash := float(GameState.money)
+				_story.call("_on_choice", choice)
+				await _finish_page()
+				if not _w19_surface(true) or GameState.event_log.size() != receipts + 1 \
+						or GameState.money != cash or GameState.has_item("artifact_jaehyuk_photo") != (choice == 0):
+					_fail("reunion choice changed its existing money, photo or receipt")
+					return false
+				if capture_dir.is_empty():
+					if not await _reload_cut_result(choice, 0, false) or not _w19_surface(true) \
+							or not AudioManager._story_audio_seen.is_empty():
+						_fail("cold result did not return to the meeting quietly")
+						return false
+					restored += 1
+				paths += 1
+	await _remove_story()
+	await _stop_audio()
+	if _failures != 0 or paths != languages.size() * 6 \
+			or restored != (75 if capture_dir.is_empty() else 0) \
+			or rebinds != (8 if capture_dir.is_empty() else 0) or reflows != rebinds:
+		return false
+	print("W19_REUNION_OK paths=%d cold_v4=%d rebinds=%d reflows=%d cut_variants=3 existing_photo_receipt=1" % [paths, restored, rebinds, reflows])
+	return true
+
+func _w19_surface(arrived: bool) -> bool:
+	var bg := (_story.get("_bg_img") as TextureRect).texture
+	var portrait := _story.get("_portrait_frame") as Control
+	var expected_art: bool = bg != null and bg.resource_path == ImageRegistry.get_background("pojangmacha") if arrived else bg == null
+	if not bool(_story.get("_full_w19_reunion")) or not expected_art or portrait.visible != arrived \
+			or (not arrived and (_story.get("_name_panel") as Control).visible) \
+			or str(_story.get_meta("living_scene_effect", "")) != "none" \
+			or not BGMPlayer._current_ambience_key.is_empty() or BGMPlayer._ambience_player.playing \
+			or not BGMPlayer._current_human_ambience_key.is_empty() or BGMPlayer._human_ambience_player.playing \
+			or not BGMPlayer._current_season_key.is_empty() or BGMPlayer._season_player.playing:
+		_fail("W19 physical location, cast or ambience did not match arrival=%s" % arrived)
+		return false
+	return true
 
 func _check_full_chapter_card_ambience() -> bool:
 	var cases := 0
