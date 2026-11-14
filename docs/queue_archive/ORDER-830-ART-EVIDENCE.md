@@ -573,6 +573,8 @@ M60 ‘다은과 함께’는 외곽 집의 현재 식탁 아래 기존 조용�
 
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
+[~] W126 한강 선택과 W205 민서 통화: `content/events/{arc_midgame,arc_new_characters}.json`의 표시 키, `content/meta/story_rules.json`의 민서 원격 역할, `scenes/StoryMode.gd`, `autoloads/ImageRegistry.gd`의 민서 폴백, `assets/{event_visual_contracts,scene_audio_manifest,scene_direction_manifest}.json`, `tools/{StoryBackgroundContextCheck.gd,background_semantic_audit.py,scene_audio_contract_check.py}`, 필요한 출시 지문·현황·일지·이 증거만. 한강 결과에서 기존 야간 강변 사용, 절벽 바닷물·외국 아이 목소리를 들려주지 않는다. 민서 통화에는 장소를 지목하지 않는 중립 배경·원격 초상, 명시 종료부터 숨김, 종료를 단정하지 않은 선택은 그대로. 원문·선택·금액·저장·공개 데모 불변.
+
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.
 
 완료(문장): 7잎×5언어. 독립 검수에서 '포기'로 읽히던 EN·JA를 '다른 길에서 다시 시작'으로 수정. 모르는 민준은 회사 이름만 기억하고 이미 아는 갈래만 의미를 안다. 은행에 기록을 부탁할 뿐 금액·승인·실행을 새로 만들지 않는다. CJK 공식 7×3 검증/수용, 기존 428 배치·이전 대상 21·비소유 데이터·원장 독립 역복원. 출시 분류 두 축은 후보 집합이 아니라 텍스트 지문만 갱신. M14 은행은 격리 960×600 실제 렌더 5언어×3선택/45컷(`830-m14-copy.U6a3iM`), 선택 1 문구는 다섯 화면 직접 확인, 생활비/영수증 및 소리 계약 불변. 다른 여섯 문장의 장면 렌더·원어민 판정·전체 교열은 미완.
