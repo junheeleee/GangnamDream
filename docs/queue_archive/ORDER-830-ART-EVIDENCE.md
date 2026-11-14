@@ -71,7 +71,9 @@ UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리
 
 [~] 후속 — `assets/audio/{sfx_keyboard_phone.wav,sfx_keyboard_phone.wav.import,AUDIO_SOURCE_MANIFEST.json}`, `assets/{game_audio_manifest,scene_audio_manifest}.json`, `autoloads/AudioManager.gd`, `scenes/StoryMode.gd`, `tools/{build_sample_audio_assets.py,audio_source_audit.py,scene_audio_contract_check.py,StoryBackgroundContextCheck.gd}`, `content/meta/release_content_inventory.json`의 현행 수치와 생성 보고서, 현황·일지·이 증거만. CC0 기존 키보드 원본/마스터는 보존하고 별도 전화 대역 한 음원을 재현·등록. 도입 0기준 2와 c1 결과 1에서만, 해당 구간 재개·페이지 나눔·언어 전환으로 재생하지 않고 넘어가면 잔향도 중지. 실거처·무음층·정확한 통화 상태·문구·분기·저장/데모 불변. 검증된 프린터 녹음이 없어 이번엔 추가0.
 
-[~] 같은 키의 자동 파생 `assets/mod_asset_manifest.json`과 `docs/MODDING.md` 생성 표 한 행·개수도 동기화한다. 정렬·머리말 등 828 사용자 변경은 별도 보존한다.
+[~] 같은 키의 자동 파생 `assets/mod_asset_manifest.json`을 동기화한다. `docs/MODDING.md` 표가 그림 전용임을 확인했으므로 기존 828 머리말·표는 보존한다.
+
+[~] `tools/third_party_notice_audit.py`의 현행 음원 개수만 140으로 동기화한다. 같은 CC0 출처에 파생 음원만 1개 추가되어 기존 고지·라이선스·역사 RC 139 고정값은 그대로다.
 
 ### 1장 후반 W25~48 블라인드 1차 — 사실 오류와 실제 플레이 대조
 
