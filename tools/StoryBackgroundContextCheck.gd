@@ -41,6 +41,11 @@ const M27_PITCH := "arc_jaehyuk_03_pitch"
 const M27_FLAGS := ["jaehyuk_trusted_fully", "jaehyuk_partial", "jaehyuk_refused"]
 const M27_HOME := {"ko": "그리고 집에 와서 검색을 시작했다.", "en": "Back home, he starts searching.",
 	"ja": "そして家に帰り、検索を始めた。", "zh-CN": "回家后，开始搜索。", "zh-TW": "接著，回到家開始搜尋。"}
+const W108_WARNING := "arc_jaehyuk_hyunsu_warning"
+const W108_CONTACT := {
+	"ko": ["메시지", "통화 중"], "en": ["MESSAGE", "VOICE CALL"], "ja": ["メッセージ", "通話中"],
+	"zh-CN": ["消息", "通话中"], "zh-TW": ["訊息", "通話中"],
+}
 const W96_ARRIVAL := {
 	"ko": "서울역에 내려", "en": "At Seoul Station,", "ja": "ソウル駅で降り",
 	"zh-CN": "到了首尔站", "zh-TW": "在首爾站下車",
@@ -265,6 +270,12 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W108_WARNING_CHECK"):
+		var w108_ok := await _check_w108_warning()
+		if w108_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w108_warning")
+		get_tree().quit(0 if w108_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_M27_PITCH_CHECK"):
 		var m27_ok := await _check_m27_pitch()
 		if m27_ok:
@@ -1554,15 +1565,176 @@ func _save_w112_frame(label: String) -> bool:
 	_fail("W112 local portrait never settled for capture")
 	return false
 
+func _jaehyuk_pitch_history() -> Array:
+	return [[19, "arc_jaehyuk_01_reunion"], [49, "chapter_card_34"],
+		[56, "arc_jaehyuk_01b_real_face"], [68, "arc_jaehyuk_02_bond"], [80, "arc_jaehyuk_02b_favor"],
+		[96, W96_YEAR_CLOSE], [97, "chapter_card_35"]]
+
+func _check_w108_warning() -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "W108/prepare"
+	if not _prepare_full_owner_history(108, _jaehyuk_pitch_history() + [[104, M27_PITCH], [106, "arc_jaehyuk_wait"]]):
+		return false
+	# Both authored roots exclude ordinary deferred draws via min_turn=9999.
+	# MainGame drops their due reservations before the dedicated arc fallback.
+	var wait_reservation: Dictionary = GameState.claim_deferred_event("arc_jaehyuk_wait", 106)
+	var due: Dictionary = GameState.claim_deferred_event(W108_WARNING, 108)
+	if int(wait_reservation.get("trigger_turn", -1)) != 106 or int(due.get("trigger_turn", -1)) != 108 \
+			or EventManager.deferred_event_is_eligible(W108_WARNING) \
+			or GameState.has_deferred_event(W108_WARNING) or not GameState.flags.get("arc_jaehyuk_wait_seen", false) \
+			or not GameState.flags.get("jaehyuk_trusted_fully", false):
+		_fail("W108 lost eligibility or the single W106 reservation")
+		return false
+	var prepared: Dictionary = GameState.serialize().duplicate(true)
+	var paths := 0
+	var languages := W108_CONTACT.keys()
+	for lang_index in range(languages.size()):
+		var language: String = languages[lang_index]
+		for choice in [0, 1, 2]:
+			await _remove_story()
+			await _stop_audio()
+			LocaleManager.set_language(language)
+			GameState.call("_restore_serialized_snapshot_exact", prepared)
+			var housing: String = M23_HOUSING[(lang_index + choice) % M23_HOUSING.size()]
+			GameState.housing = housing
+			GameState.mental = 60
+			GameState.intelligence = 60
+			_context = "%s/W108/c%d/%s" % [language, choice, housing]
+			if not await _open_full_fixture_event(W108_WARNING, [], true) or not await _play_w108_warning(choice, housing):
+				_fail("W108 message/call ownership or isolated result restore failed")
+				await _remove_story()
+				await _stop_audio()
+				return false
+			paths += 1
+	await _remove_story()
+	await _stop_audio()
+	if _failures != 0:
+		return false
+	print("W108_WARNING_OK paths=%d result_v4=%d actual_choice_receipts=%d claimed_w108_from_w106=1 scheduled_w116_once=1 full_owner=1" % [paths, 7 * languages.size(), paths])
+	return true
+
+func _play_w108_warning(choice: int, housing: String) -> bool:
+	var background := _m23_home_background(housing)
+	var event: Dictionary = _story.get("_current")
+	var original := [GameState.money, GameState.mental, GameState.intelligence, GameState.get_cast_affinity("hyunsu"),
+		GameState.get_cast_stage("jaehyuk"), GameState.event_log.size()]
+	var deferred := GameState.deferred_events.duplicate(true)
+	if int(_story.call("_story_source_paragraph_count")) != 5:
+		return false
+	for page in range((_story.get("_paragraphs") as Array).size()):
+		await _finish_page()
+		var source := int(_story.call("_story_source_paragraph_index", page))
+		if not _w108_surface(background, "message", source >= 3):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	_story.call("_refresh_story_speaker_language")
+	if not bool(_story.get("_showing_choices")) or (_story.get("_choice_box") as Control).get_child_count() != 3 \
+			or not _w108_surface(background, "message", true) or GameState.event_log.size() != original[5]:
+		return false
+	var score_token: int = BGMPlayer.get("_punctuation_token")
+	_story.call("_on_choice", choice)
+	await _wait_stable()
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", event["choices"][choice]["result_text"]))
+	var source_count := 3 if choice == 0 else 2
+	if int(_story.call("_story_source_paragraph_count")) != source_count or not _m23_same_prose(pages, authored):
+		_fail("W108 altered an original result paragraph")
+		return false
+	var saved: Dictionary = {}
+	for page in range(pages.size()):
+		await _finish_page()
+		var source := int(_story.call("_story_source_paragraph_index", page))
+		var channel := _w108_channel(choice, source)
+		if int(_story.get("_para_index")) != page or not _w108_surface(background, channel, true) \
+				or BGMPlayer.get("_punctuation_token") != score_token or not _w108_receipt(choice, original, deferred, false):
+			return false
+		saved[source] = _story.call("build_save_resume_context")
+		if page < pages.size() - 1:
+			_story.call("_on_advance")
+			await _wait_stable()
+	for source in range(source_count):
+		var context: Dictionary = saved.get(source, {})
+		# Emulate opening the result in a fresh audio session, not inheriting a
+		# same-process copy of the P3 score that already played above.
+		await _stop_audio()
+		if not await _reload_authored_result_context(context, LocaleManager.language, source_count, source) \
+				or int(_story.get("_pending_result_choice_index")) != choice \
+				or int(_story.get("_para_index")) != int(context.get("paragraph_index", -1)) \
+				or not _w108_surface(background, _w108_channel(choice, source), false) \
+				or not _w108_receipt(choice, original, deferred, false):
+			return false
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	_story.call("_on_advance")
+	await _wait_stable()
+	return _w108_receipt(choice, original, deferred, true)
+
+func _w108_channel(choice: int, source: int) -> String:
+	return "narration" if source > 0 else ("phone" if choice == 0 else "message")
+
+func _w108_surface(background: String, channel: String, scored: bool) -> bool:
+	var presentation: Dictionary = _story.get("_current_presentation")
+	var badge := _story.get("_communication_badge") as Control
+	var label := _story.get("_communication_label") as Label
+	var name_panel := _story.get("_name_panel") as Control
+	var portrait := _story.get("_portrait") as TextureRect
+	var remote := channel != "narration"
+	var actor := "hyunsu" if channel == "message" else ("jaehyuk" if channel == "phone" else "")
+	var asset := "hyunsu" if actor == "hyunsu" else "jaehyuk_charisma"
+	var labels: Array = W108_CONTACT[LocaleManager.language]
+	var expected_label := str(labels[0] if channel == "message" else (labels[1] if channel == "phone" else ""))
+	var sound_cues := AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:
+		return key.begins_with(W108_WARNING + ":"))
+	if not _expect_surface(background, "apartment", "W108 home") or presentation.get("channel") != channel \
+			or str(presentation.get("remote_actor", "")) != actor or badge.visible != remote \
+			or label.text.nocasecmp_to(expected_label) != 0 or bool(_story.get("_portrait_remote_inset")) != remote \
+			or (_story.get("_portrait_frame") as Control).visible != remote \
+			or (channel == "phone" and presentation.get("state") != "connected") \
+			or (not remote and (name_panel.visible or portrait.texture != null)) \
+			or (remote and (portrait.texture == null or portrait.texture.resource_path != ImageRegistry.get_portrait(asset))) \
+			or str(_story.get_meta("living_scene_effect", "")) != "none" or not BGMPlayer._ambience_player.playing \
+			or not BGMPlayer._current_human_ambience_key.is_empty() or BGMPlayer._human_ambience_player.playing \
+			or not BGMPlayer._current_season_key.is_empty() or BGMPlayer._season_player.playing \
+			or BGMPlayer._current_key != ("reckoning" if scored else "") \
+			or (_score_playback_position("reckoning") >= 0.0) != scored or not sound_cues.is_empty():
+		_fail("W108 wrong channel/portrait/room sound: expected=%s actual=%s badge=%s score=%s cues=%s" % [
+			channel, presentation, label.text, BGMPlayer._current_key, sound_cues])
+		return false
+	return true
+
+func _w108_receipt(choice: int, original: Array, deferred: Array, closed: bool) -> bool:
+	var owner := FULL_STORY_FLOW.snapshot()
+	var reads: Array = owner.get("read_receipts", {}).get("108", [])
+	var chain: Dictionary = owner.get("chain", {})
+	var last: Dictionary = GameState.event_log.back()
+	var expected := deferred.duplicate(true)
+	expected.append({"event_id": "arc_jaehyuk_04a_ghost", "trigger_turn": 116})
+	var valid: bool = FULL_STORY_FLOW.valid_session() and GameState.turn == 108 \
+		and last.get("event_id") == W108_WARNING and int(last.get("choice_index", -1)) == choice \
+		and GameState.event_log.size() == original[5] + 1 and bool(GameState.flags.get("arc_jaehyuk_hyunsu_warning_seen", false)) \
+		and is_equal_approx(GameState.money, original[0] + (500_000.0 if choice == 0 else 0.0)) \
+		and GameState.mental == original[1] + [-20, -13, -8][choice] and GameState.intelligence == original[2] + (5 if choice == 2 else 0) \
+		and GameState.get_cast_affinity("hyunsu") == original[3] + [10, 3, 12][choice] \
+		and GameState.get_cast_stage("jaehyuk") == ["retreating", original[4], "suspect"][choice] \
+		and bool(GameState.flags.get("tried_to_withdraw", false)) == (choice == 0) \
+		and bool(GameState.flags.get("ignored_hyunsu_warning", false)) == (choice == 1) \
+		and bool(GameState.flags.get("started_investigating", false)) == (choice == 2) \
+		and bool(GameState.flags.get("hyunsu_warned", false)) == (choice != 1) \
+		and _w96_deferred_equal(expected) and bool(chain.get("closed", false)) == closed and reads.size() == int(closed)
+	if closed and valid:
+		valid = reads[0].get("event_id") == W108_WARNING and int(reads[0].get("choice_index", -1)) == choice
+	if not valid:
+		_fail("W108 changed choice effects, the W116 reservation or the owner receipt")
+	return valid
+
 func _check_m27_pitch() -> bool:
 	await _remove_story()
 	await _stop_audio()
 	_context = "M27/prepare"
 	# This fixture owns the W104 result under the real chain and display, not
 	# the upstream whole-calendar scheduler (covered by arc_flow_sim).
-	if not _prepare_full_owner_history(104, [[19, "arc_jaehyuk_01_reunion"], [49, "chapter_card_34"],
-			[56, "arc_jaehyuk_01b_real_face"], [68, "arc_jaehyuk_02_bond"], [80, "arc_jaehyuk_02b_favor"],
-			[96, W96_YEAR_CLOSE], [97, "chapter_card_35"]]):
+	if not _prepare_full_owner_history(104, _jaehyuk_pitch_history()):
 		return false
 	var prepared: Dictionary = GameState.serialize().duplicate(true)
 	var cases := 0

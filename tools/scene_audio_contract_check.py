@@ -80,6 +80,13 @@ W96_HOSPITAL_VISIT_AUDIO = {
     "music": {"key": "grief", "start_paragraph": 0},
 }
 W100_FATHER_OUTREACH_EVENT = "arc_y3_father_avoidance_document"
+W108_HYUNSU_WARNING_EVENT = "arc_jaehyuk_hyunsu_warning"
+W108_HYUNSU_WARNING_AUDIO = {
+    "ambience": "apartment",
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
+    "music": {"key": "reckoning", "start_paragraph": 3},
+}
 W112_FATHER_RETURN_CALL = "arc_y3_father_deferred_call"
 M27_JAEHYUK_PITCH_EVENT = "arc_jaehyuk_03_pitch"
 M27_JAEHYUK_PITCH_CG = "cg_jaehyuk_reveal"
@@ -313,16 +320,18 @@ def main() -> int:
                        else choice.get("result_background") != W96_SEOUL_ARRIVAL)
                    for index, choice in enumerate(hospital_choices))):
         errors.append(f"{W96_HOSPITAL_VISIT_EVENT}: only the deferred visit may end at Seoul Station without a new bed")
-    for event_id in (W100_FATHER_OUTREACH_EVENT, W112_FATHER_RETURN_CALL):
+    for event_id, expected_audio in ((W100_FATHER_OUTREACH_EVENT, NEUTRAL_HOME_AUDIO),
+                                     (W108_HYUNSU_WARNING_EVENT, W108_HYUNSU_WARNING_AUDIO),
+                                     (W112_FATHER_RETURN_CALL, NEUTRAL_HOME_AUDIO)):
         home_event = events.get(event_id, {})
         home_choices = home_event.get("choices", [])
-        if (event_contracts.get(event_id) != NEUTRAL_HOME_AUDIO
+        if (event_contracts.get(event_id) != expected_audio
                 or home_event.get("background") != "current_housing"
                 or "result_background" in home_event or "result_ambience" in home_event
                 or not isinstance(home_choices, list) or len(home_choices) != 3
                 or any(not isinstance(choice, dict) or "result_background" in choice
                        or "result_ambience" in choice for choice in home_choices)):
-            errors.append(f"{event_id}: every result stays at home with only neutral room tone")
+            errors.append(f"{event_id}: preserve neutral home tone, exact score, and no extra contact cue")
     pitch = events.get(M27_JAEHYUK_PITCH_EVENT, {})
     if (event_contracts.get(M27_JAEHYUK_PITCH_EVENT) != M27_JAEHYUK_PITCH_AUDIO
             or cg_contracts.get(M27_JAEHYUK_PITCH_CG) != {"ambience": "cafe"}

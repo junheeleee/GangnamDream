@@ -51,6 +51,7 @@ const W96_FATHER_VISIT := "arc_father_04_visit"
 const W96_RETURN_CUT := preload("res://assets/w96_father_visit_return_cut.tres")
 const W96_STATION_ARRIVAL := "seoul_station_visitor_sticker"
 const W100_FATHER_DOCUMENT := "arc_y3_father_avoidance_document"
+const W108_HYUNSU_WARNING := "arc_jaehyuk_hyunsu_warning"
 const W112_FATHER_CALL := "arc_y3_father_deferred_call"
 const M27_JAEHYUK_PITCH := "arc_jaehyuk_03_pitch"
 const M27_JAEHYUK_CUTS := preload("res://assets/m27_jaehyuk_pitch_cuts.tres")
@@ -4524,6 +4525,11 @@ func _resolved_choice_result_portrait_id(choice: Dictionary) -> String:
 func _resolved_story_surface_portrait_id() -> String:
 	if _is_w96_station_result() or _is_m27_pitch_home_result():
 		return ""
+	if _pending_after_result and str(_current.get("id", "")) == W108_HYUNSU_WARNING:
+		match str(_current_presentation.get("remote_actor", "")):
+			"jaehyuk": return "jaehyuk_charisma"
+			"hyunsu": return _resolved_event_portrait_id()
+			_: return ""
 	if _is_first_ktx_choice() and _pending_after_result and _first_ktx_stage(_para_index) > 0:
 		return ""
 	if str(_current.get("id", "")) == M23_PARENTS and _event_background_id == M23_FOOD_BAG:
@@ -5942,6 +5948,9 @@ func _refresh_story_paragraph_presentation(
 		W100_FATHER_DOCUMENT:
 			if not _pending_after_result:
 				return
+		W108_HYUNSU_WARNING:
+			if not _pending_after_result:
+				return
 		W96_FATHER_VISIT:
 			if not _pending_after_result or not _is_w96_return_choice():
 				return
@@ -5966,6 +5975,20 @@ func _refresh_story_paragraph_presentation(
 		# The local player writes or sends; no recipient reply is shown.
 		# The c0 recording/outgoing mailbox is never a connected voice call.
 		presentation["channel"] = "message"
+	if event_id == W108_HYUNSU_WARNING:
+		# Only the first withdrawal paragraph explicitly connects to Jaehyuk.
+		# The later apology does not establish how Hyunsu speaks to Minjun.
+		if source_paragraph_index > 0:
+			presentation["channel"] = "narration"
+			presentation["portrait_role"] = "none"
+			presentation["nameplate_role"] = "hidden"
+			presentation.erase("state")
+			presentation.erase("remote_actor")
+			presentation.erase("remote_location")
+		elif _pending_result_choice_index == 0:
+			presentation["channel"] = "phone"
+			presentation["state"] = "connected"
+			presentation["remote_actor"] = "jaehyuk"
 	if _is_w96_station_result():
 		presentation["channel"] = "narration"
 		presentation["scene_location"] = "seoul_station"

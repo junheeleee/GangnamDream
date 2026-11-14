@@ -21158,7 +21158,7 @@ func _assert_chapter3_spine_state(story: Node, event_id: String) -> void:
 		"arc_goal_vertigo": "oneroom", "arc_35_path_cost": "room",
 		"arc_35_habit_check": "room", "arc_jiyeon_year3": "oneroom",
 		"arc_y3_jiyeon_departure": "oneroom", "arc_jaehyuk_wait": "oneroom",
-		"arc_jaehyuk_hyunsu_warning": "oneroom", "arc_jaehyuk_04b_counter": "cafe",
+		"arc_jaehyuk_hyunsu_warning": "apartment", "arc_jaehyuk_04b_counter": "cafe",
 		"arc_jaehyuk_aftermath": "oneroom", "arc_father_05_after_visit": "oneroom",
 		"arc_father_06_confession": "oneroom", "arc_sangchul_known_offer": "office",
 		"arc_sangchul_known_reflex": "cafe", "arc_jaehyuk_sangchul_echo": "cafe",
