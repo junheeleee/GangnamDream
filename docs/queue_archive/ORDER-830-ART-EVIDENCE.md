@@ -36,6 +36,8 @@ P1 화면 완료: 맞부딪친 직후 바퀴·빗물 삽입 컷을 원래 충돌
 
 11-14 KST [~] 착수: `arc_jiyeon_03_offer` W85–88, 5언어에 시각 명시 없음. `sinchon_main_road_bus_stop_rain_overcast.png` 외부 후보 한 장만. 큰길·정류장·새로 내리는 비, 시간대는 중립. 세단/지연/우산은 P1 별도, c0은 역 입구 방향(승차 아님), c1은 카페, c2는 밖에 남는다. `result_ambience=rain`은 사람층을 되살릴 수 있고 `cafe` 두 층의 원음은 술집 계열. 장면별 제품 배선·음향·표적 검사는 별도 선언, 현재 제품 변경0.
 
+P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_bus_stop_rain_overcast.png` 1280×800 RGB, SHA-256 `bdb84c99754015e296de634e69147d8d4945c61264c9d546a975b0dd345baf82`. 흐린 큰길·정류장·실제 빗줄기, 조기 차/인물·지갑·판독 가능한 문자 없음. 비 레이어를 더할 때 중복 강도를 실제 화면에서 확인한다. 제품 외부 후보, 채택·실화면 0.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
