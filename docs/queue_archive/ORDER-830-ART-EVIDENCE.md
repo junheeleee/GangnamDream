@@ -178,6 +178,8 @@
 
 ### W234 상담 자리에 가져온 기록
 
+[~] W234 현재 혼자 있는 부동산 사무실의 공용 사무실 루프만 제외. `assets/scene_audio_manifest.json`의 `arc_y5_general_pre_ending_summit_exact`, `tools/{scene_audio_contract_check.py,StoryBackgroundContextCheck.gd}`의 정확한 해당 검사, 현황·일지·이 기록. 실내/대로 원화, 기존 `reckoning`, 명시된 종이·문 밖 차 한 번과 재개 시 재생 안 함, 두 갈래·돈·저장·5언어 원고·RC 유지. 실제로 없는 제3자, 타이핑, 기침, 날씨를 추가하지 않는다.
+
 [~] `arc_y5_general_pre_ending_summit_exact`의 `chapter5_finale_reads.texts[0][0–1]`만 `content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_pre_ending.json`에서 교열. W229의 다섯 주 전 선택에 따라 마지막 상환일과 민서에게 보냈던 답을 남긴 자료가 상담 자리에 있는지 나눈다. 음성 원본과 종이 두 장에 공통이며, 자료를 펼치거나 다시 재생·발신하지 않는다. 삭제한 음성이나 집에 둔 종이, 새 서류·통화·매매를 발명하지 않는다. 원래 도입·결과·변수·화면·음향·저장·구 RC 보존. 기존 CJK 수용·현행 사실 원장 파생분(있을 경우)·이 증거와 당일 일지·현황만.
 
 완료(회상): 독립 대조 후 영어·간/번체도 두 사실이 담긴 자료의 부재로 한정했다. 5언어 2잎·기존 수용 6건, 인접 원문과 이전 원장을 역복원. 실제 데이터 등록·StoryMode·선택 리듀서의 격리 5언어×2매체×2과거 선택×2상담 선택 40건 및 W237 진입 통과, 엔진 오류0. 현행 데모·영어·출시 원장 검사 통과. 실제 창·청취·사람 QA·저장 변경 아님.
