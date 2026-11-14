@@ -27,3 +27,12 @@
 ### 1년 차 1차 수리 · 2026-11-14
 
 19개 원문을 5언어로 맞추고 12월 영어 표현 1곳 추가. 반년은 완료가 아닌 여섯째 달, 실거처, 반복 생활 행동으로 정리했다. 첫 저축은 현재 현금/체납과 과거 기준액에 닿은 기록을 나누고, 주문은 미제출이다. 첫 5천만·1억은 순자산/잔액/대출을 나누며 아버지 생사별 통화 결과와 자축 비용은 보존했다. 5언어 직접 비교·원장 지문·서사 연속·영어·JA 데모/zh·현행 체험판 14/100/125·출시 내용 검사 통과. 구형 V2 엄격 모드는 수정 전과 같은 미충족 3건이며 현행 RC와 별개다. 연차 전체, 실화면, 원어민, Claude 재평가는 완료로 세지 않는다. 다음: W49~96의 출력지·회수 시각·관계·병동·거울 장소부터 독립 범위를 고정한다.
+
+## 2년 차 작업 선언 — C의 확인 오류
+
+[~] 5언어 `content/events{,_en,_ja,_zh-CN,_zh-TW}/{arc_chapter_themes,arc_daeun,arc_drama,arc_events,arc_hyunsu,arc_midgame,story_events}.json`:
+
+- `arc_34_money_attracts_money` 도입의 출력지, `arc_sangchul_human` 도입·known 1갈래의 말투 맥락, `arc_34_two_years_in` 선택 3 문구/결과, `arc_father_03_hospital` 기본 도입 기간, `hyunsu_reunion_later` 선택 2 결과와 `hyunsu_reunion_memory` 기본·known 회수(사흘).
+- `arc_sangchul_mirror` 기본·known 2·첫 선택 결과의 실제 포장마차 경계, `arc_daeun_ghost` 첫 결과의 좋아요 주체, `arc_daeun_regret_draft` 설명의 대면 인사. 본래 대화 핵심 및 실제 입력·효과 보존.
+- `story_two_year` 5개 본문/선택 문구·결과의 서울 반복 제거와 기존 `arc_father_03_seen` 독자 갈래 검토. 살아 있는지 단정하지 않고 실제로 받은 병동 소식만, 해당 플래그가 없다면 일반 도입. W93/M24 실제 재생, W95를 고정하지 않는다. 8만원/방문 선택 결과 보존.
+- 영어만 `arc_sangchul_offguard` 설명 인칭, 다은의 마트 명칭과 주거 서류 표기. 실제 ID·선택·비용·효과·플래그·배경, 보호 체험판·저장, 830 에셋 변경0. CJK hash 및 본문에 해당하는 내용 지문만 수용. 동적 조건 실제 소비자와 5언어 전수·서사·영향 검사를 확인한다. A2/A3 등 별도 전수 목록은 적용하지 않는다.
