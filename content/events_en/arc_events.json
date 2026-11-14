@@ -295,15 +295,15 @@
     "choices": [
       {
         "text": "Show interest — 'How does it work?'",
-        "result_text": "Jaehyuk's eyes lit up.\n'I knew you'd get it. I'll tell you everything slowly.'\nThe returns he showed were unrealistically good.\nToo good to be good — {name} forgot that then."
+        "result_text": "Jaehyuk's eyes lit up.\n“I knew you had a feel for it. I'll show you, a little at a time.”\n{name} started to ask how many months the graph covered, then looked again at the return shown at the top.\nHis eyes stayed on that number until Jaehyuk turned the screen back toward himself."
       },
       {
         "text": "Thanks, but pass — 'Investing isn't really my thing.'",
         "result_text": "'Ah, I'm not saying do it now. Just saying.'\nJaehyuk laughed and changed subjects.\nBut that profit graph stayed in the mind.\nIf it's real... {name} shook the thought off. For now."
       },
       {
-        "text": "Those returns are too good — quietly start to wonder.",
-        "result_text": "'Jaehyuk — this looks too good. Is this actually real?'\nJaehyuk's expression froze for half a second, then cleared.\n'Ha, that's exactly why everyone doubts it and passes. Your call.'\nThat half-second — {name} didn't miss it."
+        "text": "“This looks too good. Is this actually real?”",
+        "result_text": "“Jaehyuk, this looks too good. Is this actually real?”\nThere was a gap of about 0.5 seconds in Jaehyuk's laugh.\n“Ha, that's exactly why everyone doubts it and passes. You don't have to get in, either.”\n{name} looked back down at the graph. The numbers hadn't changed."
       }
     ]
   },
@@ -1103,8 +1103,8 @@
         "result_text": "Sangchul picked up and within minutes had connected a doctor he knew near Changwon.\nFast. No questions.\n\"This is the kind of thing you have to handle,\" was all he said.\n\nDad was moved to a better room.\nMom asked what had happened.\n{name} just said, \"Someone I know helped out.\""
       }
     ],
-    "description_unorthodox": "Four days after his parents returned from Seoul, Mom called.\n\n\"Minjun.\"\n\nDad had collapsed. A cerebrovascular warning. Changwon Sungsim Hospital.\n\nBefore remembering Dad's face from their last meeting, {name} began calculating time and money: when he would need to leave if he went to the hospital, how much the fare would cost, how much cash he could use now.\n\nThen he hated himself for noticing the order. His father was down, and the money math had spun up first.",
-    "description_low_mental": "Four days after his parents returned from Seoul, Mom called.\n\n\"Minjun.\"\n\nDad's face from their last meeting came back first. He had collapsed. A cerebrovascular warning. Changwon Sungsim Hospital. Stable now, conscious and talking.\n\n{name}'s hands shook. His mind was already at the bottom, and now this landed on top of it. Telling himself he could not fall apart, he felt himself already falling apart."
+    "description_unorthodox": "Four days after his parents returned from Seoul, Mom called.\n\n\"Minjun.\"\n\nDad had collapsed. The doctors said it could be a warning sign of a stroke. He was at Changwon Sungsim Hospital.\n\nThe first thing {name} thought about was when he'd have to leave, what the fare would cost, and how much cash he had to spend. Only then did he picture Dad's face at their last dinner.\n\nHe hated that the numbers had come first.",
+    "description_low_mental": "Four days after his parents returned from Seoul, Mom called.\n\n\"Minjun.\"\n\nHe pictured Dad as he'd seen him a few days earlier. Dad had collapsed. The doctors said it could be a warning sign of a stroke. At Changwon Sungsim Hospital, Mom said, he was stable now, awake and able to talk.\n\n{name}'s hand shook. He'd barely been holding himself together before the call. He told himself to hold on, but already felt himself coming apart."
   },
   {
     "id": "arc_father_04_visit",
@@ -1157,19 +1157,19 @@
         "result_text": "Jaehyuk laughed. 'Ah, that's ancient history. Things are fine now, right?'\nHe changed the subject. {name} didn't push.\nBut those words kept nagging. So what happened, exactly."
       },
       {
-        "text": "\"Being an operator... you still doing that now?\" — ask directly",
-        "result_text": "Jaehyuk's eyes hardened for a moment.\n'...What are you talking about. That's all in the past.'\nHe smiled and offered more to drink.\n{name} accepted the glass, and didn't forget that brief flash in his eyes."
+        "text": "“That guy asked you to help run it. Did you?”",
+        "result_text": "Jaehyuk lifted the glass to his lips but didn't drink.\n“…Come on. That's all in the past.”\nHe smiled and filled {name}'s glass first.\n{name} took the glass. He didn't get an answer about whether Jaehyuk had taken it on."
       }
     ]
   },
   {
     "id": "arc_jaehyuk_02b_favor",
     "title": "No-Strings Help",
-    "description": "Met at a cafe. Jaehyuk said he had good news.\n\nIt wasn't about investments.\n\n\"Hey, I know this guy who's an HR team leader at a mid-size company — send him your resume. I already mentioned you.\"\n\n{name} paused.\n\n\"Why are you doing this for me?\"\n\nJaehyuk smiled. \"Come on, what are we to each other? You think I forgot how good you were to me in the army? I haven't.\"\n\nHe held out a business card with a contact on it.\n\nNeeds thinking through. Is this genuine goodwill — or a way to pull {name} in deeper?",
+    "description": "They met at a café. Jaehyuk said he had good news.\n\nIt wasn't about investing.\n\n“Hey, I know someone who runs HR at a smaller company. Send him your résumé. I've already mentioned you.”\n\n{name} paused.\n\n“Why are you doing this for me?”\n\nJaehyuk laughed. “Come on, we're not strangers. Have you forgotten how good you were to me in the army? I haven't.”\n\nHe held out a business card with a contact on it.\n\n{name} read the name on the card first. Jaehyuk's hand was still there in the middle of the table.",
     "choices": [
       {
         "text": "\"Thanks. You're a real friend.\" — accept the offer",
-        "result_text": "Took the card. Plan to reach out.\nJaehyuk really did have a good side.\nWhat {name} didn't know then — that would make what came later hurt more."
+        "result_text": "{name} took the card. He meant to get in touch once he got home.\nJaehyuk's words were still in his ear: “We're not strangers, are we?”\n{name} opened his wallet so the card wouldn't crease."
       },
       {
         "text": "\"Jaehyuk, honestly — why are you so good to me?\" — probe the motive",

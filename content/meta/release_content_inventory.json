@@ -634,7 +634,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 142, "expected_file_count": 50, "expected_ids_sha256": "c9af7ccbcf78254e165031b9bf7ccc4d489094fabc3e3bc649e504b15933bd3c", "expected_content_sha256": "3d7ffcc9344b41c0178a2ebd83d1abcefe673ac96ae121ea42785114ac6fd111"
+        "expected_event_count": 141, "expected_file_count": 50, "expected_ids_sha256": "3840da5f51069b1fe061fbb0f1a375ad618d05379a3e76e8fddfce396e96fe0f", "expected_content_sha256": "5ad2f9dc7ed25fef801ad5bbb14b058ef7c7b46b3abd3afa96f4a1bdf492bac0"
       },
       "facts": [
         {
@@ -762,7 +762,7 @@
         "tokens_ko": ["소주", "맥주", "와인", "위스키", "막걸리", "술집", "술잔", "술자리", "술을", "취했", "숙취", "담배", "흡연", "마약", "수면제", "진통제", "처방약", "복용"],
         "tokens_en": ["soju", "beer", "wine", "whiskey", "drinking", "drunk", "hangover", "cigarette", "smoking", "narcotic", "sleeping pill", "painkiller", "prescription"],
         "reviewed_search_noise_ids": ["arc_36_body_signal", "arc_year3_close"],
-        "expected_event_count": 83, "expected_file_count": 40, "expected_ids_sha256": "9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e", "expected_content_sha256": "84e29159b444205111dd85a5021cfec7b06c4bf3d9434d13328885dc2b3dbf1d"
+        "expected_event_count": 83, "expected_file_count": 40, "expected_ids_sha256": "9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e", "expected_content_sha256": "d2ddfe007d82d21aa6e525d9bb3f951c6fbf3b0c3824e9a099d852f48c4c8e03"
       },
       "facts": [
         {
